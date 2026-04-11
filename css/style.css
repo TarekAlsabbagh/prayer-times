@@ -1,3 +1,6 @@
+/* إخفاء الصفحات فوراً عند تحميل صفحة القبلة لمنع الوميض */
+html.qibla-page-loading .page { visibility: hidden; }
+
 /* ========= المتغيرات ========= */
 :root {
     --primary: #1a6b3c;

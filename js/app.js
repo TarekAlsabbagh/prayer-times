@@ -471,6 +471,8 @@ async function initApp() {
         if (_qiblaLink) _qiblaLink.click();
         // تحديث العناصر الديناميكية بعد تفعيل القسم (مثل زر العودة)
         updateCityDisplay();
+        // إزالة class الإخفاء المؤقت بعد تفعيل القسم الصحيح
+        document.documentElement.classList.remove('qibla-page-loading');
     }
 
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)

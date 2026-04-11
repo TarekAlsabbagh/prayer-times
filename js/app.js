@@ -2463,19 +2463,75 @@ function renderNearbyGrid(places, grid) {
 }
 
 // ========= القبلة =========
+let _qiblaAngle = 0;
+let _compassListening = false;
+let _orientationHandler = null;
+
 function updateQibla() {
-    const angle = Qibla.calculate(currentLat, currentLng);
-    const direction = Qibla.getDirection(angle);
+    _qiblaAngle = Qibla.calculate(currentLat, currentLng);
+    const direction = Qibla.getDirection(_qiblaAngle);
     const distance = Qibla.getDistance(currentLat, currentLng);
 
-    document.getElementById('qibla-angle').textContent = angle.toFixed(1) + '°';
+    document.getElementById('qibla-angle').textContent = _qiblaAngle.toFixed(1) + '°';
     document.getElementById('qibla-direction').textContent = 'اتجاه ' + direction;
     document.getElementById('qibla-distance').textContent = `المسافة إلى الكعبة: ${distance.toLocaleString('ar')} كم`;
-    document.getElementById('qibla-exact-angle').textContent = angle.toFixed(2) + '°';
+    document.getElementById('qibla-exact-angle').textContent = _qiblaAngle.toFixed(2) + '°';
 
-    // تدوير سهم البوصلة
+    // تدوير سهم البوصلة (ثابت على زاوية القبلة)
     const arrow = document.getElementById('qibla-arrow');
-    arrow.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
+    if (arrow) arrow.style.transform = `translate(-50%, -100%) rotate(${_qiblaAngle}deg)`;
+
+    // تشغيل البوصلة التلقائية (Android / غير iOS)
+    startDeviceCompass();
+}
+
+function _applyCompassHeading(heading) {
+    const compass = document.getElementById('compass');
+    const arrow   = document.getElementById('qibla-arrow');
+    if (!compass || !arrow) return;
+    // دوّر الكمبس عكس اتجاه الجهاز حتى يبقى الشمال في أعلى
+    compass.style.transform = `rotate(${-heading}deg)`;
+    // السهم يشير إلى القبلة بزاوية مطلقة (بغض النظر عن دوران الجهاز)
+    arrow.style.transform = `translate(-50%, -100%) rotate(${_qiblaAngle}deg)`;
+}
+
+function startDeviceCompass() {
+    if (_compassListening || !window.DeviceOrientationEvent) return;
+
+    _orientationHandler = function(e) {
+        let heading = null;
+        if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
+            heading = e.webkitCompassHeading; // iOS
+        } else if (e.alpha != null) {
+            heading = (360 - e.alpha) % 360;  // Android
+        }
+        if (heading === null) return;
+        _applyCompassHeading(heading);
+    };
+
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+ يحتاج إذن صريح — أظهر الزر
+        const btn = document.getElementById('compass-permission-btn');
+        if (btn) btn.style.display = 'block';
+    } else {
+        // Android وغيرها — يعمل تلقائياً
+        window.addEventListener('deviceorientationabsolute', _orientationHandler, true);
+        window.addEventListener('deviceorientation',         _orientationHandler, true);
+        _compassListening = true;
+    }
+}
+
+function requestCompassPermission() {
+    if (typeof DeviceOrientationEvent.requestPermission !== 'function') return;
+    DeviceOrientationEvent.requestPermission().then(state => {
+        if (state === 'granted') {
+            window.addEventListener('deviceorientationabsolute', _orientationHandler, true);
+            window.addEventListener('deviceorientation',         _orientationHandler, true);
+            _compassListening = true;
+            const btn = document.getElementById('compass-permission-btn');
+            if (btn) btn.style.display = 'none';
+        }
+    }).catch(console.error);
 }
 
 // ========= القمر =========

@@ -989,10 +989,14 @@ function detectLocation() {
                 currentLat = position.coords.latitude;
                 currentLng = position.coords.longitude;
                 currentTimezone = await fetchTimezone(currentLat, currentLng);
-                reverseGeocode(currentLat, currentLng);
-                updatePrayerTimes();
-                updateQibla();
-                fetchNearbyPlaces(currentLat, currentLng);
+                // على الصفحة الرئيسية: انتقل لصفحة المدينة بعد التحديد
+                const onHomePage = window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en';
+                reverseGeocode(currentLat, currentLng, onHomePage);
+                if (!onHomePage) {
+                    updatePrayerTimes();
+                    updateQibla();
+                    fetchNearbyPlaces(currentLat, currentLng);
+                }
             },
             async function(error) {
                 // فشل تحديد الموقع → المدينة الافتراضية (مكة)
@@ -1018,7 +1022,7 @@ function detectLocation() {
     }
 }
 
-function reverseGeocode(lat, lng) {
+function reverseGeocode(lat, lng, navigateAfter = false) {
     // نجري طلبَين بالتوازي: عربي (للعرض) + إنجليزي (للـ slug)
     const arReq = fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar&namedetails=1`)).then(r=>r.json()).catch(()=>null);
     const enReq = fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=en`)).then(r=>r.json()).catch(()=>null);
@@ -1028,7 +1032,6 @@ function reverseGeocode(lat, lng) {
             currentCity        = arData.address.city || arData.address.town || arData.address.village || arData.address.county || 'غير معروف';
             currentCountry     = arData.address.country || '';
             currentCountryCode = (arData.address.country_code || '').toLowerCase();
-            // الاسم الإنجليزي: من namedetails أولاً، ثم من الرد الإنجليزي
             currentEnglishName = arData.namedetails?.['name:en']
                 || arData.namedetails?.['name:en-US']
                 || enData?.address?.city || enData?.address?.town || enData?.address?.village
@@ -1036,6 +1039,12 @@ function reverseGeocode(lat, lng) {
             currentEnglishCountry = enData?.address?.country
                 || COUNTRY_EN_NAMES[currentCountryCode] || '';
             autoSelectMethod(currentCountryCode, currentCountry);
+
+            // انتقل إلى صفحة المدينة إذا طُلب ذلك
+            if (navigateAfter && currentEnglishName && window.location.protocol !== 'file:') {
+                navigateToCity(lat, lng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
+                return;
+            }
         }
         updateCityDisplay();
         updateCityCountryInfo();

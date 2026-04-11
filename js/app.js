@@ -469,6 +469,8 @@ async function initApp() {
     if (_isQiblaPage) {
         const _qiblaLink = document.querySelector(`.sidebar-nav a[data-page="qibla"]`);
         if (_qiblaLink) _qiblaLink.click();
+        // تحديث العناصر الديناميكية بعد تفعيل القسم (مثل زر العودة)
+        updateCityDisplay();
     }
 
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)

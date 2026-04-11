@@ -727,6 +727,10 @@ function fetchCitySuggestions(query) {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
 
+            // فلتر اسمي إضافي: تجاهل الأسماء التي تبدأ بـ "حي "
+            const rawName = place.name || '';
+            if (rawName.startsWith('حي ') || /district$/i.test(rawName)) return;
+
             // المدينة الرئيسية فقط (بدون أحياء)
             const arCityMain = nd['name:ar'] || addr.city || addr.town || addr.village || place.name || '';
             const rawEnCity  = nd['name:en'] || nd['name:en-US']
@@ -806,7 +810,10 @@ function fetchCityOnlineBroader(query) {
     const searchLang = isEn ? 'en' : 'ar';
     const url = nomUrl(`https://nominatim.openstreetmap.org/search?format=json&limit=15&accept-language=${searchLang}&addressdetails=1&namedetails=1&q=${encodeURIComponent(query)}`);
 
-    const rejected = new Set(['state','county','country','region','continent','ocean','sea','island']);
+    const rejected = new Set(['state','county','country','region','continent','ocean','sea','island',
+                              'suburb','quarter','neighbourhood','hamlet','residential','plot']);
+    // الأنواع المقبولة فقط (مدن وقرى وبلديات)
+    const accepted = new Set(['city','town','village','municipality','borough','administrative']);
 
     fetch(url)
         .then(r => r.json())
@@ -814,13 +821,20 @@ function fetchCityOnlineBroader(query) {
         .then(data => {
             suggestionsEl.innerHTML = '';
 
-            // فلترة: استبعاد المناطق، قبول المدن والقرى
+            // فلترة: مدن وقرى فقط — استبعاد الأحياء والمناطق الفرعية
             const seen = new Set();
             const results = (data || [])
                 .filter(p => {
                     if (seen.has(p.place_id)) return false;
                     seen.add(p.place_id);
-                    return !rejected.has(p.addresstype) && !rejected.has(p.type) && p.class !== 'country';
+                    const pt = p.addresstype || p.type || '';
+                    if (rejected.has(pt) || p.class === 'country') return false;
+                    // إذا كان النوع معروفاً ولكن غير مقبول، تجاهله
+                    if (pt && !accepted.has(pt) && p.class === 'place') return false;
+                    // فلتر اسمي: استبعاد الأسماء التي تبدأ بـ "حي " أو "district"
+                    const nm = (p.name || '').toLowerCase();
+                    if (nm.startsWith('حي ') || /district$/i.test(nm)) return false;
+                    return true;
                 })
                 .slice(0, 6);
 

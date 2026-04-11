@@ -296,11 +296,22 @@ function makeSlug(englishName, lat, lng) {
 // قراءة بيانات المدينة من URL عند تحميل الصفحة
 // استخراج slug المدينة من الرابط الحالي
 function getSlugFromURL() {
-    const pathMatch = window.location.pathname.match(/\/(?:en\/)?prayer-times-in-(.+?)(?:\.html)?$/);
+    const pathMatch = window.location.pathname.match(/\/(?:en\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/);
     if (pathMatch) return pathMatch[1];
     const hashMatch = window.location.hash.match(/#prayer-times-in-([^?]+)/);
     if (hashMatch) return hashMatch[1];
     return null;
+}
+
+// التنقل إلى صفحة القبلة المخصصة للمدينة
+function navigateToQibla(lat, lng, city, country, englishName = '', countryCode = '') {
+    const slug = makeSlug(englishName || city, lat, lng);
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode }));
+    if (window.location.protocol === 'file:') {
+        window.location.hash = `qibla-in-${slug}`;
+    } else {
+        window.location.href = pageUrl(`/qibla-in-${slug}.html`);
+    }
 }
 
 // geocoding احتياطي عند فتح رابط مباشر (بدون sessionStorage)
@@ -453,9 +464,16 @@ async function initApp() {
     // بدء العد التنازلي
     startCountdown();
 
+    // تفعيل قسم القبلة تلقائياً إذا كان المسار /qibla-in-*
+    const _isQiblaPage = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
+    if (_isQiblaPage) {
+        const _qiblaLink = document.querySelector(`.sidebar-nav a[data-page="qibla"]`);
+        if (_qiblaLink) _qiblaLink.click();
+    }
+
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
     const _pageParam = new URLSearchParams(window.location.search).get('page');
-    if (_pageParam) {
+    if (_pageParam && !_isQiblaPage) {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }
@@ -482,8 +500,17 @@ function initNavigation() {
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
             }
 
-            // عند الانتقال لقسم القبلة → شغّل البوصلة (مهم على iOS)
-            if (pageId === 'qibla') startDeviceCompass();
+            // عند الانتقال لقسم القبلة:
+            // إذا كنا على صفحة مدينة → انتقل لصفحة القبلة المخصصة
+            // وإلا → شغّل البوصلة مباشرة
+            if (pageId === 'qibla') {
+                const _currentSlug = window.location.pathname.match(/\/(?:en\/)?prayer-times-in-(.+?)(?:\.html)?$/)?.[1];
+                if (_currentSlug && window.location.protocol !== 'file:') {
+                    navigateToQibla(currentLat, currentLng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
+                    return;
+                }
+                startDeviceCompass();
+            }
 
             // إغلاق القائمة على الموبايل
             closeSidebar();

@@ -870,6 +870,15 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    if (/^\/(?:en\/)?qibla-in-.+(?:\.html)?$/.test(urlPath)) {
+        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
+            res.end(html);
+        });
+        return;
+    }
+
     // ===== Nominatim Proxy (يحل مشكلة CORS + rate limit) =====
     if (urlPath === '/api/geocode' && req.method === 'GET') {
         const typeMatch = qs.match(/(?:^|&)type=([^&]+)/);

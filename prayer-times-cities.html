@@ -311,7 +311,7 @@
     </main>
 </div>
 
-<script src="js/i18n.js?v=20"></script>
+<script src="js/i18n.js?v=26"></script>
 <script>
 // مساعد URL حسب اللغة الحالية
 function pageUrl(arabicPath) {
@@ -601,7 +601,9 @@ function onSearchKeyDown(e) {
 // ===== Nominatim: بحث مزدوج (حر + مدينة) كالصفحة الرئيسية =====
 function fetchNominatimSuggestions(q) {
     const sugg = document.getElementById('cities-suggestions');
-    const base = `format=json&limit=8&accept-language=ar&addressdetails=1&namedetails=1&countrycodes=${countryCode}`;
+    const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+    const lang = isEn ? 'en' : 'ar';
+    const base = `format=json&limit=8&accept-language=${lang}&addressdetails=1&namedetails=1&countrycodes=${countryCode}`;
     const urlQ    = `https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(q)}`;
     const urlCity = `https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(q)}`;
 
@@ -644,22 +646,23 @@ function fetchNominatimSuggestions(q) {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
             const nameAr    = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
-            const nameEn    = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || '';
+            const nameEn    = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || place.display_name.split(',')[0];
             const country   = addr.country || getCountryAr();
             const cc        = (addr.country_code || countryCode).toLowerCase();
             const isNew     = !existingNames.has(nameAr);
+            const displayName = isEn ? (nameEn || place.name) : nameAr;
 
             const div = document.createElement('div');
             div.className = 'sugg-item';
             const flagImg = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
             div.innerHTML = `${flagImg}<div>
-                <div class="sugg-name">${nameAr}</div>
+                <div class="sugg-name">${displayName}</div>
                 <div class="sugg-country">${country}</div>
             </div>`;
 
             div.addEventListener('click', async () => {
                 closeSuggestions();
-                document.getElementById('search-input').value = nameAr;
+                document.getElementById('search-input').value = displayName;
                 const slug = makeSlug(nameEn, parseFloat(place.lat), parseFloat(place.lon));
                 const href = pageUrl(`/prayer-times-in-${slug}.html`);
                 sessionStorage.setItem(`city_${slug}`, JSON.stringify({

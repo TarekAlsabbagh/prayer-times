@@ -1,0 +1,8233 @@
+[
+  {
+    "nameAr": "واشنطن",
+    "nameEn": "Washington",
+    "type": "city",
+    "lat": 38.9072,
+    "lng": -77.0369
+  },
+  {
+    "nameAr": "نيويورك",
+    "nameEn": "New York City",
+    "type": "city",
+    "lat": 40.712777777778,
+    "lng": -74.006111111111,
+    "pop": 8804190
+  },
+  {
+    "nameAr": "شيكاغو",
+    "nameEn": "Chicago",
+    "type": "city",
+    "lat": 41.881944444444,
+    "lng": -87.627777777778,
+    "pop": 2746388
+  },
+  {
+    "nameAr": "هيوستن",
+    "nameEn": "Houston",
+    "type": "city",
+    "lat": 29.762777777778,
+    "lng": -95.383055555556,
+    "pop": 2304580
+  },
+  {
+    "nameAr": "فينيكس",
+    "nameEn": "Phoenix",
+    "type": "city",
+    "lat": 33.448333333333,
+    "lng": -112.07388888889,
+    "pop": 1608139
+  },
+  {
+    "nameAr": "سان أنطونيو",
+    "nameEn": "San Antonio",
+    "type": "city",
+    "lat": 29.425,
+    "lng": -98.493888888889,
+    "pop": 1434625
+  },
+  {
+    "nameAr": "سان دييغو",
+    "nameEn": "San Diego",
+    "type": "city",
+    "lat": 32.715,
+    "lng": -117.1625,
+    "pop": 1386932
+  },
+  {
+    "nameAr": "دالاس",
+    "nameEn": "Dallas",
+    "type": "city",
+    "lat": 32.779166666667,
+    "lng": -96.808888888889,
+    "pop": 1304379
+  },
+  {
+    "nameAr": "سان خوسيه",
+    "nameEn": "San Jose",
+    "type": "city",
+    "lat": 37.304166666667,
+    "lng": -121.87277777778,
+    "pop": 1013240
+  },
+  {
+    "nameAr": "أوستن",
+    "nameEn": "Austin",
+    "type": "city",
+    "lat": 30.3,
+    "lng": -97.733333333333,
+    "pop": 961855
+  },
+  {
+    "nameAr": "جاكسونفيل",
+    "nameEn": "Jacksonville",
+    "type": "city",
+    "lat": 30.316666666667,
+    "lng": -81.65,
+    "pop": 949611
+  },
+  {
+    "nameAr": "فورت وورث",
+    "nameEn": "Fort Worth",
+    "type": "city",
+    "lat": 32.756388888889,
+    "lng": -97.3325,
+    "pop": 918915
+  },
+  {
+    "nameAr": "كولومبوس",
+    "nameEn": "Columbus",
+    "type": "city",
+    "lat": 39.962222222222,
+    "lng": -83.000555555556,
+    "pop": 905748
+  },
+  {
+    "nameAr": "إنديانابوليس",
+    "nameEn": "Indianapolis",
+    "type": "city",
+    "lat": 39.768611111111,
+    "lng": -86.158055555556,
+    "pop": 887642
+  },
+  {
+    "nameAr": "شارلوت",
+    "nameEn": "Charlotte",
+    "type": "city",
+    "lat": 35.226944444444,
+    "lng": -80.843333333333,
+    "pop": 874579
+  },
+  {
+    "nameAr": "سان فرانسيسكو",
+    "nameEn": "San Francisco",
+    "type": "city",
+    "lat": 37.7775,
+    "lng": -122.41638888889,
+    "pop": 873965
+  },
+  {
+    "nameAr": "سياتل",
+    "nameEn": "Seattle",
+    "type": "city",
+    "lat": 47.605,
+    "lng": -122.33,
+    "pop": 737015
+  },
+  {
+    "nameAr": "دنفر",
+    "nameEn": "Denver",
+    "type": "city",
+    "lat": 39.739166666667,
+    "lng": -104.98472222222,
+    "pop": 715522
+  },
+  {
+    "nameAr": "ناشفيل",
+    "nameEn": "Nashville",
+    "type": "city",
+    "lat": 36.162222222222,
+    "lng": -86.774444444444,
+    "pop": 689447
+  },
+  {
+    "nameAr": "أوكلاهوما سيتي",
+    "nameEn": "Oklahoma City",
+    "type": "city",
+    "lat": 35.482222222222,
+    "lng": -97.535277777778,
+    "pop": 681054
+  },
+  {
+    "nameAr": "إل باسو",
+    "nameEn": "El Paso",
+    "type": "city",
+    "lat": 31.759166666667,
+    "lng": -106.48861111111,
+    "pop": 678815
+  },
+  {
+    "nameAr": "بوسطن",
+    "nameEn": "Boston",
+    "type": "city",
+    "lat": 42.360277777778,
+    "lng": -71.057777777778,
+    "pop": 675647
+  },
+  {
+    "nameAr": "بورتلاند",
+    "nameEn": "Portland",
+    "type": "city",
+    "lat": 45.515,
+    "lng": -122.67916666667,
+    "pop": 652503
+  },
+  {
+    "nameAr": "لاس فيغاس",
+    "nameEn": "Las Vegas",
+    "type": "city",
+    "lat": 36.167222222222,
+    "lng": -115.14861111111,
+    "pop": 641903
+  },
+  {
+    "nameAr": "ديترويت",
+    "nameEn": "Detroit",
+    "type": "city",
+    "lat": 42.331666666667,
+    "lng": -83.0475,
+    "pop": 639111
+  },
+  {
+    "nameAr": "ممفيس",
+    "nameEn": "Memphis",
+    "type": "city",
+    "lat": 35.146111111111,
+    "lng": -90.051944444444,
+    "pop": 633104
+  },
+  {
+    "nameAr": "ميلواكي",
+    "nameEn": "Milwaukee",
+    "type": "city",
+    "lat": 43.05,
+    "lng": -87.95,
+    "pop": 577222
+  },
+  {
+    "nameAr": "ألباكركي",
+    "nameEn": "Albuquerque",
+    "type": "city",
+    "lat": 35.084444444444,
+    "lng": -106.65027777778,
+    "pop": 564559
+  },
+  {
+    "nameAr": "توسان",
+    "nameEn": "Tucson",
+    "type": "city",
+    "lat": 32.221666666667,
+    "lng": -110.92638888889,
+    "pop": 542629
+  },
+  {
+    "nameAr": "فريسنو",
+    "nameEn": "Fresno",
+    "type": "city",
+    "lat": 36.781666666667,
+    "lng": -119.79222222222,
+    "pop": 542107
+  },
+  {
+    "nameAr": "ساكرامنتو",
+    "nameEn": "Sacramento",
+    "type": "city",
+    "lat": 38.575277777778,
+    "lng": -121.48611111111,
+    "pop": 524943
+  },
+  {
+    "nameAr": "كانساس سيتي",
+    "nameEn": "Kansas City",
+    "type": "city",
+    "lat": 39.05,
+    "lng": -94.583333333333,
+    "pop": 508090
+  },
+  {
+    "nameAr": "ميسا",
+    "nameEn": "Mesa",
+    "type": "city",
+    "lat": 33.415,
+    "lng": -111.83138888889,
+    "pop": 504258
+  },
+  {
+    "nameAr": "أتلانتا",
+    "nameEn": "Atlanta",
+    "type": "city",
+    "lat": 33.748888888889,
+    "lng": -84.388055555556,
+    "pop": 498715
+  },
+  {
+    "nameAr": "أوماها",
+    "nameEn": "Omaha",
+    "type": "city",
+    "lat": 41.258611111111,
+    "lng": -95.9375,
+    "pop": 486051
+  },
+  {
+    "nameAr": "كولورادو سبرينغز",
+    "nameEn": "Colorado Springs",
+    "type": "city",
+    "lat": 38.863333333333,
+    "lng": -104.79194444444,
+    "pop": 478961
+  },
+  {
+    "nameAr": "رالي",
+    "nameEn": "Raleigh",
+    "type": "city",
+    "lat": 35.78,
+    "lng": -78.64,
+    "pop": 467665
+  },
+  {
+    "nameAr": "لونغ بيتش",
+    "nameEn": "Long Beach",
+    "type": "city",
+    "lat": 33.768055555556,
+    "lng": -118.19555555556,
+    "pop": 466742
+  },
+  {
+    "nameAr": "فرجينيا بيتش",
+    "nameEn": "Virginia Beach",
+    "type": "city",
+    "lat": 36.73765,
+    "lng": -76.00521,
+    "pop": 459470
+  },
+  {
+    "nameAr": "منيابولس",
+    "nameEn": "Minneapolis",
+    "type": "city",
+    "lat": 44.981944444444,
+    "lng": -93.269166666667,
+    "pop": 429954
+  },
+  {
+    "nameAr": "تلسا",
+    "nameEn": "Tulsa",
+    "type": "city",
+    "lat": 36.131388888889,
+    "lng": -95.937222222222,
+    "pop": 413066
+  },
+  {
+    "nameAr": "بيكرسفيلد",
+    "nameEn": "Bakersfield",
+    "type": "city",
+    "lat": 35.373333333333,
+    "lng": -119.01888888889,
+    "pop": 403455
+  },
+  {
+    "nameAr": "ويتشيتا",
+    "nameEn": "Wichita",
+    "type": "city",
+    "lat": 37.688888888889,
+    "lng": -97.336111111111,
+    "pop": 397532
+  },
+  {
+    "nameAr": "أورورا",
+    "nameEn": "Aurora",
+    "type": "city",
+    "lat": 39.710833333333,
+    "lng": -104.8125,
+    "pop": 386261
+  },
+  {
+    "nameAr": "تامبا",
+    "nameEn": "Tampa",
+    "type": "city",
+    "lat": 27.9475,
+    "lng": -82.458611111111,
+    "pop": 384959
+  },
+  {
+    "nameAr": "نيو أورلينز",
+    "nameEn": "New Orleans",
+    "type": "city",
+    "lat": 29.976111111111,
+    "lng": -90.078333333333,
+    "pop": 383997
+  },
+  {
+    "nameAr": "كليفلاند",
+    "nameEn": "Cleveland",
+    "type": "city",
+    "lat": 41.499166666667,
+    "lng": -81.694722222222,
+    "pop": 372624
+  },
+  {
+    "nameAr": "هونولولو",
+    "nameEn": "Honolulu",
+    "type": "city",
+    "lat": 21.304722222222,
+    "lng": -157.85722222222,
+    "pop": 350964
+  },
+  {
+    "nameAr": "آناهايم",
+    "nameEn": "Anaheim",
+    "type": "city",
+    "lat": 33.836111111111,
+    "lng": -117.88972222222,
+    "pop": 346824
+  },
+  {
+    "nameAr": "سان خوان",
+    "nameEn": "San Juan",
+    "type": "city",
+    "lat": 18.465277777778,
+    "lng": -66.116666666667,
+    "pop": 342259
+  },
+  {
+    "nameAr": "ليكسينغتون",
+    "nameEn": "Lexington",
+    "type": "city",
+    "lat": 38.049722222222,
+    "lng": -84.458611111111,
+    "pop": 322570
+  },
+  {
+    "nameAr": "ستوكتون",
+    "nameEn": "Stockton",
+    "type": "city",
+    "lat": 37.9575,
+    "lng": -121.2925,
+    "pop": 320804
+  },
+  {
+    "nameAr": "كوربوس كريستي",
+    "nameEn": "Corpus Christi",
+    "type": "city",
+    "lat": 27.742777777778,
+    "lng": -97.401944444444,
+    "pop": 317863
+  },
+  {
+    "nameAr": "هندرسون",
+    "nameEn": "Henderson",
+    "type": "city",
+    "lat": 36.031666666667,
+    "lng": -114.98138888889,
+    "pop": 317610
+  },
+  {
+    "nameAr": "ريفرسايد",
+    "nameEn": "Riverside",
+    "type": "city",
+    "lat": 33.982222222222,
+    "lng": -117.3725,
+    "pop": 314998
+  },
+  {
+    "nameAr": "نيوآرك",
+    "nameEn": "Newark",
+    "type": "city",
+    "lat": 40.735555555556,
+    "lng": -74.172222222222,
+    "pop": 311549
+  },
+  {
+    "nameAr": "سانت بول",
+    "nameEn": "Saint Paul",
+    "type": "city",
+    "lat": 44.944166666667,
+    "lng": -93.093611111111,
+    "pop": 311527
+  },
+  {
+    "nameAr": "سانتا آنا",
+    "nameEn": "Santa Ana",
+    "type": "city",
+    "lat": 33.740833333333,
+    "lng": -117.88138888889,
+    "pop": 310227
+  },
+  {
+    "nameAr": "سينسيناتي",
+    "nameEn": "Cincinnati",
+    "type": "city",
+    "lat": 39.1,
+    "lng": -84.5125,
+    "pop": 309317
+  },
+  {
+    "nameAr": "إرفاين",
+    "nameEn": "Irvine",
+    "type": "city",
+    "lat": 33.684166666667,
+    "lng": -117.7925,
+    "pop": 307670
+  },
+  {
+    "nameAr": "بيتسبرغ",
+    "nameEn": "Pittsburgh",
+    "type": "city",
+    "lat": 40.441666666667,
+    "lng": -80,
+    "pop": 302971
+  },
+  {
+    "nameAr": "سانت لويس",
+    "nameEn": "St. Louis",
+    "type": "city",
+    "lat": 38.626388888889,
+    "lng": -90.199444444444,
+    "pop": 301578
+  },
+  {
+    "nameAr": "غرينزبورو",
+    "nameEn": "Greensboro",
+    "type": "city",
+    "lat": 36.08,
+    "lng": -79.819444444444,
+    "pop": 299035
+  },
+  {
+    "nameAr": "أنكوريج",
+    "nameEn": "Anchorage",
+    "type": "city",
+    "lat": 61.216666666667,
+    "lng": -149.89361111111,
+    "pop": 291247
+  },
+  {
+    "nameAr": "لنكن",
+    "nameEn": "Lincoln",
+    "type": "city",
+    "lat": 40.809166666667,
+    "lng": -96.678055555556,
+    "pop": 291082
+  },
+  {
+    "nameAr": "بلينو",
+    "nameEn": "Plano",
+    "type": "city",
+    "lat": 33.05,
+    "lng": -96.75,
+    "pop": 285494
+  },
+  {
+    "nameAr": "درم",
+    "nameEn": "Durham",
+    "type": "city",
+    "lat": 35.994166666667,
+    "lng": -78.898611111111,
+    "pop": 283506
+  },
+  {
+    "nameAr": "بوفالو",
+    "nameEn": "Buffalo",
+    "type": "city",
+    "lat": 42.886388888889,
+    "lng": -78.878055555556,
+    "pop": 278349
+  },
+  {
+    "nameAr": "تشاندلر",
+    "nameEn": "Chandler",
+    "type": "city",
+    "lat": 33.303333333333,
+    "lng": -111.84138888889,
+    "pop": 275987
+  },
+  {
+    "nameAr": "تشولا فيستا",
+    "nameEn": "Chula Vista",
+    "type": "city",
+    "lat": 32.627777777778,
+    "lng": -117.04805555556,
+    "pop": 275487
+  },
+  {
+    "nameAr": "توليدو",
+    "nameEn": "Toledo",
+    "type": "city",
+    "lat": 41.652777777778,
+    "lng": -83.537777777778,
+    "pop": 270871
+  },
+  {
+    "nameAr": "ماديسون",
+    "nameEn": "Madison",
+    "type": "city",
+    "lat": 43.074722222222,
+    "lng": -89.384166666667,
+    "pop": 269840
+  },
+  {
+    "nameAr": "رينو",
+    "nameEn": "Reno",
+    "type": "city",
+    "lat": 39.526111111111,
+    "lng": -119.81266666667,
+    "pop": 264165
+  },
+  {
+    "nameAr": "فورت واين",
+    "nameEn": "Fort Wayne",
+    "type": "city",
+    "lat": 41.08045,
+    "lng": -85.13915,
+    "pop": 263886
+  },
+  {
+    "nameAr": "شمال لاس فيغاس",
+    "nameEn": "North Las Vegas",
+    "type": "city",
+    "lat": 36.200583333333,
+    "lng": -115.12158333333,
+    "pop": 262527
+  },
+  {
+    "nameAr": "سانت بيترسبرغ",
+    "nameEn": "St. Petersburg",
+    "type": "city",
+    "lat": 27.773055555556,
+    "lng": -82.64,
+    "pop": 258308
+  },
+  {
+    "nameAr": "لوبوك",
+    "nameEn": "Lubbock",
+    "type": "city",
+    "lat": 33.585,
+    "lng": -101.845,
+    "pop": 257141
+  },
+  {
+    "nameAr": "إيرفينغ",
+    "nameEn": "Irving",
+    "type": "city",
+    "lat": 32.811666666667,
+    "lng": -96.950833333333,
+    "pop": 256684
+  },
+  {
+    "nameAr": "لاريدو",
+    "nameEn": "Laredo",
+    "type": "city",
+    "lat": 27.506111111111,
+    "lng": -99.507222222222,
+    "pop": 255205
+  },
+  {
+    "nameAr": "وينستون-سالم",
+    "nameEn": "Winston-Salem",
+    "type": "city",
+    "lat": 36.1025,
+    "lng": -80.260555555556,
+    "pop": 249545
+  },
+  {
+    "nameAr": "تشيسابيك",
+    "nameEn": "Chesapeake",
+    "type": "city",
+    "lat": 36.767398,
+    "lng": -76.287405,
+    "pop": 249422
+  },
+  {
+    "nameAr": "غلانديل",
+    "nameEn": "Glendale",
+    "type": "city",
+    "lat": 33.583333333333,
+    "lng": -112.2,
+    "pop": 248325
+  },
+  {
+    "nameAr": "لويفيل",
+    "nameEn": "Louisville",
+    "type": "city",
+    "lat": 38.256111111111,
+    "lng": -85.751388888889,
+    "pop": 246161
+  },
+  {
+    "nameAr": "غارلاند",
+    "nameEn": "Garland",
+    "type": "city",
+    "lat": 32.906666666667,
+    "lng": -96.635,
+    "pop": 246018
+  },
+  {
+    "nameAr": "سكوتسديل",
+    "nameEn": "Scottsdale",
+    "type": "city",
+    "lat": 33.493055555556,
+    "lng": -111.92611111111,
+    "pop": 241361
+  },
+  {
+    "nameAr": "نورفولك",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.846944444444,
+    "lng": -76.285277777778,
+    "pop": 238005
+  },
+  {
+    "nameAr": "بويسي",
+    "nameEn": "Boise",
+    "type": "city",
+    "lat": 43.613611111111,
+    "lng": -116.23777777778,
+    "pop": 235684
+  },
+  {
+    "nameAr": "فريمونت",
+    "nameEn": "Fremont",
+    "type": "city",
+    "lat": 37.548611111111,
+    "lng": -121.98833333333,
+    "pop": 230504
+  },
+  {
+    "nameAr": "سبوكين",
+    "nameEn": "Spokane",
+    "type": "city",
+    "lat": 47.657194444444,
+    "lng": -117.4235,
+    "pop": 228989
+  },
+  {
+    "nameAr": "سانتا كلاريتا",
+    "nameEn": "Santa Clarita",
+    "type": "city",
+    "lat": 34.3916641,
+    "lng": -118.542586,
+    "pop": 228673
+  },
+  {
+    "nameAr": "باتون روج",
+    "nameEn": "Baton Rouge",
+    "type": "city",
+    "lat": 30.4475,
+    "lng": -91.178611111111,
+    "pop": 227470
+  },
+  {
+    "nameAr": "ريتشموند",
+    "nameEn": "Richmond",
+    "type": "city",
+    "lat": 37.540833333333,
+    "lng": -77.436666666667,
+    "pop": 226610
+  },
+  {
+    "nameAr": "هياليه",
+    "nameEn": "Hialeah",
+    "type": "city",
+    "lat": 25.860555555556,
+    "lng": -80.293888888889,
+    "pop": 223109
+  },
+  {
+    "nameAr": "سان برناردينو",
+    "nameEn": "San Bernardino",
+    "type": "city",
+    "lat": 34.104166666667,
+    "lng": -117.29222222222,
+    "pop": 222101
+  },
+  {
+    "nameAr": "تاكوما",
+    "nameEn": "Tacoma",
+    "type": "city",
+    "lat": 47.2525,
+    "lng": -122.4475,
+    "pop": 219346
+  },
+  {
+    "nameAr": "موديستو",
+    "nameEn": "Modesto",
+    "type": "city",
+    "lat": 37.661388888889,
+    "lng": -120.99444444444,
+    "pop": 218464
+  },
+  {
+    "nameAr": "بابيلون",
+    "nameEn": "Babylon",
+    "type": "city",
+    "lat": 40.694444444444,
+    "lng": -73.329444444444,
+    "pop": 218223
+  },
+  {
+    "nameAr": "هنتسفيل",
+    "nameEn": "Huntsville",
+    "type": "city",
+    "lat": 34.713611111111,
+    "lng": -86.586111111111,
+    "pop": 215006
+  },
+  {
+    "nameAr": "دي موين",
+    "nameEn": "Des Moines",
+    "type": "city",
+    "lat": 41.590833333333,
+    "lng": -93.620833333333,
+    "pop": 214133
+  },
+  {
+    "nameAr": "روتشستر",
+    "nameEn": "Rochester",
+    "type": "city",
+    "lat": 43.165555555556,
+    "lng": -77.611388888889,
+    "pop": 211328
+  },
+  {
+    "nameAr": "مورينو فالي",
+    "nameEn": "Moreno Valley",
+    "type": "city",
+    "lat": 33.943055555556,
+    "lng": -117.22833333333,
+    "pop": 208634
+  },
+  {
+    "nameAr": "فايتفيل",
+    "nameEn": "Fayetteville",
+    "type": "city",
+    "lat": 35.066666666667,
+    "lng": -78.9175,
+    "pop": 208501
+  },
+  {
+    "nameAr": "فونتانا",
+    "nameEn": "Fontana",
+    "type": "city",
+    "lat": 34.1,
+    "lng": -117.46666666667,
+    "pop": 208393
+  },
+  {
+    "nameAr": "ورسستر",
+    "nameEn": "Worcester",
+    "type": "city",
+    "lat": 42.271388888889,
+    "lng": -71.798888888889,
+    "pop": 206518
+  },
+  {
+    "nameAr": "بورت سانت لوسي",
+    "nameEn": "Port St. Lucie",
+    "type": "city",
+    "lat": 27.275833333333,
+    "lng": -80.355,
+    "pop": 204851
+  },
+  {
+    "nameAr": "ليتل روك",
+    "nameEn": "Little Rock",
+    "type": "city",
+    "lat": 34.744444444444,
+    "lng": -92.288055555556,
+    "pop": 202591
+  },
+  {
+    "nameAr": "أوكسنارد",
+    "nameEn": "Oxnard",
+    "type": "city",
+    "lat": 34.191388888889,
+    "lng": -119.1825,
+    "pop": 202063
+  },
+  {
+    "nameAr": "برمنغهام",
+    "nameEn": "Birmingham",
+    "type": "city",
+    "lat": 33.5175,
+    "lng": -86.809444444444,
+    "pop": 200733
+  },
+  {
+    "nameAr": "مونتغومري",
+    "nameEn": "Montgomery",
+    "type": "city",
+    "lat": 32.3675,
+    "lng": -86.3,
+    "pop": 200603
+  },
+  {
+    "nameAr": "فريسكو",
+    "nameEn": "Frisco",
+    "type": "city",
+    "lat": 33.1414,
+    "lng": -96.8131,
+    "pop": 200509
+  },
+  {
+    "nameAr": "أماريلو",
+    "nameEn": "Amarillo",
+    "type": "city",
+    "lat": 35.199166666667,
+    "lng": -101.84527777778,
+    "pop": 200393
+  },
+  {
+    "nameAr": "غراند رابيدز",
+    "nameEn": "Grand Rapids",
+    "type": "city",
+    "lat": 42.963333333333,
+    "lng": -85.667777777778,
+    "pop": 198917
+  },
+  {
+    "nameAr": "شاطئ هنتنغتون",
+    "nameEn": "Huntington Beach",
+    "type": "city",
+    "lat": 33.692777777778,
+    "lng": -117.99972222222,
+    "pop": 198711
+  },
+  {
+    "nameAr": "أوفرلاند بارك",
+    "nameEn": "Overland Park",
+    "type": "city",
+    "lat": 38.940072222222,
+    "lng": -94.680697222222,
+    "pop": 197238
+  },
+  {
+    "nameAr": "غلينديل",
+    "nameEn": "Glendale",
+    "type": "city",
+    "lat": 34.170833333333,
+    "lng": -118.25,
+    "pop": 196543
+  },
+  {
+    "nameAr": "تالاهاسي",
+    "nameEn": "Tallahassee",
+    "type": "city",
+    "lat": 30.438333333333,
+    "lng": -84.280555555556,
+    "pop": 196169
+  },
+  {
+    "nameAr": "غراند براري",
+    "nameEn": "Grand Prairie",
+    "type": "city",
+    "lat": 32.715278,
+    "lng": -97.016944,
+    "pop": 196100
+  },
+  {
+    "nameAr": "ماككيني",
+    "nameEn": "McKinney",
+    "type": "city",
+    "lat": 33.2,
+    "lng": -96.633333333333,
+    "pop": 195308
+  },
+  {
+    "nameAr": "كيب كورال",
+    "nameEn": "Cape Coral",
+    "type": "city",
+    "lat": 26.633333,
+    "lng": -81.983333,
+    "pop": 194016
+  },
+  {
+    "nameAr": "سو فولز",
+    "nameEn": "Sioux Falls",
+    "type": "city",
+    "lat": 43.546055555556,
+    "lng": -96.731388888889,
+    "pop": 192517
+  },
+  {
+    "nameAr": "بيوريا",
+    "nameEn": "Peoria",
+    "type": "city",
+    "lat": 33.5825,
+    "lng": -112.23861111111,
+    "pop": 190985
+  },
+  {
+    "nameAr": "بروفيدنس",
+    "nameEn": "Providence",
+    "type": "city",
+    "lat": 41.82399,
+    "lng": -71.41283,
+    "pop": 190934
+  },
+  {
+    "nameAr": "فانكوفر",
+    "nameEn": "Vancouver",
+    "type": "city",
+    "lat": 45.631111111111,
+    "lng": -122.67166666667,
+    "pop": 190915
+  },
+  {
+    "nameAr": "نوكسفيل",
+    "nameEn": "Knoxville",
+    "type": "city",
+    "lat": 35.961666666667,
+    "lng": -83.923333333333,
+    "pop": 190740
+  },
+  {
+    "nameAr": "آكرون",
+    "nameEn": "Akron",
+    "type": "city",
+    "lat": 41.073055555556,
+    "lng": -81.517777777778,
+    "pop": 190469
+  },
+  {
+    "nameAr": "شريفبورت",
+    "nameEn": "Shreveport",
+    "type": "city",
+    "lat": 32.508055555556,
+    "lng": -93.762777777778,
+    "pop": 187593
+  },
+  {
+    "nameAr": "موبيل",
+    "nameEn": "Mobile",
+    "type": "city",
+    "lat": 30.727669444444,
+    "lng": -88.052672222222,
+    "pop": 187041
+  },
+  {
+    "nameAr": "براونزفيل",
+    "nameEn": "Brownsville",
+    "type": "city",
+    "lat": 25.930277777778,
+    "lng": -97.484444444444,
+    "pop": 186738
+  },
+  {
+    "nameAr": "نيوبورت نيوز",
+    "nameEn": "Newport News",
+    "type": "city",
+    "lat": 37.070833333333,
+    "lng": -76.484444444444,
+    "pop": 186247
+  },
+  {
+    "nameAr": "تشاتانوغا",
+    "nameEn": "Chattanooga",
+    "type": "city",
+    "lat": 35.045555555556,
+    "lng": -85.267222222222,
+    "pop": 181099
+  },
+  {
+    "nameAr": "تمبي",
+    "nameEn": "Tempe",
+    "type": "city",
+    "lat": 33.425555555556,
+    "lng": -111.94,
+    "pop": 180587
+  },
+  {
+    "nameAr": "سانتا روسا",
+    "nameEn": "Santa Rosa",
+    "type": "city",
+    "lat": 38.448611111111,
+    "lng": -122.70472222222,
+    "pop": 178127
+  },
+  {
+    "nameAr": "إلك غروفي",
+    "nameEn": "Elk Grove",
+    "type": "city",
+    "lat": 38.438333333333,
+    "lng": -121.38194444444,
+    "pop": 176124
+  },
+  {
+    "nameAr": "أونتاريو",
+    "nameEn": "Ontario",
+    "type": "city",
+    "lat": 34.052777777778,
+    "lng": -117.62777777778,
+    "pop": 175265
+  },
+  {
+    "nameAr": "رانتشو كوكامونغا",
+    "nameEn": "Rancho Cucamonga",
+    "type": "city",
+    "lat": 34.123333333333,
+    "lng": -117.57944444444,
+    "pop": 174453
+  },
+  {
+    "nameAr": "أوشينسايد",
+    "nameEn": "Oceanside",
+    "type": "city",
+    "lat": 33.211666666667,
+    "lng": -117.32583333333,
+    "pop": 174068
+  },
+  {
+    "nameAr": "لانكستر",
+    "nameEn": "Lancaster",
+    "type": "city",
+    "lat": 34.686944444444,
+    "lng": -118.15416666667,
+    "pop": 173516
+  },
+  {
+    "nameAr": "غاردين غروفي",
+    "nameEn": "Garden Grove",
+    "type": "city",
+    "lat": 33.778889,
+    "lng": -117.960278,
+    "pop": 171949
+  },
+  {
+    "nameAr": "بيمبروك باينز",
+    "nameEn": "Pembroke Pines",
+    "type": "city",
+    "lat": 26.0125,
+    "lng": -80.313611111111,
+    "pop": 171178
+  },
+  {
+    "nameAr": "فورت كولنز",
+    "nameEn": "Fort Collins",
+    "type": "city",
+    "lat": 40.566666666667,
+    "lng": -105.08333333333,
+    "pop": 169810
+  },
+  {
+    "nameAr": "بالمديل",
+    "nameEn": "Palmdale",
+    "type": "city",
+    "lat": 34.57943,
+    "lng": -118.11646,
+    "pop": 169450
+  },
+  {
+    "nameAr": "سبرينغفيلد",
+    "nameEn": "Springfield",
+    "type": "city",
+    "lat": 37.195,
+    "lng": -93.286111111111,
+    "pop": 169176
+  },
+  {
+    "nameAr": "كلاركسفيل",
+    "nameEn": "Clarksville",
+    "type": "city",
+    "lat": 36.5297222,
+    "lng": -87.3594444,
+    "pop": 166722
+  },
+  {
+    "nameAr": "ساليناس",
+    "nameEn": "Salinas",
+    "type": "city",
+    "lat": 36.677777777778,
+    "lng": -121.65555555556,
+    "pop": 163542
+  },
+  {
+    "nameAr": "هايوارد",
+    "nameEn": "Hayward",
+    "type": "city",
+    "lat": 37.668888888889,
+    "lng": -122.08083333333,
+    "pop": 162954
+  },
+  {
+    "nameAr": "الإسكندرية",
+    "nameEn": "Alexandria",
+    "type": "city",
+    "lat": 38.804722222222,
+    "lng": -77.047222222222,
+    "pop": 159467
+  },
+  {
+    "nameAr": "ماكون",
+    "nameEn": "Macon",
+    "type": "city",
+    "lat": 32.84069,
+    "lng": -83.6324,
+    "pop": 157346
+  },
+  {
+    "nameAr": "كورونا",
+    "nameEn": "Corona",
+    "type": "city",
+    "lat": 33.866666666667,
+    "lng": -117.56666666667,
+    "pop": 157136
+  },
+  {
+    "nameAr": "ليكوود",
+    "nameEn": "Lakewood",
+    "type": "city",
+    "lat": 39.706389,
+    "lng": -105.102778,
+    "pop": 155984
+  },
+  {
+    "nameAr": "سانيفال",
+    "nameEn": "Sunnyvale",
+    "type": "city",
+    "lat": 37.368888888889,
+    "lng": -122.03694444444,
+    "pop": 155805
+  },
+  {
+    "nameAr": "جاكسون",
+    "nameEn": "Jackson",
+    "type": "city",
+    "lat": 32.298888888889,
+    "lng": -90.184722222222,
+    "pop": 153701
+  },
+  {
+    "nameAr": "كيلين",
+    "nameEn": "Killeen",
+    "type": "city",
+    "lat": 31.105555555556,
+    "lng": -97.726666666667,
+    "pop": 153095
+  },
+  {
+    "nameAr": "هوليوود",
+    "nameEn": "Hollywood",
+    "type": "city",
+    "lat": 26.021388888889,
+    "lng": -80.175,
+    "pop": 153067
+  },
+  {
+    "nameAr": "مورفريسبورو",
+    "nameEn": "Murfreesboro",
+    "type": "city",
+    "lat": 35.846111111111,
+    "lng": -86.391944444444,
+    "pop": 152769
+  },
+  {
+    "nameAr": "باسادينا",
+    "nameEn": "Pasadena",
+    "type": "city",
+    "lat": 29.676111111111,
+    "lng": -95.173888888889,
+    "pop": 151950
+  },
+  {
+    "nameAr": "بالفيو",
+    "nameEn": "Bellevue",
+    "type": "city",
+    "lat": 47.614444444444,
+    "lng": -122.1925,
+    "pop": 151854
+  },
+  {
+    "nameAr": "بومونا",
+    "nameEn": "Pomona",
+    "type": "city",
+    "lat": 34.060833333333,
+    "lng": -117.75583333333,
+    "pop": 151713
+  },
+  {
+    "nameAr": "إسكونديدو",
+    "nameEn": "Escondido",
+    "type": "city",
+    "lat": 33.124722,
+    "lng": -117.080833,
+    "pop": 151038
+  },
+  {
+    "nameAr": "جوليت",
+    "nameEn": "Joliet",
+    "type": "city",
+    "lat": 41.52519,
+    "lng": -88.0834,
+    "pop": 150362
+  },
+  {
+    "nameAr": "تشارلستون",
+    "nameEn": "Charleston",
+    "type": "city",
+    "lat": 32.783333333333,
+    "lng": -79.931944444444,
+    "pop": 150227
+  },
+  {
+    "nameAr": "مسكيت",
+    "nameEn": "Mesquite",
+    "type": "city",
+    "lat": 32.78278,
+    "lng": -96.60972,
+    "pop": 150108
+  },
+  {
+    "nameAr": "بريدجبورت",
+    "nameEn": "Bridgeport",
+    "type": "city",
+    "lat": 41.183333333333,
+    "lng": -73.2,
+    "pop": 148654
+  },
+  {
+    "nameAr": "سافانا",
+    "nameEn": "Savannah",
+    "type": "city",
+    "lat": 32.050833333333,
+    "lng": -81.103888888889,
+    "pop": 147780
+  },
+  {
+    "nameAr": "روزفيل",
+    "nameEn": "Roseville",
+    "type": "city",
+    "lat": 38.7525,
+    "lng": -121.28944444444,
+    "pop": 147773
+  },
+  {
+    "nameAr": "توررانسي",
+    "nameEn": "Torrance",
+    "type": "city",
+    "lat": 33.8358492,
+    "lng": -118.3406288,
+    "pop": 147067
+  },
+  {
+    "nameAr": "فوليرتون",
+    "nameEn": "Fullerton",
+    "type": "city",
+    "lat": 33.88,
+    "lng": -117.92861111111,
+    "pop": 143617
+  },
+  {
+    "nameAr": "سوربرايز",
+    "nameEn": "Surprise",
+    "type": "city",
+    "lat": 33.629194444444,
+    "lng": -112.36779722222,
+    "pop": 143148
+  },
+  {
+    "nameAr": "ماكالين",
+    "nameEn": "McAllen",
+    "type": "city",
+    "lat": 26.216388888889,
+    "lng": -98.236388888889,
+    "pop": 142210
+  },
+  {
+    "nameAr": "ثورنتون",
+    "nameEn": "Thornton",
+    "type": "city",
+    "lat": 39.9031,
+    "lng": -104.954,
+    "pop": 141867
+  },
+  {
+    "nameAr": "فيساليا",
+    "nameEn": "Visalia",
+    "type": "city",
+    "lat": 36.330277777778,
+    "lng": -119.2925,
+    "pop": 141384
+  },
+  {
+    "nameAr": "أولاث",
+    "nameEn": "Olathe",
+    "type": "city",
+    "lat": 38.8808,
+    "lng": -94.8031,
+    "pop": 141290
+  },
+  {
+    "nameAr": "غينزفيل",
+    "nameEn": "Gainesville",
+    "type": "city",
+    "lat": 29.665277777778,
+    "lng": -82.336111111111,
+    "pop": 141085
+  },
+  {
+    "nameAr": "ويست فالي سيتي",
+    "nameEn": "West Valley City",
+    "type": "city",
+    "lat": 40.689166666667,
+    "lng": -111.99388888889,
+    "pop": 140230
+  },
+  {
+    "nameAr": "مقاطعة سبوتسيلفانيا",
+    "nameEn": "Spotsylvania County",
+    "type": "city",
+    "lat": 38.18,
+    "lng": -77.65,
+    "pop": 140032
+  },
+  {
+    "nameAr": "أورانج",
+    "nameEn": "Orange",
+    "type": "city",
+    "lat": 33.803055555556,
+    "lng": -117.8325,
+    "pop": 139911
+  },
+  {
+    "nameAr": "دينتون",
+    "nameEn": "Denton",
+    "type": "city",
+    "lat": 33.216666666667,
+    "lng": -97.133333333333,
+    "pop": 139869
+  },
+  {
+    "nameAr": "وارين",
+    "nameEn": "Warren",
+    "type": "city",
+    "lat": 42.5125,
+    "lng": -83.025,
+    "pop": 139387
+  },
+  {
+    "nameAr": "واكو",
+    "nameEn": "Waco",
+    "type": "city",
+    "lat": 31.549166666667,
+    "lng": -97.147222222222,
+    "pop": 138486
+  },
+  {
+    "nameAr": "سيدار رابيدز",
+    "nameEn": "Cedar Rapids",
+    "type": "city",
+    "lat": 41.983333333333,
+    "lng": -91.668611111111,
+    "pop": 137710
+  },
+  {
+    "nameAr": "دايتون",
+    "nameEn": "Dayton",
+    "type": "city",
+    "lat": 39.766666666667,
+    "lng": -84.2,
+    "pop": 137644
+  },
+  {
+    "nameAr": "بونس",
+    "nameEn": "Ponce",
+    "type": "city",
+    "lat": 18.010833333333,
+    "lng": -66.613611111111,
+    "pop": 137491
+  },
+  {
+    "nameAr": "هامبتون",
+    "nameEn": "Hampton",
+    "type": "city",
+    "lat": 37.026388888889,
+    "lng": -76.344444444444,
+    "pop": 137148
+  },
+  {
+    "nameAr": "ستامفورد",
+    "nameEn": "Stamford",
+    "type": "city",
+    "lat": 41.096666666667,
+    "lng": -73.552222222222,
+    "pop": 135470
+  },
+  {
+    "nameAr": "فكتورفيل",
+    "nameEn": "Victorville",
+    "type": "city",
+    "lat": 34.536111111111,
+    "lng": -117.28833333333,
+    "pop": 134810
+  },
+  {
+    "nameAr": "ميرامار",
+    "nameEn": "Miramar",
+    "type": "city",
+    "lat": 25.978888888889,
+    "lng": -80.2825,
+    "pop": 134721
+  },
+  {
+    "nameAr": "كورال سبرنغز",
+    "nameEn": "Coral Springs",
+    "type": "city",
+    "lat": 26.270555555556,
+    "lng": -80.259166666667,
+    "pop": 134394
+  },
+  {
+    "nameAr": "ستيرلينغ هايتس",
+    "nameEn": "Sterling Heights",
+    "type": "city",
+    "lat": 42.580277777778,
+    "lng": -83.030277777778,
+    "pop": 134346
+  },
+  {
+    "nameAr": "نيو هيفن",
+    "nameEn": "New Haven",
+    "type": "city",
+    "lat": 41.308333333333,
+    "lng": -72.925,
+    "pop": 134023
+  },
+  {
+    "nameAr": "كارولتون",
+    "nameEn": "Carrollton",
+    "type": "city",
+    "lat": 32.99,
+    "lng": -96.893333333333,
+    "pop": 133434
+  },
+  {
+    "nameAr": "مدلاند",
+    "nameEn": "Midland",
+    "type": "city",
+    "lat": 32.005,
+    "lng": -102.09917,
+    "pop": 132524
+  },
+  {
+    "nameAr": "نورمان",
+    "nameEn": "Norman",
+    "type": "city",
+    "lat": 35.220833333333,
+    "lng": -97.443611111111,
+    "pop": 128026
+  },
+  {
+    "nameAr": "سانتا كلارا",
+    "nameEn": "Santa Clara",
+    "type": "city",
+    "lat": 37.35,
+    "lng": -121.96666666667,
+    "pop": 127647
+  },
+  {
+    "nameAr": "أثينا",
+    "nameEn": "Athens",
+    "type": "city",
+    "lat": 33.955277777778,
+    "lng": -83.383055555556,
+    "pop": 127315
+  },
+  {
+    "nameAr": "كاغواس",
+    "nameEn": "Caguas",
+    "type": "city",
+    "lat": 18.233333333333,
+    "lng": -66.033333333333,
+    "pop": 127244
+  },
+  {
+    "nameAr": "ثاوزند أوكس",
+    "nameEn": "Thousand Oaks",
+    "type": "city",
+    "lat": 34.189444444444,
+    "lng": -118.875,
+    "pop": 126966
+  },
+  {
+    "nameAr": "توبيكا",
+    "nameEn": "Topeka",
+    "type": "city",
+    "lat": 39.04833,
+    "lng": -95.67804,
+    "pop": 126587
+  },
+  {
+    "nameAr": "سيمي فالي",
+    "nameEn": "Simi Valley",
+    "type": "city",
+    "lat": 34.270833333333,
+    "lng": -118.73916666667,
+    "pop": 126356
+  },
+  {
+    "nameAr": "كولومبيا",
+    "nameEn": "Columbia",
+    "type": "city",
+    "lat": 38.95171,
+    "lng": -92.33407,
+    "pop": 126254
+  },
+  {
+    "nameAr": "فاليجو",
+    "nameEn": "Vallejo",
+    "type": "city",
+    "lat": 38.104088,
+    "lng": -122.256638,
+    "pop": 126090
+  },
+  {
+    "nameAr": "فارغو",
+    "nameEn": "Fargo",
+    "type": "city",
+    "lat": 46.877222222222,
+    "lng": -96.789444444444,
+    "pop": 125990
+  },
+  {
+    "nameAr": "بيرلاند",
+    "nameEn": "Pearland",
+    "type": "city",
+    "lat": 29.5544,
+    "lng": -95.2958,
+    "pop": 125828
+  },
+  {
+    "nameAr": "كونكورد",
+    "nameEn": "Concord",
+    "type": "city",
+    "lat": 37.978055555556,
+    "lng": -122.03111111111,
+    "pop": 125410
+  },
+  {
+    "nameAr": "أبيلين",
+    "nameEn": "Abilene",
+    "type": "city",
+    "lat": 32.446388888889,
+    "lng": -99.745555555556,
+    "pop": 125182
+  },
+  {
+    "nameAr": "أرفادا",
+    "nameEn": "Arvada",
+    "type": "city",
+    "lat": 39.8027644,
+    "lng": -105.0874842,
+    "pop": 124402
+  },
+  {
+    "nameAr": "بيركيلي",
+    "nameEn": "Berkeley",
+    "type": "city",
+    "lat": 37.870277777778,
+    "lng": -122.26805555556,
+    "pop": 124321
+  },
+  {
+    "nameAr": "آن آربر",
+    "nameEn": "Ann Arbor",
+    "type": "city",
+    "lat": 42.281388888889,
+    "lng": -83.748333333333,
+    "pop": 123851
+  },
+  {
+    "nameAr": "إنديبندنس",
+    "nameEn": "Independence",
+    "type": "city",
+    "lat": 39.092472222222,
+    "lng": -94.413805555556,
+    "pop": 123011
+  },
+  {
+    "nameAr": "روشستر",
+    "nameEn": "Rochester",
+    "type": "city",
+    "lat": 44.0234,
+    "lng": -92.46295,
+    "pop": 121395
+  },
+  {
+    "nameAr": "لافاييت",
+    "nameEn": "Lafayette",
+    "type": "city",
+    "lat": 30.243062,
+    "lng": -92.012649,
+    "pop": 121374
+  },
+  {
+    "nameAr": "هارتفورد",
+    "nameEn": "Hartford",
+    "type": "city",
+    "lat": 41.763333333333,
+    "lng": -72.685,
+    "pop": 121054
+  },
+  {
+    "nameAr": "كوليج ستيشن",
+    "nameEn": "College Station",
+    "type": "city",
+    "lat": 30.601388888889,
+    "lng": -96.314444444444,
+    "pop": 120511
+  },
+  {
+    "nameAr": "فيرفيلد",
+    "nameEn": "Fairfield",
+    "type": "city",
+    "lat": 38.257777777778,
+    "lng": -122.05416666667,
+    "pop": 119881
+  },
+  {
+    "nameAr": "بالم باي",
+    "nameEn": "Palm Bay",
+    "type": "city",
+    "lat": 27.997922222222,
+    "lng": -80.670008333333,
+    "pop": 119760
+  },
+  {
+    "nameAr": "كامبريدج، ماساتشوستس",
+    "nameEn": "Cambridge",
+    "type": "city",
+    "lat": 42.375,
+    "lng": -71.106111111111,
+    "pop": 118403
+  },
+  {
+    "nameAr": "إيفانسفيل",
+    "nameEn": "Evansville",
+    "type": "city",
+    "lat": 37.974722222222,
+    "lng": -87.555833333333,
+    "pop": 117298
+  },
+  {
+    "nameAr": "كليرواتر",
+    "nameEn": "Clearwater",
+    "type": "city",
+    "lat": 27.973611111111,
+    "lng": -82.764166666667,
+    "pop": 117292
+  },
+  {
+    "nameAr": "بيلينغز",
+    "nameEn": "Billings",
+    "type": "city",
+    "lat": 45.786666666667,
+    "lng": -108.53722222222,
+    "pop": 117116
+  },
+  {
+    "nameAr": "ويست جوردان",
+    "nameEn": "West Jordan",
+    "type": "city",
+    "lat": 40.606388888889,
+    "lng": -111.97611111111,
+    "pop": 116961
+  },
+  {
+    "nameAr": "وستمنستر",
+    "nameEn": "Westminster",
+    "type": "city",
+    "lat": 39.836111111111,
+    "lng": -105.03722222222,
+    "pop": 116317
+  },
+  {
+    "nameAr": "مانشستر",
+    "nameEn": "Manchester",
+    "type": "city",
+    "lat": 42.990833333333,
+    "lng": -71.463611111111,
+    "pop": 115644
+  },
+  {
+    "nameAr": "لوويل",
+    "nameEn": "Lowell",
+    "type": "city",
+    "lat": 42.639444444444,
+    "lng": -71.314722222222,
+    "pop": 115554
+  },
+  {
+    "nameAr": "أنتيوك",
+    "nameEn": "Antioch",
+    "type": "city",
+    "lat": 38.005,
+    "lng": -121.80583333333,
+    "pop": 115291
+  },
+  {
+    "nameAr": "بومونت",
+    "nameEn": "Beaumont",
+    "type": "city",
+    "lat": 30.08,
+    "lng": -94.126666666667,
+    "pop": 115282
+  },
+  {
+    "nameAr": "بروفو",
+    "nameEn": "Provo",
+    "type": "city",
+    "lat": 40.233888888889,
+    "lng": -111.65861111111,
+    "pop": 115162
+  },
+  {
+    "nameAr": "كارلسباد",
+    "nameEn": "Carlsbad",
+    "type": "city",
+    "lat": 33.158267,
+    "lng": -117.350996,
+    "pop": 114746
+  },
+  {
+    "nameAr": "واتربوري",
+    "nameEn": "Waterbury",
+    "type": "city",
+    "lat": 41.558333333333,
+    "lng": -73.036944444444,
+    "pop": 114403
+  },
+  {
+    "nameAr": "داوني",
+    "nameEn": "Downey",
+    "type": "city",
+    "lat": 33.938055555556,
+    "lng": -118.13083333333,
+    "pop": 114355
+  },
+  {
+    "nameAr": "غريشام",
+    "nameEn": "Gresham",
+    "type": "city",
+    "lat": 45.503611111111,
+    "lng": -122.43944444444,
+    "pop": 114247
+  },
+  {
+    "nameAr": "هاي بوينت",
+    "nameEn": "High Point",
+    "type": "city",
+    "lat": 35.970555555556,
+    "lng": -79.9975,
+    "pop": 114059
+  },
+  {
+    "nameAr": "لانسنغ",
+    "nameEn": "Lansing",
+    "type": "city",
+    "lat": 42.7335,
+    "lng": -84.5467,
+    "pop": 112644
+  },
+  {
+    "nameAr": "ليكلاند",
+    "nameEn": "Lakeland",
+    "type": "city",
+    "lat": 28.041111111111,
+    "lng": -81.958888888889,
+    "pop": 112641
+  },
+  {
+    "nameAr": "بومبانو سيتي",
+    "nameEn": "Pompano Beach",
+    "type": "city",
+    "lat": 26.234722222222,
+    "lng": -80.125555555556,
+    "pop": 112046
+  },
+  {
+    "nameAr": "كوستا ميسا",
+    "nameEn": "Costa Mesa",
+    "type": "city",
+    "lat": 33.67,
+    "lng": -117.91,
+    "pop": 111918
+  },
+  {
+    "nameAr": "بويبلو",
+    "nameEn": "Pueblo",
+    "type": "city",
+    "lat": 38.266944444444,
+    "lng": -104.62027777778,
+    "pop": 111876
+  },
+  {
+    "nameAr": "ميامي غاردنز",
+    "nameEn": "Miami Gardens",
+    "type": "city",
+    "lat": 25.941944444444,
+    "lng": -80.245555555556,
+    "pop": 111640
+  },
+  {
+    "nameAr": "مورريتا",
+    "nameEn": "Murrieta",
+    "type": "city",
+    "lat": 33.569444444444,
+    "lng": -117.2025,
+    "pop": 110949
+  },
+  {
+    "nameAr": "فينتورا",
+    "nameEn": "Ventura",
+    "type": "city",
+    "lat": 34.26778,
+    "lng": -119.254206,
+    "pop": 110763
+  },
+  {
+    "nameAr": "إيفرت",
+    "nameEn": "Everett",
+    "type": "city",
+    "lat": 47.963333333333,
+    "lng": -122.20055555556,
+    "pop": 110629
+  },
+  {
+    "nameAr": "تيميكولا",
+    "nameEn": "Temecula",
+    "type": "city",
+    "lat": 33.503333333333,
+    "lng": -117.12361111111,
+    "pop": 110003
+  },
+  {
+    "nameAr": "ويست كوفينا",
+    "nameEn": "West Covina",
+    "type": "city",
+    "lat": 34.056666666667,
+    "lng": -117.91861111111,
+    "pop": 109501
+  },
+  {
+    "nameAr": "إل مونتي",
+    "nameEn": "El Monte",
+    "type": "city",
+    "lat": 34.073333333333,
+    "lng": -118.0275,
+    "pop": 109450
+  },
+  {
+    "nameAr": "سينتينيال",
+    "nameEn": "Centennial",
+    "type": "city",
+    "lat": 39.596388888889,
+    "lng": -104.84388888889,
+    "pop": 108418
+  },
+  {
+    "nameAr": "بولدر",
+    "nameEn": "Boulder",
+    "type": "city",
+    "lat": 40.019444444444,
+    "lng": -105.29277777778,
+    "pop": 108250
+  },
+  {
+    "nameAr": "إنغليووود",
+    "nameEn": "Inglewood",
+    "type": "city",
+    "lat": 33.9575,
+    "lng": -118.34611111111,
+    "pop": 107762
+  },
+  {
+    "nameAr": "بربانك",
+    "nameEn": "Burbank",
+    "type": "city",
+    "lat": 34.180277777778,
+    "lng": -118.32833333333,
+    "pop": 107337
+  },
+  {
+    "nameAr": "دالي سيتي",
+    "nameEn": "Daly City",
+    "type": "city",
+    "lat": 37.686388888889,
+    "lng": -122.46833333333,
+    "pop": 104901
+  },
+  {
+    "nameAr": "كولومبيا (ميريلاند)",
+    "nameEn": "Columbia",
+    "type": "city",
+    "lat": 39.2156213,
+    "lng": -76.8582049,
+    "pop": 104681
+  },
+  {
+    "nameAr": "ألين",
+    "nameEn": "Allen",
+    "type": "city",
+    "lat": 33.099722222222,
+    "lng": -96.663055555556,
+    "pop": 104627
+  },
+  {
+    "nameAr": "ساوث بند",
+    "nameEn": "South Bend",
+    "type": "city",
+    "lat": 41.676388888889,
+    "lng": -86.250277777778,
+    "pop": 103453
+  },
+  {
+    "nameAr": "نوروالك",
+    "nameEn": "Norwalk",
+    "type": "city",
+    "lat": 33.906944444444,
+    "lng": -118.08333333333,
+    "pop": 102773
+  },
+  {
+    "nameAr": "ويتشيتا فولز",
+    "nameEn": "Wichita Falls",
+    "type": "city",
+    "lat": 33.896944444444,
+    "lng": -98.515,
+    "pop": 102316
+  },
+  {
+    "nameAr": "دافنبورت",
+    "nameEn": "Davenport",
+    "type": "city",
+    "lat": 41.543055555556,
+    "lng": -90.590833333333,
+    "pop": 101724
+  },
+  {
+    "nameAr": "ألباني",
+    "nameEn": "Albany",
+    "type": "city",
+    "lat": 42.65,
+    "lng": -73.766666666667,
+    "pop": 99224
+  },
+  {
+    "nameAr": "إيري",
+    "nameEn": "Erie",
+    "type": "city",
+    "lat": 42.129561111111,
+    "lng": -80.085213888889,
+    "pop": 94831
+  },
+  {
+    "nameAr": "Alafaya",
+    "nameEn": "Alafaya",
+    "type": "city",
+    "lat": 28.5433,
+    "lng": -81.1944,
+    "pop": 92452
+  },
+  {
+    "nameAr": "نيوتن",
+    "nameEn": "Newton",
+    "type": "city",
+    "lat": 42.336944444444,
+    "lng": -71.209722222222,
+    "pop": 88923
+  },
+  {
+    "nameAr": "فلينت",
+    "nameEn": "Flint",
+    "type": "city",
+    "lat": 43.018888888889,
+    "lng": -83.693333333333,
+    "pop": 81252
+  },
+  {
+    "nameAr": "بالو ألتو",
+    "nameEn": "Palo Alto",
+    "type": "city",
+    "lat": 37.429166666667,
+    "lng": -122.13805555556,
+    "pop": 68572
+  },
+  {
+    "nameAr": "شايان",
+    "nameEn": "Cheyenne",
+    "type": "city",
+    "lat": 41.145555555556,
+    "lng": -104.80194444444,
+    "pop": 65132
+  },
+  {
+    "nameAr": "بروكلين",
+    "nameEn": "Brookline",
+    "type": "city",
+    "lat": 42.331666666667,
+    "lng": -71.121666666667,
+    "pop": 63191
+  },
+  {
+    "nameAr": "بريستول",
+    "nameEn": "Bristol",
+    "type": "city",
+    "lat": 41.681111111111,
+    "lng": -72.940555555556,
+    "pop": 60833
+  },
+  {
+    "nameAr": "باركر",
+    "nameEn": "Parker",
+    "type": "city",
+    "lat": 39.5194,
+    "lng": -104.766,
+    "pop": 58512
+  },
+  {
+    "nameAr": "Aguadilla",
+    "nameEn": "Aguadilla",
+    "type": "city",
+    "lat": 18.480277777778,
+    "lng": -67.144444444444,
+    "pop": 55101
+  },
+  {
+    "nameAr": "ميدلتاون",
+    "nameEn": "Middletown",
+    "type": "city",
+    "lat": 41.562222222222,
+    "lng": -72.651111111111,
+    "pop": 47717
+  },
+  {
+    "nameAr": "ديديدو",
+    "nameEn": "Dededo",
+    "type": "city",
+    "lat": 13.515277777778,
+    "lng": 144.83611111111,
+    "pop": 44908
+  },
+  {
+    "nameAr": "بالم سبرينغس",
+    "nameEn": "Palm Springs",
+    "type": "city",
+    "lat": 33.823888888889,
+    "lng": -116.53027777778,
+    "pop": 44575
+  },
+  {
+    "nameAr": "Newbury Park",
+    "nameEn": "Newbury Park",
+    "type": "city",
+    "lat": 34.1842,
+    "lng": -118.91,
+    "pop": 37775
+  },
+  {
+    "nameAr": "Missouri River Township",
+    "nameEn": "Missouri River Township",
+    "type": "city",
+    "lat": 38.62,
+    "lng": -90.4694,
+    "pop": 37018
+  },
+  {
+    "nameAr": "إديسون",
+    "nameEn": "Addison",
+    "type": "city",
+    "lat": 41.931388888889,
+    "lng": -88.001944444444,
+    "pop": 35702
+  },
+  {
+    "nameAr": "Florissant Township",
+    "nameEn": "Florissant Township",
+    "type": "city",
+    "lat": 38.79194444,
+    "lng": -90.31166667,
+    "pop": 35062
+  },
+  {
+    "nameAr": "بونته فيردا بيتش",
+    "nameEn": "Ponte Vedra Beach",
+    "type": "city",
+    "lat": 30.239444444444,
+    "lng": -81.385833333333,
+    "pop": 34513
+  },
+  {
+    "nameAr": "بولمان",
+    "nameEn": "Pullman",
+    "type": "city",
+    "lat": 46.733333333333,
+    "lng": -117.16666666667,
+    "pop": 32901
+  },
+  {
+    "nameAr": "تشيستر",
+    "nameEn": "Chester",
+    "type": "city",
+    "lat": 39.847222222222,
+    "lng": -75.372777777778,
+    "pop": 32605
+  },
+  {
+    "nameAr": "نورث أتلبورو",
+    "nameEn": "North Attleborough",
+    "type": "city",
+    "lat": 41.983333333333,
+    "lng": -71.333333333333,
+    "pop": 30834
+  },
+  {
+    "nameAr": "ستيرلينغ",
+    "nameEn": "Sterling",
+    "type": "city",
+    "lat": 39.0052378,
+    "lng": -77.4050427,
+    "pop": 30337
+  },
+  {
+    "nameAr": "May Township",
+    "nameEn": "May Township",
+    "type": "city",
+    "lat": 39.2789,
+    "lng": -94.6469,
+    "pop": 29847
+  },
+  {
+    "nameAr": "Windsor",
+    "nameEn": "Windsor",
+    "type": "city",
+    "lat": 41.852777777778,
+    "lng": -72.643055555556,
+    "pop": 29492
+  },
+  {
+    "nameAr": "Wethersfield",
+    "nameEn": "Wethersfield",
+    "type": "city",
+    "lat": 41.71427,
+    "lng": -72.65259,
+    "pop": 27298
+  },
+  {
+    "nameAr": "Bayonet Point",
+    "nameEn": "Bayonet Point",
+    "type": "city",
+    "lat": 28.322777777778,
+    "lng": -82.683888888889,
+    "pop": 26713
+  },
+  {
+    "nameAr": "Temescal Valley",
+    "nameEn": "Temescal Valley",
+    "type": "city",
+    "lat": 33.7581,
+    "lng": -117.467,
+    "pop": 26232
+  },
+  {
+    "nameAr": "Apollo Beach",
+    "nameEn": "Apollo Beach",
+    "type": "city",
+    "lat": 27.771944444444,
+    "lng": -82.410833333333,
+    "pop": 26002
+  },
+  {
+    "nameAr": "مانسفيلد",
+    "nameEn": "Mansfield",
+    "type": "city",
+    "lat": 41.788333333333,
+    "lng": -72.228888888889,
+    "pop": 25892
+  },
+  {
+    "nameAr": "Bellview",
+    "nameEn": "Bellview",
+    "type": "city",
+    "lat": 30.461111111111,
+    "lng": -87.300833333333,
+    "pop": 25541
+  },
+  {
+    "nameAr": "بيكسكيل",
+    "nameEn": "Peekskill",
+    "type": "city",
+    "lat": 41.288888888889,
+    "lng": -73.92,
+    "pop": 25431
+  },
+  {
+    "nameAr": "إلموود بارك",
+    "nameEn": "Elmwood Park",
+    "type": "city",
+    "lat": 41.9225,
+    "lng": -87.815555555556,
+    "pop": 24521
+  },
+  {
+    "nameAr": "Windham",
+    "nameEn": "Windham",
+    "type": "city",
+    "lat": 41.69982,
+    "lng": -72.15702,
+    "pop": 24425
+  },
+  {
+    "nameAr": "Bloomingdale",
+    "nameEn": "Bloomingdale",
+    "type": "city",
+    "lat": 27.881944444444,
+    "lng": -82.26,
+    "pop": 22947
+  },
+  {
+    "nameAr": "مورفي",
+    "nameEn": "Murphy",
+    "type": "city",
+    "lat": 33.030833333333,
+    "lng": -96.613055555556,
+    "pop": 21013
+  },
+  {
+    "nameAr": "Yigo",
+    "nameEn": "Yigo",
+    "type": "city",
+    "lat": 13.5344,
+    "lng": 144.886,
+    "pop": 20539
+  },
+  {
+    "nameAr": "غلين أفون",
+    "nameEn": "Glen Avon",
+    "type": "city",
+    "lat": 34.011666666667,
+    "lng": -117.48472222222,
+    "pop": 20199
+  },
+  {
+    "nameAr": "Bayshore Gardens",
+    "nameEn": "Bayshore Gardens",
+    "type": "city",
+    "lat": 27.433055555556,
+    "lng": -82.5775,
+    "pop": 19904
+  },
+  {
+    "nameAr": "ودبريدغ",
+    "nameEn": "Woodbridge",
+    "type": "city",
+    "lat": 40.555,
+    "lng": -74.285,
+    "pop": 19839
+  },
+  {
+    "nameAr": "Tamuning",
+    "nameEn": "Tamuning",
+    "type": "city",
+    "lat": 13.505277777778,
+    "lng": 144.79722222222,
+    "pop": 19685
+  },
+  {
+    "nameAr": "Fox Crossing",
+    "nameEn": "Fox Crossing",
+    "type": "city",
+    "lat": 44.21972222,
+    "lng": -88.48527778,
+    "pop": 18974
+  },
+  {
+    "nameAr": "إيست لايم",
+    "nameEn": "East Lyme",
+    "type": "city",
+    "lat": 41.353055555556,
+    "lng": -72.229444444444,
+    "pop": 18693
+  },
+  {
+    "nameAr": "Carroll Township",
+    "nameEn": "Carroll Township",
+    "type": "city",
+    "lat": 39.3439,
+    "lng": -94.7131,
+    "pop": 17959
+  },
+  {
+    "nameAr": "أفينيل",
+    "nameEn": "Avenel",
+    "type": "city",
+    "lat": 40.582777777778,
+    "lng": -74.279722222222,
+    "pop": 16920
+  },
+  {
+    "nameAr": "سيلنيا",
+    "nameEn": "Celina",
+    "type": "city",
+    "lat": 33.3197,
+    "lng": -96.7828,
+    "pop": 16739
+  },
+  {
+    "nameAr": "Bellair-Meadowbrook Terrace",
+    "nameEn": "Bellair-Meadowbrook Terrace",
+    "type": "city",
+    "lat": 30.177222222222,
+    "lng": -81.741666666667,
+    "pop": 14482
+  },
+  {
+    "nameAr": "Azalea Park",
+    "nameEn": "Azalea Park",
+    "type": "city",
+    "lat": 28.541666666667,
+    "lng": -81.296388888889,
+    "pop": 14141
+  },
+  {
+    "nameAr": "ميليسا",
+    "nameEn": "Melissa",
+    "type": "city",
+    "lat": 33.28333,
+    "lng": -96.57167,
+    "pop": 13901
+  },
+  {
+    "nameAr": "كيلغور",
+    "nameEn": "Kilgore",
+    "type": "city",
+    "lat": 32.3856,
+    "lng": -94.8686,
+    "pop": 13470
+  },
+  {
+    "nameAr": "بيدلي",
+    "nameEn": "Pedley",
+    "type": "city",
+    "lat": 33.978055555556,
+    "lng": -117.46944444444,
+    "pop": 12672
+  },
+  {
+    "nameAr": "سيداربورغ",
+    "nameEn": "Cedarburg",
+    "type": "city",
+    "lat": 43.288333333333,
+    "lng": -87.9875,
+    "pop": 12121
+  },
+  {
+    "nameAr": "هانوفر",
+    "nameEn": "Hanover",
+    "type": "city",
+    "lat": 43.7,
+    "lng": -72.283333333333,
+    "pop": 11870
+  },
+  {
+    "nameAr": "Asbury Lake",
+    "nameEn": "Asbury Lake",
+    "type": "city",
+    "lat": 30.052777777778,
+    "lng": -81.816388888889,
+    "pop": 11036
+  },
+  {
+    "nameAr": "وايتستاون",
+    "nameEn": "Whitestown",
+    "type": "city",
+    "lat": 39.9961,
+    "lng": -86.3447,
+    "pop": 10178
+  },
+  {
+    "nameAr": "Helena",
+    "nameEn": "Helena",
+    "type": "city",
+    "lat": 34.529166666667,
+    "lng": -90.586111111111,
+    "pop": 10032
+  },
+  {
+    "nameAr": "Beverly Hills",
+    "nameEn": "Beverly Hills",
+    "type": "city",
+    "lat": 28.9175,
+    "lng": -82.456111111111,
+    "pop": 9961
+  },
+  {
+    "nameAr": "Bee Ridge",
+    "nameEn": "Bee Ridge",
+    "type": "city",
+    "lat": 27.288888888889,
+    "lng": -82.470833333333,
+    "pop": 9955
+  },
+  {
+    "nameAr": "Bardmoor",
+    "nameEn": "Bardmoor",
+    "type": "city",
+    "lat": 27.8558,
+    "lng": -82.7531,
+    "pop": 9852
+  },
+  {
+    "nameAr": "Bithlo",
+    "nameEn": "Bithlo",
+    "type": "city",
+    "lat": 28.5525,
+    "lng": -81.105833333333,
+    "pop": 9848
+  },
+  {
+    "nameAr": "Owen Brown",
+    "nameEn": "Owen Brown",
+    "type": "city",
+    "lat": 39.1878,
+    "lng": -76.8428,
+    "pop": 9785
+  },
+  {
+    "nameAr": "نيوارك",
+    "nameEn": "Newark",
+    "type": "city",
+    "lat": 43.0467,
+    "lng": -77.0953,
+    "pop": 9017
+  },
+  {
+    "nameAr": "بيفير فولز",
+    "nameEn": "Beaver Falls",
+    "type": "city",
+    "lat": 40.7589,
+    "lng": -80.3197,
+    "pop": 9005
+  },
+  {
+    "nameAr": "Barrigada",
+    "nameEn": "Barrigada",
+    "type": "city",
+    "lat": 13.468333333333,
+    "lng": 144.79888888889,
+    "pop": 8875
+  },
+  {
+    "nameAr": "Beacon Square",
+    "nameEn": "Beacon Square",
+    "type": "city",
+    "lat": 28.212222222222,
+    "lng": -82.748888888889,
+    "pop": 8320
+  },
+  {
+    "nameAr": "Thousand Palms",
+    "nameEn": "Thousand Palms",
+    "type": "city",
+    "lat": 33.816944444444,
+    "lng": -116.38722222222,
+    "pop": 7967
+  },
+  {
+    "nameAr": "كينغستون",
+    "nameEn": "Kingston",
+    "type": "city",
+    "lat": 41.483333333333,
+    "lng": -71.533333333333,
+    "pop": 7825
+  },
+  {
+    "nameAr": "New Boston",
+    "nameEn": "New Boston",
+    "type": "city",
+    "lat": 42.1625,
+    "lng": -83.403055555556,
+    "pop": 7792
+  },
+  {
+    "nameAr": "لوكاس",
+    "nameEn": "Lucas",
+    "type": "city",
+    "lat": 33.1014,
+    "lng": -96.5781,
+    "pop": 7612
+  },
+  {
+    "nameAr": "Chalan Pago-Ordot",
+    "nameEn": "Chalan Pago-Ordot",
+    "type": "city",
+    "lat": 13.44055556,
+    "lng": 144.77138889,
+    "pop": 7064
+  },
+  {
+    "nameAr": "غرينبرير",
+    "nameEn": "Greenbrier",
+    "type": "city",
+    "lat": 36.428055555556,
+    "lng": -86.800833333333,
+    "pop": 6898
+  },
+  {
+    "nameAr": "Mongmong-Toto-Maite",
+    "nameEn": "Mongmong-Toto-Maite",
+    "type": "city",
+    "lat": 13.471944444444,
+    "lng": 144.77027777778,
+    "pop": 6825
+  },
+  {
+    "nameAr": "فارمينغتون",
+    "nameEn": "Farmington",
+    "type": "city",
+    "lat": 43.389722222222,
+    "lng": -71.065555555556,
+    "pop": 6722
+  },
+  {
+    "nameAr": "سانبوري",
+    "nameEn": "Sunbury",
+    "type": "city",
+    "lat": 40.2428,
+    "lng": -82.8606,
+    "pop": 6614
+  },
+  {
+    "nameAr": "Balm",
+    "nameEn": "Balm",
+    "type": "city",
+    "lat": 27.759169444444,
+    "lng": -82.261388888889,
+    "pop": 6541
+  },
+  {
+    "nameAr": "Yona",
+    "nameEn": "Yona",
+    "type": "city",
+    "lat": 13.409722222222,
+    "lng": 144.77333333333,
+    "pop": 6480
+  },
+  {
+    "nameAr": "Sånta Rita-Sumai",
+    "nameEn": "Sånta Rita-Sumai",
+    "type": "city",
+    "lat": 13.386111111111,
+    "lng": 144.66888888889,
+    "pop": 6084
+  },
+  {
+    "nameAr": "إيلكهورن",
+    "nameEn": "Elkhorn",
+    "type": "city",
+    "lat": 41.286388888889,
+    "lng": -96.234444444444,
+    "pop": 6062
+  },
+  {
+    "nameAr": "باترسون",
+    "nameEn": "Patterson",
+    "type": "city",
+    "lat": 29.6925,
+    "lng": -91.3067,
+    "pop": 5931
+  },
+  {
+    "nameAr": "Pettis Township",
+    "nameEn": "Pettis Township",
+    "type": "city",
+    "lat": 39.1722,
+    "lng": -94.6325,
+    "pop": 5760
+  },
+  {
+    "nameAr": "كارليسل",
+    "nameEn": "Carlisle",
+    "type": "city",
+    "lat": 39.5797,
+    "lng": -84.3192,
+    "pop": 5501
+  },
+  {
+    "nameAr": "جنيف",
+    "nameEn": "Geneva",
+    "type": "city",
+    "lat": 42.611944444444,
+    "lng": -88.488333333333,
+    "pop": 5390
+  },
+  {
+    "nameAr": "Bethany",
+    "nameEn": "Bethany",
+    "type": "city",
+    "lat": 41.425555555556,
+    "lng": -72.9925,
+    "pop": 5297
+  },
+  {
+    "nameAr": "Elmsford",
+    "nameEn": "Elmsford",
+    "type": "city",
+    "lat": 41.055,
+    "lng": -73.82,
+    "pop": 5239
+  },
+  {
+    "nameAr": "بورتر (إنديانا)",
+    "nameEn": "Porter",
+    "type": "city",
+    "lat": 41.6261,
+    "lng": -87.0717,
+    "pop": 5210
+  },
+  {
+    "nameAr": "مانجيلاو",
+    "nameEn": "Mangilao",
+    "type": "city",
+    "lat": 13.44888889,
+    "lng": 144.80027778,
+    "pop": 5145
+  },
+  {
+    "nameAr": "أردزلي",
+    "nameEn": "Ardsley",
+    "type": "city",
+    "lat": 41.0114,
+    "lng": -73.8414,
+    "pop": 5079
+  },
+  {
+    "nameAr": "Bay Hill",
+    "nameEn": "Bay Hill",
+    "type": "city",
+    "lat": 28.455,
+    "lng": -81.505555555556,
+    "pop": 5021
+  },
+  {
+    "nameAr": "فرانكينموث",
+    "nameEn": "Frankenmuth",
+    "type": "city",
+    "lat": 43.331666666667,
+    "lng": -83.738055555556,
+    "pop": 4987
+  },
+  {
+    "nameAr": "Acton",
+    "nameEn": "Acton",
+    "type": "city",
+    "lat": 39.655555555556,
+    "lng": -85.966666666667,
+    "pop": 4938
+  },
+  {
+    "nameAr": "Hågat",
+    "nameEn": "Hågat",
+    "type": "city",
+    "lat": 13.381388888889,
+    "lng": 144.65472222222,
+    "pop": 4917
+  },
+  {
+    "nameAr": "Preston",
+    "nameEn": "Preston",
+    "type": "city",
+    "lat": 41.52899,
+    "lng": -71.97396,
+    "pop": 4788
+  },
+  {
+    "nameAr": "كريستلين",
+    "nameEn": "Crestline",
+    "type": "city",
+    "lat": 40.7847,
+    "lng": -82.7403,
+    "pop": 4525
+  },
+  {
+    "nameAr": "Big Pine Key",
+    "nameEn": "Big Pine Key",
+    "type": "city",
+    "lat": 24.686111111111,
+    "lng": -81.361111111111,
+    "pop": 4521
+  },
+  {
+    "nameAr": "Bagdad",
+    "nameEn": "Bagdad",
+    "type": "city",
+    "lat": 30.595833333333,
+    "lng": -87.035555555556,
+    "pop": 4467
+  },
+  {
+    "nameAr": "ميدلفيلد",
+    "nameEn": "Middlefield",
+    "type": "city",
+    "lat": 41.5175,
+    "lng": -72.712222222222,
+    "pop": 4217
+  },
+  {
+    "nameAr": "Alturas",
+    "nameEn": "Alturas",
+    "type": "city",
+    "lat": 27.8717,
+    "lng": -81.715,
+    "pop": 4084
+  },
+  {
+    "nameAr": "بلاين سيتي",
+    "nameEn": "Plain City",
+    "type": "city",
+    "lat": 40.1075,
+    "lng": -83.2678,
+    "pop": 4065
+  },
+  {
+    "nameAr": "بارنسفيل",
+    "nameEn": "Barnesville",
+    "type": "city",
+    "lat": 39.9881,
+    "lng": -81.1756,
+    "pop": 4008
+  },
+  {
+    "nameAr": "ساوث راسل",
+    "nameEn": "South Russell",
+    "type": "city",
+    "lat": 41.4322,
+    "lng": -81.3403,
+    "pop": 3972
+  },
+  {
+    "nameAr": "بلوفتن",
+    "nameEn": "Bluffton",
+    "type": "city",
+    "lat": 40.8939,
+    "lng": -83.8917,
+    "pop": 3967
+  },
+  {
+    "nameAr": "Society Hill",
+    "nameEn": "Society Hill",
+    "type": "city",
+    "lat": 40.5345,
+    "lng": -74.4561,
+    "pop": 3829
+  },
+  {
+    "nameAr": "Agana Heights",
+    "nameEn": "Agana Heights",
+    "type": "city",
+    "lat": 13.468333333333,
+    "lng": 144.74583333333,
+    "pop": 3808
+  },
+  {
+    "nameAr": "ريتشفيلد",
+    "nameEn": "Richfield",
+    "type": "city",
+    "lat": 41.2336,
+    "lng": -81.6322,
+    "pop": 3729
+  },
+  {
+    "nameAr": "نيوكومرستاون",
+    "nameEn": "Newcomerstown",
+    "type": "city",
+    "lat": 40.2744,
+    "lng": -81.6025,
+    "pop": 3702
+  },
+  {
+    "nameAr": "إيردا",
+    "nameEn": "Erda",
+    "type": "city",
+    "lat": 40.607222222222,
+    "lng": -112.30916666667,
+    "pop": 3673
+  },
+  {
+    "nameAr": "Barkhamsted",
+    "nameEn": "Barkhamsted",
+    "type": "city",
+    "lat": 41.929166666667,
+    "lng": -72.972222222222,
+    "pop": 3647
+  },
+  {
+    "nameAr": "فارمرزفيل",
+    "nameEn": "Farmersville",
+    "type": "city",
+    "lat": 33.1642,
+    "lng": -96.3667,
+    "pop": 3612
+  },
+  {
+    "nameAr": "لوكلاند",
+    "nameEn": "Lockland",
+    "type": "city",
+    "lat": 39.2264,
+    "lng": -84.4553,
+    "pop": 3514
+  },
+  {
+    "nameAr": "شاديسايد",
+    "nameEn": "Shadyside",
+    "type": "city",
+    "lat": 39.97138889,
+    "lng": -80.75083333,
+    "pop": 3454
+  },
+  {
+    "nameAr": "Faleniu",
+    "nameEn": "Faleniu",
+    "type": "city",
+    "lat": -14.3325,
+    "lng": -170.74444444444,
+    "pop": 3426
+  },
+  {
+    "nameAr": "فالهالا",
+    "nameEn": "Valhalla",
+    "type": "city",
+    "lat": 41.0833,
+    "lng": -73.7667,
+    "pop": 3213
+  },
+  {
+    "nameAr": "Bay Pines",
+    "nameEn": "Bay Pines",
+    "type": "city",
+    "lat": 27.819166666667,
+    "lng": -82.776666666667,
+    "pop": 3106
+  },
+  {
+    "nameAr": "Talofofo",
+    "nameEn": "Talofofo",
+    "type": "city",
+    "lat": 13.351666666667,
+    "lng": 144.75305555556,
+    "pop": 3050
+  },
+  {
+    "nameAr": "مينستر",
+    "nameEn": "Minster",
+    "type": "city",
+    "lat": 40.39361,
+    "lng": -84.37806,
+    "pop": 3046
+  },
+  {
+    "nameAr": "Clearbrook Park",
+    "nameEn": "Clearbrook Park",
+    "type": "city",
+    "lat": 40.309722222222,
+    "lng": -74.464722222222,
+    "pop": 2909
+  },
+  {
+    "nameAr": "Big Coppitt Key",
+    "nameEn": "Big Coppitt Key",
+    "type": "city",
+    "lat": 24.597777777778,
+    "lng": -81.656666666667,
+    "pop": 2869
+  },
+  {
+    "nameAr": "أوك هاربور",
+    "nameEn": "Oak Harbor",
+    "type": "city",
+    "lat": 41.5125,
+    "lng": -83.14639,
+    "pop": 2821
+  },
+  {
+    "nameAr": "Delray",
+    "nameEn": "Delray",
+    "type": "city",
+    "lat": 42.295833333333,
+    "lng": -83.116666666667,
+    "pop": 2783
+  },
+  {
+    "nameAr": "بلاينسبورو سنتر",
+    "nameEn": "Plainsboro Center",
+    "type": "city",
+    "lat": 40.330833333333,
+    "lng": -74.596666666667,
+    "pop": 2760
+  },
+  {
+    "nameAr": "ستراستبورغ",
+    "nameEn": "Strasburg",
+    "type": "city",
+    "lat": 40.5972,
+    "lng": -81.5294,
+    "pop": 2735
+  },
+  {
+    "nameAr": "Alva",
+    "nameEn": "Alva",
+    "type": "city",
+    "lat": 26.710277777778,
+    "lng": -81.628611111111,
+    "pop": 2725
+  },
+  {
+    "nameAr": "DeLeon Springs",
+    "nameEn": "DeLeon Springs",
+    "type": "city",
+    "lat": 29.120277777778,
+    "lng": -81.353055555556,
+    "pop": 2619
+  },
+  {
+    "nameAr": "Sinajana",
+    "nameEn": "Sinajana",
+    "type": "city",
+    "lat": 13.460555555556,
+    "lng": 144.75194444444,
+    "pop": 2592
+  },
+  {
+    "nameAr": "تولاروسا",
+    "nameEn": "Tularosa",
+    "type": "city",
+    "lat": 33.076388888889,
+    "lng": -106.02166666667,
+    "pop": 2553
+  },
+  {
+    "nameAr": "سان فيليبي بويبلو",
+    "nameEn": "Pueblo of San Felipe",
+    "type": "city",
+    "lat": 35.4339248,
+    "lng": -106.4466928,
+    "pop": 2542
+  },
+  {
+    "nameAr": "لاندروم",
+    "nameEn": "Landrum",
+    "type": "city",
+    "lat": 35.175277777778,
+    "lng": -82.186111111111,
+    "pop": 2481
+  },
+  {
+    "nameAr": "Weston Township",
+    "nameEn": "Weston Township",
+    "type": "city",
+    "lat": 39.4353,
+    "lng": -94.895,
+    "pop": 2444
+  },
+  {
+    "nameAr": "Aua",
+    "nameEn": "Aua",
+    "type": "city",
+    "lat": -14.266666666667,
+    "lng": -170.65,
+    "pop": 2336
+  },
+  {
+    "nameAr": "هيبرون",
+    "nameEn": "Hebron",
+    "type": "city",
+    "lat": 39.9631,
+    "lng": -82.4922,
+    "pop": 2326
+  },
+  {
+    "nameAr": "فريدريكستيد",
+    "nameEn": "Frederiksted",
+    "type": "city",
+    "lat": 17.711666666667,
+    "lng": -64.881944444444,
+    "pop": 2303
+  },
+  {
+    "nameAr": "Inalåhan",
+    "nameEn": "Inalåhan",
+    "type": "city",
+    "lat": 13.27555556,
+    "lng": 144.74333333,
+    "pop": 2273
+  },
+  {
+    "nameAr": "غيتس ميلز",
+    "nameEn": "Gates Mills",
+    "type": "city",
+    "lat": 41.5325,
+    "lng": -81.4106,
+    "pop": 2264
+  },
+  {
+    "nameAr": "ميدلبورت",
+    "nameEn": "Middleport",
+    "type": "city",
+    "lat": 38.99861,
+    "lng": -82.05694,
+    "pop": 2208
+  },
+  {
+    "nameAr": "Asan-Maina",
+    "nameEn": "Asan-Maina",
+    "type": "city",
+    "lat": 13.4714,
+    "lng": 144.714,
+    "pop": 2137
+  },
+  {
+    "nameAr": "Asan",
+    "nameEn": "Asan",
+    "type": "city",
+    "lat": 13.471388888889,
+    "lng": 144.71388888889,
+    "pop": 2137
+  },
+  {
+    "nameAr": "Green Township",
+    "nameEn": "Green Township",
+    "type": "city",
+    "lat": 39.4922,
+    "lng": -94.7467,
+    "pop": 2111
+  },
+  {
+    "nameAr": "Apple Creek",
+    "nameEn": "Apple Creek",
+    "type": "city",
+    "lat": 37.5825,
+    "lng": -89.73777778,
+    "pop": 2096
+  },
+  {
+    "nameAr": "سان جوان باوتيستا، سان بينيتو، كاليفورنيا",
+    "nameEn": "San Juan Bautista",
+    "type": "city",
+    "lat": 36.844166666667,
+    "lng": -121.53722222222,
+    "pop": 2089
+  },
+  {
+    "nameAr": "جيمستاون",
+    "nameEn": "Jamestown",
+    "type": "city",
+    "lat": 39.6586,
+    "lng": -83.7383,
+    "pop": 2052
+  },
+  {
+    "nameAr": "Cheltenham",
+    "nameEn": "Cheltenham",
+    "type": "city",
+    "lat": 40.060833333333,
+    "lng": -75.094166666667,
+    "pop": 1993
+  },
+  {
+    "nameAr": "تشيلسي",
+    "nameEn": "Chelsea",
+    "type": "city",
+    "lat": 36.535555555556,
+    "lng": -95.431388888889,
+    "pop": 1991
+  },
+  {
+    "nameAr": "إل بورتال",
+    "nameEn": "El Portal",
+    "type": "city",
+    "lat": 25.855172222222,
+    "lng": -80.194169444444,
+    "pop": 1986
+  },
+  {
+    "nameAr": "بيت لحم",
+    "nameEn": "Bethlehem",
+    "type": "city",
+    "lat": 41.639166666667,
+    "lng": -73.208611111111,
+    "pop": 1970
+  },
+  {
+    "nameAr": "كولبي",
+    "nameEn": "Colby",
+    "type": "city",
+    "lat": 44.910277777778,
+    "lng": -90.316944444444,
+    "pop": 1952
+  },
+  {
+    "nameAr": "بارتشمنت",
+    "nameEn": "Parchment",
+    "type": "city",
+    "lat": 42.328055555556,
+    "lng": -85.569722222222,
+    "pop": 1926
+  },
+  {
+    "nameAr": "Bear Creek",
+    "nameEn": "Bear Creek",
+    "type": "city",
+    "lat": 27.7561,
+    "lng": -82.7272,
+    "pop": 1906
+  },
+  {
+    "nameAr": "Stafford",
+    "nameEn": "Stafford",
+    "type": "city",
+    "lat": 45.3575,
+    "lng": -122.72138888889,
+    "pop": 1895
+  },
+  {
+    "nameAr": "أوكلاند",
+    "nameEn": "Oakland",
+    "type": "city",
+    "lat": 39.41048,
+    "lng": -79.40438,
+    "pop": 1851
+  },
+  {
+    "nameAr": "لونغ فالي",
+    "nameEn": "Long Valley",
+    "type": "city",
+    "lat": 40.7822,
+    "lng": -74.7769,
+    "pop": 1827
+  },
+  {
+    "nameAr": "هولند",
+    "nameEn": "Holland",
+    "type": "city",
+    "lat": 41.6194,
+    "lng": -83.7097,
+    "pop": 1820
+  },
+  {
+    "nameAr": "ثورب",
+    "nameEn": "Thorp",
+    "type": "city",
+    "lat": 44.959722222222,
+    "lng": -90.801111111111,
+    "pop": 1795
+  },
+  {
+    "nameAr": "آدامز",
+    "nameEn": "Adams",
+    "type": "city",
+    "lat": 43.957222222222,
+    "lng": -89.8175,
+    "pop": 1761
+  },
+  {
+    "nameAr": "Astor",
+    "nameEn": "Astor",
+    "type": "city",
+    "lat": 29.163888888889,
+    "lng": -81.534444444444,
+    "pop": 1759
+  },
+  {
+    "nameAr": "لوئيسبورغ",
+    "nameEn": "Lewisburg",
+    "type": "city",
+    "lat": 39.8492,
+    "lng": -84.5406,
+    "pop": 1745
+  },
+  {
+    "nameAr": "Preston Township",
+    "nameEn": "Preston Township",
+    "type": "city",
+    "lat": 39.4594,
+    "lng": -94.6433,
+    "pop": 1735
+  },
+  {
+    "nameAr": "سيبيواينغ",
+    "nameEn": "Sebewaing",
+    "type": "city",
+    "lat": 43.732222222222,
+    "lng": -83.451111111111,
+    "pop": 1721
+  },
+  {
+    "nameAr": "لوري كروسينغ",
+    "nameEn": "Lowry Crossing",
+    "type": "city",
+    "lat": 33.1669,
+    "lng": -96.5486,
+    "pop": 1689
+  },
+  {
+    "nameAr": "غالسفيل",
+    "nameEn": "Galesville",
+    "type": "city",
+    "lat": 44.083611111111,
+    "lng": -91.353611111111,
+    "pop": 1662
+  },
+  {
+    "nameAr": "زيفير كوف-راوند هيل فيلج",
+    "nameEn": "Zephyr Cove–Round Hill Village",
+    "type": "city",
+    "lat": 38.997777777778,
+    "lng": -119.94583333333,
+    "pop": 1649
+  },
+  {
+    "nameAr": "وايتهول",
+    "nameEn": "Whitehall",
+    "type": "city",
+    "lat": 44.366666666667,
+    "lng": -91.316388888889,
+    "pop": 1645
+  },
+  {
+    "nameAr": "Piti",
+    "nameEn": "Piti",
+    "type": "city",
+    "lat": 13.460833333333,
+    "lng": 144.69083333333,
+    "pop": 1585
+  },
+  {
+    "nameAr": "أوغستا",
+    "nameEn": "Augusta",
+    "type": "city",
+    "lat": 44.679722222222,
+    "lng": -91.122777777778,
+    "pop": 1567
+  },
+  {
+    "nameAr": "هيرلي",
+    "nameEn": "Hurley",
+    "type": "city",
+    "lat": 46.450277777778,
+    "lng": -90.189722222222,
+    "pop": 1558
+  },
+  {
+    "nameAr": "أورول",
+    "nameEn": "Orwell",
+    "type": "city",
+    "lat": 41.5317,
+    "lng": -80.8594,
+    "pop": 1533
+  },
+  {
+    "nameAr": "بريمن",
+    "nameEn": "Bremen",
+    "type": "city",
+    "lat": 39.7044,
+    "lng": -82.4303,
+    "pop": 1479
+  },
+  {
+    "nameAr": "ميلبوروك",
+    "nameEn": "Millbrook",
+    "type": "city",
+    "lat": 41.7847,
+    "lng": -73.6878,
+    "pop": 1455
+  },
+  {
+    "nameAr": "Van Buren Township",
+    "nameEn": "Van Buren Township",
+    "type": "city",
+    "lat": 42.07611111,
+    "lng": -90.37111111,
+    "pop": 1455
+  },
+  {
+    "nameAr": "كاليدا",
+    "nameEn": "Kalida",
+    "type": "city",
+    "lat": 40.9844,
+    "lng": -84.1975,
+    "pop": 1455
+  },
+  {
+    "nameAr": "مونتيلو",
+    "nameEn": "Montello",
+    "type": "city",
+    "lat": 43.791944444444,
+    "lng": -89.329722222222,
+    "pop": 1448
+  },
+  {
+    "nameAr": "Fagatogo",
+    "nameEn": "Fagatogo",
+    "type": "city",
+    "lat": -14.2825,
+    "lng": -170.69,
+    "pop": 1445
+  },
+  {
+    "nameAr": "ماناوا",
+    "nameEn": "Manawa",
+    "type": "city",
+    "lat": 44.460555555556,
+    "lng": -88.919166666667,
+    "pop": 1441
+  },
+  {
+    "nameAr": "جكسون سنتر",
+    "nameEn": "Jackson Center",
+    "type": "city",
+    "lat": 40.44,
+    "lng": -84.0394,
+    "pop": 1441
+  },
+  {
+    "nameAr": "بويد",
+    "nameEn": "Boyd",
+    "type": "city",
+    "lat": 33.0781,
+    "lng": -97.5658,
+    "pop": 1416
+  },
+  {
+    "nameAr": "أودون",
+    "nameEn": "Odon",
+    "type": "city",
+    "lat": 38.8414,
+    "lng": -86.9911,
+    "pop": 1397
+  },
+  {
+    "nameAr": "ماركسان",
+    "nameEn": "Markesan",
+    "type": "city",
+    "lat": 43.705833333333,
+    "lng": -88.988333333333,
+    "pop": 1377
+  },
+  {
+    "nameAr": "إلروي",
+    "nameEn": "Elroy",
+    "type": "city",
+    "lat": 43.741944444444,
+    "lng": -90.269722222222,
+    "pop": 1356
+  },
+  {
+    "nameAr": "Babson Park",
+    "nameEn": "Babson Park",
+    "type": "city",
+    "lat": 27.830277777778,
+    "lng": -81.528333333333,
+    "pop": 1330
+  },
+  {
+    "nameAr": "بيمبيرفيل",
+    "nameEn": "Pemberville",
+    "type": "city",
+    "lat": 41.411388888889,
+    "lng": -83.458611111111,
+    "pop": 1326
+  },
+  {
+    "nameAr": "ماريون",
+    "nameEn": "Marion",
+    "type": "city",
+    "lat": 44.6725,
+    "lng": -88.886388888889,
+    "pop": 1324
+  },
+  {
+    "nameAr": "أرلينغتون",
+    "nameEn": "Arlington",
+    "type": "city",
+    "lat": 41.454166666667,
+    "lng": -96.357222222222,
+    "pop": 1300
+  },
+  {
+    "nameAr": "جيليت",
+    "nameEn": "Gillett",
+    "type": "city",
+    "lat": 44.889748,
+    "lng": -88.306422,
+    "pop": 1289
+  },
+  {
+    "nameAr": "Belmont",
+    "nameEn": "Belmont",
+    "type": "city",
+    "lat": 43.44,
+    "lng": -71.4789,
+    "pop": 1285
+  },
+  {
+    "nameAr": "برنستون",
+    "nameEn": "Princeton",
+    "type": "city",
+    "lat": 43.850277777778,
+    "lng": -89.129722222222,
+    "pop": 1267
+  },
+  {
+    "nameAr": "Waldron Township",
+    "nameEn": "Waldron Township",
+    "type": "city",
+    "lat": 39.2236,
+    "lng": -94.7786,
+    "pop": 1261
+  },
+  {
+    "nameAr": "تشينا",
+    "nameEn": "China",
+    "type": "city",
+    "lat": 30.04799,
+    "lng": -94.33574,
+    "pop": 1260
+  },
+  {
+    "nameAr": "Black Diamond",
+    "nameEn": "Black Diamond",
+    "type": "city",
+    "lat": 28.911388888889,
+    "lng": -82.4925,
+    "pop": 1255
+  },
+  {
+    "nameAr": "غرين سبرينغز",
+    "nameEn": "Green Springs",
+    "type": "city",
+    "lat": 41.2572,
+    "lng": -83.0517,
+    "pop": 1233
+  },
+  {
+    "nameAr": "Black Hammock",
+    "nameEn": "Black Hammock",
+    "type": "city",
+    "lat": 28.71027778,
+    "lng": -81.18305556,
+    "pop": 1195
+  },
+  {
+    "nameAr": "ميلبوري",
+    "nameEn": "Millbury",
+    "type": "city",
+    "lat": 41.56389,
+    "lng": -83.42389,
+    "pop": 1193
+  },
+  {
+    "nameAr": "أنجل فاير",
+    "nameEn": "Angel Fire",
+    "type": "city",
+    "lat": 36.378888888889,
+    "lng": -105.28555555556,
+    "pop": 1192
+  },
+  {
+    "nameAr": "Alviso",
+    "nameEn": "Alviso",
+    "type": "city",
+    "lat": 37.426111111111,
+    "lng": -121.97527777778,
+    "pop": 1174
+  },
+  {
+    "nameAr": "شولسبورغ",
+    "nameEn": "Shullsburg",
+    "type": "city",
+    "lat": 42.573888888889,
+    "lng": -90.231944444444,
+    "pop": 1173
+  },
+  {
+    "nameAr": "بورت أورفورد",
+    "nameEn": "Port Orford",
+    "type": "city",
+    "lat": 42.749722222222,
+    "lng": -124.49805555556,
+    "pop": 1146
+  },
+  {
+    "nameAr": "Fagaʻalu",
+    "nameEn": "Fagaʻalu",
+    "type": "city",
+    "lat": -14.296388888889,
+    "lng": -170.68361111111,
+    "pop": 1122
+  },
+  {
+    "nameAr": "Strong",
+    "nameEn": "Strong",
+    "type": "city",
+    "lat": 44.8075,
+    "lng": -70.220833333333,
+    "pop": 1122
+  },
+  {
+    "nameAr": "مالفيرن",
+    "nameEn": "Malvern",
+    "type": "city",
+    "lat": 40.69,
+    "lng": -81.17944,
+    "pop": 1110
+  },
+  {
+    "nameAr": "Troy",
+    "nameEn": "Troy",
+    "type": "city",
+    "lat": 42.82388889,
+    "lng": -72.18138889,
+    "pop": 1108
+  },
+  {
+    "nameAr": "نيو فيينا",
+    "nameEn": "New Vienna",
+    "type": "city",
+    "lat": 39.3242,
+    "lng": -83.6919,
+    "pop": 1108
+  },
+  {
+    "nameAr": "Warehouse Point",
+    "nameEn": "Warehouse Point",
+    "type": "city",
+    "lat": 41.9167,
+    "lng": -72.6167,
+    "pop": 1100
+  },
+  {
+    "nameAr": "Fair Township",
+    "nameEn": "Fair Township",
+    "type": "city",
+    "lat": 39.3936,
+    "lng": -94.8058,
+    "pop": 1089
+  },
+  {
+    "nameAr": "أمارغوسا فالي",
+    "nameEn": "Amargosa Valley",
+    "type": "city",
+    "lat": 36.643888888889,
+    "lng": -116.40027777778,
+    "pop": 1064
+  },
+  {
+    "nameAr": "هولغيت",
+    "nameEn": "Holgate",
+    "type": "city",
+    "lat": 41.2508,
+    "lng": -84.1325,
+    "pop": 1061
+  },
+  {
+    "nameAr": "غرينوود",
+    "nameEn": "Greenwood",
+    "type": "city",
+    "lat": 44.767777777778,
+    "lng": -90.598888888889,
+    "pop": 1058
+  },
+  {
+    "nameAr": "كلاركس",
+    "nameEn": "Clarks",
+    "type": "city",
+    "lat": 32.0264,
+    "lng": -92.1394,
+    "pop": 1052
+  },
+  {
+    "nameAr": "Allentown",
+    "nameEn": "Allentown",
+    "type": "city",
+    "lat": 30.7706,
+    "lng": -87.0844,
+    "pop": 1023
+  },
+  {
+    "nameAr": "بوفالو سيتي",
+    "nameEn": "Buffalo City",
+    "type": "city",
+    "lat": 44.233055555556,
+    "lng": -91.862222222222,
+    "pop": 1007
+  },
+  {
+    "nameAr": "Carriage Club",
+    "nameEn": "Carriage Club",
+    "type": "city",
+    "lat": 39.5328,
+    "lng": -104.898,
+    "pop": 1002
+  },
+  {
+    "nameAr": "لوغان",
+    "nameEn": "Logan",
+    "type": "city",
+    "lat": 35.3614,
+    "lng": -103.448,
+    "pop": 970
+  },
+  {
+    "nameAr": "Lincoln",
+    "nameEn": "Lincoln",
+    "type": "city",
+    "lat": 44.04333333,
+    "lng": -71.66916667,
+    "pop": 969
+  },
+  {
+    "nameAr": "نيو كنوكسفيل",
+    "nameEn": "New Knoxville",
+    "type": "city",
+    "lat": 40.494166666667,
+    "lng": -84.317222222222,
+    "pop": 946
+  },
+  {
+    "nameAr": "بيتش سيتي",
+    "nameEn": "Beach City",
+    "type": "city",
+    "lat": 40.6528,
+    "lng": -81.58,
+    "pop": 940
+  },
+  {
+    "nameAr": "كارولينا",
+    "nameEn": "Carolina",
+    "type": "city",
+    "lat": 41.458611,
+    "lng": -71.664167,
+    "pop": 924
+  },
+  {
+    "nameAr": "وستفيليا",
+    "nameEn": "Westphalia",
+    "type": "city",
+    "lat": 42.929444444444,
+    "lng": -84.798611111111,
+    "pop": 924
+  },
+  {
+    "nameAr": "تشامبا",
+    "nameEn": "Chama",
+    "type": "city",
+    "lat": 36.8947,
+    "lng": -106.584,
+    "pop": 917
+  },
+  {
+    "nameAr": "أوين",
+    "nameEn": "Owen",
+    "type": "city",
+    "lat": 44.948333333333,
+    "lng": -90.564722222222,
+    "pop": 916
+  },
+  {
+    "nameAr": "Coalwood",
+    "nameEn": "Coalwood",
+    "type": "city",
+    "lat": 37.387222222222,
+    "lng": -81.6525,
+    "pop": 900
+  },
+  {
+    "nameAr": "بلومينغبورغ",
+    "nameEn": "Bloomingburg",
+    "type": "city",
+    "lat": 39.6069,
+    "lng": -83.3947,
+    "pop": 878
+  },
+  {
+    "nameAr": "بورنسفيل",
+    "nameEn": "Burnsville",
+    "type": "city",
+    "lat": 34.8386,
+    "lng": -88.3142,
+    "pop": 868
+  },
+  {
+    "nameAr": "Jekyll Island",
+    "nameEn": "Jekyll Island",
+    "type": "city",
+    "lat": 31.07,
+    "lng": -81.420277777778,
+    "pop": 866
+  },
+  {
+    "nameAr": "نيو ماديسون",
+    "nameEn": "New Madison",
+    "type": "city",
+    "lat": 39.9686,
+    "lng": -84.7083,
+    "pop": 840
+  },
+  {
+    "nameAr": "Andrews",
+    "nameEn": "Andrews",
+    "type": "city",
+    "lat": 29.531944444444,
+    "lng": -82.885277777778,
+    "pop": 837
+  },
+  {
+    "nameAr": "Bethlehem",
+    "nameEn": "Bethlehem",
+    "type": "city",
+    "lat": 44.28027778,
+    "lng": -71.6875,
+    "pop": 826
+  },
+  {
+    "nameAr": "بيتسفيل",
+    "nameEn": "Pittsville",
+    "type": "city",
+    "lat": 44.440277777778,
+    "lng": -90.128333333333,
+    "pop": 813
+  },
+  {
+    "nameAr": "Naalehu",
+    "nameEn": "Naalehu",
+    "type": "city",
+    "lat": 19.065833333333,
+    "lng": -155.5875,
+    "pop": 811
+  },
+  {
+    "nameAr": "Utulei",
+    "nameEn": "Utulei",
+    "type": "city",
+    "lat": -14.28694444,
+    "lng": -170.68305556,
+    "pop": 807
+  },
+  {
+    "nameAr": "فاونتن سيتي",
+    "nameEn": "Fountain City",
+    "type": "city",
+    "lat": 44.131908333333,
+    "lng": -91.718763888889,
+    "pop": 806
+  },
+  {
+    "nameAr": "نيو هولاند",
+    "nameEn": "New Holland",
+    "type": "city",
+    "lat": 39.5536,
+    "lng": -83.2594,
+    "pop": 804
+  },
+  {
+    "nameAr": "مونتريال",
+    "nameEn": "Montreal",
+    "type": "city",
+    "lat": 46.429166666667,
+    "lng": -90.238888888889,
+    "pop": 801
+  },
+  {
+    "nameAr": "Arlington",
+    "nameEn": "Arlington",
+    "type": "city",
+    "lat": 36.22722,
+    "lng": -80.83167,
+    "pop": 795
+  },
+  {
+    "nameAr": "تشيني",
+    "nameEn": "Cheyenne",
+    "type": "city",
+    "lat": 35.6125,
+    "lng": -99.673888888889,
+    "pop": 771
+  },
+  {
+    "nameAr": "Benton Township",
+    "nameEn": "Benton Township",
+    "type": "city",
+    "lat": 40.9456,
+    "lng": -91.1025,
+    "pop": 761
+  },
+  {
+    "nameAr": "Marshall Township",
+    "nameEn": "Marshall Township",
+    "type": "city",
+    "lat": 39.4986,
+    "lng": -94.9542,
+    "pop": 759
+  },
+  {
+    "nameAr": "غاي",
+    "nameEn": "Guy",
+    "type": "city",
+    "lat": 35.324722222222,
+    "lng": -92.335,
+    "pop": 752
+  },
+  {
+    "nameAr": "Avalon",
+    "nameEn": "Avalon",
+    "type": "city",
+    "lat": 30.5356,
+    "lng": -87.0914,
+    "pop": 722
+  },
+  {
+    "nameAr": "Amherst",
+    "nameEn": "Amherst",
+    "type": "city",
+    "lat": 42.8636,
+    "lng": -71.6239,
+    "pop": 697
+  },
+  {
+    "nameAr": "سكوري",
+    "nameEn": "Scurry",
+    "type": "city",
+    "lat": 32.5186,
+    "lng": -96.3808,
+    "pop": 688
+  },
+  {
+    "nameAr": "Iowa Township",
+    "nameEn": "Iowa Township",
+    "type": "city",
+    "lat": 42.10666667,
+    "lng": -90.25861111,
+    "pop": 672
+  },
+  {
+    "nameAr": "أدينا",
+    "nameEn": "Adena",
+    "type": "city",
+    "lat": 40.216666666667,
+    "lng": -80.875833333333,
+    "pop": 664
+  },
+  {
+    "nameAr": "Otter Creek Township",
+    "nameEn": "Otter Creek Township",
+    "type": "city",
+    "lat": 42.24,
+    "lng": -90.72833333,
+    "pop": 660
+  },
+  {
+    "nameAr": "Appling",
+    "nameEn": "Appling",
+    "type": "city",
+    "lat": 33.5458,
+    "lng": -82.3158,
+    "pop": 658
+  },
+  {
+    "nameAr": "ياكوتات",
+    "nameEn": "Yakutat",
+    "type": "city",
+    "lat": 59.546944444444,
+    "lng": -139.72722222222,
+    "pop": 657
+  },
+  {
+    "nameAr": "Parks",
+    "nameEn": "Parks",
+    "type": "city",
+    "lat": 30.2156,
+    "lng": -91.8294,
+    "pop": 640
+  },
+  {
+    "nameAr": "دوج",
+    "nameEn": "Dodge",
+    "type": "city",
+    "lat": 41.721666666667,
+    "lng": -96.879722222222,
+    "pop": 611
+  },
+  {
+    "nameAr": "مورس",
+    "nameEn": "Morse",
+    "type": "city",
+    "lat": 30.1217,
+    "lng": -92.4986,
+    "pop": 599
+  },
+  {
+    "nameAr": "إنترلاكين",
+    "nameEn": "Interlaken",
+    "type": "city",
+    "lat": 42.6181,
+    "lng": -76.7242,
+    "pop": 595
+  },
+  {
+    "nameAr": "هاي شوالس",
+    "nameEn": "High Shoals",
+    "type": "city",
+    "lat": 35.396944444444,
+    "lng": -81.204444444444,
+    "pop": 595
+  },
+  {
+    "nameAr": "بايفيلد",
+    "nameEn": "Bayfield",
+    "type": "city",
+    "lat": 46.811666666667,
+    "lng": -90.82,
+    "pop": 584
+  },
+  {
+    "nameAr": "بلانديسفيل",
+    "nameEn": "Blandinsville",
+    "type": "city",
+    "lat": 40.5547,
+    "lng": -90.8658,
+    "pop": 569
+  },
+  {
+    "nameAr": "غارفيلد",
+    "nameEn": "Garfield",
+    "type": "city",
+    "lat": 47.0092,
+    "lng": -117.142,
+    "pop": 562
+  },
+  {
+    "nameAr": "كيلسو",
+    "nameEn": "Kelso",
+    "type": "city",
+    "lat": 37.1956,
+    "lng": -89.5517,
+    "pop": 554
+  },
+  {
+    "nameAr": "Amouli",
+    "nameEn": "Amouli",
+    "type": "city",
+    "lat": -14.278055555556,
+    "lng": -170.5825,
+    "pop": 536
+  },
+  {
+    "nameAr": "Afono",
+    "nameEn": "Afono",
+    "type": "city",
+    "lat": -14.264166666667,
+    "lng": -170.65083333333,
+    "pop": 530
+  },
+  {
+    "nameAr": "Alao",
+    "nameEn": "Alao",
+    "type": "city",
+    "lat": -14.2675,
+    "lng": -170.56361111111,
+    "pop": 528
+  },
+  {
+    "nameAr": "مورغانزا",
+    "nameEn": "Morganza",
+    "type": "city",
+    "lat": 30.735555555556,
+    "lng": -91.593333333333,
+    "pop": 525
+  },
+  {
+    "nameAr": "بروكتورفيل",
+    "nameEn": "Proctorville",
+    "type": "city",
+    "lat": 38.4381,
+    "lng": -82.3819,
+    "pop": 523
+  },
+  {
+    "nameAr": "روكفورد",
+    "nameEn": "Rockford",
+    "type": "city",
+    "lat": 47.4508,
+    "lng": -117.133,
+    "pop": 522
+  },
+  {
+    "nameAr": "وايثي",
+    "nameEn": "Withee",
+    "type": "city",
+    "lat": 44.956388888889,
+    "lng": -90.5975,
+    "pop": 506
+  },
+  {
+    "nameAr": "Futiga",
+    "nameEn": "Futiga",
+    "type": "city",
+    "lat": -14.353333333333,
+    "lng": -170.75416666667,
+    "pop": 498
+  },
+  {
+    "nameAr": "Alofau",
+    "nameEn": "Alofau",
+    "type": "city",
+    "lat": -14.279166666667,
+    "lng": -170.60222222222,
+    "pop": 495
+  },
+  {
+    "nameAr": "راشسيلفينيا",
+    "nameEn": "Rushsylvania",
+    "type": "city",
+    "lat": 40.4617,
+    "lng": -83.6711,
+    "pop": 491
+  },
+  {
+    "nameAr": "Faga'itua",
+    "nameEn": "Faga'itua",
+    "type": "city",
+    "lat": -14.271944444444,
+    "lng": -170.61194444444,
+    "pop": 466
+  },
+  {
+    "nameAr": "تومسونفيل",
+    "nameEn": "Thompsonville",
+    "type": "city",
+    "lat": 44.520277777778,
+    "lng": -85.943888888889,
+    "pop": 451
+  },
+  {
+    "nameAr": "روغ روك",
+    "nameEn": "Rough Rock",
+    "type": "city",
+    "lat": 36.414444444444,
+    "lng": -109.85527777778,
+    "pop": 428
+  },
+  {
+    "nameAr": "بول كريك",
+    "nameEn": "Bull Creek",
+    "type": "city",
+    "lat": 36.7144,
+    "lng": -93.2031,
+    "pop": 426
+  },
+  {
+    "nameAr": "سينيكافيل",
+    "nameEn": "Senecaville",
+    "type": "city",
+    "lat": 39.935277777778,
+    "lng": -81.461111111111,
+    "pop": 422
+  },
+  {
+    "nameAr": "Jackson Township",
+    "nameEn": "Jackson Township",
+    "type": "city",
+    "lat": 42.16583333,
+    "lng": -90.49333333,
+    "pop": 414
+  },
+  {
+    "nameAr": "Acacia Villas",
+    "nameEn": "Acacia Villas",
+    "type": "city",
+    "lat": 26.6458,
+    "lng": -80.1106,
+    "pop": 398
+  },
+  {
+    "nameAr": "غراند ريفر",
+    "nameEn": "Grand River",
+    "type": "city",
+    "lat": 41.7375,
+    "lng": -81.2819,
+    "pop": 394
+  },
+  {
+    "nameAr": "مورال",
+    "nameEn": "Morral",
+    "type": "city",
+    "lat": 40.6894,
+    "lng": -83.2131,
+    "pop": 373
+  },
+  {
+    "nameAr": "Jane",
+    "nameEn": "Jane",
+    "type": "city",
+    "lat": 36.5472,
+    "lng": -94.3053,
+    "pop": 359
+  },
+  {
+    "nameAr": "بورستون",
+    "nameEn": "Bowerston",
+    "type": "city",
+    "lat": 40.4269,
+    "lng": -81.1875,
+    "pop": 356
+  },
+  {
+    "nameAr": "Aasu, American Samoa",
+    "nameEn": "Aasu, American Samoa",
+    "type": "city",
+    "lat": -14.2975,
+    "lng": -170.75833333,
+    "pop": 353
+  },
+  {
+    "nameAr": "Bartlett",
+    "nameEn": "Bartlett",
+    "type": "city",
+    "lat": 44.07777778,
+    "lng": -71.28194444,
+    "pop": 351
+  },
+  {
+    "nameAr": "Berrydale",
+    "nameEn": "Berrydale",
+    "type": "city",
+    "lat": 30.899444444444,
+    "lng": -87.013888888889,
+    "pop": 348
+  },
+  {
+    "nameAr": "برونوود",
+    "nameEn": "Bronwood",
+    "type": "city",
+    "lat": 31.8308,
+    "lng": -84.3639,
+    "pop": 334
+  },
+  {
+    "nameAr": "Sautee Nacoochee",
+    "nameEn": "Sautee Nacoochee",
+    "type": "city",
+    "lat": 34.698333,
+    "lng": -83.664444,
+    "pop": 332
+  },
+  {
+    "nameAr": "Aripeka",
+    "nameEn": "Aripeka",
+    "type": "city",
+    "lat": 28.4322,
+    "lng": -82.6642,
+    "pop": 320
+  },
+  {
+    "nameAr": "Duck Key",
+    "nameEn": "Duck Key",
+    "type": "city",
+    "lat": 24.771,
+    "lng": -80.9118,
+    "pop": 308
+  },
+  {
+    "nameAr": "إميري",
+    "nameEn": "Emery",
+    "type": "city",
+    "lat": 38.922222222222,
+    "lng": -111.24944444444,
+    "pop": 307
+  },
+  {
+    "nameAr": "بورتون",
+    "nameEn": "Burton",
+    "type": "city",
+    "lat": 30.181668,
+    "lng": -96.596178,
+    "pop": 297
+  },
+  {
+    "nameAr": "Juliette",
+    "nameEn": "Juliette",
+    "type": "city",
+    "lat": 33.106944444444,
+    "lng": -83.8,
+    "pop": 290
+  },
+  {
+    "nameAr": "كينبيك",
+    "nameEn": "Kennebec",
+    "type": "city",
+    "lat": 43.904166666667,
+    "lng": -99.862777777778,
+    "pop": 281
+  },
+  {
+    "nameAr": "بيركي",
+    "nameEn": "Berkey",
+    "type": "city",
+    "lat": 41.7144,
+    "lng": -83.8333,
+    "pop": 275
+  },
+  {
+    "nameAr": "نسبيت",
+    "nameEn": "Nesbitt",
+    "type": "city",
+    "lat": 32.5908,
+    "lng": -94.4447,
+    "pop": 273
+  },
+  {
+    "nameAr": "ديلروي",
+    "nameEn": "Dellroy",
+    "type": "city",
+    "lat": 40.5553,
+    "lng": -81.1994,
+    "pop": 268
+  },
+  {
+    "nameAr": "Anua",
+    "nameEn": "Anua",
+    "type": "city",
+    "lat": -14.275,
+    "lng": -170.68777777778,
+    "pop": 265
+  },
+  {
+    "nameAr": "Brooktondale",
+    "nameEn": "Brooktondale",
+    "type": "city",
+    "lat": 42.3806287,
+    "lng": -76.3946593,
+    "pop": 261
+  },
+  {
+    "nameAr": "Auto, American Samoa",
+    "nameEn": "Auto, American Samoa",
+    "type": "city",
+    "lat": -14.283055555556,
+    "lng": -170.62694444444,
+    "pop": 258
+  },
+  {
+    "nameAr": "غولف",
+    "nameEn": "Golf",
+    "type": "city",
+    "lat": 26.504166666667,
+    "lng": -80.104722222222,
+    "pop": 255
+  },
+  {
+    "nameAr": "Asili",
+    "nameEn": "Asili",
+    "type": "city",
+    "lat": -14.335555555556,
+    "lng": -170.79555555556,
+    "pop": 250
+  },
+  {
+    "nameAr": "Aumi",
+    "nameEn": "Aumi",
+    "type": "city",
+    "lat": -14.291944444444,
+    "lng": -170.64666666667,
+    "pop": 249
+  },
+  {
+    "nameAr": "غوردون",
+    "nameEn": "Gordon",
+    "type": "city",
+    "lat": 39.9311,
+    "lng": -84.5081,
+    "pop": 245
+  },
+  {
+    "nameAr": "ميليغان",
+    "nameEn": "Milligan",
+    "type": "city",
+    "lat": 40.49889,
+    "lng": -97.38833,
+    "pop": 244
+  },
+  {
+    "nameAr": "مونتروز",
+    "nameEn": "Montrose",
+    "type": "city",
+    "lat": 33.29762,
+    "lng": -91.49373,
+    "pop": 243
+  },
+  {
+    "nameAr": "يولينغ",
+    "nameEn": "Uehling",
+    "type": "city",
+    "lat": 41.734444444444,
+    "lng": -96.504444444444,
+    "pop": 241
+  },
+  {
+    "nameAr": "براينت",
+    "nameEn": "Bryant",
+    "type": "city",
+    "lat": 40.5342,
+    "lng": -84.9642,
+    "pop": 239
+  },
+  {
+    "nameAr": "لاكبورن",
+    "nameEn": "Lockbourne",
+    "type": "city",
+    "lat": 39.8089,
+    "lng": -82.9706,
+    "pop": 236
+  },
+  {
+    "nameAr": "بيكستون",
+    "nameEn": "Pickstown",
+    "type": "city",
+    "lat": 43.066388888889,
+    "lng": -98.531944444444,
+    "pop": 230
+  },
+  {
+    "nameAr": "Lake Tekakwitha",
+    "nameEn": "Lake Tekakwitha",
+    "type": "city",
+    "lat": 38.441666666667,
+    "lng": -90.716666666667,
+    "pop": 230
+  },
+  {
+    "nameAr": "Seneca Village",
+    "nameEn": "Seneca Village",
+    "type": "city",
+    "lat": 40.781,
+    "lng": -73.966,
+    "pop": 225
+  },
+  {
+    "nameAr": "Poloa",
+    "nameEn": "Poloa",
+    "type": "city",
+    "lat": -14.32166667,
+    "lng": -170.83277778,
+    "pop": 203
+  },
+  {
+    "nameAr": "دادجيت",
+    "nameEn": "Daggett",
+    "type": "city",
+    "lat": 45.463611111111,
+    "lng": -87.606388888889,
+    "pop": 201
+  },
+  {
+    "nameAr": "نوبل",
+    "nameEn": "Noble",
+    "type": "city",
+    "lat": 31.6903,
+    "lng": -93.6822,
+    "pop": 200
+  },
+  {
+    "nameAr": "زانيسفيلد",
+    "nameEn": "Zanesfield",
+    "type": "city",
+    "lat": 40.3383,
+    "lng": -83.6781,
+    "pop": 194
+  },
+  {
+    "nameAr": "Galt",
+    "nameEn": "Galt",
+    "type": "city",
+    "lat": 41.7894,
+    "lng": -89.7622,
+    "pop": 193
+  },
+  {
+    "nameAr": "فرانكلين",
+    "nameEn": "Franklin",
+    "type": "city",
+    "lat": 36.175277777778,
+    "lng": -91.766388888889,
+    "pop": 191
+  },
+  {
+    "nameAr": "Bell",
+    "nameEn": "Bell",
+    "type": "city",
+    "lat": 35.737222222222,
+    "lng": -94.521944444444,
+    "pop": 191
+  },
+  {
+    "nameAr": "Afao",
+    "nameEn": "Afao",
+    "type": "city",
+    "lat": -14.336666666667,
+    "lng": -170.79916666667,
+    "pop": 188
+  },
+  {
+    "nameAr": "Waterford",
+    "nameEn": "Waterford",
+    "type": "city",
+    "lat": 39.1867,
+    "lng": -77.61,
+    "pop": 181
+  },
+  {
+    "nameAr": "كارني",
+    "nameEn": "Carney",
+    "type": "city",
+    "lat": 45.586666666667,
+    "lng": -87.557222222222,
+    "pop": 179
+  },
+  {
+    "nameAr": "Amaluia",
+    "nameEn": "Amaluia",
+    "type": "city",
+    "lat": -14.338333333333,
+    "lng": -170.79111111111,
+    "pop": 179
+  },
+  {
+    "nameAr": "فونتين",
+    "nameEn": "Fountain",
+    "type": "city",
+    "lat": 44.046666666667,
+    "lng": -86.178611111111,
+    "pop": 170
+  },
+  {
+    "nameAr": "Tokeland",
+    "nameEn": "Tokeland",
+    "type": "city",
+    "lat": 46.7092,
+    "lng": -123.988,
+    "pop": 158
+  },
+  {
+    "nameAr": "كنوبل",
+    "nameEn": "Knobel",
+    "type": "city",
+    "lat": 36.3194,
+    "lng": -90.6017,
+    "pop": 147
+  },
+  {
+    "nameAr": "Faleasao",
+    "nameEn": "Faleasao",
+    "type": "city",
+    "lat": -14.226666666667,
+    "lng": -169.51222222222,
+    "pop": 135
+  },
+  {
+    "nameAr": "كونغرس",
+    "nameEn": "Congress",
+    "type": "city",
+    "lat": 40.9256,
+    "lng": -82.0533,
+    "pop": 132
+  },
+  {
+    "nameAr": "أورلاندو",
+    "nameEn": "Orlando",
+    "type": "city",
+    "lat": 36.148333333333,
+    "lng": -97.3775,
+    "pop": 130
+  },
+  {
+    "nameAr": "Failolo",
+    "nameEn": "Failolo",
+    "type": "city",
+    "lat": -14.333611111111,
+    "lng": -170.82583333333,
+    "pop": 128
+  },
+  {
+    "nameAr": "بورتال",
+    "nameEn": "Portal",
+    "type": "city",
+    "lat": 48.995555555556,
+    "lng": -102.55055555556,
+    "pop": 125
+  },
+  {
+    "nameAr": "'Au'asi",
+    "nameEn": "'Au'asi",
+    "type": "city",
+    "lat": -14.276666666667,
+    "lng": -170.57444444444,
+    "pop": 125
+  },
+  {
+    "nameAr": "جورازليم",
+    "nameEn": "Jerusalem",
+    "type": "city",
+    "lat": 39.8522,
+    "lng": -81.0953,
+    "pop": 121
+  },
+  {
+    "nameAr": "لينديل",
+    "nameEn": "Linndale",
+    "type": "city",
+    "lat": 41.446666666667,
+    "lng": -81.766944444444,
+    "pop": 108
+  },
+  {
+    "nameAr": "بيتش أورتشارد",
+    "nameEn": "Peach Orchard",
+    "type": "city",
+    "lat": 36.2797,
+    "lng": -90.6639,
+    "pop": 105
+  },
+  {
+    "nameAr": "Aucilla",
+    "nameEn": "Aucilla",
+    "type": "city",
+    "lat": 30.4769,
+    "lng": -83.7603,
+    "pop": 103
+  },
+  {
+    "nameAr": "Fatumafuti",
+    "nameEn": "Fatumafuti",
+    "type": "city",
+    "lat": -14.301388888889,
+    "lng": -170.67722222222,
+    "pop": 103
+  },
+  {
+    "nameAr": "Amaua",
+    "nameEn": "Amaua",
+    "type": "city",
+    "lat": -14.276944444444,
+    "lng": -170.62166666667,
+    "pop": 102
+  },
+  {
+    "nameAr": "Altoona",
+    "nameEn": "Altoona",
+    "type": "city",
+    "lat": 28.965833333333,
+    "lng": -81.648333333333,
+    "pop": 98
+  },
+  {
+    "nameAr": "ألينفيل",
+    "nameEn": "Allenville",
+    "type": "city",
+    "lat": 37.22222,
+    "lng": -89.75417,
+    "pop": 95
+  },
+  {
+    "nameAr": "لينوود",
+    "nameEn": "Linwood",
+    "type": "city",
+    "lat": 41.412777777778,
+    "lng": -96.931388888889,
+    "pop": 94
+  },
+  {
+    "nameAr": "Neuchatel",
+    "nameEn": "Neuchatel",
+    "type": "city",
+    "lat": 39.5680522,
+    "lng": -96.201946,
+    "pop": 90
+  },
+  {
+    "nameAr": "Rapelje",
+    "nameEn": "Rapelje",
+    "type": "city",
+    "lat": 45.971944444444,
+    "lng": -109.255,
+    "pop": 88
+  },
+  {
+    "nameAr": "دوفر",
+    "nameEn": "Dover",
+    "type": "city",
+    "lat": 39.1928,
+    "lng": -93.6894,
+    "pop": 83
+  },
+  {
+    "nameAr": "بلاتو",
+    "nameEn": "Plato",
+    "type": "city",
+    "lat": 37.5036,
+    "lng": -92.225,
+    "pop": 82
+  },
+  {
+    "nameAr": "Caratunk",
+    "nameEn": "Caratunk",
+    "type": "city",
+    "lat": 45.233888888889,
+    "lng": -69.99,
+    "pop": 81
+  },
+  {
+    "nameAr": "Red Bluff",
+    "nameEn": "Red Bluff",
+    "type": "city",
+    "lat": 34.481194444444,
+    "lng": -92.150138888889,
+    "pop": 74
+  },
+  {
+    "nameAr": "أنتونيوتش",
+    "nameEn": "Antioch",
+    "type": "city",
+    "lat": 39.66139,
+    "lng": -81.0675,
+    "pop": 71
+  },
+  {
+    "nameAr": "Carlisle",
+    "nameEn": "Carlisle",
+    "type": "city",
+    "lat": 30.87379722,
+    "lng": -95.20688333,
+    "pop": 68
+  },
+  {
+    "nameAr": "راندولف",
+    "nameEn": "Randolph",
+    "type": "city",
+    "lat": 39.1586,
+    "lng": -94.4944,
+    "pop": 57
+  },
+  {
+    "nameAr": "Alega",
+    "nameEn": "Alega",
+    "type": "city",
+    "lat": -14.285277777778,
+    "lng": -170.6375,
+    "pop": 54
+  },
+  {
+    "nameAr": "Centralia",
+    "nameEn": "Centralia",
+    "type": "city",
+    "lat": 31.258055555556,
+    "lng": -95.04,
+    "pop": 53
+  },
+  {
+    "nameAr": "Blackland",
+    "nameEn": "Blackland",
+    "type": "city",
+    "lat": 32.9,
+    "lng": -96.35,
+    "pop": 49
+  },
+  {
+    "nameAr": "Hillsboro Ranches",
+    "nameEn": "Hillsboro Ranches",
+    "type": "city",
+    "lat": 26.319722222222,
+    "lng": -80.180277777778,
+    "pop": 47
+  },
+  {
+    "nameAr": "Bayport",
+    "nameEn": "Bayport",
+    "type": "city",
+    "lat": 28.548333333333,
+    "lng": -82.645277777778,
+    "pop": 45
+  },
+  {
+    "nameAr": "Agugulu",
+    "nameEn": "Agugulu",
+    "type": "city",
+    "lat": -14.335555555556,
+    "lng": -170.82166666667,
+    "pop": 45
+  },
+  {
+    "nameAr": "هوليستر",
+    "nameEn": "Hollister",
+    "type": "city",
+    "lat": 34.3411,
+    "lng": -98.8705,
+    "pop": 35
+  },
+  {
+    "nameAr": "هاروود",
+    "nameEn": "Harwood",
+    "type": "city",
+    "lat": 37.9564,
+    "lng": -94.1536,
+    "pop": 29
+  },
+  {
+    "nameAr": "Passaic",
+    "nameEn": "Passaic",
+    "type": "city",
+    "lat": 38.3217,
+    "lng": -94.3481,
+    "pop": 26
+  },
+  {
+    "nameAr": "Thoms Place",
+    "nameEn": "Thoms Place",
+    "type": "city",
+    "lat": 56.195,
+    "lng": -132.19805555556,
+    "pop": 22
+  },
+  {
+    "nameAr": "Taulaga",
+    "nameEn": "Taulaga",
+    "type": "city",
+    "lat": -11.055277777778,
+    "lng": -171.08805555556,
+    "pop": 17
+  },
+  {
+    "nameAr": "Charmwood",
+    "nameEn": "Charmwood",
+    "type": "city",
+    "lat": 38.27944444,
+    "lng": -91.09861111,
+    "pop": 17
+  },
+  {
+    "nameAr": "Warren",
+    "nameEn": "Warren",
+    "type": "city",
+    "lat": 45.264,
+    "lng": -115.677,
+    "pop": 16
+  },
+  {
+    "nameAr": "لوفلاند",
+    "nameEn": "Loveland",
+    "type": "city",
+    "lat": 34.304894444444,
+    "lng": -98.771272222222,
+    "pop": 13
+  },
+  {
+    "nameAr": "فريدريك",
+    "nameEn": "Frederick",
+    "type": "city",
+    "lat": 38.5131,
+    "lng": -98.2678,
+    "pop": 8
+  },
+  {
+    "nameAr": "كورنينغ",
+    "nameEn": "Corning",
+    "type": "city",
+    "lat": 40.2492,
+    "lng": -95.4544,
+    "pop": 3
+  },
+  {
+    "nameAr": "أش سبيرينغز",
+    "nameEn": "Ash Springs",
+    "type": "city",
+    "lat": 37.460555555556,
+    "lng": -115.19305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "تروكتون",
+    "nameEn": "Truckton",
+    "type": "city",
+    "lat": 38.7381,
+    "lng": -104.182,
+    "pop": null
+  },
+  {
+    "nameAr": "تين تاون",
+    "nameEn": "Tin Town",
+    "type": "city",
+    "lat": 37.4539,
+    "lng": -93.1933,
+    "pop": null
+  },
+  {
+    "nameAr": "ريدوود شورز",
+    "nameEn": "Redwood Shores",
+    "type": "city",
+    "lat": 37.5318804,
+    "lng": -122.2480219,
+    "pop": null
+  },
+  {
+    "nameAr": "سلايترسفيل",
+    "nameEn": "Slatersville",
+    "type": "city",
+    "lat": 41.998056,
+    "lng": -71.5825,
+    "pop": null
+  },
+  {
+    "nameAr": "فورت كامبل",
+    "nameEn": "Fort Campbell",
+    "type": "city",
+    "lat": 36.65,
+    "lng": -87.4667,
+    "pop": null
+  },
+  {
+    "nameAr": "لوتسفيل",
+    "nameEn": "Lutesville",
+    "type": "city",
+    "lat": 37.3003,
+    "lng": -89.9811,
+    "pop": null
+  },
+  {
+    "nameAr": "لوس كريك",
+    "nameEn": "Loose Creek",
+    "type": "city",
+    "lat": 38.5081,
+    "lng": -91.9575,
+    "pop": null
+  },
+  {
+    "nameAr": "وودلايك",
+    "nameEn": "Woodlake",
+    "type": "city",
+    "lat": 31.028888888889,
+    "lng": -95.033055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "ويكفيلد",
+    "nameEn": "Wakefield",
+    "type": "city",
+    "lat": 41.433333,
+    "lng": -71.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Aberdeen",
+    "nameEn": "Aberdeen",
+    "type": "city",
+    "lat": 33.3833,
+    "lng": -84.5833,
+    "pop": null
+  },
+  {
+    "nameAr": "Abingdon Historic District",
+    "nameEn": "Abingdon Historic District",
+    "type": "city",
+    "lat": 36.70916667,
+    "lng": -81.97166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Acuera",
+    "nameEn": "Acuera",
+    "type": "city",
+    "lat": 29.302336,
+    "lng": -81.884095,
+    "pop": null
+  },
+  {
+    "nameAr": "Airmont",
+    "nameEn": "Airmont",
+    "type": "city",
+    "lat": 39.0847,
+    "lng": -77.7869,
+    "pop": null
+  },
+  {
+    "nameAr": "Alabama City",
+    "nameEn": "Alabama City",
+    "type": "city",
+    "lat": 34.022333333333,
+    "lng": -86.045527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Algansee",
+    "nameEn": "Algansee",
+    "type": "city",
+    "lat": 41.832549,
+    "lng": -84.8807947,
+    "pop": null
+  },
+  {
+    "nameAr": "Alsdorf",
+    "nameEn": "Alsdorf",
+    "type": "city",
+    "lat": 32.40416667,
+    "lng": -96.53597222,
+    "pop": null
+  },
+  {
+    "nameAr": "Anadarko Downtown Historic District",
+    "nameEn": "Anadarko Downtown Historic District",
+    "type": "city",
+    "lat": 35.074967,
+    "lng": -98.244883,
+    "pop": null
+  },
+  {
+    "nameAr": "Arenac",
+    "nameEn": "Arenac",
+    "type": "city",
+    "lat": 44.0055756,
+    "lng": -83.8580446,
+    "pop": null
+  },
+  {
+    "nameAr": "Arendahl",
+    "nameEn": "Arendahl",
+    "type": "city",
+    "lat": 43.8252415,
+    "lng": -91.909598,
+    "pop": null
+  },
+  {
+    "nameAr": "Asa, Texas",
+    "nameEn": "Asa, Texas",
+    "type": "city",
+    "lat": 31.414338,
+    "lng": -97.0541632,
+    "pop": null
+  },
+  {
+    "nameAr": "Ashbys Corner",
+    "nameEn": "Ashbys Corner",
+    "type": "city",
+    "lat": 38.6319,
+    "lng": -78.2342,
+    "pop": null
+  },
+  {
+    "nameAr": "Ashleyville",
+    "nameEn": "Ashleyville",
+    "type": "city",
+    "lat": 42.15,
+    "lng": -72.6333,
+    "pop": null
+  },
+  {
+    "nameAr": "Aspel",
+    "nameEn": "Aspel",
+    "type": "city",
+    "lat": 34.6209198,
+    "lng": -86.1655374,
+    "pop": null
+  },
+  {
+    "nameAr": "Athensville",
+    "nameEn": "Athensville",
+    "type": "city",
+    "lat": 39.4556025,
+    "lng": -90.1892822,
+    "pop": null
+  },
+  {
+    "nameAr": "Aux Sable",
+    "nameEn": "Aux Sable",
+    "type": "city",
+    "lat": 41.3947534,
+    "lng": -88.3286763,
+    "pop": null
+  },
+  {
+    "nameAr": "Baird Corners",
+    "nameEn": "Baird Corners",
+    "type": "city",
+    "lat": 43.2222901,
+    "lng": -76.4602153,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakersfield",
+    "nameEn": "Bakersfield",
+    "type": "city",
+    "lat": 30.8914,
+    "lng": -102.298,
+    "pop": null
+  },
+  {
+    "nameAr": "Bareville",
+    "nameEn": "Bareville",
+    "type": "city",
+    "lat": 40.0923195,
+    "lng": -76.1557855,
+    "pop": null
+  },
+  {
+    "nameAr": "Baring Cross",
+    "nameEn": "Baring Cross",
+    "type": "city",
+    "lat": 34.763,
+    "lng": -92.282,
+    "pop": null
+  },
+  {
+    "nameAr": "Barree",
+    "nameEn": "Barree",
+    "type": "city",
+    "lat": 40.5853461,
+    "lng": -78.1005628,
+    "pop": null
+  },
+  {
+    "nameAr": "Barrie",
+    "nameEn": "Barrie",
+    "type": "city",
+    "lat": 46.5688555,
+    "lng": -97.1225887,
+    "pop": null
+  },
+  {
+    "nameAr": "Bastress",
+    "nameEn": "Bastress",
+    "type": "city",
+    "lat": 41.1759093,
+    "lng": -77.1371909,
+    "pop": null
+  },
+  {
+    "nameAr": "Batson",
+    "nameEn": "Batson",
+    "type": "city",
+    "lat": 30.2494,
+    "lng": -94.6072,
+    "pop": null
+  },
+  {
+    "nameAr": "Bay Mills",
+    "nameEn": "Bay Mills",
+    "type": "city",
+    "lat": 46.4372433,
+    "lng": -84.5839401,
+    "pop": null
+  },
+  {
+    "nameAr": "Beebe Plain",
+    "nameEn": "Beebe Plain",
+    "type": "city",
+    "lat": 45.00666667,
+    "lng": -72.14116667,
+    "pop": null
+  },
+  {
+    "nameAr": "Beesands",
+    "nameEn": "Beesands",
+    "type": "city",
+    "lat": 50.2531,
+    "lng": -3.65722,
+    "pop": null
+  },
+  {
+    "nameAr": "Belle Amie",
+    "nameEn": "Belle Amie",
+    "type": "city",
+    "lat": 29.4941072,
+    "lng": -90.3278581,
+    "pop": null
+  },
+  {
+    "nameAr": "Big Delta Historic District",
+    "nameEn": "Big Delta Historic District",
+    "type": "city",
+    "lat": 64.14778,
+    "lng": -145.83194,
+    "pop": null
+  },
+  {
+    "nameAr": "Big Hidatsa Village Site",
+    "nameEn": "Big Hidatsa Village Site",
+    "type": "city",
+    "lat": 47.3395,
+    "lng": -101.382,
+    "pop": null
+  },
+  {
+    "nameAr": "Bloomfield",
+    "nameEn": "Bloomfield",
+    "type": "city",
+    "lat": 37.4525,
+    "lng": -88.875,
+    "pop": null
+  },
+  {
+    "nameAr": "Blue Jay",
+    "nameEn": "Blue Jay",
+    "type": "city",
+    "lat": 34.246111111111,
+    "lng": -117.20888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Blue Ridge",
+    "nameEn": "Blue Ridge",
+    "type": "city",
+    "lat": 47.7029,
+    "lng": -122.378,
+    "pop": null
+  },
+  {
+    "nameAr": "Bluemont",
+    "nameEn": "Bluemont",
+    "type": "city",
+    "lat": 39.1111,
+    "lng": -77.8339,
+    "pop": null
+  },
+  {
+    "nameAr": "Boonesborough",
+    "nameEn": "Boonesborough",
+    "type": "city",
+    "lat": 37.908333333333,
+    "lng": -84.271944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Bradys Bend",
+    "nameEn": "Bradys Bend",
+    "type": "city",
+    "lat": 40.9964526,
+    "lng": -79.6294917,
+    "pop": null
+  },
+  {
+    "nameAr": "Brown's Station",
+    "nameEn": "Brown's Station",
+    "type": "city",
+    "lat": 41.946944444444,
+    "lng": -74.204166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Buckland Historic District",
+    "nameEn": "Buckland Historic District",
+    "type": "city",
+    "lat": 38.78055556,
+    "lng": -77.67472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Buckners Corner",
+    "nameEn": "Buckners Corner",
+    "type": "city",
+    "lat": 38.6217,
+    "lng": -78.2353,
+    "pop": null
+  },
+  {
+    "nameAr": "Bush",
+    "nameEn": "Bush",
+    "type": "city",
+    "lat": 30.6089,
+    "lng": -89.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Butman",
+    "nameEn": "Butman",
+    "type": "city",
+    "lat": 44.1391871,
+    "lng": -84.4675128,
+    "pop": null
+  },
+  {
+    "nameAr": "Bygland",
+    "nameEn": "Bygland",
+    "type": "city",
+    "lat": 47.8116427,
+    "lng": -96.9322997,
+    "pop": null
+  },
+  {
+    "nameAr": "Cains Corners",
+    "nameEn": "Cains Corners",
+    "type": "city",
+    "lat": 43.3053454,
+    "lng": -76.5968902,
+    "pop": null
+  },
+  {
+    "nameAr": "Canada",
+    "nameEn": "Canada",
+    "type": "city",
+    "lat": 37.6056,
+    "lng": -82.3244,
+    "pop": null
+  },
+  {
+    "nameAr": "Cape Liberty",
+    "nameEn": "Cape Liberty",
+    "type": "city",
+    "lat": 40.66641,
+    "lng": -74.07613,
+    "pop": null
+  },
+  {
+    "nameAr": "Capitol Hill",
+    "nameEn": "Capitol Hill",
+    "type": "city",
+    "lat": 15.211507,
+    "lng": 145.754616,
+    "pop": null
+  },
+  {
+    "nameAr": "Carimona",
+    "nameEn": "Carimona",
+    "type": "city",
+    "lat": 43.6602423,
+    "lng": -92.1576625,
+    "pop": null
+  },
+  {
+    "nameAr": "Castleton, Staten Island",
+    "nameEn": "Castleton, Staten Island",
+    "type": "city",
+    "lat": 40.6124,
+    "lng": -74.1154,
+    "pop": null
+  },
+  {
+    "nameAr": "Cavettsville",
+    "nameEn": "Cavettsville",
+    "type": "city",
+    "lat": 40.3756247,
+    "lng": -79.7611568,
+    "pop": null
+  },
+  {
+    "nameAr": "Centerville",
+    "nameEn": "Centerville",
+    "type": "city",
+    "lat": 31.4,
+    "lng": -86.88,
+    "pop": null
+  },
+  {
+    "nameAr": "Chalan Piao",
+    "nameEn": "Chalan Piao",
+    "type": "city",
+    "lat": 15.1422,
+    "lng": 145.7008,
+    "pop": null
+  },
+  {
+    "nameAr": "Chauvin",
+    "nameEn": "Chauvin",
+    "type": "city",
+    "lat": 42.435277777778,
+    "lng": -82.880555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Chesapeake Ranch",
+    "nameEn": "Chesapeake Ranch",
+    "type": "city",
+    "lat": 38.35,
+    "lng": -76.418889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chestonia",
+    "nameEn": "Chestonia",
+    "type": "city",
+    "lat": 45.0602843,
+    "lng": -85.077555,
+    "pop": null
+  },
+  {
+    "nameAr": "Choconut",
+    "nameEn": "Choconut",
+    "type": "city",
+    "lat": 41.9786861,
+    "lng": -75.9996436,
+    "pop": null
+  },
+  {
+    "nameAr": "Chopmist",
+    "nameEn": "Chopmist",
+    "type": "city",
+    "lat": 41.825377,
+    "lng": -71.6703442,
+    "pop": null
+  },
+  {
+    "nameAr": "Clarkston Village Historic District",
+    "nameEn": "Clarkston Village Historic District",
+    "type": "city",
+    "lat": 42.736388888889,
+    "lng": -83.418888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Clear Run",
+    "nameEn": "Clear Run",
+    "type": "city",
+    "lat": 35.0403,
+    "lng": -78.4664,
+    "pop": null
+  },
+  {
+    "nameAr": "Cliff Palace",
+    "nameEn": "Cliff Palace",
+    "type": "city",
+    "lat": 37.166666666667,
+    "lng": -108.47277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Cloverdale",
+    "nameEn": "Cloverdale",
+    "type": "city",
+    "lat": 31.41694444,
+    "lng": -108.92972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Colchester",
+    "nameEn": "Colchester",
+    "type": "city",
+    "lat": 44.5439375,
+    "lng": -73.1479068,
+    "pop": null
+  },
+  {
+    "nameAr": "Colebrookdale",
+    "nameEn": "Colebrookdale",
+    "type": "city",
+    "lat": 40.307596,
+    "lng": -75.6521308,
+    "pop": null
+  },
+  {
+    "nameAr": "Colington",
+    "nameEn": "Colington",
+    "type": "city",
+    "lat": 36.008055555556,
+    "lng": -75.701666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Conklin",
+    "nameEn": "Conklin",
+    "type": "city",
+    "lat": 38.8964,
+    "lng": -77.5167,
+    "pop": null
+  },
+  {
+    "nameAr": "Cosner's Corner",
+    "nameEn": "Cosner's Corner",
+    "type": "city",
+    "lat": 38.223417,
+    "lng": -77.503481,
+    "pop": null
+  },
+  {
+    "nameAr": "Costello",
+    "nameEn": "Costello",
+    "type": "city",
+    "lat": 41.5933981,
+    "lng": -78.0594481,
+    "pop": null
+  },
+  {
+    "nameAr": "Coweta",
+    "nameEn": "Coweta",
+    "type": "city",
+    "lat": 32.464833333333,
+    "lng": -84.99905,
+    "pop": null
+  },
+  {
+    "nameAr": "Crafton",
+    "nameEn": "Crafton",
+    "type": "city",
+    "lat": 33.369278,
+    "lng": -97.905871,
+    "pop": null
+  },
+  {
+    "nameAr": "Crenshaw",
+    "nameEn": "Crenshaw",
+    "type": "city",
+    "lat": 34.0181,
+    "lng": -118.341,
+    "pop": null
+  },
+  {
+    "nameAr": "Cribbs Corner",
+    "nameEn": "Cribbs Corner",
+    "type": "city",
+    "lat": 43.3772912,
+    "lng": -76.2696522,
+    "pop": null
+  },
+  {
+    "nameAr": "Croftville",
+    "nameEn": "Croftville",
+    "type": "city",
+    "lat": 47.765,
+    "lng": -90.275555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Crouseville",
+    "nameEn": "Crouseville",
+    "type": "city",
+    "lat": 46.755,
+    "lng": -68.096388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Cuesta-by-the-Sea",
+    "nameEn": "Cuesta-by-the-Sea",
+    "type": "city",
+    "lat": 35.318308,
+    "lng": -120.8468456,
+    "pop": null
+  },
+  {
+    "nameAr": "Daigle",
+    "nameEn": "Daigle",
+    "type": "city",
+    "lat": 47.1894844,
+    "lng": -68.4608772,
+    "pop": null
+  },
+  {
+    "nameAr": "Damsel",
+    "nameEn": "Damsel",
+    "type": "city",
+    "lat": 38.10972222,
+    "lng": -92.69027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Dasemunkepeuc",
+    "nameEn": "Dasemunkepeuc",
+    "type": "city",
+    "lat": 35.871017932706,
+    "lng": -75.784983199336,
+    "pop": null
+  },
+  {
+    "nameAr": "Delta",
+    "nameEn": "Delta",
+    "type": "city",
+    "lat": 43.289444444444,
+    "lng": -75.436388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Demster",
+    "nameEn": "Demster",
+    "type": "city",
+    "lat": 43.4961804,
+    "lng": -76.3168772,
+    "pop": null
+  },
+  {
+    "nameAr": "Demster Beach",
+    "nameEn": "Demster Beach",
+    "type": "city",
+    "lat": 43.5142358,
+    "lng": -76.3088214,
+    "pop": null
+  },
+  {
+    "nameAr": "Denville",
+    "nameEn": "Denville",
+    "type": "city",
+    "lat": 40.8923212,
+    "lng": -74.4773775,
+    "pop": null
+  },
+  {
+    "nameAr": "Dessau",
+    "nameEn": "Dessau",
+    "type": "city",
+    "lat": 30.4035374,
+    "lng": -97.6383377,
+    "pop": null
+  },
+  {
+    "nameAr": "Diamond",
+    "nameEn": "Diamond",
+    "type": "city",
+    "lat": 17.7033,
+    "lng": -64.8254,
+    "pop": null
+  },
+  {
+    "nameAr": "Dixville Notch",
+    "nameEn": "Dixville Notch",
+    "type": "city",
+    "lat": 44.870833,
+    "lng": -71.305833,
+    "pop": null
+  },
+  {
+    "nameAr": "Dolvoaua",
+    "nameEn": "Dolvoaua",
+    "type": "city",
+    "lat": 41.02083333,
+    "lng": -103.84972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Dorena",
+    "nameEn": "Dorena",
+    "type": "city",
+    "lat": 36.6161,
+    "lng": -89.2372,
+    "pop": null
+  },
+  {
+    "nameAr": "Dorsey's Search",
+    "nameEn": "Dorsey's Search",
+    "type": "city",
+    "lat": 39.2403,
+    "lng": -76.8467,
+    "pop": null
+  },
+  {
+    "nameAr": "Double Horn",
+    "nameEn": "Double Horn",
+    "type": "city",
+    "lat": 30.491666666667,
+    "lng": -98.222777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Dover",
+    "nameEn": "Dover",
+    "type": "city",
+    "lat": 38.9764,
+    "lng": -77.6744,
+    "pop": null
+  },
+  {
+    "nameAr": "Duncan",
+    "nameEn": "Duncan",
+    "type": "city",
+    "lat": 37.28,
+    "lng": -92.691666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dundee",
+    "nameEn": "Dundee",
+    "type": "city",
+    "lat": 41.265067617312,
+    "lng": -95.990297570241,
+    "pop": null
+  },
+  {
+    "nameAr": "Dunkard",
+    "nameEn": "Dunkard",
+    "type": "city",
+    "lat": 39.7411898,
+    "lng": -79.9747827,
+    "pop": null
+  },
+  {
+    "nameAr": "Duplain",
+    "nameEn": "Duplain",
+    "type": "city",
+    "lat": 43.0466967,
+    "lng": -84.4524827,
+    "pop": null
+  },
+  {
+    "nameAr": "Dupree",
+    "nameEn": "Dupree",
+    "type": "city",
+    "lat": 31.12972222,
+    "lng": -85.25277778,
+    "pop": null
+  },
+  {
+    "nameAr": "East Boothbay",
+    "nameEn": "East Boothbay",
+    "type": "city",
+    "lat": 43.8650824,
+    "lng": -69.586435,
+    "pop": null
+  },
+  {
+    "nameAr": "East Clinton",
+    "nameEn": "East Clinton",
+    "type": "city",
+    "lat": 41.83694444,
+    "lng": -90.165,
+    "pop": null
+  },
+  {
+    "nameAr": "East Dover",
+    "nameEn": "East Dover",
+    "type": "city",
+    "lat": 42.95111111,
+    "lng": -72.76888889,
+    "pop": null
+  },
+  {
+    "nameAr": "East Finley",
+    "nameEn": "East Finley",
+    "type": "city",
+    "lat": 40.0236848,
+    "lng": -80.3875661,
+    "pop": null
+  },
+  {
+    "nameAr": "East Mayfield",
+    "nameEn": "East Mayfield",
+    "type": "city",
+    "lat": 31.3415,
+    "lng": -93.8647,
+    "pop": null
+  },
+  {
+    "nameAr": "East Nantmeal",
+    "nameEn": "East Nantmeal",
+    "type": "city",
+    "lat": 40.1223226,
+    "lng": -75.7293726,
+    "pop": null
+  },
+  {
+    "nameAr": "East Saginaw",
+    "nameEn": "East Saginaw",
+    "type": "city",
+    "lat": 43.419,
+    "lng": -83.947,
+    "pop": null
+  },
+  {
+    "nameAr": "East Union",
+    "nameEn": "East Union",
+    "type": "city",
+    "lat": 40.79583333,
+    "lng": -81.81722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Eckford",
+    "nameEn": "Eckford",
+    "type": "city",
+    "lat": 42.2019873,
+    "lng": -84.8663643,
+    "pop": null
+  },
+  {
+    "nameAr": "Elizabeth City",
+    "nameEn": "Elizabeth City",
+    "type": "city",
+    "lat": 37.066666666667,
+    "lng": -76.366666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Elwood-Magnolia",
+    "nameEn": "Elwood-Magnolia",
+    "type": "city",
+    "lat": 39.5775,
+    "lng": -74.716388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Emerson",
+    "nameEn": "Emerson",
+    "type": "city",
+    "lat": 41.80611111,
+    "lng": -89.76472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Estcourt Station",
+    "nameEn": "Estcourt Station",
+    "type": "city",
+    "lat": 47.4559082,
+    "lng": -69.2279781,
+    "pop": null
+  },
+  {
+    "nameAr": "Ethel",
+    "nameEn": "Ethel",
+    "type": "city",
+    "lat": 46.5324,
+    "lng": -122.747,
+    "pop": null
+  },
+  {
+    "nameAr": "Eurekaton",
+    "nameEn": "Eurekaton",
+    "type": "city",
+    "lat": 35.4328588,
+    "lng": -89.2192343,
+    "pop": null
+  },
+  {
+    "nameAr": "Faganeanea",
+    "nameEn": "Faganeanea",
+    "type": "city",
+    "lat": -14.28333333,
+    "lng": -170.6833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Faiava",
+    "nameEn": "Faiava",
+    "type": "city",
+    "lat": -14.1664,
+    "lng": -169.6167,
+    "pop": null
+  },
+  {
+    "nameAr": "Fenton",
+    "nameEn": "Fenton",
+    "type": "city",
+    "lat": 41.7306,
+    "lng": -90.03,
+    "pop": null
+  },
+  {
+    "nameAr": "Fitiuta, American Samoa",
+    "nameEn": "Fitiuta, American Samoa",
+    "type": "city",
+    "lat": -14.22222222,
+    "lng": -169.42361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Floridaville",
+    "nameEn": "Floridaville",
+    "type": "city",
+    "lat": 43.2386791,
+    "lng": -76.487161,
+    "pop": null
+  },
+  {
+    "nameAr": "Foote Site Village",
+    "nameEn": "Foote Site Village",
+    "type": "city",
+    "lat": 44.4266824,
+    "lng": -83.4446947,
+    "pop": null
+  },
+  {
+    "nameAr": "Forked Deer",
+    "nameEn": "Forked Deer",
+    "type": "city",
+    "lat": 35.7742426,
+    "lng": -89.385072,
+    "pop": null
+  },
+  {
+    "nameAr": "Fort Kipp",
+    "nameEn": "Fort Kipp",
+    "type": "city",
+    "lat": 48.1466865,
+    "lng": -104.715796,
+    "pop": null
+  },
+  {
+    "nameAr": "Fossum",
+    "nameEn": "Fossum",
+    "type": "city",
+    "lat": 47.2385731,
+    "lng": -96.176166,
+    "pop": null
+  },
+  {
+    "nameAr": "Franktown",
+    "nameEn": "Franktown",
+    "type": "city",
+    "lat": 39.271666666667,
+    "lng": -119.84083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fredenberg",
+    "nameEn": "Fredenberg",
+    "type": "city",
+    "lat": 46.9738264,
+    "lng": -92.2171319,
+    "pop": null
+  },
+  {
+    "nameAr": "Fresenius",
+    "nameEn": "Fresenius",
+    "type": "city",
+    "lat": 30.37583333,
+    "lng": -94.2375,
+    "pop": null
+  },
+  {
+    "nameAr": "Freysville",
+    "nameEn": "Freysville",
+    "type": "city",
+    "lat": 39.9281551,
+    "lng": -76.6060776,
+    "pop": null
+  },
+  {
+    "nameAr": "Friendship",
+    "nameEn": "Friendship",
+    "type": "city",
+    "lat": 31.1902,
+    "lng": -95.1757,
+    "pop": null
+  },
+  {
+    "nameAr": "Frog City",
+    "nameEn": "Frog City",
+    "type": "city",
+    "lat": 25.76,
+    "lng": -80.599,
+    "pop": null
+  },
+  {
+    "nameAr": "Garapan",
+    "nameEn": "Garapan",
+    "type": "city",
+    "lat": 15.20611111,
+    "lng": 145.71805556,
+    "pop": null
+  },
+  {
+    "nameAr": "Garden Plain",
+    "nameEn": "Garden Plain",
+    "type": "city",
+    "lat": 41.80083333,
+    "lng": -90.13027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Garnes",
+    "nameEn": "Garnes",
+    "type": "city",
+    "lat": 47.9063503,
+    "lng": -95.880859,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaysville",
+    "nameEn": "Gaysville",
+    "type": "city",
+    "lat": 43.77833333,
+    "lng": -72.69888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Gilbert Mills",
+    "nameEn": "Gilbert Mills",
+    "type": "city",
+    "lat": 43.3147909,
+    "lng": -76.3090981,
+    "pop": null
+  },
+  {
+    "nameAr": "Gilberts",
+    "nameEn": "Gilberts",
+    "type": "city",
+    "lat": 38.641388888889,
+    "lng": -120.48944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Gilberts Corner",
+    "nameEn": "Gilberts Corner",
+    "type": "city",
+    "lat": 38.9689,
+    "lng": -77.6225,
+    "pop": null
+  },
+  {
+    "nameAr": "Gillsburg",
+    "nameEn": "Gillsburg",
+    "type": "city",
+    "lat": 31.0253,
+    "lng": -90.6558,
+    "pop": null
+  },
+  {
+    "nameAr": "Glen Cove",
+    "nameEn": "Glen Cove",
+    "type": "city",
+    "lat": 44.133611,
+    "lng": -69.094167,
+    "pop": null
+  },
+  {
+    "nameAr": "Goodar",
+    "nameEn": "Goodar",
+    "type": "city",
+    "lat": 44.5011264,
+    "lng": -83.8963797,
+    "pop": null
+  },
+  {
+    "nameAr": "Gourley",
+    "nameEn": "Gourley",
+    "type": "city",
+    "lat": 45.59497,
+    "lng": -87.4240137,
+    "pop": null
+  },
+  {
+    "nameAr": "Granby Center",
+    "nameEn": "Granby Center",
+    "type": "city",
+    "lat": 43.326735,
+    "lng": -76.4660496,
+    "pop": null
+  },
+  {
+    "nameAr": "Grand Harbor",
+    "nameEn": "Grand Harbor",
+    "type": "city",
+    "lat": 48.1697231,
+    "lng": -98.9842947,
+    "pop": null
+  },
+  {
+    "nameAr": "Grassy Butte",
+    "nameEn": "Grassy Butte",
+    "type": "city",
+    "lat": 47.3925,
+    "lng": -103.24805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Great Hiwassee",
+    "nameEn": "Great Hiwassee",
+    "type": "city",
+    "lat": 35.2408,
+    "lng": -84.5636,
+    "pop": null
+  },
+  {
+    "nameAr": "Greenbush",
+    "nameEn": "Greenbush",
+    "type": "city",
+    "lat": 42.633,
+    "lng": -74.433,
+    "pop": null
+  },
+  {
+    "nameAr": "Guemes",
+    "nameEn": "Guemes",
+    "type": "city",
+    "lat": 48.5301046,
+    "lng": -122.6248949,
+    "pop": null
+  },
+  {
+    "nameAr": "Gustin",
+    "nameEn": "Gustin",
+    "type": "city",
+    "lat": 44.6272358,
+    "lng": -83.4144159,
+    "pop": null
+  },
+  {
+    "nameAr": "Gypsum",
+    "nameEn": "Gypsum",
+    "type": "city",
+    "lat": 41.493333333333,
+    "lng": -82.875833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hainesport",
+    "nameEn": "Hainesport",
+    "type": "city",
+    "lat": 39.9837234,
+    "lng": -74.8271081,
+    "pop": null
+  },
+  {
+    "nameAr": "Hales Bottom",
+    "nameEn": "Hales Bottom",
+    "type": "city",
+    "lat": 37.2656723,
+    "lng": -81.2956557,
+    "pop": null
+  },
+  {
+    "nameAr": "Hammond",
+    "nameEn": "Hammond",
+    "type": "city",
+    "lat": 46.2,
+    "lng": -123.95166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hanging Grove",
+    "nameEn": "Hanging Grove",
+    "type": "city",
+    "lat": 40.9342057,
+    "lng": -86.9836303,
+    "pop": null
+  },
+  {
+    "nameAr": "Hannibal Center",
+    "nameEn": "Hannibal Center",
+    "type": "city",
+    "lat": 43.2900679,
+    "lng": -76.5521651,
+    "pop": null
+  },
+  {
+    "nameAr": "Hanover Town",
+    "nameEn": "Hanover Town",
+    "type": "city",
+    "lat": 37.697778,
+    "lng": -77.246111,
+    "pop": null
+  },
+  {
+    "nameAr": "Harbour Town",
+    "nameEn": "Harbour Town",
+    "type": "city",
+    "lat": 32.1377082,
+    "lng": -80.8087203,
+    "pop": null
+  },
+  {
+    "nameAr": "Harper's Choice",
+    "nameEn": "Harper's Choice",
+    "type": "city",
+    "lat": 39.2225,
+    "lng": -76.8883,
+    "pop": null
+  },
+  {
+    "nameAr": "Hartsgrove",
+    "nameEn": "Hartsgrove",
+    "type": "city",
+    "lat": 41.605055,
+    "lng": -80.9534259,
+    "pop": null
+  },
+  {
+    "nameAr": "Haverhill",
+    "nameEn": "Haverhill",
+    "type": "city",
+    "lat": 38.5847,
+    "lng": -82.8322,
+    "pop": null
+  },
+  {
+    "nameAr": "Hayshire",
+    "nameEn": "Hayshire",
+    "type": "city",
+    "lat": 40.0078751,
+    "lng": -76.7302441,
+    "pop": null
+  },
+  {
+    "nameAr": "Hickory Ridge",
+    "nameEn": "Hickory Ridge",
+    "type": "city",
+    "lat": 39.1944,
+    "lng": -76.8836,
+    "pop": null
+  },
+  {
+    "nameAr": "Hilton Head Plantation",
+    "nameEn": "Hilton Head Plantation",
+    "type": "city",
+    "lat": 32.255758,
+    "lng": -80.7134412,
+    "pop": null
+  },
+  {
+    "nameAr": "Hines",
+    "nameEn": "Hines",
+    "type": "city",
+    "lat": 47.6861,
+    "lng": -94.6328,
+    "pop": null
+  },
+  {
+    "nameAr": "Hiwassee",
+    "nameEn": "Hiwassee",
+    "type": "city",
+    "lat": 35.1642,
+    "lng": -84.2542,
+    "pop": null
+  },
+  {
+    "nameAr": "Hope Historic District",
+    "nameEn": "Hope Historic District",
+    "type": "city",
+    "lat": 39.30111111,
+    "lng": -85.77027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Huachuca Terrace",
+    "nameEn": "Huachuca Terrace",
+    "type": "city",
+    "lat": 31.3967673,
+    "lng": -109.9250744,
+    "pop": null
+  },
+  {
+    "nameAr": "Hulls Cove",
+    "nameEn": "Hulls Cove",
+    "type": "city",
+    "lat": 44.41917,
+    "lng": -68.25056,
+    "pop": null
+  },
+  {
+    "nameAr": "Hunlock",
+    "nameEn": "Hunlock",
+    "type": "city",
+    "lat": 41.2095268,
+    "lng": -76.0818708,
+    "pop": null
+  },
+  {
+    "nameAr": "Huntly",
+    "nameEn": "Huntly",
+    "type": "city",
+    "lat": 38.8264,
+    "lng": -78.1122,
+    "pop": null
+  },
+  {
+    "nameAr": "Illinois Soldiers' and Sailors' Children's School",
+    "nameEn": "Illinois Soldiers' and Sailors' Children's School",
+    "type": "city",
+    "lat": 40.5217,
+    "lng": -88.9777,
+    "pop": null
+  },
+  {
+    "nameAr": "Indianola",
+    "nameEn": "Indianola",
+    "type": "city",
+    "lat": 28.511944444444,
+    "lng": -96.4875,
+    "pop": null
+  },
+  {
+    "nameAr": "Indigo Run",
+    "nameEn": "Indigo Run",
+    "type": "city",
+    "lat": 32.2021497,
+    "lng": -80.7303859,
+    "pop": null
+  },
+  {
+    "nameAr": "Intracoastal City",
+    "nameEn": "Intracoastal City",
+    "type": "city",
+    "lat": 29.7919,
+    "lng": -92.1469,
+    "pop": null
+  },
+  {
+    "nameAr": "Jessenland",
+    "nameEn": "Jessenland",
+    "type": "city",
+    "lat": 44.5719079,
+    "lng": -93.9233003,
+    "pop": null
+  },
+  {
+    "nameAr": "Johannisburg",
+    "nameEn": "Johannisburg",
+    "type": "city",
+    "lat": 38.3844936,
+    "lng": -89.6531498,
+    "pop": null
+  },
+  {
+    "nameAr": "Jordanville",
+    "nameEn": "Jordanville",
+    "type": "city",
+    "lat": 42.914722222222,
+    "lng": -74.951666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kagman",
+    "nameEn": "Kagman",
+    "type": "city",
+    "lat": 15.1682,
+    "lng": 145.77,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalabera",
+    "nameEn": "Kalabera",
+    "type": "city",
+    "lat": 15.2358,
+    "lng": 145.7933,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalamo",
+    "nameEn": "Kalamo",
+    "type": "city",
+    "lat": 42.5428144,
+    "lng": -85.0127715,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampeska",
+    "nameEn": "Kampeska",
+    "type": "city",
+    "lat": 44.879964,
+    "lng": -97.2686884,
+    "pop": null
+  },
+  {
+    "nameAr": "Kantishna",
+    "nameEn": "Kantishna",
+    "type": "city",
+    "lat": 63.5253,
+    "lng": -150.958,
+    "pop": null
+  },
+  {
+    "nameAr": "Kay Bee Heights",
+    "nameEn": "Kay Bee Heights",
+    "type": "city",
+    "lat": 31.1185073,
+    "lng": -97.8314098,
+    "pop": null
+  },
+  {
+    "nameAr": "Kent Hills",
+    "nameEn": "Kent Hills",
+    "type": "city",
+    "lat": 41.4945378,
+    "lng": -73.6831851,
+    "pop": null
+  },
+  {
+    "nameAr": "Kīholo",
+    "nameEn": "Kīholo",
+    "type": "city",
+    "lat": 19.8525,
+    "lng": -155.9257,
+    "pop": null
+  },
+  {
+    "nameAr": "Kings Contrivance",
+    "nameEn": "Kings Contrivance",
+    "type": "city",
+    "lat": 39.185,
+    "lng": -76.859722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kittrell",
+    "nameEn": "Kittrell",
+    "type": "city",
+    "lat": 30.96555556,
+    "lng": -95.49638889,
+    "pop": null
+  },
+  {
+    "nameAr": "La Baye",
+    "nameEn": "La Baye",
+    "type": "city",
+    "lat": 44.51333333,
+    "lng": -88.01583333,
+    "pop": null
+  },
+  {
+    "nameAr": "La Junta",
+    "nameEn": "La Junta",
+    "type": "city",
+    "lat": 32.91972222,
+    "lng": -97.59972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Labanon",
+    "nameEn": "Labanon",
+    "type": "city",
+    "lat": 44.533056,
+    "lng": -122.907778,
+    "pop": null
+  },
+  {
+    "nameAr": "Lafayette Square",
+    "nameEn": "Lafayette Square",
+    "type": "city",
+    "lat": 38.61599,
+    "lng": -90.21642,
+    "pop": null
+  },
+  {
+    "nameAr": "Lalomoana",
+    "nameEn": "Lalomoana",
+    "type": "city",
+    "lat": -14.170556,
+    "lng": -169.621667,
+    "pop": null
+  },
+  {
+    "nameAr": "Langor",
+    "nameEn": "Langor",
+    "type": "city",
+    "lat": 47.7807886,
+    "lng": -94.5916364,
+    "pop": null
+  },
+  {
+    "nameAr": "Latimore",
+    "nameEn": "Latimore",
+    "type": "city",
+    "lat": 40.0456484,
+    "lng": -77.1210914,
+    "pop": null
+  },
+  {
+    "nameAr": "Lauli'i",
+    "nameEn": "Lauli'i",
+    "type": "city",
+    "lat": -14.2878,
+    "lng": -170.662,
+    "pop": null
+  },
+  {
+    "nameAr": "Laurent",
+    "nameEn": "Laurent",
+    "type": "city",
+    "lat": 43.663889,
+    "lng": -97.386111,
+    "pop": null
+  },
+  {
+    "nameAr": "Leaf Valley",
+    "nameEn": "Leaf Valley",
+    "type": "city",
+    "lat": 46.049406,
+    "lng": -95.4580962,
+    "pop": null
+  },
+  {
+    "nameAr": "Ledoux",
+    "nameEn": "Ledoux",
+    "type": "city",
+    "lat": 35.923611111111,
+    "lng": -105.36138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Leesburg",
+    "nameEn": "Leesburg",
+    "type": "city",
+    "lat": 32.9875,
+    "lng": -95.083888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lippitt",
+    "nameEn": "Lippitt",
+    "type": "city",
+    "lat": 41.7214,
+    "lng": -71.5247,
+    "pop": null
+  },
+  {
+    "nameAr": "Little Axe",
+    "nameEn": "Little Axe",
+    "type": "city",
+    "lat": 35.2325695,
+    "lng": -97.2125276,
+    "pop": null
+  },
+  {
+    "nameAr": "Little Rock Village",
+    "nameEn": "Little Rock Village",
+    "type": "city",
+    "lat": 41.2033,
+    "lng": -87.9861,
+    "pop": null
+  },
+  {
+    "nameAr": "Little Sauk",
+    "nameEn": "Little Sauk",
+    "type": "city",
+    "lat": 45.8638536,
+    "lng": -94.9183557,
+    "pop": null
+  },
+  {
+    "nameAr": "Little Utica",
+    "nameEn": "Little Utica",
+    "type": "city",
+    "lat": 43.2161791,
+    "lng": -76.4016015,
+    "pop": null
+  },
+  {
+    "nameAr": "Loachapoka Historic District",
+    "nameEn": "Loachapoka Historic District",
+    "type": "city",
+    "lat": 32.6043,
+    "lng": -85.59801,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Reach",
+    "nameEn": "Long Reach",
+    "type": "city",
+    "lat": 39.2081,
+    "lng": -76.8128,
+    "pop": null
+  },
+  {
+    "nameAr": "Longstown",
+    "nameEn": "Longstown",
+    "type": "city",
+    "lat": 39.9603764,
+    "lng": -76.6588555,
+    "pop": null
+  },
+  {
+    "nameAr": "Loomis Corner",
+    "nameEn": "Loomis Corner",
+    "type": "city",
+    "lat": 43.35118,
+    "lng": -76.2818748,
+    "pop": null
+  },
+  {
+    "nameAr": "Lovells",
+    "nameEn": "Lovells",
+    "type": "city",
+    "lat": 44.8030695,
+    "lng": -84.4819651,
+    "pop": null
+  },
+  {
+    "nameAr": "Lower Saucon",
+    "nameEn": "Lower Saucon",
+    "type": "city",
+    "lat": 40.6062107,
+    "lng": -75.2823999,
+    "pop": null
+  },
+  {
+    "nameAr": "Lower Village",
+    "nameEn": "Lower Village",
+    "type": "city",
+    "lat": 43.35786,
+    "lng": -70.47977,
+    "pop": null
+  },
+  {
+    "nameAr": "Luma",
+    "nameEn": "Luma",
+    "type": "city",
+    "lat": -14.2277,
+    "lng": -169.51558,
+    "pop": null
+  },
+  {
+    "nameAr": "Lysander New Community",
+    "nameEn": "Lysander New Community",
+    "type": "city",
+    "lat": 43.1678454,
+    "lng": -76.3013193,
+    "pop": null
+  },
+  {
+    "nameAr": "Maia",
+    "nameEn": "Maia",
+    "type": "city",
+    "lat": -14.2,
+    "lng": -169.4166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Maina",
+    "nameEn": "Maina",
+    "type": "city",
+    "lat": 13.46834,
+    "lng": 144.73504,
+    "pop": null
+  },
+  {
+    "nameAr": "Malletts Bay",
+    "nameEn": "Malletts Bay",
+    "type": "city",
+    "lat": 44.5444922,
+    "lng": -73.2154067,
+    "pop": null
+  },
+  {
+    "nameAr": "Manakin",
+    "nameEn": "Manakin",
+    "type": "city",
+    "lat": 37.6015357,
+    "lng": -77.7022145,
+    "pop": null
+  },
+  {
+    "nameAr": "Mapusaga, American Samoa",
+    "nameEn": "Mapusaga, American Samoa",
+    "type": "city",
+    "lat": -14.33,
+    "lng": -170.74388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Marak",
+    "nameEn": "Marak",
+    "type": "city",
+    "lat": 30.90194444,
+    "lng": -97.06861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Mariemont Historic District",
+    "nameEn": "Mariemont Historic District",
+    "type": "city",
+    "lat": 39.145,
+    "lng": -84.37361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Marquisville",
+    "nameEn": "Marquisville",
+    "type": "city",
+    "lat": 41.6566554,
+    "lng": -93.600773,
+    "pop": null
+  },
+  {
+    "nameAr": "Masausi",
+    "nameEn": "Masausi",
+    "type": "city",
+    "lat": -14.25,
+    "lng": -170.6,
+    "pop": null
+  },
+  {
+    "nameAr": "Massies Corner",
+    "nameEn": "Massies Corner",
+    "type": "city",
+    "lat": 38.6876,
+    "lng": -78.0622,
+    "pop": null
+  },
+  {
+    "nameAr": "Matchwood",
+    "nameEn": "Matchwood",
+    "type": "city",
+    "lat": 46.5563344,
+    "lng": -89.3962592,
+    "pop": null
+  },
+  {
+    "nameAr": "Mayfield",
+    "nameEn": "Mayfield",
+    "type": "city",
+    "lat": 37.415866523234,
+    "lng": -122.13069242122,
+    "pop": null
+  },
+  {
+    "nameAr": "Menoken Indian Village Site",
+    "nameEn": "Menoken Indian Village Site",
+    "type": "city",
+    "lat": 46.841732,
+    "lng": -100.517239,
+    "pop": null
+  },
+  {
+    "nameAr": "Merrymans Mill",
+    "nameEn": "Merrymans Mill",
+    "type": "city",
+    "lat": 39.507884,
+    "lng": -76.5746905,
+    "pop": null
+  },
+  {
+    "nameAr": "Mesopotamia",
+    "nameEn": "Mesopotamia",
+    "type": "city",
+    "lat": 41.4583885,
+    "lng": -80.9550919,
+    "pop": null
+  },
+  {
+    "nameAr": "Michoud",
+    "nameEn": "Michoud",
+    "type": "city",
+    "lat": 30.03,
+    "lng": -89.925,
+    "pop": null
+  },
+  {
+    "nameAr": "Mims Chapel",
+    "nameEn": "Mims Chapel",
+    "type": "city",
+    "lat": 32.84333333,
+    "lng": -94.63083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Minneha",
+    "nameEn": "Minneha",
+    "type": "city",
+    "lat": 37.7144581,
+    "lng": -97.2400435,
+    "pop": null
+  },
+  {
+    "nameAr": "Monroe",
+    "nameEn": "Monroe",
+    "type": "city",
+    "lat": 41.336111,
+    "lng": -73.225833,
+    "pop": null
+  },
+  {
+    "nameAr": "Mount Holly",
+    "nameEn": "Mount Holly",
+    "type": "city",
+    "lat": 33.0344,
+    "lng": -80.0344,
+    "pop": null
+  },
+  {
+    "nameAr": "Mungers Corners",
+    "nameEn": "Mungers Corners",
+    "type": "city",
+    "lat": 43.3970135,
+    "lng": -76.2565961,
+    "pop": null
+  },
+  {
+    "nameAr": "Musa Isle Indian Village",
+    "nameEn": "Musa Isle Indian Village",
+    "type": "city",
+    "lat": 25.791689063113,
+    "lng": -80.238809742359,
+    "pop": null
+  },
+  {
+    "nameAr": "Nahodishgish",
+    "nameEn": "Nahodishgish",
+    "type": "city",
+    "lat": 35.7275,
+    "lng": -108.28277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nameoki",
+    "nameEn": "Nameoki",
+    "type": "city",
+    "lat": 38.7317162,
+    "lng": -90.1278856,
+    "pop": null
+  },
+  {
+    "nameAr": "Navy Hill",
+    "nameEn": "Navy Hill",
+    "type": "city",
+    "lat": 15.21,
+    "lng": 145.736,
+    "pop": null
+  },
+  {
+    "nameAr": "Nebish",
+    "nameEn": "Nebish",
+    "type": "city",
+    "lat": 47.7713446,
+    "lng": -94.8474863,
+    "pop": null
+  },
+  {
+    "nameAr": "Newington Center Historic District",
+    "nameEn": "Newington Center Historic District",
+    "type": "city",
+    "lat": 43.09944444,
+    "lng": -70.83333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Newtown Historic District",
+    "nameEn": "Newtown Historic District",
+    "type": "city",
+    "lat": 40.2275,
+    "lng": -74.9364,
+    "pop": null
+  },
+  {
+    "nameAr": "Nipton",
+    "nameEn": "Nipton",
+    "type": "city",
+    "lat": 35.466666666667,
+    "lng": -115.27222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Noleta",
+    "nameEn": "Noleta",
+    "type": "city",
+    "lat": 34.4366,
+    "lng": -119.789,
+    "pop": null
+  },
+  {
+    "nameAr": "North Centre",
+    "nameEn": "North Centre",
+    "type": "city",
+    "lat": 41.075641,
+    "lng": -76.3796639,
+    "pop": null
+  },
+  {
+    "nameAr": "North Foster",
+    "nameEn": "North Foster",
+    "type": "city",
+    "lat": 41.8314878,
+    "lng": -71.7506248,
+    "pop": null
+  },
+  {
+    "nameAr": "North Hannibal",
+    "nameEn": "North Hannibal",
+    "type": "city",
+    "lat": 43.3559013,
+    "lng": -76.5404984,
+    "pop": null
+  },
+  {
+    "nameAr": "North Leominster",
+    "nameEn": "North Leominster",
+    "type": "city",
+    "lat": 42.54,
+    "lng": -71.74,
+    "pop": null
+  },
+  {
+    "nameAr": "North Litchfield Beach",
+    "nameEn": "North Litchfield Beach",
+    "type": "city",
+    "lat": 33.4890571,
+    "lng": -79.0825399,
+    "pop": null
+  },
+  {
+    "nameAr": "North River",
+    "nameEn": "North River",
+    "type": "city",
+    "lat": 34.816388888889,
+    "lng": -76.636111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "North Sewickley",
+    "nameEn": "North Sewickley",
+    "type": "city",
+    "lat": 40.8431197,
+    "lng": -80.2697843,
+    "pop": null
+  },
+  {
+    "nameAr": "North Towanda",
+    "nameEn": "North Towanda",
+    "type": "city",
+    "lat": 41.7878527,
+    "lng": -76.4538303,
+    "pop": null
+  },
+  {
+    "nameAr": "North Victory",
+    "nameEn": "North Victory",
+    "type": "city",
+    "lat": 43.2561784,
+    "lng": -76.6427257,
+    "pop": null
+  },
+  {
+    "nameAr": "North Volney",
+    "nameEn": "North Volney",
+    "type": "city",
+    "lat": 43.4134022,
+    "lng": -76.3268772,
+    "pop": null
+  },
+  {
+    "nameAr": "North Weymouth",
+    "nameEn": "North Weymouth",
+    "type": "city",
+    "lat": 42.2126,
+    "lng": -70.9417,
+    "pop": null
+  },
+  {
+    "nameAr": "Northfield",
+    "nameEn": "Northfield",
+    "type": "city",
+    "lat": 40.597222222222,
+    "lng": -74.161111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Norwegian Grove",
+    "nameEn": "Norwegian Grove",
+    "type": "city",
+    "lat": 46.6091256,
+    "lng": -96.2206173,
+    "pop": null
+  },
+  {
+    "nameAr": "NV",
+    "nameEn": "NV",
+    "type": "city",
+    "lat": 37.50083333,
+    "lng": -117.18527778,
+    "pop": null
+  },
+  {
+    "nameAr": "Oakland Mills",
+    "nameEn": "Oakland Mills",
+    "type": "city",
+    "lat": 39.2119,
+    "lng": -76.8453,
+    "pop": null
+  },
+  {
+    "nameAr": "Oaklawn",
+    "nameEn": "Oaklawn",
+    "type": "city",
+    "lat": 41.7519,
+    "lng": -71.4772,
+    "pop": null
+  },
+  {
+    "nameAr": "Occum",
+    "nameEn": "Occum",
+    "type": "city",
+    "lat": 41.5950983,
+    "lng": -72.0506318,
+    "pop": null
+  },
+  {
+    "nameAr": "Ocean Drive Beach",
+    "nameEn": "Ocean Drive Beach",
+    "type": "city",
+    "lat": 33.8185058,
+    "lng": -78.673349,
+    "pop": null
+  },
+  {
+    "nameAr": "Ocqueoc",
+    "nameEn": "Ocqueoc",
+    "type": "city",
+    "lat": 45.4083454,
+    "lng": -84.0900089,
+    "pop": null
+  },
+  {
+    "nameAr": "Ofu",
+    "nameEn": "Ofu",
+    "type": "city",
+    "lat": -14.175277777778,
+    "lng": -169.6775,
+    "pop": null
+  },
+  {
+    "nameAr": "Old Frontenac",
+    "nameEn": "Old Frontenac",
+    "type": "city",
+    "lat": 44.5260787,
+    "lng": -92.3321254,
+    "pop": null
+  },
+  {
+    "nameAr": "Old Town",
+    "nameEn": "Old Town",
+    "type": "city",
+    "lat": 34.3028,
+    "lng": -88.725,
+    "pop": null
+  },
+  {
+    "nameAr": "Olosega",
+    "nameEn": "Olosega",
+    "type": "city",
+    "lat": -14.18333333,
+    "lng": -169.61666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ontelaunee",
+    "nameEn": "Ontelaunee",
+    "type": "city",
+    "lat": 40.4170376,
+    "lng": -75.944376,
+    "pop": null
+  },
+  {
+    "nameAr": "Oraibi",
+    "nameEn": "Oraibi",
+    "type": "city",
+    "lat": 35.876388888889,
+    "lng": -110.64027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Oro Grande",
+    "nameEn": "Oro Grande",
+    "type": "city",
+    "lat": 34.598888888889,
+    "lng": -117.33416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Osborn",
+    "nameEn": "Osborn",
+    "type": "city",
+    "lat": 39.842222222222,
+    "lng": -84.033611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Osgood",
+    "nameEn": "Osgood",
+    "type": "city",
+    "lat": 46.8136,
+    "lng": -96.8911,
+    "pop": null
+  },
+  {
+    "nameAr": "Oswego Beach",
+    "nameEn": "Oswego Beach",
+    "type": "city",
+    "lat": 43.4500679,
+    "lng": -76.5566116,
+    "pop": null
+  },
+  {
+    "nameAr": "Oswego Center",
+    "nameEn": "Oswego Center",
+    "type": "city",
+    "lat": 43.4145125,
+    "lng": -76.5338319,
+    "pop": null
+  },
+  {
+    "nameAr": "Overisel",
+    "nameEn": "Overisel",
+    "type": "city",
+    "lat": 42.7283593,
+    "lng": -86.0097593,
+    "pop": null
+  },
+  {
+    "nameAr": "Overpeck",
+    "nameEn": "Overpeck",
+    "type": "city",
+    "lat": 39.450833333333,
+    "lng": -84.514722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ozette Indian Village Archaeological Site",
+    "nameEn": "Ozette Indian Village Archaeological Site",
+    "type": "city",
+    "lat": 48.1642563,
+    "lng": -124.732813,
+    "pop": null
+  },
+  {
+    "nameAr": "Paeonian Springs",
+    "nameEn": "Paeonian Springs",
+    "type": "city",
+    "lat": 39.1492,
+    "lng": -77.6192,
+    "pop": null
+  },
+  {
+    "nameAr": "Paintertown",
+    "nameEn": "Paintertown",
+    "type": "city",
+    "lat": 40.3500691,
+    "lng": -79.6930994,
+    "pop": null
+  },
+  {
+    "nameAr": "Palmetto Dunes",
+    "nameEn": "Palmetto Dunes",
+    "type": "city",
+    "lat": 32.1788174,
+    "lng": -80.7151082,
+    "pop": null
+  },
+  {
+    "nameAr": "Parkfield",
+    "nameEn": "Parkfield",
+    "type": "city",
+    "lat": 35.899166666667,
+    "lng": -120.43277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Peace Dale",
+    "nameEn": "Peace Dale",
+    "type": "city",
+    "lat": 41.4514,
+    "lng": -71.4961,
+    "pop": null
+  },
+  {
+    "nameAr": "Pember Corners",
+    "nameEn": "Pember Corners",
+    "type": "city",
+    "lat": 43.3570126,
+    "lng": -76.5104965,
+    "pop": null
+  },
+  {
+    "nameAr": "Peniel",
+    "nameEn": "Peniel",
+    "type": "city",
+    "lat": 33.1628929,
+    "lng": -96.1269182,
+    "pop": null
+  },
+  {
+    "nameAr": "Peola Mills",
+    "nameEn": "Peola Mills",
+    "type": "city",
+    "lat": 38.5472,
+    "lng": -78.2461,
+    "pop": null
+  },
+  {
+    "nameAr": "Perkiomen",
+    "nameEn": "Perkiomen",
+    "type": "city",
+    "lat": 40.1309388,
+    "lng": -75.4607432,
+    "pop": null
+  },
+  {
+    "nameAr": "Petersburg Historic District",
+    "nameEn": "Petersburg Historic District",
+    "type": "city",
+    "lat": 40.011111111111,
+    "lng": -89.848333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Philomont",
+    "nameEn": "Philomont",
+    "type": "city",
+    "lat": 39.0561,
+    "lng": -77.7403,
+    "pop": null
+  },
+  {
+    "nameAr": "Plaza de San Luis de la Culebra",
+    "nameEn": "Plaza de San Luis de la Culebra",
+    "type": "city",
+    "lat": 37.187222,
+    "lng": -105.423611,
+    "pop": null
+  },
+  {
+    "nameAr": "Pleasant Point Crossing",
+    "nameEn": "Pleasant Point Crossing",
+    "type": "city",
+    "lat": 43.4986803,
+    "lng": -76.3343781,
+    "pop": null
+  },
+  {
+    "nameAr": "Point Pleasant",
+    "nameEn": "Point Pleasant",
+    "type": "city",
+    "lat": 38.894444444444,
+    "lng": -84.233888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Alto",
+    "nameEn": "Port Alto",
+    "type": "city",
+    "lat": 28.6599945,
+    "lng": -96.4133057,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Canaveral",
+    "nameEn": "Port Canaveral",
+    "type": "city",
+    "lat": 28.41,
+    "lng": -80.61,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Sheldon",
+    "nameEn": "Port Sheldon",
+    "type": "city",
+    "lat": 42.8994651,
+    "lng": -86.1997692,
+    "pop": null
+  },
+  {
+    "nameAr": "Prairie Village",
+    "nameEn": "Prairie Village",
+    "type": "city",
+    "lat": 38.1125,
+    "lng": -85.8367,
+    "pop": null
+  },
+  {
+    "nameAr": "Prettyboy",
+    "nameEn": "Prettyboy",
+    "type": "city",
+    "lat": 39.6059379,
+    "lng": -76.7202513,
+    "pop": null
+  },
+  {
+    "nameAr": "Rauville",
+    "nameEn": "Rauville",
+    "type": "city",
+    "lat": 44.9796868,
+    "lng": -97.1059073,
+    "pop": null
+  },
+  {
+    "nameAr": "Reading Center",
+    "nameEn": "Reading Center",
+    "type": "city",
+    "lat": 42.4303502,
+    "lng": -76.9327397,
+    "pop": null
+  },
+  {
+    "nameAr": "Rediviva",
+    "nameEn": "Rediviva",
+    "type": "city",
+    "lat": 38.6847,
+    "lng": -78.2019,
+    "pop": null
+  },
+  {
+    "nameAr": "Reeds Ferry",
+    "nameEn": "Reeds Ferry",
+    "type": "city",
+    "lat": 42.88305556,
+    "lng": -71.47583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Renfrew",
+    "nameEn": "Renfrew",
+    "type": "city",
+    "lat": 40.806666666667,
+    "lng": -79.964722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Reno",
+    "nameEn": "Reno",
+    "type": "city",
+    "lat": 38.952777777778,
+    "lng": -77.078333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Revercombs Corner",
+    "nameEn": "Revercombs Corner",
+    "type": "city",
+    "lat": 38.5525,
+    "lng": -78.2364,
+    "pop": null
+  },
+  {
+    "nameAr": "River Hill",
+    "nameEn": "River Hill",
+    "type": "city",
+    "lat": 39.209722222222,
+    "lng": -76.918888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Riverton",
+    "nameEn": "Riverton",
+    "type": "city",
+    "lat": 34.867,
+    "lng": -88.067,
+    "pop": null
+  },
+  {
+    "nameAr": "Rock Mills",
+    "nameEn": "Rock Mills",
+    "type": "city",
+    "lat": 38.655,
+    "lng": -78.1294,
+    "pop": null
+  },
+  {
+    "nameAr": "Rockdale",
+    "nameEn": "Rockdale",
+    "type": "city",
+    "lat": 42.4642,
+    "lng": -90.6783,
+    "pop": null
+  },
+  {
+    "nameAr": "Rohrerstown",
+    "nameEn": "Rohrerstown",
+    "type": "city",
+    "lat": 40.0528751,
+    "lng": -76.3599606,
+    "pop": null
+  },
+  {
+    "nameAr": "Ross Corners",
+    "nameEn": "Ross Corners",
+    "type": "city",
+    "lat": 42.0675747,
+    "lng": -76.1004815,
+    "pop": null
+  },
+  {
+    "nameAr": "Roubidoux",
+    "nameEn": "Roubidoux",
+    "type": "city",
+    "lat": 37.4225462,
+    "lng": -92.1479379,
+    "pop": null
+  },
+  {
+    "nameAr": "Round Grove",
+    "nameEn": "Round Grove",
+    "type": "city",
+    "lat": 41.785,
+    "lng": -89.87194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rozetta",
+    "nameEn": "Rozetta",
+    "type": "city",
+    "lat": 40.9417043,
+    "lng": -90.8637513,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabbathday Lake Shaker Village",
+    "nameEn": "Sabbathday Lake Shaker Village",
+    "type": "city",
+    "lat": 43.989444,
+    "lng": -70.366389,
+    "pop": null
+  },
+  {
+    "nameAr": "Sachem Village",
+    "nameEn": "Sachem Village",
+    "type": "city",
+    "lat": 43.683388,
+    "lng": -72.285689,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint Malo",
+    "nameEn": "Saint Malo",
+    "type": "city",
+    "lat": 29.8781,
+    "lng": -89.5969,
+    "pop": null
+  },
+  {
+    "nameAr": "Saipan",
+    "nameEn": "Saipan",
+    "type": "city",
+    "lat": 15.21233,
+    "lng": 145.7545,
+    "pop": null
+  },
+  {
+    "nameAr": "San Antonio",
+    "nameEn": "San Antonio",
+    "type": "city",
+    "lat": 15.1325,
+    "lng": 145.693611,
+    "pop": null
+  },
+  {
+    "nameAr": "San Jose",
+    "nameEn": "San Jose",
+    "type": "city",
+    "lat": 14.9711,
+    "lng": 145.6259,
+    "pop": null
+  },
+  {
+    "nameAr": "San Roque",
+    "nameEn": "San Roque",
+    "type": "city",
+    "lat": 15.2489,
+    "lng": 145.7734,
+    "pop": null
+  },
+  {
+    "nameAr": "San Vicente",
+    "nameEn": "San Vicente",
+    "type": "city",
+    "lat": 15.15361111,
+    "lng": 145.74,
+    "pop": null
+  },
+  {
+    "nameAr": "Sandtown",
+    "nameEn": "Sandtown",
+    "type": "city",
+    "lat": 33.701667,
+    "lng": -84.528333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sauble",
+    "nameEn": "Sauble",
+    "type": "city",
+    "lat": 44.0341748,
+    "lng": -85.9992375,
+    "pop": null
+  },
+  {
+    "nameAr": "Sautee",
+    "nameEn": "Sautee",
+    "type": "city",
+    "lat": 34.6845396,
+    "lng": -83.6807322,
+    "pop": null
+  },
+  {
+    "nameAr": "Savoie",
+    "nameEn": "Savoie",
+    "type": "city",
+    "lat": 29.6454906,
+    "lng": -90.6873117,
+    "pop": null
+  },
+  {
+    "nameAr": "Scrabble",
+    "nameEn": "Scrabble",
+    "type": "city",
+    "lat": 38.5819,
+    "lng": -78.1594,
+    "pop": null
+  },
+  {
+    "nameAr": "Secord",
+    "nameEn": "Secord",
+    "type": "city",
+    "lat": 44.0152991,
+    "lng": -84.3477832,
+    "pop": null
+  },
+  {
+    "nameAr": "Sefton",
+    "nameEn": "Sefton",
+    "type": "city",
+    "lat": 39.0708771,
+    "lng": -88.9556204,
+    "pop": null
+  },
+  {
+    "nameAr": "Shannock",
+    "nameEn": "Shannock",
+    "type": "city",
+    "lat": 41.4484339,
+    "lng": -71.63673,
+    "pop": null
+  },
+  {
+    "nameAr": "Shawkemo",
+    "nameEn": "Shawkemo",
+    "type": "city",
+    "lat": 41.294444444444,
+    "lng": -70.057777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Si'ufaga",
+    "nameEn": "Si'ufaga",
+    "type": "city",
+    "lat": -14.2,
+    "lng": -169.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Sili",
+    "nameEn": "Sili",
+    "type": "city",
+    "lat": -14.165588,
+    "lng": -169.620031,
+    "pop": null
+  },
+  {
+    "nameAr": "Sinapalo",
+    "nameEn": "Sinapalo",
+    "type": "city",
+    "lat": 14.1656,
+    "lng": 145.2308,
+    "pop": null
+  },
+  {
+    "nameAr": "Sky Harbor, Texas",
+    "nameEn": "Sky Harbor, Texas",
+    "type": "city",
+    "lat": 32.4889,
+    "lng": -97.7772,
+    "pop": null
+  },
+  {
+    "nameAr": "Smithfield",
+    "nameEn": "Smithfield",
+    "type": "city",
+    "lat": 32.87083333,
+    "lng": -97.21527778,
+    "pop": null
+  },
+  {
+    "nameAr": "Songsong",
+    "nameEn": "Songsong",
+    "type": "city",
+    "lat": 14.1397,
+    "lng": 145.1411,
+    "pop": null
+  },
+  {
+    "nameAr": "South Foster",
+    "nameEn": "South Foster",
+    "type": "city",
+    "lat": 41.8228769,
+    "lng": -71.7036788,
+    "pop": null
+  },
+  {
+    "nameAr": "South Granby",
+    "nameEn": "South Granby",
+    "type": "city",
+    "lat": 43.2511794,
+    "lng": -76.4043797,
+    "pop": null
+  },
+  {
+    "nameAr": "South Hannibal",
+    "nameEn": "South Hannibal",
+    "type": "city",
+    "lat": 43.262568,
+    "lng": -76.5241076,
+    "pop": null
+  },
+  {
+    "nameAr": "South Lansing",
+    "nameEn": "South Lansing",
+    "type": "city",
+    "lat": 42.5378499,
+    "lng": -76.5057736,
+    "pop": null
+  },
+  {
+    "nameAr": "South New Haven",
+    "nameEn": "South New Haven",
+    "type": "city",
+    "lat": 43.4564579,
+    "lng": -76.3535454,
+    "pop": null
+  },
+  {
+    "nameAr": "South Ryegate",
+    "nameEn": "South Ryegate",
+    "type": "city",
+    "lat": 44.1883959,
+    "lng": -72.1409272,
+    "pop": null
+  },
+  {
+    "nameAr": "South Scriba",
+    "nameEn": "South Scriba",
+    "type": "city",
+    "lat": 43.4289577,
+    "lng": -76.3821576,
+    "pop": null
+  },
+  {
+    "nameAr": "South Strabane",
+    "nameEn": "South Strabane",
+    "type": "city",
+    "lat": 40.1384049,
+    "lng": -80.163391,
+    "pop": null
+  },
+  {
+    "nameAr": "Southfield",
+    "nameEn": "Southfield",
+    "type": "city",
+    "lat": 40.6139,
+    "lng": -74.066,
+    "pop": null
+  },
+  {
+    "nameAr": "Southwest Oswego",
+    "nameEn": "Southwest Oswego",
+    "type": "city",
+    "lat": 43.4125677,
+    "lng": -76.5774459,
+    "pop": null
+  },
+  {
+    "nameAr": "Sparta Historic District",
+    "nameEn": "Sparta Historic District",
+    "type": "city",
+    "lat": 33.276667,
+    "lng": -82.976667,
+    "pop": null
+  },
+  {
+    "nameAr": "Spofford",
+    "nameEn": "Spofford",
+    "type": "city",
+    "lat": 42.906944444444,
+    "lng": -72.42,
+    "pop": null
+  },
+  {
+    "nameAr": "Spraberry",
+    "nameEn": "Spraberry",
+    "type": "city",
+    "lat": 31.9231843,
+    "lng": -101.825685,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Clara",
+    "nameEn": "St. Clara",
+    "type": "city",
+    "lat": 39.1220331,
+    "lng": -80.6873222,
+    "pop": null
+  },
+  {
+    "nameAr": "Stanton",
+    "nameEn": "Stanton",
+    "type": "city",
+    "lat": 39.7156,
+    "lng": -75.6408,
+    "pop": null
+  },
+  {
+    "nameAr": "Starrs Corners",
+    "nameEn": "Starrs Corners",
+    "type": "city",
+    "lat": 41.024503,
+    "lng": -80.7114657,
+    "pop": null
+  },
+  {
+    "nameAr": "Stem Beach",
+    "nameEn": "Stem Beach",
+    "type": "city",
+    "lat": 38.1639,
+    "lng": -104.644,
+    "pop": null
+  },
+  {
+    "nameAr": "Steps Point village",
+    "nameEn": "Steps Point village",
+    "type": "city",
+    "lat": -14.37833,
+    "lng": -170.75806,
+    "pop": null
+  },
+  {
+    "nameAr": "Stotonic",
+    "nameEn": "Stotonic",
+    "type": "city",
+    "lat": 33.1581088,
+    "lng": -111.7993023,
+    "pop": null
+  },
+  {
+    "nameAr": "Sugar Grove",
+    "nameEn": "Sugar Grove",
+    "type": "city",
+    "lat": 38.533186,
+    "lng": -79.294499,
+    "pop": null
+  },
+  {
+    "nameAr": "Sundal",
+    "nameEn": "Sundal",
+    "type": "city",
+    "lat": 47.4563527,
+    "lng": -96.1983856,
+    "pop": null
+  },
+  {
+    "nameAr": "Susupe",
+    "nameEn": "Susupe",
+    "type": "city",
+    "lat": 15.1609,
+    "lng": 145.706,
+    "pop": null
+  },
+  {
+    "nameAr": "Switzerland",
+    "nameEn": "Switzerland",
+    "type": "city",
+    "lat": 32.427777777778,
+    "lng": -81.008611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Talleyville",
+    "nameEn": "Talleyville",
+    "type": "city",
+    "lat": 39.8089,
+    "lng": -75.5489,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanapag",
+    "nameEn": "Tanapag",
+    "type": "city",
+    "lat": 15.239,
+    "lng": 145.756,
+    "pop": null
+  },
+  {
+    "nameAr": "Taymouth",
+    "nameEn": "Taymouth",
+    "type": "city",
+    "lat": 43.2428037,
+    "lng": -83.873856,
+    "pop": null
+  },
+  {
+    "nameAr": "Teeds Grove",
+    "nameEn": "Teeds Grove",
+    "type": "city",
+    "lat": 42.011666666667,
+    "lng": -90.2475,
+    "pop": null
+  },
+  {
+    "nameAr": "Thornhurst",
+    "nameEn": "Thornhurst",
+    "type": "city",
+    "lat": 41.1784177,
+    "lng": -75.5804658,
+    "pop": null
+  },
+  {
+    "nameAr": "Thumpertown Beach",
+    "nameEn": "Thumpertown Beach",
+    "type": "city",
+    "lat": 41.8437187,
+    "lng": -70.0036302,
+    "pop": null
+  },
+  {
+    "nameAr": "Toreva",
+    "nameEn": "Toreva",
+    "type": "city",
+    "lat": 35.804172,
+    "lng": -110.4970784,
+    "pop": null
+  },
+  {
+    "nameAr": "Town Center",
+    "nameEn": "Town Center",
+    "type": "city",
+    "lat": 39.2167,
+    "lng": -76.855,
+    "pop": null
+  },
+  {
+    "nameAr": "Trevett",
+    "nameEn": "Trevett",
+    "type": "city",
+    "lat": 43.8848033,
+    "lng": -69.6728235,
+    "pop": null
+  },
+  {
+    "nameAr": "Tubac Townsite Historic District",
+    "nameEn": "Tubac Townsite Historic District",
+    "type": "city",
+    "lat": 31.612222,
+    "lng": -111.045278,
+    "pop": null
+  },
+  {
+    "nameAr": "Tula",
+    "nameEn": "Tula",
+    "type": "city",
+    "lat": -14.258055555556,
+    "lng": -170.56416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tuskegee",
+    "nameEn": "Tuskegee",
+    "type": "city",
+    "lat": 35.5952,
+    "lng": -84.2023,
+    "pop": null
+  },
+  {
+    "nameAr": "Two Inlets",
+    "nameEn": "Two Inlets",
+    "type": "city",
+    "lat": 47.0527375,
+    "lng": -95.2175236,
+    "pop": null
+  },
+  {
+    "nameAr": "Unison",
+    "nameEn": "Unison",
+    "type": "city",
+    "lat": 39.035,
+    "lng": -77.7906,
+    "pop": null
+  },
+  {
+    "nameAr": "Upham",
+    "nameEn": "Upham",
+    "type": "city",
+    "lat": 32.8864,
+    "lng": -107.002,
+    "pop": null
+  },
+  {
+    "nameAr": "Upper Providence",
+    "nameEn": "Upper Providence",
+    "type": "city",
+    "lat": 39.9551106,
+    "lng": -75.4229738,
+    "pop": null
+  },
+  {
+    "nameAr": "Vailoatai, American Samoa",
+    "nameEn": "Vailoatai, American Samoa",
+    "type": "city",
+    "lat": -14.351388888889,
+    "lng": -170.78194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Vair",
+    "nameEn": "Vair",
+    "type": "city",
+    "lat": 31.2811,
+    "lng": -94.9136,
+    "pop": null
+  },
+  {
+    "nameAr": "Vanport",
+    "nameEn": "Vanport",
+    "type": "city",
+    "lat": 40.6845102,
+    "lng": -80.3289518,
+    "pop": null
+  },
+  {
+    "nameAr": "Varina",
+    "nameEn": "Varina",
+    "type": "city",
+    "lat": 37.3819,
+    "lng": -77.3361,
+    "pop": null
+  },
+  {
+    "nameAr": "Versailles",
+    "nameEn": "Versailles",
+    "type": "city",
+    "lat": 41.6004276,
+    "lng": -72.0452311,
+    "pop": null
+  },
+  {
+    "nameAr": "Viewtown",
+    "nameEn": "Viewtown",
+    "type": "city",
+    "lat": 38.6392,
+    "lng": -78.0394,
+    "pop": null
+  },
+  {
+    "nameAr": "Vildo",
+    "nameEn": "Vildo",
+    "type": "city",
+    "lat": 35.405636,
+    "lng": -89.103676,
+    "pop": null
+  },
+  {
+    "nameAr": "Volinia",
+    "nameEn": "Volinia",
+    "type": "city",
+    "lat": 42.0117117,
+    "lng": -85.9547298,
+    "pop": null
+  },
+  {
+    "nameAr": "Vulcan",
+    "nameEn": "Vulcan",
+    "type": "city",
+    "lat": 45.78055556,
+    "lng": -87.8625,
+    "pop": null
+  },
+  {
+    "nameAr": "Wainwright",
+    "nameEn": "Wainwright",
+    "type": "city",
+    "lat": 40.4154,
+    "lng": -81.4252,
+    "pop": null
+  },
+  {
+    "nameAr": "Waits River",
+    "nameEn": "Waits River",
+    "type": "city",
+    "lat": 44.0896,
+    "lng": -72.2825,
+    "pop": null
+  },
+  {
+    "nameAr": "Walpi",
+    "nameEn": "Walpi",
+    "type": "city",
+    "lat": 35.8322272,
+    "lng": -110.3979091,
+    "pop": null
+  },
+  {
+    "nameAr": "Warlock",
+    "nameEn": "Warlock",
+    "type": "city",
+    "lat": 32.83916667,
+    "lng": -94.62416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Warrenville",
+    "nameEn": "Warrenville",
+    "type": "city",
+    "lat": 41.8634309,
+    "lng": -72.1625772,
+    "pop": null
+  },
+  {
+    "nameAr": "Waterloo",
+    "nameEn": "Waterloo",
+    "type": "city",
+    "lat": 45.7219,
+    "lng": -112.192,
+    "pop": null
+  },
+  {
+    "nameAr": "Waucedah",
+    "nameEn": "Waucedah",
+    "type": "city",
+    "lat": 45.7630162,
+    "lng": -87.7454028,
+    "pop": null
+  },
+  {
+    "nameAr": "Wedgewood Lakes",
+    "nameEn": "Wedgewood Lakes",
+    "type": "city",
+    "lat": 36.4759877,
+    "lng": -76.0396505,
+    "pop": null
+  },
+  {
+    "nameAr": "Weisenberg",
+    "nameEn": "Weisenberg",
+    "type": "city",
+    "lat": 40.5850947,
+    "lng": -75.7263025,
+    "pop": null
+  },
+  {
+    "nameAr": "Weld",
+    "nameEn": "Weld",
+    "type": "city",
+    "lat": 44.698611111111,
+    "lng": -70.421388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "West Addison",
+    "nameEn": "West Addison",
+    "type": "city",
+    "lat": 44.0817218,
+    "lng": -73.3942908,
+    "pop": null
+  },
+  {
+    "nameAr": "West Buxton",
+    "nameEn": "West Buxton",
+    "type": "city",
+    "lat": 43.6667,
+    "lng": -70.6,
+    "pop": null
+  },
+  {
+    "nameAr": "West Dover",
+    "nameEn": "West Dover",
+    "type": "city",
+    "lat": 42.93722222,
+    "lng": -72.85083333,
+    "pop": null
+  },
+  {
+    "nameAr": "West Hartland",
+    "nameEn": "West Hartland",
+    "type": "city",
+    "lat": 42,
+    "lng": -72.9667,
+    "pop": null
+  },
+  {
+    "nameAr": "West Jersey",
+    "nameEn": "West Jersey",
+    "type": "city",
+    "lat": 41.018926,
+    "lng": -89.9270538,
+    "pop": null
+  },
+  {
+    "nameAr": "West Manheim",
+    "nameEn": "West Manheim",
+    "type": "city",
+    "lat": 39.7226016,
+    "lng": -76.9177569,
+    "pop": null
+  },
+  {
+    "nameAr": "West Phoenix",
+    "nameEn": "West Phoenix",
+    "type": "city",
+    "lat": 43.2256238,
+    "lng": -76.304653,
+    "pop": null
+  },
+  {
+    "nameAr": "West Pikeland",
+    "nameEn": "West Pikeland",
+    "type": "city",
+    "lat": 40.0826044,
+    "lng": -75.6093691,
+    "pop": null
+  },
+  {
+    "nameAr": "West Pottsgrove",
+    "nameEn": "West Pottsgrove",
+    "type": "city",
+    "lat": 40.2545394,
+    "lng": -75.6846317,
+    "pop": null
+  },
+  {
+    "nameAr": "West Townshend",
+    "nameEn": "West Townshend",
+    "type": "city",
+    "lat": 43.08194444,
+    "lng": -72.71055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Westfield",
+    "nameEn": "Westfield",
+    "type": "city",
+    "lat": 40.5027,
+    "lng": -74.2406,
+    "pop": null
+  },
+  {
+    "nameAr": "Westhoff",
+    "nameEn": "Westhoff",
+    "type": "city",
+    "lat": 29.195,
+    "lng": -97.471111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Wheatland",
+    "nameEn": "Wheatland",
+    "type": "city",
+    "lat": 39.1908,
+    "lng": -77.6756,
+    "pop": null
+  },
+  {
+    "nameAr": "Whynot",
+    "nameEn": "Whynot",
+    "type": "city",
+    "lat": 32.2892,
+    "lng": -88.4903,
+    "pop": null
+  },
+  {
+    "nameAr": "Wilberton",
+    "nameEn": "Wilberton",
+    "type": "city",
+    "lat": 38.8794908,
+    "lng": -88.9514487,
+    "pop": null
+  },
+  {
+    "nameAr": "Wilde Lake",
+    "nameEn": "Wilde Lake",
+    "type": "city",
+    "lat": 39.225555555556,
+    "lng": -76.866388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Wildwood Gables",
+    "nameEn": "Wildwood Gables",
+    "type": "city",
+    "lat": 38.9656684,
+    "lng": -74.8460022,
+    "pop": null
+  },
+  {
+    "nameAr": "Willard",
+    "nameEn": "Willard",
+    "type": "city",
+    "lat": 38.9403,
+    "lng": -77.4506,
+    "pop": null
+  },
+  {
+    "nameAr": "Willistown",
+    "nameEn": "Willistown",
+    "type": "city",
+    "lat": 39.9612206,
+    "lng": -75.4960355,
+    "pop": null
+  },
+  {
+    "nameAr": "Willisville",
+    "nameEn": "Willisville",
+    "type": "city",
+    "lat": 39.0072,
+    "lng": -77.8342,
+    "pop": null
+  },
+  {
+    "nameAr": "Willow Grove",
+    "nameEn": "Willow Grove",
+    "type": "city",
+    "lat": 36.5870072,
+    "lng": -85.3421857,
+    "pop": null
+  },
+  {
+    "nameAr": "Wiscoy",
+    "nameEn": "Wiscoy",
+    "type": "city",
+    "lat": 42.5022861,
+    "lng": -78.0797289,
+    "pop": null
+  },
+  {
+    "nameAr": "Wolstenholme Towne",
+    "nameEn": "Wolstenholme Towne",
+    "type": "city",
+    "lat": 37.1785,
+    "lng": -76.6115,
+    "pop": null
+  },
+  {
+    "nameAr": "Woodburn",
+    "nameEn": "Woodburn",
+    "type": "city",
+    "lat": 39.09,
+    "lng": -77.6192,
+    "pop": null
+  },
+  {
+    "nameAr": "Wytopitlock",
+    "nameEn": "Wytopitlock",
+    "type": "city",
+    "lat": 45.6406,
+    "lng": -68.0756,
+    "pop": null
+  },
+  {
+    "nameAr": "Yosemite Village",
+    "nameEn": "Yosemite Village",
+    "type": "city",
+    "lat": 37.745277777778,
+    "lng": -119.59833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Zoar Historic District",
+    "nameEn": "Zoar Historic District",
+    "type": "city",
+    "lat": 40.614444444444,
+    "lng": -81.422222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "تكساس",
+    "nameEn": "Texas",
+    "lat": 31.2638905,
+    "lng": -98.5456116,
+    "type": "city",
+    "pop": null
+  }
+]

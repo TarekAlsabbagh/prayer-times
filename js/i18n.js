@@ -442,14 +442,11 @@ const TRANSLATIONS = {
     }
 };
 
-// اكتشاف اللغة: URL أولاً → localStorage → لغة المتصفح
+// اكتشاف اللغة: URL هو المرجع الوحيد
+// /en/... → إنجليزي | أي مسار آخر → عربي
 function _detectLang() {
     if (window.location.pathname.startsWith('/en')) return 'en';
-    const saved = localStorage.getItem('app_lang');
-    if (saved) return saved;
-    // زيارة أولى: استخدام لغة المتصفح
-    const bl = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
-    return bl.startsWith('ar') ? 'ar' : 'en';
+    return 'ar';
 }
 let _lang = _detectLang();
 

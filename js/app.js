@@ -2498,15 +2498,19 @@ function _applyCompassHeading(heading) {
 function startDeviceCompass() {
     if (_compassListening || !window.DeviceOrientationEvent) return;
 
+    let _usingAbsolute = false;
+
     _orientationHandler = function(e) {
-        let heading = null;
+        // على iOS: استخدم webkitCompassHeading (شمال حقيقي)
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            heading = e.webkitCompassHeading; // iOS
-        } else if (e.alpha != null) {
-            heading = (360 - e.alpha) % 360;  // Android
+            _applyCompassHeading(e.webkitCompassHeading);
+            return;
         }
-        if (heading === null) return;
-        _applyCompassHeading(heading);
+        // على Android: فضّل deviceorientationabsolute واتجاهل deviceorientation العادي
+        if (e.type === 'deviceorientation' && _usingAbsolute) return;
+        if (e.type === 'deviceorientationabsolute') _usingAbsolute = true;
+        if (e.alpha == null) return;
+        _applyCompassHeading((360 - e.alpha) % 360);
     };
 
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {

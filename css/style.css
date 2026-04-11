@@ -630,10 +630,11 @@ button, input, select { font-family: inherit; }
 
 .compass-kaaba {
     position: absolute;
-    top: 8px;
+    top: -28px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    line-height: 1;
 }
 
 .compass-directions span {

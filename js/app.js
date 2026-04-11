@@ -452,6 +452,13 @@ async function initApp() {
 
     // بدء العد التنازلي
     startCountdown();
+
+    // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
+    const _pageParam = new URLSearchParams(window.location.search).get('page');
+    if (_pageParam) {
+        const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
+        if (_targetLink) _targetLink.click();
+    }
 }
 
 // ========= التنقل بين الصفحات =========
@@ -1027,7 +1034,9 @@ function detectLocation() {
                 currentLng = position.coords.longitude;
                 currentTimezone = await fetchTimezone(currentLat, currentLng);
                 // على الصفحة الرئيسية: انتقل لصفحة المدينة بعد التحديد
-                const onHomePage = window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en';
+                // لكن إذا كان URL يحتوي على ?page= فلا تنتقل (المستخدم طلب قسماً بعينه)
+                const hasPageParam = new URLSearchParams(window.location.search).has('page');
+                const onHomePage = !hasPageParam && (window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en');
                 reverseGeocode(currentLat, currentLng, onHomePage);
                 if (!onHomePage) {
                     updatePrayerTimes();

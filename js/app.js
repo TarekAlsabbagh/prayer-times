@@ -693,7 +693,8 @@ function fetchCitySuggestions(query) {
 
         // الأنواع المرفوضة
         const rejected = new Set(['state', 'county', 'country', 'region',
-                                  'continent', 'ocean', 'sea', 'island']);
+                                  'continent', 'ocean', 'sea', 'island',
+                                  'suburb', 'quarter', 'neighbourhood', 'hamlet']);
         let results = all.filter(p =>
             !rejected.has(p.addresstype) &&
             !rejected.has(p.type) &&
@@ -725,17 +726,21 @@ function fetchCitySuggestions(query) {
         results.forEach((place) => {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
-            const cityNameAr2  = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || '';
-            const englishName  = nd['name:en'] || nd['name:en-US']
-                || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '')
-                || place.display_name.split(',')[0];
+
+            // المدينة الرئيسية فقط (بدون أحياء)
+            const arCityMain = nd['name:ar'] || addr.city || addr.town || addr.village || place.name || '';
+            const enCityMain = nd['name:en'] || nd['name:en-US']
+                    || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '')
+                    || addr.city || addr.town || addr.village
+                    || place.display_name.split(',')[0];
+
             // تجنب التكرار مع النتائج المحلية
-            const dupKey = cityNameAr2 + '|' + englishName;
+            const dupKey = arCityMain + '|' + enCityMain;
             if (localSet.has(dupKey)) return;
 
             const country     = addr.country || '';
             const countryCode = (addr.country_code || '').toLowerCase();
-            const displayCity = isEnSugg ? (englishName || place.name) : cityNameAr2;
+            const displayCity = isEnSugg ? enCityMain : arCityMain;
             const flagImg = countryCode
                 ? `<img src="https://flagcdn.com/28x21/${countryCode}.png" class="sugg-flag" alt="${countryCode}" onerror="this.style.display='none'">`
                 : `<span style="font-size:1.2rem">🌍</span>`;
@@ -746,7 +751,8 @@ function fetchCitySuggestions(query) {
             div.addEventListener('click', async () => {
                 document.getElementById('city-search-input').value = displayCity;
                 suggestionsEl.classList.remove('open');
-                await selectCity(parseFloat(place.lat), parseFloat(place.lon), cityNameAr2, country, englishName, countryCode);
+                currentEnglishDisplayName = enCityMain;
+                await selectCity(parseFloat(place.lat), parseFloat(place.lon), arCityMain, country, enCityMain, countryCode);
             });
             suggestionsEl.appendChild(div);
         });
@@ -827,9 +833,12 @@ function fetchCityOnlineBroader(query) {
                 div.className = 'suggestion-item';
                 const addr        = place.address || {};
                 const nd          = place.namedetails || {};
-                const cityNameAr  = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
-                const englishName = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || place.display_name.split(',')[0];
-                const displayCity = isEn ? (englishName || place.name) : cityNameAr;
+
+                // المدينة الرئيسية فقط (بدون أحياء)
+                const arCityMain  = nd['name:ar'] || addr.city || addr.town || addr.village || place.name || place.display_name.split(',')[0];
+                const englishName = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
+
+                const displayCity = isEn ? (englishName || place.name) : arCityMain;
                 const country     = addr.country || '';
                 const cc          = (addr.country_code || '').toLowerCase();
                 const flagImg     = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
@@ -837,7 +846,8 @@ function fetchCityOnlineBroader(query) {
                 div.addEventListener('click', async () => {
                     document.getElementById('city-search-input').value = displayCity;
                     suggestionsEl.classList.remove('open');
-                    await selectCity(parseFloat(place.lat), parseFloat(place.lon), cityNameAr, country, englishName, cc);
+                    currentEnglishDisplayName = englishName;
+                    await selectCity(parseFloat(place.lat), parseFloat(place.lon), arCityMain, country, englishName, cc);
                 });
                 suggestionsEl.appendChild(div);
             });
@@ -1037,18 +1047,11 @@ function reverseGeocode(lat, lng, navigateAfter = false) {
             const addr = arData.address;
             const enAddr = enData?.address || {};
 
-            // اسم المدينة الرئيسية (للـ slug والتنقل)
+            // اسم المدينة الرئيسية فقط (بدون أحياء)
             const arCityMain = addr.city || addr.town || addr.village || '';
             const enCityMain = enAddr.city || enAddr.town || enAddr.village || '';
 
-            // الحي أو المنطقة الفرعية
-            const arSuburb   = addr.suburb || addr.neighbourhood || addr.quarter || '';
-            const enSuburb   = enAddr.suburb || enAddr.neighbourhood || enAddr.quarter || '';
-
-            // العرض: إذا توجد مدينة + حي → "المدينة، الحي" وإلا المدينة فقط
-            currentCity = arCityMain
-                ? (arSuburb ? `${arCityMain}، ${arSuburb}` : arCityMain)
-                : (arSuburb || addr.county || 'غير معروف');
+            currentCity = arCityMain || addr.county || 'غير معروف';
 
             currentCountry     = addr.country || '';
             currentCountryCode = (addr.country_code || '').toLowerCase();

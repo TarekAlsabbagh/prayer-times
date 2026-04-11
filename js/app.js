@@ -469,6 +469,8 @@ async function initApp() {
     if (_isQiblaPage) {
         const _qiblaLink = document.querySelector(`.sidebar-nav a[data-page="qibla"]`);
         if (_qiblaLink) _qiblaLink.click();
+        // تحديث العناصر الديناميكية بعد تفعيل القسم (مثل زر العودة)
+        updateCityDisplay();
     }
 
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
@@ -498,6 +500,19 @@ function initNavigation() {
                 targetPage.classList.add('active');
                 targetPage.classList.add('fade-in');
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
+            }
+
+            // عند الانتقال لمواقيت الصلاة من أي صفحة مدينة → انتقل لصفحة المدينة
+            if (pageId === 'prayer-times') {
+                const _citySlug = window.location.pathname.match(/\/(?:en\/)?(?:qibla-in|prayer-times-in)-(.+?)(?:\.html)?$/)?.[1];
+                if (_citySlug && window.location.protocol !== 'file:') {
+                    sessionStorage.setItem(`city_${_citySlug}`, JSON.stringify({
+                        lat: currentLat, lng: currentLng, name: currentCity,
+                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode
+                    }));
+                    window.location.href = pageUrl(`/prayer-times-in-${_citySlug}.html`);
+                    return;
+                }
             }
 
             // عند الانتقال لقسم القبلة:
@@ -1174,6 +1189,32 @@ function updateCityDisplay() {
         qiblaTitle.textContent = isEn
             ? `🧭 Qibla Direction in ${dispCity}`
             : `🧭 اتجاه القبلة في ${dispCity}`;
+    }
+
+    // زر العودة لمواقيت الصلاة (يظهر فقط على صفحة /qibla-in-*)
+    const qiblaBackBtn = document.getElementById('qibla-back-btn');
+    const qiblaBackLabel = document.getElementById('qibla-back-label');
+    const isQiblaPage = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
+    if (qiblaBackBtn && isQiblaPage && dispCity) {
+        const slug = makeSlug(currentEnglishName || dispCity, currentLat, currentLng);
+        qiblaBackBtn.href = pageUrl(`/prayer-times-in-${slug}.html`);
+        qiblaBackBtn.onclick = e => {
+            e.preventDefault();
+            sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+                lat: currentLat, lng: currentLng,
+                name: currentCity, country: currentCountry,
+                englishName: currentEnglishName, countryCode: currentCountryCode
+            }));
+            window.location.href = qiblaBackBtn.href;
+        };
+        if (qiblaBackLabel) {
+            qiblaBackLabel.textContent = isEn
+                ? `Prayer Times in ${dispCity}`
+                : `مواقيت الصلاة في ${dispCity}`;
+        }
+        qiblaBackBtn.style.display = 'flex';
+    } else if (qiblaBackBtn) {
+        qiblaBackBtn.style.display = 'none';
     }
 }
 

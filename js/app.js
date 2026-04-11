@@ -48,7 +48,10 @@ const COUNTRY_EN_NAMES = {
 // ===== دوال مساعدة لعرض الأسماء حسب اللغة =====
 function getDisplayCity() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    return (lang === 'en' && currentEnglishName) ? currentEnglishName : currentCity;
+    if (lang === 'en') {
+        return currentEnglishDisplayName || currentEnglishName || currentCity;
+    }
+    return currentCity; // يحتوي بالفعل على "المدينة، الحي" إن وُجد حي
 }
 function getDisplayCountry() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -952,6 +955,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     currentLng = lng;
     currentCity = city;
     currentEnglishName = englishName || '';
+    currentEnglishDisplayName = englishName || ''; // عند الاختيار اليدوي لا يوجد حي
     currentCountry = country;
     currentCountryCode = countryCode;
     currentEnglishCountry = COUNTRY_EN_NAMES[countryCode] || '';

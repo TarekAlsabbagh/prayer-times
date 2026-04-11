@@ -7,6 +7,7 @@ let currentLat = 21.4225;
 let currentLng = 39.8262;
 let currentCity = 'مكة المكرمة';
 let currentEnglishName = 'Mecca'; // الاسم الإنجليزي للمدينة (للـ slug)
+let currentEnglishDisplayName = 'Mecca'; // الاسم الإنجليزي مع الحي (للعرض)
 let currentCountry = 'المملكة العربية السعودية';
 let currentEnglishCountry = 'Saudi Arabia'; // الاسم الإنجليزي للدولة
 let currentCountryCode = 'sa'; // كود ISO للدولة الحالية
@@ -47,7 +48,10 @@ const COUNTRY_EN_NAMES = {
 // ===== دوال مساعدة لعرض الأسماء حسب اللغة =====
 function getDisplayCity() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    return (lang === 'en' && currentEnglishName) ? currentEnglishName : currentCity;
+    if (lang === 'en') {
+        return currentEnglishDisplayName || currentEnglishName || currentCity;
+    }
+    return currentCity; // يحتوي بالفعل على "المدينة، الحي" إن وُجد حي
 }
 function getDisplayCountry() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -951,6 +955,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     currentLng = lng;
     currentCity = city;
     currentEnglishName = englishName || '';
+    currentEnglishDisplayName = englishName || ''; // عند الاختيار اليدوي لا يوجد حي
     currentCountry = country;
     currentCountryCode = countryCode;
     currentEnglishCountry = COUNTRY_EN_NAMES[countryCode] || '';
@@ -1029,20 +1034,44 @@ function reverseGeocode(lat, lng, navigateAfter = false) {
 
     Promise.all([arReq, enReq]).then(([arData, enData]) => {
         if (arData?.address) {
-            currentCity        = arData.address.city || arData.address.town || arData.address.village || arData.address.county || 'غير معروف';
-            currentCountry     = arData.address.country || '';
-            currentCountryCode = (arData.address.country_code || '').toLowerCase();
+            const addr = arData.address;
+            const enAddr = enData?.address || {};
+
+            // اسم المدينة الرئيسية (للـ slug والتنقل)
+            const arCityMain = addr.city || addr.town || addr.village || '';
+            const enCityMain = enAddr.city || enAddr.town || enAddr.village || '';
+
+            // الحي أو المنطقة الفرعية
+            const arSuburb   = addr.suburb || addr.neighbourhood || addr.quarter || '';
+            const enSuburb   = enAddr.suburb || enAddr.neighbourhood || enAddr.quarter || '';
+
+            // العرض: إذا توجد مدينة + حي → "المدينة، الحي" وإلا المدينة فقط
+            currentCity = arCityMain
+                ? (arSuburb ? `${arCityMain}، ${arSuburb}` : arCityMain)
+                : (arSuburb || addr.county || 'غير معروف');
+
+            currentCountry     = addr.country || '';
+            currentCountryCode = (addr.country_code || '').toLowerCase();
+
+            // الاسم الإنجليزي (للـ slug): المدينة الرئيسية فقط بدون الحي
             currentEnglishName = arData.namedetails?.['name:en']
                 || arData.namedetails?.['name:en-US']
-                || enData?.address?.city || enData?.address?.town || enData?.address?.village
+                || enCityMain
                 || '';
-            currentEnglishCountry = enData?.address?.country
+
+            // عرض الاسم الإنجليزي مع الحي (اختياري للواجهة)
+            currentEnglishDisplayName = enCityMain
+                ? (enSuburb ? `${enCityMain}, ${enSuburb}` : enCityMain)
+                : (currentEnglishName || '');
+
+            currentEnglishCountry = enAddr.country
                 || COUNTRY_EN_NAMES[currentCountryCode] || '';
             autoSelectMethod(currentCountryCode, currentCountry);
 
-            // انتقل إلى صفحة المدينة إذا طُلب ذلك
-            if (navigateAfter && currentEnglishName && window.location.protocol !== 'file:') {
-                navigateToCity(lat, lng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
+            // انتقل إلى صفحة المدينة إذا طُلب ذلك (باستخدام اسم المدينة الرئيسية للـ slug)
+            const navEnName = enCityMain || currentEnglishName;
+            if (navigateAfter && navEnName && window.location.protocol !== 'file:') {
+                navigateToCity(lat, lng, arCityMain || currentCity, currentCountry, navEnName, currentCountryCode);
                 return;
             }
         }

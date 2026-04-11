@@ -502,6 +502,19 @@ function initNavigation() {
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
             }
 
+            // عند الانتقال لمواقيت الصلاة من صفحة القبلة → ارجع لصفحة المدينة
+            if (pageId === 'prayer-times') {
+                const _qiblaSlug = window.location.pathname.match(/\/(?:en\/)?qibla-in-(.+?)(?:\.html)?$/)?.[1];
+                if (_qiblaSlug && window.location.protocol !== 'file:') {
+                    sessionStorage.setItem(`city_${_qiblaSlug}`, JSON.stringify({
+                        lat: currentLat, lng: currentLng, name: currentCity,
+                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode
+                    }));
+                    window.location.href = pageUrl(`/prayer-times-in-${_qiblaSlug}.html`);
+                    return;
+                }
+            }
+
             // عند الانتقال لقسم القبلة:
             // إذا كنا على صفحة مدينة → انتقل لصفحة القبلة المخصصة
             // وإلا → شغّل البوصلة مباشرة

@@ -693,7 +693,8 @@ function fetchCitySuggestions(query) {
 
         // الأنواع المرفوضة
         const rejected = new Set(['state', 'county', 'country', 'region',
-                                  'continent', 'ocean', 'sea', 'island']);
+                                  'continent', 'ocean', 'sea', 'island',
+                                  'suburb', 'quarter', 'neighbourhood', 'hamlet']);
         let results = all.filter(p =>
             !rejected.has(p.addresstype) &&
             !rejected.has(p.type) &&
@@ -725,17 +726,22 @@ function fetchCitySuggestions(query) {
         results.forEach((place) => {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
-            const cityNameAr2  = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || '';
-            const englishName  = nd['name:en'] || nd['name:en-US']
-                || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '')
-                || place.display_name.split(',')[0];
+
+            // المدينة الرئيسية فقط (بدون أحياء)
+            const arCityMain = nd['name:ar'] || addr.city || addr.town || addr.village || place.name || '';
+            const rawEnCity  = nd['name:en'] || nd['name:en-US']
+                    || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '')
+                    || addr.city || addr.town || addr.village
+                    || place.display_name.split(',')[0];
+            const enCityMain = rawEnCity.replace(/\s*District\b/gi, '').trim();
+
             // تجنب التكرار مع النتائج المحلية
-            const dupKey = cityNameAr2 + '|' + englishName;
+            const dupKey = arCityMain + '|' + enCityMain;
             if (localSet.has(dupKey)) return;
 
             const country     = addr.country || '';
             const countryCode = (addr.country_code || '').toLowerCase();
-            const displayCity = isEnSugg ? (englishName || place.name) : cityNameAr2;
+            const displayCity = isEnSugg ? enCityMain : arCityMain;
             const flagImg = countryCode
                 ? `<img src="https://flagcdn.com/28x21/${countryCode}.png" class="sugg-flag" alt="${countryCode}" onerror="this.style.display='none'">`
                 : `<span style="font-size:1.2rem">🌍</span>`;
@@ -746,7 +752,8 @@ function fetchCitySuggestions(query) {
             div.addEventListener('click', async () => {
                 document.getElementById('city-search-input').value = displayCity;
                 suggestionsEl.classList.remove('open');
-                await selectCity(parseFloat(place.lat), parseFloat(place.lon), cityNameAr2, country, englishName, countryCode);
+                currentEnglishDisplayName = enCityMain;
+                await selectCity(parseFloat(place.lat), parseFloat(place.lon), arCityMain, country, enCityMain, countryCode);
             });
             suggestionsEl.appendChild(div);
         });
@@ -827,9 +834,13 @@ function fetchCityOnlineBroader(query) {
                 div.className = 'suggestion-item';
                 const addr        = place.address || {};
                 const nd          = place.namedetails || {};
-                const cityNameAr  = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
-                const englishName = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || place.display_name.split(',')[0];
-                const displayCity = isEn ? (englishName || place.name) : cityNameAr;
+
+                // المدينة الرئيسية فقط (بدون أحياء)
+                const arCityMain  = nd['name:ar'] || addr.city || addr.town || addr.village || place.name || place.display_name.split(',')[0];
+                const rawEnName   = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
+                const englishName = rawEnName.replace(/\s*District\b/gi, '').trim();
+
+                const displayCity = isEn ? (englishName || place.name) : arCityMain;
                 const country     = addr.country || '';
                 const cc          = (addr.country_code || '').toLowerCase();
                 const flagImg     = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
@@ -837,7 +848,8 @@ function fetchCityOnlineBroader(query) {
                 div.addEventListener('click', async () => {
                     document.getElementById('city-search-input').value = displayCity;
                     suggestionsEl.classList.remove('open');
-                    await selectCity(parseFloat(place.lat), parseFloat(place.lon), cityNameAr, country, englishName, cc);
+                    currentEnglishDisplayName = englishName;
+                    await selectCity(parseFloat(place.lat), parseFloat(place.lon), arCityMain, country, englishName, cc);
                 });
                 suggestionsEl.appendChild(div);
             });
@@ -1028,41 +1040,37 @@ function detectLocation() {
 }
 
 function reverseGeocode(lat, lng, navigateAfter = false) {
-    // نجري طلبَين بالتوازي: عربي (للعرض) + إنجليزي (للـ slug)
-    const arReq = fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar&namedetails=1`)).then(r=>r.json()).catch(()=>null);
-    const enReq = fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=en`)).then(r=>r.json()).catch(()=>null);
+    // zoom=10 يُعيد مستوى المدينة بدلاً من مستوى الشارع/الحي
+    const arReq = fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=ar&namedetails=1`)).then(r=>r.json()).catch(()=>null);
+    const enReq = fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=en`)).then(r=>r.json()).catch(()=>null);
 
     Promise.all([arReq, enReq]).then(([arData, enData]) => {
         if (arData?.address) {
             const addr = arData.address;
             const enAddr = enData?.address || {};
 
-            // اسم المدينة الرئيسية (للـ slug والتنقل)
-            const arCityMain = addr.city || addr.town || addr.village || '';
-            const enCityMain = enAddr.city || enAddr.town || enAddr.village || '';
+            // اسم المدينة الرئيسية فقط (بدون أحياء) مع احتياط لحالة غياب city
+            const arCityMain = addr.city || addr.town || addr.village
+                || (addr.state || '').replace(/^منطقة\s+/, '').replace(/^محافظة\s+/, '').trim()
+                || '';
+            const rawEnCity = enAddr.city || enAddr.town || enAddr.village
+                || (enAddr.state || '').replace(/\s*(Region|Governorate|Province)\b/gi, '').trim()
+                || '';
+            // حذف كلمة District من الأسماء الإنجليزية
+            const enCityMain = rawEnCity.replace(/\s*District\b/gi, '').trim();
 
-            // الحي أو المنطقة الفرعية
-            const arSuburb   = addr.suburb || addr.neighbourhood || addr.quarter || '';
-            const enSuburb   = enAddr.suburb || enAddr.neighbourhood || enAddr.quarter || '';
-
-            // العرض: إذا توجد مدينة + حي → "المدينة، الحي" وإلا المدينة فقط
-            currentCity = arCityMain
-                ? (arSuburb ? `${arCityMain}، ${arSuburb}` : arCityMain)
-                : (arSuburb || addr.county || 'غير معروف');
+            currentCity = arCityMain || 'غير معروف';
 
             currentCountry     = addr.country || '';
             currentCountryCode = (addr.country_code || '').toLowerCase();
 
-            // الاسم الإنجليزي (للـ slug): المدينة الرئيسية فقط بدون الحي
-            currentEnglishName = arData.namedetails?.['name:en']
+            // الاسم الإنجليزي (للـ slug والعرض): المدينة فقط بدون District
+            currentEnglishName = (arData.namedetails?.['name:en']
                 || arData.namedetails?.['name:en-US']
                 || enCityMain
-                || '';
+                || '').replace(/\s*District\b/gi, '').trim();
 
-            // عرض الاسم الإنجليزي مع الحي (اختياري للواجهة)
-            currentEnglishDisplayName = enCityMain
-                ? (enSuburb ? `${enCityMain}, ${enSuburb}` : enCityMain)
-                : (currentEnglishName || '');
+            currentEnglishDisplayName = enCityMain || currentEnglishName || '';
 
             currentEnglishCountry = enAddr.country
                 || COUNTRY_EN_NAMES[currentCountryCode] || '';

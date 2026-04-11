@@ -306,7 +306,7 @@ function getSlugFromURL() {
 // التنقل إلى صفحة القبلة المخصصة للمدينة
 function navigateToQibla(lat, lng, city, country, englishName = '', countryCode = '') {
     const slug = makeSlug(englishName || city, lat, lng);
-    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode }));
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, timezone: currentTimezone }));
     if (window.location.protocol === 'file:') {
         window.location.hash = `qibla-in-${slug}`;
     } else {
@@ -365,8 +365,8 @@ async function initFromURL() {
     // 1) من sessionStorage (تنقل عادي داخل الموقع)
     const cached = sessionStorage.getItem(`city_${slug}`);
     if (cached) {
-        const { lat, lng, name, country, countryCode, englishName } = JSON.parse(cached);
-        await loadCityData(lat, lng, name, country, countryCode || '', englishName || '');
+        const { lat, lng, name, country, countryCode, englishName, timezone } = JSON.parse(cached);
+        await loadCityData(lat, lng, name, country, countryCode || '', englishName || '', timezone || null);
         return true;
     }
 
@@ -511,7 +511,7 @@ function initNavigation() {
                 if (_slug && currentLat) {
                     sessionStorage.setItem(`city_${_slug}`, JSON.stringify({
                         lat: currentLat, lng: currentLng, name: currentCity,
-                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode
+                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone
                     }));
                     window.location.href = pageUrl(`/prayer-times-in-${_slug}.html`);
                     return;
@@ -941,7 +941,7 @@ function buildCityUrl(lat, lng, city, country, englishName) {
 function navigateToCity(lat, lng, city, country, englishName = '', countryCode = '') {
     const slug = makeSlug(englishName || city, lat, lng);
     // حفظ البيانات قبل التنقل (الصفحة الجديدة ستقرأها)
-    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode }));
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, timezone: currentTimezone }));
     if (window.location.protocol === 'file:') {
         window.location.hash = `prayer-times-in-${slug}`;
     } else {
@@ -1034,7 +1034,7 @@ function autoSelectMethod(countryCode, countryName) {
 }
 
 // تحميل بيانات المدينة وتحديث كل الواجهة (بدون تنقل)
-async function loadCityData(lat, lng, city, country, countryCode = '', englishName = '') {
+async function loadCityData(lat, lng, city, country, countryCode = '', englishName = '', timezone = null) {
     currentLat = lat;
     currentLng = lng;
     currentCity = city;
@@ -1043,7 +1043,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     currentCountry = country;
     currentCountryCode = countryCode;
     currentEnglishCountry = COUNTRY_EN_NAMES[countryCode] || '';
-    currentTimezone = await fetchTimezone(lat, lng);
+    currentTimezone = timezone || await fetchTimezone(lat, lng);
     // اختيار طريقة الحساب بكود الدولة ISO (موثوق) ثم الاسم كاحتياطي
     autoSelectMethod(countryCode, country);
     const isEnTitle = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
@@ -1206,7 +1206,7 @@ function updateCityDisplay() {
             sessionStorage.setItem(`city_${slug}`, JSON.stringify({
                 lat: currentLat, lng: currentLng,
                 name: currentCity, country: currentCountry,
-                englishName: currentEnglishName, countryCode: currentCountryCode
+                englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone
             }));
             window.location.href = qiblaBackBtn.href;
         };

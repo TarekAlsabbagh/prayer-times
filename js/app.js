@@ -471,6 +471,9 @@ function initNavigation() {
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
             }
 
+            // عند الانتقال لقسم القبلة → شغّل البوصلة (مهم على iOS)
+            if (pageId === 'qibla') startDeviceCompass();
+
             // إغلاق القائمة على الموبايل
             closeSidebar();
         });

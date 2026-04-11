@@ -154,7 +154,7 @@
         </div>
         <nav class="sidebar-nav">
             <a href="/"><span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span></a>
-            <a href="/?page=qibla"><span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span></a>
+            <a id="nav-qibla-link" href="/?page=qibla"><span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span></a>
             <a href="/?page=hijri-calendar"><span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span></a>
             <a href="/?page=date-converter"><span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span></a>
             <a href="/?page=duas"><span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span></a>
@@ -411,6 +411,19 @@ async function initAbout() {
         sessionStorage.setItem(`city_${pSlug}`, JSON.stringify({lat,lng,name:city,country,englishName:englishName||'',countryCode:cc}));
         window.location.href = pHref;
     };
+
+    // رابط القبلة المخصص للمدينة
+    const qiblaLink = document.getElementById('nav-qibla-link');
+    if (qiblaLink) {
+        const qSlug = pSlug;
+        const qHref = `/qibla-in-${qSlug}.html`;
+        qiblaLink.href = qHref;
+        qiblaLink.onclick = e => {
+            e.preventDefault();
+            sessionStorage.setItem(`city_${qSlug}`, JSON.stringify({lat,lng,name:city,country,englishName:englishName||'',countryCode:cc}));
+            window.location.href = qHref;
+        };
+    }
 
     // ===== معلومات مميزة (من Nominatim) =====
     try {

@@ -232,7 +232,7 @@
     <!-- ========= الشريط الجانبي ========= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h1 class="sidebar-logo" onclick="window.location.href='/'" title="الرئيسية">🕌 مواقيت الصلاة</h1>
+            <h1 class="sidebar-logo" onclick="window.location.href='/'" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</h1>
             <div class="hijri-date" id="sidebar-hijri-date"></div>
             <div class="greg-date" id="sidebar-greg-date"></div>
         </div>
@@ -567,7 +567,8 @@ function onSearch() {
     // إذا لم توجد نتائج محلية → ابحث في Nominatim بعد 450ms
     if (filtered.length === 0 && q.length >= 2) {
         const sugg = document.getElementById('cities-suggestions');
-        sugg.innerHTML = '<div class="sugg-loading">🔍 جاري البحث...</div>';
+        const _isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+        sugg.innerHTML = `<div class="sugg-loading">${_isEn ? '🔍 Searching...' : '🔍 جاري البحث...'}</div>`;
         sugg.classList.add('open');
         searchTimer = setTimeout(() => fetchNominatimSuggestions(q), 450);
     }
@@ -636,7 +637,7 @@ function fetchNominatimSuggestions(q) {
         results = results.slice(0, 6);
 
         if (results.length === 0) {
-            sugg.innerHTML = '<div class="sugg-loading">لم يُعثر على نتائج</div>';
+            sugg.innerHTML = `<div class="sugg-loading">${isEn ? 'No results found' : 'لم يُعثر على نتائج'}</div>`;
             return;
         }
 
@@ -679,7 +680,7 @@ function fetchNominatimSuggestions(q) {
             sugg.appendChild(div);
         });
     }).catch(() => {
-        sugg.innerHTML = '<div class="sugg-loading">حدث خطأ، تحقق من الاتصال</div>';
+        sugg.innerHTML = `<div class="sugg-loading">${isEn ? 'Error, check your connection' : 'حدث خطأ، تحقق من الاتصال'}</div>`;
     });
 }
 
@@ -711,9 +712,12 @@ function renderGrid() {
         : (isEnGrid ? 'No results' : 'لا توجد نتائج');
 
     if (page.length === 0) {
+        const _isEnGrid = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
         container.innerHTML = lastQuery
-            ? `<div class="status-msg">لا توجد نتائج محلية لـ "<strong>${lastQuery}</strong>"<br><small style="color:var(--text-light)">تظهر الاقتراحات تلقائياً من الإنترنت أعلى 👆</small></div>`
-            : `<div class="status-msg">لا توجد نتائج</div>`;
+            ? (_isEnGrid
+                ? `<div class="status-msg">No local results for "<strong>${lastQuery}</strong>"<br><small style="color:var(--text-light)">Suggestions appear automatically from the internet above 👆</small></div>`
+                : `<div class="status-msg">لا توجد نتائج محلية لـ "<strong>${lastQuery}</strong>"<br><small style="color:var(--text-light)">تظهر الاقتراحات تلقائياً من الإنترنت أعلى 👆</small></div>`)
+            : `<div class="status-msg">${_isEnGrid ? 'No results' : 'لا توجد نتائج'}</div>`;
         paginationEl.style.display = 'none';
         return;
     }

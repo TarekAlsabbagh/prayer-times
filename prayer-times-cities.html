@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <script>if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة في مدن الدولة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ===== شريط البحث ===== */
+        .cities-search-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+        .cities-search-card input {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            font-size: 1rem;
+            font-family: inherit;
+            color: var(--text);
+            background: var(--bg);
+            transition: border-color 0.2s;
+        }
+        .cities-search-card input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .results-count {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* ===== شبكة المدن ===== */
+        .cities-main-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .city-link {
+            display: block;
+            padding: 12px 14px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.87rem;
+            font-weight: 600;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .city-link:hover {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        }
+        .city-link .city-type {
+            font-size: 0.72rem;
+            opacity: 0.65;
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+        .city-link:hover .city-type { opacity: 0.85; }
+        /* مدن جديدة من Nominatim — لم تُحفظ بعد */
+        .city-link-new { border-color: var(--gold, #c8a84e); }
+        .city-link-new:hover { border-color: var(--gold, #c8a84e); }
+
+        /* ===== تحميل / فارغ ===== */
+        .status-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        .spinner {
+            display: inline-block;
+            width: 32px; height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== ترقيم الصفحات ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .pg-btn {
+            min-width: 36px; height: 36px;
+            padding: 0 8px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pg-btn:hover  { border-color: var(--primary); color: var(--primary); }
+        .pg-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .pg-btn:disabled { opacity: 0.4; cursor: default; }
+
+        /* ===== البحث الخارجي ===== */
+        .search-online-box {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+        }
+        .search-online-box p { margin-bottom: 14px; font-size: 0.95rem; }
+        .btn-search-online {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-search-online:hover { opacity: 0.88; }
+        .btn-search-online:disabled { opacity: 0.5; cursor: default; }
+        .online-results { margin-top: 14px; }
+
+        /* ===== wrapper البحث والـ dropdown ===== */
+        .cities-search-wrapper {
+            position: relative;
+        }
+        .cities-search-wrapper input {
+            width: 100%;
+        }
+        .cities-suggestions {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0; left: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+            z-index: 200;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        .cities-suggestions.open { display: block; }
+        .sugg-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+            font-size: 0.9rem;
+        }
+        .sugg-item:last-child { border-bottom: none; }
+        .sugg-item:hover, .sugg-item.focused { background: var(--bg); }
+        .sugg-item .sugg-flag { width: 24px; height: 18px; border-radius: 2px; object-fit: cover; flex-shrink: 0; }
+        .sugg-item .sugg-name { font-weight: 600; color: var(--text); }
+        .sugg-item .sugg-country { font-size: 0.78rem; color: var(--text-light); margin-top: 1px; }
+        .sugg-loading {
+            padding: 14px 16px;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            text-align: center;
+        }
+        .sugg-online-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            background: rgba(26,107,60,0.04);
+            transition: background 0.15s;
+        }
+        .sugg-online-btn:hover { background: rgba(26,107,60,0.1); }
+
+        /* ===== موبايل ===== */
+        @media (max-width: 768px) {
+            .cities-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .cities-page-header h1 { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- زر القائمة للموبايل -->
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div class="app-layout">
+
+    <!-- ========= الشريط الجانبي ========= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo" onclick="window.location.href='/'" title="الرئيسية">🕌 مواقيت الصلاة</h1>
+            <div class="hijri-date" id="sidebar-hijri-date"></div>
+            <div class="greg-date" id="sidebar-greg-date"></div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/" >
+                <span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
+            </a>
+            <a href="/?page=qibla">
+                <span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span>
+            </a>
+            <a href="/?page=moon">
+                <span class="nav-icon">🌙</span> <span data-i18n="nav.moon">القمر اليوم</span>
+            </a>
+            <a href="/?page=zakat">
+                <span class="nav-icon">💰</span> <span data-i18n="nav.zakat">حاسبة الزكاة</span>
+            </a>
+            <a href="/?page=hijri-today">
+                <span class="nav-icon">📅</span> <span data-i18n="nav.hijri_today">التاريخ الهجري</span>
+            </a>
+            <a href="/?page=date-converter">
+                <span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span>
+            </a>
+            <a href="/?page=hijri-calendar">
+                <span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
+            </a>
+            <a href="/?page=duas">
+                <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- ========= المحتوى الرئيسي ========= -->
+    <main class="main-content">
+
+        <!-- الهيدر — نفس بنية top-header في index.html -->
+        <div class="top-header">
+            <div class="location-info">
+                <span class="icon">🏙️</span>
+                <div>
+                    <div class="city-name" id="page-title">مواقيت الصلاة في مدن الدولة</div>
+                    <div class="country" id="page-subtitle"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline lang-toggle-btn" onclick="toggleLanguage()">EN</button>
+                <button class="btn btn-outline" onclick="history.back()" data-i18n="about.back">← رجوع</button>
+                <button class="btn btn-outline" onclick="window.location.href='/'">🏠 <span data-i18n="header.home">الرئيسية</span></button>
+            </div>
+        </div>
+
+        <!-- شريط البحث -->
+        <div class="cities-search-card">
+            <div class="cities-search-wrapper">
+                <input type="text" id="search-input"
+                    placeholder="🔍 ابحث عن مدينة أو منطقة..."
+                    data-i18n-placeholder="cities_page.search_placeholder"
+                    oninput="onSearch()"
+                    onkeydown="onSearchKeyDown(event)"
+                    autocomplete="off">
+                <div class="cities-suggestions" id="cities-suggestions"></div>
+            </div>
+            <div class="results-count" id="results-count"></div>
+        </div>
+
+        <!-- شبكة المدن -->
+        <div class="cities-main-card">
+            <div id="cities-container">
+                <div class="status-msg">
+                    <div class="spinner"></div>
+                    <div>جاري تحميل المدن...</div>
+                </div>
+            </div>
+            <div class="pagination" id="pagination" style="display:none;"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="js/i18n.js?v=20"></script>
+<script>
+// مساعد URL حسب اللغة الحالية
+function pageUrl(arabicPath) {
+    if ((typeof getCurrentLang === 'function') && getCurrentLang() === 'en')
+        return '/en' + arabicPath.replace(/\.html$/, '');
+    return arabicPath;
+}
+
+// ===== قراءة كود الدولة من الرابط =====
+const pathMatch = window.location.pathname.match(/prayer-times-cities-([a-z]{2,3})(?:\.html)?$/);
+const countryCode = pathMatch ? pathMatch[1] : 'sa';
+
+// بيانات جلسة العمل
+let storedCountry = { code: countryCode, name: '' };
+try {
+    const s = sessionStorage.getItem('allCitiesCountry');
+    if (s) storedCountry = JSON.parse(s);
+} catch(e) {}
+
+// أسماء الدول بالعربية
+const COUNTRY_NAMES = {
+    sa:'المملكة العربية السعودية', sy:'سوريا', eg:'مصر', iq:'العراق',
+    jo:'الأردن', lb:'لبنان', ps:'فلسطين', kw:'الكويت', ae:'الإمارات',
+    qa:'قطر', bh:'البحرين', om:'عُمان', ye:'اليمن', ly:'ليبيا',
+    tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان',
+    pk:'باكستان', tr:'تركيا', ir:'إيران', id:'إندونيسيا', my:'ماليزيا',
+    bd:'بنغلاديش', af:'أفغانستان', in:'الهند', lk:'سريلانكا', np:'نيبال',
+    cn:'الصين', jp:'اليابان', kr:'كوريا الجنوبية', kp:'كوريا الشمالية', mn:'منغوليا',
+    fr:'فرنسا', de:'ألمانيا', gb:'المملكة المتحدة', es:'إسبانيا', it:'إيطاليا',
+    nl:'هولندا', be:'بلجيكا', pt:'البرتغال', se:'السويد', no:'النرويج',
+    dk:'الدنمارك', fi:'فنلندا', pl:'بولندا', ru:'روسيا', ua:'أوكرانيا',
+    ch:'سويسرا', at:'النمسا', gr:'اليونان', cz:'التشيك', ro:'رومانيا',
+    us:'الولايات المتحدة', ca:'كندا', mx:'المكسيك',
+    gt:'غواتيمالا', cu:'كوبا', do:'الدومينيكان',
+    br:'البرازيل', ar:'الأرجنتين', co:'كولومبيا', pe:'بيرو', ve:'فنزويلا',
+    cl:'تشيلي', ec:'الإكوادور', bo:'بوليفيا', py:'باراغواي', uy:'أوروغواي',
+    ng:'نيجيريا', et:'إثيوبيا', ke:'كينيا', tz:'تنزانيا', za:'جنوب أفريقيا',
+    gh:'غانا', sn:'السنغال', cm:'الكاميرون', ml:'مالي', so:'الصومال',
+    ug:'أوغندا', mr:'موريتانيا', td:'تشاد', ne:'النيجر',
+    au:'أستراليا', nz:'نيوزيلندا',
+};
+
+// أسماء الدول بالإنجليزية
+const COUNTRY_NAMES_EN = {
+    sa:'Saudi Arabia', sy:'Syria', eg:'Egypt', iq:'Iraq',
+    jo:'Jordan', lb:'Lebanon', ps:'Palestine', kw:'Kuwait', ae:'United Arab Emirates',
+    qa:'Qatar', bh:'Bahrain', om:'Oman', ye:'Yemen', ly:'Libya',
+    tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan',
+    pk:'Pakistan', tr:'Turkey', ir:'Iran', id:'Indonesia', my:'Malaysia',
+    bd:'Bangladesh', af:'Afghanistan', in:'India', lk:'Sri Lanka', np:'Nepal',
+    cn:'China', jp:'Japan', kr:'South Korea', kp:'North Korea', mn:'Mongolia',
+    fr:'France', de:'Germany', gb:'United Kingdom', es:'Spain', it:'Italy',
+    nl:'Netherlands', be:'Belgium', pt:'Portugal', se:'Sweden', no:'Norway',
+    dk:'Denmark', fi:'Finland', pl:'Poland', ru:'Russia', ua:'Ukraine',
+    ch:'Switzerland', at:'Austria', gr:'Greece', cz:'Czech Republic', ro:'Romania',
+    us:'United States', ca:'Canada', mx:'Mexico',
+    gt:'Guatemala', cu:'Cuba', do:'Dominican Republic',
+    br:'Brazil', ar:'Argentina', co:'Colombia', pe:'Peru', ve:'Venezuela',
+    cl:'Chile', ec:'Ecuador', bo:'Bolivia', py:'Paraguay', uy:'Uruguay',
+    ng:'Nigeria', et:'Ethiopia', ke:'Kenya', tz:'Tanzania', za:'South Africa',
+    gh:'Ghana', sn:'Senegal', cm:'Cameroon', ml:'Mali', so:'Somalia',
+    ug:'Uganda', mr:'Mauritania', td:'Chad', ne:'Niger',
+    au:'Australia', nz:'New Zealand',
+};
+
+function getCountryAr() { return storedCountry.name || COUNTRY_NAMES[countryCode] || countryCode.toUpperCase(); }
+function getCountryEn() { return COUNTRY_NAMES_EN[countryCode] || countryCode.toUpperCase(); }
+function getCountryDisplay() {
+    return (typeof getCurrentLang === 'function' && getCurrentLang() === 'en') ? getCountryEn() : getCountryAr();
+}
+
+function updatePageHeader() {
+    const isEn = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+    const cn = getCountryDisplay();
+    document.getElementById('page-title').textContent = isEn
+        ? `Prayer Times in Cities of ${cn}`
+        : `مواقيت الصلاة في مدن ${cn}`;
+    document.getElementById('page-subtitle').textContent = cn;
+    document.title = isEn ? `Prayer Times in Cities of ${cn}` : `مواقيت الصلاة في مدن ${cn}`;
+}
+
+updatePageHeader();
+
+// ===== التاريخ الهجري في السايدبار =====
+(function setHijriDate() {
+    try {
+        const today = new Date();
+        const y = today.getFullYear(), m = today.getMonth()+1, d = today.getDate();
+        // حساب بسيط للتاريخ الهجري
+        const jd = Math.floor((1461*(y+4800+Math.floor((m-14)/12)))/4)
+                 + Math.floor((367*(m-2-12*Math.floor((m-14)/12)))/12)
+                 - Math.floor((3*Math.floor((y+4900+Math.floor((m-14)/12))/100))/4)
+                 + d - 32075;
+        const l = jd - 1948440 + 10632;
+        const n = Math.floor((l-1)/10631);
+        const l2 = l - 10631*n + 354;
+        const j = Math.floor((10985-l2)/5316)*Math.floor((50*l2)/17719)
+                + Math.floor(l2/5670)*Math.floor((43*l2)/15238);
+        const l3 = l2 - Math.floor((30-j)/15)*Math.floor((17719*j)/50)
+                - Math.floor(j/16)*Math.floor((15238*j)/43) + 29;
+        const hMonth = Math.floor((24*l3)/709);
+        const hDay   = l3 - Math.floor((709*hMonth)/24);
+        const hYear  = 30*n + j - 30;
+        const isEn = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+        const months = isEn
+            ? ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah']
+            : ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+        const days = isEn
+            ? ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+            : ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+        const hSuffix = isEn ? ' AH' : ' هـ';
+        const sep = isEn ? ', ' : '، ';
+        document.getElementById('sidebar-hijri-date').textContent =
+            `${days[today.getDay()]}${sep}${hDay} ${months[hMonth-1]} ${hYear}${hSuffix}`;
+        // التاريخ الميلادي
+        const gMonthsAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+        const gMonthsEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const gMonths = isEn ? gMonthsEn : gMonthsAr;
+        const gSuffix = isEn ? '' : ' م';
+        const gregEl = document.getElementById('sidebar-greg-date');
+        if (gregEl) gregEl.textContent = `${today.getDate()} ${gMonths[today.getMonth()]} ${today.getFullYear()}${gSuffix}`;
+    } catch(e) {}
+})();
+
+// ===== السايدبار - موبايل =====
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.querySelector('.sidebar-overlay').classList.toggle('active');
+}
+
+// ===== متغيرات الصفحة =====
+const PER_PAGE  = 26;
+const PAGES_VIS = 10;
+let allCities   = [];
+let filtered    = [];
+let currentPage = 1;
+
+// ===== إزالة التكرار على مستوى العميل (بالاسم فقط) =====
+function deduplicateCities(cities) {
+    const seenNames = new Set();
+    const result = [];
+    for (const city of cities) {
+        const key = (city.nameAr || '').trim();
+        if (!key || seenNames.has(key)) continue;
+        seenNames.add(key);
+        result.push(city);
+    }
+    return result;
+}
+
+// ===== حفظ مدن جديدة في قاعدة البيانات على الخادم =====
+async function saveToDb(newCities) {
+    if (!newCities || newCities.length === 0) return;
+    try {
+        await fetch(`/api/cities/add?cc=${countryCode}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newCities),
+            keepalive: true
+        });
+    } catch(e) {}
+}
+
+function showLoading(msg) {
+    document.getElementById('cities-container').innerHTML =
+        `<div class="status-msg"><div class="spinner"></div><div>${msg}</div></div>`;
+}
+function showError() {
+    document.getElementById('cities-container').innerHTML =
+        `<div class="status-msg">
+            ⚠️ تعذّر تحميل البيانات حالياً.<br>
+            <small style="color:var(--text-light);display:block;margin:6px 0 12px">تحقق من اتصالك بالإنترنت وأعد المحاولة</small>
+            <button onclick="fetchCities()" style="padding:8px 24px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-family:inherit;cursor:pointer;font-weight:600;">
+                ↺ إعادة المحاولة
+            </button>
+        </div>`;
+}
+function showEmpty() {
+    document.getElementById('cities-container').innerHTML =
+        `<div class="status-msg">لا توجد نتائج</div>`;
+}
+
+async function fetchCities() {
+    // sessionStorage للجلسة الحالية فقط (يُمسح عند إغلاق التبويب)
+    const SESSION_KEY = `session_cities_${countryCode}`;
+    try {
+        const raw = sessionStorage.getItem(SESSION_KEY);
+        if (raw) {
+            allCities = JSON.parse(raw);
+            filtered = [...allCities]; currentPage = 1;
+            renderGrid(); return;
+        }
+    } catch(e) {}
+
+    // جلب من قاعدة البيانات على الخادم
+    showLoading('جاري تحميل المدن...');
+    try {
+        const ctrl  = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 120000);
+        const res   = await fetch(`/api/cities?cc=${countryCode}`, { signal: ctrl.signal });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const cities = await res.json();
+        if (!Array.isArray(cities) || cities.length === 0) { showEmpty(); return; }
+        allCities = deduplicateCities(cities);
+        // حفظ في sessionStorage للجلسة الحالية
+        try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(allCities)); } catch(e) {}
+        filtered = [...allCities]; currentPage = 1;
+        renderGrid();
+    } catch(e) { showError(); }
+}
+
+// ===== تطبيع النص العربي (همزات + تشكيل + تاء مربوطة + ألف مقصورة) =====
+function normalizeAr(str) {
+    return (str || '')
+        .replace(/[أإآا]/g, 'ا')   // توحيد الهمزات
+        .replace(/ة/g, 'ه')          // تاء مربوطة
+        .replace(/ى/g, 'ي')          // ألف مقصورة
+        .replace(/[\u064B-\u065F]/g, '') // حذف التشكيل
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+}
+
+// ===== البحث المحلي + Nominatim =====
+let lastQuery = '';
+let searchTimer = null;
+let sugg_focused = -1;
+
+function onSearch() {
+    const q = document.getElementById('search-input').value.trim();
+    lastQuery = q;
+    clearTimeout(searchTimer);
+    closeSuggestions();
+
+    if (!q) {
+        filtered = [...allCities];
+        currentPage = 1;
+        renderGrid();
+        return;
+    }
+
+    // فلترة محلية فورية
+    const qNorm = normalizeAr(q);
+    const qLow  = q.toLowerCase();
+    filtered = allCities.filter(c =>
+        normalizeAr(c.nameAr).includes(qNorm) ||
+        (c.nameEn || '').toLowerCase().includes(qLow)
+    );
+    currentPage = 1;
+    renderGrid();
+
+    // إذا لم توجد نتائج محلية → ابحث في Nominatim بعد 450ms
+    if (filtered.length === 0 && q.length >= 2) {
+        const sugg = document.getElementById('cities-suggestions');
+        sugg.innerHTML = '<div class="sugg-loading">🔍 جاري البحث...</div>';
+        sugg.classList.add('open');
+        searchTimer = setTimeout(() => fetchNominatimSuggestions(q), 450);
+    }
+}
+
+function closeSuggestions() {
+    const sugg = document.getElementById('cities-suggestions');
+    if (sugg) { sugg.classList.remove('open'); sugg.innerHTML = ''; }
+    sugg_focused = -1;
+}
+
+function onSearchKeyDown(e) {
+    const items = document.querySelectorAll('#cities-suggestions .sugg-item');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        sugg_focused = Math.min(sugg_focused + 1, items.length - 1);
+        items.forEach((s, i) => s.classList.toggle('focused', i === sugg_focused));
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        sugg_focused = Math.max(sugg_focused - 1, 0);
+        items.forEach((s, i) => s.classList.toggle('focused', i === sugg_focused));
+    } else if (e.key === 'Enter' && sugg_focused >= 0) {
+        e.preventDefault();
+        items[sugg_focused]?.click();
+    } else if (e.key === 'Escape') {
+        closeSuggestions();
+    }
+}
+
+// ===== Nominatim: بحث مزدوج (حر + مدينة) كالصفحة الرئيسية =====
+function fetchNominatimSuggestions(q) {
+    const sugg = document.getElementById('cities-suggestions');
+    const base = `format=json&limit=8&accept-language=ar&addressdetails=1&namedetails=1&countrycodes=${countryCode}`;
+    const urlQ    = `https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(q)}`;
+    const urlCity = `https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(q)}`;
+
+    Promise.all([
+        fetch(urlQ).then(r => r.json()).catch(() => []),
+        fetch(urlCity).then(r => r.json()).catch(() => [])
+    ]).then(([resQ, resCity]) => {
+        sugg.innerHTML = '';
+
+        // دمج مع إزالة التكرار بـ place_id
+        const seen = new Set();
+        let all = [...resQ, ...resCity].filter(p => {
+            if (seen.has(p.place_id)) return false;
+            seen.add(p.place_id); return true;
+        });
+
+        // الأنواع المقبولة
+        const accepted = new Set(['city','town','village','hamlet','municipality','suburb','quarter','neighbourhood']);
+        let results = all.filter(p => accepted.has(p.addresstype));
+
+        // ترتيب: city/town أولاً
+        results.sort((a, b) => {
+            const rank = t => t==='city'?0:['town','municipality'].includes(t)?1:['village','hamlet'].includes(t)?2:3;
+            const tr = rank(a.addresstype) - rank(b.addresstype);
+            return tr !== 0 ? tr : (b.importance||0) - (a.importance||0);
+        });
+
+        // إذا لم توجد نتائج نظيفة، استخدم الكل
+        if (results.length === 0) results = all;
+        results = results.slice(0, 6);
+
+        if (results.length === 0) {
+            sugg.innerHTML = '<div class="sugg-loading">لم يُعثر على نتائج</div>';
+            return;
+        }
+
+        const existingNames = new Set(allCities.map(c => c.nameAr));
+
+        results.forEach(place => {
+            const addr = place.address || {};
+            const nd   = place.namedetails || {};
+            const nameAr    = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
+            const nameEn    = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || '';
+            const country   = addr.country || getCountryAr();
+            const cc        = (addr.country_code || countryCode).toLowerCase();
+            const isNew     = !existingNames.has(nameAr);
+
+            const div = document.createElement('div');
+            div.className = 'sugg-item';
+            const flagImg = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
+            div.innerHTML = `${flagImg}<div>
+                <div class="sugg-name">${nameAr}</div>
+                <div class="sugg-country">${country}</div>
+            </div>`;
+
+            div.addEventListener('click', async () => {
+                closeSuggestions();
+                document.getElementById('search-input').value = nameAr;
+                const slug = makeSlug(nameEn, parseFloat(place.lat), parseFloat(place.lon));
+                const href = pageUrl(`/prayer-times-in-${slug}.html`);
+                sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+                    lat: parseFloat(place.lat), lng: parseFloat(place.lon),
+                    name: nameAr, country, englishName: nameEn, countryCode: cc
+                }));
+                // إذا مدينة جديدة → احفظها في DB وأزل كاش الجلسة لتظهر فور العودة
+                if (isNew) {
+                    await saveToDb([{ nameAr, nameEn, lat: parseFloat(place.lat), lng: parseFloat(place.lon), type: 'city', pop: null }]);
+                    sessionStorage.removeItem(`session_cities_${countryCode}`);
+                }
+                window.location.href = href;
+            });
+            sugg.appendChild(div);
+        });
+    }).catch(() => {
+        sugg.innerHTML = '<div class="sugg-loading">حدث خطأ، تحقق من الاتصال</div>';
+    });
+}
+
+// إغلاق الـ dropdown عند الضغط خارجه
+document.addEventListener('click', e => {
+    if (!e.target.closest('.cities-search-wrapper')) closeSuggestions();
+});
+
+// ===== رسم الشبكة =====
+function makeSlug(en, lat, lng) {
+    const latin = (en || '').toLowerCase().replace(/[^a-z0-9\s]+/g, '').trim().replace(/\s+/g, '-');
+    if (latin.length >= 2) return latin;
+    const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
+    const lo = Math.abs(lng).toFixed(1) + (lng >= 0 ? 'e' : 'w');
+    return `${la}-${lo}`;
+}
+
+function renderGrid() {
+    const container    = document.getElementById('cities-container');
+    const paginationEl = document.getElementById('pagination');
+    const total      = filtered.length;
+    const totalPages = Math.ceil(total / PER_PAGE);
+    const start      = (currentPage - 1) * PER_PAGE;
+    const page       = filtered.slice(start, start + PER_PAGE);
+
+    const isEnGrid = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+    document.getElementById('results-count').textContent = total > 0
+        ? (isEnGrid ? `${total} regions / cities` : `${total} منطقة / مدينة`)
+        : (isEnGrid ? 'No results' : 'لا توجد نتائج');
+
+    if (page.length === 0) {
+        container.innerHTML = lastQuery
+            ? `<div class="status-msg">لا توجد نتائج محلية لـ "<strong>${lastQuery}</strong>"<br><small style="color:var(--text-light)">تظهر الاقتراحات تلقائياً من الإنترنت أعلى 👆</small></div>`
+            : `<div class="status-msg">لا توجد نتائج</div>`;
+        paginationEl.style.display = 'none';
+        return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'cities-grid';
+
+    page.forEach(city => {
+        const slug = makeSlug(city.nameEn, city.lat, city.lng);
+        const href = pageUrl(`/prayer-times-in-${slug}.html`);
+        const a = document.createElement('a');
+        const isEnCard = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+        const cardLabel = isEnCard
+            ? `Prayer Times in ${city.nameEn || city.nameAr}`
+            : `مواقيت الصلاة في ${city.nameAr}`;
+        const cardSub = isEnCard ? '' : (city.nameEn || '');
+        a.className = 'city-link' + (city._new ? ' city-link-new' : '');
+        a.href = href;
+        a.innerHTML = `${cardLabel}<span class="city-type">${cardSub}${city._new ? ' ✦' : ''}</span>`;
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            // إذا كانت مدينة جديدة من Nominatim → احفظها في قاعدة البيانات الآن
+            if (city._new) {
+                const { _new, ...cityData } = city;
+                saveToDb([cityData]);
+            }
+            sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+                lat: city.lat, lng: city.lng,
+                name: city.nameAr, country: getCountryAr(),
+                englishName: city.nameEn, countryCode
+            }));
+            window.location.href = href;
+        });
+        grid.appendChild(a);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+
+    if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
+    paginationEl.style.display = 'flex';
+    renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+    const el   = document.getElementById('pagination');
+    el.innerHTML = '';
+    const half = Math.floor(PAGES_VIS / 2);
+    let ps = Math.max(1, currentPage - half);
+    let pe = Math.min(totalPages, ps + PAGES_VIS - 1);
+    if (pe - ps < PAGES_VIS - 1) ps = Math.max(1, pe - PAGES_VIS + 1);
+
+    const add = (label, page, active, disabled) => {
+        const btn = document.createElement('button');
+        btn.className = 'pg-btn' + (active ? ' active' : '');
+        btn.textContent = label;
+        btn.disabled = disabled;
+        btn.onclick = () => { currentPage = page; renderGrid(); window.scrollTo(0,0); };
+        el.appendChild(btn);
+    };
+
+    if (currentPage > 1)          add('→', currentPage - 1, false, false);
+    for (let i = ps; i <= pe; i++) add(i, i, i === currentPage, false);
+    if (currentPage < totalPages)  add('←', currentPage + 1, false, false);
+}
+
+// ===== تغيير اللغة =====
+function onLanguageChange(lang) {
+    updatePageHeader();
+    // تحديث التاريخ في السايدبار
+    (function updateSidebarDates() {
+        try {
+            const today = new Date();
+            const y = today.getFullYear(), m = today.getMonth()+1, d = today.getDate();
+            const jd = Math.floor((1461*(y+4800+Math.floor((m-14)/12)))/4)
+                     + Math.floor((367*(m-2-12*Math.floor((m-14)/12)))/12)
+                     - Math.floor((3*Math.floor((y+4900+Math.floor((m-14)/12))/100))/4)
+                     + d - 32075;
+            const l = jd - 1948440 + 10632;
+            const n = Math.floor((l-1)/10631);
+            const l2 = l - 10631*n + 354;
+            const j = Math.floor((10985-l2)/5316)*Math.floor((50*l2)/17719)
+                    + Math.floor(l2/5670)*Math.floor((43*l2)/15238);
+            const l3 = l2 - Math.floor((30-j)/15)*Math.floor((17719*j)/50)
+                    - Math.floor(j/16)*Math.floor((15238*j)/43) + 29;
+            const hMonth = Math.floor((24*l3)/709);
+            const hDay   = l3 - Math.floor((709*hMonth)/24);
+            const hYear  = 30*n + j - 30;
+            const isEn = lang === 'en';
+            const months = isEn
+                ? ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah']
+                : ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+            const days = isEn
+                ? ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+                : ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+            const sep = isEn ? ', ' : '، ';
+            document.getElementById('sidebar-hijri-date').textContent =
+                `${days[today.getDay()]}${sep}${hDay} ${months[hMonth-1]} ${hYear}${isEn ? ' AH' : ' هـ'}`;
+            const gMonths = isEn
+                ? ['January','February','March','April','May','June','July','August','September','October','November','December']
+                : ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+            const gregEl = document.getElementById('sidebar-greg-date');
+            if (gregEl) gregEl.textContent = `${today.getDate()} ${gMonths[today.getMonth()]} ${today.getFullYear()}${isEn ? '' : ' م'}`;
+        } catch(e) {}
+    })();
+    // إعادة رسم الشبكة
+    renderGrid();
+}
+
+// ===== تشغيل =====
+fetchCities();
+</script>
+</body>
+</html>

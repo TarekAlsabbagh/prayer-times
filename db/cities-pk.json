@@ -1,0 +1,8091 @@
+[
+  {
+    "nameAr": "إسلام آباد",
+    "nameEn": "Islamabad",
+    "type": "city",
+    "lat": 33.6844,
+    "lng": 73.0479
+  },
+  {
+    "nameAr": "بهاولبور",
+    "nameEn": "Bahawalpur",
+    "type": "city",
+    "lat": 29.3956,
+    "lng": 71.6722
+  },
+  {
+    "nameAr": "بيشاور",
+    "nameEn": "Peshawar",
+    "type": "city",
+    "lat": 34,
+    "lng": 71.5
+  },
+  {
+    "nameAr": "حيدر آباد",
+    "nameEn": "Hyderabad",
+    "type": "city",
+    "lat": 25.3792,
+    "lng": 68.3683
+  },
+  {
+    "nameAr": "راولبندي",
+    "nameEn": "Rawalpindi",
+    "type": "city",
+    "lat": 33.5651,
+    "lng": 73.0169
+  },
+  {
+    "nameAr": "سرغودا",
+    "nameEn": "Sargodha",
+    "type": "city",
+    "lat": 32.0836,
+    "lng": 72.6711
+  },
+  {
+    "nameAr": "سكهر",
+    "nameEn": "Sukkur",
+    "type": "city",
+    "lat": 27.7052,
+    "lng": 68.8574
+  },
+  {
+    "nameAr": "سيالكوت",
+    "nameEn": "Sialkot",
+    "type": "city",
+    "lat": 32.4945,
+    "lng": 74.5229
+  },
+  {
+    "nameAr": "شيخوبورة",
+    "nameEn": "Sheikhupura",
+    "type": "city",
+    "lat": 31.7131,
+    "lng": 73.9853
+  },
+  {
+    "nameAr": "غوجرانوالا",
+    "nameEn": "Gujranwala",
+    "type": "city",
+    "lat": 32.1877,
+    "lng": 74.1945
+  },
+  {
+    "nameAr": "فيصل آباد",
+    "nameEn": "Faisalabad",
+    "type": "city",
+    "lat": 31.4504,
+    "lng": 73.135
+  },
+  {
+    "nameAr": "كراتشي",
+    "nameEn": "Karachi",
+    "type": "city",
+    "lat": 24.8607,
+    "lng": 67.0011
+  },
+  {
+    "nameAr": "كيتا",
+    "nameEn": "Quetta",
+    "type": "city",
+    "lat": 30.1798,
+    "lng": 66.975
+  },
+  {
+    "nameAr": "لاهور",
+    "nameEn": "Lahore",
+    "type": "city",
+    "lat": 31.5204,
+    "lng": 74.3587
+  },
+  {
+    "nameAr": "ملتان",
+    "nameEn": "Multan",
+    "type": "city",
+    "lat": 30.1575,
+    "lng": 71.5249
+  },
+  {
+    "nameAr": "كراجي",
+    "nameEn": "Karachi",
+    "type": "city",
+    "lat": 24.86,
+    "lng": 67.01,
+    "pop": 14910352
+  },
+  {
+    "nameAr": "كوجرانواله",
+    "nameEn": "Gujranwala",
+    "type": "city",
+    "lat": 32.15,
+    "lng": 74.183333333333,
+    "pop": 2027001
+  },
+  {
+    "nameAr": "كويتة",
+    "nameEn": "Quetta",
+    "type": "city",
+    "lat": 30.195833333333,
+    "lng": 67.017222222222,
+    "pop": 1001205
+  },
+  {
+    "nameAr": "سركودا",
+    "nameEn": "Sargodha",
+    "type": "city",
+    "lat": 32.083611111111,
+    "lng": 72.671111111111,
+    "pop": 659862
+  },
+  {
+    "nameAr": "سكھر",
+    "nameEn": "Sukkur",
+    "type": "city",
+    "lat": 27.699522222222,
+    "lng": 68.867286111111,
+    "pop": 499900
+  },
+  {
+    "nameAr": "لاركانا",
+    "nameEn": "Larkana",
+    "type": "city",
+    "lat": 27.56,
+    "lng": 68.226388888889,
+    "pop": 490508
+  },
+  {
+    "nameAr": "جنيوت",
+    "nameEn": "Chiniot",
+    "type": "city",
+    "lat": 31.716666666667,
+    "lng": 72.983333333333,
+    "pop": 477781
+  },
+  {
+    "nameAr": "شيخوبورا",
+    "nameEn": "Sheikhupura",
+    "type": "city",
+    "lat": 31.708333333333,
+    "lng": 74,
+    "pop": 473129
+  },
+  {
+    "nameAr": "رحيم يار خان",
+    "nameEn": "Rahim Yar Khan",
+    "type": "city",
+    "lat": 28.420555555556,
+    "lng": 70.303333333333,
+    "pop": 420419
+  },
+  {
+    "nameAr": "جهنك",
+    "nameEn": "Jhang",
+    "type": "city",
+    "lat": 31.268055555556,
+    "lng": 72.318055555556,
+    "pop": 414131
+  },
+  {
+    "nameAr": "ديرا غازي خان",
+    "nameEn": "Dera Ghazi Khan",
+    "type": "city",
+    "lat": 30.05,
+    "lng": 70.633333333333,
+    "pop": 399064
+  },
+  {
+    "nameAr": "كجرات",
+    "nameEn": "Gujrat",
+    "type": "city",
+    "lat": 32.573611111111,
+    "lng": 74.078888888889,
+    "pop": 390533
+  },
+  {
+    "nameAr": "Shah Faisal Town",
+    "nameEn": "Shah Faisal Town",
+    "type": "city",
+    "lat": 24.8806,
+    "lng": 67.1625,
+    "pop": 335823
+  },
+  {
+    "nameAr": "قصور",
+    "nameEn": "Kasur",
+    "type": "city",
+    "lat": 31.116666666667,
+    "lng": 74.45,
+    "pop": 314617
+  },
+  {
+    "nameAr": "جهلم",
+    "nameEn": "Jhelum",
+    "type": "city",
+    "lat": 32.933333333333,
+    "lng": 73.733333333333,
+    "pop": 312426
+  },
+  {
+    "nameAr": "جكوال",
+    "nameEn": "Chakwal",
+    "type": "city",
+    "lat": 32.932861111111,
+    "lng": 72.862944444444,
+    "pop": 299751
+  },
+  {
+    "nameAr": "مينجورا",
+    "nameEn": "Mingora",
+    "type": "city",
+    "lat": 34.771666666667,
+    "lng": 72.36,
+    "pop": 279914
+  },
+  {
+    "nameAr": "نواب شاه",
+    "nameEn": "Nawabshah",
+    "type": "city",
+    "lat": 26.244166666667,
+    "lng": 68.41,
+    "pop": 263102
+  },
+  {
+    "nameAr": "Kotri",
+    "nameEn": "Kotri",
+    "type": "city",
+    "lat": 25.366,
+    "lng": 68.31216,
+    "pop": 259358
+  },
+  {
+    "nameAr": "ساهيوال",
+    "nameEn": "Sahiwal",
+    "type": "city",
+    "lat": 30.670555555556,
+    "lng": 73.106388888889,
+    "pop": 247706
+  },
+  {
+    "nameAr": "ميربور خاص",
+    "nameEn": "Mirpur Khas",
+    "type": "city",
+    "lat": 25.526944444444,
+    "lng": 69.011111111111,
+    "pop": 236961
+  },
+  {
+    "nameAr": "أوكارا",
+    "nameEn": "Okara",
+    "type": "city",
+    "lat": 30.81,
+    "lng": 73.459722222222,
+    "pop": 232386
+  },
+  {
+    "nameAr": "جيكب آباد",
+    "nameEn": "Jacobabad",
+    "type": "city",
+    "lat": 28.276944444444,
+    "lng": 68.451388888889,
+    "pop": 219315
+  },
+  {
+    "nameAr": "Burewala",
+    "nameEn": "Burewala",
+    "type": "city",
+    "lat": 30.15,
+    "lng": 72.683333333333,
+    "pop": 203454
+  },
+  {
+    "nameAr": "Pattan Tehsil",
+    "nameEn": "Pattan Tehsil",
+    "type": "city",
+    "lat": 35.116666666667,
+    "lng": 73.003333333333,
+    "pop": 202933
+  },
+  {
+    "nameAr": "كوهات",
+    "nameEn": "Kohat",
+    "type": "city",
+    "lat": 33.586944444444,
+    "lng": 71.441388888889,
+    "pop": 170800
+  },
+  {
+    "nameAr": "حافظ آباد",
+    "nameEn": "Hafizabad",
+    "type": "city",
+    "lat": 32.066666666667,
+    "lng": 73.683333333333,
+    "pop": 169702
+  },
+  {
+    "nameAr": "خانيوال",
+    "nameEn": "Khanewal",
+    "type": "city",
+    "lat": 30.3,
+    "lng": 71.933333333333,
+    "pop": 165038
+  },
+  {
+    "nameAr": "مظفرغرة",
+    "nameEn": "Muzaffargarh",
+    "type": "city",
+    "lat": 30.070277777778,
+    "lng": 71.193333333333,
+    "pop": 163268
+  },
+  {
+    "nameAr": "موريدكي",
+    "nameEn": "Muridke",
+    "type": "city",
+    "lat": 31.802,
+    "lng": 74.255,
+    "pop": 163268
+  },
+  {
+    "nameAr": "خانبور",
+    "nameEn": "Khanpur",
+    "type": "city",
+    "lat": 28.64534,
+    "lng": 70.6567,
+    "pop": 160308
+  },
+  {
+    "nameAr": "غوجرا",
+    "nameEn": "Gojra",
+    "type": "city",
+    "lat": 31.15,
+    "lng": 72.683333333333,
+    "pop": 157863
+  },
+  {
+    "nameAr": "ماندي بهاودين",
+    "nameEn": "Mandi Bahauddin",
+    "type": "city",
+    "lat": 32.586111111111,
+    "lng": 73.491666666667,
+    "pop": 157352
+  },
+  {
+    "nameAr": "جرانوالا",
+    "nameEn": "Jaranwala",
+    "type": "city",
+    "lat": 31.334166666667,
+    "lng": 73.419444444444,
+    "pop": 150380
+  },
+  {
+    "nameAr": "أبوت آباد",
+    "nameEn": "Abbottabad",
+    "type": "city",
+    "lat": 34.15,
+    "lng": 73.216666666667,
+    "pop": 148587
+  },
+  {
+    "nameAr": "دسكة",
+    "nameEn": "Daska",
+    "type": "city",
+    "lat": 32.316666666667,
+    "lng": 74.35,
+    "pop": 146579
+  },
+  {
+    "nameAr": "دادو",
+    "nameEn": "Dadu",
+    "type": "city",
+    "lat": 26.731944444444,
+    "lng": 67.775,
+    "pop": 146179
+  },
+  {
+    "nameAr": "Khairpur",
+    "nameEn": "Khairpur",
+    "type": "city",
+    "lat": 27.533333333333,
+    "lng": 68.766666666667,
+    "pop": 144949
+  },
+  {
+    "nameAr": "بهاولنجر",
+    "nameEn": "Bahawalnagar",
+    "type": "city",
+    "lat": 29.994444444444,
+    "lng": 73.253611111111,
+    "pop": 141935
+  },
+  {
+    "nameAr": "خوزدار",
+    "nameEn": "Khuzdar",
+    "type": "city",
+    "lat": 27.8,
+    "lng": 66.616666666667,
+    "pop": 141395
+  },
+  {
+    "nameAr": "باكبتان",
+    "nameEn": "Pakpattan",
+    "type": "city",
+    "lat": 30.35,
+    "lng": 73.4,
+    "pop": 139525
+  },
+  {
+    "nameAr": "Tando Allahyar",
+    "nameEn": "Tando Allahyar",
+    "type": "city",
+    "lat": 25.466666666667,
+    "lng": 68.716666666667,
+    "pop": 133487
+  },
+  {
+    "nameAr": "شرق أحمدبور",
+    "nameEn": "Ahmedpur East",
+    "type": "city",
+    "lat": 29.145277777778,
+    "lng": 71.261666666667,
+    "pop": 128112
+  },
+  {
+    "nameAr": "وهاري",
+    "nameEn": "Vehari",
+    "type": "city",
+    "lat": 30.041944444444,
+    "lng": 72.352777777778,
+    "pop": 128034
+  },
+  {
+    "nameAr": "ميربور",
+    "nameEn": "Mirpur",
+    "type": "city",
+    "lat": 33.149015,
+    "lng": 73.748548,
+    "pop": 124352
+  },
+  {
+    "nameAr": "كماليا",
+    "nameEn": "Kamalia",
+    "type": "city",
+    "lat": 30.725833333333,
+    "lng": 72.644722222222,
+    "pop": 121401
+  },
+  {
+    "nameAr": "Kot Addu",
+    "nameEn": "Kot Addu",
+    "type": "city",
+    "lat": 30.47,
+    "lng": 70.964444444444,
+    "pop": 120479
+  },
+  {
+    "nameAr": "ناوشيرا، خيبر باختونخوا",
+    "nameEn": "Nowshera",
+    "type": "city",
+    "lat": 34.015277777778,
+    "lng": 71.974722222222,
+    "pop": 118594
+  },
+  {
+    "nameAr": "سوابي",
+    "nameEn": "Swabi",
+    "type": "city",
+    "lat": 34.116666666667,
+    "lng": 72.466666666667,
+    "pop": 115018
+  },
+  {
+    "nameAr": "سكردو",
+    "nameEn": "Skardu",
+    "type": "city",
+    "lat": 35.3,
+    "lng": 75.616666666667,
+    "pop": 112996
+  },
+  {
+    "nameAr": "Khushab",
+    "nameEn": "Khushab",
+    "type": "city",
+    "lat": 32.291666666667,
+    "lng": 72.35,
+    "pop": 110868
+  },
+  {
+    "nameAr": "ديرا اسماعيل خان",
+    "nameEn": "Dera Ismail Khan",
+    "type": "city",
+    "lat": 31.816666666667,
+    "lng": 70.916666666667,
+    "pop": 109686
+  },
+  {
+    "nameAr": "شمن",
+    "nameEn": "Chaman",
+    "type": "city",
+    "lat": 30.92102,
+    "lng": 66.45975,
+    "pop": 107660
+  },
+  {
+    "nameAr": "تشارسادا",
+    "nameEn": "Charsadda",
+    "type": "city",
+    "lat": 34.145277777778,
+    "lng": 71.730833333333,
+    "pop": 105414
+  },
+  {
+    "nameAr": "Kandhkot",
+    "nameEn": "Kandhkot",
+    "type": "city",
+    "lat": 28.4,
+    "lng": 69.3,
+    "pop": 105011
+  },
+  {
+    "nameAr": "بحرين (باكستان)",
+    "nameEn": "Bahrain",
+    "type": "city",
+    "lat": 35.207777777778,
+    "lng": 72.548333333333,
+    "pop": 102253
+  },
+  {
+    "nameAr": "ششتيان شريف",
+    "nameEn": "Chishtian",
+    "type": "city",
+    "lat": 29.795833333333,
+    "lng": 72.857777777778,
+    "pop": 101659
+  },
+  {
+    "nameAr": "هاسيلبور",
+    "nameEn": "Hasilpur",
+    "type": "city",
+    "lat": 29.696666666667,
+    "lng": 72.554166666667,
+    "pop": 99171
+  },
+  {
+    "nameAr": "Qambar",
+    "nameEn": "Qambar",
+    "type": "city",
+    "lat": 27.58676,
+    "lng": 68.00103,
+    "pop": 97691
+  },
+  {
+    "nameAr": "أتك، باكستان",
+    "nameEn": "Attock",
+    "type": "city",
+    "lat": 33.766666666667,
+    "lng": 72.366666666667,
+    "pop": 97374
+  },
+  {
+    "nameAr": "Taunsa Sharif",
+    "nameEn": "Taunsa Sharif",
+    "type": "city",
+    "lat": 30.705555555556,
+    "lng": 70.657777777778,
+    "pop": 97100
+  },
+  {
+    "nameAr": "مظفر أباد",
+    "nameEn": "Muzaffarabad",
+    "type": "city",
+    "lat": 34.37,
+    "lng": 73.471111111111,
+    "pop": 96000
+  },
+  {
+    "nameAr": "اريفوالا",
+    "nameEn": "Arif Wala",
+    "type": "city",
+    "lat": 30.291666666667,
+    "lng": 73.066666666667,
+    "pop": 95655
+  },
+  {
+    "nameAr": "ميانوالي",
+    "nameEn": "Mianwali",
+    "type": "city",
+    "lat": 32.585277777778,
+    "lng": 71.543611111111,
+    "pop": 95007
+  },
+  {
+    "nameAr": "لية",
+    "nameEn": "Layyah",
+    "type": "city",
+    "lat": 30.965277777778,
+    "lng": 70.945555555556,
+    "pop": 90969
+  },
+  {
+    "nameAr": "Jalalpur Jattan",
+    "nameEn": "Jalalpur Jattan",
+    "type": "city",
+    "lat": 32.641944444444,
+    "lng": 74.203305555556,
+    "pop": 90130
+  },
+  {
+    "nameAr": "بهكر",
+    "nameEn": "Bhakkar",
+    "type": "city",
+    "lat": 31.633333333333,
+    "lng": 71.066666666667,
+    "pop": 88472
+  },
+  {
+    "nameAr": "Dipalpur",
+    "nameEn": "Dipalpur",
+    "type": "city",
+    "lat": 30.670833333333,
+    "lng": 73.653333333333,
+    "pop": 87176
+  },
+  {
+    "nameAr": "كهاريان",
+    "nameEn": "Kharian",
+    "type": "city",
+    "lat": 32.811,
+    "lng": 73.865,
+    "pop": 85765
+  },
+  {
+    "nameAr": "ميان تشنو",
+    "nameEn": "Mian Channu",
+    "type": "city",
+    "lat": 30.439722222222,
+    "lng": 72.354444444444,
+    "pop": 82586
+  },
+  {
+    "nameAr": "بهلوال",
+    "nameEn": "Bhalwal",
+    "type": "city",
+    "lat": 32.265277777778,
+    "lng": 72.902777777778,
+    "pop": 82556
+  },
+  {
+    "nameAr": "Jamshoro",
+    "nameEn": "Jamshoro",
+    "type": "city",
+    "lat": 25.428333333333,
+    "lng": 68.282222222222,
+    "pop": 80000
+  },
+  {
+    "nameAr": "Shabqadar",
+    "nameEn": "Shabqadar",
+    "type": "city",
+    "lat": 34.2139,
+    "lng": 71.55523,
+    "pop": 79029
+  },
+  {
+    "nameAr": "Pattoki",
+    "nameEn": "Pattoki",
+    "type": "city",
+    "lat": 31.021388888889,
+    "lng": 73.852777777778,
+    "pop": 77210
+  },
+  {
+    "nameAr": "Haroonabad",
+    "nameEn": "Haroonabad",
+    "type": "city",
+    "lat": 29.61,
+    "lng": 73.136111111111,
+    "pop": 77206
+  },
+  {
+    "nameAr": "Kahror Pakka",
+    "nameEn": "Kahror Pakka",
+    "type": "city",
+    "lat": 29.623611111111,
+    "lng": 71.916666666667,
+    "pop": 76098
+  },
+  {
+    "nameAr": "Toba Tek Singh",
+    "nameEn": "Toba Tek Singh",
+    "type": "city",
+    "lat": 30.966666666667,
+    "lng": 72.483333333333,
+    "pop": 75943
+  },
+  {
+    "nameAr": "Farooqabad",
+    "nameEn": "Farooqabad",
+    "type": "city",
+    "lat": 31.74305556,
+    "lng": 73.83027778,
+    "pop": 75776
+  },
+  {
+    "nameAr": "Samundri",
+    "nameEn": "Samundri",
+    "type": "city",
+    "lat": 31.063888888889,
+    "lng": 72.961111111111,
+    "pop": 73911
+  },
+  {
+    "nameAr": "Shakargarh",
+    "nameEn": "Shakargarh",
+    "type": "city",
+    "lat": 32.262777777778,
+    "lng": 75.158333333333,
+    "pop": 73160
+  },
+  {
+    "nameAr": "Sambrial",
+    "nameEn": "Sambrial",
+    "type": "city",
+    "lat": 32.475,
+    "lng": 74.352222222222,
+    "pop": 71766
+  },
+  {
+    "nameAr": "Shorkot",
+    "nameEn": "Shorkot",
+    "type": "city",
+    "lat": 30.5,
+    "lng": 72.4,
+    "pop": 71469
+  },
+  {
+    "nameAr": "Jampur",
+    "nameEn": "Jampur",
+    "type": "city",
+    "lat": 29.38,
+    "lng": 70.35,
+    "pop": 71383
+  },
+  {
+    "nameAr": "Shujabad",
+    "nameEn": "Shujabad",
+    "type": "city",
+    "lat": 29.880277777778,
+    "lng": 71.295,
+    "pop": 70595
+  },
+  {
+    "nameAr": "Hujra Shah Muqeem",
+    "nameEn": "Hujra Shah Muqeem",
+    "type": "city",
+    "lat": 30.740833333333,
+    "lng": 73.821944444444,
+    "pop": 70204
+  },
+  {
+    "nameAr": "كبيروالا",
+    "nameEn": "Kabirwala",
+    "type": "city",
+    "lat": 30.405277777778,
+    "lng": 71.868055555556,
+    "pop": 70123
+  },
+  {
+    "nameAr": "Rohri",
+    "nameEn": "Rohri",
+    "type": "city",
+    "lat": 27.677394,
+    "lng": 68.912532,
+    "pop": 69920
+  },
+  {
+    "nameAr": "مانسيرا",
+    "nameEn": "Mansehra",
+    "type": "city",
+    "lat": 34.333333333333,
+    "lng": 73.2,
+    "pop": 69085
+  },
+  {
+    "nameAr": "Lalamusa",
+    "nameEn": "Lalamusa",
+    "type": "city",
+    "lat": 32.700555555556,
+    "lng": 73.955833333333,
+    "pop": 67283
+  },
+  {
+    "nameAr": "Chunian",
+    "nameEn": "Chunian",
+    "type": "city",
+    "lat": 30.963888888889,
+    "lng": 73.980277777778,
+    "pop": 64386
+  },
+  {
+    "nameAr": "ننكانة صاحب",
+    "nameEn": "Nankana Sahib",
+    "type": "city",
+    "lat": 31.449187,
+    "lng": 73.712437,
+    "pop": 63073
+  },
+  {
+    "nameAr": "بانو",
+    "nameEn": "Bannu",
+    "type": "city",
+    "lat": 32.988888888889,
+    "lng": 70.605555555556,
+    "pop": 62191
+  },
+  {
+    "nameAr": "Pasrur",
+    "nameEn": "Pasrur",
+    "type": "city",
+    "lat": 32.268055555556,
+    "lng": 74.6675,
+    "pop": 58644
+  },
+  {
+    "nameAr": "تيميرجارا",
+    "nameEn": "Timergara",
+    "type": "city",
+    "lat": 34.828055555556,
+    "lng": 71.840833333333,
+    "pop": 58050
+  },
+  {
+    "nameAr": "الربوة",
+    "nameEn": "Rabwah",
+    "type": "city",
+    "lat": 31.75,
+    "lng": 72.916666666667,
+    "pop": 53965
+  },
+  {
+    "nameAr": "Zafarwal",
+    "nameEn": "Zafarwal",
+    "type": "city",
+    "lat": 32.34631,
+    "lng": 74.89987,
+    "pop": 52639
+  },
+  {
+    "nameAr": "Abdul Hakeem",
+    "nameEn": "Abdul Hakeem",
+    "type": "city",
+    "lat": 30.552222222222,
+    "lng": 72.127777777778,
+    "pop": 51494
+  },
+  {
+    "nameAr": "حسن أبدال (باكستان)",
+    "nameEn": "Hasan Abdal",
+    "type": "city",
+    "lat": 33.819486111111,
+    "lng": 72.689027777778,
+    "pop": 50044
+  },
+  {
+    "nameAr": "هري بور",
+    "nameEn": "Haripur",
+    "type": "city",
+    "lat": 33.99997,
+    "lng": 72.93409,
+    "pop": 49318
+  },
+  {
+    "nameAr": "تانك",
+    "nameEn": "Tank",
+    "type": "city",
+    "lat": 32.216666666667,
+    "lng": 70.383333333333,
+    "pop": 44996
+  },
+  {
+    "nameAr": "هنكو",
+    "nameEn": "Hangu",
+    "type": "city",
+    "lat": 33.528055555556,
+    "lng": 71.057222222222,
+    "pop": 39766
+  },
+  {
+    "nameAr": "Naushahro Feroze",
+    "nameEn": "Naushahro Feroze",
+    "type": "city",
+    "lat": 26.842222222222,
+    "lng": 68.122777777778,
+    "pop": 38181
+  },
+  {
+    "nameAr": "Risalpur",
+    "nameEn": "Risalpur",
+    "type": "city",
+    "lat": 34.0049,
+    "lng": 71.9989,
+    "pop": 36653
+  },
+  {
+    "nameAr": "Karak",
+    "nameEn": "Karak",
+    "type": "city",
+    "lat": 33.116666666667,
+    "lng": 71.083333333333,
+    "pop": 35844
+  },
+  {
+    "nameAr": "Umerkot",
+    "nameEn": "Umerkot",
+    "type": "city",
+    "lat": 25.361388888889,
+    "lng": 69.736111111111,
+    "pop": 35059
+  },
+  {
+    "nameAr": "شيترال",
+    "nameEn": "Chitral",
+    "type": "city",
+    "lat": 35.851111111111,
+    "lng": 71.788888888889,
+    "pop": 31100
+  },
+  {
+    "nameAr": "Danyor",
+    "nameEn": "Danyor",
+    "type": "city",
+    "lat": 35.920555555556,
+    "lng": 74.378333333333,
+    "pop": 25000
+  },
+  {
+    "nameAr": "Kulachi",
+    "nameEn": "Kulachi",
+    "type": "city",
+    "lat": 31.928611111111,
+    "lng": 70.459166666667,
+    "pop": 24738
+  },
+  {
+    "nameAr": "قلات",
+    "nameEn": "Kalat",
+    "type": "city",
+    "lat": 29.025836111111,
+    "lng": 66.589952777778,
+    "pop": 22879
+  },
+  {
+    "nameAr": "Kotli",
+    "nameEn": "Kotli",
+    "type": "city",
+    "lat": 33.515555555556,
+    "lng": 73.901944444444,
+    "pop": 21462
+  },
+  {
+    "nameAr": "مري",
+    "nameEn": "Murree",
+    "type": "city",
+    "lat": 33.9042,
+    "lng": 73.3903,
+    "pop": 20869
+  },
+  {
+    "nameAr": "أكورة خطاك",
+    "nameEn": "Akora Khattak",
+    "type": "city",
+    "lat": 33.9925,
+    "lng": 72.145,
+    "pop": 20157
+  },
+  {
+    "nameAr": "Mithi",
+    "nameEn": "Mithi",
+    "type": "city",
+    "lat": 24.733333333333,
+    "lng": 69.8,
+    "pop": 20079
+  },
+  {
+    "nameAr": "Mian Sahib",
+    "nameEn": "Mian Sahib",
+    "type": "city",
+    "lat": 28.155880555556,
+    "lng": 68.639738888889,
+    "pop": 15000
+  },
+  {
+    "nameAr": "دينبور",
+    "nameEn": "Dinpur",
+    "type": "city",
+    "lat": 31.8265,
+    "lng": 70.8794,
+    "pop": 15000
+  },
+  {
+    "nameAr": "باجوال",
+    "nameEn": "Bhagwal",
+    "type": "city",
+    "lat": 32.821395858333,
+    "lng": 73.95524185,
+    "pop": 10669
+  },
+  {
+    "nameAr": "Chak No. 656/G.B.",
+    "nameEn": "Chak No. 656/G.B.",
+    "type": "city",
+    "lat": 31.419722222222,
+    "lng": 73.562222222222,
+    "pop": 10541
+  },
+  {
+    "nameAr": "غلغت",
+    "nameEn": "Gilgit",
+    "type": "city",
+    "lat": 35.920833333333,
+    "lng": 74.314444444444,
+    "pop": 8851
+  },
+  {
+    "nameAr": "Kaka Kolo",
+    "nameEn": "Kaka Kolo",
+    "type": "city",
+    "lat": 32.3369364,
+    "lng": 74.0071949,
+    "pop": 7248
+  },
+  {
+    "nameAr": "Gill Wala",
+    "nameEn": "Gill Wala",
+    "type": "city",
+    "lat": 32.2925,
+    "lng": 74.050555555556,
+    "pop": 5968
+  },
+  {
+    "nameAr": "Chak No. 624/G.B.",
+    "nameEn": "Chak No. 624/G.B.",
+    "type": "city",
+    "lat": 31.404818,
+    "lng": 73.56193,
+    "pop": 5808
+  },
+  {
+    "nameAr": "Kot Jafar",
+    "nameEn": "Kot Jafar",
+    "type": "city",
+    "lat": 32.387222222222,
+    "lng": 74.036944444444,
+    "pop": 5359
+  },
+  {
+    "nameAr": "Chak No. 658/G.B.",
+    "nameEn": "Chak No. 658/G.B.",
+    "type": "city",
+    "lat": 31.398611111111,
+    "lng": 73.540277777778,
+    "pop": 4770
+  },
+  {
+    "nameAr": "Kale Wala",
+    "nameEn": "Kale Wala",
+    "type": "city",
+    "lat": 32.303333333333,
+    "lng": 74.044722222222,
+    "pop": 4354
+  },
+  {
+    "nameAr": "Mohlunke",
+    "nameEn": "Mohlunke",
+    "type": "city",
+    "lat": 32.451666666667,
+    "lng": 73.164722222222,
+    "pop": 4089
+  },
+  {
+    "nameAr": "Gurali",
+    "nameEn": "Gurali",
+    "type": "city",
+    "lat": 32.527777777778,
+    "lng": 74.098611111111,
+    "pop": 3791
+  },
+  {
+    "nameAr": "Chak No. 655/G.B.",
+    "nameEn": "Chak No. 655/G.B.",
+    "type": "city",
+    "lat": 31.434444444444,
+    "lng": 73.55,
+    "pop": 3533
+  },
+  {
+    "nameAr": "Chak 335 JB Doost Pur",
+    "nameEn": "Chak 335 JB Doost Pur",
+    "type": "city",
+    "lat": 31.3435576,
+    "lng": 72.7383327,
+    "pop": 2715
+  },
+  {
+    "nameAr": "Hassan Wali",
+    "nameEn": "Hassan Wali",
+    "type": "city",
+    "lat": 32.325555555556,
+    "lng": 73.896666666667,
+    "pop": 2714
+  },
+  {
+    "nameAr": "Chak 340 JB Bdaroo",
+    "nameEn": "Chak 340 JB Bdaroo",
+    "type": "city",
+    "lat": 31.3536111,
+    "lng": 72.6925,
+    "pop": 2587
+  },
+  {
+    "nameAr": "دشت شليغ",
+    "nameEn": "Dasht Shuleeg",
+    "type": "city",
+    "lat": 25.568333333333,
+    "lng": 62.143888888889,
+    "pop": 2219
+  },
+  {
+    "nameAr": "Chak 341 JB",
+    "nameEn": "Chak 341 JB",
+    "type": "city",
+    "lat": 30.833758,
+    "lng": 72.445086,
+    "pop": 2186
+  },
+  {
+    "nameAr": "Chak No. 657/G.B.",
+    "nameEn": "Chak No. 657/G.B.",
+    "type": "city",
+    "lat": 31.408611111111,
+    "lng": 73.532222222222,
+    "pop": 2128
+  },
+  {
+    "nameAr": "Pathanke Cheema",
+    "nameEn": "Pathanke Cheema",
+    "type": "city",
+    "lat": 32.318888888889,
+    "lng": 73.971666666667,
+    "pop": 1715
+  },
+  {
+    "nameAr": "Ittan Wali",
+    "nameEn": "Ittan Wali",
+    "type": "city",
+    "lat": 31.540833333333,
+    "lng": 73.660555555556,
+    "pop": 1500
+  },
+  {
+    "nameAr": "Chabba Cheema",
+    "nameEn": "Chabba Cheema",
+    "type": "city",
+    "lat": 32.314166666667,
+    "lng": 74.013055555556,
+    "pop": 1214
+  },
+  {
+    "nameAr": "Ghari Donger",
+    "nameEn": "Ghari Donger",
+    "type": "city",
+    "lat": 32.309166666667,
+    "lng": 73.966111111111,
+    "pop": 627
+  },
+  {
+    "nameAr": "Jugna Chattha",
+    "nameEn": "Jugna Chattha",
+    "type": "city",
+    "lat": 32.297777777778,
+    "lng": 73.943611111111,
+    "pop": 600
+  },
+  {
+    "nameAr": "Vitakri",
+    "nameEn": "Vitakri",
+    "type": "city",
+    "lat": 29.6921736,
+    "lng": 69.3734354,
+    "pop": 554
+  },
+  {
+    "nameAr": "Basti Ameer Shah",
+    "nameEn": "Basti Ameer Shah",
+    "type": "city",
+    "lat": 30.529347,
+    "lng": 70.996533,
+    "pop": 220
+  },
+  {
+    "nameAr": "Chak No. 635/G.B.",
+    "nameEn": "Chak No. 635/G.B.",
+    "type": "city",
+    "lat": 31.413611111111,
+    "lng": 73.531944444444,
+    "pop": 194
+  },
+  {
+    "nameAr": "اللون سيدان",
+    "nameEn": "Kallar Syedan",
+    "type": "city",
+    "lat": 33.41444444,
+    "lng": 73.37861111,
+    "pop": null
+  },
+  {
+    "nameAr": "أوتش",
+    "nameEn": "Uch",
+    "type": "city",
+    "lat": 29.239444444444,
+    "lng": 71.061111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "باراتشينار",
+    "nameEn": "Parachinar",
+    "type": "city",
+    "lat": 33.899166666667,
+    "lng": 70.100833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "باغ (كشمير)",
+    "nameEn": "Bagh",
+    "type": "city",
+    "lat": 33.980277777778,
+    "lng": 73.774722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "بالاكوت",
+    "nameEn": "Balakot",
+    "type": "city",
+    "lat": 34.550555555556,
+    "lng": 73.351388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "بتغرام",
+    "nameEn": "Battagram",
+    "type": "city",
+    "lat": 34.679637,
+    "lng": 73.026299,
+    "pop": null
+  },
+  {
+    "nameAr": "بسني",
+    "nameEn": "Pasni",
+    "type": "city",
+    "lat": 25.265277777778,
+    "lng": 63.471666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بصير بور",
+    "nameEn": "Basirpur",
+    "type": "city",
+    "lat": 30.580555555556,
+    "lng": 73.838888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "بنبر",
+    "nameEn": "Bhimber",
+    "type": "city",
+    "lat": 32.975,
+    "lng": 74.075833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بنجكور",
+    "nameEn": "Panjgur",
+    "type": "city",
+    "lat": 26.964444444444,
+    "lng": 64.090277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "بهاونا",
+    "nameEn": "Bhawana",
+    "type": "city",
+    "lat": 31.566388888889,
+    "lng": 72.648333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بهيرة",
+    "nameEn": "Bhera",
+    "type": "city",
+    "lat": 32.481666666667,
+    "lng": 72.909444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "بوبهار",
+    "nameEn": "Bhubhar",
+    "type": "city",
+    "lat": 33.005694444444,
+    "lng": 73.115527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "بيشام",
+    "nameEn": "Besham",
+    "type": "city",
+    "lat": 34.923888888889,
+    "lng": 72.875833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بيشين",
+    "nameEn": "Pishin",
+    "type": "city",
+    "lat": 30.583333333333,
+    "lng": 67,
+    "pop": null
+  },
+  {
+    "nameAr": "تتا",
+    "nameEn": "Thatta",
+    "type": "city",
+    "lat": 24.746116666667,
+    "lng": 67.924336111111,
+    "pop": null
+  },
+  {
+    "nameAr": "تُربت",
+    "nameEn": "Turbat",
+    "type": "city",
+    "lat": 26.003055555556,
+    "lng": 63.054444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "تشكار",
+    "nameEn": "Chikkar",
+    "type": "city",
+    "lat": 34.1489,
+    "lng": 73.6755,
+    "pop": null
+  },
+  {
+    "nameAr": "تفتان",
+    "nameEn": "Taftan, Balochistan",
+    "type": "city",
+    "lat": 28.28,
+    "lng": 62.35,
+    "pop": null
+  },
+  {
+    "nameAr": "ثال",
+    "nameEn": "Thal",
+    "type": "city",
+    "lat": 33.364444444444,
+    "lng": 70.5475,
+    "pop": null
+  },
+  {
+    "nameAr": "جشمة (باكستان)",
+    "nameEn": "Chashma",
+    "type": "city",
+    "lat": 32.41861111,
+    "lng": 71.44944444,
+    "pop": null
+  },
+  {
+    "nameAr": "جعفر آباد",
+    "nameEn": "Jafarabad",
+    "type": "city",
+    "lat": 28.156388888889,
+    "lng": 67.884722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "جَك جُهمْرَه",
+    "nameEn": "Chak Jhumra",
+    "type": "city",
+    "lat": 31.569444444444,
+    "lng": 73.183888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "جل كند",
+    "nameEn": "Jalkhand",
+    "type": "city",
+    "lat": 35.0012,
+    "lng": 73.9391,
+    "pop": null
+  },
+  {
+    "nameAr": "جهانيان",
+    "nameEn": "Jahanian",
+    "type": "city",
+    "lat": 30.04,
+    "lng": 71.818055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "جھاجھرو",
+    "nameEn": "",
+    "type": "city",
+    "lat": 25.11111111,
+    "lng": 70.25472222,
+    "pop": null
+  },
+  {
+    "nameAr": "جوادر",
+    "nameEn": "Gwadar",
+    "type": "city",
+    "lat": 25.126388888889,
+    "lng": 62.3225,
+    "pop": null
+  },
+  {
+    "nameAr": "چک نمبر ۲۹۱/ای بی",
+    "nameEn": "Chak No. 291/E.B",
+    "type": "city",
+    "lat": 30.102486,
+    "lng": 72.846297,
+    "pop": null
+  },
+  {
+    "nameAr": "چھوتا گلہ",
+    "nameEn": "Chota Gala",
+    "type": "city",
+    "lat": 33.814722222222,
+    "lng": 73.807222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "خار",
+    "nameEn": "Khaar",
+    "type": "city",
+    "lat": 34.733333333333,
+    "lng": 71.516666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "خاران",
+    "nameEn": "Kharan",
+    "type": "city",
+    "lat": 28.583333333333,
+    "lng": 65.416666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "خبلو",
+    "nameEn": "Khaplu",
+    "type": "city",
+    "lat": 35.163611111111,
+    "lng": 76.344722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "خدا آباد",
+    "nameEn": "Khudabad",
+    "type": "city",
+    "lat": 26.39,
+    "lng": 67.45,
+    "pop": null
+  },
+  {
+    "nameAr": "خير بور تاميوالي",
+    "nameEn": "Khairpur Tamiwali",
+    "type": "city",
+    "lat": 29.58,
+    "lng": 72.23277778,
+    "pop": null
+  },
+  {
+    "nameAr": "دديال",
+    "nameEn": "Dadyal",
+    "type": "city",
+    "lat": 33.34392,
+    "lng": 73.69191,
+    "pop": null
+  },
+  {
+    "nameAr": "درا آدم خيل",
+    "nameEn": "Darra Adam Khel",
+    "type": "city",
+    "lat": 33.683543,
+    "lng": 71.519687,
+    "pop": null
+  },
+  {
+    "nameAr": "دروجي راجان",
+    "nameEn": "Dhruggi Rajgan",
+    "type": "city",
+    "lat": 32.987472222222,
+    "lng": 73.124777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "دروش",
+    "nameEn": "Drosh",
+    "type": "city",
+    "lat": 35.563,
+    "lng": 71.797,
+    "pop": null
+  },
+  {
+    "nameAr": "رتوديرو",
+    "nameEn": "Ratodero",
+    "type": "city",
+    "lat": 27.801666666667,
+    "lng": 68.289444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "روراله رود",
+    "nameEn": "Rurala Road",
+    "type": "city",
+    "lat": 31.2,
+    "lng": 73.3,
+    "pop": null
+  },
+  {
+    "nameAr": "ريشون",
+    "nameEn": "Reshun",
+    "type": "city",
+    "lat": 36.155,
+    "lng": 72.099,
+    "pop": null
+  },
+  {
+    "nameAr": "رينالا خورد",
+    "nameEn": "Renala Khurd",
+    "type": "city",
+    "lat": 30.878333333333,
+    "lng": 73.595833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "زوب",
+    "nameEn": "Zhob",
+    "type": "city",
+    "lat": 31.341666666667,
+    "lng": 69.448611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "سجاول",
+    "nameEn": "Sujawal",
+    "type": "city",
+    "lat": 24.60416667,
+    "lng": 68.07833333,
+    "pop": null
+  },
+  {
+    "nameAr": "سوهاوا",
+    "nameEn": "Sohawa",
+    "type": "city",
+    "lat": 33.131944444444,
+    "lng": 73.42,
+    "pop": null
+  },
+  {
+    "nameAr": "سيدو شريف",
+    "nameEn": "Saidu Sharif",
+    "type": "city",
+    "lat": 34.75,
+    "lng": 72.357222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "سيوستان",
+    "nameEn": "Sehwan",
+    "type": "city",
+    "lat": 26.419313888889,
+    "lng": 67.859372222222,
+    "pop": null
+  },
+  {
+    "nameAr": "شاردا",
+    "nameEn": "Sharda",
+    "type": "city",
+    "lat": 34.79305556,
+    "lng": 74.18861111,
+    "pop": null
+  },
+  {
+    "nameAr": "شلاس",
+    "nameEn": "Chilas",
+    "type": "city",
+    "lat": 35.420555555556,
+    "lng": 74.096666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "شهدادبور",
+    "nameEn": "Shahdadpur",
+    "type": "city",
+    "lat": 25.92277778,
+    "lng": 68.62055556,
+    "pop": null
+  },
+  {
+    "nameAr": "شيغر (بلتستان)",
+    "nameEn": "Shigar",
+    "type": "city",
+    "lat": 35.423611111111,
+    "lng": 75.738888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "عباس بور",
+    "nameEn": "Abbaspur",
+    "type": "city",
+    "lat": 33.813888888889,
+    "lng": 73.977777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "غارو",
+    "nameEn": "Gharo",
+    "type": "city",
+    "lat": 24.74138889,
+    "lng": 67.58583333,
+    "pop": null
+  },
+  {
+    "nameAr": "غوريوالا",
+    "nameEn": "Ghoriwala",
+    "type": "city",
+    "lat": 32.905555555556,
+    "lng": 70.727777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "فاتح بور",
+    "nameEn": "Fateh Pur",
+    "type": "city",
+    "lat": 31.178055555556,
+    "lng": 71.2075,
+    "pop": null
+  },
+  {
+    "nameAr": "فاليا",
+    "nameEn": "Phalia",
+    "type": "city",
+    "lat": 32.431944444444,
+    "lng": 73.5775,
+    "pop": null
+  },
+  {
+    "nameAr": "فانيك ترار",
+    "nameEn": "Vanike Tarar",
+    "type": "city",
+    "lat": 32.2187,
+    "lng": 73.5864,
+    "pop": null
+  },
+  {
+    "nameAr": "فرانو",
+    "nameEn": "Frano",
+    "type": "city",
+    "lat": 34.93495,
+    "lng": 76.73038,
+    "pop": null
+  },
+  {
+    "nameAr": "فروكا",
+    "nameEn": "Farooka",
+    "type": "city",
+    "lat": 31.825,
+    "lng": 72.538888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "كائي غلا",
+    "nameEn": "Khai Gala",
+    "type": "city",
+    "lat": 33.845555555556,
+    "lng": 73.830277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "كالام",
+    "nameEn": "Kalam",
+    "type": "city",
+    "lat": 35.478888888889,
+    "lng": 72.587777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "كامره، باكستان",
+    "nameEn": "Kamra",
+    "type": "city",
+    "lat": 33.856944444444,
+    "lng": 72.395,
+    "pop": null
+  },
+  {
+    "nameAr": "كرتاربور",
+    "nameEn": "Kartarpur",
+    "type": "city",
+    "lat": 32.08,
+    "lng": 75.01,
+    "pop": null
+  },
+  {
+    "nameAr": "كرهي خدابخش",
+    "nameEn": "Garhi Khuda Bakhsh",
+    "type": "city",
+    "lat": 27.694094,
+    "lng": 68.34015,
+    "pop": null
+  },
+  {
+    "nameAr": "كريم آباد",
+    "nameEn": "Karimabad",
+    "type": "city",
+    "lat": 36.327777777778,
+    "lng": 74.661111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "كوت رادها كشن",
+    "nameEn": "Kot Radha Kishan",
+    "type": "city",
+    "lat": 31.166666666667,
+    "lng": 74.1,
+    "pop": null
+  },
+  {
+    "nameAr": "كوتكي",
+    "nameEn": "Ghotki",
+    "type": "city",
+    "lat": 28.006388888889,
+    "lng": 69.315,
+    "pop": null
+  },
+  {
+    "nameAr": "كيل",
+    "nameEn": "Kel",
+    "type": "city",
+    "lat": 34.824166666667,
+    "lng": 74.353055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "کھندوعہ بحيرة",
+    "nameEn": "Khandowa",
+    "type": "city",
+    "lat": 32.735599,
+    "lng": 72.72263,
+    "pop": null
+  },
+  {
+    "nameAr": "لندي كوتال",
+    "nameEn": "Landi Kotal",
+    "type": "city",
+    "lat": 34.101111111111,
+    "lng": 71.145555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "لياقاتبور",
+    "nameEn": "Liaqatpur",
+    "type": "city",
+    "lat": 28.933333333333,
+    "lng": 70.95,
+    "pop": null
+  },
+  {
+    "nameAr": "ماتلي",
+    "nameEn": "Matli",
+    "type": "city",
+    "lat": 25.04312,
+    "lng": 68.65568,
+    "pop": null
+  },
+  {
+    "nameAr": "مدين",
+    "nameEn": "Madyan",
+    "type": "city",
+    "lat": 35.14,
+    "lng": 72.536111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "مردان",
+    "nameEn": "Mardan",
+    "type": "city",
+    "lat": 34.195833333333,
+    "lng": 72.044722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "مرزا آباد",
+    "nameEn": "Mirza Abad",
+    "type": "city",
+    "lat": 32.686864444444,
+    "lng": 73.346941666667,
+    "pop": null
+  },
+  {
+    "nameAr": "مستونك",
+    "nameEn": "Mastung",
+    "type": "city",
+    "lat": 29.8,
+    "lng": 66.25,
+    "pop": null
+  },
+  {
+    "nameAr": "منطقة دير",
+    "nameEn": "Dir",
+    "type": "city",
+    "lat": 35.205833333333,
+    "lng": 71.875555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "مولازاي",
+    "nameEn": "Mullazai",
+    "type": "city",
+    "lat": 32.413488888889,
+    "lng": 70.465827777778,
+    "pop": null
+  },
+  {
+    "nameAr": "ميران شاه",
+    "nameEn": "Miranshah",
+    "type": "city",
+    "lat": 33,
+    "lng": 70.066666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "ميربور ساكرو",
+    "nameEn": "Mirpur Sakro",
+    "type": "city",
+    "lat": 24.547222222222,
+    "lng": 67.629444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "ميرفور بتورو",
+    "nameEn": "Mirpur Bathoro",
+    "type": "city",
+    "lat": 24.72638889,
+    "lng": 68.26083333,
+    "pop": null
+  },
+  {
+    "nameAr": "نكر",
+    "nameEn": "Nagarkhas",
+    "type": "city",
+    "lat": 36.276111111111,
+    "lng": 74.716666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "هالا",
+    "nameEn": "Hala",
+    "type": "city",
+    "lat": 25.81,
+    "lng": 68.43,
+    "pop": null
+  },
+  {
+    "nameAr": "هتيان بالا",
+    "nameEn": "Hattian Bala",
+    "type": "city",
+    "lat": 34.1691,
+    "lng": 73.7432,
+    "pop": null
+  },
+  {
+    "nameAr": "هجيرة",
+    "nameEn": "Hajira",
+    "type": "city",
+    "lat": 33.7717,
+    "lng": 73.8961,
+    "pop": null
+  },
+  {
+    "nameAr": "واشك",
+    "nameEn": "Washuk",
+    "type": "city",
+    "lat": 27.723888888889,
+    "lng": 64.808888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "واه كينت",
+    "nameEn": "Wah Cantonment",
+    "type": "city",
+    "lat": 33.789166666667,
+    "lng": 72.725277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "وده",
+    "nameEn": "Wadh",
+    "type": "city",
+    "lat": 27.341666666667,
+    "lng": 66.371111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "وزير أباد",
+    "nameEn": "Wazirabad",
+    "type": "city",
+    "lat": 32.441111111111,
+    "lng": 74.114166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Aab-e-Gum",
+    "nameEn": "Aab-e-Gum",
+    "type": "city",
+    "lat": 29.80722222,
+    "lng": 67.40055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Aayal Tunia",
+    "nameEn": "Aayal Tunia",
+    "type": "city",
+    "lat": 27.15222222,
+    "lng": 68.29638889,
+    "pop": null
+  },
+  {
+    "nameAr": "Aba Khel",
+    "nameEn": "Aba Khel",
+    "type": "city",
+    "lat": 33.196388888889,
+    "lng": 70.377222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Abak",
+    "nameEn": "Abak",
+    "type": "city",
+    "lat": 32.569166666667,
+    "lng": 69.841111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Abazai",
+    "nameEn": "Abazai",
+    "type": "city",
+    "lat": 34.31861111,
+    "lng": 71.59305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Abdul Khel",
+    "nameEn": "Abdul Khel",
+    "type": "city",
+    "lat": 33.912777777778,
+    "lng": 70.9025,
+    "pop": null
+  },
+  {
+    "nameAr": "Abdupur",
+    "nameEn": "Abdupur",
+    "type": "city",
+    "lat": 33.03333333,
+    "lng": 73.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Aboha",
+    "nameEn": "Aboha",
+    "type": "city",
+    "lat": 34.666666666667,
+    "lng": 72.183333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Achh",
+    "nameEn": "Achh",
+    "type": "city",
+    "lat": 32.86666667,
+    "lng": 74.13333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Adai",
+    "nameEn": "Adai",
+    "type": "city",
+    "lat": 34.965,
+    "lng": 71.564722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Adamzai",
+    "nameEn": "Adamzai",
+    "type": "city",
+    "lat": 33.9844,
+    "lng": 72.1609,
+    "pop": null
+  },
+  {
+    "nameAr": "Adda Gamber",
+    "nameEn": "Adda Gamber",
+    "type": "city",
+    "lat": 30.746388888889,
+    "lng": 73.331666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Adilpur",
+    "nameEn": "Adilpur",
+    "type": "city",
+    "lat": 27.93697,
+    "lng": 69.31869,
+    "pop": null
+  },
+  {
+    "nameAr": "Ahlowal",
+    "nameEn": "Ahlowal",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ahmad Pur Lamma",
+    "nameEn": "Ahmad Pur Lamma",
+    "type": "city",
+    "lat": 28.517,
+    "lng": 70.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Ahmad Wal",
+    "nameEn": "Ahmad Wal",
+    "type": "city",
+    "lat": 29.396666666667,
+    "lng": 65.939722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ahmedabad",
+    "nameEn": "Ahmedabad",
+    "type": "city",
+    "lat": 36.304,
+    "lng": 74.7305,
+    "pop": null
+  },
+  {
+    "nameAr": "Ajitke Chattha",
+    "nameEn": "Ajitke Chattha",
+    "type": "city",
+    "lat": 32.28916667,
+    "lng": 73.89888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Akbarpura",
+    "nameEn": "Akbarpura",
+    "type": "city",
+    "lat": 34.055555555556,
+    "lng": 71.721388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Akwal",
+    "nameEn": "Akwal",
+    "type": "city",
+    "lat": 32.92946,
+    "lng": 72.36476,
+    "pop": null
+  },
+  {
+    "nameAr": "Alexandria in Orietai",
+    "nameEn": "Alexandria in Orietai",
+    "type": "city",
+    "lat": 27.5,
+    "lng": 67.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Aliabad",
+    "nameEn": "Aliabad",
+    "type": "city",
+    "lat": 36.307777777778,
+    "lng": 74.617777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Alipur Farash",
+    "nameEn": "Alipur Farash",
+    "type": "city",
+    "lat": 33.648,
+    "lng": 73.187,
+    "pop": null
+  },
+  {
+    "nameAr": "Alipur Noon",
+    "nameEn": "Alipur Noon",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Allah Abad",
+    "nameEn": "Allah Abad",
+    "type": "city",
+    "lat": 28.933333333333,
+    "lng": 70.966666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Alpuri",
+    "nameEn": "Alpuri",
+    "type": "city",
+    "lat": 34.9204318,
+    "lng": 72.6325567,
+    "pop": null
+  },
+  {
+    "nameAr": "Altit",
+    "nameEn": "Altit",
+    "type": "city",
+    "lat": 36.319444444444,
+    "lng": 74.6825,
+    "pop": null
+  },
+  {
+    "nameAr": "Amb",
+    "nameEn": "Amb",
+    "type": "city",
+    "lat": 34.19,
+    "lng": 72.51,
+    "pop": null
+  },
+  {
+    "nameAr": "Amin Town",
+    "nameEn": "Amin Town",
+    "type": "city",
+    "lat": 31.43333333,
+    "lng": 73.11666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Amirabad",
+    "nameEn": "Amirabad",
+    "type": "city",
+    "lat": 34.18729,
+    "lng": 73.09078,
+    "pop": null
+  },
+  {
+    "nameAr": "Amra Kalan",
+    "nameEn": "Amra Kalan",
+    "type": "city",
+    "lat": 32.665277777778,
+    "lng": 73.67,
+    "pop": null
+  },
+  {
+    "nameAr": "Amruka",
+    "nameEn": "Amruka",
+    "type": "city",
+    "lat": 30.32087,
+    "lng": 73.878412,
+    "pop": null
+  },
+  {
+    "nameAr": "Andrah Kalan",
+    "nameEn": "Andrah Kalan",
+    "type": "city",
+    "lat": 33.18333333,
+    "lng": 73.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Angadpura",
+    "nameEn": "Angadpura",
+    "type": "city",
+    "lat": 30.9877454,
+    "lng": 72.6496589,
+    "pop": null
+  },
+  {
+    "nameAr": "Angah",
+    "nameEn": "Angah",
+    "type": "city",
+    "lat": 32.6,
+    "lng": 72.083333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Arang Kel",
+    "nameEn": "Arang Kel",
+    "type": "city",
+    "lat": 34.808333333333,
+    "lng": 74.349166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Arar",
+    "nameEn": "Arar",
+    "type": "city",
+    "lat": 31.864166666667,
+    "lng": 72.436944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Arbianwala",
+    "nameEn": "Arbianwala",
+    "type": "city",
+    "lat": 29.39,
+    "lng": 71.31,
+    "pop": null
+  },
+  {
+    "nameAr": "Arja",
+    "nameEn": "Arja",
+    "type": "city",
+    "lat": 33.972222222222,
+    "lng": 73.6575,
+    "pop": null
+  },
+  {
+    "nameAr": "Arrar",
+    "nameEn": "Arrar",
+    "type": "city",
+    "lat": 32.73333333,
+    "lng": 72.88333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Arundu",
+    "nameEn": "Arundu",
+    "type": "city",
+    "lat": 35.31,
+    "lng": 71.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Astore",
+    "nameEn": "Astore",
+    "type": "city",
+    "lat": 35.3575,
+    "lng": 74.857222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Athmuqam",
+    "nameEn": "Athmuqam",
+    "type": "city",
+    "lat": 34.588333333333,
+    "lng": 73.912777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Awan Patti",
+    "nameEn": "Awan Patti",
+    "type": "city",
+    "lat": 34.25,
+    "lng": 73.66,
+    "pop": null
+  },
+  {
+    "nameAr": "Awan Sharif",
+    "nameEn": "Awan Sharif",
+    "type": "city",
+    "lat": 32.84416667,
+    "lng": 74.23361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Awaran",
+    "nameEn": "Awaran",
+    "type": "city",
+    "lat": 26.27,
+    "lng": 65.14,
+    "pop": null
+  },
+  {
+    "nameAr": "Awi",
+    "nameEn": "Awi",
+    "type": "city",
+    "lat": 36.00955,
+    "lng": 71.75947,
+    "pop": null
+  },
+  {
+    "nameAr": "Ayun",
+    "nameEn": "Ayun",
+    "type": "city",
+    "lat": 35.715833333333,
+    "lng": 71.770833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Azad Pattan",
+    "nameEn": "Azad Pattan",
+    "type": "city",
+    "lat": 33.732,
+    "lng": 73.6032,
+    "pop": null
+  },
+  {
+    "nameAr": "Azam Warsak",
+    "nameEn": "Azam Warsak",
+    "type": "city",
+    "lat": 32.290833333333,
+    "lng": 69.421388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Babo Dehri",
+    "nameEn": "Babo Dehri",
+    "type": "city",
+    "lat": 34.1722,
+    "lng": 72.2268,
+    "pop": null
+  },
+  {
+    "nameAr": "Baddoki Gosaian",
+    "nameEn": "Baddoki Gosaian",
+    "type": "city",
+    "lat": 32.16,
+    "lng": 73.51,
+    "pop": null
+  },
+  {
+    "nameAr": "Badin",
+    "nameEn": "Badin",
+    "type": "city",
+    "lat": 24.655833333333,
+    "lng": 68.838333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Badrashi",
+    "nameEn": "Badrashi",
+    "type": "city",
+    "lat": 33.98861111,
+    "lng": 72.025,
+    "pop": null
+  },
+  {
+    "nameAr": "Baffa",
+    "nameEn": "Baffa",
+    "type": "city",
+    "lat": 34.4375,
+    "lng": 73.220277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Bag-Notar",
+    "nameEn": "Bag-Notar",
+    "type": "city",
+    "lat": 34.12722222,
+    "lng": 73.34277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagh Maidan",
+    "nameEn": "Bagh Maidan",
+    "type": "city",
+    "lat": 34.985669,
+    "lng": 71.854705,
+    "pop": null
+  },
+  {
+    "nameAr": "Baghanwala",
+    "nameEn": "Baghanwala",
+    "type": "city",
+    "lat": 32.7099,
+    "lng": 73.2313,
+    "pop": null
+  },
+  {
+    "nameAr": "Baghiana Kalan",
+    "nameEn": "Baghiana Kalan",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Baherwal Kalan",
+    "nameEn": "Baherwal Kalan",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bahgwal Dargahi",
+    "nameEn": "Bahgwal Dargahi",
+    "type": "city",
+    "lat": 33.402138,
+    "lng": 73.192222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bains",
+    "nameEn": "Bains",
+    "type": "city",
+    "lat": 33.383333,
+    "lng": 72.847222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakhar Bar",
+    "nameEn": "Bakhar Bar",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakhri Ahmad Khan",
+    "nameEn": "Bakhri Ahmad Khan",
+    "type": "city",
+    "lat": 30.7359,
+    "lng": 70.838,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakka (Bakka Jabbi), Khyber Pakhtunkhwa",
+    "nameEn": "Bakka (Bakka Jabbi), Khyber Pakhtunkhwa",
+    "type": "city",
+    "lat": 33.9684,
+    "lng": 72.8344,
+    "pop": null
+  },
+  {
+    "nameAr": "Balim",
+    "nameEn": "Balim",
+    "type": "city",
+    "lat": 36.07012,
+    "lng": 72.43959,
+    "pop": null
+  },
+  {
+    "nameAr": "Balkassar",
+    "nameEn": "Balkassar",
+    "type": "city",
+    "lat": 32.939166666667,
+    "lng": 72.645833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bandhi",
+    "nameEn": "Bandhi",
+    "type": "city",
+    "lat": 26.58333333,
+    "lng": 68.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Bangial, Gujrat",
+    "nameEn": "Bangial, Gujrat",
+    "type": "city",
+    "lat": 32.826388888889,
+    "lng": 74.036666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Baral",
+    "nameEn": "Baral",
+    "type": "city",
+    "lat": 32.92861111,
+    "lng": 73.73138889,
+    "pop": null
+  },
+  {
+    "nameAr": "Barikot",
+    "nameEn": "Barikot",
+    "type": "city",
+    "lat": 34.673888888889,
+    "lng": 72.221666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Barila sharif",
+    "nameEn": "Barila sharif",
+    "type": "city",
+    "lat": 32.75,
+    "lng": 74.38333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Barotha",
+    "nameEn": "Barotha",
+    "type": "city",
+    "lat": 33.776111111111,
+    "lng": 72.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Basal",
+    "nameEn": "Basal",
+    "type": "city",
+    "lat": 33.5552,
+    "lng": 72.2556,
+    "pop": null
+  },
+  {
+    "nameAr": "Basand",
+    "nameEn": "Basand",
+    "type": "city",
+    "lat": 33.773611111111,
+    "lng": 73.383333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Basima",
+    "nameEn": "Basima",
+    "type": "city",
+    "lat": 27.90888889,
+    "lng": 65.87361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Basra",
+    "nameEn": "Basra",
+    "type": "city",
+    "lat": 32.46,
+    "lng": 71.59,
+    "pop": null
+  },
+  {
+    "nameAr": "Basti Jannu Sharif",
+    "nameEn": "Basti Jannu Sharif",
+    "type": "city",
+    "lat": 30.537499302944,
+    "lng": 70.930443188844,
+    "pop": null
+  },
+  {
+    "nameAr": "Basti-Abdullah",
+    "nameEn": "Basti-Abdullah",
+    "type": "city",
+    "lat": 28.546324769521,
+    "lng": 69.791319839983,
+    "pop": null
+  },
+  {
+    "nameAr": "Batakundi",
+    "nameEn": "Batakundi",
+    "type": "city",
+    "lat": 34.926944444444,
+    "lng": 73.776388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Batkor",
+    "nameEn": "Batkor",
+    "type": "city",
+    "lat": 35.88,
+    "lng": 74.493,
+    "pop": null
+  },
+  {
+    "nameAr": "Battagram",
+    "nameEn": "Battagram",
+    "type": "city",
+    "lat": 34.219869,
+    "lng": 71.626356,
+    "pop": null
+  },
+  {
+    "nameAr": "Bazdad",
+    "nameEn": "Bazdad",
+    "type": "city",
+    "lat": 26.2,
+    "lng": 65.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Beharwal Kalan",
+    "nameEn": "Beharwal Kalan",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bela",
+    "nameEn": "Bela",
+    "type": "city",
+    "lat": 26.226666666667,
+    "lng": 66.310555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Besal",
+    "nameEn": "Besal",
+    "type": "city",
+    "lat": 35.05220278,
+    "lng": 73.9361,
+    "pop": null
+  },
+  {
+    "nameAr": "Bewal",
+    "nameEn": "Bewal",
+    "type": "city",
+    "lat": 33.339166666667,
+    "lng": 73.4475,
+    "pop": null
+  },
+  {
+    "nameAr": "Bewata",
+    "nameEn": "Bewata",
+    "type": "city",
+    "lat": 30.00713,
+    "lng": 69.95096,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhagwal, Chakwal",
+    "nameEn": "Bhagwal, Chakwal",
+    "type": "city",
+    "lat": 33.073611111111,
+    "lng": 72.598055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhai Kot",
+    "nameEn": "Bhai Kot",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhaiwala",
+    "nameEn": "Bhaiwala",
+    "type": "city",
+    "lat": 30.88472222,
+    "lng": 72.44027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhand Gran",
+    "nameEn": "Bhand Gran",
+    "type": "city",
+    "lat": 32.843135,
+    "lng": 74.022921,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhattian",
+    "nameEn": "Bhattian",
+    "type": "city",
+    "lat": 32.844273597245,
+    "lng": 73.939576148987,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhiria road",
+    "nameEn": "Bhiria road",
+    "type": "city",
+    "lat": 26.8861,
+    "lng": 68.2773,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhoanj",
+    "nameEn": "Bhoanj",
+    "type": "city",
+    "lat": 32.8472,
+    "lng": 73.6917,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhodesar",
+    "nameEn": "Bhodesar",
+    "type": "city",
+    "lat": 24.3997,
+    "lng": 70.7362,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhoin",
+    "nameEn": "Bhoin",
+    "type": "city",
+    "lat": 35.148333333333,
+    "lng": 72.935277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhooma Batth",
+    "nameEn": "Bhooma Batth",
+    "type": "city",
+    "lat": 32.16,
+    "lng": 73.51,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhopay Wal",
+    "nameEn": "Bhopay Wal",
+    "type": "city",
+    "lat": 30.948888888889,
+    "lng": 73.743333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhurban",
+    "nameEn": "Bhurban",
+    "type": "city",
+    "lat": 33.943333333333,
+    "lng": 73.446388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhutta Kalhora",
+    "nameEn": "Bhutta Kalhora",
+    "type": "city",
+    "lat": 27.476167,
+    "lng": 68.184409,
+    "pop": null
+  },
+  {
+    "nameAr": "Bishandot",
+    "nameEn": "Bishandot",
+    "type": "city",
+    "lat": 33.4344,
+    "lng": 73.2846,
+    "pop": null
+  },
+  {
+    "nameAr": "Bisian",
+    "nameEn": "Bisian",
+    "type": "city",
+    "lat": 34.462222222222,
+    "lng": 73.3425,
+    "pop": null
+  },
+  {
+    "nameAr": "Brep",
+    "nameEn": "Brep",
+    "type": "city",
+    "lat": 36.43333333,
+    "lng": 72.66666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bugga",
+    "nameEn": "Bugga",
+    "type": "city",
+    "lat": 32.03333333,
+    "lng": 73.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukkan Mandi Bahauddin",
+    "nameEn": "Bukkan Mandi Bahauddin",
+    "type": "city",
+    "lat": 32.56666667,
+    "lng": 73.46666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bunga Hayat",
+    "nameEn": "Bunga Hayat",
+    "type": "city",
+    "lat": 30.496,
+    "lng": 73.519,
+    "pop": null
+  },
+  {
+    "nameAr": "Burawai",
+    "nameEn": "Burawai",
+    "type": "city",
+    "lat": 34.940555555556,
+    "lng": 73.867777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Burhan",
+    "nameEn": "Burhan",
+    "type": "city",
+    "lat": 33.81611111,
+    "lng": 72.58305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Chagai",
+    "nameEn": "Chagai",
+    "type": "city",
+    "lat": 29.3,
+    "lng": 64.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Chahrkey",
+    "nameEn": "Chahrkey",
+    "type": "city",
+    "lat": 32.418911111111,
+    "lng": 73.834541666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 104 NB",
+    "nameEn": "Chak 104 NB",
+    "type": "city",
+    "lat": 32,
+    "lng": 72.33,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 104 SB",
+    "nameEn": "Chak 104 SB",
+    "type": "city",
+    "lat": 31.99944444,
+    "lng": 72.69611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 11 S.B.",
+    "nameEn": "Chak 11 S.B.",
+    "type": "city",
+    "lat": 32.157222222222,
+    "lng": 72.9975,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 118 GB Jallandhar Sufaid Poshan",
+    "nameEn": "Chak 118 GB Jallandhar Sufaid Poshan",
+    "type": "city",
+    "lat": 31.25854444,
+    "lng": 73.21510833,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 124 NB",
+    "nameEn": "Chak 124 NB",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 126 GB Sheroana",
+    "nameEn": "Chak 126 GB Sheroana",
+    "type": "city",
+    "lat": 31.36045,
+    "lng": 73.42472,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 129 NB",
+    "nameEn": "Chak 129 NB",
+    "type": "city",
+    "lat": 31.821666666667,
+    "lng": 72.513888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 130 SB",
+    "nameEn": "Chak 130 SB",
+    "type": "city",
+    "lat": 31.833333333333,
+    "lng": 72.633333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 132 SB",
+    "nameEn": "Chak 132 SB",
+    "type": "city",
+    "lat": 31.832777777778,
+    "lng": 72.629166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 147/148 NB",
+    "nameEn": "Chak 147/148 NB",
+    "type": "city",
+    "lat": 31.789166666667,
+    "lng": 72.474444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 15 DNB",
+    "nameEn": "Chak 15 DNB",
+    "type": "city",
+    "lat": 29.13398,
+    "lng": 71.54058,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 168/171 NB",
+    "nameEn": "Chak 168/171 NB",
+    "type": "city",
+    "lat": 31.836111111111,
+    "lng": 72.495833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 2 NB",
+    "nameEn": "Chak 2 NB",
+    "type": "city",
+    "lat": 32.318333333333,
+    "lng": 72.917777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 21 SB",
+    "nameEn": "Chak 21 SB",
+    "type": "city",
+    "lat": 32.188333333333,
+    "lng": 73.028611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 217 GB",
+    "nameEn": "Chak 217 GB",
+    "type": "city",
+    "lat": 31.016694,
+    "lng": 72.8567818,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 234 GB",
+    "nameEn": "Chak 234 GB",
+    "type": "city",
+    "lat": 31.409305555556,
+    "lng": 73.505972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 235 GB Partab Garh",
+    "nameEn": "Chak 235 GB Partab Garh",
+    "type": "city",
+    "lat": 31.393583333333,
+    "lng": 73.489805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 236 GB Kilanwala",
+    "nameEn": "Chak 236 GB Kilanwala",
+    "type": "city",
+    "lat": 31.382611111111,
+    "lng": 73.480111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 241 GB Behram",
+    "nameEn": "Chak 241 GB Behram",
+    "type": "city",
+    "lat": 31.0528943,
+    "lng": 72.7750792,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 241 GB Garha",
+    "nameEn": "Chak 241 GB Garha",
+    "type": "city",
+    "lat": 31.0348038,
+    "lng": 72.7755943,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 249 TDA",
+    "nameEn": "Chak 249 TDA",
+    "type": "city",
+    "lat": 31.17959,
+    "lng": 71.20946,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 284 GB",
+    "nameEn": "Chak 284 GB",
+    "type": "city",
+    "lat": 30.885038,
+    "lng": 72.566053,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 3 A",
+    "nameEn": "Chak 3 A",
+    "type": "city",
+    "lat": 29.030277777778,
+    "lng": 70.995833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 358JB Dulham Shareef",
+    "nameEn": "Chak 358JB Dulham Shareef",
+    "type": "city",
+    "lat": 31.19525,
+    "lng": 72.57305,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 36 NB",
+    "nameEn": "Chak 36 NB",
+    "type": "city",
+    "lat": 32.12611111,
+    "lng": 72.72972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 378 JB Fatoo Wal",
+    "nameEn": "Chak 378 JB Fatoo Wal",
+    "type": "city",
+    "lat": 31.08572,
+    "lng": 72.50299,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 38 3R",
+    "nameEn": "Chak 38 3R",
+    "type": "city",
+    "lat": 29.599722222222,
+    "lng": 72.946111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 47 Fateh",
+    "nameEn": "Chak 47 Fateh",
+    "type": "city",
+    "lat": 29.758611111111,
+    "lng": 72.805277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 48 Fateh",
+    "nameEn": "Chak 48 Fateh",
+    "type": "city",
+    "lat": 29.745,
+    "lng": 72.784722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 49 Fateh",
+    "nameEn": "Chak 49 Fateh",
+    "type": "city",
+    "lat": 29.729722222222,
+    "lng": 72.804444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 50 Fateh",
+    "nameEn": "Chak 50 Fateh",
+    "type": "city",
+    "lat": 29.720277777778,
+    "lng": 72.774166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 500 GB",
+    "nameEn": "Chak 500 GB",
+    "type": "city",
+    "lat": 30.833333333333,
+    "lng": 72.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 52 Fateh",
+    "nameEn": "Chak 52 Fateh",
+    "type": "city",
+    "lat": 29.71,
+    "lng": 72.756388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 63 RB Nihaloana Sahmal",
+    "nameEn": "Chak 63 RB Nihaloana Sahmal",
+    "type": "city",
+    "lat": 31.590822,
+    "lng": 73.362473,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 71 NB",
+    "nameEn": "Chak 71 NB",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 72 GB",
+    "nameEn": "Chak 72 GB",
+    "type": "city",
+    "lat": 31.293055555556,
+    "lng": 73.206111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 85 JB Leilanwala",
+    "nameEn": "Chak 85 JB Leilanwala",
+    "type": "city",
+    "lat": 31.26691583,
+    "lng": 72.89733,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak 98 NB",
+    "nameEn": "Chak 98 NB",
+    "type": "city",
+    "lat": 31.979444444444,
+    "lng": 72.643611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak Amru",
+    "nameEn": "Chak Amru",
+    "type": "city",
+    "lat": 32.373148,
+    "lng": 75.177158,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak Bedi",
+    "nameEn": "Chak Bedi",
+    "type": "city",
+    "lat": 30.4749,
+    "lng": 73.5184,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak Budho",
+    "nameEn": "Chak Budho",
+    "type": "city",
+    "lat": 32.852777777778,
+    "lng": 73.973055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak Chaudharian",
+    "nameEn": "Chak Chaudharian",
+    "type": "city",
+    "lat": 29.863888888889,
+    "lng": 71.76,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No 111/1L Rahim yar Khan Punjab",
+    "nameEn": "Chak No 111/1L Rahim yar Khan Punjab",
+    "type": "city",
+    "lat": 28.16666667,
+    "lng": 70.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No 190 RB Karari Kalan",
+    "nameEn": "Chak No 190 RB Karari Kalan",
+    "type": "city",
+    "lat": 31.54345639,
+    "lng": 73.1570875,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No 521/E.B",
+    "nameEn": "Chak No 521/E.B",
+    "type": "city",
+    "lat": 30.16666667,
+    "lng": 72.68333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 1 Chillianwala Station",
+    "nameEn": "Chak No. 1 Chillianwala Station",
+    "type": "city",
+    "lat": 32.73819,
+    "lng": 73.6187,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 16/1-L",
+    "nameEn": "Chak No. 16/1-L",
+    "type": "city",
+    "lat": 30.838015,
+    "lng": 73.589414,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 18",
+    "nameEn": "Chak No. 18",
+    "type": "city",
+    "lat": 31.529,
+    "lng": 73.0353,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 285-GB",
+    "nameEn": "Chak No. 285-GB",
+    "type": "city",
+    "lat": 30.854957,
+    "lng": 72.569942,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 288",
+    "nameEn": "Chak No. 288",
+    "type": "city",
+    "lat": 31.05,
+    "lng": 72.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 3",
+    "nameEn": "Chak No. 3",
+    "type": "city",
+    "lat": 32.549722222222,
+    "lng": 73.417222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 69/EB Ugroo",
+    "nameEn": "Chak No. 69/EB Ugroo",
+    "type": "city",
+    "lat": 30.15,
+    "lng": 73.254,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No. 90 ML",
+    "nameEn": "Chak No. 90 ML",
+    "type": "city",
+    "lat": 31.31666667,
+    "lng": 71.08333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak No.15/GD",
+    "nameEn": "Chak No.15/GD",
+    "type": "city",
+    "lat": 30.966649,
+    "lng": 73.467051,
+    "pop": null
+  },
+  {
+    "nameAr": "Chak Shafi",
+    "nameEn": "Chak Shafi",
+    "type": "city",
+    "lat": 30.3700702,
+    "lng": 73.2214736,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakbasawa",
+    "nameEn": "Chakbasawa",
+    "type": "city",
+    "lat": 32.575,
+    "lng": 73.558333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakdara",
+    "nameEn": "Chakdara",
+    "type": "city",
+    "lat": 34.661666666667,
+    "lng": 72.031111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakdina",
+    "nameEn": "Chakdina",
+    "type": "city",
+    "lat": 32.7,
+    "lng": 73.883333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakfazal",
+    "nameEn": "Chakfazal",
+    "type": "city",
+    "lat": 32.876944444444,
+    "lng": 74.043888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakora",
+    "nameEn": "Chakora",
+    "type": "city",
+    "lat": 32.47,
+    "lng": 72.43,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakothi",
+    "nameEn": "Chakothi",
+    "type": "city",
+    "lat": 34.1171,
+    "lng": 73.8831,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakri",
+    "nameEn": "Chakri",
+    "type": "city",
+    "lat": 32.684289781111,
+    "lng": 73.34975,
+    "pop": null
+  },
+  {
+    "nameAr": "Chakrian",
+    "nameEn": "Chakrian",
+    "type": "city",
+    "lat": 32.447777777778,
+    "lng": 73.884166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chamogarh",
+    "nameEn": "Chamogarh",
+    "type": "city",
+    "lat": 35.80861111,
+    "lng": 74.56,
+    "pop": null
+  },
+  {
+    "nameAr": "Chananian",
+    "nameEn": "Chananian",
+    "type": "city",
+    "lat": 34.2545,
+    "lng": 73.9417,
+    "pop": null
+  },
+  {
+    "nameAr": "Changa Manga",
+    "nameEn": "Changa Manga",
+    "type": "city",
+    "lat": 31.088333333333,
+    "lng": 73.963333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chappargram",
+    "nameEn": "Chappargram",
+    "type": "city",
+    "lat": 34.6625,
+    "lng": 73.04972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Charbagh",
+    "nameEn": "Charbagh",
+    "type": "city",
+    "lat": 34.833333333333,
+    "lng": 72.441666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chattal",
+    "nameEn": "Chattal",
+    "type": "city",
+    "lat": 32.910277777778,
+    "lng": 72.948888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chehr Gali",
+    "nameEn": "Chehr Gali",
+    "type": "city",
+    "lat": 34.1,
+    "lng": 73.16,
+    "pop": null
+  },
+  {
+    "nameAr": "Chillianwala",
+    "nameEn": "Chillianwala",
+    "type": "city",
+    "lat": 32.656947,
+    "lng": 73.603465,
+    "pop": null
+  },
+  {
+    "nameAr": "Chinari",
+    "nameEn": "Chinari",
+    "type": "city",
+    "lat": 34.1594,
+    "lng": 73.8263,
+    "pop": null
+  },
+  {
+    "nameAr": "Choa Saidan Shah",
+    "nameEn": "Choa Saidan Shah",
+    "type": "city",
+    "lat": 32.719166666667,
+    "lng": 72.986666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chotibala",
+    "nameEn": "Chotibala",
+    "type": "city",
+    "lat": 29.81666667,
+    "lng": 70.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Chowk Azam",
+    "nameEn": "Chowk Azam",
+    "type": "city",
+    "lat": 30.968055555556,
+    "lng": 71.212222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chowki Sukheki",
+    "nameEn": "Chowki Sukheki",
+    "type": "city",
+    "lat": 32.2187,
+    "lng": 73.58643,
+    "pop": null
+  },
+  {
+    "nameAr": "Chumurkone",
+    "nameEn": "Chumurkone",
+    "type": "city",
+    "lat": 35.79386111,
+    "lng": 71.78083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chura Sharif",
+    "nameEn": "Chura Sharif",
+    "type": "city",
+    "lat": 33.453333333333,
+    "lng": 72.110555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Daira CH Amir Kalasa",
+    "nameEn": "Daira CH Amir Kalasa",
+    "type": "city",
+    "lat": 32.6126205,
+    "lng": 73.9867522,
+    "pop": null
+  },
+  {
+    "nameAr": "Dak Ismail Khel",
+    "nameEn": "Dak Ismail Khel",
+    "type": "city",
+    "lat": 33.85,
+    "lng": 71.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dallan",
+    "nameEn": "Dallan",
+    "type": "city",
+    "lat": 33.358333333333,
+    "lng": 70.646388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Damb, Balochistan",
+    "nameEn": "Damb, Balochistan",
+    "type": "city",
+    "lat": 25.45,
+    "lng": 66.563888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Dana Abad",
+    "nameEn": "Dana Abad",
+    "type": "city",
+    "lat": 31.21388889,
+    "lng": 73.45194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Dandoqa",
+    "nameEn": "Dandoqa",
+    "type": "city",
+    "lat": 34.18055556,
+    "lng": 72.31555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dandot",
+    "nameEn": "Dandot",
+    "type": "city",
+    "lat": 32.658333333333,
+    "lng": 72.958333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Dandot RS",
+    "nameEn": "Dandot RS",
+    "type": "city",
+    "lat": 32.638611111111,
+    "lng": 72.976944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Darbar Kot",
+    "nameEn": "Darbar Kot",
+    "type": "city",
+    "lat": 31.4919,
+    "lng": 73.6683,
+    "pop": null
+  },
+  {
+    "nameAr": "Darora",
+    "nameEn": "Darora",
+    "type": "city",
+    "lat": 35.105555555556,
+    "lng": 71.991666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Darsamand",
+    "nameEn": "Darsamand",
+    "type": "city",
+    "lat": 33.438611111111,
+    "lng": 70.661111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Darutta",
+    "nameEn": "Darutta",
+    "type": "city",
+    "lat": 31.62,
+    "lng": 72.76463,
+    "pop": null
+  },
+  {
+    "nameAr": "Dassu",
+    "nameEn": "Dassu",
+    "type": "city",
+    "lat": 35.716666666667,
+    "lng": 75.516666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dasu",
+    "nameEn": "Dasu",
+    "type": "city",
+    "lat": 35.271111111111,
+    "lng": 73.223333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Datta Khel",
+    "nameEn": "Datta Khel",
+    "type": "city",
+    "lat": 32.905277777778,
+    "lng": 69.748888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Daulat Nagar",
+    "nameEn": "Daulat Nagar",
+    "type": "city",
+    "lat": 32.745555555556,
+    "lng": 74.079166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Daulat Pur",
+    "nameEn": "Daulat Pur",
+    "type": "city",
+    "lat": 30.135555555556,
+    "lng": 73.587222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Daulatpur",
+    "nameEn": "Daulatpur",
+    "type": "city",
+    "lat": 26.503,
+    "lng": 67.974,
+    "pop": null
+  },
+  {
+    "nameAr": "Dera Allah Yar",
+    "nameEn": "Dera Allah Yar",
+    "type": "city",
+    "lat": 28.416666666667,
+    "lng": 68.166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Devi",
+    "nameEn": "Devi",
+    "type": "city",
+    "lat": 33.208611111111,
+    "lng": 73.049722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhadar",
+    "nameEn": "Dhadar",
+    "type": "city",
+    "lat": 29.475277777778,
+    "lng": 67.651111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhall Kakka",
+    "nameEn": "Dhall Kakka",
+    "type": "city",
+    "lat": 32.809166666667,
+    "lng": 73.935,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhanote",
+    "nameEn": "Dhanote",
+    "type": "city",
+    "lat": 29.57991,
+    "lng": 71.75213,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhariala Kahoon",
+    "nameEn": "Dhariala Kahoon",
+    "type": "city",
+    "lat": 32.766666666667,
+    "lng": 72.883333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhaular",
+    "nameEn": "Dhaular",
+    "type": "city",
+    "lat": 33.0422,
+    "lng": 72.3042,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhing",
+    "nameEn": "Dhing",
+    "type": "city",
+    "lat": 32.839444444444,
+    "lng": 73.935833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhingana City",
+    "nameEn": "Dhingana City",
+    "type": "city",
+    "lat": 31.3375,
+    "lng": 71.91666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhok Mughal Pathaan",
+    "nameEn": "Dhok Mughal Pathaan",
+    "type": "city",
+    "lat": 32.59388889,
+    "lng": 72.94333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhok Nagyal",
+    "nameEn": "Dhok Nagyal",
+    "type": "city",
+    "lat": 33.153487,
+    "lng": 73.2674,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhok Nawan Lok",
+    "nameEn": "Dhok Nawan Lok",
+    "type": "city",
+    "lat": 32.58194444,
+    "lng": 73.63472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhoke Habib",
+    "nameEn": "Dhoke Habib",
+    "type": "city",
+    "lat": 33.364425,
+    "lng": 73.23437778,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhool Khurd",
+    "nameEn": "Dhool Khurd",
+    "type": "city",
+    "lat": 32.59722222,
+    "lng": 74.03055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhulli",
+    "nameEn": "Dhulli",
+    "type": "city",
+    "lat": 32.861388888889,
+    "lng": 72.192777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Dijkot",
+    "nameEn": "Dijkot",
+    "type": "city",
+    "lat": 31.2166497,
+    "lng": 72.995266,
+    "pop": null
+  },
+  {
+    "nameAr": "Dil Sher Brohi",
+    "nameEn": "Dil Sher Brohi",
+    "type": "city",
+    "lat": 28.045555555556,
+    "lng": 68.071388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Dilawar Cheema",
+    "nameEn": "Dilawar Cheema",
+    "type": "city",
+    "lat": 32.18,
+    "lng": 74.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Dilawarabad",
+    "nameEn": "Dilawarabad",
+    "type": "city",
+    "lat": 34.15,
+    "lng": 71.83333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Dina",
+    "nameEn": "Dina",
+    "type": "city",
+    "lat": 33.028333333333,
+    "lng": 73.601111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Dinan Bashnoian Wala",
+    "nameEn": "Dinan Bashnoian Wala",
+    "type": "city",
+    "lat": 29.76,
+    "lng": 73.26,
+    "pop": null
+  },
+  {
+    "nameAr": "Dinga",
+    "nameEn": "Dinga",
+    "type": "city",
+    "lat": 32.641,
+    "lng": 73.7243,
+    "pop": null
+  },
+  {
+    "nameAr": "Dino Mako",
+    "nameEn": "Dino Mako",
+    "type": "city",
+    "lat": 28.0201235,
+    "lng": 69.6020955,
+    "pop": null
+  },
+  {
+    "nameAr": "Dittewall",
+    "nameEn": "Dittewall",
+    "type": "city",
+    "lat": 32.6,
+    "lng": 73.9833,
+    "pop": null
+  },
+  {
+    "nameAr": "Doaba",
+    "nameEn": "Doaba",
+    "type": "city",
+    "lat": 33.423611111111,
+    "lng": 70.736388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Dokota",
+    "nameEn": "Dokota",
+    "type": "city",
+    "lat": 29.9,
+    "lng": 72.03333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Domel",
+    "nameEn": "Domel",
+    "type": "city",
+    "lat": 33.028055555556,
+    "lng": 70.772777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Domeli",
+    "nameEn": "Domeli",
+    "type": "city",
+    "lat": 33.013611111111,
+    "lng": 73.356388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Dosut",
+    "nameEn": "Dosut",
+    "type": "city",
+    "lat": 34.757777777778,
+    "lng": 74.136944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Dowarian",
+    "nameEn": "Dowarian",
+    "type": "city",
+    "lat": 34.7251,
+    "lng": 74.0021,
+    "pop": null
+  },
+  {
+    "nameAr": "Drazanda",
+    "nameEn": "Drazanda",
+    "type": "city",
+    "lat": 31.706926,
+    "lng": 70.135163,
+    "pop": null
+  },
+  {
+    "nameAr": "Dulmial",
+    "nameEn": "Dulmial",
+    "type": "city",
+    "lat": 32.739166666667,
+    "lng": 72.922222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Dunyapur",
+    "nameEn": "Dunyapur",
+    "type": "city",
+    "lat": 29.80275,
+    "lng": 71.74344,
+    "pop": null
+  },
+  {
+    "nameAr": "Dureji",
+    "nameEn": "Dureji",
+    "type": "city",
+    "lat": 25.884722222222,
+    "lng": 67.303333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Eminabad",
+    "nameEn": "Eminabad",
+    "type": "city",
+    "lat": 32.03333333,
+    "lng": 74.26666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Faridkot, Khanewal",
+    "nameEn": "Faridkot, Khanewal",
+    "type": "city",
+    "lat": 30.16,
+    "lng": 71.57,
+    "pop": null
+  },
+  {
+    "nameAr": "Fateh Jang",
+    "nameEn": "Fateh Jang",
+    "type": "city",
+    "lat": 33.56888889,
+    "lng": 72.63777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Fateh Pur Sharif",
+    "nameEn": "Fateh Pur Sharif",
+    "type": "city",
+    "lat": 28.5695,
+    "lng": 67.4961,
+    "pop": null
+  },
+  {
+    "nameAr": "Feroza City",
+    "nameEn": "Feroza City",
+    "type": "city",
+    "lat": 28.75,
+    "lng": 70.816667,
+    "pop": null
+  },
+  {
+    "nameAr": "Fidai Shah",
+    "nameEn": "Fidai Shah",
+    "type": "city",
+    "lat": 30.162777777778,
+    "lng": 73.460833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fort Munro",
+    "nameEn": "Fort Munro",
+    "type": "city",
+    "lat": 29.92461,
+    "lng": 69.98145,
+    "pop": null
+  },
+  {
+    "nameAr": "Forward Kahuta",
+    "nameEn": "Forward Kahuta",
+    "type": "city",
+    "lat": 33.883888888889,
+    "lng": 74.104166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gadani",
+    "nameEn": "Gadani",
+    "type": "city",
+    "lat": 25.119444444444,
+    "lng": 66.731944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Gadap",
+    "nameEn": "Gadap",
+    "type": "city",
+    "lat": 25.132222222222,
+    "lng": 67.232777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Gahi Mammar",
+    "nameEn": "Gahi Mammar",
+    "type": "city",
+    "lat": 29.7375,
+    "lng": 71.9575,
+    "pop": null
+  },
+  {
+    "nameAr": "Gahkuch",
+    "nameEn": "Gahkuch",
+    "type": "city",
+    "lat": 36.17361111,
+    "lng": 73.76666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gakhar Chanan",
+    "nameEn": "Gakhar Chanan",
+    "type": "city",
+    "lat": 32.692889,
+    "lng": 73.763629,
+    "pop": null
+  },
+  {
+    "nameAr": "Ganda Singh Wala",
+    "nameEn": "Ganda Singh Wala",
+    "type": "city",
+    "lat": 31.037975,
+    "lng": 74.51846389,
+    "pop": null
+  },
+  {
+    "nameAr": "Gangani",
+    "nameEn": "Gangani",
+    "type": "city",
+    "lat": 34.63961,
+    "lng": 76.13596,
+    "pop": null
+  },
+  {
+    "nameAr": "Ganish",
+    "nameEn": "Ganish",
+    "type": "city",
+    "lat": 36.315,
+    "lng": 74.668,
+    "pop": null
+  },
+  {
+    "nameAr": "Ganokh",
+    "nameEn": "Ganokh",
+    "type": "city",
+    "lat": 34.756388888889,
+    "lng": 76.307777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Garhi Dopatta",
+    "nameEn": "Garhi Dopatta",
+    "type": "city",
+    "lat": 34.2256,
+    "lng": 73.6154,
+    "pop": null
+  },
+  {
+    "nameAr": "Garhi Habibullah",
+    "nameEn": "Garhi Habibullah",
+    "type": "city",
+    "lat": 34.4,
+    "lng": 73.383333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Garhi Shahu",
+    "nameEn": "Garhi Shahu",
+    "type": "city",
+    "lat": 31.56666667,
+    "lng": 74.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Gatiali",
+    "nameEn": "Gatiali",
+    "type": "city",
+    "lat": 32.59388889,
+    "lng": 72.94333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghabral",
+    "nameEn": "Ghabral",
+    "type": "city",
+    "lat": 35.524722222222,
+    "lng": 72.413333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghalanai",
+    "nameEn": "Ghalanai",
+    "type": "city",
+    "lat": 34.324166666667,
+    "lng": 71.398333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghalegay",
+    "nameEn": "Ghalegay",
+    "type": "city",
+    "lat": 34.6979761,
+    "lng": 72.2474453,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghasing",
+    "nameEn": "Ghasing",
+    "type": "city",
+    "lat": 35.09311844938,
+    "lng": 75.984020808956,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghavis",
+    "nameEn": "Ghavis",
+    "type": "city",
+    "lat": 34.884582,
+    "lng": 76.256286,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghawari",
+    "nameEn": "Ghawari",
+    "type": "city",
+    "lat": 35.183611111111,
+    "lng": 76.059166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghazi",
+    "nameEn": "Ghazi",
+    "type": "city",
+    "lat": 34.0179,
+    "lng": 72.651,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghora Gali",
+    "nameEn": "Ghora Gali",
+    "type": "city",
+    "lat": 33.8825,
+    "lng": 73.360277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghota Fatehgarh",
+    "nameEn": "Ghota Fatehgarh",
+    "type": "city",
+    "lat": 32.09,
+    "lng": 74.78,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghotak Eisa Khel",
+    "nameEn": "Ghotak Eisa Khel",
+    "type": "city",
+    "lat": 33.669444444444,
+    "lng": 70.769444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghuinke",
+    "nameEn": "Ghuinke",
+    "type": "city",
+    "lat": 32.42444444,
+    "lng": 74.46027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghulam Hyder Siyal",
+    "nameEn": "Ghulam Hyder Siyal",
+    "type": "city",
+    "lat": 27.17222222,
+    "lng": 68.26972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghulkin",
+    "nameEn": "Ghulkin",
+    "type": "city",
+    "lat": 35.4222,
+    "lng": 76.8391,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghullah Wattwan",
+    "nameEn": "Ghullah Wattwan",
+    "type": "city",
+    "lat": 30.16055556,
+    "lng": 71.44666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghummanwala",
+    "nameEn": "Ghummanwala",
+    "type": "city",
+    "lat": 31.9925446,
+    "lng": 74.1194898,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghursay",
+    "nameEn": "Ghursay",
+    "type": "city",
+    "lat": 35.2185,
+    "lng": 76.4221,
+    "pop": null
+  },
+  {
+    "nameAr": "Gichk",
+    "nameEn": "Gichk",
+    "type": "city",
+    "lat": 26.66666667,
+    "lng": 64.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Gidder, Balochistan",
+    "nameEn": "Gidder, Balochistan",
+    "type": "city",
+    "lat": 28.322222222222,
+    "lng": 66.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Gishkaur",
+    "nameEn": "Gishkaur",
+    "type": "city",
+    "lat": 26.056666666667,
+    "lng": 63.468333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Gogera",
+    "nameEn": "Gogera",
+    "type": "city",
+    "lat": 30.58,
+    "lng": 73.18,
+    "pop": null
+  },
+  {
+    "nameAr": "Gojra, Mandi Bahauddin",
+    "nameEn": "Gojra, Mandi Bahauddin",
+    "type": "city",
+    "lat": 32.4065,
+    "lng": 73.3208,
+    "pop": null
+  },
+  {
+    "nameAr": "Golra Hashim",
+    "nameEn": "Golra Hashim",
+    "type": "city",
+    "lat": 32.837222222222,
+    "lng": 73.948611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Golra Sharif",
+    "nameEn": "Golra Sharif",
+    "type": "city",
+    "lat": 33.673888888889,
+    "lng": 72.948888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Goma",
+    "nameEn": "Goma",
+    "type": "city",
+    "lat": 35.1485852,
+    "lng": 76.7912153,
+    "pop": null
+  },
+  {
+    "nameAr": "Gop-e-Rah",
+    "nameEn": "Gop-e-Rah",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Gorali",
+    "nameEn": "Gorali",
+    "type": "city",
+    "lat": 32.4,
+    "lng": 74.019166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gorikot",
+    "nameEn": "Gorikot",
+    "type": "city",
+    "lat": 35.282222222222,
+    "lng": 74.8425,
+    "pop": null
+  },
+  {
+    "nameAr": "Gorsial",
+    "nameEn": "Gorsial",
+    "type": "city",
+    "lat": 32.264482,
+    "lng": 75.209849,
+    "pop": null
+  },
+  {
+    "nameAr": "Goughabad",
+    "nameEn": "Goughabad",
+    "type": "city",
+    "lat": 31.24,
+    "lng": 73.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Gudai",
+    "nameEn": "Gudai",
+    "type": "city",
+    "lat": 35.191944444444,
+    "lng": 74.950555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Guddu",
+    "nameEn": "Guddu",
+    "type": "city",
+    "lat": 28.432222222222,
+    "lng": 69.686388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Gujar Khan",
+    "nameEn": "Gujar Khan",
+    "type": "city",
+    "lat": 33.250847222222,
+    "lng": 73.296580555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Guliana",
+    "nameEn": "Guliana",
+    "type": "city",
+    "lat": 32.8,
+    "lng": 73.966666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gulistan, Balochistan",
+    "nameEn": "Gulistan, Balochistan",
+    "type": "city",
+    "lat": 30.605,
+    "lng": 66.585277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Gulmit",
+    "nameEn": "Gulmit",
+    "type": "city",
+    "lat": 36.385,
+    "lng": 74.865,
+    "pop": null
+  },
+  {
+    "nameAr": "Gulpur",
+    "nameEn": "Gulpur",
+    "type": "city",
+    "lat": 33.436111111111,
+    "lng": 73.857222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Gulshan-e-Kabir",
+    "nameEn": "Gulshan-e-Kabir",
+    "type": "city",
+    "lat": 35.2,
+    "lng": 76.51666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gulyana",
+    "nameEn": "Gulyana",
+    "type": "city",
+    "lat": 33.2,
+    "lng": 73.26666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gulzari",
+    "nameEn": "Gulzari",
+    "type": "city",
+    "lat": 32.36,
+    "lng": 70.31,
+    "pop": null
+  },
+  {
+    "nameAr": "Habib Kot",
+    "nameEn": "Habib Kot",
+    "type": "city",
+    "lat": 27.8722,
+    "lng": 68.661,
+    "pop": null
+  },
+  {
+    "nameAr": "Habibabad",
+    "nameEn": "Habibabad",
+    "type": "city",
+    "lat": 30.951111111111,
+    "lng": 73.744722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hadali",
+    "nameEn": "Hadali",
+    "type": "city",
+    "lat": 32.29222222,
+    "lng": 72.19222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hadda",
+    "nameEn": "Hadda",
+    "type": "city",
+    "lat": 32.023611111111,
+    "lng": 72.859722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Haider Khel",
+    "nameEn": "Haider Khel",
+    "type": "city",
+    "lat": 32.9449,
+    "lng": 70.296,
+    "pop": null
+  },
+  {
+    "nameAr": "Haji Shah",
+    "nameEn": "Haji Shah",
+    "type": "city",
+    "lat": 33.75,
+    "lng": 72.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Hajiabad",
+    "nameEn": "Hajiabad",
+    "type": "city",
+    "lat": 34.403,
+    "lng": 71.926,
+    "pop": null
+  },
+  {
+    "nameAr": "Haldi",
+    "nameEn": "Haldi",
+    "type": "city",
+    "lat": 35.253055555556,
+    "lng": 76.420833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Halmat",
+    "nameEn": "Halmat",
+    "type": "city",
+    "lat": 34.7526,
+    "lng": 74.6596,
+    "pop": null
+  },
+  {
+    "nameAr": "Hameed pur Kalan",
+    "nameEn": "Hameed pur Kalan",
+    "type": "city",
+    "lat": 32.16,
+    "lng": 73.51,
+    "pop": null
+  },
+  {
+    "nameAr": "Hameed Village",
+    "nameEn": "Hameed Village",
+    "type": "city",
+    "lat": 33.9,
+    "lng": 72.467,
+    "pop": null
+  },
+  {
+    "nameAr": "Harnai",
+    "nameEn": "Harnai",
+    "type": "city",
+    "lat": 30.100277777778,
+    "lng": 67.937222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hashtnagar",
+    "nameEn": "Hashtnagar",
+    "type": "city",
+    "lat": 34.21645556,
+    "lng": 71.71479444,
+    "pop": null
+  },
+  {
+    "nameAr": "Hassanabad",
+    "nameEn": "Hassanabad",
+    "type": "city",
+    "lat": 34.97333333,
+    "lng": 76.54027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Hazara",
+    "nameEn": "Hazara",
+    "type": "city",
+    "lat": 34.8,
+    "lng": 72.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Hazara Town",
+    "nameEn": "Hazara Town",
+    "type": "city",
+    "lat": 30.174166666667,
+    "lng": 66.960833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Her-do-Gher",
+    "nameEn": "Her-do-Gher",
+    "type": "city",
+    "lat": 33.568539,
+    "lng": 73.240957,
+    "pop": null
+  },
+  {
+    "nameAr": "Herghosil",
+    "nameEn": "Herghosil",
+    "type": "city",
+    "lat": 34.757777777778,
+    "lng": 76.1325,
+    "pop": null
+  },
+  {
+    "nameAr": "Hispar",
+    "nameEn": "Hispar",
+    "type": "city",
+    "lat": 36.17194444,
+    "lng": 74.99416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hoon Dhamial",
+    "nameEn": "Hoon Dhamial",
+    "type": "city",
+    "lat": 33.15,
+    "lng": 73.22,
+    "pop": null
+  },
+  {
+    "nameAr": "Hub",
+    "nameEn": "Hub",
+    "type": "city",
+    "lat": 25.028888888889,
+    "lng": 66.881944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Hurmaz",
+    "nameEn": "Hurmaz",
+    "type": "city",
+    "lat": 32.968055555556,
+    "lng": 70.261111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Hushe",
+    "nameEn": "Hushe",
+    "type": "city",
+    "lat": 35.4525,
+    "lng": 76.357222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hussaini",
+    "nameEn": "Hussaini",
+    "type": "city",
+    "lat": 36.425555555556,
+    "lng": 74.875555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibrahimzai",
+    "nameEn": "Ibrahimzai",
+    "type": "city",
+    "lat": 33.555833333333,
+    "lng": 71.151111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Isakhel",
+    "nameEn": "Isakhel",
+    "type": "city",
+    "lat": 32.674722222222,
+    "lng": 71.281111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Jagal",
+    "nameEn": "Jagal",
+    "type": "city",
+    "lat": 32.829166666667,
+    "lng": 74.134444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Jahanawala",
+    "nameEn": "Jahanawala",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Jairo Ratial",
+    "nameEn": "Jairo Ratial",
+    "type": "city",
+    "lat": 33.178993,
+    "lng": 73.297949,
+    "pop": null
+  },
+  {
+    "nameAr": "Jajial",
+    "nameEn": "Jajial",
+    "type": "city",
+    "lat": 32.95,
+    "lng": 73.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Jajjah Abbasian",
+    "nameEn": "Jajjah Abbasian",
+    "type": "city",
+    "lat": 28.16666667,
+    "lng": 70.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Jalalpur Bhattian",
+    "nameEn": "Jalalpur Bhattian",
+    "type": "city",
+    "lat": 32.06444,
+    "lng": 73.37699,
+    "pop": null
+  },
+  {
+    "nameAr": "Jalbai",
+    "nameEn": "Jalbai",
+    "type": "city",
+    "lat": 34.01416667,
+    "lng": 72.26805556,
+    "pop": null
+  },
+  {
+    "nameAr": "Jallah Arain",
+    "nameEn": "Jallah Arain",
+    "type": "city",
+    "lat": 29.7375,
+    "lng": 71.597777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Jalozai",
+    "nameEn": "Jalozai",
+    "type": "city",
+    "lat": 33.913888888889,
+    "lng": 71.816666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Jam Nawaz Ali",
+    "nameEn": "Jam Nawaz Ali",
+    "type": "city",
+    "lat": 25.787222222222,
+    "lng": 68.863055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Jam Sahib",
+    "nameEn": "Jam Sahib",
+    "type": "city",
+    "lat": 26.29583,
+    "lng": 68.62917,
+    "pop": null
+  },
+  {
+    "nameAr": "Jameel Pura",
+    "nameEn": "Jameel Pura",
+    "type": "city",
+    "lat": 33.292,
+    "lng": 73.473,
+    "pop": null
+  },
+  {
+    "nameAr": "Jamia Abad",
+    "nameEn": "Jamia Abad",
+    "type": "city",
+    "lat": 31.60355,
+    "lng": 72.72635,
+    "pop": null
+  },
+  {
+    "nameAr": "Jamrud",
+    "nameEn": "Jamrud",
+    "type": "city",
+    "lat": 34,
+    "lng": 71.383333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Jandiala Sher Khan",
+    "nameEn": "Jandiala Sher Khan",
+    "type": "city",
+    "lat": 31.816666666667,
+    "lng": 73.916666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Jandola",
+    "nameEn": "Jandola",
+    "type": "city",
+    "lat": 32.33305556,
+    "lng": 70.11444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Jani Buriro",
+    "nameEn": "Jani Buriro",
+    "type": "city",
+    "lat": 27.43870833,
+    "lng": 68.76801111,
+    "pop": null
+  },
+  {
+    "nameAr": "Jehangira Road",
+    "nameEn": "Jehangira Road",
+    "type": "city",
+    "lat": 33.9592,
+    "lng": 72.1972,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhantla",
+    "nameEn": "Jhantla",
+    "type": "city",
+    "lat": 32.846111111111,
+    "lng": 73.963888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhika Gali",
+    "nameEn": "Jhika Gali",
+    "type": "city",
+    "lat": 33.915277777778,
+    "lng": 73.419166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhok",
+    "nameEn": "Jhok",
+    "type": "city",
+    "lat": 24.8075,
+    "lng": 68.32,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhok Mehar Shah",
+    "nameEn": "Jhok Mehar Shah",
+    "type": "city",
+    "lat": 31.91666667,
+    "lng": 71.10833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhol",
+    "nameEn": "Jhol",
+    "type": "city",
+    "lat": 25.958611111111,
+    "lng": 68.889444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhudo",
+    "nameEn": "Jhudo",
+    "type": "city",
+    "lat": 24.96666667,
+    "lng": 69.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Johi",
+    "nameEn": "Johi",
+    "type": "city",
+    "lat": 26.692061111111,
+    "lng": 67.6133,
+    "pop": null
+  },
+  {
+    "nameAr": "Judba",
+    "nameEn": "Judba",
+    "type": "city",
+    "lat": 34.613573,
+    "lng": 72.7882,
+    "pop": null
+  },
+  {
+    "nameAr": "Juglot",
+    "nameEn": "Juglot",
+    "type": "city",
+    "lat": 35.686944444444,
+    "lng": 74.628888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Jullundurianwala",
+    "nameEn": "Jullundurianwala",
+    "type": "city",
+    "lat": 30.35,
+    "lng": 73.275,
+    "pop": null
+  },
+  {
+    "nameAr": "Juma Khan Dobal",
+    "nameEn": "Juma Khan Dobal",
+    "type": "city",
+    "lat": 27.17222222,
+    "lng": 68.25305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Jungshahi",
+    "nameEn": "Jungshahi",
+    "type": "city",
+    "lat": 24.85722222,
+    "lng": 67.7725,
+    "pop": null
+  },
+  {
+    "nameAr": "Jutal",
+    "nameEn": "Jutal",
+    "type": "city",
+    "lat": 36.03722222,
+    "lng": 74.29833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaghan",
+    "nameEn": "Kaghan",
+    "type": "city",
+    "lat": 34.780277777778,
+    "lng": 73.524166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kahan",
+    "nameEn": "Kahan",
+    "type": "city",
+    "lat": 29.2982,
+    "lng": 68.9023,
+    "pop": null
+  },
+  {
+    "nameAr": "Kakrali",
+    "nameEn": "Kakrali",
+    "type": "city",
+    "lat": 32.837777777778,
+    "lng": 74.076666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kala Kamala",
+    "nameEn": "Kala Kamala",
+    "type": "city",
+    "lat": 32.6,
+    "lng": 73.76666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kala Pani",
+    "nameEn": "Kala Pani",
+    "type": "city",
+    "lat": 34.20833333,
+    "lng": 73.32222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalabagh",
+    "nameEn": "Kalabagh",
+    "type": "city",
+    "lat": 32.966,
+    "lng": 71.553,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalaske",
+    "nameEn": "Kalaske",
+    "type": "city",
+    "lat": 32.26666667,
+    "lng": 74.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalekay Nagra",
+    "nameEn": "Kalekay Nagra",
+    "type": "city",
+    "lat": 32.32,
+    "lng": 74.491,
+    "pop": null
+  },
+  {
+    "nameAr": "Kallar Kahar",
+    "nameEn": "Kallar Kahar",
+    "type": "city",
+    "lat": 32.783333333333,
+    "lng": 72.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Kallurkot",
+    "nameEn": "Kallurkot",
+    "type": "city",
+    "lat": 32.78666667,
+    "lng": 71.10722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalsian",
+    "nameEn": "Kalsian",
+    "type": "city",
+    "lat": 32.06666667,
+    "lng": 73.86666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalu Khan",
+    "nameEn": "Kalu Khan",
+    "type": "city",
+    "lat": 34.215555555556,
+    "lng": 72.298888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaluwal Mittha",
+    "nameEn": "Kaluwal Mittha",
+    "type": "city",
+    "lat": 31.02077,
+    "lng": 73.632365,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaluwal Okara",
+    "nameEn": "Kaluwal Okara",
+    "type": "city",
+    "lat": 31.02077,
+    "lng": 73.632365,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamalpur",
+    "nameEn": "Kamalpur",
+    "type": "city",
+    "lat": 30.88472222,
+    "lng": 72.44027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamra",
+    "nameEn": "Kamra",
+    "type": "city",
+    "lat": 33.74734,
+    "lng": 73.51107,
+    "pop": null
+  },
+  {
+    "nameAr": "Kandiaro",
+    "nameEn": "Kandiaro",
+    "type": "city",
+    "lat": 27.05805556,
+    "lng": 68.20777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanganpur",
+    "nameEn": "Kanganpur",
+    "type": "city",
+    "lat": 30.76666667,
+    "lng": 74.13333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanjrur",
+    "nameEn": "Kanjrur",
+    "type": "city",
+    "lat": 32.146111111111,
+    "lng": 75,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanraj",
+    "nameEn": "Kanraj",
+    "type": "city",
+    "lat": 26.243333333333,
+    "lng": 66.8025,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanshian",
+    "nameEn": "Kanshian",
+    "type": "city",
+    "lat": 34.5333,
+    "lng": 73.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Kantrila",
+    "nameEn": "Kantrila",
+    "type": "city",
+    "lat": 32.96,
+    "lng": 73.69416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kantrili",
+    "nameEn": "Kantrili",
+    "type": "city",
+    "lat": 32.993403,
+    "lng": 73.719807,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanyal Bajrana",
+    "nameEn": "Kanyal Bajrana",
+    "type": "city",
+    "lat": 33.141138,
+    "lng": 73.187626,
+    "pop": null
+  },
+  {
+    "nameAr": "Karakhela",
+    "nameEn": "Karakhela",
+    "type": "city",
+    "lat": 33.883333333333,
+    "lng": 70.016666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Karampur",
+    "nameEn": "Karampur",
+    "type": "city",
+    "lat": 26.466194,
+    "lng": 67.846169,
+    "pop": null
+  },
+  {
+    "nameAr": "Karamsar",
+    "nameEn": "Karamsar",
+    "type": "city",
+    "lat": 31.13333333,
+    "lng": 72.98333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Karbogha Sharif",
+    "nameEn": "Karbogha Sharif",
+    "type": "city",
+    "lat": 33.354444444444,
+    "lng": 70.770833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kardigap",
+    "nameEn": "Kardigap",
+    "type": "city",
+    "lat": 29.734166666667,
+    "lng": 66.456388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Karianwala",
+    "nameEn": "Karianwala",
+    "type": "city",
+    "lat": 32.751388888889,
+    "lng": 74.278888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Karkh",
+    "nameEn": "Karkh",
+    "type": "city",
+    "lat": 27.740277777778,
+    "lng": 67.175,
+    "pop": null
+  },
+  {
+    "nameAr": "Kashmore",
+    "nameEn": "Kashmore",
+    "type": "city",
+    "lat": 28.433333333333,
+    "lng": 69.583333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kayian",
+    "nameEn": "Kayian",
+    "type": "city",
+    "lat": 34.13,
+    "lng": 73.37,
+    "pop": null
+  },
+  {
+    "nameAr": "Kazi Ahmed",
+    "nameEn": "Kazi Ahmed",
+    "type": "city",
+    "lat": 26.303888888889,
+    "lng": 68.101944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Keran",
+    "nameEn": "Keran",
+    "type": "city",
+    "lat": 34.659722222222,
+    "lng": 73.942777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kertee",
+    "nameEn": "Kertee",
+    "type": "city",
+    "lat": 24.61513889,
+    "lng": 69.91641667,
+    "pop": null
+  },
+  {
+    "nameAr": "Khairabad",
+    "nameEn": "Khairabad",
+    "type": "city",
+    "lat": 33.898611111111,
+    "lng": 72.224722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Khairo Bhatti",
+    "nameEn": "Khairo Bhatti",
+    "type": "city",
+    "lat": 28.9,
+    "lng": 68.27,
+    "pop": null
+  },
+  {
+    "nameAr": "Khairpur Nathan Shāh",
+    "nameEn": "Khairpur Nathan Shāh",
+    "type": "city",
+    "lat": 27.09359,
+    "lng": 67.73366,
+    "pop": null
+  },
+  {
+    "nameAr": "Khanaspur",
+    "nameEn": "Khanaspur",
+    "type": "city",
+    "lat": 34.016666666667,
+    "lng": 73.416666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Khane",
+    "nameEn": "Khane",
+    "type": "city",
+    "lat": 35.33333333,
+    "lng": 76.38333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Khanpur",
+    "nameEn": "Khanpur",
+    "type": "city",
+    "lat": 33.804444444444,
+    "lng": 72.911111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kharfaq",
+    "nameEn": "Kharfaq",
+    "type": "city",
+    "lat": 35.190277777778,
+    "lng": 76.183333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Khatpura",
+    "nameEn": "Khatpura",
+    "type": "city",
+    "lat": 34.22,
+    "lng": 73.62,
+    "pop": null
+  },
+  {
+    "nameAr": "Khawazakhela",
+    "nameEn": "Khawazakhela",
+    "type": "city",
+    "lat": 34.9375,
+    "lng": 72.467222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kheiwa",
+    "nameEn": "Kheiwa",
+    "type": "city",
+    "lat": 31.75635833,
+    "lng": 72.77471944,
+    "pop": null
+  },
+  {
+    "nameAr": "Khewra",
+    "nameEn": "Khewra",
+    "type": "city",
+    "lat": 32.634722222222,
+    "lng": 73.011111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Khiali Shah Pur Town",
+    "nameEn": "Khiali Shah Pur Town",
+    "type": "city",
+    "lat": 32.1167,
+    "lng": 74.1833,
+    "pop": null
+  },
+  {
+    "nameAr": "Khichian",
+    "nameEn": "Khichian",
+    "type": "city",
+    "lat": 31.60773056,
+    "lng": 73.125375,
+    "pop": null
+  },
+  {
+    "nameAr": "Khipro",
+    "nameEn": "Khipro",
+    "type": "city",
+    "lat": 25.826388888889,
+    "lng": 69.375,
+    "pop": null
+  },
+  {
+    "nameAr": "Khohar",
+    "nameEn": "Khohar",
+    "type": "city",
+    "lat": 32.80666,
+    "lng": 73.64397,
+    "pop": null
+  },
+  {
+    "nameAr": "Khori Rasulpur",
+    "nameEn": "Khori Rasulpur",
+    "type": "city",
+    "lat": 32.748112,
+    "lng": 74.150934,
+    "pop": null
+  },
+  {
+    "nameAr": "Khuian",
+    "nameEn": "Khuian",
+    "type": "city",
+    "lat": 33.022222222222,
+    "lng": 72.056111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Khurrianwala",
+    "nameEn": "Khurrianwala",
+    "type": "city",
+    "lat": 31.497222222222,
+    "lng": 73.2725,
+    "pop": null
+  },
+  {
+    "nameAr": "Kirani",
+    "nameEn": "Kirani",
+    "type": "city",
+    "lat": 30.169444444444,
+    "lng": 66.954166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kirpalian",
+    "nameEn": "Kirpalian",
+    "type": "city",
+    "lat": 34.289166666667,
+    "lng": 72.849166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kitkot",
+    "nameEn": "Kitkot",
+    "type": "city",
+    "lat": 34.833333333333,
+    "lng": 71.333333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kochian",
+    "nameEn": "Kochian",
+    "type": "city",
+    "lat": 34.130319444444,
+    "lng": 71.4632,
+    "pop": null
+  },
+  {
+    "nameAr": "Kohala",
+    "nameEn": "Kohala",
+    "type": "city",
+    "lat": 34.0919,
+    "lng": 73.4968,
+    "pop": null
+  },
+  {
+    "nameAr": "Kohali",
+    "nameEn": "Kohali",
+    "type": "city",
+    "lat": 31.08,
+    "lng": 72.48,
+    "pop": null
+  },
+  {
+    "nameAr": "Koi",
+    "nameEn": "Koi",
+    "type": "city",
+    "lat": 28.33333333,
+    "lng": 66.08333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Komila",
+    "nameEn": "Komila",
+    "type": "city",
+    "lat": 35.260555555556,
+    "lng": 73.218333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kondus",
+    "nameEn": "Kondus",
+    "type": "city",
+    "lat": 35.26666667,
+    "lng": 76.66666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Konodas",
+    "nameEn": "Konodas",
+    "type": "city",
+    "lat": 35.926388888889,
+    "lng": 74.331388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Abbas Pura",
+    "nameEn": "Kot Abbas Pura",
+    "type": "city",
+    "lat": 30.94888889,
+    "lng": 73.74333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot bhutta",
+    "nameEn": "Kot bhutta",
+    "type": "city",
+    "lat": 32.15,
+    "lng": 74.18333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Boota Singh",
+    "nameEn": "Kot Boota Singh",
+    "type": "city",
+    "lat": 31.004293,
+    "lng": 73.922552,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Hasan Khan",
+    "nameEn": "Kot Hasan Khan",
+    "type": "city",
+    "lat": 32.06666667,
+    "lng": 73.68333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Lakhpat",
+    "nameEn": "Kot Lakhpat",
+    "type": "city",
+    "lat": 31.46583333,
+    "lng": 74.33722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Manan",
+    "nameEn": "Kot Manan",
+    "type": "city",
+    "lat": 32.4626,
+    "lng": 74.4723,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Momin",
+    "nameEn": "Kot Momin",
+    "type": "city",
+    "lat": 32.188333333333,
+    "lng": 73.028611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Nijabat",
+    "nameEn": "Kot Nijabat",
+    "type": "city",
+    "lat": 31.58,
+    "lng": 72.67,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Paroya",
+    "nameEn": "Kot Paroya",
+    "type": "city",
+    "lat": 32.26666667,
+    "lng": 74.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Suleman",
+    "nameEn": "Kot Suleman",
+    "type": "city",
+    "lat": 33.1167,
+    "lng": 73.1667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kot Tarhala",
+    "nameEn": "Kot Tarhala",
+    "type": "city",
+    "lat": 34.12111111,
+    "lng": 73.60472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotla Arab Ali Khan",
+    "nameEn": "Kotla Arab Ali Khan",
+    "type": "city",
+    "lat": 32.851388888889,
+    "lng": 74.072222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotla Haji Shah",
+    "nameEn": "Kotla Haji Shah",
+    "type": "city",
+    "lat": 32.842777777778,
+    "lng": 73.950277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotli Bajar",
+    "nameEn": "Kotli Bajar",
+    "type": "city",
+    "lat": 32.811111111111,
+    "lng": 73.981388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotli Gujjran",
+    "nameEn": "Kotli Gujjran",
+    "type": "city",
+    "lat": 33.188611111111,
+    "lng": 74.051388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotli Kalan",
+    "nameEn": "Kotli Kalan",
+    "type": "city",
+    "lat": 33.84836111,
+    "lng": 71.87061111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotli Kuppa, Sialkot",
+    "nameEn": "Kotli Kuppa, Sialkot",
+    "type": "city",
+    "lat": 32.304166666667,
+    "lng": 74.381944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotli Noonan",
+    "nameEn": "Kotli Noonan",
+    "type": "city",
+    "lat": 32.448333333333,
+    "lng": 74.353888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kotri Kabir",
+    "nameEn": "Kotri Kabir",
+    "type": "city",
+    "lat": 27.145,
+    "lng": 68.369444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Kuchlak",
+    "nameEn": "Kuchlak",
+    "type": "city",
+    "lat": 30.361944444444,
+    "lng": 66.948888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kumaranwali",
+    "nameEn": "Kumaranwali",
+    "type": "city",
+    "lat": 32.45833333,
+    "lng": 71.95277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kumarwala",
+    "nameEn": "Kumarwala",
+    "type": "city",
+    "lat": 29.73333333,
+    "lng": 72.10138889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kundal Shahi",
+    "nameEn": "Kundal Shahi",
+    "type": "city",
+    "lat": 34.5548,
+    "lng": 73.8439,
+    "pop": null
+  },
+  {
+    "nameAr": "Kuro",
+    "nameEn": "Kuro",
+    "type": "city",
+    "lat": 35.185277777778,
+    "lng": 76.079166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurram Garhi",
+    "nameEn": "Kurram Garhi",
+    "type": "city",
+    "lat": 33.03333282,
+    "lng": 70.53333282,
+    "pop": null
+  },
+  {
+    "nameAr": "Kutton",
+    "nameEn": "Kutton",
+    "type": "city",
+    "lat": 34.5617,
+    "lng": 73.8055,
+    "pop": null
+  },
+  {
+    "nameAr": "Ladian",
+    "nameEn": "Ladian",
+    "type": "city",
+    "lat": 32.802777777778,
+    "lng": 74.035,
+    "pop": null
+  },
+  {
+    "nameAr": "Ladwa",
+    "nameEn": "Ladwa",
+    "type": "city",
+    "lat": 33.17424,
+    "lng": 72.93179,
+    "pop": null
+  },
+  {
+    "nameAr": "Lahor",
+    "nameEn": "Lahor",
+    "type": "city",
+    "lat": 34.04847222,
+    "lng": 72.36558333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lajbook",
+    "nameEn": "Lajbook",
+    "type": "city",
+    "lat": 34.959444444444,
+    "lng": 71.901388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lalian",
+    "nameEn": "Lalian",
+    "type": "city",
+    "lat": 31.826388888889,
+    "lng": 72.800555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Langah",
+    "nameEn": "Langah",
+    "type": "city",
+    "lat": 33.06305556,
+    "lng": 73.09861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Langay",
+    "nameEn": "Langay",
+    "type": "city",
+    "lat": 32.444444444444,
+    "lng": 73.911388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lassan Nawab Sahib",
+    "nameEn": "Lassan Nawab Sahib",
+    "type": "city",
+    "lat": 34.274052,
+    "lng": 72.974413,
+    "pop": null
+  },
+  {
+    "nameAr": "Layakharo",
+    "nameEn": "Layakharo",
+    "type": "city",
+    "lat": 24.28,
+    "lng": 69.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Lehri",
+    "nameEn": "Lehri",
+    "type": "city",
+    "lat": 32.8775,
+    "lng": 73.981388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lilla",
+    "nameEn": "Lilla",
+    "type": "city",
+    "lat": 32.565555555556,
+    "lng": 72.748611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Lodhran",
+    "nameEn": "Lodhran",
+    "type": "city",
+    "lat": 29.538333333333,
+    "lng": 71.633333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lohara",
+    "nameEn": "Lohara",
+    "type": "city",
+    "lat": 32.37138889,
+    "lng": 75.03361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Londi",
+    "nameEn": "Londi",
+    "type": "city",
+    "lat": 25.542777777778,
+    "lng": 69.16,
+    "pop": null
+  },
+  {
+    "nameAr": "Looni Salyal",
+    "nameEn": "Looni Salyal",
+    "type": "city",
+    "lat": 33.43416667,
+    "lng": 73.36333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lota",
+    "nameEn": "Lota",
+    "type": "city",
+    "lat": 32.91666667,
+    "lng": 73.68333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lower Topa",
+    "nameEn": "Lower Topa",
+    "type": "city",
+    "lat": 33.8975,
+    "lng": 73.431944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Luddan",
+    "nameEn": "Luddan",
+    "type": "city",
+    "lat": 29.89611111,
+    "lng": 72.55861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Luni",
+    "nameEn": "Luni",
+    "type": "city",
+    "lat": 29.61666667,
+    "lng": 67.91666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mach",
+    "nameEn": "Mach",
+    "type": "city",
+    "lat": 29.863611111111,
+    "lng": 67.329722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Madaklasht",
+    "nameEn": "Madaklasht",
+    "type": "city",
+    "lat": 35.7737,
+    "lng": 72.0312,
+    "pop": null
+  },
+  {
+    "nameAr": "Madd Koondhar",
+    "nameEn": "Madd Koondhar",
+    "type": "city",
+    "lat": 27.16805556,
+    "lng": 68.31,
+    "pop": null
+  },
+  {
+    "nameAr": "Madina Town",
+    "nameEn": "Madina Town",
+    "type": "city",
+    "lat": 31.420833333333,
+    "lng": 73.122222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahay Chattha",
+    "nameEn": "Mahay Chattha",
+    "type": "city",
+    "lat": 31.948626,
+    "lng": 74.334556,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahtani Sindh",
+    "nameEn": "Mahtani Sindh",
+    "type": "city",
+    "lat": 27.419594641323,
+    "lng": 68.377097186627,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahuta",
+    "nameEn": "Mahuta",
+    "type": "city",
+    "lat": 33.19314,
+    "lng": 72.85565,
+    "pop": null
+  },
+  {
+    "nameAr": "Maini",
+    "nameEn": "Maini",
+    "type": "city",
+    "lat": 34.117777777778,
+    "lng": 72.6075,
+    "pop": null
+  },
+  {
+    "nameAr": "Majhoi",
+    "nameEn": "Majhoi",
+    "type": "city",
+    "lat": 34.25,
+    "lng": 73.58333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Makhad",
+    "nameEn": "Makhad",
+    "type": "city",
+    "lat": 33.13333333,
+    "lng": 71.73333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Makhdoom Rashid",
+    "nameEn": "Makhdoom Rashid",
+    "type": "city",
+    "lat": 30.086569444444,
+    "lng": 71.654347222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mal Awan",
+    "nameEn": "Mal Awan",
+    "type": "city",
+    "lat": 33.333,
+    "lng": 73.333,
+    "pop": null
+  },
+  {
+    "nameAr": "Malak Abad",
+    "nameEn": "Malak Abad",
+    "type": "city",
+    "lat": 34.8,
+    "lng": 71.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Malakwal",
+    "nameEn": "Malakwal",
+    "type": "city",
+    "lat": 32.55362,
+    "lng": 73.21234,
+    "pop": null
+  },
+  {
+    "nameAr": "Malana",
+    "nameEn": "Malana",
+    "type": "city",
+    "lat": 33.938055555556,
+    "lng": 70.093055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Malik Abad",
+    "nameEn": "Malik Abad",
+    "type": "city",
+    "lat": 26,
+    "lng": 63.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Malkot",
+    "nameEn": "Malkot",
+    "type": "city",
+    "lat": 33.95,
+    "lng": 73.35194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Malot",
+    "nameEn": "Malot",
+    "type": "city",
+    "lat": 32.95,
+    "lng": 73.61666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Malowal",
+    "nameEn": "Malowal",
+    "type": "city",
+    "lat": 32.741480555556,
+    "lng": 74.272513888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Mananwala",
+    "nameEn": "Mananwala",
+    "type": "city",
+    "lat": 31.3503,
+    "lng": 73.4116,
+    "pop": null
+  },
+  {
+    "nameAr": "Mand",
+    "nameEn": "Mand",
+    "type": "city",
+    "lat": 26.115961,
+    "lng": 62.02811,
+    "pop": null
+  },
+  {
+    "nameAr": "Mandagucha",
+    "nameEn": "Mandagucha",
+    "type": "city",
+    "lat": 34.666944444444,
+    "lng": 73.260555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Manga Mandi",
+    "nameEn": "Manga Mandi",
+    "type": "city",
+    "lat": 31.299166666667,
+    "lng": 74.069444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Manglia",
+    "nameEn": "Manglia",
+    "type": "city",
+    "lat": 32.86,
+    "lng": 73.979166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Manikiala",
+    "nameEn": "Manikiala",
+    "type": "city",
+    "lat": 33.45,
+    "lng": 73.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Mankera",
+    "nameEn": "Mankera",
+    "type": "city",
+    "lat": 31.385833333333,
+    "lng": 71.442222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mankiala",
+    "nameEn": "Mankiala",
+    "type": "city",
+    "lat": 33.453888888889,
+    "lng": 73.246666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Marghuzar",
+    "nameEn": "Marghuzar",
+    "type": "city",
+    "lat": 34.691388888889,
+    "lng": 72.345277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mari Abad",
+    "nameEn": "Mari Abad",
+    "type": "city",
+    "lat": 30.181174,
+    "lng": 67.033081,
+    "pop": null
+  },
+  {
+    "nameAr": "Marot",
+    "nameEn": "Marot",
+    "type": "city",
+    "lat": 29.226944444444,
+    "lng": 72.435833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Matiltan",
+    "nameEn": "Matiltan",
+    "type": "city",
+    "lat": 35.54,
+    "lng": 72.655,
+    "pop": null
+  },
+  {
+    "nameAr": "Matta",
+    "nameEn": "Matta",
+    "type": "city",
+    "lat": 34.933611111111,
+    "lng": 72.414166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mauza Sulemaan",
+    "nameEn": "Mauza Sulemaan",
+    "type": "city",
+    "lat": 31.50336,
+    "lng": 72.499055,
+    "pop": null
+  },
+  {
+    "nameAr": "Mehar",
+    "nameEn": "Mehar",
+    "type": "city",
+    "lat": 27.18067,
+    "lng": 67.82288,
+    "pop": null
+  },
+  {
+    "nameAr": "Mehar Ali Brohi",
+    "nameEn": "Mehar Ali Brohi",
+    "type": "city",
+    "lat": 28.055861111111,
+    "lng": 67.970361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Mehmood Kot",
+    "nameEn": "Mehmood Kot",
+    "type": "city",
+    "lat": 30.193611111111,
+    "lng": 71.011666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mehr Ali",
+    "nameEn": "Mehr Ali",
+    "type": "city",
+    "lat": 34.295,
+    "lng": 72.36222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mehrabadi",
+    "nameEn": "Mehrabadi",
+    "type": "city",
+    "lat": 33.15,
+    "lng": 73.22,
+    "pop": null
+  },
+  {
+    "nameAr": "Mehrabpur",
+    "nameEn": "Mehrabpur",
+    "type": "city",
+    "lat": 27.099444444444,
+    "lng": 68.420833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mial",
+    "nameEn": "Mial",
+    "type": "city",
+    "lat": 32.8643112,
+    "lng": 72.1147384,
+    "pop": null
+  },
+  {
+    "nameAr": "Miani",
+    "nameEn": "Miani",
+    "type": "city",
+    "lat": 28.36666667,
+    "lng": 69.71666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Miani Bala",
+    "nameEn": "Miani Bala",
+    "type": "city",
+    "lat": 33.079722222222,
+    "lng": 73.373055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Minimarg",
+    "nameEn": "Minimarg",
+    "type": "city",
+    "lat": 34.791111111111,
+    "lng": 75.078055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Mir Ali",
+    "nameEn": "Mir Ali",
+    "type": "city",
+    "lat": 32.97,
+    "lng": 70.276666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Miranpur",
+    "nameEn": "Miranpur",
+    "type": "city",
+    "lat": 26.73266667,
+    "lng": 68.26983333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirokhan",
+    "nameEn": "Mirokhan",
+    "type": "city",
+    "lat": 27.75972222,
+    "lng": 68.09166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirpur",
+    "nameEn": "Mirpur",
+    "type": "city",
+    "lat": 34.2,
+    "lng": 73.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirpur Mathelo",
+    "nameEn": "Mirpur Mathelo",
+    "type": "city",
+    "lat": 28.022469,
+    "lng": 69.552155,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirza Tahir",
+    "nameEn": "Mirza Tahir",
+    "type": "city",
+    "lat": 32.738333333333,
+    "lng": 73.780277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mohib Banda",
+    "nameEn": "Mohib Banda",
+    "type": "city",
+    "lat": 34.198027777778,
+    "lng": 72.112666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mohra Bakhtan",
+    "nameEn": "Mohra Bakhtan",
+    "type": "city",
+    "lat": 33.50305556,
+    "lng": 73.28388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Mohra Heran",
+    "nameEn": "Mohra Heran",
+    "type": "city",
+    "lat": 33.25,
+    "lng": 73.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Mohra Sharif",
+    "nameEn": "Mohra Sharif",
+    "type": "city",
+    "lat": 33.970555555556,
+    "lng": 73.486388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Mohri Sharif",
+    "nameEn": "Mohri Sharif",
+    "type": "city",
+    "lat": 32.799874020339,
+    "lng": 73.790586482784,
+    "pop": null
+  },
+  {
+    "nameAr": "Mota Gharbi",
+    "nameEn": "Mota Gharbi",
+    "type": "city",
+    "lat": 32.986944444444,
+    "lng": 73.524444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Mothparja",
+    "nameEn": "Mothparja",
+    "type": "city",
+    "lat": 27.166388888889,
+    "lng": 68.403611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Mubarak Goth",
+    "nameEn": "Mubarak Goth",
+    "type": "city",
+    "lat": 24.85222222,
+    "lng": 66.66333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mudke Dhariwal",
+    "nameEn": "Mudke Dhariwal",
+    "type": "city",
+    "lat": 31.25111111,
+    "lng": 74.06444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Muhammad Yar Chishti",
+    "nameEn": "Muhammad Yar Chishti",
+    "type": "city",
+    "lat": 30.453687,
+    "lng": 73.732821,
+    "pop": null
+  },
+  {
+    "nameAr": "Murani",
+    "nameEn": "Murani",
+    "type": "city",
+    "lat": 34.9022,
+    "lng": 71.8648,
+    "pop": null
+  },
+  {
+    "nameAr": "Murtazaabad",
+    "nameEn": "Murtazaabad",
+    "type": "city",
+    "lat": 36.281111111111,
+    "lng": 74.599166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Muthral",
+    "nameEn": "Muthral",
+    "type": "city",
+    "lat": 33.13283,
+    "lng": 72.46014,
+    "pop": null
+  },
+  {
+    "nameAr": "Muzaffarabad",
+    "nameEn": "Muzaffarabad",
+    "type": "city",
+    "lat": 30.137302777778,
+    "lng": 71.358986111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Nagarparkar",
+    "nameEn": "Nagarparkar",
+    "type": "city",
+    "lat": 24.356388888889,
+    "lng": 70.754444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Naguman",
+    "nameEn": "Naguman",
+    "type": "city",
+    "lat": 34.1242,
+    "lng": 71.6087,
+    "pop": null
+  },
+  {
+    "nameAr": "Nainwal Khalsa",
+    "nameEn": "Nainwal Khalsa",
+    "type": "city",
+    "lat": 30.89999983,
+    "lng": 74.01833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nara",
+    "nameEn": "Nara",
+    "type": "city",
+    "lat": 33.63888889,
+    "lng": 72.05305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Naran",
+    "nameEn": "Naran",
+    "type": "city",
+    "lat": 34.907777777778,
+    "lng": 73.649166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Naroki",
+    "nameEn": "Naroki",
+    "type": "city",
+    "lat": 32.097263,
+    "lng": 74.144195,
+    "pop": null
+  },
+  {
+    "nameAr": "Naryab",
+    "nameEn": "Naryab",
+    "type": "city",
+    "lat": 33.483888888889,
+    "lng": 70.781388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Naseera",
+    "nameEn": "Naseera",
+    "type": "city",
+    "lat": 32.807777777778,
+    "lng": 73.912777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nasirabad",
+    "nameEn": "Nasirabad",
+    "type": "city",
+    "lat": 36.264722222222,
+    "lng": 74.525,
+    "pop": null
+  },
+  {
+    "nameAr": "Nathial",
+    "nameEn": "Nathial",
+    "type": "city",
+    "lat": 32.681944444444,
+    "lng": 73.354444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "National Marian Shrine, Mariamabad",
+    "nameEn": "National Marian Shrine, Mariamabad",
+    "type": "city",
+    "lat": 31.819444444444,
+    "lng": 73.538108333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nawan kalli",
+    "nameEn": "Nawan kalli",
+    "type": "city",
+    "lat": 34.164125,
+    "lng": 72.08443056,
+    "pop": null
+  },
+  {
+    "nameAr": "Nawanshehr",
+    "nameEn": "Nawanshehr",
+    "type": "city",
+    "lat": 34.16666667,
+    "lng": 73.26666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Naya Lahore",
+    "nameEn": "Naya Lahore",
+    "type": "city",
+    "lat": 31.3167,
+    "lng": 72.7331,
+    "pop": null
+  },
+  {
+    "nameAr": "Neela, Chakwal",
+    "nameEn": "Neela, Chakwal",
+    "type": "city",
+    "lat": 33.16666667,
+    "lng": 72.61666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Neelam",
+    "nameEn": "Neelam",
+    "type": "city",
+    "lat": 34.6593,
+    "lng": 73.9376,
+    "pop": null
+  },
+  {
+    "nameAr": "Nisatta",
+    "nameEn": "Nisatta",
+    "type": "city",
+    "lat": 34.102222222222,
+    "lng": 71.796388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Nizamabad",
+    "nameEn": "Nizamabad",
+    "type": "city",
+    "lat": 32.43,
+    "lng": 74.12,
+    "pop": null
+  },
+  {
+    "nameAr": "Noor Pur Baghan",
+    "nameEn": "Noor Pur Baghan",
+    "type": "city",
+    "lat": 32.857455,
+    "lng": 73.578551,
+    "pop": null
+  },
+  {
+    "nameAr": "Nurkot",
+    "nameEn": "Nurkot",
+    "type": "city",
+    "lat": 32.2017,
+    "lng": 75.1186,
+    "pop": null
+  },
+  {
+    "nameAr": "Nurpur Noon",
+    "nameEn": "Nurpur Noon",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Nushki",
+    "nameEn": "Nushki",
+    "type": "city",
+    "lat": 29.555555555556,
+    "lng": 66.021666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Oghi",
+    "nameEn": "Oghi",
+    "type": "city",
+    "lat": 34.498333333333,
+    "lng": 73.014166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Olding",
+    "nameEn": "Olding",
+    "type": "city",
+    "lat": 34.741,
+    "lng": 76.17,
+    "pop": null
+  },
+  {
+    "nameAr": "Pabbi",
+    "nameEn": "Pabbi",
+    "type": "city",
+    "lat": 34.01,
+    "lng": 71.7975,
+    "pop": null
+  },
+  {
+    "nameAr": "Padidan",
+    "nameEn": "Padidan",
+    "type": "city",
+    "lat": 26.77475,
+    "lng": 68.30197,
+    "pop": null
+  },
+  {
+    "nameAr": "Painsra",
+    "nameEn": "Painsra",
+    "type": "city",
+    "lat": 31.3446,
+    "lng": 72.82527,
+    "pop": null
+  },
+  {
+    "nameAr": "Panwan",
+    "nameEn": "Panwan",
+    "type": "city",
+    "lat": 31.588075,
+    "lng": 73.596219444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Paroom",
+    "nameEn": "Paroom",
+    "type": "city",
+    "lat": 26.571583333333,
+    "lng": 63.385166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Parri Bangla",
+    "nameEn": "Parri Bangla",
+    "type": "city",
+    "lat": 35.810833333333,
+    "lng": 74.562222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pashat",
+    "nameEn": "Pashat",
+    "type": "city",
+    "lat": 34.866666666667,
+    "lng": 71.533333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pashto",
+    "nameEn": "Pashto",
+    "type": "city",
+    "lat": 34.75,
+    "lng": 71.5167,
+    "pop": null
+  },
+  {
+    "nameAr": "Pathan Kot",
+    "nameEn": "Pathan Kot",
+    "type": "city",
+    "lat": 31.34,
+    "lng": 72.39,
+    "pop": null
+  },
+  {
+    "nameAr": "Patikka",
+    "nameEn": "Patikka",
+    "type": "city",
+    "lat": 34.451944444444,
+    "lng": 73.553611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Pattan",
+    "nameEn": "Pattan",
+    "type": "city",
+    "lat": 35.110555555556,
+    "lng": 73.005277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Peeran",
+    "nameEn": "Peeran",
+    "type": "city",
+    "lat": 34.3302276,
+    "lng": 73.3039416,
+    "pop": null
+  },
+  {
+    "nameAr": "Peerwana",
+    "nameEn": "Peerwana",
+    "type": "city",
+    "lat": 31.73930833,
+    "lng": 73.22249167,
+    "pop": null
+  },
+  {
+    "nameAr": "Pehure Hamlet",
+    "nameEn": "Pehure Hamlet",
+    "type": "city",
+    "lat": 34.051388888889,
+    "lng": 72.635833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Phalwari",
+    "nameEn": "Phalwari",
+    "type": "city",
+    "lat": 32.29,
+    "lng": 75.17111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Phander",
+    "nameEn": "Phander",
+    "type": "city",
+    "lat": 36.166388888889,
+    "lng": 72.911388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Phularwan",
+    "nameEn": "Phularwan",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Phulra",
+    "nameEn": "Phulra",
+    "type": "city",
+    "lat": 34.334867,
+    "lng": 73.055937,
+    "pop": null
+  },
+  {
+    "nameAr": "Pidh",
+    "nameEn": "Pidh",
+    "type": "city",
+    "lat": 32.681388888889,
+    "lng": 72.971388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Pinanwal",
+    "nameEn": "Pinanwal",
+    "type": "city",
+    "lat": 32.65777778,
+    "lng": 73.2775,
+    "pop": null
+  },
+  {
+    "nameAr": "Pind Dadan Khan",
+    "nameEn": "Pind Dadan Khan",
+    "type": "city",
+    "lat": 32.589444444444,
+    "lng": 73.043333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pind makko",
+    "nameEn": "Pind makko",
+    "type": "city",
+    "lat": 32.43333333,
+    "lng": 73.58333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pindi Bhattian",
+    "nameEn": "Pindi Bhattian",
+    "type": "city",
+    "lat": 31.895782,
+    "lng": 73.276062,
+    "pop": null
+  },
+  {
+    "nameAr": "Pindi Hashim",
+    "nameEn": "Pindi Hashim",
+    "type": "city",
+    "lat": 32.831944444444,
+    "lng": 73.932777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Pindi Mana",
+    "nameEn": "Pindi Mana",
+    "type": "city",
+    "lat": 32.290277777778,
+    "lng": 75.171111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Pindi Sarhal",
+    "nameEn": "Pindi Sarhal",
+    "type": "city",
+    "lat": 33.58333333,
+    "lng": 72.16666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pir Jand",
+    "nameEn": "Pir Jand",
+    "type": "city",
+    "lat": 32.659722222222,
+    "lng": 73.866666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pir Jo Goth",
+    "nameEn": "Pir Jo Goth",
+    "type": "city",
+    "lat": 27.5917,
+    "lng": 68.6181,
+    "pop": null
+  },
+  {
+    "nameAr": "Punjdhera",
+    "nameEn": "Punjdhera",
+    "type": "city",
+    "lat": 32.9914264,
+    "lng": 73.0863856,
+    "pop": null
+  },
+  {
+    "nameAr": "Punjgirain",
+    "nameEn": "Punjgirain",
+    "type": "city",
+    "lat": 31.91944444,
+    "lng": 71.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Punjwarian",
+    "nameEn": "Punjwarian",
+    "type": "city",
+    "lat": 32.823641,
+    "lng": 73.9201,
+    "pop": null
+  },
+  {
+    "nameAr": "Qasimabad",
+    "nameEn": "Qasimabad",
+    "type": "city",
+    "lat": 25.24,
+    "lng": 68.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Qayyumabad",
+    "nameEn": "Qayyumabad",
+    "type": "city",
+    "lat": 34.48333333,
+    "lng": 72.48333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Qazian",
+    "nameEn": "Qazian",
+    "type": "city",
+    "lat": 33.299444444444,
+    "lng": 73.396111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Rachand",
+    "nameEn": "Rachand",
+    "type": "city",
+    "lat": 31.796388888889,
+    "lng": 73.734722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Rahimabad",
+    "nameEn": "Rahimabad",
+    "type": "city",
+    "lat": 28.166666666667,
+    "lng": 70.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Rahu Abad",
+    "nameEn": "Rahu Abad",
+    "type": "city",
+    "lat": 25.349825,
+    "lng": 69.3893214,
+    "pop": null
+  },
+  {
+    "nameAr": "Raike",
+    "nameEn": "Raike",
+    "type": "city",
+    "lat": 32.43,
+    "lng": 73.6075,
+    "pop": null
+  },
+  {
+    "nameAr": "Railway Housing Scheme 1-A Chaklala",
+    "nameEn": "Railway Housing Scheme 1-A Chaklala",
+    "type": "city",
+    "lat": 33.539851,
+    "lng": 73.152021,
+    "pop": null
+  },
+  {
+    "nameAr": "Rais Shahnawaz Khan Khushk",
+    "nameEn": "Rais Shahnawaz Khan Khushk",
+    "type": "city",
+    "lat": 27.18888889,
+    "lng": 68.40305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Rajoa Sadat",
+    "nameEn": "Rajoa Sadat",
+    "type": "city",
+    "lat": 31.60355,
+    "lng": 72.72635,
+    "pop": null
+  },
+  {
+    "nameAr": "Ram Diwali",
+    "nameEn": "Ram Diwali",
+    "type": "city",
+    "lat": 31.5597,
+    "lng": 73.0489,
+    "pop": null
+  },
+  {
+    "nameAr": "Ramanji",
+    "nameEn": "Ramanji",
+    "type": "city",
+    "lat": 36.754,
+    "lng": 74.707,
+    "pop": null
+  },
+  {
+    "nameAr": "Ranipur",
+    "nameEn": "Ranipur",
+    "type": "city",
+    "lat": 27.288888888889,
+    "lng": 68.504444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ransonabad",
+    "nameEn": "Ransonabad",
+    "type": "city",
+    "lat": 30.4915,
+    "lng": 72.8976,
+    "pop": null
+  },
+  {
+    "nameAr": "Rasool Nagar",
+    "nameEn": "Rasool Nagar",
+    "type": "city",
+    "lat": 32.18,
+    "lng": 74.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Rasul",
+    "nameEn": "Rasul",
+    "type": "city",
+    "lat": 32.7,
+    "lng": 73.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Rasulpur, Jhang",
+    "nameEn": "Rasulpur, Jhang",
+    "type": "city",
+    "lat": 31.46666667,
+    "lng": 72.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Rattu",
+    "nameEn": "Rattu",
+    "type": "city",
+    "lat": 35.1516826,
+    "lng": 74.7934769,
+    "pop": null
+  },
+  {
+    "nameAr": "Ravi Town",
+    "nameEn": "Ravi Town",
+    "type": "city",
+    "lat": 31.61666667,
+    "lng": 74.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Razmak",
+    "nameEn": "Razmak",
+    "type": "city",
+    "lat": 32.689722222222,
+    "lng": 69.83,
+    "pop": null
+  },
+  {
+    "nameAr": "Rehana",
+    "nameEn": "Rehana",
+    "type": "city",
+    "lat": 33.980277777778,
+    "lng": 72.986388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Reshian",
+    "nameEn": "Reshian",
+    "type": "city",
+    "lat": 34.247327431443,
+    "lng": 73.826281815344,
+    "pop": null
+  },
+  {
+    "nameAr": "Rind Jada",
+    "nameEn": "Rind Jada",
+    "type": "city",
+    "lat": 29.6976,
+    "lng": 71.9107,
+    "pop": null
+  },
+  {
+    "nameAr": "Rom Kili",
+    "nameEn": "Rom Kili",
+    "type": "city",
+    "lat": 36.33194444,
+    "lng": 72.32472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ronyal",
+    "nameEn": "Ronyal",
+    "type": "city",
+    "lat": 34.95,
+    "lng": 72.366666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Roperi",
+    "nameEn": "Roperi",
+    "type": "city",
+    "lat": 32.840833333333,
+    "lng": 74.130833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Roshan Manika",
+    "nameEn": "Roshan Manika",
+    "type": "city",
+    "lat": 32.2187,
+    "lng": 73.58643,
+    "pop": null
+  },
+  {
+    "nameAr": "Roulia",
+    "nameEn": "Roulia",
+    "type": "city",
+    "lat": 32.79722222,
+    "lng": 74.06388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Rukkan",
+    "nameEn": "Rukkan",
+    "type": "city",
+    "lat": 32.423888888889,
+    "lng": 73.274444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rupal",
+    "nameEn": "Rupal",
+    "type": "city",
+    "lat": 35.219444444444,
+    "lng": 74.703333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabour",
+    "nameEn": "Sabour",
+    "type": "city",
+    "lat": 32.803056,
+    "lng": 74.061389,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabura",
+    "nameEn": "Sabura",
+    "type": "city",
+    "lat": 31.044014178692,
+    "lng": 67.283766865684,
+    "pop": null
+  },
+  {
+    "nameAr": "Sadda",
+    "nameEn": "Sadda",
+    "type": "city",
+    "lat": 33.705,
+    "lng": 70.330833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sadiqabad Chak 152P",
+    "nameEn": "Sadiqabad Chak 152P",
+    "type": "city",
+    "lat": 28.16666667,
+    "lng": 70.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Sadwal Kalan",
+    "nameEn": "Sadwal Kalan",
+    "type": "city",
+    "lat": 32.84185833,
+    "lng": 74.10828056,
+    "pop": null
+  },
+  {
+    "nameAr": "Saeed Khan Khusk",
+    "nameEn": "Saeed Khan Khusk",
+    "type": "city",
+    "lat": 27.19416667,
+    "lng": 68.25861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Safdarabad",
+    "nameEn": "Safdarabad",
+    "type": "city",
+    "lat": 31.7255734,
+    "lng": 73.5770801,
+    "pop": null
+  },
+  {
+    "nameAr": "Saghar Pur",
+    "nameEn": "Saghar Pur",
+    "type": "city",
+    "lat": 32.65,
+    "lng": 73.33333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sagri (Jhelum)",
+    "nameEn": "Sagri (Jhelum)",
+    "type": "city",
+    "lat": 33.06722222,
+    "lng": 73.60222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sagri (Rawalpindi)",
+    "nameEn": "Sagri (Rawalpindi)",
+    "type": "city",
+    "lat": 33.46,
+    "lng": 73.26388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Sahalia",
+    "nameEn": "Sahalia",
+    "type": "city",
+    "lat": 33.33276,
+    "lng": 73.68339,
+    "pop": null
+  },
+  {
+    "nameAr": "Sahiwal",
+    "nameEn": "Sahiwal",
+    "type": "city",
+    "lat": 31.973611111111,
+    "lng": 72.326944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sahowala",
+    "nameEn": "Sahowala",
+    "type": "city",
+    "lat": 32.454722222222,
+    "lng": 74.406666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saidpur",
+    "nameEn": "Saidpur",
+    "type": "city",
+    "lat": 33.330555555556,
+    "lng": 74.058333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sakesar",
+    "nameEn": "Sakesar",
+    "type": "city",
+    "lat": 32.542222222222,
+    "lng": 71.924444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sakhi Sarwar",
+    "nameEn": "Sakhi Sarwar",
+    "type": "city",
+    "lat": 29.979166666667,
+    "lng": 70.305833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sakran",
+    "nameEn": "Sakran",
+    "type": "city",
+    "lat": 25.06666667,
+    "lng": 66.95,
+    "pop": null
+  },
+  {
+    "nameAr": "Sakrand",
+    "nameEn": "Sakrand",
+    "type": "city",
+    "lat": 26.140555555556,
+    "lng": 68.272222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sakwar",
+    "nameEn": "Sakwar",
+    "type": "city",
+    "lat": 35.88333333,
+    "lng": 74.38333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Saleh Khana",
+    "nameEn": "Saleh Khana",
+    "type": "city",
+    "lat": 33.8384,
+    "lng": 71.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Samaro",
+    "nameEn": "Samaro",
+    "type": "city",
+    "lat": 25.284722222222,
+    "lng": 69.395833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sambaza",
+    "nameEn": "Sambaza",
+    "type": "city",
+    "lat": 31.77416667,
+    "lng": 69.34888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Samote Union Council",
+    "nameEn": "Samote Union Council",
+    "type": "city",
+    "lat": 33.33527778,
+    "lng": 73.49583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Samrala, Gujrat",
+    "nameEn": "Samrala, Gujrat",
+    "type": "city",
+    "lat": 32.821388888889,
+    "lng": 74.073611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sangan",
+    "nameEn": "Sangan",
+    "type": "city",
+    "lat": 29.87475,
+    "lng": 67.65466,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanghar",
+    "nameEn": "Sanghar",
+    "type": "city",
+    "lat": 26.046388888889,
+    "lng": 68.948055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Sangla Hill",
+    "nameEn": "Sangla Hill",
+    "type": "city",
+    "lat": 31.715,
+    "lng": 73.374444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sangota",
+    "nameEn": "Sangota",
+    "type": "city",
+    "lat": 34.795277777778,
+    "lng": 72.414166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanjawi",
+    "nameEn": "Sanjawi",
+    "type": "city",
+    "lat": 30.28333333,
+    "lng": 68.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Sann",
+    "nameEn": "Sann",
+    "type": "city",
+    "lat": 26.05,
+    "lng": 68.13333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarai Alamgir",
+    "nameEn": "Sarai Alamgir",
+    "type": "city",
+    "lat": 32.9,
+    "lng": 73.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarai Saleh",
+    "nameEn": "Sarai Saleh",
+    "type": "city",
+    "lat": 33.987222222222,
+    "lng": 72.982222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarai Sidhu",
+    "nameEn": "Sarai Sidhu",
+    "type": "city",
+    "lat": 30.59489,
+    "lng": 71.96977,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarhari",
+    "nameEn": "Sarhari",
+    "type": "city",
+    "lat": 26.1,
+    "lng": 68.48333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Saroba",
+    "nameEn": "Saroba",
+    "type": "city",
+    "lat": 32.56666667,
+    "lng": 72.86972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Saroki",
+    "nameEn": "Saroki",
+    "type": "city",
+    "lat": 32.355729,
+    "lng": 73.986971,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarozai",
+    "nameEn": "Sarozai",
+    "type": "city",
+    "lat": 33.426388888889,
+    "lng": 70.778611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Satellite Town Quetta",
+    "nameEn": "Satellite Town Quetta",
+    "type": "city",
+    "lat": 30.161944444444,
+    "lng": 67.003055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "School Khanoana",
+    "nameEn": "School Khanoana",
+    "type": "city",
+    "lat": 31.78764722,
+    "lng": 72.82905,
+    "pop": null
+  },
+  {
+    "nameAr": "Seri Bahlol",
+    "nameEn": "Seri Bahlol",
+    "type": "city",
+    "lat": 34.255833333333,
+    "lng": 71.950833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Setharja",
+    "nameEn": "Setharja",
+    "type": "city",
+    "lat": 27.2034,
+    "lng": 68.4801,
+    "pop": null
+  },
+  {
+    "nameAr": "Shadikhan",
+    "nameEn": "Shadikhan",
+    "type": "city",
+    "lat": 33.921666666667,
+    "lng": 72.3775,
+    "pop": null
+  },
+  {
+    "nameAr": "Shadiwal",
+    "nameEn": "Shadiwal",
+    "type": "city",
+    "lat": 32.620416666667,
+    "lng": 74.247166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Shadore",
+    "nameEn": "Shadore",
+    "type": "city",
+    "lat": 34.50602222,
+    "lng": 73.07364167,
+    "pop": null
+  },
+  {
+    "nameAr": "Shah Hassan Khel",
+    "nameEn": "Shah Hassan Khel",
+    "type": "city",
+    "lat": 32.43166667,
+    "lng": 70.96555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shah Jeewna",
+    "nameEn": "Shah Jeewna",
+    "type": "city",
+    "lat": 31.51666667,
+    "lng": 72.33333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shah Muhammadi",
+    "nameEn": "Shah Muhammadi",
+    "type": "city",
+    "lat": 33.0575,
+    "lng": 71.935555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shah Said Bullo",
+    "nameEn": "Shah Said Bullo",
+    "type": "city",
+    "lat": 32.839555555556,
+    "lng": 72.949555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahbaz Garhi",
+    "nameEn": "Shahbaz Garhi",
+    "type": "city",
+    "lat": 34.23555556,
+    "lng": 72.16,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahbazgarhi",
+    "nameEn": "Shahbazgarhi",
+    "type": "city",
+    "lat": 34.228611111111,
+    "lng": 72.161111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahdara",
+    "nameEn": "Shahdara",
+    "type": "city",
+    "lat": 33.780277777778,
+    "lng": 73.167222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahpur Jahania",
+    "nameEn": "Shahpur Jahania",
+    "type": "city",
+    "lat": 26.573888888889,
+    "lng": 67.973888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Shai Mehr Ali",
+    "nameEn": "Shai Mehr Ali",
+    "type": "city",
+    "lat": 33.27,
+    "lng": 73.27,
+    "pop": null
+  },
+  {
+    "nameAr": "Shaikham",
+    "nameEn": "Shaikham",
+    "type": "city",
+    "lat": 31.06388889,
+    "lng": 73.81194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Shakoshal",
+    "nameEn": "Shakoshal",
+    "type": "city",
+    "lat": 36.24354,
+    "lng": 74.75319,
+    "pop": null
+  },
+  {
+    "nameAr": "Shamaspur",
+    "nameEn": "Shamaspur",
+    "type": "city",
+    "lat": 33.00666667,
+    "lng": 73.69555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shamkay Bhattian",
+    "nameEn": "Shamkay Bhattian",
+    "type": "city",
+    "lat": 31.331388888889,
+    "lng": 74.105,
+    "pop": null
+  },
+  {
+    "nameAr": "Shamozai",
+    "nameEn": "Shamozai",
+    "type": "city",
+    "lat": 34.387222222222,
+    "lng": 72.135,
+    "pop": null
+  },
+  {
+    "nameAr": "Shamsabad Faisalabad",
+    "nameEn": "Shamsabad Faisalabad",
+    "type": "city",
+    "lat": 30.88472222,
+    "lng": 72.44027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sharaqpur",
+    "nameEn": "Sharaqpur",
+    "type": "city",
+    "lat": 31.462222222222,
+    "lng": 74.097777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sharifani",
+    "nameEn": "Sharifani",
+    "type": "city",
+    "lat": 27.53356111,
+    "lng": 68.010025,
+    "pop": null
+  },
+  {
+    "nameAr": "Sherabad",
+    "nameEn": "Sherabad",
+    "type": "city",
+    "lat": 31.49,
+    "lng": 72.52,
+    "pop": null
+  },
+  {
+    "nameAr": "Shergarh",
+    "nameEn": "Shergarh",
+    "type": "city",
+    "lat": 34.456666666667,
+    "lng": 72.988333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shewa",
+    "nameEn": "Shewa",
+    "type": "city",
+    "lat": 34.237222222222,
+    "lng": 72.343055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shewa Adda",
+    "nameEn": "Shewa Adda",
+    "type": "city",
+    "lat": 34.211666666667,
+    "lng": 72.3225,
+    "pop": null
+  },
+  {
+    "nameAr": "Shikar Pur",
+    "nameEn": "Shikar Pur",
+    "type": "city",
+    "lat": 31.366666666667,
+    "lng": 71.733333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shinkiari",
+    "nameEn": "Shinkiari",
+    "type": "city",
+    "lat": 34.470833333333,
+    "lng": 73.270833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shirani",
+    "nameEn": "Shirani",
+    "type": "city",
+    "lat": 28.8,
+    "lng": 68.433333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shogran",
+    "nameEn": "Shogran",
+    "type": "city",
+    "lat": 34.63333333,
+    "lng": 73.46666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Shrine Peer Jaffar",
+    "nameEn": "Shrine Peer Jaffar",
+    "type": "city",
+    "lat": 32.88952,
+    "lng": 73.92605,
+    "pop": null
+  },
+  {
+    "nameAr": "Sikandarabad",
+    "nameEn": "Sikandarabad",
+    "type": "city",
+    "lat": 36.24257,
+    "lng": 74.37522,
+    "pop": null
+  },
+  {
+    "nameAr": "Siksa",
+    "nameEn": "Siksa",
+    "type": "city",
+    "lat": 34.931,
+    "lng": 76.616,
+    "pop": null
+  },
+  {
+    "nameAr": "Sillanwali",
+    "nameEn": "Sillanwali",
+    "type": "city",
+    "lat": 31.82611,
+    "lng": 72.53984,
+    "pop": null
+  },
+  {
+    "nameAr": "Sir Suba Shah",
+    "nameEn": "Sir Suba Shah",
+    "type": "city",
+    "lat": 33.39416667,
+    "lng": 73.51,
+    "pop": null
+  },
+  {
+    "nameAr": "Sirka",
+    "nameEn": "Sirka",
+    "type": "city",
+    "lat": 33.93333333,
+    "lng": 72.38333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sobhadero",
+    "nameEn": "Sobhadero",
+    "type": "city",
+    "lat": 27.30459,
+    "lng": 68.39764,
+    "pop": null
+  },
+  {
+    "nameAr": "Sodhra",
+    "nameEn": "Sodhra",
+    "type": "city",
+    "lat": 32.461666666667,
+    "lng": 74.182222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sohianwala",
+    "nameEn": "Sohianwala",
+    "type": "city",
+    "lat": 30.57,
+    "lng": 70.51,
+    "pop": null
+  },
+  {
+    "nameAr": "Sonmiani",
+    "nameEn": "Sonmiani",
+    "type": "city",
+    "lat": 25.422222222222,
+    "lng": 66.6,
+    "pop": null
+  },
+  {
+    "nameAr": "Sook Kalan",
+    "nameEn": "Sook Kalan",
+    "type": "city",
+    "lat": 32.5967,
+    "lng": 74.1444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sudhan Gali",
+    "nameEn": "Sudhan Gali",
+    "type": "city",
+    "lat": 34.0757,
+    "lng": 73.7446,
+    "pop": null
+  },
+  {
+    "nameAr": "Sui Cheemian",
+    "nameEn": "Sui Cheemian",
+    "type": "city",
+    "lat": 33.37,
+    "lng": 73.431388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Sukheke Mandi",
+    "nameEn": "Sukheke Mandi",
+    "type": "city",
+    "lat": 31.88333333,
+    "lng": 73.46666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sultan Pur Noon",
+    "nameEn": "Sultan Pur Noon",
+    "type": "city",
+    "lat": 32.18833333,
+    "lng": 73.02861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Surab",
+    "nameEn": "Surab",
+    "type": "city",
+    "lat": 28.491388888889,
+    "lng": 66.260555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Surmo",
+    "nameEn": "Surmo",
+    "type": "city",
+    "lat": 35.1518,
+    "lng": 76.4454,
+    "pop": null
+  },
+  {
+    "nameAr": "Sust",
+    "nameEn": "Sust",
+    "type": "city",
+    "lat": 36.69,
+    "lng": 74.821,
+    "pop": null
+  },
+  {
+    "nameAr": "Syed Ali",
+    "nameEn": "Syed Ali",
+    "type": "city",
+    "lat": 30.121944444444,
+    "lng": 73.488611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Takal",
+    "nameEn": "Takal",
+    "type": "city",
+    "lat": 33.373888888889,
+    "lng": 73.468055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Talhaar",
+    "nameEn": "Talhaar",
+    "type": "city",
+    "lat": 33.7699,
+    "lng": 73.04587,
+    "pop": null
+  },
+  {
+    "nameAr": "Talhar",
+    "nameEn": "Talhar",
+    "type": "city",
+    "lat": 24.8833,
+    "lng": 68.8167,
+    "pop": null
+  },
+  {
+    "nameAr": "Talwandi Bhindran",
+    "nameEn": "Talwandi Bhindran",
+    "type": "city",
+    "lat": 32.1,
+    "lng": 74.692,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamman",
+    "nameEn": "Tamman",
+    "type": "city",
+    "lat": 33.0025,
+    "lng": 72.104444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanda, Gujrat",
+    "nameEn": "Tanda, Gujrat",
+    "type": "city",
+    "lat": 32.702,
+    "lng": 74.368,
+    "pop": null
+  },
+  {
+    "nameAr": "Tando Gulshah",
+    "nameEn": "Tando Gulshah",
+    "type": "city",
+    "lat": 27.17555556,
+    "lng": 68.26305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Tando Muhammad Khan",
+    "nameEn": "Tando Muhammad Khan",
+    "type": "city",
+    "lat": 25.123888888889,
+    "lng": 68.538888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Taobat",
+    "nameEn": "Taobat",
+    "type": "city",
+    "lat": 34.7271,
+    "lng": 74.7125,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarar Khel",
+    "nameEn": "Tarar Khel",
+    "type": "city",
+    "lat": 33.7621,
+    "lng": 73.7883,
+    "pop": null
+  },
+  {
+    "nameAr": "Tararn Wala",
+    "nameEn": "Tararn Wala",
+    "type": "city",
+    "lat": 31.36944444,
+    "lng": 73.45972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Tari Mangal",
+    "nameEn": "Tari Mangal",
+    "type": "city",
+    "lat": 33.96,
+    "lng": 69.88,
+    "pop": null
+  },
+  {
+    "nameAr": "Tariqabad",
+    "nameEn": "Tariqabad",
+    "type": "city",
+    "lat": 30.88472222,
+    "lng": 72.44027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarishing",
+    "nameEn": "Tarishing",
+    "type": "city",
+    "lat": 35.235,
+    "lng": 74.733611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarkati",
+    "nameEn": "Tarkati",
+    "type": "city",
+    "lat": 34.821388888889,
+    "lng": 76.189722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarnol",
+    "nameEn": "Tarnol",
+    "type": "city",
+    "lat": 33.649444444444,
+    "lng": 72.908055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Tatta Pani",
+    "nameEn": "Tatta Pani",
+    "type": "city",
+    "lat": 33.7621,
+    "lng": 73.7883,
+    "pop": null
+  },
+  {
+    "nameAr": "Taxila",
+    "nameEn": "Taxila",
+    "type": "city",
+    "lat": 33.746944444444,
+    "lng": 72.809722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Teer",
+    "nameEn": "Teer",
+    "type": "city",
+    "lat": 34.08685,
+    "lng": 73.00811667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tehi",
+    "nameEn": "Tehi",
+    "type": "city",
+    "lat": 32.962777777778,
+    "lng": 72.409166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Teri",
+    "nameEn": "Teri",
+    "type": "city",
+    "lat": 33.298055555556,
+    "lng": 71.101388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Teru",
+    "nameEn": "Teru",
+    "type": "city",
+    "lat": 36.181388888889,
+    "lng": 72.766666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Thagus",
+    "nameEn": "Thagus",
+    "type": "city",
+    "lat": 35.2297,
+    "lng": 76.3986,
+    "pop": null
+  },
+  {
+    "nameAr": "Thalay",
+    "nameEn": "Thalay",
+    "type": "city",
+    "lat": 35.30997,
+    "lng": 76.15791,
+    "pop": null
+  },
+  {
+    "nameAr": "Thamewali",
+    "nameEn": "Thamewali",
+    "type": "city",
+    "lat": 32.785,
+    "lng": 71.780277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Thana",
+    "nameEn": "Thana",
+    "type": "city",
+    "lat": 34.637777777778,
+    "lng": 72.070277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Thari Mirwah",
+    "nameEn": "Thari Mirwah",
+    "type": "city",
+    "lat": 27.070555555556,
+    "lng": 68.613611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Thatha Shamsa",
+    "nameEn": "Thatha Shamsa",
+    "type": "city",
+    "lat": 32.2187,
+    "lng": 73.58643,
+    "pop": null
+  },
+  {
+    "nameAr": "Thatta Musa",
+    "nameEn": "Thatta Musa",
+    "type": "city",
+    "lat": 31.576913536935,
+    "lng": 72.658149905902,
+    "pop": null
+  },
+  {
+    "nameAr": "Thoha Hamayoun",
+    "nameEn": "Thoha Hamayoun",
+    "type": "city",
+    "lat": 32.85,
+    "lng": 72.7833,
+    "pop": null
+  },
+  {
+    "nameAr": "Timanwala",
+    "nameEn": "Timanwala",
+    "type": "city",
+    "lat": 30.056666666667,
+    "lng": 71.631111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Toba Qalandar Shah",
+    "nameEn": "Toba Qalandar Shah",
+    "type": "city",
+    "lat": 30.0833,
+    "lng": 73.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Tolti",
+    "nameEn": "Tolti",
+    "type": "city",
+    "lat": 35.028611111111,
+    "lng": 76.0925,
+    "pop": null
+  },
+  {
+    "nameAr": "Tora Wari",
+    "nameEn": "Tora Wari",
+    "type": "city",
+    "lat": 33.485,
+    "lng": 70.710833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Torkham",
+    "nameEn": "Torkham",
+    "type": "city",
+    "lat": 34.121111111111,
+    "lng": 71.101944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Trag",
+    "nameEn": "Trag",
+    "type": "city",
+    "lat": 32.7867,
+    "lng": 71.2956,
+    "pop": null
+  },
+  {
+    "nameAr": "Tulamba",
+    "nameEn": "Tulamba",
+    "type": "city",
+    "lat": 30.525486111111,
+    "lng": 72.239766666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tunia Baqa Shah",
+    "nameEn": "Tunia Baqa Shah",
+    "type": "city",
+    "lat": 27.15555556,
+    "lng": 68.26972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Turlandi",
+    "nameEn": "Turlandi",
+    "type": "city",
+    "lat": 34.2,
+    "lng": 72.3167,
+    "pop": null
+  },
+  {
+    "nameAr": "Uchalli",
+    "nameEn": "Uchalli",
+    "type": "city",
+    "lat": 32.538333333333,
+    "lng": 72.017222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Uchhala",
+    "nameEn": "Uchhala",
+    "type": "city",
+    "lat": 32.6,
+    "lng": 72.2167,
+    "pop": null
+  },
+  {
+    "nameAr": "Upper Topa",
+    "nameEn": "Upper Topa",
+    "type": "city",
+    "lat": 33.913055555556,
+    "lng": 73.429444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ushu",
+    "nameEn": "Ushu",
+    "type": "city",
+    "lat": 35.607777777778,
+    "lng": 72.689444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Usta Mohammad",
+    "nameEn": "Usta Mohammad",
+    "type": "city",
+    "lat": 28.172222222222,
+    "lng": 68.043888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Uthal",
+    "nameEn": "Uthal",
+    "type": "city",
+    "lat": 25.807222222222,
+    "lng": 66.622777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Utmanzai, Charsadda",
+    "nameEn": "Utmanzai, Charsadda",
+    "type": "city",
+    "lat": 34.22,
+    "lng": 71.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Wadala Sandhuan",
+    "nameEn": "Wadala Sandhuan",
+    "type": "city",
+    "lat": 32.190277777778,
+    "lng": 74.395555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Wahi Pandhi",
+    "nameEn": "Wahi Pandhi",
+    "type": "city",
+    "lat": 26.66,
+    "lng": 67.355,
+    "pop": null
+  },
+  {
+    "nameAr": "Walhar",
+    "nameEn": "Walhar",
+    "type": "city",
+    "lat": 28.2014,
+    "lng": 69.990137,
+    "pop": null
+  },
+  {
+    "nameAr": "Wan Adhen",
+    "nameEn": "Wan Adhen",
+    "type": "city",
+    "lat": 31.0361,
+    "lng": 73.9167,
+    "pop": null
+  },
+  {
+    "nameAr": "Wan Bhachran",
+    "nameEn": "Wan Bhachran",
+    "type": "city",
+    "lat": 32.4159,
+    "lng": 71.694,
+    "pop": null
+  },
+  {
+    "nameAr": "Wana",
+    "nameEn": "Wana",
+    "type": "city",
+    "lat": 32.305,
+    "lng": 69.588888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Wanda Jandar",
+    "nameEn": "Wanda Jandar",
+    "type": "city",
+    "lat": 32.2023961,
+    "lng": 70.699984,
+    "pop": null
+  },
+  {
+    "nameAr": "Wara Thatta Muhammad Shah",
+    "nameEn": "Wara Thatta Muhammad Shah",
+    "type": "city",
+    "lat": 31.5492,
+    "lng": 72.535,
+    "pop": null
+  },
+  {
+    "nameAr": "Warachanwala",
+    "nameEn": "Warachanwala",
+    "type": "city",
+    "lat": 32.576944444444,
+    "lng": 73.771388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Waraichanwala",
+    "nameEn": "Waraichanwala",
+    "type": "city",
+    "lat": 32.607222222222,
+    "lng": 74.168611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Warburton",
+    "nameEn": "Warburton",
+    "type": "city",
+    "lat": 31.5375,
+    "lng": 73.830555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Wasnal",
+    "nameEn": "Wasnal",
+    "type": "city",
+    "lat": 32.71388889,
+    "lng": 72.54583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Wasu, Punjab",
+    "nameEn": "Wasu, Punjab",
+    "type": "city",
+    "lat": 32.563333333333,
+    "lng": 73.484166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Yaqubi",
+    "nameEn": "Yaqubi",
+    "type": "city",
+    "lat": 34.156666666667,
+    "lng": 72.267777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Yugo",
+    "nameEn": "Yugo",
+    "type": "city",
+    "lat": 35.185555555556,
+    "lng": 76.163611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Zehri, Balochistan",
+    "nameEn": "Zehri, Balochistan",
+    "type": "city",
+    "lat": 30.085978,
+    "lng": 66.947639,
+    "pop": null
+  },
+  {
+    "nameAr": "Zhiture",
+    "nameEn": "Zhiture",
+    "type": "city",
+    "lat": 35.987777777778,
+    "lng": 71.532222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ziarat",
+    "nameEn": "Ziarat",
+    "type": "city",
+    "lat": 30.381388888889,
+    "lng": 67.725833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Zira Khel",
+    "nameEn": "Zira Khel",
+    "type": "city",
+    "lat": 33.233333333333,
+    "lng": 70.254444444444,
+    "pop": null
+  }
+]

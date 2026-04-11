@@ -1,0 +1,12 @@
+{
+  "name": "time-prayer",
+  "version": "1.0.0",
+  "description": "مواقيت الصلاة",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

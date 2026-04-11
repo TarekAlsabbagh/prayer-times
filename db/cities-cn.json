@@ -1,0 +1,8017 @@
+[
+  {
+    "nameAr": "بكين",
+    "nameEn": "Beijing",
+    "type": "city",
+    "lat": 39.9042,
+    "lng": 116.4074
+  },
+  {
+    "nameAr": "شانغهاي",
+    "nameEn": "Shanghai",
+    "type": "city",
+    "lat": 31.2325,
+    "lng": 121.46916666667,
+    "pop": 24870895
+  },
+  {
+    "nameAr": "تشنغدو",
+    "nameEn": "Chengdu",
+    "type": "city",
+    "lat": 30.66,
+    "lng": 104.06333333333,
+    "pop": 20937757
+  },
+  {
+    "nameAr": "غوانزو",
+    "nameEn": "Guangzhou",
+    "type": "city",
+    "lat": 23.13,
+    "lng": 113.26,
+    "pop": 18676605
+  },
+  {
+    "nameAr": "شينزين",
+    "nameEn": "Shenzhen",
+    "type": "city",
+    "lat": 22.546666666667,
+    "lng": 114.05444444444,
+    "pop": 17494398
+  },
+  {
+    "nameAr": "تيانجين",
+    "nameEn": "Tianjin",
+    "type": "city",
+    "lat": 39.146666666667,
+    "lng": 117.20555555556,
+    "pop": 13866009
+  },
+  {
+    "nameAr": "شيان",
+    "nameEn": "Xi'an",
+    "type": "city",
+    "lat": 34.261111111111,
+    "lng": 108.94222222222,
+    "pop": 12952907
+  },
+  {
+    "nameAr": "سوجو",
+    "nameEn": "Suzhou",
+    "type": "city",
+    "lat": 31.3,
+    "lng": 120.61944444444,
+    "pop": 12748262
+  },
+  {
+    "nameAr": "تشنغتشو",
+    "nameEn": "Zhengzhou",
+    "type": "city",
+    "lat": 34.74919,
+    "lng": 113.66051,
+    "pop": 12600574
+  },
+  {
+    "nameAr": "ووهان",
+    "nameEn": "Wuhan",
+    "type": "city",
+    "lat": 30.595,
+    "lng": 114.2975,
+    "pop": 12326518
+  },
+  {
+    "nameAr": "هانغتشو",
+    "nameEn": "Hangzhou",
+    "type": "city",
+    "lat": 30.25,
+    "lng": 120.1675,
+    "pop": 11936010
+  },
+  {
+    "nameAr": "باودينغ",
+    "nameEn": "Baoding",
+    "type": "city",
+    "lat": 38.86712,
+    "lng": 115.48452,
+    "pop": 11544036
+  },
+  {
+    "nameAr": "شيجياتشوانغ",
+    "nameEn": "Shijiazhuang",
+    "type": "city",
+    "lat": 38.0425,
+    "lng": 114.51,
+    "pop": 10640458
+  },
+  {
+    "nameAr": "دونغ غوان",
+    "nameEn": "Dongguan",
+    "type": "city",
+    "lat": 23.04749,
+    "lng": 113.74928,
+    "pop": 10466625
+  },
+  {
+    "nameAr": "تشينغداو",
+    "nameEn": "Qingdao",
+    "type": "city",
+    "lat": 36.116666666667,
+    "lng": 120.4,
+    "pop": 10071722
+  },
+  {
+    "nameAr": "تشانغشا",
+    "nameEn": "Changsha",
+    "type": "city",
+    "lat": 28.19874,
+    "lng": 112.97087,
+    "pop": 10047914
+  },
+  {
+    "nameAr": "هاربن",
+    "nameEn": "Harbin",
+    "type": "city",
+    "lat": 45.75,
+    "lng": 126.63333333333,
+    "pop": 10009854
+  },
+  {
+    "nameAr": "نانيانغ",
+    "nameEn": "Nanyang",
+    "type": "city",
+    "lat": 32.99871,
+    "lng": 112.52921,
+    "pop": 9713112
+  },
+  {
+    "nameAr": "ونجو",
+    "nameEn": "Wenzhou",
+    "type": "city",
+    "lat": 27.999128,
+    "lng": 120.656075,
+    "pop": 9572903
+  },
+  {
+    "nameAr": "فوشان",
+    "nameEn": "Foshan",
+    "type": "city",
+    "lat": 23.029167,
+    "lng": 113.105556,
+    "pop": 9498863
+  },
+  {
+    "nameAr": "هاندان",
+    "nameEn": "Handan",
+    "type": "city",
+    "lat": 36.61161,
+    "lng": 114.48937,
+    "pop": 9413990
+  },
+  {
+    "nameAr": "نينغبو",
+    "nameEn": "Ningbo",
+    "type": "city",
+    "lat": 29.875,
+    "lng": 121.54916666667,
+    "pop": 9404283
+  },
+  {
+    "nameAr": "يفانغ",
+    "nameEn": "Weifang",
+    "type": "city",
+    "lat": 36.716666666667,
+    "lng": 119.1,
+    "pop": 9386705
+  },
+  {
+    "nameAr": "خفي",
+    "nameEn": "Hefei",
+    "type": "city",
+    "lat": 31.86389,
+    "lng": 117.28083,
+    "pop": 9369881
+  },
+  {
+    "nameAr": "نانجينغ",
+    "nameEn": "Nanjing",
+    "type": "city",
+    "lat": 32.060833333333,
+    "lng": 118.77888888889,
+    "pop": 9314685
+  },
+  {
+    "nameAr": "جينان",
+    "nameEn": "Jinan",
+    "type": "city",
+    "lat": 36.666666666667,
+    "lng": 116.98333333333,
+    "pop": 9202432
+  },
+  {
+    "nameAr": "شوزهو",
+    "nameEn": "Xuzhou",
+    "type": "city",
+    "lat": 34.26104,
+    "lng": 117.18587,
+    "pop": 9083790
+  },
+  {
+    "nameAr": "شنيانغ",
+    "nameEn": "Shenyang",
+    "type": "city",
+    "lat": 41.8025,
+    "lng": 123.42805555556,
+    "pop": 9070093
+  },
+  {
+    "nameAr": "تشانغتشون",
+    "nameEn": "Changchun",
+    "type": "city",
+    "lat": 43.88,
+    "lng": 125.32277777778,
+    "pop": 9066906
+  },
+  {
+    "nameAr": "غانتشو",
+    "nameEn": "Ganzhou",
+    "type": "city",
+    "lat": 25.829166666667,
+    "lng": 114.93361111111,
+    "pop": 8970014
+  },
+  {
+    "nameAr": "تشوانتشو",
+    "nameEn": "Quanzhou",
+    "type": "city",
+    "lat": 24.91389,
+    "lng": 118.58583,
+    "pop": 8782285
+  },
+  {
+    "nameAr": "ناننينغ",
+    "nameEn": "Nanning",
+    "type": "city",
+    "lat": 22.81918,
+    "lng": 108.31501,
+    "pop": 8741584
+  },
+  {
+    "nameAr": "كونمينغ",
+    "nameEn": "Kunming",
+    "type": "city",
+    "lat": 25.043333333333,
+    "lng": 102.70611111111,
+    "pop": 8460088
+  },
+  {
+    "nameAr": "جينينغ",
+    "nameEn": "Jining",
+    "type": "city",
+    "lat": 35.4,
+    "lng": 116.56666666667,
+    "pop": 8357897
+  },
+  {
+    "nameAr": "فوزهو",
+    "nameEn": "Fuzhou",
+    "type": "city",
+    "lat": 26.076944444444,
+    "lng": 119.29166666667,
+    "pop": 8291268
+  },
+  {
+    "nameAr": "فويانغ",
+    "nameEn": "Fuyang",
+    "type": "city",
+    "lat": 32.89856,
+    "lng": 115.80447,
+    "pop": 8200264
+  },
+  {
+    "nameAr": "شانغكيو",
+    "nameEn": "Shangqiu",
+    "type": "city",
+    "lat": 34.42592,
+    "lng": 115.64673,
+    "pop": 7816831
+  },
+  {
+    "nameAr": "نانتونغ",
+    "nameEn": "Nantong",
+    "type": "city",
+    "lat": 31.98288,
+    "lng": 120.8873,
+    "pop": 7726635
+  },
+  {
+    "nameAr": "تانغشان",
+    "nameEn": "Tangshan",
+    "type": "city",
+    "lat": 39.629444444444,
+    "lng": 118.17388888889,
+    "pop": 7717983
+  },
+  {
+    "nameAr": "ووشي",
+    "nameEn": "Wuxi",
+    "type": "city",
+    "lat": 31.566667,
+    "lng": 120.283333,
+    "pop": 7462135
+  },
+  {
+    "nameAr": "داليان",
+    "nameEn": "Dalian",
+    "type": "city",
+    "lat": 38.9,
+    "lng": 121.6,
+    "pop": 7450785
+  },
+  {
+    "nameAr": "هونغ كونغ",
+    "nameEn": "Hong Kong",
+    "type": "city",
+    "lat": 22.278333333333,
+    "lng": 114.15861111111,
+    "pop": 7413070
+  },
+  {
+    "nameAr": "سانغتشو",
+    "nameEn": "Cangzhou",
+    "type": "city",
+    "lat": 38.30369,
+    "lng": 116.84519,
+    "pop": 7300783
+  },
+  {
+    "nameAr": "يانتاى",
+    "nameEn": "Yantai",
+    "type": "city",
+    "lat": 37.464444444444,
+    "lng": 121.44777777778,
+    "pop": 7102116
+  },
+  {
+    "nameAr": "لويانغ",
+    "nameEn": "Luoyang",
+    "type": "city",
+    "lat": 34.683611111111,
+    "lng": 112.45361111111,
+    "pop": 7056699
+  },
+  {
+    "nameAr": "جينهوا",
+    "nameEn": "Jinhua",
+    "type": "city",
+    "lat": 29.10462,
+    "lng": 119.64937,
+    "pop": 7050683
+  },
+  {
+    "nameAr": "زانجيانغ",
+    "nameEn": "Zhanjiang",
+    "type": "city",
+    "lat": 21.196667,
+    "lng": 110.403056,
+    "pop": 6981236
+  },
+  {
+    "nameAr": "بيجاي",
+    "nameEn": "Bijie",
+    "type": "city",
+    "lat": 27.30193,
+    "lng": 105.28627,
+    "pop": 6899636
+  },
+  {
+    "nameAr": "يانتشنغ",
+    "nameEn": "Yancheng",
+    "type": "city",
+    "lat": 33.35,
+    "lng": 120.15694444444,
+    "pop": 6709629
+  },
+  {
+    "nameAr": "هنغيانغ",
+    "nameEn": "Hengyang",
+    "type": "city",
+    "lat": 26.89676,
+    "lng": 112.58568,
+    "pop": 6645243
+  },
+  {
+    "nameAr": "تاي زهو",
+    "nameEn": "Taizhou",
+    "type": "city",
+    "lat": 28.6583,
+    "lng": 121.42213,
+    "pop": 6622888
+  },
+  {
+    "nameAr": "زونيي",
+    "nameEn": "Zunyi",
+    "type": "city",
+    "lat": 27.70498,
+    "lng": 106.93363,
+    "pop": 6606675
+  },
+  {
+    "nameAr": "شاويانغ",
+    "nameEn": "Shaoyang",
+    "type": "city",
+    "lat": 27.24176,
+    "lng": 111.47247,
+    "pop": 6563520
+  },
+  {
+    "nameAr": "هوانغقانغ",
+    "nameEn": "Huanggang",
+    "type": "city",
+    "lat": 30.45,
+    "lng": 114.875,
+    "pop": 6333000
+  },
+  {
+    "nameAr": "ماومينغ",
+    "nameEn": "Maoming",
+    "type": "city",
+    "lat": 21.66182,
+    "lng": 110.91783,
+    "pop": 6313200
+  },
+  {
+    "nameAr": "نانتشانغ",
+    "nameEn": "Nanchang",
+    "type": "city",
+    "lat": 28.684167,
+    "lng": 115.887222,
+    "pop": 6255007
+  },
+  {
+    "nameAr": "شينشيانغ",
+    "nameEn": "Xinxiang",
+    "type": "city",
+    "lat": 35.29917,
+    "lng": 113.88515,
+    "pop": 6251929
+  },
+  {
+    "nameAr": "شينيانج",
+    "nameEn": "Xinyang",
+    "type": "city",
+    "lat": 32.12641,
+    "lng": 114.06722,
+    "pop": 6234401
+  },
+  {
+    "nameAr": "هويزو",
+    "nameEn": "Huizhou",
+    "type": "city",
+    "lat": 23.11147,
+    "lng": 114.41523,
+    "pop": 6042852
+  },
+  {
+    "nameAr": "غوييانغ",
+    "nameEn": "Guiyang",
+    "type": "city",
+    "lat": 26.579444444444,
+    "lng": 106.70777777778,
+    "pop": 5987018
+  },
+  {
+    "nameAr": "لياوتشنغ",
+    "nameEn": "Liaocheng",
+    "type": "city",
+    "lat": 36.45,
+    "lng": 115.98333333333,
+    "pop": 5952128
+  },
+  {
+    "nameAr": "يولين، قوانغشى",
+    "nameEn": "Yulin",
+    "type": "city",
+    "lat": 22.6293,
+    "lng": 110.15067,
+    "pop": 5849700
+  },
+  {
+    "nameAr": "تشانغده",
+    "nameEn": "Changde",
+    "type": "city",
+    "lat": 29.03966,
+    "lng": 111.6839,
+    "pop": 5827200
+  },
+  {
+    "nameAr": "يوييانغ",
+    "nameEn": "Yueyang",
+    "type": "city",
+    "lat": 29.36472,
+    "lng": 113.1309,
+    "pop": 5797100
+  },
+  {
+    "nameAr": "تشوجينغ",
+    "nameEn": "Qujing",
+    "type": "city",
+    "lat": 25.51018,
+    "lng": 103.80287,
+    "pop": 5765775
+  },
+  {
+    "nameAr": "شيانغيانغ",
+    "nameEn": "Xiangyang",
+    "type": "city",
+    "lat": 32.06536,
+    "lng": 112.15307,
+    "pop": 5680000
+  },
+  {
+    "nameAr": "دتشو",
+    "nameEn": "Dezhou",
+    "type": "city",
+    "lat": 37.45127,
+    "lng": 116.31046,
+    "pop": 5611194
+  },
+  {
+    "nameAr": "نانتشونغ",
+    "nameEn": "Nanchong",
+    "type": "city",
+    "lat": 30.79913,
+    "lng": 106.07843,
+    "pop": 5607565
+  },
+  {
+    "nameAr": "جي يانغ",
+    "nameEn": "Jieyang",
+    "type": "city",
+    "lat": 23.55334,
+    "lng": 116.36495,
+    "pop": 5577814
+  },
+  {
+    "nameAr": "جينغتشو",
+    "nameEn": "Jingzhou",
+    "type": "city",
+    "lat": 30.324444444444,
+    "lng": 112.23611111111,
+    "pop": 5570100
+  },
+  {
+    "nameAr": "شانتو",
+    "nameEn": "Shantou",
+    "type": "city",
+    "lat": 23.353888888889,
+    "lng": 116.68222222222,
+    "pop": 5502031
+  },
+  {
+    "nameAr": "انيانغ",
+    "nameEn": "Anyang",
+    "type": "city",
+    "lat": 36.09561,
+    "lng": 114.34614,
+    "pop": 5477614
+  },
+  {
+    "nameAr": "تايآن",
+    "nameEn": "Tai'an",
+    "type": "city",
+    "lat": 36.2001,
+    "lng": 117.0809,
+    "pop": 5472217
+  },
+  {
+    "nameAr": "داتشو",
+    "nameEn": "Dazhou",
+    "type": "city",
+    "lat": 31.2152,
+    "lng": 107.49472,
+    "pop": 5468097
+  },
+  {
+    "nameAr": "لانغ فانغ",
+    "nameEn": "Langfang",
+    "type": "city",
+    "lat": 39.51962,
+    "lng": 116.70056,
+    "pop": 5464087
+  },
+  {
+    "nameAr": "سويهوا",
+    "nameEn": "Suihua",
+    "type": "city",
+    "lat": 46.6384,
+    "lng": 126.98079,
+    "pop": 5418153
+  },
+  {
+    "nameAr": "جياشينغ",
+    "nameEn": "Jiaxing",
+    "type": "city",
+    "lat": 30.7522,
+    "lng": 120.75,
+    "pop": 5400868
+  },
+  {
+    "nameAr": "كيكيهار",
+    "nameEn": "Qiqihar",
+    "type": "city",
+    "lat": 47.33981,
+    "lng": 123.95124,
+    "pop": 5367003
+  },
+  {
+    "nameAr": "سوزو",
+    "nameEn": "Suzhou",
+    "type": "city",
+    "lat": 33.63328,
+    "lng": 116.96833,
+    "pop": 5324476
+  },
+  {
+    "nameAr": "تاي يوان",
+    "nameEn": "Taiyuan",
+    "type": "city",
+    "lat": 37.87326,
+    "lng": 112.54245,
+    "pop": 5304061
+  },
+  {
+    "nameAr": "يونغتشو",
+    "nameEn": "Yongzhou",
+    "type": "city",
+    "lat": 26.4515,
+    "lng": 111.59527,
+    "pop": 5289824
+  },
+  {
+    "nameAr": "تشانغتشو",
+    "nameEn": "Changzhou",
+    "type": "city",
+    "lat": 31.812166666667,
+    "lng": 119.96916666667,
+    "pop": 5278121
+  },
+  {
+    "nameAr": "شاوكسينج",
+    "nameEn": "Shaoxing",
+    "type": "city",
+    "lat": 30,
+    "lng": 120.58333333333,
+    "pop": 5270977
+  },
+  {
+    "nameAr": "شيامن",
+    "nameEn": "Xiamen",
+    "type": "city",
+    "lat": 24.479722222222,
+    "lng": 118.08194444444,
+    "pop": 5163970
+  },
+  {
+    "nameAr": "تشاوتونغ",
+    "nameEn": "Zhaotong",
+    "type": "city",
+    "lat": 27.33284,
+    "lng": 103.71445,
+    "pop": 5092611
+  },
+  {
+    "nameAr": "غويلين",
+    "nameEn": "Guilin",
+    "type": "city",
+    "lat": 25.281944444444,
+    "lng": 110.28638888889,
+    "pop": 5085500
+  },
+  {
+    "nameAr": "زهانغزهو",
+    "nameEn": "Zhangzhou",
+    "type": "city",
+    "lat": 24.50932,
+    "lng": 117.66117,
+    "pop": 5054328
+  },
+  {
+    "nameAr": "بينغدينغشان",
+    "nameEn": "Pingdingshan",
+    "type": "city",
+    "lat": 33.73499,
+    "lng": 113.29992,
+    "pop": 4987137
+  },
+  {
+    "nameAr": "سوتشيان",
+    "nameEn": "Suqian",
+    "type": "city",
+    "lat": 33.933056,
+    "lng": 118.283056,
+    "pop": 4986192
+  },
+  {
+    "nameAr": "هوايهوا",
+    "nameEn": "Huaihua",
+    "type": "city",
+    "lat": 27.549444,
+    "lng": 109.959167,
+    "pop": 4979600
+  },
+  {
+    "nameAr": "مدينة إكسياوجان، هوبى",
+    "nameEn": "Xiaogan",
+    "type": "city",
+    "lat": 30.92731,
+    "lng": 113.91096,
+    "pop": 4921000
+  },
+  {
+    "nameAr": "جيوجيانغ",
+    "nameEn": "Jiujiang",
+    "type": "city",
+    "lat": 29.70475,
+    "lng": 116.00206,
+    "pop": 4896800
+  },
+  {
+    "nameAr": "ييبن",
+    "nameEn": "Yibin",
+    "type": "city",
+    "lat": 28.75961,
+    "lng": 104.63997,
+    "pop": 4887242
+  },
+  {
+    "nameAr": "ميانيانغ",
+    "nameEn": "Mianyang",
+    "type": "city",
+    "lat": 31.46688,
+    "lng": 104.73847,
+    "pop": 4868243
+  },
+  {
+    "nameAr": "كايفنغ",
+    "nameEn": "Kaifeng",
+    "type": "city",
+    "lat": 34.795,
+    "lng": 114.345,
+    "pop": 4824016
+  },
+  {
+    "nameAr": "جيانغمن",
+    "nameEn": "Jiangmen",
+    "type": "city",
+    "lat": 22.58333,
+    "lng": 113.08333,
+    "pop": 4798090
+  },
+  {
+    "nameAr": "تشينزو",
+    "nameEn": "Chenzhou",
+    "type": "city",
+    "lat": 25.79893,
+    "lng": 113.02667,
+    "pop": 4744500
+  },
+  {
+    "nameAr": "زيبو",
+    "nameEn": "Zibo",
+    "type": "city",
+    "lat": 36.783056,
+    "lng": 118.049722,
+    "pop": 4704138
+  },
+  {
+    "nameAr": "ينان",
+    "nameEn": "Weinan",
+    "type": "city",
+    "lat": 34.49962,
+    "lng": 109.46838,
+    "pop": 4688744
+  },
+  {
+    "nameAr": "تايتشو",
+    "nameEn": "Taizhou",
+    "type": "city",
+    "lat": 32.483056,
+    "lng": 119.9,
+    "pop": 4618937
+  },
+  {
+    "nameAr": "يانيونغانغ",
+    "nameEn": "Lianyungang",
+    "type": "city",
+    "lat": 34.59057,
+    "lng": 119.1801,
+    "pop": 4599360
+  },
+  {
+    "nameAr": "يانغتشو",
+    "nameEn": "Yangzhou",
+    "type": "city",
+    "lat": 32.39117,
+    "lng": 119.43625,
+    "pop": 4559797
+  },
+  {
+    "nameAr": "هوايان",
+    "nameEn": "Huai'an",
+    "type": "city",
+    "lat": 33.505833333333,
+    "lng": 119.13916666667,
+    "pop": 4556230
+  },
+  {
+    "nameAr": "هنغشوي",
+    "nameEn": "Hengshui",
+    "type": "city",
+    "lat": 37.73484,
+    "lng": 115.68599,
+    "pop": 4472000
+  },
+  {
+    "nameAr": "زونغشان",
+    "nameEn": "Zhongshan",
+    "type": "city",
+    "lat": 22.533333333333,
+    "lng": 113.35,
+    "pop": 4418060
+  },
+  {
+    "nameAr": "يييانغ",
+    "nameEn": "Yiyang",
+    "type": "city",
+    "lat": 28.583333333333,
+    "lng": 112.33333333333,
+    "pop": 4413800
+  },
+  {
+    "nameAr": "مدينة جيلين",
+    "nameEn": "Jilin City",
+    "type": "city",
+    "lat": 43.8461,
+    "lng": 126.56157,
+    "pop": 4413157
+  },
+  {
+    "nameAr": "جويغانغ",
+    "nameEn": "Guigang",
+    "type": "city",
+    "lat": 23.114444444444,
+    "lng": 109.59444444444,
+    "pop": 4409200
+  },
+  {
+    "nameAr": "لوان",
+    "nameEn": "Lu'an",
+    "type": "city",
+    "lat": 31.75425,
+    "lng": 116.50778,
+    "pop": 4393699
+  },
+  {
+    "nameAr": "تشوتشانغ",
+    "nameEn": "Xuchang",
+    "type": "city",
+    "lat": 34.02444,
+    "lng": 113.82014,
+    "pop": 4379998
+  },
+  {
+    "nameAr": "ماوزو",
+    "nameEn": "Meizhou",
+    "type": "city",
+    "lat": 24.29977,
+    "lng": 116.11913,
+    "pop": 4378800
+  },
+  {
+    "nameAr": "لانتشو",
+    "nameEn": "Lanzhou",
+    "type": "city",
+    "lat": 36.06171,
+    "lng": 103.83177,
+    "pop": 4359446
+  },
+  {
+    "nameAr": "تشانغجياكو",
+    "nameEn": "Zhangjiakou",
+    "type": "city",
+    "lat": 40.81078,
+    "lng": 114.88114,
+    "pop": 4345485
+  },
+  {
+    "nameAr": "تشيفنغ",
+    "nameEn": "Chifeng",
+    "type": "city",
+    "lat": 42.255,
+    "lng": 118.8825,
+    "pop": 4341245
+  },
+  {
+    "nameAr": "أنكينغ",
+    "nameEn": "Anqing",
+    "type": "city",
+    "lat": 30.5,
+    "lng": 117.03333333333,
+    "pop": 4165284
+  },
+  {
+    "nameAr": "ليوشو",
+    "nameEn": "Liuzhou",
+    "type": "city",
+    "lat": 24.3264,
+    "lng": 109.4281,
+    "pop": 4157934
+  },
+  {
+    "nameAr": "زاوشينغ",
+    "nameEn": "Zhaoqing",
+    "type": "city",
+    "lat": 23.05,
+    "lng": 112.46666666667,
+    "pop": 4151700
+  },
+  {
+    "nameAr": "غوانغان",
+    "nameEn": "Guang'an",
+    "type": "city",
+    "lat": 30.46729,
+    "lng": 106.63358,
+    "pop": 4124100
+  },
+  {
+    "nameAr": "أورومتشي",
+    "nameEn": "Ürümqi",
+    "type": "city",
+    "lat": 43.8225,
+    "lng": 87.6125,
+    "pop": 4054369
+  },
+  {
+    "nameAr": "تشوتشو",
+    "nameEn": "Zhuzhou",
+    "type": "city",
+    "lat": 27.84071,
+    "lng": 113.14692,
+    "pop": 4020800
+  },
+  {
+    "nameAr": "ييتشانغ",
+    "nameEn": "Yichang",
+    "type": "city",
+    "lat": 30.708333,
+    "lng": 111.280278,
+    "pop": 4017607
+  },
+  {
+    "nameAr": "شوزو",
+    "nameEn": "Chuzhou",
+    "type": "city",
+    "lat": 32.30621,
+    "lng": 118.31148,
+    "pop": 3987054
+  },
+  {
+    "nameAr": "كينغوان",
+    "nameEn": "Qingyuan",
+    "type": "city",
+    "lat": 23.68425,
+    "lng": 113.05075,
+    "pop": 3969473
+  },
+  {
+    "nameAr": "شيانيانغ",
+    "nameEn": "Xianyang",
+    "type": "city",
+    "lat": 34.329722222222,
+    "lng": 108.70916666667,
+    "pop": 3959842
+  },
+  {
+    "nameAr": "لودى",
+    "nameEn": "Loudi",
+    "type": "city",
+    "lat": 27.73776,
+    "lng": 111.99742,
+    "pop": 3931800
+  },
+  {
+    "nameAr": "ديانغ",
+    "nameEn": "Deyang",
+    "type": "city",
+    "lat": 31.12892,
+    "lng": 104.39499,
+    "pop": 3877000
+  },
+  {
+    "nameAr": "تساوتشوانغ",
+    "nameEn": "Zaozhuang",
+    "type": "city",
+    "lat": 34.866666666667,
+    "lng": 117.55,
+    "pop": 3855601
+  },
+  {
+    "nameAr": "بويانغ",
+    "nameEn": "Puyang",
+    "type": "city",
+    "lat": 35.76392,
+    "lng": 115.02996,
+    "pop": 3772088
+  },
+  {
+    "nameAr": "نيجيانج",
+    "nameEn": "Neijiang",
+    "type": "city",
+    "lat": 29.58716,
+    "lng": 105.0635,
+    "pop": 3702847
+  },
+  {
+    "nameAr": "ووهو",
+    "nameEn": "Wuhu",
+    "type": "city",
+    "lat": 31.33398,
+    "lng": 118.36223,
+    "pop": 3644420
+  },
+  {
+    "nameAr": "يولين",
+    "nameEn": "Yulin",
+    "type": "city",
+    "lat": 38.26548,
+    "lng": 109.73881,
+    "pop": 3624750
+  },
+  {
+    "nameAr": "جياوتسو",
+    "nameEn": "Jiaozuo",
+    "type": "city",
+    "lat": 35.22904,
+    "lng": 113.2304,
+    "pop": 3590700
+  },
+  {
+    "nameAr": "شنغد",
+    "nameEn": "Chengde",
+    "type": "city",
+    "lat": 40.973888888889,
+    "lng": 117.93222222222,
+    "pop": 3473201
+  },
+  {
+    "nameAr": "هوهوت",
+    "nameEn": "Hohhot",
+    "type": "city",
+    "lat": 40.81507,
+    "lng": 111.66293,
+    "pop": 3446100
+  },
+  {
+    "nameAr": "سينبينغ",
+    "nameEn": "Siping",
+    "type": "city",
+    "lat": 43.17154,
+    "lng": 124.36438,
+    "pop": 3385156
+  },
+  {
+    "nameAr": "جينتشونغ",
+    "nameEn": "Jinzhong",
+    "type": "city",
+    "lat": 37.69332,
+    "lng": 112.74164,
+    "pop": 3379498
+  },
+  {
+    "nameAr": "Huzhou",
+    "nameEn": "Huzhou",
+    "type": "city",
+    "lat": 30.8925,
+    "lng": 120.0875,
+    "pop": 3367579
+  },
+  {
+    "nameAr": "تشانغ تشى",
+    "nameEn": "Changzhi",
+    "type": "city",
+    "lat": 36.19529,
+    "lng": 113.09695,
+    "pop": 3334565
+  },
+  {
+    "nameAr": "آنشان",
+    "nameEn": "Anshan",
+    "type": "city",
+    "lat": 41.10662,
+    "lng": 122.98945,
+    "pop": 3325372
+  },
+  {
+    "nameAr": "باوجى",
+    "nameEn": "Baoji",
+    "type": "city",
+    "lat": 34.36094,
+    "lng": 107.17507,
+    "pop": 3321853
+  },
+  {
+    "nameAr": "داتونغ",
+    "nameEn": "Datong",
+    "type": "city",
+    "lat": 40.093611111111,
+    "lng": 113.29138888889,
+    "pop": 3318054
+  },
+  {
+    "nameAr": "كينشو",
+    "nameEn": "Qinzhou",
+    "type": "city",
+    "lat": 21.95,
+    "lng": 108.61666666667,
+    "pop": 3304400
+  },
+  {
+    "nameAr": "تونغران",
+    "nameEn": "Tongren",
+    "type": "city",
+    "lat": 27.72334,
+    "lng": 109.18851,
+    "pop": 3298468
+  },
+  {
+    "nameAr": "بنغبو",
+    "nameEn": "Bengbu",
+    "type": "city",
+    "lat": 32.93537,
+    "lng": 117.35312,
+    "pop": 3296408
+  },
+  {
+    "nameAr": "باتشونغ",
+    "nameEn": "Bazhong",
+    "type": "city",
+    "lat": 31.85764,
+    "lng": 106.75586,
+    "pop": 3283148
+  },
+  {
+    "nameAr": "سوينينغ",
+    "nameEn": "Suining",
+    "type": "city",
+    "lat": 30.50984,
+    "lng": 105.57373,
+    "pop": 3252619
+  },
+  {
+    "nameAr": "ليشان",
+    "nameEn": "Leshan",
+    "type": "city",
+    "lat": 29.5854,
+    "lng": 103.75755,
+    "pop": 3235759
+  },
+  {
+    "nameAr": "هانتشونغ",
+    "nameEn": "Hanzhong",
+    "type": "city",
+    "lat": 33.07938,
+    "lng": 107.02598,
+    "pop": 3211462
+  },
+  {
+    "nameAr": "بوتيان",
+    "nameEn": "Putian",
+    "type": "city",
+    "lat": 25.439444,
+    "lng": 119.010278,
+    "pop": 3210714
+  },
+  {
+    "nameAr": "تشنجيانغ",
+    "nameEn": "Zhenjiang",
+    "type": "city",
+    "lat": 32.21086,
+    "lng": 119.45508,
+    "pop": 3210418
+  },
+  {
+    "nameAr": "نينغد",
+    "nameEn": "Ningde",
+    "type": "city",
+    "lat": 26.661666666667,
+    "lng": 119.52277777778,
+    "pop": 3146789
+  },
+  {
+    "nameAr": "تونغلياو",
+    "nameEn": "Tongliao",
+    "type": "city",
+    "lat": 43.61723,
+    "lng": 122.26398,
+    "pop": 3139153
+  },
+  {
+    "nameAr": "تشنهوانغداو",
+    "nameEn": "Qinhuangdao",
+    "type": "city",
+    "lat": 39.93978,
+    "lng": 119.58812,
+    "pop": 3136879
+  },
+  {
+    "nameAr": "جينتشو",
+    "nameEn": "Jinzhou",
+    "type": "city",
+    "lat": 41.114444444444,
+    "lng": 121.12916666667,
+    "pop": 3126463
+  },
+  {
+    "nameAr": "هيوان",
+    "nameEn": "Heyuan",
+    "type": "city",
+    "lat": 23.75033,
+    "lng": 114.69229,
+    "pop": 3093900
+  },
+  {
+    "nameAr": "واتشو",
+    "nameEn": "Wuzhou",
+    "type": "city",
+    "lat": 23.483333,
+    "lng": 111.316667,
+    "pop": 3061100
+  },
+  {
+    "nameAr": "تشاويانغ",
+    "nameEn": "Chaoyang",
+    "type": "city",
+    "lat": 41.57567,
+    "lng": 120.44856,
+    "pop": 3044641
+  },
+  {
+    "nameAr": "هواينان",
+    "nameEn": "Huainan",
+    "type": "city",
+    "lat": 32.483056,
+    "lng": 117.016389,
+    "pop": 3033528
+  },
+  {
+    "nameAr": "ليوبانشيو",
+    "nameEn": "Liupanshui",
+    "type": "city",
+    "lat": 26.594444,
+    "lng": 104.833333,
+    "pop": 3031602
+  },
+  {
+    "nameAr": "شاوغوان",
+    "nameEn": "Shaoguan",
+    "type": "city",
+    "lat": 24.80113,
+    "lng": 113.59271,
+    "pop": 2997600
+  },
+  {
+    "nameAr": "تيانشوي",
+    "nameEn": "Tianshui",
+    "type": "city",
+    "lat": 34.58093,
+    "lng": 105.73115,
+    "pop": 2984659
+  },
+  {
+    "nameAr": "ريتشاو",
+    "nameEn": "Rizhao",
+    "type": "city",
+    "lat": 35.416388888889,
+    "lng": 119.43305555556,
+    "pop": 2968365
+  },
+  {
+    "nameAr": "ويهاي",
+    "nameEn": "Weihai",
+    "type": "city",
+    "lat": 37.5,
+    "lng": 122.1,
+    "pop": 2906548
+  },
+  {
+    "nameAr": "داتشينغ",
+    "nameEn": "Daqing",
+    "type": "city",
+    "lat": 46.59791,
+    "lng": 125.00798,
+    "pop": 2904532
+  },
+  {
+    "nameAr": "مدينة جينغمن",
+    "nameEn": "Jingmen",
+    "type": "city",
+    "lat": 31.038055555556,
+    "lng": 112.21138888889,
+    "pop": 2897500
+  },
+  {
+    "nameAr": "هايكو",
+    "nameEn": "Haikou",
+    "type": "city",
+    "lat": 20.02,
+    "lng": 110.32,
+    "pop": 2873358
+  },
+  {
+    "nameAr": "شيانغتان",
+    "nameEn": "Xiangtan",
+    "type": "city",
+    "lat": 27.84306,
+    "lng": 112.92283,
+    "pop": 2864800
+  },
+  {
+    "nameAr": "ينشوان",
+    "nameEn": "Yinchuan",
+    "type": "city",
+    "lat": 38.485,
+    "lng": 106.225,
+    "pop": 2859074
+  },
+  {
+    "nameAr": "مودانجيانغ",
+    "nameEn": "Mudanjiang",
+    "type": "city",
+    "lat": 44.586111,
+    "lng": 129.599722,
+    "pop": 2798723
+  },
+  {
+    "nameAr": "شانوي",
+    "nameEn": "Shanwei",
+    "type": "city",
+    "lat": 22.766389,
+    "lng": 115.333056,
+    "pop": 2738482
+  },
+  {
+    "nameAr": "لونغيان",
+    "nameEn": "Longyan",
+    "type": "city",
+    "lat": 25.088056,
+    "lng": 117.024444,
+    "pop": 2723637
+  },
+  {
+    "nameAr": "تيلينغ",
+    "nameEn": "Tieling",
+    "type": "city",
+    "lat": 42.28407,
+    "lng": 123.83654,
+    "pop": 2717732
+  },
+  {
+    "nameAr": "باوتو",
+    "nameEn": "Baotou",
+    "type": "city",
+    "lat": 40.65621,
+    "lng": 109.83454,
+    "pop": 2709378
+  },
+  {
+    "nameAr": "ديغنشي",
+    "nameEn": "Dingxi",
+    "type": "city",
+    "lat": 35.580611,
+    "lng": 104.626278,
+    "pop": 2698624
+  },
+  {
+    "nameAr": "نانبينغ",
+    "nameEn": "Nanping",
+    "type": "city",
+    "lat": 26.64481,
+    "lng": 118.17282,
+    "pop": 2680645
+  },
+  {
+    "nameAr": "زيجونج",
+    "nameEn": "Zigong",
+    "type": "city",
+    "lat": 29.349842,
+    "lng": 104.764514,
+    "pop": 2678899
+  },
+  {
+    "nameAr": "شياننينغ",
+    "nameEn": "Xianning",
+    "type": "city",
+    "lat": 29.83411,
+    "lng": 114.32882,
+    "pop": 2658316
+  },
+  {
+    "nameAr": "شاوزو",
+    "nameEn": "Chaozhou",
+    "type": "city",
+    "lat": 23.67,
+    "lng": 116.63,
+    "pop": 2656600
+  },
+  {
+    "nameAr": "هولوداو",
+    "nameEn": "Huludao",
+    "type": "city",
+    "lat": 40.709444444444,
+    "lng": 120.83777777778,
+    "pop": 2623541
+  },
+  {
+    "nameAr": "يانغجيانغ",
+    "nameEn": "Yangjiang",
+    "type": "city",
+    "lat": 21.85563,
+    "lng": 111.96272,
+    "pop": 2602959
+  },
+  {
+    "nameAr": "زيانج",
+    "nameEn": "Ziyang",
+    "type": "city",
+    "lat": 30.12562,
+    "lng": 104.63974,
+    "pop": 2593843
+  },
+  {
+    "nameAr": "لوغنان",
+    "nameEn": "Longnan",
+    "type": "city",
+    "lat": 33.535,
+    "lng": 105.349,
+    "pop": 2567718
+  },
+  {
+    "nameAr": "جياموسى",
+    "nameEn": "Jiamusi",
+    "type": "city",
+    "lat": 46.80808,
+    "lng": 130.36531,
+    "pop": 2552097
+  },
+  {
+    "nameAr": "سامينغ",
+    "nameEn": "Sanming",
+    "type": "city",
+    "lat": 26.2658,
+    "lng": 117.63017,
+    "pop": 2486450
+  },
+  {
+    "nameAr": "غوانغيوان",
+    "nameEn": "Guangyuan",
+    "type": "city",
+    "lat": 32.43529,
+    "lng": 105.83985,
+    "pop": 2484122
+  },
+  {
+    "nameAr": "هوانغشي",
+    "nameEn": "Huangshi",
+    "type": "city",
+    "lat": 30.20178,
+    "lng": 115.03262,
+    "pop": 2471700
+  },
+  {
+    "nameAr": "أنشون",
+    "nameEn": "Anshun",
+    "type": "city",
+    "lat": 26.24562,
+    "lng": 105.93401,
+    "pop": 2470630
+  },
+  {
+    "nameAr": "شينينغ",
+    "nameEn": "Xining",
+    "type": "city",
+    "lat": 36.62386,
+    "lng": 101.77866,
+    "pop": 2467965
+  },
+  {
+    "nameAr": "داندونغ",
+    "nameEn": "Dandong",
+    "type": "city",
+    "lat": 40.116666666667,
+    "lng": 124.38333333333,
+    "pop": 2444697
+  },
+  {
+    "nameAr": "زوهاي",
+    "nameEn": "Zhuhai",
+    "type": "city",
+    "lat": 22.274166666667,
+    "lng": 113.57194444444,
+    "pop": 2439585
+  },
+  {
+    "nameAr": "بواشان",
+    "nameEn": "Baoshan",
+    "type": "city",
+    "lat": 25.12105,
+    "lng": 99.16905,
+    "pop": 2431211
+  },
+  {
+    "nameAr": "ينغكو",
+    "nameEn": "Yingkou",
+    "type": "city",
+    "lat": 40.66525,
+    "lng": 122.22972,
+    "pop": 2428534
+  },
+  {
+    "nameAr": "مدينة بوير",
+    "nameEn": "Pu'er City",
+    "type": "city",
+    "lat": 22.78028,
+    "lng": 100.96981,
+    "pop": 2404954
+  },
+  {
+    "nameAr": "يانفو",
+    "nameEn": "Yunfu",
+    "type": "city",
+    "lat": 22.92423,
+    "lng": 112.03526,
+    "pop": 2383350
+  },
+  {
+    "nameAr": "لوهي",
+    "nameEn": "Luohe",
+    "type": "city",
+    "lat": 33.58299,
+    "lng": 114.0109,
+    "pop": 2367490
+  },
+  {
+    "nameAr": "يانان",
+    "nameEn": "Yan'an",
+    "type": "city",
+    "lat": 36.59523,
+    "lng": 109.48628,
+    "pop": 2282581
+  },
+  {
+    "nameAr": "كو زهو",
+    "nameEn": "Quzhou",
+    "type": "city",
+    "lat": 28.95445,
+    "lng": 118.8763,
+    "pop": 2276184
+  },
+  {
+    "nameAr": "لينكانغ",
+    "nameEn": "Lincang",
+    "type": "city",
+    "lat": 23.88643,
+    "lng": 100.0871,
+    "pop": 2257991
+  },
+  {
+    "nameAr": "كينغيانغ",
+    "nameEn": "Qingyang",
+    "type": "city",
+    "lat": 35.727777777778,
+    "lng": 107.64,
+    "pop": 2211191
+  },
+  {
+    "nameAr": "جينتشنغ",
+    "nameEn": "Jincheng",
+    "type": "city",
+    "lat": 35.49056,
+    "lng": 112.8483,
+    "pop": 2194545
+  },
+  {
+    "nameAr": "دونغ ينغ",
+    "nameEn": "Dongying",
+    "type": "city",
+    "lat": 37.45,
+    "lng": 118.46666666667,
+    "pop": 2193518
+  },
+  {
+    "nameAr": "مانشان",
+    "nameEn": "Ma'anshan",
+    "type": "city",
+    "lat": 31.68579,
+    "lng": 118.51008,
+    "pop": 2159930
+  },
+  {
+    "nameAr": "بينغليانغ",
+    "nameEn": "Pingliang",
+    "type": "city",
+    "lat": 35.54123,
+    "lng": 106.68192,
+    "pop": 2068033
+  },
+  {
+    "nameAr": "شانغلو",
+    "nameEn": "Shangluo",
+    "type": "city",
+    "lat": 33.86805,
+    "lng": 109.92445,
+    "pop": 2041231
+  },
+  {
+    "nameAr": "سانمنشيا",
+    "nameEn": "Sanmenxia",
+    "type": "city",
+    "lat": 34.77362,
+    "lng": 111.19497,
+    "pop": 2034872
+  },
+  {
+    "nameAr": "هوايبي",
+    "nameEn": "Huaibei",
+    "type": "city",
+    "lat": 33.95618,
+    "lng": 116.78904,
+    "pop": 1970265
+  },
+  {
+    "nameAr": "بينغشيانغ",
+    "nameEn": "Pingxiang",
+    "type": "city",
+    "lat": 27.633333333333,
+    "lng": 113.85,
+    "pop": 1933200
+  },
+  {
+    "nameAr": "جيشى",
+    "nameEn": "Jixi",
+    "type": "city",
+    "lat": 45.29366,
+    "lng": 130.96496,
+    "pop": 1862165
+  },
+  {
+    "nameAr": "فوشون",
+    "nameEn": "Fushun",
+    "type": "city",
+    "lat": 41.87085,
+    "lng": 123.89173,
+    "pop": 1861372
+  },
+  {
+    "nameAr": "لياويانغ",
+    "nameEn": "Liaoyang",
+    "type": "city",
+    "lat": 41.26432,
+    "lng": 123.1772,
+    "pop": 1858768
+  },
+  {
+    "nameAr": "بيهاي",
+    "nameEn": "Beihai",
+    "type": "city",
+    "lat": 21.466666666667,
+    "lng": 109.1,
+    "pop": 1853227
+  },
+  {
+    "nameAr": "فوشين",
+    "nameEn": "Fuxin",
+    "type": "city",
+    "lat": 42.012669,
+    "lng": 121.648553,
+    "pop": 1819339
+  },
+  {
+    "nameAr": "ووي",
+    "nameEn": "Wuwei",
+    "type": "city",
+    "lat": 37.92781,
+    "lng": 102.63286,
+    "pop": 1815059
+  },
+  {
+    "nameAr": "بنشي",
+    "nameEn": "Benxi",
+    "type": "city",
+    "lat": 41.29204,
+    "lng": 123.76097,
+    "pop": 1709538
+  },
+  {
+    "nameAr": "بايين",
+    "nameEn": "Baiyin",
+    "type": "city",
+    "lat": 36.5448,
+    "lng": 104.1766,
+    "pop": 1708751
+  },
+  {
+    "nameAr": "خيخه",
+    "nameEn": "Heihe",
+    "type": "city",
+    "lat": 50.245833,
+    "lng": 127.488611,
+    "pop": 1673899
+  },
+  {
+    "nameAr": "جينغدتشن",
+    "nameEn": "Jingdezhen",
+    "type": "city",
+    "lat": 29.294167,
+    "lng": 117.203611,
+    "pop": 1673200
+  },
+  {
+    "nameAr": "هيبى",
+    "nameEn": "Hebi",
+    "type": "city",
+    "lat": 35.74975,
+    "lng": 114.2887,
+    "pop": 1569208
+  },
+  {
+    "nameAr": "زانغجياجي",
+    "nameEn": "Zhangjiajie",
+    "type": "city",
+    "lat": 29.12548,
+    "lng": 110.48442,
+    "pop": 1537900
+  },
+  {
+    "nameAr": "رويان",
+    "nameEn": "Rui'an",
+    "type": "city",
+    "lat": 27.778,
+    "lng": 120.65263,
+    "pop": 1520386
+  },
+  {
+    "nameAr": "جويبينغ",
+    "nameEn": "Guiping",
+    "type": "city",
+    "lat": 23.4,
+    "lng": 110.08333333333,
+    "pop": 1511011
+  },
+  {
+    "nameAr": "ياان",
+    "nameEn": "Ya'an",
+    "type": "city",
+    "lat": 29.9888,
+    "lng": 103.00074,
+    "pop": 1507258
+  },
+  {
+    "nameAr": "شوانغياشان",
+    "nameEn": "Shuangyashan",
+    "type": "city",
+    "lat": 46.63883,
+    "lng": 131.15452,
+    "pop": 1462626
+  },
+  {
+    "nameAr": "يويهتشينغ",
+    "nameEn": "Yueqing",
+    "type": "city",
+    "lat": 28.11883,
+    "lng": 120.96211,
+    "pop": 1452707
+  },
+  {
+    "nameAr": "جويوان",
+    "nameEn": "Guyuan",
+    "type": "city",
+    "lat": 36.00801,
+    "lng": 106.27816,
+    "pop": 1426000
+  },
+  {
+    "nameAr": "نلينغ",
+    "nameEn": "Wenling",
+    "type": "city",
+    "lat": 28.37974,
+    "lng": 121.37179,
+    "pop": 1416199
+  },
+  {
+    "nameAr": "بانجين",
+    "nameEn": "Panjin",
+    "type": "city",
+    "lat": 41.11983,
+    "lng": 122.06339,
+    "pop": 1392493
+  },
+  {
+    "nameAr": "تشونغ",
+    "nameEn": "Wuzhong",
+    "type": "city",
+    "lat": 37.98742,
+    "lng": 106.19189,
+    "pop": 1382713
+  },
+  {
+    "nameAr": "هوانغشان",
+    "nameEn": "Huangshan",
+    "type": "city",
+    "lat": 29.71318,
+    "lng": 118.31506,
+    "pop": 1330565
+  },
+  {
+    "nameAr": "يانغتشوان",
+    "nameEn": "Yangquan",
+    "type": "city",
+    "lat": 37.8576,
+    "lng": 113.57623,
+    "pop": 1318505
+  },
+  {
+    "nameAr": "تونغلينغ",
+    "nameEn": "Tongling",
+    "type": "city",
+    "lat": 30.945555555556,
+    "lng": 117.81138888889,
+    "pop": 1311726
+  },
+  {
+    "nameAr": "مدينة يوياو",
+    "nameEn": "Yuyao City",
+    "type": "city",
+    "lat": 30.037195,
+    "lng": 121.15463,
+    "pop": 1254032
+  },
+  {
+    "nameAr": "ليجيانج",
+    "nameEn": "Lijiang",
+    "type": "city",
+    "lat": 26.880833333333,
+    "lng": 100.22083333333,
+    "pop": 1253878
+  },
+  {
+    "nameAr": "بانتشيهوا",
+    "nameEn": "Panzhihua",
+    "type": "city",
+    "lat": 26.58487,
+    "lng": 101.71487,
+    "pop": 1214121
+  },
+  {
+    "nameAr": "بايليو",
+    "nameEn": "Beiliu",
+    "type": "city",
+    "lat": 22.7,
+    "lng": 110.35,
+    "pop": 1211637
+  },
+  {
+    "nameAr": "شينيو",
+    "nameEn": "Xinyu",
+    "type": "city",
+    "lat": 27.795,
+    "lng": 114.924167,
+    "pop": 1202499
+  },
+  {
+    "nameAr": "زهانغي",
+    "nameEn": "Zhangye",
+    "type": "city",
+    "lat": 38.93545,
+    "lng": 100.45529,
+    "pop": 1199515
+  },
+  {
+    "nameAr": "ينغتان",
+    "nameEn": "Yingtan",
+    "type": "city",
+    "lat": 28.233333333333,
+    "lng": 117,
+    "pop": 1175000
+  },
+  {
+    "nameAr": "زهوشان",
+    "nameEn": "Zhoushan",
+    "type": "city",
+    "lat": 29.98869,
+    "lng": 122.20488,
+    "pop": 1157817
+  },
+  {
+    "nameAr": "لييانغ",
+    "nameEn": "Leiyang",
+    "type": "city",
+    "lat": 26.4179,
+    "lng": 112.8457,
+    "pop": 1151554
+  },
+  {
+    "nameAr": "ييتشون",
+    "nameEn": "Yichun",
+    "type": "city",
+    "lat": 47.72347,
+    "lng": 128.88932,
+    "pop": 1148126
+  },
+  {
+    "nameAr": "جيوغوان",
+    "nameEn": "Jiuquan",
+    "type": "city",
+    "lat": 39.73695,
+    "lng": 98.50489,
+    "pop": 1095947
+  },
+  {
+    "nameAr": "ايتشو",
+    "nameEn": "Ezhou",
+    "type": "city",
+    "lat": 30.39724,
+    "lng": 114.88418,
+    "pop": 1079353
+  },
+  {
+    "nameAr": "تشونغ وى",
+    "nameEn": "Zhongwei",
+    "type": "city",
+    "lat": 37.51386,
+    "lng": 105.18838,
+    "pop": 1067336
+  },
+  {
+    "nameAr": "هيغانغ",
+    "nameEn": "Hegang",
+    "type": "city",
+    "lat": 47.313889,
+    "lng": 130.2775,
+    "pop": 1058665
+  },
+  {
+    "nameAr": "فانغشنغانغ",
+    "nameEn": "Fangchenggang",
+    "type": "city",
+    "lat": 21.6,
+    "lng": 108.3,
+    "pop": 1046068
+  },
+  {
+    "nameAr": "شينغنينغ",
+    "nameEn": "Xingning",
+    "type": "city",
+    "lat": 24.168055555556,
+    "lng": 115.66694444444,
+    "pop": 993000
+  },
+  {
+    "nameAr": "دانزوو",
+    "nameEn": "Danzhou",
+    "type": "city",
+    "lat": 19.5,
+    "lng": 109.58333333333,
+    "pop": 954259
+  },
+  {
+    "nameAr": "كيتايهي",
+    "nameEn": "Qitaihe",
+    "type": "city",
+    "lat": 45.76802,
+    "lng": 131.00635,
+    "pop": 920471
+  },
+  {
+    "nameAr": "لاسا",
+    "nameEn": "Lhasa",
+    "type": "city",
+    "lat": 29.6457567,
+    "lng": 91.1408186,
+    "pop": 867891
+  },
+  {
+    "nameAr": "Taoyuan County",
+    "nameEn": "Taoyuan County",
+    "type": "city",
+    "lat": 28.90365,
+    "lng": 111.47693,
+    "pop": 854935
+  },
+  {
+    "nameAr": "تونغتشوان",
+    "nameEn": "Tongchuan",
+    "type": "city",
+    "lat": 34.90574,
+    "lng": 108.94219,
+    "pop": 834437
+  },
+  {
+    "nameAr": "شيغاتسي",
+    "nameEn": "Shigatse",
+    "type": "city",
+    "lat": 29.25,
+    "lng": 88.88333,
+    "pop": 798153
+  },
+  {
+    "nameAr": "لاي يانغ",
+    "nameEn": "Laiyang",
+    "type": "city",
+    "lat": 36.975833333333,
+    "lng": 120.71361111111,
+    "pop": 794986
+  },
+  {
+    "nameAr": "كاشغر",
+    "nameEn": "Kashgar",
+    "type": "city",
+    "lat": 39.45,
+    "lng": 75.983333,
+    "pop": 782662
+  },
+  {
+    "nameAr": "قامدو",
+    "nameEn": "Chamdo",
+    "type": "city",
+    "lat": 31.13749,
+    "lng": 97.17767,
+    "pop": 760966
+  },
+  {
+    "nameAr": "شيزويشان",
+    "nameEn": "Shizuishan",
+    "type": "city",
+    "lat": 39.00985,
+    "lng": 106.36944,
+    "pop": 751389
+  },
+  {
+    "nameAr": "جيوان",
+    "nameEn": "Jiyuan",
+    "type": "city",
+    "lat": 35.083333333333,
+    "lng": 112.58333333333,
+    "pop": 727265
+  },
+  {
+    "nameAr": "شيهيزي",
+    "nameEn": "Shihezi",
+    "type": "city",
+    "lat": 44.3,
+    "lng": 86.033333333333,
+    "pop": 717000
+  },
+  {
+    "nameAr": "توربان",
+    "nameEn": "Turpan",
+    "type": "city",
+    "lat": 42.95,
+    "lng": 89.182222222222,
+    "pop": 693988
+  },
+  {
+    "nameAr": "ماكاو",
+    "nameEn": "Macau",
+    "type": "city",
+    "lat": 22.19,
+    "lng": 113.53805555556,
+    "pop": 682100
+  },
+  {
+    "nameAr": "وهاي",
+    "nameEn": "Wuhai",
+    "type": "city",
+    "lat": 39.684444444444,
+    "lng": 106.81583333333,
+    "pop": 556621
+  },
+  {
+    "nameAr": "Nagqu",
+    "nameEn": "Nagqu",
+    "type": "city",
+    "lat": 31.47665,
+    "lng": 92.05691,
+    "pop": 504838
+  },
+  {
+    "nameAr": "كاراماي",
+    "nameEn": "Karamay",
+    "type": "city",
+    "lat": 45.592778,
+    "lng": 84.871111,
+    "pop": 490348
+  },
+  {
+    "nameAr": "جينشانغ",
+    "nameEn": "Jinchang",
+    "type": "city",
+    "lat": 38.51676,
+    "lng": 102.18656,
+    "pop": 464050
+  },
+  {
+    "nameAr": "تيلي",
+    "nameEn": "Tieli",
+    "type": "city",
+    "lat": 46.98376,
+    "lng": 128.04002,
+    "pop": 390000
+  },
+  {
+    "nameAr": "ليانزو",
+    "nameEn": "Lianzhou",
+    "type": "city",
+    "lat": 24.78675,
+    "lng": 112.37346,
+    "pop": 384700
+  },
+  {
+    "nameAr": "ييدو، هوبى",
+    "nameEn": "Yidu",
+    "type": "city",
+    "lat": 30.38804,
+    "lng": 111.45049,
+    "pop": 384598
+  },
+  {
+    "nameAr": "أولان هوت",
+    "nameEn": "Ulanhot",
+    "type": "city",
+    "lat": 46.07257,
+    "lng": 122.07188,
+    "pop": 356035
+  },
+  {
+    "nameAr": "جيايوغوان",
+    "nameEn": "Jiayuguan City",
+    "type": "city",
+    "lat": 39.81121,
+    "lng": 98.28618,
+    "pop": 312663
+  },
+  {
+    "nameAr": "رويلي",
+    "nameEn": "Ruili",
+    "type": "city",
+    "lat": 24.01151,
+    "lng": 97.85798,
+    "pop": 267638
+  },
+  {
+    "nameAr": "Manzhouli",
+    "nameEn": "Manzhouli",
+    "type": "city",
+    "lat": 49.588055555556,
+    "lng": 117.4525,
+    "pop": 249472
+  },
+  {
+    "nameAr": "هونتشون",
+    "nameEn": "Hunchun",
+    "type": "city",
+    "lat": 42.86788,
+    "lng": 130.35845,
+    "pop": 239359
+  },
+  {
+    "nameAr": "نينغتشى",
+    "nameEn": "Nyingchi",
+    "type": "city",
+    "lat": 29.65973,
+    "lng": 94.35936,
+    "pop": 238936
+  },
+  {
+    "nameAr": "جيان",
+    "nameEn": "Ji'an",
+    "type": "city",
+    "lat": 41.12313,
+    "lng": 126.18146,
+    "pop": 222938
+  },
+  {
+    "nameAr": "غولمود",
+    "nameEn": "Golmud",
+    "type": "city",
+    "lat": 36.40672,
+    "lng": 94.90061,
+    "pop": 221863
+  },
+  {
+    "nameAr": "لينجيانغ",
+    "nameEn": "Linjiang",
+    "type": "city",
+    "lat": 41.84711,
+    "lng": 126.93006,
+    "pop": 173903
+  },
+  {
+    "nameAr": "تاتشنغ",
+    "nameEn": "Tacheng",
+    "type": "city",
+    "lat": 46.85111,
+    "lng": 83.14875,
+    "pop": 161037
+  },
+  {
+    "nameAr": "بينغشيانغ، قوانغشي",
+    "nameEn": "Pingxiang",
+    "type": "city",
+    "lat": 22.100555555556,
+    "lng": 106.75027777778,
+    "pop": 129843
+  },
+  {
+    "nameAr": "Liujie",
+    "nameEn": "Liujie",
+    "type": "city",
+    "lat": 39.16749,
+    "lng": 116.53774,
+    "pop": 32323
+  },
+  {
+    "nameAr": "Cheok Ka Village",
+    "nameEn": "Cheok Ka Village",
+    "type": "city",
+    "lat": 22.1613,
+    "lng": 113.5577,
+    "pop": 24000
+  },
+  {
+    "nameAr": "Jingjiangli Village Cluster",
+    "nameEn": "Jingjiangli Village Cluster",
+    "type": "city",
+    "lat": 22.2635,
+    "lng": 112.5205,
+    "pop": 147
+  },
+  {
+    "nameAr": "A Kung Kok",
+    "nameEn": "A Kung Kok",
+    "type": "city",
+    "lat": 22.398337201222,
+    "lng": 114.21345412731,
+    "pop": null
+  },
+  {
+    "nameAr": "A Kung Ngam Village",
+    "nameEn": "A Kung Ngam Village",
+    "type": "city",
+    "lat": 22.28207,
+    "lng": 114.23283,
+    "pop": null
+  },
+  {
+    "nameAr": "A Shan Tseng Tau",
+    "nameEn": "A Shan Tseng Tau",
+    "type": "city",
+    "lat": 22.47382,
+    "lng": 114.200185,
+    "pop": null
+  },
+  {
+    "nameAr": "Ah Kung Kok Fishermen Village",
+    "nameEn": "Ah Kung Kok Fishermen Village",
+    "type": "city",
+    "lat": 22.402648,
+    "lng": 114.217628,
+    "pop": null
+  },
+  {
+    "nameAr": "Andir Muchang",
+    "nameEn": "Andir Muchang",
+    "type": "city",
+    "lat": 37.908055555556,
+    "lng": 83.661111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Anquan Jingyingsuo",
+    "nameEn": "Anquan Jingyingsuo",
+    "type": "city",
+    "lat": 47.4853,
+    "lng": 128.7049,
+    "pop": null
+  },
+  {
+    "nameAr": "Au Ha",
+    "nameEn": "Au Ha",
+    "type": "city",
+    "lat": 22.5245,
+    "lng": 114.188,
+    "pop": null
+  },
+  {
+    "nameAr": "Au Pui Wan",
+    "nameEn": "Au Pui Wan",
+    "type": "city",
+    "lat": 22.407251,
+    "lng": 114.174811,
+    "pop": null
+  },
+  {
+    "nameAr": "Bamei Village",
+    "nameEn": "Bamei Village",
+    "type": "city",
+    "lat": 24.31585,
+    "lng": 105.03860833,
+    "pop": null
+  },
+  {
+    "nameAr": "Banpo",
+    "nameEn": "Banpo",
+    "type": "city",
+    "lat": 34.27444444,
+    "lng": 109.0475,
+    "pop": null
+  },
+  {
+    "nameAr": "Baoguo",
+    "nameEn": "Baoguo",
+    "type": "city",
+    "lat": 29.5699,
+    "lng": 103.4481,
+    "pop": null
+  },
+  {
+    "nameAr": "Baoshan Cun",
+    "nameEn": "Baoshan Cun",
+    "type": "city",
+    "lat": 33.197182055204,
+    "lng": 107.34862389523,
+    "pop": null
+  },
+  {
+    "nameAr": "Beigou Linchang",
+    "nameEn": "Beigou Linchang",
+    "type": "city",
+    "lat": 48.40251,
+    "lng": 130.03043,
+    "pop": null
+  },
+  {
+    "nameAr": "Beiguozhuang",
+    "nameEn": "Beiguozhuang",
+    "type": "city",
+    "lat": 39.55,
+    "lng": 112.96666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Beilie Linchang",
+    "nameEn": "Beilie Linchang",
+    "type": "city",
+    "lat": 47.17734,
+    "lng": 128.80985,
+    "pop": null
+  },
+  {
+    "nameAr": "Beiying Linchang",
+    "nameEn": "Beiying Linchang",
+    "type": "city",
+    "lat": 48.08461,
+    "lng": 129.84469,
+    "pop": null
+  },
+  {
+    "nameAr": "Bi Hou",
+    "nameEn": "Bi Hou",
+    "type": "city",
+    "lat": 22.2525,
+    "lng": 112.76694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Bijiang",
+    "nameEn": "Bijiang",
+    "type": "city",
+    "lat": 27.8182643,
+    "lng": 109.2609112,
+    "pop": null
+  },
+  {
+    "nameAr": "Boshe",
+    "nameEn": "Boshe",
+    "type": "city",
+    "lat": 22.86666667,
+    "lng": 116.01666667,
+    "pop": null
+  },
+  {
+    "nameAr": "CARE Village",
+    "nameEn": "CARE Village",
+    "type": "city",
+    "lat": 22.442898014293,
+    "lng": 114.17833328247,
+    "pop": null
+  },
+  {
+    "nameAr": "Cendan Nongchang",
+    "nameEn": "Cendan Nongchang",
+    "type": "city",
+    "lat": 29.6778,
+    "lng": 111.9075,
+    "pop": null
+  },
+  {
+    "nameAr": "Cha Kwo Ling Village",
+    "nameEn": "Cha Kwo Ling Village",
+    "type": "city",
+    "lat": 22.301049379603,
+    "lng": 114.228406,
+    "pop": null
+  },
+  {
+    "nameAr": "Chai Kek",
+    "nameEn": "Chai Kek",
+    "type": "city",
+    "lat": 22.441285,
+    "lng": 114.129218,
+    "pop": null
+  },
+  {
+    "nameAr": "Chang'an, Tang Empire",
+    "nameEn": "Chang'an, Tang Empire",
+    "type": "city",
+    "lat": 34.266666666667,
+    "lng": 108.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Changlin Town",
+    "nameEn": "Changlin Town",
+    "type": "city",
+    "lat": 33.1434,
+    "lng": 106.90531,
+    "pop": 0
+  },
+  {
+    "nameAr": "Changqi, Hongjiang",
+    "nameEn": "Changqi, Hongjiang",
+    "type": "city",
+    "lat": 27.2994365,
+    "lng": 110.148534,
+    "pop": null
+  },
+  {
+    "nameAr": "Chaoli Village",
+    "nameEn": "Chaoli Village",
+    "type": "city",
+    "lat": 25.960277777778,
+    "lng": 108.73638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chap Wai Kon",
+    "nameEn": "Chap Wai Kon",
+    "type": "city",
+    "lat": 22.378475,
+    "lng": 114.205821,
+    "pop": null
+  },
+  {
+    "nameAr": "Chashan Linchang",
+    "nameEn": "Chashan Linchang",
+    "type": "city",
+    "lat": 28.65682,
+    "lng": 114.46371,
+    "pop": null
+  },
+  {
+    "nameAr": "Chau Tau",
+    "nameEn": "Chau Tau",
+    "type": "city",
+    "lat": 22.506309,
+    "lng": 114.08376,
+    "pop": null
+  },
+  {
+    "nameAr": "Che Ha",
+    "nameEn": "Che Ha",
+    "type": "city",
+    "lat": 22.430234,
+    "lng": 114.262279,
+    "pop": null
+  },
+  {
+    "nameAr": "Che Keng Tuk",
+    "nameEn": "Che Keng Tuk",
+    "type": "city",
+    "lat": 22.37104,
+    "lng": 114.26587,
+    "pop": null
+  },
+  {
+    "nameAr": "Chek Keng",
+    "nameEn": "Chek Keng",
+    "type": "city",
+    "lat": 22.4215,
+    "lng": 114.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Chek Lap Kok New Village",
+    "nameEn": "Chek Lap Kok New Village",
+    "type": "city",
+    "lat": 22.27668,
+    "lng": 113.9421,
+    "pop": null
+  },
+  {
+    "nameAr": "Chek Nai Ping",
+    "nameEn": "Chek Nai Ping",
+    "type": "city",
+    "lat": 22.42028,
+    "lng": 114.200735,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheliuzhuang zhen",
+    "nameEn": "Cheliuzhuang zhen",
+    "type": "city",
+    "lat": 36.656194444444,
+    "lng": 119.25938888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chepzi",
+    "nameEn": "Chepzi",
+    "type": "city",
+    "lat": 32.5764,
+    "lng": 78.6083,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Hang Village",
+    "nameEn": "Cheung Hang Village",
+    "type": "city",
+    "lat": 22.35227,
+    "lng": 114.14028,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Kang",
+    "nameEn": "Cheung Kang",
+    "type": "city",
+    "lat": 22.429243,
+    "lng": 114.236861,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Kong Tsuen",
+    "nameEn": "Cheung Kong Tsuen",
+    "type": "city",
+    "lat": 22.444896,
+    "lng": 114.073298,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Lek",
+    "nameEn": "Cheung Lek",
+    "type": "city",
+    "lat": 22.4810081,
+    "lng": 114.0992109,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Muk Tau",
+    "nameEn": "Cheung Muk Tau",
+    "type": "city",
+    "lat": 22.42851,
+    "lng": 114.249537,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Po",
+    "nameEn": "Cheung Po",
+    "type": "city",
+    "lat": 22.416774,
+    "lng": 114.072548,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Sheung",
+    "nameEn": "Cheung Sheung",
+    "type": "city",
+    "lat": 22.428947,
+    "lng": 114.309642,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Shue Tan Tsuen",
+    "nameEn": "Cheung Shue Tan Tsuen",
+    "type": "city",
+    "lat": 22.42611,
+    "lng": 114.20055,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheung Uk Tei",
+    "nameEn": "Cheung Uk Tei",
+    "type": "city",
+    "lat": 22.435216,
+    "lng": 114.16145,
+    "pop": null
+  },
+  {
+    "nameAr": "Chi Tong Tsuen",
+    "nameEn": "Chi Tong Tsuen",
+    "type": "city",
+    "lat": 22.439406,
+    "lng": 114.064971,
+    "pop": null
+  },
+  {
+    "nameAr": "Choi Uk Tsuen",
+    "nameEn": "Choi Uk Tsuen",
+    "type": "city",
+    "lat": 22.4481,
+    "lng": 114.037,
+    "pop": null
+  },
+  {
+    "nameAr": "Chongfeng Jingyingsuo",
+    "nameEn": "Chongfeng Jingyingsuo",
+    "type": "city",
+    "lat": 47.80852,
+    "lng": 128.56061,
+    "pop": null
+  },
+  {
+    "nameAr": "Chow Tin Tsuen",
+    "nameEn": "Chow Tin Tsuen",
+    "type": "city",
+    "lat": 22.535984,
+    "lng": 114.145249,
+    "pop": null
+  },
+  {
+    "nameAr": "Chuandong Nongchang",
+    "nameEn": "Chuandong Nongchang",
+    "type": "city",
+    "lat": 32.97427,
+    "lng": 120.72695,
+    "pop": null
+  },
+  {
+    "nameAr": "Chuen Lung",
+    "nameEn": "Chuen Lung",
+    "type": "city",
+    "lat": 22.39297,
+    "lng": 114.1115,
+    "pop": null
+  },
+  {
+    "nameAr": "Chuk Hang",
+    "nameEn": "Chuk Hang",
+    "type": "city",
+    "lat": 22.448574,
+    "lng": 114.09782,
+    "pop": null
+  },
+  {
+    "nameAr": "Chuk Yuen",
+    "nameEn": "Chuk Yuen",
+    "type": "city",
+    "lat": 22.5457048,
+    "lng": 114.1553587,
+    "pop": null
+  },
+  {
+    "nameAr": "Chun Hing San Tsuen",
+    "nameEn": "Chun Hing San Tsuen",
+    "type": "city",
+    "lat": 22.44623,
+    "lng": 114.01785,
+    "pop": null
+  },
+  {
+    "nameAr": "Chung Mei Lo Uk Tsuen",
+    "nameEn": "Chung Mei Lo Uk Tsuen",
+    "type": "city",
+    "lat": 22.351479,
+    "lng": 114.104912,
+    "pop": null
+  },
+  {
+    "nameAr": "Chung Uk Tsuen",
+    "nameEn": "Chung Uk Tsuen",
+    "type": "city",
+    "lat": 22.45507,
+    "lng": 114.14108,
+    "pop": null
+  },
+  {
+    "nameAr": "Dachi Nongchang",
+    "nameEn": "Dachi Nongchang",
+    "type": "city",
+    "lat": 23.38845,
+    "lng": 116.3519,
+    "pop": null
+  },
+  {
+    "nameAr": "Dafang Nongchang",
+    "nameEn": "Dafang Nongchang",
+    "type": "city",
+    "lat": 24.52472,
+    "lng": 117.54389,
+    "pop": null
+  },
+  {
+    "nameAr": "Dafen",
+    "nameEn": "Dafen",
+    "type": "city",
+    "lat": 22.612363,
+    "lng": 114.131601,
+    "pop": null
+  },
+  {
+    "nameAr": "Daheshen",
+    "nameEn": "Daheshen",
+    "type": "city",
+    "lat": 43.348263,
+    "lng": 126.784764,
+    "pop": null
+  },
+  {
+    "nameAr": "Daliang",
+    "nameEn": "Daliang",
+    "type": "city",
+    "lat": 34.8,
+    "lng": 114.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Dalingshan",
+    "nameEn": "Dalingshan",
+    "type": "city",
+    "lat": 22.9097,
+    "lng": 113.83606,
+    "pop": null
+  },
+  {
+    "nameAr": "Danzhai",
+    "nameEn": "Danzhai",
+    "type": "city",
+    "lat": 25.847483050355,
+    "lng": 109.75226998329,
+    "pop": null
+  },
+  {
+    "nameAr": "Daronxi",
+    "nameEn": "Daronxi",
+    "type": "city",
+    "lat": 29.133333333333,
+    "lng": 110.41666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Datongshan Linchang",
+    "nameEn": "Datongshan Linchang",
+    "type": "city",
+    "lat": 29.82177,
+    "lng": 111.10441,
+    "pop": null
+  },
+  {
+    "nameAr": "Daweishan Linchang",
+    "nameEn": "Daweishan Linchang",
+    "type": "city",
+    "lat": 28.48549,
+    "lng": 114.26428,
+    "pop": null
+  },
+  {
+    "nameAr": "Dayou Nongchang",
+    "nameEn": "Dayou Nongchang",
+    "type": "city",
+    "lat": 40.9167,
+    "lng": 121.6071,
+    "pop": null
+  },
+  {
+    "nameAr": "Detian",
+    "nameEn": "Detian",
+    "type": "city",
+    "lat": 22.856176401721,
+    "lng": 106.73078298569,
+    "pop": null
+  },
+  {
+    "nameAr": "Dongfanghong Linchang",
+    "nameEn": "Dongfanghong Linchang",
+    "type": "city",
+    "lat": 48.10626,
+    "lng": 127.62102,
+    "pop": null
+  },
+  {
+    "nameAr": "Donggushan Linchang",
+    "nameEn": "Donggushan Linchang",
+    "type": "city",
+    "lat": 29.43898,
+    "lng": 115.94412,
+    "pop": null
+  },
+  {
+    "nameAr": "Donghai Nongchang",
+    "nameEn": "Donghai Nongchang",
+    "type": "city",
+    "lat": 30.94712,
+    "lng": 121.90324,
+    "pop": null
+  },
+  {
+    "nameAr": "Dongjug",
+    "nameEn": "Dongjug",
+    "type": "city",
+    "lat": 29.96666667,
+    "lng": 94.83333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Donglü",
+    "nameEn": "Donglü",
+    "type": "city",
+    "lat": 38.684444,
+    "lng": 115.561666,
+    "pop": null
+  },
+  {
+    "nameAr": "Dongra",
+    "nameEn": "Dongra",
+    "type": "city",
+    "lat": 29.001,
+    "lng": 90.801,
+    "pop": null
+  },
+  {
+    "nameAr": "Dongshanfeng Nongchang",
+    "nameEn": "Dongshanfeng Nongchang",
+    "type": "city",
+    "lat": 29.92124,
+    "lng": 110.69021,
+    "pop": null
+  },
+  {
+    "nameAr": "Dongsheng Linchang",
+    "nameEn": "Dongsheng Linchang",
+    "type": "city",
+    "lat": 48.50855,
+    "lng": 129.30905,
+    "pop": null
+  },
+  {
+    "nameAr": "E’tinghe Linchang",
+    "nameEn": "E’tinghe Linchang",
+    "type": "city",
+    "lat": 49.02182,
+    "lng": 129.03088,
+    "pop": null
+  },
+  {
+    "nameAr": "Erlongshan Linchang",
+    "nameEn": "Erlongshan Linchang",
+    "type": "city",
+    "lat": 48.53511,
+    "lng": 129.21416,
+    "pop": null
+  },
+  {
+    "nameAr": "Eryang Jingyingsuo",
+    "nameEn": "Eryang Jingyingsuo",
+    "type": "city",
+    "lat": 48.14783,
+    "lng": 129.38787,
+    "pop": null
+  },
+  {
+    "nameAr": "Fa Peng",
+    "nameEn": "Fa Peng",
+    "type": "city",
+    "lat": 22.330028,
+    "lng": 114.05588,
+    "pop": null
+  },
+  {
+    "nameAr": "Fa Sam Hang",
+    "nameEn": "Fa Sam Hang",
+    "type": "city",
+    "lat": 22.38163,
+    "lng": 114.22209,
+    "pop": null
+  },
+  {
+    "nameAr": "Fan Leng Lau",
+    "nameEn": "Fan Leng Lau",
+    "type": "city",
+    "lat": 22.4973,
+    "lng": 114.141,
+    "pop": null
+  },
+  {
+    "nameAr": "Fan Tin Tsuen",
+    "nameEn": "Fan Tin Tsuen",
+    "type": "city",
+    "lat": 22.499152,
+    "lng": 114.074867,
+    "pop": null
+  },
+  {
+    "nameAr": "Fanling–Sheung Shui New Town",
+    "nameEn": "Fanling–Sheung Shui New Town",
+    "type": "city",
+    "lat": 22.5017,
+    "lng": 114.129,
+    "pop": null
+  },
+  {
+    "nameAr": "Fat Tau Chau Village",
+    "nameEn": "Fat Tau Chau Village",
+    "type": "city",
+    "lat": 22.31395,
+    "lng": 114.268706,
+    "pop": null
+  },
+  {
+    "nameAr": "Fendou Jingyingsuo",
+    "nameEn": "Fendou Jingyingsuo",
+    "type": "city",
+    "lat": 47.27537,
+    "lng": 129.10806,
+    "pop": null
+  },
+  {
+    "nameAr": "Fenggou Jingyingsuo",
+    "nameEn": "Fenggou Jingyingsuo",
+    "type": "city",
+    "lat": 47.39772,
+    "lng": 129.64512,
+    "pop": null
+  },
+  {
+    "nameAr": "Fengli Linchang",
+    "nameEn": "Fengli Linchang",
+    "type": "city",
+    "lat": 47.62159,
+    "lng": 129.42443,
+    "pop": null
+  },
+  {
+    "nameAr": "Fenglin Linchang",
+    "nameEn": "Fenglin Linchang",
+    "type": "city",
+    "lat": 47.41785,
+    "lng": 129.72933,
+    "pop": null
+  },
+  {
+    "nameAr": "Fengling Linchang",
+    "nameEn": "Fengling Linchang",
+    "type": "city",
+    "lat": 47.48914,
+    "lng": 129.70002,
+    "pop": null
+  },
+  {
+    "nameAr": "Fengmao Linchang",
+    "nameEn": "Fengmao Linchang",
+    "type": "city",
+    "lat": 47.34688,
+    "lng": 129.60316,
+    "pop": null
+  },
+  {
+    "nameAr": "Fengnan Nongchang",
+    "nameEn": "Fengnan Nongchang",
+    "type": "city",
+    "lat": 24.68115,
+    "lng": 118.07128,
+    "pop": null
+  },
+  {
+    "nameAr": "Fo Tan Village",
+    "nameEn": "Fo Tan Village",
+    "type": "city",
+    "lat": 22.395052,
+    "lng": 114.195872,
+    "pop": null
+  },
+  {
+    "nameAr": "Fong Ma Po",
+    "nameEn": "Fong Ma Po",
+    "type": "city",
+    "lat": 22.456555,
+    "lng": 114.14134,
+    "pop": null
+  },
+  {
+    "nameAr": "Fraser Village",
+    "nameEn": "Fraser Village",
+    "type": "city",
+    "lat": 22.43574,
+    "lng": 114.02851,
+    "pop": null
+  },
+  {
+    "nameAr": "Fu Tei Pai",
+    "nameEn": "Fu Tei Pai",
+    "type": "city",
+    "lat": 22.506977,
+    "lng": 114.163672,
+    "pop": null
+  },
+  {
+    "nameAr": "Fu Tei Tsuen",
+    "nameEn": "Fu Tei Tsuen",
+    "type": "city",
+    "lat": 22.413892,
+    "lng": 113.987071,
+    "pop": null
+  },
+  {
+    "nameAr": "Fu Yung Pei",
+    "nameEn": "Fu Yung Pei",
+    "type": "city",
+    "lat": 22.367048,
+    "lng": 114.219283,
+    "pop": null
+  },
+  {
+    "nameAr": "Fui Yiu Ha New Village",
+    "nameEn": "Fui Yiu Ha New Village",
+    "type": "city",
+    "lat": 22.375954,
+    "lng": 114.197052,
+    "pop": null
+  },
+  {
+    "nameAr": "Fuk Hang Tsuen",
+    "nameEn": "Fuk Hang Tsuen",
+    "type": "city",
+    "lat": 22.41783,
+    "lng": 113.98937,
+    "pop": null
+  },
+  {
+    "nameAr": "Fuk Hing Tsuen",
+    "nameEn": "Fuk Hing Tsuen",
+    "type": "city",
+    "lat": 22.454987,
+    "lng": 114.02578,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Chi Tsuen",
+    "nameEn": "Fung Chi Tsuen",
+    "type": "city",
+    "lat": 22.447589,
+    "lng": 114.020314,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Hang",
+    "nameEn": "Fung Hang",
+    "type": "city",
+    "lat": 22.528076,
+    "lng": 114.225667,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Kat Heung",
+    "nameEn": "Fung Kat Heung",
+    "type": "city",
+    "lat": 22.45632,
+    "lng": 114.0583,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Kong Tsuen",
+    "nameEn": "Fung Kong Tsuen",
+    "type": "city",
+    "lat": 22.457809,
+    "lng": 113.98605,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Mei Wai",
+    "nameEn": "Fung Mei Wai",
+    "type": "city",
+    "lat": 22.46085,
+    "lng": 114.17880833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Wong Wu",
+    "nameEn": "Fung Wong Wu",
+    "type": "city",
+    "lat": 22.537066,
+    "lng": 114.147442,
+    "pop": null
+  },
+  {
+    "nameAr": "Fung Yuen",
+    "nameEn": "Fung Yuen",
+    "type": "city",
+    "lat": 22.46163,
+    "lng": 114.18049,
+    "pop": null
+  },
+  {
+    "nameAr": "Fuqi",
+    "nameEn": "Fuqi",
+    "type": "city",
+    "lat": 37.02636,
+    "lng": 99.58279,
+    "pop": null
+  },
+  {
+    "nameAr": "Furong Nongchang",
+    "nameEn": "Furong Nongchang",
+    "type": "city",
+    "lat": 29.85676,
+    "lng": 116.47841,
+    "pop": null
+  },
+  {
+    "nameAr": "Fuyuhe Jingyingsuo",
+    "nameEn": "Fuyuhe Jingyingsuo",
+    "type": "city",
+    "lat": 47.67676,
+    "lng": 128.50074,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaofeng Linchang",
+    "nameEn": "Gaofeng Linchang",
+    "type": "city",
+    "lat": 47.8813,
+    "lng": 129.83139,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaojiayan zhen",
+    "nameEn": "Gaojiayan zhen",
+    "type": "city",
+    "lat": 33.424584146696,
+    "lng": 118.87987238666,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaoqian Village",
+    "nameEn": "Gaoqian Village",
+    "type": "city",
+    "lat": 25.855,
+    "lng": 108.67527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaoshang Village",
+    "nameEn": "Gaoshang Village",
+    "type": "city",
+    "lat": 26.026944444444,
+    "lng": 108.69055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaosheng Village",
+    "nameEn": "Gaosheng Village",
+    "type": "city",
+    "lat": 26.026944444444,
+    "lng": 108.69055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaoxiu Village",
+    "nameEn": "Gaoxiu Village",
+    "type": "city",
+    "lat": 26.157222222222,
+    "lng": 109.70305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaoyou Village",
+    "nameEn": "Gaoyou Village",
+    "type": "city",
+    "lat": 25.983888888889,
+    "lng": 109.87638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Gongqing Jingyingsuo",
+    "nameEn": "Gongqing Jingyingsuo",
+    "type": "city",
+    "lat": 48.14026,
+    "lng": 129.47415,
+    "pop": null
+  },
+  {
+    "nameAr": "Gongqing Nongchang",
+    "nameEn": "Gongqing Nongchang",
+    "type": "city",
+    "lat": 47.57153,
+    "lng": 130.69404,
+    "pop": null
+  },
+  {
+    "nameAr": "Gongqingtuan Nongchang",
+    "nameEn": "Gongqingtuan Nongchang",
+    "type": "city",
+    "lat": 44.29205,
+    "lng": 87.43188,
+    "pop": null
+  },
+  {
+    "nameAr": "Guanshan Linchang",
+    "nameEn": "Guanshan Linchang",
+    "type": "city",
+    "lat": 28.5023,
+    "lng": 114.544,
+    "pop": null
+  },
+  {
+    "nameAr": "Gubei Water Village",
+    "nameEn": "Gubei Water Village",
+    "type": "city",
+    "lat": 40.6515,
+    "lng": 117.2702,
+    "pop": null
+  },
+  {
+    "nameAr": "Guling, Jiujiang",
+    "nameEn": "Guling, Jiujiang",
+    "type": "city",
+    "lat": 29.570277777778,
+    "lng": 115.97666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gungnae",
+    "nameEn": "Gungnae",
+    "type": "city",
+    "lat": 41.12083333,
+    "lng": 126.17861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Che",
+    "nameEn": "Ha Che",
+    "type": "city",
+    "lat": 22.449127,
+    "lng": 114.093804,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Hang",
+    "nameEn": "Ha Hang",
+    "type": "city",
+    "lat": 22.463099,
+    "lng": 114.185903,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Keng Hau",
+    "nameEn": "Ha Keng Hau",
+    "type": "city",
+    "lat": 22.365059,
+    "lng": 114.175948,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Kwai Chung",
+    "nameEn": "Ha Kwai Chung",
+    "type": "city",
+    "lat": 22.35562,
+    "lng": 114.1315,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Ling Pei",
+    "nameEn": "Ha Ling Pei",
+    "type": "city",
+    "lat": 22.277891,
+    "lng": 113.935219,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Mei San Tsuen",
+    "nameEn": "Ha Mei San Tsuen",
+    "type": "city",
+    "lat": 22.454059,
+    "lng": 114.010297,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Shan Kai Wat",
+    "nameEn": "Ha Shan Kai Wat",
+    "type": "city",
+    "lat": 22.522589,
+    "lng": 114.153312,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Tei Ha",
+    "nameEn": "Ha Tei Ha",
+    "type": "city",
+    "lat": 22.465139,
+    "lng": 114.20377,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Tsuen Shi",
+    "nameEn": "Ha Tsuen Shi",
+    "type": "city",
+    "lat": 22.447125,
+    "lng": 113.992639,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Wan Tsuen",
+    "nameEn": "Ha Wan Tsuen",
+    "type": "city",
+    "lat": 22.515084,
+    "lng": 114.073742,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Wo Hang",
+    "nameEn": "Ha Wo Hang",
+    "type": "city",
+    "lat": 22.527322,
+    "lng": 114.198658,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Wong Yi Au",
+    "nameEn": "Ha Wong Yi Au",
+    "type": "city",
+    "lat": 22.441985,
+    "lng": 114.175226,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Yau Tin Tsuen",
+    "nameEn": "Ha Yau Tin Tsuen",
+    "type": "city",
+    "lat": 22.439297,
+    "lng": 114.036619,
+    "pop": null
+  },
+  {
+    "nameAr": "Ha Yeung",
+    "nameEn": "Ha Yeung",
+    "type": "city",
+    "lat": 22.304332,
+    "lng": 114.286545,
+    "pop": null
+  },
+  {
+    "nameAr": "Haba",
+    "nameEn": "Haba",
+    "type": "city",
+    "lat": 27.3768,
+    "lng": 100.1383,
+    "pop": null
+  },
+  {
+    "nameAr": "Haifeng Nongchang",
+    "nameEn": "Haifeng Nongchang",
+    "type": "city",
+    "lat": 33.32728,
+    "lng": 120.57037,
+    "pop": null
+  },
+  {
+    "nameAr": "Ham Tin",
+    "nameEn": "Ham Tin",
+    "type": "city",
+    "lat": 22.411532,
+    "lng": 114.376068,
+    "pop": null
+  },
+  {
+    "nameAr": "Ham Tin Tsuen",
+    "nameEn": "Ham Tin Tsuen",
+    "type": "city",
+    "lat": 22.372006,
+    "lng": 114.129137,
+    "pop": null
+  },
+  {
+    "nameAr": "Handan, Zhao",
+    "nameEn": "Handan, Zhao",
+    "type": "city",
+    "lat": 36.572743,
+    "lng": 114.435679,
+    "pop": null
+  },
+  {
+    "nameAr": "Hang Ha Po",
+    "nameEn": "Hang Ha Po",
+    "type": "city",
+    "lat": 22.458259,
+    "lng": 114.144258,
+    "pop": null
+  },
+  {
+    "nameAr": "Hang Hau Village",
+    "nameEn": "Hang Hau Village",
+    "type": "city",
+    "lat": 22.32103,
+    "lng": 114.26656,
+    "pop": null
+  },
+  {
+    "nameAr": "Hang Mei Tsuen",
+    "nameEn": "Hang Mei Tsuen",
+    "type": "city",
+    "lat": 22.444451,
+    "lng": 114.0081,
+    "pop": null
+  },
+  {
+    "nameAr": "Hang Tau",
+    "nameEn": "Hang Tau",
+    "type": "city",
+    "lat": 22.491416,
+    "lng": 114.102238,
+    "pop": null
+  },
+  {
+    "nameAr": "Hang Tau Tsuen",
+    "nameEn": "Hang Tau Tsuen",
+    "type": "city",
+    "lat": 22.445592,
+    "lng": 114.008304,
+    "pop": null
+  },
+  {
+    "nameAr": "Hanyue Linchang",
+    "nameEn": "Hanyue Linchang",
+    "type": "city",
+    "lat": 47.2271,
+    "lng": 128.81199,
+    "pop": null
+  },
+  {
+    "nameAr": "Heheng",
+    "nameEn": "Heheng",
+    "type": "city",
+    "lat": 32.6,
+    "lng": 120.13333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hengling Village",
+    "nameEn": "Hengling Village",
+    "type": "city",
+    "lat": 26.067777777778,
+    "lng": 109.72166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hepu",
+    "nameEn": "Hepu",
+    "type": "city",
+    "lat": 29.7064495,
+    "lng": 91.5240326,
+    "pop": null
+  },
+  {
+    "nameAr": "Heung Chung",
+    "nameEn": "Heung Chung",
+    "type": "city",
+    "lat": 22.352592,
+    "lng": 114.25263,
+    "pop": null
+  },
+  {
+    "nameAr": "Heung Fan Liu New Village",
+    "nameEn": "Heung Fan Liu New Village",
+    "type": "city",
+    "lat": 22.377103,
+    "lng": 114.168134,
+    "pop": null
+  },
+  {
+    "nameAr": "Hin Tin",
+    "nameEn": "Hin Tin",
+    "type": "city",
+    "lat": 22.362394,
+    "lng": 114.172475,
+    "pop": null
+  },
+  {
+    "nameAr": "Ho Chung",
+    "nameEn": "Ho Chung",
+    "type": "city",
+    "lat": 22.355611111111,
+    "lng": 114.24663055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ho Lek Pui",
+    "nameEn": "Ho Lek Pui",
+    "type": "city",
+    "lat": 22.410555,
+    "lng": 114.182364,
+    "pop": null
+  },
+  {
+    "nameAr": "Ho Pui",
+    "nameEn": "Ho Pui",
+    "type": "city",
+    "lat": 22.4132882,
+    "lng": 114.0673469,
+    "pop": null
+  },
+  {
+    "nameAr": "Ho Pui Tsuen",
+    "nameEn": "Ho Pui Tsuen",
+    "type": "city",
+    "lat": 22.371578,
+    "lng": 114.126311,
+    "pop": null
+  },
+  {
+    "nameAr": "Ho Tin Tsuen",
+    "nameEn": "Ho Tin Tsuen",
+    "type": "city",
+    "lat": 22.399567,
+    "lng": 113.964859,
+    "pop": null
+  },
+  {
+    "nameAr": "Hoi Pa Resite Village",
+    "nameEn": "Hoi Pa Resite Village",
+    "type": "city",
+    "lat": 22.37859,
+    "lng": 114.12782,
+    "pop": null
+  },
+  {
+    "nameAr": "Hok Tau Wai",
+    "nameEn": "Hok Tau Wai",
+    "type": "city",
+    "lat": 22.501323,
+    "lng": 114.174216,
+    "pop": null
+  },
+  {
+    "nameAr": "Hong Chi Pinehill Village",
+    "nameEn": "Hong Chi Pinehill Village",
+    "type": "city",
+    "lat": 22.462639840758,
+    "lng": 114.17304933071,
+    "pop": null
+  },
+  {
+    "nameAr": "Hong Mei Tsuen",
+    "nameEn": "Hong Mei Tsuen",
+    "type": "city",
+    "lat": 22.452409,
+    "lng": 113.991887,
+    "pop": null
+  },
+  {
+    "nameAr": "Hongguang Linchang",
+    "nameEn": "Hongguang Linchang",
+    "type": "city",
+    "lat": 48.13769,
+    "lng": 127.55015,
+    "pop": null
+  },
+  {
+    "nameAr": "Hongxing Nongchang",
+    "nameEn": "Hongxing Nongchang",
+    "type": "city",
+    "lat": 20.385277777778,
+    "lng": 110.34777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Huanben Nongchang",
+    "nameEn": "Huanben Nongchang",
+    "type": "city",
+    "lat": 32.18357,
+    "lng": 121.336,
+    "pop": null
+  },
+  {
+    "nameAr": "Huanghu Nongchang",
+    "nameEn": "Huanghu Nongchang",
+    "type": "city",
+    "lat": 30.696944444444,
+    "lng": 114.82583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Huangnitang",
+    "nameEn": "Huangnitang",
+    "type": "city",
+    "lat": 28.83194444,
+    "lng": 118.64138889,
+    "pop": null
+  },
+  {
+    "nameAr": "Huanling Jingyingsuo",
+    "nameEn": "Huanling Jingyingsuo",
+    "type": "city",
+    "lat": 47.68396,
+    "lng": 129.00707,
+    "pop": null
+  },
+  {
+    "nameAr": "Huapiqiangzi Linchang",
+    "nameEn": "Huapiqiangzi Linchang",
+    "type": "city",
+    "lat": 47.98302,
+    "lng": 129.50531,
+    "pop": null
+  },
+  {
+    "nameAr": "Huayang Jingyingsuo",
+    "nameEn": "Huayang Jingyingsuo",
+    "type": "city",
+    "lat": 47.05755,
+    "lng": 129.51586,
+    "pop": null
+  },
+  {
+    "nameAr": "Hung Leng",
+    "nameEn": "Hung Leng",
+    "type": "city",
+    "lat": 22.514732,
+    "lng": 114.167813,
+    "pop": null
+  },
+  {
+    "nameAr": "Hung Tso Tin Tsuen",
+    "nameEn": "Hung Tso Tin Tsuen",
+    "type": "city",
+    "lat": 22.424911,
+    "lng": 114.030526,
+    "pop": null
+  },
+  {
+    "nameAr": "Hung Uk Tsuen",
+    "nameEn": "Hung Uk Tsuen",
+    "type": "city",
+    "lat": 22.441679,
+    "lng": 114.003405,
+    "pop": null
+  },
+  {
+    "nameAr": "Hunjiang City",
+    "nameEn": "Hunjiang City",
+    "type": "city",
+    "lat": 41.936895,
+    "lng": 126.4183792,
+    "pop": null
+  },
+  {
+    "nameAr": "Jianxin Linchang",
+    "nameEn": "Jianxin Linchang",
+    "type": "city",
+    "lat": 48.62235,
+    "lng": 129.50126,
+    "pop": null
+  },
+  {
+    "nameAr": "Jianye Nongchang",
+    "nameEn": "Jianye Nongchang",
+    "type": "city",
+    "lat": 48.21706,
+    "lng": 126.08243,
+    "pop": null
+  },
+  {
+    "nameAr": "Jiefang Jingyingsuo",
+    "nameEn": "Jiefang Jingyingsuo",
+    "type": "city",
+    "lat": 47.51226,
+    "lng": 128.49526,
+    "pop": null
+  },
+  {
+    "nameAr": "Jin Jin Sume",
+    "nameEn": "Jin Jin Sume",
+    "type": "city",
+    "lat": 47.907389631052,
+    "lng": 118.94466425047,
+    "pop": null
+  },
+  {
+    "nameAr": "Jingzhucun",
+    "nameEn": "Jingzhucun",
+    "type": "city",
+    "lat": 29.381839083538,
+    "lng": 107.74880710795,
+    "pop": null
+  },
+  {
+    "nameAr": "Jinxing Nongchang",
+    "nameEn": "Jinxing Nongchang",
+    "type": "city",
+    "lat": 20.66861,
+    "lng": 110.13694,
+    "pop": null
+  },
+  {
+    "nameAr": "Jishan Nongchang",
+    "nameEn": "Jishan Nongchang",
+    "type": "city",
+    "lat": 21.91354,
+    "lng": 112.23657,
+    "pop": null
+  },
+  {
+    "nameAr": "Junling Linchang",
+    "nameEn": "Junling Linchang",
+    "type": "city",
+    "lat": 48.60175,
+    "lng": 129.61244,
+    "pop": null
+  },
+  {
+    "nameAr": "Kai Ham",
+    "nameEn": "Kai Ham",
+    "type": "city",
+    "lat": 22.35886,
+    "lng": 114.236592,
+    "pop": null
+  },
+  {
+    "nameAr": "Kai Kuk Shue Ha",
+    "nameEn": "Kai Kuk Shue Ha",
+    "type": "city",
+    "lat": 22.524216,
+    "lng": 114.219906,
+    "pop": null
+  },
+  {
+    "nameAr": "Kai Leng",
+    "nameEn": "Kai Leng",
+    "type": "city",
+    "lat": 22.493964,
+    "lng": 114.129764,
+    "pop": null
+  },
+  {
+    "nameAr": "Kak Tin",
+    "nameEn": "Kak Tin",
+    "type": "city",
+    "lat": 22.367575,
+    "lng": 114.183386,
+    "pop": null
+  },
+  {
+    "nameAr": "Kam Shan Tsuen",
+    "nameEn": "Kam Shan Tsuen",
+    "type": "city",
+    "lat": 22.4481,
+    "lng": 114.15956,
+    "pop": null
+  },
+  {
+    "nameAr": "Kam Shek New Village",
+    "nameEn": "Kam Shek New Village",
+    "type": "city",
+    "lat": 22.44915,
+    "lng": 114.15836,
+    "pop": null
+  },
+  {
+    "nameAr": "Kam Tin Shi",
+    "nameEn": "Kam Tin Shi",
+    "type": "city",
+    "lat": 22.44058,
+    "lng": 114.061578,
+    "pop": null
+  },
+  {
+    "nameAr": "Kam Tin Shing Mun San Tsuen",
+    "nameEn": "Kam Tin Shing Mun San Tsuen",
+    "type": "city",
+    "lat": 22.440673,
+    "lng": 114.066458,
+    "pop": null
+  },
+  {
+    "nameAr": "Kam Tsin",
+    "nameEn": "Kam Tsin",
+    "type": "city",
+    "lat": 22.500462,
+    "lng": 114.111995,
+    "pop": null
+  },
+  {
+    "nameAr": "Kam Tsin Wai",
+    "nameEn": "Kam Tsin Wai",
+    "type": "city",
+    "lat": 22.43307,
+    "lng": 114.07459,
+    "pop": null
+  },
+  {
+    "nameAr": "Kan Tau Tsuen",
+    "nameEn": "Kan Tau Tsuen",
+    "type": "city",
+    "lat": 22.515366,
+    "lng": 114.173408,
+    "pop": null
+  },
+  {
+    "nameAr": "Kan Tau Wai",
+    "nameEn": "Kan Tau Wai",
+    "type": "city",
+    "lat": 22.539289,
+    "lng": 114.150024,
+    "pop": null
+  },
+  {
+    "nameAr": "Kap Tong",
+    "nameEn": "Kap Tong",
+    "type": "city",
+    "lat": 22.5169,
+    "lng": 114.259,
+    "pop": null
+  },
+  {
+    "nameAr": "Kau Liu Ha",
+    "nameEn": "Kau Liu Ha",
+    "type": "city",
+    "lat": 22.459545,
+    "lng": 114.144991,
+    "pop": null
+  },
+  {
+    "nameAr": "Kau Lung Hang",
+    "nameEn": "Kau Lung Hang",
+    "type": "city",
+    "lat": 22.480088,
+    "lng": 114.158986,
+    "pop": null
+  },
+  {
+    "nameAr": "Kau Sai San Tsuen",
+    "nameEn": "Kau Sai San Tsuen",
+    "type": "city",
+    "lat": 22.364365,
+    "lng": 114.258739,
+    "pop": null
+  },
+  {
+    "nameAr": "Kau Tam Tso",
+    "nameEn": "Kau Tam Tso",
+    "type": "city",
+    "lat": 22.503802,
+    "lng": 114.247871,
+    "pop": null
+  },
+  {
+    "nameAr": "Kau To Village",
+    "nameEn": "Kau To Village",
+    "type": "city",
+    "lat": 22.410071,
+    "lng": 114.202627,
+    "pop": null
+  },
+  {
+    "nameAr": "Kau Wa Keng",
+    "nameEn": "Kau Wa Keng",
+    "type": "city",
+    "lat": 22.3455,
+    "lng": 114.13686,
+    "pop": null
+  },
+  {
+    "nameAr": "Kei Lun Wai",
+    "nameEn": "Kei Lun Wai",
+    "type": "city",
+    "lat": 22.41175,
+    "lng": 113.97547,
+    "pop": null
+  },
+  {
+    "nameAr": "Kezhong Village",
+    "nameEn": "Kezhong Village",
+    "type": "city",
+    "lat": 26.026944444444,
+    "lng": 108.69055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ko Lau Wan",
+    "nameEn": "Ko Lau Wan",
+    "type": "city",
+    "lat": 22.459544,
+    "lng": 114.361737,
+    "pop": null
+  },
+  {
+    "nameAr": "Ko Long",
+    "nameEn": "Ko Long",
+    "type": "city",
+    "lat": 22.22352,
+    "lng": 114.113101,
+    "pop": null
+  },
+  {
+    "nameAr": "Ko Po Tsuen",
+    "nameEn": "Ko Po Tsuen",
+    "type": "city",
+    "lat": 22.51081,
+    "lng": 114.167591,
+    "pop": null
+  },
+  {
+    "nameAr": "Ko Tong",
+    "nameEn": "Ko Tong",
+    "type": "city",
+    "lat": 22.431432,
+    "lng": 114.327045,
+    "pop": null
+  },
+  {
+    "nameAr": "Ko Tong Ha Yeung",
+    "nameEn": "Ko Tong Ha Yeung",
+    "type": "city",
+    "lat": 22.435865,
+    "lng": 114.3306,
+    "pop": null
+  },
+  {
+    "nameAr": "Kong Ha",
+    "nameEn": "Kong Ha",
+    "type": "city",
+    "lat": 22.5475,
+    "lng": 114.224,
+    "pop": null
+  },
+  {
+    "nameAr": "Kong Pui",
+    "nameEn": "Kong Pui",
+    "type": "city",
+    "lat": 22.364882,
+    "lng": 114.211502,
+    "pop": null
+  },
+  {
+    "nameAr": "Kong Tau Tsuen",
+    "nameEn": "Kong Tau Tsuen",
+    "type": "city",
+    "lat": 22.433852,
+    "lng": 114.036273,
+    "pop": null
+  },
+  {
+    "nameAr": "Kung Man Village",
+    "nameEn": "Kung Man Village",
+    "type": "city",
+    "lat": 22.280733,
+    "lng": 114.120947,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwan Mun Hau Tsuen",
+    "nameEn": "Kwan Mun Hau Tsuen",
+    "type": "city",
+    "lat": 22.371899,
+    "lng": 114.12405,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwan Tei",
+    "nameEn": "Kwan Tei",
+    "type": "city",
+    "lat": 22.509370106798,
+    "lng": 114.16031706203,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwong Shan Tsuen",
+    "nameEn": "Kwong Shan Tsuen",
+    "type": "city",
+    "lat": 22.412181,
+    "lng": 113.965857,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwu Hang",
+    "nameEn": "Kwu Hang",
+    "type": "city",
+    "lat": 22.374829,
+    "lng": 114.136142,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwun Hang",
+    "nameEn": "Kwun Hang",
+    "type": "city",
+    "lat": 22.428468,
+    "lng": 114.259759,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwun Yam Shan",
+    "nameEn": "Kwun Yam Shan",
+    "type": "city",
+    "lat": 22.364002,
+    "lng": 114.214738,
+    "pop": null
+  },
+  {
+    "nameAr": "Lai Chi Chong",
+    "nameEn": "Lai Chi Chong",
+    "type": "city",
+    "lat": 22.451412,
+    "lng": 114.300959,
+    "pop": null
+  },
+  {
+    "nameAr": "Lai Chi Shan",
+    "nameEn": "Lai Chi Shan",
+    "type": "city",
+    "lat": 22.437724,
+    "lng": 114.165477,
+    "pop": null
+  },
+  {
+    "nameAr": "Lai Pek Shan",
+    "nameEn": "Lai Pek Shan",
+    "type": "city",
+    "lat": 22.48997,
+    "lng": 114.21516,
+    "pop": null
+  },
+  {
+    "nameAr": "Lai Pek Shan San Tsuen",
+    "nameEn": "Lai Pek Shan San Tsuen",
+    "type": "city",
+    "lat": 22.474965,
+    "lng": 114.212183,
+    "pop": null
+  },
+  {
+    "nameAr": "Lai Tau Shek",
+    "nameEn": "Lai Tau Shek",
+    "type": "city",
+    "lat": 22.510492,
+    "lng": 114.267765,
+    "pop": null
+  },
+  {
+    "nameAr": "Lam Tin Resite Village",
+    "nameEn": "Lam Tin Resite Village",
+    "type": "city",
+    "lat": 22.35181,
+    "lng": 114.100515,
+    "pop": null
+  },
+  {
+    "nameAr": "Lam Tsuen San Tsuen",
+    "nameEn": "Lam Tsuen San Tsuen",
+    "type": "city",
+    "lat": 22.449937,
+    "lng": 114.138314,
+    "pop": null
+  },
+  {
+    "nameAr": "Lam Uk Tsuen",
+    "nameEn": "Lam Uk Tsuen",
+    "type": "city",
+    "lat": 22.452994,
+    "lng": 114.027148,
+    "pop": null
+  },
+  {
+    "nameAr": "Lan Nai Wan",
+    "nameEn": "Lan Nai Wan",
+    "type": "city",
+    "lat": 22.389905,
+    "lng": 114.33676194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Lau Shui Heung",
+    "nameEn": "Lau Shui Heung",
+    "type": "city",
+    "lat": 22.500678,
+    "lng": 114.168351,
+    "pop": null
+  },
+  {
+    "nameAr": "Lei Uk Tsuen",
+    "nameEn": "Lei Uk Tsuen",
+    "type": "city",
+    "lat": 22.5353123,
+    "lng": 114.1487814,
+    "pop": null
+  },
+  {
+    "nameAr": "Leng Pei Tsuen",
+    "nameEn": "Leng Pei Tsuen",
+    "type": "city",
+    "lat": 22.5152876,
+    "lng": 114.1772642,
+    "pop": null
+  },
+  {
+    "nameAr": "Leng Tsai",
+    "nameEn": "Leng Tsai",
+    "type": "city",
+    "lat": 22.517599,
+    "lng": 114.1715,
+    "pop": null
+  },
+  {
+    "nameAr": "Leung Tin Village",
+    "nameEn": "Leung Tin Village",
+    "type": "city",
+    "lat": 22.399204,
+    "lng": 113.978254,
+    "pop": null
+  },
+  {
+    "nameAr": "Leung Uk",
+    "nameEn": "Leung Uk",
+    "type": "city",
+    "lat": 22.248168,
+    "lng": 113.865267,
+    "pop": null
+  },
+  {
+    "nameAr": "Liangzihe Linchang",
+    "nameEn": "Liangzihe Linchang",
+    "type": "city",
+    "lat": 46.96166,
+    "lng": 129.28745,
+    "pop": null
+  },
+  {
+    "nameAr": "Liaozhong",
+    "nameEn": "Liaozhong",
+    "type": "city",
+    "lat": 41.506111111111,
+    "lng": 122.72416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Lin Au",
+    "nameEn": "Lin Au",
+    "type": "city",
+    "lat": 22.443154,
+    "lng": 114.14667,
+    "pop": null
+  },
+  {
+    "nameAr": "Lin Fa Tei",
+    "nameEn": "Lin Fa Tei",
+    "type": "city",
+    "lat": 22.4277,
+    "lng": 114.08579,
+    "pop": null
+  },
+  {
+    "nameAr": "Lin Ma Hang",
+    "nameEn": "Lin Ma Hang",
+    "type": "city",
+    "lat": 22.5513,
+    "lng": 114.183,
+    "pop": null
+  },
+  {
+    "nameAr": "Lin Tong Mei",
+    "nameEn": "Lin Tong Mei",
+    "type": "city",
+    "lat": 22.482195,
+    "lng": 114.110568,
+    "pop": null
+  },
+  {
+    "nameAr": "Lingjing Town",
+    "nameEn": "Lingjing Town",
+    "type": "city",
+    "lat": 34.06854,
+    "lng": 113.68523,
+    "pop": null
+  },
+  {
+    "nameAr": "Linhai Linchang",
+    "nameEn": "Linhai Linchang",
+    "type": "city",
+    "lat": 48.72682,
+    "lng": 129.64996,
+    "pop": null
+  },
+  {
+    "nameAr": "Liu Pok",
+    "nameEn": "Liu Pok",
+    "type": "city",
+    "lat": 22.52758,
+    "lng": 114.105039,
+    "pop": null
+  },
+  {
+    "nameAr": "Liu To Village",
+    "nameEn": "Liu To Village",
+    "type": "city",
+    "lat": 22.351798,
+    "lng": 114.097786,
+    "pop": null
+  },
+  {
+    "nameAr": "Lo Shue Tin",
+    "nameEn": "Lo Shue Tin",
+    "type": "city",
+    "lat": 22.3709598,
+    "lng": 114.2230413,
+    "pop": null
+  },
+  {
+    "nameAr": "Lo So Shing",
+    "nameEn": "Lo So Shing",
+    "type": "city",
+    "lat": 22.205282,
+    "lng": 114.124987,
+    "pop": null
+  },
+  {
+    "nameAr": "Lo Tik Wan",
+    "nameEn": "Lo Tik Wan",
+    "type": "city",
+    "lat": 22.223651,
+    "lng": 114.125233,
+    "pop": null
+  },
+  {
+    "nameAr": "Lo Tsz Tin",
+    "nameEn": "Lo Tsz Tin",
+    "type": "city",
+    "lat": 22.473825,
+    "lng": 114.225988,
+    "pop": null
+  },
+  {
+    "nameAr": "Lo Uk Tsuen",
+    "nameEn": "Lo Uk Tsuen",
+    "type": "city",
+    "lat": 22.451731,
+    "lng": 113.993579,
+    "pop": null
+  },
+  {
+    "nameAr": "Lo Wai",
+    "nameEn": "Lo Wai",
+    "type": "city",
+    "lat": 22.37952,
+    "lng": 114.12532,
+    "pop": null
+  },
+  {
+    "nameAr": "Loi Tung",
+    "nameEn": "Loi Tung",
+    "type": "city",
+    "lat": 22.514732,
+    "lng": 114.167813,
+    "pop": null
+  },
+  {
+    "nameAr": "Lok Lo Ha",
+    "nameEn": "Lok Lo Ha",
+    "type": "city",
+    "lat": 22.4019,
+    "lng": 114.201,
+    "pop": null
+  },
+  {
+    "nameAr": "Lok Ma Chau Village",
+    "nameEn": "Lok Ma Chau Village",
+    "type": "city",
+    "lat": 22.513284,
+    "lng": 114.079721,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Keng",
+    "nameEn": "Long Keng",
+    "type": "city",
+    "lat": 22.399204,
+    "lng": 114.282286,
+    "pop": null
+  },
+  {
+    "nameAr": "Longju",
+    "nameEn": "Longju",
+    "type": "city",
+    "lat": 28.6404479,
+    "lng": 93.3817051,
+    "pop": null
+  },
+  {
+    "nameAr": "Luen On San Tsuen",
+    "nameEn": "Luen On San Tsuen",
+    "type": "city",
+    "lat": 22.364867,
+    "lng": 114.019384,
+    "pop": null
+  },
+  {
+    "nameAr": "Luen Yick Fishermen Village",
+    "nameEn": "Luen Yick Fishermen Village",
+    "type": "city",
+    "lat": 22.455746,
+    "lng": 114.215097,
+    "pop": null
+  },
+  {
+    "nameAr": "Lui Kung Tin",
+    "nameEn": "Lui Kung Tin",
+    "type": "city",
+    "lat": 22.42516,
+    "lng": 114.10803,
+    "pop": null
+  },
+  {
+    "nameAr": "Luk Chau Village",
+    "nameEn": "Luk Chau Village",
+    "type": "city",
+    "lat": 22.217977,
+    "lng": 114.130997,
+    "pop": null
+  },
+  {
+    "nameAr": "Luk Heung San Tsuen",
+    "nameEn": "Luk Heung San Tsuen",
+    "type": "city",
+    "lat": 22.448785,
+    "lng": 114.167825,
+    "pop": null
+  },
+  {
+    "nameAr": "Luk Keng Village",
+    "nameEn": "Luk Keng Village",
+    "type": "city",
+    "lat": 22.332,
+    "lng": 114.023,
+    "pop": null
+  },
+  {
+    "nameAr": "Luk Keng Wong Uk",
+    "nameEn": "Luk Keng Wong Uk",
+    "type": "city",
+    "lat": 22.521003,
+    "lng": 114.215792,
+    "pop": null
+  },
+  {
+    "nameAr": "Luk Tei Tong",
+    "nameEn": "Luk Tei Tong",
+    "type": "city",
+    "lat": 22.262916,
+    "lng": 113.991614,
+    "pop": null
+  },
+  {
+    "nameAr": "Luk Wu",
+    "nameEn": "Luk Wu",
+    "type": "city",
+    "lat": 22.250616,
+    "lng": 113.88846,
+    "pop": null
+  },
+  {
+    "nameAr": "Lung A Pai",
+    "nameEn": "Lung A Pai",
+    "type": "city",
+    "lat": 22.4438208,
+    "lng": 114.1380237,
+    "pop": null
+  },
+  {
+    "nameAr": "Lung Mei",
+    "nameEn": "Lung Mei",
+    "type": "city",
+    "lat": 22.472736,
+    "lng": 114.229615,
+    "pop": null
+  },
+  {
+    "nameAr": "Lung Tin Tsuen",
+    "nameEn": "Lung Tin Tsuen",
+    "type": "city",
+    "lat": 22.438188,
+    "lng": 114.024817,
+    "pop": null
+  },
+  {
+    "nameAr": "Lung Tseng Tau",
+    "nameEn": "Lung Tseng Tau",
+    "type": "city",
+    "lat": 22.276104,
+    "lng": 113.934175,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Kwu Lam",
+    "nameEn": "Ma Kwu Lam",
+    "type": "city",
+    "lat": 22.426746,
+    "lng": 114.262788,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Liu Shui San Tsuen",
+    "nameEn": "Ma Liu Shui San Tsuen",
+    "type": "city",
+    "lat": 22.505196,
+    "lng": 114.155569,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Mei Ha",
+    "nameEn": "Ma Mei Ha",
+    "type": "city",
+    "lat": 22.518014,
+    "lng": 114.176733,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Mei Ha Leng Tsui",
+    "nameEn": "Ma Mei Ha Leng Tsui",
+    "type": "city",
+    "lat": 22.517274,
+    "lng": 114.17385,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Nam Wat",
+    "nameEn": "Ma Nam Wat",
+    "type": "city",
+    "lat": 22.356824,
+    "lng": 114.2717,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Niu Village",
+    "nameEn": "Ma Niu Village",
+    "type": "city",
+    "lat": 22.408016,
+    "lng": 114.20014,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma On Kong",
+    "nameEn": "Ma On Kong",
+    "type": "city",
+    "lat": 22.415762,
+    "lng": 114.066359,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma On Shan Tsuen",
+    "nameEn": "Ma On Shan Tsuen",
+    "type": "city",
+    "lat": 22.401944444444,
+    "lng": 114.24361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Po Mei",
+    "nameEn": "Ma Po Mei",
+    "type": "city",
+    "lat": 22.44538,
+    "lng": 114.129527,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Sim Pai",
+    "nameEn": "Ma Sim Pai",
+    "type": "city",
+    "lat": 22.37761,
+    "lng": 114.120774,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Tseuk Leng",
+    "nameEn": "Ma Tseuk Leng",
+    "type": "city",
+    "lat": 22.533473,
+    "lng": 114.199946,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Tso Lung",
+    "nameEn": "Ma Tso Lung",
+    "type": "city",
+    "lat": 22.5201413,
+    "lng": 114.1003914,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Wan Chung",
+    "nameEn": "Ma Wan Chung",
+    "type": "city",
+    "lat": 22.285149,
+    "lng": 113.935825,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma Wo",
+    "nameEn": "Ma Wo",
+    "type": "city",
+    "lat": 22.443017,
+    "lng": 114.160665,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma'an Village",
+    "nameEn": "Ma'an Village",
+    "type": "city",
+    "lat": 25.900277777778,
+    "lng": 109.63972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ma'antun, Pingyan Village",
+    "nameEn": "Ma'antun, Pingyan Village",
+    "type": "city",
+    "lat": 25.893611111111,
+    "lng": 109.63722194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Mai Po Tsuen",
+    "nameEn": "Mai Po Tsuen",
+    "type": "city",
+    "lat": 22.492874,
+    "lng": 114.061091,
+    "pop": null
+  },
+  {
+    "nameAr": "Majianglong Village Cluster",
+    "nameEn": "Majianglong Village Cluster",
+    "type": "city",
+    "lat": 22.2855,
+    "lng": 112.5659,
+    "pop": null
+  },
+  {
+    "nameAr": "Malian Linchang",
+    "nameEn": "Malian Linchang",
+    "type": "city",
+    "lat": 48.51302,
+    "lng": 130.60419,
+    "pop": null
+  },
+  {
+    "nameAr": "Man Kok Tsui",
+    "nameEn": "Man Kok Tsui",
+    "type": "city",
+    "lat": 22.266885,
+    "lng": 114.020861,
+    "pop": null
+  },
+  {
+    "nameAr": "Man Yee Wan New Village",
+    "nameEn": "Man Yee Wan New Village",
+    "type": "city",
+    "lat": 22.381434,
+    "lng": 114.271501,
+    "pop": null
+  },
+  {
+    "nameAr": "Mang Kung Uk",
+    "nameEn": "Mang Kung Uk",
+    "type": "city",
+    "lat": 22.314724,
+    "lng": 114.276913,
+    "pop": null
+  },
+  {
+    "nameAr": "Maochengpu",
+    "nameEn": "Maochengpu",
+    "type": "city",
+    "lat": 34.364822785922,
+    "lng": 116.52082258285,
+    "pop": null
+  },
+  {
+    "nameAr": "Mau Ping New Village",
+    "nameEn": "Mau Ping New Village",
+    "type": "city",
+    "lat": 22.385607,
+    "lng": 114.26153,
+    "pop": null
+  },
+  {
+    "nameAr": "Mau Tat",
+    "nameEn": "Mau Tat",
+    "type": "city",
+    "lat": 22.359428,
+    "lng": 114.203695,
+    "pop": null
+  },
+  {
+    "nameAr": "Mau Tso Ngam",
+    "nameEn": "Mau Tso Ngam",
+    "type": "city",
+    "lat": 22.365707,
+    "lng": 114.221142,
+    "pop": null
+  },
+  {
+    "nameAr": "Mau Wu Tsai",
+    "nameEn": "Mau Wu Tsai",
+    "type": "city",
+    "lat": 22.316255,
+    "lng": 114.253609,
+    "pop": null
+  },
+  {
+    "nameAr": "Miu Tin",
+    "nameEn": "Miu Tin",
+    "type": "city",
+    "lat": 22.502369,
+    "lng": 114.258649,
+    "pop": null
+  },
+  {
+    "nameAr": "Mo Tat Wan",
+    "nameEn": "Mo Tat Wan",
+    "type": "city",
+    "lat": 22.207888888889,
+    "lng": 114.14539444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Mok Tse Che",
+    "nameEn": "Mok Tse Che",
+    "type": "city",
+    "lat": 22.348492,
+    "lng": 114.250186,
+    "pop": null
+  },
+  {
+    "nameAr": "Mong Tseng Tsuen",
+    "nameEn": "Mong Tseng Tsuen",
+    "type": "city",
+    "lat": 22.477053,
+    "lng": 114.000725,
+    "pop": null
+  },
+  {
+    "nameAr": "Mong Tung Wan",
+    "nameEn": "Mong Tung Wan",
+    "type": "city",
+    "lat": 22.223055555556,
+    "lng": 113.98222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mui Shue Hang",
+    "nameEn": "Mui Shue Hang",
+    "type": "city",
+    "lat": 22.454951,
+    "lng": 114.152008,
+    "pop": null
+  },
+  {
+    "nameAr": "Mui Tsz Lam",
+    "nameEn": "Mui Tsz Lam",
+    "type": "city",
+    "lat": 22.518589,
+    "lng": 114.256252,
+    "pop": null
+  },
+  {
+    "nameAr": "Muk Min Ha",
+    "nameEn": "Muk Min Ha",
+    "type": "city",
+    "lat": 22.376234,
+    "lng": 114.118212,
+    "pop": null
+  },
+  {
+    "nameAr": "Muk Min Tau",
+    "nameEn": "Muk Min Tau",
+    "type": "city",
+    "lat": 22.54409,
+    "lng": 114.216514,
+    "pop": null
+  },
+  {
+    "nameAr": "Nai Chung",
+    "nameEn": "Nai Chung",
+    "type": "city",
+    "lat": 22.43094,
+    "lng": 114.257096,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam A",
+    "nameEn": "Nam A",
+    "type": "city",
+    "lat": 22.399151,
+    "lng": 114.277134,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Hang",
+    "nameEn": "Nam Hang",
+    "type": "city",
+    "lat": 22.458972,
+    "lng": 114.169043,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Hang Mei",
+    "nameEn": "Nam Hang Mei",
+    "type": "city",
+    "lat": 22.522262,
+    "lng": 114.222897,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Hang Tsuen",
+    "nameEn": "Nam Hang Tsuen",
+    "type": "city",
+    "lat": 22.422955,
+    "lng": 114.036478,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Pin Wai",
+    "nameEn": "Nam Pin Wai",
+    "type": "city",
+    "lat": 22.35183,
+    "lng": 114.247624,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Shan",
+    "nameEn": "Nam Shan",
+    "type": "city",
+    "lat": 22.38513,
+    "lng": 114.217913,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Shan Tung",
+    "nameEn": "Nam Shan Tung",
+    "type": "city",
+    "lat": 22.4494524,
+    "lng": 114.3108129,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Wa Po",
+    "nameEn": "Nam Wa Po",
+    "type": "city",
+    "lat": 22.47557,
+    "lng": 114.1515,
+    "pop": null
+  },
+  {
+    "nameAr": "Nam Wai",
+    "nameEn": "Nam Wai",
+    "type": "city",
+    "lat": 22.353239,
+    "lng": 114.259386,
+    "pop": null
+  },
+  {
+    "nameAr": "Nangou Linchang",
+    "nameEn": "Nangou Linchang",
+    "type": "city",
+    "lat": 48.314722222222,
+    "lng": 130.01111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Nanjing",
+    "nameEn": "Nanjing",
+    "type": "city",
+    "lat": 32.05,
+    "lng": 118.76666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ng Ka Tsuen",
+    "nameEn": "Ng Ka Tsuen",
+    "type": "city",
+    "lat": 22.437183,
+    "lng": 114.070308,
+    "pop": null
+  },
+  {
+    "nameAr": "Ng Tung Chai",
+    "nameEn": "Ng Tung Chai",
+    "type": "city",
+    "lat": 22.437,
+    "lng": 114.1277,
+    "pop": null
+  },
+  {
+    "nameAr": "Ng Uk Tsuen",
+    "nameEn": "Ng Uk Tsuen",
+    "type": "city",
+    "lat": 22.46468,
+    "lng": 114.02125,
+    "pop": null
+  },
+  {
+    "nameAr": "Nga Yiu",
+    "nameEn": "Nga Yiu",
+    "type": "city",
+    "lat": 22.541297,
+    "lng": 114.137344,
+    "pop": null
+  },
+  {
+    "nameAr": "Nga Yiu Tau",
+    "nameEn": "Nga Yiu Tau",
+    "type": "city",
+    "lat": 22.428479,
+    "lng": 114.037425,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Au",
+    "nameEn": "Ngau Au",
+    "type": "city",
+    "lat": 22.276365,
+    "lng": 113.927551,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Chi Wan Village",
+    "nameEn": "Ngau Chi Wan Village",
+    "type": "city",
+    "lat": 22.3356,
+    "lng": 114.209,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Hom",
+    "nameEn": "Ngau Hom",
+    "type": "city",
+    "lat": 22.464855,
+    "lng": 113.988756,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Keng Tsuen",
+    "nameEn": "Ngau Keng Tsuen",
+    "type": "city",
+    "lat": 22.424329,
+    "lng": 114.08574,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Kwu Long",
+    "nameEn": "Ngau Kwu Long",
+    "type": "city",
+    "lat": 22.29116,
+    "lng": 113.97699,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Pei Sha",
+    "nameEn": "Ngau Pei Sha",
+    "type": "city",
+    "lat": 22.38024,
+    "lng": 114.20858,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Shi Wu",
+    "nameEn": "Ngau Shi Wu",
+    "type": "city",
+    "lat": 22.521039,
+    "lng": 114.276049,
+    "pop": null
+  },
+  {
+    "nameAr": "Ngau Tam Mei",
+    "nameEn": "Ngau Tam Mei",
+    "type": "city",
+    "lat": 22.475,
+    "lng": 114.067,
+    "pop": null
+  },
+  {
+    "nameAr": "O Long Village",
+    "nameEn": "O Long Village",
+    "type": "city",
+    "lat": 22.380174,
+    "lng": 114.263662,
+    "pop": null
+  },
+  {
+    "nameAr": "O Tau Village",
+    "nameEn": "O Tau Village",
+    "type": "city",
+    "lat": 22.401018,
+    "lng": 114.280482,
+    "pop": null
+  },
+  {
+    "nameAr": "Oiga, Ngari Prefecture",
+    "nameEn": "Oiga, Ngari Prefecture",
+    "type": "city",
+    "lat": 29.3,
+    "lng": 92.16666667,
+    "pop": null
+  },
+  {
+    "nameAr": "On Lung Tsuen",
+    "nameEn": "On Lung Tsuen",
+    "type": "city",
+    "lat": 22.500941,
+    "lng": 114.075375,
+    "pop": null
+  },
+  {
+    "nameAr": "Ouyang",
+    "nameEn": "Ouyang",
+    "type": "city",
+    "lat": 26.4191,
+    "lng": 109.216,
+    "pop": null
+  },
+  {
+    "nameAr": "Pai Tau Tsuen",
+    "nameEn": "Pai Tau Tsuen",
+    "type": "city",
+    "lat": 22.3851,
+    "lng": 114.187,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Kok",
+    "nameEn": "Pak Kok",
+    "type": "city",
+    "lat": 22.236011,
+    "lng": 114.116552,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Kong",
+    "nameEn": "Pak Kong",
+    "type": "city",
+    "lat": 22.3792,
+    "lng": 114.258,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Kong Au",
+    "nameEn": "Pak Kong Au",
+    "type": "city",
+    "lat": 22.38241,
+    "lng": 114.263527,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Mong",
+    "nameEn": "Pak Mong",
+    "type": "city",
+    "lat": 22.29537,
+    "lng": 113.97129,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Ngan Heung",
+    "nameEn": "Pak Ngan Heung",
+    "type": "city",
+    "lat": 22.271575,
+    "lng": 113.990287,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Ngau Shek Ha Tsuen",
+    "nameEn": "Pak Ngau Shek Ha Tsuen",
+    "type": "city",
+    "lat": 22.442703,
+    "lng": 114.124891,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Ngau Shek Sheung Tsuen",
+    "nameEn": "Pak Ngau Shek Sheung Tsuen",
+    "type": "city",
+    "lat": 22.440889,
+    "lng": 114.122745,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Sha Wan Village",
+    "nameEn": "Pak Sha Wan Village",
+    "type": "city",
+    "lat": 22.362937,
+    "lng": 114.258004,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Tam",
+    "nameEn": "Pak Tam",
+    "type": "city",
+    "lat": 22.409726,
+    "lng": 114.317605,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Tin",
+    "nameEn": "Pak Tin",
+    "type": "city",
+    "lat": 22.38436,
+    "lng": 114.17088,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Tin Pa",
+    "nameEn": "Pak Tin Pa",
+    "type": "city",
+    "lat": 22.37713,
+    "lng": 114.120619,
+    "pop": null
+  },
+  {
+    "nameAr": "Pak Wai",
+    "nameEn": "Pak Wai",
+    "type": "city",
+    "lat": 22.359914,
+    "lng": 114.254598,
+    "pop": null
+  },
+  {
+    "nameAr": "Pang Ka Tsuen",
+    "nameEn": "Pang Ka Tsuen",
+    "type": "city",
+    "lat": 22.440821,
+    "lng": 114.076296,
+    "pop": null
+  },
+  {
+    "nameAr": "Parlung Zangbo",
+    "nameEn": "Parlung Zangbo",
+    "type": "city",
+    "lat": 30.13333333,
+    "lng": 95,
+    "pop": null
+  },
+  {
+    "nameAr": "Pat Tsz Wo",
+    "nameEn": "Pat Tsz Wo",
+    "type": "city",
+    "lat": 22.399067,
+    "lng": 114.195728,
+    "pop": null
+  },
+  {
+    "nameAr": "Pátio do Espinho",
+    "nameEn": "Pátio do Espinho",
+    "type": "city",
+    "lat": 22.19834,
+    "lng": 113.54104,
+    "pop": null
+  },
+  {
+    "nameAr": "Penglang",
+    "nameEn": "Penglang",
+    "type": "city",
+    "lat": 31.37019167,
+    "lng": 121.07962222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pengshan Linchang",
+    "nameEn": "Pengshan Linchang",
+    "type": "city",
+    "lat": 29.388888888889,
+    "lng": 115.73555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ping Che",
+    "nameEn": "Ping Che",
+    "type": "city",
+    "lat": 22.5236,
+    "lng": 114.171,
+    "pop": null
+  },
+  {
+    "nameAr": "Ping Long",
+    "nameEn": "Ping Long",
+    "type": "city",
+    "lat": 22.445213,
+    "lng": 114.132649,
+    "pop": null
+  },
+  {
+    "nameAr": "Ping Shan Chai",
+    "nameEn": "Ping Shan Chai",
+    "type": "city",
+    "lat": 22.486005,
+    "lng": 114.188361,
+    "pop": null
+  },
+  {
+    "nameAr": "Ping Shan San Tsuen",
+    "nameEn": "Ping Shan San Tsuen",
+    "type": "city",
+    "lat": 22.441641,
+    "lng": 114.007748,
+    "pop": null
+  },
+  {
+    "nameAr": "Ping Tun",
+    "nameEn": "Ping Tun",
+    "type": "city",
+    "lat": 22.407173,
+    "lng": 114.302988,
+    "pop": null
+  },
+  {
+    "nameAr": "Ping Yeung",
+    "nameEn": "Ping Yeung",
+    "type": "city",
+    "lat": 22.5352,
+    "lng": 114.163,
+    "pop": null
+  },
+  {
+    "nameAr": "Pinggangn Nongchang",
+    "nameEn": "Pinggangn Nongchang",
+    "type": "city",
+    "lat": 21.712777777778,
+    "lng": 111.88972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pingshan Jingyingsuo",
+    "nameEn": "Pingshan Jingyingsuo",
+    "type": "city",
+    "lat": 48.031666666667,
+    "lng": 129.26222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pingtan Village",
+    "nameEn": "Pingtan Village",
+    "type": "city",
+    "lat": 26.031666666667,
+    "lng": 109.86666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Po Sam Pai",
+    "nameEn": "Po Sam Pai",
+    "type": "city",
+    "lat": 22.471084,
+    "lng": 114.210317,
+    "pop": null
+  },
+  {
+    "nameAr": "Po Toi O",
+    "nameEn": "Po Toi O",
+    "type": "city",
+    "lat": 22.2757,
+    "lng": 114.296,
+    "pop": null
+  },
+  {
+    "nameAr": "Po Tong Ha",
+    "nameEn": "Po Tong Ha",
+    "type": "city",
+    "lat": 22.416172,
+    "lng": 113.970998,
+    "pop": null
+  },
+  {
+    "nameAr": "Pok Fu Lam Village",
+    "nameEn": "Pok Fu Lam Village",
+    "type": "city",
+    "lat": 22.259715,
+    "lng": 114.137601,
+    "pop": null
+  },
+  {
+    "nameAr": "Pok Tau Ha",
+    "nameEn": "Pok Tau Ha",
+    "type": "city",
+    "lat": 22.531383,
+    "lng": 114.209036,
+    "pop": null
+  },
+  {
+    "nameAr": "Povoação do Chunambeiro",
+    "nameEn": "Povoação do Chunambeiro",
+    "type": "city",
+    "lat": 22.187725,
+    "lng": 113.53746389,
+    "pop": null
+  },
+  {
+    "nameAr": "Pun Shan Chau",
+    "nameEn": "Pun Shan Chau",
+    "type": "city",
+    "lat": 22.431479,
+    "lng": 114.169305,
+    "pop": null
+  },
+  {
+    "nameAr": "Pun Uk Tsuen",
+    "nameEn": "Pun Uk Tsuen",
+    "type": "city",
+    "lat": 22.50821,
+    "lng": 114.081881,
+    "pop": null
+  },
+  {
+    "nameAr": "Qianjin Jingyingsuo",
+    "nameEn": "Qianjin Jingyingsuo",
+    "type": "city",
+    "lat": 48.015277777778,
+    "lng": 127.36805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Qianjin Nongchang",
+    "nameEn": "Qianjin Nongchang",
+    "type": "city",
+    "lat": 42.09165,
+    "lng": 123.53404,
+    "pop": null
+  },
+  {
+    "nameAr": "Qilixia",
+    "nameEn": "Qilixia",
+    "type": "city",
+    "lat": 33.31666667,
+    "lng": 109.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Qinghaihu Nongchang",
+    "nameEn": "Qinghaihu Nongchang",
+    "type": "city",
+    "lat": 37.247777777778,
+    "lng": 100.11416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Qinghe Linchang",
+    "nameEn": "Qinghe Linchang",
+    "type": "city",
+    "lat": 48.871666666667,
+    "lng": 129.96083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Qinglin Linchang",
+    "nameEn": "Qinglin Linchang",
+    "type": "city",
+    "lat": 48.355555555556,
+    "lng": 129.71916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Qingnian Nongchang",
+    "nameEn": "Qingnian Nongchang",
+    "type": "city",
+    "lat": 40.986666666667,
+    "lng": 120.93416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Qingnian Zonghe Kenzhichang",
+    "nameEn": "Qingnian Zonghe Kenzhichang",
+    "type": "city",
+    "lat": 27.674444444444,
+    "lng": 116.27083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Qingshan Linchang",
+    "nameEn": "Qingshan Linchang",
+    "type": "city",
+    "lat": 47.442222222222,
+    "lng": 130.38944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Qingshan Nongchang",
+    "nameEn": "Qingshan Nongchang",
+    "type": "city",
+    "lat": 47.952222222222,
+    "lng": 128.91916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Qingshankou Linchang",
+    "nameEn": "Qingshankou Linchang",
+    "type": "city",
+    "lat": 47.830555555556,
+    "lng": 129.54555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Qingyihu Nongchang",
+    "nameEn": "Qingyihu Nongchang",
+    "type": "city",
+    "lat": 34.359444444444,
+    "lng": 118.8975,
+    "pop": null
+  },
+  {
+    "nameAr": "Quanlin Linchang",
+    "nameEn": "Quanlin Linchang",
+    "type": "city",
+    "lat": 48.209166666667,
+    "lng": 129.72055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Quanshi Linchang",
+    "nameEn": "Quanshi Linchang",
+    "type": "city",
+    "lat": 48.646111111111,
+    "lng": 129.87055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Renchaoxi",
+    "nameEn": "Renchaoxi",
+    "type": "city",
+    "lat": 29.6,
+    "lng": 110.595,
+    "pop": null
+  },
+  {
+    "nameAr": "Rongshan Kenzhichang",
+    "nameEn": "Rongshan Kenzhichang",
+    "type": "city",
+    "lat": 27.713611111111,
+    "lng": 116.44333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai Keng",
+    "nameEn": "Sai Keng",
+    "type": "city",
+    "lat": 22.418613,
+    "lng": 114.26727,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai Kung Town",
+    "nameEn": "Sai Kung Town",
+    "type": "city",
+    "lat": 22.3814,
+    "lng": 114.27333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai Lau Kok",
+    "nameEn": "Sai Lau Kok",
+    "type": "city",
+    "lat": 22.377399,
+    "lng": 114.122724,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai Lau Kong",
+    "nameEn": "Sai Lau Kong",
+    "type": "city",
+    "lat": 22.524962,
+    "lng": 114.285288,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai O",
+    "nameEn": "Sai O",
+    "type": "city",
+    "lat": 22.430016,
+    "lng": 114.254276,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai Tau Wai",
+    "nameEn": "Sai Tau Wai",
+    "type": "city",
+    "lat": 22.452931,
+    "lng": 114.025916,
+    "pop": null
+  },
+  {
+    "nameAr": "Sai Wan",
+    "nameEn": "Sai Wan",
+    "type": "city",
+    "lat": 22.3993,
+    "lng": 114.373,
+    "pop": null
+  },
+  {
+    "nameAr": "Saihu Nongchang",
+    "nameEn": "Saihu Nongchang",
+    "type": "city",
+    "lat": 29.694722222222,
+    "lng": 115.695,
+    "pop": null
+  },
+  {
+    "nameAr": "Sam A",
+    "nameEn": "Sam A",
+    "type": "city",
+    "lat": 22.5162,
+    "lng": 114.27,
+    "pop": null
+  },
+  {
+    "nameAr": "Sam Ka Tsuen",
+    "nameEn": "Sam Ka Tsuen",
+    "type": "city",
+    "lat": 22.290185,
+    "lng": 114.238297,
+    "pop": null
+  },
+  {
+    "nameAr": "Sam Mun Tsai New Village",
+    "nameEn": "Sam Mun Tsai New Village",
+    "type": "city",
+    "lat": 22.456218,
+    "lng": 114.21375,
+    "pop": null
+  },
+  {
+    "nameAr": "Sam Tung Uk Resite Village",
+    "nameEn": "Sam Tung Uk Resite Village",
+    "type": "city",
+    "lat": 22.379905,
+    "lng": 114.130559,
+    "pop": null
+  },
+  {
+    "nameAr": "San Hei Tsuen",
+    "nameEn": "San Hei Tsuen",
+    "type": "city",
+    "lat": 22.439015,
+    "lng": 114.007399,
+    "pop": null
+  },
+  {
+    "nameAr": "San Hing Tsuen",
+    "nameEn": "San Hing Tsuen",
+    "type": "city",
+    "lat": 22.41973,
+    "lng": 113.97985,
+    "pop": null
+  },
+  {
+    "nameAr": "San Kwai Tin",
+    "nameEn": "San Kwai Tin",
+    "type": "city",
+    "lat": 22.5548814,
+    "lng": 114.1921762,
+    "pop": null
+  },
+  {
+    "nameAr": "San Sang Tsuen",
+    "nameEn": "San Sang Tsuen",
+    "type": "city",
+    "lat": 22.43993,
+    "lng": 113.990932,
+    "pop": null
+  },
+  {
+    "nameAr": "San Tau",
+    "nameEn": "San Tau",
+    "type": "city",
+    "lat": 22.287818,
+    "lng": 113.921492,
+    "pop": null
+  },
+  {
+    "nameAr": "San Tau Kok",
+    "nameEn": "San Tau Kok",
+    "type": "city",
+    "lat": 22.46939,
+    "lng": 114.208018,
+    "pop": null
+  },
+  {
+    "nameAr": "San Tin Village",
+    "nameEn": "San Tin Village",
+    "type": "city",
+    "lat": 22.371821,
+    "lng": 114.182821,
+    "pop": null
+  },
+  {
+    "nameAr": "San Tong",
+    "nameEn": "San Tong",
+    "type": "city",
+    "lat": 22.448616,
+    "lng": 114.135973,
+    "pop": null
+  },
+  {
+    "nameAr": "San Tong Po",
+    "nameEn": "San Tong Po",
+    "type": "city",
+    "lat": 22.507535,
+    "lng": 114.166779,
+    "pop": null
+  },
+  {
+    "nameAr": "San Tsuen",
+    "nameEn": "San Tsuen",
+    "type": "city",
+    "lat": 22.378495,
+    "lng": 114.122354,
+    "pop": null
+  },
+  {
+    "nameAr": "San Uk Ka",
+    "nameEn": "San Uk Ka",
+    "type": "city",
+    "lat": 22.433596,
+    "lng": 114.163402,
+    "pop": null
+  },
+  {
+    "nameAr": "San Uk Ling",
+    "nameEn": "San Uk Ling",
+    "type": "city",
+    "lat": 22.5356524,
+    "lng": 114.132369,
+    "pop": null
+  },
+  {
+    "nameAr": "San Uk Tsai",
+    "nameEn": "San Uk Tsai",
+    "type": "city",
+    "lat": 22.4555,
+    "lng": 114.1397,
+    "pop": null
+  },
+  {
+    "nameAr": "San Uk Tsuen",
+    "nameEn": "San Uk Tsuen",
+    "type": "city",
+    "lat": 22.445373,
+    "lng": 113.991962,
+    "pop": null
+  },
+  {
+    "nameAr": "San Wai",
+    "nameEn": "San Wai",
+    "type": "city",
+    "lat": 22.47239,
+    "lng": 114.057155,
+    "pop": null
+  },
+  {
+    "nameAr": "San Wai Tsai",
+    "nameEn": "San Wai Tsai",
+    "type": "city",
+    "lat": 22.398432,
+    "lng": 113.97835,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanchahe Linchang",
+    "nameEn": "Sanchahe Linchang",
+    "type": "city",
+    "lat": 43.490833333333,
+    "lng": 131.15361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanguliu Jingyingsuo",
+    "nameEn": "Sanguliu Jingyingsuo",
+    "type": "city",
+    "lat": 47.690833333333,
+    "lng": 129.21527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanji",
+    "nameEn": "Sanji",
+    "type": "city",
+    "lat": 27.251111111111,
+    "lng": 117.50222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanjiangkou Nongchang",
+    "nameEn": "Sanjiangkou Nongchang",
+    "type": "city",
+    "lat": 43.344722222222,
+    "lng": 123.76194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sanyang Linchang",
+    "nameEn": "Sanyang Linchang",
+    "type": "city",
+    "lat": 48.165555555556,
+    "lng": 129.52694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Chau Lei",
+    "nameEn": "Sha Chau Lei",
+    "type": "city",
+    "lat": 22.445252,
+    "lng": 113.995614,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Ha",
+    "nameEn": "Sha Ha",
+    "type": "city",
+    "lat": 22.388988,
+    "lng": 114.275549,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Kiu Tsuen",
+    "nameEn": "Sha Kiu Tsuen",
+    "type": "city",
+    "lat": 22.48815,
+    "lng": 113.999268,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Kok Mei",
+    "nameEn": "Sha Kok Mei",
+    "type": "city",
+    "lat": 22.387431,
+    "lng": 114.269304,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Lan Tsuen",
+    "nameEn": "Sha Lan Tsuen",
+    "type": "city",
+    "lat": 22.460578,
+    "lng": 114.207509,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Lo Tung Cheung Uk",
+    "nameEn": "Sha Lo Tung Cheung Uk",
+    "type": "city",
+    "lat": 22.47965,
+    "lng": 114.18177,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Po",
+    "nameEn": "Sha Po",
+    "type": "city",
+    "lat": 22.224338,
+    "lng": 114.112171,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Tin Tau",
+    "nameEn": "Sha Tin Tau",
+    "type": "city",
+    "lat": 22.37317,
+    "lng": 114.18917,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Tin Tau New Village",
+    "nameEn": "Sha Tin Tau New Village",
+    "type": "city",
+    "lat": 22.368677,
+    "lng": 114.189588,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha Tin Wai (village)",
+    "nameEn": "Sha Tin Wai (village)",
+    "type": "city",
+    "lat": 22.37787,
+    "lng": 114.19761,
+    "pop": null
+  },
+  {
+    "nameAr": "Sham Chung",
+    "nameEn": "Sham Chung",
+    "type": "city",
+    "lat": 22.4426,
+    "lng": 114.288,
+    "pop": null
+  },
+  {
+    "nameAr": "Sham Chung Tsuen",
+    "nameEn": "Sham Chung Tsuen",
+    "type": "city",
+    "lat": 22.433224,
+    "lng": 114.027382,
+    "pop": null
+  },
+  {
+    "nameAr": "Sham Shek Tsuen",
+    "nameEn": "Sham Shek Tsuen",
+    "type": "city",
+    "lat": 22.2775,
+    "lng": 113.890882,
+    "pop": null
+  },
+  {
+    "nameAr": "Sham Tseng Village",
+    "nameEn": "Sham Tseng Village",
+    "type": "city",
+    "lat": 22.369224,
+    "lng": 114.059296,
+    "pop": null
+  },
+  {
+    "nameAr": "Sham Wat",
+    "nameEn": "Sham Wat",
+    "type": "city",
+    "lat": 22.269647,
+    "lng": 113.887896,
+    "pop": null
+  },
+  {
+    "nameAr": "Shan Liu",
+    "nameEn": "Shan Liu",
+    "type": "city",
+    "lat": 22.478818,
+    "lng": 114.217127,
+    "pop": null
+  },
+  {
+    "nameAr": "Shan Mei",
+    "nameEn": "Shan Mei",
+    "type": "city",
+    "lat": 22.406392,
+    "lng": 114.180343,
+    "pop": null
+  },
+  {
+    "nameAr": "Shan Pui Tsuen",
+    "nameEn": "Shan Pui Tsuen",
+    "type": "city",
+    "lat": 22.4527,
+    "lng": 114.037,
+    "pop": null
+  },
+  {
+    "nameAr": "Shan Tsui",
+    "nameEn": "Shan Tsui",
+    "type": "city",
+    "lat": 22.549179,
+    "lng": 114.221947,
+    "pop": null
+  },
+  {
+    "nameAr": "Shangbao Village",
+    "nameEn": "Shangbao Village",
+    "type": "city",
+    "lat": 26.373055555556,
+    "lng": 110.12944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Shanghai Nongchang",
+    "nameEn": "Shanghai Nongchang",
+    "type": "city",
+    "lat": 33.323611111111,
+    "lng": 120.53388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Shangshiling Zhonghe Kenzichang",
+    "nameEn": "Shangshiling Zhonghe Kenzichang",
+    "type": "city",
+    "lat": 29.783611111111,
+    "lng": 116.69305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shangyou Linchang",
+    "nameEn": "Shangyou Linchang",
+    "type": "city",
+    "lat": 48.700833333333,
+    "lng": 129.42138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Shap Long",
+    "nameEn": "Shap Long",
+    "type": "city",
+    "lat": 22.242176,
+    "lng": 113.99286,
+    "pop": null
+  },
+  {
+    "nameAr": "Shap Yi Wat",
+    "nameEn": "Shap Yi Wat",
+    "type": "city",
+    "lat": 22.357594,
+    "lng": 114.198537,
+    "pop": null
+  },
+  {
+    "nameAr": "She Shan Tsuen",
+    "nameEn": "She Shan Tsuen",
+    "type": "city",
+    "lat": 22.450221,
+    "lng": 114.144522,
+    "pop": null
+  },
+  {
+    "nameAr": "She Tau",
+    "nameEn": "She Tau",
+    "type": "city",
+    "lat": 22.398079,
+    "lng": 114.302008,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Chung Au",
+    "nameEn": "Shek Chung Au",
+    "type": "city",
+    "lat": 22.536738,
+    "lng": 114.209073,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Hang",
+    "nameEn": "Shek Hang",
+    "type": "city",
+    "lat": 22.407966,
+    "lng": 114.295921,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Kiu Tau",
+    "nameEn": "Shek Kiu Tau",
+    "type": "city",
+    "lat": 22.532308,
+    "lng": 114.204011,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Kwu Lung",
+    "nameEn": "Shek Kwu Lung",
+    "type": "city",
+    "lat": 22.448753055556,
+    "lng": 114.15660305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Lau Tung",
+    "nameEn": "Shek Lau Tung",
+    "type": "city",
+    "lat": 22.4086491,
+    "lng": 114.1719946,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Lung Tsai",
+    "nameEn": "Shek Lung Tsai",
+    "type": "city",
+    "lat": 22.394336,
+    "lng": 114.241156,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Mun Kap",
+    "nameEn": "Shek Mun Kap",
+    "type": "city",
+    "lat": 22.26902,
+    "lng": 113.93167,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Pik New Village",
+    "nameEn": "Shek Pik New Village",
+    "type": "city",
+    "lat": 22.36792,
+    "lng": 114.11653,
+    "pop": null
+  },
+  {
+    "nameAr": "Shek Wu Tong Tsuen",
+    "nameEn": "Shek Wu Tong Tsuen",
+    "type": "city",
+    "lat": 22.426175,
+    "lng": 114.071941,
+    "pop": null
+  },
+  {
+    "nameAr": "Shengli Nongchang",
+    "nameEn": "Shengli Nongchang",
+    "type": "city",
+    "lat": 22.057777777778,
+    "lng": 110.7875,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Che",
+    "nameEn": "Sheung Che",
+    "type": "city",
+    "lat": 22.450596,
+    "lng": 114.096366,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Keng Hau",
+    "nameEn": "Sheung Keng Hau",
+    "type": "city",
+    "lat": 22.363997,
+    "lng": 114.174436,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Kwai Chung",
+    "nameEn": "Sheung Kwai Chung",
+    "type": "city",
+    "lat": 22.37537,
+    "lng": 114.13293,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Sze Wan (village)",
+    "nameEn": "Sheung Sze Wan (village)",
+    "type": "city",
+    "lat": 22.305711,
+    "lng": 114.29146,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Tsuen",
+    "nameEn": "Sheung Tsuen",
+    "type": "city",
+    "lat": 22.429,
+    "lng": 114.106,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Wo Hang",
+    "nameEn": "Sheung Wo Hang",
+    "type": "city",
+    "lat": 22.523672,
+    "lng": 114.195193,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Wong Yi Au",
+    "nameEn": "Sheung Wong Yi Au",
+    "type": "city",
+    "lat": 22.43907,
+    "lng": 114.173965,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Wun Yiu",
+    "nameEn": "Sheung Wun Yiu",
+    "type": "city",
+    "lat": 22.436607,
+    "lng": 114.163975,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Yat Tsuen",
+    "nameEn": "Sheung Yat Tsuen",
+    "type": "city",
+    "lat": 22.37633,
+    "lng": 114.142095,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Yau Tin Tsuen",
+    "nameEn": "Sheung Yau Tin Tsuen",
+    "type": "city",
+    "lat": 22.438521,
+    "lng": 114.03556,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Yeung",
+    "nameEn": "Sheung Yeung",
+    "type": "city",
+    "lat": 22.311778,
+    "lng": 114.284602,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheung Yiu Village",
+    "nameEn": "Sheung Yiu Village",
+    "type": "city",
+    "lat": 22.39261,
+    "lng": 114.32135,
+    "pop": null
+  },
+  {
+    "nameAr": "Shifan Nongchang",
+    "nameEn": "Shifan Nongchang",
+    "type": "city",
+    "lat": 41.371666666667,
+    "lng": 122.33416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Shilin Linchang",
+    "nameEn": "Shilin Linchang",
+    "type": "city",
+    "lat": 48.460277777778,
+    "lng": 129.39472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Shimao",
+    "nameEn": "Shimao",
+    "type": "city",
+    "lat": 38.561539,
+    "lng": 110.307439,
+    "pop": null
+  },
+  {
+    "nameAr": "Shing Uk Tsuen",
+    "nameEn": "Shing Uk Tsuen",
+    "type": "city",
+    "lat": 22.46286,
+    "lng": 114.01892,
+    "pop": null
+  },
+  {
+    "nameAr": "Shouhushan Linchang",
+    "nameEn": "Shouhushan Linchang",
+    "type": "city",
+    "lat": 48.600833333333,
+    "lng": 129.89722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Shuangfeng Linchang",
+    "nameEn": "Shuangfeng Linchang",
+    "type": "city",
+    "lat": 28.487222222222,
+    "lng": 114.65416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Shudong Village",
+    "nameEn": "Shudong Village",
+    "type": "city",
+    "lat": 26.106111111111,
+    "lng": 108.9225,
+    "pop": null
+  },
+  {
+    "nameAr": "Shuen Wan Chan Uk",
+    "nameEn": "Shuen Wan Chan Uk",
+    "type": "city",
+    "lat": 22.462034,
+    "lng": 114.207706,
+    "pop": null
+  },
+  {
+    "nameAr": "Shuen Wan Chim Uk",
+    "nameEn": "Shuen Wan Chim Uk",
+    "type": "city",
+    "lat": 22.464056,
+    "lng": 114.207096,
+    "pop": null
+  },
+  {
+    "nameAr": "Shuen Wan Lei Uk",
+    "nameEn": "Shuen Wan Lei Uk",
+    "type": "city",
+    "lat": 22.46283,
+    "lng": 114.207212,
+    "pop": null
+  },
+  {
+    "nameAr": "Shuhe",
+    "nameEn": "Shuhe",
+    "type": "city",
+    "lat": 26.925,
+    "lng": 100.2028,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Hau",
+    "nameEn": "Shui Hau",
+    "type": "city",
+    "lat": 22.221929,
+    "lng": 113.91482,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Lau Tin",
+    "nameEn": "Shui Lau Tin",
+    "type": "city",
+    "lat": 22.431017,
+    "lng": 114.08383,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Mei Tsuen",
+    "nameEn": "Shui Mei Tsuen",
+    "type": "city",
+    "lat": 22.447078,
+    "lng": 114.062045,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Pin Tsuen",
+    "nameEn": "Shui Pin Tsuen",
+    "type": "city",
+    "lat": 22.443953,
+    "lng": 114.02071,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Tau Tsuen",
+    "nameEn": "Shui Tau Tsuen",
+    "type": "city",
+    "lat": 22.4453,
+    "lng": 114.061,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Tin Tsuen",
+    "nameEn": "Shui Tin Tsuen",
+    "type": "city",
+    "lat": 22.448275,
+    "lng": 114.020796,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Tsan Tin",
+    "nameEn": "Shui Tsan Tin",
+    "type": "city",
+    "lat": 22.426106,
+    "lng": 114.082825,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Tsiu Lo Wai",
+    "nameEn": "Shui Tsiu Lo Wai",
+    "type": "city",
+    "lat": 22.426181,
+    "lng": 114.032963,
+    "pop": null
+  },
+  {
+    "nameAr": "Shui Wo",
+    "nameEn": "Shui Wo",
+    "type": "city",
+    "lat": 22.444189,
+    "lng": 114.126879,
+    "pop": null
+  },
+  {
+    "nameAr": "Shung Ching San Tsuen",
+    "nameEn": "Shung Ching San Tsuen",
+    "type": "city",
+    "lat": 22.43169,
+    "lng": 114.03013,
+    "pop": null
+  },
+  {
+    "nameAr": "Shung Him Tong Tsuen",
+    "nameEn": "Shung Him Tong Tsuen",
+    "type": "city",
+    "lat": 22.49684,
+    "lng": 114.1488,
+    "pop": null
+  },
+  {
+    "nameAr": "Shunlihe Linchang",
+    "nameEn": "Shunlihe Linchang",
+    "type": "city",
+    "lat": 47.761111111111,
+    "lng": 129.50361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sik Kong Tsuen",
+    "nameEn": "Sik Kong Tsuen",
+    "type": "city",
+    "lat": 22.45053,
+    "lng": 113.992048,
+    "pop": null
+  },
+  {
+    "nameAr": "Site of Capital of Kingdom Zheng and Han",
+    "nameEn": "Site of Capital of Kingdom Zheng and Han",
+    "type": "city",
+    "lat": 34.412314,
+    "lng": 113.72227,
+    "pop": null
+  },
+  {
+    "nameAr": "Siu Hang San Tsuen",
+    "nameEn": "Siu Hang San Tsuen",
+    "type": "city",
+    "lat": 22.509615,
+    "lng": 114.145847,
+    "pop": null
+  },
+  {
+    "nameAr": "Siu Hang Tsuen",
+    "nameEn": "Siu Hang Tsuen",
+    "type": "city",
+    "lat": 22.50951,
+    "lng": 114.14721,
+    "pop": null
+  },
+  {
+    "nameAr": "Siu Om Shan",
+    "nameEn": "Siu Om Shan",
+    "type": "city",
+    "lat": 22.43814,
+    "lng": 114.13932,
+    "pop": null
+  },
+  {
+    "nameAr": "Small Traders New Village",
+    "nameEn": "Small Traders New Village",
+    "type": "city",
+    "lat": 22.446906,
+    "lng": 114.041048,
+    "pop": null
+  },
+  {
+    "nameAr": "So Lo Pun",
+    "nameEn": "So Lo Pun",
+    "type": "city",
+    "lat": 22.5369,
+    "lng": 114.253,
+    "pop": null
+  },
+  {
+    "nameAr": "Songlin Linchang",
+    "nameEn": "Songlin Linchang",
+    "type": "city",
+    "lat": 48.188888888889,
+    "lng": 129.58888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Stone Town of Baoshan",
+    "nameEn": "Stone Town of Baoshan",
+    "type": "city",
+    "lat": 27.475011111111,
+    "lng": 100.4302,
+    "pop": null
+  },
+  {
+    "nameAr": "Sze Tau Leng",
+    "nameEn": "Sze Tau Leng",
+    "type": "city",
+    "lat": 22.507355,
+    "lng": 114.179935,
+    "pop": null
+  },
+  {
+    "nameAr": "Ta Ho Tun",
+    "nameEn": "Ta Ho Tun",
+    "type": "city",
+    "lat": 22.370876,
+    "lng": 114.263094,
+    "pop": null
+  },
+  {
+    "nameAr": "Ta Shek Wu",
+    "nameEn": "Ta Shek Wu",
+    "type": "city",
+    "lat": 22.462431,
+    "lng": 114.107441,
+    "pop": null
+  },
+  {
+    "nameAr": "Ta Tit Yan",
+    "nameEn": "Ta Tit Yan",
+    "type": "city",
+    "lat": 22.424041,
+    "lng": 114.1622,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Che",
+    "nameEn": "Tai Che",
+    "type": "city",
+    "lat": 22.381325,
+    "lng": 114.218914,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Hang Hau",
+    "nameEn": "Tai Hang Hau",
+    "type": "city",
+    "lat": 22.303323,
+    "lng": 114.294679,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Ho Village",
+    "nameEn": "Tai Ho Village",
+    "type": "city",
+    "lat": 22.28819,
+    "lng": 113.97895,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Kei Leng",
+    "nameEn": "Tai Kei Leng",
+    "type": "city",
+    "lat": 22.43987,
+    "lng": 114.03072,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Kek",
+    "nameEn": "Tai Kek",
+    "type": "city",
+    "lat": 22.416562,
+    "lng": 114.069107,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Kong Po",
+    "nameEn": "Tai Kong Po",
+    "type": "city",
+    "lat": 22.446936,
+    "lng": 114.075621,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Lam Liu",
+    "nameEn": "Tai Lam Liu",
+    "type": "city",
+    "lat": 22.38341,
+    "lng": 114.217631,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Lam Wu",
+    "nameEn": "Tai Lam Wu",
+    "type": "city",
+    "lat": 22.349746,
+    "lng": 114.234443,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Long Wan, Chi Ma Wan",
+    "nameEn": "Tai Long Wan, Chi Ma Wan",
+    "type": "city",
+    "lat": 22.216941,
+    "lng": 113.997703,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Mong Tsai",
+    "nameEn": "Tai Mong Tsai",
+    "type": "city",
+    "lat": 22.393682,
+    "lng": 114.300134,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai No",
+    "nameEn": "Tai No",
+    "type": "city",
+    "lat": 22.364876,
+    "lng": 114.234458,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai No Sheung Yeung",
+    "nameEn": "Tai No Sheung Yeung",
+    "type": "city",
+    "lat": 22.3689316,
+    "lng": 114.2332215,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Om",
+    "nameEn": "Tai Om",
+    "type": "city",
+    "lat": 22.443398,
+    "lng": 114.13332,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Om Shan",
+    "nameEn": "Tai Om Shan",
+    "type": "city",
+    "lat": 22.43643,
+    "lng": 114.13495,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Pak Tin",
+    "nameEn": "Tai Pak Tin",
+    "type": "city",
+    "lat": 22.373638,
+    "lng": 114.134782,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Peng",
+    "nameEn": "Tai Peng",
+    "type": "city",
+    "lat": 22.2296,
+    "lng": 114.116,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Po Mei",
+    "nameEn": "Tai Po Mei",
+    "type": "city",
+    "lat": 22.421437,
+    "lng": 114.198293,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Po Tau",
+    "nameEn": "Tai Po Tau",
+    "type": "city",
+    "lat": 22.45517,
+    "lng": 114.15759,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Po Tin",
+    "nameEn": "Tai Po Tin",
+    "type": "city",
+    "lat": 22.527645,
+    "lng": 114.152063,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Po Tsai",
+    "nameEn": "Tai Po Tsai",
+    "type": "city",
+    "lat": 22.337383,
+    "lng": 114.259653,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Sang Wai",
+    "nameEn": "Tai Sang Wai",
+    "type": "city",
+    "lat": 22.470873,
+    "lng": 114.043201,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai She Wan",
+    "nameEn": "Tai She Wan",
+    "type": "city",
+    "lat": 22.35571,
+    "lng": 114.34042,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Shui Hang Village",
+    "nameEn": "Tai Shui Hang Village",
+    "type": "city",
+    "lat": 22.406282,
+    "lng": 114.224047,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tan",
+    "nameEn": "Tai Tan",
+    "type": "city",
+    "lat": 22.440315,
+    "lng": 114.333007,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tao Tsuen",
+    "nameEn": "Tai Tao Tsuen",
+    "type": "city",
+    "lat": 22.433016,
+    "lng": 114.001308,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tei Tong",
+    "nameEn": "Tai Tei Tong",
+    "type": "city",
+    "lat": 22.267634,
+    "lng": 113.99076,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tong Tsuen",
+    "nameEn": "Tai Tong Tsuen",
+    "type": "city",
+    "lat": 22.4173,
+    "lng": 114.024147,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tong Wu",
+    "nameEn": "Tai Tong Wu",
+    "type": "city",
+    "lat": 22.5208559,
+    "lng": 114.1757179,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tsing Chau",
+    "nameEn": "Tai Tsing Chau",
+    "type": "city",
+    "lat": 22.340349,
+    "lng": 114.041643,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tung",
+    "nameEn": "Tai Tung",
+    "type": "city",
+    "lat": 22.426096,
+    "lng": 114.263196,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Tung Wo Liu",
+    "nameEn": "Tai Tung Wo Liu",
+    "type": "city",
+    "lat": 22.420397,
+    "lng": 114.262497,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Wan Tau",
+    "nameEn": "Tai Wan Tau",
+    "type": "city",
+    "lat": 22.290855,
+    "lng": 114.294757,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Wan Village",
+    "nameEn": "Tai Wan Village",
+    "type": "city",
+    "lat": 22.39505,
+    "lng": 114.277685,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Wan Village, Lamma Island",
+    "nameEn": "Tai Wan Village, Lamma Island",
+    "type": "city",
+    "lat": 22.223756,
+    "lng": 114.116057,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Wo Tsuen",
+    "nameEn": "Tai Wo Tsuen",
+    "type": "city",
+    "lat": 22.470491666667,
+    "lng": 114.1548,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Wong Ha Tsuen",
+    "nameEn": "Tai Wong Ha Tsuen",
+    "type": "city",
+    "lat": 22.353901,
+    "lng": 114.101128,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Yeung Che",
+    "nameEn": "Tai Yeung Che",
+    "type": "city",
+    "lat": 22.446246,
+    "lng": 114.12795,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai Yuen",
+    "nameEn": "Tai Yuen",
+    "type": "city",
+    "lat": 22.224289,
+    "lng": 114.113941,
+    "pop": null
+  },
+  {
+    "nameAr": "Tai'an Village",
+    "nameEn": "Tai'an Village",
+    "type": "city",
+    "lat": 36.4634,
+    "lng": 104.4396,
+    "pop": null
+  },
+  {
+    "nameAr": "Tak Yuet Lau",
+    "nameEn": "Tak Yuet Lau",
+    "type": "city",
+    "lat": 22.528021,
+    "lng": 114.109248,
+    "pop": null
+  },
+  {
+    "nameAr": "Tam Shui Hang",
+    "nameEn": "Tam Shui Hang",
+    "type": "city",
+    "lat": 22.546523,
+    "lng": 114.219245,
+    "pop": null
+  },
+  {
+    "nameAr": "Tan Chuk Hang",
+    "nameEn": "Tan Chuk Hang",
+    "type": "city",
+    "lat": 22.51321,
+    "lng": 114.17597,
+    "pop": null
+  },
+  {
+    "nameAr": "Tan Ka Wan",
+    "nameEn": "Tan Ka Wan",
+    "type": "city",
+    "lat": 22.451428,
+    "lng": 114.361364,
+    "pop": null
+  },
+  {
+    "nameAr": "Tan Kwai Tsuen",
+    "nameEn": "Tan Kwai Tsuen",
+    "type": "city",
+    "lat": 22.427629,
+    "lng": 113.997198,
+    "pop": null
+  },
+  {
+    "nameAr": "Tang'an Village",
+    "nameEn": "Tang'an Village",
+    "type": "city",
+    "lat": 25.900833333333,
+    "lng": 109.21111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Tangbei Linchang",
+    "nameEn": "Tangbei Linchang",
+    "type": "city",
+    "lat": 48.426944444444,
+    "lng": 129.08166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanghongling Linchang",
+    "nameEn": "Tanghongling Linchang",
+    "type": "city",
+    "lat": 48.364166666667,
+    "lng": 129.17805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanglin Linchang",
+    "nameEn": "Tanglin Linchang",
+    "type": "city",
+    "lat": 48.305,
+    "lng": 129.51694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Taocun Linchang",
+    "nameEn": "Taocun Linchang",
+    "type": "city",
+    "lat": 34.1925,
+    "lng": 111.96055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Tei Tong Tsai",
+    "nameEn": "Tei Tong Tsai",
+    "type": "city",
+    "lat": 22.257717,
+    "lng": 113.92689,
+    "pop": null
+  },
+  {
+    "nameAr": "The Old City of Luoyang in Han and Wei Dynasties",
+    "nameEn": "The Old City of Luoyang in Han and Wei Dynasties",
+    "type": "city",
+    "lat": 34.719483,
+    "lng": 112.618301,
+    "pop": null
+  },
+  {
+    "nameAr": "Tiangacun",
+    "nameEn": "Tiangacun",
+    "type": "city",
+    "lat": 29.9167,
+    "lng": 91.0833,
+    "pop": null
+  },
+  {
+    "nameAr": "Tianshuihai",
+    "nameEn": "Tianshuihai",
+    "type": "city",
+    "lat": 35.297,
+    "lng": 79.561,
+    "pop": null
+  },
+  {
+    "nameAr": "Tin Ha Wan Village",
+    "nameEn": "Tin Ha Wan Village",
+    "type": "city",
+    "lat": 22.315383,
+    "lng": 114.269891,
+    "pop": null
+  },
+  {
+    "nameAr": "Tin Liu Ha",
+    "nameEn": "Tin Liu Ha",
+    "type": "city",
+    "lat": 22.445943,
+    "lng": 114.141731,
+    "pop": null
+  },
+  {
+    "nameAr": "Tin Sam Tsuen",
+    "nameEn": "Tin Sam Tsuen",
+    "type": "city",
+    "lat": 22.423998,
+    "lng": 114.069936,
+    "pop": null
+  },
+  {
+    "nameAr": "Tin Shui Wai New Town",
+    "nameEn": "Tin Shui Wai New Town",
+    "type": "city",
+    "lat": 22.4608,
+    "lng": 114.001,
+    "pop": null
+  },
+  {
+    "nameAr": "Ting Kau Village",
+    "nameEn": "Ting Kau Village",
+    "type": "city",
+    "lat": 22.369484,
+    "lng": 114.07937,
+    "pop": null
+  },
+  {
+    "nameAr": "Ting Kok",
+    "nameEn": "Ting Kok",
+    "type": "city",
+    "lat": 22.4722,
+    "lng": 114.22,
+    "pop": null
+  },
+  {
+    "nameAr": "To Kwa Peng",
+    "nameEn": "To Kwa Peng",
+    "type": "city",
+    "lat": 22.427493,
+    "lng": 114.336831,
+    "pop": null
+  },
+  {
+    "nameAr": "To Shek",
+    "nameEn": "To Shek",
+    "type": "city",
+    "lat": 22.37702,
+    "lng": 114.20188,
+    "pop": null
+  },
+  {
+    "nameAr": "To Tau Wan",
+    "nameEn": "To Tau Wan",
+    "type": "city",
+    "lat": 22.433139,
+    "lng": 114.239654,
+    "pop": null
+  },
+  {
+    "nameAr": "To Tei Wan Village",
+    "nameEn": "To Tei Wan Village",
+    "type": "city",
+    "lat": 22.225847791807,
+    "lng": 114.23705710351,
+    "pop": null
+  },
+  {
+    "nameAr": "To Yuen Tung",
+    "nameEn": "To Yuen Tung",
+    "type": "city",
+    "lat": 22.440988,
+    "lng": 114.163411,
+    "pop": null
+  },
+  {
+    "nameAr": "To Yuen Wai",
+    "nameEn": "To Yuen Wai",
+    "type": "city",
+    "lat": 22.416313,
+    "lng": 113.98422,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Fong",
+    "nameEn": "Tong Fong",
+    "type": "city",
+    "lat": 22.53695,
+    "lng": 114.151168,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Fong Tsuen",
+    "nameEn": "Tong Fong Tsuen",
+    "type": "city",
+    "lat": 22.443267,
+    "lng": 114.007389,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Fuk",
+    "nameEn": "Tong Fuk",
+    "type": "city",
+    "lat": 22.228,
+    "lng": 113.933,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Hang",
+    "nameEn": "Tong Hang",
+    "type": "city",
+    "lat": 22.489439,
+    "lng": 114.148998,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Kung Leng",
+    "nameEn": "Tong Kung Leng",
+    "type": "city",
+    "lat": 22.4875477,
+    "lng": 114.10835,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Sheung Tsuen",
+    "nameEn": "Tong Sheung Tsuen",
+    "type": "city",
+    "lat": 22.452692,
+    "lng": 114.138769,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Tau Po Tsuen",
+    "nameEn": "Tong Tau Po Tsuen",
+    "type": "city",
+    "lat": 22.427029,
+    "lng": 114.036369,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong To Shan Tsuen",
+    "nameEn": "Tong To Shan Tsuen",
+    "type": "city",
+    "lat": 22.5446551,
+    "lng": 114.1814164,
+    "pop": null
+  },
+  {
+    "nameAr": "Tong Yan San Tsuen",
+    "nameEn": "Tong Yan San Tsuen",
+    "type": "city",
+    "lat": 22.43508,
+    "lng": 114.010241,
+    "pop": null
+  },
+  {
+    "nameAr": "Tongwan",
+    "nameEn": "Tongwan",
+    "type": "city",
+    "lat": 37.998758,
+    "lng": 108.84722,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsak Yue Wu",
+    "nameEn": "Tsak Yue Wu",
+    "type": "city",
+    "lat": 22.401278,
+    "lng": 114.32335,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsat Muk Kiu",
+    "nameEn": "Tsat Muk Kiu",
+    "type": "city",
+    "lat": 22.5073931,
+    "lng": 114.2163134,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsat Sing Kong",
+    "nameEn": "Tsat Sing Kong",
+    "type": "city",
+    "lat": 22.447678,
+    "lng": 114.082188,
+    "pop": null
+  },
+  {
+    "nameAr": "Tse Uk Village",
+    "nameEn": "Tse Uk Village",
+    "type": "city",
+    "lat": 22.375613,
+    "lng": 114.196409,
+    "pop": null
+  },
+  {
+    "nameAr": "Tseng Lan Shue",
+    "nameEn": "Tseng Lan Shue",
+    "type": "city",
+    "lat": 22.3343,
+    "lng": 114.238,
+    "pop": null
+  },
+  {
+    "nameAr": "Tseng Tau",
+    "nameEn": "Tseng Tau",
+    "type": "city",
+    "lat": 22.427539,
+    "lng": 114.269473,
+    "pop": null
+  },
+  {
+    "nameAr": "Tseng Tau Tsuen",
+    "nameEn": "Tseng Tau Tsuen",
+    "type": "city",
+    "lat": 22.391316,
+    "lng": 113.9816,
+    "pop": null
+  },
+  {
+    "nameAr": "Tseung Kwan O Village",
+    "nameEn": "Tseung Kwan O Village",
+    "type": "city",
+    "lat": 22.32691,
+    "lng": 114.25009,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsing Shan Tsuen",
+    "nameEn": "Tsing Shan Tsuen",
+    "type": "city",
+    "lat": 22.389205,
+    "lng": 113.96475,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsing Yi Lutheran Village",
+    "nameEn": "Tsing Yi Lutheran Village",
+    "type": "city",
+    "lat": 22.352006,
+    "lng": 114.106388,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsiu Hang",
+    "nameEn": "Tsiu Hang",
+    "type": "city",
+    "lat": 22.372653,
+    "lng": 114.268194,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsiu Hang, North District",
+    "nameEn": "Tsiu Hang, North District",
+    "type": "city",
+    "lat": 22.545656,
+    "lng": 114.21647,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsiu Keng",
+    "nameEn": "Tsiu Keng",
+    "type": "city",
+    "lat": 22.4761,
+    "lng": 114.105429,
+    "pop": null
+  },
+  {
+    "nameAr": "Tso Wo Hang",
+    "nameEn": "Tso Wo Hang",
+    "type": "city",
+    "lat": 22.394435,
+    "lng": 114.289385,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsok Pok Hang",
+    "nameEn": "Tsok Pok Hang",
+    "type": "city",
+    "lat": 22.37332,
+    "lng": 114.19464,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsuen Wan Sam Tsuen",
+    "nameEn": "Tsuen Wan Sam Tsuen",
+    "type": "city",
+    "lat": 22.372427,
+    "lng": 114.097242,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsung Pak Long",
+    "nameEn": "Tsung Pak Long",
+    "type": "city",
+    "lat": 22.50381,
+    "lng": 114.11925,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsung Yuen Ha",
+    "nameEn": "Tsung Yuen Ha",
+    "type": "city",
+    "lat": 22.552242,
+    "lng": 114.15706,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsz Tin Tsuen",
+    "nameEn": "Tsz Tin Tsuen",
+    "type": "city",
+    "lat": 22.416571,
+    "lng": 113.975413,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsz Tong Tsuen",
+    "nameEn": "Tsz Tong Tsuen",
+    "type": "city",
+    "lat": 22.497848,
+    "lng": 114.153652,
+    "pop": null
+  },
+  {
+    "nameAr": "Tui Min Hoi",
+    "nameEn": "Tui Min Hoi",
+    "type": "city",
+    "lat": 22.377437,
+    "lng": 114.271177,
+    "pop": null
+  },
+  {
+    "nameAr": "Tung Chan Wai",
+    "nameEn": "Tung Chan Wai",
+    "type": "city",
+    "lat": 22.501837,
+    "lng": 114.075979,
+    "pop": null
+  },
+  {
+    "nameAr": "Tung Lo Wan",
+    "nameEn": "Tung Lo Wan",
+    "type": "city",
+    "lat": 22.37837,
+    "lng": 114.18104,
+    "pop": null
+  },
+  {
+    "nameAr": "Tung Sam Kei",
+    "nameEn": "Tung Sam Kei",
+    "type": "city",
+    "lat": 22.437873,
+    "lng": 114.344611,
+    "pop": null
+  },
+  {
+    "nameAr": "Tung Tau Tsuen",
+    "nameEn": "Tung Tau Tsuen",
+    "type": "city",
+    "lat": 22.45314,
+    "lng": 113.99289,
+    "pop": null
+  },
+  {
+    "nameAr": "Tung Tau Tsuen (Yuen Long Kau Hui)",
+    "nameEn": "Tung Tau Tsuen (Yuen Long Kau Hui)",
+    "type": "city",
+    "lat": 22.4479,
+    "lng": 114.03532,
+    "pop": null
+  },
+  {
+    "nameAr": "Tung Tau Wai",
+    "nameEn": "Tung Tau Wai",
+    "type": "city",
+    "lat": 22.45371,
+    "lng": 114.027667,
+    "pop": null
+  },
+  {
+    "nameAr": "Uk Cheung",
+    "nameEn": "Uk Cheung",
+    "type": "city",
+    "lat": 22.381267,
+    "lng": 114.251431,
+    "pop": null
+  },
+  {
+    "nameAr": "Wa Shan Tsuen",
+    "nameEn": "Wa Shan Tsuen",
+    "type": "city",
+    "lat": 22.516582,
+    "lng": 114.1338724,
+    "pop": null
+  },
+  {
+    "nameAr": "Wai Ha",
+    "nameEn": "Wai Ha",
+    "type": "city",
+    "lat": 22.469257,
+    "lng": 114.20286,
+    "pop": null
+  },
+  {
+    "nameAr": "Wai Tau Tsuen",
+    "nameEn": "Wai Tau Tsuen",
+    "type": "city",
+    "lat": 22.4634449,
+    "lng": 114.147018,
+    "pop": null
+  },
+  {
+    "nameAr": "Wai Tsai",
+    "nameEn": "Wai Tsai",
+    "type": "city",
+    "lat": 22.480341,
+    "lng": 114.061414,
+    "pop": null
+  },
+  {
+    "nameAr": "Wang Long",
+    "nameEn": "Wang Long",
+    "type": "city",
+    "lat": 22.223077,
+    "lng": 114.114363,
+    "pop": null
+  },
+  {
+    "nameAr": "Wang Shan Keuk",
+    "nameEn": "Wang Shan Keuk",
+    "type": "city",
+    "lat": 22.521203,
+    "lng": 114.171642,
+    "pop": null
+  },
+  {
+    "nameAr": "Wangtan",
+    "nameEn": "Wangtan",
+    "type": "city",
+    "lat": 33.4792,
+    "lng": 118.421,
+    "pop": null
+  },
+  {
+    "nameAr": "Wangtang, Lingchuan County",
+    "nameEn": "Wangtang, Lingchuan County",
+    "type": "city",
+    "lat": 25.1085,
+    "lng": 110.491,
+    "pop": null
+  },
+  {
+    "nameAr": "Weiguo Linchang",
+    "nameEn": "Weiguo Linchang",
+    "type": "city",
+    "lat": 48.061944444444,
+    "lng": 129.04361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Wing Ning Tsuen",
+    "nameEn": "Wing Ning Tsuen",
+    "type": "city",
+    "lat": 22.50103,
+    "lng": 114.1508,
+    "pop": null
+  },
+  {
+    "nameAr": "Wing Ping Tsuen",
+    "nameEn": "Wing Ping Tsuen",
+    "type": "city",
+    "lat": 22.50061,
+    "lng": 114.07652,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Che",
+    "nameEn": "Wo Che",
+    "type": "city",
+    "lat": 22.389276,
+    "lng": 114.191841,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Hang Tai Long",
+    "nameEn": "Wo Hang Tai Long",
+    "type": "city",
+    "lat": 22.530851,
+    "lng": 114.198104,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Keng Shan",
+    "nameEn": "Wo Keng Shan",
+    "type": "city",
+    "lat": 22.536582,
+    "lng": 114.17001,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Liu",
+    "nameEn": "Wo Liu",
+    "type": "city",
+    "lat": 22.399411,
+    "lng": 114.27984,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Liu Hang",
+    "nameEn": "Wo Liu Hang",
+    "type": "city",
+    "lat": 22.3989,
+    "lng": 114.197,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Mei",
+    "nameEn": "Wo Mei",
+    "type": "city",
+    "lat": 22.350521,
+    "lng": 114.251952,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Ping San Tsuen",
+    "nameEn": "Wo Ping San Tsuen",
+    "type": "city",
+    "lat": 22.430158,
+    "lng": 113.995313,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Sang Wai",
+    "nameEn": "Wo Sang Wai",
+    "type": "city",
+    "lat": 22.487123,
+    "lng": 114.052711,
+    "pop": null
+  },
+  {
+    "nameAr": "Wo Yi Hop",
+    "nameEn": "Wo Yi Hop",
+    "type": "city",
+    "lat": 22.382872,
+    "lng": 114.139214,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Chuk Hang Kau Wai",
+    "nameEn": "Wong Chuk Hang Kau Wai",
+    "type": "city",
+    "lat": 22.253034,
+    "lng": 114.178084,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Chuk Hang San Wai",
+    "nameEn": "Wong Chuk Hang San Wai",
+    "type": "city",
+    "lat": 22.249161,
+    "lng": 114.176695,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Chuk Shan New Village",
+    "nameEn": "Wong Chuk Shan New Village",
+    "type": "city",
+    "lat": 22.3851,
+    "lng": 114.261207,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Chuk Wan",
+    "nameEn": "Wong Chuk Wan",
+    "type": "city",
+    "lat": 22.398889,
+    "lng": 114.284146,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Chuk Yeung",
+    "nameEn": "Wong Chuk Yeung",
+    "type": "city",
+    "lat": 22.397322,
+    "lng": 114.177079,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Ka Wai",
+    "nameEn": "Wong Ka Wai",
+    "type": "city",
+    "lat": 22.276905,
+    "lng": 113.934203,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Keng Tei",
+    "nameEn": "Wong Keng Tei",
+    "type": "city",
+    "lat": 22.393908,
+    "lng": 114.317787,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Mo Ying",
+    "nameEn": "Wong Mo Ying",
+    "type": "city",
+    "lat": 22.403228,
+    "lng": 114.295079,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Nai Tau",
+    "nameEn": "Wong Nai Tau",
+    "type": "city",
+    "lat": 22.382249,
+    "lng": 114.216896,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Nai Tun Tsuen",
+    "nameEn": "Wong Nai Tun Tsuen",
+    "type": "city",
+    "lat": 22.417696,
+    "lng": 114.021762,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Uk Tsuen",
+    "nameEn": "Wong Uk Tsuen",
+    "type": "city",
+    "lat": 22.44801,
+    "lng": 114.03857,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Uk Village",
+    "nameEn": "Wong Uk Village",
+    "type": "city",
+    "lat": 22.379712,
+    "lng": 114.199553,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Yi Chau",
+    "nameEn": "Wong Yi Chau",
+    "type": "city",
+    "lat": 22.388828,
+    "lng": 114.318377,
+    "pop": null
+  },
+  {
+    "nameAr": "Wong Yue Tan",
+    "nameEn": "Wong Yue Tan",
+    "type": "city",
+    "lat": 22.462161,
+    "lng": 114.20359,
+    "pop": null
+  },
+  {
+    "nameAr": "Wu Kau Tang",
+    "nameEn": "Wu Kau Tang",
+    "type": "city",
+    "lat": 22.5071,
+    "lng": 114.24253,
+    "pop": null
+  },
+  {
+    "nameAr": "Wu Shek Kok",
+    "nameEn": "Wu Shek Kok",
+    "type": "city",
+    "lat": 22.53486,
+    "lng": 114.2116,
+    "pop": null
+  },
+  {
+    "nameAr": "Wudaoku Jingyingsuo",
+    "nameEn": "Wudaoku Jingyingsuo",
+    "type": "city",
+    "lat": 47.790555555556,
+    "lng": 129.27916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Wun Yiu",
+    "nameEn": "Wun Yiu",
+    "type": "city",
+    "lat": 22.4372605,
+    "lng": 114.1636831,
+    "pop": null
+  },
+  {
+    "nameAr": "Wun Yiu Village",
+    "nameEn": "Wun Yiu Village",
+    "type": "city",
+    "lat": 22.4343,
+    "lng": 114.1637,
+    "pop": null
+  },
+  {
+    "nameAr": "Wuxinghe Jingyingsuo",
+    "nameEn": "Wuxinghe Jingyingsuo",
+    "type": "city",
+    "lat": 48.283611111111,
+    "lng": 129.37416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Wuxinghu Nongchang",
+    "nameEn": "Wuxinghu Nongchang",
+    "type": "city",
+    "lat": 34.90421,
+    "lng": 110.51238,
+    "pop": null
+  },
+  {
+    "nameAr": "Wuyi Nongchang",
+    "nameEn": "Wuyi Nongchang",
+    "type": "city",
+    "lat": 20.465833333333,
+    "lng": 110.14194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiage Village",
+    "nameEn": "Xiage Village",
+    "type": "city",
+    "lat": 25.903055555556,
+    "lng": 109.20194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiaman Muchang",
+    "nameEn": "Xiaman Muchang",
+    "type": "city",
+    "lat": 33.574444444444,
+    "lng": 102.47055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Xianlian Zhongchang",
+    "nameEn": "Xianlian Zhongchang",
+    "type": "city",
+    "lat": 29.484166666667,
+    "lng": 116.31055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Xianyang",
+    "nameEn": "Xianyang",
+    "type": "city",
+    "lat": 34.413889,
+    "lng": 108.857778,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiaokunlun Linchang",
+    "nameEn": "Xiaokunlun Linchang",
+    "type": "city",
+    "lat": 47.473611111111,
+    "lng": 129.50083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiaoshan Linchang",
+    "nameEn": "Xiaoshan Linchang",
+    "type": "city",
+    "lat": 48.088055555556,
+    "lng": 129.99694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiaoshangqiao",
+    "nameEn": "Xiaoshangqiao",
+    "type": "city",
+    "lat": 33.7167,
+    "lng": 113.967,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiaozhou Village",
+    "nameEn": "Xiaozhou Village",
+    "type": "city",
+    "lat": 23.06069444,
+    "lng": 113.353,
+    "pop": null
+  },
+  {
+    "nameAr": "Xijiang thousand miao village",
+    "nameEn": "Xijiang thousand miao village",
+    "type": "city",
+    "lat": 26.496856,
+    "lng": 108.1704,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiling Linchang",
+    "nameEn": "Xiling Linchang",
+    "type": "city",
+    "lat": 47.407222222222,
+    "lng": 128.70277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Xincun",
+    "nameEn": "Xincun",
+    "type": "city",
+    "lat": 24.692555555556,
+    "lng": 116.80530555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Xinfeng Linchang",
+    "nameEn": "Xinfeng Linchang",
+    "type": "city",
+    "lat": 48.3525,
+    "lng": 128.80361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Xinshidai Nongchang",
+    "nameEn": "Xinshidai Nongchang",
+    "type": "city",
+    "lat": 22.060277777778,
+    "lng": 110.6125,
+    "pop": null
+  },
+  {
+    "nameAr": "Xiqi Village",
+    "nameEn": "Xiqi Village",
+    "type": "city",
+    "lat": 22.3298,
+    "lng": 112.791,
+    "pop": null
+  },
+  {
+    "nameAr": "Xudu",
+    "nameEn": "Xudu",
+    "type": "city",
+    "lat": 33.989372,
+    "lng": 114.019262,
+    "pop": null
+  },
+  {
+    "nameAr": "Yangguang Linchang",
+    "nameEn": "Yangguang Linchang",
+    "type": "city",
+    "lat": 48.543055555556,
+    "lng": 128.81416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Yangjiaotang, Anhua",
+    "nameEn": "Yangjiaotang, Anhua",
+    "type": "city",
+    "lat": 28.5353,
+    "lng": 111.614,
+    "pop": null
+  },
+  {
+    "nameAr": "Yanglan Village",
+    "nameEn": "Yanglan Village",
+    "type": "city",
+    "lat": 26.031666666667,
+    "lng": 109.87333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Yanshi Jingyingsuo",
+    "nameEn": "Yanshi Jingyingsuo",
+    "type": "city",
+    "lat": 47.235277777778,
+    "lng": 129.34722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Yanzhai, Pingyan Village",
+    "nameEn": "Yanzhai, Pingyan Village",
+    "type": "city",
+    "lat": 25.906944444444,
+    "lng": 109.63833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Yarkhoto",
+    "nameEn": "Yarkhoto",
+    "type": "city",
+    "lat": 42.95051742,
+    "lng": 89.06393051,
+    "pop": null
+  },
+  {
+    "nameAr": "Yau Kom Tau Village",
+    "nameEn": "Yau Kom Tau Village",
+    "type": "city",
+    "lat": 22.371883,
+    "lng": 114.096927,
+    "pop": null
+  },
+  {
+    "nameAr": "Yau Yue Wan Village",
+    "nameEn": "Yau Yue Wan Village",
+    "type": "city",
+    "lat": 22.327134,
+    "lng": 114.260594,
+    "pop": null
+  },
+  {
+    "nameAr": "Ye",
+    "nameEn": "Ye",
+    "type": "city",
+    "lat": 36.2748,
+    "lng": 114.4002,
+    "pop": null
+  },
+  {
+    "nameAr": "Yeung Ka Tsuen",
+    "nameEn": "Yeung Ka Tsuen",
+    "type": "city",
+    "lat": 22.411001,
+    "lng": 114.02063,
+    "pop": null
+  },
+  {
+    "nameAr": "Yeung Siu Hang",
+    "nameEn": "Yeung Siu Hang",
+    "type": "city",
+    "lat": 22.394722,
+    "lng": 113.965209,
+    "pop": null
+  },
+  {
+    "nameAr": "Yeung Uk Tsuen",
+    "nameEn": "Yeung Uk Tsuen",
+    "type": "city",
+    "lat": 22.37187,
+    "lng": 114.125682,
+    "pop": null
+  },
+  {
+    "nameAr": "Yi O",
+    "nameEn": "Yi O",
+    "type": "city",
+    "lat": 22.224851,
+    "lng": 113.848273,
+    "pop": null
+  },
+  {
+    "nameAr": "Yick Yuen Tsuen",
+    "nameEn": "Yick Yuen Tsuen",
+    "type": "city",
+    "lat": 22.428073,
+    "lng": 113.988823,
+    "pop": null
+  },
+  {
+    "nameAr": "Yidong Jingyingsuo",
+    "nameEn": "Yidong Jingyingsuo",
+    "type": "city",
+    "lat": 47.7825,
+    "lng": 129.02694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Yim Tin Kok Tsuen",
+    "nameEn": "Yim Tin Kok Tsuen",
+    "type": "city",
+    "lat": 22.352916,
+    "lng": 114.100369,
+    "pop": null
+  },
+  {
+    "nameAr": "Yim Tso Ha",
+    "nameEn": "Yim Tso Ha",
+    "type": "city",
+    "lat": 22.53234,
+    "lng": 114.20695,
+    "pop": null
+  },
+  {
+    "nameAr": "Yimin Linchang",
+    "nameEn": "Yimin Linchang",
+    "type": "city",
+    "lat": 47.704722222222,
+    "lng": 128.95055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Yimuchang",
+    "nameEn": "Yimuchang",
+    "type": "city",
+    "lat": 36.261388888889,
+    "lng": 81.073333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Yin Kong",
+    "nameEn": "Yin Kong",
+    "type": "city",
+    "lat": 22.50427,
+    "lng": 114.11158,
+    "pop": null
+  },
+  {
+    "nameAr": "Yin Ngam",
+    "nameEn": "Yin Ngam",
+    "type": "city",
+    "lat": 22.424185,
+    "lng": 114.150213,
+    "pop": null
+  },
+  {
+    "nameAr": "Ying Pun",
+    "nameEn": "Ying Pun",
+    "type": "city",
+    "lat": 22.474113,
+    "lng": 114.111091,
+    "pop": null
+  },
+  {
+    "nameAr": "Ying Pun Ha Chuk Hang",
+    "nameEn": "Ying Pun Ha Chuk Hang",
+    "type": "city",
+    "lat": 22.458245,
+    "lng": 114.162447,
+    "pop": null
+  },
+  {
+    "nameAr": "Yinxu",
+    "nameEn": "Yinxu",
+    "type": "city",
+    "lat": 36.1225,
+    "lng": 114.31861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Yiqing Jingyingsuo",
+    "nameEn": "Yiqing Jingyingsuo",
+    "type": "city",
+    "lat": 47.8875,
+    "lng": 129.15222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Yishan Linchang",
+    "nameEn": "Yishan Linchang",
+    "type": "city",
+    "lat": 48.747777777778,
+    "lng": 129.53833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Yongcheng",
+    "nameEn": "Yongcheng",
+    "type": "city",
+    "lat": 33.916667,
+    "lng": 116.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Yongcui Linchang",
+    "nameEn": "Yongcui Linchang",
+    "type": "city",
+    "lat": 47.083888888889,
+    "lng": 128.95472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Youcha Linchang",
+    "nameEn": "Youcha Linchang",
+    "type": "city",
+    "lat": 27.779166666667,
+    "lng": 114.37277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Yubeng",
+    "nameEn": "Yubeng",
+    "type": "city",
+    "lat": 28.3982,
+    "lng": 98.7935,
+    "pop": null
+  },
+  {
+    "nameAr": "Yue Kok",
+    "nameEn": "Yue Kok",
+    "type": "city",
+    "lat": 22.458236,
+    "lng": 114.177107,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Kong San Tsuen",
+    "nameEn": "Yuen Kong San Tsuen",
+    "type": "city",
+    "lat": 22.420714,
+    "lng": 114.074709,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Kong Tsuen",
+    "nameEn": "Yuen Kong Tsuen",
+    "type": "city",
+    "lat": 22.425233,
+    "lng": 114.076749,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Leng Lei Uk",
+    "nameEn": "Yuen Leng Lei Uk",
+    "type": "city",
+    "lat": 22.475696,
+    "lng": 114.15586,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Leng Yip Uk",
+    "nameEn": "Yuen Leng Yip Uk",
+    "type": "city",
+    "lat": 22.473432,
+    "lng": 114.155941,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Long New Town",
+    "nameEn": "Yuen Long New Town",
+    "type": "city",
+    "lat": 22.4626,
+    "lng": 114.019,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Long Town",
+    "nameEn": "Yuen Long Town",
+    "type": "city",
+    "lat": 22.4445,
+    "lng": 114.026,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Tun Ha",
+    "nameEn": "Yuen Tun Ha",
+    "type": "city",
+    "lat": 22.426765,
+    "lng": 114.159114,
+    "pop": null
+  },
+  {
+    "nameAr": "Yuen Tun Tsuen",
+    "nameEn": "Yuen Tun Tsuen",
+    "type": "city",
+    "lat": 22.36258,
+    "lng": 114.04629,
+    "pop": null
+  },
+  {
+    "nameAr": "Yumiao Jingyingsuo",
+    "nameEn": "Yumiao Jingyingsuo",
+    "type": "city",
+    "lat": 47.664166666667,
+    "lng": 128.79222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Yung Shue Au",
+    "nameEn": "Yung Shue Au",
+    "type": "city",
+    "lat": 22.5438,
+    "lng": 114.248,
+    "pop": null
+  },
+  {
+    "nameAr": "Yung Shue Ha",
+    "nameEn": "Yung Shue Ha",
+    "type": "city",
+    "lat": 22.1997,
+    "lng": 114.141,
+    "pop": null
+  },
+  {
+    "nameAr": "Yung Shue Long",
+    "nameEn": "Yung Shue Long",
+    "type": "city",
+    "lat": 22.226981,
+    "lng": 114.114708,
+    "pop": null
+  },
+  {
+    "nameAr": "Yung Shue O",
+    "nameEn": "Yung Shue O",
+    "type": "city",
+    "lat": 22.42716,
+    "lng": 114.29324,
+    "pop": null
+  },
+  {
+    "nameAr": "Yunshantun",
+    "nameEn": "Yunshantun",
+    "type": "city",
+    "lat": 26.2925,
+    "lng": 106.08444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Yutou Village",
+    "nameEn": "Yutou Village",
+    "type": "city",
+    "lat": 26.138611111111,
+    "lng": 109.70611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Zadang Village",
+    "nameEn": "Zadang Village",
+    "type": "city",
+    "lat": 26.004166666667,
+    "lng": 108.64388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Zengchong Village",
+    "nameEn": "Zengchong Village",
+    "type": "city",
+    "lat": 25.915277777778,
+    "lng": 108.69333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Zhagana",
+    "nameEn": "Zhagana",
+    "type": "city",
+    "lat": 34.238982712492,
+    "lng": 103.18816423416,
+    "pop": null
+  },
+  {
+    "nameAr": "Zhanli Village",
+    "nameEn": "Zhanli Village",
+    "type": "city",
+    "lat": 25.843888888889,
+    "lng": 108.91083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Zhaoyuan",
+    "nameEn": "Zhaoyuan",
+    "type": "city",
+    "lat": 45.5,
+    "lng": 125.13333,
+    "pop": null
+  },
+  {
+    "nameAr": "Zhelaizhai",
+    "nameEn": "Zhelaizhai",
+    "type": "city",
+    "lat": 38.147,
+    "lng": 102.186,
+    "pop": null
+  },
+  {
+    "nameAr": "Zili Village Cluster",
+    "nameEn": "Zili Village Cluster",
+    "type": "city",
+    "lat": 22.3732,
+    "lng": 112.5791,
+    "pop": null
+  }
+]

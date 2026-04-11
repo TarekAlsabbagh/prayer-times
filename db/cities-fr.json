@@ -1,0 +1,3489 @@
+[
+  {
+    "nameAr": "باريس",
+    "nameEn": "Paris",
+    "type": "city",
+    "lat": 48.8566,
+    "lng": 2.3522
+  },
+  {
+    "nameAr": "مرسيليا",
+    "nameEn": "Marseille",
+    "type": "city",
+    "lat": 43.296666666667,
+    "lng": 5.3763888888889,
+    "pop": 886040
+  },
+  {
+    "nameAr": "ليون",
+    "nameEn": "Lyon",
+    "type": "city",
+    "lat": 45.7675,
+    "lng": 4.835,
+    "pop": 519127
+  },
+  {
+    "nameAr": "تولوز",
+    "nameEn": "Toulouse",
+    "type": "city",
+    "lat": 43.604444444444,
+    "lng": 1.4433333333333,
+    "pop": 514819
+  },
+  {
+    "nameAr": "نيس",
+    "nameEn": "Nice",
+    "type": "city",
+    "lat": 43.701944444444,
+    "lng": 7.2683333333333,
+    "pop": 357737
+  },
+  {
+    "nameAr": "نانت",
+    "nameEn": "Nantes",
+    "type": "city",
+    "lat": 47.217222222222,
+    "lng": -1.5538888888889,
+    "pop": 327734
+  },
+  {
+    "nameAr": "مونبلييه",
+    "nameEn": "Montpellier",
+    "type": "city",
+    "lat": 43.610919444444,
+    "lng": 3.8772305555556,
+    "pop": 310240
+  },
+  {
+    "nameAr": "ستراسبورغ",
+    "nameEn": "Strasbourg",
+    "type": "city",
+    "lat": 48.573333333333,
+    "lng": 7.7522222222222,
+    "pop": 293771
+  },
+  {
+    "nameAr": "بوردو",
+    "nameEn": "Bordeaux",
+    "type": "city",
+    "lat": 44.837777777778,
+    "lng": -0.57944444444444,
+    "pop": 267991
+  },
+  {
+    "nameAr": "ليل",
+    "nameEn": "Lille",
+    "type": "city",
+    "lat": 50.631944444444,
+    "lng": 3.0575,
+    "pop": 238246
+  },
+  {
+    "nameAr": "رين",
+    "nameEn": "Rennes",
+    "type": "city",
+    "lat": 48.114166666667,
+    "lng": -1.6808333333333,
+    "pop": 230890
+  },
+  {
+    "nameAr": "تولون",
+    "nameEn": "Toulon",
+    "type": "city",
+    "lat": 43.125,
+    "lng": 5.9305555555556,
+    "pop": 179116
+  },
+  {
+    "nameAr": "رانس",
+    "nameEn": "Reims",
+    "type": "city",
+    "lat": 49.265277777778,
+    "lng": 4.0286111111111,
+    "pop": 177674
+  },
+  {
+    "nameAr": "سانت إتيان",
+    "nameEn": "Saint-Étienne",
+    "type": "city",
+    "lat": 45.433888888889,
+    "lng": 4.3897222222222,
+    "pop": 173136
+  },
+  {
+    "nameAr": "لو هافر",
+    "nameEn": "Le Havre",
+    "type": "city",
+    "lat": 49.494166666667,
+    "lng": 0.10805555555556,
+    "pop": 166687
+  },
+  {
+    "nameAr": "فيلوربان",
+    "nameEn": "Villeurbanne",
+    "type": "city",
+    "lat": 45.766111111111,
+    "lng": 4.8794444444444,
+    "pop": 163684
+  },
+  {
+    "nameAr": "ديجون",
+    "nameEn": "Dijon",
+    "type": "city",
+    "lat": 47.323055555556,
+    "lng": 5.0419444444444,
+    "pop": 161830
+  },
+  {
+    "nameAr": "أنجيه",
+    "nameEn": "Angers",
+    "type": "city",
+    "lat": 47.472777777778,
+    "lng": -0.55555555555556,
+    "pop": 159022
+  },
+  {
+    "nameAr": "غرونوبل",
+    "nameEn": "Grenoble",
+    "type": "city",
+    "lat": 45.186944444444,
+    "lng": 5.7263888888889,
+    "pop": 156140
+  },
+  {
+    "nameAr": "سان ديني",
+    "nameEn": "Saint-Denis",
+    "type": "city",
+    "lat": -20.878888888889,
+    "lng": 55.448055555556,
+    "pop": 155634
+  },
+  {
+    "nameAr": "نيم",
+    "nameEn": "Nîmes",
+    "type": "city",
+    "lat": 43.838333333333,
+    "lng": 4.3597222222222,
+    "pop": 151839
+  },
+  {
+    "nameAr": "آكس أون بروفانس",
+    "nameEn": "Aix-en-Provence",
+    "type": "city",
+    "lat": 43.527777777778,
+    "lng": 5.4455555555556,
+    "pop": 149695
+  },
+  {
+    "nameAr": "كليرمون فيران",
+    "nameEn": "Clermont-Ferrand",
+    "type": "city",
+    "lat": 45.779722222222,
+    "lng": 3.0869444444444,
+    "pop": 146351
+  },
+  {
+    "nameAr": "لو مان",
+    "nameEn": "Le Mans",
+    "type": "city",
+    "lat": 48.004166666667,
+    "lng": 0.19694444444444,
+    "pop": 146249
+  },
+  {
+    "nameAr": "بريست",
+    "nameEn": "Brest",
+    "type": "city",
+    "lat": 48.39,
+    "lng": -4.4869444444444,
+    "pop": 142346
+  },
+  {
+    "nameAr": "تور",
+    "nameEn": "Tours",
+    "type": "city",
+    "lat": 47.392777777778,
+    "lng": 0.68833333333333,
+    "pop": 139259
+  },
+  {
+    "nameAr": "أميان",
+    "nameEn": "Amiens",
+    "type": "city",
+    "lat": 49.891944444444,
+    "lng": 2.2977777777778,
+    "pop": 136449
+  },
+  {
+    "nameAr": "آنسي",
+    "nameEn": "Annecy",
+    "type": "city",
+    "lat": 45.899166666667,
+    "lng": 6.1294444444444,
+    "pop": 132117
+  },
+  {
+    "nameAr": "ليموج",
+    "nameEn": "Limoges",
+    "type": "city",
+    "lat": 45.834444444444,
+    "lng": 1.2616666666667,
+    "pop": 129937
+  },
+  {
+    "nameAr": "متز",
+    "nameEn": "Metz",
+    "type": "city",
+    "lat": 49.119722222222,
+    "lng": 6.1769444444444,
+    "pop": 122572
+  },
+  {
+    "nameAr": "بربنية",
+    "nameEn": "Perpignan",
+    "type": "city",
+    "lat": 42.6975,
+    "lng": 2.8947222222222,
+    "pop": 121616
+  },
+  {
+    "nameAr": "بولون-بيانكور",
+    "nameEn": "Boulogne-Billancourt",
+    "type": "city",
+    "lat": 48.835277777778,
+    "lng": 2.2413888888889,
+    "pop": 119019
+  },
+  {
+    "nameAr": "بيزنسون",
+    "nameEn": "Besançon",
+    "type": "city",
+    "lat": 47.242222222222,
+    "lng": 6.0213888888889,
+    "pop": 118489
+  },
+  {
+    "nameAr": "روان",
+    "nameEn": "Rouen",
+    "type": "city",
+    "lat": 49.443055555556,
+    "lng": 1.1025,
+    "pop": 117662
+  },
+  {
+    "nameAr": "أورليان",
+    "nameEn": "Orléans",
+    "type": "city",
+    "lat": 47.902222222222,
+    "lng": 1.9041666666667,
+    "pop": 116357
+  },
+  {
+    "nameAr": "مونتروي",
+    "nameEn": "Montreuil",
+    "type": "city",
+    "lat": 48.860277777778,
+    "lng": 2.4430555555556,
+    "pop": 111934
+  },
+  {
+    "nameAr": "سن بول ريونيون",
+    "nameEn": "Saint-Paul",
+    "type": "city",
+    "lat": -21.009722222222,
+    "lng": 55.269722222222,
+    "pop": 108088
+  },
+  {
+    "nameAr": "أرجنتوي",
+    "nameEn": "Argenteuil",
+    "type": "city",
+    "lat": 48.947777777778,
+    "lng": 2.2488888888889,
+    "pop": 106130
+  },
+  {
+    "nameAr": "ميلوز",
+    "nameEn": "Mulhouse",
+    "type": "city",
+    "lat": 47.748611111111,
+    "lng": 7.3391666666667,
+    "pop": 104978
+  },
+  {
+    "nameAr": "نانسي",
+    "nameEn": "Nancy",
+    "type": "city",
+    "lat": 48.692777777778,
+    "lng": 6.1836111111111,
+    "pop": 103671
+  },
+  {
+    "nameAr": "توركوان",
+    "nameEn": "Tourcoing",
+    "type": "city",
+    "lat": 50.7225,
+    "lng": 3.1602777777778,
+    "pop": 98772
+  },
+  {
+    "nameAr": "روبيه",
+    "nameEn": "Roubaix",
+    "type": "city",
+    "lat": 50.69,
+    "lng": 3.1816666666667,
+    "pop": 98286
+  },
+  {
+    "nameAr": "نانتير",
+    "nameEn": "Nanterre",
+    "type": "city",
+    "lat": 48.890555555556,
+    "lng": 2.2036111111111,
+    "pop": 97783
+  },
+  {
+    "nameAr": "نوميا",
+    "nameEn": "Nouméa",
+    "type": "city",
+    "lat": -22.266666666667,
+    "lng": 166.45,
+    "pop": 96082
+  },
+  {
+    "nameAr": "فيتري سور سين",
+    "nameEn": "Vitry-sur-Seine",
+    "type": "city",
+    "lat": 48.7875,
+    "lng": 2.3927777777778,
+    "pop": 93963
+  },
+  {
+    "nameAr": "أنيار سور سين",
+    "nameEn": "Asnières-sur-Seine",
+    "type": "city",
+    "lat": 48.911111111111,
+    "lng": 2.2855555555556,
+    "pop": 93941
+  },
+  {
+    "nameAr": "كريتاي",
+    "nameEn": "Créteil",
+    "type": "city",
+    "lat": 48.777777777778,
+    "lng": 2.4530555555556,
+    "pop": 93397
+  },
+  {
+    "nameAr": "أفنيون",
+    "nameEn": "Avignon",
+    "type": "city",
+    "lat": 43.948611111111,
+    "lng": 4.8083333333333,
+    "pop": 92188
+  },
+  {
+    "nameAr": "كولومب",
+    "nameEn": "Colombes",
+    "type": "city",
+    "lat": 48.923611111111,
+    "lng": 2.2522222222222,
+    "pop": 91053
+  },
+  {
+    "nameAr": "بواتييه",
+    "nameEn": "Poitiers",
+    "type": "city",
+    "lat": 46.581111111111,
+    "lng": 0.33527777777778,
+    "pop": 89916
+  },
+  {
+    "nameAr": "أوبارفيلييه",
+    "nameEn": "Aubervilliers",
+    "type": "city",
+    "lat": 48.911111111111,
+    "lng": 2.3825,
+    "pop": 88365
+  },
+  {
+    "nameAr": "أولنيه سو بوا",
+    "nameEn": "Aulnay-sous-Bois",
+    "type": "city",
+    "lat": 48.936388888889,
+    "lng": 2.4930555555556,
+    "pop": 87599
+  },
+  {
+    "nameAr": "سان بيير",
+    "nameEn": "Saint-Pierre",
+    "type": "city",
+    "lat": -21.341944444444,
+    "lng": 55.477777777778,
+    "pop": 85038
+  },
+  {
+    "nameAr": "كوربفوا",
+    "nameEn": "Courbevoie",
+    "type": "city",
+    "lat": 48.897222222222,
+    "lng": 2.2522222222222,
+    "pop": 82902
+  },
+  {
+    "nameAr": "روي-مالميزون",
+    "nameEn": "Rueil-Malmaison",
+    "type": "city",
+    "lat": 48.877777777778,
+    "lng": 2.1883333333333,
+    "pop": 82874
+  },
+  {
+    "nameAr": "Le Tampon",
+    "nameEn": "Le Tampon",
+    "type": "city",
+    "lat": -21.278055555556,
+    "lng": 55.515277777778,
+    "pop": 82579
+  },
+  {
+    "nameAr": "بيزييه",
+    "nameEn": "Béziers",
+    "type": "city",
+    "lat": 43.343333333333,
+    "lng": 3.2161111111111,
+    "pop": 81545
+  },
+  {
+    "nameAr": "بو",
+    "nameEn": "Pau",
+    "type": "city",
+    "lat": 43.300833333333,
+    "lng": -0.37,
+    "pop": 80441
+  },
+  {
+    "nameAr": "لا روشيل",
+    "nameEn": "La Rochelle",
+    "type": "city",
+    "lat": 46.159444444444,
+    "lng": -1.1513888888889,
+    "pop": 79851
+  },
+  {
+    "nameAr": "شامبيني سور مارن",
+    "nameEn": "Champigny-sur-Marne",
+    "type": "city",
+    "lat": 48.817222222222,
+    "lng": 2.5155555555556,
+    "pop": 78072
+  },
+  {
+    "nameAr": "أنتيب",
+    "nameEn": "Antibes",
+    "type": "city",
+    "lat": 43.58,
+    "lng": 7.1230555555556,
+    "pop": 77637
+  },
+  {
+    "nameAr": "أجاكسيو",
+    "nameEn": "Ajaccio",
+    "type": "city",
+    "lat": 41.925555555556,
+    "lng": 8.7363888888889,
+    "pop": 76320
+  },
+  {
+    "nameAr": "فور دو فرانس",
+    "nameEn": "Fort-de-France",
+    "type": "city",
+    "lat": 14.6,
+    "lng": -61.066666666667,
+    "pop": 75506
+  },
+  {
+    "nameAr": "سان نازير",
+    "nameEn": "Saint-Nazaire",
+    "type": "city",
+    "lat": 47.273611111111,
+    "lng": -2.2138888888889,
+    "pop": 74568
+  },
+  {
+    "nameAr": "كان",
+    "nameEn": "Cannes",
+    "type": "city",
+    "lat": 43.5525,
+    "lng": 7.0213888888889,
+    "pop": 74350
+  },
+  {
+    "nameAr": "كاليه",
+    "nameEn": "Calais",
+    "type": "city",
+    "lat": 50.9475,
+    "lng": 1.8555555555556,
+    "pop": 67571
+  },
+  {
+    "nameAr": "كايين",
+    "nameEn": "Cayenne",
+    "type": "city",
+    "lat": 4.9386111111111,
+    "lng": -52.335,
+    "pop": 62675
+  },
+  {
+    "nameAr": "شامبيري",
+    "nameEn": "Chambéry",
+    "type": "city",
+    "lat": 45.566388888889,
+    "lng": 5.9208333333333,
+    "pop": 59964
+  },
+  {
+    "nameAr": "شوليه",
+    "nameEn": "Cholet",
+    "type": "city",
+    "lat": 47.058888888889,
+    "lng": -0.87972222222222,
+    "pop": 54404
+  },
+  {
+    "nameAr": "بلوة",
+    "nameEn": "Blois",
+    "type": "city",
+    "lat": 47.593055555556,
+    "lng": 1.3272222222222,
+    "pop": 47219
+  },
+  {
+    "nameAr": "لو لامنتين",
+    "nameEn": "Le Lamentin",
+    "type": "city",
+    "lat": 14.615277777778,
+    "lng": -61.001944444444,
+    "pop": 39400
+  },
+  {
+    "nameAr": "تريمبلي أون فرنسا",
+    "nameEn": "Tremblay-en-France",
+    "type": "city",
+    "lat": 48.956111111111,
+    "lng": 2.5763888888889,
+    "pop": 38348
+  },
+  {
+    "nameAr": "غرينيي",
+    "nameEn": "Grigny",
+    "type": "city",
+    "lat": 48.656666666667,
+    "lng": 2.3880555555556,
+    "pop": 26842
+  },
+  {
+    "nameAr": "بابيتي",
+    "nameEn": "Papeete",
+    "type": "city",
+    "lat": -17.539722222222,
+    "lng": -149.56888888889,
+    "pop": 26654
+  },
+  {
+    "nameAr": "سومور",
+    "nameEn": "Saumur",
+    "type": "city",
+    "lat": 47.259166666667,
+    "lng": -0.078055555555556,
+    "pop": 26241
+  },
+  {
+    "nameAr": "شيربورغ",
+    "nameEn": "Cherbourg",
+    "type": "city",
+    "lat": 49.63333333,
+    "lng": -1.6,
+    "pop": 25370
+  },
+  {
+    "nameAr": "شولشر",
+    "nameEn": "Schœlcher",
+    "type": "city",
+    "lat": 14.616111111111,
+    "lng": -61.101388888889,
+    "pop": 19478
+  },
+  {
+    "nameAr": "فوندوم",
+    "nameEn": "Vendôme",
+    "type": "city",
+    "lat": 47.792777777778,
+    "lng": 1.0655555555556,
+    "pop": 15758
+  },
+  {
+    "nameAr": "بوانت-آه-بيتر",
+    "nameEn": "Pointe-à-Pitre",
+    "type": "city",
+    "lat": 16.241111111111,
+    "lng": -61.533055555556,
+    "pop": 15040
+  },
+  {
+    "nameAr": "Rivière-Pilote",
+    "nameEn": "Rivière-Pilote",
+    "type": "city",
+    "lat": 14.486666666667,
+    "lng": -60.903333333333,
+    "pop": 11604
+  },
+  {
+    "nameAr": "لا شابيل سان ميمان",
+    "nameEn": "La Chapelle-Saint-Mesmin",
+    "type": "city",
+    "lat": 47.887222222222,
+    "lng": 1.8405555555556,
+    "pop": 11017
+  },
+  {
+    "nameAr": "Carqueiranne",
+    "nameEn": "Carqueiranne",
+    "type": "city",
+    "lat": 43.095,
+    "lng": 6.0736111111111,
+    "pop": 9408
+  },
+  {
+    "nameAr": "Le Vauclin",
+    "nameEn": "Le Vauclin",
+    "type": "city",
+    "lat": 14.545,
+    "lng": -60.84,
+    "pop": 8483
+  },
+  {
+    "nameAr": "قسطنس",
+    "nameEn": "Coutances",
+    "type": "city",
+    "lat": 49.045277777778,
+    "lng": -1.4452777777778,
+    "pop": 8321
+  },
+  {
+    "nameAr": "كافالير سور مير",
+    "nameEn": "Cavalaire-sur-Mer",
+    "type": "city",
+    "lat": 43.171111111111,
+    "lng": 6.5291666666667,
+    "pop": 8121
+  },
+  {
+    "nameAr": "لوديف",
+    "nameEn": "Lodève",
+    "type": "city",
+    "lat": 43.731666666667,
+    "lng": 3.3194444444444,
+    "pop": 7251
+  },
+  {
+    "nameAr": "بوزانسيه",
+    "nameEn": "Buzançais",
+    "type": "city",
+    "lat": 46.89,
+    "lng": 1.4225,
+    "pop": 4356
+  },
+  {
+    "nameAr": "Saint-Georges-d'Oléron",
+    "nameEn": "Saint-Georges-d'Oléron",
+    "type": "city",
+    "lat": 45.978611111111,
+    "lng": -1.3330555555556,
+    "pop": 4067
+  },
+  {
+    "nameAr": "Veuzain-sur-Loire",
+    "nameEn": "Veuzain-sur-Loire",
+    "type": "city",
+    "lat": 47.500277777778,
+    "lng": 1.175,
+    "pop": 3333
+  },
+  {
+    "nameAr": "Thorens-Glières",
+    "nameEn": "Thorens-Glières",
+    "type": "city",
+    "lat": 45.996944444444,
+    "lng": 6.2469444444444,
+    "pop": 3223
+  },
+  {
+    "nameAr": "Le Marigot",
+    "nameEn": "Le Marigot",
+    "type": "city",
+    "lat": 14.821388888889,
+    "lng": -61.028333333333,
+    "pop": 2948
+  },
+  {
+    "nameAr": "Handrema",
+    "nameEn": "Handrema",
+    "type": "city",
+    "lat": -12.681388888889,
+    "lng": 45.1,
+    "pop": 1829
+  },
+  {
+    "nameAr": "Montcuq",
+    "nameEn": "Montcuq",
+    "type": "city",
+    "lat": 44.338611111111,
+    "lng": 1.2097222222222,
+    "pop": 1804
+  },
+  {
+    "nameAr": "Puyloubier",
+    "nameEn": "Puyloubier",
+    "type": "city",
+    "lat": 43.525,
+    "lng": 5.6769444444444,
+    "pop": 1768
+  },
+  {
+    "nameAr": "بيل فونتين",
+    "nameEn": "Bellefontaine",
+    "type": "city",
+    "lat": 14.673888888889,
+    "lng": -61.164444444444,
+    "pop": 1746
+  },
+  {
+    "nameAr": "سان فلوران",
+    "nameEn": "Saint-Florent",
+    "type": "city",
+    "lat": 42.680833333333,
+    "lng": 9.3025,
+    "pop": 1694
+  },
+  {
+    "nameAr": "Tôtes",
+    "nameEn": "Tôtes",
+    "type": "city",
+    "lat": 48.975833333333,
+    "lng": -0.0063888888888889,
+    "pop": 1543
+  },
+  {
+    "nameAr": "تير-دو-او",
+    "nameEn": "Terre-de-Haut",
+    "type": "city",
+    "lat": 15.866944444444,
+    "lng": -61.582222222222,
+    "pop": 1463
+  },
+  {
+    "nameAr": "Saint-Martin-de-Fresnay",
+    "nameEn": "Saint-Martin-de-Fresnay",
+    "type": "city",
+    "lat": 48.9833,
+    "lng": 0.033333,
+    "pop": 1453
+  },
+  {
+    "nameAr": "Mtsangamboua",
+    "nameEn": "Mtsangamboua",
+    "type": "city",
+    "lat": -12.690277777778,
+    "lng": 45.109722222222,
+    "pop": 1304
+  },
+  {
+    "nameAr": "شومونت سور لوار",
+    "nameEn": "Chaumont-sur-Loire",
+    "type": "city",
+    "lat": 47.48,
+    "lng": 1.1855555555556,
+    "pop": 1096
+  },
+  {
+    "nameAr": "ماتا-أوتو",
+    "nameEn": "Mata-Utu",
+    "type": "city",
+    "lat": -13.2827,
+    "lng": -176.1737,
+    "pop": 1075
+  },
+  {
+    "nameAr": "موروزاليا",
+    "nameEn": "Morosaglia",
+    "type": "city",
+    "lat": 42.435277777778,
+    "lng": 9.3,
+    "pop": 961
+  },
+  {
+    "nameAr": "La Chapelle-sur-Crécy",
+    "nameEn": "La Chapelle-sur-Crécy",
+    "type": "city",
+    "lat": 48.85879,
+    "lng": 2.92597,
+    "pop": 920
+  },
+  {
+    "nameAr": "Saint-Genou",
+    "nameEn": "Saint-Genou",
+    "type": "city",
+    "lat": 46.929444444444,
+    "lng": 1.3380555555556,
+    "pop": 911
+  },
+  {
+    "nameAr": "باتريمونيو",
+    "nameEn": "Patrimonio",
+    "type": "city",
+    "lat": 42.6975,
+    "lng": 9.3619444444444,
+    "pop": 897
+  },
+  {
+    "nameAr": "تير-دو-با",
+    "nameEn": "Terre-de-Bas",
+    "type": "city",
+    "lat": 15.849722222222,
+    "lng": -61.643611111111,
+    "pop": 873
+  },
+  {
+    "nameAr": "Saint-Lary-Soulan",
+    "nameEn": "Saint-Lary-Soulan",
+    "type": "city",
+    "lat": 42.815833333333,
+    "lng": 0.32277777777778,
+    "pop": 837
+  },
+  {
+    "nameAr": "Avatoru",
+    "nameEn": "Avatoru",
+    "type": "city",
+    "lat": -14.944,
+    "lng": -147.705,
+    "pop": 817
+  },
+  {
+    "nameAr": "Saint-Clément-des-Baleines",
+    "nameEn": "Saint-Clément-des-Baleines",
+    "type": "city",
+    "lat": 46.228055555556,
+    "lng": -1.5394444444444,
+    "pop": 688
+  },
+  {
+    "nameAr": "Entremont",
+    "nameEn": "Entremont",
+    "type": "city",
+    "lat": 45.956666666667,
+    "lng": 6.3888888888889,
+    "pop": 679
+  },
+  {
+    "nameAr": "Fonds-Saint-Denis",
+    "nameEn": "Fonds-Saint-Denis",
+    "type": "city",
+    "lat": 14.738888888889,
+    "lng": -61.132222222222,
+    "pop": 640
+  },
+  {
+    "nameAr": "Aka'aka",
+    "nameEn": "Aka'aka",
+    "type": "city",
+    "lat": -13.1667,
+    "lng": -176.133,
+    "pop": 495
+  },
+  {
+    "nameAr": "Ahoa",
+    "nameEn": "Ahoa",
+    "type": "city",
+    "lat": -13.28416667,
+    "lng": -176.23555556,
+    "pop": 436
+  },
+  {
+    "nameAr": "Antecume Pata",
+    "nameEn": "Antecume Pata",
+    "type": "city",
+    "lat": 3.2981584,
+    "lng": -54.0711004,
+    "pop": 400
+  },
+  {
+    "nameAr": "La Neuville-aux-Tourneurs",
+    "nameEn": "La Neuville-aux-Tourneurs",
+    "type": "city",
+    "lat": 49.8669,
+    "lng": 4.3267,
+    "pop": 374
+  },
+  {
+    "nameAr": "سان ميشيل دو شايول",
+    "nameEn": "Saint-Michel-de-Chaillol",
+    "type": "city",
+    "lat": 44.682222222222,
+    "lng": 6.1675,
+    "pop": 373
+  },
+  {
+    "nameAr": "Oradour-sur-Glane",
+    "nameEn": "Oradour-sur-Glane",
+    "type": "city",
+    "lat": 45.929236,
+    "lng": 1.03987,
+    "pop": 330
+  },
+  {
+    "nameAr": "Veneffles",
+    "nameEn": "Veneffles",
+    "type": "city",
+    "lat": 48.032699,
+    "lng": -1.498775,
+    "pop": 326
+  },
+  {
+    "nameAr": "Muro",
+    "nameEn": "Muro",
+    "type": "city",
+    "lat": 42.545555555556,
+    "lng": 8.9141666666667,
+    "pop": 243
+  },
+  {
+    "nameAr": "Vouglans (Lect)",
+    "nameEn": "Vouglans (Lect)",
+    "type": "city",
+    "lat": 46.390868055556,
+    "lng": 5.6754711111111,
+    "pop": 238
+  },
+  {
+    "nameAr": "Ammeville",
+    "nameEn": "Ammeville",
+    "type": "city",
+    "lat": 48.9411,
+    "lng": 0.0330556,
+    "pop": 171
+  },
+  {
+    "nameAr": "Montpinçon",
+    "nameEn": "Montpinçon",
+    "type": "city",
+    "lat": 48.954722,
+    "lng": 0.080278,
+    "pop": 167
+  },
+  {
+    "nameAr": "Berville",
+    "nameEn": "Berville",
+    "type": "city",
+    "lat": 49.0061,
+    "lng": -0.00666667,
+    "pop": 160
+  },
+  {
+    "nameAr": "Notre-Dame-de-Fresnay",
+    "nameEn": "Notre-Dame-de-Fresnay",
+    "type": "city",
+    "lat": 48.961667,
+    "lng": 0.043056,
+    "pop": 159
+  },
+  {
+    "nameAr": "Berc",
+    "nameEn": "Berc",
+    "type": "city",
+    "lat": 44.85861,
+    "lng": 3.20583,
+    "pop": 144
+  },
+  {
+    "nameAr": "Sabazan",
+    "nameEn": "Sabazan",
+    "type": "city",
+    "lat": 43.705,
+    "lng": 0.047222222222222,
+    "pop": 126
+  },
+  {
+    "nameAr": "Le Hourdel",
+    "nameEn": "Le Hourdel",
+    "type": "city",
+    "lat": 50.215,
+    "lng": 1.5666666666667,
+    "pop": 102
+  },
+  {
+    "nameAr": "Écots",
+    "nameEn": "Écots",
+    "type": "city",
+    "lat": 48.988889,
+    "lng": 0.029722,
+    "pop": 95
+  },
+  {
+    "nameAr": "Cohan",
+    "nameEn": "Cohan",
+    "type": "city",
+    "lat": 49.2125,
+    "lng": 3.6422222222222,
+    "pop": 88
+  },
+  {
+    "nameAr": "Celliers",
+    "nameEn": "Celliers",
+    "type": "city",
+    "lat": 45.478947,
+    "lng": 6.420447,
+    "pop": 41
+  },
+  {
+    "nameAr": "Niort-de-Sault",
+    "nameEn": "Niort-de-Sault",
+    "type": "city",
+    "lat": 42.8025,
+    "lng": 2.0033333333333,
+    "pop": 34
+  },
+  {
+    "nameAr": "'A'akapa",
+    "nameEn": "'A'akapa",
+    "type": "city",
+    "lat": -8.81944444,
+    "lng": -140.13055556,
+    "pop": null
+  },
+  {
+    "nameAr": "تيبوتا",
+    "nameEn": "Tiputa",
+    "type": "city",
+    "lat": -14.976,
+    "lng": -147.625,
+    "pop": null
+  },
+  {
+    "nameAr": "جوان لي بان",
+    "nameEn": "Juan-les-Pins",
+    "type": "city",
+    "lat": 43.571111111111,
+    "lng": 7.1094444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "فيتاهو",
+    "nameEn": "Vaitahu",
+    "type": "city",
+    "lat": -9.9375,
+    "lng": -139.11111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "ملعب ويكي داتا",
+    "nameEn": "Wikidata Sandbox",
+    "type": "city",
+    "lat": 35.226055555556,
+    "lng": 140.08394444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Abbeville",
+    "nameEn": "Abbeville",
+    "type": "city",
+    "lat": 48.9347,
+    "lng": 0.00555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Aber Wrac'h",
+    "nameEn": "Aber Wrac'h",
+    "type": "city",
+    "lat": 48.59708,
+    "lng": -4.56187,
+    "pop": null
+  },
+  {
+    "nameAr": "Acarouany",
+    "nameEn": "Acarouany",
+    "type": "city",
+    "lat": 5.593,
+    "lng": -53.8154,
+    "pop": null
+  },
+  {
+    "nameAr": "Akouménaye",
+    "nameEn": "Akouménaye",
+    "type": "city",
+    "lat": 2.95,
+    "lng": -52.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Alicoto",
+    "nameEn": "Alicoto",
+    "type": "city",
+    "lat": 3.11666667,
+    "lng": -52.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Ancien village d'Allan",
+    "nameEn": "Ancien village d'Allan",
+    "type": "city",
+    "lat": 44.4978,
+    "lng": 4.7972,
+    "pop": null
+  },
+  {
+    "nameAr": "Angoustrine",
+    "nameEn": "Angoustrine",
+    "type": "city",
+    "lat": 42.4833,
+    "lng": 1.9601,
+    "pop": null
+  },
+  {
+    "nameAr": "Anus",
+    "nameEn": "Anus",
+    "type": "city",
+    "lat": 47.6,
+    "lng": 3.53333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Appeville-le-Petit",
+    "nameEn": "Appeville-le-Petit",
+    "type": "city",
+    "lat": 49.906388888889,
+    "lng": 1.0525,
+    "pop": null
+  },
+  {
+    "nameAr": "Arçós",
+    "nameEn": "Arçós",
+    "type": "city",
+    "lat": 42.575844,
+    "lng": 2.59737,
+    "pop": null
+  },
+  {
+    "nameAr": "Arenyanes",
+    "nameEn": "Arenyanes",
+    "type": "city",
+    "lat": 42.616936111111,
+    "lng": 2.5525611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Argentière",
+    "nameEn": "Argentière",
+    "type": "city",
+    "lat": 45.983944,
+    "lng": 6.927231,
+    "pop": null
+  },
+  {
+    "nameAr": "Assonval",
+    "nameEn": "Assonval",
+    "type": "city",
+    "lat": 50.564444,
+    "lng": 2.078889,
+    "pop": null
+  },
+  {
+    "nameAr": "Aubrac",
+    "nameEn": "Aubrac",
+    "type": "city",
+    "lat": 44.6223,
+    "lng": 2.98735,
+    "pop": null
+  },
+  {
+    "nameAr": "Avalon",
+    "nameEn": "Avalon",
+    "type": "city",
+    "lat": 45.429444444444,
+    "lng": 6.0313888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Ayguatébia",
+    "nameEn": "Ayguatébia",
+    "type": "city",
+    "lat": 42.5739,
+    "lng": 2.1853,
+    "pop": null
+  },
+  {
+    "nameAr": "Aytua",
+    "nameEn": "Aytua",
+    "type": "city",
+    "lat": 42.5395,
+    "lng": 2.3324,
+    "pop": null
+  },
+  {
+    "nameAr": "Bandraboua",
+    "nameEn": "Bandraboua",
+    "type": "city",
+    "lat": -12.702219444444,
+    "lng": 45.121969444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Barjou",
+    "nameEn": "Barjou",
+    "type": "city",
+    "lat": 44.714444444444,
+    "lng": 0.81888888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Beauvoir-Rivière",
+    "nameEn": "Beauvoir-Rivière",
+    "type": "city",
+    "lat": 50.2133,
+    "lng": 2.175,
+    "pop": null
+  },
+  {
+    "nameAr": "Bélizon",
+    "nameEn": "Bélizon",
+    "type": "city",
+    "lat": 4.25,
+    "lng": -52.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Belle",
+    "nameEn": "Belle",
+    "type": "city",
+    "lat": 50.745694,
+    "lng": 1.756389,
+    "pop": null
+  },
+  {
+    "nameAr": "Bena",
+    "nameEn": "Bena",
+    "type": "city",
+    "lat": 42.481180555556,
+    "lng": 1.8860416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bienvenue, French Guiana",
+    "nameEn": "Bienvenue, French Guiana",
+    "type": "city",
+    "lat": 3.11666667,
+    "lng": -52.68333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bilac",
+    "nameEn": "Bilac",
+    "type": "city",
+    "lat": 47.328,
+    "lng": -2.313,
+    "pop": null
+  },
+  {
+    "nameAr": "Bilques",
+    "nameEn": "Bilques",
+    "type": "city",
+    "lat": 50.696666666667,
+    "lng": 2.2627777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Blangermont",
+    "nameEn": "Blangermont",
+    "type": "city",
+    "lat": 50.3306,
+    "lng": 2.21944,
+    "pop": null
+  },
+  {
+    "nameAr": "Blangy",
+    "nameEn": "Blangy",
+    "type": "city",
+    "lat": 50.3,
+    "lng": 2.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Blavincourt",
+    "nameEn": "Blavincourt",
+    "type": "city",
+    "lat": 50.278056,
+    "lng": 2.475278,
+    "pop": null
+  },
+  {
+    "nameAr": "Boisgibault",
+    "nameEn": "Boisgibault",
+    "type": "city",
+    "lat": 47.31916667,
+    "lng": 2.90722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Boncourt",
+    "nameEn": "Boncourt",
+    "type": "city",
+    "lat": 50.5525,
+    "lng": 2.280833,
+    "pop": null
+  },
+  {
+    "nameAr": "Bons",
+    "nameEn": "Bons",
+    "type": "city",
+    "lat": 45.8045,
+    "lng": 5.6822,
+    "pop": null
+  },
+  {
+    "nameAr": "Boucres",
+    "nameEn": "Boucres",
+    "type": "city",
+    "lat": 50.876806,
+    "lng": 1.839167,
+    "pop": null
+  },
+  {
+    "nameAr": "Bouin",
+    "nameEn": "Bouin",
+    "type": "city",
+    "lat": 50.383333333333,
+    "lng": 1.9836111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Boussagues",
+    "nameEn": "Boussagues",
+    "type": "city",
+    "lat": 43.65257,
+    "lng": 3.130196,
+    "pop": null
+  },
+  {
+    "nameAr": "Brancion",
+    "nameEn": "Brancion",
+    "type": "city",
+    "lat": 46.54731,
+    "lng": 4.79658,
+    "pop": null
+  },
+  {
+    "nameAr": "Bray",
+    "nameEn": "Bray",
+    "type": "city",
+    "lat": 50.336944,
+    "lng": 2.688889,
+    "pop": null
+  },
+  {
+    "nameAr": "Bréxent",
+    "nameEn": "Bréxent",
+    "type": "city",
+    "lat": 50.509861,
+    "lng": 1.728333,
+    "pop": null
+  },
+  {
+    "nameAr": "Buges",
+    "nameEn": "Buges",
+    "type": "city",
+    "lat": 48.02647,
+    "lng": 2.7189,
+    "pop": null
+  },
+  {
+    "nameAr": "Buron",
+    "nameEn": "Buron",
+    "type": "city",
+    "lat": 49.21833333,
+    "lng": -0.42083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Cacao, French Guiana",
+    "nameEn": "Cacao, French Guiana",
+    "type": "city",
+    "lat": 4.553495,
+    "lng": -52.492161,
+    "pop": null
+  },
+  {
+    "nameAr": "Caër",
+    "nameEn": "Caër",
+    "type": "city",
+    "lat": 49.06686944,
+    "lng": 1.17270833,
+    "pop": null
+  },
+  {
+    "nameAr": "Caladroy",
+    "nameEn": "Caladroy",
+    "type": "city",
+    "lat": 42.7235,
+    "lng": 2.6450277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Caldégas",
+    "nameEn": "Caldégas",
+    "type": "city",
+    "lat": 42.4415,
+    "lng": 1.9646,
+    "pop": null
+  },
+  {
+    "nameAr": "Camp des Rouëts",
+    "nameEn": "Camp des Rouëts",
+    "type": "city",
+    "lat": 48.04095,
+    "lng": -2.51508,
+    "pop": null
+  },
+  {
+    "nameAr": "Campllong",
+    "nameEn": "Campllong",
+    "type": "city",
+    "lat": 42.543591666667,
+    "lng": 2.4051972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Canoetes",
+    "nameEn": "Canoetes",
+    "type": "city",
+    "lat": 42.62495,
+    "lng": 2.5737222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Careil",
+    "nameEn": "Careil",
+    "type": "city",
+    "lat": 47.297743,
+    "lng": -2.402555,
+    "pop": null
+  },
+  {
+    "nameAr": "Category:Mare Longue",
+    "nameEn": "Category:Mare Longue",
+    "type": "city",
+    "lat": -21.36488,
+    "lng": 55.75218,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerqueux-en-Auge",
+    "nameEn": "Cerqueux-en-Auge",
+    "type": "city",
+    "lat": 49.093611,
+    "lng": 0.031667,
+    "pop": null
+  },
+  {
+    "nameAr": "Champrovent",
+    "nameEn": "Champrovent",
+    "type": "city",
+    "lat": 45.67861111,
+    "lng": 5.81444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Chastenuel",
+    "nameEn": "Chastenuel",
+    "type": "city",
+    "lat": 45.1575,
+    "lng": 3.63138889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chérisy",
+    "nameEn": "Chérisy",
+    "type": "city",
+    "lat": 47.5553,
+    "lng": 4.0456,
+    "pop": null
+  },
+  {
+    "nameAr": "Clarà",
+    "nameEn": "Clarà",
+    "type": "city",
+    "lat": 42.584838888889,
+    "lng": 2.4428555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Cléden-Cap-Sizun",
+    "nameEn": "Cléden-Cap-Sizun",
+    "type": "city",
+    "lat": 48.04805,
+    "lng": -4.64717,
+    "pop": null
+  },
+  {
+    "nameAr": "Clis",
+    "nameEn": "Clis",
+    "type": "city",
+    "lat": 47.336666666667,
+    "lng": -2.4666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Colombey",
+    "nameEn": "Colombey",
+    "type": "city",
+    "lat": 49.106944444444,
+    "lng": 6.26,
+    "pop": null
+  },
+  {
+    "nameAr": "Comes",
+    "nameEn": "Comes",
+    "type": "city",
+    "lat": 42.664238888889,
+    "lng": 2.4361972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Concoules (Lespéron)",
+    "nameEn": "Concoules (Lespéron)",
+    "type": "city",
+    "lat": 44.71,
+    "lng": 3.87238,
+    "pop": null
+  },
+  {
+    "nameAr": "Coppenaxfort",
+    "nameEn": "Coppenaxfort",
+    "type": "city",
+    "lat": 50.95583333,
+    "lng": 2.26305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Cormette",
+    "nameEn": "Cormette",
+    "type": "city",
+    "lat": 50.757778,
+    "lng": 2.165833,
+    "pop": null
+  },
+  {
+    "nameAr": "Cormontibo",
+    "nameEn": "Cormontibo",
+    "type": "city",
+    "lat": 3.8,
+    "lng": -54.13333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Corts",
+    "nameEn": "Corts",
+    "type": "city",
+    "lat": 42.583094444444,
+    "lng": 2.4178305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Cortvassill",
+    "nameEn": "Cortvassill",
+    "type": "city",
+    "lat": 42.4945,
+    "lng": 1.8515,
+    "pop": null
+  },
+  {
+    "nameAr": "Coulor",
+    "nameEn": "Coulor",
+    "type": "city",
+    "lat": 5,
+    "lng": -53.6,
+    "pop": null
+  },
+  {
+    "nameAr": "Courchevel 1850",
+    "nameEn": "Courchevel 1850",
+    "type": "city",
+    "lat": 45.415278,
+    "lng": 6.632222,
+    "pop": null
+  },
+  {
+    "nameAr": "Courchevel Moriond",
+    "nameEn": "Courchevel Moriond",
+    "type": "city",
+    "lat": 45.417778,
+    "lng": 6.652222,
+    "pop": null
+  },
+  {
+    "nameAr": "Crecques",
+    "nameEn": "Crecques",
+    "type": "city",
+    "lat": 50.63625,
+    "lng": 2.3033333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Crêt",
+    "nameEn": "Crêt",
+    "type": "city",
+    "lat": 46.21277778,
+    "lng": 6.27166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Creu",
+    "nameEn": "Creu",
+    "type": "city",
+    "lat": 42.604236111111,
+    "lng": 2.1279166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Croses",
+    "nameEn": "Croses",
+    "type": "city",
+    "lat": 42.674452777778,
+    "lng": 2.5435277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Délices",
+    "nameEn": "Délices",
+    "type": "city",
+    "lat": 4.73611111,
+    "lng": -53.77222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Difques",
+    "nameEn": "Difques",
+    "type": "city",
+    "lat": 50.768611,
+    "lng": 2.146111,
+    "pop": null
+  },
+  {
+    "nameAr": "Digeon",
+    "nameEn": "Digeon",
+    "type": "city",
+    "lat": 49.766666666667,
+    "lng": 1.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Divodurum Mediomatricorum",
+    "nameEn": "Divodurum Mediomatricorum",
+    "type": "city",
+    "lat": 49.12030029,
+    "lng": 6.17780018,
+    "pop": null
+  },
+  {
+    "nameAr": "Doux Marais",
+    "nameEn": "Doux Marais",
+    "type": "city",
+    "lat": 49.056667,
+    "lng": 0.0175,
+    "pop": null
+  },
+  {
+    "nameAr": "Dzoumogne",
+    "nameEn": "Dzoumogne",
+    "type": "city",
+    "lat": -12.717222222222,
+    "lng": 45.112777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Eaux-Chaudes",
+    "nameEn": "Eaux-Chaudes",
+    "type": "city",
+    "lat": 42.953862,
+    "lng": -0.439342,
+    "pop": null
+  },
+  {
+    "nameAr": "Écoivres",
+    "nameEn": "Écoivres",
+    "type": "city",
+    "lat": 50.342777777778,
+    "lng": 2.6811111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ecquemicourt",
+    "nameEn": "Ecquemicourt",
+    "type": "city",
+    "lat": 50.402222222222,
+    "lng": 1.9502777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ehl",
+    "nameEn": "Ehl",
+    "type": "city",
+    "lat": 48.36666667,
+    "lng": 7.61666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Els Hostalets",
+    "nameEn": "Els Hostalets",
+    "type": "city",
+    "lat": 42.414777777778,
+    "lng": 2.4396333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Els Masos de Vallmanya",
+    "nameEn": "Els Masos de Vallmanya",
+    "type": "city",
+    "lat": 42.531619444444,
+    "lng": 2.5189194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "En",
+    "nameEn": "En",
+    "type": "city",
+    "lat": 42.53194444,
+    "lng": 2.26444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Farnous",
+    "nameEn": "Farnous",
+    "type": "city",
+    "lat": 4.95,
+    "lng": -52.41666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Feners",
+    "nameEn": "Feners",
+    "type": "city",
+    "lat": 42.482652777778,
+    "lng": 1.9020972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Fermont",
+    "nameEn": "Fermont",
+    "type": "city",
+    "lat": 49.467222222222,
+    "lng": 5.6638888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Finiels",
+    "nameEn": "Finiels",
+    "type": "city",
+    "lat": 44.40361111,
+    "lng": 3.74611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Fléchinelle",
+    "nameEn": "Fléchinelle",
+    "type": "city",
+    "lat": 50.580833333333,
+    "lng": 2.3029166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Fly",
+    "nameEn": "Fly",
+    "type": "city",
+    "lat": 47.33777649,
+    "lng": 3.40950788,
+    "pop": null
+  },
+  {
+    "nameAr": "Foixà",
+    "nameEn": "Foixà",
+    "type": "city",
+    "lat": 42.604897222222,
+    "lng": 2.5581583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fontenay-sous-Bois",
+    "nameEn": "Fontenay-sous-Bois",
+    "type": "city",
+    "lat": 48.84736,
+    "lng": 2.47152,
+    "pop": null
+  },
+  {
+    "nameAr": "Froissy",
+    "nameEn": "Froissy",
+    "type": "city",
+    "lat": 49.9228,
+    "lng": 2.72586944,
+    "pop": null
+  },
+  {
+    "nameAr": "Gabas, Pyrénées-Atlantiques",
+    "nameEn": "Gabas, Pyrénées-Atlantiques",
+    "type": "city",
+    "lat": 42.889764,
+    "lng": -0.427858,
+    "pop": null
+  },
+  {
+    "nameAr": "Gallician",
+    "nameEn": "Gallician",
+    "type": "city",
+    "lat": 43.644,
+    "lng": 4.296,
+    "pop": null
+  },
+  {
+    "nameAr": "Génerville",
+    "nameEn": "Génerville",
+    "type": "city",
+    "lat": 48.427172222222,
+    "lng": 1.6238861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Génissiat",
+    "nameEn": "Génissiat",
+    "type": "city",
+    "lat": 46.05091,
+    "lng": 5.80309,
+    "pop": null
+  },
+  {
+    "nameAr": "Gergovie",
+    "nameEn": "Gergovie",
+    "type": "city",
+    "lat": 45.71266,
+    "lng": 3.1255,
+    "pop": null
+  },
+  {
+    "nameAr": "Goarem-ar-Manec'h",
+    "nameEn": "Goarem-ar-Manec'h",
+    "type": "city",
+    "lat": 48.39747,
+    "lng": -3.82882,
+    "pop": null
+  },
+  {
+    "nameAr": "Goumois",
+    "nameEn": "Goumois",
+    "type": "city",
+    "lat": 47.2616,
+    "lng": 6.9511,
+    "pop": null
+  },
+  {
+    "nameAr": "Goust",
+    "nameEn": "Goust",
+    "type": "city",
+    "lat": 42.949476,
+    "lng": -0.446382,
+    "pop": null
+  },
+  {
+    "nameAr": "Grand Piquey",
+    "nameEn": "Grand Piquey",
+    "type": "city",
+    "lat": 44.71416667,
+    "lng": -1.21194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Grandfresnoy",
+    "nameEn": "Grandfresnoy",
+    "type": "city",
+    "lat": 49.372222222222,
+    "lng": 2.6522222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Grigel",
+    "nameEn": "Grigel",
+    "type": "city",
+    "lat": 3.3252777777778,
+    "lng": -53.6525,
+    "pop": null
+  },
+  {
+    "nameAr": "Grioudas",
+    "nameEn": "Grioudas",
+    "type": "city",
+    "lat": 44.4235,
+    "lng": 2.72687,
+    "pop": null
+  },
+  {
+    "nameAr": "Groussey",
+    "nameEn": "Groussey",
+    "type": "city",
+    "lat": 48.76111111,
+    "lng": -1.55472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Gruchy",
+    "nameEn": "Gruchy",
+    "type": "city",
+    "lat": 49.6813492,
+    "lng": -1.7916975,
+    "pop": null
+  },
+  {
+    "nameAr": "Guémy",
+    "nameEn": "Guémy",
+    "type": "city",
+    "lat": 50.803333333333,
+    "lng": 2.0297222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Guisanbourg",
+    "nameEn": "Guisanbourg",
+    "type": "city",
+    "lat": 4.39074,
+    "lng": -51.93306,
+    "pop": null
+  },
+  {
+    "nameAr": "Hamel",
+    "nameEn": "Hamel",
+    "type": "city",
+    "lat": 50.0649,
+    "lng": 2.66,
+    "pop": null
+  },
+  {
+    "nameAr": "Hames",
+    "nameEn": "Hames",
+    "type": "city",
+    "lat": 50.883056,
+    "lng": 1.844444,
+    "pop": null
+  },
+  {
+    "nameAr": "Haucourt",
+    "nameEn": "Haucourt",
+    "type": "city",
+    "lat": 49.23696,
+    "lng": 5.18605,
+    "pop": 0
+  },
+  {
+    "nameAr": "Hautpoul",
+    "nameEn": "Hautpoul",
+    "type": "city",
+    "lat": 43.47578,
+    "lng": 2.37858,
+    "pop": null
+  },
+  {
+    "nameAr": "Helling",
+    "nameEn": "Helling",
+    "type": "city",
+    "lat": 49.334716,
+    "lng": 6.351419,
+    "pop": null
+  },
+  {
+    "nameAr": "Hergies",
+    "nameEn": "Hergies",
+    "type": "city",
+    "lat": 50.333058333333,
+    "lng": 3.8000583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ho'oumi",
+    "nameEn": "Ho'oumi",
+    "type": "city",
+    "lat": -8.88674361,
+    "lng": -140.03095778,
+    "pop": null
+  },
+  {
+    "nameAr": "Hokatu",
+    "nameEn": "Hokatu",
+    "type": "city",
+    "lat": -8.93,
+    "lng": -139.52638889,
+    "pop": null
+  },
+  {
+    "nameAr": "Houvigneul",
+    "nameEn": "Houvigneul",
+    "type": "city",
+    "lat": 50.296528,
+    "lng": 2.379861,
+    "pop": null
+  },
+  {
+    "nameAr": "Houvin",
+    "nameEn": "Houvin",
+    "type": "city",
+    "lat": 50.2975,
+    "lng": 2.387917,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibarre",
+    "nameEn": "Ibarre",
+    "type": "city",
+    "lat": 43.18083333,
+    "lng": -1.07888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Iravals",
+    "nameEn": "Iravals",
+    "type": "city",
+    "lat": 42.459560421773,
+    "lng": 1.8923091888428,
+    "pop": null
+  },
+  {
+    "nameAr": "Jaegerthal",
+    "nameEn": "Jaegerthal",
+    "type": "city",
+    "lat": 48.97497222,
+    "lng": 7.68727778,
+    "pop": null
+  },
+  {
+    "nameAr": "Javouhey",
+    "nameEn": "Javouhey",
+    "type": "city",
+    "lat": 5.6047819,
+    "lng": -53.81782,
+    "pop": null
+  },
+  {
+    "nameAr": "Joncet",
+    "nameEn": "Joncet",
+    "type": "city",
+    "lat": 42.5623,
+    "lng": 2.3087,
+    "pop": null
+  },
+  {
+    "nameAr": "Jouy-sous-les-Côtes",
+    "nameEn": "Jouy-sous-les-Côtes",
+    "type": "city",
+    "lat": 48.771224,
+    "lng": 5.692407,
+    "pop": null
+  },
+  {
+    "nameAr": "Kangani",
+    "nameEn": "Kangani",
+    "type": "city",
+    "lat": -12.73222222,
+    "lng": 45.1875,
+    "pop": null
+  },
+  {
+    "nameAr": "Kerbonn",
+    "nameEn": "Kerbonn",
+    "type": "city",
+    "lat": 48.26916667,
+    "lng": -4.61611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kerivalan",
+    "nameEn": "Kerivalan",
+    "type": "city",
+    "lat": 47.70032,
+    "lng": -3.00871,
+    "pop": null
+  },
+  {
+    "nameAr": "Kermoisan",
+    "nameEn": "Kermoisan",
+    "type": "city",
+    "lat": 47.277706,
+    "lng": -2.454398,
+    "pop": null
+  },
+  {
+    "nameAr": "Kervalet",
+    "nameEn": "Kervalet",
+    "type": "city",
+    "lat": 47.279444,
+    "lng": -2.461388,
+    "pop": null
+  },
+  {
+    "nameAr": "Klingenthal",
+    "nameEn": "Klingenthal",
+    "type": "city",
+    "lat": 48.46972222,
+    "lng": 7.40972222,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Etang",
+    "nameEn": "L'Etang",
+    "type": "city",
+    "lat": 47.55938,
+    "lng": 2.80349,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Isle",
+    "nameEn": "L'Isle",
+    "type": "city",
+    "lat": 47.5936456,
+    "lng": -2.6888346,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Ospédale",
+    "nameEn": "L'Ospédale",
+    "type": "city",
+    "lat": 41.651279,
+    "lng": 9.194484,
+    "pop": null
+  },
+  {
+    "nameAr": "La Coma",
+    "nameEn": "La Coma",
+    "type": "city",
+    "lat": 42.569336111111,
+    "lng": 2.5061138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "La Couronne",
+    "nameEn": "La Couronne",
+    "type": "city",
+    "lat": 43.33638889,
+    "lng": 5.05222222,
+    "pop": null
+  },
+  {
+    "nameAr": "La Croix Fry",
+    "nameEn": "La Croix Fry",
+    "type": "city",
+    "lat": 45.87694444,
+    "lng": 6.40305556,
+    "pop": null
+  },
+  {
+    "nameAr": "La Guingueta d'Ix",
+    "nameEn": "La Guingueta d'Ix",
+    "type": "city",
+    "lat": 42.43416,
+    "lng": 1.94391,
+    "pop": null
+  },
+  {
+    "nameAr": "La Jarjatte",
+    "nameEn": "La Jarjatte",
+    "type": "city",
+    "lat": 44.6749,
+    "lng": 5.75786,
+    "pop": null
+  },
+  {
+    "nameAr": "La Madeleine",
+    "nameEn": "La Madeleine",
+    "type": "city",
+    "lat": 47.356666666667,
+    "lng": -2.3691666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "La Motte-au-Bois",
+    "nameEn": "La Motte-au-Bois",
+    "type": "city",
+    "lat": 50.68306,
+    "lng": 2.57222,
+    "pop": null
+  },
+  {
+    "nameAr": "la Part Petita",
+    "nameEn": "la Part Petita",
+    "type": "city",
+    "lat": 42.485830555556,
+    "lng": 1.9658444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "La Riottière",
+    "nameEn": "La Riottière",
+    "type": "city",
+    "lat": 47.411111111111,
+    "lng": -0.93916666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "La Saline",
+    "nameEn": "La Saline",
+    "type": "city",
+    "lat": -21.08,
+    "lng": 55.27,
+    "pop": null
+  },
+  {
+    "nameAr": "La Valbonne",
+    "nameEn": "La Valbonne",
+    "type": "city",
+    "lat": 45.8513,
+    "lng": 5.12375,
+    "pop": null
+  },
+  {
+    "nameAr": "La Valentine",
+    "nameEn": "La Valentine",
+    "type": "city",
+    "lat": 43.4049,
+    "lng": 5.54607,
+    "pop": null
+  },
+  {
+    "nameAr": "La Vinyola",
+    "nameEn": "La Vinyola",
+    "type": "city",
+    "lat": 42.452339,
+    "lng": 1.905639,
+    "pop": null
+  },
+  {
+    "nameAr": "Labets",
+    "nameEn": "Labets",
+    "type": "city",
+    "lat": 43.385,
+    "lng": -1.05638889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lascours",
+    "nameEn": "Lascours",
+    "type": "city",
+    "lat": 43.34722222,
+    "lng": 5.58333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Laval",
+    "nameEn": "Laval",
+    "type": "city",
+    "lat": 48.06667,
+    "lng": -0.76667,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Doré",
+    "nameEn": "Le Doré",
+    "type": "city",
+    "lat": 47.2284866,
+    "lng": -1.1810303,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Douet-Artus",
+    "nameEn": "Le Douet-Artus",
+    "type": "city",
+    "lat": 48.88,
+    "lng": 0.43638888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Moustoir",
+    "nameEn": "Le Moustoir",
+    "type": "city",
+    "lat": 47.62462,
+    "lng": -2.85862,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Petit Serré",
+    "nameEn": "Le Petit Serré",
+    "type": "city",
+    "lat": -21.214722222222,
+    "lng": 55.454722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Pont-de-Beauvoisin",
+    "nameEn": "Le Pont-de-Beauvoisin",
+    "type": "city",
+    "lat": 45.5361,
+    "lng": 5.6723,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Pouldu",
+    "nameEn": "Le Pouldu",
+    "type": "city",
+    "lat": 47.76666667,
+    "lng": -3.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Praz",
+    "nameEn": "Le Praz",
+    "type": "city",
+    "lat": 45.431,
+    "lng": 6.616,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Somail",
+    "nameEn": "Le Somail",
+    "type": "city",
+    "lat": 43.265,
+    "lng": 2.9080555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Le Temple",
+    "nameEn": "Le Temple",
+    "type": "city",
+    "lat": 47.821,
+    "lng": -2.092,
+    "pop": null
+  },
+  {
+    "nameAr": "Léchiagat",
+    "nameEn": "Léchiagat",
+    "type": "city",
+    "lat": 47.7941,
+    "lng": -4.2739,
+    "pop": null
+  },
+  {
+    "nameAr": "Lempire-aux-Bois",
+    "nameEn": "Lempire-aux-Bois",
+    "type": "city",
+    "lat": 49.097386,
+    "lng": 5.316911,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Charreaux",
+    "nameEn": "Les Charreaux",
+    "type": "city",
+    "lat": 45.25666667,
+    "lng": 1.10111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Escaldes",
+    "nameEn": "Les Escaldes",
+    "type": "city",
+    "lat": 42.487725,
+    "lng": 1.9536138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Fougerêts",
+    "nameEn": "Les Fougerêts",
+    "type": "city",
+    "lat": 47.740833333333,
+    "lng": -2.2127777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Praz",
+    "nameEn": "Les Praz",
+    "type": "city",
+    "lat": 45.93944444,
+    "lng": 6.88472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Leyding",
+    "nameEn": "Leyding",
+    "type": "city",
+    "lat": 49.307701,
+    "lng": 6.608439,
+    "pop": null
+  },
+  {
+    "nameAr": "Ligny-le-Barque",
+    "nameEn": "Ligny-le-Barque",
+    "type": "city",
+    "lat": 50.085,
+    "lng": 2.828333,
+    "pop": null
+  },
+  {
+    "nameAr": "Llec",
+    "nameEn": "Llec",
+    "type": "city",
+    "lat": 42.577127777778,
+    "lng": 2.4725805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Llúgols",
+    "nameEn": "Llúgols",
+    "type": "city",
+    "lat": 42.619883333333,
+    "lng": 2.3758305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "London",
+    "nameEn": "London",
+    "type": "city",
+    "lat": 46.6322,
+    "lng": 5.0985,
+    "pop": null
+  },
+  {
+    "nameAr": "Longoni",
+    "nameEn": "Longoni",
+    "type": "city",
+    "lat": -12.734722222222,
+    "lng": 45.163333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lucelle",
+    "nameEn": "Lucelle",
+    "type": "city",
+    "lat": 47.42027778,
+    "lng": 7.24472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Luynes",
+    "nameEn": "Luynes",
+    "type": "city",
+    "lat": 43.485,
+    "lng": 5.41861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Macinaggio",
+    "nameEn": "Macinaggio",
+    "type": "city",
+    "lat": 42.960533,
+    "lng": 9.45387,
+    "pop": null
+  },
+  {
+    "nameAr": "Magetobria",
+    "nameEn": "Magetobria",
+    "type": "city",
+    "lat": 47.8375,
+    "lng": 6.4936111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Malamani",
+    "nameEn": "Malamani",
+    "type": "city",
+    "lat": -12.92083333,
+    "lng": 45.15833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Maléon",
+    "nameEn": "Maléon",
+    "type": "city",
+    "lat": 44.811944444444,
+    "lng": 4.5838888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Marians",
+    "nameEn": "Marians",
+    "type": "city",
+    "lat": 42.5426,
+    "lng": 2.2725,
+    "pop": null
+  },
+  {
+    "nameAr": "Marthes",
+    "nameEn": "Marthes",
+    "type": "city",
+    "lat": 50.626389,
+    "lng": 2.318889,
+    "pop": null
+  },
+  {
+    "nameAr": "Martin-Rieux",
+    "nameEn": "Martin-Rieux",
+    "type": "city",
+    "lat": 49.8793592,
+    "lng": 4.2291372,
+    "pop": null
+  },
+  {
+    "nameAr": "Mas de l'Alzina",
+    "nameEn": "Mas de l'Alzina",
+    "type": "city",
+    "lat": 42.605286111111,
+    "lng": 2.5656916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mazagran",
+    "nameEn": "Mazagran",
+    "type": "city",
+    "lat": 49.39326667,
+    "lng": 4.58494444,
+    "pop": null
+  },
+  {
+    "nameAr": "Meneham",
+    "nameEn": "Meneham",
+    "type": "city",
+    "lat": 48.66774722,
+    "lng": -4.37223333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mentque",
+    "nameEn": "Mentque",
+    "type": "city",
+    "lat": 50.78375,
+    "lng": 2.085833,
+    "pop": null
+  },
+  {
+    "nameAr": "Méribel-Mottaret",
+    "nameEn": "Méribel-Mottaret",
+    "type": "city",
+    "lat": 45.396667,
+    "lng": 6.566389,
+    "pop": null
+  },
+  {
+    "nameAr": "Meudon",
+    "nameEn": "Meudon",
+    "type": "city",
+    "lat": 47.666983,
+    "lng": -2.69528,
+    "pop": null
+  },
+  {
+    "nameAr": "Milly-le-Meugon",
+    "nameEn": "Milly-le-Meugon",
+    "type": "city",
+    "lat": 47.28642,
+    "lng": -0.25569,
+    "pop": null
+  },
+  {
+    "nameAr": "Moerai",
+    "nameEn": "Moerai",
+    "type": "city",
+    "lat": -22.45133,
+    "lng": -151.34191,
+    "pop": null
+  },
+  {
+    "nameAr": "Mofina",
+    "nameEn": "Mofina",
+    "type": "city",
+    "lat": 4.1836111111111,
+    "lng": -54.385277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Moigné",
+    "nameEn": "Moigné",
+    "type": "city",
+    "lat": 48.080227,
+    "lng": -1.774335,
+    "pop": null
+  },
+  {
+    "nameAr": "Montargull",
+    "nameEn": "Montargull",
+    "type": "city",
+    "lat": 42.494386,
+    "lng": 2.661908,
+    "pop": null
+  },
+  {
+    "nameAr": "Montoriol d'Amunt",
+    "nameEn": "Montoriol d'Amunt",
+    "type": "city",
+    "lat": 42.561686111111,
+    "lng": 2.7031472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Moustoir-Lorho",
+    "nameEn": "Moustoir-Lorho",
+    "type": "city",
+    "lat": 47.60841,
+    "lng": -2.64262,
+    "pop": null
+  },
+  {
+    "nameAr": "Nielles-lès-Thérouanne",
+    "nameEn": "Nielles-lès-Thérouanne",
+    "type": "city",
+    "lat": 50.630833333333,
+    "lng": 2.2475,
+    "pop": null
+  },
+  {
+    "nameAr": "Noailhan",
+    "nameEn": "Noailhan",
+    "type": "city",
+    "lat": 43.483,
+    "lng": 0.544,
+    "pop": null
+  },
+  {
+    "nameAr": "Nortbécourt",
+    "nameEn": "Nortbécourt",
+    "type": "city",
+    "lat": 50.766666666667,
+    "lng": 2.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Nouveau Wakapou",
+    "nameEn": "Nouveau Wakapou",
+    "type": "city",
+    "lat": 3.6743888888889,
+    "lng": -54.075805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Oberkutzenhausen",
+    "nameEn": "Oberkutzenhausen",
+    "type": "city",
+    "lat": 48.933055555556,
+    "lng": 7.8555555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Oëx",
+    "nameEn": "Oëx",
+    "type": "city",
+    "lat": 45.98333333,
+    "lng": 6.63333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Oleta",
+    "nameEn": "Oleta",
+    "type": "city",
+    "lat": 42.555263888889,
+    "lng": 2.2711361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Orla",
+    "nameEn": "Orla",
+    "type": "city",
+    "lat": 42.674342,
+    "lng": 2.849461,
+    "pop": null
+  },
+  {
+    "nameAr": "Oyster Pond",
+    "nameEn": "Oyster Pond",
+    "type": "city",
+    "lat": 18.0582808,
+    "lng": -63.0149083,
+    "pop": null
+  },
+  {
+    "nameAr": "Palasisi",
+    "nameEn": "Palasisi",
+    "type": "city",
+    "lat": 3.2908333333333,
+    "lng": -54.083611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Paul Isnard",
+    "nameEn": "Paul Isnard",
+    "type": "city",
+    "lat": 4.7783333333333,
+    "lng": -54.008333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Peisey",
+    "nameEn": "Peisey",
+    "type": "city",
+    "lat": 45.546575,
+    "lng": 6.75539,
+    "pop": null
+  },
+  {
+    "nameAr": "Pénerf",
+    "nameEn": "Pénerf",
+    "type": "city",
+    "lat": 47.508273,
+    "lng": -2.624753,
+    "pop": null
+  },
+  {
+    "nameAr": "Peyresq",
+    "nameEn": "Peyresq",
+    "type": "city",
+    "lat": 44.0676,
+    "lng": 6.6179,
+    "pop": null
+  },
+  {
+    "nameAr": "Poi",
+    "nameEn": "Poi",
+    "type": "city",
+    "lat": -14.29388889,
+    "lng": -178.0933333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pont de Brogny",
+    "nameEn": "Pont de Brogny",
+    "type": "city",
+    "lat": 45.9334541,
+    "lng": 6.128352,
+    "pop": null
+  },
+  {
+    "nameAr": "Pont-Aven",
+    "nameEn": "Pont-Aven",
+    "type": "city",
+    "lat": 47.85556,
+    "lng": -3.74722,
+    "pop": null
+  },
+  {
+    "nameAr": "Pont-Réan",
+    "nameEn": "Pont-Réan",
+    "type": "city",
+    "lat": 48,
+    "lng": -1.776,
+    "pop": null
+  },
+  {
+    "nameAr": "Ponteix",
+    "nameEn": "Ponteix",
+    "type": "city",
+    "lat": 45.663,
+    "lng": 3.023,
+    "pop": null
+  },
+  {
+    "nameAr": "Port-Joinville",
+    "nameEn": "Port-Joinville",
+    "type": "city",
+    "lat": 46.72291667,
+    "lng": -2.35108333,
+    "pop": null
+  },
+  {
+    "nameAr": "Prats Balaguer",
+    "nameEn": "Prats Balaguer",
+    "type": "city",
+    "lat": 42.512777777778,
+    "lng": 2.1808333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Providence, French Guiana",
+    "nameEn": "Providence, French Guiana",
+    "type": "city",
+    "lat": 4.6186,
+    "lng": -54.4139,
+    "pop": null
+  },
+  {
+    "nameAr": "Prunet",
+    "nameEn": "Prunet",
+    "type": "city",
+    "lat": 42.56972222,
+    "lng": 2.64722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pujols-le-Haut",
+    "nameEn": "Pujols-le-Haut",
+    "type": "city",
+    "lat": 44.385,
+    "lng": 0.688,
+    "pop": null
+  },
+  {
+    "nameAr": "Puy-Aillaud",
+    "nameEn": "Puy-Aillaud",
+    "type": "city",
+    "lat": 44.855485319187,
+    "lng": 6.4803981037017,
+    "pop": null
+  },
+  {
+    "nameAr": "Quartier de Grand’ Case",
+    "nameEn": "Quartier de Grand’ Case",
+    "type": "city",
+    "lat": 18.08333,
+    "lng": -63.06667,
+    "pop": null
+  },
+  {
+    "nameAr": "Quartier-d'Orléans",
+    "nameEn": "Quartier-d'Orléans",
+    "type": "city",
+    "lat": 18.071,
+    "lng": -63.032,
+    "pop": null
+  },
+  {
+    "nameAr": "Quélern",
+    "nameEn": "Quélern",
+    "type": "city",
+    "lat": 48.29944444,
+    "lng": -4.56027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Rambaud",
+    "nameEn": "Rambaud",
+    "type": "city",
+    "lat": 18.0781,
+    "lng": -63.0695,
+    "pop": null
+  },
+  {
+    "nameAr": "Ranchicourt",
+    "nameEn": "Ranchicourt",
+    "type": "city",
+    "lat": 50.44,
+    "lng": 2.55194,
+    "pop": null
+  },
+  {
+    "nameAr": "Refroicourt",
+    "nameEn": "Refroicourt",
+    "type": "city",
+    "lat": 48.9136,
+    "lng": 5.5047,
+    "pop": null
+  },
+  {
+    "nameAr": "Réveillon",
+    "nameEn": "Réveillon",
+    "type": "city",
+    "lat": 48.9572,
+    "lng": 0.0133333,
+    "pop": null
+  },
+  {
+    "nameAr": "Riutort",
+    "nameEn": "Riutort",
+    "type": "city",
+    "lat": 42.650925,
+    "lng": 2.0944388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Rochessadoule",
+    "nameEn": "Rochessadoule",
+    "type": "city",
+    "lat": 44.279888572402,
+    "lng": 4.087166133174,
+    "pop": null
+  },
+  {
+    "nameAr": "Rocq",
+    "nameEn": "Rocq",
+    "type": "city",
+    "lat": 50.284722222222,
+    "lng": 4.0661111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Roffiat",
+    "nameEn": "Roffiat",
+    "type": "city",
+    "lat": 47.278,
+    "lng": -2.448,
+    "pop": null
+  },
+  {
+    "nameAr": "Roirós",
+    "nameEn": "Roirós",
+    "type": "city",
+    "lat": 42.51111111,
+    "lng": 2.71611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Rombly",
+    "nameEn": "Rombly",
+    "type": "city",
+    "lat": 50.5256,
+    "lng": 1.65201,
+    "pop": null
+  },
+  {
+    "nameAr": "Ropidera",
+    "nameEn": "Ropidera",
+    "type": "city",
+    "lat": 42.674452777778,
+    "lng": 2.5435277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Rothéneuf",
+    "nameEn": "Rothéneuf",
+    "type": "city",
+    "lat": 48.681944444444,
+    "lng": -1.9680555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saillé",
+    "nameEn": "Saillé",
+    "type": "city",
+    "lat": 47.294722222222,
+    "lng": -2.4313888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint Félix",
+    "nameEn": "Saint Félix",
+    "type": "city",
+    "lat": 16.207411497478,
+    "lng": -61.456639766693,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint Thomas de Balaguer",
+    "nameEn": "Saint Thomas de Balaguer",
+    "type": "city",
+    "lat": 42.504227777778,
+    "lng": 2.1668916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-André-au-Bois",
+    "nameEn": "Saint-André-au-Bois",
+    "type": "city",
+    "lat": 50.3811,
+    "lng": 1.92389,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Césaire-lès-Nîmes",
+    "nameEn": "Saint-Césaire-lès-Nîmes",
+    "type": "city",
+    "lat": 43.816099,
+    "lng": 4.335097,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Claude",
+    "nameEn": "Saint-Claude",
+    "type": "city",
+    "lat": 49.290521,
+    "lng": 2.3654799,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Crespin",
+    "nameEn": "Saint-Crespin",
+    "type": "city",
+    "lat": 49.0887,
+    "lng": 0.0455556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Cyr-en-Retz",
+    "nameEn": "Saint-Cyr-en-Retz",
+    "type": "city",
+    "lat": 47.0325,
+    "lng": -1.9002777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Émilien-de-Blain",
+    "nameEn": "Saint-Émilien-de-Blain",
+    "type": "city",
+    "lat": 47.433719,
+    "lng": -1.7115923,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Fraimbault-de-Lassay",
+    "nameEn": "Saint-Fraimbault-de-Lassay",
+    "type": "city",
+    "lat": 48.4383,
+    "lng": -0.4944,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Germain-des-Prés",
+    "nameEn": "Saint-Germain-des-Prés",
+    "type": "city",
+    "lat": 48.853889,
+    "lng": 2.334444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Gingolph",
+    "nameEn": "Saint-Gingolph",
+    "type": "city",
+    "lat": 46.393409,
+    "lng": 6.804338,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Laurent",
+    "nameEn": "Saint-Laurent",
+    "type": "city",
+    "lat": 50.3025,
+    "lng": 2.80778,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Maclou",
+    "nameEn": "Saint-Maclou",
+    "type": "city",
+    "lat": 49.0685,
+    "lng": 0.00416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Maur-des-Fossés",
+    "nameEn": "Saint-Maur-des-Fossés",
+    "type": "city",
+    "lat": 48.8036,
+    "lng": 2.4853,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Nazaire",
+    "nameEn": "Saint-Nazaire",
+    "type": "city",
+    "lat": 4.92166667,
+    "lng": -53.2025,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Nicolas",
+    "nameEn": "Saint-Nicolas",
+    "type": "city",
+    "lat": 50.9169,
+    "lng": 2.16278,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Pierre-d'Entremont",
+    "nameEn": "Saint-Pierre-d'Entremont",
+    "type": "city",
+    "lat": 45.4152,
+    "lng": 5.8547,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Engrâce",
+    "nameEn": "Sainte-Engrâce",
+    "type": "city",
+    "lat": 42.99567,
+    "lng": -0.81101,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Marine (Combrit)",
+    "nameEn": "Sainte-Marine (Combrit)",
+    "type": "city",
+    "lat": 47.870807,
+    "lng": -4.122993,
+    "pop": null
+  },
+  {
+    "nameAr": "Saorla",
+    "nameEn": "Saorla",
+    "type": "city",
+    "lat": 42.638296,
+    "lng": 2.520907,
+    "pop": null
+  },
+  {
+    "nameAr": "Seïllà",
+    "nameEn": "Seïllà",
+    "type": "city",
+    "lat": 42.58972222,
+    "lng": 2.51866944,
+    "pop": null
+  },
+  {
+    "nameAr": "Senay",
+    "nameEn": "Senay",
+    "type": "city",
+    "lat": 46.540277777778,
+    "lng": 5.58,
+    "pop": null
+  },
+  {
+    "nameAr": "Seners",
+    "nameEn": "Seners",
+    "type": "city",
+    "lat": 42.591633333333,
+    "lng": 2.4743555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Serny",
+    "nameEn": "Serny",
+    "type": "city",
+    "lat": 50.594861111111,
+    "lng": 2.3005555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Sirach",
+    "nameEn": "Sirach",
+    "type": "city",
+    "lat": 42.6048,
+    "lng": 2.4035,
+    "pop": null
+  },
+  {
+    "nameAr": "Sivry",
+    "nameEn": "Sivry",
+    "type": "city",
+    "lat": 46.95222222,
+    "lng": 4.56972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Skien Tabbetje",
+    "nameEn": "Skien Tabbetje",
+    "type": "city",
+    "lat": 4.7488888888889,
+    "lng": -54.4675,
+    "pop": null
+  },
+  {
+    "nameAr": "Substantion",
+    "nameEn": "Substantion",
+    "type": "city",
+    "lat": 43.64232,
+    "lng": 3.896373,
+    "pop": null
+  },
+  {
+    "nameAr": "Taizon",
+    "nameEn": "Taizon",
+    "type": "city",
+    "lat": 47.05395,
+    "lng": -0.23064,
+    "pop": null
+  },
+  {
+    "nameAr": "Talau",
+    "nameEn": "Talau",
+    "type": "city",
+    "lat": 42.564166666667,
+    "lng": 2.1956472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Théline",
+    "nameEn": "Théline",
+    "type": "city",
+    "lat": 49.391437918009,
+    "lng": 4.6663999342918,
+    "pop": null
+  },
+  {
+    "nameAr": "Tignes-les-Brévières",
+    "nameEn": "Tignes-les-Brévières",
+    "type": "city",
+    "lat": 45.508333333333,
+    "lng": 6.92,
+    "pop": null
+  },
+  {
+    "nameAr": "Tonnégrande",
+    "nameEn": "Tonnégrande",
+    "type": "city",
+    "lat": 4.83111,
+    "lng": -52.4439,
+    "pop": null
+  },
+  {
+    "nameAr": "Tortue",
+    "nameEn": "Tortue",
+    "type": "city",
+    "lat": 4.1766666666667,
+    "lng": -52.392777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "town of Jassans-Riottier",
+    "nameEn": "town of Jassans-Riottier",
+    "type": "city",
+    "lat": 45.985,
+    "lng": 4.757,
+    "pop": null
+  },
+  {
+    "nameAr": "town of Montceau-les-Mines",
+    "nameEn": "town of Montceau-les-Mines",
+    "type": "city",
+    "lat": 46.674240844764,
+    "lng": 4.36301389698,
+    "pop": null
+  },
+  {
+    "nameAr": "Town of Trevoux",
+    "nameEn": "Town of Trevoux",
+    "type": "city",
+    "lat": 45.941,
+    "lng": 4.7732,
+    "pop": null
+  },
+  {
+    "nameAr": "Trégaté",
+    "nameEn": "Trégaté",
+    "type": "city",
+    "lat": 47.281334,
+    "lng": -2.454185,
+    "pop": null
+  },
+  {
+    "nameAr": "Trentemoult",
+    "nameEn": "Trentemoult",
+    "type": "city",
+    "lat": 47.19472222,
+    "lng": -1.58194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Trévani",
+    "nameEn": "Trévani",
+    "type": "city",
+    "lat": -12.734444444444,
+    "lng": 45.198888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Triaucourt-en-Argonne",
+    "nameEn": "Triaucourt-en-Argonne",
+    "type": "city",
+    "lat": 48.978611111,
+    "lng": 5.061944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Tronjoly",
+    "nameEn": "Tronjoly",
+    "type": "city",
+    "lat": 48.44872,
+    "lng": -3.32515,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsararano",
+    "nameEn": "Tsararano",
+    "type": "city",
+    "lat": -12.8369,
+    "lng": 45.1744,
+    "pop": null
+  },
+  {
+    "nameAr": "Upen d'Amont",
+    "nameEn": "Upen d'Amont",
+    "type": "city",
+    "lat": 50.634444444444,
+    "lng": 2.2041666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Upen d'Aval",
+    "nameEn": "Upen d'Aval",
+    "type": "city",
+    "lat": 50.636388888889,
+    "lng": 2.2177777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Uturoa",
+    "nameEn": "Uturoa",
+    "type": "city",
+    "lat": -16.733333055556,
+    "lng": -151.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Vaipae'e",
+    "nameEn": "Vaipae'e",
+    "type": "city",
+    "lat": -8.92888889,
+    "lng": -139.57694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Vaulx",
+    "nameEn": "Vaulx",
+    "type": "city",
+    "lat": 50.146944,
+    "lng": 2.909722,
+    "pop": null
+  },
+  {
+    "nameAr": "Vedrinyans",
+    "nameEn": "Vedrinyans",
+    "type": "city",
+    "lat": 42.4514,
+    "lng": 2.0434,
+    "pop": null
+  },
+  {
+    "nameAr": "Vieux Saint-Aubert",
+    "nameEn": "Vieux Saint-Aubert",
+    "type": "city",
+    "lat": 48.796866,
+    "lng": -0.314854,
+    "pop": null
+  },
+  {
+    "nameAr": "Vieux Touho",
+    "nameEn": "Vieux Touho",
+    "type": "city",
+    "lat": -20.7787955,
+    "lng": 165.2024782,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila de Vinçà",
+    "nameEn": "Vila de Vinçà",
+    "type": "city",
+    "lat": 42.645482,
+    "lng": 2.527922,
+    "pop": null
+  },
+  {
+    "nameAr": "Vilanova de Formiguera",
+    "nameEn": "Vilanova de Formiguera",
+    "type": "city",
+    "lat": 42.619988888889,
+    "lng": 2.1317027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Vilarnau",
+    "nameEn": "Vilarnau",
+    "type": "city",
+    "lat": 42.711545,
+    "lng": 2.972124,
+    "pop": null
+  },
+  {
+    "nameAr": "Vilella",
+    "nameEn": "Vilella",
+    "type": "city",
+    "lat": 42.628022222222,
+    "lng": 2.53795,
+    "pop": null
+  },
+  {
+    "nameAr": "Village des Bories",
+    "nameEn": "Village des Bories",
+    "type": "city",
+    "lat": 43.9074,
+    "lng": 5.18006,
+    "pop": null
+  },
+  {
+    "nameAr": "Village médiéval de Puybresson",
+    "nameEn": "Village médiéval de Puybresson",
+    "type": "city",
+    "lat": 43.6201,
+    "lng": 6.732,
+    "pop": null
+  },
+  {
+    "nameAr": "Villeneuve-des-Escaldes",
+    "nameEn": "Villeneuve-des-Escaldes",
+    "type": "city",
+    "lat": 42.4782,
+    "lng": 1.9534,
+    "pop": null
+  },
+  {
+    "nameAr": "Villerac",
+    "nameEn": "Villerac",
+    "type": "city",
+    "lat": 42.59439,
+    "lng": 2.45356,
+    "pop": null
+  },
+  {
+    "nameAr": "Viville",
+    "nameEn": "Viville",
+    "type": "city",
+    "lat": 45.703302545441,
+    "lng": 0.23693968384413,
+    "pop": null
+  },
+  {
+    "nameAr": "Vraucourt",
+    "nameEn": "Vraucourt",
+    "type": "city",
+    "lat": 50.154028,
+    "lng": 2.901111,
+    "pop": null
+  },
+  {
+    "nameAr": "Vrémy",
+    "nameEn": "Vrémy",
+    "type": "city",
+    "lat": 49.163063,
+    "lng": 6.283411,
+    "pop": null
+  },
+  {
+    "nameAr": "Wandonne",
+    "nameEn": "Wandonne",
+    "type": "city",
+    "lat": 50.564722222222,
+    "lng": 2.1275,
+    "pop": null
+  },
+  {
+    "nameAr": "West-Ecques",
+    "nameEn": "West-Ecques",
+    "type": "city",
+    "lat": 50.67,
+    "lng": 2.278611,
+    "pop": null
+  },
+  {
+    "nameAr": "Westbécourt",
+    "nameEn": "Westbécourt",
+    "type": "city",
+    "lat": 50.73,
+    "lng": 2.0619444444444,
+    "pop": null
+  }
+]

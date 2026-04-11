@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <script>if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة - Prayer Times</title>
+    <meta name="description" content="مواقيت الصلاة، اتجاه القبلة، التقويم الهجري، حاسبة الزكاة، الأدعية والأذكار">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- زر القائمة للموبايل -->
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="القائمة">☰</button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <!-- ========= الشريط الجانبي ========= -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-logo" onclick="window.location.href='/'" title="الرئيسية">🕌 مواقيت الصلاة</h1>
+                <div class="hijri-date" id="sidebar-hijri-date"></div>
+                <div class="greg-date" id="sidebar-greg-date"></div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" data-page="prayer-times" class="active">
+                    <span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
+                </a>
+                <a href="#" data-page="qibla">
+                    <span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span>
+                </a>
+                <a href="#" data-page="moon">
+                    <span class="nav-icon">🌙</span> <span data-i18n="nav.moon">القمر اليوم</span>
+                </a>
+                <a href="#" data-page="zakat">
+                    <span class="nav-icon">💰</span> <span data-i18n="nav.zakat">حاسبة الزكاة</span>
+                </a>
+                <a href="#" data-page="hijri-today">
+                    <span class="nav-icon">📅</span> <span data-i18n="nav.hijri_today">التاريخ الهجري</span>
+                </a>
+                <a href="#" data-page="date-converter">
+                    <span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span>
+                </a>
+                <a href="#" data-page="hijri-calendar">
+                    <span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
+                </a>
+                <a href="#" data-page="duas">
+                    <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span>
+                </a>
+                <a href="#" data-page="tasbih">
+                    <span class="nav-icon">📿</span> <span data-i18n="nav.tasbih">المسبحة الإلكترونية</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ========= المحتوى الرئيسي ========= -->
+        <main class="main-content">
+
+            <!-- ===== الهيدر الثابت المشترك لجميع الصفحات ===== -->
+            <div class="top-header">
+                <div class="location-info">
+                    <span class="icon">📍</span>
+                    <div>
+                        <div class="city-name" id="city-name">جاري تحديد الموقع...</div>
+                        <div class="country" id="country-name"></div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline lang-toggle-btn" onclick="toggleLanguage()">EN</button>
+                    <div class="city-search-wrapper">
+                        <input type="text" id="city-search-input" class="city-search-input"
+                            placeholder="🔍 ابحث عن مدينة أو موقع..."
+                            data-i18n-placeholder="header.search_placeholder"
+                            autocomplete="off"
+                            oninput="onCitySearchInput(this.value)"
+                            onkeydown="onSearchKeyDown(event)">
+                        <div class="city-search-suggestions" id="city-suggestions"></div>
+                    </div>
+                    <button class="btn btn-outline" onclick="detectLocation()" title="تحديد موقعي تلقائياً">📍 <span class="btn-text" data-i18n="header.my_location">موقعي</span></button>
+                    <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
+                </div>
+            </div>
+
+            <!-- ===== صفحة مواقيت الصلاة ===== -->
+            <div class="page active" id="page-prayer-times">
+
+                <!-- البانر الرئيسي -->
+                <div class="next-prayer-banner">
+                    <!-- الوقت الحالي -->
+                    <div class="banner-block banner-block-time">
+                        <div class="banner-block-label"><span data-i18n="banner.current_time">الوقت الحالي في</span> <span id="banner-city-name">--</span></div>
+                        <div class="banner-big-time" id="current-time">--:--:--</div>
+                    </div>
+                    <!-- الفاصل -->
+                    <div class="banner-divider"></div>
+                    <!-- الصلاة التالية -->
+                    <div class="banner-block banner-block-prayer">
+                        <div class="banner-block-label" data-i18n="banner.next_prayer">الوقت المتبقي للصلاة التالية</div>
+                        <div class="banner-next-prayer-name" id="next-prayer-name">--</div>
+                        <div class="banner-big-countdown" id="next-prayer-countdown">--:--:--</div>
+                    </div>
+                    <!-- الفاصل -->
+                    <div class="banner-divider"></div>
+                    <!-- التواريخ -->
+                    <div class="banner-block banner-block-dates">
+                        <div class="banner-block-label" data-i18n="banner.today_date">التاريخ اليوم</div>
+                        <div class="banner-date-hijri" id="banner-hijri-date">--</div>
+                        <div class="banner-date-greg" id="banner-greg-date">--</div>
+                    </div>
+                </div>
+
+                <!-- بطاقات الصلوات -->
+                <div class="prayer-cards" id="prayer-cards">
+                    <div class="prayer-card" data-prayer="fajr">
+                        <span class="prayer-icon">🌄</span>
+                        <div class="prayer-name" data-i18n="prayer.fajr">الفجر</div>
+                        <div class="prayer-time" id="time-fajr">--:--</div>
+                    </div>
+                    <div class="prayer-card" data-prayer="sunrise">
+                        <span class="prayer-icon">🌅</span>
+                        <div class="prayer-name" data-i18n="prayer.sunrise">الشروق</div>
+                        <div class="prayer-time" id="time-sunrise">--:--</div>
+                    </div>
+                    <div class="prayer-card" data-prayer="dhuhr">
+                        <span class="prayer-icon">☀️</span>
+                        <div class="prayer-name" data-i18n="prayer.dhuhr">الظهر</div>
+                        <div class="prayer-time" id="time-dhuhr">--:--</div>
+                    </div>
+                    <div class="prayer-card" data-prayer="asr">
+                        <span class="prayer-icon">🌤️</span>
+                        <div class="prayer-name" data-i18n="prayer.asr">العصر</div>
+                        <div class="prayer-time" id="time-asr">--:--</div>
+                    </div>
+                    <div class="prayer-card" data-prayer="maghrib">
+                        <span class="prayer-icon">🌇</span>
+                        <div class="prayer-name" data-i18n="prayer.maghrib">المغرب</div>
+                        <div class="prayer-time" id="time-maghrib">--:--</div>
+                    </div>
+                    <div class="prayer-card" data-prayer="isha">
+                        <span class="prayer-icon">🌃</span>
+                        <div class="prayer-name" data-i18n="prayer.isha">العشاء</div>
+                        <div class="prayer-time" id="time-isha">--:--</div>
+                    </div>
+                </div>
+
+                <!-- قسم الكلمات المفتاحية SEO -->
+                <div class="section-card seo-section" id="seo-keywords">
+                    <p class="seo-line" id="seo-line-1"></p>
+                    <p class="seo-line" id="seo-line-2"></p>
+                </div>
+
+                <!-- إعدادات الحساب -->
+                <div class="section-card" id="settings-panel">
+                    <h2 data-i18n="settings.title">⚙️ إعدادات حساب المواقيت</h2>
+                    <div class="settings-grid">
+                        <div>
+                            <label data-i18n="settings.method">طريقة الحساب</label>
+                            <select id="calc-method" onchange="updatePrayerTimes()">
+                                <option value="Makkah" data-i18n="method.Makkah">أم القرى - مكة المكرمة</option>
+                                <option value="MWL" data-i18n="method.MWL">رابطة العالم الإسلامي</option>
+                                <option value="ISNA" data-i18n="method.ISNA">أمريكا الشمالية (ISNA)</option>
+                                <option value="Egypt" data-i18n="method.Egypt">الهيئة المصرية العامة للمساحة</option>
+                                <option value="Karachi" data-i18n="method.Karachi">جامعة العلوم الإسلامية - كراتشي</option>
+                                <option value="Tehran" data-i18n="method.Tehran">معهد الجيوفيزياء - طهران</option>
+                                <option value="Jafari" data-i18n="method.Jafari">المذهب الجعفري</option>
+                                <option value="Gulf" data-i18n="method.Gulf">دول الخليج</option>
+                                <option value="Kuwait" data-i18n="method.Kuwait">الكويت</option>
+                                <option value="Qatar" data-i18n="method.Qatar">قطر</option>
+                                <option value="Singapore" data-i18n="method.Singapore">سنغافورة</option>
+                                <option value="Turkey" data-i18n="method.Turkey">تركيا - ديانت</option>
+                                <option value="France" data-i18n="method.France">اتحاد المنظمات الإسلامية في فرنسا (UIOF)</option>
+                                <option value="Russia" data-i18n="method.Russia">روسيا</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label data-i18n="settings.asr_method">طريقة حساب العصر</label>
+                            <select id="asr-method" onchange="updatePrayerTimes()">
+                                <option value="Shafi" data-i18n="asr.Shafi">شافعي / حنبلي / مالكي</option>
+                                <option value="Hanafi" data-i18n="asr.Hanafi">حنفي</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label data-i18n="settings.time_format">صيغة الوقت</label>
+                            <select id="time-format" onchange="updatePrayerTimes()">
+                                <option value="12h" data-i18n="format.12h">12 ساعة</option>
+                                <option value="24h" data-i18n="format.24h">24 ساعة</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label data-i18n="settings.high_lats">خطوط العرض العالية</label>
+                            <select id="high-lats" onchange="updatePrayerTimes()">
+                                <option value="NightMiddle" data-i18n="highlat.NightMiddle">منتصف الليل</option>
+                                <option value="OneSeventh" data-i18n="highlat.OneSeventh">سُبع الليل</option>
+                                <option value="AngleBased" data-i18n="highlat.AngleBased">حسب الزاوية</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- إعدادات الأذان -->
+                    <div class="adhan-setting-row">
+                        <div class="adhan-setting-info">
+                            <span class="adhan-setting-icon">🔊</span>
+                            <div>
+                                <div class="adhan-setting-title" data-i18n="adhan.title">تشغيل الأذان تلقائياً</div>
+                                <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَّل صوت الأذان عند دخول وقت كل صلاة</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                            <button class="btn-test-adhan" onclick="testAdhan()" title="تجربة الصوت" data-i18n="adhan.test">▶ تجربة</button>
+                            <label class="adhan-toggle-switch">
+                                <input type="checkbox" id="adhan-toggle" onchange="onAdhanToggleChange()">
+                                <span class="adhan-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- عداد السكان الحي -->
+                <div class="section-card" id="city-country-info-section" style="display:none;">
+                    <div class="pop-counter-wrap">
+                        <div class="pop-counter-label"><span data-i18n="pop.label">عدد سكان</span> <span id="pop-country-name"></span></div>
+                        <div class="pop-number-row">
+                            <div class="pop-live-number" id="pop-live-number">0</div>
+                            <div class="pop-category" id="pop-category"></div>
+                        </div>
+                        <div class="pop-session-row">
+                            <span class="pop-dot" id="pop-live-dot"></span>
+                            <span class="pop-session" id="pop-session-added" data-i18n="pop.live">تابع التحديث المباشر</span>
+                        </div>
+                        <div class="pop-method-note" data-i18n="pop.note">
+                            📊 تقدير إحصائي — يُحسب بناءً على آخر إحصاء رسمي مضافاً إليه معدل النمو السنوي للدولة مقسّماً على ثانية
+                        </div>
+                    </div>
+                </div>
+
+                <!-- أماكن قريبة -->
+                <div class="section-card" id="nearby-section" style="display:none;">
+                    <h2 data-i18n="nearby.title">📍 أماكن قريبة من موقعك</h2>
+                    <div class="nearby-grid" id="nearby-grid"></div>
+                </div>
+
+                <!-- معلومات إضافية -->
+                <div class="section-card">
+                    <h2 data-i18n="info.title">📊 معلومات إضافية</h2>
+                    <div class="info-location" id="info-location">--</div>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="info.hijri">التاريخ الهجري</div>
+                            <div class="info-value" id="info-hijri">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="info.gregorian">التاريخ الميلادي</div>
+                            <div class="info-value" id="info-gregorian">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="info.fasting">ساعات الصيام</div>
+                            <div class="info-value" id="info-fasting">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول مواقيت الأسبوع -->
+                <div class="section-card" id="prayer-schedule-section">
+                    <h2 id="schedule-title">📅 جدول مواقيت الصلاة</h2>
+
+                    <!-- أزرار المدة -->
+                    <div class="schedule-tabs">
+                        <button class="schedule-tab active" onclick="setScheduleDays(7,this)" data-i18n="schedule.week">أسبوع</button>
+                        <button class="schedule-tab" onclick="setScheduleDays(14,this)" data-i18n="schedule.two_weeks">أسبوعان</button>
+                        <button class="schedule-tab" onclick="setScheduleDays(30,this)" data-i18n="schedule.month">شهر</button>
+                    </div>
+
+                    <!-- منتقي التاريخ -->
+                    <div class="schedule-date-picker">
+                        <div class="date-type-row">
+                            <label class="radio-label">
+                                <input type="radio" name="dateType" value="gregorian" checked onchange="onDateTypeChange()">
+                                <span data-i18n="schedule.gregorian">ميلادي</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="dateType" value="hijri" onchange="onDateTypeChange()">
+                                <span data-i18n="schedule.hijri">هجري</span>
+                            </label>
+                        </div>
+                        <div class="date-selects-row">
+                            <div class="date-select-group">
+                                <label data-i18n="schedule.day_label">اليوم</label>
+                                <select id="sched-day" onchange="onScheduleDateChange()"></select>
+                            </div>
+                            <div class="date-select-group">
+                                <label data-i18n="schedule.month_label">الشهر</label>
+                                <select id="sched-month" onchange="onScheduleDateChange()"></select>
+                            </div>
+                            <div class="date-select-group">
+                                <label data-i18n="schedule.year_label">السنة</label>
+                                <select id="sched-year" onchange="onScheduleDateChange()"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- الجدول -->
+                    <div class="schedule-table-wrap">
+                        <table class="schedule-table" id="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="schedule.th_day">اليوم</th>
+                                    <th data-i18n="prayer.fajr">الفجر</th>
+                                    <th data-i18n="prayer.sunrise">الشروق</th>
+                                    <th data-i18n="prayer.dhuhr">الظهر</th>
+                                    <th data-i18n="prayer.asr">العصر</th>
+                                    <th data-i18n="prayer.maghrib">المغرب</th>
+                                    <th data-i18n="prayer.isha">العشاء</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- الأسئلة الشائعة -->
+                <div class="section-card faq-section" id="faq-section">
+                    <h2 id="faq-title">❓ الأسئلة الشائعة حول مواقيت الصلاة</h2>
+
+                    <!-- س1 -->
+                    <div class="faq-item">
+                        <div class="faq-question" id="faq-q1"></div>
+                        <div class="faq-answer">
+                            <p id="faq-a1-intro"></p>
+                            <ul class="faq-times-list" id="faq-times-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-divider"></div>
+
+                    <!-- س2 -->
+                    <div class="faq-item">
+                        <div class="faq-question" id="faq-q2"></div>
+                        <div class="faq-answer">
+                            <p id="faq-a2"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مدن الدولة -->
+                <div class="section-card" id="country-cities-section" style="display:none;">
+                    <h2 id="country-cities-title">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
+                    <div class="country-cities-grid" id="country-cities-grid"></div>
+                    <div style="text-align:center; margin-top:16px;">
+                        <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
+                    </div>
+                </div>
+
+                <!-- حديث يومي -->
+                <div class="section-card">
+                    <h2 data-i18n="hadith.title">📜 حديث اليوم</h2>
+                    <div class="dua-item">
+                        <div class="dua-text" id="daily-hadith">عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "مَنْ صَلَّى عَلَيَّ صَلاَةً وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"</div>
+                        <div class="dua-reference">رواه مسلم</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة اتجاه القبلة ===== -->
+            <div class="page" id="page-qibla">
+                <div class="section-card">
+                    <h2 data-i18n="qibla.title">🧭 اتجاه القبلة</h2>
+                    <div class="qibla-container">
+                        <div class="compass" id="compass">
+                            <div class="compass-directions">
+                                <span class="north" data-i18n="qibla.N">شمال</span>
+                                <span class="south" data-i18n="qibla.S">جنوب</span>
+                                <span class="east" data-i18n="qibla.E">شرق</span>
+                                <span class="west" data-i18n="qibla.W">غرب</span>
+                            </div>
+                            <div class="compass-arrow" id="qibla-arrow"></div>
+                            <div class="compass-kaaba">🕋</div>
+                        </div>
+                        <div class="qibla-info">
+                            <div class="angle" id="qibla-angle">--°</div>
+                            <div class="direction" id="qibla-direction">--</div>
+                            <div class="distance" id="qibla-distance">--</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-card">
+                    <h2 data-i18n="qibla.location_title">📍 موقعك الحالي</h2>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="qibla.city">المدينة</div>
+                            <div class="info-value" id="qibla-city">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="qibla.lat">خط العرض</div>
+                            <div class="info-value" id="qibla-lat">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="qibla.lng">خط الطول</div>
+                            <div class="info-value" id="qibla-lng">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="qibla.angle">زاوية القبلة</div>
+                            <div class="info-value" id="qibla-exact-angle">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة القمر ===== -->
+            <div class="page" id="page-moon">
+                <div class="section-card">
+                    <h2 data-i18n="moon.title">🌙 القمر اليوم</h2>
+                    <div class="moon-display">
+                        <span class="moon-icon" id="moon-icon">🌕</span>
+                        <div class="moon-phase-name" id="moon-phase-name">--</div>
+                        <div class="moon-illumination" id="moon-illumination">--</div>
+                    </div>
+                    <div class="moon-details">
+                        <div class="moon-detail-card">
+                            <div class="label" data-i18n="moon.age">عمر القمر</div>
+                            <div class="value" id="moon-age">--</div>
+                        </div>
+                        <div class="moon-detail-card">
+                            <div class="label" data-i18n="moon.illumination">نسبة الإضاءة</div>
+                            <div class="value" id="moon-illumination-pct">--</div>
+                        </div>
+                        <div class="moon-detail-card">
+                            <div class="label" data-i18n="moon.rise">شروق القمر</div>
+                            <div class="value" id="moon-rise">--</div>
+                        </div>
+                        <div class="moon-detail-card">
+                            <div class="label" data-i18n="moon.set">غروب القمر</div>
+                            <div class="value" id="moon-set">--</div>
+                        </div>
+                        <div class="moon-detail-card">
+                            <div class="label" data-i18n="moon.next_full">البدر القادم</div>
+                            <div class="value" id="next-full-moon">--</div>
+                        </div>
+                        <div class="moon-detail-card">
+                            <div class="label" data-i18n="moon.next_new">المحاق القادم</div>
+                            <div class="value" id="next-new-moon">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة حاسبة الزكاة ===== -->
+            <div class="page" id="page-zakat">
+                <div class="section-card">
+                    <h2 data-i18n="zakat.title">💰 حاسبة الزكاة</h2>
+                    <div class="zakat-form">
+                        <div class="form-group">
+                            <label data-i18n="zakat.currency">العملة</label>
+                            <select id="zakat-currency">
+                                <option value="SAR">ريال سعودي (SAR)</option>
+                                <option value="AED">درهم إماراتي (AED)</option>
+                                <option value="EGP">جنيه مصري (EGP)</option>
+                                <option value="USD">دولار أمريكي (USD)</option>
+                                <option value="EUR">يورو (EUR)</option>
+                                <option value="GBP">جنيه إسترليني (GBP)</option>
+                                <option value="KWD">دينار كويتي (KWD)</option>
+                                <option value="QAR">ريال قطري (QAR)</option>
+                                <option value="BHD">دينار بحريني (BHD)</option>
+                                <option value="OMR">ريال عماني (OMR)</option>
+                                <option value="JOD">دينار أردني (JOD)</option>
+                                <option value="TRY">ليرة تركية (TRY)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="zakat.cash">النقد (كاش + حسابات بنكية)</label>
+                            <input type="number" id="zakat-cash" placeholder="0" oninput="calculateZakat()">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="zakat.gold">قيمة الذهب</label>
+                            <input type="number" id="zakat-gold" placeholder="0" oninput="calculateZakat()">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="zakat.silver">قيمة الفضة</label>
+                            <input type="number" id="zakat-silver" placeholder="0" oninput="calculateZakat()">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="zakat.stocks">أسهم واستثمارات</label>
+                            <input type="number" id="zakat-stocks" placeholder="0" oninput="calculateZakat()">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="zakat.property">عقارات تجارية (للبيع)</label>
+                            <input type="number" id="zakat-property" placeholder="0" oninput="calculateZakat()">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="zakat.debt">ديون عليك (تُخصم)</label>
+                            <input type="number" id="zakat-debts" placeholder="0" oninput="calculateZakat()">
+                        </div>
+
+                        <div class="zakat-result" id="zakat-result" style="display:none;">
+                            <div class="label" data-i18n="zakat.total">إجمالي الأموال الخاضعة للزكاة</div>
+                            <div id="zakat-total" style="font-size:1.3rem; margin:8px 0;">--</div>
+                            <div class="label" data-i18n="zakat.amount">مبلغ الزكاة المستحق (2.5%)</div>
+                            <div class="amount" id="zakat-amount">0</div>
+                        </div>
+
+                        <div class="section-card" style="margin-top:20px; background: var(--bg);">
+                            <h2 style="border:none; padding:0; margin-bottom:8px;" data-i18n="zakat.conditions_title">📋 شروط وجوب الزكاة</h2>
+                            <ul style="padding-right:20px; line-height:2.2; color: var(--text-light);">
+                                <li data-i18n="zakat.cond1">بلوغ النصاب: ما يعادل 85 غراماً من الذهب أو 595 غراماً من الفضة</li>
+                                <li data-i18n="zakat.cond2">مرور حول كامل (سنة هجرية) على المال</li>
+                                <li data-i18n="zakat.cond3">أن يكون المال ملكاً تاماً لصاحبه</li>
+                                <li data-i18n="zakat.cond4">أن يكون المال نامياً أو قابلاً للنماء</li>
+                                <li data-i18n="zakat.cond5">نسبة الزكاة: 2.5% من إجمالي الأموال</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة التاريخ الهجري ===== -->
+            <div class="page" id="page-hijri-today">
+                <div class="section-card">
+                    <h2 data-i18n="hijri_today.title">📅 التاريخ الهجري اليوم</h2>
+                    <div style="text-align:center; padding:32px 0;">
+                        <div style="font-size:1rem; color:var(--text-light); margin-bottom:8px;" data-i18n="hijri_today.day_label">اليوم</div>
+                        <div id="hijri-today-day" style="font-size:1.3rem; font-weight:700; color:var(--primary); margin-bottom:16px;">--</div>
+                        <div id="hijri-today-full" style="font-size:2.2rem; font-weight:800; color:var(--text); margin-bottom:8px;">--</div>
+                        <div id="hijri-today-year" style="font-size:1.1rem; color:var(--text-light);">--</div>
+                        <div style="margin-top:24px; padding-top:24px; border-top:2px solid var(--border);">
+                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="hijri_today.equivalent">يوافق بالتاريخ الميلادي</div>
+                            <div id="hijri-today-greg" style="font-size:1.4rem; font-weight:700; color:var(--primary-dark); margin-top:8px;">--</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-card">
+                    <h2 data-i18n="hijri_today.month_info">📊 معلومات الشهر الهجري</h2>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="hijri_today.month_name">الشهر الهجري</div>
+                            <div class="info-value" id="hijri-month-name">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="hijri_today.days_count">عدد أيام الشهر</div>
+                            <div class="info-value" id="hijri-month-days">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="hijri_today.year">السنة الهجرية</div>
+                            <div class="info-value" id="hijri-year-info">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" data-i18n="hijri_today.leap">سنة كبيسة؟</div>
+                            <div class="info-value" id="hijri-leap">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة تحويل التاريخ ===== -->
+            <div class="page" id="page-date-converter">
+                <div class="section-card">
+                    <h2 data-i18n="converter.title">🔄 تحويل التاريخ</h2>
+                    <div class="converter-tabs">
+                        <div class="converter-tab active" onclick="switchConverter('to-hijri')" data-i18n="converter.to_hijri">من ميلادي إلى هجري</div>
+                        <div class="converter-tab" onclick="switchConverter('to-greg')" data-i18n="converter.to_gregorian">من هجري إلى ميلادي</div>
+                    </div>
+
+                    <!-- تحويل من ميلادي لهجري -->
+                    <div id="converter-to-hijri">
+                        <div class="settings-grid">
+                            <div>
+                                <label data-i18n="converter.day">اليوم</label>
+                                <input type="number" id="conv-g-day" min="1" max="31" value="1" onchange="convertToHijri()">
+                            </div>
+                            <div>
+                                <label data-i18n="converter.month">الشهر</label>
+                                <select id="conv-g-month" onchange="convertToHijri()"></select>
+                            </div>
+                            <div>
+                                <label data-i18n="converter.year">السنة</label>
+                                <input type="number" id="conv-g-year" min="622" max="3000" value="2026" onchange="convertToHijri()">
+                            </div>
+                        </div>
+                        <div class="converter-result">
+                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_hijri">التاريخ الهجري المقابل</div>
+                            <div class="result-date" id="conv-hijri-result">--</div>
+                        </div>
+                    </div>
+
+                    <!-- تحويل من هجري لميلادي -->
+                    <div id="converter-to-greg" style="display:none;">
+                        <div class="settings-grid">
+                            <div>
+                                <label data-i18n="converter.day">اليوم</label>
+                                <input type="number" id="conv-h-day" min="1" max="30" value="1" onchange="convertToGreg()">
+                            </div>
+                            <div>
+                                <label data-i18n="converter.month">الشهر</label>
+                                <select id="conv-h-month" onchange="convertToGreg()"></select>
+                            </div>
+                            <div>
+                                <label data-i18n="converter.year">السنة</label>
+                                <input type="number" id="conv-h-year" min="1" max="2000" value="1447" onchange="convertToGreg()">
+                            </div>
+                        </div>
+                        <div class="converter-result">
+                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_gregorian">التاريخ الميلادي المقابل</div>
+                            <div class="result-date" id="conv-greg-result">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة التقويم الهجري ===== -->
+            <div class="page" id="page-hijri-calendar">
+                <div class="section-card">
+                    <h2 data-i18n="calendar.title">🗓️ التقويم الهجري</h2>
+                    <div class="calendar-header">
+                        <button class="btn btn-outline" onclick="changeCalendarMonth(-1)" data-i18n="calendar.prev">→ السابق</button>
+                        <h3 id="calendar-title">--</h3>
+                        <button class="btn btn-outline" onclick="changeCalendarMonth(1)" data-i18n="calendar.next">التالي ←</button>
+                    </div>
+                    <table class="calendar-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="wday.0">الأحد</th>
+                                <th data-i18n="wday.1">الاثنين</th>
+                                <th data-i18n="wday.2">الثلاثاء</th>
+                                <th data-i18n="wday.3">الأربعاء</th>
+                                <th data-i18n="wday.4">الخميس</th>
+                                <th data-i18n="wday.5">الجمعة</th>
+                                <th data-i18n="wday.6">السبت</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== صفحة الأدعية والأذكار ===== -->
+            <div class="page" id="page-duas">
+                <div class="section-card">
+                    <h2 data-i18n="duas.title">🤲 الأدعية والأذكار</h2>
+                    <div class="dua-categories" id="dua-categories"></div>
+                </div>
+                <div class="section-card" id="dua-list-section" style="display:none;">
+                    <h2 id="dua-list-title">--</h2>
+                    <div class="dua-list" id="dua-list"></div>
+                </div>
+            </div>
+
+            <!-- ===== صفحة المسبحة الإلكترونية ===== -->
+            <div class="page" id="page-tasbih">
+                <div class="section-card tasbih-card">
+                    <h2 data-i18n="tasbih.title">📿 المسبحة الإلكترونية</h2>
+
+                    <!-- تابات الوضع -->
+                    <div class="tasbih-tabs">
+                        <button class="tasbih-tab active" id="tab-auto" onclick="tasbihSwitchMode('auto')" data-i18n="tasbih.auto">التسبيح التلقائي</button>
+                        <button class="tasbih-tab" id="tab-free" onclick="tasbihSwitchMode('free')" data-i18n="tasbih.free">عداد مفتوح</button>
+                    </div>
+
+                    <!-- ===== وضع التسبيح التلقائي ===== -->
+                    <div id="tasbih-mode-auto">
+                        <!-- مؤشر الخطوات -->
+                        <div class="tasbih-steps-row">
+                            <div class="tasbih-step active" id="step-0">
+                                <span class="tasbih-step-name">سبحان الله</span>
+                                <span class="tasbih-step-num">33</span>
+                            </div>
+                            <div class="tasbih-step-arrow">←</div>
+                            <div class="tasbih-step" id="step-1">
+                                <span class="tasbih-step-name">الحمد لله</span>
+                                <span class="tasbih-step-num">33</span>
+                            </div>
+                            <div class="tasbih-step-arrow">←</div>
+                            <div class="tasbih-step" id="step-2">
+                                <span class="tasbih-step-name">الله أكبر</span>
+                                <span class="tasbih-step-num">33</span>
+                            </div>
+                        </div>
+
+                        <div class="tasbih-current-dhikr" id="tasbih-current-dhikr">سبحان الله</div>
+
+                        <!-- الدائرة -->
+                        <div class="tasbih-circle-wrap">
+                            <button class="tasbih-circle" id="tasbih-btn" onclick="tasbihClick()">
+                                <span class="tasbih-circle-count" id="tasbih-count">0</span>
+                            </button>
+                        </div>
+
+                        <!-- شريط التقدم -->
+                        <div class="tasbih-progress-wrap">
+                            <div class="tasbih-progress-bar">
+                                <div class="tasbih-progress-fill" id="tasbih-progress"></div>
+                            </div>
+                            <div class="tasbih-progress-label" id="tasbih-progress-label">0 / 33</div>
+                        </div>
+
+                        <div class="tasbih-two-btns">
+                            <button class="tasbih-btn-secondary" onclick="tasbihResetCount()" data-i18n="tasbih.reset">↺ تصفير العداد</button>
+                            <button class="tasbih-btn-danger" onclick="tasbihReset()" data-i18n="tasbih.reset_session">🗑 تصفير الجلسة</button>
+                        </div>
+
+                        <div class="tasbih-session-total">
+                            <span data-i18n="tasbih.session_label">إجمالي الجلسة:</span> <span id="tasbih-session-total">0</span> <span data-i18n="tasbih.unit">تسبيحة</span>
+                        </div>
+                    </div>
+
+                    <!-- ===== وضع العداد المفتوح ===== -->
+                    <div id="tasbih-mode-free" style="display:none;">
+                        <div class="tasbih-current-dhikr" id="tasbih-free-label" data-i18n="tasbih.press">اضغط للعد</div>
+
+                        <div class="tasbih-circle-wrap">
+                            <button class="tasbih-circle" id="tasbih-free-btn" onclick="tasbihFreeClick()">
+                                <span class="tasbih-circle-count" id="tasbih-free-count">0</span>
+                            </button>
+                        </div>
+
+                        <div class="tasbih-two-btns">
+                            <button class="tasbih-btn-secondary" onclick="tasbihFreeReset()" data-i18n="tasbih.reset">↺ تصفير العداد</button>
+                            <button class="tasbih-btn-danger" onclick="tasbihFreeResetAll()" data-i18n="tasbih.reset_session">🗑 تصفير الجلسة</button>
+                        </div>
+
+                        <div class="tasbih-session-total">
+                            <span data-i18n="tasbih.session_label">إجمالي الجلسة:</span> <span id="tasbih-free-total">0</span> <span data-i18n="tasbih.free_unit">ضغطة</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- صفحة جميع مدن الدولة -->
+            <div class="page" id="page-all-cities">
+                <div class="section-card">
+                    <h2 id="all-cities-page-title">مدن المملكة العربية السعودية</h2>
+                    <div class="cities-search-bar">
+                        <input type="text" id="all-cities-search" placeholder="🔍 ابحث عن مدينة أو منطقة..." oninput="filterAllCities()">
+                    </div>
+                    <div id="all-cities-container"></div>
+                    <div class="cities-pagination" id="cities-pagination"></div>
+                </div>
+            </div>
+
+            <!-- ========= الفوتر ========= -->
+            <footer class="footer">
+                <p>مواقيت الصلاة © <span id="footer-year"></span> - <span data-i18n="footer.rights">جميع الحقوق محفوظة</span></p>
+                <p style="margin-top:4px;" data-i18n="footer.note">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ========= السكريبتات ========= -->
+    <script src="js/i18n.js?v=25"></script>
+    <script src="js/prayer-times.js?v=25"></script>
+    <script src="js/hijri-date.js?v=25"></script>
+    <script src="js/qibla.js?v=25"></script>
+    <script src="js/moon.js?v=25"></script>
+    <script src="js/duas.js?v=25"></script>
+    <script src="js/app.js?v=25"></script>
+
+    <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
+    <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->
+    <audio id="adhan-audio" preload="metadata" style="display:none">
+        <source src="/audio/adhan.mp3" type="audio/mpeg">
+        <source src="https://cdn.islamic.network/prayer-times/audio/Abdul_Basit_Abdul_Samad/mp3/Adhan-makkah.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ====== بوب آب الأذان ====== -->
+    <div id="adhan-popup" class="adhan-popup-overlay" style="display:none" onclick="closeAdhanPopup()">
+        <div class="adhan-popup-card" onclick="event.stopPropagation()">
+            <div class="adhan-popup-icon">🕌</div>
+            <div class="adhan-popup-text">
+                <span data-i18n="adhan_popup.prefix">يحين الآن موعد أذان</span>
+                <strong id="adhan-popup-prayer-name">الفجر</strong>
+            </div>
+            <div class="adhan-popup-location"><span data-i18n="adhan_popup.location">بالتوقيت المحلي لـ</span> <span id="adhan-popup-city">مكة المكرمة</span></div>
+            <div class="adhan-progress-wrap" id="adhan-progress-wrap" style="display:none">
+                <div class="adhan-progress-fill" id="adhan-progress-fill"></div>
+            </div>
+            <button class="adhan-popup-close-btn" onclick="closeAdhanPopup()" data-i18n="adhan_popup.close">⏹ إغلاق</button>
+        </div>
+    </div>
+</body>
+</html>

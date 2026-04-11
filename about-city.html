@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <script>if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عن المدينة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            border-radius: var(--radius);
+            padding: 24px 22px;
+            color: #fff;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .about-hero-flag img { border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); width: 64px; }
+        .about-hero-info h1  { font-size: 1.6rem; margin-bottom: 2px; }
+        .about-hero-info p   { font-size: 0.88rem; opacity: 0.82; margin: 0; }
+        .about-hero-coords   { font-size: 0.78rem; opacity: 0.65; margin-top: 4px; }
+
+        /* بيانات الوقت */
+        .about-badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .about-badge {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow);
+        }
+        .badge-icon  { font-size: 1.5rem; flex-shrink: 0; }
+        .badge-label { font-size: 0.72rem; color: var(--text-light); }
+        .badge-val   { font-size: 1rem; font-weight: 700; color: var(--primary); }
+        .badge-link  { font-size: 0.85rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .badge-link:hover { text-decoration: underline; }
+
+        /* أقسام المحتوى */
+        .about-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+        .about-card h2 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            font-weight: 700;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .about-text {
+            font-size: 0.91rem;
+            line-height: 1.9;
+            color: var(--text);
+        }
+        .about-text p { margin-bottom: 10px; }
+        .about-text p:last-child { margin-bottom: 0; }
+
+        .wiki-source {
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .wiki-source:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* الخريطة */
+        .map-frame {
+            width: 100%;
+            height: 380px;
+            border: none;
+            border-radius: 10px;
+            display: block;
+        }
+
+        /* تحميل */
+        .loading-box {
+            text-align: center;
+            padding: 32px 20px;
+            color: var(--text-light);
+        }
+        .spin {
+            display: inline-block;
+            width: 30px; height: 30px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: sp 0.8s linear infinite;
+            margin-bottom: 10px;
+        }
+        @keyframes sp { to { transform: rotate(360deg); } }
+
+        /* قسم تمييز */
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .highlight-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 12px 14px;
+            border-right: 3px solid var(--primary);
+        }
+        .highlight-item .hi-label { font-size: 0.75rem; color: var(--text-light); margin-bottom: 4px; }
+        .highlight-item .hi-val   { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+
+        @media (max-width: 640px) {
+            .about-hero { flex-direction: column; text-align: center; }
+            .about-hero-flag { display: none; }
+            .highlight-grid { grid-template-columns: 1fr; }
+            .map-frame { height: 260px; }
+        }
+    </style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()" aria-label="القائمة">☰</button>
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div class="app-layout">
+
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo" onclick="window.location.href='/'" title="الرئيسية">🕌 مواقيت الصلاة</h1>
+            <div class="hijri-date" id="sidebar-hijri-date"></div>
+            <div class="greg-date"  id="sidebar-greg-date"></div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/"><span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span></a>
+            <a href="/?page=qibla"><span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span></a>
+            <a href="/?page=hijri-calendar"><span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span></a>
+            <a href="/?page=date-converter"><span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span></a>
+            <a href="/?page=duas"><span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span></a>
+        </nav>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+
+        <!-- الهيدر -->
+        <div class="top-header">
+            <div class="location-info">
+                <span class="icon">🏙️</span>
+                <div>
+                    <div class="city-name" id="hdr-city">جاري التحميل...</div>
+                    <div class="country"   id="hdr-country"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline lang-toggle-btn" onclick="toggleLanguage()">EN</button>
+                <button class="btn btn-outline" onclick="history.back()" data-i18n="about.back">← رجوع</button>
+                <button class="btn btn-outline" onclick="window.location.href='/'">🏠 <span data-i18n="header.home">الرئيسية</span></button>
+            </div>
+        </div>
+
+        <!-- ===== محتوى الصفحة ===== -->
+
+        <!-- Hero -->
+        <div class="about-hero section-card" id="about-hero" style="display:none">
+            <div class="about-hero-flag" id="hero-flag"></div>
+            <div class="about-hero-info">
+                <h1 id="hero-city"></h1>
+                <p  id="hero-country"></p>
+                <p  id="hero-coords" class="about-hero-coords"></p>
+            </div>
+        </div>
+
+        <!-- بيانات الوقت والتاريخ -->
+        <div class="about-badges" id="about-badges" style="display:none">
+            <div class="about-badge">
+                <span class="badge-icon">🕐</span>
+                <div>
+                    <div class="badge-label" data-i18n="about.local_time">الوقت المحلي</div>
+                    <div class="badge-val" id="b-time">--:--</div>
+                </div>
+            </div>
+            <div class="about-badge">
+                <span class="badge-icon">🗓️</span>
+                <div>
+                    <div class="badge-label" data-i18n="about.hijri_date">التاريخ الهجري</div>
+                    <div class="badge-val" id="b-hijri">--</div>
+                </div>
+            </div>
+            <div class="about-badge">
+                <span class="badge-icon">📆</span>
+                <div>
+                    <div class="badge-label" data-i18n="about.greg_date">التاريخ الميلادي</div>
+                    <div class="badge-val" id="b-greg">--</div>
+                </div>
+            </div>
+            <div class="about-badge">
+                <span class="badge-icon">🕌</span>
+                <div>
+                    <div class="badge-label" data-i18n="about.prayer_times">أوقات الصلاة</div>
+                    <div><a id="b-prayer" href="#" class="badge-link" data-i18n="about.see_times">اضغط للعرض</a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- تحميل أولي -->
+        <div class="section-card loading-box" id="init-loading">
+            <div class="spin"></div>
+            <div data-i18n="about.loading">جاري تحميل بيانات المدينة...</div>
+        </div>
+
+        <!-- معلومات مميزة -->
+        <div class="about-card" id="card-highlights" style="display:none">
+            <h2 data-i18n="about.highlights">📌 معلومات سريعة</h2>
+            <div class="highlight-grid" id="highlights-grid"></div>
+        </div>
+
+        <!-- وصف المدينة -->
+        <div class="about-card" id="card-desc" style="display:none">
+            <h2 data-i18n="about.about_city">📖 عن المدينة</h2>
+            <div class="about-text" id="wiki-text">
+                <div class="loading-box"><div class="spin"></div><div>جاري جلب المعلومات...</div></div>
+            </div>
+            <a id="wiki-link" href="#" target="_blank" rel="noopener" class="wiki-source" style="display:none">
+                <span data-i18n="about.wiki_read_more">📚 اقرأ المزيد في ويكيبيديا</span>
+            </a>
+        </div>
+
+        <!-- الخريطة -->
+        <div class="about-card" id="card-map" style="display:none">
+            <h2 data-i18n="about.map">🗺️ موقع المدينة على الخريطة</h2>
+            <iframe id="map-iframe" class="map-frame" allowfullscreen loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
+        </div>
+
+    </main>
+</div>
+
+<script src="js/i18n.js?v=20"></script>
+<script>
+/* ===== سايدبار ===== */
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.querySelector('.sidebar-overlay').classList.toggle('active');
+}
+
+/* ===== التواريخ في السايدبار ===== */
+(function() {
+    try {
+        const t = new Date(), y = t.getFullYear(), m = t.getMonth()+1, d = t.getDate();
+        const jd = Math.floor((1461*(y+4800+Math.floor((m-14)/12)))/4)
+                 + Math.floor((367*(m-2-12*Math.floor((m-14)/12)))/12)
+                 - Math.floor((3*Math.floor((y+4900+Math.floor((m-14)/12))/100))/4)+d-32075;
+        const l=jd-1948440+10632, n=Math.floor((l-1)/10631), l2=l-10631*n+354;
+        const j=Math.floor((10985-l2)/5316)*Math.floor((50*l2)/17719)+Math.floor(l2/5670)*Math.floor((43*l2)/15238);
+        const l3=l2-Math.floor((30-j)/15)*Math.floor((17719*j)/50)-Math.floor(j/16)*Math.floor((15238*j)/43)+29;
+        const hM=Math.floor((24*l3)/709), hD=l3-Math.floor((709*hM)/24), hY=30*n+j-30;
+        const HM=['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+        const DN=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+        const GM=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+        document.getElementById('sidebar-hijri-date').textContent = `${DN[t.getDay()]}، ${hD} ${HM[hM-1]} ${hY} هـ`;
+        document.getElementById('sidebar-greg-date').textContent  = `${d} ${GM[t.getMonth()]} ${y} م`;
+    } catch(e) {}
+})();
+
+/* ===== helpers ===== */
+function makeSlug(name, lat, lng) {
+    const s = (name||'').toLowerCase().replace(/[^a-z0-9\s]+/g,'').trim().replace(/\s+/g,'-');
+    if (s.length >= 2) return s;
+    return `${Math.abs(lat).toFixed(1)}${lat>=0?'n':'s'}-${Math.abs(lng).toFixed(1)}${lng>=0?'e':'w'}`;
+}
+function toHijri(date) {
+    const y=date.getFullYear(),m=date.getMonth()+1,d=date.getDate();
+    const jd=Math.floor((1461*(y+4800+Math.floor((m-14)/12)))/4)+Math.floor((367*(m-2-12*Math.floor((m-14)/12)))/12)-Math.floor((3*Math.floor((y+4900+Math.floor((m-14)/12))/100))/4)+d-32075;
+    const l=jd-1948440+10632,n=Math.floor((l-1)/10631),l2=l-10631*n+354;
+    const j=Math.floor((10985-l2)/5316)*Math.floor((50*l2)/17719)+Math.floor(l2/5670)*Math.floor((43*l2)/15238);
+    const l3=l2-Math.floor((30-j)/15)*Math.floor((17719*j)/50)-Math.floor(j/16)*Math.floor((15238*j)/43)+29;
+    const hM=Math.floor((24*l3)/709),hD=l3-Math.floor((709*hM)/24),hY=30*n+j-30;
+    const HM=['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+    return `${hD} ${HM[hM-1]} ${hY} هـ`;
+}
+const GM2=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+/* ===== التحميل الرئيسي ===== */
+async function initAbout() {
+    // استخرج slug من الـ URL — يدعم وضعين:
+    // 1) server: /about-mecca.html          → slug = 'mecca'
+    // 2) file://: about-city.html?slug=mecca → slug من query param
+    const pathM  = window.location.pathname.match(/\/(?:en\/)?about-(.+?)(?:\.html)?$/);
+    const paramSlug = new URLSearchParams(window.location.search).get('slug');
+    const slug = pathM ? pathM[1] : (paramSlug || null);
+
+    // اقرأ البيانات من sessionStorage
+    let D = null;
+    try { D = JSON.parse(sessionStorage.getItem(`about_${slug}`)); } catch(e) {}
+
+    // إذا لم توجد في sessionStorage → geocode احتياطي
+    if (!D && slug) {
+        const q = slug.replace(/-/g,' ');
+        // هل هو slug إحداثيات؟ (مثل 21.4n-39.8e)
+        const coordM = slug.match(/^([\d.]+)(n|s)-([\d.]+)(e|w)$/i);
+        if (coordM) {
+            const lat = parseFloat(coordM[1]) * (coordM[2].toLowerCase()==='s'?-1:1);
+            const lng = parseFloat(coordM[3]) * (coordM[4].toLowerCase()==='w'?-1:1);
+            try {
+                const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar&namedetails=1`);
+                const d = await r.json();
+                const addr = d.address || {};
+                const enName = d.namedetails?.['name:en'] || d.namedetails?.['name'] || '';
+                D = { city: addr.city||addr.town||addr.village||q, country: addr.country||'',
+                      countryCode:(addr.country_code||'').toLowerCase(), lat, lng,
+                      englishName: enName,
+                      wikiTitle:'', wikiExtract:'', wikiUrl:'' };
+            } catch(e) {}
+        } else {
+            // geocode نصي — الـ slug نفسه إنجليزي فنستخدمه كـ englishName
+            try {
+                const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&limit=1&accept-language=ar&addressdetails=1&namedetails=1`);
+                const d = await r.json();
+                if (d.length > 0) {
+                    const p=d[0], addr=p.address||{};
+                    const enName = p.namedetails?.['name:en'] || p.namedetails?.['name'] || q;
+                    D = { city: p.name||q, country: addr.country||'',
+                          countryCode:(addr.country_code||'').toLowerCase(),
+                          lat:parseFloat(p.lat), lng:parseFloat(p.lon),
+                          englishName: enName,
+                          wikiTitle:p.name||q, wikiExtract:'', wikiUrl:'' };
+                }
+            } catch(e) {}
+        }
+    }
+
+    if (!D) {
+        document.getElementById('init-loading').innerHTML = '<div class="loading-box">⚠️ تعذّر تحميل بيانات المدينة.</div>';
+        return;
+    }
+
+    let { city, country, countryCode: cc, lat, lng, englishName, prayerSlug: storedPrayerSlug, wikiTitle, wikiExtract, wikiUrl } = D;
+
+    // ===== العناوين =====
+    document.title = `عن مدينة ${city} | مواقيت الصلاة`;
+    document.getElementById('hdr-city').textContent    = `عن مدينة ${city}`;
+    document.getElementById('hdr-country').textContent = country;
+    document.getElementById('hero-city').textContent   = city;
+    document.getElementById('hero-country').textContent= country;
+    document.getElementById('hero-coords').textContent = `${Math.abs(lat).toFixed(2)}° ${lat>=0?'شمال':'جنوب'} · ${Math.abs(lng).toFixed(2)}° ${lng>=0?'شرق':'غرب'}`;
+
+    // العلم
+    if (cc && cc.length===2)
+        document.getElementById('hero-flag').innerHTML =
+            `<img src="https://flagcdn.com/64x48/${cc}.png" alt="${country}">`;
+
+    // أظهر الأقسام
+    document.getElementById('init-loading').style.display  = 'none';
+    document.getElementById('about-hero').style.display    = 'flex';
+    document.getElementById('about-badges').style.display  = 'grid';
+    document.getElementById('card-desc').style.display     = 'block';
+    document.getElementById('card-map').style.display      = 'block';
+
+    // ===== الوقت والتاريخ =====
+    try {
+        const tzR = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&timezone=auto&daily=weathercode&forecast_days=1`);
+        const tzD = await tzR.json();
+        const tz  = tzD?.utc_offset_seconds ? tzD.utc_offset_seconds/3600 : Math.round((lng/15)*2)/2;
+        const now = new Date();
+        const off = -now.getTimezoneOffset()/60;
+        const ct  = new Date(now.getTime()+(tz-off)*3600000);
+        document.getElementById('b-time').textContent  = `${String(ct.getHours()).padStart(2,'0')}:${String(ct.getMinutes()).padStart(2,'0')}`;
+        document.getElementById('b-hijri').textContent = toHijri(ct);
+        document.getElementById('b-greg').textContent  = `${ct.getDate()} ${GM2[ct.getMonth()]} ${ct.getFullYear()} م`;
+        setInterval(()=>{
+            const n2=new Date(), c2=new Date(n2.getTime()+(tz-off)*3600000);
+            document.getElementById('b-time').textContent=`${String(c2.getHours()).padStart(2,'0')}:${String(c2.getMinutes()).padStart(2,'0')}`;
+        }, 30000);
+    } catch(e) {
+        const t=new Date();
+        document.getElementById('b-time').textContent  = `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`;
+        document.getElementById('b-hijri').textContent = toHijri(t);
+        document.getElementById('b-greg').textContent  = `${t.getDate()} ${GM2[t.getMonth()]} ${t.getFullYear()} م`;
+    }
+
+    // رابط أوقات الصلاة
+    // الأولوية: storedPrayerSlug (مخزّن مسبقاً ودقيق 100%) → englishName → إحداثيات
+    const pSlug = storedPrayerSlug || makeSlug(englishName || city, lat, lng);
+    const pHref = `/prayer-times-in-${pSlug}.html`;
+    const pLink = document.getElementById('b-prayer');
+    pLink.href  = pHref;
+    pLink.onclick = e => {
+        e.preventDefault();
+        sessionStorage.setItem(`city_${pSlug}`, JSON.stringify({lat,lng,name:city,country,englishName:englishName||'',countryCode:cc}));
+        window.location.href = pHref;
+    };
+
+    // ===== معلومات مميزة (من Nominatim) =====
+    try {
+        const nr = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar&zoom=10`);
+        const nd = await nr.json();
+        const addr = nd.address||{};
+        const highlights = [];
+        if (addr.state||addr.province)   highlights.push({label:'المنطقة / المحافظة', val: addr.state||addr.province});
+        if (addr.county||addr.district)  highlights.push({label:'المقاطعة / الحي',    val: addr.county||addr.district});
+        if (addr.country)                highlights.push({label:'الدولة',             val: addr.country});
+        if (addr.postcode)               highlights.push({label:'الرمز البريدي',      val: addr.postcode});
+        highlights.push({label:'خط العرض',  val: `${Math.abs(lat).toFixed(4)}° ${lat>=0?'شمال':'جنوب'}`});
+        highlights.push({label:'خط الطول',  val: `${Math.abs(lng).toFixed(4)}° ${lng>=0?'شرق':'غرب'}`});
+        if (highlights.length > 0) {
+            const g = document.getElementById('highlights-grid');
+            g.innerHTML = highlights.map(h=>`<div class="highlight-item"><div class="hi-label">${h.label}</div><div class="hi-val">${h.val}</div></div>`).join('');
+            document.getElementById('card-highlights').style.display = 'block';
+        }
+    } catch(e) {}
+
+    // ===== وصف ويكيبيديا =====
+    const wikiEl  = document.getElementById('wiki-text');
+    const wikiLnk = document.getElementById('wiki-link');
+    let extract   = wikiExtract || '';
+    let pageUrl   = wikiUrl     || '';
+
+    if (!extract) {
+        try {
+            const wr = await fetch(`https://ar.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(wikiTitle||city)}`);
+            if (wr.ok) {
+                const wd = await wr.json();
+                extract = wd.extract||'';
+                pageUrl = wd.content_urls?.desktop?.page||'';
+            }
+        } catch(e) {}
+    }
+
+    // جلب أقسام إضافية
+    let extraHTML = '';
+    const sectionTitles = ['جغرافيا','الجغرافيا','الموقع','موقع','التاريخ','تاريخ','السياحة','سياحة','معالم','الاقتصاد','السكان'];
+    try {
+        const sr = await fetch(`https://ar.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(wikiTitle||city)}&prop=sections&format=json&origin=*`);
+        if (sr.ok) {
+            const sd = await sr.json();
+            const secs = sd.parse?.sections||[];
+            const important = secs.filter(s=>sectionTitles.some(k=>s.line.includes(k))).slice(0,4);
+            for (const sec of important) {
+                const cr = await fetch(`https://ar.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(wikiTitle||city)}&prop=wikitext&section=${sec.index}&format=json&origin=*`).catch(()=>null);
+                if (cr && cr.ok) {
+                    const cd = await cr.json();
+                    let text = (cd.parse?.wikitext?.['*']||'')
+                        .replace(/\[\[(?:[^\]|]*\|)?([^\]]+)\]\]/g,'$1')
+                        .replace(/\{\{[^}]+\}\}/g,'')
+                        .replace(/={2,}[^=]+=*/g,'')
+                        .replace(/<[^>]+>/g,'')
+                        .replace(/\[\[Category[^\]]*\]\]/g,'')
+                        .replace(/\s+/g,' ').trim();
+                    if (text.length > 80) {
+                        extraHTML += `<p><strong>${sec.line}</strong><br>${text.substring(0,500)}${text.length>500?'...':''}</p>`;
+                    }
+                }
+            }
+        }
+    } catch(e) {}
+
+    if (extract || extraHTML) {
+        wikiEl.innerHTML = `${extract ? `<p>${extract}</p>` : ''}${extraHTML}`;
+        if (pageUrl) { wikiLnk.href=pageUrl; wikiLnk.style.display='inline-flex'; }
+    } else {
+        wikiEl.innerHTML = '<p style="color:var(--text-light)">لا تتوفر معلومات تفصيلية في ويكيبيديا العربية لهذه المدينة.</p>';
+    }
+
+    // ===== الخريطة =====
+    // نجرب Google Maps أولاً (لا يحتاج API key للعرض البسيط)، ثم OSM كاحتياطي
+    const mapFrame = document.getElementById('map-iframe');
+    const googleSrc = `https://maps.google.com/maps?q=${lat},${lng}&z=13&output=embed&hl=ar`;
+    const osmSrc    = `https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.12},${lat-0.12},${lng+0.12},${lat+0.12}&layer=mapnik&marker=${lat},${lng}`;
+    mapFrame.src = googleSrc;
+    // إذا فشل Google Maps نحول إلى OpenStreetMap
+    mapFrame.onerror = () => { mapFrame.src = osmSrc; };
+    setTimeout(() => {
+        try {
+            // Google Maps يحمّل لكن قد يعطي خطأ داخلي - نفحص الـ contentDocument
+            if (mapFrame.contentDocument && mapFrame.contentDocument.title === '') {
+                mapFrame.src = osmSrc;
+            }
+        } catch(e) { /* cross-origin - طبيعي */ }
+    }, 4000);
+
+    // زر لفتح Google Maps بالمتصفح
+    const mapCard = document.getElementById('card-map');
+    const openBtn = document.createElement('a');
+    openBtn.href    = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+    openBtn.target  = '_blank';
+    openBtn.rel     = 'noopener';
+    openBtn.className = 'wiki-source';
+    openBtn.style.marginTop = '10px';
+    openBtn.innerHTML = '🗺️ فتح في Google Maps';
+    mapCard.appendChild(openBtn);
+}
+
+initAbout();
+</script>
+</body>
+</html>

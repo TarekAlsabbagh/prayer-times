@@ -502,15 +502,16 @@ function initNavigation() {
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
             }
 
-            // عند الانتقال لمواقيت الصلاة من أي صفحة مدينة → انتقل لصفحة المدينة
-            if (pageId === 'prayer-times') {
+            // عند الانتقال لمواقيت الصلاة → انتقل لصفحة المدينة إذا كان هناك موقع محدد
+            if (pageId === 'prayer-times' && window.location.protocol !== 'file:') {
                 const _citySlug = window.location.pathname.match(/\/(?:en\/)?(?:qibla-in|prayer-times-in)-(.+?)(?:\.html)?$/)?.[1];
-                if (_citySlug && window.location.protocol !== 'file:') {
-                    sessionStorage.setItem(`city_${_citySlug}`, JSON.stringify({
+                const _slug = _citySlug || (currentLat && currentEnglishName ? makeSlug(currentEnglishName, currentLat, currentLng) : null);
+                if (_slug && currentLat) {
+                    sessionStorage.setItem(`city_${_slug}`, JSON.stringify({
                         lat: currentLat, lng: currentLng, name: currentCity,
                         country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode
                     }));
-                    window.location.href = pageUrl(`/prayer-times-in-${_citySlug}.html`);
+                    window.location.href = pageUrl(`/prayer-times-in-${_slug}.html`);
                     return;
                 }
             }

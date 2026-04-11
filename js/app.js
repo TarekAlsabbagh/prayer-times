@@ -1175,6 +1175,32 @@ function updateCityDisplay() {
             ? `🧭 Qibla Direction in ${dispCity}`
             : `🧭 اتجاه القبلة في ${dispCity}`;
     }
+
+    // زر العودة لمواقيت الصلاة (يظهر فقط على صفحة /qibla-in-*)
+    const qiblaBackBtn = document.getElementById('qibla-back-btn');
+    const qiblaBackLabel = document.getElementById('qibla-back-label');
+    const isQiblaPage = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
+    if (qiblaBackBtn && isQiblaPage && dispCity) {
+        const slug = makeSlug(currentEnglishName || dispCity, currentLat, currentLng);
+        qiblaBackBtn.href = pageUrl(`/prayer-times-in-${slug}.html`);
+        qiblaBackBtn.onclick = e => {
+            e.preventDefault();
+            sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+                lat: currentLat, lng: currentLng,
+                name: currentCity, country: currentCountry,
+                englishName: currentEnglishName, countryCode: currentCountryCode
+            }));
+            window.location.href = qiblaBackBtn.href;
+        };
+        if (qiblaBackLabel) {
+            qiblaBackLabel.textContent = isEn
+                ? `Prayer Times in ${dispCity}`
+                : `مواقيت الصلاة في ${dispCity}`;
+        }
+        qiblaBackBtn.style.display = 'flex';
+    } else if (qiblaBackBtn) {
+        qiblaBackBtn.style.display = 'none';
+    }
 }
 
 // ========= مواقيت الصلاة =========

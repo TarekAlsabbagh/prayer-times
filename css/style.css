@@ -655,6 +655,16 @@ button, input, select { font-family: inherit; }
 .compass-directions .east { right: 12px; top: 50%; transform: translateY(-50%); }
 .compass-directions .west { left: 12px; top: 50%; transform: translateY(-50%); }
 
+.qibla-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 16px auto 0;
+    width: fit-content;
+    font-size: 0.95rem;
+}
+
 .qibla-info {
     text-align: center;
 }

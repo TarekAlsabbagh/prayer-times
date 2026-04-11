@@ -1167,6 +1167,14 @@ function updateCityDisplay() {
     document.getElementById('qibla-city').textContent = dispCity;
     document.getElementById('qibla-lat').textContent = currentLat.toFixed(4) + '°';
     document.getElementById('qibla-lng').textContent = currentLng.toFixed(4) + '°';
+
+    // عنوان صفحة القبلة: "اتجاه القبلة في (المدينة)"
+    const qiblaTitle = document.querySelector('#page-qibla h2[data-i18n="qibla.title"]');
+    if (qiblaTitle && dispCity) {
+        qiblaTitle.textContent = isEn
+            ? `🧭 Qibla Direction in ${dispCity}`
+            : `🧭 اتجاه القبلة في ${dispCity}`;
+    }
 }
 
 // ========= مواقيت الصلاة =========

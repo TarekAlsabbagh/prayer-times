@@ -691,14 +691,18 @@ function fetchCitySuggestions(query) {
             suggestionsEl.appendChild(btn);
         }
 
-        // الأنواع المرفوضة
+        // الأنواع المرفوضة (أحياء وشوارع ومناطق فرعية)
         const rejected = new Set(['state', 'county', 'country', 'region',
                                   'continent', 'ocean', 'sea', 'island',
-                                  'suburb', 'quarter', 'neighbourhood', 'hamlet']);
+                                  'suburb', 'quarter', 'neighbourhood', 'hamlet',
+                                  'road', 'path', 'footway', 'motorway', 'trunk',
+                                  'primary', 'secondary', 'tertiary', 'unclassified',
+                                  'service', 'track', 'living_street', 'residential']);
         let results = all.filter(p =>
             !rejected.has(p.addresstype) &&
             !rejected.has(p.type) &&
-            p.class !== 'country'
+            p.class !== 'country' &&
+            p.class !== 'highway'
         );
 
         const typeRank = p => {
@@ -727,9 +731,10 @@ function fetchCitySuggestions(query) {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
 
-            // فلتر اسمي إضافي: تجاهل الأسماء التي تبدأ بـ "حي " أو تنتهي بـ District/Neighborhood/Quarter
+            // فلتر اسمي إضافي: استبعاد الأحياء والشوارع بالعربي والإنجليزي
             const rawName = place.name || '';
-            if (rawName.startsWith('حي ') || /\b(District|Neighborhood|Neighbourhood|Quarter)\s*$/i.test(rawName)) return;
+            if (rawName.startsWith('حي ') || rawName.startsWith('شارع ')) return;
+            if (/\b(District|Neighborhood|Neighbourhood|Quarter|Street|Road|Avenue|Boulevard|Lane|Drive|Way)\s*$/i.test(rawName)) return;
 
             // المدينة الرئيسية فقط (بدون أحياء)
             const arCityMain = nd['name:ar'] || addr.city || addr.town || addr.village || place.name || '';
@@ -811,7 +816,9 @@ function fetchCityOnlineBroader(query) {
     const url = nomUrl(`https://nominatim.openstreetmap.org/search?format=json&limit=15&accept-language=${searchLang}&addressdetails=1&namedetails=1&q=${encodeURIComponent(query)}`);
 
     const rejected = new Set(['state','county','country','region','continent','ocean','sea','island',
-                              'suburb','quarter','neighbourhood','hamlet','residential','plot']);
+                              'suburb','quarter','neighbourhood','hamlet','residential','plot',
+                              'road','path','footway','motorway','trunk','primary','secondary',
+                              'tertiary','unclassified','service','track','living_street']);
     const accepted = new Set(['city','town','village','municipality','borough','administrative']);
 
     fetch(url)
@@ -827,11 +834,12 @@ function fetchCityOnlineBroader(query) {
                     if (seen.has(p.place_id)) return false;
                     seen.add(p.place_id);
                     const pt = p.addresstype || p.type || '';
-                    if (rejected.has(pt) || p.class === 'country') return false;
+                    if (rejected.has(pt) || p.class === 'country' || p.class === 'highway') return false;
                     if (pt && !accepted.has(pt) && p.class === 'place') return false;
-                    // فلتر اسمي: استبعاد الأسماء التي تبدأ بـ "حي " أو تنتهي بـ District/Neighborhood/Quarter
+                    // فلتر اسمي: أحياء وشوارع بالعربي والإنجليزي
                     const nm = p.name || '';
-                    if (nm.startsWith('حي ') || /\b(District|Neighborhood|Neighbourhood|Quarter)\s*$/i.test(nm)) return false;
+                    if (nm.startsWith('حي ') || nm.startsWith('شارع ')) return false;
+                    if (/\b(District|Neighborhood|Neighbourhood|Quarter|Street|Road|Avenue|Boulevard|Lane|Drive|Way)\s*$/i.test(nm)) return false;
                     return true;
                 })
                 .slice(0, 6);

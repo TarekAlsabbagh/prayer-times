@@ -779,9 +779,15 @@ function renderPagination(totalPages) {
         el.appendChild(btn);
     };
 
-    if (currentPage > 1)          add('→', currentPage - 1, false, false);
+    // حساب حدود الكتلة الحالية
+    const blockStart = ps;
+    const blockEnd   = pe;
+    const prevBlock  = Math.max(1, blockStart - PAGES_VIS);
+    const nextBlock  = Math.min(totalPages, blockEnd + 1);
+
+    if (blockStart > 1)             add('→', prevBlock, false, false);
     for (let i = ps; i <= pe; i++) add(i, i, i === currentPage, false);
-    if (currentPage < totalPages)  add('←', currentPage + 1, false, false);
+    if (blockEnd < totalPages)      add('←', nextBlock, false, false);
 }
 
 // ===== تغيير اللغة =====

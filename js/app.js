@@ -940,8 +940,9 @@ function buildCityUrl(lat, lng, city, country, englishName) {
 // التنقل الحقيقي لصفحة المدينة (حفظ البيانات في sessionStorage)
 function navigateToCity(lat, lng, city, country, englishName = '', countryCode = '') {
     const slug = makeSlug(englishName || city, lat, lng);
-    // حفظ البيانات قبل التنقل (الصفحة الجديدة ستقرأها)
-    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, timezone: currentTimezone }));
+    // لا نخزّن timezone هنا لأن currentTimezone قد يكون للمدينة السابقة
+    // سيتم جلب timezone الصحيح عند تحميل الصفحة الجديدة
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode }));
     if (window.location.protocol === 'file:') {
         window.location.hash = `prayer-times-in-${slug}`;
     } else {

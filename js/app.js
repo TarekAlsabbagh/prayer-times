@@ -2178,7 +2178,8 @@ function goHome() {
         window.location.hash = '';
         window.location.reload();
     } else {
-        window.location.href = '/';
+        const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+        window.location.href = isEn ? '/en/' : '/';
     }
 }
 

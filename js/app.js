@@ -2177,6 +2177,17 @@ function goHome() {
     if (window.location.protocol === 'file:') {
         window.location.hash = '';
         window.location.reload();
+        return;
+    }
+    // إذا كان هناك مدينة محددة → انتقل لصفحتها مباشرة
+    if (currentLat && currentEnglishName) {
+        const slug = makeSlug(currentEnglishName, currentLat, currentLng);
+        sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+            lat: currentLat, lng: currentLng, name: currentCity,
+            country: currentCountry, englishName: currentEnglishName,
+            countryCode: currentCountryCode, timezone: currentTimezone
+        }));
+        window.location.href = pageUrl(`/prayer-times-in-${slug}.html`);
     } else {
         const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
         window.location.href = isEn ? '/en/' : '/';

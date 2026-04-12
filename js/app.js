@@ -980,8 +980,13 @@ function autoSelectMethod(countryCode, countryName) {
         'bn': 'MWL', 'ph': 'MWL', 'th': 'MWL', 'mm': 'MWL',
         // أمريكا الشمالية
         'us': 'ISNA', 'ca': 'ISNA',
-        // أمريكا اللاتينية
-        'br': 'MWL', 'ar': 'MWL', 'mx': 'ISNA', 'co': 'MWL', 've': 'MWL',
+        // أمريكا اللاتينية — تستخدم طريقة أمريكا الشمالية (ISNA)
+        'mx': 'ISNA', 'br': 'ISNA', 'ar': 'ISNA', 'co': 'ISNA', 've': 'ISNA',
+        'cl': 'ISNA', 'pe': 'ISNA', 'ec': 'ISNA', 'bo': 'ISNA', 'py': 'ISNA',
+        'uy': 'ISNA', 'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
+        'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
+        'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
+        'sr': 'ISNA', 'gf': 'ISNA',
         // أوروبا — دول عالية الخط الجغرافي (فوق 55°) تستخدم MWL
         // لأن طريقة مكة (90 دقيقة ثابتة) غير مناسبة للعروض العالية
         'no': 'MWL', 'se': 'MWL', 'fi': 'MWL', 'dk': 'MWL', 'is': 'MWL',

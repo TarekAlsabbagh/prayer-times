@@ -186,7 +186,8 @@ const PrayerTimes = (function () {
         var localOffset = -now.getTimezoneOffset() / 60;
         var tz = (timezone !== undefined && !isNaN(timezone)) ? timezone : localOffset;
         var cityTime = new Date(now.getTime() + (tz - localOffset) * 3600000);
-        var currentMinutes = cityTime.getHours() * 60 + cityTime.getMinutes();
+        // استخدام الثواني لدقة أعلى وتجنب تخطي الصلاة في نفس الدقيقة
+        var currentSeconds = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
 
         var prayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
         var names   = {
@@ -196,9 +197,9 @@ const PrayerTimes = (function () {
 
         for (var i = 0; i < prayers.length; i++) {
             var pr = prayers[i];
-            var pm = Math.floor(fixHour(times.raw[pr]) * 60);
-            if (pm > currentMinutes) {
-                var diff = pm - currentMinutes;
+            var ps = Math.floor(fixHour(times.raw[pr]) * 3600);
+            if (ps > currentSeconds) {
+                var diff = Math.round((ps - currentSeconds) / 60);
                 var h = Math.floor(diff / 60), mm = diff % 60;
                 return { key: pr, name: names[pr],
                     remaining: (h > 0 ? h + ' ساعة و ' : '') + mm + ' دقيقة',
@@ -206,8 +207,8 @@ const PrayerTimes = (function () {
             }
         }
         // بعد العشاء → فجر الغد
-        var fm   = Math.floor(fixHour(times.raw.fajr) * 60);
-        var diff = (24 * 60 - currentMinutes) + fm;
+        var fs   = Math.floor(fixHour(times.raw.fajr) * 3600);
+        var diff = Math.round((86400 - currentSeconds + fs) / 60);
         var h = Math.floor(diff / 60), mm = diff % 60;
         return { key: 'fajr', name: names.fajr,
             remaining: (h > 0 ? h + ' ساعة و ' : '') + mm + ' دقيقة',

@@ -92,7 +92,7 @@ const PrayerTimes = (function () {
     let config = {
         method:     'Makkah',
         asrMethod:  'Shafi',
-        highLats:   'NightMiddle',
+        highLats:   'AngleBased',
         timeFormat: '12h',
         adjustment: { fajr: 0, sunrise: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
     };

@@ -982,16 +982,20 @@ function autoSelectMethod(countryCode, countryName) {
         'us': 'ISNA', 'ca': 'ISNA',
         // أمريكا اللاتينية
         'br': 'MWL', 'ar': 'MWL', 'mx': 'ISNA', 'co': 'MWL', 've': 'MWL',
-        // أوروبا — أم القرى افتراضياً لجميع الدول الأوروبية
+        // أوروبا — دول عالية الخط الجغرافي (فوق 55°) تستخدم MWL
+        // لأن طريقة مكة (90 دقيقة ثابتة) غير مناسبة للعروض العالية
+        'no': 'MWL', 'se': 'MWL', 'fi': 'MWL', 'dk': 'MWL', 'is': 'MWL',
+        'ee': 'MWL', 'lv': 'MWL', 'lt': 'MWL',
+        // بقية أوروبا — أم القرى
         'fr': 'Makkah', 'be': 'Makkah', 'lu': 'Makkah',
         'ru': 'Makkah',
         'gb': 'Makkah', 'de': 'Makkah', 'nl': 'Makkah', 'es': 'Makkah', 'it': 'Makkah',
-        'se': 'Makkah', 'no': 'Makkah', 'dk': 'Makkah', 'fi': 'Makkah', 'ch': 'Makkah',
+        'ch': 'Makkah',
         'at': 'Makkah', 'pt': 'Makkah', 'gr': 'Makkah', 'pl': 'Makkah', 'cz': 'Makkah',
         'sk': 'Makkah', 'hu': 'Makkah', 'ro': 'Makkah', 'bg': 'Makkah', 'hr': 'Makkah',
         'ba': 'Makkah', 'rs': 'Makkah', 'mk': 'Makkah', 'al': 'Makkah', 'xk': 'Makkah',
-        'ua': 'Makkah', 'by': 'Makkah', 'md': 'Makkah', 'ee': 'Makkah', 'lv': 'Makkah',
-        'lt': 'Makkah', 'ie': 'Makkah', 'is': 'Makkah', 'mt': 'Makkah', 'cy': 'Makkah',
+        'ua': 'Makkah', 'by': 'Makkah', 'md': 'Makkah', 'mt': 'Makkah', 'cy': 'Makkah',
+        'ie': 'Makkah',
         // أوقيانوسيا
         'au': 'MWL', 'nz': 'MWL',
     };

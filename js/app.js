@@ -1109,9 +1109,11 @@ function detectLocation() {
                 // على الصفحة الرئيسية: انتقل لصفحة المدينة بعد التحديد
                 // لكن إذا كان URL يحتوي على ?page= فلا تنتقل (المستخدم طلب قسماً بعينه)
                 const hasPageParam = new URLSearchParams(window.location.search).has('page');
+                const isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
                 const onHomePage = !hasPageParam && (window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en');
-                reverseGeocode(currentLat, currentLng, onHomePage);
-                if (!onHomePage) {
+                const shouldNavigate = (onHomePage || isCityPage) && window.location.protocol !== 'file:';
+                reverseGeocode(currentLat, currentLng, shouldNavigate);
+                if (!shouldNavigate) {
                     updatePrayerTimes();
                     updateQibla();
                     fetchNearbyPlaces(currentLat, currentLng);

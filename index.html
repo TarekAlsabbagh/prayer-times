@@ -285,8 +285,13 @@
                                 <input type="radio" name="dateType" value="hijri" onchange="onDateTypeChange()">
                                 <span data-i18n="schedule.hijri">هجري</span>
                             </label>
+                            <label class="radio-label">
+                                <input type="radio" name="dateType" value="manual" onchange="onDateTypeChange()">
+                                <span data-i18n="schedule.manual">البحث اليدوي</span>
+                            </label>
                         </div>
-                        <div class="date-selects-row">
+                        <!-- منتقي تاريخ واحد (ميلادي / هجري) -->
+                        <div id="single-date-picker" class="date-selects-row">
                             <div class="date-select-group">
                                 <label for="sched-day" data-i18n="schedule.day_label">اليوم</label>
                                 <select id="sched-day" onchange="onScheduleDateChange()"></select>
@@ -299,6 +304,44 @@
                                 <label for="sched-year" data-i18n="schedule.year_label">السنة</label>
                                 <select id="sched-year" onchange="onScheduleDateChange()"></select>
                             </div>
+                        </div>
+                        <!-- منتقي نطاق التاريخ (البحث اليدوي) -->
+                        <div id="range-date-picker" style="display:none;">
+                            <div class="range-row">
+                                <span class="range-label" data-i18n="schedule.from">من</span>
+                                <div class="date-selects-row">
+                                    <div class="date-select-group">
+                                        <label for="range-from-day" data-i18n="schedule.day_label">اليوم</label>
+                                        <select id="range-from-day" onchange="onRangeDateChange()"></select>
+                                    </div>
+                                    <div class="date-select-group">
+                                        <label for="range-from-month" data-i18n="schedule.month_label">الشهر</label>
+                                        <select id="range-from-month" onchange="onRangeDateChange()"></select>
+                                    </div>
+                                    <div class="date-select-group">
+                                        <label for="range-from-year" data-i18n="schedule.year_label">السنة</label>
+                                        <select id="range-from-year" onchange="onRangeDateChange()"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="range-row">
+                                <span class="range-label" data-i18n="schedule.to">إلى</span>
+                                <div class="date-selects-row">
+                                    <div class="date-select-group">
+                                        <label for="range-to-day" data-i18n="schedule.day_label">اليوم</label>
+                                        <select id="range-to-day" onchange="onRangeDateChange()"></select>
+                                    </div>
+                                    <div class="date-select-group">
+                                        <label for="range-to-month" data-i18n="schedule.month_label">الشهر</label>
+                                        <select id="range-to-month" onchange="onRangeDateChange()"></select>
+                                    </div>
+                                    <div class="date-select-group">
+                                        <label for="range-to-year" data-i18n="schedule.year_label">السنة</label>
+                                        <select id="range-to-year" onchange="onRangeDateChange()"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="range-error" style="display:none; color:#e74c3c; font-size:0.85rem; margin-top:6px; text-align:center; font-weight:600;"></div>
                         </div>
                     </div>
 
@@ -761,7 +804,7 @@
     <script src="js/qibla.js?v=42"></script>
     <script src="js/moon.js?v=42"></script>
     <script src="js/duas.js?v=42"></script>
-    <script src="js/app.js?v=58"></script>
+    <script src="js/app.js?v=59"></script>
 
     <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
     <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->

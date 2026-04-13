@@ -1395,9 +1395,22 @@ function setScheduleSelectsToToday() {
 }
 
 function onDateTypeChange() {
-    populateScheduleSelects();
-    setScheduleSelectsToToday();
-    onScheduleDateChange();
+    const type = getDateType();
+    const singlePicker = document.getElementById('single-date-picker');
+    const rangePicker  = document.getElementById('range-date-picker');
+
+    if (type === 'manual') {
+        if (singlePicker) singlePicker.style.display = 'none';
+        if (rangePicker)  rangePicker.style.display  = '';
+        populateRangeSelects();
+        onRangeDateChange();
+    } else {
+        if (singlePicker) singlePicker.style.display = '';
+        if (rangePicker)  rangePicker.style.display  = 'none';
+        populateScheduleSelects();
+        setScheduleSelectsToToday();
+        onScheduleDateChange();
+    }
 }
 
 function onScheduleDateChange() {
@@ -1413,6 +1426,87 @@ function onScheduleDateChange() {
         scheduleStartDate = new Date(year, month - 1, day);
     }
     renderPrayerSchedule(scheduleDays, null);
+}
+
+// ========= البحث اليدوي - نطاق التاريخ =========
+function populateRangeSelects() {
+    const now  = new Date();
+    const year = now.getFullYear();
+
+    ['from', 'to'].forEach(prefix => {
+        const dayEl   = document.getElementById(`range-${prefix}-day`);
+        const monthEl = document.getElementById(`range-${prefix}-month`);
+        const yearEl  = document.getElementById(`range-${prefix}-year`);
+        if (!dayEl) return;
+
+        // أيام 1-31
+        dayEl.innerHTML = '';
+        for (let d = 1; d <= 31; d++) dayEl.innerHTML += `<option value="${d}">${d}</option>`;
+
+        // أشهر ميلادية
+        monthEl.innerHTML = '';
+        HijriDate.gregorianMonths.forEach((m, i) => {
+            monthEl.innerHTML += `<option value="${i + 1}">${m}</option>`;
+        });
+
+        // سنوات: السنة الحالية -1 حتى +5
+        yearEl.innerHTML = '';
+        for (let y = year - 1; y <= year + 5; y++) yearEl.innerHTML += `<option value="${y}">${y}</option>`;
+    });
+
+    // القيم الافتراضية: من اليوم — إلى اليوم + 6
+    const toDate = new Date(now);
+    toDate.setDate(toDate.getDate() + 6);
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+    set('range-from-day',   now.getDate());
+    set('range-from-month', now.getMonth() + 1);
+    set('range-from-year',  year);
+    set('range-to-day',     toDate.getDate());
+    set('range-to-month',   toDate.getMonth() + 1);
+    set('range-to-year',    toDate.getFullYear());
+}
+
+function onRangeDateChange() {
+    const get = id => parseInt(document.getElementById(id)?.value || 1);
+    const fromDay   = get('range-from-day');
+    const fromMonth = get('range-from-month');
+    const fromYear  = parseInt(document.getElementById('range-from-year')?.value || new Date().getFullYear());
+    const toDay     = get('range-to-day');
+    const toMonth   = get('range-to-month');
+    const toYear    = parseInt(document.getElementById('range-to-year')?.value || new Date().getFullYear());
+
+    const errorEl = document.getElementById('range-error');
+    const fromDate = new Date(fromYear, fromMonth - 1, fromDay);
+    const toDate   = new Date(toYear,   toMonth   - 1, toDay);
+
+    // التحقق: تاريخ النهاية يجب أن يكون بعد أو يساوي تاريخ البداية
+    if (toDate < fromDate) {
+        if (errorEl) {
+            errorEl.style.display = '';
+            errorEl.textContent   = 'يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساوياً له';
+        }
+        // تحديث قائمة سنة النهاية لمنع اختيار سنة سابقة
+        const toYearEl = document.getElementById('range-to-year');
+        if (toYearEl && toYear < fromYear) {
+            toYearEl.value = fromYear;
+        }
+        return;
+    }
+
+    // الحد الأقصى 365 يوماً
+    const diffDays = Math.round((toDate - fromDate) / 86400000) + 1;
+    if (diffDays > 365) {
+        if (errorEl) {
+            errorEl.style.display = '';
+            errorEl.textContent   = 'لا يمكن اختيار نطاق يتجاوز 365 يوماً';
+        }
+        return;
+    }
+
+    if (errorEl) errorEl.style.display = 'none';
+    scheduleStartDate = fromDate;
+    renderPrayerSchedule(diffDays, null);
 }
 
 function setScheduleDays(days, btn) {

@@ -1349,6 +1349,29 @@ button, input, select { font-family: inherit; }
     cursor: pointer;
 }
 
+/* ========= البحث اليدوي - نطاق التاريخ ========= */
+.range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.range-row:last-of-type {
+    margin-bottom: 0;
+}
+.range-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 26px;
+    text-align: center;
+    flex-shrink: 0;
+}
+#range-date-picker .date-selects-row {
+    flex: 1;
+    margin-bottom: 0;
+}
+
 /* ========= الأسئلة الشائعة ========= */
 .faq-section h2 { margin-bottom: 20px; }
 

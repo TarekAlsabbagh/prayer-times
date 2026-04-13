@@ -841,12 +841,35 @@ const server = http.createServer(async (req, res) => {
     }
     if (urlPath === '/') urlPath = '/index.html';
 
+    // ===== مساعد: تعديل HTML للنسخة الإنجليزية وإرساله =====
+    function serveEnglishHtml(htmlBuf, res, acceptEnc) {
+        let html = htmlBuf.toString('utf8');
+        // 1) تغيير lang وdir في <html> لمنع CLS (RTL→LTR shift)
+        html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/,
+                            '<html$1lang="en"$2dir="ltr"');
+        // 2) حقن <base href="/"> قبل أي رابط لكي يحله preload scanner بشكل صحيح
+        html = html.replace('<head>', '<head>\n    <base href="/">');
+        const buf = Buffer.from(html, 'utf8');
+        const headers = { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'Vary': 'Accept-Encoding' };
+        if (acceptEnc.includes('gzip')) {
+            zlib.gzip(buf, (e, zbuf) => {
+                if (e) { res.writeHead(200, headers); res.end(buf); return; }
+                res.writeHead(200, { ...headers, 'Content-Encoding': 'gzip' });
+                res.end(zbuf);
+            });
+        } else {
+            res.writeHead(200, headers);
+            res.end(buf);
+        }
+    }
+
+    const _acceptEnc = req.headers['accept-encoding'] || '';
+
     // مسارات النسخة الإنجليزية /en/
     if (urlPath === '/en' || urlPath === '/en/') {
         fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
+            serveEnglishHtml(html, res, _acceptEnc);
         });
         return;
     }
@@ -854,8 +877,7 @@ const server = http.createServer(async (req, res) => {
     if (/^\/en\/prayer-times-cities-[a-z0-9-]+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
+            serveEnglishHtml(html, res, _acceptEnc);
         });
         return;
     }
@@ -863,8 +885,7 @@ const server = http.createServer(async (req, res) => {
     if (/^\/en\/about-.+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
+            serveEnglishHtml(html, res, _acceptEnc);
         });
         return;
     }
@@ -872,8 +893,7 @@ const server = http.createServer(async (req, res) => {
     if (/^\/en\/prayer-times-in-.+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
+            serveEnglishHtml(html, res, _acceptEnc);
         });
         return;
     }
@@ -881,8 +901,21 @@ const server = http.createServer(async (req, res) => {
     if (/^\/(?:en\/)?qibla-in-.+(?:\.html)?$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
+            const isEn = urlPath.startsWith('/en/');
+            if (isEn) { serveEnglishHtml(html, res, _acceptEnc); }
+            else {
+                const acceptEnc = _acceptEnc;
+                if (acceptEnc.includes('gzip')) {
+                    zlib.gzip(html, (e, buf) => {
+                        if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
+                        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
+                        res.end(buf);
+                    });
+                } else {
+                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+                    res.end(html);
+                }
+            }
         });
         return;
     }

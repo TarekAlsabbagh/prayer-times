@@ -830,45 +830,6 @@ async function handleCitiesAdd(cc, body, res) {
     res.end(JSON.stringify({ ok: true, added: r.added, total: r.total }));
 }
 
-// ===== خريطة slug → إحداثيات (لدعم الـ SSR في صفحة القبلة) =====
-// نفس منطق makeSlug في app.js
-function _serverMakeSlug(englishName) {
-    const latin = (englishName || '').toLowerCase()
-        .replace(/[^a-z0-9\s]+/g, '').trim().replace(/\s+/g, '-');
-    return latin.length >= 2 ? latin : null;
-}
-const _slugToCoords = new Map();
-(function buildSlugMap() {
-    // من STATIC_CITIES
-    for (const cities of Object.values(STATIC_CITIES)) {
-        for (const c of cities) {
-            const slug = _serverMakeSlug(c.nameEn);
-            if (slug && !_slugToCoords.has(slug)) _slugToCoords.set(slug, { lat: c.lat, lng: c.lng });
-        }
-    }
-})();
-
-// ===== حساب القبلة من جانب السيرفر (لحقن القيم مسبقاً في HTML) =====
-function _ssrQiblaAngle(lat, lng) {
-    const KAABA_LAT = 21.4225, KAABA_LNG = 39.8262, DEG = Math.PI / 180, RAD = 180 / Math.PI;
-    const phiK = KAABA_LAT * DEG, lambdaK = KAABA_LNG * DEG;
-    const phi = lat * DEG, lambda = lng * DEG;
-    let q = Math.atan2(Math.sin(lambdaK - lambda), Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda)) * RAD;
-    if (q < 0) q += 360;
-    return q;
-}
-function _ssrQiblaDir(angle) {
-    const dirs = [[0,22.5,'شمال'],[22.5,67.5,'شمال شرق'],[67.5,112.5,'شرق'],[112.5,157.5,'جنوب شرق'],
-                  [157.5,202.5,'جنوب'],[202.5,247.5,'جنوب غرب'],[247.5,292.5,'غرب'],[292.5,337.5,'شمال غرب'],[337.5,360,'شمال']];
-    return (dirs.find(d => angle >= d[0] && angle < d[1]) || dirs[0])[2];
-}
-function _ssrQiblaDist(lat, lng) {
-    const KAABA_LAT = 21.4225, KAABA_LNG = 39.8262, DEG = Math.PI / 180;
-    const dLat = (KAABA_LAT - lat) * DEG, dLng = (KAABA_LNG - lng) * DEG;
-    const a = Math.sin(dLat/2)**2 + Math.cos(lat*DEG)*Math.cos(KAABA_LAT*DEG)*Math.sin(dLng/2)**2;
-    return Math.round(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
-}
-
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
     let urlPath = req.url.split('?')[0];
@@ -898,54 +859,6 @@ const server = http.createServer(async (req, res) => {
                             '<html$1lang="en"$2dir="ltr"');
         // 2) حقن <base href="/"> قبل أي رابط لكي يحله preload scanner بشكل صحيح
         html = html.replace('<head>', '<head>\n    <base href="/">');
-        const buf = Buffer.from(html, 'utf8');
-        const headers = { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'Vary': 'Accept-Encoding' };
-        if (acceptEnc.includes('gzip')) {
-            zlib.gzip(buf, (e, zbuf) => {
-                if (e) { res.writeHead(200, headers); res.end(buf); return; }
-                res.writeHead(200, { ...headers, 'Content-Encoding': 'gzip' });
-                res.end(zbuf);
-            });
-        } else {
-            res.writeHead(200, headers);
-            res.end(buf);
-        }
-    }
-
-    // ===== مساعد: تعديل HTML لصفحة القبلة وإرساله (يحقن القيم مسبقاً لتحسين الأداء) =====
-    function serveQiblaHtml(htmlBuf, lat, lng, res, acceptEnc, isEn) {
-        const angle    = _ssrQiblaAngle(lat, lng);
-        const dir      = _ssrQiblaDir(angle);
-        const dist     = _ssrQiblaDist(lat, lng);
-        const angleStr = angle.toFixed(1);
-        const angleEx  = angle.toFixed(2);
-
-        let html = htmlBuf.toString('utf8');
-
-        // تعديل اتجاه الصفحة للإنجليزية
-        if (isEn) {
-            html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
-            html = html.replace('<head>', '<head>\n    <base href="/">');
-        }
-
-        // CSS يُظهر صفحة القبلة فوراً دون انتظار JS (يتجاوز visibility:hidden)
-        const ssrCss = `<style id="qibla-ssr">
-html.qibla-page-loading body::after{display:none!important}
-html.qibla-page-loading .page:not(#page-qibla){display:none!important;visibility:hidden!important}
-html.qibla-page-loading #page-qibla{display:block!important;visibility:visible!important}
-#qibla-arrow{transform:translate(-50%,-100%) rotate(${angleStr}deg)}
-</style>`;
-
-        // حقن القيم المحسوبة مسبقاً مباشرةً في HTML
-        html = html.replace(/(<div[^>]+id="qibla-angle"[^>]*>)--°(<\/div>)/,   `$1${angleStr}°$2`);
-        html = html.replace(/(<div[^>]+id="qibla-direction"[^>]*>)--(<\/div>)/, `$1اتجاه ${dir}$2`);
-        html = html.replace(/(<div[^>]+id="qibla-distance"[^>]*>)--(<\/div>)/,  `$1المسافة إلى الكعبة: ${dist.toLocaleString()} كم$2`);
-        html = html.replace(/(<div[^>]+id="qibla-lat"[^>]*>)--(<\/div>)/,       `$1${lat.toFixed(4)}°$2`);
-        html = html.replace(/(<div[^>]+id="qibla-lng"[^>]*>)--(<\/div>)/,       `$1${lng.toFixed(4)}°$2`);
-        html = html.replace(/(<div[^>]+id="qibla-exact-angle"[^>]*>)--(<\/div>)/,`$1${angleEx}°$2`);
-
-        html = html.replace('</head>', ssrCss + '\n</head>');
-
         const buf = Buffer.from(html, 'utf8');
         const headers = { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'Vary': 'Accept-Encoding' };
         if (acceptEnc.includes('gzip')) {
@@ -996,25 +909,11 @@ html.qibla-page-loading #page-qibla{display:block!important;visibility:visible!i
     }
 
     if (/^\/(?:en\/)?qibla-in-.+(?:\.html)?$/.test(urlPath)) {
-        // استخراج lat/lng: أولاً من الأرقام في الرابط، ثم من خريطة slug→إحداثيات
-        const _qm = urlPath.match(/qibla-in-(-?[\d.]+)-(-?[\d.]+)/);
-        let _qlat = _qm ? parseFloat(_qm[1]) : NaN;
-        let _qlng = _qm ? parseFloat(_qm[2]) : NaN;
-        if (isNaN(_qlat) || isNaN(_qlng)) {
-            // slug اسمي مثل /qibla-in-riyadh → ابحث في الخريطة
-            const _qslug = (urlPath.match(/(?:en\/)?qibla-in-(.+?)(?:\.html)?$/) || [])[1];
-            const _coords = _qslug ? _slugToCoords.get(_qslug) : null;
-            if (_coords) { _qlat = _coords.lat; _qlng = _coords.lng; }
-        }
         const _isEnQ = urlPath.startsWith('/en/');
         fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            if (!isNaN(_qlat) && !isNaN(_qlng)) {
-                // حقن القيم مسبقاً لتحسين الأداء (LCP / Speed Index)
-                serveQiblaHtml(html, _qlat, _qlng, res, _acceptEnc, _isEnQ);
-            } else if (_isEnQ) {
-                serveEnglishHtml(html, res, _acceptEnc);
-            } else {
+            if (_isEnQ) { serveEnglishHtml(html, res, _acceptEnc); }
+            else {
                 const acceptEnc = _acceptEnc;
                 if (acceptEnc.includes('gzip')) {
                     zlib.gzip(html, (e, buf) => {

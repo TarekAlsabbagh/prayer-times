@@ -851,7 +851,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    if (/^\/en\/prayer-times-cities-[a-z]{2,3}$/.test(urlPath)) {
+    if (/^\/en\/prayer-times-cities-[a-z0-9-]+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
             res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
@@ -947,7 +947,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    if (/^\/prayer-times-cities-[a-z]{2,3}\.html$/.test(urlPath)) {
+    if (/^\/prayer-times-cities-[a-z0-9-]+\.html$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
             res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});

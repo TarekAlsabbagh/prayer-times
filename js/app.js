@@ -1480,6 +1480,46 @@ function renderPrayerSchedule(days, btn) {
     }
 }
 
+// ========= أسماء الدول بالإنجليزية (لبناء روابط الصفحات) =========
+const COUNTRY_NAMES_EN = {
+    sa:'Saudi Arabia',    sy:'Syria',         eg:'Egypt',         iq:'Iraq',
+    jo:'Jordan',          lb:'Lebanon',       ps:'Palestine',     kw:'Kuwait',
+    ae:'United Arab Emirates', qa:'Qatar',   bh:'Bahrain',       om:'Oman',
+    ye:'Yemen',           ly:'Libya',         tn:'Tunisia',       dz:'Algeria',
+    ma:'Morocco',         sd:'Sudan',
+    pk:'Pakistan',        tr:'Turkey',        ir:'Iran',          id:'Indonesia',
+    my:'Malaysia',        bd:'Bangladesh',    af:'Afghanistan',   in:'India',
+    lk:'Sri Lanka',       np:'Nepal',
+    th:'Thailand',        ph:'Philippines',   vn:'Vietnam',       mm:'Myanmar',
+    kh:'Cambodia',        la:'Laos',          sg:'Singapore',     bn:'Brunei',
+    tl:'Timor-Leste',
+    cn:'China',           jp:'Japan',         kr:'South Korea',   kp:'North Korea',
+    mn:'Mongolia',
+    uz:'Uzbekistan',      kz:'Kazakhstan',    kg:'Kyrgyzstan',    tj:'Tajikistan',
+    tm:'Turkmenistan',    az:'Azerbaijan',    ge:'Georgia',       am:'Armenia',
+    fr:'France',          de:'Germany',       gb:'United Kingdom',es:'Spain',
+    it:'Italy',           nl:'Netherlands',   be:'Belgium',       pt:'Portugal',
+    se:'Sweden',          no:'Norway',        dk:'Denmark',       fi:'Finland',
+    pl:'Poland',          ru:'Russia',        ua:'Ukraine',       ch:'Switzerland',
+    at:'Austria',         gr:'Greece',        cz:'Czech Republic',ro:'Romania',
+    us:'United States',   ca:'Canada',        mx:'Mexico',
+    gt:'Guatemala',       cu:'Cuba',          do:'Dominican Republic',
+    br:'Brazil',          ar:'Argentina',     co:'Colombia',      pe:'Peru',
+    ve:'Venezuela',       cl:'Chile',         ec:'Ecuador',       bo:'Bolivia',
+    py:'Paraguay',        uy:'Uruguay',
+    ng:'Nigeria',         et:'Ethiopia',      ke:'Kenya',         tz:'Tanzania',
+    za:'South Africa',    gh:'Ghana',         sn:'Senegal',       cm:'Cameroon',
+    ml:'Mali',            so:'Somalia',       ug:'Uganda',        mr:'Mauritania',
+    td:'Chad',            ne:'Niger',
+    au:'Australia',       nz:'New Zealand',
+};
+
+function makeCountrySlug(cc) {
+    const name = COUNTRY_NAMES_EN[cc];
+    if (name) return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return cc; // احتياطي: استخدام الكود مباشرة
+}
+
 // ========= قاعدة بيانات المدن =========
 const CITIES_DB = {
     'sa': [
@@ -1679,7 +1719,7 @@ function openAllCitiesPage() {
     sessionStorage.setItem('allCitiesCountry', JSON.stringify({
         code, name: currentCountry
     }));
-    window.location.href = pageUrl(`/prayer-times-cities-${code}.html`);
+    window.location.href = pageUrl(`/prayer-times-cities-${makeCountrySlug(code)}.html`);
 }
 
 function filterAllCities() {
@@ -1941,7 +1981,7 @@ function updateCityInfoLabels() {
     const countryLinkEl = document.getElementById('country-block-link');
     if (countryLinkEl) {
         countryLinkEl.textContent = dispCountry;
-        countryLinkEl.href = pageUrl(`/prayer-times-cities-${currentCountryCode}.html`);
+        countryLinkEl.href = pageUrl(`/prayer-times-cities-${makeCountrySlug(currentCountryCode)}.html`);
     }
 
     // عنوان قسم المدينة

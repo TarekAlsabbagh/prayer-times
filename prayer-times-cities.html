@@ -321,8 +321,10 @@ function pageUrl(arabicPath) {
 }
 
 // ===== قراءة كود الدولة من الرابط =====
-const pathMatch = window.location.pathname.match(/prayer-times-cities-([a-z]{2,3})(?:\.html)?$/);
-const countryCode = pathMatch ? pathMatch[1] : 'sa';
+const pathMatch = window.location.pathname.match(/prayer-times-cities-([a-z0-9-]+?)(?:\.html)?$/);
+const _rawSlug = pathMatch ? pathMatch[1] : 'sa';
+// countryCode يُحسم بعد تعريف COUNTRY_NAMES_EN أدناه
+let countryCode = _rawSlug; // مؤقت (يُحدَّث لاحقاً)
 
 // بيانات جلسة العمل
 let storedCountry = { code: countryCode, name: '' };
@@ -375,7 +377,23 @@ const COUNTRY_NAMES_EN = {
     gh:'Ghana', sn:'Senegal', cm:'Cameroon', ml:'Mali', so:'Somalia',
     ug:'Uganda', mr:'Mauritania', td:'Chad', ne:'Niger',
     au:'Australia', nz:'New Zealand',
+    th:'Thailand',  ph:'Philippines', vn:'Vietnam',  mm:'Myanmar',
+    kh:'Cambodia',  la:'Laos',        sg:'Singapore', bn:'Brunei',
+    tl:'Timor-Leste',
+    uz:'Uzbekistan',kz:'Kazakhstan',  kg:'Kyrgyzstan',tj:'Tajikistan',
+    tm:'Turkmenistan',az:'Azerbaijan',ge:'Georgia',   am:'Armenia',
 };
+
+// حسم countryCode من الـ slug (بعد تعريف COUNTRY_NAMES_EN)
+{
+    const _slugMap = {};
+    for (const [_cc, _name] of Object.entries(COUNTRY_NAMES_EN))
+        _slugMap[_name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')] = _cc;
+    if (/^[a-z]{2,3}$/.test(_rawSlug))
+        countryCode = _rawSlug;
+    else
+        countryCode = _slugMap[_rawSlug] || 'sa';
+}
 
 function getCountryAr() { return storedCountry.name || COUNTRY_NAMES[countryCode] || countryCode.toUpperCase(); }
 function getCountryEn() { return COUNTRY_NAMES_EN[countryCode] || countryCode.toUpperCase(); }

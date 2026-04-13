@@ -691,11 +691,14 @@ function wikidataFetch(sparql) {
 
 async function fetchCitiesWikidata(cc) {
     const qid = COUNTRY_QID[cc];
-    if (!qid) return null;
+    // إذا لم يكن QID موجوداً نستعلم بكود ISO مباشرةً (يعمل مع أي دولة)
+    const countryFilter = qid
+        ? `?item wdt:P17 wd:${qid};`
+        : `?country wdt:P297 "${cc.toUpperCase()}". ?item wdt:P17 ?country;`;
     // نجلب السكان (P1082) لترتيب المدن الكبرى أولاً
     const sparql = `SELECT ?nameAr ?nameEn ?lat ?lng (MAX(?popVal) AS ?pop) WHERE {
   VALUES ?type { wd:Q515 wd:Q3957 wd:Q532 wd:Q1549591 }
-  ?item wdt:P17 wd:${qid}; wdt:P31 ?type;
+  ${countryFilter} wdt:P31 ?type;
         p:P625/psv:P625 [ wikibase:geoLatitude ?lat; wikibase:geoLongitude ?lng ].
   OPTIONAL { ?item rdfs:label ?nameAr FILTER(LANG(?nameAr)="ar") }
   OPTIONAL { ?item rdfs:label ?nameEn FILTER(LANG(?nameEn)="en") }

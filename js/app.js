@@ -1407,6 +1407,7 @@ function onDateTypeChange() {
     } else {
         if (singlePicker) singlePicker.style.display = '';
         if (rangePicker)  rangePicker.style.display  = 'none';
+        hidePagination();
         populateScheduleSelects();
         setScheduleSelectsToToday();
         onScheduleDateChange();
@@ -1467,6 +1468,12 @@ function populateRangeSelects() {
     set('range-to-year',    toDate.getFullYear());
 }
 
+// حالة ترقيم الصفحات للبحث اليدوي
+let manualRangeStart   = null;
+let manualRangeDays    = 0;
+let manualCurrentPage  = 0;
+const MANUAL_PAGE_SIZE = 30; // أيام لكل صفحة
+
 function onRangeDateChange() {
     const get = id => parseInt(document.getElementById(id)?.value || 1);
     const fromDay   = get('range-from-day');
@@ -1486,11 +1493,8 @@ function onRangeDateChange() {
             errorEl.style.display = '';
             errorEl.textContent   = 'يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساوياً له';
         }
-        // تحديث قائمة سنة النهاية لمنع اختيار سنة سابقة
         const toYearEl = document.getElementById('range-to-year');
-        if (toYearEl && toYear < fromYear) {
-            toYearEl.value = fromYear;
-        }
+        if (toYearEl && toYear < fromYear) toYearEl.value = fromYear;
         return;
     }
 
@@ -1505,8 +1509,80 @@ function onRangeDateChange() {
     }
 
     if (errorEl) errorEl.style.display = 'none';
-    scheduleStartDate = fromDate;
-    renderPrayerSchedule(diffDays, null);
+
+    // تخزين حالة النطاق والترقيم
+    manualRangeStart  = fromDate;
+    manualRangeDays   = diffDays;
+    manualCurrentPage = 0;
+
+    if (diffDays > MANUAL_PAGE_SIZE) {
+        renderManualSchedulePage(0);
+    } else {
+        hidePagination();
+        scheduleStartDate = fromDate;
+        renderPrayerSchedule(diffDays, null);
+    }
+}
+
+function renderManualSchedulePage(page) {
+    const totalPages = Math.ceil(manualRangeDays / MANUAL_PAGE_SIZE);
+    page = Math.max(0, Math.min(page, totalPages - 1));
+    manualCurrentPage = page;
+
+    const pageStart = new Date(manualRangeStart);
+    pageStart.setDate(pageStart.getDate() + page * MANUAL_PAGE_SIZE);
+    const daysInPage = Math.min(MANUAL_PAGE_SIZE, manualRangeDays - page * MANUAL_PAGE_SIZE);
+
+    scheduleStartDate = pageStart;
+    renderPrayerSchedule(daysInPage, null);
+    renderSchedulePagination(page, totalPages);
+
+    // تمرير ناعم للأعلى عند تغيير الصفحة
+    const tableEl = document.getElementById('schedule-table');
+    if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderSchedulePagination(currentPage, totalPages) {
+    const paginationEl = document.getElementById('schedule-pagination');
+    if (!paginationEl) return;
+
+    if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
+    paginationEl.style.display = '';
+
+    const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
+    const prevLabel = isRTL ? '→ السابق' : '← Prev';
+    const nextLabel = isRTL ? 'التالي ←' : 'Next →';
+    const pageLabel = isRTL
+        ? `الصفحة ${currentPage + 1} من ${totalPages}`
+        : `Page ${currentPage + 1} of ${totalPages}`;
+
+    // بناء أزرار الصفحات مع عرض حذف (...) إذا كانت الصفحات كثيرة
+    let pagesHtml = '';
+    for (let i = 0; i < totalPages; i++) {
+        const isActive = i === currentPage;
+        // عرض الصفحة الأولى، الأخيرة، والمجاورة للصفحة الحالية
+        const show = i === 0 || i === totalPages - 1 || Math.abs(i - currentPage) <= 1;
+        const showEllipsis = !show && (i === 1 || i === totalPages - 2);
+        if (showEllipsis) {
+            pagesHtml += `<span class="pagination-ellipsis">…</span>`;
+        } else if (show) {
+            pagesHtml += `<button class="pagination-page${isActive ? ' active' : ''}" onclick="renderManualSchedulePage(${i})">${i + 1}</button>`;
+        }
+    }
+
+    paginationEl.innerHTML = `
+        <div class="pagination-controls">
+            <button class="pagination-btn" onclick="renderManualSchedulePage(${currentPage - 1})" ${currentPage === 0 ? 'disabled' : ''}>${prevLabel}</button>
+            <div class="pagination-pages">${pagesHtml}</div>
+            <button class="pagination-btn" onclick="renderManualSchedulePage(${currentPage + 1})" ${currentPage === totalPages - 1 ? 'disabled' : ''}>${nextLabel}</button>
+        </div>
+        <div class="pagination-info">${pageLabel}</div>
+    `;
+}
+
+function hidePagination() {
+    const el = document.getElementById('schedule-pagination');
+    if (el) el.style.display = 'none';
 }
 
 function setScheduleDays(days, btn) {

@@ -1372,6 +1372,83 @@ button, input, select { font-family: inherit; }
     margin-bottom: 0;
 }
 
+/* ========= ترقيم صفحات الجدول ========= */
+#schedule-pagination {
+    margin-top: 16px;
+    text-align: center;
+}
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.pagination-btn {
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1.5px solid var(--primary);
+    background: #fff;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+}
+.pagination-btn:hover:not(:disabled) {
+    background: var(--primary);
+    color: #fff;
+}
+.pagination-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: var(--border);
+    color: var(--text-light);
+}
+.pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.pagination-page {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+.pagination-page:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.pagination-page.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    font-weight: 700;
+}
+.pagination-ellipsis {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    padding: 0 2px;
+    line-height: 34px;
+}
+.pagination-info {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
 /* ========= الأسئلة الشائعة ========= */
 .faq-section h2 { margin-bottom: 20px; }
 

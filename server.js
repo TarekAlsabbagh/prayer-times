@@ -830,6 +830,24 @@ async function handleCitiesAdd(cc, body, res) {
     res.end(JSON.stringify({ ok: true, added: r.added, total: r.total }));
 }
 
+// ===== خريطة slug → إحداثيات (لدعم الـ SSR في صفحة القبلة) =====
+// نفس منطق makeSlug في app.js
+function _serverMakeSlug(englishName) {
+    const latin = (englishName || '').toLowerCase()
+        .replace(/[^a-z0-9\s]+/g, '').trim().replace(/\s+/g, '-');
+    return latin.length >= 2 ? latin : null;
+}
+const _slugToCoords = new Map();
+(function buildSlugMap() {
+    // من STATIC_CITIES
+    for (const cities of Object.values(STATIC_CITIES)) {
+        for (const c of cities) {
+            const slug = _serverMakeSlug(c.nameEn);
+            if (slug && !_slugToCoords.has(slug)) _slugToCoords.set(slug, { lat: c.lat, lng: c.lng });
+        }
+    }
+})();
+
 // ===== حساب القبلة من جانب السيرفر (لحقن القيم مسبقاً في HTML) =====
 function _ssrQiblaAngle(lat, lng) {
     const KAABA_LAT = 21.4225, KAABA_LNG = 39.8262, DEG = Math.PI / 180, RAD = 180 / Math.PI;
@@ -978,10 +996,16 @@ html.qibla-page-loading #page-qibla{display:block!important;visibility:visible!i
     }
 
     if (/^\/(?:en\/)?qibla-in-.+(?:\.html)?$/.test(urlPath)) {
-        // استخراج lat/lng من الرابط مثل /qibla-in-24.68-46.72.html
+        // استخراج lat/lng: أولاً من الأرقام في الرابط، ثم من خريطة slug→إحداثيات
         const _qm = urlPath.match(/qibla-in-(-?[\d.]+)-(-?[\d.]+)/);
-        const _qlat = _qm ? parseFloat(_qm[1]) : NaN;
-        const _qlng = _qm ? parseFloat(_qm[2]) : NaN;
+        let _qlat = _qm ? parseFloat(_qm[1]) : NaN;
+        let _qlng = _qm ? parseFloat(_qm[2]) : NaN;
+        if (isNaN(_qlat) || isNaN(_qlng)) {
+            // slug اسمي مثل /qibla-in-riyadh → ابحث في الخريطة
+            const _qslug = (urlPath.match(/(?:en\/)?qibla-in-(.+?)(?:\.html)?$/) || [])[1];
+            const _coords = _qslug ? _slugToCoords.get(_qslug) : null;
+            if (_coords) { _qlat = _coords.lat; _qlng = _coords.lng; }
+        }
         const _isEnQ = urlPath.startsWith('/en/');
         fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }

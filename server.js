@@ -874,7 +874,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    if (/^\/en\/prayer-times-cities-[a-z0-9-]+$/.test(urlPath)) {
+    if (/^\/en\/prayer-times-cities-[a-z0-9-]+(\.html)?$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
             serveEnglishHtml(html, res, _acceptEnc);

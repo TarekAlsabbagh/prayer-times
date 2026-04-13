@@ -227,8 +227,8 @@
             </div>
         </div>
 
-        <!-- تحميل أولي -->
-        <div class="section-card loading-box" id="init-loading">
+        <!-- تحميل أولي: min-height يعادل تقريباً مجموع ارتفاعات hero+badges+highlights لمنع CLS -->
+        <div class="section-card loading-box" id="init-loading" style="min-height:400px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
             <div class="spin"></div>
             <div data-i18n="about.loading">جاري تحميل بيانات المدينة...</div>
         </div>
@@ -239,8 +239,8 @@
             <div class="highlight-grid" id="highlights-grid"></div>
         </div>
 
-        <!-- وصف المدينة -->
-        <div class="about-card" id="card-desc" style="display:none">
+        <!-- وصف المدينة: في نهاية الصفحة لمنع CLS عند تحميل نص ويكيبيديا -->
+        <div class="about-card" id="card-desc" style="display:none; opacity:0; transition:opacity 0.3s;">
             <h2 data-i18n="about.about_city">📖 عن المدينة</h2>
             <div class="about-text" id="wiki-text">
                 <div class="loading-box"><div class="spin"></div><div>جاري جلب المعلومات...</div></div>
@@ -250,7 +250,7 @@
             </a>
         </div>
 
-        <!-- الخريطة -->
+        <!-- الخريطة: في نهاية الصفحة لمنع CLS -->
         <div class="about-card" id="card-map" style="display:none">
             <h2 data-i18n="about.map">🗺️ موقع المدينة على الخريطة</h2>
             <iframe id="map-iframe" class="map-frame" allowfullscreen loading="lazy"
@@ -378,8 +378,7 @@ async function initAbout() {
     document.getElementById('init-loading').style.display  = 'none';
     document.getElementById('about-hero').style.display    = 'flex';
     document.getElementById('about-badges').style.display  = 'grid';
-    document.getElementById('card-desc').style.display     = 'block';
-    document.getElementById('card-map').style.display      = 'block';
+    // card-map يُعرض بعد تحميل ويكيبيديا مع card-desc لمنع CLS
 
     // ===== الوقت والتاريخ =====
     try {
@@ -492,12 +491,17 @@ async function initAbout() {
         }
     } catch(e) {}
 
+    const _cardDescEl = document.getElementById('card-desc');
     if (extract || extraHTML) {
         wikiEl.innerHTML = `${extract ? `<p>${extract}</p>` : ''}${extraHTML}`;
         if (pageUrl) { wikiLnk.href=pageUrl; wikiLnk.style.display='inline-flex'; }
     } else {
         wikiEl.innerHTML = '<p style="color:var(--text-light)">لا تتوفر معلومات تفصيلية في ويكيبيديا العربية لهذه المدينة.</p>';
     }
+    // أظهر card-desc و card-map معاً بعد اكتمال المحتوى — لا يوجد تحتهما عناصر تتحرك
+    _cardDescEl.style.display = 'block';
+    document.getElementById('card-map').style.display = 'block';
+    requestAnimationFrame(() => { _cardDescEl.style.opacity = '1'; });
 
     // ===== الخريطة =====
     // نجرب Google Maps أولاً (لا يحتاج API key للعرض البسيط)، ثم OSM كاحتياطي

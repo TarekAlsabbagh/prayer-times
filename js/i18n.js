@@ -475,11 +475,10 @@ function setLanguage(lang) {
         return;
     }
     if (lang === 'ar' && isEnUrl && window.location.protocol !== 'file:') {
-        // حوّل /en/foo → /foo.html أو /en/ → /
+        // حوّل /en/foo → /foo (روابط نظيفة بدون .html) أو /en/ → /
         const arPath = curPath.replace(/^\/en/, '') || '/';
-        const withHtml = arPath === '/' ? '/' : arPath + '.html';
         localStorage.setItem('app_lang', 'ar');
-        window.location.href = withHtml + window.location.search;
+        window.location.href = arPath + window.location.search;
         return;
     }
     _lang = lang;

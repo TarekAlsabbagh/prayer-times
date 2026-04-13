@@ -102,7 +102,8 @@ function pageUrl(arabicPath) {
     if ((typeof getCurrentLang === 'function') && getCurrentLang() === 'en') {
         return '/en' + arabicPath.replace(/\.html$/, '');
     }
-    return arabicPath;
+    // العربي أيضاً يستخدم روابط نظيفة بدون .html
+    return arabicPath.replace(/\.html$/, '');
 }
 
 // ========= المسبحة الإلكترونية =========

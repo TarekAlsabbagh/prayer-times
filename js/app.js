@@ -1696,8 +1696,10 @@ function updateCountryCitiesSection() {
 function openAllCitiesPage() {
     const code = currentCountryCode || 'sa';
     const slug = makeCountrySlug(code, currentEnglishCountry);
+    const citySlug = (currentEnglishName && currentLat)
+        ? makeSlug(currentEnglishName, currentLat, currentLng) : null;
     sessionStorage.setItem('allCitiesCountry', JSON.stringify({
-        code, name: currentCountry, slug
+        code, name: currentCountry, slug, citySlug
     }));
     window.location.href = pageUrl(`/prayer-times-cities-${slug}.html`);
 }

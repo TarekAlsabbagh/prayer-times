@@ -232,12 +232,12 @@
     <!-- ========= الشريط الجانبي ========= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h1 class="sidebar-logo" onclick="window.location.href='/'" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</h1>
+            <h1 class="sidebar-logo" onclick="goToPrayerTimes()" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</h1>
             <div class="hijri-date" id="sidebar-hijri-date"></div>
             <div class="greg-date" id="sidebar-greg-date"></div>
         </div>
         <nav class="sidebar-nav">
-            <a href="/" >
+            <a href="#" onclick="goToPrayerTimes(); return false;">
                 <span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
             </a>
             <a href="/?page=qibla">
@@ -279,7 +279,7 @@
             <div class="header-actions">
                 <button class="btn btn-outline lang-toggle-btn" onclick="toggleLanguage()">EN</button>
                 <button class="btn btn-outline" onclick="history.back()" data-i18n="about.back">← رجوع</button>
-                <button class="btn btn-outline" onclick="window.location.href='/'">🏠 <span data-i18n="header.home">الرئيسية</span></button>
+                <button class="btn btn-outline" onclick="goToPrayerTimes()">🏠 <span data-i18n="header.home">الرئيسية</span></button>
             </div>
         </div>
 
@@ -318,6 +318,16 @@ function pageUrl(arabicPath) {
     if ((typeof getCurrentLang === 'function') && getCurrentLang() === 'en')
         return '/en' + arabicPath.replace(/\.html$/, '');
     return arabicPath;
+}
+
+// العودة إلى صفحة مواقيت المدينة الحالية
+function goToPrayerTimes() {
+    const citySlug = storedCountry?.citySlug;
+    if (citySlug) {
+        window.location.href = pageUrl(`/prayer-times-in-${citySlug}.html`);
+    } else {
+        window.location.href = pageUrl('/');
+    }
 }
 
 // ===== قراءة كود الدولة من الرابط =====

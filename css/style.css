@@ -1,6 +1,15 @@
 /* إخفاء الصفحات فوراً عند تحميل صفحة القبلة لمنع الوميض */
 html.qibla-page-loading .page { visibility: hidden; }
 
+/* تقليل CLS الناتج عن تحميل خط Tajawal */
+@font-face {
+    font-family: 'Tajawal-fallback';
+    src: local('Segoe UI'), local('Tahoma'), local('Arial');
+    size-adjust: 100%;
+    ascent-override: 90%;
+    descent-override: 20%;
+}
+
 /* ========= المتغيرات ========= */
 :root {
     --primary: #1a6b3c;
@@ -23,7 +32,7 @@ html.qibla-page-loading .page { visibility: hidden; }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+    font-family: 'Tajawal', 'Tajawal-fallback', 'Segoe UI', Tahoma, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.7;

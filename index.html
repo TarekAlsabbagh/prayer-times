@@ -157,7 +157,7 @@
                     <h2 data-i18n="settings.title">⚙️ إعدادات حساب المواقيت</h2>
                     <div class="settings-grid">
                         <div>
-                            <label data-i18n="settings.method">طريقة الحساب</label>
+                            <label for="calc-method" data-i18n="settings.method">طريقة الحساب</label>
                             <select id="calc-method" onchange="updatePrayerTimes()">
                                 <option value="Makkah" data-i18n="method.Makkah">أم القرى - مكة المكرمة</option>
                                 <option value="MWL" data-i18n="method.MWL">رابطة العالم الإسلامي</option>
@@ -176,21 +176,21 @@
                             </select>
                         </div>
                         <div>
-                            <label data-i18n="settings.asr_method">طريقة حساب العصر</label>
+                            <label for="asr-method" data-i18n="settings.asr_method">طريقة حساب العصر</label>
                             <select id="asr-method" onchange="updatePrayerTimes()">
                                 <option value="Shafi" data-i18n="asr.Shafi">شافعي / حنبلي / مالكي</option>
                                 <option value="Hanafi" data-i18n="asr.Hanafi">حنفي</option>
                             </select>
                         </div>
                         <div>
-                            <label data-i18n="settings.time_format">صيغة الوقت</label>
+                            <label for="time-format" data-i18n="settings.time_format">صيغة الوقت</label>
                             <select id="time-format" onchange="updatePrayerTimes()">
                                 <option value="12h" data-i18n="format.12h">12 ساعة</option>
                                 <option value="24h" data-i18n="format.24h">24 ساعة</option>
                             </select>
                         </div>
                         <div>
-                            <label data-i18n="settings.high_lats">خطوط العرض العالية</label>
+                            <label for="high-lats" data-i18n="settings.high_lats">خطوط العرض العالية</label>
                             <select id="high-lats" onchange="updatePrayerTimes()">
                                 <option value="NightMiddle" data-i18n="highlat.NightMiddle">منتصف الليل</option>
                                 <option value="OneSeventh" data-i18n="highlat.OneSeventh">سُبع الليل</option>
@@ -211,7 +211,7 @@
                         <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
                             <button class="btn-test-adhan" onclick="testAdhan()" title="تجربة الصوت" data-i18n="adhan.test">▶ تجربة</button>
                             <label class="adhan-toggle-switch">
-                                <input type="checkbox" id="adhan-toggle" onchange="onAdhanToggleChange()">
+                                <input type="checkbox" id="adhan-toggle" aria-label="تشغيل الأذان تلقائياً" onchange="onAdhanToggleChange()">
                                 <span class="adhan-slider"></span>
                             </label>
                         </div>
@@ -288,15 +288,15 @@
                         </div>
                         <div class="date-selects-row">
                             <div class="date-select-group">
-                                <label data-i18n="schedule.day_label">اليوم</label>
+                                <label for="sched-day" data-i18n="schedule.day_label">اليوم</label>
                                 <select id="sched-day" onchange="onScheduleDateChange()"></select>
                             </div>
                             <div class="date-select-group">
-                                <label data-i18n="schedule.month_label">الشهر</label>
+                                <label for="sched-month" data-i18n="schedule.month_label">الشهر</label>
                                 <select id="sched-month" onchange="onScheduleDateChange()"></select>
                             </div>
                             <div class="date-select-group">
-                                <label data-i18n="schedule.year_label">السنة</label>
+                                <label for="sched-year" data-i18n="schedule.year_label">السنة</label>
                                 <select id="sched-year" onchange="onScheduleDateChange()"></select>
                             </div>
                         </div>

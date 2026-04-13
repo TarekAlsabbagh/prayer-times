@@ -494,9 +494,19 @@ async function initApp() {
         document.documentElement.classList.remove('qibla-page-loading');
     }
 
+    // تفعيل صفحة المسبحة عند URL /msbaha
+    const _isMsbahaPage = /\/(?:en\/)?msbaha$/.test(window.location.pathname);
+    if (_isMsbahaPage) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-tasbih')?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        document.querySelector('.sidebar-nav a[data-page="tasbih"]')?.classList.add('active');
+        document.documentElement.classList.remove('msbaha-page');
+    }
+
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
     const _pageParam = new URLSearchParams(window.location.search).get('page');
-    if (_pageParam && !_isQiblaPage) {
+    if (_pageParam && !_isQiblaPage && !_isMsbahaPage) {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }
@@ -547,6 +557,14 @@ function initNavigation() {
                     return;
                 }
                 startDeviceCompass();
+            }
+
+            // عند الضغط على المسبحة → انتقل لصفحة /msbaha
+            if (pageId === 'tasbih' && window.location.protocol !== 'file:') {
+                if (!/\/(?:en\/)?msbaha$/.test(window.location.pathname)) {
+                    window.location.href = pageUrl('/msbaha');
+                    return;
+                }
             }
 
             // إغلاق القائمة على الموبايل

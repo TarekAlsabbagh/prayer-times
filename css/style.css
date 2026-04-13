@@ -1,6 +1,9 @@
 /* عرض صفحة القبلة فوراً عند تحميل URL القبلة — يحسن LCP و Speed Index */
 html.qibla-page-loading #page-qibla { display: block !important; }
 
+/* عرض صفحة المسبحة فوراً عند تحميل /msbaha */
+html.msbaha-page #page-tasbih { display: block !important; }
+
 
 /* ========= المتغيرات ========= */
 :root {

@@ -844,12 +844,13 @@ const server = http.createServer(async (req, res) => {
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|prayer-times-cities-[a-z0-9]|about-[a-z0-9])/.test(_clean)) {
+        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|prayer-times-cities-[a-z0-9]|about-[a-z0-9]|msbaha$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
         }
     }
+
 
     // ===== مساعد: تعديل HTML للنسخة الإنجليزية وإرساله =====
     function serveEnglishHtml(htmlBuf, res, acceptEnc) {
@@ -874,6 +875,26 @@ const server = http.createServer(async (req, res) => {
     }
 
     const _acceptEnc = req.headers['accept-encoding'] || '';
+
+    // ===== صفحة المسبحة /msbaha =====
+    if (urlPath === '/msbaha' || urlPath === '/en/msbaha') {
+        const _isEnM = urlPath.startsWith('/en/');
+        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            if (_isEnM) { serveEnglishHtml(html, res, _acceptEnc); return; }
+            if (_acceptEnc.includes('gzip')) {
+                zlib.gzip(html, (e, buf) => {
+                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
+                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
+                    res.end(buf);
+                });
+            } else {
+                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+                res.end(html);
+            }
+        });
+        return;
+    }
 
     // مسارات النسخة الإنجليزية /en/
     if (urlPath === '/en' || urlPath === '/en/') {

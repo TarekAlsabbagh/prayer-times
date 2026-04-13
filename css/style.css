@@ -1,23 +1,5 @@
-/* إخفاء الصفحات فوراً عند تحميل صفحة القبلة لمنع الوميض */
-html.qibla-page-loading .page { visibility: hidden; }
-
-/* عرض overlay محمل فوري لصفحة القبلة حتى تنتهي JS — يحسن LCP */
-html.qibla-page-loading body::after {
-    content: '🕌';
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    inset: 0;
-    font-size: 4rem;
-    background: #fff;
-    z-index: 9999;
-    animation: qibla-pulse 1s ease-in-out infinite alternate;
-}
-@keyframes qibla-pulse {
-    from { opacity: 0.5; transform: scale(0.95); }
-    to   { opacity: 1;   transform: scale(1.05); }
-}
+/* عرض صفحة القبلة فوراً عند تحميل URL القبلة — يحسن LCP و Speed Index */
+html.qibla-page-loading #page-qibla { display: block !important; }
 
 
 /* ========= المتغيرات ========= */

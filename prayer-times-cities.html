@@ -389,10 +389,14 @@ const COUNTRY_NAMES_EN = {
     const _slugMap = {};
     for (const [_cc, _name] of Object.entries(COUNTRY_NAMES_EN))
         _slugMap[_name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')] = _cc;
-    if (/^[a-z]{2,3}$/.test(_rawSlug))
+    if (/^[a-z]{2,3}$/.test(_rawSlug)) {
         countryCode = _rawSlug;
-    else
-        countryCode = _slugMap[_rawSlug] || 'sa';
+    } else {
+        // slug → code بالخريطة، أو من sessionStorage، أو احتياطي 'sa'
+        const _fromMap = _slugMap[_rawSlug];
+        const _fromSession = storedCountry.code && /^[a-z]{2,3}$/.test(storedCountry.code) ? storedCountry.code : null;
+        countryCode = _fromMap || _fromSession || 'sa';
+    }
 }
 
 function getCountryAr() { return storedCountry.name || COUNTRY_NAMES[countryCode] || countryCode.toUpperCase(); }

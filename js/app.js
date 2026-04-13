@@ -381,7 +381,14 @@ async function initFromURL() {
         return true;
     }
 
-    // 3) geocoding احتياطي (رابط مباشر)
+    // 3) بحث محلي سريع في LOCAL_CITIES (بدون API)
+    const localMatch = LOCAL_CITIES.find(c => makeSlug(c.en, c.lat, c.lng) === slug);
+    if (localMatch) {
+        await loadCityData(localMatch.lat, localMatch.lng, localMatch.ar, localMatch.country, localMatch.cc || '', localMatch.en || '');
+        return true;
+    }
+
+    // 4) geocoding احتياطي (رابط مباشر)
     const result = await geocodeSlug(slug);
     if (result) {
         await loadCityData(result.lat, result.lng, result.name, result.country, result.countryCode || '', result.englishName || '');

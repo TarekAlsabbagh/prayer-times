@@ -2,6 +2,7 @@ const http  = require('http');
 const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
+const zlib  = require('zlib');
 
 const PORT    = process.env.PORT || 8080;
 const ROOT    = __dirname;
@@ -962,13 +963,28 @@ const server = http.createServer(async (req, res) => {
     const ext         = path.extname(filePath).toLowerCase();
     const contentType = mimeTypes[ext] || 'application/octet-stream';
 
+    const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml'].includes(ext);
+    const isVersioned  = req.url.includes('?v=');
+    const cacheControl = isVersioned
+        ? 'public, max-age=31536000, immutable'
+        : ext === '.html' ? 'no-cache' : 'public, max-age=86400';
+
     fs.readFile(filePath, (err, data) => {
         if (err) {
             if (!ext || ext === '.html') {
                 fs.readFile(path.join(ROOT, 'index.html'), (err2, html) => {
                     if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-                    res.end(html);
+                    const acceptEnc = req.headers['accept-encoding'] || '';
+                    if (acceptEnc.includes('gzip')) {
+                        zlib.gzip(html, (e, buf) => {
+                            if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'}); res.end(html); return; }
+                            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Content-Encoding':'gzip', 'Cache-Control':'no-cache'});
+                            res.end(buf);
+                        });
+                    } else {
+                        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'});
+                        res.end(html);
+                    }
                 });
             } else {
                 res.writeHead(404, {'Content-Type':'text/plain'});
@@ -976,12 +992,32 @@ const server = http.createServer(async (req, res) => {
             }
             return;
         }
-        res.writeHead(200, {
-            'Content-Type': contentType,
-            'Content-Length': data.length,
-            'Accept-Ranges': 'bytes',
-        });
-        res.end(data);
+
+        const acceptEnc = req.headers['accept-encoding'] || '';
+        if (compressible && acceptEnc.includes('gzip')) {
+            zlib.gzip(data, (e, buf) => {
+                if (e) {
+                    res.writeHead(200, {'Content-Type': contentType, 'Content-Length': data.length, 'Cache-Control': cacheControl});
+                    res.end(data);
+                    return;
+                }
+                res.writeHead(200, {
+                    'Content-Type': contentType,
+                    'Content-Encoding': 'gzip',
+                    'Cache-Control': cacheControl,
+                    'Vary': 'Accept-Encoding',
+                });
+                res.end(buf);
+            });
+        } else {
+            res.writeHead(200, {
+                'Content-Type': contentType,
+                'Content-Length': data.length,
+                'Cache-Control': cacheControl,
+                'Accept-Ranges': 'bytes',
+            });
+            res.end(data);
+        }
     });
 });
 

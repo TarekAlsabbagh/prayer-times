@@ -476,6 +476,9 @@ async function initApp() {
     // تعيين السنة في الفوتر
     document.getElementById('footer-year').textContent = new Date().getFullYear();
 
+    // تحديد نوع الصفحة (مدينة / رئيسية) مبكراً
+    applyPageType();
+
     // تحديث الشريط الجانبي
     updateSidebar();
 
@@ -1025,6 +1028,7 @@ function onSearchKeyDown(e) {
         suggestions[searchFocusedIndex]?.click();
     } else if (e.key === 'Escape') {
         document.getElementById('city-suggestions').classList.remove('open');
+        closeSettingsModal(); // إغلاق Modal الإعدادات إن كانت مفتوحة
     }
 }
 
@@ -1482,6 +1486,9 @@ function updatePrayerTimes() {
 
     // تحديث البوابة الذكية (الصفحة الرئيسية)
     updateHomeGateway();
+
+    // تعبئة روابط الخدمات ذات الصلة (صفحات المدن فقط)
+    updateCityRelatedServices();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1533,6 +1540,107 @@ function updateHomeGateway() {
             if (moonIconEl) moonIconEl.textContent = phaseInfo.icon;
         } catch (e) { /* استمر بدون طور */ }
     }
+}
+
+// ─────────────────────────────────────────────────────────────
+//   نوع الصفحة — Modal الإعدادات — روابط ذات صلة
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * تحديد نوع الصفحة وإضافة class مناسب للـ body
+ * city-prayer-page  →  /prayer-times-in-{city}
+ * home-page         →  / أو /en/
+ */
+function applyPageType() {
+    const path = window.location.pathname;
+    if (/\/(?:en\/)?prayer-times-in-/.test(path)) {
+        document.body.classList.add('city-prayer-page');
+    } else {
+        document.body.classList.remove('city-prayer-page');
+    }
+}
+
+/** فتح Modal إعدادات المواقيت */
+function openSettingsModal() {
+    const overlay = document.getElementById('settings-modal-overlay');
+    if (overlay) {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+/** إغلاق Modal إعدادات المواقيت */
+function closeSettingsModal() {
+    const overlay = document.getElementById('settings-modal-overlay');
+    if (overlay) {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+}
+
+/** إغلاق عند الضغط خارج الـ box */
+function onSettingsOverlayClick(event) {
+    if (event.target === document.getElementById('settings-modal-overlay')) {
+        closeSettingsModal();
+    }
+}
+
+/**
+ * تعبئة قسم "روابط ذات صلة" في صفحات المدن
+ * يُستدعى من updatePrayerTimes() عند تحميل بيانات المدينة
+ */
+function updateCityRelatedServices() {
+    if (!document.body.classList.contains('city-prayer-page')) return;
+
+    const grid = document.getElementById('related-services-grid');
+    if (!grid) return;
+
+    const lang   = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const prefix = lang === 'en' ? '/en' : '';
+    const slug   = (currentLat && currentEnglishName)
+        ? makeSlug(currentEnglishName, currentLat, currentLng) : '';
+    const cityLabel = getDisplayCity();
+    const isEn  = lang === 'en';
+
+    const services = [
+        {
+            icon: '🧭',
+            label: isEn ? `Qibla in ${cityLabel}` : `اتجاه القبلة في ${cityLabel}`,
+            url: slug ? pageUrl(`/qibla-in-${slug}.html`) : pageUrl('/qibla')
+        },
+        {
+            icon: '📅',
+            label: isEn ? 'Hijri Date Today' : 'التاريخ الهجري اليوم',
+            url: pageUrl(`${prefix}/today-hijri-date`)
+        },
+        {
+            icon: '🔄',
+            label: isEn ? 'Date Converter' : 'تحويل التاريخ',
+            url: pageUrl(`${prefix}/dateconverter`)
+        },
+        {
+            icon: '🗓️',
+            label: isEn ? 'Hijri Calendar' : 'التقويم الهجري',
+            url: pageUrl(`${prefix}/hijri-calendar/${HijriDate.getToday().year}`)
+        },
+        {
+            icon: '🌙',
+            label: isEn ? 'Moon Today' : 'القمر اليوم',
+            url: pageUrl('/moon')
+        },
+        {
+            icon: '💰',
+            label: isEn ? 'Zakat Calculator' : 'حاسبة الزكاة',
+            url: pageUrl('/zakat')
+        }
+    ];
+
+    grid.innerHTML = services.map(s =>
+        `<a class="rel-service-link" href="${s.url}">
+            <span class="rel-service-icon">${s.icon}</span>
+            <span>${s.label}</span>
+        </a>`
+    ).join('');
 }
 
 // ========= جدول مواقيت الأسبوع/الشهر =========
@@ -2609,8 +2717,7 @@ function goHome() {
 
 // ========= الإعدادات (محجوز للتوافق) =========
 function showSettings() {
-    const panel = document.getElementById('settings-panel');
-    if (panel) panel.style.display = 'block';
+    openSettingsModal();
 }
 
 // ========= معلومات الدولة والمدينة + عداد السكان =========

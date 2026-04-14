@@ -1786,6 +1786,145 @@ button, input, select { font-family: inherit; }
 }
 
 /* ═══════════════════════════════════════════════════════════
+   Modal إعدادات المواقيت
+   ═══════════════════════════════════════════════════════════ */
+
+.settings-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    backdrop-filter: blur(2px);
+}
+.settings-modal-overlay.open { display: flex; }
+
+.settings-modal-box {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px;
+    width: 100%;
+    max-width: 580px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+    animation: modalSlideIn 0.25s ease;
+}
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.settings-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+}
+.settings-modal-header h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.settings-modal-close {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.settings-modal-close:hover { background: #fee; border-color: #e74c3c; color: #e74c3c; }
+
+/* زر فتح الإعدادات (FAB خفيف) */
+.settings-fab-row {
+    text-align: center;
+    margin: -4px 0 20px;
+}
+.settings-fab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 18px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+.settings-fab-btn:hover {
+    background: #fff;
+    border-color: var(--primary-light);
+    color: var(--primary-dark);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   صفحات المدن — إخفاء البوابة وإظهار الروابط
+   ═══════════════════════════════════════════════════════════ */
+
+/* صفحات /prayer-times-in-{city}: إخفاء البوابة الذكية */
+.city-prayer-page #home-quick-access,
+.city-prayer-page #home-hijri-preview,
+.city-prayer-page #home-services,
+.city-prayer-page #home-converter-cta { display: none !important; }
+
+/* إظهار روابط الخدمات ذات الصلة */
+.city-prayer-page #city-related-services { display: block !important; }
+
+/* شبكة الروابط ذات الصلة */
+.related-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.rel-service-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    background: var(--bg);
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.88rem;
+    border: 1.5px solid var(--border);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.rel-service-link:hover {
+    background: #e6f4ec;
+    border-color: var(--primary-light);
+    color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+.rel-service-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+@media (max-width: 768px) {
+    .related-services-grid { grid-template-columns: repeat(2, 1fr); }
+    .settings-modal-box { padding: 20px 16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
    البوابة الذكية — الصفحة الرئيسية
    ═══════════════════════════════════════════════════════════ */
 

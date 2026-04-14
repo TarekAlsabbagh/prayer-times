@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
-    <link rel="stylesheet" href="css/style.css?v=20">
+    <link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -239,71 +239,11 @@
                     <p class="seo-line" id="seo-line-2"></p>
                 </div>
 
-                <!-- إعدادات الحساب -->
-                <div class="section-card" id="settings-panel">
-                    <h2 data-i18n="settings.title">⚙️ إعدادات حساب المواقيت</h2>
-                    <div class="settings-grid">
-                        <div>
-                            <label for="calc-method" data-i18n="settings.method">طريقة الحساب</label>
-                            <select id="calc-method" onchange="updatePrayerTimes()">
-                                <option value="Makkah" data-i18n="method.Makkah">أم القرى - مكة المكرمة</option>
-                                <option value="MWL" data-i18n="method.MWL">رابطة العالم الإسلامي</option>
-                                <option value="ISNA" data-i18n="method.ISNA">أمريكا الشمالية (ISNA)</option>
-                                <option value="Egypt" data-i18n="method.Egypt">الهيئة المصرية العامة للمساحة</option>
-                                <option value="Karachi" data-i18n="method.Karachi">جامعة العلوم الإسلامية - كراتشي</option>
-                                <option value="Tehran" data-i18n="method.Tehran">معهد الجيوفيزياء - طهران</option>
-                                <option value="Jafari" data-i18n="method.Jafari">المذهب الجعفري</option>
-                                <option value="Gulf" data-i18n="method.Gulf">دول الخليج</option>
-                                <option value="Kuwait" data-i18n="method.Kuwait">الكويت</option>
-                                <option value="Qatar" data-i18n="method.Qatar">قطر</option>
-                                <option value="Singapore" data-i18n="method.Singapore">سنغافورة</option>
-                                <option value="Turkey" data-i18n="method.Turkey">تركيا - ديانت</option>
-                                <option value="France" data-i18n="method.France">اتحاد المنظمات الإسلامية في فرنسا (UIOF)</option>
-                                <option value="Russia" data-i18n="method.Russia">روسيا</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="asr-method" data-i18n="settings.asr_method">طريقة حساب العصر</label>
-                            <select id="asr-method" onchange="updatePrayerTimes()">
-                                <option value="Shafi" data-i18n="asr.Shafi">شافعي / حنبلي / مالكي</option>
-                                <option value="Hanafi" data-i18n="asr.Hanafi">حنفي</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="time-format" data-i18n="settings.time_format">صيغة الوقت</label>
-                            <select id="time-format" onchange="updatePrayerTimes()">
-                                <option value="12h" data-i18n="format.12h">12 ساعة</option>
-                                <option value="24h" data-i18n="format.24h">24 ساعة</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="high-lats" data-i18n="settings.high_lats">خطوط العرض العالية</label>
-                            <select id="high-lats" onchange="updatePrayerTimes()">
-                                <option value="NightMiddle" data-i18n="highlat.NightMiddle">منتصف الليل</option>
-                                <option value="OneSeventh" data-i18n="highlat.OneSeventh">سُبع الليل</option>
-                                <option value="AngleBased" selected data-i18n="highlat.AngleBased">حسب الزاوية</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- إعدادات الأذان -->
-                    <div class="adhan-setting-row">
-                        <div class="adhan-setting-info">
-                            <span class="adhan-setting-icon">🔊</span>
-                            <div>
-                                <div class="adhan-setting-title" data-i18n="adhan.title">تشغيل الأذان تلقائياً</div>
-                                <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَّل صوت الأذان عند دخول وقت كل صلاة</div>
-                            </div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-                            <button class="btn-test-adhan" onclick="testAdhan()" title="تجربة الصوت" data-i18n="adhan.test">▶ تجربة</button>
-                            <label class="adhan-toggle-switch">
-                                <input type="checkbox" id="adhan-toggle" aria-label="تشغيل الأذان تلقائياً" onchange="onAdhanToggleChange()">
-                                <span class="adhan-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
+                <!-- زر إعدادات المواقيت (يفتح Modal) -->
+                <div class="settings-fab-row">
+                    <button class="settings-fab-btn" onclick="openSettingsModal()" aria-label="إعدادات حساب المواقيت">
+                        ⚙️ <span data-i18n="settings.trigger">إعدادات حساب المواقيت</span>
+                    </button>
                 </div>
 
                 <!-- عداد السكان الحي -->
@@ -475,6 +415,12 @@
                             <p id="faq-a2"></p>
                         </div>
                     </div>
+                </div>
+
+                <!-- روابط ذات صلة — تظهر في صفحات المدن فقط -->
+                <div class="section-card" id="city-related-services" style="display:none;">
+                    <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
+                    <div class="related-services-grid" id="related-services-grid"></div>
                 </div>
 
                 <!-- مدن الدولة -->
@@ -1101,6 +1047,76 @@
         </main>
     </div>
 
+    <!-- ===== Modal: إعدادات حساب المواقيت ===== -->
+    <div class="settings-modal-overlay" id="settings-modal-overlay" onclick="onSettingsOverlayClick(event)">
+        <div class="settings-modal-box" id="settings-panel">
+            <div class="settings-modal-header">
+                <h3>⚙️ <span data-i18n="settings.title">إعدادات حساب المواقيت</span></h3>
+                <button class="settings-modal-close" onclick="closeSettingsModal()" aria-label="إغلاق">✕</button>
+            </div>
+            <div class="settings-grid">
+                <div>
+                    <label for="calc-method" data-i18n="settings.method">طريقة الحساب</label>
+                    <select id="calc-method" onchange="updatePrayerTimes()">
+                        <option value="Makkah" data-i18n="method.Makkah">أم القرى - مكة المكرمة</option>
+                        <option value="MWL" data-i18n="method.MWL">رابطة العالم الإسلامي</option>
+                        <option value="ISNA" data-i18n="method.ISNA">أمريكا الشمالية (ISNA)</option>
+                        <option value="Egypt" data-i18n="method.Egypt">الهيئة المصرية العامة للمساحة</option>
+                        <option value="Karachi" data-i18n="method.Karachi">جامعة العلوم الإسلامية - كراتشي</option>
+                        <option value="Tehran" data-i18n="method.Tehran">معهد الجيوفيزياء - طهران</option>
+                        <option value="Jafari" data-i18n="method.Jafari">المذهب الجعفري</option>
+                        <option value="Gulf" data-i18n="method.Gulf">دول الخليج</option>
+                        <option value="Kuwait" data-i18n="method.Kuwait">الكويت</option>
+                        <option value="Qatar" data-i18n="method.Qatar">قطر</option>
+                        <option value="Singapore" data-i18n="method.Singapore">سنغافورة</option>
+                        <option value="Turkey" data-i18n="method.Turkey">تركيا - ديانت</option>
+                        <option value="France" data-i18n="method.France">اتحاد المنظمات الإسلامية في فرنسا (UIOF)</option>
+                        <option value="Russia" data-i18n="method.Russia">روسيا</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="asr-method" data-i18n="settings.asr_method">طريقة حساب العصر</label>
+                    <select id="asr-method" onchange="updatePrayerTimes()">
+                        <option value="Shafi" data-i18n="asr.Shafi">شافعي / حنبلي / مالكي</option>
+                        <option value="Hanafi" data-i18n="asr.Hanafi">حنفي</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="time-format" data-i18n="settings.time_format">صيغة الوقت</label>
+                    <select id="time-format" onchange="updatePrayerTimes()">
+                        <option value="12h" data-i18n="format.12h">12 ساعة</option>
+                        <option value="24h" data-i18n="format.24h">24 ساعة</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="high-lats" data-i18n="settings.high_lats">خطوط العرض العالية</label>
+                    <select id="high-lats" onchange="updatePrayerTimes()">
+                        <option value="NightMiddle" data-i18n="highlat.NightMiddle">منتصف الليل</option>
+                        <option value="OneSeventh" data-i18n="highlat.OneSeventh">سُبع الليل</option>
+                        <option value="AngleBased" selected data-i18n="highlat.AngleBased">حسب الزاوية</option>
+                    </select>
+                </div>
+            </div>
+            <!-- إعدادات الأذان -->
+            <div class="adhan-setting-row">
+                <div class="adhan-setting-info">
+                    <span class="adhan-setting-icon">🔊</span>
+                    <div>
+                        <div class="adhan-setting-title" data-i18n="adhan.title">تشغيل الأذان تلقائياً</div>
+                        <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَّل صوت الأذان عند دخول وقت كل صلاة</div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                    <button class="btn-test-adhan" onclick="testAdhan()" title="تجربة الصوت" data-i18n="adhan.test">▶ تجربة</button>
+                    <label class="adhan-toggle-switch">
+                        <input type="checkbox" id="adhan-toggle" aria-label="تشغيل الأذان تلقائياً" onchange="onAdhanToggleChange()">
+                        <span class="adhan-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ========= السكريبتات ========= -->
     <script src="js/i18n.js?v=51"></script>
     <script src="js/prayer-times.js?v=43"></script>
@@ -1108,7 +1124,7 @@
     <script src="js/qibla.js?v=43"></script>
     <script src="js/moon.js?v=42"></script>
     <script src="js/duas.js?v=42"></script>
-    <script src="js/app.js?v=147"></script>
+    <script src="js/app.js?v=148"></script>
 
     <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
     <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->

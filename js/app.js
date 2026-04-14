@@ -1129,7 +1129,37 @@ document.addEventListener('click', function(e) {
 
 // ========= تحديد الموقع =========
 function detectLocation() {
-    if (!navigator.geolocation) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            async function(position) {
+                currentLat = position.coords.latitude;
+                currentLng = position.coords.longitude;
+                currentTimezone = await fetchTimezone(currentLat, currentLng);
+                // على الصفحة الرئيسية: انتقل لصفحة المدينة بعد التحديد
+                // لكن إذا كان URL يحتوي على ?page= فلا تنتقل (المستخدم طلب قسماً بعينه)
+                const hasPageParam = new URLSearchParams(window.location.search).has('page');
+                const isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
+                const onHomePage = !hasPageParam && (window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en');
+                const shouldNavigate = (onHomePage || isCityPage) && window.location.protocol !== 'file:';
+                reverseGeocode(currentLat, currentLng, shouldNavigate);
+                if (!shouldNavigate) {
+                    updatePrayerTimes();
+                    updateQibla();
+                    fetchNearbyPlaces(currentLat, currentLng);
+                }
+            },
+            async function(error) {
+                // فشل تحديد الموقع → المدينة الافتراضية (مكة)
+                currentTimezone = await fetchTimezone(currentLat, currentLng);
+                updateCityDisplay();
+                updatePrayerTimes();
+                updateQibla();
+                fetchNearbyPlaces(currentLat, currentLng);
+                updateCityCountryInfo();
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+    } else {
         // المتصفح لا يدعم تحديد الموقع → المدينة الافتراضية
         fetchTimezone(currentLat, currentLng).then(tz => {
             currentTimezone = tz;
@@ -1139,51 +1169,7 @@ function detectLocation() {
             fetchNearbyPlaces(currentLat, currentLng);
             updateCityCountryInfo();
         });
-        return;
     }
-
-    let _locationHandled = false;
-
-    async function onPosition(position) {
-        if (_locationHandled) return;
-        _locationHandled = true;
-        currentLat = position.coords.latitude;
-        currentLng = position.coords.longitude;
-        currentTimezone = await fetchTimezone(currentLat, currentLng);
-        const hasPageParam = new URLSearchParams(window.location.search).has('page');
-        const isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
-        const onHomePage = !hasPageParam && (window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en');
-        const shouldNavigate = (onHomePage || isCityPage) && window.location.protocol !== 'file:';
-        reverseGeocode(currentLat, currentLng, shouldNavigate);
-        if (!shouldNavigate) {
-            updatePrayerTimes();
-            updateQibla();
-            fetchNearbyPlaces(currentLat, currentLng);
-        }
-    }
-
-    async function onError() {
-        if (_locationHandled) return;
-        _locationHandled = true;
-        currentTimezone = await fetchTimezone(currentLat, currentLng);
-        updateCityDisplay();
-        updatePrayerTimes();
-        updateQibla();
-        fetchNearbyPlaces(currentLat, currentLng);
-        updateCityCountryInfo();
-    }
-
-    // المرحلة الأولى: موقع سريع بدون GPS (WiFi / شبكة الجوال)
-    navigator.geolocation.getCurrentPosition(
-        onPosition,
-        function() {
-            // إذا فشل السريع → جرب GPS الدقيق
-            navigator.geolocation.getCurrentPosition(onPosition, onError,
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-            );
-        },
-        { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
-    );
 }
 
 function reverseGeocode(lat, lng, navigateAfter = false) {

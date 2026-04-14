@@ -2868,12 +2868,17 @@ let _orientationHandler = null;
 
 function updateQibla() {
     _qiblaAngle = Qibla.calculate(currentLat, currentLng);
-    const direction = Qibla.getDirection(_qiblaAngle);
+    const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+    const direction = Qibla.getDirection(_qiblaAngle, isEn ? 'en' : 'ar');
     const distance = Qibla.getDistance(currentLat, currentLng);
 
     document.getElementById('qibla-angle').textContent = _qiblaAngle.toFixed(1) + '°';
-    document.getElementById('qibla-direction').textContent = 'اتجاه ' + direction;
-    document.getElementById('qibla-distance').textContent = `المسافة إلى الكعبة: ${distance.toLocaleString('ar')} كم`;
+    document.getElementById('qibla-direction').textContent = isEn
+        ? 'Direction: ' + direction
+        : 'اتجاه ' + direction;
+    document.getElementById('qibla-distance').textContent = isEn
+        ? `Distance to Kaaba: ${distance.toLocaleString('en')} km`
+        : `المسافة إلى الكعبة: ${distance.toLocaleString('ar')} كم`;
     document.getElementById('qibla-exact-angle').textContent = _qiblaAngle.toFixed(2) + '°';
 
     // تدوير سهم البوصلة (ثابت على زاوية القبلة)

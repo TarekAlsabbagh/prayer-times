@@ -25,19 +25,20 @@ const Qibla = (function() {
         return qibla;
     }
 
-    function getDirection(angle) {
+    function getDirection(angle, lang) {
         const directions = [
-            { min: 0, max: 22.5, name: 'شمال' },
-            { min: 22.5, max: 67.5, name: 'شمال شرق' },
-            { min: 67.5, max: 112.5, name: 'شرق' },
-            { min: 112.5, max: 157.5, name: 'جنوب شرق' },
-            { min: 157.5, max: 202.5, name: 'جنوب' },
-            { min: 202.5, max: 247.5, name: 'جنوب غرب' },
-            { min: 247.5, max: 292.5, name: 'غرب' },
-            { min: 292.5, max: 337.5, name: 'شمال غرب' },
-            { min: 337.5, max: 360, name: 'شمال' }
+            { min: 0,     max: 22.5,  ar: 'شمال',      en: 'North'     },
+            { min: 22.5,  max: 67.5,  ar: 'شمال شرق',  en: 'Northeast' },
+            { min: 67.5,  max: 112.5, ar: 'شرق',        en: 'East'      },
+            { min: 112.5, max: 157.5, ar: 'جنوب شرق',  en: 'Southeast' },
+            { min: 157.5, max: 202.5, ar: 'جنوب',       en: 'South'     },
+            { min: 202.5, max: 247.5, ar: 'جنوب غرب',  en: 'Southwest' },
+            { min: 247.5, max: 292.5, ar: 'غرب',        en: 'West'      },
+            { min: 292.5, max: 337.5, ar: 'شمال غرب',  en: 'Northwest' },
+            { min: 337.5, max: 360,   ar: 'شمال',      en: 'North'     }
         ];
-        return directions.find(d => angle >= d.min && angle < d.max)?.name || 'شمال';
+        const d = directions.find(d => angle >= d.min && angle < d.max);
+        return lang === 'en' ? (d?.en || 'North') : (d?.ar || 'شمال');
     }
 
     function getDistance(lat, lng) {

@@ -482,6 +482,9 @@ async function initApp() {
     // إعادة عرض اقتراح المدينة المحفوظة (إن وُجد)
     checkSavedLocationSuggestion();
 
+    // حقن Schema للصفحة الرئيسية
+    injectHomepageSchema();
+
     // تحديث الشريط الجانبي
     updateSidebar();
 
@@ -1638,6 +1641,76 @@ function dismissLocationSuggestion() {
  * عند تحميل الصفحة الرئيسية: إعادة عرض الاقتراح المحفوظ (صلاحية 7 أيام)
  * إلا إذا رفضه المستخدم في آخر ساعة
  */
+/**
+ * حقن Schema @graph للصفحة الرئيسية في <head>
+ * WebSite + Organization + WebPage + SiteNavigationElement
+ */
+function injectHomepageSchema() {
+    const path = window.location.pathname;
+    const onHome = path === '/' || path === '/en/' || path === '/en' || path === '';
+    if (!onHome || window.location.protocol === 'file:') return;
+    if (document.getElementById('homepage-schema')) return; // تجنب التكرار
+
+    const origin      = window.location.origin;
+    const hijriYear   = HijriDate.getToday().year;
+    const siteName    = 'مواقيت الصلاة';
+    const siteDesc    = 'منصة إسلامية تعرض مواقيت الصلاة، التاريخ الهجري، تحويل التاريخ، اتجاه القبلة، القمر اليوم، وحاسبة الزكاة.';
+
+    const schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": `${origin}/#website`,
+                "url": `${origin}/`,
+                "name": siteName,
+                "alternateName": "مواقيت الصلاة والتاريخ الهجري",
+                "inLanguage": "ar"
+            },
+            {
+                "@type": "Organization",
+                "@id": `${origin}/#organization`,
+                "name": siteName,
+                "url": `${origin}/`
+            },
+            {
+                "@type": "WebPage",
+                "@id": `${origin}/#webpage`,
+                "url": `${origin}/`,
+                "name": `${siteName} والتاريخ الهجري`,
+                "headline": `${siteName} والتاريخ الهجري`,
+                "description": siteDesc,
+                "inLanguage": "ar",
+                "isPartOf": { "@id": `${origin}/#website` },
+                "about": [
+                    { "@type": "Thing", "name": "مواقيت الصلاة" },
+                    { "@type": "Thing", "name": "التاريخ الهجري" },
+                    { "@type": "Thing", "name": "تحويل التاريخ" },
+                    { "@type": "Thing", "name": "اتجاه القبلة" },
+                    { "@type": "Thing", "name": "القمر اليوم" },
+                    { "@type": "Thing", "name": "حاسبة الزكاة" }
+                ],
+                "publisher": { "@id": `${origin}/#organization` }
+            },
+            { "@type": "SiteNavigationElement", "name": "مواقيت الصلاة",      "url": `${origin}/`                              },
+            { "@type": "SiteNavigationElement", "name": "اتجاه القبلة",       "url": `${origin}/qibla`                         },
+            { "@type": "SiteNavigationElement", "name": "القمر اليوم",         "url": `${origin}/moon`                          },
+            { "@type": "SiteNavigationElement", "name": "حاسبة الزكاة",       "url": `${origin}/zakat`                         },
+            { "@type": "SiteNavigationElement", "name": "الأدعية والأذكار",   "url": `${origin}/duas`                          },
+            { "@type": "SiteNavigationElement", "name": "المسبحة الإلكترونية","url": `${origin}/msbaha`                        },
+            { "@type": "SiteNavigationElement", "name": "التاريخ الهجري اليوم","url": `${origin}/today-hijri-date`             },
+            { "@type": "SiteNavigationElement", "name": "التقويم الهجري",     "url": `${origin}/hijri-calendar/${hijriYear}`   },
+            { "@type": "SiteNavigationElement", "name": "تحويل التاريخ",      "url": `${origin}/dateconverter`                 }
+        ]
+    };
+
+    const script = document.createElement('script');
+    script.id   = 'homepage-schema';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema, null, 2);
+    document.head.appendChild(script);
+}
+
 function checkSavedLocationSuggestion() {
     const path = window.location.pathname;
     const onHome = path === '/' || path === '/en/' || path === '/en';

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
-    <link rel="stylesheet" href="css/style.css?v=6">
+    <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -612,6 +612,7 @@
                     <div class="converter-tabs">
                         <div class="converter-tab active" onclick="switchConverter('to-hijri')" data-i18n="converter.to_hijri">من ميلادي إلى هجري</div>
                         <div class="converter-tab" onclick="switchConverter('to-greg')" data-i18n="converter.to_gregorian">من هجري إلى ميلادي</div>
+                        <div class="converter-tab" onclick="switchConverter('to-solar')" data-i18n="converter.to_solar">تحويل التاريخ الشمسي</div>
                     </div>
 
                     <!-- تحويل من ميلادي لهجري -->
@@ -655,6 +656,28 @@
                         <div class="converter-result">
                             <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_gregorian">التاريخ الميلادي المقابل</div>
                             <div class="result-date" id="conv-greg-result">--</div>
+                        </div>
+                    </div>
+
+                    <!-- تحويل من شمسي لميلادي وهجري -->
+                    <div id="converter-to-solar" style="display:none;">
+                        <div class="settings-grid">
+                            <div>
+                                <label data-i18n="converter.day">اليوم</label>
+                                <input type="number" id="conv-s-day" min="1" max="31" value="1" onchange="convertFromSolar()">
+                            </div>
+                            <div>
+                                <label data-i18n="converter.month">الشهر</label>
+                                <select id="conv-s-month" onchange="convertFromSolar()"></select>
+                            </div>
+                            <div>
+                                <label data-i18n="converter.year">السنة</label>
+                                <input type="number" id="conv-s-year" min="1" max="2000" value="1404" onchange="convertFromSolar()">
+                            </div>
+                        </div>
+                        <div class="converter-result">
+                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_solar">التاريخ الميلادي والهجري المقابل</div>
+                            <div class="result-date" id="conv-solar-result">--</div>
                         </div>
                     </div>
                 </div>
@@ -806,7 +829,7 @@
     <script src="js/qibla.js?v=43"></script>
     <script src="js/moon.js?v=42"></script>
     <script src="js/duas.js?v=42"></script>
-    <script src="js/app.js?v=75"></script>
+    <script src="js/app.js?v=76"></script>
 
     <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
     <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->

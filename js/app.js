@@ -3091,7 +3091,7 @@ function initDateConverter() {
 }
 
 // ===== تحويل ميلادي → شمسي (جلالي) =====
-const _jalaliMonths = ['فروردين','ارديبهشت','خرداد','تير','مرداد','شهريور','مهر','آبان','آذر','دي','بهمن','اسفند'];
+const _jalaliMonths = ['حمل','ثور','جوزا','سرطان','أسد','سنبلة','ميزان','عقرب','قوس','جدي','دلو','حوت'];
 const _jalaliMonthsEn = ['Farvardin','Ordibehesht','Khordad','Tir','Mordad','Shahrivar','Mehr','Aban','Azar','Dey','Bahman','Esfand'];
 
 function gregorianToJalali(gy, gm, gd) {

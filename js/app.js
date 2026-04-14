@@ -3124,29 +3124,33 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const hijriNums  = `${hd}/${hm}/${hy}`;
     const gregText   = isEn ? `${gd} ${gMonthNamesEn[gm-1]} ${gy}` : `${gd} ${HijriDate.gregorianMonths[gm-1]} ${gy} م`;
     const gregNums   = `${gd}/${gm}/${gy}`;
-    const isLeap     = HijriDate.isHijriLeapYear(hy);
-    const leapText   = isEn ? (isLeap ? 'Yes ✓' : 'No ✗') : (isLeap ? 'نعم ✓' : 'لا ✗');
+    const isHijriLeap = HijriDate.isHijriLeapYear(hy);
+    const isGregLeap  = (gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0;
+    const hijriLeapText = isEn ? (isHijriLeap ? 'Yes ✓' : 'No ✗') : (isHijriLeap ? 'نعم ✓' : 'لا ✗');
+    const gregLeapText  = isEn ? (isGregLeap  ? 'Yes ✓' : 'No ✗') : (isGregLeap  ? 'نعم ✓' : 'لا ✗');
     const jalali     = gregorianToJalali(gy, gm, gd);
     const jMonths    = isEn ? _jalaliMonthsEn : _jalaliMonths;
     const solarText  = `${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year} ش`;
     const solarNums  = `${jalali.day}/${jalali.month}/${jalali.year}`;
 
     const rows = isEn ? [
-        ['Hijri Date',        hijriText],
-        ['Hijri (numbers)',   hijriNums],
-        ['Gregorian Date',    gregText],
-        ['Gregorian (nums)',  gregNums],
-        ['Hijri Leap Year',   leapText],
-        ['Solar Date',        solarText],
-        ['Solar (numbers)',   solarNums],
+        ['Hijri Date',           hijriText],
+        ['Hijri (numbers)',      hijriNums],
+        ['Hijri Leap Year',      hijriLeapText],
+        ['Gregorian Date',       gregText],
+        ['Gregorian (numbers)',  gregNums],
+        ['Gregorian Leap Year',  gregLeapText],
+        ['Solar Date',           solarText],
+        ['Solar (numbers)',      solarNums],
     ] : [
-        ['التاريخ الهجري',            hijriText],
-        ['التاريخ الهجري بالأرقام',   hijriNums],
-        ['التاريخ الميلادي',          gregText],
-        ['التاريخ الميلادي بالأرقام', gregNums],
-        ['هل السنة الهجرية كبيسة',   leapText],
-        ['التاريخ الشمسي',            solarText],
-        ['التاريخ الشمسي بالأرقام',   solarNums],
+        ['التاريخ الهجري',              hijriText],
+        ['التاريخ الهجري بالأرقام',     hijriNums],
+        ['هل السنة الهجرية كبيسة',     hijriLeapText],
+        ['التاريخ الميلادي',            gregText],
+        ['التاريخ الميلادي بالأرقام',   gregNums],
+        ['هل السنة الميلادية كبيسة',   gregLeapText],
+        ['التاريخ الشمسي',              solarText],
+        ['التاريخ الشمسي بالأرقام',     solarNums],
     ];
 
     const resultDateFull = resultType === 'hijri'

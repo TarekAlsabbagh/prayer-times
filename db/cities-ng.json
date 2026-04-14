@@ -1,0 +1,9369 @@
+[
+  {
+    "nameAr": "أبوجا",
+    "nameEn": "Abuja",
+    "type": "city",
+    "lat": 9.0765,
+    "lng": 7.3986
+  },
+  {
+    "nameAr": "لاغوس",
+    "nameEn": "Lagos",
+    "type": "city",
+    "lat": 6.4561111111111,
+    "lng": 3.3936111111111,
+    "pop": 15070000
+  },
+  {
+    "nameAr": "كانو",
+    "nameEn": "Kano",
+    "type": "city",
+    "lat": 12.0022,
+    "lng": 8.592,
+    "pop": 4348000
+  },
+  {
+    "nameAr": "بورت هاركورت",
+    "nameEn": "Port Harcourt",
+    "type": "city",
+    "lat": 4.765466,
+    "lng": 7.016316,
+    "pop": 3480000
+  },
+  {
+    "nameAr": "إبادان",
+    "nameEn": "Ibadan",
+    "type": "city",
+    "lat": 7.3775,
+    "lng": 3.9058333333333,
+    "pop": 2550593
+  },
+  {
+    "nameAr": "بنين",
+    "nameEn": "Benin City",
+    "type": "city",
+    "lat": 6.3176,
+    "lng": 5.6145,
+    "pop": 1780000
+  },
+  {
+    "nameAr": "اونيتشا",
+    "nameEn": "Onitsha",
+    "type": "city",
+    "lat": 6.1666666666667,
+    "lng": 6.7833333333333,
+    "pop": 1483000
+  },
+  {
+    "nameAr": "ميدغري",
+    "nameEn": "Maiduguri",
+    "type": "city",
+    "lat": 11.833333333333,
+    "lng": 13.15,
+    "pop": 1197497
+  },
+  {
+    "nameAr": "آبا",
+    "nameEn": "Aba",
+    "type": "city",
+    "lat": 5.1166666666667,
+    "lng": 7.3666666666667,
+    "pop": 1160000
+  },
+  {
+    "nameAr": "أوغبوموشو",
+    "nameEn": "Ogbomosho",
+    "type": "city",
+    "lat": 8.1333333333333,
+    "lng": 4.25,
+    "pop": 1032000
+  },
+  {
+    "nameAr": "Tanke",
+    "nameEn": "Tanke",
+    "type": "city",
+    "lat": 8.4855,
+    "lng": 4.5904,
+    "pop": 1030000
+  },
+  {
+    "nameAr": "إنوغو",
+    "nameEn": "Enugu",
+    "type": "city",
+    "lat": 6.4402777777778,
+    "lng": 7.4941666666667,
+    "pop": 1029400
+  },
+  {
+    "nameAr": "أويري",
+    "nameEn": "Owerri",
+    "type": "city",
+    "lat": 5.4833333333333,
+    "lng": 7.0333333333333,
+    "pop": 908109
+  },
+  {
+    "nameAr": "أبيوكوتا",
+    "nameEn": "Abeokuta",
+    "type": "city",
+    "lat": 7.15,
+    "lng": 3.35,
+    "pop": 888924
+  },
+  {
+    "nameAr": "Ikeja",
+    "nameEn": "Ikeja",
+    "type": "city",
+    "lat": 6.61857,
+    "lng": 3.34259,
+    "pop": 861300
+  },
+  {
+    "nameAr": "اكوري",
+    "nameEn": "Akure",
+    "type": "city",
+    "lat": 7.25,
+    "lng": 5.195,
+    "pop": 847903
+  },
+  {
+    "nameAr": "إلورين",
+    "nameEn": "Ilorin",
+    "type": "city",
+    "lat": 8.5,
+    "lng": 4.55,
+    "pop": 847582
+  },
+  {
+    "nameAr": "كادونا",
+    "nameEn": "Kaduna",
+    "type": "city",
+    "lat": 10.5105,
+    "lng": 7.4165,
+    "pop": 760084
+  },
+  {
+    "nameAr": "أوسوغبو",
+    "nameEn": "Osogbo",
+    "type": "city",
+    "lat": 7.7597222222222,
+    "lng": 4.5761111111111,
+    "pop": 731000
+  },
+  {
+    "nameAr": "باوتشي",
+    "nameEn": "Bauchi",
+    "type": "city",
+    "lat": 10.315833333333,
+    "lng": 9.8441666666667,
+    "pop": 693700
+  },
+  {
+    "nameAr": "Jalingo",
+    "nameEn": "Jalingo",
+    "type": "city",
+    "lat": 8.9195,
+    "lng": 11.32642,
+    "pop": 660213
+  },
+  {
+    "nameAr": "جوس",
+    "nameEn": "Jos",
+    "type": "city",
+    "lat": 9.9333333333333,
+    "lng": 8.8833333333333,
+    "pop": 622802
+  },
+  {
+    "nameAr": "ايفي",
+    "nameEn": "Ile Ife",
+    "type": "city",
+    "lat": 7.4666666666667,
+    "lng": 4.5666666666667,
+    "pop": 501952
+  },
+  {
+    "nameAr": "آدو إكيتي",
+    "nameEn": "Ado Ekiti",
+    "type": "city",
+    "lat": 7.6166666666667,
+    "lng": 5.2166666666667,
+    "pop": 446749
+  },
+  {
+    "nameAr": "أويو",
+    "nameEn": "Uyo",
+    "type": "city",
+    "lat": 5.05,
+    "lng": 7.9333333333333,
+    "pop": 429900
+  },
+  {
+    "nameAr": "ولاية سقطو",
+    "nameEn": "Sokoto",
+    "type": "city",
+    "lat": 13.062222222222,
+    "lng": 5.2338888888889,
+    "pop": 427760
+  },
+  {
+    "nameAr": "زاريا",
+    "nameEn": "Zaria",
+    "type": "city",
+    "lat": 11.066666666667,
+    "lng": 7.7,
+    "pop": 408198
+  },
+  {
+    "nameAr": "يولا",
+    "nameEn": "Yola",
+    "type": "city",
+    "lat": 9.2,
+    "lng": 12.483333333333,
+    "pop": 392854
+  },
+  {
+    "nameAr": "Gusau",
+    "nameEn": "Gusau",
+    "type": "city",
+    "lat": 12.1628,
+    "lng": 6.6745,
+    "pop": 383162
+  },
+  {
+    "nameAr": "أومواهيا",
+    "nameEn": "Umuahia",
+    "type": "city",
+    "lat": 5.5333333333333,
+    "lng": 7.4833333333333,
+    "pop": 359230
+  },
+  {
+    "nameAr": "Ondo",
+    "nameEn": "Ondo",
+    "type": "city",
+    "lat": 7.0833333333333,
+    "lng": 4.8333333333333,
+    "pop": 358430
+  },
+  {
+    "nameAr": "أووى، نيجيريا",
+    "nameEn": "Owo",
+    "type": "city",
+    "lat": 7.1961111111111,
+    "lng": 5.5863888888889,
+    "pop": 341400
+  },
+  {
+    "nameAr": "لافيا",
+    "nameEn": "Lafia",
+    "type": "city",
+    "lat": 8.5,
+    "lng": 8.5166666666667,
+    "pop": 330712
+  },
+  {
+    "nameAr": "مينا",
+    "nameEn": "Minna",
+    "type": "city",
+    "lat": 9.6138888888889,
+    "lng": 6.5569444444444,
+    "pop": 322163
+  },
+  {
+    "nameAr": "Okene",
+    "nameEn": "Okene",
+    "type": "city",
+    "lat": 7.5511111111111,
+    "lng": 6.2358333333333,
+    "pop": 320260
+  },
+  {
+    "nameAr": "Zangon Kataf",
+    "nameEn": "Zangon Kataf",
+    "type": "city",
+    "lat": 9.784597,
+    "lng": 8.283949,
+    "pop": 318991
+  },
+  {
+    "nameAr": "كاتسينا (مدينة)",
+    "nameEn": "Katsina",
+    "type": "city",
+    "lat": 12.988888888889,
+    "lng": 7.6008333333333,
+    "pop": 318459
+  },
+  {
+    "nameAr": "اوكا",
+    "nameEn": "Awka",
+    "type": "city",
+    "lat": 6.2,
+    "lng": 7.0666666666667,
+    "pop": 301657
+  },
+  {
+    "nameAr": "Kaura Namoda",
+    "nameEn": "Kaura Namoda",
+    "type": "city",
+    "lat": 12.6,
+    "lng": 6.5897222222222,
+    "pop": 285363
+  },
+  {
+    "nameAr": "Degema",
+    "nameEn": "Degema",
+    "type": "city",
+    "lat": 4.766698,
+    "lng": 6.768736,
+    "pop": 249773
+  },
+  {
+    "nameAr": "سابيله",
+    "nameEn": "Sapele",
+    "type": "city",
+    "lat": 5.8261111111111,
+    "lng": 5.6536111111111,
+    "pop": 242652
+  },
+  {
+    "nameAr": "Badagry",
+    "nameEn": "Badagry",
+    "type": "city",
+    "lat": 6.4166666666667,
+    "lng": 2.8833333333333,
+    "pop": 241093
+  },
+  {
+    "nameAr": "إسيين",
+    "nameEn": "Iseyin",
+    "type": "city",
+    "lat": 7.9666666666667,
+    "lng": 3.6,
+    "pop": 236000
+  },
+  {
+    "nameAr": "Nnewi South",
+    "nameEn": "Nnewi South",
+    "type": "city",
+    "lat": 5.938383,
+    "lng": 6.921821,
+    "pop": 233362
+  },
+  {
+    "nameAr": "Daura",
+    "nameEn": "Daura",
+    "type": "city",
+    "lat": 13.03638889,
+    "lng": 8.31777778,
+    "pop": 224884
+  },
+  {
+    "nameAr": "Okrika",
+    "nameEn": "Okrika",
+    "type": "city",
+    "lat": 4.73972,
+    "lng": 7.08278,
+    "pop": 222285
+  },
+  {
+    "nameAr": "Abagana",
+    "nameEn": "Abagana",
+    "type": "city",
+    "lat": 6.1833333333333,
+    "lng": 6.9833333333333,
+    "pop": 211500
+  },
+  {
+    "nameAr": "Lokoja",
+    "nameEn": "Lokoja",
+    "type": "city",
+    "lat": 7.8019444444444,
+    "lng": 6.7441666666667,
+    "pop": 196643
+  },
+  {
+    "nameAr": "Ikom",
+    "nameEn": "Ikom",
+    "type": "city",
+    "lat": 6.08333,
+    "lng": 8.61667,
+    "pop": 185533
+  },
+  {
+    "nameAr": "Epe",
+    "nameEn": "Epe",
+    "type": "city",
+    "lat": 6.5833333333333,
+    "lng": 3.9833333333333,
+    "pop": 181409
+  },
+  {
+    "nameAr": "كالابار",
+    "nameEn": "Calabar",
+    "type": "city",
+    "lat": 4.95,
+    "lng": 8.325,
+    "pop": 179392
+  },
+  {
+    "nameAr": "ماكوردي",
+    "nameEn": "Makurdi",
+    "type": "city",
+    "lat": 7.7305555555556,
+    "lng": 8.5361111111111,
+    "pop": 170925
+  },
+  {
+    "nameAr": "Etinan",
+    "nameEn": "Etinan",
+    "type": "city",
+    "lat": 4.85,
+    "lng": 7.8333333333333,
+    "pop": 169284
+  },
+  {
+    "nameAr": "إيجاغبو أوفا",
+    "nameEn": "Offa",
+    "type": "city",
+    "lat": 8.147,
+    "lng": 4.72,
+    "pop": 166600
+  },
+  {
+    "nameAr": "ايكوت إكبين",
+    "nameEn": "Ikot Ekpene",
+    "type": "city",
+    "lat": 5.1819444444444,
+    "lng": 7.7147222222222,
+    "pop": 162119
+  },
+  {
+    "nameAr": "عدي",
+    "nameEn": "Ede",
+    "type": "city",
+    "lat": 7.73333333,
+    "lng": 4.43333333,
+    "pop": 159866
+  },
+  {
+    "nameAr": "Dutse",
+    "nameEn": "Dutse",
+    "type": "city",
+    "lat": 11.7024,
+    "lng": 9.334,
+    "pop": 153000
+  },
+  {
+    "nameAr": "كونتاغورا",
+    "nameEn": "Kontagora",
+    "type": "city",
+    "lat": 10.452222222222,
+    "lng": 5.4794444444444,
+    "pop": 151968
+  },
+  {
+    "nameAr": "أسابا",
+    "nameEn": "Asaba",
+    "type": "city",
+    "lat": 6.1833333333333,
+    "lng": 6.75,
+    "pop": 149603
+  },
+  {
+    "nameAr": "Ikere",
+    "nameEn": "Ikere",
+    "type": "city",
+    "lat": 7.49748,
+    "lng": 5.23041,
+    "pop": 148558
+  },
+  {
+    "nameAr": "هاديجيا",
+    "nameEn": "Hadejia",
+    "type": "city",
+    "lat": 12.43487,
+    "lng": 10.05266,
+    "pop": 146947
+  },
+  {
+    "nameAr": "Udu",
+    "nameEn": "Udu",
+    "type": "city",
+    "lat": 5.75,
+    "lng": 5.7166666666667,
+    "pop": 142480
+  },
+  {
+    "nameAr": "Damaturu",
+    "nameEn": "Damaturu",
+    "type": "city",
+    "lat": 11.780277777778,
+    "lng": 11.978611111111,
+    "pop": 141897
+  },
+  {
+    "nameAr": "Okigwe",
+    "nameEn": "Okigwe",
+    "type": "city",
+    "lat": 5.81088,
+    "lng": 7.32559,
+    "pop": 132237
+  },
+  {
+    "nameAr": "Idanre",
+    "nameEn": "Idanre",
+    "type": "city",
+    "lat": 7.104469,
+    "lng": 5.131044,
+    "pop": 129795
+  },
+  {
+    "nameAr": "كيفي",
+    "nameEn": "Keffi",
+    "type": "city",
+    "lat": 8.8463888888889,
+    "lng": 7.8733333333333,
+    "pop": 92550
+  },
+  {
+    "nameAr": "نومان",
+    "nameEn": "Numan",
+    "type": "city",
+    "lat": 9.46694,
+    "lng": 12.0328,
+    "pop": 90723
+  },
+  {
+    "nameAr": "Idah",
+    "nameEn": "Idah",
+    "type": "city",
+    "lat": 7.08333,
+    "lng": 6.75,
+    "pop": 79815
+  },
+  {
+    "nameAr": "Uromi",
+    "nameEn": "Uromi",
+    "type": "city",
+    "lat": 6.7,
+    "lng": 6.333333,
+    "pop": 73569
+  },
+  {
+    "nameAr": "Gadaka",
+    "nameEn": "Gadaka",
+    "type": "city",
+    "lat": 11.2852,
+    "lng": 11.2206,
+    "pop": 60000
+  },
+  {
+    "nameAr": "Okemesi",
+    "nameEn": "Okemesi",
+    "type": "city",
+    "lat": 7.81666667,
+    "lng": 4.91666667,
+    "pop": 56000
+  },
+  {
+    "nameAr": "Akatta",
+    "nameEn": "Akatta",
+    "type": "city",
+    "lat": 5.7790868068873,
+    "lng": 6.9592674376,
+    "pop": 54000
+  },
+  {
+    "nameAr": "Abudu",
+    "nameEn": "Abudu",
+    "type": "city",
+    "lat": 6.0325,
+    "lng": 6.0453,
+    "pop": 50000
+  },
+  {
+    "nameAr": "Omupo",
+    "nameEn": "Omupo",
+    "type": "city",
+    "lat": 8.2667,
+    "lng": 4.8,
+    "pop": 18798
+  },
+  {
+    "nameAr": "Okeho",
+    "nameEn": "Okeho",
+    "type": "city",
+    "lat": 8.0338888888889,
+    "lng": 3.3475,
+    "pop": 12964
+  },
+  {
+    "nameAr": "Rumuekini",
+    "nameEn": "Rumuekini",
+    "type": "city",
+    "lat": 4.88803,
+    "lng": 6.940702,
+    "pop": 10502
+  },
+  {
+    "nameAr": "Abraka",
+    "nameEn": "Abraka",
+    "type": "city",
+    "lat": 5.79023,
+    "lng": 6.10473,
+    "pop": 6940
+  },
+  {
+    "nameAr": "1 City Supermarket and Bakery",
+    "nameEn": "1 City Supermarket and Bakery",
+    "type": "city",
+    "lat": 6.226631,
+    "lng": 7.067457,
+    "pop": null
+  },
+  {
+    "nameAr": "جيميتا",
+    "nameEn": "Jimeta",
+    "type": "city",
+    "lat": 9.27949,
+    "lng": 12.45819,
+    "pop": null
+  },
+  {
+    "nameAr": "ران، نيجيريا",
+    "nameEn": "Rann",
+    "type": "city",
+    "lat": 12.2701,
+    "lng": 14.4636,
+    "pop": null
+  },
+  {
+    "nameAr": "فندوغري",
+    "nameEn": "Pandogari",
+    "type": "city",
+    "lat": 10.4,
+    "lng": 6.4166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "موبي",
+    "nameEn": "Mubi",
+    "type": "city",
+    "lat": 10.2604,
+    "lng": 13.2606,
+    "pop": null
+  },
+  {
+    "nameAr": "واري",
+    "nameEn": "Warri",
+    "type": "city",
+    "lat": 5.5166666666667,
+    "lng": 5.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Aagba",
+    "nameEn": "Aagba",
+    "type": "city",
+    "lat": 7.8987758,
+    "lng": 4.7135268,
+    "pop": null
+  },
+  {
+    "nameAr": "Aba Ukpo",
+    "nameEn": "Aba Ukpo",
+    "type": "city",
+    "lat": 4.9159162836471,
+    "lng": 7.9273770843182,
+    "pop": null
+  },
+  {
+    "nameAr": "Ababene",
+    "nameEn": "Ababene",
+    "type": "city",
+    "lat": 5.9315,
+    "lng": 8.2979,
+    "pop": null
+  },
+  {
+    "nameAr": "Abacha",
+    "nameEn": "Abacha",
+    "type": "city",
+    "lat": 6.143207,
+    "lng": 6.956945,
+    "pop": null
+  },
+  {
+    "nameAr": "Abacha Barracks",
+    "nameEn": "Abacha Barracks",
+    "type": "city",
+    "lat": 9.03,
+    "lng": 7.48,
+    "pop": null
+  },
+  {
+    "nameAr": "Abak Ifia",
+    "nameEn": "Abak Ifia",
+    "type": "city",
+    "lat": 5.22168,
+    "lng": 7.68911,
+    "pop": null
+  },
+  {
+    "nameAr": "Abak Ikot Akpan-Oduot",
+    "nameEn": "Abak Ikot Akpan-Oduot",
+    "type": "city",
+    "lat": 5.2395229700227,
+    "lng": 7.810610450262,
+    "pop": null
+  },
+  {
+    "nameAr": "Abak Itenge",
+    "nameEn": "Abak Itenge",
+    "type": "city",
+    "lat": 4.9798603200874,
+    "lng": 7.7911742822197,
+    "pop": null
+  },
+  {
+    "nameAr": "Abak Oko",
+    "nameEn": "Abak Oko",
+    "type": "city",
+    "lat": 5.134,
+    "lng": 7.7485,
+    "pop": null
+  },
+  {
+    "nameAr": "Abak Usung Atai",
+    "nameEn": "Abak Usung Atai",
+    "type": "city",
+    "lat": 4.9415,
+    "lng": 7.8002,
+    "pop": null
+  },
+  {
+    "nameAr": "Abakiliki Street",
+    "nameEn": "Abakiliki Street",
+    "type": "city",
+    "lat": 6.223212,
+    "lng": 7.057996,
+    "pop": null
+  },
+  {
+    "nameAr": "Abam",
+    "nameEn": "Abam",
+    "type": "city",
+    "lat": 3.233,
+    "lng": 10.83,
+    "pop": null
+  },
+  {
+    "nameAr": "Abayi Okoroato",
+    "nameEn": "Abayi Okoroato",
+    "type": "city",
+    "lat": 5.84888889,
+    "lng": 7.96777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Abbi",
+    "nameEn": "Abbi",
+    "type": "city",
+    "lat": 6.833333,
+    "lng": 7.233333,
+    "pop": null
+  },
+  {
+    "nameAr": "Abiakpo Ikot Essien",
+    "nameEn": "Abiakpo Ikot Essien",
+    "type": "city",
+    "lat": 5.192,
+    "lng": 7.7252777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Abighi Adahaukim",
+    "nameEn": "Abighi Adahaukim",
+    "type": "city",
+    "lat": 4.6717120557298,
+    "lng": 8.1007212490754,
+    "pop": null
+  },
+  {
+    "nameAr": "Abighi Anwang",
+    "nameEn": "Abighi Anwang",
+    "type": "city",
+    "lat": 4.6513471132218,
+    "lng": 8.0519053237022,
+    "pop": null
+  },
+  {
+    "nameAr": "Abighi Assang",
+    "nameEn": "Abighi Assang",
+    "type": "city",
+    "lat": 4.6517748534787,
+    "lng": 8.052076985197,
+    "pop": null
+  },
+  {
+    "nameAr": "Abire",
+    "nameEn": "Abire",
+    "type": "city",
+    "lat": 7.4521,
+    "lng": 3.5239,
+    "pop": null
+  },
+  {
+    "nameAr": "Abissa",
+    "nameEn": "Abissa",
+    "type": "city",
+    "lat": 4.3958333333333,
+    "lng": 6.7669444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Abonnema",
+    "nameEn": "Abonnema",
+    "type": "city",
+    "lat": 4.7231169,
+    "lng": 6.7788461,
+    "pop": null
+  },
+  {
+    "nameAr": "Abual",
+    "nameEn": "Abual",
+    "type": "city",
+    "lat": 4.8453,
+    "lng": 6.56078,
+    "pop": null
+  },
+  {
+    "nameAr": "Abuloma, Rivers State",
+    "nameEn": "Abuloma, Rivers State",
+    "type": "city",
+    "lat": 4.7776338,
+    "lng": 7.0365797,
+    "pop": null
+  },
+  {
+    "nameAr": "Achalla",
+    "nameEn": "Achalla",
+    "type": "city",
+    "lat": 6.3367,
+    "lng": 6.988,
+    "pop": null
+  },
+  {
+    "nameAr": "Achan",
+    "nameEn": "Achan",
+    "type": "city",
+    "lat": 5.0060714162376,
+    "lng": 7.5356247391059,
+    "pop": null
+  },
+  {
+    "nameAr": "Ada",
+    "nameEn": "Ada",
+    "type": "city",
+    "lat": 7.905997,
+    "lng": 4.715702,
+    "pop": null
+  },
+  {
+    "nameAr": "Ada-George Road",
+    "nameEn": "Ada-George Road",
+    "type": "city",
+    "lat": 4.8293765,
+    "lng": 6.9765245,
+    "pop": null
+  },
+  {
+    "nameAr": "Adadama",
+    "nameEn": "Adadama",
+    "type": "city",
+    "lat": 5.92777778,
+    "lng": 8.06916667,
+    "pop": null
+  },
+  {
+    "nameAr": "Adadia",
+    "nameEn": "Adadia",
+    "type": "city",
+    "lat": 4.97,
+    "lng": 8.065,
+    "pop": null
+  },
+  {
+    "nameAr": "Adamakiri",
+    "nameEn": "Adamakiri",
+    "type": "city",
+    "lat": 4.5461,
+    "lng": 7.0766,
+    "pop": null
+  },
+  {
+    "nameAr": "Adazi-Nnukwu",
+    "nameEn": "Adazi-Nnukwu",
+    "type": "city",
+    "lat": 6.1055,
+    "lng": 7.0119,
+    "pop": null
+  },
+  {
+    "nameAr": "Adiasim",
+    "nameEn": "Adiasim",
+    "type": "city",
+    "lat": 5.0752777777778,
+    "lng": 7.7419444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ado, in Kogi state",
+    "nameEn": "Ado, in Kogi state",
+    "type": "city",
+    "lat": 8.2183739,
+    "lng": 7.5548128,
+    "pop": null
+  },
+  {
+    "nameAr": "Adoro",
+    "nameEn": "Adoro",
+    "type": "city",
+    "lat": 7.24925,
+    "lng": 9.18152,
+    "pop": null
+  },
+  {
+    "nameAr": "Afafanyi",
+    "nameEn": "Afafanyi",
+    "type": "city",
+    "lat": 5.8739,
+    "lng": 7.9868,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ediene",
+    "nameEn": "Afaha Ediene",
+    "type": "city",
+    "lat": 5.2128551205515,
+    "lng": 7.7680384276315,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ekpene Edi",
+    "nameEn": "Afaha Ekpene Edi",
+    "type": "city",
+    "lat": 4.6557744857144,
+    "lng": 8.1070284637455,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Esang",
+    "nameEn": "Afaha Esang",
+    "type": "city",
+    "lat": 5.04632,
+    "lng": 7.721226,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Etok",
+    "nameEn": "Afaha Etok",
+    "type": "city",
+    "lat": 4.9926119947462,
+    "lng": 7.9522669373509,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Idong Eyo Abidua",
+    "nameEn": "Afaha Idong Eyo Abidua",
+    "type": "city",
+    "lat": 4.6584661183272,
+    "lng": 8.0601671189775,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ikot",
+    "nameEn": "Afaha Ikot",
+    "type": "city",
+    "lat": 4.817151,
+    "lng": 7.887411,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ikot Osom",
+    "nameEn": "Afaha Ikot Osom",
+    "type": "city",
+    "lat": 4.9648392908427,
+    "lng": 7.910584862871,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ikot-Obio Nkan",
+    "nameEn": "Afaha Ikot-Obio Nkan",
+    "type": "city",
+    "lat": 4.9929474912935,
+    "lng": 7.9312913830809,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Iman",
+    "nameEn": "Afaha Iman",
+    "type": "city",
+    "lat": 4.83945,
+    "lng": 7.853732,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Itak",
+    "nameEn": "Afaha Itak",
+    "type": "city",
+    "lat": 5.2162741390194,
+    "lng": 7.8202234876302,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Itam",
+    "nameEn": "Afaha Itam",
+    "type": "city",
+    "lat": 5.1009278991967,
+    "lng": 7.9568959405067,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Itiat",
+    "nameEn": "Afaha Itiat",
+    "type": "city",
+    "lat": 5.2058,
+    "lng": 7.9235,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha nsit i",
+    "nameEn": "Afaha nsit i",
+    "type": "city",
+    "lat": 4.843266,
+    "lng": 7.92516,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Obio-Enwang",
+    "nameEn": "Afaha Obio-Enwang",
+    "type": "city",
+    "lat": 5.1855023037236,
+    "lng": 7.7845179202627,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha offiong",
+    "nameEn": "Afaha offiong",
+    "type": "city",
+    "lat": 4.873684,
+    "lng": 7.91072,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Oku",
+    "nameEn": "Afaha Oku",
+    "type": "city",
+    "lat": 5.0420651410626,
+    "lng": 7.9240074954381,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ubabong",
+    "nameEn": "Afaha Ubabong",
+    "type": "city",
+    "lat": 4.6558600319934,
+    "lng": 8.107843828057,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ube",
+    "nameEn": "Afaha Ube",
+    "type": "city",
+    "lat": 5.0476139791304,
+    "lng": 7.9041567466069,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Udo Eyop",
+    "nameEn": "Afaha Udo Eyop",
+    "type": "city",
+    "lat": 4.9049489610803,
+    "lng": 7.926274105682,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Ukwa",
+    "nameEn": "Afaha Ukwa",
+    "type": "city",
+    "lat": 4.636780819641,
+    "lng": 7.939750807854,
+    "pop": null
+  },
+  {
+    "nameAr": "Afaha Uqua Obokidim",
+    "nameEn": "Afaha Uqua Obokidim",
+    "type": "city",
+    "lat": 4.6352473515436,
+    "lng": 7.9452234655267,
+    "pop": null
+  },
+  {
+    "nameAr": "Afam Nta",
+    "nameEn": "Afam Nta",
+    "type": "city",
+    "lat": 4.807,
+    "lng": 7.3419,
+    "pop": null
+  },
+  {
+    "nameAr": "Afam, Rivers State",
+    "nameEn": "Afam, Rivers State",
+    "type": "city",
+    "lat": 4.8032,
+    "lng": 7.3259,
+    "pop": null
+  },
+  {
+    "nameAr": "Afen Ikot Okoro",
+    "nameEn": "Afen Ikot Okoro",
+    "type": "city",
+    "lat": 5.023834,
+    "lng": 7.544541,
+    "pop": null
+  },
+  {
+    "nameAr": "Afen Ikot Udonja",
+    "nameEn": "Afen Ikot Udonja",
+    "type": "city",
+    "lat": 5.0061221838092,
+    "lng": 7.5354664887698,
+    "pop": null
+  },
+  {
+    "nameAr": "Afia Isong",
+    "nameEn": "Afia Isong",
+    "type": "city",
+    "lat": 5.2486,
+    "lng": 8.0169,
+    "pop": null
+  },
+  {
+    "nameAr": "Afia Nsit",
+    "nameEn": "Afia Nsit",
+    "type": "city",
+    "lat": 4.8477,
+    "lng": 7.9218,
+    "pop": null
+  },
+  {
+    "nameAr": "Afia Nsit Atai",
+    "nameEn": "Afia Nsit Atai",
+    "type": "city",
+    "lat": 4.8253,
+    "lng": 8.0247,
+    "pop": null
+  },
+  {
+    "nameAr": "Afia Nsit ll",
+    "nameEn": "Afia Nsit ll",
+    "type": "city",
+    "lat": 4.817151,
+    "lng": 7.887411,
+    "pop": null
+  },
+  {
+    "nameAr": "Afuze",
+    "nameEn": "Afuze",
+    "type": "city",
+    "lat": 6.951,
+    "lng": 6.1261,
+    "pop": null
+  },
+  {
+    "nameAr": "Agada",
+    "nameEn": "Agada",
+    "type": "city",
+    "lat": 4.8453,
+    "lng": 6.56078,
+    "pop": null
+  },
+  {
+    "nameAr": "Agarabe",
+    "nameEn": "Agarabe",
+    "type": "city",
+    "lat": 6.8361,
+    "lng": 7.2294,
+    "pop": null
+  },
+  {
+    "nameAr": "Agasha",
+    "nameEn": "Agasha",
+    "type": "city",
+    "lat": 7.9696,
+    "lng": 8.8958,
+    "pop": null
+  },
+  {
+    "nameAr": "Agba Town",
+    "nameEn": "Agba Town",
+    "type": "city",
+    "lat": 7.898621,
+    "lng": 4.713939,
+    "pop": null
+  },
+  {
+    "nameAr": "Agbadi",
+    "nameEn": "Agbadi",
+    "type": "city",
+    "lat": 7.8,
+    "lng": 8.61666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Agbaja",
+    "nameEn": "Agbaja",
+    "type": "city",
+    "lat": 7.9871,
+    "lng": 6.6425,
+    "pop": null
+  },
+  {
+    "nameAr": "Agbani",
+    "nameEn": "Agbani",
+    "type": "city",
+    "lat": 6.30999994,
+    "lng": 7.55700016,
+    "pop": null
+  },
+  {
+    "nameAr": "Agbara",
+    "nameEn": "Agbara",
+    "type": "city",
+    "lat": 6.5121766017419,
+    "lng": 3.1112913060424,
+    "pop": null
+  },
+  {
+    "nameAr": "Agbonchia",
+    "nameEn": "Agbonchia",
+    "type": "city",
+    "lat": 4.7942,
+    "lng": 7.12282,
+    "pop": null
+  },
+  {
+    "nameAr": "Ago koker",
+    "nameEn": "Ago koker",
+    "type": "city",
+    "lat": 7.7622694164063,
+    "lng": 4.6287531658174,
+    "pop": null
+  },
+  {
+    "nameAr": "Ago-Oba",
+    "nameEn": "Ago-Oba",
+    "type": "city",
+    "lat": 7.15,
+    "lng": 3.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Aguenyi Mpu",
+    "nameEn": "Aguenyi Mpu",
+    "type": "city",
+    "lat": 5.999512,
+    "lng": 7.632453,
+    "pop": null
+  },
+  {
+    "nameAr": "Agut Ntswuo",
+    "nameEn": "Agut Ntswuo",
+    "type": "city",
+    "lat": 9.75,
+    "lng": 8.3833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Agyana, Nigeria",
+    "nameEn": "Agyana, Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Ajah",
+    "nameEn": "Ajah",
+    "type": "city",
+    "lat": 6.4666666666667,
+    "lng": 3.5666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ajali",
+    "nameEn": "Ajali",
+    "type": "city",
+    "lat": 6.296843,
+    "lng": 7.134003,
+    "pop": null
+  },
+  {
+    "nameAr": "Aka Ekpene-Ikot",
+    "nameEn": "Aka Ekpene-Ikot",
+    "type": "city",
+    "lat": 5.1926612479821,
+    "lng": 7.7968539562303,
+    "pop": null
+  },
+  {
+    "nameAr": "Akabuka",
+    "nameEn": "Akabuka",
+    "type": "city",
+    "lat": 5.2346,
+    "lng": 6.6476,
+    "pop": null
+  },
+  {
+    "nameAr": "Akai",
+    "nameEn": "Akai",
+    "type": "city",
+    "lat": 4.7061810272813,
+    "lng": 8.0064077397905,
+    "pop": null
+  },
+  {
+    "nameAr": "Akai Ate",
+    "nameEn": "Akai Ate",
+    "type": "city",
+    "lat": 4.7213,
+    "lng": 8.1946,
+    "pop": null
+  },
+  {
+    "nameAr": "Akai Awu",
+    "nameEn": "Akai Awu",
+    "type": "city",
+    "lat": 4.71,
+    "lng": 8.2066,
+    "pop": null
+  },
+  {
+    "nameAr": "Akap Akpa Ewe",
+    "nameEn": "Akap Akpa Ewe",
+    "type": "city",
+    "lat": 4.875647,
+    "lng": 7.631563,
+    "pop": null
+  },
+  {
+    "nameAr": "Akko",
+    "nameEn": "Akko",
+    "type": "city",
+    "lat": 10.288888888889,
+    "lng": 10.973333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Akoiyak",
+    "nameEn": "Akoiyak",
+    "type": "city",
+    "lat": 4.5480716390857,
+    "lng": 7.983033655074,
+    "pop": null
+  },
+  {
+    "nameAr": "Akomo Ita 1",
+    "nameEn": "Akomo Ita 1",
+    "type": "city",
+    "lat": 4.5971689271998,
+    "lng": 8.0823114365143,
+    "pop": null
+  },
+  {
+    "nameAr": "Akomo Ita 2",
+    "nameEn": "Akomo Ita 2",
+    "type": "city",
+    "lat": 4.5978533633171,
+    "lng": 8.0802514999354,
+    "pop": null
+  },
+  {
+    "nameAr": "Akon Itam",
+    "nameEn": "Akon Itam",
+    "type": "city",
+    "lat": 5.1126755718393,
+    "lng": 7.9519350121226,
+    "pop": null
+  },
+  {
+    "nameAr": "Akpa Nkanua",
+    "nameEn": "Akpa Nkanua",
+    "type": "city",
+    "lat": 5.2166666666667,
+    "lng": 7.3833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Akpa Utong",
+    "nameEn": "Akpa Utong",
+    "type": "city",
+    "lat": 4.8596390266301,
+    "lng": 7.9376110347737,
+    "pop": null
+  },
+  {
+    "nameAr": "Akpautong",
+    "nameEn": "Akpautong",
+    "type": "city",
+    "lat": 4.6496583532975,
+    "lng": 8.0736117313046,
+    "pop": null
+  },
+  {
+    "nameAr": "Akporku",
+    "nameEn": "Akporku",
+    "type": "city",
+    "lat": 5.1647,
+    "lng": 7.0465,
+    "pop": null
+  },
+  {
+    "nameAr": "Akposo 1",
+    "nameEn": "Akposo 1",
+    "type": "city",
+    "lat": 4.5715267636374,
+    "lng": 8.2937013623274,
+    "pop": null
+  },
+  {
+    "nameAr": "Akposo 2",
+    "nameEn": "Akposo 2",
+    "type": "city",
+    "lat": 4.5724785915939,
+    "lng": 8.296211910033,
+    "pop": null
+  },
+  {
+    "nameAr": "Aku Ozoro",
+    "nameEn": "Aku Ozoro",
+    "type": "city",
+    "lat": 5.53833333,
+    "lng": 6.21611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Akwa Obio Effiat",
+    "nameEn": "Akwa Obio Effiat",
+    "type": "city",
+    "lat": 8.3391111111111,
+    "lng": 4.5947111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Akwete",
+    "nameEn": "Akwete",
+    "type": "city",
+    "lat": 4.88722222,
+    "lng": 7.35722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Alakahia",
+    "nameEn": "Alakahia",
+    "type": "city",
+    "lat": 4.8851,
+    "lng": 6.9249,
+    "pop": null
+  },
+  {
+    "nameAr": "Alode",
+    "nameEn": "Alode",
+    "type": "city",
+    "lat": 4.7749,
+    "lng": 7.1265,
+    "pop": null
+  },
+  {
+    "nameAr": "Alor",
+    "nameEn": "Alor",
+    "type": "city",
+    "lat": 6.0814,
+    "lng": 6.9585,
+    "pop": null
+  },
+  {
+    "nameAr": "Alulu Nike",
+    "nameEn": "Alulu Nike",
+    "type": "city",
+    "lat": 6.506726,
+    "lng": 7.507097,
+    "pop": null
+  },
+  {
+    "nameAr": "Amadaka",
+    "nameEn": "Amadaka",
+    "type": "city",
+    "lat": 4.5328366,
+    "lng": 7.7003294,
+    "pop": null
+  },
+  {
+    "nameAr": "Amadi-Ama",
+    "nameEn": "Amadi-Ama",
+    "type": "city",
+    "lat": 4.7952777777778,
+    "lng": 7.0269444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Amagu Mpu",
+    "nameEn": "Amagu Mpu",
+    "type": "city",
+    "lat": 5.957258,
+    "lng": 7.683086,
+    "pop": null
+  },
+  {
+    "nameAr": "Amakka",
+    "nameEn": "Amakka",
+    "type": "city",
+    "lat": 6.2407777777778,
+    "lng": 7.8705277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Amala",
+    "nameEn": "Amala",
+    "type": "city",
+    "lat": 6.9514,
+    "lng": 7.5444,
+    "pop": null
+  },
+  {
+    "nameAr": "Amalem",
+    "nameEn": "Amalem",
+    "type": "city",
+    "lat": 4.822,
+    "lng": 6.5355,
+    "pop": null
+  },
+  {
+    "nameAr": "Amangwu Arochukwu",
+    "nameEn": "Amangwu Arochukwu",
+    "type": "city",
+    "lat": 5.39609,
+    "lng": 7.88323,
+    "pop": null
+  },
+  {
+    "nameAr": "Amaozara",
+    "nameEn": "Amaozara",
+    "type": "city",
+    "lat": 5.73,
+    "lng": 7.61944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Amawom",
+    "nameEn": "Amawom",
+    "type": "city",
+    "lat": 5.46666667,
+    "lng": 7.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ambul",
+    "nameEn": "Ambul",
+    "type": "city",
+    "lat": 9.22019,
+    "lng": 8.87752,
+    "pop": null
+  },
+  {
+    "nameAr": "Amorji Nike",
+    "nameEn": "Amorji Nike",
+    "type": "city",
+    "lat": 6.516951,
+    "lng": 7.519961,
+    "pop": null
+  },
+  {
+    "nameAr": "Amuvi",
+    "nameEn": "Amuvi",
+    "type": "city",
+    "lat": 5.4,
+    "lng": 7.88333,
+    "pop": null
+  },
+  {
+    "nameAr": "Amuvi Arochukwu",
+    "nameEn": "Amuvi Arochukwu",
+    "type": "city",
+    "lat": 5.409887,
+    "lng": 7.871968,
+    "pop": null
+  },
+  {
+    "nameAr": "Anam",
+    "nameEn": "Anam",
+    "type": "city",
+    "lat": 6.1802777777778,
+    "lng": 6.7772222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Anglican Church of Redemption Unizik Temp site,Awka South",
+    "nameEn": "Anglican Church of Redemption Unizik Temp site,Awka South",
+    "type": "city",
+    "lat": 6.221513,
+    "lng": 7.064263,
+    "pop": null
+  },
+  {
+    "nameAr": "Anguwan Makera Danbami Kudan",
+    "nameEn": "Anguwan Makera Danbami Kudan",
+    "type": "city",
+    "lat": 11.2312245,
+    "lng": 7.6966521,
+    "pop": null
+  },
+  {
+    "nameAr": "Angwan Tiv",
+    "nameEn": "Angwan Tiv",
+    "type": "city",
+    "lat": 9.133,
+    "lng": 7.2928,
+    "pop": null
+  },
+  {
+    "nameAr": "Annabel junction Father Arazu Close by Obi Okoli Avenue",
+    "nameEn": "Annabel junction Father Arazu Close by Obi Okoli Avenue",
+    "type": "city",
+    "lat": 6.19982,
+    "lng": 7.062169,
+    "pop": null
+  },
+  {
+    "nameAr": "Anwa Udo",
+    "nameEn": "Anwa Udo",
+    "type": "city",
+    "lat": 4.768092,
+    "lng": 7.60331,
+    "pop": null
+  },
+  {
+    "nameAr": "Anyan Nsit",
+    "nameEn": "Anyan Nsit",
+    "type": "city",
+    "lat": 4.868219,
+    "lng": 7.843659,
+    "pop": null
+  },
+  {
+    "nameAr": "Anyu",
+    "nameEn": "Anyu",
+    "type": "city",
+    "lat": 4.8453,
+    "lng": 6.56078,
+    "pop": null
+  },
+  {
+    "nameAr": "Apomu",
+    "nameEn": "Apomu",
+    "type": "city",
+    "lat": 7.345682,
+    "lng": 4.182511,
+    "pop": null
+  },
+  {
+    "nameAr": "Apugye, Bwari",
+    "nameEn": "Apugye, Bwari",
+    "type": "city",
+    "lat": 9.27995,
+    "lng": 7.38045,
+    "pop": null
+  },
+  {
+    "nameAr": "Araya",
+    "nameEn": "Araya",
+    "type": "city",
+    "lat": 5.3594536,
+    "lng": 6.2898965,
+    "pop": null
+  },
+  {
+    "nameAr": "Arochukwu",
+    "nameEn": "Arochukwu",
+    "type": "city",
+    "lat": 5.3894444444444,
+    "lng": 7.9122222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Aroma, Awka South",
+    "nameEn": "Aroma, Awka South",
+    "type": "city",
+    "lat": 6.227187,
+    "lng": 7.081381,
+    "pop": null
+  },
+  {
+    "nameAr": "Arondizuogu",
+    "nameEn": "Arondizuogu",
+    "type": "city",
+    "lat": 5.8912833333333,
+    "lng": 7.1631333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Asaga Arochukwu",
+    "nameEn": "Asaga Arochukwu",
+    "type": "city",
+    "lat": 5.39993,
+    "lng": 7.8742,
+    "pop": null
+  },
+  {
+    "nameAr": "Asakpa",
+    "nameEn": "Asakpa",
+    "type": "city",
+    "lat": 4.825623,
+    "lng": 7.576554,
+    "pop": null
+  },
+  {
+    "nameAr": "Asang Ikot Uso Ekong",
+    "nameEn": "Asang Ikot Uso Ekong",
+    "type": "city",
+    "lat": 4.6758748549892,
+    "lng": 7.979331206318,
+    "pop": null
+  },
+  {
+    "nameAr": "Asanga Usung",
+    "nameEn": "Asanga Usung",
+    "type": "city",
+    "lat": 5.202234760262,
+    "lng": 7.7968539562303,
+    "pop": null
+  },
+  {
+    "nameAr": "Ata Essien Obio",
+    "nameEn": "Ata Essien Obio",
+    "type": "city",
+    "lat": 4.897293,
+    "lng": 7.769915,
+    "pop": null
+  },
+  {
+    "nameAr": "Ata Idong Afaha Eket",
+    "nameEn": "Ata Idong Afaha Eket",
+    "type": "city",
+    "lat": 4.6625297040806,
+    "lng": 7.9753829945417,
+    "pop": null
+  },
+  {
+    "nameAr": "Ata Idong Inyang Uso Ekong",
+    "nameEn": "Ata Idong Inyang Uso Ekong",
+    "type": "city",
+    "lat": 4.6703144062983,
+    "lng": 7.9831077567126,
+    "pop": null
+  },
+  {
+    "nameAr": "Ata Obio Akapn",
+    "nameEn": "Ata Obio Akapn",
+    "type": "city",
+    "lat": 4.964719,
+    "lng": 7.760188,
+    "pop": null
+  },
+  {
+    "nameAr": "Atabong",
+    "nameEn": "Atabong",
+    "type": "city",
+    "lat": 4.6617279,
+    "lng": 7.923513,
+    "pop": null
+  },
+  {
+    "nameAr": "Atabrikang",
+    "nameEn": "Atabrikang",
+    "type": "city",
+    "lat": 4.5370488910258,
+    "lng": 7.8307530003268,
+    "pop": null
+  },
+  {
+    "nameAr": "Atabrikang aquaha",
+    "nameEn": "Atabrikang aquaha",
+    "type": "city",
+    "lat": 4.5420923,
+    "lng": 7.8322619,
+    "pop": null
+  },
+  {
+    "nameAr": "Atabrikang Ekeme",
+    "nameEn": "Atabrikang Ekeme",
+    "type": "city",
+    "lat": 4.5325856145454,
+    "lng": 7.786871975099,
+    "pop": null
+  },
+  {
+    "nameAr": "Atai Ndon",
+    "nameEn": "Atai Ndon",
+    "type": "city",
+    "lat": 4.6361023759271,
+    "lng": 7.9327925493987,
+    "pop": null
+  },
+  {
+    "nameAr": "Atai Obio Ediene",
+    "nameEn": "Atai Obio Ediene",
+    "type": "city",
+    "lat": 5.2118081269034,
+    "lng": 7.8147067399141,
+    "pop": null
+  },
+  {
+    "nameAr": "Atai Otoro",
+    "nameEn": "Atai Otoro",
+    "type": "city",
+    "lat": 5.0069641080311,
+    "lng": 7.7746170147828,
+    "pop": null
+  },
+  {
+    "nameAr": "Atali",
+    "nameEn": "Atali",
+    "type": "city",
+    "lat": 4.8696,
+    "lng": 7.0525,
+    "pop": null
+  },
+  {
+    "nameAr": "Atan Ota",
+    "nameEn": "Atan Ota",
+    "type": "city",
+    "lat": 6.7666666666667,
+    "lng": 2.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Atani",
+    "nameEn": "Atani",
+    "type": "city",
+    "lat": 5.460569,
+    "lng": 7.886286,
+    "pop": null
+  },
+  {
+    "nameAr": "Atia",
+    "nameEn": "Atia",
+    "type": "city",
+    "lat": 4.5582688888889,
+    "lng": 7.9606480555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Atiamkpat",
+    "nameEn": "Atiamkpat",
+    "type": "city",
+    "lat": 4.7004054,
+    "lng": 7.8556657,
+    "pop": null
+  },
+  {
+    "nameAr": "Atibe Afaha Eket",
+    "nameEn": "Atibe Afaha Eket",
+    "type": "city",
+    "lat": 4.6330332679628,
+    "lng": 7.9235657503894,
+    "pop": null
+  },
+  {
+    "nameAr": "Awa Iman",
+    "nameEn": "Awa Iman",
+    "type": "city",
+    "lat": 4.6586773,
+    "lng": 7.8432827,
+    "pop": null
+  },
+  {
+    "nameAr": "Awe",
+    "nameEn": "Awe",
+    "type": "city",
+    "lat": 7.8894393486589,
+    "lng": 3.971149606467,
+    "pop": null
+  },
+  {
+    "nameAr": "Awgbu",
+    "nameEn": "Awgbu",
+    "type": "city",
+    "lat": 5.9,
+    "lng": 6.86667,
+    "pop": null
+  },
+  {
+    "nameAr": "Awkuzu",
+    "nameEn": "Awkuzu",
+    "type": "city",
+    "lat": 6.2445261314405,
+    "lng": 6.9362785823177,
+    "pop": null
+  },
+  {
+    "nameAr": "Awomukwu",
+    "nameEn": "Awomukwu",
+    "type": "city",
+    "lat": 5.38463,
+    "lng": 7.57674,
+    "pop": null
+  },
+  {
+    "nameAr": "Awume",
+    "nameEn": "Awume",
+    "type": "city",
+    "lat": 7.2516,
+    "lng": 7.8395,
+    "pop": null
+  },
+  {
+    "nameAr": "Awunugboko",
+    "nameEn": "Awunugboko",
+    "type": "city",
+    "lat": 5.1518,
+    "lng": 6.5974,
+    "pop": null
+  },
+  {
+    "nameAr": "Aya Obio Akpa",
+    "nameEn": "Aya Obio Akpa",
+    "type": "city",
+    "lat": 4.857214,
+    "lng": 7.674071,
+    "pop": null
+  },
+  {
+    "nameAr": "Ayetoro",
+    "nameEn": "Ayetoro",
+    "type": "city",
+    "lat": 6.1046150707091,
+    "lng": 4.7786978511245,
+    "pop": null
+  },
+  {
+    "nameAr": "Azia",
+    "nameEn": "Azia",
+    "type": "city",
+    "lat": 5.879,
+    "lng": 6.886,
+    "pop": null
+  },
+  {
+    "nameAr": "Azumini",
+    "nameEn": "Azumini",
+    "type": "city",
+    "lat": 4.9415,
+    "lng": 7.4929,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagado",
+    "nameEn": "Bagado",
+    "type": "city",
+    "lat": 10.460806,
+    "lng": 7.494465,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagida",
+    "nameEn": "Bagida",
+    "type": "city",
+    "lat": 13.7077,
+    "lng": 4.916,
+    "pop": null
+  },
+  {
+    "nameAr": "Bago in abaji",
+    "nameEn": "Bago in abaji",
+    "type": "city",
+    "lat": 8.81803,
+    "lng": 6.86575,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagusa",
+    "nameEn": "Bagusa",
+    "type": "city",
+    "lat": 9.1111,
+    "lng": 7.2661,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakana",
+    "nameEn": "Bakana",
+    "type": "city",
+    "lat": 4.73805556,
+    "lng": 6.95944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakassi",
+    "nameEn": "Bakassi",
+    "type": "city",
+    "lat": 4.6004447,
+    "lng": 8.5697111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bamba, Cross River",
+    "nameEn": "Bamba, Cross River",
+    "type": "city",
+    "lat": 6.2805555555556,
+    "lng": 9.1255555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Barago, Bwari",
+    "nameEn": "Barago, Bwari",
+    "type": "city",
+    "lat": 9.283,
+    "lng": 7.383,
+    "pop": null
+  },
+  {
+    "nameAr": "Baran Rafi, Bwari",
+    "nameEn": "Baran Rafi, Bwari",
+    "type": "city",
+    "lat": 9.283,
+    "lng": 7.383,
+    "pop": null
+  },
+  {
+    "nameAr": "Bargada Bassa",
+    "nameEn": "Bargada Bassa",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Bargesh",
+    "nameEn": "Bargesh",
+    "type": "city",
+    "lat": 9.13419,
+    "lng": 8.80608,
+    "pop": null
+  },
+  {
+    "nameAr": "Barri",
+    "nameEn": "Barri",
+    "type": "city",
+    "lat": 9.866916,
+    "lng": 10.997958,
+    "pop": null
+  },
+  {
+    "nameAr": "Bateriko",
+    "nameEn": "Bateriko",
+    "type": "city",
+    "lat": 6.24716,
+    "lng": 9.01327,
+    "pop": null
+  },
+  {
+    "nameAr": "Bayara",
+    "nameEn": "Bayara",
+    "type": "city",
+    "lat": 10.216666666667,
+    "lng": 9.7333333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bazi-Bezi",
+    "nameEn": "Bazi-Bezi",
+    "type": "city",
+    "lat": 8.81803,
+    "lng": 6.86575,
+    "pop": null
+  },
+  {
+    "nameAr": "Bele",
+    "nameEn": "Bele",
+    "type": "city",
+    "lat": 10.593869,
+    "lng": 11.004652,
+    "pop": null
+  },
+  {
+    "nameAr": "Bena, Nigeria",
+    "nameEn": "Bena, Nigeria",
+    "type": "city",
+    "lat": 11.286666666667,
+    "lng": 5.9433333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bende",
+    "nameEn": "Bende",
+    "type": "city",
+    "lat": 5.5586111111111,
+    "lng": 7.6336111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bille",
+    "nameEn": "Bille",
+    "type": "city",
+    "lat": 4.5763,
+    "lng": 6.8888,
+    "pop": null
+  },
+  {
+    "nameAr": "Bille Town",
+    "nameEn": "Bille Town",
+    "type": "city",
+    "lat": 4.5766666666667,
+    "lng": 6.8891666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Birin Bolewa",
+    "nameEn": "Birin Bolewa",
+    "type": "city",
+    "lat": 10.864304,
+    "lng": 11.267333,
+    "pop": null
+  },
+  {
+    "nameAr": "Birin Fulani East",
+    "nameEn": "Birin Fulani East",
+    "type": "city",
+    "lat": 10.938276,
+    "lng": 11.327159,
+    "pop": null
+  },
+  {
+    "nameAr": "Birin Fulani West",
+    "nameEn": "Birin Fulani West",
+    "type": "city",
+    "lat": 10.934245,
+    "lng": 11.153182,
+    "pop": null
+  },
+  {
+    "nameAr": "Bissuala",
+    "nameEn": "Bissuala",
+    "type": "city",
+    "lat": 7.0146,
+    "lng": 10.4428,
+    "pop": null
+  },
+  {
+    "nameAr": "Blona",
+    "nameEn": "Blona",
+    "type": "city",
+    "lat": 10.884063,
+    "lng": 3.800713,
+    "pop": null
+  },
+  {
+    "nameAr": "Bodo",
+    "nameEn": "Bodo",
+    "type": "city",
+    "lat": 4.6166666666667,
+    "lng": 7.2666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bojude",
+    "nameEn": "Bojude",
+    "type": "city",
+    "lat": 10.6056,
+    "lng": 11.068715,
+    "pop": null
+  },
+  {
+    "nameAr": "Bolo",
+    "nameEn": "Bolo",
+    "type": "city",
+    "lat": 4.684709,
+    "lng": 7.240328,
+    "pop": null
+  },
+  {
+    "nameAr": "Boloba",
+    "nameEn": "Boloba",
+    "type": "city",
+    "lat": -2.1587,
+    "lng": 16.2346,
+    "pop": null
+  },
+  {
+    "nameAr": "Bonugo",
+    "nameEn": "Bonugo",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Boredun Town",
+    "nameEn": "Boredun Town",
+    "type": "city",
+    "lat": 7.7804294540995,
+    "lng": 4.6274263159549,
+    "pop": null
+  },
+  {
+    "nameAr": "Bori",
+    "nameEn": "Bori",
+    "type": "city",
+    "lat": 4.6762888888889,
+    "lng": 7.3651888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Bormatolo",
+    "nameEn": "Bormatolo",
+    "type": "city",
+    "lat": 13.27053,
+    "lng": 12.57812,
+    "pop": null
+  },
+  {
+    "nameAr": "Borwo",
+    "nameEn": "Borwo",
+    "type": "city",
+    "lat": 11.005561,
+    "lng": 11.227845,
+    "pop": null
+  },
+  {
+    "nameAr": "Buari",
+    "nameEn": "Buari",
+    "type": "city",
+    "lat": 8.3,
+    "lng": 4.85,
+    "pop": null
+  },
+  {
+    "nameAr": "Bugawa",
+    "nameEn": "Bugawa",
+    "type": "city",
+    "lat": 13.6867,
+    "lng": 4.9432,
+    "pop": null
+  },
+  {
+    "nameAr": "Buguma",
+    "nameEn": "Buguma",
+    "type": "city",
+    "lat": 4.73333333,
+    "lng": 6.86666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukuma",
+    "nameEn": "Bukuma",
+    "type": "city",
+    "lat": 4.7644,
+    "lng": 6.8927,
+    "pop": null
+  },
+  {
+    "nameAr": "Bulturi",
+    "nameEn": "Bulturi",
+    "type": "city",
+    "lat": 10.5887,
+    "lng": 11.3988,
+    "pop": null
+  },
+  {
+    "nameAr": "Choba",
+    "nameEn": "Choba",
+    "type": "city",
+    "lat": 4.8907,
+    "lng": 6.903487,
+    "pop": null
+  },
+  {
+    "nameAr": "Chokoneze Post Office",
+    "nameEn": "Chokoneze Post Office",
+    "type": "city",
+    "lat": 5.736524,
+    "lng": 7.247568,
+    "pop": null
+  },
+  {
+    "nameAr": "Chula",
+    "nameEn": "Chula",
+    "type": "city",
+    "lat": 11.9908,
+    "lng": 8.96753,
+    "pop": null
+  },
+  {
+    "nameAr": "Chundugo",
+    "nameEn": "Chundugo",
+    "type": "city",
+    "lat": 8.8921194444444,
+    "lng": 6.8181611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Court Road,Awka South",
+    "nameEn": "Court Road,Awka South",
+    "type": "city",
+    "lat": 6.210577,
+    "lng": 7.067245,
+    "pop": null
+  },
+  {
+    "nameAr": "Creek Town",
+    "nameEn": "Creek Town",
+    "type": "city",
+    "lat": 4.991744,
+    "lng": 8.275151,
+    "pop": null
+  },
+  {
+    "nameAr": "Dadur",
+    "nameEn": "Dadur",
+    "type": "city",
+    "lat": 9.226568,
+    "lng": 9.82561,
+    "pop": null
+  },
+  {
+    "nameAr": "Daffo",
+    "nameEn": "Daffo",
+    "type": "city",
+    "lat": 9.2174,
+    "lng": 8.8394,
+    "pop": null
+  },
+  {
+    "nameAr": "Damin Kara",
+    "nameEn": "Damin Kara",
+    "type": "city",
+    "lat": 9.063,
+    "lng": 6.995,
+    "pop": null
+  },
+  {
+    "nameAr": "Darajiya",
+    "nameEn": "Darajiya",
+    "type": "city",
+    "lat": 11.461556,
+    "lng": 10.045583,
+    "pop": null
+  },
+  {
+    "nameAr": "Daya",
+    "nameEn": "Daya",
+    "type": "city",
+    "lat": 13.167181587996,
+    "lng": 10.974606360343,
+    "pop": null
+  },
+  {
+    "nameAr": "Dayi (Malumfashi)",
+    "nameEn": "Dayi (Malumfashi)",
+    "type": "city",
+    "lat": 11.6313,
+    "lng": 7.9292,
+    "pop": null
+  },
+  {
+    "nameAr": "Dei-die, Nigeria",
+    "nameEn": "Dei-die, Nigeria",
+    "type": "city",
+    "lat": 7.322479,
+    "lng": 9.084111,
+    "pop": null
+  },
+  {
+    "nameAr": "Dikwa Gwari",
+    "nameEn": "Dikwa Gwari",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Dikwa Kotwa",
+    "nameEn": "Dikwa Kotwa",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Doho",
+    "nameEn": "Doho",
+    "type": "city",
+    "lat": 10.40843,
+    "lng": 11.260247,
+    "pop": null
+  },
+  {
+    "nameAr": "Dokku",
+    "nameEn": "Dokku",
+    "type": "city",
+    "lat": 9.5659,
+    "lng": 8.819,
+    "pop": null
+  },
+  {
+    "nameAr": "Dongol",
+    "nameEn": "Dongol",
+    "type": "city",
+    "lat": 9.913094,
+    "lng": 11.069422,
+    "pop": null
+  },
+  {
+    "nameAr": "Dumbulun",
+    "nameEn": "Dumbulun",
+    "type": "city",
+    "lat": 12.184818,
+    "lng": 8.018335,
+    "pop": null
+  },
+  {
+    "nameAr": "Durumi",
+    "nameEn": "Durumi",
+    "type": "city",
+    "lat": 9.02,
+    "lng": 7.465,
+    "pop": null
+  },
+  {
+    "nameAr": "Dutsen Kura",
+    "nameEn": "Dutsen Kura",
+    "type": "city",
+    "lat": 11.4358,
+    "lng": 7.6657,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebana",
+    "nameEn": "Ebana",
+    "type": "city",
+    "lat": 4.6048713251082,
+    "lng": 7.956065752252,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebe Ekpi",
+    "nameEn": "Ebe Ekpi",
+    "type": "city",
+    "lat": 4.6377043589615,
+    "lng": 8.0024440945955,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebenebe",
+    "nameEn": "Ebenebe",
+    "type": "city",
+    "lat": 6.3361,
+    "lng": 7.1327,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebere Otu",
+    "nameEn": "Ebere Otu",
+    "type": "city",
+    "lat": 4.953261,
+    "lng": 7.932785,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebijakara",
+    "nameEn": "Ebijakara",
+    "type": "city",
+    "lat": 5.8488888888889,
+    "lng": 7.9677777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebo in kwali",
+    "nameEn": "Ebo in kwali",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebubu",
+    "nameEn": "Ebubu",
+    "type": "city",
+    "lat": 4.7794444444444,
+    "lng": 7.1530555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ebute Ero",
+    "nameEn": "Ebute Ero",
+    "type": "city",
+    "lat": 7.18333333,
+    "lng": 5.58333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Edebok",
+    "nameEn": "Edebok",
+    "type": "city",
+    "lat": 4.6165947384264,
+    "lng": 7.9486957992504,
+    "pop": null
+  },
+  {
+    "nameAr": "Edem Akai",
+    "nameEn": "Edem Akai",
+    "type": "city",
+    "lat": 5.0060714162376,
+    "lng": 7.5356247391059,
+    "pop": null
+  },
+  {
+    "nameAr": "Edem Edet",
+    "nameEn": "Edem Edet",
+    "type": "city",
+    "lat": 5.208389084124,
+    "lng": 7.7913607920199,
+    "pop": null
+  },
+  {
+    "nameAr": "Edem Ekpat",
+    "nameEn": "Edem Ekpat",
+    "type": "city",
+    "lat": 4.8873778,
+    "lng": 7.828902,
+    "pop": null
+  },
+  {
+    "nameAr": "Edem Ibiok",
+    "nameEn": "Edem Ibiok",
+    "type": "city",
+    "lat": 4.8995183788779,
+    "lng": 8.0180270844306,
+    "pop": null
+  },
+  {
+    "nameAr": "Edem Iyere",
+    "nameEn": "Edem Iyere",
+    "type": "city",
+    "lat": 5.1550496162948,
+    "lng": 7.7865542733358,
+    "pop": null
+  },
+  {
+    "nameAr": "Edeoha",
+    "nameEn": "Edeoha",
+    "type": "city",
+    "lat": 5.0282,
+    "lng": 6.6296,
+    "pop": null
+  },
+  {
+    "nameAr": "Edida Edo",
+    "nameEn": "Edida Edo",
+    "type": "city",
+    "lat": 4.6324858099788,
+    "lng": 8.0077655970897,
+    "pop": null
+  },
+  {
+    "nameAr": "Ediene Atai",
+    "nameEn": "Ediene Atai",
+    "type": "city",
+    "lat": 5.2111243198359,
+    "lng": 7.8215731951771,
+    "pop": null
+  },
+  {
+    "nameAr": "Edo Atai",
+    "nameEn": "Edo Atai",
+    "type": "city",
+    "lat": 4.647191746314,
+    "lng": 8.0201983273137,
+    "pop": null
+  },
+  {
+    "nameAr": "Efa",
+    "nameEn": "Efa",
+    "type": "city",
+    "lat": 4.745849,
+    "lng": 7.81417,
+    "pop": null
+  },
+  {
+    "nameAr": "Effon-Alaiye",
+    "nameEn": "Effon-Alaiye",
+    "type": "city",
+    "lat": 7.6563888888889,
+    "lng": 4.9222222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Efoi",
+    "nameEn": "Efoi",
+    "type": "city",
+    "lat": 4.6681757604168,
+    "lng": 8.0081274025225,
+    "pop": null
+  },
+  {
+    "nameAr": "EGBEDA TOWN",
+    "nameEn": "EGBEDA TOWN",
+    "type": "city",
+    "lat": 7.8010349,
+    "lng": 4.6527663,
+    "pop": null
+  },
+  {
+    "nameAr": "Egbedi",
+    "nameEn": "Egbedi",
+    "type": "city",
+    "lat": 7.799536,
+    "lng": 4.471912,
+    "pop": null
+  },
+  {
+    "nameAr": "Egbelu",
+    "nameEn": "Egbelu",
+    "type": "city",
+    "lat": 4.8281,
+    "lng": 6.9545,
+    "pop": null
+  },
+  {
+    "nameAr": "Egberu",
+    "nameEn": "Egberu",
+    "type": "city",
+    "lat": 4.8072,
+    "lng": 7.282,
+    "pop": null
+  },
+  {
+    "nameAr": "Egwara Ewu Post Office",
+    "nameEn": "Egwara Ewu Post Office",
+    "type": "city",
+    "lat": 6.790483,
+    "lng": 6.245187,
+    "pop": null
+  },
+  {
+    "nameAr": "Ejule",
+    "nameEn": "Ejule",
+    "type": "city",
+    "lat": 7.35972214,
+    "lng": 7.10249996,
+    "pop": null
+  },
+  {
+    "nameAr": "Ejule Ojebe,Ibaji",
+    "nameEn": "Ejule Ojebe,Ibaji",
+    "type": "city",
+    "lat": 6.9759339,
+    "lng": 6.847968,
+    "pop": null
+  },
+  {
+    "nameAr": "Eka-Nung-Ikot",
+    "nameEn": "Eka-Nung-Ikot",
+    "type": "city",
+    "lat": 4.77872,
+    "lng": 7.724134,
+    "pop": null
+  },
+  {
+    "nameAr": "Eke Awka Market Round about,Awka",
+    "nameEn": "Eke Awka Market Round about,Awka",
+    "type": "city",
+    "lat": 6.058734,
+    "lng": 7.59181,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekim Itam I",
+    "nameEn": "Ekim Itam I",
+    "type": "city",
+    "lat": 5.1436406995402,
+    "lng": 7.9614499756804,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekit Itam 11",
+    "nameEn": "Ekit Itam 11",
+    "type": "city",
+    "lat": 5.0453013803746,
+    "lng": 7.8780367994182,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekori",
+    "nameEn": "Ekori",
+    "type": "city",
+    "lat": 5.880605,
+    "lng": 8.122474,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpemiong",
+    "nameEn": "Ekpemiong",
+    "type": "city",
+    "lat": 5.2036023929907,
+    "lng": 7.8140200943878,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpena",
+    "nameEn": "Ekpena",
+    "type": "city",
+    "lat": 5.0825,
+    "lng": 6.6675,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpene Ediene",
+    "nameEn": "Ekpene Ediene",
+    "type": "city",
+    "lat": 5.2152271510726,
+    "lng": 7.8174533220193,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpene Obo",
+    "nameEn": "Ekpene Obo",
+    "type": "city",
+    "lat": 4.6625421393731,
+    "lng": 8.0286727554828,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpene Obom",
+    "nameEn": "Ekpene Obom",
+    "type": "city",
+    "lat": 5.1383159128426,
+    "lng": 7.8140436778935,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpene Ukim",
+    "nameEn": "Ekpene Ukim",
+    "type": "city",
+    "lat": 4.914,
+    "lng": 8.035,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpene Ukpa",
+    "nameEn": "Ekpene Ukpa",
+    "type": "city",
+    "lat": 4.6462819801687,
+    "lng": 7.9424470475517,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekpene Ukpan",
+    "nameEn": "Ekpene Ukpan",
+    "type": "city",
+    "lat": 4.985586,
+    "lng": 7.854258,
+    "pop": null
+  },
+  {
+    "nameAr": "Ekwereazu Post Office",
+    "nameEn": "Ekwereazu Post Office",
+    "type": "city",
+    "lat": 5.5425,
+    "lng": 7.2291669444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Elekahia Port Harcourt",
+    "nameEn": "Elekahia Port Harcourt",
+    "type": "city",
+    "lat": 4.8145,
+    "lng": 7.0243,
+    "pop": null
+  },
+  {
+    "nameAr": "Elekpon",
+    "nameEn": "Elekpon",
+    "type": "city",
+    "lat": 4.5081572,
+    "lng": 7.7311299,
+    "pop": null
+  },
+  {
+    "nameAr": "Elem-Agbalama",
+    "nameEn": "Elem-Agbalama",
+    "type": "city",
+    "lat": 4.4454444444444,
+    "lng": 6.9787222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Elile",
+    "nameEn": "Elile",
+    "type": "city",
+    "lat": 4.5142487,
+    "lng": 7.6663005,
+    "pop": null
+  },
+  {
+    "nameAr": "Eliowhani",
+    "nameEn": "Eliowhani",
+    "type": "city",
+    "lat": 4.9329,
+    "lng": 6.9529,
+    "pop": null
+  },
+  {
+    "nameAr": "Eliozu",
+    "nameEn": "Eliozu",
+    "type": "city",
+    "lat": 4.8599,
+    "lng": 7.0217,
+    "pop": null
+  },
+  {
+    "nameAr": "Elok",
+    "nameEn": "Elok",
+    "type": "city",
+    "lat": 4.8453,
+    "lng": 6.56078,
+    "pop": null
+  },
+  {
+    "nameAr": "Emago",
+    "nameEn": "Emago",
+    "type": "city",
+    "lat": 4.71801,
+    "lng": 6.46714,
+    "pop": null
+  },
+  {
+    "nameAr": "Emereoke I",
+    "nameEn": "Emereoke I",
+    "type": "city",
+    "lat": 4.5067417,
+    "lng": 7.6731529,
+    "pop": null
+  },
+  {
+    "nameAr": "Emereoke II",
+    "nameEn": "Emereoke II",
+    "type": "city",
+    "lat": 4.5043556,
+    "lng": 7.6693251,
+    "pop": null
+  },
+  {
+    "nameAr": "Emevor",
+    "nameEn": "Emevor",
+    "type": "city",
+    "lat": 5.5822,
+    "lng": 6.1421,
+    "pop": null
+  },
+  {
+    "nameAr": "Emezi I",
+    "nameEn": "Emezi I",
+    "type": "city",
+    "lat": 5.0721,
+    "lng": 6.5283,
+    "pop": null
+  },
+  {
+    "nameAr": "Emezi II",
+    "nameEn": "Emezi II",
+    "type": "city",
+    "lat": 5.0717,
+    "lng": 6.5164,
+    "pop": null
+  },
+  {
+    "nameAr": "Eneka",
+    "nameEn": "Eneka",
+    "type": "city",
+    "lat": 4.9058,
+    "lng": 7.0364,
+    "pop": null
+  },
+  {
+    "nameAr": "Enugu-Ezike",
+    "nameEn": "Enugu-Ezike",
+    "type": "city",
+    "lat": 6.9827777777778,
+    "lng": 7.4552777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Enugwu Ukwu",
+    "nameEn": "Enugwu Ukwu",
+    "type": "city",
+    "lat": 6.1666666666667,
+    "lng": 7.0166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ere ijesa",
+    "nameEn": "Ere ijesa",
+    "type": "city",
+    "lat": 7.721065573864,
+    "lng": 4.789219091123,
+    "pop": null
+  },
+  {
+    "nameAr": "Erema",
+    "nameEn": "Erema",
+    "type": "city",
+    "lat": 5.2164,
+    "lng": 6.702,
+    "pop": null
+  },
+  {
+    "nameAr": "Eriam",
+    "nameEn": "Eriam",
+    "type": "city",
+    "lat": 5.06871,
+    "lng": 7.735901,
+    "pop": null
+  },
+  {
+    "nameAr": "Eruwa",
+    "nameEn": "Eruwa",
+    "type": "city",
+    "lat": 7.54972222,
+    "lng": 3.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Esa Obong",
+    "nameEn": "Esa Obong",
+    "type": "city",
+    "lat": 4.9940626690443,
+    "lng": 7.6061744631639,
+    "pop": null
+  },
+  {
+    "nameAr": "Esem-Udo",
+    "nameEn": "Esem-Udo",
+    "type": "city",
+    "lat": 5.2005465000309,
+    "lng": 7.8051172860516,
+    "pop": null
+  },
+  {
+    "nameAr": "Esien",
+    "nameEn": "Esien",
+    "type": "city",
+    "lat": 5.1574644366126,
+    "lng": 7.7728449463156,
+    "pop": null
+  },
+  {
+    "nameAr": "Eso",
+    "nameEn": "Eso",
+    "type": "city",
+    "lat": 6.18333333,
+    "lng": 6,
+    "pop": null
+  },
+  {
+    "nameAr": "Esogh Ikim Ekeme",
+    "nameEn": "Esogh Ikim Ekeme",
+    "type": "city",
+    "lat": 4.6040132586732,
+    "lng": 8.1386163696154,
+    "pop": null
+  },
+  {
+    "nameAr": "Esok Udua Assan",
+    "nameEn": "Esok Udua Assan",
+    "type": "city",
+    "lat": 4.6558452083726,
+    "lng": 8.1402667962043,
+    "pop": null
+  },
+  {
+    "nameAr": "Essene",
+    "nameEn": "Essene",
+    "type": "city",
+    "lat": 4.6139364054846,
+    "lng": 7.6501091806175,
+    "pop": null
+  },
+  {
+    "nameAr": "Esuk Ikim Akwaha",
+    "nameEn": "Esuk Ikim Akwaha",
+    "type": "city",
+    "lat": 4.5461541,
+    "lng": 8.0510946,
+    "pop": null
+  },
+  {
+    "nameAr": "Eteben",
+    "nameEn": "Eteben",
+    "type": "city",
+    "lat": 4.792711,
+    "lng": 7.700382,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi",
+    "nameEn": "Etebi",
+    "type": "city",
+    "lat": 4.6527480890875,
+    "lng": 8.126564334836,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Akwa Ata",
+    "nameEn": "Etebi Akwa Ata",
+    "type": "city",
+    "lat": 4.6614682677479,
+    "lng": 8.1201328776211,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Idong Akpaisang",
+    "nameEn": "Etebi Idong Akpaisang",
+    "type": "city",
+    "lat": 4.6445384529659,
+    "lng": 7.928420752546,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Idong Assan",
+    "nameEn": "Etebi Idong Assan",
+    "type": "city",
+    "lat": 4.6577971,
+    "lng": 8.1385588,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Idong Eyinam",
+    "nameEn": "Etebi Idong Eyinam",
+    "type": "city",
+    "lat": 4.6650094723758,
+    "lng": 8.1084694451615,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Idong Ita",
+    "nameEn": "Etebi Idong Ita",
+    "type": "city",
+    "lat": 4.6587485601335,
+    "lng": 8.12861701494,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Ikot Uso Ekong",
+    "nameEn": "Etebi Ikot Uso Ekong",
+    "type": "city",
+    "lat": 4.6694589487394,
+    "lng": 7.9840518943113,
+    "pop": null
+  },
+  {
+    "nameAr": "Etebi Mbakuyo",
+    "nameEn": "Etebi Mbakuyo",
+    "type": "city",
+    "lat": 4.6647618111225,
+    "lng": 8.109876110072,
+    "pop": null
+  },
+  {
+    "nameAr": "Etip Ediene",
+    "nameEn": "Etip Ediene",
+    "type": "city",
+    "lat": 5.2743945933568,
+    "lng": 7.7227198228958,
+    "pop": null
+  },
+  {
+    "nameAr": "Etok Esagh",
+    "nameEn": "Etok Esagh",
+    "type": "city",
+    "lat": 4.6285513150899,
+    "lng": 8.0099749133523,
+    "pop": null
+  },
+  {
+    "nameAr": "Everyday Supermarket, Awka",
+    "nameEn": "Everyday Supermarket, Awka",
+    "type": "city",
+    "lat": 6.223884,
+    "lng": 7.069724,
+    "pop": null
+  },
+  {
+    "nameAr": "Ewatto",
+    "nameEn": "Ewatto",
+    "type": "city",
+    "lat": 6.5,
+    "lng": 6.3666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ewohimi",
+    "nameEn": "Ewohimi",
+    "type": "city",
+    "lat": 6.4666666666667,
+    "lng": 6.3166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ewu",
+    "nameEn": "Ewu",
+    "type": "city",
+    "lat": 6.802121,
+    "lng": 6.251049,
+    "pop": null
+  },
+  {
+    "nameAr": "Eziama Urata",
+    "nameEn": "Eziama Urata",
+    "type": "city",
+    "lat": 5.3476,
+    "lng": 7.3388,
+    "pop": null
+  },
+  {
+    "nameAr": "Ezza-Mpu",
+    "nameEn": "Ezza-Mpu",
+    "type": "city",
+    "lat": 6.005525,
+    "lng": 7.615696,
+    "pop": null
+  },
+  {
+    "nameAr": "Fafa",
+    "nameEn": "Fafa",
+    "type": "city",
+    "lat": 10.028828,
+    "lng": 11.069119,
+    "pop": null
+  },
+  {
+    "nameAr": "Fagawa",
+    "nameEn": "Fagawa",
+    "type": "city",
+    "lat": 11.9641,
+    "lng": 8.8846,
+    "pop": null
+  },
+  {
+    "nameAr": "Farakuti",
+    "nameEn": "Farakuti",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Farakuti I",
+    "nameEn": "Farakuti I",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Farakuti II",
+    "nameEn": "Farakuti II",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "FIDES Media",
+    "nameEn": "FIDES Media",
+    "type": "city",
+    "lat": 6.235038,
+    "lng": 7.072583,
+    "pop": null
+  },
+  {
+    "nameAr": "Fulani Camp",
+    "nameEn": "Fulani Camp",
+    "type": "city",
+    "lat": 10.8722973,
+    "lng": 3.8559085,
+    "pop": null
+  },
+  {
+    "nameAr": "Fulani in kwali",
+    "nameEn": "Fulani in kwali",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Fulatan",
+    "nameEn": "Fulatan",
+    "type": "city",
+    "lat": 11.9674,
+    "lng": 8.91813,
+    "pop": null
+  },
+  {
+    "nameAr": "Gafasa",
+    "nameEn": "Gafasa",
+    "type": "city",
+    "lat": 11.9864,
+    "lng": 9.13228,
+    "pop": null
+  },
+  {
+    "nameAr": "Gahono",
+    "nameEn": "Gahono",
+    "type": "city",
+    "lat": 13.3859,
+    "lng": 4.79,
+    "pop": null
+  },
+  {
+    "nameAr": "Galadima",
+    "nameEn": "Galadima",
+    "type": "city",
+    "lat": 10.390905,
+    "lng": 11.193785,
+    "pop": null
+  },
+  {
+    "nameAr": "Galgaldu",
+    "nameEn": "Galgaldu",
+    "type": "city",
+    "lat": 10.829617,
+    "lng": 11.292203,
+    "pop": null
+  },
+  {
+    "nameAr": "Gamadadi",
+    "nameEn": "Gamadadi",
+    "type": "city",
+    "lat": 10.305647,
+    "lng": 10.952847,
+    "pop": null
+  },
+  {
+    "nameAr": "Garin Garba",
+    "nameEn": "Garin Garba",
+    "type": "city",
+    "lat": 10.273199,
+    "lng": 11.177526,
+    "pop": null
+  },
+  {
+    "nameAr": "Garin Godoso",
+    "nameEn": "Garin Godoso",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Garki Village, Nigeria",
+    "nameEn": "Garki Village, Nigeria",
+    "type": "city",
+    "lat": 9.0276,
+    "lng": 7.4917,
+    "pop": null
+  },
+  {
+    "nameAr": "Gasakba",
+    "nameEn": "Gasakba",
+    "type": "city",
+    "lat": 9.1067,
+    "lng": 6.8651,
+    "pop": null
+  },
+  {
+    "nameAr": "Geji",
+    "nameEn": "Geji",
+    "type": "city",
+    "lat": 10.3717,
+    "lng": 9.5729,
+    "pop": null
+  },
+  {
+    "nameAr": "General Post office Agulu Anambra State",
+    "nameEn": "General Post office Agulu Anambra State",
+    "type": "city",
+    "lat": 6.143715,
+    "lng": 7.18597,
+    "pop": null
+  },
+  {
+    "nameAr": "Geneva hotel junction,Okpuno Awka South",
+    "nameEn": "Geneva hotel junction,Okpuno Awka South",
+    "type": "city",
+    "lat": 6.230228,
+    "lng": 7.065694,
+    "pop": null
+  },
+  {
+    "nameAr": "Gokaru",
+    "nameEn": "Gokaru",
+    "type": "city",
+    "lat": 10.101278,
+    "lng": 11.008079,
+    "pop": null
+  },
+  {
+    "nameAr": "Gona",
+    "nameEn": "Gona",
+    "type": "city",
+    "lat": 10.290086,
+    "lng": 10.969616,
+    "pop": null
+  },
+  {
+    "nameAr": "Goodwill junction Okpuno  Awka South",
+    "nameEn": "Goodwill junction Okpuno  Awka South",
+    "type": "city",
+    "lat": 6.233652,
+    "lng": 7.060799,
+    "pop": null
+  },
+  {
+    "nameAr": "Gudukku",
+    "nameEn": "Gudukku",
+    "type": "city",
+    "lat": 11.087964,
+    "lng": 11.123273,
+    "pop": null
+  },
+  {
+    "nameAr": "Gudupe, Bwari",
+    "nameEn": "Gudupe, Bwari",
+    "type": "city",
+    "lat": 9.20215,
+    "lng": 7.39939,
+    "pop": null
+  },
+  {
+    "nameAr": "Gujuba",
+    "nameEn": "Gujuba",
+    "type": "city",
+    "lat": 9.944208,
+    "lng": 11.32961,
+    "pop": null
+  },
+  {
+    "nameAr": "Gura Topp Rayfield, Jos, Plateau State",
+    "nameEn": "Gura Topp Rayfield, Jos, Plateau State",
+    "type": "city",
+    "lat": 9.820031,
+    "lng": 8.899136,
+    "pop": null
+  },
+  {
+    "nameAr": "Gurdi, Nigeria",
+    "nameEn": "Gurdi, Nigeria",
+    "type": "city",
+    "lat": 8.768,
+    "lng": 6.8031,
+    "pop": null
+  },
+  {
+    "nameAr": "Guzape, Nigeria",
+    "nameEn": "Guzape, Nigeria",
+    "type": "city",
+    "lat": 9.011248,
+    "lng": 7.507273,
+    "pop": null
+  },
+  {
+    "nameAr": "Gyabiri",
+    "nameEn": "Gyabiri",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Iba Oku",
+    "nameEn": "Iba Oku",
+    "type": "city",
+    "lat": 5.0506624513593,
+    "lng": 7.9365083324733,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibagwa",
+    "nameEn": "Ibagwa",
+    "type": "city",
+    "lat": 4.9011403904962,
+    "lng": 7.7971596856794,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibakasi Ikot",
+    "nameEn": "Ibakasi Ikot",
+    "type": "city",
+    "lat": 5.2217445298211,
+    "lng": 7.7694117186841,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibakesi Ikot Mbiet",
+    "nameEn": "Ibakesi Ikot Mbiet",
+    "type": "city",
+    "lat": 5.2162741390194,
+    "lng": 7.8215967786828,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibam Ikpe",
+    "nameEn": "Ibam Ikpe",
+    "type": "city",
+    "lat": 5.132698,
+    "lng": 7.772457,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibedu",
+    "nameEn": "Ibedu",
+    "type": "city",
+    "lat": 4.736491,
+    "lng": 8.03161,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibeku",
+    "nameEn": "Ibeku",
+    "type": "city",
+    "lat": 5.4694,
+    "lng": 7.2481,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibeti",
+    "nameEn": "Ibeti",
+    "type": "city",
+    "lat": 4.6510904694617,
+    "lng": 8.0519053238155,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiakpan",
+    "nameEn": "Ibiakpan",
+    "type": "city",
+    "lat": 5.2103,
+    "lng": 7.6633,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiakpan I",
+    "nameEn": "Ibiakpan I",
+    "type": "city",
+    "lat": 5.09829,
+    "lng": 7.79588,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiakpan Nto Akan",
+    "nameEn": "Ibiakpan Nto Akan",
+    "type": "city",
+    "lat": 5.2162736,
+    "lng": 7.6578898,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiakpo Edem Idim",
+    "nameEn": "Ibiakpo Edem Idim",
+    "type": "city",
+    "lat": 5.1746979,
+    "lng": 7.7141954,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiaku Ikot Edet",
+    "nameEn": "Ibiaku Ikot Edet",
+    "type": "city",
+    "lat": 5.1912935914973,
+    "lng": 7.7741946538625,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiaku Ntok Okpo",
+    "nameEn": "Ibiaku Ntok Okpo",
+    "type": "city",
+    "lat": 5.1892904029627,
+    "lng": 7.7744495947741,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiannang",
+    "nameEn": "Ibiannang",
+    "type": "city",
+    "lat": 5.189242101209,
+    "lng": 7.7769412359677,
+    "pop": null
+  },
+  {
+    "nameAr": "Iboho",
+    "nameEn": "Iboho",
+    "type": "city",
+    "lat": 5.156894,
+    "lng": 7.653898,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibok Ndiya",
+    "nameEn": "Ibok Ndiya",
+    "type": "city",
+    "lat": 5.0956358016552,
+    "lng": 7.8353061045107,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibong Otoro",
+    "nameEn": "Ibong Otoro",
+    "type": "city",
+    "lat": 5.1039030345413,
+    "lng": 7.7886111314327,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibule-Soro",
+    "nameEn": "Ibule-Soro",
+    "type": "city",
+    "lat": 7.31004,
+    "lng": 5.117027,
+    "pop": null
+  },
+  {
+    "nameAr": "Iburu, Nigeria",
+    "nameEn": "Iburu, Nigeria",
+    "type": "city",
+    "lat": 10.271068968799,
+    "lng": 7.7900774201211,
+    "pop": null
+  },
+  {
+    "nameAr": "Ichida",
+    "nameEn": "Ichida",
+    "type": "city",
+    "lat": 6.1108,
+    "lng": 6.9753,
+    "pop": null
+  },
+  {
+    "nameAr": "Idim Afia",
+    "nameEn": "Idim Afia",
+    "type": "city",
+    "lat": 4.6468902279763,
+    "lng": 7.9486374622134,
+    "pop": null
+  },
+  {
+    "nameAr": "Idiroko",
+    "nameEn": "Idiroko",
+    "type": "city",
+    "lat": 6.6363,
+    "lng": 2.7441,
+    "pop": null
+  },
+  {
+    "nameAr": "Ido Ekiti",
+    "nameEn": "Ido Ekiti",
+    "type": "city",
+    "lat": 7.8461,
+    "lng": 5.1829,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Akpe Ntuen",
+    "nameEn": "Idong Akpe Ntuen",
+    "type": "city",
+    "lat": 4.651225156359,
+    "lng": 8.0520516731995,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Akpekwa",
+    "nameEn": "Idong Akpekwa",
+    "type": "city",
+    "lat": 4.6427680418067,
+    "lng": 8.0647161455892,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Asua",
+    "nameEn": "Idong Asua",
+    "type": "city",
+    "lat": 4.6641629862031,
+    "lng": 8.1104769249075,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Ayiang",
+    "nameEn": "Idong Ayiang",
+    "type": "city",
+    "lat": 4.6514326612291,
+    "lng": 8.051991154393,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Ekpene",
+    "nameEn": "Idong Ekpene",
+    "type": "city",
+    "lat": 4.6555178420541,
+    "lng": 8.1082729815109,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Enen Uso Ekong",
+    "nameEn": "Idong Enen Uso Ekong",
+    "type": "city",
+    "lat": 4.6703992900116,
+    "lng": 7.9840501625299,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Imo",
+    "nameEn": "Idong Imo",
+    "type": "city",
+    "lat": 4.6602412980357,
+    "lng": 8.0012433033278,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Offiong",
+    "nameEn": "Idong Offiong",
+    "type": "city",
+    "lat": 4.6714298802103,
+    "lng": 8.0063779540689,
+    "pop": null
+  },
+  {
+    "nameAr": "Idong Udofa",
+    "nameEn": "Idong Udofa",
+    "type": "city",
+    "lat": 4.6481995,
+    "lng": 7.931534,
+    "pop": null
+  },
+  {
+    "nameAr": "Idu Ekpeye",
+    "nameEn": "Idu Ekpeye",
+    "type": "city",
+    "lat": 5.0985,
+    "lng": 6.5513,
+    "pop": null
+  },
+  {
+    "nameAr": "Idua",
+    "nameEn": "Idua",
+    "type": "city",
+    "lat": 4.663345461739,
+    "lng": 7.9406963655268,
+    "pop": null
+  },
+  {
+    "nameAr": "Idung Ntuk Uma",
+    "nameEn": "Idung Ntuk Uma",
+    "type": "city",
+    "lat": 4.748975,
+    "lng": 7.620829,
+    "pop": null
+  },
+  {
+    "nameAr": "Ifa Ikot Okpon",
+    "nameEn": "Ifa Ikot Okpon",
+    "type": "city",
+    "lat": 5.0094490428644,
+    "lng": 7.9485064749756,
+    "pop": null
+  },
+  {
+    "nameAr": "Ife-Ijumu",
+    "nameEn": "Ife-Ijumu",
+    "type": "city",
+    "lat": 7.837325245149,
+    "lng": 5.915060756515,
+    "pop": null
+  },
+  {
+    "nameAr": "Ife-Odan",
+    "nameEn": "Ife-Odan",
+    "type": "city",
+    "lat": 7.8312326655013,
+    "lng": 4.1308782418088,
+    "pop": null
+  },
+  {
+    "nameAr": "Ifitedunu, Dunukofia",
+    "nameEn": "Ifitedunu, Dunukofia",
+    "type": "city",
+    "lat": 6.1846388888889,
+    "lng": 6.9502222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ifon",
+    "nameEn": "Ifon",
+    "type": "city",
+    "lat": 6.9166666666667,
+    "lng": 5.7666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ifuho",
+    "nameEn": "Ifuho",
+    "type": "city",
+    "lat": 5.1684013,
+    "lng": 7.7012521,
+    "pop": null
+  },
+  {
+    "nameAr": "Igarra",
+    "nameEn": "Igarra",
+    "type": "city",
+    "lat": 7.2936111111111,
+    "lng": 6.1044444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Igbara-oke",
+    "nameEn": "Igbara-oke",
+    "type": "city",
+    "lat": 7.4137,
+    "lng": 5.0507,
+    "pop": null
+  },
+  {
+    "nameAr": "Igbariam",
+    "nameEn": "Igbariam",
+    "type": "city",
+    "lat": 6.3888888888889,
+    "lng": 6.9438888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Igbedor",
+    "nameEn": "Igbedor",
+    "type": "city",
+    "lat": 6.50114,
+    "lng": 6.68869,
+    "pop": null
+  },
+  {
+    "nameAr": "Igbogene",
+    "nameEn": "Igbogene",
+    "type": "city",
+    "lat": 5.0363,
+    "lng": 6.3995,
+    "pop": null
+  },
+  {
+    "nameAr": "Igbokenyi",
+    "nameEn": "Igbokenyi",
+    "type": "city",
+    "lat": 6.47382,
+    "lng": 6.69252,
+    "pop": null
+  },
+  {
+    "nameAr": "Igbonla",
+    "nameEn": "Igbonla",
+    "type": "city",
+    "lat": 8.187381,
+    "lng": 4.834553,
+    "pop": null
+  },
+  {
+    "nameAr": "Iguododo",
+    "nameEn": "Iguododo",
+    "type": "city",
+    "lat": 6.21666667,
+    "lng": 6,
+    "pop": null
+  },
+  {
+    "nameAr": "Igwedimma Lane Mopol base Okpuno,Awka South",
+    "nameEn": "Igwedimma Lane Mopol base Okpuno,Awka South",
+    "type": "city",
+    "lat": 6.236653,
+    "lng": 7.068665,
+    "pop": null
+  },
+  {
+    "nameAr": "Ihuaba",
+    "nameEn": "Ihuaba",
+    "type": "city",
+    "lat": 5.0337,
+    "lng": 6.6776,
+    "pop": null
+  },
+  {
+    "nameAr": "Ihubuluko",
+    "nameEn": "Ihubuluko",
+    "type": "city",
+    "lat": 5.0874,
+    "lng": 6.6043,
+    "pop": null
+  },
+  {
+    "nameAr": "Ihuike",
+    "nameEn": "Ihuike",
+    "type": "city",
+    "lat": 5.0665,
+    "lng": 6.6217,
+    "pop": null
+  },
+  {
+    "nameAr": "Ijebu-Jesa",
+    "nameEn": "Ijebu-Jesa",
+    "type": "city",
+    "lat": 7.6827777777778,
+    "lng": 4.8144444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ijebu, Owo",
+    "nameEn": "Ijebu, Owo",
+    "type": "city",
+    "lat": 7.18333333,
+    "lng": 5.58333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Iju",
+    "nameEn": "Iju",
+    "type": "city",
+    "lat": 6.61072222,
+    "lng": 3.08569444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikat nsit",
+    "nameEn": "Ikat nsit",
+    "type": "city",
+    "lat": 4.92763,
+    "lng": 7.914034,
+    "pop": null
+  },
+  {
+    "nameAr": "Iko",
+    "nameEn": "Iko",
+    "type": "city",
+    "lat": 5.6267,
+    "lng": 8.4404,
+    "pop": null
+  },
+  {
+    "nameAr": "Iko Akpabio",
+    "nameEn": "Iko Akpabio",
+    "type": "city",
+    "lat": 4.869594,
+    "lng": 8.059683,
+    "pop": null
+  },
+  {
+    "nameAr": "Iko Akpemenun",
+    "nameEn": "Iko Akpemenun",
+    "type": "city",
+    "lat": 4.6682902260532,
+    "lng": 8.0966013759176,
+    "pop": null
+  },
+  {
+    "nameAr": "Iko Eket",
+    "nameEn": "Iko Eket",
+    "type": "city",
+    "lat": 4.6461281119045,
+    "lng": 7.9775446837464,
+    "pop": null
+  },
+  {
+    "nameAr": "Iko Ekong",
+    "nameEn": "Iko Ekong",
+    "type": "city",
+    "lat": 4.6527267021266,
+    "lng": 8.1271007766534,
+    "pop": null
+  },
+  {
+    "nameAr": "Iko Ekwa",
+    "nameEn": "Iko Ekwa",
+    "type": "city",
+    "lat": 4.6515963996411,
+    "lng": 7.9525938842642,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikonta",
+    "nameEn": "Ikonta",
+    "type": "city",
+    "lat": 4.4853,
+    "lng": 7.6143,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot  Iba",
+    "nameEn": "Ikot  Iba",
+    "type": "city",
+    "lat": 4.925397,
+    "lng": 7.83793,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot - Oku - Usung",
+    "nameEn": "Ikot - Oku - Usung",
+    "type": "city",
+    "lat": 4.766859,
+    "lng": 7.5524731,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Abai Udo",
+    "nameEn": "Ikot Abai Udo",
+    "type": "city",
+    "lat": 5.0060740882151,
+    "lng": 7.5356515611968,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Abara",
+    "nameEn": "Ikot Abara",
+    "type": "city",
+    "lat": 5.0060821041477,
+    "lng": 7.5356059636423,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Abasi",
+    "nameEn": "Ikot Abasi",
+    "type": "city",
+    "lat": 4.660412391877,
+    "lng": 8.001372049364,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Abia",
+    "nameEn": "Ikot Abia",
+    "type": "city",
+    "lat": 4.6605469957707,
+    "lng": 7.9240292231995,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Afaha",
+    "nameEn": "Ikot Afaha",
+    "type": "city",
+    "lat": 4.6646737137446,
+    "lng": 7.9901029577582,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot afanga",
+    "nameEn": "Ikot afanga",
+    "type": "city",
+    "lat": 4.952636,
+    "lng": 7.824638,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akama",
+    "nameEn": "Ikot Akama",
+    "type": "city",
+    "lat": 4.782908,
+    "lng": 7.678153,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akapn Nsek",
+    "nameEn": "Ikot Akapn Nsek",
+    "type": "city",
+    "lat": 4.782509,
+    "lng": 7.77909,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa Edu",
+    "nameEn": "Ikot Akpa Edu",
+    "type": "city",
+    "lat": 4.9541121154572,
+    "lng": 7.9091357036317,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa Enang",
+    "nameEn": "Ikot Akpa Enang",
+    "type": "city",
+    "lat": 4.6959053345523,
+    "lng": 7.9083439747616,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa Etok",
+    "nameEn": "Ikot Akpa Etok",
+    "type": "city",
+    "lat": 4.9359012385045,
+    "lng": 8.0409101379858,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa Idem Ndiya",
+    "nameEn": "Ikot Akpa Idem Ndiya",
+    "type": "city",
+    "lat": 5.1477834745676,
+    "lng": 7.8073252992909,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa Idiong",
+    "nameEn": "Ikot Akpa Idiong",
+    "type": "city",
+    "lat": 5.0272417202954,
+    "lng": 7.5349243796112,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot akpa ndua",
+    "nameEn": "Ikot akpa ndua",
+    "type": "city",
+    "lat": 4.886815,
+    "lng": 7.934356,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa-Ekop",
+    "nameEn": "Ikot Akpa-Ekop",
+    "type": "city",
+    "lat": 4.6939,
+    "lng": 7.7857,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpa-Offiong",
+    "nameEn": "Ikot Akpa-Offiong",
+    "type": "city",
+    "lat": 5.0277974733651,
+    "lng": 7.5356110251375,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpabin",
+    "nameEn": "Ikot Akpabin",
+    "type": "city",
+    "lat": 4.7090788142877,
+    "lng": 7.9523124254907,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot akpabio",
+    "nameEn": "Ikot akpabio",
+    "type": "city",
+    "lat": 5.111259,
+    "lng": 7.702371,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Abia",
+    "nameEn": "Ikot Akpan Abia",
+    "type": "city",
+    "lat": 4.834,
+    "lng": 7.9732,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Anwa",
+    "nameEn": "Ikot Akpan Anwa",
+    "type": "city",
+    "lat": 5.0272417202954,
+    "lng": 7.5349243796112,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Ifang",
+    "nameEn": "Ikot Akpan Ifang",
+    "type": "city",
+    "lat": 5.0272203451679,
+    "lng": 7.5346454298661,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Ishiet",
+    "nameEn": "Ikot Akpan Ishiet",
+    "type": "city",
+    "lat": 4.6567771,
+    "lng": 7.832546,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Nko",
+    "nameEn": "Ikot Akpan Nko",
+    "type": "city",
+    "lat": 4.700837,
+    "lng": 7.8701347,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Ntembom",
+    "nameEn": "Ikot Akpan Ntembom",
+    "type": "city",
+    "lat": 4.7293007,
+    "lng": 7.8374753,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Offiong",
+    "nameEn": "Ikot Akpan Offiong",
+    "type": "city",
+    "lat": 5.0060767601927,
+    "lng": 7.5356140102696,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Okure",
+    "nameEn": "Ikot Akpan Okure",
+    "type": "city",
+    "lat": 5.0060660722824,
+    "lng": 7.5356059636423,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpan Udo",
+    "nameEn": "Ikot Akpan Udo",
+    "type": "city",
+    "lat": 4.758446,
+    "lng": 7.6129,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpandem",
+    "nameEn": "Ikot Akpandem",
+    "type": "city",
+    "lat": 4.6914571065357,
+    "lng": 7.9038593211679,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpaso",
+    "nameEn": "Ikot Akpaso",
+    "type": "city",
+    "lat": 4.8889955904772,
+    "lng": 7.9735625452324,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Akpaya",
+    "nameEn": "Ikot Akpaya",
+    "type": "city",
+    "lat": 5.159616,
+    "lng": 7.923536,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ambut",
+    "nameEn": "Ikot Ambut",
+    "type": "city",
+    "lat": 5.093,
+    "lng": 7.652,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ananga",
+    "nameEn": "Ikot Ananga",
+    "type": "city",
+    "lat": 4.866784,
+    "lng": 7.822278,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Andem",
+    "nameEn": "Ikot Andem",
+    "type": "city",
+    "lat": 5.140767,
+    "lng": 7.588678,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Andem Iddep",
+    "nameEn": "Ikot Andem Iddep",
+    "type": "city",
+    "lat": 5.1773,
+    "lng": 7.9256,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Andem Itam",
+    "nameEn": "Ikot Andem Itam",
+    "type": "city",
+    "lat": 5.1448766271392,
+    "lng": 7.9536915990885,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot ankan",
+    "nameEn": "Ikot ankan",
+    "type": "city",
+    "lat": 5.155687,
+    "lng": 7.640314,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Anyan Ndija",
+    "nameEn": "Ikot Anyan Ndija",
+    "type": "city",
+    "lat": 5.184540743973,
+    "lng": 7.7743663143428,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ataku",
+    "nameEn": "Ikot Ataku",
+    "type": "city",
+    "lat": 4.6914143349749,
+    "lng": 7.9042026439311,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ayan",
+    "nameEn": "Ikot Ayan",
+    "type": "city",
+    "lat": 5.1229595637252,
+    "lng": 7.9975734836138,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ayara",
+    "nameEn": "Ikot Ayara",
+    "type": "city",
+    "lat": 5.199461,
+    "lng": 7.756176,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eba",
+    "nameEn": "Ikot Eba",
+    "type": "city",
+    "lat": 4.798059,
+    "lng": 7.838392,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot ebak",
+    "nameEn": "Ikot ebak",
+    "type": "city",
+    "lat": 5.125074,
+    "lng": 7.657026,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebekpo",
+    "nameEn": "Ikot Ebekpo",
+    "type": "city",
+    "lat": 4.688217,
+    "lng": 7.8993756,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebenwong",
+    "nameEn": "Ikot Ebenwong",
+    "type": "city",
+    "lat": 5.0274554715322,
+    "lng": 7.5351818716836,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebidang",
+    "nameEn": "Ikot Ebidang",
+    "type": "city",
+    "lat": 4.6149116,
+    "lng": 7.8853587,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebiere",
+    "nameEn": "Ikot Ebiere",
+    "type": "city",
+    "lat": 4.6236195992925,
+    "lng": 7.8326512722565,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebire",
+    "nameEn": "Ikot Ebire",
+    "type": "city",
+    "lat": 4.6222722,
+    "lng": 7.8331767,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebiyak",
+    "nameEn": "Ikot Ebiyak",
+    "type": "city",
+    "lat": 5.1666666666667,
+    "lng": 8.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebiyan",
+    "nameEn": "Ikot Ebiyan",
+    "type": "city",
+    "lat": 4.8636564523841,
+    "lng": 8.0187009351671,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebo",
+    "nameEn": "Ikot Ebo",
+    "type": "city",
+    "lat": 5.0271989700397,
+    "lng": 7.5353535330651,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot ebok",
+    "nameEn": "Ikot ebok",
+    "type": "city",
+    "lat": 5.126994,
+    "lng": 7.569856,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ebom Itam",
+    "nameEn": "Ikot Ebom Itam",
+    "type": "city",
+    "lat": 5.1823148515856,
+    "lng": 7.9043942909942,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot ebot ekpe",
+    "nameEn": "Ikot ebot ekpe",
+    "type": "city",
+    "lat": 5.051014,
+    "lng": 7.773453,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Edebe",
+    "nameEn": "Ikot Edebe",
+    "type": "city",
+    "lat": 4.877983,
+    "lng": 8.017233,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Edem Inyang",
+    "nameEn": "Ikot Edem Inyang",
+    "type": "city",
+    "lat": 5.0276264724711,
+    "lng": 7.535718313501,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Edibon",
+    "nameEn": "Ikot Edibon",
+    "type": "city",
+    "lat": 4.4612,
+    "lng": 7.5551,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Edim",
+    "nameEn": "Ikot Edim",
+    "type": "city",
+    "lat": 5.0274340964117,
+    "lng": 7.5353749907378,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Edor",
+    "nameEn": "Ikot Edor",
+    "type": "city",
+    "lat": 4.6165997,
+    "lng": 7.8322656,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eka Ide",
+    "nameEn": "Ikot Eka Ide",
+    "type": "city",
+    "lat": 4.888215,
+    "lng": 7.611904,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eko Ibon",
+    "nameEn": "Ikot Eko Ibon",
+    "type": "city",
+    "lat": 4.6072924802061,
+    "lng": 7.8082003747988,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ekon",
+    "nameEn": "Ikot Ekon",
+    "type": "city",
+    "lat": 4.800342,
+    "lng": 7.547921,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ekpan",
+    "nameEn": "Ikot Ekpan",
+    "type": "city",
+    "lat": 4.7167275474469,
+    "lng": 7.9161496545985,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ekpene",
+    "nameEn": "Ikot Ekpene",
+    "type": "city",
+    "lat": 5.1819444444444,
+    "lng": 7.7147222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ekpuk",
+    "nameEn": "Ikot Ekpuk",
+    "type": "city",
+    "lat": 4.823535,
+    "lng": 0.601573,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ekwere Itam",
+    "nameEn": "Ikot Ekwere Itam",
+    "type": "city",
+    "lat": 5.2302381645889,
+    "lng": 7.9353386633004,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Enwang",
+    "nameEn": "Ikot Enwang",
+    "type": "city",
+    "lat": 5.1991,
+    "lng": 7.6823,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot ese",
+    "nameEn": "Ikot ese",
+    "type": "city",
+    "lat": 5.100165,
+    "lng": 7.668253,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ese",
+    "nameEn": "Ikot Ese",
+    "type": "city",
+    "lat": 5.099463,
+    "lng": 7.6662,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ese Ishiet",
+    "nameEn": "Ikot Ese Ishiet",
+    "type": "city",
+    "lat": 4.6770984,
+    "lng": 7.8626371,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eseden",
+    "nameEn": "Ikot Eseden",
+    "type": "city",
+    "lat": 5.0271775949107,
+    "lng": 7.5352033293563,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Esen",
+    "nameEn": "Ikot Esen",
+    "type": "city",
+    "lat": 5.277779,
+    "lng": 7.868404,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Esenam",
+    "nameEn": "Ikot Esenam",
+    "type": "city",
+    "lat": 4.682,
+    "lng": 7.628,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Esien Eshiet",
+    "nameEn": "Ikot Esien Eshiet",
+    "type": "city",
+    "lat": 5.027006593854,
+    "lng": 7.5353749907378,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Essien",
+    "nameEn": "Ikot Essien",
+    "type": "city",
+    "lat": 4.49,
+    "lng": 7.59,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Esu",
+    "nameEn": "Ikot Esu",
+    "type": "city",
+    "lat": 5.0272630954223,
+    "lng": 7.5350960409928,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Etekpo",
+    "nameEn": "Ikot Etekpo",
+    "type": "city",
+    "lat": 4.7182385,
+    "lng": 7.8517552,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Etim",
+    "nameEn": "Ikot Etim",
+    "type": "city",
+    "lat": 5.3498,
+    "lng": 7.6949,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Etim-Ibesit",
+    "nameEn": "Ikot Etim-Ibesit",
+    "type": "city",
+    "lat": 4.877226,
+    "lng": 7.711189,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eto",
+    "nameEn": "Ikot Eto",
+    "type": "city",
+    "lat": 4.9528622520631,
+    "lng": 7.9548538822404,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Etobo",
+    "nameEn": "Ikot Etobo",
+    "type": "city",
+    "lat": 4.7216611430671,
+    "lng": 7.9110244110848,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eyiene",
+    "nameEn": "Ikot Eyiene",
+    "type": "city",
+    "lat": 4.7429295,
+    "lng": 7.7949925,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Eyo",
+    "nameEn": "Ikot Eyo",
+    "type": "city",
+    "lat": 4.7655555555556,
+    "lng": 7.9647222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ibiok",
+    "nameEn": "Ikot Ibiok",
+    "type": "city",
+    "lat": 4.6470518409889,
+    "lng": 7.9429817097085,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ibritam",
+    "nameEn": "Ikot Ibritam",
+    "type": "city",
+    "lat": 4.804335,
+    "lng": 7.559687,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Idaha",
+    "nameEn": "Ikot Idaha",
+    "type": "city",
+    "lat": 5.18737,
+    "lng": 7.90091,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Idem",
+    "nameEn": "Ikot Idem",
+    "type": "city",
+    "lat": 5.119564,
+    "lng": 7.601027,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Idem Udo",
+    "nameEn": "Ikot Idem Udo",
+    "type": "city",
+    "lat": 4.690454,
+    "lng": 7.810982,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot idiaha",
+    "nameEn": "Ikot idiaha",
+    "type": "city",
+    "lat": 4.910819,
+    "lng": 7.716031,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Idiong Etor",
+    "nameEn": "Ikot Idiong Etor",
+    "type": "city",
+    "lat": 5.0275195968896,
+    "lng": 7.5355681097921,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Idomo",
+    "nameEn": "Ikot Idomo",
+    "type": "city",
+    "lat": 5.0274982217712,
+    "lng": 7.5353320753924,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Igwe",
+    "nameEn": "Ikot Igwe",
+    "type": "city",
+    "lat": 5.0702054,
+    "lng": 7.634833,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Iko",
+    "nameEn": "Ikot Iko",
+    "type": "city",
+    "lat": 4.9784277588866,
+    "lng": 7.9145877047841,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Imo",
+    "nameEn": "Ikot Imo",
+    "type": "city",
+    "lat": 5.01565,
+    "lng": 7.72913,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ineme",
+    "nameEn": "Ikot Ineme",
+    "type": "city",
+    "lat": 5.146878,
+    "lng": 7.559684,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inwang",
+    "nameEn": "Ikot Inwang",
+    "type": "city",
+    "lat": 5.0305548892188,
+    "lng": 7.5399454891528,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inyang",
+    "nameEn": "Ikot Inyang",
+    "type": "city",
+    "lat": 4.6920345223506,
+    "lng": 7.9054471889475,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inyang Ekpe",
+    "nameEn": "Ikot Inyang Ekpe",
+    "type": "city",
+    "lat": 5.1539,
+    "lng": 7.8378,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inyang Ese",
+    "nameEn": "Ikot Inyang Ese",
+    "type": "city",
+    "lat": 5.024826359084,
+    "lng": 7.5311907586925,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inyang Ika",
+    "nameEn": "Ikot Inyang Ika",
+    "type": "city",
+    "lat": 5.0310144193145,
+    "lng": 7.5393232025141,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inyang Odoro",
+    "nameEn": "Ikot Inyang Odoro",
+    "type": "city",
+    "lat": 5.027189172859,
+    "lng": 7.5348257502195,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Inyang Udo",
+    "nameEn": "Ikot Inyang Udo",
+    "type": "city",
+    "lat": 5.0263127919842,
+    "lng": 7.534224935384,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Mbonde Itam",
+    "nameEn": "Ikot Mbonde Itam",
+    "type": "city",
+    "lat": 5.051456,
+    "lng": 7.915458,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Mfon",
+    "nameEn": "Ikot Mfon",
+    "type": "city",
+    "lat": 4.767,
+    "lng": 7.8703,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ndo",
+    "nameEn": "Ikot Ndo",
+    "type": "city",
+    "lat": 4.814066,
+    "lng": 7.615817,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ndua Iman",
+    "nameEn": "Ikot Ndua Iman",
+    "type": "city",
+    "lat": 4.6232188,
+    "lng": 7.7633468,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Nkan",
+    "nameEn": "Ikot Nkan",
+    "type": "city",
+    "lat": 4.7141719,
+    "lng": 7.8143615,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot nkim",
+    "nameEn": "Ikot nkim",
+    "type": "city",
+    "lat": 4.899542,
+    "lng": 7.9886515,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Nkpene",
+    "nameEn": "Ikot Nkpene",
+    "type": "city",
+    "lat": 4.833315,
+    "lng": 8.053164,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Nseyen",
+    "nameEn": "Ikot Nseyen",
+    "type": "city",
+    "lat": 5.1967641996326,
+    "lng": 7.7769412359677,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Nsidibe",
+    "nameEn": "Ikot Nsidibe",
+    "type": "city",
+    "lat": 4.671,
+    "lng": 7.9133,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Nto Ndiya",
+    "nameEn": "Ikot Nto Ndiya",
+    "type": "city",
+    "lat": 5.1900541500773,
+    "lng": 7.7751387905599,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ntuen",
+    "nameEn": "Ikot Ntuen",
+    "type": "city",
+    "lat": 5.123348,
+    "lng": 7.718399,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ntuk",
+    "nameEn": "Ikot Ntuk",
+    "type": "city",
+    "lat": 5.011205,
+    "lng": 7.709232,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ntung",
+    "nameEn": "Ikot Ntung",
+    "type": "city",
+    "lat": 4.6930476226785,
+    "lng": 7.9914477584961,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Nya",
+    "nameEn": "Ikot Nya",
+    "type": "city",
+    "lat": 5.186671,
+    "lng": 7.999136,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot obio anana",
+    "nameEn": "Ikot obio anana",
+    "type": "city",
+    "lat": 4.732595,
+    "lng": 8.086886,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Ata",
+    "nameEn": "Ikot Obio Ata",
+    "type": "city",
+    "lat": 4.7030463264263,
+    "lng": 7.9150342326347,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot obio eka",
+    "nameEn": "Ikot obio eka",
+    "type": "city",
+    "lat": 4.80512,
+    "lng": 7.819272,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Eket",
+    "nameEn": "Ikot Obio Eket",
+    "type": "city",
+    "lat": 4.7144699,
+    "lng": 7.8731804,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Idang",
+    "nameEn": "Ikot Obio Idang",
+    "type": "city",
+    "lat": 4.762128,
+    "lng": 7.55929,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Ndoho",
+    "nameEn": "Ikot Obio Ndoho",
+    "type": "city",
+    "lat": 4.6208720867227,
+    "lng": 7.7494718729444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Nsu",
+    "nameEn": "Ikot Obio Nsu",
+    "type": "city",
+    "lat": 4.943335,
+    "lng": 7.662131,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Odongo",
+    "nameEn": "Ikot Obio Odongo",
+    "type": "city",
+    "lat": 4.9456300900669,
+    "lng": 7.9495478721392,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obio Offong",
+    "nameEn": "Ikot Obio Offong",
+    "type": "city",
+    "lat": 4.9356210711609,
+    "lng": 7.9530298529415,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obiokon",
+    "nameEn": "Ikot Obiokon",
+    "type": "city",
+    "lat": 5.117518,
+    "lng": 7.622374,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot obok",
+    "nameEn": "Ikot obok",
+    "type": "city",
+    "lat": 4.911225,
+    "lng": 7.90605,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot obong erong",
+    "nameEn": "Ikot obong erong",
+    "type": "city",
+    "lat": 5.167958,
+    "lng": 7.692714,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obong Erong",
+    "nameEn": "Ikot Obong Erong",
+    "type": "city",
+    "lat": 5.168192,
+    "lng": 7.693526,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Obong Ishiet",
+    "nameEn": "Ikot Obong Ishiet",
+    "type": "city",
+    "lat": 4.6840466,
+    "lng": 7.8714798,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Odiong",
+    "nameEn": "Ikot Odiong",
+    "type": "city",
+    "lat": 4.6664648390408,
+    "lng": 7.9995443334438,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Offiong",
+    "nameEn": "Ikot Offiong",
+    "type": "city",
+    "lat": 4.837651,
+    "lng": 7.701303,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Offiong Ndiya",
+    "nameEn": "Ikot Offiong Ndiya",
+    "type": "city",
+    "lat": 5.2212531363245,
+    "lng": 7.7518786737702,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ofiong Nsit",
+    "nameEn": "Ikot Ofiong Nsit",
+    "type": "city",
+    "lat": 5.101094,
+    "lng": 7.660926,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot ofok",
+    "nameEn": "Ikot ofok",
+    "type": "city",
+    "lat": 5.11637,
+    "lng": 7.735612,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Okoro",
+    "nameEn": "Ikot Okoro",
+    "type": "city",
+    "lat": 4.9061,
+    "lng": 7.7145,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Okoro-Ata",
+    "nameEn": "Ikot Okoro-Ata",
+    "type": "city",
+    "lat": 5.0306831066786,
+    "lng": 7.5400956787312,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Okpudo",
+    "nameEn": "Ikot Okpudo",
+    "type": "city",
+    "lat": 4.7027139061239,
+    "lng": 8.0245784010796,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Oku",
+    "nameEn": "Ikot Oku",
+    "type": "city",
+    "lat": 4.180919,
+    "lng": 7.825423,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Oku Akpan",
+    "nameEn": "Ikot Oku Akpan",
+    "type": "city",
+    "lat": 4.8668026125747,
+    "lng": 7.9927883628661,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot oku nsit",
+    "nameEn": "Ikot oku nsit",
+    "type": "city",
+    "lat": 4.966957,
+    "lng": 7.864217,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Oku Ubo",
+    "nameEn": "Ikot Oku Ubo",
+    "type": "city",
+    "lat": 4.945757302954,
+    "lng": 7.9483030593955,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Oku-Ediene",
+    "nameEn": "Ikot Oku-Ediene",
+    "type": "city",
+    "lat": 5.2205693395478,
+    "lng": 7.776168759263,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Okure",
+    "nameEn": "Ikot Okure",
+    "type": "city",
+    "lat": 4.9462779027909,
+    "lng": 7.9620852371025,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Omono",
+    "nameEn": "Ikot Omono",
+    "type": "city",
+    "lat": 5.156765,
+    "lng": 7.81632,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Osom",
+    "nameEn": "Ikot Osom",
+    "type": "city",
+    "lat": 4.953517,
+    "lng": 7.900153,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Osukpong",
+    "nameEn": "Ikot Osukpong",
+    "type": "city",
+    "lat": 5.0308541067698,
+    "lng": 7.5400956787312,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Oto",
+    "nameEn": "Ikot Oto",
+    "type": "city",
+    "lat": 5.479057,
+    "lng": 7.67277,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Otong",
+    "nameEn": "Ikot Otong",
+    "type": "city",
+    "lat": 5.0283959761406,
+    "lng": 7.5359758055734,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Otong Nsit",
+    "nameEn": "Ikot Otong Nsit",
+    "type": "city",
+    "lat": 4.8862689920124,
+    "lng": 7.9049843838226,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot otu",
+    "nameEn": "Ikot otu",
+    "type": "city",
+    "lat": 5.224106,
+    "lng": 7.723388,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Otu",
+    "nameEn": "Ikot Otu",
+    "type": "city",
+    "lat": 5.224407,
+    "lng": 7.723802,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Otuko",
+    "nameEn": "Ikot Otuko",
+    "type": "city",
+    "lat": 5.0270493441224,
+    "lng": 7.5351604140109,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Owuk",
+    "nameEn": "Ikot Owuk",
+    "type": "city",
+    "lat": 4.913681,
+    "lng": 7.816571,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Oyo",
+    "nameEn": "Ikot Oyo",
+    "type": "city",
+    "lat": 5.0269424684461,
+    "lng": 7.5348170912477,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot uba",
+    "nameEn": "Ikot uba",
+    "type": "city",
+    "lat": 5.223729,
+    "lng": 7.85688,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Uba",
+    "nameEn": "Ikot Uba",
+    "type": "city",
+    "lat": 5.2228025187191,
+    "lng": 7.8535010248862,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ubo",
+    "nameEn": "Ikot Ubo",
+    "type": "city",
+    "lat": 4.73282,
+    "lng": 8.02949,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo",
+    "nameEn": "Ikot Udo",
+    "type": "city",
+    "lat": 4.8910455048528,
+    "lng": 7.9628749241744,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Abia",
+    "nameEn": "Ikot Udo Abia",
+    "type": "city",
+    "lat": 4.878591,
+    "lng": 7.846434,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Ekop",
+    "nameEn": "Ikot Udo Ekop",
+    "type": "city",
+    "lat": 4.9505006309184,
+    "lng": 7.9114704233803,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Esang",
+    "nameEn": "Ikot Udo Esang",
+    "type": "city",
+    "lat": 4.7059122,
+    "lng": 7.8646776,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Ideh",
+    "nameEn": "Ikot Udo Ideh",
+    "type": "city",
+    "lat": 4.7599441373443,
+    "lng": 8.0187283182362,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Idem",
+    "nameEn": "Ikot Udo Idem",
+    "type": "city",
+    "lat": 4.709141,
+    "lng": 7.725054,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Offiong",
+    "nameEn": "Ikot Udo Offiong",
+    "type": "city",
+    "lat": 5.177285,
+    "lng": 7.714436,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udo Okure",
+    "nameEn": "Ikot Udo Okure",
+    "type": "city",
+    "lat": 5.078332,
+    "lng": 7.606715,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot udo oto",
+    "nameEn": "Ikot udo oto",
+    "type": "city",
+    "lat": 4.908484,
+    "lng": 7.855314,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udofia",
+    "nameEn": "Ikot Udofia",
+    "type": "city",
+    "lat": 5.328454,
+    "lng": 7.731342,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot udom",
+    "nameEn": "Ikot udom",
+    "type": "city",
+    "lat": 5.147309,
+    "lng": 7.578868,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udoro",
+    "nameEn": "Ikot Udoro",
+    "type": "city",
+    "lat": 4.860272,
+    "lng": 7.701842,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot udu",
+    "nameEn": "Ikot udu",
+    "type": "city",
+    "lat": 5.151082,
+    "lng": 7.593225,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Udu Ndiya",
+    "nameEn": "Ikot Udu Ndiya",
+    "type": "city",
+    "lat": 5.2203129155642,
+    "lng": 7.7568568538358,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ukang",
+    "nameEn": "Ikot Ukang",
+    "type": "city",
+    "lat": 5.0183061782715,
+    "lng": 7.5300934366313,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot uko",
+    "nameEn": "Ikot uko",
+    "type": "city",
+    "lat": 5.108484,
+    "lng": 7.666723,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Uko",
+    "nameEn": "Ikot Uko",
+    "type": "city",
+    "lat": 5.0268997181707,
+    "lng": 7.5347527182296,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ukpong",
+    "nameEn": "Ikot Ukpong",
+    "type": "city",
+    "lat": 4.73916,
+    "lng": 7.868566,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ukpong Etor",
+    "nameEn": "Ikot Ukpong Etor",
+    "type": "city",
+    "lat": 4.903797,
+    "lng": 7.794482,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ukpong Obio",
+    "nameEn": "Ikot Ukpong Obio",
+    "type": "city",
+    "lat": 4.741068,
+    "lng": 7.676378,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Ukpong Obiokpong",
+    "nameEn": "Ikot Ukpong Obiokpong",
+    "type": "city",
+    "lat": 4.909851,
+    "lng": 7.793331,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot umo esien",
+    "nameEn": "Ikot umo esien",
+    "type": "city",
+    "lat": 5.139058,
+    "lng": 7.55123,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Umo Essien",
+    "nameEn": "Ikot Umo Essien",
+    "type": "city",
+    "lat": 5.139016,
+    "lng": 7.550778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Urom",
+    "nameEn": "Ikot Urom",
+    "type": "city",
+    "lat": 5.0271348446508,
+    "lng": 7.5349458372839,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikot Uso Akpan",
+    "nameEn": "Ikot Uso Akpan",
+    "type": "city",
+    "lat": 5.1339989960696,
+    "lng": 7.9458321732511,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikpa",
+    "nameEn": "Ikpa",
+    "type": "city",
+    "lat": 4.6585753713499,
+    "lng": 8.0598542801183,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikpe Annang",
+    "nameEn": "Ikpe Annang",
+    "type": "city",
+    "lat": 5.0271989700397,
+    "lng": 7.5349458372839,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikpe Ekpene Oton",
+    "nameEn": "Ikpe Ekpene Oton",
+    "type": "city",
+    "lat": 5.020423,
+    "lng": 7.654176,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikpe Nung inyang",
+    "nameEn": "Ikpe Nung inyang",
+    "type": "city",
+    "lat": 5.138337,
+    "lng": 7.771055,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikwe",
+    "nameEn": "Ikwe",
+    "type": "city",
+    "lat": 4.5725121,
+    "lng": 7.8864469,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikweme",
+    "nameEn": "Ikweme",
+    "type": "city",
+    "lat": 5.413215,
+    "lng": 7.826615,
+    "pop": null
+  },
+  {
+    "nameAr": "Ila Orangun",
+    "nameEn": "Ila Orangun",
+    "type": "city",
+    "lat": 8.01666667,
+    "lng": 4.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Ilesa",
+    "nameEn": "Ilesa",
+    "type": "city",
+    "lat": 7.6333333333333,
+    "lng": 4.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Imaman",
+    "nameEn": "Imaman",
+    "type": "city",
+    "lat": 5.0289083004794,
+    "lng": 7.5304367593945,
+    "pop": null
+  },
+  {
+    "nameAr": "Imiekuri",
+    "nameEn": "Imiekuri",
+    "type": "city",
+    "lat": 7.2466666694444,
+    "lng": 6.2783333305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ine Akpautong",
+    "nameEn": "Ine Akpautong",
+    "type": "city",
+    "lat": 4.6331248595788,
+    "lng": 8.0589211935546,
+    "pop": null
+  },
+  {
+    "nameAr": "Ine Idong Isangedighi",
+    "nameEn": "Ine Idong Isangedighi",
+    "type": "city",
+    "lat": 4.6528282902563,
+    "lng": 8.1265965212902,
+    "pop": null
+  },
+  {
+    "nameAr": "Ine Nne Ntete",
+    "nameEn": "Ine Nne Ntete",
+    "type": "city",
+    "lat": 4.5934045168058,
+    "lng": 8.0606821024359,
+    "pop": null
+  },
+  {
+    "nameAr": "Inen Ikot Obiom",
+    "nameEn": "Inen Ikot Obiom",
+    "type": "city",
+    "lat": 4.892159,
+    "lng": 7.671751,
+    "pop": null
+  },
+  {
+    "nameAr": "Inua Abasi",
+    "nameEn": "Inua Abasi",
+    "type": "city",
+    "lat": 4.5587307211204,
+    "lng": 8.2804608713713,
+    "pop": null
+  },
+  {
+    "nameAr": "Inua Eyet Ikot",
+    "nameEn": "Inua Eyet Ikot",
+    "type": "city",
+    "lat": 4.5494933,
+    "lng": 7.9908029,
+    "pop": null
+  },
+  {
+    "nameAr": "Ipe-Akoko",
+    "nameEn": "Ipe-Akoko",
+    "type": "city",
+    "lat": 7.4145908316363,
+    "lng": 5.85605831186,
+    "pop": null
+  },
+  {
+    "nameAr": "Iperu",
+    "nameEn": "Iperu",
+    "type": "city",
+    "lat": 6.9143,
+    "lng": 3.6632,
+    "pop": null
+  },
+  {
+    "nameAr": "Ire Ekiti",
+    "nameEn": "Ire Ekiti",
+    "type": "city",
+    "lat": 7.745,
+    "lng": 5.394,
+    "pop": null
+  },
+  {
+    "nameAr": "Iree",
+    "nameEn": "Iree",
+    "type": "city",
+    "lat": 7.55,
+    "lng": 4.43,
+    "pop": null
+  },
+  {
+    "nameAr": "Irewe",
+    "nameEn": "Irewe",
+    "type": "city",
+    "lat": 6.4182288251561,
+    "lng": 3.1421262040202,
+    "pop": null
+  },
+  {
+    "nameAr": "Iriebe",
+    "nameEn": "Iriebe",
+    "type": "city",
+    "lat": 4.8613,
+    "lng": 7.109,
+    "pop": null
+  },
+  {
+    "nameAr": "Iroko",
+    "nameEn": "Iroko",
+    "type": "city",
+    "lat": 7.7049232678322,
+    "lng": 3.9277522360298,
+    "pop": null
+  },
+  {
+    "nameAr": "Irrua",
+    "nameEn": "Irrua",
+    "type": "city",
+    "lat": 6.739,
+    "lng": 6.219,
+    "pop": null
+  },
+  {
+    "nameAr": "Isarun",
+    "nameEn": "Isarun",
+    "type": "city",
+    "lat": 7.4018522647601,
+    "lng": 5.0694806366372,
+    "pop": null
+  },
+  {
+    "nameAr": "Iseyit Idua",
+    "nameEn": "Iseyit Idua",
+    "type": "city",
+    "lat": 4.6467952717467,
+    "lng": 7.941932063407,
+    "pop": null
+  },
+  {
+    "nameAr": "Ishiago",
+    "nameEn": "Ishiago",
+    "type": "city",
+    "lat": 5.95293,
+    "lng": 7.56011,
+    "pop": null
+  },
+  {
+    "nameAr": "Isiala Oboro",
+    "nameEn": "Isiala Oboro",
+    "type": "city",
+    "lat": 5.4041666666667,
+    "lng": 7.5683333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Isiokpo",
+    "nameEn": "Isiokpo",
+    "type": "city",
+    "lat": 5.00243,
+    "lng": 6.87262,
+    "pop": null
+  },
+  {
+    "nameAr": "Itagh Ibang",
+    "nameEn": "Itagh Ibang",
+    "type": "city",
+    "lat": 4.6310725191204,
+    "lng": 8.0662481672497,
+    "pop": null
+  },
+  {
+    "nameAr": "Itagh Idim Nno Ekpi",
+    "nameEn": "Itagh Idim Nno Ekpi",
+    "type": "city",
+    "lat": 4.5904014098407,
+    "lng": 8.0433297134434,
+    "pop": null
+  },
+  {
+    "nameAr": "Itagh Idim Ukpa",
+    "nameEn": "Itagh Idim Ukpa",
+    "type": "city",
+    "lat": 4.632416530137,
+    "lng": 8.0847146958563,
+    "pop": null
+  },
+  {
+    "nameAr": "Itagh Mansang",
+    "nameEn": "Itagh Mansang",
+    "type": "city",
+    "lat": 4.5909147418623,
+    "lng": 8.065302370285,
+    "pop": null
+  },
+  {
+    "nameAr": "Itak Abasi",
+    "nameEn": "Itak Abasi",
+    "type": "city",
+    "lat": 4.5742152,
+    "lng": 7.9789787,
+    "pop": null
+  },
+  {
+    "nameAr": "Itak Edem Isa",
+    "nameEn": "Itak Edem Isa",
+    "type": "city",
+    "lat": 5.298212,
+    "lng": 7.686981,
+    "pop": null
+  },
+  {
+    "nameAr": "Itak Idim Ekpe",
+    "nameEn": "Itak Idim Ekpe",
+    "type": "city",
+    "lat": 4.5452384,
+    "lng": 8.1896696,
+    "pop": null
+  },
+  {
+    "nameAr": "Itak Ikot Onono",
+    "nameEn": "Itak Ikot Onono",
+    "type": "city",
+    "lat": 5.0302763036811,
+    "lng": 7.5311234049208,
+    "pop": null
+  },
+  {
+    "nameAr": "Ito",
+    "nameEn": "Ito",
+    "type": "city",
+    "lat": 5.01104,
+    "lng": 0.517203,
+    "pop": null
+  },
+  {
+    "nameAr": "Ito Ika",
+    "nameEn": "Ito Ika",
+    "type": "city",
+    "lat": 5.0313023041956,
+    "lng": 7.540736442289,
+    "pop": null
+  },
+  {
+    "nameAr": "Itokko",
+    "nameEn": "Itokko",
+    "type": "city",
+    "lat": 4.9441068916366,
+    "lng": 7.920159484836,
+    "pop": null
+  },
+  {
+    "nameAr": "Itu",
+    "nameEn": "Itu",
+    "type": "city",
+    "lat": -23.2637798,
+    "lng": -47.2998462,
+    "pop": null
+  },
+  {
+    "nameAr": "Itung Achan",
+    "nameEn": "Itung Achan",
+    "type": "city",
+    "lat": 5.0326703023655,
+    "lng": 7.5397064739995,
+    "pop": null
+  },
+  {
+    "nameAr": "Itung Ekpip",
+    "nameEn": "Itung Ekpip",
+    "type": "city",
+    "lat": 4.788374,
+    "lng": 7.675965,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwo Etor",
+    "nameEn": "Iwo Etor",
+    "type": "city",
+    "lat": 4.7242781,
+    "lng": 7.8279569,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwok Atai",
+    "nameEn": "Iwok Atai",
+    "type": "city",
+    "lat": 4.800784,
+    "lng": 8.060293,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwok Nsit",
+    "nameEn": "Iwok Nsit",
+    "type": "city",
+    "lat": 4.784521,
+    "lng": 8.051251,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwok Obio Aduang",
+    "nameEn": "Iwok Obio Aduang",
+    "type": "city",
+    "lat": 4.7901,
+    "lng": 8.064337,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwoye-Ketu",
+    "nameEn": "Iwoye-Ketu",
+    "type": "city",
+    "lat": 7.55666667,
+    "lng": 2.74972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwukem",
+    "nameEn": "Iwukem",
+    "type": "city",
+    "lat": 4.939738,
+    "lng": 7.495093,
+    "pop": null
+  },
+  {
+    "nameAr": "Iyah-Gbede",
+    "nameEn": "Iyah-Gbede",
+    "type": "city",
+    "lat": 8.0187349619963,
+    "lng": 5.9958582878056,
+    "pop": null
+  },
+  {
+    "nameAr": "Iyiora Anam",
+    "nameEn": "Iyiora Anam",
+    "type": "city",
+    "lat": 6.41412,
+    "lng": 6.79523,
+    "pop": null
+  },
+  {
+    "nameAr": "Jabo",
+    "nameEn": "Jabo",
+    "type": "city",
+    "lat": 9.43333333,
+    "lng": 6.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Jauro Tukur",
+    "nameEn": "Jauro Tukur",
+    "type": "city",
+    "lat": 10.067237,
+    "lng": 11.204937,
+    "pop": null
+  },
+  {
+    "nameAr": "Jengre",
+    "nameEn": "Jengre",
+    "type": "city",
+    "lat": 10.2425,
+    "lng": 8.7994444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Jigawa",
+    "nameEn": "Jigawa",
+    "type": "city",
+    "lat": 11.159416,
+    "lng": 11.113328,
+    "pop": null
+  },
+  {
+    "nameAr": "Jigo",
+    "nameEn": "Jigo",
+    "type": "city",
+    "lat": 13.5088,
+    "lng": 4.7475,
+    "pop": null
+  },
+  {
+    "nameAr": "Jigwa Isoho, Nigeria",
+    "nameEn": "Jigwa Isoho, Nigeria",
+    "type": "city",
+    "lat": 8.656,
+    "lng": 7.234,
+    "pop": null
+  },
+  {
+    "nameAr": "Jikwoyi",
+    "nameEn": "Jikwoyi",
+    "type": "city",
+    "lat": 8.9887,
+    "lng": 7.5601,
+    "pop": null
+  },
+  {
+    "nameAr": "Jobele",
+    "nameEn": "Jobele",
+    "type": "city",
+    "lat": 7.7643888888889,
+    "lng": 3.9241111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "K.Dere",
+    "nameEn": "K.Dere",
+    "type": "city",
+    "lat": 4.6693333333333,
+    "lng": 7.2740833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kafom",
+    "nameEn": "Kafom",
+    "type": "city",
+    "lat": 9.82002,
+    "lng": 8.13744,
+    "pop": null
+  },
+  {
+    "nameAr": "Kagoro",
+    "nameEn": "Kagoro",
+    "type": "city",
+    "lat": 9.6077777777778,
+    "lng": 8.3905555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kahodahanmu",
+    "nameEn": "Kahodahanmu",
+    "type": "city",
+    "lat": 8.8795194444444,
+    "lng": 7.2275611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaltanga",
+    "nameEn": "Kaltanga",
+    "type": "city",
+    "lat": 9.829729,
+    "lng": 11.013892,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamazo",
+    "nameEn": "Kamazo",
+    "type": "city",
+    "lat": 10.48433,
+    "lng": 7.4614,
+    "pop": null
+  },
+  {
+    "nameAr": "Kambana",
+    "nameEn": "Kambana",
+    "type": "city",
+    "lat": 13.6163,
+    "lng": 4.8594,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamo G, Nigeria",
+    "nameEn": "Kamo G, Nigeria",
+    "type": "city",
+    "lat": 8.656,
+    "lng": 7.234,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampa",
+    "nameEn": "Kampa",
+    "type": "city",
+    "lat": 4.5284311111111,
+    "lng": 7.6937711111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamuru",
+    "nameEn": "Kamuru",
+    "type": "city",
+    "lat": 9.8833333333333,
+    "lng": 8.1833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Karsana",
+    "nameEn": "Karsana",
+    "type": "city",
+    "lat": 9.1058399423784,
+    "lng": 7.3639857410794,
+    "pop": null
+  },
+  {
+    "nameAr": "Karuonguwa",
+    "nameEn": "Karuonguwa",
+    "type": "city",
+    "lat": 11.821335,
+    "lng": 11.684634,
+    "pop": null
+  },
+  {
+    "nameAr": "Katabu",
+    "nameEn": "Katabu",
+    "type": "city",
+    "lat": 10.7,
+    "lng": 7.5166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Katutu",
+    "nameEn": "Katutu",
+    "type": "city",
+    "lat": 13.5462,
+    "lng": 4.8419,
+    "pop": null
+  },
+  {
+    "nameAr": "Kawari",
+    "nameEn": "Kawari",
+    "type": "city",
+    "lat": 12.0077,
+    "lng": 9.00419,
+    "pop": null
+  },
+  {
+    "nameAr": "Ke",
+    "nameEn": "Ke",
+    "type": "city",
+    "lat": 4.4545,
+    "lng": 6.9176,
+    "pop": null
+  },
+  {
+    "nameAr": "Kembu",
+    "nameEn": "Kembu",
+    "type": "city",
+    "lat": 10.044601,
+    "lng": 11.299145,
+    "pop": null
+  },
+  {
+    "nameAr": "Kigbe in kwali Nigeria",
+    "nameEn": "Kigbe in kwali Nigeria",
+    "type": "city",
+    "lat": 10.28036,
+    "lng": 4.10769,
+    "pop": null
+  },
+  {
+    "nameAr": "Kikumi",
+    "nameEn": "Kikumi",
+    "type": "city",
+    "lat": 9.218,
+    "lng": 7.408,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilankwa  Village 1",
+    "nameEn": "Kilankwa  Village 1",
+    "type": "city",
+    "lat": 8.861374,
+    "lng": 7.101907,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilankwa 2 Village",
+    "nameEn": "Kilankwa 2 Village",
+    "type": "city",
+    "lat": 8.865714,
+    "lng": 7.07918,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilawa",
+    "nameEn": "Kilawa",
+    "type": "city",
+    "lat": 10.023935,
+    "lng": 11.011947,
+    "pop": null
+  },
+  {
+    "nameAr": "Koda in kwali",
+    "nameEn": "Koda in kwali",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Kogo",
+    "nameEn": "Kogo",
+    "type": "city",
+    "lat": 9.218,
+    "lng": 7.408,
+    "pop": null
+  },
+  {
+    "nameAr": "Kombani",
+    "nameEn": "Kombani",
+    "type": "city",
+    "lat": 10.048075,
+    "lng": 11.014337,
+    "pop": null
+  },
+  {
+    "nameAr": "Kpor",
+    "nameEn": "Kpor",
+    "type": "city",
+    "lat": 4.6478,
+    "lng": 7.2784,
+    "pop": null
+  },
+  {
+    "nameAr": "Kujama",
+    "nameEn": "Kujama",
+    "type": "city",
+    "lat": 10.480237138521,
+    "lng": 7.635637508991,
+    "pop": null
+  },
+  {
+    "nameAr": "Kularida, Nigeria",
+    "nameEn": "Kularida, Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Kumo",
+    "nameEn": "Kumo",
+    "type": "city",
+    "lat": 10.043083333333,
+    "lng": 11.218277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurumduma, Nigeria",
+    "nameEn": "Kurumduma, Nigeria",
+    "type": "city",
+    "lat": 9.0145899639826,
+    "lng": 7.5347533700082,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwago,Nigeria",
+    "nameEn": "Kwago,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwaida Tsoho",
+    "nameEn": "Kwaida Tsoho",
+    "type": "city",
+    "lat": 8.70545,
+    "lng": 6.97316,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwale",
+    "nameEn": "Kwale",
+    "type": "city",
+    "lat": 6.19784167,
+    "lng": 6.72846667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwall",
+    "nameEn": "Kwall",
+    "type": "city",
+    "lat": 9.81938,
+    "lng": 8.64743,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwi",
+    "nameEn": "Kwi",
+    "type": "city",
+    "lat": 9.6246,
+    "lng": 8.8342,
+    "pop": null
+  },
+  {
+    "nameAr": "Kwubsa",
+    "nameEn": "Kwubsa",
+    "type": "city",
+    "lat": 12.929223,
+    "lng": 10.195847,
+    "pop": null
+  },
+  {
+    "nameAr": "Labsani",
+    "nameEn": "Labsani",
+    "type": "city",
+    "lat": 13.4197,
+    "lng": 4.8463,
+    "pop": null
+  },
+  {
+    "nameAr": "Lamido-Borno",
+    "nameEn": "Lamido-Borno",
+    "type": "city",
+    "lat": 8.810687,
+    "lng": 11.34218,
+    "pop": null
+  },
+  {
+    "nameAr": "Langyal",
+    "nameEn": "Langyal",
+    "type": "city",
+    "lat": 11.9936318,
+    "lng": 8.4003511,
+    "pop": null
+  },
+  {
+    "nameAr": "Lara",
+    "nameEn": "Lara",
+    "type": "city",
+    "lat": 7.907611,
+    "lng": 10.411767,
+    "pop": null
+  },
+  {
+    "nameAr": "Lassa",
+    "nameEn": "Lassa",
+    "type": "city",
+    "lat": 10.6804165,
+    "lng": 13.27323,
+    "pop": null
+  },
+  {
+    "nameAr": "Lau Post Office, Opposite water boad, Lau Taraba State",
+    "nameEn": "Lau Post Office, Opposite water boad, Lau Taraba State",
+    "type": "city",
+    "lat": 8.72617,
+    "lng": 7.376825,
+    "pop": null
+  },
+  {
+    "nameAr": "Lawanti",
+    "nameEn": "Lawanti",
+    "type": "city",
+    "lat": 10.299013,
+    "lng": 10.91837,
+    "pop": null
+  },
+  {
+    "nameAr": "Lekki",
+    "nameEn": "Lekki",
+    "type": "city",
+    "lat": 6.493394,
+    "lng": 3.720668,
+    "pop": null
+  },
+  {
+    "nameAr": "Lergo",
+    "nameEn": "Lergo",
+    "type": "city",
+    "lat": 10.01138,
+    "lng": 10.990459,
+    "pop": null
+  },
+  {
+    "nameAr": "Lugbe",
+    "nameEn": "Lugbe",
+    "type": "city",
+    "lat": 8.975073,
+    "lng": 7.376306,
+    "pop": null
+  },
+  {
+    "nameAr": "Mabera",
+    "nameEn": "Mabera",
+    "type": "city",
+    "lat": 12.748333333333,
+    "lng": 5.1383333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mada",
+    "nameEn": "Mada",
+    "type": "city",
+    "lat": 13.4855,
+    "lng": 4.7756,
+    "pop": null
+  },
+  {
+    "nameAr": "Madalla",
+    "nameEn": "Madalla",
+    "type": "city",
+    "lat": 9.104,
+    "lng": 7.215,
+    "pop": null
+  },
+  {
+    "nameAr": "Magamiya",
+    "nameEn": "Magamiya",
+    "type": "city",
+    "lat": 9.783333,
+    "lng": 8.433333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahuta Dandume",
+    "nameEn": "Mahuta Dandume",
+    "type": "city",
+    "lat": 11.4417,
+    "lng": 7.2666,
+    "pop": null
+  },
+  {
+    "nameAr": "Malam Sidi",
+    "nameEn": "Malam Sidi",
+    "type": "city",
+    "lat": 10.467235,
+    "lng": 11.259495,
+    "pop": null
+  },
+  {
+    "nameAr": "Malete",
+    "nameEn": "Malete",
+    "type": "city",
+    "lat": 8.706913,
+    "lng": 4.470866,
+    "pop": null
+  },
+  {
+    "nameAr": "Manja",
+    "nameEn": "Manja",
+    "type": "city",
+    "lat": 13.7451,
+    "lng": 5.132,
+    "pop": null
+  },
+  {
+    "nameAr": "Manta Village",
+    "nameEn": "Manta Village",
+    "type": "city",
+    "lat": 5.0127105994567,
+    "lng": 7.8060163274384,
+    "pop": null
+  },
+  {
+    "nameAr": "Mararraban-Tumu",
+    "nameEn": "Mararraban-Tumu",
+    "type": "city",
+    "lat": 10.007765,
+    "lng": 11.007618,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbak nsit I",
+    "nameEn": "Mbak nsit I",
+    "type": "city",
+    "lat": 4.898959,
+    "lng": 7.904831,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbalano",
+    "nameEn": "Mbalano",
+    "type": "city",
+    "lat": 5.7343333333333,
+    "lng": 7.5023888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbarakom",
+    "nameEn": "Mbarakom",
+    "type": "city",
+    "lat": 5.268324,
+    "lng": 8.329012,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbi Akpa Ndiya",
+    "nameEn": "Mbi Akpa Ndiya",
+    "type": "city",
+    "lat": 5.225099479296,
+    "lng": 7.7617492032107,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbiabet Ikot Efa",
+    "nameEn": "Mbiabet Ikot Efa",
+    "type": "city",
+    "lat": 5.336963,
+    "lng": 7.80297,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbiabet ikpe",
+    "nameEn": "Mbiabet ikpe",
+    "type": "city",
+    "lat": 5.097417,
+    "lng": 7.766499,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbiakot",
+    "nameEn": "Mbiakot",
+    "type": "city",
+    "lat": 4.945772,
+    "lng": 7.692732,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbiaso",
+    "nameEn": "Mbiaso",
+    "type": "city",
+    "lat": 4.824972,
+    "lng": 7.903673,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbierebe Akpawat",
+    "nameEn": "Mbierebe Akpawat",
+    "type": "city",
+    "lat": 4.9117944378572,
+    "lng": 7.9708998010163,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbierebe Obio",
+    "nameEn": "Mbierebe Obio",
+    "type": "city",
+    "lat": 4.9899336875677,
+    "lng": 7.8904427175116,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbikpong Atai",
+    "nameEn": "Mbikpong Atai",
+    "type": "city",
+    "lat": 4.9322241532043,
+    "lng": 7.9573823425982,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbioto 1",
+    "nameEn": "Mbioto 1",
+    "type": "city",
+    "lat": 4.842523861251,
+    "lng": 7.8529533892094,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbioto 2",
+    "nameEn": "Mbioto 2",
+    "type": "city",
+    "lat": 4.7216932,
+    "lng": 7.8522373,
+    "pop": null
+  },
+  {
+    "nameAr": "Mgboko",
+    "nameEn": "Mgboko",
+    "type": "city",
+    "lat": 5.15214,
+    "lng": 7.4577,
+    "pop": null
+  },
+  {
+    "nameAr": "Mgboko Ngwa",
+    "nameEn": "Mgboko Ngwa",
+    "type": "city",
+    "lat": 5.15,
+    "lng": 7.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Mgbouba",
+    "nameEn": "Mgbouba",
+    "type": "city",
+    "lat": 4.8421,
+    "lng": 6.9692,
+    "pop": null
+  },
+  {
+    "nameAr": "Midim Abak",
+    "nameEn": "Midim Abak",
+    "type": "city",
+    "lat": 5.023069,
+    "lng": 7.727312,
+    "pop": null
+  },
+  {
+    "nameAr": "Midim Atan",
+    "nameEn": "Midim Atan",
+    "type": "city",
+    "lat": 5.072065,
+    "lng": 7.636561,
+    "pop": null
+  },
+  {
+    "nameAr": "Miltara",
+    "nameEn": "Miltara",
+    "type": "city",
+    "lat": 12.127,
+    "lng": 8.628,
+    "pop": null
+  },
+  {
+    "nameAr": "Mkpanak",
+    "nameEn": "Mkpanak",
+    "type": "city",
+    "lat": 4.5822731063115,
+    "lng": 7.989901015867,
+    "pop": null
+  },
+  {
+    "nameAr": "Mkpatak",
+    "nameEn": "Mkpatak",
+    "type": "city",
+    "lat": 5.055586465918,
+    "lng": 7.672317000043,
+    "pop": null
+  },
+  {
+    "nameAr": "Mkpok",
+    "nameEn": "Mkpok",
+    "type": "city",
+    "lat": 4.6412947,
+    "lng": 7.8571959,
+    "pop": null
+  },
+  {
+    "nameAr": "Mogho",
+    "nameEn": "Mogho",
+    "type": "city",
+    "lat": 4.6512,
+    "lng": 7.295,
+    "pop": null
+  },
+  {
+    "nameAr": "Mowo, Badagry",
+    "nameEn": "Mowo, Badagry",
+    "type": "city",
+    "lat": 6.4558888888889,
+    "lng": 2.9734444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Mulawa",
+    "nameEn": "Mulawa",
+    "type": "city",
+    "lat": 13.5906,
+    "lng": 4.8261,
+    "pop": null
+  },
+  {
+    "nameAr": "Munapeyi Kasa;",
+    "nameEn": "Munapeyi Kasa;",
+    "type": "city",
+    "lat": 11.016666666667,
+    "lng": 13.666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Munda",
+    "nameEn": "Munda",
+    "type": "city",
+    "lat": 10.360599,
+    "lng": 10.834068,
+    "pop": null
+  },
+  {
+    "nameAr": "Muntsira",
+    "nameEn": "Muntsira",
+    "type": "city",
+    "lat": 10.5781,
+    "lng": 8.70697,
+    "pop": null
+  },
+  {
+    "nameAr": "Nadu",
+    "nameEn": "Nadu",
+    "type": "city",
+    "lat": 8.2198,
+    "lng": 12.1602,
+    "pop": null
+  },
+  {
+    "nameAr": "Nafada Central",
+    "nameEn": "Nafada Central",
+    "type": "city",
+    "lat": 11.058626,
+    "lng": 11.337814,
+    "pop": null
+  },
+  {
+    "nameAr": "Nafada East",
+    "nameEn": "Nafada East",
+    "type": "city",
+    "lat": 11.092254,
+    "lng": 11.322171,
+    "pop": null
+  },
+  {
+    "nameAr": "Nafada West",
+    "nameEn": "Nafada West",
+    "type": "city",
+    "lat": 11.102895,
+    "lng": 11.298131,
+    "pop": null
+  },
+  {
+    "nameAr": "Nagun,Nigeria",
+    "nameEn": "Nagun,Nigeria",
+    "type": "city",
+    "lat": 9.05785,
+    "lng": 7.49508,
+    "pop": null
+  },
+  {
+    "nameAr": "Nah.Tosho",
+    "nameEn": "Nah.Tosho",
+    "type": "city",
+    "lat": 8.4758,
+    "lng": 6.9432,
+    "pop": null
+  },
+  {
+    "nameAr": "Nahalati Sabo",
+    "nameEn": "Nahalati Sabo",
+    "type": "city",
+    "lat": 8.4747,
+    "lng": 6.9451,
+    "pop": null
+  },
+  {
+    "nameAr": "Nahuta",
+    "nameEn": "Nahuta",
+    "type": "city",
+    "lat": 10.098435,
+    "lng": 11.129686,
+    "pop": null
+  },
+  {
+    "nameAr": "Nando Community",
+    "nameEn": "Nando Community",
+    "type": "city",
+    "lat": 6.3113955391334,
+    "lng": 6.9093489998448,
+    "pop": null
+  },
+  {
+    "nameAr": "Nchia",
+    "nameEn": "Nchia",
+    "type": "city",
+    "lat": 4.7924,
+    "lng": 7.1198,
+    "pop": null
+  },
+  {
+    "nameAr": "Nda nsit",
+    "nameEn": "Nda nsit",
+    "type": "city",
+    "lat": 4.83625,
+    "lng": 7.989711,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndi Oji Abam",
+    "nameEn": "Ndi Oji Abam",
+    "type": "city",
+    "lat": 5.4991388888889,
+    "lng": 7.7883,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndiakata",
+    "nameEn": "Ndiakata",
+    "type": "city",
+    "lat": 5.137,
+    "lng": 7.444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndikpo Atang",
+    "nameEn": "Ndikpo Atang",
+    "type": "city",
+    "lat": 4.807995313012,
+    "lng": 7.947960927727,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndito Ekie Iba",
+    "nameEn": "Ndito Ekie Iba",
+    "type": "city",
+    "lat": 4.6500319398555,
+    "lng": 8.1265536059996,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndon Eyo",
+    "nameEn": "Ndon Eyo",
+    "type": "city",
+    "lat": 4.6310821,
+    "lng": 7.8544755,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndot Ikot - Eda",
+    "nameEn": "Ndot Ikot - Eda",
+    "type": "city",
+    "lat": 4.99681,
+    "lng": 7.697762,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndot Ikpe",
+    "nameEn": "Ndot Ikpe",
+    "type": "city",
+    "lat": 5.333813,
+    "lng": 7.778736,
+    "pop": null
+  },
+  {
+    "nameAr": "Neni",
+    "nameEn": "Neni",
+    "type": "city",
+    "lat": 6.0809,
+    "lng": 7.0015,
+    "pop": null
+  },
+  {
+    "nameAr": "New Barracks",
+    "nameEn": "New Barracks",
+    "type": "city",
+    "lat": 4.5936525062198,
+    "lng": 8.022387026569,
+    "pop": null
+  },
+  {
+    "nameAr": "Nibo",
+    "nameEn": "Nibo",
+    "type": "city",
+    "lat": 6.16666667,
+    "lng": 7.06666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Nigeria post Office,Ediokpalaeze Aguata Anambra State",
+    "nameEn": "Nigeria post Office,Ediokpalaeze Aguata Anambra State",
+    "type": "city",
+    "lat": 6.013508,
+    "lng": 7.092695,
+    "pop": null
+  },
+  {
+    "nameAr": "Nihi",
+    "nameEn": "Nihi",
+    "type": "city",
+    "lat": 5.0683,
+    "lng": 7.0552,
+    "pop": null
+  },
+  {
+    "nameAr": "Nimo",
+    "nameEn": "Nimo",
+    "type": "city",
+    "lat": 6.1586111111111,
+    "lng": 6.9863888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Nkalu",
+    "nameEn": "Nkalu",
+    "type": "city",
+    "lat": 5.4,
+    "lng": 7.66666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Nkwot Ikot Akpan",
+    "nameEn": "Nkwot Ikot Akpan",
+    "type": "city",
+    "lat": 5.1824037520834,
+    "lng": 7.7934207285988,
+    "pop": null
+  },
+  {
+    "nameAr": "Nkwot Ikot Apan",
+    "nameEn": "Nkwot Ikot Apan",
+    "type": "city",
+    "lat": 5.1940289015001,
+    "lng": 7.7975406017566,
+    "pop": null
+  },
+  {
+    "nameAr": "Nkwot Nsit",
+    "nameEn": "Nkwot Nsit",
+    "type": "city",
+    "lat": 4.87874329929,
+    "lng": 7.9084176114541,
+    "pop": null
+  },
+  {
+    "nameAr": "Nne Ntete",
+    "nameEn": "Nne Ntete",
+    "type": "city",
+    "lat": 4.6599204183231,
+    "lng": 8.0596521348327,
+    "pop": null
+  },
+  {
+    "nameAr": "Nodu Okpuno,Awka South",
+    "nameEn": "Nodu Okpuno,Awka South",
+    "type": "city",
+    "lat": 6.230881,
+    "lng": 7.074034,
+    "pop": null
+  },
+  {
+    "nameAr": "Nok",
+    "nameEn": "Nok",
+    "type": "city",
+    "lat": 9.4902833333333,
+    "lng": 8.0204,
+    "pop": null
+  },
+  {
+    "nameAr": "Nowog,Nigeria",
+    "nameEn": "Nowog,Nigeria",
+    "type": "city",
+    "lat": 8.864083,
+    "lng": 6.828516,
+    "pop": null
+  },
+  {
+    "nameAr": "Nru Nsukka",
+    "nameEn": "Nru Nsukka",
+    "type": "city",
+    "lat": 6.85666667,
+    "lng": 7.39583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nsasak",
+    "nameEn": "Nsasak",
+    "type": "city",
+    "lat": 5.151129,
+    "lng": 7.634967,
+    "pop": null
+  },
+  {
+    "nameAr": "Nsiak",
+    "nameEn": "Nsiak",
+    "type": "city",
+    "lat": 5.131665,
+    "lng": 7.734662,
+    "pop": null
+  },
+  {
+    "nameAr": "Nsidung",
+    "nameEn": "Nsidung",
+    "type": "city",
+    "lat": 5.0266227316966,
+    "lng": 7.5306415040436,
+    "pop": null
+  },
+  {
+    "nameAr": "Nsugbe",
+    "nameEn": "Nsugbe",
+    "type": "city",
+    "lat": 6.26666667,
+    "lng": 6.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Nta Ikang",
+    "nameEn": "Nta Ikang",
+    "type": "city",
+    "lat": 4.6308108559003,
+    "lng": 8.1285708490361,
+    "pop": null
+  },
+  {
+    "nameAr": "Ntak Inyang",
+    "nameEn": "Ntak Inyang",
+    "type": "city",
+    "lat": 4.6312357420343,
+    "lng": 8.1235662162387,
+    "pop": null
+  },
+  {
+    "nameAr": "Ntak lnyang",
+    "nameEn": "Ntak lnyang",
+    "type": "city",
+    "lat": 4.631287,
+    "lng": 8.123902,
+    "pop": null
+  },
+  {
+    "nameAr": "Ntak Obio Akpa",
+    "nameEn": "Ntak Obio Akpa",
+    "type": "city",
+    "lat": 4.964728,
+    "lng": 7.76008,
+    "pop": null
+  },
+  {
+    "nameAr": "Ntenge Akana",
+    "nameEn": "Ntenge Akana",
+    "type": "city",
+    "lat": 4.840538,
+    "lng": 7.674848,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Akan",
+    "nameEn": "Nto Akan",
+    "type": "city",
+    "lat": 5.006032207734,
+    "lng": 7.535818226585,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Akpan Etim",
+    "nameEn": "Nto Akpan Etim",
+    "type": "city",
+    "lat": 5.0121500282334,
+    "lng": 7.5311234049208,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Mbadum",
+    "nameEn": "Nto Mbadum",
+    "type": "city",
+    "lat": 5.0152281105083,
+    "lng": 7.5098373936055,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Mfang",
+    "nameEn": "Nto Mfang",
+    "type": "city",
+    "lat": 5.0250393970394,
+    "lng": 7.5471351094716,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Ntia",
+    "nameEn": "Nto Ntia",
+    "type": "city",
+    "lat": 5.0230942548162,
+    "lng": 7.5173904943948,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Obio Akpan",
+    "nameEn": "Nto Obio Akpan",
+    "type": "city",
+    "lat": 4.607375,
+    "lng": 7.721389,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Udo Igwe",
+    "nameEn": "Nto Udo Igwe",
+    "type": "city",
+    "lat": 5.0272204029668,
+    "lng": 7.535074579926,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Udoete",
+    "nameEn": "Nto Udoete",
+    "type": "city",
+    "lat": 5.0304694143,
+    "lng": 7.5403531674094,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Udofa I",
+    "nameEn": "Nto Udofa I",
+    "type": "city",
+    "lat": 5.0330123014586,
+    "lng": 7.5427963788679,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Udofa II",
+    "nameEn": "Nto Udofa II",
+    "type": "city",
+    "lat": 5.0230942548162,
+    "lng": 7.5208237220263,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Ukara",
+    "nameEn": "Nto Ukara",
+    "type": "city",
+    "lat": 4.9906030467256,
+    "lng": 7.5115540074213,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Ukong",
+    "nameEn": "Nto Ukong",
+    "type": "city",
+    "lat": 5.0306929948968,
+    "lng": 7.5404798600981,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Ukpong-Otong",
+    "nameEn": "Nto Ukpong-Otong",
+    "type": "city",
+    "lat": 5.0239500000933,
+    "lng": 7.5430568340791,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Urua Itak",
+    "nameEn": "Nto Urua Itak",
+    "type": "city",
+    "lat": 5.0311106068224,
+    "lng": 7.5406964935667,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Urua Odoro",
+    "nameEn": "Nto Urua Odoro",
+    "type": "city",
+    "lat": 5.0312059950278,
+    "lng": 7.5442564104928,
+    "pop": null
+  },
+  {
+    "nameAr": "Nto Usoh",
+    "nameEn": "Nto Usoh",
+    "type": "city",
+    "lat": 5.0161578233175,
+    "lng": 7.5289785475326,
+    "pop": null
+  },
+  {
+    "nameAr": "Ntuk Otong",
+    "nameEn": "Ntuk Otong",
+    "type": "city",
+    "lat": 4.8564966219469,
+    "lng": 7.9855023451728,
+    "pop": null
+  },
+  {
+    "nameAr": "Nuku,Abaji",
+    "nameEn": "Nuku,Abaji",
+    "type": "city",
+    "lat": 8.4925281197687,
+    "lng": 6.9818951389075,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Ette",
+    "nameEn": "Nung Ette",
+    "type": "city",
+    "lat": 4.9751047867616,
+    "lng": 7.9526518219262,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Idio",
+    "nameEn": "Nung Idio",
+    "type": "city",
+    "lat": 5.2330057762367,
+    "lng": 7.7508487055431,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Ikono-Obio",
+    "nameEn": "Nung Ikono-Obio",
+    "type": "city",
+    "lat": 4.8971010777049,
+    "lng": 8.0432859827381,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Imo",
+    "nameEn": "Nung Imo",
+    "type": "city",
+    "lat": 5.210440511971,
+    "lng": 7.8050937021207,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Inuen",
+    "nameEn": "Nung Inuen",
+    "type": "city",
+    "lat": 5.202234760262,
+    "lng": 7.7927340830725,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Obong",
+    "nameEn": "Nung Obong",
+    "type": "city",
+    "lat": 4.6986934328284,
+    "lng": 7.9822638757074,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Okoro",
+    "nameEn": "Nung Okoro",
+    "type": "city",
+    "lat": 5.2268516938815,
+    "lng": 7.789300855441,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Oku Ekanem",
+    "nameEn": "Nung Oku Ekanem",
+    "type": "city",
+    "lat": 4.6900658,
+    "lng": 7.849035,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Oku Ubo 1",
+    "nameEn": "Nung Oku Ubo 1",
+    "type": "city",
+    "lat": 4.98886,
+    "lng": 8.038641,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Oku Ubo ll",
+    "nameEn": "Nung Oku Ubo ll",
+    "type": "city",
+    "lat": 4.981796,
+    "lng": 8.032582,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Udoe",
+    "nameEn": "Nung Udoe",
+    "type": "city",
+    "lat": 4.91657,
+    "lng": 7.96314,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Udoe Itak",
+    "nameEn": "Nung Udoe Itak",
+    "type": "city",
+    "lat": 5.2152271510726,
+    "lng": 7.8174533220193,
+    "pop": null
+  },
+  {
+    "nameAr": "Nung Ukana",
+    "nameEn": "Nung Ukana",
+    "type": "city",
+    "lat": 4.9111390828208,
+    "lng": 7.9577399245495,
+    "pop": null
+  },
+  {
+    "nameAr": "nwe-biara",
+    "nameEn": "nwe-biara",
+    "type": "city",
+    "lat": 4.6691944444444,
+    "lng": 7.3146111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Nyembo,Nigeria",
+    "nameEn": "Nyembo,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Obaku",
+    "nameEn": "Obaku",
+    "type": "city",
+    "lat": 5.5855972706132,
+    "lng": 6.9495748543684,
+    "pop": null
+  },
+  {
+    "nameAr": "Obianga",
+    "nameEn": "Obianga",
+    "type": "city",
+    "lat": 4.4840632,
+    "lng": 7.6115959,
+    "pop": null
+  },
+  {
+    "nameAr": "Obinkita",
+    "nameEn": "Obinkita",
+    "type": "city",
+    "lat": 5.3833333333333,
+    "lng": 7.9166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Obio Iyata",
+    "nameEn": "Obio Iyata",
+    "type": "city",
+    "lat": 4.5774835644488,
+    "lng": 8.2561235652862,
+    "pop": null
+  },
+  {
+    "nameAr": "Obiokpok",
+    "nameEn": "Obiokpok",
+    "type": "city",
+    "lat": 4.927119,
+    "lng": 7.990897,
+    "pop": null
+  },
+  {
+    "nameAr": "Obo",
+    "nameEn": "Obo",
+    "type": "city",
+    "lat": 7.33938,
+    "lng": 8.10905,
+    "pop": null
+  },
+  {
+    "nameAr": "Obo Etok",
+    "nameEn": "Obo Etok",
+    "type": "city",
+    "lat": 4.900258,
+    "lng": 7.884408,
+    "pop": null
+  },
+  {
+    "nameAr": "Obo Ntong",
+    "nameEn": "Obo Ntong",
+    "type": "city",
+    "lat": 4.907869,
+    "lng": 7.883906,
+    "pop": null
+  },
+  {
+    "nameAr": "Obokum",
+    "nameEn": "Obokum",
+    "type": "city",
+    "lat": 5.907,
+    "lng": 8.9087,
+    "pop": null
+  },
+  {
+    "nameAr": "Obom Nkwongo",
+    "nameEn": "Obom Nkwongo",
+    "type": "city",
+    "lat": 5.213175738805,
+    "lng": 7.7838076912306,
+    "pop": null
+  },
+  {
+    "nameAr": "Obong Itam",
+    "nameEn": "Obong Itam",
+    "type": "city",
+    "lat": 5.2830555555556,
+    "lng": 8.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Obong Ntak",
+    "nameEn": "Obong Ntak",
+    "type": "city",
+    "lat": 4.956605,
+    "lng": 7.554577,
+    "pop": null
+  },
+  {
+    "nameAr": "Obonoma",
+    "nameEn": "Obonoma",
+    "type": "city",
+    "lat": 4.7108,
+    "lng": 6.7916,
+    "pop": null
+  },
+  {
+    "nameAr": "Obot Etim",
+    "nameEn": "Obot Etim",
+    "type": "city",
+    "lat": 5.186514,
+    "lng": 7.977349,
+    "pop": null
+  },
+  {
+    "nameAr": "Obuagu onuaviankwo okposi",
+    "nameEn": "Obuagu onuaviankwo okposi",
+    "type": "city",
+    "lat": 6.2785677,
+    "lng": 8.0190999,
+    "pop": null
+  },
+  {
+    "nameAr": "Obuama",
+    "nameEn": "Obuama",
+    "type": "city",
+    "lat": 4.8032,
+    "lng": 6.744,
+    "pop": null
+  },
+  {
+    "nameAr": "Obudu",
+    "nameEn": "Obudu",
+    "type": "city",
+    "lat": 6.6680555555556,
+    "lng": 9.1644444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ode-Irele",
+    "nameEn": "Ode-Irele",
+    "type": "city",
+    "lat": 6.48972225,
+    "lng": 4.86916685,
+    "pop": null
+  },
+  {
+    "nameAr": "Odio",
+    "nameEn": "Odio",
+    "type": "city",
+    "lat": 4.5717908898913,
+    "lng": 7.9270897974732,
+    "pop": null
+  },
+  {
+    "nameAr": "Odiokwu",
+    "nameEn": "Odiokwu",
+    "type": "city",
+    "lat": 5.1201,
+    "lng": 6.5981,
+    "pop": null
+  },
+  {
+    "nameAr": "Odogwu Awka Close, Okpuno Awka South",
+    "nameEn": "Odogwu Awka Close, Okpuno Awka South",
+    "type": "city",
+    "lat": 6.211981,
+    "lng": 7.063763,
+    "pop": null
+  },
+  {
+    "nameAr": "Odoro Akuku",
+    "nameEn": "Odoro Akuku",
+    "type": "city",
+    "lat": 4.5940267791957,
+    "lng": 8.0649150364353,
+    "pop": null
+  },
+  {
+    "nameAr": "Odoro Atasong",
+    "nameEn": "Odoro Atasong",
+    "type": "city",
+    "lat": 4.7162293694982,
+    "lng": 7.9894736528499,
+    "pop": null
+  },
+  {
+    "nameAr": "Odoro Enen",
+    "nameEn": "Odoro Enen",
+    "type": "city",
+    "lat": 4.649341,
+    "lng": 7.941755,
+    "pop": null
+  },
+  {
+    "nameAr": "Odoro Ikot Esedem",
+    "nameEn": "Odoro Ikot Esedem",
+    "type": "city",
+    "lat": 5.027476879289,
+    "lng": 7.5355466662054,
+    "pop": null
+  },
+  {
+    "nameAr": "Odot No. 1",
+    "nameEn": "Odot No. 1",
+    "type": "city",
+    "lat": 4.870259,
+    "lng": 8.018399,
+    "pop": null
+  },
+  {
+    "nameAr": "Odot No. 2",
+    "nameEn": "Odot No. 2",
+    "type": "city",
+    "lat": 4.882154,
+    "lng": 8.020511,
+    "pop": null
+  },
+  {
+    "nameAr": "Odot No. 3",
+    "nameEn": "Odot No. 3",
+    "type": "city",
+    "lat": 4.825752,
+    "lng": 8.035919,
+    "pop": null
+  },
+  {
+    "nameAr": "Odufor",
+    "nameEn": "Odufor",
+    "type": "city",
+    "lat": 5.1104,
+    "lng": 7.0478,
+    "pop": null
+  },
+  {
+    "nameAr": "Odung Itak",
+    "nameEn": "Odung Itak",
+    "type": "city",
+    "lat": 5.193345075112,
+    "lng": 7.7975406017566,
+    "pop": null
+  },
+  {
+    "nameAr": "Oduoha-Emohua",
+    "nameEn": "Oduoha-Emohua",
+    "type": "city",
+    "lat": 4.88333333,
+    "lng": 6.86666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogbema",
+    "nameEn": "Ogbema",
+    "type": "city",
+    "lat": 4.8493,
+    "lng": 6.6438,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogboloma",
+    "nameEn": "Ogboloma",
+    "type": "city",
+    "lat": 5.0512,
+    "lng": 6.3319,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogidi",
+    "nameEn": "Ogidi",
+    "type": "city",
+    "lat": 6.15,
+    "lng": 6.8666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Oginigba",
+    "nameEn": "Oginigba",
+    "type": "city",
+    "lat": 4.8264,
+    "lng": 7.0387,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogoda",
+    "nameEn": "Ogoda",
+    "type": "city",
+    "lat": 5.1167,
+    "lng": 6.5749,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogotun",
+    "nameEn": "Ogotun",
+    "type": "city",
+    "lat": 7.510793,
+    "lng": 4.995552,
+    "pop": null
+  },
+  {
+    "nameAr": "Ohokobe",
+    "nameEn": "Ohokobe",
+    "type": "city",
+    "lat": 5.5162,
+    "lng": 7.5057,
+    "pop": null
+  },
+  {
+    "nameAr": "Ohordua",
+    "nameEn": "Ohordua",
+    "type": "city",
+    "lat": 6.527,
+    "lng": 6.41,
+    "pop": null
+  },
+  {
+    "nameAr": "Okada",
+    "nameEn": "Okada",
+    "type": "city",
+    "lat": 6.7331,
+    "lng": 5.3913,
+    "pop": null
+  },
+  {
+    "nameAr": "Okat",
+    "nameEn": "Okat",
+    "type": "city",
+    "lat": 4.6485826,
+    "lng": 7.8782163,
+    "pop": null
+  },
+  {
+    "nameAr": "Oke Amu",
+    "nameEn": "Oke Amu",
+    "type": "city",
+    "lat": 8.12387,
+    "lng": 3.52149,
+    "pop": null
+  },
+  {
+    "nameAr": "oke baale",
+    "nameEn": "oke baale",
+    "type": "city",
+    "lat": 7.7658723335535,
+    "lng": 4.5722856699179,
+    "pop": null
+  },
+  {
+    "nameAr": "Okekere",
+    "nameEn": "Okekere",
+    "type": "city",
+    "lat": 8.1601,
+    "lng": 5.9429,
+    "pop": null
+  },
+  {
+    "nameAr": "Oko Ita",
+    "nameEn": "Oko Ita",
+    "type": "city",
+    "lat": 5.21,
+    "lng": 7.883,
+    "pop": null
+  },
+  {
+    "nameAr": "Okobor",
+    "nameEn": "Okobor",
+    "type": "city",
+    "lat": 4.8845,
+    "lng": 6.6183,
+    "pop": null
+  },
+  {
+    "nameAr": "Okom",
+    "nameEn": "Okom",
+    "type": "city",
+    "lat": 4.6285999,
+    "lng": 7.8039967,
+    "pop": null
+  },
+  {
+    "nameAr": "Okoroete",
+    "nameEn": "Okoroete",
+    "type": "city",
+    "lat": 4.5331,
+    "lng": 7.7464,
+    "pop": null
+  },
+  {
+    "nameAr": "Okorombokho",
+    "nameEn": "Okorombokho",
+    "type": "city",
+    "lat": 4.5365228,
+    "lng": 7.7532249,
+    "pop": null
+  },
+  {
+    "nameAr": "Okosi",
+    "nameEn": "Okosi",
+    "type": "city",
+    "lat": 4.7532,
+    "lng": 8.1281,
+    "pop": null
+  },
+  {
+    "nameAr": "Okpokoro",
+    "nameEn": "Okpokoro",
+    "type": "city",
+    "lat": 4.867798,
+    "lng": 7.59175,
+    "pop": null
+  },
+  {
+    "nameAr": "Okpoto",
+    "nameEn": "Okpoto",
+    "type": "city",
+    "lat": 5.1919774201105,
+    "lng": 7.7989138928092,
+    "pop": null
+  },
+  {
+    "nameAr": "Okpotoro",
+    "nameEn": "Okpotoro",
+    "type": "city",
+    "lat": 4.688979,
+    "lng": 7.568904,
+    "pop": null
+  },
+  {
+    "nameAr": "Okpuala Ngwa",
+    "nameEn": "Okpuala Ngwa",
+    "type": "city",
+    "lat": 5.3886111111111,
+    "lng": 7.4438888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Okpuno-Awka",
+    "nameEn": "Okpuno-Awka",
+    "type": "city",
+    "lat": 6.25546,
+    "lng": 7.07367,
+    "pop": null
+  },
+  {
+    "nameAr": "Oku Abak",
+    "nameEn": "Oku Abak",
+    "type": "city",
+    "lat": 5.124997,
+    "lng": 7.773765,
+    "pop": null
+  },
+  {
+    "nameAr": "Oku Iboku",
+    "nameEn": "Oku Iboku",
+    "type": "city",
+    "lat": 5.1253070539826,
+    "lng": 7.992386092019,
+    "pop": null
+  },
+  {
+    "nameAr": "Oku Oruk",
+    "nameEn": "Oku Oruk",
+    "type": "city",
+    "lat": 4.80885,
+    "lng": 7.695327,
+    "pop": null
+  },
+  {
+    "nameAr": "Okuda",
+    "nameEn": "Okuda",
+    "type": "city",
+    "lat": 4.7155,
+    "lng": 8.1414,
+    "pop": null
+  },
+  {
+    "nameAr": "Okukuk",
+    "nameEn": "Okukuk",
+    "type": "city",
+    "lat": 4.951683,
+    "lng": 7.886705,
+    "pop": null
+  },
+  {
+    "nameAr": "Okun-Owa",
+    "nameEn": "Okun-Owa",
+    "type": "city",
+    "lat": 6.854923,
+    "lng": 3.81408,
+    "pop": null
+  },
+  {
+    "nameAr": "Okuru-Ama",
+    "nameEn": "Okuru-Ama",
+    "type": "city",
+    "lat": 4.8001,
+    "lng": 7.0552,
+    "pop": null
+  },
+  {
+    "nameAr": "Okwoga",
+    "nameEn": "Okwoga",
+    "type": "city",
+    "lat": 7.0411,
+    "lng": 7.8096,
+    "pop": null
+  },
+  {
+    "nameAr": "Old Bakana",
+    "nameEn": "Old Bakana",
+    "type": "city",
+    "lat": 4.7664,
+    "lng": 6.9491,
+    "pop": null
+  },
+  {
+    "nameAr": "Oluyole",
+    "nameEn": "Oluyole",
+    "type": "city",
+    "lat": 7.1838029583365,
+    "lng": 3.8946751692672,
+    "pop": null
+  },
+  {
+    "nameAr": "Omasi",
+    "nameEn": "Omasi",
+    "type": "city",
+    "lat": 6.70408,
+    "lng": 6.97963,
+    "pop": null
+  },
+  {
+    "nameAr": "Omo",
+    "nameEn": "Omo",
+    "type": "city",
+    "lat": 6.5105,
+    "lng": 6.9545,
+    "pop": null
+  },
+  {
+    "nameAr": "Omuma town",
+    "nameEn": "Omuma town",
+    "type": "city",
+    "lat": 5.9833333333333,
+    "lng": 6.9833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Oniogh Edo",
+    "nameEn": "Oniogh Edo",
+    "type": "city",
+    "lat": 4.6465182861363,
+    "lng": 8.0210035650169,
+    "pop": null
+  },
+  {
+    "nameAr": "Oniong",
+    "nameEn": "Oniong",
+    "type": "city",
+    "lat": 4.79701,
+    "lng": 7.806053,
+    "pop": null
+  },
+  {
+    "nameAr": "Onitsha Express road, Amawbia Awka South",
+    "nameEn": "Onitsha Express road, Amawbia Awka South",
+    "type": "city",
+    "lat": 6.22699,
+    "lng": 7.073776,
+    "pop": null
+  },
+  {
+    "nameAr": "Onitsha Express Way, Amawbia Awka South",
+    "nameEn": "Onitsha Express Way, Amawbia Awka South",
+    "type": "city",
+    "lat": 6.226996,
+    "lng": 7.07376,
+    "pop": null
+  },
+  {
+    "nameAr": "Opobo Town",
+    "nameEn": "Opobo Town",
+    "type": "city",
+    "lat": 4.5113888888889,
+    "lng": 7.54,
+    "pop": null
+  },
+  {
+    "nameAr": "Oroma-Etiti",
+    "nameEn": "Oroma-Etiti",
+    "type": "city",
+    "lat": 6.33097,
+    "lng": 6.74771,
+    "pop": null
+  },
+  {
+    "nameAr": "Oroworukwo",
+    "nameEn": "Oroworukwo",
+    "type": "city",
+    "lat": 4.8122,
+    "lng": 7.0055,
+    "pop": null
+  },
+  {
+    "nameAr": "Oruama",
+    "nameEn": "Oruama",
+    "type": "city",
+    "lat": 4.5322,
+    "lng": 6.4004,
+    "pop": null
+  },
+  {
+    "nameAr": "Oruk Otong",
+    "nameEn": "Oruk Otong",
+    "type": "city",
+    "lat": 4.836377,
+    "lng": 7.616896,
+    "pop": null
+  },
+  {
+    "nameAr": "Osemotor",
+    "nameEn": "Osemotor",
+    "type": "city",
+    "lat": 5.7127777777778,
+    "lng": 6.7922222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Oshika",
+    "nameEn": "Oshika",
+    "type": "city",
+    "lat": 5.0724,
+    "lng": 6.5639,
+    "pop": null
+  },
+  {
+    "nameAr": "Osina",
+    "nameEn": "Osina",
+    "type": "city",
+    "lat": 5.8875,
+    "lng": 7.10277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Osiok",
+    "nameEn": "Osiok",
+    "type": "city",
+    "lat": 4.6443829739963,
+    "lng": 7.9926741917438,
+    "pop": null
+  },
+  {
+    "nameAr": "Osu Ofi",
+    "nameEn": "Osu Ofi",
+    "type": "city",
+    "lat": 4.7625,
+    "lng": 8.1851,
+    "pop": null
+  },
+  {
+    "nameAr": "Osuk Ediene",
+    "nameEn": "Osuk Ediene",
+    "type": "city",
+    "lat": 5.1153840282361,
+    "lng": 7.8256930683349,
+    "pop": null
+  },
+  {
+    "nameAr": "Otan Ayegbaju",
+    "nameEn": "Otan Ayegbaju",
+    "type": "city",
+    "lat": 7.95,
+    "lng": 4.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Otari",
+    "nameEn": "Otari",
+    "type": "city",
+    "lat": 4.845,
+    "lng": 6.561,
+    "pop": null
+  },
+  {
+    "nameAr": "Otomo",
+    "nameEn": "Otomo",
+    "type": "city",
+    "lat": 5.0049142180472,
+    "lng": 7.5785886867915,
+    "pop": null
+  },
+  {
+    "nameAr": "Otukpa",
+    "nameEn": "Otukpa",
+    "type": "city",
+    "lat": 7.1016666666667,
+    "lng": 7.6594444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Otuoke",
+    "nameEn": "Otuoke",
+    "type": "city",
+    "lat": 4.7943475686001,
+    "lng": 6.3143276379811,
+    "pop": null
+  },
+  {
+    "nameAr": "Owelu",
+    "nameEn": "Owelu",
+    "type": "city",
+    "lat": 5.5333,
+    "lng": 7.0833,
+    "pop": null
+  },
+  {
+    "nameAr": "Owerewere",
+    "nameEn": "Owerewere",
+    "type": "city",
+    "lat": 4.9614,
+    "lng": 6.591,
+    "pop": null
+  },
+  {
+    "nameAr": "Owerrinta",
+    "nameEn": "Owerrinta",
+    "type": "city",
+    "lat": 5.2496,
+    "lng": 7.3267,
+    "pop": null
+  },
+  {
+    "nameAr": "Owomomilowo",
+    "nameEn": "Owomomilowo",
+    "type": "city",
+    "lat": 7.26936,
+    "lng": 5.01266,
+    "pop": null
+  },
+  {
+    "nameAr": "Oyigba",
+    "nameEn": "Oyigba",
+    "type": "city",
+    "lat": 5.0971,
+    "lng": 6.5767,
+    "pop": null
+  },
+  {
+    "nameAr": "Ozara",
+    "nameEn": "Ozara",
+    "type": "city",
+    "lat": 5.732804,
+    "lng": 6.861025,
+    "pop": null
+  },
+  {
+    "nameAr": "Ozuitem",
+    "nameEn": "Ozuitem",
+    "type": "city",
+    "lat": 5.6453,
+    "lng": 7.6094,
+    "pop": null
+  },
+  {
+    "nameAr": "Pako Base,Nigeria",
+    "nameEn": "Pako Base,Nigeria",
+    "type": "city",
+    "lat": 9.063,
+    "lng": 6.995,
+    "pop": null
+  },
+  {
+    "nameAr": "Pambeguwa",
+    "nameEn": "Pambeguwa",
+    "type": "city",
+    "lat": 10.5294,
+    "lng": 7.5582,
+    "pop": null
+  },
+  {
+    "nameAr": "Panagana, Nigeria",
+    "nameEn": "Panagana, Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Panda",
+    "nameEn": "Panda",
+    "type": "city",
+    "lat": 9.985527,
+    "lng": 11.44659,
+    "pop": null
+  },
+  {
+    "nameAr": "Pandaji,Nigeria",
+    "nameEn": "Pandaji,Nigeria",
+    "type": "city",
+    "lat": 8.8,
+    "lng": 6.78333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pankuru,Nigeria",
+    "nameEn": "Pankuru,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Papiri",
+    "nameEn": "Papiri",
+    "type": "city",
+    "lat": 10.62999,
+    "lng": 4.521,
+    "pop": null
+  },
+  {
+    "nameAr": "Piowe,Nigeria",
+    "nameEn": "Piowe,Nigeria",
+    "type": "city",
+    "lat": 9.23009,
+    "lng": 6.88994,
+    "pop": null
+  },
+  {
+    "nameAr": "Piyau",
+    "nameEn": "Piyau",
+    "type": "city",
+    "lat": 9.976279,
+    "lng": 11.11153,
+    "pop": null
+  },
+  {
+    "nameAr": "Pukafa",
+    "nameEn": "Pukafa",
+    "type": "city",
+    "lat": 29.5324,
+    "lng": 137.4694,
+    "pop": null
+  },
+  {
+    "nameAr": "Pyakasa",
+    "nameEn": "Pyakasa",
+    "type": "city",
+    "lat": 8.96401,
+    "lng": 7.40247,
+    "pop": null
+  },
+  {
+    "nameAr": "Regina Junction , along Enugu -Onitsha Express way,Awka South",
+    "nameEn": "Regina Junction , along Enugu -Onitsha Express way,Awka South",
+    "type": "city",
+    "lat": 6.211162,
+    "lng": 7.069844,
+    "pop": null
+  },
+  {
+    "nameAr": "Rimba,Nigeria",
+    "nameEn": "Rimba,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Rishi",
+    "nameEn": "Rishi",
+    "type": "city",
+    "lat": 9.783,
+    "lng": 7.3457,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuekwe",
+    "nameEn": "Rumuekwe",
+    "type": "city",
+    "lat": 4.8438,
+    "lng": 7.0579,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumueme",
+    "nameEn": "Rumueme",
+    "type": "city",
+    "lat": 4.8241,
+    "lng": 6.9719,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuepirikom",
+    "nameEn": "Rumuepirikom",
+    "type": "city",
+    "lat": 4.8188,
+    "lng": 6.988,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuigbo",
+    "nameEn": "Rumuigbo",
+    "type": "city",
+    "lat": 4.8521944444444,
+    "lng": 6.9906944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumukalagbor",
+    "nameEn": "Rumukalagbor",
+    "type": "city",
+    "lat": 4.8172,
+    "lng": 7.0109,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumunduru",
+    "nameEn": "Rumunduru",
+    "type": "city",
+    "lat": 4.8711,
+    "lng": 7.0324,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuobiakani",
+    "nameEn": "Rumuobiakani",
+    "type": "city",
+    "lat": 4.8344,
+    "lng": 7.0336,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuodara",
+    "nameEn": "Rumuodara",
+    "type": "city",
+    "lat": 4.854,
+    "lng": 7.033,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuodogo",
+    "nameEn": "Rumuodogo",
+    "type": "city",
+    "lat": 4.9187,
+    "lng": 6.7896,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuodomaya",
+    "nameEn": "Rumuodomaya",
+    "type": "city",
+    "lat": 4.8805,
+    "lng": 6.9988,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuogba",
+    "nameEn": "Rumuogba",
+    "type": "city",
+    "lat": 4.8427,
+    "lng": 7.0404,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuoji",
+    "nameEn": "Rumuoji",
+    "type": "city",
+    "lat": 4.9066,
+    "lng": 7.0413,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuokparali",
+    "nameEn": "Rumuokparali",
+    "type": "city",
+    "lat": 4.8682,
+    "lng": 6.9085,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuokwachi",
+    "nameEn": "Rumuokwachi",
+    "type": "city",
+    "lat": 4.8639,
+    "lng": 6.9229,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuokwurusi",
+    "nameEn": "Rumuokwurusi",
+    "type": "city",
+    "lat": 4.8554,
+    "lng": 7.0539,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuokwuta",
+    "nameEn": "Rumuokwuta",
+    "type": "city",
+    "lat": 4.8406,
+    "lng": 6.9921,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuola",
+    "nameEn": "Rumuola",
+    "type": "city",
+    "lat": 4.8356,
+    "lng": 7.0256,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuomasi",
+    "nameEn": "Rumuomasi",
+    "type": "city",
+    "lat": 4.8356,
+    "lng": 7.0256,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumuosi",
+    "nameEn": "Rumuosi",
+    "type": "city",
+    "lat": 4.8831,
+    "lng": 6.9401,
+    "pop": null
+  },
+  {
+    "nameAr": "Rumurolu",
+    "nameEn": "Rumurolu",
+    "type": "city",
+    "lat": 4.8399,
+    "lng": 7.0646,
+    "pop": null
+  },
+  {
+    "nameAr": "S/Gwari Genge",
+    "nameEn": "S/Gwari Genge",
+    "type": "city",
+    "lat": 8.6590111111111,
+    "lng": 7.2704611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabiu",
+    "nameEn": "Sabiu",
+    "type": "city",
+    "lat": 13.7527,
+    "lng": 4.8759,
+    "pop": null
+  },
+  {
+    "nameAr": "Sagwaza",
+    "nameEn": "Sagwaza",
+    "type": "city",
+    "lat": 9.94192,
+    "lng": 8.26448,
+    "pop": null
+  },
+  {
+    "nameAr": "Sako",
+    "nameEn": "Sako",
+    "type": "city",
+    "lat": 9.88925,
+    "lng": 8.40234,
+    "pop": null
+  },
+  {
+    "nameAr": "Sango",
+    "nameEn": "Sango",
+    "type": "city",
+    "lat": 6.7119,
+    "lng": 3.2533,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarowo-Abdu,Nigeria",
+    "nameEn": "Sarowo-Abdu,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Satellite Town",
+    "nameEn": "Satellite Town",
+    "type": "city",
+    "lat": 6.4422239078558,
+    "lng": 3.2643127441406,
+    "pop": null
+  },
+  {
+    "nameAr": "Selifulyu,Nigeria",
+    "nameEn": "Selifulyu,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Shabbal",
+    "nameEn": "Shabbal",
+    "type": "city",
+    "lat": 10.073684,
+    "lng": 11.185034,
+    "pop": null
+  },
+  {
+    "nameAr": "Share",
+    "nameEn": "Share",
+    "type": "city",
+    "lat": 8.8228,
+    "lng": 4.9689,
+    "pop": null
+  },
+  {
+    "nameAr": "Shulto",
+    "nameEn": "Shulto",
+    "type": "city",
+    "lat": 10.18736,
+    "lng": 10.871812,
+    "pop": null
+  },
+  {
+    "nameAr": "Shunni",
+    "nameEn": "Shunni",
+    "type": "city",
+    "lat": 12.9489292,
+    "lng": 5.2824859,
+    "pop": null
+  },
+  {
+    "nameAr": "Shuwa Madagali",
+    "nameEn": "Shuwa Madagali",
+    "type": "city",
+    "lat": 10.746944444444,
+    "lng": 13.415833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Surame Cultural Landscape",
+    "nameEn": "Surame Cultural Landscape",
+    "type": "city",
+    "lat": 13.0875,
+    "lng": 4.89861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Swada",
+    "nameEn": "Swada",
+    "type": "city",
+    "lat": 10.8244253,
+    "lng": 3.8281795,
+    "pop": null
+  },
+  {
+    "nameAr": "Takete- Isao",
+    "nameEn": "Takete- Isao",
+    "type": "city",
+    "lat": 8.16666667,
+    "lng": 5.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Talabani",
+    "nameEn": "Talabani",
+    "type": "city",
+    "lat": 13.5345,
+    "lng": 4.744,
+    "pop": null
+  },
+  {
+    "nameAr": "Talba",
+    "nameEn": "Talba",
+    "type": "city",
+    "lat": 13.4641,
+    "lng": 4.8436,
+    "pop": null
+  },
+  {
+    "nameAr": "Talpa,Nigeria",
+    "nameEn": "Talpa,Nigeria",
+    "type": "city",
+    "lat": 8.818,
+    "lng": 6.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamburawa",
+    "nameEn": "Tamburawa",
+    "type": "city",
+    "lat": 11.8695,
+    "lng": 8.5318,
+    "pop": null
+  },
+  {
+    "nameAr": "Tappi",
+    "nameEn": "Tappi",
+    "type": "city",
+    "lat": 10.4971495,
+    "lng": 11.0564072,
+    "pop": null
+  },
+  {
+    "nameAr": "Tombia",
+    "nameEn": "Tombia",
+    "type": "city",
+    "lat": 4.45258,
+    "lng": 6.98934,
+    "pop": null
+  },
+  {
+    "nameAr": "Tongo",
+    "nameEn": "Tongo",
+    "type": "city",
+    "lat": 10.301467,
+    "lng": 10.939635,
+    "pop": null
+  },
+  {
+    "nameAr": "Toranke",
+    "nameEn": "Toranke",
+    "type": "city",
+    "lat": 11.9917,
+    "lng": 9.16746,
+    "pop": null
+  },
+  {
+    "nameAr": "Toru-Orua",
+    "nameEn": "Toru-Orua",
+    "type": "city",
+    "lat": 5.0997222222222,
+    "lng": 6.0644444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Tukulma",
+    "nameEn": "Tukulma",
+    "type": "city",
+    "lat": 10.133802,
+    "lng": 10.975403,
+    "pop": null
+  },
+  {
+    "nameAr": "Tula – Yiri",
+    "nameEn": "Tula – Yiri",
+    "type": "city",
+    "lat": 9.807918,
+    "lng": 11.492873,
+    "pop": null
+  },
+  {
+    "nameAr": "Tula Baule",
+    "nameEn": "Tula Baule",
+    "type": "city",
+    "lat": 9.853001,
+    "lng": 11.478304,
+    "pop": null
+  },
+  {
+    "nameAr": "Tula Wange",
+    "nameEn": "Tula Wange",
+    "type": "city",
+    "lat": 9.832831,
+    "lng": 11.476425,
+    "pop": null
+  },
+  {
+    "nameAr": "Tulmi",
+    "nameEn": "Tulmi",
+    "type": "city",
+    "lat": 10.070583,
+    "lng": 11.059597,
+    "pop": null
+  },
+  {
+    "nameAr": "Tumu",
+    "nameEn": "Tumu",
+    "type": "city",
+    "lat": 10.00611,
+    "lng": 11.009205,
+    "pop": null
+  },
+  {
+    "nameAr": "Tumu, Nigeria",
+    "nameEn": "Tumu, Nigeria",
+    "type": "city",
+    "lat": 10.003888888889,
+    "lng": 11.000277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Tunfure",
+    "nameEn": "Tunfure",
+    "type": "city",
+    "lat": 10.290544,
+    "lng": 11.111235,
+    "pop": null
+  },
+  {
+    "nameAr": "Tunga Makeri",
+    "nameEn": "Tunga Makeri",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Tungan Adamu",
+    "nameEn": "Tungan Adamu",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Tungan Maikasuwa",
+    "nameEn": "Tungan Maikasuwa",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Tungan Numa",
+    "nameEn": "Tungan Numa",
+    "type": "city",
+    "lat": 10.7816507,
+    "lng": 3.9850535,
+    "pop": null
+  },
+  {
+    "nameAr": "Tungan Pada",
+    "nameEn": "Tungan Pada",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Tuomo Town",
+    "nameEn": "Tuomo Town",
+    "type": "city",
+    "lat": 5.1166666666667,
+    "lng": 5.8833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ture",
+    "nameEn": "Ture",
+    "type": "city",
+    "lat": 9.824434,
+    "lng": 11.378915,
+    "pop": null
+  },
+  {
+    "nameAr": "Ubakalaka Post office, Umuahia Abia, Abia State",
+    "nameEn": "Ubakalaka Post office, Umuahia Abia, Abia State",
+    "type": "city",
+    "lat": 5.507532,
+    "lng": 7.48832,
+    "pop": null
+  },
+  {
+    "nameAr": "Ubeta",
+    "nameEn": "Ubeta",
+    "type": "city",
+    "lat": 5.1662,
+    "lng": 6.5852,
+    "pop": null
+  },
+  {
+    "nameAr": "Udek Atai",
+    "nameEn": "Udek Atai",
+    "type": "city",
+    "lat": 5.0965974964389,
+    "lng": 7.8332697526299,
+    "pop": null
+  },
+  {
+    "nameAr": "Udi Post Office, Enugu- Enugu State",
+    "nameEn": "Udi Post Office, Enugu- Enugu State",
+    "type": "city",
+    "lat": 6.431924,
+    "lng": 7.489489,
+    "pop": null
+  },
+  {
+    "nameAr": "Udun Ukpo",
+    "nameEn": "Udun Ukpo",
+    "type": "city",
+    "lat": 4.6936,
+    "lng": 8.155,
+    "pop": null
+  },
+  {
+    "nameAr": "Udun Uwe",
+    "nameEn": "Udun Uwe",
+    "type": "city",
+    "lat": 4.6986,
+    "lng": 8.1619,
+    "pop": null
+  },
+  {
+    "nameAr": "Ugbokolo",
+    "nameEn": "Ugbokolo",
+    "type": "city",
+    "lat": 7.1587106,
+    "lng": 7.79873,
+    "pop": null
+  },
+  {
+    "nameAr": "Ugbokpo",
+    "nameEn": "Ugbokpo",
+    "type": "city",
+    "lat": 7.692656,
+    "lng": 7.926664,
+    "pop": null
+  },
+  {
+    "nameAr": "Ugborodo",
+    "nameEn": "Ugborodo",
+    "type": "city",
+    "lat": 5.59737,
+    "lng": 5.17369,
+    "pop": null
+  },
+  {
+    "nameAr": "Ugwuogo Nike",
+    "nameEn": "Ugwuogo Nike",
+    "type": "city",
+    "lat": 6.626992,
+    "lng": 7.558077,
+    "pop": null
+  },
+  {
+    "nameAr": "Ugwuorie Nike",
+    "nameEn": "Ugwuorie Nike",
+    "type": "city",
+    "lat": 6.501798,
+    "lng": 7.522835,
+    "pop": null
+  },
+  {
+    "nameAr": "Uhogua",
+    "nameEn": "Uhogua",
+    "type": "city",
+    "lat": 6.65,
+    "lng": 5.6166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukana iba",
+    "nameEn": "Ukana iba",
+    "type": "city",
+    "lat": 5.113269,
+    "lng": 7.713223,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukana Ikot Ide",
+    "nameEn": "Ukana Ikot Ide",
+    "type": "city",
+    "lat": 5.125969,
+    "lng": 7.773428,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukana Ikot Ntuen",
+    "nameEn": "Ukana Ikot Ntuen",
+    "type": "city",
+    "lat": 5.134846,
+    "lng": 7.726015,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukana Nsasak",
+    "nameEn": "Ukana Nsasak",
+    "type": "city",
+    "lat": 5.09694,
+    "lng": 7.704051,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukap Ekpan Itak",
+    "nameEn": "Ukap Ekpan Itak",
+    "type": "city",
+    "lat": 5.1728299389668,
+    "lng": 7.7645816164943,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukat Aran",
+    "nameEn": "Ukat Aran",
+    "type": "city",
+    "lat": 4.7305980989871,
+    "lng": 7.9663597221101,
+    "pop": null
+  },
+  {
+    "nameAr": "Uke",
+    "nameEn": "Uke",
+    "type": "city",
+    "lat": 8.91722,
+    "lng": 7.6975,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukopon",
+    "nameEn": "Ukopon",
+    "type": "city",
+    "lat": 5.2067008404104,
+    "lng": 7.7700983642104,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpap Ikot Idang",
+    "nameEn": "Ukpap Ikot Idang",
+    "type": "city",
+    "lat": 5.2121713146238,
+    "lng": 7.771471655263,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpapa Itak",
+    "nameEn": "Ukpapa Itak",
+    "type": "city",
+    "lat": 5.1868699727626,
+    "lng": 7.8133570323672,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpeliede",
+    "nameEn": "Ukpeliede",
+    "type": "city",
+    "lat": 5.0831,
+    "lng": 6.5367,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpim Ikot-Imo",
+    "nameEn": "Ukpim Ikot-Imo",
+    "type": "city",
+    "lat": 5.1287414350223,
+    "lng": 7.8071772226305,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpim Ikot-Inyang",
+    "nameEn": "Ukpim Ikot-Inyang",
+    "type": "city",
+    "lat": 5.0603481473115,
+    "lng": 7.8353296892088,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpim Ita",
+    "nameEn": "Ukpim Ita",
+    "type": "city",
+    "lat": 5.2193299554933,
+    "lng": 7.7996005383355,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Atai Essien",
+    "nameEn": "Ukpom Atai Essien",
+    "type": "city",
+    "lat": 5.2384760209429,
+    "lng": 7.7384890864949,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ekpene",
+    "nameEn": "Ukpom Ekpene",
+    "type": "city",
+    "lat": 5.2405273503456,
+    "lng": 7.7371157954423,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ekpene-Inuen",
+    "nameEn": "Ukpom Ekpene-Inuen",
+    "type": "city",
+    "lat": 5.2501001317824,
+    "lng": 7.7309359857056,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ibakesi-Ikot",
+    "nameEn": "Ukpom Ibakesi-Ikot",
+    "type": "city",
+    "lat": 5.2507838962646,
+    "lng": 7.7412356686001,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Akpakpam",
+    "nameEn": "Ukpom Ikot Akpakpam",
+    "type": "city",
+    "lat": 5.2418948995386,
+    "lng": 7.7254428214952,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Anwana",
+    "nameEn": "Ukpom Ikot Anwana",
+    "type": "city",
+    "lat": 5.2384760209429,
+    "lng": 7.7446688962316,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Anwana Abasi",
+    "nameEn": "Ukpom Ikot Anwana Abasi",
+    "type": "city",
+    "lat": 5.2412111253164,
+    "lng": 7.7419223141264,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Edem Udo",
+    "nameEn": "Ukpom Ikot Edem Udo",
+    "type": "city",
+    "lat": 5.2418948995386,
+    "lng": 7.7426089596527,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Ekem",
+    "nameEn": "Ukpom Ikot Ekem",
+    "type": "city",
+    "lat": 5.2377922429789,
+    "lng": 7.7426089596527,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Etim",
+    "nameEn": "Ukpom Ikot Etim",
+    "type": "city",
+    "lat": 5.2364246848067,
+    "lng": 7.7467288328105,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Ntuen",
+    "nameEn": "Ukpom Ikot Ntuen",
+    "type": "city",
+    "lat": 5.1960803762127,
+    "lng": 7.7810611091254,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Nya",
+    "nameEn": "Ukpom Ikot Nya",
+    "type": "city",
+    "lat": 5.2330057762367,
+    "lng": 7.7474154779116,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Nyoho",
+    "nameEn": "Ukpom Ikot Nyoho",
+    "type": "city",
+    "lat": 5.2446299888868,
+    "lng": 7.7329959218593,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Odung",
+    "nameEn": "Ukpom Ikot Odung",
+    "type": "city",
+    "lat": 5.242578672959,
+    "lng": 7.7295626942278,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Okure",
+    "nameEn": "Ukpom Ikot Okure",
+    "type": "city",
+    "lat": 5.2357409045455,
+    "lng": 7.7426089592275,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Udo",
+    "nameEn": "Ukpom Ikot Udo",
+    "type": "city",
+    "lat": 5.2343733419394,
+    "lng": 7.7446688962316,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ikot Udo Nke",
+    "nameEn": "Ukpom Ikot Udo Nke",
+    "type": "city",
+    "lat": 5.2425786730122,
+    "lng": 7.7419223141264,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Ita",
+    "nameEn": "Ukpom Ita",
+    "type": "city",
+    "lat": 5.2268516938815,
+    "lng": 7.7611483888628,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Nung Eduo",
+    "nameEn": "Ukpom Nung Eduo",
+    "type": "city",
+    "lat": 5.1967641996326,
+    "lng": 7.7652682620206,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukpom Usung Ubom",
+    "nameEn": "Ukpom Usung Ubom",
+    "type": "city",
+    "lat": 5.2357409045987,
+    "lng": 7.7522219970209,
+    "pop": null
+  },
+  {
+    "nameAr": "Ukwa",
+    "nameEn": "Ukwa",
+    "type": "city",
+    "lat": 4.6469663685255,
+    "lng": 7.9428762010473,
+    "pop": null
+  },
+  {
+    "nameAr": "Ula - Ikata",
+    "nameEn": "Ula - Ikata",
+    "type": "city",
+    "lat": 5.0648,
+    "lng": 6.5887,
+    "pop": null
+  },
+  {
+    "nameAr": "Ula -Ehuda",
+    "nameEn": "Ula -Ehuda",
+    "type": "city",
+    "lat": 5.1048,
+    "lng": 6.6272,
+    "pop": null
+  },
+  {
+    "nameAr": "Ula-Upata",
+    "nameEn": "Ula-Upata",
+    "type": "city",
+    "lat": 5.0896,
+    "lng": 6.6277,
+    "pop": null
+  },
+  {
+    "nameAr": "Uli",
+    "nameEn": "Uli",
+    "type": "city",
+    "lat": 5.78333,
+    "lng": 6.86667,
+    "pop": null
+  },
+  {
+    "nameAr": "Umon Okon",
+    "nameEn": "Umon Okon",
+    "type": "city",
+    "lat": 5.101008,
+    "lng": 7.605228,
+    "pop": null
+  },
+  {
+    "nameAr": "Umuahala",
+    "nameEn": "Umuahala",
+    "type": "city",
+    "lat": 5.43333333,
+    "lng": 7.09166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Umuchigbo Nike",
+    "nameEn": "Umuchigbo Nike",
+    "type": "city",
+    "lat": 6.498453,
+    "lng": 7.532928,
+    "pop": null
+  },
+  {
+    "nameAr": "Umudike",
+    "nameEn": "Umudike",
+    "type": "city",
+    "lat": 5.4801,
+    "lng": 7.5437,
+    "pop": null
+  },
+  {
+    "nameAr": "Umudora Anam",
+    "nameEn": "Umudora Anam",
+    "type": "city",
+    "lat": 6.31351,
+    "lng": 6.75771,
+    "pop": null
+  },
+  {
+    "nameAr": "Umuenwelum Anam",
+    "nameEn": "Umuenwelum Anam",
+    "type": "city",
+    "lat": 6.35924,
+    "lng": 6.74942,
+    "pop": null
+  },
+  {
+    "nameAr": "Umueri village",
+    "nameEn": "Umueri village",
+    "type": "city",
+    "lat": 6.295,
+    "lng": 6.8988,
+    "pop": null
+  },
+  {
+    "nameAr": "Umueze Anam",
+    "nameEn": "Umueze Anam",
+    "type": "city",
+    "lat": 6.33333333,
+    "lng": 6.83333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Umulokpa",
+    "nameEn": "Umulokpa",
+    "type": "city",
+    "lat": 6.50611111,
+    "lng": 7.10027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Umunumo",
+    "nameEn": "Umunumo",
+    "type": "city",
+    "lat": 5.6702777777778,
+    "lng": 7.2825,
+    "pop": null
+  },
+  {
+    "nameAr": "Umuoba Anam",
+    "nameEn": "Umuoba Anam",
+    "type": "city",
+    "lat": 6.337,
+    "lng": 6.839,
+    "pop": null
+  },
+  {
+    "nameAr": "Umuogem-Ufuma",
+    "nameEn": "Umuogem-Ufuma",
+    "type": "city",
+    "lat": 6.071242,
+    "lng": 7.246647,
+    "pop": null
+  },
+  {
+    "nameAr": "Umuowa",
+    "nameEn": "Umuowa",
+    "type": "city",
+    "lat": 5.74589,
+    "lng": 7.02699,
+    "pop": null
+  },
+  {
+    "nameAr": "Unizik Junction",
+    "nameEn": "Unizik Junction",
+    "type": "city",
+    "lat": 6.154483,
+    "lng": 7.087684,
+    "pop": null
+  },
+  {
+    "nameAr": "Unizik Post office Unizik campus Awka North",
+    "nameEn": "Unizik Post office Unizik campus Awka North",
+    "type": "city",
+    "lat": 6.254066,
+    "lng": 7.132317,
+    "pop": null
+  },
+  {
+    "nameAr": "Unwana city",
+    "nameEn": "Unwana city",
+    "type": "city",
+    "lat": 5.8625,
+    "lng": 7.94861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Unyenge",
+    "nameEn": "Unyenge",
+    "type": "city",
+    "lat": 4.6337966449157,
+    "lng": 8.1858269870967,
+    "pop": null
+  },
+  {
+    "nameAr": "Upatabo",
+    "nameEn": "Upatabo",
+    "type": "city",
+    "lat": 5.0852,
+    "lng": 6.589,
+    "pop": null
+  },
+  {
+    "nameAr": "Upenekang",
+    "nameEn": "Upenekang",
+    "type": "city",
+    "lat": 4.5721,
+    "lng": 7.9784,
+    "pop": null
+  },
+  {
+    "nameAr": "Uquo",
+    "nameEn": "Uquo",
+    "type": "city",
+    "lat": 4.6523895445655,
+    "lng": 8.0522932788807,
+    "pop": null
+  },
+  {
+    "nameAr": "Urhobo",
+    "nameEn": "Urhobo",
+    "type": "city",
+    "lat": 5.2710711930127,
+    "lng": 6.2494284568905,
+    "pop": null
+  },
+  {
+    "nameAr": "Urua Inyang",
+    "nameEn": "Urua Inyang",
+    "type": "city",
+    "lat": 5.0304800591024,
+    "lng": 7.5402459015137,
+    "pop": null
+  },
+  {
+    "nameAr": "Urua Okok",
+    "nameEn": "Urua Okok",
+    "type": "city",
+    "lat": 4.663186,
+    "lng": 8.098104,
+    "pop": null
+  },
+  {
+    "nameAr": "Uruagu",
+    "nameEn": "Uruagu",
+    "type": "city",
+    "lat": 6.0236990696329,
+    "lng": 6.9165623157095,
+    "pop": null
+  },
+  {
+    "nameAr": "Uruk Ata II",
+    "nameEn": "Uruk Ata II",
+    "type": "city",
+    "lat": 5.0151317989655,
+    "lng": 7.5298368544405,
+    "pop": null
+  },
+  {
+    "nameAr": "Use Ikot Amama",
+    "nameEn": "Use Ikot Amama",
+    "type": "city",
+    "lat": 5.3026,
+    "lng": 7.8366,
+    "pop": null
+  },
+  {
+    "nameAr": "Usokun",
+    "nameEn": "Usokun",
+    "type": "city",
+    "lat": 4.7831,
+    "lng": 6.7709,
+    "pop": null
+  },
+  {
+    "nameAr": "Usonigbe",
+    "nameEn": "Usonigbe",
+    "type": "city",
+    "lat": 5.985531066961,
+    "lng": 6.1798071002484,
+    "pop": null
+  },
+  {
+    "nameAr": "Usuk Effiat",
+    "nameEn": "Usuk Effiat",
+    "type": "city",
+    "lat": 4.5917,
+    "lng": 8.3119,
+    "pop": null
+  },
+  {
+    "nameAr": "Usuk Obio Ediene",
+    "nameEn": "Usuk Obio Ediene",
+    "type": "city",
+    "lat": 5.2333,
+    "lng": 7.8333,
+    "pop": null
+  },
+  {
+    "nameAr": "Usung Itiat Ubor",
+    "nameEn": "Usung Itiat Ubor",
+    "type": "city",
+    "lat": 4.985777,
+    "lng": 7.768886,
+    "pop": null
+  },
+  {
+    "nameAr": "Utonkon",
+    "nameEn": "Utonkon",
+    "type": "city",
+    "lat": 6.94761,
+    "lng": 8.03486,
+    "pop": null
+  },
+  {
+    "nameAr": "Utu Edem Usung",
+    "nameEn": "Utu Edem Usung",
+    "type": "city",
+    "lat": 5.148058,
+    "lng": 7.725724,
+    "pop": null
+  },
+  {
+    "nameAr": "Utu Ekpenyang",
+    "nameEn": "Utu Ekpenyang",
+    "type": "city",
+    "lat": 5.132237,
+    "lng": 7.99494,
+    "pop": null
+  },
+  {
+    "nameAr": "Utu Ikot Ekang",
+    "nameEn": "Utu Ikot Ekang",
+    "type": "city",
+    "lat": 5.01589,
+    "lng": 7.7567,
+    "pop": null
+  },
+  {
+    "nameAr": "Utu Ikpe",
+    "nameEn": "Utu Ikpe",
+    "type": "city",
+    "lat": 5.138999,
+    "lng": 7.764758,
+    "pop": null
+  },
+  {
+    "nameAr": "Uwa West",
+    "nameEn": "Uwa West",
+    "type": "city",
+    "lat": 5.027544,
+    "lng": 7.913339,
+    "pop": null
+  },
+  {
+    "nameAr": "Uwani Post Office, Zik's Avenue-Enugu State",
+    "nameEn": "Uwani Post Office, Zik's Avenue-Enugu State",
+    "type": "city",
+    "lat": 6.418283,
+    "lng": 7.48994,
+    "pop": null
+  },
+  {
+    "nameAr": "Uyo Afaha Nkan",
+    "nameEn": "Uyo Afaha Nkan",
+    "type": "city",
+    "lat": 5.1926612479821,
+    "lng": 7.7714480717573,
+    "pop": null
+  },
+  {
+    "nameAr": "Uyo Itam",
+    "nameEn": "Uyo Itam",
+    "type": "city",
+    "lat": 5.1129208532126,
+    "lng": 7.9486503039439,
+    "pop": null
+  },
+  {
+    "nameAr": "Uyo Obio",
+    "nameEn": "Uyo Obio",
+    "type": "city",
+    "lat": 5.1906097621426,
+    "lng": 7.7796878180729,
+    "pop": null
+  },
+  {
+    "nameAr": "Wagu Wase-Gyan",
+    "nameEn": "Wagu Wase-Gyan",
+    "type": "city",
+    "lat": 8.9508,
+    "lng": 7.0767,
+    "pop": null
+  },
+  {
+    "nameAr": "Wake village",
+    "nameEn": "Wake village",
+    "type": "city",
+    "lat": 9.967269,
+    "lng": 7.870613,
+    "pop": null
+  },
+  {
+    "nameAr": "Warife",
+    "nameEn": "Warife",
+    "type": "city",
+    "lat": 4.805564,
+    "lng": 7.61838,
+    "pop": null
+  },
+  {
+    "nameAr": "Warite",
+    "nameEn": "Warite",
+    "type": "city",
+    "lat": 4.756036,
+    "lng": 7.572527,
+    "pop": null
+  },
+  {
+    "nameAr": "Woji",
+    "nameEn": "Woji",
+    "type": "city",
+    "lat": 4.8283,
+    "lng": 7.0579,
+    "pop": null
+  },
+  {
+    "nameAr": "Woro",
+    "nameEn": "Woro",
+    "type": "city",
+    "lat": 9.7307,
+    "lng": 12.2455,
+    "pop": null
+  },
+  {
+    "nameAr": "Wudil",
+    "nameEn": "Wudil",
+    "type": "city",
+    "lat": 10.083356,
+    "lng": 10.978934,
+    "pop": null
+  },
+  {
+    "nameAr": "Wumba, Nigeria",
+    "nameEn": "Wumba, Nigeria",
+    "type": "city",
+    "lat": 8.9617663855112,
+    "lng": 7.4815202895993,
+    "pop": null
+  },
+  {
+    "nameAr": "Y Junction, Okpuno-Awka",
+    "nameEn": "Y Junction, Okpuno-Awka",
+    "type": "city",
+    "lat": 6.233127,
+    "lng": 7.058798,
+    "pop": null
+  },
+  {
+    "nameAr": "Yana",
+    "nameEn": "Yana",
+    "type": "city",
+    "lat": 11.4226066,
+    "lng": 9.9784939,
+    "pop": null
+  },
+  {
+    "nameAr": "Yarda",
+    "nameEn": "Yarda",
+    "type": "city",
+    "lat": 10.7023,
+    "lng": 11.412104,
+    "pop": null
+  },
+  {
+    "nameAr": "Yelwa",
+    "nameEn": "Yelwa",
+    "type": "city",
+    "lat": 10.245337,
+    "lng": 11.398649,
+    "pop": null
+  },
+  {
+    "nameAr": "Yelwa Doma",
+    "nameEn": "Yelwa Doma",
+    "type": "city",
+    "lat": 8.279,
+    "lng": 8.31,
+    "pop": null
+  },
+  {
+    "nameAr": "Yelwa Gawu",
+    "nameEn": "Yelwa Gawu",
+    "type": "city",
+    "lat": 8.4747,
+    "lng": 6.9451,
+    "pop": null
+  },
+  {
+    "nameAr": "Yola",
+    "nameEn": "Yola",
+    "type": "city",
+    "lat": 9.206228,
+    "lng": 12.495792,
+    "pop": null
+  },
+  {
+    "nameAr": "Zac Zawan",
+    "nameEn": "Zac Zawan",
+    "type": "city",
+    "lat": 9.41667,
+    "lng": 8.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Zagiri",
+    "nameEn": "Zagiri",
+    "type": "city",
+    "lat": 10.913967,
+    "lng": 3.817514,
+    "pop": null
+  },
+  {
+    "nameAr": "Zuma rock Village",
+    "nameEn": "Zuma rock Village",
+    "type": "city",
+    "lat": 9.1353166666667,
+    "lng": 7.232175,
+    "pop": null
+  }
+]

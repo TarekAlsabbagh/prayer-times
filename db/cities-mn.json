@@ -1,0 +1,217 @@
+[
+  {
+    "nameAr": "أولان باتور",
+    "nameEn": "Ulaanbaatar",
+    "type": "city",
+    "lat": 47.8864,
+    "lng": 106.9057
+  },
+  {
+    "nameAr": "Mörön",
+    "nameEn": "Mörön",
+    "type": "city",
+    "lat": 49.6375,
+    "lng": 100.16138888889,
+    "pop": 134530
+  },
+  {
+    "nameAr": "إردنيت",
+    "nameEn": "Erdenet",
+    "type": "city",
+    "lat": 49.027777777778,
+    "lng": 104.04444444444,
+    "pop": 106810
+  },
+  {
+    "nameAr": "دارخان",
+    "nameEn": "Darkhan",
+    "type": "city",
+    "lat": 49.486666666667,
+    "lng": 105.92277777778,
+    "pop": 74738
+  },
+  {
+    "nameAr": "أولجي",
+    "nameEn": "Ölgii",
+    "type": "city",
+    "lat": 48.965636111111,
+    "lng": 89.963208333333,
+    "pop": 40564
+  },
+  {
+    "nameAr": "تشويبالسان",
+    "nameEn": "Choibalsan",
+    "type": "city",
+    "lat": 48.070555555556,
+    "lng": 114.52277777778,
+    "pop": 38150
+  },
+  {
+    "nameAr": "Arvaikheer",
+    "nameEn": "Arvaikheer",
+    "type": "city",
+    "lat": 46.268888888889,
+    "lng": 102.7575,
+    "pop": 30000
+  },
+  {
+    "nameAr": "أولانغوم",
+    "nameEn": "Ulaangom",
+    "type": "city",
+    "lat": 49.9754,
+    "lng": 92.06612,
+    "pop": 26319
+  },
+  {
+    "nameAr": "بيانهونجور",
+    "nameEn": "Bayankhongor",
+    "type": "city",
+    "lat": 46.19444,
+    "lng": 100.71806,
+    "pop": 26252
+  },
+  {
+    "nameAr": "خوفد",
+    "nameEn": "Khovd",
+    "type": "city",
+    "lat": 48.006666666667,
+    "lng": 91.646388888889,
+    "pop": 26023
+  },
+  {
+    "nameAr": "ألياستاي",
+    "nameEn": "Uliastai",
+    "type": "city",
+    "lat": 47.742777777778,
+    "lng": 96.843333333333,
+    "pop": 22006
+  },
+  {
+    "nameAr": "Sükhbaatar",
+    "nameEn": "Sükhbaatar",
+    "type": "city",
+    "lat": 50.236388888889,
+    "lng": 106.20638888889,
+    "pop": 21962
+  },
+  {
+    "nameAr": "تستسرليغ",
+    "nameEn": "Tsetserleg",
+    "type": "city",
+    "lat": 47.476944444444,
+    "lng": 101.45027777778,
+    "pop": 21620
+  },
+  {
+    "nameAr": "سينشند",
+    "nameEn": "Sainshand",
+    "type": "city",
+    "lat": 44.891666666667,
+    "lng": 110.13666666667,
+    "pop": 19891
+  },
+  {
+    "nameAr": "دالانزاغاد",
+    "nameEn": "Dalanzadgad",
+    "type": "city",
+    "lat": 43.57,
+    "lng": 104.42583333333,
+    "pop": 19396
+  },
+  {
+    "nameAr": "Züünkharaa",
+    "nameEn": "Züünkharaa",
+    "type": "city",
+    "lat": 48.85229,
+    "lng": 106.45786,
+    "pop": 18002
+  },
+  {
+    "nameAr": "التاي",
+    "nameEn": "Altai",
+    "type": "city",
+    "lat": 46.372777777778,
+    "lng": 96.257222222222,
+    "pop": 15800
+  },
+  {
+    "nameAr": "زونمود",
+    "nameEn": "Zuunmod",
+    "type": "city",
+    "lat": 47.706944444444,
+    "lng": 106.95277777778,
+    "pop": 14660
+  },
+  {
+    "nameAr": "بارون-اورت",
+    "nameEn": "Baruun-Urt",
+    "type": "city",
+    "lat": 46.682927777778,
+    "lng": 113.27862777778,
+    "pop": 14297
+  },
+  {
+    "nameAr": "بولجان",
+    "nameEn": "Bulgan",
+    "type": "city",
+    "lat": 48.8125,
+    "lng": 103.53472222222,
+    "pop": 12323
+  },
+  {
+    "nameAr": "ماندالغوفي",
+    "nameEn": "Mandalgovi",
+    "type": "city",
+    "lat": 45.766666666667,
+    "lng": 106.27083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bor-Öndör",
+    "nameEn": "Bor-Öndör",
+    "type": "city",
+    "lat": 46.255833333333,
+    "lng": 109.425,
+    "pop": null
+  },
+  {
+    "nameAr": "Burga",
+    "nameEn": "Burga",
+    "type": "city",
+    "lat": 48.4312893,
+    "lng": 10.4065009,
+    "pop": null
+  },
+  {
+    "nameAr": "Khatgal",
+    "nameEn": "Khatgal",
+    "type": "city",
+    "lat": 50.439444444444,
+    "lng": 100.16166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Orkhon",
+    "nameEn": "Orkhon",
+    "type": "city",
+    "lat": 49.836074345868,
+    "lng": 106.13402097881,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamsagbulag",
+    "nameEn": "Tamsagbulag",
+    "type": "city",
+    "lat": 47.25,
+    "lng": 117.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Zamyn-Üüd",
+    "nameEn": "Zamyn-Üüd",
+    "type": "city",
+    "lat": 43.718055555556,
+    "lng": 111.90611111111,
+    "pop": null
+  }
+]

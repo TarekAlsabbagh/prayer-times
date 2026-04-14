@@ -1,0 +1,161 @@
+[
+  {
+    "nameAr": "نواكشوط",
+    "nameEn": "Nouakchott",
+    "type": "city",
+    "lat": 18.0735,
+    "lng": -15.9582
+  },
+  {
+    "nameAr": "نواذيبو",
+    "nameEn": "Nouadhibou",
+    "type": "city",
+    "lat": 20.91475,
+    "lng": -17.050166666667,
+    "pop": 173525
+  },
+  {
+    "nameAr": "كيفة",
+    "nameEn": "Kiffa",
+    "type": "city",
+    "lat": 16.622888888889,
+    "lng": -11.399111111111,
+    "pop": 84101
+  },
+  {
+    "nameAr": "أطار",
+    "nameEn": "Atar",
+    "type": "city",
+    "lat": 20.518555555556,
+    "lng": -13.053888888889,
+    "pop": 35170
+  },
+  {
+    "nameAr": "النعمة",
+    "nameEn": "Néma",
+    "type": "city",
+    "lat": 16.612388888889,
+    "lng": -7.2604444444444,
+    "pop": 35042
+  },
+  {
+    "nameAr": "ألاك",
+    "nameEn": "Aleg",
+    "type": "city",
+    "lat": 17.051694444444,
+    "lng": -13.915333333333,
+    "pop": 27120
+  },
+  {
+    "nameAr": "تجكجة",
+    "nameEn": "Tidjikja",
+    "type": "city",
+    "lat": 18.55475,
+    "lng": -11.432361111111,
+    "pop": 19386
+  },
+  {
+    "nameAr": "أكجوجت",
+    "nameEn": "Akjoujt",
+    "type": "city",
+    "lat": 19.744027777778,
+    "lng": -14.384805555556,
+    "pop": 18138
+  },
+  {
+    "nameAr": "حفرة أهل الشيخ",
+    "nameEn": "Huvrat Ehl Echeik",
+    "type": "city",
+    "lat": 16.8167,
+    "lng": -11.8333,
+    "pop": 424
+  },
+  {
+    "nameAr": "الزويرات",
+    "nameEn": "Zouérat",
+    "type": "city",
+    "lat": 22.734888888889,
+    "lng": -12.473444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "الشامي (موريتانيا)",
+    "nameEn": "Chami, Mauritania",
+    "type": "city",
+    "lat": 20.164666666667,
+    "lng": -15.980027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "العيون",
+    "nameEn": "Ayoun el Atrous",
+    "type": "city",
+    "lat": 16.662972222222,
+    "lng": -9.60325,
+    "pop": null
+  },
+  {
+    "nameAr": "تمبدغة",
+    "nameEn": "Timbédra",
+    "type": "city",
+    "lat": 16.241333333333,
+    "lng": -8.1643333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "ساني",
+    "nameEn": "Sani",
+    "type": "city",
+    "lat": 16.083081,
+    "lng": -11.58986,
+    "pop": null
+  },
+  {
+    "nameAr": "سليبابي",
+    "nameEn": "Sélibaby",
+    "type": "city",
+    "lat": 15.159111111111,
+    "lng": -12.183333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "عرفات بتلميت قرية موريتانية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 17.613611111111,
+    "lng": -14.357222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "عوينات الراجاط",
+    "nameEn": "",
+    "type": "city",
+    "lat": 16.525832268312,
+    "lng": -7.2886684460266,
+    "pop": null
+  },
+  {
+    "nameAr": "كيهيدي",
+    "nameEn": "Kaédi",
+    "type": "city",
+    "lat": 16.145388888889,
+    "lng": -13.503611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "An-Naima (Al-Rakiz)",
+    "nameEn": "An-Naima (Al-Rakiz)",
+    "type": "city",
+    "lat": 16.94825,
+    "lng": -15.36417,
+    "pop": null
+  },
+  {
+    "nameAr": "Legceïba",
+    "nameEn": "Legceïba",
+    "type": "city",
+    "lat": 16.221666666667,
+    "lng": -13.156944444444,
+    "pop": null
+  }
+]

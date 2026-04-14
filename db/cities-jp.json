@@ -1,0 +1,2833 @@
+[
+  {
+    "nameAr": "طوكيو",
+    "nameEn": "Tokyo",
+    "type": "city",
+    "lat": 35.6762,
+    "lng": 139.6503
+  },
+  {
+    "nameAr": "سابورو",
+    "nameEn": "Sapporo",
+    "type": "city",
+    "lat": 43.061944444444,
+    "lng": 141.35444444444,
+    "pop": 1959313
+  },
+  {
+    "nameAr": "فوكوكا",
+    "nameEn": "Fukuoka",
+    "type": "city",
+    "lat": 33.59,
+    "lng": 130.40166666667,
+    "pop": 1603043
+  },
+  {
+    "nameAr": "كوبه",
+    "nameEn": "Kobe",
+    "type": "city",
+    "lat": 34.690166666667,
+    "lng": 135.19544444444,
+    "pop": 1521707
+  },
+  {
+    "nameAr": "كيوتو",
+    "nameEn": "Kyoto",
+    "type": "city",
+    "lat": 35.011611111111,
+    "lng": 135.76811111111,
+    "pop": 1463723
+  },
+  {
+    "nameAr": "سايتاما",
+    "nameEn": "Saitama",
+    "type": "city",
+    "lat": 35.861388888889,
+    "lng": 139.64555555556,
+    "pop": 1325843
+  },
+  {
+    "nameAr": "هيروشيما",
+    "nameEn": "Hiroshima",
+    "type": "city",
+    "lat": 34.391388888889,
+    "lng": 132.45194444444,
+    "pop": 1198021
+  },
+  {
+    "nameAr": "تشيبا",
+    "nameEn": "Chiba",
+    "type": "city",
+    "lat": 35.607277777778,
+    "lng": 140.10636111111,
+    "pop": 975014
+  },
+  {
+    "nameAr": "كيتاكيوشو",
+    "nameEn": "Kitakyūshū-shi",
+    "type": "city",
+    "lat": 33.883416666667,
+    "lng": 130.87519444444,
+    "pop": 935084
+  },
+  {
+    "nameAr": "ساكاي",
+    "nameEn": "Sakai",
+    "type": "city",
+    "lat": 34.573333333333,
+    "lng": 135.483,
+    "pop": 827277
+  },
+  {
+    "nameAr": "نيغاتا",
+    "nameEn": "Niigata",
+    "type": "city",
+    "lat": 37.916194444444,
+    "lng": 139.03638888889,
+    "pop": 790646
+  },
+  {
+    "nameAr": "هاماماتسو",
+    "nameEn": "Hamamatsu",
+    "type": "city",
+    "lat": 34.710888888889,
+    "lng": 137.72619444444,
+    "pop": 788211
+  },
+  {
+    "nameAr": "كوماموتو",
+    "nameEn": "Kumamoto",
+    "type": "city",
+    "lat": 32.803,
+    "lng": 130.70786111111,
+    "pop": 738385
+  },
+  {
+    "nameAr": "ساغاميهارا، كاناغاوا",
+    "nameEn": "Sagamihara",
+    "type": "city",
+    "lat": 35.571416666667,
+    "lng": 139.37313888889,
+    "pop": 725696
+  },
+  {
+    "nameAr": "أوكاياما، أوكاياما",
+    "nameEn": "Okayama",
+    "type": "city",
+    "lat": 34.655111111111,
+    "lng": 133.91958333333,
+    "pop": 720043
+  },
+  {
+    "nameAr": "شيزوكا",
+    "nameEn": "Shizuoka",
+    "type": "city",
+    "lat": 34.975555555556,
+    "lng": 138.3825,
+    "pop": 685589
+  },
+  {
+    "nameAr": "فوناباشي",
+    "nameEn": "Funabashi",
+    "type": "city",
+    "lat": 35.694555555556,
+    "lng": 139.98255555556,
+    "pop": 641499
+  },
+  {
+    "nameAr": "كاغوشيما، كاغوشيما",
+    "nameEn": "Kagoshima",
+    "type": "city",
+    "lat": 31.596805555556,
+    "lng": 130.55713888889,
+    "pop": 593754
+  },
+  {
+    "nameAr": "هاتشيؤوجي",
+    "nameEn": "Hachiōji-shi",
+    "type": "city",
+    "lat": 35.666444444444,
+    "lng": 139.316,
+    "pop": 575721
+  },
+  {
+    "nameAr": "هيميجي، هيوغو",
+    "nameEn": "Himeji",
+    "type": "city",
+    "lat": 34.815166666667,
+    "lng": 134.68538888889,
+    "pop": 527596
+  },
+  {
+    "nameAr": "أوتسونوميا، توتشيغي",
+    "nameEn": "Utsunomiya",
+    "type": "city",
+    "lat": 36.555111111111,
+    "lng": 139.88255555556,
+    "pop": 518197
+  },
+  {
+    "nameAr": "ماتسوياما",
+    "nameEn": "Matsuyama",
+    "type": "city",
+    "lat": 33.839166666667,
+    "lng": 132.76563888889,
+    "pop": 506743
+  },
+  {
+    "nameAr": "ماتسودو",
+    "nameEn": "Matsudo",
+    "type": "city",
+    "lat": 35.787638888889,
+    "lng": 139.90316666667,
+    "pop": 497514
+  },
+  {
+    "nameAr": "إيشيكاوا",
+    "nameEn": "Ichikawa",
+    "type": "city",
+    "lat": 35.721916666667,
+    "lng": 139.93105555556,
+    "pop": 495768
+  },
+  {
+    "nameAr": "هيغاشي-أوساكا",
+    "nameEn": "Higashiōsaka-shi",
+    "type": "city",
+    "lat": 34.679361111111,
+    "lng": 135.60088888889,
+    "pop": 490819
+  },
+  {
+    "nameAr": "نيشينومايا، هيوغو",
+    "nameEn": "Nishinomiya",
+    "type": "city",
+    "lat": 34.737638888889,
+    "lng": 135.34175,
+    "pop": 487010
+  },
+  {
+    "nameAr": "أويتا، أويتا",
+    "nameEn": "Oita",
+    "type": "city",
+    "lat": 33.239555555556,
+    "lng": 131.60936111111,
+    "pop": 477186
+  },
+  {
+    "nameAr": "كوراشيكي",
+    "nameEn": "Kurashiki",
+    "type": "city",
+    "lat": 34.585083333333,
+    "lng": 133.77211111111,
+    "pop": 474862
+  },
+  {
+    "nameAr": "كانازاوا، إيشيكاوا",
+    "nameEn": "Kanazawa",
+    "type": "city",
+    "lat": 36.561055555556,
+    "lng": 136.6565,
+    "pop": 462479
+  },
+  {
+    "nameAr": "فوکویاما",
+    "nameEn": "Fukuyama",
+    "type": "city",
+    "lat": 34.485861111111,
+    "lng": 133.36230555556,
+    "pop": 459576
+  },
+  {
+    "nameAr": "أماغاساكي، هيوغو",
+    "nameEn": "Amagasaki",
+    "type": "city",
+    "lat": 34.733833333333,
+    "lng": 135.40633333333,
+    "pop": 455555
+  },
+  {
+    "nameAr": "فوجيساوا، كاناغاوا",
+    "nameEn": "Fujisawa",
+    "type": "city",
+    "lat": 35.338777777778,
+    "lng": 139.49088888889,
+    "pop": 436744
+  },
+  {
+    "nameAr": "ماتشيدا",
+    "nameEn": "Machida",
+    "type": "city",
+    "lat": 35.546666666667,
+    "lng": 139.43861111111,
+    "pop": 434414
+  },
+  {
+    "nameAr": "كاشيوا",
+    "nameEn": "Kashiwa",
+    "type": "city",
+    "lat": 35.867583333333,
+    "lng": 139.97575,
+    "pop": 427603
+  },
+  {
+    "nameAr": "آوموري، آوموري",
+    "nameEn": "Aomori",
+    "type": "city",
+    "lat": 40.822777777778,
+    "lng": 140.74694444444,
+    "pop": 425962
+  },
+  {
+    "nameAr": "تويوتا",
+    "nameEn": "Toyota",
+    "type": "city",
+    "lat": 35.082416666667,
+    "lng": 137.15633333333,
+    "pop": 422106
+  },
+  {
+    "nameAr": "تاكاماتسو، كاغاوا",
+    "nameEn": "Takamatsu",
+    "type": "city",
+    "lat": 34.342805555556,
+    "lng": 134.04661111111,
+    "pop": 417814
+  },
+  {
+    "nameAr": "توياما، توياما",
+    "nameEn": "Toyama",
+    "type": "city",
+    "lat": 36.695916666667,
+    "lng": 137.21369444444,
+    "pop": 413028
+  },
+  {
+    "nameAr": "غيفو",
+    "nameEn": "Gifu",
+    "type": "city",
+    "lat": 35.42625,
+    "lng": 136.75944444444,
+    "pop": 400118
+  },
+  {
+    "nameAr": "تويوناكا",
+    "nameEn": "Toyonaka",
+    "type": "city",
+    "lat": 34.7815,
+    "lng": 135.46963888889,
+    "pop": 399263
+  },
+  {
+    "nameAr": "ميازاكي، ميازاكي",
+    "nameEn": "Miyazaki",
+    "type": "city",
+    "lat": 31.907722222222,
+    "lng": 131.42019444444,
+    "pop": 397476
+  },
+  {
+    "nameAr": "هيراكاتا",
+    "nameEn": "Hirakata",
+    "type": "city",
+    "lat": 34.814361111111,
+    "lng": 135.65063888889,
+    "pop": 396694
+  },
+  {
+    "nameAr": "يوكوسوكا، كاناغاوا",
+    "nameEn": "Yokosuka",
+    "type": "city",
+    "lat": 35.281305555556,
+    "lng": 139.67208333333,
+    "pop": 390275
+  },
+  {
+    "nameAr": "أوكازاكي، آيتشي",
+    "nameEn": "Okazaki",
+    "type": "city",
+    "lat": 34.954722222222,
+    "lng": 137.17302777778,
+    "pop": 385376
+  },
+  {
+    "nameAr": "سويتا",
+    "nameEn": "Suita",
+    "type": "city",
+    "lat": 34.759472222222,
+    "lng": 135.51683333333,
+    "pop": 384953
+  },
+  {
+    "nameAr": "إيتشينوميا، آيتشي",
+    "nameEn": "Ichinomiya",
+    "type": "city",
+    "lat": 35.303888888889,
+    "lng": 136.80305555556,
+    "pop": 378108
+  },
+  {
+    "nameAr": "تاكاساكي",
+    "nameEn": "Takasaki",
+    "type": "city",
+    "lat": 36.323111111111,
+    "lng": 139.00236111111,
+    "pop": 372639
+  },
+  {
+    "nameAr": "تويوهاشي، آيتشي",
+    "nameEn": "Toyohashi",
+    "type": "city",
+    "lat": 34.769166666667,
+    "lng": 137.39152777778,
+    "pop": 371507
+  },
+  {
+    "nameAr": "ناغانو",
+    "nameEn": "Nagano",
+    "type": "city",
+    "lat": 36.648666666667,
+    "lng": 138.19469444444,
+    "pop": 367184
+  },
+  {
+    "nameAr": "كاواغويه",
+    "nameEn": "Kawagoe",
+    "type": "city",
+    "lat": 35.925138888889,
+    "lng": 139.48577777778,
+    "pop": 354598
+  },
+  {
+    "nameAr": "واكاياما",
+    "nameEn": "Wakayama",
+    "type": "city",
+    "lat": 34.230361111111,
+    "lng": 135.17075,
+    "pop": 353299
+  },
+  {
+    "nameAr": "نارا",
+    "nameEn": "Nara",
+    "type": "city",
+    "lat": 34.685,
+    "lng": 135.80477777778,
+    "pop": 352377
+  },
+  {
+    "nameAr": "تاكاتسوكي",
+    "nameEn": "Takatsuki",
+    "type": "city",
+    "lat": 34.846,
+    "lng": 135.61725,
+    "pop": 347496
+  },
+  {
+    "nameAr": "أوتسو",
+    "nameEn": "Otsu",
+    "type": "city",
+    "lat": 35.0177852,
+    "lng": 135.8548122,
+    "pop": 342607
+  },
+  {
+    "nameAr": "كوشيغايا",
+    "nameEn": "Koshigaya",
+    "type": "city",
+    "lat": 35.891138888889,
+    "lng": 139.79091666667,
+    "pop": 341784
+  },
+  {
+    "nameAr": "لواكي",
+    "nameEn": "Iwaki",
+    "type": "city",
+    "lat": 37.0505,
+    "lng": 140.88772222222,
+    "pop": 336111
+  },
+  {
+    "nameAr": "أساهيكاوا",
+    "nameEn": "Asahikawa",
+    "type": "city",
+    "lat": 43.770638888889,
+    "lng": 142.365,
+    "pop": 331392
+  },
+  {
+    "nameAr": "كورياما",
+    "nameEn": "Kōriyama",
+    "type": "city",
+    "lat": 37.4003,
+    "lng": 140.3597,
+    "pop": 327040
+  },
+  {
+    "nameAr": "كوتشي، كوتشي",
+    "nameEn": "Kochi",
+    "type": "city",
+    "lat": 33.558833333333,
+    "lng": 133.53122222222,
+    "pop": 325535
+  },
+  {
+    "nameAr": "ناها، أوكيناوا",
+    "nameEn": "Naha",
+    "type": "city",
+    "lat": 26.212222222222,
+    "lng": 127.67916666667,
+    "pop": 316048
+  },
+  {
+    "nameAr": "يوكايتشي",
+    "nameEn": "Yokkaichi",
+    "type": "city",
+    "lat": 34.965027777778,
+    "lng": 136.62441666667,
+    "pop": 310263
+  },
+  {
+    "nameAr": "كاسوغاي، آيتشي",
+    "nameEn": "Kasugai",
+    "type": "city",
+    "lat": 35.2475,
+    "lng": 136.97222222222,
+    "pop": 306449
+  },
+  {
+    "nameAr": "أكيتا",
+    "nameEn": "Akita",
+    "type": "city",
+    "lat": 39.719888888889,
+    "lng": 140.10258333333,
+    "pop": 302984
+  },
+  {
+    "nameAr": "كورومي، فوكوكا",
+    "nameEn": "Kurume",
+    "type": "city",
+    "lat": 33.303611111111,
+    "lng": 130.56555555556,
+    "pop": 302858
+  },
+  {
+    "nameAr": "أكاشي، هيوغو",
+    "nameEn": "Akashi",
+    "type": "city",
+    "lat": 34.643138888889,
+    "lng": 134.99722222222,
+    "pop": 299699
+  },
+  {
+    "nameAr": "موريوكا، إيواته",
+    "nameEn": "Morioka",
+    "type": "city",
+    "lat": 39.74546,
+    "lng": 141.26915,
+    "pop": 290553
+  },
+  {
+    "nameAr": "فوكوشيما",
+    "nameEn": "Fukushima",
+    "type": "city",
+    "lat": 37.760805555556,
+    "lng": 140.47472222222,
+    "pop": 284282
+  },
+  {
+    "nameAr": "تسو",
+    "nameEn": "Tsu",
+    "type": "city",
+    "lat": 34.718444444444,
+    "lng": 136.50577777778,
+    "pop": 273267
+  },
+  {
+    "nameAr": "ميتو",
+    "nameEn": "Mito",
+    "type": "city",
+    "lat": 36.365833333333,
+    "lng": 140.47125,
+    "pop": 270823
+  },
+  {
+    "nameAr": "إيتشيهارا",
+    "nameEn": "Ichihara",
+    "type": "city",
+    "lat": 35.498055555556,
+    "lng": 140.11544444444,
+    "pop": 268038
+  },
+  {
+    "nameAr": "ناغاوكا",
+    "nameEn": "Nagaoka",
+    "type": "city",
+    "lat": 37.445277777778,
+    "lng": 138.85666666667,
+    "pop": 265868
+  },
+  {
+    "nameAr": "ياو",
+    "nameEn": "Yao",
+    "type": "city",
+    "lat": 34.626916666667,
+    "lng": 135.60083333333,
+    "pop": 264913
+  },
+  {
+    "nameAr": "فوتشو",
+    "nameEn": "Fuchū",
+    "type": "city",
+    "lat": 35.668944444444,
+    "lng": 139.47763888889,
+    "pop": 263093
+  },
+  {
+    "nameAr": "فوكوي، فوكوي",
+    "nameEn": "Fukui",
+    "type": "city",
+    "lat": 36.064055555556,
+    "lng": 136.21958333333,
+    "pop": 261474
+  },
+  {
+    "nameAr": "كاكوغاوا، هيوغو",
+    "nameEn": "Kakogawa",
+    "type": "city",
+    "lat": 34.756916666667,
+    "lng": 134.84127777778,
+    "pop": 260595
+  },
+  {
+    "nameAr": "هيراتسوكا، كاناغاوا",
+    "nameEn": "Hiratsuka",
+    "type": "city",
+    "lat": 35.335527777778,
+    "lng": 139.34944444444,
+    "pop": 257662
+  },
+  {
+    "nameAr": "توكوشيما",
+    "nameEn": "Tokushima",
+    "type": "city",
+    "lat": 34.070277777778,
+    "lng": 134.55494444444,
+    "pop": 254510
+  },
+  {
+    "nameAr": "شيمونوسكي",
+    "nameEn": "Shimonoseki",
+    "type": "city",
+    "lat": 33.957888888889,
+    "lng": 130.94133333333,
+    "pop": 252844
+  },
+  {
+    "nameAr": "هاكوداته",
+    "nameEn": "Hakodate",
+    "type": "city",
+    "lat": 41.768666666667,
+    "lng": 140.72891666667,
+    "pop": 251891
+  },
+  {
+    "nameAr": "سوكا",
+    "nameEn": "Sōka-shi",
+    "type": "city",
+    "lat": 35.825388888889,
+    "lng": 139.80533333333,
+    "pop": 251390
+  },
+  {
+    "nameAr": "ياماغاتا، ياماغاتا",
+    "nameEn": "Yamagata",
+    "type": "city",
+    "lat": 38.255416666667,
+    "lng": 140.33961111111,
+    "pop": 247234
+  },
+  {
+    "nameAr": "تسوكوبا",
+    "nameEn": "Tsukuba",
+    "type": "city",
+    "lat": 36.083472222222,
+    "lng": 140.07644444444,
+    "pop": 246647
+  },
+  {
+    "nameAr": "فوجي",
+    "nameEn": "Fuji",
+    "type": "city",
+    "lat": 35.161333333333,
+    "lng": 138.67627777778,
+    "pop": 243739
+  },
+  {
+    "nameAr": "ساسيبو",
+    "nameEn": "Sasebo",
+    "type": "city",
+    "lat": 33.18,
+    "lng": 129.715,
+    "pop": 242664
+  },
+  {
+    "nameAr": "تشيغاساكي، كاناغاوا",
+    "nameEn": "Chigasaki",
+    "type": "city",
+    "lat": 35.333861111111,
+    "lng": 139.40472222222,
+    "pop": 242347
+  },
+  {
+    "nameAr": "تشوفو",
+    "nameEn": "Chōfu",
+    "type": "city",
+    "lat": 35.650583333333,
+    "lng": 139.54066666667,
+    "pop": 240359
+  },
+  {
+    "nameAr": "ياماتو، كاناغاوا",
+    "nameEn": "Yamato",
+    "type": "city",
+    "lat": 35.487527777778,
+    "lng": 139.45802777778,
+    "pop": 239146
+  },
+  {
+    "nameAr": "ماتسوموتو",
+    "nameEn": "Matsumoto",
+    "type": "city",
+    "lat": 36.238,
+    "lng": 137.97197222222,
+    "pop": 239115
+  },
+  {
+    "nameAr": "ساغا",
+    "nameEn": "Saga",
+    "type": "city",
+    "lat": 33.2635,
+    "lng": 130.30083333333,
+    "pop": 232359
+  },
+  {
+    "nameAr": "كاسوكابي",
+    "nameEn": "Kasukabe",
+    "type": "city",
+    "lat": 35.97525,
+    "lng": 139.75227777778,
+    "pop": 228975
+  },
+  {
+    "nameAr": "نياغاوا",
+    "nameEn": "Neyagawa",
+    "type": "city",
+    "lat": 34.766083333333,
+    "lng": 135.62808333333,
+    "pop": 227997
+  },
+  {
+    "nameAr": "أغيو",
+    "nameEn": "Ageo",
+    "type": "city",
+    "lat": 35.977388888889,
+    "lng": 139.59319444444,
+    "pop": 226616
+  },
+  {
+    "nameAr": "أتسوغي، كاناغاوا",
+    "nameEn": "Atsugi",
+    "type": "city",
+    "lat": 35.443055555556,
+    "lng": 139.3625,
+    "pop": 223815
+  },
+  {
+    "nameAr": "أوتا، غونما",
+    "nameEn": "Ōta-shi",
+    "type": "city",
+    "lat": 36.291138888889,
+    "lng": 139.37538888889,
+    "pop": 222806
+  },
+  {
+    "nameAr": "هاتشينوه",
+    "nameEn": "Hachinohe",
+    "type": "city",
+    "lat": 40.512277777778,
+    "lng": 141.48838888889,
+    "pop": 222799
+  },
+  {
+    "nameAr": "كورشي، هیروشیما",
+    "nameEn": "Kure",
+    "type": "city",
+    "lat": 34.249222222222,
+    "lng": 132.56572222222,
+    "pop": 212159
+  },
+  {
+    "nameAr": "إسيساكي، غونما",
+    "nameEn": "Isesaki",
+    "type": "city",
+    "lat": 36.311361111111,
+    "lng": 139.19680555556,
+    "pop": 210332
+  },
+  {
+    "nameAr": "نيشي طوكيو",
+    "nameEn": "Nishitōkyō-shi",
+    "type": "city",
+    "lat": 35.725611111111,
+    "lng": 139.53825,
+    "pop": 207436
+  },
+  {
+    "nameAr": "ماتسوا، شيمانه",
+    "nameEn": "Matsue",
+    "type": "city",
+    "lat": 35.468111111111,
+    "lng": 133.04852777778,
+    "pop": 201802
+  },
+  {
+    "nameAr": "ياتشيو",
+    "nameEn": "Yachiyo",
+    "type": "city",
+    "lat": 35.722416666667,
+    "lng": 140.09988888889,
+    "pop": 200538
+  },
+  {
+    "nameAr": "ناغاره ياما",
+    "nameEn": "Nagareyama",
+    "type": "city",
+    "lat": 35.856305555556,
+    "lng": 139.90288888889,
+    "pop": 200298
+  },
+  {
+    "nameAr": "إتامي، هيوغو",
+    "nameEn": "Itami",
+    "type": "city",
+    "lat": 34.784305555556,
+    "lng": 135.40088888889,
+    "pop": 198522
+  },
+  {
+    "nameAr": "هیغاشیهیروشیما، هیروشیما",
+    "nameEn": "Higashihiroshima",
+    "type": "city",
+    "lat": 34.426388888889,
+    "lng": 132.74333333333,
+    "pop": 197347
+  },
+  {
+    "nameAr": "كودايرا",
+    "nameEn": "Kodaira",
+    "type": "city",
+    "lat": 35.7285,
+    "lng": 139.47744444444,
+    "pop": 196959
+  },
+  {
+    "nameAr": "سوزوكا",
+    "nameEn": "Suzuka",
+    "type": "city",
+    "lat": 34.881972222222,
+    "lng": 136.58416666667,
+    "pop": 195250
+  },
+  {
+    "nameAr": "ميتاكا",
+    "nameEn": "Mitaka",
+    "type": "city",
+    "lat": 35.683555555556,
+    "lng": 139.55952777778,
+    "pop": 194460
+  },
+  {
+    "nameAr": "ياماغوتشي",
+    "nameEn": "Yamaguchi",
+    "type": "city",
+    "lat": 34.178027777778,
+    "lng": 131.47377777778,
+    "pop": 193761
+  },
+  {
+    "nameAr": "كوماغايا",
+    "nameEn": "Kumagaya",
+    "type": "city",
+    "lat": 36.147388888889,
+    "lng": 139.38863888889,
+    "pop": 193190
+  },
+  {
+    "nameAr": "هينو",
+    "nameEn": "Hino",
+    "type": "city",
+    "lat": 35.671277777778,
+    "lng": 139.39513888889,
+    "pop": 190598
+  },
+  {
+    "nameAr": "أوداوارا، كاناغاوا",
+    "nameEn": "Odawara",
+    "type": "city",
+    "lat": 35.264611111111,
+    "lng": 139.15222222222,
+    "pop": 189038
+  },
+  {
+    "nameAr": "أنجو، آيتشي",
+    "nameEn": "Anjō",
+    "type": "city",
+    "lat": 34.958722222222,
+    "lng": 137.08033333333,
+    "pop": 188801
+  },
+  {
+    "nameAr": "كيشيوادا",
+    "nameEn": "Kishiwada",
+    "type": "city",
+    "lat": 34.460527777778,
+    "lng": 135.37091666667,
+    "pop": 188015
+  },
+  {
+    "nameAr": "نامازو",
+    "nameEn": "Numazu",
+    "type": "city",
+    "lat": 35.095583333333,
+    "lng": 138.86344444444,
+    "pop": 187653
+  },
+  {
+    "nameAr": "توتوري",
+    "nameEn": "Tottori",
+    "type": "city",
+    "lat": 35.494388888889,
+    "lng": 134.22161111111,
+    "pop": 187323
+  },
+  {
+    "nameAr": "جويتسو",
+    "nameEn": "Jōetsu-shi",
+    "type": "city",
+    "lat": 37.147861111111,
+    "lng": 138.23608333333,
+    "pop": 187291
+  },
+  {
+    "nameAr": "كوفو، ياماناشي",
+    "nameEn": "Kofu",
+    "type": "city",
+    "lat": 35.662138888889,
+    "lng": 138.56822222222,
+    "pop": 187144
+  },
+  {
+    "nameAr": "إزومي",
+    "nameEn": "Izumi",
+    "type": "city",
+    "lat": 34.483222222222,
+    "lng": 135.42322222222,
+    "pop": 184299
+  },
+  {
+    "nameAr": "تويوكاوا، آيتشي",
+    "nameEn": "Toyokawa",
+    "type": "city",
+    "lat": 34.850277777778,
+    "lng": 137.36166666667,
+    "pop": 183965
+  },
+  {
+    "nameAr": "تاتشيكاوا",
+    "nameEn": "Tachikawa",
+    "type": "city",
+    "lat": 35.713944444444,
+    "lng": 139.40791666667,
+    "pop": 181115
+  },
+  {
+    "nameAr": "يوجي",
+    "nameEn": "Uji",
+    "type": "city",
+    "lat": 34.884361111111,
+    "lng": 135.79980555556,
+    "pop": 179626
+  },
+  {
+    "nameAr": "ناراشينو",
+    "nameEn": "Narashino",
+    "type": "city",
+    "lat": 35.681277777778,
+    "lng": 140.02663888889,
+    "pop": 174990
+  },
+  {
+    "nameAr": "كاماكورا، كاناغاوا",
+    "nameEn": "Kamakura",
+    "type": "city",
+    "lat": 35.319166666667,
+    "lng": 139.54722222222,
+    "pop": 172929
+  },
+  {
+    "nameAr": "هيتاتشي",
+    "nameEn": "Hitachi",
+    "type": "city",
+    "lat": 36.599138888889,
+    "lng": 140.6515,
+    "pop": 172709
+  },
+  {
+    "nameAr": "إزومو، شيمانه",
+    "nameEn": "Izumo",
+    "type": "city",
+    "lat": 35.367027777778,
+    "lng": 132.75466666667,
+    "pop": 171995
+  },
+  {
+    "nameAr": "توماكوماي",
+    "nameEn": "Tomakomai",
+    "type": "city",
+    "lat": 42.634055555556,
+    "lng": 141.60552777778,
+    "pop": 170223
+  },
+  {
+    "nameAr": "يورايسو",
+    "nameEn": "Urayasu",
+    "type": "city",
+    "lat": 35.653138888889,
+    "lng": 139.902,
+    "pop": 169749
+  },
+  {
+    "nameAr": "ساكورا",
+    "nameEn": "Sakura",
+    "type": "city",
+    "lat": 35.723472222222,
+    "lng": 140.22394444444,
+    "pop": 169059
+  },
+  {
+    "nameAr": "نيشيو، آيتشي",
+    "nameEn": "Nishio",
+    "type": "city",
+    "lat": 34.861833333333,
+    "lng": 137.06180555556,
+    "pop": 168992
+  },
+  {
+    "nameAr": "أوياما، توتشيغي",
+    "nameEn": "Oyama",
+    "type": "city",
+    "lat": 36.314611111111,
+    "lng": 139.80016666667,
+    "pop": 167874
+  },
+  {
+    "nameAr": "هيروساكي",
+    "nameEn": "Hirosaki",
+    "type": "city",
+    "lat": 40.603111111111,
+    "lng": 140.46383333333,
+    "pop": 167803
+  },
+  {
+    "nameAr": "نيزا",
+    "nameEn": "Niiza",
+    "type": "city",
+    "lat": 35.7935,
+    "lng": 139.56530555556,
+    "pop": 165997
+  },
+  {
+    "nameAr": "تاكاوكا، توياما",
+    "nameEn": "Takaoka",
+    "type": "city",
+    "lat": 36.754055555556,
+    "lng": 137.02566666667,
+    "pop": 165880
+  },
+  {
+    "nameAr": "كوشيرو",
+    "nameEn": "Kushiro",
+    "type": "city",
+    "lat": 42.984888888889,
+    "lng": 144.38172222222,
+    "pop": 165699
+  },
+  {
+    "nameAr": "إواتا",
+    "nameEn": "Iwata",
+    "type": "city",
+    "lat": 34.717888888889,
+    "lng": 137.85152777778,
+    "pop": 165688
+  },
+  {
+    "nameAr": "أوبيهيرو",
+    "nameEn": "Obihiro",
+    "type": "city",
+    "lat": 42.923972222222,
+    "lng": 143.19611111111,
+    "pop": 165684
+  },
+  {
+    "nameAr": "هادانو، كاناغاوا",
+    "nameEn": "Hadano",
+    "type": "city",
+    "lat": 35.374722222222,
+    "lng": 139.22011111111,
+    "pop": 164292
+  },
+  {
+    "nameAr": "يوبي",
+    "nameEn": "Ube",
+    "type": "city",
+    "lat": 33.951583333333,
+    "lng": 131.24672222222,
+    "pop": 162873
+  },
+  {
+    "nameAr": "مياكونوجو، ميازاكي",
+    "nameEn": "Miyakonojō",
+    "type": "city",
+    "lat": 31.7195,
+    "lng": 131.06169444444,
+    "pop": 160392
+  },
+  {
+    "nameAr": "ماتسوساكا",
+    "nameEn": "Matsusaka",
+    "type": "city",
+    "lat": 34.577944444444,
+    "lng": 136.52758333333,
+    "pop": 158472
+  },
+  {
+    "nameAr": "أوغاكي",
+    "nameEn": "Ōgaki-shi",
+    "type": "city",
+    "lat": 35.364722222222,
+    "lng": 136.60194444444,
+    "pop": 158386
+  },
+  {
+    "nameAr": "هيتاتشي-ناكا",
+    "nameEn": "Hitachinaka",
+    "type": "city",
+    "lat": 36.396694444444,
+    "lng": 140.53466666667,
+    "pop": 155680
+  },
+  {
+    "nameAr": "توتشيغي، توتشيغي",
+    "nameEn": "Tochigi",
+    "type": "city",
+    "lat": 36.382444444444,
+    "lng": 139.73413888889,
+    "pop": 153508
+  },
+  {
+    "nameAr": "كارييا، آيتشي",
+    "nameEn": "Kariya",
+    "type": "city",
+    "lat": 34.989277777778,
+    "lng": 137.00213888889,
+    "pop": 153178
+  },
+  {
+    "nameAr": "يويدا",
+    "nameEn": "Ueda",
+    "type": "city",
+    "lat": 36.401889,
+    "lng": 138.249083,
+    "pop": 152948
+  },
+  {
+    "nameAr": "نودا",
+    "nameEn": "Noda",
+    "type": "city",
+    "lat": 35.955083333333,
+    "lng": 139.87480555556,
+    "pop": 152227
+  },
+  {
+    "nameAr": "كاوانيشي، هيوغو",
+    "nameEn": "Kawanishi",
+    "type": "city",
+    "lat": 34.830138888889,
+    "lng": 135.41727777778,
+    "pop": 152076
+  },
+  {
+    "nameAr": "هيغاشيموراياما",
+    "nameEn": "Higashimurayama",
+    "type": "city",
+    "lat": 35.754611111111,
+    "lng": 139.4685,
+    "pop": 150458
+  },
+  {
+    "nameAr": "كوكي",
+    "nameEn": "Kuki",
+    "type": "city",
+    "lat": 36.062083333333,
+    "lng": 139.66680555556,
+    "pop": 150197
+  },
+  {
+    "nameAr": "إيمباري",
+    "nameEn": "Imabari",
+    "type": "city",
+    "lat": 34.066166666667,
+    "lng": 132.99777777778,
+    "pop": 149209
+  },
+  {
+    "nameAr": "موساشينو",
+    "nameEn": "Musashino",
+    "type": "city",
+    "lat": 35.717722222222,
+    "lng": 139.56605555556,
+    "pop": 148971
+  },
+  {
+    "nameAr": "ساياما",
+    "nameEn": "Sayama",
+    "type": "city",
+    "lat": 35.852972222222,
+    "lng": 139.41219444444,
+    "pop": 148474
+  },
+  {
+    "nameAr": "كوماكي، آيتشي",
+    "nameEn": "Komaki",
+    "type": "city",
+    "lat": 35.290305555556,
+    "lng": 136.911,
+    "pop": 147897
+  },
+  {
+    "nameAr": "تاما",
+    "nameEn": "Tama",
+    "type": "city",
+    "lat": 35.636944444444,
+    "lng": 139.44627777778,
+    "pop": 147252
+  },
+  {
+    "nameAr": "يوناغو",
+    "nameEn": "Yonago",
+    "type": "city",
+    "lat": 35.428166666667,
+    "lng": 133.33088888889,
+    "pop": 147210
+  },
+  {
+    "nameAr": "إروما",
+    "nameEn": "Iruma",
+    "type": "city",
+    "lat": 35.835805555556,
+    "lng": 139.39113888889,
+    "pop": 145303
+  },
+  {
+    "nameAr": "أساكي",
+    "nameEn": "Asaka",
+    "type": "city",
+    "lat": 35.797194444444,
+    "lng": 139.59388888889,
+    "pop": 143915
+  },
+  {
+    "nameAr": "كاكاميغهارا",
+    "nameEn": "Kakamigahara",
+    "type": "city",
+    "lat": 35.398805555556,
+    "lng": 136.84841666667,
+    "pop": 143641
+  },
+  {
+    "nameAr": "كوساتسو",
+    "nameEn": "Kusatsu",
+    "type": "city",
+    "lat": 35.013166666667,
+    "lng": 135.95988888889,
+    "pop": 143230
+  },
+  {
+    "nameAr": "أشيكاغا، توتشيغي",
+    "nameEn": "Ashikaga",
+    "type": "city",
+    "lat": 36.359444444444,
+    "lng": 139.45305555556,
+    "pop": 142882
+  },
+  {
+    "nameAr": "تودا",
+    "nameEn": "Toda",
+    "type": "city",
+    "lat": 35.817611111111,
+    "lng": 139.67791666667,
+    "pop": 142352
+  },
+  {
+    "nameAr": "مدينة أوكيناوا",
+    "nameEn": "Okinawa",
+    "type": "city",
+    "lat": 26.334277777778,
+    "lng": 127.80572222222,
+    "pop": 142094
+  },
+  {
+    "nameAr": "ميساتو",
+    "nameEn": "Misato",
+    "type": "city",
+    "lat": 35.830138888889,
+    "lng": 139.87233333333,
+    "pop": 141913
+  },
+  {
+    "nameAr": "موريغوتشي",
+    "nameEn": "Moriguchi",
+    "type": "city",
+    "lat": 34.735777777778,
+    "lng": 135.56172222222,
+    "pop": 141849
+  },
+  {
+    "nameAr": "فوجيدا",
+    "nameEn": "Fujieda",
+    "type": "city",
+    "lat": 34.867416666667,
+    "lng": 138.25772222222,
+    "pop": 140947
+  },
+  {
+    "nameAr": "فوكايا",
+    "nameEn": "Fukaya",
+    "type": "city",
+    "lat": 36.197472222222,
+    "lng": 139.2815,
+    "pop": 140930
+  },
+  {
+    "nameAr": "إيشينوماكي، مياغي",
+    "nameEn": "Ishinomaki",
+    "type": "city",
+    "lat": 38.43425,
+    "lng": 141.30272222222,
+    "pop": 138856
+  },
+  {
+    "nameAr": "كوانا",
+    "nameEn": "Kuwana",
+    "type": "city",
+    "lat": 35.062194444444,
+    "lng": 136.68366666667,
+    "pop": 138798
+  },
+  {
+    "nameAr": "كوغا",
+    "nameEn": "Koga",
+    "type": "city",
+    "lat": 36.17825,
+    "lng": 139.75544444444,
+    "pop": 138237
+  },
+  {
+    "nameAr": "شونان",
+    "nameEn": "Shūnan-shi",
+    "type": "city",
+    "lat": 34.055055555556,
+    "lng": 131.80622222222,
+    "pop": 137899
+  },
+  {
+    "nameAr": "تسوتشي-أورا",
+    "nameEn": "Tsuchiura",
+    "type": "city",
+    "lat": 36.078277777778,
+    "lng": 140.2045,
+    "pop": 137825
+  },
+  {
+    "nameAr": "مينوه",
+    "nameEn": "Minoh",
+    "type": "city",
+    "lat": 34.826941666667,
+    "lng": 135.47043888889,
+    "pop": 136976
+  },
+  {
+    "nameAr": "كيسارازو",
+    "nameEn": "Kisarazu",
+    "type": "city",
+    "lat": 35.375972222222,
+    "lng": 139.91683333333,
+    "pop": 136118
+  },
+  {
+    "nameAr": "يايزو",
+    "nameEn": "Yaizu",
+    "type": "city",
+    "lat": 34.866888888889,
+    "lng": 138.32325,
+    "pop": 136028
+  },
+  {
+    "nameAr": "إبينا، كاناغاوا",
+    "nameEn": "Ebina",
+    "type": "city",
+    "lat": 35.446416666667,
+    "lng": 139.39080555556,
+    "pop": 135557
+  },
+  {
+    "nameAr": "إنازاوا، آيتشي",
+    "nameEn": "Inazawa",
+    "type": "city",
+    "lat": 35.248055555556,
+    "lng": 136.78025,
+    "pop": 134938
+  },
+  {
+    "nameAr": "إساهايا",
+    "nameEn": "Isahaya",
+    "type": "city",
+    "lat": 32.843388888889,
+    "lng": 130.05313888889,
+    "pop": 133512
+  },
+  {
+    "nameAr": "أومه",
+    "nameEn": "Ome",
+    "type": "city",
+    "lat": 35.787972222222,
+    "lng": 139.27583333333,
+    "pop": 132436
+  },
+  {
+    "nameAr": "زاما، كاناغاوا",
+    "nameEn": "Zama",
+    "type": "city",
+    "lat": 35.488583333333,
+    "lng": 139.40761111111,
+    "pop": 130753
+  },
+  {
+    "nameAr": "ناريتا",
+    "nameEn": "Narita",
+    "type": "city",
+    "lat": 35.776666666667,
+    "lng": 140.31833333333,
+    "pop": 130689
+  },
+  {
+    "nameAr": "آبيكو",
+    "nameEn": "Abiko",
+    "type": "city",
+    "lat": 35.864222222222,
+    "lng": 140.02838888889,
+    "pop": 130290
+  },
+  {
+    "nameAr": "أونومیجي، هیروشیما",
+    "nameEn": "Onomichi",
+    "type": "city",
+    "lat": 34.409111111111,
+    "lng": 133.20544444444,
+    "pop": 130143
+  },
+  {
+    "nameAr": "كوكوبونجي",
+    "nameEn": "Kokubunji",
+    "type": "city",
+    "lat": 35.710333333333,
+    "lng": 139.46319444444,
+    "pop": 129619
+  },
+  {
+    "nameAr": "إواكوني",
+    "nameEn": "Iwakuni",
+    "type": "city",
+    "lat": 34.166583333333,
+    "lng": 132.21883333333,
+    "pop": 128401
+  },
+  {
+    "nameAr": "سيتو، آيتشي",
+    "nameEn": "Seto",
+    "type": "city",
+    "lat": 35.224,
+    "lng": 137.08402777778,
+    "pop": 127327
+  },
+  {
+    "nameAr": "فوجينوميا",
+    "nameEn": "Fujinomiya",
+    "type": "city",
+    "lat": 35.222111111111,
+    "lng": 138.62161111111,
+    "pop": 127252
+  },
+  {
+    "nameAr": "كوغانه",
+    "nameEn": "Koganei",
+    "type": "city",
+    "lat": 35.699472222222,
+    "lng": 139.50297222222,
+    "pop": 127226
+  },
+  {
+    "nameAr": "أوساكي، مياغي",
+    "nameEn": "Osaki",
+    "type": "city",
+    "lat": 38.577111111111,
+    "lng": 140.95558333333,
+    "pop": 127135
+  },
+  {
+    "nameAr": "ليزوكا، فوكوكا",
+    "nameEn": "Iizuka",
+    "type": "city",
+    "lat": 33.613611111111,
+    "lng": 130.66111111111,
+    "pop": 126136
+  },
+  {
+    "nameAr": "كيريشيما",
+    "nameEn": "Kirishima",
+    "type": "city",
+    "lat": 31.741,
+    "lng": 130.76322222222,
+    "pop": 123812
+  },
+  {
+    "nameAr": "إيسه",
+    "nameEn": "Ise",
+    "type": "city",
+    "lat": 34.4875,
+    "lng": 136.70930555556,
+    "pop": 122432
+  },
+  {
+    "nameAr": "يوروما، أوكيناوا",
+    "nameEn": "Uruma",
+    "type": "city",
+    "lat": 26.379166666667,
+    "lng": 127.85741666667,
+    "pop": 122371
+  },
+  {
+    "nameAr": "ياتسوشيرو",
+    "nameEn": "Yatsushiro",
+    "type": "city",
+    "lat": 32.490555555556,
+    "lng": 130.74972222222,
+    "pop": 122134
+  },
+  {
+    "nameAr": "كاشيهارا",
+    "nameEn": "Kashihara",
+    "type": "city",
+    "lat": 34.509444444444,
+    "lng": 135.7925,
+    "pop": 121604
+  },
+  {
+    "nameAr": "تسوروكا، ياماغاتا",
+    "nameEn": "Tsuruoka",
+    "type": "city",
+    "lat": 38.727222222222,
+    "lng": 139.82666666667,
+    "pop": 121371
+  },
+  {
+    "nameAr": "إبيتسو",
+    "nameEn": "Ebetsu",
+    "type": "city",
+    "lat": 43.103722222222,
+    "lng": 141.53619444444,
+    "pop": 119819
+  },
+  {
+    "nameAr": "دايتو",
+    "nameEn": "Daitō-shi",
+    "type": "city",
+    "lat": 34.712,
+    "lng": 135.62341666667,
+    "pop": 118812
+  },
+  {
+    "nameAr": "كادوما",
+    "nameEn": "Kadoma",
+    "type": "city",
+    "lat": 34.739138888889,
+    "lng": 135.58686111111,
+    "pop": 118319
+  },
+  {
+    "nameAr": "أيزواكاماتسو",
+    "nameEn": "Aizuwakamatsu",
+    "type": "city",
+    "lat": 37.494833333333,
+    "lng": 139.92975,
+    "pop": 117924
+  },
+  {
+    "nameAr": "نوبيوكا، ميازاكي",
+    "nameEn": "Nobeoka",
+    "type": "city",
+    "lat": 32.582277777778,
+    "lng": 131.66488888889,
+    "pop": 117711
+  },
+  {
+    "nameAr": "هاندا، آيتشي",
+    "nameEn": "Handa",
+    "type": "city",
+    "lat": 34.891944444444,
+    "lng": 136.93805555556,
+    "pop": 117544
+  },
+  {
+    "nameAr": "ماتسوبارا",
+    "nameEn": "Matsubara",
+    "type": "city",
+    "lat": 34.577861111111,
+    "lng": 135.55186111111,
+    "pop": 117186
+  },
+  {
+    "nameAr": "كونسو",
+    "nameEn": "Kōnosu-shi",
+    "type": "city",
+    "lat": 36.065888888889,
+    "lng": 139.52219444444,
+    "pop": 116777
+  },
+  {
+    "nameAr": "إكوما",
+    "nameEn": "Ikoma",
+    "type": "city",
+    "lat": 34.691888888889,
+    "lng": 135.70052777778,
+    "pop": 116518
+  },
+  {
+    "nameAr": "هيغاشيكورومه",
+    "nameEn": "Higashikurume",
+    "type": "city",
+    "lat": 35.758,
+    "lng": 139.52986111111,
+    "pop": 116477
+  },
+  {
+    "nameAr": "كاراتسو",
+    "nameEn": "Karatsu",
+    "type": "city",
+    "lat": 33.450083333333,
+    "lng": 129.96825,
+    "pop": 116052
+  },
+  {
+    "nameAr": "بيبو، أويتا",
+    "nameEn": "Beppu",
+    "type": "city",
+    "lat": 33.284611111111,
+    "lng": 131.49127777778,
+    "pop": 115992
+  },
+  {
+    "nameAr": "يوراسوي، أوكيناوا",
+    "nameEn": "Urasoe",
+    "type": "city",
+    "lat": 26.245694444444,
+    "lng": 127.72186111111,
+    "pop": 115855
+  },
+  {
+    "nameAr": "ناسوشيوبارا، توتشيغي",
+    "nameEn": "Nasushiobara",
+    "type": "city",
+    "lat": 36.961722222222,
+    "lng": 140.04605555556,
+    "pop": 115602
+  },
+  {
+    "nameAr": "كيتامي",
+    "nameEn": "Kitami",
+    "type": "city",
+    "lat": 43.803055555556,
+    "lng": 143.89472222222,
+    "pop": 115441
+  },
+  {
+    "nameAr": "نيهاما",
+    "nameEn": "Niihama",
+    "type": "city",
+    "lat": 33.960333333333,
+    "lng": 133.28338888889,
+    "pop": 114971
+  },
+  {
+    "nameAr": "سانو، توتشيغي",
+    "nameEn": "Sano",
+    "type": "city",
+    "lat": 36.3144,
+    "lng": 139.5783,
+    "pop": 114842
+  },
+  {
+    "nameAr": "هاتسوكايجي",
+    "nameEn": "Hatsukaichi",
+    "type": "city",
+    "lat": 34.348222222222,
+    "lng": 132.33158333333,
+    "pop": 114699
+  },
+  {
+    "nameAr": "كاكيغاوا",
+    "nameEn": "Kakegawa",
+    "type": "city",
+    "lat": 34.76875,
+    "lng": 137.99838888889,
+    "pop": 113954
+  },
+  {
+    "nameAr": "ناغاهاما",
+    "nameEn": "Nagahama",
+    "type": "city",
+    "lat": 35.380833333333,
+    "lng": 136.27833333333,
+    "pop": 113740
+  },
+  {
+    "nameAr": "فوجيمينو",
+    "nameEn": "Fujimino",
+    "type": "city",
+    "lat": 35.879527777778,
+    "lng": 139.51977777778,
+    "pop": 113490
+  },
+  {
+    "nameAr": "هيكونا",
+    "nameEn": "Hikone",
+    "type": "city",
+    "lat": 35.274361111111,
+    "lng": 136.25972222222,
+    "pop": 113191
+  },
+  {
+    "nameAr": "هوفا",
+    "nameEn": "Hōfu-shi",
+    "type": "city",
+    "lat": 34.051277777778,
+    "lng": 131.56255555556,
+    "pop": 113170
+  },
+  {
+    "nameAr": "توكاي، آيتشي",
+    "nameEn": "Tōkai-shi",
+    "type": "city",
+    "lat": 35.023055555556,
+    "lng": 136.90219444444,
+    "pop": 113144
+  },
+  {
+    "nameAr": "أوشو، إيواته",
+    "nameEn": "Ōshū-shi",
+    "type": "city",
+    "lat": 39.129722222222,
+    "lng": 141.09472222222,
+    "pop": 112531
+  },
+  {
+    "nameAr": "هيغاشيومي",
+    "nameEn": "Higashiōmi-shi",
+    "type": "city",
+    "lat": 35.112583333333,
+    "lng": 136.20752777778,
+    "pop": 112459
+  },
+  {
+    "nameAr": "أكيشيما",
+    "nameEn": "Akishima",
+    "type": "city",
+    "lat": 35.705666666667,
+    "lng": 139.35352777778,
+    "pop": 112110
+  },
+  {
+    "nameAr": "فوجيمي",
+    "nameEn": "Fujimi",
+    "type": "city",
+    "lat": 35.856555555556,
+    "lng": 139.54916666667,
+    "pop": 111858
+  },
+  {
+    "nameAr": "إتشينوسيكي، إيواته",
+    "nameEn": "Ichinoseki",
+    "type": "city",
+    "lat": 38.934722222222,
+    "lng": 141.12658333333,
+    "pop": 111824
+  },
+  {
+    "nameAr": "كاسوغا، فوكوكا",
+    "nameEn": "Kasuga",
+    "type": "city",
+    "lat": 33.524166666667,
+    "lng": 130.45638888889,
+    "pop": 111144
+  },
+  {
+    "nameAr": "كازو",
+    "nameEn": "Kazo",
+    "type": "city",
+    "lat": 36.131444444444,
+    "lng": 139.60177777778,
+    "pop": 110622
+  },
+  {
+    "nameAr": "هاكوسان، إيشيكاوا",
+    "nameEn": "Hakusan",
+    "type": "city",
+    "lat": 36.514416666667,
+    "lng": 136.56558333333,
+    "pop": 110135
+  },
+  {
+    "nameAr": "أوموتا، فوكوكا",
+    "nameEn": "Ōmuta-shi",
+    "type": "city",
+    "lat": 33.030277777778,
+    "lng": 130.44597222222,
+    "pop": 110054
+  },
+  {
+    "nameAr": "كاماغايا",
+    "nameEn": "Kamagaya",
+    "type": "city",
+    "lat": 35.776833333333,
+    "lng": 140.00080555556,
+    "pop": 109370
+  },
+  {
+    "nameAr": "ساندا، هيوغو",
+    "nameEn": "Sanda",
+    "type": "city",
+    "lat": 34.889972222222,
+    "lng": 135.22544444444,
+    "pop": 109243
+  },
+  {
+    "nameAr": "ماروغامه، كاغاوا",
+    "nameEn": "Marugame",
+    "type": "city",
+    "lat": 34.289416666667,
+    "lng": 133.79761111111,
+    "pop": 109165
+  },
+  {
+    "nameAr": "تونداباياشي",
+    "nameEn": "Tondabayashi",
+    "type": "city",
+    "lat": 34.499638888889,
+    "lng": 135.59725,
+    "pop": 108735
+  },
+  {
+    "nameAr": "هابيكينو",
+    "nameEn": "Habikino",
+    "type": "city",
+    "lat": 34.557916666667,
+    "lng": 135.60630555556,
+    "pop": 108370
+  },
+  {
+    "nameAr": "ميشيما",
+    "nameEn": "Mishima",
+    "type": "city",
+    "lat": 35.139444444444,
+    "lng": 138.94888888889,
+    "pop": 107416
+  },
+  {
+    "nameAr": "تاجيمي غيفو",
+    "nameEn": "Tajimi",
+    "type": "city",
+    "lat": 35.333888888889,
+    "lng": 137.1125,
+    "pop": 106746
+  },
+  {
+    "nameAr": "كوماتسو، إيشيكاوا",
+    "nameEn": "Komatsu",
+    "type": "city",
+    "lat": 36.311111111111,
+    "lng": 136.49833333333,
+    "pop": 106023
+  },
+  {
+    "nameAr": "كيرو، غونما",
+    "nameEn": "Kiryū",
+    "type": "city",
+    "lat": 36.405333333333,
+    "lng": 139.33047222222,
+    "pop": 105751
+  },
+  {
+    "nameAr": "إكيدا",
+    "nameEn": "Ikeda",
+    "type": "city",
+    "lat": 34.821722222222,
+    "lng": 135.42852777778,
+    "pop": 104148
+  },
+  {
+    "nameAr": "توريده",
+    "nameEn": "Toride",
+    "type": "city",
+    "lat": 35.9115,
+    "lng": 140.05036111111,
+    "pop": 103908
+  },
+  {
+    "nameAr": "ساجيو",
+    "nameEn": "Saijō-shi",
+    "type": "city",
+    "lat": 33.919555555556,
+    "lng": 133.18116666667,
+    "pop": 103760
+  },
+  {
+    "nameAr": "تشيكوشينو، فوكوكا",
+    "nameEn": "Chikushino",
+    "type": "city",
+    "lat": 33.487416666667,
+    "lng": 130.52583333333,
+    "pop": 103185
+  },
+  {
+    "nameAr": "إنزاي",
+    "nameEn": "Inzai",
+    "type": "city",
+    "lat": 35.832305555556,
+    "lng": 140.14572222222,
+    "pop": 103084
+  },
+  {
+    "nameAr": "أوتارو",
+    "nameEn": "Otaru",
+    "type": "city",
+    "lat": 43.190722222222,
+    "lng": 140.99436111111,
+    "pop": 102652
+  },
+  {
+    "nameAr": "إسيهارا، كاناغاوا",
+    "nameEn": "Isehara",
+    "type": "city",
+    "lat": 35.402944444444,
+    "lng": 139.31497222222,
+    "pop": 102088
+  },
+  {
+    "nameAr": "أونجو، فوكوكا",
+    "nameEn": "Ōnojō-shi",
+    "type": "city",
+    "lat": 33.513055555556,
+    "lng": 130.47916666667,
+    "pop": 101603
+  },
+  {
+    "nameAr": "كانويا",
+    "nameEn": "Kanoya",
+    "type": "city",
+    "lat": 31.378222222222,
+    "lng": 130.85222222222,
+    "pop": 100880
+  },
+  {
+    "nameAr": "ساكودو",
+    "nameEn": "Sakado",
+    "type": "city",
+    "lat": 35.95725,
+    "lng": 139.40302777778,
+    "pop": 100829
+  },
+  {
+    "nameAr": "كاواتشيناغانو",
+    "nameEn": "Kawachinagano",
+    "type": "city",
+    "lat": 34.458083333333,
+    "lng": 135.56413888889,
+    "pop": 100415
+  },
+  {
+    "nameAr": "كاني غيفو",
+    "nameEn": "Kani",
+    "type": "city",
+    "lat": 35.426055555556,
+    "lng": 137.06133333333,
+    "pop": 99545
+  },
+  {
+    "nameAr": "تسوياما",
+    "nameEn": "Tsuyama",
+    "type": "city",
+    "lat": 35.069111111111,
+    "lng": 134.00447222222,
+    "pop": 99410
+  },
+  {
+    "nameAr": "إيزوميسانو",
+    "nameEn": "Izumisano",
+    "type": "city",
+    "lat": 34.406944444444,
+    "lng": 135.32752777778,
+    "pop": 99328
+  },
+  {
+    "nameAr": "غينوان، أوكيناوا",
+    "nameEn": "Ginowan",
+    "type": "city",
+    "lat": 26.2815,
+    "lng": 127.77852777778,
+    "pop": 99256
+  },
+  {
+    "nameAr": "ساكاتا، ياماغاتا",
+    "nameEn": "Sakata",
+    "type": "city",
+    "lat": 38.914861111111,
+    "lng": 139.83672222222,
+    "pop": 99235
+  },
+  {
+    "nameAr": "إيتوشيما",
+    "nameEn": "Itoshima",
+    "type": "city",
+    "lat": 33.557305555556,
+    "lng": 130.1955,
+    "pop": 98527
+  },
+  {
+    "nameAr": "تشيكوسه",
+    "nameEn": "Chikusei",
+    "type": "city",
+    "lat": 36.307083333333,
+    "lng": 139.98313888889,
+    "pop": 98384
+  },
+  {
+    "nameAr": "كيتاهيروشيما",
+    "nameEn": "Kitahiroshima",
+    "type": "city",
+    "lat": 42.9855,
+    "lng": 141.56308333333,
+    "pop": 58125
+  },
+  {
+    "nameAr": "تسورو، ياماناشي",
+    "nameEn": "Tsuru",
+    "type": "city",
+    "lat": 35.551527777778,
+    "lng": 138.90544444444,
+    "pop": 30193
+  },
+  {
+    "nameAr": "شيموكيتازاوا",
+    "nameEn": "Shimokitazawa",
+    "type": "city",
+    "lat": 35.661605555556,
+    "lng": 139.66656111111,
+    "pop": 18446
+  },
+  {
+    "nameAr": "Otrada",
+    "nameEn": "Otrada",
+    "type": "city",
+    "lat": 44.06805556,
+    "lng": 145.8627778,
+    "pop": 414
+  },
+  {
+    "nameAr": "Ainokura Village",
+    "nameEn": "Ainokura Village",
+    "type": "city",
+    "lat": 36.425,
+    "lng": 136.9333,
+    "pop": null
+  },
+  {
+    "nameAr": "Arai",
+    "nameEn": "Arai",
+    "type": "city",
+    "lat": 35.221461,
+    "lng": 137.040364,
+    "pop": null
+  },
+  {
+    "nameAr": "Arakaki",
+    "nameEn": "Arakaki",
+    "type": "city",
+    "lat": 26.268611111111,
+    "lng": 127.78388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Asahimachi",
+    "nameEn": "Asahimachi",
+    "type": "city",
+    "lat": 35.55555556,
+    "lng": 139.4375,
+    "pop": null
+  },
+  {
+    "nameAr": "Awase",
+    "nameEn": "Awase",
+    "type": "city",
+    "lat": 26.318611111111,
+    "lng": 127.83472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chibana",
+    "nameEn": "Chibana",
+    "type": "city",
+    "lat": 26.358611111111,
+    "lng": 127.80888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Chikatsuyu",
+    "nameEn": "Chikatsuyu",
+    "type": "city",
+    "lat": 33.814591666667,
+    "lng": 135.60904166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chūō",
+    "nameEn": "Chūō",
+    "type": "city",
+    "lat": 35.451694444444,
+    "lng": 139.39204166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dazaifu",
+    "nameEn": "Dazaifu",
+    "type": "city",
+    "lat": 33.51454167,
+    "lng": 130.51514444,
+    "pop": null
+  },
+  {
+    "nameAr": "Fujinodai",
+    "nameEn": "Fujinodai",
+    "type": "city",
+    "lat": 35.570277777778,
+    "lng": 139.44972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Fujisawa",
+    "nameEn": "Fujisawa",
+    "type": "city",
+    "lat": 35.34872222,
+    "lng": 139.48372222,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaja",
+    "nameEn": "Gaja",
+    "type": "city",
+    "lat": 26.214444444444,
+    "lng": 127.76055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ganeko",
+    "nameEn": "Ganeko",
+    "type": "city",
+    "lat": 26.256111111111,
+    "lng": 127.75361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Hamadachō",
+    "nameEn": "Hamadachō",
+    "type": "city",
+    "lat": 35.44261111,
+    "lng": 139.4018611,
+    "pop": null
+  },
+  {
+    "nameAr": "Hara-Machida",
+    "nameEn": "Hara-Machida",
+    "type": "city",
+    "lat": 35.54194444,
+    "lng": 139.4455556,
+    "pop": null
+  },
+  {
+    "nameAr": "Henna",
+    "nameEn": "Henna",
+    "type": "city",
+    "lat": 26.321388888889,
+    "lng": 127.89055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Hibarigaoka-Danchi",
+    "nameEn": "Hibarigaoka-Danchi",
+    "type": "city",
+    "lat": 35.746388888889,
+    "lng": 139.53666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Higashi",
+    "nameEn": "Higashi",
+    "type": "city",
+    "lat": 24.7825,
+    "lng": 141.33916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Higashionna",
+    "nameEn": "Higashionna",
+    "type": "city",
+    "lat": 26.411388888889,
+    "lng": 127.83083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hijiyama-honmachi",
+    "nameEn": "Hijiyama-honmachi",
+    "type": "city",
+    "lat": 34.3829569,
+    "lng": 132.4690599,
+    "pop": null
+  },
+  {
+    "nameAr": "Hira",
+    "nameEn": "Hira",
+    "type": "city",
+    "lat": 35.229149,
+    "lng": 136.903839,
+    "pop": null
+  },
+  {
+    "nameAr": "Hon-Machida",
+    "nameEn": "Hon-Machida",
+    "type": "city",
+    "lat": 35.570555555556,
+    "lng": 139.43972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Inba",
+    "nameEn": "Inba",
+    "type": "city",
+    "lat": 35.205284,
+    "lng": 137.015662,
+    "pop": null
+  },
+  {
+    "nameAr": "Iriya-nishi",
+    "nameEn": "Iriya-nishi",
+    "type": "city",
+    "lat": 35.480916666667,
+    "lng": 139.39527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Isa",
+    "nameEn": "Isa",
+    "type": "city",
+    "lat": 26.289722222222,
+    "lng": 127.75666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Iwa",
+    "nameEn": "Iwa",
+    "type": "city",
+    "lat": 26.159444444444,
+    "lng": 127.72138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Izumichō",
+    "nameEn": "Izumichō",
+    "type": "city",
+    "lat": 35.439916666667,
+    "lng": 139.367,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamiōoka",
+    "nameEn": "Kamiōoka",
+    "type": "city",
+    "lat": 35.408611111111,
+    "lng": 139.59583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanai",
+    "nameEn": "Kanai",
+    "type": "city",
+    "lat": 35.57527778,
+    "lng": 139.4522222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanaimachi",
+    "nameEn": "Kanaimachi",
+    "type": "city",
+    "lat": 35.576388888889,
+    "lng": 139.44833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kanamori",
+    "nameEn": "Kanamori",
+    "type": "city",
+    "lat": 35.52361111,
+    "lng": 139.4647222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kasuga Village",
+    "nameEn": "Kasuga Village",
+    "type": "city",
+    "lat": 33.34152222,
+    "lng": 129.44731111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kazusa-Koito",
+    "nameEn": "Kazusa-Koito",
+    "type": "city",
+    "lat": 35.315,
+    "lng": 139.99722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kinugasa",
+    "nameEn": "Kinugasa",
+    "type": "city",
+    "lat": 35.03736111,
+    "lng": 135.73044444,
+    "pop": null
+  },
+  {
+    "nameAr": "Kiso-Higashi",
+    "nameEn": "Kiso-Higashi",
+    "type": "city",
+    "lat": 35.55833333,
+    "lng": 139.4291667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kita",
+    "nameEn": "Kita",
+    "type": "city",
+    "lat": 24.8018908,
+    "lng": 141.3213644,
+    "pop": null
+  },
+  {
+    "nameAr": "Kobadira Village",
+    "nameEn": "Kobadira Village",
+    "type": "city",
+    "lat": 32.843925,
+    "lng": 129.70091944,
+    "pop": null
+  },
+  {
+    "nameAr": "Kōchi",
+    "nameEn": "Kōchi",
+    "type": "city",
+    "lat": 26.233333333333,
+    "lng": 127.74333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kogasaka",
+    "nameEn": "Kogasaka",
+    "type": "city",
+    "lat": 35.54444444,
+    "lng": 139.4580556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kokubu-Kita",
+    "nameEn": "Kokubu-Kita",
+    "type": "city",
+    "lat": 35.462622222222,
+    "lng": 139.40156388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kokubu-Minami",
+    "nameEn": "Kokubu-Minami",
+    "type": "city",
+    "lat": 35.449991666667,
+    "lng": 139.40205833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kokubunjidai",
+    "nameEn": "Kokubunjidai",
+    "type": "city",
+    "lat": 35.440277777778,
+    "lng": 139.40472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kowan",
+    "nameEn": "Kowan",
+    "type": "city",
+    "lat": 26.248333333333,
+    "lng": 127.69305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kuba",
+    "nameEn": "Kuba",
+    "type": "city",
+    "lat": 26.283888888889,
+    "lng": 127.81472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurama",
+    "nameEn": "Kurama",
+    "type": "city",
+    "lat": 35.1128,
+    "lng": 135.7689,
+    "pop": null
+  },
+  {
+    "nameAr": "Kyōto",
+    "nameEn": "Kyōto",
+    "type": "city",
+    "lat": 35.011141,
+    "lng": 135.76693,
+    "pop": null
+  },
+  {
+    "nameAr": "Mabicho",
+    "nameEn": "Mabicho",
+    "type": "city",
+    "lat": 34.62902778,
+    "lng": 133.6922222,
+    "pop": null
+  },
+  {
+    "nameAr": "Makuhari Baytown",
+    "nameEn": "Makuhari Baytown",
+    "type": "city",
+    "lat": 35.640138888889,
+    "lng": 140.045,
+    "pop": null
+  },
+  {
+    "nameAr": "Megumichō",
+    "nameEn": "Megumichō",
+    "type": "city",
+    "lat": 35.453366666667,
+    "lng": 139.38907222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mejirodai",
+    "nameEn": "Mejirodai",
+    "type": "city",
+    "lat": 35.64388889,
+    "lng": 139.3075,
+    "pop": null
+  },
+  {
+    "nameAr": "Minami-Ōya",
+    "nameEn": "Minami-Ōya",
+    "type": "city",
+    "lat": 35.55361111,
+    "lng": 139.4536111,
+    "pop": null
+  },
+  {
+    "nameAr": "Minami, Iwo Jima",
+    "nameEn": "Minami, Iwo Jima",
+    "type": "city",
+    "lat": 24.779444444444,
+    "lng": 141.32361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Minatogawa",
+    "nameEn": "Minatogawa",
+    "type": "city",
+    "lat": 26.126944444444,
+    "lng": 127.75944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Mitsushima",
+    "nameEn": "Mitsushima",
+    "type": "city",
+    "lat": 34.717705555556,
+    "lng": 135.59826666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Motoyama",
+    "nameEn": "Motoyama",
+    "type": "city",
+    "lat": 24.788055555556,
+    "lng": 141.33333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nagoro",
+    "nameEn": "Nagoro",
+    "type": "city",
+    "lat": 33.85591,
+    "lng": 134.019827,
+    "pop": null
+  },
+  {
+    "nameAr": "Nakama",
+    "nameEn": "Nakama",
+    "type": "city",
+    "lat": 26.246388888889,
+    "lng": 127.72555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Nakamachi",
+    "nameEn": "Nakamachi",
+    "type": "city",
+    "lat": 35.55,
+    "lng": 139.4477778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nanaura",
+    "nameEn": "Nanaura",
+    "type": "city",
+    "lat": 33.069083333333,
+    "lng": 130.14963888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Nara",
+    "nameEn": "Nara",
+    "type": "city",
+    "lat": 34.6845445,
+    "lng": 135.8048359,
+    "pop": null
+  },
+  {
+    "nameAr": "Naruse",
+    "nameEn": "Naruse",
+    "type": "city",
+    "lat": 35.54722222,
+    "lng": 139.4680556,
+    "pop": null
+  },
+  {
+    "nameAr": "Naruse-Gaoka",
+    "nameEn": "Naruse-Gaoka",
+    "type": "city",
+    "lat": 35.53444444,
+    "lng": 139.4713889,
+    "pop": null
+  },
+  {
+    "nameAr": "Nesaki",
+    "nameEn": "Nesaki",
+    "type": "city",
+    "lat": 34.902946,
+    "lng": 137.03688,
+    "pop": null
+  },
+  {
+    "nameAr": "Nishi",
+    "nameEn": "Nishi",
+    "type": "city",
+    "lat": 24.7975,
+    "lng": 141.31027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nishihara",
+    "nameEn": "Nishihara",
+    "type": "city",
+    "lat": 26.253611111111,
+    "lng": 127.74361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Nodake",
+    "nameEn": "Nodake",
+    "type": "city",
+    "lat": 26.285555555556,
+    "lng": 127.78083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ō",
+    "nameEn": "Ō",
+    "type": "city",
+    "lat": 36.502972222222,
+    "lng": 137.85116666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogawa",
+    "nameEn": "Ogawa",
+    "type": "city",
+    "lat": 35.52527778,
+    "lng": 139.4683333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogimachi Village",
+    "nameEn": "Ogimachi Village",
+    "type": "city",
+    "lat": 36.2583,
+    "lng": 136.9083,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogimachi Village 2",
+    "nameEn": "Ogimachi Village 2",
+    "type": "city",
+    "lat": 36.2556,
+    "lng": 136.9019,
+    "pop": null
+  },
+  {
+    "nameAr": "Okugome",
+    "nameEn": "Okugome",
+    "type": "city",
+    "lat": 35.201944444444,
+    "lng": 140.04444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōna",
+    "nameEn": "Ōna",
+    "type": "city",
+    "lat": 26.209444444444,
+    "lng": 127.73416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Onaha",
+    "nameEn": "Onaha",
+    "type": "city",
+    "lat": 26.222222222222,
+    "lng": 127.76944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōno Village",
+    "nameEn": "Ōno Village",
+    "type": "city",
+    "lat": 32.8604231,
+    "lng": 129.6892228,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōsaka",
+    "nameEn": "Ōsaka",
+    "type": "city",
+    "lat": 34.6937569,
+    "lng": 135.5014539,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōtani-kita",
+    "nameEn": "Ōtani-kita",
+    "type": "city",
+    "lat": 35.441988888889,
+    "lng": 139.39708611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōya",
+    "nameEn": "Ōya",
+    "type": "city",
+    "lat": 35.444952777778,
+    "lng": 139.39078888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōyama",
+    "nameEn": "Ōyama",
+    "type": "city",
+    "lat": 26.279166666667,
+    "lng": 127.74861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ōyamachi",
+    "nameEn": "Ōyamachi",
+    "type": "city",
+    "lat": 35.66916667,
+    "lng": 139.3555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ryujogaoka",
+    "nameEn": "Ryujogaoka",
+    "type": "city",
+    "lat": 35.318888888889,
+    "lng": 139.34583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sakai",
+    "nameEn": "Sakai",
+    "type": "city",
+    "lat": 34.5737364,
+    "lng": 135.4828866,
+    "pop": null
+  },
+  {
+    "nameAr": "Satomi",
+    "nameEn": "Satomi",
+    "type": "city",
+    "lat": 36.733,
+    "lng": 140.49002777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Shikina",
+    "nameEn": "Shikina",
+    "type": "city",
+    "lat": 26.205,
+    "lng": 127.71305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Suganuma Village",
+    "nameEn": "Suganuma Village",
+    "type": "city",
+    "lat": 36.4056,
+    "lng": 136.8861,
+    "pop": null
+  },
+  {
+    "nameAr": "Takada",
+    "nameEn": "Takada",
+    "type": "city",
+    "lat": 37.1,
+    "lng": 138.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Takushi",
+    "nameEn": "Takushi",
+    "type": "city",
+    "lat": 26.2375,
+    "lng": 127.71388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamagawa-Gakuen",
+    "nameEn": "Tamagawa-Gakuen",
+    "type": "city",
+    "lat": 35.56277778,
+    "lng": 139.4633333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanabaru",
+    "nameEn": "Tanabaru",
+    "type": "city",
+    "lat": 26.242777777778,
+    "lng": 127.75277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Tōma",
+    "nameEn": "Tōma",
+    "type": "city",
+    "lat": 26.263888888889,
+    "lng": 127.79083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tomari",
+    "nameEn": "Tomari",
+    "type": "city",
+    "lat": 26.278888888889,
+    "lng": 127.80555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Tsuha",
+    "nameEn": "Tsuha",
+    "type": "city",
+    "lat": 26.248611111111,
+    "lng": 127.785,
+    "pop": null
+  },
+  {
+    "nameAr": "Uchima",
+    "nameEn": "Uchima",
+    "type": "city",
+    "lat": 26.2389033,
+    "lng": 127.70277,
+    "pop": null
+  },
+  {
+    "nameAr": "Ujidomari",
+    "nameEn": "Ujidomari",
+    "type": "city",
+    "lat": 26.271666666667,
+    "lng": 127.73055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Yafusu",
+    "nameEn": "Yafusu",
+    "type": "city",
+    "lat": 26.253611111111,
+    "lng": 127.70805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Yawata",
+    "nameEn": "Yawata",
+    "type": "city",
+    "lat": 36.516666666667,
+    "lng": 138.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Yoyogi-Uehara",
+    "nameEn": "Yoyogi-Uehara",
+    "type": "city",
+    "lat": 35.668640164227,
+    "lng": 139.68182990136,
+    "pop": null
+  }
+]

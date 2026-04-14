@@ -1,0 +1,2737 @@
+[
+  {
+    "nameAr": "أوسلو",
+    "nameEn": "Oslo",
+    "type": "city",
+    "lat": 59.9139,
+    "lng": 10.7522
+  },
+  {
+    "nameAr": "برغن",
+    "nameEn": "Bergen",
+    "type": "city",
+    "lat": 60.3925,
+    "lng": 5.3233333333333,
+    "pop": 291189
+  },
+  {
+    "nameAr": "تروندهايم",
+    "nameEn": "Trondheim",
+    "type": "city",
+    "lat": 63.44,
+    "lng": 10.4,
+    "pop": 198777
+  },
+  {
+    "nameAr": "Stavanger",
+    "nameEn": "Stavanger",
+    "type": "city",
+    "lat": 58.97005,
+    "lng": 5.73332,
+    "pop": 129300
+  },
+  {
+    "nameAr": "ساندفيكا",
+    "nameEn": "Sandvika",
+    "type": "city",
+    "lat": 59.89,
+    "lng": 10.526388888889,
+    "pop": 115543
+  },
+  {
+    "nameAr": "كريستيانساند",
+    "nameEn": "Kristiansand",
+    "type": "city",
+    "lat": 58.14671,
+    "lng": 7.9956,
+    "pop": 67920
+  },
+  {
+    "nameAr": "Fredrikstad",
+    "nameEn": "Fredrikstad",
+    "type": "city",
+    "lat": 59.2181,
+    "lng": 10.9298,
+    "pop": 63610
+  },
+  {
+    "nameAr": "Sandnes",
+    "nameEn": "Sandnes",
+    "type": "city",
+    "lat": 58.85,
+    "lng": 5.73333333,
+    "pop": 58694
+  },
+  {
+    "nameAr": "Tønsberg",
+    "nameEn": "Tønsberg",
+    "type": "city",
+    "lat": 59.267,
+    "lng": 10.409,
+    "pop": 56533
+  },
+  {
+    "nameAr": "Sarpsborg",
+    "nameEn": "Sarpsborg",
+    "type": "city",
+    "lat": 59.28391,
+    "lng": 11.10962,
+    "pop": 54678
+  },
+  {
+    "nameAr": "Ålesund",
+    "nameEn": "Ålesund",
+    "type": "city",
+    "lat": 62.47225,
+    "lng": 6.15492,
+    "pop": 52163
+  },
+  {
+    "nameAr": "Moss",
+    "nameEn": "Moss",
+    "type": "city",
+    "lat": 59.433888888889,
+    "lng": 10.6575,
+    "pop": 50647
+  },
+  {
+    "nameAr": "Skien",
+    "nameEn": "Skien",
+    "type": "city",
+    "lat": 59.20962,
+    "lng": 9.60897,
+    "pop": 50607
+  },
+  {
+    "nameAr": "Sandefjord",
+    "nameEn": "Sandefjord",
+    "type": "city",
+    "lat": 59.13118,
+    "lng": 10.21665,
+    "pop": 48835
+  },
+  {
+    "nameAr": "Haugesund",
+    "nameEn": "Haugesund",
+    "type": "city",
+    "lat": 59.41638889,
+    "lng": 5.27,
+    "pop": 47346
+  },
+  {
+    "nameAr": "بودو",
+    "nameEn": "Bodø",
+    "type": "city",
+    "lat": 67.28267,
+    "lng": 14.37513,
+    "pop": 43504
+  },
+  {
+    "nameAr": "Tromsø",
+    "nameEn": "Tromsø",
+    "type": "city",
+    "lat": 69.651666666667,
+    "lng": 18.955555555556,
+    "pop": 38980
+  },
+  {
+    "nameAr": "هامر",
+    "nameEn": "Hamar",
+    "type": "city",
+    "lat": 60.794444444444,
+    "lng": 11.067777777778,
+    "pop": 30535
+  },
+  {
+    "nameAr": "Gjøvik",
+    "nameEn": "Gjøvik",
+    "type": "city",
+    "lat": 60.79575,
+    "lng": 10.69155556,
+    "pop": 30176
+  },
+  {
+    "nameAr": "Larvik",
+    "nameEn": "Larvik",
+    "type": "city",
+    "lat": 59.05322222,
+    "lng": 10.02711111,
+    "pop": 27661
+  },
+  {
+    "nameAr": "يسهايم",
+    "nameEn": "Jessheim",
+    "type": "city",
+    "lat": 60.14,
+    "lng": 11.175277777778,
+    "pop": 25469
+  },
+  {
+    "nameAr": "Molde",
+    "nameEn": "Molde",
+    "type": "city",
+    "lat": 62.7375,
+    "lng": 7.1591,
+    "pop": 22666
+  },
+  {
+    "nameAr": "ليلهامر",
+    "nameEn": "Lillehammer",
+    "type": "city",
+    "lat": 61.116111,
+    "lng": 10.457778,
+    "pop": 21677
+  },
+  {
+    "nameAr": "هارستاد",
+    "nameEn": "Harstad",
+    "type": "city",
+    "lat": 68.79888889,
+    "lng": 16.53138889,
+    "pop": 21602
+  },
+  {
+    "nameAr": "Horten",
+    "nameEn": "Horten",
+    "type": "city",
+    "lat": 59.417222222222,
+    "lng": 10.483444444444,
+    "pop": 21208
+  },
+  {
+    "nameAr": "مو إي رانا",
+    "nameEn": "Mo i Rana",
+    "type": "city",
+    "lat": 66.316666666667,
+    "lng": 14.166666666667,
+    "pop": 18739
+  },
+  {
+    "nameAr": "Kristiansund",
+    "nameEn": "Kristiansund",
+    "type": "city",
+    "lat": 63.11045,
+    "lng": 7.72795,
+    "pop": 18479
+  },
+  {
+    "nameAr": "هونفوس",
+    "nameEn": "Hønefoss",
+    "type": "city",
+    "lat": 60.16592,
+    "lng": 10.25576,
+    "pop": 17251
+  },
+  {
+    "nameAr": "ألتا",
+    "nameEn": "Alta",
+    "type": "city",
+    "lat": 69.96861111,
+    "lng": 23.27138889,
+    "pop": 16382
+  },
+  {
+    "nameAr": "Elverum",
+    "nameEn": "Elverum",
+    "type": "city",
+    "lat": 60.88333333,
+    "lng": 11.56666667,
+    "pop": 16028
+  },
+  {
+    "nameAr": "Askim",
+    "nameEn": "Askim",
+    "type": "city",
+    "lat": 59.58325,
+    "lng": 11.162861,
+    "pop": 15629
+  },
+  {
+    "nameAr": "Grimstad",
+    "nameEn": "Grimstad",
+    "type": "city",
+    "lat": 58.3405,
+    "lng": 8.59343,
+    "pop": 15196
+  },
+  {
+    "nameAr": "نارفيك",
+    "nameEn": "Narvik",
+    "type": "city",
+    "lat": 68.43828,
+    "lng": 17.42777,
+    "pop": 14199
+  },
+  {
+    "nameAr": "دروباك",
+    "nameEn": "Drøbak",
+    "type": "city",
+    "lat": 59.666666666667,
+    "lng": 10.633333333333,
+    "pop": 13859
+  },
+  {
+    "nameAr": "Steinkjer",
+    "nameEn": "Steinkjer",
+    "type": "city",
+    "lat": 64.0147,
+    "lng": 11.4942,
+    "pop": 13123
+  },
+  {
+    "nameAr": "Kongsvinger",
+    "nameEn": "Kongsvinger",
+    "type": "city",
+    "lat": 60.1905,
+    "lng": 11.99769444,
+    "pop": 12466
+  },
+  {
+    "nameAr": "إغرسوند",
+    "nameEn": "Egersund",
+    "type": "city",
+    "lat": 58.45,
+    "lng": 6.0066666666667,
+    "pop": 11902
+  },
+  {
+    "nameAr": "لوميدالن",
+    "nameEn": "Lommedalen",
+    "type": "city",
+    "lat": 59.95,
+    "lng": 10.466666666667,
+    "pop": 11225
+  },
+  {
+    "nameAr": "Førde",
+    "nameEn": "Førde",
+    "type": "city",
+    "lat": 61.4519,
+    "lng": 5.85694,
+    "pop": 10922
+  },
+  {
+    "nameAr": "Levanger",
+    "nameEn": "Levanger",
+    "type": "city",
+    "lat": 63.74644,
+    "lng": 11.29963,
+    "pop": 10894
+  },
+  {
+    "nameAr": "Hokksund",
+    "nameEn": "Hokksund",
+    "type": "city",
+    "lat": 59.7707667,
+    "lng": 9.9098667,
+    "pop": 9884
+  },
+  {
+    "nameAr": "Notodden",
+    "nameEn": "Notodden",
+    "type": "city",
+    "lat": 59.55936111,
+    "lng": 9.25852778,
+    "pop": 9365
+  },
+  {
+    "nameAr": "فلورو",
+    "nameEn": "Florø",
+    "type": "city",
+    "lat": 61.598611111111,
+    "lng": 5.0172222222222,
+    "pop": 9102
+  },
+  {
+    "nameAr": "Holmestrand",
+    "nameEn": "Holmestrand",
+    "type": "city",
+    "lat": 59.4875,
+    "lng": 10.3175,
+    "pop": 8621
+  },
+  {
+    "nameAr": "Lillesand",
+    "nameEn": "Lillesand",
+    "type": "city",
+    "lat": 58.249446,
+    "lng": 8.377283,
+    "pop": 8538
+  },
+  {
+    "nameAr": "Namsos",
+    "nameEn": "Namsos",
+    "type": "city",
+    "lat": 64.467,
+    "lng": 11.494,
+    "pop": 8500
+  },
+  {
+    "nameAr": "Hammerfest",
+    "nameEn": "Hammerfest",
+    "type": "city",
+    "lat": 70.66336,
+    "lng": 23.68209,
+    "pop": 8010
+  },
+  {
+    "nameAr": "Jørpeland",
+    "nameEn": "Jørpeland",
+    "type": "city",
+    "lat": 59.01666667,
+    "lng": 6.05,
+    "pop": 7815
+  },
+  {
+    "nameAr": "Melhus",
+    "nameEn": "Melhus",
+    "type": "city",
+    "lat": 63.28555556,
+    "lng": 10.27805556,
+    "pop": 7393
+  },
+  {
+    "nameAr": "Odda Municipality",
+    "nameEn": "Odda Municipality",
+    "type": "city",
+    "lat": 60.025833,
+    "lng": 6.667222,
+    "pop": 6930
+  },
+  {
+    "nameAr": "ساندنشان",
+    "nameEn": "Sandnessjøen",
+    "type": "city",
+    "lat": 66.016666666667,
+    "lng": 12.633333333333,
+    "pop": 6110
+  },
+  {
+    "nameAr": "Stavern",
+    "nameEn": "Stavern",
+    "type": "city",
+    "lat": 59,
+    "lng": 10.033333333333,
+    "pop": 6076
+  },
+  {
+    "nameAr": "Brønnøysund",
+    "nameEn": "Brønnøysund",
+    "type": "city",
+    "lat": 65.4749,
+    "lng": 12.21196,
+    "pop": 5113
+  },
+  {
+    "nameAr": "Vadsø",
+    "nameEn": "Vadsø",
+    "type": "city",
+    "lat": 70.06666667,
+    "lng": 29.75,
+    "pop": 4847
+  },
+  {
+    "nameAr": "Svolvær",
+    "nameEn": "Svolvær",
+    "type": "city",
+    "lat": 68.233333333333,
+    "lng": 14.566666666667,
+    "pop": 4807
+  },
+  {
+    "nameAr": "Odda",
+    "nameEn": "Odda",
+    "type": "city",
+    "lat": 60.06888889,
+    "lng": 6.54555556,
+    "pop": 4750
+  },
+  {
+    "nameAr": "Svelvik",
+    "nameEn": "Svelvik",
+    "type": "city",
+    "lat": 59.61305556,
+    "lng": 10.405,
+    "pop": 4193
+  },
+  {
+    "nameAr": "Røros",
+    "nameEn": "Røros",
+    "type": "city",
+    "lat": 62.57468,
+    "lng": 11.3842,
+    "pop": 3897
+  },
+  {
+    "nameAr": "Fosnavåg",
+    "nameEn": "Fosnavåg",
+    "type": "city",
+    "lat": 62.341666666667,
+    "lng": 5.6338888888889,
+    "pop": 3710
+  },
+  {
+    "nameAr": "Stokmarknes",
+    "nameEn": "Stokmarknes",
+    "type": "city",
+    "lat": 68.565555555556,
+    "lng": 14.905833333333,
+    "pop": 3660
+  },
+  {
+    "nameAr": "Erdal",
+    "nameEn": "Erdal",
+    "type": "city",
+    "lat": 60.44388889,
+    "lng": 5.225,
+    "pop": 3500
+  },
+  {
+    "nameAr": "Sagvåg",
+    "nameEn": "Sagvåg",
+    "type": "city",
+    "lat": 59.78121,
+    "lng": 5.38858,
+    "pop": 3477
+  },
+  {
+    "nameAr": "شيركنيس",
+    "nameEn": "Kirkenes",
+    "type": "city",
+    "lat": 69.72708,
+    "lng": 30.04511,
+    "pop": 3424
+  },
+  {
+    "nameAr": "Måløy",
+    "nameEn": "Måløy",
+    "type": "city",
+    "lat": 61.933333333333,
+    "lng": 5.1166666666667,
+    "pop": 3407
+  },
+  {
+    "nameAr": "Åsgårdstrand",
+    "nameEn": "Åsgårdstrand",
+    "type": "city",
+    "lat": 59.348888888889,
+    "lng": 10.4675,
+    "pop": 3046
+  },
+  {
+    "nameAr": "ريوكان",
+    "nameEn": "Rjukan",
+    "type": "city",
+    "lat": 59.881111111111,
+    "lng": 8.5830555555556,
+    "pop": 3012
+  },
+  {
+    "nameAr": "Brevik",
+    "nameEn": "Brevik",
+    "type": "city",
+    "lat": 59.058888888889,
+    "lng": 9.6875,
+    "pop": 3000
+  },
+  {
+    "nameAr": "Tvedestrand",
+    "nameEn": "Tvedestrand",
+    "type": "city",
+    "lat": 58.62194444,
+    "lng": 8.93138889,
+    "pop": 2891
+  },
+  {
+    "nameAr": "Avaldsnes",
+    "nameEn": "Avaldsnes",
+    "type": "city",
+    "lat": 59.3558,
+    "lng": 5.2779,
+    "pop": 2876
+  },
+  {
+    "nameAr": "Vinstra",
+    "nameEn": "Vinstra",
+    "type": "city",
+    "lat": 61.59496,
+    "lng": 9.75134,
+    "pop": 2727
+  },
+  {
+    "nameAr": "Åndalsnes",
+    "nameEn": "Åndalsnes",
+    "type": "city",
+    "lat": 62.567222222222,
+    "lng": 7.6869444444444,
+    "pop": 2498
+  },
+  {
+    "nameAr": "Brekstad",
+    "nameEn": "Brekstad",
+    "type": "city",
+    "lat": 63.687,
+    "lng": 9.6654,
+    "pop": 2495
+  },
+  {
+    "nameAr": "لونغييربين",
+    "nameEn": "Longyearbyen",
+    "type": "city",
+    "lat": 78.216666666667,
+    "lng": 15.633333333333,
+    "pop": 2417
+  },
+  {
+    "nameAr": "Norheimsund",
+    "nameEn": "Norheimsund",
+    "type": "city",
+    "lat": 60.36666667,
+    "lng": 6.13333333,
+    "pop": 2366
+  },
+  {
+    "nameAr": "Otta",
+    "nameEn": "Otta",
+    "type": "city",
+    "lat": 61.77055556,
+    "lng": 9.54138889,
+    "pop": 2313
+  },
+  {
+    "nameAr": "Honningsvåg",
+    "nameEn": "Honningsvåg",
+    "type": "city",
+    "lat": 70.975833333333,
+    "lng": 25.983055555556,
+    "pop": 2261
+  },
+  {
+    "nameAr": "Fagernes",
+    "nameEn": "Fagernes",
+    "type": "city",
+    "lat": 60.985,
+    "lng": 9.2305555555556,
+    "pop": 1990
+  },
+  {
+    "nameAr": "Kolvereid",
+    "nameEn": "Kolvereid",
+    "type": "city",
+    "lat": 64.865277777778,
+    "lng": 11.604444444444,
+    "pop": 1832
+  },
+  {
+    "nameAr": "Vardø",
+    "nameEn": "Vardø",
+    "type": "city",
+    "lat": 70.37052,
+    "lng": 31.10954,
+    "pop": 1778
+  },
+  {
+    "nameAr": "Biri",
+    "nameEn": "Biri",
+    "type": "city",
+    "lat": 60.9572,
+    "lng": 10.60841,
+    "pop": 1662
+  },
+  {
+    "nameAr": "Ask",
+    "nameEn": "Ask",
+    "type": "city",
+    "lat": 60.47416667,
+    "lng": 5.21411111,
+    "pop": 1562
+  },
+  {
+    "nameAr": "Kaupanger",
+    "nameEn": "Kaupanger",
+    "type": "city",
+    "lat": 61.184444444444,
+    "lng": 7.2422222222222,
+    "pop": 1167
+  },
+  {
+    "nameAr": "Vestbygda",
+    "nameEn": "Vestbygda",
+    "type": "city",
+    "lat": 58.09972222,
+    "lng": 6.58694444,
+    "pop": 1136
+  },
+  {
+    "nameAr": "Ilseng",
+    "nameEn": "Ilseng",
+    "type": "city",
+    "lat": 60.775,
+    "lng": 11.221944444444,
+    "pop": 998
+  },
+  {
+    "nameAr": "Roa",
+    "nameEn": "Roa",
+    "type": "city",
+    "lat": 60.28805556,
+    "lng": 10.6,
+    "pop": 993
+  },
+  {
+    "nameAr": "Pollestad",
+    "nameEn": "Pollestad",
+    "type": "city",
+    "lat": 58.71666667,
+    "lng": 5.58333333,
+    "pop": 827
+  },
+  {
+    "nameAr": "Kviteseid",
+    "nameEn": "Kviteseid",
+    "type": "city",
+    "lat": 59.40416667,
+    "lng": 8.49111111,
+    "pop": 811
+  },
+  {
+    "nameAr": "Bud",
+    "nameEn": "Bud",
+    "type": "city",
+    "lat": 62.906388888889,
+    "lng": 6.9130555555556,
+    "pop": 780
+  },
+  {
+    "nameAr": "Sylling",
+    "nameEn": "Sylling",
+    "type": "city",
+    "lat": 59.8942,
+    "lng": 10.2868,
+    "pop": 771
+  },
+  {
+    "nameAr": "Langevåg",
+    "nameEn": "Langevåg",
+    "type": "city",
+    "lat": 59.605,
+    "lng": 5.21139,
+    "pop": 754
+  },
+  {
+    "nameAr": "Spangereid",
+    "nameEn": "Spangereid",
+    "type": "city",
+    "lat": 58.045277777778,
+    "lng": 7.1416666666667,
+    "pop": 731
+  },
+  {
+    "nameAr": "Åsen",
+    "nameEn": "Åsen",
+    "type": "city",
+    "lat": 63.61064,
+    "lng": 11.05174,
+    "pop": 690
+  },
+  {
+    "nameAr": "Eikeland",
+    "nameEn": "Eikeland",
+    "type": "city",
+    "lat": 58.802222222222,
+    "lng": 9.0961111111111,
+    "pop": 684
+  },
+  {
+    "nameAr": "Sekkingstad",
+    "nameEn": "Sekkingstad",
+    "type": "city",
+    "lat": 60.35472222,
+    "lng": 4.98583333,
+    "pop": 679
+  },
+  {
+    "nameAr": "Askje",
+    "nameEn": "Askje",
+    "type": "city",
+    "lat": 59.06305556,
+    "lng": 5.69416667,
+    "pop": 637
+  },
+  {
+    "nameAr": "Bagn",
+    "nameEn": "Bagn",
+    "type": "city",
+    "lat": 60.82249,
+    "lng": 9.55206,
+    "pop": 622
+  },
+  {
+    "nameAr": "Sira",
+    "nameEn": "Sira",
+    "type": "city",
+    "lat": 58.42055556,
+    "lng": 6.66305556,
+    "pop": 591
+  },
+  {
+    "nameAr": "Måndalen",
+    "nameEn": "Måndalen",
+    "type": "city",
+    "lat": 62.53472222,
+    "lng": 7.4425,
+    "pop": 498
+  },
+  {
+    "nameAr": "Flatdal",
+    "nameEn": "Flatdal",
+    "type": "city",
+    "lat": 59.56666667,
+    "lng": 8.56666667,
+    "pop": 485
+  },
+  {
+    "nameAr": "بارنتسبورغ",
+    "nameEn": "Barentsburg",
+    "type": "city",
+    "lat": 78.065,
+    "lng": 14.216,
+    "pop": 471
+  },
+  {
+    "nameAr": "Kvål",
+    "nameEn": "Kvål",
+    "type": "city",
+    "lat": 63.231388888889,
+    "lng": 10.280555555556,
+    "pop": 467
+  },
+  {
+    "nameAr": "Mogrenda",
+    "nameEn": "Mogrenda",
+    "type": "city",
+    "lat": 61.917777777778,
+    "lng": 6.0825,
+    "pop": 398
+  },
+  {
+    "nameAr": "Gilja",
+    "nameEn": "Gilja",
+    "type": "city",
+    "lat": 58.80694444,
+    "lng": 6.25888889,
+    "pop": 390
+  },
+  {
+    "nameAr": "Burfjord",
+    "nameEn": "Burfjord",
+    "type": "city",
+    "lat": 69.93803,
+    "lng": 22.05203,
+    "pop": 388
+  },
+  {
+    "nameAr": "Høvåg",
+    "nameEn": "Høvåg",
+    "type": "city",
+    "lat": 58.1712,
+    "lng": 8.2459,
+    "pop": 377
+  },
+  {
+    "nameAr": "Flesland",
+    "nameEn": "Flesland",
+    "type": "city",
+    "lat": 60.3,
+    "lng": 5.21666667,
+    "pop": 344
+  },
+  {
+    "nameAr": "Gjerstad",
+    "nameEn": "Gjerstad",
+    "type": "city",
+    "lat": 58.8809,
+    "lng": 9.0175,
+    "pop": 301
+  },
+  {
+    "nameAr": "Sander",
+    "nameEn": "Sander",
+    "type": "city",
+    "lat": 60.22751,
+    "lng": 11.80876,
+    "pop": 282
+  },
+  {
+    "nameAr": "Hol",
+    "nameEn": "Hol",
+    "type": "city",
+    "lat": 60.61511111,
+    "lng": 8.29397222,
+    "pop": 282
+  },
+  {
+    "nameAr": "Byremo",
+    "nameEn": "Byremo",
+    "type": "city",
+    "lat": 58.4211,
+    "lng": 7.4025,
+    "pop": 279
+  },
+  {
+    "nameAr": "Fresvik",
+    "nameEn": "Fresvik",
+    "type": "city",
+    "lat": 61.0725,
+    "lng": 6.9344444444444,
+    "pop": 275
+  },
+  {
+    "nameAr": "Åse",
+    "nameEn": "Åse",
+    "type": "city",
+    "lat": 69.01204,
+    "lng": 15.7704,
+    "pop": 272
+  },
+  {
+    "nameAr": "Hellesylt",
+    "nameEn": "Hellesylt",
+    "type": "city",
+    "lat": 62.087777777778,
+    "lng": 6.8605555555556,
+    "pop": 244
+  },
+  {
+    "nameAr": "Fister",
+    "nameEn": "Fister",
+    "type": "city",
+    "lat": 59.166666666667,
+    "lng": 6.0666666666667,
+    "pop": 232
+  },
+  {
+    "nameAr": "Ubergsmoen",
+    "nameEn": "Ubergsmoen",
+    "type": "city",
+    "lat": 58.6803,
+    "lng": 8.8221,
+    "pop": 222
+  },
+  {
+    "nameAr": "Trengereid",
+    "nameEn": "Trengereid",
+    "type": "city",
+    "lat": 60.42777778,
+    "lng": 5.62333333,
+    "pop": 213
+  },
+  {
+    "nameAr": "ني أوليسوند",
+    "nameEn": "Ny-Ålesund",
+    "type": "city",
+    "lat": 78.916666666667,
+    "lng": 11.933333333333,
+    "pop": 35
+  },
+  {
+    "nameAr": "Ona",
+    "nameEn": "Ona",
+    "type": "city",
+    "lat": 62.8603,
+    "lng": 6.5543,
+    "pop": 15
+  },
+  {
+    "nameAr": "فانغسنس",
+    "nameEn": "Vangsnes",
+    "type": "city",
+    "lat": 61.1742,
+    "lng": 6.635,
+    "pop": null
+  },
+  {
+    "nameAr": "Abelvær",
+    "nameEn": "Abelvær",
+    "type": "city",
+    "lat": 64.729444444444,
+    "lng": 11.178333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Akkarvik",
+    "nameEn": "Akkarvik",
+    "type": "city",
+    "lat": 70.063888888889,
+    "lng": 20.4925,
+    "pop": null
+  },
+  {
+    "nameAr": "Åknes",
+    "nameEn": "Åknes",
+    "type": "city",
+    "lat": 58.75138889,
+    "lng": 7.51416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ålbu",
+    "nameEn": "Ålbu",
+    "type": "city",
+    "lat": 62.610277777778,
+    "lng": 9.4975,
+    "pop": null
+  },
+  {
+    "nameAr": "Ålen",
+    "nameEn": "Ålen",
+    "type": "city",
+    "lat": 62.841944444444,
+    "lng": 11.301388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Ålfoten",
+    "nameEn": "Ålfoten",
+    "type": "city",
+    "lat": 61.838888888889,
+    "lng": 5.6744444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ålgård",
+    "nameEn": "Ålgård",
+    "type": "city",
+    "lat": 58.7648,
+    "lng": 5.85548,
+    "pop": null
+  },
+  {
+    "nameAr": "Ålo",
+    "nameEn": "Ålo",
+    "type": "city",
+    "lat": 58.04861111,
+    "lng": 7.69388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Alstadhaug",
+    "nameEn": "Alstadhaug",
+    "type": "city",
+    "lat": 63.72361111,
+    "lng": 11.225,
+    "pop": null
+  },
+  {
+    "nameAr": "Åna-Sira",
+    "nameEn": "Åna-Sira",
+    "type": "city",
+    "lat": 58.29253611,
+    "lng": 6.44226667,
+    "pop": null
+  },
+  {
+    "nameAr": "Årdal",
+    "nameEn": "Årdal",
+    "type": "city",
+    "lat": 59.154722222222,
+    "lng": 6.1941666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Arendal",
+    "nameEn": "Arendal",
+    "type": "city",
+    "lat": 58.461653,
+    "lng": 8.772067,
+    "pop": null
+  },
+  {
+    "nameAr": "Arnafjord",
+    "nameEn": "Arnafjord",
+    "type": "city",
+    "lat": 61.0186,
+    "lng": 6.38583,
+    "pop": null
+  },
+  {
+    "nameAr": "Åros",
+    "nameEn": "Åros",
+    "type": "city",
+    "lat": 58.07888889,
+    "lng": 7.82527778,
+    "pop": null
+  },
+  {
+    "nameAr": "Årsnes",
+    "nameEn": "Årsnes",
+    "type": "city",
+    "lat": 60.05361111,
+    "lng": 6.0225,
+    "pop": null
+  },
+  {
+    "nameAr": "Asker",
+    "nameEn": "Asker",
+    "type": "city",
+    "lat": 59.83527778,
+    "lng": 10.435,
+    "pop": null
+  },
+  {
+    "nameAr": "Aukland",
+    "nameEn": "Aukland",
+    "type": "city",
+    "lat": 58.20527778,
+    "lng": 7.92444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Auklandshamn",
+    "nameEn": "Auklandshamn",
+    "type": "city",
+    "lat": 59.65,
+    "lng": 5.38333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Begna",
+    "nameEn": "Begna",
+    "type": "city",
+    "lat": 60.64384,
+    "lng": 9.87885,
+    "pop": null
+  },
+  {
+    "nameAr": "Beitstad",
+    "nameEn": "Beitstad",
+    "type": "city",
+    "lat": 64.085277777778,
+    "lng": 11.361388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Bekkestua",
+    "nameEn": "Bekkestua",
+    "type": "city",
+    "lat": 59.918055555556,
+    "lng": 10.588888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Betna",
+    "nameEn": "Betna",
+    "type": "city",
+    "lat": 63.08768889,
+    "lng": 8.35287111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bindalseidet",
+    "nameEn": "Bindalseidet",
+    "type": "city",
+    "lat": 65.12560833,
+    "lng": 12.23220833,
+    "pop": null
+  },
+  {
+    "nameAr": "Bjerkreim",
+    "nameEn": "Bjerkreim",
+    "type": "city",
+    "lat": 58.58361111,
+    "lng": 6.0775,
+    "pop": null
+  },
+  {
+    "nameAr": "Bjørheimsbygda",
+    "nameEn": "Bjørheimsbygda",
+    "type": "city",
+    "lat": 59.07222222,
+    "lng": 6.01805556,
+    "pop": null
+  },
+  {
+    "nameAr": "Bjørklia",
+    "nameEn": "Bjørklia",
+    "type": "city",
+    "lat": 62.63722222,
+    "lng": 9.77694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Bleikvasslia",
+    "nameEn": "Bleikvasslia",
+    "type": "city",
+    "lat": 65.908333333333,
+    "lng": 13.807222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bogen",
+    "nameEn": "Bogen",
+    "type": "city",
+    "lat": 67.89576,
+    "lng": 15.22299,
+    "pop": null
+  },
+  {
+    "nameAr": "Bognes",
+    "nameEn": "Bognes",
+    "type": "city",
+    "lat": 68.224722222222,
+    "lng": 16.075555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Borgundvåg",
+    "nameEn": "Borgundvåg",
+    "type": "city",
+    "lat": 62.112222222222,
+    "lng": 5.2983333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Børve",
+    "nameEn": "Børve",
+    "type": "city",
+    "lat": 60.266666666667,
+    "lng": 6.6333333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Breland",
+    "nameEn": "Breland",
+    "type": "city",
+    "lat": 58.199502,
+    "lng": 7.719713,
+    "pop": null
+  },
+  {
+    "nameAr": "Brensholmen",
+    "nameEn": "Brensholmen",
+    "type": "city",
+    "lat": 69.59936111,
+    "lng": 18.02307111,
+    "pop": null
+  },
+  {
+    "nameAr": "Brimnes",
+    "nameEn": "Brimnes",
+    "type": "city",
+    "lat": 60.4714,
+    "lng": 6.90889,
+    "pop": null
+  },
+  {
+    "nameAr": "Brøstadbotn",
+    "nameEn": "Brøstadbotn",
+    "type": "city",
+    "lat": 69.08861111,
+    "lng": 17.69472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukta",
+    "nameEn": "Bukta",
+    "type": "city",
+    "lat": 61.7630479,
+    "lng": 6.1933559,
+    "pop": null
+  },
+  {
+    "nameAr": "Čunovuohppi",
+    "nameEn": "Čunovuohppi",
+    "type": "city",
+    "lat": 69.072948,
+    "lng": 22.843044,
+    "pop": null
+  },
+  {
+    "nameAr": "Djønno",
+    "nameEn": "Djønno",
+    "type": "city",
+    "lat": 60.465,
+    "lng": 6.75027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Dragsetmoen",
+    "nameEn": "Dragsetmoen",
+    "type": "city",
+    "lat": 63.118868,
+    "lng": 9.612565,
+    "pop": null
+  },
+  {
+    "nameAr": "Drammen",
+    "nameEn": "Drammen",
+    "type": "city",
+    "lat": 59.74389,
+    "lng": 10.20449,
+    "pop": null
+  },
+  {
+    "nameAr": "Dravlaus",
+    "nameEn": "Dravlaus",
+    "type": "city",
+    "lat": 62.12361111,
+    "lng": 5.94055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dun",
+    "nameEn": "Dun",
+    "type": "city",
+    "lat": 64.65861111,
+    "lng": 11.26611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Dunderland",
+    "nameEn": "Dunderland",
+    "type": "city",
+    "lat": 66.445555555556,
+    "lng": 14.838888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Dyfjord",
+    "nameEn": "Dyfjord",
+    "type": "city",
+    "lat": 70.89806,
+    "lng": 27.22478,
+    "pop": null
+  },
+  {
+    "nameAr": "Eidsdal",
+    "nameEn": "Eidsdal",
+    "type": "city",
+    "lat": 62.26111111,
+    "lng": 7.17166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Eidsfoss",
+    "nameEn": "Eidsfoss",
+    "type": "city",
+    "lat": 59.59611111,
+    "lng": 10.04194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Eik",
+    "nameEn": "Eik",
+    "type": "city",
+    "lat": 58.09055556,
+    "lng": 7.78694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Elvdal",
+    "nameEn": "Elvdal",
+    "type": "city",
+    "lat": 61.666666666667,
+    "lng": 11.783333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Enebakkneset",
+    "nameEn": "Enebakkneset",
+    "type": "city",
+    "lat": 59.78333333,
+    "lng": 11.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Engerdal",
+    "nameEn": "Engerdal",
+    "type": "city",
+    "lat": 61.758888888889,
+    "lng": 11.959166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Engesland",
+    "nameEn": "Engesland",
+    "type": "city",
+    "lat": 58.534166666667,
+    "lng": 8.1227777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Eresfjord",
+    "nameEn": "Eresfjord",
+    "type": "city",
+    "lat": 62.66666667,
+    "lng": 8.11666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ersfjord",
+    "nameEn": "Ersfjord",
+    "type": "city",
+    "lat": 69.48444444,
+    "lng": 17.40722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Eydehavn",
+    "nameEn": "Eydehavn",
+    "type": "city",
+    "lat": 58.4992,
+    "lng": 8.8639,
+    "pop": null
+  },
+  {
+    "nameAr": "Fardal",
+    "nameEn": "Fardal",
+    "type": "city",
+    "lat": 61.19182,
+    "lng": 7.02315,
+    "pop": null
+  },
+  {
+    "nameAr": "Felle",
+    "nameEn": "Felle",
+    "type": "city",
+    "lat": 58.90362,
+    "lng": 8.74396,
+    "pop": null
+  },
+  {
+    "nameAr": "Finneid",
+    "nameEn": "Finneid",
+    "type": "city",
+    "lat": 67.25486,
+    "lng": 15.43221,
+    "pop": null
+  },
+  {
+    "nameAr": "Fjågesund",
+    "nameEn": "Fjågesund",
+    "type": "city",
+    "lat": 59.30314,
+    "lng": 8.694096,
+    "pop": null
+  },
+  {
+    "nameAr": "Flekke",
+    "nameEn": "Flekke",
+    "type": "city",
+    "lat": 61.3175,
+    "lng": 5.3616666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Foldnes",
+    "nameEn": "Foldnes",
+    "type": "city",
+    "lat": 60.37611111,
+    "lng": 5.10277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Forradal",
+    "nameEn": "Forradal",
+    "type": "city",
+    "lat": 63.486,
+    "lng": 11.233,
+    "pop": null
+  },
+  {
+    "nameAr": "Framfjord",
+    "nameEn": "Framfjord",
+    "type": "city",
+    "lat": 61.005555555556,
+    "lng": 6.4116666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Fredvang",
+    "nameEn": "Fredvang",
+    "type": "city",
+    "lat": 68.08417222,
+    "lng": 13.16916944,
+    "pop": null
+  },
+  {
+    "nameAr": "Froland",
+    "nameEn": "Froland",
+    "type": "city",
+    "lat": 58.5306,
+    "lng": 8.6546,
+    "pop": null
+  },
+  {
+    "nameAr": "Frønningen",
+    "nameEn": "Frønningen",
+    "type": "city",
+    "lat": 61.1106,
+    "lng": 7.06944,
+    "pop": null
+  },
+  {
+    "nameAr": "Furnes",
+    "nameEn": "Furnes",
+    "type": "city",
+    "lat": 60.8406,
+    "lng": 11.0211,
+    "pop": null
+  },
+  {
+    "nameAr": "Gardermoen",
+    "nameEn": "Gardermoen",
+    "type": "city",
+    "lat": 60.19083,
+    "lng": 11.06639,
+    "pop": null
+  },
+  {
+    "nameAr": "Gjesdal",
+    "nameEn": "Gjesdal",
+    "type": "city",
+    "lat": 58.76861111,
+    "lng": 5.95472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Golnes",
+    "nameEn": "Golnes",
+    "type": "city",
+    "lat": 70.073333333333,
+    "lng": 30.031666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gudvangen",
+    "nameEn": "Gudvangen",
+    "type": "city",
+    "lat": 60.879697,
+    "lng": 6.8430253,
+    "pop": null
+  },
+  {
+    "nameAr": "Hålandsosen",
+    "nameEn": "Hålandsosen",
+    "type": "city",
+    "lat": 59.34805556,
+    "lng": 6.23944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Hanestad",
+    "nameEn": "Hanestad",
+    "type": "city",
+    "lat": 61.83323,
+    "lng": 10.86824,
+    "pop": null
+  },
+  {
+    "nameAr": "Harkmark",
+    "nameEn": "Harkmark",
+    "type": "city",
+    "lat": 58.04527778,
+    "lng": 7.60444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Hasvåg",
+    "nameEn": "Hasvåg",
+    "type": "city",
+    "lat": 64.444669444444,
+    "lng": 10.597086111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Hatlestrand",
+    "nameEn": "Hatlestrand",
+    "type": "city",
+    "lat": 60.0333,
+    "lng": 5.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Haugastøl",
+    "nameEn": "Haugastøl",
+    "type": "city",
+    "lat": 60.5,
+    "lng": 7.866667,
+    "pop": null
+  },
+  {
+    "nameAr": "Haukeli",
+    "nameEn": "Haukeli",
+    "type": "city",
+    "lat": 59.73480833,
+    "lng": 7.55158056,
+    "pop": null
+  },
+  {
+    "nameAr": "Heddeland",
+    "nameEn": "Heddeland",
+    "type": "city",
+    "lat": 58.19333333,
+    "lng": 7.52416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hell",
+    "nameEn": "Hell",
+    "type": "city",
+    "lat": 63.444444444444,
+    "lng": 10.9225,
+    "pop": null
+  },
+  {
+    "nameAr": "Hennset",
+    "nameEn": "Hennset",
+    "type": "city",
+    "lat": 63.135899,
+    "lng": 8.43681306,
+    "pop": null
+  },
+  {
+    "nameAr": "Hillestad",
+    "nameEn": "Hillestad",
+    "type": "city",
+    "lat": 59.50916667,
+    "lng": 10.18805556,
+    "pop": null
+  },
+  {
+    "nameAr": "Hindaråvåg",
+    "nameEn": "Hindaråvåg",
+    "type": "city",
+    "lat": 59.35,
+    "lng": 5.8,
+    "pop": null
+  },
+  {
+    "nameAr": "His",
+    "nameEn": "His",
+    "type": "city",
+    "lat": 58.4314,
+    "lng": 8.7434,
+    "pop": null
+  },
+  {
+    "nameAr": "Hjerkinn",
+    "nameEn": "Hjerkinn",
+    "type": "city",
+    "lat": 62.22347,
+    "lng": 9.54746,
+    "pop": null
+  },
+  {
+    "nameAr": "Hoddevik",
+    "nameEn": "Hoddevik",
+    "type": "city",
+    "lat": 62.12305556,
+    "lng": 5.1675,
+    "pop": null
+  },
+  {
+    "nameAr": "Hokstad",
+    "nameEn": "Hokstad",
+    "type": "city",
+    "lat": 63.798055555556,
+    "lng": 11.168055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Holdhus",
+    "nameEn": "Holdhus",
+    "type": "city",
+    "lat": 60.24222222,
+    "lng": 5.825,
+    "pop": null
+  },
+  {
+    "nameAr": "Holm",
+    "nameEn": "Holm",
+    "type": "city",
+    "lat": 65.18361111,
+    "lng": 12.125,
+    "pop": null
+  },
+  {
+    "nameAr": "Hongset",
+    "nameEn": "Hongset",
+    "type": "city",
+    "lat": 65.337222222222,
+    "lng": 12.493888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Hovet",
+    "nameEn": "Hovet",
+    "type": "city",
+    "lat": 60.622313916667,
+    "lng": 8.1537416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hvalstad",
+    "nameEn": "Hvalstad",
+    "type": "city",
+    "lat": 59.858888888889,
+    "lng": 10.461944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Hynnekleiv",
+    "nameEn": "Hynnekleiv",
+    "type": "city",
+    "lat": 58.6,
+    "lng": 8.41666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Indre Hafslo",
+    "nameEn": "Indre Hafslo",
+    "type": "city",
+    "lat": 61.360833333333,
+    "lng": 7.2616666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Inner-Råkvågen",
+    "nameEn": "Inner-Råkvågen",
+    "type": "city",
+    "lat": 63.773207,
+    "lng": 10.097123,
+    "pop": null
+  },
+  {
+    "nameAr": "Jordet",
+    "nameEn": "Jordet",
+    "type": "city",
+    "lat": 61.414722,
+    "lng": 12.1375,
+    "pop": null
+  },
+  {
+    "nameAr": "Jøsenfjorden",
+    "nameEn": "Jøsenfjorden",
+    "type": "city",
+    "lat": 59.32872389,
+    "lng": 6.44283806,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaldfarnes",
+    "nameEn": "Kaldfarnes",
+    "type": "city",
+    "lat": 69.28388889,
+    "lng": 17.02777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kantornes",
+    "nameEn": "Kantornes",
+    "type": "city",
+    "lat": 69.37722222,
+    "lng": 19.28638889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kariel",
+    "nameEn": "Kariel",
+    "type": "city",
+    "lat": 70.09954,
+    "lng": 29.38667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kausland",
+    "nameEn": "Kausland",
+    "type": "city",
+    "lat": 60.22722222,
+    "lng": 5.04305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kile",
+    "nameEn": "Kile",
+    "type": "city",
+    "lat": 58.4098232,
+    "lng": 7.7674045,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilen",
+    "nameEn": "Kilen",
+    "type": "city",
+    "lat": 59.341258,
+    "lng": 8.789983,
+    "pop": null
+  },
+  {
+    "nameAr": "Kjeldebotn",
+    "nameEn": "Kjeldebotn",
+    "type": "city",
+    "lat": 68.40111111,
+    "lng": 16.6625,
+    "pop": null
+  },
+  {
+    "nameAr": "Kjerringvåg",
+    "nameEn": "Kjerringvåg",
+    "type": "city",
+    "lat": 63.651364,
+    "lng": 8.777905,
+    "pop": null
+  },
+  {
+    "nameAr": "Klevset",
+    "nameEn": "Klevset",
+    "type": "city",
+    "lat": 63.10333333,
+    "lng": 8.26777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Knaben",
+    "nameEn": "Knaben",
+    "type": "city",
+    "lat": 58.665,
+    "lng": 7.067,
+    "pop": null
+  },
+  {
+    "nameAr": "Knarrevik",
+    "nameEn": "Knarrevik",
+    "type": "city",
+    "lat": 60.37127,
+    "lng": 5.15636,
+    "pop": null
+  },
+  {
+    "nameAr": "Kraby",
+    "nameEn": "Kraby",
+    "type": "city",
+    "lat": 60.67694444,
+    "lng": 10.85444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Krampenes",
+    "nameEn": "Krampenes",
+    "type": "city",
+    "lat": 70.105,
+    "lng": 30.19555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kvitnes",
+    "nameEn": "Kvitnes",
+    "type": "city",
+    "lat": 68.58333333,
+    "lng": 15.23333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lággu",
+    "nameEn": "Lággu",
+    "type": "city",
+    "lat": 70.6238,
+    "lng": 27.6296,
+    "pop": null
+  },
+  {
+    "nameAr": "Lakså",
+    "nameEn": "Lakså",
+    "type": "city",
+    "lat": 67.23777778,
+    "lng": 15.69916667,
+    "pop": null
+  },
+  {
+    "nameAr": "Landro",
+    "nameEn": "Landro",
+    "type": "city",
+    "lat": 60.42361111,
+    "lng": 4.96638889,
+    "pop": null
+  },
+  {
+    "nameAr": "Langenes",
+    "nameEn": "Langenes",
+    "type": "city",
+    "lat": 58.07333333,
+    "lng": 7.87277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Langesund",
+    "nameEn": "Langesund",
+    "type": "city",
+    "lat": 59,
+    "lng": 9.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Langnes",
+    "nameEn": "Langnes",
+    "type": "city",
+    "lat": 59.6065,
+    "lng": 11.127,
+    "pop": null
+  },
+  {
+    "nameAr": "Langset",
+    "nameEn": "Langset",
+    "type": "city",
+    "lat": 67.13666667,
+    "lng": 15.45166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Leirpoll",
+    "nameEn": "Leirpoll",
+    "type": "city",
+    "lat": 61.321447,
+    "lng": 5.333517,
+    "pop": null
+  },
+  {
+    "nameAr": "Ljørdalen",
+    "nameEn": "Ljørdalen",
+    "type": "city",
+    "lat": 61.3839,
+    "lng": 12.6856,
+    "pop": null
+  },
+  {
+    "nameAr": "Loen",
+    "nameEn": "Loen",
+    "type": "city",
+    "lat": 61.8708,
+    "lng": 6.8507,
+    "pop": null
+  },
+  {
+    "nameAr": "Løfallstrand",
+    "nameEn": "Løfallstrand",
+    "type": "city",
+    "lat": 60.016527,
+    "lng": 6.000054,
+    "pop": null
+  },
+  {
+    "nameAr": "Lohne",
+    "nameEn": "Lohne",
+    "type": "city",
+    "lat": 58.09555556,
+    "lng": 7.74194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Lomen",
+    "nameEn": "Lomen",
+    "type": "city",
+    "lat": 61.13297,
+    "lng": 8.92477,
+    "pop": null
+  },
+  {
+    "nameAr": "Lora",
+    "nameEn": "Lora",
+    "type": "city",
+    "lat": 62.14241,
+    "lng": 8.69825,
+    "pop": null
+  },
+  {
+    "nameAr": "Loshavn",
+    "nameEn": "Loshavn",
+    "type": "city",
+    "lat": 58.06416667,
+    "lng": 6.81694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Lote",
+    "nameEn": "Lote",
+    "type": "city",
+    "lat": 61.867222222222,
+    "lng": 6.0797222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lunde",
+    "nameEn": "Lunde",
+    "type": "city",
+    "lat": 58.09555556,
+    "lng": 7.78222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lundenes",
+    "nameEn": "Lundenes",
+    "type": "city",
+    "lat": 68.88,
+    "lng": 16.57,
+    "pop": null
+  },
+  {
+    "nameAr": "Luster",
+    "nameEn": "Luster",
+    "type": "city",
+    "lat": 61.4431,
+    "lng": 7.45972,
+    "pop": null
+  },
+  {
+    "nameAr": "Lykling",
+    "nameEn": "Lykling",
+    "type": "city",
+    "lat": 59.701944444444,
+    "lng": 5.1822222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lyngdal",
+    "nameEn": "Lyngdal",
+    "type": "city",
+    "lat": 59.91138889,
+    "lng": 9.52833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Majavatn",
+    "nameEn": "Majavatn",
+    "type": "city",
+    "lat": 65.165638888889,
+    "lng": 13.368611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Marvik",
+    "nameEn": "Marvik",
+    "type": "city",
+    "lat": 59.41111111,
+    "lng": 6.08277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Matre",
+    "nameEn": "Matre",
+    "type": "city",
+    "lat": 59.82814,
+    "lng": 5.99218,
+    "pop": null
+  },
+  {
+    "nameAr": "Meiland",
+    "nameEn": "Meiland",
+    "type": "city",
+    "lat": 70.007913888889,
+    "lng": 21.251336111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Mo",
+    "nameEn": "Mo",
+    "type": "city",
+    "lat": 60.81666667,
+    "lng": 5.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Morgedal",
+    "nameEn": "Morgedal",
+    "type": "city",
+    "lat": 59.466666666667,
+    "lng": 8.4333333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mosby",
+    "nameEn": "Mosby",
+    "type": "city",
+    "lat": 58.21694444,
+    "lng": 7.92305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Mydland",
+    "nameEn": "Mydland",
+    "type": "city",
+    "lat": 58.396944444444,
+    "lng": 6.4277777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nidaros",
+    "nameEn": "Nidaros",
+    "type": "city",
+    "lat": 63.4304475,
+    "lng": 10.3952118,
+    "pop": null
+  },
+  {
+    "nameAr": "Nore",
+    "nameEn": "Nore",
+    "type": "city",
+    "lat": 60.15,
+    "lng": 9,
+    "pop": null
+  },
+  {
+    "nameAr": "Norheim",
+    "nameEn": "Norheim",
+    "type": "city",
+    "lat": 59.38333333,
+    "lng": 5.30833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nyttingnes",
+    "nameEn": "Nyttingnes",
+    "type": "city",
+    "lat": 61.595,
+    "lng": 5.2166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Opphus",
+    "nameEn": "Opphus",
+    "type": "city",
+    "lat": 61.3319,
+    "lng": 11.2606,
+    "pop": null
+  },
+  {
+    "nameAr": "Orkanger",
+    "nameEn": "Orkanger",
+    "type": "city",
+    "lat": 63.312222222222,
+    "lng": 9.8533333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Orre",
+    "nameEn": "Orre",
+    "type": "city",
+    "lat": 58.72869444,
+    "lng": 5.52886111,
+    "pop": null
+  },
+  {
+    "nameAr": "Østerhus",
+    "nameEn": "Østerhus",
+    "type": "city",
+    "lat": 58.2763,
+    "lng": 8.5149,
+    "pop": null
+  },
+  {
+    "nameAr": "Øvrebygd",
+    "nameEn": "Øvrebygd",
+    "type": "city",
+    "lat": 58.68694444,
+    "lng": 6.15416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Øysand",
+    "nameEn": "Øysand",
+    "type": "city",
+    "lat": 63.33195111,
+    "lng": 10.227585,
+    "pop": null
+  },
+  {
+    "nameAr": "Persfjord",
+    "nameEn": "Persfjord",
+    "type": "city",
+    "lat": 70.42,
+    "lng": 30.791,
+    "pop": null
+  },
+  {
+    "nameAr": "Plassen",
+    "nameEn": "Plassen",
+    "type": "city",
+    "lat": 61.13202806,
+    "lng": 12.50789194,
+    "pop": null
+  },
+  {
+    "nameAr": "Porsgrunn",
+    "nameEn": "Porsgrunn",
+    "type": "city",
+    "lat": 59.14054,
+    "lng": 9.6561,
+    "pop": null
+  },
+  {
+    "nameAr": "Prestegårdskogen",
+    "nameEn": "Prestegårdskogen",
+    "type": "city",
+    "lat": 58.3427,
+    "lng": 8.5407,
+    "pop": null
+  },
+  {
+    "nameAr": "Randaberg",
+    "nameEn": "Randaberg",
+    "type": "city",
+    "lat": 58.99944444,
+    "lng": 5.61861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Rekefjord",
+    "nameEn": "Rekefjord",
+    "type": "city",
+    "lat": 58.339444444444,
+    "lng": 6.2605555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ringøy",
+    "nameEn": "Ringøy",
+    "type": "city",
+    "lat": 60.44111111,
+    "lng": 6.78083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Rivedal",
+    "nameEn": "Rivedal",
+    "type": "city",
+    "lat": 61.36444473,
+    "lng": 5.25944424,
+    "pop": null
+  },
+  {
+    "nameAr": "Rykkinn",
+    "nameEn": "Rykkinn",
+    "type": "city",
+    "lat": 59.93055556,
+    "lng": 10.475,
+    "pop": null
+  },
+  {
+    "nameAr": "Sandviga",
+    "nameEn": "Sandviga",
+    "type": "city",
+    "lat": 58.43878333,
+    "lng": 8.77805,
+    "pop": null
+  },
+  {
+    "nameAr": "Sandvika",
+    "nameEn": "Sandvika",
+    "type": "city",
+    "lat": 58.57,
+    "lng": 9.0012,
+    "pop": null
+  },
+  {
+    "nameAr": "Sekse",
+    "nameEn": "Sekse",
+    "type": "city",
+    "lat": 60.246833333333,
+    "lng": 6.6236388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Selfors",
+    "nameEn": "Selfors",
+    "type": "city",
+    "lat": 66.3275,
+    "lng": 14.176944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sevika",
+    "nameEn": "Sevika",
+    "type": "city",
+    "lat": 62.931388888889,
+    "lng": 7.6027777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sjursnes",
+    "nameEn": "Sjursnes",
+    "type": "city",
+    "lat": 69.53805556,
+    "lng": 19.63888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Skaun",
+    "nameEn": "Skaun",
+    "type": "city",
+    "lat": 63.25149,
+    "lng": 10.05236,
+    "pop": null
+  },
+  {
+    "nameAr": "Skjeggedal",
+    "nameEn": "Skjeggedal",
+    "type": "city",
+    "lat": 58.753,
+    "lng": 8.1256,
+    "pop": null
+  },
+  {
+    "nameAr": "Skjoldastraumen",
+    "nameEn": "Skjoldastraumen",
+    "type": "city",
+    "lat": 59.43194444,
+    "lng": 5.61361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Skjolden",
+    "nameEn": "Skjolden",
+    "type": "city",
+    "lat": 61.490277777778,
+    "lng": 7.6005555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Skonseng",
+    "nameEn": "Skonseng",
+    "type": "city",
+    "lat": 66.35,
+    "lng": 14.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Skorovatn",
+    "nameEn": "Skorovatn",
+    "type": "city",
+    "lat": 64.64388889,
+    "lng": 13.11361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Skottevik",
+    "nameEn": "Skottevik",
+    "type": "city",
+    "lat": 58.1307,
+    "lng": 8.2385,
+    "pop": null
+  },
+  {
+    "nameAr": "Skrollsvika",
+    "nameEn": "Skrollsvika",
+    "type": "city",
+    "lat": 69.06409,
+    "lng": 16.81489,
+    "pop": null
+  },
+  {
+    "nameAr": "Skulsfjord",
+    "nameEn": "Skulsfjord",
+    "type": "city",
+    "lat": 69.801111,
+    "lng": 18.759722,
+    "pop": null
+  },
+  {
+    "nameAr": "Solheim",
+    "nameEn": "Solheim",
+    "type": "city",
+    "lat": 60.888055555556,
+    "lng": 5.4716666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sømådalen",
+    "nameEn": "Sømådalen",
+    "type": "city",
+    "lat": 62.09767,
+    "lng": 11.67061,
+    "pop": null
+  },
+  {
+    "nameAr": "Sørbø",
+    "nameEn": "Sørbø",
+    "type": "city",
+    "lat": 59.12777778,
+    "lng": 5.64194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Søre Osen",
+    "nameEn": "Søre Osen",
+    "type": "city",
+    "lat": 61.1728,
+    "lng": 11.9139,
+    "pop": null
+  },
+  {
+    "nameAr": "Sørskogbygda",
+    "nameEn": "Sørskogbygda",
+    "type": "city",
+    "lat": 60.94,
+    "lng": 11.79138889,
+    "pop": null
+  },
+  {
+    "nameAr": "Stårheim",
+    "nameEn": "Stårheim",
+    "type": "city",
+    "lat": 61.919722222222,
+    "lng": 5.7580555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Steinvik",
+    "nameEn": "Steinvik",
+    "type": "city",
+    "lat": 61.2536,
+    "lng": 11.32,
+    "pop": null
+  },
+  {
+    "nameAr": "Stemshaug",
+    "nameEn": "Stemshaug",
+    "type": "city",
+    "lat": 63.327222222222,
+    "lng": 8.71,
+    "pop": null
+  },
+  {
+    "nameAr": "Stiklestad",
+    "nameEn": "Stiklestad",
+    "type": "city",
+    "lat": 63.796111111111,
+    "lng": 11.560555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Stokkvågen",
+    "nameEn": "Stokkvågen",
+    "type": "city",
+    "lat": 66.338283333333,
+    "lng": 13.014477777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Store Høydal",
+    "nameEn": "Store Høydal",
+    "type": "city",
+    "lat": 61.547,
+    "lng": 5.328,
+    "pop": null
+  },
+  {
+    "nameAr": "Store Molvik",
+    "nameEn": "Store Molvik",
+    "type": "city",
+    "lat": 70.787,
+    "lng": 28.67,
+    "pop": null
+  },
+  {
+    "nameAr": "Storekvina",
+    "nameEn": "Storekvina",
+    "type": "city",
+    "lat": 58.38083333,
+    "lng": 6.95694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Storjord",
+    "nameEn": "Storjord",
+    "type": "city",
+    "lat": 66.82044,
+    "lng": 15.39242,
+    "pop": null
+  },
+  {
+    "nameAr": "Strandvik",
+    "nameEn": "Strandvik",
+    "type": "city",
+    "lat": 60.157525,
+    "lng": 5.6617555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Straumsbukta",
+    "nameEn": "Straumsbukta",
+    "type": "city",
+    "lat": 69.57166667,
+    "lng": 18.65333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sunndal",
+    "nameEn": "Sunndal",
+    "type": "city",
+    "lat": 60.117777777778,
+    "lng": 6.2697222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Svartnes",
+    "nameEn": "Svartnes",
+    "type": "city",
+    "lat": 70.3586,
+    "lng": 31.0308,
+    "pop": null
+  },
+  {
+    "nameAr": "Svidal",
+    "nameEn": "Svidal",
+    "type": "city",
+    "lat": 61.516,
+    "lng": 6.168,
+    "pop": null
+  },
+  {
+    "nameAr": "Svullrya",
+    "nameEn": "Svullrya",
+    "type": "city",
+    "lat": 60.4167,
+    "lng": 12.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Sylte",
+    "nameEn": "Sylte",
+    "type": "city",
+    "lat": 62.2978,
+    "lng": 7.26361,
+    "pop": null
+  },
+  {
+    "nameAr": "Tessand",
+    "nameEn": "Tessand",
+    "type": "city",
+    "lat": 61.84797,
+    "lng": 8.96267,
+    "pop": null
+  },
+  {
+    "nameAr": "Tistedalen",
+    "nameEn": "Tistedalen",
+    "type": "city",
+    "lat": 59.1333,
+    "lng": 11.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Tjoflot",
+    "nameEn": "Tjoflot",
+    "type": "city",
+    "lat": 60.44838333,
+    "lng": 6.655,
+    "pop": null
+  },
+  {
+    "nameAr": "Tobøl",
+    "nameEn": "Tobøl",
+    "type": "city",
+    "lat": 59.97194444,
+    "lng": 12.05555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Trysnes",
+    "nameEn": "Trysnes",
+    "type": "city",
+    "lat": 58.05631194,
+    "lng": 7.71064306,
+    "pop": null
+  },
+  {
+    "nameAr": "Tveit, Bygland",
+    "nameEn": "Tveit, Bygland",
+    "type": "city",
+    "lat": 58.9787,
+    "lng": 7.6069,
+    "pop": null
+  },
+  {
+    "nameAr": "Tysværvåg",
+    "nameEn": "Tysværvåg",
+    "type": "city",
+    "lat": 59.33194444,
+    "lng": 5.48972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Urke",
+    "nameEn": "Urke",
+    "type": "city",
+    "lat": 62.21277778,
+    "lng": 6.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Utåker",
+    "nameEn": "Utåker",
+    "type": "city",
+    "lat": 59.78555556,
+    "lng": 5.90166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Utskarpen",
+    "nameEn": "Utskarpen",
+    "type": "city",
+    "lat": 66.2901,
+    "lng": 13.5804,
+    "pop": null
+  },
+  {
+    "nameAr": "Utvorda",
+    "nameEn": "Utvorda",
+    "type": "city",
+    "lat": 64.59322,
+    "lng": 10.95731,
+    "pop": null
+  },
+  {
+    "nameAr": "Vaggatem",
+    "nameEn": "Vaggatem",
+    "type": "city",
+    "lat": 69.21423,
+    "lng": 29.15459,
+    "pop": null
+  },
+  {
+    "nameAr": "Vågosen",
+    "nameEn": "Vågosen",
+    "type": "city",
+    "lat": 63.16611111,
+    "lng": 8.43972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Valberg",
+    "nameEn": "Valberg",
+    "type": "city",
+    "lat": 68.19498,
+    "lng": 13.94036,
+    "pop": null
+  },
+  {
+    "nameAr": "Váljohka",
+    "nameEn": "Váljohka",
+    "type": "city",
+    "lat": 69.69075,
+    "lng": 25.92847,
+    "pop": null
+  },
+  {
+    "nameAr": "Varangerbotn",
+    "nameEn": "Varangerbotn",
+    "type": "city",
+    "lat": 70.17279,
+    "lng": 28.5557,
+    "pop": null
+  },
+  {
+    "nameAr": "Vassbygda",
+    "nameEn": "Vassbygda",
+    "type": "city",
+    "lat": 63.4995,
+    "lng": 10.9592,
+    "pop": null
+  },
+  {
+    "nameAr": "Vasstrondi",
+    "nameEn": "Vasstrondi",
+    "type": "city",
+    "lat": 60.7824376,
+    "lng": 6.5818228,
+    "pop": null
+  },
+  {
+    "nameAr": "Veidnes",
+    "nameEn": "Veidnes",
+    "type": "city",
+    "lat": 70.724166666667,
+    "lng": 29.352777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Venset",
+    "nameEn": "Venset",
+    "type": "city",
+    "lat": 67.25694444,
+    "lng": 15.19083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Vermundsjøen",
+    "nameEn": "Vermundsjøen",
+    "type": "city",
+    "lat": 60.70658,
+    "lng": 12.37049,
+    "pop": null
+  },
+  {
+    "nameAr": "Vestertana",
+    "nameEn": "Vestertana",
+    "type": "city",
+    "lat": 70.436,
+    "lng": 27.877,
+    "pop": null
+  },
+  {
+    "nameAr": "Vik",
+    "nameEn": "Vik",
+    "type": "city",
+    "lat": 68.618,
+    "lng": 14.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Vikebukt",
+    "nameEn": "Vikebukt",
+    "type": "city",
+    "lat": 62.6128,
+    "lng": 7.14722,
+    "pop": null
+  },
+  {
+    "nameAr": "Vikten",
+    "nameEn": "Vikten",
+    "type": "city",
+    "lat": 68.14013,
+    "lng": 13.31629,
+    "pop": null
+  },
+  {
+    "nameAr": "Vivestad",
+    "nameEn": "Vivestad",
+    "type": "city",
+    "lat": 59.4301788,
+    "lng": 10.1339763,
+    "pop": null
+  },
+  {
+    "nameAr": "Voll",
+    "nameEn": "Voll",
+    "type": "city",
+    "lat": 62.8761,
+    "lng": 9.84028,
+    "pop": null
+  },
+  {
+    "nameAr": "Vråliosen",
+    "nameEn": "Vråliosen",
+    "type": "city",
+    "lat": 59.3632945,
+    "lng": 8.1704639,
+    "pop": null
+  },
+  {
+    "nameAr": "Yset",
+    "nameEn": "Yset",
+    "type": "city",
+    "lat": 62.5657,
+    "lng": 10.3223,
+    "pop": null
+  }
+]

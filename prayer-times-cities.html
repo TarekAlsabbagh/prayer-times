@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}</script>
+    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة في مدن الدولة</title>
@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
-    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/style.css?v=23">
     <style>
         /* ===== شريط البحث ===== */
         .cities-search-card {
@@ -217,6 +217,11 @@
         }
         .sugg-online-btn:hover { background: rgba(26,107,60,0.1); }
 
+        /* ===== Breadcrumb الدولة ===== */
+        #country-breadcrumb {
+            margin-bottom: 14px;
+        }
+
         /* ===== موبايل ===== */
         @media (max-width: 768px) {
             .cities-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
@@ -286,6 +291,17 @@
             </div>
         </div>
 
+        <!-- ===== مسار التنقل (Breadcrumb) ===== -->
+        <nav class="country-breadcrumb" id="country-breadcrumb" aria-label="مسار التنقل">
+            <ol class="breadcrumb-list">
+                <li class="bc-item">
+                    <a class="bc-link" id="cbc-home" href="/">الرئيسية</a>
+                </li>
+                <li class="bc-sep" aria-hidden="true">›</li>
+                <li class="bc-item bc-current" id="cbc-country" aria-current="page">--</li>
+            </ol>
+        </nav>
+
         <!-- شريط البحث -->
         <div class="cities-search-card">
             <div class="cities-search-wrapper">
@@ -334,7 +350,7 @@ function goToPrayerTimes() {
 }
 
 // ===== قراءة كود الدولة من الرابط =====
-const pathMatch = window.location.pathname.match(/prayer-times-cities-([a-z0-9-]+?)(?:\.html)?$/);
+const pathMatch = window.location.pathname.match(/^\/(?:en\/)?([a-z][a-z0-9-]+)$/);
 const _rawSlug = pathMatch ? pathMatch[1] : 'sa';
 // countryCode يُحسم بعد تعريف COUNTRY_NAMES_EN أدناه
 let countryCode = _rawSlug; // مؤقت (يُحدَّث لاحقاً)
@@ -426,6 +442,69 @@ function updatePageHeader() {
         : `مواقيت الصلاة في مدن ${cn}`;
     document.getElementById('page-subtitle').textContent = cn;
     document.title = isEn ? `Prayer Times in Cities of ${cn}` : `مواقيت الصلاة في مدن ${cn}`;
+    updateCountryBreadcrumb();
+}
+
+/** تحديث Breadcrumb ديناميكي لصفحة الدولة */
+function updateCountryBreadcrumb() {
+    const isEn    = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+    const origin  = window.SITE_URL || window.location.origin;
+
+    // slug الدولة من الـ URL الحالي
+    const _pathM  = window.location.pathname.match(/^\/(?:en\/)?([a-z][a-z0-9-]+)$/);
+    const slug    = _pathM ? _pathM[1] : countryCode;
+
+    // نصوص العرض
+    const homeLabel    = isEn ? 'Home' : 'الرئيسية';
+    const countryLabel = getCountryDisplay();
+
+    // رابط الصفحة الرئيسية حسب اللغة
+    const homeHref = isEn ? `${origin}/en/` : `${origin}/`;
+    // رابط صفحة الدولة الحالية (للـ Schema)
+    const countryHref = `${origin}${isEn ? '/en/' : '/'}${slug}`;
+
+    // ── تحديث DOM ──
+    const cbcHome    = document.getElementById('cbc-home');
+    const cbcCountry = document.getElementById('cbc-country');
+    if (cbcHome)    { cbcHome.textContent = homeLabel; cbcHome.href = homeHref; }
+    if (cbcCountry)   cbcCountry.textContent = countryLabel;
+
+    // ── حقن BreadcrumbList Schema ──
+    _injectCountryBreadcrumbSchema({ origin, homeLabel, homeHref, countryLabel, countryHref });
+}
+
+/** يحقن أو يُحدِّث <script id="country-breadcrumb-schema"> في <head> */
+function _injectCountryBreadcrumbSchema({ homeLabel, homeHref, countryLabel, countryHref }) {
+    if (window.location.protocol === 'file:') return;
+
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": homeLabel,
+                "item": homeHref
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": countryLabel,
+                "item": countryHref
+                // العنصر الأخير — لا يوجد رابط في UI لكن "item" مطلوب في Schema
+            }
+        ]
+    };
+
+    const old = document.getElementById('country-breadcrumb-schema');
+    if (old) old.remove();
+
+    const script = document.createElement('script');
+    script.id          = 'country-breadcrumb-schema';
+    script.type        = 'application/ld+json';
+    script.textContent = JSON.stringify(schema, null, 2);
+    document.head.appendChild(script);
 }
 
 updatePageHeader();

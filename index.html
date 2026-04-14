@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}</script>
+    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
-    <link rel="stylesheet" href="css/style.css?v=22">
+    <link rel="stylesheet" href="css/style.css?v=23">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -91,6 +91,40 @@
             <!-- ===== صفحة مواقيت الصلاة ===== -->
             <div class="page active" id="page-prayer-times">
 
+                <!-- ===== مسار التنقل (Breadcrumb) — يظهر فقط على صفحات /prayer-times-in-{city} ===== -->
+                <nav class="city-breadcrumb" id="city-breadcrumb" aria-label="مسار التنقل">
+                    <ol class="breadcrumb-list">
+                        <li class="bc-item">
+                            <a class="bc-link" href="/" id="bc-home" data-i18n="breadcrumb.home">الرئيسية</a>
+                        </li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item">
+                            <a class="bc-link" href="#" id="bc-country">--</a>
+                        </li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item">
+                            <a class="bc-link" href="#" id="bc-city">--</a>
+                        </li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item bc-current" id="bc-current" aria-current="page" data-i18n="breadcrumb.prayer_times">مواقيت الصلاة</li>
+                    </ol>
+                </nav>
+
+                <!-- شريط اقتراح المدينة المكتشفة (يظهر فقط إذا تم الاكتشاف) -->
+                <div class="location-suggestion-bar" id="location-suggestion-bar" style="display:none;">
+                    <div class="lsb-inner">
+                        <span class="lsb-pin">📍</span>
+                        <div class="lsb-text">
+                            <span class="lsb-label" data-i18n="lsb.detected">تم تحديد موقعك:</span>
+                            <strong class="lsb-city" id="lsb-city-name">--</strong>
+                        </div>
+                        <a class="lsb-btn" id="lsb-go-btn" href="#">
+                            <span data-i18n="lsb.view">عرض المواقيت</span> ←
+                        </a>
+                        <button class="lsb-dismiss" onclick="dismissLocationSuggestion()" aria-label="إغلاق">✕</button>
+                    </div>
+                </div>
+
                 <!-- البانر الرئيسي -->
                 <div class="next-prayer-banner">
                     <!-- الوقت الحالي -->
@@ -147,21 +181,6 @@
                         <span class="prayer-icon">🌃</span>
                         <div class="prayer-name" data-i18n="prayer.isha">العشاء</div>
                         <div class="prayer-time" id="time-isha">--:--</div>
-                    </div>
-                </div>
-
-                <!-- شريط اقتراح المدينة المكتشفة (يظهر فقط إذا تم الاكتشاف) -->
-                <div class="location-suggestion-bar" id="location-suggestion-bar" style="display:none;">
-                    <div class="lsb-inner">
-                        <span class="lsb-pin">📍</span>
-                        <div class="lsb-text">
-                            <span class="lsb-label" data-i18n="lsb.detected">تم تحديد موقعك:</span>
-                            <strong class="lsb-city" id="lsb-city-name">--</strong>
-                        </div>
-                        <a class="lsb-btn" id="lsb-go-btn" href="#">
-                            <span data-i18n="lsb.view">عرض المواقيت</span> ←
-                        </a>
-                        <button class="lsb-dismiss" onclick="dismissLocationSuggestion()" aria-label="إغلاق">✕</button>
                     </div>
                 </div>
 
@@ -1139,7 +1158,7 @@
     <script src="js/qibla.js?v=43"></script>
     <script src="js/moon.js?v=42"></script>
     <script src="js/duas.js?v=42"></script>
-    <script src="js/app.js?v=150"></script>
+    <script src="js/app.js?v=151"></script>
 
     <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
     <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->

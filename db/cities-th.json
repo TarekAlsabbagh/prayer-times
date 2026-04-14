@@ -1,0 +1,378 @@
+[
+  {
+    "nameAr": "بانكوك",
+    "nameEn": "Bangkok",
+    "type": "city",
+    "lat": 13.75,
+    "lng": 100.51666666667,
+    "pop": 5676648
+  },
+  {
+    "nameAr": "تشيانغ مي",
+    "nameEn": "Chiang Mai",
+    "type": "city",
+    "lat": 18.788888888889,
+    "lng": 98.983333333333,
+    "pop": 1198000
+  },
+  {
+    "nameAr": "محافظة فراي",
+    "nameEn": "Phrae",
+    "type": "city",
+    "lat": 18.145,
+    "lng": 100.14055555556,
+    "pop": 437350
+  },
+  {
+    "nameAr": "نونثابوري",
+    "nameEn": "Nonthaburi",
+    "type": "city",
+    "lat": 13.866666666667,
+    "lng": 100.51666666667,
+    "pop": 255671
+  },
+  {
+    "nameAr": "باك كريت",
+    "nameEn": "Pak Kret",
+    "type": "city",
+    "lat": 13.9125,
+    "lng": 100.49777777778,
+    "pop": 190272
+  },
+  {
+    "nameAr": "هات ياي",
+    "nameEn": "Hat Yai",
+    "type": "city",
+    "lat": 7.0166666666667,
+    "lng": 100.46666666667,
+    "pop": 159130
+  },
+  {
+    "nameAr": "ناخون راتشاسيما",
+    "nameEn": "Nakhon Ratchasima",
+    "type": "city",
+    "lat": 14.973611,
+    "lng": 102.083056,
+    "pop": 134440
+  },
+  {
+    "nameAr": "ودون تاني",
+    "nameEn": "Udon Thani",
+    "type": "city",
+    "lat": 17.4253,
+    "lng": 102.7902,
+    "pop": 130274
+  },
+  {
+    "nameAr": "باتايا",
+    "nameEn": "Pattaya",
+    "type": "city",
+    "lat": 12.949565,
+    "lng": 100.893004,
+    "pop": 119532
+  },
+  {
+    "nameAr": "خون كاين",
+    "nameEn": "Khon Kaen",
+    "type": "city",
+    "lat": 16.433333333333,
+    "lng": 102.83333333333,
+    "pop": 115928
+  },
+  {
+    "nameAr": "ناخون سي ثامارات",
+    "nameEn": "Nakhon Si Thammarat",
+    "type": "city",
+    "lat": 8.4362567178613,
+    "lng": 99.962971228454,
+    "pop": 106322
+  },
+  {
+    "nameAr": "بوكيت",
+    "nameEn": "Phuket",
+    "type": "city",
+    "lat": 7.8880555555556,
+    "lng": 98.3975,
+    "pop": 77610
+  },
+  {
+    "nameAr": "Hua Hin",
+    "nameEn": "Hua Hin",
+    "type": "city",
+    "lat": 12.568611,
+    "lng": 99.957778,
+    "pop": 59369
+  },
+  {
+    "nameAr": "Amphawa",
+    "nameEn": "Amphawa",
+    "type": "city",
+    "lat": 13.425,
+    "lng": 99.956666666667,
+    "pop": 56103
+  },
+  {
+    "nameAr": "أيوتثايا",
+    "nameEn": "Phra Nakhon Si Ayutthaya",
+    "type": "city",
+    "lat": 14.359359083088,
+    "lng": 100.57614520097,
+    "pop": 52940
+  },
+  {
+    "nameAr": "Chumphon",
+    "nameEn": "Chumphon",
+    "type": "city",
+    "lat": 10.493888888889,
+    "lng": 99.18,
+    "pop": 33516
+  },
+  {
+    "nameAr": "محافظة ساموت سونغرام",
+    "nameEn": "Samut Songkhram",
+    "type": "city",
+    "lat": 13.409722222222,
+    "lng": 100.00166666667,
+    "pop": 28493
+  },
+  {
+    "nameAr": "Chalong",
+    "nameEn": "Chalong",
+    "type": "city",
+    "lat": 7.8396,
+    "lng": 98.3452,
+    "pop": 26041
+  },
+  {
+    "nameAr": "Kanchanaburi",
+    "nameEn": "Kanchanaburi",
+    "type": "city",
+    "lat": 14.019444444444,
+    "lng": 99.531111111111,
+    "pop": 25651
+  },
+  {
+    "nameAr": "Choeng Thale",
+    "nameEn": "Choeng Thale",
+    "type": "city",
+    "lat": 7.9852,
+    "lng": 98.3025,
+    "pop": 18611
+  },
+  {
+    "nameAr": "Rawai",
+    "nameEn": "Rawai",
+    "type": "city",
+    "lat": 7.7707,
+    "lng": 98.3185,
+    "pop": 17586
+  },
+  {
+    "nameAr": "Mai Khao",
+    "nameEn": "Mai Khao",
+    "type": "city",
+    "lat": 8.1812,
+    "lng": 98.2992,
+    "pop": 13005
+  },
+  {
+    "nameAr": "Lang Suan",
+    "nameEn": "Lang Suan",
+    "type": "city",
+    "lat": 9.951895,
+    "lng": 99.081342,
+    "pop": 11250
+  },
+  {
+    "nameAr": "Karon",
+    "nameEn": "Karon",
+    "type": "city",
+    "lat": 7.8165,
+    "lng": 98.3001,
+    "pop": 8147
+  },
+  {
+    "nameAr": "Kamala",
+    "nameEn": "Kamala",
+    "type": "city",
+    "lat": 7.9453,
+    "lng": 98.2874,
+    "pop": 6898
+  },
+  {
+    "nameAr": "بان نون وات",
+    "nameEn": "Ban Non Wat",
+    "type": "city",
+    "lat": 15.27441509,
+    "lng": 102.2688961,
+    "pop": null
+  },
+  {
+    "nameAr": "كو باني",
+    "nameEn": "Ko Panyi",
+    "type": "city",
+    "lat": 8.3352996730397,
+    "lng": 98.503466207994,
+    "pop": null
+  },
+  {
+    "nameAr": "Baan Ao Leuk",
+    "nameEn": "Baan Ao Leuk",
+    "type": "city",
+    "lat": 8.3775,
+    "lng": 98.721667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Hin Phoeng",
+    "nameEn": "Ban Hin Phoeng",
+    "type": "city",
+    "lat": 15.197355555556,
+    "lng": 101.41123611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Huai Bong",
+    "nameEn": "Ban Huai Bong",
+    "type": "city",
+    "lat": 15.120480555556,
+    "lng": 101.50410555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Kai",
+    "nameEn": "Ban Kai",
+    "type": "city",
+    "lat": 9.6984,
+    "lng": 100.0394,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Lum",
+    "nameEn": "Ban Lum",
+    "type": "city",
+    "lat": 6.558415,
+    "lng": 100.618056,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Nam Khem",
+    "nameEn": "Ban Nam Khem",
+    "type": "city",
+    "lat": 8.8583333333333,
+    "lng": 98.275,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Noi Phatthana",
+    "nameEn": "Ban Noi Phatthana",
+    "type": "city",
+    "lat": 15.146077777778,
+    "lng": 101.49072222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Nong Yai",
+    "nameEn": "Ban Nong Yai",
+    "type": "city",
+    "lat": 15.134336111111,
+    "lng": 101.42988611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Rak Thai",
+    "nameEn": "Ban Rak Thai",
+    "type": "city",
+    "lat": 19.5861,
+    "lng": 97.9455,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Sangka U",
+    "nameEn": "Ban Sangka U",
+    "type": "city",
+    "lat": 7.484325,
+    "lng": 99.108888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Sap Phlu",
+    "nameEn": "Ban Sap Phlu",
+    "type": "city",
+    "lat": 15.196761111111,
+    "lng": 101.47474444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Sap Yang",
+    "nameEn": "Ban Sap Yang",
+    "type": "city",
+    "lat": 15.226725,
+    "lng": 101.46427777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Sila Ruam Samakkhi",
+    "nameEn": "Ban Sila Ruam Samakkhi",
+    "type": "city",
+    "lat": 15.190902777778,
+    "lng": 101.50625,
+    "pop": null
+  },
+  {
+    "nameAr": "Hat Rin",
+    "nameEn": "Hat Rin",
+    "type": "city",
+    "lat": 9.67444444,
+    "lng": 100.06611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Huay Pu Keng",
+    "nameEn": "Huay Pu Keng",
+    "type": "city",
+    "lat": 19.236620028207,
+    "lng": 97.894084973424,
+    "pop": null
+  },
+  {
+    "nameAr": "Ku Daeng",
+    "nameEn": "Ku Daeng",
+    "type": "city",
+    "lat": 18.686944444444,
+    "lng": 99.010833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mae Kham Pong",
+    "nameEn": "Mae Kham Pong",
+    "type": "city",
+    "lat": 18.8655,
+    "lng": 99.351,
+    "pop": null
+  },
+  {
+    "nameAr": "Sukhothai",
+    "nameEn": "Sukhothai",
+    "type": "city",
+    "lat": 17,
+    "lng": 99.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Thong Nai Pan",
+    "nameEn": "Thong Nai Pan",
+    "type": "city",
+    "lat": 9.771,
+    "lng": 100.056,
+    "pop": null
+  },
+  {
+    "nameAr": "Thong Sala",
+    "nameEn": "Thong Sala",
+    "type": "city",
+    "lat": 9.71083333,
+    "lng": 99.98694444,
+    "pop": null
+  }
+]

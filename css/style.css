@@ -1946,6 +1946,78 @@ button, input, select { font-family: inherit; }
    صفحات المدن — إخفاء البوابة وإظهار الروابط
    ═══════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════
+   Breadcrumb — مسار التنقل
+═══════════════════════════════════════════════════════════ */
+
+/* مخفي افتراضياً — يظهر فقط في صفحات /prayer-times-in-{city} */
+#city-breadcrumb {
+    display: none;
+}
+
+.city-prayer-page #city-breadcrumb {
+    display: block;
+    margin: 0 0 14px;
+}
+
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px 0;
+    padding: 10px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-size: 0.82rem;
+    list-style: none;
+}
+
+.bc-item {
+    display: flex;
+    align-items: center;
+}
+
+.bc-link {
+    color: var(--primary);
+    font-weight: 600;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background var(--transition), color var(--transition);
+    white-space: nowrap;
+}
+
+.bc-link:hover {
+    background: rgba(26,107,60,0.08);
+    color: var(--primary-dark);
+}
+
+.bc-sep {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    padding: 0 5px;
+    user-select: none;
+    opacity: 0.6;
+}
+
+.bc-current {
+    color: var(--text-light);
+    font-weight: 500;
+    white-space: nowrap;
+    font-size: 0.8rem;
+}
+
+/* موبايل */
+@media (max-width: 480px) {
+    .breadcrumb-list {
+        font-size: 0.78rem;
+        padding: 8px 12px;
+        gap: 1px 0;
+    }
+    .bc-sep { padding: 0 3px; }
+}
+
 /* صفحات /prayer-times-in-{city}: إخفاء البوابة الذكية */
 .city-prayer-page #home-quick-access,
 .city-prayer-page #home-hijri-preview,

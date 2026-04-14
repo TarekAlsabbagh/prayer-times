@@ -8,6 +8,58 @@ const PORT    = process.env.PORT || 8080;
 const ROOT    = __dirname;
 const DB_DIR  = path.join(ROOT, 'db');   // قاعدة البيانات الدائمة
 
+// ===== المصدر الموحد للدومين =====
+// في الإنتاج: SITE_URL=https://example.com node server.js
+// محلياً: يُستخدم http://localhost:PORT تلقائياً
+const SITE_URL = (process.env.SITE_URL || `http://localhost:${PORT}`).replace(/\/+$/, '');
+function getBaseUrl() { return SITE_URL; }
+
+// ===== خريطة أسماء الدول بالإنجليزية (لتوليد slugs للـ sitemap) =====
+const COUNTRY_NAMES_EN = {
+    sa:'Saudi Arabia', sy:'Syria', eg:'Egypt', iq:'Iraq',
+    jo:'Jordan', lb:'Lebanon', ps:'Palestine', kw:'Kuwait', ae:'United Arab Emirates',
+    qa:'Qatar', bh:'Bahrain', om:'Oman', ye:'Yemen', ly:'Libya',
+    tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan',
+    pk:'Pakistan', tr:'Turkey', ir:'Iran', id:'Indonesia', my:'Malaysia',
+    bd:'Bangladesh', af:'Afghanistan', in:'India', lk:'Sri Lanka', np:'Nepal',
+    cn:'China', jp:'Japan', kr:'South Korea', kp:'North Korea', mn:'Mongolia',
+    fr:'France', de:'Germany', gb:'United Kingdom', es:'Spain', it:'Italy',
+    nl:'Netherlands', be:'Belgium', pt:'Portugal', se:'Sweden', no:'Norway',
+    dk:'Denmark', fi:'Finland', pl:'Poland', ru:'Russia', ua:'Ukraine',
+    ch:'Switzerland', at:'Austria', gr:'Greece', cz:'Czech Republic', ro:'Romania',
+    us:'United States', ca:'Canada', mx:'Mexico',
+    gt:'Guatemala', cu:'Cuba', do:'Dominican Republic',
+    br:'Brazil', ar:'Argentina', co:'Colombia', pe:'Peru', ve:'Venezuela',
+    cl:'Chile', ec:'Ecuador', bo:'Bolivia', py:'Paraguay', uy:'Uruguay',
+    ng:'Nigeria', et:'Ethiopia', ke:'Kenya', tz:'Tanzania', za:'South Africa',
+    gh:'Ghana', sn:'Senegal', cm:'Cameroon', ml:'Mali', so:'Somalia',
+    ug:'Uganda', mr:'Mauritania', td:'Chad', ne:'Niger',
+    au:'Australia', nz:'New Zealand',
+    th:'Thailand', ph:'Philippines', vn:'Vietnam', mm:'Myanmar',
+    kh:'Cambodia', la:'Laos', sg:'Singapore', bn:'Brunei', tl:'Timor-Leste',
+    uz:'Uzbekistan', kz:'Kazakhstan', kg:'Kyrgyzstan', tj:'Tajikistan',
+    tm:'Turkmenistan', az:'Azerbaijan', ge:'Georgia', am:'Armenia',
+    xk:'Kosovo',
+};
+
+function makeCountrySlugSrv(cc) {
+    const name = COUNTRY_NAMES_EN[cc];
+    if (name) return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return cc;
+}
+
+// ===== Cache الـ sitemap (30 دقيقة TTL) =====
+let _sitemapCache = { data: null, time: 0 };
+const SITEMAP_TTL = 30 * 60 * 1000;
+function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; }
+function makeCitySlugSrv(nameEn, lat, lng) {
+    const latin = (nameEn || '').toLowerCase().replace(/[^a-z0-9\s]+/g, '').trim().replace(/\s+/g, '-');
+    if (latin.length >= 2) return latin;
+    const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
+    const lo = Math.abs(lng).toFixed(1) + (lng >= 0 ? 'e' : 'w');
+    return `${la}-${lo}`;
+}
+
 // كاش في الذاكرة لطلبات Nominatim (يمنع تكرار الطلبات ويتجنب rate limit)
 const _geocodeCache = new Map();
 const _GEOCACHE_TTL = 24 * 60 * 60 * 1000; // 24 ساعة
@@ -494,6 +546,414 @@ const STATIC_CITIES = {
     {nameAr:'مناهاسا',nameEn:'Manado',type:'city',lat:1.4748,lng:124.8421},
     {nameAr:'أمبون',nameEn:'Ambon',type:'city',lat:-3.6554,lng:128.1908},
   ],
+  // ── بنغلاديش ──
+  bd: [
+    {nameAr:'دكا',nameEn:'Dhaka',type:'city',lat:23.8103,lng:90.4125},
+    {nameAr:'شيتاغونغ',nameEn:'Chittagong',type:'city',lat:22.3569,lng:91.7832},
+    {nameAr:'خولنا',nameEn:'Khulna',type:'city',lat:22.8456,lng:89.5403},
+    {nameAr:'راجشاهي',nameEn:'Rajshahi',type:'city',lat:24.3745,lng:88.6042},
+    {nameAr:'سيلهيت',nameEn:'Sylhet',type:'city',lat:24.8949,lng:91.8687},
+    {nameAr:'بارسال',nameEn:'Barisal',type:'city',lat:22.701,lng:90.3535},
+    {nameAr:'رانغبور',nameEn:'Rangpur',type:'city',lat:25.7439,lng:89.2752},
+    {nameAr:'ميمنسينغ',nameEn:'Mymensingh',type:'city',lat:24.7471,lng:90.4203},
+    {nameAr:'كومينا',nameEn:'Comilla',type:'city',lat:23.4607,lng:91.1809},
+    {nameAr:'ناراينغانج',nameEn:'Narayanganj',type:'city',lat:23.6238,lng:90.4996},
+  ],
+  // ── أفغانستان ──
+  af: [
+    {nameAr:'كابول',nameEn:'Kabul',type:'city',lat:34.5553,lng:69.2075},
+    {nameAr:'قندهار',nameEn:'Kandahar',type:'city',lat:31.6289,lng:65.7372},
+    {nameAr:'هرات',nameEn:'Herat',type:'city',lat:34.3482,lng:62.2042},
+    {nameAr:'مزار شريف',nameEn:'Mazar-i-Sharif',type:'city',lat:36.7069,lng:67.1107},
+    {nameAr:'جلال آباد',nameEn:'Jalalabad',type:'city',lat:34.4415,lng:70.4432},
+    {nameAr:'كندز',nameEn:'Kunduz',type:'city',lat:36.7283,lng:68.8676},
+    {nameAr:'غزني',nameEn:'Ghazni',type:'city',lat:33.5537,lng:68.4221},
+    {nameAr:'بلخ',nameEn:'Balkh',type:'city',lat:36.7557,lng:66.8975},
+    {nameAr:'لشكرغاه',nameEn:'Lashkar Gah',type:'city',lat:31.5932,lng:64.3693},
+    {nameAr:'تالقان',nameEn:'Taloqan',type:'city',lat:36.7358,lng:69.5358},
+  ],
+  // ── الهند ──
+  in: [
+    {nameAr:'نيودلهي',nameEn:'New Delhi',type:'city',lat:28.6139,lng:77.209},
+    {nameAr:'مومباي',nameEn:'Mumbai',type:'city',lat:19.076,lng:72.8777},
+    {nameAr:'حيدراباد',nameEn:'Hyderabad',type:'city',lat:17.385,lng:78.4867},
+    {nameAr:'أحمد آباد',nameEn:'Ahmedabad',type:'city',lat:23.0225,lng:72.5714},
+    {nameAr:'بنغالور',nameEn:'Bangalore',type:'city',lat:12.9716,lng:77.5946},
+    {nameAr:'تشيناي',nameEn:'Chennai',type:'city',lat:13.0827,lng:80.2707},
+    {nameAr:'كولكاتا',nameEn:'Kolkata',type:'city',lat:22.5726,lng:88.3639},
+    {nameAr:'بونا',nameEn:'Pune',type:'city',lat:18.5204,lng:73.8567},
+    {nameAr:'لكنو',nameEn:'Lucknow',type:'city',lat:26.8467,lng:80.9462},
+    {nameAr:'جيبور',nameEn:'Jaipur',type:'city',lat:26.9124,lng:75.7873},
+    {nameAr:'سورات',nameEn:'Surat',type:'city',lat:21.1702,lng:72.8311},
+    {nameAr:'كانبور',nameEn:'Kanpur',type:'city',lat:26.4499,lng:80.3319},
+    {nameAr:'ناغبور',nameEn:'Nagpur',type:'city',lat:21.1458,lng:79.0882},
+    {nameAr:'إندور',nameEn:'Indore',type:'city',lat:22.7196,lng:75.8577},
+    {nameAr:'بوبال',nameEn:'Bhopal',type:'city',lat:23.2599,lng:77.4126},
+  ],
+  // ── الصين ──
+  cn: [
+    {nameAr:'بكين',nameEn:'Beijing',type:'city',lat:39.9042,lng:116.4074},
+    {nameAr:'شنغهاي',nameEn:'Shanghai',type:'city',lat:31.2304,lng:121.4737},
+    {nameAr:'غوانغجو',nameEn:'Guangzhou',type:'city',lat:23.1291,lng:113.2644},
+    {nameAr:'شنتشن',nameEn:'Shenzhen',type:'city',lat:22.5431,lng:114.0579},
+    {nameAr:'تشنغدو',nameEn:'Chengdu',type:'city',lat:30.5728,lng:104.0668},
+    {nameAr:'تيانجين',nameEn:'Tianjin',type:'city',lat:39.3434,lng:117.3616},
+    {nameAr:'ووهان',nameEn:'Wuhan',type:'city',lat:30.5928,lng:114.3055},
+    {nameAr:'شيآن',nameEn:"Xi'an",type:'city',lat:34.3416,lng:108.9398},
+    {nameAr:'هانغجو',nameEn:'Hangzhou',type:'city',lat:30.2741,lng:120.1551},
+    {nameAr:'نانجينغ',nameEn:'Nanjing',type:'city',lat:32.0603,lng:118.7969},
+    {nameAr:'أورومتشي',nameEn:'Urumqi',type:'city',lat:43.8256,lng:87.6168},
+    {nameAr:'كاشغر',nameEn:'Kashgar',type:'city',lat:39.4704,lng:75.9895},
+    {nameAr:'كونمينغ',nameEn:'Kunming',type:'city',lat:25.0453,lng:102.7097},
+    {nameAr:'تشونغتشينغ',nameEn:'Chongqing',type:'city',lat:29.4316,lng:106.9123},
+    {nameAr:'هاربين',nameEn:'Harbin',type:'city',lat:45.8038,lng:126.5349},
+  ],
+  // ── اليابان ──
+  jp: [
+    {nameAr:'طوكيو',nameEn:'Tokyo',type:'city',lat:35.6762,lng:139.6503},
+    {nameAr:'أوساكا',nameEn:'Osaka',type:'city',lat:34.6937,lng:135.5023},
+    {nameAr:'ناغويا',nameEn:'Nagoya',type:'city',lat:35.1815,lng:136.9066},
+    {nameAr:'سابورو',nameEn:'Sapporo',type:'city',lat:43.0618,lng:141.3545},
+    {nameAr:'فوكوكا',nameEn:'Fukuoka',type:'city',lat:33.5904,lng:130.4017},
+    {nameAr:'كيوتو',nameEn:'Kyoto',type:'city',lat:35.0116,lng:135.7681},
+    {nameAr:'كوبي',nameEn:'Kobe',type:'city',lat:34.6901,lng:135.1956},
+    {nameAr:'كاواساكي',nameEn:'Kawasaki',type:'city',lat:35.5308,lng:139.7029},
+    {nameAr:'سيتاما',nameEn:'Saitama',type:'city',lat:35.8617,lng:139.6455},
+    {nameAr:'هيروشيما',nameEn:'Hiroshima',type:'city',lat:34.3853,lng:132.4553},
+    {nameAr:'سيندي',nameEn:'Sendai',type:'city',lat:38.2682,lng:140.8694},
+    {nameAr:'كيتاكيوشو',nameEn:'Kitakyushu',type:'city',lat:33.8834,lng:130.8751},
+    {nameAr:'ناغاساكي',nameEn:'Nagasaki',type:'city',lat:32.7503,lng:129.8777},
+    {nameAr:'أوكيناوا',nameEn:'Okinawa',type:'city',lat:26.2124,lng:127.6809},
+    {nameAr:'يوكوهاما',nameEn:'Yokohama',type:'city',lat:35.4437,lng:139.638},
+  ],
+  // ── كوريا الجنوبية ──
+  kr: [
+    {nameAr:'سيول',nameEn:'Seoul',type:'city',lat:37.5665,lng:126.978},
+    {nameAr:'بوسان',nameEn:'Busan',type:'city',lat:35.1796,lng:129.0756},
+    {nameAr:'إنتشون',nameEn:'Incheon',type:'city',lat:37.4563,lng:126.7052},
+    {nameAr:'دايغو',nameEn:'Daegu',type:'city',lat:35.8714,lng:128.6014},
+    {nameAr:'دايجون',nameEn:'Daejeon',type:'city',lat:36.3504,lng:127.3845},
+    {nameAr:'غوانغجو',nameEn:'Gwangju',type:'city',lat:35.1595,lng:126.8526},
+    {nameAr:'سوون',nameEn:'Suwon',type:'city',lat:37.2636,lng:127.0286},
+    {nameAr:'سيونغنام',nameEn:'Seongnam',type:'city',lat:37.4449,lng:127.1388},
+    {nameAr:'يولسان',nameEn:'Ulsan',type:'city',lat:35.5384,lng:129.3114},
+    {nameAr:'جيجو',nameEn:'Jeju',type:'city',lat:33.4996,lng:126.5312},
+  ],
+  // ── فرنسا ──
+  fr: [
+    {nameAr:'باريس',nameEn:'Paris',type:'city',lat:48.8566,lng:2.3522},
+    {nameAr:'مرسيليا',nameEn:'Marseille',type:'city',lat:43.2965,lng:5.3698},
+    {nameAr:'ليون',nameEn:'Lyon',type:'city',lat:45.7640,lng:4.8357},
+    {nameAr:'تولوز',nameEn:'Toulouse',type:'city',lat:43.6047,lng:1.4442},
+    {nameAr:'نيس',nameEn:'Nice',type:'city',lat:43.7102,lng:7.262},
+    {nameAr:'نانت',nameEn:'Nantes',type:'city',lat:47.2184,lng:-1.5536},
+    {nameAr:'ستراسبورغ',nameEn:'Strasbourg',type:'city',lat:48.5734,lng:7.7521},
+    {nameAr:'مونبلييه',nameEn:'Montpellier',type:'city',lat:43.6108,lng:3.8767},
+    {nameAr:'بوردو',nameEn:'Bordeaux',type:'city',lat:44.8378,lng:-0.5792},
+    {nameAr:'ليل',nameEn:'Lille',type:'city',lat:50.6292,lng:3.0573},
+    {nameAr:'رين',nameEn:'Rennes',type:'city',lat:48.1173,lng:-1.6778},
+    {nameAr:'لو هافر',nameEn:'Le Havre',type:'city',lat:49.4938,lng:0.1077},
+  ],
+  // ── ألمانيا ──
+  de: [
+    {nameAr:'برلين',nameEn:'Berlin',type:'city',lat:52.52,lng:13.405},
+    {nameAr:'هامبورغ',nameEn:'Hamburg',type:'city',lat:53.5753,lng:10.0153},
+    {nameAr:'ميونيخ',nameEn:'Munich',type:'city',lat:48.1351,lng:11.582},
+    {nameAr:'كولونيا',nameEn:'Cologne',type:'city',lat:50.9333,lng:6.95},
+    {nameAr:'فرانكفورت',nameEn:'Frankfurt',type:'city',lat:50.1109,lng:8.6821},
+    {nameAr:'شتوتغارت',nameEn:'Stuttgart',type:'city',lat:48.7758,lng:9.1829},
+    {nameAr:'دوسلدورف',nameEn:'Düsseldorf',type:'city',lat:51.2217,lng:6.7762},
+    {nameAr:'دورتموند',nameEn:'Dortmund',type:'city',lat:51.5136,lng:7.4653},
+    {nameAr:'إيسن',nameEn:'Essen',type:'city',lat:51.4556,lng:7.0116},
+    {nameAr:'لايبزيغ',nameEn:'Leipzig',type:'city',lat:51.3397,lng:12.3731},
+    {nameAr:'بريمن',nameEn:'Bremen',type:'city',lat:53.0793,lng:8.8017},
+    {nameAr:'درسدن',nameEn:'Dresden',type:'city',lat:51.0504,lng:13.7373},
+    {nameAr:'هانوفر',nameEn:'Hanover',type:'city',lat:52.3759,lng:9.732},
+    {nameAr:'نورنبرغ',nameEn:'Nuremberg',type:'city',lat:49.4521,lng:11.0767},
+  ],
+  // ── المملكة المتحدة ──
+  gb: [
+    {nameAr:'لندن',nameEn:'London',type:'city',lat:51.5074,lng:-0.1278},
+    {nameAr:'برمنغهام',nameEn:'Birmingham',type:'city',lat:52.4862,lng:-1.8904},
+    {nameAr:'مانشستر',nameEn:'Manchester',type:'city',lat:53.4808,lng:-2.2426},
+    {nameAr:'ليدز',nameEn:'Leeds',type:'city',lat:53.8008,lng:-1.5491},
+    {nameAr:'غلاسكو',nameEn:'Glasgow',type:'city',lat:55.8642,lng:-4.2518},
+    {nameAr:'ليفربول',nameEn:'Liverpool',type:'city',lat:53.4084,lng:-2.9916},
+    {nameAr:'إدنبرة',nameEn:'Edinburgh',type:'city',lat:55.9533,lng:-3.1883},
+    {nameAr:'برستول',nameEn:'Bristol',type:'city',lat:51.4545,lng:-2.5879},
+    {nameAr:'شيفيلد',nameEn:'Sheffield',type:'city',lat:53.3811,lng:-1.4701},
+    {nameAr:'كاردف',nameEn:'Cardiff',type:'city',lat:51.4816,lng:-3.1791},
+    {nameAr:'بلفاست',nameEn:'Belfast',type:'city',lat:54.5973,lng:-5.9301},
+    {nameAr:'نيوكاسل',nameEn:'Newcastle',type:'city',lat:54.9783,lng:-1.6178},
+    {nameAr:'نوتنغهام',nameEn:'Nottingham',type:'city',lat:52.9548,lng:-1.1581},
+    {nameAr:'لستر',nameEn:'Leicester',type:'city',lat:52.6369,lng:-1.1398},
+    {nameAr:'برادفورد',nameEn:'Bradford',type:'city',lat:53.7960,lng:-1.7594},
+    {nameAr:'لوتون',nameEn:'Luton',type:'city',lat:51.8787,lng:-0.4200},
+  ],
+  // ── إسبانيا ──
+  es: [
+    {nameAr:'مدريد',nameEn:'Madrid',type:'city',lat:40.4168,lng:-3.7038},
+    {nameAr:'برشلونة',nameEn:'Barcelona',type:'city',lat:41.3851,lng:2.1734},
+    {nameAr:'فالنسيا',nameEn:'Valencia',type:'city',lat:39.4699,lng:-0.3763},
+    {nameAr:'إشبيلية',nameEn:'Seville',type:'city',lat:37.3891,lng:-5.9845},
+    {nameAr:'ثاراغوثا',nameEn:'Zaragoza',type:'city',lat:41.6488,lng:-0.8891},
+    {nameAr:'مالقة',nameEn:'Málaga',type:'city',lat:36.7213,lng:-4.4214},
+    {nameAr:'مرسية',nameEn:'Murcia',type:'city',lat:37.9922,lng:-1.1307},
+    {nameAr:'بلباو',nameEn:'Bilbao',type:'city',lat:43.263,lng:-2.935},
+    {nameAr:'أليكانتي',nameEn:'Alicante',type:'city',lat:38.3452,lng:-0.481},
+    {nameAr:'قرطبة',nameEn:'Córdoba',type:'city',lat:37.8882,lng:-4.7794},
+    {nameAr:'غرناطة',nameEn:'Granada',type:'city',lat:37.1773,lng:-3.5986},
+    {nameAr:'سبتة',nameEn:'Ceuta',type:'city',lat:35.8894,lng:-5.3213},
+    {nameAr:'مليلة',nameEn:'Melilla',type:'city',lat:35.2923,lng:-2.9381},
+  ],
+  // ── إيطاليا ──
+  it: [
+    {nameAr:'روما',nameEn:'Rome',type:'city',lat:41.9028,lng:12.4964},
+    {nameAr:'ميلانو',nameEn:'Milan',type:'city',lat:45.4642,lng:9.19},
+    {nameAr:'نابولي',nameEn:'Naples',type:'city',lat:40.8518,lng:14.2681},
+    {nameAr:'تورينو',nameEn:'Turin',type:'city',lat:45.0703,lng:7.6869},
+    {nameAr:'باليرمو',nameEn:'Palermo',type:'city',lat:38.1157,lng:13.3615},
+    {nameAr:'جنوى',nameEn:'Genoa',type:'city',lat:44.4056,lng:8.9463},
+    {nameAr:'بولونيا',nameEn:'Bologna',type:'city',lat:44.4949,lng:11.3426},
+    {nameAr:'فلورنسا',nameEn:'Florence',type:'city',lat:43.7696,lng:11.2558},
+    {nameAr:'بارى',nameEn:'Bari',type:'city',lat:41.1171,lng:16.8719},
+    {nameAr:'فينيسيا',nameEn:'Venice',type:'city',lat:45.4408,lng:12.3155},
+    {nameAr:'كاتانيا',nameEn:'Catania',type:'city',lat:37.5079,lng:15.083},
+    {nameAr:'ميسينا',nameEn:'Messina',type:'city',lat:38.1938,lng:15.554},
+  ],
+  // ── هولندا ──
+  nl: [
+    {nameAr:'أمستردام',nameEn:'Amsterdam',type:'city',lat:52.3676,lng:4.9041},
+    {nameAr:'روتردام',nameEn:'Rotterdam',type:'city',lat:51.9244,lng:4.4777},
+    {nameAr:'لاهاي',nameEn:'The Hague',type:'city',lat:52.0705,lng:4.3007},
+    {nameAr:'أوتريخت',nameEn:'Utrecht',type:'city',lat:52.0907,lng:5.1214},
+    {nameAr:'أيندهوفن',nameEn:'Eindhoven',type:'city',lat:51.4416,lng:5.4697},
+    {nameAr:'تيلبورغ',nameEn:'Tilburg',type:'city',lat:51.5555,lng:5.0913},
+    {nameAr:'غرونينغن',nameEn:'Groningen',type:'city',lat:53.2194,lng:6.5665},
+  ],
+  // ── بلجيكا ──
+  be: [
+    {nameAr:'بروكسل',nameEn:'Brussels',type:'city',lat:50.8503,lng:4.3517},
+    {nameAr:'غنت',nameEn:'Ghent',type:'city',lat:51.0543,lng:3.7174},
+    {nameAr:'أنتورب',nameEn:'Antwerp',type:'city',lat:51.2194,lng:4.4025},
+    {nameAr:'لييج',nameEn:'Liège',type:'city',lat:50.6326,lng:5.5797},
+    {nameAr:'بروج',nameEn:'Bruges',type:'city',lat:51.2093,lng:3.2247},
+    {nameAr:'ناميور',nameEn:'Namur',type:'city',lat:50.4669,lng:4.8675},
+  ],
+  // ── روسيا ──
+  ru: [
+    {nameAr:'موسكو',nameEn:'Moscow',type:'city',lat:55.7558,lng:37.6173},
+    {nameAr:'سانت بطرسبرغ',nameEn:'Saint Petersburg',type:'city',lat:59.9343,lng:30.3351},
+    {nameAr:'نوفوسيبيرسك',nameEn:'Novosibirsk',type:'city',lat:54.9885,lng:82.9207},
+    {nameAr:'يكاترينبورغ',nameEn:'Yekaterinburg',type:'city',lat:56.8389,lng:60.6057},
+    {nameAr:'نيجني نوفغورود',nameEn:'Nizhny Novgorod',type:'city',lat:56.2965,lng:43.9361},
+    {nameAr:'قازان',nameEn:'Kazan',type:'city',lat:55.7887,lng:49.1221},
+    {nameAr:'تشيليابينسك',nameEn:'Chelyabinsk',type:'city',lat:55.1644,lng:61.4368},
+    {nameAr:'أومسك',nameEn:'Omsk',type:'city',lat:54.9885,lng:73.3242},
+    {nameAr:'سمارة',nameEn:'Samara',type:'city',lat:53.2038,lng:50.1606},
+    {nameAr:'أوفا',nameEn:'Ufa',type:'city',lat:54.7388,lng:55.9721},
+    {nameAr:'غروزني',nameEn:'Grozny',type:'city',lat:43.3189,lng:45.6984},
+    {nameAr:'ماخاتشقلا',nameEn:'Makhachkala',type:'city',lat:42.9849,lng:47.5047},
+  ],
+  // ── الولايات المتحدة ──
+  us: [
+    {nameAr:'نيويورك',nameEn:'New York',type:'city',lat:40.7128,lng:-74.006},
+    {nameAr:'لوس أنجلوس',nameEn:'Los Angeles',type:'city',lat:34.0522,lng:-118.2437},
+    {nameAr:'شيكاغو',nameEn:'Chicago',type:'city',lat:41.8781,lng:-87.6298},
+    {nameAr:'هيوستن',nameEn:'Houston',type:'city',lat:29.7604,lng:-95.3698},
+    {nameAr:'فينيكس',nameEn:'Phoenix',type:'city',lat:33.4484,lng:-112.074},
+    {nameAr:'فيلادلفيا',nameEn:'Philadelphia',type:'city',lat:39.9526,lng:-75.1652},
+    {nameAr:'سان أنطونيو',nameEn:'San Antonio',type:'city',lat:29.4241,lng:-98.4936},
+    {nameAr:'سان دييغو',nameEn:'San Diego',type:'city',lat:32.7157,lng:-117.1611},
+    {nameAr:'دالاس',nameEn:'Dallas',type:'city',lat:32.7767,lng:-96.797},
+    {nameAr:'سان خوسيه',nameEn:'San Jose',type:'city',lat:37.3382,lng:-121.8863},
+    {nameAr:'واشنطن',nameEn:'Washington DC',type:'city',lat:38.9072,lng:-77.0369},
+    {nameAr:'ديترويت',nameEn:'Detroit',type:'city',lat:42.3314,lng:-83.0458},
+    {nameAr:'دير بورن',nameEn:'Dearborn',type:'city',lat:42.3223,lng:-83.1763},
+    {nameAr:'جيرسي سيتي',nameEn:'Jersey City',type:'city',lat:40.7178,lng:-74.0431},
+    {nameAr:'فريمونت',nameEn:'Fremont',type:'city',lat:37.5485,lng:-121.9886},
+    {nameAr:'باترسون',nameEn:'Paterson',type:'city',lat:40.9168,lng:-74.1719},
+  ],
+  // ── كندا ──
+  ca: [
+    {nameAr:'تورنتو',nameEn:'Toronto',type:'city',lat:43.7001,lng:-79.4163},
+    {nameAr:'مونتريال',nameEn:'Montreal',type:'city',lat:45.5017,lng:-73.5673},
+    {nameAr:'كالغاري',nameEn:'Calgary',type:'city',lat:51.0447,lng:-114.0719},
+    {nameAr:'أوتاوا',nameEn:'Ottawa',type:'city',lat:45.4215,lng:-75.6972},
+    {nameAr:'إدمنتون',nameEn:'Edmonton',type:'city',lat:53.5461,lng:-113.4938},
+    {nameAr:'ميسيساغا',nameEn:'Mississauga',type:'city',lat:43.589,lng:-79.6441},
+    {nameAr:'وينيبيغ',nameEn:'Winnipeg',type:'city',lat:49.8951,lng:-97.1384},
+    {nameAr:'فانكوفر',nameEn:'Vancouver',type:'city',lat:49.2827,lng:-123.1207},
+    {nameAr:'هاميلتون',nameEn:'Hamilton',type:'city',lat:43.2557,lng:-79.8711},
+    {nameAr:'كيبيك',nameEn:'Quebec City',type:'city',lat:46.8139,lng:-71.2082},
+    {nameAr:'سري',nameEn:'Surrey',type:'city',lat:49.1913,lng:-122.849},
+    {nameAr:'هاليفاكس',nameEn:'Halifax',type:'city',lat:44.6488,lng:-63.5752},
+  ],
+  // ── أستراليا ──
+  au: [
+    {nameAr:'سيدني',nameEn:'Sydney',type:'city',lat:-33.8688,lng:151.2093},
+    {nameAr:'ملبورن',nameEn:'Melbourne',type:'city',lat:-37.8136,lng:144.9631},
+    {nameAr:'بريسبان',nameEn:'Brisbane',type:'city',lat:-27.4698,lng:153.0251},
+    {nameAr:'بيرث',nameEn:'Perth',type:'city',lat:-31.9505,lng:115.8605},
+    {nameAr:'أديلايد',nameEn:'Adelaide',type:'city',lat:-34.9285,lng:138.6007},
+    {nameAr:'كانبيرا',nameEn:'Canberra',type:'city',lat:-35.2809,lng:149.13},
+    {nameAr:'هوبارت',nameEn:'Hobart',type:'city',lat:-42.8821,lng:147.3272},
+    {nameAr:'داروين',nameEn:'Darwin',type:'city',lat:-12.4634,lng:130.8456},
+    {nameAr:'غولد كوست',nameEn:'Gold Coast',type:'city',lat:-28.0167,lng:153.4},
+    {nameAr:'نيوكاسل',nameEn:'Newcastle',type:'city',lat:-32.9167,lng:151.75},
+    {nameAr:'ولونغونغ',nameEn:'Wollongong',type:'city',lat:-34.4278,lng:150.8931},
+    {nameAr:'لاكمبا',nameEn:'Lakemba',type:'city',lat:-33.9167,lng:151.0667},
+  ],
+  // ── تركيا ─ إضافة مدن بخلاف الموجودة ──
+  // (tr موجودة سابقاً في STATIC_CITIES)
+  // ── ماليزيا ─ موجودة سابقاً ──
+  // ── نيجيريا ──
+  ng: [
+    {nameAr:'أبوجا',nameEn:'Abuja',type:'city',lat:9.0765,lng:7.3986},
+    {nameAr:'لاغوس',nameEn:'Lagos',type:'city',lat:6.5244,lng:3.3792},
+    {nameAr:'كانو',nameEn:'Kano',type:'city',lat:12.0022,lng:8.5920},
+    {nameAr:'إبادان',nameEn:'Ibadan',type:'city',lat:7.3775,lng:3.9470},
+    {nameAr:'كادونا',nameEn:'Kaduna',type:'city',lat:10.5264,lng:7.4384},
+    {nameAr:'بنين سيتي',nameEn:'Benin City',type:'city',lat:6.3176,lng:5.6145},
+    {nameAr:'بورت هاركورت',nameEn:'Port Harcourt',type:'city',lat:4.8156,lng:7.0498},
+    {nameAr:'زاريا',nameEn:'Zaria',type:'city',lat:11.0855,lng:7.7199},
+    {nameAr:'ميدوغوري',nameEn:'Maiduguri',type:'city',lat:11.8333,lng:13.15},
+    {nameAr:'سوكوتو',nameEn:'Sokoto',type:'city',lat:13.0059,lng:5.2476},
+  ],
+  // ── إثيوبيا ──
+  et: [
+    {nameAr:'أديس أبابا',nameEn:'Addis Ababa',type:'city',lat:9.03,lng:38.74},
+    {nameAr:'ديرة داوة',nameEn:'Dire Dawa',type:'city',lat:9.5935,lng:41.8661},
+    {nameAr:'ميكيلي',nameEn:'Mekelle',type:'city',lat:13.4967,lng:39.4753},
+    {nameAr:'غوندر',nameEn:'Gondar',type:'city',lat:12.6,lng:37.4667},
+    {nameAr:'عواسا',nameEn:'Awasa',type:'city',lat:7.05,lng:38.4667},
+    {nameAr:'هرار',nameEn:'Harar',type:'city',lat:9.3125,lng:42.1196},
+    {nameAr:'نازريت',nameEn:'Adama',type:'city',lat:8.5414,lng:39.2678},
+    {nameAr:'جيما',nameEn:'Jimma',type:'city',lat:7.6833,lng:36.8333},
+  ],
+  // ── كينيا ──
+  ke: [
+    {nameAr:'نيروبي',nameEn:'Nairobi',type:'city',lat:-1.2921,lng:36.8219},
+    {nameAr:'مومباسا',nameEn:'Mombasa',type:'city',lat:-4.0435,lng:39.6682},
+    {nameAr:'كيسومو',nameEn:'Kisumu',type:'city',lat:-0.1022,lng:34.7617},
+    {nameAr:'نكورو',nameEn:'Nakuru',type:'city',lat:-0.3031,lng:36.08},
+    {nameAr:'مالندي',nameEn:'Malindi',type:'city',lat:-3.2138,lng:40.1169},
+    {nameAr:'غاريسا',nameEn:'Garissa',type:'city',lat:-0.4532,lng:39.6461},
+    {nameAr:'موندي',nameEn:'Mwingi',type:'city',lat:-0.9347,lng:38.0618},
+  ],
+  // ── جنوب أفريقيا ──
+  za: [
+    {nameAr:'جوهانسبرغ',nameEn:'Johannesburg',type:'city',lat:-26.2041,lng:28.0473},
+    {nameAr:'كيب تاون',nameEn:'Cape Town',type:'city',lat:-33.9249,lng:18.4241},
+    {nameAr:'دربان',nameEn:'Durban',type:'city',lat:-29.8587,lng:31.0218},
+    {nameAr:'بريتوريا',nameEn:'Pretoria',type:'city',lat:-25.7479,lng:28.2293},
+    {nameAr:'بورت إليزابيث',nameEn:'Port Elizabeth',type:'city',lat:-33.9608,lng:25.6022},
+    {nameAr:'بلومفونتين',nameEn:'Bloemfontein',type:'city',lat:-29.0852,lng:26.1596},
+    {nameAr:'إيست لندن',nameEn:'East London',type:'city',lat:-33.0153,lng:27.9116},
+  ],
+  // ── أوزبكستان ──
+  uz: [
+    {nameAr:'طاشقند',nameEn:'Tashkent',type:'city',lat:41.2995,lng:69.2401},
+    {nameAr:'سمرقند',nameEn:'Samarkand',type:'city',lat:39.6547,lng:66.9758},
+    {nameAr:'نمنغان',nameEn:'Namangan',type:'city',lat:40.9983,lng:71.6726},
+    {nameAr:'أنديجان',nameEn:'Andijan',type:'city',lat:40.7829,lng:72.3442},
+    {nameAr:'بخارى',nameEn:'Bukhara',type:'city',lat:39.7747,lng:64.4286},
+    {nameAr:'قرشي',nameEn:'Qarshi',type:'city',lat:38.8610,lng:65.7908},
+    {nameAr:'فرغانة',nameEn:'Fergana',type:'city',lat:40.3864,lng:71.7864},
+  ],
+  // ── كازاخستان ──
+  kz: [
+    {nameAr:'نور سلطان',nameEn:'Astana',type:'city',lat:51.1801,lng:71.446},
+    {nameAr:'ألماتي',nameEn:'Almaty',type:'city',lat:43.2551,lng:76.9126},
+    {nameAr:'شيمكنت',nameEn:'Shymkent',type:'city',lat:42.3,lng:69.6},
+    {nameAr:'راغاندي',nameEn:'Karaganda',type:'city',lat:49.8047,lng:73.0875},
+    {nameAr:'أكتوبي',nameEn:'Aktobe',type:'city',lat:50.2839,lng:57.1669},
+    {nameAr:'أتيراو',nameEn:'Atyrau',type:'city',lat:47.1167,lng:51.8833},
+  ],
+  // ── السنغال ──
+  sn: [
+    {nameAr:'داكار',nameEn:'Dakar',type:'city',lat:14.6937,lng:-17.4441},
+    {nameAr:'توبا',nameEn:'Touba',type:'city',lat:14.85,lng:-15.88},
+    {nameAr:'ثيس',nameEn:'Thiès',type:'city',lat:14.7833,lng:-16.9167},
+    {nameAr:'زيغينشور',nameEn:'Ziguinchor',type:'city',lat:12.5833,lng:-16.2667},
+    {nameAr:'كاولاك',nameEn:'Kaolack',type:'city',lat:14.1504,lng:-16.0726},
+    {nameAr:'سانت لويس',nameEn:'Saint-Louis',type:'city',lat:16.0179,lng:-16.4896},
+  ],
+  // ── الصومال ──
+  so: [
+    {nameAr:'مقديشو',nameEn:'Mogadishu',type:'city',lat:2.0469,lng:45.3182},
+    {nameAr:'هرجيسا',nameEn:'Hargeisa',type:'city',lat:9.56,lng:44.065},
+    {nameAr:'كيسمايو',nameEn:'Kismayo',type:'city',lat:-0.3582,lng:42.5454},
+    {nameAr:'بيدوا',nameEn:'Baidoa',type:'city',lat:3.1069,lng:43.6499},
+    {nameAr:'بوساسو',nameEn:'Bosaso',type:'city',lat:11.2833,lng:49.1833},
+    {nameAr:'غاروي',nameEn:'Garowe',type:'city',lat:8.4054,lng:48.4845},
+  ],
+  // ── السويد ──
+  se: [
+    {nameAr:'ستوكهولم',nameEn:'Stockholm',type:'city',lat:59.3293,lng:18.0686},
+    {nameAr:'غوتنبرغ',nameEn:'Gothenburg',type:'city',lat:57.7089,lng:11.9746},
+    {nameAr:'مالمو',nameEn:'Malmö',type:'city',lat:55.6049,lng:13.0038},
+    {nameAr:'أوبسالا',nameEn:'Uppsala',type:'city',lat:59.8586,lng:17.6389},
+    {nameAr:'سودرتاليا',nameEn:'Södertälje',type:'city',lat:59.1955,lng:17.6253},
+    {nameAr:'فسترأس',nameEn:'Västerås',type:'city',lat:59.6162,lng:16.5528},
+  ],
+  // ── النرويج ──
+  no: [
+    {nameAr:'أوسلو',nameEn:'Oslo',type:'city',lat:59.9139,lng:10.7522},
+    {nameAr:'برغن',nameEn:'Bergen',type:'city',lat:60.3913,lng:5.3221},
+    {nameAr:'تروندهايم',nameEn:'Trondheim',type:'city',lat:63.4305,lng:10.3951},
+    {nameAr:'ستافانغر',nameEn:'Stavanger',type:'city',lat:58.9700,lng:5.7331},
+    {nameAr:'تروم سو',nameEn:'Tromsø',type:'city',lat:69.6489,lng:18.9551},
+  ],
+  // ── الدنمارك ──
+  dk: [
+    {nameAr:'كوبنهاغن',nameEn:'Copenhagen',type:'city',lat:55.6761,lng:12.5683},
+    {nameAr:'أورهوس',nameEn:'Aarhus',type:'city',lat:56.1629,lng:10.2039},
+    {nameAr:'أودينسي',nameEn:'Odense',type:'city',lat:55.3959,lng:10.3883},
+    {nameAr:'ألبورغ',nameEn:'Aalborg',type:'city',lat:57.0488,lng:9.9217},
+    {nameAr:'إسبيرغ',nameEn:'Esbjerg',type:'city',lat:55.4761,lng:8.4594},
+  ],
+  // ── فنلندا ──
+  fi: [
+    {nameAr:'هلسنكي',nameEn:'Helsinki',type:'city',lat:60.1699,lng:24.9384},
+    {nameAr:'إسبو',nameEn:'Espoo',type:'city',lat:60.2052,lng:24.6522},
+    {nameAr:'تامبيري',nameEn:'Tampere',type:'city',lat:61.4978,lng:23.7610},
+    {nameAr:'فانتا',nameEn:'Vantaa',type:'city',lat:60.2934,lng:25.0378},
+    {nameAr:'أولو',nameEn:'Oulu',type:'city',lat:65.0121,lng:25.4651},
+    {nameAr:'تورك',nameEn:'Turku',type:'city',lat:60.4518,lng:22.2666},
+  ],
+  // ── البرازيل ──
+  br: [
+    {nameAr:'ساو باولو',nameEn:'São Paulo',type:'city',lat:-23.5505,lng:-46.6333},
+    {nameAr:'ريو دي جانيرو',nameEn:'Rio de Janeiro',type:'city',lat:-22.9068,lng:-43.1729},
+    {nameAr:'برازيليا',nameEn:'Brasília',type:'city',lat:-15.7801,lng:-47.9292},
+    {nameAr:'سلفادور',nameEn:'Salvador',type:'city',lat:-12.9714,lng:-38.5014},
+    {nameAr:'فورتاليزا',nameEn:'Fortaleza',type:'city',lat:-3.7172,lng:-38.5433},
+    {nameAr:'بيلو هوريزونتي',nameEn:'Belo Horizonte',type:'city',lat:-19.9167,lng:-43.9345},
+    {nameAr:'ماناوس',nameEn:'Manaus',type:'city',lat:-3.1019,lng:-60.025},
+    {nameAr:'كوريتيبا',nameEn:'Curitiba',type:'city',lat:-25.4284,lng:-49.2733},
+    {nameAr:'ريسيفي',nameEn:'Recife',type:'city',lat:-8.0578,lng:-34.8829},
+    {nameAr:'بيلم',nameEn:'Belém',type:'city',lat:-1.4558,lng:-48.5044},
+  ],
+  // ── الأرجنتين ──
+  ar: [
+    {nameAr:'بوينس آيرس',nameEn:'Buenos Aires',type:'city',lat:-34.6037,lng:-58.3816},
+    {nameAr:'قرطبة',nameEn:'Córdoba',type:'city',lat:-31.4135,lng:-64.1811},
+    {nameAr:'روساريو',nameEn:'Rosario',type:'city',lat:-32.9442,lng:-60.6505},
+    {nameAr:'ميندوزا',nameEn:'Mendoza',type:'city',lat:-32.8895,lng:-68.8458},
+    {nameAr:'لا بلاتا',nameEn:'La Plata',type:'city',lat:-34.9211,lng:-57.9544},
+    {nameAr:'سان خوان',nameEn:'San Juan',type:'city',lat:-31.5375,lng:-68.5364},
+  ],
+  // ── المكسيك ──
+  mx: [
+    {nameAr:'مكسيكو سيتي',nameEn:'Mexico City',type:'city',lat:19.4326,lng:-99.1332},
+    {nameAr:'غوادالاخارا',nameEn:'Guadalajara',type:'city',lat:20.6597,lng:-103.3496},
+    {nameAr:'مونتيري',nameEn:'Monterrey',type:'city',lat:25.6866,lng:-100.3161},
+    {nameAr:'بويبلا',nameEn:'Puebla',type:'city',lat:19.0414,lng:-98.2063},
+    {nameAr:'تيخوانا',nameEn:'Tijuana',type:'city',lat:32.5149,lng:-117.0382},
+    {nameAr:'ليون',nameEn:'León',type:'city',lat:21.1221,lng:-101.6827},
+    {nameAr:'خواريز',nameEn:'Ciudad Juárez',type:'city',lat:31.7381,lng:-106.4869},
+  ],
 };
 
 // ===== بيانات العواصم الكاملة (اسم عربي + إنجليزي + إحداثيات) =====
@@ -738,6 +1198,7 @@ function dbRead(cc) {
 function dbWrite(cc, cities) {
     try {
         fs.writeFileSync(dbFile(cc), JSON.stringify(cities, null, 2), 'utf8');
+        invalidateSitemapCache();
         return true;
     } catch(e) { console.error(`[DB] خطأ في الكتابة ${cc}:`, e.message); return false; }
 }
@@ -798,8 +1259,26 @@ async function handleCitiesApi(cc, res) {
     console.log(`[DB] ${cc.toUpperCase()} → جلب من Wikidata...`);
     const wiki = await fetchCitiesWikidata(cc);
     if (!wiki || wiki.length === 0) {
-        res.writeHead(503, {'Content-Type':'application/json'});
-        res.end(JSON.stringify({error:'unavailable'}));
+        // 4) Wikidata فشلت → fallback: العاصمة فقط (من CAPITAL_DATA) لضمان عدم فراغ الصفحة
+        const capital = CAPITAL_DATA[cc];
+        if (capital) {
+            const fallback = [{ ...capital, type: 'city' }];
+            console.log(`[DB] ${cc.toUpperCase()} → Wikidata فشلت، عرض العاصمة كـ fallback`);
+            res.writeHead(200, {'Content-Type':'application/json; charset=utf-8', 'X-Source':'capital-fallback'});
+            res.end(JSON.stringify(fallback));
+            // جرّب Wikidata مرة أخرى في الخلفية بعد 30 ثانية
+            setTimeout(() => {
+                fetchCitiesWikidata(cc).then(w => {
+                    if (w && w.length > 0) {
+                        dbWrite(cc, deduplicateCities(w));
+                        console.log(`[DB] ${cc.toUpperCase()} → حُدّث من Wikidata (محاولة ثانية): ${w.length} مدينة`);
+                    }
+                }).catch(() => {});
+            }, 30000);
+        } else {
+            res.writeHead(503, {'Content-Type':'application/json'});
+            res.end(JSON.stringify({error:'unavailable'}));
+        }
         return;
     }
     const result = deduplicateCities(wiki);
@@ -841,12 +1320,206 @@ const server = http.createServer(async (req, res) => {
     }
     if (urlPath === '/') urlPath = '/index.html';
 
+    // ===== SEO: Redirect روابط الدول القديمة /prayer-times-cities-{slug} → /{slug} (301) =====
+    {
+        const _legacyCountry = urlPath.match(/^(\/(?:en\/)?)prayer-times-cities-([a-z0-9-]+?)(?:\.html)?$/);
+        if (_legacyCountry) {
+            res.writeHead(301, { 'Location': _legacyCountry[1] + _legacyCountry[2], 'Cache-Control': 'public, max-age=31536000' });
+            res.end(); return;
+        }
+    }
+
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|prayer-times-cities-[a-z0-9]|about-[a-z0-9]|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d+-[a-z-]+-\d+$|hijri-calendar\/[a-z-]+-\d+$)/.test(_clean)) {
+        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|about-[a-z0-9]|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d+-[a-z-]+-\d+$|hijri-calendar\/[a-z-]+-\d+$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
+            return;
+        }
+    }
+
+    // ===== robots.txt =====
+    if (urlPath === '/robots.txt') {
+        const body = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+        res.writeHead(200, {'Content-Type':'text/plain; charset=utf-8', 'Cache-Control':'public, max-age=86400'});
+        res.end(body);
+        return;
+    }
+
+    // ===== مساعدات Sitemap =====
+    function escapeXml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+    }
+
+    // إرسال XML مع دعم gzip عند توفر Accept-Encoding
+    function sendXml(res, xml, acceptEnc, forceGzip) {
+        const headers = {
+            'Content-Type':'application/xml; charset=utf-8',
+            'Cache-Control':'public, max-age=3600',
+            'Vary':'Accept-Encoding'
+        };
+        const buf = Buffer.from(xml, 'utf8');
+        const useGzip = forceGzip || (acceptEnc && acceptEnc.includes('gzip'));
+        if (useGzip) {
+            zlib.gzip(buf, (err, zbuf) => {
+                if (err) { res.writeHead(200, headers); res.end(buf); return; }
+                res.writeHead(200, { ...headers, 'Content-Encoding':'gzip' });
+                res.end(zbuf);
+            });
+        } else {
+            res.writeHead(200, headers);
+            res.end(buf);
+        }
+    }
+
+    // ===== Sitemap: توليد بيانات المدن (مع cache) =====
+    function buildSitemapDataFresh() {
+        const countryCodes = new Set([
+            ...Object.keys(STATIC_CITIES),
+            ...Object.keys(CAPITAL_DATA),
+        ]);
+        try {
+            fs.readdirSync(DB_DIR).forEach(f => {
+                const m = f.match(/^cities-([a-z]{2,3})\.json$/);
+                if (m) countryCodes.add(m[1]);
+            });
+        } catch(e) {}
+
+        const allCities = [];
+        for (const cc of countryCodes) {
+            let cities = [];
+            const dbData = dbRead(cc);
+            if (dbData && dbData.length) cities = dbData;
+            else if (STATIC_CITIES[cc]) cities = STATIC_CITIES[cc];
+            else if (CAPITAL_DATA[cc]) cities = [CAPITAL_DATA[cc]];
+            for (const city of cities) {
+                const slug = makeCitySlugSrv(city.nameEn, city.lat, city.lng);
+                if (slug) allCities.push(slug);
+            }
+        }
+        return { countryCodes: [...countryCodes], cities: [...new Set(allCities)] };
+    }
+
+    function getSitemapData() {
+        const now = Date.now();
+        if (_sitemapCache.data && (now - _sitemapCache.time) < SITEMAP_TTL) {
+            return _sitemapCache.data;
+        }
+        const data = buildSitemapDataFresh();
+        _sitemapCache = { data, time: now };
+        return data;
+    }
+
+    // مولّد URL ثنائي اللغة مع hreflang
+    function bilingualUrl(relPath, prio, cf, today) {
+        const arUrl = escapeXml(SITE_URL + relPath);
+        const enUrl = escapeXml(SITE_URL + '/en' + relPath);
+        const links =
+            `    <xhtml:link rel="alternate" hreflang="ar" href="${arUrl}"/>\n` +
+            `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n` +
+            `    <xhtml:link rel="alternate" hreflang="x-default" href="${arUrl}"/>`;
+        const body = (loc) =>
+            `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${cf}</changefreq>\n    <priority>${prio}</priority>\n${links}\n  </url>`;
+        return [body(arUrl), body(enUrl)];
+    }
+
+    const URLSET_OPEN = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
+    const URLSET_CLOSE = `</urlset>\n`;
+
+    // ===== /sitemap.xml (أو .xml.gz) = فهرس Sitemaps =====
+    {
+        const mi = urlPath.match(/^\/sitemap\.xml(\.gz)?$/);
+        if (mi) {
+            const today = new Date().toISOString().split('T')[0];
+            const { cities } = getSitemapData();
+            const CHUNK_SIZE = 8000;
+            const chunkCount = Math.max(1, Math.ceil(cities.length / CHUNK_SIZE));
+            const sitemaps = [];
+            sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-main.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
+            for (let i = 0; i < chunkCount; i++) {
+                sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-cities-${i+1}.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
+            }
+            const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join('\n')}\n</sitemapindex>\n`;
+            sendXml(res, xml, req.headers['accept-encoding']||'', !!mi[1]);
+            return;
+        }
+    }
+
+    // ===== /sitemap-main.xml = الصفحات الثابتة + الدول + التقويم الهجري =====
+    {
+        const mm = urlPath.match(/^\/sitemap-main\.xml(\.gz)?$/);
+        if (mm) {
+            const today = new Date().toISOString().split('T')[0];
+            const entries = [];
+
+            // 1) الصفحات الثابتة (AR + EN مع hreflang)
+            const staticPaths = [
+                ['/', '1.0', 'daily'],
+                ['/qibla', '0.9', 'monthly'],
+                ['/moon', '0.8', 'daily'],
+                ['/zakat', '0.8', 'monthly'],
+                ['/duas', '0.8', 'monthly'],
+                ['/msbaha', '0.7', 'monthly'],
+                ['/dateconverter', '0.8', 'monthly'],
+                ['/today-hijri-date', '0.9', 'daily'],
+            ];
+            for (const [p, pr, cf] of staticPaths) {
+                entries.push(...bilingualUrl(p, pr, cf, today));
+            }
+
+            // 2) صفحات الدول
+            const { countryCodes } = getSitemapData();
+            for (const cc of countryCodes) {
+                const slug = makeCountrySlugSrv(cc);
+                entries.push(...bilingualUrl('/' + slug, '0.8', 'weekly', today));
+            }
+
+            // 3) التقويم الهجري — 3 سنوات (سنوي + شهري)
+            const hijriMonths = ['muharram','safar','rabi-al-awwal','rabi-al-thani','jumada-al-awwal','jumada-al-thani','rajab','shaban','ramadan','shawwal','dhu-al-qadah','dhu-al-hijjah'];
+            const gYear = new Date().getFullYear();
+            const hYearApprox = Math.round((gYear - 622) * 33 / 32);
+            for (const hy of [hYearApprox - 1, hYearApprox, hYearApprox + 1]) {
+                entries.push(...bilingualUrl('/hijri-calendar/' + hy, '0.7', 'monthly', today));
+                for (const m of hijriMonths) {
+                    entries.push(...bilingualUrl(`/hijri-calendar/${m}-${hy}`, '0.6', 'monthly', today));
+                }
+            }
+
+            // 4) صفحات اليوم الهجري — السنة الحالية فقط (12 شهر × 30 يوم × 2 لغة = ~720)
+            for (let mi = 0; mi < hijriMonths.length; mi++) {
+                const m = hijriMonths[mi];
+                for (let d = 1; d <= 30; d++) {
+                    entries.push(...bilingualUrl(`/hijri-date/${d}-${m}-${hYearApprox}`, '0.4', 'yearly', today));
+                }
+            }
+
+            const xml = `${URLSET_OPEN}\n${entries.join('\n')}\n${URLSET_CLOSE}`;
+            sendXml(res, xml, req.headers['accept-encoding']||'', !!mm[1]);
+            return;
+        }
+    }
+
+    // ===== /sitemap-cities-N.xml = chunk المدن (6 URLs × مدينة مع hreflang) =====
+    {
+        const mc = urlPath.match(/^\/sitemap-cities-(\d+)\.xml(\.gz)?$/);
+        if (mc) {
+            const idx = parseInt(mc[1], 10) - 1;
+            const today = new Date().toISOString().split('T')[0];
+            const { cities } = getSitemapData();
+            const CHUNK_SIZE = 8000;
+            const chunk = cities.slice(idx * CHUNK_SIZE, (idx + 1) * CHUNK_SIZE);
+            if (chunk.length === 0) {
+                res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found'); return;
+            }
+            const entries = [];
+            for (const slug of chunk) {
+                entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.7', 'daily', today));
+                entries.push(...bilingualUrl('/qibla-in-' + slug, '0.6', 'monthly', today));
+                entries.push(...bilingualUrl('/about-' + slug, '0.5', 'monthly', today));
+            }
+            const xml = `${URLSET_OPEN}\n${entries.join('\n')}\n${URLSET_CLOSE}`;
+            sendXml(res, xml, req.headers['accept-encoding']||'', !!mc[2]);
             return;
         }
     }
@@ -1018,14 +1691,6 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    if (/^\/en\/prayer-times-cities-[a-z0-9-]+(\.html)?$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveEnglishHtml(html, res, _acceptEnc);
-        });
-        return;
-    }
-
     if (/^\/en\/about-.+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
@@ -1060,6 +1725,15 @@ const server = http.createServer(async (req, res) => {
                     res.end(html);
                 }
             }
+        });
+        return;
+    }
+
+    // صفحة مدن الدولة الإنجليزية: /en/{country-slug}
+    if (/^\/en\/[a-z][a-z0-9-]+$/.test(urlPath)) {
+        fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            serveEnglishHtml(html, res, _acceptEnc);
         });
         return;
     }
@@ -1229,15 +1903,6 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    if (/^\/prayer-times-cities-[a-z0-9-]+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
-        });
-        return;
-    }
-
     // صفحة عن المدينة: /about-{slug}
     if (/^\/about-.+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
@@ -1263,6 +1928,16 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
                 res.end(html);
             }
+        });
+        return;
+    }
+
+    // صفحة مدن الدولة: /{country-slug} — يجب أن تكون آخر route قبل الملفات الثابتة
+    if (/^\/[a-z][a-z0-9-]+$/.test(urlPath)) {
+        fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'});
+            res.end(html);
         });
         return;
     }

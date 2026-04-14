@@ -1392,6 +1392,9 @@ function updateCityDisplay() {
     document.getElementById('city-name').textContent = dispCity;
     document.getElementById('country-name').textContent = dispCountry;
 
+    // مسار التنقل (Breadcrumb)
+    updateBreadcrumb();
+
     // سطر الموقع في المعلومات الإضافية
     const locEl = document.getElementById('info-location');
     if (locEl) locEl.textContent = dispCountry ? `${dispCity}${sep}${dispCountry}` : dispCity;
@@ -1434,6 +1437,108 @@ function updateCityDisplay() {
     } else if (qiblaBackBtn) {
         qiblaBackBtn.style.display = 'none';
     }
+}
+
+// ─────────────────────────────────────────────────────────────
+//   Breadcrumb ديناميكي + BreadcrumbList Schema
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * يُحدِّث عناصر Breadcrumb في الـ DOM ويُحقن Schema JSON-LD
+ * يُستدعى بعد تحديد بيانات المدينة/الدولة
+ */
+function updateBreadcrumb() {
+    const isCityPage = document.body.classList.contains('city-prayer-page');
+    if (!isCityPage) {
+        // إزالة Schema القديم إذا تنقّل المستخدم من صفحة مدينة
+        const old = document.getElementById('breadcrumb-schema');
+        if (old) old.remove();
+        return;
+    }
+
+    const isEn       = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+    const origin     = window.SITE_URL || window.location.origin;
+    const citySlug   = makeSlug(currentEnglishName || currentCity, currentLat, currentLng);
+    const countrySlug = makeCountrySlug(currentCountryCode, currentEnglishCountry);
+
+    // ── نصوص العرض ──
+    const homeLabel       = isEn ? 'Home'          : 'الرئيسية';
+    const prayerTimesLabel = isEn ? 'Prayer Times'  : 'مواقيت الصلاة';
+    const countryLabel    = isEn
+        ? (currentEnglishCountry || currentCountry || countrySlug)
+        : (currentCountry        || currentEnglishCountry || countrySlug);
+    const cityLabel       = isEn
+        ? (currentEnglishDisplayName || currentEnglishName || currentCity)
+        : (currentCity               || currentEnglishName);
+
+    // ── روابط ──
+    const countryHref = `${origin}${isEn ? '/en/' : '/'}${countrySlug}`;
+    const cityHref    = `${origin}${isEn ? '/en/' : '/'}prayer-times-in-${citySlug}`;
+
+    // ── تحديث DOM ──
+    const bcHome    = document.getElementById('bc-home');
+    const bcCountry = document.getElementById('bc-country');
+    const bcCity    = document.getElementById('bc-city');
+    const bcCurrent = document.getElementById('bc-current');
+
+    if (bcHome)    bcHome.textContent    = homeLabel;
+    if (bcHome)    bcHome.href           = isEn ? `${origin}/en/` : `${origin}/`;
+    if (bcCountry) { bcCountry.textContent = countryLabel; bcCountry.href = countryHref; }
+    if (bcCity)    { bcCity.textContent    = cityLabel;    bcCity.href    = cityHref;    }
+    if (bcCurrent) bcCurrent.textContent  = prayerTimesLabel;
+
+    // ── حقن / تحديث BreadcrumbList Schema ──
+    _injectBreadcrumbSchema({
+        origin, homeLabel, countryLabel, countryHref,
+        cityLabel, cityHref, prayerTimesLabel, isEn
+    });
+}
+
+/** يحقن أو يُحدِّث <script id="breadcrumb-schema"> في <head> */
+function _injectBreadcrumbSchema({ origin, homeLabel, countryLabel, countryHref, cityLabel, cityHref, prayerTimesLabel }) {
+    // لا تحقن Schema في وضع الملف المحلي
+    if (window.location.protocol === 'file:') return;
+
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": homeLabel,
+                "item": `${origin}/`
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": countryLabel,
+                "item": countryHref
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": cityLabel,
+                "item": cityHref
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": prayerTimesLabel
+                // لا يوجد "item" — هذا هو العنصر الحالي
+            }
+        ]
+    };
+
+    // إزالة قديم (عند تنقّل SPA بين مدن)
+    const old = document.getElementById('breadcrumb-schema');
+    if (old) old.remove();
+
+    const script = document.createElement('script');
+    script.id          = 'breadcrumb-schema';
+    script.type        = 'application/ld+json';
+    script.textContent = JSON.stringify(schema, null, 2);
+    document.head.appendChild(script);
 }
 
 // ========= مواقيت الصلاة =========
@@ -1651,7 +1756,7 @@ function injectHomepageSchema() {
     if (!onHome || window.location.protocol === 'file:') return;
     if (document.getElementById('homepage-schema')) return; // تجنب التكرار
 
-    const origin      = window.location.origin;
+    const origin      = window.SITE_URL || window.location.origin;
     const hijriYear   = HijriDate.getToday().year;
     const siteName    = 'مواقيت الصلاة';
     const siteDesc    = 'منصة إسلامية تعرض مواقيت الصلاة، التاريخ الهجري، تحويل التاريخ، اتجاه القبلة، القمر اليوم، وحاسبة الزكاة.';
@@ -1744,6 +1849,9 @@ function applyPageType() {
         document.body.classList.add('city-prayer-page');
     } else {
         document.body.classList.remove('city-prayer-page');
+        // إزالة Breadcrumb Schema عند مغادرة صفحة المدينة
+        const _oldBc = document.getElementById('breadcrumb-schema');
+        if (_oldBc) _oldBc.remove();
     }
 }
 
@@ -2380,7 +2488,7 @@ function openAllCitiesPage() {
     sessionStorage.setItem('allCitiesCountry', JSON.stringify({
         code, name: currentCountry, slug, citySlug
     }));
-    window.location.href = pageUrl(`/prayer-times-cities-${slug}.html`);
+    window.location.href = pageUrl(`/${slug}`);
 }
 
 function filterAllCities() {
@@ -2642,7 +2750,7 @@ function updateCityInfoLabels() {
     const countryLinkEl = document.getElementById('country-block-link');
     if (countryLinkEl) {
         countryLinkEl.textContent = dispCountry;
-        countryLinkEl.href = pageUrl(`/prayer-times-cities-${makeCountrySlug(currentCountryCode, currentEnglishCountry)}.html`);
+        countryLinkEl.href = pageUrl(`/${makeCountrySlug(currentCountryCode, currentEnglishCountry)}`);
     }
 
     // عنوان قسم المدينة
@@ -3117,7 +3225,7 @@ async function updateCityCountryInfo() {
     if (countryLinkEl) {
         const countryDisplayName = getCountryDisplayName();
         countryLinkEl.textContent = countryDisplayName;
-        countryLinkEl.href = pageUrl(`/prayer-times-cities-${cc}.html`);
+        countryLinkEl.href = pageUrl(`/${makeCountrySlug(cc, currentEnglishCountry)}`);
     }
 
     // العلم
@@ -3938,7 +4046,7 @@ function loadHijriDayPage() {
     // 12. Schema JSON-LD — @graph: BreadcrumbList + WebPage + FAQPage
     ['hday-schema-faq','hday-schema-bc','hday-schema-article','hday-schema-graph'].forEach(id => document.getElementById(id)?.remove());
 
-    const _origin    = window.location.origin;
+    const _origin    = window.SITE_URL || window.location.origin;
     const _country   = getDisplayCountry();
     const _todayH2   = HijriDate.getToday();
     const _todayMN2  = lang === 'en' ? HIJRI_MONTHS_EN[_todayH2.month-1] : HijriDate.hijriMonths[_todayH2.month-1];
@@ -4050,7 +4158,7 @@ function loadHijriYearPage() {
     const lang   = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const prefix = lang === 'en' ? '/en' : '';
     const hSfx   = lang === 'en' ? ' AH' : ' هـ';
-    const _origin = window.location.origin;
+    const _origin = window.SITE_URL || window.location.origin;
     const _pageUrl = _origin + window.location.pathname;
     const country  = getDisplayCountry();
     const isLeap   = HijriDate.isHijriLeapYear(year);
@@ -4307,7 +4415,7 @@ function loadHijriMonthPage() {
     const gregLast    = HijriDate.toGregorian(year, month, totalDays);
     const todayH      = HijriDate.getToday();
     const countryLabel = getDisplayCountry();
-    const _origin     = window.location.origin;
+    const _origin     = window.SITE_URL || window.location.origin;
 
     // 1. Breadcrumbs
     const bcEl = document.getElementById('hmonth-breadcrumbs');

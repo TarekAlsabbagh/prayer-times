@@ -584,6 +584,10 @@
                 </div>
                 <div class="section-card">
                     <h2 data-i18n="hijri_today.month_info">📊 معلومات الشهر الهجري</h2>
+                    <div id="hijri-today-summary" style="background:var(--bg); border-radius:10px; padding:16px 20px; margin-bottom:18px; line-height:2;">
+                        <div style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:6px;" id="hijri-today-q">ما هو تاريخ اليوم هجري؟</div>
+                        <div style="font-size:0.95rem; color:var(--text);" id="hijri-today-sentence">--</div>
+                    </div>
                     <div class="info-grid">
                         <div class="info-card">
                             <div class="info-label" data-i18n="hijri_today.month_name">الشهر الهجري</div>
@@ -830,7 +834,7 @@
     <script src="js/qibla.js?v=43"></script>
     <script src="js/moon.js?v=42"></script>
     <script src="js/duas.js?v=42"></script>
-    <script src="js/app.js?v=81"></script>
+    <script src="js/app.js?v=82"></script>
 
     <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
     <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->

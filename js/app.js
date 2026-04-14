@@ -3047,6 +3047,22 @@ function updateHijriToday() {
     document.getElementById('hijri-today-greg').textContent =
         `${dayName}${sepH}${now.getDate()} ${gMonths[now.getMonth()]} ${now.getFullYear()}${gSfxH}`;
 
+    // جملة ملخص اليوم الهجري
+    const qEl = document.getElementById('hijri-today-q');
+    const sentEl = document.getElementById('hijri-today-sentence');
+    if (qEl && sentEl) {
+        if (lang === 'en') {
+            const dayNamesEn = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            const gMonthsEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const hijriMonthsEn = HijriDate.hijriMonths; // use Arabic names in EN too or add EN names
+            qEl.textContent = "What is today's Hijri date?";
+            sentEl.textContent = `Today is ${dayNamesEn[now.getDay()]}, ${now.getDate()} ${gMonthsEn[now.getMonth()]} ${now.getFullYear()} — in the Hijri calendar, the date is ${hijri.day} ${monthName} ${hijri.year} AH.`;
+        } else {
+            qEl.textContent = 'ما هو تاريخ اليوم هجري؟';
+            sentEl.textContent = `اليوم ${dayName}، ${now.getDate()} ${gMonths[now.getMonth()]} ${now.getFullYear()} م — حسب التاريخ الهجري فإن التاريخ هو ${hijri.day} ${monthName} ${hijri.year} هـ.`;
+        }
+    }
+
     document.getElementById('hijri-month-name').textContent = monthName;
     document.getElementById('hijri-month-days').textContent =
         HijriDate.getDaysInHijriMonth(hijri.year, hijri.month) + daysUnit;

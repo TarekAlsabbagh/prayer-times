@@ -3137,6 +3137,17 @@ function updateHijriToday() {
     const country   = getDisplayCountry();
     const gregToday = `${now.getDate()} ${gMonths[now.getMonth()]} ${now.getFullYear()}`;
 
+    // ── 0. Breadcrumb ─────────────────────────────────────────────
+    const htBcEl = document.getElementById('htoday-breadcrumbs');
+    if (htBcEl) {
+        const yearUrl  = `${prefix}/hijri-calendar/${hijri.year}`;
+        const monthUrl0 = hijriMonthUrl(hijri.year, hijri.month);
+        const lnk = 'color:var(--primary);text-decoration:none;';
+        htBcEl.innerHTML = lang === 'en'
+            ? `<a href="/en" style="${lnk}">Home</a> › <a href="${prefix}/today-hijri-date" style="${lnk}">Hijri Calendar</a> › <a href="${yearUrl}" style="${lnk}">${hijri.year} AH</a> › <a href="${monthUrl0}" style="${lnk}">${monthNameEn} ${hijri.year} AH</a> › <span>${hijri.day} ${monthNameEn} ${hijri.year} AH</span>`
+            : `<a href="/" style="${lnk}">الرئيسية</a> › <a href="/today-hijri-date" style="${lnk}">التقويم الهجري</a> › <a href="${yearUrl}" style="${lnk}">${hijri.year} هـ</a> › <a href="${monthUrl0}" style="${lnk}">${monthName} ${hijri.year} هـ</a> › <span>${hijri.day} ${monthName} ${hijri.year} هـ</span>`;
+    }
+
     // ── 1. Hero ──────────────────────────────────────────────────
     const fullEl = document.getElementById('hijri-today-full');
     if (fullEl) fullEl.textContent = lang === 'en'
@@ -3380,7 +3391,7 @@ function loadHijriDayPage() {
     const bcEl = document.getElementById('hday-breadcrumbs');
     if (bcEl) {
         const calPath   = `${prefix}/today-hijri-date`;
-        const yearPath  = `${prefix}/today-hijri-date`;
+        const yearPath  = `${prefix}/hijri-calendar/${year}`;
         const monthPath = hijriMonthUrl(year, month);
         const lnk = 'color:var(--primary);text-decoration:none;';
         if (lang === 'en') {
@@ -3954,7 +3965,7 @@ function loadHijriMonthPage() {
     const bcEl = document.getElementById('hmonth-breadcrumbs');
     if (bcEl) {
         const calPath  = `${prefix}/today-hijri-date`;
-        const yearPath = `${prefix}/today-hijri-date`;
+        const yearPath = `${prefix}/hijri-calendar/${year}`;
         const lnk = 'color:var(--primary);text-decoration:none;';
         bcEl.innerHTML = lang === 'en'
             ? `<a href="/en" style="${lnk}">Home</a> › <a href="${calPath}" style="${lnk}">Hijri Calendar</a> › <a href="${yearPath}" style="${lnk}">${year} AH</a> › <span>${monthNameEn} ${year} AH</span>`

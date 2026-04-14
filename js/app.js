@@ -1479,6 +1479,60 @@ function updatePrayerTimes() {
 
     // تحديث قسم الكلمات المفتاحية
     updateSeoSection();
+
+    // تحديث البوابة الذكية (الصفحة الرئيسية)
+    updateHomeGateway();
+}
+
+// ─────────────────────────────────────────────────────────────
+//   البوابة الذكية — دوال الصفحة الرئيسية
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * التنقل عبر بطاقات البوابة (تُحاكي نقر رابط الشريط الجانبي)
+ */
+function navToPage(pageId) {
+    const link = document.querySelector(`.sidebar-nav a[data-page="${pageId}"]`);
+    if (link) link.click();
+}
+
+/**
+ * تحديث بيانات البوابة الذكية في الصفحة الرئيسية
+ */
+function updateHomeGateway() {
+    // ── 1. التاريخ الهجري ──────────────────────────────────
+    const hijri = HijriDate.getToday();
+    const hMonths = HijriDate.hijriMonths;
+    const hSuffix = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
+    const hijriStr = `${hijri.day} ${hMonths[hijri.month - 1]} ${hijri.year}${hSuffix}`;
+
+    const qaHijri = document.getElementById('qa-hijri-date');
+    if (qaHijri) qaHijri.textContent = hijriStr;
+
+    const previewDate = document.getElementById('home-hijri-preview-date');
+    if (previewDate) previewDate.textContent = hijriStr;
+
+    // ── 2. اتجاه القبلة (يُحسب من الموقع الحالي) ──────────
+    const qiblaDirEl = document.getElementById('qa-qibla-dir');
+    if (qiblaDirEl && currentLat && currentLng) {
+        try {
+            const angle = Qibla.calculate(currentLat, currentLng);
+            const lang  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            const dir   = Qibla.getDirection(angle, lang);
+            qiblaDirEl.textContent = Math.round(angle) + '° — ' + dir;
+        } catch (e) { /* استمر بدون زاوية */ }
+    }
+
+    // ── 3. طور القمر (يُحسب للتاريخ الحالي) ────────────────
+    const moonPhaseEl = document.getElementById('qa-moon-phase');
+    const moonIconEl  = document.getElementById('qa-moon-icon');
+    if (moonPhaseEl) {
+        try {
+            const phaseInfo = MoonCalc.getPhaseName(new Date());
+            moonPhaseEl.textContent = phaseInfo.name;
+            if (moonIconEl) moonIconEl.textContent = phaseInfo.icon;
+        } catch (e) { /* استمر بدون طور */ }
+    }
 }
 
 // ========= جدول مواقيت الأسبوع/الشهر =========

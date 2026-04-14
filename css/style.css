@@ -875,6 +875,38 @@ button, input, select { font-family: inherit; }
     color: var(--primary);
 }
 
+/* جدول ملخص التحويل */
+.conv-summary {
+    text-align: right;
+    margin-top: 4px;
+}
+.conv-summary-day {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 12px;
+    text-align: center;
+}
+.conv-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--border);
+    gap: 8px;
+}
+.conv-summary-row:last-child { border-bottom: none; }
+.conv-summary-label {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    flex-shrink: 0;
+}
+.conv-summary-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
 /* ========= الأدعية والأذكار ========= */
 .dua-categories {
     display: grid;

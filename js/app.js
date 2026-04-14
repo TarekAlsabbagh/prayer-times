@@ -3090,6 +3090,72 @@ function initDateConverter() {
     convertToGreg();
 }
 
+// ===== تحويل ميلادي → شمسي (جلالي) =====
+const _jalaliMonths = ['فروردين','ارديبهشت','خرداد','تير','مرداد','شهريور','مهر','آبان','آذر','دي','بهمن','اسفند'];
+const _jalaliMonthsEn = ['Farvardin','Ordibehesht','Khordad','Tir','Mordad','Shahrivar','Mehr','Aban','Azar','Dey','Bahman','Esfand'];
+
+function gregorianToJalali(gy, gm, gd) {
+    const g_y = gy - 1600, g_m = gm - 1, g_d = gd - 1;
+    const leap = (g_y % 4 === 0 && g_y % 100 !== 0) || g_y % 400 === 0;
+    const gMonthDays = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let g_day_no = 365 * g_y + Math.floor((g_y + 3) / 4) - Math.floor((g_y + 99) / 100) + Math.floor((g_y + 399) / 400);
+    for (let i = 0; i < g_m; i++) g_day_no += gMonthDays[i];
+    g_day_no += g_d;
+    let j_day_no = g_day_no - 79;
+    const j_np = Math.floor(j_day_no / 12053);
+    j_day_no %= 12053;
+    let jy = 979 + 33 * j_np + 4 * Math.floor(j_day_no / 1461);
+    j_day_no %= 1461;
+    if (j_day_no >= 366) { jy += Math.floor((j_day_no - 1) / 365); j_day_no = (j_day_no - 1) % 365; }
+    let jm = 0;
+    const jMD = [31,31,31,31,31,31,30,30,30,30,30,29];
+    for (let i = 0; i < 11 && j_day_no >= jMD[i]; i++) { j_day_no -= jMD[i]; jm++; }
+    return { year: jy, month: jm + 1, day: j_day_no + 1 };
+}
+
+function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd) {
+    const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+    const gDate = new Date(gy, gm - 1, gd);
+    const dayNamesEn = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const dayName = isEn ? dayNamesEn[gDate.getDay()] : HijriDate.dayNames[gDate.getDay()];
+
+    const gMonthNamesEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const hijriText  = `${hd} ${HijriDate.hijriMonths[hm - 1]} ${hy} هـ`;
+    const hijriNums  = `${hd}/${hm}/${hy}`;
+    const gregText   = isEn ? `${gd} ${gMonthNamesEn[gm-1]} ${gy}` : `${gd} ${HijriDate.gregorianMonths[gm-1]} ${gy} م`;
+    const gregNums   = `${gd}/${gm}/${gy}`;
+    const isLeap     = HijriDate.isHijriLeapYear(hy);
+    const leapText   = isEn ? (isLeap ? 'Yes ✓' : 'No ✗') : (isLeap ? 'نعم ✓' : 'لا ✗');
+    const jalali     = gregorianToJalali(gy, gm, gd);
+    const jMonths    = isEn ? _jalaliMonthsEn : _jalaliMonths;
+    const solarText  = `${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year} ش`;
+    const solarNums  = `${jalali.day}/${jalali.month}/${jalali.year}`;
+
+    const rows = isEn ? [
+        ['Hijri Date',        hijriText],
+        ['Hijri (numbers)',   hijriNums],
+        ['Gregorian Date',    gregText],
+        ['Gregorian (nums)',  gregNums],
+        ['Hijri Leap Year',   leapText],
+        ['Solar Date',        solarText],
+        ['Solar (numbers)',   solarNums],
+    ] : [
+        ['التاريخ الهجري',            hijriText],
+        ['التاريخ الهجري بالأرقام',   hijriNums],
+        ['التاريخ الميلادي',          gregText],
+        ['التاريخ الميلادي بالأرقام', gregNums],
+        ['هل السنة الهجرية كبيسة',   leapText],
+        ['التاريخ الشمسي',            solarText],
+        ['التاريخ الشمسي بالأرقام',   solarNums],
+    ];
+
+    const rowsHTML = rows.map(([l, v]) =>
+        `<div class="conv-summary-row"><span class="conv-summary-label">${l}</span><span class="conv-summary-value">${v}</span></div>`
+    ).join('');
+
+    return `<div class="conv-summary"><div class="conv-summary-day">${dayName}</div>${rowsHTML}</div>`;
+}
+
 function switchConverter(type) {
     document.querySelectorAll('.converter-tab').forEach(t => t.classList.remove('active'));
     if (type === 'to-hijri') {
@@ -3104,27 +3170,21 @@ function switchConverter(type) {
 }
 
 function convertToHijri() {
-    const day = parseInt(document.getElementById('conv-g-day').value) || 1;
-    const month = parseInt(document.getElementById('conv-g-month').value) || 1;
-    const year = parseInt(document.getElementById('conv-g-year').value) || 2026;
-
-    const hijri = HijriDate.toHijri(year, month, day);
-    const monthName = HijriDate.hijriMonths[hijri.month - 1];
-    const hSfxC = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
-    document.getElementById('conv-hijri-result').textContent =
-        `${hijri.day} ${monthName} ${hijri.year}${hSfxC}`;
+    const gd = parseInt(document.getElementById('conv-g-day').value) || 1;
+    const gm = parseInt(document.getElementById('conv-g-month').value) || 1;
+    const gy = parseInt(document.getElementById('conv-g-year').value) || 2026;
+    const hijri = HijriDate.toHijri(gy, gm, gd);
+    document.getElementById('conv-hijri-result').innerHTML =
+        buildConvSummaryHTML(gy, gm, gd, hijri.year, hijri.month, hijri.day);
 }
 
 function convertToGreg() {
-    const day = parseInt(document.getElementById('conv-h-day').value) || 1;
-    const month = parseInt(document.getElementById('conv-h-month').value) || 1;
-    const year = parseInt(document.getElementById('conv-h-year').value) || 1447;
-
-    const greg = HijriDate.toGregorian(year, month, day);
-    const monthName = HijriDate.gregorianMonths[greg.month - 1];
-    const gSfxC = (typeof t === 'function') ? t('date.greg_suffix') : ' م';
-    document.getElementById('conv-greg-result').textContent =
-        `${greg.day} ${monthName} ${greg.year}${gSfxC}`;
+    const hd = parseInt(document.getElementById('conv-h-day').value) || 1;
+    const hm = parseInt(document.getElementById('conv-h-month').value) || 1;
+    const hy = parseInt(document.getElementById('conv-h-year').value) || 1447;
+    const greg = HijriDate.toGregorian(hy, hm, hd);
+    document.getElementById('conv-greg-result').innerHTML =
+        buildConvSummaryHTML(greg.year, greg.month, greg.day, hy, hm, hd);
 }
 
 // ========= التقويم الهجري =========

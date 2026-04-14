@@ -550,10 +550,11 @@ function initNavigation() {
             }
 
             // عند الانتقال لقسم القبلة:
-            // إذا كان هناك موقع محدد → انتقل لصفحة القبلة المخصصة دائماً
-            // وإلا → شغّل البوصلة مباشرة
+            // إذا لم نكن على صفحة قبلة بالفعل + هناك موقع محدد → انتقل لصفحة القبلة المخصصة
+            // وإلا → شغّل البوصلة مباشرة (نحن بالفعل على الصفحة الصحيحة)
             if (pageId === 'qibla') {
-                if (currentLat && currentEnglishName && window.location.protocol !== 'file:') {
+                const _alreadyOnQibla = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
+                if (!_alreadyOnQibla && currentLat && currentEnglishName && window.location.protocol !== 'file:') {
                     navigateToQibla(currentLat, currentLng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
                     return;
                 }

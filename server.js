@@ -844,7 +844,7 @@ const server = http.createServer(async (req, res) => {
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|prayer-times-cities-[a-z0-9]|about-[a-z0-9]|msbaha$|todayhijridate$|dateconverter$)/.test(_clean)) {
+        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|prayer-times-cities-[a-z0-9]|about-[a-z0-9]|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d+-[a-z-]+-\d+$|hijri-calendar\/[a-z-]+-\d+$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
@@ -896,8 +896,81 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== صفحة التاريخ الهجري /todayhijridate =====
-    if (urlPath === '/todayhijridate' || urlPath === '/en/todayhijridate') {
+    // ===== صفحة التقويم الهجري السنوي /hijri-calendar/1447 =====
+    if (/^\/(?:en\/)?hijri-calendar\/\d{4}$/.test(urlPath)) {
+        const _isEnHY = urlPath.startsWith('/en/');
+        fs.readFile(path.join(ROOT, 'index.html'), (err, htmlBuf) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            let html = htmlBuf.toString('utf8').replace('<head>', '<head>\n    <base href="/">');
+            if (_isEnHY) {
+                html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
+            }
+            const htmlBuf2 = Buffer.from(html, 'utf8');
+            if (_acceptEnc.includes('gzip')) {
+                zlib.gzip(htmlBuf2, (e, buf) => {
+                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(htmlBuf2); return; }
+                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
+                    res.end(buf);
+                });
+            } else {
+                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+                res.end(htmlBuf2);
+            }
+        });
+        return;
+    }
+
+    // ===== صفحة التقويم الهجري الشهري /hijri-calendar/shawwal-1447 =====
+    if (/^\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(urlPath)) {
+        const _isEnHM = urlPath.startsWith('/en/');
+        fs.readFile(path.join(ROOT, 'index.html'), (err, htmlBuf) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            let html = htmlBuf.toString('utf8').replace('<head>', '<head>\n    <base href="/">');
+            if (_isEnHM) {
+                html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
+            }
+            const htmlBuf2 = Buffer.from(html, 'utf8');
+            if (_acceptEnc.includes('gzip')) {
+                zlib.gzip(htmlBuf2, (e, buf) => {
+                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(htmlBuf2); return; }
+                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
+                    res.end(buf);
+                });
+            } else {
+                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+                res.end(htmlBuf2);
+            }
+        });
+        return;
+    }
+
+    // ===== صفحة اليوم الهجري الفردي /hijri-date/:slug =====
+    if (/^\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(urlPath)) {
+        const _isEnHD = urlPath.startsWith('/en/');
+        fs.readFile(path.join(ROOT, 'index.html'), (err, htmlBuf) => {
+            if (err) { res.writeHead(404); res.end('Not Found'); return; }
+            // حقن <base href="/"> لإصلاح المسارات النسبية
+            let html = htmlBuf.toString('utf8').replace('<head>', '<head>\n    <base href="/">');
+            if (_isEnHD) {
+                html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
+            }
+            const htmlBuf2 = Buffer.from(html, 'utf8');
+            if (_acceptEnc.includes('gzip')) {
+                zlib.gzip(htmlBuf2, (e, buf) => {
+                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(htmlBuf2); return; }
+                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
+                    res.end(buf);
+                });
+            } else {
+                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+                res.end(htmlBuf2);
+            }
+        });
+        return;
+    }
+
+    // ===== صفحة التاريخ الهجري /today-hijri-date =====
+    if (urlPath === '/today-hijri-date' || urlPath === '/en/today-hijri-date') {
         const _isEnH = urlPath.startsWith('/en/');
         fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
@@ -1028,6 +1101,111 @@ const server = http.createServer(async (req, res) => {
         } catch(e) {
             res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
             res.end('[]');
+        }
+        return;
+    }
+
+    // ===== Wikipedia Hijri On This Day Proxy =====
+    if (urlPath === '/api/wiki-onthisday' && req.method === 'GET') {
+        const params  = new URLSearchParams(qs);
+        const day     = parseInt(params.get('day'))   || 1;
+        const month   = decodeURIComponent(params.get('month') || '');
+        const _WIKI_TTL = 24 * 60 * 60 * 1000;
+        const cacheKey  = `wiki-hijri-${day}-${month}`;
+
+        const cached = _geocodeCache.get(cacheKey);
+        if (cached && Date.now() - cached.ts < _WIKI_TTL) {
+            res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.end(cached.data); return;
+        }
+
+        // صفحة اليوم الهجري في ويكيبيديا العربية مثل "26 شوال"
+        const pageTitle = encodeURIComponent(`${day} ${month}`);
+        const wikiUrl = `https://ar.wikipedia.org/w/api.php?action=parse&page=${pageTitle}&prop=wikitext&format=json&origin=*`;
+        try {
+            const ctrl  = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 8000);
+            const wRes  = await fetch(wikiUrl, { signal: ctrl.signal, headers: { 'User-Agent': 'PrayerTimesApp/1.0', 'Accept': 'application/json' } });
+            clearTimeout(timer);
+            if (!wRes.ok) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{"events":[]}'); return; }
+            const json = await wRes.json();
+            const wikitext = json?.parse?.wikitext?.['*'] || '';
+
+            // استخراج اسم مقالة الشخص (تجاهل روابط السنة)
+            const extractFirstArticle = raw => {
+                const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
+                let m;
+                while ((m = re.exec(raw)) !== null) {
+                    const name = m[1].trim();
+                    // تجاهل روابط السنة الهجرية أو الميلادية
+                    if (/^\d{1,4}\s*هـ$/.test(name) || /^\d{4}$/.test(name)) continue;
+                    return name;
+                }
+                return null;
+            };
+            const cleanWiki = t => t
+                .replace(/\[\[(?:[^|\]]*\|)?([^\]]+)\]\]/g, '$1')
+                .replace(/\{\{[^}]*\}\}/g, '')
+                .replace(/<[^>]+>/g, '')
+                .replace(/'{2,}/g, '')
+                .trim();
+            const TARGET_SECTIONS = { 'أحداث': 'أحداث', 'مواليد': 'مواليد', 'وفيات': 'وفيات' };
+            const events = [];
+            let currentType = null;
+            for (const line of wikitext.split('\n')) {
+                const secHeader = line.match(/^==\s*([^=]+?)\s*==\s*$/);
+                if (secHeader) {
+                    currentType = TARGET_SECTIONS[secHeader[1].trim()] || null;
+                    continue;
+                }
+                if (!currentType) continue;
+                const bullet = line.match(/^\*+\s*(.*)/);
+                if (!bullet) continue;
+                const raw  = bullet[1];
+                const text = cleanWiki(raw);
+                if (text.length <= 10) continue;
+                const ev = { text, type: currentType };
+                // للمواليد والوفيات: احفظ اسم المقالة لجلب تفاصيل الشخص
+                if (currentType === 'مواليد' || currentType === 'وفيات') {
+                    const article = extractFirstArticle(raw);
+                    if (article) ev.article = article;
+                }
+                events.push(ev);
+            }
+            const data = JSON.stringify({ events });
+            _geocodeCache.set(cacheKey, { ts: Date.now(), data });
+            res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.end(data);
+        } catch(e) {
+            res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+            res.end('{"events":[]}');
+        }
+        return;
+    }
+
+    // ===== Wikipedia Person Summary Proxy =====
+    if (urlPath === '/api/wiki-summary' && req.method === 'GET') {
+        const title = decodeURIComponent((new URLSearchParams(qs)).get('title') || '').trim();
+        if (!title) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return; }
+        const cacheKey = `wiki-summary-${title}`;
+        const _SUMMARY_TTL = 7 * 24 * 60 * 60 * 1000; // 7 أيام
+        const cached = _geocodeCache.get(cacheKey);
+        if (cached && (Date.now() - cached.ts) < _SUMMARY_TTL) {
+            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.end(cached.data); return;
+        }
+        try {
+            const wUrl = `https://ar.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+            const wRes = await fetch(wUrl, { headers: { 'User-Agent': 'PrayerTimesApp/1.0' } });
+            if (!wRes.ok) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return; }
+            const json = await wRes.json();
+            const out  = JSON.stringify({ extract: json.extract || '', description: json.description || '' });
+            _geocodeCache.set(cacheKey, { ts: Date.now(), data: out });
+            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.end(out);
+        } catch(e) {
+            res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+            res.end('{}');
         }
         return;
     }

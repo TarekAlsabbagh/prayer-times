@@ -6,9 +6,7 @@ html.msbaha-page #page-tasbih { display: block !important; }
 
 /* إخفاء عناصر الموقع في صفحة تحويل التاريخ */
 html.date-converter-page #page-date-converter { display: block !important; }
-html.date-converter-page .location-info,
-html.date-converter-page .city-search-wrapper,
-html.date-converter-page .btn[onclick="detectLocation()"] { display: none !important; }
+html.date-converter-page .location-info { display: none !important; }
 
 
 /* ========= المتغيرات ========= */
@@ -38,7 +36,7 @@ body {
     color: var(--text);
     line-height: 1.7;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100vw;
 }
 
@@ -57,7 +55,7 @@ button, input, select { font-family: inherit; }
     display: flex;
     min-height: 100vh;
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* ========= الشريط الجانبي ========= */
@@ -107,6 +105,23 @@ button, input, select { font-family: inherit; }
 
 .sidebar-nav { padding: 12px 0; }
 
+.nav-group-label {
+    padding: 8px 16px 6px;
+    margin: 10px 12px 2px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.5);
+    pointer-events: none;
+    user-select: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.sidebar-nav > .nav-group-label:first-child {
+    margin-top: 4px;
+}
+
 .sidebar-nav a {
     display: flex;
     align-items: center;
@@ -141,7 +156,7 @@ button, input, select { font-family: inherit; }
     padding: 0;
     min-height: 100vh;
     min-width: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
     display: flex;
     flex-direction: column;
 }
@@ -913,6 +928,60 @@ button, input, select { font-family: inherit; }
     color: var(--text);
 }
 
+/* أحداث اليوم */
+#wiki-otd-list li,
+#hday-otd-list li {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+}
+#wiki-otd-list li:last-child,
+#hday-otd-list li:last-child { border-bottom: none; }
+#wiki-otd-list .otd-year,
+#hday-otd-list .otd-year {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 0.95rem;
+}
+#wiki-otd-list .otd-badge,
+#hday-otd-list .otd-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 20px;
+    margin: 0 4px;
+    vertical-align: middle;
+}
+#wiki-otd-list .otd-badge.birth, #hday-otd-list .otd-badge.birth  { background: #d4edda; color: #155724; }
+#wiki-otd-list .otd-badge.death, #hday-otd-list .otd-badge.death  { background: #f8d7da; color: #721c24; }
+#wiki-otd-list .otd-badge.event, #hday-otd-list .otd-badge.event  { background: #d1ecf1; color: #0c5460; }
+#wiki-otd-list .otd-bio,
+#hday-otd-list .otd-bio,
+#conv-otd-list .otd-bio {
+    margin: 6px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.55;
+    border-right: 3px solid var(--border);
+    padding-right: 8px;
+}
+#wiki-otd-list .otd-bio-toggle,
+#hday-otd-list .otd-bio-toggle,
+#conv-otd-list .otd-bio-toggle {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--primary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+}
+
 /* ========= الأدعية والأذكار ========= */
 .dua-categories {
     display: grid;
@@ -1599,7 +1668,7 @@ button, input, select { font-family: inherit; }
     .sidebar-overlay.open { display: block; }
     .menu-toggle { display: flex; }
 
-    .main-content { margin-right: 0; padding: 0; overflow-x: hidden; max-width: 100vw; }
+    .main-content { margin-right: 0; padding: 0; overflow-x: clip; max-width: 100vw; }
 
     /* ===== الهيدر على الموبايل ===== */
     .top-header {

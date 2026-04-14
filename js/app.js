@@ -534,9 +534,11 @@ function initNavigation() {
             }
 
             // عند الانتقال لمواقيت الصلاة → انتقل لصفحة المدينة إذا كان هناك موقع محدد
+            // دائماً نولّد slug نظيف من makeSlug لتجنب الأرقام في الرابط
             if (pageId === 'prayer-times' && window.location.protocol !== 'file:') {
-                const _citySlug = window.location.pathname.match(/\/(?:en\/)?(?:qibla-in|prayer-times-in)-(.+?)(?:\.html)?$/)?.[1];
-                const _slug = _citySlug || (currentLat && currentEnglishName ? makeSlug(currentEnglishName, currentLat, currentLng) : null);
+                const _slug = (currentLat && currentEnglishName)
+                    ? makeSlug(currentEnglishName, currentLat, currentLng)
+                    : window.location.pathname.match(/\/(?:en\/)?(?:qibla-in|prayer-times-in)-(.+?)(?:\.html)?$/)?.[1] || null;
                 if (_slug && currentLat) {
                     sessionStorage.setItem(`city_${_slug}`, JSON.stringify({
                         lat: currentLat, lng: currentLng, name: currentCity,
@@ -548,11 +550,10 @@ function initNavigation() {
             }
 
             // عند الانتقال لقسم القبلة:
-            // إذا كنا على صفحة مدينة → انتقل لصفحة القبلة المخصصة
+            // إذا كان هناك موقع محدد → انتقل لصفحة القبلة المخصصة دائماً
             // وإلا → شغّل البوصلة مباشرة
             if (pageId === 'qibla') {
-                const _currentSlug = window.location.pathname.match(/\/(?:en\/)?prayer-times-in-(.+?)(?:\.html)?$/)?.[1];
-                if (_currentSlug && window.location.protocol !== 'file:') {
+                if (currentLat && currentEnglishName && window.location.protocol !== 'file:') {
                     navigateToQibla(currentLat, currentLng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
                     return;
                 }

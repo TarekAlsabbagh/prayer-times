@@ -3113,7 +3113,7 @@ function gregorianToJalali(gy, gm, gd) {
     return { year: jy, month: jm + 1, day: j_day_no + 1 };
 }
 
-function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd) {
+function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
     const gDate = new Date(gy, gm - 1, gd);
     const dayNamesEn = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -3149,11 +3149,15 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd) {
         ['التاريخ الشمسي بالأرقام',   solarNums],
     ];
 
+    const resultDateFull = resultType === 'hijri'
+        ? `${dayName} ${hd} ${HijriDate.hijriMonths[hm - 1]} ${hy} هـ`
+        : `${dayName} ${gd} ${isEn ? gMonthNamesEn[gm-1] : HijriDate.gregorianMonths[gm-1]} ${gy}${isEn ? '' : ' م'}`;
+
     const rowsHTML = rows.map(([l, v]) =>
         `<div class="conv-summary-row"><span class="conv-summary-label">${l}</span><span class="conv-summary-value">${v}</span></div>`
     ).join('');
 
-    return `<div class="conv-summary"><div class="conv-summary-day">${dayName}</div>${rowsHTML}</div>`;
+    return `<div class="conv-summary"><div class="conv-summary-day">${resultDateFull}</div>${rowsHTML}</div>`;
 }
 
 function switchConverter(type) {
@@ -3175,7 +3179,7 @@ function convertToHijri() {
     const gy = parseInt(document.getElementById('conv-g-year').value) || 2026;
     const hijri = HijriDate.toHijri(gy, gm, gd);
     document.getElementById('conv-hijri-result').innerHTML =
-        buildConvSummaryHTML(gy, gm, gd, hijri.year, hijri.month, hijri.day);
+        buildConvSummaryHTML(gy, gm, gd, hijri.year, hijri.month, hijri.day, 'hijri');
 }
 
 function convertToGreg() {
@@ -3184,7 +3188,7 @@ function convertToGreg() {
     const hy = parseInt(document.getElementById('conv-h-year').value) || 1447;
     const greg = HijriDate.toGregorian(hy, hm, hd);
     document.getElementById('conv-greg-result').innerHTML =
-        buildConvSummaryHTML(greg.year, greg.month, greg.day, hy, hm, hd);
+        buildConvSummaryHTML(greg.year, greg.month, greg.day, hy, hm, hd, 'greg');
 }
 
 // ========= التقويم الهجري =========

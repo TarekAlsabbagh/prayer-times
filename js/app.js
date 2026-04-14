@@ -107,7 +107,12 @@ function pageUrl(arabicPath) {
 }
 
 // ========= المسبحة الإلكترونية =========
-const TASBIH_SEQUENCE = ['سبحان الله', 'الحمد لله', 'الله أكبر'];
+const TASBIH_SEQUENCE    = ['سبحان الله', 'الحمد لله', 'الله أكبر'];
+const TASBIH_SEQUENCE_EN = ['Subhan Allah', 'Alhamdulillah', 'Allahu Akbar'];
+function getTasbihSequence() {
+    return (typeof getCurrentLang === 'function' && getCurrentLang() === 'en')
+        ? TASBIH_SEQUENCE_EN : TASBIH_SEQUENCE;
+}
 const TASBIH_EACH = 33;
 let tasbihStep = 0;
 let tasbihCount = 0;
@@ -181,13 +186,16 @@ function tasbihNextStep() {
 }
 
 function tasbihUpdateAutoUI() {
+    const seq = getTasbihSequence();
     document.getElementById('tasbih-count').textContent = tasbihCount;
-    document.getElementById('tasbih-current-dhikr').textContent = TASBIH_SEQUENCE[tasbihStep];
-    TASBIH_SEQUENCE.forEach((_, i) => {
+    document.getElementById('tasbih-current-dhikr').textContent = seq[tasbihStep];
+    seq.forEach((name, i) => {
         const el = document.getElementById('step-' + i);
         if (!el) return;
         el.classList.toggle('active', i === tasbihStep);
         el.classList.toggle('done', i < tasbihStep);
+        const nameEl = el.querySelector('.tasbih-step-name');
+        if (nameEl) nameEl.textContent = name;
     });
     tasbihUpdateProgress();
 }

@@ -518,9 +518,18 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
     }
 
+    // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
+    const _isDateConverterPage = /\/(?:en\/)?dateconverter$/.test(window.location.pathname);
+    if (_isDateConverterPage) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-date-converter')?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        document.querySelector('.sidebar-nav a[data-page="date-converter"]')?.classList.add('active');
+    }
+
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
     const _pageParam = new URLSearchParams(window.location.search).get('page');
-    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage) {
+    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage && !_isDateConverterPage) {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }
@@ -587,6 +596,14 @@ function initNavigation() {
             if (pageId === 'hijri-today' && window.location.protocol !== 'file:') {
                 if (!/\/(?:en\/)?todayhijridate$/.test(window.location.pathname)) {
                     window.location.href = pageUrl('/todayhijridate');
+                    return;
+                }
+            }
+
+            // عند الضغط على تحويل التاريخ → انتقل لصفحة /dateconverter
+            if (pageId === 'date-converter' && window.location.protocol !== 'file:') {
+                if (!/\/(?:en\/)?dateconverter$/.test(window.location.pathname)) {
+                    window.location.href = pageUrl('/dateconverter');
                     return;
                 }
             }

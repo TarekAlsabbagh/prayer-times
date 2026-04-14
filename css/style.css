@@ -1826,9 +1826,26 @@ button, input, select { font-family: inherit; }
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s;
+    animation: lsbPulse 2s ease-in-out infinite;
 }
-.lsb-btn:hover { background: rgba(255,255,255,0.32); }
+.lsb-btn:hover {
+    background: rgba(255,255,255,0.32);
+    animation-play-state: paused;
+}
+@keyframes lsbPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.55);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 8px rgba(255,255,255,0);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lsb-btn { animation: none; }
+}
 .lsb-dismiss {
     background: none;
     border: none;

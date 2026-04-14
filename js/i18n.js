@@ -98,6 +98,8 @@ const TRANSLATIONS = {
         'cities.more_btn': 'عرض جميع المدن',
         // الحديث
         'hadith.title': '📜 حديث اليوم',
+        'hadith.daily': 'عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "مَنْ صَلَّى عَلَيَّ صَلاَةً وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"',
+        'hadith.reference': 'رواه مسلم',
         // القبلة
         'qibla.title': '🧭 اتجاه القبلة',
         'qibla.location_title': '📍 موقعك الحالي',
@@ -168,6 +170,7 @@ const TRANSLATIONS = {
         'calendar.title': '🗓️ التقويم الهجري',
         'calendar.prev': '→ السابق',
         'calendar.next': 'التالي ←',
+        'calendar.select_year': 'اختر السنة:',
         // الأدعية
         'duas.title': '🤲 الأدعية والأذكار',
         // المسبحة
@@ -231,6 +234,36 @@ const TRANSLATIONS = {
         // متفرقات
         'misc.yes': 'نعم',
         'misc.no': 'لا',
+        // مسار التنقل (Breadcrumbs)
+        'breadcrumb.home': 'الرئيسية',
+        'breadcrumb.prayer_times': 'مواقيت الصلاة',
+        // مجموعات الشريط الجانبي
+        'nav.group_islamic': '🕌 الخدمات الإسلامية',
+        'nav.group_hijri': '📅 التاريخ الهجري',
+        // عناوين أزرار الهيدر (tooltips)
+        'header.logo_title': 'الرئيسية',
+        'header.detect_title': 'تحديد موقعي تلقائياً',
+        'header.home_title': 'الصفحة الرئيسية',
+        // الصفحة الرئيسية
+        'home.hijri_today': 'التاريخ الهجري اليوم',
+        'home.date_converter': 'تحويل التاريخ',
+        'home.date_converter_sub': 'ميلادي ↔ هجري',
+        'home.qibla': 'اتجاه القبلة',
+        'home.moon': 'القمر اليوم',
+        'home.hijri_date_label': 'التاريخ الهجري اليوم',
+        'home.view_details': 'عرض التفاصيل ←',
+        'home.services_title': '🕌 الخدمات الإسلامية',
+        'home.converter_cta_title': 'تحويل التاريخ الهجري ↔ الميلادي',
+        'home.converter_cta_sub': 'حوّل أي تاريخ بين التقويمين بسهولة ودقة',
+        'home.start_convert': 'ابدأ التحويل ←',
+        // الإعدادات (زر فتح)
+        'settings.trigger': 'إعدادات حساب المواقيت',
+        // الجدول
+        'schedule.manual': 'البحث اليدوي',
+        'schedule.from': 'من',
+        'schedule.to': 'إلى',
+        // خدمات ذات صلة
+        'related.title': 'خدمات ذات صلة',
     },
 
     en: {
@@ -328,6 +361,8 @@ const TRANSLATIONS = {
         'cities.more_btn': 'View All Cities',
         // Hadith
         'hadith.title': '📜 Hadith of the Day',
+        'hadith.daily': 'Narrated by Abu Hurairah (may Allah be pleased with him): The Messenger of Allah (peace be upon him) said: "Whoever sends blessings upon me once, Allah will send blessings upon him ten times."',
+        'hadith.reference': 'Narrated by Muslim',
         // Qibla
         'qibla.title': '🧭 Qibla Direction',
         'qibla.location_title': '📍 Your Location',
@@ -398,6 +433,7 @@ const TRANSLATIONS = {
         'calendar.title': '🗓️ Hijri Calendar',
         'calendar.prev': '← Prev',
         'calendar.next': 'Next →',
+        'calendar.select_year': 'Select Year:',
         // Duas
         'duas.title': '🤲 Duas & Adhkar',
         // Tasbih
@@ -461,6 +497,36 @@ const TRANSLATIONS = {
         // Miscellaneous
         'misc.yes': 'Yes',
         'misc.no': 'No',
+        // Breadcrumbs
+        'breadcrumb.home': 'Home',
+        'breadcrumb.prayer_times': 'Prayer Times',
+        // Sidebar nav groups
+        'nav.group_islamic': '🕌 Islamic Services',
+        'nav.group_hijri': '📅 Hijri Date',
+        // Header button tooltips
+        'header.logo_title': 'Home',
+        'header.detect_title': 'Detect my location automatically',
+        'header.home_title': 'Home page',
+        // Homepage
+        'home.hijri_today': "Today's Hijri Date",
+        'home.date_converter': 'Date Converter',
+        'home.date_converter_sub': 'Gregorian ↔ Hijri',
+        'home.qibla': 'Qibla Direction',
+        'home.moon': 'Moon Today',
+        'home.hijri_date_label': "Today's Hijri Date",
+        'home.view_details': 'View Details →',
+        'home.services_title': '🕌 Islamic Services',
+        'home.converter_cta_title': 'Convert Hijri ↔ Gregorian',
+        'home.converter_cta_sub': 'Convert any date between the two calendars easily and accurately',
+        'home.start_convert': 'Start Converting →',
+        // Settings trigger
+        'settings.trigger': 'Prayer Calculation Settings',
+        // Schedule
+        'schedule.manual': 'Manual Search',
+        'schedule.from': 'From',
+        'schedule.to': 'To',
+        // Related services
+        'related.title': 'Related Services',
     }
 };
 

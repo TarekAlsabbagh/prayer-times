@@ -558,6 +558,7 @@ async function initApp() {
         document.getElementById('page-hijri-today')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
+        document.documentElement.classList.remove('hijri-today-page');
     }
 
     // تفعيل صفحة اليوم الهجري الفردي عند URL /hijri-date/26-shawwal-1447
@@ -568,6 +569,7 @@ async function initApp() {
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         loadHijriDayPage();
+        document.documentElement.classList.remove('hijri-day-page');
     }
 
     // تفعيل صفحة التقويم الهجري السنوي عند URL /hijri-calendar/1447
@@ -578,6 +580,7 @@ async function initApp() {
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         loadHijriYearPage();
+        document.documentElement.classList.remove('hijri-year-page');
     }
 
     // تفعيل صفحة التقويم الهجري الشهري عند URL /hijri-calendar/shawwal-1447
@@ -588,6 +591,7 @@ async function initApp() {
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         loadHijriMonthPage();
+        document.documentElement.classList.remove('hijri-month-page');
     }
 
     // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
@@ -1664,7 +1668,8 @@ function updateHomeGateway() {
     if (moonPhaseEl) {
         try {
             const phaseInfo = MoonCalc.getPhaseName(new Date());
-            moonPhaseEl.textContent = phaseInfo.name;
+            const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            moonPhaseEl.textContent = (_ln === 'en' && phaseInfo.english) ? phaseInfo.english : phaseInfo.name;
             if (moonIconEl) moonIconEl.textContent = phaseInfo.icon;
         } catch (e) { /* استمر بدون طور */ }
     }
@@ -4177,6 +4182,21 @@ function loadHijriYearPage() {
         ? `This calendar displays all Hijri months of ${year} AH with their corresponding Gregorian dates, according to the Umm al-Qura calendar in ${country}.`
         : `يعرض هذا التقويم الهجري لعام ${year} هـ جميع الأشهر الهجرية مع التواريخ الميلادية المقابلة حسب تقويم أم القرى في ${country}.`;
 
+    // ── 2.5 Year Picker ──────────────────────────────────────────
+    const yrSel = document.getElementById('hyear-year-select');
+    if (yrSel) {
+        const todayYear = HijriDate.getToday().year;
+        const min = todayYear - 20;
+        const max = todayYear + 20;
+        let html = '';
+        for (let y = min; y <= max; y++) {
+            const selected = (y === year) ? ' selected' : '';
+            const label = lang === 'en' ? `${y} AH` : `${y} هـ`;
+            html += `<option value="${y}"${selected}>${label}</option>`;
+        }
+        yrSel.innerHTML = html;
+    }
+
     // ── 3. Info Cards ─────────────────────────────────────────────
     const infoGrid = document.getElementById('hyear-info-grid');
     if (infoGrid) {
@@ -5150,6 +5170,28 @@ async function loadConverterOTD(hijriDay, hijriMonthIndex, hijriYear) {
 }
 
 // ========= التقويم الهجري =========
+function populateHijriYearSelect() {
+    const sel = document.getElementById('calendar-year-select');
+    if (!sel) return;
+    const todayYear = HijriDate.getToday().year;
+    const min = todayYear - 20;
+    const max = todayYear + 20;
+    let html = '';
+    for (let y = min; y <= max; y++) {
+        const selected = (y === calendarYear) ? ' selected' : '';
+        html += `<option value="${y}"${selected}>${y}</option>`;
+    }
+    sel.innerHTML = html;
+}
+
+function goToHijriYear(year) {
+    const y = parseInt(year, 10);
+    if (!y || isNaN(y)) return;
+    const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
+    const prefix = isEn ? '/en' : '';
+    window.location.href = `${prefix}/hijri-calendar/${y}`;
+}
+
 function renderCalendar() {
     const calendar = HijriDate.getHijriCalendar(calendarYear, calendarMonth);
     const monthName = HijriDate.hijriMonths[calendarMonth - 1];
@@ -5157,6 +5199,8 @@ function renderCalendar() {
     const hSfxCal = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
     document.getElementById('calendar-title').textContent =
         `${monthName} ${calendarYear}${hSfxCal}`;
+
+    populateHijriYearSelect();
 
     const tbody = document.getElementById('calendar-body');
     tbody.innerHTML = '';

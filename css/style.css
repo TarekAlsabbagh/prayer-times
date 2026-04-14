@@ -1,12 +1,31 @@
 /* عرض صفحة القبلة فوراً عند تحميل URL القبلة — يحسن LCP و Speed Index */
 html.qibla-page-loading #page-qibla { display: block !important; }
+html.qibla-page-loading #page-prayer-times { display: none !important; }
 
 /* عرض صفحة المسبحة فوراً عند تحميل /msbaha */
 html.msbaha-page #page-tasbih { display: block !important; }
+html.msbaha-page #page-prayer-times { display: none !important; }
 
 /* إخفاء عناصر الموقع في صفحة تحويل التاريخ */
 html.date-converter-page #page-date-converter { display: block !important; }
+html.date-converter-page #page-prayer-times { display: none !important; }
 html.date-converter-page .location-info { display: none !important; }
+
+/* عرض صفحة التقويم الهجري السنوي فوراً عند URL /hijri-calendar/1447 */
+html.hijri-year-page #page-hijri-year { display: block !important; }
+html.hijri-year-page #page-prayer-times { display: none !important; }
+
+/* عرض صفحة التقويم الهجري الشهري فوراً عند URL /hijri-calendar/shawwal-1447 */
+html.hijri-month-page #page-hijri-month { display: block !important; }
+html.hijri-month-page #page-prayer-times { display: none !important; }
+
+/* عرض صفحة التاريخ الهجري اليوم فوراً عند URL /today-hijri-date */
+html.hijri-today-page #page-hijri-today { display: block !important; }
+html.hijri-today-page #page-prayer-times { display: none !important; }
+
+/* عرض صفحة يوم هجري فردي فوراً عند URL /hijri-date/26-shawwal-1447 */
+html.hijri-day-page #page-hijri-day { display: block !important; }
+html.hijri-day-page #page-prayer-times { display: none !important; }
 
 
 /* ========= المتغيرات ========= */
@@ -784,6 +803,36 @@ button, input, select { font-family: inherit; }
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
+}
+
+.calendar-year-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+.calendar-year-picker label {
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+.calendar-year-picker .year-select {
+    padding: 7px 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1.5px solid var(--primary);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--primary-dark);
+    cursor: pointer;
+    font-family: inherit;
+    min-width: 110px;
+}
+.calendar-year-picker .year-select:hover,
+.calendar-year-picker .year-select:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 0 3px rgba(26, 107, 60, 0.15);
 }
 
 .calendar-header h3 {

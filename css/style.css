@@ -4,6 +4,12 @@ html.qibla-page-loading #page-qibla { display: block !important; }
 /* عرض صفحة المسبحة فوراً عند تحميل /msbaha */
 html.msbaha-page #page-tasbih { display: block !important; }
 
+/* إخفاء عناصر الموقع في صفحة تحويل التاريخ */
+html.date-converter-page #page-date-converter { display: block !important; }
+html.date-converter-page .location-info,
+html.date-converter-page .city-search-wrapper,
+html.date-converter-page .btn[onclick="detectLocation()"] { display: none !important; }
+
 
 /* ========= المتغيرات ========= */
 :root {

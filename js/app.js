@@ -476,8 +476,10 @@ async function initApp() {
         updateCityDisplay();
         updatePrayerTimes();
         updateQibla();
-        // ثم اطلب الإذن للموقع الحقيقي
-        detectLocation();
+        // ثم اطلب الإذن للموقع الحقيقي (ليس في صفحة تحويل التاريخ)
+        if (!/\/(?:en\/)?dateconverter$/.test(window.location.pathname)) {
+            detectLocation();
+        }
     }
 
     // تحديث البيانات الأولية
@@ -3083,7 +3085,7 @@ function initDateConverter() {
         sMonths.forEach((m, i) => {
             const opt = document.createElement('option');
             opt.value = i + 1;
-            opt.textContent = m;
+            opt.textContent = `${i + 1} - ${m} - ${_jalaliMonthsOriginal[i]}`;
             sSelect.appendChild(opt);
         });
     }
@@ -3114,6 +3116,7 @@ function initDateConverter() {
 // ===== تحويل ميلادي → شمسي (جلالي) وعكسه =====
 const _jalaliMonths = ['حمل','ثور','جوزا','سرطان','أسد','سنبلة','ميزان','عقرب','قوس','جدي','دلو','حوت'];
 const _jalaliMonthsEn = ['Hamal','Sawr','Jawza','Saratan','Asad','Sunbula','Mizan','Aqrab','Qaws','Jadi','Dalw','Hut'];
+const _jalaliMonthsOriginal = ['Farvardin','Ordibehesht','Khordad','Tir','Mordad','Shahrivar','Mehr','Aban','Azar','Dey','Bahman','Esfand'];
 
 function gregorianToJalali(gy, gm, gd) {
     const g_y = gy - 1600, g_m = gm - 1, g_d = gd - 1;
@@ -3163,9 +3166,9 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const dayName = isEn ? dayNamesEn[gDate.getDay()] : HijriDate.dayNames[gDate.getDay()];
 
     const gMonthNamesEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const hijriText  = `${hd} ${HijriDate.hijriMonths[hm - 1]} ${hy} هـ`;
+    const hijriText  = `${dayName} ${hd} ${HijriDate.hijriMonths[hm - 1]} ${hy} هـ`;
     const hijriNums  = `${hd}/${hm}/${hy}`;
-    const gregText   = isEn ? `${gd} ${gMonthNamesEn[gm-1]} ${gy}` : `${gd} ${HijriDate.gregorianMonths[gm-1]} ${gy} م`;
+    const gregText   = isEn ? `${dayName} ${gd} ${gMonthNamesEn[gm-1]} ${gy}` : `${dayName} ${gd} ${HijriDate.gregorianMonths[gm-1]} ${gy} م`;
     const gregNums   = `${gd}/${gm}/${gy}`;
     const isHijriLeap = HijriDate.isHijriLeapYear(hy);
     const isGregLeap  = (gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0;
@@ -3173,7 +3176,7 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const gregLeapText  = isEn ? (isGregLeap  ? `${gy} Yes ✓` : `${gy} No ✗`) : (isGregLeap  ? `${gy} م — نعم ✓` : `${gy} م — لا ✗`);
     const jalali     = gregorianToJalali(gy, gm, gd);
     const jMonths    = isEn ? _jalaliMonthsEn : _jalaliMonths;
-    const solarText  = `${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year} ش`;
+    const solarText  = `${dayName} ${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year} ش`;
     const solarNums  = `${jalali.day}/${jalali.month}/${jalali.year}`;
 
     const rows = isEn ? [

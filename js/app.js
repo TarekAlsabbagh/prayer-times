@@ -479,6 +479,9 @@ async function initApp() {
     // تحديد نوع الصفحة (مدينة / رئيسية) مبكراً
     applyPageType();
 
+    // إعادة عرض اقتراح المدينة المحفوظة (إن وُجد)
+    checkSavedLocationSuggestion();
+
     // تحديث الشريط الجانبي
     updateSidebar();
 
@@ -1278,15 +1281,32 @@ function detectLocation() {
     navigator.geolocation.getCurrentPosition(
         async function(position) {
             _locationInProgress = false;
-            currentLat = position.coords.latitude;
-            currentLng = position.coords.longitude;
+            const _detLat = position.coords.latitude;
+            const _detLng = position.coords.longitude;
+
+            const _hasPageParam = new URLSearchParams(window.location.search).has('page');
+            const _isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
+            const _onHomePage  = !_hasPageParam && (
+                window.location.pathname === '/' ||
+                window.location.pathname === '/en/' ||
+                window.location.pathname === '/en'
+            );
+            const _isProtocol = window.location.protocol !== 'file:';
+
+            if (_onHomePage && _isProtocol) {
+                // ─── الصفحة الرئيسية: لا تحويل ─────────────────────────
+                // احتفظ بمكة افتراضياً، واعرض شريط اقتراح فقط
+                reverseGeocodeForSuggestion(_detLat, _detLng);
+                return;
+            }
+
+            // ─── الصفحات الأخرى: تصرف طبيعي ─────────────────────────
+            currentLat = _detLat;
+            currentLng = _detLng;
             currentTimezone = await fetchTimezone(currentLat, currentLng);
-            const hasPageParam = new URLSearchParams(window.location.search).has('page');
-            const isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
-            const onHomePage = !hasPageParam && (window.location.pathname === '/' || window.location.pathname === '/en/' || window.location.pathname === '/en');
-            const shouldNavigate = (onHomePage || isCityPage) && window.location.protocol !== 'file:';
-            reverseGeocode(currentLat, currentLng, shouldNavigate);
-            if (!shouldNavigate) {
+            const _shouldNavigate = _isCityPage && _isProtocol;
+            reverseGeocode(currentLat, currentLng, _shouldNavigate);
+            if (!_shouldNavigate) {
                 updatePrayerTimes();
                 updateQibla();
                 fetchNearbyPlaces(currentLat, currentLng);
@@ -1540,6 +1560,100 @@ function updateHomeGateway() {
             if (moonIconEl) moonIconEl.textContent = phaseInfo.icon;
         } catch (e) { /* استمر بدون طور */ }
     }
+}
+
+// ─────────────────────────────────────────────────────────────
+//   شريط اقتراح المدينة (بدون تحويل تلقائي)
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * اكتشاف عكسي للاقتراح فقط — لا يُحدّث المتغيرات العامة ولا يوجّه
+ */
+function reverseGeocodeForSuggestion(lat, lng) {
+    const arReq = fetch(nomUrl(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=ar&namedetails=1`
+    )).then(r => r.json()).catch(() => null);
+    const enReq = fetch(nomUrl(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=en`
+    )).then(r => r.json()).catch(() => null);
+
+    Promise.all([arReq, enReq]).then(([arData, enData]) => {
+        if (!arData?.address) return;
+        const addr   = arData.address;
+        const enAddr = enData?.address || {};
+
+        const arCity = addr.city || addr.town || addr.village
+            || (addr.state || '').replace(/^منطقة\s+|^محافظة\s+/g, '').trim() || '';
+        const rawEn  = enAddr.city || enAddr.town || enAddr.village
+            || (enAddr.state || '').replace(/\s*(Region|Governorate|Province)\b/gi, '').trim() || '';
+        const enCity = (arData.namedetails?.['name:en']
+            || arData.namedetails?.['name:en-US']
+            || rawEn || '').replace(/\s*District\b/gi, '').trim();
+        const countryCode = (addr.country_code || '').toLowerCase();
+
+        if (arCity && enCity) {
+            _saveAndShowSuggestion(arCity, lat, lng, enCity, addr.country || '', countryCode);
+        }
+    }).catch(() => {});
+}
+
+/** حفظ البيانات في localStorage وعرض الشريط */
+function _saveAndShowSuggestion(arCity, lat, lng, enName, country, countryCode) {
+    try {
+        localStorage.setItem('lsb_detected', JSON.stringify({
+            arCity, lat, lng, enName, country, countryCode, ts: Date.now()
+        }));
+    } catch (e) {}
+    _renderLocationBar(arCity, lat, lng, enName);
+}
+
+/** رسم شريط الاقتراح في DOM */
+function _renderLocationBar(arCity, lat, lng, enName) {
+    const bar  = document.getElementById('location-suggestion-bar');
+    const city = document.getElementById('lsb-city-name');
+    const btn  = document.getElementById('lsb-go-btn');
+    if (!bar || !city || !btn) return;
+
+    city.textContent = arCity;
+    const slug = makeSlug(enName, lat, lng);
+    btn.href = pageUrl(`/prayer-times-in-${slug}.html`);
+
+    bar.style.display = 'block';
+    requestAnimationFrame(() =>
+        requestAnimationFrame(() => bar.classList.add('lsb-visible'))
+    );
+}
+
+/** إخفاء الشريط عند رفض المستخدم */
+function dismissLocationSuggestion() {
+    const bar = document.getElementById('location-suggestion-bar');
+    if (bar) {
+        bar.classList.remove('lsb-visible');
+        setTimeout(() => { bar.style.display = 'none'; }, 400);
+    }
+    try { localStorage.setItem('lsb_dismissed_ts', String(Date.now())); } catch (e) {}
+}
+
+/**
+ * عند تحميل الصفحة الرئيسية: إعادة عرض الاقتراح المحفوظ (صلاحية 7 أيام)
+ * إلا إذا رفضه المستخدم في آخر ساعة
+ */
+function checkSavedLocationSuggestion() {
+    const path = window.location.pathname;
+    const onHome = path === '/' || path === '/en/' || path === '/en';
+    if (!onHome || window.location.protocol === 'file:') return;
+
+    try {
+        const raw = localStorage.getItem('lsb_detected');
+        if (!raw) return;
+        const d = JSON.parse(raw);
+        if (Date.now() - d.ts > 7 * 24 * 3600 * 1000) return; // انتهت الصلاحية
+
+        const dismissedTs = parseInt(localStorage.getItem('lsb_dismissed_ts') || '0');
+        if (Date.now() - dismissedTs < 3600 * 1000) return; // رفض مؤخراً
+
+        _renderLocationBar(d.arCity, d.lat, d.lng, d.enName);
+    } catch (e) {}
 }
 
 // ─────────────────────────────────────────────────────────────

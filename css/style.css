@@ -1786,6 +1786,70 @@ button, input, select { font-family: inherit; }
 }
 
 /* ═══════════════════════════════════════════════════════════
+   شريط اقتراح المدينة المكتشفة
+   ═══════════════════════════════════════════════════════════ */
+
+.location-suggestion-bar {
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    transition: max-height 0.4s ease, opacity 0.35s ease, margin-bottom 0.35s ease;
+}
+.location-suggestion-bar.lsb-visible {
+    max-height: 90px;
+    opacity: 1;
+    margin-bottom: 16px;
+}
+.lsb-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+    color: #fff;
+    flex-wrap: wrap;
+}
+.lsb-pin { font-size: 1.2rem; flex-shrink: 0; }
+.lsb-text { flex: 1; min-width: 100px; font-size: 0.9rem; line-height: 1.4; }
+.lsb-label { opacity: 0.82; margin-left: 5px; }
+.lsb-city { font-size: 1rem; font-weight: 700; }
+.lsb-btn {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.lsb-btn:hover { background: rgba(255,255,255,0.32); }
+.lsb-dismiss {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-family: inherit;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.lsb-dismiss:hover { background: rgba(255,255,255,0.15); color: #fff; }
+@media (max-width: 480px) {
+    .lsb-inner { gap: 8px; padding: 12px 14px; }
+    .lsb-btn { flex: 1; text-align: center; }
+    .location-suggestion-bar.lsb-visible { max-height: 130px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
    Modal إعدادات المواقيت
    ═══════════════════════════════════════════════════════════ */
 

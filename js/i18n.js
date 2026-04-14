@@ -25,6 +25,9 @@ const TRANSLATIONS = {
         'banner.current_time': 'الوقت الحالي في',
         'banner.next_prayer': 'الوقت المتبقي للصلاة التالية',
         'banner.today_date': 'التاريخ اليوم',
+        // شريط اقتراح الموقع
+        'lsb.detected': 'تم تحديد موقعك:',
+        'lsb.view': 'عرض المواقيت',
         // أسماء الصلوات
         'prayer.fajr': 'الفجر',
         'prayer.sunrise': 'الشروق',
@@ -252,6 +255,9 @@ const TRANSLATIONS = {
         'banner.current_time': 'Current time in',
         'banner.next_prayer': 'Time until next prayer',
         'banner.today_date': "Today's date",
+        // Location suggestion bar
+        'lsb.detected': 'Your location detected:',
+        'lsb.view': 'View Prayer Times',
         // Prayer names
         'prayer.fajr': 'Fajr',
         'prayer.sunrise': 'Sunrise',

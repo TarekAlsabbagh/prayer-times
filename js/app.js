@@ -3126,8 +3126,8 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const gregNums   = `${gd}/${gm}/${gy}`;
     const isHijriLeap = HijriDate.isHijriLeapYear(hy);
     const isGregLeap  = (gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0;
-    const hijriLeapText = isEn ? (isHijriLeap ? 'Yes ✓' : 'No ✗') : (isHijriLeap ? 'نعم ✓' : 'لا ✗');
-    const gregLeapText  = isEn ? (isGregLeap  ? 'Yes ✓' : 'No ✗') : (isGregLeap  ? 'نعم ✓' : 'لا ✗');
+    const hijriLeapText = isEn ? (isHijriLeap ? `${hy} Yes ✓` : `${hy} No ✗`) : (isHijriLeap ? `${hy} هـ — نعم ✓` : `${hy} هـ — لا ✗`);
+    const gregLeapText  = isEn ? (isGregLeap  ? `${gy} Yes ✓` : `${gy} No ✗`) : (isGregLeap  ? `${gy} م — نعم ✓` : `${gy} م — لا ✗`);
     const jalali     = gregorianToJalali(gy, gm, gd);
     const jMonths    = isEn ? _jalaliMonthsEn : _jalaliMonths;
     const solarText  = `${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year} ش`;

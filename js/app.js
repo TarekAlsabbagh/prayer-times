@@ -512,9 +512,18 @@ async function initApp() {
         document.documentElement.classList.remove('msbaha-page');
     }
 
+    // تفعيل صفحة التاريخ الهجري عند URL /todayhijridate
+    const _isHijriPage = /\/(?:en\/)?todayhijridate$/.test(window.location.pathname);
+    if (_isHijriPage) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-hijri-today')?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
+    }
+
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
     const _pageParam = new URLSearchParams(window.location.search).get('page');
-    if (_pageParam && !_isQiblaPage && !_isMsbahaPage) {
+    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage) {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }
@@ -573,6 +582,14 @@ function initNavigation() {
             if (pageId === 'tasbih' && window.location.protocol !== 'file:') {
                 if (!/\/(?:en\/)?msbaha$/.test(window.location.pathname)) {
                     window.location.href = pageUrl('/msbaha');
+                    return;
+                }
+            }
+
+            // عند الضغط على التاريخ الهجري → انتقل لصفحة /todayhijridate
+            if (pageId === 'hijri-today' && window.location.protocol !== 'file:') {
+                if (!/\/(?:en\/)?todayhijridate$/.test(window.location.pathname)) {
+                    window.location.href = pageUrl('/todayhijridate');
                     return;
                 }
             }

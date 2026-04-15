@@ -1016,37 +1016,86 @@ function buildSeoForPath(urlPath) {
             ogType: 'article',
         },
         '/privacy': {
-            title: [ 'Privacy Policy — Prayer Times', 'سياسة الخصوصية — مواقيت الصلاة' ],
-            desc:  [ 'Our privacy policy explains what data we collect (location, language preference), how cookies are used, third-party services, and your data rights.',
-                     'سياسة خصوصية الموقع: ما البيانات التي نجمعها (الموقع، اللغة)، استخدام ملفات تعريف الارتباط، الخدمات الخارجية، وحقوقك في بياناتك.' ],
+            title: {
+                ar: 'سياسة الخصوصية — مواقيت الصلاة',
+                en: 'Privacy Policy — Prayer Times',
+                fr: 'Politique de confidentialité — Heures de Prière',
+                tr: 'Gizlilik Politikası — Namaz Vakitleri',
+                ur: 'پرائیویسی پالیسی — اوقاتِ نماز',
+            },
+            desc: {
+                ar: 'سياسة خصوصية الموقع: ما البيانات التي نجمعها (الموقع، اللغة)، استخدام ملفات تعريف الارتباط، الخدمات الخارجية، وحقوقك في بياناتك.',
+                en: 'Our privacy policy explains what data we collect (location, language preference), how cookies are used, third-party services, and your data rights.',
+                fr: 'Notre politique de confidentialité explique quelles données nous collectons (localisation, langue), l\u2019utilisation des cookies, les services tiers et vos droits.',
+                tr: 'Gizlilik politikamız: hangi verileri topladığımız (konum, dil), çerezlerin nasıl kullanıldığı, üçüncü taraf hizmetler ve veri haklarınız.',
+                ur: 'ہماری پرائیویسی پالیسی: ہم کون سا ڈیٹا جمع کرتے ہیں (مقام، زبان)، کوکیز کا استعمال، تیسرے فریق کی خدمات، اور آپ کے ڈیٹا کے حقوق۔',
+            },
             ogType: 'article',
         },
         '/terms': {
-            title: [ 'Terms of Use — Prayer Times', 'شروط الاستخدام — مواقيت الصلاة' ],
-            desc:  [ 'Terms of use governing access to Prayer Times website: service description, accuracy disclaimer, user obligations, intellectual property and limitation of liability.',
-                     'شروط استخدام موقع مواقيت الصلاة: وصف الخدمة، إخلاء المسؤولية عن الدقة، التزامات المستخدم، الملكية الفكرية وحدود المسؤولية.' ],
+            title: {
+                ar: 'شروط الاستخدام — مواقيت الصلاة',
+                en: 'Terms of Use — Prayer Times',
+                fr: 'Conditions d\u2019utilisation — Heures de Prière',
+                tr: 'Kullanım Şartları — Namaz Vakitleri',
+                ur: 'شرائط استعمال — اوقاتِ نماز',
+            },
+            desc: {
+                ar: 'شروط استخدام موقع مواقيت الصلاة: وصف الخدمة، إخلاء المسؤولية عن الدقة، التزامات المستخدم، الملكية الفكرية وحدود المسؤولية.',
+                en: 'Terms of use governing access to Prayer Times website: service description, accuracy disclaimer, user obligations, intellectual property and limitation of liability.',
+                fr: 'Conditions régissant l\u2019accès au site Heures de Prière : description du service, avertissement sur l\u2019exactitude, obligations de l\u2019utilisateur, propriété intellectuelle et limitation de responsabilité.',
+                tr: 'Namaz Vakitleri web sitesine erişimi düzenleyen kullanım şartları: hizmet tanımı, doğruluk sorumluluk reddi, kullanıcı yükümlülükleri, fikri mülkiyet ve sorumluluk sınırlaması.',
+                ur: 'اوقاتِ نماز ویب سائٹ تک رسائی کو منظم کرنے والی شرائط استعمال: سروس کی تفصیل، درستگی سے دستبرداری، صارف کی ذمہ داریاں، املاک دانش اور ذمہ داری کی حد۔',
+            },
             ogType: 'article',
         },
         '/contact': {
-            title: [ 'Contact Us — Prayer Times', 'اتصل بنا — مواقيت الصلاة' ],
-            desc:  [ 'Get in touch with the Prayer Times team for support, feedback, partnership inquiries or to report inaccurate prayer times in your city.',
-                     'تواصل مع فريق مواقيت الصلاة للدعم، الاقتراحات، الشراكات أو للإبلاغ عن مواقيت غير دقيقة في مدينتك.' ],
+            title: {
+                ar: 'اتصل بنا — مواقيت الصلاة',
+                en: 'Contact Us — Prayer Times',
+                fr: 'Contact — Heures de Prière',
+                tr: 'İletişim — Namaz Vakitleri',
+                ur: 'ہم سے رابطہ کریں — اوقاتِ نماز',
+            },
+            desc: {
+                ar: 'تواصل مع فريق مواقيت الصلاة للدعم، الاقتراحات، الشراكات أو للإبلاغ عن مواقيت غير دقيقة في مدينتك.',
+                en: 'Get in touch with the Prayer Times team for support, feedback, partnership inquiries or to report inaccurate prayer times in your city.',
+                fr: 'Contactez l\u2019équipe Heures de Prière pour le support, les retours, les partenariats ou signaler des heures de prière inexactes dans votre ville.',
+                tr: 'Destek, geri bildirim, ortaklık soruları veya şehrinizdeki yanlış namaz vakitlerini bildirmek için Namaz Vakitleri ekibiyle iletişime geçin.',
+                ur: 'سپورٹ، تاثرات، شراکت داری کی پوچھ گچھ یا اپنے شہر میں غلط نماز کے اوقات کی اطلاع کے لیے اوقاتِ نماز ٹیم سے رابطہ کریں۔',
+            },
             ogType: 'article',
         },
         '/about-us': {
-            title: [ 'About Prayer Times — Our Mission', 'عن موقع مواقيت الصلاة — رسالتنا' ],
-            desc:  [ 'Learn about Prayer Times: our mission to provide accurate Islamic prayer schedules, Hijri calendar, Qibla direction and duas freely to Muslims worldwide.',
-                     'تعرّف على موقع مواقيت الصلاة: رسالتنا في توفير مواقيت صلاة دقيقة، تقويم هجري، اتجاه قبلة وأدعية مجاناً للمسلمين حول العالم.' ],
+            title: {
+                ar: 'عن موقع مواقيت الصلاة — رسالتنا',
+                en: 'About Prayer Times — Our Mission',
+                fr: 'À propos d\u2019Heures de Prière — Notre mission',
+                tr: 'Namaz Vakitleri Hakkında — Misyonumuz',
+                ur: 'اوقاتِ نماز کے بارے میں — ہمارا مشن',
+            },
+            desc: {
+                ar: 'تعرّف على موقع مواقيت الصلاة: رسالتنا في توفير مواقيت صلاة دقيقة، تقويم هجري، اتجاه قبلة وأدعية مجاناً للمسلمين حول العالم.',
+                en: 'Learn about Prayer Times: our mission to provide accurate Islamic prayer schedules, Hijri calendar, Qibla direction and duas freely to Muslims worldwide.',
+                fr: 'Découvrez Heures de Prière : notre mission de fournir gratuitement des horaires de prière précis, un calendrier hégirien, la direction de la Qibla et des invocations aux musulmans du monde entier.',
+                tr: 'Namaz Vakitleri hakkında bilgi edinin: dünya çapındaki Müslümanlara doğru namaz vakitleri, Hicri takvim, Kıble yönü ve duaları ücretsiz sunma misyonumuz.',
+                ur: 'اوقاتِ نماز کے بارے میں جانیں: دنیا بھر کے مسلمانوں کو درست نماز کے اوقات، ہجری کیلنڈر، قبلہ کی سمت اور دعائیں مفت فراہم کرنے کا ہمارا مشن۔',
+            },
             ogType: 'article',
         },
     };
 
     if (staticPages[corePath]) {
         const sp = staticPages[corePath];
-        // AR uses index 1، بقية اللغات (en/fr/tr/ur) تستخدم EN (index 0) كاحتياطي
-        const useAr = (lang === 'ar');
-        title = useAr ? sp.title[1] : sp.title[0];
-        description = useAr ? sp.desc[1] : sp.desc[0];
+        // يدعم شكلين: مصفوفة [en, ar] (قديم) أو كائن {ar, en, fr, tr, ur} (جديد)
+        const _pickField = (fld) => {
+            const v = sp[fld];
+            if (!v) return '';
+            if (Array.isArray(v)) return (lang === 'ar') ? v[1] : v[0];
+            return v[lang] || v.en || v.ar || '';
+        };
+        title = _pickField('title');
+        description = _pickField('desc');
         if (sp.ogType) ogType = sp.ogType;
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
         breadcrumbs.push({ name: title, item: canonical });

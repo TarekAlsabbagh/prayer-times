@@ -12,7 +12,7 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=42">
+    <link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -197,84 +197,48 @@
                      البوابة الذكية — وصول سريع
                 ══════════════════════════════════════════════════════ -->
 
-                <!-- بطاقات الوصول السريع (4 بطاقات) -->
-                <div class="home-quick-access" id="home-quick-access">
-                    <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;">
-                        <span class="qa-icon">📅</span>
-                        <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
-                        <div class="qa-sub" id="qa-hijri-date">--</div>
-                    </a>
-                    <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;">
-                        <span class="qa-icon">🔄</span>
-                        <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
-                        <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
-                    </a>
-                    <a class="qa-card" href="#" onclick="navToPage('qibla');return false;">
-                        <span class="qa-icon">🧭</span>
-                        <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
-                        <div class="qa-sub" id="qa-qibla-dir">--</div>
-                    </a>
-                    <a class="qa-card" href="#" onclick="navToPage('moon');return false;">
-                        <span class="qa-icon" id="qa-moon-icon">🌙</span>
-                        <div class="qa-title" data-i18n="home.moon">القمر اليوم</div>
-                        <div class="qa-sub" id="qa-moon-phase">--</div>
-                    </a>
-                </div>
-
-                <!-- معاينة التاريخ الهجري (خفيفة) -->
-                <div class="section-card home-hijri-preview" id="home-hijri-preview">
-                    <div class="hijri-preview-inner">
-                        <span class="hijri-preview-icon">📅</span>
-                        <div class="hijri-preview-text">
-                            <div class="hijri-preview-label" data-i18n="home.hijri_date_label">التاريخ الهجري اليوم</div>
-                            <div class="hijri-preview-date" id="home-hijri-preview-date">--</div>
-                        </div>
-                        <a href="#" onclick="navToPage('hijri-today');return false;" class="btn-hijri-preview" data-i18n="home.view_details">عرض التفاصيل ←</a>
-                    </div>
-                </div>
-
-                <!-- شبكة الخدمات الإسلامية -->
-                <div class="section-card home-services-section" id="home-services">
-                    <h2 data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
-                    <div class="home-services-grid">
-                        <a class="home-service-item" href="#" onclick="navToPage('qibla');return false;">
-                            <span class="hs-icon">🧭</span>
-                            <span class="hs-label" data-i18n="nav.qibla">اتجاه القبلة</span>
+                <!-- شبكة الخدمات السريعة المُوحَّدة (8 بطاقات — دُمجت من 4 أقسام سابقة لإزالة التكرار) -->
+                <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
+                    <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
+                    <div class="qa-grid">
+                        <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;">
+                            <span class="qa-icon">📅</span>
+                            <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
+                            <div class="qa-sub" id="qa-hijri-date">--</div>
                         </a>
-                        <a class="home-service-item" href="#" onclick="navToPage('moon');return false;">
-                            <span class="hs-icon">🌙</span>
-                            <span class="hs-label" data-i18n="nav.moon">القمر اليوم</span>
+                        <a class="qa-card" href="#" onclick="navToPage('qibla');return false;">
+                            <span class="qa-icon">🧭</span>
+                            <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
+                            <div class="qa-sub" id="qa-qibla-dir">--</div>
                         </a>
-                        <a class="home-service-item" href="#" onclick="navToPage('zakat');return false;">
-                            <span class="hs-icon">💰</span>
-                            <span class="hs-label" data-i18n="nav.zakat">حاسبة الزكاة</span>
+                        <a class="qa-card" href="#" onclick="navToPage('moon');return false;">
+                            <span class="qa-icon" id="qa-moon-icon">🌙</span>
+                            <div class="qa-title" data-i18n="home.moon">القمر اليوم</div>
+                            <div class="qa-sub" id="qa-moon-phase">--</div>
                         </a>
-                        <a class="home-service-item" href="#" onclick="navToPage('duas');return false;">
-                            <span class="hs-icon">🤲</span>
-                            <span class="hs-label" data-i18n="nav.duas">الأدعية والأذكار</span>
+                        <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;">
+                            <span class="qa-icon">🔄</span>
+                            <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
+                            <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
                         </a>
-                        <a class="home-service-item" href="#" onclick="navToPage('tasbih');return false;">
-                            <span class="hs-icon">📿</span>
-                            <span class="hs-label" data-i18n="nav.tasbih">المسبحة الإلكترونية</span>
+                        <a class="qa-card" href="#" onclick="navToPage('hijri-calendar');return false;">
+                            <span class="qa-icon">🗓️</span>
+                            <div class="qa-title" data-i18n="nav.hijri_calendar">التقويم الهجري</div>
                         </a>
-                        <a class="home-service-item" href="#" onclick="navToPage('hijri-calendar');return false;">
-                            <span class="hs-icon">🗓️</span>
-                            <span class="hs-label" data-i18n="nav.hijri_calendar">التقويم الهجري</span>
+                        <a class="qa-card" href="#" onclick="navToPage('duas');return false;">
+                            <span class="qa-icon">🤲</span>
+                            <div class="qa-title" data-i18n="nav.duas">الأدعية والأذكار</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;">
+                            <span class="qa-icon">📿</span>
+                            <div class="qa-title" data-i18n="nav.tasbih">المسبحة الإلكترونية</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('zakat');return false;">
+                            <span class="qa-icon">💰</span>
+                            <div class="qa-title" data-i18n="nav.zakat">حاسبة الزكاة</div>
                         </a>
                     </div>
-                </div>
-
-                <!-- دعوة تحويل التاريخ -->
-                <div class="section-card home-converter-cta" id="home-converter-cta">
-                    <div class="converter-cta-inner">
-                        <span class="converter-cta-icon">🔄</span>
-                        <div class="converter-cta-text">
-                            <div class="converter-cta-title" data-i18n="home.converter_cta_title">تحويل التاريخ الهجري ↔ الميلادي</div>
-                            <div class="converter-cta-sub" data-i18n="home.converter_cta_sub">حوّل أي تاريخ بين التقويمين بسهولة ودقة</div>
-                        </div>
-                        <a href="#" onclick="navToPage('date-converter');return false;" class="btn-converter-cta" data-i18n="home.start_convert">ابدأ التحويل ←</a>
-                    </div>
-                </div>
+                </section>
 
                 <!-- قسم الكلمات المفتاحية SEO -->
                 <div class="section-card seo-section" id="seo-keywords">
@@ -1195,7 +1159,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=189"></script>
+    <script defer src="js/app.js?v=190"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

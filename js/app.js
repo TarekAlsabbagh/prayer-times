@@ -1885,9 +1885,6 @@ function updateHomeGateway() {
     const qaHijri = document.getElementById('qa-hijri-date');
     if (qaHijri) qaHijri.textContent = hijriStr;
 
-    const previewDate = document.getElementById('home-hijri-preview-date');
-    if (previewDate) previewDate.textContent = hijriStr;
-
     // ── 2. اتجاه القبلة (يُحسب من الموقع الحالي) ──────────
     const qiblaDirEl = document.getElementById('qa-qibla-dir');
     if (qiblaDirEl && currentLat && currentLng) {

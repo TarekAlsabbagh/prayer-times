@@ -2291,13 +2291,7 @@ html.city-page #city-breadcrumb {
    CLS FIX: نستخدم html.city-page (يُطبَّق في inline head script قبل paint)
    بدل body.city-prayer-page (يُطبَّق بعد DOMContentLoaded → يسبب CLS ضخم) */
 .city-prayer-page #home-quick-access,
-.city-prayer-page #home-hijri-preview,
-.city-prayer-page #home-services,
-.city-prayer-page #home-converter-cta,
-html.city-page #home-quick-access,
-html.city-page #home-hijri-preview,
-html.city-page #home-services,
-html.city-page #home-converter-cta { display: none !important; }
+html.city-page #home-quick-access { display: none !important; }
 
 /* إظهار روابط الخدمات ذات الصلة */
 .city-prayer-page #city-related-services,
@@ -2337,15 +2331,18 @@ html.city-page #city-related-services { display: block !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════
-   البوابة الذكية — الصفحة الرئيسية
+   البوابة الذكية — الصفحة الرئيسية (قسم موحّد بعد إزالة التكرار)
    ═══════════════════════════════════════════════════════════ */
 
-/* بطاقات الوصول السريع */
-.home-quick-access {
+/* الحاوية الخارجية — section-card يوفّر الخلفية والـ padding */
+.home-quick-access { margin-bottom: 24px; }
+
+/* شبكة البطاقات الداخلية (8 بطاقات: 4 أعمدة × 2 صفوف على سطح المكتب) */
+.home-quick-access .qa-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 14px;
-    margin-bottom: 24px;
+    margin-top: 4px;
 }
 .qa-card {
     background: var(--card-bg);
@@ -2381,141 +2378,12 @@ html.city-page #city-related-services { display: block !important; }
     color: var(--text-light);
 }
 
-/* معاينة التاريخ الهجري */
-.home-hijri-preview {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
-    color: #fff;
-    padding: 20px 24px;
-}
-.home-hijri-preview h2,
-.home-hijri-preview .section-card h2 { border-color: rgba(255,255,255,0.2); color: #fff; }
-.hijri-preview-inner {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-.hijri-preview-icon {
-    font-size: 2.6rem;
-    flex-shrink: 0;
-    line-height: 1;
-}
-.hijri-preview-text { flex: 1; min-width: 120px; }
-.hijri-preview-label {
-    font-size: 0.83rem;
-    opacity: 0.82;
-    margin-bottom: 5px;
-}
-.hijri-preview-date {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--gold-light);
-    line-height: 1.2;
-}
-.btn-hijri-preview {
-    display: inline-block;
-    background: rgba(255,255,255,0.18);
-    color: #fff;
-    border: 1.5px solid rgba(255,255,255,0.45);
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.2s;
-    cursor: pointer;
-    font-family: inherit;
-}
-.btn-hijri-preview:hover { background: rgba(255,255,255,0.3); }
-
-/* شبكة الخدمات الإسلامية */
-.home-services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 4px;
-}
-.home-service-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 16px;
-    border-radius: 10px;
-    background: var(--bg);
-    text-decoration: none;
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: background 0.2s, transform 0.2s, border-color 0.2s;
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-}
-.home-service-item:hover {
-    background: #e6f4ec;
-    transform: translateY(-2px);
-    border-color: var(--primary-light);
-    color: var(--primary-dark);
-}
-.hs-icon { font-size: 1.25rem; flex-shrink: 0; }
-.hs-label { font-size: 0.88rem; }
-
-/* CTA تحويل التاريخ */
-.home-converter-cta {
-    background: linear-gradient(135deg, #0f3057 0%, #1b5e8a 100%);
-    color: #fff;
-    padding: 20px 24px;
-}
-.converter-cta-inner {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-.converter-cta-icon {
-    font-size: 2.4rem;
-    flex-shrink: 0;
-    line-height: 1;
-}
-.converter-cta-text { flex: 1; min-width: 120px; }
-.converter-cta-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-.converter-cta-sub {
-    font-size: 0.85rem;
-    opacity: 0.82;
-}
-.btn-converter-cta {
-    display: inline-block;
-    background: rgba(255,255,255,0.18);
-    color: #fff;
-    border: 1.5px solid rgba(255,255,255,0.45);
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.2s;
-    cursor: pointer;
-    font-family: inherit;
-}
-.btn-converter-cta:hover { background: rgba(255,255,255,0.3); }
-
 /* Responsive — البوابة الذكية */
 @media (max-width: 768px) {
-    .home-quick-access { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .home-services-grid { grid-template-columns: repeat(2, 1fr); }
-    .hijri-preview-inner { flex-direction: column; text-align: center; gap: 12px; }
-    .converter-cta-inner { flex-direction: column; text-align: center; gap: 12px; }
-    .btn-hijri-preview, .btn-converter-cta { width: 100%; text-align: center; }
-    .hijri-preview-date { font-size: 1.1rem; }
+    .home-quick-access .qa-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 @media (max-width: 480px) {
-    .home-quick-access { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .home-services-grid { grid-template-columns: repeat(2, 1fr); }
+    .home-quick-access .qa-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .qa-card { padding: 16px 8px 12px; }
     .qa-icon { font-size: 1.6rem; }
 }

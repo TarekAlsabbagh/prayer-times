@@ -1559,9 +1559,9 @@ html.city-page #city-about-section {
     visibility: hidden;
     min-height: 160px;
 }
-#city-country-info-section.cls-ready,
-#nearby-section.cls-ready,
-#city-about-section.cls-ready {
+html.city-page #city-country-info-section.cls-ready,
+html.city-page #nearby-section.cls-ready,
+html.city-page #city-about-section.cls-ready {
     visibility: visible;
     min-height: 0;
 }

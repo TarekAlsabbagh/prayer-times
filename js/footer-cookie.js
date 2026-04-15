@@ -67,6 +67,14 @@
         const reject    = tt('cookie.reject',     { ar:'رفض', en:'Reject', fr:'Refuser', tr:'Reddet', ur:'مسترد کریں' });
         const manage    = tt('cookie.manage',     { ar:'إدارة التفضيلات', en:'Manage preferences', fr:'Gérer les préférences', tr:'Tercihleri yönet', ur:'ترجیحات کا نظم' });
         const learn     = tt('cookie.learn_more', { ar:'اعرف المزيد', en:'Learn more', fr:'En savoir plus', tr:'Daha fazla', ur:'مزید جانیں' });
+        // SEO/A11y: aria-label وصفي بدل النصّ الفقير "Learn more"
+        const learnAria = tt('cookie.learn_more_aria', {
+            ar: 'اقرأ سياسة الخصوصية لمعرفة كيف نتعامل مع بياناتك',
+            en: 'Read our privacy policy to learn how we handle your data',
+            fr: 'Lire la politique de confidentialité pour savoir comment nous traitons vos données',
+            tr: 'Verilerinizi nasıl işlediğimizi öğrenmek için gizlilik politikamızı okuyun',
+            ur: 'ہماری پرائیویسی پالیسی پڑھیں تاکہ جانیں کہ ہم آپ کے ڈیٹا کو کیسے سنبھالتے ہیں'
+        });
         const privUrl   = isEn ? '/en/privacy' : '/privacy';
 
         const div = document.createElement('div');
@@ -74,7 +82,7 @@
         div.setAttribute('role', 'dialog');
         div.setAttribute('aria-label', tt('cookie.aria', { ar:'موافقة ملفات الارتباط', en:'Cookie consent', fr:'Consentement aux cookies', tr:'Çerez onayı', ur:'کوکیز کی رضامندی' }));
         div.innerHTML =
-            '<div class="cc-msg">' + msg + ' <a href="' + privUrl + '">' + learn + '</a></div>' +
+            '<div class="cc-msg">' + msg + ' <a href="' + privUrl + '" aria-label="' + learnAria + '">' + learn + '</a></div>' +
             '<div class="cc-actions">' +
                 '<button type="button" class="cc-btn cc-btn-secondary" data-cc="reject">' + reject + '</button>' +
                 '<button type="button" class="cc-btn cc-btn-secondary" data-cc="manage">' + manage + '</button>' +

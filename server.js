@@ -981,9 +981,10 @@ function buildSeoForPath(urlPath) {
     let title = isEn
         ? 'Prayer Times & Hijri Calendar — Qibla, Duas, Zakat'
         : 'مواقيت الصلاة والتاريخ الهجري | القبلة، الأدعية، الزكاة';
+    // Description ~150-160 حرف + keywords (`في`، `اليوم`، أسماء الصلوات الـ 5)
     let description = isEn
-        ? 'Accurate Islamic prayer times, Hijri calendar, Qibla direction, date converter, Zakat calculator, duas & athkar for every city worldwide.'
-        : 'مواقيت الصلاة الدقيقة، التاريخ الهجري، اتجاه القبلة، تحويل التاريخ، حاسبة الزكاة، الأدعية والأذكار لكل مدن العالم.';
+        ? 'Accurate daily prayer times today in cities worldwide: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar, date converter, Qibla direction, Zakat calculator, duas in one place.'
+        : 'مواقيت الصلاة اليوم في مدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التقويم الهجري، تحويل التاريخ، اتجاه القبلة، الأدعية وحاسبة الزكاة في تطبيق واحد.';
     let ogType = 'website';
     let geo = null;
     let prev = null, next = null, article = null;
@@ -991,15 +992,16 @@ function buildSeoForPath(urlPath) {
     let qiblaRef = null;         // Kaaba reference for /qibla-in-*
     let cityModified = null;     // dateModified for city pages
     // Localize homepage title/description for additional languages (fallback: AR)
+    // Descriptions موسَّعة ~150-160 حرف مع keywords (`aujourd'hui`/`bugün`/`آج`، أسماء الصلوات).
     if (lang === 'fr') {
         title = 'Heures de Prière & Calendrier Hégirien — Qibla, Douas, Zakat';
-        description = 'Heures de prière islamiques précises, calendrier hégirien, direction de la Qibla, convertisseur de date, calculateur de Zakat, douas et adhkar pour chaque ville.';
+        description = "Heures de prière aujourd'hui dans les villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien, convertisseur de date, Qibla, Zakat, douas en un seul endroit.";
     } else if (lang === 'tr') {
         title = 'Namaz Vakitleri ve Hicri Takvim — Kıble, Dualar, Zekat';
-        description = 'Hassas İslami namaz vakitleri, hicri takvim, kıble yönü, tarih dönüştürücü, zekat hesaplayıcı, dualar ve zikirler — her şehir için.';
+        description = 'Bugün dünya şehirleri için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim, tarih dönüştürücü, kıble yönü, zekât hesaplayıcı ve dualar tek uygulamada.';
     } else if (lang === 'ur') {
         title = 'اوقاتِ نماز اور ہجری کیلنڈر — قبلہ، دعائیں، زکوٰۃ';
-        description = 'دنیا بھر کے شہروں کے لیے درست اسلامی اوقاتِ نماز، ہجری کیلنڈر، سمتِ قبلہ، تاریخ کنورٹر، زکوٰۃ کیلکولیٹر، دعائیں و اذکار۔';
+        description = 'آج دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر، تاریخ کنورٹر، قبلہ کی سمت، زکاۃ کیلکولیٹر اور دعائیں — ایک ایپ میں۔';
     }
 
     const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم' };
@@ -1282,9 +1284,12 @@ function buildSeoForPath(urlPath) {
     // OG image URL (dynamic SVG endpoint)
     const ogImageUrl = `${origin}/og-image.svg?t=${encodeURIComponent(title)}&l=${lang}`;
 
+    // isHome: true when visiting language root (ar='/', en='/en/', fr='/fr/', ...)
+    const isHome = (corePath === '/');
+
     return {
         title, description, canonical, arUrl, enUrl, frUrl, trUrl, urUrl,
-        isEn, isRtl, lang, siteName,
+        isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, cityModified, origin
     };
@@ -1307,6 +1312,12 @@ function renderSeoHeadHtml(seo) {
     if (seo.trUrl) parts.push(`<link rel="alternate" hreflang="tr" href="${esc(seo.trUrl)}">`);
     if (seo.urUrl) parts.push(`<link rel="alternate" hreflang="ur" href="${esc(seo.urUrl)}">`);
     parts.push(`<link rel="alternate" hreflang="x-default" href="${esc(seo.arUrl)}">`);
+    // ضمان self-referential hreflang: إذا لم يكن URL اللغة الحالية = canonical (خلل build)،
+    // أضف alternate إضافي يشير للـ canonical (SEO best practice: كل صفحة يجب أن ترى نفسها في hreflang).
+    const _currentLangUrl = { ar: seo.arUrl, en: seo.enUrl, fr: seo.frUrl, tr: seo.trUrl, ur: seo.urUrl }[seo.lang];
+    if (_currentLangUrl && _currentLangUrl !== seo.canonical) {
+        parts.push(`<link rel="alternate" hreflang="${seo.lang}" href="${esc(seo.canonical)}">`);
+    }
     // OpenGraph
     parts.push(`<meta property="og:title" content="${esc(seo.title)}">`);
     parts.push(`<meta property="og:description" content="${esc(seo.description)}">`);
@@ -1353,15 +1364,39 @@ function renderSeoHeadHtml(seo) {
     const logoId  = `${seo.origin}/#logo`;
     const imageId = `${seo.ogImageUrl}#image`;
 
-    // Organization with logo + sameAs
+    // Organization with logo
     ssrGraph.push({
         "@type": "Organization",
         "@id": orgId,
         "name": seo.siteName,
+        "alternateName": "Prayer Times & Hijri Calendar",
         "url": seo.origin + '/',
-        "logo": { "@id": logoId }
-        // "sameAs": [...social links when available...]
+        "logo": { "@id": logoId },
+        "description": seo.description
+        // "sameAs": [...social profiles — to add when accounts ready...]
     });
+
+    // WebSite + SearchAction (sitelinks search box في SERP)
+    // فقط مرّة واحدة لكل site، نحقنها على الصفحة الرئيسية لكل لغة
+    if (seo.isHome) {
+        ssrGraph.push({
+            "@type": "WebSite",
+            "@id": `${seo.origin}/#website`,
+            "url": seo.origin + '/',
+            "name": seo.siteName,
+            "description": seo.description,
+            "inLanguage": seo.lang,
+            "publisher": { "@id": orgId },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": `${seo.origin}/prayer-times-in-{search_term_string}`
+                },
+                "query-input": "required name=search_term_string"
+            }
+        });
+    }
 
     // Organization logo — ImageObject
     ssrGraph.push({
@@ -1453,6 +1488,83 @@ function renderSeoHeadHtml(seo) {
         });
     }
 
+    // FAQPage — للصفحة الرئيسية فقط (rich results)
+    if (seo.isHome) {
+        const FAQ_I18N = {
+            ar: [
+                { q: 'كيف تُحسَب مواقيت الصلاة في هذا الموقع؟',
+                  a: 'يعتمد الموقع على طرق حساب فلكية معترف بها دولياً مثل رابطة العالم الإسلامي، أم القرى، الهيئة المصرية العامة للمساحة، وجامعة العلوم الإسلامية في كراتشي. يمكنك اختيار الطريقة المناسبة لمنطقتك من الإعدادات.' },
+                { q: 'هل مواقيت الصلاة دقيقة؟',
+                  a: 'نعم، تُحسَب المواقيت لحظياً بناءً على الإحداثيات الجغرافية (خط العرض والطول) والتوقيت المحلي والطريقة الحسابية المختارة، وتُطابق المواقع الرسمية للمدن الرئيسية.' },
+                { q: 'كيف أعرف اتجاه القبلة من موقعي؟',
+                  a: 'استخدم صفحة "اتجاه القبلة" — بعد السماح بالوصول لموقعك، ستُحدَّد درجة اتجاه الكعبة المشرفة من مكانك الحالي على بوصلة تفاعلية وخريطة.' },
+                { q: 'هل يدعم الموقع التقويم الهجري وتحويل التواريخ؟',
+                  a: 'نعم، يعتمد الموقع تقويم أم القرى الرسمي ويدعم تحويل التاريخ من الهجري إلى الميلادي والعكس من سنة 1 هـ إلى 1500 هـ.' },
+                { q: 'هل الموقع مجاني بالكامل؟',
+                  a: 'نعم، جميع الميزات مجانية: مواقيت الصلاة، القبلة، حاسبة الزكاة، الأدعية والأذكار، المسبحة الإلكترونية، والتقويم الهجري — بدون إعلانات تدخّلية ولا تسجيل.' }
+            ],
+            en: [
+                { q: 'How are prayer times calculated on this site?',
+                  a: 'We use internationally recognized calculation methods: Muslim World League, Umm al-Qura, Egyptian General Authority of Survey, University of Islamic Sciences Karachi, and more. You can pick the method matching your region from Settings.' },
+                { q: 'Are the prayer times accurate?',
+                  a: 'Yes. Times are computed in real-time from your geographic coordinates (lat/lng), local timezone, and the selected calculation method — matching official sources for major cities.' },
+                { q: 'How can I find the Qibla direction from my location?',
+                  a: 'Open the "Qibla" page — after allowing location access, we calculate the exact bearing to the Kaaba in Mecca and display it on an interactive compass and map.' },
+                { q: 'Does the site support the Hijri calendar and date conversion?',
+                  a: "Yes. We use the official Umm al-Qura calendar and support converting dates between Hijri and Gregorian for years 1–1500 AH." },
+                { q: 'Is the site completely free?',
+                  a: 'Yes. All features — prayer times, Qibla, Zakat calculator, duas & adhkar, digital tasbih, Hijri calendar — are free, with no intrusive ads and no signup required.' }
+            ],
+            fr: [
+                { q: 'Comment les heures de prière sont-elles calculées ?',
+                  a: "Nous utilisons des méthodes de calcul reconnues : Ligue Islamique Mondiale, Umm al-Qura, Autorité Égyptienne de Topographie, Université des Sciences Islamiques de Karachi, etc. Choisissez la méthode adaptée à votre région dans les paramètres." },
+                { q: 'Les heures de prière sont-elles précises ?',
+                  a: "Oui. Les heures sont calculées en temps réel à partir de vos coordonnées géographiques, du fuseau horaire local et de la méthode choisie — conformes aux sources officielles des grandes villes." },
+                { q: 'Comment trouver la direction de la Qibla depuis ma position ?',
+                  a: "Ouvrez la page « Qibla » — après autorisation de localisation, nous calculons le cap exact vers la Kaaba à La Mecque et l'affichons sur une boussole interactive." },
+                { q: 'Le site prend-il en charge le calendrier hégirien ?',
+                  a: "Oui. Nous utilisons le calendrier officiel Umm al-Qura et permettons la conversion entre dates hégiriennes et grégoriennes de l'an 1 à 1500 AH." },
+                { q: 'Le site est-il entièrement gratuit ?',
+                  a: "Oui. Toutes les fonctionnalités sont gratuites, sans publicités intrusives ni inscription requise." }
+            ],
+            tr: [
+                { q: 'Namaz vakitleri bu sitede nasıl hesaplanıyor?',
+                  a: "Uluslararası kabul görmüş hesaplama yöntemleri kullanıyoruz: Müslüman Dünya Birliği, Ümmü'l-Kura, Mısır Genel Topografya Kurumu, Karaçi İslami İlimler Üniversitesi. Bölgenize uygun yöntemi Ayarlar'dan seçebilirsiniz." },
+                { q: 'Namaz vakitleri doğru mu?',
+                  a: 'Evet. Vakitler, coğrafi koordinatlarınız, yerel saat diliminiz ve seçtiğiniz hesaplama yöntemine göre anlık olarak hesaplanır ve büyük şehirler için resmi kaynaklarla eşleşir.' },
+                { q: 'Konumumdan kıble yönünü nasıl bulabilirim?',
+                  a: '"Kıble" sayfasını açın — konum izni verdikten sonra Mekke\'deki Kâbe\'ye doğru tam yön açısını hesaplıyor ve etkileşimli pusulada gösteriyoruz.' },
+                { q: 'Site hicri takvimi ve tarih dönüştürmeyi destekliyor mu?',
+                  a: "Evet. Resmi Ümmü'l-Kura takvimini kullanıyor ve 1–1500 hicri yılları arası Hicri↔Miladi tarih dönüştürmeyi destekliyoruz." },
+                { q: 'Site tamamen ücretsiz mi?',
+                  a: 'Evet. Tüm özellikler — namaz vakitleri, kıble, zekât hesaplayıcı, dualar, tesbih, hicri takvim — rahatsız edici reklamlar ve üyelik gerektirmeden ücretsizdir.' }
+            ],
+            ur: [
+                { q: 'اس سائٹ پر اوقاتِ نماز کیسے حساب کیے جاتے ہیں؟',
+                  a: 'ہم بین الاقوامی طور پر تسلیم شدہ طریقے استعمال کرتے ہیں: مسلم ورلڈ لیگ، ام القریٰ، مصری جنرل اتھارٹی آف سروے، جامعہ علومِ اسلامیہ کراچی۔ آپ اپنے علاقے کے لیے مناسب طریقہ سیٹنگز سے منتخب کر سکتے ہیں۔' },
+                { q: 'کیا اوقاتِ نماز درست ہیں؟',
+                  a: 'جی ہاں۔ اوقات آپ کے جغرافیائی کوآرڈینیٹس، مقامی ٹائم زون اور منتخب طریقے کی بنیاد پر ریئل ٹائم میں حساب کیے جاتے ہیں اور بڑے شہروں کے سرکاری ذرائع سے مطابقت رکھتے ہیں۔' },
+                { q: 'میں اپنے مقام سے قبلہ کی سمت کیسے معلوم کروں؟',
+                  a: '"قبلہ" صفحہ کھولیں — مقام کی اجازت دینے کے بعد ہم آپ کی جگہ سے مکہ میں کعبہ کی طرف درست زاویہ حساب کرتے ہیں اور انٹرایکٹو کمپاس پر دکھاتے ہیں۔' },
+                { q: 'کیا سائٹ ہجری کیلنڈر اور تاریخ کنورٹ کرنے کو سپورٹ کرتی ہے؟',
+                  a: 'جی ہاں۔ ہم سرکاری ام القریٰ کیلنڈر استعمال کرتے ہیں اور 1 تا 1500 ہجری سال کے لیے ہجری↔عیسوی تاریخ کنورژن سپورٹ کرتے ہیں۔' },
+                { q: 'کیا سائٹ مکمل طور پر مفت ہے؟',
+                  a: 'جی ہاں۔ تمام خصوصیات — اوقاتِ نماز، قبلہ، زکاۃ کیلکولیٹر، دعائیں، تسبیح، ہجری کیلنڈر — بلا کسی مداخلت کار اشتہار یا سائن اپ کے مفت ہیں۔' }
+            ],
+        };
+        const faqs = FAQ_I18N[seo.lang] || FAQ_I18N.ar;
+        ssrGraph.push({
+            "@type": "FAQPage",
+            "@id": `${seo.canonical}#faq`,
+            "inLanguage": seo.lang,
+            "mainEntity": faqs.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": { "@type": "Answer", "text": f.a }
+            }))
+        });
+    }
+
     // Place (country) for country listing pages — /{country-slug}
     if (seo.countryListing) {
         ssrGraph.push({
@@ -1511,6 +1623,35 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     const cityMatchSsr = urlPath.replace(/^\/(?:en|fr|tr|ur)\//, '/')
                                 .replace(/\.html$/, '')
                                 .match(/^\/prayer-times-in-([a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+
+    // 5a) SSR لـ H1 — الـ crawler يرى H1 دلالياً قبل تنفيذ JS (يحلّ H1='--' placeholder)
+    {
+        const Lh = seo.lang;
+        let _h1Text;
+        if (cityMatchSsr) {
+            const cityDisplay = _slugToTitle(cityMatchSsr[1]);
+            _h1Text = {
+                ar: `مواقيت الصلاة في ${cityDisplay} اليوم`,
+                en: `Prayer Times in ${cityDisplay} Today`,
+                fr: `Heures de prière à ${cityDisplay} aujourd'hui`,
+                tr: `${cityDisplay} için bugünkü namaz vakitleri`,
+                ur: `آج ${cityDisplay} میں اوقاتِ نماز`,
+            }[Lh] || `Prayer times in ${cityDisplay}`;
+        } else {
+            _h1Text = {
+                ar: 'مواقيت الصلاة والتاريخ الهجري لكل مدن العالم',
+                en: 'Prayer Times & Hijri Calendar for Cities Worldwide',
+                fr: 'Heures de prière et calendrier Hégirien pour les villes du monde',
+                tr: 'Dünya Şehirleri için Namaz Vakitleri ve Hicri Takvim',
+                ur: 'دنیا کے شہروں کے لیے اوقاتِ نماز اور ہجری کیلنڈر',
+            }[Lh] || 'Prayer Times & Hijri Calendar';
+        }
+        html = html.replace(
+            /<h1 class="page-h1" id="page-h1">[^<]*<\/h1>/,
+            `<h1 class="page-h1" id="page-h1">${_escHtml(_h1Text)}</h1>`
+        );
+    }
+
     if (cityMatchSsr) {
         const cityDisplay = _slugToTitle(cityMatchSsr[1]);
         const L = seo.lang;
@@ -1558,6 +1699,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 `<div class="banner-date-greg" id="banner-greg-date">${_escHtml(gregDate)}</div>`
             );
         } catch(e) { /* toLocaleDateString fallback — تبقى "--" */ }
+    } else {
+        // 5b) SSR للصفحة الرئيسية (و URLs أخرى غير city): فقرات SEO حقيقية بدل الفارغة
+        //     يُزيل "Content thin" warning ويضيف keywords في HTML الأوّلي.
+        const Lh = seo.lang;
+        const homeL1 = {
+            ar: 'احسب مواقيت الصلاة الدقيقة — الفجر، الشروق، الظهر، العصر، المغرب، والعشاء — لأيّ مدينة في العالم باستخدام طرق الحساب الموثوقة (رابطة العالم الإسلامي، أم القرى، الهيئة المصرية العامة للمساحة، وغيرها).',
+            en: 'Get accurate daily prayer times — Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha — for any city worldwide using trusted calculation methods (Muslim World League, Umm al-Qura, Egyptian General Authority of Survey, and more).',
+            fr: "Obtenez les heures de prière précises — Fajr, Dhuhr, Asr, Maghrib, Isha — pour n'importe quelle ville du monde avec des méthodes de calcul fiables (Ligue Islamique Mondiale, Umm al-Qura, etc.).",
+            tr: 'Doğru günlük namaz vakitlerini — Fecir, Öğle, İkindi, Akşam ve Yatsı — dünyanın herhangi bir şehri için güvenilir hesaplama yöntemleriyle (Müslüman Dünya Birliği, Ümmü\'l-Kura) alın.',
+            ur: 'دنیا کے کسی بھی شہر کے لیے درست روزانہ اوقاتِ نماز — فجر، ظہر، عصر، مغرب، عشاء — قابلِ اعتماد حساب کے طریقوں (مسلم ورلڈ لیگ، ام القریٰ) سے حاصل کریں۔',
+        }[Lh] || '';
+        const homeL2 = {
+            ar: 'التقويم الهجري اليوم، تحويل التاريخ الهجري إلى الميلادي، اتجاه القبلة، حاسبة الزكاة، الأدعية والأذكار، والمسبحة الإلكترونية — كل ما يحتاجه المسلم في مكان واحد.',
+            en: 'Today\'s Hijri calendar, Hijri-to-Gregorian date converter, Qibla direction, Zakat calculator, Islamic duas & adhkar, and digital tasbih — everything a Muslim needs in one place.',
+            fr: 'Calendrier hégirien du jour, convertisseur de date Hégirien-Grégorien, direction de la Qibla, calculateur de Zakat, douas et adhkar, et tasbih numérique — tout en un seul endroit.',
+            tr: 'Bugünün Hicri takvimi, Hicri-Miladi tarih dönüştürücü, Kıble yönü, Zekât hesaplayıcı, dualar ve ezkâr, ve dijital tesbih — bir Müslümanın ihtiyacı olan her şey tek yerde.',
+            ur: 'آج کا ہجری کیلنڈر، ہجری سے عیسوی تاریخ کنورٹر، قبلہ کی سمت، زکاۃ کیلکولیٹر، دعائیں اور اذکار، اور ڈیجیٹل تسبیح — ایک مسلمان کی تمام ضروریات ایک جگہ۔',
+        }[Lh] || '';
+        if (homeL1) html = html.replace(
+            '<p class="seo-line" id="seo-line-1"></p>',
+            `<p class="seo-line" id="seo-line-1">${_escHtml(homeL1)}</p>`
+        );
+        if (homeL2) html = html.replace(
+            '<p class="seo-line" id="seo-line-2"></p>',
+            `<p class="seo-line" id="seo-line-2">${_escHtml(homeL2)}</p>`
+        );
     }
 
     const buf = Buffer.from(html, 'utf8');
@@ -1722,6 +1889,8 @@ const mimeTypes = {
     '.mp3':  'audio/mpeg',
     '.ogg':  'audio/ogg',
     '.wav':  'audio/wav',
+    '.txt':  'text/plain; charset=utf-8',
+    '.webmanifest': 'application/manifest+json',
 };
 
 // ===== بيانات ثابتة مدمجة للمدن الكبرى =====
@@ -2975,6 +3144,37 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'geolocation=(self), camera=(), microphone=(), payment=()');
+    // HSTS: 2 سنوات + includeSubDomains + preload (يحلّ "No HSTS" warning في Seobility/SEOptimer)
+    res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+    // CSP — يحمي من XSS ويرفع Security grade. القائمة تطابق المصادر الخارجية المستخدمة فعلياً.
+    // ملاحظة: 'unsafe-inline' ضروري للـ inline scripts الموجودة في index.html وللـ inline SSR CSS.
+    res.setHeader('Content-Security-Policy', [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' https://fonts.gstatic.com data:",
+        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org",
+        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org",
+        "media-src 'self' https://cdn.islamic.network",
+        "manifest-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "frame-ancestors 'self'",
+        "form-action 'self'",
+        "upgrade-insecure-requests"
+    ].join('; '));
+    res.setHeader('X-XSS-Protection', '0'); // modern browsers ignore — CSP أفضل
+
+    // 301 redirect: www.* → * (يُصلح duplicate content warning في SEO audits)
+    // ملاحظة: Render (*.onrender.com) ليس فيه www variant فالميدلوير خامل عملياً،
+    // لكنه ضروري لحظة ربط custom domain لاحقاً ويزيل warning من أدوات الفحص.
+    const _hostHdr = (req.headers.host || '').toLowerCase();
+    if (_hostHdr.startsWith('www.')) {
+        const _target = 'https://' + _hostHdr.slice(4) + req.url;
+        res.writeHead(301, { 'Location': _target, 'Cache-Control': 'public, max-age=31536000' });
+        res.end();
+        return;
+    }
 
     let urlPath = req.url.split('?')[0];
     const qs    = req.url.includes('?') ? req.url.split('?')[1] : '';

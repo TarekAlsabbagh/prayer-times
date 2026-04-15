@@ -6,13 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
     <meta name="description" content="مواقيت الصلاة، اتجاه القبلة، التقويم الهجري، حاسبة الزكاة، الأدعية والأذكار">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <!-- Theme + PWA meta — يحسّن Mobile Lighthouse + تجربة Add-to-Home-Screen -->
+    <meta name="theme-color" content="#1e5631">
+    <meta name="color-scheme" content="light">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="مواقيت الصلاة">
+    <meta name="format-detection" content="telephone=no">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=43">
+    <!-- DNS-prefetch لـ APIs يتم استدعاؤها حسب الطلب (أقل أولوية من preconnect، لا تستهلك موارد) -->
+    <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
+    <link rel="dns-prefetch" href="https://cdn.islamic.network">
+    <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
+    <link rel="preload" href="js/app.js?v=191" as="script">
+    <link rel="stylesheet" href="css/style.css?v=45">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -100,6 +116,10 @@
             <!-- ===== صفحة مواقيت الصلاة ===== -->
             <div class="page active" id="page-prayer-times">
 
+                <!-- H1 رئيسي للصفحة — يُستبدَل نصّه عبر SSR حسب الـ URL
+                     مرئي بصرياً بحجم صغير (SEO + A11y) -->
+                <h1 class="page-h1" id="page-h1">مواقيت الصلاة والتاريخ الهجري</h1>
+
                 <!-- ===== مسار التنقل (Breadcrumb) — يظهر فقط على صفحات /prayer-times-in-{city} ===== -->
                 <nav class="city-breadcrumb" id="city-breadcrumb" aria-label="مسار التنقل">
                     <ol class="breadcrumb-list">
@@ -120,7 +140,7 @@
                 </nav>
 
                 <!-- شريط اقتراح المدينة المكتشفة (يظهر فقط إذا تم الاكتشاف) -->
-                <div class="location-suggestion-bar" id="location-suggestion-bar" style="display:none;">
+                <div class="location-suggestion-bar u-hidden" id="location-suggestion-bar">
                     <div class="lsb-inner">
                         <span class="lsb-pin">📍</span>
                         <div class="lsb-text">
@@ -443,13 +463,13 @@
                 </div>
 
                 <!-- روابط ذات صلة — تظهر في صفحات المدن فقط (في الأسفل لتجنّب CLS) -->
-                <div class="section-card" id="city-related-services" style="display:none;">
+                <div class="section-card u-hidden" id="city-related-services">
                     <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
                     <div class="related-services-grid" id="related-services-grid"></div>
                 </div>
 
                 <!-- مدن الدولة (في الأسفل لتجنّب CLS) -->
-                <div class="section-card" id="country-cities-section" style="display:none;">
+                <div class="section-card u-hidden" id="country-cities-section">
                     <h2 id="country-cities-title">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
                     <div class="country-cities-grid" id="country-cities-grid"></div>
                     <div style="text-align:center; margin-top:16px;">
@@ -624,7 +644,7 @@
 
                 <!-- 1. Hero -->
                 <div class="section-card" style="text-align:center;">
-                    <h1 id="hijri-today-full" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:10px;">--</h1>
+                    <h2 id="hijri-today-full" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:10px;">--</h2>
                     <p id="hijri-today-greg" style="font-size:1rem;color:var(--text-light);margin-bottom:14px;">--</p>
                     <p id="hijri-today-desc" style="font-size:0.9rem;color:var(--text);line-height:1.8;max-width:600px;margin:0 auto;"></p>
                 </div>
@@ -695,7 +715,7 @@
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hday-breadcrumbs" aria-label="breadcrumb"></nav>
                 <!-- 1. Hero -->
                 <div class="section-card" style="text-align:center;">
-                    <h1 id="hday-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h1>
+                    <h2 id="hday-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h2>
                     <p id="hday-subtitle" style="font-size:1rem;color:var(--text-light);margin-bottom:16px;">--</p>
                     <p id="hday-intro" style="font-size:0.95rem;color:var(--text);line-height:1.8;max-width:640px;margin:0 auto;"></p>
                 </div>
@@ -753,7 +773,7 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hyear-breadcrumbs" aria-label="breadcrumb"></nav>
                 <div class="section-card" style="text-align:right;">
-                    <h1 id="hyear-title" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h1>
+                    <h2 id="hyear-title" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h2>
                     <p id="hyear-intro" style="font-size:0.9rem;color:var(--text);line-height:1.8;max-width:640px;"></p>
                     <div class="calendar-year-picker" style="margin-top:18px;">
                         <label for="hyear-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
@@ -811,7 +831,7 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hmonth-breadcrumbs" aria-label="breadcrumb"></nav>
                 <div class="section-card" style="text-align:center;">
-                    <h1 id="hmonth-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h1>
+                    <h2 id="hmonth-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h2>
                     <p id="hmonth-subtitle" style="font-size:0.95rem;color:var(--text-light);margin-bottom:10px;"></p>
                     <p id="hmonth-intro" style="font-size:0.95rem;color:var(--text);line-height:1.8;max-width:640px;margin:0 auto;"></p>
                 </div>
@@ -1159,7 +1179,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=190"></script>
+    <script defer src="js/app.js?v=191"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

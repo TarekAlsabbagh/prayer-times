@@ -3146,3 +3146,23 @@ html.city-page #city-related-services { display: block !important; }
     .cc-modal-actions { flex-direction: column-reverse; }
     .cc-modal-actions .cc-btn { width: 100%; }
 }
+
+/* ==========================================================================
+   H1 رئيسي للصفحة — ظاهر بصرياً بحجم صغير متناسق مع البانر (SEO + A11y)
+   ========================================================================== */
+.page-h1 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin: 0 0 10px;
+    padding: 0 4px;
+    line-height: 1.4;
+}
+html[dir="rtl"] .page-h1 { text-align: right; }
+html[dir="ltr"] .page-h1 { text-align: left; }
+
+/* Utility class يستبدل style="display:none" inline
+   NOTE: بدون !important — JS يستخدم element.style.display='block' لإظهار العناصر،
+   والـ inline style أولويته أعلى من class بدون !important (كما نريد). */
+.u-hidden { display: none; }
+

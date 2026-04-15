@@ -1,0 +1,23 @@
+# Prayer Times & Hijri Calendar
+
+> Accurate daily Islamic prayer times (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha),
+  Hijri calendar, Qibla direction, Zakat calculator, duas, and digital tasbih
+  for cities worldwide. Supports Arabic, English, French, Turkish, Urdu.
+
+## Main pages
+- [Home (Arabic)](https://prayer-times-d4w8.onrender.com/)
+- [Home (English)](https://prayer-times-d4w8.onrender.com/en/)
+- [Home (French)](https://prayer-times-d4w8.onrender.com/fr/)
+- [Home (Turkish)](https://prayer-times-d4w8.onrender.com/tr/)
+- [Home (Urdu)](https://prayer-times-d4w8.onrender.com/ur/)
+- [Sitemap](https://prayer-times-d4w8.onrender.com/sitemap.xml)
+
+## Features
+- Prayer times for any city via coordinates or search
+- Hijri to Gregorian (and Gregorian to Hijri) date converter
+- Qibla direction calculator with interactive compass
+- Zakat (Islamic alms) calculator
+- Collection of authentic duas and adhkar from Quran & Sunnah
+- Digital tasbih counter with session persistence
+- Moon phase tracking
+- Multi-language: ar, en, fr, tr, ur

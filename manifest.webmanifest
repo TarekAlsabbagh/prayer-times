@@ -1,0 +1,13 @@
+{
+  "name": "Prayer Times & Hijri Calendar",
+  "short_name": "Prayer Times",
+  "description": "Accurate prayer times, Hijri calendar, Qibla, Zakat, duas & tasbih for cities worldwide.",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "theme_color": "#1e5631",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}

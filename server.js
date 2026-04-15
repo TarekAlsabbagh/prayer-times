@@ -1720,13 +1720,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             tr: 'Bugün için Namaz Vakitleri ve Hicri Takvim ile Hicri-Miladi tarih dönüştürme, konumunuzdan kıble yönü, zekât hesaplayıcı, Kuran ve Sünnet\'ten sahih dualar ve ezkâr, ve dijital tesbih — tüm günlük Müslüman ihtiyaçları için tek uygulama.',
             ur: 'آج کے لیے اوقاتِ نماز اور ہجری کیلنڈر، ہجری-عیسوی تاریخ کی تبدیلی، آپ کے مقام سے قبلہ کی سمت، زکاۃ کیلکولیٹر، قرآن و سنت سے صحیح دعائیں، اور ڈیجیٹل تسبیح — ایک مسلمان کی تمام روزانہ ضروریات ایک جگہ۔',
         }[Lh] || '';
+        // NOTE: نُدرج <strong> حول العبارة المفتاحية في بداية كل فقرة
+        //       (Use keywords in important HTML tags). الفقرات static تُنشأ أعلاه،
+        //       لذا _escHtml لا يُستدعى على الـ tags نفسها.
+        const keyPhraseHtml = {
+            ar: '<strong>مواقيت الصلاة والتاريخ الهجري</strong>',
+            en: '<strong>Prayer Times and Hijri Calendar</strong>',
+            fr: '<strong>Heures de prière et calendrier Hégirien</strong>',
+            tr: '<strong>Namaz Vakitleri ve Hicri Takvim</strong>',
+            ur: '<strong>اوقاتِ نماز اور ہجری کیلنڈر</strong>',
+        }[Lh] || '';
+        function _wrapKey(text, key) {
+            if (!key || !text) return _escHtml(text);
+            const plainKey = key.replace(/<\/?strong>/g, '');
+            const idx = text.indexOf(plainKey);
+            if (idx < 0) return _escHtml(text);
+            const before = _escHtml(text.slice(0, idx));
+            const after  = _escHtml(text.slice(idx + plainKey.length));
+            return before + key + after;
+        }
         if (homeL1) html = html.replace(
             '<p class="seo-line" id="seo-line-1"></p>',
-            `<p class="seo-line" id="seo-line-1">${_escHtml(homeL1)}</p>`
+            `<p class="seo-line" id="seo-line-1">${_wrapKey(homeL1, keyPhraseHtml)}</p>`
         );
         if (homeL2) html = html.replace(
             '<p class="seo-line" id="seo-line-2"></p>',
-            `<p class="seo-line" id="seo-line-2">${_escHtml(homeL2)}</p>`
+            `<p class="seo-line" id="seo-line-2">${_wrapKey(homeL2, keyPhraseHtml)}</p>`
         );
     }
 

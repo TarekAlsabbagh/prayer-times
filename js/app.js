@@ -2132,20 +2132,32 @@ function _seoRemoveSchema(id) {
     if (el) el.remove();
 }
 
-// يُعطي الروابط المقابلة للغة الأخرى (للـ hreflang) + canonical
+// يُعطي الروابط المقابلة لكل لغة (للـ hreflang) + canonical
+// يدعم 5 لغات: ar (افتراضي بدون prefix)، en، fr، tr، ur
 function _seoGetBilingualUrls() {
     const origin = window.SITE_URL || window.location.origin;
     let path = window.location.pathname.replace(/\.html$/, '');
     if (path === '') path = '/';
-    const enMatch = path.match(/^\/en(\/.*)?$/);
-    const isEn = !!enMatch;
-    const arPath = isEn ? (enMatch[1] || '/') : path;
-    const enPath = isEn ? path : (path === '/' ? '/en/' : '/en' + path);
+    const LANGS = ['en', 'fr', 'tr', 'ur'];
+    let lang = 'ar';
+    let corePath = path;
+    for (const l of LANGS) {
+        const m = path.match(new RegExp('^\\/' + l + '(\\/.*)?$'));
+        if (m) { lang = l; corePath = m[1] || '/'; break; }
+    }
+    const langUrl = (l) => {
+        const prefix = (l === 'ar') ? '' : ('/' + l);
+        return origin + prefix + (corePath === '/' ? '/' : corePath);
+    };
     return {
-        ar: origin + arPath,
-        en: origin + enPath,
+        lang,
+        ar: langUrl('ar'),
+        en: langUrl('en'),
+        fr: langUrl('fr'),
+        tr: langUrl('tr'),
+        ur: langUrl('ur'),
         canonical: origin + path,
-        isEn
+        isEn: (lang === 'en') // للتوافق الخلفي
     };
 }
 
@@ -2156,9 +2168,16 @@ function _seoGetBilingualUrls() {
 function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGraph }) {
     if (window.location.protocol === 'file:') return; // لا SEO على ملف محلي
     const urls = _seoGetBilingualUrls();
-    const lang = urls.isEn ? 'en' : 'ar';
+    const lang = urls.lang;
     const origin = window.SITE_URL || window.location.origin;
-    const siteName = urls.isEn ? 'Prayer Times' : 'مواقيت الصلاة';
+    const SITE_NAMES = {
+        ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
+        tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز'
+    };
+    const OG_LOCALES = {
+        ar: 'ar_SA', en: 'en_US', fr: 'fr_FR', tr: 'tr_TR', ur: 'ur_PK'
+    };
+    const siteName = SITE_NAMES[lang] || SITE_NAMES.ar;
 
     if (title) document.title = title;
 
@@ -2169,10 +2188,13 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
     // Robots: افتراضياً index, follow (يمكن رفضه لاحقاً لصفحات معيّنة)
     _seoUpsertMeta('robots', 'name', 'index, follow');
 
-    // Canonical + hreflang
+    // Canonical + hreflang (5 لغات + x-default)
     _seoUpsertLink('canonical', urls.canonical);
     _seoUpsertLink('alternate', urls.ar, 'ar');
     _seoUpsertLink('alternate', urls.en, 'en');
+    _seoUpsertLink('alternate', urls.fr, 'fr');
+    _seoUpsertLink('alternate', urls.tr, 'tr');
+    _seoUpsertLink('alternate', urls.ur, 'ur');
     _seoUpsertLink('alternate', urls.ar, 'x-default');
 
     // OpenGraph
@@ -2181,8 +2203,17 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
     _seoUpsertMeta('og:url', 'property', urls.canonical);
     _seoUpsertMeta('og:type', 'property', ogType);
     _seoUpsertMeta('og:site_name', 'property', siteName);
-    _seoUpsertMeta('og:locale', 'property', lang === 'en' ? 'en_US' : 'ar_SA');
-    _seoUpsertMeta('og:locale:alternate', 'property', lang === 'en' ? 'ar_SA' : 'en_US');
+    _seoUpsertMeta('og:locale', 'property', OG_LOCALES[lang] || OG_LOCALES.ar);
+    // alternate locales: كل اللغات عدا الحالية
+    const altLocales = Object.entries(OG_LOCALES).filter(([l]) => l !== lang).map(([, loc]) => loc);
+    // إزالة ما قد يكون موجوداً سابقاً (fallback: عنصر واحد)
+    document.head.querySelectorAll('meta[property="og:locale:alternate"]').forEach(el => el.remove());
+    altLocales.forEach(loc => {
+        const el = document.createElement('meta');
+        el.setAttribute('property', 'og:locale:alternate');
+        el.setAttribute('content', loc);
+        document.head.appendChild(el);
+    });
     _seoUpsertMeta('og:image', 'property', `${origin}/favicon.ico`);
 
     // Twitter
@@ -2204,18 +2235,37 @@ function updatePageSEO() {
     if (window.location.protocol === 'file:') return;
     const path = window.location.pathname.replace(/\.html$/, '');
     const urls = _seoGetBilingualUrls();
+    const lang = urls.lang;
     const isEn = urls.isEn;
-    const lang = isEn ? 'en' : 'ar';
 
-    // ── الصفحة الرئيسية ──
-    if (path === '/' || path === '/en/' || path === '/en') {
+    // ── الصفحة الرئيسية (5 لغات: ar, en, fr, tr, ur) ──
+    const HOME_PATHS = {
+        '/': 'ar',
+        '/en/': 'en', '/en': 'en',
+        '/fr/': 'fr', '/fr': 'fr',
+        '/tr/': 'tr', '/tr': 'tr',
+        '/ur/': 'ur', '/ur': 'ur',
+    };
+    const homeLang = HOME_PATHS[path];
+    if (homeLang) {
+        // محاذاة نصوص SSR بالضبط (buildSeoForPath في server.js) — يشمل أسماء الصلوات الـ5
+        const HOME_TITLES = {
+            ar: 'مواقيت الصلاة والتاريخ الهجري | القبلة، الأدعية، الزكاة',
+            en: 'Prayer Times & Hijri Calendar — Qibla, Duas, Zakat',
+            fr: 'Heures de Prière & Calendrier Hégirien — Qibla, Douas, Zakat',
+            tr: 'Namaz Vakitleri ve Hicri Takvim — Kıble, Dualar, Zekat',
+            ur: 'اوقاتِ نماز اور ہجری کیلنڈر — قبلہ، دعائیں، زکوٰۃ',
+        };
+        const HOME_DESCS = {
+            ar: 'مواقيت الصلاة اليوم في مدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التقويم الهجري، تحويل التاريخ، اتجاه القبلة، الأدعية وحاسبة الزكاة في تطبيق واحد.',
+            en: 'Accurate daily prayer times today in cities worldwide: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar, date converter, Qibla direction, Zakat calculator, duas in one place.',
+            fr: "Heures de prière aujourd'hui dans les villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien, convertisseur de date, Qibla, Zakat, douas en un seul endroit.",
+            tr: 'Bugün dünya şehirleri için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim, tarih dönüştürücü, kıble yönü, zekât hesaplayıcı ve dualar tek uygulamada.',
+            ur: 'آج دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر، تاریخ کنورٹر، قبلہ کی سمت، زکاۃ کیلکولیٹر اور دعائیں — ایک ایپ میں۔',
+        };
         setSEOMeta({
-            title: isEn
-                ? 'Prayer Times & Hijri Calendar — Qibla, Duas, Zakat'
-                : 'مواقيت الصلاة والتاريخ الهجري | القبلة، الأدعية، الزكاة',
-            description: isEn
-                ? 'Accurate Islamic prayer times, Hijri calendar, Qibla direction, date converter, Zakat calculator, duas & athkar for every city worldwide.'
-                : 'مواقيت الصلاة الدقيقة، التاريخ الهجري، اتجاه القبلة، تحويل التاريخ، حاسبة الزكاة، الأدعية والأذكار لكل مدن العالم.',
+            title: HOME_TITLES[homeLang] || HOME_TITLES.ar,
+            description: HOME_DESCS[homeLang] || HOME_DESCS.ar,
             ogType: 'website'
         });
         return;

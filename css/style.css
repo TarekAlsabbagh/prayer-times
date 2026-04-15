@@ -461,6 +461,19 @@ button, input, select { font-family: inherit; }
     box-shadow: var(--shadow);
 }
 
+/* PERF: content-visibility يتخطّى layout/paint للأقسام خارج الشاشة → توفير ~50% من main-thread rendering.
+   contain-intrinsic-size يحجز المساحة فلا CLS. */
+#city-about-section,
+#faq-section,
+#city-related-services,
+#country-cities-section,
+#city-hijri-converter,
+#prayer-details-section,
+#city-hero-title + .section-card ~ .section-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
 .section-card h2 {
     font-size: 1.2rem;
     color: var(--primary-dark);

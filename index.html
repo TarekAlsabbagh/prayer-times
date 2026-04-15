@@ -469,27 +469,27 @@
                     </div>
                 </div>
 
-                <!-- روابط ذات صلة — تظهر في صفحات المدن فقط -->
-                <div class="section-card" id="city-related-services" style="display:none;">
-                    <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
-                    <div class="related-services-grid" id="related-services-grid"></div>
-                </div>
-
-                <!-- مدن الدولة -->
-                <div class="section-card" id="country-cities-section" style="display:none;">
-                    <h2 id="country-cities-title">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
-                    <div class="country-cities-grid" id="country-cities-grid"></div>
-                    <div style="text-align:center; margin-top:16px;">
-                        <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
-                    </div>
-                </div>
-
-                <!-- حديث يومي -->
+                <!-- حديث يومي (مرفوع فوق الأقسام الشرطية لتفادي CLS) -->
                 <div class="section-card">
                     <h2 data-i18n="hadith.title">📜 حديث اليوم</h2>
                     <div class="dua-item">
                         <div class="dua-text" id="daily-hadith" data-i18n="hadith.daily">عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "مَنْ صَلَّى عَلَيَّ صَلاَةً وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"</div>
                         <div class="dua-reference" data-i18n="hadith.reference">رواه مسلم</div>
+                    </div>
+                </div>
+
+                <!-- روابط ذات صلة — تظهر في صفحات المدن فقط (في الأسفل لتجنّب CLS) -->
+                <div class="section-card" id="city-related-services" style="display:none;">
+                    <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
+                    <div class="related-services-grid" id="related-services-grid"></div>
+                </div>
+
+                <!-- مدن الدولة (في الأسفل لتجنّب CLS) -->
+                <div class="section-card" id="country-cities-section" style="display:none;">
+                    <h2 id="country-cities-title">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
+                    <div class="country-cities-grid" id="country-cities-grid"></div>
+                    <div style="text-align:center; margin-top:16px;">
+                        <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
                     </div>
                 </div>
             </div>

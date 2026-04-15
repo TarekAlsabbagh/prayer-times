@@ -1703,19 +1703,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         // 5b) SSR للصفحة الرئيسية (و URLs أخرى غير city): فقرات SEO حقيقية بدل الفارغة
         //     يُزيل "Content thin" warning ويضيف keywords في HTML الأوّلي.
         const Lh = seo.lang;
+        // نصوص مقسَّمة لجمل قصيرة (~15-20 كلمة لكل جملة) + تحوي كلمات H1 (لكل/مدن/العالم/التاريخ الهجري)
         const homeL1 = {
-            ar: 'احسب مواقيت الصلاة الدقيقة — الفجر، الشروق، الظهر، العصر، المغرب، والعشاء — لأيّ مدينة في العالم باستخدام طرق الحساب الموثوقة (رابطة العالم الإسلامي، أم القرى، الهيئة المصرية العامة للمساحة، وغيرها).',
-            en: 'Get accurate daily prayer times — Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha — for any city worldwide using trusted calculation methods (Muslim World League, Umm al-Qura, Egyptian General Authority of Survey, and more).',
-            fr: "Obtenez les heures de prière précises — Fajr, Dhuhr, Asr, Maghrib, Isha — pour n'importe quelle ville du monde avec des méthodes de calcul fiables (Ligue Islamique Mondiale, Umm al-Qura, etc.).",
-            tr: 'Doğru günlük namaz vakitlerini — Fecir, Öğle, İkindi, Akşam ve Yatsı — dünyanın herhangi bir şehri için güvenilir hesaplama yöntemleriyle (Müslüman Dünya Birliği, Ümmü\'l-Kura) alın.',
-            ur: 'دنیا کے کسی بھی شہر کے لیے درست روزانہ اوقاتِ نماز — فجر، ظہر، عصر، مغرب، عشاء — قابلِ اعتماد حساب کے طریقوں (مسلم ورلڈ لیگ، ام القریٰ) سے حاصل کریں۔',
+            ar: 'مواقيت الصلاة الدقيقة لكل مدن العالم. احسب الفجر والشروق والظهر والعصر والمغرب والعشاء لمدينتك. يعتمد الموقع على طرق حساب موثوقة: رابطة العالم الإسلامي وأم القرى والهيئة المصرية وغيرها.',
+            en: 'Accurate prayer times for all cities worldwide. Calculate Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha for your location. We use trusted calculation methods: Muslim World League, Umm al-Qura, Egyptian General Authority and others.',
+            fr: "Heures de prière précises pour toutes les villes du monde. Calculez Fajr, Dhuhr, Asr, Maghrib et Isha pour votre ville. Nous utilisons des méthodes fiables : Ligue Islamique Mondiale, Umm al-Qura et autres.",
+            tr: 'Dünyanın tüm şehirleri için doğru namaz vakitleri. Şehriniz için Fecir, Öğle, İkindi, Akşam ve Yatsı vakitlerini hesaplayın. Güvenilir hesaplama yöntemleri kullanırız: Müslüman Dünya Birliği ve Ümmü\'l-Kura.',
+            ur: 'دنیا کے تمام شہروں کے لیے درست اوقاتِ نماز۔ اپنے شہر کے لیے فجر، ظہر، عصر، مغرب اور عشاء حساب کریں۔ ہم قابلِ اعتماد طریقے استعمال کرتے ہیں: مسلم ورلڈ لیگ اور ام القریٰ۔',
         }[Lh] || '';
         const homeL2 = {
-            ar: 'التقويم الهجري اليوم، تحويل التاريخ الهجري إلى الميلادي، اتجاه القبلة، حاسبة الزكاة، الأدعية والأذكار، والمسبحة الإلكترونية — كل ما يحتاجه المسلم في مكان واحد.',
-            en: 'Today\'s Hijri calendar, Hijri-to-Gregorian date converter, Qibla direction, Zakat calculator, Islamic duas & adhkar, and digital tasbih — everything a Muslim needs in one place.',
-            fr: 'Calendrier hégirien du jour, convertisseur de date Hégirien-Grégorien, direction de la Qibla, calculateur de Zakat, douas et adhkar, et tasbih numérique — tout en un seul endroit.',
-            tr: 'Bugünün Hicri takvimi, Hicri-Miladi tarih dönüştürücü, Kıble yönü, Zekât hesaplayıcı, dualar ve ezkâr, ve dijital tesbih — bir Müslümanın ihtiyacı olan her şey tek yerde.',
-            ur: 'آج کا ہجری کیلنڈر، ہجری سے عیسوی تاریخ کنورٹر، قبلہ کی سمت، زکاۃ کیلکولیٹر، دعائیں اور اذکار، اور ڈیجیٹل تسبیح — ایک مسلمان کی تمام ضروریات ایک جگہ۔',
+            ar: 'التقويم الهجري اليوم وتحويل التاريخ بين الهجري والميلادي. اتجاه القبلة من موقعك. حاسبة الزكاة للنقد والذهب والأسهم. الأدعية والأذكار الصحيحة من الكتاب والسنة. مسبحة إلكترونية لعدّ الذكر.',
+            en: "Today's Hijri calendar with two-way Hijri-Gregorian conversion. Qibla direction from your location. Zakat calculator for cash, gold and stocks. Authentic duas and adhkar from Quran and Sunnah. Digital tasbih counter for dhikr.",
+            fr: "Calendrier hégirien du jour avec conversion Hégirien-Grégorien. Direction de la Qibla depuis votre position. Calculateur de Zakat pour liquidités, or et actions. Douas et adhkar authentiques. Tasbih numérique pour le dhikr.",
+            tr: 'Bugünün Hicri takvimi ve iki yönlü Hicri-Miladi dönüştürme. Konumunuzdan kıble yönü. Nakit, altın ve hisse senetleri için zekât hesaplayıcı. Kuran ve Sünnet\'ten sahih dualar ve ezkâr. Zikir için dijital tesbih.',
+            ur: 'آج کا ہجری کیلنڈر اور دو طرفہ ہجری-عیسوی تبدیلی۔ آپ کے مقام سے قبلہ کی سمت۔ نقد، سونے اور اسٹاکس کے لیے زکاۃ کیلکولیٹر۔ قرآن و سنت سے صحیح دعائیں اور اذکار۔ ذکر کے لیے ڈیجیٹل تسبیح۔',
         }[Lh] || '';
         if (homeL1) html = html.replace(
             '<p class="seo-line" id="seo-line-1"></p>',
@@ -1725,6 +1726,74 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             '<p class="seo-line" id="seo-line-2"></p>',
             `<p class="seo-line" id="seo-line-2">${_escHtml(homeL2)}</p>`
         );
+    }
+
+    // 5c) SSR لترجمات قسم روابط الفوتر (للمدن الشائعة + الخدمات + المصادر + المشاركة)
+    //     يضمن أنّ الكراولر على /en/ /fr/ ... يرى نصوصاً بالـ locale الصحيح مباشرة
+    {
+        const Lf = seo.lang;
+        const footerI18n = {
+            ar: { pop:'🕌 مواقيت الصلاة في أبرز المدن', srv:'🧭 خدمات إسلامية أخرى',
+                  refs:'📚 مصادر ومراجع خارجية',
+                  refsText:'تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:',
+                  wikiText:'الصلاة على ويكيبيديا ↗',
+                  share:'🔗 شارك الموقع',
+                  l_hijri_today:'التاريخ الهجري اليوم', l_hijri_year:'التقويم الهجري 1447',
+                  l_date_conv:'تحويل التاريخ', l_tasbih:'المسبحة الإلكترونية',
+                  x:'تويتر/X', fb:'فيسبوك', wa:'واتساب', tg:'تلغرام' },
+            en: { pop:'🕌 Prayer Times in Major Cities', srv:'🧭 Other Islamic Services',
+                  refs:'📚 External References',
+                  refsText:'Learn more about Salah in Islam from an encyclopedic source:',
+                  wikiText:'Salah on Wikipedia ↗',
+                  share:'🔗 Share This Site',
+                  l_hijri_today:"Today's Hijri Date", l_hijri_year:'Hijri Calendar 1447',
+                  l_date_conv:'Date Converter', l_tasbih:'Digital Tasbih',
+                  x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
+            fr: { pop:'🕌 Heures de prière dans les grandes villes', srv:'🧭 Autres services islamiques',
+                  refs:'📚 Références externes',
+                  refsText:"Apprenez-en plus sur la Salat en Islam à partir d'une source encyclopédique :",
+                  wikiText:'Salat sur Wikipedia ↗',
+                  share:'🔗 Partager ce site',
+                  l_hijri_today:"Date Hijri d'aujourd'hui", l_hijri_year:'Calendrier Hijri 1447',
+                  l_date_conv:'Convertisseur de date', l_tasbih:'Tasbih numérique',
+                  x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
+            tr: { pop:'🕌 Büyük Şehirlerde Namaz Vakitleri', srv:'🧭 Diğer İslami Hizmetler',
+                  refs:'📚 Dış Kaynaklar',
+                  refsText:'İslam\'da namaz hakkında ansiklopedik bir kaynaktan daha fazla bilgi edinin:',
+                  wikiText:'Wikipedia\'da Namaz ↗',
+                  share:'🔗 Bu siteyi paylaş',
+                  l_hijri_today:'Bugünün Hicri Tarihi', l_hijri_year:'Hicri Takvim 1447',
+                  l_date_conv:'Tarih Dönüştürücü', l_tasbih:'Dijital Tesbih',
+                  x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
+            ur: { pop:'🕌 بڑے شہروں میں اوقاتِ نماز', srv:'🧭 دیگر اسلامی خدمات',
+                  refs:'📚 بیرونی حوالہ جات',
+                  refsText:'اسلام میں نماز کے بارے میں ایک انسائیکلوپیڈیا ذریعہ سے مزید جانیں:',
+                  wikiText:'نماز ویکیپیڈیا پر ↗',
+                  share:'🔗 سائٹ شیئر کریں',
+                  l_hijri_today:'آج کی ہجری تاریخ', l_hijri_year:'ہجری کیلنڈر 1447',
+                  l_date_conv:'تاریخ کنورٹر', l_tasbih:'ڈیجیٹل تسبیح',
+                  x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
+        };
+        const f = footerI18n[Lf] || footerI18n.ar;
+        html = html
+            .replace(/<h2 id="home-footer-links-title"[^>]*>[^<]*<\/h2>/,
+                `<h2 id="home-footer-links-title" data-i18n="footer.popular_cities">${_escHtml(f.pop)}</h2>`)
+            .replace(/<h3 class="home-footer-subtitle" data-i18n="footer\.services_title">[^<]*<\/h3>/,
+                `<h3 class="home-footer-subtitle" data-i18n="footer.services_title">${_escHtml(f.srv)}</h3>`)
+            .replace(/<h3 class="home-footer-subtitle" data-i18n="footer\.refs_title">[^<]*<\/h3>/,
+                `<h3 class="home-footer-subtitle" data-i18n="footer.refs_title">${_escHtml(f.refs)}</h3>`)
+            .replace(/<h3 class="home-footer-subtitle" data-i18n="footer\.share_title">[^<]*<\/h3>/,
+                `<h3 class="home-footer-subtitle" data-i18n="footer.share_title">${_escHtml(f.share)}</h3>`)
+            .replace(/<a href="\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
+                `<a href="/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
+            .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
+                `<a href="/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(f.l_hijri_year)}</a>`)
+            .replace(/<a href="\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
+                `<a href="/dateconverter" data-i18n="footer.link_date_converter">${_escHtml(f.l_date_conv)}</a>`)
+            .replace(/<a href="\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
+                `<a href="/msbaha" data-i18n="footer.link_tasbih">${_escHtml(f.l_tasbih)}</a>`)
+            .replace(/<p class="home-footer-refs"[\s\S]*?<\/p>/,
+                `<p class="home-footer-refs" data-i18n="footer.refs_text">${_escHtml(f.refsText)} <a href="https://ar.wikipedia.org/wiki/%D8%B5%D9%84%D8%A7%D8%A9" target="_blank" rel="noopener external">${_escHtml(f.wikiText)}</a></p>`);
     }
 
     const buf = Buffer.from(html, 'utf8');

@@ -27,8 +27,8 @@
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <link rel="dns-prefetch" href="https://cdn.islamic.network">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=191" as="script">
-    <link rel="stylesheet" href="css/style.css?v=45">
+    <link rel="preload" href="js/app.js?v=192" as="script">
+    <link rel="stylesheet" href="css/style.css?v=46">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -422,7 +422,7 @@
 
                 <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن (display عبر CSS) -->
                 <div class="section-card city-about-section" id="city-about-section">
-                    <h2 id="city-about-title"></h2>
+                    <h2 id="city-about-title">معلومات عن المدينة</h2>
                     <div class="city-about-body">
                         <p id="city-about-extract" class="city-about-extract"></p>
                         <a id="city-about-link" class="city-about-link" href="#" target="_blank" rel="noopener nofollow"></a>
@@ -476,6 +476,47 @@
                         <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
                     </div>
                 </div>
+
+                <!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->
+                <section class="section-card home-footer-links" id="home-footer-links" aria-labelledby="home-footer-links-title">
+                    <h2 id="home-footer-links-title" data-i18n="footer.popular_cities">🕌 مواقيت الصلاة في أبرز المدن</h2>
+                    <nav class="popular-cities-grid" aria-label="المدن الشائعة">
+                        <a href="/prayer-times-in-mecca">مكة المكرمة</a>
+                        <a href="/prayer-times-in-medina">المدينة المنورة</a>
+                        <a href="/prayer-times-in-riyadh">الرياض</a>
+                        <a href="/prayer-times-in-jeddah">جدة</a>
+                        <a href="/prayer-times-in-cairo">القاهرة</a>
+                        <a href="/prayer-times-in-istanbul">إسطنبول</a>
+                        <a href="/prayer-times-in-dubai">دبي</a>
+                        <a href="/prayer-times-in-amman">عمّان</a>
+                        <a href="/prayer-times-in-baghdad">بغداد</a>
+                        <a href="/prayer-times-in-damascus">دمشق</a>
+                        <a href="/prayer-times-in-casablanca">الدار البيضاء</a>
+                        <a href="/prayer-times-in-jerusalem">القدس</a>
+                    </nav>
+
+                    <h3 class="home-footer-subtitle" data-i18n="footer.services_title">🧭 خدمات إسلامية أخرى</h3>
+                    <nav class="home-services-links" aria-label="الخدمات الإسلامية">
+                        <a href="/today-hijri-date" data-i18n="footer.link_hijri_today">التاريخ الهجري اليوم</a>
+                        <a href="/hijri-calendar/1447" data-i18n="footer.link_hijri_year">التقويم الهجري 1447</a>
+                        <a href="/dateconverter" data-i18n="footer.link_date_converter">تحويل التاريخ</a>
+                        <a href="/msbaha" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</a>
+                    </nav>
+
+                    <h3 class="home-footer-subtitle" data-i18n="footer.refs_title">📚 مصادر ومراجع خارجية</h3>
+                    <p class="home-footer-refs" data-i18n="footer.refs_text">
+                        تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:
+                        <a href="https://ar.wikipedia.org/wiki/%D8%B5%D9%84%D8%A7%D8%A9" target="_blank" rel="noopener external">الصلاة على ويكيبيديا ↗</a>
+                    </p>
+
+                    <h3 class="home-footer-subtitle" data-i18n="footer.share_title">🔗 شارك الموقع</h3>
+                    <div class="home-share-buttons" role="group" aria-label="مشاركة الموقع">
+                        <a class="home-share-btn" id="share-twitter" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F&text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر تويتر/X">𝕏 <span data-i18n="footer.share_x">تويتر/X</span></a>
+                        <a class="home-share-btn" id="share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر فيسبوك">ⓕ <span data-i18n="footer.share_fb">فيسبوك</span></a>
+                        <a class="home-share-btn" id="share-whatsapp" href="https://api.whatsapp.com/send?text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A%20https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر واتساب">ⓦ <span data-i18n="footer.share_wa">واتساب</span></a>
+                        <a class="home-share-btn" id="share-telegram" href="https://t.me/share/url?url=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F&text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر تلغرام">✈ <span data-i18n="footer.share_tg">تلغرام</span></a>
+                    </div>
+                </section>
             </div>
 
             <!-- ===== صفحة اتجاه القبلة ===== -->
@@ -644,7 +685,7 @@
 
                 <!-- 1. Hero -->
                 <div class="section-card" style="text-align:center;">
-                    <h2 id="hijri-today-full" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:10px;">--</h2>
+                    <h2 id="hijri-today-full" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:10px;">التاريخ الهجري اليوم</h2>
                     <p id="hijri-today-greg" style="font-size:1rem;color:var(--text-light);margin-bottom:14px;">--</p>
                     <p id="hijri-today-desc" style="font-size:0.9rem;color:var(--text);line-height:1.8;max-width:600px;margin:0 auto;"></p>
                 </div>
@@ -661,7 +702,7 @@
 
                 <!-- 4. FAQ -->
                 <div class="section-card">
-                    <h2 id="hijri-today-faq-title">❓ أسئلة شائعة</h2>
+                    <h2 id="hijri-today-faq-title">❓ أسئلة عن التاريخ الهجري اليوم</h2>
                     <div id="hijri-today-faq"></div>
                 </div>
 
@@ -715,35 +756,35 @@
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hday-breadcrumbs" aria-label="breadcrumb"></nav>
                 <!-- 1. Hero -->
                 <div class="section-card" style="text-align:center;">
-                    <h2 id="hday-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h2>
+                    <h2 id="hday-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">تفاصيل اليوم الهجري</h2>
                     <p id="hday-subtitle" style="font-size:1rem;color:var(--text-light);margin-bottom:16px;">--</p>
                     <p id="hday-intro" style="font-size:0.95rem;color:var(--text);line-height:1.8;max-width:640px;margin:0 auto;"></p>
                 </div>
                 <!-- 2. Quick Info Cards -->
                 <div class="section-card">
-                    <h2>📋 معلومات اليوم</h2>
+                    <h2>📋 معلومات اليوم الهجري</h2>
                     <div class="info-grid" id="hday-info-grid"></div>
                 </div>
                 <!-- 3. Internal Links -->
                 <div class="section-card">
-                    <h2>🔗 روابط ذات صلة</h2>
+                    <h2>🔗 روابط مرتبطة بهذا اليوم</h2>
                     <div id="hday-links" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
                 </div>
                 <!-- 4. FAQ -->
                 <div class="section-card">
-                    <h2>❓ أسئلة شائعة</h2>
+                    <h2>❓ أسئلة عن اليوم الهجري</h2>
                     <div id="hday-faq"></div>
                 </div>
                 <!-- 5. OTD -->
                 <div class="section-card">
-                    <h2>📖 أبرز أحداث هذا اليوم في التاريخ الإسلامي</h2>
+                    <h2>📖 أحداث في هذا اليوم الهجري</h2>
                     <p id="hday-otd-subtitle" style="color:var(--text-light);font-size:0.95rem;margin:-4px 0 14px;"></p>
                     <div id="hday-otd-loading" style="text-align:center;padding:20px;color:var(--text-light);" data-i18n="loading.generic">جاري التحميل...</div>
                     <ul id="hday-otd-list" style="display:none;padding:0;margin:0;list-style:none;"></ul>
                 </div>
                 <!-- 6. Mini Calendar + Prev/Next Nav -->
                 <div class="section-card">
-                    <h2>📅 التنقل بين أيام الشهر</h2>
+                    <h2>📅 تنقل بين أيام الشهر الهجري</h2>
                     <div style="overflow-x:auto;">
                         <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
                             <thead>
@@ -759,7 +800,7 @@
                 </div>
                 <!-- 7. Other Months -->
                 <div class="section-card">
-                    <h2>🌙 أشهر هجرية أخرى</h2>
+                    <h2>🌙 تصفح شهور هجرية أخرى</h2>
                     <div id="hday-other-months" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
                 </div>
                 <!-- 8. Footer SEO -->
@@ -773,7 +814,7 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hyear-breadcrumbs" aria-label="breadcrumb"></nav>
                 <div class="section-card" style="text-align:right;">
-                    <h2 id="hyear-title" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h2>
+                    <h2 id="hyear-title" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">تقويم السنة الهجرية</h2>
                     <p id="hyear-intro" style="font-size:0.9rem;color:var(--text);line-height:1.8;max-width:640px;"></p>
                     <div class="calendar-year-picker" style="margin-top:18px;">
                         <label for="hyear-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
@@ -812,7 +853,7 @@
                 </div>
                 <!-- FAQ -->
                 <div class="section-card">
-                    <h2 id="hyear-faq-title">❓ أسئلة شائعة</h2>
+                    <h2 id="hyear-faq-title">❓ أسئلة عن السنة الهجرية</h2>
                     <div id="hyear-faq"></div>
                 </div>
                 <!-- SEO Text -->
@@ -831,16 +872,16 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hmonth-breadcrumbs" aria-label="breadcrumb"></nav>
                 <div class="section-card" style="text-align:center;">
-                    <h2 id="hmonth-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">--</h2>
+                    <h2 id="hmonth-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">تقويم الشهر الهجري</h2>
                     <p id="hmonth-subtitle" style="font-size:0.95rem;color:var(--text-light);margin-bottom:10px;"></p>
                     <p id="hmonth-intro" style="font-size:0.95rem;color:var(--text);line-height:1.8;max-width:640px;margin:0 auto;"></p>
                 </div>
                 <div class="section-card">
-                    <h2>📋 معلومات الشهر</h2>
+                    <h2>📋 معلومات الشهر الهجري</h2>
                     <div class="info-grid" id="hmonth-info-grid"></div>
                 </div>
                 <div class="section-card">
-                    <h2>📅 أيام الشهر</h2>
+                    <h2>📅 أيام هذا الشهر الهجري</h2>
                     <p id="hmonth-days-summary" style="font-size:0.95rem;color:var(--primary);font-weight:600;margin-bottom:12px;"></p>
                     <div style="overflow-x:auto;">
                         <table style="width:100%;border-collapse:collapse;" id="hmonth-table">
@@ -855,11 +896,11 @@
                     </div>
                 </div>
                 <div class="section-card">
-                    <h2>🔗 روابط ذات صلة</h2>
+                    <h2>🔗 روابط مرتبطة بهذا الشهر</h2>
                     <div id="hmonth-links" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-other-months-title">🌙 أشهر هجرية أخرى</h2>
+                    <h2 id="hmonth-other-months-title">🌙 شهور أخرى من السنة الهجرية</h2>
                     <div id="hmonth-other-months" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
                 </div>
                 <div class="section-card">
@@ -962,7 +1003,7 @@
                     </div>
                     <div class="calendar-header">
                         <button class="btn btn-outline" onclick="changeCalendarMonth(-1)" data-i18n="calendar.prev">→ السابق</button>
-                        <h3 id="calendar-title">--</h3>
+                        <h3 id="calendar-title">التقويم الشهري الهجري</h3>
                         <button class="btn btn-outline" onclick="changeCalendarMonth(1)" data-i18n="calendar.next">التالي ←</button>
                     </div>
                     <table class="calendar-table">
@@ -989,7 +1030,7 @@
                     <div class="dua-categories" id="dua-categories"></div>
                 </div>
                 <div class="section-card" id="dua-list-section" style="display:none;">
-                    <h2 id="dua-list-title">--</h2>
+                    <h2 id="dua-list-title">قائمة الأدعية والأذكار</h2>
                     <div class="dua-list" id="dua-list"></div>
                 </div>
             </div>
@@ -1179,7 +1220,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=191"></script>
+    <script defer src="js/app.js?v=192"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -3166,3 +3166,85 @@ html[dir="ltr"] .page-h1 { text-align: left; }
    والـ inline style أولويته أعلى من class بدون !important (كما نريد). */
 .u-hidden { display: none; }
 
+/* ==========================================================================
+   روابط داخلية/خارجية + مشاركة في أسفل الصفحة الرئيسية (SEO + Navigation)
+   ========================================================================== */
+.home-footer-links { margin-top: 18px; }
+.home-footer-links h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0 0 14px;
+}
+.home-footer-subtitle {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 20px 0 10px;
+}
+.popular-cities-grid,
+.home-services-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+.popular-cities-grid a,
+.home-services-links a {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--bg-muted, #f5f7f5);
+    color: var(--primary-dark);
+    border: 1px solid var(--border, #dfe6df);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: background .15s, border-color .15s;
+}
+.popular-cities-grid a:hover,
+.home-services-links a:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+.home-footer-refs {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin: 0;
+}
+.home-footer-refs a {
+    color: var(--primary-dark);
+    text-decoration: underline;
+    font-weight: 600;
+}
+.home-footer-refs a:hover { color: var(--primary); }
+.home-share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.home-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background .15s, transform .1s;
+}
+.home-share-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+#share-twitter { background: #000; }
+#share-twitter:hover { background: #222; }
+#share-facebook { background: #1877f2; }
+#share-facebook:hover { background: #1460c9; }
+#share-whatsapp { background: #25d366; }
+#share-whatsapp:hover { background: #1da851; }
+#share-telegram { background: #26a5e4; }
+#share-telegram:hover { background: #0e90d2; }
+

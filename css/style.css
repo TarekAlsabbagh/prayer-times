@@ -2150,7 +2150,8 @@ html.city-page #city-about-section.cls-ready {
     padding-bottom: 14px;
     border-bottom: 2px solid var(--border);
 }
-.settings-modal-header h3 {
+.settings-modal-header h3,
+.settings-modal-title {
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--primary-dark);

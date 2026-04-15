@@ -1639,12 +1639,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             }[Lh] || `Prayer times in ${cityDisplay}`;
         } else {
             _h1Text = {
-                ar: 'مواقيت الصلاة والتاريخ الهجري لكل مدن العالم',
-                en: 'Prayer Times & Hijri Calendar for Cities Worldwide',
-                fr: 'Heures de prière et calendrier Hégirien pour les villes du monde',
-                tr: 'Dünya Şehirleri için Namaz Vakitleri ve Hicri Takvim',
-                ur: 'دنیا کے شہروں کے لیے اوقاتِ نماز اور ہجری کیلنڈر',
-            }[Lh] || 'Prayer Times & Hijri Calendar';
+                ar: 'مواقيت الصلاة والتاريخ الهجري',
+                en: 'Prayer Times and Hijri Calendar',
+                fr: 'Heures de prière et calendrier Hégirien',
+                tr: 'Namaz Vakitleri ve Hicri Takvim',
+                ur: 'اوقاتِ نماز اور ہجری کیلنڈر',
+            }[Lh] || 'Prayer Times and Hijri Calendar';
         }
         html = html.replace(
             /<h1 class="page-h1" id="page-h1">[^<]*<\/h1>/,
@@ -1704,19 +1704,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         //     يُزيل "Content thin" warning ويضيف keywords في HTML الأوّلي.
         const Lh = seo.lang;
         // نصوص مقسَّمة لجمل قصيرة (~15-20 كلمة لكل جملة) + تحوي كلمات H1 (لكل/مدن/العالم/التاريخ الهجري)
+        // NOTE: كل فقرة تبدأ بالعبارة الكاملة للـ H1 "مواقيت الصلاة والتاريخ الهجري"
+        //       (exact phrase match) لإزالة warning "H1 keywords not in text".
         const homeL1 = {
-            ar: 'مواقيت الصلاة الدقيقة لكل مدن العالم. احسب الفجر والشروق والظهر والعصر والمغرب والعشاء لمدينتك. يعتمد الموقع على طرق حساب موثوقة: رابطة العالم الإسلامي وأم القرى والهيئة المصرية وغيرها.',
-            en: 'Accurate prayer times for all cities worldwide. Calculate Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha for your location. We use trusted calculation methods: Muslim World League, Umm al-Qura, Egyptian General Authority and others.',
-            fr: "Heures de prière précises pour toutes les villes du monde. Calculez Fajr, Dhuhr, Asr, Maghrib et Isha pour votre ville. Nous utilisons des méthodes fiables : Ligue Islamique Mondiale, Umm al-Qura et autres.",
-            tr: 'Dünyanın tüm şehirleri için doğru namaz vakitleri. Şehriniz için Fecir, Öğle, İkindi, Akşam ve Yatsı vakitlerini hesaplayın. Güvenilir hesaplama yöntemleri kullanırız: Müslüman Dünya Birliği ve Ümmü\'l-Kura.',
-            ur: 'دنیا کے تمام شہروں کے لیے درست اوقاتِ نماز۔ اپنے شہر کے لیے فجر، ظہر، عصر، مغرب اور عشاء حساب کریں۔ ہم قابلِ اعتماد طریقے استعمال کرتے ہیں: مسلم ورلڈ لیگ اور ام القریٰ۔',
+            ar: 'مواقيت الصلاة والتاريخ الهجري في متناول يدك — احسب مواقيت الصلاة الدقيقة (الفجر، الشروق، الظهر، العصر، المغرب، العشاء) لكل مدن العالم. يعتمد الموقع على طرق حساب موثوقة: رابطة العالم الإسلامي، أم القرى، الهيئة المصرية العامة وغيرها.',
+            en: 'Prayer Times and Hijri Calendar at your fingertips — calculate accurate prayer times (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) for any city worldwide. We use trusted calculation methods: Muslim World League, Umm al-Qura, Egyptian General Authority and more.',
+            fr: "Heures de prière et calendrier Hégirien à portée de main — calculez les heures de prière précises (Fajr, Dhuhr, Asr, Maghrib, Isha) pour toutes les villes du monde. Nous utilisons des méthodes fiables : Ligue Islamique Mondiale, Umm al-Qura et autres.",
+            tr: 'Namaz Vakitleri ve Hicri Takvim parmaklarınızın ucunda — dünyanın her şehri için doğru namaz vakitlerini (Fecir, Öğle, İkindi, Akşam, Yatsı) hesaplayın. Güvenilir yöntemler kullanırız: Müslüman Dünya Birliği, Ümmü\'l-Kura ve daha fazlası.',
+            ur: 'اوقاتِ نماز اور ہجری کیلنڈر آپ کی انگلیوں پر — دنیا کے کسی بھی شہر کے لیے درست اوقاتِ نماز (فجر، ظہر، عصر، مغرب، عشاء) حساب کریں۔ ہم قابلِ اعتماد طریقے استعمال کرتے ہیں: مسلم ورلڈ لیگ اور ام القریٰ۔',
         }[Lh] || '';
         const homeL2 = {
-            ar: 'التقويم الهجري اليوم وتحويل التاريخ بين الهجري والميلادي. اتجاه القبلة من موقعك. حاسبة الزكاة للنقد والذهب والأسهم. الأدعية والأذكار الصحيحة من الكتاب والسنة. مسبحة إلكترونية لعدّ الذكر.',
-            en: "Today's Hijri calendar with two-way Hijri-Gregorian conversion. Qibla direction from your location. Zakat calculator for cash, gold and stocks. Authentic duas and adhkar from Quran and Sunnah. Digital tasbih counter for dhikr.",
-            fr: "Calendrier hégirien du jour avec conversion Hégirien-Grégorien. Direction de la Qibla depuis votre position. Calculateur de Zakat pour liquidités, or et actions. Douas et adhkar authentiques. Tasbih numérique pour le dhikr.",
-            tr: 'Bugünün Hicri takvimi ve iki yönlü Hicri-Miladi dönüştürme. Konumunuzdan kıble yönü. Nakit, altın ve hisse senetleri için zekât hesaplayıcı. Kuran ve Sünnet\'ten sahih dualar ve ezkâr. Zikir için dijital tesbih.',
-            ur: 'آج کا ہجری کیلنڈر اور دو طرفہ ہجری-عیسوی تبدیلی۔ آپ کے مقام سے قبلہ کی سمت۔ نقد، سونے اور اسٹاکس کے لیے زکاۃ کیلکولیٹر۔ قرآن و سنت سے صحیح دعائیں اور اذکار۔ ذکر کے لیے ڈیجیٹل تسبیح۔',
+            ar: 'مواقيت الصلاة والتاريخ الهجري اليوم مع تحويل التاريخ بين الهجري والميلادي، اتجاه القبلة من موقعك، حاسبة الزكاة، الأدعية والأذكار الصحيحة من الكتاب والسنة، والمسبحة الإلكترونية — تطبيق واحد لكل احتياجات المسلم اليومية.',
+            en: 'Prayer Times and Hijri Calendar today with Hijri-Gregorian date conversion, Qibla direction from your location, Zakat calculator, authentic duas and adhkar from Quran and Sunnah, and a digital tasbih — one application for every daily Muslim need.',
+            fr: "Heures de prière et calendrier Hégirien d'aujourd'hui avec conversion Hégirien-Grégorien, direction de la Qibla depuis votre position, calculateur de Zakat, douas et adhkar authentiques, et un tasbih numérique — une seule application pour tous les besoins quotidiens.",
+            tr: 'Bugün için Namaz Vakitleri ve Hicri Takvim ile Hicri-Miladi tarih dönüştürme, konumunuzdan kıble yönü, zekât hesaplayıcı, Kuran ve Sünnet\'ten sahih dualar ve ezkâr, ve dijital tesbih — tüm günlük Müslüman ihtiyaçları için tek uygulama.',
+            ur: 'آج کے لیے اوقاتِ نماز اور ہجری کیلنڈر، ہجری-عیسوی تاریخ کی تبدیلی، آپ کے مقام سے قبلہ کی سمت، زکاۃ کیلکولیٹر، قرآن و سنت سے صحیح دعائیں، اور ڈیجیٹل تسبیح — ایک مسلمان کی تمام روزانہ ضروریات ایک جگہ۔',
         }[Lh] || '';
         if (homeL1) html = html.replace(
             '<p class="seo-line" id="seo-line-1"></p>',
@@ -1778,12 +1780,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         html = html
             .replace(/<h2 id="home-footer-links-title"[^>]*>[^<]*<\/h2>/,
                 `<h2 id="home-footer-links-title" data-i18n="footer.popular_cities">${_escHtml(f.pop)}</h2>`)
-            .replace(/<h3 class="home-footer-subtitle" data-i18n="footer\.services_title">[^<]*<\/h3>/,
-                `<h3 class="home-footer-subtitle" data-i18n="footer.services_title">${_escHtml(f.srv)}</h3>`)
-            .replace(/<h3 class="home-footer-subtitle" data-i18n="footer\.refs_title">[^<]*<\/h3>/,
-                `<h3 class="home-footer-subtitle" data-i18n="footer.refs_title">${_escHtml(f.refs)}</h3>`)
-            .replace(/<h3 class="home-footer-subtitle" data-i18n="footer\.share_title">[^<]*<\/h3>/,
-                `<h3 class="home-footer-subtitle" data-i18n="footer.share_title">${_escHtml(f.share)}</h3>`)
+            .replace(/<div class="home-footer-subtitle" data-i18n="footer\.services_title">[^<]*<\/div>/,
+                `<div class="home-footer-subtitle" data-i18n="footer.services_title">${_escHtml(f.srv)}</div>`)
+            .replace(/<div class="home-footer-subtitle" data-i18n="footer\.refs_title">[^<]*<\/div>/,
+                `<div class="home-footer-subtitle" data-i18n="footer.refs_title">${_escHtml(f.refs)}</div>`)
+            .replace(/<div class="home-footer-subtitle" data-i18n="footer\.share_title">[^<]*<\/div>/,
+                `<div class="home-footer-subtitle" data-i18n="footer.share_title">${_escHtml(f.share)}</div>`)
             .replace(/<a href="\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
                 `<a href="/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
             .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,

@@ -28,7 +28,7 @@
     <link rel="dns-prefetch" href="https://cdn.islamic.network">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <link rel="preload" href="js/app.js?v=192" as="script">
-    <link rel="stylesheet" href="css/style.css?v=47">
+    <link rel="stylesheet" href="css/style.css?v=48">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -495,7 +495,7 @@
                         <a href="/prayer-times-in-jerusalem">القدس</a>
                     </nav>
 
-                    <h3 class="home-footer-subtitle" data-i18n="footer.services_title">🧭 خدمات إسلامية أخرى</h3>
+                    <div class="home-footer-subtitle" data-i18n="footer.services_title">🧭 خدمات إسلامية أخرى</div>
                     <nav class="home-services-links" aria-label="الخدمات الإسلامية">
                         <a href="/today-hijri-date" data-i18n="footer.link_hijri_today">التاريخ الهجري اليوم</a>
                         <a href="/hijri-calendar/1447" data-i18n="footer.link_hijri_year">التقويم الهجري 1447</a>
@@ -503,13 +503,13 @@
                         <a href="/msbaha" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</a>
                     </nav>
 
-                    <h3 class="home-footer-subtitle" data-i18n="footer.refs_title">📚 مصادر ومراجع خارجية</h3>
+                    <div class="home-footer-subtitle" data-i18n="footer.refs_title">📚 مصادر ومراجع خارجية</div>
                     <p class="home-footer-refs" data-i18n="footer.refs_text">
                         تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:
                         <a href="https://ar.wikipedia.org/wiki/%D8%B5%D9%84%D8%A7%D8%A9" target="_blank" rel="noopener external">الصلاة على ويكيبيديا ↗</a>
                     </p>
 
-                    <h3 class="home-footer-subtitle" data-i18n="footer.share_title">🔗 شارك الموقع</h3>
+                    <div class="home-footer-subtitle" data-i18n="footer.share_title">🔗 شارك الموقع</div>
                     <div class="home-share-buttons" role="group" aria-label="مشاركة الموقع">
                         <a class="home-share-btn" id="share-twitter" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F&text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر تويتر/X"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg><span data-i18n="footer.share_x">تويتر/X</span></a>
                         <a class="home-share-btn" id="share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر فيسبوك"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span data-i18n="footer.share_fb">فيسبوك</span></a>
@@ -1147,7 +1147,7 @@
     <div class="settings-modal-overlay" id="settings-modal-overlay" onclick="onSettingsOverlayClick(event)">
         <div class="settings-modal-box" id="settings-panel">
             <div class="settings-modal-header">
-                <h3>⚙️ <span data-i18n="settings.title">إعدادات حساب المواقيت</span></h3>
+                <div class="settings-modal-title">⚙️ <span data-i18n="settings.title">إعدادات حساب المواقيت</span></div>
                 <button class="settings-modal-close" onclick="closeSettingsModal()" aria-label="إغلاق">✕</button>
             </div>
             <div class="settings-grid">

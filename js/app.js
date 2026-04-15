@@ -540,7 +540,15 @@ async function initApp() {
     // تحديث البيانات الأولية
     updateHijriToday();
     updateMoonInfo();
-    renderCalendar();
+    // PERF: تأجيل renderCalendar على الصفحات غير الهجرية (توفير 100-150ms من load)
+    const _onHijriCalPage = /\/(?:en\/)?hijri-calendar\//.test(window.location.pathname);
+    if (_onHijriCalPage) {
+        renderCalendar();
+    } else if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(() => renderCalendar(), { timeout: 3000 });
+    } else {
+        setTimeout(() => renderCalendar(), 800);
+    }
 
     // دعم SearchAction (?q=) على الصفحة الرئيسية
     handleHomeSearchQuery();
@@ -2597,33 +2605,31 @@ function populateScheduleSelects() {
     const yearEl  = document.getElementById('sched-year');
     if (!dayEl) return;
 
+    // PERF: تجميع HTML في نص ثم إسناد مرة واحدة — يُزيل ~50 layout reflow
     // أيام 1-30
-    dayEl.innerHTML = '';
-    for (let d = 1; d <= 30; d++) {
-        dayEl.innerHTML += `<option value="${d}">${d}</option>`;
-    }
+    let dayHtml = '';
+    for (let d = 1; d <= 30; d++) dayHtml += `<option value="${d}">${d}</option>`;
+    dayEl.innerHTML = dayHtml;
 
     // أشهر
-    monthEl.innerHTML = '';
     const months = type === 'hijri' ? HijriDate.hijriMonths : HijriDate.gregorianMonths;
-    months.forEach((m, i) => {
-        monthEl.innerHTML += `<option value="${i + 1}">${m}</option>`;
-    });
+    monthEl.innerHTML = months.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('');
 
     // سنوات
-    yearEl.innerHTML = '';
     if (type === 'hijri') {
         const hNow = HijriDate.toHijri(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate());
         const hSfxSel = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
-        for (let y = hNow.year - 2; y <= hNow.year + 5; y++) {
-            yearEl.innerHTML += `<option value="${y}">${y}${hSfxSel}</option>`;
-        }
+        let yHtml = '';
+        for (let y = hNow.year - 2; y <= hNow.year + 5; y++)
+            yHtml += `<option value="${y}">${y}${hSfxSel}</option>`;
+        yearEl.innerHTML = yHtml;
     } else {
         const cur = new Date().getFullYear();
         const gSfxSel = (typeof t === 'function') ? t('date.greg_suffix') : ' م';
-        for (let y = cur - 2; y <= cur + 5; y++) {
-            yearEl.innerHTML += `<option value="${y}">${y}${gSfxSel}</option>`;
-        }
+        let yHtml = '';
+        for (let y = cur - 2; y <= cur + 5; y++)
+            yHtml += `<option value="${y}">${y}${gSfxSel}</option>`;
+        yearEl.innerHTML = yHtml;
     }
 }
 
@@ -2693,19 +2699,19 @@ function populateRangeSelects() {
         const yearEl  = document.getElementById(`range-${prefix}-year`);
         if (!dayEl) return;
 
+        // PERF: تجميع HTML في نص ثم إسناد مرة واحدة
         // أيام 1-31
-        dayEl.innerHTML = '';
-        for (let d = 1; d <= 31; d++) dayEl.innerHTML += `<option value="${d}">${d}</option>`;
+        let dHtml = '';
+        for (let d = 1; d <= 31; d++) dHtml += `<option value="${d}">${d}</option>`;
+        dayEl.innerHTML = dHtml;
 
         // أشهر ميلادية
-        monthEl.innerHTML = '';
-        HijriDate.gregorianMonths.forEach((m, i) => {
-            monthEl.innerHTML += `<option value="${i + 1}">${m}</option>`;
-        });
+        monthEl.innerHTML = HijriDate.gregorianMonths.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('');
 
         // سنوات: السنة الحالية -1 حتى +5
-        yearEl.innerHTML = '';
-        for (let y = year - 1; y <= year + 5; y++) yearEl.innerHTML += `<option value="${y}">${y}</option>`;
+        let yHtml = '';
+        for (let y = year - 1; y <= year + 5; y++) yHtml += `<option value="${y}">${y}</option>`;
+        yearEl.innerHTML = yHtml;
     });
 
     // القيم الافتراضية: من اليوم — إلى اليوم + 6
@@ -3082,34 +3088,47 @@ function updateCountryCitiesSection() {
     if (!section) return;
 
     const code   = currentCountryCode;
-    const local  = CITIES_DB[code];
 
-    // 1) إذا عندنا بيانات محلية استخدمها فوراً
-    if (local && local.length > 0) {
-        renderCountryCities(local, code);
-        return;
-    }
-
-    // 2) جرّب الكاش في localStorage
-    try {
-        const raw = localStorage.getItem(`cities_v3_${code}`);
-        if (raw) {
-            const { cities } = JSON.parse(raw);
-            if (cities && cities.length > 0) { renderCountryCities(cities, code); return; }
+    // PERF: تأجيل render للقسم حتى يقترب من الـ viewport (توفير 50-100ms على load)
+    const _doFetchAndRender = () => {
+        const local = CITIES_DB[code];
+        // 1) إذا عندنا بيانات محلية استخدمها فوراً
+        if (local && local.length > 0) {
+            renderCountryCities(local, code);
+            return;
         }
-    } catch(e) {}
-
-    // 3) اجلب من API الخادم المحلي
-    section.style.display = 'none'; // أخفِ مؤقتاً حتى يصل الرد
-    fetch(`/api/cities?cc=${code}`)
-        .then(r => r.ok ? r.json() : null)
-        .then(cities => {
-            if (cities && cities.length > 0) {
-                try { localStorage.setItem(`cities_v3_${code}`, JSON.stringify({ ts: Date.now(), cities })); } catch(e) {}
-                renderCountryCities(cities, code);
+        // 2) جرّب الكاش في localStorage
+        try {
+            const raw = localStorage.getItem(`cities_v3_${code}`);
+            if (raw) {
+                const { cities } = JSON.parse(raw);
+                if (cities && cities.length > 0) { renderCountryCities(cities, code); return; }
             }
-        })
-        .catch(() => {});
+        } catch(e) {}
+        // 3) اجلب من API الخادم المحلي
+        section.style.display = 'none';
+        fetch(`/api/cities?cc=${code}`)
+            .then(r => r.ok ? r.json() : null)
+            .then(cities => {
+                if (cities && cities.length > 0) {
+                    try { localStorage.setItem(`cities_v3_${code}`, JSON.stringify({ ts: Date.now(), cities })); } catch(e) {}
+                    renderCountryCities(cities, code);
+                }
+            })
+            .catch(() => {});
+    };
+
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries, obs) => {
+            if (entries[0].isIntersecting) {
+                obs.disconnect();
+                _doFetchAndRender();
+            }
+        }, { rootMargin: '400px 0px' });
+        io.observe(section);
+    } else {
+        _doFetchAndRender();
+    }
 }
 
 // ========= صفحة جميع المدن =========

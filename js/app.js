@@ -1326,6 +1326,7 @@ async function loadCityAboutSection() {
     extractEl.textContent = t('cityabout.loading');
     linkEl.style.display  = 'none';
     section.style.display = 'block';
+    section.classList.add('cls-ready');
 
     // كاش في localStorage (7 أيام)
     const cacheKey = `wiki_city_${lang}_${cityName}`;
@@ -1375,6 +1376,7 @@ function _renderCityAbout(data, refs) {
         refs.linkEl.style.display = 'inline-block';
     }
     refs.section.style.display = 'block';
+    refs.section.classList.add('cls-ready');
 }
 
 // للتوافق مع الكود القديم - ينتقل للصفحة مباشرة
@@ -3932,6 +3934,8 @@ async function updateCityCountryInfo() {
     }
 
     section.style.display = 'block';
+    // CLS: على صفحات المدن البطاقة محجوزة مسبقاً (visibility:hidden) — نكشفها الآن
+    section.classList.add('cls-ready');
 }
 
 // ========= الأماكن القريبة =========
@@ -3940,6 +3944,7 @@ async function fetchNearbyPlaces(lat, lng) {
     const grid = document.getElementById('nearby-grid');
     grid.innerHTML = '<div style="padding:16px;color:var(--text-light)">⏳ جاري البحث عن أماكن قريبة...</div>';
     section.style.display = 'block';
+    section.classList.add('cls-ready');
 
     // ترجمة الأسماء الإنجليزية إلى العربية عبر MyMemory (مجاني)
     async function translateName(name) {

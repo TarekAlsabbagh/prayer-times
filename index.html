@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}</script>
+    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
@@ -11,7 +11,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=37">
+    <link rel="stylesheet" href="css/style.css?v=38">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -288,8 +288,8 @@
                     </button>
                 </div>
 
-                <!-- عداد السكان الحي -->
-                <div class="section-card" id="city-country-info-section" style="display:none;">
+                <!-- عداد السكان الحي (display يُدار عبر CSS: مخفي افتراضياً، محجوز على city-page) -->
+                <div class="section-card" id="city-country-info-section">
                     <div class="pop-counter-wrap">
                         <div class="pop-counter-label"><span data-i18n="pop.label">عدد سكان</span> <span id="pop-country-name"></span></div>
                         <div class="pop-number-row">
@@ -306,8 +306,8 @@
                     </div>
                 </div>
 
-                <!-- أماكن قريبة -->
-                <div class="section-card" id="nearby-section" style="display:none;">
+                <!-- أماكن قريبة (display يُدار عبر CSS) -->
+                <div class="section-card" id="nearby-section">
                     <h2 data-i18n="nearby.title">📍 أماكن قريبة من موقعك</h2>
                     <div class="nearby-grid" id="nearby-grid"></div>
                 </div>
@@ -435,8 +435,8 @@
                     <div id="schedule-pagination" style="display:none;"></div>
                 </div>
 
-                <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن -->
-                <div class="section-card city-about-section" id="city-about-section" style="display:none;">
+                <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن (display عبر CSS) -->
+                <div class="section-card city-about-section" id="city-about-section">
                     <h2 id="city-about-title"></h2>
                     <div class="city-about-body">
                         <p id="city-about-extract" class="city-about-extract"></p>
@@ -1193,7 +1193,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=184"></script>
+    <script defer src="js/app.js?v=185"></script>
     <script defer src="js/footer-cookie.js?v=1"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

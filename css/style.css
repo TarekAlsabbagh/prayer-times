@@ -1527,6 +1527,43 @@ button, input, select { font-family: inherit; }
     -webkit-overflow-scrolling: touch;
     border-radius: 10px;
     border: 1px solid var(--border, #e0e0e0);
+    /* CLS: احجز ارتفاع افتراضي لـ 7 صفوف قبل تعبئة JS حتى لا يتحرّك ما تحته */
+    min-height: 298px;
+}
+
+/* ============================================================
+   CLS FIX: حجز مساحة للأقسام الديناميكية على صفحات المدن فقط
+   يُفعَّل عبر class="city-page" على <html> (inline head script)
+   الإعداد:
+   - افتراضياً (homepage): مخفية display:none
+   - على city-page: محجوزة بـ visibility:hidden + min-height
+   - عند وصول البيانات: JS يضيف .cls-ready → تظهر بدون shift
+   ============================================================ */
+#city-country-info-section,
+#nearby-section,
+#city-about-section {
+    display: none;
+}
+html.city-page #city-country-info-section {
+    display: block;
+    visibility: hidden;
+    min-height: 140px;
+}
+html.city-page #nearby-section {
+    display: block;
+    visibility: hidden;
+    min-height: 120px;
+}
+html.city-page #city-about-section {
+    display: block;
+    visibility: hidden;
+    min-height: 160px;
+}
+#city-country-info-section.cls-ready,
+#nearby-section.cls-ready,
+#city-about-section.cls-ready {
+    visibility: visible;
+    min-height: 0;
 }
 .schedule-table {
     width: 100%;

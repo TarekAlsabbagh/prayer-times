@@ -802,9 +802,7 @@ function renderSeoHeadHtml(seo) {
     const parts = [];
     parts.push('<!-- SSR-SEO-START -->');
     parts.push(`<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">`);
-    // Performance: preconnect/dns-prefetch to Nominatim (used by client geocoding)
-    parts.push(`<link rel="preconnect" href="https://nominatim.openstreetmap.org" crossorigin>`);
-    parts.push(`<link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">`);
+    // NOTE: لا نضيف preconnect لـ nominatim — جميع طلبات الـ geocoding تمرّ عبر proxy محلي (/api/geocode)
     parts.push(`<link rel="canonical" href="${esc(seo.canonical)}">`);
     parts.push(`<link rel="alternate" hreflang="ar" href="${esc(seo.arUrl)}">`);
     parts.push(`<link rel="alternate" hreflang="en" href="${esc(seo.enUrl)}">`);

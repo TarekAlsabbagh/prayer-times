@@ -1522,6 +1522,28 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             '<p class="seo-line" id="seo-line-2"></p>',
             `<p class="seo-line" id="seo-line-2">${_escHtml(line2)}</p>`
         );
+
+        // SSR نصوص البانر المعروفة → يُزيل CLS الناتج عن استبدال "--" بالنصوص client-side.
+        // JS يُحدِّث التاريخ الميلادي لاحقاً حسب timezone المدينة.
+        html = html.replace(
+            '<span id="banner-city-name">--</span>',
+            `<span id="banner-city-name">${_escHtml(cityDisplay)}</span>`
+        );
+        html = html.replace(
+            '<a class="bc-link" href="#" id="bc-city">--</a>',
+            `<a class="bc-link" href="#" id="bc-city">${_escHtml(cityDisplay)}</a>`
+        );
+        try {
+            const localeMap = { ar: 'ar', en: 'en-US', fr: 'fr-FR', tr: 'tr-TR', ur: 'ur-PK' };
+            const gregDate = new Date().toLocaleDateString(
+                localeMap[L] || 'en-US',
+                { day: 'numeric', month: 'long', year: 'numeric' }
+            );
+            html = html.replace(
+                '<div class="banner-date-greg" id="banner-greg-date">--</div>',
+                `<div class="banner-date-greg" id="banner-greg-date">${_escHtml(gregDate)}</div>`
+            );
+        } catch(e) { /* toLocaleDateString fallback — تبقى "--" */ }
     }
 
     const buf = Buffer.from(html, 'utf8');

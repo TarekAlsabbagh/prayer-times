@@ -1333,6 +1333,8 @@ button, input, select { font-family: inherit; }
     align-items: center;
     justify-content: center;
     gap: 6px;
+    /* CLS FIX: ارتفاع محجوز حتى لا يتغيّر البانر عند استبدال "--" بالنصوص */
+    min-height: 148px;
 }
 
 .banner-divider {
@@ -1962,7 +1964,11 @@ html.city-page #city-about-section.cls-ready {
         max-width: 100%;
         box-sizing: border-box;
         min-width: 0;
+        /* CLS FIX: ارتفاع محجوز حتى لا يتغيّر حجم البانر عند استبدال "--" بالنصوص الفعلية */
+        min-height: 96px;
     }
+    .banner-block.banner-block-prayer { min-height: 132px; }
+    .banner-block.banner-block-dates  { min-height: 96px; }
     .banner-divider { width: 90%; height: 1px; margin: 0 auto; }
     .banner-big-time { font-size: 2.5rem; letter-spacing: 1px; }
     .banner-big-countdown { font-size: 2.8rem; letter-spacing: 1px; }

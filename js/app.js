@@ -5678,17 +5678,18 @@ function initDateConverter() {
         hSelect.appendChild(opt);
     });
 
-    // ملء الأشهر الشمسية
+    // ملء الأشهر الشمسية (الأبراج للعربية والأردو، الأسماء الفارسية لباقي اللغات)
     const sSelect = document.getElementById('conv-s-month');
     if (sSelect) {
-        const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
-        const sMonths = isEn ? _jalaliMonthsEn : _jalaliMonths;
-        sMonths.forEach((m, i) => {
+        const _tx = (k, fb) => ((typeof t === 'function') ? t(k) : fb);
+        for (let i = 0; i < 12; i++) {
+            const localized = _tx('jmonth.' + (i + 1), _jalaliMonths[i]);
             const opt = document.createElement('option');
             opt.value = i + 1;
-            opt.textContent = `${i + 1} - ${m} - ${_jalaliMonthsOriginal[i]}`;
+            // أظهر التسمية المترجمة + الاسم الفارسي الأصلي كمرجع ثابت
+            opt.textContent = `${i + 1} - ${localized} - ${_jalaliMonthsOriginal[i]}`;
             sSelect.appendChild(opt);
-        });
+        }
     }
 
     // تعيين التاريخ الحالي
@@ -5762,20 +5763,19 @@ function jalaliToGregorian(jy, jm, jd) {
 
 function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const isAr  = (_lang === 'ar');
+    const _t    = (k, fallback) => ((typeof t === 'function') ? t(k) : fallback);
     const gDate = new Date(gy, gm - 1, gd);
-    const dayNamesEn = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const dayName = isAr ? HijriDate.dayNames[gDate.getDay()] : dayNamesEn[gDate.getDay()];
 
-    const gMonthNamesEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const hSfx = isAr ? ' هـ' : ' AH';
-    const gSfx = isAr ? ' م'  : '';
-    const sSfx = isAr ? ' ش'  : ' SH';
-    const hMonths = isAr ? HijriDate.hijriMonths : HIJRI_MONTHS_EN;
-    const gMonths = isAr ? HijriDate.gregorianMonths : gMonthNamesEn;
-    const jMonths = isAr ? _jalaliMonths : _jalaliMonthsEn;
-    const yesTxt = isAr ? 'نعم ✓' : 'Yes ✓';
-    const noTxt  = isAr ? 'لا ✗'   : 'No ✗';
+    // أيام الأسبوع / الأشهر / اللواحق — كلها من i18n للغات الخمس
+    const dayName = _t('wday.' + gDate.getDay(), HijriDate.dayNames[gDate.getDay()]);
+    const hSfx    = _t('date.hijri_suffix', ' هـ');
+    const gSfx    = _t('date.greg_suffix',  ' م');
+    const sSfx    = _t('date.solar_suffix', ' ش');
+    const hMonths = Array.from({length:12}, (_, i) => _t('hmonth.' + (i+1), HijriDate.hijriMonths[i]));
+    const gMonths = Array.from({length:12}, (_, i) => _t('gmonth.' + (i+1), HijriDate.gregorianMonths[i]));
+    const jMonths = Array.from({length:12}, (_, i) => _t('jmonth.' + (i+1), _jalaliMonths[i]));
+    const yesTxt  = _t('converter.yes', 'نعم ✓');
+    const noTxt   = _t('converter.no',  'لا ✗');
 
     const hijriText  = `${dayName} ${hd} ${hMonths[hm - 1]} ${hy}${hSfx}`;
     const hijriNums  = `${hd}/${hm}/${hy}`;
@@ -5789,7 +5789,6 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     const solarText  = `${dayName} ${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year}${sSfx}`;
     const solarNums  = `${jalali.day}/${jalali.month}/${jalali.year}`;
 
-    const _t = (k, ar) => ((typeof t === 'function') ? t(k) : ar);
     const rows = [
         [_t('converter.label_hijri',        'التاريخ الهجري'),             hijriText],
         [_t('converter.label_hijri_nums',   'التاريخ الهجري بالأرقام'),    hijriNums],

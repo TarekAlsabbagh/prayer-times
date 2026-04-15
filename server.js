@@ -101,6 +101,8 @@ if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
 // عند الإقلاع، نحمّل أهم الملفات ونسختها المضغوطة إلى الذاكرة
 // فلا نقرأ القرص ولا نضغط gzip في كل طلب
 const _staticCache = new Map(); // fullPath → { data, gzipped, brotli }
+// CSS المُصغَّر يُحفظ كنص للـ inline في HTML (يُزيل render-blocking request)
+let _inlineCssText = '';
 const _preloadPaths = [
     'css/style.css',
     'js/app.js', 'js/i18n.js', 'js/footer-cookie.js',
@@ -129,7 +131,11 @@ async function _preloadStatic() {
                 } else if (ext === '.css') {
                     const src = data.toString('utf8');
                     const result = _cleanCss.minify(src);
-                    if (result && result.styles) data = Buffer.from(result.styles, 'utf8');
+                    if (result && result.styles) {
+                        data = Buffer.from(result.styles, 'utf8');
+                        // حفظ النص لاستخدامه inline في HTML
+                        if (rel === 'css/style.css') _inlineCssText = result.styles;
+                    }
                 }
             } catch (me) {
                 console.warn(`[Minify] Skipped ${rel}: ${me.message}`);
@@ -1492,6 +1498,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     const seoBlock = renderSeoHeadHtml(seo);
     html = html.replace('</head>', `${seoBlock}\n</head>`);
 
+    // 4.5) Inline CSS → يُزيل render-blocking request (توفير ~400ms على LCP)
+    if (_inlineCssText) {
+        html = html.replace(
+            /<link\s+rel="stylesheet"\s+href="css\/style\.css\?v=\d+"\s*\/?>/i,
+            `<style>${_inlineCssText}</style>`
+        );
+    }
+
     // 5) SSR نص #seo-line-1 و #seo-line-2 لصفحات المدن (LCP fix: -3.5s render delay)
     //    JS يستبدلها لاحقاً بالأوقات الفعلية. هذا placeholder ثابت يُقدَّم في HTML الأولي.
     const cityMatchSsr = urlPath.replace(/^\/(?:en|fr|tr|ur)\//, '/')
@@ -1552,7 +1566,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         'Cache-Control': 'no-cache',
         'Vary': 'Accept-Encoding'
     };
-    if (acceptEnc.includes('gzip')) {
+    if (acceptEnc.includes('br')) {
+        zlib.brotliCompress(buf, {
+            params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } // سرعة جيدة + ضغط عالي
+        }, (e, zbuf) => {
+            if (e) { res.writeHead(200, headers); res.end(buf); return; }
+            res.writeHead(200, { ...headers, 'Content-Encoding': 'br' });
+            res.end(zbuf);
+        });
+    } else if (acceptEnc.includes('gzip')) {
         zlib.gzip(buf, (e, zbuf) => {
             if (e) { res.writeHead(200, headers); res.end(buf); return; }
             res.writeHead(200, { ...headers, 'Content-Encoding': 'gzip' });

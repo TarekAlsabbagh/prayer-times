@@ -3089,7 +3089,9 @@ function updateCountryCitiesSection() {
 
     const code   = currentCountryCode;
 
-    // PERF: تأجيل render للقسم حتى يقترب من الـ viewport (توفير 50-100ms على load)
+    // PERF: تأجيل render قليلاً إلى idle time بدون منع الظهور
+    // (القسم يبدأ display:none في HTML — IntersectionObserver لا يعمل على عناصر display:none
+    //  لأن مقاسها 0×0. لذا نستخدم requestIdleCallback فقط.)
     const _doFetchAndRender = () => {
         const local = CITIES_DB[code];
         // 1) إذا عندنا بيانات محلية استخدمها فوراً
@@ -3118,16 +3120,10 @@ function updateCountryCitiesSection() {
             .catch(() => {});
     };
 
-    if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries, obs) => {
-            if (entries[0].isIntersecting) {
-                obs.disconnect();
-                _doFetchAndRender();
-            }
-        }, { rootMargin: '400px 0px' });
-        io.observe(section);
+    if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(_doFetchAndRender, { timeout: 1500 });
     } else {
-        _doFetchAndRender();
+        setTimeout(_doFetchAndRender, 300);
     }
 }
 

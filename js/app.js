@@ -177,9 +177,9 @@ function tasbihClick() {
 
     tasbihVibrate();
 
+    // PERF: RAF بدل offsetWidth لإعادة تشغيل الأنيميشن بدون forced reflow
     btn.classList.remove('pulse');
-    void btn.offsetWidth;
-    btn.classList.add('pulse');
+    requestAnimationFrame(() => requestAnimationFrame(() => btn.classList.add('pulse')));
 
     tasbihUpdateProgress();
 
@@ -282,9 +282,9 @@ function tasbihFreeClick() {
     document.getElementById('tasbih-free-total').textContent = tasbihFreeTotal;
     tasbihVibrate();
     const btn = document.getElementById('tasbih-free-btn');
+    // PERF: RAF بدل offsetWidth
     btn.classList.remove('pulse');
-    void btn.offsetWidth;
-    btn.classList.add('pulse');
+    requestAnimationFrame(() => requestAnimationFrame(() => btn.classList.add('pulse')));
 }
 
 /* تصفير العداد فقط */
@@ -3737,9 +3737,9 @@ let _lastPopInt = 0;
 function pulsePopDot() {
     const dot = document.getElementById('pop-live-dot');
     if (!dot) return;
+    // PERF: double RAF بدل offsetWidth لإعادة تشغيل الأنيميشن بدون forced reflow
     dot.classList.remove('pop-dot-pulse');
-    void dot.offsetWidth; // إعادة تشغيل الأنيميشن
-    dot.classList.add('pop-dot-pulse');
+    requestAnimationFrame(() => requestAnimationFrame(() => dot.classList.add('pop-dot-pulse')));
 }
 
 function startPopulationCounter(basePop, growthRate) {

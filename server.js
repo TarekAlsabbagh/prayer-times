@@ -3,6 +3,8 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 const zlib  = require('zlib');
+const Terser   = require('terser');
+const CleanCSS = require('clean-css');
 
 // ===== معالجات أخطاء العملية (تمنع السقوط الكلي عند خطأ واحد) =====
 process.on('uncaughtException', (err) => {
@@ -106,19 +108,45 @@ const _preloadPaths = [
     'index.html', 'prayer-times-cities.html', 'legal.html',
     'sw.js',
 ];
-for (const rel of _preloadPaths) {
-    try {
-        const full = path.join(ROOT, rel);
-        const data = fs.readFileSync(full);
-        let gzipped = null, brotli = null;
-        try { gzipped = zlib.gzipSync(data); } catch(e) {}
-        try { brotli = zlib.brotliCompressSync(data, {
-            params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } // أقصى ضغط — مرة واحدة عند الإقلاع فقط
-        }); } catch(e) {}
-        _staticCache.set(full, { data, gzipped, brotli });
-    } catch(e) { /* الملف قد لا يكون موجوداً، تجاهل */ }
+
+// Preload + minify + compress async (terser is Promise-based)
+// server.listen() awaits this via _preloadReady
+const _cleanCss = new CleanCSS({ returnPromise: false, level: 2 });
+async function _preloadStatic() {
+    const _t0 = Date.now();
+    let minSavings = 0;
+    for (const rel of _preloadPaths) {
+        try {
+            const full = path.join(ROOT, rel);
+            let data = fs.readFileSync(full);
+            const originalSize = data.length;
+            const ext = path.extname(rel).toLowerCase();
+            try {
+                if (ext === '.js') {
+                    const src = data.toString('utf8');
+                    const result = await Terser.minify(src, { compress: true, mangle: true });
+                    if (result && result.code) data = Buffer.from(result.code, 'utf8');
+                } else if (ext === '.css') {
+                    const src = data.toString('utf8');
+                    const result = _cleanCss.minify(src);
+                    if (result && result.styles) data = Buffer.from(result.styles, 'utf8');
+                }
+            } catch (me) {
+                console.warn(`[Minify] Skipped ${rel}: ${me.message}`);
+            }
+            minSavings += (originalSize - data.length);
+            let gzipped = null, brotli = null;
+            try { gzipped = zlib.gzipSync(data); } catch(e) {}
+            try { brotli = zlib.brotliCompressSync(data, {
+                params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } // أقصى ضغط — مرة واحدة عند الإقلاع فقط
+            }); } catch(e) {}
+            _staticCache.set(full, { data, gzipped, brotli });
+        } catch(e) { /* الملف قد لا يكون موجوداً، تجاهل */ }
+    }
+    const _dt = Date.now() - _t0;
+    console.log(`[Cache] Preloaded ${_staticCache.size} files in ${_dt}ms — minified (saved ${(minSavings/1024).toFixed(1)} KB) + gzip + brotli`);
 }
-console.log(`[Cache] Preloaded ${_staticCache.size} static files into memory (gzip + brotli)`);
+const _preloadReady = _preloadStatic();
 
 // مساعد يقرأ من الكاش أولاً، وإلا يعود للقرص
 // يُستخدم لتقديم index.html و prayer-times-cities.html بسرعة من الذاكرة
@@ -1463,6 +1491,38 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     // 4) حقن كتلة SEO قبل </head>
     const seoBlock = renderSeoHeadHtml(seo);
     html = html.replace('</head>', `${seoBlock}\n</head>`);
+
+    // 5) SSR نص #seo-line-1 و #seo-line-2 لصفحات المدن (LCP fix: -3.5s render delay)
+    //    JS يستبدلها لاحقاً بالأوقات الفعلية. هذا placeholder ثابت يُقدَّم في HTML الأولي.
+    const cityMatchSsr = urlPath.replace(/^\/(?:en|fr|tr|ur)\//, '/')
+                                .replace(/\.html$/, '')
+                                .match(/^\/prayer-times-in-([a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+    if (cityMatchSsr) {
+        const cityDisplay = _slugToTitle(cityMatchSsr[1]);
+        const L = seo.lang;
+        const line1 = {
+            ar: `مواقيت الصلاة في ${cityDisplay} — الجدول اليومي.`,
+            en: `Prayer times in ${cityDisplay} — today's schedule.`,
+            fr: `Heures de prière à ${cityDisplay} — horaire du jour.`,
+            tr: `${cityDisplay} için namaz vakitleri — bugünkü program.`,
+            ur: `${cityDisplay} میں اوقاتِ نماز — آج کا جدول۔`,
+        }[L] || `Prayer times in ${cityDisplay}.`;
+        const line2 = {
+            ar: `أوقات الصلاة اليوم في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء.`,
+            en: `Today's prayer times in ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha.`,
+            fr: `Heures de prière aujourd'hui à ${cityDisplay} : Fajr, Dhuhr, Asr, Maghrib, Isha.`,
+            tr: `Bugün ${cityDisplay} için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı.`,
+            ur: `آج ${cityDisplay} میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔`,
+        }[L] || `Today's prayer times in ${cityDisplay}.`;
+        html = html.replace(
+            '<p class="seo-line" id="seo-line-1"></p>',
+            `<p class="seo-line" id="seo-line-1">${_escHtml(line1)}</p>`
+        );
+        html = html.replace(
+            '<p class="seo-line" id="seo-line-2"></p>',
+            `<p class="seo-line" id="seo-line-2">${_escHtml(line2)}</p>`
+        );
+    }
 
     const buf = Buffer.from(html, 'utf8');
     const headers = {
@@ -3476,9 +3536,11 @@ const server = http.createServer(async (req, res) => {
     const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml'].includes(ext);
     const isVersioned  = req.url.includes('?v=');
     const isServiceWorker = urlPath === '/sw.js';
+    // ملفات وسائط ثابتة (أذان، أيقونات...) لا تتغير — 1 سنة
+    const isLongLivedAsset = ['.mp3', '.ogg', '.wav', '.ico', '.woff', '.woff2', '.ttf', '.eot'].includes(ext);
     const cacheControl = isServiceWorker
         ? 'no-cache, no-store, must-revalidate'
-        : isVersioned
+        : isVersioned || isLongLivedAsset
         ? 'public, max-age=31536000, immutable'
         : ext === '.html' ? 'no-cache' : 'public, max-age=86400';
 
@@ -3559,4 +3621,9 @@ const server = http.createServer(async (req, res) => {
     });
 });
 
-server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+_preloadReady.then(() => {
+    server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+}).catch(err => {
+    console.error('[FATAL] preload failed, starting anyway:', err);
+    server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+});

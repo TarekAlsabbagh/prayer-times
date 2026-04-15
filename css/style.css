@@ -2160,6 +2160,8 @@ html.city-page #city-about-section.cls-ready {
 .settings-fab-row {
     text-align: center;
     margin: -4px 0 20px;
+    /* CLS FIX: reservation حتى يُحمَّل data-i18n */
+    min-height: 44px;
 }
 .settings-fab-btn {
     display: inline-flex;
@@ -2196,7 +2198,8 @@ html.city-page #city-about-section.cls-ready {
     display: none;
 }
 
-.city-prayer-page #city-breadcrumb {
+.city-prayer-page #city-breadcrumb,
+html.city-page #city-breadcrumb {
     display: block;
     margin: 0 0 14px;
 }
@@ -2265,14 +2268,21 @@ html.city-page #city-about-section.cls-ready {
     .bc-sep { padding: 0 3px; }
 }
 
-/* صفحات /prayer-times-in-{city}: إخفاء البوابة الذكية */
+/* صفحات /prayer-times-in-{city}: إخفاء البوابة الذكية
+   CLS FIX: نستخدم html.city-page (يُطبَّق في inline head script قبل paint)
+   بدل body.city-prayer-page (يُطبَّق بعد DOMContentLoaded → يسبب CLS ضخم) */
 .city-prayer-page #home-quick-access,
 .city-prayer-page #home-hijri-preview,
 .city-prayer-page #home-services,
-.city-prayer-page #home-converter-cta { display: none !important; }
+.city-prayer-page #home-converter-cta,
+html.city-page #home-quick-access,
+html.city-page #home-hijri-preview,
+html.city-page #home-services,
+html.city-page #home-converter-cta { display: none !important; }
 
 /* إظهار روابط الخدمات ذات الصلة */
-.city-prayer-page #city-related-services { display: block !important; }
+.city-prayer-page #city-related-services,
+html.city-page #city-related-services { display: block !important; }
 
 /* شبكة الروابط ذات الصلة */
 .related-services-grid {

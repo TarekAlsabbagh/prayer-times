@@ -3228,7 +3228,7 @@ html[dir="ltr"] .page-h1 { text-align: left; }
 .home-share-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     padding: 8px 14px;
     background: var(--primary);
     color: #fff;
@@ -3237,8 +3237,15 @@ html[dir="ltr"] .page-h1 { text-align: left; }
     font-size: 0.9rem;
     font-weight: 600;
     transition: background .15s, transform .1s;
+    line-height: 1;
 }
 .home-share-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.home-share-btn .share-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: block;
+}
 #share-twitter { background: #000; }
 #share-twitter:hover { background: #222; }
 #share-facebook { background: #1877f2; }

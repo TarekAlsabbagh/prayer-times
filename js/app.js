@@ -528,31 +528,12 @@ async function initApp() {
     // عرض مكة المكرمة فوراً (البيانات الافتراضية جاهزة)
     const loadedFromURL = await initFromURL();
     if (!loadedFromURL) {
-        // محاولة تحميل آخر موقع مُكتشف من localStorage قبل عرض مكة (يتجنّب وميض مكة)
-        try {
-            const _lsb = localStorage.getItem('lsb_detected');
-            if (_lsb) {
-                const d = JSON.parse(_lsb);
-                if (d && d.lat && d.lng && (Date.now() - (d.ts || 0) < 30 * 24 * 3600 * 1000)) {
-                    currentLat                 = d.lat;
-                    currentLng                 = d.lng;
-                    currentCity                = d.arCity || d.enName || currentCity;
-                    currentCountry             = d.country || currentCountry;
-                    currentCountryCode         = d.countryCode || currentCountryCode;
-                    currentEnglishName         = d.enName || currentEnglishName;
-                    currentEnglishDisplayName  = d.enName || currentEnglishDisplayName;
-                    if (d.countryCode && typeof COUNTRY_EN_NAMES !== 'undefined' && COUNTRY_EN_NAMES[d.countryCode]) {
-                        currentEnglishCountry = COUNTRY_EN_NAMES[d.countryCode];
-                    }
-                }
-            }
-        } catch (e) {}
-
-        // أظهر الموقع المُحمَّل (أو مكة الافتراضية) فوراً
+        // الصفحة الرئيسية تعرض مكة دائماً كافتراضي — لا نستبدلها بموقع المستخدم المحفوظ
+        // موقع المستخدم (إن وُجد) يظهر فقط في شريط الاقتراح عبر checkSavedLocationSuggestion()
         updateCityDisplay();
         updatePrayerTimes();
         updateQibla();
-        // ثم اطلب الإذن للموقع الحقيقي على جميع الصفحات (يشمل تحويل التاريخ)
+        // اطلب الإذن للموقع الحقيقي — يستعمله detectLocation() لملء شريط الاقتراح فقط على الرئيسية
         detectLocation();
     }
 

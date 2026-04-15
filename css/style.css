@@ -3167,6 +3167,204 @@ html[dir="ltr"] .page-h1 { text-align: left; }
    والـ inline style أولويته أعلى من class بدون !important (كما نريد). */
 .u-hidden { display: none; }
 
+/* رسالة خطأ لمنتقي نطاق التاريخ (استبدال لـ style inline) */
+.range-error-msg {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* قائمة "أحداث في هذا اليوم" (ul) — استبدال لـ padding/margin/list-style inline */
+.otd-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* ==========================================================================
+   Utility classes + Hijri page section styles
+   (مستخرَجة من inline styles — Round 6)
+   ========================================================================== */
+
+/* Utilities */
+.u-center { text-align: center; }
+.u-muted { color: var(--text-light); font-size: 0.95rem; }
+.u-muted-sm { font-size: 0.9rem; color: var(--text-light); }
+.u-flex-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+.u-flex-wrap-top { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.u-flex-center { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.u-flex-btns { display: flex; gap: 12px; }
+
+/* جدول قابل للتمرير أفقياً في صفحات الهجري */
+.hpage-table-wrap { overflow-x: auto; }
+.hpage-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+.hpage-table thead tr {
+    background: var(--primary);
+    color: #fff;
+}
+.hpage-table th,
+.hpage-table td {
+    padding: 10px 14px;
+    text-align: center;
+}
+.hpage-table thead tr th:first-child { border-radius: 6px 0 0 0; }
+.hpage-table thead tr th:last-child  { border-radius: 0 6px 0 0; }
+html[dir="rtl"] .hpage-table thead tr th:first-child { border-radius: 0 6px 0 0; }
+html[dir="rtl"] .hpage-table thead tr th:last-child  { border-radius: 6px 0 0 0; }
+
+/* بطاقة Hero لصفحات الهجري (hday/hyear/hmonth/today-hijri-date) */
+.hpage-hero { text-align: center; }
+.hpage-hero-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+}
+.hpage-hero-title--lg {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+.hpage-hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 14px;
+}
+.hpage-hero-subtitle--tight {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+}
+.hpage-hero-intro {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.8;
+    max-width: 640px;
+    margin: 0 auto;
+}
+.hpage-hero-intro--narrow {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.hpage-footer-seo {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.9;
+}
+.hpage-footer-seo-note {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin: 0;
+}
+.hpage-intro-note {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin: -4px 0 14px;
+}
+.hpage-empty {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-light);
+}
+
+/* Nav buttons في صفحات الهجري */
+.hpage-nav-buttons {
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+/* variants إضافية */
+.hpage-hero-start { text-align: right; }
+html[dir="ltr"] .hpage-hero-start { text-align: left; }
+.hpage-hero-intro--start { max-width: 640px; margin: 0; }
+.hpage-year-picker { margin-top: 18px; }
+.hpage-hero-mini-sub {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+.hpage-seo-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 2;
+}
+.hpage-days-summary {
+    font-size: 0.95rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.hpage-months-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+/* Converter page utilities (صفحات تحويل التاريخ) */
+.btn-convert-full {
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
+}
+.converter-result-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Country cities section (زر عرض كل المدن) */
+.u-center-mt {
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* Zakat */
+.zakat-total-value {
+    font-size: 1.3rem;
+    margin: 8px 0;
+}
+.zakat-conditions-card {
+    margin-top: 20px;
+    background: var(--bg);
+}
+.zakat-conditions-heading {
+    border: none;
+    padding: 0;
+    margin-bottom: 8px;
+}
+.zakat-conditions-list {
+    padding-right: 20px;
+    line-height: 2.2;
+    color: var(--text-light);
+}
+html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
+
+/* Footer note */
+.footer-note {
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+}
+
+/* Adhan modal controls */
+.adhan-modal-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
 /* ==========================================================================
    روابط داخلية/خارجية + مشاركة في أسفل الصفحة الرئيسية (SEO + Navigation)
    ========================================================================== */

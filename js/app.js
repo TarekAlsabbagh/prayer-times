@@ -304,8 +304,8 @@ function tasbihFreeResetAll() {
 /* ---- تبديل الوضع ---- */
 function tasbihSwitchMode(mode) {
     tasbihMode = mode;
-    document.getElementById('tasbih-mode-auto').style.display = mode === 'auto' ? '' : 'none';
-    document.getElementById('tasbih-mode-free').style.display = mode === 'free' ? '' : 'none';
+    document.getElementById('tasbih-mode-auto').classList.toggle('u-hidden', mode !== 'auto');
+    document.getElementById('tasbih-mode-free').classList.toggle('u-hidden', mode !== 'free');
     document.getElementById('tab-auto').classList.toggle('active', mode === 'auto');
     document.getElementById('tab-free').classList.toggle('active', mode === 'free');
 }
@@ -2706,13 +2706,13 @@ function onDateTypeChange() {
     const rangePicker  = document.getElementById('range-date-picker');
 
     if (type === 'manual') {
-        if (singlePicker) singlePicker.style.display = 'none';
-        if (rangePicker)  rangePicker.style.display  = '';
+        if (singlePicker) singlePicker.classList.add('u-hidden');
+        if (rangePicker)  rangePicker.classList.remove('u-hidden');
         populateRangeSelects();
         onRangeDateChange();
     } else {
-        if (singlePicker) singlePicker.style.display = '';
-        if (rangePicker)  rangePicker.style.display  = 'none';
+        if (singlePicker) singlePicker.classList.remove('u-hidden');
+        if (rangePicker)  rangePicker.classList.add('u-hidden');
         hidePagination();
         populateScheduleSelects();
         setScheduleSelectsToToday();
@@ -2796,7 +2796,7 @@ function onRangeDateChange() {
     // التحقق: تاريخ النهاية يجب أن يكون بعد أو يساوي تاريخ البداية
     if (toDate < fromDate) {
         if (errorEl) {
-            errorEl.style.display = '';
+            errorEl.classList.remove('u-hidden');
             errorEl.textContent   = 'يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساوياً له';
         }
         const toYearEl = document.getElementById('range-to-year');
@@ -2808,13 +2808,13 @@ function onRangeDateChange() {
     const diffDays = Math.round((toDate - fromDate) / 86400000) + 1;
     if (diffDays > 365) {
         if (errorEl) {
-            errorEl.style.display = '';
+            errorEl.classList.remove('u-hidden');
             errorEl.textContent   = 'لا يمكن اختيار نطاق يتجاوز 365 يوماً';
         }
         return;
     }
 
-    if (errorEl) errorEl.style.display = 'none';
+    if (errorEl) errorEl.classList.add('u-hidden');
 
     // تخزين حالة النطاق والترقيم
     manualRangeStart  = fromDate;
@@ -2852,8 +2852,8 @@ function renderSchedulePagination(currentPage, totalPages) {
     const paginationEl = document.getElementById('schedule-pagination');
     if (!paginationEl) return;
 
-    if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
-    paginationEl.style.display = '';
+    if (totalPages <= 1) { paginationEl.classList.add('u-hidden'); return; }
+    paginationEl.classList.remove('u-hidden');
 
     const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
     const prevLabel = isRTL ? '→ السابق' : '← Prev';
@@ -2888,7 +2888,7 @@ function renderSchedulePagination(currentPage, totalPages) {
 
 function hidePagination() {
     const el = document.getElementById('schedule-pagination');
-    if (el) el.style.display = 'none';
+    if (el) el.classList.add('u-hidden');
 }
 
 function setScheduleDays(days, btn) {

@@ -27,8 +27,8 @@
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <link rel="dns-prefetch" href="https://cdn.islamic.network">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=193" as="script">
-    <link rel="stylesheet" href="css/style.css?v=48">
+    <link rel="preload" href="js/app.js?v=194" as="script">
+    <link rel="stylesheet" href="css/style.css?v=49">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -360,7 +360,7 @@
                             </div>
                         </div>
                         <!-- منتقي نطاق التاريخ (البحث اليدوي) -->
-                        <div id="range-date-picker" style="display:none;">
+                        <div id="range-date-picker" class="u-hidden">
                             <div class="range-row">
                                 <span class="range-label" data-i18n="schedule.from">من</span>
                                 <div class="date-selects-row">
@@ -395,7 +395,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="range-error" style="display:none; color:#e74c3c; font-size:0.85rem; margin-top:6px; text-align:center; font-weight:600;"></div>
+                            <div id="range-error" class="range-error-msg u-hidden"></div>
                         </div>
                     </div>
 
@@ -417,7 +417,7 @@
                         </table>
                     </div>
                     <!-- ترقيم الصفحات (البحث اليدوي فقط) -->
-                    <div id="schedule-pagination" style="display:none;"></div>
+                    <div id="schedule-pagination" class="u-hidden"></div>
                 </div>
 
                 <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن (display عبر CSS) -->
@@ -472,7 +472,7 @@
                 <div class="section-card u-hidden" id="country-cities-section">
                     <h2 id="country-cities-title">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
                     <div class="country-cities-grid" id="country-cities-grid"></div>
-                    <div style="text-align:center; margin-top:16px;">
+                    <div class="u-center-mt">
                         <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
                     </div>
                 </div>
@@ -544,7 +544,7 @@
                             🧭 <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
                         </button>
                     </div>
-                    <a id="qibla-back-btn" href="#" style="display:none" class="btn btn-outline qibla-back-btn">
+                    <a id="qibla-back-btn" href="#" class="btn btn-outline qibla-back-btn u-hidden">
                         🕐 <span id="qibla-back-label" data-i18n="qibla.back_to_prayer_times">العودة إلى مواقيت الصلاة</span>
                     </a>
                 </div>
@@ -656,16 +656,16 @@
                             <input type="number" id="zakat-debts" placeholder="0" oninput="calculateZakat()">
                         </div>
 
-                        <div class="zakat-result" id="zakat-result" style="display:none;">
+                        <div class="zakat-result u-hidden" id="zakat-result">
                             <div class="label" data-i18n="zakat.total">إجمالي الأموال الخاضعة للزكاة</div>
-                            <div id="zakat-total" style="font-size:1.3rem; margin:8px 0;">--</div>
+                            <div id="zakat-total" class="zakat-total-value">--</div>
                             <div class="label" data-i18n="zakat.amount">مبلغ الزكاة المستحق (2.5%)</div>
                             <div class="amount" id="zakat-amount">0</div>
                         </div>
 
-                        <div class="section-card" style="margin-top:20px; background: var(--bg);">
-                            <h2 style="border:none; padding:0; margin-bottom:8px;" data-i18n="zakat.conditions_title">📋 شروط وجوب الزكاة</h2>
-                            <ul style="padding-right:20px; line-height:2.2; color: var(--text-light);">
+                        <div class="section-card zakat-conditions-card">
+                            <h2 class="zakat-conditions-heading" data-i18n="zakat.conditions_title">📋 شروط وجوب الزكاة</h2>
+                            <ul class="zakat-conditions-list">
                                 <li data-i18n="zakat.cond1">بلوغ النصاب: ما يعادل 85 غراماً من الذهب أو 595 غراماً من الفضة</li>
                                 <li data-i18n="zakat.cond2">مرور حول كامل (سنة هجرية) على المال</li>
                                 <li data-i18n="zakat.cond3">أن يكون المال ملكاً تاماً لصاحبه</li>
@@ -684,10 +684,10 @@
                 <nav class="city-breadcrumb hijri-breadcrumb" id="htoday-breadcrumbs" aria-label="breadcrumb"></nav>
 
                 <!-- 1. Hero -->
-                <div class="section-card" style="text-align:center;">
-                    <h2 id="hijri-today-full" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:10px;">التاريخ الهجري اليوم</h2>
-                    <p id="hijri-today-greg" style="font-size:1rem;color:var(--text-light);margin-bottom:14px;">--</p>
-                    <p id="hijri-today-desc" style="font-size:0.9rem;color:var(--text);line-height:1.8;max-width:600px;margin:0 auto;"></p>
+                <div class="section-card hpage-hero">
+                    <h2 id="hijri-today-full" class="hpage-hero-title--lg">التاريخ الهجري اليوم</h2>
+                    <p id="hijri-today-greg" class="hpage-hero-subtitle">--</p>
+                    <p id="hijri-today-desc" class="hpage-hero-intro--narrow"></p>
                 </div>
 
                 <!-- 2. Quick Info Cards -->
@@ -697,7 +697,7 @@
 
                 <!-- 3. CTA Links -->
                 <div class="section-card">
-                    <div id="hijri-today-cta" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
+                    <div id="hijri-today-cta" class="u-flex-center"></div>
                 </div>
 
                 <!-- 4. FAQ -->
@@ -709,27 +709,27 @@
                 <!-- 5. OTD Events -->
                 <div class="section-card">
                     <h2 id="hijri-today-otd-title">📖 أبرز أحداث هذا اليوم في التاريخ الهجري</h2>
-                    <p id="wiki-otd-subtitle" style="color:var(--text-light);font-size:0.95rem;margin:-4px 0 14px;"></p>
+                    <p id="wiki-otd-subtitle" class="hpage-intro-note"></p>
                     <div id="wiki-otd-container">
-                        <div id="wiki-otd-loading" style="text-align:center;padding:20px;color:var(--text-light);" data-i18n="loading.generic">جاري التحميل...</div>
-                        <ul id="wiki-otd-list" style="display:none;padding:0;margin:0;list-style:none;"></ul>
+                        <div id="wiki-otd-loading" class="hpage-empty" data-i18n="loading.generic">جاري التحميل...</div>
+                        <ul id="wiki-otd-list" class="otd-list u-hidden"></ul>
                     </div>
                 </div>
 
                 <!-- 6. Prev / Next Navigation -->
                 <div class="section-card">
-                    <div id="hijri-today-nav" style="display:flex;gap:12px;"></div>
+                    <div id="hijri-today-nav" class="u-flex-btns"></div>
                 </div>
 
                 <!-- 7. Mini Calendar (3 rows only) -->
                 <div class="section-card">
                     <h2 id="hijri-today-mini-title">📅 التنقل السريع</h2>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+                    <div class="hpage-table-wrap">
+                        <table class="hpage-table">
                             <thead>
-                                <tr style="background:var(--primary);color:#fff;">
-                                    <th style="padding:10px 14px;text-align:center;" id="hijri-today-th-hijri">التاريخ الهجري</th>
-                                    <th style="padding:10px 14px;text-align:center;" id="hijri-today-th-greg">التاريخ الميلادي</th>
+                                <tr>
+                                    <th id="hijri-today-th-hijri">التاريخ الهجري</th>
+                                    <th id="hijri-today-th-greg">التاريخ الميلادي</th>
                                 </tr>
                             </thead>
                             <tbody id="hijri-today-mini-body"></tbody>
@@ -740,12 +740,12 @@
                 <!-- 8. Extra Links -->
                 <div class="section-card">
                     <h2 id="hijri-today-extra-title">🌙 روابط إضافية</h2>
-                    <div id="hijri-today-extra-links" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+                    <div id="hijri-today-extra-links" class="u-flex-wrap"></div>
                 </div>
 
                 <!-- 9. Footer SEO -->
                 <div class="section-card">
-                    <p id="hijri-today-footer-seo" style="font-size:0.88rem;color:var(--text-light);line-height:1.9;"></p>
+                    <p id="hijri-today-footer-seo" class="hpage-footer-seo"></p>
                 </div>
 
             </div>
@@ -755,10 +755,10 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hday-breadcrumbs" aria-label="breadcrumb"></nav>
                 <!-- 1. Hero -->
-                <div class="section-card" style="text-align:center;">
-                    <h2 id="hday-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">تفاصيل اليوم الهجري</h2>
-                    <p id="hday-subtitle" style="font-size:1rem;color:var(--text-light);margin-bottom:16px;">--</p>
-                    <p id="hday-intro" style="font-size:0.95rem;color:var(--text);line-height:1.8;max-width:640px;margin:0 auto;"></p>
+                <div class="section-card hpage-hero">
+                    <h2 id="hday-title" class="hpage-hero-title">تفاصيل اليوم الهجري</h2>
+                    <p id="hday-subtitle" class="hpage-hero-subtitle--tight">--</p>
+                    <p id="hday-intro" class="hpage-hero-intro"></p>
                 </div>
                 <!-- 2. Quick Info Cards -->
                 <div class="section-card">
@@ -768,7 +768,7 @@
                 <!-- 3. Internal Links -->
                 <div class="section-card">
                     <h2>🔗 روابط مرتبطة بهذا اليوم</h2>
-                    <div id="hday-links" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
+                    <div id="hday-links" class="u-flex-wrap-top"></div>
                 </div>
                 <!-- 4. FAQ -->
                 <div class="section-card">
@@ -778,34 +778,34 @@
                 <!-- 5. OTD -->
                 <div class="section-card">
                     <h2>📖 أحداث في هذا اليوم الهجري</h2>
-                    <p id="hday-otd-subtitle" style="color:var(--text-light);font-size:0.95rem;margin:-4px 0 14px;"></p>
-                    <div id="hday-otd-loading" style="text-align:center;padding:20px;color:var(--text-light);" data-i18n="loading.generic">جاري التحميل...</div>
-                    <ul id="hday-otd-list" style="display:none;padding:0;margin:0;list-style:none;"></ul>
+                    <p id="hday-otd-subtitle" class="hpage-intro-note"></p>
+                    <div id="hday-otd-loading" class="hpage-empty" data-i18n="loading.generic">جاري التحميل...</div>
+                    <ul id="hday-otd-list" class="otd-list u-hidden"></ul>
                 </div>
                 <!-- 6. Mini Calendar + Prev/Next Nav -->
                 <div class="section-card">
                     <h2>📅 تنقل بين أيام الشهر الهجري</h2>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+                    <div class="hpage-table-wrap">
+                        <table class="hpage-table">
                             <thead>
-                                <tr style="background:var(--primary);color:#fff;">
-                                    <th style="padding:10px 14px;text-align:center;border-radius:6px 0 0 0;">التاريخ الهجري</th>
-                                    <th style="padding:10px 14px;text-align:center;border-radius:0 6px 0 0;">التاريخ الميلادي</th>
+                                <tr>
+                                    <th>التاريخ الهجري</th>
+                                    <th>التاريخ الميلادي</th>
                                 </tr>
                             </thead>
                             <tbody id="hday-mini-cal"></tbody>
                         </table>
                     </div>
-                    <div style="display:flex;gap:12px;margin-top:16px;" id="hday-nav"></div>
+                    <div class="u-flex-btns hpage-nav-buttons" id="hday-nav"></div>
                 </div>
                 <!-- 7. Other Months -->
                 <div class="section-card">
                     <h2>🌙 تصفح شهور هجرية أخرى</h2>
-                    <div id="hday-other-months" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
+                    <div id="hday-other-months" class="u-flex-wrap-top"></div>
                 </div>
                 <!-- 8. Footer SEO -->
                 <div class="section-card">
-                    <p id="hday-footer-seo" style="font-size:0.9rem;color:var(--text-light);line-height:1.8;margin:0;"></p>
+                    <p id="hday-footer-seo" class="hpage-footer-seo-note"></p>
                 </div>
             </div>
 
@@ -813,10 +813,10 @@
             <div class="page" id="page-hijri-year">
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hyear-breadcrumbs" aria-label="breadcrumb"></nav>
-                <div class="section-card" style="text-align:right;">
-                    <h2 id="hyear-title" style="font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">تقويم السنة الهجرية</h2>
-                    <p id="hyear-intro" style="font-size:0.9rem;color:var(--text);line-height:1.8;max-width:640px;"></p>
-                    <div class="calendar-year-picker" style="margin-top:18px;">
+                <div class="section-card hpage-hero-start">
+                    <h2 id="hyear-title" class="hpage-hero-title--lg">تقويم السنة الهجرية</h2>
+                    <p id="hyear-intro" class="hpage-hero-intro hpage-hero-intro--start"></p>
+                    <div class="calendar-year-picker hpage-year-picker">
                         <label for="hyear-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
                         <select id="hyear-year-select" class="year-select" onchange="goToHijriYear(this.value)"></select>
                     </div>
@@ -828,14 +828,14 @@
                 <!-- Months Table -->
                 <div class="section-card">
                     <h2 id="hyear-table-title">🗓️ أشهر السنة الهجرية</h2>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+                    <div class="hpage-table-wrap">
+                        <table class="hpage-table">
                             <thead>
-                                <tr style="background:var(--primary);color:#fff;">
-                                    <th style="padding:10px 14px;text-align:center;" id="hyear-th-month">الشهر</th>
-                                    <th style="padding:10px 14px;text-align:center;" id="hyear-th-start">البداية (ميلادي)</th>
-                                    <th style="padding:10px 14px;text-align:center;" id="hyear-th-end">النهاية (ميلادي)</th>
-                                    <th style="padding:10px 14px;text-align:center;" id="hyear-th-days">الأيام</th>
+                                <tr>
+                                    <th id="hyear-th-month">الشهر</th>
+                                    <th id="hyear-th-start">البداية (ميلادي)</th>
+                                    <th id="hyear-th-end">النهاية (ميلادي)</th>
+                                    <th id="hyear-th-days">الأيام</th>
                                 </tr>
                             </thead>
                             <tbody id="hyear-table-body"></tbody>
@@ -845,11 +845,11 @@
                 <!-- Month Buttons Grid -->
                 <div class="section-card">
                     <h2 id="hyear-months-title">📅 تصفح أشهر السنة</h2>
-                    <div id="hyear-months-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;"></div>
+                    <div id="hyear-months-grid" class="hpage-months-grid"></div>
                 </div>
                 <!-- CTA Links -->
                 <div class="section-card">
-                    <div id="hyear-cta" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
+                    <div id="hyear-cta" class="u-flex-center"></div>
                 </div>
                 <!-- FAQ -->
                 <div class="section-card">
@@ -859,11 +859,11 @@
                 <!-- SEO Text -->
                 <div class="section-card">
                     <h2 id="hyear-seo-title">🌙 عن التقويم الهجري</h2>
-                    <p id="hyear-seo-text" style="font-size:0.9rem;color:var(--text);line-height:2;"></p>
+                    <p id="hyear-seo-text" class="hpage-seo-text"></p>
                 </div>
                 <!-- Footer SEO -->
                 <div class="section-card">
-                    <p id="hyear-footer-seo" style="font-size:0.88rem;color:var(--text-light);line-height:1.9;"></p>
+                    <p id="hyear-footer-seo" class="hpage-footer-seo"></p>
                 </div>
             </div>
 
@@ -871,10 +871,10 @@
             <div class="page" id="page-hijri-month">
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hmonth-breadcrumbs" aria-label="breadcrumb"></nav>
-                <div class="section-card" style="text-align:center;">
-                    <h2 id="hmonth-title" style="font-size:1.5rem;font-weight:800;color:var(--primary-dark);margin-bottom:8px;">تقويم الشهر الهجري</h2>
-                    <p id="hmonth-subtitle" style="font-size:0.95rem;color:var(--text-light);margin-bottom:10px;"></p>
-                    <p id="hmonth-intro" style="font-size:0.95rem;color:var(--text);line-height:1.8;max-width:640px;margin:0 auto;"></p>
+                <div class="section-card hpage-hero">
+                    <h2 id="hmonth-title" class="hpage-hero-title">تقويم الشهر الهجري</h2>
+                    <p id="hmonth-subtitle" class="hpage-hero-mini-sub"></p>
+                    <p id="hmonth-intro" class="hpage-hero-intro"></p>
                 </div>
                 <div class="section-card">
                     <h2>📋 معلومات الشهر الهجري</h2>
@@ -882,13 +882,13 @@
                 </div>
                 <div class="section-card">
                     <h2>📅 أيام هذا الشهر الهجري</h2>
-                    <p id="hmonth-days-summary" style="font-size:0.95rem;color:var(--primary);font-weight:600;margin-bottom:12px;"></p>
-                    <div style="overflow-x:auto;">
-                        <table style="width:100%;border-collapse:collapse;" id="hmonth-table">
+                    <p id="hmonth-days-summary" class="hpage-days-summary"></p>
+                    <div class="hpage-table-wrap">
+                        <table class="hpage-table" id="hmonth-table">
                             <thead>
-                                <tr style="background:var(--primary);color:#fff;">
-                                    <th style="padding:10px 14px;text-align:center;">التاريخ الهجري</th>
-                                    <th style="padding:10px 14px;text-align:center;">التاريخ الميلادي</th>
+                                <tr>
+                                    <th>التاريخ الهجري</th>
+                                    <th>التاريخ الميلادي</th>
                                 </tr>
                             </thead>
                             <tbody id="hmonth-table-body"></tbody>
@@ -897,17 +897,17 @@
                 </div>
                 <div class="section-card">
                     <h2>🔗 روابط مرتبطة بهذا الشهر</h2>
-                    <div id="hmonth-links" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
+                    <div id="hmonth-links" class="u-flex-wrap-top"></div>
                 </div>
                 <div class="section-card">
                     <h2 id="hmonth-other-months-title">🌙 شهور أخرى من السنة الهجرية</h2>
-                    <div id="hmonth-other-months" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;"></div>
+                    <div id="hmonth-other-months" class="u-flex-wrap-top"></div>
                 </div>
                 <div class="section-card">
-                    <div style="display:flex;gap:12px;" id="hmonth-nav"></div>
+                    <div class="u-flex-btns" id="hmonth-nav"></div>
                 </div>
                 <div class="section-card">
-                    <p id="hmonth-footer-seo" style="font-size:0.9rem;color:var(--text-light);line-height:1.8;margin:0;"></p>
+                    <p id="hmonth-footer-seo" class="hpage-footer-seo-note"></p>
                 </div>
             </div>
 
@@ -937,15 +937,15 @@
                                 <input type="number" id="conv-g-year" min="622" max="3000" value="2026" onchange="convertToHijri()">
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="convertToHijri()" data-i18n="converter.convert" style="width:100%;margin-top:10px;justify-content:center;">تحويل</button>
+                        <button class="btn btn-primary btn-convert-full" onclick="convertToHijri()" data-i18n="converter.convert">تحويل</button>
                         <div class="converter-result">
-                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_hijri">التاريخ الهجري المقابل</div>
+                            <div class="converter-result-label" data-i18n="converter.result_hijri">التاريخ الهجري المقابل</div>
                             <div class="result-date" id="conv-hijri-result">--</div>
                         </div>
                     </div>
 
                     <!-- تحويل من هجري لميلادي -->
-                    <div id="converter-to-greg" style="display:none;">
+                    <div id="converter-to-greg" class="u-hidden">
                         <div class="settings-grid">
                             <div>
                                 <label data-i18n="converter.day">اليوم</label>
@@ -960,15 +960,15 @@
                                 <input type="number" id="conv-h-year" min="1" max="2000" value="1447" onchange="convertToGreg()">
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="convertToGreg()" data-i18n="converter.convert" style="width:100%;margin-top:10px;justify-content:center;">تحويل</button>
+                        <button class="btn btn-primary btn-convert-full" onclick="convertToGreg()" data-i18n="converter.convert">تحويل</button>
                         <div class="converter-result">
-                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_gregorian">التاريخ الميلادي المقابل</div>
+                            <div class="converter-result-label" data-i18n="converter.result_gregorian">التاريخ الميلادي المقابل</div>
                             <div class="result-date" id="conv-greg-result">--</div>
                         </div>
                     </div>
 
                     <!-- تحويل من شمسي لميلادي وهجري -->
-                    <div id="converter-to-solar" style="display:none;">
+                    <div id="converter-to-solar" class="u-hidden">
                         <div class="settings-grid">
                             <div>
                                 <label data-i18n="converter.day">اليوم</label>
@@ -983,9 +983,9 @@
                                 <input type="number" id="conv-s-year" min="1" max="2000" value="1404">
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="convertFromSolar()" data-i18n="converter.convert" style="width:100%;margin-top:10px;justify-content:center;">تحويل</button>
+                        <button class="btn btn-primary btn-convert-full" onclick="convertFromSolar()" data-i18n="converter.convert">تحويل</button>
                         <div class="converter-result">
-                            <div style="font-size:0.9rem; color:var(--text-light);" data-i18n="converter.result_solar">التاريخ الميلادي والهجري المقابل</div>
+                            <div class="converter-result-label" data-i18n="converter.result_solar">التاريخ الميلادي والهجري المقابل</div>
                             <div class="result-date" id="conv-solar-result">--</div>
                         </div>
                     </div>
@@ -1029,7 +1029,7 @@
                     <h2 data-i18n="duas.title">🤲 الأدعية والأذكار</h2>
                     <div class="dua-categories" id="dua-categories"></div>
                 </div>
-                <div class="section-card" id="dua-list-section" style="display:none;">
+                <div class="section-card u-hidden" id="dua-list-section">
                     <h2 id="dua-list-title">قائمة الأدعية والأذكار</h2>
                     <div class="dua-list" id="dua-list"></div>
                 </div>
@@ -1094,7 +1094,7 @@
                     </div>
 
                     <!-- ===== وضع العداد المفتوح ===== -->
-                    <div id="tasbih-mode-free" style="display:none;">
+                    <div id="tasbih-mode-free" class="u-hidden">
                         <div class="tasbih-current-dhikr" id="tasbih-free-label" data-i18n="tasbih.press">اضغط للعد</div>
 
                         <div class="tasbih-circle-wrap">
@@ -1138,7 +1138,7 @@
                     <a href="#" onclick="event.preventDefault();if(window.openCookieSettings)window.openCookieSettings();" data-i18n="footer.cookie_settings">إعدادات ملفات الارتباط</a>
                 </div>
                 <p class="footer-copy">مواقيت الصلاة © <span id="footer-year"></span> - <span data-i18n="footer.rights">جميع الحقوق محفوظة</span></p>
-                <p style="margin-top:4px;font-size:0.78rem;color:var(--text-light);" data-i18n="footer.note">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>
+                <p class="footer-note" data-i18n="footer.note">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>
             </footer>
         </main>
     </div>
@@ -1202,7 +1202,7 @@
                         <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَّل صوت الأذان عند دخول وقت كل صلاة</div>
                     </div>
                 </div>
-                <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                <div class="adhan-modal-controls">
                     <button class="btn-test-adhan" onclick="testAdhan()" title="تجربة الصوت" data-i18n="adhan.test">▶ تجربة</button>
                     <label class="adhan-toggle-switch">
                         <input type="checkbox" id="adhan-toggle" aria-label="تشغيل الأذان تلقائياً" onchange="onAdhanToggleChange()">
@@ -1220,7 +1220,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=193"></script>
+    <script defer src="js/app.js?v=194"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->
@@ -1234,13 +1234,13 @@
 
     <!-- عنصر الأذان الصوتي — ضع ملف MP3 الخاص بك في مجلد audio/ باسم adhan.mp3 -->
     <!-- إذا لم يوجد الملف المحلي يُستخدم المصدر الخارجي تلقائياً -->
-    <audio id="adhan-audio" preload="metadata" style="display:none">
+    <audio id="adhan-audio" preload="metadata" hidden>
         <source src="/audio/adhan.mp3" type="audio/mpeg">
         <source src="https://cdn.islamic.network/prayer-times/audio/Abdul_Basit_Abdul_Samad/mp3/Adhan-makkah.mp3" type="audio/mpeg">
     </audio>
 
     <!-- ====== بوب آب الأذان ====== -->
-    <div id="adhan-popup" class="adhan-popup-overlay" style="display:none" onclick="closeAdhanPopup()">
+    <div id="adhan-popup" class="adhan-popup-overlay u-hidden" onclick="closeAdhanPopup()">
         <div class="adhan-popup-card" onclick="event.stopPropagation()">
             <div class="adhan-popup-icon">🕌</div>
             <div class="adhan-popup-text">
@@ -1248,7 +1248,7 @@
                 <strong id="adhan-popup-prayer-name">الفجر</strong>
             </div>
             <div class="adhan-popup-location"><span data-i18n="adhan_popup.location">بالتوقيت المحلي لـ</span> <span id="adhan-popup-city">مكة المكرمة</span></div>
-            <div class="adhan-progress-wrap" id="adhan-progress-wrap" style="display:none">
+            <div class="adhan-progress-wrap u-hidden" id="adhan-progress-wrap">
                 <div class="adhan-progress-fill" id="adhan-progress-fill"></div>
             </div>
             <button class="adhan-popup-close-btn" onclick="closeAdhanPopup()" data-i18n="adhan_popup.close">⏹ إغلاق</button>

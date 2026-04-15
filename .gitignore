@@ -3,3 +3,8 @@ node_modules/
 .env
 *.log
 .claude/
+
+# Lighthouse reports (build artifacts)
+lh-*.json
+lighthouse-*.json
+lighthouse-a11y.json

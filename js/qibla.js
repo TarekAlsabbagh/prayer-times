@@ -27,18 +27,23 @@ const Qibla = (function() {
 
     function getDirection(angle, lang) {
         const directions = [
-            { min: 0,     max: 22.5,  ar: 'شمال',      en: 'North'     },
-            { min: 22.5,  max: 67.5,  ar: 'شمال شرق',  en: 'Northeast' },
-            { min: 67.5,  max: 112.5, ar: 'شرق',        en: 'East'      },
-            { min: 112.5, max: 157.5, ar: 'جنوب شرق',  en: 'Southeast' },
-            { min: 157.5, max: 202.5, ar: 'جنوب',       en: 'South'     },
-            { min: 202.5, max: 247.5, ar: 'جنوب غرب',  en: 'Southwest' },
-            { min: 247.5, max: 292.5, ar: 'غرب',        en: 'West'      },
-            { min: 292.5, max: 337.5, ar: 'شمال غرب',  en: 'Northwest' },
-            { min: 337.5, max: 360,   ar: 'شمال',      en: 'North'     }
+            { min: 0,     max: 22.5,  k: 'qibla.direction_north', ar: 'شمال',      en: 'North'     },
+            { min: 22.5,  max: 67.5,  k: 'qibla.direction_ne',    ar: 'شمال شرق',  en: 'Northeast' },
+            { min: 67.5,  max: 112.5, k: 'qibla.direction_east',  ar: 'شرق',        en: 'East'      },
+            { min: 112.5, max: 157.5, k: 'qibla.direction_se',    ar: 'جنوب شرق',  en: 'Southeast' },
+            { min: 157.5, max: 202.5, k: 'qibla.direction_south', ar: 'جنوب',       en: 'South'     },
+            { min: 202.5, max: 247.5, k: 'qibla.direction_sw',    ar: 'جنوب غرب',  en: 'Southwest' },
+            { min: 247.5, max: 292.5, k: 'qibla.direction_west',  ar: 'غرب',        en: 'West'      },
+            { min: 292.5, max: 337.5, k: 'qibla.direction_nw',    ar: 'شمال غرب',  en: 'Northwest' },
+            { min: 337.5, max: 360,   k: 'qibla.direction_north', ar: 'شمال',      en: 'North'     }
         ];
         const d = directions.find(d => angle >= d.min && angle < d.max);
-        return lang === 'en' ? (d?.en || 'North') : (d?.ar || 'شمال');
+        if (!d) return 'North';
+        if (typeof t === 'function') {
+            const v = t(d.k);
+            if (v && v !== d.k) return v;
+        }
+        return lang === 'en' ? d.en : d.ar;
     }
 
     function getDistance(lat, lng) {

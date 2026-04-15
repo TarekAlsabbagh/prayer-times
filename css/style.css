@@ -6,10 +6,9 @@ html.qibla-page-loading #page-prayer-times { display: none !important; }
 html.msbaha-page #page-tasbih { display: block !important; }
 html.msbaha-page #page-prayer-times { display: none !important; }
 
-/* إخفاء عناصر الموقع في صفحة تحويل التاريخ */
+/* عرض صفحة تحويل التاريخ فوراً — مع إبقاء الموقع في الهيدر */
 html.date-converter-page #page-date-converter { display: block !important; }
 html.date-converter-page #page-prayer-times { display: none !important; }
-html.date-converter-page .location-info { display: none !important; }
 
 /* عرض صفحة التقويم الهجري السنوي فوراً عند URL /hijri-calendar/1447 */
 html.hijri-year-page #page-hijri-year { display: block !important; }
@@ -159,6 +158,15 @@ button, input, select { font-family: inherit; }
     border-right-color: var(--gold);
 }
 
+/* Instant press feedback when any nav link is clicked */
+.sidebar-nav a:active,
+.sidebar-nav a:focus-visible {
+    background: rgba(255,255,255,0.22);
+    color: #fff;
+    border-right-color: var(--gold);
+    outline: none;
+}
+
 .sidebar-nav a .nav-icon {
     width: 22px;
     height: 22px;
@@ -222,6 +230,11 @@ button, input, select { font-family: inherit; }
     gap: 12px;
 }
 
+/* مبدّل اللغة دائماً آخر عنصر في الهيدر (في LTR: يمين، في RTL: يسار) */
+.header-actions .lang-switcher {
+    order: 99;
+}
+
 .btn {
     padding: 8px 20px;
     border-radius: 8px;
@@ -255,6 +268,105 @@ button, input, select { font-family: inherit; }
     letter-spacing: 0.05em;
     padding: 6px 12px;
     flex-shrink: 0;
+}
+
+/* ========= Language switcher (flag dropdown) ========= */
+.lang-switcher {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.lang-switcher-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: transparent;
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+.lang-switcher-btn:hover {
+    background: var(--primary);
+    color: #fff;
+}
+.lang-switcher-btn .lang-flag {
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    border-radius: 3px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+.lang-switcher-btn .lang-caret {
+    font-size: 0.7em;
+    opacity: 0.85;
+    transition: transform 0.2s;
+}
+.lang-switcher.open .lang-switcher-btn .lang-caret {
+    transform: rotate(180deg);
+}
+.lang-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    inset-inline-end: 0;
+    min-width: 170px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+    padding: 6px;
+    display: none;
+    z-index: 1000;
+}
+.lang-switcher.open .lang-menu {
+    display: block;
+    animation: langMenuIn 0.15s ease-out;
+}
+@keyframes langMenuIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.lang-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.92rem;
+    color: var(--text, #1f2937);
+    text-align: start;
+    transition: background 0.15s;
+}
+.lang-menu-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+.lang-menu-item .lang-flag {
+    width: 22px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 3px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+.lang-menu-item .lang-name {
+    font-weight: 600;
 }
 
 .btn-gold {
@@ -1610,6 +1722,32 @@ button, input, select { font-family: inherit; }
     font-weight: 600;
 }
 
+/* ========= قسم "عن المدينة" (ويكيبيديا) ========= */
+.city-about-section h2 {
+    margin-bottom: 14px;
+    font-size: 1.15rem;
+    line-height: 1.5;
+}
+.city-about-body { line-height: 1.8; }
+.city-about-extract {
+    color: var(--text);
+    font-size: 1rem;
+    margin: 0 0 12px 0;
+    white-space: pre-wrap;
+}
+.city-about-link {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: background 0.15s ease;
+}
+.city-about-link:hover { background: var(--primary-dark); }
+
 /* ========= الأسئلة الشائعة ========= */
 .faq-section h2 { margin-bottom: 20px; }
 
@@ -2022,6 +2160,12 @@ button, input, select { font-family: inherit; }
 }
 
 .city-prayer-page #city-breadcrumb {
+    display: block;
+    margin: 0 0 14px;
+}
+
+/* Breadcrumbs لصفحات التقويم الهجري — نفس تصميم city-breadcrumb */
+.hijri-breadcrumb {
     display: block;
     margin: 0 0 14px;
 }
@@ -2849,4 +2993,80 @@ button, input, select { font-family: inherit; }
     [dir="ltr"] .main-content { margin-left: 0; }
     [dir="ltr"] .menu-toggle { left: 12px; right: auto; }
     [dir="ltr"] .location-info { padding-right: 0; padding-left: 56px; }
+}
+
+/* ========= Footer ========= */
+.site-footer {
+    margin-top: 30px;
+    padding: 22px 16px 18px;
+    background: var(--card-bg);
+    border-top: 2px solid var(--border);
+    border-radius: 0;
+    text-align: center;
+}
+.site-footer .footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-bottom: 12px;
+}
+.site-footer .footer-links a {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all var(--transition);
+}
+.site-footer .footer-links a:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--primary-dark);
+}
+.site-footer .footer-copy {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* ========= Cookie Consent Banner ========= */
+.cookie-consent {
+    position: fixed;
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--primary-dark);
+    color: #fff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+.cookie-consent.hidden { display: none; }
+.cookie-consent .cc-msg { flex: 1 1 280px; }
+.cookie-consent a { color: var(--gold); font-weight: 700; text-decoration: underline; }
+.cookie-consent .cc-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-consent button {
+    background: var(--gold);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: transform var(--transition);
+}
+.cookie-consent button:hover { transform: scale(1.05); }
+@media (max-width: 600px) {
+    .cookie-consent { bottom: 8px; left: 8px; right: 8px; padding: 12px 14px; }
 }

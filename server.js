@@ -4,6 +4,14 @@ const fs    = require('fs');
 const path  = require('path');
 const zlib  = require('zlib');
 
+// ===== معالجات أخطاء العملية (تمنع السقوط الكلي عند خطأ واحد) =====
+process.on('uncaughtException', (err) => {
+    console.error('[FATAL uncaughtException]', err && err.stack || err);
+});
+process.on('unhandledRejection', (reason) => {
+    console.error('[FATAL unhandledRejection]', reason && reason.stack || reason);
+});
+
 const PORT    = process.env.PORT || 8080;
 const ROOT    = __dirname;
 const DB_DIR  = path.join(ROOT, 'db');   // قاعدة البيانات الدائمة
@@ -61,10 +69,1080 @@ function makeCitySlugSrv(nameEn, lat, lng) {
 }
 
 // كاش في الذاكرة لطلبات Nominatim (يمنع تكرار الطلبات ويتجنب rate limit)
-const _geocodeCache = new Map();
+// LRU محدود (10K مدخل) لمنع النمو اللانهائي تحت حمل كبير
+const _GEOCACHE_MAX = 10000;
 const _GEOCACHE_TTL = 24 * 60 * 60 * 1000; // 24 ساعة
+const _geocodeCache = {
+    _m: new Map(),
+    get(k) {
+        const v = this._m.get(k);
+        if (v === undefined) return undefined;
+        // LRU: إعادة الإدراج تنقل المفتاح إلى النهاية (الأحدث استخداماً)
+        this._m.delete(k);
+        this._m.set(k, v);
+        return v;
+    },
+    set(k, v) {
+        if (this._m.has(k)) this._m.delete(k);
+        this._m.set(k, v);
+        // طرد الأقدم (أول مفتاح في Map) عند تجاوز الحد
+        while (this._m.size > _GEOCACHE_MAX) {
+            const firstKey = this._m.keys().next().value;
+            this._m.delete(firstKey);
+        }
+    }
+};
 
 if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+
+// ===== كاش الملفات الثابتة في الذاكرة =====
+// عند الإقلاع، نحمّل أهم الملفات ونسختها المضغوطة إلى الذاكرة
+// فلا نقرأ القرص ولا نضغط gzip في كل طلب
+const _staticCache = new Map(); // fullPath → { data, gzipped, brotli }
+const _preloadPaths = [
+    'css/style.css',
+    'js/app.js', 'js/i18n.js', 'js/footer-cookie.js',
+    'js/duas.js', 'js/hijri-date.js', 'js/prayer-times.js', 'js/moon.js', 'js/qibla.js',
+    'index.html', 'prayer-times-cities.html', 'legal.html',
+    'sw.js',
+];
+for (const rel of _preloadPaths) {
+    try {
+        const full = path.join(ROOT, rel);
+        const data = fs.readFileSync(full);
+        let gzipped = null, brotli = null;
+        try { gzipped = zlib.gzipSync(data); } catch(e) {}
+        try { brotli = zlib.brotliCompressSync(data, {
+            params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } // أقصى ضغط — مرة واحدة عند الإقلاع فقط
+        }); } catch(e) {}
+        _staticCache.set(full, { data, gzipped, brotli });
+    } catch(e) { /* الملف قد لا يكون موجوداً، تجاهل */ }
+}
+console.log(`[Cache] Preloaded ${_staticCache.size} static files into memory (gzip + brotli)`);
+
+// مساعد يقرأ من الكاش أولاً، وإلا يعود للقرص
+// يُستخدم لتقديم index.html و prayer-times-cities.html بسرعة من الذاكرة
+function readCachedFile(fullPath, cb) {
+    const cached = _staticCache.get(fullPath);
+    if (cached) return setImmediate(() => cb(null, cached.data));
+    fs.readFile(fullPath, cb);
+}
+
+// ============================================================
+// ===== LEGAL PAGES CONTENT (bilingual AR + EN) ===============
+// ============================================================
+const LEGAL_PAGES = {
+    'privacy': {
+        ar: `<h1>سياسة الخصوصية</h1>
+<span class="legal-meta">آخر تحديث: ${new Date().toISOString().split('T')[0]}</span>
+<p>نحن في موقع <strong>مواقيت الصلاة</strong> نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضّح هذه السياسة طبيعة المعلومات التي نجمعها وطريقة استخدامها.</p>
+<h2>1. البيانات التي نجمعها</h2>
+<p>نحن لا نطلب التسجيل ولا نخزّن بيانات شخصية على خوادمنا. تقتصر البيانات التي قد نتعامل معها على:</p>
+<ul>
+<li><strong>الموقع الجغرافي:</strong> يُستخدم لحساب مواقيت الصلاة واتجاه القبلة بدقة. يبقى الإذن اختيارياً، وتُخزَّن إحداثياتك محلياً في متصفحك فقط (localStorage).</li>
+<li><strong>تفضيلات اللغة والإعدادات:</strong> تُخزَّن في المتصفح للحفاظ على تجربة موحدة عبر الزيارات.</li>
+<li><strong>سجلات الخادم الفنية:</strong> تتضمن عنوان IP، نوع المتصفح، الصفحات المزارة، لأغراض الأمان والتحليلات المجمّعة فقط.</li>
+</ul>
+<h2>2. ملفات تعريف الارتباط (Cookies)</h2>
+<p>نستخدم نوعين من ملفات تعريف الارتباط:</p>
+<ul>
+<li><strong>أساسية:</strong> ضرورية لعمل الموقع (تخزين اللغة، الموقع، إعدادات التذكير).</li>
+<li><strong>إعلانية:</strong> عند تفعيل خدمة Google AdSense، قد تستخدم Google ملفات ارتباط لعرض إعلانات مخصّصة. يمكنك التحكم فيها عبر <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">إعدادات إعلانات Google</a>.</li>
+</ul>
+<h2>3. الخدمات الخارجية</h2>
+<p>يستخدم الموقع الخدمات التالية لتوفير تجربة كاملة:</p>
+<ul>
+<li><strong>OpenStreetMap Nominatim:</strong> للبحث عن المدن وتحويل الإحداثيات إلى أسماء مواقع.</li>
+<li><strong>ويكيبيديا API:</strong> لجلب معلومات تاريخية ومدنية ضمن صفحات "عن المدينة".</li>
+<li><strong>Google Fonts:</strong> لتحميل خط Cairo العربي.</li>
+<li><strong>Google AdSense (اختياري):</strong> لعرض إعلانات تساعد في تشغيل الموقع مجاناً.</li>
+</ul>
+<h2>4. حقوقك</h2>
+<p>لك الحق في:</p>
+<ul>
+<li>رفض إذن الموقع الجغرافي دون أن يتأثر تصفّحك للموقع.</li>
+<li>مسح بيانات الموقع المخزّنة محلياً عبر إعدادات المتصفح.</li>
+<li>تعطيل الإعلانات المخصّصة عبر إعدادات Google.</li>
+<li>طلب أي معلومة إضافية عبر <a href="/contact">صفحة الاتصال</a>.</li>
+</ul>
+<h2>5. الأطفال</h2>
+<p>الموقع مفتوح للجميع ولا يستهدف الأطفال دون 13 سنة بشكل خاص. لا نجمع أي بيانات شخصية من المستخدمين عمداً.</p>
+<h2>6. تعديلات السياسة</h2>
+<p>قد نُحدّث هذه السياسة دورياً. سيُعرض تاريخ آخر تحديث في أعلى الصفحة. الاستمرار في استخدام الموقع بعد التعديل يعني الموافقة على النسخة المحدّثة.</p>
+<h2>7. التواصل</h2>
+<p>لأي استفسار يخصّ هذه السياسة، يُرجى زيارة <a href="/contact">صفحة الاتصال</a>.</p>`,
+        en: `<h1>Privacy Policy</h1>
+<span class="legal-meta">Last updated: ${new Date().toISOString().split('T')[0]}</span>
+<p>At <strong>Prayer Times</strong>, we respect your privacy and are committed to protecting your personal data. This policy explains what information we collect and how we use it.</p>
+<h2>1. Data We Collect</h2>
+<p>We do not require registration and do not store personal data on our servers. The information we may handle is limited to:</p>
+<ul>
+<li><strong>Geographic location:</strong> Used to calculate accurate prayer times and Qibla direction. Permission is optional, and your coordinates are stored only locally in your browser (localStorage).</li>
+<li><strong>Language and preferences:</strong> Stored in your browser to provide a consistent experience across visits.</li>
+<li><strong>Technical server logs:</strong> Include IP address, browser type, and visited pages, used for security and aggregated analytics only.</li>
+</ul>
+<h2>2. Cookies</h2>
+<p>We use two types of cookies:</p>
+<ul>
+<li><strong>Essential:</strong> Necessary for site operation (storing language, location, reminder settings).</li>
+<li><strong>Advertising:</strong> When Google AdSense is enabled, Google may use cookies to display personalized ads. You can manage these through <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</li>
+</ul>
+<h2>3. Third-Party Services</h2>
+<p>The site uses the following services to provide a complete experience:</p>
+<ul>
+<li><strong>OpenStreetMap Nominatim:</strong> for city search and reverse geocoding.</li>
+<li><strong>Wikipedia API:</strong> to fetch historical and city information on About pages.</li>
+<li><strong>Google Fonts:</strong> for loading the Cairo Arabic font.</li>
+<li><strong>Google AdSense (optional):</strong> to display ads that help keep the site free.</li>
+</ul>
+<h2>4. Your Rights</h2>
+<p>You have the right to:</p>
+<ul>
+<li>Decline location permission without affecting your browsing.</li>
+<li>Clear locally stored site data via your browser settings.</li>
+<li>Disable personalized ads through Google settings.</li>
+<li>Request additional information via our <a href="/en/contact">Contact page</a>.</li>
+</ul>
+<h2>5. Children</h2>
+<p>The site is open to everyone and is not specifically targeted at children under 13. We do not knowingly collect personal data from any user.</p>
+<h2>6. Policy Updates</h2>
+<p>We may update this policy periodically. The last update date will appear at the top of the page. Continued use of the site after changes means acceptance of the updated version.</p>
+<h2>7. Contact</h2>
+<p>For any questions about this policy, please visit our <a href="/en/contact">Contact page</a>.</p>`
+    },
+    'terms': {
+        ar: `<h1>شروط الاستخدام</h1>
+<span class="legal-meta">آخر تحديث: ${new Date().toISOString().split('T')[0]}</span>
+<p>باستخدامك لموقع <strong>مواقيت الصلاة</strong>، فإنك توافق على الالتزام بالشروط التالية. يُرجى قراءتها بعناية قبل استخدام أي من خدمات الموقع.</p>
+<h2>1. وصف الخدمة</h2>
+<p>يُقدّم الموقع خدمات إسلامية مجانية، تشمل:</p>
+<ul>
+<li>مواقيت الصلاة الخمس بناءً على موقعك الجغرافي.</li>
+<li>اتجاه القبلة وبوصلة تفاعلية.</li>
+<li>التقويم الهجري ومحوّل التواريخ.</li>
+<li>مجموعة الأدعية والأذكار من الكتاب والسنة.</li>
+<li>المسبحة الإلكترونية وحاسبة الزكاة.</li>
+</ul>
+<h2>2. إخلاء المسؤولية عن الدقة</h2>
+<p>نسعى دائماً لتوفير أدق المواقيت، إلا أن:</p>
+<ul>
+<li>مواقيت الصلاة محسوبة باستخدام معادلات فلكية موثوقة، وقد تختلف بدقائق قليلة عن المواقيت الرسمية في بلدك.</li>
+<li>التقويم الهجري يعتمد على تقويم أم القرى (السعودية)، وقد يختلف يوماً واحداً عن رؤية بلدك.</li>
+<li>اتجاه القبلة محسوب جغرافياً بدقة، لكن دقة عرضه على البوصلة تعتمد على حساسات جهازك.</li>
+</ul>
+<p>المسؤولية النهائية عن إثبات أوقات الصلاة ورؤية الأهلّة تقع على المؤسسة الدينية في بلدك.</p>
+<h2>3. الاستخدام المسموح</h2>
+<p>يُسمح لك باستخدام الموقع لأغراض شخصية وتعليمية، ويُحظَر:</p>
+<ul>
+<li>إعادة نشر محتوى الموقع آلياً (Scraping) دون إذن خطي.</li>
+<li>محاولة اختراق الموقع أو إرهاق خوادمه بطلبات مفرطة.</li>
+<li>استخدام الموقع لأي غرض غير مشروع أو مخالف للأخلاق العامة.</li>
+</ul>
+<h2>4. الملكية الفكرية</h2>
+<p>جميع حقوق التصميم، الكود، الواجهات، والشعارات محفوظة لمالك الموقع. أما النصوص الدينية (الآيات، الأحاديث، الأدعية) فهي ملك عام للأمة الإسلامية.</p>
+<h2>5. الخدمات الخارجية</h2>
+<p>الموقع يعتمد على خدمات طرف ثالث (انظر سياسة الخصوصية). نحن غير مسؤولين عن انقطاعها أو تغييرها.</p>
+<h2>6. حدود المسؤولية</h2>
+<p>الموقع يُقدَّم "كما هو" دون أي ضمان صريح أو ضمني. لا نتحمّل المسؤولية عن أي قرار ديني، مالي، أو شخصي يُتّخَذ بناءً على معلومات الموقع وحدها.</p>
+<h2>7. تعديل الشروط</h2>
+<p>نحتفظ بحق تعديل هذه الشروط في أي وقت. التعديلات تصبح سارية فور نشرها، واستمرار استخدامك للموقع يعني قبولك بها.</p>
+<h2>8. القانون الحاكم</h2>
+<p>تُحكم هذه الشروط بمبادئ القانون الدولي العام لاستخدام الإنترنت. في حال نشوء نزاع، يتم حلّه ودياً قدر الإمكان.</p>`,
+        en: `<h1>Terms of Use</h1>
+<span class="legal-meta">Last updated: ${new Date().toISOString().split('T')[0]}</span>
+<p>By using the <strong>Prayer Times</strong> website, you agree to comply with the following terms. Please read them carefully before using any service.</p>
+<h2>1. Service Description</h2>
+<p>The site provides free Islamic services, including:</p>
+<ul>
+<li>The five daily prayer times based on your geographic location.</li>
+<li>Qibla direction with interactive compass.</li>
+<li>Hijri calendar and date converter.</li>
+<li>Authentic duas and remembrance from the Quran and Sunnah.</li>
+<li>Digital tasbih counter and Zakat calculator.</li>
+</ul>
+<h2>2. Accuracy Disclaimer</h2>
+<p>We always strive to provide the most accurate times, however:</p>
+<ul>
+<li>Prayer times are calculated using reliable astronomical equations and may differ by a few minutes from the official times in your country.</li>
+<li>The Hijri calendar follows the Umm al-Qura calendar (Saudi Arabia) and may differ by one day from your local moon sighting.</li>
+<li>The Qibla direction is geographically accurate, but its display accuracy on a compass depends on your device sensors.</li>
+</ul>
+<p>The ultimate responsibility for confirming prayer times and moon sighting rests with the religious authority in your country.</p>
+<h2>3. Permitted Use</h2>
+<p>You may use the site for personal and educational purposes. The following are prohibited:</p>
+<ul>
+<li>Automated scraping of site content without written permission.</li>
+<li>Attempting to hack the site or overload its servers with excessive requests.</li>
+<li>Using the site for any unlawful or unethical purpose.</li>
+</ul>
+<h2>4. Intellectual Property</h2>
+<p>All rights to design, code, interfaces, and logos are reserved by the site owner. Religious texts (verses, hadith, duas) are public property of the Muslim community.</p>
+<h2>5. Third-Party Services</h2>
+<p>The site relies on third-party services (see Privacy Policy). We are not responsible for their interruption or changes.</p>
+<h2>6. Limitation of Liability</h2>
+<p>The site is provided "as is" without any express or implied warranty. We are not liable for any religious, financial, or personal decision made solely based on information from the site.</p>
+<h2>7. Changes to Terms</h2>
+<p>We reserve the right to modify these terms at any time. Changes take effect upon publication, and your continued use of the site means acceptance.</p>
+<h2>8. Governing Law</h2>
+<p>These terms are governed by general international principles of internet use. In case of dispute, we seek amicable resolution whenever possible.</p>`
+    },
+    'contact': {
+        ar: `<h1>اتصل بنا</h1>
+<p>يسعدنا تواصلكم معنا. سواء كان لديك سؤال، اقتراح، أو بلاغ عن خطأ في مواقيت الصلاة في مدينتك، فريقنا جاهز للاستماع إليك.</p>
+<div class="contact-card">
+    <span style="font-size:2rem;">✉️</span>
+    <div>
+        <div style="font-size:0.85rem;opacity:0.85;">للتواصل المباشر</div>
+        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+    </div>
+</div>
+<h2>أنواع الاستفسارات التي نستقبلها</h2>
+<ul>
+<li><strong>الإبلاغ عن مواقيت غير دقيقة:</strong> أرفق اسم المدينة، الإحداثيات (إن أمكن)، والفرق بين موقيت الموقع والموقت الرسمي في بلدك.</li>
+<li><strong>اقتراحات تحسين:</strong> أي ميزة جديدة، تصميم أفضل، أو لغة تودّ إضافتها.</li>
+<li><strong>طلبات شراكة:</strong> للأكاديميات، المساجد، أو التطبيقات التي تودّ استخدام بيانات الموقع.</li>
+<li><strong>الإبلاغ عن أخطاء تقنية:</strong> صفحات لا تعمل، ميزات معطّلة، أو مشاكل في العرض.</li>
+<li><strong>الأسئلة الدينية المتعلقة بالحساب:</strong> طريقة حساب مواقيت الصلاة، أوقات الفجر/العشاء، والمذاهب الفقهية المعتمَدة.</li>
+</ul>
+<h2>وقت الاستجابة</h2>
+<p>نسعى للرد على جميع الرسائل خلال <strong>3-5 أيام عمل</strong>. الرسائل المتعلقة بأخطاء فنية تحظى بأولوية أعلى.</p>
+<h2>قبل المراسلة</h2>
+<p>قد تجد إجابة سؤالك في:</p>
+<ul>
+<li><a href="/about-us">صفحة "عن الموقع"</a> — تشرح مهمتنا وميزاتنا.</li>
+<li><a href="/terms">شروط الاستخدام</a> — تجيب على أسئلة الدقة والمسؤولية.</li>
+<li><a href="/privacy">سياسة الخصوصية</a> — تشرح كيف نتعامل مع بياناتك.</li>
+</ul>
+<h2>المتابعة على منصات التواصل</h2>
+<p>سنقوم قريباً بإطلاق حسابات رسمية على منصات التواصل الاجتماعي. تابع الموقع للحصول على آخر التحديثات.</p>`,
+        en: `<h1>Contact Us</h1>
+<p>We are pleased to hear from you. Whether you have a question, suggestion, or report about inaccurate prayer times in your city, our team is ready to listen.</p>
+<div class="contact-card">
+    <span style="font-size:2rem;">✉️</span>
+    <div>
+        <div style="font-size:0.85rem;opacity:0.85;">Direct contact</div>
+        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+    </div>
+</div>
+<h2>Types of inquiries we receive</h2>
+<ul>
+<li><strong>Reporting inaccurate times:</strong> Include the city name, coordinates (if possible), and the difference between site times and the official times in your country.</li>
+<li><strong>Improvement suggestions:</strong> Any new feature, better design, or additional language.</li>
+<li><strong>Partnership requests:</strong> For academies, mosques, or apps that wish to use site data.</li>
+<li><strong>Reporting technical errors:</strong> Non-working pages, broken features, or display issues.</li>
+<li><strong>Religious questions about calculations:</strong> Methods of calculating prayer times, Fajr/Isha times, and adopted fiqh schools.</li>
+</ul>
+<h2>Response time</h2>
+<p>We aim to reply to all messages within <strong>3–5 business days</strong>. Messages about technical errors receive higher priority.</p>
+<h2>Before reaching out</h2>
+<p>You may find your answer in:</p>
+<ul>
+<li><a href="/en/about-us">About Us page</a> — explains our mission and features.</li>
+<li><a href="/en/terms">Terms of Use</a> — answers questions about accuracy and responsibility.</li>
+<li><a href="/en/privacy">Privacy Policy</a> — explains how we handle your data.</li>
+</ul>
+<h2>Social media follow-up</h2>
+<p>We will soon launch official accounts on social media platforms. Follow the site for the latest updates.</p>`
+    },
+    'about-us': {
+        ar: `<h1>عن موقع مواقيت الصلاة</h1>
+<p>موقع <strong>مواقيت الصلاة</strong> هو مشروع إسلامي مجاني يهدف إلى توفير أدوات إسلامية يومية موثوقة ودقيقة لكل مسلم حول العالم — في أي مدينة، بأي لغة، وعلى أي جهاز.</p>
+<h2>رسالتنا</h2>
+<p>نؤمن بأن الأدوات الدينية اليومية يجب أن تكون:</p>
+<ul>
+<li><strong>مجانية:</strong> الإسلام للجميع، ولا يجب أن تُحتجَب أدواته خلف اشتراكات.</li>
+<li><strong>دقيقة:</strong> نعتمد على أحدث المعادلات الفلكية ومصادر دينية موثوقة.</li>
+<li><strong>سريعة وخفيفة:</strong> الموقع يعمل على أبطأ الاتصالات وأقدم الأجهزة.</li>
+<li><strong>محترِمة للخصوصية:</strong> لا نطلب تسجيلاً ولا نخزّن بياناتك على خوادمنا.</li>
+</ul>
+<h2>الميزات الرئيسية</h2>
+<ul>
+<li><strong>مواقيت الصلاة:</strong> الفجر، الظهر، العصر، المغرب، العشاء — لكل مدينة في العالم، مع جدول أسبوعي وتنبيه قبل كل صلاة.</li>
+<li><strong>اتجاه القبلة:</strong> بوصلة تفاعلية وخريطة تُظهر اتجاه الكعبة المشرفة من موقعك بدقة.</li>
+<li><strong>التقويم الهجري:</strong> تقويم كامل من سنة 1 هـ إلى 1500 هـ، ومحوّل بين الهجري والميلادي.</li>
+<li><strong>الأدعية والأذكار:</strong> مجموعة منظَّمة من الكتاب والسنة (أذكار الصباح، المساء، الصلاة، النوم، السفر…).</li>
+<li><strong>المسبحة الإلكترونية:</strong> عدّاد ذكر يحفظ تقدّمك ويسمح بتحديد أهداف يومية.</li>
+<li><strong>حاسبة الزكاة:</strong> تشمل النقد، الذهب، الفضة، الأسهم، والاستثمارات.</li>
+<li><strong>صفحات المدن:</strong> آلاف الصفحات لمدن العالم، كل صفحة تحتوي معلومات جغرافية ومواقيت ودقيقة.</li>
+</ul>
+<h2>كيف نحسب مواقيت الصلاة؟</h2>
+<p>نستخدم خوارزميات فلكية مُعتمَدة دولياً، مع دعم لمذاهب الحساب الرئيسية:</p>
+<ul>
+<li>الجمعية الإسلامية لأمريكا الشمالية (ISNA)</li>
+<li>رابطة العالم الإسلامي (MWL)</li>
+<li>الهيئة المصرية العامة للمساحة</li>
+<li>أم القرى — السعودية</li>
+<li>جامعة العلوم الإسلامية كراتشي</li>
+</ul>
+<h2>اللغات المدعومة</h2>
+<p>الموقع متاح حالياً بـ <strong>العربية</strong> و <strong>الإنجليزية</strong>، ونعمل على إضافة لغات جديدة (التركية، الفرنسية، الأردية، الإندونيسية).</p>
+<h2>الفريق</h2>
+<p>الموقع مشروع تطوّعي يديره مسلمون يحبّون أمتهم، ويهدفون لخدمتها بأفضل الأدوات التقنية. نرحّب بانضمام أي مطوّر، مصمّم، أو مترجم — تواصل معنا عبر <a href="/contact">صفحة الاتصال</a>.</p>
+<h2>كيف يُموَّل الموقع؟</h2>
+<p>الموقع مجاني تماماً. نعتمد على عوائد إعلانات Google AdSense (المخطط لها) لتغطية تكاليف الخوادم والتطوير. لن نعرض إعلاناتٍ مزعِجة أو مخالفة لقيمنا الإسلامية.</p>`,
+        en: `<h1>About Prayer Times</h1>
+<p><strong>Prayer Times</strong> is a free Islamic project aiming to provide reliable and accurate daily Islamic tools for every Muslim worldwide — in any city, any language, and on any device.</p>
+<h2>Our Mission</h2>
+<p>We believe that daily religious tools should be:</p>
+<ul>
+<li><strong>Free:</strong> Islam is for everyone, and its tools should not be locked behind subscriptions.</li>
+<li><strong>Accurate:</strong> We rely on the latest astronomical equations and trusted religious sources.</li>
+<li><strong>Fast and lightweight:</strong> The site works on the slowest connections and oldest devices.</li>
+<li><strong>Privacy-respecting:</strong> No registration required, and we do not store your data on our servers.</li>
+</ul>
+<h2>Key Features</h2>
+<ul>
+<li><strong>Prayer times:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — for every city in the world, with weekly schedule and pre-prayer reminders.</li>
+<li><strong>Qibla direction:</strong> Interactive compass and map showing the Kaaba direction from your location accurately.</li>
+<li><strong>Hijri calendar:</strong> Full calendar from year 1 AH to 1500 AH, plus a Hijri-Gregorian converter.</li>
+<li><strong>Duas and Athkar:</strong> Organized collection from Quran and Sunnah (morning, evening, prayer, sleep, travel…).</li>
+<li><strong>Digital Tasbih:</strong> Counter that saves your progress and supports daily targets.</li>
+<li><strong>Zakat calculator:</strong> Covers cash, gold, silver, stocks, and investments.</li>
+<li><strong>City pages:</strong> Thousands of pages for cities worldwide, each with geographic info and accurate times.</li>
+</ul>
+<h2>How do we calculate prayer times?</h2>
+<p>We use internationally adopted astronomical algorithms, supporting major calculation schools:</p>
+<ul>
+<li>Islamic Society of North America (ISNA)</li>
+<li>Muslim World League (MWL)</li>
+<li>Egyptian General Authority of Survey</li>
+<li>Umm al-Qura — Saudi Arabia</li>
+<li>University of Islamic Sciences, Karachi</li>
+</ul>
+<h2>Supported Languages</h2>
+<p>The site is currently available in <strong>Arabic</strong> and <strong>English</strong>, with new languages in development (Turkish, French, Urdu, Indonesian).</p>
+<h2>The Team</h2>
+<p>The site is a volunteer project run by Muslims who love their Ummah and aim to serve it with the best technology. We welcome developers, designers, and translators — contact us via the <a href="/en/contact">Contact page</a>.</p>
+<h2>How is the site funded?</h2>
+<p>The site is completely free. We rely on Google AdSense revenue (planned) to cover server and development costs. We will not display intrusive ads or anything inconsistent with our Islamic values.</p>`
+    }
+};
+
+// ============================================================
+// ===== SSR SEO: server-side meta injection for HTML pages ===
+// ============================================================
+
+// أسماء الدول بالعربية (للـ SSR — يجب أن تطابق ما في prayer-times-cities.html)
+const COUNTRY_NAMES_AR = {
+    sa:'المملكة العربية السعودية', sy:'سوريا', eg:'مصر', iq:'العراق',
+    jo:'الأردن', lb:'لبنان', ps:'فلسطين', kw:'الكويت', ae:'الإمارات',
+    qa:'قطر', bh:'البحرين', om:'عُمان', ye:'اليمن', ly:'ليبيا',
+    tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان',
+    pk:'باكستان', tr:'تركيا', ir:'إيران', id:'إندونيسيا', my:'ماليزيا',
+    bd:'بنغلاديش', af:'أفغانستان', in:'الهند', lk:'سريلانكا', np:'نيبال',
+    cn:'الصين', jp:'اليابان', kr:'كوريا الجنوبية', kp:'كوريا الشمالية', mn:'منغوليا',
+    fr:'فرنسا', de:'ألمانيا', gb:'المملكة المتحدة', es:'إسبانيا', it:'إيطاليا',
+    nl:'هولندا', be:'بلجيكا', pt:'البرتغال', se:'السويد', no:'النرويج',
+    dk:'الدنمارك', fi:'فنلندا', pl:'بولندا', ru:'روسيا', ua:'أوكرانيا',
+    ch:'سويسرا', at:'النمسا', gr:'اليونان', cz:'التشيك', ro:'رومانيا',
+    us:'الولايات المتحدة', ca:'كندا', mx:'المكسيك',
+    gt:'غواتيمالا', cu:'كوبا', do:'الدومينيكان',
+    br:'البرازيل', ar:'الأرجنتين', co:'كولومبيا', pe:'بيرو', ve:'فنزويلا',
+    cl:'تشيلي', ec:'الإكوادور', bo:'بوليفيا', py:'باراغواي', uy:'أوروغواي',
+    ng:'نيجيريا', et:'إثيوبيا', ke:'كينيا', tz:'تنزانيا', za:'جنوب أفريقيا',
+    gh:'غانا', sn:'السنغال', cm:'الكاميرون', ml:'مالي', so:'الصومال',
+    ug:'أوغندا', mr:'موريتانيا', td:'تشاد', ne:'النيجر',
+    au:'أستراليا', nz:'نيوزيلندا',
+    th:'تايلاند', ph:'الفلبين', vn:'فيتنام', mm:'ميانمار',
+    kh:'كمبوديا', la:'لاوس', sg:'سنغافورة', bn:'بروناي', tl:'تيمور الشرقية',
+    uz:'أوزبكستان', kz:'كازاخستان', kg:'قيرغيزستان', tj:'طاجيكستان',
+    tm:'تركمانستان', az:'أذربيجان', ge:'جورجيا', am:'أرمينيا',
+    xk:'كوسوفو',
+};
+
+// أشهر الهجرية (slug → {ar, en, order})
+const _HIJRI_MONTHS = {
+    'muharram':        { ar: 'محرم',            en: 'Muharram',         order: 1 },
+    'safar':           { ar: 'صفر',             en: 'Safar',            order: 2 },
+    'rabi-al-awwal':   { ar: 'ربيع الأول',      en: "Rabi' al-Awwal",   order: 3 },
+    'rabi-al-thani':   { ar: 'ربيع الآخر',       en: "Rabi' al-Thani",   order: 4 },
+    'jumada-al-ula':   { ar: 'جمادى الأولى',    en: 'Jumada al-Ula',    order: 5 },
+    'jumada-al-akhira':{ ar: 'جمادى الآخرة',    en: 'Jumada al-Akhira', order: 6 },
+    'rajab':           { ar: 'رجب',             en: 'Rajab',            order: 7 },
+    'shaban':          { ar: 'شعبان',           en: "Sha'ban",          order: 8 },
+    'ramadan':         { ar: 'رمضان',           en: 'Ramadan',          order: 9 },
+    'shawwal':         { ar: 'شوال',            en: 'Shawwal',          order: 10 },
+    'dhu-al-qidah':    { ar: 'ذو القعدة',        en: "Dhu al-Qi'dah",    order: 11 },
+    'dhu-al-hijjah':   { ar: 'ذو الحجة',         en: 'Dhu al-Hijjah',    order: 12 },
+};
+const _HIJRI_MONTHS_BY_ORDER = Object.keys(_HIJRI_MONTHS).reduce((m, k) => {
+    m[_HIJRI_MONTHS[k].order] = k;
+    return m;
+}, {});
+
+function _escHtml(s) {
+    return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function _slugToTitle(slug) {
+    return (slug || '').split('-').filter(Boolean).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+}
+
+// يأخذ slug دولة (مثل 'saudi-arabia') ويعيد {cc, nameAr, nameEn}
+function _countryFromSlug(slug) {
+    for (const cc in COUNTRY_NAMES_EN) {
+        const s = makeCountrySlugSrv(cc);
+        if (s === slug) return { cc, nameAr: COUNTRY_NAMES_AR[cc] || COUNTRY_NAMES_EN[cc], nameEn: COUNTRY_NAMES_EN[cc] };
+    }
+    const fallback = _slugToTitle(slug);
+    return { cc: slug, nameAr: fallback, nameEn: fallback };
+}
+
+/**
+ * يحلّل urlPath ويرجع كائن SEO كامل:
+ *  { title, description, canonical, arUrl, enUrl, isEn, lang, siteName,
+ *    ogType, ogImageUrl, robots, breadcrumbs: [{name, item}],
+ *    geo: {lat, lng, country} | null, prev: url|null, next: url|null, article: {published, modified} | null }
+ */
+function buildSeoForPath(urlPath) {
+    const origin = SITE_URL;
+    let p = urlPath.replace(/\.html$/, '');
+    if (p === '' || p === '/index') p = '/';
+
+    // دعم 5 لغات: ar (افتراضي بدون prefix)، en، fr، tr، ur
+    const SUPPORTED = ['en', 'fr', 'tr', 'ur'];
+    let detectedLang = 'ar';
+    let corePath = p;
+    for (const l of SUPPORTED) {
+        const m = p.match(new RegExp('^\\/' + l + '(\\/.*)?$'));
+        if (m) { detectedLang = l; corePath = m[1] || '/'; break; }
+    }
+    const isEn = (detectedLang === 'en');
+    const lang = detectedLang;
+    const isRtl = (lang === 'ar' || lang === 'ur');
+    // URL variants لكل لغة
+    const langUrl = (l) => {
+        const prefix = (l === 'ar') ? '' : ('/' + l);
+        return origin + prefix + (corePath === '/' ? '/' : corePath);
+    };
+    const arUrl = langUrl('ar');
+    const enUrl = langUrl('en');
+    const frUrl = langUrl('fr');
+    const trUrl = langUrl('tr');
+    const urUrl = langUrl('ur');
+    const canonical = origin + p;
+    const SITE_NAMES = {
+        ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
+        tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز'
+    };
+    const siteName = SITE_NAMES[lang] || SITE_NAMES.ar;
+
+    // Defaults (homepage)
+    let title = isEn
+        ? 'Prayer Times & Hijri Calendar — Qibla, Duas, Zakat'
+        : 'مواقيت الصلاة والتاريخ الهجري | القبلة، الأدعية، الزكاة';
+    let description = isEn
+        ? 'Accurate Islamic prayer times, Hijri calendar, Qibla direction, date converter, Zakat calculator, duas & athkar for every city worldwide.'
+        : 'مواقيت الصلاة الدقيقة، التاريخ الهجري، اتجاه القبلة، تحويل التاريخ، حاسبة الزكاة، الأدعية والأذكار لكل مدن العالم.';
+    let ogType = 'website';
+    let geo = null;
+    let prev = null, next = null, article = null;
+    let webApp = null;           // WebApplication schema metadata (tool pages)
+    let qiblaRef = null;         // Kaaba reference for /qibla-in-*
+    let cityModified = null;     // dateModified for city pages
+    // Localize homepage title/description for additional languages (fallback: AR)
+    if (lang === 'fr') {
+        title = 'Heures de Prière & Calendrier Hégirien — Qibla, Douas, Zakat';
+        description = 'Heures de prière islamiques précises, calendrier hégirien, direction de la Qibla, convertisseur de date, calculateur de Zakat, douas et adhkar pour chaque ville.';
+    } else if (lang === 'tr') {
+        title = 'Namaz Vakitleri ve Hicri Takvim — Kıble, Dualar, Zekat';
+        description = 'Hassas İslami namaz vakitleri, hicri takvim, kıble yönü, tarih dönüştürücü, zekat hesaplayıcı, dualar ve zikirler — her şehir için.';
+    } else if (lang === 'ur') {
+        title = 'اوقاتِ نماز اور ہجری کیلنڈر — قبلہ، دعائیں، زکوٰۃ';
+        description = 'دنیا بھر کے شہروں کے لیے درست اسلامی اوقاتِ نماز، ہجری کیلنڈر، سمتِ قبلہ، تاریخ کنورٹر، زکوٰۃ کیلکولیٹر، دعائیں و اذکار۔';
+    }
+
+    const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم' };
+    const breadcrumbs = [{ name: HOME_LABELS[lang] || HOME_LABELS.ar, item: langUrl(lang) }];
+
+    // ── Static tool pages ──
+    const staticPages = {
+        '/qibla': {
+            title: [ 'Qibla Direction Finder — Online Compass to Mecca', 'اتجاه القبلة — بوصلة الكعبة المشرفة في مكة' ],
+            desc:  [ 'Find the accurate Qibla direction from your location using GPS. Interactive compass and map to locate the Kaaba in Mecca.',
+                     'تحديد اتجاه القبلة الدقيق من موقعك عبر GPS. بوصلة وخريطة تفاعلية لمعرفة اتجاه الكعبة المشرفة في مكة.' ],
+            app: { category: 'UtilitiesApplication' },
+        },
+        '/moon': {
+            title: [ 'Moon Today — Phase, Age & Illumination', 'القمر اليوم — الطور، العمر والإضاءة' ],
+            desc:  [ "Track tonight's moon phase, age, illumination percentage, and upcoming moon events based on your location.",
+                     'معلومات القمر اليوم: طور القمر، عمره، نسبة إضاءته، والأحداث القادمة حسب موقعك.' ],
+            app: { category: 'UtilitiesApplication' },
+        },
+        '/zakat-calculator': {
+            title: [ 'Zakat Calculator — Free Islamic Tool', 'حاسبة الزكاة — أداة إسلامية مجانية' ],
+            desc:  [ 'Calculate your Zakat accurately with our free Islamic tool. Covers cash, gold, silver, stocks & investments.',
+                     'احسب زكاتك بدقة عبر حاسبة الزكاة المجانية: النقد، الذهب، الفضة، الأسهم والاستثمارات.' ],
+            app: { category: 'FinanceApplication' },
+        },
+        '/duas': {
+            title: [ 'Duas & Athkar — Authentic Islamic Supplications', 'الأدعية والأذكار الصحيحة من الكتاب والسنة' ],
+            desc:  [ 'Authentic duas from Quran & Sunnah: morning & evening athkar, after-prayer remembrance, sleep, travel, distress and Friday duas with sources.',
+                     'أدعية وأذكار صحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة — مع التخريج.' ],
+            ogType: 'article',
+        },
+        '/msbaha': {
+            title: [ 'Digital Tasbih Counter — Masbaha for Dhikr', 'المسبحة الإلكترونية — عدّاد الذكر اليومي' ],
+            desc:  [ 'Free digital tasbih counter that saves your dhikr count between sessions. Track Subhanallah, Alhamdulillah, Allahu Akbar and custom dhikr targets.',
+                     'مسبحة إلكترونية مجانية تحفظ عدد الأذكار بين الجلسات. تابع تسبيحك اليومي: سبحان الله، الحمد لله، الله أكبر، أو حدّد ذكراً مخصّصاً وهدفاً.' ],
+            app: { category: 'UtilitiesApplication' },
+        },
+        '/dateconverter': {
+            title: [ 'Hijri to Gregorian Date Converter (Two-Way)', 'محوّل التاريخ الهجري إلى الميلادي وبالعكس' ],
+            desc:  [ 'Convert Hijri to Gregorian and vice versa for any year from 1 AH to 1500 AH. Based on Umm al-Qura calendar with weekday and historical event lookup.',
+                     'حوِّل التاريخ بين الهجري والميلادي لأي سنة من 1 هـ حتى 1500 هـ. يعتمد على تقويم أم القرى ويُظهر اليوم من الأسبوع والأحداث التاريخية.' ],
+            app: { category: 'UtilitiesApplication' },
+        },
+        '/today-hijri-date': {
+            title: [ "Today's Hijri Date", 'التاريخ الهجري اليوم' ],
+            desc:  [ "Find today's accurate Hijri (Islamic) date and its Gregorian equivalent — updated daily from Umm al-Qura calendar.",
+                     'التاريخ الهجري اليوم مع مقابله الميلادي — محدَّث يومياً وفقاً لتقويم أم القرى.' ],
+            ogType: 'article',
+        },
+        '/privacy': {
+            title: [ 'Privacy Policy — Prayer Times', 'سياسة الخصوصية — مواقيت الصلاة' ],
+            desc:  [ 'Our privacy policy explains what data we collect (location, language preference), how cookies are used, third-party services, and your data rights.',
+                     'سياسة خصوصية الموقع: ما البيانات التي نجمعها (الموقع، اللغة)، استخدام ملفات تعريف الارتباط، الخدمات الخارجية، وحقوقك في بياناتك.' ],
+            ogType: 'article',
+        },
+        '/terms': {
+            title: [ 'Terms of Use — Prayer Times', 'شروط الاستخدام — مواقيت الصلاة' ],
+            desc:  [ 'Terms of use governing access to Prayer Times website: service description, accuracy disclaimer, user obligations, intellectual property and limitation of liability.',
+                     'شروط استخدام موقع مواقيت الصلاة: وصف الخدمة، إخلاء المسؤولية عن الدقة، التزامات المستخدم، الملكية الفكرية وحدود المسؤولية.' ],
+            ogType: 'article',
+        },
+        '/contact': {
+            title: [ 'Contact Us — Prayer Times', 'اتصل بنا — مواقيت الصلاة' ],
+            desc:  [ 'Get in touch with the Prayer Times team for support, feedback, partnership inquiries or to report inaccurate prayer times in your city.',
+                     'تواصل مع فريق مواقيت الصلاة للدعم، الاقتراحات، الشراكات أو للإبلاغ عن مواقيت غير دقيقة في مدينتك.' ],
+            ogType: 'article',
+        },
+        '/about-us': {
+            title: [ 'About Prayer Times — Our Mission', 'عن موقع مواقيت الصلاة — رسالتنا' ],
+            desc:  [ 'Learn about Prayer Times: our mission to provide accurate Islamic prayer schedules, Hijri calendar, Qibla direction and duas freely to Muslims worldwide.',
+                     'تعرّف على موقع مواقيت الصلاة: رسالتنا في توفير مواقيت صلاة دقيقة، تقويم هجري، اتجاه قبلة وأدعية مجاناً للمسلمين حول العالم.' ],
+            ogType: 'article',
+        },
+    };
+
+    if (staticPages[corePath]) {
+        const sp = staticPages[corePath];
+        // AR uses index 1، بقية اللغات (en/fr/tr/ur) تستخدم EN (index 0) كاحتياطي
+        const useAr = (lang === 'ar');
+        title = useAr ? sp.title[1] : sp.title[0];
+        description = useAr ? sp.desc[1] : sp.desc[0];
+        if (sp.ogType) ogType = sp.ogType;
+        if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
+        breadcrumbs.push({ name: title, item: canonical });
+    }
+
+    // للصفحات الديناميكية: استخدم النص الإنجليزي لـ EN/FR/TR/UR (احتياط) والعربي لـ AR فقط
+    const useEnTxt = (lang !== 'ar');
+
+    // ── City pages: /prayer-times-in-{slug}-{lat}-{lng} ──
+    let m = corePath.match(/^\/prayer-times-in-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+    if (m) {
+        const citySlug = m[1];
+        const lat = parseFloat(m[2]);
+        const lng = parseFloat(m[3]);
+        const cityDisplay = _slugToTitle(citySlug);
+        // عناوين مُثراة بكلمات مفتاحية SEO (~55 حرفاً) — قابلة للاستبدال من CSR
+        const _baseTitle = useEnTxt ? `Prayer Times in ${cityDisplay}` : `مواقيت الصلاة في ${cityDisplay}`;
+        const _suffix = useEnTxt ? ' — Fajr, Dhuhr, Asr, Maghrib, Isha' : ' — الفجر، الظهر، العصر، المغرب، العشاء';
+        title = (_baseTitle + _suffix).length <= 60 ? _baseTitle + _suffix : _baseTitle;
+        description = useEnTxt
+            ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
+            : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;
+        ogType = 'article';
+        geo = { lat, lng };
+        cityModified = new Date().toISOString();
+        breadcrumbs.push({ name: cityDisplay, item: canonical });
+    }
+
+    // ── Qibla city pages: /qibla-in-{slug}-{lat}-{lng} ──
+    m = corePath.match(/^\/qibla-in-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+    if (m) {
+        const citySlug = m[1];
+        const lat = parseFloat(m[2]);
+        const lng = parseFloat(m[3]);
+        const cityDisplay = _slugToTitle(citySlug);
+        const _qBase = useEnTxt ? `Qibla Direction in ${cityDisplay}` : `اتجاه القبلة في ${cityDisplay}`;
+        const _qSuf  = useEnTxt ? ' — Compass to the Kaaba in Mecca' : ' — بوصلة الكعبة في مكة';
+        title = (_qBase + _qSuf).length <= 60 ? _qBase + _qSuf : _qBase;
+        description = useEnTxt
+            ? `Accurate Qibla direction from ${cityDisplay} to the Kaaba in Mecca, with exact bearing, compass and map view.`
+            : `اتجاه القبلة الدقيق من ${cityDisplay} إلى الكعبة المشرفة في مكة، مع درجة الانحراف وبوصلة وخريطة تفاعلية.`;
+        ogType = 'article';
+        geo = { lat, lng };
+        cityModified = new Date().toISOString();
+        qiblaRef = { cityName: cityDisplay, lat, lng };
+        breadcrumbs.push({ name: cityDisplay, item: canonical });
+    }
+
+    // ── About city pages: /about-{slug}-{lat}-{lng} ──
+    m = corePath.match(/^\/about-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+    if (m) {
+        const citySlug = m[1];
+        const lat = parseFloat(m[2]);
+        const lng = parseFloat(m[3]);
+        const cityDisplay = _slugToTitle(citySlug);
+        const _aBase = useEnTxt ? `About ${cityDisplay}` : `عن مدينة ${cityDisplay}`;
+        const _aSuf  = useEnTxt ? ' — Location, Timezone & Prayer Times' : ' — الموقع، المنطقة الزمنية ومواقيت الصلاة';
+        title = (_aBase + _aSuf).length <= 60 ? _aBase + _aSuf : _aBase;
+        description = useEnTxt
+            ? `Discover ${cityDisplay}: geographic coordinates, timezone, population, Islamic prayer times, Qibla direction, today's Hijri date and key local facts.`
+            : `تعرّف على مدينة ${cityDisplay}: الإحداثيات الجغرافية، المنطقة الزمنية، السكان، مواقيت الصلاة، اتجاه القبلة، التاريخ الهجري وأهم الحقائق المحلية.`;
+        ogType = 'article';
+        geo = { lat, lng };
+        cityModified = new Date().toISOString();
+        breadcrumbs.push({ name: cityDisplay, item: canonical });
+    }
+
+    // المسار للغة (بدون prefix لـ AR، وإلا /{lang})
+    const langPrefix = (lang === 'ar') ? '' : ('/' + lang);
+
+    // ── Hijri year: /hijri-calendar/{year} ──
+    m = corePath.match(/^\/hijri-calendar\/(\d{4})$/);
+    if (m) {
+        const year = m[1];
+        title = useEnTxt ? `Hijri Calendar ${year} AH` : `التقويم الهجري لعام ${year} هـ`;
+        description = useEnTxt
+            ? `Full Hijri calendar for year ${year} AH with all 12 months, days and their Gregorian dates from the Umm al-Qura calendar.`
+            : `التقويم الهجري الكامل لعام ${year} هـ مع جميع الأشهر الإثني عشر والأيام وتواريخها الميلادية من تقويم أم القرى.`;
+        ogType = 'article';
+        breadcrumbs.push({ name: useEnTxt ? 'Hijri Calendar' : 'التقويم الهجري', item: origin + langPrefix + `/hijri-calendar/${year}` });
+        prev = origin + langPrefix + `/hijri-calendar/${parseInt(year) - 1}`;
+        next = origin + langPrefix + `/hijri-calendar/${parseInt(year) + 1}`;
+        article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
+    }
+
+    // ── Hijri month: /hijri-calendar/{month-slug}-{year} ──
+    m = corePath.match(/^\/hijri-calendar\/([a-z-]+)-(\d+)$/);
+    if (m) {
+        const monthSlug = m[1];
+        const year = m[2];
+        const info = _HIJRI_MONTHS[monthSlug];
+        const monthAr = info ? info.ar : _slugToTitle(monthSlug);
+        const monthEn = info ? info.en : _slugToTitle(monthSlug);
+        title = useEnTxt ? `${monthEn} ${year} AH — Hijri Calendar` : `التقويم الهجري لشهر ${monthAr} ${year} هـ`;
+        description = useEnTxt
+            ? `Full Hijri calendar for ${monthEn} ${year} AH with all days and their Gregorian dates from the Umm al-Qura calendar.`
+            : `التقويم الهجري الكامل لشهر ${monthAr} ${year} هـ مع التاريخ الميلادي لكل يوم حسب تقويم أم القرى في المملكة العربية السعودية.`;
+        ogType = 'article';
+        breadcrumbs.push({ name: useEnTxt ? 'Hijri Calendar' : 'التقويم الهجري', item: origin + langPrefix + `/hijri-calendar/${year}` });
+        breadcrumbs.push({ name: useEnTxt ? `${monthEn} ${year}` : `${monthAr} ${year}`, item: canonical });
+        // prev/next month navigation
+        if (info) {
+            const prevOrder = info.order === 1 ? 12 : info.order - 1;
+            const prevYear = info.order === 1 ? parseInt(year) - 1 : parseInt(year);
+            const nextOrder = info.order === 12 ? 1 : info.order + 1;
+            const nextYear = info.order === 12 ? parseInt(year) + 1 : parseInt(year);
+            prev = origin + langPrefix + `/hijri-calendar/${_HIJRI_MONTHS_BY_ORDER[prevOrder]}-${prevYear}`;
+            next = origin + langPrefix + `/hijri-calendar/${_HIJRI_MONTHS_BY_ORDER[nextOrder]}-${nextYear}`;
+        }
+        article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
+    }
+
+    // ── Hijri day: /hijri-date/{day}-{month-slug}-{year} ──
+    m = corePath.match(/^\/hijri-date\/(\d+)-([a-z-]+)-(\d+)$/);
+    if (m) {
+        const day = m[1];
+        const monthSlug = m[2];
+        const year = m[3];
+        const info = _HIJRI_MONTHS[monthSlug];
+        const monthAr = info ? info.ar : _slugToTitle(monthSlug);
+        const monthEn = info ? info.en : _slugToTitle(monthSlug);
+        title = useEnTxt
+            ? `${day} ${monthEn} ${year} AH — Islamic Date with Gregorian Equivalent`
+            : `${day} ${monthAr} ${year} هـ — التاريخ الهجري والميلادي`;
+        description = useEnTxt
+            ? `The Hijri (Islamic) date ${day} ${monthEn} ${year} AH with its exact Gregorian equivalent, events and historical background.`
+            : `التاريخ الهجري ${day} ${monthAr} ${year} هـ مع مقابله الميلادي الدقيق والأحداث والخلفية التاريخية لهذا اليوم.`;
+        ogType = 'article';
+        breadcrumbs.push({ name: useEnTxt ? 'Hijri Calendar' : 'التقويم الهجري', item: origin + langPrefix + `/hijri-calendar/${year}` });
+        breadcrumbs.push({ name: useEnTxt ? `${monthEn} ${year}` : `${monthAr} ${year}`, item: origin + langPrefix + `/hijri-calendar/${monthSlug}-${year}` });
+        breadcrumbs.push({ name: useEnTxt ? `${day} ${monthEn}` : `${day} ${monthAr}`, item: canonical });
+        article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
+    }
+
+    // ── Country listing: /{country-slug} (excluding reserved paths) ──
+    let countryListing = null;
+    m = corePath.match(/^\/([a-z][a-z0-9-]+)$/);
+    if (m && !['qibla', 'moon', 'zakat-calculator', 'duas', 'msbaha', 'dateconverter', 'today-hijri-date', 'index', 'en', 'fr', 'tr', 'ur', 'sw', 'privacy', 'terms', 'contact', 'about-us'].includes(m[1])) {
+        const slug = m[1];
+        const c = _countryFromSlug(slug);
+        const cname = useEnTxt ? c.nameEn : c.nameAr;
+        title = useEnTxt ? `Prayer Times in Cities of ${cname}` : `مواقيت الصلاة في مدن ${cname}`;
+        description = useEnTxt
+            ? `Browse every city in ${cname} for accurate Fajr, Dhuhr, Asr, Maghrib & Isha prayer times, Qibla direction and today's Hijri date with weekly schedule.`
+            : `تصفّح جميع مدن ${cname} لمعرفة مواقيت الصلاة الدقيقة (الفجر، الظهر، العصر، المغرب، العشاء)، اتجاه القبلة والتاريخ الهجري والجدول الأسبوعي.`;
+        breadcrumbs.push({ name: cname, item: canonical });
+        countryListing = { code: (c && c.cc) ? c.cc : slug, name: cname };
+    }
+
+    // OG image URL (dynamic SVG endpoint)
+    const ogImageUrl = `${origin}/og-image.svg?t=${encodeURIComponent(title)}&l=${lang}`;
+
+    return {
+        title, description, canonical, arUrl, enUrl, frUrl, trUrl, urUrl,
+        isEn, isRtl, lang, siteName,
+        ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
+        webApp, qiblaRef, countryListing, cityModified, origin
+    };
+}
+
+/**
+ * يبني كتلة HTML لحقنها داخل <head> قبل </head>.
+ * تشمل: robots, canonical, hreflang×3, OG×8+, Twitter×3, BreadcrumbList, geo, prev/next, article:*.
+ */
+function renderSeoHeadHtml(seo) {
+    const esc = _escHtml;
+    const parts = [];
+    parts.push('<!-- SSR-SEO-START -->');
+    parts.push(`<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">`);
+    // Performance: preconnect/dns-prefetch to Nominatim (used by client geocoding)
+    parts.push(`<link rel="preconnect" href="https://nominatim.openstreetmap.org" crossorigin>`);
+    parts.push(`<link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">`);
+    parts.push(`<link rel="canonical" href="${esc(seo.canonical)}">`);
+    parts.push(`<link rel="alternate" hreflang="ar" href="${esc(seo.arUrl)}">`);
+    parts.push(`<link rel="alternate" hreflang="en" href="${esc(seo.enUrl)}">`);
+    if (seo.frUrl) parts.push(`<link rel="alternate" hreflang="fr" href="${esc(seo.frUrl)}">`);
+    if (seo.trUrl) parts.push(`<link rel="alternate" hreflang="tr" href="${esc(seo.trUrl)}">`);
+    if (seo.urUrl) parts.push(`<link rel="alternate" hreflang="ur" href="${esc(seo.urUrl)}">`);
+    parts.push(`<link rel="alternate" hreflang="x-default" href="${esc(seo.arUrl)}">`);
+    // OpenGraph
+    parts.push(`<meta property="og:title" content="${esc(seo.title)}">`);
+    parts.push(`<meta property="og:description" content="${esc(seo.description)}">`);
+    parts.push(`<meta property="og:url" content="${esc(seo.canonical)}">`);
+    parts.push(`<meta property="og:type" content="${esc(seo.ogType)}">`);
+    parts.push(`<meta property="og:site_name" content="${esc(seo.siteName)}">`);
+    const LOCALE_MAP = { ar: 'ar_SA', en: 'en_US', fr: 'fr_FR', tr: 'tr_TR', ur: 'ur_PK' };
+    const _locale = LOCALE_MAP[seo.lang] || 'ar_SA';
+    parts.push(`<meta property="og:locale" content="${_locale}">`);
+    for (const [_l, _v] of Object.entries(LOCALE_MAP)) {
+        if (_l !== seo.lang) parts.push(`<meta property="og:locale:alternate" content="${_v}">`);
+    }
+    parts.push(`<meta property="og:image" content="${esc(seo.ogImageUrl)}">`);
+    parts.push(`<meta property="og:image:width" content="1200">`);
+    parts.push(`<meta property="og:image:height" content="630">`);
+    parts.push(`<meta property="og:image:alt" content="${esc(seo.title)}">`);
+    // Twitter
+    parts.push(`<meta name="twitter:card" content="summary_large_image">`);
+    parts.push(`<meta name="twitter:title" content="${esc(seo.title)}">`);
+    parts.push(`<meta name="twitter:description" content="${esc(seo.description)}">`);
+    parts.push(`<meta name="twitter:image" content="${esc(seo.ogImageUrl)}">`);
+    // Geo (for city pages)
+    if (seo.geo) {
+        parts.push(`<meta name="geo.position" content="${seo.geo.lat};${seo.geo.lng}">`);
+        parts.push(`<meta name="ICBM" content="${seo.geo.lat}, ${seo.geo.lng}">`);
+    }
+    // prev/next
+    if (seo.prev) parts.push(`<link rel="prev" href="${esc(seo.prev)}">`);
+    if (seo.next) parts.push(`<link rel="next" href="${esc(seo.next)}">`);
+    // Article meta (+ dateModified for city pages)
+    if (seo.article) {
+        parts.push(`<meta property="article:published_time" content="${esc(seo.article.published)}">`);
+        parts.push(`<meta property="article:modified_time" content="${esc(seo.article.modified)}">`);
+        parts.push(`<meta property="article:author" content="${esc(seo.siteName)}">`);
+    } else if (seo.cityModified) {
+        parts.push(`<meta property="article:modified_time" content="${esc(seo.cityModified)}">`);
+    }
+
+    // ===== Unified @graph SEO Schema =====
+    // يجمع: Organization (logo + sameAs), ImageObject (OG), BreadcrumbList,
+    // WebApplication (لصفحات الأدوات), Place (للقبلة مع الكعبة)
+    const ssrGraph = [];
+    const orgId   = `${seo.origin}/#organization`;
+    const logoId  = `${seo.origin}/#logo`;
+    const imageId = `${seo.ogImageUrl}#image`;
+
+    // Organization with logo + sameAs
+    ssrGraph.push({
+        "@type": "Organization",
+        "@id": orgId,
+        "name": seo.siteName,
+        "url": seo.origin + '/',
+        "logo": { "@id": logoId }
+        // "sameAs": [...social links when available...]
+    });
+
+    // Organization logo — ImageObject
+    ssrGraph.push({
+        "@type": "ImageObject",
+        "@id": logoId,
+        "url": `${seo.origin}/og-image.svg`,
+        "contentUrl": `${seo.origin}/og-image.svg`,
+        "width": 1200,
+        "height": 630,
+        "caption": seo.siteName
+    });
+
+    // Primary OG image — standalone ImageObject
+    ssrGraph.push({
+        "@type": "ImageObject",
+        "@id": imageId,
+        "url": seo.ogImageUrl,
+        "contentUrl": seo.ogImageUrl,
+        "width": 1200,
+        "height": 630,
+        "caption": seo.title,
+        "representativeOfPage": true
+    });
+
+    // BreadcrumbList (if >= 2 items)
+    if (seo.breadcrumbs && seo.breadcrumbs.length >= 2) {
+        ssrGraph.push({
+            "@type": "BreadcrumbList",
+            "@id": `${seo.canonical}#breadcrumb`,
+            "itemListElement": seo.breadcrumbs.map((b, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "name": b.name,
+                "item": b.item
+            }))
+        });
+    }
+
+    // WebApplication for tool pages
+    if (seo.webApp) {
+        ssrGraph.push({
+            "@type": "WebApplication",
+            "@id": `${seo.canonical}#webapp`,
+            "name": seo.webApp.name,
+            "url": seo.webApp.url,
+            "description": seo.description,
+            "applicationCategory": seo.webApp.category,
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "inLanguage": seo.lang,
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "publisher": { "@id": orgId },
+            "image": { "@id": imageId }
+        });
+    }
+
+    // Place with Kaaba reference — for /qibla-in-*
+    if (seo.qiblaRef) {
+        ssrGraph.push({
+            "@type": "Place",
+            "@id": `${seo.canonical}#place-origin`,
+            "name": seo.qiblaRef.cityName,
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": seo.qiblaRef.lat,
+                "longitude": seo.qiblaRef.lng
+            }
+        });
+        ssrGraph.push({
+            "@type": "Place",
+            "@id": "https://www.google.com/maps?q=21.4225,39.8262#kaaba",
+            "name": seo.isEn ? 'The Kaaba' : 'الكعبة المشرفة',
+            "alternateName": seo.isEn ? 'Al-Masjid al-Haram' : 'المسجد الحرام',
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": seo.isEn ? 'Mecca' : 'مكة المكرمة',
+                "addressCountry": seo.isEn ? 'Saudi Arabia' : 'المملكة العربية السعودية'
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 21.4225,
+                "longitude": 39.8262
+            }
+        });
+    }
+
+    // Place (country) for country listing pages — /{country-slug}
+    if (seo.countryListing) {
+        ssrGraph.push({
+            "@type": "Place",
+            "@id": `${seo.canonical}#country`,
+            "name": seo.countryListing.name,
+            "description": seo.description,
+            "url": seo.canonical,
+            "additionalType": "https://schema.org/Country"
+        });
+    }
+
+    if (ssrGraph.length) {
+        const graphSchema = { "@context": "https://schema.org", "@graph": ssrGraph };
+        parts.push(`<script id="ssr-graph-schema" type="application/ld+json">${JSON.stringify(graphSchema)}</script>`);
+    }
+    parts.push('<!-- SSR-SEO-END -->');
+    return parts.map(x => '    ' + x).join('\n');
+}
+
+/**
+ * الدالة الموحّدة لتقديم HTML مع حقن SEO كامل.
+ * تستبدل جميع الكتل المكررة (readCachedFile → gzip → res.end).
+ */
+function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
+    let html = htmlBuf.toString('utf8');
+    const seo = buildSeoForPath(urlPath);
+
+    // 1) Language swap (ar → lang) لمنع CLS + دعم RTL للأردو والعربية
+    if (seo.lang !== 'ar') {
+        const newDir = seo.isRtl ? 'rtl' : 'ltr';
+        html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, `<html$1lang="${seo.lang}"$2dir="${newDir}"`);
+    }
+    // 2) base href لحل المسارات النسبية تحت /en/... أو /hijri-calendar/...
+    if (!html.includes('<base ')) {
+        html = html.replace('<head>', '<head>\n    <base href="/">');
+    }
+    // 3) استبدال <title> و <meta name="description"> الموجودين
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${_escHtml(seo.title)}</title>`);
+    html = html.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
+                        `<meta name="description" content="${_escHtml(seo.description)}">`);
+    // 4) حقن كتلة SEO قبل </head>
+    const seoBlock = renderSeoHeadHtml(seo);
+    html = html.replace('</head>', `${seoBlock}\n</head>`);
+
+    const buf = Buffer.from(html, 'utf8');
+    const headers = {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Vary': 'Accept-Encoding'
+    };
+    if (acceptEnc.includes('gzip')) {
+        zlib.gzip(buf, (e, zbuf) => {
+            if (e) { res.writeHead(200, headers); res.end(buf); return; }
+            res.writeHead(200, { ...headers, 'Content-Encoding': 'gzip' });
+            res.end(zbuf);
+        });
+    } else {
+        res.writeHead(200, headers);
+        res.end(buf);
+    }
+}
+
+// ===== /og-image.svg — dynamic OG image endpoint (1200x630) =====
+// Returns SVG as OG image. Accepts ?t=<title>&l=<ar|en>.
+function handleOgImage(qs, res) {
+    const params = new URLSearchParams(qs);
+    const title = (params.get('t') || 'مواقيت الصلاة').slice(0, 110);
+    const lang = params.get('l') === 'en' ? 'en' : 'ar';
+    const isAr = lang === 'ar';
+    const dir = isAr ? 'rtl' : 'ltr';
+    const anchor = isAr ? 'end' : 'start';
+    const xPos = isAr ? 1140 : 60;
+    const subtitle = isAr ? 'مواقيت الصلاة والتاريخ الهجري' : 'Prayer Times & Hijri Calendar';
+    const domain = SITE_URL.replace(/^https?:\/\//, '');
+    // تقسيم العنوان إلى سطور إذا كان طويلاً
+    const words = title.split(' ');
+    const lines = [];
+    let cur = '';
+    const maxChars = isAr ? 30 : 35;
+    for (const w of words) {
+        if ((cur + ' ' + w).trim().length > maxChars) { if (cur) lines.push(cur); cur = w; }
+        else cur = (cur + ' ' + w).trim();
+    }
+    if (cur) lines.push(cur);
+    const maxLines = lines.slice(0, 3);
+
+    const esc = _escHtml;
+    const tspans = maxLines.map((ln, i) =>
+        `<tspan x="${xPos}" dy="${i === 0 ? 0 : 86}">${esc(ln)}</tspan>`
+    ).join('');
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0f6e4a"/>
+    <stop offset="1" stop-color="#084a31"/>
+  </linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<circle cx="${isAr ? 160 : 1040}" cy="150" r="70" fill="#ffffff" fill-opacity="0.1"/>
+<text x="${isAr ? 160 : 1040}" y="180" text-anchor="middle" font-size="90" fill="#ffffff" fill-opacity="0.95">🕌</text>
+<text x="${xPos}" y="260" text-anchor="${anchor}" direction="${dir}" font-family="Cairo, Arial, sans-serif" font-size="72" font-weight="800" fill="#ffffff">${tspans}</text>
+<text x="${xPos}" y="540" text-anchor="${anchor}" direction="${dir}" font-family="Cairo, Arial, sans-serif" font-size="38" fill="#cde9dc">${esc(subtitle)}</text>
+<text x="${xPos}" y="590" text-anchor="${anchor}" direction="${dir}" font-family="Arial, sans-serif" font-size="28" fill="#9dc8b4">${esc(domain)}</text>
+</svg>`;
+    res.writeHead(200, {
+        'Content-Type': 'image/svg+xml; charset=utf-8',
+        'Cache-Control': 'public, max-age=86400, s-maxage=31536000',
+    });
+    res.end(svg);
+}
+
+// ===== Rate Limiter متدرّج لـ /api/* =====
+// حدود مختلفة حسب تكلفة النقطة — حماية Nominatim دون إزعاج مستخدمي CGNAT
+const _rlWindowMs = 60 * 1000;
+const _RL_TIERS = {
+    cheap:    300,  // /api/cities, /api/cities/add — DB محلي + كاش ذاكرة
+    external: 60,   // /api/wiki-* — كاش داخلي 24h/7d
+    strict:   30,   // /api/geocode — Nominatim policy (1 req/sec)
+};
+const _rlMap = new Map(); // ip → { [tier]: { count, resetAt } }
+function checkRateLimit(ip, tier) {
+    const max = _RL_TIERS[tier] || _RL_TIERS.strict;
+    const now = Date.now();
+    let buckets = _rlMap.get(ip);
+    if (!buckets) { buckets = {}; _rlMap.set(ip, buckets); }
+    const entry = buckets[tier];
+    if (!entry || now >= entry.resetAt) {
+        buckets[tier] = { count: 1, resetAt: now + _rlWindowMs };
+        return { allowed: true, max, remaining: max - 1, reset: Math.ceil(_rlWindowMs / 1000) };
+    }
+    entry.count++;
+    if (entry.count > max) {
+        return { allowed: false, max, remaining: 0, reset: Math.ceil((entry.resetAt - now) / 1000) };
+    }
+    return { allowed: true, max, remaining: max - entry.count, reset: Math.ceil((entry.resetAt - now) / 1000) };
+}
+function getTierForPath(urlPath) {
+    if (urlPath === '/api/cities' || urlPath === '/api/cities/add') return 'cheap';
+    if (urlPath.startsWith('/api/wiki-')) return 'external';
+    if (urlPath === '/api/geocode') return 'strict';
+    return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
+}
+// تنظيف دوري — يزيل IPs التي جميع buckets-ها منتهية (منع نمو غير محدود)
+setInterval(() => {
+    const now = Date.now();
+    for (const [ip, buckets] of _rlMap) {
+        let alive = false;
+        for (const t in buckets) if (now < buckets[t].resetAt) { alive = true; break; }
+        if (!alive) _rlMap.delete(ip);
+    }
+}, 5 * 60 * 1000).unref();
+// ===== Circuit Breaker للخدمات الخارجية =====
+// بعد 5 أخطاء متتالية، يتوقف الاستدعاء لدقيقة كاملة — يمنع تكدّس طلبات فاشلة
+const _circuits = new Map(); // name → { failures, openUntil }
+const _CB_THRESHOLD = 5;
+const _CB_COOLDOWN = 60 * 1000;
+function circuitAllow(name) {
+    const c = _circuits.get(name);
+    if (!c) return true;
+    if (c.openUntil && Date.now() < c.openUntil) return false;
+    return true;
+}
+function circuitSuccess(name) {
+    _circuits.delete(name);
+}
+function circuitFail(name) {
+    const c = _circuits.get(name) || { failures: 0, openUntil: 0 };
+    c.failures++;
+    if (c.failures >= _CB_THRESHOLD) {
+        c.openUntil = Date.now() + _CB_COOLDOWN;
+        console.warn(`[CircuitBreaker] ${name} مفتوح حتى ${new Date(c.openUntil).toISOString()}`);
+    }
+    _circuits.set(name, c);
+}
+
+function getClientIp(req) {
+    // يدعم وقوف الخادم خلف reverse proxy (Cloudflare/nginx)
+    const xff = req.headers['x-forwarded-for'];
+    if (xff) return xff.split(',')[0].trim();
+    const cf = req.headers['cf-connecting-ip'];
+    if (cf) return cf;
+    return req.socket.remoteAddress || 'unknown';
+}
 
 const mimeTypes = {
     '.html': 'text/html; charset=utf-8',
@@ -1128,6 +2206,9 @@ const COUNTRY_QID = {
 };
 
 function wikidataFetch(sparql) {
+    if (!circuitAllow('wikidata')) {
+        return Promise.reject(new Error('circuit_open:wikidata'));
+    }
     return new Promise((resolve, reject) => {
         const encoded = encodeURIComponent(sparql);
         const req = https.request({
@@ -1137,14 +2218,14 @@ function wikidataFetch(sparql) {
             headers: { 'Accept': 'application/sparql-results+json', 'User-Agent': 'PrayerTimesApp/1.0' },
             timeout: 25000,
         }, res => {
-            if (res.statusCode !== 200) { res.resume(); return reject(new Error(`HTTP ${res.statusCode}`)); }
+            if (res.statusCode !== 200) { res.resume(); circuitFail('wikidata'); return reject(new Error(`HTTP ${res.statusCode}`)); }
             let data = '';
             res.setEncoding('utf8');
             res.on('data', c => data += c);
-            res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { reject(e); } });
+            res.on('end', () => { try { circuitSuccess('wikidata'); resolve(JSON.parse(data)); } catch(e) { circuitFail('wikidata'); reject(e); } });
         });
-        req.on('error', reject);
-        req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
+        req.on('error', (e) => { circuitFail('wikidata'); reject(e); });
+        req.on('timeout', () => { req.destroy(); circuitFail('wikidata'); reject(new Error('timeout')); });
         req.end();
     });
 }
@@ -1188,16 +2269,28 @@ function dbFile(cc) {
     return path.join(DB_DIR, `cities-${cc}.json`);
 }
 
+// كاش مدن في الذاكرة — أول قراءة تقرأ من القرص، الباقي من الذاكرة
+// الكتابات تتم عبر dbWrite الذي يحدّث الكاش، فلا يتقادم المحتوى في الاستخدام العادي
+const _dbMemCache = new Map();
+
 function dbRead(cc) {
+    const cached = _dbMemCache.get(cc);
+    if (cached !== undefined) return cached;
     try {
         const raw = fs.readFileSync(dbFile(cc), 'utf8');
-        return JSON.parse(raw);
-    } catch(e) { return null; }
+        const data = JSON.parse(raw);
+        _dbMemCache.set(cc, data);
+        return data;
+    } catch(e) {
+        _dbMemCache.set(cc, null);
+        return null;
+    }
 }
 
 function dbWrite(cc, cities) {
     try {
         fs.writeFileSync(dbFile(cc), JSON.stringify(cities, null, 2), 'utf8');
+        _dbMemCache.set(cc, cities);
         invalidateSitemapCache();
         return true;
     } catch(e) { console.error(`[DB] خطأ في الكتابة ${cc}:`, e.message); return false; }
@@ -1225,13 +2318,14 @@ async function handleCitiesApi(cc, res) {
         const result = sortWithCapitalFirst(deduplicateCities(stored), cc);
         res.writeHead(200, {'Content-Type':'application/json; charset=utf-8', 'X-Source':'db'});
         res.end(JSON.stringify(result));
-        console.log(`[DB] ${cc.toUpperCase()} → ${result.length} مدينة من قاعدة البيانات`);
 
         // في الخلفية: إذا البيانات الثابتة أكبر، ادمجها في DB
         const staticData = STATIC_CITIES[cc];
         if (staticData && staticData.length > stored.length) {
-            const r = dbMerge(cc, staticData);
-            if (r.added > 0) console.log(`[DB] ${cc.toUpperCase()} → أُضيف ${r.added} من البيانات الثابتة`);
+            setImmediate(() => {
+                const r = dbMerge(cc, staticData);
+                if (r.added > 0) console.log(`[DB] ${cc.toUpperCase()} → أُضيف ${r.added} من البيانات الثابتة`);
+            });
         }
         return;
     }
@@ -1311,8 +2405,30 @@ async function handleCitiesAdd(cc, body, res) {
 
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
+    // Security Headers — تُطبَّق على كل استجابة
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'geolocation=(self), camera=(), microphone=(), payment=()');
+
     let urlPath = req.url.split('?')[0];
     const qs    = req.url.includes('?') ? req.url.split('?')[1] : '';
+
+    // Rate Limit متدرّج على /api/* فقط
+    if (urlPath.startsWith('/api/')) {
+        const ip   = getClientIp(req);
+        const tier = getTierForPath(urlPath);
+        const rl   = checkRateLimit(ip, tier);
+        res.setHeader('X-RateLimit-Limit', String(rl.max));
+        res.setHeader('X-RateLimit-Remaining', String(rl.remaining));
+        res.setHeader('X-RateLimit-Reset', String(rl.reset));
+        res.setHeader('X-RateLimit-Tier', tier);
+        if (!rl.allowed) {
+            res.writeHead(429, {'Content-Type':'application/json; charset=utf-8', 'Retry-After': String(rl.reset)});
+            res.end(JSON.stringify({ error: 'rate_limited', tier, retryAfter: rl.reset }));
+            return;
+        }
+    }
 
     if (urlPath === '/index.html') {
         res.writeHead(301, {'Location': '/' + (qs ? '?'+qs : '')});
@@ -1329,6 +2445,17 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
+    // ===== SEO: 301 redirect من /zakat (+ بادئات اللغات) → /zakat-calculator =====
+    {
+        const _oldZakatMatch = urlPath.match(/^\/((?:en|fr|tr|ur)\/)?zakat\/?$/);
+        if (_oldZakatMatch) {
+            const _prefix = _oldZakatMatch[1] || '';
+            res.writeHead(301, { 'Location': `/${_prefix}zakat-calculator`, 'Cache-Control': 'public, max-age=31536000' });
+            res.end();
+            return;
+        }
+    }
+
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
@@ -1341,9 +2468,23 @@ const server = http.createServer(async (req, res) => {
 
     // ===== robots.txt =====
     if (urlPath === '/robots.txt') {
-        const body = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+        const body = `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
         res.writeHead(200, {'Content-Type':'text/plain; charset=utf-8', 'Cache-Control':'public, max-age=86400'});
         res.end(body);
+        return;
+    }
+
+    // ===== ads.txt — Google AdSense Authorized Sellers =====
+    if (urlPath === '/ads.txt') {
+        fs.readFile(path.join(ROOT, 'ads.txt'), (err, data) => {
+            if (err) {
+                res.writeHead(404, {'Content-Type':'text/plain'});
+                res.end('# ads.txt not configured yet\n');
+                return;
+            }
+            res.writeHead(200, {'Content-Type':'text/plain; charset=utf-8', 'Cache-Control':'public, max-age=86400'});
+            res.end(data);
+        });
         return;
     }
 
@@ -1411,17 +2552,20 @@ const server = http.createServer(async (req, res) => {
         return data;
     }
 
-    // مولّد URL ثنائي اللغة مع hreflang
+    // مولّد URL متعدد اللغات (5 لغات) مع hreflang
     function bilingualUrl(relPath, prio, cf, today) {
-        const arUrl = escapeXml(SITE_URL + relPath);
-        const enUrl = escapeXml(SITE_URL + '/en' + relPath);
-        const links =
-            `    <xhtml:link rel="alternate" hreflang="ar" href="${arUrl}"/>\n` +
-            `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>\n` +
-            `    <xhtml:link rel="alternate" hreflang="x-default" href="${arUrl}"/>`;
+        const langs = ['ar', 'en', 'fr', 'tr', 'ur'];
+        const urls = {};
+        for (const l of langs) {
+            const prefix = (l === 'ar') ? '' : ('/' + l);
+            urls[l] = escapeXml(SITE_URL + prefix + relPath);
+        }
+        const links = langs.map(l =>
+            `    <xhtml:link rel="alternate" hreflang="${l}" href="${urls[l]}"/>`
+        ).join('\n') + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${urls.ar}"/>`;
         const body = (loc) =>
             `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${cf}</changefreq>\n    <priority>${prio}</priority>\n${links}\n  </url>`;
-        return [body(arUrl), body(enUrl)];
+        return langs.map(l => body(urls[l]));
     }
 
     const URLSET_OPEN = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
@@ -1458,11 +2602,15 @@ const server = http.createServer(async (req, res) => {
                 ['/', '1.0', 'daily'],
                 ['/qibla', '0.9', 'monthly'],
                 ['/moon', '0.8', 'daily'],
-                ['/zakat', '0.8', 'monthly'],
+                ['/zakat-calculator', '0.8', 'monthly'],
                 ['/duas', '0.8', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
                 ['/today-hijri-date', '0.9', 'daily'],
+                ['/about-us', '0.6', 'monthly'],
+                ['/contact', '0.5', 'monthly'],
+                ['/privacy', '0.4', 'yearly'],
+                ['/terms', '0.4', 'yearly'],
             ];
             for (const [p, pr, cf] of staticPaths) {
                 entries.push(...bilingualUrl(p, pr, cf, today));
@@ -1549,191 +2697,82 @@ const server = http.createServer(async (req, res) => {
 
     const _acceptEnc = req.headers['accept-encoding'] || '';
 
-    // ===== صفحة تحويل التاريخ /dateconverter =====
-    if (urlPath === '/dateconverter' || urlPath === '/en/dateconverter') {
-        const _isEnD = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
+    // ===== /og-image.svg — dynamic OG image endpoint =====
+    if (urlPath === '/og-image.svg') { handleOgImage(qs, res); return; }
+
+    // ===== الصفحة الرئيسية /index.html (remapped من /) — SSR SEO =====
+    if (urlPath === '/index.html') {
+        readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            if (_isEnD) { serveEnglishHtml(html, res, _acceptEnc); return; }
-            if (_acceptEnc.includes('gzip')) {
-                zlib.gzip(html, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(html);
-            }
+            serveHtmlWithSeo(html, '/', res, _acceptEnc);
         });
         return;
     }
 
-    // ===== صفحة التقويم الهجري السنوي /hijri-calendar/1447 =====
-    if (/^\/(?:en\/)?hijri-calendar\/\d{4}$/.test(urlPath)) {
-        const _isEnHY = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, htmlBuf) => {
+    // ===== HTML pages served from index.html (SSR SEO injection) =====
+    // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
+    const _LANG_PREFIX_RE = '(?:en|fr|tr|ur)';
+    const _isIndexHtmlRoute =
+        /^\/(?:(?:en|fr|tr|ur)\/)?dateconverter$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?today-hijri-date$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?msbaha$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?qibla$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?moon$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?duas$/.test(urlPath) ||
+        /^\/(?:en|fr|tr|ur)\/?$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?hijri-calendar\/\d{4}$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?hijri-calendar\/[a-z-]+-\d+$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(urlPath) ||
+        /^\/(?:en|fr|tr|ur)\/prayer-times-in-.+$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
+
+    if (_isIndexHtmlRoute) {
+        readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            let html = htmlBuf.toString('utf8').replace('<head>', '<head>\n    <base href="/">');
-            if (_isEnHY) {
-                html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
-            }
-            const htmlBuf2 = Buffer.from(html, 'utf8');
-            if (_acceptEnc.includes('gzip')) {
-                zlib.gzip(htmlBuf2, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(htmlBuf2); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(htmlBuf2);
-            }
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
         });
         return;
     }
 
-    // ===== صفحة التقويم الهجري الشهري /hijri-calendar/shawwal-1447 =====
-    if (/^\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(urlPath)) {
-        const _isEnHM = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, htmlBuf) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            let html = htmlBuf.toString('utf8').replace('<head>', '<head>\n    <base href="/">');
-            if (_isEnHM) {
-                html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
-            }
-            const htmlBuf2 = Buffer.from(html, 'utf8');
-            if (_acceptEnc.includes('gzip')) {
-                zlib.gzip(htmlBuf2, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(htmlBuf2); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(htmlBuf2);
-            }
-        });
-        return;
+    // ===== Legal pages: /privacy, /terms, /contact, /about-us (+ /en/...) =====
+    {
+        const _legalMatch = urlPath.match(/^\/(?:(en|fr|tr|ur)\/)?(privacy|terms|contact|about-us)$/);
+        if (_legalMatch) {
+            const urlLang = _legalMatch[1] || 'ar';
+            const slug = _legalMatch[2];
+            const isEn = (urlLang === 'en');
+            // Legal content only exists in AR/EN — FR/TR/UR fallback to EN
+            const contentLang = (urlLang === 'ar') ? 'ar' : 'en';
+            const content = (LEGAL_PAGES[slug] && LEGAL_PAGES[slug][contentLang]) || '';
+            const isRtl = (urlLang === 'ar' || urlLang === 'ur');
+            readCachedFile(path.join(ROOT, 'legal.html'), (err, html) => {
+                if (err) { res.writeHead(404); res.end('Not Found'); return; }
+                // Inject content placeholder
+                let htmlStr = html.toString('utf8').replace('{{LEGAL_CONTENT}}', content);
+                // Set lang/dir attributes
+                const dir = isRtl ? 'rtl' : 'ltr';
+                htmlStr = htmlStr.replace('<html lang="ar" dir="rtl">', `<html lang="${urlLang}" dir="${dir}">`);
+                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc);
+            });
+            return;
+        }
     }
 
-    // ===== صفحة اليوم الهجري الفردي /hijri-date/:slug =====
-    if (/^\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(urlPath)) {
-        const _isEnHD = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, htmlBuf) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            // حقن <base href="/"> لإصلاح المسارات النسبية
-            let html = htmlBuf.toString('utf8').replace('<head>', '<head>\n    <base href="/">');
-            if (_isEnHD) {
-                html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, '<html$1lang="en"$2dir="ltr"');
-            }
-            const htmlBuf2 = Buffer.from(html, 'utf8');
-            if (_acceptEnc.includes('gzip')) {
-                zlib.gzip(htmlBuf2, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(htmlBuf2); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(htmlBuf2);
-            }
-        });
-        return;
-    }
-
-    // ===== صفحة التاريخ الهجري /today-hijri-date =====
-    if (urlPath === '/today-hijri-date' || urlPath === '/en/today-hijri-date') {
-        const _isEnH = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            if (_isEnH) { serveEnglishHtml(html, res, _acceptEnc); return; }
-            if (_acceptEnc.includes('gzip')) {
-                zlib.gzip(html, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(html);
-            }
-        });
-        return;
-    }
-
-    // ===== صفحة المسبحة /msbaha =====
-    if (urlPath === '/msbaha' || urlPath === '/en/msbaha') {
-        const _isEnM = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            if (_isEnM) { serveEnglishHtml(html, res, _acceptEnc); return; }
-            if (_acceptEnc.includes('gzip')) {
-                zlib.gzip(html, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(html);
-            }
-        });
-        return;
-    }
-
-    // مسارات النسخة الإنجليزية /en/
-    if (urlPath === '/en' || urlPath === '/en/') {
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveEnglishHtml(html, res, _acceptEnc);
-        });
-        return;
-    }
-
-    if (/^\/en\/about-.+$/.test(urlPath)) {
+    // ===== about-* pages (about-city.html) =====
+    if (/^\/(?:(?:en|fr|tr|ur)\/)?about-.+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveEnglishHtml(html, res, _acceptEnc);
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
         });
         return;
     }
 
-    if (/^\/en\/prayer-times-in-.+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
+    // ===== صفحة مدن الدولة (متعدد اللغات): /en|fr|tr|ur/{country-slug} =====
+    if (/^\/(?:en|fr|tr|ur)\/[a-z][a-z0-9-]+$/.test(urlPath)) {
+        readCachedFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveEnglishHtml(html, res, _acceptEnc);
-        });
-        return;
-    }
-
-    if (/^\/(?:en\/)?qibla-in-.+(?:\.html)?$/.test(urlPath)) {
-        const _isEnQ = urlPath.startsWith('/en/');
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            if (_isEnQ) { serveEnglishHtml(html, res, _acceptEnc); }
-            else {
-                const acceptEnc = _acceptEnc;
-                if (acceptEnc.includes('gzip')) {
-                    zlib.gzip(html, (e, buf) => {
-                        if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
-                        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                        res.end(buf);
-                    });
-                } else {
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                    res.end(html);
-                }
-            }
-        });
-        return;
-    }
-
-    // صفحة مدن الدولة الإنجليزية: /en/{country-slug}
-    if (/^\/en\/[a-z][a-z0-9-]+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveEnglishHtml(html, res, _acceptEnc);
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
         });
         return;
     }
@@ -1753,6 +2792,12 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
+        // Circuit breaker check
+        if (!circuitAllow('nominatim')) {
+            res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+            res.end('[]'); return;
+        }
+
         const nominatimUrl = `https://nominatim.openstreetmap.org/${type}?${cleanQs}`;
         try {
             const ctrl = new AbortController();
@@ -1763,6 +2808,7 @@ const server = http.createServer(async (req, res) => {
             });
             clearTimeout(timer);
             if (nomRes.status === 429 || nomRes.status >= 500) {
+                circuitFail('nominatim');
                 res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
                 res.end('[]'); return;
             }
@@ -1770,9 +2816,11 @@ const server = http.createServer(async (req, res) => {
             if (data.trim().startsWith('[') || data.trim().startsWith('{')) {
                 _geocodeCache.set(cacheKey, { ts: Date.now(), data });
             }
+            circuitSuccess('nominatim');
             res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'public, max-age=3600'});
             res.end(data.trim().startsWith('[') || data.trim().startsWith('{') ? data : '[]');
         } catch(e) {
+            circuitFail('nominatim');
             res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
             res.end('[]');
         }
@@ -1793,6 +2841,12 @@ const server = http.createServer(async (req, res) => {
             res.end(cached.data); return;
         }
 
+        // Circuit breaker check
+        if (!circuitAllow('wikipedia')) {
+            res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+            res.end('{"events":[]}'); return;
+        }
+
         // صفحة اليوم الهجري في ويكيبيديا العربية مثل "26 شوال"
         const pageTitle = encodeURIComponent(`${day} ${month}`);
         const wikiUrl = `https://ar.wikipedia.org/w/api.php?action=parse&page=${pageTitle}&prop=wikitext&format=json&origin=*`;
@@ -1801,7 +2855,10 @@ const server = http.createServer(async (req, res) => {
             const timer = setTimeout(() => ctrl.abort(), 8000);
             const wRes  = await fetch(wikiUrl, { signal: ctrl.signal, headers: { 'User-Agent': 'PrayerTimesApp/1.0', 'Accept': 'application/json' } });
             clearTimeout(timer);
-            if (!wRes.ok) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{"events":[]}'); return; }
+            if (!wRes.ok) {
+                if (wRes.status >= 500 || wRes.status === 429) circuitFail('wikipedia');
+                res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{"events":[]}'); return;
+            }
             const json = await wRes.json();
             const wikitext = json?.parse?.wikitext?.['*'] || '';
 
@@ -1848,36 +2905,56 @@ const server = http.createServer(async (req, res) => {
             }
             const data = JSON.stringify({ events });
             _geocodeCache.set(cacheKey, { ts: Date.now(), data });
+            circuitSuccess('wikipedia');
             res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
             res.end(data);
         } catch(e) {
+            circuitFail('wikipedia');
             res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
             res.end('{"events":[]}');
         }
         return;
     }
 
-    // ===== Wikipedia Person Summary Proxy =====
+    // ===== Wikipedia Person/City Summary Proxy =====
     if (urlPath === '/api/wiki-summary' && req.method === 'GET') {
-        const title = decodeURIComponent((new URLSearchParams(qs)).get('title') || '').trim();
+        const params = new URLSearchParams(qs);
+        const title = decodeURIComponent(params.get('title') || '').trim();
+        const langRaw = (params.get('lang') || 'ar').trim().toLowerCase();
+        const lang = (langRaw === 'en') ? 'en' : 'ar';
         if (!title) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return; }
-        const cacheKey = `wiki-summary-${title}`;
+        const cacheKey = `wiki-summary-${lang}-${title}`;
         const _SUMMARY_TTL = 7 * 24 * 60 * 60 * 1000; // 7 أيام
         const cached = _geocodeCache.get(cacheKey);
         if (cached && (Date.now() - cached.ts) < _SUMMARY_TTL) {
-            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'public, max-age=86400'});
             res.end(cached.data); return;
         }
+        // Circuit breaker check
+        if (!circuitAllow('wikipedia')) {
+            res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return;
+        }
         try {
-            const wUrl = `https://ar.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+            const wUrl = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
             const wRes = await fetch(wUrl, { headers: { 'User-Agent': 'PrayerTimesApp/1.0' } });
-            if (!wRes.ok) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return; }
+            if (!wRes.ok) {
+                if (wRes.status >= 500 || wRes.status === 429) circuitFail('wikipedia');
+                res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return;
+            }
             const json = await wRes.json();
-            const out  = JSON.stringify({ extract: json.extract || '', description: json.description || '' });
+            const out = JSON.stringify({
+                extract: json.extract || '',
+                description: json.description || '',
+                title: json.title || title,
+                url: (json.content_urls && json.content_urls.desktop && json.content_urls.desktop.page) || `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title)}`,
+                lang
+            });
             _geocodeCache.set(cacheKey, { ts: Date.now(), data: out });
-            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            circuitSuccess('wikipedia');
+            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'public, max-age=86400'});
             res.end(out);
         } catch(e) {
+            circuitFail('wikipedia');
             res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
             res.end('{}');
         }
@@ -1915,29 +2992,18 @@ const server = http.createServer(async (req, res) => {
 
     // صفحة مواقيت المدينة العربية: /prayer-times-in-{slug} (بدون .html)
     if (/^\/prayer-times-in-.+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'index.html'), (err, html) => {
+        readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            const acceptEnc = _acceptEnc;
-            if (acceptEnc.includes('gzip')) {
-                zlib.gzip(html, (e, buf) => {
-                    if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}); res.end(html); return; }
-                    res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Content-Encoding':'gzip','Cache-Control':'no-cache','Vary':'Accept-Encoding'});
-                    res.end(buf);
-                });
-            } else {
-                res.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
-                res.end(html);
-            }
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
         });
         return;
     }
 
     // صفحة مدن الدولة: /{country-slug} — يجب أن تكون آخر route قبل الملفات الثابتة
     if (/^\/[a-z][a-z0-9-]+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
+        readCachedFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'});
-            res.end(html);
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
         });
         return;
     }
@@ -1948,26 +3014,54 @@ const server = http.createServer(async (req, res) => {
 
     const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml'].includes(ext);
     const isVersioned  = req.url.includes('?v=');
-    const cacheControl = isVersioned
+    const isServiceWorker = urlPath === '/sw.js';
+    const cacheControl = isServiceWorker
+        ? 'no-cache, no-store, must-revalidate'
+        : isVersioned
         ? 'public, max-age=31536000, immutable'
         : ext === '.html' ? 'no-cache' : 'public, max-age=86400';
+
+    // محاولة التقديم من كاش الذاكرة أولاً (للملفات التي حُمّلت عند الإقلاع)
+    const _cachedStatic = _staticCache.get(filePath);
+    if (_cachedStatic) {
+        const _acceptEncStatic = req.headers['accept-encoding'] || '';
+        // Brotli أفضل ~15-25% من gzip — نُفضّله عند دعمه
+        if (compressible && _acceptEncStatic.includes('br') && _cachedStatic.brotli) {
+            res.writeHead(200, {
+                'Content-Type': contentType,
+                'Content-Encoding': 'br',
+                'Content-Length': _cachedStatic.brotli.length,
+                'Cache-Control': cacheControl,
+                'Vary': 'Accept-Encoding',
+            });
+            res.end(_cachedStatic.brotli);
+        } else if (compressible && _acceptEncStatic.includes('gzip') && _cachedStatic.gzipped) {
+            res.writeHead(200, {
+                'Content-Type': contentType,
+                'Content-Encoding': 'gzip',
+                'Content-Length': _cachedStatic.gzipped.length,
+                'Cache-Control': cacheControl,
+                'Vary': 'Accept-Encoding',
+            });
+            res.end(_cachedStatic.gzipped);
+        } else {
+            res.writeHead(200, {
+                'Content-Type': contentType,
+                'Content-Length': _cachedStatic.data.length,
+                'Cache-Control': cacheControl,
+                'Accept-Ranges': 'bytes',
+            });
+            res.end(_cachedStatic.data);
+        }
+        return;
+    }
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
             if (!ext || ext === '.html') {
-                fs.readFile(path.join(ROOT, 'index.html'), (err2, html) => {
+                readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
                     if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-                    const acceptEnc = req.headers['accept-encoding'] || '';
-                    if (acceptEnc.includes('gzip')) {
-                        zlib.gzip(html, (e, buf) => {
-                            if (e) { res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'}); res.end(html); return; }
-                            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Content-Encoding':'gzip', 'Cache-Control':'no-cache'});
-                            res.end(buf);
-                        });
-                    } else {
-                        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'});
-                        res.end(html);
-                    }
+                    serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '');
                 });
             } else {
                 res.writeHead(404, {'Content-Type':'text/plain'});

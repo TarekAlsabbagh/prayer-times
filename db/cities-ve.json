@@ -1,0 +1,2433 @@
+[
+  {
+    "nameAr": "كاراكاس",
+    "nameEn": "Caracas",
+    "type": "city",
+    "lat": 10.4806,
+    "lng": -66.9036
+  },
+  {
+    "nameAr": "ماراكايبو",
+    "nameEn": "Maracaibo",
+    "type": "city",
+    "lat": 10.633333333333,
+    "lng": -71.633333333333,
+    "pop": 1551539
+  },
+  {
+    "nameAr": "بلنسية",
+    "nameEn": "Valencia",
+    "type": "city",
+    "lat": 10.166666666667,
+    "lng": -68,
+    "pop": 1484430
+  },
+  {
+    "nameAr": "ماراكاي",
+    "nameEn": "Maracay",
+    "type": "city",
+    "lat": 10.246944444444,
+    "lng": -67.595833333333,
+    "pop": 1102088
+  },
+  {
+    "nameAr": "باركيسيميتو",
+    "nameEn": "Barquisimeto",
+    "type": "city",
+    "lat": 10.067777777778,
+    "lng": -69.346694444444,
+    "pop": 1059092
+  },
+  {
+    "nameAr": "باريناس",
+    "nameEn": "Barinas",
+    "type": "city",
+    "lat": 8.6333333333333,
+    "lng": -70.216666666667,
+    "pop": 873962
+  },
+  {
+    "nameAr": "ماتورين",
+    "nameEn": "Maturín",
+    "type": "city",
+    "lat": 9.7422774,
+    "lng": -63.1888854,
+    "pop": 753254
+  },
+  {
+    "nameAr": "بويرتو أورداز",
+    "nameEn": "Ciudad Guayana",
+    "type": "city",
+    "lat": 8.3223763,
+    "lng": -62.6896622,
+    "pop": 751331
+  },
+  {
+    "nameAr": "Catia La Mar",
+    "nameEn": "Catia La Mar",
+    "type": "city",
+    "lat": 10.60383,
+    "lng": -67.03034,
+    "pop": 661897
+  },
+  {
+    "nameAr": "سيوداد بوليفار",
+    "nameEn": "Ciudad Bolívar",
+    "type": "city",
+    "lat": 8.1028532,
+    "lng": -63.5469562,
+    "pop": 567953
+  },
+  {
+    "nameAr": "برشلونة، فنزويلا",
+    "nameEn": "",
+    "type": "city",
+    "lat": 10.133333333333,
+    "lng": -64.683333333333,
+    "pop": 550122
+  },
+  {
+    "nameAr": "Santa Teresa del Tuy",
+    "nameEn": "Santa Teresa del Tuy",
+    "type": "city",
+    "lat": 10.233333333333,
+    "lng": -66.65,
+    "pop": 525321
+  },
+  {
+    "nameAr": "كومانا",
+    "nameEn": "Cumaná",
+    "type": "city",
+    "lat": 10.45,
+    "lng": -64.166666666667,
+    "pop": 374706
+  },
+  {
+    "nameAr": "كابيماس",
+    "nameEn": "Cabimas",
+    "type": "city",
+    "lat": 10.4,
+    "lng": -71.433333333333,
+    "pop": 351735
+  },
+  {
+    "nameAr": "لوس تيكيس",
+    "nameEn": "Los Teques",
+    "type": "city",
+    "lat": 10.341111111111,
+    "lng": -67.040555555556,
+    "pop": 332725
+  },
+  {
+    "nameAr": "بويرتو لا كروز",
+    "nameEn": "Puerto La Cruz",
+    "type": "city",
+    "lat": 10.216666666667,
+    "lng": -64.616666666667,
+    "pop": 306261
+  },
+  {
+    "nameAr": "بونتو فيخو",
+    "nameEn": "Punto Fijo",
+    "type": "city",
+    "lat": 11.71666667,
+    "lng": -70.18333333,
+    "pop": 287558
+  },
+  {
+    "nameAr": "سان كريستوبال",
+    "nameEn": "San Cristóbal",
+    "type": "city",
+    "lat": 7.7681722222222,
+    "lng": -72.232241666667,
+    "pop": 285872
+  },
+  {
+    "nameAr": "سانتا آنا دي كورو",
+    "nameEn": "Coro",
+    "type": "city",
+    "lat": 11.395,
+    "lng": -69.681583333333,
+    "pop": 265569
+  },
+  {
+    "nameAr": "تورميرو",
+    "nameEn": "Turmero",
+    "type": "city",
+    "lat": 10.228333333333,
+    "lng": -67.475277777778,
+    "pop": 254880
+  },
+  {
+    "nameAr": "فاليرا",
+    "nameEn": "Valera",
+    "type": "city",
+    "lat": 9.3177777777778,
+    "lng": -70.603611111111,
+    "pop": 250000
+  },
+  {
+    "nameAr": "ماردة",
+    "nameEn": "Mérida",
+    "type": "city",
+    "lat": 8.5833333333333,
+    "lng": -71.133333333333,
+    "pop": 248192
+  },
+  {
+    "nameAr": "سان فيليبي، فنزويلا",
+    "nameEn": "San Felipe",
+    "type": "city",
+    "lat": 10.335277777778,
+    "lng": -68.745833333333,
+    "pop": 220786
+  },
+  {
+    "nameAr": "كوا",
+    "nameEn": "Cúa",
+    "type": "city",
+    "lat": 10.166666666667,
+    "lng": -66.883333333333,
+    "pop": 214823
+  },
+  {
+    "nameAr": "لا فيكتوريا، فنزويلا",
+    "nameEn": "La Victoria",
+    "type": "city",
+    "lat": 10.227777777778,
+    "lng": -67.333611111111,
+    "pop": 214492
+  },
+  {
+    "nameAr": "إل تيغري",
+    "nameEn": "El Tigre",
+    "type": "city",
+    "lat": 8.88583333,
+    "lng": -64.26111111,
+    "pop": 213524
+  },
+  {
+    "nameAr": "بويرتو كابيلو",
+    "nameEn": "Puerto Cabello",
+    "type": "city",
+    "lat": 10.466666666667,
+    "lng": -68.016666666667,
+    "pop": 209080
+  },
+  {
+    "nameAr": "غواريناس",
+    "nameEn": "Guarenas",
+    "type": "city",
+    "lat": 10.473888888889,
+    "lng": -66.538333333333,
+    "pop": 208663
+  },
+  {
+    "nameAr": "لا غوايرا",
+    "nameEn": "La Guaira",
+    "type": "city",
+    "lat": 10.6,
+    "lng": -66.933055555556,
+    "pop": 203520
+  },
+  {
+    "nameAr": "غواكارا",
+    "nameEn": "Guacara",
+    "type": "city",
+    "lat": 10.233333333333,
+    "lng": -67.883333333333,
+    "pop": 200212
+  },
+  {
+    "nameAr": "توكوييتو",
+    "nameEn": "Tocuyito",
+    "type": "city",
+    "lat": 10.08888889,
+    "lng": -68.09222222,
+    "pop": 197446
+  },
+  {
+    "nameAr": "أكاريغوا",
+    "nameEn": "Acarigua",
+    "type": "city",
+    "lat": 9.5597222222222,
+    "lng": -69.201944444444,
+    "pop": 195637
+  },
+  {
+    "nameAr": "سان فرناندو دي أبوري",
+    "nameEn": "San Fernando de Apure",
+    "type": "city",
+    "lat": 7.88782,
+    "lng": -67.47236,
+    "pop": 194274
+  },
+  {
+    "nameAr": "غوانير",
+    "nameEn": "Guanare",
+    "type": "city",
+    "lat": 9.0436111111111,
+    "lng": -69.748888888889,
+    "pop": 192644
+  },
+  {
+    "nameAr": "آروري",
+    "nameEn": "Araure",
+    "type": "city",
+    "lat": 9.56666667,
+    "lng": -69.21666667,
+    "pop": 188800
+  },
+  {
+    "nameAr": "غواتيري",
+    "nameEn": "Guatire",
+    "type": "city",
+    "lat": 10.471666666667,
+    "lng": -66.540555555556,
+    "pop": 187262
+  },
+  {
+    "nameAr": "San Diego",
+    "nameEn": "San Diego",
+    "type": "city",
+    "lat": 10.255833333333,
+    "lng": -67.953888888889,
+    "pop": 187215
+  },
+  {
+    "nameAr": "كاروبانو",
+    "nameEn": "Carúpano",
+    "type": "city",
+    "lat": 10.672222222222,
+    "lng": -63.240277777778,
+    "pop": 173877
+  },
+  {
+    "nameAr": "سانتا ريتا، فنزويلا",
+    "nameEn": "Santa Rita",
+    "type": "city",
+    "lat": 10.200277777778,
+    "lng": -67.551388888889,
+    "pop": 169158
+  },
+  {
+    "nameAr": "كلابوزو",
+    "nameEn": "Calabozo",
+    "type": "city",
+    "lat": 8.9219444444444,
+    "lng": -67.428333333333,
+    "pop": 168605
+  },
+  {
+    "nameAr": "أناكو، فنزويلا",
+    "nameEn": "Anaco",
+    "type": "city",
+    "lat": 9.4333333333333,
+    "lng": -64.466666666667,
+    "pop": 162704
+  },
+  {
+    "nameAr": "Palo Negro",
+    "nameEn": "Palo Negro",
+    "type": "city",
+    "lat": 10.16,
+    "lng": -67.5582,
+    "pop": 153706
+  },
+  {
+    "nameAr": "أكوماري ديل توي",
+    "nameEn": "Santa Teresa del Tuy",
+    "type": "city",
+    "lat": 10.113611111111,
+    "lng": -66.781388888889,
+    "pop": 150000
+  },
+  {
+    "nameAr": "ياريتاغوا",
+    "nameEn": "Yaritagua",
+    "type": "city",
+    "lat": 10.07527778,
+    "lng": -69.12833333,
+    "pop": 140256
+  },
+  {
+    "nameAr": "Los Guayos",
+    "nameEn": "Los Guayos",
+    "type": "city",
+    "lat": 10.183333333333,
+    "lng": -67.933333333333,
+    "pop": 130345
+  },
+  {
+    "nameAr": "Puerto Ayacucho",
+    "nameEn": "Puerto Ayacucho",
+    "type": "city",
+    "lat": 5.6630555555556,
+    "lng": -67.626388888889,
+    "pop": 130000
+  },
+  {
+    "nameAr": "تاريبا، فنزويلا",
+    "nameEn": "San Cristóbal",
+    "type": "city",
+    "lat": 7.8166666666667,
+    "lng": -72.216666666667,
+    "pop": 128590
+  },
+  {
+    "nameAr": "Guasdualito",
+    "nameEn": "Guasdualito",
+    "type": "city",
+    "lat": 7.2466666666667,
+    "lng": -70.729166666667,
+    "pop": 128025
+  },
+  {
+    "nameAr": "ماتيكيس",
+    "nameEn": "Machiques",
+    "type": "city",
+    "lat": 10.059166666667,
+    "lng": -72.553055555556,
+    "pop": 122734
+  },
+  {
+    "nameAr": "كاغوا",
+    "nameEn": "Cagua",
+    "type": "city",
+    "lat": 10.1875,
+    "lng": -67.461111111111,
+    "pop": 122571
+  },
+  {
+    "nameAr": "سيوداد أوجيدا",
+    "nameEn": "Ciudad Ojeda",
+    "type": "city",
+    "lat": 10.2,
+    "lng": -71.3,
+    "pop": 122124
+  },
+  {
+    "nameAr": "بورلامار",
+    "nameEn": "Porlamar",
+    "type": "city",
+    "lat": 10.955555555556,
+    "lng": -63.847777777778,
+    "pop": 120924
+  },
+  {
+    "nameAr": "سان كارلوس، فنزويلا",
+    "nameEn": "San Carlos",
+    "type": "city",
+    "lat": 9.65,
+    "lng": -68.583333333333,
+    "pop": 120000
+  },
+  {
+    "nameAr": "تشارالافي",
+    "nameEn": "Charallave",
+    "type": "city",
+    "lat": 10.243055555556,
+    "lng": -66.862222222222,
+    "pop": 117707
+  },
+  {
+    "nameAr": "لا أسونسيون",
+    "nameEn": "La Asunción",
+    "type": "city",
+    "lat": 11.033333333333,
+    "lng": -63.862777777778,
+    "pop": 117513
+  },
+  {
+    "nameAr": "فالي دي لا باسكوا",
+    "nameEn": "Valle de la Pascua",
+    "type": "city",
+    "lat": 9.2033333333333,
+    "lng": -66.010277777778,
+    "pop": 115902
+  },
+  {
+    "nameAr": "كارورا",
+    "nameEn": "Carora",
+    "type": "city",
+    "lat": 10.169166666667,
+    "lng": -70.078333333333,
+    "pop": 112600
+  },
+  {
+    "nameAr": "سانت لوسيا، فنزويلا",
+    "nameEn": "El Rosario de Soapire",
+    "type": "city",
+    "lat": 10.260555555556,
+    "lng": -66.663888888889,
+    "pop": 112357
+  },
+  {
+    "nameAr": "كيوبور",
+    "nameEn": "Quíbor",
+    "type": "city",
+    "lat": 9.9280555555556,
+    "lng": -69.577777777778,
+    "pop": 110536
+  },
+  {
+    "nameAr": "Socopó",
+    "nameEn": "Socopó",
+    "type": "city",
+    "lat": 8.23222222,
+    "lng": -70.82055556,
+    "pop": 110512
+  },
+  {
+    "nameAr": "تيناكيلو",
+    "nameEn": "Tinaquillo",
+    "type": "city",
+    "lat": 9.91666667,
+    "lng": -68.3,
+    "pop": 110000
+  },
+  {
+    "nameAr": "إخيدو",
+    "nameEn": "Ejido",
+    "type": "city",
+    "lat": 8.54665,
+    "lng": -71.24087,
+    "pop": 107056
+  },
+  {
+    "nameAr": "إل ليمون بينال",
+    "nameEn": "El Limón",
+    "type": "city",
+    "lat": 10.30027778,
+    "lng": -67.63361111,
+    "pop": 106206
+  },
+  {
+    "nameAr": "Boconó",
+    "nameEn": "Boconó",
+    "type": "city",
+    "lat": 9.2533333333333,
+    "lng": -70.25,
+    "pop": 100240
+  },
+  {
+    "nameAr": "Punta de Mata",
+    "nameEn": "Punta de Mata",
+    "type": "city",
+    "lat": 9.6865914,
+    "lng": -63.6110201,
+    "pop": 100000
+  },
+  {
+    "nameAr": "Upata",
+    "nameEn": "Upata",
+    "type": "city",
+    "lat": 8.0073377,
+    "lng": -62.3977917,
+    "pop": 98274
+  },
+  {
+    "nameAr": "روبيو",
+    "nameEn": "Rubio",
+    "type": "city",
+    "lat": 7.7,
+    "lng": -72.35,
+    "pop": 95041
+  },
+  {
+    "nameAr": "Tumeremo",
+    "nameEn": "Tumeremo",
+    "type": "city",
+    "lat": 7.299041,
+    "lng": -61.5044158,
+    "pop": 90384
+  },
+  {
+    "nameAr": "Cantaura",
+    "nameEn": "Cantaura",
+    "type": "city",
+    "lat": 9.300526,
+    "lng": -64.356365,
+    "pop": 89552
+  },
+  {
+    "nameAr": "لا غريتا",
+    "nameEn": "La Grita",
+    "type": "city",
+    "lat": 8.1333333333333,
+    "lng": -71.983333333333,
+    "pop": 88450
+  },
+  {
+    "nameAr": "Maiquetía",
+    "nameEn": "Maiquetía",
+    "type": "city",
+    "lat": 10.595833333333,
+    "lng": -66.977222222222,
+    "pop": 87909
+  },
+  {
+    "nameAr": "توكوبيتا",
+    "nameEn": "Tucupita",
+    "type": "city",
+    "lat": 9.057471,
+    "lng": -62.045159,
+    "pop": 86487
+  },
+  {
+    "nameAr": "سانتا باربرا ديل زوليا",
+    "nameEn": "Santa Bárbara del Zulia",
+    "type": "city",
+    "lat": 9,
+    "lng": -71.95,
+    "pop": 80000
+  },
+  {
+    "nameAr": "كابوداري",
+    "nameEn": "Cabudare",
+    "type": "city",
+    "lat": 10.033055555556,
+    "lng": -69.263333333333,
+    "pop": 70578
+  },
+  {
+    "nameAr": "كاريبيتو",
+    "nameEn": "Caripito",
+    "type": "city",
+    "lat": 10.1123858,
+    "lng": -63.103437,
+    "pop": 64955
+  },
+  {
+    "nameAr": "زارازا، فنزويلا",
+    "nameEn": "Zaraza",
+    "type": "city",
+    "lat": 9.3394444444444,
+    "lng": -65.316666666667,
+    "pop": 62027
+  },
+  {
+    "nameAr": "San Antonio del Táchira",
+    "nameEn": "San Antonio del Táchira",
+    "type": "city",
+    "lat": 7.81454,
+    "lng": -72.4431,
+    "pop": 61630
+  },
+  {
+    "nameAr": "Adicora",
+    "nameEn": "Adicora",
+    "type": "city",
+    "lat": 11.941666666667,
+    "lng": -69.808333333333,
+    "pop": 54236
+  },
+  {
+    "nameAr": "Sanare",
+    "nameEn": "Sanare",
+    "type": "city",
+    "lat": 9.7822222222222,
+    "lng": -69.793055555556,
+    "pop": 48764
+  },
+  {
+    "nameAr": "إل توكويو",
+    "nameEn": "El Tocuyo",
+    "type": "city",
+    "lat": 9.7822222222222,
+    "lng": -69.793055555556,
+    "pop": 41327
+  },
+  {
+    "nameAr": "Achaguas",
+    "nameEn": "Achaguas",
+    "type": "city",
+    "lat": 7.7827777777778,
+    "lng": -68.226944444444,
+    "pop": 38523
+  },
+  {
+    "nameAr": "تروخيو",
+    "nameEn": "Trujillo",
+    "type": "city",
+    "lat": 9.36583,
+    "lng": -70.43694,
+    "pop": 38110
+  },
+  {
+    "nameAr": "Lechería",
+    "nameEn": "Lechería",
+    "type": "city",
+    "lat": 10.1889,
+    "lng": -64.6951,
+    "pop": 36450
+  },
+  {
+    "nameAr": "Sabaneta",
+    "nameEn": "Sabaneta",
+    "type": "city",
+    "lat": 8.7522222222222,
+    "lng": -69.9325,
+    "pop": 28000
+  },
+  {
+    "nameAr": "Píritu",
+    "nameEn": "Píritu",
+    "type": "city",
+    "lat": 10.03889,
+    "lng": -65.02972,
+    "pop": 27357
+  },
+  {
+    "nameAr": "Puerto Píritu",
+    "nameEn": "Puerto Píritu",
+    "type": "city",
+    "lat": 10.066666666667,
+    "lng": -65.05,
+    "pop": 25981
+  },
+  {
+    "nameAr": "Caicara de Maturín",
+    "nameEn": "Caicara de Maturín",
+    "type": "city",
+    "lat": 9.818657,
+    "lng": -63.6126852,
+    "pop": 20000
+  },
+  {
+    "nameAr": "Tucacas",
+    "nameEn": "Tucacas",
+    "type": "city",
+    "lat": 10.79777778,
+    "lng": -68.3175,
+    "pop": 13901
+  },
+  {
+    "nameAr": "Onoto",
+    "nameEn": "Onoto",
+    "type": "city",
+    "lat": 9.5958333333333,
+    "lng": -65.189722222222,
+    "pop": 11378
+  },
+  {
+    "nameAr": "Pedernales",
+    "nameEn": "Pedernales",
+    "type": "city",
+    "lat": 9.9663888888889,
+    "lng": -62.2525,
+    "pop": 10000
+  },
+  {
+    "nameAr": "Bruzual",
+    "nameEn": "Bruzual",
+    "type": "city",
+    "lat": 8.049371,
+    "lng": -69.331627,
+    "pop": 7370
+  },
+  {
+    "nameAr": "Guardatinajas",
+    "nameEn": "Guardatinajas",
+    "type": "city",
+    "lat": 9.03333,
+    "lng": -67.6333,
+    "pop": 6740
+  },
+  {
+    "nameAr": "Mucuchíes",
+    "nameEn": "Mucuchíes",
+    "type": "city",
+    "lat": 8.75,
+    "lng": -70.916666666667,
+    "pop": 5900
+  },
+  {
+    "nameAr": "Choroní",
+    "nameEn": "Choroní",
+    "type": "city",
+    "lat": 10.49085,
+    "lng": -67.613039,
+    "pop": 3000
+  },
+  {
+    "nameAr": "San Carlos de Río Negro",
+    "nameEn": "San Carlos de Río Negro",
+    "type": "city",
+    "lat": 1.92,
+    "lng": -67.061111111111,
+    "pop": 2916
+  },
+  {
+    "nameAr": "Maroa",
+    "nameEn": "Maroa",
+    "type": "city",
+    "lat": 2.73638889,
+    "lng": -67.5625,
+    "pop": 2026
+  },
+  {
+    "nameAr": "Cepe",
+    "nameEn": "Cepe",
+    "type": "city",
+    "lat": 10.5,
+    "lng": -67.5,
+    "pop": 310
+  },
+  {
+    "nameAr": "Paruima",
+    "nameEn": "Paruima",
+    "type": "city",
+    "lat": 5.8065,
+    "lng": -61.0632,
+    "pop": 207
+  },
+  {
+    "nameAr": "المهدية",
+    "nameEn": "Mahdia",
+    "type": "city",
+    "lat": 5.2825,
+    "lng": -59.15,
+    "pop": null
+  },
+  {
+    "nameAr": "بارانكاس",
+    "nameEn": "Barrancas del Orinoco",
+    "type": "city",
+    "lat": 8.7013715,
+    "lng": -62.1992392,
+    "pop": null
+  },
+  {
+    "nameAr": "بوكا ديل ريو",
+    "nameEn": "Boca del Río",
+    "type": "city",
+    "lat": 10.9622477,
+    "lng": -64.1831372,
+    "pop": null
+  },
+  {
+    "nameAr": "توفار",
+    "nameEn": "Tovar",
+    "type": "city",
+    "lat": 8.2641666666667,
+    "lng": -71.538055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "سانتا إلينا دي وايرن",
+    "nameEn": "Santa Elena de Uairén",
+    "type": "city",
+    "lat": 4.5958694,
+    "lng": -61.1110307,
+    "pop": null
+  },
+  {
+    "nameAr": "غويغوي",
+    "nameEn": "Güigüe",
+    "type": "city",
+    "lat": 10.083333333333,
+    "lng": -67.783333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كاريبي",
+    "nameEn": "Caripe",
+    "type": "city",
+    "lat": 10.1720236,
+    "lng": -63.5051181,
+    "pop": null
+  },
+  {
+    "nameAr": "كاريكارا ديل أورينوكو",
+    "nameEn": "Caicara del Orinoco",
+    "type": "city",
+    "lat": 7.6254684,
+    "lng": -66.1610708,
+    "pop": null
+  },
+  {
+    "nameAr": "كويريكويري",
+    "nameEn": "Quiriquire",
+    "type": "city",
+    "lat": 9.9781705,
+    "lng": -63.2198593,
+    "pop": null
+  },
+  {
+    "nameAr": "Adaure",
+    "nameEn": "Adaure",
+    "type": "city",
+    "lat": 11.8705,
+    "lng": -69.9874,
+    "pop": null
+  },
+  {
+    "nameAr": "Aguasay",
+    "nameEn": "Aguasay",
+    "type": "city",
+    "lat": 9.4264784,
+    "lng": -63.7314009,
+    "pop": null
+  },
+  {
+    "nameAr": "Agüide",
+    "nameEn": "Agüide",
+    "type": "city",
+    "lat": 11.3505,
+    "lng": -68.6868,
+    "pop": null
+  },
+  {
+    "nameAr": "Amana del Tamarindo",
+    "nameEn": "Amana del Tamarindo",
+    "type": "city",
+    "lat": 9.6447861,
+    "lng": -63.1234227,
+    "pop": null
+  },
+  {
+    "nameAr": "Apoipó",
+    "nameEn": "Apoipó",
+    "type": "city",
+    "lat": 4.7498258,
+    "lng": -61.4845629,
+    "pop": null
+  },
+  {
+    "nameAr": "Aragua de Maturín",
+    "nameEn": "Aragua de Maturín",
+    "type": "city",
+    "lat": 9.9684993,
+    "lng": -63.4879978,
+    "pop": null
+  },
+  {
+    "nameAr": "Araira",
+    "nameEn": "Araira",
+    "type": "city",
+    "lat": 10.4525,
+    "lng": -66.485,
+    "pop": null
+  },
+  {
+    "nameAr": "Arenas",
+    "nameEn": "Arenas",
+    "type": "city",
+    "lat": 11.0675964,
+    "lng": -64.247427,
+    "pop": null
+  },
+  {
+    "nameAr": "Atapirire",
+    "nameEn": "Atapirire",
+    "type": "city",
+    "lat": 8.4343,
+    "lng": -64.37,
+    "pop": null
+  },
+  {
+    "nameAr": "Baraived",
+    "nameEn": "Baraived",
+    "type": "city",
+    "lat": 11.88698,
+    "lng": -69.85292,
+    "pop": null
+  },
+  {
+    "nameAr": "Bariro",
+    "nameEn": "Bariro",
+    "type": "city",
+    "lat": 10.7741,
+    "lng": -70.7337,
+    "pop": null
+  },
+  {
+    "nameAr": "Betania",
+    "nameEn": "Betania",
+    "type": "city",
+    "lat": 4.6583197,
+    "lng": -61.3831352,
+    "pop": null
+  },
+  {
+    "nameAr": "Boca Chica",
+    "nameEn": "Boca Chica",
+    "type": "city",
+    "lat": 10.9630154,
+    "lng": -64.3642797,
+    "pop": null
+  },
+  {
+    "nameAr": "Boca del Pao",
+    "nameEn": "Boca del Pao",
+    "type": "city",
+    "lat": 8.117654,
+    "lng": -64.3052667,
+    "pop": null
+  },
+  {
+    "nameAr": "Boca del Pozo",
+    "nameEn": "Boca del Pozo",
+    "type": "city",
+    "lat": 11.0105462,
+    "lng": -64.3766431,
+    "pop": null
+  },
+  {
+    "nameAr": "Boquerón de Amana",
+    "nameEn": "Boquerón de Amana",
+    "type": "city",
+    "lat": 9.6121752,
+    "lng": -63.263803,
+    "pop": null
+  },
+  {
+    "nameAr": "Borburata",
+    "nameEn": "Borburata",
+    "type": "city",
+    "lat": 10.44388889,
+    "lng": -67.96277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Borojó",
+    "nameEn": "Borojó",
+    "type": "city",
+    "lat": 11.066111111111,
+    "lng": -70.803611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Buena Vista",
+    "nameEn": "Buena Vista",
+    "type": "city",
+    "lat": 11.87399,
+    "lng": -69.94226,
+    "pop": null
+  },
+  {
+    "nameAr": "Caigua",
+    "nameEn": "Caigua",
+    "type": "city",
+    "lat": 9.9541666666667,
+    "lng": -64.85,
+    "pop": null
+  },
+  {
+    "nameAr": "Campo Alegre",
+    "nameEn": "Campo Alegre",
+    "type": "city",
+    "lat": 4.9300602,
+    "lng": -61.1991584,
+    "pop": null
+  },
+  {
+    "nameAr": "Campo Arriba",
+    "nameEn": "Campo Arriba",
+    "type": "city",
+    "lat": 11.0224806,
+    "lng": -64.3508506,
+    "pop": null
+  },
+  {
+    "nameAr": "Campo Morichal",
+    "nameEn": "Campo Morichal",
+    "type": "city",
+    "lat": 8.8434191,
+    "lng": -63.0744019,
+    "pop": null
+  },
+  {
+    "nameAr": "Canaima",
+    "nameEn": "Canaima",
+    "type": "city",
+    "lat": 6.235794,
+    "lng": -62.852937,
+    "pop": null
+  },
+  {
+    "nameAr": "Caname",
+    "nameEn": "Caname",
+    "type": "city",
+    "lat": 3.67241,
+    "lng": -67.440948,
+    "pop": null
+  },
+  {
+    "nameAr": "Capacho Nuevo",
+    "nameEn": "Capacho Nuevo",
+    "type": "city",
+    "lat": 7.8247222222222,
+    "lng": -72.306666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Capacho Viejo",
+    "nameEn": "Capacho Viejo",
+    "type": "city",
+    "lat": 7.8280555555556,
+    "lng": -72.320277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Casigua",
+    "nameEn": "Casigua",
+    "type": "city",
+    "lat": 11.0209,
+    "lng": -71.0138,
+    "pop": null
+  },
+  {
+    "nameAr": "Chaguaramas",
+    "nameEn": "Chaguaramas",
+    "type": "city",
+    "lat": 8.6664634,
+    "lng": -62.7764113,
+    "pop": null
+  },
+  {
+    "nameAr": "Chichiriviche",
+    "nameEn": "Chichiriviche",
+    "type": "city",
+    "lat": 10.9343,
+    "lng": -68.2771,
+    "pop": null
+  },
+  {
+    "nameAr": "Chiguará",
+    "nameEn": "Chiguará",
+    "type": "city",
+    "lat": 8.4894444444444,
+    "lng": -71.537777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Chivacoa",
+    "nameEn": "Chivacoa",
+    "type": "city",
+    "lat": 10.16,
+    "lng": -68.909722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ciudad Piar",
+    "nameEn": "Ciudad Piar",
+    "type": "city",
+    "lat": 7.4502022,
+    "lng": -63.3196708,
+    "pop": null
+  },
+  {
+    "nameAr": "Clarines",
+    "nameEn": "Clarines",
+    "type": "city",
+    "lat": 9.9433333333333,
+    "lng": -65.166111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Cojedes",
+    "nameEn": "Cojedes",
+    "type": "city",
+    "lat": 9.61666667,
+    "lng": -68.91666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Comejenes",
+    "nameEn": "Comejenes",
+    "type": "city",
+    "lat": 11.0267549,
+    "lng": -64.2205547,
+    "pop": null
+  },
+  {
+    "nameAr": "Comunidad Kinok Pan",
+    "nameEn": "Comunidad Kinok Pan",
+    "type": "city",
+    "lat": 4.5576877,
+    "lng": -61.2168234,
+    "pop": null
+  },
+  {
+    "nameAr": "Congo Mirador",
+    "nameEn": "Congo Mirador",
+    "type": "city",
+    "lat": 9.3855555555556,
+    "lng": -71.800833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Cordero",
+    "nameEn": "Cordero",
+    "type": "city",
+    "lat": 7.8562777777778,
+    "lng": -72.182361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Cumbo",
+    "nameEn": "Cumbo",
+    "type": "city",
+    "lat": 10.2282,
+    "lng": -66.0867,
+    "pop": null
+  },
+  {
+    "nameAr": "Cunaviche",
+    "nameEn": "Cunaviche",
+    "type": "city",
+    "lat": 7.3643514,
+    "lng": -67.4137168,
+    "pop": null
+  },
+  {
+    "nameAr": "Cúpira",
+    "nameEn": "Cúpira",
+    "type": "city",
+    "lat": 10.161944444444,
+    "lng": -65.699722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Curichicual",
+    "nameEn": "Curichicual",
+    "type": "city",
+    "lat": 10.9572138,
+    "lng": -64.3359539,
+    "pop": null
+  },
+  {
+    "nameAr": "Dabajuro",
+    "nameEn": "Dabajuro",
+    "type": "city",
+    "lat": 11.01805556,
+    "lng": -70.67722222,
+    "pop": null
+  },
+  {
+    "nameAr": "El Aceital",
+    "nameEn": "El Aceital",
+    "type": "city",
+    "lat": 8.7157496,
+    "lng": -63.0329654,
+    "pop": null
+  },
+  {
+    "nameAr": "El Amparo",
+    "nameEn": "El Amparo",
+    "type": "city",
+    "lat": 7.1027777777778,
+    "lng": -70.758888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "El Callao",
+    "nameEn": "El Callao",
+    "type": "city",
+    "lat": 7.3473611,
+    "lng": -61.8331903,
+    "pop": null
+  },
+  {
+    "nameAr": "El Cambur",
+    "nameEn": "El Cambur",
+    "type": "city",
+    "lat": 10.3956698,
+    "lng": -68.1051463,
+    "pop": null
+  },
+  {
+    "nameAr": "El Chaparro",
+    "nameEn": "El Chaparro",
+    "type": "city",
+    "lat": 9.15226,
+    "lng": -65.0164,
+    "pop": null
+  },
+  {
+    "nameAr": "El Cobre",
+    "nameEn": "El Cobre",
+    "type": "city",
+    "lat": 8.0358333333333,
+    "lng": -72.0575,
+    "pop": null
+  },
+  {
+    "nameAr": "El Consejo",
+    "nameEn": "El Consejo",
+    "type": "city",
+    "lat": 10.238611111111,
+    "lng": -67.272777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "El Corozo",
+    "nameEn": "El Corozo",
+    "type": "city",
+    "lat": 9.6916292,
+    "lng": -63.3715507,
+    "pop": null
+  },
+  {
+    "nameAr": "El Dorado",
+    "nameEn": "El Dorado",
+    "type": "city",
+    "lat": 6.715049,
+    "lng": -61.6372457,
+    "pop": null
+  },
+  {
+    "nameAr": "El Furrial",
+    "nameEn": "El Furrial",
+    "type": "city",
+    "lat": 9.6861275,
+    "lng": -63.4440278,
+    "pop": null
+  },
+  {
+    "nameAr": "El Guácharo",
+    "nameEn": "El Guácharo",
+    "type": "city",
+    "lat": 10.1507516,
+    "lng": -63.5360953,
+    "pop": null
+  },
+  {
+    "nameAr": "El Hatillo, Miranda, Venezuela",
+    "nameEn": "El Hatillo, Miranda, Venezuela",
+    "type": "city",
+    "lat": 10.4333,
+    "lng": -66.8,
+    "pop": null
+  },
+  {
+    "nameAr": "El Hato",
+    "nameEn": "El Hato",
+    "type": "city",
+    "lat": 11.9487,
+    "lng": -69.832,
+    "pop": null
+  },
+  {
+    "nameAr": "El Horcón",
+    "nameEn": "El Horcón",
+    "type": "city",
+    "lat": 10.9474975,
+    "lng": -64.2933524,
+    "pop": null
+  },
+  {
+    "nameAr": "El Magüey",
+    "nameEn": "El Magüey",
+    "type": "city",
+    "lat": 11.0731504,
+    "lng": -64.1968091,
+    "pop": null
+  },
+  {
+    "nameAr": "El Manglillo",
+    "nameEn": "El Manglillo",
+    "type": "city",
+    "lat": 10.9586746,
+    "lng": -64.3151417,
+    "pop": null
+  },
+  {
+    "nameAr": "El Manteco",
+    "nameEn": "El Manteco",
+    "type": "city",
+    "lat": 7.3483231,
+    "lng": -62.5395378,
+    "pop": null
+  },
+  {
+    "nameAr": "El Palmar",
+    "nameEn": "El Palmar",
+    "type": "city",
+    "lat": 8.0108868,
+    "lng": -61.9070829,
+    "pop": null
+  },
+  {
+    "nameAr": "El Pao",
+    "nameEn": "El Pao",
+    "type": "city",
+    "lat": 8.0348196,
+    "lng": -62.6537905,
+    "pop": null
+  },
+  {
+    "nameAr": "El Paují",
+    "nameEn": "El Paují",
+    "type": "city",
+    "lat": 4.4742018,
+    "lng": -61.59184,
+    "pop": null
+  },
+  {
+    "nameAr": "El Pilar",
+    "nameEn": "El Pilar",
+    "type": "city",
+    "lat": 10.547822,
+    "lng": -63.154244,
+    "pop": null
+  },
+  {
+    "nameAr": "El Rastro",
+    "nameEn": "El Rastro",
+    "type": "city",
+    "lat": 9.0470813,
+    "lng": -67.4554399,
+    "pop": null
+  },
+  {
+    "nameAr": "El Robledal",
+    "nameEn": "El Robledal",
+    "type": "city",
+    "lat": 11.0275749,
+    "lng": -64.3723313,
+    "pop": null
+  },
+  {
+    "nameAr": "El Tejero",
+    "nameEn": "El Tejero",
+    "type": "city",
+    "lat": 9.6385576,
+    "lng": -63.6736643,
+    "pop": null
+  },
+  {
+    "nameAr": "El Tunal",
+    "nameEn": "El Tunal",
+    "type": "city",
+    "lat": 11.0679596,
+    "lng": -64.2968655,
+    "pop": null
+  },
+  {
+    "nameAr": "El Vínculo",
+    "nameEn": "El Vínculo",
+    "type": "city",
+    "lat": 12.06768,
+    "lng": -69.95014,
+    "pop": null
+  },
+  {
+    "nameAr": "Encontrados",
+    "nameEn": "Encontrados",
+    "type": "city",
+    "lat": 9.0633333333333,
+    "lng": -72.233888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Escagüey",
+    "nameEn": "Escagüey",
+    "type": "city",
+    "lat": 8.6891166666667,
+    "lng": -71.000561111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Guaibacoa",
+    "nameEn": "Guaibacoa",
+    "type": "city",
+    "lat": 11.4145,
+    "lng": -69.4749,
+    "pop": null
+  },
+  {
+    "nameAr": "Guama",
+    "nameEn": "Guama",
+    "type": "city",
+    "lat": 10.264587,
+    "lng": -68.819733,
+    "pop": null
+  },
+  {
+    "nameAr": "Guanaguana",
+    "nameEn": "Guanaguana",
+    "type": "city",
+    "lat": 10.0779329,
+    "lng": -63.6107253,
+    "pop": null
+  },
+  {
+    "nameAr": "Guanape",
+    "nameEn": "Guanape",
+    "type": "city",
+    "lat": 9.920556,
+    "lng": -65.508333,
+    "pop": null
+  },
+  {
+    "nameAr": "Guarinuma",
+    "nameEn": "Guarinuma",
+    "type": "city",
+    "lat": 3.44583,
+    "lng": -65.9151,
+    "pop": null
+  },
+  {
+    "nameAr": "Guasipati",
+    "nameEn": "Guasipati",
+    "type": "city",
+    "lat": 7.4766012,
+    "lng": -61.8967868,
+    "pop": null
+  },
+  {
+    "nameAr": "Guayacancito",
+    "nameEn": "Guayacancito",
+    "type": "city",
+    "lat": 10.9406885,
+    "lng": -64.2147157,
+    "pop": null
+  },
+  {
+    "nameAr": "Guri",
+    "nameEn": "Guri",
+    "type": "city",
+    "lat": 7.7755538,
+    "lng": -62.9982555,
+    "pop": null
+  },
+  {
+    "nameAr": "Higuerote",
+    "nameEn": "Higuerote",
+    "type": "city",
+    "lat": 10.483333333333,
+    "lng": -66.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Ikabarú",
+    "nameEn": "Ikabarú",
+    "type": "city",
+    "lat": 4.3304457,
+    "lng": -61.736702,
+    "pop": null
+  },
+  {
+    "nameAr": "Independencia",
+    "nameEn": "Independencia",
+    "type": "city",
+    "lat": 10.3343,
+    "lng": -68.7608,
+    "pop": null
+  },
+  {
+    "nameAr": "Itewata",
+    "nameEn": "Itewata",
+    "type": "city",
+    "lat": 5.0413996,
+    "lng": -61.2684828,
+    "pop": null
+  },
+  {
+    "nameAr": "Jadacaquiva",
+    "nameEn": "Jadacaquiva",
+    "type": "city",
+    "lat": 11.906666666667,
+    "lng": -70.095277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Juan Griego",
+    "nameEn": "Juan Griego",
+    "type": "city",
+    "lat": 11.083333333333,
+    "lng": -63.966666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Judibana",
+    "nameEn": "Judibana",
+    "type": "city",
+    "lat": 11.76,
+    "lng": -70.184,
+    "pop": null
+  },
+  {
+    "nameAr": "Jusepín",
+    "nameEn": "Jusepín",
+    "type": "city",
+    "lat": 9.756802,
+    "lng": -63.4648268,
+    "pop": null
+  },
+  {
+    "nameAr": "Karuaykén",
+    "nameEn": "Karuaykén",
+    "type": "city",
+    "lat": 4.9753213,
+    "lng": -61.3832338,
+    "pop": null
+  },
+  {
+    "nameAr": "Kasanak Pupay",
+    "nameEn": "Kasanak Pupay",
+    "type": "city",
+    "lat": 4.7192305,
+    "lng": -61.3206643,
+    "pop": null
+  },
+  {
+    "nameAr": "Kavanayén",
+    "nameEn": "Kavanayén",
+    "type": "city",
+    "lat": 5.5856988,
+    "lng": -61.7519081,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilómetro 88",
+    "nameEn": "Kilómetro 88",
+    "type": "city",
+    "lat": 6.1560729,
+    "lng": -61.4312151,
+    "pop": null
+  },
+  {
+    "nameAr": "Kumarakapay",
+    "nameEn": "Kumarakapay",
+    "type": "city",
+    "lat": 5.0574145,
+    "lng": -61.0965801,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurupán",
+    "nameEn": "Kurupán",
+    "type": "city",
+    "lat": 4.834594,
+    "lng": -61.6674507,
+    "pop": null
+  },
+  {
+    "nameAr": "La Ciénaga",
+    "nameEn": "La Ciénaga",
+    "type": "city",
+    "lat": 11.4562449,
+    "lng": -69.3650552,
+    "pop": null
+  },
+  {
+    "nameAr": "La Encrucijada transport hub",
+    "nameEn": "La Encrucijada transport hub",
+    "type": "city",
+    "lat": 10.205,
+    "lng": -67.4731,
+    "pop": null
+  },
+  {
+    "nameAr": "La Guanota",
+    "nameEn": "La Guanota",
+    "type": "city",
+    "lat": 10.2083336,
+    "lng": -63.5304594,
+    "pop": null
+  },
+  {
+    "nameAr": "La Paragua",
+    "nameEn": "La Paragua",
+    "type": "city",
+    "lat": 6.8389365,
+    "lng": -63.3400066,
+    "pop": null
+  },
+  {
+    "nameAr": "La Pared",
+    "nameEn": "La Pared",
+    "type": "city",
+    "lat": 11.059476,
+    "lng": -64.3122392,
+    "pop": null
+  },
+  {
+    "nameAr": "La Soledad",
+    "nameEn": "La Soledad",
+    "type": "city",
+    "lat": 11.4396683,
+    "lng": -69.3907857,
+    "pop": null
+  },
+  {
+    "nameAr": "La Toscana",
+    "nameEn": "La Toscana",
+    "type": "city",
+    "lat": 9.8035041,
+    "lng": -63.3290673,
+    "pop": null
+  },
+  {
+    "nameAr": "La Trinidad de Orichuna",
+    "nameEn": "La Trinidad de Orichuna",
+    "type": "city",
+    "lat": 7.1147222222222,
+    "lng": -69.785833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "La Urbana",
+    "nameEn": "La Urbana",
+    "type": "city",
+    "lat": 7.1348699,
+    "lng": -66.9353736,
+    "pop": null
+  },
+  {
+    "nameAr": "La Vela de Coro",
+    "nameEn": "La Vela de Coro",
+    "type": "city",
+    "lat": 11.4592,
+    "lng": -69.5678,
+    "pop": null
+  },
+  {
+    "nameAr": "La Victoria",
+    "nameEn": "La Victoria",
+    "type": "city",
+    "lat": 7.03217,
+    "lng": -71.43632,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Agallas",
+    "nameEn": "Las Agallas",
+    "type": "city",
+    "lat": 4.565281,
+    "lng": -61.5294725,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Claritas",
+    "nameEn": "Las Claritas",
+    "type": "city",
+    "lat": 6.181365,
+    "lng": -61.4235921,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Mercedes del Llano",
+    "nameEn": "Las Mercedes del Llano",
+    "type": "city",
+    "lat": 9.0926,
+    "lng": -66.3993,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Barrancos de Fajardo",
+    "nameEn": "Los Barrancos de Fajardo",
+    "type": "city",
+    "lat": 8.3967334,
+    "lng": -62.683698,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Pijiguaos",
+    "nameEn": "Los Pijiguaos",
+    "type": "city",
+    "lat": 6.5728855,
+    "lng": -66.7972229,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Taques",
+    "nameEn": "Los Taques",
+    "type": "city",
+    "lat": 11.8217,
+    "lng": -70.2561,
+    "pop": null
+  },
+  {
+    "nameAr": "Macuto",
+    "nameEn": "Macuto",
+    "type": "city",
+    "lat": 10.606666666667,
+    "lng": -66.8925,
+    "pop": null
+  },
+  {
+    "nameAr": "Maipatá",
+    "nameEn": "Maipatá",
+    "type": "city",
+    "lat": 4.8529175,
+    "lng": -61.4189065,
+    "pop": null
+  },
+  {
+    "nameAr": "Mamporal",
+    "nameEn": "Mamporal",
+    "type": "city",
+    "lat": 10.366666666667,
+    "lng": -66.133333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mapararí",
+    "nameEn": "Mapararí",
+    "type": "city",
+    "lat": 10.7967829,
+    "lng": -69.4383211,
+    "pop": null
+  },
+  {
+    "nameAr": "Maripa",
+    "nameEn": "Maripa",
+    "type": "city",
+    "lat": 7.4169105,
+    "lng": -65.1839676,
+    "pop": null
+  },
+  {
+    "nameAr": "Maurak",
+    "nameEn": "Maurak",
+    "type": "city",
+    "lat": 4.5838164,
+    "lng": -61.1810056,
+    "pop": null
+  },
+  {
+    "nameAr": "Mavaca",
+    "nameEn": "Mavaca",
+    "type": "city",
+    "lat": 2.6448,
+    "lng": -64.9131,
+    "pop": null
+  },
+  {
+    "nameAr": "Michelena",
+    "nameEn": "Michelena",
+    "type": "city",
+    "lat": 7.9666666666667,
+    "lng": -72.233333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mina El Polaco",
+    "nameEn": "Mina El Polaco",
+    "type": "city",
+    "lat": 4.5463951,
+    "lng": -61.4429263,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirimire",
+    "nameEn": "Mirimire",
+    "type": "city",
+    "lat": 11.160803,
+    "lng": -68.726006,
+    "pop": null
+  },
+  {
+    "nameAr": "Moitaco",
+    "nameEn": "Moitaco",
+    "type": "city",
+    "lat": 8.0019201,
+    "lng": -64.3533107,
+    "pop": null
+  },
+  {
+    "nameAr": "Moruy",
+    "nameEn": "Moruy",
+    "type": "city",
+    "lat": 11.82194444,
+    "lng": -69.98361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Munduapo",
+    "nameEn": "Munduapo",
+    "type": "city",
+    "lat": 4.8824,
+    "lng": -67.8136,
+    "pop": null
+  },
+  {
+    "nameAr": "Naguanagua",
+    "nameEn": "Naguanagua",
+    "type": "city",
+    "lat": 10.254027777778,
+    "lng": -68.010855555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Navio Quebrao",
+    "nameEn": "Navio Quebrao",
+    "type": "city",
+    "lat": 10.9689525,
+    "lng": -64.3857682,
+    "pop": null
+  },
+  {
+    "nameAr": "Nirgua",
+    "nameEn": "Nirgua",
+    "type": "city",
+    "lat": 10.1524,
+    "lng": -68.5664,
+    "pop": null
+  },
+  {
+    "nameAr": "Obispos",
+    "nameEn": "Obispos",
+    "type": "city",
+    "lat": 8.60937,
+    "lng": -70.1053,
+    "pop": null
+  },
+  {
+    "nameAr": "Oritupano",
+    "nameEn": "Oritupano",
+    "type": "city",
+    "lat": 9.052451,
+    "lng": -63.4470493,
+    "pop": null
+  },
+  {
+    "nameAr": "Ortíz",
+    "nameEn": "Ortíz",
+    "type": "city",
+    "lat": 9.6138888888889,
+    "lng": -67.286666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ospino",
+    "nameEn": "Ospino",
+    "type": "city",
+    "lat": 9.30053,
+    "lng": -69.4609,
+    "pop": null
+  },
+  {
+    "nameAr": "Pampatá",
+    "nameEn": "Pampatá",
+    "type": "city",
+    "lat": 4.8043762,
+    "lng": -61.6204047,
+    "pop": null
+  },
+  {
+    "nameAr": "Pampatar",
+    "nameEn": "Pampatar",
+    "type": "city",
+    "lat": 10.999444444444,
+    "lng": -63.794444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Paraitepuy del Roraima",
+    "nameEn": "Paraitepuy del Roraima",
+    "type": "city",
+    "lat": 5.0560775,
+    "lng": -60.9341528,
+    "pop": null
+  },
+  {
+    "nameAr": "Paramán",
+    "nameEn": "Paramán",
+    "type": "city",
+    "lat": 4.73812,
+    "lng": -61.5722805,
+    "pop": null
+  },
+  {
+    "nameAr": "Párate Bueno",
+    "nameEn": "Párate Bueno",
+    "type": "city",
+    "lat": 10.9787315,
+    "lng": -64.3646616,
+    "pop": null
+  },
+  {
+    "nameAr": "Pariaguán",
+    "nameEn": "Pariaguán",
+    "type": "city",
+    "lat": 8.84674,
+    "lng": -64.709816,
+    "pop": null
+  },
+  {
+    "nameAr": "Parkupik",
+    "nameEn": "Parkupik",
+    "type": "city",
+    "lat": 4.347484,
+    "lng": -62.1848447,
+    "pop": null
+  },
+  {
+    "nameAr": "Parroquia Río Negro",
+    "nameEn": "Parroquia Río Negro",
+    "type": "city",
+    "lat": 8.2186299,
+    "lng": -71.677147,
+    "pop": null
+  },
+  {
+    "nameAr": "Paso Real de Macaira",
+    "nameEn": "Paso Real de Macaira",
+    "type": "city",
+    "lat": 9.8086834,
+    "lng": -66.1735015,
+    "pop": null
+  },
+  {
+    "nameAr": "Peribeca",
+    "nameEn": "Peribeca",
+    "type": "city",
+    "lat": 7.8313888888889,
+    "lng": -72.284722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Playa Blanca de Waiparú",
+    "nameEn": "Playa Blanca de Waiparú",
+    "type": "city",
+    "lat": 4.3637525,
+    "lng": -61.8262267,
+    "pop": null
+  },
+  {
+    "nameAr": "Pueblo Cumarebo",
+    "nameEn": "Pueblo Cumarebo",
+    "type": "city",
+    "lat": 11.45883,
+    "lng": -69.31716,
+    "pop": null
+  },
+  {
+    "nameAr": "Pueblo Nuevo",
+    "nameEn": "Pueblo Nuevo",
+    "type": "city",
+    "lat": 11.9492,
+    "lng": -69.9225,
+    "pop": null
+  },
+  {
+    "nameAr": "Punta Arenas",
+    "nameEn": "Punta Arenas",
+    "type": "city",
+    "lat": 10.9746105,
+    "lng": -64.3990628,
+    "pop": null
+  },
+  {
+    "nameAr": "Punta de Piedras",
+    "nameEn": "Punta de Piedras",
+    "type": "city",
+    "lat": 10.901388888889,
+    "lng": -64.096944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Río Chico",
+    "nameEn": "Río Chico",
+    "type": "city",
+    "lat": 10.3392,
+    "lng": -65.9695,
+    "pop": null
+  },
+  {
+    "nameAr": "Río Claro",
+    "nameEn": "Río Claro",
+    "type": "city",
+    "lat": 9.92049,
+    "lng": -69.36057,
+    "pop": null
+  },
+  {
+    "nameAr": "Río Seco",
+    "nameEn": "Río Seco",
+    "type": "city",
+    "lat": 11.3525797,
+    "lng": -70.2064862,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabana Grande de Orituco",
+    "nameEn": "Sabana Grande de Orituco",
+    "type": "city",
+    "lat": 9.9170319,
+    "lng": -66.0938914,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabaneta de Coro",
+    "nameEn": "Sabaneta de Coro",
+    "type": "city",
+    "lat": 11.2578556,
+    "lng": -69.9913974,
+    "pop": null
+  },
+  {
+    "nameAr": "Samariapo",
+    "nameEn": "Samariapo",
+    "type": "city",
+    "lat": 5.2382,
+    "lng": -67.7969,
+    "pop": null
+  },
+  {
+    "nameAr": "San Antonio de Capayacuar",
+    "nameEn": "San Antonio de Capayacuar",
+    "type": "city",
+    "lat": 10.1208965,
+    "lng": -63.7268783,
+    "pop": null
+  },
+  {
+    "nameAr": "San Antonio de Los Altos",
+    "nameEn": "San Antonio de Los Altos",
+    "type": "city",
+    "lat": 10.374444444444,
+    "lng": -66.966944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "San Antonio de Tabasca",
+    "nameEn": "San Antonio de Tabasca",
+    "type": "city",
+    "lat": 9.0421081,
+    "lng": -62.3814495,
+    "pop": null
+  },
+  {
+    "nameAr": "San Félix",
+    "nameEn": "San Félix",
+    "type": "city",
+    "lat": 8.3475408,
+    "lng": -62.6471342,
+    "pop": null
+  },
+  {
+    "nameAr": "San Félix de Caicara",
+    "nameEn": "San Félix de Caicara",
+    "type": "city",
+    "lat": 9.956444,
+    "lng": -63.6538387,
+    "pop": null
+  },
+  {
+    "nameAr": "San Francisco",
+    "nameEn": "San Francisco",
+    "type": "city",
+    "lat": 10.548748,
+    "lng": -71.6765109,
+    "pop": null
+  },
+  {
+    "nameAr": "San Francisco de Macanao",
+    "nameEn": "San Francisco de Macanao",
+    "type": "city",
+    "lat": 11.026014,
+    "lng": -64.2933125,
+    "pop": null
+  },
+  {
+    "nameAr": "San Ignacio del Yuruaní",
+    "nameEn": "San Ignacio del Yuruaní",
+    "type": "city",
+    "lat": 5.009708,
+    "lng": -61.1460329,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de Barlovento",
+    "nameEn": "San José de Barlovento",
+    "type": "city",
+    "lat": 10.3,
+    "lng": -66,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de Bruzual",
+    "nameEn": "San José de Bruzual",
+    "type": "city",
+    "lat": 11.078611111111,
+    "lng": -70.330555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de Galipán",
+    "nameEn": "San José de Galipán",
+    "type": "city",
+    "lat": 10.5656,
+    "lng": -66.8919,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de Guanipa",
+    "nameEn": "San José de Guanipa",
+    "type": "city",
+    "lat": 8.88333333,
+    "lng": -64.15,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de La Costa",
+    "nameEn": "San José de La Costa",
+    "type": "city",
+    "lat": 11.4349849,
+    "lng": -68.8372656,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de Seque",
+    "nameEn": "San José de Seque",
+    "type": "city",
+    "lat": 11.0175329,
+    "lng": -70.828355,
+    "pop": null
+  },
+  {
+    "nameAr": "San José de Tiznados",
+    "nameEn": "San José de Tiznados",
+    "type": "city",
+    "lat": 9.379425,
+    "lng": -67.5618879,
+    "pop": null
+  },
+  {
+    "nameAr": "San Juan de Payara",
+    "nameEn": "San Juan de Payara",
+    "type": "city",
+    "lat": 7.65,
+    "lng": -67.6,
+    "pop": null
+  },
+  {
+    "nameAr": "San Lorenzo",
+    "nameEn": "San Lorenzo",
+    "type": "city",
+    "lat": 11.0435,
+    "lng": -68.4866,
+    "pop": null
+  },
+  {
+    "nameAr": "San Martín de Turumbán",
+    "nameEn": "San Martín de Turumbán",
+    "type": "city",
+    "lat": 6.7134304,
+    "lng": -61.0932967,
+    "pop": null
+  },
+  {
+    "nameAr": "San Mateo",
+    "nameEn": "San Mateo",
+    "type": "city",
+    "lat": 10.213333333333,
+    "lng": -67.4225,
+    "pop": null
+  },
+  {
+    "nameAr": "San Rafael de El Moján",
+    "nameEn": "San Rafael de El Moján",
+    "type": "city",
+    "lat": 10.96666667,
+    "lng": -71.73333333,
+    "pop": null
+  },
+  {
+    "nameAr": "San Rafael de Orituco",
+    "nameEn": "San Rafael de Orituco",
+    "type": "city",
+    "lat": 9.8217477,
+    "lng": -66.4071501,
+    "pop": null
+  },
+  {
+    "nameAr": "San Sebastián",
+    "nameEn": "San Sebastián",
+    "type": "city",
+    "lat": 9.9405555555556,
+    "lng": -67.169166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Ana",
+    "nameEn": "Santa Ana",
+    "type": "city",
+    "lat": 11.78222222,
+    "lng": -69.94694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Bárbara",
+    "nameEn": "Santa Bárbara",
+    "type": "city",
+    "lat": 7.81202,
+    "lng": -71.1787,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Cruz de Guacas",
+    "nameEn": "Santa Cruz de Guacas",
+    "type": "city",
+    "lat": 7.4452623,
+    "lng": -71.3014184,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Cruz de Mapaurí",
+    "nameEn": "Santa Cruz de Mapaurí",
+    "type": "city",
+    "lat": 4.9390634,
+    "lng": -61.1123738,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Elena de Arenales",
+    "nameEn": "Santa Elena de Arenales",
+    "type": "city",
+    "lat": 8.81926,
+    "lng": -71.4661,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa María de Ipire",
+    "nameEn": "Santa María de Ipire",
+    "type": "city",
+    "lat": 8.81341,
+    "lng": -65.3221,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Rita",
+    "nameEn": "Santa Rita",
+    "type": "city",
+    "lat": 10.536666666667,
+    "lng": -71.510833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Santo Domingo",
+    "nameEn": "Santo Domingo",
+    "type": "city",
+    "lat": 7.5686111111111,
+    "lng": -72.001666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Santo Domingo de Turasén",
+    "nameEn": "Santo Domingo de Turasén",
+    "type": "city",
+    "lat": 4.5545639,
+    "lng": -61.17272,
+    "pop": null
+  },
+  {
+    "nameAr": "Tacarigua",
+    "nameEn": "Tacarigua",
+    "type": "city",
+    "lat": 10.085849,
+    "lng": -67.916781,
+    "pop": null
+  },
+  {
+    "nameAr": "Temblador",
+    "nameEn": "Temblador",
+    "type": "city",
+    "lat": 9.0070783,
+    "lng": -62.6438469,
+    "pop": null
+  },
+  {
+    "nameAr": "Teresén",
+    "nameEn": "Teresén",
+    "type": "city",
+    "lat": 10.1901716,
+    "lng": -63.4651423,
+    "pop": null
+  },
+  {
+    "nameAr": "Tocuyo de La Costa",
+    "nameEn": "Tocuyo de La Costa",
+    "type": "city",
+    "lat": 11.0333,
+    "lng": -68.3833,
+    "pop": null
+  },
+  {
+    "nameAr": "Uracoa",
+    "nameEn": "Uracoa",
+    "type": "city",
+    "lat": 8.9946921,
+    "lng": -62.3512746,
+    "pop": null
+  },
+  {
+    "nameAr": "Ureña",
+    "nameEn": "Ureña",
+    "type": "city",
+    "lat": 7.9183333333333,
+    "lng": -72.446666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Victorino",
+    "nameEn": "Victorino",
+    "type": "city",
+    "lat": 2.8111,
+    "lng": -67.8361,
+    "pop": null
+  },
+  {
+    "nameAr": "Villa del Rosario",
+    "nameEn": "Villa del Rosario",
+    "type": "city",
+    "lat": 10.31666667,
+    "lng": -72.31666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Waiparú",
+    "nameEn": "Waiparú",
+    "type": "city",
+    "lat": 4.5298884,
+    "lng": -61.6247928,
+    "pop": null
+  },
+  {
+    "nameAr": "Waramasén",
+    "nameEn": "Waramasén",
+    "type": "city",
+    "lat": 4.5614042,
+    "lng": -61.2757127,
+    "pop": null
+  },
+  {
+    "nameAr": "Yaracal",
+    "nameEn": "Yaracal",
+    "type": "city",
+    "lat": 10.975,
+    "lng": -68.54611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Zapata",
+    "nameEn": "Zapata",
+    "type": "city",
+    "lat": 4.2896189,
+    "lng": -61.7783493,
+    "pop": null
+  },
+  {
+    "nameAr": "Zazárida de Cumarebo",
+    "nameEn": "Zazárida de Cumarebo",
+    "type": "city",
+    "lat": 11.3180914,
+    "lng": -69.2881322,
+    "pop": null
+  },
+  {
+    "nameAr": "Zuata",
+    "nameEn": "Zuata",
+    "type": "city",
+    "lat": 8.3605685,
+    "lng": -65.1943307,
+    "pop": null
+  }
+]

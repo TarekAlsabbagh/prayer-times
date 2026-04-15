@@ -1,0 +1,2062 @@
+[
+  {
+    "nameAr": "روما",
+    "nameEn": "Rome",
+    "type": "city",
+    "lat": 41.9028,
+    "lng": 12.4964
+  },
+  {
+    "nameAr": "بارى",
+    "nameEn": "Bari",
+    "type": "city",
+    "lat": 41.1171,
+    "lng": 16.8719
+  },
+  {
+    "nameAr": "باليرمو",
+    "nameEn": "Palermo",
+    "type": "city",
+    "lat": 38.1157,
+    "lng": 13.3615
+  },
+  {
+    "nameAr": "بولونيا",
+    "nameEn": "Bologna",
+    "type": "city",
+    "lat": 44.4949,
+    "lng": 11.3426
+  },
+  {
+    "nameAr": "تورينو",
+    "nameEn": "Turin",
+    "type": "city",
+    "lat": 45.0703,
+    "lng": 7.6869
+  },
+  {
+    "nameAr": "جنوى",
+    "nameEn": "Genoa",
+    "type": "city",
+    "lat": 44.4056,
+    "lng": 8.9463
+  },
+  {
+    "nameAr": "فلورنسا",
+    "nameEn": "Florence",
+    "type": "city",
+    "lat": 43.7696,
+    "lng": 11.2558
+  },
+  {
+    "nameAr": "فينيسيا",
+    "nameEn": "Venice",
+    "type": "city",
+    "lat": 45.4408,
+    "lng": 12.3155
+  },
+  {
+    "nameAr": "كاتانيا",
+    "nameEn": "Catania",
+    "type": "city",
+    "lat": 37.5079,
+    "lng": 15.083
+  },
+  {
+    "nameAr": "ميسينا",
+    "nameEn": "Messina",
+    "type": "city",
+    "lat": 38.1938,
+    "lng": 15.554
+  },
+  {
+    "nameAr": "ميلانو",
+    "nameEn": "Milan",
+    "type": "city",
+    "lat": 45.4642,
+    "lng": 9.19
+  },
+  {
+    "nameAr": "نابولي",
+    "nameEn": "Naples",
+    "type": "city",
+    "lat": 40.8518,
+    "lng": 14.2681
+  },
+  {
+    "nameAr": "جنوة",
+    "nameEn": "Genoa",
+    "type": "city",
+    "lat": 44.407186111111,
+    "lng": 8.9339833333333,
+    "pop": 558745
+  },
+  {
+    "nameAr": "باري",
+    "nameEn": "Bari",
+    "type": "city",
+    "lat": 41.125277777778,
+    "lng": 16.866666666667,
+    "pop": 315473
+  },
+  {
+    "nameAr": "قطانية",
+    "nameEn": "Catania",
+    "type": "city",
+    "lat": 37.502669444444,
+    "lng": 15.087269444444,
+    "pop": 311584
+  },
+  {
+    "nameAr": "فيرونا",
+    "nameEn": "Verona",
+    "type": "city",
+    "lat": 45.438611111111,
+    "lng": 10.992777777778,
+    "pop": 255588
+  },
+  {
+    "nameAr": "البندقية",
+    "nameEn": "Venice",
+    "type": "city",
+    "lat": 45.439722222222,
+    "lng": 12.331944444444,
+    "pop": 250369
+  },
+  {
+    "nameAr": "مسينة",
+    "nameEn": "Messina",
+    "type": "city",
+    "lat": 38.193611111111,
+    "lng": 15.554166666667,
+    "pop": 218786
+  },
+  {
+    "nameAr": "باذوة",
+    "nameEn": "Padua",
+    "type": "city",
+    "lat": 45.407777777778,
+    "lng": 11.873333333333,
+    "pop": 206496
+  },
+  {
+    "nameAr": "ترييستي",
+    "nameEn": "Trieste",
+    "type": "city",
+    "lat": 45.650277777778,
+    "lng": 13.770277777778,
+    "pop": 198417
+  },
+  {
+    "nameAr": "بارما",
+    "nameEn": "Parma",
+    "type": "city",
+    "lat": 44.801472222222,
+    "lng": 10.328,
+    "pop": 196764
+  },
+  {
+    "nameAr": "بريشا",
+    "nameEn": "Brescia",
+    "type": "city",
+    "lat": 45.538888888889,
+    "lng": 10.220280555556,
+    "pop": 196446
+  },
+  {
+    "nameAr": "براتو",
+    "nameEn": "Prato",
+    "type": "city",
+    "lat": 43.880813888889,
+    "lng": 11.096561111111,
+    "pop": 195736
+  },
+  {
+    "nameAr": "طارنت",
+    "nameEn": "Taranto",
+    "type": "city",
+    "lat": 40.471111111111,
+    "lng": 17.243055555556,
+    "pop": 188098
+  },
+  {
+    "nameAr": "مُودِنة",
+    "nameEn": "Modena",
+    "type": "city",
+    "lat": 44.64582,
+    "lng": 10.92572,
+    "pop": 184153
+  },
+  {
+    "nameAr": "رية قلورية",
+    "nameEn": "Reggio Calabria",
+    "type": "city",
+    "lat": 38.114438888889,
+    "lng": 15.65,
+    "pop": 170951
+  },
+  {
+    "nameAr": "ريدجو إميليا",
+    "nameEn": "Reggio Emilia",
+    "type": "city",
+    "lat": 44.7,
+    "lng": 10.633333333333,
+    "pop": 169545
+  },
+  {
+    "nameAr": "بِروجَة",
+    "nameEn": "Perugia",
+    "type": "city",
+    "lat": 43.11191816,
+    "lng": 12.38854847,
+    "pop": 161748
+  },
+  {
+    "nameAr": "ربنة",
+    "nameEn": "Ravenna",
+    "type": "city",
+    "lat": 44.416111111111,
+    "lng": 12.201666666667,
+    "pop": 155751
+  },
+  {
+    "nameAr": "لِفُرنة",
+    "nameEn": "Livorno",
+    "type": "city",
+    "lat": 43.55,
+    "lng": 10.316666666667,
+    "pop": 152914
+  },
+  {
+    "nameAr": "ريميني",
+    "nameEn": "Rimini",
+    "type": "city",
+    "lat": 44.059444444444,
+    "lng": 12.568333333333,
+    "pop": 149211
+  },
+  {
+    "nameAr": "فُدجَة",
+    "nameEn": "Foggia",
+    "type": "city",
+    "lat": 41.45845,
+    "lng": 15.55188,
+    "pop": 145348
+  },
+  {
+    "nameAr": "فرارة",
+    "nameEn": "Ferrara",
+    "type": "city",
+    "lat": 44.839166666667,
+    "lng": 11.6175,
+    "pop": 129340
+  },
+  {
+    "nameAr": "لاتينا",
+    "nameEn": "Latina",
+    "type": "city",
+    "lat": 41.467222222222,
+    "lng": 12.903611111111,
+    "pop": 127564
+  },
+  {
+    "nameAr": "سلرنو",
+    "nameEn": "Salerno",
+    "type": "city",
+    "lat": 40.680555555556,
+    "lng": 14.759444444444,
+    "pop": 127186
+  },
+  {
+    "nameAr": "جوليانو إن كامبانيا",
+    "nameEn": "Giugliano in Campania",
+    "type": "city",
+    "lat": 40.928345598949,
+    "lng": 14.201084910973,
+    "pop": 123679
+  },
+  {
+    "nameAr": "مُنزَة",
+    "nameEn": "Monza",
+    "type": "city",
+    "lat": 45.583611111111,
+    "lng": 9.2736111111111,
+    "pop": 121799
+  },
+  {
+    "nameAr": "سَسارة",
+    "nameEn": "Sassari",
+    "type": "city",
+    "lat": 40.726666666667,
+    "lng": 8.5591666666667,
+    "pop": 121021
+  },
+  {
+    "nameAr": "برغامو",
+    "nameEn": "Bergamo",
+    "type": "city",
+    "lat": 45.695,
+    "lng": 9.67,
+    "pop": 119534
+  },
+  {
+    "nameAr": "بسكارا",
+    "nameEn": "Pescara",
+    "type": "city",
+    "lat": 42.464277777778,
+    "lng": 14.214188888889,
+    "pop": 118657
+  },
+  {
+    "nameAr": "فورلي",
+    "nameEn": "Forlì",
+    "type": "city",
+    "lat": 44.222777777778,
+    "lng": 12.041388888889,
+    "pop": 116440
+  },
+  {
+    "nameAr": "سرقوسة",
+    "nameEn": "Syracuse",
+    "type": "city",
+    "lat": 37.069166666667,
+    "lng": 15.2875,
+    "pop": 115515
+  },
+  {
+    "nameAr": "فِشِنزة",
+    "nameEn": "Vicenza",
+    "type": "city",
+    "lat": 45.55,
+    "lng": 11.55,
+    "pop": 109823
+  },
+  {
+    "nameAr": "تِرنة",
+    "nameEn": "Terni",
+    "type": "city",
+    "lat": 42.56077083,
+    "lng": 12.6467816,
+    "pop": 106370
+  },
+  {
+    "nameAr": "بولزانو",
+    "nameEn": "Bolzano",
+    "type": "city",
+    "lat": 46.498113,
+    "lng": 11.35478,
+    "pop": 106107
+  },
+  {
+    "nameAr": "بِيَشِنزة",
+    "nameEn": "Piacenza",
+    "type": "city",
+    "lat": 45.05,
+    "lng": 9.7,
+    "pop": 102465
+  },
+  {
+    "nameAr": "نُفارة",
+    "nameEn": "Novara",
+    "type": "city",
+    "lat": 45.45,
+    "lng": 8.62,
+    "pop": 101257
+  },
+  {
+    "nameAr": "أنقونة",
+    "nameEn": "Ancona",
+    "type": "city",
+    "lat": 43.616666666667,
+    "lng": 13.516666666667,
+    "pop": 98356
+  },
+  {
+    "nameAr": "أوديني",
+    "nameEn": "Udine",
+    "type": "city",
+    "lat": 46.066666666667,
+    "lng": 13.233333333333,
+    "pop": 97808
+  },
+  {
+    "nameAr": "أندرة",
+    "nameEn": "Andria",
+    "type": "city",
+    "lat": 41.231666666667,
+    "lng": 16.308333333333,
+    "pop": 97146
+  },
+  {
+    "nameAr": "ليتشي",
+    "nameEn": "Lecce",
+    "type": "city",
+    "lat": 40.352011111111,
+    "lng": 18.169138888889,
+    "pop": 94783
+  },
+  {
+    "nameAr": "برلت",
+    "nameEn": "Barletta",
+    "type": "city",
+    "lat": 41.316666666667,
+    "lng": 16.283333333333,
+    "pop": 92427
+  },
+  {
+    "nameAr": "ألساندريا",
+    "nameEn": "Alessandria",
+    "type": "city",
+    "lat": 44.913330555556,
+    "lng": 8.62,
+    "pop": 91059
+  },
+  {
+    "nameAr": "Heraclea",
+    "nameEn": "Heraclea",
+    "type": "city",
+    "lat": 45.638055555556,
+    "lng": 12.658333333333,
+    "pop": 90000
+  },
+  {
+    "nameAr": "لكة",
+    "nameEn": "Lucca",
+    "type": "city",
+    "lat": 43.85,
+    "lng": 10.516666666667,
+    "pop": 88798
+  },
+  {
+    "nameAr": "بيزا",
+    "nameEn": "Pisa",
+    "type": "city",
+    "lat": 43.716666666667,
+    "lng": 10.4,
+    "pop": 88737
+  },
+  {
+    "nameAr": "قطنصار",
+    "nameEn": "Catanzaro",
+    "type": "city",
+    "lat": 38.91,
+    "lng": 16.5875,
+    "pop": 84670
+  },
+  {
+    "nameAr": "تريفيزو",
+    "nameEn": "Treviso",
+    "type": "city",
+    "lat": 45.672219444444,
+    "lng": 12.242219444444,
+    "pop": 84607
+  },
+  {
+    "nameAr": "كومو",
+    "nameEn": "Como",
+    "type": "city",
+    "lat": 45.81025,
+    "lng": 9.0861388888889,
+    "pop": 83184
+  },
+  {
+    "nameAr": "إبرندس",
+    "nameEn": "Brindisi",
+    "type": "city",
+    "lat": 40.638333333333,
+    "lng": 17.945833333333,
+    "pop": 82694
+  },
+  {
+    "nameAr": "فَرِيزة",
+    "nameEn": "Varese",
+    "type": "city",
+    "lat": 45.816666666667,
+    "lng": 8.8333333333333,
+    "pop": 78409
+  },
+  {
+    "nameAr": "أستي",
+    "nameEn": "Asti",
+    "type": "city",
+    "lat": 44.9,
+    "lng": 8.2069444444444,
+    "pop": 73421
+  },
+  {
+    "nameAr": "كَزِرتة",
+    "nameEn": "Caserta",
+    "type": "city",
+    "lat": 41.066667,
+    "lng": 14.333333,
+    "pop": 72805
+  },
+  {
+    "nameAr": "كَرِمونة",
+    "nameEn": "Cremona",
+    "type": "city",
+    "lat": 45.133333333333,
+    "lng": 10.024722222222,
+    "pop": 70637
+  },
+  {
+    "nameAr": "لَكوِيلة",
+    "nameEn": "L'Aquila",
+    "type": "city",
+    "lat": 42.354008333333,
+    "lng": 13.391991666667,
+    "pop": 69558
+  },
+  {
+    "nameAr": "بُتِنسة",
+    "nameEn": "Potenza",
+    "type": "city",
+    "lat": 40.633333333333,
+    "lng": 15.8,
+    "pop": 64406
+  },
+  {
+    "nameAr": "اسطابة",
+    "nameEn": "Castellammare di Stabia",
+    "type": "city",
+    "lat": 40.694722222222,
+    "lng": 14.480277777778,
+    "pop": 62772
+  },
+  {
+    "nameAr": "كرارا",
+    "nameEn": "Carrara",
+    "type": "city",
+    "lat": 44.083333333333,
+    "lng": 10.1,
+    "pop": 59905
+  },
+  {
+    "nameAr": "فاينزا",
+    "nameEn": "Faenza",
+    "type": "city",
+    "lat": 44.285555555556,
+    "lng": 11.883333333333,
+    "pop": 58710
+  },
+  {
+    "nameAr": "كروتوني",
+    "nameEn": "Crotone",
+    "type": "city",
+    "lat": 39.083333333333,
+    "lng": 17.116666666667,
+    "pop": 58445
+  },
+  {
+    "nameAr": "سفونة",
+    "nameEn": "Savona",
+    "type": "city",
+    "lat": 44.308055555556,
+    "lng": 8.4811111111111,
+    "pop": 58194
+  },
+  {
+    "nameAr": "ملفنت",
+    "nameEn": "Molfetta",
+    "type": "city",
+    "lat": 41.2,
+    "lng": 16.6,
+    "pop": 57329
+  },
+  {
+    "nameAr": "كُونِيَة",
+    "nameEn": "Cuneo",
+    "type": "city",
+    "lat": 44.383333333333,
+    "lng": 7.55,
+    "pop": 55744
+  },
+  {
+    "nameAr": "جِرْجَنْت",
+    "nameEn": "Agrigento",
+    "type": "city",
+    "lat": 37.31065,
+    "lng": 13.57661,
+    "pop": 55512
+  },
+  {
+    "nameAr": "سيينا",
+    "nameEn": "Siena",
+    "type": "city",
+    "lat": 43.318333333333,
+    "lng": 11.331388888889,
+    "pop": 52812
+  },
+  {
+    "nameAr": "سانريمو",
+    "nameEn": "Sanremo",
+    "type": "city",
+    "lat": 43.8175,
+    "lng": 7.775,
+    "pop": 52787
+  },
+  {
+    "nameAr": "Avellino",
+    "nameEn": "Avellino",
+    "type": "city",
+    "lat": 40.91494,
+    "lng": 14.79103,
+    "pop": 49699
+  },
+  {
+    "nameAr": "إمبولي",
+    "nameEn": "Empoli",
+    "type": "city",
+    "lat": 43.716666666667,
+    "lng": 10.95,
+    "pop": 48844
+  },
+  {
+    "nameAr": "بييلا",
+    "nameEn": "Biella",
+    "type": "city",
+    "lat": 45.566388888889,
+    "lng": 8.0533333333333,
+    "pop": 42619
+  },
+  {
+    "nameAr": "إمبِرية",
+    "nameEn": "Imperia",
+    "type": "city",
+    "lat": 43.886466666667,
+    "lng": 8.0296527777778,
+    "pop": 42060
+  },
+  {
+    "nameAr": "ميرانو",
+    "nameEn": "Merano",
+    "type": "city",
+    "lat": 46.669555,
+    "lng": 11.159419,
+    "pop": 41071
+  },
+  {
+    "nameAr": "مشراتة",
+    "nameEn": "Macerata",
+    "type": "city",
+    "lat": 43.300277777778,
+    "lng": 13.453333333333,
+    "pop": 40496
+  },
+  {
+    "nameAr": "كامايوري",
+    "nameEn": "Camaiore",
+    "type": "city",
+    "lat": 43.933333333333,
+    "lng": 10.3,
+    "pop": 31810
+  },
+  {
+    "nameAr": "فيبو فالينتيا",
+    "nameEn": "Vibo Valentia",
+    "type": "city",
+    "lat": 38.675277777778,
+    "lng": 16.0959,
+    "pop": 31092
+  },
+  {
+    "nameAr": "فربانيا",
+    "nameEn": "Verbania",
+    "type": "city",
+    "lat": 45.922777777778,
+    "lng": 8.5519444444444,
+    "pop": 29945
+  },
+  {
+    "nameAr": "البنقلة",
+    "nameEn": "Albenga",
+    "type": "city",
+    "lat": 44.049113888889,
+    "lng": 8.2130166666667,
+    "pop": 23376
+  },
+  {
+    "nameAr": "موندوفي",
+    "nameEn": "Mondovì",
+    "type": "city",
+    "lat": 44.383333333333,
+    "lng": 7.8166666666667,
+    "pop": 22040
+  },
+  {
+    "nameAr": "بوتسالو",
+    "nameEn": "Pozzallo",
+    "type": "city",
+    "lat": 36.73028,
+    "lng": 14.84672,
+    "pop": 18879
+  },
+  {
+    "nameAr": "سان فيتو دي نورماني",
+    "nameEn": "San Vito dei Normanni",
+    "type": "city",
+    "lat": 40.655555555556,
+    "lng": 17.703611111111,
+    "pop": 18103
+  },
+  {
+    "nameAr": "نارني",
+    "nameEn": "Narni",
+    "type": "city",
+    "lat": 42.51929776,
+    "lng": 12.51513759,
+    "pop": 17914
+  },
+  {
+    "nameAr": "أوربينو",
+    "nameEn": "Urbino",
+    "type": "city",
+    "lat": 43.725238888889,
+    "lng": 12.6372,
+    "pop": 13734
+  },
+  {
+    "nameAr": "لوريتو (ماركي)",
+    "nameEn": "Loreto",
+    "type": "city",
+    "lat": 43.4403,
+    "lng": 13.607430555556,
+    "pop": 12899
+  },
+  {
+    "nameAr": "أميليا",
+    "nameEn": "Amelia",
+    "type": "city",
+    "lat": 42.55886211,
+    "lng": 12.41198481,
+    "pop": 11547
+  },
+  {
+    "nameAr": "أفيليانو",
+    "nameEn": "Avigliano",
+    "type": "city",
+    "lat": 40.733333333333,
+    "lng": 15.716666666667,
+    "pop": 10614
+  },
+  {
+    "nameAr": "تيرانو",
+    "nameEn": "Tirano",
+    "type": "city",
+    "lat": 46.216388888889,
+    "lng": 10.168888888889,
+    "pop": 8828
+  },
+  {
+    "nameAr": "سترونجولي",
+    "nameEn": "Strongoli",
+    "type": "city",
+    "lat": 39.266666666667,
+    "lng": 17.066666666667,
+    "pop": 6137
+  },
+  {
+    "nameAr": "كورتينا دامبيدزو",
+    "nameEn": "Cortina d'Ampezzo",
+    "type": "city",
+    "lat": 46.538333,
+    "lng": 12.137351,
+    "pop": 5546
+  },
+  {
+    "nameAr": "نوتشيرا أومبرا",
+    "nameEn": "Nocera Umbra",
+    "type": "city",
+    "lat": 43.11128406,
+    "lng": 12.79009171,
+    "pop": 5511
+  },
+  {
+    "nameAr": "مونتيكاستريلي",
+    "nameEn": "Montecastrilli",
+    "type": "city",
+    "lat": 42.64984123,
+    "lng": 12.48783992,
+    "pop": 4809
+  },
+  {
+    "nameAr": "سان جيميني",
+    "nameEn": "San Gemini",
+    "type": "city",
+    "lat": 42.61341701,
+    "lng": 12.54639314,
+    "pop": 4729
+  },
+  {
+    "nameAr": "سترونكوني",
+    "nameEn": "Stroncone",
+    "type": "city",
+    "lat": 42.49824521,
+    "lng": 12.6627385,
+    "pop": 4629
+  },
+  {
+    "nameAr": "أكواسبارتا",
+    "nameEn": "Acquasparta",
+    "type": "city",
+    "lat": 42.69038646,
+    "lng": 12.54622288,
+    "pop": 4407
+  },
+  {
+    "nameAr": "غاردا",
+    "nameEn": "Garda",
+    "type": "city",
+    "lat": 45.5725,
+    "lng": 10.671666666667,
+    "pop": 4143
+  },
+  {
+    "nameAr": "فوجليانيس",
+    "nameEn": "Foglianise",
+    "type": "city",
+    "lat": 41.16006,
+    "lng": 14.67179,
+    "pop": 3120
+  },
+  {
+    "nameAr": "كاستل فسكاردو",
+    "nameEn": "Castel Viscardo",
+    "type": "city",
+    "lat": 42.75552184,
+    "lng": 12.00158038,
+    "pop": 2689
+  },
+  {
+    "nameAr": "فابرو",
+    "nameEn": "Fabro",
+    "type": "city",
+    "lat": 42.86335153,
+    "lng": 12.01297367,
+    "pop": 2603
+  },
+  {
+    "nameAr": "باسكي",
+    "nameEn": "Baschi",
+    "type": "city",
+    "lat": 42.67022759,
+    "lng": 12.21625497,
+    "pop": 2579
+  },
+  {
+    "nameAr": "أروني",
+    "nameEn": "Arrone",
+    "type": "city",
+    "lat": 42.58283625,
+    "lng": 12.76915771,
+    "pop": 2555
+  },
+  {
+    "nameAr": "أفيليانو أومبرو",
+    "nameEn": "Avigliano Umbro",
+    "type": "city",
+    "lat": 42.65540861,
+    "lng": 12.42848084,
+    "pop": 2360
+  },
+  {
+    "nameAr": "سان فينانزو",
+    "nameEn": "San Venanzo",
+    "type": "city",
+    "lat": 42.86914559,
+    "lng": 12.26649267,
+    "pop": 2177
+  },
+  {
+    "nameAr": "إيسكيا دي كاسترو",
+    "nameEn": "Ischia di Castro",
+    "type": "city",
+    "lat": 42.545,
+    "lng": 11.756944444444,
+    "pop": 2137
+  },
+  {
+    "nameAr": "ليونيسا",
+    "nameEn": "Leonessa",
+    "type": "city",
+    "lat": 42.56855,
+    "lng": 12.95996,
+    "pop": 2110
+  },
+  {
+    "nameAr": "كاستل جورجو",
+    "nameEn": "Castel Giorgio",
+    "type": "city",
+    "lat": 42.70781264,
+    "lng": 11.97959415,
+    "pop": 2021
+  },
+  {
+    "nameAr": "أتيليانو",
+    "nameEn": "Attigliano",
+    "type": "city",
+    "lat": 42.5149188,
+    "lng": 12.28939493,
+    "pop": 1949
+  },
+  {
+    "nameAr": "بورانو",
+    "nameEn": "Porano",
+    "type": "city",
+    "lat": 42.68724061,
+    "lng": 12.10212856,
+    "pop": 1920
+  },
+  {
+    "nameAr": "جوفي",
+    "nameEn": "Giove",
+    "type": "city",
+    "lat": 42.50929184,
+    "lng": 12.32525744,
+    "pop": 1852
+  },
+  {
+    "nameAr": "فيرينتيلو",
+    "nameEn": "Ferentillo",
+    "type": "city",
+    "lat": 42.6205587,
+    "lng": 12.7900706,
+    "pop": 1811
+  },
+  {
+    "nameAr": "أوتريكولي",
+    "nameEn": "Otricoli",
+    "type": "city",
+    "lat": 42.4232333,
+    "lng": 12.47828246,
+    "pop": 1717
+  },
+  {
+    "nameAr": "أليرونا",
+    "nameEn": "Allerona",
+    "type": "city",
+    "lat": 42.81151804,
+    "lng": 11.97379968,
+    "pop": 1688
+  },
+  {
+    "nameAr": "كالفي ديل أومبريا",
+    "nameEn": "Calvi dell'Umbria",
+    "type": "city",
+    "lat": 42.40143186,
+    "lng": 12.56758483,
+    "pop": 1688
+  },
+  {
+    "nameAr": "فيكولي",
+    "nameEn": "Ficulle",
+    "type": "city",
+    "lat": 42.83607753,
+    "lng": 12.06622392,
+    "pop": 1558
+  },
+  {
+    "nameAr": "مونتيكيو",
+    "nameEn": "Montecchio",
+    "type": "city",
+    "lat": 42.66239119,
+    "lng": 12.28706221,
+    "pop": 1521
+  },
+  {
+    "nameAr": "غوارديا لومباردي",
+    "nameEn": "Guardia Lombardi",
+    "type": "city",
+    "lat": 40.954722222222,
+    "lng": 15.209722222222,
+    "pop": 1515
+  },
+  {
+    "nameAr": "لونيانو في تيفيرينا",
+    "nameEn": "Lugnano in Teverina",
+    "type": "city",
+    "lat": 42.57431727,
+    "lng": 12.33054826,
+    "pop": 1428
+  },
+  {
+    "nameAr": "مونتيليوني دورفييتو",
+    "nameEn": "Monteleone d'Orvieto",
+    "type": "city",
+    "lat": 42.91644575,
+    "lng": 12.05138873,
+    "pop": 1369
+  },
+  {
+    "nameAr": "ألفيانو",
+    "nameEn": "Alviano",
+    "type": "city",
+    "lat": 42.58789958,
+    "lng": 12.29558686,
+    "pop": 1365
+  },
+  {
+    "nameAr": "مونتيفرانكو",
+    "nameEn": "Montefranco",
+    "type": "city",
+    "lat": 42.5970745,
+    "lng": 12.76629995,
+    "pop": 1254
+  },
+  {
+    "nameAr": "مونتيجابيوني",
+    "nameEn": "Montegabbione",
+    "type": "city",
+    "lat": 42.92161408,
+    "lng": 12.09270086,
+    "pop": 1110
+  },
+  {
+    "nameAr": "Santa Maria Rezzonico",
+    "nameEn": "Santa Maria Rezzonico",
+    "type": "city",
+    "lat": 46.066666666667,
+    "lng": 9.2666666666667,
+    "pop": 1088
+  },
+  {
+    "nameAr": "بينا في تيفيرينا",
+    "nameEn": "Penna in Teverina",
+    "type": "city",
+    "lat": 42.49241066,
+    "lng": 12.35545786,
+    "pop": 1022
+  },
+  {
+    "nameAr": "Sant'Abbondio",
+    "nameEn": "Sant'Abbondio",
+    "type": "city",
+    "lat": 46.05,
+    "lng": 9.25,
+    "pop": 777
+  },
+  {
+    "nameAr": "بارانو",
+    "nameEn": "Parrano",
+    "type": "city",
+    "lat": 42.86393464,
+    "lng": 12.1065524,
+    "pop": 488
+  },
+  {
+    "nameAr": "بولينو",
+    "nameEn": "Polino",
+    "type": "city",
+    "lat": 42.58488254,
+    "lng": 12.84392927,
+    "pop": 206
+  },
+  {
+    "nameAr": "Utile",
+    "nameEn": "Utile",
+    "type": "city",
+    "lat": 41.16936,
+    "lng": 14.69327,
+    "pop": 122
+  },
+  {
+    "nameAr": "San Lorenzo",
+    "nameEn": "San Lorenzo",
+    "type": "city",
+    "lat": 36.76808,
+    "lng": 15.09693,
+    "pop": 61
+  },
+  {
+    "nameAr": "Giovanni Viglione",
+    "nameEn": "Giovanni Viglione",
+    "type": "city",
+    "lat": 41.16412,
+    "lng": 14.70058,
+    "pop": 56
+  },
+  {
+    "nameAr": "Limone",
+    "nameEn": "Limone",
+    "type": "city",
+    "lat": 45.57396,
+    "lng": 10.45529,
+    "pop": 33
+  },
+  {
+    "nameAr": "Masseria La Palmenta",
+    "nameEn": "Masseria La Palmenta",
+    "type": "city",
+    "lat": 41.15687778,
+    "lng": 14.70933889,
+    "pop": 28
+  },
+  {
+    "nameAr": "Vaccara",
+    "nameEn": "Vaccara",
+    "type": "city",
+    "lat": 45.72429,
+    "lng": 11.59351,
+    "pop": 18
+  },
+  {
+    "nameAr": "Pastori",
+    "nameEn": "Pastori",
+    "type": "city",
+    "lat": 41.16562,
+    "lng": 14.6919,
+    "pop": 15
+  },
+  {
+    "nameAr": "Ca' de Conte",
+    "nameEn": "Ca' de Conte",
+    "type": "city",
+    "lat": 43.5221,
+    "lng": 12.14172,
+    "pop": 1
+  },
+  {
+    "nameAr": "أوسترا القديمة",
+    "nameEn": "Ancient Ostra",
+    "type": "city",
+    "lat": 43.584722222222,
+    "lng": 13.086111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "ثيراي",
+    "nameEn": "Thurii",
+    "type": "city",
+    "lat": 39.695,
+    "lng": 16.47111111,
+    "pop": null
+  },
+  {
+    "nameAr": "فالاكراين (قرية)",
+    "nameEn": "Falacrine",
+    "type": "city",
+    "lat": 42.59361111,
+    "lng": 13.17055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Antermëia",
+    "nameEn": "Antermëia",
+    "type": "city",
+    "lat": 46.69087,
+    "lng": 11.84919,
+    "pop": null
+  },
+  {
+    "nameAr": "Antholz-Mittertal",
+    "nameEn": "Antholz-Mittertal",
+    "type": "city",
+    "lat": 46.85855,
+    "lng": 12.0999,
+    "pop": null
+  },
+  {
+    "nameAr": "Arretium",
+    "nameEn": "Arretium",
+    "type": "city",
+    "lat": 43.463056,
+    "lng": 11.878056,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagnolo in Piano",
+    "nameEn": "Bagnolo in Piano",
+    "type": "city",
+    "lat": 44.76437,
+    "lng": 10.67358,
+    "pop": null
+  },
+  {
+    "nameAr": "Bastia-Molina",
+    "nameEn": "Bastia-Molina",
+    "type": "city",
+    "lat": 45.32312,
+    "lng": 9.57358,
+    "pop": null
+  },
+  {
+    "nameAr": "Bellia",
+    "nameEn": "Bellia",
+    "type": "city",
+    "lat": 45.58388,
+    "lng": 12.15251,
+    "pop": null
+  },
+  {
+    "nameAr": "Benevento",
+    "nameEn": "Benevento",
+    "type": "city",
+    "lat": 41.125555555556,
+    "lng": 14.781111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bojon",
+    "nameEn": "Bojon",
+    "type": "city",
+    "lat": 45.337777777778,
+    "lng": 12.071944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Borgo di Casale",
+    "nameEn": "Borgo di Casale",
+    "type": "city",
+    "lat": 44.445786,
+    "lng": 9.718682,
+    "pop": null
+  },
+  {
+    "nameAr": "Borgo Sant'Anna",
+    "nameEn": "Borgo Sant'Anna",
+    "type": "city",
+    "lat": 44.637814,
+    "lng": 11.335711,
+    "pop": null
+  },
+  {
+    "nameAr": "Brixen",
+    "nameEn": "Brixen",
+    "type": "city",
+    "lat": 46.716413,
+    "lng": 11.657792,
+    "pop": null
+  },
+  {
+    "nameAr": "Campello Monti",
+    "nameEn": "Campello Monti",
+    "type": "city",
+    "lat": 45.9362,
+    "lng": 8.2365,
+    "pop": null
+  },
+  {
+    "nameAr": "Campiglio di Cireglio",
+    "nameEn": "Campiglio di Cireglio",
+    "type": "city",
+    "lat": 43.980666666667,
+    "lng": 10.856722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Canale (Filicudi)",
+    "nameEn": "Canale (Filicudi)",
+    "type": "city",
+    "lat": 38.563535830077,
+    "lng": 14.572677612305,
+    "pop": null
+  },
+  {
+    "nameAr": "Capo Graziano",
+    "nameEn": "Capo Graziano",
+    "type": "city",
+    "lat": 38.556956,
+    "lng": 14.588415,
+    "pop": null
+  },
+  {
+    "nameAr": "Carmine",
+    "nameEn": "Carmine",
+    "type": "city",
+    "lat": 46.03747,
+    "lng": 8.70475,
+    "pop": null
+  },
+  {
+    "nameAr": "Casasola",
+    "nameEn": "Casasola",
+    "type": "city",
+    "lat": 46.22444,
+    "lng": 12.73139,
+    "pop": null
+  },
+  {
+    "nameAr": "Castello Capelli",
+    "nameEn": "Castello Capelli",
+    "type": "city",
+    "lat": 44.350045998,
+    "lng": 8.5661950991,
+    "pop": null
+  },
+  {
+    "nameAr": "Castino",
+    "nameEn": "Castino",
+    "type": "city",
+    "lat": 44.61784,
+    "lng": 8.18244,
+    "pop": null
+  },
+  {
+    "nameAr": "Chia",
+    "nameEn": "Chia",
+    "type": "city",
+    "lat": 38.9,
+    "lng": 8.8833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Choni",
+    "nameEn": "Choni",
+    "type": "city",
+    "lat": 34.590794,
+    "lng": 103.5084477,
+    "pop": null
+  },
+  {
+    "nameAr": "Cividali del Friuli",
+    "nameEn": "Cividali del Friuli",
+    "type": "city",
+    "lat": 46.1,
+    "lng": 13.266666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Codroipo",
+    "nameEn": "Codroipo",
+    "type": "city",
+    "lat": 45.96469,
+    "lng": 12.97985,
+    "pop": null
+  },
+  {
+    "nameAr": "Corbio",
+    "nameEn": "Corbio",
+    "type": "city",
+    "lat": 41.77730556,
+    "lng": 12.91766667,
+    "pop": null
+  },
+  {
+    "nameAr": "Cornus",
+    "nameEn": "Cornus",
+    "type": "city",
+    "lat": 40.09333333,
+    "lng": 8.50805556,
+    "pop": null
+  },
+  {
+    "nameAr": "Corpo Santo",
+    "nameEn": "Corpo Santo",
+    "type": "city",
+    "lat": 43.36293,
+    "lng": 11.28679,
+    "pop": null
+  },
+  {
+    "nameAr": "Crocella",
+    "nameEn": "Crocella",
+    "type": "city",
+    "lat": 41.2521,
+    "lng": 14.66911,
+    "pop": null
+  },
+  {
+    "nameAr": "Crosare",
+    "nameEn": "Crosare",
+    "type": "city",
+    "lat": 45.94978,
+    "lng": 11.71638,
+    "pop": null
+  },
+  {
+    "nameAr": "Dodici Morelli",
+    "nameEn": "Dodici Morelli",
+    "type": "city",
+    "lat": 44.79234,
+    "lng": 11.29124,
+    "pop": null
+  },
+  {
+    "nameAr": "Drepana",
+    "nameEn": "Drepana",
+    "type": "city",
+    "lat": 38.015,
+    "lng": 12.5125,
+    "pop": null
+  },
+  {
+    "nameAr": "Entella",
+    "nameEn": "Entella",
+    "type": "city",
+    "lat": 37.774051,
+    "lng": 13.1219,
+    "pop": null
+  },
+  {
+    "nameAr": "Falerii Novi",
+    "nameEn": "Falerii Novi",
+    "type": "city",
+    "lat": 42.2999961333,
+    "lng": 12.3573670667,
+    "pop": null
+  },
+  {
+    "nameAr": "Filicudi Porto",
+    "nameEn": "Filicudi Porto",
+    "type": "city",
+    "lat": 38.560599597977,
+    "lng": 14.58194732666,
+    "pop": null
+  },
+  {
+    "nameAr": "Filo Braccio",
+    "nameEn": "Filo Braccio",
+    "type": "city",
+    "lat": 38.556853,
+    "lng": 14.580721,
+    "pop": null
+  },
+  {
+    "nameAr": "Foxi",
+    "nameEn": "Foxi",
+    "type": "city",
+    "lat": 45.78991,
+    "lng": 11.11175,
+    "pop": null
+  },
+  {
+    "nameAr": "Fraina",
+    "nameEn": "Fraina",
+    "type": "city",
+    "lat": 46.629918055556,
+    "lng": 11.591964722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Gabrovizza",
+    "nameEn": "Gabrovizza",
+    "type": "city",
+    "lat": 45.72572,
+    "lng": 13.72916,
+    "pop": null
+  },
+  {
+    "nameAr": "Giuli",
+    "nameEn": "Giuli",
+    "type": "city",
+    "lat": 38.78919,
+    "lng": 16.32812,
+    "pop": null
+  },
+  {
+    "nameAr": "Graun",
+    "nameEn": "Graun",
+    "type": "city",
+    "lat": 46.80832,
+    "lng": 10.54265,
+    "pop": null
+  },
+  {
+    "nameAr": "Gravisca",
+    "nameEn": "Gravisca",
+    "type": "city",
+    "lat": 42.21277778,
+    "lng": 11.71027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Grazzano Visconti",
+    "nameEn": "Grazzano Visconti",
+    "type": "city",
+    "lat": 44.933867,
+    "lng": 9.671381,
+    "pop": null
+  },
+  {
+    "nameAr": "Hybla Heraea",
+    "nameEn": "Hybla Heraea",
+    "type": "city",
+    "lat": 36.94,
+    "lng": 14.72,
+    "pop": null
+  },
+  {
+    "nameAr": "Interamna Lirenas",
+    "nameEn": "Interamna Lirenas",
+    "type": "city",
+    "lat": 41.42765450178,
+    "lng": 13.753907939574,
+    "pop": null
+  },
+  {
+    "nameAr": "Isasco",
+    "nameEn": "Isasco",
+    "type": "city",
+    "lat": 44.191388888889,
+    "lng": 8.3899305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kematen",
+    "nameEn": "Kematen",
+    "type": "city",
+    "lat": 46.958333333333,
+    "lng": 11.543333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kollmann",
+    "nameEn": "Kollmann",
+    "type": "city",
+    "lat": 46.5898,
+    "lng": 11.52397,
+    "pop": null
+  },
+  {
+    "nameAr": "La Capannina",
+    "nameEn": "La Capannina",
+    "type": "city",
+    "lat": 43.58502,
+    "lng": 10.63047,
+    "pop": null
+  },
+  {
+    "nameAr": "La Castellina",
+    "nameEn": "La Castellina",
+    "type": "city",
+    "lat": 43.8912439,
+    "lng": 11.1081544,
+    "pop": null
+  },
+  {
+    "nameAr": "Lichtenberg",
+    "nameEn": "Lichtenberg",
+    "type": "city",
+    "lat": 46.63585,
+    "lng": 10.56936,
+    "pop": null
+  },
+  {
+    "nameAr": "Lido di Roma",
+    "nameEn": "Lido di Roma",
+    "type": "city",
+    "lat": 41.73166667,
+    "lng": 12.27777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Lilibaeum",
+    "nameEn": "Lilibaeum",
+    "type": "city",
+    "lat": 37.8,
+    "lng": 12.43333,
+    "pop": null
+  },
+  {
+    "nameAr": "Liscio",
+    "nameEn": "Liscio",
+    "type": "city",
+    "lat": 38.565171678784,
+    "lng": 14.577473402023,
+    "pop": null
+  },
+  {
+    "nameAr": "Loggio",
+    "nameEn": "Loggio",
+    "type": "city",
+    "lat": 46.047222,
+    "lng": 9.071111,
+    "pop": null
+  },
+  {
+    "nameAr": "Luceto",
+    "nameEn": "Luceto",
+    "type": "city",
+    "lat": 44.3453951,
+    "lng": 8.5016334,
+    "pop": null
+  },
+  {
+    "nameAr": "Lugo",
+    "nameEn": "Lugo",
+    "type": "city",
+    "lat": 45.36717,
+    "lng": 12.13583,
+    "pop": null
+  },
+  {
+    "nameAr": "Mals",
+    "nameEn": "Mals",
+    "type": "city",
+    "lat": 46.68791,
+    "lng": 10.54655,
+    "pop": null
+  },
+  {
+    "nameAr": "Masi",
+    "nameEn": "Masi",
+    "type": "city",
+    "lat": 40.80316,
+    "lng": 15.72444,
+    "pop": null
+  },
+  {
+    "nameAr": "Medici Villa \"il Palagio\" of Montedomini",
+    "nameEn": "Medici Villa \"il Palagio\" of Montedomini",
+    "type": "city",
+    "lat": 43.879402777778,
+    "lng": 11.565919444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Messignadi",
+    "nameEn": "Messignadi",
+    "type": "city",
+    "lat": 38.298611111111,
+    "lng": 15.997222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Migiandone",
+    "nameEn": "Migiandone",
+    "type": "city",
+    "lat": 45.9816,
+    "lng": 8.3801,
+    "pop": null
+  },
+  {
+    "nameAr": "mining village of Su Suergiu",
+    "nameEn": "mining village of Su Suergiu",
+    "type": "city",
+    "lat": 39.4960804,
+    "lng": 9.3685268,
+    "pop": null
+  },
+  {
+    "nameAr": "Monaca",
+    "nameEn": "Monaca",
+    "type": "city",
+    "lat": 41.08695,
+    "lng": 14.65325,
+    "pop": null
+  },
+  {
+    "nameAr": "Monfalcone",
+    "nameEn": "Monfalcone",
+    "type": "city",
+    "lat": 45.80463,
+    "lng": 13.53292,
+    "pop": null
+  },
+  {
+    "nameAr": "Neapolis",
+    "nameEn": "Neapolis",
+    "type": "city",
+    "lat": 39.68722222,
+    "lng": 8.55333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Netum",
+    "nameEn": "Netum",
+    "type": "city",
+    "lat": 36.938549,
+    "lng": 15.022485,
+    "pop": null
+  },
+  {
+    "nameAr": "Nola",
+    "nameEn": "Nola",
+    "type": "city",
+    "lat": 40.92606,
+    "lng": 14.52816,
+    "pop": null
+  },
+  {
+    "nameAr": "Oggia",
+    "nameEn": "Oggia",
+    "type": "city",
+    "lat": 46.0911256,
+    "lng": 9.1583131,
+    "pop": null
+  },
+  {
+    "nameAr": "Palma",
+    "nameEn": "Palma",
+    "type": "city",
+    "lat": 39.5695818,
+    "lng": 2.6500745,
+    "pop": null
+  },
+  {
+    "nameAr": "Pavullo nel Frignano",
+    "nameEn": "Pavullo nel Frignano",
+    "type": "city",
+    "lat": 44.33352,
+    "lng": 10.83544,
+    "pop": null
+  },
+  {
+    "nameAr": "Pecorini Chiesa",
+    "nameEn": "Pecorini Chiesa",
+    "type": "city",
+    "lat": 38.562797588724,
+    "lng": 14.566690921783,
+    "pop": null
+  },
+  {
+    "nameAr": "Pescarolo",
+    "nameEn": "Pescarolo",
+    "type": "city",
+    "lat": 45.2,
+    "lng": 10.183333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Peuterey",
+    "nameEn": "Peuterey",
+    "type": "city",
+    "lat": 45.805286,
+    "lng": 6.92331,
+    "pop": null
+  },
+  {
+    "nameAr": "Pian del Troglio",
+    "nameEn": "Pian del Troglio",
+    "type": "city",
+    "lat": 44.53477,
+    "lng": 7.92683,
+    "pop": null
+  },
+  {
+    "nameAr": "Poggio di Loro",
+    "nameEn": "Poggio di Loro",
+    "type": "city",
+    "lat": 43.61843,
+    "lng": 11.63064,
+    "pop": null
+  },
+  {
+    "nameAr": "Ponte di Brenta",
+    "nameEn": "Ponte di Brenta",
+    "type": "city",
+    "lat": 45.425,
+    "lng": 11.94555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ponte Talbignano",
+    "nameEn": "Ponte Talbignano",
+    "type": "city",
+    "lat": 44.40718,
+    "lng": 10.69891,
+    "pop": null
+  },
+  {
+    "nameAr": "Portella",
+    "nameEn": "Portella",
+    "type": "city",
+    "lat": 38.566501302735,
+    "lng": 14.570118784904,
+    "pop": null
+  },
+  {
+    "nameAr": "Portella village",
+    "nameEn": "Portella village",
+    "type": "city",
+    "lat": 38.573753,
+    "lng": 14.868344,
+    "pop": null
+  },
+  {
+    "nameAr": "Portobello di Gallura",
+    "nameEn": "Portobello di Gallura",
+    "type": "city",
+    "lat": 41.1257,
+    "lng": 9.021,
+    "pop": null
+  },
+  {
+    "nameAr": "Potentia",
+    "nameEn": "Potentia",
+    "type": "city",
+    "lat": 43.4141,
+    "lng": 13.67118,
+    "pop": null
+  },
+  {
+    "nameAr": "Prehistoric village (Panarea)",
+    "nameEn": "Prehistoric village (Panarea)",
+    "type": "city",
+    "lat": 38.625804,
+    "lng": 15.063727,
+    "pop": null
+  },
+  {
+    "nameAr": "Raibl",
+    "nameEn": "Raibl",
+    "type": "city",
+    "lat": 46.44125278,
+    "lng": 13.57098889,
+    "pop": null
+  },
+  {
+    "nameAr": "Riva del Garda",
+    "nameEn": "Riva del Garda",
+    "type": "city",
+    "lat": 45.88577,
+    "lng": 10.84117,
+    "pop": null
+  },
+  {
+    "nameAr": "Rovenaud",
+    "nameEn": "Rovenaud",
+    "type": "city",
+    "lat": 45.61063,
+    "lng": 7.20099,
+    "pop": null
+  },
+  {
+    "nameAr": "Runo",
+    "nameEn": "Runo",
+    "type": "city",
+    "lat": 46.023742509437,
+    "lng": 8.7844224580032,
+    "pop": null
+  },
+  {
+    "nameAr": "Sacramento",
+    "nameEn": "Sacramento",
+    "type": "city",
+    "lat": 43.70784,
+    "lng": 12.98553,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Nicolas",
+    "nameEn": "Saint-Nicolas",
+    "type": "city",
+    "lat": 45.71656,
+    "lng": 7.1667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saletta",
+    "nameEn": "Saletta",
+    "type": "city",
+    "lat": 44.891010369538,
+    "lng": 11.771895691444,
+    "pop": null
+  },
+  {
+    "nameAr": "Salmagi",
+    "nameEn": "Salmagi",
+    "type": "city",
+    "lat": 39.196193,
+    "lng": 9.336389,
+    "pop": null
+  },
+  {
+    "nameAr": "San Gervasio",
+    "nameEn": "San Gervasio",
+    "type": "city",
+    "lat": 46.16553,
+    "lng": 10.06209,
+    "pop": null
+  },
+  {
+    "nameAr": "San Lugano",
+    "nameEn": "San Lugano",
+    "type": "city",
+    "lat": 46.31200027,
+    "lng": 11.39330006,
+    "pop": null
+  },
+  {
+    "nameAr": "San Martino in Rio",
+    "nameEn": "San Martino in Rio",
+    "type": "city",
+    "lat": 44.73368,
+    "lng": 10.7849,
+    "pop": null
+  },
+  {
+    "nameAr": "San Pietro (Panarea)",
+    "nameEn": "San Pietro (Panarea)",
+    "type": "city",
+    "lat": 38.63674340902,
+    "lng": 15.076696872711,
+    "pop": null
+  },
+  {
+    "nameAr": "San Vincenzo village",
+    "nameEn": "San Vincenzo village",
+    "type": "city",
+    "lat": 38.801629,
+    "lng": 15.23603,
+    "pop": null
+  },
+  {
+    "nameAr": "Sant'Angelo",
+    "nameEn": "Sant'Angelo",
+    "type": "city",
+    "lat": 40.7052,
+    "lng": 13.8843,
+    "pop": null
+  },
+  {
+    "nameAr": "Scrutto",
+    "nameEn": "Scrutto",
+    "type": "city",
+    "lat": 46.119722222222,
+    "lng": 13.516944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sortino diruta",
+    "nameEn": "Sortino diruta",
+    "type": "city",
+    "lat": 37.153646,
+    "lng": 15.02676,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Magdalena",
+    "nameEn": "St. Magdalena",
+    "type": "city",
+    "lat": 46.502233,
+    "lng": 11.37218,
+    "pop": null
+  },
+  {
+    "nameAr": "Sulmo",
+    "nameEn": "Sulmo",
+    "type": "city",
+    "lat": 42.0474231,
+    "lng": 13.927011,
+    "pop": null
+  },
+  {
+    "nameAr": "Taggì di Sotto",
+    "nameEn": "Taggì di Sotto",
+    "type": "city",
+    "lat": 45.456034343818,
+    "lng": 11.822353056668,
+    "pop": null
+  },
+  {
+    "nameAr": "Taisten",
+    "nameEn": "Taisten",
+    "type": "city",
+    "lat": 46.76891,
+    "lng": 12.11397,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamara",
+    "nameEn": "Tamara",
+    "type": "city",
+    "lat": 44.876711393414,
+    "lng": 11.77128146559,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarsch",
+    "nameEn": "Tarsch",
+    "type": "city",
+    "lat": 46.6067,
+    "lng": 10.87569,
+    "pop": null
+  },
+  {
+    "nameAr": "Temesa",
+    "nameEn": "Temesa",
+    "type": "city",
+    "lat": 39.036444444444,
+    "lng": 16.159638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Tignet",
+    "nameEn": "Tignet",
+    "type": "city",
+    "lat": 45.582585803735,
+    "lng": 7.214270140455,
+    "pop": null
+  },
+  {
+    "nameAr": "Timpone",
+    "nameEn": "Timpone",
+    "type": "city",
+    "lat": 38.563598748024,
+    "lng": 14.575998187065,
+    "pop": null
+  },
+  {
+    "nameAr": "Tridentum",
+    "nameEn": "Tridentum",
+    "type": "city",
+    "lat": 46.0694569,
+    "lng": 11.123645,
+    "pop": null
+  },
+  {
+    "nameAr": "Tripergole",
+    "nameEn": "Tripergole",
+    "type": "city",
+    "lat": 40.835,
+    "lng": 14.0878,
+    "pop": null
+  },
+  {
+    "nameAr": "Vasto",
+    "nameEn": "Vasto",
+    "type": "city",
+    "lat": 42.1115,
+    "lng": 14.70649,
+    "pop": null
+  },
+  {
+    "nameAr": "Velitrae",
+    "nameEn": "Velitrae",
+    "type": "city",
+    "lat": 41.687426,
+    "lng": 12.77721,
+    "pop": null
+  },
+  {
+    "nameAr": "Villa Fantino",
+    "nameEn": "Villa Fantino",
+    "type": "city",
+    "lat": 44.060761,
+    "lng": 11.558819,
+    "pop": null
+  },
+  {
+    "nameAr": "villa Gammarelli",
+    "nameEn": "villa Gammarelli",
+    "type": "city",
+    "lat": 41.8122888,
+    "lng": 12.7170957,
+    "pop": null
+  },
+  {
+    "nameAr": "Villaggio alpino del Touring Club Italiano",
+    "nameEn": "Villaggio alpino del Touring Club Italiano",
+    "type": "city",
+    "lat": 45.9225,
+    "lng": 8.8424,
+    "pop": null
+  },
+  {
+    "nameAr": "Villaggio Minatori",
+    "nameEn": "Villaggio Minatori",
+    "type": "city",
+    "lat": 43.578167,
+    "lng": 11.509136,
+    "pop": null
+  },
+  {
+    "nameAr": "Vilpian",
+    "nameEn": "Vilpian",
+    "type": "city",
+    "lat": 46.55899,
+    "lng": 11.22336,
+    "pop": null
+  }
+]

@@ -48,15 +48,15 @@ const MoonCalc = (function() {
         const phase = getMoonPhase(date);
         const age = getMoonAge(date);
 
-        if (age <= 1) return { name: 'محاق (قمر جديد)', icon: '🌑', english: 'New Moon' };
-        if (age <= 6) return { name: 'هلال متزايد', icon: '🌒', english: 'Waxing Crescent' };
-        if (age <= 9) return { name: 'تربيع أول', icon: '🌓', english: 'First Quarter' };
-        if (age <= 13) return { name: 'أحدب متزايد', icon: '🌔', english: 'Waxing Gibbous' };
-        if (age <= 16) return { name: 'بدر (قمر مكتمل)', icon: '🌕', english: 'Full Moon' };
-        if (age <= 20) return { name: 'أحدب متناقص', icon: '🌖', english: 'Waning Gibbous' };
-        if (age <= 23) return { name: 'تربيع أخير', icon: '🌗', english: 'Last Quarter' };
-        if (age <= 28) return { name: 'هلال متناقص', icon: '🌘', english: 'Waning Crescent' };
-        return { name: 'محاق (قمر جديد)', icon: '🌑', english: 'New Moon' };
+        if (age <= 1) return { name: 'محاق (قمر جديد)', icon: '🌑', english: 'New Moon', key: 'moon.phase_new' };
+        if (age <= 6) return { name: 'هلال متزايد', icon: '🌒', english: 'Waxing Crescent', key: 'moon.phase_waxing_crescent' };
+        if (age <= 9) return { name: 'تربيع أول', icon: '🌓', english: 'First Quarter', key: 'moon.phase_first_quarter' };
+        if (age <= 13) return { name: 'أحدب متزايد', icon: '🌔', english: 'Waxing Gibbous', key: 'moon.phase_waxing_gibbous' };
+        if (age <= 16) return { name: 'بدر (قمر مكتمل)', icon: '🌕', english: 'Full Moon', key: 'moon.phase_full' };
+        if (age <= 20) return { name: 'أحدب متناقص', icon: '🌖', english: 'Waning Gibbous', key: 'moon.phase_waning_gibbous' };
+        if (age <= 23) return { name: 'تربيع أخير', icon: '🌗', english: 'Last Quarter', key: 'moon.phase_last_quarter' };
+        if (age <= 28) return { name: 'هلال متناقص', icon: '🌘', english: 'Waning Crescent', key: 'moon.phase_waning_crescent' };
+        return { name: 'محاق (قمر جديد)', icon: '🌑', english: 'New Moon', key: 'moon.phase_new' };
     }
 
     function getMoonTimes(date, lat, lng) {
@@ -79,7 +79,9 @@ const MoonCalc = (function() {
         h = ((h % 24) + 24) % 24;
         const hours = Math.floor(h);
         const minutes = Math.floor((h - hours) * 60);
-        const period = hours >= 12 ? 'م' : 'ص';
+        const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const useLatin = (_lng !== 'ar');
+        const period = useLatin ? (hours >= 12 ? 'PM' : 'AM') : (hours >= 12 ? 'م' : 'ص');
         const h12 = hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours);
         return `${h12 < 10 ? '0' : ''}${h12}:${minutes < 10 ? '0' : ''}${minutes} ${period}`;
     }

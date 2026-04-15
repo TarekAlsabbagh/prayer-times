@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة في مدن الدولة</title>
+    <meta name="description" content="تصفّح مدن الدولة لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
-    <link rel="stylesheet" href="css/style.css?v=23">
+    <link rel="preconnect" href="https://flagcdn.com" crossorigin>
+    <link rel="stylesheet" href="css/style.css?v=37">
     <style>
         /* ===== شريط البحث ===== */
         .cities-search-card {
@@ -240,12 +242,14 @@
     <!-- ========= الشريط الجانبي ========= -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h1 class="sidebar-logo" onclick="goToPrayerTimes()" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</h1>
+            <div class="sidebar-logo" role="banner" onclick="goToPrayerTimes()" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</div>
             <div class="hijri-date" id="sidebar-hijri-date"></div>
             <div class="greg-date" id="sidebar-greg-date"></div>
         </div>
         <nav class="sidebar-nav">
-            <a href="#" onclick="goToPrayerTimes(); return false;">
+            <!-- قسم: الخدمات الإسلامية -->
+            <div class="nav-group-label" data-i18n="nav.group_islamic">🕌 الخدمات الإسلامية</div>
+            <a href="#" class="active" onclick="goToPrayerTimes(); return false;">
                 <span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
             </a>
             <a href="/?page=qibla">
@@ -254,20 +258,25 @@
             <a href="/?page=moon">
                 <span class="nav-icon">🌙</span> <span data-i18n="nav.moon">القمر اليوم</span>
             </a>
-            <a href="/?page=zakat">
+            <a href="/zakat-calculator">
                 <span class="nav-icon">💰</span> <span data-i18n="nav.zakat">حاسبة الزكاة</span>
             </a>
-            <a href="/?page=hijri-today">
-                <span class="nav-icon">📅</span> <span data-i18n="nav.hijri_today">التاريخ الهجري</span>
+            <a href="/?page=duas">
+                <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span>
             </a>
-            <a href="/?page=date-converter">
-                <span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span>
+            <a href="/?page=tasbih">
+                <span class="nav-icon">📿</span> <span data-i18n="nav.tasbih">المسبحة الإلكترونية</span>
+            </a>
+            <!-- قسم: التاريخ الهجري -->
+            <div class="nav-group-label" data-i18n="nav.group_hijri">📅 التاريخ الهجري</div>
+            <a href="/?page=hijri-today">
+                <span class="nav-icon">📅</span> <span data-i18n="nav.hijri_today">التاريخ الهجري اليوم</span>
             </a>
             <a href="/?page=hijri-calendar">
                 <span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
             </a>
-            <a href="/?page=duas">
-                <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span>
+            <a href="/?page=date-converter">
+                <span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span>
             </a>
         </nav>
     </aside>
@@ -280,14 +289,30 @@
             <div class="location-info">
                 <span class="icon">🏙️</span>
                 <div>
-                    <div class="city-name" id="page-title">مواقيت الصلاة في مدن الدولة</div>
+                    <h1 class="city-name" id="page-title" style="margin:0;font:inherit;">مواقيت الصلاة في مدن الدولة</h1>
                     <div class="country" id="page-subtitle"></div>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn btn-outline lang-toggle-btn" onclick="toggleLanguage()">EN</button>
-                <button class="btn btn-outline" onclick="history.back()" data-i18n="about.back">← رجوع</button>
-                <button class="btn btn-outline" onclick="goToPrayerTimes()">🏠 <span data-i18n="header.home">الرئيسية</span></button>
+                <div class="lang-switcher">
+                    <button class="lang-switcher-btn" type="button" aria-label="Change language" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu(this)">
+                        <img class="lang-flag" src="https://flagcdn.com/w40/sa.png" alt="AR" width="20" height="15">
+                        <span class="lang-code">AR</span>
+                        <span class="lang-caret">▾</span>
+                    </button>
+                    <div class="lang-menu" role="menu"></div>
+                </div>
+                <div class="city-search-wrapper">
+                    <input type="text" id="city-search-input" class="city-search-input"
+                        placeholder="🔍 ابحث عن مدينة أو موقع..."
+                        data-i18n-placeholder="header.search_placeholder"
+                        autocomplete="off"
+                        oninput="onCitySearchInput(this.value)"
+                        onkeydown="onSearchKeyDown(event)">
+                    <div class="city-search-suggestions" id="city-suggestions"></div>
+                </div>
+                <button class="btn btn-outline" onclick="detectLocation()" title="تحديد موقعي تلقائياً" data-i18n-title="header.detect_title">📍 <span class="btn-text" data-i18n="header.my_location">موقعي</span></button>
+                <button class="btn btn-outline" onclick="goToPrayerTimes()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
             </div>
         </div>
 
@@ -321,22 +346,42 @@
             <div id="cities-container">
                 <div class="status-msg">
                     <div class="spinner"></div>
-                    <div>جاري تحميل المدن...</div>
+                    <div data-i18n="loading.cities">جاري تحميل المدن...</div>
                 </div>
             </div>
             <div class="pagination" id="pagination" style="display:none;"></div>
         </div>
 
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="/about-us" data-i18n="footer.about">عن الموقع</a>
+                <a href="/contact" data-i18n="footer.contact">اتصل بنا</a>
+                <a href="/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
+                <a href="/terms" data-i18n="footer.terms">شروط الاستخدام</a>
+            </div>
+            <p class="footer-copy">© <span id="footer-year"></span> <span data-i18n="footer.copyright">جميع الحقوق محفوظة — مواقيت الصلاة</span></p>
+        </footer>
     </main>
 </div>
 
-<script src="js/i18n.js?v=42"></script>
+<script src="js/i18n.js?v=68"></script>
+<script defer src="js/footer-cookie.js?v=1"></script>
 <script>
+/* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
+function onCitySearchInput(q) {
+    if (q && q.trim().length >= 2) window.location.href = '/?search=' + encodeURIComponent(q.trim());
+}
+function onSearchKeyDown(e) {
+    if (e.key === 'Enter' && e.target.value.trim()) window.location.href = '/?search=' + encodeURIComponent(e.target.value.trim());
+}
+function detectLocation() { window.location.href = '/?detect=1'; }
+
 // مساعد URL حسب اللغة الحالية
 function pageUrl(arabicPath) {
-    if ((typeof getCurrentLang === 'function') && getCurrentLang() === 'en')
-        return '/en' + arabicPath.replace(/\.html$/, '');
-    return arabicPath;
+    const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _clean = arabicPath.replace(/\.html$/, '');
+    if (_ln === 'ar') return arabicPath;
+    return '/' + _ln + _clean;
 }
 
 // العودة إلى صفحة مواقيت المدينة الحالية
@@ -437,31 +482,113 @@ function getCountryDisplay() {
 function updatePageHeader() {
     const isEn = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
     const cn = getCountryDisplay();
-    document.getElementById('page-title').textContent = isEn
-        ? `Prayer Times in Cities of ${cn}`
-        : `مواقيت الصلاة في مدن ${cn}`;
+    const fullTitle = (typeof t === 'function')
+        ? t('home.cities_section_title', { country: cn })
+        : (isEn ? `Prayer Times in Cities of ${cn}` : `مواقيت الصلاة في مدن ${cn}`);
+    document.getElementById('page-title').textContent = fullTitle;
     document.getElementById('page-subtitle').textContent = cn;
-    document.title = isEn ? `Prayer Times in Cities of ${cn}` : `مواقيت الصلاة في مدن ${cn}`;
+    document.title = fullTitle;
     updateCountryBreadcrumb();
+    updateCountryListingSEO(isEn, cn);
+}
+
+/** SEO meta كامل لصفحة قائمة مدن الدولة */
+function updateCountryListingSEO(isEn, countryName) {
+    if (window.location.protocol === 'file:') return;
+    const origin = window.SITE_URL || window.location.origin;
+    let p = window.location.pathname.replace(/\.html$/, '');
+    if (p === '') p = '/';
+    const enMatch = p.match(/^\/en(\/.*)?$/);
+    const arPath  = enMatch ? (enMatch[1] || '/') : p;
+    const enPath  = enMatch ? p : (p === '/' ? '/en/' : '/en' + p);
+    const canonical = origin + p;
+    const upsertMeta = (k, kt, v) => {
+        const sel = `meta[${kt}="${k}"]`;
+        let el = document.head.querySelector(sel);
+        if (!el) { el = document.createElement('meta'); el.setAttribute(kt, k); document.head.appendChild(el); }
+        el.setAttribute('content', v);
+    };
+    const upsertLink = (rel, href, hreflang) => {
+        const sel = hreflang ? `link[rel="${rel}"][hreflang="${hreflang}"]` : `link[rel="${rel}"]:not([hreflang])`;
+        let el = document.head.querySelector(sel);
+        if (!el) { el = document.createElement('link'); el.setAttribute('rel', rel); if (hreflang) el.setAttribute('hreflang', hreflang); document.head.appendChild(el); }
+        el.setAttribute('href', href);
+    };
+    const title = isEn ? `Prayer Times in Cities of ${countryName}` : `مواقيت الصلاة في مدن ${countryName}`;
+    const desc  = isEn
+        ? `Browse all cities in ${countryName} to see accurate Islamic prayer times, Qibla direction and Hijri date for each location.`
+        : `تصفّح جميع مدن ${countryName} لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.`;
+    upsertMeta('description', 'name', desc);
+    upsertMeta('robots', 'name', 'index, follow');
+    upsertLink('canonical', canonical);
+    upsertLink('alternate', origin + arPath, 'ar');
+    upsertLink('alternate', origin + enPath, 'en');
+    upsertLink('alternate', origin + arPath, 'x-default');
+    upsertMeta('og:title', 'property', title);
+    upsertMeta('og:description', 'property', desc);
+    upsertMeta('og:url', 'property', canonical);
+    upsertMeta('og:type', 'property', 'website');
+    upsertMeta('og:site_name', 'property', isEn ? 'Prayer Times' : 'مواقيت الصلاة');
+    upsertMeta('og:locale', 'property', isEn ? 'en_US' : 'ar_SA');
+    upsertMeta('og:locale:alternate', 'property', isEn ? 'ar_SA' : 'en_US');
+    upsertMeta('og:image', 'property', `${origin}/favicon.ico`);
+    upsertMeta('twitter:card', 'name', 'summary');
+    upsertMeta('twitter:title', 'name', title);
+    upsertMeta('twitter:description', 'name', desc);
+
+    // ===== Place Schema للدولة (إثراء semantic) =====
+    _injectCountryPlaceSchema(isEn, countryName, canonical);
+}
+
+/** يحقن Place schema يصف الدولة + قائمة بأهم 5 مدن منها */
+function _injectCountryPlaceSchema(isEn, countryName, canonical) {
+    if (window.location.protocol === 'file:') return;
+    // اجلب أول 5 مدن من القائمة المعروضة (إن توفّرت)
+    const cityCards = document.querySelectorAll('#cities-container .city-card, .city-grid-item');
+    const topCities = [];
+    for (let i = 0; i < cityCards.length && topCities.length < 5; i++) {
+        const nameEl = cityCards[i].querySelector('.city-name, h3, .city-title');
+        const name = nameEl ? nameEl.textContent.trim() : '';
+        if (name) topCities.push({ "@type": "Place", "name": name });
+    }
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Country",
+        "name": countryName,
+        "url": canonical,
+        "description": isEn
+            ? `Islamic prayer times listing for cities of ${countryName}.`
+            : `قائمة مواقيت الصلاة لمدن ${countryName}.`,
+    };
+    if (topCities.length) schema.containsPlace = topCities;
+    const old = document.getElementById('country-place-schema');
+    if (old) old.remove();
+    const script = document.createElement('script');
+    script.id   = 'country-place-schema';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
 }
 
 /** تحديث Breadcrumb ديناميكي لصفحة الدولة */
 function updateCountryBreadcrumb() {
-    const isEn    = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
-    const origin  = window.SITE_URL || window.location.origin;
+    const lang       = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const isAr       = (lang === 'ar');
+    const langPrefix = isAr ? '/' : ('/' + lang + '/');
+    const origin     = window.SITE_URL || window.location.origin;
 
     // slug الدولة من الـ URL الحالي
-    const _pathM  = window.location.pathname.match(/^\/(?:en\/)?([a-z][a-z0-9-]+)$/);
+    const _pathM  = window.location.pathname.match(/^\/(?:en|fr|tr|ur)?\/?([a-z][a-z0-9-]+)$/);
     const slug    = _pathM ? _pathM[1] : countryCode;
 
     // نصوص العرض
-    const homeLabel    = isEn ? 'Home' : 'الرئيسية';
+    const _t = (typeof t === 'function') ? t : (k) => k;
+    const homeLabel    = _t('breadcrumb.home') || (isAr ? 'الرئيسية' : 'Home');
     const countryLabel = getCountryDisplay();
 
-    // رابط الصفحة الرئيسية حسب اللغة
-    const homeHref = isEn ? `${origin}/en/` : `${origin}/`;
-    // رابط صفحة الدولة الحالية (للـ Schema)
-    const countryHref = `${origin}${isEn ? '/en/' : '/'}${slug}`;
+    // روابط حسب اللغة
+    const homeHref    = `${origin}${langPrefix}`;
+    const countryHref = `${origin}${langPrefix}${slug}`;
 
     // ── تحديث DOM ──
     const cbcHome    = document.getElementById('cbc-home');
@@ -594,18 +721,20 @@ function showLoading(msg) {
         `<div class="status-msg"><div class="spinner"></div><div>${msg}</div></div>`;
 }
 function showError() {
+    const _tf = (k, fb) => (typeof t === 'function') ? t(k) : fb;
     document.getElementById('cities-container').innerHTML =
         `<div class="status-msg">
-            ⚠️ تعذّر تحميل البيانات حالياً.<br>
-            <small style="color:var(--text-light);display:block;margin:6px 0 12px">تحقق من اتصالك بالإنترنت وأعد المحاولة</small>
+            ${_tf('cities_page.error', '⚠️ تعذّر تحميل البيانات حالياً.')}<br>
+            <small style="color:var(--text-light);display:block;margin:6px 0 12px">${_tf('cities_page.check_connection', 'تحقق من اتصالك بالإنترنت وأعد المحاولة')}</small>
             <button onclick="fetchCities()" style="padding:8px 24px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-family:inherit;cursor:pointer;font-weight:600;">
-                ↺ إعادة المحاولة
+                ${_tf('cities_page.retry', '↺ إعادة المحاولة')}
             </button>
         </div>`;
 }
 function showEmpty() {
+    const _tf = (k, fb) => (typeof t === 'function') ? t(k) : fb;
     document.getElementById('cities-container').innerHTML =
-        `<div class="status-msg">لا توجد نتائج</div>`;
+        `<div class="status-msg">${_tf('cities_page.no_results', 'لا توجد نتائج')}</div>`;
 }
 
 async function fetchCities() {
@@ -621,7 +750,7 @@ async function fetchCities() {
     } catch(e) {}
 
     // جلب من قاعدة البيانات على الخادم
-    showLoading('جاري تحميل المدن...');
+    showLoading((typeof t === 'function') ? t('loading.cities') : 'جاري تحميل المدن...');
     try {
         const ctrl  = new AbortController();
         const timer = setTimeout(() => ctrl.abort(), 120000);
@@ -635,7 +764,50 @@ async function fetchCities() {
         try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(allCities)); } catch(e) {}
         filtered = [...allCities]; currentPage = 1;
         renderGrid();
+        injectCitiesItemList();
     } catch(e) { showError(); }
+}
+
+// ============================================================
+// حقن Schema.org ItemList بأبرز مدن الدولة (أول 100 — حد Google)
+// ============================================================
+function injectCitiesItemList() {
+    if (!Array.isArray(allCities) || !allCities.length) return;
+    const isEnIL = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+    const origin = window.SITE_URL || window.location.origin;
+    const prefix = isEnIL ? '/en' : '';
+    const countryName = isEnIL ? getCountryEn() : getCountryAr();
+    const top = allCities.slice(0, 100);
+    const items = top.map((city, i) => {
+        const slug = makeSlug(city.nameEn, city.lat, city.lng);
+        const url  = origin + prefix + `/prayer-times-in-${slug}`;
+        const name = isEnIL ? (city.nameEn || city.nameAr) : city.nameAr;
+        return {
+            "@type": "ListItem",
+            "position": i + 1,
+            "url": url,
+            "name": isEnIL ? `Prayer Times in ${name}` : `مواقيت الصلاة في ${name}`
+        };
+    });
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "@id": origin + window.location.pathname + '#cities-itemlist',
+        "name": isEnIL
+            ? `Cities in ${countryName} with Prayer Times`
+            : `مدن ${countryName} مع مواقيت الصلاة`,
+        "numberOfItems": allCities.length,
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "itemListElement": items
+    };
+    let el = document.getElementById('cities-itemlist-schema');
+    if (!el) {
+        el = document.createElement('script');
+        el.id = 'cities-itemlist-schema';
+        el.type = 'application/ld+json';
+        document.head.appendChild(el);
+    }
+    el.textContent = JSON.stringify(schema);
 }
 
 // ===== تطبيع النص العربي (همزات + تشكيل + تاء مربوطة + ألف مقصورة) =====
@@ -681,8 +853,8 @@ function onSearch() {
     // إذا لم توجد نتائج محلية → ابحث في Nominatim بعد 450ms
     if (filtered.length === 0 && q.length >= 2) {
         const sugg = document.getElementById('cities-suggestions');
-        const _isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
-        sugg.innerHTML = `<div class="sugg-loading">${_isEn ? '🔍 Searching...' : '🔍 جاري البحث...'}</div>`;
+        const _searchingLabel = (typeof t === 'function') ? t('loading.searching') : '🔍 جاري البحث...';
+        sugg.innerHTML = `<div class="sugg-loading">${_searchingLabel}</div>`;
         sugg.classList.add('open');
         searchTimer = setTimeout(() => fetchNominatimSuggestions(q), 450);
     }

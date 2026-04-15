@@ -122,8 +122,9 @@ const PrayerTimes = (function () {
         var hS = String(h).padStart(2, '0');
         var mS = String(m).padStart(2, '0');
         if (fmt === '24h') return hS + ':' + mS;
-        var isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
-        var period = isEn ? (h >= 12 ? 'PM' : 'AM') : (h >= 12 ? 'م' : 'ص');
+        var _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        var useLatin = (_lng !== 'ar');
+        var period = useLatin ? (h >= 12 ? 'PM' : 'AM') : (h >= 12 ? 'م' : 'ص');
         var h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
         return String(h12).padStart(2, '0') + ':' + mS + ' ' + period;
     }

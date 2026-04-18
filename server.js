@@ -2749,21 +2749,22 @@ function buildSeoForPath(urlPath) {
     const _hMonthLoc = (_HM_BY_LANG_CITY[lang] || _HM_BY_LANG_CITY.en)[_hNow.month - 1];
     const _hYearSfx = _HY_SFX_CITY[lang] || ' AH';
 
-    // صانع title صفحات المدن (10 لغات) — Gregorian قبل Hijri
+    // صانع title صفحات المدن (10 لغات) — نسخة مختصرة: "مدينة + اليوم + تاريخ هجري"
+    // السبب: إبقاء العنوان ≤~55 حرف لعرض Google كامل، وتقليل التشتّت.
+    // التاريخ الميلادي ويوم الأسبوع يظهران في H1/المحتوى وليس في <title>.
     const _buildCityDatedTitle = (cityDisplay) => {
-        const g = `${_gDayNum} ${_gMonthLoc} ${_gYear}`;
         const h = `${_hDayNum} ${_hMonthLoc} ${_hYear}${_hYearSfx}`;
         switch (lang) {
-            case 'ar': return `مواقيت الصلاة في ${cityDisplay} اليوم ${_gDayName} ${g} - ${h}`;
-            case 'fr': return `Horaires de prière à ${cityDisplay} aujourd'hui ${_gDayName} ${g} - ${h}`;
-            case 'tr': return `${cityDisplay} Namaz Vakitleri Bugün ${_gDayName} ${g} - ${h}`;
-            case 'ur': return `${cityDisplay} میں اوقاتِ نماز آج ${_gDayName} ${g} - ${h}`;
-            case 'de': return `Gebetszeiten in ${cityDisplay} heute ${_gDayName} ${_gDayNum}. ${_gMonthLoc} ${_gYear} - ${h}`;
-            case 'id': return `Jadwal Sholat di ${cityDisplay} hari ini ${_gDayName} ${g} - ${h}`;
-            case 'es': return `Horarios de Oración en ${cityDisplay} hoy ${_gDayName} ${_gDayNum} de ${_gMonthLoc} ${_gYear} - ${h}`;
-            case 'bn': return `${cityDisplay}-এ নামাজের সময় আজ ${_gDayName} ${g} - ${h}`;
-            case 'ms': return `Waktu Solat di ${cityDisplay} hari ini ${_gDayName} ${g} - ${h}`;
-            default:   return `Prayer Times in ${cityDisplay} Today ${_gDayName}, ${_gMonthLoc} ${_gDayNum} ${_gYear} - ${h}`;
+            case 'ar': return `مواقيت الصلاة في ${cityDisplay} اليوم - ${h}`;
+            case 'fr': return `Horaires de prière à ${cityDisplay} aujourd'hui - ${h}`;
+            case 'tr': return `${cityDisplay} Namaz Vakitleri Bugün - ${h}`;
+            case 'ur': return `${cityDisplay} میں اوقاتِ نماز آج - ${h}`;
+            case 'de': return `Gebetszeiten in ${cityDisplay} heute - ${h}`;
+            case 'id': return `Jadwal Sholat di ${cityDisplay} hari ini - ${h}`;
+            case 'es': return `Horarios de Oración en ${cityDisplay} hoy - ${h}`;
+            case 'bn': return `${cityDisplay}-এ নামাজের সময় আজ - ${h}`;
+            case 'ms': return `Waktu Solat di ${cityDisplay} hari ini - ${h}`;
+            default:   return `Prayer Times in ${cityDisplay} Today - ${h}`;
         }
     };
 

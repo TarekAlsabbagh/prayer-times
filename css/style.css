@@ -3404,6 +3404,24 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
     color: var(--primary-dark);
     margin: 0 0 14px;
 }
+/* عنوان فرعيّ لقسم "أبرز دول العالم" داخل نفس البطاقة — خطّ فاصل واضح عن الدول العربية */
+.arab-countries-section .arab-countries-subtitle {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 2px solid var(--primary-dark, #0a5c36);
+    position: relative;
+}
+.arab-countries-section .arab-countries-subtitle::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary, #1a8a4e);
+    border-radius: 2px;
+}
 .arab-countries-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));

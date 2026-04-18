@@ -3673,6 +3673,9 @@ function updatePageSEO() {
         const _gMUr    = ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'][_gMIdx];
         const _gMDe    = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'][_gMIdx];
         const _gMId    = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][_gMIdx];
+        const _gMEs    = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][_gMIdx];
+        const _gMBn    = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][_gMIdx];
+        const _gMMs    = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'][_gMIdx];
 
         const HOME_TITLES = {
             ar: `مواقيت الصلاة في مكة المكرمة اليوم | ${_hMAr} ${_hY} هـ`,
@@ -3686,17 +3689,18 @@ function updatePageSEO() {
             bn: `নামাজের সময়সূচী: মক্কা, মদিনা ও বিশ্ব | ${_hMEn} ${_hY}`,
             ms: `Waktu Solat: Makkah, Madinah & Dunia | ${_hMEn} ${_hY}`,
         };
+        // Round 7h: إضافة الشهر الميلاديّ المحلَّى — phrase "أبريل 2026" في seoptimer
         const HOME_DESCS = {
-            ar: `مواقيت الصلاة في مكة المكرمة والمدينة ومدن العالم اليوم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
-            en: `Today's prayer times in Mecca, Medina and world cities: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar ${_hMEn} ${_hY} AH, Qibla direction, Zakat.`,
-            fr: `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            tr: `Bugün Mekke, Medine ve dünya şehirleri namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMEn} ${_hY}, kıble, zekât, dualar.`,
-            ur: `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
-            de: `Heutige Gebetszeiten in Mekka, Medina und Städten weltweit: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri-Kalender ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            id: `Jadwal sholat hari ini di Makkah, Madinah dan kota-kota dunia: Subuh, Zuhur, Asar, Magrib, Isya. Kalender Hijriah ${_hMEn} ${_hY}, kiblat, zakat.`,
-            es: `Horarios de oración hoy en La Meca, Medina y ciudades del mundo: Fayr, Dhuhr, Asr, Magrib, Isha. Calendario Hijri ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            bn: `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMEn} ${_hY}, কিবলা, যাকাত।`,
-            ms: `Waktu solat hari ini di Makkah, Madinah dan bandar-bandar dunia: Subuh, Zohor, Asar, Maghrib, Isyak. Kalendar Hijrah ${_hMEn} ${_hY}, Kiblat, Zakat.`,
+            ar: `مواقيت الصلاة في مكة المكرمة والمدينة اليوم ${_gMAr} ${_gY}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
+            en: `Prayer times today in Mecca, Medina ${_gMEn} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMEn} ${_hY} AH, Qibla, Zakat.`,
+            fr: `Heures de prière aujourd'hui à La Mecque, Médine ${_gMFr} ${_gY} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            tr: `Bugün Mekke, Medine namaz vakitleri ${_gMTr} ${_gY}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMEn} ${_hY}, kıble, zekât.`,
+            ur: `آج مکہ مکرمہ، مدینہ اور دنیا میں اوقاتِ نماز ${_gMUr} ${_gY}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
+            de: `Heutige Gebetszeiten in Mekka, Medina ${_gMDe} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            id: `Jadwal sholat hari ini di Makkah, Madinah ${_gMId} ${_gY}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMEn} ${_hY}, kiblat, zakat.`,
+            es: `Horarios de oración hoy en La Meca, Medina ${_gMEs} ${_gY}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            bn: `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে ${_gMBn} ${_gY}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMEn} ${_hY}, কিবলা, যাকাত, দোয়া।`,
+            ms: `Waktu solat hari ini di Makkah, Madinah ${_gMMs} ${_gY}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMEn} ${_hY}, Kiblat, Zakat.`,
         };
         setSEOMeta({
             title: HOME_TITLES[homeLang] || HOME_TITLES.ar,

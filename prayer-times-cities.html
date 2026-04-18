@@ -11,7 +11,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=59">
+    <link rel="stylesheet" href="css/style.css?v=61">
     <style>
         /* ===== شريط البحث ===== */
         .cities-search-card {
@@ -1341,8 +1341,19 @@ function renderGrid() {
             default:   return `مواقيت الصلاة في ${cityAr}`;
         }
     };
+    // slug الدولة الحاليّة من الـ URL (للكشف عن تصادم اسم المدينة مع اسم الدولة).
+    // مثال: سنغافورة (دولة) + سنغافورة (عاصمة) — كلاهما يُولِّد "singapore".
+    // الحلّ: لِلمدينة المتصادمة فقط نُضيف لاحقة إحداثيات لتمييزها، ولا نمسّ باقي المدن.
+    const _countryUrlSlugM = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+)$/);
+    const _countryUrlSlug  = _countryUrlSlugM ? _countryUrlSlugM[1] : '';
     page.forEach(city => {
-        const slug = makeSlug(city.nameEn, city.lat, city.lng);
+        let slug = makeSlug(city.nameEn, city.lat, city.lng);
+        // تصادم: اسم المدينة = اسم الدولة → ميِّزها بإحداثيات حتّى يوجِّه السيرفر إلى صفحة المدينة (index.html).
+        if (_countryUrlSlug && slug === _countryUrlSlug) {
+            const _la = Math.abs(city.lat).toFixed(1) + (city.lat >= 0 ? 'n' : 's');
+            const _lo = Math.abs(city.lng).toFixed(1) + (city.lng >= 0 ? 'e' : 'w');
+            slug = `${slug}-${_la}-${_lo}`;
+        }
         const href = pageUrl(`/prayer-times-in-${slug}`);
         const a = document.createElement('a');
         const cardLabel = _cardLabelFn(city.nameAr, city.nameEn);

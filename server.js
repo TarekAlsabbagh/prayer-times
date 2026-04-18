@@ -2573,15 +2573,33 @@ function buildSeoForPath(urlPath) {
     const _gMonthIdx = _gNow.getMonth();
     const _gYear = _gNow.getFullYear();
 
+    // Round 7h: أسماء الأشهر الميلاديّة مترجَمة لكلّ اللغات العشر — ضروريّ لإدراج
+    // الشهر/السنة في Meta Description (phrase "أبريل 2026" في seoptimer).
+    const _G_MONTHS = {
+        ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+        en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+        fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+        tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+        ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+        de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+        id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+        es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+        bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+        ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+    };
+    const _gMonthAr = _G_MONTHS.ar[_gMonthIdx];
+    const _gMonthEn = _G_MONTHS.en[_gMonthIdx];
+
     // Round 7g: Title ≤60 chars + Meta Desc 120-160 + exact-phrase matching
     // ترتيب الكلمات بحيث "مواقيت الصلاة في" و"الصلاة في" تظهر كـ exact phrases
     // (بدون كسرها بـ "اليوم" بينها — شرط seoptimer)
+    // Round 7h: إضافة الشهر الميلاديّ (phrase "أبريل 2026" عالي التردّد في seoptimer)
     let title = isEn
         ? `Today's Prayer Times in Mecca & Medina | ${_hMonthEn} ${_hYear}`
         : `مواقيت الصلاة في مكة المكرمة اليوم | ${_hMonthAr} ${_hYear} هـ`;
     let description = isEn
-        ? `Today's prayer times in Mecca, Medina and world cities: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar ${_hMonthEn} ${_hYear} AH, Qibla direction, Zakat.`
-        : `مواقيت الصلاة في مكة المكرمة والمدينة ومدن العالم اليوم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
+        ? `Prayer times today in Mecca, Medina ${_gMonthEn} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMonthEn} ${_hYear} AH, Qibla, Zakat.`
+        : `مواقيت الصلاة في مكة المكرمة والمدينة اليوم ${_gMonthAr} ${_gYear}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
     let ogType = 'website';
     let geo = null;
     let prev = null, next = null, article = null;
@@ -2590,30 +2608,39 @@ function buildSeoForPath(urlPath) {
     let cityModified = null;     // dateModified for city pages
     // Localize homepage title/description for additional languages (fallback: AR)
     // Descriptions محسَّنة مع keywords اللغة + أسماء مدن flagship + الشهر الهجري ديناميكياً.
+    // Round 7h: إدراج الشهر الميلاديّ المحلَّى (ً${_gMonthLoc}ً) لكلّ لغة
     if (lang === 'fr') {
+        const _gMonthLoc = _G_MONTHS.fr[_gMonthIdx];
         title = `Heures de prière à La Mecque & Médine | ${_hMonthEn} ${_hYear}`;
-        description = `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
+        description = `Heures de prière aujourd'hui à La Mecque, Médine ${_gMonthLoc} ${_gYear} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'tr') {
+        const _gMonthLoc = _G_MONTHS.tr[_gMonthIdx];
         title = `Namaz Vakitleri: Mekke, Medine, Dünya | ${_hMonthEn} ${_hYear}`;
-        description = `Bugün Mekke, Medine ve dünya şehirleri namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMonthEn} ${_hYear}, kıble, zekât, dualar.`;
+        description = `Bugün Mekke, Medine namaz vakitleri ${_gMonthLoc} ${_gYear}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMonthEn} ${_hYear}, kıble, zekât.`;
     } else if (lang === 'ur') {
+        const _gMonthLoc = _G_MONTHS.ur[_gMonthIdx];
         title = `اوقاتِ نماز: مکہ، مدینہ اور دنیا | ${_hMonthEn} ${_hYear}`;
-        description = `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthEn} ${_hYear}، قبلہ، زکاۃ، دعائیں۔`;
+        description = `آج مکہ مکرمہ، مدینہ اور دنیا میں اوقاتِ نماز ${_gMonthLoc} ${_gYear}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthEn} ${_hYear}، قبلہ، زکاۃ، دعائیں۔`;
     } else if (lang === 'de') {
+        const _gMonthLoc = _G_MONTHS.de[_gMonthIdx];
         title = `Gebetszeiten — Mekka, Medina & Welt | ${_hMonthEn} ${_hYear}`;
-        description = `Heutige Gebetszeiten in Mekka, Medina und Städten weltweit: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri-Kalender ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
+        description = `Heutige Gebetszeiten in Mekka, Medina ${_gMonthLoc} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'id') {
+        const _gMonthLoc = _G_MONTHS.id[_gMonthIdx];
         title = `Jadwal Sholat: Makkah, Madinah & Dunia | ${_hMonthEn} ${_hYear}`;
-        description = `Jadwal sholat hari ini di Makkah, Madinah dan kota-kota dunia: Subuh, Zuhur, Asar, Magrib, Isya. Kalender Hijriah ${_hMonthEn} ${_hYear}, kiblat, zakat.`;
+        description = `Jadwal sholat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMonthEn} ${_hYear}, kiblat, zakat.`;
     } else if (lang === 'es') {
+        const _gMonthLoc = _G_MONTHS.es[_gMonthIdx];
         title = `Horarios de Oración — La Meca, Medina | ${_hMonthEn} ${_hYear}`;
-        description = `Horarios de oración hoy en La Meca, Medina y ciudades del mundo: Fayr, Dhuhr, Asr, Magrib, Isha. Calendario Hijri ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
+        description = `Horarios de oración hoy en La Meca, Medina ${_gMonthLoc} ${_gYear}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'bn') {
+        const _gMonthLoc = _G_MONTHS.bn[_gMonthIdx];
         title = `নামাজের সময়সূচী: মক্কা, মদিনা ও বিশ্ব | ${_hMonthEn} ${_hYear}`;
-        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthEn} ${_hYear}, কিবলা, যাকাত।`;
+        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে ${_gMonthLoc} ${_gYear}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthEn} ${_hYear}, কিবলা, যাকাত, দোয়া।`;
     } else if (lang === 'ms') {
+        const _gMonthLoc = _G_MONTHS.ms[_gMonthIdx];
         title = `Waktu Solat: Makkah, Madinah & Dunia | ${_hMonthEn} ${_hYear}`;
-        description = `Waktu solat hari ini di Makkah, Madinah dan bandar-bandar dunia: Subuh, Zohor, Asar, Maghrib, Isyak. Kalendar Hijrah ${_hMonthEn} ${_hYear}, Kiblat, Zakat.`;
+        description = `Waktu solat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMonthEn} ${_hYear}, Kiblat, Zakat.`;
     }
 
     const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };
@@ -4385,13 +4412,76 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   tn:'Tunisia', ly:'Libya', sd:'Sudan', mr:'Mauritania', so:'Somalia',
                   dj:'Djibouti', km:'Komoros' },
         };
+        // أبرز دول العالم (20 دولة من ستّ قارّات) — عنوان القسم بكلّ اللغات
+        const worldTitleI18n = {
+            ar: '🌍 مواقيت الصلاة في أبرز دول العالم',
+            en: '🌍 Prayer Times in Major World Countries',
+            fr: '🌍 Heures de prière dans les principaux pays du monde',
+            tr: '🌍 Dünyanın Önemli Ülkelerinde Namaz Vakitleri',
+            ur: '🌍 دنیا کے نمایاں ممالک میں اوقاتِ نماز',
+            de: '🌍 Gebetszeiten in den wichtigsten Ländern der Welt',
+            id: '🌍 Jadwal Sholat di Negara-Negara Utama Dunia',
+            es: '🌍 Horarios de Oración en los Principales Países del Mundo',
+            bn: '🌍 বিশ্বের প্রধান দেশগুলিতে নামাজের সময়',
+            ms: '🌍 Waktu Solat di Negara-Negara Utama Dunia',
+        };
+        // أبرز دول العالم — أسماء 20 دولة مترجَمة لكلّ اللغات العشر
+        const worldCountryI18n = {
+            ar: { us:'الولايات المتحدة', ca:'كندا', mx:'المكسيك', br:'البرازيل', ar:'الأرجنتين',
+                  gb:'المملكة المتحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', ru:'روسيا',
+                  tr:'تركيا', ir:'إيران', pk:'باكستان', in:'الهند', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا',
+                  ng:'نيجيريا', za:'جنوب أفريقيا' },
+            en: { us:'United States', ca:'Canada', mx:'Mexico', br:'Brazil', ar:'Argentina',
+                  gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', ru:'Russia',
+                  tr:'Turkey', ir:'Iran', pk:'Pakistan', in:'India', bd:'Bangladesh', id:'Indonesia', my:'Malaysia',
+                  ng:'Nigeria', za:'South Africa' },
+            fr: { us:'États-Unis', ca:'Canada', mx:'Mexique', br:'Brésil', ar:'Argentine',
+                  gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', ru:'Russie',
+                  tr:'Turquie', ir:'Iran', pk:'Pakistan', in:'Inde', bd:'Bangladesh', id:'Indonésie', my:'Malaisie',
+                  ng:'Nigeria', za:'Afrique du Sud' },
+            tr: { us:'ABD', ca:'Kanada', mx:'Meksika', br:'Brezilya', ar:'Arjantin',
+                  gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', ru:'Rusya',
+                  tr:'Türkiye', ir:'İran', pk:'Pakistan', in:'Hindistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya',
+                  ng:'Nijerya', za:'Güney Afrika' },
+            ur: { us:'امریکہ', ca:'کینیڈا', mx:'میکسیکو', br:'برازیل', ar:'ارجنٹائن',
+                  gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', ru:'روس',
+                  tr:'ترکی', ir:'ایران', pk:'پاکستان', in:'انڈیا', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا',
+                  ng:'نائجیریا', za:'جنوبی افریقہ' },
+            de: { us:'USA', ca:'Kanada', mx:'Mexiko', br:'Brasilien', ar:'Argentinien',
+                  gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', ru:'Russland',
+                  tr:'Türkei', ir:'Iran', pk:'Pakistan', in:'Indien', bd:'Bangladesch', id:'Indonesien', my:'Malaysia',
+                  ng:'Nigeria', za:'Südafrika' },
+            id: { us:'Amerika Serikat', ca:'Kanada', mx:'Meksiko', br:'Brasil', ar:'Argentina',
+                  gb:'Inggris', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', ru:'Rusia',
+                  tr:'Turki', ir:'Iran', pk:'Pakistan', in:'India', bd:'Bangladesh', id:'Indonesia', my:'Malaysia',
+                  ng:'Nigeria', za:'Afrika Selatan' },
+            es: { us:'Estados Unidos', ca:'Canadá', mx:'México', br:'Brasil', ar:'Argentina',
+                  gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', ru:'Rusia',
+                  tr:'Turquía', ir:'Irán', pk:'Pakistán', in:'India', bd:'Bangladés', id:'Indonesia', my:'Malasia',
+                  ng:'Nigeria', za:'Sudáfrica' },
+            bn: { us:'যুক্তরাষ্ট্র', ca:'কানাডা', mx:'মেক্সিকো', br:'ব্রাজিল', ar:'আর্জেন্টিনা',
+                  gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', ru:'রাশিয়া',
+                  tr:'তুরস্ক', ir:'ইরান', pk:'পাকিস্তান', in:'ভারত', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া',
+                  ng:'নাইজেরিয়া', za:'দক্ষিণ আফ্রিকা' },
+            ms: { us:'Amerika Syarikat', ca:'Kanada', mx:'Mexico', br:'Brazil', ar:'Argentina',
+                  gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', ru:'Rusia',
+                  tr:'Turki', ir:'Iran', pk:'Pakistan', in:'India', bd:'Bangladesh', id:'Indonesia', my:'Malaysia',
+                  ng:'Nigeria', za:'Afrika Selatan' },
+        };
         if (arabTitleI18n[Lf]) {
             html = html.replace(
                 /<h2 id="arab-countries-title"[^>]*>[^<]*<\/h2>/,
                 `<h2 id="arab-countries-title" data-i18n="footer.arab_countries">${_escHtml(arabTitleI18n[Lf])}</h2>`
             );
         }
-        const names = arabCountryI18n[Lf];
+        if (worldTitleI18n[Lf]) {
+            html = html.replace(
+                /<h2 id="world-countries-title"[^>]*>[^<]*<\/h2>/,
+                `<h2 id="world-countries-title" class="arab-countries-subtitle" data-i18n="footer.world_countries">${_escHtml(worldTitleI18n[Lf])}</h2>`
+            );
+        }
+        // دمج أسماء الدول العربية + دول العالم لكلّ لغة (الـ regex التالي يمرّ على كلّ <span data-i18n="country.XX"> في الصفحة)
+        const names = { ...(arabCountryI18n[Lf] || {}), ...(worldCountryI18n[Lf] || {}) };
         if (names) {
             // نستبدل كل <span data-i18n="country.xx">...</span> بالنص المترجَم
             html = html.replace(

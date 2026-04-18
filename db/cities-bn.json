@@ -1,0 +1,42 @@
+[
+  {
+    "nameAr": "بندر سري بكاوان",
+    "nameEn": "Bandar Seri Begawan",
+    "type": "city",
+    "lat": 4.9166666666667,
+    "lng": 114.91666666667,
+    "pop": 50000
+  },
+  {
+    "nameAr": "Seria",
+    "nameEn": "Seria",
+    "type": "city",
+    "lat": 4.6141666666667,
+    "lng": 114.33027777778,
+    "pop": 21082
+  },
+  {
+    "nameAr": "Kuala Belait",
+    "nameEn": "Kuala Belait",
+    "type": "city",
+    "lat": 4.5828,
+    "lng": 114.1918,
+    "pop": 4259
+  },
+  {
+    "nameAr": "Muara Town",
+    "nameEn": "Muara Town",
+    "type": "city",
+    "lat": 5.0268,
+    "lng": 115.0693,
+    "pop": 2102
+  },
+  {
+    "nameAr": "Kampong Bolkiah",
+    "nameEn": "Kampong Bolkiah",
+    "type": "city",
+    "lat": 4.857095063053,
+    "lng": 114.95656722751,
+    "pop": null
+  }
+]

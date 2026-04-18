@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=240" as="script">
-    <link rel="stylesheet" href="css/style.css?v=59">
+    <link rel="preload" href="js/app.js?v=241" as="script">
+    <link rel="stylesheet" href="css/style.css?v=61">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -504,6 +504,32 @@
                         <a href="/prayer-times-in-djibouti" class="country-tile" data-cc="dj"><img src="https://flagcdn.com/w40/dj.png" alt="علم جيبوتي" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.dj">جيبوتي</span></a>
                         <a href="/prayer-times-in-comoros" class="country-tile" data-cc="km"><img src="https://flagcdn.com/w40/km.png" alt="علم جزر القمر" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.km">جزر القمر</span></a>
                     </nav>
+
+                    <!-- أبرز دول العالم — قسم فرعيّ داخل نفس البطاقة -->
+                    <h2 id="world-countries-title" class="arab-countries-subtitle" data-i18n="footer.world_countries">🌍 مواقيت الصلاة في أبرز دول العالم</h2>
+                    <nav class="arab-countries-grid" aria-label="أبرز دول العالم">
+                        <a href="/prayer-times-in-united-states" class="country-tile" data-cc="us"><img src="https://flagcdn.com/w40/us.png" alt="علم الولايات المتحدة" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.us">الولايات المتحدة</span></a>
+                        <a href="/prayer-times-in-canada" class="country-tile" data-cc="ca"><img src="https://flagcdn.com/w40/ca.png" alt="علم كندا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ca">كندا</span></a>
+                        <a href="/prayer-times-in-mexico" class="country-tile" data-cc="mx"><img src="https://flagcdn.com/w40/mx.png" alt="علم المكسيك" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.mx">المكسيك</span></a>
+                        <a href="/prayer-times-in-brazil" class="country-tile" data-cc="br"><img src="https://flagcdn.com/w40/br.png" alt="علم البرازيل" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.br">البرازيل</span></a>
+                        <a href="/prayer-times-in-argentina" class="country-tile" data-cc="ar"><img src="https://flagcdn.com/w40/ar.png" alt="علم الأرجنتين" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ar">الأرجنتين</span></a>
+                        <a href="/prayer-times-in-united-kingdom" class="country-tile" data-cc="gb"><img src="https://flagcdn.com/w40/gb.png" alt="علم المملكة المتحدة" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.gb">المملكة المتحدة</span></a>
+                        <a href="/prayer-times-in-france" class="country-tile" data-cc="fr"><img src="https://flagcdn.com/w40/fr.png" alt="علم فرنسا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.fr">فرنسا</span></a>
+                        <a href="/prayer-times-in-germany" class="country-tile" data-cc="de"><img src="https://flagcdn.com/w40/de.png" alt="علم ألمانيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.de">ألمانيا</span></a>
+                        <a href="/prayer-times-in-spain" class="country-tile" data-cc="es"><img src="https://flagcdn.com/w40/es.png" alt="علم إسبانيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.es">إسبانيا</span></a>
+                        <a href="/prayer-times-in-italy" class="country-tile" data-cc="it"><img src="https://flagcdn.com/w40/it.png" alt="علم إيطاليا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.it">إيطاليا</span></a>
+                        <a href="/prayer-times-in-russia" class="country-tile" data-cc="ru"><img src="https://flagcdn.com/w40/ru.png" alt="علم روسيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ru">روسيا</span></a>
+                        <a href="/prayer-times-in-turkey" class="country-tile" data-cc="tr"><img src="https://flagcdn.com/w40/tr.png" alt="علم تركيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.tr">تركيا</span></a>
+                        <a href="/prayer-times-in-iran" class="country-tile" data-cc="ir"><img src="https://flagcdn.com/w40/ir.png" alt="علم إيران" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ir">إيران</span></a>
+                        <a href="/prayer-times-in-pakistan" class="country-tile" data-cc="pk"><img src="https://flagcdn.com/w40/pk.png" alt="علم باكستان" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.pk">باكستان</span></a>
+                        <a href="/prayer-times-in-india" class="country-tile" data-cc="in"><img src="https://flagcdn.com/w40/in.png" alt="علم الهند" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.in">الهند</span></a>
+                        <a href="/prayer-times-in-bangladesh" class="country-tile" data-cc="bd"><img src="https://flagcdn.com/w40/bd.png" alt="علم بنغلاديش" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.bd">بنغلاديش</span></a>
+                        <a href="/prayer-times-in-indonesia" class="country-tile" data-cc="id"><img src="https://flagcdn.com/w40/id.png" alt="علم إندونيسيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.id">إندونيسيا</span></a>
+                        <a href="/prayer-times-in-malaysia" class="country-tile" data-cc="my"><img src="https://flagcdn.com/w40/my.png" alt="علم ماليزيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.my">ماليزيا</span></a>
+                        <a href="/prayer-times-in-nigeria" class="country-tile" data-cc="ng"><img src="https://flagcdn.com/w40/ng.png" alt="علم نيجيريا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ng">نيجيريا</span></a>
+                        <a href="/prayer-times-in-south-africa" class="country-tile" data-cc="za"><img src="https://flagcdn.com/w40/za.png" alt="علم جنوب أفريقيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.za">جنوب أفريقيا</span></a>
+                    </nav>
+
                     <div class="u-center-mt">
                         <a href="/prayer-times-worldwide" class="more-countries-btn" id="more-countries-btn" data-i18n="countries.more">🌐 استعرض كل دول العالم</a>
                     </div>
@@ -1257,7 +1283,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=240"></script>
+    <script defer src="js/app.js?v=241"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

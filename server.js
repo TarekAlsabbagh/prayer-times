@@ -2740,7 +2740,7 @@ function buildSeoForPath(urlPath) {
         ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
     };
     // لاحقة السنة الهجريّة — بلا مسافة في AR/UR/BN (توافقاً مع القواعد)، وبمسافة قبلها في بقيّة اللغات
-    const _HY_SFX_CITY = { ar:'هـ', en:' AH', fr:' H', tr:' H', ur:'ھ', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
+    const _HY_SFX_CITY = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:'ھ', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
     const _gDayNum = _gNow.getDate();
     const _gDayIdx = _gNow.getDay();
     const _gDayName = (_G_DAYS[lang] || _G_DAYS.en)[_gDayIdx];

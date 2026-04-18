@@ -1775,9 +1775,21 @@ function _jdToHijri(jd) {
     const day = jd - _hijriToJD(year, month, 1) + 1;
     return { year: year, month: Math.max(1, month), day: Math.max(1, Math.floor(day)) };
 }
+// الحاضر دائماً بتوقيت مكّة المكرّمة (Asia/Riyadh) — ضروريّ لئلّا يتأخّر
+// التاريخ الهجري/الميلادي يوماً كاملاً حين يكون TZ السيرفر UTC وفرق
+// السعوديّة +3 لم يتخطَّ منتصف الليل بعد.
+// الدالّة تُعيد Date بقيم UTC مُماثِلة لجدار وقت السعوديّة → استعمل
+// getUTCFullYear/getUTCMonth/getUTCDate/getUTCDay فقط معها.
+function _nowMeccaDate() {
+    const [y, m, d] = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Riyadh',
+        year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(new Date()).split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1, d));
+}
 function _hijriNow() {
-    const now = new Date();
-    const jd = _gregToJD(now.getFullYear(), now.getMonth() + 1, now.getDate());
+    const now = _nowMeccaDate();
+    const jd = _gregToJD(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate());
     return _jdToHijri(jd);
 }
 
@@ -2692,9 +2704,11 @@ function buildSeoForPath(urlPath) {
     const _hMonthAr = (_HIJRI_MONTHS[_hMonthSlug] || {}).ar || '';
     const _hMonthEn = (_HIJRI_MONTHS[_hMonthSlug] || {}).en || '';
     const _hYear = _hNow.year;
-    const _gNow = new Date();
-    const _gMonthIdx = _gNow.getMonth();
-    const _gYear = _gNow.getFullYear();
+    // _gNow بتوقيت مكّة (Asia/Riyadh) — انظر _nowMeccaDate(). استعمل get**UTC**
+    // لاستخراج أجزاء التاريخ لأنّ الـ Date مبنيّ بـ Date.UTC(y,m-1,d).
+    const _gNow = _nowMeccaDate();
+    const _gMonthIdx = _gNow.getUTCMonth();
+    const _gYear = _gNow.getUTCFullYear();
 
     // Round 7h: أسماء الأشهر الميلاديّة مترجَمة لكلّ اللغات العشر — ضروريّ لإدراج
     // الشهر/السنة في Meta Description (phrase "أبريل 2026" في seoptimer).
@@ -2741,8 +2755,8 @@ function buildSeoForPath(urlPath) {
     };
     // لاحقة السنة الهجريّة — بلا مسافة في AR/UR/BN (توافقاً مع القواعد)، وبمسافة قبلها في بقيّة اللغات
     const _HY_SFX_CITY = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:'ھ', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
-    const _gDayNum = _gNow.getDate();
-    const _gDayIdx = _gNow.getDay();
+    const _gDayNum = _gNow.getUTCDate();
+    const _gDayIdx = _gNow.getUTCDay();
     const _gDayName = (_G_DAYS[lang] || _G_DAYS.en)[_gDayIdx];
     const _gMonthLoc = (_G_MONTHS[lang] || _G_MONTHS.en)[_gMonthIdx];
     const _hDayNum = _hNow.day;

@@ -2453,6 +2453,20 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
         };
         const _f = _cFooterI18n[lang] || _cFooterI18n.ar;
         const _pc = _cPopCityI18n[lang] || _cPopCityI18n.ar;
+        // قالب "مواقيت الصلاة في {city}" — نفس قاموس index.html (prefix/postfix لكلّ لغة)
+        const _cPrayerTimesInI18n = {
+            ar: 'مواقيت الصلاة في {city}',
+            en: 'Prayer Times in {city}',
+            fr: 'Heures de prière à {city}',
+            tr: '{city} için namaz vakitleri',
+            ur: '{city} میں اوقاتِ نماز',
+            de: 'Gebetszeiten in {city}',
+            id: 'Jadwal Sholat di {city}',
+            es: 'Horarios de Oración en {city}',
+            bn: '{city}-এ নামাজের সময়',
+            ms: 'Waktu Solat di {city}',
+        };
+        const _cPtTmpl = _cPrayerTimesInI18n[lang] || _cPrayerTimesInI18n.ar;
 
         // Titles + subtitles
         html = html
@@ -2469,8 +2483,15 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
             `<nav class="popular-cities-grid" aria-label="${_escHtml(_f.popAria)}">`
         );
         html = html.replace(
-            /<a href="[^"]*\/prayer-times-in-(mecca|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)"[^>]*>[^<]*<\/a>/g,
-            (m, slug) => `<a href="${_langPrefix}/prayer-times-in-${slug}" data-i18n="popular_city.${slug}">${_escHtml(_pc[slug])}</a>`
+            /<a href="[^"]*\/prayer-times-in-(mecca|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)"[^>]*>[\s\S]*?<\/a>/g,
+            (m, slug) => {
+                const name = _pc[slug];
+                // "مواقيت الصلاة في <strong>{city}</strong>" — نُرمِّز pre/post منفصلَين
+                // لإبقاء وسم `<strong>` حول اسم المدينة فقط.
+                const [pre, post] = _cPtTmpl.split('{city}');
+                const label = `${_escHtml(pre)}<strong>${_escHtml(name)}</strong>${_escHtml(post)}`;
+                return `<a href="${_langPrefix}/prayer-times-in-${slug}" data-i18n="popular_city.${slug}">${label}</a>`;
+            }
         );
         html = html.replace(
             /<nav class="home-services-links" aria-label="[^"]*">/,
@@ -4327,18 +4348,37 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             es:'Ciudades populares', bn:'জনপ্রিয় শহর', ms:'Bandar popular',
         };
         const popCities = popCityI18n[Lf] || popCityI18n.ar;
+        // قالب "مواقيت الصلاة في {city}" لكلّ لغة (بعض اللغات postfix: tr/ur/bn)
+        const prayerTimesInI18n = {
+            ar: 'مواقيت الصلاة في {city}',
+            en: 'Prayer Times in {city}',
+            fr: 'Heures de prière à {city}',
+            tr: '{city} için namaz vakitleri',
+            ur: '{city} میں اوقاتِ نماز',
+            de: 'Gebetszeiten in {city}',
+            id: 'Jadwal Sholat di {city}',
+            es: 'Horarios de Oración en {city}',
+            bn: '{city}-এ নামাজের সময়',
+            ms: 'Waktu Solat di {city}',
+        };
+        const _ptTmpl = prayerTimesInI18n[Lf] || prayerTimesInI18n.ar;
         // 1) ترجمة aria-label
         html = html.replace(
             /<nav class="popular-cities-grid" aria-label="[^"]*">/,
             `<nav class="popular-cities-grid" aria-label="${_escHtml(popAriaI18n[Lf] || popAriaI18n.ar)}">`
         );
         // 2) استبدال النص داخل كل <a href="/prayer-times-in-{slug}">...</a> + إضافة prefix للّغة
+        //    النصّ يُصبح "مواقيت الصلاة في {city}" (قالب مترجَم لكلّ لغة) لتحسين SEO.
         html = html.replace(
-            /<a href="\/prayer-times-in-(mecca|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)">[^<]*<\/a>/g,
+            /<a href="\/prayer-times-in-(mecca|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)">[\s\S]*?<\/a>/g,
             (match, slug) => {
                 const name = popCities[slug];
+                // اسم المدينة بـ <strong> لإبرازه في الرابط — نُرمِّز جزأَي القالب بشكل منفصل
+                // لتفادي تهريب `<strong>`.
+                const [pre, post] = _ptTmpl.split('{city}');
+                const label = `${_escHtml(pre)}<strong>${_escHtml(name)}</strong>${_escHtml(post)}`;
                 const prefix = (Lf === 'ar') ? '' : '/' + Lf;
-                return `<a href="${prefix}/prayer-times-in-${slug}">${_escHtml(name)}</a>`;
+                return `<a href="${prefix}/prayer-times-in-${slug}">${label}</a>`;
             }
         );
         // 3) ترجمة aria-label للخدمات أيضاً

@@ -4940,18 +4940,25 @@ function updateFaqSection() {
     document.getElementById('faq-q1').innerHTML = t('faq.q1', { loc });
     document.getElementById('faq-a1-intro').innerHTML = t('faq.a1_intro', { loc });
 
+    // SEO: كلّ صفّ يحوي "أذان {الصلاة} في {المدينة}" ليتطابق مع استعلامات Google الشائعة.
+    // الشروق استثناء (لا أذان له) → قالب "وقت الشروق في {المدينة}".
+    const cityOnly = city; // getDisplayCity() بدون دولة، بدون <strong>
     const prayers = [
-        { name: t('prayer.fajr'),    time: currentPrayerTimes.fajr    },
-        { name: t('prayer.sunrise'), time: currentPrayerTimes.sunrise  },
-        { name: t('prayer.dhuhr'),   time: currentPrayerTimes.dhuhr   },
-        { name: t('prayer.asr'),     time: currentPrayerTimes.asr     },
-        { name: t('prayer.maghrib'), time: currentPrayerTimes.maghrib },
-        { name: t('prayer.isha'),    time: currentPrayerTimes.isha    },
+        { key: 'prayer.fajr',    time: currentPrayerTimes.fajr,    isSunrise: false },
+        { key: 'prayer.sunrise', time: currentPrayerTimes.sunrise, isSunrise: true  },
+        { key: 'prayer.dhuhr',   time: currentPrayerTimes.dhuhr,   isSunrise: false },
+        { key: 'prayer.asr',     time: currentPrayerTimes.asr,     isSunrise: false },
+        { key: 'prayer.maghrib', time: currentPrayerTimes.maghrib, isSunrise: false },
+        { key: 'prayer.isha',    time: currentPrayerTimes.isha,    isSunrise: false },
     ];
     const listEl = document.getElementById('faq-times-list');
-    listEl.innerHTML = prayers.map(p =>
-        `<li><span>${p.name}</span><span>${p.time}</span></li>`
-    ).join('');
+    listEl.innerHTML = prayers.map(p => {
+        const prayer = t(p.key);
+        const label = p.isSunrise
+            ? t('faq.sunrise_line', { loc: cityOnly })
+            : t('faq.adhan_line', { prayer, loc: cityOnly });
+        return `<li><span>${label}</span><span>${p.time}</span></li>`;
+    }).join('');
 
     // س2 - ساعات الصيام
     const rawFajr    = currentPrayerTimes.raw.fajr;

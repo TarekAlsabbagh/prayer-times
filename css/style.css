@@ -3406,13 +3406,15 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
 }
 .arab-countries-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
     gap: 8px;
 }
 .country-tile {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 0;
     align-items: center;
-    gap: 10px;
     padding: 8px 12px;
     background: var(--bg-muted, #f5f7f5);
     color: var(--primary-dark);
@@ -3421,6 +3423,7 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 500;
+    min-height: 52px;
     transition: background .15s, border-color .15s, transform .15s;
 }
 .country-tile img {
@@ -3428,12 +3431,25 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
     height: 24px;
     object-fit: cover;
     border-radius: 3px;
-    flex-shrink: 0;
     box-shadow: 0 0 0 1px rgba(0,0,0,.08);
+    grid-row: 1 / span 2;
+    align-self: center;
 }
-.country-tile span { min-width: 0; }
-.country-tile .arab-tile-prefix { font-size: 0.78rem; font-weight: 500; opacity: .78; }
-.country-tile > span:last-child { flex: 1; font-weight: 700; }
+.country-tile span { min-width: 0; overflow-wrap: anywhere; }
+.country-tile .arab-tile-prefix {
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: .78;
+    line-height: 1.2;
+    grid-column: 2;
+    grid-row: 1;
+}
+.country-tile > span:last-child {
+    font-weight: 700;
+    line-height: 1.25;
+    grid-column: 2;
+    grid-row: 2;
+}
 .country-tile:hover {
     background: var(--primary);
     color: #fff;
@@ -3442,7 +3458,7 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
 }
 @media (max-width: 480px) {
     .arab-countries-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-    .country-tile { padding: 7px 10px; font-size: 0.88rem; gap: 8px; }
+    .country-tile { padding: 7px 10px; font-size: 0.88rem; column-gap: 8px; min-height: 46px; }
     .country-tile img { width: 28px; height: 21px; }
 }
 .more-countries-btn {

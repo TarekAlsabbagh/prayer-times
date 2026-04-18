@@ -2268,7 +2268,7 @@ function _buildCountriesGrid(lang) {
             const slug = makeCountrySlugSrv(cc);
             const enName = COUNTRY_NAMES_EN[cc] || '';
             const href = `${urlPrefix}/prayer-times-in-${slug}`;
-            out += `\n        <a href="${href}" class="country-tile" data-cc="${cc}" data-en="${_escHtml(enName.toLowerCase())}"><img src="https://flagcdn.com/w40/${cc}.png" alt="" width="40" height="30" loading="lazy"><span>${_escHtml(name)}</span></a>`;
+            out += `\n        <a href="${href}" class="country-tile" data-cc="${cc}" data-en="${_escHtml(enName.toLowerCase())}"><img src="https://flagcdn.com/w40/${cc}.png" alt="${_escHtml(name)}" width="40" height="30" loading="lazy"><span>${_escHtml(name)}</span></a>`;
         }
         out += '\n    </nav>\n</section>';
     }
@@ -2573,13 +2573,13 @@ function buildSeoForPath(urlPath) {
     const _gMonthIdx = _gNow.getMonth();
     const _gYear = _gNow.getFullYear();
 
+    // Round 7f: Title ≤60 chars + Meta Description 120-160 chars (seoptimer targets)
     let title = isEn
-        ? `Today Prayer Times in Mecca, Medina & Cities Worldwide — Hijri Calendar ${_hMonthEn} ${_hYear}`
-        : `مواقيت الصلاة اليوم في مكة المكرمة والمدينة وجميع المدن | التاريخ الهجري ${_hMonthAr} ${_hYear}`;
-    // Description ~160-180 حرف + keywords (`اليوم`، `مكة المكرمة`، `الصلاة في`، الشهر الهجري، أسماء الصلوات الـ 5)
+        ? `Prayer Times in Mecca, Medina & World | ${_hMonthEn} ${_hYear}`
+        : `مواقيت الصلاة في مكة والمدينة وكل المدن | ${_hMonthAr} ${_hYear}`;
     let description = isEn
-        ? `Today's prayer times in Mecca, Medina and cities worldwide: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar for ${_hMonthEn} ${_hYear} AH, date converter, Qibla direction, Zakat, duas.`
-        : `مواقيت الصلاة اليوم في مكة المكرمة والمدينة المنوّرة وجميع مدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التقويم الهجري ${_hMonthAr} ${_hYear} هـ، القبلة، الأدعية، الزكاة.`;
+        ? `Today's prayer times in Mecca, Medina and world cities: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar ${_hMonthEn} ${_hYear} AH, Qibla direction, Zakat.`
+        : `مواقيت الصلاة اليوم في مكة المكرمة والمدينة ومدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
     let ogType = 'website';
     let geo = null;
     let prev = null, next = null, article = null;
@@ -2589,37 +2589,29 @@ function buildSeoForPath(urlPath) {
     // Localize homepage title/description for additional languages (fallback: AR)
     // Descriptions محسَّنة مع keywords اللغة + أسماء مدن flagship + الشهر الهجري ديناميكياً.
     if (lang === 'fr') {
-        const _fMonth = _GREG_MONTHS.fr[_gMonthIdx];
-        title = `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde — Calendrier Hégirien ${_hMonthEn} ${_hYear}`;
-        description = `Heures de prière aujourd'hui à La Mecque, Médine et dans les villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMonthEn} ${_hYear}, convertisseur ${_fMonth} ${_gYear}, Qibla, Zakat, douas.`;
+        title = `Heures de prière à La Mecque & Médine | ${_hMonthEn} ${_hYear}`;
+        description = `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'tr') {
-        const _tMonth = _GREG_MONTHS.tr[_gMonthIdx];
-        title = `Bugün Mekke, Medine ve Dünya Şehirlerinde Namaz Vakitleri — Hicri Takvim ${_hMonthEn} ${_hYear}`;
-        description = `Bugün Mekke, Medine ve dünya şehirleri için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMonthEn} ${_hYear}, ${_tMonth} ${_gYear} dönüştürücü, kıble, zekât, dualar.`;
+        title = `Namaz Vakitleri: Mekke, Medine, Dünya | ${_hMonthEn} ${_hYear}`;
+        description = `Bugün Mekke, Medine ve dünya şehirleri namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMonthEn} ${_hYear}, kıble, zekât, dualar.`;
     } else if (lang === 'ur') {
-        const _uMonth = _GREG_MONTHS.ur[_gMonthIdx];
-        title = `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز | ہجری کیلنڈر ${_hMonthEn} ${_hYear}`;
-        description = `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthEn} ${_hYear}، ${_uMonth} ${_gYear} کنورٹر، قبلہ، زکاۃ، دعائیں۔`;
+        title = `اوقاتِ نماز: مکہ، مدینہ اور دنیا | ${_hMonthEn} ${_hYear}`;
+        description = `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthEn} ${_hYear}، قبلہ، زکاۃ، دعائیں۔`;
     } else if (lang === 'de') {
-        const _dMonth = _GREG_MONTHS.de[_gMonthIdx];
-        title = `Gebetszeiten heute in Mekka, Medina und Städten weltweit — Hidschri-Kalender ${_hMonthEn} ${_hYear}`;
-        description = `Heutige Gebetszeiten in Mekka, Medina und Städten weltweit: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri-Kalender ${_hMonthEn} ${_hYear}, Umrechner ${_dMonth} ${_gYear}, Qibla, Zakat, Bittgebete.`;
+        title = `Gebetszeiten — Mekka, Medina & Welt | ${_hMonthEn} ${_hYear}`;
+        description = `Heutige Gebetszeiten in Mekka, Medina und Städten weltweit: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri-Kalender ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'id') {
-        const _iMonth = _GREG_MONTHS.id[_gMonthIdx];
-        title = `Jadwal Sholat Hari Ini di Makkah, Madinah & Kota-Kota Dunia — Kalender Hijriah ${_hMonthEn} ${_hYear}`;
-        description = `Jadwal sholat hari ini di Makkah, Madinah dan kota-kota dunia: Subuh, Zuhur, Asar, Magrib, Isya. Kalender Hijriah ${_hMonthEn} ${_hYear}, konverter ${_iMonth} ${_gYear}, kiblat, zakat, doa.`;
+        title = `Jadwal Sholat: Makkah, Madinah & Dunia | ${_hMonthEn} ${_hYear}`;
+        description = `Jadwal sholat hari ini di Makkah, Madinah dan kota-kota dunia: Subuh, Zuhur, Asar, Magrib, Isya. Kalender Hijriah ${_hMonthEn} ${_hYear}, kiblat, zakat.`;
     } else if (lang === 'es') {
-        const _esMonth = _GREG_MONTHS.es[_gMonthIdx];
-        title = `Horarios de Oración Hoy en La Meca, Medina y Ciudades del Mundo — Calendario Hijri ${_hMonthEn} ${_hYear}`;
-        description = `Horarios de oración hoy en La Meca, Medina y ciudades del mundo: Fayr, Dhuhr, Asr, Magrib, Isha. Calendario Hijri ${_hMonthEn} ${_hYear}, conversor ${_esMonth} ${_gYear}, Qibla, Zakat, duas.`;
+        title = `Horarios de Oración — La Meca, Medina | ${_hMonthEn} ${_hYear}`;
+        description = `Horarios de oración hoy en La Meca, Medina y ciudades del mundo: Fayr, Dhuhr, Asr, Magrib, Isha. Calendario Hijri ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'bn') {
-        const _bnMonth = _GREG_MONTHS.bn[_gMonthIdx];
-        title = `আজকের নামাজের সময়সূচী মক্কা, মদিনা ও বিশ্বের শহরগুলিতে — হিজরি ক্যালেন্ডার ${_hMonthEn} ${_hYear}`;
-        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthEn} ${_hYear}, ${_bnMonth} ${_gYear} রূপান্তরকারী, কিবলা, যাকাত, দোয়া।`;
+        title = `নামাজের সময়সূচী: মক্কা, মদিনা ও বিশ্ব | ${_hMonthEn} ${_hYear}`;
+        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthEn} ${_hYear}, কিবলা, যাকাত।`;
     } else if (lang === 'ms') {
-        const _msMonth = _GREG_MONTHS.ms[_gMonthIdx];
-        title = `Waktu Solat Hari Ini di Makkah, Madinah & Bandar Dunia — Kalendar Hijrah ${_hMonthEn} ${_hYear}`;
-        description = `Waktu solat hari ini di Makkah, Madinah dan bandar-bandar dunia: Subuh, Zohor, Asar, Maghrib, Isyak. Kalendar Hijrah ${_hMonthEn} ${_hYear}, penukar ${_msMonth} ${_gYear}, Kiblat, Zakat, doa.`;
+        title = `Waktu Solat: Makkah, Madinah & Dunia | ${_hMonthEn} ${_hYear}`;
+        description = `Waktu solat hari ini di Makkah, Madinah dan bandar-bandar dunia: Subuh, Zohor, Asar, Maghrib, Isyak. Kalendar Hijrah ${_hMonthEn} ${_hYear}, Kiblat, Zakat.`;
     }
 
     const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };

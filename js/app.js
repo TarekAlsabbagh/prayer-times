@@ -3675,22 +3675,28 @@ function updatePageSEO() {
         const _gMId    = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][_gMIdx];
 
         const HOME_TITLES = {
-            ar: `مواقيت الصلاة اليوم في مكة المكرمة والمدينة وجميع المدن | التاريخ الهجري ${_hMAr} ${_hY}`,
-            en: `Today Prayer Times in Mecca, Medina & Cities Worldwide — Hijri Calendar ${_hMEn} ${_hY}`,
-            fr: `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde — Calendrier Hégirien ${_hMEn} ${_hY}`,
-            tr: `Bugün Mekke, Medine ve Dünya Şehirlerinde Namaz Vakitleri — Hicri Takvim ${_hMEn} ${_hY}`,
-            ur: `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز | ہجری کیلنڈر ${_hMEn} ${_hY}`,
-            de: `Heutige Gebetszeiten in Mekka, Medina & Städten weltweit — Hidschri-Kalender ${_hMEn} ${_hY}`,
-            id: `Jadwal Sholat Hari Ini di Makkah, Madinah & Kota-Kota Dunia — Kalender Hijriah ${_hMEn} ${_hY}`,
+            ar: `مواقيت الصلاة في مكة والمدينة وكل المدن | ${_hMAr} ${_hY}`,
+            en: `Prayer Times in Mecca, Medina & World | ${_hMEn} ${_hY}`,
+            fr: `Heures de prière à La Mecque & Médine | ${_hMEn} ${_hY}`,
+            tr: `Namaz Vakitleri: Mekke, Medine, Dünya | ${_hMEn} ${_hY}`,
+            ur: `اوقاتِ نماز: مکہ، مدینہ اور دنیا | ${_hMEn} ${_hY}`,
+            de: `Gebetszeiten — Mekka, Medina & Welt | ${_hMEn} ${_hY}`,
+            id: `Jadwal Sholat: Makkah, Madinah & Dunia | ${_hMEn} ${_hY}`,
+            es: `Horarios de Oración — La Meca, Medina | ${_hMEn} ${_hY}`,
+            bn: `নামাজের সময়সূচী: মক্কা, মদিনা ও বিশ্ব | ${_hMEn} ${_hY}`,
+            ms: `Waktu Solat: Makkah, Madinah & Dunia | ${_hMEn} ${_hY}`,
         };
         const HOME_DESCS = {
-            ar: `مواقيت الصلاة اليوم في مكة المكرمة والمدينة المنوّرة وجميع مدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التقويم الهجري ${_hMAr} ${_hY} هـ، القبلة، الأدعية، الزكاة.`,
-            en: `Today's prayer times in Mecca, Medina and cities worldwide: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar for ${_hMEn} ${_hY} AH, date converter, Qibla direction, Zakat, duas.`,
-            fr: `Heures de prière aujourd'hui à La Mecque, Médine et dans les villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMEn} ${_hY}, convertisseur ${_gMFr} ${_gY}, Qibla, Zakat, douas.`,
-            tr: `Bugün Mekke, Medine ve dünya şehirleri için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMEn} ${_hY}, ${_gMTr} ${_gY} dönüştürücü, kıble, zekât, dualar.`,
-            ur: `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، ${_gMUr} ${_gY} کنورٹر، قبلہ، زکاۃ، دعائیں۔`,
-            de: `Heutige Gebetszeiten in Mekka, Medina und Städten weltweit: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri-Kalender ${_hMEn} ${_hY} AH, ${_gMDe} ${_gY} Umrechner, Qibla, Zakat, Duas.`,
-            id: `Jadwal sholat hari ini di Makkah, Madinah dan kota-kota dunia: Subuh, Zuhur, Asar, Magrib, Isya. Kalender Hijriah ${_hMEn} ${_hY}, konverter ${_gMId} ${_gY}, kiblat, zakat, doa.`,
+            ar: `مواقيت الصلاة اليوم في مكة المكرمة والمدينة ومدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
+            en: `Today's prayer times in Mecca, Medina and world cities: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar ${_hMEn} ${_hY} AH, Qibla direction, Zakat.`,
+            fr: `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            tr: `Bugün Mekke, Medine ve dünya şehirleri namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMEn} ${_hY}, kıble, zekât, dualar.`,
+            ur: `آج مکہ مکرمہ، مدینہ اور دنیا کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
+            de: `Heutige Gebetszeiten in Mekka, Medina und Städten weltweit: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri-Kalender ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            id: `Jadwal sholat hari ini di Makkah, Madinah dan kota-kota dunia: Subuh, Zuhur, Asar, Magrib, Isya. Kalender Hijriah ${_hMEn} ${_hY}, kiblat, zakat.`,
+            es: `Horarios de oración hoy en La Meca, Medina y ciudades del mundo: Fayr, Dhuhr, Asr, Magrib, Isha. Calendario Hijri ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            bn: `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMEn} ${_hY}, কিবলা, যাকাত।`,
+            ms: `Waktu solat hari ini di Makkah, Madinah dan bandar-bandar dunia: Subuh, Zohor, Asar, Maghrib, Isyak. Kalendar Hijrah ${_hMEn} ${_hY}, Kiblat, Zakat.`,
         };
         setSEOMeta({
             title: HOME_TITLES[homeLang] || HOME_TITLES.ar,
@@ -4149,41 +4155,70 @@ function updateCityRelatedServices() {
     if (!grid) return;
 
     const lang   = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const prefix = lang === 'ar' ? '' : '/' + lang;
     const slug   = (currentLat && currentEnglishName)
         ? makeSlug(currentEnglishName, currentLat, currentLng) : '';
     const cityLabel = getDisplayCity();
-    const isEn  = lang !== 'ar';
+
+    // قاموس تسميات الخدمات لكلّ لغة (10 لغات)
+    const L = {
+        ar: { hijri_today: 'التاريخ الهجري اليوم', date_conv: 'تحويل التاريخ', hijri_cal: 'التقويم الهجري', moon: 'القمر اليوم', zakat: 'حاسبة الزكاة' },
+        en: { hijri_today: 'Hijri Date Today',     date_conv: 'Date Converter',  hijri_cal: 'Hijri Calendar',  moon: 'Moon Today',   zakat: 'Zakat Calculator' },
+        fr: { hijri_today: "Date hégirienne aujourd'hui", date_conv: 'Convertisseur de date', hijri_cal: 'Calendrier hégirien', moon: 'Lune aujourd\'hui', zakat: 'Calculateur de Zakat' },
+        tr: { hijri_today: 'Bugünün Hicri Tarihi', date_conv: 'Tarih Dönüştürücü', hijri_cal: 'Hicri Takvim', moon: 'Bugün Ay',      zakat: 'Zekat Hesaplayıcı' },
+        ur: { hijri_today: 'آج کی ہجری تاریخ',      date_conv: 'تاریخ کنورٹر',     hijri_cal: 'ہجری کیلنڈر',    moon: 'آج کا چاند',   zakat: 'زکات کیلکولیٹر' },
+        de: { hijri_today: 'Hidschri-Datum heute', date_conv: 'Datumsumrechner', hijri_cal: 'Hidschri-Kalender', moon: 'Mond heute', zakat: 'Zakat-Rechner' },
+        id: { hijri_today: 'Tanggal Hijriah Hari Ini', date_conv: 'Konverter Tanggal', hijri_cal: 'Kalender Hijriah', moon: 'Bulan Hari Ini', zakat: 'Kalkulator Zakat' },
+        es: { hijri_today: 'Fecha hijri de hoy',   date_conv: 'Conversor de fecha', hijri_cal: 'Calendario hijri', moon: 'Luna hoy',    zakat: 'Calculadora de Zakat' },
+        bn: { hijri_today: 'আজকের হিজরি তারিখ',     date_conv: 'তারিখ রূপান্তরকারী', hijri_cal: 'হিজরি ক্যালেন্ডার', moon: 'আজকের চাঁদ',   zakat: 'যাকাত ক্যালকুলেটর' },
+        ms: { hijri_today: 'Tarikh Hijrah Hari Ini', date_conv: 'Penukar Tarikh', hijri_cal: 'Kalendar Hijrah', moon: 'Bulan Hari Ini', zakat: 'Kalkulator Zakat' }
+    };
+    const t = L[lang] || L.ar;
+
+    // تنسيق "القبلة في {المدينة}" حسب اللغة (SOV للعربية والأردية والبنغالية)
+    const qiblaLabel = (function(c) {
+        switch (lang) {
+            case 'ar': return `اتجاه القبلة في ${c}`;
+            case 'ur': return `${c} میں قبلہ کا رخ`;
+            case 'bn': return `${c}-এ কিবলা`;
+            case 'fr': return `Qibla à ${c}`;
+            case 'tr': return `${c} Kıble Yönü`;
+            case 'de': return `Qibla in ${c}`;
+            case 'id': return `Arah Kiblat di ${c}`;
+            case 'es': return `Qibla en ${c}`;
+            case 'ms': return `Arah Kiblat di ${c}`;
+            default:   return `Qibla in ${c}`;
+        }
+    })(cityLabel);
 
     const services = [
         {
             icon: '🧭',
-            label: isEn ? `Qibla in ${cityLabel}` : `اتجاه القبلة في ${cityLabel}`,
+            label: qiblaLabel,
             url: slug ? pageUrl(`/qibla-in-${slug}.html`) : pageUrl('/qibla')
         },
         {
             icon: '📅',
-            label: isEn ? 'Hijri Date Today' : 'التاريخ الهجري اليوم',
-            url: pageUrl(`${prefix}/today-hijri-date`)
+            label: t.hijri_today,
+            url: pageUrl('/today-hijri-date')
         },
         {
             icon: '🔄',
-            label: isEn ? 'Date Converter' : 'تحويل التاريخ',
-            url: pageUrl(`${prefix}/dateconverter`)
+            label: t.date_conv,
+            url: pageUrl('/dateconverter')
         },
         {
             icon: '🗓️',
-            label: isEn ? 'Hijri Calendar' : 'التقويم الهجري',
-            url: pageUrl(`${prefix}/hijri-calendar/${HijriDate.getToday().year}`)
+            label: t.hijri_cal,
+            url: pageUrl(`/hijri-calendar/${HijriDate.getToday().year}`)
         },
         {
             icon: '🌙',
-            label: isEn ? 'Moon Today' : 'القمر اليوم',
+            label: t.moon,
             url: pageUrl('/moon')
         },
         {
             icon: '💰',
-            label: isEn ? 'Zakat Calculator' : 'حاسبة الزكاة',
+            label: t.zakat,
             url: pageUrl('/zakat-calculator')
         }
     ];

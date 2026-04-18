@@ -1,0 +1,12 @@
+[
+  {"nameAr":"تيرانا","nameEn":"Tirana","type":"city","lat":41.3275,"lng":19.8187,"pop":418495},
+  {"nameAr":"دوريس","nameEn":"Durrës","type":"city","lat":41.3245,"lng":19.4565,"pop":175110},
+  {"nameAr":"فلورا","nameEn":"Vlorë","type":"city","lat":40.4686,"lng":19.4914,"pop":130827},
+  {"nameAr":"إلباسان","nameEn":"Elbasan","type":"city","lat":41.1125,"lng":20.0822,"pop":126703},
+  {"nameAr":"شكودر","nameEn":"Shkodër","type":"city","lat":42.0686,"lng":19.5120,"pop":135612},
+  {"nameAr":"فيير","nameEn":"Fier","type":"city","lat":40.7239,"lng":19.5561,"pop":120155},
+  {"nameAr":"كورتشا","nameEn":"Korçë","type":"city","lat":40.6175,"lng":20.7803,"pop":75994},
+  {"nameAr":"بيرات","nameEn":"Berat","type":"city","lat":40.7058,"lng":19.9522,"pop":60031},
+  {"nameAr":"لوشنيا","nameEn":"Lushnjë","type":"city","lat":40.9419,"lng":19.7050,"pop":41469},
+  {"nameAr":"كافايا","nameEn":"Kavajë","type":"city","lat":41.1853,"lng":19.5564,"pop":40094}
+]

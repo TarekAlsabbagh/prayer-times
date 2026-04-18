@@ -1,0 +1,12 @@
+[
+  {"nameAr":"جوبا","nameEn":"Juba","type":"city","lat":4.8594,"lng":31.5713,"pop":525953},
+  {"nameAr":"يي","nameEn":"Yei","type":"city","lat":4.0917,"lng":30.6794,"pop":201443},
+  {"nameAr":"واو","nameEn":"Wau","type":"city","lat":7.7000,"lng":27.9833,"pop":151320},
+  {"nameAr":"ملكال","nameEn":"Malakal","type":"city","lat":9.5333,"lng":31.6500,"pop":139450},
+  {"nameAr":"أويل","nameEn":"Aweil","type":"city","lat":8.7667,"lng":27.4000,"pop":59997},
+  {"nameAr":"نمولي","nameEn":"Nimule","type":"city","lat":3.5969,"lng":32.1285,"pop":53432},
+  {"nameAr":"يامبيو","nameEn":"Yambio","type":"city","lat":4.5667,"lng":28.3833,"pop":40382},
+  {"nameAr":"رمبيك","nameEn":"Rumbek","type":"city","lat":6.8028,"lng":29.6883,"pop":32820},
+  {"nameAr":"بور","nameEn":"Bor","type":"city","lat":6.2106,"lng":31.5597,"pop":28558},
+  {"nameAr":"توريت","nameEn":"Torit","type":"city","lat":4.4083,"lng":32.5683,"pop":17957}
+]

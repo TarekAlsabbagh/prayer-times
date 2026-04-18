@@ -1,0 +1,12 @@
+[
+  {"nameAr":"تيمفو","nameEn":"Thimphu","type":"city","lat":27.4833,"lng":89.6333,"pop":114551},
+  {"nameAr":"فونتشولينغ","nameEn":"Phuntsholing","type":"city","lat":26.8500,"lng":89.3833,"pop":27658},
+  {"nameAr":"بوناخا","nameEn":"Punakha","type":"city","lat":27.5833,"lng":89.8667,"pop":21499},
+  {"nameAr":"بارو","nameEn":"Paro","type":"city","lat":27.4333,"lng":89.4167,"pop":15000},
+  {"nameAr":"غيليبو","nameEn":"Gelephu","type":"city","lat":26.8667,"lng":90.4833,"pop":10000},
+  {"nameAr":"سامدروب جونغخار","nameEn":"Samdrup Jongkhar","type":"city","lat":26.8000,"lng":91.5000,"pop":10000},
+  {"nameAr":"وانغدوي فودرانغ","nameEn":"Wangdue Phodrang","type":"city","lat":27.4833,"lng":89.9000,"pop":8954},
+  {"nameAr":"جاكار","nameEn":"Jakar","type":"city","lat":27.5500,"lng":90.7500,"pop":6600},
+  {"nameAr":"مونغار","nameEn":"Mongar","type":"city","lat":27.2667,"lng":91.2333,"pop":3500},
+  {"nameAr":"تراشيغانغ","nameEn":"Trashigang","type":"city","lat":27.3333,"lng":91.5500,"pop":2400}
+]

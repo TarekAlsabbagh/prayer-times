@@ -1,0 +1,12 @@
+[
+  {"nameAr":"سوفا","nameEn":"Suva","type":"city","lat":-18.1416,"lng":178.4419,"pop":93970},
+  {"nameAr":"ناسينو","nameEn":"Nasinu","type":"city","lat":-18.0000,"lng":178.4833,"pop":87446},
+  {"nameAr":"لوتوكا","nameEn":"Lautoka","type":"city","lat":-17.6167,"lng":177.4667,"pop":71573},
+  {"nameAr":"نادي","nameEn":"Nadi","type":"city","lat":-17.8000,"lng":177.4167,"pop":42284},
+  {"nameAr":"لاباسا","nameEn":"Labasa","type":"city","lat":-16.4333,"lng":179.3667,"pop":27949},
+  {"nameAr":"با","nameEn":"Ba","type":"city","lat":-17.5333,"lng":177.6833,"pop":18526},
+  {"nameAr":"سيغاتوكا","nameEn":"Sigatoka","type":"city","lat":-18.1500,"lng":177.5000,"pop":9622},
+  {"nameAr":"راكيراكي","nameEn":"Rakiraki","type":"city","lat":-17.3667,"lng":178.2000,"pop":4200},
+  {"nameAr":"سافوسافو","nameEn":"Savusavu","type":"city","lat":-16.7833,"lng":179.3333,"pop":3300},
+  {"nameAr":"تافوا","nameEn":"Tavua","type":"city","lat":-17.4333,"lng":177.8667,"pop":2300}
+]

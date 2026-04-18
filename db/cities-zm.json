@@ -1,0 +1,12 @@
+[
+  {"nameAr":"لوساكا","nameEn":"Lusaka","type":"city","lat":-15.3875,"lng":28.3228,"pop":2731696},
+  {"nameAr":"كيتوي","nameEn":"Kitwe","type":"city","lat":-12.8167,"lng":28.2000,"pop":671823},
+  {"nameAr":"ندولا","nameEn":"Ndola","type":"city","lat":-12.9583,"lng":28.6367,"pop":528349},
+  {"nameAr":"كابوي","nameEn":"Kabwe","type":"city","lat":-14.4367,"lng":28.4464,"pop":234391},
+  {"nameAr":"تشينغولا","nameEn":"Chingola","type":"city","lat":-12.5500,"lng":27.8667,"pop":216626},
+  {"nameAr":"ليفنغستون","nameEn":"Livingstone","type":"city","lat":-17.8514,"lng":25.8544,"pop":180249},
+  {"nameAr":"موفوليرا","nameEn":"Mufulira","type":"city","lat":-12.5500,"lng":28.2333,"pop":151309},
+  {"nameAr":"لوانشيا","nameEn":"Luanshya","type":"city","lat":-13.1367,"lng":28.4167,"pop":135870},
+  {"nameAr":"تشيباتا","nameEn":"Chipata","type":"city","lat":-13.6333,"lng":32.6500,"pop":116627},
+  {"nameAr":"كاساما","nameEn":"Kasama","type":"city","lat":-10.2126,"lng":31.1816,"pop":101845}
+]

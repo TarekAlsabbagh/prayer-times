@@ -1,0 +1,12 @@
+[
+  {"nameAr":"سكوبيه","nameEn":"Skopje","type":"city","lat":41.9981,"lng":21.4254,"pop":526502},
+  {"nameAr":"بيتولا","nameEn":"Bitola","type":"city","lat":41.0297,"lng":21.3292,"pop":74550},
+  {"nameAr":"كومانوفو","nameEn":"Kumanovo","type":"city","lat":42.1322,"lng":21.7144,"pop":70842},
+  {"nameAr":"بريلب","nameEn":"Prilep","type":"city","lat":41.3456,"lng":21.5544,"pop":66246},
+  {"nameAr":"تيتوفو","nameEn":"Tetovo","type":"city","lat":42.0108,"lng":20.9714,"pop":52915},
+  {"nameAr":"فيليس","nameEn":"Veles","type":"city","lat":41.7156,"lng":21.7756,"pop":43716},
+  {"nameAr":"أوهريد","nameEn":"Ohrid","type":"city","lat":41.1172,"lng":20.8019,"pop":42033},
+  {"nameAr":"كافاداركي","nameEn":"Kavadarci","type":"city","lat":41.4322,"lng":22.0128,"pop":38741},
+  {"nameAr":"غوستيفار","nameEn":"Gostivar","type":"city","lat":41.7972,"lng":20.9081,"pop":35847},
+  {"nameAr":"ستروميتسا","nameEn":"Strumica","type":"city","lat":41.4381,"lng":22.6425,"pop":35311}
+]

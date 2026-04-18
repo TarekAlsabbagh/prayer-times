@@ -1,0 +1,12 @@
+[
+  {"nameAr":"لواندا","nameEn":"Luanda","type":"city","lat":-8.8390,"lng":13.2894,"pop":2571861},
+  {"nameAr":"هوامبو","nameEn":"Huambo","type":"city","lat":-12.7761,"lng":15.7392,"pop":662845},
+  {"nameAr":"كابيندا","nameEn":"Cabinda","type":"city","lat":-5.5550,"lng":12.1967,"pop":623136},
+  {"nameAr":"لوبانغو","nameEn":"Lubango","type":"city","lat":-14.9181,"lng":13.4925,"pop":600751},
+  {"nameAr":"بينغويلا","nameEn":"Benguela","type":"city","lat":-12.5763,"lng":13.4055,"pop":555124},
+  {"nameAr":"لوبيتو","nameEn":"Lobito","type":"city","lat":-12.3482,"lng":13.5377,"pop":291000},
+  {"nameAr":"كويتو","nameEn":"Kuito","type":"city","lat":-12.3833,"lng":16.9333,"pop":185302},
+  {"nameAr":"مالانجي","nameEn":"Malanje","type":"city","lat":-9.5402,"lng":16.3419,"pop":156840},
+  {"nameAr":"ناميبي","nameEn":"Namibe","type":"city","lat":-15.1961,"lng":12.1522,"pop":116400},
+  {"nameAr":"سويو","nameEn":"Soyo","type":"city","lat":-6.1350,"lng":12.3686,"pop":85732}
+]

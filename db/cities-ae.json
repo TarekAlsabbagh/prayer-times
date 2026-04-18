@@ -1,0 +1,654 @@
+[
+  {
+    "nameAr": "أبوظبي",
+    "nameEn": "Abu Dhabi",
+    "type": "city",
+    "lat": 24.4539,
+    "lng": 54.3773
+  },
+  {
+    "nameAr": "الشارقة",
+    "nameEn": "Sharjah",
+    "type": "city",
+    "lat": 25.3463,
+    "lng": 55.4209
+  },
+  {
+    "nameAr": "الظيد",
+    "nameEn": "Al Dhaid",
+    "type": "city",
+    "lat": 25.2887,
+    "lng": 55.8763
+  },
+  {
+    "nameAr": "العين",
+    "nameEn": "Al Ain",
+    "type": "city",
+    "lat": 24.2075,
+    "lng": 55.7447
+  },
+  {
+    "nameAr": "الفجيرة",
+    "nameEn": "Fujairah",
+    "type": "city",
+    "lat": 25.1288,
+    "lng": 56.3265
+  },
+  {
+    "nameAr": "أم القيوين",
+    "nameEn": "Umm Al Quwain",
+    "type": "city",
+    "lat": 25.5647,
+    "lng": 55.5553
+  },
+  {
+    "nameAr": "خور فكان",
+    "nameEn": "Khor Fakkan",
+    "type": "city",
+    "lat": 25.3318,
+    "lng": 56.3437
+  },
+  {
+    "nameAr": "دبا الفجيرة",
+    "nameEn": "Dibba",
+    "type": "city",
+    "lat": 25.6186,
+    "lng": 56.2661
+  },
+  {
+    "nameAr": "دبي",
+    "nameEn": "Dubai",
+    "type": "city",
+    "lat": 25.2048,
+    "lng": 55.2708
+  },
+  {
+    "nameAr": "رأس الخيمة",
+    "nameEn": "Ras Al Khaimah",
+    "type": "city",
+    "lat": 25.7895,
+    "lng": 55.9432
+  },
+  {
+    "nameAr": "عجمان",
+    "nameEn": "Ajman",
+    "type": "city",
+    "lat": 25.4052,
+    "lng": 55.5136
+  },
+  {
+    "nameAr": "مدينة زايد",
+    "nameEn": "Madinat Zayed",
+    "type": "city",
+    "lat": 23.6567,
+    "lng": 53.7074
+  },
+  {
+    "nameAr": "جبل علي",
+    "nameEn": "Jebel Ali",
+    "type": "city",
+    "lat": 24.960468,
+    "lng": 55.100884,
+    "pop": 31634
+  },
+  {
+    "nameAr": "حتا، دبي",
+    "nameEn": "Hatta",
+    "type": "city",
+    "lat": 24.80073,
+    "lng": 56.12726,
+    "pop": 15324
+  },
+  {
+    "nameAr": "حبحب",
+    "nameEn": "Habhab",
+    "type": "city",
+    "lat": 25.606666666667,
+    "lng": 56.05,
+    "pop": 400
+  },
+  {
+    "nameAr": "اصفني",
+    "nameEn": "Esfini",
+    "type": "city",
+    "lat": 25.17032,
+    "lng": 56.09591,
+    "pop": null
+  },
+  {
+    "nameAr": "إصفي",
+    "nameEn": "Esfai",
+    "type": "city",
+    "lat": 25.1101015,
+    "lng": 56.1414961,
+    "pop": null
+  },
+  {
+    "nameAr": "البدية",
+    "nameEn": "Al Badiyah",
+    "type": "city",
+    "lat": 25.431388888889,
+    "lng": 56.348333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "البقيل",
+    "nameEn": "Al Baqil",
+    "type": "city",
+    "lat": 25.614198,
+    "lng": 56.1591715,
+    "pop": null
+  },
+  {
+    "nameAr": "الجريف",
+    "nameEn": "Jareef",
+    "type": "city",
+    "lat": 25.5148721,
+    "lng": 56.0724894,
+    "pop": null
+  },
+  {
+    "nameAr": "الخوانج",
+    "nameEn": "Al-Khawaneej",
+    "type": "city",
+    "lat": 25.263056,
+    "lng": 55.297222,
+    "pop": null
+  },
+  {
+    "nameAr": "الدفين",
+    "nameEn": "Al Dafain",
+    "type": "city",
+    "lat": 24.9648028,
+    "lng": 55.7795463,
+    "pop": null
+  },
+  {
+    "nameAr": "الطيبة (الفجيرة)",
+    "nameEn": "Tayyibah",
+    "type": "city",
+    "lat": 25.403833333333,
+    "lng": 56.167777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الطيف",
+    "nameEn": "Tafif",
+    "type": "city",
+    "lat": 25.7354864,
+    "lng": 56.1399027,
+    "pop": null
+  },
+  {
+    "nameAr": "الغزيمرى",
+    "nameEn": "Al Ghizaimri",
+    "type": "city",
+    "lat": 25.1493955,
+    "lng": 56.2406424,
+    "pop": null
+  },
+  {
+    "nameAr": "الفقع",
+    "nameEn": "Al Faqa",
+    "type": "city",
+    "lat": 24.71333333,
+    "lng": 55.62305556,
+    "pop": null
+  },
+  {
+    "nameAr": "القور",
+    "nameEn": "Sha'biyyat Al Qor",
+    "type": "city",
+    "lat": 24.911388888889,
+    "lng": 56.098611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الكداءة",
+    "nameEn": "Qada'ah",
+    "type": "city",
+    "lat": 25.75044,
+    "lng": 56.14647,
+    "pop": null
+  },
+  {
+    "nameAr": "المنطقة العين",
+    "nameEn": "Al-Ain Region",
+    "type": "city",
+    "lat": 24.2,
+    "lng": 55.733333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "النحوة",
+    "nameEn": "Nahwa",
+    "type": "city",
+    "lat": 25.273333,
+    "lng": 56.285167,
+    "pop": null
+  },
+  {
+    "nameAr": "اليفنه",
+    "nameEn": "Al Yafnah",
+    "type": "city",
+    "lat": 25.7345342,
+    "lng": 56.0991996,
+    "pop": null
+  },
+  {
+    "nameAr": "حييله",
+    "nameEn": "Al Hayilah",
+    "type": "city",
+    "lat": 25.7980557,
+    "lng": 56.1024195,
+    "pop": null
+  },
+  {
+    "nameAr": "خنان",
+    "nameEn": "Khanaan",
+    "type": "city",
+    "lat": 25.6776752,
+    "lng": 56.1268744,
+    "pop": null
+  },
+  {
+    "nameAr": "ديرة السل",
+    "nameEn": "Dirat as-Sal",
+    "type": "city",
+    "lat": 25.7491206,
+    "lng": 56.0929052,
+    "pop": null
+  },
+  {
+    "nameAr": "ديرة الشعيري",
+    "nameEn": "Shairi",
+    "type": "city",
+    "lat": 25.70062,
+    "lng": 56.12278,
+    "pop": null
+  },
+  {
+    "nameAr": "ديرة المسيبات",
+    "nameEn": "Musaibat",
+    "type": "city",
+    "lat": 25.91432,
+    "lng": 56.15549,
+    "pop": null
+  },
+  {
+    "nameAr": "ديفـان",
+    "nameEn": "Difan",
+    "type": "city",
+    "lat": 25.6361002,
+    "lng": 56.1663005,
+    "pop": null
+  },
+  {
+    "nameAr": "رافاق",
+    "nameEn": "Rafaq",
+    "type": "city",
+    "lat": 24.875,
+    "lng": 56.245555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "ربامة",
+    "nameEn": "Riyamah",
+    "type": "city",
+    "lat": 25.546111111111,
+    "lng": 56.058888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "سالي الخثامي",
+    "nameEn": "Silay Al Khatami",
+    "type": "city",
+    "lat": 25.74125,
+    "lng": 56.12992,
+    "pop": null
+  },
+  {
+    "nameAr": "سلي الغالب",
+    "nameEn": "Slai Al-Ghalib",
+    "type": "city",
+    "lat": 25.7441,
+    "lng": 56.06133,
+    "pop": null
+  },
+  {
+    "nameAr": "شرماتة",
+    "nameEn": "Sharmatah",
+    "type": "city",
+    "lat": 25.4610647,
+    "lng": 56.1765137,
+    "pop": null
+  },
+  {
+    "nameAr": "شعبية الوعب",
+    "nameEn": "Sha'biyyat Al Wa'ab",
+    "type": "city",
+    "lat": 24.9286039,
+    "lng": 56.1587765,
+    "pop": null
+  },
+  {
+    "nameAr": "صخيبر",
+    "nameEn": "Sha'biyyat Sikhе̄bar",
+    "type": "city",
+    "lat": 24.926814,
+    "lng": 56.1692732,
+    "pop": null
+  },
+  {
+    "nameAr": "ضبعة",
+    "nameEn": "Dab‘ah",
+    "type": "city",
+    "lat": 25.4948732,
+    "lng": 56.1762705,
+    "pop": null
+  },
+  {
+    "nameAr": "ضنحه",
+    "nameEn": "Danhah",
+    "type": "city",
+    "lat": 25.579163,
+    "lng": 56.1850613,
+    "pop": null
+  },
+  {
+    "nameAr": "عشاصة",
+    "nameEn": "Ashashah",
+    "type": "city",
+    "lat": 25.4598022,
+    "lng": 56.1671803,
+    "pop": null
+  },
+  {
+    "nameAr": "قدفع",
+    "nameEn": "Qadfa",
+    "type": "city",
+    "lat": 25.2915459,
+    "lng": 56.363518,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية البثنة",
+    "nameEn": "Al Bithnah",
+    "type": "city",
+    "lat": 25.1889,
+    "lng": 56.2328,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية باروت",
+    "nameEn": "Dafalas",
+    "type": "city",
+    "lat": 25.951655,
+    "lng": 56.149569,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية جبل علي",
+    "nameEn": "Jebel Ali Village",
+    "type": "city",
+    "lat": 25.034936111111,
+    "lng": 55.117052777778,
+    "pop": null
+  },
+  {
+    "nameAr": "مرغم",
+    "nameEn": "Margham",
+    "type": "city",
+    "lat": 24.899518,
+    "lng": 55.6254536,
+    "pop": null
+  },
+  {
+    "nameAr": "مصفوت",
+    "nameEn": "Masfout",
+    "type": "city",
+    "lat": 24.815,
+    "lng": 56.097,
+    "pop": null
+  },
+  {
+    "nameAr": "منامة",
+    "nameEn": "Manama, Al",
+    "type": "city",
+    "lat": 25.33,
+    "lng": 56.021944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي سيجي",
+    "nameEn": "Wadi Siji",
+    "type": "city",
+    "lat": 25.273611111111,
+    "lng": 56.035555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي عبادلة",
+    "nameEn": "Abadilah",
+    "type": "city",
+    "lat": 25.45353,
+    "lng": 56.18991,
+    "pop": null
+  },
+  {
+    "nameAr": "ينينير",
+    "nameEn": "Yinainir",
+    "type": "city",
+    "lat": 25.908055555556,
+    "lng": 56.17,
+    "pop": null
+  },
+  {
+    "nameAr": "Al Ejili",
+    "nameEn": "Al Ejili",
+    "type": "city",
+    "lat": 25.04117,
+    "lng": 56.1512,
+    "pop": null
+  },
+  {
+    "nameAr": "Al Ghunah",
+    "nameEn": "Al Ghunah",
+    "type": "city",
+    "lat": 25.4145035,
+    "lng": 56.1871367,
+    "pop": null
+  },
+  {
+    "nameAr": "Al Hiyar",
+    "nameEn": "Al Hiyar",
+    "type": "city",
+    "lat": 24.5888856,
+    "lng": 55.7441575,
+    "pop": null
+  },
+  {
+    "nameAr": "Al Manzafah",
+    "nameEn": "Al Manzafah",
+    "type": "city",
+    "lat": 25.1054266,
+    "lng": 56.1960864,
+    "pop": null
+  },
+  {
+    "nameAr": "Ar Riwedah",
+    "nameEn": "Ar Riwedah",
+    "type": "city",
+    "lat": 25.5067122,
+    "lng": 56.0820438,
+    "pop": null
+  },
+  {
+    "nameAr": "As Saman",
+    "nameEn": "As Saman",
+    "type": "city",
+    "lat": 25.2325576,
+    "lng": 55.8162727,
+    "pop": null
+  },
+  {
+    "nameAr": "Ba'iybah",
+    "nameEn": "Ba'iybah",
+    "type": "city",
+    "lat": 25.7156777,
+    "lng": 56.1260907,
+    "pop": null
+  },
+  {
+    "nameAr": "Baighit",
+    "nameEn": "Baighit",
+    "type": "city",
+    "lat": 25.9293803,
+    "lng": 56.1538078,
+    "pop": null
+  },
+  {
+    "nameAr": "Baqal",
+    "nameEn": "Baqal",
+    "type": "city",
+    "lat": 25.689444444444,
+    "lng": 56.088333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Danam",
+    "nameEn": "Danam",
+    "type": "city",
+    "lat": 25.753526,
+    "lng": 56.1351963,
+    "pop": null
+  },
+  {
+    "nameAr": "Dardur",
+    "nameEn": "Dardur",
+    "type": "city",
+    "lat": 25.6552673,
+    "lng": 56.1302144,
+    "pop": null
+  },
+  {
+    "nameAr": "Deira Al-Tamba",
+    "nameEn": "Deira Al-Tamba",
+    "type": "city",
+    "lat": 25.6288596,
+    "lng": 56.1293701,
+    "pop": null
+  },
+  {
+    "nameAr": "Marbad",
+    "nameEn": "Marbad",
+    "type": "city",
+    "lat": 25.32583333,
+    "lng": 56.13194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rafadah",
+    "nameEn": "Rafadah",
+    "type": "city",
+    "lat": 24.9107767,
+    "lng": 55.7391018,
+    "pop": null
+  },
+  {
+    "nameAr": "Ras Ash",
+    "nameEn": "Ras Ash",
+    "type": "city",
+    "lat": 25.96779,
+    "lng": 56.16786,
+    "pop": null
+  },
+  {
+    "nameAr": "Rol Dadna",
+    "nameEn": "Rol Dadna",
+    "type": "city",
+    "lat": 25.55481,
+    "lng": 56.34546,
+    "pop": null
+  },
+  {
+    "nameAr": "Saham",
+    "nameEn": "Saham",
+    "type": "city",
+    "lat": 25.106653,
+    "lng": 56.2023455,
+    "pop": null
+  },
+  {
+    "nameAr": "Sawabi",
+    "nameEn": "Sawabi",
+    "type": "city",
+    "lat": 25.5971617,
+    "lng": 56.1445669,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha'biyyat Al Khawālid",
+    "nameEn": "Sha'biyyat Al Khawālid",
+    "type": "city",
+    "lat": 24.9765695,
+    "lng": 55.8378368,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha'biyyat Milāḩ",
+    "nameEn": "Sha'biyyat Milāḩ",
+    "type": "city",
+    "lat": 24.915553,
+    "lng": 56.1201516,
+    "pop": null
+  },
+  {
+    "nameAr": "Sha'biyyāt Rāfāq",
+    "nameEn": "Sha'biyyāt Rāfāq",
+    "type": "city",
+    "lat": 24.9909709,
+    "lng": 56.1207985,
+    "pop": null
+  },
+  {
+    "nameAr": "Shah, Ras Al Khaimah",
+    "nameEn": "Shah, Ras Al Khaimah",
+    "type": "city",
+    "lat": 25.898611111111,
+    "lng": 56.128333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shakh",
+    "nameEn": "Shakh",
+    "type": "city",
+    "lat": 25.5878105,
+    "lng": 56.1479807,
+    "pop": null
+  },
+  {
+    "nameAr": "Subaygha",
+    "nameEn": "Subaygha",
+    "type": "city",
+    "lat": 24.876963,
+    "lng": 55.9889741,
+    "pop": null
+  },
+  {
+    "nameAr": "Thoban",
+    "nameEn": "Thoban",
+    "type": "city",
+    "lat": 25.3034265,
+    "lng": 56.0302106,
+    "pop": null
+  },
+  {
+    "nameAr": "Wam",
+    "nameEn": "Wam",
+    "type": "city",
+    "lat": 25.60031,
+    "lng": 56.22838,
+    "pop": null
+  }
+]

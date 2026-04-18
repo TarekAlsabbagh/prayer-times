@@ -1,0 +1,12 @@
+[
+  {"nameAr":"سان خوسيه","nameEn":"San José","type":"city","lat":9.9333,"lng":-84.0833,"pop":339581},
+  {"nameAr":"ألاخويلا","nameEn":"Alajuela","type":"city","lat":10.0167,"lng":-84.2167,"pop":254798},
+  {"nameAr":"كارتاغو","nameEn":"Cartago","type":"city","lat":9.8667,"lng":-83.9167,"pop":156600},
+  {"nameAr":"إيريديا","nameEn":"Heredia","type":"city","lat":9.9989,"lng":-84.1169,"pop":123616},
+  {"nameAr":"ليموني","nameEn":"Limón","type":"city","lat":10.0000,"lng":-83.0333,"pop":59000},
+  {"nameAr":"ليبيريا","nameEn":"Liberia","type":"city","lat":10.6333,"lng":-85.4333,"pop":52645},
+  {"nameAr":"كيسادا","nameEn":"Quesada","type":"city","lat":10.3233,"lng":-84.4256,"pop":45000},
+  {"nameAr":"سان إيسيدرو","nameEn":"San Isidro","type":"city","lat":9.3667,"lng":-83.7000,"pop":45000},
+  {"nameAr":"بونتاريناس","nameEn":"Puntarenas","type":"city","lat":9.9778,"lng":-84.8392,"pop":39871},
+  {"nameAr":"ديسامپارادوس","nameEn":"Desamparados","type":"city","lat":9.8983,"lng":-84.0669,"pop":35000}
+]

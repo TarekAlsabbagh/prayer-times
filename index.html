@@ -19,16 +19,17 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
-    <!-- DNS-prefetch لـ APIs يتم استدعاؤها حسب الطلب (أقل أولوية من preconnect، لا تستهلك موارد) -->
+    <!-- Preconnect لمصادر التشغيل المباشر (adhan audio) — يوفّر ~100-300ms على أول تشغيل -->
+    <link rel="preconnect" href="https://cdn.islamic.network" crossorigin>
+    <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
-    <link rel="dns-prefetch" href="https://cdn.islamic.network">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=194" as="script">
-    <link rel="stylesheet" href="css/style.css?v=49">
+    <link rel="preload" href="js/app.js?v=238" as="script">
+    <link rel="stylesheet" href="css/style.css?v=58">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -131,11 +132,9 @@
                             <a class="bc-link" href="#" id="bc-country">--</a>
                         </li>
                         <li class="bc-sep" aria-hidden="true">›</li>
-                        <li class="bc-item">
-                            <a class="bc-link" href="#" id="bc-city">--</a>
+                        <li class="bc-item bc-current">
+                            <span id="bc-city" aria-current="page">--</span>
                         </li>
-                        <li class="bc-sep" aria-hidden="true">›</li>
-                        <li class="bc-item bc-current" id="bc-current" aria-current="page" data-i18n="breadcrumb.prayer_times">مواقيت الصلاة</li>
                     </ol>
                 </nav>
 
@@ -217,6 +216,20 @@
                      البوابة الذكية — وصول سريع
                 ══════════════════════════════════════════════════════ -->
 
+                <!-- قسم الكلمات المفتاحية SEO -->
+                <div class="section-card seo-section" id="seo-keywords">
+                    <p class="seo-line" id="seo-line-1"></p>
+                    <p class="seo-line" id="seo-line-2"></p>
+                    <p class="seo-line" id="seo-line-3"></p>
+                </div>
+
+                <!-- زر إعدادات المواقيت (يفتح Modal) -->
+                <div class="settings-fab-row">
+                    <button class="settings-fab-btn" onclick="openSettingsModal()" aria-label="إعدادات حساب المواقيت">
+                        ⚙️ <span data-i18n="settings.trigger">إعدادات حساب المواقيت</span>
+                    </button>
+                </div>
+
                 <!-- شبكة الخدمات السريعة المُوحَّدة (8 بطاقات — دُمجت من 4 أقسام سابقة لإزالة التكرار) -->
                 <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
                     <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
@@ -259,19 +272,6 @@
                         </a>
                     </div>
                 </section>
-
-                <!-- قسم الكلمات المفتاحية SEO -->
-                <div class="section-card seo-section" id="seo-keywords">
-                    <p class="seo-line" id="seo-line-1"></p>
-                    <p class="seo-line" id="seo-line-2"></p>
-                </div>
-
-                <!-- زر إعدادات المواقيت (يفتح Modal) -->
-                <div class="settings-fab-row">
-                    <button class="settings-fab-btn" onclick="openSettingsModal()" aria-label="إعدادات حساب المواقيت">
-                        ⚙️ <span data-i18n="settings.trigger">إعدادات حساب المواقيت</span>
-                    </button>
-                </div>
 
                 <!-- عداد السكان الحي (display يُدار عبر CSS: مخفي افتراضياً، محجوز على city-page) -->
                 <div class="section-card" id="city-country-info-section">
@@ -476,6 +476,38 @@
                         <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
                     </div>
                 </div>
+
+                <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX) -->
+                <section class="section-card arab-countries-section" id="arab-countries-section" aria-labelledby="arab-countries-title">
+                    <h2 id="arab-countries-title" data-i18n="footer.arab_countries">🕌 مواقيت الصلاة في الدول العربية</h2>
+                    <nav class="arab-countries-grid" aria-label="الدول العربية">
+                        <a href="/prayer-times-in-saudi-arabia" class="country-tile" data-cc="sa"><img src="https://flagcdn.com/w40/sa.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sa">السعودية</span></a>
+                        <a href="/prayer-times-in-egypt" class="country-tile" data-cc="eg"><img src="https://flagcdn.com/w40/eg.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.eg">مصر</span></a>
+                        <a href="/prayer-times-in-united-arab-emirates" class="country-tile" data-cc="ae"><img src="https://flagcdn.com/w40/ae.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ae">الإمارات</span></a>
+                        <a href="/prayer-times-in-iraq" class="country-tile" data-cc="iq"><img src="https://flagcdn.com/w40/iq.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.iq">العراق</span></a>
+                        <a href="/prayer-times-in-syria" class="country-tile" data-cc="sy"><img src="https://flagcdn.com/w40/sy.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sy">سوريا</span></a>
+                        <a href="/prayer-times-in-jordan" class="country-tile" data-cc="jo"><img src="https://flagcdn.com/w40/jo.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.jo">الأردن</span></a>
+                        <a href="/prayer-times-in-palestine" class="country-tile" data-cc="ps"><img src="https://flagcdn.com/w40/ps.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ps">فلسطين</span></a>
+                        <a href="/prayer-times-in-lebanon" class="country-tile" data-cc="lb"><img src="https://flagcdn.com/w40/lb.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.lb">لبنان</span></a>
+                        <a href="/prayer-times-in-yemen" class="country-tile" data-cc="ye"><img src="https://flagcdn.com/w40/ye.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ye">اليمن</span></a>
+                        <a href="/prayer-times-in-oman" class="country-tile" data-cc="om"><img src="https://flagcdn.com/w40/om.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.om">عُمان</span></a>
+                        <a href="/prayer-times-in-kuwait" class="country-tile" data-cc="kw"><img src="https://flagcdn.com/w40/kw.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.kw">الكويت</span></a>
+                        <a href="/prayer-times-in-qatar" class="country-tile" data-cc="qa"><img src="https://flagcdn.com/w40/qa.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.qa">قطر</span></a>
+                        <a href="/prayer-times-in-bahrain" class="country-tile" data-cc="bh"><img src="https://flagcdn.com/w40/bh.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.bh">البحرين</span></a>
+                        <a href="/prayer-times-in-morocco" class="country-tile" data-cc="ma"><img src="https://flagcdn.com/w40/ma.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ma">المغرب</span></a>
+                        <a href="/prayer-times-in-algeria" class="country-tile" data-cc="dz"><img src="https://flagcdn.com/w40/dz.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.dz">الجزائر</span></a>
+                        <a href="/prayer-times-in-tunisia" class="country-tile" data-cc="tn"><img src="https://flagcdn.com/w40/tn.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.tn">تونس</span></a>
+                        <a href="/prayer-times-in-libya" class="country-tile" data-cc="ly"><img src="https://flagcdn.com/w40/ly.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ly">ليبيا</span></a>
+                        <a href="/prayer-times-in-sudan" class="country-tile" data-cc="sd"><img src="https://flagcdn.com/w40/sd.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sd">السودان</span></a>
+                        <a href="/prayer-times-in-mauritania" class="country-tile" data-cc="mr"><img src="https://flagcdn.com/w40/mr.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.mr">موريتانيا</span></a>
+                        <a href="/prayer-times-in-somalia" class="country-tile" data-cc="so"><img src="https://flagcdn.com/w40/so.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.so">الصومال</span></a>
+                        <a href="/prayer-times-in-djibouti" class="country-tile" data-cc="dj"><img src="https://flagcdn.com/w40/dj.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.dj">جيبوتي</span></a>
+                        <a href="/prayer-times-in-comoros" class="country-tile" data-cc="km"><img src="https://flagcdn.com/w40/km.png" alt="" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.km">جزر القمر</span></a>
+                    </nav>
+                    <div class="u-center-mt">
+                        <a href="/prayer-times-worldwide" class="more-countries-btn" id="more-countries-btn" data-i18n="countries.more">🌐 استعرض كل دول العالم</a>
+                    </div>
+                </section>
 
                 <!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->
                 <section class="section-card home-footer-links" id="home-footer-links" aria-labelledby="home-footer-links-title">
@@ -877,18 +909,18 @@
                     <p id="hmonth-intro" class="hpage-hero-intro"></p>
                 </div>
                 <div class="section-card">
-                    <h2>📋 معلومات الشهر الهجري</h2>
+                    <h2 id="hmonth-info-title">📋 معلومات الشهر الهجري</h2>
                     <div class="info-grid" id="hmonth-info-grid"></div>
                 </div>
                 <div class="section-card">
-                    <h2>📅 أيام هذا الشهر الهجري</h2>
+                    <h2 id="hmonth-days-title">📅 أيام هذا الشهر الهجري</h2>
                     <p id="hmonth-days-summary" class="hpage-days-summary"></p>
                     <div class="hpage-table-wrap">
                         <table class="hpage-table" id="hmonth-table">
                             <thead>
                                 <tr>
-                                    <th>التاريخ الهجري</th>
-                                    <th>التاريخ الميلادي</th>
+                                    <th id="hmonth-th-hijri">التاريخ الهجري</th>
+                                    <th id="hmonth-th-greg">التاريخ الميلادي</th>
                                 </tr>
                             </thead>
                             <tbody id="hmonth-table-body"></tbody>
@@ -896,7 +928,7 @@
                     </div>
                 </div>
                 <div class="section-card">
-                    <h2>🔗 روابط مرتبطة بهذا الشهر</h2>
+                    <h2 id="hmonth-links-title">🔗 روابط مرتبطة بهذا الشهر</h2>
                     <div id="hmonth-links" class="u-flex-wrap-top"></div>
                 </div>
                 <div class="section-card">
@@ -1131,10 +1163,10 @@
             <!-- ========= الفوتر ========= -->
             <footer class="footer site-footer">
                 <div class="footer-links">
-                    <a href="/about-us" data-i18n="footer.about">عن الموقع</a>
-                    <a href="/contact" data-i18n="footer.contact">اتصل بنا</a>
-                    <a href="/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
-                    <a href="/terms" data-i18n="footer.terms">شروط الاستخدام</a>
+                    <a href="{LANG_PREFIX}/about-us" data-i18n="footer.about">عن الموقع</a>
+                    <a href="{LANG_PREFIX}/contact" data-i18n="footer.contact">اتصل بنا</a>
+                    <a href="{LANG_PREFIX}/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
+                    <a href="{LANG_PREFIX}/terms" data-i18n="footer.terms">شروط الاستخدام</a>
                     <a href="#" onclick="event.preventDefault();if(window.openCookieSettings)window.openCookieSettings();" data-i18n="footer.cookie_settings">إعدادات ملفات الارتباط</a>
                 </div>
                 <p class="footer-copy">مواقيت الصلاة © <span id="footer-year"></span> - <span data-i18n="footer.rights">جميع الحقوق محفوظة</span></p>
@@ -1148,7 +1180,7 @@
         <div class="settings-modal-box" id="settings-panel">
             <div class="settings-modal-header">
                 <div class="settings-modal-title">⚙️ <span data-i18n="settings.title">إعدادات حساب المواقيت</span></div>
-                <button class="settings-modal-close" onclick="closeSettingsModal()" aria-label="إغلاق">✕</button>
+                <button class="settings-modal-close" onclick="cancelSettings()" aria-label="إغلاق">✕</button>
             </div>
             <div class="settings-grid">
                 <div>
@@ -1210,17 +1242,22 @@
                     </label>
                 </div>
             </div>
+            <!-- أزرار تطبيق/إلغاء -->
+            <div class="settings-modal-footer">
+                <button type="button" class="btn btn-primary" onclick="applySettings()" data-i18n="settings.apply">تطبيق</button>
+                <button type="button" class="btn btn-outline" onclick="cancelSettings()" data-i18n="settings.cancel">إلغاء</button>
+            </div>
         </div>
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=71"></script>
+    <script defer src="js/i18n.js?v=78"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=44"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=194"></script>
+    <script defer src="js/app.js?v=238"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -1,0 +1,12 @@
+[
+  {"nameAr":"مدينة بنما","nameEn":"Panama City","type":"city","lat":8.9833,"lng":-79.5167,"pop":880691},
+  {"nameAr":"سان ميغيليتو","nameEn":"San Miguelito","type":"city","lat":9.0333,"lng":-79.5000,"pop":315019},
+  {"nameAr":"توكومين","nameEn":"Tocumen","type":"city","lat":9.0833,"lng":-79.3833,"pop":88497},
+  {"nameAr":"دافيد","nameEn":"David","type":"city","lat":8.4333,"lng":-82.4333,"pop":82859},
+  {"nameAr":"كولون","nameEn":"Colón","type":"city","lat":9.3500,"lng":-79.9000,"pop":78334},
+  {"nameAr":"لا تشوريرا","nameEn":"La Chorrera","type":"city","lat":8.8833,"lng":-79.7833,"pop":53505},
+  {"nameAr":"سانتياغو","nameEn":"Santiago","type":"city","lat":8.1000,"lng":-80.9833,"pop":49717},
+  {"nameAr":"أرايخان","nameEn":"Arraiján","type":"city","lat":8.9500,"lng":-79.6667,"pop":40526},
+  {"nameAr":"تشيتري","nameEn":"Chitré","type":"city","lat":7.9667,"lng":-80.4333,"pop":26560},
+  {"nameAr":"لاس تابلاس","nameEn":"Las Tablas","type":"city","lat":7.7667,"lng":-80.2833,"pop":8000}
+]

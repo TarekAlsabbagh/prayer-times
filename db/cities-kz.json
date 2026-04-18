@@ -1,0 +1,1428 @@
+[
+  {
+    "nameAr": "أتيراو",
+    "nameEn": "Atyrau",
+    "type": "city",
+    "lat": 47.1167,
+    "lng": 51.8833
+  },
+  {
+    "nameAr": "أكتوبي",
+    "nameEn": "Aktobe",
+    "type": "city",
+    "lat": 50.2839,
+    "lng": 57.1669
+  },
+  {
+    "nameAr": "ألماتي",
+    "nameEn": "Almaty",
+    "type": "city",
+    "lat": 43.2551,
+    "lng": 76.9126
+  },
+  {
+    "nameAr": "راغاندي",
+    "nameEn": "Karaganda",
+    "type": "city",
+    "lat": 49.8047,
+    "lng": 73.0875
+  },
+  {
+    "nameAr": "شيمكنت",
+    "nameEn": "Shymkent",
+    "type": "city",
+    "lat": 42.3,
+    "lng": 69.6
+  },
+  {
+    "nameAr": "نور سلطان",
+    "nameEn": "Astana",
+    "type": "city",
+    "lat": 51.1801,
+    "lng": 71.446
+  },
+  {
+    "nameAr": "ألماطة",
+    "nameEn": "Almaty",
+    "type": "city",
+    "lat": 43.24,
+    "lng": 76.915,
+    "pop": 2228675
+  },
+  {
+    "nameAr": "أستانة",
+    "nameEn": "Astana",
+    "type": "city",
+    "lat": 51.133333333333,
+    "lng": 71.433333333333,
+    "pop": 1078362
+  },
+  {
+    "nameAr": "كارقندا",
+    "nameEn": "Karaganda",
+    "type": "city",
+    "lat": 49.8,
+    "lng": 73.116666666667,
+    "pop": 515632
+  },
+  {
+    "nameAr": "تاراز",
+    "nameEn": "Taraz",
+    "type": "city",
+    "lat": 42.883333333333,
+    "lng": 71.366666666667,
+    "pop": 418368
+  },
+  {
+    "nameAr": "سيماي",
+    "nameEn": "Semey",
+    "type": "city",
+    "lat": 50.411111111111,
+    "lng": 80.2275,
+    "pop": 350201
+  },
+  {
+    "nameAr": "بافلودار",
+    "nameEn": "Pavlodar",
+    "type": "city",
+    "lat": 52.315555555556,
+    "lng": 76.956388888889,
+    "pop": 333190
+  },
+  {
+    "nameAr": "أوسكمان",
+    "nameEn": "Oskemen",
+    "type": "city",
+    "lat": 49.95,
+    "lng": 82.616666666667,
+    "pop": 333113
+  },
+  {
+    "nameAr": "كيزيلوردا",
+    "nameEn": "Kyzylorda",
+    "type": "city",
+    "lat": 44.8479,
+    "lng": 65.49989,
+    "pop": 271309
+  },
+  {
+    "nameAr": "قوستاناي",
+    "nameEn": "Kostanay",
+    "type": "city",
+    "lat": 53.21435,
+    "lng": 63.62463,
+    "pop": 258990
+  },
+  {
+    "nameAr": "أورال، كازاخستان",
+    "nameEn": "Oral",
+    "type": "city",
+    "lat": 51.2225,
+    "lng": 51.3725,
+    "pop": 235764
+  },
+  {
+    "nameAr": "تركستان",
+    "nameEn": "Turkistan",
+    "type": "city",
+    "lat": 43.301944444444,
+    "lng": 68.269166666667,
+    "pop": 227098
+  },
+  {
+    "nameAr": "بتروبافل",
+    "nameEn": "Petropavl",
+    "type": "city",
+    "lat": 54.862222222222,
+    "lng": 69.140833333333,
+    "pop": 222636
+  },
+  {
+    "nameAr": "تميرتاو",
+    "nameEn": "Temirtau",
+    "type": "city",
+    "lat": 50.05494,
+    "lng": 72.96464,
+    "pop": 185082
+  },
+  {
+    "nameAr": "أكتاو",
+    "nameEn": "Aktau",
+    "type": "city",
+    "lat": 43.6525,
+    "lng": 51.1575,
+    "pop": 183350
+  },
+  {
+    "nameAr": "تالديكورغان",
+    "nameEn": "Taldyqorğan",
+    "type": "city",
+    "lat": 45.016666666667,
+    "lng": 78.366666666667,
+    "pop": 162300
+  },
+  {
+    "nameAr": "إيكيباستوز",
+    "nameEn": "Ekibastuz",
+    "type": "city",
+    "lat": 51.729777777778,
+    "lng": 75.326583333333,
+    "pop": 159760
+  },
+  {
+    "nameAr": "كوكشيتو",
+    "nameEn": "Kokshetau",
+    "type": "city",
+    "lat": 53.28245,
+    "lng": 69.396919444444,
+    "pop": 139063
+  },
+  {
+    "nameAr": "روندي",
+    "nameEn": "Rudny",
+    "type": "city",
+    "lat": 52.966666666667,
+    "lng": 63.116666666667,
+    "pop": 128234
+  },
+  {
+    "nameAr": "جيزكازغان",
+    "nameEn": "Jezkazgan",
+    "type": "city",
+    "lat": 47.783333333333,
+    "lng": 67.7,
+    "pop": 86227
+  },
+  {
+    "nameAr": "بلقاش",
+    "nameEn": "Balkhash",
+    "type": "city",
+    "lat": 46.85,
+    "lng": 75,
+    "pop": 78002
+  },
+  {
+    "nameAr": "كنتاو",
+    "nameEn": "Kentau",
+    "type": "city",
+    "lat": 43.516944444444,
+    "lng": 68.504444444444,
+    "pop": 72573
+  },
+  {
+    "nameAr": "أقسو",
+    "nameEn": "Aksu",
+    "type": "city",
+    "lat": 52.033333333333,
+    "lng": 76.916666666667,
+    "pop": 69354
+  },
+  {
+    "nameAr": "ساتباييف",
+    "nameEn": "Satpayev",
+    "type": "city",
+    "lat": 47.9,
+    "lng": 67.533333333333,
+    "pop": 61883
+  },
+  {
+    "nameAr": "كابشغاي",
+    "nameEn": "Qonayev",
+    "type": "city",
+    "lat": 43.883333333333,
+    "lng": 77.083333333333,
+    "pop": 61767
+  },
+  {
+    "nameAr": "Kaskelen",
+    "nameEn": "Kaskelen",
+    "type": "city",
+    "lat": 43.198333333333,
+    "lng": 76.631111111111,
+    "pop": 58418
+  },
+  {
+    "nameAr": "أريس",
+    "nameEn": "Arys",
+    "type": "city",
+    "lat": 42.42965,
+    "lng": 68.80463,
+    "pop": 50370
+  },
+  {
+    "nameAr": "ريدر",
+    "nameEn": "Ridder",
+    "type": "city",
+    "lat": 50.344166666667,
+    "lng": 83.512777777778,
+    "pop": 49695
+  },
+  {
+    "nameAr": "Talgar",
+    "nameEn": "Talgar",
+    "type": "city",
+    "lat": 43.303611111111,
+    "lng": 77.240833333333,
+    "pop": 47301
+  },
+  {
+    "nameAr": "شتشوتشينسك",
+    "nameEn": "Shchuchinsk",
+    "type": "city",
+    "lat": 52.933333333333,
+    "lng": 70.2,
+    "pop": 45004
+  },
+  {
+    "nameAr": "Ayagoz",
+    "nameEn": "Ayagoz",
+    "type": "city",
+    "lat": 47.96447,
+    "lng": 80.43437,
+    "pop": 42729
+  },
+  {
+    "nameAr": "زاركينت",
+    "nameEn": "Zharkent",
+    "type": "city",
+    "lat": 44.166666666667,
+    "lng": 80.006666666667,
+    "pop": 42617
+  },
+  {
+    "nameAr": "ساران",
+    "nameEn": "Saran",
+    "type": "city",
+    "lat": 49.802777777778,
+    "lng": 72.827777777778,
+    "pop": 42058
+  },
+  {
+    "nameAr": "زيريانوفسك",
+    "nameEn": "Altai",
+    "type": "city",
+    "lat": 49.738611111111,
+    "lng": 84.271944444444,
+    "pop": 39977
+  },
+  {
+    "nameAr": "أتباسار",
+    "nameEn": "Atbasar",
+    "type": "city",
+    "lat": 51.816666666667,
+    "lng": 68.366666666667,
+    "pop": 39163
+  },
+  {
+    "nameAr": "بايكونور",
+    "nameEn": "Baikonur",
+    "type": "city",
+    "lat": 45.63,
+    "lng": 63.314,
+    "pop": 39161
+  },
+  {
+    "nameAr": "شاختينسك",
+    "nameEn": "Shakhtinsk",
+    "type": "city",
+    "lat": 49.71,
+    "lng": 72.587222222222,
+    "pop": 37899
+  },
+  {
+    "nameAr": "Esik",
+    "nameEn": "Esik",
+    "type": "city",
+    "lat": 43.3552,
+    "lng": 77.45245,
+    "pop": 36715
+  },
+  {
+    "nameAr": "Zhetisay",
+    "nameEn": "Zhetisay",
+    "type": "city",
+    "lat": 40.775277777778,
+    "lng": 68.327222222222,
+    "pop": 36494
+  },
+  {
+    "nameAr": "Zhitikara",
+    "nameEn": "Zhitikara",
+    "type": "city",
+    "lat": 52.190833333333,
+    "lng": 61.200555555556,
+    "pop": 34880
+  },
+  {
+    "nameAr": "Shieli",
+    "nameEn": "Shieli",
+    "type": "city",
+    "lat": 44.1631,
+    "lng": 66.7453,
+    "pop": 31691
+  },
+  {
+    "nameAr": "تيكيلي",
+    "nameEn": "Tekeli",
+    "type": "city",
+    "lat": 44.83322,
+    "lng": 78.83089,
+    "pop": 31428
+  },
+  {
+    "nameAr": "Karatau",
+    "nameEn": "Karatau",
+    "type": "city",
+    "lat": 43.16667,
+    "lng": 70.46667,
+    "pop": 30204
+  },
+  {
+    "nameAr": "أرال، كازاخستان",
+    "nameEn": "Aral",
+    "type": "city",
+    "lat": 46.8,
+    "lng": 61.666666666667,
+    "pop": 29887
+  },
+  {
+    "nameAr": "أركاليك",
+    "nameEn": "Arkalyk",
+    "type": "city",
+    "lat": 50.248611111111,
+    "lng": 66.911388888889,
+    "pop": 28169
+  },
+  {
+    "nameAr": "Korday",
+    "nameEn": "Korday",
+    "type": "city",
+    "lat": 43.03882,
+    "lng": 74.71287,
+    "pop": 27443
+  },
+  {
+    "nameAr": "Shemonaikha",
+    "nameEn": "Shemonaikha",
+    "type": "city",
+    "lat": 50.628055555556,
+    "lng": 81.912222222222,
+    "pop": 19127
+  },
+  {
+    "nameAr": "ماكات",
+    "nameEn": "Makat",
+    "type": "city",
+    "lat": 47.65,
+    "lng": 53.316666666667,
+    "pop": 14266
+  },
+  {
+    "nameAr": "Priozersk",
+    "nameEn": "Priozersk",
+    "type": "city",
+    "lat": 46.030991666667,
+    "lng": 73.701947222222,
+    "pop": 13329
+  },
+  {
+    "nameAr": "تاجينشا",
+    "nameEn": "Tajynsha",
+    "type": "city",
+    "lat": 53.847777777778,
+    "lng": 69.763888888889,
+    "pop": 12418
+  },
+  {
+    "nameAr": "Saryözek",
+    "nameEn": "Saryözek",
+    "type": "city",
+    "lat": 44.356666666667,
+    "lng": 77.969166666667,
+    "pop": 12048
+  },
+  {
+    "nameAr": "إيسل",
+    "nameEn": "Esil",
+    "type": "city",
+    "lat": 51.955555555556,
+    "lng": 66.404166666667,
+    "pop": 11551
+  },
+  {
+    "nameAr": "Beskol",
+    "nameEn": "Beskol",
+    "type": "city",
+    "lat": 54.77763,
+    "lng": 69.09951,
+    "pop": 11331
+  },
+  {
+    "nameAr": "سيريبرايانسك",
+    "nameEn": "Serebryansk",
+    "type": "city",
+    "lat": 49.6925,
+    "lng": 83.289166666667,
+    "pop": 10129
+  },
+  {
+    "nameAr": "Krasny Yar, Akmola Region",
+    "nameEn": "Krasny Yar, Akmola Region",
+    "type": "city",
+    "lat": 53.323888888889,
+    "lng": 69.252666666667,
+    "pop": 9940
+  },
+  {
+    "nameAr": "بولاييف",
+    "nameEn": "Bulayevo",
+    "type": "city",
+    "lat": 54.905555555556,
+    "lng": 70.443888888889,
+    "pop": 8433
+  },
+  {
+    "nameAr": "Ertis",
+    "nameEn": "Ertis",
+    "type": "city",
+    "lat": 53.33367,
+    "lng": 75.45901,
+    "pop": 7772
+  },
+  {
+    "nameAr": "Askar Tokpanov",
+    "nameEn": "Askar Tokpanov",
+    "type": "city",
+    "lat": 43.380879,
+    "lng": 76.853521,
+    "pop": 7704
+  },
+  {
+    "nameAr": "Kişkeneköl",
+    "nameEn": "Kişkeneköl",
+    "type": "city",
+    "lat": 53.63589,
+    "lng": 72.34079,
+    "pop": 7421
+  },
+  {
+    "nameAr": "Aqsai",
+    "nameEn": "Aqsai",
+    "type": "city",
+    "lat": 43.45277778,
+    "lng": 76.72277778,
+    "pop": 6972
+  },
+  {
+    "nameAr": "Mamlyut",
+    "nameEn": "Mamlyut",
+    "type": "city",
+    "lat": 54.9375,
+    "lng": 68.539444444444,
+    "pop": 6866
+  },
+  {
+    "nameAr": "Akzhar (Tarbagatai District)",
+    "nameEn": "Akzhar (Tarbagatai District)",
+    "type": "city",
+    "lat": 47.57803333,
+    "lng": 83.68352222,
+    "pop": 6396
+  },
+  {
+    "nameAr": "Aktogay, East Kazakhstan Province",
+    "nameEn": "Aktogay, East Kazakhstan Province",
+    "type": "city",
+    "lat": 46.95,
+    "lng": 79.666666666667,
+    "pop": 6251
+  },
+  {
+    "nameAr": "Uil",
+    "nameEn": "Uil",
+    "type": "city",
+    "lat": 49.074705,
+    "lng": 54.665945,
+    "pop": 5643
+  },
+  {
+    "nameAr": "دوستيق",
+    "nameEn": "Dostyk",
+    "type": "city",
+    "lat": 45.252408333333,
+    "lng": 82.484091666667,
+    "pop": 4698
+  },
+  {
+    "nameAr": "Stepnyak",
+    "nameEn": "Stepnyak",
+    "type": "city",
+    "lat": 52.833333333333,
+    "lng": 70.783333333333,
+    "pop": 4413
+  },
+  {
+    "nameAr": "Ulken Narin",
+    "nameEn": "Ulken Narin",
+    "type": "city",
+    "lat": 49.216666666667,
+    "lng": 84.516666666667,
+    "pop": 4392
+  },
+  {
+    "nameAr": "Kulagino",
+    "nameEn": "Kulagino",
+    "type": "city",
+    "lat": 48.368055555556,
+    "lng": 51.5575,
+    "pop": 4307
+  },
+  {
+    "nameAr": "Jalañaş",
+    "nameEn": "Jalañaş",
+    "type": "city",
+    "lat": 43.044444444444,
+    "lng": 78.642222222222,
+    "pop": 3691
+  },
+  {
+    "nameAr": "Kokpekty",
+    "nameEn": "Kokpekty",
+    "type": "city",
+    "lat": 48.75,
+    "lng": 82.4,
+    "pop": 3651
+  },
+  {
+    "nameAr": "Saryzhar",
+    "nameEn": "Saryzhar",
+    "type": "city",
+    "lat": 50.509697222222,
+    "lng": 56.918297222222,
+    "pop": 3531
+  },
+  {
+    "nameAr": "Novopokrovka",
+    "nameEn": "Novopokrovka",
+    "type": "city",
+    "lat": 45.45083333,
+    "lng": 79.98916667,
+    "pop": 3361
+  },
+  {
+    "nameAr": "Bestamak",
+    "nameEn": "Bestamak",
+    "type": "city",
+    "lat": 50.046168,
+    "lng": 57.350922,
+    "pop": 3332
+  },
+  {
+    "nameAr": "Eskene",
+    "nameEn": "Eskene",
+    "type": "city",
+    "lat": 47.217222222222,
+    "lng": 52.633611111111,
+    "pop": 3269
+  },
+  {
+    "nameAr": "Baychunas",
+    "nameEn": "Baychunas",
+    "type": "city",
+    "lat": 47.241388888889,
+    "lng": 52.941111111111,
+    "pop": 3055
+  },
+  {
+    "nameAr": "Dashino",
+    "nameEn": "Dashino",
+    "type": "city",
+    "lat": 46.610902777778,
+    "lng": 49.058605555556,
+    "pop": 3009
+  },
+  {
+    "nameAr": "Taskesken",
+    "nameEn": "Taskesken",
+    "type": "city",
+    "lat": 47.2231,
+    "lng": 80.7889,
+    "pop": 2999
+  },
+  {
+    "nameAr": "Ketpen",
+    "nameEn": "Ketpen",
+    "type": "city",
+    "lat": 43.45027778,
+    "lng": 80.35,
+    "pop": 2689
+  },
+  {
+    "nameAr": "Tokzhaylau",
+    "nameEn": "Tokzhaylau",
+    "type": "city",
+    "lat": 45.815841666667,
+    "lng": 81.085422222222,
+    "pop": 2682
+  },
+  {
+    "nameAr": "Jañaesil (Aqmola district)",
+    "nameEn": "Jañaesil (Aqmola district)",
+    "type": "city",
+    "lat": 51.298002777778,
+    "lng": 70.725897222222,
+    "pop": 2179
+  },
+  {
+    "nameAr": "Kumkent",
+    "nameEn": "Kumkent",
+    "type": "city",
+    "lat": 43.76903333,
+    "lng": 69.61406389,
+    "pop": 2063
+  },
+  {
+    "nameAr": "Senek",
+    "nameEn": "Senek",
+    "type": "city",
+    "lat": 43.3636281,
+    "lng": 53.3963,
+    "pop": 2038
+  },
+  {
+    "nameAr": "Zhem",
+    "nameEn": "Zhem",
+    "type": "city",
+    "lat": 48.775,
+    "lng": 58.075,
+    "pop": 1936
+  },
+  {
+    "nameAr": "Qaratal",
+    "nameEn": "Qaratal",
+    "type": "city",
+    "lat": 44.888305555556,
+    "lng": 78.707905555556,
+    "pop": 1897
+  },
+  {
+    "nameAr": "Orleu",
+    "nameEn": "Orleu",
+    "type": "city",
+    "lat": 50.025397222222,
+    "lng": 58.7924,
+    "pop": 1804
+  },
+  {
+    "nameAr": "Kälpe",
+    "nameEn": "Kälpe",
+    "type": "city",
+    "lat": 45.093055555556,
+    "lng": 77.909166666667,
+    "pop": 1786
+  },
+  {
+    "nameAr": "Sarytoghay",
+    "nameEn": "Sarytoghay",
+    "type": "city",
+    "lat": 47.724166666667,
+    "lng": 51.584444444444,
+    "pop": 1752
+  },
+  {
+    "nameAr": "Koktuma",
+    "nameEn": "Koktuma",
+    "type": "city",
+    "lat": 45.86805556,
+    "lng": 81.64638889,
+    "pop": 1729
+  },
+  {
+    "nameAr": "Kurayli",
+    "nameEn": "Kurayli",
+    "type": "city",
+    "lat": 50.461001,
+    "lng": 57.020044,
+    "pop": 1712
+  },
+  {
+    "nameAr": "Zhaypak",
+    "nameEn": "Zhaypak",
+    "type": "city",
+    "lat": 46.018372,
+    "lng": 81.274924,
+    "pop": 1564
+  },
+  {
+    "nameAr": "Eñbekşı",
+    "nameEn": "Eñbekşı",
+    "type": "city",
+    "lat": 44.320833333333,
+    "lng": 79.888888888889,
+    "pop": 1533
+  },
+  {
+    "nameAr": "Novoaleksandrovka",
+    "nameEn": "Novoaleksandrovka",
+    "type": "city",
+    "lat": 51.7855,
+    "lng": 68.8403,
+    "pop": 1488
+  },
+  {
+    "nameAr": "Alghabas",
+    "nameEn": "Alghabas",
+    "type": "city",
+    "lat": 44.674166666667,
+    "lng": 78.105,
+    "pop": 1380
+  },
+  {
+    "nameAr": "Shaken Niazbekov",
+    "nameEn": "Shaken Niazbekov",
+    "type": "city",
+    "lat": 42.995555555556,
+    "lng": 71.314166666667,
+    "pop": 1371
+  },
+  {
+    "nameAr": "Birshoghyr",
+    "nameEn": "Birshoghyr",
+    "type": "city",
+    "lat": 48.459722222222,
+    "lng": 58.553333333333,
+    "pop": 1370
+  },
+  {
+    "nameAr": "Saty",
+    "nameEn": "Saty",
+    "type": "city",
+    "lat": 43.07115,
+    "lng": 78.40865,
+    "pop": 1369
+  },
+  {
+    "nameAr": "Teñiz",
+    "nameEn": "Teñiz",
+    "type": "city",
+    "lat": 46.549444444444,
+    "lng": 49.207777777778,
+    "pop": 1333
+  },
+  {
+    "nameAr": "Beskudyk",
+    "nameEn": "Beskudyk",
+    "type": "city",
+    "lat": 49.971852777778,
+    "lng": 55.360763888889,
+    "pop": 1303
+  },
+  {
+    "nameAr": "Kaynar",
+    "nameEn": "Kaynar",
+    "type": "city",
+    "lat": 49.745275,
+    "lng": 71.090272222222,
+    "pop": 1252
+  },
+  {
+    "nameAr": "Enbek (Aksu City Administration)",
+    "nameEn": "Enbek (Aksu City Administration)",
+    "type": "city",
+    "lat": 51.9504,
+    "lng": 76.97656,
+    "pop": 1217
+  },
+  {
+    "nameAr": "Qyzylqayyng",
+    "nameEn": "Qyzylqayyng",
+    "type": "city",
+    "lat": 45.848263888889,
+    "lng": 80.226722222222,
+    "pop": 1207
+  },
+  {
+    "nameAr": "Däulet",
+    "nameEn": "Däulet",
+    "type": "city",
+    "lat": 43.605971,
+    "lng": 77.105391,
+    "pop": 1193
+  },
+  {
+    "nameAr": "Bakaly (Almaty region)",
+    "nameEn": "Bakaly (Almaty region)",
+    "type": "city",
+    "lat": 45.69803,
+    "lng": 80.11326,
+    "pop": 1149
+  },
+  {
+    "nameAr": "Krasnokamenka",
+    "nameEn": "Krasnokamenka",
+    "type": "city",
+    "lat": 53.733296,
+    "lng": 68.886487,
+    "pop": 1119
+  },
+  {
+    "nameAr": "Lower Burlyk",
+    "nameEn": "Lower Burlyk",
+    "type": "city",
+    "lat": 52.772395,
+    "lng": 68.169637,
+    "pop": 1071
+  },
+  {
+    "nameAr": "Bogoslovka",
+    "nameEn": "Bogoslovka",
+    "type": "city",
+    "lat": 50.10083333,
+    "lng": 56.82388889,
+    "pop": 1032
+  },
+  {
+    "nameAr": "Qaramendi batyr",
+    "nameEn": "Qaramendi batyr",
+    "type": "city",
+    "lat": 51.321997222222,
+    "lng": 70.764102777778,
+    "pop": 1004
+  },
+  {
+    "nameAr": "Cherkasskoe",
+    "nameEn": "Cherkasskoe",
+    "type": "city",
+    "lat": 45.668888888889,
+    "lng": 80.371388888889,
+    "pop": 967
+  },
+  {
+    "nameAr": "Kusbek (village)",
+    "nameEn": "Kusbek (village)",
+    "type": "city",
+    "lat": 52.742112,
+    "lng": 67.997976,
+    "pop": 868
+  },
+  {
+    "nameAr": "Taytobe",
+    "nameEn": "Taytobe",
+    "type": "city",
+    "lat": 50.984722222222,
+    "lng": 71.296666666667,
+    "pop": 832
+  },
+  {
+    "nameAr": "Qyzylsuat",
+    "nameEn": "Qyzylsuat",
+    "type": "city",
+    "lat": 51.050833333333,
+    "lng": 71.569166666667,
+    "pop": 684
+  },
+  {
+    "nameAr": "Koltogan",
+    "nameEn": "Koltogan",
+    "type": "city",
+    "lat": 42.833552777778,
+    "lng": 71.208402777778,
+    "pop": 638
+  },
+  {
+    "nameAr": "Bike",
+    "nameEn": "Bike",
+    "type": "city",
+    "lat": 54.611666666667,
+    "lng": 67.663611111111,
+    "pop": 553
+  },
+  {
+    "nameAr": "Aktau",
+    "nameEn": "Aktau",
+    "type": "city",
+    "lat": 50.725,
+    "lng": 53.460277777778,
+    "pop": 543
+  },
+  {
+    "nameAr": "Akozek",
+    "nameEn": "Akozek",
+    "type": "city",
+    "lat": 43.937493,
+    "lng": 77.518285,
+    "pop": 536
+  },
+  {
+    "nameAr": "Internatsionalnoye",
+    "nameEn": "Internatsionalnoye",
+    "type": "city",
+    "lat": 51.632972222222,
+    "lng": 65.791838888889,
+    "pop": 509
+  },
+  {
+    "nameAr": "Qamsaqty",
+    "nameEn": "Qamsaqty",
+    "type": "city",
+    "lat": 53.578391,
+    "lng": 68.461462,
+    "pop": 498
+  },
+  {
+    "nameAr": "Akkent",
+    "nameEn": "Akkent",
+    "type": "city",
+    "lat": 44.179444444444,
+    "lng": 80.152222222222,
+    "pop": 495
+  },
+  {
+    "nameAr": "Temirzhol",
+    "nameEn": "Temirzhol",
+    "type": "city",
+    "lat": 40.922222222222,
+    "lng": 68.113888888889,
+    "pop": 458
+  },
+  {
+    "nameAr": "Enbek",
+    "nameEn": "Enbek",
+    "type": "city",
+    "lat": 43.670759,
+    "lng": 77.065437,
+    "pop": 440
+  },
+  {
+    "nameAr": "Bogatoye",
+    "nameEn": "Bogatoye",
+    "type": "city",
+    "lat": 46.5025,
+    "lng": 48.959166666667,
+    "pop": 427
+  },
+  {
+    "nameAr": "Anarkol",
+    "nameEn": "Anarkol",
+    "type": "city",
+    "lat": 50.648097222222,
+    "lng": 72.395597222222,
+    "pop": 420
+  },
+  {
+    "nameAr": "Zhaksy-Zhalgyztau",
+    "nameEn": "Zhaksy-Zhalgyztau",
+    "type": "city",
+    "lat": 52.640668,
+    "lng": 68.221307,
+    "pop": 397
+  },
+  {
+    "nameAr": "Urunkhayka",
+    "nameEn": "Urunkhayka",
+    "type": "city",
+    "lat": 48.7833,
+    "lng": 86.0253,
+    "pop": 359
+  },
+  {
+    "nameAr": "Jailau",
+    "nameEn": "Jailau",
+    "type": "city",
+    "lat": 43.162777777778,
+    "lng": 76.878888888889,
+    "pop": 342
+  },
+  {
+    "nameAr": "Mädeniet",
+    "nameEn": "Mädeniet",
+    "type": "city",
+    "lat": 43.339722222222,
+    "lng": 76.814166666667,
+    "pop": 337
+  },
+  {
+    "nameAr": "Aqqum",
+    "nameEn": "Aqqum",
+    "type": "city",
+    "lat": 50.07638889,
+    "lng": 62.12416667,
+    "pop": 337
+  },
+  {
+    "nameAr": "Bayantay",
+    "nameEn": "Bayantay",
+    "type": "city",
+    "lat": 53.2628,
+    "lng": 67.931371,
+    "pop": 327
+  },
+  {
+    "nameAr": "Stepnoye",
+    "nameEn": "Stepnoye",
+    "type": "city",
+    "lat": 51.2213,
+    "lng": 69.533402777778,
+    "pop": 322
+  },
+  {
+    "nameAr": "Kazhymukan",
+    "nameEn": "Kazhymukan",
+    "type": "city",
+    "lat": 53.12027778,
+    "lng": 63.86972222,
+    "pop": 305
+  },
+  {
+    "nameAr": "Qarasu",
+    "nameEn": "Qarasu",
+    "type": "city",
+    "lat": 50.349939,
+    "lng": 61.654066,
+    "pop": 285
+  },
+  {
+    "nameAr": "Kurmeti",
+    "nameEn": "Kurmeti",
+    "type": "city",
+    "lat": 43.02111111,
+    "lng": 78.2925,
+    "pop": 279
+  },
+  {
+    "nameAr": "Belogorka",
+    "nameEn": "Belogorka",
+    "type": "city",
+    "lat": 50.364107,
+    "lng": 57.634722,
+    "pop": 275
+  },
+  {
+    "nameAr": "Rakhimov",
+    "nameEn": "Rakhimov",
+    "type": "city",
+    "lat": 40.68083333,
+    "lng": 68.61527778,
+    "pop": 268
+  },
+  {
+    "nameAr": "10 years of Kazakhstan",
+    "nameEn": "10 years of Kazakhstan",
+    "type": "city",
+    "lat": 44.89225,
+    "lng": 78.13125,
+    "pop": 263
+  },
+  {
+    "nameAr": "Birlik",
+    "nameEn": "Birlik",
+    "type": "city",
+    "lat": 53.50233611,
+    "lng": 63.87984722,
+    "pop": 257
+  },
+  {
+    "nameAr": "Blagoveshchenskoye",
+    "nameEn": "Blagoveshchenskoye",
+    "type": "city",
+    "lat": 49.65166667,
+    "lng": 56.37027778,
+    "pop": 252
+  },
+  {
+    "nameAr": "Sarpyldak",
+    "nameEn": "Sarpyldak",
+    "type": "city",
+    "lat": 43.951666666667,
+    "lng": 79.8075,
+    "pop": 247
+  },
+  {
+    "nameAr": "Hlebnoye",
+    "nameEn": "Hlebnoye",
+    "type": "city",
+    "lat": 52.1725,
+    "lng": 68.073611111111,
+    "pop": 228
+  },
+  {
+    "nameAr": "Aqzhar",
+    "nameEn": "Aqzhar",
+    "type": "city",
+    "lat": 46.013333333333,
+    "lng": 77.185555555556,
+    "pop": 212
+  },
+  {
+    "nameAr": "Qayrat",
+    "nameEn": "Qayrat",
+    "type": "city",
+    "lat": 43.586666666667,
+    "lng": 77.090277777778,
+    "pop": 206
+  },
+  {
+    "nameAr": "Aqqaiyn",
+    "nameEn": "Aqqaiyn",
+    "type": "city",
+    "lat": 52.781174,
+    "lng": 70.020794,
+    "pop": 203
+  },
+  {
+    "nameAr": "Shubartubek",
+    "nameEn": "Shubartubek",
+    "type": "city",
+    "lat": 46.775553,
+    "lng": 74.705915,
+    "pop": 192
+  },
+  {
+    "nameAr": "Qumsay",
+    "nameEn": "Qumsay",
+    "type": "city",
+    "lat": 48.769593,
+    "lng": 57.885237,
+    "pop": 170
+  },
+  {
+    "nameAr": "Sarsenovo",
+    "nameEn": "Sarsenovo",
+    "type": "city",
+    "lat": 51.153697,
+    "lng": 52.359202,
+    "pop": 141
+  },
+  {
+    "nameAr": "13 years of Kazakhstan",
+    "nameEn": "13 years of Kazakhstan",
+    "type": "city",
+    "lat": 50.549878,
+    "lng": 55.986315,
+    "pop": 123
+  },
+  {
+    "nameAr": "Yagodnoye",
+    "nameEn": "Yagodnoye",
+    "type": "city",
+    "lat": 51.791997222222,
+    "lng": 69.602797222222,
+    "pop": 121
+  },
+  {
+    "nameAr": "Ulgili",
+    "nameEn": "Ulgili",
+    "type": "city",
+    "lat": 45.777373,
+    "lng": 78.884078,
+    "pop": 103
+  },
+  {
+    "nameAr": "Sevan",
+    "nameEn": "Sevan",
+    "type": "city",
+    "lat": 49.926306,
+    "lng": 72.969682,
+    "pop": 95
+  },
+  {
+    "nameAr": "Kishi Kamkaly",
+    "nameEn": "Kishi Kamkaly",
+    "type": "city",
+    "lat": 44.738055555556,
+    "lng": 71.511111111111,
+    "pop": 73
+  },
+  {
+    "nameAr": "Uan",
+    "nameEn": "Uan",
+    "type": "city",
+    "lat": 48.1086,
+    "lng": 82.8058,
+    "pop": 72
+  },
+  {
+    "nameAr": "Sádubek",
+    "nameEn": "Sádubek",
+    "type": "city",
+    "lat": 51.775322,
+    "lng": 68.762027,
+    "pop": 55
+  },
+  {
+    "nameAr": "Araltobe",
+    "nameEn": "Araltobe",
+    "type": "city",
+    "lat": 50.008509,
+    "lng": 58.186093,
+    "pop": 40
+  },
+  {
+    "nameAr": "Kaindy, Akmola Region",
+    "nameEn": "Kaindy, Akmola Region",
+    "type": "city",
+    "lat": 53.381926,
+    "lng": 69.726816,
+    "pop": 40
+  },
+  {
+    "nameAr": "Akshkol",
+    "nameEn": "Akshkol",
+    "type": "city",
+    "lat": 50.066388888889,
+    "lng": 51.775,
+    "pop": 26
+  },
+  {
+    "nameAr": "ساراي جوك",
+    "nameEn": "Saray-Jük",
+    "type": "city",
+    "lat": 47.5,
+    "lng": 51.73333333,
+    "pop": null
+  },
+  {
+    "nameAr": "سيرم",
+    "nameEn": "Sayram",
+    "type": "city",
+    "lat": 42.301944444444,
+    "lng": 69.770277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "فاراب",
+    "nameEn": "Otrar",
+    "type": "city",
+    "lat": 42.8514829,
+    "lng": 68.3029696,
+    "pop": null
+  },
+  {
+    "nameAr": "كارويل",
+    "nameEn": "",
+    "type": "city",
+    "lat": 48.945,
+    "lng": 79.255,
+    "pop": null
+  },
+  {
+    "nameAr": "Alatau",
+    "nameEn": "Alatau",
+    "type": "city",
+    "lat": 43.3575,
+    "lng": 77.144444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Atygay",
+    "nameEn": "Atygay",
+    "type": "city",
+    "lat": 51.748055555556,
+    "lng": 75.488888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Badam 2",
+    "nameEn": "Badam 2",
+    "type": "city",
+    "lat": 42.257919636245,
+    "lng": 69.702308206887,
+    "pop": null
+  },
+  {
+    "nameAr": "Balpyq Bi",
+    "nameEn": "Balpyq Bi",
+    "type": "city",
+    "lat": 44.900508333333,
+    "lng": 78.217847222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Baltabay",
+    "nameEn": "Baltabay",
+    "type": "city",
+    "lat": 43.505,
+    "lng": 77.540555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Chaikino, Akmola Region",
+    "nameEn": "Chaikino, Akmola Region",
+    "type": "city",
+    "lat": 53.281111111111,
+    "lng": 69.341944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Karaoy",
+    "nameEn": "Karaoy",
+    "type": "city",
+    "lat": 49.48423,
+    "lng": 54.01535,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaskacu",
+    "nameEn": "Kaskacu",
+    "type": "city",
+    "lat": 42.224973541409,
+    "lng": 70.154635942044,
+    "pop": null
+  },
+  {
+    "nameAr": "Kulan",
+    "nameEn": "Kulan",
+    "type": "city",
+    "lat": 53.111163888889,
+    "lng": 65.039005555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Nurkent",
+    "nameEn": "Nurkent",
+    "type": "city",
+    "lat": 44.213611111111,
+    "lng": 80.231388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Qosshy",
+    "nameEn": "Qosshy",
+    "type": "city",
+    "lat": 50.975833333333,
+    "lng": 71.353888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Staraya Masra",
+    "nameEn": "Staraya Masra",
+    "type": "city",
+    "lat": 50.1167,
+    "lng": 56.0833,
+    "pop": null
+  },
+  {
+    "nameAr": "Tatti, Merki District",
+    "nameEn": "Tatti, Merki District",
+    "type": "city",
+    "lat": 43.21666667,
+    "lng": 73.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Ulytau",
+    "nameEn": "Ulytau",
+    "type": "city",
+    "lat": 48.655555555556,
+    "lng": 67.003888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Urzhar",
+    "nameEn": "Urzhar",
+    "type": "city",
+    "lat": 47.09,
+    "lng": 81.622777777778,
+    "pop": null
+  }
+]

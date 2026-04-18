@@ -1,0 +1,12 @@
+[
+  {"nameAr":"كوتونو","nameEn":"Cotonou","type":"city","lat":6.3654,"lng":2.4183,"pop":780000},
+  {"nameAr":"بورتو نوفو","nameEn":"Porto-Novo","type":"city","lat":6.4969,"lng":2.6289,"pop":264320},
+  {"nameAr":"دجوغو","nameEn":"Djougou","type":"city","lat":9.7083,"lng":1.6658,"pop":267812},
+  {"nameAr":"باراكو","nameEn":"Parakou","type":"city","lat":9.3333,"lng":2.6167,"pop":255478},
+  {"nameAr":"بوهيكون","nameEn":"Bohicon","type":"city","lat":7.1783,"lng":2.0667,"pop":171781},
+  {"nameAr":"أبومي","nameEn":"Abomey","type":"city","lat":7.1833,"lng":1.9833,"pop":117824},
+  {"nameAr":"كاندي","nameEn":"Kandi","type":"city","lat":11.1283,"lng":2.9386,"pop":109701},
+  {"nameAr":"لوكوسا","nameEn":"Lokossa","type":"city","lat":6.6333,"lng":1.7167,"pop":104285},
+  {"nameAr":"ناتيتينغو","nameEn":"Natitingou","type":"city","lat":10.3167,"lng":1.3800,"pop":103843},
+  {"nameAr":"ويدا","nameEn":"Ouidah","type":"city","lat":6.3628,"lng":2.0853,"pop":83025}
+]

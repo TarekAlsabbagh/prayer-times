@@ -1,0 +1,12 @@
+[
+  {"nameAr":"كيغالي","nameEn":"Kigali","type":"city","lat":-1.9441,"lng":30.0619,"pop":1132686},
+  {"nameAr":"نيانزا","nameEn":"Nyanza","type":"city","lat":-2.3519,"lng":29.7489,"pop":225531},
+  {"nameAr":"جيسيني","nameEn":"Gisenyi","type":"city","lat":-1.7000,"lng":29.2500,"pop":106566},
+  {"nameAr":"بوتاري","nameEn":"Butare","type":"city","lat":-2.6000,"lng":29.7500,"pop":89600},
+  {"nameAr":"جيتاراما","nameEn":"Gitarama","type":"city","lat":-2.0833,"lng":29.7500,"pop":87613},
+  {"nameAr":"روهينغيري","nameEn":"Ruhengeri","type":"city","lat":-1.5000,"lng":29.6333,"pop":86685},
+  {"nameAr":"بيومبا","nameEn":"Byumba","type":"city","lat":-1.5764,"lng":30.0675,"pop":70593},
+  {"nameAr":"سيانغوغو","nameEn":"Cyangugu","type":"city","lat":-2.4833,"lng":28.9000,"pop":63883},
+  {"nameAr":"كيبويي","nameEn":"Kibuye","type":"city","lat":-2.0603,"lng":29.3489,"pop":48024},
+  {"nameAr":"كيبونغو","nameEn":"Kibungo","type":"city","lat":-2.1667,"lng":30.5333,"pop":42702}
+]

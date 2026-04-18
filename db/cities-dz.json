@@ -1,0 +1,2585 @@
+[
+  {
+    "nameAr": "الجزائر العاصمة",
+    "nameEn": "Algiers",
+    "type": "city",
+    "lat": 36.7372,
+    "lng": 3.0865
+  },
+  {
+    "nameAr": "أدرار",
+    "nameEn": "Adrar",
+    "type": "city",
+    "lat": 27.8742,
+    "lng": -0.2944
+  },
+  {
+    "nameAr": "الأغواط",
+    "nameEn": "Laghouat",
+    "type": "city",
+    "lat": 33.8005,
+    "lng": 2.8651
+  },
+  {
+    "nameAr": "البليدة",
+    "nameEn": "Blida",
+    "type": "city",
+    "lat": 36.4703,
+    "lng": 2.8277
+  },
+  {
+    "nameAr": "الجلفة",
+    "nameEn": "Djelfa",
+    "type": "city",
+    "lat": 34.6733,
+    "lng": 3.2633
+  },
+  {
+    "nameAr": "الشلف",
+    "nameEn": "Chlef",
+    "type": "city",
+    "lat": 36.1649,
+    "lng": 1.3317
+  },
+  {
+    "nameAr": "المسيلة",
+    "nameEn": "M'Sila",
+    "type": "city",
+    "lat": 35.7058,
+    "lng": 4.5439
+  },
+  {
+    "nameAr": "باتنة",
+    "nameEn": "Batna",
+    "type": "city",
+    "lat": 35.5554,
+    "lng": 6.1743
+  },
+  {
+    "nameAr": "بجاية",
+    "nameEn": "Bejaia",
+    "type": "city",
+    "lat": 36.7519,
+    "lng": 5.0567
+  },
+  {
+    "nameAr": "برج بوعريريج",
+    "nameEn": "Bordj Bou Arreridj",
+    "type": "city",
+    "lat": 36.0731,
+    "lng": 4.7633
+  },
+  {
+    "nameAr": "بسكرة",
+    "nameEn": "Biskra",
+    "type": "city",
+    "lat": 34.8503,
+    "lng": 5.7287
+  },
+  {
+    "nameAr": "بومرداس",
+    "nameEn": "Boumerdes",
+    "type": "city",
+    "lat": 36.7667,
+    "lng": 3.4772
+  },
+  {
+    "nameAr": "تبسة",
+    "nameEn": "Tebessa",
+    "type": "city",
+    "lat": 35.4042,
+    "lng": 8.1208
+  },
+  {
+    "nameAr": "تلمسان",
+    "nameEn": "Tlemcen",
+    "type": "city",
+    "lat": 34.8828,
+    "lng": -1.3153
+  },
+  {
+    "nameAr": "تمنراست",
+    "nameEn": "Tamanrasset",
+    "type": "city",
+    "lat": 22.785,
+    "lng": 5.5228
+  },
+  {
+    "nameAr": "تيارت",
+    "nameEn": "Tiaret",
+    "type": "city",
+    "lat": 35.3706,
+    "lng": 1.3178
+  },
+  {
+    "nameAr": "تيزي وزو",
+    "nameEn": "Tizi Ouzou",
+    "type": "city",
+    "lat": 36.7169,
+    "lng": 4.0497
+  },
+  {
+    "nameAr": "جيجل",
+    "nameEn": "Jijel",
+    "type": "city",
+    "lat": 36.8167,
+    "lng": 5.7667
+  },
+  {
+    "nameAr": "سطيف",
+    "nameEn": "Setif",
+    "type": "city",
+    "lat": 36.1898,
+    "lng": 5.4108
+  },
+  {
+    "nameAr": "سكيكدة",
+    "nameEn": "Skikda",
+    "type": "city",
+    "lat": 36.8761,
+    "lng": 6.9044
+  },
+  {
+    "nameAr": "عنابة",
+    "nameEn": "Annaba",
+    "type": "city",
+    "lat": 36.9,
+    "lng": 7.7667
+  },
+  {
+    "nameAr": "غرداية",
+    "nameEn": "Ghardaïa",
+    "type": "city",
+    "lat": 32.4903,
+    "lng": 3.6739
+  },
+  {
+    "nameAr": "قسنطينة",
+    "nameEn": "Constantine",
+    "type": "city",
+    "lat": 36.365,
+    "lng": 6.6147
+  },
+  {
+    "nameAr": "مستغانم",
+    "nameEn": "Mostaganem",
+    "type": "city",
+    "lat": 35.9311,
+    "lng": 0.0894
+  },
+  {
+    "nameAr": "وهران",
+    "nameEn": "Oran",
+    "type": "city",
+    "lat": 35.6969,
+    "lng": -0.6331
+  },
+  {
+    "nameAr": "سيدي بلعباس",
+    "nameEn": "Sidi Bel Abbès",
+    "type": "city",
+    "lat": 35.2,
+    "lng": -0.63333333333333,
+    "pop": 212935
+  },
+  {
+    "nameAr": "بشار",
+    "nameEn": "Béchar",
+    "type": "city",
+    "lat": 31.616388888889,
+    "lng": -2.2183333333333,
+    "pop": 165627
+  },
+  {
+    "nameAr": "تقرت",
+    "nameEn": "Touggourt",
+    "type": "city",
+    "lat": 33.1,
+    "lng": 6.0666666666667,
+    "pop": 143270
+  },
+  {
+    "nameAr": "المدية",
+    "nameEn": "Médéa",
+    "type": "city",
+    "lat": 36.2675,
+    "lng": 2.75,
+    "pop": 138355
+  },
+  {
+    "nameAr": "الوادي, الجزائر",
+    "nameEn": "El Oued",
+    "type": "city",
+    "lat": 33.368333333333,
+    "lng": 6.8675,
+    "pop": 134699
+  },
+  {
+    "nameAr": "ورقلة",
+    "nameEn": "Ouargla",
+    "type": "city",
+    "lat": 31.95,
+    "lng": 5.3166666666667,
+    "pop": 133024
+  },
+  {
+    "nameAr": "عين البيضاء",
+    "nameEn": "Aïn Beïda",
+    "type": "city",
+    "lat": 35.796388888889,
+    "lng": 7.3927777777778,
+    "pop": 116064
+  },
+  {
+    "nameAr": "معسكر",
+    "nameEn": "Mascara",
+    "type": "city",
+    "lat": 35.4,
+    "lng": 0.13333333333333,
+    "pop": 108587
+  },
+  {
+    "nameAr": "خنشلة",
+    "nameEn": "Khenchela",
+    "type": "city",
+    "lat": 35.416666666667,
+    "lng": 7.1333333333333,
+    "pop": 108580
+  },
+  {
+    "nameAr": "شلغوم العيد",
+    "nameEn": "Chelghoum Laïd",
+    "type": "city",
+    "lat": 36.16666667,
+    "lng": 6.16666667,
+    "pop": 82560
+  },
+  {
+    "nameAr": "تيسمسيلت",
+    "nameEn": "Tissemsilt",
+    "type": "city",
+    "lat": 35.607222222222,
+    "lng": 1.8105555555556,
+    "pop": 75197
+  },
+  {
+    "nameAr": "تيغنيف",
+    "nameEn": "Tighennif",
+    "type": "city",
+    "lat": 35.4167,
+    "lng": 0.333,
+    "pop": 62210
+  },
+  {
+    "nameAr": "تندوف",
+    "nameEn": "Tindouf",
+    "type": "city",
+    "lat": 27.675277777778,
+    "lng": -8.1286111111111,
+    "pop": 45610
+  },
+  {
+    "nameAr": "الطارف",
+    "nameEn": "El Taref",
+    "type": "city",
+    "lat": 36.766944444444,
+    "lng": 8.3136111111111,
+    "pop": 25594
+  },
+  {
+    "nameAr": "تيبازة",
+    "nameEn": "Tipaza",
+    "type": "city",
+    "lat": 36.594180555556,
+    "lng": 2.4430222222222,
+    "pop": 25225
+  },
+  {
+    "nameAr": "جانت",
+    "nameEn": "Djanet",
+    "type": "city",
+    "lat": 24.555,
+    "lng": 9.4852777777778,
+    "pop": 14655
+  },
+  {
+    "nameAr": "Takerboust",
+    "nameEn": "Takerboust",
+    "type": "city",
+    "lat": 36.418,
+    "lng": 4.34281,
+    "pop": 14000
+  },
+  {
+    "nameAr": "رأس الماء",
+    "nameEn": "Ras El Ma",
+    "type": "city",
+    "lat": 36.118463888889,
+    "lng": 5.5299861111111,
+    "pop": 8193
+  },
+  {
+    "nameAr": "عين مسعود",
+    "nameEn": "Aïn Messaoud",
+    "type": "city",
+    "lat": 36.1965,
+    "lng": 5.265,
+    "pop": 3228
+  },
+  {
+    "nameAr": "ألما قشتم",
+    "nameEn": "Alma Guectoum",
+    "type": "city",
+    "lat": 36.814642,
+    "lng": 4.445447,
+    "pop": 1100
+  },
+  {
+    "nameAr": "آراك",
+    "nameEn": "Arak",
+    "type": "city",
+    "lat": 25.26666667,
+    "lng": 3.73166667,
+    "pop": null
+  },
+  {
+    "nameAr": "آيت براهم",
+    "nameEn": "At Brahem",
+    "type": "city",
+    "lat": 36.416111111111,
+    "lng": 4.6016666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "آيت داود",
+    "nameEn": "Aït Daoud",
+    "type": "city",
+    "lat": 36.5111,
+    "lng": 4.27556,
+    "pop": null
+  },
+  {
+    "nameAr": "آيت صالح",
+    "nameEn": "Aït Salah",
+    "type": "city",
+    "lat": 36.6426008,
+    "lng": 3.5442551,
+    "pop": null
+  },
+  {
+    "nameAr": "أحذيذ",
+    "nameEn": "Ahdid",
+    "type": "city",
+    "lat": 35.22497222,
+    "lng": -3.76563889,
+    "pop": null
+  },
+  {
+    "nameAr": "إحرر",
+    "nameEn": "Iherir",
+    "type": "city",
+    "lat": 25.41194444,
+    "lng": 8.41305556,
+    "pop": null
+  },
+  {
+    "nameAr": "أدلس",
+    "nameEn": "Idlès",
+    "type": "city",
+    "lat": 23.82,
+    "lng": 5.9361111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "أرزيو",
+    "nameEn": "Arzew",
+    "type": "city",
+    "lat": 35.85,
+    "lng": -0.31666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "ازرنن (تمنراست)",
+    "nameEn": "Izernène",
+    "type": "city",
+    "lat": 22.93138889,
+    "lng": 5.74972222,
+    "pop": null
+  },
+  {
+    "nameAr": "اسكايمية",
+    "nameEn": "Skaïmia",
+    "type": "city",
+    "lat": 36.30407,
+    "lng": 5.41522,
+    "pop": null
+  },
+  {
+    "nameAr": "أغلاد",
+    "nameEn": "",
+    "type": "city",
+    "lat": 29.36,
+    "lng": 0.17,
+    "pop": null
+  },
+  {
+    "nameAr": "اغلاد",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.321388888889,
+    "lng": 4.8277777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "أفلو",
+    "nameEn": "Aflou",
+    "type": "city",
+    "lat": 34.112777777778,
+    "lng": 2.1022222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "إقرسافن",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.66800585,
+    "lng": 4.51924324,
+    "pop": null
+  },
+  {
+    "nameAr": "إقلن",
+    "nameEn": "Iglène",
+    "type": "city",
+    "lat": 22.90166667,
+    "lng": 4.89805556,
+    "pop": null
+  },
+  {
+    "nameAr": "إڨوفاف",
+    "nameEn": "Igoufaf",
+    "type": "city",
+    "lat": 36.624397,
+    "lng": 4.340272,
+    "pop": null
+  },
+  {
+    "nameAr": "إكيس",
+    "nameEn": "",
+    "type": "city",
+    "lat": 27.41,
+    "lng": -0.25,
+    "pop": null
+  },
+  {
+    "nameAr": "البنيان",
+    "nameEn": "Beniane",
+    "type": "city",
+    "lat": 35.0993359,
+    "lng": 0.2294254,
+    "pop": null
+  },
+  {
+    "nameAr": "البوحيرة",
+    "nameEn": "Bouhira",
+    "type": "city",
+    "lat": 36.216944444444,
+    "lng": 5.2788888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "الثلاثية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.792778,
+    "lng": 5.884722,
+    "pop": null
+  },
+  {
+    "nameAr": "الجبيل",
+    "nameEn": "Djebil",
+    "type": "city",
+    "lat": 36.7558307,
+    "lng": 3.510168,
+    "pop": null
+  },
+  {
+    "nameAr": "الجمعة صهاريج",
+    "nameEn": "Djemaa Saharidj",
+    "type": "city",
+    "lat": 36.6839,
+    "lng": 4.29002,
+    "pop": null
+  },
+  {
+    "nameAr": "الحساسنة",
+    "nameEn": "El Hassasna",
+    "type": "city",
+    "lat": 36.305833333333,
+    "lng": 5.3847222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "الخبنة",
+    "nameEn": "El Khoubna",
+    "type": "city",
+    "lat": 33.10277778,
+    "lng": 6.41083333,
+    "pop": null
+  },
+  {
+    "nameAr": "الزايري",
+    "nameEn": "Zaïri",
+    "type": "city",
+    "lat": 36.305916666667,
+    "lng": 5.43625,
+    "pop": null
+  },
+  {
+    "nameAr": "الزقم",
+    "nameEn": "Z'Goum",
+    "type": "city",
+    "lat": 33.476388888889,
+    "lng": 6.9075,
+    "pop": null
+  },
+  {
+    "nameAr": "السمارة",
+    "nameEn": "Smara",
+    "type": "city",
+    "lat": 36.29585,
+    "lng": 5.46936,
+    "pop": null
+  },
+  {
+    "nameAr": "السويهلة",
+    "nameEn": "Souihla",
+    "type": "city",
+    "lat": 33.51888889,
+    "lng": 6.89694444,
+    "pop": null
+  },
+  {
+    "nameAr": "الشريعة",
+    "nameEn": "Chréa",
+    "type": "city",
+    "lat": 36.335083333333,
+    "lng": 4.8660555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "الشعبية_(سطيف)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.248527777778,
+    "lng": 5.3718333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "الشناشن",
+    "nameEn": "Chenachène",
+    "type": "city",
+    "lat": 26.03972222,
+    "lng": -4.21555556,
+    "pop": null
+  },
+  {
+    "nameAr": "الصومعة",
+    "nameEn": "Soumâa",
+    "type": "city",
+    "lat": 36.7057547,
+    "lng": 3.5622088,
+    "pop": null
+  },
+  {
+    "nameAr": "العناصر",
+    "nameEn": "El Anasser",
+    "type": "city",
+    "lat": 36.209861111111,
+    "lng": 5.3259166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "الغرابة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.55,
+    "lng": 2.9197222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "القطاي",
+    "nameEn": "Gottaï",
+    "type": "city",
+    "lat": 33.63333333,
+    "lng": 6.9,
+    "pop": null
+  },
+  {
+    "nameAr": "القيطنة",
+    "nameEn": "Guittena",
+    "type": "city",
+    "lat": 35.408333333333,
+    "lng": -0.05,
+    "pop": null
+  },
+  {
+    "nameAr": "المابيا",
+    "nameEn": "Elmabia",
+    "type": "city",
+    "lat": 36.3345,
+    "lng": 4.8164444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "المالحة",
+    "nameEn": "Melha",
+    "type": "city",
+    "lat": 36.148944444444,
+    "lng": 5.269,
+    "pop": null
+  },
+  {
+    "nameAr": "المقيبرة",
+    "nameEn": "Méguibra",
+    "type": "city",
+    "lat": 34.25861111,
+    "lng": 6.01444444,
+    "pop": null
+  },
+  {
+    "nameAr": "المهدية",
+    "nameEn": "El Mahdia",
+    "type": "city",
+    "lat": 36.1705,
+    "lng": 5.2360833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "الموان",
+    "nameEn": "Mahouane",
+    "type": "city",
+    "lat": 36.263333333333,
+    "lng": 5.3453611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الوقارتة",
+    "nameEn": "Ougarta",
+    "type": "city",
+    "lat": 29.65826,
+    "lng": -2.276015,
+    "pop": null
+  },
+  {
+    "nameAr": "أم البواقي",
+    "nameEn": "Oum El Bouaghi",
+    "type": "city",
+    "lat": 35.870555555556,
+    "lng": 7.115,
+    "pop": null
+  },
+  {
+    "nameAr": "ام الزبد",
+    "nameEn": "Zebed",
+    "type": "city",
+    "lat": 33.154722222222,
+    "lng": 6.2994444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "أم العشار",
+    "nameEn": "Oum El Achar",
+    "type": "city",
+    "lat": 28.71444444,
+    "lng": -8.48222222,
+    "pop": null
+  },
+  {
+    "nameAr": "أمازول",
+    "nameEn": "Amazoul",
+    "type": "city",
+    "lat": 36.651366479857,
+    "lng": 4.2655935540102,
+    "pop": null
+  },
+  {
+    "nameAr": "امحفوظن",
+    "nameEn": "Mahfouda",
+    "type": "city",
+    "lat": 36.4400899,
+    "lng": 4.6512985,
+    "pop": null
+  },
+  {
+    "nameAr": "إمزذاثن (مزداتة)",
+    "nameEn": "Mezdatta",
+    "type": "city",
+    "lat": 36.652875,
+    "lng": 4.003036,
+    "pop": null
+  },
+  {
+    "nameAr": "أمسل",
+    "nameEn": "Amsel",
+    "type": "city",
+    "lat": 22.62555556,
+    "lng": 5.455,
+    "pop": null
+  },
+  {
+    "nameAr": "أمغلدن",
+    "nameEn": "Meraldene",
+    "type": "city",
+    "lat": 36.7025804,
+    "lng": 3.5404655,
+    "pop": null
+  },
+  {
+    "nameAr": "أمقيد",
+    "nameEn": "Amguid",
+    "type": "city",
+    "lat": 26.422222222222,
+    "lng": 5.3625,
+    "pop": null
+  },
+  {
+    "nameAr": "انسيغة",
+    "nameEn": "N'Sigha",
+    "type": "city",
+    "lat": 34.01388889,
+    "lng": 5.95166667,
+    "pop": null
+  },
+  {
+    "nameAr": "أوتول",
+    "nameEn": "Outoul",
+    "type": "city",
+    "lat": 22.840277777778,
+    "lng": 5.3375,
+    "pop": null
+  },
+  {
+    "nameAr": "اورير_(عين_الحمام)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.578906,
+    "lng": 4.34235,
+    "pop": null
+  },
+  {
+    "nameAr": "اورير_اوعلمي",
+    "nameEn": "Aourir Oulmi",
+    "type": "city",
+    "lat": 36.3585,
+    "lng": 4.8094166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "أوقرينة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.299444444444,
+    "lng": 5.4013888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد بومرداس",
+    "nameEn": "Ouled Boumerdès",
+    "type": "city",
+    "lat": 36.6780076,
+    "lng": 3.5176461,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد زيغم",
+    "nameEn": "Ouled Zighem",
+    "type": "city",
+    "lat": 36.236583333333,
+    "lng": 5.4186388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد سي عبد الله",
+    "nameEn": "Ouled Si Abdallah",
+    "type": "city",
+    "lat": 36.201166666667,
+    "lng": 5.2559166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد سي علي",
+    "nameEn": "Ouled Si Ali",
+    "type": "city",
+    "lat": 36.1286,
+    "lng": 5.29625,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد علي بن عثمان",
+    "nameEn": "Ouled Ali Benathmane",
+    "type": "city",
+    "lat": 36.282777777778,
+    "lng": 5.3763888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد منصور",
+    "nameEn": "Ouled Mansour",
+    "type": "city",
+    "lat": 36.253888888889,
+    "lng": 5.4396666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد هادف",
+    "nameEn": "Ouled Hadef",
+    "type": "city",
+    "lat": 36.243952,
+    "lng": 5.457047,
+    "pop": null
+  },
+  {
+    "nameAr": "أيت وعبان",
+    "nameEn": "Ait Ouabane",
+    "type": "city",
+    "lat": 36.4815,
+    "lng": 4.29737,
+    "pop": null
+  },
+  {
+    "nameAr": "ايسومار",
+    "nameEn": "Issoummar",
+    "type": "city",
+    "lat": 36.315805555556,
+    "lng": 4.8127777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "إيغيل إيمولا",
+    "nameEn": "Ighil Imoula",
+    "type": "city",
+    "lat": 36.5532,
+    "lng": 4.04359,
+    "pop": null
+  },
+  {
+    "nameAr": "ايغيل حموش",
+    "nameEn": "Ighil Hammouch",
+    "type": "city",
+    "lat": 36.319666666667,
+    "lng": 4.8447777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "ايغيل_لخميس",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.332611111111,
+    "lng": 4.8638333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بئر الصفصاف",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.20194444,
+    "lng": 1.59472222,
+    "pop": null
+  },
+  {
+    "nameAr": "برج العقيد لطفي",
+    "nameEn": "Fort Lofti",
+    "type": "city",
+    "lat": 29.64805556,
+    "lng": -3.99833333,
+    "pop": null
+  },
+  {
+    "nameAr": "برج تارات",
+    "nameEn": "Tarat",
+    "type": "city",
+    "lat": 26.115833333333,
+    "lng": 9.3527777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "بريزينة",
+    "nameEn": "Brezina",
+    "type": "city",
+    "lat": 33.0993793,
+    "lng": 1.260767,
+    "pop": null
+  },
+  {
+    "nameAr": "بغاون",
+    "nameEn": "Beghaoun",
+    "type": "city",
+    "lat": 35.05764389,
+    "lng": -1.87709999,
+    "pop": null
+  },
+  {
+    "nameAr": "بلعروق الزاوية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 35.395555555556,
+    "lng": 3.6997222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "بن زيراق",
+    "nameEn": "Benzireg",
+    "type": "city",
+    "lat": 31.92305556,
+    "lng": -1.84083333,
+    "pop": null
+  },
+  {
+    "nameAr": "بني عريف",
+    "nameEn": "Aït Arif",
+    "type": "city",
+    "lat": 36.4962,
+    "lng": 3.13831,
+    "pop": null
+  },
+  {
+    "nameAr": "بني منصور",
+    "nameEn": "Beni Mansour",
+    "type": "city",
+    "lat": 36.335,
+    "lng": 4.36035,
+    "pop": null
+  },
+  {
+    "nameAr": "بودافال",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.5881,
+    "lng": 4.30874,
+    "pop": null
+  },
+  {
+    "nameAr": "بودوخة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.743416666667,
+    "lng": 6.3993333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بوشاوي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.7439,
+    "lng": 2.9141,
+    "pop": null
+  },
+  {
+    "nameAr": "بوكانون",
+    "nameEn": "Boukanoun",
+    "type": "city",
+    "lat": 34.97311,
+    "lng": -2.10037,
+    "pop": null
+  },
+  {
+    "nameAr": "بولفرايس",
+    "nameEn": "",
+    "type": "city",
+    "lat": 35.515277777778,
+    "lng": 6.7533333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "تابراهيمث",
+    "nameEn": "Tabrahimt",
+    "type": "city",
+    "lat": 36.6868202,
+    "lng": 3.5492203,
+    "pop": null
+  },
+  {
+    "nameAr": "تاسامات",
+    "nameEn": "Thamasth",
+    "type": "city",
+    "lat": 36.318083333333,
+    "lng": 4.8262222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "تاسوست",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.807361,
+    "lng": 5.844669,
+    "pop": null
+  },
+  {
+    "nameAr": "تاغاوهاوت",
+    "nameEn": "Tarhaouhaout",
+    "type": "city",
+    "lat": 22.6767,
+    "lng": 5.92083,
+    "pop": null
+  },
+  {
+    "nameAr": "تاغوزي",
+    "nameEn": "Taghouzi",
+    "type": "city",
+    "lat": 29.415,
+    "lng": -0.40386,
+    "pop": null
+  },
+  {
+    "nameAr": "تاقمة",
+    "nameEn": "Tagma",
+    "type": "city",
+    "lat": 36.417222222222,
+    "lng": 4.6102777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "تالة بونان",
+    "nameEn": "Thala Bounane",
+    "type": "city",
+    "lat": 36.675486,
+    "lng": 4.080605,
+    "pop": null
+  },
+  {
+    "nameAr": "تامدة",
+    "nameEn": "Tamda",
+    "type": "city",
+    "lat": 36.70522,
+    "lng": 4.19157,
+    "pop": null
+  },
+  {
+    "nameAr": "تاملوت",
+    "nameEn": "Thamalout",
+    "type": "city",
+    "lat": 36.32075,
+    "lng": 4.8145277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "تامنتفوست",
+    "nameEn": "Tamentfoust",
+    "type": "city",
+    "lat": 36.8058,
+    "lng": 3.2301,
+    "pop": null
+  },
+  {
+    "nameAr": "تاهارت",
+    "nameEn": "Tahart",
+    "type": "city",
+    "lat": 22.8414,
+    "lng": 5.16833,
+    "pop": null
+  },
+  {
+    "nameAr": "تاوريرت",
+    "nameEn": "Taourirt",
+    "type": "city",
+    "lat": 36.5969,
+    "lng": 4.63049,
+    "pop": null
+  },
+  {
+    "nameAr": "تاوريرت_تملالت",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.335944444444,
+    "lng": 4.8614166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "تشير",
+    "nameEn": "Douar Tchair",
+    "type": "city",
+    "lat": 36.1589821,
+    "lng": 5.2434788,
+    "pop": null
+  },
+  {
+    "nameAr": "تفريت ناث الحاج",
+    "nameEn": "Tifrit N'Aït El Hadj",
+    "type": "city",
+    "lat": 36.7992,
+    "lng": 4.42056,
+    "pop": null
+  },
+  {
+    "nameAr": "تفريت ناث اومالك",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.6814493,
+    "lng": 4.5054325,
+    "pop": null
+  },
+  {
+    "nameAr": "تقراقرى",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.6112,
+    "lng": 4.11974,
+    "pop": null
+  },
+  {
+    "nameAr": "تماجرت",
+    "nameEn": "Tamadjert",
+    "type": "city",
+    "lat": 25.616944444444,
+    "lng": 7.3155555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "تملحت",
+    "nameEn": "Tamellaht",
+    "type": "city",
+    "lat": 33.0119,
+    "lng": 6.00972,
+    "pop": null
+  },
+  {
+    "nameAr": "تملوكة",
+    "nameEn": "Timlouka",
+    "type": "city",
+    "lat": 36.168416666667,
+    "lng": 5.3257777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "تنزارة",
+    "nameEn": "Tenezara",
+    "type": "city",
+    "lat": 34.9634117,
+    "lng": -0.6144619,
+    "pop": null
+  },
+  {
+    "nameAr": "تورييرت آدن",
+    "nameEn": "Tourirt Adene",
+    "type": "city",
+    "lat": 36.667056433246,
+    "lng": 4.2502003512991,
+    "pop": null
+  },
+  {
+    "nameAr": "تيزي ن ترقا",
+    "nameEn": "Tizi N Terga",
+    "type": "city",
+    "lat": 36.65257269861,
+    "lng": 4.2828408544694,
+    "pop": null
+  },
+  {
+    "nameAr": "تيزي هيبل",
+    "nameEn": "Tizi Hibel ath douala",
+    "type": "city",
+    "lat": 36.6023,
+    "lng": 4.12155,
+    "pop": null
+  },
+  {
+    "nameAr": "تيزي_مجبر",
+    "nameEn": "Tizi Medjber",
+    "type": "city",
+    "lat": 36.325805555556,
+    "lng": 4.8615833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "تيطاف",
+    "nameEn": "",
+    "type": "city",
+    "lat": 27.41,
+    "lng": -0.18,
+    "pop": null
+  },
+  {
+    "nameAr": "تيغمرت",
+    "nameEn": "Thighramt",
+    "type": "city",
+    "lat": 36.322472222222,
+    "lng": 4.8162777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "تيقرت نتيقجدة",
+    "nameEn": "Thigherth N'tghedjda",
+    "type": "city",
+    "lat": 36.332919722222,
+    "lng": 4.8654475,
+    "pop": null
+  },
+  {
+    "nameAr": "تيقيشورت",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.525925,
+    "lng": 4.218833,
+    "pop": null
+  },
+  {
+    "nameAr": "تيمنقاش",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.319472222222,
+    "lng": 4.8530833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "تينجوب",
+    "nameEn": "Tinjoub",
+    "type": "city",
+    "lat": 29.49333,
+    "lng": -5.62167,
+    "pop": null
+  },
+  {
+    "nameAr": "ثادارث أوفلا",
+    "nameEn": "Taddart Ufella",
+    "type": "city",
+    "lat": 36.652875,
+    "lng": 4.003036,
+    "pop": null
+  },
+  {
+    "nameAr": "ثاسقى",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.6043,
+    "lng": 4.63667,
+    "pop": null
+  },
+  {
+    "nameAr": "ثصاذورث",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.652875,
+    "lng": 4.003036,
+    "pop": null
+  },
+  {
+    "nameAr": "ثيوال",
+    "nameEn": "Tiwal",
+    "type": "city",
+    "lat": 36.4873,
+    "lng": 4.77056,
+    "pop": null
+  },
+  {
+    "nameAr": "جبل مكسن",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.669,
+    "lng": 6.858,
+    "pop": null
+  },
+  {
+    "nameAr": "حاسي بلقبور",
+    "nameEn": "Hassi Bel Guebour",
+    "type": "city",
+    "lat": 28.68916667,
+    "lng": 6.50583333,
+    "pop": null
+  },
+  {
+    "nameAr": "حاسي بوبرنوس",
+    "nameEn": "Bou Bernous",
+    "type": "city",
+    "lat": 27.31972222,
+    "lng": -2.98361111,
+    "pop": null
+  },
+  {
+    "nameAr": "حاسي خبي",
+    "nameEn": "Hassi Khebi",
+    "type": "city",
+    "lat": 29.18583333,
+    "lng": -5.07555556,
+    "pop": null
+  },
+  {
+    "nameAr": "حاسي منير",
+    "nameEn": "Hassi Mounir",
+    "type": "city",
+    "lat": 29.11388889,
+    "lng": -7.29944444,
+    "pop": null
+  },
+  {
+    "nameAr": "حاسي_البيضاء",
+    "nameEn": "",
+    "type": "city",
+    "lat": 29.5171,
+    "lng": -5.71399,
+    "pop": null
+  },
+  {
+    "nameAr": "حسناوة",
+    "nameEn": "Hasnaoua",
+    "type": "city",
+    "lat": 36.1525,
+    "lng": 4.79538,
+    "pop": null
+  },
+  {
+    "nameAr": "داغوسة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.733333333333,
+    "lng": 7.8,
+    "pop": null
+  },
+  {
+    "nameAr": "دكاكنة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.641132,
+    "lng": 2.906436,
+    "pop": null
+  },
+  {
+    "nameAr": "ذراع الميعاد",
+    "nameEn": "Draa El Miaad",
+    "type": "city",
+    "lat": 35.9575916,
+    "lng": 5.2914371,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس العين",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.229,
+    "lng": 5.05202,
+    "pop": null
+  },
+  {
+    "nameAr": "رشقون",
+    "nameEn": "Rachgoun",
+    "type": "city",
+    "lat": 35.323958,
+    "lng": -1.479767,
+    "pop": null
+  },
+  {
+    "nameAr": "زاكنون",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.5181,
+    "lng": 4.21973,
+    "pop": null
+  },
+  {
+    "nameAr": "سيدي الجوادي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.316027777778,
+    "lng": 4.8317777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "سيدي الشحمي",
+    "nameEn": "Sidi Chami",
+    "type": "city",
+    "lat": 35.658888888889,
+    "lng": -0.52166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "سيدي عبد العزيز",
+    "nameEn": "Sidi Abdelaziz",
+    "type": "city",
+    "lat": 36.853333333333,
+    "lng": 6.0513888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "سيدي فرج",
+    "nameEn": "Sidi Fredj",
+    "type": "city",
+    "lat": 36.761055555556,
+    "lng": 2.8451944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "صفيصيفة",
+    "nameEn": "Sfissifa",
+    "type": "city",
+    "lat": 31.93166667,
+    "lng": -2.21722222,
+    "pop": null
+  },
+  {
+    "nameAr": "عجاجة",
+    "nameEn": "Adjadja",
+    "type": "city",
+    "lat": 31.95111111,
+    "lng": 5.38694444,
+    "pop": null
+  },
+  {
+    "nameAr": "عزوزة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.6409,
+    "lng": 4.17845,
+    "pop": null
+  },
+  {
+    "nameAr": "عشابو",
+    "nameEn": "Achabou",
+    "type": "city",
+    "lat": 36.316667,
+    "lng": 4.733333,
+    "pop": null
+  },
+  {
+    "nameAr": "عين البكاي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 33.994722222222,
+    "lng": 1.7116666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "عين الحوت",
+    "nameEn": "",
+    "type": "city",
+    "lat": 34.9318,
+    "lng": -1.3254,
+    "pop": null
+  },
+  {
+    "nameAr": "عين الدفيلة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 35.20978,
+    "lng": 5.464439,
+    "pop": null
+  },
+  {
+    "nameAr": "عين السدرة",
+    "nameEn": "Aïn Sadra",
+    "type": "city",
+    "lat": 36.15301,
+    "lng": 5.22723,
+    "pop": null
+  },
+  {
+    "nameAr": "عين الشوشة",
+    "nameEn": "Aïn Choucha",
+    "type": "city",
+    "lat": 33.41527778,
+    "lng": 5.96972222,
+    "pop": null
+  },
+  {
+    "nameAr": "عين امباركة",
+    "nameEn": "Aïn Mebarka",
+    "type": "city",
+    "lat": 36.351666666667,
+    "lng": 7.7327777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "عين جربوع",
+    "nameEn": "",
+    "type": "city",
+    "lat": 35.254166666667,
+    "lng": 7.125,
+    "pop": null
+  },
+  {
+    "nameAr": "عين دالج",
+    "nameEn": "In Dalag",
+    "type": "city",
+    "lat": 22.80444444,
+    "lng": 5.99194444,
+    "pop": null
+  },
+  {
+    "nameAr": "عين زادة",
+    "nameEn": "Aïn Zada",
+    "type": "city",
+    "lat": 36.166305555556,
+    "lng": 5.2049444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "عين مزياب",
+    "nameEn": "Ain Meziab",
+    "type": "city",
+    "lat": 36.652875,
+    "lng": 4.003036,
+    "pop": null
+  },
+  {
+    "nameAr": "عين مصنيبات",
+    "nameEn": "Aïn Oum Snibate",
+    "type": "city",
+    "lat": 36.14023,
+    "lng": 5.22891,
+    "pop": null
+  },
+  {
+    "nameAr": "عين مطبول",
+    "nameEn": "Ain Metboul",
+    "type": "city",
+    "lat": 36.22,
+    "lng": 0.88,
+    "pop": null
+  },
+  {
+    "nameAr": "غرميانو",
+    "nameEn": "",
+    "type": "city",
+    "lat": 27.37,
+    "lng": -0.18,
+    "pop": null
+  },
+  {
+    "nameAr": "غروس",
+    "nameEn": "Gharrous",
+    "type": "city",
+    "lat": 35.19574,
+    "lng": 0.40084,
+    "pop": null
+  },
+  {
+    "nameAr": "غمرة",
+    "nameEn": "Ghamra",
+    "type": "city",
+    "lat": 33.53333333,
+    "lng": 6.78333333,
+    "pop": null
+  },
+  {
+    "nameAr": "فرزول",
+    "nameEn": "Farzoul",
+    "type": "city",
+    "lat": 35.07602778,
+    "lng": 3.20486111,
+    "pop": null
+  },
+  {
+    "nameAr": "فندي",
+    "nameEn": "Fendi",
+    "type": "city",
+    "lat": 31.84055556,
+    "lng": -1.47777778,
+    "pop": null
+  },
+  {
+    "nameAr": "فوملال",
+    "nameEn": "Foumlal",
+    "type": "city",
+    "lat": 36.341388888889,
+    "lng": 4.8653888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "في بلبل",
+    "nameEn": "In Belbel",
+    "type": "city",
+    "lat": 27.9,
+    "lng": 1.16697222,
+    "pop": null
+  },
+  {
+    "nameAr": "قدارة",
+    "nameEn": "Gueddara",
+    "type": "city",
+    "lat": 36.7078101,
+    "lng": 3.5529968,
+    "pop": null
+  },
+  {
+    "nameAr": "قمودة",
+    "nameEn": "Kemmouda",
+    "type": "city",
+    "lat": 36.665593,
+    "lng": 3.997578,
+    "pop": null
+  },
+  {
+    "nameAr": "قوسيمات",
+    "nameEn": "Goussimet",
+    "type": "city",
+    "lat": 36.248333333333,
+    "lng": 5.4320277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "كوكو",
+    "nameEn": "Kuku",
+    "type": "city",
+    "lat": 36.599439,
+    "lng": 4.360719,
+    "pop": null
+  },
+  {
+    "nameAr": "لخبابشة",
+    "nameEn": "Khebabcha",
+    "type": "city",
+    "lat": 36.247,
+    "lng": 5.4065833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "لسهاو",
+    "nameEn": "",
+    "type": "city",
+    "lat": 34.081944444444,
+    "lng": 1.8261111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "لعصامين",
+    "nameEn": "Laassamine",
+    "type": "city",
+    "lat": 36.21701,
+    "lng": 5.34369,
+    "pop": null
+  },
+  {
+    "nameAr": "لعوارم",
+    "nameEn": "Lâouarem",
+    "type": "city",
+    "lat": 36.17,
+    "lng": 5.2561111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "مالسة",
+    "nameEn": "Melssa",
+    "type": "city",
+    "lat": 36.124444444444,
+    "lng": 5.28075,
+    "pop": null
+  },
+  {
+    "nameAr": "ماويا",
+    "nameEn": "Maouya",
+    "type": "city",
+    "lat": 36.64248412347,
+    "lng": 4.2710241746009,
+    "pop": null
+  },
+  {
+    "nameAr": "مرتتك",
+    "nameEn": "Mertoutek",
+    "type": "city",
+    "lat": 24.22805556,
+    "lng": 5.54,
+    "pop": null
+  },
+  {
+    "nameAr": "مريكسن",
+    "nameEn": "Merixen",
+    "type": "city",
+    "lat": 30.14361111,
+    "lng": 9.32222222,
+    "pop": null
+  },
+  {
+    "nameAr": "معبر تينالكوم",
+    "nameEn": "Tin El Koum",
+    "type": "city",
+    "lat": 24.5906,
+    "lng": 10.1944,
+    "pop": null
+  },
+  {
+    "nameAr": "معفر",
+    "nameEn": "",
+    "type": "city",
+    "lat": 35.8568954,
+    "lng": 5.3658635,
+    "pop": null
+  },
+  {
+    "nameAr": "مغيرة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.68139,
+    "lng": 4.31056,
+    "pop": null
+  },
+  {
+    "nameAr": "ميسويا",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.6265,
+    "lng": 4.40507,
+    "pop": null
+  },
+  {
+    "nameAr": "ميلة",
+    "nameEn": "Mila",
+    "type": "city",
+    "lat": 36.448055555556,
+    "lng": 6.2622222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "نصالح",
+    "nameEn": "Aghdha N'salah",
+    "type": "city",
+    "lat": 36.3215,
+    "lng": 4.8241111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "هيرافوك",
+    "nameEn": "Hirhafek",
+    "type": "city",
+    "lat": 23.65277778,
+    "lng": 5.76472222,
+    "pop": null
+  },
+  {
+    "nameAr": "واد الشعير",
+    "nameEn": "Oued Cheir",
+    "type": "city",
+    "lat": 36.276111111111,
+    "lng": 5.4341111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "ورجة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 36.525555555556,
+    "lng": 4.3497222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "وغلانة",
+    "nameEn": "Ourglana",
+    "type": "city",
+    "lat": 33.55416667,
+    "lng": 5.99416667,
+    "pop": null
+  },
+  {
+    "nameAr": "يعقوب",
+    "nameEn": "Thaourirth Yaacoub",
+    "type": "city",
+    "lat": 36.317361111111,
+    "lng": 4.8453888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Abizar",
+    "nameEn": "Abizar",
+    "type": "city",
+    "lat": 36.8226966,
+    "lng": 4.2132285,
+    "pop": null
+  },
+  {
+    "nameAr": "Adjioun",
+    "nameEn": "Adjioun",
+    "type": "city",
+    "lat": 36.4663,
+    "lng": 5.210609,
+    "pop": null
+  },
+  {
+    "nameAr": "Agouni Bouafir",
+    "nameEn": "Agouni Bouafir",
+    "type": "city",
+    "lat": 36.664334059815,
+    "lng": 4.2613978177536,
+    "pop": null
+  },
+  {
+    "nameAr": "Aïn Cheikh",
+    "nameEn": "Aïn Cheikh",
+    "type": "city",
+    "lat": 33.87861111,
+    "lng": 5.98388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Ait Bouada",
+    "nameEn": "Ait Bouada",
+    "type": "city",
+    "lat": 36.6977,
+    "lng": 4.40981,
+    "pop": null
+  },
+  {
+    "nameAr": "Ait Irane",
+    "nameEn": "Ait Irane",
+    "type": "city",
+    "lat": 36.504385,
+    "lng": 4.079017,
+    "pop": null
+  },
+  {
+    "nameAr": "Aït Mansour",
+    "nameEn": "Aït Mansour",
+    "type": "city",
+    "lat": 36.664289442412,
+    "lng": 4.2746717092628,
+    "pop": null
+  },
+  {
+    "nameAr": "Aït Ouchène",
+    "nameEn": "Aït Ouchène",
+    "type": "city",
+    "lat": 36.8166,
+    "lng": 4.36037,
+    "pop": null
+  },
+  {
+    "nameAr": "Akaoudj",
+    "nameEn": "Akaoudj",
+    "type": "city",
+    "lat": 36.75,
+    "lng": 4.0666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ammas",
+    "nameEn": "Ammas",
+    "type": "city",
+    "lat": 29.84583333,
+    "lng": -1.80916667,
+    "pop": null
+  },
+  {
+    "nameAr": "Âouinet Bel Egrâ",
+    "nameEn": "Âouinet Bel Egrâ",
+    "type": "city",
+    "lat": 26.83,
+    "lng": -6.89528,
+    "pop": null
+  },
+  {
+    "nameAr": "Aourir",
+    "nameEn": "Aourir",
+    "type": "city",
+    "lat": 36.6081,
+    "lng": 4.63312,
+    "pop": null
+  },
+  {
+    "nameAr": "Arfiane El Bared",
+    "nameEn": "Arfiane El Bared",
+    "type": "city",
+    "lat": 33.65583333,
+    "lng": 5.97916667,
+    "pop": null
+  },
+  {
+    "nameAr": "Assif El Hammam",
+    "nameEn": "Assif El Hammam",
+    "type": "city",
+    "lat": 36.730939,
+    "lng": 4.582286,
+    "pop": null
+  },
+  {
+    "nameAr": "Azra",
+    "nameEn": "Azra",
+    "type": "city",
+    "lat": 36.855,
+    "lng": 4.165,
+    "pop": null
+  },
+  {
+    "nameAr": "Baadj",
+    "nameEn": "Baadj",
+    "type": "city",
+    "lat": 33.41527778,
+    "lng": 5.96972222,
+    "pop": null
+  },
+  {
+    "nameAr": "BABOR - VILLE",
+    "nameEn": "BABOR - VILLE",
+    "type": "city",
+    "lat": 36.48994,
+    "lng": 5.5393,
+    "pop": null
+  },
+  {
+    "nameAr": "Bent Cherk",
+    "nameEn": "Bent Cherk",
+    "type": "city",
+    "lat": 29.14611111,
+    "lng": -0.74777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Berrabi Bakhti",
+    "nameEn": "Berrabi Bakhti",
+    "type": "city",
+    "lat": 30.84916667,
+    "lng": -1.99944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Bougoufa",
+    "nameEn": "Bougoufa",
+    "type": "city",
+    "lat": 33.10638889,
+    "lng": 6.76388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Bouhadid",
+    "nameEn": "Bouhadid",
+    "type": "city",
+    "lat": 29.87444444,
+    "lng": -1.83833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Boutarfaya",
+    "nameEn": "Boutarfaya",
+    "type": "city",
+    "lat": 29.31333333,
+    "lng": -1.09722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Chégamat",
+    "nameEn": "Chégamat",
+    "type": "city",
+    "lat": 33.24222222,
+    "lng": 6.79333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chémora",
+    "nameEn": "Chémora",
+    "type": "city",
+    "lat": 33.46444444,
+    "lng": 5.97722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheurfa n'Bahloul",
+    "nameEn": "Cheurfa n'Bahloul",
+    "type": "city",
+    "lat": 36.7204,
+    "lng": 4.37821,
+    "pop": null
+  },
+  {
+    "nameAr": "Chott",
+    "nameEn": "Chott",
+    "type": "city",
+    "lat": 31.96222222,
+    "lng": 5.38888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Dabadib",
+    "nameEn": "Dabadib",
+    "type": "city",
+    "lat": 33.20666667,
+    "lng": 6.77361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Débidibi",
+    "nameEn": "Débidibi",
+    "type": "city",
+    "lat": 33.21944444,
+    "lng": 6.88555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dendouga",
+    "nameEn": "Dendouga",
+    "type": "city",
+    "lat": 33.96111111,
+    "lng": 5.9725,
+    "pop": null
+  },
+  {
+    "nameAr": "Doukkar",
+    "nameEn": "Doukkar",
+    "type": "city",
+    "lat": 33.47638889,
+    "lng": 6.89583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Eferi",
+    "nameEn": "Eferi",
+    "type": "city",
+    "lat": 24.47666667,
+    "lng": 9.51305556,
+    "pop": null
+  },
+  {
+    "nameAr": "El Arfji",
+    "nameEn": "El Arfji",
+    "type": "city",
+    "lat": 33.5075,
+    "lng": 6.66166667,
+    "pop": null
+  },
+  {
+    "nameAr": "El Hameri",
+    "nameEn": "El Hameri",
+    "type": "city",
+    "lat": 36.746909,
+    "lng": 4.259273,
+    "pop": null
+  },
+  {
+    "nameAr": "El Har Ihira",
+    "nameEn": "El Har Ihira",
+    "type": "city",
+    "lat": 33.24333333,
+    "lng": 6.04416667,
+    "pop": null
+  },
+  {
+    "nameAr": "El Kataf",
+    "nameEn": "El Kataf",
+    "type": "city",
+    "lat": 33.1875,
+    "lng": 6.66222222,
+    "pop": null
+  },
+  {
+    "nameAr": "El Ksar",
+    "nameEn": "El Ksar",
+    "type": "city",
+    "lat": 29.21972222,
+    "lng": -1.02972222,
+    "pop": null
+  },
+  {
+    "nameAr": "El Maffa",
+    "nameEn": "El Maffa",
+    "type": "city",
+    "lat": 29.83666667,
+    "lng": -1.78055556,
+    "pop": null
+  },
+  {
+    "nameAr": "El Mihan",
+    "nameEn": "El Mihan",
+    "type": "city",
+    "lat": 24.54805556,
+    "lng": 9.48555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Gharbia",
+    "nameEn": "Gharbia",
+    "type": "city",
+    "lat": 33.47638889,
+    "lng": 6.88777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Goug",
+    "nameEn": "Goug",
+    "type": "city",
+    "lat": 32.905,
+    "lng": 6.00611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Grarem Gouga",
+    "nameEn": "Grarem Gouga",
+    "type": "city",
+    "lat": 36.516667,
+    "lng": 6.333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hassi Abdallah",
+    "nameEn": "Hassi Abdallah",
+    "type": "city",
+    "lat": 29.02861111,
+    "lng": -0.91444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Hassi Lahdjar",
+    "nameEn": "Hassi Lahdjar",
+    "type": "city",
+    "lat": 27.2775,
+    "lng": 2.58583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hinoune",
+    "nameEn": "Hinoune",
+    "type": "city",
+    "lat": 27.32416667,
+    "lng": 2.85055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Hobba",
+    "nameEn": "Hobba",
+    "type": "city",
+    "lat": 33.60583333,
+    "lng": 6.7525,
+    "pop": null
+  },
+  {
+    "nameAr": "Idigh",
+    "nameEn": "Idigh",
+    "type": "city",
+    "lat": 29.89361111,
+    "lng": -1.855,
+    "pop": null
+  },
+  {
+    "nameAr": "Ifni",
+    "nameEn": "Ifni",
+    "type": "city",
+    "lat": 25.768333333333,
+    "lng": 7.9247222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ifri",
+    "nameEn": "Ifri",
+    "type": "city",
+    "lat": 36.5508,
+    "lng": 4.55186,
+    "pop": null
+  },
+  {
+    "nameAr": "Igostène",
+    "nameEn": "Igostène",
+    "type": "city",
+    "lat": 22.62555556,
+    "lng": 5.455,
+    "pop": null
+  },
+  {
+    "nameAr": "Imehrou",
+    "nameEn": "Imehrou",
+    "type": "city",
+    "lat": 25.80916667,
+    "lng": 8.68361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Issalissekine",
+    "nameEn": "Issalissekine",
+    "type": "city",
+    "lat": 22.84722222,
+    "lng": 5.10527778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kahra",
+    "nameEn": "Kahra",
+    "type": "city",
+    "lat": 36.7322,
+    "lng": 4.26654,
+    "pop": null
+  },
+  {
+    "nameAr": "Khobna",
+    "nameEn": "Khobna",
+    "type": "city",
+    "lat": 33.41222222,
+    "lng": 6.95416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ksar Adjahil",
+    "nameEn": "Ksar Adjahil",
+    "type": "city",
+    "lat": 24.52972222,
+    "lng": 9.49166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ksar Azelouaz",
+    "nameEn": "Ksar Azelouaz",
+    "type": "city",
+    "lat": 24.570833333333,
+    "lng": 9.4716666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ksar El Mihan",
+    "nameEn": "Ksar El Mihan",
+    "type": "city",
+    "lat": 24.547028,
+    "lng": 9.485032,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahrane",
+    "nameEn": "Mahrane",
+    "type": "city",
+    "lat": 36.7198192,
+    "lng": 3.537085,
+    "pop": null
+  },
+  {
+    "nameAr": "Maloula",
+    "nameEn": "Maloula",
+    "type": "city",
+    "lat": 36.949461702631,
+    "lng": 8.7113522335181,
+    "pop": null
+  },
+  {
+    "nameAr": "Mazer Zaouia",
+    "nameEn": "Mazer Zaouia",
+    "type": "city",
+    "lat": 33.57777778,
+    "lng": 5.99555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Mechtita",
+    "nameEn": "Mechtita",
+    "type": "city",
+    "lat": 36.533333333333,
+    "lng": 1.83,
+    "pop": null
+  },
+  {
+    "nameAr": "Meggarine Guedima",
+    "nameEn": "Meggarine Guedima",
+    "type": "city",
+    "lat": 33.20055556,
+    "lng": 6.10055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Meslila",
+    "nameEn": "Meslila",
+    "type": "city",
+    "lat": 29.26638889,
+    "lng": -0.90722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mezouara",
+    "nameEn": "Mezouara",
+    "type": "city",
+    "lat": 36.650833333333,
+    "lng": 4.605,
+    "pop": null
+  },
+  {
+    "nameAr": "Mih Lachache",
+    "nameEn": "Mih Lachache",
+    "type": "city",
+    "lat": 33.19583333,
+    "lng": 6.53222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Mih Moulahoum",
+    "nameEn": "Mih Moulahoum",
+    "type": "city",
+    "lat": 33.12305556,
+    "lng": 6.71972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Oudeï Tork",
+    "nameEn": "Oudeï Tork",
+    "type": "city",
+    "lat": 33.24777778,
+    "lng": 6.66444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ouled Ali",
+    "nameEn": "Ouled Ali",
+    "type": "city",
+    "lat": 36.0914,
+    "lng": 0.924525,
+    "pop": null
+  },
+  {
+    "nameAr": "Ouled Rafaa",
+    "nameEn": "Ouled Rafaa",
+    "type": "city",
+    "lat": 29.24638889,
+    "lng": -1.03388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Oum Sahaouine",
+    "nameEn": "Oum Sahaouine",
+    "type": "city",
+    "lat": 33.30861111,
+    "lng": 6.81027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Raffour",
+    "nameEn": "Raffour",
+    "type": "city",
+    "lat": 36.3525,
+    "lng": 4.28694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rhoud El Baguel",
+    "nameEn": "Rhoud El Baguel",
+    "type": "city",
+    "lat": 31.38277778,
+    "lng": 6.95611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sahabane",
+    "nameEn": "Sahabane",
+    "type": "city",
+    "lat": 33.17583333,
+    "lng": 6.73333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sahla Fougania",
+    "nameEn": "Sahla Fougania",
+    "type": "city",
+    "lat": 27.2725,
+    "lng": 2.52083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sahla Tahtania",
+    "nameEn": "Sahla Tahtania",
+    "type": "city",
+    "lat": 27.2775,
+    "lng": 2.49027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Selloum",
+    "nameEn": "Selloum",
+    "type": "city",
+    "lat": 36.4125,
+    "lng": 4.31016,
+    "pop": null
+  },
+  {
+    "nameAr": "Sidi Madani",
+    "nameEn": "Sidi Madani",
+    "type": "city",
+    "lat": 36.4389,
+    "lng": 2.74956,
+    "pop": null
+  },
+  {
+    "nameAr": "Sif El Menadi",
+    "nameEn": "Sif El Menadi",
+    "type": "city",
+    "lat": 33.96166667,
+    "lng": 6.37,
+    "pop": null
+  },
+  {
+    "nameAr": "Silafène",
+    "nameEn": "Silafène",
+    "type": "city",
+    "lat": 27.3425,
+    "lng": 2.84166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tadjmout",
+    "nameEn": "Tadjmout",
+    "type": "city",
+    "lat": 33.8667,
+    "lng": 2.51667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tagounits",
+    "nameEn": "Tagounits",
+    "type": "city",
+    "lat": 36.605944,
+    "lng": 4.361903,
+    "pop": null
+  },
+  {
+    "nameAr": "Taka",
+    "nameEn": "Taka",
+    "type": "city",
+    "lat": 36.6067,
+    "lng": 4.32809,
+    "pop": null
+  },
+  {
+    "nameAr": "Takorabt",
+    "nameEn": "Takorabt",
+    "type": "city",
+    "lat": 36.59176,
+    "lng": 4.83537,
+    "pop": null
+  },
+  {
+    "nameAr": "Tala Allam",
+    "nameEn": "Tala Allam",
+    "type": "city",
+    "lat": 36.722222222222,
+    "lng": 4.0308333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tala Amara",
+    "nameEn": "Tala Amara",
+    "type": "city",
+    "lat": 36.678086,
+    "lng": 4.162443,
+    "pop": null
+  },
+  {
+    "nameAr": "Talan Teidit",
+    "nameEn": "Talan Teidit",
+    "type": "city",
+    "lat": 22.6608,
+    "lng": 5.53944,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamedjout",
+    "nameEn": "Tamedjout",
+    "type": "city",
+    "lat": 36.5614,
+    "lng": 4.28336,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamerna Guedima",
+    "nameEn": "Tamerna Guedima",
+    "type": "city",
+    "lat": 33.46,
+    "lng": 5.9625,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarhenanet",
+    "nameEn": "Tarhenanet",
+    "type": "city",
+    "lat": 23.1644,
+    "lng": 5.44778,
+    "pop": null
+  },
+  {
+    "nameAr": "Tefert El Fougania",
+    "nameEn": "Tefert El Fougania",
+    "type": "city",
+    "lat": 22.8339,
+    "lng": 4.93278,
+    "pop": null
+  },
+  {
+    "nameAr": "Tefert El Tahtania",
+    "nameEn": "Tefert El Tahtania",
+    "type": "city",
+    "lat": 22.8561,
+    "lng": 4.91083,
+    "pop": null
+  },
+  {
+    "nameAr": "Tibouamouchine",
+    "nameEn": "Tibouamouchine",
+    "type": "city",
+    "lat": 36.523,
+    "lng": 4.70419,
+    "pop": null
+  },
+  {
+    "nameAr": "Tigdidine",
+    "nameEn": "Tigdidine",
+    "type": "city",
+    "lat": 33.5386,
+    "lng": 6.02278,
+    "pop": null
+  },
+  {
+    "nameAr": "Tighzert",
+    "nameEn": "Tighzert",
+    "type": "city",
+    "lat": 36.583905,
+    "lng": 4.794578,
+    "pop": null
+  },
+  {
+    "nameAr": "Tiliouacadi",
+    "nameEn": "Tiliouacadi",
+    "type": "city",
+    "lat": 36.6,
+    "lng": 4.63,
+    "pop": null
+  },
+  {
+    "nameAr": "Timgharine",
+    "nameEn": "Timgharine",
+    "type": "city",
+    "lat": 29.1636,
+    "lng": -1.04611,
+    "pop": null
+  },
+  {
+    "nameAr": "Tin Amansagh",
+    "nameEn": "Tin Amansagh",
+    "type": "city",
+    "lat": 22.9147,
+    "lng": 5.08583,
+    "pop": null
+  },
+  {
+    "nameAr": "Zaatra",
+    "nameEn": "Zaatra",
+    "type": "city",
+    "lat": 36.7675,
+    "lng": 3.60694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Zaouia Foukania",
+    "nameEn": "Zaouia Foukania",
+    "type": "city",
+    "lat": 30.9392,
+    "lng": -2.05083,
+    "pop": null
+  },
+  {
+    "nameAr": "Zaouia Sidi Moussa",
+    "nameEn": "Zaouia Sidi Moussa",
+    "type": "city",
+    "lat": 28.1064,
+    "lng": 6.75389,
+    "pop": null
+  },
+  {
+    "nameAr": "Zarzaitine",
+    "nameEn": "Zarzaitine",
+    "type": "city",
+    "lat": 28.0861,
+    "lng": 9.78778,
+    "pop": null
+  },
+  {
+    "nameAr": "Zmila",
+    "nameEn": "Zmila",
+    "type": "city",
+    "lat": 33.4931,
+    "lng": 6.90833,
+    "pop": null
+  }
+]

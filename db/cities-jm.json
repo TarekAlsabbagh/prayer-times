@@ -1,0 +1,12 @@
+[
+  {"nameAr":"كينغستون","nameEn":"Kingston","type":"city","lat":18.0179,"lng":-76.8099,"pop":937700},
+  {"nameAr":"بورتمور","nameEn":"Portmore","type":"city","lat":17.9500,"lng":-76.8833,"pop":182153},
+  {"nameAr":"سبانيش تاون","nameEn":"Spanish Town","type":"city","lat":17.9914,"lng":-76.9543,"pop":147152},
+  {"nameAr":"مونتيغو باي","nameEn":"Montego Bay","type":"city","lat":18.4667,"lng":-77.9167,"pop":110115},
+  {"nameAr":"ماي بن","nameEn":"May Pen","type":"city","lat":17.9667,"lng":-77.2333,"pop":54677},
+  {"nameAr":"ماندفيل","nameEn":"Mandeville","type":"city","lat":18.0333,"lng":-77.5000,"pop":49938},
+  {"nameAr":"أولد هاربور","nameEn":"Old Harbour","type":"city","lat":17.9333,"lng":-77.1167,"pop":28000},
+  {"nameAr":"سافانا لا مار","nameEn":"Savanna-la-Mar","type":"city","lat":18.2167,"lng":-78.1333,"pop":20774},
+  {"nameAr":"أوتشو ريوس","nameEn":"Ocho Rios","type":"city","lat":18.4069,"lng":-77.1031,"pop":16671},
+  {"nameAr":"بورت أنطونيو","nameEn":"Port Antonio","type":"city","lat":18.1833,"lng":-76.4500,"pop":14400}
+]

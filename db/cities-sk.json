@@ -1,0 +1,12 @@
+[
+  {"nameAr":"براتيسلافا","nameEn":"Bratislava","type":"city","lat":48.1486,"lng":17.1077,"pop":437725},
+  {"nameAr":"كوشيتسه","nameEn":"Košice","type":"city","lat":48.7164,"lng":21.2611,"pop":238593},
+  {"nameAr":"بريشوف","nameEn":"Prešov","type":"city","lat":48.9975,"lng":21.2394,"pop":88680},
+  {"nameAr":"جيلينا","nameEn":"Žilina","type":"city","lat":49.2231,"lng":18.7394,"pop":80907},
+  {"nameAr":"نيترا","nameEn":"Nitra","type":"city","lat":48.3114,"lng":18.0850,"pop":76202},
+  {"nameAr":"بانسكا بيستريتسا","nameEn":"Banská Bystrica","type":"city","lat":48.7395,"lng":19.1533,"pop":76018},
+  {"nameAr":"ترنافا","nameEn":"Trnava","type":"city","lat":48.3775,"lng":17.5880,"pop":63803},
+  {"nameAr":"ترينتشين","nameEn":"Trenčín","type":"city","lat":48.8928,"lng":18.0369,"pop":54740},
+  {"nameAr":"مارتن","nameEn":"Martin","type":"city","lat":49.0663,"lng":18.9202,"pop":53856},
+  {"nameAr":"بوبراد","nameEn":"Poprad","type":"city","lat":49.0611,"lng":20.2956,"pop":51758}
+]

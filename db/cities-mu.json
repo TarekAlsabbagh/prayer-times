@@ -1,0 +1,12 @@
+[
+  {"nameAr":"بورت لويس","nameEn":"Port Louis","type":"city","lat":-20.1609,"lng":57.5012,"pop":147066},
+  {"nameAr":"فاكواس-فينيكس","nameEn":"Vacoas-Phoenix","type":"city","lat":-20.3000,"lng":57.4833,"pop":105962},
+  {"nameAr":"بو باسان-روز هيل","nameEn":"Beau Bassin-Rose Hill","type":"city","lat":-20.2167,"lng":57.4667,"pop":104423},
+  {"nameAr":"كوربيب","nameEn":"Curepipe","type":"city","lat":-20.3167,"lng":57.5167,"pop":83253},
+  {"nameAr":"كاتر بورن","nameEn":"Quatre Bornes","type":"city","lat":-20.2667,"lng":57.4833,"pop":76660},
+  {"nameAr":"تريوليه","nameEn":"Triolet","type":"city","lat":-20.0528,"lng":57.5469,"pop":23386},
+  {"nameAr":"غودلاندز","nameEn":"Goodlands","type":"city","lat":-20.0333,"lng":57.6500,"pop":19439},
+  {"nameAr":"سان بيير","nameEn":"Saint Pierre","type":"city","lat":-20.2167,"lng":57.5167,"pop":17651},
+  {"nameAr":"سنتر دو فلاك","nameEn":"Centre de Flacq","type":"city","lat":-20.1889,"lng":57.7228,"pop":15493},
+  {"nameAr":"بامبو","nameEn":"Bambous","type":"city","lat":-20.2692,"lng":57.3850,"pop":14812}
+]

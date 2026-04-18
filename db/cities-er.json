@@ -1,0 +1,12 @@
+[
+  {"nameAr":"أسمرة","nameEn":"Asmara","type":"city","lat":15.3229,"lng":38.9251,"pop":963000},
+  {"nameAr":"كرن","nameEn":"Keren","type":"city","lat":15.7811,"lng":38.4511,"pop":146483},
+  {"nameAr":"عصب","nameEn":"Assab","type":"city","lat":13.0056,"lng":42.7394,"pop":74392},
+  {"nameAr":"مصوع","nameEn":"Massawa","type":"city","lat":15.6100,"lng":39.4500,"pop":53100},
+  {"nameAr":"مندفرا","nameEn":"Mendefera","type":"city","lat":14.8892,"lng":38.8156,"pop":25108},
+  {"nameAr":"دكمحاري","nameEn":"Dekemhare","type":"city","lat":15.0697,"lng":39.0422,"pop":21000},
+  {"nameAr":"أقردات","nameEn":"Ak'ordat","type":"city","lat":15.5528,"lng":37.8892,"pop":20676},
+  {"nameAr":"عدي كيه","nameEn":"Adi Keyh","type":"city","lat":14.8406,"lng":39.3731,"pop":17713},
+  {"nameAr":"بارنتو","nameEn":"Barentu","type":"city","lat":15.1000,"lng":37.5833,"pop":15891},
+  {"nameAr":"غندع","nameEn":"Ghinda","type":"city","lat":15.4456,"lng":39.1000,"pop":15000}
+]

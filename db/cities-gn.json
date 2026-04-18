@@ -1,0 +1,12 @@
+[
+  {"nameAr":"كوناكري","nameEn":"Conakry","type":"city","lat":9.6412,"lng":-13.5784,"pop":1667864},
+  {"nameAr":"غيكيدو","nameEn":"Guéckédou","type":"city","lat":8.5670,"lng":-10.1454,"pop":221715},
+  {"nameAr":"لابي","nameEn":"Labé","type":"city","lat":11.3178,"lng":-12.2833,"pop":200000},
+  {"nameAr":"نزيريكوري","nameEn":"Nzérékoré","type":"city","lat":7.7564,"lng":-8.8272,"pop":194650},
+  {"nameAr":"كنكان","nameEn":"Kankan","type":"city","lat":10.3844,"lng":-9.3066,"pop":192192},
+  {"nameAr":"كيندا","nameEn":"Kindia","type":"city","lat":10.0569,"lng":-12.8658,"pop":181126},
+  {"nameAr":"كامسار","nameEn":"Kamsar","type":"city","lat":10.6594,"lng":-14.6033,"pop":92800},
+  {"nameAr":"كيسيدوغو","nameEn":"Kissidougou","type":"city","lat":9.1842,"lng":-10.1000,"pop":73510},
+  {"nameAr":"بوكي","nameEn":"Boké","type":"city","lat":10.9389,"lng":-14.2958,"pop":61449},
+  {"nameAr":"ماسنتا","nameEn":"Macenta","type":"city","lat":8.5383,"lng":-9.4703,"pop":44632}
+]

@@ -1,0 +1,12 @@
+[
+  {"nameAr":"أنتاناناريفو","nameEn":"Antananarivo","type":"city","lat":-18.8792,"lng":47.5079,"pop":1275207},
+  {"nameAr":"تواماسينا","nameEn":"Toamasina","type":"city","lat":-18.1492,"lng":49.4023,"pop":274667},
+  {"nameAr":"أنتسيرابي","nameEn":"Antsirabe","type":"city","lat":-19.8658,"lng":47.0334,"pop":238478},
+  {"nameAr":"فياناراتسوا","nameEn":"Fianarantsoa","type":"city","lat":-21.4536,"lng":47.0854,"pop":191010},
+  {"nameAr":"توليارا","nameEn":"Toliara","type":"city","lat":-23.3569,"lng":43.6675,"pop":156710},
+  {"nameAr":"ماهاجانغا","nameEn":"Mahajanga","type":"city","lat":-15.7167,"lng":46.3167,"pop":154657},
+  {"nameAr":"أنتسيرانانا","nameEn":"Antsiranana","type":"city","lat":-12.2787,"lng":49.2917,"pop":115015},
+  {"nameAr":"أمبوفومبي","nameEn":"Ambovombe","type":"city","lat":-25.1833,"lng":46.0833,"pop":73770},
+  {"nameAr":"أنتانيفوتسي","nameEn":"Antanifotsy","type":"city","lat":-19.6500,"lng":47.3333,"pop":30000},
+  {"nameAr":"سامبافا","nameEn":"Sambava","type":"city","lat":-14.2667,"lng":50.1667,"pop":26860}
+]

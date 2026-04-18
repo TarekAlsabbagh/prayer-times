@@ -1,0 +1,12 @@
+[
+  {"nameAr":"بلغراد","nameEn":"Belgrade","type":"city","lat":44.7866,"lng":20.4489,"pop":1166763},
+  {"nameAr":"نوفي ساد","nameEn":"Novi Sad","type":"city","lat":45.2671,"lng":19.8335,"pop":289128},
+  {"nameAr":"نيش","nameEn":"Niš","type":"city","lat":43.3209,"lng":21.8958,"pop":183164},
+  {"nameAr":"كراغوييفاتس","nameEn":"Kragujevac","type":"city","lat":44.0142,"lng":20.9217,"pop":147473},
+  {"nameAr":"سوبوتيتسا","nameEn":"Subotica","type":"city","lat":46.1008,"lng":19.6661,"pop":97910},
+  {"nameAr":"بانتشيفو","nameEn":"Pančevo","type":"city","lat":44.8686,"lng":20.6450,"pop":73401},
+  {"nameAr":"زرنيانين","nameEn":"Zrenjanin","type":"city","lat":45.3833,"lng":20.3833,"pop":72513},
+  {"nameAr":"تشاتشاك","nameEn":"Čačak","type":"city","lat":43.8914,"lng":20.3497,"pop":71434},
+  {"nameAr":"كرالييفو","nameEn":"Kraljevo","type":"city","lat":43.7244,"lng":20.6867,"pop":64175},
+  {"nameAr":"كروشيفاتس","nameEn":"Kruševac","type":"city","lat":43.5833,"lng":21.3333,"pop":58745}
+]

@@ -1,0 +1,881 @@
+[
+  {
+    "nameAr": "مونتيفيديو",
+    "nameEn": "Montevideo",
+    "type": "city",
+    "lat": -34.9011,
+    "lng": -56.1645
+  },
+  {
+    "nameAr": "سالتو",
+    "nameEn": "Salto",
+    "type": "city",
+    "lat": -31.388916666667,
+    "lng": -57.960886111111,
+    "pop": 124878
+  },
+  {
+    "nameAr": "سيوداد دي لا كوستا",
+    "nameEn": "Ciudad de la Costa",
+    "type": "city",
+    "lat": -34.816666666667,
+    "lng": -55.95,
+    "pop": 112449
+  },
+  {
+    "nameAr": "مالدونادو",
+    "nameEn": "Maldonado",
+    "type": "city",
+    "lat": -34.908741666667,
+    "lng": -54.958272222222,
+    "pop": 86782
+  },
+  {
+    "nameAr": "ريفيرا",
+    "nameEn": "Rivera",
+    "type": "city",
+    "lat": -30.900086111111,
+    "lng": -55.540816666667,
+    "pop": 84775
+  },
+  {
+    "nameAr": "بايساندو",
+    "nameEn": "",
+    "type": "city",
+    "lat": -32.321752777778,
+    "lng": -58.089213888889,
+    "pop": 76429
+  },
+  {
+    "nameAr": "لاس بيدراس",
+    "nameEn": "Las Piedras",
+    "type": "city",
+    "lat": -34.716666666667,
+    "lng": -56.216666666667,
+    "pop": 61306
+  },
+  {
+    "nameAr": "تاكواريمبو",
+    "nameEn": "Tacuarembó",
+    "type": "city",
+    "lat": -31.711047222222,
+    "lng": -55.978877777778,
+    "pop": 54755
+  },
+  {
+    "nameAr": "مرسيدس، أوروغواي",
+    "nameEn": "Mercedes",
+    "type": "city",
+    "lat": -33.248447222222,
+    "lng": -58.029869444444,
+    "pop": 41974
+  },
+  {
+    "nameAr": "أرتيجاس",
+    "nameEn": "Artigas",
+    "type": "city",
+    "lat": -30.398441666667,
+    "lng": -56.463808333333,
+    "pop": 40658
+  },
+  {
+    "nameAr": "دورازنو",
+    "nameEn": "Durazno",
+    "type": "city",
+    "lat": -33.38015,
+    "lng": -56.5225,
+    "pop": 40279
+  },
+  {
+    "nameAr": "ميناس، أوروغواي",
+    "nameEn": "Minas",
+    "type": "city",
+    "lat": -34.377425,
+    "lng": -55.238213888889,
+    "pop": 38446
+  },
+  {
+    "nameAr": "سان خوسيه دي مايو",
+    "nameEn": "San José de Mayo",
+    "type": "city",
+    "lat": -34.339677777778,
+    "lng": -56.714313888889,
+    "pop": 36747
+  },
+  {
+    "nameAr": "فلوريدا، أوروغواي",
+    "nameEn": "Florida",
+    "type": "city",
+    "lat": -34.101388888889,
+    "lng": -56.214752777778,
+    "pop": 36449
+  },
+  {
+    "nameAr": "باروس بلانكوس",
+    "nameEn": "Barros Blancos",
+    "type": "city",
+    "lat": -34.754166666667,
+    "lng": -56.004166666667,
+    "pop": 31650
+  },
+  {
+    "nameAr": "سيوداد دي لا بلاتا",
+    "nameEn": "Ciudad del Plata",
+    "type": "city",
+    "lat": -34.766666666667,
+    "lng": -56.380555555556,
+    "pop": 31146
+  },
+  {
+    "nameAr": "سان كارلوس، أوروغواي",
+    "nameEn": "San Carlos",
+    "type": "city",
+    "lat": -34.8,
+    "lng": -54.916666666667,
+    "pop": 30293
+  },
+  {
+    "nameAr": "كولونيا ديل ساكرامنتو",
+    "nameEn": "Colonia del Sacramento",
+    "type": "city",
+    "lat": -34.469886111111,
+    "lng": -57.843369444444,
+    "pop": 26231
+  },
+  {
+    "nameAr": "باندو، أوروغواي",
+    "nameEn": "Pando",
+    "type": "city",
+    "lat": -34.716666666667,
+    "lng": -55.958333333333,
+    "pop": 25949
+  },
+  {
+    "nameAr": "ترینتا اي ترس",
+    "nameEn": "Treinta y Tres",
+    "type": "city",
+    "lat": -33.231597222222,
+    "lng": -54.386258333333,
+    "pop": 25870
+  },
+  {
+    "nameAr": "روجا، أوروغواي",
+    "nameEn": "Rocha",
+    "type": "city",
+    "lat": -34.481036111111,
+    "lng": -54.336561111111,
+    "pop": 25422
+  },
+  {
+    "nameAr": "فراي بنتوس",
+    "nameEn": "Fray Bentos",
+    "type": "city",
+    "lat": -33.116544444444,
+    "lng": -58.3131,
+    "pop": 24406
+  },
+  {
+    "nameAr": "كانلونيس",
+    "nameEn": "Canelones",
+    "type": "city",
+    "lat": -34.524263888889,
+    "lng": -56.281752777778,
+    "pop": 24185
+  },
+  {
+    "nameAr": "ترينيداد، أوروغواي",
+    "nameEn": "Trinidad",
+    "type": "city",
+    "lat": -33.517375,
+    "lng": -56.897969444444,
+    "pop": 22893
+  },
+  {
+    "nameAr": "لا باز",
+    "nameEn": "La Paz",
+    "type": "city",
+    "lat": -34.761666666667,
+    "lng": -56.223333333333,
+    "pop": 20526
+  },
+  {
+    "nameAr": "كارميلو، أوروغواي",
+    "nameEn": "Carmelo",
+    "type": "city",
+    "lat": -33.999891666667,
+    "lng": -58.284686111111,
+    "pop": 19915
+  },
+  {
+    "nameAr": "Toledo",
+    "nameEn": "Toledo",
+    "type": "city",
+    "lat": -34.743333333333,
+    "lng": -56.104166666667,
+    "pop": 19833
+  },
+  {
+    "nameAr": "بيلا يونيون",
+    "nameEn": "Bella Unión",
+    "type": "city",
+    "lat": -30.26,
+    "lng": -57.599166666667,
+    "pop": 19100
+  },
+  {
+    "nameAr": "سانت لوسيا",
+    "nameEn": "Santa Lucía",
+    "type": "city",
+    "lat": -34.4525,
+    "lng": -56.396388888889,
+    "pop": 16742
+  },
+  {
+    "nameAr": "بروغريسو",
+    "nameEn": "Progreso",
+    "type": "city",
+    "lat": -34.665,
+    "lng": -56.219444444444,
+    "pop": 16244
+  },
+  {
+    "nameAr": "باسو دي كاراسكو",
+    "nameEn": "Paso Carrasco",
+    "type": "city",
+    "lat": -34.85945,
+    "lng": -56.04993,
+    "pop": 15908
+  },
+  {
+    "nameAr": "دولوريس، أوروغواي",
+    "nameEn": "Dolores",
+    "type": "city",
+    "lat": -33.533333333333,
+    "lng": -58.216666666667,
+    "pop": 15753
+  },
+  {
+    "nameAr": "General Líber Seregni",
+    "nameEn": "General Líber Seregni",
+    "type": "city",
+    "lat": -34.816111111111,
+    "lng": -56.024444444444,
+    "pop": 14686
+  },
+  {
+    "nameAr": "ريو برانكو",
+    "nameEn": "Río Branco",
+    "type": "city",
+    "lat": -32.596944444444,
+    "lng": -53.385,
+    "pop": 14604
+  },
+  {
+    "nameAr": "Chuy",
+    "nameEn": "Chuy",
+    "type": "city",
+    "lat": -33.698728995566,
+    "lng": -53.463754065731,
+    "pop": 13538
+  },
+  {
+    "nameAr": "تالا",
+    "nameEn": "Tala",
+    "type": "city",
+    "lat": -34.343611111111,
+    "lng": -55.761666666667,
+    "pop": 13254
+  },
+  {
+    "nameAr": "باسو دي لوس توروس",
+    "nameEn": "Paso de los Toros",
+    "type": "city",
+    "lat": -32.818055555556,
+    "lng": -56.506388888889,
+    "pop": 12985
+  },
+  {
+    "nameAr": "نويفا هلفيسيا",
+    "nameEn": "Nueva Helvecia",
+    "type": "city",
+    "lat": -34.288888888889,
+    "lng": -57.233333333333,
+    "pop": 11740
+  },
+  {
+    "nameAr": "ليبرتاد",
+    "nameEn": "Libertad",
+    "type": "city",
+    "lat": -34.633333333333,
+    "lng": -56.619166666667,
+    "pop": 11458
+  },
+  {
+    "nameAr": "Nueva Palmira",
+    "nameEn": "Nueva Palmira",
+    "type": "city",
+    "lat": -33.86999,
+    "lng": -58.40796,
+    "pop": 9857
+  },
+  {
+    "nameAr": "روساريو",
+    "nameEn": "Rosario",
+    "type": "city",
+    "lat": -34.313888888889,
+    "lng": -57.3525,
+    "pop": 9311
+  },
+  {
+    "nameAr": "بونتا دل إيستي",
+    "nameEn": "Punta del Este",
+    "type": "city",
+    "lat": -34.955738532384,
+    "lng": -54.938115030105,
+    "pop": 9277
+  },
+  {
+    "nameAr": "Piriápolis",
+    "nameEn": "Piriápolis",
+    "type": "city",
+    "lat": -34.866111111111,
+    "lng": -55.274722222222,
+    "pop": 8830
+  },
+  {
+    "nameAr": "Salinas",
+    "nameEn": "Salinas",
+    "type": "city",
+    "lat": -34.775055555556,
+    "lng": -55.840166666667,
+    "pop": 8626
+  },
+  {
+    "nameAr": "Atlántida",
+    "nameEn": "Atlántida",
+    "type": "city",
+    "lat": -34.770102,
+    "lng": -55.76128,
+    "pop": 8139
+  },
+  {
+    "nameAr": "بارك دلبلاتا",
+    "nameEn": "Parque del Plata",
+    "type": "city",
+    "lat": -34.76666667,
+    "lng": -55.71666667,
+    "pop": 7896
+  },
+  {
+    "nameAr": "Lascano",
+    "nameEn": "Lascano",
+    "type": "city",
+    "lat": -33.673055555556,
+    "lng": -54.207777777778,
+    "pop": 7645
+  },
+  {
+    "nameAr": "Castillos",
+    "nameEn": "Castillos",
+    "type": "city",
+    "lat": -34.198888888889,
+    "lng": -53.8575,
+    "pop": 7541
+  },
+  {
+    "nameAr": "ترانكويراس",
+    "nameEn": "Tranqueras",
+    "type": "city",
+    "lat": -31.183333333333,
+    "lng": -55.766666666667,
+    "pop": 7235
+  },
+  {
+    "nameAr": "سان رامون",
+    "nameEn": "San Ramón",
+    "type": "city",
+    "lat": -34.291388888889,
+    "lng": -55.954166666667,
+    "pop": 7133
+  },
+  {
+    "nameAr": "San Jacinto",
+    "nameEn": "San Jacinto",
+    "type": "city",
+    "lat": -34.544444444444,
+    "lng": -55.871944444444,
+    "pop": 7000
+  },
+  {
+    "nameAr": "Pan de Azúcar",
+    "nameEn": "Pan de Azúcar",
+    "type": "city",
+    "lat": -34.775738406364,
+    "lng": -55.224667822083,
+    "pop": 6597
+  },
+  {
+    "nameAr": "Joaquín Suárez",
+    "nameEn": "Joaquín Suárez",
+    "type": "city",
+    "lat": -34.733611111111,
+    "lng": -56.036666666667,
+    "pop": 6570
+  },
+  {
+    "nameAr": "Sauce",
+    "nameEn": "Sauce",
+    "type": "city",
+    "lat": -34.646944444444,
+    "lng": -56.062777777778,
+    "pop": 6132
+  },
+  {
+    "nameAr": "Sarandí Grande",
+    "nameEn": "Sarandí Grande",
+    "type": "city",
+    "lat": -33.725,
+    "lng": -56.330277777778,
+    "pop": 6130
+  },
+  {
+    "nameAr": "José Pedro Varela",
+    "nameEn": "José Pedro Varela",
+    "type": "city",
+    "lat": -33.45,
+    "lng": -54.533333333333,
+    "pop": 5118
+  },
+  {
+    "nameAr": "كاردونا، أوروغواي",
+    "nameEn": "Cardona",
+    "type": "city",
+    "lat": -33.873611111111,
+    "lng": -57.368055555556,
+    "pop": 4600
+  },
+  {
+    "nameAr": "San Gregorio de Pólanco",
+    "nameEn": "San Gregorio de Pólanco",
+    "type": "city",
+    "lat": -32.6135,
+    "lng": -55.8291,
+    "pop": 4129
+  },
+  {
+    "nameAr": "فيرغارا",
+    "nameEn": "Vergara",
+    "type": "city",
+    "lat": -32.95,
+    "lng": -53.933333333333,
+    "pop": 3810
+  },
+  {
+    "nameAr": "Florencio Sánchez",
+    "nameEn": "Florencio Sánchez",
+    "type": "city",
+    "lat": -33.877777777778,
+    "lng": -57.371666666667,
+    "pop": 3716
+  },
+  {
+    "nameAr": "La Paloma",
+    "nameEn": "La Paloma",
+    "type": "city",
+    "lat": -34.66245048879,
+    "lng": -54.155604785362,
+    "pop": 3495
+  },
+  {
+    "nameAr": "Fraile Muerto",
+    "nameEn": "Fraile Muerto",
+    "type": "city",
+    "lat": -32.516666666667,
+    "lng": -54.516666666667,
+    "pop": 3168
+  },
+  {
+    "nameAr": "Cerro Chato",
+    "nameEn": "Cerro Chato",
+    "type": "city",
+    "lat": -33.1,
+    "lng": -55.133333333333,
+    "pop": 3129
+  },
+  {
+    "nameAr": "Solís de Mataojo",
+    "nameEn": "Solís de Mataojo",
+    "type": "city",
+    "lat": -34.6,
+    "lng": -55.466666666667,
+    "pop": 2825
+  },
+  {
+    "nameAr": "Nuevo Berlín",
+    "nameEn": "Nuevo Berlín",
+    "type": "city",
+    "lat": -32.979166666667,
+    "lng": -58.052777777778,
+    "pop": 2692
+  },
+  {
+    "nameAr": "Tomás Gomensoro",
+    "nameEn": "Tomás Gomensoro",
+    "type": "city",
+    "lat": -30.433333333333,
+    "lng": -57.433333333333,
+    "pop": 2659
+  },
+  {
+    "nameAr": "Rodríguez",
+    "nameEn": "Rodríguez",
+    "type": "city",
+    "lat": -34.380277777778,
+    "lng": -56.539722222222,
+    "pop": 2604
+  },
+  {
+    "nameAr": "Ecilda Paullier",
+    "nameEn": "Ecilda Paullier",
+    "type": "city",
+    "lat": -34.360717195753,
+    "lng": -57.04962015152,
+    "pop": 2585
+  },
+  {
+    "nameAr": "Cerrillos",
+    "nameEn": "Cerrillos",
+    "type": "city",
+    "lat": -34.607222222222,
+    "lng": -56.359722222222,
+    "pop": 2508
+  },
+  {
+    "nameAr": "Santa Clara de Olimar",
+    "nameEn": "Santa Clara de Olimar",
+    "type": "city",
+    "lat": -32.916666666667,
+    "lng": -54.95,
+    "pop": 2341
+  },
+  {
+    "nameAr": "Isidoro Noblía",
+    "nameEn": "Isidoro Noblía",
+    "type": "city",
+    "lat": -31.966666666667,
+    "lng": -54.116666666667,
+    "pop": 2331
+  },
+  {
+    "nameAr": "خوسيه باتل أوردونيز، أوروغواي",
+    "nameEn": "José Batlle y Ordóñez",
+    "type": "city",
+    "lat": -33.466666666667,
+    "lng": -55.15,
+    "pop": 2313
+  },
+  {
+    "nameAr": "José Enrique Rodó",
+    "nameEn": "José Enrique Rodó",
+    "type": "city",
+    "lat": -33.698333333333,
+    "lng": -57.530833333333,
+    "pop": 2113
+  },
+  {
+    "nameAr": "Migues",
+    "nameEn": "Migues",
+    "type": "city",
+    "lat": -34.488055555556,
+    "lng": -55.630555555556,
+    "pop": 2109
+  },
+  {
+    "nameAr": "San Bautista",
+    "nameEn": "San Bautista",
+    "type": "city",
+    "lat": -34.44,
+    "lng": -55.959722222222,
+    "pop": 1973
+  },
+  {
+    "nameAr": "Veinticinco de Agosto",
+    "nameEn": "Veinticinco de Agosto",
+    "type": "city",
+    "lat": -34.411111111111,
+    "lng": -56.405833333333,
+    "pop": 1814
+  },
+  {
+    "nameAr": "Mariscala",
+    "nameEn": "Mariscala",
+    "type": "city",
+    "lat": -34.041,
+    "lng": -54.777,
+    "pop": 1626
+  },
+  {
+    "nameAr": "Cebollatí",
+    "nameEn": "Cebollatí",
+    "type": "city",
+    "lat": -33.266666666667,
+    "lng": -53.8,
+    "pop": 1609
+  },
+  {
+    "nameAr": "San Antonio",
+    "nameEn": "San Antonio",
+    "type": "city",
+    "lat": -34.45083333,
+    "lng": -56.08138889,
+    "pop": 1489
+  },
+  {
+    "nameAr": "General Enrique Martínez",
+    "nameEn": "General Enrique Martínez",
+    "type": "city",
+    "lat": -33.206666666667,
+    "lng": -53.805277777778,
+    "pop": 1429
+  },
+  {
+    "nameAr": "Juanicó",
+    "nameEn": "Juanicó",
+    "type": "city",
+    "lat": -34.594722222222,
+    "lng": -56.254722222222,
+    "pop": 1305
+  },
+  {
+    "nameAr": "Villa Soriano",
+    "nameEn": "Villa Soriano",
+    "type": "city",
+    "lat": -33.398055555556,
+    "lng": -58.321666666667,
+    "pop": 1300
+  },
+  {
+    "nameAr": "Villa Sara",
+    "nameEn": "Villa Sara",
+    "type": "city",
+    "lat": -33.252777777778,
+    "lng": -54.413888888889,
+    "pop": 1199
+  },
+  {
+    "nameAr": "Tupambaé",
+    "nameEn": "Tupambaé",
+    "type": "city",
+    "lat": -32.833333333333,
+    "lng": -54.766666666667,
+    "pop": 1122
+  },
+  {
+    "nameAr": "Aguas Corrientes",
+    "nameEn": "Aguas Corrientes",
+    "type": "city",
+    "lat": -34.516666666667,
+    "lng": -56.4,
+    "pop": 1047
+  },
+  {
+    "nameAr": "Carlos Reyles",
+    "nameEn": "Carlos Reyles",
+    "type": "city",
+    "lat": -33.0575,
+    "lng": -56.476388888889,
+    "pop": 976
+  },
+  {
+    "nameAr": "Gregorio Aznárez",
+    "nameEn": "Gregorio Aznárez",
+    "type": "city",
+    "lat": -34.747198289761,
+    "lng": -55.400854353413,
+    "pop": 944
+  },
+  {
+    "nameAr": "Pirarajá",
+    "nameEn": "Pirarajá",
+    "type": "city",
+    "lat": -33.740277777778,
+    "lng": -54.758333333333,
+    "pop": 713
+  },
+  {
+    "nameAr": "Plácido Rosas",
+    "nameEn": "Plácido Rosas",
+    "type": "city",
+    "lat": -32.75,
+    "lng": -53.716666666667,
+    "pop": 415
+  },
+  {
+    "nameAr": "Parada Cabrera",
+    "nameEn": "Parada Cabrera",
+    "type": "city",
+    "lat": -34.623333333333,
+    "lng": -56.256111111111,
+    "pop": 409
+  },
+  {
+    "nameAr": "Juan Soler",
+    "nameEn": "Juan Soler",
+    "type": "city",
+    "lat": -34.3192,
+    "lng": -56.8053,
+    "pop": 343
+  },
+  {
+    "nameAr": "Piedra tel Toro",
+    "nameEn": "Piedra tel Toro",
+    "type": "city",
+    "lat": -34.702222222222,
+    "lng": -55.885277777778,
+    "pop": 332
+  },
+  {
+    "nameAr": "Cerro de las Cuentas",
+    "nameEn": "Cerro de las Cuentas",
+    "type": "city",
+    "lat": -32.620277777778,
+    "lng": -54.592777777778,
+    "pop": 263
+  },
+  {
+    "nameAr": "La Pedrera",
+    "nameEn": "La Pedrera",
+    "type": "city",
+    "lat": -34.59055556,
+    "lng": -54.12666667,
+    "pop": 225
+  },
+  {
+    "nameAr": "Bañado de Medina",
+    "nameEn": "Bañado de Medina",
+    "type": "city",
+    "lat": -32.403055555556,
+    "lng": -54.351388888889,
+    "pop": 207
+  },
+  {
+    "nameAr": "Garzón",
+    "nameEn": "Garzón",
+    "type": "city",
+    "lat": -34.5933655,
+    "lng": -54.5450903,
+    "pop": 198
+  },
+  {
+    "nameAr": "Las Cañas",
+    "nameEn": "Las Cañas",
+    "type": "city",
+    "lat": -33.163333333333,
+    "lng": -58.356666666667,
+    "pop": 177
+  },
+  {
+    "nameAr": "La Loma",
+    "nameEn": "La Loma",
+    "type": "city",
+    "lat": -33.425,
+    "lng": -58.33722222,
+    "pop": 111
+  },
+  {
+    "nameAr": "Cerro Colorado",
+    "nameEn": "Cerro Colorado",
+    "type": "city",
+    "lat": -33.72611111,
+    "lng": -56.79888889,
+    "pop": 96
+  },
+  {
+    "nameAr": "Aguas Buenas",
+    "nameEn": "Aguas Buenas",
+    "type": "city",
+    "lat": -32.885,
+    "lng": -55.856666666667,
+    "pop": 86
+  },
+  {
+    "nameAr": "18 de Mayo",
+    "nameEn": "18 de Mayo",
+    "type": "city",
+    "lat": -34.698611111111,
+    "lng": -56.215277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Abayubá",
+    "nameEn": "Abayubá",
+    "type": "city",
+    "lat": -34.779247,
+    "lng": -56.208426,
+    "pop": null
+  },
+  {
+    "nameAr": "Canelón Chico",
+    "nameEn": "Canelón Chico",
+    "type": "city",
+    "lat": -34.6735,
+    "lng": -56.172055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Chamangá",
+    "nameEn": "Chamangá",
+    "type": "city",
+    "lat": -33.666666666667,
+    "lng": -56.583333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "El Infiernillo",
+    "nameEn": "El Infiernillo",
+    "type": "city",
+    "lat": -33.9167,
+    "lng": -55.6667,
+    "pop": null
+  },
+  {
+    "nameAr": "La Paraguaya",
+    "nameEn": "La Paraguaya",
+    "type": "city",
+    "lat": -33.5667,
+    "lng": -58.0667,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Víboras",
+    "nameEn": "Las Víboras",
+    "type": "city",
+    "lat": -34,
+    "lng": -58.283333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Talas",
+    "nameEn": "Los Talas",
+    "type": "city",
+    "lat": -33.3167,
+    "lng": -54.7667,
+    "pop": null
+  },
+  {
+    "nameAr": "Melilla",
+    "nameEn": "Melilla",
+    "type": "city",
+    "lat": -34.78305556,
+    "lng": -56.34388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Tranqueras",
+    "nameEn": "Tranqueras",
+    "type": "city",
+    "lat": -31.2,
+    "lng": -55.75,
+    "pop": null
+  }
+]

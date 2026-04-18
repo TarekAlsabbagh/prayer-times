@@ -1,0 +1,130 @@
+[
+  {
+    "nameAr": "موروني",
+    "nameEn": "Moroni",
+    "type": "city",
+    "lat": -11.703611111111,
+    "lng": 43.253611111111,
+    "pop": 85400
+  },
+  {
+    "nameAr": "موتسامودو",
+    "nameEn": "Mutsamudu",
+    "type": "city",
+    "lat": -12.1675,
+    "lng": 44.393888888889,
+    "pop": 30000
+  },
+  {
+    "nameAr": "مكازي",
+    "nameEn": "Mkazi",
+    "type": "city",
+    "lat": -11.732305555556,
+    "lng": 43.267138888889,
+    "pop": 8438
+  },
+  {
+    "nameAr": "ميتساميهولي",
+    "nameEn": "Mitsamiouli",
+    "type": "city",
+    "lat": -11.38194444,
+    "lng": 43.3,
+    "pop": 7235
+  },
+  {
+    "nameAr": "دمبيني",
+    "nameEn": "Dembéni",
+    "type": "city",
+    "lat": -11.87675,
+    "lng": 43.405527777778,
+    "pop": 4723
+  },
+  {
+    "nameAr": "Boeni ya Bambao",
+    "nameEn": "Boeni ya Bambao",
+    "type": "city",
+    "lat": -11.631,
+    "lng": 43.352,
+    "pop": 2077
+  },
+  {
+    "nameAr": "Bangoi-Mafousa Nkoa",
+    "nameEn": "Bangoi-Mafousa Nkoa",
+    "type": "city",
+    "lat": -11.7167,
+    "lng": 43.3681,
+    "pop": 1015
+  },
+  {
+    "nameAr": "فومبوني",
+    "nameEn": "Fomboni",
+    "type": "city",
+    "lat": -12.282222222222,
+    "lng": 43.741944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "كانغاني",
+    "nameEn": "Kangani",
+    "type": "city",
+    "lat": -12.311666666667,
+    "lng": 44.474722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "كوموني",
+    "nameEn": "Komoni",
+    "type": "city",
+    "lat": -12.325633584021,
+    "lng": 44.520525505037,
+    "pop": null
+  },
+  {
+    "nameAr": "Dar Salam",
+    "nameEn": "Dar Salam",
+    "type": "city",
+    "lat": -12.25083,
+    "lng": 44.38806,
+    "pop": null
+  },
+  {
+    "nameAr": "Domoni ya Djou",
+    "nameEn": "Domoni ya Djou",
+    "type": "city",
+    "lat": -11.48694444,
+    "lng": 43.26888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Gnadombéni",
+    "nameEn": "Gnadombéni",
+    "type": "city",
+    "lat": -11.471,
+    "lng": 43.387,
+    "pop": null
+  },
+  {
+    "nameAr": "Hamavouna",
+    "nameEn": "Hamavouna",
+    "type": "city",
+    "lat": -12.37306,
+    "lng": 43.83833,
+    "pop": null
+  },
+  {
+    "nameAr": "Koki",
+    "nameEn": "Koki",
+    "type": "city",
+    "lat": 58.2407678,
+    "lng": 22.0871778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nioumamilima",
+    "nameEn": "Nioumamilima",
+    "type": "city",
+    "lat": -11.85,
+    "lng": 43.43333333,
+    "pop": null
+  }
+]

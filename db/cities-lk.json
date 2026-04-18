@@ -1,0 +1,761 @@
+[
+  {
+    "nameAr": "كولومبو",
+    "nameEn": "Colombo",
+    "type": "city",
+    "lat": 6.9271,
+    "lng": 79.8612
+  },
+  {
+    "nameAr": "جامباها",
+    "nameEn": "Gampaha",
+    "type": "city",
+    "lat": 7.0916666666667,
+    "lng": 79.999722222222,
+    "pop": 191040
+  },
+  {
+    "nameAr": "نغومبو",
+    "nameEn": "Negombo",
+    "type": "city",
+    "lat": 7.2111111111111,
+    "lng": 79.838611111111,
+    "pop": 142136
+  },
+  {
+    "nameAr": "كاندي",
+    "nameEn": "Kandy",
+    "type": "city",
+    "lat": 7.2930555555556,
+    "lng": 80.635,
+    "pop": 120087
+  },
+  {
+    "nameAr": "ترينكومالي",
+    "nameEn": "Trincomalee",
+    "type": "city",
+    "lat": 8.5666666666667,
+    "lng": 81.233333333333,
+    "pop": 99135
+  },
+  {
+    "nameAr": "غالي",
+    "nameEn": "Galle",
+    "type": "city",
+    "lat": 6.0327777777778,
+    "lng": 80.215555555556,
+    "pop": 93118
+  },
+  {
+    "nameAr": "جافنا",
+    "nameEn": "Jaffna",
+    "type": "city",
+    "lat": 9.6647222222222,
+    "lng": 80.016666666667,
+    "pop": 88138
+  },
+  {
+    "nameAr": "ماتارا",
+    "nameEn": "Matara",
+    "type": "city",
+    "lat": 5.95,
+    "lng": 80.533333333333,
+    "pop": 68244
+  },
+  {
+    "nameAr": "أنرادبورة",
+    "nameEn": "Anuradhapura",
+    "type": "city",
+    "lat": 8.335,
+    "lng": 80.410833333333,
+    "pop": 63208
+  },
+  {
+    "nameAr": "بادولا",
+    "nameEn": "Badulla",
+    "type": "city",
+    "lat": 6.9847222222222,
+    "lng": 81.056388888889,
+    "pop": 42923
+  },
+  {
+    "nameAr": "مولايتيفو",
+    "nameEn": "Mullaitivu",
+    "type": "city",
+    "lat": 9.2833333333333,
+    "lng": 80.8,
+    "pop": 37339
+  },
+  {
+    "nameAr": "ماتال",
+    "nameEn": "Matale",
+    "type": "city",
+    "lat": 7.4666666666667,
+    "lng": 80.616666666667,
+    "pop": 36451
+  },
+  {
+    "nameAr": "منار، سريلانكا",
+    "nameEn": "Mannar",
+    "type": "city",
+    "lat": 8.9772444,
+    "lng": 79.9137786,
+    "pop": 35000
+  },
+  {
+    "nameAr": "نوارا إليا",
+    "nameEn": "Nuwara Eliya",
+    "type": "city",
+    "lat": 6.9666666666667,
+    "lng": 80.766666666667,
+    "pop": 27500
+  },
+  {
+    "nameAr": "Vakarai",
+    "nameEn": "Vakarai",
+    "type": "city",
+    "lat": 8.13333,
+    "lng": 81.4333,
+    "pop": 21000
+  },
+  {
+    "nameAr": "كيجاللا",
+    "nameEn": "Kegalle",
+    "type": "city",
+    "lat": 7.2530555555556,
+    "lng": 80.345277777778,
+    "pop": 17962
+  },
+  {
+    "nameAr": "هامبانتوتا",
+    "nameEn": "Hambantota",
+    "type": "city",
+    "lat": 6.1244444444444,
+    "lng": 81.125277777778,
+    "pop": 11213
+  },
+  {
+    "nameAr": "أمبالانغودا",
+    "nameEn": "Ambalangoda",
+    "type": "city",
+    "lat": 6.235,
+    "lng": 80.055,
+    "pop": null
+  },
+  {
+    "nameAr": "باندارويلا",
+    "nameEn": "Bandarawela",
+    "type": "city",
+    "lat": 6.8333333333333,
+    "lng": 80.985277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "تانجالي",
+    "nameEn": "Tangalle",
+    "type": "city",
+    "lat": 6.024,
+    "lng": 80.7911,
+    "pop": null
+  },
+  {
+    "nameAr": "تيرانغاما الشرقية",
+    "nameEn": "Thiranagama East",
+    "type": "city",
+    "lat": 6.1276770328451,
+    "lng": 80.125511559614,
+    "pop": null
+  },
+  {
+    "nameAr": "فيليغاما",
+    "nameEn": "Weligama",
+    "type": "city",
+    "lat": 5.975,
+    "lng": 80.429722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "كالوتارا",
+    "nameEn": "Kalutara",
+    "type": "city",
+    "lat": 6.5869444444444,
+    "lng": 79.960277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "كورونيغالا",
+    "nameEn": "Kurunegala",
+    "type": "city",
+    "lat": 7.4833333333333,
+    "lng": 80.366666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "هاتون",
+    "nameEn": "Hatton",
+    "type": "city",
+    "lat": 6.8897222222222,
+    "lng": 80.598055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Alakolagalagama",
+    "nameEn": "Alakolagalagama",
+    "type": "city",
+    "lat": 7.0677,
+    "lng": 81.2123,
+    "pop": null
+  },
+  {
+    "nameAr": "Allippalai",
+    "nameEn": "Allippalai",
+    "type": "city",
+    "lat": 9.5833333333333,
+    "lng": 80.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Ambalkulam",
+    "nameEn": "Ambalkulam",
+    "type": "city",
+    "lat": 9.3666666666667,
+    "lng": 80.383333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ambarapola",
+    "nameEn": "Ambarapola",
+    "type": "city",
+    "lat": 7.2149,
+    "lng": 80.5686,
+    "pop": null
+  },
+  {
+    "nameAr": "Ampitigoda",
+    "nameEn": "Ampitigoda",
+    "type": "city",
+    "lat": 7.06666667,
+    "lng": 80.78333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Amunewala",
+    "nameEn": "Amunewala",
+    "type": "city",
+    "lat": 7.6,
+    "lng": 80.85,
+    "pop": null
+  },
+  {
+    "nameAr": "Anaivilunthankulam",
+    "nameEn": "Anaivilunthankulam",
+    "type": "city",
+    "lat": 9.3333333333333,
+    "lng": 80.316666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Angoda",
+    "nameEn": "Angoda",
+    "type": "city",
+    "lat": 6.9366666666667,
+    "lng": 79.926944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Aranayaka",
+    "nameEn": "Aranayaka",
+    "type": "city",
+    "lat": 7.1429,
+    "lng": 80.4622,
+    "pop": null
+  },
+  {
+    "nameAr": "Arawwala",
+    "nameEn": "Arawwala",
+    "type": "city",
+    "lat": 6.83077778,
+    "lng": 79.93502778,
+    "pop": null
+  },
+  {
+    "nameAr": "Arugam",
+    "nameEn": "Arugam",
+    "type": "city",
+    "lat": 6.85,
+    "lng": 81.833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Batagoda",
+    "nameEn": "Batagoda",
+    "type": "city",
+    "lat": 7.2836,
+    "lng": 80.5201,
+    "pop": null
+  },
+  {
+    "nameAr": "Beliyakanda",
+    "nameEn": "Beliyakanda",
+    "type": "city",
+    "lat": 7.8,
+    "lng": 80.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dewahuwa",
+    "nameEn": "Dewahuwa",
+    "type": "city",
+    "lat": 7.82888889,
+    "lng": 80.57305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dewalapola",
+    "nameEn": "Dewalapola",
+    "type": "city",
+    "lat": 7.16833333,
+    "lng": 79.99444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Divulapitiya",
+    "nameEn": "Divulapitiya",
+    "type": "city",
+    "lat": 7.21666667,
+    "lng": 80.01555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dumbukola",
+    "nameEn": "Dumbukola",
+    "type": "city",
+    "lat": 7.4277777777778,
+    "lng": 80.636666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dunagaha",
+    "nameEn": "Dunagaha",
+    "type": "city",
+    "lat": 7.24222222,
+    "lng": 79.96861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Eachalawakkai",
+    "nameEn": "Eachalawakkai",
+    "type": "city",
+    "lat": 8.93333333,
+    "lng": 80,
+    "pop": null
+  },
+  {
+    "nameAr": "Eldeniya",
+    "nameEn": "Eldeniya",
+    "type": "city",
+    "lat": 7.0123,
+    "lng": 79.9744,
+    "pop": null
+  },
+  {
+    "nameAr": "Galewela",
+    "nameEn": "Galewela",
+    "type": "city",
+    "lat": 7.76666667,
+    "lng": 80.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Galgamuwa",
+    "nameEn": "Galgamuwa",
+    "type": "city",
+    "lat": 8,
+    "lng": 80.28305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Giritale",
+    "nameEn": "Giritale",
+    "type": "city",
+    "lat": 7.98333333,
+    "lng": 80.91666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Halmehikandura",
+    "nameEn": "Halmehikandura",
+    "type": "city",
+    "lat": 7.26666667,
+    "lng": 80.6,
+    "pop": null
+  },
+  {
+    "nameAr": "Hettipola",
+    "nameEn": "Hettipola",
+    "type": "city",
+    "lat": 7.60583333,
+    "lng": 80.07472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hikkaduwa",
+    "nameEn": "Hikkaduwa",
+    "type": "city",
+    "lat": 6.141084,
+    "lng": 80.100034,
+    "pop": null
+  },
+  {
+    "nameAr": "Inigala",
+    "nameEn": "Inigala",
+    "type": "city",
+    "lat": 7.31666667,
+    "lng": 80.61666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Inuvil",
+    "nameEn": "Inuvil",
+    "type": "city",
+    "lat": 9.71666667,
+    "lng": 80.01666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalawana",
+    "nameEn": "Kalawana",
+    "type": "city",
+    "lat": 7.161,
+    "lng": 79.962,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalmadunagar",
+    "nameEn": "Kalmadunagar",
+    "type": "city",
+    "lat": 9.3833333333333,
+    "lng": 80.516666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalvilan",
+    "nameEn": "Kalvilan",
+    "type": "city",
+    "lat": 9.15,
+    "lng": 80.21666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kodikamam",
+    "nameEn": "Kodikamam",
+    "type": "city",
+    "lat": 9.65,
+    "lng": 80.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Koomankulam",
+    "nameEn": "Koomankulam",
+    "type": "city",
+    "lat": 8.7511111111111,
+    "lng": 80.459722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kudarappu",
+    "nameEn": "Kudarappu",
+    "type": "city",
+    "lat": 9.6686111111111,
+    "lng": 80.333055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurukkalmadam",
+    "nameEn": "Kurukkalmadam",
+    "type": "city",
+    "lat": 7.58735833,
+    "lng": 81.78106111,
+    "pop": null
+  },
+  {
+    "nameAr": "Lahugala",
+    "nameEn": "Lahugala",
+    "type": "city",
+    "lat": 6.8869,
+    "lng": 81.7216,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahiyanganaya",
+    "nameEn": "Mahiyanganaya",
+    "type": "city",
+    "lat": 7.31666667,
+    "lng": 80.98277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mallakam",
+    "nameEn": "Mallakam",
+    "type": "city",
+    "lat": 9.76344444,
+    "lng": 80.02952778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mawela",
+    "nameEn": "Mawela",
+    "type": "city",
+    "lat": 7.2552777777778,
+    "lng": 80.494722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Medirigiriya",
+    "nameEn": "Medirigiriya",
+    "type": "city",
+    "lat": 8.15053,
+    "lng": 80.97898,
+    "pop": null
+  },
+  {
+    "nameAr": "Meepawala",
+    "nameEn": "Meepawala",
+    "type": "city",
+    "lat": 6.10916667,
+    "lng": 80.22166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mullivaikkal",
+    "nameEn": "Mullivaikkal",
+    "type": "city",
+    "lat": 9.29583333,
+    "lng": 80.80277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mundel",
+    "nameEn": "Mundel",
+    "type": "city",
+    "lat": 7.81666667,
+    "lng": 79.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Naranthanai",
+    "nameEn": "Naranthanai",
+    "type": "city",
+    "lat": 9.6754,
+    "lng": 79.8813,
+    "pop": null
+  },
+  {
+    "nameAr": "Narigama",
+    "nameEn": "Narigama",
+    "type": "city",
+    "lat": 6.1256111111111,
+    "lng": 80.111305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Nikaweratiya",
+    "nameEn": "Nikaweratiya",
+    "type": "city",
+    "lat": 7.7475,
+    "lng": 80.11561111,
+    "pop": null
+  },
+  {
+    "nameAr": "Palali",
+    "nameEn": "Palali",
+    "type": "city",
+    "lat": 9.8,
+    "lng": 80.08333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Peliyagoda",
+    "nameEn": "Peliyagoda",
+    "type": "city",
+    "lat": 6.9633651,
+    "lng": 79.8818947,
+    "pop": null
+  },
+  {
+    "nameAr": "Piramanthanaru",
+    "nameEn": "Piramanthanaru",
+    "type": "city",
+    "lat": 9.4,
+    "lng": 80.583333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pothuwila",
+    "nameEn": "Pothuwila",
+    "type": "city",
+    "lat": 7.83333333,
+    "lng": 80.46027778,
+    "pop": null
+  },
+  {
+    "nameAr": "Puliyanthivu",
+    "nameEn": "Puliyanthivu",
+    "type": "city",
+    "lat": 7.71260833,
+    "lng": 81.69703611,
+    "pop": null
+  },
+  {
+    "nameAr": "Pundaluoya",
+    "nameEn": "Pundaluoya",
+    "type": "city",
+    "lat": 7.0166666666667,
+    "lng": 80.666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Punnaineeraavi",
+    "nameEn": "Punnaineeraavi",
+    "type": "city",
+    "lat": 9.4,
+    "lng": 80.566666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Punnalaikadduvan",
+    "nameEn": "Punnalaikadduvan",
+    "type": "city",
+    "lat": 9.7574359,
+    "lng": 80.062774,
+    "pop": null
+  },
+  {
+    "nameAr": "Ruwanwella",
+    "nameEn": "Ruwanwella",
+    "type": "city",
+    "lat": 7.0456557328826,
+    "lng": 80.254215278854,
+    "pop": null
+  },
+  {
+    "nameAr": "Sammanthurai",
+    "nameEn": "Sammanthurai",
+    "type": "city",
+    "lat": 7.36666667,
+    "lng": 81.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Sapugaskanda",
+    "nameEn": "Sapugaskanda",
+    "type": "city",
+    "lat": 6.9694444444444,
+    "lng": 79.954166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sillalai",
+    "nameEn": "Sillalai",
+    "type": "city",
+    "lat": 9.779231,
+    "lng": 79.942875,
+    "pop": null
+  },
+  {
+    "nameAr": "Tholpuram",
+    "nameEn": "Tholpuram",
+    "type": "city",
+    "lat": 9.7575,
+    "lng": 79.950277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Thoranegedara",
+    "nameEn": "Thoranegedara",
+    "type": "city",
+    "lat": 7.5112,
+    "lng": 80.1581,
+    "pop": null
+  },
+  {
+    "nameAr": "Thurkkapuram",
+    "nameEn": "Thurkkapuram",
+    "type": "city",
+    "lat": 9.783,
+    "lng": 80.0207,
+    "pop": null
+  },
+  {
+    "nameAr": "Udadumbara",
+    "nameEn": "Udadumbara",
+    "type": "city",
+    "lat": 7.35,
+    "lng": 80.83333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Udugama",
+    "nameEn": "Udugama",
+    "type": "city",
+    "lat": 7.5116666666667,
+    "lng": 80.616388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Uggalboda",
+    "nameEn": "Uggalboda",
+    "type": "city",
+    "lat": 6.6164,
+    "lng": 79.9663,
+    "pop": null
+  },
+  {
+    "nameAr": "Vadduvakallu",
+    "nameEn": "Vadduvakallu",
+    "type": "city",
+    "lat": 9.28333,
+    "lng": 80.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Varani",
+    "nameEn": "Varani",
+    "type": "city",
+    "lat": 9.75,
+    "lng": 80.2167,
+    "pop": null
+  },
+  {
+    "nameAr": "Vijithapura",
+    "nameEn": "Vijithapura",
+    "type": "city",
+    "lat": 8.03333,
+    "lng": 80.5333,
+    "pop": null
+  },
+  {
+    "nameAr": "Viththakapuram",
+    "nameEn": "Viththakapuram",
+    "type": "city",
+    "lat": 9.8,
+    "lng": 80.01666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Warakapola",
+    "nameEn": "Warakapola",
+    "type": "city",
+    "lat": 7.2308,
+    "lng": 80.1975,
+    "pop": null
+  },
+  {
+    "nameAr": "Yudaganawa",
+    "nameEn": "Yudaganawa",
+    "type": "city",
+    "lat": 6.76666667,
+    "lng": 81.23333333,
+    "pop": null
+  }
+]

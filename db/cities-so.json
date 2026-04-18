@@ -1,0 +1,916 @@
+[
+  {
+    "nameAr": "مقديشو",
+    "nameEn": "Mogadishu",
+    "type": "city",
+    "lat": 2.0469,
+    "lng": 45.3182
+  },
+  {
+    "nameAr": "بوساسو",
+    "nameEn": "Bosaso",
+    "type": "city",
+    "lat": 11.2833,
+    "lng": 49.1833
+  },
+  {
+    "nameAr": "بيدوا",
+    "nameEn": "Baidoa",
+    "type": "city",
+    "lat": 3.1069,
+    "lng": 43.6499
+  },
+  {
+    "nameAr": "غاروي",
+    "nameEn": "Garowe",
+    "type": "city",
+    "lat": 8.4054,
+    "lng": 48.4845
+  },
+  {
+    "nameAr": "كيسمايو",
+    "nameEn": "Kismayo",
+    "type": "city",
+    "lat": -0.3582,
+    "lng": 42.5454
+  },
+  {
+    "nameAr": "هرجيسا",
+    "nameEn": "Hargeisa",
+    "type": "city",
+    "lat": 9.56,
+    "lng": 44.065
+  },
+  {
+    "nameAr": "برعو",
+    "nameEn": "Burao",
+    "type": "city",
+    "lat": 9.527889,
+    "lng": 45.5345,
+    "pop": 350211
+  },
+  {
+    "nameAr": "بربرة",
+    "nameEn": "Berbera",
+    "type": "city",
+    "lat": 10.43953,
+    "lng": 45.01305,
+    "pop": 263000
+  },
+  {
+    "nameAr": "مركا",
+    "nameEn": "Merca",
+    "type": "city",
+    "lat": 1.715556,
+    "lng": 44.770278,
+    "pop": 230100
+  },
+  {
+    "nameAr": "بورمه",
+    "nameEn": "Borama",
+    "type": "city",
+    "lat": 9.9330555555556,
+    "lng": 43.181666666667,
+    "pop": 68074
+  },
+  {
+    "nameAr": "حررطيري",
+    "nameEn": "Harardhere",
+    "type": "city",
+    "lat": 4.6544444444444,
+    "lng": 47.8575,
+    "pop": 65523
+  },
+  {
+    "nameAr": "جلب",
+    "nameEn": "Jilib",
+    "type": "city",
+    "lat": 0.49416666666667,
+    "lng": 42.774444444444,
+    "pop": 45000
+  },
+  {
+    "nameAr": "جربهاري",
+    "nameEn": "Garbahaareey",
+    "type": "city",
+    "lat": 3.35,
+    "lng": 42.266666666667,
+    "pop": 43000
+  },
+  {
+    "nameAr": "براوة",
+    "nameEn": "Barawa",
+    "type": "city",
+    "lat": 1.1133333333333,
+    "lng": 44.030277777778,
+    "pop": 32800
+  },
+  {
+    "nameAr": "ايل",
+    "nameEn": "Eyl",
+    "type": "city",
+    "lat": 7.9666666666667,
+    "lng": 49.85,
+    "pop": 21700
+  },
+  {
+    "nameAr": "بندر بيلا",
+    "nameEn": "Bayla",
+    "type": "city",
+    "lat": 9.4941666666667,
+    "lng": 50.812222222222,
+    "pop": 16700
+  },
+  {
+    "nameAr": "أغابار",
+    "nameEn": "Agabar",
+    "type": "city",
+    "lat": 9.93333333,
+    "lng": 43.91666667,
+    "pop": null
+  },
+  {
+    "nameAr": "الدينودا ديغديغي",
+    "nameEn": "El Dinouda Digdighei",
+    "type": "city",
+    "lat": 7.338042,
+    "lng": 49.598647,
+    "pop": null
+  },
+  {
+    "nameAr": "المعن",
+    "nameEn": "El Maan",
+    "type": "city",
+    "lat": 2.173379,
+    "lng": 45.585482,
+    "pop": null
+  },
+  {
+    "nameAr": "بارديرا",
+    "nameEn": "Bardhere",
+    "type": "city",
+    "lat": 2.3447222222222,
+    "lng": 42.276388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "باكاد",
+    "nameEn": "Bacaad",
+    "type": "city",
+    "lat": 11.361388888889,
+    "lng": 49.469166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "باكي",
+    "nameEn": "Baki",
+    "type": "city",
+    "lat": 10.5333,
+    "lng": 43.1667,
+    "pop": null
+  },
+  {
+    "nameAr": "بردالي",
+    "nameEn": "Berdale",
+    "type": "city",
+    "lat": 2.98333333,
+    "lng": 44.28333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بلد حواء",
+    "nameEn": "Beled Hawo",
+    "type": "city",
+    "lat": 3.9286111111111,
+    "lng": 41.876111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "بلد وين",
+    "nameEn": "Beledweyne",
+    "type": "city",
+    "lat": 4.7359722222222,
+    "lng": 45.203972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "بلعد",
+    "nameEn": "Balad",
+    "type": "city",
+    "lat": 2.359289,
+    "lng": 45.387932,
+    "pop": null
+  },
+  {
+    "nameAr": "بوالي",
+    "nameEn": "Bu'ale",
+    "type": "city",
+    "lat": 1.0833333333333,
+    "lng": 42.583333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بولبردي",
+    "nameEn": "Buloburde",
+    "type": "city",
+    "lat": 3.8666666666667,
+    "lng": 45.583333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بون (أودال)",
+    "nameEn": "Boon",
+    "type": "city",
+    "lat": 10.194166666667,
+    "lng": 43.088888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "تليح",
+    "nameEn": "Taleh",
+    "type": "city",
+    "lat": 9.1483333333333,
+    "lng": 48.421111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "توفيق",
+    "nameEn": "Tawfiiq",
+    "type": "city",
+    "lat": 6.61722,
+    "lng": 48.8753,
+    "pop": null
+  },
+  {
+    "nameAr": "جالكعيو",
+    "nameEn": "Galkayo",
+    "type": "city",
+    "lat": 6.7697222222222,
+    "lng": 47.430833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "جالينسور",
+    "nameEn": "Galinsoor",
+    "type": "city",
+    "lat": 6.4333,
+    "lng": 46.7,
+    "pop": null
+  },
+  {
+    "nameAr": "جلدغب",
+    "nameEn": "Galdogob",
+    "type": "city",
+    "lat": 7.05,
+    "lng": 47.141666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "جودينلابي",
+    "nameEn": "Godinlabe",
+    "type": "city",
+    "lat": 5.87944444,
+    "lng": 46.63083333,
+    "pop": null
+  },
+  {
+    "nameAr": "جوري عيل",
+    "nameEn": "Guriceel",
+    "type": "city",
+    "lat": 5.30905278,
+    "lng": 45.88211944,
+    "pop": null
+  },
+  {
+    "nameAr": "جوف أبالي",
+    "nameEn": "Goof Abaaley",
+    "type": "city",
+    "lat": 3.31525,
+    "lng": 43.501333,
+    "pop": null
+  },
+  {
+    "nameAr": "جوهر",
+    "nameEn": "Jowhar",
+    "type": "city",
+    "lat": 2.7833333333333,
+    "lng": 45.5,
+    "pop": null
+  },
+  {
+    "nameAr": "جيسالي",
+    "nameEn": "Geesaley",
+    "type": "city",
+    "lat": 11.7472,
+    "lng": 50.504,
+    "pop": null
+  },
+  {
+    "nameAr": "حاحي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 9.3511111111111,
+    "lng": 44.965555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "حافون",
+    "nameEn": "Hafun",
+    "type": "city",
+    "lat": 10.416666666667,
+    "lng": 51.266666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "حدن",
+    "nameEn": "Xudun",
+    "type": "city",
+    "lat": 9.15477,
+    "lng": 47.478248,
+    "pop": null
+  },
+  {
+    "nameAr": "حودر",
+    "nameEn": "Hudur",
+    "type": "city",
+    "lat": 4.12,
+    "lng": 43.887777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "حيـس",
+    "nameEn": "Heis",
+    "type": "city",
+    "lat": 10.896388888889,
+    "lng": 46.921111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "دابولاق",
+    "nameEn": "Dhaboolaq",
+    "type": "city",
+    "lat": 9.50305556,
+    "lng": 43.86111111,
+    "pop": null
+  },
+  {
+    "nameAr": "دعربدق",
+    "nameEn": "Daarbuduq",
+    "type": "city",
+    "lat": 9.8566666666667,
+    "lng": 44.527222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "راب دوور",
+    "nameEn": "Rab Dhuure",
+    "type": "city",
+    "lat": 4.35,
+    "lng": 43.15,
+    "pop": null
+  },
+  {
+    "nameAr": "سيغاغ",
+    "nameEn": "Ceegaag",
+    "type": "city",
+    "lat": 8.61861111,
+    "lng": 46.485,
+    "pop": null
+  },
+  {
+    "nameAr": "شيدا",
+    "nameEn": "Xidda",
+    "type": "city",
+    "lat": 10,
+    "lng": 49.033333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "طوس مريب",
+    "nameEn": "Dusmareb",
+    "type": "city",
+    "lat": 5.5375,
+    "lng": 46.3875,
+    "pop": null
+  },
+  {
+    "nameAr": "عبد القادر",
+    "nameEn": "Abdol Ghadar",
+    "type": "city",
+    "lat": 10.51,
+    "lng": 42.89194444,
+    "pop": null
+  },
+  {
+    "nameAr": "عربسيو",
+    "nameEn": "Arabsiyo",
+    "type": "city",
+    "lat": 9.68333,
+    "lng": 43.7667,
+    "pop": null
+  },
+  {
+    "nameAr": "عيل بور",
+    "nameEn": "El Buur",
+    "type": "city",
+    "lat": 4.685,
+    "lng": 46.6175,
+    "pop": null
+  },
+  {
+    "nameAr": "عيل طير",
+    "nameEn": "Ceeldheer",
+    "type": "city",
+    "lat": 3.84878,
+    "lng": 47.18064,
+    "pop": null
+  },
+  {
+    "nameAr": "فقي عادان",
+    "nameEn": "Fiqi Aadan",
+    "type": "city",
+    "lat": 10.61638889,
+    "lng": 43.32277778,
+    "pop": null
+  },
+  {
+    "nameAr": "فيقيفولية",
+    "nameEn": "Fiqifuliye",
+    "type": "city",
+    "lat": 10.0264,
+    "lng": 47.7811,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية جادون",
+    "nameEn": "Gadon",
+    "type": "city",
+    "lat": 5.68972222,
+    "lng": 46.68472222,
+    "pop": null
+  },
+  {
+    "nameAr": "قندلة",
+    "nameEn": "Qandala",
+    "type": "city",
+    "lat": 11.46666667,
+    "lng": 49.86666667,
+    "pop": null
+  },
+  {
+    "nameAr": "كالابيد",
+    "nameEn": "Kalabaydh",
+    "type": "city",
+    "lat": 9.67404,
+    "lng": 43.47604,
+    "pop": null
+  },
+  {
+    "nameAr": "مااندهيري",
+    "nameEn": "Maandere",
+    "type": "city",
+    "lat": 2.69166667,
+    "lng": 45.50805556,
+    "pop": null
+  },
+  {
+    "nameAr": "محاس",
+    "nameEn": "Mahas",
+    "type": "city",
+    "lat": 4.3908333333333,
+    "lng": 46.088333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينةعمارا",
+    "nameEn": "Camaara",
+    "type": "city",
+    "lat": 5.266153,
+    "lng": 47.911483,
+    "pop": null
+  },
+  {
+    "nameAr": "موركانيو",
+    "nameEn": "Murcanyo",
+    "type": "city",
+    "lat": 11.68333333,
+    "lng": 50.45,
+    "pop": null
+  },
+  {
+    "nameAr": "موكوكوري",
+    "nameEn": "Moqokori",
+    "type": "city",
+    "lat": 4.06172,
+    "lng": 46.1344,
+    "pop": null
+  },
+  {
+    "nameAr": "هرديو",
+    "nameEn": "Hurdiyo",
+    "type": "city",
+    "lat": 10.5667,
+    "lng": 51.1333,
+    "pop": null
+  },
+  {
+    "nameAr": "هوسئنجو",
+    "nameEn": "Hoosingo",
+    "type": "city",
+    "lat": -0.17251388888889,
+    "lng": 41.269352777778,
+    "pop": null
+  },
+  {
+    "nameAr": "يوفل",
+    "nameEn": "Yufle",
+    "type": "city",
+    "lat": 10.37583333,
+    "lng": 47.19638889,
+    "pop": null
+  },
+  {
+    "nameAr": "Acqua Uadi",
+    "nameEn": "Acqua Uadi",
+    "type": "city",
+    "lat": 8.1737305555556,
+    "lng": 48.296277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Adalei",
+    "nameEn": "Adalei",
+    "type": "city",
+    "lat": 2.54178,
+    "lng": 45.285,
+    "pop": null
+  },
+  {
+    "nameAr": "Allaybaday",
+    "nameEn": "Allaybaday",
+    "type": "city",
+    "lat": 9.3869444444444,
+    "lng": 43.5175,
+    "pop": null
+  },
+  {
+    "nameAr": "Ari Adeye",
+    "nameEn": "Ari Adeye",
+    "type": "city",
+    "lat": 8.6742,
+    "lng": 47.1569,
+    "pop": null
+  },
+  {
+    "nameAr": "Ashira",
+    "nameEn": "Ashira",
+    "type": "city",
+    "lat": 8.95555556,
+    "lng": 50.35472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bacadweyne District",
+    "nameEn": "Bacadweyne District",
+    "type": "city",
+    "lat": 5.3227777777778,
+    "lng": 47.911944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Balli Ad",
+    "nameEn": "Balli Ad",
+    "type": "city",
+    "lat": 8.0865833333333,
+    "lng": 46.750222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Balumbal",
+    "nameEn": "Balumbal",
+    "type": "city",
+    "lat": 8.62106,
+    "lng": 45.1479,
+    "pop": null
+  },
+  {
+    "nameAr": "Budunbuuto",
+    "nameEn": "Budunbuuto",
+    "type": "city",
+    "lat": 7.6193888888889,
+    "lng": 49.078055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Buraan",
+    "nameEn": "Buraan",
+    "type": "city",
+    "lat": 10.216666666667,
+    "lng": 48.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Buur Gaabo",
+    "nameEn": "Buur Gaabo",
+    "type": "city",
+    "lat": -1.2191666666667,
+    "lng": 41.837222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ceel Gaal",
+    "nameEn": "Ceel Gaal",
+    "type": "city",
+    "lat": 10.975502777778,
+    "lng": 43.439775,
+    "pop": null
+  },
+  {
+    "nameAr": "Ceel Garas",
+    "nameEn": "Ceel Garas",
+    "type": "city",
+    "lat": 4.1508,
+    "lng": 44.213014,
+    "pop": null
+  },
+  {
+    "nameAr": "Ceel Qoxle",
+    "nameEn": "Ceel Qoxle",
+    "type": "city",
+    "lat": 4.848625,
+    "lng": 46.521567,
+    "pop": null
+  },
+  {
+    "nameAr": "Daynuunay",
+    "nameEn": "Daynuunay",
+    "type": "city",
+    "lat": 3.037444,
+    "lng": 43.798611,
+    "pop": null
+  },
+  {
+    "nameAr": "Dharkayn Geenyo",
+    "nameEn": "Dharkayn Geenyo",
+    "type": "city",
+    "lat": 8.0055,
+    "lng": 46.9939,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhummay",
+    "nameEn": "Dhummay",
+    "type": "city",
+    "lat": 8.33153056,
+    "lng": 47.06346111,
+    "pop": null
+  },
+  {
+    "nameAr": "Dudumaale",
+    "nameEn": "Dudumaale",
+    "type": "city",
+    "lat": 8.133056,
+    "lng": 49.786667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gal Hareeri",
+    "nameEn": "Gal Hareeri",
+    "type": "city",
+    "lat": 4.531139,
+    "lng": 47.146039,
+    "pop": null
+  },
+  {
+    "nameAr": "Garable",
+    "nameEn": "Garable",
+    "type": "city",
+    "lat": 4.676389,
+    "lng": 47.163478,
+    "pop": null
+  },
+  {
+    "nameAr": "Go'Da-Weyn",
+    "nameEn": "Go'Da-Weyn",
+    "type": "city",
+    "lat": 9.7865,
+    "lng": 44.9091,
+    "pop": null
+  },
+  {
+    "nameAr": "Gorayaood",
+    "nameEn": "Gorayaood",
+    "type": "city",
+    "lat": 9.034633,
+    "lng": 45.288103,
+    "pop": null
+  },
+  {
+    "nameAr": "Guumays",
+    "nameEn": "Guumays",
+    "type": "city",
+    "lat": 8.8507777777778,
+    "lng": 46.798138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Haaway",
+    "nameEn": "Haaway",
+    "type": "city",
+    "lat": 1.16666667,
+    "lng": 43.71666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hadaftimo",
+    "nameEn": "Hadaftimo",
+    "type": "city",
+    "lat": 10.766666666667,
+    "lng": 48.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Haji Salah",
+    "nameEn": "Haji Salah",
+    "type": "city",
+    "lat": 8.5900833333333,
+    "lng": 45.241472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Halin",
+    "nameEn": "Halin",
+    "type": "city",
+    "lat": 9.085116,
+    "lng": 48.619875,
+    "pop": null
+  },
+  {
+    "nameAr": "Harirad",
+    "nameEn": "Harirad",
+    "type": "city",
+    "lat": 10.45,
+    "lng": 42.83333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hilalaya",
+    "nameEn": "Hilalaya",
+    "type": "city",
+    "lat": 6.5,
+    "lng": 49.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Idow Guudow",
+    "nameEn": "Idow Guudow",
+    "type": "city",
+    "lat": 1.62789,
+    "lng": 44.4054,
+    "pop": null
+  },
+  {
+    "nameAr": "Iskudar",
+    "nameEn": "Iskudar",
+    "type": "city",
+    "lat": 9.9061111111111,
+    "lng": 44.983611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ismail Diiriye",
+    "nameEn": "Ismail Diiriye",
+    "type": "city",
+    "lat": 8.881886,
+    "lng": 44.854547,
+    "pop": null
+  },
+  {
+    "nameAr": "Jameecada Aabow",
+    "nameEn": "Jameecada Aabow",
+    "type": "city",
+    "lat": 1.821203,
+    "lng": 44.548456,
+    "pop": null
+  },
+  {
+    "nameAr": "Janale",
+    "nameEn": "Janale",
+    "type": "city",
+    "lat": 1.83333333,
+    "lng": 44.73333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalabaydh, Sool",
+    "nameEn": "Kalabaydh, Sool",
+    "type": "city",
+    "lat": 8.24138889,
+    "lng": 47.22611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kobdhexaad",
+    "nameEn": "Kobdhexaad",
+    "type": "city",
+    "lat": 10.660608,
+    "lng": 49.499931,
+    "pop": null
+  },
+  {
+    "nameAr": "Kolbiyow",
+    "nameEn": "Kolbiyow",
+    "type": "city",
+    "lat": -1.135722,
+    "lng": 41.2225,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurtunwaarey",
+    "nameEn": "Kurtunwaarey",
+    "type": "city",
+    "lat": 1.67461,
+    "lng": 44.06695,
+    "pop": null
+  },
+  {
+    "nameAr": "Luglow",
+    "nameEn": "Luglow",
+    "type": "city",
+    "lat": -0.2023883833258,
+    "lng": 42.601954954943,
+    "pop": null
+  },
+  {
+    "nameAr": "Majayahan",
+    "nameEn": "Majayahan",
+    "type": "city",
+    "lat": 11.0719,
+    "lng": 49.0144,
+    "pop": null
+  },
+  {
+    "nameAr": "Mokoyjaalle",
+    "nameEn": "Mokoyjaalle",
+    "type": "city",
+    "lat": 1.61389,
+    "lng": 44.436,
+    "pop": null
+  },
+  {
+    "nameAr": "Qansahdhere",
+    "nameEn": "Qansahdhere",
+    "type": "city",
+    "lat": 2.87123,
+    "lng": 43.004341,
+    "pop": null
+  },
+  {
+    "nameAr": "Qolqol ka Madoobe",
+    "nameEn": "Qolqol ka Madoobe",
+    "type": "city",
+    "lat": 9.0508333333333,
+    "lng": 44.907777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Reidab Khatumo",
+    "nameEn": "Reidab Khatumo",
+    "type": "city",
+    "lat": 8.664744,
+    "lng": 45.018478,
+    "pop": null
+  },
+  {
+    "nameAr": "Saaxqurun",
+    "nameEn": "Saaxqurun",
+    "type": "city",
+    "lat": 6.824167,
+    "lng": 47.162694,
+    "pop": null
+  },
+  {
+    "nameAr": "Somalia",
+    "nameEn": "Somalia",
+    "type": "city",
+    "lat": -0.24773601818534,
+    "lng": 42.61888598038,
+    "pop": null
+  },
+  {
+    "nameAr": "Tukaraq",
+    "nameEn": "Tukaraq",
+    "type": "city",
+    "lat": 8.54777778,
+    "lng": 47.83277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Yoonbays",
+    "nameEn": "Yoonbays",
+    "type": "city",
+    "lat": 8.018806,
+    "lng": 49.005028,
+    "pop": null
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {"nameAr":"هراري","nameEn":"Harare","type":"city","lat":-17.8252,"lng":31.0335,"pop":1542813},
+  {"nameAr":"بولاوايو","nameEn":"Bulawayo","type":"city","lat":-20.1500,"lng":28.5833,"pop":653337},
+  {"nameAr":"تشيتونغويزا","nameEn":"Chitungwiza","type":"city","lat":-17.9939,"lng":31.0475,"pop":371244},
+  {"nameAr":"موتاري","nameEn":"Mutare","type":"city","lat":-18.9707,"lng":32.6503,"pop":262612},
+  {"nameAr":"إيبووث","nameEn":"Epworth","type":"city","lat":-17.8833,"lng":31.1500,"pop":167462},
+  {"nameAr":"غويرو","nameEn":"Gweru","type":"city","lat":-19.4500,"lng":29.8000,"pop":158233},
+  {"nameAr":"كويكوي","nameEn":"Kwekwe","type":"city","lat":-18.9181,"lng":29.8150,"pop":107872},
+  {"nameAr":"ماسفينغو","nameEn":"Masvingo","type":"city","lat":-20.0632,"lng":30.8328,"pop":87886},
+  {"nameAr":"كادوما","nameEn":"Kadoma","type":"city","lat":-18.3333,"lng":29.9167,"pop":79174},
+  {"nameAr":"تشينويي","nameEn":"Chinhoyi","type":"city","lat":-17.3628,"lng":30.1944,"pop":79001}
+]

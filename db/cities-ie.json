@@ -1,0 +1,12 @@
+[
+  {"nameAr":"دبلن","nameEn":"Dublin","type":"city","lat":53.3498,"lng":-6.2603,"pop":554554},
+  {"nameAr":"كورك","nameEn":"Cork","type":"city","lat":51.8985,"lng":-8.4756,"pop":210000},
+  {"nameAr":"ليمريك","nameEn":"Limerick","type":"city","lat":52.6638,"lng":-8.6267,"pop":95854},
+  {"nameAr":"غالواي","nameEn":"Galway","type":"city","lat":53.2707,"lng":-9.0568,"pop":85910},
+  {"nameAr":"ووترفورد","nameEn":"Waterford","type":"city","lat":52.2583,"lng":-7.1119,"pop":54177},
+  {"nameAr":"دروغيدا","nameEn":"Drogheda","type":"city","lat":53.7189,"lng":-6.3478,"pop":44135},
+  {"nameAr":"سووردز","nameEn":"Swords","type":"city","lat":53.4597,"lng":-6.2181,"pop":39248},
+  {"nameAr":"دندالك","nameEn":"Dundalk","type":"city","lat":54.0014,"lng":-6.4058,"pop":39004},
+  {"nameAr":"براي","nameEn":"Bray","type":"city","lat":53.2028,"lng":-6.0985,"pop":32600},
+  {"nameAr":"نافان","nameEn":"Navan","type":"city","lat":53.6528,"lng":-6.6811,"pop":30173}
+]

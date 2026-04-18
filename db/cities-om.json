@@ -1,0 +1,323 @@
+[
+  {
+    "nameAr": "مسقط",
+    "nameEn": "Muscat",
+    "type": "city",
+    "lat": 23.5957,
+    "lng": 58.5933
+  },
+  {
+    "nameAr": "إبراء",
+    "nameEn": "Ibra",
+    "type": "city",
+    "lat": 22.6909,
+    "lng": 58.5357
+  },
+  {
+    "nameAr": "الرستاق",
+    "nameEn": "Rustaq",
+    "type": "city",
+    "lat": 23.3919,
+    "lng": 57.4266
+  },
+  {
+    "nameAr": "السيب",
+    "nameEn": "Seeb",
+    "type": "city",
+    "lat": 23.6693,
+    "lng": 58.1722
+  },
+  {
+    "nameAr": "بركاء",
+    "nameEn": "Barka",
+    "type": "city",
+    "lat": 23.6752,
+    "lng": 57.8901
+  },
+  {
+    "nameAr": "بهلاء",
+    "nameEn": "Bahla",
+    "type": "city",
+    "lat": 22.9645,
+    "lng": 57.2948
+  },
+  {
+    "nameAr": "ثمريت",
+    "nameEn": "Thumrayt",
+    "type": "city",
+    "lat": 17.6625,
+    "lng": 54.0285
+  },
+  {
+    "nameAr": "خصب",
+    "nameEn": "Khasab",
+    "type": "city",
+    "lat": 26.1891,
+    "lng": 56.2395
+  },
+  {
+    "nameAr": "صحار",
+    "nameEn": "Sohar",
+    "type": "city",
+    "lat": 24.3429,
+    "lng": 56.7456
+  },
+  {
+    "nameAr": "صلالة",
+    "nameEn": "Salalah",
+    "type": "city",
+    "lat": 17.0159,
+    "lng": 54.0924
+  },
+  {
+    "nameAr": "صور",
+    "nameEn": "Sur",
+    "type": "city",
+    "lat": 22.5668,
+    "lng": 59.5289
+  },
+  {
+    "nameAr": "عبري",
+    "nameEn": "Ibri",
+    "type": "city",
+    "lat": 23.2255,
+    "lng": 56.5128
+  },
+  {
+    "nameAr": "عمان",
+    "nameEn": "Oman",
+    "type": "city",
+    "lat": 21.4735,
+    "lng": 55.9754
+  },
+  {
+    "nameAr": "مطرح",
+    "nameEn": "Mutrah",
+    "type": "city",
+    "lat": 23.6191,
+    "lng": 58.5927
+  },
+  {
+    "nameAr": "نزوى",
+    "nameEn": "Nizwa",
+    "type": "city",
+    "lat": 22.9333,
+    "lng": 57.5333
+  },
+  {
+    "nameAr": "ولاية السيب",
+    "nameEn": "Seeb",
+    "type": "city",
+    "lat": 23.666666666667,
+    "lng": 58.161666666667,
+    "pop": 470878
+  },
+  {
+    "nameAr": "ولاية مطرح",
+    "nameEn": "Muttrah",
+    "type": "city",
+    "lat": 23.616666666667,
+    "lng": 58.566666666667,
+    "pop": 230881
+  },
+  {
+    "nameAr": "ولاية صحار",
+    "nameEn": "Sohar",
+    "type": "city",
+    "lat": 24.342,
+    "lng": 56.729888888889,
+    "pop": 219264
+  },
+  {
+    "nameAr": "ولاية صور",
+    "nameEn": "Sur",
+    "type": "city",
+    "lat": 22.566666666667,
+    "lng": 59.528888888889,
+    "pop": 120000
+  },
+  {
+    "nameAr": "ولاية نزوى",
+    "nameEn": "Nizwa",
+    "type": "city",
+    "lat": 22.933333333333,
+    "lng": 57.533333333333,
+    "pop": 83544
+  },
+  {
+    "nameAr": "ولاية خصب",
+    "nameEn": "Khasab",
+    "type": "city",
+    "lat": 26.183333333333,
+    "lng": 56.25,
+    "pop": 17777
+  },
+  {
+    "nameAr": "ولاية المصنعة",
+    "nameEn": "Al-Musannah",
+    "type": "city",
+    "lat": 23.7773,
+    "lng": 57.6288,
+    "pop": 6291
+  },
+  {
+    "nameAr": "الحمراء",
+    "nameEn": "Al-Hamra",
+    "type": "city",
+    "lat": 23.116667,
+    "lng": 57.293056,
+    "pop": null
+  },
+  {
+    "nameAr": "الرسيل",
+    "nameEn": "Rusayl",
+    "type": "city",
+    "lat": 23.5333,
+    "lng": 58.1833,
+    "pop": null
+  },
+  {
+    "nameAr": "الشوعية",
+    "nameEn": "Ash-Shuiyah",
+    "type": "city",
+    "lat": 23.76,
+    "lng": 56.357,
+    "pop": null
+  },
+  {
+    "nameAr": "الملدة",
+    "nameEn": "Al Muladdah",
+    "type": "city",
+    "lat": 23.74767,
+    "lng": 57.56998,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس الحد",
+    "nameEn": "Ras al Hadd",
+    "type": "city",
+    "lat": 22.517,
+    "lng": 59.767,
+    "pop": null
+  },
+  {
+    "nameAr": "قنتب",
+    "nameEn": "Qantab",
+    "type": "city",
+    "lat": 23.5667,
+    "lng": 58.6333,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية إزكي",
+    "nameEn": "Izki",
+    "type": "city",
+    "lat": 22.93388889,
+    "lng": 57.775,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية البريمي",
+    "nameEn": "Al-Buraimi",
+    "type": "city",
+    "lat": 24.255791,
+    "lng": 55.802528,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية الخابورة",
+    "nameEn": "Al-Khaburah",
+    "type": "city",
+    "lat": 23.9653,
+    "lng": 57.0864,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية الرستاق",
+    "nameEn": "Rustaq",
+    "type": "city",
+    "lat": 23.3908,
+    "lng": 57.4244,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية القابل",
+    "nameEn": "al-Qābil",
+    "type": "city",
+    "lat": 22.57,
+    "lng": 58.688,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية المضيبي",
+    "nameEn": "Al Mudhaibi",
+    "type": "city",
+    "lat": 22.566666666667,
+    "lng": 58.116666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية جعلان بني بو علي",
+    "nameEn": "Jalan bani bu ali",
+    "type": "city",
+    "lat": 22.0144,
+    "lng": 59.3236,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية دماء والطائيين",
+    "nameEn": "Dima W'aattayeen",
+    "type": "city",
+    "lat": 23.034,
+    "lng": 58.509,
+    "pop": null
+  },
+  {
+    "nameAr": "ولاية قريات",
+    "nameEn": "Qurayyat",
+    "type": "city",
+    "lat": 23.26517,
+    "lng": 58.90342,
+    "pop": null
+  },
+  {
+    "nameAr": "Abra",
+    "nameEn": "Abra",
+    "type": "city",
+    "lat": 17.58,
+    "lng": 120.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Biladhi Shuhoom",
+    "nameEn": "Biladhi Shuhoom",
+    "type": "city",
+    "lat": 23.23567,
+    "lng": 56.50337,
+    "pop": null
+  },
+  {
+    "nameAr": "Bimma",
+    "nameEn": "Bimma",
+    "type": "city",
+    "lat": 22.991528794573,
+    "lng": 59.137507576188,
+    "pop": null
+  },
+  {
+    "nameAr": "Birkat Al-Mawz",
+    "nameEn": "Birkat Al-Mawz",
+    "type": "city",
+    "lat": 22.914661111111,
+    "lng": 57.671227777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sharmilah",
+    "nameEn": "Sharmilah",
+    "type": "city",
+    "lat": 25.6706316,
+    "lng": 56.1763519,
+    "pop": null
+  }
+]

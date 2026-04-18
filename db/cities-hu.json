@@ -1,0 +1,12 @@
+[
+  {"nameAr":"بودابست","nameEn":"Budapest","type":"city","lat":47.4979,"lng":19.0402,"pop":1752286},
+  {"nameAr":"ديبريتسين","nameEn":"Debrecen","type":"city","lat":47.5316,"lng":21.6273,"pop":202402},
+  {"nameAr":"سيغد","nameEn":"Szeged","type":"city","lat":46.2530,"lng":20.1414,"pop":160766},
+  {"nameAr":"ميشكولتس","nameEn":"Miskolc","type":"city","lat":48.1036,"lng":20.7784,"pop":154521},
+  {"nameAr":"بيتش","nameEn":"Pécs","type":"city","lat":46.0727,"lng":18.2323,"pop":142852},
+  {"nameAr":"جيور","nameEn":"Győr","type":"city","lat":47.6874,"lng":17.6504,"pop":129527},
+  {"nameAr":"نيريغيهازا","nameEn":"Nyíregyháza","type":"city","lat":47.9554,"lng":21.7166,"pop":116298},
+  {"nameAr":"كيتشكيميت","nameEn":"Kecskemét","type":"city","lat":46.9062,"lng":19.6913,"pop":110687},
+  {"nameAr":"سيكشفيهيرفار","nameEn":"Székesfehérvár","type":"city","lat":47.1861,"lng":18.4221,"pop":96940},
+  {"nameAr":"سومباتهي","nameEn":"Szombathely","type":"city","lat":47.2306,"lng":16.6219,"pop":77474}
+]

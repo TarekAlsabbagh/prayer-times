@@ -1,0 +1,5733 @@
+[
+  {
+    "nameAr": "مدريد",
+    "nameEn": "Madrid",
+    "type": "city",
+    "lat": 40.4168,
+    "lng": -3.7038
+  },
+  {
+    "nameAr": "إشبيلية",
+    "nameEn": "Seville",
+    "type": "city",
+    "lat": 37.3891,
+    "lng": -5.9845
+  },
+  {
+    "nameAr": "أليكانتي",
+    "nameEn": "Alicante",
+    "type": "city",
+    "lat": 38.3452,
+    "lng": -0.481
+  },
+  {
+    "nameAr": "برشلونة",
+    "nameEn": "Barcelona",
+    "type": "city",
+    "lat": 41.3851,
+    "lng": 2.1734
+  },
+  {
+    "nameAr": "بلباو",
+    "nameEn": "Bilbao",
+    "type": "city",
+    "lat": 43.263,
+    "lng": -2.935
+  },
+  {
+    "nameAr": "ثاراغوثا",
+    "nameEn": "Zaragoza",
+    "type": "city",
+    "lat": 41.6488,
+    "lng": -0.8891
+  },
+  {
+    "nameAr": "سبتة",
+    "nameEn": "Ceuta",
+    "type": "city",
+    "lat": 35.8894,
+    "lng": -5.3213
+  },
+  {
+    "nameAr": "غرناطة",
+    "nameEn": "Granada",
+    "type": "city",
+    "lat": 37.1773,
+    "lng": -3.5986
+  },
+  {
+    "nameAr": "فالنسيا",
+    "nameEn": "Valencia",
+    "type": "city",
+    "lat": 39.4699,
+    "lng": -0.3763
+  },
+  {
+    "nameAr": "قرطبة",
+    "nameEn": "Córdoba",
+    "type": "city",
+    "lat": 37.8882,
+    "lng": -4.7794
+  },
+  {
+    "nameAr": "مالقة",
+    "nameEn": "Málaga",
+    "type": "city",
+    "lat": 36.7213,
+    "lng": -4.4214
+  },
+  {
+    "nameAr": "مرسية",
+    "nameEn": "Murcia",
+    "type": "city",
+    "lat": 37.9922,
+    "lng": -1.1307
+  },
+  {
+    "nameAr": "مليلة",
+    "nameEn": "Melilla",
+    "type": "city",
+    "lat": 35.2923,
+    "lng": -2.9381
+  },
+  {
+    "nameAr": "بلنسية",
+    "nameEn": "City of Valencia",
+    "type": "city",
+    "lat": 39.45612,
+    "lng": -0.35457,
+    "pop": 769128
+  },
+  {
+    "nameAr": "Seville city",
+    "nameEn": "Seville city",
+    "type": "city",
+    "lat": 37.38620512,
+    "lng": -5.99251368,
+    "pop": 684025
+  },
+  {
+    "nameAr": "سرقسطة",
+    "nameEn": "Zaragoza City",
+    "type": "city",
+    "lat": 41.65645655,
+    "lng": -0.87928652,
+    "pop": 666880
+  },
+  {
+    "nameAr": "Málaga City",
+    "nameEn": "Málaga City",
+    "type": "city",
+    "lat": 36.72016,
+    "lng": -4.42034,
+    "pop": 543392
+  },
+  {
+    "nameAr": "ميورقة",
+    "nameEn": "Palma",
+    "type": "city",
+    "lat": 39.566666666667,
+    "lng": 2.6497222222222,
+    "pop": 434786
+  },
+  {
+    "nameAr": "لقنت",
+    "nameEn": "Alicante",
+    "type": "city",
+    "lat": 38.345277777778,
+    "lng": -0.48305555555556,
+    "pop": 366221
+  },
+  {
+    "nameAr": "Las Palmas de Gran Canaria",
+    "nameEn": "Las Palmas de Gran Canaria",
+    "type": "city",
+    "lat": 28.099722222222,
+    "lng": -15.413333333333,
+    "pop": 297682
+  },
+  {
+    "nameAr": "Valladolid city",
+    "nameEn": "Valladolid city",
+    "type": "city",
+    "lat": 41.65232777,
+    "lng": -4.72334924,
+    "pop": 292426
+  },
+  {
+    "nameAr": "قُرطبة",
+    "nameEn": "Córdoba",
+    "type": "city",
+    "lat": 37.89155,
+    "lng": -4.77275,
+    "pop": 290022
+  },
+  {
+    "nameAr": "لوسبيتاليت دي يوبريغات",
+    "nameEn": "L'Hospitalet de Llobregat",
+    "type": "city",
+    "lat": 41.358888888889,
+    "lng": 2.0991666666667,
+    "pop": 289510
+  },
+  {
+    "nameAr": "Xixón City",
+    "nameEn": "Xixón City",
+    "type": "city",
+    "lat": 43.545032,
+    "lng": -5.662104,
+    "pop": 255070
+  },
+  {
+    "nameAr": "تاراسا",
+    "nameEn": "Terrassa",
+    "type": "city",
+    "lat": 41.561111111111,
+    "lng": 2.0080555555556,
+    "pop": 233270
+  },
+  {
+    "nameAr": "بادالونا",
+    "nameEn": "Badalona",
+    "type": "city",
+    "lat": 41.433333333333,
+    "lng": 2.2333333333333,
+    "pop": 231542
+  },
+  {
+    "nameAr": "ساباديل",
+    "nameEn": "Sabadell",
+    "type": "city",
+    "lat": 41.548333333333,
+    "lng": 2.1075,
+    "pop": 225368
+  },
+  {
+    "nameAr": "موستولس",
+    "nameEn": "Móstoles",
+    "type": "city",
+    "lat": 40.333333333333,
+    "lng": -3.8666666666667,
+    "pop": 214817
+  },
+  {
+    "nameAr": "Alcalá de Henares",
+    "nameEn": "Alcalá de Henares",
+    "type": "city",
+    "lat": 40.48205,
+    "lng": -3.35996,
+    "pop": 198975
+  },
+  {
+    "nameAr": "ليغانيس",
+    "nameEn": "Leganés",
+    "type": "city",
+    "lat": 40.32825,
+    "lng": -3.7654027777778,
+    "pop": 195734
+  },
+  {
+    "nameAr": "Elche City",
+    "nameEn": "Elche City",
+    "type": "city",
+    "lat": 38.26905,
+    "lng": -0.70797,
+    "pop": 193077
+  },
+  {
+    "nameAr": "Oviedo City",
+    "nameEn": "Oviedo City",
+    "type": "city",
+    "lat": 43.36341648,
+    "lng": -5.84229641,
+    "pop": 186513
+  },
+  {
+    "nameAr": "قسطلونة",
+    "nameEn": "Castellón de la Plana",
+    "type": "city",
+    "lat": 39.985980555556,
+    "lng": -0.037438888888889,
+    "pop": 183711
+  },
+  {
+    "nameAr": "Murcia City",
+    "nameEn": "Murcia City",
+    "type": "city",
+    "lat": 37.98704,
+    "lng": -1.13004,
+    "pop": 170246
+  },
+  {
+    "nameAr": "Burgos city",
+    "nameEn": "Burgos city",
+    "type": "city",
+    "lat": 42.340813,
+    "lng": -3.699798,
+    "pop": 168672
+  },
+  {
+    "nameAr": "Almería city",
+    "nameEn": "Almería city",
+    "type": "city",
+    "lat": 36.838397503634,
+    "lng": -2.4706787143666,
+    "pop": 167916
+  },
+  {
+    "nameAr": "Albacete City",
+    "nameEn": "Albacete City",
+    "type": "city",
+    "lat": 38.99588053,
+    "lng": -1.85574745,
+    "pop": 165938
+  },
+  {
+    "nameAr": "سان كريستوبال دي لا لاغونا",
+    "nameEn": "San Cristóbal de La Laguna",
+    "type": "city",
+    "lat": 28.485277777778,
+    "lng": -16.316666666667,
+    "pop": 161108
+  },
+  {
+    "nameAr": "Getafe",
+    "nameEn": "Getafe",
+    "type": "city",
+    "lat": 40.30403754,
+    "lng": -3.72935236,
+    "pop": 156358
+  },
+  {
+    "nameAr": "Logroño",
+    "nameEn": "Logroño",
+    "type": "city",
+    "lat": 42.46644945,
+    "lng": -2.44565538,
+    "pop": 150503
+  },
+  {
+    "nameAr": "بطليوس",
+    "nameEn": "Badajoz",
+    "type": "city",
+    "lat": 38.87789,
+    "lng": -6.970609,
+    "pop": 150209
+  },
+  {
+    "nameAr": "Santa Cruz de Tenerife",
+    "nameEn": "Santa Cruz de Tenerife",
+    "type": "city",
+    "lat": 28.46285408,
+    "lng": -16.24720629,
+    "pop": 147522
+  },
+  {
+    "nameAr": "Salamanca City",
+    "nameEn": "Salamanca City",
+    "type": "city",
+    "lat": 40.96882,
+    "lng": -5.66388,
+    "pop": 143954
+  },
+  {
+    "nameAr": "سانتاندير",
+    "nameEn": "Santander City",
+    "type": "city",
+    "lat": 43.464722222222,
+    "lng": -3.8044444444444,
+    "pop": 126288
+  },
+  {
+    "nameAr": "Badajoz city",
+    "nameEn": "Badajoz city",
+    "type": "city",
+    "lat": 38.87874339,
+    "lng": -6.97099704,
+    "pop": 124523
+  },
+  {
+    "nameAr": "ألكوبينداس",
+    "nameEn": "Alcobendas",
+    "type": "city",
+    "lat": 40.533333333333,
+    "lng": -3.6333333333333,
+    "pop": 123342
+  },
+  {
+    "nameAr": "ليون",
+    "nameEn": "León",
+    "type": "city",
+    "lat": 42.60003,
+    "lng": -5.57032,
+    "pop": 115184
+  },
+  {
+    "nameAr": "Cádiz City",
+    "nameEn": "Cádiz City",
+    "type": "city",
+    "lat": 36.52672,
+    "lng": -6.2891,
+    "pop": 111811
+  },
+  {
+    "nameAr": "Jaén",
+    "nameEn": "Jaén",
+    "type": "city",
+    "lat": 37.76922,
+    "lng": -3.79028,
+    "pop": 111669
+  },
+  {
+    "nameAr": "Girona",
+    "nameEn": "Girona",
+    "type": "city",
+    "lat": 41.98311,
+    "lng": 2.82493,
+    "pop": 104192
+  },
+  {
+    "nameAr": "باراكالدو",
+    "nameEn": "Barakaldo",
+    "type": "city",
+    "lat": 43.297222222222,
+    "lng": -2.9916666666667,
+    "pop": 102986
+  },
+  {
+    "nameAr": "لورقة",
+    "nameEn": "Lorca",
+    "type": "city",
+    "lat": 37.683333333333,
+    "lng": -1.7,
+    "pop": 98969
+  },
+  {
+    "nameAr": "Ourense",
+    "nameEn": "Ourense",
+    "type": "city",
+    "lat": 42.33556,
+    "lng": -7.86406,
+    "pop": 97051
+  },
+  {
+    "nameAr": "Cáceres city",
+    "nameEn": "Cáceres city",
+    "type": "city",
+    "lat": 39.47649,
+    "lng": -6.37224,
+    "pop": 95074
+  },
+  {
+    "nameAr": "Torrent",
+    "nameEn": "Torrent",
+    "type": "city",
+    "lat": 39.4365348,
+    "lng": -0.4679001,
+    "pop": 90928
+  },
+  {
+    "nameAr": "Guadalajara City",
+    "nameEn": "Guadalajara City",
+    "type": "city",
+    "lat": 40.63435548,
+    "lng": -3.16210273,
+    "pop": 87101
+  },
+  {
+    "nameAr": "Talavera de la Reina",
+    "nameEn": "Talavera de la Reina",
+    "type": "city",
+    "lat": 39.96348,
+    "lng": -4.83076,
+    "pop": 80852
+  },
+  {
+    "nameAr": "كوسلادا",
+    "nameEn": "Coslada",
+    "type": "city",
+    "lat": 40.426111111111,
+    "lng": -3.565,
+    "pop": 80512
+  },
+  {
+    "nameAr": "بنيدورم",
+    "nameEn": "Benidorm",
+    "type": "city",
+    "lat": 38.534166666667,
+    "lng": -0.13138888888889,
+    "pop": 77327
+  },
+  {
+    "nameAr": "Palencia City",
+    "nameEn": "Palencia City",
+    "type": "city",
+    "lat": 42.0078373,
+    "lng": -4.53460106,
+    "pop": 76315
+  },
+  {
+    "nameAr": "Ciudad Real City",
+    "nameEn": "Ciudad Real City",
+    "type": "city",
+    "lat": 38.98651781,
+    "lng": -3.93131981,
+    "pop": 74237
+  },
+  {
+    "nameAr": "أريثيفي",
+    "nameEn": "Arrecife",
+    "type": "city",
+    "lat": 28.9625,
+    "lng": -13.550555555556,
+    "pop": 70811
+  },
+  {
+    "nameAr": "Avilés",
+    "nameEn": "Avilés",
+    "type": "city",
+    "lat": 43.5555211938,
+    "lng": -5.92201086812,
+    "pop": 70796
+  },
+  {
+    "nameAr": "Benidorm",
+    "nameEn": "Benidorm",
+    "type": "city",
+    "lat": 38.53427136,
+    "lng": -0.1306853,
+    "pop": 70474
+  },
+  {
+    "nameAr": "Tarragona City",
+    "nameEn": "Tarragona City",
+    "type": "city",
+    "lat": 41.11667,
+    "lng": 1.25,
+    "pop": 69859
+  },
+  {
+    "nameAr": "Pontevedra city",
+    "nameEn": "Pontevedra city",
+    "type": "city",
+    "lat": 42.43158576,
+    "lng": -8.643672092,
+    "pop": 63149
+  },
+  {
+    "nameAr": "آرنخويث",
+    "nameEn": "Aranjuez",
+    "type": "city",
+    "lat": 40.033333333333,
+    "lng": -3.6027777777778,
+    "pop": 63040
+  },
+  {
+    "nameAr": "Toledo city",
+    "nameEn": "Toledo city",
+    "type": "city",
+    "lat": 39.8581,
+    "lng": -4.02263,
+    "pop": 59990
+  },
+  {
+    "nameAr": "Zamora city",
+    "nameEn": "Zamora city",
+    "type": "city",
+    "lat": 41.49913956,
+    "lng": -5.75494831,
+    "pop": 59150
+  },
+  {
+    "nameAr": "آبلة",
+    "nameEn": "Ávila",
+    "type": "city",
+    "lat": 40.654347222222,
+    "lng": -4.6962222222222,
+    "pop": 59107
+  },
+  {
+    "nameAr": "Mérida",
+    "nameEn": "Mérida",
+    "type": "city",
+    "lat": 38.97437,
+    "lng": -6.42306,
+    "pop": 58176
+  },
+  {
+    "nameAr": "Ávila City",
+    "nameEn": "Ávila City",
+    "type": "city",
+    "lat": 40.65586958,
+    "lng": -4.69771277,
+    "pop": 57138
+  },
+  {
+    "nameAr": "إيبيزا",
+    "nameEn": "Ibiza",
+    "type": "city",
+    "lat": 38.908888888889,
+    "lng": 1.4327777777778,
+    "pop": 55337
+  },
+  {
+    "nameAr": "Huesca",
+    "nameEn": "Huesca",
+    "type": "city",
+    "lat": 42.140934187082,
+    "lng": -0.41107087832476,
+    "pop": 53699
+  },
+  {
+    "nameAr": "فياريال",
+    "nameEn": "Villarreal",
+    "type": "city",
+    "lat": 39.937777777778,
+    "lng": -0.10138888888889,
+    "pop": 53623
+  },
+  {
+    "nameAr": "Cuenca city",
+    "nameEn": "Cuenca city",
+    "type": "city",
+    "lat": 40.07492,
+    "lng": -2.13615,
+    "pop": 52442
+  },
+  {
+    "nameAr": "شقوبية",
+    "nameEn": "Segovia",
+    "type": "city",
+    "lat": 40.948055555556,
+    "lng": -4.1183333333333,
+    "pop": 52375
+  },
+  {
+    "nameAr": "Aranjuez",
+    "nameEn": "Aranjuez",
+    "type": "city",
+    "lat": 40.03340145,
+    "lng": -3.60279693,
+    "pop": 52214
+  },
+  {
+    "nameAr": "توريلافيجا",
+    "nameEn": "Torrelavega",
+    "type": "city",
+    "lat": 43.350555555556,
+    "lng": -4.0491666666667,
+    "pop": 51796
+  },
+  {
+    "nameAr": "Vic",
+    "nameEn": "Vic",
+    "type": "city",
+    "lat": 41.93012,
+    "lng": 2.25486,
+    "pop": 50405
+  },
+  {
+    "nameAr": "سان فيلايو دي يوبريغات",
+    "nameEn": "Sant Feliu de Llobregat",
+    "type": "city",
+    "lat": 41.383333333333,
+    "lng": 2.0438888888889,
+    "pop": 46781
+  },
+  {
+    "nameAr": "بورتغاليتي",
+    "nameEn": "Portugalete",
+    "type": "city",
+    "lat": 43.319444,
+    "lng": -3.019583,
+    "pop": 44843
+  },
+  {
+    "nameAr": "أنتقيرة",
+    "nameEn": "Antequera",
+    "type": "city",
+    "lat": 37.0183652,
+    "lng": -4.5596649,
+    "pop": 41849
+  },
+  {
+    "nameAr": "Cartagena city",
+    "nameEn": "Cartagena city",
+    "type": "city",
+    "lat": 37.6,
+    "lng": -0.983333,
+    "pop": 41731
+  },
+  {
+    "nameAr": "بلاسينثيا",
+    "nameEn": "Plasencia",
+    "type": "city",
+    "lat": 40.0275,
+    "lng": -6.0908333333333,
+    "pop": 40132
+  },
+  {
+    "nameAr": "Soria city",
+    "nameEn": "Soria city",
+    "type": "city",
+    "lat": 41.763641666667,
+    "lng": -2.4673638888889,
+    "pop": 39788
+  },
+  {
+    "nameAr": "رينتيريا",
+    "nameEn": "Errenteria",
+    "type": "city",
+    "lat": 43.3125271,
+    "lng": -1.8986133,
+    "pop": 39363
+  },
+  {
+    "nameAr": "سان أدريان دي بيزوس",
+    "nameEn": "Sant Adrià de Besòs",
+    "type": "city",
+    "lat": 41.4304832,
+    "lng": 2.2182775,
+    "pop": 39323
+  },
+  {
+    "nameAr": "Ponferrada",
+    "nameEn": "Ponferrada",
+    "type": "city",
+    "lat": 42.5476828,
+    "lng": -6.59729457,
+    "pop": 38961
+  },
+  {
+    "nameAr": "تطيلة",
+    "nameEn": "Tudela",
+    "type": "city",
+    "lat": 42.065277777778,
+    "lng": -1.6066666666667,
+    "pop": 38903
+  },
+  {
+    "nameAr": "أغيلاس",
+    "nameEn": "Águilas",
+    "type": "city",
+    "lat": 37.404166666667,
+    "lng": -1.5819444444444,
+    "pop": 37811
+  },
+  {
+    "nameAr": "ميراندا دي إيبرو",
+    "nameEn": "Miranda de Ebro",
+    "type": "city",
+    "lat": 42.683333333333,
+    "lng": -2.9333333333333,
+    "pop": 36622
+  },
+  {
+    "nameAr": "سان خوان ديسباي",
+    "nameEn": "Sant Joan Despí",
+    "type": "city",
+    "lat": 41.3667951,
+    "lng": 2.0570346,
+    "pop": 35926
+  },
+  {
+    "nameAr": "Teruel City",
+    "nameEn": "Teruel City",
+    "type": "city",
+    "lat": 40.3456,
+    "lng": -1.10646,
+    "pop": 35691
+  },
+  {
+    "nameAr": "كاسترو أورديالس",
+    "nameEn": "Castro Urdiales",
+    "type": "city",
+    "lat": 43.384444444444,
+    "lng": -3.215,
+    "pop": 33450
+  },
+  {
+    "nameAr": "Úbeda",
+    "nameEn": "Úbeda",
+    "type": "city",
+    "lat": 38.01149823,
+    "lng": -3.3711916,
+    "pop": 32565
+  },
+  {
+    "nameAr": "Orihuela",
+    "nameEn": "Orihuela",
+    "type": "city",
+    "lat": 38.08522582,
+    "lng": -0.949954565,
+    "pop": 31962
+  },
+  {
+    "nameAr": "San Cristóbal de La Laguna",
+    "nameEn": "San Cristóbal de La Laguna",
+    "type": "city",
+    "lat": 28.48748934,
+    "lng": -16.31466014,
+    "pop": 31604
+  },
+  {
+    "nameAr": "إيبار",
+    "nameEn": "Eibar",
+    "type": "city",
+    "lat": 43.1842839,
+    "lng": -2.4732748,
+    "pop": 27484
+  },
+  {
+    "nameAr": "Miranda de Ebro",
+    "nameEn": "Miranda de Ebro",
+    "type": "city",
+    "lat": 42.68052075,
+    "lng": -2.95239566,
+    "pop": 25522
+  },
+  {
+    "nameAr": "Hellín",
+    "nameEn": "Hellín",
+    "type": "city",
+    "lat": 38.51218953,
+    "lng": -1.70344921,
+    "pop": 25189
+  },
+  {
+    "nameAr": "Calahorra (municipal capital)",
+    "nameEn": "Calahorra (municipal capital)",
+    "type": "city",
+    "lat": 42.30155468,
+    "lng": -1.9609741,
+    "pop": 24971
+  },
+  {
+    "nameAr": "Carmona",
+    "nameEn": "Carmona",
+    "type": "city",
+    "lat": 37.47125,
+    "lng": -5.64608,
+    "pop": 22652
+  },
+  {
+    "nameAr": "Villanueva de la Serena",
+    "nameEn": "Villanueva de la Serena",
+    "type": "city",
+    "lat": 38.97655,
+    "lng": -5.7974,
+    "pop": 21825
+  },
+  {
+    "nameAr": "Mieres del Camino (town)",
+    "nameEn": "Mieres del Camino (town)",
+    "type": "city",
+    "lat": 43.2487658418,
+    "lng": -5.77286857154,
+    "pop": 21555
+  },
+  {
+    "nameAr": "ركانة (بلنسية)",
+    "nameEn": "Requena",
+    "type": "city",
+    "lat": 39.488538,
+    "lng": -1.1023083,
+    "pop": 20982
+  },
+  {
+    "nameAr": "Sagunto (city)",
+    "nameEn": "Sagunto (city)",
+    "type": "city",
+    "lat": 39.67995785,
+    "lng": -0.27841866,
+    "pop": 20780
+  },
+  {
+    "nameAr": "لوس يانوس دي أريداني",
+    "nameEn": "Los Llanos de Aridane",
+    "type": "city",
+    "lat": 28.658232930556,
+    "lng": -17.914226030556,
+    "pop": 20582
+  },
+  {
+    "nameAr": "Calatayud",
+    "nameEn": "Calatayud",
+    "type": "city",
+    "lat": 41.35431931,
+    "lng": -1.64472637,
+    "pop": 19391
+  },
+  {
+    "nameAr": "سان لورنزو دي الإسكوريال",
+    "nameEn": "San Lorenzo de El Escorial",
+    "type": "city",
+    "lat": 40.593611111111,
+    "lng": -4.1427777777778,
+    "pop": 18872
+  },
+  {
+    "nameAr": "Collado Villalba",
+    "nameEn": "Collado Villalba",
+    "type": "city",
+    "lat": 40.64297,
+    "lng": -3.99052,
+    "pop": 17706
+  },
+  {
+    "nameAr": "Monzón",
+    "nameEn": "Monzón",
+    "type": "city",
+    "lat": 41.91084,
+    "lng": 0.19406,
+    "pop": 17407
+  },
+  {
+    "nameAr": "نافالمورال دي لا ماتا",
+    "nameEn": "Navalmoral de la Mata",
+    "type": "city",
+    "lat": 39.892777777778,
+    "lng": -5.5402777777778,
+    "pop": 17352
+  },
+  {
+    "nameAr": "Barbastro city",
+    "nameEn": "Barbastro city",
+    "type": "city",
+    "lat": 42.03662727,
+    "lng": 0.12246205,
+    "pop": 16883
+  },
+  {
+    "nameAr": "فوينتيرابيا",
+    "nameEn": "Hondarribia",
+    "type": "city",
+    "lat": 43.3624372,
+    "lng": -1.7914777,
+    "pop": 16788
+  },
+  {
+    "nameAr": "سانتا كروث دي لا بالما",
+    "nameEn": "Santa Cruz de La Palma",
+    "type": "city",
+    "lat": 28.6825,
+    "lng": -17.765,
+    "pop": 15690
+  },
+  {
+    "nameAr": "أثبيتيا",
+    "nameEn": "Azpeitia",
+    "type": "city",
+    "lat": 43.181944444444,
+    "lng": -2.2652777777778,
+    "pop": 15301
+  },
+  {
+    "nameAr": "Fraga",
+    "nameEn": "Fraga",
+    "type": "city",
+    "lat": 41.52221149,
+    "lng": 0.3489743,
+    "pop": 14572
+  },
+  {
+    "nameAr": "Ejea de los Caballeros",
+    "nameEn": "Ejea de los Caballeros",
+    "type": "city",
+    "lat": 42.12632,
+    "lng": -1.13716,
+    "pop": 14406
+  },
+  {
+    "nameAr": "بالوس دي لا فرونتيرا",
+    "nameEn": "Palos de la Frontera",
+    "type": "city",
+    "lat": 37.2277697,
+    "lng": -6.8932258,
+    "pop": 12938
+  },
+  {
+    "nameAr": "Jaca City",
+    "nameEn": "Jaca City",
+    "type": "city",
+    "lat": 42.56898,
+    "lng": -0.54987,
+    "pop": 12488
+  },
+  {
+    "nameAr": "Ciudad Rodrigo",
+    "nameEn": "Ciudad Rodrigo",
+    "type": "city",
+    "lat": 40.60014,
+    "lng": -6.52245,
+    "pop": 10934
+  },
+  {
+    "nameAr": "سانتونيا",
+    "nameEn": "Santoña",
+    "type": "city",
+    "lat": 43.441388888889,
+    "lng": -3.4575,
+    "pop": 10835
+  },
+  {
+    "nameAr": "Olivenza",
+    "nameEn": "Olivenza",
+    "type": "city",
+    "lat": 38.68269,
+    "lng": -7.10046,
+    "pop": 10004
+  },
+  {
+    "nameAr": "فيلافا",
+    "nameEn": "Villava/Atarrabia",
+    "type": "city",
+    "lat": 42.830833333333,
+    "lng": -1.6086111111111,
+    "pop": 9928
+  },
+  {
+    "nameAr": "Piedrasblancas",
+    "nameEn": "Piedrasblancas",
+    "type": "city",
+    "lat": 43.56,
+    "lng": -5.976,
+    "pop": 9235
+  },
+  {
+    "nameAr": "El Escorial",
+    "nameEn": "El Escorial",
+    "type": "city",
+    "lat": 40.5849622,
+    "lng": -4.12698622,
+    "pop": 9015
+  },
+  {
+    "nameAr": "Cintruénigo",
+    "nameEn": "Cintruénigo",
+    "type": "city",
+    "lat": 42.08,
+    "lng": -1.805,
+    "pop": 8565
+  },
+  {
+    "nameAr": "Sabiñánigo (human settlement)",
+    "nameEn": "Sabiñánigo (human settlement)",
+    "type": "city",
+    "lat": 42.51924,
+    "lng": -0.36607,
+    "pop": 8356
+  },
+  {
+    "nameAr": "Trujillo city",
+    "nameEn": "Trujillo city",
+    "type": "city",
+    "lat": 39.46250751,
+    "lng": -5.88284261,
+    "pop": 8130
+  },
+  {
+    "nameAr": "Jerez de los Caballeros",
+    "nameEn": "Jerez de los Caballeros",
+    "type": "city",
+    "lat": 38.32063,
+    "lng": -6.7726,
+    "pop": 8088
+  },
+  {
+    "nameAr": "هوارتي",
+    "nameEn": "Huarte",
+    "type": "city",
+    "lat": 42.831388888889,
+    "lng": -1.5908333333333,
+    "pop": 7900
+  },
+  {
+    "nameAr": "Altsasu – Alsasua",
+    "nameEn": "Altsasu – Alsasua",
+    "type": "city",
+    "lat": 42.89999,
+    "lng": -2.16516,
+    "pop": 7717
+  },
+  {
+    "nameAr": "La Almunia de Doña Godina",
+    "nameEn": "La Almunia de Doña Godina",
+    "type": "city",
+    "lat": 41.4767,
+    "lng": -1.37451,
+    "pop": 7572
+  },
+  {
+    "nameAr": "تالايلا",
+    "nameEn": "Talayuela",
+    "type": "city",
+    "lat": 39.9859921,
+    "lng": -5.6096048,
+    "pop": 7439
+  },
+  {
+    "nameAr": "Redondela",
+    "nameEn": "Redondela",
+    "type": "city",
+    "lat": 42.28378165,
+    "lng": -8.608908311,
+    "pop": 7182
+  },
+  {
+    "nameAr": "La Pola",
+    "nameEn": "La Pola",
+    "type": "city",
+    "lat": 43.16089,
+    "lng": -5.82878,
+    "pop": 7034
+  },
+  {
+    "nameAr": "Trebujena",
+    "nameEn": "Trebujena",
+    "type": "city",
+    "lat": 36.87075,
+    "lng": -6.17586,
+    "pop": 6930
+  },
+  {
+    "nameAr": "Grau",
+    "nameEn": "Grau",
+    "type": "city",
+    "lat": 43.38929203,
+    "lng": -6.06990452,
+    "pop": 6729
+  },
+  {
+    "nameAr": "موراليخا",
+    "nameEn": "Moraleja",
+    "type": "city",
+    "lat": 40.0695021,
+    "lng": -6.6571584,
+    "pop": 6562
+  },
+  {
+    "nameAr": "Candás",
+    "nameEn": "Candás",
+    "type": "city",
+    "lat": 43.590833333333,
+    "lng": -5.7672222222222,
+    "pop": 6552
+  },
+  {
+    "nameAr": "Los Realejos",
+    "nameEn": "Los Realejos",
+    "type": "city",
+    "lat": 28.37952103,
+    "lng": -16.58362928,
+    "pop": 6512
+  },
+  {
+    "nameAr": "San Adrián",
+    "nameEn": "San Adrián",
+    "type": "city",
+    "lat": 42.3325,
+    "lng": -1.9333333333333,
+    "pop": 6504
+  },
+  {
+    "nameAr": "Tauste",
+    "nameEn": "Tauste",
+    "type": "city",
+    "lat": 41.91804,
+    "lng": -1.25343,
+    "pop": 6353
+  },
+  {
+    "nameAr": "Íscar",
+    "nameEn": "Íscar",
+    "type": "city",
+    "lat": 41.36117,
+    "lng": -4.53348,
+    "pop": 6326
+  },
+  {
+    "nameAr": "Peralta – Azkoien",
+    "nameEn": "Peralta – Azkoien",
+    "type": "city",
+    "lat": 42.35688014,
+    "lng": -1.801595739,
+    "pop": 6071
+  },
+  {
+    "nameAr": "Cangas del Narcea",
+    "nameEn": "Cangas del Narcea",
+    "type": "city",
+    "lat": 43.176202777778,
+    "lng": -6.5488611111111,
+    "pop": 5593
+  },
+  {
+    "nameAr": "Luanco",
+    "nameEn": "Luanco",
+    "type": "city",
+    "lat": 43.61517,
+    "lng": -5.79344,
+    "pop": 5352
+  },
+  {
+    "nameAr": "Guadalcacín",
+    "nameEn": "Guadalcacín",
+    "type": "city",
+    "lat": 36.713055555556,
+    "lng": -6.0902777777778,
+    "pop": 5226
+  },
+  {
+    "nameAr": "Las Marinas",
+    "nameEn": "Las Marinas",
+    "type": "city",
+    "lat": 36.73188143,
+    "lng": -2.63166269,
+    "pop": 5161
+  },
+  {
+    "nameAr": "فالنسيا دي الكنتارا",
+    "nameEn": "Valencia de Alcántara",
+    "type": "city",
+    "lat": 39.4132551,
+    "lng": -7.2435909,
+    "pop": 5150
+  },
+  {
+    "nameAr": "Nerva",
+    "nameEn": "Nerva",
+    "type": "city",
+    "lat": 37.69627,
+    "lng": -6.54967,
+    "pop": 5072
+  },
+  {
+    "nameAr": "Lodosa",
+    "nameEn": "Lodosa",
+    "type": "city",
+    "lat": 42.424166666667,
+    "lng": -2.0783333333333,
+    "pop": 4964
+  },
+  {
+    "nameAr": "غاراتشيكو",
+    "nameEn": "Garachico",
+    "type": "city",
+    "lat": 28.373686,
+    "lng": -16.7640491,
+    "pop": 4940
+  },
+  {
+    "nameAr": "Valdelagrana",
+    "nameEn": "Valdelagrana",
+    "type": "city",
+    "lat": 36.576575,
+    "lng": -6.222948,
+    "pop": 4938
+  },
+  {
+    "nameAr": "سانغويسا",
+    "nameEn": "Sangüesa/Zangoza",
+    "type": "city",
+    "lat": 42.56509046,
+    "lng": -1.253177685,
+    "pop": 4883
+  },
+  {
+    "nameAr": "فايي غران ري",
+    "nameEn": "Valle Gran Rey",
+    "type": "city",
+    "lat": 28.116666666667,
+    "lng": -17.316666666667,
+    "pop": 4830
+  },
+  {
+    "nameAr": "Rafal",
+    "nameEn": "Rafal",
+    "type": "city",
+    "lat": 38.10458,
+    "lng": -0.84904,
+    "pop": 4747
+  },
+  {
+    "nameAr": "Alba de Tormes",
+    "nameEn": "Alba de Tormes",
+    "type": "city",
+    "lat": 40.82743588,
+    "lng": -5.51211229,
+    "pop": 4718
+  },
+  {
+    "nameAr": "Pravia",
+    "nameEn": "Pravia",
+    "type": "city",
+    "lat": 43.48861,
+    "lng": -6.1117,
+    "pop": 4712
+  },
+  {
+    "nameAr": "مالبارتيدا دي بلاسينثيا",
+    "nameEn": "Malpartida de Plasencia",
+    "type": "city",
+    "lat": 39.9811621,
+    "lng": -6.0437752,
+    "pop": 4666
+  },
+  {
+    "nameAr": "Santisteban del Puerto",
+    "nameEn": "Santisteban del Puerto",
+    "type": "city",
+    "lat": 38.2507004,
+    "lng": -3.20529254,
+    "pop": 4361
+  },
+  {
+    "nameAr": "Llanes",
+    "nameEn": "Llanes",
+    "type": "city",
+    "lat": 43.41982,
+    "lng": -4.75485,
+    "pop": 4291
+  },
+  {
+    "nameAr": "Olite/Erriberri",
+    "nameEn": "Olite/Erriberri",
+    "type": "city",
+    "lat": 42.480805361003,
+    "lng": -1.6500910898455,
+    "pop": 4069
+  },
+  {
+    "nameAr": "La Barca de la Florida",
+    "nameEn": "La Barca de la Florida",
+    "type": "city",
+    "lat": 36.649166666667,
+    "lng": -5.9338888888889,
+    "pop": 4036
+  },
+  {
+    "nameAr": "هيرفاس",
+    "nameEn": "Hervás",
+    "type": "city",
+    "lat": 40.273888888889,
+    "lng": -5.8658333333333,
+    "pop": 3898
+  },
+  {
+    "nameAr": "Ḷḷuarca",
+    "nameEn": "Ḷḷuarca",
+    "type": "city",
+    "lat": 43.5448,
+    "lng": -6.5327,
+    "pop": 3842
+  },
+  {
+    "nameAr": "الصخرة (نبرة)",
+    "nameEn": "Azagra",
+    "type": "city",
+    "lat": 42.29524714,
+    "lng": -1.878768113,
+    "pop": 3746
+  },
+  {
+    "nameAr": "Milagro",
+    "nameEn": "Milagro",
+    "type": "city",
+    "lat": 42.24080434,
+    "lng": -1.767992734,
+    "pop": 3741
+  },
+  {
+    "nameAr": "Ribaforada",
+    "nameEn": "Ribaforada",
+    "type": "city",
+    "lat": 41.997222222222,
+    "lng": -1.5108333333333,
+    "pop": 3697
+  },
+  {
+    "nameAr": "Mendavia",
+    "nameEn": "Mendavia",
+    "type": "city",
+    "lat": 42.4443286,
+    "lng": -2.200421,
+    "pop": 3588
+  },
+  {
+    "nameAr": "Agaete",
+    "nameEn": "Agaete",
+    "type": "city",
+    "lat": 28.10023,
+    "lng": -15.69998,
+    "pop": 3236
+  },
+  {
+    "nameAr": "Tinéu",
+    "nameEn": "Tinéu",
+    "type": "city",
+    "lat": 43.33765,
+    "lng": -6.41452,
+    "pop": 3200
+  },
+  {
+    "nameAr": "Cortes",
+    "nameEn": "Cortes",
+    "type": "city",
+    "lat": 41.922777777778,
+    "lng": -1.4219444444444,
+    "pop": 3165
+  },
+  {
+    "nameAr": "Villafranca",
+    "nameEn": "Villafranca",
+    "type": "city",
+    "lat": 42.27386491,
+    "lng": -1.725587482,
+    "pop": 3163
+  },
+  {
+    "nameAr": "Leitza",
+    "nameEn": "Leitza",
+    "type": "city",
+    "lat": 43.078888888889,
+    "lng": -1.9147222222222,
+    "pop": 3011
+  },
+  {
+    "nameAr": "بنت لرينة (نبرة)",
+    "nameEn": "Puente La Reina – Gares",
+    "type": "city",
+    "lat": 42.67146,
+    "lng": -1.81504,
+    "pop": 2972
+  },
+  {
+    "nameAr": "Marcilla",
+    "nameEn": "Marcilla",
+    "type": "city",
+    "lat": 42.35141885,
+    "lng": -1.728124312,
+    "pop": 2938
+  },
+  {
+    "nameAr": "Andosilla",
+    "nameEn": "Andosilla",
+    "type": "city",
+    "lat": 42.376944444444,
+    "lng": -1.9419444444444,
+    "pop": 2925
+  },
+  {
+    "nameAr": "Sotrondio",
+    "nameEn": "Sotrondio",
+    "type": "city",
+    "lat": 43.2753234289,
+    "lng": -5.60471823416,
+    "pop": 2919
+  },
+  {
+    "nameAr": "Begíjar",
+    "nameEn": "Begíjar",
+    "type": "city",
+    "lat": 37.98492,
+    "lng": -3.53094,
+    "pop": 2911
+  },
+  {
+    "nameAr": "خارانديلا دي لا فيرا",
+    "nameEn": "Jarandilla de la Vera",
+    "type": "city",
+    "lat": 40.126944444444,
+    "lng": -5.6583333333333,
+    "pop": 2894
+  },
+  {
+    "nameAr": "Caparroso",
+    "nameEn": "Caparroso",
+    "type": "city",
+    "lat": 42.32790391,
+    "lng": -1.651854622,
+    "pop": 2882
+  },
+  {
+    "nameAr": "A Veiga",
+    "nameEn": "A Veiga",
+    "type": "city",
+    "lat": 43.46834,
+    "lng": -7.0539,
+    "pop": 2803
+  },
+  {
+    "nameAr": "لوسار دي لافيرا",
+    "nameEn": "Losar de la Vera",
+    "type": "city",
+    "lat": 40.121944444444,
+    "lng": -5.6,
+    "pop": 2799
+  },
+  {
+    "nameAr": "Aoiz/Agoitz",
+    "nameEn": "Aoiz/Agoitz",
+    "type": "city",
+    "lat": 42.78633,
+    "lng": -1.37252,
+    "pop": 2777
+  },
+  {
+    "nameAr": "Ablitas",
+    "nameEn": "Ablitas",
+    "type": "city",
+    "lat": 41.973611111111,
+    "lng": -1.6386111111111,
+    "pop": 2657
+  },
+  {
+    "nameAr": "Etxarri Aranatz",
+    "nameEn": "Etxarri Aranatz",
+    "type": "city",
+    "lat": 42.90726,
+    "lng": -2.06495,
+    "pop": 2551
+  },
+  {
+    "nameAr": "بالتييرا",
+    "nameEn": "Valtierra",
+    "type": "city",
+    "lat": 42.195277777778,
+    "lng": -1.6341666666667,
+    "pop": 2505
+  },
+  {
+    "nameAr": "الكويسكار",
+    "nameEn": "Alcuéscar",
+    "type": "city",
+    "lat": 39.181111111111,
+    "lng": -6.2294444444444,
+    "pop": 2447
+  },
+  {
+    "nameAr": "Fustiñana",
+    "nameEn": "Fustiñana",
+    "type": "city",
+    "lat": 42.019722222222,
+    "lng": -1.4861111111111,
+    "pop": 2445
+  },
+  {
+    "nameAr": "Carcastillo",
+    "nameEn": "Carcastillo",
+    "type": "city",
+    "lat": 42.351234119444,
+    "lng": -1.41513925,
+    "pop": 2408
+  },
+  {
+    "nameAr": "Fitero",
+    "nameEn": "Fitero",
+    "type": "city",
+    "lat": 42.058055555556,
+    "lng": -1.8572222222222,
+    "pop": 2370
+  },
+  {
+    "nameAr": "Madroñera",
+    "nameEn": "Madroñera",
+    "type": "city",
+    "lat": 39.42627266,
+    "lng": -5.75407594,
+    "pop": 2325
+  },
+  {
+    "nameAr": "Arguedas",
+    "nameEn": "Arguedas",
+    "type": "city",
+    "lat": 42.176944444444,
+    "lng": -1.5983333333333,
+    "pop": 2309
+  },
+  {
+    "nameAr": "Carchuna",
+    "nameEn": "Carchuna",
+    "type": "city",
+    "lat": 36.702222222222,
+    "lng": -3.4419444444444,
+    "pop": 2270
+  },
+  {
+    "nameAr": "Les Arriondes",
+    "nameEn": "Les Arriondes",
+    "type": "city",
+    "lat": 43.385833333333,
+    "lng": -5.1908333333333,
+    "pop": 2259
+  },
+  {
+    "nameAr": "Cadreita",
+    "nameEn": "Cadreita",
+    "type": "city",
+    "lat": 42.22467071,
+    "lng": -1.685170198,
+    "pop": 2187
+  },
+  {
+    "nameAr": "Larraga",
+    "nameEn": "Larraga",
+    "type": "city",
+    "lat": 42.54736893,
+    "lng": -1.854766329,
+    "pop": 2158
+  },
+  {
+    "nameAr": "Brihuega",
+    "nameEn": "Brihuega",
+    "type": "city",
+    "lat": 40.76063889,
+    "lng": -2.86677495,
+    "pop": 2145
+  },
+  {
+    "nameAr": "فالفيردي ديل فريسنو",
+    "nameEn": "Valverde del Fresno",
+    "type": "city",
+    "lat": 40.2239123,
+    "lng": -6.8797963,
+    "pop": 2143
+  },
+  {
+    "nameAr": "فيلانيوفا دي لافيرا",
+    "nameEn": "Villanueva de la Vera",
+    "type": "city",
+    "lat": 40.130555555556,
+    "lng": -5.4638888888889,
+    "pop": 2108
+  },
+  {
+    "nameAr": "Nava",
+    "nameEn": "Nava",
+    "type": "city",
+    "lat": 43.35834129,
+    "lng": -5.50560512,
+    "pop": 2081
+  },
+  {
+    "nameAr": "كابيزويلا ديل فالي",
+    "nameEn": "Cabezuela del Valle",
+    "type": "city",
+    "lat": 40.1926501975,
+    "lng": -5.80640598221,
+    "pop": 2049
+  },
+  {
+    "nameAr": "نافاكونسيخو",
+    "nameEn": "Navaconcejo",
+    "type": "city",
+    "lat": 40.178333333333,
+    "lng": -5.8316666666667,
+    "pop": 2037
+  },
+  {
+    "nameAr": "Tapia",
+    "nameEn": "Tapia",
+    "type": "city",
+    "lat": 43.57019,
+    "lng": -6.94383,
+    "pop": 2037
+  },
+  {
+    "nameAr": "Ezcaray (town)",
+    "nameEn": "Ezcaray (town)",
+    "type": "city",
+    "lat": 42.32594879,
+    "lng": -3.014411,
+    "pop": 1989
+  },
+  {
+    "nameAr": "Villafranca del Bierzo",
+    "nameEn": "Villafranca del Bierzo",
+    "type": "city",
+    "lat": 42.60599303,
+    "lng": -6.81082207,
+    "pop": 1978
+  },
+  {
+    "nameAr": "الديانيوفا دي لا فيرا",
+    "nameEn": "Aldeanueva de la Vera",
+    "type": "city",
+    "lat": 40.1292181,
+    "lng": -5.7002585,
+    "pop": 1966
+  },
+  {
+    "nameAr": "Quinto",
+    "nameEn": "Quinto",
+    "type": "city",
+    "lat": 41.42378,
+    "lng": -0.49592,
+    "pop": 1864
+  },
+  {
+    "nameAr": "Doneztebe/Santesteban",
+    "nameEn": "Doneztebe/Santesteban",
+    "type": "city",
+    "lat": 43.131,
+    "lng": -1.66875,
+    "pop": 1854
+  },
+  {
+    "nameAr": "Lerín",
+    "nameEn": "Lerín",
+    "type": "city",
+    "lat": 42.4814412,
+    "lng": -1.9737376,
+    "pop": 1821
+  },
+  {
+    "nameAr": "Almoharín",
+    "nameEn": "Almoharín",
+    "type": "city",
+    "lat": 39.17685,
+    "lng": -6.04283,
+    "pop": 1773
+  },
+  {
+    "nameAr": "Ceclavín",
+    "nameEn": "Ceclavín",
+    "type": "city",
+    "lat": 39.82231,
+    "lng": -6.77329,
+    "pop": 1766
+  },
+  {
+    "nameAr": "L'Infiestu",
+    "nameEn": "L'Infiestu",
+    "type": "city",
+    "lat": 43.348333333333,
+    "lng": -5.3641666666667,
+    "pop": 1765
+  },
+  {
+    "nameAr": "Comillas",
+    "nameEn": "Comillas",
+    "type": "city",
+    "lat": 43.38603,
+    "lng": -4.29162,
+    "pop": 1735
+  },
+  {
+    "nameAr": "بروزاس",
+    "nameEn": "Brozas",
+    "type": "city",
+    "lat": 39.6125,
+    "lng": -6.7780555555556,
+    "pop": 1718
+  },
+  {
+    "nameAr": "Artajona",
+    "nameEn": "Artajona",
+    "type": "city",
+    "lat": 42.58867,
+    "lng": -1.76504,
+    "pop": 1691
+  },
+  {
+    "nameAr": "Encinarejo",
+    "nameEn": "Encinarejo",
+    "type": "city",
+    "lat": 37.83170839,
+    "lng": -4.9279429,
+    "pop": 1682
+  },
+  {
+    "nameAr": "Ateca",
+    "nameEn": "Ateca",
+    "type": "city",
+    "lat": 41.330833333333,
+    "lng": -1.7927777777778,
+    "pop": 1680
+  },
+  {
+    "nameAr": "توريروغاز",
+    "nameEn": "Torreorgaz",
+    "type": "city",
+    "lat": 39.3821045,
+    "lng": -6.2501398,
+    "pop": 1641
+  },
+  {
+    "nameAr": "Almaraz",
+    "nameEn": "Almaraz",
+    "type": "city",
+    "lat": 39.81453225,
+    "lng": -5.67829933,
+    "pop": 1638
+  },
+  {
+    "nameAr": "غاتيكا",
+    "nameEn": "Gatika",
+    "type": "city",
+    "lat": 43.363888888889,
+    "lng": -2.8719444444444,
+    "pop": 1633
+  },
+  {
+    "nameAr": "كانياميرو",
+    "nameEn": "Cañamero",
+    "type": "city",
+    "lat": 39.379676,
+    "lng": -5.3888394,
+    "pop": 1578
+  },
+  {
+    "nameAr": "كايليروس",
+    "nameEn": "Cilleros",
+    "type": "city",
+    "lat": 40.115833333333,
+    "lng": -6.7961111111111,
+    "pop": 1547
+  },
+  {
+    "nameAr": "Nueva Jarilla",
+    "nameEn": "Nueva Jarilla",
+    "type": "city",
+    "lat": 36.758888888889,
+    "lng": -6.0297222222222,
+    "pop": 1496
+  },
+  {
+    "nameAr": "سيراديلا",
+    "nameEn": "Serradilla",
+    "type": "city",
+    "lat": 39.8294906,
+    "lng": -6.1399404,
+    "pop": 1448
+  },
+  {
+    "nameAr": "Alcàntera de Xúquer",
+    "nameEn": "Alcàntera de Xúquer",
+    "type": "city",
+    "lat": 39.070653,
+    "lng": -0.55970929,
+    "pop": 1414
+  },
+  {
+    "nameAr": "Cabanillas",
+    "nameEn": "Cabanillas",
+    "type": "city",
+    "lat": 42.031388888889,
+    "lng": -1.5269444444444,
+    "pop": 1373
+  },
+  {
+    "nameAr": "Salas",
+    "nameEn": "Salas",
+    "type": "city",
+    "lat": 43.4118,
+    "lng": -6.26023,
+    "pop": 1368
+  },
+  {
+    "nameAr": "Vilaxoán",
+    "nameEn": "Vilaxoán",
+    "type": "city",
+    "lat": 42.586161,
+    "lng": -8.7871604,
+    "pop": 1354
+  },
+  {
+    "nameAr": "Sartaguda",
+    "nameEn": "Sartaguda",
+    "type": "city",
+    "lat": 42.381388888889,
+    "lng": -2.0586111111111,
+    "pop": 1349
+  },
+  {
+    "nameAr": "Lakuntza",
+    "nameEn": "Lakuntza",
+    "type": "city",
+    "lat": 42.923055555556,
+    "lng": -2.0213888888889,
+    "pop": 1338
+  },
+  {
+    "nameAr": "Cabanaquinta",
+    "nameEn": "Cabanaquinta",
+    "type": "city",
+    "lat": 43.1611206829,
+    "lng": -5.62229709657,
+    "pop": 1338
+  },
+  {
+    "nameAr": "Lumbier",
+    "nameEn": "Lumbier",
+    "type": "city",
+    "lat": 42.650771588889,
+    "lng": -1.3090179888889,
+    "pop": 1330
+  },
+  {
+    "nameAr": "الكنتارا",
+    "nameEn": "Alcántara",
+    "type": "city",
+    "lat": 39.718611111111,
+    "lng": -6.8838888888889,
+    "pop": 1329
+  },
+  {
+    "nameAr": "أتزينيتا ديل مايسترات",
+    "nameEn": "Atzeneta del Maestrat",
+    "type": "city",
+    "lat": 40.216388888889,
+    "lng": -0.17055555555556,
+    "pop": 1284
+  },
+  {
+    "nameAr": "El Cotillo",
+    "nameEn": "El Cotillo",
+    "type": "city",
+    "lat": 28.68361111,
+    "lng": -14.01111111,
+    "pop": 1269
+  },
+  {
+    "nameAr": "Mendigorria",
+    "nameEn": "Mendigorria",
+    "type": "city",
+    "lat": 42.62822,
+    "lng": -1.8345,
+    "pop": 1261
+  },
+  {
+    "nameAr": "Villatuerta",
+    "nameEn": "Villatuerta",
+    "type": "city",
+    "lat": 42.6595159,
+    "lng": -1.9934011,
+    "pop": 1256
+  },
+  {
+    "nameAr": "Sesma",
+    "nameEn": "Sesma",
+    "type": "city",
+    "lat": 42.477777777778,
+    "lng": -2.0833333333333,
+    "pop": 1248
+  },
+  {
+    "nameAr": "El Torno",
+    "nameEn": "El Torno",
+    "type": "city",
+    "lat": 36.61833333,
+    "lng": -5.96833333,
+    "pop": 1233
+  },
+  {
+    "nameAr": "Barrio Jarana",
+    "nameEn": "Barrio Jarana",
+    "type": "city",
+    "lat": 36.5025,
+    "lng": -6.14333333,
+    "pop": 1225
+  },
+  {
+    "nameAr": "Fasnia",
+    "nameEn": "Fasnia",
+    "type": "city",
+    "lat": 28.23925196,
+    "lng": -16.43968643,
+    "pop": 1220
+  },
+  {
+    "nameAr": "El Trobal",
+    "nameEn": "El Trobal",
+    "type": "city",
+    "lat": 37.10847351,
+    "lng": -5.950348143,
+    "pop": 1200
+  },
+  {
+    "nameAr": "Cartaojal",
+    "nameEn": "Cartaojal",
+    "type": "city",
+    "lat": 37.108333333333,
+    "lng": -4.5125,
+    "pop": 1199
+  },
+  {
+    "nameAr": "Los Arcos",
+    "nameEn": "Los Arcos",
+    "type": "city",
+    "lat": 42.56949,
+    "lng": -2.19231,
+    "pop": 1177
+  },
+  {
+    "nameAr": "قلقرة",
+    "nameEn": "Cárcar",
+    "type": "city",
+    "lat": 42.388888888889,
+    "lng": -1.97,
+    "pop": 1156
+  },
+  {
+    "nameAr": "Sádaba",
+    "nameEn": "Sádaba",
+    "type": "city",
+    "lat": 42.2818,
+    "lng": -1.26951,
+    "pop": 1139
+  },
+  {
+    "nameAr": "Zarza la Mayor",
+    "nameEn": "Zarza la Mayor",
+    "type": "city",
+    "lat": 39.87551176,
+    "lng": -6.8643735,
+    "pop": 1127
+  },
+  {
+    "nameAr": "Arbizu",
+    "nameEn": "Arbizu",
+    "type": "city",
+    "lat": 42.9147356,
+    "lng": -2.0394169,
+    "pop": 1107
+  },
+  {
+    "nameAr": "Monteagudo",
+    "nameEn": "Monteagudo",
+    "type": "city",
+    "lat": 41.963888888889,
+    "lng": -1.6902777777778,
+    "pop": 1073
+  },
+  {
+    "nameAr": "Arróniz",
+    "nameEn": "Arróniz",
+    "type": "city",
+    "lat": 42.5888239,
+    "lng": -2.091308,
+    "pop": 1064
+  },
+  {
+    "nameAr": "Sotu",
+    "nameEn": "Sotu",
+    "type": "city",
+    "lat": 43.52637,
+    "lng": -6.06107,
+    "pop": 1058
+  },
+  {
+    "nameAr": "Fontellas",
+    "nameEn": "Fontellas",
+    "type": "city",
+    "lat": 42.028333333333,
+    "lng": -1.5761111111111,
+    "pop": 1050
+  },
+  {
+    "nameAr": "Allo",
+    "nameEn": "Allo",
+    "type": "city",
+    "lat": 42.567222222222,
+    "lng": -2.0191666666667,
+    "pop": 1028
+  },
+  {
+    "nameAr": "كاسار دي بالوميرو",
+    "nameEn": "Casar de Palomero",
+    "type": "city",
+    "lat": 40.2949671,
+    "lng": -6.2566105,
+    "pop": 991
+  },
+  {
+    "nameAr": "تورنافاكاس",
+    "nameEn": "Tornavacas",
+    "type": "city",
+    "lat": 40.2556866,
+    "lng": -5.6885137,
+    "pop": 989
+  },
+  {
+    "nameAr": "Castañar de Ibor",
+    "nameEn": "Castañar de Ibor",
+    "type": "city",
+    "lat": 39.62632759,
+    "lng": -5.4168078,
+    "pop": 986
+  },
+  {
+    "nameAr": "Colunga",
+    "nameEn": "Colunga",
+    "type": "city",
+    "lat": 43.48531,
+    "lng": -5.27009,
+    "pop": 967
+  },
+  {
+    "nameAr": "Calaceite",
+    "nameEn": "Calaceite",
+    "type": "city",
+    "lat": 41.016512,
+    "lng": 0.188082,
+    "pop": 951
+  },
+  {
+    "nameAr": "Poblado de colonización de La Montiela",
+    "nameEn": "Poblado de colonización de La Montiela",
+    "type": "city",
+    "lat": 37.52365144,
+    "lng": -4.91857547,
+    "pop": 914
+  },
+  {
+    "nameAr": "Cáseda",
+    "nameEn": "Cáseda",
+    "type": "city",
+    "lat": 42.47074308,
+    "lng": -1.363723178,
+    "pop": 912
+  },
+  {
+    "nameAr": "Albarracín city",
+    "nameEn": "Albarracín city",
+    "type": "city",
+    "lat": 40.40818,
+    "lng": -1.44375,
+    "pop": 910
+  },
+  {
+    "nameAr": "Miranda de Arga",
+    "nameEn": "Miranda de Arga",
+    "type": "city",
+    "lat": 42.48034395,
+    "lng": -1.824497782,
+    "pop": 903
+  },
+  {
+    "nameAr": "Cañaveral",
+    "nameEn": "Cañaveral",
+    "type": "city",
+    "lat": 39.78989562,
+    "lng": -6.39426506,
+    "pop": 897
+  },
+  {
+    "nameAr": "جارجانتا لا أولا",
+    "nameEn": "Garganta la Olla",
+    "type": "city",
+    "lat": 40.110725,
+    "lng": -5.7763778,
+    "pop": 874
+  },
+  {
+    "nameAr": "Santacara",
+    "nameEn": "Santacara",
+    "type": "city",
+    "lat": 42.38989933,
+    "lng": -1.54716675,
+    "pop": 874
+  },
+  {
+    "nameAr": "Colombres",
+    "nameEn": "Colombres",
+    "type": "city",
+    "lat": 43.3749259,
+    "lng": -4.5409351,
+    "pop": 862
+  },
+  {
+    "nameAr": "Galisteo",
+    "nameEn": "Galisteo",
+    "type": "city",
+    "lat": 39.976249,
+    "lng": -6.267271,
+    "pop": 832
+  },
+  {
+    "nameAr": "أرويومولاينوس",
+    "nameEn": "Arroyomolinos",
+    "type": "city",
+    "lat": 39.185555555556,
+    "lng": -6.1630555555556,
+    "pop": 816
+  },
+  {
+    "nameAr": "لا كومبري، إسبانيا",
+    "nameEn": "La Cumbre",
+    "type": "city",
+    "lat": 39.4049805,
+    "lng": -5.9771372,
+    "pop": 815
+  },
+  {
+    "nameAr": "Etxalar",
+    "nameEn": "Etxalar",
+    "type": "city",
+    "lat": 43.233611111111,
+    "lng": -1.6372222222222,
+    "pop": 807
+  },
+  {
+    "nameAr": "El Batán",
+    "nameEn": "El Batán",
+    "type": "city",
+    "lat": 39.9713,
+    "lng": -6.37825,
+    "pop": 804
+  },
+  {
+    "nameAr": "Acehúche",
+    "nameEn": "Acehúche",
+    "type": "city",
+    "lat": 39.79843,
+    "lng": -6.6413,
+    "pop": 797
+  },
+  {
+    "nameAr": "بيلفس دي مونروي",
+    "nameEn": "Belvís de Monroy",
+    "type": "city",
+    "lat": 39.819166666667,
+    "lng": -5.6091666666667,
+    "pop": 774
+  },
+  {
+    "nameAr": "Uharte Arakil",
+    "nameEn": "Uharte Arakil",
+    "type": "city",
+    "lat": 42.92093712,
+    "lng": -1.96906303,
+    "pop": 770
+  },
+  {
+    "nameAr": "Maro",
+    "nameEn": "Maro",
+    "type": "city",
+    "lat": 36.757898,
+    "lng": -3.843076,
+    "pop": 763
+  },
+  {
+    "nameAr": "Atochares",
+    "nameEn": "Atochares",
+    "type": "city",
+    "lat": 36.88080612,
+    "lng": -2.159446655,
+    "pop": 760
+  },
+  {
+    "nameAr": "Aibar/Oibar",
+    "nameEn": "Aibar/Oibar",
+    "type": "city",
+    "lat": 42.58952811,
+    "lng": -1.361152726,
+    "pop": 754
+  },
+  {
+    "nameAr": "Mélida",
+    "nameEn": "Mélida",
+    "type": "city",
+    "lat": 42.34334731,
+    "lng": -1.514903639,
+    "pop": 739
+  },
+  {
+    "nameAr": "Puebla de Argeme",
+    "nameEn": "Puebla de Argeme",
+    "type": "city",
+    "lat": 39.983333333333,
+    "lng": -6.45,
+    "pop": 704
+  },
+  {
+    "nameAr": "Portillo",
+    "nameEn": "Portillo",
+    "type": "city",
+    "lat": 41.47867,
+    "lng": -4.58967,
+    "pop": 702
+  },
+  {
+    "nameAr": "Murillo El Cuende",
+    "nameEn": "Murillo El Cuende",
+    "type": "city",
+    "lat": 42.35006118,
+    "lng": -1.59171132,
+    "pop": 701
+  },
+  {
+    "nameAr": "La Almunia de San Juan",
+    "nameEn": "La Almunia de San Juan",
+    "type": "city",
+    "lat": 41.93652,
+    "lng": 0.24543,
+    "pop": 689
+  },
+  {
+    "nameAr": "Goizueta",
+    "nameEn": "Goizueta",
+    "type": "city",
+    "lat": 43.171111111111,
+    "lng": -1.8641666666667,
+    "pop": 681
+  },
+  {
+    "nameAr": "Villares de Órbigo",
+    "nameEn": "Villares de Órbigo",
+    "type": "city",
+    "lat": 42.470555555556,
+    "lng": -5.9088888888889,
+    "pop": 672
+  },
+  {
+    "nameAr": "Sunbilla",
+    "nameEn": "Sunbilla",
+    "type": "city",
+    "lat": 43.164444444444,
+    "lng": -1.6683333333333,
+    "pop": 672
+  },
+  {
+    "nameAr": "Murillo El Fruto",
+    "nameEn": "Murillo El Fruto",
+    "type": "city",
+    "lat": 42.39838156,
+    "lng": -1.465776581,
+    "pop": 665
+  },
+  {
+    "nameAr": "Puntalón",
+    "nameEn": "Puntalón",
+    "type": "city",
+    "lat": 36.72910041,
+    "lng": -3.48018498,
+    "pop": 639
+  },
+  {
+    "nameAr": "Mirabel",
+    "nameEn": "Mirabel",
+    "type": "city",
+    "lat": 39.86095751,
+    "lng": -6.23426622,
+    "pop": 633
+  },
+  {
+    "nameAr": "Arantza",
+    "nameEn": "Arantza",
+    "type": "city",
+    "lat": 43.196111111111,
+    "lng": -1.7247222222222,
+    "pop": 628
+  },
+  {
+    "nameAr": "San Isidro del Guadalete",
+    "nameEn": "San Isidro del Guadalete",
+    "type": "city",
+    "lat": 36.64357559,
+    "lng": -5.98892232,
+    "pop": 625
+  },
+  {
+    "nameAr": "أونكاستيو",
+    "nameEn": "Uncastillo",
+    "type": "city",
+    "lat": 42.36158799,
+    "lng": -1.13074108,
+    "pop": 608
+  },
+  {
+    "nameAr": "Barásoain",
+    "nameEn": "Barásoain",
+    "type": "city",
+    "lat": 42.61513645,
+    "lng": -1.67101536,
+    "pop": 601
+  },
+  {
+    "nameAr": "Albelda",
+    "nameEn": "Albelda",
+    "type": "city",
+    "lat": 41.86532533,
+    "lng": 0.46106724,
+    "pop": 601
+  },
+  {
+    "nameAr": "Poblado de Doña Blanca",
+    "nameEn": "Poblado de Doña Blanca",
+    "type": "city",
+    "lat": 36.615861778533,
+    "lng": -6.166292475614,
+    "pop": 588
+  },
+  {
+    "nameAr": "باسارون دي لا فيرا",
+    "nameEn": "Pasarón de la Vera",
+    "type": "city",
+    "lat": 40.0520727,
+    "lng": -5.8209997,
+    "pop": 588
+  },
+  {
+    "nameAr": "Igantzi",
+    "nameEn": "Igantzi",
+    "type": "city",
+    "lat": 43.22456694,
+    "lng": -1.69998583,
+    "pop": 578
+  },
+  {
+    "nameAr": "Las Indias",
+    "nameEn": "Las Indias",
+    "type": "city",
+    "lat": 28.503111111111,
+    "lng": -17.862305555556,
+    "pop": 573
+  },
+  {
+    "nameAr": "Torremenga",
+    "nameEn": "Torremenga",
+    "type": "city",
+    "lat": 40.04684668,
+    "lng": -5.77495187,
+    "pop": 552
+  },
+  {
+    "nameAr": "Langa de Duero",
+    "nameEn": "Langa de Duero",
+    "type": "city",
+    "lat": 41.6102456,
+    "lng": -3.40161621,
+    "pop": 551
+  },
+  {
+    "nameAr": "Ituren",
+    "nameEn": "Ituren",
+    "type": "city",
+    "lat": 43.128944444444,
+    "lng": -1.7072222222222,
+    "pop": 543
+  },
+  {
+    "nameAr": "L'Ará",
+    "nameEn": "L'Ará",
+    "type": "city",
+    "lat": 43.23491586,
+    "lng": -5.8782154,
+    "pop": 542
+  },
+  {
+    "nameAr": "توريخون إل روبيو",
+    "nameEn": "Torrejón el Rubio",
+    "type": "city",
+    "lat": 39.7713402,
+    "lng": -6.013256,
+    "pop": 537
+  },
+  {
+    "nameAr": "Abartzuza",
+    "nameEn": "Abartzuza",
+    "type": "city",
+    "lat": 42.75904,
+    "lng": -2.03905,
+    "pop": 537
+  },
+  {
+    "nameAr": "Valdesalor",
+    "nameEn": "Valdesalor",
+    "type": "city",
+    "lat": 39.378055555556,
+    "lng": -6.3477777777778,
+    "pop": 532
+  },
+  {
+    "nameAr": "As Figueiras",
+    "nameEn": "As Figueiras",
+    "type": "city",
+    "lat": 43.53943,
+    "lng": -7.02559,
+    "pop": 524
+  },
+  {
+    "nameAr": "Pitillas",
+    "nameEn": "Pitillas",
+    "type": "city",
+    "lat": 42.422,
+    "lng": -1.621,
+    "pop": 520
+  },
+  {
+    "nameAr": "El Solanillo",
+    "nameEn": "El Solanillo",
+    "type": "city",
+    "lat": 36.734844,
+    "lng": -2.65763286,
+    "pop": 518
+  },
+  {
+    "nameAr": "تروكايوس-تورتزايوس",
+    "nameEn": "Trucíos-Turtzioz",
+    "type": "city",
+    "lat": 43.2838127,
+    "lng": -3.2803357851,
+    "pop": 515
+  },
+  {
+    "nameAr": "Zarréu",
+    "nameEn": "Zarréu",
+    "type": "city",
+    "lat": 42.9473,
+    "lng": -6.4846,
+    "pop": 514
+  },
+  {
+    "nameAr": "Elo/Monreal",
+    "nameEn": "Elo/Monreal",
+    "type": "city",
+    "lat": 42.70606128,
+    "lng": -1.522977779,
+    "pop": 511
+  },
+  {
+    "nameAr": "Lalueza",
+    "nameEn": "Lalueza",
+    "type": "city",
+    "lat": 41.84211095,
+    "lng": -0.25559198,
+    "pop": 502
+  },
+  {
+    "nameAr": "Bohonal de Ibor",
+    "nameEn": "Bohonal de Ibor",
+    "type": "city",
+    "lat": 39.78422374,
+    "lng": -5.48586744,
+    "pop": 472
+  },
+  {
+    "nameAr": "Irache",
+    "nameEn": "Irache",
+    "type": "city",
+    "lat": 42.64472222,
+    "lng": -2.05611111,
+    "pop": 469
+  },
+  {
+    "nameAr": "Isora",
+    "nameEn": "Isora",
+    "type": "city",
+    "lat": 27.74652,
+    "lng": -17.94737,
+    "pop": 464
+  },
+  {
+    "nameAr": "Mañeru",
+    "nameEn": "Mañeru",
+    "type": "city",
+    "lat": 42.66967,
+    "lng": -1.86238,
+    "pop": 452
+  },
+  {
+    "nameAr": "Langa",
+    "nameEn": "Langa",
+    "type": "city",
+    "lat": 41.00755363,
+    "lng": -4.8591111,
+    "pop": 440
+  },
+  {
+    "nameAr": "Santa María la Real de Nieva",
+    "nameEn": "Santa María la Real de Nieva",
+    "type": "city",
+    "lat": 41.069756,
+    "lng": -4.406671,
+    "pop": 439
+  },
+  {
+    "nameAr": "Tiebas",
+    "nameEn": "Tiebas",
+    "type": "city",
+    "lat": 42.69305556,
+    "lng": -1.64055556,
+    "pop": 435
+  },
+  {
+    "nameAr": "Castropol",
+    "nameEn": "Castropol",
+    "type": "city",
+    "lat": 43.5287,
+    "lng": -7.0305,
+    "pop": 432
+  },
+  {
+    "nameAr": "Panes",
+    "nameEn": "Panes",
+    "type": "city",
+    "lat": 43.32342411,
+    "lng": -4.58399124,
+    "pop": 430
+  },
+  {
+    "nameAr": "فالفيردي دي لا فيرا",
+    "nameEn": "Valverde de la Vera",
+    "type": "city",
+    "lat": 40.1225,
+    "lng": -5.4944444444444,
+    "pop": 428
+  },
+  {
+    "nameAr": "Bual",
+    "nameEn": "Bual",
+    "type": "city",
+    "lat": 43.4285871326,
+    "lng": -6.81837617549,
+    "pop": 421
+  },
+  {
+    "nameAr": "Urroz-Villa",
+    "nameEn": "Urroz-Villa",
+    "type": "city",
+    "lat": 42.77809144605,
+    "lng": -1.4594239055939,
+    "pop": 403
+  },
+  {
+    "nameAr": "كادالسو",
+    "nameEn": "Cadalso",
+    "type": "city",
+    "lat": 40.2377919855,
+    "lng": -6.54045309478,
+    "pop": 394
+  },
+  {
+    "nameAr": "Pola de Allande",
+    "nameEn": "Pola de Allande",
+    "type": "city",
+    "lat": 43.272161111111,
+    "lng": -6.6088666666667,
+    "pop": 389
+  },
+  {
+    "nameAr": "جوايخو دي سانتا باربرا",
+    "nameEn": "Guijo de Santa Bárbara",
+    "type": "city",
+    "lat": 40.1537555,
+    "lng": -5.6553746,
+    "pop": 386
+  },
+  {
+    "nameAr": "Grandas de Salime",
+    "nameEn": "Grandas de Salime",
+    "type": "city",
+    "lat": 43.21554,
+    "lng": -6.8757,
+    "pop": 386
+  },
+  {
+    "nameAr": "Montes de Luna",
+    "nameEn": "Montes de Luna",
+    "type": "city",
+    "lat": 28.5336612,
+    "lng": -17.8152415,
+    "pop": 385
+  },
+  {
+    "nameAr": "Montejo de la Sierra",
+    "nameEn": "Montejo de la Sierra",
+    "type": "city",
+    "lat": 41.05955,
+    "lng": -3.52993,
+    "pop": 381
+  },
+  {
+    "nameAr": "Betelu",
+    "nameEn": "Betelu",
+    "type": "city",
+    "lat": 43.0256703,
+    "lng": -1.9794889,
+    "pop": 375
+  },
+  {
+    "nameAr": "Valrío",
+    "nameEn": "Valrío",
+    "type": "city",
+    "lat": 40.009722222222,
+    "lng": -6.3694444444444,
+    "pop": 371
+  },
+  {
+    "nameAr": "Alonso de Ojeda",
+    "nameEn": "Alonso de Ojeda",
+    "type": "city",
+    "lat": 39.121944444444,
+    "lng": -5.8377777777778,
+    "pop": 370
+  },
+  {
+    "nameAr": "Barrado",
+    "nameEn": "Barrado",
+    "type": "city",
+    "lat": 40.08425782,
+    "lng": -5.88070097,
+    "pop": 370
+  },
+  {
+    "nameAr": "Berzocana",
+    "nameEn": "Berzocana",
+    "type": "city",
+    "lat": 39.43795626,
+    "lng": -5.4612046,
+    "pop": 364
+  },
+  {
+    "nameAr": "Balmonte",
+    "nameEn": "Balmonte",
+    "type": "city",
+    "lat": 43.2819705653,
+    "lng": -6.21811940841,
+    "pop": 361
+  },
+  {
+    "nameAr": "Urdazubi/Urdax",
+    "nameEn": "Urdazubi/Urdax",
+    "type": "city",
+    "lat": 43.266388888889,
+    "lng": -1.5038888888889,
+    "pop": 354
+  },
+  {
+    "nameAr": "San Martín de Unx",
+    "nameEn": "San Martín de Unx",
+    "type": "city",
+    "lat": 42.51861934,
+    "lng": -1.573671808,
+    "pop": 352
+  },
+  {
+    "nameAr": "Luzaide/Valcarlos",
+    "nameEn": "Luzaide/Valcarlos",
+    "type": "city",
+    "lat": 43.0917,
+    "lng": -1.3013,
+    "pop": 336
+  },
+  {
+    "nameAr": "La Vega",
+    "nameEn": "La Vega",
+    "type": "city",
+    "lat": 43.2303011417,
+    "lng": -5.8812295302,
+    "pop": 332
+  },
+  {
+    "nameAr": "Casar de Miajadas",
+    "nameEn": "Casar de Miajadas",
+    "type": "city",
+    "lat": 39.121944444444,
+    "lng": -5.8377777777778,
+    "pop": 316
+  },
+  {
+    "nameAr": "Narbarte",
+    "nameEn": "Narbarte",
+    "type": "city",
+    "lat": 43.133777777778,
+    "lng": -1.6276666666667,
+    "pop": 314
+  },
+  {
+    "nameAr": "Legasa",
+    "nameEn": "Legasa",
+    "type": "city",
+    "lat": 43.130638888889,
+    "lng": -1.6442222222222,
+    "pop": 300
+  },
+  {
+    "nameAr": "Zubieta",
+    "nameEn": "Zubieta",
+    "type": "city",
+    "lat": 43.124888888889,
+    "lng": -1.7423611111111,
+    "pop": 292
+  },
+  {
+    "nameAr": "سانتا كروز دي بانياجوا",
+    "nameEn": "Santa Cruz de Paniagua",
+    "type": "city",
+    "lat": 40.1925,
+    "lng": -6.3397222222222,
+    "pop": 286
+  },
+  {
+    "nameAr": "Naveces",
+    "nameEn": "Naveces",
+    "type": "city",
+    "lat": 43.566993611111,
+    "lng": -6.0094847222222,
+    "pop": 279
+  },
+  {
+    "nameAr": "Muniáin de la Solana",
+    "nameEn": "Muniáin de la Solana",
+    "type": "city",
+    "lat": 42.620582,
+    "lng": -2.012132,
+    "pop": 275
+  },
+  {
+    "nameAr": "Beire",
+    "nameEn": "Beire",
+    "type": "city",
+    "lat": 42.46148449,
+    "lng": -1.591480553,
+    "pop": 274
+  },
+  {
+    "nameAr": "Bailo",
+    "nameEn": "Bailo",
+    "type": "city",
+    "lat": 42.510833333333,
+    "lng": -0.81,
+    "pop": 265
+  },
+  {
+    "nameAr": "Proaza",
+    "nameEn": "Proaza",
+    "type": "city",
+    "lat": 43.25178,
+    "lng": -6.01633,
+    "pop": 265
+  },
+  {
+    "nameAr": "San Gil",
+    "nameEn": "San Gil",
+    "type": "city",
+    "lat": 40.030233,
+    "lng": -6.085344,
+    "pop": 261
+  },
+  {
+    "nameAr": "Areso",
+    "nameEn": "Areso",
+    "type": "city",
+    "lat": 43.066666666667,
+    "lng": -1.95,
+    "pop": 260
+  },
+  {
+    "nameAr": "Samartín",
+    "nameEn": "Samartín",
+    "type": "city",
+    "lat": 43.570335277778,
+    "lng": -5.9689175,
+    "pop": 251
+  },
+  {
+    "nameAr": "Leiva",
+    "nameEn": "Leiva",
+    "type": "city",
+    "lat": 42.50367443,
+    "lng": -3.04719009,
+    "pop": 246
+  },
+  {
+    "nameAr": "El Toro",
+    "nameEn": "El Toro",
+    "type": "city",
+    "lat": 39.98272386,
+    "lng": -0.74876092,
+    "pop": 240
+  },
+  {
+    "nameAr": "Barillas",
+    "nameEn": "Barillas",
+    "type": "city",
+    "lat": 41.97102,
+    "lng": -1.6627451,
+    "pop": 240
+  },
+  {
+    "nameAr": "Bargota",
+    "nameEn": "Bargota",
+    "type": "city",
+    "lat": 42.561111111111,
+    "lng": -2.3119444444444,
+    "pop": 237
+  },
+  {
+    "nameAr": "Bárzana",
+    "nameEn": "Bárzana",
+    "type": "city",
+    "lat": 43.15742,
+    "lng": -5.97345,
+    "pop": 210
+  },
+  {
+    "nameAr": "Cueva del Agua",
+    "nameEn": "Cueva del Agua",
+    "type": "city",
+    "lat": 28.8114,
+    "lng": -17.953972,
+    "pop": 208
+  },
+  {
+    "nameAr": "Préjano",
+    "nameEn": "Préjano",
+    "type": "city",
+    "lat": 42.18759825,
+    "lng": -2.17925473,
+    "pop": 208
+  },
+  {
+    "nameAr": "Odón",
+    "nameEn": "Odón",
+    "type": "city",
+    "lat": 40.88439063,
+    "lng": -1.56817037,
+    "pop": 207
+  },
+  {
+    "nameAr": "Taramundi",
+    "nameEn": "Taramundi",
+    "type": "city",
+    "lat": 43.3631,
+    "lng": -7.0773,
+    "pop": 203
+  },
+  {
+    "nameAr": "La Pola Somiedo",
+    "nameEn": "La Pola Somiedo",
+    "type": "city",
+    "lat": 43.09303839,
+    "lng": -6.25460308,
+    "pop": 197
+  },
+  {
+    "nameAr": "بورتيزيلو",
+    "nameEn": "Portezuelo",
+    "type": "city",
+    "lat": 39.8130778,
+    "lng": -6.4748368,
+    "pop": 196
+  },
+  {
+    "nameAr": "Castiello de Jaca",
+    "nameEn": "Castiello de Jaca",
+    "type": "city",
+    "lat": 42.62964,
+    "lng": -0.5502,
+    "pop": 195
+  },
+  {
+    "nameAr": "كونكويستا دي لا سايرا",
+    "nameEn": "Conquista de la Sierra",
+    "type": "city",
+    "lat": 39.3509692,
+    "lng": -5.7342844,
+    "pop": 193
+  },
+  {
+    "nameAr": "Santolaya",
+    "nameEn": "Santolaya",
+    "type": "city",
+    "lat": 43.4166,
+    "lng": -5.4099,
+    "pop": 190
+  },
+  {
+    "nameAr": "Santantolín",
+    "nameEn": "Santantolín",
+    "type": "city",
+    "lat": 43.03849,
+    "lng": -6.87376,
+    "pop": 190
+  },
+  {
+    "nameAr": "Samiguel",
+    "nameEn": "Samiguel",
+    "type": "city",
+    "lat": 43.555902222222,
+    "lng": -5.9649638888889,
+    "pop": 176
+  },
+  {
+    "nameAr": "Irañeta",
+    "nameEn": "Irañeta",
+    "type": "city",
+    "lat": 42.92292675,
+    "lng": -1.94524722,
+    "pop": 172
+  },
+  {
+    "nameAr": "Degaña",
+    "nameEn": "Degaña",
+    "type": "city",
+    "lat": 42.9403,
+    "lng": -6.5711,
+    "pop": 171
+  },
+  {
+    "nameAr": "Ujué/Uxue",
+    "nameEn": "Ujué/Uxue",
+    "type": "city",
+    "lat": 42.47981213,
+    "lng": -1.497094153,
+    "pop": 168
+  },
+  {
+    "nameAr": "Arellano",
+    "nameEn": "Arellano",
+    "type": "city",
+    "lat": 42.606111111111,
+    "lng": -2.0469444444444,
+    "pop": 165
+  },
+  {
+    "nameAr": "San Adrianu",
+    "nameEn": "San Adrianu",
+    "type": "city",
+    "lat": 43.560436666667,
+    "lng": -6.0057055555556,
+    "pop": 162
+  },
+  {
+    "nameAr": "El Campu",
+    "nameEn": "El Campu",
+    "type": "city",
+    "lat": 43.1831,
+    "lng": -5.34476,
+    "pop": 154
+  },
+  {
+    "nameAr": "Casas de Don Antonio",
+    "nameEn": "Casas de Don Antonio",
+    "type": "city",
+    "lat": 39.23659178,
+    "lng": -6.29102988,
+    "pop": 151
+  },
+  {
+    "nameAr": "Santalla",
+    "nameEn": "Santalla",
+    "type": "city",
+    "lat": 43.2586,
+    "lng": -7.0203,
+    "pop": 151
+  },
+  {
+    "nameAr": "Cuaña",
+    "nameEn": "Cuaña",
+    "type": "city",
+    "lat": 43.51392,
+    "lng": -6.75527,
+    "pop": 150
+  },
+  {
+    "nameAr": "Solana de Rioalmar",
+    "nameEn": "Solana de Rioalmar",
+    "type": "city",
+    "lat": 40.73792327,
+    "lng": -5.01011096,
+    "pop": 149
+  },
+  {
+    "nameAr": "Moire",
+    "nameEn": "Moire",
+    "type": "city",
+    "lat": 43.51943,
+    "lng": -5.994117,
+    "pop": 148
+  },
+  {
+    "nameAr": "Benialí",
+    "nameEn": "Benialí",
+    "type": "city",
+    "lat": 38.82200923,
+    "lng": -0.22174105,
+    "pop": 147
+  },
+  {
+    "nameAr": "El Cuadru",
+    "nameEn": "El Cuadru",
+    "type": "city",
+    "lat": 43.525819444444,
+    "lng": -5.9797330555556,
+    "pop": 133
+  },
+  {
+    "nameAr": "Sada",
+    "nameEn": "Sada",
+    "type": "city",
+    "lat": 42.57320611,
+    "lng": -1.393520876,
+    "pop": 130
+  },
+  {
+    "nameAr": "Ezkurra",
+    "nameEn": "Ezkurra",
+    "type": "city",
+    "lat": 43.084722222222,
+    "lng": -1.8622222222222,
+    "pop": 125
+  },
+  {
+    "nameAr": "Arruazu",
+    "nameEn": "Arruazu",
+    "type": "city",
+    "lat": 42.922,
+    "lng": -1.999,
+    "pop": 121
+  },
+  {
+    "nameAr": "Trasobares",
+    "nameEn": "Trasobares",
+    "type": "city",
+    "lat": 41.64231516,
+    "lng": -1.64021785,
+    "pop": 120
+  },
+  {
+    "nameAr": "Torres del Río",
+    "nameEn": "Torres del Río",
+    "type": "city",
+    "lat": 42.55125,
+    "lng": -2.27127,
+    "pop": 116
+  },
+  {
+    "nameAr": "Hiriberri Arakil",
+    "nameEn": "Hiriberri Arakil",
+    "type": "city",
+    "lat": 42.917222222222,
+    "lng": -1.8955555555556,
+    "pop": 115
+  },
+  {
+    "nameAr": "O Chao",
+    "nameEn": "O Chao",
+    "type": "city",
+    "lat": 43.4092,
+    "lng": -7.1425,
+    "pop": 115
+  },
+  {
+    "nameAr": "Herrín de Campos",
+    "nameEn": "Herrín de Campos",
+    "type": "city",
+    "lat": 42.12363077,
+    "lng": -4.95345068,
+    "pop": 113
+  },
+  {
+    "nameAr": "Arano",
+    "nameEn": "Arano",
+    "type": "city",
+    "lat": 43.199722222222,
+    "lng": -1.8952777777778,
+    "pop": 108
+  },
+  {
+    "nameAr": "Renuncio",
+    "nameEn": "Renuncio",
+    "type": "city",
+    "lat": 42.316111111111,
+    "lng": -3.7522222222222,
+    "pop": 106
+  },
+  {
+    "nameAr": "Javier",
+    "nameEn": "Javier",
+    "type": "city",
+    "lat": 42.591564,
+    "lng": -1.209239,
+    "pop": 106
+  },
+  {
+    "nameAr": "Corao",
+    "nameEn": "Corao",
+    "type": "city",
+    "lat": 43.3466,
+    "lng": -5.0661,
+    "pop": 103
+  },
+  {
+    "nameAr": "Espronceda",
+    "nameEn": "Espronceda",
+    "type": "city",
+    "lat": 42.598055555556,
+    "lng": -2.3025,
+    "pop": 102
+  },
+  {
+    "nameAr": "Gallipienzo/Galipentzu",
+    "nameEn": "Gallipienzo/Galipentzu",
+    "type": "city",
+    "lat": 42.48142105,
+    "lng": -1.415471491,
+    "pop": 100
+  },
+  {
+    "nameAr": "Eslava",
+    "nameEn": "Eslava",
+    "type": "city",
+    "lat": 42.563889,
+    "lng": -1.458333,
+    "pop": 97
+  },
+  {
+    "nameAr": "Zorita del Maestrazgo",
+    "nameEn": "Zorita del Maestrazgo",
+    "type": "city",
+    "lat": 40.72817,
+    "lng": -0.16667,
+    "pop": 96
+  },
+  {
+    "nameAr": "Hiriberri/Villanueva de Aezkoa",
+    "nameEn": "Hiriberri/Villanueva de Aezkoa",
+    "type": "city",
+    "lat": 42.94537,
+    "lng": -1.23098,
+    "pop": 96
+  },
+  {
+    "nameAr": "Torralba del Río",
+    "nameEn": "Torralba del Río",
+    "type": "city",
+    "lat": 42.608611111111,
+    "lng": -2.3297222222222,
+    "pop": 96
+  },
+  {
+    "nameAr": "Baríndano",
+    "nameEn": "Baríndano",
+    "type": "city",
+    "lat": 42.765833333333,
+    "lng": -2.1308333333333,
+    "pop": 96
+  },
+  {
+    "nameAr": "Maspalomas",
+    "nameEn": "Maspalomas",
+    "type": "city",
+    "lat": 27.76676294,
+    "lng": -15.57847838,
+    "pop": 94
+  },
+  {
+    "nameAr": "Sansol",
+    "nameEn": "Sansol",
+    "type": "city",
+    "lat": 42.55404,
+    "lng": -2.2661,
+    "pop": 89
+  },
+  {
+    "nameAr": "Ajuy",
+    "nameEn": "Ajuy",
+    "type": "city",
+    "lat": 28.408611111111,
+    "lng": -14.155,
+    "pop": 80
+  },
+  {
+    "nameAr": "Navascués",
+    "nameEn": "Navascués",
+    "type": "city",
+    "lat": 42.71833333,
+    "lng": -1.11555556,
+    "pop": 80
+  },
+  {
+    "nameAr": "Zúñiga",
+    "nameEn": "Zúñiga",
+    "type": "city",
+    "lat": 42.6930374,
+    "lng": -2.3004117,
+    "pop": 78
+  },
+  {
+    "nameAr": "Salvatierra de Tormes",
+    "nameEn": "Salvatierra de Tormes",
+    "type": "city",
+    "lat": 40.59007,
+    "lng": -5.59763,
+    "pop": 76
+  },
+  {
+    "nameAr": "Las Cuestas",
+    "nameEn": "Las Cuestas",
+    "type": "city",
+    "lat": 43.3382,
+    "lng": -5.9953,
+    "pop": 75
+  },
+  {
+    "nameAr": "Esparza de Salazar/Espartza Zaraitzu",
+    "nameEn": "Esparza de Salazar/Espartza Zaraitzu",
+    "type": "city",
+    "lat": 42.86048584,
+    "lng": -1.092551686,
+    "pop": 75
+  },
+  {
+    "nameAr": "Aguilar de Codés",
+    "nameEn": "Aguilar de Codés",
+    "type": "city",
+    "lat": 42.612777777778,
+    "lng": -2.3891666666667,
+    "pop": 74
+  },
+  {
+    "nameAr": "Cabredo",
+    "nameEn": "Cabredo",
+    "type": "city",
+    "lat": 42.6293014,
+    "lng": -2.4145728,
+    "pop": 73
+  },
+  {
+    "nameAr": "Matalebreras",
+    "nameEn": "Matalebreras",
+    "type": "city",
+    "lat": 41.84237065,
+    "lng": -2.04672705,
+    "pop": 72
+  },
+  {
+    "nameAr": "Genevilla",
+    "nameEn": "Genevilla",
+    "type": "city",
+    "lat": 42.644722222222,
+    "lng": -2.3916666666667,
+    "pop": 69
+  },
+  {
+    "nameAr": "Desojo",
+    "nameEn": "Desojo",
+    "type": "city",
+    "lat": 42.5881304,
+    "lng": -2.2757428,
+    "pop": 68
+  },
+  {
+    "nameAr": "Benissivà",
+    "nameEn": "Benissivà",
+    "type": "city",
+    "lat": 38.81940007,
+    "lng": -0.22605752,
+    "pop": 66
+  },
+  {
+    "nameAr": "Solana de Fenar",
+    "nameEn": "Solana de Fenar",
+    "type": "city",
+    "lat": 42.826666666667,
+    "lng": -5.5472222222222,
+    "pop": 63
+  },
+  {
+    "nameAr": "Sorribos de Alba",
+    "nameEn": "Sorribos de Alba",
+    "type": "city",
+    "lat": 42.800555555556,
+    "lng": -5.6672222222222,
+    "pop": 63
+  },
+  {
+    "nameAr": "Ibiricu",
+    "nameEn": "Ibiricu",
+    "type": "city",
+    "lat": 42.828055555556,
+    "lng": -1.5377777777778,
+    "pop": 61
+  },
+  {
+    "nameAr": "Villasabariego",
+    "nameEn": "Villasabariego",
+    "type": "city",
+    "lat": 42.53288,
+    "lng": -5.41322,
+    "pop": 57
+  },
+  {
+    "nameAr": "Llodares",
+    "nameEn": "Llodares",
+    "type": "city",
+    "lat": 43.537700833333,
+    "lng": -5.9999047222222,
+    "pop": 56
+  },
+  {
+    "nameAr": "El Busto",
+    "nameEn": "El Busto",
+    "type": "city",
+    "lat": 42.548888888889,
+    "lng": -2.2416666666667,
+    "pop": 55
+  },
+  {
+    "nameAr": "Retamosa",
+    "nameEn": "Retamosa",
+    "type": "city",
+    "lat": 39.57138889,
+    "lng": -5.54083333,
+    "pop": 54
+  },
+  {
+    "nameAr": "Liri",
+    "nameEn": "Liri",
+    "type": "city",
+    "lat": 42.535694,
+    "lng": 0.506103,
+    "pop": 53
+  },
+  {
+    "nameAr": "Oronz-Orontze",
+    "nameEn": "Oronz-Orontze",
+    "type": "city",
+    "lat": 42.87560461,
+    "lng": -1.067706525,
+    "pop": 51
+  },
+  {
+    "nameAr": "Benitaia",
+    "nameEn": "Benitaia",
+    "type": "city",
+    "lat": 38.818451,
+    "lng": -0.226604,
+    "pop": 49
+  },
+  {
+    "nameAr": "Alcaine",
+    "nameEn": "Alcaine",
+    "type": "city",
+    "lat": 40.953888888889,
+    "lng": -0.70611111111111,
+    "pop": 48
+  },
+  {
+    "nameAr": "Armañanzas",
+    "nameEn": "Armañanzas",
+    "type": "city",
+    "lat": 42.56,
+    "lng": -2.285,
+    "pop": 47
+  },
+  {
+    "nameAr": "Lechón",
+    "nameEn": "Lechón",
+    "type": "city",
+    "lat": 41.08607589,
+    "lng": -1.28404831,
+    "pop": 46
+  },
+  {
+    "nameAr": "Eilao",
+    "nameEn": "Eilao",
+    "type": "city",
+    "lat": 43.3338,
+    "lng": -6.8648,
+    "pop": 46
+  },
+  {
+    "nameAr": "Lerga",
+    "nameEn": "Lerga",
+    "type": "city",
+    "lat": 42.566259369444,
+    "lng": -1.5017035527778,
+    "pop": 44
+  },
+  {
+    "nameAr": "Benissili",
+    "nameEn": "Benissili",
+    "type": "city",
+    "lat": 38.818606,
+    "lng": -0.276076,
+    "pop": 40
+  },
+  {
+    "nameAr": "Nazar",
+    "nameEn": "Nazar",
+    "type": "city",
+    "lat": 42.6375,
+    "lng": -2.2788888888889,
+    "pop": 40
+  },
+  {
+    "nameAr": "Rocaforte",
+    "nameEn": "Rocaforte",
+    "type": "city",
+    "lat": 42.591666666667,
+    "lng": -1.2888888888889,
+    "pop": 39
+  },
+  {
+    "nameAr": "Pezós",
+    "nameEn": "Pezós",
+    "type": "city",
+    "lat": 43.25,
+    "lng": -6.86667,
+    "pop": 39
+  },
+  {
+    "nameAr": "Lapoblación",
+    "nameEn": "Lapoblación",
+    "type": "city",
+    "lat": 42.605,
+    "lng": -2.45972222,
+    "pop": 37
+  },
+  {
+    "nameAr": "Castandiello",
+    "nameEn": "Castandiello",
+    "type": "city",
+    "lat": 43.279761,
+    "lng": -5.89228458,
+    "pop": 36
+  },
+  {
+    "nameAr": "Aso de Sobremonte",
+    "nameEn": "Aso de Sobremonte",
+    "type": "city",
+    "lat": 42.631938,
+    "lng": -0.363257,
+    "pop": 33
+  },
+  {
+    "nameAr": "Torrelapaja",
+    "nameEn": "Torrelapaja",
+    "type": "city",
+    "lat": 41.58133,
+    "lng": -1.95181,
+    "pop": 32
+  },
+  {
+    "nameAr": "Contamina",
+    "nameEn": "Contamina",
+    "type": "city",
+    "lat": 41.30566913,
+    "lng": -1.91756388,
+    "pop": 32
+  },
+  {
+    "nameAr": "Fasgar",
+    "nameEn": "Fasgar",
+    "type": "city",
+    "lat": 42.809444444444,
+    "lng": -6.2247222222222,
+    "pop": 30
+  },
+  {
+    "nameAr": "Astigarribia",
+    "nameEn": "Astigarribia",
+    "type": "city",
+    "lat": 43.27972222,
+    "lng": -2.37722222,
+    "pop": 29
+  },
+  {
+    "nameAr": "Azuelo",
+    "nameEn": "Azuelo",
+    "type": "city",
+    "lat": 42.608333333333,
+    "lng": -2.3491666666667,
+    "pop": 29
+  },
+  {
+    "nameAr": "Embid de Ariza",
+    "nameEn": "Embid de Ariza",
+    "type": "city",
+    "lat": 41.38089701,
+    "lng": -1.97122135,
+    "pop": 28
+  },
+  {
+    "nameAr": "رنشفالة",
+    "nameEn": "Orreaga-Roncesvalles",
+    "type": "city",
+    "lat": 43.0085,
+    "lng": -1.3186,
+    "pop": 25
+  },
+  {
+    "nameAr": "Llai",
+    "nameEn": "Llai",
+    "type": "city",
+    "lat": 43.2761624828,
+    "lng": -5.5872603836,
+    "pop": 24
+  },
+  {
+    "nameAr": "Villavieja de Muñó",
+    "nameEn": "Villavieja de Muñó",
+    "type": "city",
+    "lat": 42.25947704,
+    "lng": -3.89364952,
+    "pop": 24
+  },
+  {
+    "nameAr": "Cabañas del Castillo",
+    "nameEn": "Cabañas del Castillo",
+    "type": "city",
+    "lat": 39.54804,
+    "lng": -5.51203,
+    "pop": 24
+  },
+  {
+    "nameAr": "Bonella",
+    "nameEn": "Bonella",
+    "type": "city",
+    "lat": 42.798888888889,
+    "lng": -5.9330555555556,
+    "pop": 23
+  },
+  {
+    "nameAr": "els Arcs",
+    "nameEn": "els Arcs",
+    "type": "city",
+    "lat": 41.3963848965,
+    "lng": 0.1361274719,
+    "pop": 23
+  },
+  {
+    "nameAr": "Posada de Omaña",
+    "nameEn": "Posada de Omaña",
+    "type": "city",
+    "lat": 42.797777777778,
+    "lng": -6.1847222222222,
+    "pop": 22
+  },
+  {
+    "nameAr": "Manzanal de los Infantes",
+    "nameEn": "Manzanal de los Infantes",
+    "type": "city",
+    "lat": 42.05489743,
+    "lng": -6.38311145,
+    "pop": 22
+  },
+  {
+    "nameAr": "La Carroja",
+    "nameEn": "La Carroja",
+    "type": "city",
+    "lat": 38.821488,
+    "lng": -0.243134,
+    "pop": 19
+  },
+  {
+    "nameAr": "Nerín",
+    "nameEn": "Nerín",
+    "type": "city",
+    "lat": 42.573902,
+    "lng": 0.01705,
+    "pop": 18
+  },
+  {
+    "nameAr": "Torrecillo",
+    "nameEn": "Torrecillo",
+    "type": "city",
+    "lat": 42.7925,
+    "lng": -6.1825,
+    "pop": 17
+  },
+  {
+    "nameAr": "Asque",
+    "nameEn": "Asque",
+    "type": "city",
+    "lat": 42.175680833333,
+    "lng": -0.052453055555556,
+    "pop": 16
+  },
+  {
+    "nameAr": "Villaescusa la Sombría",
+    "nameEn": "Villaescusa la Sombría",
+    "type": "city",
+    "lat": 42.41457182,
+    "lng": -3.41939997,
+    "pop": 16
+  },
+  {
+    "nameAr": "Luco de bordon",
+    "nameEn": "Luco de bordon",
+    "type": "city",
+    "lat": 40.7009,
+    "lng": -0.294,
+    "pop": 15
+  },
+  {
+    "nameAr": "Cañatabla",
+    "nameEn": "Cañatabla",
+    "type": "city",
+    "lat": 37.48867611,
+    "lng": -3.493040183,
+    "pop": 13
+  },
+  {
+    "nameAr": "Alcotas",
+    "nameEn": "Alcotas",
+    "type": "city",
+    "lat": 40.01323,
+    "lng": -0.78588,
+    "pop": 13
+  },
+  {
+    "nameAr": "Arroyo de Salas",
+    "nameEn": "Arroyo de Salas",
+    "type": "city",
+    "lat": 42.06666667,
+    "lng": -3.26666667,
+    "pop": 12
+  },
+  {
+    "nameAr": "Ciscar",
+    "nameEn": "Ciscar",
+    "type": "city",
+    "lat": 42.076384,
+    "lng": 0.548894,
+    "pop": 11
+  },
+  {
+    "nameAr": "Buisán",
+    "nameEn": "Buisán",
+    "type": "city",
+    "lat": 42.58157,
+    "lng": -0.01014,
+    "pop": 10
+  },
+  {
+    "nameAr": "Los Alagones",
+    "nameEn": "Los Alagones",
+    "type": "city",
+    "lat": 40.723030555556,
+    "lng": -0.30654166666667,
+    "pop": 9
+  },
+  {
+    "nameAr": "Villarán",
+    "nameEn": "Villarán",
+    "type": "city",
+    "lat": 42.87462,
+    "lng": -3.38734,
+    "pop": 8
+  },
+  {
+    "nameAr": "La Omañuela",
+    "nameEn": "La Omañuela",
+    "type": "city",
+    "lat": 42.778611111111,
+    "lng": -5.9877777777778,
+    "pop": 7
+  },
+  {
+    "nameAr": "Llombai de Gallinera",
+    "nameEn": "Llombai de Gallinera",
+    "type": "city",
+    "lat": 38.81537938,
+    "lng": -0.26951298,
+    "pop": 7
+  },
+  {
+    "nameAr": "Poblado de Minas del Marquesado",
+    "nameEn": "Poblado de Minas del Marquesado",
+    "type": "city",
+    "lat": 37.19012361,
+    "lng": -3.103848579,
+    "pop": 4
+  },
+  {
+    "nameAr": "Bentretea",
+    "nameEn": "Bentretea",
+    "type": "city",
+    "lat": 42.724832,
+    "lng": -3.457974,
+    "pop": 3
+  },
+  {
+    "nameAr": "Tartalés de Cilla",
+    "nameEn": "Tartalés de Cilla",
+    "type": "city",
+    "lat": 42.79280542,
+    "lng": -3.42133813,
+    "pop": 3
+  },
+  {
+    "nameAr": "Lascorz",
+    "nameEn": "Lascorz",
+    "type": "city",
+    "lat": 42.39865358,
+    "lng": 0.31697101,
+    "pop": 2
+  },
+  {
+    "nameAr": "Purroy Viejo",
+    "nameEn": "Purroy Viejo",
+    "type": "city",
+    "lat": 42.057846169638,
+    "lng": 0.46113409532307,
+    "pop": 1
+  },
+  {
+    "nameAr": "الزاهرة",
+    "nameEn": "Al-Madinat al-Zahira",
+    "type": "city",
+    "lat": 37.95397,
+    "lng": -4.6576788888889,
+    "pop": null
+  },
+  {
+    "nameAr": "الزهراء",
+    "nameEn": "Madinat Al-Zahra",
+    "type": "city",
+    "lat": 37.886080468889,
+    "lng": -4.8677854722573,
+    "pop": null
+  },
+  {
+    "nameAr": "ببشتر",
+    "nameEn": "Bobastro",
+    "type": "city",
+    "lat": 36.90232715,
+    "lng": -4.781369997,
+    "pop": null
+  },
+  {
+    "nameAr": "كارتيا",
+    "nameEn": "Carteia",
+    "type": "city",
+    "lat": 36.185556,
+    "lng": -5.412222,
+    "pop": null
+  },
+  {
+    "nameAr": "A Coruña",
+    "nameEn": "A Coruña",
+    "type": "city",
+    "lat": 43.37126,
+    "lng": -8.4188,
+    "pop": null
+  },
+  {
+    "nameAr": "Alamín",
+    "nameEn": "Alamín",
+    "type": "city",
+    "lat": 40.2054,
+    "lng": -4.3061,
+    "pop": null
+  },
+  {
+    "nameAr": "Alcazaba",
+    "nameEn": "Alcazaba",
+    "type": "city",
+    "lat": 37.05182186,
+    "lng": -2.393942176,
+    "pop": null
+  },
+  {
+    "nameAr": "Aldea Blanca",
+    "nameEn": "Aldea Blanca",
+    "type": "city",
+    "lat": 28.06611111,
+    "lng": -16.62527778,
+    "pop": null
+  },
+  {
+    "nameAr": "Allueva",
+    "nameEn": "Allueva",
+    "type": "city",
+    "lat": 40.98533,
+    "lng": -1.04258,
+    "pop": null
+  },
+  {
+    "nameAr": "Almizaraque",
+    "nameEn": "Almizaraque",
+    "type": "city",
+    "lat": 37.29381,
+    "lng": -1.8688,
+    "pop": null
+  },
+  {
+    "nameAr": "Alquife mines",
+    "nameEn": "Alquife mines",
+    "type": "city",
+    "lat": 37.19042,
+    "lng": -3.10296,
+    "pop": null
+  },
+  {
+    "nameAr": "archaeological site of Carmona",
+    "nameEn": "archaeological site of Carmona",
+    "type": "city",
+    "lat": 37.468763,
+    "lng": -5.650358,
+    "pop": null
+  },
+  {
+    "nameAr": "Arguayo",
+    "nameEn": "Arguayo",
+    "type": "city",
+    "lat": 28.268333333333,
+    "lng": -16.806972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ategua",
+    "nameEn": "Ategua",
+    "type": "city",
+    "lat": 37.755321505886,
+    "lng": -4.5728882118928,
+    "pop": null
+  },
+  {
+    "nameAr": "Baelo Claudia",
+    "nameEn": "Baelo Claudia",
+    "type": "city",
+    "lat": 36.089930555556,
+    "lng": -5.7746111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Baños de Gigonza",
+    "nameEn": "Baños de Gigonza",
+    "type": "city",
+    "lat": 36.552472222222,
+    "lng": -5.839,
+    "pop": null
+  },
+  {
+    "nameAr": "Barbesula",
+    "nameEn": "Barbesula",
+    "type": "city",
+    "lat": 36.2975,
+    "lng": -5.3,
+    "pop": null
+  },
+  {
+    "nameAr": "Barranco Grande",
+    "nameEn": "Barranco Grande",
+    "type": "city",
+    "lat": 28.435,
+    "lng": -16.305,
+    "pop": null
+  },
+  {
+    "nameAr": "Barranco Hondo",
+    "nameEn": "Barranco Hondo",
+    "type": "city",
+    "lat": 28.40194444,
+    "lng": -16.36111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bermeo",
+    "nameEn": "Bermeo",
+    "type": "city",
+    "lat": 43.42088,
+    "lng": -2.72152,
+    "pop": null
+  },
+  {
+    "nameAr": "Bilbao City",
+    "nameEn": "Bilbao City",
+    "type": "city",
+    "lat": 43.26035,
+    "lng": -2.93341,
+    "pop": null
+  },
+  {
+    "nameAr": "Buñuel",
+    "nameEn": "Buñuel",
+    "type": "city",
+    "lat": 41.98009,
+    "lng": -1.44503,
+    "pop": null
+  },
+  {
+    "nameAr": "Cabeza Baja",
+    "nameEn": "Cabeza Baja",
+    "type": "city",
+    "lat": 37.565329895704,
+    "lng": -3.9968217566948,
+    "pop": null
+  },
+  {
+    "nameAr": "Calle Franco",
+    "nameEn": "Calle Franco",
+    "type": "city",
+    "lat": 36.68533916909,
+    "lng": -6.1412853012224,
+    "pop": null
+  },
+  {
+    "nameAr": "Cansalobos",
+    "nameEn": "Cansalobos",
+    "type": "city",
+    "lat": 38.117549183237,
+    "lng": -6.9035102869391,
+    "pop": null
+  },
+  {
+    "nameAr": "Carissa",
+    "nameEn": "Carissa",
+    "type": "city",
+    "lat": 36.870874863867,
+    "lng": -5.7287298343414,
+    "pop": null
+  },
+  {
+    "nameAr": "Carpintería Baja nº9",
+    "nameEn": "Carpintería Baja nº9",
+    "type": "city",
+    "lat": 36.684481294094,
+    "lng": -6.1401840260075,
+    "pop": null
+  },
+  {
+    "nameAr": "Casa del Obispo",
+    "nameEn": "Casa del Obispo",
+    "type": "city",
+    "lat": 36.528526,
+    "lng": -6.294597,
+    "pop": null
+  },
+  {
+    "nameAr": "Castellón Alto",
+    "nameEn": "Castellón Alto",
+    "type": "city",
+    "lat": 37.740106355432,
+    "lng": -2.5657900594223,
+    "pop": null
+  },
+  {
+    "nameAr": "Castildelgado",
+    "nameEn": "Castildelgado",
+    "type": "city",
+    "lat": 42.437359424,
+    "lng": -3.08428745143,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo",
+    "nameEn": "Castillo",
+    "type": "city",
+    "lat": 37.1222588,
+    "lng": -2.53791,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Almogávar",
+    "nameEn": "Castillo de Almogávar",
+    "type": "city",
+    "lat": 38.43170763,
+    "lng": -4.596134643,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Cabra del Santo Cristo",
+    "nameEn": "Castillo de Cabra del Santo Cristo",
+    "type": "city",
+    "lat": 37.70537135,
+    "lng": -3.28062364,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Kant-His",
+    "nameEn": "Castillo de Kant-His",
+    "type": "city",
+    "lat": 37.95317,
+    "lng": -4.60959,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de la Yedra",
+    "nameEn": "Castillo de la Yedra",
+    "type": "city",
+    "lat": 38.4229861,
+    "lng": -2.677163145,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Santa Marta",
+    "nameEn": "Castillo de Santa Marta",
+    "type": "city",
+    "lat": 37.9607447682,
+    "lng": -6.20317355432,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Santa Olalla de Cala",
+    "nameEn": "Castillo de Santa Olalla de Cala",
+    "type": "city",
+    "lat": 37.90575989,
+    "lng": -6.235567924,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Tiscar",
+    "nameEn": "Castillo de Tiscar",
+    "type": "city",
+    "lat": 37.7694794,
+    "lng": -3.021505268,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo de Urcal",
+    "nameEn": "Castillo de Urcal",
+    "type": "city",
+    "lat": 37.45196552,
+    "lng": -1.9652115,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo El Castillejo",
+    "nameEn": "Castillo El Castillejo",
+    "type": "city",
+    "lat": 36.95725285,
+    "lng": -2.503942896,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo El Castillejo del Barranco de Aguas amarguillas",
+    "nameEn": "Castillo El Castillejo del Barranco de Aguas amarguillas",
+    "type": "city",
+    "lat": 37.7233580015,
+    "lng": -3.3670343701,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo El Castillejo del Cortijo de Neblín",
+    "nameEn": "Castillo El Castillejo del Cortijo de Neblín",
+    "type": "city",
+    "lat": 37.749222222222,
+    "lng": -3.3333611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Castillo Viejo",
+    "nameEn": "Castillo Viejo",
+    "type": "city",
+    "lat": 37.8229578498,
+    "lng": -3.40647534835,
+    "pop": null
+  },
+  {
+    "nameAr": "Castle of Santa Catalina",
+    "nameEn": "Castle of Santa Catalina",
+    "type": "city",
+    "lat": 37.76745,
+    "lng": -3.79948,
+    "pop": null
+  },
+  {
+    "nameAr": "Cementerio",
+    "nameEn": "Cementerio",
+    "type": "city",
+    "lat": 37.174547744845,
+    "lng": -2.8453158664434,
+    "pop": null
+  },
+  {
+    "nameAr": "Centro Histórico de Lebrija",
+    "nameEn": "Centro Histórico de Lebrija",
+    "type": "city",
+    "lat": 36.91863,
+    "lng": -6.084134,
+    "pop": null
+  },
+  {
+    "nameAr": "Centro Histórico de Utrera",
+    "nameEn": "Centro Histórico de Utrera",
+    "type": "city",
+    "lat": 37.179026,
+    "lng": -5.78267,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerco Industrial",
+    "nameEn": "Cerco Industrial",
+    "type": "city",
+    "lat": 38.297082181865,
+    "lng": -5.2703844719684,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro Boyero",
+    "nameEn": "Cerro Boyero",
+    "type": "city",
+    "lat": 37.769941,
+    "lng": -4.212756,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro de la Cruz",
+    "nameEn": "Cerro de la Cruz",
+    "type": "city",
+    "lat": 37.435705555556,
+    "lng": -4.0816027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro de la Encina",
+    "nameEn": "Cerro de la Encina",
+    "type": "city",
+    "lat": 37.136690423529,
+    "lng": -3.5483452177913,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro de la Virgen",
+    "nameEn": "Cerro de la Virgen",
+    "type": "city",
+    "lat": 37.727188260754,
+    "lng": -2.5141041821334,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro de los Infantes",
+    "nameEn": "Cerro de los Infantes",
+    "type": "city",
+    "lat": 37.2672,
+    "lng": -3.767283,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro de San Cristóbal",
+    "nameEn": "Cerro de San Cristóbal",
+    "type": "city",
+    "lat": 37.288137,
+    "lng": -4.876773,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro del Minguillar",
+    "nameEn": "Cerro del Minguillar",
+    "type": "city",
+    "lat": 37.596574272291,
+    "lng": -4.3084248628058,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro del Nacimiento",
+    "nameEn": "Cerro del Nacimiento",
+    "type": "city",
+    "lat": 37.336769156371,
+    "lng": -2.3080717746211,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro del Peñón",
+    "nameEn": "Cerro del Peñón",
+    "type": "city",
+    "lat": 36.735248,
+    "lng": -4.114369,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro del Real",
+    "nameEn": "Cerro del Real",
+    "type": "city",
+    "lat": 37.7409878636,
+    "lng": -2.54559293555,
+    "pop": null
+  },
+  {
+    "nameAr": "Cerro Marimacho",
+    "nameEn": "Cerro Marimacho",
+    "type": "city",
+    "lat": 37.025566583329,
+    "lng": -4.5429195344861,
+    "pop": null
+  },
+  {
+    "nameAr": "Chorreras",
+    "nameEn": "Chorreras",
+    "type": "city",
+    "lat": 36.74369953774,
+    "lng": -4.0337891310973,
+    "pop": null
+  },
+  {
+    "nameAr": "Ciavieja",
+    "nameEn": "Ciavieja",
+    "type": "city",
+    "lat": 36.776323,
+    "lng": -2.800981,
+    "pop": null
+  },
+  {
+    "nameAr": "City wall of Úbeda",
+    "nameEn": "City wall of Úbeda",
+    "type": "city",
+    "lat": 38.007069559819,
+    "lng": -3.3702088372347,
+    "pop": null
+  },
+  {
+    "nameAr": "Ciudad de La Mota",
+    "nameEn": "Ciudad de La Mota",
+    "type": "city",
+    "lat": 37.460158284617,
+    "lng": -3.9297734006834,
+    "pop": null
+  },
+  {
+    "nameAr": "Ciudad romana de Aratispi",
+    "nameEn": "Ciudad romana de Aratispi",
+    "type": "city",
+    "lat": 36.938477777778,
+    "lng": -4.4412305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ciudad romana de Singilia Barba",
+    "nameEn": "Ciudad romana de Singilia Barba",
+    "type": "city",
+    "lat": 37.032508333333,
+    "lng": -4.6309277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Cogullada",
+    "nameEn": "Cogullada",
+    "type": "city",
+    "lat": 39.111081,
+    "lng": -0.463267,
+    "pop": null
+  },
+  {
+    "nameAr": "Complejo Arquitectonico de Gandul",
+    "nameEn": "Complejo Arquitectonico de Gandul",
+    "type": "city",
+    "lat": 37.2729971625,
+    "lng": -5.84782865524,
+    "pop": null
+  },
+  {
+    "nameAr": "Conjunto minero de Cerro del Hierro",
+    "nameEn": "Conjunto minero de Cerro del Hierro",
+    "type": "city",
+    "lat": 37.95989564,
+    "lng": -5.6205017,
+    "pop": null
+  },
+  {
+    "nameAr": "Cortijo de Aparicio el Grande",
+    "nameEn": "Cortijo de Aparicio el Grande",
+    "type": "city",
+    "lat": 37.242004,
+    "lng": -4.929135,
+    "pop": null
+  },
+  {
+    "nameAr": "Cuacos de Yuste",
+    "nameEn": "Cuacos de Yuste",
+    "type": "city",
+    "lat": 40.105305555556,
+    "lng": -5.7231944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Cudillero",
+    "nameEn": "Cudillero",
+    "type": "city",
+    "lat": 43.56217,
+    "lng": -6.14589,
+    "pop": null
+  },
+  {
+    "nameAr": "Donostia-San Sebastián",
+    "nameEn": "Donostia-San Sebastián",
+    "type": "city",
+    "lat": 43.31283,
+    "lng": -1.97499,
+    "pop": null
+  },
+  {
+    "nameAr": "El Argar y La Gerundia",
+    "nameEn": "El Argar y La Gerundia",
+    "type": "city",
+    "lat": 37.246934991272,
+    "lng": -1.9134984865553,
+    "pop": null
+  },
+  {
+    "nameAr": "El Congosto",
+    "nameEn": "El Congosto",
+    "type": "city",
+    "lat": 39.8519,
+    "lng": -2.5738,
+    "pop": null
+  },
+  {
+    "nameAr": "El Faro",
+    "nameEn": "El Faro",
+    "type": "city",
+    "lat": 28.455861111111,
+    "lng": -17.843611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "El Fuerte (Juviles)",
+    "nameEn": "El Fuerte (Juviles)",
+    "type": "city",
+    "lat": 36.9479764958,
+    "lng": -3.215753711,
+    "pop": null
+  },
+  {
+    "nameAr": "El Laderón",
+    "nameEn": "El Laderón",
+    "type": "city",
+    "lat": 37.540948,
+    "lng": -4.373006,
+    "pop": null
+  },
+  {
+    "nameAr": "El Llano de la Virgen",
+    "nameEn": "El Llano de la Virgen",
+    "type": "city",
+    "lat": 36.644322222222,
+    "lng": -4.7859805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "El Malagón",
+    "nameEn": "El Malagón",
+    "type": "city",
+    "lat": 37.556099744406,
+    "lng": -2.4235843705358,
+    "pop": null
+  },
+  {
+    "nameAr": "Esperilla",
+    "nameEn": "Esperilla",
+    "type": "city",
+    "lat": 36.887935337502,
+    "lng": -5.8098052777782,
+    "pop": null
+  },
+  {
+    "nameAr": "Estación de Benaoján",
+    "nameEn": "Estación de Benaoján",
+    "type": "city",
+    "lat": 36.714367710241,
+    "lng": -5.2463480696111,
+    "pop": null
+  },
+  {
+    "nameAr": "Estella-Lizarra",
+    "nameEn": "Estella-Lizarra",
+    "type": "city",
+    "lat": 42.67182,
+    "lng": -2.03226,
+    "pop": null
+  },
+  {
+    "nameAr": "Estepa",
+    "nameEn": "Estepa",
+    "type": "city",
+    "lat": 37.2882,
+    "lng": -4.8764,
+    "pop": null
+  },
+  {
+    "nameAr": "Fañabé",
+    "nameEn": "Fañabé",
+    "type": "city",
+    "lat": 28.10777778,
+    "lng": -16.73083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fenals d'Aro",
+    "nameEn": "Fenals d'Aro",
+    "type": "city",
+    "lat": 41.8233604,
+    "lng": 3.0586088,
+    "pop": null
+  },
+  {
+    "nameAr": "Ferrol",
+    "nameEn": "Ferrol",
+    "type": "city",
+    "lat": 43.50337,
+    "lng": -8.22773,
+    "pop": null
+  },
+  {
+    "nameAr": "Formiche Bajo",
+    "nameEn": "Formiche Bajo",
+    "type": "city",
+    "lat": 40.29139167,
+    "lng": -0.87249722,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaztelu",
+    "nameEn": "Gaztelu",
+    "type": "city",
+    "lat": 43.11622,
+    "lng": -2.02439,
+    "pop": null
+  },
+  {
+    "nameAr": "Gibalbín",
+    "nameEn": "Gibalbín",
+    "type": "city",
+    "lat": 36.831830555556,
+    "lng": -5.9561194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Gil de Olid",
+    "nameEn": "Gil de Olid",
+    "type": "city",
+    "lat": 37.942126399361,
+    "lng": -3.5292736854001,
+    "pop": null
+  },
+  {
+    "nameAr": "Giribaile",
+    "nameEn": "Giribaile",
+    "type": "city",
+    "lat": 38.119521933326,
+    "lng": -3.4857829394228,
+    "pop": null
+  },
+  {
+    "nameAr": "Gréixer",
+    "nameEn": "Gréixer",
+    "type": "city",
+    "lat": 42.285043,
+    "lng": 1.848889,
+    "pop": null
+  },
+  {
+    "nameAr": "Guadalupe",
+    "nameEn": "Guadalupe",
+    "type": "city",
+    "lat": 39.451007,
+    "lng": -5.32676,
+    "pop": null
+  },
+  {
+    "nameAr": "Guargacho",
+    "nameEn": "Guargacho",
+    "type": "city",
+    "lat": 28.035201725234,
+    "lng": -16.638231488084,
+    "pop": null
+  },
+  {
+    "nameAr": "Herriza de los Ladrones",
+    "nameEn": "Herriza de los Ladrones",
+    "type": "city",
+    "lat": 37.205312874086,
+    "lng": -4.6985728446686,
+    "pop": null
+  },
+  {
+    "nameAr": "Huelva city",
+    "nameEn": "Huelva city",
+    "type": "city",
+    "lat": 37.266388888889,
+    "lng": -6.94,
+    "pop": null
+  },
+  {
+    "nameAr": "Huertas de Ánimas",
+    "nameEn": "Huertas de Ánimas",
+    "type": "city",
+    "lat": 39.477805555556,
+    "lng": -5.8750277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Iglesia de Santa María de los Reales Alcázares",
+    "nameEn": "Iglesia de Santa María de los Reales Alcázares",
+    "type": "city",
+    "lat": 38.0070468818,
+    "lng": -3.36837693432,
+    "pop": null
+  },
+  {
+    "nameAr": "Igueste",
+    "nameEn": "Igueste",
+    "type": "city",
+    "lat": 28.52388889,
+    "lng": -16.14944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Instalaciones Mineras de El Arteal",
+    "nameEn": "Instalaciones Mineras de El Arteal",
+    "type": "city",
+    "lat": 37.2737203852,
+    "lng": -1.77880924298,
+    "pop": null
+  },
+  {
+    "nameAr": "Iptuci",
+    "nameEn": "Iptuci",
+    "type": "city",
+    "lat": 36.737103132516,
+    "lng": -5.5567389437298,
+    "pop": null
+  },
+  {
+    "nameAr": "Iscles",
+    "nameEn": "Iscles",
+    "type": "city",
+    "lat": 42.297758833333,
+    "lng": 0.634115,
+    "pop": 0
+  },
+  {
+    "nameAr": "Jaraguas",
+    "nameEn": "Jaraguas",
+    "type": "city",
+    "lat": 39.5213,
+    "lng": -1.361773,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Alcudiola de Rafelcofer",
+    "nameEn": "L'Alcudiola de Rafelcofer",
+    "type": "city",
+    "lat": 38.9295,
+    "lng": -0.1696,
+    "pop": null
+  },
+  {
+    "nameAr": "La Atalaya",
+    "nameEn": "La Atalaya",
+    "type": "city",
+    "lat": 37.706542552,
+    "lng": -6.60811137597,
+    "pop": null
+  },
+  {
+    "nameAr": "La Bujarda",
+    "nameEn": "La Bujarda",
+    "type": "city",
+    "lat": 37.9668006,
+    "lng": -6.7016173,
+    "pop": null
+  },
+  {
+    "nameAr": "La Coronada",
+    "nameEn": "La Coronada",
+    "type": "city",
+    "lat": 38.266666666667,
+    "lng": -5.4833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "La Estación de Enmedio",
+    "nameEn": "La Estación de Enmedio",
+    "type": "city",
+    "lat": 37.6915216459,
+    "lng": -6.57147220899,
+    "pop": null
+  },
+  {
+    "nameAr": "La Naya",
+    "nameEn": "La Naya",
+    "type": "city",
+    "lat": 37.6744180404,
+    "lng": -6.56367487089,
+    "pop": null
+  },
+  {
+    "nameAr": "La Papúa",
+    "nameEn": "La Papúa",
+    "type": "city",
+    "lat": 37.953456,
+    "lng": -6.44121,
+    "pop": null
+  },
+  {
+    "nameAr": "La Pobla d'Alcolea",
+    "nameEn": "La Pobla d'Alcolea",
+    "type": "city",
+    "lat": 40.726969,
+    "lng": -0.081597,
+    "pop": null
+  },
+  {
+    "nameAr": "La Salemera",
+    "nameEn": "La Salemera",
+    "type": "city",
+    "lat": 28.569879131992,
+    "lng": -17.761986199358,
+    "pop": null
+  },
+  {
+    "nameAr": "La Torre",
+    "nameEn": "La Torre",
+    "type": "city",
+    "lat": 37.9194098826,
+    "lng": -7.17675388775,
+    "pop": null
+  },
+  {
+    "nameAr": "La Vereda",
+    "nameEn": "La Vereda",
+    "type": "city",
+    "lat": 37.73364114,
+    "lng": -5.307797543,
+    "pop": null
+  },
+  {
+    "nameAr": "Langreo",
+    "nameEn": "Langreo",
+    "type": "city",
+    "lat": 43.29473461,
+    "lng": -5.68337382,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Angosturas",
+    "nameEn": "Las Angosturas",
+    "type": "city",
+    "lat": 37.391602,
+    "lng": -2.992674,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Casitas",
+    "nameEn": "Las Casitas",
+    "type": "city",
+    "lat": 28.930559449094,
+    "lng": -13.750099556929,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Galletas",
+    "nameEn": "Las Galletas",
+    "type": "city",
+    "lat": 28,
+    "lng": -16.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Nieves",
+    "nameEn": "Las Nieves",
+    "type": "city",
+    "lat": 28.694305555556,
+    "lng": -17.781972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Pilas-Mojácar la Vieja",
+    "nameEn": "Las Pilas-Mojácar la Vieja",
+    "type": "city",
+    "lat": 37.14778,
+    "lng": -1.85444,
+    "pop": null
+  },
+  {
+    "nameAr": "Loma de Espejo",
+    "nameEn": "Loma de Espejo",
+    "type": "city",
+    "lat": 36.77753,
+    "lng": -5.13235,
+    "pop": null
+  },
+  {
+    "nameAr": "Lomo de Masca",
+    "nameEn": "Lomo de Masca",
+    "type": "city",
+    "lat": 28.3028278,
+    "lng": -16.8371411,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Campitos",
+    "nameEn": "Los Campitos",
+    "type": "city",
+    "lat": 28.48472222,
+    "lng": -16.2625,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Millares",
+    "nameEn": "Los Millares",
+    "type": "city",
+    "lat": 36.96261102,
+    "lng": -2.521640046,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Naveros",
+    "nameEn": "Los Naveros",
+    "type": "city",
+    "lat": 36.358083333333,
+    "lng": -5.9776666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Perales",
+    "nameEn": "Los Perales",
+    "type": "city",
+    "lat": 37.187426,
+    "lng": -2.314744,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Roques",
+    "nameEn": "Los Roques",
+    "type": "city",
+    "lat": 28.2205,
+    "lng": -16.414027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Lugo city",
+    "nameEn": "Lugo city",
+    "type": "city",
+    "lat": 43.00992,
+    "lng": -7.55602,
+    "pop": null
+  },
+  {
+    "nameAr": "Marroquíes Bajos",
+    "nameEn": "Marroquíes Bajos",
+    "type": "city",
+    "lat": 37.78194444,
+    "lng": -3.78694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Melilla",
+    "nameEn": "Melilla",
+    "type": "city",
+    "lat": 35.29369,
+    "lng": -2.93833,
+    "pop": null
+  },
+  {
+    "nameAr": "Menace",
+    "nameEn": "Menace",
+    "type": "city",
+    "lat": 36.7335,
+    "lng": -4.1198,
+    "pop": null
+  },
+  {
+    "nameAr": "Mesa del Mar",
+    "nameEn": "Mesa del Mar",
+    "type": "city",
+    "lat": 28.50277778,
+    "lng": -16.42416667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mesas de Asta",
+    "nameEn": "Mesas de Asta",
+    "type": "city",
+    "lat": 36.787932,
+    "lng": -6.172455,
+    "pop": null
+  },
+  {
+    "nameAr": "Mina y fundición de hierro El Pedroso",
+    "nameEn": "Mina y fundición de hierro El Pedroso",
+    "type": "city",
+    "lat": 37.86160902,
+    "lng": -5.740160548,
+    "pop": null
+  },
+  {
+    "nameAr": "Mina-Fundición La Tortilla",
+    "nameEn": "Mina-Fundición La Tortilla",
+    "type": "city",
+    "lat": 38.1,
+    "lng": -3.6675,
+    "pop": null
+  },
+  {
+    "nameAr": "Miralsot",
+    "nameEn": "Miralsot",
+    "type": "city",
+    "lat": 41.554722222222,
+    "lng": 0.28833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Miranda",
+    "nameEn": "Miranda",
+    "type": "city",
+    "lat": 28.698694444444,
+    "lng": -17.760416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Monforte de Lemos",
+    "nameEn": "Monforte de Lemos",
+    "type": "city",
+    "lat": 42.52165,
+    "lng": -7.51422,
+    "pop": null
+  },
+  {
+    "nameAr": "Monja Victoria",
+    "nameEn": "Monja Victoria",
+    "type": "city",
+    "lat": 36.686401232586,
+    "lng": -6.1397641590302,
+    "pop": null
+  },
+  {
+    "nameAr": "Munigua",
+    "nameEn": "Munigua",
+    "type": "city",
+    "lat": 37.71320940225,
+    "lng": -5.7409478323407,
+    "pop": null
+  },
+  {
+    "nameAr": "Murillo de Llena",
+    "nameEn": "Murillo de Llena",
+    "type": "city",
+    "lat": 42.377777777778,
+    "lng": 0.39666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Murillo el Fruto",
+    "nameEn": "Murillo el Fruto",
+    "type": "city",
+    "lat": 42.39272,
+    "lng": -1.46034,
+    "pop": null
+  },
+  {
+    "nameAr": "Navarreria",
+    "nameEn": "Navarreria",
+    "type": "city",
+    "lat": 42.819490247327,
+    "lng": -1.6417803167928,
+    "pop": null
+  },
+  {
+    "nameAr": "Navarrete",
+    "nameEn": "Navarrete",
+    "type": "city",
+    "lat": 42.429291719,
+    "lng": -2.56237611,
+    "pop": null
+  },
+  {
+    "nameAr": "Navia",
+    "nameEn": "Navia",
+    "type": "city",
+    "lat": 43.53544,
+    "lng": -6.71935,
+    "pop": null
+  },
+  {
+    "nameAr": "Necrópolis de La Angostura",
+    "nameEn": "Necrópolis de La Angostura",
+    "type": "city",
+    "lat": 36.83693,
+    "lng": -5.32646,
+    "pop": null
+  },
+  {
+    "nameAr": "Noreña",
+    "nameEn": "Noreña",
+    "type": "city",
+    "lat": 43.39364,
+    "lng": -5.70662,
+    "pop": null
+  },
+  {
+    "nameAr": "Nubla",
+    "nameEn": "Nubla",
+    "type": "city",
+    "lat": 37.9557917331,
+    "lng": -3.04282623161,
+    "pop": null
+  },
+  {
+    "nameAr": "Núcleo urbano del Puerto de la Laja",
+    "nameEn": "Núcleo urbano del Puerto de la Laja",
+    "type": "city",
+    "lat": 37.52283,
+    "lng": -7.49204,
+    "pop": null
+  },
+  {
+    "nameAr": "Obulcula",
+    "nameEn": "Obulcula",
+    "type": "city",
+    "lat": 37.515766,
+    "lng": -5.316314,
+    "pop": null
+  },
+  {
+    "nameAr": "Ocuri",
+    "nameEn": "Ocuri",
+    "type": "city",
+    "lat": 36.687113888889,
+    "lng": -5.4448583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Oppidum ibero de Puente Tablas",
+    "nameEn": "Oppidum ibero de Puente Tablas",
+    "type": "city",
+    "lat": 37.81277778,
+    "lng": -3.74861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Orippo",
+    "nameEn": "Orippo",
+    "type": "city",
+    "lat": 37.273832,
+    "lng": -6.004458,
+    "pop": null
+  },
+  {
+    "nameAr": "Oteiza",
+    "nameEn": "Oteiza",
+    "type": "city",
+    "lat": 42.61905,
+    "lng": -1.95385,
+    "pop": null
+  },
+  {
+    "nameAr": "Palacio Carrizosa",
+    "nameEn": "Palacio Carrizosa",
+    "type": "city",
+    "lat": 36.685661294348,
+    "lng": -6.1436438919371,
+    "pop": null
+  },
+  {
+    "nameAr": "Palm-Mar",
+    "nameEn": "Palm-Mar",
+    "type": "city",
+    "lat": 28.02333333,
+    "lng": -16.70222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pamplona city",
+    "nameEn": "Pamplona city",
+    "type": "city",
+    "lat": 42.81276,
+    "lng": -1.64432,
+    "pop": null
+  },
+  {
+    "nameAr": "Peñalosa",
+    "nameEn": "Peñalosa",
+    "type": "city",
+    "lat": 38.170800232352,
+    "lng": -3.796022367986,
+    "pop": null
+  },
+  {
+    "nameAr": "Piedramillera",
+    "nameEn": "Piedramillera",
+    "type": "city",
+    "lat": 42.632,
+    "lng": -2.20416,
+    "pop": null
+  },
+  {
+    "nameAr": "Población de San Carlos",
+    "nameEn": "Población de San Carlos",
+    "type": "city",
+    "lat": 36.47922377282,
+    "lng": -6.1926648876553,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Adriano",
+    "nameEn": "Poblado de colonización Adriano",
+    "type": "city",
+    "lat": 37.19825566,
+    "lng": -5.959821689,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Algallarín",
+    "nameEn": "Poblado de colonización Algallarín",
+    "type": "city",
+    "lat": 38.00024426,
+    "lng": -4.455355,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Calonge",
+    "nameEn": "Poblado de colonización Calonge",
+    "type": "city",
+    "lat": 37.67178544,
+    "lng": -5.37546705,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización Castellar de la Frontera",
+    "nameEn": "Poblado de Colonización Castellar de la Frontera",
+    "type": "city",
+    "lat": 36.28617489,
+    "lng": -5.420173878,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización Coto de Bornos",
+    "nameEn": "Poblado de Colonización Coto de Bornos",
+    "type": "city",
+    "lat": 36.85165653,
+    "lng": -5.693809022,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Bembézar del Caudillo",
+    "nameEn": "Poblado de colonización de Bembézar del Caudillo",
+    "type": "city",
+    "lat": 37.79508187,
+    "lng": -5.238142176,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización de Cártama",
+    "nameEn": "Poblado de Colonización de Cártama",
+    "type": "city",
+    "lat": 36.70562857,
+    "lng": -4.642070281,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización de Cerralba",
+    "nameEn": "Poblado de Colonización de Cerralba",
+    "type": "city",
+    "lat": 36.74599478,
+    "lng": -4.722347683,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Céspedes",
+    "nameEn": "Poblado de colonización de Céspedes",
+    "type": "city",
+    "lat": 37.75596627,
+    "lng": -5.25546371,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Maruanas",
+    "nameEn": "Poblado de colonización de Maruanas",
+    "type": "city",
+    "lat": 37.93579292,
+    "lng": -4.469938361,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Miraelrío",
+    "nameEn": "Poblado de colonización de Miraelrío",
+    "type": "city",
+    "lat": 38.0958049087,
+    "lng": -3.53116459125,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Puebla de La Parrilla",
+    "nameEn": "Poblado de colonización de Puebla de La Parrilla",
+    "type": "city",
+    "lat": 37.74702013,
+    "lng": -5.187440046,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Sacramento",
+    "nameEn": "Poblado de colonización de Sacramento",
+    "type": "city",
+    "lat": 37.03088796,
+    "lng": -5.905116654,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de San Antonio",
+    "nameEn": "Poblado de colonización de San Antonio",
+    "type": "city",
+    "lat": 37.95881182,
+    "lng": -4.519443515,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización de Santa Rosalía",
+    "nameEn": "Poblado de Colonización de Santa Rosalía",
+    "type": "city",
+    "lat": 36.73096257,
+    "lng": -4.568540533,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización de Setefilla",
+    "nameEn": "Poblado de Colonización de Setefilla",
+    "type": "city",
+    "lat": 37.70351052,
+    "lng": -5.49730221,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización de Tahivilla",
+    "nameEn": "Poblado de colonización de Tahivilla",
+    "type": "city",
+    "lat": 36.18391136,
+    "lng": -5.756890017,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización de Villafranco del Guadalhorce",
+    "nameEn": "Poblado de Colonización de Villafranco del Guadalhorce",
+    "type": "city",
+    "lat": 36.70218106,
+    "lng": -4.699308021,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización de Zalea",
+    "nameEn": "Poblado de Colonización de Zalea",
+    "type": "city",
+    "lat": 36.767073,
+    "lng": -4.747098163,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización El Priorato",
+    "nameEn": "Poblado de colonización El Priorato",
+    "type": "city",
+    "lat": 37.6895467,
+    "lng": -5.440982227,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Esquivel",
+    "nameEn": "Poblado de colonización Esquivel",
+    "type": "city",
+    "lat": 37.54638396,
+    "lng": -5.944780895,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Colonización Estella del Marqués",
+    "nameEn": "Poblado de Colonización Estella del Marqués",
+    "type": "city",
+    "lat": 36.68533363,
+    "lng": -6.074966724,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Maribáñez",
+    "nameEn": "Poblado de colonización Maribáñez",
+    "type": "city",
+    "lat": 37.13388479,
+    "lng": -5.891100185,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Mesas de Guadalora",
+    "nameEn": "Poblado de colonización Mesas de Guadalora",
+    "type": "city",
+    "lat": 37.77400941,
+    "lng": -5.240231349,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Rivero de Posadas",
+    "nameEn": "Poblado de colonización Rivero de Posadas",
+    "type": "city",
+    "lat": 37.79197997,
+    "lng": -5.143228567,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización San Ignacio de Viar",
+    "nameEn": "Poblado de colonización San Ignacio de Viar",
+    "type": "city",
+    "lat": 37.54664677,
+    "lng": -5.995919159,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de colonización Vegas de Almenara",
+    "nameEn": "Poblado de colonización Vegas de Almenara",
+    "type": "city",
+    "lat": 37.70917244,
+    "lng": -5.367018881,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Las Cumbres",
+    "nameEn": "Poblado de Las Cumbres",
+    "type": "city",
+    "lat": 36.634518426869,
+    "lng": -6.1551636437543,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de los Hurones",
+    "nameEn": "Poblado de los Hurones",
+    "type": "city",
+    "lat": 36.658486276616,
+    "lng": -5.5647912932851,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Majarromaque - José Antonio",
+    "nameEn": "Poblado de Majarromaque - José Antonio",
+    "type": "city",
+    "lat": 36.670265264995,
+    "lng": -5.9068633544223,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de Torrecera",
+    "nameEn": "Poblado de Torrecera",
+    "type": "city",
+    "lat": 36.608888888889,
+    "lng": -5.9427777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado de trabajadores de la central térmica de Puente Nuevo",
+    "nameEn": "Poblado de trabajadores de la central térmica de Puente Nuevo",
+    "type": "city",
+    "lat": 38.10913091,
+    "lng": -4.927610432,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado El Sinapismo",
+    "nameEn": "Poblado El Sinapismo",
+    "type": "city",
+    "lat": 38.30211202,
+    "lng": -3.608345813,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado Los Guindos",
+    "nameEn": "Poblado Los Guindos",
+    "type": "city",
+    "lat": 38.3092977159,
+    "lng": -3.68593965642,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado minero de Las Menas",
+    "nameEn": "Poblado minero de Las Menas",
+    "type": "city",
+    "lat": 37.2838074,
+    "lng": -2.511540206,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado minero Pinar de Bédar",
+    "nameEn": "Poblado minero Pinar de Bédar",
+    "type": "city",
+    "lat": 37.1662916358,
+    "lng": -1.97013390386,
+    "pop": null
+  },
+  {
+    "nameAr": "Poblado y Necrópolis de La Angostura",
+    "nameEn": "Poblado y Necrópolis de La Angostura",
+    "type": "city",
+    "lat": 37.065522222222,
+    "lng": -4.4810861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Posadas",
+    "nameEn": "Posadas",
+    "type": "city",
+    "lat": 37.80205,
+    "lng": -5.10726,
+    "pop": null
+  },
+  {
+    "nameAr": "Pradochano",
+    "nameEn": "Pradochano",
+    "type": "city",
+    "lat": 40.006111111111,
+    "lng": -6.2155555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Puente Don Manuel",
+    "nameEn": "Puente Don Manuel",
+    "type": "city",
+    "lat": 36.888286,
+    "lng": -4.146395,
+    "pop": null
+  },
+  {
+    "nameAr": "Puntal del Cuervo",
+    "nameEn": "Puntal del Cuervo",
+    "type": "city",
+    "lat": 37.4759997091,
+    "lng": -3.05279446492,
+    "pop": null
+  },
+  {
+    "nameAr": "Qastiliya",
+    "nameEn": "Qastiliya",
+    "type": "city",
+    "lat": 37.234171,
+    "lng": -3.712028,
+    "pop": null
+  },
+  {
+    "nameAr": "Realejo Bajo",
+    "nameEn": "Realejo Bajo",
+    "type": "city",
+    "lat": 28.385222222222,
+    "lng": -16.588,
+    "pop": null
+  },
+  {
+    "nameAr": "Ribadesella",
+    "nameEn": "Ribadesella",
+    "type": "city",
+    "lat": 43.46145,
+    "lng": -5.05955,
+    "pop": null
+  },
+  {
+    "nameAr": "Ribera de la Algaida",
+    "nameEn": "Ribera de la Algaida",
+    "type": "city",
+    "lat": 36.79201,
+    "lng": -2.58702,
+    "pop": null
+  },
+  {
+    "nameAr": "Roman Theatre of Cádiz",
+    "nameEn": "Roman Theatre of Cádiz",
+    "type": "city",
+    "lat": 36.528429425079,
+    "lng": -6.2935731183378,
+    "pop": null
+  },
+  {
+    "nameAr": "Roman thermae of Herrera",
+    "nameEn": "Roman thermae of Herrera",
+    "type": "city",
+    "lat": 37.353506,
+    "lng": -4.849254,
+    "pop": null
+  },
+  {
+    "nameAr": "Roman Villa of Rincón de la Victoria",
+    "nameEn": "Roman Villa of Rincón de la Victoria",
+    "type": "city",
+    "lat": 36.712206514903,
+    "lng": -4.2569744396535,
+    "pop": null
+  },
+  {
+    "nameAr": "Ruigómez",
+    "nameEn": "Ruigómez",
+    "type": "city",
+    "lat": 28.33944444,
+    "lng": -16.79083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sadernes",
+    "nameEn": "Sadernes",
+    "type": "city",
+    "lat": 42.2705066,
+    "lng": 2.5955915,
+    "pop": null
+  },
+  {
+    "nameAr": "San Bartolomé",
+    "nameEn": "San Bartolomé",
+    "type": "city",
+    "lat": 28.769,
+    "lng": -17.760972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "San Fernando City",
+    "nameEn": "San Fernando City",
+    "type": "city",
+    "lat": 36.4759,
+    "lng": -6.19817,
+    "pop": null
+  },
+  {
+    "nameAr": "San Marcos",
+    "nameEn": "San Marcos",
+    "type": "city",
+    "lat": 28.379083333333,
+    "lng": -16.722638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "San Pedro de Breña Alta",
+    "nameEn": "San Pedro de Breña Alta",
+    "type": "city",
+    "lat": 28.662587314078,
+    "lng": -17.788083675135,
+    "pop": null
+  },
+  {
+    "nameAr": "San Vicente (Tenerife)",
+    "nameEn": "San Vicente (Tenerife)",
+    "type": "city",
+    "lat": 28.394055555556,
+    "lng": -16.59075,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa María del Mar",
+    "nameEn": "Santa María del Mar",
+    "type": "city",
+    "lat": 28.425,
+    "lng": -16.3075,
+    "pop": null
+  },
+  {
+    "nameAr": "Santiago de Compostela city",
+    "nameEn": "Santiago de Compostela city",
+    "type": "city",
+    "lat": 42.88052,
+    "lng": -8.54569,
+    "pop": null
+  },
+  {
+    "nameAr": "Santo Domingo",
+    "nameEn": "Santo Domingo",
+    "type": "city",
+    "lat": 28.83027778,
+    "lng": -17.945,
+    "pop": null
+  },
+  {
+    "nameAr": "Segontia",
+    "nameEn": "Segontia",
+    "type": "city",
+    "lat": 41.066666666667,
+    "lng": -2.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Sierra Aznar",
+    "nameEn": "Sierra Aznar",
+    "type": "city",
+    "lat": 36.696554830709,
+    "lng": -5.7044594105278,
+    "pop": null
+  },
+  {
+    "nameAr": "Silla del Papa",
+    "nameEn": "Silla del Papa",
+    "type": "city",
+    "lat": 36.124349585907,
+    "lng": -5.7643156741588,
+    "pop": null
+  },
+  {
+    "nameAr": "Tajuya",
+    "nameEn": "Tajuya",
+    "type": "city",
+    "lat": 28.635,
+    "lng": -17.889722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Tamaimo",
+    "nameEn": "Tamaimo",
+    "type": "city",
+    "lat": 28.26888889,
+    "lng": -16.81916667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tejada la Nueva",
+    "nameEn": "Tejada la Nueva",
+    "type": "city",
+    "lat": 37.447887213715,
+    "lng": -6.3665554728368,
+    "pop": null
+  },
+  {
+    "nameAr": "Tejada la Vieja",
+    "nameEn": "Tejada la Vieja",
+    "type": "city",
+    "lat": 37.497219741201,
+    "lng": -6.3620574520634,
+    "pop": null
+  },
+  {
+    "nameAr": "Terrera Ventura",
+    "nameEn": "Terrera Ventura",
+    "type": "city",
+    "lat": 37.047446,
+    "lng": -2.4005367,
+    "pop": null
+  },
+  {
+    "nameAr": "Torre de la Membrilla",
+    "nameEn": "Torre de la Membrilla",
+    "type": "city",
+    "lat": 37.2645088496,
+    "lng": -5.67302360429,
+    "pop": null
+  },
+  {
+    "nameAr": "Torre del Cortijo de los Salineros",
+    "nameEn": "Torre del Cortijo de los Salineros",
+    "type": "city",
+    "lat": 37.902888888889,
+    "lng": -3.9479722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Torre La Aljambra",
+    "nameEn": "Torre La Aljambra",
+    "type": "city",
+    "lat": 37.3901258,
+    "lng": -2.112757824,
+    "pop": null
+  },
+  {
+    "nameAr": "Torre Las Almayas",
+    "nameEn": "Torre Las Almayas",
+    "type": "city",
+    "lat": 37.77828195927,
+    "lng": -4.3224472801551,
+    "pop": null
+  },
+  {
+    "nameAr": "Torreparedones",
+    "nameEn": "Torreparedones",
+    "type": "city",
+    "lat": 37.7545142484,
+    "lng": -4.37753835736,
+    "pop": null
+  },
+  {
+    "nameAr": "Turóbriga",
+    "nameEn": "Turóbriga",
+    "type": "city",
+    "lat": 37.968851913256,
+    "lng": -6.949596215359,
+    "pop": null
+  },
+  {
+    "nameAr": "Urduña / Orduña",
+    "nameEn": "Urduña / Orduña",
+    "type": "city",
+    "lat": 42.99435,
+    "lng": -3.00974,
+    "pop": null
+  },
+  {
+    "nameAr": "Urso",
+    "nameEn": "Urso",
+    "type": "city",
+    "lat": 37.242283,
+    "lng": -5.090233,
+    "pop": null
+  },
+  {
+    "nameAr": "Valentia Edetanorum",
+    "nameEn": "Valentia Edetanorum",
+    "type": "city",
+    "lat": 39.476249,
+    "lng": -0.37526,
+    "pop": null
+  },
+  {
+    "nameAr": "Vallivana",
+    "nameEn": "Vallivana",
+    "type": "city",
+    "lat": 40.5397,
+    "lng": 0.0533333,
+    "pop": null
+  },
+  {
+    "nameAr": "Vía del Pòrtic",
+    "nameEn": "Vía del Pòrtic",
+    "type": "city",
+    "lat": 39.679770469231,
+    "lng": -0.27271364101748,
+    "pop": null
+  },
+  {
+    "nameAr": "Viana",
+    "nameEn": "Viana",
+    "type": "city",
+    "lat": 42.51552,
+    "lng": -2.37123,
+    "pop": null
+  },
+  {
+    "nameAr": "Vilanova",
+    "nameEn": "Vilanova",
+    "type": "city",
+    "lat": 43.470487412657,
+    "lng": -7.2986554406943,
+    "pop": null
+  },
+  {
+    "nameAr": "Villaviciosa",
+    "nameEn": "Villaviciosa",
+    "type": "city",
+    "lat": 43.47994172,
+    "lng": -5.4335319,
+    "pop": null
+  },
+  {
+    "nameAr": "Virovesca",
+    "nameEn": "Virovesca",
+    "type": "city",
+    "lat": 42.54166667,
+    "lng": -3.32527778,
+    "pop": null
+  },
+  {
+    "nameAr": "Vitoria-Gasteiz City",
+    "nameEn": "Vitoria-Gasteiz City",
+    "type": "city",
+    "lat": 42.84998,
+    "lng": -2.67268,
+    "pop": null
+  },
+  {
+    "nameAr": "Viviendas para la Obra Sindical del Hogar",
+    "nameEn": "Viviendas para la Obra Sindical del Hogar",
+    "type": "city",
+    "lat": 36.73528617,
+    "lng": -3.703525955,
+    "pop": null
+  },
+  {
+    "nameAr": "Yacimiento arqueológico de Doña Blanca",
+    "nameEn": "Yacimiento arqueológico de Doña Blanca",
+    "type": "city",
+    "lat": 36.627143,
+    "lng": -6.161248,
+    "pop": null
+  },
+  {
+    "nameAr": "Zumárraga",
+    "nameEn": "Zumárraga",
+    "type": "city",
+    "lat": 43.08858,
+    "lng": -2.31408,
+    "pop": null
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {"nameAr":"سراييفو","nameEn":"Sarajevo","type":"city","lat":43.8563,"lng":18.4131,"pop":275524},
+  {"nameAr":"بانيا لوكا","nameEn":"Banja Luka","type":"city","lat":44.7722,"lng":17.1910,"pop":185042},
+  {"nameAr":"توزلا","nameEn":"Tuzla","type":"city","lat":44.5383,"lng":18.6739,"pop":110979},
+  {"nameAr":"زينيتسا","nameEn":"Zenica","type":"city","lat":44.2039,"lng":17.9078,"pop":110663},
+  {"nameAr":"موستار","nameEn":"Mostar","type":"city","lat":43.3438,"lng":17.8078,"pop":105797},
+  {"nameAr":"بييلينا","nameEn":"Bijeljina","type":"city","lat":44.7569,"lng":19.2147,"pop":107715},
+  {"nameAr":"برتشكو","nameEn":"Brčko","type":"city","lat":44.8694,"lng":18.8081,"pop":83516},
+  {"nameAr":"بريدور","nameEn":"Prijedor","type":"city","lat":44.9800,"lng":16.7122,"pop":80916},
+  {"nameAr":"ترافنيك","nameEn":"Travnik","type":"city","lat":44.2269,"lng":17.6653,"pop":53482},
+  {"nameAr":"تريبينيه","nameEn":"Trebinje","type":"city","lat":42.7119,"lng":18.3442,"pop":31433}
+]

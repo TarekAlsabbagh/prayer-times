@@ -1,0 +1,8878 @@
+[
+  {
+    "nameAr": "أوتاوا",
+    "nameEn": "Ottawa",
+    "type": "city",
+    "lat": 45.4215,
+    "lng": -75.6972
+  },
+  {
+    "nameAr": "إدمنتون",
+    "nameEn": "Edmonton",
+    "type": "city",
+    "lat": 53.5461,
+    "lng": -113.4938
+  },
+  {
+    "nameAr": "تورنتو",
+    "nameEn": "Toronto",
+    "type": "city",
+    "lat": 43.7001,
+    "lng": -79.4163
+  },
+  {
+    "nameAr": "سري",
+    "nameEn": "Surrey",
+    "type": "city",
+    "lat": 49.1913,
+    "lng": -122.849
+  },
+  {
+    "nameAr": "فانكوفر",
+    "nameEn": "Vancouver",
+    "type": "city",
+    "lat": 49.2827,
+    "lng": -123.1207
+  },
+  {
+    "nameAr": "كالغاري",
+    "nameEn": "Calgary",
+    "type": "city",
+    "lat": 51.0447,
+    "lng": -114.0719
+  },
+  {
+    "nameAr": "كيبيك",
+    "nameEn": "Quebec City",
+    "type": "city",
+    "lat": 46.8139,
+    "lng": -71.2082
+  },
+  {
+    "nameAr": "مونتريال",
+    "nameEn": "Montreal",
+    "type": "city",
+    "lat": 45.5017,
+    "lng": -73.5673
+  },
+  {
+    "nameAr": "ميسيساغا",
+    "nameEn": "Mississauga",
+    "type": "city",
+    "lat": 43.589,
+    "lng": -79.6441
+  },
+  {
+    "nameAr": "هاليفاكس",
+    "nameEn": "Halifax",
+    "type": "city",
+    "lat": 44.6488,
+    "lng": -63.5752
+  },
+  {
+    "nameAr": "هاميلتون",
+    "nameEn": "Hamilton",
+    "type": "city",
+    "lat": 43.2557,
+    "lng": -79.8711
+  },
+  {
+    "nameAr": "وينيبيغ",
+    "nameEn": "Winnipeg",
+    "type": "city",
+    "lat": 49.8951,
+    "lng": -97.1384
+  },
+  {
+    "nameAr": "تورونتو",
+    "nameEn": "Toronto",
+    "type": "city",
+    "lat": 43.670277777778,
+    "lng": -79.386666666667,
+    "pop": 2794356
+  },
+  {
+    "nameAr": "إدمونتون",
+    "nameEn": "Edmonton",
+    "type": "city",
+    "lat": 53.533333333333,
+    "lng": -113.5,
+    "pop": 1010899
+  },
+  {
+    "nameAr": "برامبتون",
+    "nameEn": "Brampton",
+    "type": "city",
+    "lat": 43.683333333333,
+    "lng": -79.766666666667,
+    "pop": 656480
+  },
+  {
+    "nameAr": "مدينة كبك",
+    "nameEn": "Quebec City",
+    "type": "city",
+    "lat": 46.816111,
+    "lng": -71.224167,
+    "pop": 574482
+  },
+  {
+    "nameAr": "سوري، كولومبيا البريطانية",
+    "nameEn": "Surrey",
+    "type": "city",
+    "lat": 49.1833,
+    "lng": -122.85,
+    "pop": 568322
+  },
+  {
+    "nameAr": "لافال",
+    "nameEn": "Laval",
+    "type": "city",
+    "lat": 45.5833,
+    "lng": -73.75,
+    "pop": 450629
+  },
+  {
+    "nameAr": "لندن",
+    "nameEn": "London",
+    "type": "city",
+    "lat": 42.9837,
+    "lng": -81.2497,
+    "pop": 422324
+  },
+  {
+    "nameAr": "ماركام",
+    "nameEn": "Markham",
+    "type": "city",
+    "lat": 43.8833,
+    "lng": -79.25,
+    "pop": 338503
+  },
+  {
+    "nameAr": "فون",
+    "nameEn": "Vaughan",
+    "type": "city",
+    "lat": 43.833333333333,
+    "lng": -79.5,
+    "pop": 323103
+  },
+  {
+    "nameAr": "غاتينو",
+    "nameEn": "Gatineau",
+    "type": "city",
+    "lat": 45.483333,
+    "lng": -75.65,
+    "pop": 298126
+  },
+  {
+    "nameAr": "كيتشنر",
+    "nameEn": "Kitchener",
+    "type": "city",
+    "lat": 43.45,
+    "lng": -80.483333333333,
+    "pop": 256885
+  },
+  {
+    "nameAr": "وندسور",
+    "nameEn": "Windsor",
+    "type": "city",
+    "lat": 42.31729,
+    "lng": -83.03526,
+    "pop": 229660
+  },
+  {
+    "nameAr": "ريجاينا",
+    "nameEn": "Regina",
+    "type": "city",
+    "lat": 50.45008,
+    "lng": -104.6178,
+    "pop": 226404
+  },
+  {
+    "nameAr": "أوكفيل",
+    "nameEn": "Oakville",
+    "type": "city",
+    "lat": 43.45,
+    "lng": -79.683333333333,
+    "pop": 213759
+  },
+  {
+    "nameAr": "ريتشموند هيل",
+    "nameEn": "Richmond Hill",
+    "type": "city",
+    "lat": 43.871388888889,
+    "lng": -79.437222222222,
+    "pop": 202022
+  },
+  {
+    "nameAr": "بورلينغتون",
+    "nameEn": "Burlington",
+    "type": "city",
+    "lat": 43.325,
+    "lng": -79.8,
+    "pop": 186948
+  },
+  {
+    "nameAr": "شيربروك",
+    "nameEn": "Sherbrooke",
+    "type": "city",
+    "lat": 45.4,
+    "lng": -71.9,
+    "pop": 181360
+  },
+  {
+    "nameAr": "أوشاوا",
+    "nameEn": "Oshawa",
+    "type": "city",
+    "lat": 43.9,
+    "lng": -78.85,
+    "pop": 175383
+  },
+  {
+    "nameAr": "غريتر سودبوري",
+    "nameEn": "Greater Sudbury",
+    "type": "city",
+    "lat": 46.49,
+    "lng": -81.01,
+    "pop": 166004
+  },
+  {
+    "nameAr": "ليفيس",
+    "nameEn": "Lévis",
+    "type": "city",
+    "lat": 46.8,
+    "lng": -71.1833,
+    "pop": 156225
+  },
+  {
+    "nameAr": "أبوتسفورد، كولومبيا البريطانية",
+    "nameEn": "Abbotsford",
+    "type": "city",
+    "lat": 49.051666666667,
+    "lng": -122.32888888889,
+    "pop": 153524
+  },
+  {
+    "nameAr": "ساغينيه",
+    "nameEn": "Saguenay",
+    "type": "city",
+    "lat": 48.4167,
+    "lng": -71.0667,
+    "pop": 148886
+  },
+  {
+    "nameAr": "كوكويتلام، كولومبيا البريطانية",
+    "nameEn": "Coquitlam",
+    "type": "city",
+    "lat": 49.283888888889,
+    "lng": -122.79194444444,
+    "pop": 148625
+  },
+  {
+    "nameAr": "باري",
+    "nameEn": "Barrie",
+    "type": "city",
+    "lat": 44.39,
+    "lng": -79.686,
+    "pop": 147829
+  },
+  {
+    "nameAr": "كيلونا",
+    "nameEn": "Kelowna",
+    "type": "city",
+    "lat": 49.8801,
+    "lng": -119.4436,
+    "pop": 144576
+  },
+  {
+    "nameAr": "غويلف",
+    "nameEn": "Guelph",
+    "type": "city",
+    "lat": 43.55,
+    "lng": -80.25,
+    "pop": 143740
+  },
+  {
+    "nameAr": "ويتبي",
+    "nameEn": "Whitby",
+    "type": "city",
+    "lat": 43.88,
+    "lng": -78.942222222222,
+    "pop": 138501
+  },
+  {
+    "nameAr": "كامبريدج",
+    "nameEn": "Cambridge",
+    "type": "city",
+    "lat": 43.358333333333,
+    "lng": -80.313888888889,
+    "pop": 138479
+  },
+  {
+    "nameAr": "سانت كاثرينز",
+    "nameEn": "St. Catharines",
+    "type": "city",
+    "lat": 43.183333333333,
+    "lng": -79.233333333333,
+    "pop": 136803
+  },
+  {
+    "nameAr": "ميلتون",
+    "nameEn": "Milton",
+    "type": "city",
+    "lat": 43.508333333333,
+    "lng": -79.883333333333,
+    "pop": 132979
+  },
+  {
+    "nameAr": "كينغستون",
+    "nameEn": "Kingston",
+    "type": "city",
+    "lat": 44.230555555556,
+    "lng": -76.481111111111,
+    "pop": 132485
+  },
+  {
+    "nameAr": "أجاكس",
+    "nameEn": "Ajax",
+    "type": "city",
+    "lat": 43.858333333333,
+    "lng": -79.036388888889,
+    "pop": 126666
+  },
+  {
+    "nameAr": "تيربون",
+    "nameEn": "Terrebonne",
+    "type": "city",
+    "lat": 45.7,
+    "lng": -73.633333333333,
+    "pop": 123182
+  },
+  {
+    "nameAr": "واترلو",
+    "nameEn": "Waterloo",
+    "type": "city",
+    "lat": 43.466666666667,
+    "lng": -80.516666666667,
+    "pop": 121436
+  },
+  {
+    "nameAr": "سانت جونز",
+    "nameEn": "St. John's",
+    "type": "city",
+    "lat": 47.561388888889,
+    "lng": -52.711944444444,
+    "pop": 110525
+  },
+  {
+    "nameAr": "ثاندر باي",
+    "nameEn": "Thunder Bay",
+    "type": "city",
+    "lat": 48.3822,
+    "lng": -89.2461,
+    "pop": 108843
+  },
+  {
+    "nameAr": "برانتفورد",
+    "nameEn": "Brantford",
+    "type": "city",
+    "lat": 43.140833333333,
+    "lng": -80.263055555556,
+    "pop": 104688
+  },
+  {
+    "nameAr": "تشاتام كينت",
+    "nameEn": "Chatham-Kent",
+    "type": "city",
+    "lat": 42.4,
+    "lng": -82.183333333333,
+    "pop": 103988
+  },
+  {
+    "nameAr": "رد دير",
+    "nameEn": "Red Deer",
+    "type": "city",
+    "lat": 52.268055555556,
+    "lng": -113.81111111111,
+    "pop": 100844
+  },
+  {
+    "nameAr": "نانيامو",
+    "nameEn": "Nanaimo",
+    "type": "city",
+    "lat": 49.164166666667,
+    "lng": -123.93638888889,
+    "pop": 99863
+  },
+  {
+    "nameAr": "فكتوريا، كولومبيا البريطانية",
+    "nameEn": "Victoria",
+    "type": "city",
+    "lat": 48.422151,
+    "lng": -123.3657,
+    "pop": 91867
+  },
+  {
+    "nameAr": "بيكرينغ",
+    "nameEn": "Pickering",
+    "type": "city",
+    "lat": 43.906944444444,
+    "lng": -79.130833333333,
+    "pop": 91771
+  },
+  {
+    "nameAr": "دارتموث",
+    "nameEn": "Dartmouth",
+    "type": "city",
+    "lat": 44.6667,
+    "lng": -63.5667,
+    "pop": 89163
+  },
+  {
+    "nameAr": "نيغارا فولز",
+    "nameEn": "Niagara Falls",
+    "type": "city",
+    "lat": 43.116666666667,
+    "lng": -79.066666666667,
+    "pop": 88071
+  },
+  {
+    "nameAr": "نيوماركت",
+    "nameEn": "Newmarket",
+    "type": "city",
+    "lat": 44.06,
+    "lng": -79.45,
+    "pop": 84224
+  },
+  {
+    "nameAr": "بيتيربوروغ",
+    "nameEn": "Peterborough",
+    "type": "city",
+    "lat": 44.3,
+    "lng": -78.316666666667,
+    "pop": 81032
+  },
+  {
+    "nameAr": "مونكتون",
+    "nameEn": "Moncton",
+    "type": "city",
+    "lat": 46.093333,
+    "lng": -64.775,
+    "pop": 79470
+  },
+  {
+    "nameAr": "كورثا ليكس",
+    "nameEn": "Kawartha Lakes",
+    "type": "city",
+    "lat": 44.35,
+    "lng": -78.75,
+    "pop": 75423
+  },
+  {
+    "nameAr": "سو ساينت ماري",
+    "nameEn": "Sault Ste. Marie",
+    "type": "city",
+    "lat": 46.5333,
+    "lng": -84.35,
+    "pop": 73368
+  },
+  {
+    "nameAr": "سارنيا",
+    "nameEn": "Sarnia",
+    "type": "city",
+    "lat": 42.9745,
+    "lng": -82.4066,
+    "pop": 72320
+  },
+  {
+    "nameAr": "كاليدون",
+    "nameEn": "Caledon",
+    "type": "city",
+    "lat": 43.866666666667,
+    "lng": -80,
+    "pop": 66502
+  },
+  {
+    "nameAr": "فريدريكتون",
+    "nameEn": "Fredericton",
+    "type": "city",
+    "lat": 45.95,
+    "lng": -66.666666666667,
+    "pop": 63116
+  },
+  {
+    "nameAr": "هالتون هيلس",
+    "nameEn": "Halton Hills",
+    "type": "city",
+    "lat": 43.633333333333,
+    "lng": -79.95,
+    "pop": 61161
+  },
+  {
+    "nameAr": "Saint Boniface",
+    "nameEn": "Saint Boniface",
+    "type": "city",
+    "lat": 49.9,
+    "lng": -97.1,
+    "pop": 58520
+  },
+  {
+    "nameAr": "أورورا",
+    "nameEn": "Aurora",
+    "type": "city",
+    "lat": 44,
+    "lng": -79.466666666667,
+    "pop": 55445
+  },
+  {
+    "nameAr": "ويلاند",
+    "nameEn": "Welland",
+    "type": "city",
+    "lat": 42.983333333333,
+    "lng": -79.233333333333,
+    "pop": 52293
+  },
+  {
+    "nameAr": "نورث بي",
+    "nameEn": "North Bay",
+    "type": "city",
+    "lat": 46.309166666667,
+    "lng": -79.461388888889,
+    "pop": 51553
+  },
+  {
+    "nameAr": "براندون",
+    "nameEn": "Brandon",
+    "type": "city",
+    "lat": 49.833333333333,
+    "lng": -99.95,
+    "pop": 51313
+  },
+  {
+    "nameAr": "بيلفيل",
+    "nameEn": "Belleville",
+    "type": "city",
+    "lat": 44.166666666667,
+    "lng": -77.383333333333,
+    "pop": 50716
+  },
+  {
+    "nameAr": "وودستوك",
+    "nameEn": "Woodstock",
+    "type": "city",
+    "lat": 43.130555555556,
+    "lng": -80.746666666667,
+    "pop": 46705
+  },
+  {
+    "nameAr": "كورنوال",
+    "nameEn": "Cornwall",
+    "type": "city",
+    "lat": 45.0275,
+    "lng": -74.74,
+    "pop": 46589
+  },
+  {
+    "nameAr": "هالديماند",
+    "nameEn": "Haldimand County",
+    "type": "city",
+    "lat": 42.9333,
+    "lng": -79.8833,
+    "pop": 45608
+  },
+  {
+    "nameAr": "تيمينز",
+    "nameEn": "Timmins",
+    "type": "city",
+    "lat": 48.471666666667,
+    "lng": -81.331388888889,
+    "pop": 41788
+  },
+  {
+    "nameAr": "Bowmanville",
+    "nameEn": "Bowmanville",
+    "type": "city",
+    "lat": 43.911388888889,
+    "lng": -78.6875,
+    "pop": 39371
+  },
+  {
+    "nameAr": "ميشن",
+    "nameEn": "Mission",
+    "type": "city",
+    "lat": 49.133694444444,
+    "lng": -122.31116666667,
+    "pop": 38833
+  },
+  {
+    "nameAr": "شارلوت تاون",
+    "nameEn": "Charlottetown",
+    "type": "city",
+    "lat": 46.235277777778,
+    "lng": -63.126666666667,
+    "pop": 38809
+  },
+  {
+    "nameAr": "برينس ألبرت",
+    "nameEn": "Prince Albert",
+    "type": "city",
+    "lat": 53.2,
+    "lng": -105.75,
+    "pop": 37756
+  },
+  {
+    "nameAr": "برانت",
+    "nameEn": "County of Brant",
+    "type": "city",
+    "lat": 43.116666666667,
+    "lng": -80.366666666667,
+    "pop": 36707
+  },
+  {
+    "nameAr": "ليكشور",
+    "nameEn": "Lakeshore",
+    "type": "city",
+    "lat": 42.25,
+    "lng": -82.683333333333,
+    "pop": 36611
+  },
+  {
+    "nameAr": "كوت سان لوك",
+    "nameEn": "Côte Saint-Luc",
+    "type": "city",
+    "lat": 45.466666666667,
+    "lng": -73.666666666667,
+    "pop": 35419
+  },
+  {
+    "nameAr": "نيو تيكومسيث",
+    "nameEn": "New Tecumseth",
+    "type": "city",
+    "lat": 44.0833,
+    "lng": -79.75,
+    "pop": 34242
+  },
+  {
+    "nameAr": "Cochrane",
+    "nameEn": "Cochrane",
+    "type": "city",
+    "lat": 51.189,
+    "lng": -114.467,
+    "pop": 32199
+  },
+  {
+    "nameAr": "ستراتفورد",
+    "nameEn": "Stratford",
+    "type": "city",
+    "lat": 43.366666666667,
+    "lng": -80.966666666667,
+    "pop": 31465
+  },
+  {
+    "nameAr": "أوريليا",
+    "nameEn": "Orillia",
+    "type": "city",
+    "lat": 44.6,
+    "lng": -79.416666666667,
+    "pop": 30586
+  },
+  {
+    "nameAr": "أورنجفيل",
+    "nameEn": "Orangeville",
+    "type": "city",
+    "lat": 43.916666666667,
+    "lng": -80.116666666667,
+    "pop": 30167
+  },
+  {
+    "nameAr": "سيدني",
+    "nameEn": "Sydney",
+    "type": "city",
+    "lat": 46.1378,
+    "lng": -60.1829,
+    "pop": 29904
+  },
+  {
+    "nameAr": "وايت هورس",
+    "nameEn": "Whitehorse",
+    "type": "city",
+    "lat": 60.717222222222,
+    "lng": -135.05583333333,
+    "pop": 28201
+  },
+  {
+    "nameAr": "فورت ساسكاتشوان",
+    "nameEn": "Fort Saskatchewan",
+    "type": "city",
+    "lat": 53.712777777778,
+    "lng": -113.21305555556,
+    "pop": 27088
+  },
+  {
+    "nameAr": "Bolton",
+    "nameEn": "Bolton",
+    "type": "city",
+    "lat": 43.8972,
+    "lng": -79.7381,
+    "pop": 26378
+  },
+  {
+    "nameAr": "ايست ويليمباري",
+    "nameEn": "East Gwillimbury",
+    "type": "city",
+    "lat": 44.12,
+    "lng": -79.43,
+    "pop": 23991
+  },
+  {
+    "nameAr": "ثورولد",
+    "nameEn": "Thorold",
+    "type": "city",
+    "lat": 43.116666666667,
+    "lng": -79.2,
+    "pop": 23816
+  },
+  {
+    "nameAr": "تيكومسه",
+    "nameEn": "Tecumseh",
+    "type": "city",
+    "lat": 42.3,
+    "lng": -82.8833,
+    "pop": 23229
+  },
+  {
+    "nameAr": "تشستمير",
+    "nameEn": "Chestermere",
+    "type": "city",
+    "lat": 51.05,
+    "lng": -113.823,
+    "pop": 22163
+  },
+  {
+    "nameAr": "بروكفيل",
+    "nameEn": "Brockville",
+    "type": "city",
+    "lat": 44.583333333333,
+    "lng": -75.683333333333,
+    "pop": 21957
+  },
+  {
+    "nameAr": "أمهيرستبارج",
+    "nameEn": "Amherstburg",
+    "type": "city",
+    "lat": 42.1,
+    "lng": -83.0833,
+    "pop": 21936
+  },
+  {
+    "nameAr": "أوين ساوند",
+    "nameEn": "Owen Sound",
+    "type": "city",
+    "lat": 44.567777777778,
+    "lng": -80.943055555556,
+    "pop": 21612
+  },
+  {
+    "nameAr": "Beaumont",
+    "nameEn": "Beaumont",
+    "type": "city",
+    "lat": 53.357222222222,
+    "lng": -113.41472222222,
+    "pop": 20888
+  },
+  {
+    "nameAr": "كوبورغ",
+    "nameEn": "Cobourg",
+    "type": "city",
+    "lat": 43.966666666667,
+    "lng": -78.166666666667,
+    "pop": 20519
+  },
+  {
+    "nameAr": "يلونايف",
+    "nameEn": "Yellowknife",
+    "type": "city",
+    "lat": 62.442222222222,
+    "lng": -114.3975,
+    "pop": 20340
+  },
+  {
+    "nameAr": "هانتسفيل",
+    "nameEn": "Huntsville",
+    "type": "city",
+    "lat": 45.333333333333,
+    "lng": -79.216666666667,
+    "pop": 19816
+  },
+  {
+    "nameAr": "لويدمنستر",
+    "nameEn": "Lloydminster",
+    "type": "city",
+    "lat": 53.278333333333,
+    "lng": -110.005,
+    "pop": 19739
+  },
+  {
+    "nameAr": "Riverview",
+    "nameEn": "Riverview",
+    "type": "city",
+    "lat": 46.0612,
+    "lng": -64.8052,
+    "pop": 19667
+  },
+  {
+    "nameAr": "كامروز",
+    "nameEn": "Camrose",
+    "type": "city",
+    "lat": 53.024722222222,
+    "lng": -112.82416666667,
+    "pop": 18772
+  },
+  {
+    "nameAr": "ميراميتشي",
+    "nameEn": "Miramichi",
+    "type": "city",
+    "lat": 47.0225,
+    "lng": -65.508888888889,
+    "pop": 18129
+  },
+  {
+    "nameAr": "Stony Plain",
+    "nameEn": "Stony Plain",
+    "type": "city",
+    "lat": 53.53,
+    "lng": -114.006,
+    "pop": 17993
+  },
+  {
+    "nameAr": "شتاينباخ",
+    "nameEn": "Steinbach",
+    "type": "city",
+    "lat": 49.5258,
+    "lng": -96.6839,
+    "pop": 17806
+  },
+  {
+    "nameAr": "إيدموندستون",
+    "nameEn": "Edmundston",
+    "type": "city",
+    "lat": 47.3765,
+    "lng": -68.325347222222,
+    "pop": 17175
+  },
+  {
+    "nameAr": "فانير",
+    "nameEn": "Vanier",
+    "type": "city",
+    "lat": 45.44,
+    "lng": -75.665,
+    "pop": 17000
+  },
+  {
+    "nameAr": "غريتر ناباني",
+    "nameEn": "Greater Napanee",
+    "type": "city",
+    "lat": 44.25,
+    "lng": -76.95,
+    "pop": 16879
+  },
+  {
+    "nameAr": "سمرسايد، كندا",
+    "nameEn": "Summerside",
+    "type": "city",
+    "lat": 46.4,
+    "lng": -63.783333333333,
+    "pop": 16001
+  },
+  {
+    "nameAr": "تيلسونبيرج",
+    "nameEn": "Tillsonburg",
+    "type": "city",
+    "lat": 42.868055555556,
+    "lng": -80.730833333333,
+    "pop": 15872
+  },
+  {
+    "nameAr": "كولد لايك",
+    "nameEn": "Cold Lake",
+    "type": "city",
+    "lat": 54.4642,
+    "lng": -110.183,
+    "pop": 15661
+  },
+  {
+    "nameAr": "سويفت كورنت",
+    "nameEn": "Swift Current",
+    "type": "city",
+    "lat": 50.288055555556,
+    "lng": -107.79388888889,
+    "pop": 15503
+  },
+  {
+    "nameAr": "كينورا",
+    "nameEn": "Kenora",
+    "type": "city",
+    "lat": 49.766666666667,
+    "lng": -94.483333333333,
+    "pop": 14967
+  },
+  {
+    "nameAr": "سيمكو",
+    "nameEn": "Simcoe",
+    "type": "city",
+    "lat": 42.833333333333,
+    "lng": -80.3,
+    "pop": 14777
+  },
+  {
+    "nameAr": "نورث باتلفورد",
+    "nameEn": "North Battleford",
+    "type": "city",
+    "lat": 52.7575,
+    "lng": -108.28611111111,
+    "pop": 13888
+  },
+  {
+    "nameAr": "بيمبروك",
+    "nameEn": "Pembroke",
+    "type": "city",
+    "lat": 45.8167,
+    "lng": -77.1167,
+    "pop": 13882
+  },
+  {
+    "nameAr": "وينكلر",
+    "nameEn": "Winkler",
+    "type": "city",
+    "lat": 49.1817,
+    "lng": -97.9397,
+    "pop": 13745
+  },
+  {
+    "nameAr": "سوجين شورز",
+    "nameEn": "Saugeen Shores",
+    "type": "city",
+    "lat": 44.433333333333,
+    "lng": -81.366666666667,
+    "pop": 13715
+  },
+  {
+    "nameAr": "بورتاج لابريري",
+    "nameEn": "Portage la Prairie",
+    "type": "city",
+    "lat": 49.972777777778,
+    "lng": -98.291944444444,
+    "pop": 13304
+  },
+  {
+    "nameAr": "تومبسون",
+    "nameEn": "Thompson",
+    "type": "city",
+    "lat": 55.743333333333,
+    "lng": -97.855277777778,
+    "pop": 13035
+  },
+  {
+    "nameAr": "جرافنهورست",
+    "nameEn": "Gravenhurst",
+    "type": "city",
+    "lat": 44.9167,
+    "lng": -79.3667,
+    "pop": 12311
+  },
+  {
+    "nameAr": "برينس روبيرت، كولومبيا البريطانية",
+    "nameEn": "Prince Rupert",
+    "type": "city",
+    "lat": 54.312194444444,
+    "lng": -130.32708333333,
+    "pop": 12220
+  },
+  {
+    "nameAr": "ويستلر، كولومبيا البريطانية",
+    "nameEn": "Whistler",
+    "type": "city",
+    "lat": 50.120833333333,
+    "lng": -122.95444444444,
+    "pop": 11854
+  },
+  {
+    "nameAr": "سيدني، كولومبيا البريطانية",
+    "nameEn": "Sidney",
+    "type": "city",
+    "lat": 48.6506,
+    "lng": -123.399,
+    "pop": 11672
+  },
+  {
+    "nameAr": "كينكاردين",
+    "nameEn": "Kincardine",
+    "type": "city",
+    "lat": 44.169444444444,
+    "lng": -81.634722222222,
+    "pop": 11389
+  },
+  {
+    "nameAr": "ويبرن",
+    "nameEn": "Weyburn",
+    "type": "city",
+    "lat": 49.661111111111,
+    "lng": -103.8525,
+    "pop": 11019
+  },
+  {
+    "nameAr": "سيلكيرك",
+    "nameEn": "Selkirk",
+    "type": "city",
+    "lat": 50.143611111111,
+    "lng": -96.883888888889,
+    "pop": 10504
+  },
+  {
+    "nameAr": "Blackfalds",
+    "nameEn": "Blackfalds",
+    "type": "city",
+    "lat": 52.378333333333,
+    "lng": -113.79611111111,
+    "pop": 10470
+  },
+  {
+    "nameAr": "فيو رويال، كولومبيا البريطانية",
+    "nameEn": "View Royal",
+    "type": "city",
+    "lat": 48.4517,
+    "lng": -123.434,
+    "pop": 10408
+  },
+  {
+    "nameAr": "Morden",
+    "nameEn": "Morden",
+    "type": "city",
+    "lat": 49.191944444444,
+    "lng": -98.100555555556,
+    "pop": 9929
+  },
+  {
+    "nameAr": "هينتون",
+    "nameEn": "Hinton",
+    "type": "city",
+    "lat": 53.4114,
+    "lng": -117.564,
+    "pop": 9882
+  },
+  {
+    "nameAr": "Stratford",
+    "nameEn": "Stratford",
+    "type": "city",
+    "lat": 46.216663888889,
+    "lng": -63.089330555556,
+    "pop": 9706
+  },
+  {
+    "nameAr": "Martensville",
+    "nameEn": "Martensville",
+    "type": "city",
+    "lat": 52.291944444444,
+    "lng": -106.6525,
+    "pop": 9645
+  },
+  {
+    "nameAr": "Port Perry",
+    "nameEn": "Port Perry",
+    "type": "city",
+    "lat": 44.104722222222,
+    "lng": -78.944166666667,
+    "pop": 9453
+  },
+  {
+    "nameAr": "شاطئ كواليكم، كولومبيا البريطانية",
+    "nameEn": "Qualicum Beach",
+    "type": "city",
+    "lat": 49.35,
+    "lng": -124.433,
+    "pop": 8943
+  },
+  {
+    "nameAr": "Arnprior",
+    "nameEn": "Arnprior",
+    "type": "city",
+    "lat": 45.433333333333,
+    "lng": -76.35,
+    "pop": 8795
+  },
+  {
+    "nameAr": "لايدي سميث، كولومبيا البريطانية",
+    "nameEn": "Ladysmith",
+    "type": "city",
+    "lat": 48.9975,
+    "lng": -123.82027777778,
+    "pop": 8537
+  },
+  {
+    "nameAr": "ساوث بروس بينيسولا",
+    "nameEn": "South Bruce Peninsula",
+    "type": "city",
+    "lat": 44.733333333333,
+    "lng": -81.2,
+    "pop": 8416
+  },
+  {
+    "nameAr": "دوفين",
+    "nameEn": "Dauphin",
+    "type": "city",
+    "lat": 51.149444444444,
+    "lng": -100.04944444444,
+    "pop": 8368
+  },
+  {
+    "nameAr": "كابوسكاسينغ",
+    "nameEn": "Kapuskasing",
+    "type": "city",
+    "lat": 49.415277777778,
+    "lng": -82.416944444444,
+    "pop": 8292
+  },
+  {
+    "nameAr": "رنفرو",
+    "nameEn": "Renfrew",
+    "type": "city",
+    "lat": 45.4717,
+    "lng": -76.6831,
+    "pop": 8223
+  },
+  {
+    "nameAr": "Shelburne",
+    "nameEn": "Shelburne",
+    "type": "city",
+    "lat": 44.0833,
+    "lng": -80.2,
+    "pop": 8126
+  },
+  {
+    "nameAr": "Mono",
+    "nameEn": "Mono",
+    "type": "city",
+    "lat": 44.016666666667,
+    "lng": -80.066666666667,
+    "pop": 8069
+  },
+  {
+    "nameAr": "كاستليغار، كولومبيا البريطانية",
+    "nameEn": "Castlegar",
+    "type": "city",
+    "lat": 49.326111111111,
+    "lng": -117.66472222222,
+    "pop": 8039
+  },
+  {
+    "nameAr": "Innisfail",
+    "nameEn": "Innisfail",
+    "type": "city",
+    "lat": 52.0333,
+    "lng": -113.95,
+    "pop": 7985
+  },
+  {
+    "nameAr": "شاندلر",
+    "nameEn": "Chandler",
+    "type": "city",
+    "lat": 48.35,
+    "lng": -64.6833,
+    "pop": 7490
+  },
+  {
+    "nameAr": "إيكالويت",
+    "nameEn": "Iqaluit",
+    "type": "city",
+    "lat": 63.749444444444,
+    "lng": -68.521666666667,
+    "pop": 7429
+  },
+  {
+    "nameAr": "درايدن",
+    "nameEn": "Dryden",
+    "type": "city",
+    "lat": 49.78,
+    "lng": -92.833888888889,
+    "pop": 7388
+  },
+  {
+    "nameAr": "Drayton Valley",
+    "nameEn": "Drayton Valley",
+    "type": "city",
+    "lat": 53.2222,
+    "lng": -114.977,
+    "pop": 7291
+  },
+  {
+    "nameAr": "Slave Lake",
+    "nameEn": "Slave Lake",
+    "type": "city",
+    "lat": 55.2853,
+    "lng": -114.771,
+    "pop": 6836
+  },
+  {
+    "nameAr": "روكي ماونتن هاوس",
+    "nameEn": "Rocky Mountain House",
+    "type": "city",
+    "lat": 52.3753,
+    "lng": -114.922,
+    "pop": 6765
+  },
+  {
+    "nameAr": "شارماني",
+    "nameEn": "Charlemagne",
+    "type": "city",
+    "lat": 45.716666666667,
+    "lng": -73.483333333333,
+    "pop": 6495
+  },
+  {
+    "nameAr": "Bonnyville",
+    "nameEn": "Bonnyville",
+    "type": "city",
+    "lat": 54.2667,
+    "lng": -110.75,
+    "pop": 6404
+  },
+  {
+    "nameAr": "ملفورت",
+    "nameEn": "Melfort",
+    "type": "city",
+    "lat": 52.856388888889,
+    "lng": -104.61,
+    "pop": 5955
+  },
+  {
+    "nameAr": "بيرث",
+    "nameEn": "Perth",
+    "type": "city",
+    "lat": 44.9,
+    "lng": -76.25,
+    "pop": 5930
+  },
+  {
+    "nameAr": "Petrolia",
+    "nameEn": "Petrolia",
+    "type": "city",
+    "lat": 42.886111111111,
+    "lng": -82.144166666667,
+    "pop": 5742
+  },
+  {
+    "nameAr": "سميذرز، كولومبيا البريطانية",
+    "nameEn": "Smithers",
+    "type": "city",
+    "lat": 54.7819,
+    "lng": -127.168,
+    "pop": 5401
+  },
+  {
+    "nameAr": "ذا باس",
+    "nameEn": "The Pas",
+    "type": "city",
+    "lat": 53.825,
+    "lng": -101.253,
+    "pop": 5369
+  },
+  {
+    "nameAr": "ميدو لايك",
+    "nameEn": "Meadow Lake",
+    "type": "city",
+    "lat": 54.124166666667,
+    "lng": -108.43583333333,
+    "pop": 5344
+  },
+  {
+    "nameAr": "Westlock",
+    "nameEn": "Westlock",
+    "type": "city",
+    "lat": 54.152222,
+    "lng": -113.851111,
+    "pop": 5101
+  },
+  {
+    "nameAr": "فلين فلون",
+    "nameEn": "Flin Flon",
+    "type": "city",
+    "lat": 54.768055555556,
+    "lng": -101.86416666667,
+    "pop": 5099
+  },
+  {
+    "nameAr": "Oliver",
+    "nameEn": "Oliver",
+    "type": "city",
+    "lat": 49.1828,
+    "lng": -119.551,
+    "pop": 5094
+  },
+  {
+    "nameAr": "بيلي هيل",
+    "nameEn": "Bible Hill",
+    "type": "city",
+    "lat": 45.3756,
+    "lng": -63.2603,
+    "pop": 5076
+  },
+  {
+    "nameAr": "هيرست",
+    "nameEn": "Hearst",
+    "type": "city",
+    "lat": 49.686944444444,
+    "lng": -83.654444444444,
+    "pop": 5070
+  },
+  {
+    "nameAr": "Carstairs",
+    "nameEn": "Carstairs",
+    "type": "city",
+    "lat": 51.5619,
+    "lng": -114.095,
+    "pop": 4898
+  },
+  {
+    "nameAr": "Barrhead",
+    "nameEn": "Barrhead",
+    "type": "city",
+    "lat": 54.116667,
+    "lng": -114.4,
+    "pop": 4579
+  },
+  {
+    "nameAr": "كيندرسلاي",
+    "nameEn": "Kindersley",
+    "type": "city",
+    "lat": 51.467777777778,
+    "lng": -109.15666666667,
+    "pop": 4571
+  },
+  {
+    "nameAr": "Iroquois Falls",
+    "nameEn": "Iroquois Falls",
+    "type": "city",
+    "lat": 48.766388888889,
+    "lng": -80.681388888889,
+    "pop": 4537
+  },
+  {
+    "nameAr": "Stonewall",
+    "nameEn": "Stonewall",
+    "type": "city",
+    "lat": 50.134444444444,
+    "lng": -97.326111111111,
+    "pop": 4536
+  },
+  {
+    "nameAr": "ميلفيل",
+    "nameEn": "Melville",
+    "type": "city",
+    "lat": 50.9306,
+    "lng": -102.808,
+    "pop": 4493
+  },
+  {
+    "nameAr": "البحيرة الحمراء",
+    "nameEn": "Red Lake",
+    "type": "city",
+    "lat": 51.01676,
+    "lng": -93.83374,
+    "pop": 4094
+  },
+  {
+    "nameAr": "Niverville",
+    "nameEn": "Niverville",
+    "type": "city",
+    "lat": 49.6056,
+    "lng": -97.0417,
+    "pop": 4083
+  },
+  {
+    "nameAr": "Swan River",
+    "nameEn": "Swan River",
+    "type": "city",
+    "lat": 52.1058,
+    "lng": -101.267,
+    "pop": 4049
+  },
+  {
+    "nameAr": "أوكا",
+    "nameEn": "Oka",
+    "type": "city",
+    "lat": 45.466666666667,
+    "lng": -74.083333333333,
+    "pop": 3968
+  },
+  {
+    "nameAr": "Cumberland",
+    "nameEn": "Cumberland",
+    "type": "city",
+    "lat": 49.618333333333,
+    "lng": -125.03222222222,
+    "pop": 3753
+  },
+  {
+    "nameAr": "كامبرلاند",
+    "nameEn": "Cumberland",
+    "type": "city",
+    "lat": 49.6206,
+    "lng": -125.026,
+    "pop": 3753
+  },
+  {
+    "nameAr": "Crossfield",
+    "nameEn": "Crossfield",
+    "type": "city",
+    "lat": 51.431111111111,
+    "lng": -114.02611111111,
+    "pop": 3599
+  },
+  {
+    "nameAr": "نهر هاي",
+    "nameEn": "Hay River",
+    "type": "city",
+    "lat": 60.8331,
+    "lng": -115.778,
+    "pop": 3528
+  },
+  {
+    "nameAr": "Penhold",
+    "nameEn": "Penhold",
+    "type": "city",
+    "lat": 52.1333,
+    "lng": -113.867,
+    "pop": 3484
+  },
+  {
+    "nameAr": "Blind River",
+    "nameEn": "Blind River",
+    "type": "city",
+    "lat": 46.302222222222,
+    "lng": -82.878055555556,
+    "pop": 3472
+  },
+  {
+    "nameAr": "حصن نلسون، كولومبيا البريطانية",
+    "nameEn": "Fort Nelson",
+    "type": "city",
+    "lat": 58.8059,
+    "lng": -122.696,
+    "pop": 3366
+  },
+  {
+    "nameAr": "Virden",
+    "nameEn": "Virden",
+    "type": "city",
+    "lat": 49.8508,
+    "lng": -100.932,
+    "pop": 3322
+  },
+  {
+    "nameAr": "Lake Cowichan",
+    "nameEn": "Lake Cowichan",
+    "type": "city",
+    "lat": 48.8258,
+    "lng": -124.054,
+    "pop": 3226
+  },
+  {
+    "nameAr": "Gibbons",
+    "nameEn": "Gibbons",
+    "type": "city",
+    "lat": 53.8278,
+    "lng": -113.323,
+    "pop": 3218
+  },
+  {
+    "nameAr": "Three Hills",
+    "nameEn": "Three Hills",
+    "type": "city",
+    "lat": 51.7072,
+    "lng": -113.264,
+    "pop": 3212
+  },
+  {
+    "nameAr": "كابانو",
+    "nameEn": "Cabano",
+    "type": "city",
+    "lat": 47.683333333333,
+    "lng": -68.883333333333,
+    "pop": 3166
+  },
+  {
+    "nameAr": "كاب سان إغناس",
+    "nameEn": "Cap-Saint-Ignace",
+    "type": "city",
+    "lat": 47.033333333333,
+    "lng": -70.466666666667,
+    "pop": 3156
+  },
+  {
+    "nameAr": "إنوفيك",
+    "nameEn": "Inuvik",
+    "type": "city",
+    "lat": 68.361666666667,
+    "lng": -133.73055555556,
+    "pop": 3137
+  },
+  {
+    "nameAr": "بيرسي",
+    "nameEn": "Percé",
+    "type": "city",
+    "lat": 48.533333333333,
+    "lng": -64.216666666667,
+    "pop": 3126
+  },
+  {
+    "nameAr": "Chéticamp",
+    "nameEn": "Chéticamp",
+    "type": "city",
+    "lat": 46.637886111111,
+    "lng": -61.009138888889,
+    "pop": 3040
+  },
+  {
+    "nameAr": "نورماندين",
+    "nameEn": "Normandin",
+    "type": "city",
+    "lat": 48.833333333333,
+    "lng": -72.533333333333,
+    "pop": 3027
+  },
+  {
+    "nameAr": "فيرفيو",
+    "nameEn": "Fairview",
+    "type": "city",
+    "lat": 56.0717,
+    "lng": -118.393,
+    "pop": 2998
+  },
+  {
+    "nameAr": "Tisdale",
+    "nameEn": "Tisdale",
+    "type": "city",
+    "lat": 52.85,
+    "lng": -104.05,
+    "pop": 2962
+  },
+  {
+    "nameAr": "Saint-Bruno",
+    "nameEn": "Saint-Bruno",
+    "type": "city",
+    "lat": 48.466666666667,
+    "lng": -71.65,
+    "pop": 2902
+  },
+  {
+    "nameAr": "Coalhurst",
+    "nameEn": "Coalhurst",
+    "type": "city",
+    "lat": 49.7457,
+    "lng": -112.932,
+    "pop": 2869
+  },
+  {
+    "nameAr": "لابيل",
+    "nameEn": "Labelle",
+    "type": "city",
+    "lat": 46.283333333333,
+    "lng": -74.733333333333,
+    "pop": 2845
+  },
+  {
+    "nameAr": "Saint-Prime",
+    "nameEn": "Saint-Prime",
+    "type": "city",
+    "lat": 48.583333333333,
+    "lng": -72.333333333333,
+    "pop": 2814
+  },
+  {
+    "nameAr": "Beausejour",
+    "nameEn": "Beausejour",
+    "type": "city",
+    "lat": 50.0622,
+    "lng": -96.5161,
+    "pop": 2800
+  },
+  {
+    "nameAr": "Saint-Gabriel-de-Brandon",
+    "nameEn": "Saint-Gabriel-de-Brandon",
+    "type": "city",
+    "lat": 46.266666666667,
+    "lng": -73.383333333333,
+    "pop": 2736
+  },
+  {
+    "nameAr": "Black Diamond",
+    "nameEn": "Black Diamond",
+    "type": "city",
+    "lat": 50.688055555556,
+    "lng": -114.23333333333,
+    "pop": 2730
+  },
+  {
+    "nameAr": "Grimshaw",
+    "nameEn": "Grimshaw",
+    "type": "city",
+    "lat": 56.1908,
+    "lng": -117.612,
+    "pop": 2718
+  },
+  {
+    "nameAr": "لا رونج",
+    "nameEn": "La Ronge",
+    "type": "city",
+    "lat": 55.117777777778,
+    "lng": -105.29055555556,
+    "pop": 2688
+  },
+  {
+    "nameAr": "لا برزنتيشين",
+    "nameEn": "La Présentation",
+    "type": "city",
+    "lat": 45.666666666667,
+    "lng": -73.05,
+    "pop": 2684
+  },
+  {
+    "nameAr": "French River",
+    "nameEn": "French River",
+    "type": "city",
+    "lat": 46.142222222222,
+    "lng": -80.481388888889,
+    "pop": 2662
+  },
+  {
+    "nameAr": "Pilot Butte",
+    "nameEn": "Pilot Butte",
+    "type": "city",
+    "lat": 50.476944444444,
+    "lng": -104.41722222222,
+    "pop": 2638
+  },
+  {
+    "nameAr": "Turner Valley",
+    "nameEn": "Turner Valley",
+    "type": "city",
+    "lat": 50.6739,
+    "lng": -114.279,
+    "pop": 2611
+  },
+  {
+    "nameAr": "Rimbey",
+    "nameEn": "Rimbey",
+    "type": "city",
+    "lat": 52.639166666667,
+    "lng": -114.23666666667,
+    "pop": 2567
+  },
+  {
+    "nameAr": "High Prairie",
+    "nameEn": "High Prairie",
+    "type": "city",
+    "lat": 55.4325,
+    "lng": -116.48611111111,
+    "pop": 2564
+  },
+  {
+    "nameAr": "Cap-aux-Meules",
+    "nameEn": "Cap-aux-Meules",
+    "type": "city",
+    "lat": 47.35,
+    "lng": -61.907777777778,
+    "pop": 2516
+  },
+  {
+    "nameAr": "Minnedosa",
+    "nameEn": "Minnedosa",
+    "type": "city",
+    "lat": 50.2453,
+    "lng": -99.8428,
+    "pop": 2449
+  },
+  {
+    "nameAr": "Saint-Alexandre-de-Kamouraska",
+    "nameEn": "Saint-Alexandre-de-Kamouraska",
+    "type": "city",
+    "lat": 47.681666666667,
+    "lng": -69.625,
+    "pop": 2367
+  },
+  {
+    "nameAr": "جيملي",
+    "nameEn": "Gimli",
+    "type": "city",
+    "lat": 50.6323125,
+    "lng": -96.9881076,
+    "pop": 2345
+  },
+  {
+    "nameAr": "Arthur",
+    "nameEn": "Arthur",
+    "type": "city",
+    "lat": 43.8328,
+    "lng": -80.5378,
+    "pop": 2333
+  },
+  {
+    "nameAr": "Rosetown",
+    "nameEn": "Rosetown",
+    "type": "city",
+    "lat": 51.554722222222,
+    "lng": -107.99027777778,
+    "pop": 2317
+  },
+  {
+    "nameAr": "حصن سميث",
+    "nameEn": "Fort Smith",
+    "type": "city",
+    "lat": 60.0053,
+    "lng": -111.891,
+    "pop": 2248
+  },
+  {
+    "nameAr": "Redwater",
+    "nameEn": "Redwater",
+    "type": "city",
+    "lat": 53.9489,
+    "lng": -113.107,
+    "pop": 2115
+  },
+  {
+    "nameAr": "بوينت إدوارد",
+    "nameEn": "Point Edward",
+    "type": "city",
+    "lat": 42.9931,
+    "lng": -82.4083,
+    "pop": 2034
+  },
+  {
+    "nameAr": "Mattawa",
+    "nameEn": "Mattawa",
+    "type": "city",
+    "lat": 46.316666666667,
+    "lng": -78.7,
+    "pop": 2023
+  },
+  {
+    "nameAr": "Fox Creek",
+    "nameEn": "Fox Creek",
+    "type": "city",
+    "lat": 54.395,
+    "lng": -116.809,
+    "pop": 1971
+  },
+  {
+    "nameAr": "Picture Butte",
+    "nameEn": "Picture Butte",
+    "type": "city",
+    "lat": 49.8731,
+    "lng": -112.78,
+    "pop": 1930
+  },
+  {
+    "nameAr": "Indian Head",
+    "nameEn": "Indian Head",
+    "type": "city",
+    "lat": 50.5333,
+    "lng": -103.667,
+    "pop": 1910
+  },
+  {
+    "nameAr": "White City",
+    "nameEn": "White City",
+    "type": "city",
+    "lat": 50.435277777778,
+    "lng": -104.35722222222,
+    "pop": 1894
+  },
+  {
+    "nameAr": "Morris",
+    "nameEn": "Morris",
+    "type": "city",
+    "lat": 49.355,
+    "lng": -97.365,
+    "pop": 1885
+  },
+  {
+    "nameAr": "فاليفيو",
+    "nameEn": "Valleyview",
+    "type": "city",
+    "lat": 55.0686,
+    "lng": -117.268,
+    "pop": 1863
+  },
+  {
+    "nameAr": "سان باكوم",
+    "nameEn": "Saint-Pacôme",
+    "type": "city",
+    "lat": 47.4,
+    "lng": -69.95,
+    "pop": 1806
+  },
+  {
+    "nameAr": "ليس إيسكومينس",
+    "nameEn": "Les Escoumins",
+    "type": "city",
+    "lat": 48.35,
+    "lng": -69.4,
+    "pop": 1800
+  },
+  {
+    "nameAr": "دادسويل",
+    "nameEn": "Dudswell",
+    "type": "city",
+    "lat": 45.5833,
+    "lng": -71.5833,
+    "pop": 1777
+  },
+  {
+    "nameAr": "Wynyard",
+    "nameEn": "Wynyard",
+    "type": "city",
+    "lat": 51.7667,
+    "lng": -104.183,
+    "pop": 1767
+  },
+  {
+    "nameAr": "Shaunavon",
+    "nameEn": "Shaunavon",
+    "type": "city",
+    "lat": 49.650277777778,
+    "lng": -108.41611111111,
+    "pop": 1756
+  },
+  {
+    "nameAr": "لاك كونسبتشن",
+    "nameEn": "La Conception",
+    "type": "city",
+    "lat": 46.15,
+    "lng": -74.7,
+    "pop": 1612
+  },
+  {
+    "nameAr": "La Salle",
+    "nameEn": "La Salle",
+    "type": "city",
+    "lat": 49.6931,
+    "lng": -97.2639,
+    "pop": 1589
+  },
+  {
+    "nameAr": "داوسون",
+    "nameEn": "Dawson City",
+    "type": "city",
+    "lat": 64.066666666667,
+    "lng": -139.42916666667,
+    "pop": 1577
+  },
+  {
+    "nameAr": "أشكروفت",
+    "nameEn": "Ashcroft",
+    "type": "city",
+    "lat": 50.7256,
+    "lng": -121.281,
+    "pop": 1558
+  },
+  {
+    "nameAr": "Blairmore",
+    "nameEn": "Blairmore",
+    "type": "city",
+    "lat": 49.608055555556,
+    "lng": -114.43888888889,
+    "pop": 1545
+  },
+  {
+    "nameAr": "Bon Accord",
+    "nameEn": "Bon Accord",
+    "type": "city",
+    "lat": 53.832777777778,
+    "lng": -113.41888888889,
+    "pop": 1529
+  },
+  {
+    "nameAr": "Wembley",
+    "nameEn": "Wembley",
+    "type": "city",
+    "lat": 55.1572,
+    "lng": -119.139,
+    "pop": 1516
+  },
+  {
+    "nameAr": "موسوني",
+    "nameEn": "Moosonee",
+    "type": "city",
+    "lat": 51.272222222222,
+    "lng": -80.643055555556,
+    "pop": 1481
+  },
+  {
+    "nameAr": "Coleman",
+    "nameEn": "Coleman",
+    "type": "city",
+    "lat": 49.6353,
+    "lng": -114.503,
+    "pop": 1475
+  },
+  {
+    "nameAr": "Elk Point",
+    "nameEn": "Elk Point",
+    "type": "city",
+    "lat": 53.8967,
+    "lng": -110.897,
+    "pop": 1452
+  },
+  {
+    "nameAr": "Saint-Odilon-de-Cranbourne",
+    "nameEn": "Saint-Odilon-de-Cranbourne",
+    "type": "city",
+    "lat": 46.35663,
+    "lng": -70.67735,
+    "pop": 1436
+  },
+  {
+    "nameAr": "Two Hills",
+    "nameEn": "Two Hills",
+    "type": "city",
+    "lat": 53.715,
+    "lng": -111.746,
+    "pop": 1416
+  },
+  {
+    "nameAr": "لأنفير",
+    "nameEn": "L'Avenir",
+    "type": "city",
+    "lat": 45.7667,
+    "lng": -72.3,
+    "pop": 1405
+  },
+  {
+    "nameAr": "Hudson Bay",
+    "nameEn": "Hudson Bay",
+    "type": "city",
+    "lat": 52.842777777778,
+    "lng": -102.37555555556,
+    "pop": 1403
+  },
+  {
+    "nameAr": "Macklin",
+    "nameEn": "Macklin",
+    "type": "city",
+    "lat": 52.336111111111,
+    "lng": -109.93888888889,
+    "pop": 1374
+  },
+  {
+    "nameAr": "فادريول",
+    "nameEn": "Vaudreuil-sur-le-Lac",
+    "type": "city",
+    "lat": 45.4,
+    "lng": -74.0333,
+    "pop": 1363
+  },
+  {
+    "nameAr": "Smooth Rock Falls",
+    "nameEn": "Smooth Rock Falls",
+    "type": "city",
+    "lat": 49.278055555556,
+    "lng": -81.626388888889,
+    "pop": 1330
+  },
+  {
+    "nameAr": "Swan Hills",
+    "nameEn": "Swan Hills",
+    "type": "city",
+    "lat": 54.7106,
+    "lng": -115.413,
+    "pop": 1301
+  },
+  {
+    "nameAr": "ثيسالون",
+    "nameEn": "Thessalon",
+    "type": "city",
+    "lat": 46.25,
+    "lng": -83.55,
+    "pop": 1286
+  },
+  {
+    "nameAr": "Vauxhall",
+    "nameEn": "Vauxhall",
+    "type": "city",
+    "lat": 50.0689,
+    "lng": -112.098,
+    "pop": 1286
+  },
+  {
+    "nameAr": "Bowden",
+    "nameEn": "Bowden",
+    "type": "city",
+    "lat": 51.9306,
+    "lng": -114.026,
+    "pop": 1280
+  },
+  {
+    "nameAr": "Legal",
+    "nameEn": "Legal",
+    "type": "city",
+    "lat": 53.949166666667,
+    "lng": -113.595,
+    "pop": 1232
+  },
+  {
+    "nameAr": "إيبيرفيل ستاسيون",
+    "nameEn": "Hébertville-Station",
+    "type": "city",
+    "lat": 48.733333333333,
+    "lng": -71.666666666667,
+    "pop": 1229
+  },
+  {
+    "nameAr": "Irricana",
+    "nameEn": "Irricana",
+    "type": "city",
+    "lat": 51.3189,
+    "lng": -113.611,
+    "pop": 1216
+  },
+  {
+    "nameAr": "Teulon",
+    "nameEn": "Teulon",
+    "type": "city",
+    "lat": 50.3858,
+    "lng": -97.2611,
+    "pop": 1201
+  },
+  {
+    "nameAr": "لاك بوشيت",
+    "nameEn": "Lac-Bouchette",
+    "type": "city",
+    "lat": 48.25,
+    "lng": -72.183333333333,
+    "pop": 1185
+  },
+  {
+    "nameAr": "Maidstone",
+    "nameEn": "Maidstone",
+    "type": "city",
+    "lat": 53.086111111111,
+    "lng": -109.29638888889,
+    "pop": 1185
+  },
+  {
+    "nameAr": "Saint-Siméon",
+    "nameEn": "Saint-Siméon",
+    "type": "city",
+    "lat": 47.833333333333,
+    "lng": -69.883333333333,
+    "pop": 1157
+  },
+  {
+    "nameAr": "بريستول",
+    "nameEn": "Bristol",
+    "type": "city",
+    "lat": 45.5311,
+    "lng": -76.4579,
+    "pop": 1133
+  },
+  {
+    "nameAr": "Eckville",
+    "nameEn": "Eckville",
+    "type": "city",
+    "lat": 52.3622,
+    "lng": -114.361,
+    "pop": 1125
+  },
+  {
+    "nameAr": "محافظة كوبالت",
+    "nameEn": "Cobalt",
+    "type": "city",
+    "lat": 47.4,
+    "lng": -79.683333333333,
+    "pop": 1118
+  },
+  {
+    "nameAr": "ساوت ريفر",
+    "nameEn": "South River",
+    "type": "city",
+    "lat": 45.8417,
+    "lng": -79.375,
+    "pop": 1114
+  },
+  {
+    "nameAr": "ساينت جيني دي أرك ساغوناي لاك ساينت جين",
+    "nameEn": "Sainte-Jeanne-d'Arc",
+    "type": "city",
+    "lat": 48.8575,
+    "lng": -72.093888888889,
+    "pop": 1108
+  },
+  {
+    "nameAr": "Osler",
+    "nameEn": "Osler",
+    "type": "city",
+    "lat": 52.37,
+    "lng": -106.54,
+    "pop": 1088
+  },
+  {
+    "nameAr": "داتشس",
+    "nameEn": "Duchess",
+    "type": "city",
+    "lat": 50.7333,
+    "lng": -111.9,
+    "pop": 1085
+  },
+  {
+    "nameAr": "لاك دروليت",
+    "nameEn": "Lac-Drolet",
+    "type": "city",
+    "lat": 45.716666666667,
+    "lng": -70.85,
+    "pop": 1080
+  },
+  {
+    "nameAr": "Saint-Cyprien",
+    "nameEn": "Saint-Cyprien",
+    "type": "city",
+    "lat": 47.9,
+    "lng": -69.016666666667,
+    "pop": 1078
+  },
+  {
+    "nameAr": "Les Écureuils",
+    "nameEn": "Les Écureuils",
+    "type": "city",
+    "lat": 46.670833333333,
+    "lng": -71.704444444444,
+    "pop": 1067
+  },
+  {
+    "nameAr": "Kipling",
+    "nameEn": "Kipling",
+    "type": "city",
+    "lat": 50.1015,
+    "lng": -102.632,
+    "pop": 1051
+  },
+  {
+    "nameAr": "Rivière-au-Renard",
+    "nameEn": "Rivière-au-Renard",
+    "type": "city",
+    "lat": 48.9917,
+    "lng": -64.3833,
+    "pop": 1045
+  },
+  {
+    "nameAr": "Saint-Félix-de-Dalquier",
+    "nameEn": "Saint-Félix-de-Dalquier",
+    "type": "city",
+    "lat": 48.6833,
+    "lng": -78.1167,
+    "pop": 1026
+  },
+  {
+    "nameAr": "فالمونت",
+    "nameEn": "Valemount",
+    "type": "city",
+    "lat": 52.831111111111,
+    "lng": -119.27611111111,
+    "pop": 1021
+  },
+  {
+    "nameAr": "ألبرتا بيتش",
+    "nameEn": "Alberta Beach",
+    "type": "city",
+    "lat": 53.6767,
+    "lng": -114.35,
+    "pop": 1018
+  },
+  {
+    "nameAr": "بريبوف",
+    "nameEn": "Brébeuf",
+    "type": "city",
+    "lat": 46.066666666667,
+    "lng": -74.666666666667,
+    "pop": 1009
+  },
+  {
+    "nameAr": "Oyen",
+    "nameEn": "Oyen",
+    "type": "city",
+    "lat": 51.3522,
+    "lng": -110.474,
+    "pop": 1001
+  },
+  {
+    "nameAr": "Spirit River",
+    "nameEn": "Spirit River",
+    "type": "city",
+    "lat": 55.7819,
+    "lng": -118.834,
+    "pop": 995
+  },
+  {
+    "nameAr": "كيلام، ألبرتا",
+    "nameEn": "Killam",
+    "type": "city",
+    "lat": 52.7892,
+    "lng": -111.854,
+    "pop": 989
+  },
+  {
+    "nameAr": "بارنويل",
+    "nameEn": "Barnwell",
+    "type": "city",
+    "lat": 49.7603,
+    "lng": -112.262,
+    "pop": 978
+  },
+  {
+    "nameAr": "ديلبورن",
+    "nameEn": "Delburne",
+    "type": "city",
+    "lat": 52.2009,
+    "lng": -113.234,
+    "pop": 919
+  },
+  {
+    "nameAr": "آم نور",
+    "nameEn": "Ham-Nord",
+    "type": "city",
+    "lat": 45.9,
+    "lng": -71.65,
+    "pop": 903
+  },
+  {
+    "nameAr": "تشيسترفيل",
+    "nameEn": "Chesterville",
+    "type": "city",
+    "lat": 45.9667,
+    "lng": -71.8167,
+    "pop": 901
+  },
+  {
+    "nameAr": "Snow Lake",
+    "nameEn": "Snow Lake",
+    "type": "city",
+    "lat": 54.8814,
+    "lng": -100.023,
+    "pop": 899
+  },
+  {
+    "nameAr": "Taschereau",
+    "nameEn": "Taschereau",
+    "type": "city",
+    "lat": 48.666666666667,
+    "lng": -78.683333333333,
+    "pop": 898
+  },
+  {
+    "nameAr": "Rocanville",
+    "nameEn": "Rocanville",
+    "type": "city",
+    "lat": 50.385,
+    "lng": -101.692,
+    "pop": 889
+  },
+  {
+    "nameAr": "هوويك",
+    "nameEn": "Howick",
+    "type": "city",
+    "lat": 45.186388888889,
+    "lng": -73.849166666667,
+    "pop": 884
+  },
+  {
+    "nameAr": "Kearney",
+    "nameEn": "Kearney",
+    "type": "city",
+    "lat": 45.6,
+    "lng": -79.1167,
+    "pop": 882
+  },
+  {
+    "nameAr": "تشرشل",
+    "nameEn": "Churchill",
+    "type": "city",
+    "lat": 58.7692,
+    "lng": -94.1692,
+    "pop": 870
+  },
+  {
+    "nameAr": "هايتي",
+    "nameEn": "Hythe",
+    "type": "city",
+    "lat": 55.3308,
+    "lng": -119.556,
+    "pop": 854
+  },
+  {
+    "nameAr": "بويلي",
+    "nameEn": "Boyle",
+    "type": "city",
+    "lat": 54.5874,
+    "lng": -112.803,
+    "pop": 845
+  },
+  {
+    "nameAr": "ليندن",
+    "nameEn": "Linden",
+    "type": "city",
+    "lat": 51.5906,
+    "lng": -113.483,
+    "pop": 828
+  },
+  {
+    "nameAr": "Milk River",
+    "nameEn": "Milk River",
+    "type": "city",
+    "lat": 49.148889,
+    "lng": -112.087222,
+    "pop": 824
+  },
+  {
+    "nameAr": "بيسيكر",
+    "nameEn": "Beiseker",
+    "type": "city",
+    "lat": 51.387,
+    "lng": -113.533,
+    "pop": 819
+  },
+  {
+    "nameAr": "بيديك",
+    "nameEn": "Baddeck",
+    "type": "city",
+    "lat": 46.1,
+    "lng": -60.7542,
+    "pop": 818
+  },
+  {
+    "nameAr": "لاباتري",
+    "nameEn": "La Patrie",
+    "type": "city",
+    "lat": 45.4,
+    "lng": -71.25,
+    "pop": 808
+  },
+  {
+    "nameAr": "Sawyerville",
+    "nameEn": "Sawyerville",
+    "type": "city",
+    "lat": 45.3375,
+    "lng": -71.565277777778,
+    "pop": 802
+  },
+  {
+    "nameAr": "Rainbow Lake",
+    "nameEn": "Rainbow Lake",
+    "type": "city",
+    "lat": 58.5,
+    "lng": -119.383,
+    "pop": 795
+  },
+  {
+    "nameAr": "Sainte-Gertrude-Manneville",
+    "nameEn": "Sainte-Gertrude-Manneville",
+    "type": "city",
+    "lat": 48.533333333333,
+    "lng": -78.366666666667,
+    "pop": 793
+  },
+  {
+    "nameAr": "كليف",
+    "nameEn": "Clive",
+    "type": "city",
+    "lat": 52.4833,
+    "lng": -113.45,
+    "pop": 775
+  },
+  {
+    "nameAr": "أليكس",
+    "nameEn": "Alix",
+    "type": "city",
+    "lat": 52.4,
+    "lng": -113.183,
+    "pop": 774
+  },
+  {
+    "nameAr": "Gilbert Plains",
+    "nameEn": "Gilbert Plains",
+    "type": "city",
+    "lat": 51.149722222222,
+    "lng": -100.48777777778,
+    "pop": 773
+  },
+  {
+    "nameAr": "Saint-Honoré-de-Témiscouata",
+    "nameEn": "Saint-Honoré-de-Témiscouata",
+    "type": "city",
+    "lat": 47.7,
+    "lng": -69.133333333333,
+    "pop": 763
+  },
+  {
+    "nameAr": "Sainte-Rose-de-Watford",
+    "nameEn": "Sainte-Rose-de-Watford",
+    "type": "city",
+    "lat": 46.3167,
+    "lng": -70.4167,
+    "pop": 756
+  },
+  {
+    "nameAr": "كونسورت",
+    "nameEn": "Consort",
+    "type": "city",
+    "lat": 52.0167,
+    "lng": -110.767,
+    "pop": 729
+  },
+  {
+    "nameAr": "Spanish",
+    "nameEn": "Spanish",
+    "type": "city",
+    "lat": 46.1833,
+    "lng": -82.3333,
+    "pop": 712
+  },
+  {
+    "nameAr": "كامبلز بيه",
+    "nameEn": "Campbell's Bay",
+    "type": "city",
+    "lat": 45.7333,
+    "lng": -76.6,
+    "pop": 706
+  },
+  {
+    "nameAr": "Saint-Théophile",
+    "nameEn": "Saint-Théophile",
+    "type": "city",
+    "lat": 45.9333,
+    "lng": -70.4833,
+    "pop": 702
+  },
+  {
+    "nameAr": "Saint-Sébastien",
+    "nameEn": "Saint-Sébastien",
+    "type": "city",
+    "lat": 45.783333333333,
+    "lng": -70.966666666667,
+    "pop": 692
+  },
+  {
+    "nameAr": "كانال فلاتس",
+    "nameEn": "Canal Flats",
+    "type": "city",
+    "lat": 50.15,
+    "lng": -115.833,
+    "pop": 668
+  },
+  {
+    "nameAr": "بورت أليس",
+    "nameEn": "Port Alice",
+    "type": "city",
+    "lat": 50.42641837,
+    "lng": -127.48845756,
+    "pop": 664
+  },
+  {
+    "nameAr": "أكمي",
+    "nameEn": "Acme",
+    "type": "city",
+    "lat": 51.4997,
+    "lng": -113.498,
+    "pop": 653
+  },
+  {
+    "nameAr": "برايسون",
+    "nameEn": "Bryson",
+    "type": "city",
+    "lat": 45.6775,
+    "lng": -76.6236,
+    "pop": 652
+  },
+  {
+    "nameAr": "Saint-François-de-Sales",
+    "nameEn": "Saint-François-de-Sales",
+    "type": "city",
+    "lat": 48.316666666667,
+    "lng": -72.133333333333,
+    "pop": 643
+  },
+  {
+    "nameAr": "كلوريدورم",
+    "nameEn": "Cloridorme",
+    "type": "city",
+    "lat": 49.1833,
+    "lng": -64.8333,
+    "pop": 624
+  },
+  {
+    "nameAr": "كاموراسكا",
+    "nameEn": "Kamouraska",
+    "type": "city",
+    "lat": 47.566666666667,
+    "lng": -69.866666666667,
+    "pop": 620
+  },
+  {
+    "nameAr": "Val-Barrette",
+    "nameEn": "Val-Barrette",
+    "type": "city",
+    "lat": 46.508333,
+    "lng": -75.355556,
+    "pop": 619
+  },
+  {
+    "nameAr": "Midale",
+    "nameEn": "Midale",
+    "type": "city",
+    "lat": 49.3959,
+    "lng": -103.4111,
+    "pop": 604
+  },
+  {
+    "nameAr": "Bruce Mines",
+    "nameEn": "Bruce Mines",
+    "type": "city",
+    "lat": 46.2833,
+    "lng": -83.7833,
+    "pop": 582
+  },
+  {
+    "nameAr": "Vianney",
+    "nameEn": "Vianney",
+    "type": "city",
+    "lat": 46.065277777778,
+    "lng": -71.626388888889,
+    "pop": 563
+  },
+  {
+    "nameAr": "Hardisty",
+    "nameEn": "Hardisty",
+    "type": "city",
+    "lat": 52.6751,
+    "lng": -111.303,
+    "pop": 554
+  },
+  {
+    "nameAr": "Stavely",
+    "nameEn": "Stavely",
+    "type": "city",
+    "lat": 50.165,
+    "lng": -113.646,
+    "pop": 544
+  },
+  {
+    "nameAr": "Saint-Bernard-sur-Mer",
+    "nameEn": "Saint-Bernard-sur-Mer",
+    "type": "city",
+    "lat": 47.416666666667,
+    "lng": -70.383333333333,
+    "pop": 541
+  },
+  {
+    "nameAr": "Gretna",
+    "nameEn": "Gretna",
+    "type": "city",
+    "lat": 49.007777777778,
+    "lng": -97.561666666667,
+    "pop": 541
+  },
+  {
+    "nameAr": "Saint-Bruno-de-Kamouraska",
+    "nameEn": "Saint-Bruno-de-Kamouraska",
+    "type": "city",
+    "lat": 47.45,
+    "lng": -69.75,
+    "pop": 523
+  },
+  {
+    "nameAr": "إيرما",
+    "nameEn": "Irma",
+    "type": "city",
+    "lat": 52.9122,
+    "lng": -111.234,
+    "pop": 521
+  },
+  {
+    "nameAr": "Calumet",
+    "nameEn": "Calumet",
+    "type": "city",
+    "lat": 45.651388888889,
+    "lng": -74.636111111111,
+    "pop": 521
+  },
+  {
+    "nameAr": "كارولينا",
+    "nameEn": "Caroline",
+    "type": "city",
+    "lat": 52.0934,
+    "lng": -114.74,
+    "pop": 512
+  },
+  {
+    "nameAr": "Radisson",
+    "nameEn": "Radisson",
+    "type": "city",
+    "lat": 52.463,
+    "lng": -107.389,
+    "pop": 505
+  },
+  {
+    "nameAr": "Adamsville",
+    "nameEn": "Adamsville",
+    "type": "city",
+    "lat": 45.28,
+    "lng": -72.78,
+    "pop": 495
+  },
+  {
+    "nameAr": "غليندون",
+    "nameEn": "Glendon",
+    "type": "city",
+    "lat": 54.2483,
+    "lng": -111.154,
+    "pop": 493
+  },
+  {
+    "nameAr": "ليس هاتورس",
+    "nameEn": "Les Hauteurs",
+    "type": "city",
+    "lat": 48.3833,
+    "lng": -68.1167,
+    "pop": 485
+  },
+  {
+    "nameAr": "Bishopton",
+    "nameEn": "Bishopton",
+    "type": "city",
+    "lat": 45.580277777778,
+    "lng": -71.571388888889,
+    "pop": 450
+  },
+  {
+    "nameAr": "نيوبوري",
+    "nameEn": "Newbury",
+    "type": "city",
+    "lat": 42.6833,
+    "lng": -81.7972,
+    "pop": 447
+  },
+  {
+    "nameAr": "Saint-Vianney",
+    "nameEn": "Saint-Vianney",
+    "type": "city",
+    "lat": 48.633333333333,
+    "lng": -67.416666666667,
+    "pop": 446
+  },
+  {
+    "nameAr": "كريمونا",
+    "nameEn": "Cremona",
+    "type": "city",
+    "lat": 51.5447,
+    "lng": -114.492,
+    "pop": 444
+  },
+  {
+    "nameAr": "بيه ترينيتيه",
+    "nameEn": "Baie-Trinité",
+    "type": "city",
+    "lat": 49.4167,
+    "lng": -67.3,
+    "pop": 438
+  },
+  {
+    "nameAr": "كلايد",
+    "nameEn": "Clyde",
+    "type": "city",
+    "lat": 54.1519,
+    "lng": -113.639,
+    "pop": 430
+  },
+  {
+    "nameAr": "Granum",
+    "nameEn": "Granum",
+    "type": "city",
+    "lat": 49.8736,
+    "lng": -113.507,
+    "pop": 406
+  },
+  {
+    "nameAr": "تشيستر إست",
+    "nameEn": "Sainte-Hélène-de-Chester",
+    "type": "city",
+    "lat": 46.0333,
+    "lng": -71.7,
+    "pop": 400
+  },
+  {
+    "nameAr": "نامبا",
+    "nameEn": "Nampa",
+    "type": "city",
+    "lat": 56.0361,
+    "lng": -117.133,
+    "pop": 367
+  },
+  {
+    "nameAr": "بروم",
+    "nameEn": "Brome",
+    "type": "city",
+    "lat": 45.2,
+    "lng": -72.5667,
+    "pop": 355
+  },
+  {
+    "nameAr": "تشامبيون",
+    "nameEn": "Champion",
+    "type": "city",
+    "lat": 50.239722222222,
+    "lng": -113.14805555556,
+    "pop": 351
+  },
+  {
+    "nameAr": "Saint-Philippe-d'Argenteuil",
+    "nameEn": "Saint-Philippe-d'Argenteuil",
+    "type": "city",
+    "lat": 45.624444444444,
+    "lng": -74.426666666667,
+    "pop": 350
+  },
+  {
+    "nameAr": "دونليي",
+    "nameEn": "Donnelly",
+    "type": "city",
+    "lat": 55.7228,
+    "lng": -117.105,
+    "pop": 342
+  },
+  {
+    "nameAr": "Saint-Louis",
+    "nameEn": "Saint-Louis",
+    "type": "city",
+    "lat": 47.386111111111,
+    "lng": -70.409722222222,
+    "pop": 342
+  },
+  {
+    "nameAr": "مايرنام",
+    "nameEn": "Myrnam",
+    "type": "city",
+    "lat": 53.6611,
+    "lng": -111.231,
+    "pop": 339
+  },
+  {
+    "nameAr": "Chapeau",
+    "nameEn": "Chapeau",
+    "type": "city",
+    "lat": 45.913,
+    "lng": -77.075,
+    "pop": 325
+  },
+  {
+    "nameAr": "ايست هيريفورد",
+    "nameEn": "East Hereford",
+    "type": "city",
+    "lat": 45.076111111111,
+    "lng": -71.5025,
+    "pop": 306
+  },
+  {
+    "nameAr": "أنغلييه",
+    "nameEn": "Angliers",
+    "type": "city",
+    "lat": 47.548333333333,
+    "lng": -79.239444444444,
+    "pop": 303
+  },
+  {
+    "nameAr": "فرانكولان",
+    "nameEn": "Franquelin",
+    "type": "city",
+    "lat": 49.293333333333,
+    "lng": -67.891666666667,
+    "pop": 294
+  },
+  {
+    "nameAr": "أوتييه",
+    "nameEn": "Authier",
+    "type": "city",
+    "lat": 48.7333,
+    "lng": -78.85,
+    "pop": 293
+  },
+  {
+    "nameAr": "Philipsburg",
+    "nameEn": "Philipsburg",
+    "type": "city",
+    "lat": 45.041666666667,
+    "lng": -73.075,
+    "pop": 291
+  },
+  {
+    "nameAr": "روز فالي",
+    "nameEn": "Rose Valley",
+    "type": "city",
+    "lat": 52.2897,
+    "lng": -103.815,
+    "pop": 282
+  },
+  {
+    "nameAr": "Mutton Bay",
+    "nameEn": "Mutton Bay",
+    "type": "city",
+    "lat": 50.7736,
+    "lng": -59.03,
+    "pop": 280
+  },
+  {
+    "nameAr": "غيروكسفيل",
+    "nameEn": "Girouxville",
+    "type": "city",
+    "lat": 55.7539,
+    "lng": -117.339,
+    "pop": 278
+  },
+  {
+    "nameAr": "Andréville",
+    "nameEn": "Andréville",
+    "type": "city",
+    "lat": 47.6776,
+    "lng": -69.724295,
+    "pop": 269
+  },
+  {
+    "nameAr": "Carillon",
+    "nameEn": "Carillon",
+    "type": "city",
+    "lat": 45.569444444444,
+    "lng": -74.375,
+    "pop": 266
+  },
+  {
+    "nameAr": "St. Lazare",
+    "nameEn": "St. Lazare",
+    "type": "city",
+    "lat": 50.4489,
+    "lng": -101.304,
+    "pop": 257
+  },
+  {
+    "nameAr": "لايتون",
+    "nameEn": "Lytton",
+    "type": "city",
+    "lat": 50.225,
+    "lng": -121.57666666667,
+    "pop": 249
+  },
+  {
+    "nameAr": "Westport",
+    "nameEn": "Westport",
+    "type": "city",
+    "lat": 44.26515,
+    "lng": -66.35049,
+    "pop": 249
+  },
+  {
+    "nameAr": "Saint-Joseph-de-la-Rive",
+    "nameEn": "Saint-Joseph-de-la-Rive",
+    "type": "city",
+    "lat": 47.458333,
+    "lng": -70.368054,
+    "pop": 231
+  },
+  {
+    "nameAr": "Pointe-Brûlée",
+    "nameEn": "Pointe-Brûlée",
+    "type": "city",
+    "lat": 47.756175,
+    "lng": -64.731617,
+    "pop": 230
+  },
+  {
+    "nameAr": "Chevery",
+    "nameEn": "Chevery",
+    "type": "city",
+    "lat": 50.46861111,
+    "lng": -59.61611111,
+    "pop": 226
+  },
+  {
+    "nameAr": "لاناي",
+    "nameEn": "Launay",
+    "type": "city",
+    "lat": 48.65,
+    "lng": -78.5333,
+    "pop": 213
+  },
+  {
+    "nameAr": "Grand Rapids",
+    "nameEn": "Grand Rapids",
+    "type": "city",
+    "lat": 53.2083,
+    "lng": -99.3,
+    "pop": 213
+  },
+  {
+    "nameAr": "موفيت",
+    "nameEn": "Moffet",
+    "type": "city",
+    "lat": 47.55,
+    "lng": -78.95,
+    "pop": 210
+  },
+  {
+    "nameAr": "مونسون",
+    "nameEn": "Munson",
+    "type": "city",
+    "lat": 51.5631,
+    "lng": -112.742,
+    "pop": 192
+  },
+  {
+    "nameAr": "روزاليند",
+    "nameEn": "Rosalind",
+    "type": "city",
+    "lat": 52.7873,
+    "lng": -112.44,
+    "pop": 188
+  },
+  {
+    "nameAr": "Val-Paradis",
+    "nameEn": "Val-Paradis",
+    "type": "city",
+    "lat": 49.1667,
+    "lng": -79.2833,
+    "pop": 186
+  },
+  {
+    "nameAr": "Villebois",
+    "nameEn": "Villebois",
+    "type": "city",
+    "lat": 49.1,
+    "lng": -79.15,
+    "pop": 173
+  },
+  {
+    "nameAr": "هيلتون",
+    "nameEn": "Hilton Beach",
+    "type": "city",
+    "lat": 46.25,
+    "lng": -83.8833,
+    "pop": 171
+  },
+  {
+    "nameAr": "Guyenne",
+    "nameEn": "Guyenne",
+    "type": "city",
+    "lat": 48.778054,
+    "lng": -78.470277,
+    "pop": 161
+  },
+  {
+    "nameAr": "Beaucanton",
+    "nameEn": "Beaucanton",
+    "type": "city",
+    "lat": 49.0383,
+    "lng": -79.2389,
+    "pop": 153
+  },
+  {
+    "nameAr": "Lakefield",
+    "nameEn": "Lakefield",
+    "type": "city",
+    "lat": 45.751944444444,
+    "lng": -74.256388888889,
+    "pop": 150
+  },
+  {
+    "nameAr": "Saint Paul's River",
+    "nameEn": "Saint Paul's River",
+    "type": "city",
+    "lat": 51.470555555556,
+    "lng": -57.7125,
+    "pop": 147
+  },
+  {
+    "nameAr": "Axe Point",
+    "nameEn": "Axe Point",
+    "type": "city",
+    "lat": 61.2952782,
+    "lng": -118.6812459,
+    "pop": 147
+  },
+  {
+    "nameAr": "Rochebaucourt",
+    "nameEn": "Rochebaucourt",
+    "type": "city",
+    "lat": 48.675277777778,
+    "lng": -77.500833333333,
+    "pop": 146
+  },
+  {
+    "nameAr": "إدبرغ",
+    "nameEn": "Edberg",
+    "type": "city",
+    "lat": 52.7843,
+    "lng": -112.786,
+    "pop": 126
+  },
+  {
+    "nameAr": "Bras-d'Apic",
+    "nameEn": "Bras-d'Apic",
+    "type": "city",
+    "lat": 46.953611111111,
+    "lng": -70.182777777778,
+    "pop": 123
+  },
+  {
+    "nameAr": "هالكريك",
+    "nameEn": "Halkirk",
+    "type": "city",
+    "lat": 52.2814,
+    "lng": -112.148,
+    "pop": 112
+  },
+  {
+    "nameAr": "Saint-Guy",
+    "nameEn": "Saint-Guy",
+    "type": "city",
+    "lat": 48.033333333333,
+    "lng": -68.783333333333,
+    "pop": 76
+  },
+  {
+    "nameAr": "La Romaine",
+    "nameEn": "La Romaine",
+    "type": "city",
+    "lat": 50.21361111,
+    "lng": -60.67694444,
+    "pop": 63
+  },
+  {
+    "nameAr": "Reefs Harbour",
+    "nameEn": "Reefs Harbour",
+    "type": "city",
+    "lat": 51.0125,
+    "lng": -57.011111111111,
+    "pop": 60
+  },
+  {
+    "nameAr": "Brador",
+    "nameEn": "Brador",
+    "type": "city",
+    "lat": 51.461111,
+    "lng": -57.245555,
+    "pop": 50
+  },
+  {
+    "nameAr": "Rivière-à-la-Chaloupe-Est",
+    "nameEn": "Rivière-à-la-Chaloupe-Est",
+    "type": "city",
+    "lat": 50.286111111111,
+    "lng": -65.118333333333,
+    "pop": 30
+  },
+  {
+    "nameAr": "أرفيدة",
+    "nameEn": "Arvida",
+    "type": "city",
+    "lat": 48.4333,
+    "lng": -71.1833,
+    "pop": null
+  },
+  {
+    "nameAr": "أسغانغ غواي",
+    "nameEn": "Ninstints",
+    "type": "city",
+    "lat": 52.098888888889,
+    "lng": -131.2175,
+    "pop": null
+  },
+  {
+    "nameAr": "إسيكس",
+    "nameEn": "Essex",
+    "type": "city",
+    "lat": 42.172,
+    "lng": -82.821,
+    "pop": null
+  },
+  {
+    "nameAr": "أكتون",
+    "nameEn": "Acton",
+    "type": "city",
+    "lat": 43.6314,
+    "lng": -80.0389,
+    "pop": null
+  },
+  {
+    "nameAr": "ألرت باي",
+    "nameEn": "Alert Bay",
+    "type": "city",
+    "lat": 50.5825,
+    "lng": -126.92527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "أنكستر",
+    "nameEn": "Ancaster",
+    "type": "city",
+    "lat": 43.225555555556,
+    "lng": -79.976666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "أنمور",
+    "nameEn": "Anmore",
+    "type": "city",
+    "lat": 49.3144,
+    "lng": -122.856,
+    "pop": null
+  },
+  {
+    "nameAr": "إنيسفيل",
+    "nameEn": "Innisfil",
+    "type": "city",
+    "lat": 44.274722222222,
+    "lng": -79.618055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "اوسويوس",
+    "nameEn": "Osoyoos",
+    "type": "city",
+    "lat": 49.0325,
+    "lng": -119.46611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "أويل سبرينغس",
+    "nameEn": "Oil Springs",
+    "type": "city",
+    "lat": 42.789166666667,
+    "lng": -82.110833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "ايرين",
+    "nameEn": "Erin",
+    "type": "city",
+    "lat": 43.7667,
+    "lng": -80.0667,
+    "pop": null
+  },
+  {
+    "nameAr": "أيلمير",
+    "nameEn": "Aylmer",
+    "type": "city",
+    "lat": 42.7825,
+    "lng": -80.9825,
+    "pop": null
+  },
+  {
+    "nameAr": "أيليسفورد",
+    "nameEn": "Aylesford",
+    "type": "city",
+    "lat": 45.0333,
+    "lng": -64.8333,
+    "pop": null
+  },
+  {
+    "nameAr": "إينفيرنيس، نوفا سكوشا",
+    "nameEn": "Inverness",
+    "type": "city",
+    "lat": 46.2303,
+    "lng": -61.3064,
+    "pop": null
+  },
+  {
+    "nameAr": "باثرست",
+    "nameEn": "Bathurst",
+    "type": "city",
+    "lat": 47.62,
+    "lng": -65.65,
+    "pop": null
+  },
+  {
+    "nameAr": "بارسبورو",
+    "nameEn": "Parrsboro",
+    "type": "city",
+    "lat": 45.4058,
+    "lng": -64.3258,
+    "pop": null
+  },
+  {
+    "nameAr": "باري ساوند",
+    "nameEn": "Parry Sound",
+    "type": "city",
+    "lat": 45.333333333333,
+    "lng": -80.033333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بانكروفت",
+    "nameEn": "Bancroft",
+    "type": "city",
+    "lat": 45.05,
+    "lng": -77.85,
+    "pop": null
+  },
+  {
+    "nameAr": "باورفيو بين فولز",
+    "nameEn": "Powerview-Pine Falls",
+    "type": "city",
+    "lat": 50.5661,
+    "lng": -96.1981,
+    "pop": null
+  },
+  {
+    "nameAr": "برادفورد ويست ويليمباري",
+    "nameEn": "Bradford West Gwillimbury",
+    "type": "city",
+    "lat": 44.1333,
+    "lng": -79.6333,
+    "pop": null
+  },
+  {
+    "nameAr": "برايتون",
+    "nameEn": "Brighton",
+    "type": "city",
+    "lat": 44.1222,
+    "lng": -77.7642,
+    "pop": null
+  },
+  {
+    "nameAr": "بلاكرس",
+    "nameEn": "Balcarres",
+    "type": "city",
+    "lat": 50.8,
+    "lng": -103.55,
+    "pop": null
+  },
+  {
+    "nameAr": "بليمبتون - وايومنغ",
+    "nameEn": "Plympton–Wyoming",
+    "type": "city",
+    "lat": 43.019722222222,
+    "lng": -82.106111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "بورت كولبورن",
+    "nameEn": "Port Colborne",
+    "type": "city",
+    "lat": 42.883333333333,
+    "lng": -79.25,
+    "pop": null
+  },
+  {
+    "nameAr": "بورت ويليامز",
+    "nameEn": "Port Williams",
+    "type": "city",
+    "lat": 45.0978,
+    "lng": -64.4094,
+    "pop": null
+  },
+  {
+    "nameAr": "بوركس فالس",
+    "nameEn": "Burk's Falls",
+    "type": "city",
+    "lat": 45.6167,
+    "lng": -79.4083,
+    "pop": null
+  },
+  {
+    "nameAr": "بورنس ليك",
+    "nameEn": "Burns Lake",
+    "type": "city",
+    "lat": 54.229166666667,
+    "lng": -125.7625,
+    "pop": null
+  },
+  {
+    "nameAr": "بوسه كوبه",
+    "nameEn": "Pouce Coupe",
+    "type": "city",
+    "lat": 55.7158,
+    "lng": -120.134,
+    "pop": null
+  },
+  {
+    "nameAr": "بوغواش",
+    "nameEn": "Pugwash",
+    "type": "city",
+    "lat": 45.85,
+    "lng": -63.661,
+    "pop": null
+  },
+  {
+    "nameAr": "بيتاواوا",
+    "nameEn": "Petawawa",
+    "type": "city",
+    "lat": 45.9,
+    "lng": -77.283333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بيتون",
+    "nameEn": "Beeton",
+    "type": "city",
+    "lat": 44.0842,
+    "lng": -79.7858,
+    "pop": null
+  },
+  {
+    "nameAr": "بيغ ريفر",
+    "nameEn": "Big River",
+    "type": "city",
+    "lat": 53.837,
+    "lng": -107.035,
+    "pop": null
+  },
+  {
+    "nameAr": "بيكانكور",
+    "nameEn": "Bécancour",
+    "type": "city",
+    "lat": 46.3439,
+    "lng": -72.4319,
+    "pop": null
+  },
+  {
+    "nameAr": "بيلكارا",
+    "nameEn": "Belcarra",
+    "type": "city",
+    "lat": 49.318611111111,
+    "lng": -122.92666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بيلهام",
+    "nameEn": "Pelham",
+    "type": "city",
+    "lat": 43.0333,
+    "lng": -79.3333,
+    "pop": null
+  },
+  {
+    "nameAr": "بيمبرتون",
+    "nameEn": "Pemberton",
+    "type": "city",
+    "lat": 50.3203,
+    "lng": -122.805,
+    "pop": null
+  },
+  {
+    "nameAr": "بينيتانجويشين",
+    "nameEn": "Penetanguishene",
+    "type": "city",
+    "lat": 44.783888888889,
+    "lng": -79.9,
+    "pop": null
+  },
+  {
+    "nameAr": "بييرفون",
+    "nameEn": "Pierrefonds",
+    "type": "city",
+    "lat": 45.4667,
+    "lng": -73.8833,
+    "pop": null
+  },
+  {
+    "nameAr": "تاهسيس",
+    "nameEn": "Tahsis",
+    "type": "city",
+    "lat": 49.9258,
+    "lng": -126.621,
+    "pop": null
+  },
+  {
+    "nameAr": "ترنتون",
+    "nameEn": "Trenton",
+    "type": "city",
+    "lat": 44.1,
+    "lng": -77.5806,
+    "pop": null
+  },
+  {
+    "nameAr": "تشارلو",
+    "nameEn": "Charlo",
+    "type": "city",
+    "lat": 47.9974,
+    "lng": -66.3184,
+    "pop": null
+  },
+  {
+    "nameAr": "تشاس",
+    "nameEn": "Chase",
+    "type": "city",
+    "lat": 50.8189,
+    "lng": -119.684,
+    "pop": null
+  },
+  {
+    "nameAr": "تشستر",
+    "nameEn": "Chester",
+    "type": "city",
+    "lat": 44.5403,
+    "lng": -64.2397,
+    "pop": null
+  },
+  {
+    "nameAr": "تورنلوي",
+    "nameEn": "Thornloe",
+    "type": "city",
+    "lat": 47.6667,
+    "lng": -79.7583,
+    "pop": null
+  },
+  {
+    "nameAr": "تيفرتون",
+    "nameEn": "Tiverton",
+    "type": "city",
+    "lat": 44.3839,
+    "lng": -66.2175,
+    "pop": null
+  },
+  {
+    "nameAr": "تيميسكيمينج شورز",
+    "nameEn": "Temiskaming Shores",
+    "type": "city",
+    "lat": 47.493611111111,
+    "lng": -79.715277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "ديلورين",
+    "nameEn": "Deloraine",
+    "type": "city",
+    "lat": 49.1122,
+    "lng": -100.295,
+    "pop": null
+  },
+  {
+    "nameAr": "راديسون",
+    "nameEn": "Radisson",
+    "type": "city",
+    "lat": 53.7936,
+    "lng": -77.6178,
+    "pop": null
+  },
+  {
+    "nameAr": "راديوم هات",
+    "nameEn": "Radium Hot Springs",
+    "type": "city",
+    "lat": 50.6175,
+    "lng": -116.072,
+    "pop": null
+  },
+  {
+    "nameAr": "زيبالوس",
+    "nameEn": "Zeballos",
+    "type": "city",
+    "lat": 49.9833,
+    "lng": -126.845,
+    "pop": null
+  },
+  {
+    "nameAr": "ساسكس",
+    "nameEn": "Sussex",
+    "type": "city",
+    "lat": 45.7167,
+    "lng": -65.5167,
+    "pop": null
+  },
+  {
+    "nameAr": "سان ليونارد",
+    "nameEn": "Saint-Léonard",
+    "type": "city",
+    "lat": 47.1625,
+    "lng": -67.925,
+    "pop": null
+  },
+  {
+    "nameAr": "سانت استيفان، نيو برونزويك",
+    "nameEn": "St. Stephen",
+    "type": "city",
+    "lat": 45.192222222222,
+    "lng": -67.277222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "سانت بيترس",
+    "nameEn": "St. Peter's",
+    "type": "city",
+    "lat": 45.664,
+    "lng": -60.8945,
+    "pop": null
+  },
+  {
+    "nameAr": "سانت بيري جوليس",
+    "nameEn": "St-Pierre-Jolys",
+    "type": "city",
+    "lat": 49.4403,
+    "lng": -96.9844,
+    "pop": null
+  },
+  {
+    "nameAr": "ساندريج",
+    "nameEn": "Sundridge",
+    "type": "city",
+    "lat": 45.7667,
+    "lng": -79.4,
+    "pop": null
+  },
+  {
+    "nameAr": "ساوث هورون",
+    "nameEn": "South Huron",
+    "type": "city",
+    "lat": 43.316666666667,
+    "lng": -81.5,
+    "pop": null
+  },
+  {
+    "nameAr": "سايوارد",
+    "nameEn": "Sayward",
+    "type": "city",
+    "lat": 50.3761,
+    "lng": -125.957,
+    "pop": null
+  },
+  {
+    "nameAr": "ستيفنفيل",
+    "nameEn": "Stephenville",
+    "type": "city",
+    "lat": 48.550365,
+    "lng": -58.576355,
+    "pop": null
+  },
+  {
+    "nameAr": "سلوكان",
+    "nameEn": "Slocan",
+    "type": "city",
+    "lat": 49.7628,
+    "lng": -117.463,
+    "pop": null
+  },
+  {
+    "nameAr": "سنترال بوت",
+    "nameEn": "Central Butte",
+    "type": "city",
+    "lat": 50.792,
+    "lng": -106.508,
+    "pop": null
+  },
+  {
+    "nameAr": "سوري",
+    "nameEn": "Souris",
+    "type": "city",
+    "lat": 46.3555,
+    "lng": -62.2541,
+    "pop": null
+  },
+  {
+    "nameAr": "غرانيسل",
+    "nameEn": "Granisle",
+    "type": "city",
+    "lat": 54.8869,
+    "lng": -126.207,
+    "pop": null
+  },
+  {
+    "nameAr": "غريمسبي",
+    "nameEn": "Grimsby",
+    "type": "city",
+    "lat": 43.2,
+    "lng": -79.55,
+    "pop": null
+  },
+  {
+    "nameAr": "غرينوود",
+    "nameEn": "Greenwood",
+    "type": "city",
+    "lat": 44.971944444444,
+    "lng": -64.934722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "غودريتش",
+    "nameEn": "Goderich",
+    "type": "city",
+    "lat": 43.733333333333,
+    "lng": -81.7,
+    "pop": null
+  },
+  {
+    "nameAr": "غولد ريفر",
+    "nameEn": "Gold River",
+    "type": "city",
+    "lat": 49.7769,
+    "lng": -126.051,
+    "pop": null
+  },
+  {
+    "nameAr": "غيليام",
+    "nameEn": "Gillam",
+    "type": "city",
+    "lat": 56.3478,
+    "lng": -94.7089,
+    "pop": null
+  },
+  {
+    "nameAr": "فراسر ليك",
+    "nameEn": "Fraser Lake",
+    "type": "city",
+    "lat": 54.058333333333,
+    "lng": -124.84694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "فرغس",
+    "nameEn": "Fergus",
+    "type": "city",
+    "lat": 43.703055555556,
+    "lng": -80.379722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "فريبورت",
+    "nameEn": "Freeport",
+    "type": "city",
+    "lat": 44.274166666667,
+    "lng": -66.321666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "فورت إيري",
+    "nameEn": "Fort Erie",
+    "type": "city",
+    "lat": 42.9,
+    "lng": -78.916666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية ستيرلنغ الزراعية",
+    "nameEn": "Stirling",
+    "type": "city",
+    "lat": 49.5022,
+    "lng": -112.517,
+    "pop": null
+  },
+  {
+    "nameAr": "قولدن",
+    "nameEn": "Golden",
+    "type": "city",
+    "lat": 51.3019,
+    "lng": -116.967,
+    "pop": null
+  },
+  {
+    "nameAr": "كاتش كريك",
+    "nameEn": "Cache Creek",
+    "type": "city",
+    "lat": 50.811944444444,
+    "lng": -121.32333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كارلتون بلاس",
+    "nameEn": "Carleton Place",
+    "type": "city",
+    "lat": 45.133333333333,
+    "lng": -76.133333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كارماكس",
+    "nameEn": "Carmacks",
+    "type": "city",
+    "lat": 62.091111111111,
+    "lng": -136.29694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "كاسيلمن",
+    "nameEn": "Casselman",
+    "type": "city",
+    "lat": 45.311388888889,
+    "lng": -75.085833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كانينغ",
+    "nameEn": "Canning",
+    "type": "city",
+    "lat": 45.1579,
+    "lng": -64.4242,
+    "pop": null
+  },
+  {
+    "nameAr": "كبريول",
+    "nameEn": "Capreol",
+    "type": "city",
+    "lat": 46.7,
+    "lng": -80.9167,
+    "pop": null
+  },
+  {
+    "nameAr": "كلارينس-روكلاند",
+    "nameEn": "Clarence-Rockland",
+    "type": "city",
+    "lat": 45.488055555556,
+    "lng": -75.215,
+    "pop": null
+  },
+  {
+    "nameAr": "كلينتون",
+    "nameEn": "Clinton",
+    "type": "city",
+    "lat": 51.0914,
+    "lng": -121.587,
+    "pop": null
+  },
+  {
+    "nameAr": "كنزينغتون",
+    "nameEn": "Kensington",
+    "type": "city",
+    "lat": 46.4333,
+    "lng": -63.65,
+    "pop": null
+  },
+  {
+    "nameAr": "كوتشران",
+    "nameEn": "Cochrane",
+    "type": "city",
+    "lat": 49.066666666667,
+    "lng": -81.016666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "كورنر بروك",
+    "nameEn": "Corner Brook",
+    "type": "city",
+    "lat": 48.95,
+    "lng": -57.95,
+    "pop": null
+  },
+  {
+    "nameAr": "كورنواليس",
+    "nameEn": "Cornwallis Square",
+    "type": "city",
+    "lat": 45.0731,
+    "lng": -64.6697,
+    "pop": null
+  },
+  {
+    "nameAr": "كولينجوود",
+    "nameEn": "Collingwood",
+    "type": "city",
+    "lat": 44.5,
+    "lng": -80.216666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "كوموكس، كولومبيا البريطانية",
+    "nameEn": "Comox",
+    "type": "city",
+    "lat": 49.673333333333,
+    "lng": -124.90222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "كويين تشارلوت",
+    "nameEn": "Daajing Giids",
+    "type": "city",
+    "lat": 53.254722222222,
+    "lng": -132.1025,
+    "pop": null
+  },
+  {
+    "nameAr": "كيركلاند ليك",
+    "nameEn": "Kirkland Lake",
+    "type": "city",
+    "lat": 48.15,
+    "lng": -80.033333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كيريموس",
+    "nameEn": "Keremeos",
+    "type": "city",
+    "lat": 49.2025,
+    "lng": -119.829,
+    "pop": null
+  },
+  {
+    "nameAr": "كيلارني",
+    "nameEn": "Killarney",
+    "type": "city",
+    "lat": 49.1833,
+    "lng": -99.6628,
+    "pop": null
+  },
+  {
+    "nameAr": "كينغسفيل",
+    "nameEn": "Kingsville",
+    "type": "city",
+    "lat": 42.0378,
+    "lng": -82.7395,
+    "pop": null
+  },
+  {
+    "nameAr": "لاسال",
+    "nameEn": "LaSalle",
+    "type": "city",
+    "lat": 42.2167,
+    "lng": -83.0667,
+    "pop": null
+  },
+  {
+    "nameAr": "لاورنستاون",
+    "nameEn": "Lawrencetown",
+    "type": "city",
+    "lat": 44.8825,
+    "lng": -65.1639,
+    "pop": null
+  },
+  {
+    "nameAr": "لمبتون شوريس",
+    "nameEn": "Lambton Shores",
+    "type": "city",
+    "lat": 43.1833,
+    "lng": -81.9,
+    "pop": null
+  },
+  {
+    "nameAr": "لينكون",
+    "nameEn": "Lincoln",
+    "type": "city",
+    "lat": 43.152777777778,
+    "lng": -79.418333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "ليونز باي",
+    "nameEn": "Lions Bay",
+    "type": "city",
+    "lat": 49.4581,
+    "lng": -123.237,
+    "pop": null
+  },
+  {
+    "nameAr": "مابو، نوفا سكوشا",
+    "nameEn": "Mabou",
+    "type": "city",
+    "lat": 46.0719,
+    "lng": -61.3917,
+    "pop": null
+  },
+  {
+    "nameAr": "ماراثون",
+    "nameEn": "Marathon",
+    "type": "city",
+    "lat": 48.75,
+    "lng": -86.3667,
+    "pop": null
+  },
+  {
+    "nameAr": "مكريري",
+    "nameEn": "McCreary",
+    "type": "city",
+    "lat": 50.7731,
+    "lng": -99.4922,
+    "pop": null
+  },
+  {
+    "nameAr": "ميافورد",
+    "nameEn": "Meaford",
+    "type": "city",
+    "lat": 44.583333333333,
+    "lng": -80.733333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "ميدواي",
+    "nameEn": "Midway",
+    "type": "city",
+    "lat": 49.0106,
+    "lng": -118.779,
+    "pop": null
+  },
+  {
+    "nameAr": "ميريكفيل",
+    "nameEn": "Merrickville–Wolford",
+    "type": "city",
+    "lat": 44.916472222222,
+    "lng": -75.8365,
+    "pop": null
+  },
+  {
+    "nameAr": "ميسيسيبي ميلس",
+    "nameEn": "Mississippi Mills",
+    "type": "city",
+    "lat": 45.2167,
+    "lng": -76.2,
+    "pop": null
+  },
+  {
+    "nameAr": "مينتو",
+    "nameEn": "Minto",
+    "type": "city",
+    "lat": 43.9167,
+    "lng": -80.8667,
+    "pop": null
+  },
+  {
+    "nameAr": "ناكوسب",
+    "nameEn": "Nakusp",
+    "type": "city",
+    "lat": 50.243361111111,
+    "lng": -117.80016666667,
+    "pop": null
+  },
+  {
+    "nameAr": "نورفولك كاونتي",
+    "nameEn": "Norfolk County",
+    "type": "city",
+    "lat": 42.85,
+    "lng": -80.2667,
+    "pop": null
+  },
+  {
+    "nameAr": "نورمان، ولز",
+    "nameEn": "Norman Wells",
+    "type": "city",
+    "lat": 65.2811,
+    "lng": -126.831,
+    "pop": null
+  },
+  {
+    "nameAr": "نوكوميس",
+    "nameEn": "Nokomis",
+    "type": "city",
+    "lat": 51.51,
+    "lng": -105.009,
+    "pop": null
+  },
+  {
+    "nameAr": "نيغارا-ون-ذا-ليك",
+    "nameEn": "Niagara-on-the-Lake",
+    "type": "city",
+    "lat": 43.255277777778,
+    "lng": -79.071666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "نيكل سنتر",
+    "nameEn": "Nickel Centre",
+    "type": "city",
+    "lat": 46.55125,
+    "lng": -80.81843,
+    "pop": null
+  },
+  {
+    "nameAr": "نيو ماريلاند",
+    "nameEn": "New Maryland",
+    "type": "city",
+    "lat": 45.891111111111,
+    "lng": -66.684722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "نيو ميناس",
+    "nameEn": "New Minas",
+    "type": "city",
+    "lat": 45.0686,
+    "lng": -64.4689,
+    "pop": null
+  },
+  {
+    "nameAr": "هاريسون هات",
+    "nameEn": "Harrison Hot Springs",
+    "type": "city",
+    "lat": 49.3,
+    "lng": -121.782,
+    "pop": null
+  },
+  {
+    "nameAr": "هازلتون",
+    "nameEn": "Hazelton",
+    "type": "city",
+    "lat": 55.255833333333,
+    "lng": -127.67555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "هافري بوتشر",
+    "nameEn": "Havre Boucher",
+    "type": "city",
+    "lat": 45.683098,
+    "lng": -61.53554,
+    "pop": null
+  },
+  {
+    "nameAr": "هربرت",
+    "nameEn": "Herbert",
+    "type": "city",
+    "lat": 50.427,
+    "lng": -107.227,
+    "pop": null
+  },
+  {
+    "nameAr": "هورن أيست",
+    "nameEn": "Huron East",
+    "type": "city",
+    "lat": 43.625,
+    "lng": -81.284444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "هيبفيل",
+    "nameEn": "Hebbville",
+    "type": "city",
+    "lat": 44.3472,
+    "lng": -64.5359,
+    "pop": null
+  },
+  {
+    "nameAr": "وارمان",
+    "nameEn": "Warman",
+    "type": "city",
+    "lat": 52.321944444444,
+    "lng": -106.58416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "واسغا بيتش",
+    "nameEn": "Wasaga Beach",
+    "type": "city",
+    "lat": 44.5206,
+    "lng": -80.0167,
+    "pop": null
+  },
+  {
+    "nameAr": "ويستبورت",
+    "nameEn": "Westport",
+    "type": "city",
+    "lat": 44.677777777778,
+    "lng": -76.4,
+    "pop": null
+  },
+  {
+    "nameAr": "ويماغوتشي",
+    "nameEn": "Weymouth",
+    "type": "city",
+    "lat": 44.4049,
+    "lng": -65.9986,
+    "pop": null
+  },
+  {
+    "nameAr": "يونيتي",
+    "nameEn": "Unity",
+    "type": "city",
+    "lat": 52.442222222222,
+    "lng": -109.1575,
+    "pop": null
+  },
+  {
+    "nameAr": "Aberdeen",
+    "nameEn": "Aberdeen",
+    "type": "city",
+    "lat": 52.3261,
+    "lng": -106.292,
+    "pop": null
+  },
+  {
+    "nameAr": "Actons Corners",
+    "nameEn": "Actons Corners",
+    "type": "city",
+    "lat": 44.9896,
+    "lng": -75.7136,
+    "pop": null
+  },
+  {
+    "nameAr": "Alameda, Saskatchewan",
+    "nameEn": "Alameda, Saskatchewan",
+    "type": "city",
+    "lat": 49.2667,
+    "lng": -102.283,
+    "pop": null
+  },
+  {
+    "nameAr": "Alberton",
+    "nameEn": "Alberton",
+    "type": "city",
+    "lat": 46.8167,
+    "lng": -64.0667,
+    "pop": null
+  },
+  {
+    "nameAr": "Alfred",
+    "nameEn": "Alfred",
+    "type": "city",
+    "lat": 45.556111111111,
+    "lng": -74.887777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Allan",
+    "nameEn": "Allan",
+    "type": "city",
+    "lat": 51.54,
+    "lng": -106.04,
+    "pop": null
+  },
+  {
+    "nameAr": "Altona",
+    "nameEn": "Altona",
+    "type": "city",
+    "lat": 49.1044,
+    "lng": -97.5625,
+    "pop": null
+  },
+  {
+    "nameAr": "Arborfield",
+    "nameEn": "Arborfield",
+    "type": "city",
+    "lat": 53.1,
+    "lng": -103.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Arborg",
+    "nameEn": "Arborg",
+    "type": "city",
+    "lat": 50.907222222222,
+    "lng": -97.216944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Asquith",
+    "nameEn": "Asquith",
+    "type": "city",
+    "lat": 52.142,
+    "lng": -107.238,
+    "pop": null
+  },
+  {
+    "nameAr": "Assiniboia",
+    "nameEn": "Assiniboia",
+    "type": "city",
+    "lat": 49.629166666667,
+    "lng": -105.98861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Athelstan",
+    "nameEn": "Athelstan",
+    "type": "city",
+    "lat": 45.036388888889,
+    "lng": -74.173611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Atikokan",
+    "nameEn": "Atikokan",
+    "type": "city",
+    "lat": 48.75,
+    "lng": -91.6167,
+    "pop": null
+  },
+  {
+    "nameAr": "Atlin",
+    "nameEn": "Atlin",
+    "type": "city",
+    "lat": 59.5833,
+    "lng": -133.717,
+    "pop": null
+  },
+  {
+    "nameAr": "Aylmer Sound",
+    "nameEn": "Aylmer Sound",
+    "type": "city",
+    "lat": 50.62,
+    "lng": -59.463611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Baie-de-Gaspé-Sud",
+    "nameEn": "Baie-de-Gaspé-Sud",
+    "type": "city",
+    "lat": 48.824722222222,
+    "lng": -64.476388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Baie-Egmont",
+    "nameEn": "Baie-Egmont",
+    "type": "city",
+    "lat": 46.483333333333,
+    "lng": -64.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Bala",
+    "nameEn": "Bala",
+    "type": "city",
+    "lat": 45.0175,
+    "lng": -79.617222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Balgonie",
+    "nameEn": "Balgonie",
+    "type": "city",
+    "lat": 50.4894,
+    "lng": -104.2672,
+    "pop": null
+  },
+  {
+    "nameAr": "Barachois",
+    "nameEn": "Barachois",
+    "type": "city",
+    "lat": 48.6180926,
+    "lng": -64.2753167,
+    "pop": null
+  },
+  {
+    "nameAr": "Barford",
+    "nameEn": "Barford",
+    "type": "city",
+    "lat": 45.116111,
+    "lng": -71.795555,
+    "pop": null
+  },
+  {
+    "nameAr": "Barkerville Historic Town and Park",
+    "nameEn": "Barkerville Historic Town and Park",
+    "type": "city",
+    "lat": 53.068380229136,
+    "lng": -121.51519413442,
+    "pop": null
+  },
+  {
+    "nameAr": "Barnston",
+    "nameEn": "Barnston",
+    "type": "city",
+    "lat": 45.107222222222,
+    "lng": -71.883888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Bassin",
+    "nameEn": "Bassin",
+    "type": "city",
+    "lat": 47.222777777778,
+    "lng": -61.937222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Battle Harbour",
+    "nameEn": "Battle Harbour",
+    "type": "city",
+    "lat": 52.273777,
+    "lng": -55.585692,
+    "pop": null
+  },
+  {
+    "nameAr": "Bay L'Argent",
+    "nameEn": "Bay L'Argent",
+    "type": "city",
+    "lat": 47.545833333333,
+    "lng": -54.882777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Beebe",
+    "nameEn": "Beebe",
+    "type": "city",
+    "lat": 45.010833333333,
+    "lng": -72.145,
+    "pop": null
+  },
+  {
+    "nameAr": "Beebe Plain",
+    "nameEn": "Beebe Plain",
+    "type": "city",
+    "lat": 45.00666667,
+    "lng": -72.14116667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bengough",
+    "nameEn": "Bengough",
+    "type": "city",
+    "lat": 49.4,
+    "lng": -105.133,
+    "pop": null
+  },
+  {
+    "nameAr": "Benito",
+    "nameEn": "Benito",
+    "type": "city",
+    "lat": 51.9139,
+    "lng": -101.548,
+    "pop": null
+  },
+  {
+    "nameAr": "Bernierville, Quebec",
+    "nameEn": "Bernierville, Quebec",
+    "type": "city",
+    "lat": 46.107644,
+    "lng": -71.571921,
+    "pop": null
+  },
+  {
+    "nameAr": "Beverly",
+    "nameEn": "Beverly",
+    "type": "city",
+    "lat": 53.57,
+    "lng": -113.403,
+    "pop": null
+  },
+  {
+    "nameAr": "Bienfait",
+    "nameEn": "Bienfait",
+    "type": "city",
+    "lat": 49.15,
+    "lng": -102.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Bienville",
+    "nameEn": "Bienville",
+    "type": "city",
+    "lat": 46.8225,
+    "lng": -71.176111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Binscarth",
+    "nameEn": "Binscarth",
+    "type": "city",
+    "lat": 50.6267,
+    "lng": -101.283,
+    "pop": null
+  },
+  {
+    "nameAr": "Birch Hills",
+    "nameEn": "Birch Hills",
+    "type": "city",
+    "lat": 52.9833,
+    "lng": -105.433,
+    "pop": null
+  },
+  {
+    "nameAr": "Birmingham",
+    "nameEn": "Birmingham",
+    "type": "city",
+    "lat": 50.9706,
+    "lng": -102.937,
+    "pop": null
+  },
+  {
+    "nameAr": "Birtle",
+    "nameEn": "Birtle",
+    "type": "city",
+    "lat": 50.4225,
+    "lng": -101.0475,
+    "pop": null
+  },
+  {
+    "nameAr": "Black Lake",
+    "nameEn": "Black Lake",
+    "type": "city",
+    "lat": 46.03333,
+    "lng": -71.36667,
+    "pop": null
+  },
+  {
+    "nameAr": "Blaine Lake",
+    "nameEn": "Blaine Lake",
+    "type": "city",
+    "lat": 52.8333,
+    "lng": -106.883,
+    "pop": null
+  },
+  {
+    "nameAr": "Blanc-Sablon",
+    "nameEn": "Blanc-Sablon",
+    "type": "city",
+    "lat": 51.426773976865,
+    "lng": -57.131703152301,
+    "pop": null
+  },
+  {
+    "nameAr": "Bluewater",
+    "nameEn": "Bluewater",
+    "type": "city",
+    "lat": 43.45,
+    "lng": -81.6,
+    "pop": null
+  },
+  {
+    "nameAr": "Boissevain",
+    "nameEn": "Boissevain",
+    "type": "city",
+    "lat": 49.230555555556,
+    "lng": -100.055,
+    "pop": null
+  },
+  {
+    "nameAr": "Bolton Centre",
+    "nameEn": "Bolton Centre",
+    "type": "city",
+    "lat": 45.2,
+    "lng": -72.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Borden-Carleton",
+    "nameEn": "Borden-Carleton",
+    "type": "city",
+    "lat": 46.25,
+    "lng": -63.683333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bowsman",
+    "nameEn": "Bowsman",
+    "type": "city",
+    "lat": 52.2358,
+    "lng": -101.207,
+    "pop": null
+  },
+  {
+    "nameAr": "Brackley Beach",
+    "nameEn": "Brackley Beach",
+    "type": "city",
+    "lat": 46.405806,
+    "lng": -63.195217,
+    "pop": null
+  },
+  {
+    "nameAr": "Bragg Creek",
+    "nameEn": "Bragg Creek",
+    "type": "city",
+    "lat": 50.951583333333,
+    "lng": -114.5595,
+    "pop": null
+  },
+  {
+    "nameAr": "Bredenbury",
+    "nameEn": "Bredenbury",
+    "type": "city",
+    "lat": 50.9417,
+    "lng": -102.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Bridgeford",
+    "nameEn": "Bridgeford",
+    "type": "city",
+    "lat": 50.9386,
+    "lng": -106.422,
+    "pop": null
+  },
+  {
+    "nameAr": "Bridgeville",
+    "nameEn": "Bridgeville",
+    "type": "city",
+    "lat": 48.6039809,
+    "lng": -64.3248357,
+    "pop": null
+  },
+  {
+    "nameAr": "Broadview",
+    "nameEn": "Broadview",
+    "type": "city",
+    "lat": 50.376,
+    "lng": -102.579,
+    "pop": null
+  },
+  {
+    "nameAr": "Bromhead",
+    "nameEn": "Bromhead",
+    "type": "city",
+    "lat": 49.1817,
+    "lng": -103.675,
+    "pop": null
+  },
+  {
+    "nameAr": "Brookvale",
+    "nameEn": "Brookvale",
+    "type": "city",
+    "lat": 46.283879,
+    "lng": -63.407696,
+    "pop": null
+  },
+  {
+    "nameAr": "Brownsburg",
+    "nameEn": "Brownsburg",
+    "type": "city",
+    "lat": 45.676111111111,
+    "lng": -74.408055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Brunet",
+    "nameEn": "Brunet",
+    "type": "city",
+    "lat": 46.52,
+    "lng": -75.449444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Bruno",
+    "nameEn": "Bruno",
+    "type": "city",
+    "lat": 52.2644,
+    "lng": -105.521,
+    "pop": null
+  },
+  {
+    "nameAr": "Buckland",
+    "nameEn": "Buckland",
+    "type": "city",
+    "lat": 46.618888888889,
+    "lng": -70.546388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Buffalo Narrows",
+    "nameEn": "Buffalo Narrows",
+    "type": "city",
+    "lat": 55.876944444444,
+    "lng": -108.52444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Burritts Rapids",
+    "nameEn": "Burritts Rapids",
+    "type": "city",
+    "lat": 44.98008,
+    "lng": -75.7939,
+    "pop": null
+  },
+  {
+    "nameAr": "Burstall",
+    "nameEn": "Burstall",
+    "type": "city",
+    "lat": 50.65,
+    "lng": -109.917,
+    "pop": null
+  },
+  {
+    "nameAr": "Burwash",
+    "nameEn": "Burwash",
+    "type": "city",
+    "lat": 46.2394,
+    "lng": -80.8508,
+    "pop": null
+  },
+  {
+    "nameAr": "Cabri",
+    "nameEn": "Cabri",
+    "type": "city",
+    "lat": 50.62,
+    "lng": -108.46,
+    "pop": null
+  },
+  {
+    "nameAr": "Calabogie",
+    "nameEn": "Calabogie",
+    "type": "city",
+    "lat": 45.304722222222,
+    "lng": -76.716944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Cando",
+    "nameEn": "Cando",
+    "type": "city",
+    "lat": 52.38333333,
+    "lng": -108.23388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Canora",
+    "nameEn": "Canora",
+    "type": "city",
+    "lat": 51.6339,
+    "lng": -102.437,
+    "pop": null
+  },
+  {
+    "nameAr": "Canrobert",
+    "nameEn": "Canrobert",
+    "type": "city",
+    "lat": 45.356111111111,
+    "lng": -72.938333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Cap-à-l'Aigle",
+    "nameEn": "Cap-à-l'Aigle",
+    "type": "city",
+    "lat": 47.662728,
+    "lng": -70.110283,
+    "pop": null
+  },
+  {
+    "nameAr": "Cap-aux-Os",
+    "nameEn": "Cap-aux-Os",
+    "type": "city",
+    "lat": 48.835543,
+    "lng": -64.332118,
+    "pop": null
+  },
+  {
+    "nameAr": "Cap-des-Rosiers",
+    "nameEn": "Cap-des-Rosiers",
+    "type": "city",
+    "lat": 48.865833333333,
+    "lng": -64.2125,
+    "pop": null
+  },
+  {
+    "nameAr": "Cap-Seize",
+    "nameEn": "Cap-Seize",
+    "type": "city",
+    "lat": 49.017777777778,
+    "lng": -66.395555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Cape Cove",
+    "nameEn": "Cape Cove",
+    "type": "city",
+    "lat": 48.428333333333,
+    "lng": -64.328888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Capucins",
+    "nameEn": "Capucins",
+    "type": "city",
+    "lat": 49.0499,
+    "lng": -66.8365,
+    "pop": null
+  },
+  {
+    "nameAr": "Caraquet",
+    "nameEn": "Caraquet",
+    "type": "city",
+    "lat": 47.785277777778,
+    "lng": -64.959166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Carberry",
+    "nameEn": "Carberry",
+    "type": "city",
+    "lat": 49.8689,
+    "lng": -99.3594,
+    "pop": null
+  },
+  {
+    "nameAr": "Carlow/Mayo",
+    "nameEn": "Carlow/Mayo",
+    "type": "city",
+    "lat": 45.133333333333,
+    "lng": -77.616666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Carlyle",
+    "nameEn": "Carlyle",
+    "type": "city",
+    "lat": 49.6333,
+    "lng": -102.267,
+    "pop": null
+  },
+  {
+    "nameAr": "Carlyle Lake Resort",
+    "nameEn": "Carlyle Lake Resort",
+    "type": "city",
+    "lat": 49.7578,
+    "lng": -102.2844,
+    "pop": null
+  },
+  {
+    "nameAr": "Carnduff",
+    "nameEn": "Carnduff",
+    "type": "city",
+    "lat": 49.167,
+    "lng": -101.783,
+    "pop": null
+  },
+  {
+    "nameAr": "Carrot River",
+    "nameEn": "Carrot River",
+    "type": "city",
+    "lat": 53.2833,
+    "lng": -103.583,
+    "pop": null
+  },
+  {
+    "nameAr": "Cartwright",
+    "nameEn": "Cartwright",
+    "type": "city",
+    "lat": 49.0956,
+    "lng": -99.34,
+    "pop": null
+  },
+  {
+    "nameAr": "Cascade City",
+    "nameEn": "Cascade City",
+    "type": "city",
+    "lat": 49.0167,
+    "lng": -118.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Cathedraltown",
+    "nameEn": "Cathedraltown",
+    "type": "city",
+    "lat": 43.8964,
+    "lng": -79.3744,
+    "pop": null
+  },
+  {
+    "nameAr": "Chandler",
+    "nameEn": "Chandler",
+    "type": "city",
+    "lat": 48.35,
+    "lng": -64.683333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Cherry River",
+    "nameEn": "Cherry River",
+    "type": "city",
+    "lat": 45.316667,
+    "lng": -72.166667,
+    "pop": null
+  },
+  {
+    "nameAr": "Chesterville",
+    "nameEn": "Chesterville",
+    "type": "city",
+    "lat": 45.1036111,
+    "lng": -75.2311111,
+    "pop": null
+  },
+  {
+    "nameAr": "Choiceland",
+    "nameEn": "Choiceland",
+    "type": "city",
+    "lat": 53.386,
+    "lng": -104.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Churchbridge",
+    "nameEn": "Churchbridge",
+    "type": "city",
+    "lat": 50.9,
+    "lng": -101.9,
+    "pop": null
+  },
+  {
+    "nameAr": "Claremont",
+    "nameEn": "Claremont",
+    "type": "city",
+    "lat": 43.9725,
+    "lng": -79.1292,
+    "pop": null
+  },
+  {
+    "nameAr": "Clifton",
+    "nameEn": "Clifton",
+    "type": "city",
+    "lat": 43.091387,
+    "lng": -79.074161,
+    "pop": null
+  },
+  {
+    "nameAr": "Coleraine",
+    "nameEn": "Coleraine",
+    "type": "city",
+    "lat": 45.966666666667,
+    "lng": -71.375555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Colonsay",
+    "nameEn": "Colonsay",
+    "type": "city",
+    "lat": 51.9833,
+    "lng": -105.883,
+    "pop": null
+  },
+  {
+    "nameAr": "Cornwall",
+    "nameEn": "Cornwall",
+    "type": "city",
+    "lat": 46.24065,
+    "lng": -63.200911111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Coronach",
+    "nameEn": "Coronach",
+    "type": "city",
+    "lat": 49.1089,
+    "lng": -105.512,
+    "pop": null
+  },
+  {
+    "nameAr": "Craik",
+    "nameEn": "Craik",
+    "type": "city",
+    "lat": 51.047222,
+    "lng": -105.818056,
+    "pop": null
+  },
+  {
+    "nameAr": "Creighton",
+    "nameEn": "Creighton",
+    "type": "city",
+    "lat": 54.753611111111,
+    "lng": -101.89861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Creston",
+    "nameEn": "Creston",
+    "type": "city",
+    "lat": 49.06,
+    "lng": -116.31,
+    "pop": null
+  },
+  {
+    "nameAr": "Crystal Beach",
+    "nameEn": "Crystal Beach",
+    "type": "city",
+    "lat": 42.8675,
+    "lng": -79.059166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Crystal City",
+    "nameEn": "Crystal City",
+    "type": "city",
+    "lat": 49.1464,
+    "lng": -98.9489,
+    "pop": null
+  },
+  {
+    "nameAr": "Cudworth",
+    "nameEn": "Cudworth",
+    "type": "city",
+    "lat": 52.4833,
+    "lng": -105.717,
+    "pop": null
+  },
+  {
+    "nameAr": "Cupar",
+    "nameEn": "Cupar",
+    "type": "city",
+    "lat": 50.95,
+    "lng": -104.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Cut Knife",
+    "nameEn": "Cut Knife",
+    "type": "city",
+    "lat": 52.745555555556,
+    "lng": -109.02055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Daaquam",
+    "nameEn": "Daaquam",
+    "type": "city",
+    "lat": 46.588055555556,
+    "lng": -70.063333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Dadens",
+    "nameEn": "Dadens",
+    "type": "city",
+    "lat": 54.186944444444,
+    "lng": -132.985,
+    "pop": null
+  },
+  {
+    "nameAr": "Dalhousie Station",
+    "nameEn": "Dalhousie Station",
+    "type": "city",
+    "lat": 45.2975,
+    "lng": -74.455277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Dalmeny",
+    "nameEn": "Dalmeny",
+    "type": "city",
+    "lat": 45.147,
+    "lng": -75.531,
+    "pop": null
+  },
+  {
+    "nameAr": "Darmody",
+    "nameEn": "Darmody",
+    "type": "city",
+    "lat": 50.715,
+    "lng": -106.29,
+    "pop": null
+  },
+  {
+    "nameAr": "Davidson",
+    "nameEn": "Davidson",
+    "type": "city",
+    "lat": 45.869444444444,
+    "lng": -76.766388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Deep River",
+    "nameEn": "Deep River",
+    "type": "city",
+    "lat": 46.1,
+    "lng": -77.4917,
+    "pop": null
+  },
+  {
+    "nameAr": "Delisle",
+    "nameEn": "Delisle",
+    "type": "city",
+    "lat": 51.9254,
+    "lng": -107.133,
+    "pop": null
+  },
+  {
+    "nameAr": "Dépôt-Baskatong",
+    "nameEn": "Dépôt-Baskatong",
+    "type": "city",
+    "lat": 46.784444,
+    "lng": -75.870277,
+    "pop": null
+  },
+  {
+    "nameAr": "Deseronto",
+    "nameEn": "Deseronto",
+    "type": "city",
+    "lat": 44.2,
+    "lng": -77.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Diamond City",
+    "nameEn": "Diamond City",
+    "type": "city",
+    "lat": 49.7956,
+    "lng": -112.839,
+    "pop": null
+  },
+  {
+    "nameAr": "Didyme",
+    "nameEn": "Didyme",
+    "type": "city",
+    "lat": 48.908055555556,
+    "lng": -72.665555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Dieppe",
+    "nameEn": "Dieppe",
+    "type": "city",
+    "lat": 46.098888888889,
+    "lng": -64.724166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Douglastown",
+    "nameEn": "Douglastown",
+    "type": "city",
+    "lat": 48.7671,
+    "lng": -64.3744,
+    "pop": null
+  },
+  {
+    "nameAr": "Druid",
+    "nameEn": "Druid",
+    "type": "city",
+    "lat": 51.799,
+    "lng": -108.805,
+    "pop": null
+  },
+  {
+    "nameAr": "Dundas",
+    "nameEn": "Dundas",
+    "type": "city",
+    "lat": 43.264198,
+    "lng": -79.953182,
+    "pop": null
+  },
+  {
+    "nameAr": "Dundurn",
+    "nameEn": "Dundurn",
+    "type": "city",
+    "lat": 51.8096,
+    "lng": -106.508,
+    "pop": null
+  },
+  {
+    "nameAr": "Dunnottar",
+    "nameEn": "Dunnottar",
+    "type": "city",
+    "lat": 50.4539,
+    "lng": -96.9472,
+    "pop": null
+  },
+  {
+    "nameAr": "East Baltic",
+    "nameEn": "East Baltic",
+    "type": "city",
+    "lat": 46.4333,
+    "lng": -62.1667,
+    "pop": null
+  },
+  {
+    "nameAr": "Eastend",
+    "nameEn": "Eastend",
+    "type": "city",
+    "lat": 49.5167,
+    "lng": -108.817,
+    "pop": null
+  },
+  {
+    "nameAr": "Eatonia",
+    "nameEn": "Eatonia",
+    "type": "city",
+    "lat": 51.2211,
+    "lng": -109.391,
+    "pop": null
+  },
+  {
+    "nameAr": "Elora",
+    "nameEn": "Elora",
+    "type": "city",
+    "lat": 43.685,
+    "lng": -80.427222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Elrose",
+    "nameEn": "Elrose",
+    "type": "city",
+    "lat": 51.2003,
+    "lng": -108.033,
+    "pop": null
+  },
+  {
+    "nameAr": "Elsa",
+    "nameEn": "Elsa",
+    "type": "city",
+    "lat": 63.911666666667,
+    "lng": -135.49083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Englehart",
+    "nameEn": "Englehart",
+    "type": "city",
+    "lat": 47.8167,
+    "lng": -79.8667,
+    "pop": null
+  },
+  {
+    "nameAr": "Erickson",
+    "nameEn": "Erickson",
+    "type": "city",
+    "lat": 50.4981,
+    "lng": -99.9114,
+    "pop": null
+  },
+  {
+    "nameAr": "Eskasoni",
+    "nameEn": "Eskasoni",
+    "type": "city",
+    "lat": 45.941935,
+    "lng": -60.616821,
+    "pop": null
+  },
+  {
+    "nameAr": "Estaire",
+    "nameEn": "Estaire",
+    "type": "city",
+    "lat": 46.3106,
+    "lng": -80.7953,
+    "pop": null
+  },
+  {
+    "nameAr": "Estcourt",
+    "nameEn": "Estcourt",
+    "type": "city",
+    "lat": 47.460555555556,
+    "lng": -69.225,
+    "pop": null
+  },
+  {
+    "nameAr": "Eston",
+    "nameEn": "Eston",
+    "type": "city",
+    "lat": 51.15,
+    "lng": -108.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Ethelbert",
+    "nameEn": "Ethelbert",
+    "type": "city",
+    "lat": 51.5292,
+    "lng": -100.393,
+    "pop": null
+  },
+  {
+    "nameAr": "Evesham",
+    "nameEn": "Evesham",
+    "type": "city",
+    "lat": 52.391,
+    "lng": -109.844,
+    "pop": null
+  },
+  {
+    "nameAr": "Expanse",
+    "nameEn": "Expanse",
+    "type": "city",
+    "lat": 49.222,
+    "lng": -109.17,
+    "pop": null
+  },
+  {
+    "nameAr": "Fabre",
+    "nameEn": "Fabre",
+    "type": "city",
+    "lat": 47.199166666667,
+    "lng": -79.365555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Falmouth",
+    "nameEn": "Falmouth",
+    "type": "city",
+    "lat": 44.998580555556,
+    "lng": -64.161619444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Farm Point",
+    "nameEn": "Farm Point",
+    "type": "city",
+    "lat": 45.602222222222,
+    "lng": -75.895,
+    "pop": null
+  },
+  {
+    "nameAr": "Faro",
+    "nameEn": "Faro",
+    "type": "city",
+    "lat": 62.233055555556,
+    "lng": -133.33305555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Fatima",
+    "nameEn": "Fatima",
+    "type": "city",
+    "lat": 47.408333,
+    "lng": -61.888888,
+    "pop": null
+  },
+  {
+    "nameAr": "Fenelon Falls",
+    "nameEn": "Fenelon Falls",
+    "type": "city",
+    "lat": 44.5356,
+    "lng": -78.7369,
+    "pop": null
+  },
+  {
+    "nameAr": "Ferland",
+    "nameEn": "Ferland",
+    "type": "city",
+    "lat": 49.45,
+    "lng": -106.951,
+    "pop": null
+  },
+  {
+    "nameAr": "Fitch Bay",
+    "nameEn": "Fitch Bay",
+    "type": "city",
+    "lat": 45.116944444444,
+    "lng": -72.178333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Flamborough",
+    "nameEn": "Flamborough",
+    "type": "city",
+    "lat": 43.346,
+    "lng": -80.055,
+    "pop": null
+  },
+  {
+    "nameAr": "Fleming",
+    "nameEn": "Fleming",
+    "type": "city",
+    "lat": 50.0708,
+    "lng": -101.499,
+    "pop": null
+  },
+  {
+    "nameAr": "Fogo",
+    "nameEn": "Fogo",
+    "type": "city",
+    "lat": 49.6667,
+    "lng": -54.1667,
+    "pop": null
+  },
+  {
+    "nameAr": "Fontainebleau",
+    "nameEn": "Fontainebleau",
+    "type": "city",
+    "lat": 45.683333333333,
+    "lng": -71.383333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fort Albany",
+    "nameEn": "Fort Albany",
+    "type": "city",
+    "lat": 52.25111111,
+    "lng": -81.50111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Fort Simpson",
+    "nameEn": "Fort Simpson",
+    "type": "city",
+    "lat": 61.8631,
+    "lng": -121.355,
+    "pop": null
+  },
+  {
+    "nameAr": "Fort Steele",
+    "nameEn": "Fort Steele",
+    "type": "city",
+    "lat": 49.6167,
+    "lng": -115.633,
+    "pop": null
+  },
+  {
+    "nameAr": "Fort William",
+    "nameEn": "Fort William",
+    "type": "city",
+    "lat": 48.38,
+    "lng": -89.28,
+    "pop": null
+  },
+  {
+    "nameAr": "Foster",
+    "nameEn": "Foster",
+    "type": "city",
+    "lat": 45.289722222222,
+    "lng": -72.494444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Francis",
+    "nameEn": "Francis",
+    "type": "city",
+    "lat": 50.1017,
+    "lng": -103.866,
+    "pop": null
+  },
+  {
+    "nameAr": "Frankford",
+    "nameEn": "Frankford",
+    "type": "city",
+    "lat": 44.200051,
+    "lng": -77.594719,
+    "pop": null
+  },
+  {
+    "nameAr": "Fruitvale",
+    "nameEn": "Fruitvale",
+    "type": "city",
+    "lat": 49.1161,
+    "lng": -117.541,
+    "pop": null
+  },
+  {
+    "nameAr": "Gananoque",
+    "nameEn": "Gananoque",
+    "type": "city",
+    "lat": 44.333333333333,
+    "lng": -76.166666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Garson",
+    "nameEn": "Garson",
+    "type": "city",
+    "lat": 50.0778,
+    "lng": -96.7067,
+    "pop": null
+  },
+  {
+    "nameAr": "Gascons",
+    "nameEn": "Gascons",
+    "type": "city",
+    "lat": 48.192222222222,
+    "lng": -64.859722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Gentilly",
+    "nameEn": "Gentilly",
+    "type": "city",
+    "lat": 46.4,
+    "lng": -72.275,
+    "pop": null
+  },
+  {
+    "nameAr": "Georgeville",
+    "nameEn": "Georgeville",
+    "type": "city",
+    "lat": 45.138888888889,
+    "lng": -72.2525,
+    "pop": null
+  },
+  {
+    "nameAr": "Gibsons",
+    "nameEn": "Gibsons",
+    "type": "city",
+    "lat": 49.402777777778,
+    "lng": -123.50361111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Gitwangak National Historic Site",
+    "nameEn": "Gitwangak National Historic Site",
+    "type": "city",
+    "lat": 55.1194,
+    "lng": -128.017,
+    "pop": null
+  },
+  {
+    "nameAr": "Glace Bay",
+    "nameEn": "Glace Bay",
+    "type": "city",
+    "lat": 46.2,
+    "lng": -59.9667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gladstone",
+    "nameEn": "Gladstone",
+    "type": "city",
+    "lat": 50.2258,
+    "lng": -98.95,
+    "pop": null
+  },
+  {
+    "nameAr": "Glenboro",
+    "nameEn": "Glenboro",
+    "type": "city",
+    "lat": 49.555833333333,
+    "lng": -99.291111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Glentworth",
+    "nameEn": "Glentworth",
+    "type": "city",
+    "lat": 49.4236,
+    "lng": -106.679,
+    "pop": null
+  },
+  {
+    "nameAr": "Glidden",
+    "nameEn": "Glidden",
+    "type": "city",
+    "lat": 51.239,
+    "lng": -109.164,
+    "pop": null
+  },
+  {
+    "nameAr": "Goldfields",
+    "nameEn": "Goldfields",
+    "type": "city",
+    "lat": 59.4667,
+    "lng": -108.483,
+    "pop": null
+  },
+  {
+    "nameAr": "Gore Bay",
+    "nameEn": "Gore Bay",
+    "type": "city",
+    "lat": 45.915277777778,
+    "lng": -82.464722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Govan",
+    "nameEn": "Govan",
+    "type": "city",
+    "lat": 51.311,
+    "lng": -104.995,
+    "pop": null
+  },
+  {
+    "nameAr": "Govenlock",
+    "nameEn": "Govenlock",
+    "type": "city",
+    "lat": 49.217,
+    "lng": -109.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Grand Centre",
+    "nameEn": "Grand Centre",
+    "type": "city",
+    "lat": 54.413333333333,
+    "lng": -110.21138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Grand-Bouctouche",
+    "nameEn": "Grand-Bouctouche",
+    "type": "city",
+    "lat": 46.4719,
+    "lng": -64.7249,
+    "pop": null
+  },
+  {
+    "nameAr": "Grand-Mère",
+    "nameEn": "Grand-Mère",
+    "type": "city",
+    "lat": 46.616666666667,
+    "lng": -72.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Grande-Cascapédia",
+    "nameEn": "Grande-Cascapédia",
+    "type": "city",
+    "lat": 48.2575,
+    "lng": -65.8925,
+    "pop": null
+  },
+  {
+    "nameAr": "Grande-Entrée",
+    "nameEn": "Grande-Entrée",
+    "type": "city",
+    "lat": 47.553828,
+    "lng": -61.547304,
+    "pop": null
+  },
+  {
+    "nameAr": "Grande-Rivière-Ouest",
+    "nameEn": "Grande-Rivière-Ouest",
+    "type": "city",
+    "lat": 48.391111111111,
+    "lng": -64.515555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Grandview",
+    "nameEn": "Grandview",
+    "type": "city",
+    "lat": 51.1742,
+    "lng": -100.698,
+    "pop": null
+  },
+  {
+    "nameAr": "Greater Moncton",
+    "nameEn": "Greater Moncton",
+    "type": "city",
+    "lat": 46.1117,
+    "lng": -64.6537,
+    "pop": null
+  },
+  {
+    "nameAr": "Greenlay",
+    "nameEn": "Greenlay",
+    "type": "city",
+    "lat": 45.559722,
+    "lng": -72.011388,
+    "pop": null
+  },
+  {
+    "nameAr": "Greenstone",
+    "nameEn": "Greenstone",
+    "type": "city",
+    "lat": 49.760833333333,
+    "lng": -87.285833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Grenfell",
+    "nameEn": "Grenfell",
+    "type": "city",
+    "lat": 50.4167,
+    "lng": -102.917,
+    "pop": null
+  },
+  {
+    "nameAr": "Grondines",
+    "nameEn": "Grondines",
+    "type": "city",
+    "lat": 46.591666,
+    "lng": -72.041666,
+    "pop": null
+  },
+  {
+    "nameAr": "Guigues",
+    "nameEn": "Guigues",
+    "type": "city",
+    "lat": 47.464444,
+    "lng": -79.438888,
+    "pop": null
+  },
+  {
+    "nameAr": "Gull Lake",
+    "nameEn": "Gull Lake",
+    "type": "city",
+    "lat": 50.096944444444,
+    "lng": -108.48472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hafford",
+    "nameEn": "Hafford",
+    "type": "city",
+    "lat": 52.726944444444,
+    "lng": -107.35333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hague",
+    "nameEn": "Hague",
+    "type": "city",
+    "lat": 52.5,
+    "lng": -106.417,
+    "pop": null
+  },
+  {
+    "nameAr": "Haines Junction",
+    "nameEn": "Haines Junction",
+    "type": "city",
+    "lat": 60.763707002146,
+    "lng": -137.49522589813,
+    "pop": null
+  },
+  {
+    "nameAr": "Haliburton",
+    "nameEn": "Haliburton",
+    "type": "city",
+    "lat": 45.0472,
+    "lng": -78.5069,
+    "pop": null
+  },
+  {
+    "nameAr": "Hamiota",
+    "nameEn": "Hamiota",
+    "type": "city",
+    "lat": 50.180555555556,
+    "lng": -100.59611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Hampton",
+    "nameEn": "Hampton",
+    "type": "city",
+    "lat": 45.533,
+    "lng": -65.833,
+    "pop": null
+  },
+  {
+    "nameAr": "Hanley",
+    "nameEn": "Hanley",
+    "type": "city",
+    "lat": 51.6167,
+    "lng": -106.433,
+    "pop": null
+  },
+  {
+    "nameAr": "Hanover",
+    "nameEn": "Hanover",
+    "type": "city",
+    "lat": 44.15,
+    "lng": -81.0333,
+    "pop": null
+  },
+  {
+    "nameAr": "Hantsport",
+    "nameEn": "Hantsport",
+    "type": "city",
+    "lat": 45.0667,
+    "lng": -64.1833,
+    "pop": null
+  },
+  {
+    "nameAr": "Hardy",
+    "nameEn": "Hardy",
+    "type": "city",
+    "lat": 49.4823,
+    "lng": -104.7215,
+    "pop": null
+  },
+  {
+    "nameAr": "Harrington Harbour",
+    "nameEn": "Harrington Harbour",
+    "type": "city",
+    "lat": 50.5,
+    "lng": -59.479722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Hartland",
+    "nameEn": "Hartland",
+    "type": "city",
+    "lat": 46.3,
+    "lng": -67.516666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Hartney",
+    "nameEn": "Hartney",
+    "type": "city",
+    "lat": 49.4808,
+    "lng": -100.522,
+    "pop": null
+  },
+  {
+    "nameAr": "Haut-Sheila",
+    "nameEn": "Haut-Sheila",
+    "type": "city",
+    "lat": 47.465874,
+    "lng": -64.943275,
+    "pop": null
+  },
+  {
+    "nameAr": "Havre-Aubert",
+    "nameEn": "Havre-Aubert",
+    "type": "city",
+    "lat": 47.236111111111,
+    "lng": -61.847222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Havre-aux-Maisons",
+    "nameEn": "Havre-aux-Maisons",
+    "type": "city",
+    "lat": 47.402777,
+    "lng": -61.816666,
+    "pop": null
+  },
+  {
+    "nameAr": "Hepburn",
+    "nameEn": "Hepburn",
+    "type": "city",
+    "lat": 52.5256,
+    "lng": -106.731,
+    "pop": null
+  },
+  {
+    "nameAr": "Hervey-Jonction",
+    "nameEn": "Hervey-Jonction",
+    "type": "city",
+    "lat": 46.854722,
+    "lng": -72.464722,
+    "pop": null
+  },
+  {
+    "nameAr": "Highwater",
+    "nameEn": "Highwater",
+    "type": "city",
+    "lat": 45.025277777778,
+    "lng": -72.430555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Horizon",
+    "nameEn": "Horizon",
+    "type": "city",
+    "lat": 49.519,
+    "lng": -105.226,
+    "pop": null
+  },
+  {
+    "nameAr": "Humber Village",
+    "nameEn": "Humber Village",
+    "type": "city",
+    "lat": 48.99,
+    "lng": -57.766,
+    "pop": null
+  },
+  {
+    "nameAr": "Hunterstown",
+    "nameEn": "Hunterstown",
+    "type": "city",
+    "lat": 46.446388055556,
+    "lng": -73.016111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Imperial",
+    "nameEn": "Imperial",
+    "type": "city",
+    "lat": 51.344,
+    "lng": -105.443,
+    "pop": null
+  },
+  {
+    "nameAr": "Instow",
+    "nameEn": "Instow",
+    "type": "city",
+    "lat": 49.222,
+    "lng": -109.17,
+    "pop": null
+  },
+  {
+    "nameAr": "Issoudun",
+    "nameEn": "Issoudun",
+    "type": "city",
+    "lat": 46.577777777778,
+    "lng": -71.625555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Ituna",
+    "nameEn": "Ituna",
+    "type": "city",
+    "lat": 51.17,
+    "lng": -103.493,
+    "pop": null
+  },
+  {
+    "nameAr": "Jacola",
+    "nameEn": "Jacola",
+    "type": "city",
+    "lat": 48.09861,
+    "lng": -77.817777,
+    "pop": null
+  },
+  {
+    "nameAr": "Jacques-Cartier",
+    "nameEn": "Jacques-Cartier",
+    "type": "city",
+    "lat": 46.672222222222,
+    "lng": -71.758611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Johnville",
+    "nameEn": "Johnville",
+    "type": "city",
+    "lat": 45.331944444444,
+    "lng": -71.751666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Joly",
+    "nameEn": "Joly",
+    "type": "city",
+    "lat": 46.485277777778,
+    "lng": -71.668333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Judique",
+    "nameEn": "Judique",
+    "type": "city",
+    "lat": 45.8761,
+    "lng": -61.4903,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaladar",
+    "nameEn": "Kaladar",
+    "type": "city",
+    "lat": 44.65,
+    "lng": -77.1167,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamsack",
+    "nameEn": "Kamsack",
+    "type": "city",
+    "lat": 51.565,
+    "lng": -101.895,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaslo",
+    "nameEn": "Kaslo",
+    "type": "city",
+    "lat": 49.9133,
+    "lng": -116.911,
+    "pop": null
+  },
+  {
+    "nameAr": "Katevale",
+    "nameEn": "Katevale",
+    "type": "city",
+    "lat": 45.249722222222,
+    "lng": -72.047222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kegaska",
+    "nameEn": "Kegaska",
+    "type": "city",
+    "lat": 50.18767778,
+    "lng": -61.27385556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kelvington",
+    "nameEn": "Kelvington",
+    "type": "city",
+    "lat": 52.1667,
+    "lng": -103.533,
+    "pop": null
+  },
+  {
+    "nameAr": "Kelvington-Wadena",
+    "nameEn": "Kelvington-Wadena",
+    "type": "city",
+    "lat": 52.1667,
+    "lng": -103.667,
+    "pop": null
+  },
+  {
+    "nameAr": "Keyano",
+    "nameEn": "Keyano",
+    "type": "city",
+    "lat": 53.826944444444,
+    "lng": -73.531944444445,
+    "pop": null
+  },
+  {
+    "nameAr": "Kiix?in",
+    "nameEn": "Kiix?in",
+    "type": "city",
+    "lat": 48.81527778,
+    "lng": -125.175,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilburn",
+    "nameEn": "Kilburn",
+    "type": "city",
+    "lat": 46.637214,
+    "lng": -67.703995,
+    "pop": null
+  },
+  {
+    "nameAr": "Killaloe",
+    "nameEn": "Killaloe",
+    "type": "city",
+    "lat": 45.5645,
+    "lng": -77.4196,
+    "pop": null
+  },
+  {
+    "nameAr": "Kinistino",
+    "nameEn": "Kinistino",
+    "type": "city",
+    "lat": 52.95,
+    "lng": -105.03,
+    "pop": null
+  },
+  {
+    "nameAr": "Kitamaat Village",
+    "nameEn": "Kitamaat Village",
+    "type": "city",
+    "lat": 53.98055556,
+    "lng": -128.64722222,
+    "pop": null
+  },
+  {
+    "nameAr": "Knowlton",
+    "nameEn": "Knowlton",
+    "type": "city",
+    "lat": 45.217222222222,
+    "lng": -72.518611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kyle",
+    "nameEn": "Kyle",
+    "type": "city",
+    "lat": 50.8317,
+    "lng": -108.037,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Acadie",
+    "nameEn": "L'Acadie",
+    "type": "city",
+    "lat": 45.3154,
+    "lng": -73.3451,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Anse-à-Valleau",
+    "nameEn": "L'Anse-à-Valleau",
+    "type": "city",
+    "lat": 49.08055556,
+    "lng": -64.5475,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Anse-au-Griffon",
+    "nameEn": "L'Anse-au-Griffon",
+    "type": "city",
+    "lat": 48.9283,
+    "lng": -64.2872,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Ascension",
+    "nameEn": "L'Ascension",
+    "type": "city",
+    "lat": 48.6925,
+    "lng": -71.670833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Étang-du-Nord",
+    "nameEn": "L'Étang-du-Nord",
+    "type": "city",
+    "lat": 47.383338,
+    "lng": -61.866672,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Île-aux-Noix",
+    "nameEn": "L'Île-aux-Noix",
+    "type": "city",
+    "lat": 45.132776944444,
+    "lng": -73.274721111111,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Île-d'Entrée",
+    "nameEn": "L'Île-d'Entrée",
+    "type": "city",
+    "lat": 47.270833333333,
+    "lng": -61.706944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Isle-aux-Grues",
+    "nameEn": "L'Isle-aux-Grues",
+    "type": "city",
+    "lat": 47.068055555556,
+    "lng": -70.543333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Islet-sur-Mer",
+    "nameEn": "L'Islet-sur-Mer",
+    "type": "city",
+    "lat": 47.1275,
+    "lng": -70.373055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "L'Orignal",
+    "nameEn": "L'Orignal",
+    "type": "city",
+    "lat": 45.6194,
+    "lng": -74.6917,
+    "pop": null
+  },
+  {
+    "nameAr": "La Baleine",
+    "nameEn": "La Baleine",
+    "type": "city",
+    "lat": 47.4,
+    "lng": -70.35,
+    "pop": null
+  },
+  {
+    "nameAr": "La Croche",
+    "nameEn": "La Croche",
+    "type": "city",
+    "lat": 47.5833333,
+    "lng": -72.7416667,
+    "pop": null
+  },
+  {
+    "nameAr": "La Pérade",
+    "nameEn": "La Pérade",
+    "type": "city",
+    "lat": 46.572005,
+    "lng": -72.204626,
+    "pop": null
+  },
+  {
+    "nameAr": "La Tabatière",
+    "nameEn": "La Tabatière",
+    "type": "city",
+    "lat": 50.8308,
+    "lng": -58.9756,
+    "pop": null
+  },
+  {
+    "nameAr": "La Vernière",
+    "nameEn": "La Vernière",
+    "type": "city",
+    "lat": 47.370833333333,
+    "lng": -61.907222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "La Visitation",
+    "nameEn": "La Visitation",
+    "type": "city",
+    "lat": 46.129722222222,
+    "lng": -72.605,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac du Bonnet",
+    "nameEn": "Lac du Bonnet",
+    "type": "city",
+    "lat": 50.2536,
+    "lng": -96.0606,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-à-Beauce",
+    "nameEn": "Lac-à-Beauce",
+    "type": "city",
+    "lat": 47.31638889,
+    "lng": -72.75972222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-à-la-Carpe",
+    "nameEn": "Lac-à-la-Carpe",
+    "type": "city",
+    "lat": 49.829444,
+    "lng": -71.101389,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-à-la-Tortue",
+    "nameEn": "Lac-à-la-Tortue",
+    "type": "city",
+    "lat": 46.6111,
+    "lng": -72.6324,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-Castor",
+    "nameEn": "Lac-Castor",
+    "type": "city",
+    "lat": 46.366943,
+    "lng": -74.880277,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-Cayamant",
+    "nameEn": "Lac-Cayamant",
+    "type": "city",
+    "lat": 46.137222222222,
+    "lng": -76.248888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-Chaud",
+    "nameEn": "Lac-Chaud",
+    "type": "city",
+    "lat": 46.425554,
+    "lng": -74.773332,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-des-Loups",
+    "nameEn": "Lac-des-Loups",
+    "type": "city",
+    "lat": 45.68528,
+    "lng": -76.21083,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-Humqui",
+    "nameEn": "Lac-Humqui",
+    "type": "city",
+    "lat": 48.306944,
+    "lng": -67.580277,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-Labelle",
+    "nameEn": "Lac-Labelle",
+    "type": "city",
+    "lat": 46.269166666667,
+    "lng": -74.827222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lac-Marsan",
+    "nameEn": "Lac-Marsan",
+    "type": "city",
+    "lat": 46.355555555556,
+    "lng": -74.852222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ladysmith",
+    "nameEn": "Ladysmith",
+    "type": "city",
+    "lat": 45.761666666667,
+    "lng": -76.388888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lafleche",
+    "nameEn": "Lafleche",
+    "type": "city",
+    "lat": 49.7064,
+    "lng": -106.574,
+    "pop": null
+  },
+  {
+    "nameAr": "Lafontaine",
+    "nameEn": "Lafontaine",
+    "type": "city",
+    "lat": 44.758333333333,
+    "lng": -80.052222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lamèque",
+    "nameEn": "Lamèque",
+    "type": "city",
+    "lat": 47.7933,
+    "lng": -64.6478,
+    "pop": null
+  },
+  {
+    "nameAr": "Lampman",
+    "nameEn": "Lampman",
+    "type": "city",
+    "lat": 49.383,
+    "lng": -102.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Lanark",
+    "nameEn": "Lanark",
+    "type": "city",
+    "lat": 45.0169,
+    "lng": -76.3631,
+    "pop": null
+  },
+  {
+    "nameAr": "Lancaster",
+    "nameEn": "Lancaster",
+    "type": "city",
+    "lat": 45.143333333333,
+    "lng": -74.501944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Langenburg",
+    "nameEn": "Langenburg",
+    "type": "city",
+    "lat": 50.8333,
+    "lng": -101.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Langham",
+    "nameEn": "Langham",
+    "type": "city",
+    "lat": 52.3667,
+    "lng": -106.967,
+    "pop": null
+  },
+  {
+    "nameAr": "Languedoc",
+    "nameEn": "Languedoc",
+    "type": "city",
+    "lat": 48.8072222,
+    "lng": -78.6966667,
+    "pop": null
+  },
+  {
+    "nameAr": "Lanigan",
+    "nameEn": "Lanigan",
+    "type": "city",
+    "lat": 51.85,
+    "lng": -105.033,
+    "pop": null
+  },
+  {
+    "nameAr": "Larrys River",
+    "nameEn": "Larrys River",
+    "type": "city",
+    "lat": 45.221666666667,
+    "lng": -61.382777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Lashburn",
+    "nameEn": "Lashburn",
+    "type": "city",
+    "lat": 53.124,
+    "lng": -109.613,
+    "pop": null
+  },
+  {
+    "nameAr": "Latchford",
+    "nameEn": "Latchford",
+    "type": "city",
+    "lat": 47.328888888889,
+    "lng": -79.810277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Latulipe",
+    "nameEn": "Latulipe",
+    "type": "city",
+    "lat": 47.426943,
+    "lng": -79.033333,
+    "pop": null
+  },
+  {
+    "nameAr": "Laura",
+    "nameEn": "Laura",
+    "type": "city",
+    "lat": 51.846,
+    "lng": -107.279,
+    "pop": null
+  },
+  {
+    "nameAr": "Laurentian Hills",
+    "nameEn": "Laurentian Hills",
+    "type": "city",
+    "lat": 46.1333,
+    "lng": -77.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Leaf Rapids",
+    "nameEn": "Leaf Rapids",
+    "type": "city",
+    "lat": 56.4627,
+    "lng": -100.0108,
+    "pop": null
+  },
+  {
+    "nameAr": "Lemberg",
+    "nameEn": "Lemberg",
+    "type": "city",
+    "lat": 50.732,
+    "lng": -103.195,
+    "pop": null
+  },
+  {
+    "nameAr": "Lemsford",
+    "nameEn": "Lemsford",
+    "type": "city",
+    "lat": 50.85,
+    "lng": -109.117,
+    "pop": null
+  },
+  {
+    "nameAr": "Leroy",
+    "nameEn": "Leroy",
+    "type": "city",
+    "lat": 52.002,
+    "lng": -104.735,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Boules",
+    "nameEn": "Les Boules",
+    "type": "city",
+    "lat": 48.6833,
+    "lng": -67.9583,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Buissons",
+    "nameEn": "Les Buissons",
+    "type": "city",
+    "lat": 49.102222222222,
+    "lng": -68.385277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Étroits",
+    "nameEn": "Les Étroits",
+    "type": "city",
+    "lat": 47.3875,
+    "lng": -68.895277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Les Hauteurs-de-Rimouski",
+    "nameEn": "Les Hauteurs-de-Rimouski",
+    "type": "city",
+    "lat": 48.378888888889,
+    "lng": -68.114444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Lesage",
+    "nameEn": "Lesage",
+    "type": "city",
+    "lat": 45.859722222222,
+    "lng": -74.070555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Letang",
+    "nameEn": "Letang",
+    "type": "city",
+    "lat": 46.736944444444,
+    "lng": -79.066944444445,
+    "pop": null
+  },
+  {
+    "nameAr": "Linière",
+    "nameEn": "Linière",
+    "type": "city",
+    "lat": 46.050185263186,
+    "lng": -70.517265836882,
+    "pop": null
+  },
+  {
+    "nameAr": "Lost River",
+    "nameEn": "Lost River",
+    "type": "city",
+    "lat": 45.831388888889,
+    "lng": -74.548333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lots-Renversés",
+    "nameEn": "Lots-Renversés",
+    "type": "city",
+    "lat": 47.664444444444,
+    "lng": -68.669722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Lourdes",
+    "nameEn": "Lourdes",
+    "type": "city",
+    "lat": 46.326388,
+    "lng": -71.819166,
+    "pop": null
+  },
+  {
+    "nameAr": "Lourdes-de-Blanc-Sablon",
+    "nameEn": "Lourdes-de-Blanc-Sablon",
+    "type": "city",
+    "lat": 51.41138889,
+    "lng": -57.20305556,
+    "pop": null
+  },
+  {
+    "nameAr": "Lumby",
+    "nameEn": "Lumby",
+    "type": "city",
+    "lat": 50.25,
+    "lng": -118.967,
+    "pop": null
+  },
+  {
+    "nameAr": "Lumsden",
+    "nameEn": "Lumsden",
+    "type": "city",
+    "lat": 50.65,
+    "lng": -104.867,
+    "pop": null
+  },
+  {
+    "nameAr": "Lynn Lake",
+    "nameEn": "Lynn Lake",
+    "type": "city",
+    "lat": 56.851666666667,
+    "lng": -101.04666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Madeleine-Centre",
+    "nameEn": "Madeleine-Centre",
+    "type": "city",
+    "lat": 49.248055555556,
+    "lng": -65.352222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Magpie",
+    "nameEn": "Magpie",
+    "type": "city",
+    "lat": 50.310277777778,
+    "lng": -64.493611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Maitland",
+    "nameEn": "Maitland",
+    "type": "city",
+    "lat": 45.3179,
+    "lng": -63.4976,
+    "pop": null
+  },
+  {
+    "nameAr": "Manitou",
+    "nameEn": "Manitou",
+    "type": "city",
+    "lat": 49.2406,
+    "lng": -98.5367,
+    "pop": null
+  },
+  {
+    "nameAr": "Mansonville",
+    "nameEn": "Mansonville",
+    "type": "city",
+    "lat": 45.050555555556,
+    "lng": -72.392777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Marbleton",
+    "nameEn": "Marbleton",
+    "type": "city",
+    "lat": 45.616667,
+    "lng": -71.583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Marchand",
+    "nameEn": "Marchand",
+    "type": "city",
+    "lat": 49.444837,
+    "lng": -96.386855,
+    "pop": null
+  },
+  {
+    "nameAr": "Margaretsville",
+    "nameEn": "Margaretsville",
+    "type": "city",
+    "lat": 45.048055555556,
+    "lng": -65.064444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Markdale",
+    "nameEn": "Markdale",
+    "type": "city",
+    "lat": 44.3167,
+    "lng": -80.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Markstay-Warren",
+    "nameEn": "Markstay-Warren",
+    "type": "city",
+    "lat": 46.495555555556,
+    "lng": -80.486944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Masset",
+    "nameEn": "Masset",
+    "type": "city",
+    "lat": 54.01,
+    "lng": -132.13805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Mayo",
+    "nameEn": "Mayo",
+    "type": "city",
+    "lat": 63.5931,
+    "lng": -135.896,
+    "pop": null
+  },
+  {
+    "nameAr": "McBride",
+    "nameEn": "McBride",
+    "type": "city",
+    "lat": 53.304166666667,
+    "lng": -120.16138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Melita",
+    "nameEn": "Melita",
+    "type": "city",
+    "lat": 49.2681,
+    "lng": -100.996,
+    "pop": null
+  },
+  {
+    "nameAr": "Midhurst",
+    "nameEn": "Midhurst",
+    "type": "city",
+    "lat": 44.4433,
+    "lng": -79.7217,
+    "pop": null
+  },
+  {
+    "nameAr": "Milestone",
+    "nameEn": "Milestone",
+    "type": "city",
+    "lat": 49.993333333333,
+    "lng": -104.51777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mimico",
+    "nameEn": "Mimico",
+    "type": "city",
+    "lat": 43.6128,
+    "lng": -79.4942,
+    "pop": null
+  },
+  {
+    "nameAr": "Mingan",
+    "nameEn": "Mingan",
+    "type": "city",
+    "lat": 50.29111,
+    "lng": -64.019166,
+    "pop": null
+  },
+  {
+    "nameAr": "Minitonas",
+    "nameEn": "Minitonas",
+    "type": "city",
+    "lat": 52.0861,
+    "lng": -101.039,
+    "pop": null
+  },
+  {
+    "nameAr": "Mont-Carmel",
+    "nameEn": "Mont-Carmel",
+    "type": "city",
+    "lat": 46.4,
+    "lng": -64.033333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mont-Louis",
+    "nameEn": "Mont-Louis",
+    "type": "city",
+    "lat": 49.229166666667,
+    "lng": -65.731388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Montauban-les-Mines",
+    "nameEn": "Montauban-les-Mines",
+    "type": "city",
+    "lat": 46.828053888889,
+    "lng": -72.34111,
+    "pop": null
+  },
+  {
+    "nameAr": "Montfort",
+    "nameEn": "Montfort",
+    "type": "city",
+    "lat": 45.885833,
+    "lng": -74.340833,
+    "pop": null
+  },
+  {
+    "nameAr": "Montrose",
+    "nameEn": "Montrose",
+    "type": "city",
+    "lat": 49.0783,
+    "lng": -117.593,
+    "pop": null
+  },
+  {
+    "nameAr": "Morrisburg",
+    "nameEn": "Morrisburg",
+    "type": "city",
+    "lat": 44.898,
+    "lng": -75.183,
+    "pop": null
+  },
+  {
+    "nameAr": "Morse",
+    "nameEn": "Morse",
+    "type": "city",
+    "lat": 50.414,
+    "lng": -107.032,
+    "pop": null
+  },
+  {
+    "nameAr": "Mossbank",
+    "nameEn": "Mossbank",
+    "type": "city",
+    "lat": 49.933,
+    "lng": -105.967,
+    "pop": null
+  },
+  {
+    "nameAr": "Murray River",
+    "nameEn": "Murray River",
+    "type": "city",
+    "lat": 46.016944444444,
+    "lng": -62.615555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Naicam",
+    "nameEn": "Naicam",
+    "type": "city",
+    "lat": 52.419444444444,
+    "lng": -104.49666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Neepawa",
+    "nameEn": "Neepawa",
+    "type": "city",
+    "lat": 50.2289,
+    "lng": -99.4656,
+    "pop": null
+  },
+  {
+    "nameAr": "New Denver",
+    "nameEn": "New Denver",
+    "type": "city",
+    "lat": 49.9917,
+    "lng": -117.371,
+    "pop": null
+  },
+  {
+    "nameAr": "New Glasgow",
+    "nameEn": "New Glasgow",
+    "type": "city",
+    "lat": 45.834722222222,
+    "lng": -73.877777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "New Vancouver",
+    "nameEn": "New Vancouver",
+    "type": "city",
+    "lat": 50.5694,
+    "lng": -126.612,
+    "pop": null
+  },
+  {
+    "nameAr": "Newport",
+    "nameEn": "Newport",
+    "type": "city",
+    "lat": 48.2667,
+    "lng": -64.7424,
+    "pop": null
+  },
+  {
+    "nameAr": "Newport Landing",
+    "nameEn": "Newport Landing",
+    "type": "city",
+    "lat": 45.0203,
+    "lng": -64.1298,
+    "pop": null
+  },
+  {
+    "nameAr": "Nipawin",
+    "nameEn": "Nipawin",
+    "type": "city",
+    "lat": 53.357222222222,
+    "lng": -104.01916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Nobel",
+    "nameEn": "Nobel",
+    "type": "city",
+    "lat": 45.4167,
+    "lng": -80.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Norquay",
+    "nameEn": "Norquay",
+    "type": "city",
+    "lat": 51.908,
+    "lng": -102.089,
+    "pop": null
+  },
+  {
+    "nameAr": "North Rustico",
+    "nameEn": "North Rustico",
+    "type": "city",
+    "lat": 46.458333333333,
+    "lng": -63.3125,
+    "pop": null
+  },
+  {
+    "nameAr": "Northeastern Manitoulin and the Islands",
+    "nameEn": "Northeastern Manitoulin and the Islands",
+    "type": "city",
+    "lat": 45.9667,
+    "lng": -81.9333,
+    "pop": null
+  },
+  {
+    "nameAr": "Notre-Dame-de-l'Isle-Verte",
+    "nameEn": "Notre-Dame-de-l'Isle-Verte",
+    "type": "city",
+    "lat": 48.0075,
+    "lng": -69.4575,
+    "pop": null
+  },
+  {
+    "nameAr": "Notre-Dame-de-Lourdes",
+    "nameEn": "Notre-Dame-de-Lourdes",
+    "type": "city",
+    "lat": 49.533055555556,
+    "lng": -98.557777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Notre-Dame-de-Pierreville",
+    "nameEn": "Notre-Dame-de-Pierreville",
+    "type": "city",
+    "lat": 46.104166,
+    "lng": -72.880554,
+    "pop": null
+  },
+  {
+    "nameAr": "Notre-Dame-des-Anges",
+    "nameEn": "Notre-Dame-des-Anges",
+    "type": "city",
+    "lat": 46.876944444444,
+    "lng": -72.309166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Notre-Dame-du-Rosaire",
+    "nameEn": "Notre-Dame-du-Rosaire",
+    "type": "city",
+    "lat": 48.791388888889,
+    "lng": -71.426388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Nutana",
+    "nameEn": "Nutana",
+    "type": "city",
+    "lat": 52.1167,
+    "lng": -106.657,
+    "pop": null
+  },
+  {
+    "nameAr": "O'Leary",
+    "nameEn": "O'Leary",
+    "type": "city",
+    "lat": 46.7069,
+    "lng": -64.2306,
+    "pop": null
+  },
+  {
+    "nameAr": "Oak Lake",
+    "nameEn": "Oak Lake",
+    "type": "city",
+    "lat": 49.7664,
+    "lng": -100.628,
+    "pop": null
+  },
+  {
+    "nameAr": "Ogema",
+    "nameEn": "Ogema",
+    "type": "city",
+    "lat": 49.575,
+    "lng": -104.917,
+    "pop": null
+  },
+  {
+    "nameAr": "Old Chelsea",
+    "nameEn": "Old Chelsea",
+    "type": "city",
+    "lat": 45.503333333333,
+    "lng": -75.8125,
+    "pop": null
+  },
+  {
+    "nameAr": "Old Fort Bay",
+    "nameEn": "Old Fort Bay",
+    "type": "city",
+    "lat": 51.423611111111,
+    "lng": -57.824444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Oromocto",
+    "nameEn": "Oromocto",
+    "type": "city",
+    "lat": 45.8488,
+    "lng": -66.4788,
+    "pop": null
+  },
+  {
+    "nameAr": "Oxbow",
+    "nameEn": "Oxbow",
+    "type": "city",
+    "lat": 49.2333,
+    "lng": -102.167,
+    "pop": null
+  },
+  {
+    "nameAr": "Pabos",
+    "nameEn": "Pabos",
+    "type": "city",
+    "lat": 48.3625,
+    "lng": -64.6083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pabos Mills",
+    "nameEn": "Pabos Mills",
+    "type": "city",
+    "lat": 48.306944444444,
+    "lng": -64.709722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pamdenec",
+    "nameEn": "Pamdenec",
+    "type": "city",
+    "lat": 45.313,
+    "lng": -66.194,
+    "pop": null
+  },
+  {
+    "nameAr": "Parent",
+    "nameEn": "Parent",
+    "type": "city",
+    "lat": 47.917,
+    "lng": -74.617,
+    "pop": null
+  },
+  {
+    "nameAr": "Peggys Cove",
+    "nameEn": "Peggys Cove",
+    "type": "city",
+    "lat": 44.493553,
+    "lng": -63.916728,
+    "pop": null
+  },
+  {
+    "nameAr": "Pense",
+    "nameEn": "Pense",
+    "type": "city",
+    "lat": 50.4168,
+    "lng": -104.984,
+    "pop": null
+  },
+  {
+    "nameAr": "Perkins",
+    "nameEn": "Perkins",
+    "type": "city",
+    "lat": 45.600555555556,
+    "lng": -75.622222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Petit-Cap",
+    "nameEn": "Petit-Cap",
+    "type": "city",
+    "lat": 49.033704,
+    "lng": -64.451122,
+    "pop": null
+  },
+  {
+    "nameAr": "Petit-Pabos",
+    "nameEn": "Petit-Pabos",
+    "type": "city",
+    "lat": 48.377777777778,
+    "lng": -64.577222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Petite-Rivière",
+    "nameEn": "Petite-Rivière",
+    "type": "city",
+    "lat": 47.301944,
+    "lng": -70.569999,
+    "pop": null
+  },
+  {
+    "nameAr": "Petite-Rivière-au-Renard",
+    "nameEn": "Petite-Rivière-au-Renard",
+    "type": "city",
+    "lat": 49.014166111111,
+    "lng": -64.422498888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Pilot Mound",
+    "nameEn": "Pilot Mound",
+    "type": "city",
+    "lat": 49.2014,
+    "lng": -98.8939,
+    "pop": null
+  },
+  {
+    "nameAr": "Plum Coulee",
+    "nameEn": "Plum Coulee",
+    "type": "city",
+    "lat": 49.1911,
+    "lng": -97.7606,
+    "pop": null
+  },
+  {
+    "nameAr": "Point Wolfe",
+    "nameEn": "Point Wolfe",
+    "type": "city",
+    "lat": 45.54171,
+    "lng": -65.02119,
+    "pop": null
+  },
+  {
+    "nameAr": "Pointe-à-la-Garde",
+    "nameEn": "Pointe-à-la-Garde",
+    "type": "city",
+    "lat": 48.078611111111,
+    "lng": -66.543611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Pointe-au-Chêne",
+    "nameEn": "Pointe-au-Chêne",
+    "type": "city",
+    "lat": 45.645277777778,
+    "lng": -74.749444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Pointe-Jaune",
+    "nameEn": "Pointe-Jaune",
+    "type": "city",
+    "lat": 49.069354,
+    "lng": -64.511461,
+    "pop": null
+  },
+  {
+    "nameAr": "Pollards Point",
+    "nameEn": "Pollards Point",
+    "type": "city",
+    "lat": 49.746944444444,
+    "lng": -56.920833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Poltimore",
+    "nameEn": "Poltimore",
+    "type": "city",
+    "lat": 45.785,
+    "lng": -75.706944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ponteix",
+    "nameEn": "Ponteix",
+    "type": "city",
+    "lat": 49.75,
+    "lng": -107.483,
+    "pop": null
+  },
+  {
+    "nameAr": "Porcupine Plain",
+    "nameEn": "Porcupine Plain",
+    "type": "city",
+    "lat": 52.598,
+    "lng": -103.248,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Arthur",
+    "nameEn": "Port Arthur",
+    "type": "city",
+    "lat": 48.45,
+    "lng": -89.23,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Clements",
+    "nameEn": "Port Clements",
+    "type": "city",
+    "lat": 53.6853,
+    "lng": -132.17,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Dover",
+    "nameEn": "Port Dover",
+    "type": "city",
+    "lat": 42.7867,
+    "lng": -80.2031,
+    "pop": null
+  },
+  {
+    "nameAr": "Port McNeill",
+    "nameEn": "Port McNeill",
+    "type": "city",
+    "lat": 50.5833,
+    "lng": -127.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Port Stanley",
+    "nameEn": "Port Stanley",
+    "type": "city",
+    "lat": 42.6638,
+    "lng": -81.2129,
+    "pop": null
+  },
+  {
+    "nameAr": "Port-Daniel",
+    "nameEn": "Port-Daniel",
+    "type": "city",
+    "lat": 48.179999,
+    "lng": -64.97111,
+    "pop": null
+  },
+  {
+    "nameAr": "Port-Menier",
+    "nameEn": "Port-Menier",
+    "type": "city",
+    "lat": 49.81777778,
+    "lng": -64.35055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Portland",
+    "nameEn": "Portland",
+    "type": "city",
+    "lat": 45.267,
+    "lng": -66.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Powassan",
+    "nameEn": "Powassan",
+    "type": "city",
+    "lat": 46.0667,
+    "lng": -79.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Powerview",
+    "nameEn": "Powerview",
+    "type": "city",
+    "lat": 50.566111,
+    "lng": -96.198056,
+    "pop": null
+  },
+  {
+    "nameAr": "Preeceville",
+    "nameEn": "Preeceville",
+    "type": "city",
+    "lat": 51.965,
+    "lng": -102.667,
+    "pop": null
+  },
+  {
+    "nameAr": "Primate",
+    "nameEn": "Primate",
+    "type": "city",
+    "lat": 52.2597,
+    "lng": -109.814,
+    "pop": null
+  },
+  {
+    "nameAr": "Princeton",
+    "nameEn": "Princeton",
+    "type": "city",
+    "lat": 49.458916666667,
+    "lng": -120.50602777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Proulxville",
+    "nameEn": "Proulxville",
+    "type": "city",
+    "lat": 46.668888,
+    "lng": -72.505,
+    "pop": null
+  },
+  {
+    "nameAr": "Purtuniq",
+    "nameEn": "Purtuniq",
+    "type": "city",
+    "lat": 61.816666666667,
+    "lng": -73.951111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Qu'Appelle",
+    "nameEn": "Qu'Appelle",
+    "type": "city",
+    "lat": 50.541,
+    "lng": -103.874,
+    "pop": null
+  },
+  {
+    "nameAr": "Quyon",
+    "nameEn": "Quyon",
+    "type": "city",
+    "lat": 45.516666666667,
+    "lng": -76.233333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Radville",
+    "nameEn": "Radville",
+    "type": "city",
+    "lat": 49.4667,
+    "lng": -104.283,
+    "pop": null
+  },
+  {
+    "nameAr": "Rainy River",
+    "nameEn": "Rainy River",
+    "type": "city",
+    "lat": 48.716666666667,
+    "lng": -94.566666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Rapid City",
+    "nameEn": "Rapid City",
+    "type": "city",
+    "lat": 50.1208,
+    "lng": -100.036,
+    "pop": null
+  },
+  {
+    "nameAr": "Raymore",
+    "nameEn": "Raymore",
+    "type": "city",
+    "lat": 51.242,
+    "lng": -104.314,
+    "pop": null
+  },
+  {
+    "nameAr": "Rayside-Balfour",
+    "nameEn": "Rayside-Balfour",
+    "type": "city",
+    "lat": 46.5686,
+    "lng": -81.1533,
+    "pop": null
+  },
+  {
+    "nameAr": "Redvers",
+    "nameEn": "Redvers",
+    "type": "city",
+    "lat": 49.5667,
+    "lng": -101.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Regina Beach",
+    "nameEn": "Regina Beach",
+    "type": "city",
+    "lat": 50.79,
+    "lng": -104.99,
+    "pop": null
+  },
+  {
+    "nameAr": "River Hebert",
+    "nameEn": "River Hebert",
+    "type": "city",
+    "lat": 45.6901,
+    "lng": -64.3819,
+    "pop": null
+  },
+  {
+    "nameAr": "Riversdale",
+    "nameEn": "Riversdale",
+    "type": "city",
+    "lat": 52.1253,
+    "lng": -106.679,
+    "pop": null
+  },
+  {
+    "nameAr": "Riverton",
+    "nameEn": "Riverton",
+    "type": "city",
+    "lat": 50.9983,
+    "lng": -96.9961,
+    "pop": null
+  },
+  {
+    "nameAr": "Rivière-aux-Graines",
+    "nameEn": "Rivière-aux-Graines",
+    "type": "city",
+    "lat": 50.286943888889,
+    "lng": -65.190276944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rivière-Pentecôte",
+    "nameEn": "Rivière-Pentecôte",
+    "type": "city",
+    "lat": 49.78472,
+    "lng": -67.1625,
+    "pop": null
+  },
+  {
+    "nameAr": "Rivière-Portneuf",
+    "nameEn": "Rivière-Portneuf",
+    "type": "city",
+    "lat": 48.627222222222,
+    "lng": -69.096944444445,
+    "pop": null
+  },
+  {
+    "nameAr": "Rivière-Sainte-Marguerite-en-Bas",
+    "nameEn": "Rivière-Sainte-Marguerite-en-Bas",
+    "type": "city",
+    "lat": 50.137776944444,
+    "lng": -66.614166111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Rivière-Trois-Pistoles",
+    "nameEn": "Rivière-Trois-Pistoles",
+    "type": "city",
+    "lat": 48.095595,
+    "lng": -69.212065,
+    "pop": null
+  },
+  {
+    "nameAr": "Robert's Arm",
+    "nameEn": "Robert's Arm",
+    "type": "city",
+    "lat": 49.4881,
+    "lng": -55.8108,
+    "pop": null
+  },
+  {
+    "nameAr": "Roblin",
+    "nameEn": "Roblin",
+    "type": "city",
+    "lat": 51.23,
+    "lng": -101.356,
+    "pop": null
+  },
+  {
+    "nameAr": "Rockglen",
+    "nameEn": "Rockglen",
+    "type": "city",
+    "lat": 49.1833,
+    "lng": -105.95,
+    "pop": null
+  },
+  {
+    "nameAr": "Rose Blanche",
+    "nameEn": "Rose Blanche",
+    "type": "city",
+    "lat": 47.6125,
+    "lng": -58.697222,
+    "pop": null
+  },
+  {
+    "nameAr": "Rossburn",
+    "nameEn": "Rossburn",
+    "type": "city",
+    "lat": 50.6692,
+    "lng": -100.811,
+    "pop": null
+  },
+  {
+    "nameAr": "Rosthern",
+    "nameEn": "Rosthern",
+    "type": "city",
+    "lat": 52.663888888889,
+    "lng": -106.33777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Rothesay",
+    "nameEn": "Rothesay",
+    "type": "city",
+    "lat": 45.383055555556,
+    "lng": -65.996944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Rouleau",
+    "nameEn": "Rouleau",
+    "type": "city",
+    "lat": 50.190277777778,
+    "lng": -104.9075,
+    "pop": null
+  },
+  {
+    "nameAr": "Russell",
+    "nameEn": "Russell",
+    "type": "city",
+    "lat": 50.7808,
+    "lng": -101.284,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabrevois",
+    "nameEn": "Sabrevois",
+    "type": "city",
+    "lat": 45.206944,
+    "lng": -73.230277,
+    "pop": null
+  },
+  {
+    "nameAr": "Saddlebrook",
+    "nameEn": "Saddlebrook",
+    "type": "city",
+    "lat": 45.427222222222,
+    "lng": -74.169444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Alexis",
+    "nameEn": "Saint-Alexis",
+    "type": "city",
+    "lat": 48.018333333333,
+    "lng": -67.025833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Alphonse",
+    "nameEn": "Saint-Alphonse",
+    "type": "city",
+    "lat": 49.436036,
+    "lng": -99.0041754,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Alphonse-de-Caplan",
+    "nameEn": "Saint-Alphonse-de-Caplan",
+    "type": "city",
+    "lat": 48.188055,
+    "lng": -65.628332,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Anaclet",
+    "nameEn": "Saint-Anaclet",
+    "type": "city",
+    "lat": 48.475554,
+    "lng": -68.42611,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-André-Est",
+    "nameEn": "Saint-André-Est",
+    "type": "city",
+    "lat": 45.566666666667,
+    "lng": -74.333333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Antoine-Abbé",
+    "nameEn": "Saint-Antoine-Abbé",
+    "type": "city",
+    "lat": 45.0508333,
+    "lng": -73.8891667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Augustin",
+    "nameEn": "Saint-Augustin",
+    "type": "city",
+    "lat": 45.6247222,
+    "lng": -73.9805556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Barnabé-Nord",
+    "nameEn": "Saint-Barnabé-Nord",
+    "type": "city",
+    "lat": 46.395276944444,
+    "lng": -72.881388055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Benoît",
+    "nameEn": "Saint-Benoît",
+    "type": "city",
+    "lat": 45.5672,
+    "lng": -74.0969,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Calixte-de-Kilkenny",
+    "nameEn": "Saint-Calixte-de-Kilkenny",
+    "type": "city",
+    "lat": 45.950555555556,
+    "lng": -73.850277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Camille-de-Bellechasse",
+    "nameEn": "Saint-Camille-de-Bellechasse",
+    "type": "city",
+    "lat": 46.493888,
+    "lng": -70.213055,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Canut",
+    "nameEn": "Saint-Canut",
+    "type": "city",
+    "lat": 45.718888888889,
+    "lng": -74.082222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Charles",
+    "nameEn": "Saint-Charles",
+    "type": "city",
+    "lat": 48.4925,
+    "lng": -71.406944444445,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Cyrille-de-L'Islet",
+    "nameEn": "Saint-Cyrille-de-L'Islet",
+    "type": "city",
+    "lat": 47.035833333333,
+    "lng": -70.274444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Damase-des-Aulnaies",
+    "nameEn": "Saint-Damase-des-Aulnaies",
+    "type": "city",
+    "lat": 47.195555,
+    "lng": -70.130832,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-David-d'Yamaska",
+    "nameEn": "Saint-David-d'Yamaska",
+    "type": "city",
+    "lat": 45.956944444444,
+    "lng": -72.855555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Donat-de-Montcalm",
+    "nameEn": "Saint-Donat-de-Montcalm",
+    "type": "city",
+    "lat": 46.318611111111,
+    "lng": -74.2225,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Édouard",
+    "nameEn": "Saint-Édouard",
+    "type": "city",
+    "lat": 46.568888888889,
+    "lng": -71.836944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Éleuthère",
+    "nameEn": "Saint-Éleuthère",
+    "type": "city",
+    "lat": 47.488333333333,
+    "lng": -69.2825,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Eugène",
+    "nameEn": "Saint-Eugène",
+    "type": "city",
+    "lat": 47.089444444444,
+    "lng": -70.333333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Eugène-de-Grantham",
+    "nameEn": "Saint-Eugène-de-Grantham",
+    "type": "city",
+    "lat": 45.804444,
+    "lng": -72.698333,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Fidèle",
+    "nameEn": "Saint-Fidèle",
+    "type": "city",
+    "lat": 47.737241,
+    "lng": -69.994983,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-François-de-Pabos",
+    "nameEn": "Saint-François-de-Pabos",
+    "type": "city",
+    "lat": 48.382222222222,
+    "lng": -64.623055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Gabriel-de-Kamouraska",
+    "nameEn": "Saint-Gabriel-de-Kamouraska",
+    "type": "city",
+    "lat": 47.382777777778,
+    "lng": -69.930277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Georges-de-Malbaie",
+    "nameEn": "Saint-Georges-de-Malbaie",
+    "type": "city",
+    "lat": 48.655372,
+    "lng": -64.214162,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Gérard",
+    "nameEn": "Saint-Gérard",
+    "type": "city",
+    "lat": 45.758333333333,
+    "lng": -71.413888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Gérard-d'Yamaska",
+    "nameEn": "Saint-Gérard-d'Yamaska",
+    "type": "city",
+    "lat": 46.005277777778,
+    "lng": -72.84,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Gérard-Majella",
+    "nameEn": "Saint-Gérard-Majella",
+    "type": "city",
+    "lat": 45.89722222,
+    "lng": -73.43055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Hermas",
+    "nameEn": "Saint-Hermas",
+    "type": "city",
+    "lat": 45.604444444444,
+    "lng": -74.1925,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Irénée-les-Bains",
+    "nameEn": "Saint-Irénée-les-Bains",
+    "type": "city",
+    "lat": 47.553888,
+    "lng": -70.221943,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Jacques",
+    "nameEn": "Saint-Jacques",
+    "type": "city",
+    "lat": 47.4327,
+    "lng": -68.3871,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Janvier",
+    "nameEn": "Saint-Janvier",
+    "type": "city",
+    "lat": 45.705,
+    "lng": -73.928888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Jean-Baptiste-de-Rouville",
+    "nameEn": "Saint-Jean-Baptiste-de-Rouville",
+    "type": "city",
+    "lat": 45.520277777778,
+    "lng": -73.124722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Jean-sur-le-Lac",
+    "nameEn": "Saint-Jean-sur-le-Lac",
+    "type": "city",
+    "lat": 46.5575,
+    "lng": -75.585555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Joseph",
+    "nameEn": "Saint-Joseph",
+    "type": "city",
+    "lat": 45.851388888889,
+    "lng": -77.003055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Joseph-de-Mékinac",
+    "nameEn": "Saint-Joseph-de-Mékinac",
+    "type": "city",
+    "lat": 46.918333333333,
+    "lng": -72.695555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Louis-de-Terrebonne",
+    "nameEn": "Saint-Louis-de-Terrebonne",
+    "type": "city",
+    "lat": 45.701944444444,
+    "lng": -73.7875,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Luc",
+    "nameEn": "Saint-Luc",
+    "type": "city",
+    "lat": 45.361444444444,
+    "lng": -73.305166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Majorique",
+    "nameEn": "Saint-Majorique",
+    "type": "city",
+    "lat": 48.888419847335,
+    "lng": -64.552358286663,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Marc-de-Latour",
+    "nameEn": "Saint-Marc-de-Latour",
+    "type": "city",
+    "lat": 48.818888888889,
+    "lng": -68.980277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Maurice-de-l'Échouerie",
+    "nameEn": "Saint-Maurice-de-l'Échouerie",
+    "type": "city",
+    "lat": 49.056111111111,
+    "lng": -64.485555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Méthode",
+    "nameEn": "Saint-Méthode",
+    "type": "city",
+    "lat": 48.726388888889,
+    "lng": -72.413888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Narcisse",
+    "nameEn": "Saint-Narcisse",
+    "type": "city",
+    "lat": 46.483055555556,
+    "lng": -71.234166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Nazaire-de-Berry",
+    "nameEn": "Saint-Nazaire-de-Berry",
+    "type": "city",
+    "lat": 48.719444444444,
+    "lng": -78.259166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Odilon",
+    "nameEn": "Saint-Odilon",
+    "type": "city",
+    "lat": 46.357777,
+    "lng": -70.677221,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Omer",
+    "nameEn": "Saint-Omer",
+    "type": "city",
+    "lat": 48.1125,
+    "lng": -66.225,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Onésime",
+    "nameEn": "Saint-Onésime",
+    "type": "city",
+    "lat": 47.326388888889,
+    "lng": -69.983055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Pascal-Baylon",
+    "nameEn": "Saint-Pascal-Baylon",
+    "type": "city",
+    "lat": 45.494722,
+    "lng": -75.155833,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Patrice",
+    "nameEn": "Saint-Patrice",
+    "type": "city",
+    "lat": 47.814444444444,
+    "lng": -69.574444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Paul",
+    "nameEn": "Saint-Paul",
+    "type": "city",
+    "lat": 45.438055,
+    "lng": -72.88861,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Philippe",
+    "nameEn": "Saint-Philippe",
+    "type": "city",
+    "lat": 45.624444444444,
+    "lng": -74.426666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Philippe-de-La Prairie",
+    "nameEn": "Saint-Philippe-de-La Prairie",
+    "type": "city",
+    "lat": 45.3525,
+    "lng": -73.474722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Pierre-de-Wakefield",
+    "nameEn": "Saint-Pierre-de-Wakefield",
+    "type": "city",
+    "lat": 45.6845205,
+    "lng": -75.7180326,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Pierre-Montmagny",
+    "nameEn": "Saint-Pierre-Montmagny",
+    "type": "city",
+    "lat": 46.908888888889,
+    "lng": -70.62,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Prosper-de-Dorchester",
+    "nameEn": "Saint-Prosper-de-Dorchester",
+    "type": "city",
+    "lat": 46.212777,
+    "lng": -70.485833,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Quentin",
+    "nameEn": "Saint-Quentin",
+    "type": "city",
+    "lat": 47.5135,
+    "lng": -67.3921,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Rémi-d'Amherst",
+    "nameEn": "Saint-Rémi-d'Amherst",
+    "type": "city",
+    "lat": 46.009721944444,
+    "lng": -74.7625,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Siméon-de-Bonaventure",
+    "nameEn": "Saint-Siméon-de-Bonaventure",
+    "type": "city",
+    "lat": 48.069999,
+    "lng": -65.569443,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Simon-de-Bagot",
+    "nameEn": "Saint-Simon-de-Bagot",
+    "type": "city",
+    "lat": 45.734443888889,
+    "lng": -72.873331944444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Simon-de-Rimouski (Parish : Saint-Simon, Les Basques, Québec)",
+    "nameEn": "Saint-Simon-de-Rimouski (Parish : Saint-Simon, Les Basques, Québec)",
+    "type": "city",
+    "lat": 48.204166,
+    "lng": -69.044166,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Théodore",
+    "nameEn": "Saint-Théodore",
+    "type": "city",
+    "lat": 46.072222222222,
+    "lng": -73.886944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Thomas-de-Caxton",
+    "nameEn": "Saint-Thomas-de-Caxton",
+    "type": "city",
+    "lat": 46.368331944444,
+    "lng": -72.791943888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Ulric",
+    "nameEn": "Saint-Ulric",
+    "type": "city",
+    "lat": 48.783333333333,
+    "lng": -67.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Saint-Zéphirin",
+    "nameEn": "Saint-Zéphirin",
+    "type": "city",
+    "lat": 46.058888888889,
+    "lng": -72.625,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Adélaïde-de-Pabos",
+    "nameEn": "Sainte-Adélaïde-de-Pabos",
+    "type": "city",
+    "lat": 48.362222222222,
+    "lng": -64.609444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Agnès",
+    "nameEn": "Sainte-Agnès",
+    "type": "city",
+    "lat": 47.661111,
+    "lng": -70.268054,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Agnès-de-Bellecombe",
+    "nameEn": "Sainte-Agnès-de-Bellecombe",
+    "type": "city",
+    "lat": 48.09861,
+    "lng": -78.940555,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Agnès-de-Dundee",
+    "nameEn": "Sainte-Agnès-de-Dundee",
+    "type": "city",
+    "lat": 45.0088889,
+    "lng": -74.4025,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Angèle",
+    "nameEn": "Sainte-Angèle",
+    "type": "city",
+    "lat": 46.334581,
+    "lng": -72.509444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Anne-de-Prescott",
+    "nameEn": "Sainte-Anne-de-Prescott",
+    "type": "city",
+    "lat": 45.442222222222,
+    "lng": -74.471666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Cécile-de-Masham",
+    "nameEn": "Sainte-Cécile-de-Masham",
+    "type": "city",
+    "lat": 45.641944444444,
+    "lng": -76.036666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Élisabeth-de-Proulx",
+    "nameEn": "Sainte-Élisabeth-de-Proulx",
+    "type": "city",
+    "lat": 48.964519,
+    "lng": -72.067991,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Euphémie",
+    "nameEn": "Sainte-Euphémie",
+    "type": "city",
+    "lat": 46.773611111111,
+    "lng": -70.440555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Flore",
+    "nameEn": "Sainte-Flore",
+    "type": "city",
+    "lat": 46.613611111111,
+    "lng": -72.739166111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Germaine",
+    "nameEn": "Sainte-Germaine",
+    "type": "city",
+    "lat": 48.601944,
+    "lng": -79.115277,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Germaine-Station",
+    "nameEn": "Sainte-Germaine-Station",
+    "type": "city",
+    "lat": 46.372777777778,
+    "lng": -70.437222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Hedwidge-de-Roberval",
+    "nameEn": "Sainte-Hedwidge-de-Roberval",
+    "type": "city",
+    "lat": 48.481388,
+    "lng": -72.365833,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Hélène-de-Breakeyville",
+    "nameEn": "Sainte-Hélène-de-Breakeyville",
+    "type": "city",
+    "lat": 46.675,
+    "lng": -71.2244,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Jeanne-d'Arc",
+    "nameEn": "Sainte-Jeanne-d'Arc",
+    "type": "city",
+    "lat": 45.711388888889,
+    "lng": -72.4125,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Julie-de-Verchères",
+    "nameEn": "Sainte-Julie-de-Verchères",
+    "type": "city",
+    "lat": 45.593611111111,
+    "lng": -73.339444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Justine-Station",
+    "nameEn": "Sainte-Justine-Station",
+    "type": "city",
+    "lat": 45.359166666667,
+    "lng": -74.4225,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Marguerite",
+    "nameEn": "Sainte-Marguerite",
+    "type": "city",
+    "lat": 46.031666666667,
+    "lng": -74.056944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Marguerite-de-Lingwick",
+    "nameEn": "Sainte-Marguerite-de-Lingwick",
+    "type": "city",
+    "lat": 45.609722222222,
+    "lng": -71.353888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Rose",
+    "nameEn": "Sainte-Rose",
+    "type": "city",
+    "lat": 48.660833333333,
+    "lng": -78.984722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Scholastique",
+    "nameEn": "Sainte-Scholastique",
+    "type": "city",
+    "lat": 45.6525,
+    "lng": -74.0928,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Sophie-de-Mégantic",
+    "nameEn": "Sainte-Sophie-de-Mégantic",
+    "type": "city",
+    "lat": 46.153888888889,
+    "lng": -71.708888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Thérèse-de-Gatineau",
+    "nameEn": "Sainte-Thérèse-de-Gatineau",
+    "type": "city",
+    "lat": 46.299444444444,
+    "lng": -75.866944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sainte-Victoire",
+    "nameEn": "Sainte-Victoire",
+    "type": "city",
+    "lat": 45.948055,
+    "lng": -73.088888,
+    "pop": null
+  },
+  {
+    "nameAr": "Saints-Martyrs",
+    "nameEn": "Saints-Martyrs",
+    "type": "city",
+    "lat": 45.856111111111,
+    "lng": -71.535833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Salmo",
+    "nameEn": "Salmo",
+    "type": "city",
+    "lat": 49.1917,
+    "lng": -117.285,
+    "pop": null
+  },
+  {
+    "nameAr": "Salmon Bay",
+    "nameEn": "Salmon Bay",
+    "type": "city",
+    "lat": 51.424166666667,
+    "lng": -57.615277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Saltcoats",
+    "nameEn": "Saltcoats",
+    "type": "city",
+    "lat": 51.0333,
+    "lng": -102.167,
+    "pop": null
+  },
+  {
+    "nameAr": "Sandy Beach",
+    "nameEn": "Sandy Beach",
+    "type": "city",
+    "lat": 50.7228,
+    "lng": -103.648,
+    "pop": null
+  },
+  {
+    "nameAr": "Sandy Cove",
+    "nameEn": "Sandy Cove",
+    "type": "city",
+    "lat": 51.341667,
+    "lng": -56.673611,
+    "pop": null
+  },
+  {
+    "nameAr": "Scott",
+    "nameEn": "Scott",
+    "type": "city",
+    "lat": 52.293,
+    "lng": -108.951,
+    "pop": null
+  },
+  {
+    "nameAr": "Shawbridge",
+    "nameEn": "Shawbridge",
+    "type": "city",
+    "lat": 45.871388888889,
+    "lng": -74.079166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Shediac",
+    "nameEn": "Shediac",
+    "type": "city",
+    "lat": 46.216666666667,
+    "lng": -64.533333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shefford-Ouest",
+    "nameEn": "Shefford-Ouest",
+    "type": "city",
+    "lat": 45.318055555556,
+    "lng": -72.657777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheila",
+    "nameEn": "Sheila",
+    "type": "city",
+    "lat": 47.479972,
+    "lng": -64.919675,
+    "pop": null
+  },
+  {
+    "nameAr": "Sheldrake",
+    "nameEn": "Sheldrake",
+    "type": "city",
+    "lat": 50.264444444444,
+    "lng": -64.897222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Shellbrook",
+    "nameEn": "Shellbrook",
+    "type": "city",
+    "lat": 53.2167,
+    "lng": -106.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Sherrington",
+    "nameEn": "Sherrington",
+    "type": "city",
+    "lat": 45.166943,
+    "lng": -73.525277,
+    "pop": null
+  },
+  {
+    "nameAr": "Shippagan",
+    "nameEn": "Shippagan",
+    "type": "city",
+    "lat": 47.743888888889,
+    "lng": -64.717777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Shoal Lake",
+    "nameEn": "Shoal Lake",
+    "type": "city",
+    "lat": 50.43777778,
+    "lng": -100.59111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Silverton",
+    "nameEn": "Silverton",
+    "type": "city",
+    "lat": 49.9531,
+    "lng": -117.356,
+    "pop": null
+  },
+  {
+    "nameAr": "Sintaluta",
+    "nameEn": "Sintaluta",
+    "type": "city",
+    "lat": 50.4833,
+    "lng": -103.433,
+    "pop": null
+  },
+  {
+    "nameAr": "Skedans",
+    "nameEn": "Skedans",
+    "type": "city",
+    "lat": 52.9644,
+    "lng": -131.608,
+    "pop": null
+  },
+  {
+    "nameAr": "Somerset",
+    "nameEn": "Somerset",
+    "type": "city",
+    "lat": 49.4122,
+    "lng": -98.6606,
+    "pop": null
+  },
+  {
+    "nameAr": "Souris",
+    "nameEn": "Souris",
+    "type": "city",
+    "lat": 49.6208,
+    "lng": -100.258,
+    "pop": null
+  },
+  {
+    "nameAr": "South Bolton",
+    "nameEn": "South Bolton",
+    "type": "city",
+    "lat": 45.160555555556,
+    "lng": -72.369166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "South Milford",
+    "nameEn": "South Milford",
+    "type": "city",
+    "lat": 44.576703788889,
+    "lng": -65.405534361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Southampton",
+    "nameEn": "Southampton",
+    "type": "city",
+    "lat": 44.495555555556,
+    "lng": -81.371388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Southey",
+    "nameEn": "Southey",
+    "type": "city",
+    "lat": 50.945,
+    "lng": -104.503,
+    "pop": null
+  },
+  {
+    "nameAr": "Spiritwood",
+    "nameEn": "Spiritwood",
+    "type": "city",
+    "lat": 53.3667,
+    "lng": -107.517,
+    "pop": null
+  },
+  {
+    "nameAr": "Springhill",
+    "nameEn": "Springhill",
+    "type": "city",
+    "lat": 45.6667,
+    "lng": -64.0667,
+    "pop": null
+  },
+  {
+    "nameAr": "Springside",
+    "nameEn": "Springside",
+    "type": "city",
+    "lat": 51.345,
+    "lng": -102.742,
+    "pop": null
+  },
+  {
+    "nameAr": "Squatec",
+    "nameEn": "Squatec",
+    "type": "city",
+    "lat": 47.880833333333,
+    "lng": -68.723888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Brieux",
+    "nameEn": "St. Brieux",
+    "type": "city",
+    "lat": 52.633,
+    "lng": -104.886,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Charles",
+    "nameEn": "St. Charles",
+    "type": "city",
+    "lat": 46.350555555556,
+    "lng": -80.473611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Claude",
+    "nameEn": "St. Claude",
+    "type": "city",
+    "lat": 49.6586,
+    "lng": -98.3417,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Victor",
+    "nameEn": "St. Victor",
+    "type": "city",
+    "lat": 49.436,
+    "lng": -105.871,
+    "pop": null
+  },
+  {
+    "nameAr": "St. Walburg",
+    "nameEn": "St. Walburg",
+    "type": "city",
+    "lat": 53.65,
+    "lng": -109.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Stanhope",
+    "nameEn": "Stanhope",
+    "type": "city",
+    "lat": 45.0125,
+    "lng": -71.799444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Star City",
+    "nameEn": "Star City",
+    "type": "city",
+    "lat": 52.8667,
+    "lng": -104.333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ste. Anne",
+    "nameEn": "Ste. Anne",
+    "type": "city",
+    "lat": 49.6697,
+    "lng": -96.6494,
+    "pop": null
+  },
+  {
+    "nameAr": "Ste. Rose du Lac",
+    "nameEn": "Ste. Rose du Lac",
+    "type": "city",
+    "lat": 51.059444444444,
+    "lng": -99.523333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Stoneham",
+    "nameEn": "Stoneham",
+    "type": "city",
+    "lat": 47.000833,
+    "lng": -71.363333,
+    "pop": null
+  },
+  {
+    "nameAr": "Stoney Creek",
+    "nameEn": "Stoney Creek",
+    "type": "city",
+    "lat": 43.216388888889,
+    "lng": -79.755,
+    "pop": null
+  },
+  {
+    "nameAr": "Stoughton",
+    "nameEn": "Stoughton",
+    "type": "city",
+    "lat": 49.675,
+    "lng": -103.037,
+    "pop": null
+  },
+  {
+    "nameAr": "Stranraer",
+    "nameEn": "Stranraer",
+    "type": "city",
+    "lat": 51.7167,
+    "lng": -108.484,
+    "pop": null
+  },
+  {
+    "nameAr": "Strasbourg",
+    "nameEn": "Strasbourg",
+    "type": "city",
+    "lat": 51.0667,
+    "lng": -104.95,
+    "pop": null
+  },
+  {
+    "nameAr": "Sturgis",
+    "nameEn": "Sturgis",
+    "type": "city",
+    "lat": 51.51,
+    "lng": -102.32,
+    "pop": null
+  },
+  {
+    "nameAr": "Sully",
+    "nameEn": "Sully",
+    "type": "city",
+    "lat": 47.455833333333,
+    "lng": -69.152777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sunderland",
+    "nameEn": "Sunderland",
+    "type": "city",
+    "lat": 44.2636,
+    "lng": -79.0656,
+    "pop": null
+  },
+  {
+    "nameAr": "Sutherland",
+    "nameEn": "Sutherland",
+    "type": "city",
+    "lat": 52.1367,
+    "lng": -106.604,
+    "pop": null
+  },
+  {
+    "nameAr": "Swanson",
+    "nameEn": "Swanson",
+    "type": "city",
+    "lat": 51.6942,
+    "lng": -107.137,
+    "pop": null
+  },
+  {
+    "nameAr": "Tail Creek Town",
+    "nameEn": "Tail Creek Town",
+    "type": "city",
+    "lat": 52.29608611,
+    "lng": -113.05331389,
+    "pop": null
+  },
+  {
+    "nameAr": "Tavistock",
+    "nameEn": "Tavistock",
+    "type": "city",
+    "lat": 43.316666666667,
+    "lng": -80.833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tee Lake",
+    "nameEn": "Tee Lake",
+    "type": "city",
+    "lat": 46.755833333333,
+    "lng": -79.044444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Telkwa",
+    "nameEn": "Telkwa",
+    "type": "city",
+    "lat": 54.6972,
+    "lng": -127.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Teslin",
+    "nameEn": "Teslin",
+    "type": "city",
+    "lat": 60.1672222,
+    "lng": -132.7216666,
+    "pop": null
+  },
+  {
+    "nameAr": "Tête-à-la-Baleine",
+    "nameEn": "Tête-à-la-Baleine",
+    "type": "city",
+    "lat": 50.702777777778,
+    "lng": -59.323055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "The Blue Mountains",
+    "nameEn": "The Blue Mountains",
+    "type": "city",
+    "lat": 44.4833,
+    "lng": -80.3833,
+    "pop": null
+  },
+  {
+    "nameAr": "Tofino",
+    "nameEn": "Tofino",
+    "type": "city",
+    "lat": 49.152669444444,
+    "lng": -125.90436111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Tourelle",
+    "nameEn": "Tourelle",
+    "type": "city",
+    "lat": 49.159722,
+    "lng": -66.405555,
+    "pop": null
+  },
+  {
+    "nameAr": "town of Leader",
+    "nameEn": "town of Leader",
+    "type": "city",
+    "lat": 50.889039764494,
+    "lng": -109.54195404707,
+    "pop": null
+  },
+  {
+    "nameAr": "Tracadie",
+    "nameEn": "Tracadie",
+    "type": "city",
+    "lat": 47.516984,
+    "lng": -64.912046,
+    "pop": null
+  },
+  {
+    "nameAr": "Trafalgar",
+    "nameEn": "Trafalgar",
+    "type": "city",
+    "lat": 43.5056,
+    "lng": -79.7942,
+    "pop": null
+  },
+  {
+    "nameAr": "Treherne",
+    "nameEn": "Treherne",
+    "type": "city",
+    "lat": 49.6294,
+    "lng": -98.6978,
+    "pop": null
+  },
+  {
+    "nameAr": "Tribune",
+    "nameEn": "Tribune",
+    "type": "city",
+    "lat": 49.2483,
+    "lng": -103.822,
+    "pop": null
+  },
+  {
+    "nameAr": "Trottier Mills",
+    "nameEn": "Trottier Mills",
+    "type": "city",
+    "lat": 46.050555555556,
+    "lng": -71.691666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Turtleford",
+    "nameEn": "Turtleford",
+    "type": "city",
+    "lat": 53.3833,
+    "lng": -108.95,
+    "pop": null
+  },
+  {
+    "nameAr": "Two and One-Half Mile Village",
+    "nameEn": "Two and One-Half Mile Village",
+    "type": "city",
+    "lat": 60.152,
+    "lng": -128.877,
+    "pop": null
+  },
+  {
+    "nameAr": "Two Mile Village",
+    "nameEn": "Two Mile Village",
+    "type": "city",
+    "lat": 60.131,
+    "lng": -128.828,
+    "pop": null
+  },
+  {
+    "nameAr": "Umingmaktok",
+    "nameEn": "Umingmaktok",
+    "type": "city",
+    "lat": 67.6989,
+    "lng": -107.924,
+    "pop": null
+  },
+  {
+    "nameAr": "Val-Limoges",
+    "nameEn": "Val-Limoges",
+    "type": "city",
+    "lat": 46.597777777778,
+    "lng": -75.725277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Valcartier-Village",
+    "nameEn": "Valcartier-Village",
+    "type": "city",
+    "lat": 46.937777777778,
+    "lng": -71.470555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Vankleek Hill",
+    "nameEn": "Vankleek Hill",
+    "type": "city",
+    "lat": 45.5167,
+    "lng": -74.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Vendée",
+    "nameEn": "Vendée",
+    "type": "city",
+    "lat": 46.085,
+    "lng": -74.833333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Villemontel",
+    "nameEn": "Villemontel",
+    "type": "city",
+    "lat": 48.631943,
+    "lng": -78.3625,
+    "pop": null
+  },
+  {
+    "nameAr": "Villers",
+    "nameEn": "Villers",
+    "type": "city",
+    "lat": 46.3005,
+    "lng": -72.2736,
+    "pop": null
+  },
+  {
+    "nameAr": "Vimy-Ridge",
+    "nameEn": "Vimy-Ridge",
+    "type": "city",
+    "lat": 46.008333333333,
+    "lng": -71.419166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Wadena",
+    "nameEn": "Wadena",
+    "type": "city",
+    "lat": 51.9458,
+    "lng": -103.801,
+    "pop": null
+  },
+  {
+    "nameAr": "Wakaw",
+    "nameEn": "Wakaw",
+    "type": "city",
+    "lat": 52.643888888889,
+    "lng": -105.735,
+    "pop": null
+  },
+  {
+    "nameAr": "Wakefield",
+    "nameEn": "Wakefield",
+    "type": "city",
+    "lat": 45.638333333333,
+    "lng": -75.930833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Waldheim",
+    "nameEn": "Waldheim",
+    "type": "city",
+    "lat": 52.65,
+    "lng": -106.617,
+    "pop": null
+  },
+  {
+    "nameAr": "Walkerton",
+    "nameEn": "Walkerton",
+    "type": "city",
+    "lat": 44.133333333333,
+    "lng": -81.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Wapella",
+    "nameEn": "Wapella",
+    "type": "city",
+    "lat": 50.251,
+    "lng": -101.978,
+    "pop": null
+  },
+  {
+    "nameAr": "Warfield",
+    "nameEn": "Warfield",
+    "type": "city",
+    "lat": 49.0953,
+    "lng": -117.734,
+    "pop": null
+  },
+  {
+    "nameAr": "Wasagaming",
+    "nameEn": "Wasagaming",
+    "type": "city",
+    "lat": 50.6583,
+    "lng": -99.9686,
+    "pop": null
+  },
+  {
+    "nameAr": "Washago",
+    "nameEn": "Washago",
+    "type": "city",
+    "lat": 44.75,
+    "lng": -79.33,
+    "pop": null
+  },
+  {
+    "nameAr": "Waskada",
+    "nameEn": "Waskada",
+    "type": "city",
+    "lat": 49.0967,
+    "lng": -100.802,
+    "pop": null
+  },
+  {
+    "nameAr": "Watrous",
+    "nameEn": "Watrous",
+    "type": "city",
+    "lat": 51.6778,
+    "lng": -105.464,
+    "pop": null
+  },
+  {
+    "nameAr": "Watson Lake",
+    "nameEn": "Watson Lake",
+    "type": "city",
+    "lat": 60.06337,
+    "lng": -128.71484,
+    "pop": null
+  },
+  {
+    "nameAr": "Wawanesa",
+    "nameEn": "Wawanesa",
+    "type": "city",
+    "lat": 49.5167,
+    "lng": -99.6833,
+    "pop": null
+  },
+  {
+    "nameAr": "Wawota",
+    "nameEn": "Wawota",
+    "type": "city",
+    "lat": 49.9,
+    "lng": -102.017,
+    "pop": null
+  },
+  {
+    "nameAr": "Weir",
+    "nameEn": "Weir",
+    "type": "city",
+    "lat": 45.945,
+    "lng": -74.549444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "West Brome",
+    "nameEn": "West Brome",
+    "type": "city",
+    "lat": 45.176111111111,
+    "lng": -72.662777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Whycocomagh",
+    "nameEn": "Whycocomagh",
+    "type": "city",
+    "lat": 45.976666666667,
+    "lng": -61.118055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Wilkie",
+    "nameEn": "Wilkie",
+    "type": "city",
+    "lat": 52.4167,
+    "lng": -108.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Willow Bunch",
+    "nameEn": "Willow Bunch",
+    "type": "city",
+    "lat": 49.3897,
+    "lng": -105.634,
+    "pop": null
+  },
+  {
+    "nameAr": "Windthorst",
+    "nameEn": "Windthorst",
+    "type": "city",
+    "lat": 50.1072,
+    "lng": -102.837,
+    "pop": null
+  },
+  {
+    "nameAr": "Winnipeg Beach",
+    "nameEn": "Winnipeg Beach",
+    "type": "city",
+    "lat": 50.5058,
+    "lng": -96.9742,
+    "pop": null
+  },
+  {
+    "nameAr": "Winnipegosis",
+    "nameEn": "Winnipegosis",
+    "type": "city",
+    "lat": 51.37,
+    "lng": -99.56,
+    "pop": null
+  },
+  {
+    "nameAr": "Woburn",
+    "nameEn": "Woburn",
+    "type": "city",
+    "lat": 45.384722222222,
+    "lng": -70.863611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Woodbridge",
+    "nameEn": "Woodbridge",
+    "type": "city",
+    "lat": 43.7851,
+    "lng": -79.5933,
+    "pop": null
+  },
+  {
+    "nameAr": "Yellow Grass",
+    "nameEn": "Yellow Grass",
+    "type": "city",
+    "lat": 49.44,
+    "lng": -104.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Yorkville",
+    "nameEn": "Yorkville",
+    "type": "city",
+    "lat": 43.6703,
+    "lng": -79.3911,
+    "pop": null
+  },
+  {
+    "nameAr": "Young's Point",
+    "nameEn": "Young's Point",
+    "type": "city",
+    "lat": 44.4889,
+    "lng": -78.235,
+    "pop": null
+  },
+  {
+    "nameAr": "Zealandia",
+    "nameEn": "Zealandia",
+    "type": "city",
+    "lat": 51.589,
+    "lng": -107.752,
+    "pop": null
+  }
+]

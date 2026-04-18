@@ -1,0 +1,1240 @@
+[
+  {
+    "nameAr": "دكا",
+    "nameEn": "Dhaka",
+    "type": "city",
+    "lat": 23.7104,
+    "lng": 90.4074
+  },
+  {
+    "nameAr": "بارسال",
+    "nameEn": "Barisal",
+    "type": "city",
+    "lat": 22.701,
+    "lng": 90.3535
+  },
+  {
+    "nameAr": "خولنا",
+    "nameEn": "Khulna",
+    "type": "city",
+    "lat": 22.8456,
+    "lng": 89.5403
+  },
+  {
+    "nameAr": "راجشاهي",
+    "nameEn": "Rajshahi",
+    "type": "city",
+    "lat": 24.3745,
+    "lng": 88.6042
+  },
+  {
+    "nameAr": "رانغبور",
+    "nameEn": "Rangpur",
+    "type": "city",
+    "lat": 25.7439,
+    "lng": 89.2752
+  },
+  {
+    "nameAr": "سيلهيت",
+    "nameEn": "Sylhet",
+    "type": "city",
+    "lat": 24.8949,
+    "lng": 91.8687
+  },
+  {
+    "nameAr": "شيتاغونغ",
+    "nameEn": "Chittagong",
+    "type": "city",
+    "lat": 22.3569,
+    "lng": 91.7832
+  },
+  {
+    "nameAr": "كومينا",
+    "nameEn": "Comilla",
+    "type": "city",
+    "lat": 23.4607,
+    "lng": 91.1809
+  },
+  {
+    "nameAr": "ميمنسينغ",
+    "nameEn": "Mymensingh",
+    "type": "city",
+    "lat": 24.7471,
+    "lng": 90.4203
+  },
+  {
+    "nameAr": "ناراينغانج",
+    "nameEn": "Narayanganj",
+    "type": "city",
+    "lat": 23.6238,
+    "lng": 90.4996
+  },
+  {
+    "nameAr": "جاتجام",
+    "nameEn": "Chittagong",
+    "type": "city",
+    "lat": 22.335,
+    "lng": 91.8325,
+    "pop": 2581643
+  },
+  {
+    "nameAr": "سلهت",
+    "nameEn": "Sylhet",
+    "type": "city",
+    "lat": 24.9,
+    "lng": 91.866666666667,
+    "pop": 479837
+  },
+  {
+    "nameAr": "تونغي",
+    "nameEn": "Tongi",
+    "type": "city",
+    "lat": 23.883333333333,
+    "lng": 90.4,
+    "pop": 476350
+  },
+  {
+    "nameAr": "بوغرا",
+    "nameEn": "Bogura",
+    "type": "city",
+    "lat": 24.85,
+    "lng": 89.366666666667,
+    "pop": 400983
+  },
+  {
+    "nameAr": "بريسال",
+    "nameEn": "Barishal",
+    "type": "city",
+    "lat": 22.7,
+    "lng": 90.366666666667,
+    "pop": 328278
+  },
+  {
+    "nameAr": "كملا",
+    "nameEn": "Cumilla",
+    "type": "city",
+    "lat": 23.45,
+    "lng": 91.2,
+    "pop": 296010
+  },
+  {
+    "nameAr": "رنكبور",
+    "nameEn": "Rangpur",
+    "type": "city",
+    "lat": 25.75,
+    "lng": 89.244444444444,
+    "pop": 294265
+  },
+  {
+    "nameAr": "براهمانباريا",
+    "nameEn": "Brahmanbaria",
+    "type": "city",
+    "lat": 23.9723,
+    "lng": 91.1099,
+    "pop": 268279
+  },
+  {
+    "nameAr": "ميمينسينغ",
+    "nameEn": "Mymensingh",
+    "type": "city",
+    "lat": 24.75,
+    "lng": 90.416666666667,
+    "pop": 258040
+  },
+  {
+    "nameAr": "جيسور",
+    "nameEn": "Jashore",
+    "type": "city",
+    "lat": 23.16666667,
+    "lng": 89.21666667,
+    "pop": 209330
+  },
+  {
+    "nameAr": "Dinajpur",
+    "nameEn": "Dinajpur",
+    "type": "city",
+    "lat": 25.63,
+    "lng": 88.65,
+    "pop": 206200
+  },
+  {
+    "nameAr": "Narsingdi",
+    "nameEn": "Narsingdi",
+    "type": "city",
+    "lat": 23.9,
+    "lng": 90.716666666667,
+    "pop": 185128
+  },
+  {
+    "nameAr": "كوكس بازار",
+    "nameEn": "Cox's Bazar",
+    "type": "city",
+    "lat": 21.583333333333,
+    "lng": 92.016666666667,
+    "pop": 167477
+  },
+  {
+    "nameAr": "Jamalpur",
+    "nameEn": "Jamalpur",
+    "type": "city",
+    "lat": 24.9,
+    "lng": 89.94,
+    "pop": 158873
+  },
+  {
+    "nameAr": "Satkhira",
+    "nameEn": "Satkhira",
+    "type": "city",
+    "lat": 22.716667,
+    "lng": 89.1,
+    "pop": 113322
+  },
+  {
+    "nameAr": "مدينة نيلفاماري",
+    "nameEn": "Nilphamari",
+    "type": "city",
+    "lat": 25.932311111111,
+    "lng": 88.853611111111,
+    "pop": 85700
+  },
+  {
+    "nameAr": "Bangabari Union",
+    "nameEn": "Bangabari Union",
+    "type": "city",
+    "lat": 24.858,
+    "lng": 88.285,
+    "pop": 30288
+  },
+  {
+    "nameAr": "Sakhipur",
+    "nameEn": "Sakhipur",
+    "type": "city",
+    "lat": 24.31988,
+    "lng": 90.16943,
+    "pop": 23429
+  },
+  {
+    "nameAr": "Harinakunda",
+    "nameEn": "Harinakunda",
+    "type": "city",
+    "lat": 23.65,
+    "lng": 89.033333333333,
+    "pop": 17533
+  },
+  {
+    "nameAr": "Basail",
+    "nameEn": "Basail",
+    "type": "city",
+    "lat": 24.21667,
+    "lng": 90.05,
+    "pop": 11347
+  },
+  {
+    "nameAr": "Daulatpur",
+    "nameEn": "Daulatpur",
+    "type": "city",
+    "lat": 23.933333333333,
+    "lng": 89.816666666667,
+    "pop": 5325
+  },
+  {
+    "nameAr": "Krisnapur",
+    "nameEn": "Krisnapur",
+    "type": "city",
+    "lat": 21.784388888889,
+    "lng": 92.0075,
+    "pop": 2000
+  },
+  {
+    "nameAr": "بابنا",
+    "nameEn": "Pabna",
+    "type": "city",
+    "lat": 24.016666666667,
+    "lng": 89.3,
+    "pop": null
+  },
+  {
+    "nameAr": "بناني، داكا",
+    "nameEn": "Banani (neighbourhood)",
+    "type": "city",
+    "lat": 23.795,
+    "lng": 90.405,
+    "pop": null
+  },
+  {
+    "nameAr": "بودا",
+    "nameEn": "Boda Paurashava",
+    "type": "city",
+    "lat": 26.2007188,
+    "lng": 88.5559104,
+    "pop": null
+  },
+  {
+    "nameAr": "جنيدهة",
+    "nameEn": "Jhenaidah",
+    "type": "city",
+    "lat": 23.5,
+    "lng": 89.18,
+    "pop": null
+  },
+  {
+    "nameAr": "ساور",
+    "nameEn": "Savar",
+    "type": "city",
+    "lat": 23.8482,
+    "lng": 90.257701,
+    "pop": null
+  },
+  {
+    "nameAr": "سدهيرغانج",
+    "nameEn": "Siddhirganj",
+    "type": "city",
+    "lat": 23.683333333333,
+    "lng": 90.516666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "سونارغون",
+    "nameEn": "Sonargaon",
+    "type": "city",
+    "lat": 23.65,
+    "lng": 90.616666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "سيدفور، بنغلاديش",
+    "nameEn": "Saidpur",
+    "type": "city",
+    "lat": 25.7833,
+    "lng": 88.9,
+    "pop": null
+  },
+  {
+    "nameAr": "شوادانجا",
+    "nameEn": "Chuadanga",
+    "type": "city",
+    "lat": 23.6418,
+    "lng": 88.8577,
+    "pop": null
+  },
+  {
+    "nameAr": "غازيبور",
+    "nameEn": "Gazipur",
+    "type": "city",
+    "lat": 23.988888888889,
+    "lng": 90.375,
+    "pop": null
+  },
+  {
+    "nameAr": "فيني",
+    "nameEn": "Feni",
+    "type": "city",
+    "lat": 23.015,
+    "lng": 91.396666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "كوشتيا",
+    "nameEn": "Kushtia",
+    "type": "city",
+    "lat": 23.908757,
+    "lng": 89.122065,
+    "pop": null
+  },
+  {
+    "nameAr": "نارايانبور",
+    "nameEn": "Narayanpur",
+    "type": "city",
+    "lat": 23.649989,
+    "lng": 91.157781,
+    "pop": null
+  },
+  {
+    "nameAr": "نرائن كنج",
+    "nameEn": "Narayanganj",
+    "type": "city",
+    "lat": 23.616666666667,
+    "lng": 90.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Adabaria",
+    "nameEn": "Adabaria",
+    "type": "city",
+    "lat": 22.216666666667,
+    "lng": 90.183333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Alipur",
+    "nameEn": "Alipur",
+    "type": "city",
+    "lat": 22.68333333,
+    "lng": 90.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Alokdia",
+    "nameEn": "Alokdia",
+    "type": "city",
+    "lat": 22.71666667,
+    "lng": 90.26666667,
+    "pop": null
+  },
+  {
+    "nameAr": "American Camp",
+    "nameEn": "American Camp",
+    "type": "city",
+    "lat": 25.67,
+    "lng": 88.91,
+    "pop": null
+  },
+  {
+    "nameAr": "Amkuna",
+    "nameEn": "Amkuna",
+    "type": "city",
+    "lat": 24.8583,
+    "lng": 92.0208,
+    "pop": null
+  },
+  {
+    "nameAr": "Anakhanda",
+    "nameEn": "Anakhanda",
+    "type": "city",
+    "lat": 23.25,
+    "lng": 90.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Andua",
+    "nameEn": "Andua",
+    "type": "city",
+    "lat": 22.433333333333,
+    "lng": 90.266666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Angura Mohammed Pur",
+    "nameEn": "Angura Mohammed Pur",
+    "type": "city",
+    "lat": 24.8681,
+    "lng": 92.1185,
+    "pop": null
+  },
+  {
+    "nameAr": "Ankutia",
+    "nameEn": "Ankutia",
+    "type": "city",
+    "lat": 24.2,
+    "lng": 89.24833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ashurhat",
+    "nameEn": "Ashurhat",
+    "type": "city",
+    "lat": 23.584819,
+    "lng": 89.254649,
+    "pop": null
+  },
+  {
+    "nameAr": "B-baria",
+    "nameEn": "B-baria",
+    "type": "city",
+    "lat": 23.965,
+    "lng": 91.108333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Badura",
+    "nameEn": "Badura",
+    "type": "city",
+    "lat": 22.266666666667,
+    "lng": 90.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Baithakata",
+    "nameEn": "Baithakata",
+    "type": "city",
+    "lat": 22.78672222,
+    "lng": 89.98136111,
+    "pop": null
+  },
+  {
+    "nameAr": "Balaibania",
+    "nameEn": "Balaibania",
+    "type": "city",
+    "lat": 22.283333333333,
+    "lng": 90.05,
+    "pop": null
+  },
+  {
+    "nameAr": "Bara Char Khajurtala",
+    "nameEn": "Bara Char Khajurtala",
+    "type": "city",
+    "lat": 22.783333333333,
+    "lng": 90.216666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Baradal",
+    "nameEn": "Baradal",
+    "type": "city",
+    "lat": 22.75,
+    "lng": 90.183333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhadun",
+    "nameEn": "Bhadun",
+    "type": "city",
+    "lat": 23.937777777778,
+    "lng": 90.459722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhairab Bazar",
+    "nameEn": "Bhairab Bazar",
+    "type": "city",
+    "lat": 24.05,
+    "lng": 90.988333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhanga",
+    "nameEn": "Bhanga",
+    "type": "city",
+    "lat": 23.385467,
+    "lng": 89.980418,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhaterchar",
+    "nameEn": "Bhaterchar",
+    "type": "city",
+    "lat": 24.088,
+    "lng": 90.822,
+    "pop": null
+  },
+  {
+    "nameAr": "Bheramara",
+    "nameEn": "Bheramara",
+    "type": "city",
+    "lat": 24.024444444444,
+    "lng": 88.992222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhola",
+    "nameEn": "Bhola",
+    "type": "city",
+    "lat": 22.683333333333,
+    "lng": 90.65,
+    "pop": null
+  },
+  {
+    "nameAr": "Bhutua",
+    "nameEn": "Bhutua",
+    "type": "city",
+    "lat": 23.43333333,
+    "lng": 91.23333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Birulia",
+    "nameEn": "Birulia",
+    "type": "city",
+    "lat": 23.8532824,
+    "lng": 90.3140394,
+    "pop": null
+  },
+  {
+    "nameAr": "Butni",
+    "nameEn": "Butni",
+    "type": "city",
+    "lat": 23.8238308,
+    "lng": 89.9161948,
+    "pop": null
+  },
+  {
+    "nameAr": "Category:Jhaudia",
+    "nameEn": "Category:Jhaudia",
+    "type": "city",
+    "lat": 23.77364,
+    "lng": 89.062558,
+    "pop": null
+  },
+  {
+    "nameAr": "Chandpur",
+    "nameEn": "Chandpur",
+    "type": "city",
+    "lat": 23.225,
+    "lng": 90.654,
+    "pop": null
+  },
+  {
+    "nameAr": "Chatra",
+    "nameEn": "Chatra",
+    "type": "city",
+    "lat": 22.6,
+    "lng": 90.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Chowkideki",
+    "nameEn": "Chowkideki",
+    "type": "city",
+    "lat": 24.915,
+    "lng": 91.882,
+    "pop": null
+  },
+  {
+    "nameAr": "Chowmuhani",
+    "nameEn": "Chowmuhani",
+    "type": "city",
+    "lat": 22.9393,
+    "lng": 91.1094,
+    "pop": null
+  },
+  {
+    "nameAr": "Dakshin Tulagaon",
+    "nameEn": "Dakshin Tulagaon",
+    "type": "city",
+    "lat": 23.299055,
+    "lng": 91.047666,
+    "pop": null
+  },
+  {
+    "nameAr": "Dasherjangal",
+    "nameEn": "Dasherjangal",
+    "type": "city",
+    "lat": 23.076528,
+    "lng": 90.431868,
+    "pop": null
+  },
+  {
+    "nameAr": "Deotala",
+    "nameEn": "Deotala",
+    "type": "city",
+    "lat": 23.6689,
+    "lng": 90.1155,
+    "pop": null
+  },
+  {
+    "nameAr": "Derai",
+    "nameEn": "Derai",
+    "type": "city",
+    "lat": 24.788338,
+    "lng": 91.354158,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhamlai",
+    "nameEn": "Dhamlai",
+    "type": "city",
+    "lat": 24.31876774428,
+    "lng": 90.471007861156,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhanbari",
+    "nameEn": "Dhanbari",
+    "type": "city",
+    "lat": 24.6167,
+    "lng": 90.025,
+    "pop": null
+  },
+  {
+    "nameAr": "Dhumdumia",
+    "nameEn": "Dhumdumia",
+    "type": "city",
+    "lat": 20.9322,
+    "lng": 92.2631,
+    "pop": null
+  },
+  {
+    "nameAr": "Durvazury",
+    "nameEn": "Durvazury",
+    "type": "city",
+    "lat": 23.1615,
+    "lng": 89.4569,
+    "pop": null
+  },
+  {
+    "nameAr": "Elenga",
+    "nameEn": "Elenga",
+    "type": "city",
+    "lat": 24.33861111,
+    "lng": 89.92194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Faridpur",
+    "nameEn": "Faridpur",
+    "type": "city",
+    "lat": 23.598611111111,
+    "lng": 89.835277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Fordabad",
+    "nameEn": "Fordabad",
+    "type": "city",
+    "lat": 23.74453,
+    "lng": 90.877194,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaganpur",
+    "nameEn": "Gaganpur",
+    "type": "city",
+    "lat": 25.0415,
+    "lng": 88.7605,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaibandha",
+    "nameEn": "Gaibandha",
+    "type": "city",
+    "lat": 25.328978,
+    "lng": 89.541507,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaud",
+    "nameEn": "Gaud",
+    "type": "city",
+    "lat": 24.83566,
+    "lng": 88.14159,
+    "pop": null
+  },
+  {
+    "nameAr": "Gokarna",
+    "nameEn": "Gokarna",
+    "type": "city",
+    "lat": 24.10333333,
+    "lng": 91.06333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Gopalganj",
+    "nameEn": "Gopalganj",
+    "type": "city",
+    "lat": 23,
+    "lng": 89.816666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gopalpur, Tangail, Bangladesh",
+    "nameEn": "Gopalpur, Tangail, Bangladesh",
+    "type": "city",
+    "lat": 24.5583,
+    "lng": 89.9167,
+    "pop": null
+  },
+  {
+    "nameAr": "Haidarabad",
+    "nameEn": "Haidarabad",
+    "type": "city",
+    "lat": 23.7611,
+    "lng": 91.0234,
+    "pop": null
+  },
+  {
+    "nameAr": "Harirampur",
+    "nameEn": "Harirampur",
+    "type": "city",
+    "lat": 23.75,
+    "lng": 89.966666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ishwardi",
+    "nameEn": "Ishwardi",
+    "type": "city",
+    "lat": 24.12858,
+    "lng": 89.06573,
+    "pop": null
+  },
+  {
+    "nameAr": "Jalchatra Bazaar",
+    "nameEn": "Jalchatra Bazaar",
+    "type": "city",
+    "lat": 24.61666667,
+    "lng": 90.025,
+    "pop": null
+  },
+  {
+    "nameAr": "Jethagram",
+    "nameEn": "Jethagram",
+    "type": "city",
+    "lat": 24.14213889,
+    "lng": 91.20536111,
+    "pop": null
+  },
+  {
+    "nameAr": "Jhalokati",
+    "nameEn": "Jhalokati",
+    "type": "city",
+    "lat": 22.640893,
+    "lng": 90.198803,
+    "pop": null
+  },
+  {
+    "nameAr": "Kadam Rasul",
+    "nameEn": "Kadam Rasul",
+    "type": "city",
+    "lat": 23.631944444444,
+    "lng": 90.528611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaliakair",
+    "nameEn": "Kaliakair",
+    "type": "city",
+    "lat": 24.060277777778,
+    "lng": 90.224444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalihati",
+    "nameEn": "Kalihati",
+    "type": "city",
+    "lat": 24.38333333,
+    "lng": 89.98333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kallyanpur",
+    "nameEn": "Kallyanpur",
+    "type": "city",
+    "lat": 23.781,
+    "lng": 90.359,
+    "pop": null
+  },
+  {
+    "nameAr": "Kawkhali",
+    "nameEn": "Kawkhali",
+    "type": "city",
+    "lat": 22.633333333333,
+    "lng": 90.066666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Khagrachari",
+    "nameEn": "Khagrachari",
+    "type": "city",
+    "lat": 23.107777777778,
+    "lng": 91.97,
+    "pop": null
+  },
+  {
+    "nameAr": "Khoksa",
+    "nameEn": "Khoksa",
+    "type": "city",
+    "lat": 23.8,
+    "lng": 89.283333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kishoreganj",
+    "nameEn": "Kishoreganj",
+    "type": "city",
+    "lat": 24.4333,
+    "lng": 90.7833,
+    "pop": null
+  },
+  {
+    "nameAr": "Kuakata",
+    "nameEn": "Kuakata",
+    "type": "city",
+    "lat": 21.8167,
+    "lng": 90.1167,
+    "pop": null
+  },
+  {
+    "nameAr": "Kumarkhali",
+    "nameEn": "Kumarkhali",
+    "type": "city",
+    "lat": 23.858242,
+    "lng": 89.24278,
+    "pop": null
+  },
+  {
+    "nameAr": "Kumrakhali Village",
+    "nameEn": "Kumrakhali Village",
+    "type": "city",
+    "lat": 22.28333333,
+    "lng": 90.16666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurigram",
+    "nameEn": "Kurigram",
+    "type": "city",
+    "lat": 25.812777777778,
+    "lng": 89.643055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Laksham",
+    "nameEn": "Laksham",
+    "type": "city",
+    "lat": 23.240277777778,
+    "lng": 91.121388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Lalmonirhat",
+    "nameEn": "Lalmonirhat",
+    "type": "city",
+    "lat": 25.911666666667,
+    "lng": 89.434166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Madaripur",
+    "nameEn": "Madaripur",
+    "type": "city",
+    "lat": 23.170833333333,
+    "lng": 90.209444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Madhupur",
+    "nameEn": "Madhupur",
+    "type": "city",
+    "lat": 24.61666667,
+    "lng": 90.025,
+    "pop": null
+  },
+  {
+    "nameAr": "Magura",
+    "nameEn": "Magura",
+    "type": "city",
+    "lat": 23.49,
+    "lng": 89.42,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahammedpur",
+    "nameEn": "Mahammedpur",
+    "type": "city",
+    "lat": 24.8518,
+    "lng": 91.63962,
+    "pop": null
+  },
+  {
+    "nameAr": "Maheshkhali",
+    "nameEn": "Maheshkhali",
+    "type": "city",
+    "lat": 21.62,
+    "lng": 91.93,
+    "pop": null
+  },
+  {
+    "nameAr": "Maijdee",
+    "nameEn": "Maijdee",
+    "type": "city",
+    "lat": 22.83,
+    "lng": 91.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Manikganj",
+    "nameEn": "Manikganj",
+    "type": "city",
+    "lat": 23.861388888889,
+    "lng": 90.000277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Milik Bagha",
+    "nameEn": "Milik Bagha",
+    "type": "city",
+    "lat": 24.2,
+    "lng": 88.85,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirerkhil, Bhujpur union",
+    "nameEn": "Mirerkhil, Bhujpur union",
+    "type": "city",
+    "lat": 22.7438,
+    "lng": 91.7508,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirsharai",
+    "nameEn": "Mirsharai",
+    "type": "city",
+    "lat": 22.773039,
+    "lng": 91.574152,
+    "pop": null
+  },
+  {
+    "nameAr": "Mirzapur",
+    "nameEn": "Mirzapur",
+    "type": "city",
+    "lat": 24.101388888889,
+    "lng": 90.084722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Moju Chowdhury Hat",
+    "nameEn": "Moju Chowdhury Hat",
+    "type": "city",
+    "lat": 22.8745967,
+    "lng": 90.784691,
+    "pop": null
+  },
+  {
+    "nameAr": "Munshiganj",
+    "nameEn": "Munshiganj",
+    "type": "city",
+    "lat": 23.55,
+    "lng": 90.53,
+    "pop": null
+  },
+  {
+    "nameAr": "Naga Bazar Bridge",
+    "nameEn": "Naga Bazar Bridge",
+    "type": "city",
+    "lat": 24.568145,
+    "lng": 88.947859,
+    "pop": null
+  },
+  {
+    "nameAr": "Naldanga",
+    "nameEn": "Naldanga",
+    "type": "city",
+    "lat": 23.439,
+    "lng": 89.169,
+    "pop": null
+  },
+  {
+    "nameAr": "Naogaon",
+    "nameEn": "Naogaon",
+    "type": "city",
+    "lat": 24.9,
+    "lng": 88.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Natore",
+    "nameEn": "Natore",
+    "type": "city",
+    "lat": 24.414166666667,
+    "lng": 88.985833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nawabganj",
+    "nameEn": "Nawabganj",
+    "type": "city",
+    "lat": 24.6,
+    "lng": 88.2667,
+    "pop": null
+  },
+  {
+    "nameAr": "Nazirartek",
+    "nameEn": "Nazirartek",
+    "type": "city",
+    "lat": 21.4662643,
+    "lng": 91.9474561,
+    "pop": null
+  },
+  {
+    "nameAr": "Paiyapathar",
+    "nameEn": "Paiyapathar",
+    "type": "city",
+    "lat": 23.6368,
+    "lng": 90.9724,
+    "pop": null
+  },
+  {
+    "nameAr": "Panchagarh",
+    "nameEn": "Panchagarh",
+    "type": "city",
+    "lat": 26.333333333333,
+    "lng": 88.557777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Pirojpur",
+    "nameEn": "Pirojpur",
+    "type": "city",
+    "lat": 22.58,
+    "lng": 89.97,
+    "pop": null
+  },
+  {
+    "nameAr": "Purush Pal",
+    "nameEn": "Purush Pal",
+    "type": "city",
+    "lat": 24.825,
+    "lng": 92.1625,
+    "pop": null
+  },
+  {
+    "nameAr": "Rajbari",
+    "nameEn": "Rajbari",
+    "type": "city",
+    "lat": 23.76416667,
+    "lng": 89.6475,
+    "pop": null
+  },
+  {
+    "nameAr": "Ranhat",
+    "nameEn": "Ranhat",
+    "type": "city",
+    "lat": 24.39,
+    "lng": 88.69,
+    "pop": null
+  },
+  {
+    "nameAr": "Ranipur",
+    "nameEn": "Ranipur",
+    "type": "city",
+    "lat": 22.433333333333,
+    "lng": 90.216666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Rohanpur",
+    "nameEn": "Rohanpur",
+    "type": "city",
+    "lat": 24.819444444444,
+    "lng": 88.325,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahbazpur",
+    "nameEn": "Shahbazpur",
+    "type": "city",
+    "lat": 24.051667,
+    "lng": 91.173333,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahbazpur Town, Brahmanbaria, Bangladesh",
+    "nameEn": "Shahbazpur Town, Brahmanbaria, Bangladesh",
+    "type": "city",
+    "lat": 24.0517,
+    "lng": 91.1733,
+    "pop": null
+  },
+  {
+    "nameAr": "Shahbazpur, Brahmanbaria",
+    "nameEn": "Shahbazpur, Brahmanbaria",
+    "type": "city",
+    "lat": 24.05305556,
+    "lng": 91.17194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Shaistabad",
+    "nameEn": "Shaistabad",
+    "type": "city",
+    "lat": 22.7657948,
+    "lng": 90.3923728,
+    "pop": null
+  },
+  {
+    "nameAr": "Sherpur",
+    "nameEn": "Sherpur",
+    "type": "city",
+    "lat": 25.019166666667,
+    "lng": 90.013611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Sirajganj",
+    "nameEn": "Sirajganj",
+    "type": "city",
+    "lat": 24.45,
+    "lng": 89.716666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sreepur",
+    "nameEn": "Sreepur",
+    "type": "city",
+    "lat": 24.2,
+    "lng": 90.466666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Sunamganj",
+    "nameEn": "Sunamganj",
+    "type": "city",
+    "lat": 25.0667,
+    "lng": 91.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Sunampur",
+    "nameEn": "Sunampur",
+    "type": "city",
+    "lat": 24.8089,
+    "lng": 92.0701,
+    "pop": null
+  },
+  {
+    "nameAr": "Taltoli",
+    "nameEn": "Taltoli",
+    "type": "city",
+    "lat": 23.3287,
+    "lng": 90.9483,
+    "pop": null
+  },
+  {
+    "nameAr": "Tangail",
+    "nameEn": "Tangail",
+    "type": "city",
+    "lat": 24.4,
+    "lng": 90,
+    "pop": null
+  },
+  {
+    "nameAr": "Tarabo",
+    "nameEn": "Tarabo",
+    "type": "city",
+    "lat": 23.723,
+    "lng": 90.507,
+    "pop": null
+  },
+  {
+    "nameAr": "Teknaf",
+    "nameEn": "Teknaf",
+    "type": "city",
+    "lat": 20.857839,
+    "lng": 92.297518,
+    "pop": null
+  },
+  {
+    "nameAr": "Thakurgaon",
+    "nameEn": "Thakurgaon",
+    "type": "city",
+    "lat": 26.030833333333,
+    "lng": 88.47,
+    "pop": null
+  },
+  {
+    "nameAr": "Ujalpur",
+    "nameEn": "Ujalpur",
+    "type": "city",
+    "lat": 23.8121,
+    "lng": 88.6265,
+    "pop": null
+  },
+  {
+    "nameAr": "Wari",
+    "nameEn": "Wari",
+    "type": "city",
+    "lat": 24.092708,
+    "lng": 90.824972,
+    "pop": null
+  }
+]

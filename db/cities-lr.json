@@ -1,0 +1,12 @@
+[
+  {"nameAr":"مونروفيا","nameEn":"Monrovia","type":"city","lat":6.3004,"lng":-10.7969,"pop":1010970},
+  {"nameAr":"غبارنغا","nameEn":"Gbarnga","type":"city","lat":7.0074,"lng":-9.4891,"pop":56986},
+  {"nameAr":"بوكانان","nameEn":"Buchanan","type":"city","lat":5.8808,"lng":-10.0467,"pop":50245},
+  {"nameAr":"غانتا","nameEn":"Ganta","type":"city","lat":7.2406,"lng":-8.9717,"pop":41106},
+  {"nameAr":"كاكاتا","nameEn":"Kakata","type":"city","lat":6.5312,"lng":-10.3521,"pop":33945},
+  {"nameAr":"فوينجاما","nameEn":"Voinjama","type":"city","lat":8.4217,"lng":-9.7475,"pop":26594},
+  {"nameAr":"زويدرو","nameEn":"Zwedru","type":"city","lat":6.0736,"lng":-8.1314,"pop":23903},
+  {"nameAr":"هاربر","nameEn":"Harper","type":"city","lat":4.3750,"lng":-7.7167,"pop":17837},
+  {"nameAr":"توبمانبرغ","nameEn":"Tubmanburg","type":"city","lat":6.8706,"lng":-10.8225,"pop":14089},
+  {"nameAr":"روبرتسبورت","nameEn":"Robertsport","type":"city","lat":6.7531,"lng":-11.3706,"pop":12096}
+]

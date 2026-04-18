@@ -1,0 +1,12 @@
+[
+  {"nameAr":"باراماريبو","nameEn":"Paramaribo","type":"city","lat":5.8667,"lng":-55.1667,"pop":240924},
+  {"nameAr":"ليليدورب","nameEn":"Lelydorp","type":"city","lat":5.7000,"lng":-55.2333,"pop":18223},
+  {"nameAr":"نيو نيكيري","nameEn":"Nieuw Nickerie","type":"city","lat":5.9500,"lng":-56.9833,"pop":13143},
+  {"nameAr":"موينغو","nameEn":"Moengo","type":"city","lat":5.6167,"lng":-54.4000,"pop":7074},
+  {"nameAr":"ميرزورغ","nameEn":"Meerzorg","type":"city","lat":5.8167,"lng":-55.1500,"pop":6800},
+  {"nameAr":"نيو أمستردام","nameEn":"Nieuw Amsterdam","type":"city","lat":5.8667,"lng":-55.0833,"pop":6500},
+  {"nameAr":"بروكوبوندو","nameEn":"Brokopondo","type":"city","lat":5.0667,"lng":-54.9833,"pop":5000},
+  {"nameAr":"توتنيس","nameEn":"Totness","type":"city","lat":5.8833,"lng":-56.3167,"pop":4000},
+  {"nameAr":"ألبينا","nameEn":"Albina","type":"city","lat":5.5000,"lng":-54.0500,"pop":4000},
+  {"nameAr":"أونفيرواخت","nameEn":"Onverwacht","type":"city","lat":5.5667,"lng":-55.1833,"pop":4000}
+]

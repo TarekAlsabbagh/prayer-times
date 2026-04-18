@@ -1,0 +1,82 @@
+[
+  {
+    "nameAr": "جيبوتي",
+    "nameEn": "Djibouti",
+    "type": "city",
+    "lat": 11.595,
+    "lng": 43.148055555556,
+    "pop": 603900
+  },
+  {
+    "nameAr": "علي صبيح",
+    "nameEn": "Ali Sabieh",
+    "type": "city",
+    "lat": 11.155833333333,
+    "lng": 42.7125,
+    "pop": 71230
+  },
+  {
+    "nameAr": "دخيل",
+    "nameEn": "Dikhil",
+    "type": "city",
+    "lat": 11.108611111111,
+    "lng": 42.366666666667,
+    "pop": 35000
+  },
+  {
+    "nameAr": "أوبوك",
+    "nameEn": "Obock",
+    "type": "city",
+    "lat": 11.966666666667,
+    "lng": 43.283333333333,
+    "pop": 21200
+  },
+  {
+    "nameAr": "تاجورة",
+    "nameEn": "Tadjoura",
+    "type": "city",
+    "lat": 11.783333333333,
+    "lng": 42.883333333333,
+    "pop": 14820
+  },
+  {
+    "nameAr": "`As `Ela",
+    "nameEn": "`As `Ela",
+    "type": "city",
+    "lat": 11.5167,
+    "lng": 42.1,
+    "pop": null
+  },
+  {
+    "nameAr": "أرتا",
+    "nameEn": "Arta",
+    "type": "city",
+    "lat": 11.52187,
+    "lng": 42.84003,
+    "pop": null
+  },
+  {
+    "nameAr": "Adoyla",
+    "nameEn": "Adoyla",
+    "type": "city",
+    "lat": 11.95861111,
+    "lng": 42.64777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Bondara",
+    "nameEn": "Bondara",
+    "type": "city",
+    "lat": 11.01666667,
+    "lng": 42.33333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Karabti San",
+    "nameEn": "Karabti San",
+    "type": "city",
+    "lat": 11.875277777778,
+    "lng": 42.281944444444,
+    "pop": null
+  }
+]

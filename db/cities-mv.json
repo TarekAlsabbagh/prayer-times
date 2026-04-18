@@ -1,0 +1,12 @@
+[
+  {"nameAr":"ماليه","nameEn":"Malé","type":"city","lat":4.1755,"lng":73.5093,"pop":153904},
+  {"nameAr":"فوفاه مولا","nameEn":"Fuvahmulah","type":"city","lat":-0.2983,"lng":73.4242,"pop":12275},
+  {"nameAr":"أدو سيتي (هيثادو)","nameEn":"Hithadhoo","type":"city","lat":-0.6006,"lng":73.0836,"pop":11369},
+  {"nameAr":"كولهودوفوشي","nameEn":"Kulhudhuffushi","type":"city","lat":6.6222,"lng":73.0706,"pop":9430},
+  {"nameAr":"ثنادو","nameEn":"Thinadhoo","type":"city","lat":0.5306,"lng":72.9975,"pop":5692},
+  {"nameAr":"نايفارو","nameEn":"Naifaru","type":"city","lat":5.4444,"lng":73.3633,"pop":5064},
+  {"nameAr":"هينافارو","nameEn":"Hinnavaru","type":"city","lat":5.4958,"lng":73.4150,"pop":4104},
+  {"nameAr":"ديدهو","nameEn":"Dhidhdhoo","type":"city","lat":6.8833,"lng":73.1000,"pop":3347},
+  {"nameAr":"إيدهافوشي","nameEn":"Eydhafushi","type":"city","lat":5.1053,"lng":73.0701,"pop":3018},
+  {"nameAr":"كودهوفادو","nameEn":"Kudahuvadhoo","type":"city","lat":2.6719,"lng":72.8950,"pop":1942}
+]

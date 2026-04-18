@@ -1,0 +1,2292 @@
+[
+  {
+    "nameAr": "كوالالمبور",
+    "nameEn": "Kuala Lumpur",
+    "type": "city",
+    "lat": 3.1478,
+    "lng": 101.6953
+  },
+  {
+    "nameAr": "ألور ستار",
+    "nameEn": "Alor Setar",
+    "type": "city",
+    "lat": 6.1248,
+    "lng": 100.3673
+  },
+  {
+    "nameAr": "ايبوه",
+    "nameEn": "Ipoh",
+    "type": "city",
+    "lat": 4.5975,
+    "lng": 101.0901
+  },
+  {
+    "nameAr": "باهانغ",
+    "nameEn": "Pahang",
+    "type": "city",
+    "lat": 3.8126,
+    "lng": 103.3256
+  },
+  {
+    "nameAr": "بيتالينغ جايا",
+    "nameEn": "Petaling Jaya",
+    "type": "city",
+    "lat": 3.1073,
+    "lng": 101.6067
+  },
+  {
+    "nameAr": "جورج تاون",
+    "nameEn": "George Town",
+    "type": "city",
+    "lat": 5.4141,
+    "lng": 100.3288
+  },
+  {
+    "nameAr": "جوهور بهرو",
+    "nameEn": "Johor Bahru",
+    "type": "city",
+    "lat": 1.4655,
+    "lng": 103.7578
+  },
+  {
+    "nameAr": "سيبو",
+    "nameEn": "Sibu",
+    "type": "city",
+    "lat": 2.3,
+    "lng": 111.8167
+  },
+  {
+    "nameAr": "سيمبانغ",
+    "nameEn": "Seremban",
+    "type": "city",
+    "lat": 2.7297,
+    "lng": 101.9381
+  },
+  {
+    "nameAr": "شاه علم",
+    "nameEn": "Shah Alam",
+    "type": "city",
+    "lat": 3.0733,
+    "lng": 101.5185
+  },
+  {
+    "nameAr": "كوانتان",
+    "nameEn": "Kuantan",
+    "type": "city",
+    "lat": 3.8077,
+    "lng": 103.326
+  },
+  {
+    "nameAr": "كوتا كينابالو",
+    "nameEn": "Kota Kinabalu",
+    "type": "city",
+    "lat": 5.9804,
+    "lng": 116.0735
+  },
+  {
+    "nameAr": "كوتشينغ",
+    "nameEn": "Kuching",
+    "type": "city",
+    "lat": 1.5533,
+    "lng": 110.3592
+  },
+  {
+    "nameAr": "ميري",
+    "nameEn": "Miri",
+    "type": "city",
+    "lat": 4.3995,
+    "lng": 113.9914
+  },
+  {
+    "nameAr": "كلاغ",
+    "nameEn": "Klang",
+    "type": "city",
+    "lat": 3.0333333333333,
+    "lng": 101.45,
+    "pop": 878000
+  },
+  {
+    "nameAr": "إيبوه",
+    "nameEn": "Ipoh",
+    "type": "city",
+    "lat": 4.6,
+    "lng": 101.07,
+    "pop": 866772
+  },
+  {
+    "nameAr": "سوبانغ جايا",
+    "nameEn": "Subang Jaya",
+    "type": "city",
+    "lat": 3.0644444444444,
+    "lng": 101.59361111111,
+    "pop": 708296
+  },
+  {
+    "nameAr": "فتالينغ جاي",
+    "nameEn": "Petaling Jaya",
+    "type": "city",
+    "lat": 3.10726,
+    "lng": 101.60671,
+    "pop": 638516
+  },
+  {
+    "nameAr": "شاه عالم",
+    "nameEn": "Shah Alam",
+    "type": "city",
+    "lat": 3.0833333333333,
+    "lng": 101.53333333333,
+    "pop": 584340
+  },
+  {
+    "nameAr": "كوتا بهارو",
+    "nameEn": "Kota Bharu",
+    "type": "city",
+    "lat": 6.1333333333333,
+    "lng": 102.25,
+    "pop": 491237
+  },
+  {
+    "nameAr": "مدينة ملقا",
+    "nameEn": "Malacca",
+    "type": "city",
+    "lat": 2.1888888888889,
+    "lng": 102.25111111111,
+    "pop": 455300
+  },
+  {
+    "nameAr": "سرمبن",
+    "nameEn": "Seremban",
+    "type": "city",
+    "lat": 2.7297222222222,
+    "lng": 101.93805555556,
+    "pop": 419536
+  },
+  {
+    "nameAr": "سانداكان",
+    "nameEn": "Sandakan",
+    "type": "city",
+    "lat": 5.83878,
+    "lng": 118.11729,
+    "pop": 396290
+  },
+  {
+    "nameAr": "موار",
+    "nameEn": "Muar",
+    "type": "city",
+    "lat": 2.05,
+    "lng": 102.56,
+    "pop": 357148
+  },
+  {
+    "nameAr": "لاحد داتو",
+    "nameEn": "Lahad Datu",
+    "type": "city",
+    "lat": 5.03,
+    "lng": 118.34,
+    "pop": 199830
+  },
+  {
+    "nameAr": "Kulim",
+    "nameEn": "Kulim",
+    "type": "city",
+    "lat": 5.36,
+    "lng": 100.54972222222,
+    "pop": 150000
+  },
+  {
+    "nameAr": "Batu Pahat",
+    "nameEn": "Batu Pahat",
+    "type": "city",
+    "lat": 1.85,
+    "lng": 102.93,
+    "pop": 140000
+  },
+  {
+    "nameAr": "بينتولو",
+    "nameEn": "Bintulu",
+    "type": "city",
+    "lat": 3.17,
+    "lng": 113.03,
+    "pop": 114058
+  },
+  {
+    "nameAr": "تاواو",
+    "nameEn": "Tawau",
+    "type": "city",
+    "lat": 4.24482,
+    "lng": 117.89115,
+    "pop": 113809
+  },
+  {
+    "nameAr": "Marudi",
+    "nameEn": "Marudi",
+    "type": "city",
+    "lat": 4.18333333,
+    "lng": 114.31666667,
+    "pop": 90100
+  },
+  {
+    "nameAr": "كانجار",
+    "nameEn": "Kangar",
+    "type": "city",
+    "lat": 6.4333333333333,
+    "lng": 100.2,
+    "pop": 48898
+  },
+  {
+    "nameAr": "Kampung Balung Cocos",
+    "nameEn": "Kampung Balung Cocos",
+    "type": "city",
+    "lat": 4.375,
+    "lng": 118.11222222222,
+    "pop": 817
+  },
+  {
+    "nameAr": "Kampung Litang",
+    "nameEn": "Kampung Litang",
+    "type": "city",
+    "lat": 5.3281111111111,
+    "lng": 118.51125,
+    "pop": 529
+  },
+  {
+    "nameAr": "إسكندر بوتري",
+    "nameEn": "Iskandar Puteri",
+    "type": "city",
+    "lat": 1.4775,
+    "lng": 103.63953055556,
+    "pop": null
+  },
+  {
+    "nameAr": "باتانج كالي",
+    "nameEn": "Batang Kali",
+    "type": "city",
+    "lat": 3.4625,
+    "lng": 101.655,
+    "pop": null
+  },
+  {
+    "nameAr": "بادانغ بسار",
+    "nameEn": "Padang Besar",
+    "type": "city",
+    "lat": 6.66055556,
+    "lng": 100.32166667,
+    "pop": null
+  },
+  {
+    "nameAr": "بادنج بالنج",
+    "nameEn": "Kampung Padang Balang",
+    "type": "city",
+    "lat": 3.212653,
+    "lng": 101.698314,
+    "pop": null
+  },
+  {
+    "nameAr": "باريت يعني",
+    "nameEn": "Parit Yaani",
+    "type": "city",
+    "lat": 1.9272492,
+    "lng": 103.0208779,
+    "pop": null
+  },
+  {
+    "nameAr": "باسير جودانج",
+    "nameEn": "Pasir Gudang",
+    "type": "city",
+    "lat": 1.45,
+    "lng": 103.89,
+    "pop": null
+  },
+  {
+    "nameAr": "باو",
+    "nameEn": "Bau",
+    "type": "city",
+    "lat": 1.41667,
+    "lng": 110.15,
+    "pop": null
+  },
+  {
+    "nameAr": "بورت ديكسون",
+    "nameEn": "Port Dickson",
+    "type": "city",
+    "lat": 2.5166666666667,
+    "lng": 101.8,
+    "pop": null
+  },
+  {
+    "nameAr": "بوفورت",
+    "nameEn": "Beaufort",
+    "type": "city",
+    "lat": 5.3333333333333,
+    "lng": 115.75,
+    "pop": null
+  },
+  {
+    "nameAr": "تايبينغ",
+    "nameEn": "Taiping",
+    "type": "city",
+    "lat": 4.85,
+    "lng": 100.73333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "تيلوك إنتان",
+    "nameEn": "Teluk Intan",
+    "type": "city",
+    "lat": 4.0259,
+    "lng": 101.0213,
+    "pop": null
+  },
+  {
+    "nameAr": "جاسين",
+    "nameEn": "Jasin",
+    "type": "city",
+    "lat": 2.31055556,
+    "lng": 102.43111111,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس كوبانغ",
+    "nameEn": "Tanjung Kupang",
+    "type": "city",
+    "lat": 1.3505398,
+    "lng": 103.6007792,
+    "pop": null
+  },
+  {
+    "nameAr": "رمباو",
+    "nameEn": "Rembau",
+    "type": "city",
+    "lat": 2.58333333,
+    "lng": 102.1,
+    "pop": null
+  },
+  {
+    "nameAr": "سالينغ",
+    "nameEn": "Saleng",
+    "type": "city",
+    "lat": 1.63333333,
+    "lng": 103.63333333,
+    "pop": null
+  },
+  {
+    "nameAr": "سايبرجايا",
+    "nameEn": "Cyberjaya",
+    "type": "city",
+    "lat": 2.9225,
+    "lng": 101.655,
+    "pop": null
+  },
+  {
+    "nameAr": "سري أمان",
+    "nameEn": "Simanggang",
+    "type": "city",
+    "lat": 1.25,
+    "lng": 111.45,
+    "pop": null
+  },
+  {
+    "nameAr": "سري ميدان",
+    "nameEn": "Sri Medan",
+    "type": "city",
+    "lat": 1.9849548,
+    "lng": 102.9569216,
+    "pop": null
+  },
+  {
+    "nameAr": "سونغاي بيتاني",
+    "nameEn": "Sungai Petani",
+    "type": "city",
+    "lat": 5.6469444444444,
+    "lng": 100.48777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "سيغمات",
+    "nameEn": "Segamat",
+    "type": "city",
+    "lat": 2.5147222222222,
+    "lng": 102.81583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "سينغجارانغ",
+    "nameEn": "Senggarang",
+    "type": "city",
+    "lat": 1.7490338,
+    "lng": 103.0524954,
+    "pop": null
+  },
+  {
+    "nameAr": "غيلانغ باتاه",
+    "nameEn": "Gelang Patah",
+    "type": "city",
+    "lat": 1.4491332,
+    "lng": 103.5899353,
+    "pop": null
+  },
+  {
+    "nameAr": "كاجانغ",
+    "nameEn": "Kajang",
+    "type": "city",
+    "lat": 2.99306,
+    "lng": 101.789,
+    "pop": null
+  },
+  {
+    "nameAr": "كامبونغ أواه",
+    "nameEn": "Kampung Awah",
+    "type": "city",
+    "lat": 3.5,
+    "lng": 102.53333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كواه",
+    "nameEn": "Kuah",
+    "type": "city",
+    "lat": 6.32,
+    "lng": 99.85,
+    "pop": null
+  },
+  {
+    "nameAr": "كوتا تينجي",
+    "nameEn": "Kota Tinggi",
+    "type": "city",
+    "lat": 1.7381,
+    "lng": 103.8999,
+    "pop": null
+  },
+  {
+    "nameAr": "كودات",
+    "nameEn": "Kudat",
+    "type": "city",
+    "lat": 6.8833333333333,
+    "lng": 116.83333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كولانغ",
+    "nameEn": "Kluang",
+    "type": "city",
+    "lat": 2.0336111111111,
+    "lng": 103.31944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "كولاي",
+    "nameEn": "Kulai",
+    "type": "city",
+    "lat": 1.6666666666667,
+    "lng": 103.6,
+    "pop": null
+  },
+  {
+    "nameAr": "كينينغاو",
+    "nameEn": "Keningau",
+    "type": "city",
+    "lat": 5.3377777777778,
+    "lng": 116.16027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "ليمبانغ",
+    "nameEn": "Limbang",
+    "type": "city",
+    "lat": 4.7591666666667,
+    "lng": 115.00666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "لينغونغ",
+    "nameEn": "Lenggong",
+    "type": "city",
+    "lat": 5.1,
+    "lng": 100.96666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "نيلايْ",
+    "nameEn": "Nilai",
+    "type": "city",
+    "lat": 2.8166666666667,
+    "lng": 101.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Air Papan",
+    "nameEn": "Air Papan",
+    "type": "city",
+    "lat": 2.51638889,
+    "lng": 103.835,
+    "pop": null
+  },
+  {
+    "nameAr": "Ayer Hitam",
+    "nameEn": "Ayer Hitam",
+    "type": "city",
+    "lat": 1.91833333,
+    "lng": 103.1795,
+    "pop": null
+  },
+  {
+    "nameAr": "Ayer Keroh",
+    "nameEn": "Ayer Keroh",
+    "type": "city",
+    "lat": 2.27,
+    "lng": 102.28,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagan Jermal, Seberang Perai",
+    "nameEn": "Bagan Jermal, Seberang Perai",
+    "type": "city",
+    "lat": 5.53333333,
+    "lng": 100.36666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bandar Penawar",
+    "nameEn": "Bandar Penawar",
+    "type": "city",
+    "lat": 1.55,
+    "lng": 104.233,
+    "pop": null
+  },
+  {
+    "nameAr": "Banting",
+    "nameEn": "Banting",
+    "type": "city",
+    "lat": 2.8166666666667,
+    "lng": 101.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Batu Anam",
+    "nameEn": "Batu Anam",
+    "type": "city",
+    "lat": 2.58333,
+    "lng": 102.717,
+    "pop": null
+  },
+  {
+    "nameAr": "Batu Arang",
+    "nameEn": "Batu Arang",
+    "type": "city",
+    "lat": 3.32,
+    "lng": 101.47,
+    "pop": null
+  },
+  {
+    "nameAr": "Batu Caves",
+    "nameEn": "Batu Caves",
+    "type": "city",
+    "lat": 3.2333333333333,
+    "lng": 101.66666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Batu Kawan",
+    "nameEn": "Batu Kawan",
+    "type": "city",
+    "lat": 5.2625962,
+    "lng": 100.4304555,
+    "pop": null
+  },
+  {
+    "nameAr": "Bemban",
+    "nameEn": "Bemban",
+    "type": "city",
+    "lat": 2.26278,
+    "lng": 102.367,
+    "pop": null
+  },
+  {
+    "nameAr": "Beruas",
+    "nameEn": "Beruas",
+    "type": "city",
+    "lat": 4.5,
+    "lng": 100.78333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bidor",
+    "nameEn": "Bidor",
+    "type": "city",
+    "lat": 4.1166666666667,
+    "lng": 101.28333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bintulu",
+    "nameEn": "Bintulu",
+    "type": "city",
+    "lat": 3.1666694444444,
+    "lng": 113.03333055556,
+    "pop": null
+  },
+  {
+    "nameAr": "Bongawan",
+    "nameEn": "Bongawan",
+    "type": "city",
+    "lat": 5.538949,
+    "lng": 115.854609,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukit Bakri",
+    "nameEn": "Bukit Bakri",
+    "type": "city",
+    "lat": 2.05,
+    "lng": 102.66666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukit Baru",
+    "nameEn": "Bukit Baru",
+    "type": "city",
+    "lat": 2.2,
+    "lng": 102.283,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukit Gambir",
+    "nameEn": "Bukit Gambir",
+    "type": "city",
+    "lat": 2.2166666666667,
+    "lng": 102.66666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bukit Pasir",
+    "nameEn": "Bukit Pasir",
+    "type": "city",
+    "lat": 2.1,
+    "lng": 102.63333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Changkat Keruing",
+    "nameEn": "Changkat Keruing",
+    "type": "city",
+    "lat": 4.3833333333333,
+    "lng": 100.68333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Cheroh",
+    "nameEn": "Cheroh",
+    "type": "city",
+    "lat": 3.91031111,
+    "lng": 101.81133611,
+    "pop": null
+  },
+  {
+    "nameAr": "Cherok Tok Kun",
+    "nameEn": "Cherok Tok Kun",
+    "type": "city",
+    "lat": 5.3333333333333,
+    "lng": 100.48333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Chikus",
+    "nameEn": "Chikus",
+    "type": "city",
+    "lat": 4.0666666666667,
+    "lng": 101.11666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Desaru",
+    "nameEn": "Desaru",
+    "type": "city",
+    "lat": 1.5402777777778,
+    "lng": 104.26805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Endau",
+    "nameEn": "Endau",
+    "type": "city",
+    "lat": 2.65,
+    "lng": 103.61666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Gohtong Jaya",
+    "nameEn": "Gohtong Jaya",
+    "type": "city",
+    "lat": 3.39737,
+    "lng": 101.768,
+    "pop": null
+  },
+  {
+    "nameAr": "Gunung Rapat",
+    "nameEn": "Gunung Rapat",
+    "type": "city",
+    "lat": 4.5728333333333,
+    "lng": 101.11394444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Gurun",
+    "nameEn": "Gurun",
+    "type": "city",
+    "lat": 5.82,
+    "lng": 100.48,
+    "pop": null
+  },
+  {
+    "nameAr": "Jawi",
+    "nameEn": "Jawi",
+    "type": "city",
+    "lat": 5.2,
+    "lng": 100.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Jerantut",
+    "nameEn": "Jerantut",
+    "type": "city",
+    "lat": 3.9333333333333,
+    "lng": 102.36666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Jerteh",
+    "nameEn": "Jerteh",
+    "type": "city",
+    "lat": 5.75,
+    "lng": 102.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Jinjang",
+    "nameEn": "Jinjang",
+    "type": "city",
+    "lat": 3.1166666666667,
+    "lng": 101.68333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Johol",
+    "nameEn": "Johol",
+    "type": "city",
+    "lat": 2.6,
+    "lng": 102.26666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kamoung Kaguraan",
+    "nameEn": "Kamoung Kaguraan",
+    "type": "city",
+    "lat": 6.4582777777778,
+    "lng": 116.50186111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampar",
+    "nameEn": "Kampar",
+    "type": "city",
+    "lat": 4.3,
+    "lng": 101.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Bakar Batu",
+    "nameEn": "Kampung Bakar Batu",
+    "type": "city",
+    "lat": 1.50023,
+    "lng": 103.77891,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Baru",
+    "nameEn": "Kampung Baru",
+    "type": "city",
+    "lat": 3.1643931516373,
+    "lng": 101.70809590615,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Baru Penarik",
+    "nameEn": "Kampung Baru Penarik",
+    "type": "city",
+    "lat": 5.6114,
+    "lng": 102.8077,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Baru Peserai",
+    "nameEn": "Kampung Baru Peserai",
+    "type": "city",
+    "lat": 1.8504,
+    "lng": 102.9156,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Baru Subang",
+    "nameEn": "Kampung Baru Subang",
+    "type": "city",
+    "lat": 3.15,
+    "lng": 101.53333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Batu Hampar Kanan",
+    "nameEn": "Kampung Batu Hampar Kanan",
+    "type": "city",
+    "lat": 5.9816,
+    "lng": 100.488,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Bayangan",
+    "nameEn": "Kampung Bayangan",
+    "type": "city",
+    "lat": 5.3818055555556,
+    "lng": 116.19386111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Bayayat",
+    "nameEn": "Kampung Bayayat",
+    "type": "city",
+    "lat": 6.2071388888889,
+    "lng": 116.44547222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Bilit",
+    "nameEn": "Kampung Bilit",
+    "type": "city",
+    "lat": 5.4973,
+    "lng": 118.2077,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Buang Sayang",
+    "nameEn": "Kampung Buang Sayang",
+    "type": "city",
+    "lat": 5.5023888888889,
+    "lng": 117.81,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Bukit Jagong",
+    "nameEn": "Kampung Bukit Jagong",
+    "type": "city",
+    "lat": 5.929652,
+    "lng": 100.553413,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Cendahan",
+    "nameEn": "Kampung Cendahan",
+    "type": "city",
+    "lat": 3.437,
+    "lng": 102.918,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Dambai",
+    "nameEn": "Kampung Dambai",
+    "type": "city",
+    "lat": 5.9863888888889,
+    "lng": 116.16666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Datuk Keramat",
+    "nameEn": "Kampung Datuk Keramat",
+    "type": "city",
+    "lat": 3.16785,
+    "lng": 101.724,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Gajah",
+    "nameEn": "Kampung Gajah",
+    "type": "city",
+    "lat": 4.183891,
+    "lng": 100.938755,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Gas",
+    "nameEn": "Kampung Gas",
+    "type": "city",
+    "lat": 5.7941666666667,
+    "lng": 118.03466666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Gayang",
+    "nameEn": "Kampung Gayang",
+    "type": "city",
+    "lat": 6.1366666666667,
+    "lng": 116.14833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Gepeh Hulu",
+    "nameEn": "Kampung Gepeh Hulu",
+    "type": "city",
+    "lat": 4.838,
+    "lng": 101.3372,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Giling",
+    "nameEn": "Kampung Giling",
+    "type": "city",
+    "lat": 6.114417563156,
+    "lng": 116.20475037808,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Jambatan Duyong",
+    "nameEn": "Kampung Jambatan Duyong",
+    "type": "city",
+    "lat": 2.196,
+    "lng": 102.291,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Jenang",
+    "nameEn": "Kampung Jenang",
+    "type": "city",
+    "lat": 5.13333333,
+    "lng": 103.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Jering",
+    "nameEn": "Kampung Jering",
+    "type": "city",
+    "lat": 5.85,
+    "lng": 100.78333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kapayan Baru",
+    "nameEn": "Kampung Kapayan Baru",
+    "type": "city",
+    "lat": 5.4451666666667,
+    "lng": 116.27111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kebulu",
+    "nameEn": "Kampung Kebulu",
+    "type": "city",
+    "lat": 5.1642,
+    "lng": 116.2327,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kelatuan",
+    "nameEn": "Kampung Kelatuan",
+    "type": "city",
+    "lat": 5.6389,
+    "lng": 115.9569,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kelawat",
+    "nameEn": "Kampung Kelawat",
+    "type": "city",
+    "lat": 6.3034166666667,
+    "lng": 116.36511111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kerdas",
+    "nameEn": "Kampung Kerdas",
+    "type": "city",
+    "lat": 3.233984,
+    "lng": 101.712347,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Keruak",
+    "nameEn": "Kampung Keruak",
+    "type": "city",
+    "lat": 5.4833333333333,
+    "lng": 102.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kesapang",
+    "nameEn": "Kampung Kesapang",
+    "type": "city",
+    "lat": 6.4176944444444,
+    "lng": 116.44916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kilo",
+    "nameEn": "Kampung Kilo",
+    "type": "city",
+    "lat": 5.37813346,
+    "lng": 116.49374996,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kinasaraban",
+    "nameEn": "Kampung Kinasaraban",
+    "type": "city",
+    "lat": 6.3342777777778,
+    "lng": 116.39902777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kok",
+    "nameEn": "Kampung Kok",
+    "type": "city",
+    "lat": 6.3675,
+    "lng": 99.6825,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kota Peladok",
+    "nameEn": "Kampung Kota Peladok",
+    "type": "city",
+    "lat": 6.4025555555556,
+    "lng": 116.41386111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kuantan",
+    "nameEn": "Kampung Kuantan",
+    "type": "city",
+    "lat": 3.46666667,
+    "lng": 101.68333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kubang Tiga",
+    "nameEn": "Kampung Kubang Tiga",
+    "type": "city",
+    "lat": 6.571596,
+    "lng": 100.276122,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kubang Tin",
+    "nameEn": "Kampung Kubang Tin",
+    "type": "city",
+    "lat": 5.982542,
+    "lng": 102.29348,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Kulambai Dundau",
+    "nameEn": "Kampung Kulambai Dundau",
+    "type": "city",
+    "lat": 6.37725,
+    "lng": 116.37691666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Labak Baru",
+    "nameEn": "Kampung Labak Baru",
+    "type": "city",
+    "lat": 5.4090277777778,
+    "lng": 116.21841666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Lalang",
+    "nameEn": "Kampung Lalang",
+    "type": "city",
+    "lat": 5.796,
+    "lng": 100.887,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Lentigi",
+    "nameEn": "Kampung Lentigi",
+    "type": "city",
+    "lat": 6.3390277777778,
+    "lng": 116.39102777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Lingkudau",
+    "nameEn": "Kampung Lingkudau",
+    "type": "city",
+    "lat": 5.3269,
+    "lng": 116.1628,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Lok Nunuk",
+    "nameEn": "Kampung Lok Nunuk",
+    "type": "city",
+    "lat": 6.2979,
+    "lng": 116.2823,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Long Iman",
+    "nameEn": "Kampung Long Iman",
+    "type": "city",
+    "lat": 3.9965443206975,
+    "lng": 114.7940804857,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Lubuk Legong",
+    "nameEn": "Kampung Lubuk Legong",
+    "type": "city",
+    "lat": 5.798,
+    "lng": 100.906,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Malaysia",
+    "nameEn": "Kampung Malaysia",
+    "type": "city",
+    "lat": 3.076,
+    "lng": 101.706,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Mandap Doluoh",
+    "nameEn": "Kampung Mandap Doluoh",
+    "type": "city",
+    "lat": 6.3266388888889,
+    "lng": 116.39905555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Melawa",
+    "nameEn": "Kampung Melawa",
+    "type": "city",
+    "lat": 6.0885833333333,
+    "lng": 116.15091666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Memali",
+    "nameEn": "Kampung Memali",
+    "type": "city",
+    "lat": 5.816,
+    "lng": 100.893,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Merabau",
+    "nameEn": "Kampung Merabau",
+    "type": "city",
+    "lat": 6.4130277777778,
+    "lng": 116.42166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Muhibbah Raya",
+    "nameEn": "Kampung Muhibbah Raya",
+    "type": "city",
+    "lat": 4.2907777777778,
+    "lng": 117.892,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Napong Satu",
+    "nameEn": "Kampung Napong Satu",
+    "type": "city",
+    "lat": 6.04605556,
+    "lng": 116.74411111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Narinang",
+    "nameEn": "Kampung Narinang",
+    "type": "city",
+    "lat": 6.1853333333333,
+    "lng": 116.44663888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Naruntung",
+    "nameEn": "Kampung Naruntung",
+    "type": "city",
+    "lat": 7.0027777777778,
+    "lng": 117.16027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Orang Asli Tambak Dapor",
+    "nameEn": "Kampung Orang Asli Tambak Dapor",
+    "type": "city",
+    "lat": 2.125813,
+    "lng": 102.856188,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Padang Sari",
+    "nameEn": "Kampung Padang Sari",
+    "type": "city",
+    "lat": 1.901598,
+    "lng": 102.876938,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Padang Tok Sedau",
+    "nameEn": "Kampung Padang Tok Sedau",
+    "type": "city",
+    "lat": 5.9682,
+    "lng": 100.5634,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pandan",
+    "nameEn": "Kampung Pandan",
+    "type": "city",
+    "lat": 6.6333333333333,
+    "lng": 117.06666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pasir Tuntong",
+    "nameEn": "Kampung Pasir Tuntong",
+    "type": "city",
+    "lat": 3.286371,
+    "lng": 101.29455,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pelawan",
+    "nameEn": "Kampung Pelawan",
+    "type": "city",
+    "lat": 2.98333333,
+    "lng": 102.6,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pengalat Besar",
+    "nameEn": "Kampung Pengalat Besar",
+    "type": "city",
+    "lat": 5.7618611111111,
+    "lng": 115.962,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Piasau",
+    "nameEn": "Kampung Piasau",
+    "type": "city",
+    "lat": 6.3298004681412,
+    "lng": 116.4385634827,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pirasan",
+    "nameEn": "Kampung Pirasan",
+    "type": "city",
+    "lat": 6.3398333333333,
+    "lng": 116.42869444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pituru Laut",
+    "nameEn": "Kampung Pituru Laut",
+    "type": "city",
+    "lat": 6.3381623164261,
+    "lng": 116.3288414644,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pulau Keladi",
+    "nameEn": "Kampung Pulau Keladi",
+    "type": "city",
+    "lat": 3.5216666666667,
+    "lng": 103.375,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Pulau Ketam",
+    "nameEn": "Kampung Pulau Ketam",
+    "type": "city",
+    "lat": 6.4033333333333,
+    "lng": 100.12833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Rampayan Ulu",
+    "nameEn": "Kampung Rampayan Ulu",
+    "type": "city",
+    "lat": 6.5220833333333,
+    "lng": 116.51783333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Rangalau",
+    "nameEn": "Kampung Rangalau",
+    "type": "city",
+    "lat": 6.3060555555556,
+    "lng": 116.43941666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Sagah",
+    "nameEn": "Kampung Sagah",
+    "type": "city",
+    "lat": 1.5280555555556,
+    "lng": 110.20916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Salang",
+    "nameEn": "Kampung Salang",
+    "type": "city",
+    "lat": 2.8745989748544,
+    "lng": 104.15308141996,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Sawa Kecil",
+    "nameEn": "Kampung Sawa Kecil",
+    "type": "city",
+    "lat": 5.9599,
+    "lng": 100.538,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Semawang",
+    "nameEn": "Kampung Semawang",
+    "type": "city",
+    "lat": 5.9194722222222,
+    "lng": 117.76122222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Suasa",
+    "nameEn": "Kampung Suasa",
+    "type": "city",
+    "lat": 5.2964722222222,
+    "lng": 115.59008333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Sumbilingon",
+    "nameEn": "Kampung Sumbilingon",
+    "type": "city",
+    "lat": 6.3127777777778,
+    "lng": 116.33944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Sungai Ba",
+    "nameEn": "Kampung Sungai Ba",
+    "type": "city",
+    "lat": 1.3821,
+    "lng": 110.7252,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Sungai Kapor",
+    "nameEn": "Kampung Sungai Kapor",
+    "type": "city",
+    "lat": 5.8088,
+    "lng": 117.7686,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Sungai Mulia",
+    "nameEn": "Kampung Sungai Mulia",
+    "type": "city",
+    "lat": 3.212819,
+    "lng": 101.704645,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Tagasan Tani",
+    "nameEn": "Kampung Tagasan Tani",
+    "type": "city",
+    "lat": 4.4206,
+    "lng": 118.5531,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Tambatuon",
+    "nameEn": "Kampung Tambatuon",
+    "type": "city",
+    "lat": 6.1208888888889,
+    "lng": 116.45736111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Tambulaung",
+    "nameEn": "Kampung Tambulaung",
+    "type": "city",
+    "lat": 6.2293055555556,
+    "lng": 116.45625,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Tanah Merah Site A",
+    "nameEn": "Kampung Tanah Merah Site A",
+    "type": "city",
+    "lat": 2.6782699927021,
+    "lng": 101.75900619546,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Taradas",
+    "nameEn": "Kampung Taradas",
+    "type": "city",
+    "lat": 6.6027,
+    "lng": 117.2185,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Tengkawang",
+    "nameEn": "Kampung Tengkawang",
+    "type": "city",
+    "lat": 5.1616895,
+    "lng": 102.9260412,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Timbang Dayang",
+    "nameEn": "Kampung Timbang Dayang",
+    "type": "city",
+    "lat": 6.3820833333333,
+    "lng": 116.405,
+    "pop": null
+  },
+  {
+    "nameAr": "Kampung Tudan Baru",
+    "nameEn": "Kampung Tudan Baru",
+    "type": "city",
+    "lat": 5.3788888888889,
+    "lng": 116.18025,
+    "pop": null
+  },
+  {
+    "nameAr": "Kangkar Tebrau",
+    "nameEn": "Kangkar Tebrau",
+    "type": "city",
+    "lat": 1.5293611111111,
+    "lng": 103.75936111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaparingan",
+    "nameEn": "Kaparingan",
+    "type": "city",
+    "lat": 5.9438,
+    "lng": 116.6079,
+    "pop": null
+  },
+  {
+    "nameAr": "Kelana Jaya",
+    "nameEn": "Kelana Jaya",
+    "type": "city",
+    "lat": 13.102888888889,
+    "lng": 101.60205555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Kepong",
+    "nameEn": "Kepong",
+    "type": "city",
+    "lat": 3.21422222,
+    "lng": 101.63891667,
+    "pop": null
+  },
+  {
+    "nameAr": "Klebang",
+    "nameEn": "Klebang",
+    "type": "city",
+    "lat": 2.22,
+    "lng": 102.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Kota",
+    "nameEn": "Kota",
+    "type": "city",
+    "lat": 2.517,
+    "lng": 102.167,
+    "pop": null
+  },
+  {
+    "nameAr": "Kota Tampan",
+    "nameEn": "Kota Tampan",
+    "type": "city",
+    "lat": 5.0488,
+    "lng": 100.9538,
+    "pop": null
+  },
+  {
+    "nameAr": "Krubong",
+    "nameEn": "Krubong",
+    "type": "city",
+    "lat": 2.28611111,
+    "lng": 102.25083333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kukup",
+    "nameEn": "Kukup",
+    "type": "city",
+    "lat": 1.3263333333333,
+    "lng": 103.44641666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kundasang",
+    "nameEn": "Kundasang",
+    "type": "city",
+    "lat": 5.98333333,
+    "lng": 116.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ladang Oh Gim Khoow",
+    "nameEn": "Ladang Oh Gim Khoow",
+    "type": "city",
+    "lat": 5.210194,
+    "lng": 100.50982,
+    "pop": null
+  },
+  {
+    "nameAr": "Lawas",
+    "nameEn": "Lawas",
+    "type": "city",
+    "lat": 4.8333333333333,
+    "lng": 115.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Layang-Layangan",
+    "nameEn": "Layang-Layangan",
+    "type": "city",
+    "lat": 5.3361111111111,
+    "lng": 115.19944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Lenga",
+    "nameEn": "Lenga",
+    "type": "city",
+    "lat": 2.2756944444444,
+    "lng": 102.81561111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Akah",
+    "nameEn": "Long Akah",
+    "type": "city",
+    "lat": 3.31667,
+    "lng": 114.78333,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Anap",
+    "nameEn": "Long Anap",
+    "type": "city",
+    "lat": 3.06667,
+    "lng": 114.81667,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Lama",
+    "nameEn": "Long Lama",
+    "type": "city",
+    "lat": 3.7624861111111,
+    "lng": 114.40425,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Lellang",
+    "nameEn": "Long Lellang",
+    "type": "city",
+    "lat": 3.45882,
+    "lng": 115.18149,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Palai",
+    "nameEn": "Long Palai",
+    "type": "city",
+    "lat": 3.05,
+    "lng": 114.83333,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Pasia",
+    "nameEn": "Long Pasia",
+    "type": "city",
+    "lat": 4.40777778,
+    "lng": 115.72194444,
+    "pop": null
+  },
+  {
+    "nameAr": "Long Semado",
+    "nameEn": "Long Semado",
+    "type": "city",
+    "lat": 4.25,
+    "lng": 115.58333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lumut",
+    "nameEn": "Lumut",
+    "type": "city",
+    "lat": 4.233,
+    "lng": 100.633,
+    "pop": null
+  },
+  {
+    "nameAr": "Lundu",
+    "nameEn": "Lundu",
+    "type": "city",
+    "lat": 1.66667,
+    "lng": 109.85,
+    "pop": null
+  },
+  {
+    "nameAr": "Machang",
+    "nameEn": "Machang",
+    "type": "city",
+    "lat": 5.76083333,
+    "lng": 102.21583333,
+    "pop": null
+  },
+  {
+    "nameAr": "Machang Bubok",
+    "nameEn": "Machang Bubok",
+    "type": "city",
+    "lat": 5.33431,
+    "lng": 100.508,
+    "pop": null
+  },
+  {
+    "nameAr": "Majidee Malay Village",
+    "nameEn": "Majidee Malay Village",
+    "type": "city",
+    "lat": 1.5120277777778,
+    "lng": 103.7525,
+    "pop": null
+  },
+  {
+    "nameAr": "Manek Urai",
+    "nameEn": "Manek Urai",
+    "type": "city",
+    "lat": 5.3833333333333,
+    "lng": 102.23333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mersing",
+    "nameEn": "Mersing",
+    "type": "city",
+    "lat": 2.43,
+    "lng": 103.83,
+    "pop": null
+  },
+  {
+    "nameAr": "Miri",
+    "nameEn": "Miri",
+    "type": "city",
+    "lat": 4.3940102,
+    "lng": 113.9880199,
+    "pop": null
+  },
+  {
+    "nameAr": "Mutiara Damansara",
+    "nameEn": "Mutiara Damansara",
+    "type": "city",
+    "lat": 3.1559303,
+    "lng": 101.611417,
+    "pop": null
+  },
+  {
+    "nameAr": "Naning",
+    "nameEn": "Naning",
+    "type": "city",
+    "lat": 2.45907,
+    "lng": 102.169544,
+    "pop": null
+  },
+  {
+    "nameAr": "Nong Chik Village",
+    "nameEn": "Nong Chik Village",
+    "type": "city",
+    "lat": 1.46980556,
+    "lng": 103.73755556,
+    "pop": null
+  },
+  {
+    "nameAr": "Oya",
+    "nameEn": "Oya",
+    "type": "city",
+    "lat": 2.856089,
+    "lng": 111.874736,
+    "pop": null
+  },
+  {
+    "nameAr": "Pagoh",
+    "nameEn": "Pagoh",
+    "type": "city",
+    "lat": 2.15,
+    "lng": 102.76666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pajam",
+    "nameEn": "Pajam",
+    "type": "city",
+    "lat": 2.85,
+    "lng": 101.85,
+    "pop": null
+  },
+  {
+    "nameAr": "Panchor",
+    "nameEn": "Panchor",
+    "type": "city",
+    "lat": 2.16666667,
+    "lng": 102.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Pandan",
+    "nameEn": "Pandan",
+    "type": "city",
+    "lat": 1.5269722222222,
+    "lng": 103.76872222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pantai Remis",
+    "nameEn": "Pantai Remis",
+    "type": "city",
+    "lat": 4.45,
+    "lng": 100.63333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Parit Bugis",
+    "nameEn": "Parit Bugis",
+    "type": "city",
+    "lat": 1.5521111111111,
+    "lng": 103.40883333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Parit Buntar",
+    "nameEn": "Parit Buntar",
+    "type": "city",
+    "lat": 5.12,
+    "lng": 100.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Parit Raja",
+    "nameEn": "Parit Raja",
+    "type": "city",
+    "lat": 1.8666666666667,
+    "lng": 103.11666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Parit Sulong",
+    "nameEn": "Parit Sulong",
+    "type": "city",
+    "lat": 1.98166667,
+    "lng": 102.87833333,
+    "pop": null
+  },
+  {
+    "nameAr": "Parit Unas",
+    "nameEn": "Parit Unas",
+    "type": "city",
+    "lat": 1.9929166666667,
+    "lng": 102.61455555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Pasir Gogok",
+    "nameEn": "Pasir Gogok",
+    "type": "city",
+    "lat": 1.41666667,
+    "lng": 104.1,
+    "pop": null
+  },
+  {
+    "nameAr": "Pekan Nanas",
+    "nameEn": "Pekan Nanas",
+    "type": "city",
+    "lat": 1.5166666666667,
+    "lng": 103.51666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pengerang",
+    "nameEn": "Pengerang",
+    "type": "city",
+    "lat": 1.3666666666667,
+    "lng": 104.11666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pengkalan Balak",
+    "nameEn": "Pengkalan Balak",
+    "type": "city",
+    "lat": 2.3223,
+    "lng": 102.07,
+    "pop": null
+  },
+  {
+    "nameAr": "Permatang Damar Laut",
+    "nameEn": "Permatang Damar Laut",
+    "type": "city",
+    "lat": 5.2778131,
+    "lng": 100.2673061,
+    "pop": null
+  },
+  {
+    "nameAr": "Permatang Rambai",
+    "nameEn": "Permatang Rambai",
+    "type": "city",
+    "lat": 5.524829,
+    "lng": 100.396027,
+    "pop": null
+  },
+  {
+    "nameAr": "Peta Village",
+    "nameEn": "Peta Village",
+    "type": "city",
+    "lat": 2.5333333333333,
+    "lng": 103.41666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pilin",
+    "nameEn": "Pilin",
+    "type": "city",
+    "lat": 48.1370361,
+    "lng": 19.5993272,
+    "pop": null
+  },
+  {
+    "nameAr": "Pontian Kechil",
+    "nameEn": "Pontian Kechil",
+    "type": "city",
+    "lat": 1.4786666666667,
+    "lng": 103.38944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Poring Hot Spring",
+    "nameEn": "Poring Hot Spring",
+    "type": "city",
+    "lat": 6.0411305555556,
+    "lng": 116.70725,
+    "pop": null
+  },
+  {
+    "nameAr": "Portuguese Settlement",
+    "nameEn": "Portuguese Settlement",
+    "type": "city",
+    "lat": 2.1858333333333,
+    "lng": 102.26583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Pos Betau",
+    "nameEn": "Pos Betau",
+    "type": "city",
+    "lat": 4.2483333333333,
+    "lng": 101.70566666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Pos Brooke",
+    "nameEn": "Pos Brooke",
+    "type": "city",
+    "lat": 4.6743784656632,
+    "lng": 101.48853602476,
+    "pop": null
+  },
+  {
+    "nameAr": "Pos Lanai",
+    "nameEn": "Pos Lanai",
+    "type": "city",
+    "lat": 4.324539,
+    "lng": 101.763978,
+    "pop": null
+  },
+  {
+    "nameAr": "Pos Lenjang",
+    "nameEn": "Pos Lenjang",
+    "type": "city",
+    "lat": 4.25,
+    "lng": 101.54,
+    "pop": null
+  },
+  {
+    "nameAr": "Pos Menson",
+    "nameEn": "Pos Menson",
+    "type": "city",
+    "lat": 4.4206944444444,
+    "lng": 101.50738888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Puchong",
+    "nameEn": "Puchong",
+    "type": "city",
+    "lat": 3.0019,
+    "lng": 101.627,
+    "pop": null
+  },
+  {
+    "nameAr": "Rambah",
+    "nameEn": "Rambah",
+    "type": "city",
+    "lat": 1.4415833333333,
+    "lng": 103.43077777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Rambah Village",
+    "nameEn": "Rambah Village",
+    "type": "city",
+    "lat": 1.4314722222222,
+    "lng": 103.41286111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Rantau Panjang",
+    "nameEn": "Rantau Panjang",
+    "type": "city",
+    "lat": 5.2572777777778,
+    "lng": 100.76875,
+    "pop": null
+  },
+  {
+    "nameAr": "Raub",
+    "nameEn": "Raub",
+    "type": "city",
+    "lat": 3.7930555555556,
+    "lng": 101.85694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Renggam",
+    "nameEn": "Renggam",
+    "type": "city",
+    "lat": 1.8833333333333,
+    "lng": 103.4,
+    "pop": null
+  },
+  {
+    "nameAr": "Rengit",
+    "nameEn": "Rengit",
+    "type": "city",
+    "lat": 1.6833333333333,
+    "lng": 103.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Salang, Malaysia",
+    "nameEn": "Salang, Malaysia",
+    "type": "city",
+    "lat": 2.8777,
+    "lng": 104.1554,
+    "pop": null
+  },
+  {
+    "nameAr": "Sarang Buaya",
+    "nameEn": "Sarang Buaya",
+    "type": "city",
+    "lat": 1.8917777777778,
+    "lng": 102.76697222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Section 9, Kota Damansara",
+    "nameEn": "Section 9, Kota Damansara",
+    "type": "city",
+    "lat": 3.1762919015246,
+    "lng": 101.58327507154,
+    "pop": null
+  },
+  {
+    "nameAr": "Sedili",
+    "nameEn": "Sedili",
+    "type": "city",
+    "lat": 1.9270555555556,
+    "lng": 104.10997222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Seksyen 8 Kota Damansara",
+    "nameEn": "Seksyen 8 Kota Damansara",
+    "type": "city",
+    "lat": 3.1754119936972,
+    "lng": 101.57588025583,
+    "pop": null
+  },
+  {
+    "nameAr": "Sematan",
+    "nameEn": "Sematan",
+    "type": "city",
+    "lat": 1.8,
+    "lng": 109.76667,
+    "pop": null
+  },
+  {
+    "nameAr": "Semenyih",
+    "nameEn": "Semenyih",
+    "type": "city",
+    "lat": 2.9516,
+    "lng": 101.843,
+    "pop": null
+  },
+  {
+    "nameAr": "Senai",
+    "nameEn": "Senai",
+    "type": "city",
+    "lat": 1.58333333,
+    "lng": 103.63333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sepang",
+    "nameEn": "Sepang",
+    "type": "city",
+    "lat": 2.6916666666667,
+    "lng": 101.75138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Seri Iskandar",
+    "nameEn": "Seri Iskandar",
+    "type": "city",
+    "lat": 4.3595497,
+    "lng": 100.9760679,
+    "pop": null
+  },
+  {
+    "nameAr": "Seri Kembangan",
+    "nameEn": "Seri Kembangan",
+    "type": "city",
+    "lat": 3.0333333333333,
+    "lng": 101.71666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Seri Medan",
+    "nameEn": "Seri Medan",
+    "type": "city",
+    "lat": 1.9814166666667,
+    "lng": 102.95697222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Serian",
+    "nameEn": "Serian",
+    "type": "city",
+    "lat": 1.166111,
+    "lng": 110.566897,
+    "pop": null
+  },
+  {
+    "nameAr": "Serikin",
+    "nameEn": "Serikin",
+    "type": "city",
+    "lat": 1.3333333333333,
+    "lng": 110,
+    "pop": null
+  },
+  {
+    "nameAr": "Setapak",
+    "nameEn": "Setapak",
+    "type": "city",
+    "lat": 3.20361111,
+    "lng": 101.72444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Siburan",
+    "nameEn": "Siburan",
+    "type": "city",
+    "lat": 1.361644,
+    "lng": 110.4046,
+    "pop": null
+  },
+  {
+    "nameAr": "Simpang Renggam",
+    "nameEn": "Simpang Renggam",
+    "type": "city",
+    "lat": 1.8333333333333,
+    "lng": 103.31666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Singapore City",
+    "nameEn": "Singapore City",
+    "type": "city",
+    "lat": 1.2899175,
+    "lng": 103.8519072,
+    "pop": null
+  },
+  {
+    "nameAr": "Sungai Besi",
+    "nameEn": "Sungai Besi",
+    "type": "city",
+    "lat": 3.05,
+    "lng": 101.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanah Merah",
+    "nameEn": "Tanah Merah",
+    "type": "city",
+    "lat": 5.81285,
+    "lng": 102.14898,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanah Rata",
+    "nameEn": "Tanah Rata",
+    "type": "city",
+    "lat": 4.46667,
+    "lng": 101.38333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tangkak",
+    "nameEn": "Tangkak",
+    "type": "city",
+    "lat": 2.27,
+    "lng": 102.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanjung Agas",
+    "nameEn": "Tanjung Agas",
+    "type": "city",
+    "lat": 2.0595277777778,
+    "lng": 102.55991666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanjung Balau",
+    "nameEn": "Tanjung Balau",
+    "type": "city",
+    "lat": 1.6,
+    "lng": 104.25,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanjung Bidara",
+    "nameEn": "Tanjung Bidara",
+    "type": "city",
+    "lat": 4.2,
+    "lng": 100.91666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanjung Kling",
+    "nameEn": "Tanjung Kling",
+    "type": "city",
+    "lat": 2.23786,
+    "lng": 102.154,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanjung Leman",
+    "nameEn": "Tanjung Leman",
+    "type": "city",
+    "lat": 2.1418055555556,
+    "lng": 104.00622222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Tanjung Resang",
+    "nameEn": "Tanjung Resang",
+    "type": "city",
+    "lat": 2.5754166666667,
+    "lng": 103.81169444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Tapah",
+    "nameEn": "Tapah",
+    "type": "city",
+    "lat": 4.2,
+    "lng": 101.26,
+    "pop": null
+  },
+  {
+    "nameAr": "Tenghilan",
+    "nameEn": "Tenghilan",
+    "type": "city",
+    "lat": 6.2573333333333,
+    "lng": 116.33691388889,
+    "pop": null
+  },
+  {
+    "nameAr": "Tibabar",
+    "nameEn": "Tibabar",
+    "type": "city",
+    "lat": 6.1656,
+    "lng": 116.8606,
+    "pop": null
+  },
+  {
+    "nameAr": "Tuaran",
+    "nameEn": "Tuaran",
+    "type": "city",
+    "lat": 6.18333333,
+    "lng": 116.23333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tumpat",
+    "nameEn": "Tumpat",
+    "type": "city",
+    "lat": 6.1977777777778,
+    "lng": 102.17111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Ulu Choh",
+    "nameEn": "Ulu Choh",
+    "type": "city",
+    "lat": 1.53333,
+    "lng": 103.55,
+    "pop": null
+  },
+  {
+    "nameAr": "Val d'Or",
+    "nameEn": "Val d'Or",
+    "type": "city",
+    "lat": 5.25,
+    "lng": 100.5,
+    "pop": null
+  },
+  {
+    "nameAr": "Wakaf Bharu",
+    "nameEn": "Wakaf Bharu",
+    "type": "city",
+    "lat": 6.11667,
+    "lng": 102.2,
+    "pop": null
+  },
+  {
+    "nameAr": "Yong Peng",
+    "nameEn": "Yong Peng",
+    "type": "city",
+    "lat": 2.01,
+    "lng": 103.06,
+    "pop": null
+  }
+]

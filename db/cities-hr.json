@@ -1,0 +1,12 @@
+[
+  {"nameAr":"زغرب","nameEn":"Zagreb","type":"city","lat":45.8150,"lng":15.9819,"pop":769944},
+  {"nameAr":"سبليت","nameEn":"Split","type":"city","lat":43.5081,"lng":16.4402,"pop":161312},
+  {"nameAr":"رييكا","nameEn":"Rijeka","type":"city","lat":45.3271,"lng":14.4422,"pop":108622},
+  {"nameAr":"أوسييك","nameEn":"Osijek","type":"city","lat":45.5511,"lng":18.6939,"pop":75535},
+  {"nameAr":"زادار","nameEn":"Zadar","type":"city","lat":44.1194,"lng":15.2314,"pop":71471},
+  {"nameAr":"بولا","nameEn":"Pula","type":"city","lat":44.8666,"lng":13.8496,"pop":51786},
+  {"nameAr":"كارلوفاتش","nameEn":"Karlovac","type":"city","lat":45.4928,"lng":15.5550,"pop":46827},
+  {"nameAr":"سلافونسكي برود","nameEn":"Slavonski Brod","type":"city","lat":45.1603,"lng":18.0156,"pop":44692},
+  {"nameAr":"فيليكا غوريتسا","nameEn":"Velika Gorica","type":"city","lat":45.7125,"lng":16.0756,"pop":31341},
+  {"nameAr":"سيساك","nameEn":"Sisak","type":"city","lat":45.4842,"lng":16.3719,"pop":27018}
+]

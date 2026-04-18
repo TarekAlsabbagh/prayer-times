@@ -1,0 +1,12 @@
+[
+  {"nameAr":"ليوبليانا","nameEn":"Ljubljana","type":"city","lat":46.0569,"lng":14.5058,"pop":295504},
+  {"nameAr":"ماريبور","nameEn":"Maribor","type":"city","lat":46.5547,"lng":15.6469,"pop":112325},
+  {"nameAr":"سيليه","nameEn":"Celje","type":"city","lat":46.2311,"lng":15.2608,"pop":38382},
+  {"nameAr":"كراني","nameEn":"Kranj","type":"city","lat":46.2389,"lng":14.3556,"pop":37780},
+  {"nameAr":"كوبر","nameEn":"Koper","type":"city","lat":45.5481,"lng":13.7300,"pop":25753},
+  {"nameAr":"فيليني","nameEn":"Velenje","type":"city","lat":46.3592,"lng":15.1104,"pop":25598},
+  {"nameAr":"نوفو ميستو","nameEn":"Novo Mesto","type":"city","lat":45.8058,"lng":15.1708,"pop":23365},
+  {"nameAr":"بتوي","nameEn":"Ptuj","type":"city","lat":46.4203,"lng":15.8706,"pop":17830},
+  {"nameAr":"تربوفليه","nameEn":"Trbovlje","type":"city","lat":46.1544,"lng":15.0533,"pop":14413},
+  {"nameAr":"يسنيتسه","nameEn":"Jesenice","type":"city","lat":46.4333,"lng":14.0667,"pop":13173}
+]

@@ -8,10 +8,10 @@
     <meta name="description" content="{{LEGAL_DESC}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&display=optional"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=38">
+    <link rel="stylesheet" href="css/style.css?v=58">
     <style>
         .legal-wrap {
             background: var(--card-bg);
@@ -64,7 +64,7 @@
         <!-- ========= الشريط الجانبي ========= -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo" role="banner" onclick="window.location.href='/'" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</div>
+                <div class="sidebar-logo" role="banner" onclick="goHome()" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</div>
                 <div class="hijri-date" id="sidebar-hijri-date"></div>
                 <div class="greg-date"  id="sidebar-greg-date"></div>
             </div>
@@ -112,7 +112,7 @@
                         <div class="city-search-suggestions" id="city-suggestions"></div>
                     </div>
                     <button class="btn btn-outline" onclick="detectLocation()" title="تحديد موقعي تلقائياً" data-i18n-title="header.detect_title">📍 <span class="btn-text" data-i18n="header.my_location">موقعي</span></button>
-                    <button class="btn btn-outline" onclick="window.location.href='/'" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
+                    <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
                 </div>
             </div>
 
@@ -123,29 +123,39 @@
             <!-- Footer with legal links -->
             <footer class="site-footer">
                 <div class="footer-links">
-                    <a href="/" data-i18n="nav.prayer_times">مواقيت الصلاة</a>
-                    <a href="/about-us" data-i18n="footer.about">عن الموقع</a>
-                    <a href="/contact" data-i18n="footer.contact">اتصل بنا</a>
-                    <a href="/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
-                    <a href="/terms" data-i18n="footer.terms">شروط الاستخدام</a>
+                    <a href="{LANG_PREFIX}/" data-i18n="nav.prayer_times">مواقيت الصلاة</a>
+                    <a href="{LANG_PREFIX}/about-us" data-i18n="footer.about">عن الموقع</a>
+                    <a href="{LANG_PREFIX}/contact" data-i18n="footer.contact">اتصل بنا</a>
+                    <a href="{LANG_PREFIX}/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
+                    <a href="{LANG_PREFIX}/terms" data-i18n="footer.terms">شروط الاستخدام</a>
                 </div>
                 <p class="footer-copy">© <span id="footer-year"></span> <span data-i18n="footer.copyright">جميع الحقوق محفوظة — مواقيت الصلاة</span></p>
             </footer>
         </main>
     </div>
 
-    <script src="js/i18n.js?v=70"></script>
+    <script src="js/i18n.js?v=78"></script>
+    <script defer src="js/footer-cookie.js?v=4"></script>
     <script>
         document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-        /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
+        /* ===== goHome (locale-aware) ===== */
+        function goHome() {
+            const l = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            window.location.href = (l === 'ar') ? '/' : ('/' + l + '/');
+        }
+        /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية (locale-aware) ===== */
+        function _homePrefix() {
+            const l = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            return (l === 'ar') ? '' : ('/' + l);
+        }
         function onCitySearchInput(q) {
-            if (q && q.trim().length >= 2) window.location.href = '/?search=' + encodeURIComponent(q.trim());
+            if (q && q.trim().length >= 2) window.location.href = _homePrefix() + '/?search=' + encodeURIComponent(q.trim());
         }
         function onSearchKeyDown(e) {
-            if (e.key === 'Enter' && e.target.value.trim()) window.location.href = '/?search=' + encodeURIComponent(e.target.value.trim());
+            if (e.key === 'Enter' && e.target.value.trim()) window.location.href = _homePrefix() + '/?search=' + encodeURIComponent(e.target.value.trim());
         }
-        function detectLocation() { window.location.href = '/?detect=1'; }
+        function detectLocation() { window.location.href = _homePrefix() + '/?detect=1'; }
         // i18n.js يتولّى تهيئة مُبدّل اللغة (الأعلام + القائمة) عبر setLanguage
     </script>
 </body>

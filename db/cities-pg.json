@@ -1,0 +1,12 @@
+[
+  {"nameAr":"بورت مورسبي","nameEn":"Port Moresby","type":"city","lat":-9.4438,"lng":147.1803,"pop":364125},
+  {"nameAr":"لاي","nameEn":"Lae","type":"city","lat":-6.7250,"lng":146.9867,"pop":76255},
+  {"nameAr":"ماونت هاغن","nameEn":"Mount Hagen","type":"city","lat":-5.8667,"lng":144.2333,"pop":46250},
+  {"nameAr":"مادانغ","nameEn":"Madang","type":"city","lat":-5.2333,"lng":145.7500,"pop":29000},
+  {"nameAr":"بوپوندتا","nameEn":"Popondetta","type":"city","lat":-8.7667,"lng":148.2333,"pop":28198},
+  {"nameAr":"كوكوپو","nameEn":"Kokopo","type":"city","lat":-4.3500,"lng":152.2667,"pop":26273},
+  {"nameAr":"مندي","nameEn":"Mendi","type":"city","lat":-6.1833,"lng":143.6500,"pop":26252},
+  {"nameAr":"ويواك","nameEn":"Wewak","type":"city","lat":-3.5500,"lng":143.6333,"pop":25143},
+  {"nameAr":"غوروكا","nameEn":"Goroka","type":"city","lat":-6.0833,"lng":145.3833,"pop":19523},
+  {"nameAr":"كيمبي","nameEn":"Kimbe","type":"city","lat":-5.5500,"lng":150.1500,"pop":18847}
+]

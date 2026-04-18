@@ -58,6 +58,12 @@ body {
     max-width: 100vw;
 }
 
+/* Bengali typography — Noto Sans Bengali لعرض الحروف البنغالية بوضوح */
+html[lang="bn"],
+html[lang="bn"] body {
+    font-family: 'Noto Sans Bengali', 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+}
+
 html {
     overflow-x: hidden;
     max-width: 100vw;
@@ -1585,8 +1591,10 @@ html.city-page #city-about-section.cls-ready {
     border-collapse: collapse;
     min-width: 560px;
     font-size: 0.85rem;
-    direction: rtl;
 }
+/* RTL لغات: ar/ur — LTR للبقية (en/fr/tr/de) */
+html[dir="rtl"] .schedule-table { direction: rtl; }
+html[dir="ltr"] .schedule-table { direction: ltr; }
 .schedule-table thead tr {
     background: var(--primary);
     color: #fff;
@@ -1617,6 +1625,8 @@ html.city-page #city-about-section.cls-ready {
 .sched-day   { font-weight: 700; font-size: 0.82rem; }
 .sched-greg  { font-size: 0.82rem; color: var(--text); }
 .sched-hijri { font-size: 0.75rem; color: var(--text-light); margin-top: 1px; }
+.sched-day-link { display: block; color: inherit; text-decoration: none; }
+.sched-day-link:hover .sched-hijri { text-decoration: underline; }
 
 /* منتقي التاريخ */
 .schedule-date-picker {
@@ -2326,9 +2336,24 @@ html.city-page #city-related-services { display: block !important; }
 }
 .rel-service-icon { font-size: 1.2rem; flex-shrink: 0; }
 
+.settings-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+.settings-modal-footer .btn {
+    min-width: 110px;
+    justify-content: center;
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .related-services-grid { grid-template-columns: repeat(2, 1fr); }
     .settings-modal-box { padding: 20px 16px; }
+    .settings-modal-footer .btn { flex: 1; min-width: 0; }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -3217,6 +3242,10 @@ html[dir="ltr"] .page-h1 { text-align: left; }
 .hpage-table thead tr th:last-child  { border-radius: 0 6px 0 0; }
 html[dir="rtl"] .hpage-table thead tr th:first-child { border-radius: 0 6px 0 0; }
 html[dir="rtl"] .hpage-table thead tr th:last-child  { border-radius: 6px 0 0 0; }
+/* تأثير hover على صفوف جدول التقويم الهجري */
+.hpage-table tbody tr { transition: background-color .15s ease; }
+.hpage-table tbody tr:hover { background: #e8f5e9 !important; }
+.hpage-table tbody tr:hover td a { color: var(--primary-dark) !important; }
 
 /* بطاقة Hero لصفحات الهجري (hday/hyear/hmonth/today-hijri-date) */
 .hpage-hero { text-align: center; }
@@ -3364,6 +3393,153 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
     gap: 10px;
     flex-shrink: 0;
 }
+
+/* ==========================================================================
+   قسم الدول العربية مع الأعلام (فوق قسم أبرز المدن)
+   ========================================================================== */
+.arab-countries-section { margin-top: 18px; }
+.arab-countries-section h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0 0 14px;
+}
+.arab-countries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+}
+.country-tile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-muted, #f5f7f5);
+    color: var(--primary-dark);
+    border: 1px solid var(--border, #dfe6df);
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+.country-tile img {
+    width: 32px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 3px;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.08);
+}
+.country-tile span { min-width: 0; }
+.country-tile .arab-tile-prefix { font-size: 0.78rem; font-weight: 500; opacity: .78; }
+.country-tile > span:last-child { flex: 1; font-weight: 700; }
+.country-tile:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+@media (max-width: 480px) {
+    .arab-countries-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .country-tile { padding: 7px 10px; font-size: 0.88rem; gap: 8px; }
+    .country-tile img { width: 28px; height: 21px; }
+}
+.more-countries-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: all var(--transition);
+}
+.more-countries-btn:hover { background: var(--primary-dark); transform: translateY(-1px); color: #fff; }
+
+/* ==========================================================================
+   صفحة كل دول العالم (countries.html)
+   ========================================================================== */
+.countries-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.countries-page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0;
+}
+.countries-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--bg-muted);
+    color: var(--primary-dark);
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+}
+.countries-back-link:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.countries-search-wrap {
+    margin: 0 0 20px;
+    position: relative;
+}
+.countries-search-input {
+    width: 100%;
+    padding: 11px 16px 11px 40px;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    transition: border-color .15s;
+    box-sizing: border-box;
+}
+html[dir="rtl"] .countries-search-input { padding: 11px 40px 11px 16px; }
+.countries-search-input:focus { outline: none; border-color: var(--primary); }
+.countries-search-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 13px;
+    color: #888;
+    pointer-events: none;
+    font-size: 1.1rem;
+}
+html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
+.region-block { margin-bottom: 26px; }
+.region-block h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+}
+.region-block .arab-countries-grid { margin-bottom: 0; }
+.countries-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    font-size: 1rem;
+    display: none;
+}
+.countries-empty-state.active { display: block; }
 
 /* ==========================================================================
    روابط داخلية/خارجية + مشاركة في أسفل الصفحة الرئيسية (SEO + Navigation)

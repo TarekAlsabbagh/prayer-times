@@ -1,0 +1,677 @@
+[
+  {
+    "nameAr": "بيروت",
+    "nameEn": "Beirut",
+    "type": "city",
+    "lat": 33.8869,
+    "lng": 35.5131
+  },
+  {
+    "nameAr": "النبطية",
+    "nameEn": "Nabatieh",
+    "type": "city",
+    "lat": 33.3772,
+    "lng": 35.4839
+  },
+  {
+    "nameAr": "بعلبك",
+    "nameEn": "Baalbek",
+    "type": "city",
+    "lat": 34.0046,
+    "lng": 36.2109
+  },
+  {
+    "nameAr": "بنت جبيل",
+    "nameEn": "Bint Jbeil",
+    "type": "city",
+    "lat": 33.1181,
+    "lng": 35.4311
+  },
+  {
+    "nameAr": "جبيل",
+    "nameEn": "Byblos",
+    "type": "city",
+    "lat": 34.1235,
+    "lng": 35.6488
+  },
+  {
+    "nameAr": "جونية",
+    "nameEn": "Jounieh",
+    "type": "city",
+    "lat": 33.9808,
+    "lng": 35.6178
+  },
+  {
+    "nameAr": "حلبا",
+    "nameEn": "Halba",
+    "type": "city",
+    "lat": 34.5487,
+    "lng": 36.0785
+  },
+  {
+    "nameAr": "دير القمر",
+    "nameEn": "Deir el Qamar",
+    "type": "city",
+    "lat": 33.6912,
+    "lng": 35.5798
+  },
+  {
+    "nameAr": "زحلة",
+    "nameEn": "Zahlé",
+    "type": "city",
+    "lat": 33.8467,
+    "lng": 35.9018
+  },
+  {
+    "nameAr": "صور",
+    "nameEn": "Tyre",
+    "type": "city",
+    "lat": 33.2705,
+    "lng": 35.2037
+  },
+  {
+    "nameAr": "صيدا",
+    "nameEn": "Sidon",
+    "type": "city",
+    "lat": 33.5631,
+    "lng": 35.3714
+  },
+  {
+    "nameAr": "طرابلس",
+    "nameEn": "Tripoli",
+    "type": "city",
+    "lat": 34.4367,
+    "lng": 35.8497
+  },
+  {
+    "nameAr": "عاليه",
+    "nameEn": "Aley",
+    "type": "city",
+    "lat": 33.8103,
+    "lng": 35.5986
+  },
+  {
+    "nameAr": "جونيه",
+    "nameEn": "Jounieh",
+    "type": "city",
+    "lat": 33.969722222222,
+    "lng": 35.615555555556,
+    "pop": 102221
+  },
+  {
+    "nameAr": "القاع",
+    "nameEn": "Qaa",
+    "type": "city",
+    "lat": 34.343611111111,
+    "lng": 36.475555555556,
+    "pop": 12000
+  },
+  {
+    "nameAr": "أميون",
+    "nameEn": "Amioun",
+    "type": "city",
+    "lat": 34.299444444444,
+    "lng": 35.809722222222,
+    "pop": 10000
+  },
+  {
+    "nameAr": "مرجعيون",
+    "nameEn": "Marjayoun",
+    "type": "city",
+    "lat": 33.366666666667,
+    "lng": 35.583333333333,
+    "pop": 7000
+  },
+  {
+    "nameAr": "البزالية",
+    "nameEn": "Toufiqiyeh",
+    "type": "city",
+    "lat": 34.180472222222,
+    "lng": 36.323638888889,
+    "pop": 6000
+  },
+  {
+    "nameAr": "غجر",
+    "nameEn": "Ghajar",
+    "type": "city",
+    "lat": 33.272675,
+    "lng": 35.623527777778,
+    "pop": 2745
+  },
+  {
+    "nameAr": "فريكة",
+    "nameEn": "Freike",
+    "type": "city",
+    "lat": 33.935861111111,
+    "lng": 35.657666666667,
+    "pop": 1800
+  },
+  {
+    "nameAr": "قَدس",
+    "nameEn": "Qadas",
+    "type": "city",
+    "lat": 33.11204444,
+    "lng": 35.52745278,
+    "pop": 390
+  },
+  {
+    "nameAr": "أرطوسياس في فينيقيا",
+    "nameEn": "Orthosias in Phoenicia",
+    "type": "city",
+    "lat": 34.50469,
+    "lng": 35.954341,
+    "pop": null
+  },
+  {
+    "nameAr": "الجديدة",
+    "nameEn": "Jdeide",
+    "type": "city",
+    "lat": 34.247964,
+    "lng": 36.387045,
+    "pop": null
+  },
+  {
+    "nameAr": "الحرفوش",
+    "nameEn": "Harfoush",
+    "type": "city",
+    "lat": 34.2,
+    "lng": 36.245,
+    "pop": null
+  },
+  {
+    "nameAr": "الفرديس",
+    "nameEn": "Fardis",
+    "type": "city",
+    "lat": 33.37194444,
+    "lng": 35.66777778,
+    "pop": null
+  },
+  {
+    "nameAr": "المحيدثة",
+    "nameEn": "Mhaydse",
+    "type": "city",
+    "lat": 33.920253094498,
+    "lng": 35.690557895452,
+    "pop": null
+  },
+  {
+    "nameAr": "الهبارية",
+    "nameEn": "Hebbariye",
+    "type": "city",
+    "lat": 33.3675,
+    "lng": 35.694167,
+    "pop": null
+  },
+  {
+    "nameAr": "أنطلياس",
+    "nameEn": "Antelias",
+    "type": "city",
+    "lat": 33.916666666667,
+    "lng": 35.6,
+    "pop": null
+  },
+  {
+    "nameAr": "بتلون",
+    "nameEn": "Batloun",
+    "type": "city",
+    "lat": 33.69763,
+    "lng": 35.650703,
+    "pop": null
+  },
+  {
+    "nameAr": "بريتال",
+    "nameEn": "Brital",
+    "type": "city",
+    "lat": 33.935277777778,
+    "lng": 36.150833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بزعون",
+    "nameEn": "Bazoun",
+    "type": "city",
+    "lat": 34.2414071,
+    "lng": 35.9874816,
+    "pop": null
+  },
+  {
+    "nameAr": "بزمار",
+    "nameEn": "Bzoummar",
+    "type": "city",
+    "lat": 33.983333333333,
+    "lng": 35.683333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بشري",
+    "nameEn": "Bsharri",
+    "type": "city",
+    "lat": 34.251201111111,
+    "lng": 36.012313888889,
+    "pop": null
+  },
+  {
+    "nameAr": "بصاليم",
+    "nameEn": "Bsalim",
+    "type": "city",
+    "lat": 33.901553,
+    "lng": 35.604372,
+    "pop": null
+  },
+  {
+    "nameAr": "بعبدات",
+    "nameEn": "Baabdat",
+    "type": "city",
+    "lat": 33.883333333333,
+    "lng": 35.666666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بعذران",
+    "nameEn": "Baadarâne",
+    "type": "city",
+    "lat": 33.63619444,
+    "lng": 35.61913889,
+    "pop": null
+  },
+  {
+    "nameAr": "بقعاتا",
+    "nameEn": "Bakaata",
+    "type": "city",
+    "lat": 33.67037778,
+    "lng": 35.599625,
+    "pop": null
+  },
+  {
+    "nameAr": "بلدة شيخان",
+    "nameEn": "Chikhane",
+    "type": "city",
+    "lat": 34.174583333333,
+    "lng": 35.659,
+    "pop": null
+  },
+  {
+    "nameAr": "بلدة يونين",
+    "nameEn": "Younine",
+    "type": "city",
+    "lat": 33.648055555556,
+    "lng": 35.886111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "بمهريه",
+    "nameEn": "Bmohray",
+    "type": "city",
+    "lat": 33.757849,
+    "lng": 35.71803583,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت مري",
+    "nameEn": "Beit Mery",
+    "type": "city",
+    "lat": 33.8656,
+    "lng": 35.5953,
+    "pop": null
+  },
+  {
+    "nameAr": "بيرة",
+    "nameEn": "Bire Akkar",
+    "type": "city",
+    "lat": 34.588055555556,
+    "lng": 36.236944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "تفاحتا",
+    "nameEn": "Teffahta",
+    "type": "city",
+    "lat": 33.438888888889,
+    "lng": 35.369166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "تولا",
+    "nameEn": "Tula",
+    "type": "city",
+    "lat": 34.22361111,
+    "lng": 35.72944444,
+    "pop": null
+  },
+  {
+    "nameAr": "جب جنين",
+    "nameEn": "Joub Jannine",
+    "type": "city",
+    "lat": 33.6263,
+    "lng": 35.7838,
+    "pop": null
+  },
+  {
+    "nameAr": "جويا",
+    "nameEn": "Jwaya",
+    "type": "city",
+    "lat": 33.23333333,
+    "lng": 35.33333333,
+    "pop": null
+  },
+  {
+    "nameAr": "حربتا",
+    "nameEn": "Harbata",
+    "type": "city",
+    "lat": 34.206666666667,
+    "lng": 36.264722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "حزين",
+    "nameEn": "Hizzine",
+    "type": "city",
+    "lat": 33.97055556,
+    "lng": 36.09333333,
+    "pop": null
+  },
+  {
+    "nameAr": "حلبتا",
+    "nameEn": "Hlabta",
+    "type": "city",
+    "lat": 34.25527778,
+    "lng": 36.2875,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس العين جنوب لبنان",
+    "nameEn": "Ras al-Ain",
+    "type": "city",
+    "lat": 33.228,
+    "lng": 35.224,
+    "pop": null
+  },
+  {
+    "nameAr": "راشيا",
+    "nameEn": "Rashaya",
+    "type": "city",
+    "lat": 33.501944444444,
+    "lng": 35.845,
+    "pop": null
+  },
+  {
+    "nameAr": "راشيا الفخار",
+    "nameEn": "Rachaya Al Foukhar",
+    "type": "city",
+    "lat": 33.353333333333,
+    "lng": 35.667222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "رومية",
+    "nameEn": "Roumieh",
+    "type": "city",
+    "lat": 33.881111111111,
+    "lng": 35.615277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "رياق",
+    "nameEn": "Riyak",
+    "type": "city",
+    "lat": 33.850494444444,
+    "lng": 36.009827777778,
+    "pop": null
+  },
+  {
+    "nameAr": "زبوغا",
+    "nameEn": "Zabbougha",
+    "type": "city",
+    "lat": 33.954722222222,
+    "lng": 35.735,
+    "pop": null
+  },
+  {
+    "nameAr": "زغرتا",
+    "nameEn": "Zgharta",
+    "type": "city",
+    "lat": 34.399722222222,
+    "lng": 35.893611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "سعسع، فلسطين",
+    "nameEn": "Sa'sa'",
+    "type": "city",
+    "lat": 33.02871944,
+    "lng": 35.39439444,
+    "pop": null
+  },
+  {
+    "nameAr": "سلطان يعقوب",
+    "nameEn": "Sultan Yacoub",
+    "type": "city",
+    "lat": 33.643333333333,
+    "lng": 35.859722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "شاما",
+    "nameEn": "Shamaa",
+    "type": "city",
+    "lat": 33.145555555556,
+    "lng": 35.208055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "شبطين",
+    "nameEn": "Chibtine",
+    "type": "city",
+    "lat": 34.212222222222,
+    "lng": 35.750277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "شبعا",
+    "nameEn": "Chebaa",
+    "type": "city",
+    "lat": 33.35,
+    "lng": 35.75,
+    "pop": null
+  },
+  {
+    "nameAr": "شحيم",
+    "nameEn": "Shheem",
+    "type": "city",
+    "lat": 33.624444444444,
+    "lng": 35.485,
+    "pop": null
+  },
+  {
+    "nameAr": "شعث",
+    "nameEn": "Chaat",
+    "type": "city",
+    "lat": 34.14166667,
+    "lng": 36.23222222,
+    "pop": null
+  },
+  {
+    "nameAr": "ضهر الصوان",
+    "nameEn": "Dahr Es Souane (Matn)",
+    "type": "city",
+    "lat": 33.8977,
+    "lng": 35.6775,
+    "pop": null
+  },
+  {
+    "nameAr": "ضهر الوحش",
+    "nameEn": "Dahr al-Wahsh",
+    "type": "city",
+    "lat": 33.824798,
+    "lng": 35.597394,
+    "pop": null
+  },
+  {
+    "nameAr": "طفيل",
+    "nameEn": "Tfail",
+    "type": "city",
+    "lat": 33.85,
+    "lng": 36.36666667,
+    "pop": null
+  },
+  {
+    "nameAr": "عرمون",
+    "nameEn": "Aramoun, Keserwan",
+    "type": "city",
+    "lat": 34.019167,
+    "lng": 35.700278,
+    "pop": null
+  },
+  {
+    "nameAr": "عين السنديانة",
+    "nameEn": "Ain Es Sindianeh",
+    "type": "city",
+    "lat": 33.9133,
+    "lng": 35.7234,
+    "pop": null
+  },
+  {
+    "nameAr": "فتقا",
+    "nameEn": "Fatqa",
+    "type": "city",
+    "lat": 34.03444444,
+    "lng": 35.66722222,
+    "pop": null
+  },
+  {
+    "nameAr": "قرحا",
+    "nameEn": "Qarha, Baalbek District",
+    "type": "city",
+    "lat": 34.16638889,
+    "lng": 36.21,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر حتى",
+    "nameEn": "Kfarhata",
+    "type": "city",
+    "lat": 34.283333333333,
+    "lng": 35.75,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر شوبا",
+    "nameEn": "Kfarchouba",
+    "type": "city",
+    "lat": 33.328036,
+    "lng": 35.691844,
+    "pop": null
+  },
+  {
+    "nameAr": "كفرا",
+    "nameEn": "Kafra,  Bint Jbeil District",
+    "type": "city",
+    "lat": 33.175833333333,
+    "lng": 35.351388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "كفرحمام",
+    "nameEn": "Kfarhamam",
+    "type": "city",
+    "lat": 33.343219444444,
+    "lng": 35.678358333333,
+    "pop": null
+  },
+  {
+    "nameAr": "ماري",
+    "nameEn": "Meri",
+    "type": "city",
+    "lat": 33.320094444444,
+    "lng": 35.641388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "متريت",
+    "nameEn": "Mitrit",
+    "type": "city",
+    "lat": 34.26666667,
+    "lng": 35.85,
+    "pop": null
+  },
+  {
+    "nameAr": "مزرعة الشوف",
+    "nameEn": "Mazraat el chouf",
+    "type": "city",
+    "lat": 33.646111111111,
+    "lng": 35.582777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "مزرعة يشوع",
+    "nameEn": "Mazraat Yachoua",
+    "type": "city",
+    "lat": 33.9303,
+    "lng": 35.6341,
+    "pop": null
+  },
+  {
+    "nameAr": "معراب",
+    "nameEn": "Maarab",
+    "type": "city",
+    "lat": 33.99777778,
+    "lng": 35.68166667,
+    "pop": null
+  },
+  {
+    "nameAr": "مغيري",
+    "nameEn": "Mghayreh",
+    "type": "city",
+    "lat": 34.09611111,
+    "lng": 35.8725,
+    "pop": null
+  },
+  {
+    "nameAr": "وردانية",
+    "nameEn": "Al Wardaniyya",
+    "type": "city",
+    "lat": 33.613089949932,
+    "lng": 35.433965100582,
+    "pop": null
+  },
+  {
+    "nameAr": "يزرة",
+    "nameEn": "Yarze",
+    "type": "city",
+    "lat": 33.841666666667,
+    "lng": 35.539444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Ahlab",
+    "nameEn": "Ahlab",
+    "type": "city",
+    "lat": 33.317775665051,
+    "lng": 35.243900970142,
+    "pop": null
+  },
+  {
+    "nameAr": "Chbaniye",
+    "nameEn": "Chbaniye",
+    "type": "city",
+    "lat": 33.822434,
+    "lng": 35.705113,
+    "pop": null
+  },
+  {
+    "nameAr": "Deir Tahnich",
+    "nameEn": "Deir Tahnich",
+    "type": "city",
+    "lat": 33.7,
+    "lng": 35.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Shreen",
+    "nameEn": "Shreen",
+    "type": "city",
+    "lat": 33.932707,
+    "lng": 35.729688,
+    "pop": null
+  }
+]

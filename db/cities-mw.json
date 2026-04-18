@@ -1,0 +1,12 @@
+[
+  {"nameAr":"ليلونغوي","nameEn":"Lilongwe","type":"city","lat":-13.9833,"lng":33.7833,"pop":989318},
+  {"nameAr":"بلانتاير","nameEn":"Blantyre","type":"city","lat":-15.7861,"lng":35.0058,"pop":800264},
+  {"nameAr":"مزوزو","nameEn":"Mzuzu","type":"city","lat":-11.4656,"lng":34.0207,"pop":221272},
+  {"nameAr":"زومبا","nameEn":"Zomba","type":"city","lat":-15.3833,"lng":35.3333,"pop":105013},
+  {"nameAr":"كاسونغو","nameEn":"Kasungu","type":"city","lat":-13.0333,"lng":33.4833,"pop":58653},
+  {"nameAr":"مانغوتشي","nameEn":"Mangochi","type":"city","lat":-14.4667,"lng":35.2667,"pop":55452},
+  {"nameAr":"كارونغا","nameEn":"Karonga","type":"city","lat":-9.9333,"lng":33.9333,"pop":40334},
+  {"nameAr":"ساليما","nameEn":"Salima","type":"city","lat":-13.7833,"lng":34.4667,"pop":30000},
+  {"nameAr":"نكهوتاكوتا","nameEn":"Nkhotakota","type":"city","lat":-12.9167,"lng":34.3000,"pop":28350},
+  {"nameAr":"ليوندي","nameEn":"Liwonde","type":"city","lat":-15.0667,"lng":35.2167,"pop":27000}
+]

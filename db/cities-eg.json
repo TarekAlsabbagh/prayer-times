@@ -1,0 +1,3660 @@
+[
+  {
+    "nameAr": "القاهرة",
+    "nameEn": "Cairo",
+    "type": "city",
+    "lat": 30.0444,
+    "lng": 31.2357
+  },
+  {
+    "nameAr": "أسوان",
+    "nameEn": "Aswan",
+    "type": "city",
+    "lat": 24.0889,
+    "lng": 32.8998
+  },
+  {
+    "nameAr": "أسيوط",
+    "nameEn": "Asyut",
+    "type": "city",
+    "lat": 27.1809,
+    "lng": 31.1837
+  },
+  {
+    "nameAr": "الإسكندرية",
+    "nameEn": "Alexandria",
+    "type": "city",
+    "lat": 31.2001,
+    "lng": 29.9187
+  },
+  {
+    "nameAr": "الإسماعيلية",
+    "nameEn": "Ismailia",
+    "type": "city",
+    "lat": 30.5965,
+    "lng": 32.2715
+  },
+  {
+    "nameAr": "الأقصر",
+    "nameEn": "Luxor",
+    "type": "city",
+    "lat": 25.6872,
+    "lng": 32.6396
+  },
+  {
+    "nameAr": "الجيزة",
+    "nameEn": "Giza",
+    "type": "city",
+    "lat": 30.0131,
+    "lng": 31.2089
+  },
+  {
+    "nameAr": "الزقازيق",
+    "nameEn": "Zagazig",
+    "type": "city",
+    "lat": 30.5877,
+    "lng": 31.5021
+  },
+  {
+    "nameAr": "السويس",
+    "nameEn": "Suez",
+    "type": "city",
+    "lat": 29.9668,
+    "lng": 32.5498
+  },
+  {
+    "nameAr": "الغربية",
+    "nameEn": "Gharbia",
+    "type": "city",
+    "lat": 30.8666,
+    "lng": 30.9833
+  },
+  {
+    "nameAr": "الغردقة",
+    "nameEn": "Hurghada",
+    "type": "city",
+    "lat": 27.2574,
+    "lng": 33.8129
+  },
+  {
+    "nameAr": "الفيوم",
+    "nameEn": "Faiyum",
+    "type": "city",
+    "lat": 29.3084,
+    "lng": 30.8428
+  },
+  {
+    "nameAr": "القليوبية",
+    "nameEn": "Qalyubia",
+    "type": "city",
+    "lat": 30.3299,
+    "lng": 31.2168
+  },
+  {
+    "nameAr": "المحلة الكبرى",
+    "nameEn": "Mahalla",
+    "type": "city",
+    "lat": 30.9712,
+    "lng": 31.1653
+  },
+  {
+    "nameAr": "المنصورة",
+    "nameEn": "Mansoura",
+    "type": "city",
+    "lat": 31.0364,
+    "lng": 31.3807
+  },
+  {
+    "nameAr": "المنوفية",
+    "nameEn": "Monufia",
+    "type": "city",
+    "lat": 30.5975,
+    "lng": 30.9876
+  },
+  {
+    "nameAr": "المنيا",
+    "nameEn": "Minya",
+    "type": "city",
+    "lat": 28.0871,
+    "lng": 30.7618
+  },
+  {
+    "nameAr": "بلبيس",
+    "nameEn": "Bilbeis",
+    "type": "city",
+    "lat": 30.4177,
+    "lng": 31.5619
+  },
+  {
+    "nameAr": "بنها",
+    "nameEn": "Banha",
+    "type": "city",
+    "lat": 30.4626,
+    "lng": 31.184
+  },
+  {
+    "nameAr": "بني سويف",
+    "nameEn": "Beni Suef",
+    "type": "city",
+    "lat": 29.0661,
+    "lng": 31.0994
+  },
+  {
+    "nameAr": "بورسعيد",
+    "nameEn": "Port Said",
+    "type": "city",
+    "lat": 31.2565,
+    "lng": 32.2841
+  },
+  {
+    "nameAr": "دسوق",
+    "nameEn": "Desouq",
+    "type": "city",
+    "lat": 31.1283,
+    "lng": 30.6476
+  },
+  {
+    "nameAr": "دمياط",
+    "nameEn": "Damietta",
+    "type": "city",
+    "lat": 31.4165,
+    "lng": 31.8133
+  },
+  {
+    "nameAr": "سوهاج",
+    "nameEn": "Sohag",
+    "type": "city",
+    "lat": 26.559,
+    "lng": 31.6957
+  },
+  {
+    "nameAr": "شبين الكوم",
+    "nameEn": "Shibin al-Kawm",
+    "type": "city",
+    "lat": 30.5616,
+    "lng": 31.0124
+  },
+  {
+    "nameAr": "شرم الشيخ",
+    "nameEn": "Sharm el-Sheikh",
+    "type": "city",
+    "lat": 27.9158,
+    "lng": 34.3299
+  },
+  {
+    "nameAr": "طنطا",
+    "nameEn": "Tanta",
+    "type": "city",
+    "lat": 30.7865,
+    "lng": 31.0004
+  },
+  {
+    "nameAr": "قنا",
+    "nameEn": "Qena",
+    "type": "city",
+    "lat": 26.1601,
+    "lng": 32.7185
+  },
+  {
+    "nameAr": "كفر الشيخ",
+    "nameEn": "Kafr el-Sheikh",
+    "type": "city",
+    "lat": 31.1107,
+    "lng": 30.9388
+  },
+  {
+    "nameAr": "مرسى مطروح",
+    "nameEn": "Marsa Matruh",
+    "type": "city",
+    "lat": 31.3543,
+    "lng": 27.2373
+  },
+  {
+    "nameAr": "شبرا الخيمة",
+    "nameEn": "Shobra Elkhema",
+    "type": "city",
+    "lat": 30.128611111111,
+    "lng": 31.242222222222,
+    "pop": 1025569
+  },
+  {
+    "nameAr": "حلوان",
+    "nameEn": "Helwan",
+    "type": "city",
+    "lat": 29.8493,
+    "lng": 31.3327,
+    "pop": 619293
+  },
+  {
+    "nameAr": "مدينة العاشر من رمضان",
+    "nameEn": "10th of Ramadan City",
+    "type": "city",
+    "lat": 30.302222222222,
+    "lng": 31.745555555556,
+    "pop": 500000
+  },
+  {
+    "nameAr": "مدينة السادس من أكتوبر",
+    "nameEn": "6th of October City",
+    "type": "city",
+    "lat": 29.936111111111,
+    "lng": 30.926944444444,
+    "pop": 376302
+  },
+  {
+    "nameAr": "مدينة الشروق",
+    "nameEn": "Shorouk city",
+    "type": "city",
+    "lat": 30.1448,
+    "lng": 31.6296,
+    "pop": 340000
+  },
+  {
+    "nameAr": "دمنهور",
+    "nameEn": "Damanhur",
+    "type": "city",
+    "lat": 31.05,
+    "lng": 30.466666666667,
+    "pop": 329572
+  },
+  {
+    "nameAr": "المعصرة",
+    "nameEn": "Massarah",
+    "type": "city",
+    "lat": 29.9091281,
+    "lng": 31.2912838,
+    "pop": 288880
+  },
+  {
+    "nameAr": "المقطم",
+    "nameEn": "Al Mokattam",
+    "type": "city",
+    "lat": 30.0148,
+    "lng": 31.2826,
+    "pop": 242009
+  },
+  {
+    "nameAr": "ملوي",
+    "nameEn": "Mallawi",
+    "type": "city",
+    "lat": 27.730555555556,
+    "lng": 30.8425,
+    "pop": 212628
+  },
+  {
+    "nameAr": "منوف",
+    "nameEn": "Menouf",
+    "type": "city",
+    "lat": 30.466666666667,
+    "lng": 30.933333333333,
+    "pop": 211635
+  },
+  {
+    "nameAr": "برج العرب الجديدة",
+    "nameEn": "New Borg El Arab",
+    "type": "city",
+    "lat": 30.881691666667,
+    "lng": 29.577736111111,
+    "pop": 170000
+  },
+  {
+    "nameAr": "أبو كبير",
+    "nameEn": "Abu Kabir",
+    "type": "city",
+    "lat": 30.71666667,
+    "lng": 31.66666667,
+    "pop": 165246
+  },
+  {
+    "nameAr": "العريش",
+    "nameEn": "Arish",
+    "type": "city",
+    "lat": 31.133333333333,
+    "lng": 33.8,
+    "pop": 164830
+  },
+  {
+    "nameAr": "جرجا",
+    "nameEn": "Girga",
+    "type": "city",
+    "lat": 26.338333333333,
+    "lng": 31.891666666667,
+    "pop": 157754
+  },
+  {
+    "nameAr": "ميت غمر",
+    "nameEn": "Mit Ghamr",
+    "type": "city",
+    "lat": 30.719166666667,
+    "lng": 31.262777777778,
+    "pop": 134386
+  },
+  {
+    "nameAr": "إدفو",
+    "nameEn": "Edfu",
+    "type": "city",
+    "lat": 24.978055555556,
+    "lng": 32.878888888889,
+    "pop": 133772
+  },
+  {
+    "nameAr": "رشيد",
+    "nameEn": "Rosetta",
+    "type": "city",
+    "lat": 31.401388888889,
+    "lng": 30.419444444444,
+    "pop": 125778
+  },
+  {
+    "nameAr": "مسطرد",
+    "nameEn": "Musturud",
+    "type": "city",
+    "lat": 30.138819444444,
+    "lng": 31.292411111111,
+    "pop": 106280
+  },
+  {
+    "nameAr": "إدكو",
+    "nameEn": "Idku",
+    "type": "city",
+    "lat": 31.305833333333,
+    "lng": 30.295555555556,
+    "pop": 105875
+  },
+  {
+    "nameAr": "بني سويف الجديدة",
+    "nameEn": "New Beni Suef City",
+    "type": "city",
+    "lat": 29.043564,
+    "lng": 31.119804,
+    "pop": 105000
+  },
+  {
+    "nameAr": "كفر الدوار",
+    "nameEn": "Kafr el-Dawwar",
+    "type": "city",
+    "lat": 31.133888888889,
+    "lng": 30.129722222222,
+    "pop": 104709
+  },
+  {
+    "nameAr": "أخميم",
+    "nameEn": "Akhmim",
+    "type": "city",
+    "lat": 26.564166666667,
+    "lng": 31.746111111111,
+    "pop": 101509
+  },
+  {
+    "nameAr": "رأس غارب",
+    "nameEn": "Ras Gharib",
+    "type": "city",
+    "lat": 28.359722222222,
+    "lng": 33.0775,
+    "pop": 100000
+  },
+  {
+    "nameAr": "زفتى",
+    "nameEn": "Zefta",
+    "type": "city",
+    "lat": 30.711944444444,
+    "lng": 31.239444444444,
+    "pop": 93740
+  },
+  {
+    "nameAr": "سمالوط",
+    "nameEn": "Samalut",
+    "type": "city",
+    "lat": 28.312222222222,
+    "lng": 30.71,
+    "pop": 91475
+  },
+  {
+    "nameAr": "ناصر",
+    "nameEn": "Nasser",
+    "type": "city",
+    "lat": 29.1475,
+    "lng": 31.130555555556,
+    "pop": 88379
+  },
+  {
+    "nameAr": "قوص",
+    "nameEn": "Qus",
+    "type": "city",
+    "lat": 25.916666666667,
+    "lng": 32.75,
+    "pop": 84386
+  },
+  {
+    "nameAr": "منفلوط",
+    "nameEn": "Manfalut",
+    "type": "city",
+    "lat": 27.312777777778,
+    "lng": 30.970277777778,
+    "pop": 82585
+  },
+  {
+    "nameAr": "بني مزار",
+    "nameEn": "Beni Mazar",
+    "type": "city",
+    "lat": 28.503611111111,
+    "lng": 30.800277777778,
+    "pop": 79553
+  },
+  {
+    "nameAr": "أرمنت",
+    "nameEn": "Hermonthis",
+    "type": "city",
+    "lat": 25.6167,
+    "lng": 32.5333,
+    "pop": 76457
+  },
+  {
+    "nameAr": "مغاغة",
+    "nameEn": "Maghagha",
+    "type": "city",
+    "lat": 28.648333333333,
+    "lng": 30.842222222222,
+    "pop": 75657
+  },
+  {
+    "nameAr": "كوم أمبو",
+    "nameEn": "Kom Ombo",
+    "type": "city",
+    "lat": 24.466666666667,
+    "lng": 32.95,
+    "pop": 71596
+  },
+  {
+    "nameAr": "أبو تيج",
+    "nameEn": "Abutig",
+    "type": "city",
+    "lat": 27.044166666667,
+    "lng": 31.318888888889,
+    "pop": 70969
+  },
+  {
+    "nameAr": "بورفؤاد",
+    "nameEn": "Port Fuad",
+    "type": "city",
+    "lat": 31.231388888889,
+    "lng": 32.325277777778,
+    "pop": 70417
+  },
+  {
+    "nameAr": "القوصية",
+    "nameEn": "El Quseyya",
+    "type": "city",
+    "lat": 27.440277777778,
+    "lng": 30.818333333333,
+    "pop": 69388
+  },
+  {
+    "nameAr": "إسنا",
+    "nameEn": "Esna",
+    "type": "city",
+    "lat": 25.293333,
+    "lng": 32.556389,
+    "pop": 68656
+  },
+  {
+    "nameAr": "أبنوب",
+    "nameEn": "Abnub",
+    "type": "city",
+    "lat": 27.26666667,
+    "lng": 31.15,
+    "pop": 67526
+  },
+  {
+    "nameAr": "ههيا",
+    "nameEn": "Hihya",
+    "type": "city",
+    "lat": 30.668702,
+    "lng": 31.5904,
+    "pop": 66702
+  },
+  {
+    "nameAr": "أبو قرقاص",
+    "nameEn": "Abo Qorqas",
+    "type": "city",
+    "lat": 27.930830555556,
+    "lng": 30.836388888889,
+    "pop": 63264
+  },
+  {
+    "nameAr": "مدينة الخارجة",
+    "nameEn": "el-Kharga Town",
+    "type": "city",
+    "lat": 25.450561111111,
+    "lng": 30.54525,
+    "pop": 60584
+  },
+  {
+    "nameAr": "ببا",
+    "nameEn": "Biba",
+    "type": "city",
+    "lat": 28.9218,
+    "lng": 30.9844,
+    "pop": 57716
+  },
+  {
+    "nameAr": "سمنود",
+    "nameEn": "Samannud",
+    "type": "city",
+    "lat": 30.96222222,
+    "lng": 31.2425,
+    "pop": 57177
+  },
+  {
+    "nameAr": "دندرة",
+    "nameEn": "Dendera",
+    "type": "city",
+    "lat": 26.142194,
+    "lng": 32.669722,
+    "pop": 53109
+  },
+  {
+    "nameAr": "الحامول",
+    "nameEn": "Al Hamool",
+    "type": "city",
+    "lat": 31.311388888889,
+    "lng": 31.147777777778,
+    "pop": 51200
+  },
+  {
+    "nameAr": "البلينا",
+    "nameEn": "El-Balyana",
+    "type": "city",
+    "lat": 26.232927777778,
+    "lng": 31.999261111111,
+    "pop": 46997
+  },
+  {
+    "nameAr": "مطاي",
+    "nameEn": "Matai",
+    "type": "city",
+    "lat": 28.418888888889,
+    "lng": 30.779166666667,
+    "pop": 46903
+  },
+  {
+    "nameAr": "نجع حمادي",
+    "nameEn": "Nag Hammadi",
+    "type": "city",
+    "lat": 26.05,
+    "lng": 32.25,
+    "pop": 45038
+  },
+  {
+    "nameAr": "صان الحجر القبلية",
+    "nameEn": "Tanis",
+    "type": "city",
+    "lat": 30.976944444444,
+    "lng": 31.88,
+    "pop": 43157
+  },
+  {
+    "nameAr": "البداري",
+    "nameEn": "El Badari",
+    "type": "city",
+    "lat": 26.9925,
+    "lng": 31.41555556,
+    "pop": 42770
+  },
+  {
+    "nameAr": "دير مواس",
+    "nameEn": "Deir Mawas",
+    "type": "city",
+    "lat": 27.641388888889,
+    "lng": 30.849438888889,
+    "pop": 40640
+  },
+  {
+    "nameAr": "أسيوط الجديدة",
+    "nameEn": "New Asyut",
+    "type": "city",
+    "lat": 27.277888888889,
+    "lng": 31.284888888889,
+    "pop": 40000
+  },
+  {
+    "nameAr": "الجمالية",
+    "nameEn": "Al-Jamāliyah",
+    "type": "city",
+    "lat": 30.05105,
+    "lng": 31.26486,
+    "pop": 38908
+  },
+  {
+    "nameAr": "دراو",
+    "nameEn": "Daraw",
+    "type": "city",
+    "lat": 24.400277777778,
+    "lng": 32.930555555556,
+    "pop": 38400
+  },
+  {
+    "nameAr": "الواسطى",
+    "nameEn": "al-Wasta",
+    "type": "city",
+    "lat": 29.337222222222,
+    "lng": 31.203611111111,
+    "pop": 37916
+  },
+  {
+    "nameAr": "فارسكور",
+    "nameEn": "Faraskur",
+    "type": "city",
+    "lat": 31.329722222222,
+    "lng": 31.714722222222,
+    "pop": 36850
+  },
+  {
+    "nameAr": "الإبراهيمية",
+    "nameEn": "Al Ibrāhīmīyah",
+    "type": "city",
+    "lat": 30.719092,
+    "lng": 31.561275,
+    "pop": 32167
+  },
+  {
+    "nameAr": "الحسينية",
+    "nameEn": "Husseiniya",
+    "type": "city",
+    "lat": 30.86167,
+    "lng": 31.91806,
+    "pop": 30825
+  },
+  {
+    "nameAr": "مدينة الشيخ زايد",
+    "nameEn": "Sheikh Zayed City",
+    "type": "city",
+    "lat": 30.02,
+    "lng": 31,
+    "pop": 29422
+  },
+  {
+    "nameAr": "الرحمانية",
+    "nameEn": "Rahmaniya",
+    "type": "city",
+    "lat": 31.103333333333,
+    "lng": 30.641666666667,
+    "pop": 29393
+  },
+  {
+    "nameAr": "المحمودية",
+    "nameEn": "Mahmoudiyah",
+    "type": "city",
+    "lat": 31.1839,
+    "lng": 30.5242,
+    "pop": 28277
+  },
+  {
+    "nameAr": "سفاجا",
+    "nameEn": "Safaga",
+    "type": "city",
+    "lat": 26.751666666667,
+    "lng": 33.934444444444,
+    "pop": 28261
+  },
+  {
+    "nameAr": "قمن العروس",
+    "nameEn": "Qiman al-Arus",
+    "type": "city",
+    "lat": 29.300509,
+    "lng": 31.168299,
+    "pop": 28246
+  },
+  {
+    "nameAr": "الطود",
+    "nameEn": "El-Tod",
+    "type": "city",
+    "lat": 25.583038888889,
+    "lng": 32.533611111111,
+    "pop": 27357
+  },
+  {
+    "nameAr": "دمياط الجديدة",
+    "nameEn": "New Damietta",
+    "type": "city",
+    "lat": 31.43472,
+    "lng": 31.675,
+    "pop": 27028
+  },
+  {
+    "nameAr": "قها",
+    "nameEn": "Qaha",
+    "type": "city",
+    "lat": 30.28333333,
+    "lng": 31.2,
+    "pop": 26694
+  },
+  {
+    "nameAr": "الكرنك",
+    "nameEn": "Karnak",
+    "type": "city",
+    "lat": 25.718372,
+    "lng": 32.65805,
+    "pop": 26488
+  },
+  {
+    "nameAr": "مير",
+    "nameEn": "Meir",
+    "type": "city",
+    "lat": 27.441944444444,
+    "lng": 30.746944444444,
+    "pop": 26077
+  },
+  {
+    "nameAr": "النزلة، الفيوم",
+    "nameEn": "el-Nazla",
+    "type": "city",
+    "lat": 29.3063,
+    "lng": 30.651261111111,
+    "pop": 25710
+  },
+  {
+    "nameAr": "قطور",
+    "nameEn": "Qutur",
+    "type": "city",
+    "lat": 30.9765,
+    "lng": 30.953179,
+    "pop": 24518
+  },
+  {
+    "nameAr": "هرية رزنة",
+    "nameEn": "Hirriyat Razna",
+    "type": "city",
+    "lat": 30.602777777778,
+    "lng": 31.537222222222,
+    "pop": 24359
+  },
+  {
+    "nameAr": "القصير",
+    "nameEn": "El-Quseir",
+    "type": "city",
+    "lat": 26.109072222222,
+    "lng": 34.275997222222,
+    "pop": 24344
+  },
+  {
+    "nameAr": "شيخ عبد القرنة",
+    "nameEn": "Sheikh Abd el-Qurna",
+    "type": "city",
+    "lat": 25.731666666667,
+    "lng": 32.609166666667,
+    "pop": 24239
+  },
+  {
+    "nameAr": "قرية تصفا - كفر شكر",
+    "nameEn": "Tesfa - Kafr Shokr",
+    "type": "city",
+    "lat": 30.546961,
+    "lng": 31.267333,
+    "pop": 23390
+  },
+  {
+    "nameAr": "كفر سعد",
+    "nameEn": "Kafr Saad",
+    "type": "city",
+    "lat": 31.35573,
+    "lng": 31.68484,
+    "pop": 22500
+  },
+  {
+    "nameAr": "شارونة",
+    "nameEn": "Sharuna",
+    "type": "city",
+    "lat": 28.593980555556,
+    "lng": 30.851630555556,
+    "pop": 22221
+  },
+  {
+    "nameAr": "أبو صير بنا",
+    "nameEn": "Busiris",
+    "type": "city",
+    "lat": 30.912777777778,
+    "lng": 31.242777777778,
+    "pop": 22214
+  },
+  {
+    "nameAr": "قفط",
+    "nameEn": "Qift",
+    "type": "city",
+    "lat": 26,
+    "lng": 32.816666666667,
+    "pop": 22063
+  },
+  {
+    "nameAr": "فايد",
+    "nameEn": "Fayed",
+    "type": "city",
+    "lat": 30.326111111111,
+    "lng": 32.298611111111,
+    "pop": 21808
+  },
+  {
+    "nameAr": "نقادة",
+    "nameEn": "Naqada",
+    "type": "city",
+    "lat": 25.901666666667,
+    "lng": 32.724166666667,
+    "pop": 21530
+  },
+  {
+    "nameAr": "ميت نما",
+    "nameEn": "Mit Nama",
+    "type": "city",
+    "lat": 30.145330555556,
+    "lng": 31.23435,
+    "pop": 21321
+  },
+  {
+    "nameAr": "سنباط",
+    "nameEn": "Sunbat",
+    "type": "city",
+    "lat": 30.805738888889,
+    "lng": 31.207011111111,
+    "pop": 20599
+  },
+  {
+    "nameAr": "جراجوس",
+    "nameEn": "Garagos",
+    "type": "city",
+    "lat": 25.86808333,
+    "lng": 32.75661111,
+    "pop": 20427
+  },
+  {
+    "nameAr": "العوكلية",
+    "nameEn": "Elawaklia",
+    "type": "city",
+    "lat": 27.2272,
+    "lng": 31.1944,
+    "pop": 20065
+  },
+  {
+    "nameAr": "دير أبو حنس",
+    "nameEn": "Deir Abu Hinnis",
+    "type": "city",
+    "lat": 27.786388888889,
+    "lng": 30.905,
+    "pop": 19638
+  },
+  {
+    "nameAr": "موط",
+    "nameEn": "Mut",
+    "type": "city",
+    "lat": 25.4875,
+    "lng": 28.983333333333,
+    "pop": 19616
+  },
+  {
+    "nameAr": "القارة، قنا",
+    "nameEn": "Continent (qena)",
+    "type": "city",
+    "lat": 26.118333333333,
+    "lng": 32.095277777778,
+    "pop": 19394
+  },
+  {
+    "nameAr": "الشيخ زياد",
+    "nameEn": "Sheikh Ziyad",
+    "type": "city",
+    "lat": 28.631944444444,
+    "lng": 30.822777777778,
+    "pop": 19283
+  },
+  {
+    "nameAr": "مقابر بني حسن",
+    "nameEn": "Beni Hasan",
+    "type": "city",
+    "lat": 27.931388888889,
+    "lng": 30.875280555556,
+    "pop": 18218
+  },
+  {
+    "nameAr": "بهمو",
+    "nameEn": "Biahmu",
+    "type": "city",
+    "lat": 29.3675,
+    "lng": 30.852777777778,
+    "pop": 17486
+  },
+  {
+    "nameAr": "المنيا الجديدة",
+    "nameEn": "New Minya",
+    "type": "city",
+    "lat": 28.086388888889,
+    "lng": 30.814638888889,
+    "pop": 17470
+  },
+  {
+    "nameAr": "البيهو",
+    "nameEn": "el-Bayahu",
+    "type": "city",
+    "lat": 28.261388888889,
+    "lng": 30.731669444444,
+    "pop": 17069
+  },
+  {
+    "nameAr": "الحيبة",
+    "nameEn": "El Hiba",
+    "type": "city",
+    "lat": 28.8,
+    "lng": 30.91666667,
+    "pop": 16209
+  },
+  {
+    "nameAr": "تونة الجبل",
+    "nameEn": "Tuna el-Gebel",
+    "type": "city",
+    "lat": 27.775,
+    "lng": 30.740277777778,
+    "pop": 16126
+  },
+  {
+    "nameAr": "البهنسا",
+    "nameEn": "el-Bahnasa",
+    "type": "city",
+    "lat": 28.535280555556,
+    "lng": 30.660561111111,
+    "pop": 15948
+  },
+  {
+    "nameAr": "برج رشيد",
+    "nameEn": "Burg Rashid",
+    "type": "city",
+    "lat": 31.439169444444,
+    "lng": 30.39,
+    "pop": 15825
+  },
+  {
+    "nameAr": "ميدوم",
+    "nameEn": "Meidum",
+    "type": "city",
+    "lat": 29.372448,
+    "lng": 31.172034,
+    "pop": 15804
+  },
+  {
+    "nameAr": "بئر العبد",
+    "nameEn": "Bir al-Abd",
+    "type": "city",
+    "lat": 31,
+    "lng": 33.0167,
+    "pop": 15574
+  },
+  {
+    "nameAr": "المدامود",
+    "nameEn": "Medamud",
+    "type": "city",
+    "lat": 25.734444444444,
+    "lng": 32.711944444444,
+    "pop": 15091
+  },
+  {
+    "nameAr": "سخا",
+    "nameEn": "Xois",
+    "type": "city",
+    "lat": 31.088055555556,
+    "lng": 30.945555555556,
+    "pop": 14733
+  },
+  {
+    "nameAr": "دير البرشا",
+    "nameEn": "Deir el-Bersha",
+    "type": "city",
+    "lat": 27.757219444444,
+    "lng": 30.91,
+    "pop": 14297
+  },
+  {
+    "nameAr": "برقاش",
+    "nameEn": "Birqash",
+    "type": "city",
+    "lat": 30.169166666667,
+    "lng": 31.041666666667,
+    "pop": 14172
+  },
+  {
+    "nameAr": "قنتير",
+    "nameEn": "Qantir",
+    "type": "city",
+    "lat": 30.803188888889,
+    "lng": 31.83795,
+    "pop": 13660
+  },
+  {
+    "nameAr": "مدينة سيوة",
+    "nameEn": "Siwa Town",
+    "type": "city",
+    "lat": 29.203,
+    "lng": 25.519469444444,
+    "pop": 13202
+  },
+  {
+    "nameAr": "سدمنت الجبل",
+    "nameEn": "Sidmant el-Gebel",
+    "type": "city",
+    "lat": 29.085555555556,
+    "lng": 30.934444444444,
+    "pop": 13119
+  },
+  {
+    "nameAr": "دير سيدة العذراء ، جبل الطير",
+    "nameEn": "Deir el-Adra, Gebel et-Teir",
+    "type": "city",
+    "lat": 28.280561111111,
+    "lng": 30.7475,
+    "pop": 13025
+  },
+  {
+    "nameAr": "زاوية سلطان",
+    "nameEn": "Zawyet el-Maiyitin",
+    "type": "city",
+    "lat": 28.0625,
+    "lng": 30.8175,
+    "pop": 12891
+  },
+  {
+    "nameAr": "الطور",
+    "nameEn": "El-Tor",
+    "type": "city",
+    "lat": 28.233333333333,
+    "lng": 33.616666666667,
+    "pop": 12733
+  },
+  {
+    "nameAr": "دشاشة",
+    "nameEn": "Dishasha",
+    "type": "city",
+    "lat": 28.983055555556,
+    "lng": 30.849166666667,
+    "pop": 11844
+  },
+  {
+    "nameAr": "ميت دمسيس",
+    "nameEn": "Mit Damsis",
+    "type": "city",
+    "lat": 30.82665,
+    "lng": 31.222611111111,
+    "pop": 11528
+  },
+  {
+    "nameAr": "القلعة",
+    "nameEn": "el-Qala",
+    "type": "city",
+    "lat": 26.005138888889,
+    "lng": 32.817830555556,
+    "pop": 11511
+  },
+  {
+    "nameAr": "القايات",
+    "nameEn": "al-Qayat",
+    "type": "city",
+    "lat": 28.667451,
+    "lng": 30.686767,
+    "pop": 10938
+  },
+  {
+    "nameAr": "سوادة، المنيا",
+    "nameEn": "Sawada",
+    "type": "city",
+    "lat": 28.0775,
+    "lng": 30.795280555556,
+    "pop": 10571
+  },
+  {
+    "nameAr": "أبجيج",
+    "nameEn": "Abgig",
+    "type": "city",
+    "lat": 29.286117,
+    "lng": 30.815168,
+    "pop": 10057
+  },
+  {
+    "nameAr": "قفادة",
+    "nameEn": "Qufada",
+    "type": "city",
+    "lat": 28.581211111111,
+    "lng": 30.755380555556,
+    "pop": 9948
+  },
+  {
+    "nameAr": "بهبيت الحجارة",
+    "nameEn": "Behbeit el-Hagara",
+    "type": "city",
+    "lat": 31.031111111111,
+    "lng": 31.286666666667,
+    "pop": 9829
+  },
+  {
+    "nameAr": "طحا الأعمدة",
+    "nameEn": "Taha el-Amida",
+    "type": "city",
+    "lat": 28.189169444444,
+    "lng": 30.698061111111,
+    "pop": 9781
+  },
+  {
+    "nameAr": "باويط",
+    "nameEn": "Bawit",
+    "type": "city",
+    "lat": 27.55,
+    "lng": 30.720833333333,
+    "pop": 9516
+  },
+  {
+    "nameAr": "الصالحية الجديدة",
+    "nameEn": "El Salahaia El Gadeda",
+    "type": "city",
+    "lat": 30.631722222222,
+    "lng": 31.939333333333,
+    "pop": 9350
+  },
+  {
+    "nameAr": "شنهور",
+    "nameEn": "Shanhur",
+    "type": "city",
+    "lat": 25.860388888889,
+    "lng": 32.777888888889,
+    "pop": 9314
+  },
+  {
+    "nameAr": "منديشة",
+    "nameEn": "Mandisha",
+    "type": "city",
+    "lat": 28.351538888889,
+    "lng": 28.931719444444,
+    "pop": 9016
+  },
+  {
+    "nameAr": "باصونة",
+    "nameEn": "Basuna",
+    "type": "city",
+    "lat": 26.67309,
+    "lng": 31.60438,
+    "pop": 8974
+  },
+  {
+    "nameAr": "دير السنقورية",
+    "nameEn": "Deir el-Sanquriya",
+    "type": "city",
+    "lat": 28.4868,
+    "lng": 30.6648,
+    "pop": 8911
+  },
+  {
+    "nameAr": "إشنين النصارى",
+    "nameEn": "Ishnin el-Nasara",
+    "type": "city",
+    "lat": 28.6125,
+    "lng": 30.772219444444,
+    "pop": 8905
+  },
+  {
+    "nameAr": "رأس البر",
+    "nameEn": "Ras El Bar",
+    "type": "city",
+    "lat": 31.525,
+    "lng": 31.840555555556,
+    "pop": 8635
+  },
+  {
+    "nameAr": "السلوم",
+    "nameEn": "Sallum",
+    "type": "city",
+    "lat": 31.55,
+    "lng": 25.16,
+    "pop": 8445
+  },
+  {
+    "nameAr": "المعلة",
+    "nameEn": "Mo'alla",
+    "type": "city",
+    "lat": 25.472219444444,
+    "lng": 32.525,
+    "pop": 8047
+  },
+  {
+    "nameAr": "طهنا الجبل",
+    "nameEn": "Akoris",
+    "type": "city",
+    "lat": 28.188888888889,
+    "lng": 30.769438888889,
+    "pop": 7387
+  },
+  {
+    "nameAr": "الكفور",
+    "nameEn": "el-Kufur",
+    "type": "city",
+    "lat": 28.445425,
+    "lng": 30.810727777778,
+    "pop": 7358
+  },
+  {
+    "nameAr": "الأشراف الشرقية",
+    "nameEn": "Alashraf alsharqia",
+    "type": "city",
+    "lat": 26.105833333333,
+    "lng": 32.793611111111,
+    "pop": 6950
+  },
+  {
+    "nameAr": "عزبة الشوادفي (ههيا)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 30.6252003,
+    "lng": 31.5900176,
+    "pop": 6800
+  },
+  {
+    "nameAr": "الرقاقنة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 26.33637,
+    "lng": 31.77554,
+    "pop": 6776
+  },
+  {
+    "nameAr": "الشلاتين",
+    "nameEn": "Shalateen",
+    "type": "city",
+    "lat": 23.133333333333,
+    "lng": 35.6,
+    "pop": 6731
+  },
+  {
+    "nameAr": "دير الجرنوس",
+    "nameEn": "Deir el-Garnus",
+    "type": "city",
+    "lat": 28.61,
+    "lng": 30.706669444444,
+    "pop": 6504
+  },
+  {
+    "nameAr": "قصر الداخلة",
+    "nameEn": "Qasr el-Dakhla",
+    "type": "city",
+    "lat": 25.695869444444,
+    "lng": 28.8837,
+    "pop": 4474
+  },
+  {
+    "nameAr": "النوبارية الجديدة",
+    "nameEn": "Noubarya",
+    "type": "city",
+    "lat": 30.6667,
+    "lng": 30.0667,
+    "pop": 4280
+  },
+  {
+    "nameAr": "الكوم الأخضر، المنيا",
+    "nameEn": "Al Kom Al Akhdar",
+    "type": "city",
+    "lat": 28.674888,
+    "lng": 30.821354,
+    "pop": 4164
+  },
+  {
+    "nameAr": "الزبو",
+    "nameEn": "el-Zabu",
+    "type": "city",
+    "lat": 28.369388888889,
+    "lng": 28.936738888889,
+    "pop": 3929
+  },
+  {
+    "nameAr": "باريس",
+    "nameEn": "Baris",
+    "type": "city",
+    "lat": 24.674280555556,
+    "lng": 30.602288888889,
+    "pop": 3890
+  },
+  {
+    "nameAr": "بلاط",
+    "nameEn": "Balat",
+    "type": "city",
+    "lat": 25.564030555556,
+    "lng": 29.265819444444,
+    "pop": 3794
+  },
+  {
+    "nameAr": "تنيدة",
+    "nameEn": "Tineida",
+    "type": "city",
+    "lat": 25.512861111111,
+    "lng": 29.339969444444,
+    "pop": 3743
+  },
+  {
+    "nameAr": "مدينة الفرافرة",
+    "nameEn": "Farafra Town",
+    "type": "city",
+    "lat": 27.05947,
+    "lng": 27.96793,
+    "pop": 3470
+  },
+  {
+    "nameAr": "دير درنكة",
+    "nameEn": "Deir Durunka",
+    "type": "city",
+    "lat": 27.111388888889,
+    "lng": 31.166666666667,
+    "pop": 3370
+  },
+  {
+    "nameAr": "إسمنت",
+    "nameEn": "Ismant",
+    "type": "city",
+    "lat": 25.5269,
+    "lng": 29.0678,
+    "pop": 3231
+  },
+  {
+    "nameAr": "قنا الجديدة",
+    "nameEn": "New Qena",
+    "type": "city",
+    "lat": 26.231805555556,
+    "lng": 32.739111111111,
+    "pop": 3000
+  },
+  {
+    "nameAr": "نويبع",
+    "nameEn": "Nuweiba",
+    "type": "city",
+    "lat": 29.033969444444,
+    "lng": 34.659094444444,
+    "pop": 2898
+  },
+  {
+    "nameAr": "زاوية أم الرخم",
+    "nameEn": "Zawiyet Umm el-Rakham",
+    "type": "city",
+    "lat": 31.39611111,
+    "lng": 27.04388889,
+    "pop": 2643
+  },
+  {
+    "nameAr": "العلمين",
+    "nameEn": "El Alamein",
+    "type": "city",
+    "lat": 30.833333333333,
+    "lng": 28.95,
+    "pop": 2413
+  },
+  {
+    "nameAr": "المنيرة",
+    "nameEn": "el-Munira",
+    "type": "city",
+    "lat": 25.616652777778,
+    "lng": 30.649716666667,
+    "pop": 2330
+  },
+  {
+    "nameAr": "أغورمي",
+    "nameEn": "Aghurmi",
+    "type": "city",
+    "lat": 29.205138888889,
+    "lng": 25.543588888889,
+    "pop": 2249
+  },
+  {
+    "nameAr": "مرسى علم",
+    "nameEn": "Marsa Alam",
+    "type": "city",
+    "lat": 25.066666666667,
+    "lng": 34.9,
+    "pop": 1918
+  },
+  {
+    "nameAr": "بدخلو",
+    "nameEn": "Budkhulu",
+    "type": "city",
+    "lat": 25.634180555556,
+    "lng": 28.916169444444,
+    "pop": 1834
+  },
+  {
+    "nameAr": "قرية القلمون",
+    "nameEn": "El-Qalamun",
+    "type": "city",
+    "lat": 25.550277777778,
+    "lng": 28.908055555556,
+    "pop": 1745
+  },
+  {
+    "nameAr": "مدينة العبور",
+    "nameEn": "Obour City",
+    "type": "city",
+    "lat": 30.205,
+    "lng": 31.4575,
+    "pop": 1436
+  },
+  {
+    "nameAr": "المكس القبلي",
+    "nameEn": "el-Maks el-Qibli",
+    "type": "city",
+    "lat": 24.555238888889,
+    "lng": 30.611088888889,
+    "pop": 1361
+  },
+  {
+    "nameAr": "البشندي",
+    "nameEn": "El-Bashandi",
+    "type": "city",
+    "lat": 25.5494,
+    "lng": 29.2992,
+    "pop": 1135
+  },
+  {
+    "nameAr": "طابا",
+    "nameEn": "Taba",
+    "type": "city",
+    "lat": 29.492468,
+    "lng": 34.896882,
+    "pop": 800
+  },
+  {
+    "nameAr": "أبو شروف",
+    "nameEn": "Abu Shuruf",
+    "type": "city",
+    "lat": 29.18205,
+    "lng": 25.748538888889,
+    "pop": 630
+  },
+  {
+    "nameAr": "بهي الدين",
+    "nameEn": "Bahi el-Din",
+    "type": "city",
+    "lat": 29.257927777778,
+    "lng": 25.334666666667,
+    "pop": 628
+  },
+  {
+    "nameAr": "برنيس",
+    "nameEn": "Berenice Troglodytica",
+    "type": "city",
+    "lat": 23.943055555556,
+    "lng": 35.489444444444,
+    "pop": 602
+  },
+  {
+    "nameAr": "واحة القارة",
+    "nameEn": "Qara Oasis",
+    "type": "city",
+    "lat": 29.616111111111,
+    "lng": 26.496111111111,
+    "pop": 363
+  },
+  {
+    "nameAr": "جناح",
+    "nameEn": "Ginah",
+    "type": "city",
+    "lat": 25.328938888889,
+    "lng": 30.530330555556,
+    "pop": 224
+  },
+  {
+    "nameAr": "عين صافي",
+    "nameEn": "Ain Safi",
+    "type": "city",
+    "lat": 29.145530555556,
+    "lng": 25.79935,
+    "pop": 200
+  },
+  {
+    "nameAr": "حماطة",
+    "nameEn": "Hamata",
+    "type": "city",
+    "lat": 24.28595,
+    "lng": 35.378888888889,
+    "pop": 150
+  },
+  {
+    "nameAr": "خميسة",
+    "nameEn": "Khamisa",
+    "type": "city",
+    "lat": 29.212713888889,
+    "lng": 25.410461111111,
+    "pop": 111
+  },
+  {
+    "nameAr": "أبريم",
+    "nameEn": "",
+    "type": "city",
+    "lat": 24.5377297,
+    "lng": 32.8348263,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو جريدة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.30694,
+    "lng": 31.75417,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو حماد",
+    "nameEn": "Abu Hammad",
+    "type": "city",
+    "lat": 30.54437637,
+    "lng": 31.67983055,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو دياب شرق",
+    "nameEn": "",
+    "type": "city",
+    "lat": 26.186752,
+    "lng": 32.568763,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو راشد (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.36846,
+    "lng": 31.59984,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو رماد",
+    "nameEn": "",
+    "type": "city",
+    "lat": 22.395277777778,
+    "lng": 36.402472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو رواش",
+    "nameEn": "Abu Rawash",
+    "type": "city",
+    "lat": 30.032222222222,
+    "lng": 31.074722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو صير، الإسكندرية",
+    "nameEn": "Abusir",
+    "type": "city",
+    "lat": 30.946111111111,
+    "lng": 29.518611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو صير، الجيزة",
+    "nameEn": "Abusir",
+    "type": "city",
+    "lat": 29.896111111111,
+    "lng": 31.203611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو غصون",
+    "nameEn": "",
+    "type": "city",
+    "lat": 24.450305555556,
+    "lng": 35.195138888889,
+    "pop": null
+  },
+  {
+    "nameAr": "أبو هور",
+    "nameEn": "Abū Hawr",
+    "type": "city",
+    "lat": 23.483333333333,
+    "lng": 32.883333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "إبيار",
+    "nameEn": "Ibyar",
+    "type": "city",
+    "lat": 30.83844,
+    "lng": 30.86376,
+    "pop": null
+  },
+  {
+    "nameAr": "إتليدم",
+    "nameEn": "Itlidim",
+    "type": "city",
+    "lat": 27.874545,
+    "lng": 30.799275,
+    "pop": null
+  },
+  {
+    "nameAr": "أجا",
+    "nameEn": "Aga",
+    "type": "city",
+    "lat": 30.94162,
+    "lng": 31.29039,
+    "pop": null
+  },
+  {
+    "nameAr": "إدفينا",
+    "nameEn": "Idfina",
+    "type": "city",
+    "lat": 31.292071,
+    "lng": 30.51438,
+    "pop": null
+  },
+  {
+    "nameAr": "إسنا الجديدة",
+    "nameEn": "New Esna",
+    "type": "city",
+    "lat": 25.278386873182,
+    "lng": 32.467597062749,
+    "pop": null
+  },
+  {
+    "nameAr": "أسوان الجديدة",
+    "nameEn": "New Aswan City",
+    "type": "city",
+    "lat": 24.194805555556,
+    "lng": 32.848166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "أطفيح",
+    "nameEn": "Atfih",
+    "type": "city",
+    "lat": 29.408333333333,
+    "lng": 31.252777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الإبراهيمية البحرية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.39263,
+    "lng": 31.6206,
+    "pop": null
+  },
+  {
+    "nameAr": "الإبراهيمية القبلية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.37805,
+    "lng": 31.61928,
+    "pop": null
+  },
+  {
+    "nameAr": "الأربعين",
+    "nameEn": "Arbaeen district",
+    "type": "city",
+    "lat": 29.978597202684,
+    "lng": 32.542214611852,
+    "pop": null
+  },
+  {
+    "nameAr": "الأربعين (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.25471,
+    "lng": 31.70425,
+    "pop": null
+  },
+  {
+    "nameAr": "الإسماعيلية (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.37873,
+    "lng": 31.68589,
+    "pop": null
+  },
+  {
+    "nameAr": "الأشمونين",
+    "nameEn": "Hermopolis",
+    "type": "city",
+    "lat": 27.774438888889,
+    "lng": 30.801111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الأقصر الجديدة",
+    "nameEn": "New Luxor",
+    "type": "city",
+    "lat": 25.609777777778,
+    "lng": 32.632805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "الباز (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.18911,
+    "lng": 31.63899,
+    "pop": null
+  },
+  {
+    "nameAr": "الباويطي",
+    "nameEn": "Bawiti",
+    "type": "city",
+    "lat": 28.35,
+    "lng": 28.866666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "البدراوي (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.33363,
+    "lng": 31.61565,
+    "pop": null
+  },
+  {
+    "nameAr": "البراشية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.26451,
+    "lng": 31.68302,
+    "pop": null
+  },
+  {
+    "nameAr": "البساتين (كفر البطيخ)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.415656,
+    "lng": 31.763808,
+    "pop": null
+  },
+  {
+    "nameAr": "البستان",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.38656,
+    "lng": 31.74759,
+    "pop": null
+  },
+  {
+    "nameAr": "البصارطة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.380333,
+    "lng": 31.793611,
+    "pop": null
+  },
+  {
+    "nameAr": "البغالة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 30.02805,
+    "lng": 31.238941,
+    "pop": null
+  },
+  {
+    "nameAr": "التوفيقية (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.39591,
+    "lng": 31.68645,
+    "pop": null
+  },
+  {
+    "nameAr": "الجبلين",
+    "nameEn": "Gebelein",
+    "type": "city",
+    "lat": 25.4833,
+    "lng": 32.4833,
+    "pop": null
+  },
+  {
+    "nameAr": "الحارة",
+    "nameEn": "el-Harra",
+    "type": "city",
+    "lat": 28.34375,
+    "lng": 29.079519444444,
+    "pop": null
+  },
+  {
+    "nameAr": "الحراجية",
+    "nameEn": "Al Harajiyyah",
+    "type": "city",
+    "lat": 25.943055555556,
+    "lng": 32.777222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "الحمراوين",
+    "nameEn": "",
+    "type": "city",
+    "lat": 26.265305555556,
+    "lng": 34.196638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "الحوراني",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.37654,
+    "lng": 31.73639,
+    "pop": null
+  },
+  {
+    "nameAr": "الخُليفِيّة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.370972,
+    "lng": 31.763444,
+    "pop": null
+  },
+  {
+    "nameAr": "الدكرور",
+    "nameEn": "el-Dakrur",
+    "type": "city",
+    "lat": 29.189088888889,
+    "lng": 25.553,
+    "pop": null
+  },
+  {
+    "nameAr": "الدهايمة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.376,
+    "lng": 31.52045,
+    "pop": null
+  },
+  {
+    "nameAr": "الرحامنة (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.29374,
+    "lng": 31.75726,
+    "pop": null
+  },
+  {
+    "nameAr": "الركابية (كفر البطيخ)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.41361,
+    "lng": 31.56924,
+    "pop": null
+  },
+  {
+    "nameAr": "الروضة",
+    "nameEn": "Arrawda",
+    "type": "city",
+    "lat": 31.32336,
+    "lng": 31.76122,
+    "pop": null
+  },
+  {
+    "nameAr": "الزرقا",
+    "nameEn": "El Zarqa",
+    "type": "city",
+    "lat": 31.2082,
+    "lng": 31.635,
+    "pop": null
+  },
+  {
+    "nameAr": "الزعاترة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.19253,
+    "lng": 31.60069,
+    "pop": null
+  },
+  {
+    "nameAr": "الزهراء",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.29078,
+    "lng": 31.65645,
+    "pop": null
+  },
+  {
+    "nameAr": "الزيتون",
+    "nameEn": "el-Zeitun",
+    "type": "city",
+    "lat": 29.152030555556,
+    "lng": 25.788819444444,
+    "pop": 0
+  },
+  {
+    "nameAr": "السالمية (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.35661,
+    "lng": 31.76028,
+    "pop": null
+  },
+  {
+    "nameAr": "السرو",
+    "nameEn": "Assarw",
+    "type": "city",
+    "lat": 31.23867,
+    "lng": 31.65379,
+    "pop": null
+  },
+  {
+    "nameAr": "السريرية",
+    "nameEn": "el-Siririya",
+    "type": "city",
+    "lat": 28.324169444444,
+    "lng": 30.766388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "السعيدية البحرية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.3924,
+    "lng": 31.66393,
+    "pop": null
+  },
+  {
+    "nameAr": "السعيدية القبلية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.37922,
+    "lng": 31.66407,
+    "pop": null
+  },
+  {
+    "nameAr": "السلام (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.21762,
+    "lng": 31.67974,
+    "pop": null
+  },
+  {
+    "nameAr": "السلاموني",
+    "nameEn": "El-Salamuni",
+    "type": "city",
+    "lat": 26.37,
+    "lng": 31.64,
+    "pop": null
+  },
+  {
+    "nameAr": "السنانية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.41597,
+    "lng": 31.78593,
+    "pop": null
+  },
+  {
+    "nameAr": "السواحل (كفر البطيخ)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.40306,
+    "lng": 31.765,
+    "pop": null
+  },
+  {
+    "nameAr": "السوالم (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.27502,
+    "lng": 31.65284,
+    "pop": null
+  },
+  {
+    "nameAr": "الشعراء",
+    "nameEn": "",
+    "type": "city",
+    "lat": 30.83398,
+    "lng": 31.63994,
+    "pop": null
+  },
+  {
+    "nameAr": "الشهداء",
+    "nameEn": "Shuhada",
+    "type": "city",
+    "lat": 31.0833,
+    "lng": 30.7333,
+    "pop": null
+  },
+  {
+    "nameAr": "الشيخ الشاذلي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 24.198833333333,
+    "lng": 34.624555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "الشيخ زويد",
+    "nameEn": "Sheikh Zuweid",
+    "type": "city",
+    "lat": 31.21194444,
+    "lng": 34.11055556,
+    "pop": null
+  },
+  {
+    "nameAr": "الشيخ سعيد",
+    "nameEn": "El-Sheikh Sa'id",
+    "type": "city",
+    "lat": 27.708280555556,
+    "lng": 30.891280555556,
+    "pop": null
+  },
+  {
+    "nameAr": "الشيخ ضرغام",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.48701,
+    "lng": 31.83493,
+    "pop": null
+  },
+  {
+    "nameAr": "الصف",
+    "nameEn": "El Saff",
+    "type": "city",
+    "lat": 29.564722222222,
+    "lng": 31.281111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الضهرة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.35455,
+    "lng": 31.76721,
+    "pop": null
+  },
+  {
+    "nameAr": "الطارف",
+    "nameEn": "El-Tarif",
+    "type": "city",
+    "lat": 25.739644444444,
+    "lng": 32.637805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "الطرحة (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.34626,
+    "lng": 31.73804,
+    "pop": null
+  },
+  {
+    "nameAr": "الطويلة",
+    "nameEn": "Taweila",
+    "type": "city",
+    "lat": 35.766044,
+    "lng": 36.974162,
+    "pop": null
+  },
+  {
+    "nameAr": "العاصمة الجديدة",
+    "nameEn": "New Administrative Capital",
+    "type": "city",
+    "lat": 30.033694,
+    "lng": 31.755056,
+    "pop": null
+  },
+  {
+    "nameAr": "العبور الجديدة (القليوبية)",
+    "nameEn": "New Obour (Qalyubia)",
+    "type": "city",
+    "lat": 30.27275,
+    "lng": 31.525194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "العبيدية (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.36093,
+    "lng": 31.72229,
+    "pop": null
+  },
+  {
+    "nameAr": "العجوز",
+    "nameEn": "el-Aguz",
+    "type": "city",
+    "lat": 28.349188888889,
+    "lng": 28.907938888889,
+    "pop": null
+  },
+  {
+    "nameAr": "العدلية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.393782,
+    "lng": 31.763541,
+    "pop": null
+  },
+  {
+    "nameAr": "العدوة (المنيا)",
+    "nameEn": "El-Idwa",
+    "type": "city",
+    "lat": 28.7,
+    "lng": 30.75,
+    "pop": null
+  },
+  {
+    "nameAr": "العدوة، الشرقية",
+    "nameEn": "El-Adwah",
+    "type": "city",
+    "lat": 30.6320149,
+    "lng": 31.5777503,
+    "pop": null
+  },
+  {
+    "nameAr": "العركي",
+    "nameEn": "Alearki",
+    "type": "city",
+    "lat": 26.010377,
+    "lng": 32.156526,
+    "pop": null
+  },
+  {
+    "nameAr": "العزازمة (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.30684,
+    "lng": 31.74106,
+    "pop": null
+  },
+  {
+    "nameAr": "العطوي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.33531,
+    "lng": 31.77117,
+    "pop": null
+  },
+  {
+    "nameAr": "العقب",
+    "nameEn": "Al Aqab",
+    "type": "city",
+    "lat": 25.802222222222,
+    "lng": 32.791111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "العلمين الجديدة",
+    "nameEn": "New Alamein",
+    "type": "city",
+    "lat": 30.856,
+    "lng": 28.9056,
+    "pop": null
+  },
+  {
+    "nameAr": "العليقات",
+    "nameEn": "Al Ilayqat",
+    "type": "city",
+    "lat": 25.927777777778,
+    "lng": 32.84,
+    "pop": null
+  },
+  {
+    "nameAr": "العمرة، قنا",
+    "nameEn": "El-Amrah",
+    "type": "city",
+    "lat": 26.13764,
+    "lng": 31.9854,
+    "pop": null
+  },
+  {
+    "nameAr": "العنانية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.39039,
+    "lng": 31.81385,
+    "pop": null
+  },
+  {
+    "nameAr": "العور",
+    "nameEn": "al-Ur",
+    "type": "city",
+    "lat": 28.3543,
+    "lng": 30.6773,
+    "pop": null
+  },
+  {
+    "nameAr": "الغربانيات",
+    "nameEn": "",
+    "type": "city",
+    "lat": 30.879944444444,
+    "lng": 29.497083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "الغنيمية (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.30171,
+    "lng": 31.73034,
+    "pop": null
+  },
+  {
+    "nameAr": "الغوابين",
+    "nameEn": "Alghwaben",
+    "type": "city",
+    "lat": 31.33112,
+    "lng": 31.75952,
+    "pop": null
+  },
+  {
+    "nameAr": "الفرما",
+    "nameEn": "Pelusium",
+    "type": "city",
+    "lat": 31.05,
+    "lng": 32.6,
+    "pop": null
+  },
+  {
+    "nameAr": "الفشن الجديدة",
+    "nameEn": "New Alfashn",
+    "type": "city",
+    "lat": 28.802144767616,
+    "lng": 30.68442099854,
+    "pop": null
+  },
+  {
+    "nameAr": "الفيوم الجديدة",
+    "nameEn": "New Faiyum",
+    "type": "city",
+    "lat": 29.223805555556,
+    "lng": 30.896527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "القبالة",
+    "nameEn": "el-Qabala",
+    "type": "city",
+    "lat": 28.352661111111,
+    "lng": 28.966269444444,
+    "pop": null
+  },
+  {
+    "nameAr": "القرامطة غرب",
+    "nameEn": "West Qaramita",
+    "type": "city",
+    "lat": 26.62,
+    "lng": 31.672777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "القرين",
+    "nameEn": "Al Qurayn",
+    "type": "city",
+    "lat": 30.616111111111,
+    "lng": 31.735,
+    "pop": null
+  },
+  {
+    "nameAr": "القصبة",
+    "nameEn": "el-Qasaba",
+    "type": "city",
+    "lat": 25.493919444444,
+    "lng": 29.248230555556,
+    "pop": null
+  },
+  {
+    "nameAr": "القصر، قنا",
+    "nameEn": "Sheneset-Chenoboskion",
+    "type": "city",
+    "lat": 26.059231,
+    "lng": 32.307667,
+    "pop": null
+  },
+  {
+    "nameAr": "القناطر الخيرية",
+    "nameEn": "Qanatir el Qahiriya",
+    "type": "city",
+    "lat": 30.193333333333,
+    "lng": 31.136944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "القنطرة شرق",
+    "nameEn": "El-Qantarah al-Sharqiya",
+    "type": "city",
+    "lat": 30.85,
+    "lng": 32.31,
+    "pop": null
+  },
+  {
+    "nameAr": "الكاشف الجديد",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.24616,
+    "lng": 31.67874,
+    "pop": null
+  },
+  {
+    "nameAr": "الكوبانية",
+    "nameEn": "El-Kubanieh",
+    "type": "city",
+    "lat": 24.218333,
+    "lng": 32.837222,
+    "pop": null
+  },
+  {
+    "nameAr": "اللشت",
+    "nameEn": "Lisht",
+    "type": "city",
+    "lat": 29.570277777778,
+    "lng": 31.231111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "اللوزي (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.36785,
+    "lng": 31.71117,
+    "pop": null
+  },
+  {
+    "nameAr": "المحاميد البحرية",
+    "nameEn": "El Mahameed",
+    "type": "city",
+    "lat": 25.555103279461,
+    "lng": 32.459652453863,
+    "pop": null
+  },
+  {
+    "nameAr": "المحروسة، قنا",
+    "nameEn": "Al Mahrousah",
+    "type": "city",
+    "lat": 26.00867,
+    "lng": 32.786097,
+    "pop": null
+  },
+  {
+    "nameAr": "المحمدية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.36342,
+    "lng": 31.62014,
+    "pop": null
+  },
+  {
+    "nameAr": "المطرية",
+    "nameEn": "Matarieh",
+    "type": "city",
+    "lat": 31.183333333333,
+    "lng": 32.033333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "المعادي،القاهرة",
+    "nameEn": "Elmaady",
+    "type": "city",
+    "lat": 30.733333333333,
+    "lng": 31.8,
+    "pop": null
+  },
+  {
+    "nameAr": "المفرجية",
+    "nameEn": "Al Mufarrajiyyah",
+    "type": "city",
+    "lat": 25.831388888889,
+    "lng": 32.774722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "المناهرة",
+    "nameEn": "el-Manahra",
+    "type": "city",
+    "lat": 28.396669444444,
+    "lng": 30.774438888889,
+    "pop": null
+  },
+  {
+    "nameAr": "المنزلة",
+    "nameEn": "Manzala",
+    "type": "city",
+    "lat": 31.158055555556,
+    "lng": 31.936944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "المنشية البحرية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.249722222222,
+    "lng": 30.016388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "المنوات",
+    "nameEn": "",
+    "type": "city",
+    "lat": 29.923611111111,
+    "lng": 31.244444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "الناصرية (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.27491,
+    "lng": 31.71517,
+    "pop": null
+  },
+  {
+    "nameAr": "الناضورة",
+    "nameEn": "el-Nadura",
+    "type": "city",
+    "lat": 25.46905,
+    "lng": 30.564238888889,
+    "pop": null
+  },
+  {
+    "nameAr": "النجارين",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.35478,
+    "lng": 31.76104,
+    "pop": null
+  },
+  {
+    "nameAr": "النواصرية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.338605305794,
+    "lng": 31.646016161683,
+    "pop": null
+  },
+  {
+    "nameAr": "الهواشم (كفر البطيخ)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.4,
+    "lng": 31.708055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "أم الحويطات",
+    "nameEn": "Umm al-Huwaitat",
+    "type": "city",
+    "lat": 26.5325,
+    "lng": 33.921111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "أم الرضا",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.40666,
+    "lng": 31.61312,
+    "pop": null
+  },
+  {
+    "nameAr": "أم الرضا الجديدة (كفر البطيخ)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.41856,
+    "lng": 31.6148,
+    "pop": null
+  },
+  {
+    "nameAr": "أمبركاب",
+    "nameEn": "Al Umbarkāb",
+    "type": "city",
+    "lat": 23.628611111111,
+    "lng": 32.908055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "أمحيدة",
+    "nameEn": "Amheida",
+    "type": "city",
+    "lat": 25.667777777778,
+    "lng": 28.871388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد حمام",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.37732,
+    "lng": 31.77078,
+    "pop": null
+  },
+  {
+    "nameAr": "أولاد خلف (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.33194,
+    "lng": 31.74183,
+    "pop": null
+  },
+  {
+    "nameAr": "بدر",
+    "nameEn": "Badr City",
+    "type": "city",
+    "lat": 30.136,
+    "lng": 31.715,
+    "pop": null
+  },
+  {
+    "nameAr": "بدر (البحيرة)",
+    "nameEn": "Badr",
+    "type": "city",
+    "lat": 30.574641,
+    "lng": 30.71339,
+    "pop": null
+  },
+  {
+    "nameAr": "برج البرلس",
+    "nameEn": "Ezbet El Borg",
+    "type": "city",
+    "lat": 31.5830034,
+    "lng": 30.9903393,
+    "pop": null
+  },
+  {
+    "nameAr": "برما",
+    "nameEn": "Birma",
+    "type": "city",
+    "lat": 30.8455,
+    "lng": 30.9088,
+    "pop": null
+  },
+  {
+    "nameAr": "بسيون",
+    "nameEn": "Basyoun",
+    "type": "city",
+    "lat": 30.936388888889,
+    "lng": 30.811111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "بشالوش",
+    "nameEn": "Bashalush",
+    "type": "city",
+    "lat": 30.7166,
+    "lng": 31.3075,
+    "pop": null
+  },
+  {
+    "nameAr": "بغداد (شمال سيناء)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 30.657361111111,
+    "lng": 33.710944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "بلطيم",
+    "nameEn": "Baltim",
+    "type": "city",
+    "lat": 31.558888888889,
+    "lng": 31.078333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بني عمار",
+    "nameEn": "Bani Ammar",
+    "type": "city",
+    "lat": 26.733333333333,
+    "lng": 31.516666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بهتيم",
+    "nameEn": "Bahtim",
+    "type": "city",
+    "lat": 30.137631769354,
+    "lng": 31.274437784214,
+    "pop": null
+  },
+  {
+    "nameAr": "بهيج (الإسكندرية)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 30.932472222222,
+    "lng": 29.604944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "تابوزيريس",
+    "nameEn": "Taposiris Magna",
+    "type": "city",
+    "lat": 30.95,
+    "lng": 29.51667,
+    "pop": null
+  },
+  {
+    "nameAr": "تفتيش ثان (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.35,
+    "lng": 31.68333,
+    "pop": null
+  },
+  {
+    "nameAr": "تل التيماي",
+    "nameEn": "Thmuis",
+    "type": "city",
+    "lat": 30.9386,
+    "lng": 31.5164,
+    "pop": null
+  },
+  {
+    "nameAr": "تونس",
+    "nameEn": "Tunis",
+    "type": "city",
+    "lat": 29.397361111111,
+    "lng": 30.492119444444,
+    "pop": null
+  },
+  {
+    "nameAr": "جرجا الجديدة",
+    "nameEn": "New Girga",
+    "type": "city",
+    "lat": 26.115611111111,
+    "lng": 31.666027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "جزيرة البعيرات",
+    "nameEn": "Geziret el-Bairat",
+    "type": "city",
+    "lat": 25.706419444444,
+    "lng": 32.631911111111,
+    "pop": null
+  },
+  {
+    "nameAr": "جزيرة الرملة",
+    "nameEn": "Gazirat ar-Ramla",
+    "type": "city",
+    "lat": 25.70256,
+    "lng": 32.63293,
+    "pop": null
+  },
+  {
+    "nameAr": "جزيرة سهيل",
+    "nameEn": "Sehel Island",
+    "type": "city",
+    "lat": 24.06,
+    "lng": 32.871111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "حاجر دنفيق",
+    "nameEn": "Hagir Danfiq",
+    "type": "city",
+    "lat": 25.851730555556,
+    "lng": 32.702911111111,
+    "pop": null
+  },
+  {
+    "nameAr": "حجاجة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.25775,
+    "lng": 31.74695,
+    "pop": null
+  },
+  {
+    "nameAr": "حجازة قبلي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 25.844788,
+    "lng": 32.83346,
+    "pop": null
+  },
+  {
+    "nameAr": "حدائق أكتوبر",
+    "nameEn": "October Gardens",
+    "type": "city",
+    "lat": 29.890833333333,
+    "lng": 30.91275,
+    "pop": null
+  },
+  {
+    "nameAr": "حدائق الأهرام",
+    "nameEn": "Hadayek Al-Ahram",
+    "type": "city",
+    "lat": 29.971338,
+    "lng": 31.102378,
+    "pop": null
+  },
+  {
+    "nameAr": "حدائق العاصمة",
+    "nameEn": "Capital Gardens",
+    "type": "city",
+    "lat": 30.130117135345,
+    "lng": 31.877554051831,
+    "pop": null
+  },
+  {
+    "nameAr": "حميثرة",
+    "nameEn": "Humaithara",
+    "type": "city",
+    "lat": 24.20073889,
+    "lng": 34.63564722,
+    "pop": null
+  },
+  {
+    "nameAr": "خزام",
+    "nameEn": "Khuzam",
+    "type": "city",
+    "lat": 25.777222222222,
+    "lng": 32.767222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "دار السلام",
+    "nameEn": "Dar el-Salam",
+    "type": "city",
+    "lat": 26.27222,
+    "lng": 32.060681,
+    "pop": null
+  },
+  {
+    "nameAr": "دار السلام (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.32452,
+    "lng": 31.62058,
+    "pop": null
+  },
+  {
+    "nameAr": "دروة، المنيا",
+    "nameEn": "",
+    "type": "city",
+    "lat": 27.721606,
+    "lng": 30.744566,
+    "pop": null
+  },
+  {
+    "nameAr": "درين",
+    "nameEn": "Drin",
+    "type": "city",
+    "lat": 31.0973,
+    "lng": 31.2666,
+    "pop": null
+  },
+  {
+    "nameAr": "دقادوس",
+    "nameEn": "Daqadus",
+    "type": "city",
+    "lat": 30.728330555556,
+    "lng": 31.263611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "دقهلة",
+    "nameEn": "Daqahlah",
+    "type": "city",
+    "lat": 31.25168,
+    "lng": 31.67912,
+    "pop": null
+  },
+  {
+    "nameAr": "دميرة",
+    "nameEn": "Dimeira",
+    "type": "city",
+    "lat": 31.1077,
+    "lng": 31.3614,
+    "pop": null
+  },
+  {
+    "nameAr": "دنشواي",
+    "nameEn": "Denshawai",
+    "type": "city",
+    "lat": 30.6,
+    "lng": 30.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "دنفيق",
+    "nameEn": "Danfiq",
+    "type": "city",
+    "lat": 25.866666666667,
+    "lng": 32.725,
+    "pop": null
+  },
+  {
+    "nameAr": "دهشور",
+    "nameEn": "Dahshur",
+    "type": "city",
+    "lat": 29.8,
+    "lng": 31.233333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "دهميت",
+    "nameEn": "Dihmīt",
+    "type": "city",
+    "lat": 23.776388888889,
+    "lng": 32.945555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "ديروط",
+    "nameEn": "Dairut",
+    "type": "city",
+    "lat": 27.566666666667,
+    "lng": 30.816666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "ذراع أبو النجا",
+    "nameEn": "Dra' Abu el-Naga",
+    "type": "city",
+    "lat": 25.735280555556,
+    "lng": 32.620561111111,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس الحكمة",
+    "nameEn": "Ras el-Hekma",
+    "type": "city",
+    "lat": 31.220844878574,
+    "lng": 27.855133290917,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس حدربة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 22.050805555556,
+    "lng": 36.72575,
+    "pop": null
+  },
+  {
+    "nameAr": "رمانة",
+    "nameEn": "Romani",
+    "type": "city",
+    "lat": 31,
+    "lng": 32.6833,
+    "pop": null
+  },
+  {
+    "nameAr": "ريفا",
+    "nameEn": "Rifeh",
+    "type": "city",
+    "lat": 27.1,
+    "lng": 31.175,
+    "pop": null
+  },
+  {
+    "nameAr": "زهراء المعادي",
+    "nameEn": "Zahraa El Maadi",
+    "type": "city",
+    "lat": 29.9614,
+    "lng": 31.3076,
+    "pop": null
+  },
+  {
+    "nameAr": "سفنكس الجديدة",
+    "nameEn": "New Sphinx",
+    "type": "city",
+    "lat": 30.144805555556,
+    "lng": 30.805111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "سقارة",
+    "nameEn": "Saqqara",
+    "type": "city",
+    "lat": 29.85,
+    "lng": 31.233333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "سنورس",
+    "nameEn": "Sinnuris",
+    "type": "city",
+    "lat": 29.407222222222,
+    "lng": 30.866666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "سوهاج الجديدة",
+    "nameEn": "New Sohag City",
+    "type": "city",
+    "lat": 26.438202536703,
+    "lng": 31.665662363478,
+    "pop": null
+  },
+  {
+    "nameAr": "سيف الدين (دمياط)",
+    "nameEn": "saifel-Din",
+    "type": "city",
+    "lat": 31.2345,
+    "lng": 31.69339,
+    "pop": null
+  },
+  {
+    "nameAr": "شباس الشهداء",
+    "nameEn": "Shabas El-Shuhada",
+    "type": "city",
+    "lat": 31.08965,
+    "lng": 30.749,
+    "pop": null
+  },
+  {
+    "nameAr": "شبين القناطر",
+    "nameEn": "Shibin el-Qanater",
+    "type": "city",
+    "lat": 30.31269,
+    "lng": 31.32018,
+    "pop": null
+  },
+  {
+    "nameAr": "شرباص",
+    "nameEn": "Sharabas",
+    "type": "city",
+    "lat": 31.28003,
+    "lng": 31.67654,
+    "pop": null
+  },
+  {
+    "nameAr": "شرمساح",
+    "nameEn": "Sheremsah",
+    "type": "city",
+    "lat": 31.18967,
+    "lng": 31.59641,
+    "pop": null
+  },
+  {
+    "nameAr": "شط الخياطة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.46111,
+    "lng": 31.81833,
+    "pop": null
+  },
+  {
+    "nameAr": "شط جريبة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.43323,
+    "lng": 31.83352,
+    "pop": null
+  },
+  {
+    "nameAr": "شط محب والسيالة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.40139,
+    "lng": 31.81194,
+    "pop": null
+  },
+  {
+    "nameAr": "شنوان",
+    "nameEn": "Shanawan",
+    "type": "city",
+    "lat": 30.50305556,
+    "lng": 31.00583333,
+    "pop": null
+  },
+  {
+    "nameAr": "شيراتون المطار",
+    "nameEn": "Sheraton Al Matar",
+    "type": "city",
+    "lat": 30.103299,
+    "lng": 31.374375,
+    "pop": null
+  },
+  {
+    "nameAr": "صالح، بني سويف",
+    "nameEn": "Saleh",
+    "type": "city",
+    "lat": 28.846069,
+    "lng": 30.864795,
+    "pop": null
+  },
+  {
+    "nameAr": "صرد",
+    "nameEn": "Surad",
+    "type": "city",
+    "lat": 30.976152524471,
+    "lng": 30.909749952192,
+    "pop": null
+  },
+  {
+    "nameAr": "صفط تراب",
+    "nameEn": "Saft Turab",
+    "type": "city",
+    "lat": 30.893864676989,
+    "lng": 31.11769110461,
+    "pop": null
+  },
+  {
+    "nameAr": "صنبو",
+    "nameEn": "Sanabo",
+    "type": "city",
+    "lat": 27.4941,
+    "lng": 30.7897,
+    "pop": null
+  },
+  {
+    "nameAr": "طربول",
+    "nameEn": "tarboul",
+    "type": "city",
+    "lat": 29.316777447098,
+    "lng": 31.341503130683,
+    "pop": null
+  },
+  {
+    "nameAr": "طلخا",
+    "nameEn": "Talkha",
+    "type": "city",
+    "lat": 31.059166666667,
+    "lng": 31.376666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "طما",
+    "nameEn": "Tima",
+    "type": "city",
+    "lat": 26.91,
+    "lng": 31.435,
+    "pop": null
+  },
+  {
+    "nameAr": "طيبة الجديدة",
+    "nameEn": "New Thebes",
+    "type": "city",
+    "lat": 25.681137,
+    "lng": 32.721176,
+    "pop": null
+  },
+  {
+    "nameAr": "عزب النهضة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.39575,
+    "lng": 31.784555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة البرج",
+    "nameEn": "Ezbet El Borg",
+    "type": "city",
+    "lat": 31.503055555556,
+    "lng": 31.841111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة البوصة",
+    "nameEn": "Izbat al-Busa",
+    "type": "city",
+    "lat": 26.094716,
+    "lng": 32.30994,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة الكاشف",
+    "nameEn": "Ezbet El Kashif",
+    "type": "city",
+    "lat": 29.205833333333,
+    "lng": 30.668333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة اللحم",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.43637,
+    "lng": 31.80354,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة محمد طليب",
+    "nameEn": "Muhammad Tuleib",
+    "type": "city",
+    "lat": 25.692738888889,
+    "lng": 30.632369444444,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة مشندد",
+    "nameEn": "Mishandid",
+    "type": "city",
+    "lat": 29.217616666667,
+    "lng": 25.403952777778,
+    "pop": null
+  },
+  {
+    "nameAr": "عمريط",
+    "nameEn": "Amrit",
+    "type": "city",
+    "lat": 30.51305556,
+    "lng": 31.60916667,
+    "pop": null
+  },
+  {
+    "nameAr": "عين البليدة",
+    "nameEn": "Ain el-Bileida",
+    "type": "city",
+    "lat": 25.487680555556,
+    "lng": 30.51305,
+    "pop": null
+  },
+  {
+    "nameAr": "عين الشيخ مرزوق",
+    "nameEn": "Ain Sheikh Marzuq",
+    "type": "city",
+    "lat": 26.817222222222,
+    "lng": 27.862777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "عين العزة",
+    "nameEn": "Ain el-Izza",
+    "type": "city",
+    "lat": 28.029661111111,
+    "lng": 28.641419444444,
+    "pop": null
+  },
+  {
+    "nameAr": "عين توني",
+    "nameEn": "Ain Tuni",
+    "type": "city",
+    "lat": 28.375069444444,
+    "lng": 28.99435,
+    "pop": null
+  },
+  {
+    "nameAr": "عين دهيبة",
+    "nameEn": "Ayn Diheiba",
+    "type": "city",
+    "lat": 29.233552777778,
+    "lng": 25.438447222222,
+    "pop": null
+  },
+  {
+    "nameAr": "عين ريس",
+    "nameEn": "Ain Ris",
+    "type": "city",
+    "lat": 27.998333333333,
+    "lng": 28.701111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عين طبل آمون",
+    "nameEn": "Ain Tabl Amun",
+    "type": "city",
+    "lat": 28.0362,
+    "lng": 28.734161111111,
+    "pop": null
+  },
+  {
+    "nameAr": "غرب سهيل",
+    "nameEn": "Gharb Seheil",
+    "type": "city",
+    "lat": 24.052538,
+    "lng": 32.85912,
+    "pop": null
+  },
+  {
+    "nameAr": "غيط النصارى",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.41681,
+    "lng": 31.83804,
+    "pop": null
+  },
+  {
+    "nameAr": "فاو قبلي",
+    "nameEn": "Pbow",
+    "type": "city",
+    "lat": 26.111796,
+    "lng": 32.404696,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية حسن فتحي",
+    "nameEn": "Hassan Fathy Village",
+    "type": "city",
+    "lat": 24.693330555556,
+    "lng": 30.596019444444,
+    "pop": null
+  },
+  {
+    "nameAr": "قصر أبو منقار",
+    "nameEn": "Abu Minqar",
+    "type": "city",
+    "lat": 26.505555555556,
+    "lng": 27.657777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "قصر باريس",
+    "nameEn": "Qasr Baris",
+    "type": "city",
+    "lat": 24.508469444444,
+    "lng": 30.6145,
+    "pop": null
+  },
+  {
+    "nameAr": "قصر هور",
+    "nameEn": "Qasr Hur",
+    "type": "city",
+    "lat": 27.857005,
+    "lng": 30.728205,
+    "pop": null
+  },
+  {
+    "nameAr": "قليوب",
+    "nameEn": "Qalyub",
+    "type": "city",
+    "lat": 30.199722222222,
+    "lng": 31.205277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "قمولا",
+    "nameEn": "Qamula",
+    "type": "city",
+    "lat": 25.788611111111,
+    "lng": 32.728055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "قويسنا",
+    "nameEn": "Quweisna",
+    "type": "city",
+    "lat": 30.55,
+    "lng": 31.1333,
+    "pop": null
+  },
+  {
+    "nameAr": "كحيل (كفر البطيخ)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.38696,
+    "lng": 31.73006,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر البطيخ",
+    "nameEn": "Kafr El-Battikh city",
+    "type": "city",
+    "lat": 31.40398,
+    "lng": 31.73778,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر الشناوي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.28875,
+    "lng": 31.69693,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر العرب",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.30312,
+    "lng": 31.69589,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر الغوابين",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.32986,
+    "lng": 31.76497,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر المرابعين الشرقية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.37848,
+    "lng": 31.51513,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر المصيلحة",
+    "nameEn": "Kafr el-Muṣīlḥa",
+    "type": "city",
+    "lat": 30.536111,
+    "lng": 31.016667,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر المنازلة (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.31536,
+    "lng": 31.69213,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر المياسرة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.23,
+    "lng": 31.636,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر الوسطاني",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.3653,
+    "lng": 31.5735,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر تقي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.17519,
+    "lng": 31.59869,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر سعد البلد (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.32361,
+    "lng": 31.65,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر سليمان البحري",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.34305,
+    "lng": 31.71006,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر شبرا زنجي",
+    "nameEn": "Kafr Shubra Zangi",
+    "type": "city",
+    "lat": 30.445555555556,
+    "lng": 31.000833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كفر شحاتة (كفر سعد)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.31103,
+    "lng": 31.63413,
+    "pop": null
+  },
+  {
+    "nameAr": "كفور الغاب",
+    "nameEn": "Kufur Al Ghab",
+    "type": "city",
+    "lat": 31.37533,
+    "lng": 31.51834,
+    "pop": null
+  },
+  {
+    "nameAr": "كوساي",
+    "nameEn": "Cusae",
+    "type": "city",
+    "lat": 27.44444444,
+    "lng": 30.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "كوم الضبع",
+    "nameEn": "Kum aldabae",
+    "type": "city",
+    "lat": 30.433282,
+    "lng": 31.056862,
+    "pop": null
+  },
+  {
+    "nameAr": "كوم النور",
+    "nameEn": "Kawm an-Nur",
+    "type": "city",
+    "lat": 30.729958,
+    "lng": 31.295242,
+    "pop": null
+  },
+  {
+    "nameAr": "محلة دمنة",
+    "nameEn": "Mahallat Damana",
+    "type": "city",
+    "lat": 31.075425,
+    "lng": 31.495885,
+    "pop": null
+  },
+  {
+    "nameAr": "محلة مرحوم",
+    "nameEn": "Mahallat Marhum",
+    "type": "city",
+    "lat": 30.8006,
+    "lng": 30.9597,
+    "pop": null
+  },
+  {
+    "nameAr": "مخيم الشط للاجئين",
+    "nameEn": "El Shatt refugee camp",
+    "type": "city",
+    "lat": 30.036,
+    "lng": 32.614,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة الجلالة",
+    "nameEn": "Al-Galala City",
+    "type": "city",
+    "lat": 29.4300567,
+    "lng": 32.3973211,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة السادات",
+    "nameEn": "Sadat City",
+    "type": "city",
+    "lat": 30.418243,
+    "lng": 30.574722,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة الفشن الجديدة",
+    "nameEn": "New Al-Fashn City",
+    "type": "city",
+    "lat": 28.787268220618,
+    "lng": 30.685779388201,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة سانت كاترين",
+    "nameEn": "Saint Catherine",
+    "type": "city",
+    "lat": 28.5644,
+    "lng": 33.9524,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة سلام مصر",
+    "nameEn": "City of Peace Egypt",
+    "type": "city",
+    "lat": 31.038365141477,
+    "lng": 32.637607622007,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة ملوي الجديدة",
+    "nameEn": "New Mallawi City",
+    "type": "city",
+    "lat": 27.764100286027,
+    "lng": 30.687809090644,
+    "pop": null
+  },
+  {
+    "nameAr": "مرسى حميرة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 23.473083333333,
+    "lng": 35.481444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "مركز التل الكبير",
+    "nameEn": "Tall al Kabir",
+    "type": "city",
+    "lat": 30.545555555556,
+    "lng": 31.778055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "مرمدة بني سلامة",
+    "nameEn": "Merimde culture",
+    "type": "city",
+    "lat": 30.320833333333,
+    "lng": 30.848888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "مصيف بلطيم",
+    "nameEn": "Baltim Resort",
+    "type": "city",
+    "lat": 31.5972,
+    "lng": 31.1086,
+    "pop": null
+  },
+  {
+    "nameAr": "ملوي الجديدة",
+    "nameEn": "New Mallawi",
+    "type": "city",
+    "lat": 27.763076837164,
+    "lng": 30.683316039819,
+    "pop": null
+  },
+  {
+    "nameAr": "منجم حماطة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 25.06725,
+    "lng": 34.873388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "منشأة كرم ورزوق",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.25063,
+    "lng": 31.73957,
+    "pop": null
+  },
+  {
+    "nameAr": "منشأة ناصر (دمياط)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.39433,
+    "lng": 31.53243,
+    "pop": null
+  },
+  {
+    "nameAr": "ميت أبو غالب",
+    "nameEn": "Mit Abou Ghaleb",
+    "type": "city",
+    "lat": 31.28837,
+    "lng": 31.67719,
+    "pop": null
+  },
+  {
+    "nameAr": "ميت الخولي عبد الله",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.20103,
+    "lng": 31.62539,
+    "pop": null
+  },
+  {
+    "nameAr": "ميت الشيوخ",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.3671,
+    "lng": 31.72714,
+    "pop": null
+  },
+  {
+    "nameAr": "ناصر الجديدة (مدينة)",
+    "nameEn": "New Nasser City",
+    "type": "city",
+    "lat": 27.073639814642,
+    "lng": 31.086288775447,
+    "pop": null
+  },
+  {
+    "nameAr": "نخل",
+    "nameEn": "Nekhel",
+    "type": "city",
+    "lat": 29.9,
+    "lng": 33.75,
+    "pop": null
+  },
+  {
+    "nameAr": "نكلا العنب",
+    "nameEn": "Nekla El Enab",
+    "type": "city",
+    "lat": 30.911858333333,
+    "lng": 30.758541666667,
+    "pop": null
+  },
+  {
+    "nameAr": "يوسف الصديق",
+    "nameEn": "Jusuf as-Siddik",
+    "type": "city",
+    "lat": 29.360426,
+    "lng": 30.446463,
+    "pop": null
+  },
+  {
+    "nameAr": "Abdallah Nirqi",
+    "nameEn": "Abdallah Nirqi",
+    "type": "city",
+    "lat": 22.344342,
+    "lng": 31.731315,
+    "pop": null
+  },
+  {
+    "nameAr": "Ashraf village",
+    "nameEn": "Ashraf village",
+    "type": "city",
+    "lat": 26.020833333333,
+    "lng": 32.766111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Bir Tarfawy",
+    "nameEn": "Bir Tarfawy",
+    "type": "city",
+    "lat": 22.9332,
+    "lng": 28.8796,
+    "pop": null
+  },
+  {
+    "nameAr": "Birinbal",
+    "nameEn": "Birinbal",
+    "type": "city",
+    "lat": 31.347906219446,
+    "lng": 30.509691682845,
+    "pop": null
+  },
+  {
+    "nameAr": "Ghazala Bay",
+    "nameEn": "Ghazala Bay",
+    "type": "city",
+    "lat": 31.0306622,
+    "lng": 28.5916031,
+    "pop": null
+  },
+  {
+    "nameAr": "Kerkeosiris",
+    "nameEn": "Kerkeosiris",
+    "type": "city",
+    "lat": 29.13416,
+    "lng": 30.693397,
+    "pop": null
+  },
+  {
+    "nameAr": "Theadelphia",
+    "nameEn": "Theadelphia",
+    "type": "city",
+    "lat": 29.347869444444,
+    "lng": 30.564119444444,
+    "pop": null
+  }
+]

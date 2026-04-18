@@ -1,0 +1,12 @@
+[
+  {"nameAr":"أبيدجان","nameEn":"Abidjan","type":"city","lat":5.3600,"lng":-4.0083,"pop":4707404},
+  {"nameAr":"ياموسوكرو","nameEn":"Yamoussoukro","type":"city","lat":6.8276,"lng":-5.2893,"pop":355573},
+  {"nameAr":"بواكيه","nameEn":"Bouaké","type":"city","lat":7.6906,"lng":-5.0300,"pop":659233},
+  {"nameAr":"دالوا","nameEn":"Daloa","type":"city","lat":6.8875,"lng":-6.4503,"pop":319427},
+  {"nameAr":"كوروغو","nameEn":"Korhogo","type":"city","lat":9.4578,"lng":-5.6297,"pop":243048},
+  {"nameAr":"سان بيدرو","nameEn":"San-Pédro","type":"city","lat":4.7467,"lng":-6.6364,"pop":201160},
+  {"nameAr":"مان","nameEn":"Man","type":"city","lat":7.4100,"lng":-7.5500,"pop":188704},
+  {"nameAr":"ديفو","nameEn":"Divo","type":"city","lat":5.8372,"lng":-5.3572,"pop":179455},
+  {"nameAr":"غانيوا","nameEn":"Gagnoa","type":"city","lat":6.1319,"lng":-5.9500,"pop":167900},
+  {"nameAr":"أنياما","nameEn":"Anyama","type":"city","lat":5.4947,"lng":-4.0511,"pop":148962}
+]

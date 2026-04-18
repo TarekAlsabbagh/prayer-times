@@ -1,0 +1,12 @@
+[
+  {"nameAr":"واغادوغو","nameEn":"Ouagadougou","type":"city","lat":12.3714,"lng":-1.5197,"pop":2415266},
+  {"nameAr":"بوبو ديولاسو","nameEn":"Bobo-Dioulasso","type":"city","lat":11.1776,"lng":-4.2929,"pop":903887},
+  {"nameAr":"كودوغو","nameEn":"Koudougou","type":"city","lat":12.2526,"lng":-2.3623,"pop":132481},
+  {"nameAr":"بانفورا","nameEn":"Banfora","type":"city","lat":10.6305,"lng":-4.7710,"pop":117452},
+  {"nameAr":"واهيغويا","nameEn":"Ouahigouya","type":"city","lat":13.5828,"lng":-2.4215,"pop":124580},
+  {"nameAr":"كايا","nameEn":"Kaya","type":"city","lat":13.0826,"lng":-1.0889,"pop":110860},
+  {"nameAr":"بويتنغا","nameEn":"Pouytenga","type":"city","lat":12.2342,"lng":-0.4225,"pop":73864},
+  {"nameAr":"ديدوغو","nameEn":"Dédougou","type":"city","lat":12.4636,"lng":-3.4642,"pop":62719},
+  {"nameAr":"تنكودوغو","nameEn":"Tenkodogo","type":"city","lat":11.7859,"lng":-0.3706,"pop":59220},
+  {"nameAr":"فادا نغورما","nameEn":"Fada N'gourma","type":"city","lat":12.0614,"lng":0.3581,"pop":47657}
+]

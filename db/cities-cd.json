@@ -1,0 +1,12 @@
+[
+  {"nameAr":"كينشاسا","nameEn":"Kinshasa","type":"city","lat":-4.4419,"lng":15.2663,"pop":17032322},
+  {"nameAr":"لوبومباشي","nameEn":"Lubumbashi","type":"city","lat":-11.6609,"lng":27.4794,"pop":2584298},
+  {"nameAr":"مبوجي مايي","nameEn":"Mbuji-Mayi","type":"city","lat":-6.1500,"lng":23.6000,"pop":2007566},
+  {"nameAr":"كانانغا","nameEn":"Kananga","type":"city","lat":-5.8959,"lng":22.4165,"pop":1524945},
+  {"nameAr":"كيسانغاني","nameEn":"Kisangani","type":"city","lat":0.5151,"lng":25.1898,"pop":1261000},
+  {"nameAr":"بوكافو","nameEn":"Bukavu","type":"city","lat":-2.5100,"lng":28.8600,"pop":1133000},
+  {"nameAr":"غوما","nameEn":"Goma","type":"city","lat":-1.6778,"lng":29.2283,"pop":670765},
+  {"nameAr":"كولويزي","nameEn":"Kolwezi","type":"city","lat":-10.7163,"lng":25.4669,"pop":572942},
+  {"nameAr":"ليكاسي","nameEn":"Likasi","type":"city","lat":-10.9806,"lng":26.7914,"pop":422414},
+  {"nameAr":"بوما","nameEn":"Boma","type":"city","lat":-5.8500,"lng":13.0500,"pop":175000}
+]

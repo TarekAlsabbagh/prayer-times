@@ -1,0 +1,12 @@
+[
+  {"nameAr":"بانجول","nameEn":"Banjul","type":"city","lat":13.4549,"lng":-16.5790,"pop":31301},
+  {"nameAr":"سيريكوندا","nameEn":"Serekunda","type":"city","lat":13.4383,"lng":-16.6781,"pop":340000},
+  {"nameAr":"بريكاما","nameEn":"Brikama","type":"city","lat":13.2714,"lng":-16.6492,"pop":77700},
+  {"nameAr":"باكاو","nameEn":"Bakau","type":"city","lat":13.4762,"lng":-16.6822,"pop":49957},
+  {"nameAr":"فارافيني","nameEn":"Farafenni","type":"city","lat":13.5678,"lng":-15.6014,"pop":29867},
+  {"nameAr":"لامين","nameEn":"Lamin","type":"city","lat":13.3500,"lng":-16.6500,"pop":24000},
+  {"nameAr":"باسه سانتا سو","nameEn":"Basse Santa Su","type":"city","lat":13.3000,"lng":-14.2167,"pop":18000},
+  {"nameAr":"غونجور","nameEn":"Gunjur","type":"city","lat":13.2000,"lng":-16.7333,"pop":14088},
+  {"nameAr":"سوما","nameEn":"Soma","type":"city","lat":13.4328,"lng":-15.5300,"pop":9392},
+  {"nameAr":"سوكوتا","nameEn":"Sukuta","type":"city","lat":13.4167,"lng":-16.7167,"pop":7118}
+]

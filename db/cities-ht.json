@@ -1,0 +1,12 @@
+[
+  {"nameAr":"بورت أو برنس","nameEn":"Port-au-Prince","type":"city","lat":18.5333,"lng":-72.3333,"pop":987310},
+  {"nameAr":"كارفور","nameEn":"Carrefour","type":"city","lat":18.5417,"lng":-72.3986,"pop":442156},
+  {"nameAr":"ديلماس","nameEn":"Delmas","type":"city","lat":18.5483,"lng":-72.3117,"pop":382236},
+  {"nameAr":"غوناييف","nameEn":"Gonaïves","type":"city","lat":19.4500,"lng":-72.6833,"pop":356324},
+  {"nameAr":"بيتيون فيل","nameEn":"Pétion-Ville","type":"city","lat":18.5125,"lng":-72.2853,"pop":283052},
+  {"nameAr":"كاب هايسيان","nameEn":"Cap-Haïtien","type":"city","lat":19.7594,"lng":-72.2042,"pop":274404},
+  {"nameAr":"سان مارك","nameEn":"Saint-Marc","type":"city","lat":19.1083,"lng":-72.6989,"pop":240000},
+  {"nameAr":"ليه كاي","nameEn":"Les Cayes","type":"city","lat":18.2000,"lng":-73.7500,"pop":86194},
+  {"nameAr":"جاكميل","nameEn":"Jacmel","type":"city","lat":18.2350,"lng":-72.5300,"pop":40000},
+  {"nameAr":"بورت دو بيه","nameEn":"Port-de-Paix","type":"city","lat":19.9389,"lng":-72.8292,"pop":36000}
+]

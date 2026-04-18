@@ -1,0 +1,74 @@
+[
+  {
+    "nameAr": "مانيلا",
+    "nameEn": "Manila",
+    "type": "city",
+    "lat": 14.595833333333,
+    "lng": 120.97722222222,
+    "pop": 1902590
+  },
+  {
+    "nameAr": "باراناك",
+    "nameEn": "",
+    "type": "city",
+    "lat": 14.5008,
+    "lng": 120.9915,
+    "pop": 703245
+  },
+  {
+    "nameAr": "سان خوان ديل مونتي",
+    "nameEn": "San Juan",
+    "type": "city",
+    "lat": 14.604,
+    "lng": 121.03,
+    "pop": 134312
+  },
+  {
+    "nameAr": "Gubang",
+    "nameEn": "Gubang",
+    "type": "city",
+    "lat": 10.64,
+    "lng": 124.86805555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Karangalan Village, Pasig",
+    "nameEn": "Karangalan Village, Pasig",
+    "type": "city",
+    "lat": 14.60316667,
+    "lng": 121.10227778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mahagnao",
+    "nameEn": "Mahagnao",
+    "type": "city",
+    "lat": 10.8647456,
+    "lng": 124.8522672,
+    "pop": null
+  },
+  {
+    "nameAr": "San Miguel, Lobo",
+    "nameEn": "San Miguel, Lobo",
+    "type": "city",
+    "lat": 13.6796,
+    "lng": 121.214,
+    "pop": null
+  },
+  {
+    "nameAr": "Sapang",
+    "nameEn": "Sapang",
+    "type": "city",
+    "lat": 14.33889,
+    "lng": 121.21896,
+    "pop": null
+  },
+  {
+    "nameAr": "Valencia",
+    "nameEn": "Valencia",
+    "type": "city",
+    "lat": 11.108888888889,
+    "lng": 124.5725,
+    "pop": null
+  }
+]

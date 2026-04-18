@@ -1,0 +1,12 @@
+[
+  {"nameAr":"لومي","nameEn":"Lomé","type":"city","lat":6.1319,"lng":1.2228,"pop":837437},
+  {"nameAr":"سوكودي","nameEn":"Sokodé","type":"city","lat":8.9833,"lng":1.1333,"pop":117811},
+  {"nameAr":"كارا","nameEn":"Kara","type":"city","lat":9.5511,"lng":1.1861,"pop":109569},
+  {"nameAr":"أتاكبامي","nameEn":"Atakpamé","type":"city","lat":7.5333,"lng":1.1333,"pop":80683},
+  {"nameAr":"كباليمي","nameEn":"Kpalimé","type":"city","lat":6.9000,"lng":0.6333,"pop":75084},
+  {"nameAr":"دابانغ","nameEn":"Dapaong","type":"city","lat":10.8619,"lng":0.2078,"pop":58071},
+  {"nameAr":"تسيفي","nameEn":"Tsévié","type":"city","lat":6.4256,"lng":1.2131,"pop":54474},
+  {"nameAr":"أنيهو","nameEn":"Aného","type":"city","lat":6.2333,"lng":1.5833,"pop":47579},
+  {"nameAr":"مانغو","nameEn":"Mango","type":"city","lat":10.3667,"lng":0.4667,"pop":43933},
+  {"nameAr":"باسار","nameEn":"Bassar","type":"city","lat":9.2500,"lng":0.7833,"pop":30000}
+]

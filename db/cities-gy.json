@@ -1,0 +1,12 @@
+[
+  {"nameAr":"جورج تاون","nameEn":"Georgetown","type":"city","lat":6.8013,"lng":-58.1551,"pop":200000},
+  {"nameAr":"ليندن","nameEn":"Linden","type":"city","lat":6.0000,"lng":-58.3000,"pop":44690},
+  {"nameAr":"نيو أمستردام","nameEn":"New Amsterdam","type":"city","lat":6.2500,"lng":-57.5167,"pop":35039},
+  {"nameAr":"آنا ريجينا","nameEn":"Anna Regina","type":"city","lat":7.2667,"lng":-58.5167,"pop":12448},
+  {"nameAr":"بارتيكا","nameEn":"Bartica","type":"city","lat":6.3833,"lng":-58.6167,"pop":11157},
+  {"nameAr":"سكيلدون","nameEn":"Skeldon","type":"city","lat":5.8833,"lng":-57.1667,"pop":5859},
+  {"nameAr":"روزيغنول","nameEn":"Rosignol","type":"city","lat":6.2667,"lng":-57.5333,"pop":5000},
+  {"nameAr":"مهدية","nameEn":"Mahdia","type":"city","lat":5.2500,"lng":-59.0833,"pop":4544},
+  {"nameAr":"باريكا","nameEn":"Parika","type":"city","lat":6.8667,"lng":-58.4167,"pop":4000},
+  {"nameAr":"ليثم","nameEn":"Lethem","type":"city","lat":3.3833,"lng":-59.8000,"pop":3000}
+]

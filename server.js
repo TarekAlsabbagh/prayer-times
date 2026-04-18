@@ -2756,7 +2756,7 @@ function buildSeoForPath(urlPath) {
         const h = `${_hDayNum} ${_hMonthLoc} ${_hYear}${_hYearSfx}`;
         switch (lang) {
             case 'ar': return `مواقيت الصلاة في ${cityDisplay} اليوم - ${h}`;
-            case 'fr': return `Horaires de prière à ${cityDisplay} aujourd'hui - ${h}`;
+            case 'fr': return `Horaires de prière à ${cityDisplay} - ${h}`;
             case 'tr': return `${cityDisplay} Namaz Vakitleri Bugün - ${h}`;
             case 'ur': return `${cityDisplay} میں اوقاتِ نماز آج - ${h}`;
             case 'de': return `Gebetszeiten in ${cityDisplay} heute - ${h}`;

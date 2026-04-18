@@ -103,6 +103,43 @@ const POPULAR_CITY_NAMES = {
     damascus:   { ar:'دمشق',             en:'Damascus',    fr:'Damas',       tr:'Şam',         ur:'دمشق',         de:'Damaskus',   id:'Damaskus',  es:'Damasco',       bn:'দামেস্কাস',      ms:'Damsyik' },
     casablanca: { ar:'الدار البيضاء',   en:'Casablanca',  fr:'Casablanca',  tr:'Kazablanka',  ur:'کاسابلانکا',  de:'Casablanca', id:'Casablanca',es:'Casablanca',    bn:'কাসাব্লাঙ্কা',    ms:'Casablanca' },
     jerusalem:  { ar:'القدس',            en:'Jerusalem',   fr:'Jérusalem',   tr:'Kudüs',       ur:'یروشلم',       de:'Jerusalem',  id:'Yerusalem', es:'Jerusalén',     bn:'জেরুজালেম',      ms:'Baitulmuqaddis' },
+
+    // ── Round 8E: توسعة لـ31 مدينة استراتيجيّة — عواصم الدول الإسلاميّة + كبريات الشتات ──
+    // عواصم / كبرى الدول الإسلاميّة
+    jakarta:       { ar:'جاكرتا',         en:'Jakarta',       fr:'Jakarta',       tr:'Cakarta',      ur:'جکارتہ',        de:'Jakarta',       id:'Jakarta',       es:'Yakarta',      bn:'জাকার্তা',        ms:'Jakarta' },
+    karachi:       { ar:'كراتشي',         en:'Karachi',       fr:'Karachi',       tr:'Karaçi',       ur:'کراچی',         de:'Karatschi',     id:'Karachi',       es:'Karachi',      bn:'করাচি',           ms:'Karachi' },
+    lahore:        { ar:'لاهور',          en:'Lahore',        fr:'Lahore',        tr:'Lahor',        ur:'لاہور',         de:'Lahore',        id:'Lahore',        es:'Lahore',       bn:'লাহোর',           ms:'Lahore' },
+    islamabad:     { ar:'إسلام آباد',    en:'Islamabad',     fr:'Islamabad',     tr:'İslamabad',    ur:'اسلام آباد',    de:'Islamabad',     id:'Islamabad',     es:'Islamabad',    bn:'ইসলামাবাদ',      ms:'Islamabad' },
+    dhaka:         { ar:'دكا',            en:'Dhaka',         fr:'Dacca',         tr:'Dakka',        ur:'ڈھاکہ',         de:'Dhaka',         id:'Dhaka',         es:'Daca',         bn:'ঢাকা',            ms:'Dhaka' },
+    'kuala-lumpur':{ ar:'كوالالمبور',    en:'Kuala Lumpur',  fr:'Kuala Lumpur',  tr:'Kuala Lumpur', ur:'کوالالمپور',    de:'Kuala Lumpur',  id:'Kuala Lumpur',  es:'Kuala Lumpur', bn:'কুয়ালালামপুর',   ms:'Kuala Lumpur' },
+    tehran:        { ar:'طهران',          en:'Tehran',        fr:'Téhéran',       tr:'Tahran',       ur:'تہران',         de:'Teheran',       id:'Teheran',       es:'Teherán',      bn:'তেহরান',          ms:'Tehran' },
+    ankara:        { ar:'أنقرة',          en:'Ankara',        fr:'Ankara',        tr:'Ankara',       ur:'انقرہ',         de:'Ankara',        id:'Ankara',        es:'Ankara',       bn:'আঙ্কারা',         ms:'Ankara' },
+    doha:          { ar:'الدوحة',         en:'Doha',          fr:'Doha',          tr:'Doha',         ur:'دوحہ',          de:'Doha',          id:'Doha',          es:'Doha',         bn:'দোহা',            ms:'Doha' },
+    'abu-dhabi':   { ar:'أبوظبي',         en:'Abu Dhabi',     fr:'Abou Dabi',     tr:'Abu Dabi',     ur:'ابوظہبی',       de:'Abu Dhabi',     id:'Abu Dhabi',     es:'Abu Dabi',     bn:'আবুধাবি',        ms:'Abu Dhabi' },
+    'kuwait-city': { ar:'مدينة الكويت',   en:'Kuwait City',   fr:'Koweït',        tr:'Kuveyt',       ur:'کویت سٹی',      de:'Kuwait-Stadt',  id:'Kota Kuwait',   es:'Kuwait',       bn:'কুয়েত সিটি',    ms:'Bandar Kuwait' },
+    manama:        { ar:'المنامة',        en:'Manama',        fr:'Manama',        tr:'Manama',       ur:'منامہ',         de:'Manama',        id:'Manama',        es:'Manama',       bn:'মানামা',          ms:'Manamah' },
+    'manama-al':   { ar:'المنامة',        en:'Manama',        fr:'Manama',        tr:'Manama',       ur:'منامہ',         de:'Manama',        id:'Manama',        es:'Manama',       bn:'মানামা',          ms:'Manamah' }, // مرادف slug في db/cities-ae.json
+    muscat:        { ar:'مسقط',           en:'Muscat',        fr:'Mascate',       tr:'Maskat',       ur:'مسقط',          de:'Maskat',        id:'Muskat',        es:'Mascate',      bn:'মাস্কাট',         ms:'Muscat' },
+    sanaa:         { ar:'صنعاء',          en:'Sanaa',         fr:'Sanaa',         tr:"Sana'a",       ur:'صنعاء',         de:'Sanaa',         id:'Sanaa',         es:'Saná',         bn:'সানা',           ms:'Sanaa' },
+    beirut:        { ar:'بيروت',          en:'Beirut',        fr:'Beyrouth',      tr:'Beyrut',       ur:'بیروت',         de:'Beirut',        id:'Beirut',        es:'Beirut',       bn:'বৈরুত',           ms:'Beirut' },
+    tripoli:       { ar:'طرابلس',         en:'Tripoli',       fr:'Tripoli',       tr:'Trablus',      ur:'طرابلس',        de:'Tripolis',      id:'Tripoli',       es:'Trípoli',      bn:'ত্রিপোলি',        ms:'Tripoli' },
+    tunis:         { ar:'تونس العاصمة',   en:'Tunis',         fr:'Tunis',         tr:'Tunus',        ur:'تیونس',         de:'Tunis',         id:'Tunis',         es:'Túnez',        bn:'তিউনিস',          ms:'Tunis' },
+    algiers:       { ar:'الجزائر العاصمة',en:'Algiers',       fr:'Alger',         tr:'Cezayir',      ur:'الجزائر',       de:'Algier',        id:'Aljir',         es:'Argel',        bn:'আলজিয়ার্স',     ms:'Algiers' },
+    rabat:         { ar:'الرباط',         en:'Rabat',         fr:'Rabat',         tr:'Rabat',        ur:'رباط',          de:'Rabat',         id:'Rabat',         es:'Rabat',        bn:'রাবাত',           ms:'Rabat' },
+    khartoum:      { ar:'الخرطوم',        en:'Khartoum',      fr:'Khartoum',      tr:'Hartum',       ur:'خرطوم',         de:'Khartum',       id:'Khartoum',      es:'Jartum',       bn:'খার্তুম',        ms:'Khartoum' },
+    kabul:         { ar:'كابول',          en:'Kabul',         fr:'Kaboul',        tr:'Kabil',        ur:'کابل',          de:'Kabul',         id:'Kabul',         es:'Kabul',        bn:'কাবুল',           ms:'Kabul' },
+    tashkent:      { ar:'طشقند',          en:'Tashkent',      fr:'Tachkent',      tr:'Taşkent',      ur:'تاشقند',        de:'Taschkent',     id:'Tashkent',      es:'Taskent',      bn:'তাসখন্দ',         ms:'Tashkent' },
+    baku:          { ar:'باكو',           en:'Baku',          fr:'Bakou',         tr:'Bakü',         ur:'باکو',          de:'Baku',          id:'Baku',          es:'Bakú',         bn:'বাকু',            ms:'Baku' },
+    alexandria:    { ar:'الإسكندرية',     en:'Alexandria',    fr:'Alexandrie',    tr:'İskenderiye',  ur:'اسکندریہ',      de:'Alexandria',    id:'Aleksandria',   es:'Alejandría',   bn:'আলেকজান্দ্রিয়া', ms:'Alexandria' },
+    aleppo:        { ar:'حلب',            en:'Aleppo',        fr:'Alep',          tr:'Halep',        ur:'حلب',           de:'Aleppo',        id:'Aleppo',        es:'Alepo',        bn:'আলেপ্পো',         ms:'Aleppo' },
+    mogadishu:     { ar:'مقديشو',         en:'Mogadishu',     fr:'Mogadiscio',    tr:'Mogadişu',     ur:'مگادیشو',       de:'Mogadischu',    id:'Mogadishu',     es:'Mogadiscio',   bn:'মোগাদিশু',        ms:'Mogadishu' },
+    // شتات إسلامي غربي
+    london:        { ar:'لندن',           en:'London',        fr:'Londres',       tr:'Londra',       ur:'لندن',          de:'London',        id:'London',        es:'Londres',      bn:'লন্ডন',           ms:'London' },
+    paris:         { ar:'باريس',          en:'Paris',         fr:'Paris',         tr:'Paris',        ur:'پیرس',          de:'Paris',         id:'Paris',         es:'París',        bn:'প্যারিস',         ms:'Paris' },
+    berlin:        { ar:'برلين',          en:'Berlin',        fr:'Berlin',        tr:'Berlin',       ur:'برلن',          de:'Berlin',        id:'Berlin',        es:'Berlín',       bn:'বার্লিন',         ms:'Berlin' },
+    'new-york':    { ar:'نيويورك',        en:'New York',      fr:'New York',      tr:'New York',     ur:'نیویارک',       de:'New York',      id:'New York',      es:'Nueva York',   bn:'নিউ ইয়র্ক',     ms:'New York' },
+    'new-york-city':{ar:'نيويورك',        en:'New York',      fr:'New York',      tr:'New York',     ur:'نیویارک',       de:'New York',      id:'New York',      es:'Nueva York',   bn:'নিউ ইয়র্ক',     ms:'New York' }, // مرادف slug في db/cities-us.json
+    toronto:       { ar:'تورنتو',         en:'Toronto',       fr:'Toronto',       tr:'Toronto',      ur:'ٹورنٹو',        de:'Toronto',       id:'Toronto',       es:'Toronto',      bn:'টরন্টো',          ms:'Toronto' },
 };
 
 // ===== Round 8C: فهرس كسول slug → nameAr من ملفّات db/cities-*.json =====

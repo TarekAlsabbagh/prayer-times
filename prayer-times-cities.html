@@ -395,7 +395,7 @@ function goToPrayerTimes() {
 }
 
 // ===== قراءة كود الدولة من الرابط =====
-const pathMatch = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-([a-z][a-z0-9-]+)$/);
+const pathMatch = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+)$/);
 const _rawSlug = pathMatch ? pathMatch[1] : 'sa';
 // countryCode يُحسم بعد تعريف COUNTRY_NAMES_EN أدناه
 let countryCode = _rawSlug; // مؤقت (يُحدَّث لاحقاً)

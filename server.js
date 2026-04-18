@@ -87,6 +87,65 @@ function makeCitySlugSrv(nameEn, lat, lng) {
     return `${la}-${lo}`;
 }
 
+// ===== Round 8B: ترجمة أسماء 12 مدينة شعبيّة لكلّ اللغات الـ10 =====
+// تُستخدَم في SSR title/description/breadcrumb لصفحات /prayer-times-in-{slug}.
+// المفتاح = slug (لاتيني مُنخفِض) كما في URLs.
+const POPULAR_CITY_NAMES = {
+    mecca:      { ar:'مكة المكرمة',      en:'Mecca',       fr:'La Mecque',   tr:'Mekke',       ur:'مکہ مکرمہ',    de:'Mekka',      id:'Makkah',    es:'La Meca',       bn:'মক্কা',          ms:'Makkah' },
+    medina:     { ar:'المدينة المنورة', en:'Medina',      fr:'Médine',      tr:'Medine',      ur:'مدینہ منورہ', de:'Medina',     id:'Madinah',   es:'Medina',        bn:'মদিনা',          ms:'Madinah' },
+    riyadh:     { ar:'الرياض',           en:'Riyadh',      fr:'Riyad',       tr:'Riyad',       ur:'ریاض',         de:'Riad',       id:'Riyadh',    es:'Riad',          bn:'রিয়াদ',         ms:'Riyadh' },
+    jeddah:     { ar:'جدة',              en:'Jeddah',      fr:'Djeddah',     tr:'Cidde',       ur:'جدہ',          de:'Dschidda',   id:'Jeddah',    es:'Yeda',          bn:'জেদ্দা',         ms:'Jeddah' },
+    cairo:      { ar:'القاهرة',          en:'Cairo',       fr:'Le Caire',    tr:'Kahire',      ur:'قاہرہ',        de:'Kairo',      id:'Kairo',     es:'El Cairo',      bn:'কায়রো',         ms:'Kaherah' },
+    istanbul:   { ar:'إسطنبول',          en:'Istanbul',    fr:'Istanbul',    tr:'İstanbul',    ur:'استنبول',      de:'Istanbul',   id:'Istanbul',  es:'Estambul',      bn:'ইস্তাম্বুল',     ms:'Istanbul' },
+    dubai:      { ar:'دبي',              en:'Dubai',       fr:'Dubaï',       tr:'Dubai',       ur:'دبئی',         de:'Dubai',      id:'Dubai',     es:'Dubái',         bn:'দুবাই',          ms:'Dubai' },
+    amman:      { ar:'عمّان',            en:'Amman',       fr:'Amman',       tr:'Amman',       ur:'عمان',         de:'Amman',      id:'Amman',     es:'Amán',          bn:'আম্মান',         ms:'Amman' },
+    baghdad:    { ar:'بغداد',            en:'Baghdad',     fr:'Bagdad',      tr:'Bağdat',      ur:'بغداد',        de:'Bagdad',     id:'Baghdad',   es:'Bagdad',        bn:'বাগদাদ',         ms:'Baghdad' },
+    damascus:   { ar:'دمشق',             en:'Damascus',    fr:'Damas',       tr:'Şam',         ur:'دمشق',         de:'Damaskus',   id:'Damaskus',  es:'Damasco',       bn:'দামেস্কাস',      ms:'Damsyik' },
+    casablanca: { ar:'الدار البيضاء',   en:'Casablanca',  fr:'Casablanca',  tr:'Kazablanka',  ur:'کاسابلانکا',  de:'Casablanca', id:'Casablanca',es:'Casablanca',    bn:'কাসাব্লাঙ্কা',    ms:'Casablanca' },
+    jerusalem:  { ar:'القدس',            en:'Jerusalem',   fr:'Jérusalem',   tr:'Kudüs',       ur:'یروشلم',       de:'Jerusalem',  id:'Yerusalem', es:'Jerusalén',     bn:'জেরুজালেম',      ms:'Baitulmuqaddis' },
+};
+
+// ===== Round 8C: فهرس كسول slug → nameAr من ملفّات db/cities-*.json =====
+// يُبنى عند أوّل استعمال (lazy) لتجنّب تكاليف startup. O(N) مرّة واحدة فقط.
+let _CITY_SLUG_TO_NAME_AR = null;
+function _getCitySlugToNameAr() {
+    if (_CITY_SLUG_TO_NAME_AR) return _CITY_SLUG_TO_NAME_AR;
+    _CITY_SLUG_TO_NAME_AR = Object.create(null);
+    try {
+        const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
+        for (const f of files) {
+            try {
+                const arr = JSON.parse(fs.readFileSync(path.join(DB_DIR, f), 'utf8'));
+                if (!Array.isArray(arr)) continue;
+                for (const c of arr) {
+                    if (c && c.nameAr && c.nameEn && typeof c.lat === 'number' && typeof c.lng === 'number') {
+                        const slug = makeCitySlugSrv(c.nameEn, c.lat, c.lng);
+                        // أوّل مُطابقة تفوز — يمنع تضارب المدن المتشابهة الأسماء
+                        if (slug && !_CITY_SLUG_TO_NAME_AR[slug]) {
+                            _CITY_SLUG_TO_NAME_AR[slug] = c.nameAr;
+                        }
+                    }
+                }
+            } catch { /* ملف JSON تالف — تخطّ */ }
+        }
+    } catch { /* لا مُجلَّد db — فارغ */ }
+    return _CITY_SLUG_TO_NAME_AR;
+}
+
+// ===== Round 8: مُستنبِط اسم المدينة (B + C + fallback) =====
+// (B) POPULAR_CITY_NAMES — 12 مدينة × 10 لغات → ترجمة كاملة.
+// (C) cities-*.json — nameAr لكلّ المدن (العربيّة فقط).
+// Fallback: _slugToTitle (slug مُهنْدَس حروف كبيرة).
+function _resolveCityName(slug, lang) {
+    const pop = POPULAR_CITY_NAMES[slug];
+    if (pop) return pop[lang] || pop.en || _slugToTitle(slug);
+    if (lang === 'ar') {
+        const idx = _getCitySlugToNameAr();
+        if (idx[slug]) return idx[slug];
+    }
+    return _slugToTitle(slug);
+}
+
 // كاش في الذاكرة لطلبات Nominatim (يمنع تكرار الطلبات ويتجنب rate limit)
 // LRU محدود (10K مدخل) لمنع النمو اللانهائي تحت حمل كبير
 const _GEOCACHE_MAX = 10000;
@@ -2617,6 +2676,60 @@ function buildSeoForPath(urlPath) {
     const _gMonthAr = _G_MONTHS.ar[_gMonthIdx];
     const _gMonthEn = _G_MONTHS.en[_gMonthIdx];
 
+    // Round 8: أسماء أيّام الأسبوع + أشهر هجريّة + لاحقة هـ لكلّ اللغات الـ10
+    // (مستخدَمة في title صفحات المدن — "اليوم {يوم} {dd} {شهر} {YYYY} - {hd} {h.m} {hy}هـ")
+    const _G_DAYS = {
+        ar: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+        en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+        fr: ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],
+        tr: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+        ur: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+        de: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+        id: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+        es: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
+        bn: ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
+        ms: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'],
+    };
+    const _HM_BY_LANG_CITY = {
+        ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+        en: ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'],
+        fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
+        tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+        ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+        de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+        id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+        es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qi‘da','Du al-Hiyya'],
+        bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+        ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
+    };
+    // لاحقة السنة الهجريّة — بلا مسافة في AR/UR/BN (توافقاً مع القواعد)، وبمسافة قبلها في بقيّة اللغات
+    const _HY_SFX_CITY = { ar:'هـ', en:' AH', fr:' H', tr:' H', ur:'ھ', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
+    const _gDayNum = _gNow.getDate();
+    const _gDayIdx = _gNow.getDay();
+    const _gDayName = (_G_DAYS[lang] || _G_DAYS.en)[_gDayIdx];
+    const _gMonthLoc = (_G_MONTHS[lang] || _G_MONTHS.en)[_gMonthIdx];
+    const _hDayNum = _hNow.day;
+    const _hMonthLoc = (_HM_BY_LANG_CITY[lang] || _HM_BY_LANG_CITY.en)[_hNow.month - 1];
+    const _hYearSfx = _HY_SFX_CITY[lang] || ' AH';
+
+    // صانع title صفحات المدن (10 لغات) — Gregorian قبل Hijri
+    const _buildCityDatedTitle = (cityDisplay) => {
+        const g = `${_gDayNum} ${_gMonthLoc} ${_gYear}`;
+        const h = `${_hDayNum} ${_hMonthLoc} ${_hYear}${_hYearSfx}`;
+        switch (lang) {
+            case 'ar': return `مواقيت الصلاة في ${cityDisplay} اليوم ${_gDayName} ${g} - ${h}`;
+            case 'fr': return `Horaires de prière à ${cityDisplay} aujourd'hui ${_gDayName} ${g} - ${h}`;
+            case 'tr': return `${cityDisplay} Namaz Vakitleri Bugün ${_gDayName} ${g} - ${h}`;
+            case 'ur': return `${cityDisplay} میں اوقاتِ نماز آج ${_gDayName} ${g} - ${h}`;
+            case 'de': return `Gebetszeiten in ${cityDisplay} heute ${_gDayName} ${_gDayNum}. ${_gMonthLoc} ${_gYear} - ${h}`;
+            case 'id': return `Jadwal Sholat di ${cityDisplay} hari ini ${_gDayName} ${g} - ${h}`;
+            case 'es': return `Horarios de Oración en ${cityDisplay} hoy ${_gDayName} ${_gDayNum} de ${_gMonthLoc} ${_gYear} - ${h}`;
+            case 'bn': return `${cityDisplay}-এ নামাজের সময় আজ ${_gDayName} ${g} - ${h}`;
+            case 'ms': return `Waktu Solat di ${cityDisplay} hari ini ${_gDayName} ${g} - ${h}`;
+            default:   return `Prayer Times in ${cityDisplay} Today ${_gDayName}, ${_gMonthLoc} ${_gDayNum} ${_gYear} - ${h}`;
+        }
+    };
+
     // Round 7g: Title ≤60 chars + Meta Desc 120-160 + exact-phrase matching
     // ترتيب الكلمات بحيث "مواقيت الصلاة في" و"الصلاة في" تظهر كـ exact phrases
     // (بدون كسرها بـ "اليوم" بينها — شرط seoptimer)
@@ -2915,11 +3028,11 @@ function buildSeoForPath(urlPath) {
         const citySlug = m[1];
         const lat = parseFloat(m[2]);
         const lng = parseFloat(m[3]);
-        const cityDisplay = _slugToTitle(citySlug);
-        // عناوين مُثراة بكلمات مفتاحية SEO (~55 حرفاً) — قابلة للاستبدال من CSR
-        const _baseTitle = useEnTxt ? `Prayer Times in ${cityDisplay}` : `مواقيت الصلاة في ${cityDisplay}`;
-        const _suffix = useEnTxt ? ' — Fajr, Dhuhr, Asr, Maghrib, Isha' : ' — الفجر، الظهر، العصر، المغرب، العشاء';
-        title = (_baseTitle + _suffix).length <= 60 ? _baseTitle + _suffix : _baseTitle;
+        // Round 8B+C: اسم المدينة بلغة الواجهة (flagship ×10، والباقي AR عبر cities-*.json)
+        const cityDisplay = _resolveCityName(citySlug, lang);
+        // Round 8: Title مُثرى بالتاريخ الميلادي + الهجري + اسم اليوم — 10 لغات
+        // "مواقيت الصلاة في {city} اليوم {يوم} 19 أبريل 2026 - 1 ذو القعدة 1447هـ"
+        title = _buildCityDatedTitle(cityDisplay);
         description = useEnTxt
             ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
             : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;
@@ -3184,6 +3297,18 @@ function buildSeoForPath(urlPath) {
             description = _COUNTRY_DESC_TEMPLATES[lang] || _COUNTRY_DESC_TEMPLATES.en;
             breadcrumbs.push({ name: cname, item: canonical });
             countryListing = { code: c.cc, name: cname };
+        } else {
+            // Round 8: slug لا يُطابق دولة → معاملته كمدينة (مثل /prayer-times-in-monaco-city)
+            // نُولّد نفس title ذو التاريخ الميلادي + الهجري + اسم اليوم (10 لغات)
+            // Round 8B+C: اسم المدينة بلغة الواجهة (flagship ×10، والباقي AR عبر cities-*.json)
+            const cityDisplay = _resolveCityName(slug, lang);
+            title = _buildCityDatedTitle(cityDisplay);
+            description = useEnTxt
+                ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
+                : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;
+            ogType = 'article';
+            cityModified = new Date().toISOString();
+            breadcrumbs.push({ name: cityDisplay, item: canonical });
         }
     }
 

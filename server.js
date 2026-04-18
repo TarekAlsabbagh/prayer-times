@@ -142,12 +142,13 @@ const POPULAR_CITY_NAMES = {
     toronto:       { ar:'تورنتو',         en:'Toronto',       fr:'Toronto',       tr:'Toronto',      ur:'ٹورنٹو',        de:'Toronto',       id:'Toronto',       es:'Toronto',      bn:'টরন্টো',          ms:'Toronto' },
 };
 
-// ===== Round 8C: فهرس كسول slug → nameAr من ملفّات db/cities-*.json =====
+// ===== Round 8C: فهرس كسول slug → {nameAr, lat, lng} من ملفّات db/cities-*.json =====
 // يُبنى عند أوّل استعمال (lazy) لتجنّب تكاليف startup. O(N) مرّة واحدة فقط.
-let _CITY_SLUG_TO_NAME_AR = null;
-function _getCitySlugToNameAr() {
-    if (_CITY_SLUG_TO_NAME_AR) return _CITY_SLUG_TO_NAME_AR;
-    _CITY_SLUG_TO_NAME_AR = Object.create(null);
+// lat/lng يستعملان لاستنباط توقيت المدينة لعرض تاريخها المحلّيّ الصحيح.
+let _CITY_SLUG_INDEX = null;
+function _getCitySlugIndex() {
+    if (_CITY_SLUG_INDEX) return _CITY_SLUG_INDEX;
+    _CITY_SLUG_INDEX = Object.create(null);
     try {
         const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
         for (const f of files) {
@@ -158,15 +159,27 @@ function _getCitySlugToNameAr() {
                     if (c && c.nameAr && c.nameEn && typeof c.lat === 'number' && typeof c.lng === 'number') {
                         const slug = makeCitySlugSrv(c.nameEn, c.lat, c.lng);
                         // أوّل مُطابقة تفوز — يمنع تضارب المدن المتشابهة الأسماء
-                        if (slug && !_CITY_SLUG_TO_NAME_AR[slug]) {
-                            _CITY_SLUG_TO_NAME_AR[slug] = c.nameAr;
+                        if (slug && !_CITY_SLUG_INDEX[slug]) {
+                            _CITY_SLUG_INDEX[slug] = { nameAr: c.nameAr, lat: c.lat, lng: c.lng };
                         }
                     }
                 }
             } catch { /* ملف JSON تالف — تخطّ */ }
         }
     } catch { /* لا مُجلَّد db — فارغ */ }
-    return _CITY_SLUG_TO_NAME_AR;
+    return _CITY_SLUG_INDEX;
+}
+// توافُق رجعيّ مع الـ API القديم (slug → nameAr فقط)
+function _getCitySlugToNameAr() {
+    const idx = _getCitySlugIndex();
+    const out = Object.create(null);
+    for (const k in idx) out[k] = idx[k].nameAr;
+    return out;
+}
+// استرجاع إحداثيّات مدينة من slug (للاستعمال في توقيت المدينة المحلّيّ)
+function _getCityLngBySlug(slug) {
+    const idx = _getCitySlugIndex();
+    return idx[slug] ? idx[slug].lng : null;
 }
 
 // ===== Round 8: مُستنبِط اسم المدينة (B + C + fallback) =====
@@ -177,8 +190,8 @@ function _resolveCityName(slug, lang) {
     const pop = POPULAR_CITY_NAMES[slug];
     if (pop) return pop[lang] || pop.en || _slugToTitle(slug);
     if (lang === 'ar') {
-        const idx = _getCitySlugToNameAr();
-        if (idx[slug]) return idx[slug];
+        const idx = _getCitySlugIndex();
+        if (idx[slug]) return idx[slug].nameAr;
     }
     return _slugToTitle(slug);
 }
@@ -2763,11 +2776,25 @@ function buildSeoForPath(urlPath) {
     const _hMonthLoc = (_HM_BY_LANG_CITY[lang] || _HM_BY_LANG_CITY.en)[_hNow.month - 1];
     const _hYearSfx = _HY_SFX_CITY[lang] || ' AH';
 
+    // حاسِب تاريخ هجري محلّيّ من خطّ طول المدينة (تقريب offset = round(lng/15)).
+    // دقّة ±30 دقيقة على حدود المناطق الزمنيّة — كافٍ لعرض التاريخ (يوم واحد).
+    // حالات خاصّة (DST، ½-hour TZ كـ Iran/India) تُنحرف ≤ساعة وليس يوماً كاملاً.
+    const _hijriDayForLng = (lng) => {
+        if (typeof lng !== 'number' || !isFinite(lng)) return { hD: _hNow.day, hM: _hNow.month, hY: _hNow.year };
+        const offsetMs = Math.round(lng / 15) * 3600 * 1000;
+        const dt = new Date(Date.now() + offsetMs);
+        const jd = _gregToJD(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
+        const hj = _jdToHijri(jd);
+        return { hD: hj.day, hM: hj.month, hY: hj.year };
+    };
+
     // صانع title صفحات المدن (10 لغات) — نسخة مختصرة: "مدينة + اليوم + تاريخ هجري"
-    // السبب: إبقاء العنوان ≤~55 حرف لعرض Google كامل، وتقليل التشتّت.
-    // التاريخ الميلادي ويوم الأسبوع يظهران في H1/المحتوى وليس في <title>.
-    const _buildCityDatedTitle = (cityDisplay) => {
-        const h = `${_hDayNum} ${_hMonthLoc} ${_hYear}${_hYearSfx}`;
+    // cityLng اختياريّ: إن مُرِّر، يُحسب الهجري بتوقيت المدينة (مهمّ لـ Jakarta, NY…
+    // ليلاً عند فارق يوم كامل عن توقيت السيرفر). بدونه: توقيت مكّة (الافتراضي).
+    const _buildCityDatedTitle = (cityDisplay, cityLng) => {
+        const { hD, hM, hY } = _hijriDayForLng(cityLng);
+        const hMonthLocLocal = (_HM_BY_LANG_CITY[lang] || _HM_BY_LANG_CITY.en)[hM - 1];
+        const h = `${hD} ${hMonthLocLocal} ${hY}${_hYearSfx}`;
         switch (lang) {
             case 'ar': return `مواقيت الصلاة في ${cityDisplay} اليوم - ${h}`;
             case 'fr': return `Horaires de prière à ${cityDisplay} - ${h}`;
@@ -2788,7 +2815,8 @@ function buildSeoForPath(urlPath) {
     const _meccaHomeDisplay = (POPULAR_CITY_NAMES.mecca && POPULAR_CITY_NAMES.mecca[lang])
         || (POPULAR_CITY_NAMES.mecca && POPULAR_CITY_NAMES.mecca.en)
         || 'Mecca';
-    let title = _buildCityDatedTitle(_meccaHomeDisplay);
+    // الرئيسية: مكّة كمدينة flagship (توقيت Asia/Riyadh ≈ lng 39.83)
+    let title = _buildCityDatedTitle(_meccaHomeDisplay, 39.8262);
     let description = isEn
         ? `Prayer times today in Mecca, Medina ${_gMonthEn} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMonthEn} ${_hYear} AH, Qibla, Zakat.`
         : `مواقيت الصلاة في مكة المكرمة والمدينة اليوم ${_gMonthAr} ${_gYear}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
@@ -3072,9 +3100,9 @@ function buildSeoForPath(urlPath) {
         const lng = parseFloat(m[3]);
         // Round 8B+C: اسم المدينة بلغة الواجهة (flagship ×10، والباقي AR عبر cities-*.json)
         const cityDisplay = _resolveCityName(citySlug, lang);
-        // Round 8: Title مُثرى بالتاريخ الميلادي + الهجري + اسم اليوم — 10 لغات
-        // "مواقيت الصلاة في {city} اليوم {يوم} 19 أبريل 2026 - 1 ذو القعدة 1447هـ"
-        title = _buildCityDatedTitle(cityDisplay);
+        // Round 8: Title مُثرى بالتاريخ الهجري بتوقيت المدينة المحلّيّ — 10 لغات
+        // "مواقيت الصلاة في {city} اليوم - {h} {hijri-month} {YYYY}هـ"
+        title = _buildCityDatedTitle(cityDisplay, lng);
         description = useEnTxt
             ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
             : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;
@@ -3341,10 +3369,12 @@ function buildSeoForPath(urlPath) {
             countryListing = { code: c.cc, name: cname };
         } else {
             // Round 8: slug لا يُطابق دولة → معاملته كمدينة (مثل /prayer-times-in-monaco-city)
-            // نُولّد نفس title ذو التاريخ الميلادي + الهجري + اسم اليوم (10 لغات)
+            // نُولّد نفس title بتوقيت المدينة المحلّيّ إن وُجدَت في cities-*.json (10 لغات)
             // Round 8B+C: اسم المدينة بلغة الواجهة (flagship ×10، والباقي AR عبر cities-*.json)
             const cityDisplay = _resolveCityName(slug, lang);
-            title = _buildCityDatedTitle(cityDisplay);
+            // استنباط lng من الفهرس — إن لم توجد فسيفبك للافتراضي (مكّة)
+            const cityLng = _getCityLngBySlug(slug);
+            title = _buildCityDatedTitle(cityDisplay, cityLng);
             description = useEnTxt
                 ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
                 : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;

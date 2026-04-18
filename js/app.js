@@ -16,12 +16,7 @@ let currentCountryCode = 'sa'; // كود ISO للدولة الحالية
 let currentLocalizedName = '';
 let currentLocalizedCountry = '';
 
-// ===== أسماء الدول/المدن بجميع اللغات =====
-// مصدر واحد للحقيقة: js/i18n-names.js — يُحمَّل قبل هذا الملفّ في index.html
-// يوفّر: COUNTRY_NAMES_AR/EN/FR/TR/UR/DE/ID/ES/BN/MS, CITY_NAMES_*,
-//       COUNTRY_EN_NAMES (alias), _LOCALIZED_COUNTRY_MAPS, _LOCALIZED_CITY_MAPS
-// ===== (السابق: تعريفات محليّة) =====
-/* COUNTRY_EN_NAMES_REMOVED
+// ===== أسماء الدول بالإنجليزية (مفهرسة بكود ISO) =====
 const COUNTRY_EN_NAMES = {
     sa:'Saudi Arabia', eg:'Egypt', sy:'Syria', iq:'Iraq',
     jo:'Jordan', lb:'Lebanon', ae:'United Arab Emirates', kw:'Kuwait',
@@ -451,12 +446,11 @@ const _LOCALIZED_COUNTRY_MAPS = {
     de: COUNTRY_NAMES_DE, id: COUNTRY_NAMES_ID,
     bn: COUNTRY_NAMES_BN, es: COUNTRY_NAMES_ES, ms: COUNTRY_NAMES_MS,
 };
-const _LOCALIZED_CITY_MAPS_OLD = {
+const _LOCALIZED_CITY_MAPS = {
     ur: CITY_NAMES_UR, tr: CITY_NAMES_TR, fr: CITY_NAMES_FR,
     de: CITY_NAMES_DE, id: CITY_NAMES_ID,
     bn: CITY_NAMES_BN, es: CITY_NAMES_ES, ms: CITY_NAMES_MS,
 };
-*/
 
 // ===== دوال مساعدة لعرض الأسماء حسب اللغة =====
 // أولوية المدينة: Nominatim المترجَم (إن تَوفَّر) → قاموس محلي (مباشر لأسماء المدن الشائعة)

@@ -364,7 +364,6 @@
     </main>
 </div>
 
-<script src="js/i18n-names.js?v=1"></script>
 <script src="js/i18n.js?v=78"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
@@ -408,11 +407,7 @@ try {
     if (s) storedCountry = JSON.parse(s);
 } catch(e) {}
 
-// ===== أسماء الدول/المدن لجميع اللغات =====
-// يُحمَّل من js/i18n-names.js كـ globals: COUNTRY_NAMES (AR alias),
-// COUNTRY_NAMES_EN/FR/TR/UR/DE/ID/ES/BN/MS, CITY_NAMES_LOCAL.
-// ===== (السابق: تعريفات محليّة مكرَّرة — محذوفة) =====
-/* COUNTRY_NAMES_MOVED_TO_SHARED_FILE
+// أسماء الدول بالعربية
 const COUNTRY_NAMES = {
     sa:'المملكة العربية السعودية', sy:'سوريا', eg:'مصر', iq:'العراق',
     jo:'الأردن', lb:'لبنان', ps:'فلسطين', kw:'الكويت', ae:'الإمارات',
@@ -502,9 +497,8 @@ const COUNTRY_NAMES_EN = {
     mc:'Monaco', sm:'San Marino', va:'Vatican City', ad:'Andorra',
     li:'Liechtenstein', lu:'Luxembourg', mt:'Malta',
 };
-*/
 
-// حسم countryCode من الـ slug (بعد تعريف COUNTRY_NAMES_EN في i18n-names.js)
+// حسم countryCode من الـ slug (بعد تعريف COUNTRY_NAMES_EN)
 {
     const _slugMap = {};
     for (const [_cc, _name] of Object.entries(COUNTRY_NAMES_EN))
@@ -519,7 +513,7 @@ const COUNTRY_NAMES_EN = {
     }
 }
 
-/* COUNTRY_NAMES_LOCALIZED_MOVED_TO_SHARED_FILE
+// أسماء الدول للّغات الأخرى (fr/tr/ur) — fallback على EN إن لم توجد الترجمة
 const COUNTRY_NAMES_FR = {
     sa:'Arabie Saoudite', eg:'Égypte', ae:'Émirats arabes unis', iq:'Irak', sy:'Syrie',
     jo:'Jordanie', ps:'Palestine', lb:'Liban', ye:'Yémen', om:'Oman',
@@ -838,7 +832,6 @@ const CITY_NAMES_LOCAL = {
         Valletta:'Valletta',
     },
 };
-*/
 
 function _localizedCityName(cityEn, lang) {
     if (!cityEn || lang === 'ar' || lang === 'en') return cityEn;

@@ -1,0 +1,74 @@
+[
+  {
+    "nameAr": "سان مارينو",
+    "nameEn": "San Marino",
+    "type": "city",
+    "lat": 43.9424,
+    "lng": 12.4578,
+    "pop": 4040
+  },
+  {
+    "nameAr": "سيرافالي",
+    "nameEn": "Serravalle",
+    "type": "city",
+    "lat": 43.9745,
+    "lng": 12.4797,
+    "pop": 10878
+  },
+  {
+    "nameAr": "بورغو ماجوري",
+    "nameEn": "Borgo Maggiore",
+    "type": "city",
+    "lat": 43.9425,
+    "lng": 12.4467,
+    "pop": 6784
+  },
+  {
+    "nameAr": "دوماجنانو",
+    "nameEn": "Domagnano",
+    "type": "city",
+    "lat": 43.9606,
+    "lng": 12.4681,
+    "pop": 3466
+  },
+  {
+    "nameAr": "فيورنتينو",
+    "nameEn": "Fiorentino",
+    "type": "city",
+    "lat": 43.9100,
+    "lng": 12.4569,
+    "pop": 2524
+  },
+  {
+    "nameAr": "فايتانو",
+    "nameEn": "Faetano",
+    "type": "city",
+    "lat": 43.9356,
+    "lng": 12.4975,
+    "pop": 1171
+  },
+  {
+    "nameAr": "أكوافيفا",
+    "nameEn": "Acquaviva",
+    "type": "city",
+    "lat": 43.9478,
+    "lng": 12.4191,
+    "pop": 2132
+  },
+  {
+    "nameAr": "كييزانوفا",
+    "nameEn": "Chiesanuova",
+    "type": "city",
+    "lat": 43.9197,
+    "lng": 12.4295,
+    "pop": 1177
+  },
+  {
+    "nameAr": "مونتيجياردينو",
+    "nameEn": "Montegiardino",
+    "type": "city",
+    "lat": 43.9148,
+    "lng": 12.4817,
+    "pop": 985
+  }
+]

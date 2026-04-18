@@ -1,0 +1,90 @@
+[
+  {
+    "nameAr": "فادوتس",
+    "nameEn": "Vaduz",
+    "type": "city",
+    "lat": 47.1410,
+    "lng": 9.5209,
+    "pop": 5696
+  },
+  {
+    "nameAr": "شان",
+    "nameEn": "Schaan",
+    "type": "city",
+    "lat": 47.1656,
+    "lng": 9.5089,
+    "pop": 5994
+  },
+  {
+    "nameAr": "بالزرس",
+    "nameEn": "Balzers",
+    "type": "city",
+    "lat": 47.0700,
+    "lng": 9.5056,
+    "pop": 4546
+  },
+  {
+    "nameAr": "تريزنبرغ",
+    "nameEn": "Triesen",
+    "type": "city",
+    "lat": 47.1052,
+    "lng": 9.5289,
+    "pop": 5278
+  },
+  {
+    "nameAr": "إيشن",
+    "nameEn": "Eschen",
+    "type": "city",
+    "lat": 47.2109,
+    "lng": 9.5239,
+    "pop": 4499
+  },
+  {
+    "nameAr": "مورين",
+    "nameEn": "Mauren",
+    "type": "city",
+    "lat": 47.2167,
+    "lng": 9.5439,
+    "pop": 4402
+  },
+  {
+    "nameAr": "تريزنبرغ",
+    "nameEn": "Triesenberg",
+    "type": "city",
+    "lat": 47.1189,
+    "lng": 9.5436,
+    "pop": 2638
+  },
+  {
+    "nameAr": "روغل",
+    "nameEn": "Ruggell",
+    "type": "city",
+    "lat": 47.2386,
+    "lng": 9.5272,
+    "pop": 2408
+  },
+  {
+    "nameAr": "غامبرين",
+    "nameEn": "Gamprin",
+    "type": "city",
+    "lat": 47.2211,
+    "lng": 9.5108,
+    "pop": 1767
+  },
+  {
+    "nameAr": "شيلنبرغ",
+    "nameEn": "Schellenberg",
+    "type": "city",
+    "lat": 47.2319,
+    "lng": 9.5464,
+    "pop": 1116
+  },
+  {
+    "nameAr": "بلانكن",
+    "nameEn": "Planken",
+    "type": "city",
+    "lat": 47.1833,
+    "lng": 9.5425,
+    "pop": 471
+  }
+]

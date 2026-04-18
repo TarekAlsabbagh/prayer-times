@@ -64,6 +64,9 @@ const COUNTRY_NAMES_EN = {
     sr:'Suriname', gy:'Guyana', tt:'Trinidad and Tobago', jm:'Jamaica',
     pa:'Panama', ht:'Haiti', cr:'Costa Rica',
     bt:'Bhutan', fj:'Fiji', pg:'Papua New Guinea',
+    // Microstates / city-states (country slug often collides with capital — handled via "-city" suffix)
+    mc:'Monaco', sm:'San Marino', va:'Vatican City', ad:'Andorra',
+    li:'Liechtenstein', lu:'Luxembourg', mt:'Malta',
 };
 
 function makeCountrySlugSrv(cc) {
@@ -1614,6 +1617,9 @@ const COUNTRY_NAMES_AR = {
     sr:'سورينام', gy:'غيانا', tt:'ترينيداد وتوباغو', jm:'جامايكا',
     pa:'بنما', ht:'هايتي', cr:'كوستاريكا',
     bt:'بوتان', fj:'فيجي', pg:'بابوا غينيا الجديدة',
+    // دول-المدن والمايكروستيتس
+    mc:'موناكو', sm:'سان مارينو', va:'الفاتيكان', ad:'أندورا',
+    li:'ليختنشتاين', lu:'لوكسمبورغ', mt:'مالطا',
 };
 
 // أشهر الهجرية (slug → {ar, en, order})

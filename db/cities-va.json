@@ -1,0 +1,26 @@
+[
+  {
+    "nameAr": "مدينة الفاتيكان",
+    "nameEn": "Vatican City",
+    "type": "city",
+    "lat": 41.9029,
+    "lng": 12.4534,
+    "pop": 825
+  },
+  {
+    "nameAr": "ساحة القديس بطرس",
+    "nameEn": "St. Peter's Square",
+    "type": "city",
+    "lat": 41.9022,
+    "lng": 12.4568,
+    "pop": 100
+  },
+  {
+    "nameAr": "حدائق الفاتيكان",
+    "nameEn": "Vatican Gardens",
+    "type": "city",
+    "lat": 41.9045,
+    "lng": 12.4500,
+    "pop": 50
+  }
+]

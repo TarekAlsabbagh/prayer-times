@@ -1,0 +1,82 @@
+[
+  {
+    "nameAr": "أندورا لا فيا",
+    "nameEn": "Andorra la Vella",
+    "type": "city",
+    "lat": 42.5063,
+    "lng": 1.5218,
+    "pop": 22615
+  },
+  {
+    "nameAr": "إسكالدس-إنغوردانی",
+    "nameEn": "Escaldes-Engordany",
+    "type": "city",
+    "lat": 42.5075,
+    "lng": 1.5347,
+    "pop": 14395
+  },
+  {
+    "nameAr": "إنكامب",
+    "nameEn": "Encamp",
+    "type": "city",
+    "lat": 42.5349,
+    "lng": 1.5836,
+    "pop": 13536
+  },
+  {
+    "nameAr": "سانت جوليا دي لوريا",
+    "nameEn": "Sant Julià de Lòria",
+    "type": "city",
+    "lat": 42.4637,
+    "lng": 1.4916,
+    "pop": 9543
+  },
+  {
+    "nameAr": "لا ماسانا",
+    "nameEn": "La Massana",
+    "type": "city",
+    "lat": 42.5450,
+    "lng": 1.5147,
+    "pop": 10405
+  },
+  {
+    "nameAr": "أوردينو",
+    "nameEn": "Ordino",
+    "type": "city",
+    "lat": 42.5562,
+    "lng": 1.5333,
+    "pop": 5054
+  },
+  {
+    "nameAr": "كانيلو",
+    "nameEn": "Canillo",
+    "type": "city",
+    "lat": 42.5676,
+    "lng": 1.5976,
+    "pop": 5045
+  },
+  {
+    "nameAr": "باس دي لا كازا",
+    "nameEn": "Pas de la Casa",
+    "type": "city",
+    "lat": 42.5427,
+    "lng": 1.7331,
+    "pop": 2363
+  },
+  {
+    "nameAr": "أرينسال",
+    "nameEn": "Arinsal",
+    "type": "city",
+    "lat": 42.5722,
+    "lng": 1.4847,
+    "pop": 1500
+  },
+  {
+    "nameAr": "سولدو",
+    "nameEn": "Soldeu",
+    "type": "city",
+    "lat": 42.5769,
+    "lng": 1.6672,
+    "pop": 602
+  }
+]

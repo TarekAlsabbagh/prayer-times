@@ -1,0 +1,114 @@
+[
+  {
+    "nameAr": "فاليتا",
+    "nameEn": "Valletta",
+    "type": "city",
+    "lat": 35.8989,
+    "lng": 14.5146,
+    "pop": 5827
+  },
+  {
+    "nameAr": "برمينغهام",
+    "nameEn": "Birkirkara",
+    "type": "city",
+    "lat": 35.8971,
+    "lng": 14.4611,
+    "pop": 24356
+  },
+  {
+    "nameAr": "موستا",
+    "nameEn": "Mosta",
+    "type": "city",
+    "lat": 35.9094,
+    "lng": 14.4258,
+    "pop": 20241
+  },
+  {
+    "nameAr": "كورمي",
+    "nameEn": "Qormi",
+    "type": "city",
+    "lat": 35.8761,
+    "lng": 14.4717,
+    "pop": 16779
+  },
+  {
+    "nameAr": "سانت بول باي",
+    "nameEn": "Saint Paul's Bay",
+    "type": "city",
+    "lat": 35.9494,
+    "lng": 14.3994,
+    "pop": 29097
+  },
+  {
+    "nameAr": "سليما",
+    "nameEn": "Sliema",
+    "type": "city",
+    "lat": 35.9122,
+    "lng": 14.5019,
+    "pop": 22557
+  },
+  {
+    "nameAr": "ناكسار",
+    "nameEn": "Naxxar",
+    "type": "city",
+    "lat": 35.9136,
+    "lng": 14.4442,
+    "pop": 15076
+  },
+  {
+    "nameAr": "زبوغ",
+    "nameEn": "Żabbar",
+    "type": "city",
+    "lat": 35.8758,
+    "lng": 14.5394,
+    "pop": 15334
+  },
+  {
+    "nameAr": "سانت جوليانز",
+    "nameEn": "St. Julian's",
+    "type": "city",
+    "lat": 35.9183,
+    "lng": 14.4881,
+    "pop": 14595
+  },
+  {
+    "nameAr": "فجورا",
+    "nameEn": "Fgura",
+    "type": "city",
+    "lat": 35.8731,
+    "lng": 14.5208,
+    "pop": 11776
+  },
+  {
+    "nameAr": "ربات",
+    "nameEn": "Rabat",
+    "type": "city",
+    "lat": 35.8811,
+    "lng": 14.3992,
+    "pop": 11497
+  },
+  {
+    "nameAr": "مدينة إمدينا",
+    "nameEn": "Mdina",
+    "type": "city",
+    "lat": 35.8867,
+    "lng": 14.4022,
+    "pop": 237
+  },
+  {
+    "nameAr": "فيكتوريا",
+    "nameEn": "Victoria",
+    "type": "city",
+    "lat": 36.0442,
+    "lng": 14.2406,
+    "pop": 6901
+  },
+  {
+    "nameAr": "مارساسكالا",
+    "nameEn": "Marsaskala",
+    "type": "city",
+    "lat": 35.8631,
+    "lng": 14.5631,
+    "pop": 12343
+  }
+]

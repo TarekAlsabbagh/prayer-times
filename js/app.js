@@ -62,6 +62,8 @@ const COUNTRY_EN_NAMES = {
     mv:'Maldives', ss:'South Sudan', tg:'Togo', bj:'Benin',
     cd:'DR Congo', lr:'Liberia', mu:'Mauritius', bt:'Bhutan',
     tt:'Trinidad and Tobago',
+    // Microstates with same-name capital collisions (handled via "-city" suffix)
+    mc:'Monaco', sm:'San Marino', va:'Vatican City', ad:'Andorra',
 };
 
 // ===== خرائط أسماء الدول المترجَمة (بديل إذا Nominatim لم يعد ترجمة محلية) =====
@@ -143,6 +145,11 @@ const CITY_NAMES_BN = {
     'Los Angeles':'লস অ্যাঞ্জেলেস', Chicago:'শিকাগো', Toronto:'টরন্টো',
     Tokyo:'টোকিও', Beijing:'বেইজিং', Shanghai:'সাংহাই',
     Sydney:'সিডনি', Melbourne:'মেলবোর্ন',
+    // Microstates / city-states
+    Monaco:'মোনাকো', 'Monte Carlo':'মন্টে কার্লো',
+    'San Marino':'সান মারিনো', 'Vatican City':'ভ্যাটিকান সিটি',
+    'Andorra la Vella':'আন্দোরা লা ভেলা', Vaduz:'ফাদুৎস',
+    Luxembourg:'লুক্সেমবার্গ', Valletta:'ভ্যালেটা',
 };
 const CITY_NAMES_ES = {
     Mecca:'La Meca', Medina:'Medina', Riyadh:'Riad', Jeddah:'Yeda',
@@ -153,6 +160,11 @@ const CITY_NAMES_ES = {
     'Kuala Lumpur':'Kuala Lumpur', London:'Londres', Paris:'París',
     Berlin:'Berlín', Madrid:'Madrid', Rome:'Roma', Moscow:'Moscú',
     'New York':'Nueva York',
+    // Microstates / city-states
+    Monaco:'Mónaco', 'Monte Carlo':'Montecarlo',
+    'San Marino':'San Marino', 'Vatican City':'Ciudad del Vaticano',
+    'Andorra la Vella':'Andorra la Vieja', Vaduz:'Vaduz',
+    Luxembourg:'Luxemburgo', Valletta:'La Valeta',
 };
 const CITY_NAMES_MS = {
     Mecca:'Makkah', Medina:'Madinah', Riyadh:'Riyadh', Jeddah:'Jeddah',
@@ -163,6 +175,11 @@ const CITY_NAMES_MS = {
     'Kuala Lumpur':'Kuala Lumpur', London:'London', Paris:'Paris',
     Berlin:'Berlin', Madrid:'Madrid', Rome:'Rom', Moscow:'Moscow',
     'New York':'New York',
+    // Microstates / city-states
+    Monaco:'Monaco', 'Monte Carlo':'Monte Carlo',
+    'San Marino':'San Marino', 'Vatican City':'Kota Vatican',
+    'Andorra la Vella':'Andorra la Vella', Vaduz:'Vaduz',
+    Luxembourg:'Luxembourg', Valletta:'Valletta',
 };
 // ===== أسماء المدن بالأوردو =====
 const CITY_NAMES_UR = {
@@ -194,6 +211,11 @@ const CITY_NAMES_UR = {
     'Los Angeles':'لاس اینجلس', Chicago:'شکاگو', Toronto:'ٹورنٹو',
     Tokyo:'ٹوکیو', Beijing:'بیجنگ', Shanghai:'شنگھائی',
     Sydney:'سڈنی', Melbourne:'میلبورن',
+    // Microstates / city-states
+    Monaco:'موناکو', 'Monte Carlo':'مونٹی کارلو',
+    'San Marino':'سان مارینو', 'Vatican City':'ویٹیکن سٹی',
+    'Andorra la Vella':'انڈورا لا ویا', Vaduz:'فادوز',
+    Luxembourg:'لکسمبرگ', Valletta:'ویلیٹا',
 };
 // ===== أسماء المدن بالتركية =====
 const CITY_NAMES_TR = {
@@ -225,6 +247,11 @@ const CITY_NAMES_TR = {
     'Los Angeles':'Los Angeles', Chicago:'Chicago', Toronto:'Toronto',
     Tokyo:'Tokyo', Beijing:'Pekin', Shanghai:'Şanghay',
     Sydney:'Sidney', Melbourne:'Melbourne',
+    // Microstates / city-states
+    Monaco:'Monako', 'Monte Carlo':'Monte Karlo',
+    'San Marino':'San Marino', 'Vatican City':'Vatikan',
+    'Andorra la Vella':'Andorra la Vella', Vaduz:'Vaduz',
+    Luxembourg:'Lüksemburg', Valletta:'Valletta',
 };
 // ===== أسماء المدن بالفرنسية =====
 const CITY_NAMES_FR = {
@@ -256,6 +283,11 @@ const CITY_NAMES_FR = {
     'Los Angeles':'Los Angeles', Chicago:'Chicago', Toronto:'Toronto',
     Tokyo:'Tokyo', Beijing:'Pékin', Shanghai:'Shanghai',
     Sydney:'Sydney', Melbourne:'Melbourne',
+    // Microstates / city-states
+    Monaco:'Monaco', 'Monte Carlo':'Monte-Carlo',
+    'San Marino':'Saint-Marin', 'Vatican City':'Cité du Vatican',
+    'Andorra la Vella':'Andorre-la-Vieille', Vaduz:'Vaduz',
+    Luxembourg:'Luxembourg', Valletta:'La Valette',
 };
 // ===== أسماء المدن بالألمانية =====
 const CITY_NAMES_DE = {
@@ -287,6 +319,11 @@ const CITY_NAMES_DE = {
     'Los Angeles':'Los Angeles', Chicago:'Chicago', Toronto:'Toronto',
     Tokyo:'Tokio', Beijing:'Peking', Shanghai:'Shanghai',
     Sydney:'Sydney', Melbourne:'Melbourne',
+    // Microstates / city-states
+    Monaco:'Monaco', 'Monte Carlo':'Monte Carlo',
+    'San Marino':'San Marino', 'Vatican City':'Vatikanstadt',
+    'Andorra la Vella':'Andorra la Vella', Vaduz:'Vaduz',
+    Luxembourg:'Luxemburg', Valletta:'Valletta',
 };
 // ===== أسماء المدن بالإندونيسية =====
 const CITY_NAMES_ID = {
@@ -318,6 +355,11 @@ const CITY_NAMES_ID = {
     'Los Angeles':'Los Angeles', Chicago:'Chicago', Toronto:'Toronto',
     Tokyo:'Tokyo', Beijing:'Beijing', Shanghai:'Shanghai',
     Sydney:'Sydney', Melbourne:'Melbourne',
+    // Microstates / city-states
+    Monaco:'Monako', 'Monte Carlo':'Monte Carlo',
+    'San Marino':'San Marino', 'Vatican City':'Kota Vatikan',
+    'Andorra la Vella':'Andorra la Vella', Vaduz:'Vaduz',
+    Luxembourg:'Luksemburg', Valletta:'Valletta',
 };
 // ===== أسماء الدول بالأوردو =====
 const COUNTRY_NAMES_UR = {
@@ -2984,11 +3026,14 @@ function updateBreadcrumb() {
         : (lang === 'en')
             ? (currentEnglishCountry || currentCountry    || countrySlug)
             : (currentLocalizedCountry || currentEnglishCountry || currentCountry || countrySlug);
+    // UR/TR/FR/DE/ID/BN/ES/MS: نستعمل getDisplayCity() لتطبيق قاموس CITY_NAMES_* المحلّي
+    // قبل الرجوع للاسم الإنجليزي — يضمن ترجمة عواصم الدول-المدن (Monaco → موناکو للأوردو).
     const cityLabel = (lang === 'ar')
         ? (currentCity               || currentEnglishName    || currentEnglishDisplayName)
         : (lang === 'en')
             ? (currentEnglishDisplayName || currentEnglishName    || currentCity)
-            : (currentLocalizedName || currentEnglishDisplayName || currentEnglishName || currentCity);
+            : ((typeof getDisplayCity === 'function' && getDisplayCity())
+                || currentLocalizedName || currentEnglishDisplayName || currentEnglishName || currentCity);
 
     // "مواقيت الصلاة في {name}" — نفس القالب يُطبَّق على الدولة والمدينة
     // (نمرّر متغيّر placeholder اسمه 'city' لأن مفتاح i18n يستخدمه — لكن القيمة قد تكون اسم دولة)
@@ -2998,7 +3043,8 @@ function updateBreadcrumb() {
         || (isAr ? `مواقيت الصلاة في ${cityLabel}` : `Prayer Times in ${cityLabel}`);
 
     // ── روابط (فقط للعنصرين الأوّلَيْن — العنصر الأخير current بلا href) ──
-    const countryHref = `${origin}${langPrefix}${countrySlug}`;
+    // نُولِّد الرابط على نمط /prayer-times-in-{slug} مباشرةً لتفادي 301 hop وتحسين SEO.
+    const countryHref = `${origin}${langPrefix}prayer-times-in-${countrySlug}`;
 
     // ── تحديث DOM ──
     const bcHome    = document.getElementById('bc-home');
@@ -5058,7 +5104,7 @@ function updateCityInfoLabels() {
     const countryLinkEl = document.getElementById('country-block-link');
     if (countryLinkEl) {
         countryLinkEl.textContent = dispCountry;
-        countryLinkEl.href = pageUrl(`/${makeCountrySlug(currentCountryCode, currentEnglishCountry)}`);
+        countryLinkEl.href = pageUrl(`/prayer-times-in-${makeCountrySlug(currentCountryCode, currentEnglishCountry)}`);
     }
 
     // عنوان قسم المدينة
@@ -5538,7 +5584,7 @@ async function updateCityCountryInfo() {
     if (countryLinkEl) {
         const countryDisplayName = getCountryDisplayName();
         countryLinkEl.textContent = countryDisplayName;
-        countryLinkEl.href = pageUrl(`/${makeCountrySlug(cc, currentEnglishCountry)}`);
+        countryLinkEl.href = pageUrl(`/prayer-times-in-${makeCountrySlug(cc, currentEnglishCountry)}`);
     }
 
     // العلم

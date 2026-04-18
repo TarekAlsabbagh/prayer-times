@@ -1,0 +1,82 @@
+[
+  {
+    "nameAr": "موناكو",
+    "nameEn": "Monaco",
+    "type": "city",
+    "lat": 43.7314,
+    "lng": 7.4203,
+    "pop": 1034
+  },
+  {
+    "nameAr": "مونت كارلو",
+    "nameEn": "Monte Carlo",
+    "type": "city",
+    "lat": 43.7402,
+    "lng": 7.4267,
+    "pop": 3500
+  },
+  {
+    "nameAr": "لا كوندامين",
+    "nameEn": "La Condamine",
+    "type": "city",
+    "lat": 43.7353,
+    "lng": 7.4195,
+    "pop": 3942
+  },
+  {
+    "nameAr": "فونتفيه",
+    "nameEn": "Fontvieille",
+    "type": "city",
+    "lat": 43.7275,
+    "lng": 7.4170,
+    "pop": 3800
+  },
+  {
+    "nameAr": "مونيغيتي",
+    "nameEn": "Moneghetti",
+    "type": "city",
+    "lat": 43.7328,
+    "lng": 7.4186,
+    "pop": 3400
+  },
+  {
+    "nameAr": "لا روس",
+    "nameEn": "La Rousse",
+    "type": "city",
+    "lat": 43.7464,
+    "lng": 7.4320,
+    "pop": 3400
+  },
+  {
+    "nameAr": "لارفوتو",
+    "nameEn": "Larvotto",
+    "type": "city",
+    "lat": 43.7465,
+    "lng": 7.4374,
+    "pop": 2300
+  },
+  {
+    "nameAr": "سان ميشيل",
+    "nameEn": "Saint Michel",
+    "type": "city",
+    "lat": 43.7360,
+    "lng": 7.4264,
+    "pop": 3800
+  },
+  {
+    "nameAr": "حديقة إكزوتيك",
+    "nameEn": "Jardin Exotique",
+    "type": "city",
+    "lat": 43.7354,
+    "lng": 7.4160,
+    "pop": 2800
+  },
+  {
+    "nameAr": "لا كول",
+    "nameEn": "La Colle",
+    "type": "city",
+    "lat": 43.7319,
+    "lng": 7.4105,
+    "pop": 2500
+  }
+]

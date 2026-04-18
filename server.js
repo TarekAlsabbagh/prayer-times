@@ -2573,13 +2573,15 @@ function buildSeoForPath(urlPath) {
     const _gMonthIdx = _gNow.getMonth();
     const _gYear = _gNow.getFullYear();
 
-    // Round 7f: Title ≤60 chars + Meta Description 120-160 chars (seoptimer targets)
+    // Round 7g: Title ≤60 chars + Meta Desc 120-160 + exact-phrase matching
+    // ترتيب الكلمات بحيث "مواقيت الصلاة في" و"الصلاة في" تظهر كـ exact phrases
+    // (بدون كسرها بـ "اليوم" بينها — شرط seoptimer)
     let title = isEn
-        ? `Prayer Times in Mecca, Medina & World | ${_hMonthEn} ${_hYear}`
-        : `مواقيت الصلاة في مكة والمدينة وكل المدن | ${_hMonthAr} ${_hYear}`;
+        ? `Today's Prayer Times in Mecca & Medina | ${_hMonthEn} ${_hYear}`
+        : `مواقيت الصلاة في مكة المكرمة اليوم | ${_hMonthAr} ${_hYear} هـ`;
     let description = isEn
         ? `Today's prayer times in Mecca, Medina and world cities: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar ${_hMonthEn} ${_hYear} AH, Qibla direction, Zakat.`
-        : `مواقيت الصلاة اليوم في مكة المكرمة والمدينة ومدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
+        : `مواقيت الصلاة في مكة المكرمة والمدينة ومدن العالم اليوم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
     let ogType = 'website';
     let geo = null;
     let prev = null, next = null, article = null;

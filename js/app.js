@@ -3675,8 +3675,8 @@ function updatePageSEO() {
         const _gMId    = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][_gMIdx];
 
         const HOME_TITLES = {
-            ar: `مواقيت الصلاة في مكة والمدينة وكل المدن | ${_hMAr} ${_hY}`,
-            en: `Prayer Times in Mecca, Medina & World | ${_hMEn} ${_hY}`,
+            ar: `مواقيت الصلاة في مكة المكرمة اليوم | ${_hMAr} ${_hY} هـ`,
+            en: `Today's Prayer Times in Mecca & Medina | ${_hMEn} ${_hY}`,
             fr: `Heures de prière à La Mecque & Médine | ${_hMEn} ${_hY}`,
             tr: `Namaz Vakitleri: Mekke, Medine, Dünya | ${_hMEn} ${_hY}`,
             ur: `اوقاتِ نماز: مکہ، مدینہ اور دنیا | ${_hMEn} ${_hY}`,
@@ -3687,7 +3687,7 @@ function updatePageSEO() {
             ms: `Waktu Solat: Makkah, Madinah & Dunia | ${_hMEn} ${_hY}`,
         };
         const HOME_DESCS = {
-            ar: `مواقيت الصلاة اليوم في مكة المكرمة والمدينة ومدن العالم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
+            ar: `مواقيت الصلاة في مكة المكرمة والمدينة ومدن العالم اليوم: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
             en: `Today's prayer times in Mecca, Medina and world cities: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri calendar ${_hMEn} ${_hY} AH, Qibla direction, Zakat.`,
             fr: `Heures de prière aujourd'hui à La Mecque, Médine et villes du monde : Fajr, Dhuhr, Asr, Maghrib, Isha. Calendrier hégirien ${_hMEn} ${_hY}, Qibla, Zakat.`,
             tr: `Bugün Mekke, Medine ve dünya şehirleri namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri takvim ${_hMEn} ${_hY}, kıble, zekât, dualar.`,

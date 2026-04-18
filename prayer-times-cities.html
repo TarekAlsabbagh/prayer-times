@@ -1348,11 +1348,10 @@ function renderGrid() {
     const _countryUrlSlug  = _countryUrlSlugM ? _countryUrlSlugM[1] : '';
     page.forEach(city => {
         let slug = makeSlug(city.nameEn, city.lat, city.lng);
-        // تصادم: اسم المدينة = اسم الدولة → ميِّزها بإحداثيات حتّى يوجِّه السيرفر إلى صفحة المدينة (index.html).
+        // تصادم: اسم المدينة = اسم الدولة (سنغافورة/دولة-مدينة) → لاحقة "-city" للتمييز.
+        // يُنتج URL نظيفاً (/prayer-times-in-singapore-city) ومتوافقاً مع Nominatim text search.
         if (_countryUrlSlug && slug === _countryUrlSlug) {
-            const _la = Math.abs(city.lat).toFixed(1) + (city.lat >= 0 ? 'n' : 's');
-            const _lo = Math.abs(city.lng).toFixed(1) + (city.lng >= 0 ? 'e' : 'w');
-            slug = `${slug}-${_la}-${_lo}`;
+            slug = `${slug}-city`;
         }
         const href = pageUrl(`/prayer-times-in-${slug}`);
         const a = document.createElement('a');

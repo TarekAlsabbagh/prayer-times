@@ -1,0 +1,37 @@
+[
+  {
+    "nameAr": "باكو",
+    "nameEn": "Baku",
+    "type": "city",
+    "lat": 40.4093,
+    "lng": 49.8671
+  },
+  {
+    "nameAr": "غانجا",
+    "nameEn": "Ganja",
+    "type": "city",
+    "lat": 40.6828,
+    "lng": 46.3606
+  },
+  {
+    "nameAr": "سومقاييت",
+    "nameEn": "Sumqayit",
+    "type": "city",
+    "lat": 40.5897,
+    "lng": 49.6686
+  },
+  {
+    "nameAr": "لنكران",
+    "nameEn": "Lankaran",
+    "type": "city",
+    "lat": 38.7529,
+    "lng": 48.8475
+  },
+  {
+    "nameAr": "مينغاتشفير",
+    "nameEn": "Mingachevir",
+    "type": "city",
+    "lat": 40.7700,
+    "lng": 47.0496
+  }
+]

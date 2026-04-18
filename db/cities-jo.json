@@ -1,0 +1,467 @@
+[
+  {
+    "nameAr": "عمّان",
+    "nameEn": "Amman",
+    "type": "city",
+    "lat": 31.9539,
+    "lng": 35.9106
+  },
+  {
+    "nameAr": "إربد",
+    "nameEn": "Irbid",
+    "type": "city",
+    "lat": 32.5568,
+    "lng": 35.8469
+  },
+  {
+    "nameAr": "الحسين",
+    "nameEn": "Al Hussein",
+    "type": "city",
+    "lat": 31.5,
+    "lng": 35.95
+  },
+  {
+    "nameAr": "الرمثا",
+    "nameEn": "Ramtha",
+    "type": "city",
+    "lat": 32.5683,
+    "lng": 35.9994
+  },
+  {
+    "nameAr": "الزرقاء",
+    "nameEn": "Zarqa",
+    "type": "city",
+    "lat": 32.0728,
+    "lng": 36.0879
+  },
+  {
+    "nameAr": "السلط",
+    "nameEn": "As-Salt",
+    "type": "city",
+    "lat": 32.0392,
+    "lng": 35.727
+  },
+  {
+    "nameAr": "الطفيلة",
+    "nameEn": "Tafilah",
+    "type": "city",
+    "lat": 30.8337,
+    "lng": 35.6043
+  },
+  {
+    "nameAr": "العقبة",
+    "nameEn": "Aqaba",
+    "type": "city",
+    "lat": 29.5321,
+    "lng": 35.0062
+  },
+  {
+    "nameAr": "الكرك",
+    "nameEn": "Al Karak",
+    "type": "city",
+    "lat": 31.1797,
+    "lng": 35.7047
+  },
+  {
+    "nameAr": "المفرق",
+    "nameEn": "Mafraq",
+    "type": "city",
+    "lat": 32.3418,
+    "lng": 36.2024
+  },
+  {
+    "nameAr": "جرش",
+    "nameEn": "Jerash",
+    "type": "city",
+    "lat": 32.2764,
+    "lng": 35.8969
+  },
+  {
+    "nameAr": "رصيفة",
+    "nameEn": "Russeifa",
+    "type": "city",
+    "lat": 32.0163,
+    "lng": 36.0615
+  },
+  {
+    "nameAr": "عجلون",
+    "nameEn": "Ajloun",
+    "type": "city",
+    "lat": 32.3338,
+    "lng": 35.7508
+  },
+  {
+    "nameAr": "مادبا",
+    "nameEn": "Madaba",
+    "type": "city",
+    "lat": 31.7167,
+    "lng": 35.8
+  },
+  {
+    "nameAr": "معان",
+    "nameEn": "Ma'an",
+    "type": "city",
+    "lat": 30.1942,
+    "lng": 35.7347
+  },
+  {
+    "nameAr": "الرصيفة",
+    "nameEn": "Russeifa",
+    "type": "city",
+    "lat": 32.017777777778,
+    "lng": 36.046388888889,
+    "pop": 472604
+  },
+  {
+    "nameAr": "وادي السير",
+    "nameEn": "Wadi Al-Seer",
+    "type": "city",
+    "lat": 31.9545,
+    "lng": 35.81831,
+    "pop": 152000
+  },
+  {
+    "nameAr": "ايدون",
+    "nameEn": "Aydoun",
+    "type": "city",
+    "lat": 32.510277777778,
+    "lng": 35.854444444444,
+    "pop": 63244
+  },
+  {
+    "nameAr": "الحصن",
+    "nameEn": "Al Husn",
+    "type": "city",
+    "lat": 32.487,
+    "lng": 35.88,
+    "pop": 35085
+  },
+  {
+    "nameAr": "الطرة",
+    "nameEn": "At Turrah",
+    "type": "city",
+    "lat": 32.6368,
+    "lng": 35.99004,
+    "pop": 34948
+  },
+  {
+    "nameAr": "ساكب",
+    "nameEn": "Sakib",
+    "type": "city",
+    "lat": 32.284288888889,
+    "lng": 35.809183333333,
+    "pop": 11586
+  },
+  {
+    "nameAr": "السيلة الحارثية",
+    "nameEn": "Silat al-Harithiya",
+    "type": "city",
+    "lat": 32.508125,
+    "lng": 35.227655555556,
+    "pop": 11449
+  },
+  {
+    "nameAr": "دير الغصون",
+    "nameEn": "Deir al-Ghusun",
+    "type": "city",
+    "lat": 32.353097222222,
+    "lng": 35.076966666667,
+    "pop": 3376
+  },
+  {
+    "nameAr": "صوريف",
+    "nameEn": "Surif",
+    "type": "city",
+    "lat": 31.6505,
+    "lng": 35.066225,
+    "pop": 2827
+  },
+  {
+    "nameAr": "المدورة",
+    "nameEn": "Mudawwara",
+    "type": "city",
+    "lat": 29.333505,
+    "lng": 36.02527,
+    "pop": 691
+  },
+  {
+    "nameAr": "الباقورة",
+    "nameEn": "Baqoura",
+    "type": "city",
+    "lat": 32.63333333,
+    "lng": 35.56833333,
+    "pop": null
+  },
+  {
+    "nameAr": "البتراء",
+    "nameEn": "Petra",
+    "type": "city",
+    "lat": 30.328888888889,
+    "lng": 35.440277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الجبيهة",
+    "nameEn": "Al Jubayhah",
+    "type": "city",
+    "lat": 32.025555555556,
+    "lng": 35.864444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "الشونة الشمالية",
+    "nameEn": "Al-Shuna al-Shamalyah",
+    "type": "city",
+    "lat": 32.61,
+    "lng": 35.608,
+    "pop": null
+  },
+  {
+    "nameAr": "الصافية",
+    "nameEn": "Al Safi",
+    "type": "city",
+    "lat": 31.036904,
+    "lng": 35.487657,
+    "pop": null
+  },
+  {
+    "nameAr": "الصريح",
+    "nameEn": "Sarieh",
+    "type": "city",
+    "lat": 32.503055555556,
+    "lng": 35.898611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الضليل",
+    "nameEn": "Dhlail",
+    "type": "city",
+    "lat": 32.130239166667,
+    "lng": 36.271537222222,
+    "pop": null
+  },
+  {
+    "nameAr": "القادسية",
+    "nameEn": "Al-Qadisiyah",
+    "type": "city",
+    "lat": 30.655302,
+    "lng": 35.632353,
+    "pop": null
+  },
+  {
+    "nameAr": "القويسمة",
+    "nameEn": "Al Quwaysimah",
+    "type": "city",
+    "lat": 31.916666666667,
+    "lng": 35.95,
+    "pop": null
+  },
+  {
+    "nameAr": "المزار الجنوبي",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.067222222222,
+    "lng": 35.694722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "المزار الشمالي (الأردن)",
+    "nameEn": "Al-Mazār ash-Shamālī",
+    "type": "city",
+    "lat": 32.4725,
+    "lng": 35.792777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "المستعمرة الأمريكية",
+    "nameEn": "American Colony",
+    "type": "city",
+    "lat": 31.79,
+    "lng": 35.23111111,
+    "pop": null
+  },
+  {
+    "nameAr": "المشيرفة",
+    "nameEn": "Al Mushayrifah",
+    "type": "city",
+    "lat": 31.900555555556,
+    "lng": 36.052777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الهاشمية",
+    "nameEn": "Al Hashimiya",
+    "type": "city",
+    "lat": 32.133333333333,
+    "lng": 36.116666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "ام الوليد",
+    "nameEn": "Umm al-Walid",
+    "type": "city",
+    "lat": 31.65,
+    "lng": 35.893611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "برما",
+    "nameEn": "Burma",
+    "type": "city",
+    "lat": 32.219166666667,
+    "lng": 35.785,
+    "pop": null
+  },
+  {
+    "nameAr": "تل الحمام",
+    "nameEn": "Tell el-Hammam",
+    "type": "city",
+    "lat": 31.84018,
+    "lng": 35.67368,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة التنور",
+    "nameEn": "Al-Tannur, Khirbat",
+    "type": "city",
+    "lat": 31.71388889,
+    "lng": 35.04722222,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة ياجوز الأثرية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.035945,
+    "lng": 35.913562,
+    "pop": null
+  },
+  {
+    "nameAr": "سحاب",
+    "nameEn": "Sahab",
+    "type": "city",
+    "lat": 31.87032,
+    "lng": 36.00479,
+    "pop": null
+  },
+  {
+    "nameAr": "سرابيس (الأردن)",
+    "nameEn": "Sarabis",
+    "type": "city",
+    "lat": 32.273333333333,
+    "lng": 35.760277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "صويلح",
+    "nameEn": "Suwaylih",
+    "type": "city",
+    "lat": 32.03,
+    "lng": 35.829722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "عروير (موآب)",
+    "nameEn": "Aroer",
+    "type": "city",
+    "lat": 31.467222,
+    "lng": 35.563333,
+    "pop": null
+  },
+  {
+    "nameAr": "عين الباشا",
+    "nameEn": "Ain Al-Basha",
+    "type": "city",
+    "lat": 32.06,
+    "lng": 35.830833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "قرية جسر المجامع",
+    "nameEn": "Tel Or",
+    "type": "city",
+    "lat": 32.63355,
+    "lng": 35.57366,
+    "pop": null
+  },
+  {
+    "nameAr": "كفرنجة",
+    "nameEn": "Kufranjah",
+    "type": "city",
+    "lat": 32.3,
+    "lng": 35.7,
+    "pop": null
+  },
+  {
+    "nameAr": "مخيم الشهيد عزمي المفتي",
+    "nameEn": "Husn Camp",
+    "type": "city",
+    "lat": 32.475958,
+    "lng": 35.9071062,
+    "pop": null
+  },
+  {
+    "nameAr": "مدينة الهاشمية",
+    "nameEn": "Al Hashimiyya",
+    "type": "city",
+    "lat": 32.36416667,
+    "lng": 35.65972222,
+    "pop": null
+  },
+  {
+    "nameAr": "مرج الحمام",
+    "nameEn": "Marj Al-hamam",
+    "type": "city",
+    "lat": 31.95,
+    "lng": 35.81666667,
+    "pop": null
+  },
+  {
+    "nameAr": "مغير السرحان",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.45958,
+    "lng": 36.19466,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي الجوز",
+    "nameEn": "Wadi al-Joz",
+    "type": "city",
+    "lat": 31.7888,
+    "lng": 35.2378,
+    "pop": null
+  },
+  {
+    "nameAr": "Al Mushayrifah",
+    "nameEn": "Al Mushayrifah",
+    "type": "city",
+    "lat": 31.5,
+    "lng": 35.866666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Al-Mashariqah",
+    "nameEn": "Al-Mashariqah",
+    "type": "city",
+    "lat": 32.638333333333,
+    "lng": 35.620833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kurayyimah",
+    "nameEn": "Kurayyimah",
+    "type": "city",
+    "lat": 32.279166666667,
+    "lng": 35.597777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Russeifa",
+    "nameEn": "Russeifa",
+    "type": "city",
+    "lat": 32.0174989,
+    "lng": 36.0434611,
+    "pop": null
+  }
+]

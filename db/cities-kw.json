@@ -1,0 +1,113 @@
+[
+  {
+    "nameAr": "الكويت",
+    "nameEn": "Kuwait City",
+    "type": "city",
+    "lat": 29.3697,
+    "lng": 47.9783
+  },
+  {
+    "nameAr": "الأحمدي",
+    "nameEn": "Al Ahmadi",
+    "type": "city",
+    "lat": 29.0769,
+    "lng": 48.0839
+  },
+  {
+    "nameAr": "الجهراء",
+    "nameEn": "Al Jahra",
+    "type": "city",
+    "lat": 29.3373,
+    "lng": 47.6578
+  },
+  {
+    "nameAr": "الرميثية",
+    "nameEn": "Rumaithiya",
+    "type": "city",
+    "lat": 29.3253,
+    "lng": 48.0856
+  },
+  {
+    "nameAr": "السالمية",
+    "nameEn": "Salmiya",
+    "type": "city",
+    "lat": 29.3345,
+    "lng": 48.0741
+  },
+  {
+    "nameAr": "الفروانية",
+    "nameEn": "Al Farwaniyah",
+    "type": "city",
+    "lat": 29.2769,
+    "lng": 47.9534
+  },
+  {
+    "nameAr": "حولي",
+    "nameEn": "Hawalli",
+    "type": "city",
+    "lat": 29.3327,
+    "lng": 48.0323
+  },
+  {
+    "nameAr": "صباح السالم",
+    "nameEn": "Sabah Al Salem",
+    "type": "city",
+    "lat": 29.2611,
+    "lng": 48.0664
+  },
+  {
+    "nameAr": "مبارك الكبير",
+    "nameEn": "Mubarak Al-Kabeer",
+    "type": "city",
+    "lat": 29.2074,
+    "lng": 48.0591
+  },
+  {
+    "nameAr": "الزهراء",
+    "nameEn": "Al Zahra",
+    "type": "city",
+    "lat": 29.278,
+    "lng": 47.996,
+    "pop": null
+  },
+  {
+    "nameAr": "سعد العبد الله",
+    "nameEn": "",
+    "type": "city",
+    "lat": 29.311319,
+    "lng": 47.72064,
+    "pop": null
+  },
+  {
+    "nameAr": "ميناء عبد الله",
+    "nameEn": "Mina Abd Allah",
+    "type": "city",
+    "lat": 29.0169,
+    "lng": 48.1603,
+    "pop": null
+  },
+  {
+    "nameAr": "Bayan",
+    "nameEn": "Bayan",
+    "type": "city",
+    "lat": 48.9467562,
+    "lng": 11.4038717,
+    "pop": null
+  },
+  {
+    "nameAr": "Jaber Al Ahmad",
+    "nameEn": "Jaber Al Ahmad",
+    "type": "city",
+    "lat": 29.340041620405,
+    "lng": 47.763163888607,
+    "pop": null
+  },
+  {
+    "nameAr": "sabaah al'naasir",
+    "nameEn": "sabaah al'naasir",
+    "type": "city",
+    "lat": 29,
+    "lng": 48,
+    "pop": null
+  }
+]

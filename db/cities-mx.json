@@ -1,0 +1,2171 @@
+[
+  {
+    "nameAr": "مكسيكو سيتي",
+    "nameEn": "Mexico City",
+    "type": "city",
+    "lat": 19.4326,
+    "lng": -99.1332
+  },
+  {
+    "nameAr": "بويبلا",
+    "nameEn": "Puebla",
+    "type": "city",
+    "lat": 19.0414,
+    "lng": -98.2063
+  },
+  {
+    "nameAr": "تيخوانا",
+    "nameEn": "Tijuana",
+    "type": "city",
+    "lat": 32.5149,
+    "lng": -117.0382
+  },
+  {
+    "nameAr": "خواريز",
+    "nameEn": "Ciudad Juárez",
+    "type": "city",
+    "lat": 31.7381,
+    "lng": -106.4869
+  },
+  {
+    "nameAr": "غوادالاخارا",
+    "nameEn": "Guadalajara",
+    "type": "city",
+    "lat": 20.6597,
+    "lng": -103.3496
+  },
+  {
+    "nameAr": "ليون",
+    "nameEn": "León",
+    "type": "city",
+    "lat": 21.1221,
+    "lng": -101.6827
+  },
+  {
+    "nameAr": "مونتيري",
+    "nameEn": "Monterrey",
+    "type": "city",
+    "lat": 25.6866,
+    "lng": -100.3161
+  },
+  {
+    "nameAr": "فيراكروز",
+    "nameEn": "Veracruz",
+    "type": "city",
+    "lat": 19.190277777778,
+    "lng": -96.153333333333,
+    "pop": 8062579
+  },
+  {
+    "nameAr": "سان لويس بوتوسي",
+    "nameEn": "San Luis Potosí",
+    "type": "city",
+    "lat": 22.149722222222,
+    "lng": -100.975,
+    "pop": 2822255
+  },
+  {
+    "nameAr": "سيوداد خواريز",
+    "nameEn": "Ciudad Juárez",
+    "type": "city",
+    "lat": 31.6685,
+    "lng": -106.42,
+    "pop": 1321004
+  },
+  {
+    "nameAr": "سابوبان، خاليسكو",
+    "nameEn": "Zapopan",
+    "type": "city",
+    "lat": 20.720833333333,
+    "lng": -103.39111111111,
+    "pop": 1257547
+  },
+  {
+    "nameAr": "أغوسكلينتس",
+    "nameEn": "Aguascalientes City",
+    "type": "city",
+    "lat": 21.880833333333,
+    "lng": -102.29611111111,
+    "pop": 934424
+  },
+  {
+    "nameAr": "تشيواوا",
+    "nameEn": "Chihuahua City",
+    "type": "city",
+    "lat": 28.636944444444,
+    "lng": -106.07694444444,
+    "pop": 925762
+  },
+  {
+    "nameAr": "ماردة",
+    "nameEn": "Mérida",
+    "type": "city",
+    "lat": 20.97,
+    "lng": -89.62,
+    "pop": 892363
+  },
+  {
+    "nameAr": "كانكون",
+    "nameEn": "Cancun",
+    "type": "city",
+    "lat": 21.161416111111,
+    "lng": -86.824811111111,
+    "pop": 888797
+  },
+  {
+    "nameAr": "سالتيو",
+    "nameEn": "Saltillo",
+    "type": "city",
+    "lat": 25.423055555556,
+    "lng": -100.99194444444,
+    "pop": 864431
+  },
+  {
+    "nameAr": "إرموسييو",
+    "nameEn": "Hermosillo",
+    "type": "city",
+    "lat": 29.075,
+    "lng": -110.95833333333,
+    "pop": 855563
+  },
+  {
+    "nameAr": "مكسيكالي",
+    "nameEn": "Mexicali",
+    "type": "city",
+    "lat": 32.636,
+    "lng": -115.4759,
+    "pop": 854186
+  },
+  {
+    "nameAr": "كولياكان",
+    "nameEn": "Culiacán",
+    "type": "city",
+    "lat": 24.790277777778,
+    "lng": -107.38777777778,
+    "pop": 808416
+  },
+  {
+    "nameAr": "مدينة كيريتارو",
+    "nameEn": "Santiago de Querétaro",
+    "type": "city",
+    "lat": 20.588055555556,
+    "lng": -100.38805555556,
+    "pop": 794789
+  },
+  {
+    "nameAr": "غوادالوبي، نويفو ليون",
+    "nameEn": "Guadalupe",
+    "type": "city",
+    "lat": 25.6716,
+    "lng": -100.2145,
+    "pop": 691931
+  },
+  {
+    "nameAr": "توريون",
+    "nameEn": "Torreón",
+    "type": "city",
+    "lat": 25.54389,
+    "lng": -103.41898,
+    "pop": 690193
+  },
+  {
+    "nameAr": "أكابولكو",
+    "nameEn": "Acapulco de Juárez",
+    "type": "city",
+    "lat": 16.8628695,
+    "lng": -99.8870087,
+    "pop": 673478
+  },
+  {
+    "nameAr": "دورانجو",
+    "nameEn": "Victoria de Durango",
+    "type": "city",
+    "lat": 24.022777777778,
+    "lng": -104.65444444444,
+    "pop": 654876
+  },
+  {
+    "nameAr": "Tlaquepaque",
+    "nameEn": "Tlaquepaque",
+    "type": "city",
+    "lat": 20.6369,
+    "lng": -103.3096,
+    "pop": 650123
+  },
+  {
+    "nameAr": "إيرابواتو",
+    "nameEn": "Irapuato",
+    "type": "city",
+    "lat": 20.674166666667,
+    "lng": -101.3475,
+    "pop": 592953
+  },
+  {
+    "nameAr": "رينوسا",
+    "nameEn": "Reynosa",
+    "type": "city",
+    "lat": 26.092222222222,
+    "lng": -98.277777777778,
+    "pop": 589466
+  },
+  {
+    "nameAr": "توكستلا غوتيريز",
+    "nameEn": "Tuxtla Gutiérrez",
+    "type": "city",
+    "lat": 16.753055555556,
+    "lng": -93.115555555556,
+    "pop": 578830
+  },
+  {
+    "nameAr": "إنسينادا",
+    "nameEn": "Ensenada",
+    "type": "city",
+    "lat": 31.857777777778,
+    "lng": -116.60583333333,
+    "pop": 557430
+  },
+  {
+    "nameAr": "ماتاموروس",
+    "nameEn": "Matamoros",
+    "type": "city",
+    "lat": 25.879722222222,
+    "lng": -97.504166666667,
+    "pop": 541979
+  },
+  {
+    "nameAr": "مازاتلان",
+    "nameEn": "Mazatlán",
+    "type": "city",
+    "lat": 23.216666666667,
+    "lng": -106.40833333333,
+    "pop": 501441
+  },
+  {
+    "nameAr": "تونالا",
+    "nameEn": "Tonalá",
+    "type": "city",
+    "lat": 20.623333333333,
+    "lng": -103.24555555556,
+    "pop": 442440
+  },
+  {
+    "nameAr": "تبيك",
+    "nameEn": "Tepic",
+    "type": "city",
+    "lat": 21.5,
+    "lng": -104.9,
+    "pop": 425942
+  },
+  {
+    "nameAr": "جالابا",
+    "nameEn": "Xalapa",
+    "type": "city",
+    "lat": 19.53124,
+    "lng": -96.91589,
+    "pop": 424755
+  },
+  {
+    "nameAr": "نويفو لاريدو",
+    "nameEn": "Nuevo Laredo",
+    "type": "city",
+    "lat": 27.4774,
+    "lng": -99.5252,
+    "pop": 416055
+  },
+  {
+    "nameAr": "ميناتيتلان",
+    "nameEn": "Minatitlán",
+    "type": "city",
+    "lat": 17.985277777778,
+    "lng": -94.544722222222,
+    "pop": 356020
+  },
+  {
+    "nameAr": "جوميز بالاسيو",
+    "nameEn": "Gómez Palacio",
+    "type": "city",
+    "lat": 25.5725,
+    "lng": -103.4945,
+    "pop": 342286
+  },
+  {
+    "nameAr": "فيلاهيرموسا",
+    "nameEn": "Villahermosa",
+    "type": "city",
+    "lat": 17.9878375,
+    "lng": -92.919416111111,
+    "pop": 340060
+  },
+  {
+    "nameAr": "سيوداد أوبريجون",
+    "nameEn": "Ciudad Obregón",
+    "type": "city",
+    "lat": 27.486388888889,
+    "lng": -109.94083333333,
+    "pop": 329404
+  },
+  {
+    "nameAr": "كواتزاكوالكوس",
+    "nameEn": "Coatzacoalcos",
+    "type": "city",
+    "lat": 18.135833333333,
+    "lng": -94.463333333333,
+    "pop": 319187
+  },
+  {
+    "nameAr": "فالادوليد، المكسيك",
+    "nameEn": "Valladolid",
+    "type": "city",
+    "lat": 20.689444444444,
+    "lng": -88.201666666667,
+    "pop": 299816
+  },
+  {
+    "nameAr": "هيرويكا نوغاليس",
+    "nameEn": "Heroica Nogales",
+    "type": "city",
+    "lat": 31.325833333333,
+    "lng": -110.94583333333,
+    "pop": 261137
+  },
+  {
+    "nameAr": "لا باز",
+    "nameEn": "La Paz",
+    "type": "city",
+    "lat": 24.148611111111,
+    "lng": -110.30666666667,
+    "pop": 250141
+  },
+  {
+    "nameAr": "كامبيتشي",
+    "nameEn": "San Francisco de Campeche",
+    "type": "city",
+    "lat": 19.844814166667,
+    "lng": -90.539649166667,
+    "pop": 249623
+  },
+  {
+    "nameAr": "فريسنيلو",
+    "nameEn": "Fresnillo",
+    "type": "city",
+    "lat": 23.174894722222,
+    "lng": -102.86822944444,
+    "pop": 230865
+  },
+  {
+    "nameAr": "بويرتو فالارتا",
+    "nameEn": "Puerto Vallarta",
+    "type": "city",
+    "lat": 20.6413,
+    "lng": -105.2233,
+    "pop": 224166
+  },
+  {
+    "nameAr": "تولوكا",
+    "nameEn": "Toluca de Lerdo",
+    "type": "city",
+    "lat": 19.292222222222,
+    "lng": -99.653888888889,
+    "pop": 223876
+  },
+  {
+    "nameAr": "تاباتشولا، غواتيمالا",
+    "nameEn": "Tapachula de Córdova y Ordóñez",
+    "type": "city",
+    "lat": 14.911071388889,
+    "lng": -92.26432,
+    "pop": 217550
+  },
+  {
+    "nameAr": "تينوتشتيتلان",
+    "nameEn": "Tenochtitlan",
+    "type": "city",
+    "lat": 19.435,
+    "lng": -99.13138889,
+    "pop": 212500
+  },
+  {
+    "nameAr": "Zamora de Hidalgo",
+    "nameEn": "Zamora de Hidalgo",
+    "type": "city",
+    "lat": 19.983333333333,
+    "lng": -102.28333333333,
+    "pop": 207860
+  },
+  {
+    "nameAr": "قرطبة",
+    "nameEn": "Córdoba",
+    "type": "city",
+    "lat": 18.894166666667,
+    "lng": -96.934722222222,
+    "pop": 204721
+  },
+  {
+    "nameAr": "كابو سان لوكاس",
+    "nameEn": "Cabo San Lucas",
+    "type": "city",
+    "lat": 22.889722222222,
+    "lng": -109.91555555556,
+    "pop": 202694
+  },
+  {
+    "nameAr": "غواناخواتو",
+    "nameEn": "Guanajuato",
+    "type": "city",
+    "lat": 21.017777777778,
+    "lng": -101.25666666667,
+    "pop": 194500
+  },
+  {
+    "nameAr": "سيوداد ديل كارمن",
+    "nameEn": "Ciudad del Carmen",
+    "type": "city",
+    "lat": 18.637789444444,
+    "lng": -91.83645,
+    "pop": 191238
+  },
+  {
+    "nameAr": "تشيلبانسينغو",
+    "nameEn": "Chilpancingo de los Bravo",
+    "type": "city",
+    "lat": 17.551944,
+    "lng": -99.501334,
+    "pop": 187251
+  },
+  {
+    "nameAr": "San Cristóbal de Las Casas",
+    "nameEn": "San Cristóbal de Las Casas",
+    "type": "city",
+    "lat": 16.737022222222,
+    "lng": -92.637563888889,
+    "pop": 183509
+  },
+  {
+    "nameAr": "Cuauhtémoc",
+    "nameEn": "Cuauhtémoc",
+    "type": "city",
+    "lat": 28.405,
+    "lng": -106.86666666667,
+    "pop": 180638
+  },
+  {
+    "nameAr": "San Luis Río Colorado",
+    "nameEn": "San Luis Río Colorado",
+    "type": "city",
+    "lat": 32.4375,
+    "lng": -114.77083333333,
+    "pop": 176685
+  },
+  {
+    "nameAr": "بيدراس نيغراس",
+    "nameEn": "Piedras Negras",
+    "type": "city",
+    "lat": 28.708055555556,
+    "lng": -100.52833333333,
+    "pop": 173959
+  },
+  {
+    "nameAr": "شيتومال",
+    "nameEn": "Chetumal",
+    "type": "city",
+    "lat": 18.493889444444,
+    "lng": -88.297898888889,
+    "pop": 169028
+  },
+  {
+    "nameAr": "سيوداد اكونا",
+    "nameEn": "Ciudad Acuña",
+    "type": "city",
+    "lat": 29.3188,
+    "lng": -100.9465,
+    "pop": 160225
+  },
+  {
+    "nameAr": "مانزانيلو",
+    "nameEn": "Manzanillo",
+    "type": "city",
+    "lat": 19.053205833333,
+    "lng": -104.31638055556,
+    "pop": 159853
+  },
+  {
+    "nameAr": "زاكاتيكاس",
+    "nameEn": "Zacatecas",
+    "type": "city",
+    "lat": 22.771666666667,
+    "lng": -102.57527777778,
+    "pop": 149607
+  },
+  {
+    "nameAr": "Villa de Álvarez",
+    "nameEn": "Villa de Álvarez",
+    "type": "city",
+    "lat": 19.264776388889,
+    "lng": -103.73675861111,
+    "pop": 147496
+  },
+  {
+    "nameAr": "مدينة كوليما",
+    "nameEn": "Colima",
+    "type": "city",
+    "lat": 19.242922222222,
+    "lng": -103.72811888889,
+    "pop": 146965
+  },
+  {
+    "nameAr": "كاناسين",
+    "nameEn": "Kanasín",
+    "type": "city",
+    "lat": 20.934444444444,
+    "lng": -89.557777777778,
+    "pop": 139753
+  },
+  {
+    "nameAr": "San José del Cabo",
+    "nameEn": "San José del Cabo",
+    "type": "city",
+    "lat": 23.061666666667,
+    "lng": -109.71138888889,
+    "pop": 136285
+  },
+  {
+    "nameAr": "نافويوا",
+    "nameEn": "Navojoa",
+    "type": "city",
+    "lat": 27.081666666667,
+    "lng": -109.44555555556,
+    "pop": 120926
+  },
+  {
+    "nameAr": "Comitán de Domínguez",
+    "nameEn": "Comitán de Domínguez",
+    "type": "city",
+    "lat": 16.251111111111,
+    "lng": -92.134166666667,
+    "pop": 113479
+  },
+  {
+    "nameAr": "شاطئ روزاريتو",
+    "nameEn": "Rosarito",
+    "type": "city",
+    "lat": 32.363611111111,
+    "lng": -117.05444444444,
+    "pop": 100660
+  },
+  {
+    "nameAr": "Ocotlán",
+    "nameEn": "Ocotlán",
+    "type": "city",
+    "lat": 20.346666666667,
+    "lng": -102.77416666667,
+    "pop": 94978
+  },
+  {
+    "nameAr": "توكسبان",
+    "nameEn": "Túxpan",
+    "type": "city",
+    "lat": 20.95777,
+    "lng": -97.40805,
+    "pop": 84750
+  },
+  {
+    "nameAr": "San Pablo del Monte",
+    "nameEn": "San Pablo del Monte",
+    "type": "city",
+    "lat": 19.119737777778,
+    "lng": -98.170415833333,
+    "pop": 70224
+  },
+  {
+    "nameAr": "Alvarado",
+    "nameEn": "Alvarado",
+    "type": "city",
+    "lat": 18.77143,
+    "lng": -95.76181,
+    "pop": 57035
+  },
+  {
+    "nameAr": "Umán",
+    "nameEn": "Umán",
+    "type": "city",
+    "lat": 20.883333333333,
+    "lng": -89.75,
+    "pop": 56049
+  },
+  {
+    "nameAr": "Tekax",
+    "nameEn": "Tekax",
+    "type": "city",
+    "lat": 20.201944444444,
+    "lng": -89.288055555556,
+    "pop": 50789
+  },
+  {
+    "nameAr": "Colonia del Sol",
+    "nameEn": "Colonia del Sol",
+    "type": "city",
+    "lat": 22.9125,
+    "lng": -109.92083333,
+    "pop": 48032
+  },
+  {
+    "nameAr": "Ocosingo",
+    "nameEn": "Ocosingo",
+    "type": "city",
+    "lat": 16.907222222222,
+    "lng": -92.096111111111,
+    "pop": 47688
+  },
+  {
+    "nameAr": "Chiautempan",
+    "nameEn": "Chiautempan",
+    "type": "city",
+    "lat": 19.311403148373,
+    "lng": -98.187967147249,
+    "pop": 46776
+  },
+  {
+    "nameAr": "Tlajomulco de Zuñiga",
+    "nameEn": "Tlajomulco de Zuñiga",
+    "type": "city",
+    "lat": 20.466666666667,
+    "lng": -103.43944444444,
+    "pop": 44103
+  },
+  {
+    "nameAr": "Ocozocoautla de Espinosa",
+    "nameEn": "Ocozocoautla de Espinosa",
+    "type": "city",
+    "lat": 16.7625,
+    "lng": -93.375,
+    "pop": 43247
+  },
+  {
+    "nameAr": "Comalcalco",
+    "nameEn": "Comalcalco",
+    "type": "city",
+    "lat": 18.266048055556,
+    "lng": -93.225017222222,
+    "pop": 43035
+  },
+  {
+    "nameAr": "Jaltipan de Morelos",
+    "nameEn": "Jaltipan de Morelos",
+    "type": "city",
+    "lat": 17.970277777778,
+    "lng": -94.714444444444,
+    "pop": 41644
+  },
+  {
+    "nameAr": "La Barca",
+    "nameEn": "La Barca",
+    "type": "city",
+    "lat": 20.291388888889,
+    "lng": -102.54638888889,
+    "pop": 38780
+  },
+  {
+    "nameAr": "Zacatelco",
+    "nameEn": "Zacatelco",
+    "type": "city",
+    "lat": 19.201331,
+    "lng": -98.245574,
+    "pop": 38654
+  },
+  {
+    "nameAr": "بروغرسو، يوكاتان",
+    "nameEn": "Progreso",
+    "type": "city",
+    "lat": 21.282777777778,
+    "lng": -89.663611111111,
+    "pop": 37369
+  },
+  {
+    "nameAr": "El Refugio, Baja California",
+    "nameEn": "El Refugio, Baja California",
+    "type": "city",
+    "lat": 32.45527778,
+    "lng": -116.83277778,
+    "pop": 36400
+  },
+  {
+    "nameAr": "Tenosique de Pino Suárez",
+    "nameEn": "Tenosique de Pino Suárez",
+    "type": "city",
+    "lat": 17.477494166667,
+    "lng": -91.425947777778,
+    "pop": 34946
+  },
+  {
+    "nameAr": "تيكول",
+    "nameEn": "Ticul",
+    "type": "city",
+    "lat": 20.395277777778,
+    "lng": -89.533888888889,
+    "pop": 32796
+  },
+  {
+    "nameAr": "Teapa",
+    "nameEn": "Teapa",
+    "type": "city",
+    "lat": 17.5557,
+    "lng": -92.9479,
+    "pop": 29068
+  },
+  {
+    "nameAr": "Huimanguillo",
+    "nameEn": "Huimanguillo",
+    "type": "city",
+    "lat": 17.835174444444,
+    "lng": -93.390769166667,
+    "pop": 27182
+  },
+  {
+    "nameAr": "Villagrán",
+    "nameEn": "Villagrán",
+    "type": "city",
+    "lat": 20.511111111111,
+    "lng": -100.99638888889,
+    "pop": 27079
+  },
+  {
+    "nameAr": "Paraíso",
+    "nameEn": "Paraíso",
+    "type": "city",
+    "lat": 18.39577,
+    "lng": -93.214236944444,
+    "pop": 25555
+  },
+  {
+    "nameAr": "Hunuma",
+    "nameEn": "Hunuma",
+    "type": "city",
+    "lat": 21.015277777778,
+    "lng": -89.874444444444,
+    "pop": 24910
+  },
+  {
+    "nameAr": "Frontera",
+    "nameEn": "Frontera",
+    "type": "city",
+    "lat": 18.530110833333,
+    "lng": -92.652187222222,
+    "pop": 23024
+  },
+  {
+    "nameAr": "Naolinco",
+    "nameEn": "Naolinco",
+    "type": "city",
+    "lat": 19.655833333333,
+    "lng": -96.873611111111,
+    "pop": 22835
+  },
+  {
+    "nameAr": "Emiliano Zapata",
+    "nameEn": "Emiliano Zapata",
+    "type": "city",
+    "lat": 17.744582222222,
+    "lng": -91.765081388889,
+    "pop": 22469
+  },
+  {
+    "nameAr": "Sombrerete",
+    "nameEn": "Sombrerete",
+    "type": "city",
+    "lat": 23.63466,
+    "lng": -103.64244,
+    "pop": 21702
+  },
+  {
+    "nameAr": "Tlaltenango de Sánchez Román",
+    "nameEn": "Tlaltenango de Sánchez Román",
+    "type": "city",
+    "lat": 21.783333333333,
+    "lng": -103.3,
+    "pop": 21636
+  },
+  {
+    "nameAr": "Cunduacán",
+    "nameEn": "Cunduacán",
+    "type": "city",
+    "lat": 18.065363333333,
+    "lng": -93.174300277778,
+    "pop": 21003
+  },
+  {
+    "nameAr": "Acultzingo",
+    "nameEn": "Acultzingo",
+    "type": "city",
+    "lat": 18.718888888889,
+    "lng": -97.303611111111,
+    "pop": 20973
+  },
+  {
+    "nameAr": "Tepezalá",
+    "nameEn": "Tepezalá",
+    "type": "city",
+    "lat": 22.222777777778,
+    "lng": -102.16694444444,
+    "pop": 20926
+  },
+  {
+    "nameAr": "Jalpa de Méndez",
+    "nameEn": "Jalpa de Méndez",
+    "type": "city",
+    "lat": 18.1768475,
+    "lng": -93.062596666667,
+    "pop": 16679
+  },
+  {
+    "nameAr": "إسامال",
+    "nameEn": "Izamal",
+    "type": "city",
+    "lat": 20.931388888889,
+    "lng": -89.017777777778,
+    "pop": 16195
+  },
+  {
+    "nameAr": "Ciudad de Armería",
+    "nameEn": "Ciudad de Armería",
+    "type": "city",
+    "lat": 18.937072777778,
+    "lng": -103.96499722222,
+    "pop": 15368
+  },
+  {
+    "nameAr": "Villa de Acala",
+    "nameEn": "Villa de Acala",
+    "type": "city",
+    "lat": 16.551673611111,
+    "lng": -92.807508333333,
+    "pop": 15001
+  },
+  {
+    "nameAr": "بلدية لوريتو",
+    "nameEn": "Loreto",
+    "type": "city",
+    "lat": 26.01217,
+    "lng": -111.34888,
+    "pop": 14724
+  },
+  {
+    "nameAr": "Benito Juárez",
+    "nameEn": "Benito Juárez",
+    "type": "city",
+    "lat": 17.833196666667,
+    "lng": -92.530142222222,
+    "pop": 14400
+  },
+  {
+    "nameAr": "غريرو نيغرو",
+    "nameEn": "Guerrero Negro",
+    "type": "city",
+    "lat": 27.9708,
+    "lng": -114.0366,
+    "pop": 13596
+  },
+  {
+    "nameAr": "Espita",
+    "nameEn": "Espita",
+    "type": "city",
+    "lat": 21.012777777778,
+    "lng": -88.304722222222,
+    "pop": 11551
+  },
+  {
+    "nameAr": "Nacajuca",
+    "nameEn": "Nacajuca",
+    "type": "city",
+    "lat": 18.168857222222,
+    "lng": -93.020042777778,
+    "pop": 10956
+  },
+  {
+    "nameAr": "Las Veredas",
+    "nameEn": "Las Veredas",
+    "type": "city",
+    "lat": 23.15028,
+    "lng": -109.70611,
+    "pop": 10478
+  },
+  {
+    "nameAr": "Ciudad Cuauhtémoc",
+    "nameEn": "Ciudad Cuauhtémoc",
+    "type": "city",
+    "lat": 22.18439,
+    "lng": -97.83472,
+    "pop": 9740
+  },
+  {
+    "nameAr": "Comala",
+    "nameEn": "Comala",
+    "type": "city",
+    "lat": 19.323198611111,
+    "lng": -103.75880111111,
+    "pop": 9649
+  },
+  {
+    "nameAr": "بلدية هالاتشو",
+    "nameEn": "Halacho",
+    "type": "city",
+    "lat": 20.476388888889,
+    "lng": -90.081944444444,
+    "pop": 9412
+  },
+  {
+    "nameAr": "Amatlán de los Reyes",
+    "nameEn": "Amatlán de los Reyes",
+    "type": "city",
+    "lat": 18.84575,
+    "lng": -96.91494,
+    "pop": 9123
+  },
+  {
+    "nameAr": "Vicente Guerrero",
+    "nameEn": "Vicente Guerrero",
+    "type": "city",
+    "lat": 28.547777777778,
+    "lng": -107.48555555556,
+    "pop": 7751
+  },
+  {
+    "nameAr": "Tacotalpa",
+    "nameEn": "Tacotalpa",
+    "type": "city",
+    "lat": 17.5917925,
+    "lng": -92.826283888889,
+    "pop": 7710
+  },
+  {
+    "nameAr": "Homún Municipality",
+    "nameEn": "Homún Municipality",
+    "type": "city",
+    "lat": 20.683333333333,
+    "lng": -89.25,
+    "pop": 7670
+  },
+  {
+    "nameAr": "San José Viejo",
+    "nameEn": "San José Viejo",
+    "type": "city",
+    "lat": 23.1226,
+    "lng": -109.712,
+    "pop": 7222
+  },
+  {
+    "nameAr": "Bécal",
+    "nameEn": "Bécal",
+    "type": "city",
+    "lat": 20.442611944444,
+    "lng": -90.028231944444,
+    "pop": 6801
+  },
+  {
+    "nameAr": "El Centenario",
+    "nameEn": "El Centenario",
+    "type": "city",
+    "lat": 24.1025,
+    "lng": -110.41444444444,
+    "pop": 6221
+  },
+  {
+    "nameAr": "Mapimí",
+    "nameEn": "Mapimí",
+    "type": "city",
+    "lat": 25.83305556,
+    "lng": -103.84777778,
+    "pop": 5623
+  },
+  {
+    "nameAr": "Pinos",
+    "nameEn": "Pinos",
+    "type": "city",
+    "lat": 22.29734,
+    "lng": -101.57512,
+    "pop": 5611
+  },
+  {
+    "nameAr": "Nombre de Dios",
+    "nameEn": "Nombre de Dios",
+    "type": "city",
+    "lat": 23.846794737562,
+    "lng": -104.24342322325,
+    "pop": 5302
+  },
+  {
+    "nameAr": "Naica",
+    "nameEn": "Naica",
+    "type": "city",
+    "lat": 27.854722222222,
+    "lng": -105.4925,
+    "pop": 4938
+  },
+  {
+    "nameAr": "Ciudad Mier",
+    "nameEn": "Ciudad Mier",
+    "type": "city",
+    "lat": 26.430555555556,
+    "lng": -99.148611111111,
+    "pop": 4762
+  },
+  {
+    "nameAr": "Real de Asientos",
+    "nameEn": "Real de Asientos",
+    "type": "city",
+    "lat": 22.239722222222,
+    "lng": -102.08888888889,
+    "pop": 4517
+  },
+  {
+    "nameAr": "El Pescadero",
+    "nameEn": "El Pescadero",
+    "type": "city",
+    "lat": 23.364166666667,
+    "lng": -110.16833333333,
+    "pop": 4245
+  },
+  {
+    "nameAr": "Cuzamá",
+    "nameEn": "Cuzamá",
+    "type": "city",
+    "lat": 20.741388888889,
+    "lng": -89.315555555556,
+    "pop": 3721
+  },
+  {
+    "nameAr": "Siltepec",
+    "nameEn": "Siltepec",
+    "type": "city",
+    "lat": 15.557222222222,
+    "lng": -92.322777777778,
+    "pop": 3645
+  },
+  {
+    "nameAr": "Tapijulapa",
+    "nameEn": "Tapijulapa",
+    "type": "city",
+    "lat": 17.459880277778,
+    "lng": -92.778969722222,
+    "pop": 3095
+  },
+  {
+    "nameAr": "Guadalupe, Baja California",
+    "nameEn": "Guadalupe, Baja California",
+    "type": "city",
+    "lat": 32.097777777778,
+    "lng": -116.56694444444,
+    "pop": 2664
+  },
+  {
+    "nameAr": "La Ribera",
+    "nameEn": "La Ribera",
+    "type": "city",
+    "lat": 23.592777777778,
+    "lng": -109.58388888889,
+    "pop": 2050
+  },
+  {
+    "nameAr": "El Rosario, Baja California",
+    "nameEn": "El Rosario, Baja California",
+    "type": "city",
+    "lat": 30.060277777778,
+    "lng": -115.72694444444,
+    "pop": 1704
+  },
+  {
+    "nameAr": "Colonia Calafia",
+    "nameEn": "Colonia Calafia",
+    "type": "city",
+    "lat": 24.0211,
+    "lng": -110.2839,
+    "pop": 1690
+  },
+  {
+    "nameAr": "Arizpe",
+    "nameEn": "Arizpe",
+    "type": "city",
+    "lat": 30.334722222222,
+    "lng": -110.16611111111,
+    "pop": 1666
+  },
+  {
+    "nameAr": "Miraflores",
+    "nameEn": "Miraflores",
+    "type": "city",
+    "lat": 23.369166666667,
+    "lng": -109.77611111111,
+    "pop": 1352
+  },
+  {
+    "nameAr": "10 de Abril",
+    "nameEn": "10 de Abril",
+    "type": "city",
+    "lat": 16.82917,
+    "lng": -99.74083,
+    "pop": 1051
+  },
+  {
+    "nameAr": "El Sargento",
+    "nameEn": "El Sargento",
+    "type": "city",
+    "lat": 24.0812,
+    "lng": -109.9932,
+    "pop": 958
+  },
+  {
+    "nameAr": "San Juan de los Planes",
+    "nameEn": "San Juan de los Planes",
+    "type": "city",
+    "lat": 23.96667,
+    "lng": -109.93583,
+    "pop": 902
+  },
+  {
+    "nameAr": "San Pedro",
+    "nameEn": "San Pedro",
+    "type": "city",
+    "lat": 23.9275,
+    "lng": -110.26444444,
+    "pop": 568
+  },
+  {
+    "nameAr": "San Antonio",
+    "nameEn": "San Antonio",
+    "type": "city",
+    "lat": 23.80805556,
+    "lng": -110.05694444,
+    "pop": 463
+  },
+  {
+    "nameAr": "Guarachanillo",
+    "nameEn": "Guarachanillo",
+    "type": "city",
+    "lat": 19.826111111111,
+    "lng": -102.37805555556,
+    "pop": 393
+  },
+  {
+    "nameAr": "Villa Jesús María",
+    "nameEn": "Villa Jesús María",
+    "type": "city",
+    "lat": 28.281388888889,
+    "lng": -114.00111111111,
+    "pop": 368
+  },
+  {
+    "nameAr": "Ensenada Blanca",
+    "nameEn": "Ensenada Blanca",
+    "type": "city",
+    "lat": 25.72611111,
+    "lng": -111.24722222,
+    "pop": 255
+  },
+  {
+    "nameAr": "La Ventana",
+    "nameEn": "La Ventana",
+    "type": "city",
+    "lat": 24.051666666667,
+    "lng": -109.98916666667,
+    "pop": 255
+  },
+  {
+    "nameAr": "Cataviña",
+    "nameEn": "Cataviña",
+    "type": "city",
+    "lat": 29.731944444444,
+    "lng": -114.72083333333,
+    "pop": 159
+  },
+  {
+    "nameAr": "San Javier",
+    "nameEn": "San Javier",
+    "type": "city",
+    "lat": 25.861111111111,
+    "lng": -111.54361111111,
+    "pop": 131
+  },
+  {
+    "nameAr": "Punta Prieta",
+    "nameEn": "Punta Prieta",
+    "type": "city",
+    "lat": 28.928888888889,
+    "lng": -114.15555555556,
+    "pop": 112
+  },
+  {
+    "nameAr": "El Campo Chila",
+    "nameEn": "El Campo Chila",
+    "type": "city",
+    "lat": 21.343611111111,
+    "lng": -98.116388888889,
+    "pop": 3
+  },
+  {
+    "nameAr": "Agapito Domínguez Canabal",
+    "nameEn": "Agapito Domínguez Canabal",
+    "type": "city",
+    "lat": 17.77949,
+    "lng": -93.37425,
+    "pop": null
+  },
+  {
+    "nameAr": "Agua Gorda de los Patos",
+    "nameEn": "Agua Gorda de los Patos",
+    "type": "city",
+    "lat": 21.880833333333,
+    "lng": -101.46972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Ahila",
+    "nameEn": "Ahila",
+    "type": "city",
+    "lat": 20.26554,
+    "lng": -98.17196,
+    "pop": null
+  },
+  {
+    "nameAr": "Alfredo Quijano Ricaño",
+    "nameEn": "Alfredo Quijano Ricaño",
+    "type": "city",
+    "lat": 20.71972,
+    "lng": -97.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Alzada",
+    "nameEn": "Alzada",
+    "type": "city",
+    "lat": 19.25864,
+    "lng": -103.52824,
+    "pop": null
+  },
+  {
+    "nameAr": "Ambrosio",
+    "nameEn": "Ambrosio",
+    "type": "city",
+    "lat": 20.27605,
+    "lng": -103.97092,
+    "pop": null
+  },
+  {
+    "nameAr": "Amila",
+    "nameEn": "Amila",
+    "type": "city",
+    "lat": 19.87694,
+    "lng": -97.38126,
+    "pop": null
+  },
+  {
+    "nameAr": "Atotonilco",
+    "nameEn": "Atotonilco",
+    "type": "city",
+    "lat": 21.005,
+    "lng": -100.79333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Augusto Gómez Villanueva",
+    "nameEn": "Augusto Gómez Villanueva",
+    "type": "city",
+    "lat": 21.13814,
+    "lng": -97.67747,
+    "pop": null
+  },
+  {
+    "nameAr": "Augusto Gómez Villanueva, Cuencamé",
+    "nameEn": "Augusto Gómez Villanueva, Cuencamé",
+    "type": "city",
+    "lat": 24.17274,
+    "lng": -103.81334,
+    "pop": null
+  },
+  {
+    "nameAr": "Bagdad",
+    "nameEn": "Bagdad",
+    "type": "city",
+    "lat": 25.95,
+    "lng": -97.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Bahía de los Ángeles",
+    "nameEn": "Bahía de los Ángeles",
+    "type": "city",
+    "lat": 28.953333333333,
+    "lng": -113.56027777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Barra de Potosí",
+    "nameEn": "Barra de Potosí",
+    "type": "city",
+    "lat": 17.54028,
+    "lng": -101.44056,
+    "pop": null
+  },
+  {
+    "nameAr": "Batana, Rancho Nuevo",
+    "nameEn": "Batana, Rancho Nuevo",
+    "type": "city",
+    "lat": 30.656666666667,
+    "lng": -109.71388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Berlín",
+    "nameEn": "Berlín",
+    "type": "city",
+    "lat": 16.30944,
+    "lng": -93.42722,
+    "pop": null
+  },
+  {
+    "nameAr": "Cacaxtla",
+    "nameEn": "Cacaxtla",
+    "type": "city",
+    "lat": 19.3,
+    "lng": -98.33333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Camacho de Arriba",
+    "nameEn": "Camacho de Arriba",
+    "type": "city",
+    "lat": 23.930305555556,
+    "lng": -106.53411111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Cantarranas",
+    "nameEn": "Cantarranas",
+    "type": "city",
+    "lat": 20.73444,
+    "lng": -102.23944,
+    "pop": null
+  },
+  {
+    "nameAr": "Caratacua",
+    "nameEn": "Caratacua",
+    "type": "city",
+    "lat": 19.76083,
+    "lng": -101.71833,
+    "pop": null
+  },
+  {
+    "nameAr": "Casa Amarilla",
+    "nameEn": "Casa Amarilla",
+    "type": "city",
+    "lat": 18.52406,
+    "lng": -97.51023,
+    "pop": null
+  },
+  {
+    "nameAr": "Casa Nueva",
+    "nameEn": "Casa Nueva",
+    "type": "city",
+    "lat": 19.490277777778,
+    "lng": -99.916111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Chapingo",
+    "nameEn": "Chapingo",
+    "type": "city",
+    "lat": 19.48333333,
+    "lng": -98.88333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Cofradia de San Pedro, Cofradia de la Estancia (Navolato)",
+    "nameEn": "Cofradia de San Pedro, Cofradia de la Estancia (Navolato)",
+    "type": "city",
+    "lat": 24.798611111111,
+    "lng": -107.60166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Convento de Monjas",
+    "nameEn": "Convento de Monjas",
+    "type": "city",
+    "lat": 28.74555,
+    "lng": -106.922,
+    "pop": null
+  },
+  {
+    "nameAr": "Cueva Grande",
+    "nameEn": "Cueva Grande",
+    "type": "city",
+    "lat": 22.7,
+    "lng": -103.28333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Durango",
+    "nameEn": "Durango",
+    "type": "city",
+    "lat": 32.249166666667,
+    "lng": -115.25166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "El Álamo",
+    "nameEn": "El Álamo",
+    "type": "city",
+    "lat": 30.91759,
+    "lng": -108.30529,
+    "pop": null
+  },
+  {
+    "nameAr": "El Castaño",
+    "nameEn": "El Castaño",
+    "type": "city",
+    "lat": 16.40778,
+    "lng": -93.42278,
+    "pop": null
+  },
+  {
+    "nameAr": "El Chasqueño",
+    "nameEn": "El Chasqueño",
+    "type": "city",
+    "lat": 16.79194,
+    "lng": -97.57306,
+    "pop": null
+  },
+  {
+    "nameAr": "El Colecio",
+    "nameEn": "El Colecio",
+    "type": "city",
+    "lat": 20.1475,
+    "lng": -102.3016,
+    "pop": null
+  },
+  {
+    "nameAr": "El Corrientón",
+    "nameEn": "El Corrientón",
+    "type": "city",
+    "lat": 16.265,
+    "lng": -92.85417,
+    "pop": null
+  },
+  {
+    "nameAr": "El Ojito",
+    "nameEn": "El Ojito",
+    "type": "city",
+    "lat": 29.0403,
+    "lng": -107.85866,
+    "pop": null
+  },
+  {
+    "nameAr": "El Poleo",
+    "nameEn": "El Poleo",
+    "type": "city",
+    "lat": 22.83861,
+    "lng": -103.17611,
+    "pop": null
+  },
+  {
+    "nameAr": "El Ranchito",
+    "nameEn": "El Ranchito",
+    "type": "city",
+    "lat": 16.59008,
+    "lng": -98.77335,
+    "pop": null
+  },
+  {
+    "nameAr": "El Recodo",
+    "nameEn": "El Recodo",
+    "type": "city",
+    "lat": 23.405621,
+    "lng": -106.212931,
+    "pop": null
+  },
+  {
+    "nameAr": "El Salto",
+    "nameEn": "El Salto",
+    "type": "city",
+    "lat": 23.778333333333,
+    "lng": -105.36055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "El Sauz",
+    "nameEn": "El Sauz",
+    "type": "city",
+    "lat": 18.54111,
+    "lng": -102.94167,
+    "pop": null
+  },
+  {
+    "nameAr": "El Shadai",
+    "nameEn": "El Shadai",
+    "type": "city",
+    "lat": 18.94917,
+    "lng": -96.00278,
+    "pop": null
+  },
+  {
+    "nameAr": "El Sitio",
+    "nameEn": "El Sitio",
+    "type": "city",
+    "lat": 21.964722222222,
+    "lng": -101.58916666667,
+    "pop": null
+  },
+  {
+    "nameAr": "El Teso",
+    "nameEn": "El Teso",
+    "type": "city",
+    "lat": 24.063888888889,
+    "lng": -109.99166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ensenada Los Muertos",
+    "nameEn": "Ensenada Los Muertos",
+    "type": "city",
+    "lat": 23.997,
+    "lng": -109.832,
+    "pop": null
+  },
+  {
+    "nameAr": "Familia Castellanos",
+    "nameEn": "Familia Castellanos",
+    "type": "city",
+    "lat": 32.404166666667,
+    "lng": -116.64277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Familia Lizárraga",
+    "nameEn": "Familia Lizárraga",
+    "type": "city",
+    "lat": 32.596111111111,
+    "lng": -115.23472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Guásimas de Belem",
+    "nameEn": "Guásimas de Belem",
+    "type": "city",
+    "lat": 27.885833333333,
+    "lng": -110.58166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "historic centre of Ojuelos",
+    "nameEn": "historic centre of Ojuelos",
+    "type": "city",
+    "lat": 21.8389,
+    "lng": -101.7856,
+    "pop": null
+  },
+  {
+    "nameAr": "Hormiguero",
+    "nameEn": "Hormiguero",
+    "type": "city",
+    "lat": 25.68386,
+    "lng": -103.34121,
+    "pop": null
+  },
+  {
+    "nameAr": "Huehuepiaxtla",
+    "nameEn": "Huehuepiaxtla",
+    "type": "city",
+    "lat": 18.155277777778,
+    "lng": -98.385277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Huitzila",
+    "nameEn": "Huitzila",
+    "type": "city",
+    "lat": 21,
+    "lng": -103,
+    "pop": null
+  },
+  {
+    "nameAr": "Ixtenco",
+    "nameEn": "Ixtenco",
+    "type": "city",
+    "lat": 19.2514,
+    "lng": -97.8942,
+    "pop": null
+  },
+  {
+    "nameAr": "Jesús María",
+    "nameEn": "Jesús María",
+    "type": "city",
+    "lat": 21.963,
+    "lng": -102.3442,
+    "pop": null
+  },
+  {
+    "nameAr": "José Cardel",
+    "nameEn": "José Cardel",
+    "type": "city",
+    "lat": 19.368333333333,
+    "lng": -96.37,
+    "pop": null
+  },
+  {
+    "nameAr": "José María Pino Suárez",
+    "nameEn": "José María Pino Suárez",
+    "type": "city",
+    "lat": 19.80472,
+    "lng": -88.11861,
+    "pop": null
+  },
+  {
+    "nameAr": "Kohunlich",
+    "nameEn": "Kohunlich",
+    "type": "city",
+    "lat": 18.41666667,
+    "lng": -88.78333333,
+    "pop": null
+  },
+  {
+    "nameAr": "La Cal",
+    "nameEn": "La Cal",
+    "type": "city",
+    "lat": 20.58333,
+    "lng": -102.75722,
+    "pop": null
+  },
+  {
+    "nameAr": "La Campana",
+    "nameEn": "La Campana",
+    "type": "city",
+    "lat": 25.298972222222,
+    "lng": -98.677222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "La Cañadita",
+    "nameEn": "La Cañadita",
+    "type": "city",
+    "lat": 17.10972,
+    "lng": -96.78806,
+    "pop": null
+  },
+  {
+    "nameAr": "La Chiripa",
+    "nameEn": "La Chiripa",
+    "type": "city",
+    "lat": 22.220833333333,
+    "lng": -102.28166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "La Lomita",
+    "nameEn": "La Lomita",
+    "type": "city",
+    "lat": 25.07583,
+    "lng": -98.06861,
+    "pop": null
+  },
+  {
+    "nameAr": "La Pista",
+    "nameEn": "La Pista",
+    "type": "city",
+    "lat": 25.47333333,
+    "lng": -108.225,
+    "pop": null
+  },
+  {
+    "nameAr": "La Salina, Baja California",
+    "nameEn": "La Salina, Baja California",
+    "type": "city",
+    "lat": 32.06,
+    "lng": -116.87833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "La Ventanilla",
+    "nameEn": "La Ventanilla",
+    "type": "city",
+    "lat": 15.671944444444,
+    "lng": -96.590277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Lacanjá Chansayab",
+    "nameEn": "Lacanjá Chansayab",
+    "type": "city",
+    "lat": 16.6026,
+    "lng": -90.9149,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Delicias",
+    "nameEn": "Las Delicias",
+    "type": "city",
+    "lat": 32.40888889,
+    "lng": -116.94361111,
+    "pop": null
+  },
+  {
+    "nameAr": "Las Palmas",
+    "nameEn": "Las Palmas",
+    "type": "city",
+    "lat": 22.9412,
+    "lng": -109.9432,
+    "pop": null
+  },
+  {
+    "nameAr": "Lázaro Cárdenas",
+    "nameEn": "Lázaro Cárdenas",
+    "type": "city",
+    "lat": 20.441888888889,
+    "lng": -103.967,
+    "pop": null
+  },
+  {
+    "nameAr": "Location without name (El Fuerte)",
+    "nameEn": "Location without name (El Fuerte)",
+    "type": "city",
+    "lat": 26.16166667,
+    "lng": -109.01277778,
+    "pop": null
+  },
+  {
+    "nameAr": "Loma de Carretas",
+    "nameEn": "Loma de Carretas",
+    "type": "city",
+    "lat": 23.6125,
+    "lng": -102.21194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Charcos",
+    "nameEn": "Los Charcos",
+    "type": "city",
+    "lat": 20.98806,
+    "lng": -100.09389,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Mártires",
+    "nameEn": "Los Mártires",
+    "type": "city",
+    "lat": 23.62018,
+    "lng": -109.65998,
+    "pop": null
+  },
+  {
+    "nameAr": "Los Tres Reyes, La Paz",
+    "nameEn": "Los Tres Reyes, La Paz",
+    "type": "city",
+    "lat": 24.36302,
+    "lng": -111.20902,
+    "pop": null
+  },
+  {
+    "nameAr": "Manuel Garay",
+    "nameEn": "Manuel Garay",
+    "type": "city",
+    "lat": 28.26687,
+    "lng": -105.39936,
+    "pop": null
+  },
+  {
+    "nameAr": "Manuel Guerrero Guzman, Panuco",
+    "nameEn": "Manuel Guerrero Guzman, Panuco",
+    "type": "city",
+    "lat": 22.14639,
+    "lng": -98.19972,
+    "pop": null
+  },
+  {
+    "nameAr": "Mesa del Cobre",
+    "nameEn": "Mesa del Cobre",
+    "type": "city",
+    "lat": 20.350833333333,
+    "lng": -104.01611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Mezquital",
+    "nameEn": "Mezquital",
+    "type": "city",
+    "lat": 25.243333333333,
+    "lng": -97.443055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Michoacán de Ocampo",
+    "nameEn": "Michoacán de Ocampo",
+    "type": "city",
+    "lat": 32.466666666667,
+    "lng": -115.30861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Norias del Paso Hondo",
+    "nameEn": "Norias del Paso Hondo",
+    "type": "city",
+    "lat": 21.860452777778,
+    "lng": -102.20715472222,
+    "pop": null
+  },
+  {
+    "nameAr": "Nuevo Santa Elena de Aceves",
+    "nameEn": "Nuevo Santa Elena de Aceves",
+    "type": "city",
+    "lat": 20.474166666667,
+    "lng": -101.97777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Papalotla",
+    "nameEn": "Papalotla",
+    "type": "city",
+    "lat": 19.16861,
+    "lng": -98.20389,
+    "pop": null
+  },
+  {
+    "nameAr": "Pierson, Hermosillo",
+    "nameEn": "Pierson, Hermosillo",
+    "type": "city",
+    "lat": 28.36417,
+    "lng": -111.27944,
+    "pop": null
+  },
+  {
+    "nameAr": "Platón Sánchez",
+    "nameEn": "Platón Sánchez",
+    "type": "city",
+    "lat": 21.283305555556,
+    "lng": -98.366694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Plutarco Elías Calles",
+    "nameEn": "Plutarco Elías Calles",
+    "type": "city",
+    "lat": 28.868394444444,
+    "lng": -111.35762222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pueblo Nuevo",
+    "nameEn": "Pueblo Nuevo",
+    "type": "city",
+    "lat": 23.37927,
+    "lng": -105.38313,
+    "pop": null
+  },
+  {
+    "nameAr": "Pueblo Viejo",
+    "nameEn": "Pueblo Viejo",
+    "type": "city",
+    "lat": 19.17903,
+    "lng": -100.29837,
+    "pop": null
+  },
+  {
+    "nameAr": "Rancho Guerrero",
+    "nameEn": "Rancho Guerrero",
+    "type": "city",
+    "lat": 28.40745,
+    "lng": -105.5464,
+    "pop": null
+  },
+  {
+    "nameAr": "Rancho Palma",
+    "nameEn": "Rancho Palma",
+    "type": "city",
+    "lat": 18.9412627,
+    "lng": -96.9048529,
+    "pop": null
+  },
+  {
+    "nameAr": "Rio Rico",
+    "nameEn": "Rio Rico",
+    "type": "city",
+    "lat": 26.056944444444,
+    "lng": -97.89,
+    "pop": null
+  },
+  {
+    "nameAr": "Sabinas Hidalgo",
+    "nameEn": "Sabinas Hidalgo",
+    "type": "city",
+    "lat": 26.498333333333,
+    "lng": -100.18111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "San Felipe Hueyotlipan",
+    "nameEn": "San Felipe Hueyotlipan",
+    "type": "city",
+    "lat": 19.086111111111,
+    "lng": -98.211388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "San Francisco",
+    "nameEn": "San Francisco",
+    "type": "city",
+    "lat": 17.26512,
+    "lng": -100.98781,
+    "pop": null
+  },
+  {
+    "nameAr": "San Francisco de la Huerta",
+    "nameEn": "San Francisco de la Huerta",
+    "type": "city",
+    "lat": 27.633333333333,
+    "lng": -109.88472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "San Francisco Tetlanohcan",
+    "nameEn": "San Francisco Tetlanohcan",
+    "type": "city",
+    "lat": 19.26,
+    "lng": -98.164,
+    "pop": null
+  },
+  {
+    "nameAr": "San Gregorio Atlapulco",
+    "nameEn": "San Gregorio Atlapulco",
+    "type": "city",
+    "lat": 19.25,
+    "lng": -99.06666667,
+    "pop": null
+  },
+  {
+    "nameAr": "San Isidro Amatitlan (Santa Maria Zacatepec)",
+    "nameEn": "San Isidro Amatitlan (Santa Maria Zacatepec)",
+    "type": "city",
+    "lat": 16.857777777778,
+    "lng": -98.023333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "San Jerónimo Lídice",
+    "nameEn": "San Jerónimo Lídice",
+    "type": "city",
+    "lat": 19.33333333,
+    "lng": -99.21666667,
+    "pop": null
+  },
+  {
+    "nameAr": "San José Pibtuch",
+    "nameEn": "San José Pibtuch",
+    "type": "city",
+    "lat": 20.94705,
+    "lng": -88.67498,
+    "pop": null
+  },
+  {
+    "nameAr": "San José Xicohténcatl",
+    "nameEn": "San José Xicohténcatl",
+    "type": "city",
+    "lat": 19.353,
+    "lng": -97.83,
+    "pop": null
+  },
+  {
+    "nameAr": "San Juan, Graneros, San Fernando",
+    "nameEn": "San Juan, Graneros, San Fernando",
+    "type": "city",
+    "lat": 25.06833,
+    "lng": -98.06833,
+    "pop": null
+  },
+  {
+    "nameAr": "San Martín del Estado",
+    "nameEn": "San Martín del Estado",
+    "type": "city",
+    "lat": 17.568055555556,
+    "lng": -98.176388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "San Miguel de Piélagos",
+    "nameEn": "San Miguel de Piélagos",
+    "type": "city",
+    "lat": 24.70944,
+    "lng": -105.86694,
+    "pop": null
+  },
+  {
+    "nameAr": "San Telmo, Baja California",
+    "nameEn": "San Telmo, Baja California",
+    "type": "city",
+    "lat": 30.9665809,
+    "lng": -116.1000202,
+    "pop": null
+  },
+  {
+    "nameAr": "San Vicente Yogodoy",
+    "nameEn": "San Vicente Yogodoy",
+    "type": "city",
+    "lat": 16.06944,
+    "lng": -96.61722,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Cecilia, La Sesilia",
+    "nameEn": "Santa Cecilia, La Sesilia",
+    "type": "city",
+    "lat": 25.575027777778,
+    "lng": -101.9145,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa María del Monte",
+    "nameEn": "Santa María del Monte",
+    "type": "city",
+    "lat": 19.28763,
+    "lng": -99.8253,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa María del Oro",
+    "nameEn": "Santa María del Oro",
+    "type": "city",
+    "lat": 25.9525,
+    "lng": -105.36472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Santo Tomás",
+    "nameEn": "Santo Tomás",
+    "type": "city",
+    "lat": 31.550555555556,
+    "lng": -116.40833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Santo Tomás Ajusco",
+    "nameEn": "Santo Tomás Ajusco",
+    "type": "city",
+    "lat": 19.2121639,
+    "lng": -99.2208198,
+    "pop": null
+  },
+  {
+    "nameAr": "Suaqui",
+    "nameEn": "Suaqui",
+    "type": "city",
+    "lat": 29.686944444444,
+    "lng": -110.14861111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Tacubaya",
+    "nameEn": "Tacubaya",
+    "type": "city",
+    "lat": 19.4009,
+    "lng": -99.1872,
+    "pop": null
+  },
+  {
+    "nameAr": "Tayoltita",
+    "nameEn": "Tayoltita",
+    "type": "city",
+    "lat": 24.102777777778,
+    "lng": -105.93083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Temaxcalapa",
+    "nameEn": "Temaxcalapa",
+    "type": "city",
+    "lat": 18.7591,
+    "lng": -97.36762,
+    "pop": null
+  },
+  {
+    "nameAr": "Tezoquipan, Tecomatlán",
+    "nameEn": "Tezoquipan, Tecomatlán",
+    "type": "city",
+    "lat": 18.08361,
+    "lng": -98.32667,
+    "pop": null
+  },
+  {
+    "nameAr": "Tlachichila",
+    "nameEn": "Tlachichila",
+    "type": "city",
+    "lat": 21.556944444444,
+    "lng": -102.78583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Tlaxco",
+    "nameEn": "Tlaxco",
+    "type": "city",
+    "lat": 19.621569043216,
+    "lng": -98.119655744737,
+    "pop": null
+  },
+  {
+    "nameAr": "Topiba",
+    "nameEn": "Topiba",
+    "type": "city",
+    "lat": 25.01692,
+    "lng": -106.94592,
+    "pop": null
+  },
+  {
+    "nameAr": "Uakukos",
+    "nameEn": "Uakukos",
+    "type": "city",
+    "lat": 30.615416666667,
+    "lng": -108.01083333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Villa Hidalgo",
+    "nameEn": "Villa Hidalgo",
+    "type": "city",
+    "lat": 26.2475,
+    "lng": -104.91611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "Villa Mariano Matamoros",
+    "nameEn": "Villa Mariano Matamoros",
+    "type": "city",
+    "lat": 19.32675,
+    "lng": -98.377638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Vuelta Grande",
+    "nameEn": "Vuelta Grande",
+    "type": "city",
+    "lat": 18.46992,
+    "lng": -100.04227,
+    "pop": null
+  },
+  {
+    "nameAr": "Yerbabuena",
+    "nameEn": "Yerbabuena",
+    "type": "city",
+    "lat": 20.55425,
+    "lng": -98.94962,
+    "pop": null
+  },
+  {
+    "nameAr": "Zapotitlán Salinas",
+    "nameEn": "Zapotitlán Salinas",
+    "type": "city",
+    "lat": 18.331944444444,
+    "lng": -97.474444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Zipiajo",
+    "nameEn": "Zipiajo",
+    "type": "city",
+    "lat": 19.793611111111,
+    "lng": -101.55333333333,
+    "pop": null
+  }
+]

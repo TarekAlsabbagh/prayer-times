@@ -1,0 +1,58 @@
+[
+  {
+    "nameAr": "بغداد",
+    "nameEn": "Baghdad",
+    "type": "city",
+    "lat": 33.3152,
+    "lng": 44.3661
+  },
+  {
+    "nameAr": "البصرة",
+    "nameEn": "Basra",
+    "type": "city",
+    "lat": 30.5085,
+    "lng": 47.7804
+  },
+  {
+    "nameAr": "الموصل",
+    "nameEn": "Mosul",
+    "type": "city",
+    "lat": 36.3450,
+    "lng": 43.1450
+  },
+  {
+    "nameAr": "أربيل",
+    "nameEn": "Erbil",
+    "type": "city",
+    "lat": 36.1911,
+    "lng": 44.0092
+  },
+  {
+    "nameAr": "النجف",
+    "nameEn": "Najaf",
+    "type": "city",
+    "lat": 32.0000,
+    "lng": 44.3333
+  },
+  {
+    "nameAr": "كربلاء",
+    "nameEn": "Karbala",
+    "type": "city",
+    "lat": 32.6160,
+    "lng": 44.0249
+  },
+  {
+    "nameAr": "كركوك",
+    "nameEn": "Kirkuk",
+    "type": "city",
+    "lat": 35.4681,
+    "lng": 44.3922
+  },
+  {
+    "nameAr": "السليمانية",
+    "nameEn": "Sulaymaniyah",
+    "type": "city",
+    "lat": 35.5608,
+    "lng": 45.4347
+  }
+]

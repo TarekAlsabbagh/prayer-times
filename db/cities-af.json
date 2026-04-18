@@ -1,0 +1,44 @@
+[
+  {
+    "nameAr": "كابول",
+    "nameEn": "Kabul",
+    "type": "city",
+    "lat": 34.5553,
+    "lng": 69.2075
+  },
+  {
+    "nameAr": "قندهار",
+    "nameEn": "Kandahar",
+    "type": "city",
+    "lat": 31.6289,
+    "lng": 65.7372
+  },
+  {
+    "nameAr": "هرات",
+    "nameEn": "Herat",
+    "type": "city",
+    "lat": 34.3529,
+    "lng": 62.2040
+  },
+  {
+    "nameAr": "مزار شريف",
+    "nameEn": "Mazar-i-Sharif",
+    "type": "city",
+    "lat": 36.7041,
+    "lng": 67.1120
+  },
+  {
+    "nameAr": "جلال آباد",
+    "nameEn": "Jalalabad",
+    "type": "city",
+    "lat": 34.4415,
+    "lng": 70.4361
+  },
+  {
+    "nameAr": "قندوز",
+    "nameEn": "Kunduz",
+    "type": "city",
+    "lat": 36.7285,
+    "lng": 68.8571
+  }
+]

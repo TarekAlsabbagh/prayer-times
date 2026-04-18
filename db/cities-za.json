@@ -1,0 +1,51 @@
+[
+  {
+    "nameAr": "بريتوريا",
+    "nameEn": "Pretoria",
+    "type": "city",
+    "lat": -25.7461,
+    "lng": 28.1881
+  },
+  {
+    "nameAr": "إيست لندن",
+    "nameEn": "East London",
+    "type": "city",
+    "lat": -33.0153,
+    "lng": 27.9116
+  },
+  {
+    "nameAr": "بلومفونتين",
+    "nameEn": "Bloemfontein",
+    "type": "city",
+    "lat": -29.0852,
+    "lng": 26.1596
+  },
+  {
+    "nameAr": "بورت إليزابيث",
+    "nameEn": "Port Elizabeth",
+    "type": "city",
+    "lat": -33.9608,
+    "lng": 25.6022
+  },
+  {
+    "nameAr": "جوهانسبرغ",
+    "nameEn": "Johannesburg",
+    "type": "city",
+    "lat": -26.2041,
+    "lng": 28.0473
+  },
+  {
+    "nameAr": "دربان",
+    "nameEn": "Durban",
+    "type": "city",
+    "lat": -29.8587,
+    "lng": 31.0218
+  },
+  {
+    "nameAr": "كيب تاون",
+    "nameEn": "Cape Town",
+    "type": "city",
+    "lat": -33.9249,
+    "lng": 18.4241
+  }
+]

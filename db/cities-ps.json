@@ -1,0 +1,3739 @@
+[
+  {
+    "nameAr": "القدس",
+    "nameEn": "Jerusalem",
+    "type": "city",
+    "lat": 31.7683,
+    "lng": 35.2137
+  },
+  {
+    "nameAr": "أريحا",
+    "nameEn": "Jericho",
+    "type": "city",
+    "lat": 31.8613,
+    "lng": 35.4447
+  },
+  {
+    "nameAr": "الخليل",
+    "nameEn": "Hebron",
+    "type": "city",
+    "lat": 31.5326,
+    "lng": 35.0998
+  },
+  {
+    "nameAr": "الضفة الغربية",
+    "nameEn": "West Bank",
+    "type": "city",
+    "lat": 32,
+    "lng": 35.25
+  },
+  {
+    "nameAr": "بيت لحم",
+    "nameEn": "Bethlehem",
+    "type": "city",
+    "lat": 31.7054,
+    "lng": 35.2024
+  },
+  {
+    "nameAr": "جنين",
+    "nameEn": "Jenin",
+    "type": "city",
+    "lat": 32.4597,
+    "lng": 35.2979
+  },
+  {
+    "nameAr": "خان يونس",
+    "nameEn": "Khan Yunis",
+    "type": "city",
+    "lat": 31.3449,
+    "lng": 34.3068
+  },
+  {
+    "nameAr": "رام الله",
+    "nameEn": "Ramallah",
+    "type": "city",
+    "lat": 31.8996,
+    "lng": 35.2042
+  },
+  {
+    "nameAr": "رفح",
+    "nameEn": "Rafah",
+    "type": "city",
+    "lat": 31.2826,
+    "lng": 34.2547
+  },
+  {
+    "nameAr": "سلفيت",
+    "nameEn": "Salfit",
+    "type": "city",
+    "lat": 32.0847,
+    "lng": 35.1779
+  },
+  {
+    "nameAr": "طوباس",
+    "nameEn": "Tubas",
+    "type": "city",
+    "lat": 32.3209,
+    "lng": 35.3693
+  },
+  {
+    "nameAr": "طولكرم",
+    "nameEn": "Tulkarm",
+    "type": "city",
+    "lat": 32.3104,
+    "lng": 35.0285
+  },
+  {
+    "nameAr": "غزة",
+    "nameEn": "Gaza",
+    "type": "city",
+    "lat": 31.5017,
+    "lng": 34.4668
+  },
+  {
+    "nameAr": "قلقيلية",
+    "nameEn": "Qalqilya",
+    "type": "city",
+    "lat": 32.1865,
+    "lng": 34.9754
+  },
+  {
+    "nameAr": "نابلس",
+    "nameEn": "Nablus",
+    "type": "city",
+    "lat": 32.2211,
+    "lng": 35.2544
+  },
+  {
+    "nameAr": "يطا",
+    "nameEn": "Yatta",
+    "type": "city",
+    "lat": 31.447777777778,
+    "lng": 35.09,
+    "pop": 167424
+  },
+  {
+    "nameAr": "بيت لاهيا",
+    "nameEn": "Beit Lahia",
+    "type": "city",
+    "lat": 31.5539,
+    "lng": 34.501380555556,
+    "pop": 89838
+  },
+  {
+    "nameAr": "موديعين عيليت",
+    "nameEn": "Modi'in Illit",
+    "type": "city",
+    "lat": 31.933276,
+    "lng": 35.0428924,
+    "pop": 76374
+  },
+  {
+    "nameAr": "جِنِين",
+    "nameEn": "Jenin",
+    "type": "city",
+    "lat": 32.461111111111,
+    "lng": 35.3,
+    "pop": 49908
+  },
+  {
+    "nameAr": "دير البلح",
+    "nameEn": "Deir al-Balah",
+    "type": "city",
+    "lat": 31.416666666667,
+    "lng": 34.35,
+    "pop": 49751
+  },
+  {
+    "nameAr": "البيرة",
+    "nameEn": "Al-Bireh",
+    "type": "city",
+    "lat": 31.905141666667,
+    "lng": 35.214958333333,
+    "pop": 49657
+  },
+  {
+    "nameAr": "الظاهرية",
+    "nameEn": "Al Dahiriya",
+    "type": "city",
+    "lat": 31.407622222222,
+    "lng": 34.9723,
+    "pop": 41541
+  },
+  {
+    "nameAr": "معاليه أدوميم",
+    "nameEn": "Ma'ale Adumim",
+    "type": "city",
+    "lat": 31.775,
+    "lng": 35.298055555556,
+    "pop": 37555
+  },
+  {
+    "nameAr": "بيت حانون",
+    "nameEn": "Beit Hanoun",
+    "type": "city",
+    "lat": 31.538611111111,
+    "lng": 34.537222222222,
+    "pop": 32187
+  },
+  {
+    "nameAr": "السموع",
+    "nameEn": "as-Samu",
+    "type": "city",
+    "lat": 31.400791666667,
+    "lng": 35.067075,
+    "pop": 26011
+  },
+  {
+    "nameAr": "قلنديا",
+    "nameEn": "Kalandia",
+    "type": "city",
+    "lat": 31.863055555556,
+    "lng": 35.2075,
+    "pop": 25595
+  },
+  {
+    "nameAr": "قباطية",
+    "nameEn": "Qabatiya",
+    "type": "city",
+    "lat": 32.409552777778,
+    "lng": 35.280880555556,
+    "pop": 24439
+  },
+  {
+    "nameAr": "أريئيل",
+    "nameEn": "Ariel",
+    "type": "city",
+    "lat": 32.106111111111,
+    "lng": 35.187777777778,
+    "pop": 20540
+  },
+  {
+    "nameAr": "سلوان",
+    "nameEn": "Silwan",
+    "type": "city",
+    "lat": 31.77,
+    "lng": 35.237,
+    "pop": 19771
+  },
+  {
+    "nameAr": "يعبد",
+    "nameEn": "Ya'bad",
+    "type": "city",
+    "lat": 32.446666666667,
+    "lng": 35.170277777778,
+    "pop": 19021
+  },
+  {
+    "nameAr": "جفعات زئيف",
+    "nameEn": "Giv'at Ze'ev",
+    "type": "city",
+    "lat": 31.864166666667,
+    "lng": 35.169722222222,
+    "pop": 18420
+  },
+  {
+    "nameAr": "عناتا",
+    "nameEn": "'Anata",
+    "type": "city",
+    "lat": 31.812777777778,
+    "lng": 35.261944444444,
+    "pop": 16919
+  },
+  {
+    "nameAr": "القرارة",
+    "nameEn": "Al-Qarara",
+    "type": "city",
+    "lat": 31.373125,
+    "lng": 34.333111111111,
+    "pop": 16900
+  },
+  {
+    "nameAr": "شوكة الصوفي",
+    "nameEn": "Shokat as-Sufi",
+    "type": "city",
+    "lat": 31.25997,
+    "lng": 34.2826,
+    "pop": 15000
+  },
+  {
+    "nameAr": "بيت ساحور",
+    "nameEn": "Beit Sahour",
+    "type": "city",
+    "lat": 31.7,
+    "lng": 35.216666666667,
+    "pop": 15000
+  },
+  {
+    "nameAr": "كفر عقب",
+    "nameEn": "Kafr 'Aqab اسرائيل",
+    "type": "city",
+    "lat": 31.875833333333,
+    "lng": 35.219722222222,
+    "pop": 14315
+  },
+  {
+    "nameAr": "بيت جالا",
+    "nameEn": "Beit Yala",
+    "type": "city",
+    "lat": 31.715833333333,
+    "lng": 35.1875,
+    "pop": 13484
+  },
+  {
+    "nameAr": "بيت فُورِيك",
+    "nameEn": "Beit Furik",
+    "type": "city",
+    "lat": 32.176944444444,
+    "lng": 35.336388888889,
+    "pop": 13477
+  },
+  {
+    "nameAr": "الخضر، بيت لحم",
+    "nameEn": "al-Khader",
+    "type": "city",
+    "lat": 31.692741666667,
+    "lng": 35.166441666667,
+    "pop": 11960
+  },
+  {
+    "nameAr": "قَفِّين",
+    "nameEn": "Qaffin",
+    "type": "city",
+    "lat": 32.43335,
+    "lng": 35.083525,
+    "pop": 11780
+  },
+  {
+    "nameAr": "عَرّابة",
+    "nameEn": "Arraba",
+    "type": "city",
+    "lat": 32.404444444444,
+    "lng": 35.203333333333,
+    "pop": 11479
+  },
+  {
+    "nameAr": "السيلة الحارثية",
+    "nameEn": "Silat al-Harithiya",
+    "type": "city",
+    "lat": 32.508125,
+    "lng": 35.227655555556,
+    "pop": 11449
+  },
+  {
+    "nameAr": "خُزاعة",
+    "nameEn": "Khuza'a, Khan Yunis",
+    "type": "city",
+    "lat": 31.306944444444,
+    "lng": 34.358055555556,
+    "pop": 11388
+  },
+  {
+    "nameAr": "بديا",
+    "nameEn": "Biddya",
+    "type": "city",
+    "lat": 32.114166666667,
+    "lng": 35.0775,
+    "pop": 10451
+  },
+  {
+    "nameAr": "قبلان",
+    "nameEn": "Qabalan",
+    "type": "city",
+    "lat": 32.478611111111,
+    "lng": 35.254166666667,
+    "pop": 10000
+  },
+  {
+    "nameAr": "عزون",
+    "nameEn": "Azzoun",
+    "type": "city",
+    "lat": 32.176483333333,
+    "lng": 35.059563888889,
+    "pop": 9269
+  },
+  {
+    "nameAr": "جباليا",
+    "nameEn": "Jabalia",
+    "type": "city",
+    "lat": 31.528055555556,
+    "lng": 34.483055555556,
+    "pop": 9000
+  },
+  {
+    "nameAr": "الاتحاد",
+    "nameEn": "Al-Ittihad, Ramallah",
+    "type": "city",
+    "lat": 31.96675833,
+    "lng": 35.10187778,
+    "pop": 8482
+  },
+  {
+    "nameAr": "نحالين",
+    "nameEn": "Nahalin",
+    "type": "city",
+    "lat": 31.684722222222,
+    "lng": 35.115833333333,
+    "pop": 8372
+  },
+  {
+    "nameAr": "قطنة، القدس",
+    "nameEn": "Qatanna",
+    "type": "city",
+    "lat": 31.831522222222,
+    "lng": 35.108822222222,
+    "pop": 8218
+  },
+  {
+    "nameAr": "بلعا",
+    "nameEn": "Bal'a",
+    "type": "city",
+    "lat": 32.333166666667,
+    "lng": 35.108652777778,
+    "pop": 7822
+  },
+  {
+    "nameAr": "العودة",
+    "nameEn": "Madinat al-Awda",
+    "type": "city",
+    "lat": 31.543333333333,
+    "lng": 34.454166666667,
+    "pop": 7433
+  },
+  {
+    "nameAr": "كفر ثلث",
+    "nameEn": "Kafr Thulth",
+    "type": "city",
+    "lat": 32.1525,
+    "lng": 35.044166666667,
+    "pop": 7300
+  },
+  {
+    "nameAr": "عنبتا",
+    "nameEn": "Anabta",
+    "type": "city",
+    "lat": 32.307166666667,
+    "lng": 35.116944444444,
+    "pop": 7271
+  },
+  {
+    "nameAr": "حُوارة",
+    "nameEn": "Huwara",
+    "type": "city",
+    "lat": 32.1525,
+    "lng": 35.256666666667,
+    "pop": 7263
+  },
+  {
+    "nameAr": "عورتا",
+    "nameEn": "Awarta",
+    "type": "city",
+    "lat": 32.161444444444,
+    "lng": 35.286391666667,
+    "pop": 7054
+  },
+  {
+    "nameAr": "بيرزيت",
+    "nameEn": "Birzeit",
+    "type": "city",
+    "lat": 31.972222222222,
+    "lng": 35.195555555556,
+    "pop": 7000
+  },
+  {
+    "nameAr": "عَتِّيل",
+    "nameEn": "Attil",
+    "type": "city",
+    "lat": 32.369383333333,
+    "lng": 35.071802777778,
+    "pop": 7000
+  },
+  {
+    "nameAr": "نوبا",
+    "nameEn": "Nuba, Hebron",
+    "type": "city",
+    "lat": 31.607211111111,
+    "lng": 35.036733333333,
+    "pop": 6531
+  },
+  {
+    "nameAr": "الفخاري",
+    "nameEn": "Al-Fukhari",
+    "type": "city",
+    "lat": 31.29278,
+    "lng": 34.33061,
+    "pop": 6443
+  },
+  {
+    "nameAr": "زعترة، بيت لحم",
+    "nameEn": "Za'atara",
+    "type": "city",
+    "lat": 31.67545,
+    "lng": 35.255494444444,
+    "pop": 6289
+  },
+  {
+    "nameAr": "عقابا (طوباس)",
+    "nameEn": "'Aqqaba",
+    "type": "city",
+    "lat": 32.350797222222,
+    "lng": 35.349738888889,
+    "pop": 6239
+  },
+  {
+    "nameAr": "قصرة",
+    "nameEn": "Qusra",
+    "type": "city",
+    "lat": 32.085277777778,
+    "lng": 35.33,
+    "pop": 6134
+  },
+  {
+    "nameAr": "الزاوية، سلفيت",
+    "nameEn": "Az-Zawiya, Salfit",
+    "type": "city",
+    "lat": 32.095833333333,
+    "lng": 35.04,
+    "pop": 6033
+  },
+  {
+    "nameAr": "جَبَع( جنين)",
+    "nameEn": "Jaba",
+    "type": "city",
+    "lat": 32.323888888889,
+    "lng": 35.222222222222,
+    "pop": 6000
+  },
+  {
+    "nameAr": "دورا",
+    "nameEn": "Dura, Hebron",
+    "type": "city",
+    "lat": 31.506791666667,
+    "lng": 35.027716666667,
+    "pop": 6000
+  },
+  {
+    "nameAr": "المزرعة القبلية",
+    "nameEn": "Al-Mazra'a al-Qibliya",
+    "type": "city",
+    "lat": 31.95,
+    "lng": 35.15166667,
+    "pop": 5946
+  },
+  {
+    "nameAr": "الرياض",
+    "nameEn": "Al riyadh",
+    "type": "city",
+    "lat": 32.319491666667,
+    "lng": 35.184563888889,
+    "pop": 5794
+  },
+  {
+    "nameAr": "سنجل",
+    "nameEn": "Sinjil",
+    "type": "city",
+    "lat": 32.033055555556,
+    "lng": 35.264166666667,
+    "pop": 5742
+  },
+  {
+    "nameAr": "حوسان",
+    "nameEn": "Husan",
+    "type": "city",
+    "lat": 31.709947222222,
+    "lng": 35.133861111111,
+    "pop": 5551
+  },
+  {
+    "nameAr": "قراوة بني حسان",
+    "nameEn": "Qarawat Bani Hassan",
+    "type": "city",
+    "lat": 32.128,
+    "lng": 35.099,
+    "pop": 5513
+  },
+  {
+    "nameAr": "كعبية طباش حجاجرة",
+    "nameEn": "Ka'abiyye-Tabbash-Hajajre",
+    "type": "city",
+    "lat": 32.758333333333,
+    "lng": 35.1825,
+    "pop": 5504
+  },
+  {
+    "nameAr": "الزهراء",
+    "nameEn": "Al-Zahra",
+    "type": "city",
+    "lat": 31.471580555556,
+    "lng": 34.401283333333,
+    "pop": 5338
+  },
+  {
+    "nameAr": "المغراقة",
+    "nameEn": "Al-Mughraqa",
+    "type": "city",
+    "lat": 31.4675,
+    "lng": 34.409722222222,
+    "pop": 5075
+  },
+  {
+    "nameAr": "بيتونيا",
+    "nameEn": "Beitunia",
+    "type": "city",
+    "lat": 31.888955555556,
+    "lng": 35.167533333333,
+    "pop": 5000
+  },
+  {
+    "nameAr": "بيت ليد",
+    "nameEn": "Beit Lid",
+    "type": "city",
+    "lat": 32.2617729,
+    "lng": 35.1301159,
+    "pop": 5000
+  },
+  {
+    "nameAr": "روابي",
+    "nameEn": "Rawabi",
+    "type": "city",
+    "lat": 32.01,
+    "lng": 35.185,
+    "pop": 5000
+  },
+  {
+    "nameAr": "أم النصر",
+    "nameEn": "Umm an Naşr",
+    "type": "city",
+    "lat": 31.56085,
+    "lng": 34.51863,
+    "pop": 4737
+  },
+  {
+    "nameAr": "المزرعة الشرقية",
+    "nameEn": "Al-Mazra'a ash-Sharqiya",
+    "type": "city",
+    "lat": 32.003333333333,
+    "lng": 35.273055555556,
+    "pop": 4663
+  },
+  {
+    "nameAr": "وادي السلقا",
+    "nameEn": "Wadi as-Salqa",
+    "type": "city",
+    "lat": 31.399938888889,
+    "lng": 34.339463888889,
+    "pop": 4660
+  },
+  {
+    "nameAr": "دار صلاح",
+    "nameEn": "Dar Salah",
+    "type": "city",
+    "lat": 31.711855555556,
+    "lng": 35.2517,
+    "pop": 4588
+  },
+  {
+    "nameAr": "نعلين",
+    "nameEn": "Ni'lin",
+    "type": "city",
+    "lat": 31.946605555556,
+    "lng": 35.021647222222,
+    "pop": 4573
+  },
+  {
+    "nameAr": "الزبابدة",
+    "nameEn": "Zababdeh",
+    "type": "city",
+    "lat": 32.385341666667,
+    "lng": 35.323172222222,
+    "pop": 4555
+  },
+  {
+    "nameAr": "كوبر",
+    "nameEn": "Kobar",
+    "type": "city",
+    "lat": 31.988905555556,
+    "lng": 35.159094444444,
+    "pop": 4320
+  },
+  {
+    "nameAr": "الفندقومية",
+    "nameEn": "Fandaqumiya",
+    "type": "city",
+    "lat": 32.320277777778,
+    "lng": 35.203611111111,
+    "pop": 4265
+  },
+  {
+    "nameAr": "دير دبوان",
+    "nameEn": "Deir Dibwan",
+    "type": "city",
+    "lat": 31.910833333333,
+    "lng": 35.270555555556,
+    "pop": 4169
+  },
+  {
+    "nameAr": "حارس",
+    "nameEn": "Haris",
+    "type": "city",
+    "lat": 32.114166666667,
+    "lng": 35.141111111111,
+    "pop": 4137
+  },
+  {
+    "nameAr": "بروقين",
+    "nameEn": "Bruqin",
+    "type": "city",
+    "lat": 32.071111111111,
+    "lng": 35.099444444444,
+    "pop": 4047
+  },
+  {
+    "nameAr": "بيت سيرا",
+    "nameEn": "Beit Sira",
+    "type": "city",
+    "lat": 31.887419444444,
+    "lng": 35.044091666667,
+    "pop": 3800
+  },
+  {
+    "nameAr": "أبو ديس",
+    "nameEn": "Abu Dis",
+    "type": "city",
+    "lat": 31.7625,
+    "lng": 35.265833333333,
+    "pop": 3631
+  },
+  {
+    "nameAr": "دير استيا",
+    "nameEn": "Deir Istiya",
+    "type": "city",
+    "lat": 32.130555555556,
+    "lng": 35.14,
+    "pop": 3599
+  },
+  {
+    "nameAr": "فقوعة",
+    "nameEn": "Faqqua",
+    "type": "city",
+    "lat": 32.490555555556,
+    "lng": 35.400833333333,
+    "pop": 3577
+  },
+  {
+    "nameAr": "فروش بيت دجن",
+    "nameEn": "Furush Beit Dajan",
+    "type": "city",
+    "lat": 32.207,
+    "lng": 35.443963888889,
+    "pop": 3545
+  },
+  {
+    "nameAr": "قراوة بني زيد",
+    "nameEn": "Qarawat Bani Zeid",
+    "type": "city",
+    "lat": 32.05361111,
+    "lng": 35.12833333,
+    "pop": 3415
+  },
+  {
+    "nameAr": "سرطة",
+    "nameEn": "Sarta",
+    "type": "city",
+    "lat": 32.104166666667,
+    "lng": 35.090277777778,
+    "pop": 3382
+  },
+  {
+    "nameAr": "دير الغصون",
+    "nameEn": "Deir al-Ghusun",
+    "type": "city",
+    "lat": 32.353097222222,
+    "lng": 35.076966666667,
+    "pop": 3376
+  },
+  {
+    "nameAr": "يتما",
+    "nameEn": "Yatma",
+    "type": "city",
+    "lat": 32.108338888889,
+    "lng": 35.268347222222,
+    "pop": 3363
+  },
+  {
+    "nameAr": "مسلية",
+    "nameEn": "Misilyah",
+    "type": "city",
+    "lat": 32.386791666667,
+    "lng": 35.287938888889,
+    "pop": 3297
+  },
+  {
+    "nameAr": "بيت إمرين",
+    "nameEn": "Beit Imrin",
+    "type": "city",
+    "lat": 32.292230555556,
+    "lng": 35.215547222222,
+    "pop": 3294
+  },
+  {
+    "nameAr": "جورة الشمعة",
+    "nameEn": "Jurat ash-Sham'a",
+    "type": "city",
+    "lat": 31.65051,
+    "lng": 35.17001,
+    "pop": 3215
+  },
+  {
+    "nameAr": "الجُدَيْدَةُ",
+    "nameEn": "Judeida",
+    "type": "city",
+    "lat": 32.33466944,
+    "lng": 35.30187778,
+    "pop": 3151
+  },
+  {
+    "nameAr": "خلة الدار",
+    "nameEn": "Khallet Edar",
+    "type": "city",
+    "lat": 31.4954353,
+    "lng": 35.1188226,
+    "pop": 2984
+  },
+  {
+    "nameAr": "قريوت",
+    "nameEn": "Qaryut",
+    "type": "city",
+    "lat": 32.070927777778,
+    "lng": 35.294011111111,
+    "pop": 2898
+  },
+  {
+    "nameAr": "المغير، رام الله",
+    "nameEn": "Al-Mughayyir, Ramallah",
+    "type": "city",
+    "lat": 32.019444444444,
+    "lng": 35.346111111111,
+    "pop": 2872
+  },
+  {
+    "nameAr": "صوريف",
+    "nameEn": "Surif",
+    "type": "city",
+    "lat": 31.6505,
+    "lng": 35.066225,
+    "pop": 2827
+  },
+  {
+    "nameAr": "كفر راعي",
+    "nameEn": "Kafr Rai",
+    "type": "city",
+    "lat": 32.375997222222,
+    "lng": 35.155097222222,
+    "pop": 2823
+  },
+  {
+    "nameAr": "طلوزة",
+    "nameEn": "Talluza",
+    "type": "city",
+    "lat": 32.271111111111,
+    "lng": 35.293888888889,
+    "pop": 2795
+  },
+  {
+    "nameAr": "مسحة، سلفيت",
+    "nameEn": "Mas-ha",
+    "type": "city",
+    "lat": 32.107777777778,
+    "lng": 35.051666666667,
+    "pop": 2760
+  },
+  {
+    "nameAr": "ياصيد",
+    "nameEn": "Yasid",
+    "type": "city",
+    "lat": 32.296569444444,
+    "lng": 35.277669444444,
+    "pop": 2681
+  },
+  {
+    "nameAr": "ترقوميا",
+    "nameEn": "Tarqumiyah",
+    "type": "city",
+    "lat": 31.575,
+    "lng": 35.013055555556,
+    "pop": 2651
+  },
+  {
+    "nameAr": "اللبن الشرقية",
+    "nameEn": "Al-Lubban ash-Sharqiya",
+    "type": "city",
+    "lat": 32.071111111111,
+    "lng": 35.241111111111,
+    "pop": 2640
+  },
+  {
+    "nameAr": "دير إبزيع",
+    "nameEn": "Deir Ibzi",
+    "type": "city",
+    "lat": 31.916111111111,
+    "lng": 35.118888888889,
+    "pop": 2590
+  },
+  {
+    "nameAr": "جينصافوط",
+    "nameEn": "Jinsafut",
+    "type": "city",
+    "lat": 32.178611111111,
+    "lng": 35.129444444444,
+    "pop": 2571
+  },
+  {
+    "nameAr": "رافات، سلفيت",
+    "nameEn": "Rafat, Salfit",
+    "type": "city",
+    "lat": 32.078055555556,
+    "lng": 35.045277777778,
+    "pop": 2522
+  },
+  {
+    "nameAr": "مركة",
+    "nameEn": "Mirka",
+    "type": "city",
+    "lat": 32.396561111111,
+    "lng": 35.238086111111,
+    "pop": 2518
+  },
+  {
+    "nameAr": "مخماس",
+    "nameEn": "Mikhmas",
+    "type": "city",
+    "lat": 31.872816666667,
+    "lng": 35.276858333333,
+    "pop": 2500
+  },
+  {
+    "nameAr": "جيت",
+    "nameEn": "Jit, Qalqilya",
+    "type": "city",
+    "lat": 32.214722222222,
+    "lng": 35.169722222222,
+    "pop": 2405
+  },
+  {
+    "nameAr": "مردة",
+    "nameEn": "Marda",
+    "type": "city",
+    "lat": 32.113030555556,
+    "lng": 35.195686111111,
+    "pop": 2375
+  },
+  {
+    "nameAr": "وادي الفارعة",
+    "nameEn": "Wadi al-Far'a",
+    "type": "city",
+    "lat": 32.293722,
+    "lng": 35.344461,
+    "pop": 2340
+  },
+  {
+    "nameAr": "عصيرة القبلية",
+    "nameEn": "Asira al-Qibliya",
+    "type": "city",
+    "lat": 32.178888888889,
+    "lng": 35.214722222222,
+    "pop": 2336
+  },
+  {
+    "nameAr": "نزلة عيسى",
+    "nameEn": "Nazlat 'Isa",
+    "type": "city",
+    "lat": 32.415947222222,
+    "lng": 35.055441666667,
+    "pop": 2302
+  },
+  {
+    "nameAr": "النزلة",
+    "nameEn": "Nazla",
+    "type": "city",
+    "lat": 31.53277778,
+    "lng": 34.48222222,
+    "pop": 2284
+  },
+  {
+    "nameAr": "قوصين",
+    "nameEn": "Qusin",
+    "type": "city",
+    "lat": 32.238705555556,
+    "lng": 35.183441666667,
+    "pop": 2251
+  },
+  {
+    "nameAr": "المغير",
+    "nameEn": "Al-Mughayyir, Jenin",
+    "type": "city",
+    "lat": 32.421591666667,
+    "lng": 35.384897222222,
+    "pop": 2240
+  },
+  {
+    "nameAr": "جِفنا",
+    "nameEn": "Jifna",
+    "type": "city",
+    "lat": 31.961944444444,
+    "lng": 35.215555555556,
+    "pop": 2196
+  },
+  {
+    "nameAr": "بيت فجار",
+    "nameEn": "Beit Fajjar",
+    "type": "city",
+    "lat": 31.624730555556,
+    "lng": 35.155608333333,
+    "pop": 2182
+  },
+  {
+    "nameAr": "بيت نَتيِف",
+    "nameEn": "Bayt Nattif",
+    "type": "city",
+    "lat": 31.69552778,
+    "lng": 34.996,
+    "pop": 2150
+  },
+  {
+    "nameAr": "مادما",
+    "nameEn": "Madama, Nablus",
+    "type": "city",
+    "lat": 32.18333333,
+    "lng": 35.23611111,
+    "pop": 2128
+  },
+  {
+    "nameAr": "مراح رباح",
+    "nameEn": "Marah Rabah",
+    "type": "city",
+    "lat": 31.635072222222,
+    "lng": 35.1887,
+    "pop": 1986
+  },
+  {
+    "nameAr": "جَمّاعِين",
+    "nameEn": "Jamma'in",
+    "type": "city",
+    "lat": 32.131111111111,
+    "lng": 35.200833333333,
+    "pop": 1965
+  },
+  {
+    "nameAr": "راس كركر",
+    "nameEn": "Ras Karkar",
+    "type": "city",
+    "lat": 31.943611111111,
+    "lng": 35.105,
+    "pop": 1956
+  },
+  {
+    "nameAr": "النويعمة",
+    "nameEn": "An-Nuway'imah",
+    "type": "city",
+    "lat": 31.891502777778,
+    "lng": 35.436016666667,
+    "pop": 1794
+  },
+  {
+    "nameAr": "الزبيدات",
+    "nameEn": "az-Zubaidat",
+    "type": "city",
+    "lat": 32.173055555556,
+    "lng": 35.53,
+    "pop": 1794
+  },
+  {
+    "nameAr": "بيت لقيا",
+    "nameEn": "Beit Liqya",
+    "type": "city",
+    "lat": 31.869166666667,
+    "lng": 35.066944444444,
+    "pop": 1727
+  },
+  {
+    "nameAr": "قلقس",
+    "nameEn": "Qalqas",
+    "type": "city",
+    "lat": 31.492011111111,
+    "lng": 35.096625,
+    "pop": 1709
+  },
+  {
+    "nameAr": "خربة السيميا",
+    "nameEn": "Khirbat al-Simia",
+    "type": "city",
+    "lat": 31.421683333333,
+    "lng": 35.033694444444,
+    "pop": 1705
+  },
+  {
+    "nameAr": "كفر قدوم",
+    "nameEn": "Kafr Qaddum",
+    "type": "city",
+    "lat": 32.221666666667,
+    "lng": 35.142777777778,
+    "pop": 1701
+  },
+  {
+    "nameAr": "الولجة",
+    "nameEn": "al-Walaja",
+    "type": "city",
+    "lat": 31.731241666667,
+    "lng": 35.163611111111,
+    "pop": 1656
+  },
+  {
+    "nameAr": "فرخة",
+    "nameEn": "Farkha",
+    "type": "city",
+    "lat": 32.069702777778,
+    "lng": 35.148911111111,
+    "pop": 1650
+  },
+  {
+    "nameAr": "خلة حمامة",
+    "nameEn": "Khallet Hamameh",
+    "type": "city",
+    "lat": 31.7214369,
+    "lng": 35.2006333,
+    "pop": 1624
+  },
+  {
+    "nameAr": "إمريش",
+    "nameEn": "Imreish",
+    "type": "city",
+    "lat": 31.432811111111,
+    "lng": 34.986636111111,
+    "pop": 1623
+  },
+  {
+    "nameAr": "ذنابة",
+    "nameEn": "Dhinnaba",
+    "type": "city",
+    "lat": 32.31341,
+    "lng": 35.04144,
+    "pop": 1586
+  },
+  {
+    "nameAr": "تِل، نابلس",
+    "nameEn": "Tell, Nablus",
+    "type": "city",
+    "lat": 32.20068,
+    "lng": 35.21293,
+    "pop": 1539
+  },
+  {
+    "nameAr": "عابود",
+    "nameEn": "Aboud",
+    "type": "city",
+    "lat": 32.015016666667,
+    "lng": 35.068133333333,
+    "pop": 1521
+  },
+  {
+    "nameAr": "كفر عبوش",
+    "nameEn": "Kafr Abbush",
+    "type": "city",
+    "lat": 32.22203333,
+    "lng": 35.08428611,
+    "pop": 1488
+  },
+  {
+    "nameAr": "دير جرير",
+    "nameEn": "Deir Jarir",
+    "type": "city",
+    "lat": 31.964444444444,
+    "lng": 35.295833333333,
+    "pop": 1474
+  },
+  {
+    "nameAr": "اليامون",
+    "nameEn": "Al-Yamun",
+    "type": "city",
+    "lat": 32.486486111111,
+    "lng": 35.235272222222,
+    "pop": 1473
+  },
+  {
+    "nameAr": "صانور",
+    "nameEn": "Sanur, Jenin",
+    "type": "city",
+    "lat": 32.35608,
+    "lng": 35.24537,
+    "pop": 1471
+  },
+  {
+    "nameAr": "الطيبة، رام الله",
+    "nameEn": "Taybeh, Ramallah",
+    "type": "city",
+    "lat": 31.954444444444,
+    "lng": 35.300277777778,
+    "pop": 1452
+  },
+  {
+    "nameAr": "بئر عونة",
+    "nameEn": "Bir Onah",
+    "type": "city",
+    "lat": 31.7216601,
+    "lng": 35.189074,
+    "pop": 1413
+  },
+  {
+    "nameAr": "أبو  قَش",
+    "nameEn": "Abu Qash",
+    "type": "city",
+    "lat": 31.951111111111,
+    "lng": 35.184166666667,
+    "pop": 1404
+  },
+  {
+    "nameAr": "بيت عوا",
+    "nameEn": "Beit Awwa",
+    "type": "city",
+    "lat": 31.508583333333,
+    "lng": 34.950266666667,
+    "pop": 1368
+  },
+  {
+    "nameAr": "كفر الديك",
+    "nameEn": "Kafr ad-Dik",
+    "type": "city",
+    "lat": 32.066666666667,
+    "lng": 35.083055555556,
+    "pop": 1365
+  },
+  {
+    "nameAr": "فصايل",
+    "nameEn": "Fasayil",
+    "type": "city",
+    "lat": 32.025,
+    "lng": 35.443333333333,
+    "pop": 1364
+  },
+  {
+    "nameAr": "أبو شُخَيْدم",
+    "nameEn": "Abu Shukheidim",
+    "type": "city",
+    "lat": 31.96472222,
+    "lng": 35.17361111,
+    "pop": 1358
+  },
+  {
+    "nameAr": "كفر مالك",
+    "nameEn": "Kafr Malik",
+    "type": "city",
+    "lat": 31.989722222222,
+    "lng": 35.308888888889,
+    "pop": 1346
+  },
+  {
+    "nameAr": "كفل حارس",
+    "nameEn": "Kifl Haris",
+    "type": "city",
+    "lat": 32.118616666667,
+    "lng": 35.15695,
+    "pop": 1341
+  },
+  {
+    "nameAr": "عارورة",
+    "nameEn": "'Arura",
+    "type": "city",
+    "lat": 32.041666666667,
+    "lng": 35.171666666667,
+    "pop": 1337
+  },
+  {
+    "nameAr": "كفر صور",
+    "nameEn": "Kafr Sur",
+    "type": "city",
+    "lat": 32.243763888889,
+    "lng": 35.064480555556,
+    "pop": 1310
+  },
+  {
+    "nameAr": "سردا",
+    "nameEn": "Surda, Ramallah",
+    "type": "city",
+    "lat": 31.941388888889,
+    "lng": 35.203333333333,
+    "pop": 1308
+  },
+  {
+    "nameAr": "الفندق",
+    "nameEn": "Al-Funduq",
+    "type": "city",
+    "lat": 32.190713888889,
+    "lng": 35.136822222222,
+    "pop": 1299
+  },
+  {
+    "nameAr": "تِعِنّك",
+    "nameEn": "Ti'inik",
+    "type": "city",
+    "lat": 32.519725,
+    "lng": 35.221058333333,
+    "pop": 1298
+  },
+  {
+    "nameAr": "تفُّوح",
+    "nameEn": "Taffuh",
+    "type": "city",
+    "lat": 31.539188888889,
+    "lng": 35.053083333333,
+    "pop": 1282
+  },
+  {
+    "nameAr": "قيرة",
+    "nameEn": "Qira, Salfit",
+    "type": "city",
+    "lat": 32.121919444444,
+    "lng": 35.171719444444,
+    "pop": 1278
+  },
+  {
+    "nameAr": "المنية",
+    "nameEn": "Al-Maniya",
+    "type": "city",
+    "lat": 31.62295,
+    "lng": 35.21737,
+    "pop": 1274
+  },
+  {
+    "nameAr": "خاراس",
+    "nameEn": "Kharas",
+    "type": "city",
+    "lat": 31.614105555556,
+    "lng": 35.043133333333,
+    "pop": 1264
+  },
+  {
+    "nameAr": "كفر دان",
+    "nameEn": "Kafr Dan",
+    "type": "city",
+    "lat": 32.478730555556,
+    "lng": 35.254044444444,
+    "pop": 1262
+  },
+  {
+    "nameAr": "اسكاكا",
+    "nameEn": "Iskaka",
+    "type": "city",
+    "lat": 32.103611111111,
+    "lng": 35.225205555556,
+    "pop": 1198
+  },
+  {
+    "nameAr": "بيت عور التحتا",
+    "nameEn": "Beit Ur al-Tahta",
+    "type": "city",
+    "lat": 31.895,
+    "lng": 35.083611111111,
+    "pop": 1198
+  },
+  {
+    "nameAr": "دير أبو ضعيف",
+    "nameEn": "Deir Abu Da'if",
+    "type": "city",
+    "lat": 32.455916666667,
+    "lng": 35.365736111111,
+    "pop": 1191
+  },
+  {
+    "nameAr": "عَجّة",
+    "nameEn": "Ajjah",
+    "type": "city",
+    "lat": 32.361713888889,
+    "lng": 35.195977777778,
+    "pop": 1190
+  },
+  {
+    "nameAr": "عِبْوين",
+    "nameEn": "Abwein",
+    "type": "city",
+    "lat": 32.0325,
+    "lng": 35.199166666667,
+    "pop": 1174
+  },
+  {
+    "nameAr": "حتا (الخليل)",
+    "nameEn": "Hatta, Hebron",
+    "type": "city",
+    "lat": 31.618611111111,
+    "lng": 35.026944444444,
+    "pop": 1155
+  },
+  {
+    "nameAr": "كفر اللبد",
+    "nameEn": "Kafr al-Labad",
+    "type": "city",
+    "lat": 32.297513888889,
+    "lng": 35.109383333333,
+    "pop": 1126
+  },
+  {
+    "nameAr": "بيت مقدوم",
+    "nameEn": "Beit Maqdum",
+    "type": "city",
+    "lat": 31.5343235,
+    "lng": 34.9761354,
+    "pop": 1109
+  },
+  {
+    "nameAr": "كفر عين",
+    "nameEn": "Kafr Ein",
+    "type": "city",
+    "lat": 32.04833333,
+    "lng": 35.12,
+    "pop": 1095
+  },
+  {
+    "nameAr": "الفريديس (بيت لحم)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.6643826,
+    "lng": 35.2354559,
+    "pop": 1095
+  },
+  {
+    "nameAr": "قلاع زيتا",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.5586579,
+    "lng": 35.1257328,
+    "pop": 1086
+  },
+  {
+    "nameAr": "خربة أبو فلاح",
+    "nameEn": "Khirbet Abu Falah",
+    "type": "city",
+    "lat": 32.015677777778,
+    "lng": 35.301316666667,
+    "pop": 1075
+  },
+  {
+    "nameAr": "كفر نعمة",
+    "nameEn": "Kafr Ni'ma",
+    "type": "city",
+    "lat": 31.9275,
+    "lng": 35.095277777778,
+    "pop": 1065
+  },
+  {
+    "nameAr": "كفر جمال",
+    "nameEn": "Kafr Jammal",
+    "type": "city",
+    "lat": 32.225286111111,
+    "lng": 35.04405,
+    "pop": 1041
+  },
+  {
+    "nameAr": "غيفون هاهاداشا",
+    "nameEn": "Giv'on HaHadasha",
+    "type": "city",
+    "lat": 31.848744444444,
+    "lng": 35.157591666667,
+    "pop": 1021
+  },
+  {
+    "nameAr": "عراق بورين",
+    "nameEn": "Iraq Burin",
+    "type": "city",
+    "lat": 32.20138889,
+    "lng": 35.23888889,
+    "pop": 1008
+  },
+  {
+    "nameAr": "خشم الدرج",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.427438,
+    "lng": 35.2430646,
+    "pop": 989
+  },
+  {
+    "nameAr": "دير أبو مشعل",
+    "nameEn": "Deir Abu Mash'al",
+    "type": "city",
+    "lat": 31.998347222222,
+    "lng": 35.068361111111,
+    "pop": 987
+  },
+  {
+    "nameAr": "حَبْلة",
+    "nameEn": "Hableh",
+    "type": "city",
+    "lat": 32.16472222,
+    "lng": 34.97722222,
+    "pop": 966
+  },
+  {
+    "nameAr": "كرزا (الخليل)",
+    "nameEn": "Kurza, Hebron",
+    "type": "city",
+    "lat": 31.4407703,
+    "lng": 34.9995483,
+    "pop": 943
+  },
+  {
+    "nameAr": "خربتا المصباح",
+    "nameEn": "Kharbatha al-Misbah",
+    "type": "city",
+    "lat": 31.891666666667,
+    "lng": 35.071666666667,
+    "pop": 942
+  },
+  {
+    "nameAr": "قيلة",
+    "nameEn": "Qila, Hebron",
+    "type": "city",
+    "lat": 31.616294444444,
+    "lng": 35.003044444444,
+    "pop": 918
+  },
+  {
+    "nameAr": "سكة",
+    "nameEn": "Sikka, Hebron",
+    "type": "city",
+    "lat": 31.491111111111,
+    "lng": 34.944166666667,
+    "pop": 914
+  },
+  {
+    "nameAr": "تلفيت",
+    "nameEn": "Talfit, Nablus",
+    "type": "city",
+    "lat": 32.088611111111,
+    "lng": 35.291388888889,
+    "pop": 904
+  },
+  {
+    "nameAr": "فلامية",
+    "nameEn": "Falamya",
+    "type": "city",
+    "lat": 32.224722222222,
+    "lng": 35.022166666667,
+    "pop": 874
+  },
+  {
+    "nameAr": "فرعتا",
+    "nameEn": "Fara'ata",
+    "type": "city",
+    "lat": 32.190555555556,
+    "lng": 35.165833333333,
+    "pop": 872
+  },
+  {
+    "nameAr": "بير نبالا",
+    "nameEn": "Bir Nabala",
+    "type": "city",
+    "lat": 31.851666666667,
+    "lng": 35.200833333333,
+    "pop": 850
+  },
+  {
+    "nameAr": "خربة قزازة",
+    "nameEn": "Raml Zayta",
+    "type": "city",
+    "lat": 32.435,
+    "lng": 34.93666667,
+    "pop": 840
+  },
+  {
+    "nameAr": "المورق",
+    "nameEn": "Al Muwarraq",
+    "type": "city",
+    "lat": 31.5279756,
+    "lng": 34.9681316,
+    "pop": 839
+  },
+  {
+    "nameAr": "جلبون",
+    "nameEn": "Jalbun",
+    "type": "city",
+    "lat": 32.459986111111,
+    "lng": 35.415630555556,
+    "pop": 836
+  },
+  {
+    "nameAr": "مرج نعجة",
+    "nameEn": "Marj Naaja",
+    "type": "city",
+    "lat": 32.18,
+    "lng": 35.54,
+    "pop": 828
+  },
+  {
+    "nameAr": "عين الديوك الفوقا",
+    "nameEn": "Ein ad-Duyuk al-Foqa",
+    "type": "city",
+    "lat": 31.8839,
+    "lng": 35.429711111111,
+    "pop": 814
+  },
+  {
+    "nameAr": "جَلَمة، جنين",
+    "nameEn": "Jalamah",
+    "type": "city",
+    "lat": 32.508669444444,
+    "lng": 35.313380555556,
+    "pop": 784
+  },
+  {
+    "nameAr": "صَرَّة",
+    "nameEn": "Sarra, Nablus",
+    "type": "city",
+    "lat": 32.210097222222,
+    "lng": 35.190941666667,
+    "pop": 767
+  },
+  {
+    "nameAr": "عانين",
+    "nameEn": "'Anin",
+    "type": "city",
+    "lat": 32.501436111111,
+    "lng": 35.167744444444,
+    "pop": 752
+  },
+  {
+    "nameAr": "كفر قليل",
+    "nameEn": "Kafr Qallil",
+    "type": "city",
+    "lat": 32.191211111111,
+    "lng": 35.276138888889,
+    "pop": 749
+  },
+  {
+    "nameAr": "بيت كاحل",
+    "nameEn": "Beit Kahil",
+    "type": "city",
+    "lat": 31.569663888889,
+    "lng": 35.066,
+    "pop": 704
+  },
+  {
+    "nameAr": "زبوبا",
+    "nameEn": "Zububa",
+    "type": "city",
+    "lat": 32.545477777778,
+    "lng": 35.223555555556,
+    "pop": 683
+  },
+  {
+    "nameAr": "يبرود",
+    "nameEn": "Yabrud, Ramallah",
+    "type": "city",
+    "lat": 31.975277777778,
+    "lng": 35.243611111111,
+    "pop": 672
+  },
+  {
+    "nameAr": "خلة اللوزة",
+    "nameEn": "Khallet al-Louza",
+    "type": "city",
+    "lat": 31.6773243,
+    "lng": 35.1975053,
+    "pop": 645
+  },
+  {
+    "nameAr": "كفر زيباد",
+    "nameEn": "Kafr Zibad",
+    "type": "city",
+    "lat": 32.223983333333,
+    "lng": 35.071013888889,
+    "pop": 643
+  },
+  {
+    "nameAr": "مجدل بني فاضل",
+    "nameEn": "Majdal Bani Fadil",
+    "type": "city",
+    "lat": 32.083611111111,
+    "lng": 35.362777777778,
+    "pop": 628
+  },
+  {
+    "nameAr": "دير العسل التحتا",
+    "nameEn": "Deir al-Asal al-Tahta",
+    "type": "city",
+    "lat": 31.4732924,
+    "lng": 34.9478283,
+    "pop": 616
+  },
+  {
+    "nameAr": "اللُّبَّن الغربي",
+    "nameEn": "Al-Lubban al-Gharbi",
+    "type": "city",
+    "lat": 32.034444444444,
+    "lng": 35.039444444444,
+    "pop": 602
+  },
+  {
+    "nameAr": "النبي صالح",
+    "nameEn": "Nabi Salih",
+    "type": "city",
+    "lat": 32.016666666667,
+    "lng": 35.124722222222,
+    "pop": 600
+  },
+  {
+    "nameAr": "ياسوف",
+    "nameEn": "Yasuf",
+    "type": "city",
+    "lat": 32.106388888889,
+    "lng": 35.235555555556,
+    "pop": 585
+  },
+  {
+    "nameAr": "دورا القرع",
+    "nameEn": "Dura al-Qar'",
+    "type": "city",
+    "lat": 31.958975,
+    "lng": 35.228152777778,
+    "pop": 576
+  },
+  {
+    "nameAr": "العصاعصة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.3301775,
+    "lng": 35.2046721,
+    "pop": 571
+  },
+  {
+    "nameAr": "المدية",
+    "nameEn": "al-Midya",
+    "type": "city",
+    "lat": 31.935808333333,
+    "lng": 35.005252777778,
+    "pop": 570
+  },
+  {
+    "nameAr": "كيسان",
+    "nameEn": "Kisan",
+    "type": "city",
+    "lat": 31.6110618,
+    "lng": 35.2244873,
+    "pop": 560
+  },
+  {
+    "nameAr": "تقوع",
+    "nameEn": "Tuqu'",
+    "type": "city",
+    "lat": 31.636388888889,
+    "lng": 35.214444444444,
+    "pop": 555
+  },
+  {
+    "nameAr": "بئر ماعين",
+    "nameEn": "Bir Ma'in",
+    "type": "city",
+    "lat": 31.88802778,
+    "lng": 35.01897222,
+    "pop": 510
+  },
+  {
+    "nameAr": "النزلة الشرقية",
+    "nameEn": "An-Nazla ash-Sharqiya",
+    "type": "city",
+    "lat": 32.411738888889,
+    "lng": 35.107925,
+    "pop": 507
+  },
+  {
+    "nameAr": "الدهنية",
+    "nameEn": "Dahaniya",
+    "type": "city",
+    "lat": 31.225,
+    "lng": 34.27222222,
+    "pop": 500
+  },
+  {
+    "nameAr": "جلجيليا",
+    "nameEn": "Jiljilyya",
+    "type": "city",
+    "lat": 32.03055556,
+    "lng": 35.225,
+    "pop": 490
+  },
+  {
+    "nameAr": "خربة المُطِلة، جنين",
+    "nameEn": "Khirbat al-Mutillah",
+    "type": "city",
+    "lat": 32.420266291,
+    "lng": 35.407176288685,
+    "pop": 490
+  },
+  {
+    "nameAr": "الناقورة",
+    "nameEn": "An-Naqura",
+    "type": "city",
+    "lat": 32.265494444444,
+    "lng": 35.201275,
+    "pop": 487
+  },
+  {
+    "nameAr": "تَيَاسِير",
+    "nameEn": "Tayasir",
+    "type": "city",
+    "lat": 32.340433333333,
+    "lng": 35.396783333333,
+    "pop": 487
+  },
+  {
+    "nameAr": "أم الشوف",
+    "nameEn": "Umm ash Shauf",
+    "type": "city",
+    "lat": 32.5533,
+    "lng": 35.0487,
+    "pop": 480
+  },
+  {
+    "nameAr": "خرائب أم اللحم",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.839116,
+    "lng": 35.0948836,
+    "pop": 472
+  },
+  {
+    "nameAr": "كـفـر رمـان",
+    "nameEn": "Kafr Rumman",
+    "type": "city",
+    "lat": 32.316944444444,
+    "lng": 35.126666666667,
+    "pop": 466
+  },
+  {
+    "nameAr": "خربة المجد",
+    "nameEn": "Al-Majd, Hebron",
+    "type": "city",
+    "lat": 31.480594444444,
+    "lng": 34.950269444444,
+    "pop": 466
+  },
+  {
+    "nameAr": "خربة بيت ليد",
+    "nameEn": "Khirbat Bayt Lid",
+    "type": "city",
+    "lat": 32.31775,
+    "lng": 34.89241667,
+    "pop": 460
+  },
+  {
+    "nameAr": "الجانية",
+    "nameEn": "Al-Janiya",
+    "type": "city",
+    "lat": 31.938333333333,
+    "lng": 35.121944444444,
+    "pop": 451
+  },
+  {
+    "nameAr": "جَلْقموس",
+    "nameEn": "Jalqamus",
+    "type": "city",
+    "lat": 32.424186111111,
+    "lng": 35.363944444444,
+    "pop": 435
+  },
+  {
+    "nameAr": "عرب الفريجات",
+    "nameEn": "Arab al-Fureijat",
+    "type": "city",
+    "lat": 31.3572672,
+    "lng": 34.919582,
+    "pop": 431
+  },
+  {
+    "nameAr": "جوريش",
+    "nameEn": "Jurish",
+    "type": "city",
+    "lat": 32.102436111111,
+    "lng": 35.322341666667,
+    "pop": 419
+  },
+  {
+    "nameAr": "جَبَع( القدس )",
+    "nameEn": "Jaba’",
+    "type": "city",
+    "lat": 31.8575,
+    "lng": 35.261111111111,
+    "pop": 415
+  },
+  {
+    "nameAr": "عرب صقرير",
+    "nameEn": "Arab Suqrir",
+    "type": "city",
+    "lat": 31.82528333,
+    "lng": 34.65759444,
+    "pop": 390
+  },
+  {
+    "nameAr": "بيت وَزَن",
+    "nameEn": "Beit Wazan",
+    "type": "city",
+    "lat": 32.231388888889,
+    "lng": 35.215833333333,
+    "pop": 372
+  },
+  {
+    "nameAr": "كفر قود",
+    "nameEn": "Kafr Qud",
+    "type": "city",
+    "lat": 32.45722222,
+    "lng": 35.22722222,
+    "pop": 362
+  },
+  {
+    "nameAr": "كور",
+    "nameEn": "Kur, Tulkarm",
+    "type": "city",
+    "lat": 32.235277777778,
+    "lng": 35.097777777778,
+    "pop": 336
+  },
+  {
+    "nameAr": "الجُديرة",
+    "nameEn": "al-Judeira",
+    "type": "city",
+    "lat": 31.858186111111,
+    "lng": 35.197602777778,
+    "pop": 327
+  },
+  {
+    "nameAr": "عين شبلي",
+    "nameEn": "Ein Shibli",
+    "type": "city",
+    "lat": 32.229361111111,
+    "lng": 35.428111111111,
+    "pop": 313
+  },
+  {
+    "nameAr": "خربة الفخيت",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.3770959,
+    "lng": 35.1687043,
+    "pop": 312
+  },
+  {
+    "nameAr": "وادي العرايس",
+    "nameEn": "Wadi al-Arayis",
+    "type": "city",
+    "lat": 31.712422222222,
+    "lng": 35.27295,
+    "pop": 307
+  },
+  {
+    "nameAr": "كفر لاقف",
+    "nameEn": "Kafr Laqif",
+    "type": "city",
+    "lat": 32.182861111111,
+    "lng": 35.090688888889,
+    "pop": 304
+  },
+  {
+    "nameAr": "خربة بيت فار",
+    "nameEn": "Bayt Far, Khirbat",
+    "type": "city",
+    "lat": 31.80073611,
+    "lng": 34.91573611,
+    "pop": 300
+  },
+  {
+    "nameAr": "دير نظام",
+    "nameEn": "Deir Nidham",
+    "type": "city",
+    "lat": 32.002777777778,
+    "lng": 35.113611111111,
+    "pop": 296
+  },
+  {
+    "nameAr": "جالود",
+    "nameEn": "Jalud",
+    "type": "city",
+    "lat": 32.07111111,
+    "lng": 35.31305556,
+    "pop": 290
+  },
+  {
+    "nameAr": "دير العسل الفوقا",
+    "nameEn": "Deir al-'Asal al-Fauqa",
+    "type": "city",
+    "lat": 31.468544444444,
+    "lng": 34.938061111111,
+    "pop": 282
+  },
+  {
+    "nameAr": "وادي فوكين",
+    "nameEn": "Wadi Fukin",
+    "type": "city",
+    "lat": 31.706666666667,
+    "lng": 35.103888888889,
+    "pop": 280
+  },
+  {
+    "nameAr": "خُلدة",
+    "nameEn": "Khulda",
+    "type": "city",
+    "lat": 31.81944444,
+    "lng": 34.90388889,
+    "pop": 280
+  },
+  {
+    "nameAr": "إمنيزل",
+    "nameEn": "Imneizil",
+    "type": "city",
+    "lat": 31.3714573,
+    "lng": 35.1063347,
+    "pop": 278
+  },
+  {
+    "nameAr": "خربة العمور",
+    "nameEn": "Khirbat Al-'Umur",
+    "type": "city",
+    "lat": 31.79361111,
+    "lng": 35.09888889,
+    "pop": 270
+  },
+  {
+    "nameAr": "خربة صافا",
+    "nameEn": "Khirbet Safa",
+    "type": "city",
+    "lat": 31.642333333333,
+    "lng": 35.100427777778,
+    "pop": 260
+  },
+  {
+    "nameAr": "بير السكة",
+    "nameEn": "Bīr al-Sikkah",
+    "type": "city",
+    "lat": 32.3614567,
+    "lng": 35.0305957,
+    "pop": 250
+  },
+  {
+    "nameAr": "جسر المجامع",
+    "nameEn": "Jisr al-Majma",
+    "type": "city",
+    "lat": 32.647222222222,
+    "lng": 35.572972222222,
+    "pop": 250
+  },
+  {
+    "nameAr": "بيت قاد",
+    "nameEn": "Beit Qad",
+    "type": "city",
+    "lat": 32.4697,
+    "lng": 35.3563,
+    "pop": 247
+  },
+  {
+    "nameAr": "الكوم",
+    "nameEn": "al-Kum",
+    "type": "city",
+    "lat": 31.531233333333,
+    "lng": 34.960641666667,
+    "pop": 247
+  },
+  {
+    "nameAr": "الجاروشيّة",
+    "nameEn": "Al-Jarushiya",
+    "type": "city",
+    "lat": 32.347202777778,
+    "lng": 35.050552777778,
+    "pop": 245
+  },
+  {
+    "nameAr": "سومرة",
+    "nameEn": "Somara, Hebron",
+    "type": "city",
+    "lat": 31.416111111111,
+    "lng": 34.935,
+    "pop": 244
+  },
+  {
+    "nameAr": "نصف جبيل",
+    "nameEn": "Nisf Jubeil",
+    "type": "city",
+    "lat": 32.28277778,
+    "lng": 35.22055556,
+    "pop": 228
+  },
+  {
+    "nameAr": "بيت مِرسم",
+    "nameEn": "Beit Mirsim",
+    "type": "city",
+    "lat": 31.4523,
+    "lng": 34.917222222222,
+    "pop": 226
+  },
+  {
+    "nameAr": "زَبْدَة",
+    "nameEn": "Zibda",
+    "type": "city",
+    "lat": 32.45,
+    "lng": 35.12916667,
+    "pop": 225
+  },
+  {
+    "nameAr": "النبي إلياس",
+    "nameEn": "Nabi Ilyas",
+    "type": "city",
+    "lat": 32.18482,
+    "lng": 35.0176,
+    "pop": 223
+  },
+  {
+    "nameAr": "إسكيك، الخليل",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.4656514,
+    "lng": 34.9572893,
+    "pop": 212
+  },
+  {
+    "nameAr": "خربة الدير، بيت لحم",
+    "nameEn": "Khirbet al-Deir",
+    "type": "city",
+    "lat": 31.651444444444,
+    "lng": 35.212833333333,
+    "pop": 209
+  },
+  {
+    "nameAr": "عبدة",
+    "nameEn": "Abda, Hebron",
+    "type": "city",
+    "lat": 31.46639,
+    "lng": 35.01139,
+    "pop": 202
+  },
+  {
+    "nameAr": "خربة البُويرة",
+    "nameEn": "Al-Buwayra, Khirbat",
+    "type": "city",
+    "lat": 31.87401389,
+    "lng": 35.01438889,
+    "pop": 190
+  },
+  {
+    "nameAr": "الخيمة",
+    "nameEn": "Al-Khayma",
+    "type": "city",
+    "lat": 31.76136111,
+    "lng": 34.82752778,
+    "pop": 190
+  },
+  {
+    "nameAr": "النزلة الغربية",
+    "nameEn": "An-Nazla al-Gharbiya",
+    "type": "city",
+    "lat": 32.402783333333,
+    "lng": 35.084319444444,
+    "pop": 187
+  },
+  {
+    "nameAr": "جالا",
+    "nameEn": "Jala, Hebron",
+    "type": "city",
+    "lat": 31.620087853256,
+    "lng": 35.072997421203,
+    "pop": 185
+  },
+  {
+    "nameAr": "تِلفيت",
+    "nameEn": "Telfit",
+    "type": "city",
+    "lat": 32.4011,
+    "lng": 35.3403,
+    "pop": 170
+  },
+  {
+    "nameAr": "إبْزيق",
+    "nameEn": "Ibziq",
+    "type": "city",
+    "lat": 32.3788742,
+    "lng": 35.4294711,
+    "pop": 164
+  },
+  {
+    "nameAr": "جُنيد",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.2260932,
+    "lng": 35.2079493,
+    "pop": 156
+  },
+  {
+    "nameAr": "الكرمل",
+    "nameEn": "al-Karmil",
+    "type": "city",
+    "lat": 31.423663888889,
+    "lng": 35.133158333333,
+    "pop": 146
+  },
+  {
+    "nameAr": "طاروسة",
+    "nameEn": "Tarusa",
+    "type": "city",
+    "lat": 31.5246333,
+    "lng": 34.9856445,
+    "pop": 138
+  },
+  {
+    "nameAr": "سوبا",
+    "nameEn": "Suba, Hebron",
+    "type": "city",
+    "lat": 31.5429194,
+    "lng": 34.9929122,
+    "pop": 138
+  },
+  {
+    "nameAr": "خربة الدير، الخليل",
+    "nameEn": "Khirbet al-Deir",
+    "type": "city",
+    "lat": 31.655555555556,
+    "lng": 35.025,
+    "pop": 133
+  },
+  {
+    "nameAr": "الكفير",
+    "nameEn": "Kufeir",
+    "type": "city",
+    "lat": 32.37166667,
+    "lng": 35.34111111,
+    "pop": 131
+  },
+  {
+    "nameAr": "النزلة الوسطى",
+    "nameEn": "An-Nazla al-Wusta",
+    "type": "city",
+    "lat": 32.408466666667,
+    "lng": 35.096122222222,
+    "pop": 128
+  },
+  {
+    "nameAr": "نزلة أبو نار",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.150555555556,
+    "lng": 35.199166666667,
+    "pop": 107
+  },
+  {
+    "nameAr": "يانون",
+    "nameEn": "Yanun",
+    "type": "city",
+    "lat": 32.145436111111,
+    "lng": 35.355683333333,
+    "pop": 103
+  },
+  {
+    "nameAr": "خربة الضُّهيرية",
+    "nameEn": "Al-Duhayriyya, Khirbat",
+    "type": "city",
+    "lat": 31.946111111111,
+    "lng": 34.934166666667,
+    "pop": 100
+  },
+  {
+    "nameAr": "جِيبيا",
+    "nameEn": "Jibiya, Ramallah",
+    "type": "city",
+    "lat": 31.99722222,
+    "lng": 35.16111111,
+    "pop": 90
+  },
+  {
+    "nameAr": "خربة حمصة الفوقا",
+    "nameEn": "Khirbet Humsa al-Fauqa",
+    "type": "city",
+    "lat": 32.264827777778,
+    "lng": 35.436938888889,
+    "pop": 80
+  },
+  {
+    "nameAr": "جربا",
+    "nameEn": "Jarba",
+    "type": "city",
+    "lat": 32.38555556,
+    "lng": 35.25611111,
+    "pop": 65
+  },
+  {
+    "nameAr": "حمصة",
+    "nameEn": "Humsa",
+    "type": "city",
+    "lat": 31.5315392,
+    "lng": 34.9877421,
+    "pop": 64
+  },
+  {
+    "nameAr": "زعترة، نابلس",
+    "nameEn": "Za'tara, Nablus",
+    "type": "city",
+    "lat": 32.1224011,
+    "lng": 35.2593941,
+    "pop": 63
+  },
+  {
+    "nameAr": "خربة الكساير",
+    "nameEn": "Al-Kasayir, Khirbat",
+    "type": "city",
+    "lat": 32.79333333,
+    "lng": 35.13855556,
+    "pop": 20
+  },
+  {
+    "nameAr": "إجنسنيا",
+    "nameEn": "Ijnisinya",
+    "type": "city",
+    "lat": 32.273055555556,
+    "lng": 35.216388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "إذنا",
+    "nameEn": "Idna",
+    "type": "city",
+    "lat": 31.558611111111,
+    "lng": 34.976111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "أرطاس",
+    "nameEn": "Artas, Bethlehem",
+    "type": "city",
+    "lat": 31.689166666667,
+    "lng": 35.186111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الباذان",
+    "nameEn": "al-Badhan",
+    "type": "city",
+    "lat": 32.261680555556,
+    "lng": 35.328097222222,
+    "pop": null
+  },
+  {
+    "nameAr": "البرج",
+    "nameEn": "Al-Burj",
+    "type": "city",
+    "lat": 31.432483333333,
+    "lng": 34.923330555556,
+    "pop": null
+  },
+  {
+    "nameAr": "البقيعة",
+    "nameEn": "Al-Bikai'a",
+    "type": "city",
+    "lat": 32.264827777778,
+    "lng": 35.436938888889,
+    "pop": null
+  },
+  {
+    "nameAr": "الجمامة",
+    "nameEn": "al-Jammama",
+    "type": "city",
+    "lat": 31.498611,
+    "lng": 34.686111,
+    "pop": null
+  },
+  {
+    "nameAr": "الحَدَّادِيَّة",
+    "nameEn": "Al Haddadiya",
+    "type": "city",
+    "lat": 31.7166667,
+    "lng": 35.3,
+    "pop": null
+  },
+  {
+    "nameAr": "الحلقوم",
+    "nameEn": "Al-Halkum",
+    "type": "city",
+    "lat": 31.6452909,
+    "lng": 35.2039835,
+    "pop": null
+  },
+  {
+    "nameAr": "الحيلة",
+    "nameEn": "al-Heila",
+    "type": "city",
+    "lat": 31.473352777778,
+    "lng": 35.107177777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الدوارة",
+    "nameEn": "ad-Duwwara",
+    "type": "city",
+    "lat": 31.555663888889,
+    "lng": 35.143311111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الدوحة",
+    "nameEn": "al-Dawha",
+    "type": "city",
+    "lat": 31.701125,
+    "lng": 35.179622222222,
+    "pop": null
+  },
+  {
+    "nameAr": "الديرات، الخليل",
+    "nameEn": "Ad-Deirat",
+    "type": "city",
+    "lat": 31.444149,
+    "lng": 35.163096,
+    "pop": null
+  },
+  {
+    "nameAr": "الرام",
+    "nameEn": "Al-Ram",
+    "type": "city",
+    "lat": 31.853430555556,
+    "lng": 35.233366666667,
+    "pop": null
+  },
+  {
+    "nameAr": "الرامة",
+    "nameEn": "Rama, Jenin",
+    "type": "city",
+    "lat": 32.35361111,
+    "lng": 35.17,
+    "pop": null
+  },
+  {
+    "nameAr": "الرفاعية",
+    "nameEn": "Ar-Rifa’iyya",
+    "type": "city",
+    "lat": 31.4473115,
+    "lng": 35.1637556,
+    "pop": null
+  },
+  {
+    "nameAr": "الرفاعية، الخليل",
+    "nameEn": "Ar-Rifa'iyya",
+    "type": "city",
+    "lat": 31.4477,
+    "lng": 35.1534,
+    "pop": null
+  },
+  {
+    "nameAr": "الرماضين",
+    "nameEn": "al-Ramadin",
+    "type": "city",
+    "lat": 31.375833333333,
+    "lng": 34.905277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الريحية",
+    "nameEn": "ar-Rihiya",
+    "type": "city",
+    "lat": 31.479569444444,
+    "lng": 35.064702777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الزعيم",
+    "nameEn": "Az-Za'ayyem",
+    "type": "city",
+    "lat": 31.78852,
+    "lng": 35.26511,
+    "pop": null
+  },
+  {
+    "nameAr": "الزوايدة",
+    "nameEn": "Az-Zawayda",
+    "type": "city",
+    "lat": 31.42843889,
+    "lng": 34.36595,
+    "pop": null
+  },
+  {
+    "nameAr": "الزيتونة",
+    "nameEn": "Al-Zaitounah",
+    "type": "city",
+    "lat": 31.956666666667,
+    "lng": 35.165277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الساوية",
+    "nameEn": "As-Sawiya",
+    "type": "city",
+    "lat": 32.084722222222,
+    "lng": 35.257777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "السواحرة الشرقية",
+    "nameEn": "as-Sawahira ash-Sharqiya",
+    "type": "city",
+    "lat": 31.732222222222,
+    "lng": 35.270277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "السيمياء",
+    "nameEn": "As Simiya",
+    "type": "city",
+    "lat": 31.523888888889,
+    "lng": 34.968888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "الشواورة",
+    "nameEn": "Ash-Shawawra",
+    "type": "city",
+    "lat": 31.684627777778,
+    "lng": 35.268391666667,
+    "pop": null
+  },
+  {
+    "nameAr": "الصرة، الخليل",
+    "nameEn": "as-Sura",
+    "type": "city",
+    "lat": 31.471111111111,
+    "lng": 35.001111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "الطيرة",
+    "nameEn": "At-Tira",
+    "type": "city",
+    "lat": 31.86805556,
+    "lng": 35.12222222,
+    "pop": null
+  },
+  {
+    "nameAr": "العبيدية",
+    "nameEn": "al-Ubeidiya",
+    "type": "city",
+    "lat": 31.723277777778,
+    "lng": 35.290572222222,
+    "pop": null
+  },
+  {
+    "nameAr": "العديسة",
+    "nameEn": "al-Uddeisa",
+    "type": "city",
+    "lat": 31.543141666667,
+    "lng": 35.143244444444,
+    "pop": null
+  },
+  {
+    "nameAr": "العقبة",
+    "nameEn": "Aqabah",
+    "type": "city",
+    "lat": 32.33775,
+    "lng": 35.416777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "العقربانية",
+    "nameEn": "Al Aqrabaniya",
+    "type": "city",
+    "lat": 32.253055555556,
+    "lng": 35.377777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "العوجا",
+    "nameEn": "Al-Auja",
+    "type": "city",
+    "lat": 31.947608333333,
+    "lng": 35.461775,
+    "pop": null
+  },
+  {
+    "nameAr": "العيزرية",
+    "nameEn": "al-Eizariya",
+    "type": "city",
+    "lat": 31.77,
+    "lng": 35.264444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "العيسوية",
+    "nameEn": "Al-Issawiya",
+    "type": "city",
+    "lat": 31.79861111,
+    "lng": 35.24833333,
+    "pop": null
+  },
+  {
+    "nameAr": "القرية السويدية",
+    "nameEn": "Al Qarya as Suwaydiya",
+    "type": "city",
+    "lat": 31.323333333333,
+    "lng": 34.220833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "المدور",
+    "nameEn": "Al-Mudawwar",
+    "type": "city",
+    "lat": 32.142941,
+    "lng": 35.0139055,
+    "pop": null
+  },
+  {
+    "nameAr": "المصدر",
+    "nameEn": "Al-Musaddar",
+    "type": "city",
+    "lat": 31.41055556,
+    "lng": 34.37805556,
+    "pop": null
+  },
+  {
+    "nameAr": "المنشية",
+    "nameEn": "Al-Manshiyya, Jenin",
+    "type": "city",
+    "lat": 32.44710833,
+    "lng": 35.23467778,
+    "pop": null
+  },
+  {
+    "nameAr": "النجادة",
+    "nameEn": "An-Najada",
+    "type": "city",
+    "lat": 31.532568,
+    "lng": 35.099827,
+    "pop": null
+  },
+  {
+    "nameAr": "النجادة، الخليل",
+    "nameEn": "An-Najada, Hebron",
+    "type": "city",
+    "lat": 31.4085195,
+    "lng": 35.2058507,
+    "pop": null
+  },
+  {
+    "nameAr": "النصارية",
+    "nameEn": "an-Nassariya",
+    "type": "city",
+    "lat": 32.243777777778,
+    "lng": 35.391919444444,
+    "pop": null
+  },
+  {
+    "nameAr": "النصر، رفح",
+    "nameEn": "Al-Bayuk",
+    "type": "city",
+    "lat": 31.27972222,
+    "lng": 34.305,
+    "pop": null
+  },
+  {
+    "nameAr": "أم التوت",
+    "nameEn": "Umm at-Tut",
+    "type": "city",
+    "lat": 32.432061111111,
+    "lng": 35.344352777778,
+    "pop": null
+  },
+  {
+    "nameAr": "أم الشقحان",
+    "nameEn": "Umm Ashoqan",
+    "type": "city",
+    "lat": 31.451944444444,
+    "lng": 35.140833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "أم الكلاب",
+    "nameEn": "Um Al Kilab",
+    "type": "city",
+    "lat": 31.2956,
+    "lng": 34.2917,
+    "pop": null
+  },
+  {
+    "nameAr": "أم سلمونة",
+    "nameEn": "Umm Salamuna",
+    "type": "city",
+    "lat": 31.643191666667,
+    "lng": 35.1679,
+    "pop": null
+  },
+  {
+    "nameAr": "أم صفا",
+    "nameEn": "Umm Şafā",
+    "type": "city",
+    "lat": 32.00889,
+    "lng": 35.16461,
+    "pop": null
+  },
+  {
+    "nameAr": "إماتين",
+    "nameEn": "Immatain",
+    "type": "city",
+    "lat": 32.191944444444,
+    "lng": 35.1575,
+    "pop": null
+  },
+  {
+    "nameAr": "أناثوث",
+    "nameEn": "Anathoth",
+    "type": "city",
+    "lat": 31.814124,
+    "lng": 35.264732,
+    "pop": null
+  },
+  {
+    "nameAr": "أودلا",
+    "nameEn": "Odala",
+    "type": "city",
+    "lat": 32.153266666667,
+    "lng": 35.276397222222,
+    "pop": null
+  },
+  {
+    "nameAr": "أوصرين",
+    "nameEn": "Osarin",
+    "type": "city",
+    "lat": 32.125597222222,
+    "lng": 35.310141666667,
+    "pop": null
+  },
+  {
+    "nameAr": "باقة الحطب",
+    "nameEn": "Baqat al-Hatab",
+    "type": "city",
+    "lat": 32.204736111111,
+    "lng": 35.114852777778,
+    "pop": null
+  },
+  {
+    "nameAr": "باقة الشرقية",
+    "nameEn": "Baqa ash-Sharqiyya",
+    "type": "city",
+    "lat": 32.410583333333,
+    "lng": 35.069141666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بتير",
+    "nameEn": "Battir",
+    "type": "city",
+    "lat": 31.724722222222,
+    "lng": 35.136666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بدرس",
+    "nameEn": "Budrus",
+    "type": "city",
+    "lat": 31.966572222222,
+    "lng": 34.993633333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بردلة",
+    "nameEn": "Bardala",
+    "type": "city",
+    "lat": 32.386313888889,
+    "lng": 35.481966666667,
+    "pop": null
+  },
+  {
+    "nameAr": "برقة",
+    "nameEn": "Burqa, Nablus",
+    "type": "city",
+    "lat": 32.302211111111,
+    "lng": 35.193111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "برقين",
+    "nameEn": "Burqin",
+    "type": "city",
+    "lat": 32.455555555556,
+    "lng": 35.260277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "برهام",
+    "nameEn": "Burham, Ramallah",
+    "type": "city",
+    "lat": 31.98964,
+    "lng": 35.17412,
+    "pop": null
+  },
+  {
+    "nameAr": "بزاريا",
+    "nameEn": "Bizziriya",
+    "type": "city",
+    "lat": 32.307722222222,
+    "lng": 35.166247222222,
+    "pop": null
+  },
+  {
+    "nameAr": "بني زيد الشرقية",
+    "nameEn": "Bani Zeid al-Sharqiya",
+    "type": "city",
+    "lat": 32.0333,
+    "lng": 35.1667,
+    "pop": null
+  },
+  {
+    "nameAr": "بني زيد الغربية",
+    "nameEn": "West Bani Zeid",
+    "type": "city",
+    "lat": 32.041111111111,
+    "lng": 35.101666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بني سهيلا",
+    "nameEn": "Bani Suheila",
+    "type": "city",
+    "lat": 31.342777777778,
+    "lng": 34.325344444444,
+    "pop": null
+  },
+  {
+    "nameAr": "بني نعيم",
+    "nameEn": "Bani Na'im",
+    "type": "city",
+    "lat": 31.516111111111,
+    "lng": 35.164166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت إجزا",
+    "nameEn": "Beit Ijza",
+    "type": "city",
+    "lat": 31.85,
+    "lng": 35.15,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت إكسا",
+    "nameEn": "Beit Iksa",
+    "type": "city",
+    "lat": 31.81805556,
+    "lng": 35.18055556,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت الروش الفوقا",
+    "nameEn": "Beit ar-Rush al-Fauqa",
+    "type": "city",
+    "lat": 31.451930555556,
+    "lng": 34.926197222222,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت أمر",
+    "nameEn": "Beit Ummar",
+    "type": "city",
+    "lat": 31.621388888889,
+    "lng": 35.102222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت أولا",
+    "nameEn": "Beit Ula",
+    "type": "city",
+    "lat": 31.59600833,
+    "lng": 35.02876111,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت إيبا",
+    "nameEn": "Beit Iba",
+    "type": "city",
+    "lat": 32.23605,
+    "lng": 35.209658333333,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت تعمر",
+    "nameEn": "Beit Ta'mir",
+    "type": "city",
+    "lat": 31.671647222222,
+    "lng": 35.226488888889,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت حنينا",
+    "nameEn": "Beit Hanina",
+    "type": "city",
+    "lat": 31.830555555556,
+    "lng": 35.216111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت ريما",
+    "nameEn": "Beit Reema",
+    "type": "city",
+    "lat": 32.033072556322,
+    "lng": 35.106966900062,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت سوريك",
+    "nameEn": "Beit Surik",
+    "type": "city",
+    "lat": 31.824444444444,
+    "lng": 35.148611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت عمرة",
+    "nameEn": "Beit 'Amra",
+    "type": "city",
+    "lat": 31.44815,
+    "lng": 35.053688888889,
+    "pop": null
+  },
+  {
+    "nameAr": "بيت عنان",
+    "nameEn": "Beit 'Anan",
+    "type": "city",
+    "lat": 31.852777777778,
+    "lng": 35.110555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "بيتا",
+    "nameEn": "Beita",
+    "type": "city",
+    "lat": 32.143611111111,
+    "lng": 35.2875,
+    "pop": null
+  },
+  {
+    "nameAr": "بيتللو",
+    "nameEn": "Beitillu",
+    "type": "city",
+    "lat": 31.975833333333,
+    "lng": 35.115,
+    "pop": null
+  },
+  {
+    "nameAr": "بير الباشا",
+    "nameEn": "Bir al-Basha",
+    "type": "city",
+    "lat": 32.4224,
+    "lng": 35.229558333333,
+    "pop": null
+  },
+  {
+    "nameAr": "ترصة",
+    "nameEn": "Tirzah",
+    "type": "city",
+    "lat": 32.2874,
+    "lng": 35.3378,
+    "pop": null
+  },
+  {
+    "nameAr": "تُرْمسعيّا",
+    "nameEn": "Turmus Ayya",
+    "type": "city",
+    "lat": 32.035833333333,
+    "lng": 35.286111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "جباريس",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.3210905,
+    "lng": 35.3725279,
+    "pop": null
+  },
+  {
+    "nameAr": "جبعة",
+    "nameEn": "Jab'a",
+    "type": "city",
+    "lat": 31.674722222222,
+    "lng": 35.077777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "جحر الديك",
+    "nameEn": "Juhor ad-Dik",
+    "type": "city",
+    "lat": 31.453872222222,
+    "lng": 34.428625,
+    "pop": null
+  },
+  {
+    "nameAr": "جناتا",
+    "nameEn": "Jannatah",
+    "type": "city",
+    "lat": 31.68155833,
+    "lng": 35.20846667,
+    "pop": null
+  },
+  {
+    "nameAr": "جنبة (الخليل)",
+    "nameEn": "Jinba",
+    "type": "city",
+    "lat": 31.3636072,
+    "lng": 35.1406919,
+    "pop": null
+  },
+  {
+    "nameAr": "حرملة",
+    "nameEn": "Harmala",
+    "type": "city",
+    "lat": 31.661038,
+    "lng": 35.222278,
+    "pop": null
+  },
+  {
+    "nameAr": "حريز",
+    "nameEn": "Hureiz",
+    "type": "city",
+    "lat": 31.471072222222,
+    "lng": 35.134436111111,
+    "pop": null
+  },
+  {
+    "nameAr": "حزما",
+    "nameEn": "Hizma",
+    "type": "city",
+    "lat": 31.835,
+    "lng": 35.261944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "حلحول",
+    "nameEn": "Halhul",
+    "type": "city",
+    "lat": 31.578888888889,
+    "lng": 35.099166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة الراس الأحمر",
+    "nameEn": "Khirbet ar-Ras al-Ahmar",
+    "type": "city",
+    "lat": 32.2726,
+    "lng": 35.4932,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة السركس",
+    "nameEn": "Khirbat al-Sarkas",
+    "type": "city",
+    "lat": 32.447,
+    "lng": 34.96025278,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة الشونة",
+    "nameEn": "Khirbat al-Shuna",
+    "type": "city",
+    "lat": 32.53481944,
+    "lng": 34.94748611,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة المنارة",
+    "nameEn": "Khirbat Al-Manara",
+    "type": "city",
+    "lat": 32.64545833,
+    "lng": 34.96436111,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة المنصورة",
+    "nameEn": "Al-Mansura, Khirbat",
+    "type": "city",
+    "lat": 32.67434722,
+    "lng": 35.09970833,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة جبارة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.268611111111,
+    "lng": 35.0425,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة زكريا",
+    "nameEn": "Khirbat Zakariyya",
+    "type": "city",
+    "lat": 31.9378,
+    "lng": 34.97,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة زنوتة",
+    "nameEn": "Khirbet Zanuta",
+    "type": "city",
+    "lat": 31.3725,
+    "lng": 35.00583333,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة طانا",
+    "nameEn": "Khirbet Tana",
+    "type": "city",
+    "lat": 32.156242,
+    "lng": 35.400259,
+    "pop": null
+  },
+  {
+    "nameAr": "خربة طوره الغربيه، جنين",
+    "nameEn": "Tura al-Gharbiya",
+    "type": "city",
+    "lat": 32.468522222222,
+    "lng": 35.15185,
+    "pop": null
+  },
+  {
+    "nameAr": "خربثا بني حارث",
+    "nameEn": "Kharbatha Bani Harith",
+    "type": "city",
+    "lat": 31.945277777778,
+    "lng": 35.0725,
+    "pop": null
+  },
+  {
+    "nameAr": "خلة الحداد",
+    "nameEn": "Khallet al-Haddad",
+    "type": "city",
+    "lat": 31.657222222222,
+    "lng": 35.190277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "خلة الضبع",
+    "nameEn": "Khallit al-Dabe'",
+    "type": "city",
+    "lat": 31.393427470933,
+    "lng": 35.158241323691,
+    "pop": null
+  },
+  {
+    "nameAr": "خلة المية",
+    "nameEn": "Khalet al-Maiyya",
+    "type": "city",
+    "lat": 31.44576111,
+    "lng": 35.14340278,
+    "pop": null
+  },
+  {
+    "nameAr": "خلة سكاريا",
+    "nameEn": "Beit Zakariah",
+    "type": "city",
+    "lat": 31.66305556,
+    "lng": 35.12333333,
+    "pop": null
+  },
+  {
+    "nameAr": "دوما (فلسطين)",
+    "nameEn": "Duma, Nablus",
+    "type": "city",
+    "lat": 32.0575,
+    "lng": 35.367222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "دير الحطب",
+    "nameEn": "Deir al-Hatab",
+    "type": "city",
+    "lat": 32.217088888889,
+    "lng": 35.320802777778,
+    "pop": null
+  },
+  {
+    "nameAr": "دير بلوط",
+    "nameEn": "Deir Ballut",
+    "type": "city",
+    "lat": 32.065277777778,
+    "lng": 35.025,
+    "pop": null
+  },
+  {
+    "nameAr": "دير سامت",
+    "nameEn": "Deir Sammit",
+    "type": "city",
+    "lat": 31.522783333333,
+    "lng": 34.974002777778,
+    "pop": null
+  },
+  {
+    "nameAr": "رابا",
+    "nameEn": "Raba, Jenin",
+    "type": "city",
+    "lat": 32.38888889,
+    "lng": 35.38472222,
+    "pop": null
+  },
+  {
+    "nameAr": "رابود",
+    "nameEn": "Rabud",
+    "type": "city",
+    "lat": 31.43333333,
+    "lng": 35.01666667,
+    "pop": null
+  },
+  {
+    "nameAr": "رأس التين (رام الله)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.9958628,
+    "lng": 35.375826,
+    "pop": null
+  },
+  {
+    "nameAr": "راس طيرة",
+    "nameEn": "Ras at-Tira",
+    "type": "city",
+    "lat": 32.1619052,
+    "lng": 35.0101223,
+    "pop": null
+  },
+  {
+    "nameAr": "راس عطية",
+    "nameEn": "Ras Atiya",
+    "type": "city",
+    "lat": 32.1587,
+    "lng": 34.990802777778,
+    "pop": null
+  },
+  {
+    "nameAr": "رافات، القدس",
+    "nameEn": "Rafat",
+    "type": "city",
+    "lat": 31.870555555556,
+    "lng": 35.192222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "رامين",
+    "nameEn": "Ramin",
+    "type": "city",
+    "lat": 32.284208333333,
+    "lng": 35.149244444444,
+    "pop": null
+  },
+  {
+    "nameAr": "رمانة",
+    "nameEn": "Rummanah",
+    "type": "city",
+    "lat": 32.523888888889,
+    "lng": 35.205,
+    "pop": null
+  },
+  {
+    "nameAr": "رمون",
+    "nameEn": "Rammun",
+    "type": "city",
+    "lat": 31.929722222222,
+    "lng": 35.298888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "رنتيس",
+    "nameEn": "Rantis",
+    "type": "city",
+    "lat": 32.02805556,
+    "lng": 35.01944444,
+    "pop": null
+  },
+  {
+    "nameAr": "زاويه، جنين",
+    "nameEn": "Zawiya, Jenin",
+    "type": "city",
+    "lat": 32.37444444,
+    "lng": 35.23222222,
+    "pop": null
+  },
+  {
+    "nameAr": "زواتا",
+    "nameEn": "Zawata",
+    "type": "city",
+    "lat": 32.245752777778,
+    "lng": 35.226008333333,
+    "pop": null
+  },
+  {
+    "nameAr": "زيتا، طولكرم",
+    "nameEn": "Zeita, Tulkarm",
+    "type": "city",
+    "lat": 32.384511111111,
+    "lng": 35.050822222222,
+    "pop": null
+  },
+  {
+    "nameAr": "سعير",
+    "nameEn": "Sa'ir",
+    "type": "city",
+    "lat": 31.584444444444,
+    "lng": 35.145277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "سلواد",
+    "nameEn": "Silwad",
+    "type": "city",
+    "lat": 31.986111111111,
+    "lng": 35.259166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "سيريس",
+    "nameEn": "Siris, Jenin",
+    "type": "city",
+    "lat": 32.32944444,
+    "lng": 35.28972222,
+    "pop": null
+  },
+  {
+    "nameAr": "شبتين",
+    "nameEn": "Shabtin",
+    "type": "city",
+    "lat": 31.9738,
+    "lng": 35.0498,
+    "pop": null
+  },
+  {
+    "nameAr": "شقبا",
+    "nameEn": "Shuqba",
+    "type": "city",
+    "lat": 31.986944444444,
+    "lng": 35.038333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "صير",
+    "nameEn": "Sir, Tulkarm",
+    "type": "city",
+    "lat": 32.196944444444,
+    "lng": 35.060555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "ضاحية صباح الخير",
+    "nameEn": "Dahiyat Sabah al-Kheir",
+    "type": "city",
+    "lat": 32.485833333333,
+    "lng": 35.299472222222,
+    "pop": null
+  },
+  {
+    "nameAr": "طرامة",
+    "nameEn": "Tarrama",
+    "type": "city",
+    "lat": 31.480891666667,
+    "lng": 35.0326,
+    "pop": null
+  },
+  {
+    "nameAr": "طمون",
+    "nameEn": "Tammun",
+    "type": "city",
+    "lat": 32.2842,
+    "lng": 35.3858,
+    "pop": null
+  },
+  {
+    "nameAr": "طواس",
+    "nameEn": "Tawas",
+    "type": "city",
+    "lat": 31.4883368,
+    "lng": 34.9600506,
+    "pop": null
+  },
+  {
+    "nameAr": "طورة الشرقية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.4662876,
+    "lng": 35.166034,
+    "pop": null
+  },
+  {
+    "nameAr": "طورة الغربية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.4695333,
+    "lng": 35.1603568,
+    "pop": null
+  },
+  {
+    "nameAr": "ظهر العبد",
+    "nameEn": "Dhaher Al-Abed",
+    "type": "city",
+    "lat": 32.45,
+    "lng": 35.0948,
+    "pop": null
+  },
+  {
+    "nameAr": "عابا الغربية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.4602317,
+    "lng": 35.3203402,
+    "pop": null
+  },
+  {
+    "nameAr": "عاي",
+    "nameEn": "Ai",
+    "type": "city",
+    "lat": 31.916944444444,
+    "lng": 35.261111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عبسان الجديدة",
+    "nameEn": "Abasan al-Saghira",
+    "type": "city",
+    "lat": 31.340513888889,
+    "lng": 34.344602777778,
+    "pop": null
+  },
+  {
+    "nameAr": "عبسان الكبيرة",
+    "nameEn": "Abasan al-Kabira",
+    "type": "city",
+    "lat": 31.323333333333,
+    "lng": 34.346944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "عرانة",
+    "nameEn": "Arranah",
+    "type": "city",
+    "lat": 32.497086111111,
+    "lng": 35.322288888889,
+    "pop": null
+  },
+  {
+    "nameAr": "عرب الرماضين الجنوبي",
+    "nameEn": "Arab a-Ramadin al-Janubi",
+    "type": "city",
+    "lat": 32.174548,
+    "lng": 34.989356,
+    "pop": null
+  },
+  {
+    "nameAr": "عرب الفقراء",
+    "nameEn": "Arab al-Fuqara",
+    "type": "city",
+    "lat": 32.45213889,
+    "lng": 34.90584722,
+    "pop": null
+  },
+  {
+    "nameAr": "عرب النفيعات",
+    "nameEn": "Arab al-Nufay'at",
+    "type": "city",
+    "lat": 32.42305556,
+    "lng": 34.88166667,
+    "pop": null
+  },
+  {
+    "nameAr": "عربونه، جنين",
+    "nameEn": "Arabbuna",
+    "type": "city",
+    "lat": 32.5125,
+    "lng": 35.3633,
+    "pop": null
+  },
+  {
+    "nameAr": "عرقة",
+    "nameEn": "Araqah",
+    "type": "city",
+    "lat": 32.47097222,
+    "lng": 35.20064444,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة الطبيب",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.033888888889,
+    "lng": 35.181111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة بيت حانون",
+    "nameEn": "Izbat Beit Hanoun",
+    "type": "city",
+    "lat": 31.548333333333,
+    "lng": 34.522777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة جلعود",
+    "nameEn": "Izbat Jal'ud",
+    "type": "city",
+    "lat": 32.14996,
+    "lng": 34.99699,
+    "pop": null
+  },
+  {
+    "nameAr": "عزبة شوفة",
+    "nameEn": "Izbat Shufa",
+    "type": "city",
+    "lat": 32.287205555556,
+    "lng": 35.042386111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عزموط",
+    "nameEn": "Azmut",
+    "type": "city",
+    "lat": 32.223063888889,
+    "lng": 35.309691666667,
+    "pop": null
+  },
+  {
+    "nameAr": "عزون عتمة",
+    "nameEn": "Azzun Atma",
+    "type": "city",
+    "lat": 32.123055555556,
+    "lng": 35.016111111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عطارة",
+    "nameEn": "'Atara",
+    "type": "city",
+    "lat": 32.0025,
+    "lng": 35.206388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "عقربا",
+    "nameEn": "Aqraba",
+    "type": "city",
+    "lat": 32.126436111111,
+    "lng": 35.343561111111,
+    "pop": null
+  },
+  {
+    "nameAr": "علار",
+    "nameEn": "Illar, Tulkarm",
+    "type": "city",
+    "lat": 32.370086111111,
+    "lng": 35.107486111111,
+    "pop": null
+  },
+  {
+    "nameAr": "عناب الكبير",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.394444444444,
+    "lng": 34.926388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "عنزة",
+    "nameEn": "Anzah",
+    "type": "city",
+    "lat": 32.35916,
+    "lng": 35.22011,
+    "pop": null
+  },
+  {
+    "nameAr": "عوريف",
+    "nameEn": "Urif",
+    "type": "city",
+    "lat": 32.159444444444,
+    "lng": 35.223055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "عين البيضا",
+    "nameEn": "Ein al-Beida",
+    "type": "city",
+    "lat": 32.380455555556,
+    "lng": 35.507702777778,
+    "pop": null
+  },
+  {
+    "nameAr": "عين سينيا",
+    "nameEn": "Ein Siniya",
+    "type": "city",
+    "lat": 31.9725,
+    "lng": 35.229722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "عين عريك",
+    "nameEn": "Ein 'Arik",
+    "type": "city",
+    "lat": 31.906666666667,
+    "lng": 35.143055555556,
+    "pop": null
+  },
+  {
+    "nameAr": "عين قينيا",
+    "nameEn": "Ein Qiniya",
+    "type": "city",
+    "lat": 31.927,
+    "lng": 35.149,
+    "pop": null
+  },
+  {
+    "nameAr": "عين يبرود",
+    "nameEn": "Ein Yabrud",
+    "type": "city",
+    "lat": 31.9475,
+    "lng": 35.248611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "فَخْتْ الجُول",
+    "nameEn": "Fakht al-Jul",
+    "type": "city",
+    "lat": 31.6952033,
+    "lng": 35.2504295,
+    "pop": null
+  },
+  {
+    "nameAr": "فقيقيس",
+    "nameEn": "Fuqeiqis",
+    "type": "city",
+    "lat": 31.4910112,
+    "lng": 34.9992248,
+    "pop": null
+  },
+  {
+    "nameAr": "قاع القرين",
+    "nameEn": "Qa' Al Qurein",
+    "type": "city",
+    "lat": 31.312199,
+    "lng": 34.324429305556,
+    "pop": null
+  },
+  {
+    "nameAr": "كرزه",
+    "nameEn": "Khursa",
+    "type": "city",
+    "lat": 31.440363888889,
+    "lng": 34.999061111111,
+    "pop": null
+  },
+  {
+    "nameAr": "كفيرت",
+    "nameEn": "Kufeirit",
+    "type": "city",
+    "lat": 32.443983333333,
+    "lng": 35.203133333333,
+    "pop": null
+  },
+  {
+    "nameAr": "كويزبة",
+    "nameEn": "Khirbet Kuwayzibah",
+    "type": "city",
+    "lat": 31.60765,
+    "lng": 35.15607,
+    "pop": null
+  },
+  {
+    "nameAr": "مثلث الشهداء",
+    "nameEn": "Ash-Shuhada",
+    "type": "city",
+    "lat": 32.42949,
+    "lng": 35.27112,
+    "pop": null
+  },
+  {
+    "nameAr": "مسافر بني نعيم",
+    "nameEn": "Masafer Bani Naim",
+    "type": "city",
+    "lat": 31.4980457,
+    "lng": 35.2780819,
+    "pop": null
+  },
+  {
+    "nameAr": "معين (قرية)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.409047704029,
+    "lng": 35.132625082856,
+    "pop": null
+  },
+  {
+    "nameAr": "هاشمية",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.465216230862,
+    "lng": 35.221233750547,
+    "pop": null
+  },
+  {
+    "nameAr": "هندازة",
+    "nameEn": "Hindaza",
+    "type": "city",
+    "lat": 31.686202777778,
+    "lng": 35.215436111111,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي الريم، الخليل",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.5499742,
+    "lng": 35.1930118,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي الشاجنة",
+    "nameEn": "Wadi ash-Shajina",
+    "type": "city",
+    "lat": 31.468333333333,
+    "lng": 35.030555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي النيص",
+    "nameEn": "Wadi an Nis",
+    "type": "city",
+    "lat": 31.654066,
+    "lng": 35.161062,
+    "pop": null
+  },
+  {
+    "nameAr": "Abu Salman",
+    "nameEn": "Abu Salman",
+    "type": "city",
+    "lat": 32.140027777778,
+    "lng": 34.998972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Adurim",
+    "nameEn": "Adurim",
+    "type": "city",
+    "lat": 31.50506,
+    "lng": 35.0275,
+    "pop": null
+  },
+  {
+    "nameAr": "Bi'r ‘Awnah",
+    "nameEn": "Bi'r ‘Awnah",
+    "type": "city",
+    "lat": 31.71974,
+    "lng": 35.17848,
+    "pop": null
+  },
+  {
+    "nameAr": "Michmash",
+    "nameEn": "Michmash",
+    "type": "city",
+    "lat": 31.871945,
+    "lng": 35.27607,
+    "pop": null
+  }
+]

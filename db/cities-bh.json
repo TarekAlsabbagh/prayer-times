@@ -1,0 +1,44 @@
+[
+  {
+    "nameAr": "المنامة",
+    "nameEn": "Manama",
+    "type": "city",
+    "lat": 26.2285,
+    "lng": 50.5860
+  },
+  {
+    "nameAr": "المحرق",
+    "nameEn": "Muharraq",
+    "type": "city",
+    "lat": 26.2572,
+    "lng": 50.6119
+  },
+  {
+    "nameAr": "الرفاع",
+    "nameEn": "Riffa",
+    "type": "city",
+    "lat": 26.1300,
+    "lng": 50.5550
+  },
+  {
+    "nameAr": "مدينة حمد",
+    "nameEn": "Hamad Town",
+    "type": "city",
+    "lat": 26.1152,
+    "lng": 50.5069
+  },
+  {
+    "nameAr": "مدينة عيسى",
+    "nameEn": "Isa Town",
+    "type": "city",
+    "lat": 26.1736,
+    "lng": 50.5475
+  },
+  {
+    "nameAr": "سترة",
+    "nameEn": "Sitra",
+    "type": "city",
+    "lat": 26.1536,
+    "lng": 50.6228
+  }
+]

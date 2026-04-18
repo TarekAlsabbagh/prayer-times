@@ -1,0 +1,44 @@
+[
+  {
+    "nameAr": "الخرطوم",
+    "nameEn": "Khartoum",
+    "type": "city",
+    "lat": 15.5007,
+    "lng": 32.5599
+  },
+  {
+    "nameAr": "أم درمان",
+    "nameEn": "Omdurman",
+    "type": "city",
+    "lat": 15.6445,
+    "lng": 32.4777
+  },
+  {
+    "nameAr": "بورتسودان",
+    "nameEn": "Port Sudan",
+    "type": "city",
+    "lat": 19.6158,
+    "lng": 37.2164
+  },
+  {
+    "nameAr": "كسلا",
+    "nameEn": "Kassala",
+    "type": "city",
+    "lat": 15.4500,
+    "lng": 36.4000
+  },
+  {
+    "nameAr": "الأبيض",
+    "nameEn": "Al Ubayyid",
+    "type": "city",
+    "lat": 13.1833,
+    "lng": 30.2167
+  },
+  {
+    "nameAr": "نيالا",
+    "nameEn": "Nyala",
+    "type": "city",
+    "lat": 12.0489,
+    "lng": 24.8807
+  }
+]

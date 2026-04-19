@@ -5,6 +5,10 @@ const path  = require('path');
 const zlib  = require('zlib');
 const Terser   = require('terser');
 const CleanCSS = require('clean-css');
+// MoonCalc للـ SSR: حقن أرقام حقيقيّة (إضاءة/عمر/طور) في فقرة /moon-today-in-{slug}
+// TRANSLATIONS للـ SSR: لترجمة أسماء الأطوار والأبراج قبل الإرسال (بدون Googlebot-JS)
+const MoonCalc   = require('./js/moon.js');
+const { TRANSLATIONS: I18N } = require('./js/i18n.js');
 
 // ===== معالجات أخطاء العملية (تمنع السقوط الكلي عند خطأ واحد) =====
 process.on('uncaughtException', (err) => {
@@ -1965,6 +1969,42 @@ function _escHtml(s) {
     return String(s == null ? '' : s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ===== SSR: بناء فقرة تعريفيّة ديناميكيّة لصفحة القمر =====
+// يُنتج نصًّا بأرقام حقيقيّة (إضاءة/عمر/طور/كوكبة) يراه Googlebot بدون JS.
+// يُرجع النصّ الناتج، أو null عند أيّ فشل (ليتمّ الرجوع للنصّ الثابت).
+// المدخل cityLabel = "City, Country" جاهزة لوضعها في {city}.
+function _buildSsrMoonIntro(lang, cityLabel) {
+    try {
+        if (!MoonCalc || !I18N) return null;
+        const today = new Date();
+        const phase = MoonCalc.getPhaseName(today);                 // {name, icon, english, key}
+        const illumRaw = MoonCalc.getMoonIllumination(today);       // 0..100
+        const ageRaw = MoonCalc.getMoonAge(today);                  // 0..29.53
+        const zodiac = MoonCalc.getMoonZodiac(today);               // {key, icon, i18nKey, ...}
+        const dict = I18N[lang] || I18N.en || {};
+        const enDict = I18N.en || {};
+        const template = dict['moon.intro_template']
+            || enDict['moon.intro_template']
+            || 'Today in {city}, the Moon is in a {phaseIcon} {phaseName} phase at {illum}% illumination. The Moon is {age} days old and currently in the {zodiacIcon} {zodiacName} constellation.';
+        const phaseName = dict[phase.key] || enDict[phase.key] || phase.english || phase.name || '';
+        const zodiacName = dict[zodiac.i18nKey] || enDict[zodiac.i18nKey] || zodiac.key || '';
+        // أرقام لاتينيّة دائمًا (Latin digits) — حتى في العربيّة/الأردو
+        const illumStr = Number(illumRaw).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const ageStr   = Number(ageRaw).toLocaleString('en-US',   { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        return template
+            .replace(/\{city\}/g, cityLabel)
+            .replace(/\{phaseIcon\}/g, phase.icon || '')
+            .replace(/\{phaseName\}/g, phaseName)
+            .replace(/\{illum\}/g, illumStr)
+            .replace(/\{age\}/g, ageStr)
+            .replace(/\{zodiacIcon\}/g, zodiac.icon || '')
+            .replace(/\{zodiacName\}/g, zodiacName);
+    } catch (_e) {
+        try { console.warn('[SSR moon intro] build failed:', _e && _e.message); } catch(_){}
+        return null;
+    }
 }
 
 function _slugToTitle(slug) {
@@ -5196,10 +5236,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             bn: `আজ ${cityName}, ${countryName}-এ আপনি চাঁদের বর্তমান পর্যায়, আলোকসজ্জার শতাংশ, চাঁদের বয়স এবং উদয়-অস্তের সময় জ্যোতির্বৈজ্ঞানিক নির্ভুলতার সাথে জানতে পারেন। এই তথ্যগুলি আপনার অবস্থানের স্থানাঙ্কের উপর ভিত্তি করে কঠোর জ্যোতির্বৈজ্ঞানিক মডেল (Meeus অ্যালগরিদম) দিয়ে গণনা করা হয়।`,
             ms: `Hari ini di ${cityName}, ${countryName}, anda boleh mengetahui fasa Bulan semasa, peratusan pencahayaan, usia Bulan, serta waktu terbit dan terbenamnya dengan ketepatan astronomi. Data ini dikira menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi anda.`
         }[Lm] || `Today in ${cityName}, ${countryName}, check the current moon phase, illumination, age, and rise/set times with astronomical precision.`;
-        // الفقرة التعريفيّة: يتمّ استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
+        // نصّ ديناميكيّ بأرقام حقيقيّة (SSR) — إن فشل نُعيد النصّ الثابت.
+        // cityLabel يدمج المدينة والبلد لحقنها في {city} داخل قوالب i18n.
+        const _cityLabel = countryName ? `${cityName}, ${countryName}` : cityName;
+        const _introMoonDynamic = _buildSsrMoonIntro(Lm, _cityLabel) || _introMoon;
+        // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
+        // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.
+        // الفقرة ستُحدَّث لاحقًا عبر app.js (#moon-intro by id) بالبيانات الحيّة من المستخدم.
         html = html.replace(
             /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
-            `<p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">${_escHtml(_introMoon)}</p>`
+            `<p class="moon-intro" id="moon-intro">${_escHtml(_introMoonDynamic)}</p>`
         );
         // حقن Article Schema (JSON-LD) لصفحة القمر — "محدَّث يوميًّا"
         try {
@@ -5214,7 +5260,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 "publisher": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
                 "inLanguage": Lm,
                 "mainEntityOfPage": seo.canonical,
-                "articleBody": _introMoon
+                "articleBody": _introMoonDynamic
             };
             const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
             // أدرِج قبل </head>

@@ -4623,6 +4623,14 @@ const TRANSLATIONS = {
     }
 };
 
+// Node.js export — يتيح للخادم (server.js) استخدام TRANSLATIONS في SSR
+// return يُنهي تنفيذ الـ module مبكّرًا (Node يلفّ كلّ ملفّ بدالّة، فـ return صحيح)
+// → يتجاوز شيفرة الـ DOM أدناه التي لا تعمل خارج المتصفّح
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { TRANSLATIONS };
+    return;
+}
+
 // اكتشاف اللغة: URL هو المرجع الوحيد
 // /en/... → إنجليزي | /fr/... → فرنسي | /tr/... → تركي | /ur/... → أردو | /de/... → ألماني | /id/... → إندونيسي | غير ذلك → عربي
 const SUPPORTED_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];

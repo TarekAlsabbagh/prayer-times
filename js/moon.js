@@ -514,3 +514,9 @@ const MoonCalc = (function() {
         getForecast
     };
 })();
+
+// Node.js export — يتيح للخادم (server.js) استخدام MoonCalc في SSR
+// في المتصفّح: typeof module غير معرَّف → السطر يُتجاهل بسلام
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = MoonCalc;
+}

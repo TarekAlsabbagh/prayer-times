@@ -6023,6 +6023,42 @@ function _moonCityDisplayName(slug) {
     return _prettifySlug(slug);
 }
 
+// خريطة المدينة → البلد (key 'country.<code>' في i18n)؛ تُستخدم في الفقرة التعريفيّة وH1
+const _MOON_CITY_COUNTRY_KEYS = {
+    'mecca': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
+    'cairo': 'eg', 'alexandria': 'eg',
+    'istanbul': 'tr', 'ankara': 'tr',
+    'dubai': 'ae', 'abu-dhabi': 'ae',
+    'doha': 'qa', 'kuwait': 'kw', 'manama': 'bh', 'muscat': 'om',
+    'amman': 'jo', 'baghdad': 'iq', 'beirut': 'lb', 'damascus': 'sy', 'sanaa': 'ye',
+    'tunis': 'tn', 'algiers': 'dz', 'rabat': 'ma', 'casablanca': 'ma',
+    'khartoum': 'sd', 'tripoli': 'ly', 'jerusalem': 'ps',
+    'karachi': 'pk', 'lahore': 'pk', 'islamabad': 'pk',
+    'dhaka': 'bd', 'jakarta': 'id', 'kuala-lumpur': 'my',
+    'london': 'gb', 'paris': 'fr', 'berlin': 'de', 'madrid': 'es', 'rome': 'it',
+    'new-york': 'us', 'toronto': 'ca', 'sydney': 'au'
+};
+const _MOON_COUNTRY_NAMES = {
+    ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا' },
+    en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia' },
+    fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie' },
+    tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya' },
+    ur: { sa:'سعودی عرب', eg:'مصر', tr:'ترکی', ae:'متحدہ عرب امارات', qa:'قطر', kw:'کویت', bh:'بحرین', om:'عمان', jo:'اردن', iq:'عراق', lb:'لبنان', sy:'شام', ye:'یمن', tn:'تیونس', dz:'الجزائر', ma:'مراکش', sd:'سوڈان', ly:'لیبیا', ps:'فلسطین', pk:'پاکستان', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا', gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', us:'امریکہ', ca:'کینیڈا', au:'آسٹریلیا' },
+    de: { sa:'Saudi-Arabien', eg:'Ägypten', tr:'Türkei', ae:'VAE', qa:'Katar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordanien', iq:'Irak', lb:'Libanon', sy:'Syrien', ye:'Jemen', tn:'Tunesien', dz:'Algerien', ma:'Marokko', sd:'Sudan', ly:'Libyen', ps:'Palästina', pk:'Pakistan', bd:'Bangladesch', id:'Indonesien', my:'Malaysia', gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', us:'USA', ca:'Kanada', au:'Australien' },
+    id: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UEA', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Yordania', iq:'Irak', lb:'Lebanon', sy:'Suriah', ye:'Yaman', tn:'Tunisia', dz:'Aljazair', ma:'Maroko', sd:'Sudan', ly:'Libya', ps:'Palestina', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'Britania Raya', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', us:'Amerika Serikat', ca:'Kanada', au:'Australia' },
+    es: { sa:'Arabia Saudí', eg:'Egipto', tr:'Turquía', ae:'EAU', qa:'Catar', kw:'Kuwait', bh:'Baréin', om:'Omán', jo:'Jordania', iq:'Irak', lb:'Líbano', sy:'Siria', ye:'Yemen', tn:'Túnez', dz:'Argelia', ma:'Marruecos', sd:'Sudán', ly:'Libia', ps:'Palestina', pk:'Pakistán', bd:'Bangladés', id:'Indonesia', my:'Malasia', gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', us:'Estados Unidos', ca:'Canadá', au:'Australia' },
+    bn: { sa:'সৌদি আরব', eg:'মিশর', tr:'তুরস্ক', ae:'সংযুক্ত আরব আমিরাত', qa:'কাতার', kw:'কুয়েত', bh:'বাহরাইন', om:'ওমান', jo:'জর্ডান', iq:'ইরাক', lb:'লেবানন', sy:'সিরিয়া', ye:'ইয়েমেন', tn:'তিউনিসিয়া', dz:'আলজেরিয়া', ma:'মরক্কো', sd:'সুদান', ly:'লিবিয়া', ps:'ফিলিস্তিন', pk:'পাকিস্তান', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া', gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', us:'মার্কিন যুক্তরাষ্ট্র', ca:'কানাডা', au:'অস্ট্রেলিয়া' },
+    ms: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lubnan', sy:'Syria', ye:'Yaman', tn:'Tunisia', dz:'Algeria', ma:'Maghribi', sd:'Sudan', ly:'Libya', ps:'Palestin', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', us:'Amerika Syarikat', ca:'Kanada', au:'Australia' }
+};
+
+function _moonCityCountryName(slug, lang) {
+    if (!slug) return '';
+    const cc = _MOON_CITY_COUNTRY_KEYS[slug];
+    if (!cc) return '';
+    const dict = _MOON_COUNTRY_NAMES[lang] || _MOON_COUNTRY_NAMES.en;
+    return dict[cc] || '';
+}
+
 function updateMoonInfo() {
     const today = new Date();
 
@@ -6086,22 +6122,26 @@ function updateMoonInfo() {
     const _locEl = document.getElementById('moon-location-note');
     if (_citySlug) {
         const _cityName = _moonCityDisplayName(_citySlug);
-        // H1 — صياغة مختصرة بلغة الواجهة
+        const _countryName = _moonCityCountryName(_citySlug, _lng_);
+        // H1 — قالب غنيّ بالكلمات المفتاحيّة (طور/إضاءة/عمر) من i18n
         if (_h1El) {
-            const _h1Templates = {
-                ar: `🌙 القمر اليوم في ${_cityName}`,
-                en: `🌙 Moon Tonight in ${_cityName}`,
-                fr: `🌙 La Lune ce soir à ${_cityName}`,
-                tr: `🌙 ${_cityName}'de Bu Gece Ay`,
-                ur: `🌙 ${_cityName} میں آج رات کا چاند`,
-                de: `🌙 Mond heute in ${_cityName}`,
-                id: `🌙 Bulan Malam Ini di ${_cityName}`,
-                es: `🌙 La Luna esta noche en ${_cityName}`,
-                bn: `🌙 ${_cityName}-এ আজ রাতের চাঁদ`,
-                ms: `🌙 Bulan Malam Ini di ${_cityName}`
-            };
-            _h1El.textContent = _h1Templates[_lng_] || _h1Templates.en;
+            if (typeof t === 'function') {
+                const tplH1 = t('moon.h1_city_template', { city: _cityName, country: _countryName });
+                if (tplH1 && tplH1 !== 'moon.h1_city_template') {
+                    _h1El.textContent = tplH1;
+                }
+            }
         }
+        // H2 الأقسام الديناميكيّة (حالة القمر / توقّعات / FAQ الليلة) — تُستبدَل بأسماء المدينة
+        const _setH2 = (id, key) => {
+            const el = document.getElementById(id);
+            if (!el || typeof t !== 'function') return;
+            const v = t(key, { city: _cityName });
+            if (v && v !== key) el.textContent = v;
+        };
+        _setH2('moon-title-h2', 'moon.title_city_template');
+        _setH2('moon-forecast-h2', 'moon.forecast_title_city_template');
+        _setH2('moon-faq-live-h2', 'moon.faq_live_title_city_template');
         if (_locEl) {
             const _locTemplates = {
                 ar: `الموقع: ${_cityName}`,
@@ -6117,7 +6157,12 @@ function updateMoonInfo() {
             };
             _locEl.textContent = _locTemplates[_lng_] || _locTemplates.en;
         }
-    } else if (_locEl && currentCity) {
+    } else if (_h1El && typeof t === 'function') {
+        // /moon-today عامّ — استخدم العنوان العامّ الجديد
+        const tplGen = t('moon.h1_generic');
+        if (tplGen && tplGen !== 'moon.h1_generic') _h1El.textContent = tplGen;
+    }
+    if (!_citySlug && _locEl && currentCity) {
         // /moon-today العامّ — استخدم المدينة الحاليّة المكتشفة
         const _locTemplates = {
             ar: `الموقع: ${currentCity}`,
@@ -6278,6 +6323,122 @@ function updateMoonInfo() {
     } catch (_err) {
         // فشل هادئ — تبقى الإجابات الافتراضيّة ظاهرة
         if (window.console && console.warn) console.warn('Dynamic moon FAQ fill failed:', _err);
+    }
+
+    // ── Round 10: الكوكبة + الفقرة التعريفيّة + المقارنة مع الأمس + نظرة على الطور ─
+    try {
+        const _cityDisplay2 = _citySlug
+            ? _moonCityDisplayName(_citySlug)
+            : (currentCity || (_lng_ === 'ar' ? 'مدينتك' : 'your city'));
+        const _countryDisplay = _citySlug ? _moonCityCountryName(_citySlug, _lng_) : '';
+        const _phaseLabel2 = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
+        const _fmtNum2 = (n, maxFD) => {
+            try {
+                return Number(n).toLocaleString(_lng_ === 'ar' ? 'ar-SA' : _lng_, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
+            } catch (_e) { return String(n); }
+        };
+
+        // الكوكبة (zodiac)
+        let zodiac = null;
+        if (typeof MoonCalc.getMoonZodiac === 'function') {
+            try { zodiac = MoonCalc.getMoonZodiac(today); } catch (_e) {}
+        }
+        const _zodiacEl = document.getElementById('moon-zodiac');
+        if (_zodiacEl && zodiac) {
+            const zName = (typeof t === 'function') ? t(zodiac.i18nKey) : zodiac.key;
+            const zNameDisplay = (zName && zName !== zodiac.i18nKey) ? zName : zodiac.key;
+            _zodiacEl.textContent = `${zodiac.icon} ${zNameDisplay}`;
+        }
+
+        // فقرة تعريفيّة ديناميكيّة
+        const _introEl = document.getElementById('moon-intro');
+        if (_introEl && typeof t === 'function' && zodiac) {
+            const zName = t(zodiac.i18nKey);
+            const zNameDisplay = (zName && zName !== zodiac.i18nKey) ? zName : zodiac.key;
+            const tpl = t('moon.intro_template', {
+                city: _cityDisplay2,
+                country: _countryDisplay,
+                phaseIcon: phase.icon,
+                phaseName: _phaseLabel2,
+                illum: _fmtNum2(illumination, 2),
+                age: _fmtNum2(age, 2),
+                zodiacIcon: zodiac.icon,
+                zodiacName: zNameDisplay
+            });
+            if (tpl && tpl !== 'moon.intro_template') _introEl.textContent = tpl;
+        }
+
+        // مقارنة الأمس vs اليوم
+        const _cmpWrap = document.getElementById('moon-comparison');
+        const _cmpArrow = document.getElementById('moon-comparison-arrow');
+        const _cmpText = document.getElementById('moon-comparison-text');
+        if (_cmpWrap && _cmpText && typeof t === 'function') {
+            try {
+                const _yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 12, 0, 0);
+                const yIllum = MoonCalc.getMoonIllumination(_yesterday);
+                const diffRaw = illumination - yIllum;
+                const diffAbs = Math.abs(diffRaw);
+                // استنتاج الطور القادم
+                let nextPhaseIcon = '', nextPhaseName = '';
+                if (typeof MoonCalc.findPhaseEventsInRange === 'function') {
+                    const events = MoonCalc.findPhaseEventsInRange(today, new Date(today.getTime() + 14 * 86400000));
+                    if (events && events.length) {
+                        const ev = events[0];
+                        nextPhaseIcon = ev.phase.icon || '';
+                        const evKey = ev.phase.key;
+                        const evName = (evKey && typeof t === 'function') ? t(evKey) : (ev.phase.name || '');
+                        nextPhaseName = evName;
+                    }
+                }
+                if (!nextPhaseName && MoonCalc.getNextFullMoon && MoonCalc.getNextNewMoon) {
+                    // fallback: أقرب بين nextFull و nextNew
+                    const nf = MoonCalc.getNextFullMoon(today);
+                    const nn = MoonCalc.getNextNewMoon(today);
+                    let picked, pickedKey, pickedIcon;
+                    if (nf && nn) {
+                        if (nf - today < nn - today) { picked = nf; pickedKey = 'moon.phase_full'; pickedIcon = '🌕'; }
+                        else { picked = nn; pickedKey = 'moon.phase_new'; pickedIcon = '🌑'; }
+                    } else if (nf) { picked = nf; pickedKey = 'moon.phase_full'; pickedIcon = '🌕'; }
+                    else if (nn) { picked = nn; pickedKey = 'moon.phase_new'; pickedIcon = '🌑'; }
+                    if (picked && typeof t === 'function') {
+                        const pn = t(pickedKey);
+                        nextPhaseName = (pn && pn !== pickedKey) ? pn : '';
+                        nextPhaseIcon = pickedIcon;
+                    }
+                }
+                const key = diffRaw >= 0 ? 'moon.comparison_waxing' : 'moon.comparison_waning';
+                const tpl = t(key, {
+                    diff: _fmtNum2(diffAbs, 1),
+                    nextPhaseIcon: nextPhaseIcon,
+                    nextPhaseName: nextPhaseName
+                });
+                if (tpl && tpl !== key) {
+                    _cmpText.textContent = tpl;
+                    if (_cmpArrow) _cmpArrow.textContent = diffRaw >= 0 ? '↑' : '↓';
+                    _cmpWrap.hidden = false;
+                }
+            } catch (_cmpErr) { /* silent */ }
+        }
+
+        // نظرة على الطور الحاليّ — 3 أسطر
+        if (phase.key && typeof t === 'function') {
+            // phase.key شكله 'moon.phase_waxing_crescent' → نستخرج 'waxing_crescent'
+            const m = String(phase.key).match(/moon\.phase_(.+)$/);
+            const phaseSlug = m ? m[1] : null;
+            if (phaseSlug) {
+                const _setInsight = (elId, key) => {
+                    const el = document.getElementById(elId);
+                    if (!el) return;
+                    const v = t(key);
+                    if (v && v !== key) el.textContent = v;
+                };
+                _setInsight('moon-insight-visual', 'moon.insight.' + phaseSlug + '.visual');
+                _setInsight('moon-insight-visibility', 'moon.insight.' + phaseSlug + '.visibility');
+                _setInsight('moon-insight-about', 'moon.insight.' + phaseSlug + '.about');
+            }
+        }
+    } catch (_err2) {
+        if (window.console && console.warn) console.warn('Moon Round-10 fill failed:', _err2);
     }
 }
 

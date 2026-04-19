@@ -5134,6 +5134,149 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         }
     }
 
+    // 5g) SSR لصفحة القمر /moon-today-in-{slug} — H1 غنيّ بالكلمات المفتاحيّة + فقرة تعريفيّة
+    if (seo.moonCity) {
+        const Lm = seo.lang;
+        const cityName = seo.moonCity.name;
+        // خريطة slug → country code (نفس خريطة app.js)
+        const _COUNTRY_BY_CITY = {
+            'mecca': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
+            'cairo': 'eg', 'alexandria': 'eg', 'istanbul': 'tr', 'ankara': 'tr',
+            'dubai': 'ae', 'abu-dhabi': 'ae', 'doha': 'qa', 'kuwait': 'kw',
+            'manama': 'bh', 'muscat': 'om', 'amman': 'jo', 'baghdad': 'iq',
+            'beirut': 'lb', 'damascus': 'sy', 'sanaa': 'ye', 'tunis': 'tn',
+            'algiers': 'dz', 'rabat': 'ma', 'casablanca': 'ma', 'khartoum': 'sd',
+            'tripoli': 'ly', 'jerusalem': 'ps', 'karachi': 'pk', 'lahore': 'pk',
+            'islamabad': 'pk', 'dhaka': 'bd', 'jakarta': 'id', 'kuala-lumpur': 'my',
+            'london': 'gb', 'paris': 'fr', 'berlin': 'de', 'madrid': 'es',
+            'rome': 'it', 'new-york': 'us', 'toronto': 'ca', 'sydney': 'au'
+        };
+        const _COUNTRY_NAMES_SSR = {
+            ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا' },
+            en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia' },
+            fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie' },
+            tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya' },
+            ur: { sa:'سعودی عرب', eg:'مصر', tr:'ترکی', ae:'متحدہ عرب امارات', qa:'قطر', kw:'کویت', bh:'بحرین', om:'عمان', jo:'اردن', iq:'عراق', lb:'لبنان', sy:'شام', ye:'یمن', tn:'تیونس', dz:'الجزائر', ma:'مراکش', sd:'سوڈان', ly:'لیبیا', ps:'فلسطین', pk:'پاکستان', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا', gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', us:'امریکہ', ca:'کینیڈا', au:'آسٹریلیا' },
+            de: { sa:'Saudi-Arabien', eg:'Ägypten', tr:'Türkei', ae:'VAE', qa:'Katar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordanien', iq:'Irak', lb:'Libanon', sy:'Syrien', ye:'Jemen', tn:'Tunesien', dz:'Algerien', ma:'Marokko', sd:'Sudan', ly:'Libyen', ps:'Palästina', pk:'Pakistan', bd:'Bangladesch', id:'Indonesien', my:'Malaysia', gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', us:'USA', ca:'Kanada', au:'Australien' },
+            id: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UEA', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Yordania', iq:'Irak', lb:'Lebanon', sy:'Suriah', ye:'Yaman', tn:'Tunisia', dz:'Aljazair', ma:'Maroko', sd:'Sudan', ly:'Libya', ps:'Palestina', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'Britania Raya', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', us:'Amerika Serikat', ca:'Kanada', au:'Australia' },
+            es: { sa:'Arabia Saudí', eg:'Egipto', tr:'Turquía', ae:'EAU', qa:'Catar', kw:'Kuwait', bh:'Baréin', om:'Omán', jo:'Jordania', iq:'Irak', lb:'Líbano', sy:'Siria', ye:'Yemen', tn:'Túnez', dz:'Argelia', ma:'Marruecos', sd:'Sudán', ly:'Libia', ps:'Palestina', pk:'Pakistán', bd:'Bangladés', id:'Indonesia', my:'Malasia', gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', us:'Estados Unidos', ca:'Canadá', au:'Australia' },
+            bn: { sa:'সৌদি আরব', eg:'মিশর', tr:'তুরস্ক', ae:'সংযুক্ত আরব আমিরাত', qa:'কাতার', kw:'কুয়েত', bh:'বাহরাইন', om:'ওমান', jo:'জর্ডান', iq:'ইরাক', lb:'লেবানন', sy:'সিরিয়া', ye:'ইয়েমেন', tn:'তিউনিসিয়া', dz:'আলজেরিয়া', ma:'মরক্কো', sd:'সুদান', ly:'লিবিয়া', ps:'ফিলিস্তিন', pk:'পাকিস্তান', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া', gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', us:'মার্কিন যুক্তরাষ্ট্র', ca:'কানাডা', au:'অস্ট্রেলিয়া' },
+            ms: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lubnan', sy:'Syria', ye:'Yaman', tn:'Tunisia', dz:'Algeria', ma:'Maghribi', sd:'Sudan', ly:'Libya', ps:'Palestin', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', us:'Amerika Syarikat', ca:'Kanada', au:'Australia' }
+        };
+        const cc = _COUNTRY_BY_CITY[seo.moonCity.slug] || '';
+        const countryName = cc ? ((_COUNTRY_NAMES_SSR[Lm] || _COUNTRY_NAMES_SSR.en)[cc] || '') : '';
+        // قوالب H1 لكل لغة
+        const _h1Moon = {
+            ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
+            en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
+            fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
+            tr: `🌙 Bugün ${cityName}, ${countryName} için Ay Evresi — Aydınlanma ve Yaş`,
+            ur: `🌙 آج ${cityName}، ${countryName} میں چاند کا مرحلہ — روشنی اور عمر`,
+            de: `🌙 Mondphase heute in ${cityName}, ${countryName} — Beleuchtung und Alter`,
+            id: `🌙 Fase Bulan Hari Ini di ${cityName}, ${countryName} — Pencahayaan dan Usia`,
+            es: `🌙 Fase de la Luna hoy en ${cityName}, ${countryName} — Iluminación y edad`,
+            bn: `🌙 আজ ${cityName}, ${countryName}-এ চাঁদের পর্যায় — আলোকসজ্জা ও বয়স`,
+            ms: `🌙 Fasa Bulan Hari Ini di ${cityName}, ${countryName} — Pencahayaan & Usia`
+        }[Lm] || `🌙 Moon Phase Today in ${cityName}, ${countryName}`;
+        // استبدال H1 موقع القمر (يسبق SSR 5a الذي لا يلمس moon-page-h1)
+        html = html.replace(
+            /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
+            `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1Moon)}</h1>`
+        );
+        // قوالب الفقرة التعريفيّة (fallback — بدون JS) — تُستبدَل لاحقًا بالنصّ الديناميكيّ
+        const _introMoon = {
+            ar: `اليوم في ${cityName}، ${countryName}، يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.`,
+            en: `Today in ${cityName}, ${countryName}, you can check the current moon phase, illumination percentage, moon age, moonrise and moonset times with astronomical precision. These figures are computed with rigorous astronomical models (Meeus algorithms) based on your location coordinates.`,
+            fr: `Aujourd\u2019hui à ${cityName}, ${countryName}, vous pouvez connaître la phase actuelle de la Lune, le pourcentage d\u2019illumination, son âge, ainsi que les heures de lever et coucher, avec précision astronomique. Ces données sont calculées à l\u2019aide de modèles astronomiques rigoureux (algorithmes de Meeus) sur la base des coordonnées de votre emplacement.`,
+            tr: `Bugün ${cityName}, ${countryName} için Ayın güncel evresini, aydınlanma yüzdesini, yaşını ve doğuş/batış zamanlarını astronomik doğrulukla öğrenebilirsiniz. Bu veriler, konumunuzun koordinatlarına dayalı titiz astronomik modellerle (Meeus algoritmaları) hesaplanır.`,
+            ur: `آج ${cityName}، ${countryName} میں آپ چاند کے موجودہ مرحلے، روشنی کی فیصد، عمر، اور طلوع و غروب کے اوقات کو فلکیاتی درستگی کے ساتھ معلوم کر سکتے ہیں۔ یہ اعداد و شمار آپ کے مقام کے نقاط کی بنیاد پر سخت فلکیاتی ماڈلز (Meeus الگورتھم) سے حساب کیے جاتے ہیں۔`,
+            de: `Heute in ${cityName}, ${countryName} können Sie die aktuelle Mondphase, den Beleuchtungsanteil, das Mondalter sowie die Auf- und Untergangszeiten mit astronomischer Präzision ermitteln. Diese Werte werden mit strengen astronomischen Modellen (Meeus-Algorithmen) auf Grundlage Ihrer Standortkoordinaten berechnet.`,
+            id: `Hari ini di ${cityName}, ${countryName}, Anda dapat mengetahui fase Bulan saat ini, persentase pencahayaan, usia Bulan, serta waktu terbit dan terbenamnya dengan presisi astronomi. Data ini dihitung menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi Anda.`,
+            es: `Hoy en ${cityName}, ${countryName} puedes conocer la fase actual de la Luna, el porcentaje de iluminación, su edad y las horas de salida y puesta con precisión astronómica. Estos datos se calculan mediante modelos astronómicos rigurosos (algoritmos de Meeus) basados en las coordenadas de tu ubicación.`,
+            bn: `আজ ${cityName}, ${countryName}-এ আপনি চাঁদের বর্তমান পর্যায়, আলোকসজ্জার শতাংশ, চাঁদের বয়স এবং উদয়-অস্তের সময় জ্যোতির্বৈজ্ঞানিক নির্ভুলতার সাথে জানতে পারেন। এই তথ্যগুলি আপনার অবস্থানের স্থানাঙ্কের উপর ভিত্তি করে কঠোর জ্যোতির্বৈজ্ঞানিক মডেল (Meeus অ্যালগরিদম) দিয়ে গণনা করা হয়।`,
+            ms: `Hari ini di ${cityName}, ${countryName}, anda boleh mengetahui fasa Bulan semasa, peratusan pencahayaan, usia Bulan, serta waktu terbit dan terbenamnya dengan ketepatan astronomi. Data ini dikira menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi anda.`
+        }[Lm] || `Today in ${cityName}, ${countryName}, check the current moon phase, illumination, age, and rise/set times with astronomical precision.`;
+        // الفقرة التعريفيّة: يتمّ استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
+        html = html.replace(
+            /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
+            `<p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">${_escHtml(_introMoon)}</p>`
+        );
+        // حقن Article Schema (JSON-LD) لصفحة القمر — "محدَّث يوميًّا"
+        try {
+            const nowIso = new Date().toISOString();
+            const articleSchema = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": _h1Moon,
+                "datePublished": nowIso,
+                "dateModified": nowIso,
+                "author": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
+                "publisher": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
+                "inLanguage": Lm,
+                "mainEntityOfPage": seo.canonical,
+                "articleBody": _introMoon
+            };
+            const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
+            // أدرِج قبل </head>
+            html = html.replace('</head>', `    ${articleJsonLd}\n</head>`);
+        } catch(_e) { /* silent */ }
+    }
+
+    // 5h) SSR لصفحة القمر العامّة /moon-today (بدون مدينة) — H1 و intro بلا placeholders
+    if (seo.moonFaq && !seo.moonCity) {
+        const Lg = seo.lang;
+        const _h1MoonGeneric = {
+            ar: `🌙 طور القمر اليوم — الإضاءة والعمر والبدر القادم`,
+            en: `🌙 Moon Phase Today — Illumination, Age & Next Full Moon`,
+            fr: `🌙 Phase de la Lune aujourd\u2019hui — Illumination, âge et prochaine pleine lune`,
+            tr: `🌙 Bugünkü Ay Evresi — Aydınlanma, Yaş ve Sıradaki Dolunay`,
+            ur: `🌙 آج چاند کا مرحلہ — روشنی، عمر اور اگلا بدر`,
+            de: `🌙 Mondphase heute — Beleuchtung, Alter und nächster Vollmond`,
+            id: `🌙 Fase Bulan Hari Ini — Pencahayaan, Usia & Purnama Berikutnya`,
+            es: `🌙 Fase de la Luna hoy — Iluminación, edad y próxima luna llena`,
+            bn: `🌙 আজ চাঁদের পর্যায় — আলোকসজ্জা, বয়স ও পরবর্তী পূর্ণিমা`,
+            ms: `🌙 Fasa Bulan Hari Ini — Pencahayaan, Usia & Bulan Purnama Seterusnya`
+        }[Lg] || `🌙 Moon Phase Today — Illumination, Age & Next Full Moon`;
+        html = html.replace(
+            /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
+            `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1MoonGeneric)}</h1>`
+        );
+        const _introMoonGeneric = {
+            ar: `تعرّف على طور القمر الحاليّ ونسبة إضاءته وعمره بالأيّام ومواعيد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.`,
+            en: `Check the current moon phase, illumination percentage, moon age in days, and moonrise/moonset times with astronomical precision. These figures are computed with rigorous astronomical models (Meeus algorithms) based on your location coordinates.`,
+            fr: `Découvrez la phase actuelle de la Lune, le pourcentage d\u2019illumination, l\u2019âge en jours ainsi que les heures de lever et coucher, avec précision astronomique. Ces données sont calculées à l\u2019aide de modèles astronomiques rigoureux (algorithmes de Meeus) sur la base des coordonnées de votre emplacement.`,
+            tr: `Ayın güncel evresini, aydınlanma yüzdesini, gün cinsinden yaşını ve doğuş/batış saatlerini astronomik doğrulukla öğrenin. Bu veriler, konumunuzun koordinatlarına dayalı titiz astronomik modellerle (Meeus algoritmaları) hesaplanır.`,
+            ur: `چاند کے موجودہ مرحلے، روشنی کی فیصد، دنوں میں عمر، اور طلوع و غروب کے اوقات کو فلکیاتی درستگی کے ساتھ جانیں۔ یہ اعداد و شمار آپ کے مقام کے نقاط کی بنیاد پر سخت فلکیاتی ماڈلز (Meeus الگورتھم) سے حساب کیے جاتے ہیں۔`,
+            de: `Erfahren Sie die aktuelle Mondphase, den Beleuchtungsanteil, das Mondalter in Tagen sowie die Auf- und Untergangszeiten mit astronomischer Präzision. Diese Werte werden mit strengen astronomischen Modellen (Meeus-Algorithmen) auf Grundlage Ihrer Standortkoordinaten berechnet.`,
+            id: `Ketahui fase Bulan saat ini, persentase pencahayaan, usia dalam hari, serta waktu terbit dan terbenamnya dengan presisi astronomi. Data ini dihitung menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi Anda.`,
+            es: `Consulta la fase actual de la Luna, el porcentaje de iluminación, su edad en días y las horas de salida y puesta con precisión astronómica. Estos datos se calculan mediante modelos astronómicos rigurosos (algoritmos de Meeus) basados en las coordenadas de tu ubicación.`,
+            bn: `চাঁদের বর্তমান পর্যায়, আলোকসজ্জার শতাংশ, দিনের হিসেবে বয়স এবং উদয়-অস্তের সময় জ্যোতির্বৈজ্ঞানিক নির্ভুলতার সাথে জানুন। এই তথ্যগুলি আপনার অবস্থানের স্থানাঙ্কের উপর ভিত্তি করে কঠোর জ্যোতির্বৈজ্ঞানিক মডেল (Meeus অ্যালগরিদম) দিয়ে গণনা করা হয়।`,
+            ms: `Ketahui fasa Bulan semasa, peratusan pencahayaan, usia dalam hari, serta waktu terbit dan terbenamnya dengan ketepatan astronomi. Data ini dikira menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi anda.`
+        }[Lg] || `Check the current moon phase, illumination, age, and rise/set times with astronomical precision.`;
+        html = html.replace(
+            /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
+            `<p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">${_escHtml(_introMoonGeneric)}</p>`
+        );
+        // Article Schema مع datePublished يوميّ
+        try {
+            const nowIso = new Date().toISOString();
+            const articleSchema = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": _h1MoonGeneric,
+                "datePublished": nowIso,
+                "dateModified": nowIso,
+                "author": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
+                "publisher": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
+                "inLanguage": Lg,
+                "mainEntityOfPage": seo.canonical,
+                "articleBody": _introMoonGeneric
+            };
+            const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
+            html = html.replace('</head>', `    ${articleJsonLd}\n</head>`);
+        } catch(_e) { /* silent */ }
+    }
+
     const buf = Buffer.from(html, 'utf8');
     const headers = {
         'Content-Type': 'text/html; charset=utf-8',

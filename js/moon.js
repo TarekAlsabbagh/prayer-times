@@ -464,6 +464,38 @@ const MoonCalc = (function() {
         return getForecast(startDate, lat, lng, 7);
     }
 
+    // ══════════ برج القمر الحاليّ (Zodiac / كوكبة الخلفيّة) ══════════
+    // يعتمد على خطّ الطول السماويّ (ecliptic longitude, λ) المحسوب في _moonEquatorial
+    // كلّ برج = 30° (360° ÷ 12). ترتيب الأبراج يبدأ من الحمل عند λ=0°.
+    const _ZODIAC_SIGNS = [
+        { key: 'aries',       icon: '\u2648' }, // ♈
+        { key: 'taurus',      icon: '\u2649' }, // ♉
+        { key: 'gemini',      icon: '\u264A' }, // ♊
+        { key: 'cancer',      icon: '\u264B' }, // ♋
+        { key: 'leo',         icon: '\u264C' }, // ♌
+        { key: 'virgo',       icon: '\u264D' }, // ♍
+        { key: 'libra',       icon: '\u264E' }, // ♎
+        { key: 'scorpio',     icon: '\u264F' }, // ♏
+        { key: 'sagittarius', icon: '\u2650' }, // ♐
+        { key: 'capricorn',   icon: '\u2651' }, // ♑
+        { key: 'aquarius',    icon: '\u2652' }, // ♒
+        { key: 'pisces',      icon: '\u2653' }  // ♓
+    ];
+
+    function getMoonZodiac(date) {
+        const eq = _moonEquatorial(date);
+        const lambda = eq.lambda; // [0, 360)
+        const idx = Math.floor(lambda / 30) % 12;
+        const sign = _ZODIAC_SIGNS[idx];
+        return {
+            index: idx,
+            key: sign.key,
+            icon: sign.icon,
+            i18nKey: 'moon.zodiac.' + sign.key,
+            lambda: lambda
+        };
+    }
+
     return {
         getMoonPhase,
         getMoonIllumination,
@@ -472,6 +504,7 @@ const MoonCalc = (function() {
         getGeocentricDistance,
         getPhaseName,
         getMoonTimes,
+        getMoonZodiac,
         getNextFullMoon,
         getNextNewMoon,
         getNextFirstQuarter,

@@ -899,6 +899,85 @@ button, input, select { font-family: inherit; }
 .moon-breadcrumb a { color: var(--primary); text-decoration: none; }
 .moon-breadcrumb a:hover { text-decoration: underline; }
 .moon-breadcrumb .bc-sep { color: var(--text-light); opacity: 0.6; }
+
+/* ═══ Round 10: intro, comparison, phase-insight, forecast-cta ═══ */
+.moon-intro {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--bg-elevated, rgba(0,0,0,0.03));
+    border-inline-start: 4px solid var(--primary);
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin: 8px 0 16px;
+}
+.moon-comparison {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px auto 0;
+    padding: 8px 14px;
+    background: var(--primary-light, rgba(46,125,50,0.08));
+    color: var(--primary-dark);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+.moon-comparison-arrow {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+.moon-phase-insight {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--bg-elevated, rgba(0,0,0,0.03));
+    border-radius: 12px;
+}
+.moon-phase-insight .insight-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.65;
+}
+.moon-phase-insight .insight-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+.moon-phase-insight .insight-text {
+    color: var(--text);
+    font-size: 0.95rem;
+}
+.moon-forecast-cta {
+    display: block;
+    margin: 16px 0 18px;
+    padding: 14px 18px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 12px;
+    font-size: 1.02rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(46,125,50,0.22);
+}
+.moon-forecast-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46,125,50,0.3);
+    color: #fff;
+    text-decoration: none;
+}
+@media (max-width: 640px) {
+    .moon-intro { font-size: 0.98rem; padding: 12px 14px; }
+    .moon-comparison { font-size: 0.9rem; }
+    .moon-forecast-cta { font-size: 0.98rem; padding: 12px 14px; }
+}
+
 .moon-location-note {
     font-size: 0.92rem;
     color: var(--text-light);

@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=255" as="script">
-    <link rel="stylesheet" href="css/style.css?v=64">
+    <link rel="preload" href="js/app.js?v=256" as="script">
+    <link rel="stylesheet" href="css/style.css?v=65">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -641,9 +641,12 @@
                     <span data-i18n="moon.bc_current" aria-current="page">القمر اليوم</span>
                 </nav>
 
+                <!-- Intro paragraph — SEO-rich, filled by JS with live data -->
+                <p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">اليوم يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.</p>
+
                 <!-- القسم الرئيسيّ — الحالة الحاليّة -->
                 <div class="section-card">
-                    <h2 data-i18n="moon.title">🌙 القمر اليوم</h2>
+                    <h2 id="moon-title-h2" data-i18n="moon.title">🌙 القمر اليوم</h2>
                     <div class="moon-location-note" id="moon-location-note" data-i18n="moon.location_note">الموقع: جاري التحديد…</div>
                     <div class="moon-display">
                         <span class="moon-icon" id="moon-icon" role="img" aria-label="Current moon phase icon">🌕</span>
@@ -658,6 +661,10 @@
                         <div class="moon-detail-card">
                             <div class="label" data-i18n="moon.illumination">نسبة الإضاءة</div>
                             <div class="value" id="moon-illumination-pct">--</div>
+                        </div>
+                        <div class="moon-detail-card moon-zodiac-card">
+                            <div class="label" data-i18n="moon.zodiac_label">الكوكبة</div>
+                            <div class="value" id="moon-zodiac">--</div>
                         </div>
                         <div class="moon-detail-card">
                             <div class="label" data-i18n="moon.rise">مطلع القمر</div>
@@ -681,11 +688,27 @@
                             <div class="value-sub" id="moon-distance-sub" data-i18n="moon.distance_sub">كم من موقعك</div>
                         </div>
                     </div>
+
+                    <!-- Yesterday vs Today comparison — filled by JS -->
+                    <div class="moon-comparison" id="moon-comparison" hidden>
+                        <span class="moon-comparison-arrow" id="moon-comparison-arrow">↑</span>
+                        <span class="moon-comparison-text" id="moon-comparison-text">--</span>
+                    </div>
+
+                    <!-- Phase Insight — three lines about the current phase (visual/visibility/about) -->
+                    <div class="moon-phase-insight" id="moon-phase-insight">
+                        <div class="insight-row"><span class="insight-icon" aria-hidden="true">👁</span><span class="insight-text" id="moon-insight-visual">--</span></div>
+                        <div class="insight-row"><span class="insight-icon" aria-hidden="true">🔭</span><span class="insight-text" id="moon-insight-visibility">--</span></div>
+                        <div class="insight-row"><span class="insight-icon" aria-hidden="true">📚</span><span class="insight-text" id="moon-insight-about">--</span></div>
+                    </div>
                 </div>
 
+                <!-- CTA: link from current state to the 14-day forecast -->
+                <a class="moon-forecast-cta" href="#moon-forecast" data-i18n="moon.forecast_cta">📅 تابع تطوّر القمر خلال الأربعة عشر يومًا القادمة ↓</a>
+
                 <!-- 14-day forecast -->
-                <div class="section-card">
-                    <h2 data-i18n="moon.forecast_title">📅 توقّعات القمر للأربعة عشر يومًا القادمة</h2>
+                <div class="section-card" id="moon-forecast">
+                    <h2 id="moon-forecast-h2" data-i18n="moon.forecast_title">📅 توقّعات القمر للأربعة عشر يومًا القادمة</h2>
                     <div class="moon-forecast-wrap">
                         <table class="moon-forecast-table" id="moon-forecast-table" aria-label="14-day moon forecast">
                             <thead>
@@ -725,7 +748,7 @@
 
                 <!-- FAQ — Live Dynamic Section (real-time data per city/date) -->
                 <div class="section-card">
-                    <h2 data-i18n="moon.faq_live_title">🔴 الآن: القمر الليلة</h2>
+                    <h2 id="moon-faq-live-h2" data-i18n="moon.faq_live_title">🔴 الآن: القمر الليلة</h2>
                     <div class="moon-faq moon-faq-live" id="moon-faq-live">
                         <details class="moon-faq-item" open>
                             <summary data-i18n="moon.faq.dq1">ما طور القمر الليلة في مدينتك؟</summary>
@@ -1458,13 +1481,13 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=85"></script>
+    <script defer src="js/i18n.js?v=86"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
-    <script defer src="js/moon.js?v=48"></script>
+    <script defer src="js/moon.js?v=49"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=255"></script>
+    <script defer src="js/app.js?v=256"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

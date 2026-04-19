@@ -364,7 +364,7 @@
     </main>
 </div>
 
-<script src="js/i18n.js?v=79"></script>
+<script src="js/i18n.js?v=80"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
@@ -1124,7 +1124,7 @@ updatePageHeader();
         const hYear  = 30*n + j - 30;
         const isEn = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
         const months = isEn
-            ? ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah']
+            ? ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah']
             : ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
         const days = isEn
             ? ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
@@ -1636,7 +1636,7 @@ function onLanguageChange(lang) {
             const hYear  = 30*n + j - 30;
             const isEn = lang === 'en';
             const months = isEn
-                ? ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah']
+                ? ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah']
                 : ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
             const days = isEn
                 ? ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']

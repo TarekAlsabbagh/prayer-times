@@ -1735,15 +1735,15 @@ const COUNTRY_NAMES_AR = {
 const _HIJRI_MONTHS = {
     'muharram':        { ar: 'محرم',            en: 'Muharram',         order: 1 },
     'safar':           { ar: 'صفر',             en: 'Safar',            order: 2 },
-    'rabi-al-awwal':   { ar: 'ربيع الأول',      en: "Rabi' al-Awwal",   order: 3 },
-    'rabi-al-thani':   { ar: 'ربيع الآخر',       en: "Rabi' al-Thani",   order: 4 },
+    'rabi-al-awwal':   { ar: 'ربيع الأول',      en: 'Rabi al-Awwal',    order: 3 },
+    'rabi-al-thani':   { ar: 'ربيع الآخر',       en: 'Rabi al-Thani',    order: 4 },
     'jumada-al-ula':   { ar: 'جمادى الأولى',    en: 'Jumada al-Ula',    order: 5 },
     'jumada-al-akhira':{ ar: 'جمادى الآخرة',    en: 'Jumada al-Akhira', order: 6 },
     'rajab':           { ar: 'رجب',             en: 'Rajab',            order: 7 },
-    'shaban':          { ar: 'شعبان',           en: "Sha'ban",          order: 8 },
+    'shaban':          { ar: 'شعبان',           en: 'Shaban',           order: 8 },
     'ramadan':         { ar: 'رمضان',           en: 'Ramadan',          order: 9 },
     'shawwal':         { ar: 'شوال',            en: 'Shawwal',          order: 10 },
-    'dhu-al-qidah':    { ar: 'ذو القعدة',        en: "Dhu al-Qi'dah",    order: 11 },
+    'dhu-al-qidah':    { ar: 'ذو القعدة',        en: 'Dhu al-Qidah',     order: 11 },
     'dhu-al-hijjah':   { ar: 'ذو الحجة',         en: 'Dhu al-Hijjah',    order: 12 },
 };
 const _HIJRI_MONTHS_BY_ORDER = Object.keys(_HIJRI_MONTHS).reduce((m, k) => {
@@ -2756,7 +2756,7 @@ function buildSeoForPath(urlPath) {
     };
     const _HM_BY_LANG_CITY = {
         ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
-        en: ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'],
+        en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
         fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
         tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
         ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
@@ -3209,7 +3209,7 @@ function buildSeoForPath(urlPath) {
         const info = _HIJRI_MONTHS[monthSlug];
         const _HM_BY_LANG_M = {
             ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
-            en: ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'],
+            en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
             fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
             tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
             ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
@@ -3281,7 +3281,7 @@ function buildSeoForPath(urlPath) {
         // أسماء الأشهر الهجرية المُترجَمة لكل لغة (10 لغات)
         const _HM_BY_LANG = {
             ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
-            en: ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'],
+            en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
             fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
             tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
             ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],

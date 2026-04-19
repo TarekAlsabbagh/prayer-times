@@ -502,9 +502,9 @@ const HIJRI_MONTH_SLUGS = [
     'ramadan','shawwal','dhu-al-qidah','dhu-al-hijjah'
 ];
 const HIJRI_MONTHS_EN = [
-    'Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",
-    'Jumada al-Awwal','Jumada al-Thani','Rajab',"Sha'ban",
-    'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'
+    'Muharram','Safar','Rabi al-Awwal','Rabi al-Thani',
+    'Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban',
+    'Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'
 ];
 const DAY_NAMES_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const G_MONTHS_AR  = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
@@ -3882,7 +3882,7 @@ function updatePageSEO() {
         try {
             const t = HijriDate.getToday();
             const monthsAr = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
-            const monthsEn = ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Ula','Jumada al-Akhira','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'];
+            const monthsEn = ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'];
             hijriStr = isEn
                 ? `${t.day} ${monthsEn[t.month - 1]} ${t.year} AH`
                 : `${t.day} ${monthsAr[t.month - 1]} ${t.year} هـ`;
@@ -5986,7 +5986,7 @@ const HT_I18N = {
         hSfx:' AH',
         days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
         gM:['January','February','March','April','May','June','July','August','September','October','November','December'],
-        hM:['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Awwal','Jumada al-Thani','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'],
+        hM:['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
         bcHome:'Home', bcCal:'Hijri Calendar',
         bcYear:y=>`${y} AH`, bcMonth:(m,y)=>`${m} ${y} AH`, bcDay:(d,m,y)=>`${d} ${m} ${y} AH`,
         hero:(dn,d,m,y)=>`Today's Hijri Date: ${dn}, ${d} ${m} ${y} AH`,
@@ -7708,7 +7708,7 @@ async function loadConverterOTD(hijriDay, hijriMonthIndex, hijriYear) {
 
     const lang           = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const hijriMonthName = HijriDate.hijriMonths[hijriMonthIndex - 1];
-    const hijriMonthsEn  = ['Muharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Jumada al-Awwal','Jumada al-Thani','Rajab',"Sha'ban",'Ramadan','Shawwal','Dhu al-Qi\'dah','Dhu al-Hijjah'];
+    const hijriMonthsEn  = ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'];
 
     // تحديث العنوان الفرعي فوراً
     if (subtitleEl) {

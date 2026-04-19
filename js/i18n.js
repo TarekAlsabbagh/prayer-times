@@ -621,10 +621,10 @@ const TRANSLATIONS = {
         'cookie.save': 'Save choices',
         'cookie.cancel': 'Cancel',
         // Hijri month names
-        'hmonth.1':'Muharram','hmonth.2':'Safar','hmonth.3':"Rabi' al-Awwal",
-        'hmonth.4':"Rabi' al-Thani",'hmonth.5':'Jumada al-Ula','hmonth.6':'Jumada al-Akhira',
-        'hmonth.7':'Rajab','hmonth.8':"Sha'ban",'hmonth.9':'Ramadan',
-        'hmonth.10':'Shawwal','hmonth.11':"Dhu al-Qi'dah",'hmonth.12':'Dhu al-Hijjah',
+        'hmonth.1':'Muharram','hmonth.2':'Safar','hmonth.3':'Rabi al-Awwal',
+        'hmonth.4':'Rabi al-Thani','hmonth.5':'Jumada al-Ula','hmonth.6':'Jumada al-Akhira',
+        'hmonth.7':'Rajab','hmonth.8':'Shaban','hmonth.9':'Ramadan',
+        'hmonth.10':'Shawwal','hmonth.11':'Dhu al-Qidah','hmonth.12':'Dhu al-Hijjah',
         // Gregorian month names
         'gmonth.1':'January','gmonth.2':'February','gmonth.3':'March',
         'gmonth.4':'April','gmonth.5':'May','gmonth.6':'June',

@@ -1,0 +1,218 @@
+[
+  {
+    "nameAr": "تالين",
+    "nameEn": "Tallinn",
+    "type": "city",
+    "lat": 59.437222222222,
+    "lng": 24.745,
+    "pop": 457572
+  },
+  {
+    "nameAr": "Borodino",
+    "nameEn": "Borodino",
+    "type": "city",
+    "lat": 57.56667,
+    "lng": 26.7,
+    "pop": 21
+  },
+  {
+    "nameAr": "Aavidu",
+    "nameEn": "Aavidu",
+    "type": "city",
+    "lat": 59.45305556,
+    "lng": 26.23888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Abikülä",
+    "nameEn": "Abikülä",
+    "type": "city",
+    "lat": 57.72111111,
+    "lng": 27.07611111,
+    "pop": null
+  },
+  {
+    "nameAr": "Aosilla",
+    "nameEn": "Aosilla",
+    "type": "city",
+    "lat": 58.93855,
+    "lng": 26.693997,
+    "pop": null
+  },
+  {
+    "nameAr": "Hüüdre",
+    "nameEn": "Hüüdre",
+    "type": "city",
+    "lat": 57.9389223,
+    "lng": 26.6685209,
+    "pop": null
+  },
+  {
+    "nameAr": "Jaama",
+    "nameEn": "Jaama",
+    "type": "city",
+    "lat": 58.110833,
+    "lng": 27.4375,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaasiku",
+    "nameEn": "Kaasiku",
+    "type": "city",
+    "lat": 58.8910528,
+    "lng": 26.606661,
+    "pop": null
+  },
+  {
+    "nameAr": "Kalmetu",
+    "nameEn": "Kalmetu",
+    "type": "city",
+    "lat": 58.39194,
+    "lng": 25.81944,
+    "pop": null
+  },
+  {
+    "nameAr": "Kilbavere",
+    "nameEn": "Kilbavere",
+    "type": "city",
+    "lat": 58.9021361,
+    "lng": 26.684272,
+    "pop": null
+  },
+  {
+    "nameAr": "Kirikuküla",
+    "nameEn": "Kirikuküla",
+    "type": "city",
+    "lat": 58.807625,
+    "lng": 26.522983,
+    "pop": null
+  },
+  {
+    "nameAr": "Kirivere",
+    "nameEn": "Kirivere",
+    "type": "city",
+    "lat": 58.87065,
+    "lng": 26.548678,
+    "pop": null
+  },
+  {
+    "nameAr": "Koroli",
+    "nameEn": "Koroli",
+    "type": "city",
+    "lat": 57.8820629,
+    "lng": 26.9560755,
+    "pop": null
+  },
+  {
+    "nameAr": "Kulani",
+    "nameEn": "Kulani",
+    "type": "city",
+    "lat": 59.0275,
+    "lng": 23.540833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kuruski",
+    "nameEn": "Kuruski",
+    "type": "city",
+    "lat": 58.0428688,
+    "lng": 27.0292201,
+    "pop": null
+  },
+  {
+    "nameAr": "Lõusa",
+    "nameEn": "Lõusa",
+    "type": "city",
+    "lat": 59.064722,
+    "lng": 26.509722,
+    "pop": null
+  },
+  {
+    "nameAr": "Lullikatku",
+    "nameEn": "Lullikatku",
+    "type": "city",
+    "lat": 58.816944444444,
+    "lng": 26.717777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Matu",
+    "nameEn": "Matu",
+    "type": "city",
+    "lat": 58.1,
+    "lng": 26.21666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Mõisamaa",
+    "nameEn": "Mõisamaa",
+    "type": "city",
+    "lat": 58.86635,
+    "lng": 26.58488889,
+    "pop": null
+  },
+  {
+    "nameAr": "Norrby",
+    "nameEn": "Norrby",
+    "type": "city",
+    "lat": 59.125277777778,
+    "lng": 23.537777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Nukelise",
+    "nameEn": "Nukelise",
+    "type": "city",
+    "lat": 58.8810472,
+    "lng": 26.6008694,
+    "pop": null
+  },
+  {
+    "nameAr": "Pedasi",
+    "nameEn": "Pedasi",
+    "type": "city",
+    "lat": 58.8931,
+    "lng": 26.55918,
+    "pop": null
+  },
+  {
+    "nameAr": "Pütsepä",
+    "nameEn": "Pütsepä",
+    "type": "city",
+    "lat": 57.70611111,
+    "lng": 27.28333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Sikajala",
+    "nameEn": "Sikajala",
+    "type": "city",
+    "lat": 57.9832665,
+    "lng": 26.9408711,
+    "pop": null
+  },
+  {
+    "nameAr": "Söderby",
+    "nameEn": "Söderby",
+    "type": "city",
+    "lat": 59.112777777778,
+    "lng": 23.549444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Sootiigi",
+    "nameEn": "Sootiigi",
+    "type": "city",
+    "lat": 59.0836,
+    "lng": 26.3836,
+    "pop": null
+  },
+  {
+    "nameAr": "Ust-Žerdjanka",
+    "nameEn": "Ust-Žerdjanka",
+    "type": "city",
+    "lat": 59.277777777778,
+    "lng": 28.008055555556,
+    "pop": null
+  }
+]

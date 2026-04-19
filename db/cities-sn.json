@@ -1,0 +1,900 @@
+[
+  {
+    "nameAr": "داكار",
+    "nameEn": "Dakar",
+    "type": "city",
+    "lat": 14.6928,
+    "lng": -17.4467
+  },
+  {
+    "nameAr": "توبا",
+    "nameEn": "Touba",
+    "type": "city",
+    "lat": 14.85,
+    "lng": -15.88
+  },
+  {
+    "nameAr": "ثيس",
+    "nameEn": "Thiès",
+    "type": "city",
+    "lat": 14.7833,
+    "lng": -16.9167
+  },
+  {
+    "nameAr": "زيغينشور",
+    "nameEn": "Ziguinchor",
+    "type": "city",
+    "lat": 12.5833,
+    "lng": -16.2667
+  },
+  {
+    "nameAr": "سانت لويس",
+    "nameEn": "Saint-Louis",
+    "type": "city",
+    "lat": 16.0179,
+    "lng": -16.4896
+  },
+  {
+    "nameAr": "كاولاك",
+    "nameEn": "Kaolack",
+    "type": "city",
+    "lat": 14.1504,
+    "lng": -16.0726
+  },
+  {
+    "nameAr": "بيكين",
+    "nameEn": "Pikine",
+    "type": "city",
+    "lat": 14.744,
+    "lng": -17.402055555556,
+    "pop": 1170791
+  },
+  {
+    "nameAr": "طوبى",
+    "nameEn": "Touba",
+    "type": "city",
+    "lat": 14.866666666667,
+    "lng": -15.883333333333,
+    "pop": 529176
+  },
+  {
+    "nameAr": "تييس",
+    "nameEn": "Thiès",
+    "type": "city",
+    "lat": 14.791638888889,
+    "lng": -16.924944444444,
+    "pop": 391253
+  },
+  {
+    "nameAr": "روفسك",
+    "nameEn": "Rufisque",
+    "type": "city",
+    "lat": 14.714027777778,
+    "lng": -17.272305555556,
+    "pop": 295459
+  },
+  {
+    "nameAr": "امبور",
+    "nameEn": "M'Bour",
+    "type": "city",
+    "lat": 14.410444444444,
+    "lng": -16.964944444444,
+    "pop": 284189
+  },
+  {
+    "nameAr": "Keur Massar Nord",
+    "nameEn": "Keur Massar Nord",
+    "type": "city",
+    "lat": 14.784416666667,
+    "lng": -17.309472222222,
+    "pop": 224765
+  },
+  {
+    "nameAr": "زيغنشور",
+    "nameEn": "Ziguinchor",
+    "type": "city",
+    "lat": 12.586111111111,
+    "lng": -16.27075,
+    "pop": 205294
+  },
+  {
+    "nameAr": "Yeumbeul Nord",
+    "nameEn": "Yeumbeul Nord",
+    "type": "city",
+    "lat": 14.776277777778,
+    "lng": -17.352527777778,
+    "pop": 204375
+  },
+  {
+    "nameAr": "Sangalkam",
+    "nameEn": "Sangalkam",
+    "type": "city",
+    "lat": 14.776805555556,
+    "lng": -17.225555555556,
+    "pop": 110958
+  },
+  {
+    "nameAr": "Yeumbeul Sud",
+    "nameEn": "Yeumbeul Sud",
+    "type": "city",
+    "lat": 14.7692,
+    "lng": -17.3619,
+    "pop": 108069
+  },
+  {
+    "nameAr": "Keur Massar Sud",
+    "nameEn": "Keur Massar Sud",
+    "type": "city",
+    "lat": 14.771583333333,
+    "lng": -17.300833333333,
+    "pop": 105362
+  },
+  {
+    "nameAr": "تيفوان",
+    "nameEn": "Tivaouane",
+    "type": "city",
+    "lat": 14.954305555556,
+    "lng": -16.813194444444,
+    "pop": 102658
+  },
+  {
+    "nameAr": "ديوربل",
+    "nameEn": "Diourbel",
+    "type": "city",
+    "lat": 14.655,
+    "lng": -16.231388888889,
+    "pop": 100445
+  },
+  {
+    "nameAr": "تامباكوندا",
+    "nameEn": "Tambacounda",
+    "type": "city",
+    "lat": 13.768889,
+    "lng": -13.667222,
+    "pop": 78800
+  },
+  {
+    "nameAr": "Jaxaay-Parcelles",
+    "nameEn": "Jaxaay-Parcelles",
+    "type": "city",
+    "lat": 14.7695,
+    "lng": -17.282416666667,
+    "pop": 71036
+  },
+  {
+    "nameAr": "Bargny",
+    "nameEn": "Bargny",
+    "type": "city",
+    "lat": 14.694444444444,
+    "lng": -17.230555555556,
+    "pop": 69242
+  },
+  {
+    "nameAr": "كولدا",
+    "nameEn": "Kolda",
+    "type": "city",
+    "lat": 12.895833333333,
+    "lng": -14.940833333333,
+    "pop": 62258
+  },
+  {
+    "nameAr": "Joal-Fadiouth",
+    "nameEn": "Joal-Fadiouth",
+    "type": "city",
+    "lat": 14.153138888889,
+    "lng": -16.831638888889,
+    "pop": 61582
+  },
+  {
+    "nameAr": "Malika",
+    "nameEn": "Malika",
+    "type": "city",
+    "lat": 14.798944444444,
+    "lng": -17.337027777778,
+    "pop": 56707
+  },
+  {
+    "nameAr": "Nguékhokh",
+    "nameEn": "Nguékhokh",
+    "type": "city",
+    "lat": 14.508833333333,
+    "lng": -17.002694444444,
+    "pop": 47964
+  },
+  {
+    "nameAr": "ديامينياديو",
+    "nameEn": "Diamniadio",
+    "type": "city",
+    "lat": 14.719861111111,
+    "lng": -17.184166666667,
+    "pop": 47759
+  },
+  {
+    "nameAr": "Sébikotane",
+    "nameEn": "Sébikotane",
+    "type": "city",
+    "lat": 14.742777777778,
+    "lng": -17.141944444444,
+    "pop": 42839
+  },
+  {
+    "nameAr": "Saly",
+    "nameEn": "Saly",
+    "type": "city",
+    "lat": 14.442472222222,
+    "lng": -17.016527777778,
+    "pop": 41811
+  },
+  {
+    "nameAr": "Jaxaay-Parcelles-Niakoul Rab",
+    "nameEn": "Jaxaay-Parcelles-Niakoul Rab",
+    "type": "city",
+    "lat": 14.768833333333,
+    "lng": -17.279277777778,
+    "pop": 41570
+  },
+  {
+    "nameAr": "Mboro",
+    "nameEn": "Mboro",
+    "type": "city",
+    "lat": 15.132666666667,
+    "lng": -16.876777777778,
+    "pop": 40811
+  },
+  {
+    "nameAr": "فاتيك",
+    "nameEn": "Fatick",
+    "type": "city",
+    "lat": 14.339277777778,
+    "lng": -16.410416666667,
+    "pop": 39361
+  },
+  {
+    "nameAr": "Kayar",
+    "nameEn": "Kayar",
+    "type": "city",
+    "lat": 14.908861111111,
+    "lng": -17.124138888889,
+    "pop": 33273
+  },
+  {
+    "nameAr": "كيدوغو",
+    "nameEn": "Kédougou",
+    "type": "city",
+    "lat": 12.555583333333,
+    "lng": -12.18075,
+    "pop": 30051
+  },
+  {
+    "nameAr": "Pout",
+    "nameEn": "Pout",
+    "type": "city",
+    "lat": 14.772638888889,
+    "lng": -17.061722222222,
+    "pop": 29874
+  },
+  {
+    "nameAr": "بيغنونا",
+    "nameEn": "Bignona",
+    "type": "city",
+    "lat": 12.809722222222,
+    "lng": -16.230027777778,
+    "pop": 28642
+  },
+  {
+    "nameAr": "Meckhe",
+    "nameEn": "Meckhe",
+    "type": "city",
+    "lat": 15.113527777778,
+    "lng": -16.631611111111,
+    "pop": 27566
+  },
+  {
+    "nameAr": "Karang Poste",
+    "nameEn": "Karang Poste",
+    "type": "city",
+    "lat": 13.608638888889,
+    "lng": -16.425638888889,
+    "pop": 26972
+  },
+  {
+    "nameAr": "Sokone",
+    "nameEn": "Sokone",
+    "type": "city",
+    "lat": 13.88075,
+    "lng": -16.374611111111,
+    "pop": 20424
+  },
+  {
+    "nameAr": "Khombole",
+    "nameEn": "Khombole",
+    "type": "city",
+    "lat": 14.762861111111,
+    "lng": -16.690916666667,
+    "pop": 20321
+  },
+  {
+    "nameAr": "Thiadiaye",
+    "nameEn": "Thiadiaye",
+    "type": "city",
+    "lat": 14.420861111111,
+    "lng": -16.706138888889,
+    "pop": 20168
+  },
+  {
+    "nameAr": "Linguère",
+    "nameEn": "Linguère",
+    "type": "city",
+    "lat": 15.38333333,
+    "lng": -15.21666667,
+    "pop": 15482
+  },
+  {
+    "nameAr": "Ndioum",
+    "nameEn": "Ndioum",
+    "type": "city",
+    "lat": 16.513055555556,
+    "lng": -14.646944444444,
+    "pop": 14341
+  },
+  {
+    "nameAr": "Kanel",
+    "nameEn": "Kanel",
+    "type": "city",
+    "lat": 15.48333333,
+    "lng": -13.16666667,
+    "pop": 12975
+  },
+  {
+    "nameAr": "Diofior",
+    "nameEn": "Diofior",
+    "type": "city",
+    "lat": 14.185305555556,
+    "lng": -16.661055555556,
+    "pop": 12795
+  },
+  {
+    "nameAr": "بدر",
+    "nameEn": "Podor",
+    "type": "city",
+    "lat": 16.648888888889,
+    "lng": -14.960555555556,
+    "pop": 11608
+  },
+  {
+    "nameAr": "Soum",
+    "nameEn": "Soum",
+    "type": "city",
+    "lat": 14.087722222222,
+    "lng": -16.480055555556,
+    "pop": 6159
+  },
+  {
+    "nameAr": "Oussouye",
+    "nameEn": "Oussouye",
+    "type": "city",
+    "lat": 12.488555555556,
+    "lng": -16.545388888889,
+    "pop": 4828
+  },
+  {
+    "nameAr": "Saraya",
+    "nameEn": "Saraya",
+    "type": "city",
+    "lat": 12.83333333,
+    "lng": -11.75,
+    "pop": 2726
+  },
+  {
+    "nameAr": "النجف الأشرف",
+    "nameEn": "Nadjaf Al Ashraf",
+    "type": "city",
+    "lat": 13.360619213158,
+    "lng": -13.3777,
+    "pop": null
+  },
+  {
+    "nameAr": "أوروسغي",
+    "nameEn": "Ouro Sogui",
+    "type": "city",
+    "lat": 15.6015,
+    "lng": -13.3204,
+    "pop": null
+  },
+  {
+    "nameAr": "دار الهجرة",
+    "nameEn": "Darou Hidjiratou",
+    "type": "city",
+    "lat": 13.033333333333,
+    "lng": -13.866666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "داغانا",
+    "nameEn": "Dagana",
+    "type": "city",
+    "lat": 16.48333333,
+    "lng": -15.6,
+    "pop": null
+  },
+  {
+    "nameAr": "ريتشارد تول",
+    "nameEn": "Richard Toll",
+    "type": "city",
+    "lat": 16.466111111111,
+    "lng": -15.693333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "غاندياي",
+    "nameEn": "Gandiaye",
+    "type": "city",
+    "lat": 14.233333333333,
+    "lng": -16.266666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "غوساس",
+    "nameEn": "Gossas",
+    "type": "city",
+    "lat": 14.4915,
+    "lng": -16.0675,
+    "pop": null
+  },
+  {
+    "nameAr": "غيديوية",
+    "nameEn": "Guédiawaye",
+    "type": "city",
+    "lat": 14.772361111111,
+    "lng": -17.388444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "كونغويل",
+    "nameEn": "Koungheul",
+    "type": "city",
+    "lat": 13.96666667,
+    "lng": -14.80527778,
+    "pop": null
+  },
+  {
+    "nameAr": "لوغا",
+    "nameEn": "Nguer Malal",
+    "type": "city",
+    "lat": 15.616666666667,
+    "lng": -16.216666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakel",
+    "nameEn": "Bakel",
+    "type": "city",
+    "lat": 14.904166666667,
+    "lng": -12.458333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Bakidioto",
+    "nameEn": "Bakidioto",
+    "type": "city",
+    "lat": 12.64972,
+    "lng": -15.42611,
+    "pop": null
+  },
+  {
+    "nameAr": "Bambey",
+    "nameEn": "Bambey",
+    "type": "city",
+    "lat": 14.7,
+    "lng": -16.45,
+    "pop": null
+  },
+  {
+    "nameAr": "Baria",
+    "nameEn": "Baria",
+    "type": "city",
+    "lat": 13.667498953307,
+    "lng": -16.183562994638,
+    "pop": null
+  },
+  {
+    "nameAr": "Bounkiling",
+    "nameEn": "Bounkiling",
+    "type": "city",
+    "lat": 13.05,
+    "lng": -15.7,
+    "pop": null
+  },
+  {
+    "nameAr": "Dahra",
+    "nameEn": "Dahra",
+    "type": "city",
+    "lat": 15.350833333333,
+    "lng": -15.478333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Diabougou",
+    "nameEn": "Diabougou",
+    "type": "city",
+    "lat": 14.54305556,
+    "lng": -12.21861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Diaobé-Kabendou",
+    "nameEn": "Diaobé-Kabendou",
+    "type": "city",
+    "lat": 12.9134,
+    "lng": -14.1609,
+    "pop": null
+  },
+  {
+    "nameAr": "Dougnane",
+    "nameEn": "Dougnane",
+    "type": "city",
+    "lat": 14.9607445258,
+    "lng": -16.872915739533,
+    "pop": null
+  },
+  {
+    "nameAr": "Foundiougne",
+    "nameEn": "Foundiougne",
+    "type": "city",
+    "lat": 14.12775,
+    "lng": -16.466583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Goudiry",
+    "nameEn": "Goudiry",
+    "type": "city",
+    "lat": 14.18333333,
+    "lng": -12.71666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Goudomp",
+    "nameEn": "Goudomp",
+    "type": "city",
+    "lat": 12.57778,
+    "lng": -15.87222,
+    "pop": null
+  },
+  {
+    "nameAr": "Guédé Bousso",
+    "nameEn": "Guédé Bousso",
+    "type": "city",
+    "lat": 14.88622,
+    "lng": -15.87257,
+    "pop": null
+  },
+  {
+    "nameAr": "Guinguinéo",
+    "nameEn": "Guinguinéo",
+    "type": "city",
+    "lat": 14.266666666667,
+    "lng": -15.95,
+    "pop": null
+  },
+  {
+    "nameAr": "Hamady Ounaré",
+    "nameEn": "Hamady Ounaré",
+    "type": "city",
+    "lat": 15.35,
+    "lng": -13.017,
+    "pop": null
+  },
+  {
+    "nameAr": "Kahone",
+    "nameEn": "Kahone",
+    "type": "city",
+    "lat": 14.161388888889,
+    "lng": -16.030833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kandiounkou",
+    "nameEn": "Kandiounkou",
+    "type": "city",
+    "lat": 13.001151,
+    "lng": -15.642652,
+    "pop": null
+  },
+  {
+    "nameAr": "Kébémer",
+    "nameEn": "Kébémer",
+    "type": "city",
+    "lat": 15.366666666667,
+    "lng": -16.433333333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Keur Madiabel",
+    "nameEn": "Keur Madiabel",
+    "type": "city",
+    "lat": 13.847972222222,
+    "lng": -16.056972222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Keur Mamour Seck",
+    "nameEn": "Keur Mamour Seck",
+    "type": "city",
+    "lat": 14.05807,
+    "lng": -15.84287,
+    "pop": null
+  },
+  {
+    "nameAr": "Keur Seydou Ba",
+    "nameEn": "Keur Seydou Ba",
+    "type": "city",
+    "lat": 13.70201,
+    "lng": -16.14658,
+    "pop": null
+  },
+  {
+    "nameAr": "Kidira",
+    "nameEn": "Kidira",
+    "type": "city",
+    "lat": 14.457444444444,
+    "lng": -12.210638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Koular",
+    "nameEn": "Koular",
+    "type": "city",
+    "lat": 13.686398777796,
+    "lng": -16.175563965615,
+    "pop": null
+  },
+  {
+    "nameAr": "Koumpentoum",
+    "nameEn": "Koumpentoum",
+    "type": "city",
+    "lat": 13.98333333,
+    "lng": -14.56666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Kounkané",
+    "nameEn": "Kounkané",
+    "type": "city",
+    "lat": 12.93333333,
+    "lng": -14.08333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Lydiane",
+    "nameEn": "Lydiane",
+    "type": "city",
+    "lat": 14.18333333,
+    "lng": -16.16666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Madina Wandifa",
+    "nameEn": "Madina Wandifa",
+    "type": "city",
+    "lat": 13.0552,
+    "lng": -15.6427,
+    "pop": null
+  },
+  {
+    "nameAr": "Malem Hodar",
+    "nameEn": "Malem Hodar",
+    "type": "city",
+    "lat": 14.08833333,
+    "lng": -15.29444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Marsassoum",
+    "nameEn": "Marsassoum",
+    "type": "city",
+    "lat": 12.835361111111,
+    "lng": -15.980888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Matam",
+    "nameEn": "Matam",
+    "type": "city",
+    "lat": 15.61666667,
+    "lng": -13.33333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbacké",
+    "nameEn": "Mbacké",
+    "type": "city",
+    "lat": 14.790277777778,
+    "lng": -15.907777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Mbar",
+    "nameEn": "Mbar",
+    "type": "city",
+    "lat": 14.5373551,
+    "lng": -15.75887493,
+    "pop": null
+  },
+  {
+    "nameAr": "Médina Yoro Foulah",
+    "nameEn": "Médina Yoro Foulah",
+    "type": "city",
+    "lat": 13.292861111111,
+    "lng": -14.714527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndande",
+    "nameEn": "Ndande",
+    "type": "city",
+    "lat": 15.2792,
+    "lng": -16.521,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndiayène Keur Momat Tiané",
+    "nameEn": "Ndiayène Keur Momat Tiané",
+    "type": "city",
+    "lat": 13.72755,
+    "lng": -16.29738,
+    "pop": null
+  },
+  {
+    "nameAr": "Ndofane",
+    "nameEn": "Ndofane",
+    "type": "city",
+    "lat": 13.917472222222,
+    "lng": -15.927583333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Nganda",
+    "nameEn": "Nganda",
+    "type": "city",
+    "lat": 13.82975,
+    "lng": -15.40575,
+    "pop": null
+  },
+  {
+    "nameAr": "Nguerigne Bambara",
+    "nameEn": "Nguerigne Bambara",
+    "type": "city",
+    "lat": 14.47694444,
+    "lng": -17.03555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Nguidjilone",
+    "nameEn": "Nguidjilone",
+    "type": "city",
+    "lat": 15.9333,
+    "lng": -13.35,
+    "pop": null
+  },
+  {
+    "nameAr": "Niomré",
+    "nameEn": "Niomré",
+    "type": "city",
+    "lat": 15.673055555556,
+    "lng": -16.117222222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Nioro du Rip",
+    "nameEn": "Nioro du Rip",
+    "type": "city",
+    "lat": 13.744972222222,
+    "lng": -15.774638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Ouro Molo",
+    "nameEn": "Ouro Molo",
+    "type": "city",
+    "lat": 14.15,
+    "lng": -13.8,
+    "pop": null
+  },
+  {
+    "nameAr": "Polel Diaoubé",
+    "nameEn": "Polel Diaoubé",
+    "type": "city",
+    "lat": 15.2697,
+    "lng": -13.0008,
+    "pop": null
+  },
+  {
+    "nameAr": "Ross Béthio",
+    "nameEn": "Ross Béthio",
+    "type": "city",
+    "lat": 16.279305555556,
+    "lng": -16.139777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sambaya",
+    "nameEn": "Sambaya",
+    "type": "city",
+    "lat": 12.81667,
+    "lng": -13.61667,
+    "pop": null
+  },
+  {
+    "nameAr": "Santhie Sadi",
+    "nameEn": "Santhie Sadi",
+    "type": "city",
+    "lat": 13.593611111111,
+    "lng": -16.420277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Sédhiou",
+    "nameEn": "Sédhiou",
+    "type": "city",
+    "lat": 12.70805556,
+    "lng": -15.55694444,
+    "pop": null
+  },
+  {
+    "nameAr": "Seno Palel",
+    "nameEn": "Seno Palel",
+    "type": "city",
+    "lat": 15.3867,
+    "lng": -13.1555,
+    "pop": null
+  },
+  {
+    "nameAr": "Sibassor",
+    "nameEn": "Sibassor",
+    "type": "city",
+    "lat": 14.1889,
+    "lng": -16.1623,
+    "pop": null
+  },
+  {
+    "nameAr": "Simenti",
+    "nameEn": "Simenti",
+    "type": "city",
+    "lat": 13.026555555556,
+    "lng": -13.293722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Sinthiou Bamambé-Banadji",
+    "nameEn": "Sinthiou Bamambé-Banadji",
+    "type": "city",
+    "lat": 15.3688,
+    "lng": -13.1366,
+    "pop": null
+  },
+  {
+    "nameAr": "Sirmang",
+    "nameEn": "Sirmang",
+    "type": "city",
+    "lat": 13.62222222,
+    "lng": -16.39861111,
+    "pop": null
+  },
+  {
+    "nameAr": "Thilogne",
+    "nameEn": "Thilogne",
+    "type": "city",
+    "lat": 15.965861111111,
+    "lng": -13.591638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Vélingara",
+    "nameEn": "Vélingara",
+    "type": "city",
+    "lat": 13.15,
+    "lng": -14.116666666667,
+    "pop": null
+  }
+]

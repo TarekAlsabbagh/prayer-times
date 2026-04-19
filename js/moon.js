@@ -192,6 +192,28 @@ const MoonCalc = (function() {
         return Math.asin(Math.max(-1, Math.min(1, sinAlt))) * RAD;
     }
 
+    // السَّمت (azimuth) للقمر — درجات من الشمال باتّجاه عقارب الساعة (N=0, E=90, S=180, W=270)
+    // يستخدم نفس H (الزاوية الساعيّة) المستعملة في _moonAltitude.
+    function _moonAzimuth(date, lat, lng) {
+        const eq = _moonEquatorial(date);
+        const T = eq.T;
+        let GMST = 280.46061837 + 360.98564736629 * (eq.jd - 2451545.0)
+                 + 0.000387933 * T*T - T*T*T/38710000;
+        GMST = _norm360(GMST);
+        const LST = _norm360(GMST + lng);
+        const H = _norm360(LST - eq.ra);
+        const lat_r = lat * DEG;
+        const dec_r = eq.dec * DEG;
+        const H_r = H * DEG;
+        // Meeus 13.5: tan(A) = sin(H) / (cos(H)·sin(lat) − tan(dec)·cos(lat))
+        // حيث A تُقاس من الجنوب باتّجاه الغرب (convention فلكيّة قديمة).
+        const y = Math.sin(H_r);
+        const x = Math.cos(H_r) * Math.sin(lat_r) - Math.tan(dec_r) * Math.cos(lat_r);
+        let A_south = Math.atan2(y, x) * RAD; // من الجنوب
+        // نحوّل إلى اصطلاح الملاحة (من الشمال، cw): N=0°, E=90°, S=180°, W=270°
+        return _norm360(A_south + 180);
+    }
+
     // ══════════ الواجهات العامّة ══════════
 
     function getMoonPhase(date) {
@@ -608,12 +630,24 @@ const MoonCalc = (function() {
         };
     }
 
+    // تصدير عامّ: ارتفاع القمر وسَمته — قِيم معتمدة على الموقع (lat/lng)
+    function getMoonAltitude(date, lat, lng) {
+        if (typeof lat !== 'number' || typeof lng !== 'number') return null;
+        return Math.round(_moonAltitude(date, lat, lng) * 100) / 100;
+    }
+    function getMoonAzimuth(date, lat, lng) {
+        if (typeof lat !== 'number' || typeof lng !== 'number') return null;
+        return Math.round(_moonAzimuth(date, lat, lng) * 100) / 100;
+    }
+
     return {
         getMoonPhase,
         getMoonIllumination,
         getMoonAge,
         getMoonDistance,
         getGeocentricDistance,
+        getMoonAltitude,
+        getMoonAzimuth,
         getPhaseName,
         getMoonTimes,
         getMoonZodiac,

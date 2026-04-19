@@ -925,8 +925,18 @@ button, input, select { font-family: inherit; }
 }
 .moon-breadcrumb a { color: var(--primary); text-decoration: none; }
 .moon-breadcrumb a:hover { text-decoration: underline; }
+/* الصفحة الحاليّة: العنصر الذي يحمل aria-current="page" يصبح جامداً (غير قابل للضغط) */
+/* ملاحظة: JS يُزيل href عند الصفحة الحاليّة، لكن الـ CSS يضمن السلوك البصريّ كذلك */
+.moon-breadcrumb a[aria-current="page"],
+.moon-breadcrumb [aria-current="page"] {
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: default;
+    pointer-events: none;
+    text-decoration: none;
+}
+.moon-breadcrumb a[aria-current="page"]:hover { text-decoration: none; }
 .moon-breadcrumb .bc-sep { color: var(--text-light); opacity: 0.6; }
-.moon-breadcrumb .bc-city-current,
 .moon-breadcrumb .bc-date { color: var(--text-primary); font-weight: 600; }
 
 /* خلايا جدول التوقّعات 14 يومًا: الأيّام قابلة للضغط (تنتقل لصفحة ذلك اليوم) */

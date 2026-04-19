@@ -54,5 +54,61 @@
     "type": "city",
     "lat": -7.7956,
     "lng": 110.3695
+  },
+  {
+    "nameAr": "سيمارانغ",
+    "nameEn": "Semarang",
+    "type": "city",
+    "lat": -6.9932,
+    "lng": 110.4203
+  },
+  {
+    "nameAr": "بالمبانغ",
+    "nameEn": "Palembang",
+    "type": "city",
+    "lat": -2.9167,
+    "lng": 104.7458
+  },
+  {
+    "nameAr": "يوغياكارتا",
+    "nameEn": "Yogyakarta",
+    "type": "city",
+    "lat": -7.7956,
+    "lng": 110.3695
+  },
+  {
+    "nameAr": "باتام",
+    "nameEn": "Batam",
+    "type": "city",
+    "lat": 1.0456,
+    "lng": 104.0305
+  },
+  {
+    "nameAr": "باليكبابان",
+    "nameEn": "Balikpapan",
+    "type": "city",
+    "lat": -1.2654,
+    "lng": 116.8312
+  },
+  {
+    "nameAr": "آتشيه",
+    "nameEn": "Banda Aceh",
+    "type": "city",
+    "lat": 5.5483,
+    "lng": 95.3238
+  },
+  {
+    "nameAr": "مناهاسا",
+    "nameEn": "Manado",
+    "type": "city",
+    "lat": 1.4748,
+    "lng": 124.8421
+  },
+  {
+    "nameAr": "أمبون",
+    "nameEn": "Ambon",
+    "type": "city",
+    "lat": -3.6554,
+    "lng": 128.1908
   }
 ]

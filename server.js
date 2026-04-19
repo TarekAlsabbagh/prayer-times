@@ -75,7 +75,12 @@ const COUNTRY_NAMES_EN = {
 
 function makeCountrySlugSrv(cc) {
     const name = COUNTRY_NAMES_EN[cc];
-    if (name) return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (name) return name
+        .normalize('NFD')                           // Côte → Co + combining circumflex
+        .replace(/[\u0300-\u036f]/g, '')            // حذف العلامات التشكيليّة فقط
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
     return cc;
 }
 
@@ -84,11 +89,28 @@ let _sitemapCache = { data: null, time: 0 };
 const SITEMAP_TTL = 30 * 60 * 1000;
 function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; }
 function makeCitySlugSrv(nameEn, lat, lng) {
-    const latin = (nameEn || '').toLowerCase().replace(/[^a-z0-9\s]+/g, '').trim().replace(/\s+/g, '-');
+    // NFD decomposes accented chars (ã → a+◌̃, ü → u+◌̈, ç → c+◌̧)
+    // ثمّ نحذف العلامات التشكيليّة [U+0300..U+036F] فقط، فيتبقّى الحرف الأساسيّ ASCII
+    const latin = (nameEn || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]+/g, '')
+        .trim()
+        .replace(/\s+/g, '-');
     if (latin.length >= 2) return latin;
     const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
     const lo = Math.abs(lng).toFixed(1) + (lng >= 0 ? 'e' : 'w');
     return `${la}-${lo}`;
+}
+
+// ===== Round 10: Legacy slug — الصيغة القديمة (بلا NFD) لتوافُق رجعيّ =====
+// كان يُحوِّل مثلاً: "São Paulo" → "so-paulo" (مُشوَّه بسبب حذف ã كاملاً).
+// نُعيد استعماله في _getCitySlugIndex لِيُسجَّل المدينة تحت كلّ من الـ slug الجديد والقديم،
+// فلا تُعطب الروابط المُفهرَسة/المحفوظة مسبقاً. يُستخدم فقط عند الـ lookup — لا يُصدَر في sitemap.
+function _makeCityLegacySlug(nameEn) {
+    const latin = (nameEn || '').toLowerCase().replace(/[^a-z0-9\s]+/g, '').trim().replace(/\s+/g, '-');
+    return latin.length >= 2 ? latin : null;
 }
 
 // ===== Round 8B: ترجمة أسماء 12 مدينة شعبيّة لكلّ اللغات الـ10 =====
@@ -328,6 +350,79 @@ const FAMOUS_CITY_OVERRIDES = {
     perth:         { lat: -31.9505, lng: 115.8605, cc: 'au' },
 };
 
+// ===== Round 11: خريطة رمز الدولة → المنطقة الزمنيّة الرئيسيّة (IANA) =====
+// تُستخدم لحساب توقيت المدينة الصحيح على صفحة القمر عندما لا تكون المدينة
+// ضمن FAMOUS_CITY_OVERRIDES (أي قادمة من cities-xx.json مباشرة).
+// ملاحظة: للدول متعدّدة المناطق (روسيا/الولايات المتّحدة/كندا/أستراليا/البرازيل…)
+// نختار tz العاصمة أو أكثر منطقة استعمالاً؛ دقّة ±30 دقيقة للقمر كافية حتّى عند
+// اختلاف الـ tz الدقيق لمدينة طرفيّة — لأنّ انكسار مطلع/مغيب القمر لن يتغيّر
+// بأكثر من دقائق عبر نفس منطقة الدولة.
+const _CC_TO_PRIMARY_TZ = {
+    // الشرق الأوسط + العالم العربيّ
+    sa: 'Asia/Riyadh', ae: 'Asia/Dubai', qa: 'Asia/Qatar', kw: 'Asia/Kuwait',
+    bh: 'Asia/Bahrain', om: 'Asia/Muscat', ye: 'Asia/Aden', jo: 'Asia/Amman',
+    iq: 'Asia/Baghdad', lb: 'Asia/Beirut', sy: 'Asia/Damascus', ps: 'Asia/Hebron',
+    eg: 'Africa/Cairo', sd: 'Africa/Khartoum', ly: 'Africa/Tripoli',
+    tn: 'Africa/Tunis', dz: 'Africa/Algiers', ma: 'Africa/Casablanca',
+    mr: 'Africa/Nouakchott', so: 'Africa/Mogadishu', dj: 'Africa/Djibouti',
+    km: 'Indian/Comoro',
+    // تركيا + إيران + آسيا الوسطى
+    tr: 'Europe/Istanbul', ir: 'Asia/Tehran', af: 'Asia/Kabul',
+    pk: 'Asia/Karachi', uz: 'Asia/Tashkent', tj: 'Asia/Dushanbe',
+    kg: 'Asia/Bishkek', tm: 'Asia/Ashgabat', kz: 'Asia/Almaty',
+    az: 'Asia/Baku', am: 'Asia/Yerevan', ge: 'Asia/Tbilisi',
+    // جنوب/شرق/جنوب شرق آسيا
+    in: 'Asia/Kolkata', bd: 'Asia/Dhaka', np: 'Asia/Kathmandu',
+    lk: 'Asia/Colombo', mv: 'Indian/Maldives', bt: 'Asia/Thimphu',
+    mm: 'Asia/Yangon', th: 'Asia/Bangkok', la: 'Asia/Vientiane',
+    kh: 'Asia/Phnom_Penh', vn: 'Asia/Ho_Chi_Minh', my: 'Asia/Kuala_Lumpur',
+    sg: 'Asia/Singapore', id: 'Asia/Jakarta', bn: 'Asia/Brunei',
+    ph: 'Asia/Manila', tl: 'Asia/Dili',
+    cn: 'Asia/Shanghai', jp: 'Asia/Tokyo', kr: 'Asia/Seoul', kp: 'Asia/Pyongyang',
+    mn: 'Asia/Ulaanbaatar', hk: 'Asia/Hong_Kong', tw: 'Asia/Taipei', mo: 'Asia/Macau',
+    // أوروبا
+    gb: 'Europe/London', ie: 'Europe/Dublin', fr: 'Europe/Paris', de: 'Europe/Berlin',
+    nl: 'Europe/Amsterdam', be: 'Europe/Brussels', lu: 'Europe/Luxembourg',
+    es: 'Europe/Madrid', pt: 'Europe/Lisbon', it: 'Europe/Rome', ch: 'Europe/Zurich',
+    at: 'Europe/Vienna', se: 'Europe/Stockholm', no: 'Europe/Oslo',
+    dk: 'Europe/Copenhagen', fi: 'Europe/Helsinki', is: 'Atlantic/Reykjavik',
+    gr: 'Europe/Athens', cz: 'Europe/Prague', sk: 'Europe/Bratislava',
+    hu: 'Europe/Budapest', ro: 'Europe/Bucharest', pl: 'Europe/Warsaw',
+    ru: 'Europe/Moscow', ua: 'Europe/Kyiv', by: 'Europe/Minsk', md: 'Europe/Chisinau',
+    xk: 'Europe/Belgrade', ba: 'Europe/Sarajevo', al: 'Europe/Tirane',
+    mk: 'Europe/Skopje', hr: 'Europe/Zagreb', rs: 'Europe/Belgrade',
+    bg: 'Europe/Sofia', si: 'Europe/Ljubljana', cy: 'Asia/Nicosia', mt: 'Europe/Malta',
+    // أفريقيا — ما لم يُذكر أعلاه
+    ng: 'Africa/Lagos', gh: 'Africa/Accra', ke: 'Africa/Nairobi', tz: 'Africa/Dar_es_Salaam',
+    et: 'Africa/Addis_Ababa', ug: 'Africa/Kampala', rw: 'Africa/Kigali',
+    za: 'Africa/Johannesburg', zm: 'Africa/Lusaka', zw: 'Africa/Harare',
+    mz: 'Africa/Maputo', ao: 'Africa/Luanda', cd: 'Africa/Kinshasa',
+    ml: 'Africa/Bamako', bf: 'Africa/Ouagadougou', ne: 'Africa/Niamey',
+    td: 'Africa/Ndjamena', cm: 'Africa/Douala', ci: 'Africa/Abidjan',
+    gn: 'Africa/Conakry', gm: 'Africa/Banjul', sl: 'Africa/Freetown',
+    er: 'Africa/Asmara', ss: 'Africa/Juba', tg: 'Africa/Lome',
+    bj: 'Africa/Porto-Novo', mg: 'Indian/Antananarivo', mu: 'Indian/Mauritius',
+    lr: 'Africa/Monrovia', mw: 'Africa/Blantyre', sn: 'Africa/Dakar',
+    // الأمريكتان
+    us: 'America/New_York', ca: 'America/Toronto', mx: 'America/Mexico_City',
+    gt: 'America/Guatemala', cu: 'America/Havana', do: 'America/Santo_Domingo',
+    br: 'America/Sao_Paulo', ar: 'America/Argentina/Buenos_Aires',
+    co: 'America/Bogota', pe: 'America/Lima', ve: 'America/Caracas',
+    cl: 'America/Santiago', ec: 'America/Guayaquil', bo: 'America/La_Paz',
+    py: 'America/Asuncion', uy: 'America/Montevideo', sr: 'America/Paramaribo',
+    gy: 'America/Guyana', tt: 'America/Port_of_Spain', jm: 'America/Jamaica',
+    pa: 'America/Panama', ht: 'America/Port-au-Prince', cr: 'America/Costa_Rica',
+    // أوقيانوسيا
+    au: 'Australia/Sydney', nz: 'Pacific/Auckland', fj: 'Pacific/Fiji', pg: 'Pacific/Port_Moresby',
+};
+// Helper: slug → tz عبر override أو الفهرس الديناميكيّ. يُرجع null إن تعذَّر.
+function _tzFromCitySlug(slug) {
+    const info = _resolveCityForMoon(slug);
+    if (!info) return null;
+    const cc = (info.cc || '').toLowerCase();
+    return _CC_TO_PRIMARY_TZ[cc] || null;
+}
+
 // ===== Round 9: _resolveCityForMoon — استرجاع كامل لبيانات مدينة من slug =====
 // يحاول: (1) FAMOUS_CITY_OVERRIDES ← (2) _getCitySlugIndex() ← (3) null (→ 404).
 // العائد: { lat, lng, cc? } أو null.
@@ -339,7 +434,8 @@ function _resolveCityForMoon(slug) {
     const idx = _getCitySlugIndex();
     const c = idx[s];
     if (c && typeof c.lat === 'number' && typeof c.lng === 'number') {
-        return { lat: c.lat, lng: c.lng };
+        // cc يُسترَد من اسم الملفّ cities-xx.json؛ مفيد لاستنتاج IANA tz
+        return { lat: c.lat, lng: c.lng, cc: c.cc || '' };
     }
     return null;
 }
@@ -354,6 +450,12 @@ function _getCitySlugIndex() {
     try {
         const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
         for (const f of files) {
+            // استخرج رمز الدولة من اسم الملفّ cities-xx.json → 'xx'
+            // نحتاجه لاستنتاج المنطقة الزمنيّة عبر _CC_TO_PRIMARY_TZ — ليُعرَض
+            // شروق/غروب القمر بتوقيت المدينة الصحيح حتّى لو لم تكن ضمن
+            // FAMOUS_CITY_OVERRIDES (مثل Tokyo من cities-jp.json).
+            const ccMatch = f.match(/^cities-([a-z]{2})\.json$/);
+            const cc = ccMatch ? ccMatch[1] : '';
             try {
                 const arr = JSON.parse(fs.readFileSync(path.join(DB_DIR, f), 'utf8'));
                 if (!Array.isArray(arr)) continue;
@@ -362,7 +464,13 @@ function _getCitySlugIndex() {
                         const slug = makeCitySlugSrv(c.nameEn, c.lat, c.lng);
                         // أوّل مُطابقة تفوز — يمنع تضارب المدن المتشابهة الأسماء
                         if (slug && !_CITY_SLUG_INDEX[slug]) {
-                            _CITY_SLUG_INDEX[slug] = { nameAr: c.nameAr, lat: c.lat, lng: c.lng };
+                            _CITY_SLUG_INDEX[slug] = { nameAr: c.nameAr, lat: c.lat, lng: c.lng, cc };
+                        }
+                        // Round 10: تسجيل الـ slug القديم أيضاً (بلا NFD) لتوافُق رجعيّ
+                        // مثلاً São Paulo يسجَّل تحت 'sao-paulo' (جديد) و 'so-paulo' (قديم)
+                        const legacySlug = _makeCityLegacySlug(c.nameEn);
+                        if (legacySlug && legacySlug !== slug && !_CITY_SLUG_INDEX[legacySlug]) {
+                            _CITY_SLUG_INDEX[legacySlug] = { nameAr: c.nameAr, lat: c.lat, lng: c.lng, cc };
                         }
                     }
                 }
@@ -2015,10 +2123,11 @@ function _escHtml(s) {
 }
 
 // ===== SSR: بناء فقرة تعريفيّة ديناميكيّة لصفحة القمر =====
-// يُنتج نصًّا بأرقام حقيقيّة (إضاءة/عمر/طور/كوكبة) يراه Googlebot بدون JS.
+// يُنتج نصًّا بأرقام حقيقيّة (إضاءة/عمر/طور/كوكبة/ارتفاع) يراه Googlebot بدون JS.
 // يُرجع النصّ الناتج، أو null عند أيّ فشل (ليتمّ الرجوع للنصّ الثابت).
 // المدخل cityLabel = "City, Country" جاهزة لوضعها في {city}.
-function _buildSsrMoonIntro(lang, cityLabel) {
+// lat/lng (اختياريّان): لبناء جملة الارتفاع/السَمت المرتبطة بالموقع حقًّا.
+function _buildSsrMoonIntro(lang, cityLabel, lat, lng) {
     try {
         if (!MoonCalc || !I18N) return null;
         const today = new Date();
@@ -2036,6 +2145,35 @@ function _buildSsrMoonIntro(lang, cityLabel) {
         // أرقام لاتينيّة دائمًا (Latin digits) — حتى في العربيّة/الأردو
         const illumStr = Number(illumRaw).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const ageStr   = Number(ageRaw).toLocaleString('en-US',   { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        // جملة الارتفاع/السَمت — تختلف فعليًّا بين المدن (هذه هي القيمة التي تجعل
+        // الصفحة «محليّة حقًّا» بدل تكرار نفس الأرقام الفلكيّة العالميّة).
+        let altitudeSentence = '';
+        try {
+            if (typeof lat === 'number' && typeof lng === 'number'
+                && typeof MoonCalc.getMoonAltitude === 'function'
+                && typeof MoonCalc.getMoonAzimuth === 'function') {
+                const alt = MoonCalc.getMoonAltitude(today, lat, lng);
+                if (alt !== null && isFinite(alt)) {
+                    const altFmt = Number(Math.abs(alt)).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+                    if (alt > 0) {
+                        const az = MoonCalc.getMoonAzimuth(today, lat, lng);
+                        const dirKeys = ['n','ne','e','se','s','sw','w','nw'];
+                        const dirIdx = Math.round(((Number(az) || 0) % 360) / 45) % 8;
+                        const dirKey = 'moon.compass.' + dirKeys[dirIdx];
+                        const dirName = dict[dirKey] || enDict[dirKey] || ['N','NE','E','SE','S','SW','W','NW'][dirIdx];
+                        const aboveTpl = dict['moon.altitude_above'] || enDict['moon.altitude_above'] || '';
+                        if (aboveTpl) {
+                            altitudeSentence = aboveTpl
+                                .replace(/\{alt\}/g, altFmt)
+                                .replace(/\{dir\}/g, dirName);
+                        }
+                    } else {
+                        const belowTpl = dict['moon.altitude_below'] || enDict['moon.altitude_below'] || '';
+                        if (belowTpl) altitudeSentence = belowTpl.replace(/\{alt\}/g, altFmt);
+                    }
+                }
+            }
+        } catch (_eAlt) { /* silent */ }
         return template
             .replace(/\{city\}/g, cityLabel)
             .replace(/\{phaseIcon\}/g, phase.icon || '')
@@ -2043,7 +2181,11 @@ function _buildSsrMoonIntro(lang, cityLabel) {
             .replace(/\{illum\}/g, illumStr)
             .replace(/\{age\}/g, ageStr)
             .replace(/\{zodiacIcon\}/g, zodiac.icon || '')
-            .replace(/\{zodiacName\}/g, zodiacName);
+            .replace(/\{zodiacName\}/g, zodiacName)
+            .replace(/\{altitudeSentence\}/g, altitudeSentence)
+            // تنظيف فراغات مزدوجة إن بقيت جملة الارتفاع فارغة
+            .replace(/\s{2,}/g, ' ')
+            .trim();
     } catch (_e) {
         try { console.warn('[SSR moon intro] build failed:', _e && _e.message); } catch(_){}
         return null;
@@ -3416,13 +3558,37 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
-    // ── Moon city pages: /moon-today-in-{slug} [optional /{YYYY-MM-DD}] ── (Round 9 + date pages)
-    // slug فقط (بلا lat/lng) — يُفكّ عبر FAMOUS_CITY_OVERRIDES أو cities-*.json.
-    // slug غير معروف يُرفَض قبل هذه النقطة (صفحة 404).
-    m = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+)(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
+    // ── Moon city pages: /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}] ── (Round 9 + date pages + Round 12)
+    // Round 12: أُضيف دعم coord-suffix عالميّ لحلّ "city not found" لأيّ مدينة يعرف
+    // العميل إحداثيّاتها (من الجيوكود/Nominatim) حتّى لو لم تكن ضمن cities-*.json.
+    // مثال: /moon-today-in-del-rio-29.36-(-100.90) ← يُقبل كـ noindex page.
+    // ملاحظة: للمدن المعروفة (FAMOUS أو DB)، يصدر السيرفر 301 إلى الرابط القصير أعلاه في route handler.
+    // Regex: slug غير جشع ثمّ lat/lng اختياريّان (أعداد بعلامة/بدونها، عشريّة اختياريّة).
+    m = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
     if (m) {
         const citySlug = m[1];
-        const cityGeo = _resolveCityForMoon(citySlug);
+        const _coordLat = m[2] != null ? parseFloat(m[2]) : null;
+        const _coordLng = m[3] != null ? parseFloat(m[3]) : null;
+        const _hasCoordSuffix = (_coordLat != null && _coordLng != null && isFinite(_coordLat) && isFinite(_coordLng));
+        // التاريخ: أصبح في المواضع 4/5/6 بعد إضافة مجموعات lat/lng
+        // نُعيد توزيع المصفوفة m ليتوافق بقيّة الكود الذي يتوقّع m[2]/m[3]/m[4] كتاريخ.
+        if (!m[2] && !m[3] && m[4]) {
+            // الحالة الشائعة: بدون coords — نحوّل m[4..6] → m[2..4]
+            m = [m[0], m[1], m[4], m[5], m[6]];
+        } else if (_hasCoordSuffix) {
+            // مع coords: نحوّل m[4..6] إلى m[2..4] مع الاحتفاظ بـ coords منفصلة (محلّياً فوق)
+            m = [m[0], m[1], m[4], m[5], m[6]];
+        }
+        // استرجاع إحداثيّات المدينة: أولويّة للـ DB (SEO)، ثمّ coord-suffix (fallback)
+        let cityGeo = _resolveCityForMoon(citySlug);
+        if (!cityGeo && _hasCoordSuffix) {
+            cityGeo = { lat: _coordLat, lng: _coordLng, cc: '' };
+        }
+        // لو كانت المدينة معروفة من الـ DB وهي متاحة عبر coord-suffix، نضع علامة
+        // ليرسل الراوتر 301 redirect إلى الرابط القصير لاحقاً.
+        const _shouldRedirectToCanonical = _hasCoordSuffix && !!_resolveCityForMoon(citySlug);
+        // إشارة للراوتر: الصفحة noindex إذا كانت coord-only (بلا DB)
+        const _isCoordOnlyMoon = _hasCoordSuffix && !_resolveCityForMoon(citySlug);
         // ── تحليل التاريخ إن وُجد ──
         let _moonDateIso = null;        // 'YYYY-MM-DD' — null يعني صفحة اليوم
         let _moonDateObj = null;        // Date object للتاريخ المحدَّد
@@ -3542,10 +3708,22 @@ function buildSeoForPath(urlPath) {
                 const _basePath = '/moon-today-in-' + citySlug;
                 canonical = origin + (lang === 'ar' ? '' : '/' + lang) + _basePath;
             }
+            // ── coord-only page (Round 12): noindex لتجنّب spam فهرسة لكلّ إحداثيّ
+            // النطاقات صالحة فعليّاً فقط للمستخدم النهائيّ عبر الضغط داخل الموقع.
+            if (_isCoordOnlyMoon) {
+                robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+                // canonical → نفس الـ URL (هي الشكل الوحيد المتاح لهذه المدينة)
+                canonical = origin + p;
+            }
             webApp = { name: title, url: canonical, category: 'UtilitiesApplication' };
             moonFaq = true;
+            // IANA tz — مُستنتَج من cc عبر _CC_TO_PRIMARY_TZ. للمدن خارج الخريطة:
+            // null → العميل سيستعمل _tzFromLongitude fallback (Etc/GMT±N).
+            const _moonCc = (cityGeo.cc || '').toLowerCase();
+            const _moonTz = _moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null;
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
+                tz: _moonTz,              // Asia/Tokyo إلخ — أو null عند عدم التوفّر
                 date: _moonDateIso,       // null = اليوم؛ وإلا 'YYYY-MM-DD'
                 dateObj: _moonDateObj,    // Date للـ Article.datePublished
                 dateLabel: _moonDateLabel // نصّ مقروء للـ H1 / الفقرة
@@ -3867,6 +4045,11 @@ function renderSeoHeadHtml(seo) {
     if (seo.geo) {
         parts.push(`<meta name="geo.position" content="${seo.geo.lat};${seo.geo.lng}">`);
         parts.push(`<meta name="ICBM" content="${seo.geo.lat}, ${seo.geo.lng}">`);
+    }
+    // Moon city tz — IANA مثل Asia/Tokyo. يسمح للـ client بحساب شروق/غروب
+    // القمر بتوقيت المدينة الصحيح حتّى للمدن خارج FAMOUS_MOON_CITIES.
+    if (seo.moonCity && seo.moonCity.tz) {
+        parts.push(`<meta name="moon.city.tz" content="${esc(seo.moonCity.tz)}">`);
     }
     // prev/next
     if (seo.prev) parts.push(`<link rel="prev" href="${esc(seo.prev)}">`);
@@ -5432,7 +5615,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         // الفاصل: ، في العربيّة/الأردو، و , في باقي اللغات — ليطابق ما يعرضه العميل.
         const _sepMoon = (Lm === 'ar' || Lm === 'ur') ? '، ' : ', ';
         const _cityLabel = countryName ? `${cityName}${_sepMoon}${countryName}` : cityName;
-        const _introMoonDynamic = _buildSsrMoonIntro(Lm, _cityLabel) || _introMoon;
+        const _introMoonDynamic = _buildSsrMoonIntro(Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng) || _introMoon;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.
         // الفقرة ستُحدَّث لاحقًا عبر app.js (#moon-intro by id) بالبيانات الحيّة من المستخدم.
@@ -7362,7 +7545,7 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -7375,21 +7558,36 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
-        // Round 9: فحص صحّة slug لـ /moon-today-in-{slug} [/{YYYY-MM-DD}] — إن لم توجد المدينة → 404
-        // (يمنع spam redirects وتكدّس صفحات مكرّرة لمدن غير موجودة).
-        const _moonCityMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
+        // Round 9 + Round 12: فحص slug لـ /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}].
+        // قواعد:
+        //  - إن كانت المدينة في الـ DB وجاءت مع coord-suffix → 301 إلى الرابط القصير (canonical).
+        //  - إن لم تكن في الـ DB وجاءت بلا coord-suffix → 404 "city not found".
+        //  - إن لم تكن في الـ DB وجاءت مع coord-suffix → مرّر كـ noindex صفحة (العميل عرّف الإحداثيّات).
+        const _moonCityMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
         if (_moonCityMatch) {
-            const _moonSlug = _moonCityMatch[1];
-            if (!_resolveCityForMoon(_moonSlug)) {
+            const _moonLangPrefix = _moonCityMatch[1] || '';
+            const _moonSlug = _moonCityMatch[2];
+            const _moonHasCoord = (_moonCityMatch[3] != null && _moonCityMatch[4] != null);
+            const _moonDatePath = _moonCityMatch[5] ? ('/' + _moonCityMatch[5] + '-' + _moonCityMatch[6] + '-' + _moonCityMatch[7]) : '';
+            const _moonInDb = !!_resolveCityForMoon(_moonSlug);
+            // 1) المدينة في DB + coord-suffix → 301 إلى الشكل القصير
+            if (_moonInDb && _moonHasCoord) {
+                const _canonicalPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug + _moonDatePath;
+                res.writeHead(301, { 'Location': _canonicalPath });
+                res.end();
+                return;
+            }
+            // 2) ليست في DB + بلا coord-suffix → 404
+            if (!_moonInDb && !_moonHasCoord) {
                 res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
                 res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>City not found</h1>');
                 return;
             }
-            // إن وُجد تاريخ، فحص صحّته التقويميّة — تاريخ غير موجود مثل 2026-02-30 → 404
-            if (_moonCityMatch[2]) {
-                const _dy = parseInt(_moonCityMatch[2], 10);
-                const _dm = parseInt(_moonCityMatch[3], 10);
-                const _dd = parseInt(_moonCityMatch[4], 10);
+            // 3) إن كان لدينا تاريخ، فحص صحّته التقويميّة
+            if (_moonCityMatch[5]) {
+                const _dy = parseInt(_moonCityMatch[5], 10);
+                const _dm = parseInt(_moonCityMatch[6], 10);
+                const _dd = parseInt(_moonCityMatch[7], 10);
                 if (_dm < 1 || _dm > 12 || _dd < 1 || _dd > 31) {
                     res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
                     res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Invalid date</h1>');
@@ -7402,6 +7600,7 @@ const server = http.createServer(async (req, res) => {
                     return;
                 }
             }
+            // 4) ليست في DB + مع coord-suffix → مرّر (تُرسم كـ noindex من buildSeoFor)
         }
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }

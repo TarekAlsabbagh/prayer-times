@@ -1,0 +1,3040 @@
+[
+  {
+    "nameAr": "برازيليا",
+    "nameEn": "Brasilia",
+    "type": "city",
+    "lat": -15.7939,
+    "lng": -47.8828
+  },
+  {
+    "nameAr": "بيلم",
+    "nameEn": "Belém",
+    "type": "city",
+    "lat": -1.4558,
+    "lng": -48.5044
+  },
+  {
+    "nameAr": "بيلو هوريزونتي",
+    "nameEn": "Belo Horizonte",
+    "type": "city",
+    "lat": -19.9167,
+    "lng": -43.9345
+  },
+  {
+    "nameAr": "ريسيفي",
+    "nameEn": "Recife",
+    "type": "city",
+    "lat": -8.0578,
+    "lng": -34.8829
+  },
+  {
+    "nameAr": "ريو دي جانيرو",
+    "nameEn": "Rio de Janeiro",
+    "type": "city",
+    "lat": -22.9068,
+    "lng": -43.1729
+  },
+  {
+    "nameAr": "ساو باولو",
+    "nameEn": "São Paulo",
+    "type": "city",
+    "lat": -23.5505,
+    "lng": -46.6333
+  },
+  {
+    "nameAr": "سلفادور",
+    "nameEn": "Salvador",
+    "type": "city",
+    "lat": -12.9714,
+    "lng": -38.5014
+  },
+  {
+    "nameAr": "فورتاليزا",
+    "nameEn": "Fortaleza",
+    "type": "city",
+    "lat": -3.7172,
+    "lng": -38.5433
+  },
+  {
+    "nameAr": "كوريتيبا",
+    "nameEn": "Curitiba",
+    "type": "city",
+    "lat": -25.4284,
+    "lng": -49.2733
+  },
+  {
+    "nameAr": "ماناوس",
+    "nameEn": "Manaus",
+    "type": "city",
+    "lat": -3.1019,
+    "lng": -60.025
+  },
+  {
+    "nameAr": "غويانيا",
+    "nameEn": "Goiânia",
+    "type": "city",
+    "lat": -16.680555555556,
+    "lng": -49.256388888889,
+    "pop": 1437366
+  },
+  {
+    "nameAr": "بورتو أليغري",
+    "nameEn": "Porto Alegre",
+    "type": "city",
+    "lat": -30.032777777778,
+    "lng": -51.23,
+    "pop": 1388794
+  },
+  {
+    "nameAr": "غوارولوس",
+    "nameEn": "Guarulhos",
+    "type": "city",
+    "lat": -23.466666666667,
+    "lng": -46.533333333333,
+    "pop": 1324781
+  },
+  {
+    "nameAr": "بليم",
+    "nameEn": "Belém",
+    "type": "city",
+    "lat": -1.4558333333333,
+    "lng": -48.503888888889,
+    "pop": 1303403
+  },
+  {
+    "nameAr": "نوفا إيغواسو",
+    "nameEn": "Nova Iguaçu",
+    "type": "city",
+    "lat": -22.758888888889,
+    "lng": -43.450833333333,
+    "pop": 1297704
+  },
+  {
+    "nameAr": "كامبيناس",
+    "nameEn": "Campinas",
+    "type": "city",
+    "lat": -22.900913888889,
+    "lng": -47.057294444444,
+    "pop": 1213792
+  },
+  {
+    "nameAr": "ساو لويز",
+    "nameEn": "São Luís",
+    "type": "city",
+    "lat": -2.53,
+    "lng": -44.302777777778,
+    "pop": 1037775
+  },
+  {
+    "nameAr": "كامبو غراندي",
+    "nameEn": "Campo Grande",
+    "type": "city",
+    "lat": -20.468611111111,
+    "lng": -54.622222222222,
+    "pop": 962883
+  },
+  {
+    "nameAr": "سان غونتشالو",
+    "nameEn": "São Gonçalo",
+    "type": "city",
+    "lat": -22.826944444444,
+    "lng": -43.053888888889,
+    "pop": 896744
+  },
+  {
+    "nameAr": "دوق دي كاكسياس",
+    "nameEn": "Duque de Caxias",
+    "type": "city",
+    "lat": -22.785833333333,
+    "lng": -43.311944444444,
+    "pop": 886917
+  },
+  {
+    "nameAr": "تيريسينا",
+    "nameEn": "Teresina",
+    "type": "city",
+    "lat": -5.0902777777778,
+    "lng": -42.816666666667,
+    "pop": 868075
+  },
+  {
+    "nameAr": "جواو بيسوا",
+    "nameEn": "João Pessoa",
+    "type": "city",
+    "lat": -7.12,
+    "lng": -34.88,
+    "pop": 833932
+  },
+  {
+    "nameAr": "ساو برناردو دو كامبو",
+    "nameEn": "São Bernardo do Campo",
+    "type": "city",
+    "lat": -23.693888888889,
+    "lng": -46.565,
+    "pop": 810729
+  },
+  {
+    "nameAr": "أوبيرلانديا",
+    "nameEn": "Uberlândia",
+    "type": "city",
+    "lat": -18.918888888889,
+    "lng": -48.276944444444,
+    "pop": 761835
+  },
+  {
+    "nameAr": "أوساسكو",
+    "nameEn": "",
+    "type": "city",
+    "lat": -23.532777777778,
+    "lng": -46.791944444444,
+    "pop": 759524
+  },
+  {
+    "nameAr": "ناتال",
+    "nameEn": "Natal",
+    "type": "city",
+    "lat": -5.795,
+    "lng": -35.208888888889,
+    "pop": 751300
+  },
+  {
+    "nameAr": "سانت أندري",
+    "nameEn": "Santo André",
+    "type": "city",
+    "lat": -23.6533349,
+    "lng": -46.5279508,
+    "pop": 748919
+  },
+  {
+    "nameAr": "ساو جوزيه دوس كامبوس",
+    "nameEn": "São José dos Campos",
+    "type": "city",
+    "lat": -23.178888888889,
+    "lng": -45.886944444444,
+    "pop": 737310
+  },
+  {
+    "nameAr": "ريبيراو بريتو",
+    "nameEn": "Ribeirão Preto",
+    "type": "city",
+    "lat": -21.1776315,
+    "lng": -47.8100983,
+    "pop": 731639
+  },
+  {
+    "nameAr": "سوروكابا",
+    "nameEn": "Sorocaba",
+    "type": "city",
+    "lat": -23.501944444444,
+    "lng": -47.457777777778,
+    "pop": 723574
+  },
+  {
+    "nameAr": "جابواتاو دوس غوارارابيس",
+    "nameEn": "Jaboatão dos Guararapes",
+    "type": "city",
+    "lat": -8.1127777777778,
+    "lng": -35.015,
+    "pop": 711330
+  },
+  {
+    "nameAr": "كويابا",
+    "nameEn": "Cuiabá",
+    "type": "city",
+    "lat": -15.595833333333,
+    "lng": -56.096944444444,
+    "pop": 691875
+  },
+  {
+    "nameAr": "كونتاجيم",
+    "nameEn": "Contagem",
+    "type": "city",
+    "lat": -19.931944444444,
+    "lng": -44.053888888889,
+    "pop": 673849
+  },
+  {
+    "nameAr": "فييرا دي سانتانا",
+    "nameEn": "Feira de Santana",
+    "type": "city",
+    "lat": -12.266944444444,
+    "lng": -38.966944444444,
+    "pop": 660806
+  },
+  {
+    "nameAr": "أراكاجو",
+    "nameEn": "Aracaju",
+    "type": "city",
+    "lat": -10.9167,
+    "lng": -37.05,
+    "pop": 632744
+  },
+  {
+    "nameAr": "جوينفيل",
+    "nameEn": "Joinville",
+    "type": "city",
+    "lat": -26.303888888889,
+    "lng": -48.845833333333,
+    "pop": 616317
+  },
+  {
+    "nameAr": "فلوريانوبوليس",
+    "nameEn": "Florianópolis",
+    "type": "city",
+    "lat": -27.593280555556,
+    "lng": -48.553047222222,
+    "pop": 587486
+  },
+  {
+    "nameAr": "لوندرينا",
+    "nameEn": "Londrina",
+    "type": "city",
+    "lat": -23.31,
+    "lng": -51.162777777778,
+    "pop": 581382
+  },
+  {
+    "nameAr": "سيرا",
+    "nameEn": "Serra",
+    "type": "city",
+    "lat": -20.128888888889,
+    "lng": -40.307777777778,
+    "pop": 579720
+  },
+  {
+    "nameAr": "أباريسيدا دي غويانيا",
+    "nameEn": "Aparecida de Goiânia",
+    "type": "city",
+    "lat": -16.821944444444,
+    "lng": -49.245,
+    "pop": 556021
+  },
+  {
+    "nameAr": "جويز دي فورا",
+    "nameEn": "Juiz de Fora",
+    "type": "city",
+    "lat": -21.75,
+    "lng": -43.35,
+    "pop": 540756
+  },
+  {
+    "nameAr": "كاكسياس دو سول",
+    "nameEn": "Caxias do Sul",
+    "type": "city",
+    "lat": -29.167777777778,
+    "lng": -51.178888888889,
+    "pop": 523716
+  },
+  {
+    "nameAr": "كامبوس دوس غويتاكازس",
+    "nameEn": "Campos dos Goytacazes",
+    "type": "city",
+    "lat": -21.753888888889,
+    "lng": -41.323888888889,
+    "pop": 519259
+  },
+  {
+    "nameAr": "بورتو فاليو",
+    "nameEn": "Porto Velho",
+    "type": "city",
+    "lat": -8.7619444444444,
+    "lng": -63.903888888889,
+    "pop": 517709
+  },
+  {
+    "nameAr": "ساو جوزية دو ريو بريتو",
+    "nameEn": "São José do Rio Preto",
+    "type": "city",
+    "lat": -20.82,
+    "lng": -49.378888888889,
+    "pop": 504166
+  },
+  {
+    "nameAr": "نيتيروي",
+    "nameEn": "Niterói",
+    "type": "city",
+    "lat": -22.883333333333,
+    "lng": -43.103611111111,
+    "pop": 496696
+  },
+  {
+    "nameAr": "بلفورد روكسو",
+    "nameEn": "Belford Roxo",
+    "type": "city",
+    "lat": -22.763888888889,
+    "lng": -43.398888888889,
+    "pop": 483087
+  },
+  {
+    "nameAr": "أنانينديوا",
+    "nameEn": "Ananindeua",
+    "type": "city",
+    "lat": -1.3658333333333,
+    "lng": -48.371944444444,
+    "pop": 478778
+  },
+  {
+    "nameAr": "فيلا فاليا",
+    "nameEn": "Vila Velha",
+    "type": "city",
+    "lat": -20.336388888889,
+    "lng": -40.293611111111,
+    "pop": 472762
+  },
+  {
+    "nameAr": "موجي داس كروزيز",
+    "nameEn": "Mogi das Cruzes",
+    "type": "city",
+    "lat": -23.522777777778,
+    "lng": -46.193055555556,
+    "pop": 450785
+  },
+  {
+    "nameAr": "بيتيم",
+    "nameEn": "Betim",
+    "type": "city",
+    "lat": -19.967777777778,
+    "lng": -44.197777777778,
+    "pop": 450024
+  },
+  {
+    "nameAr": "ماكابا",
+    "nameEn": "Macapá",
+    "type": "city",
+    "lat": 0.032958333333333,
+    "lng": -51.065311111111,
+    "pop": 442933
+  },
+  {
+    "nameAr": "ساو جواو دي ميريتي",
+    "nameEn": "São João de Meriti",
+    "type": "city",
+    "lat": -22.803888888889,
+    "lng": -43.371944444444,
+    "pop": 440962
+  },
+  {
+    "nameAr": "مونتيس كلاروس",
+    "nameEn": "Montes Claros",
+    "type": "city",
+    "lat": -16.732222222222,
+    "lng": -43.863611111111,
+    "pop": 437601
+  },
+  {
+    "nameAr": "بيراسيكابا",
+    "nameEn": "Piracicaba",
+    "type": "city",
+    "lat": -22.725165,
+    "lng": -47.6493269,
+    "pop": 423323
+  },
+  {
+    "nameAr": "كامبينا غراندي",
+    "nameEn": "Campina Grande",
+    "type": "city",
+    "lat": -7.2305555555556,
+    "lng": -35.881111111111,
+    "pop": 419379
+  },
+  {
+    "nameAr": "سانتوس",
+    "nameEn": "Santos",
+    "type": "city",
+    "lat": -23.9335988,
+    "lng": -46.3286399,
+    "pop": 418608
+  },
+  {
+    "nameAr": "بترولينا",
+    "nameEn": "Petrolina",
+    "type": "city",
+    "lat": -9.3927777777778,
+    "lng": -40.507777777778,
+    "pop": 418444
+  },
+  {
+    "nameAr": "مويا",
+    "nameEn": "Mauá",
+    "type": "city",
+    "lat": -23.667777777778,
+    "lng": -46.460833333333,
+    "pop": 418261
+  },
+  {
+    "nameAr": "بوا فيستا",
+    "nameEn": "Boa Vista",
+    "type": "city",
+    "lat": 2.82,
+    "lng": -60.671944444444,
+    "pop": 413486
+  },
+  {
+    "nameAr": "مارينغا",
+    "nameEn": "Maringá",
+    "type": "city",
+    "lat": -23.425,
+    "lng": -51.938888888889,
+    "pop": 409657
+  },
+  {
+    "nameAr": "كاروارو",
+    "nameEn": "Caruaru",
+    "type": "city",
+    "lat": -8.2827777777778,
+    "lng": -35.975833333333,
+    "pop": 405408
+  },
+  {
+    "nameAr": "كارابيكويبا",
+    "nameEn": "Carapicuíba",
+    "type": "city",
+    "lat": -23.522777777778,
+    "lng": -46.835833333333,
+    "pop": 405375
+  },
+  {
+    "nameAr": "جوندياي",
+    "nameEn": "Jundiaí",
+    "type": "city",
+    "lat": -23.186388888889,
+    "lng": -46.884166666667,
+    "pop": 401896
+  },
+  {
+    "nameAr": "أنابوليس",
+    "nameEn": "Anápolis",
+    "type": "city",
+    "lat": -16.326944444444,
+    "lng": -48.952777777778,
+    "pop": 398869
+  },
+  {
+    "nameAr": "فيتوريا دا كونكيستا",
+    "nameEn": "Vitória da Conquista",
+    "type": "city",
+    "lat": -14.865833333333,
+    "lng": -40.838888888889,
+    "pop": 396613
+  },
+  {
+    "nameAr": "دياديما",
+    "nameEn": "Diadema",
+    "type": "city",
+    "lat": -23.685833333333,
+    "lng": -46.622777777778,
+    "pop": 393237
+  },
+  {
+    "nameAr": "كارياسيكا",
+    "nameEn": "Cariacica",
+    "type": "city",
+    "lat": -20.263888888889,
+    "lng": -40.42,
+    "pop": 387368
+  },
+  {
+    "nameAr": "بونتا غروسا",
+    "nameEn": "Ponta Grossa",
+    "type": "city",
+    "lat": -25.095,
+    "lng": -50.161944444444,
+    "pop": 375632
+  },
+  {
+    "nameAr": "إيتاكاكيسيتوبا",
+    "nameEn": "Itaquaquecetuba",
+    "type": "city",
+    "lat": -23.486388888889,
+    "lng": -46.348611111111,
+    "pop": 375011
+  },
+  {
+    "nameAr": "باورو",
+    "nameEn": "Bauru",
+    "type": "city",
+    "lat": -22.314722222222,
+    "lng": -49.060555555556,
+    "pop": 366992
+  },
+  {
+    "nameAr": "فرانكا",
+    "nameEn": "Franca",
+    "type": "city",
+    "lat": -20.538888888889,
+    "lng": -47.400833333333,
+    "pop": 365494
+  },
+  {
+    "nameAr": "ريو برانكو",
+    "nameEn": "Rio Branco",
+    "type": "city",
+    "lat": -9.9780555555556,
+    "lng": -67.811666666667,
+    "pop": 364756
+  },
+  {
+    "nameAr": "بلوميناو",
+    "nameEn": "Blumenau",
+    "type": "city",
+    "lat": -26.918888888889,
+    "lng": -49.065833333333,
+    "pop": 361261
+  },
+  {
+    "nameAr": "سانتاريم",
+    "nameEn": "Santarém",
+    "type": "city",
+    "lat": -2.4427777777778,
+    "lng": -54.707777777778,
+    "pop": 360871
+  },
+  {
+    "nameAr": "أوبيرابا",
+    "nameEn": "Uberaba",
+    "type": "city",
+    "lat": -19.747777777778,
+    "lng": -47.931944444444,
+    "pop": 356781
+  },
+  {
+    "nameAr": "كاوكايا",
+    "nameEn": "Caucaia",
+    "type": "city",
+    "lat": -3.7327777777778,
+    "lng": -38.655833333333,
+    "pop": 355679
+  },
+  {
+    "nameAr": "أوليندا",
+    "nameEn": "Olinda",
+    "type": "city",
+    "lat": -8.0088888888889,
+    "lng": -34.855,
+    "pop": 349976
+  },
+  {
+    "nameAr": "برايا غراندي",
+    "nameEn": "Praia Grande",
+    "type": "city",
+    "lat": -24.005833333333,
+    "lng": -46.402777777778,
+    "pop": 349935
+  },
+  {
+    "nameAr": "ساو خوسيه دوس بينيايس",
+    "nameEn": "São José dos Pinhais",
+    "type": "city",
+    "lat": -25.535,
+    "lng": -49.205833333333,
+    "pop": 349880
+  },
+  {
+    "nameAr": "كاسكافل",
+    "nameEn": "Cascavel",
+    "type": "city",
+    "lat": -24.955833333333,
+    "lng": -53.455,
+    "pop": 348051
+  },
+  {
+    "nameAr": "كانواس",
+    "nameEn": "Canoas",
+    "type": "city",
+    "lat": -29.92,
+    "lng": -51.18,
+    "pop": 347657
+  },
+  {
+    "nameAr": "بيلوتاس",
+    "nameEn": "Pelotas",
+    "type": "city",
+    "lat": -31.771944444444,
+    "lng": -52.342777777778,
+    "pop": 345181
+  },
+  {
+    "nameAr": "باوليستا",
+    "nameEn": "Paulista",
+    "type": "city",
+    "lat": -7.9408333333333,
+    "lng": -34.872777777778,
+    "pop": 342167
+  },
+  {
+    "nameAr": "ساو فيسنتي",
+    "nameEn": "São Vicente",
+    "type": "city",
+    "lat": -23.9664177,
+    "lng": -46.3861401,
+    "pop": 329911
+  },
+  {
+    "nameAr": "ريبيرو داس نيفيس",
+    "nameEn": "Ribeirão das Neves",
+    "type": "city",
+    "lat": -19.766944444444,
+    "lng": -44.086944444444,
+    "pop": 329794
+  },
+  {
+    "nameAr": "فيتوريا، البرازيل",
+    "nameEn": "Vitória",
+    "type": "city",
+    "lat": -20.310555555556,
+    "lng": -40.297222222222,
+    "pop": 322869
+  },
+  {
+    "nameAr": "كاماكاري",
+    "nameEn": "Camaçari",
+    "type": "city",
+    "lat": -12.697777777778,
+    "lng": -38.323888888889,
+    "pop": 321636
+  },
+  {
+    "nameAr": "سوزانو",
+    "nameEn": "Suzano",
+    "type": "city",
+    "lat": -23.542777777778,
+    "lng": -46.310833333333,
+    "pop": 320261
+  },
+  {
+    "nameAr": "فارزيا غراندي",
+    "nameEn": "Várzea Grande",
+    "type": "city",
+    "lat": -15.646944444444,
+    "lng": -56.132777777778,
+    "pop": 318922
+  },
+  {
+    "nameAr": "تاوباتي",
+    "nameEn": "Taubaté",
+    "type": "city",
+    "lat": -23.033333333333,
+    "lng": -45.55,
+    "pop": 317915
+  },
+  {
+    "nameAr": "بارويري",
+    "nameEn": "Barueri",
+    "type": "city",
+    "lat": -23.511111111111,
+    "lng": -46.876388888889,
+    "pop": 316473
+  },
+  {
+    "nameAr": "غواروجا",
+    "nameEn": "Guarujá",
+    "type": "city",
+    "lat": -23.993611111111,
+    "lng": -46.256388888889,
+    "pop": 311230
+  },
+  {
+    "nameAr": "ليميرا",
+    "nameEn": "Limeira",
+    "type": "city",
+    "lat": -22.564722222222,
+    "lng": -47.401666666667,
+    "pop": 310783
+  },
+  {
+    "nameAr": "باراوابيباس",
+    "nameEn": "Parauapebas",
+    "type": "city",
+    "lat": -6.0677777777778,
+    "lng": -49.901944444444,
+    "pop": 305771
+  },
+  {
+    "nameAr": "بالماس",
+    "nameEn": "Palmas",
+    "type": "city",
+    "lat": -10.184444444444,
+    "lng": -48.333611111111,
+    "pop": 302692
+  },
+  {
+    "nameAr": "ساو خوسيه",
+    "nameEn": "São José",
+    "type": "city",
+    "lat": -27.615,
+    "lng": -48.627777777778,
+    "pop": 295658
+  },
+  {
+    "nameAr": "مارابا",
+    "nameEn": "Marabá",
+    "type": "city",
+    "lat": -5.3688888888889,
+    "lng": -49.117777777778,
+    "pop": 290975
+  },
+  {
+    "nameAr": "كوتيا",
+    "nameEn": "Cotia",
+    "type": "city",
+    "lat": -23.603888888889,
+    "lng": -46.918888888889,
+    "pop": 289493
+  },
+  {
+    "nameAr": "جوازيرو دو نورتي",
+    "nameEn": "Juazeiro do Norte",
+    "type": "city",
+    "lat": -7.2127777777778,
+    "lng": -39.315,
+    "pop": 286120
+  },
+  {
+    "nameAr": "غرافاتاي",
+    "nameEn": "Gravataí",
+    "type": "city",
+    "lat": -29.943333333333,
+    "lng": -50.993888888889,
+    "pop": 285564
+  },
+  {
+    "nameAr": "فوز دو إيغواسو",
+    "nameEn": "Foz do Iguaçu",
+    "type": "city",
+    "lat": -25.54,
+    "lng": -54.5875,
+    "pop": 285415
+  },
+  {
+    "nameAr": "سانتا ماريا، ريو غراندي دو سول",
+    "nameEn": "Santa Maria",
+    "type": "city",
+    "lat": -29.683888888889,
+    "lng": -53.806944444444,
+    "pop": 285159
+  },
+  {
+    "nameAr": "فولتا ريدوندا",
+    "nameEn": "Volta Redonda",
+    "type": "city",
+    "lat": -22.52306,
+    "lng": -44.10417,
+    "pop": 279971
+  },
+  {
+    "nameAr": "بتروبوليس",
+    "nameEn": "Petrópolis",
+    "type": "city",
+    "lat": -22.505,
+    "lng": -43.178888888889,
+    "pop": 278881
+  },
+  {
+    "nameAr": "إمبو داس آرتس",
+    "nameEn": "Embu das Artes",
+    "type": "city",
+    "lat": -23.648888888889,
+    "lng": -46.851944444444,
+    "pop": 276535
+  },
+  {
+    "nameAr": "تابواو دا سيرا",
+    "nameEn": "Taboão da Serra",
+    "type": "city",
+    "lat": -23.601944444444,
+    "lng": -46.752777777778,
+    "pop": 273542
+  },
+  {
+    "nameAr": "امبراتريز",
+    "nameEn": "Imperatriz",
+    "type": "city",
+    "lat": -5.5258333333333,
+    "lng": -47.475833333333,
+    "pop": 273110
+  },
+  {
+    "nameAr": "غوفيرنادور فالاداريس",
+    "nameEn": "Governador Valadares",
+    "type": "city",
+    "lat": -18.850833333333,
+    "lng": -41.948888888889,
+    "pop": 266561
+  },
+  {
+    "nameAr": "سوماري",
+    "nameEn": "Sumaré",
+    "type": "city",
+    "lat": -22.821944444444,
+    "lng": -47.266944444444,
+    "pop": 265955
+  },
+  {
+    "nameAr": "موسورو",
+    "nameEn": "Mossoró",
+    "type": "city",
+    "lat": -5.1877777777778,
+    "lng": -37.343888888889,
+    "pop": 264577
+  },
+  {
+    "nameAr": "إتاخايي",
+    "nameEn": "Itajaí",
+    "type": "city",
+    "lat": -26.907777777778,
+    "lng": -48.661944444444,
+    "pop": 264054
+  },
+  {
+    "nameAr": "دورادوس",
+    "nameEn": "Dourados",
+    "type": "city",
+    "lat": -22.220833333333,
+    "lng": -54.805833333333,
+    "pop": 264017
+  },
+  {
+    "nameAr": "روندونوبوليس",
+    "nameEn": "Rondonópolis",
+    "type": "city",
+    "lat": -16.470833333333,
+    "lng": -54.635833333333,
+    "pop": 263708
+  },
+  {
+    "nameAr": "فياماو",
+    "nameEn": "Viamão",
+    "type": "city",
+    "lat": -30.080833333333,
+    "lng": -51.022777777778,
+    "pop": 260740
+  },
+  {
+    "nameAr": "إنداياتوبا",
+    "nameEn": "Indaiatuba",
+    "type": "city",
+    "lat": -23.090277777778,
+    "lng": -47.218055555556,
+    "pop": 256223
+  },
+  {
+    "nameAr": "جوازيرو",
+    "nameEn": "Juazeiro",
+    "type": "city",
+    "lat": -9.4138888888889,
+    "lng": -40.502777777778,
+    "pop": 256122
+  },
+  {
+    "nameAr": "ساو كارلوس",
+    "nameEn": "São Carlos",
+    "type": "city",
+    "lat": -22.017777777778,
+    "lng": -47.890833333333,
+    "pop": 254484
+  },
+  {
+    "nameAr": "بالوسا",
+    "nameEn": "Palhoça",
+    "type": "city",
+    "lat": -27.644444444444,
+    "lng": -48.667777777778,
+    "pop": 253469
+  },
+  {
+    "nameAr": "بارناميريم",
+    "nameEn": "Parnamirim",
+    "type": "city",
+    "lat": -5.9158333333333,
+    "lng": -35.262777777778,
+    "pop": 252716
+  },
+  {
+    "nameAr": "كولومبو",
+    "nameEn": "Colombo",
+    "type": "city",
+    "lat": -25.291944444444,
+    "lng": -49.223888888889,
+    "pop": 249277
+  },
+  {
+    "nameAr": "ماكاي",
+    "nameEn": "Macaé",
+    "type": "city",
+    "lat": -22.370833333333,
+    "lng": -41.786944444444,
+    "pop": 246391
+  },
+  {
+    "nameAr": "أغوس لينداس دي غوياس",
+    "nameEn": "Águas Lindas de Goiás",
+    "type": "city",
+    "lat": -15.761944444444,
+    "lng": -48.281944444444,
+    "pop": 245352
+  },
+  {
+    "nameAr": "ساو خوسيه دي ريبامار",
+    "nameEn": "São José de Ribamar",
+    "type": "city",
+    "lat": -2.5619444444444,
+    "lng": -44.053888888889,
+    "pop": 244579
+  },
+  {
+    "nameAr": "أراراكوارا",
+    "nameEn": "Araraquara",
+    "type": "city",
+    "lat": -21.793888888889,
+    "lng": -48.175833333333,
+    "pop": 242228
+  },
+  {
+    "nameAr": "سيتي لاغواس",
+    "nameEn": "Sete Lagoas",
+    "type": "city",
+    "lat": -19.465833333333,
+    "lng": -44.246944444444,
+    "pop": 241835
+  },
+  {
+    "nameAr": "ماريليا",
+    "nameEn": "Marília",
+    "type": "city",
+    "lat": -22.213888888889,
+    "lng": -49.945833333333,
+    "pop": 240590
+  },
+  {
+    "nameAr": "ساو ليوبولدو",
+    "nameEn": "São Leopoldo",
+    "type": "city",
+    "lat": -29.76,
+    "lng": -51.146944444444,
+    "pop": 240378
+  },
+  {
+    "nameAr": "جاكاري",
+    "nameEn": "Jacareí",
+    "type": "city",
+    "lat": -23.305,
+    "lng": -45.965833333333,
+    "pop": 240275
+  },
+  {
+    "nameAr": "كابو فريو",
+    "nameEn": "Cabo Frio",
+    "type": "city",
+    "lat": -22.878888888889,
+    "lng": -42.018888888889,
+    "pop": 238438
+  },
+  {
+    "nameAr": "أمريكانا",
+    "nameEn": "Americana",
+    "type": "city",
+    "lat": -22.738888888889,
+    "lng": -47.330833333333,
+    "pop": 237240
+  },
+  {
+    "nameAr": "نوفو هامبورغو",
+    "nameEn": "Novo Hamburgo",
+    "type": "city",
+    "lat": -29.677777777778,
+    "lng": -51.130833333333,
+    "pop": 235802
+  },
+  {
+    "nameAr": "أرابيراكا",
+    "nameEn": "Arapiraca",
+    "type": "city",
+    "lat": -9.75,
+    "lng": -36.65,
+    "pop": 234696
+  },
+  {
+    "nameAr": "ماراكاناو",
+    "nameEn": "Maracanaú",
+    "type": "city",
+    "lat": -3.8794444444444,
+    "lng": -38.625,
+    "pop": 234509
+  },
+  {
+    "nameAr": "سانتا لوزيا، ميناس جيرايس",
+    "nameEn": "Santa Luzia",
+    "type": "city",
+    "lat": -19.77,
+    "lng": -43.850833333333,
+    "pop": 231607
+  },
+  {
+    "nameAr": "ديفينوبوليس",
+    "nameEn": "Divinópolis",
+    "type": "city",
+    "lat": -20.138888888889,
+    "lng": -44.883888888889,
+    "pop": 231091
+  },
+  {
+    "nameAr": "ماغى",
+    "nameEn": "Magé",
+    "type": "city",
+    "lat": -22.652777777778,
+    "lng": -43.040833333333,
+    "pop": 228127
+  },
+  {
+    "nameAr": "إباتينغا",
+    "nameEn": "Ipatinga",
+    "type": "city",
+    "lat": -19.467777777778,
+    "lng": -42.536944444444,
+    "pop": 227731
+  },
+  {
+    "nameAr": "ريو فيردي",
+    "nameEn": "Rio Verde",
+    "type": "city",
+    "lat": -17.797777777778,
+    "lng": -50.927777777778,
+    "pop": 225696
+  },
+  {
+    "nameAr": "بريزيدينت برودينت",
+    "nameEn": "Presidente Prudente",
+    "type": "city",
+    "lat": -22.125833333333,
+    "lng": -51.388888888889,
+    "pop": 225668
+  },
+  {
+    "nameAr": "إيتابوراي",
+    "nameEn": "Itaboraí",
+    "type": "city",
+    "lat": -22.7475,
+    "lng": -42.855833333333,
+    "pop": 224267
+  },
+  {
+    "nameAr": "تشابيكو",
+    "nameEn": "Chapecó",
+    "type": "city",
+    "lat": -27.095833333333,
+    "lng": -52.617777777778,
+    "pop": 224013
+  },
+  {
+    "nameAr": "سينوب",
+    "nameEn": "Sinop",
+    "type": "city",
+    "lat": -11.863888888889,
+    "lng": -55.503888888889,
+    "pop": 223780
+  },
+  {
+    "nameAr": "ايليوس",
+    "nameEn": "Ilhéus",
+    "type": "city",
+    "lat": -14.788888888889,
+    "lng": -39.048888888889,
+    "pop": 223750
+  },
+  {
+    "nameAr": "إيتابيفي",
+    "nameEn": "Itapevi",
+    "type": "city",
+    "lat": -23.548888888889,
+    "lng": -46.934166666667,
+    "pop": 223404
+  },
+  {
+    "nameAr": "لويسيانيا",
+    "nameEn": "Luziânia",
+    "type": "city",
+    "lat": -16.252777777778,
+    "lng": -47.95,
+    "pop": 221262
+  },
+  {
+    "nameAr": "لاورو دي فريتاس",
+    "nameEn": "Lauro de Freitas",
+    "type": "city",
+    "lat": -12.893888888889,
+    "lng": -38.326944444444,
+    "pop": 219564
+  },
+  {
+    "nameAr": "كابو دي سانتو أغوستينو",
+    "nameEn": "Cabo de Santo Agostinho",
+    "type": "city",
+    "lat": -8.2869444444444,
+    "lng": -35.035,
+    "pop": 218049
+  },
+  {
+    "nameAr": "اورتولانديا",
+    "nameEn": "Hortolândia",
+    "type": "city",
+    "lat": -22.858333333333,
+    "lng": -47.22,
+    "pop": 215819
+  },
+  {
+    "nameAr": "باسو فوندو",
+    "nameEn": "Passo Fundo",
+    "type": "city",
+    "lat": -28.262777777778,
+    "lng": -52.406944444444,
+    "pop": 214811
+  },
+  {
+    "nameAr": "Maricá",
+    "nameEn": "Maricá",
+    "type": "city",
+    "lat": -22.918888888889,
+    "lng": -42.818888888889,
+    "pop": 212470
+  },
+  {
+    "nameAr": "ايتابيميريم دي كاتشويرو",
+    "nameEn": "Cachoeiro de Itapemirim",
+    "type": "city",
+    "lat": -20.848888888889,
+    "lng": -41.112777777778,
+    "pop": 212172
+  },
+  {
+    "nameAr": "كريسيوما",
+    "nameEn": "Criciúma",
+    "type": "city",
+    "lat": -28.6775,
+    "lng": -49.369722222222,
+    "pop": 211369
+  },
+  {
+    "nameAr": "انجرا دوس ريس",
+    "nameEn": "Angra dos Reis",
+    "type": "city",
+    "lat": -23.006944444444,
+    "lng": -44.317777777778,
+    "pop": 210171
+  },
+  {
+    "nameAr": "كاستانهال",
+    "nameEn": "Castanhal",
+    "type": "city",
+    "lat": -1.2969444444444,
+    "lng": -47.921944444444,
+    "pop": 209126
+  },
+  {
+    "nameAr": "نوفا فريبورغو",
+    "nameEn": "Nova Friburgo",
+    "type": "city",
+    "lat": -22.281944444444,
+    "lng": -42.530833333333,
+    "pop": 203417
+  },
+  {
+    "nameAr": "Sobral",
+    "nameEn": "Sobral",
+    "type": "city",
+    "lat": -3.6855555555556,
+    "lng": -40.344166666667,
+    "pop": 203023
+  },
+  {
+    "nameAr": "ريو كلارو",
+    "nameEn": "Rio Claro",
+    "type": "city",
+    "lat": -22.410833333333,
+    "lng": -47.560833333333,
+    "pop": 201418
+  },
+  {
+    "nameAr": "أراساتوبا",
+    "nameEn": "Araçatuba",
+    "type": "city",
+    "lat": -21.208888888889,
+    "lng": -50.432777777778,
+    "pop": 200124
+  },
+  {
+    "nameAr": "نوفوفالبارايسو دي غوياس",
+    "nameEn": "Valparaíso de Goiás",
+    "type": "city",
+    "lat": -16.065833333333,
+    "lng": -47.978888888889,
+    "pop": 198861
+  },
+  {
+    "nameAr": "نوسا سنيورا دو سوكورو",
+    "nameEn": "Nossa Senhora do Socorro",
+    "type": "city",
+    "lat": -10.855,
+    "lng": -37.125833333333,
+    "pop": 192330
+  },
+  {
+    "nameAr": "ريو غراندي، ريو غراندي دو سول",
+    "nameEn": "Rio Grande",
+    "type": "city",
+    "lat": -32.035,
+    "lng": -52.098888888889,
+    "pop": 191900
+  },
+  {
+    "nameAr": "ميسكيتا",
+    "nameEn": "Mesquita",
+    "type": "city",
+    "lat": -22.781944444444,
+    "lng": -43.428888888889,
+    "pop": 190056
+  },
+  {
+    "nameAr": "ألفورادا",
+    "nameEn": "Alvorada",
+    "type": "city",
+    "lat": -29.99,
+    "lng": -51.083888888889,
+    "pop": 187315
+  },
+  {
+    "nameAr": "إيتابونا",
+    "nameEn": "Itabuna",
+    "type": "city",
+    "lat": -14.785833333333,
+    "lng": -39.28,
+    "pop": 186708
+  },
+  {
+    "nameAr": "ترسوبوليس",
+    "nameEn": "Teresópolis",
+    "type": "city",
+    "lat": -22.411944444444,
+    "lng": -42.965833333333,
+    "pop": 185820
+  },
+  {
+    "nameAr": "بارا مانسا",
+    "nameEn": "Barra Mansa",
+    "type": "city",
+    "lat": -22.543888888889,
+    "lng": -44.170833333333,
+    "pop": 185237
+  },
+  {
+    "nameAr": "فيراز دي فاسكونسيلوس",
+    "nameEn": "Ferraz de Vasconcelos",
+    "type": "city",
+    "lat": -23.541111111111,
+    "lng": -46.368888888889,
+    "pop": 184700
+  },
+  {
+    "nameAr": "إبيريتي",
+    "nameEn": "Ibirité",
+    "type": "city",
+    "lat": -20.021944444444,
+    "lng": -44.058888888889,
+    "pop": 184030
+  },
+  {
+    "nameAr": "سانتا باربرا دي أويستي",
+    "nameEn": "Santa Bárbara d'Oeste",
+    "type": "city",
+    "lat": -22.753888888889,
+    "lng": -47.413888888889,
+    "pop": 183347
+  },
+  {
+    "nameAr": "خاراغوا دو سول",
+    "nameEn": "Jaraguá do Sul",
+    "type": "city",
+    "lat": -26.485833333333,
+    "lng": -49.066944444444,
+    "pop": 182660
+  },
+  {
+    "nameAr": "بورتو سيجورو",
+    "nameEn": "Porto Seguro",
+    "type": "city",
+    "lat": -16.45,
+    "lng": -39.065,
+    "pop": 182630
+  },
+  {
+    "nameAr": "غوارابوافا",
+    "nameEn": "Guarapuava",
+    "type": "city",
+    "lat": -25.395,
+    "lng": -51.457777777778,
+    "pop": 182093
+  },
+  {
+    "nameAr": "تيمون",
+    "nameEn": "Timon",
+    "type": "city",
+    "lat": -5.0938888888889,
+    "lng": -42.836944444444,
+    "pop": 174465
+  },
+  {
+    "nameAr": "باريراس",
+    "nameEn": "Barreiras",
+    "type": "city",
+    "lat": -12.152777777778,
+    "lng": -44.99,
+    "pop": 171634
+  },
+  {
+    "nameAr": "أراغوينا",
+    "nameEn": "Araguaína",
+    "type": "city",
+    "lat": -7.1908333333333,
+    "lng": -48.206944444444,
+    "pop": 171301
+  },
+  {
+    "nameAr": "جيكيي",
+    "nameEn": "Jequié",
+    "type": "city",
+    "lat": -13.857777777778,
+    "lng": -40.083888888889,
+    "pop": 169201
+  },
+  {
+    "nameAr": "فرانسيسكو موراتو",
+    "nameEn": "Francisco Morato",
+    "type": "city",
+    "lat": -23.281666666667,
+    "lng": -46.7425,
+    "pop": 168243
+  },
+  {
+    "nameAr": "إتابيسيريكا دا سيرا",
+    "nameEn": "Itapecerica da Serra",
+    "type": "city",
+    "lat": -23.717222222222,
+    "lng": -46.849444444444,
+    "pop": 167236
+  },
+  {
+    "nameAr": "إيتو",
+    "nameEn": "Itu",
+    "type": "city",
+    "lat": -23.264166666667,
+    "lng": -47.299166666667,
+    "pop": 167095
+  },
+  {
+    "nameAr": "ليناريس",
+    "nameEn": "Linhares",
+    "type": "city",
+    "lat": -19.39866,
+    "lng": -40.06506,
+    "pop": 166786
+  },
+  {
+    "nameAr": "كاكسياس",
+    "nameEn": "Caxias",
+    "type": "city",
+    "lat": -4.8588888888889,
+    "lng": -43.355833333333,
+    "pop": 166159
+  },
+  {
+    "nameAr": "ساو كايتانو دو سول",
+    "nameEn": "São Caetano do Sul",
+    "type": "city",
+    "lat": -23.622777777778,
+    "lng": -46.550833333333,
+    "pop": 165655
+  },
+  {
+    "nameAr": "لاخيس",
+    "nameEn": "Lages",
+    "type": "city",
+    "lat": -27.815833333333,
+    "lng": -50.325833333333,
+    "pop": 164981
+  },
+  {
+    "nameAr": "تيكسيرا دي فريتاس",
+    "nameEn": "Teixeira de Freitas",
+    "type": "city",
+    "lat": -17.535,
+    "lng": -39.741944444444,
+    "pop": 164290
+  },
+  {
+    "nameAr": "باسوس دي كالداس",
+    "nameEn": "Poços de Caldas",
+    "type": "city",
+    "lat": -21.787777777778,
+    "lng": -46.560833333333,
+    "pop": 163742
+  },
+  {
+    "nameAr": "بارنايبا",
+    "nameEn": "Parnaíba",
+    "type": "city",
+    "lat": -2.905,
+    "lng": -41.776944444444,
+    "pop": 162159
+  },
+  {
+    "nameAr": "ألاجوينياس",
+    "nameEn": "Alagoinhas",
+    "type": "city",
+    "lat": -12.135555555556,
+    "lng": -38.418888888889,
+    "pop": 161196
+  },
+  {
+    "nameAr": "براغانكا باوليستا",
+    "nameEn": "Bragança Paulista",
+    "type": "city",
+    "lat": -22.918888888889,
+    "lng": -46.5425,
+    "pop": 160665
+  },
+  {
+    "nameAr": "بندامونهانغابا",
+    "nameEn": "Pindamonhangaba",
+    "type": "city",
+    "lat": -22.923888888889,
+    "lng": -45.461666666667,
+    "pop": 160614
+  },
+  {
+    "nameAr": "موجي غواكو",
+    "nameEn": "Mogi Guaçu",
+    "type": "city",
+    "lat": -22.371944444444,
+    "lng": -46.941944444444,
+    "pop": 160318
+  },
+  {
+    "nameAr": "باتوس دي ميناس",
+    "nameEn": "Patos de Minas",
+    "type": "city",
+    "lat": -18.586944444444,
+    "lng": -46.514722222222,
+    "pop": 159235
+  },
+  {
+    "nameAr": "أبايتيتوبا",
+    "nameEn": "Abaetetuba",
+    "type": "city",
+    "lat": -1.7177777777778,
+    "lng": -48.882777777778,
+    "pop": 158188
+  },
+  {
+    "nameAr": "باراناغوا",
+    "nameEn": "Paranaguá",
+    "type": "city",
+    "lat": -25.520833333333,
+    "lng": -48.509444444444,
+    "pop": 157378
+  },
+  {
+    "nameAr": "ايتابتشننجا",
+    "nameEn": "Itapetininga",
+    "type": "city",
+    "lat": -23.591666666667,
+    "lng": -48.053055555556,
+    "pop": 157016
+  },
+  {
+    "nameAr": "ريو داس أوستراس",
+    "nameEn": "Rio das Ostras",
+    "type": "city",
+    "lat": -22.526944444444,
+    "lng": -41.945,
+    "pop": 156491
+  },
+  {
+    "nameAr": "كاماراجيبي",
+    "nameEn": "Camaragibe",
+    "type": "city",
+    "lat": -8.0219444444444,
+    "lng": -34.980833333333,
+    "pop": 155054
+  },
+  {
+    "nameAr": "سانتانا دي بارنايبا",
+    "nameEn": "Santana de Parnaíba",
+    "type": "city",
+    "lat": -23.443888888889,
+    "lng": -46.917777777778,
+    "pop": 154105
+  },
+  {
+    "nameAr": "بوسو أليغري",
+    "nameEn": "Pouso Alegre",
+    "type": "city",
+    "lat": -22.228055555556,
+    "lng": -45.933611111111,
+    "pop": 152549
+  },
+  {
+    "nameAr": "أراوكاريا",
+    "nameEn": "Araucária",
+    "type": "city",
+    "lat": -25.592777777778,
+    "lng": -49.41,
+    "pop": 151666
+  },
+  {
+    "nameAr": "توليدو",
+    "nameEn": "Toledo",
+    "type": "city",
+    "lat": -24.713888888889,
+    "lng": -53.742777777778,
+    "pop": 150470
+  },
+  {
+    "nameAr": "سانتا ريتا",
+    "nameEn": "Santa Rita",
+    "type": "city",
+    "lat": -7.1138888888889,
+    "lng": -34.977777777778,
+    "pop": 149910
+  },
+  {
+    "nameAr": "Fazenda Rio Grande",
+    "nameEn": "Fazenda Rio Grande",
+    "type": "city",
+    "lat": -25.657777777778,
+    "lng": -49.307777777778,
+    "pop": 148873
+  },
+  {
+    "nameAr": "نيلوبوليس",
+    "nameEn": "Nilópolis",
+    "type": "city",
+    "lat": -22.807777777778,
+    "lng": -43.413888888889,
+    "pop": 146774
+  },
+  {
+    "nameAr": "فرانكو دا روشا",
+    "nameEn": "Franco da Rocha",
+    "type": "city",
+    "lat": -23.328611111111,
+    "lng": -46.724444444444,
+    "pop": 145755
+  },
+  {
+    "nameAr": "باكو دو لوميار",
+    "nameEn": "Paço do Lumiar",
+    "type": "city",
+    "lat": -2.5319444444444,
+    "lng": -44.107777777778,
+    "pop": 145643
+  },
+  {
+    "nameAr": "فيتوريا دي سانتو أنتاو",
+    "nameEn": "Vitória de Santo Antão",
+    "type": "city",
+    "lat": -8.1263888888889,
+    "lng": -35.3075,
+    "pop": 144243
+  },
+  {
+    "nameAr": "ساو لورينكو دا ماتا",
+    "nameEn": "São Lourenço da Mata",
+    "type": "city",
+    "lat": -8.0019444444444,
+    "lng": -35.017777777778,
+    "pop": 144142
+  },
+  {
+    "nameAr": "غارانيونز",
+    "nameEn": "Garanhuns",
+    "type": "city",
+    "lat": -8.8902777777778,
+    "lng": -36.492777777778,
+    "pop": 142506
+  },
+  {
+    "nameAr": "ترينداد",
+    "nameEn": "Trindade",
+    "type": "city",
+    "lat": -16.648888888889,
+    "lng": -49.488888888889,
+    "pop": 142431
+  },
+  {
+    "nameAr": "كاراغواتاتوبا",
+    "nameEn": "Caraguatatuba",
+    "type": "city",
+    "lat": -23.62,
+    "lng": -45.412777777778,
+    "pop": 142248
+  },
+  {
+    "nameAr": "بروسكه",
+    "nameEn": "Brusque",
+    "type": "city",
+    "lat": -27.097777777778,
+    "lng": -48.917777777778,
+    "pop": 141385
+  },
+  {
+    "nameAr": "كيمادوس",
+    "nameEn": "Queimados",
+    "type": "city",
+    "lat": -22.715833333333,
+    "lng": -43.555,
+    "pop": 140523
+  },
+  {
+    "nameAr": "جي بارانا",
+    "nameEn": "Ji-Paraná",
+    "type": "city",
+    "lat": -10.885277777778,
+    "lng": -61.951666666667,
+    "pop": 140101
+  },
+  {
+    "nameAr": "بوتوكاتو",
+    "nameEn": "Botucatu",
+    "type": "city",
+    "lat": -22.885833333333,
+    "lng": -48.445,
+    "pop": 139483
+  },
+  {
+    "nameAr": "Balneário Camboriú",
+    "nameEn": "Balneário Camboriú",
+    "type": "city",
+    "lat": -26.990833333333,
+    "lng": -48.635,
+    "pop": 139155
+  },
+  {
+    "nameAr": "أرارواما",
+    "nameEn": "Araruama",
+    "type": "city",
+    "lat": -22.872777777778,
+    "lng": -42.342777777778,
+    "pop": 137906
+  },
+  {
+    "nameAr": "صبارا",
+    "nameEn": "Sabará",
+    "type": "city",
+    "lat": -19.885833333333,
+    "lng": -43.806944444444,
+    "pop": 137877
+  },
+  {
+    "nameAr": "تيوفيلو أوتوني",
+    "nameEn": "Teófilo Otoni",
+    "type": "city",
+    "lat": -17.857777777778,
+    "lng": -41.505,
+    "pop": 137418
+  },
+  {
+    "nameAr": "أتيبايا",
+    "nameEn": "Atibaia",
+    "type": "city",
+    "lat": -23.117222222222,
+    "lng": -46.550555555556,
+    "pop": 137187
+  },
+  {
+    "nameAr": "سيمويس فيلهو",
+    "nameEn": "Simões Filho",
+    "type": "city",
+    "lat": -12.783888888889,
+    "lng": -38.403888888889,
+    "pop": 137117
+  },
+  {
+    "nameAr": "فارجينها",
+    "nameEn": "Varginha",
+    "type": "city",
+    "lat": -21.550833333333,
+    "lng": -45.43,
+    "pop": 136467
+  },
+  {
+    "nameAr": "كامبو لارغو",
+    "nameEn": "Campo Largo",
+    "type": "city",
+    "lat": -25.458888888889,
+    "lng": -49.527777777778,
+    "pop": 136327
+  },
+  {
+    "nameAr": "كاشويرينها",
+    "nameEn": "Cachoeirinha",
+    "type": "city",
+    "lat": -29.950833333333,
+    "lng": -51.093888888889,
+    "pop": 136258
+  },
+  {
+    "nameAr": "ماريتوبا",
+    "nameEn": "Marituba",
+    "type": "city",
+    "lat": -1.355,
+    "lng": -48.341944444444,
+    "pop": 135812
+  },
+  {
+    "nameAr": "Itaituba",
+    "nameEn": "Itaituba",
+    "type": "city",
+    "lat": -4.2758333333333,
+    "lng": -55.983888888889,
+    "pop": 135369
+  },
+  {
+    "nameAr": "ساو ماتيوس",
+    "nameEn": "São Mateus",
+    "type": "city",
+    "lat": -18.715833333333,
+    "lng": -39.858888888889,
+    "pop": 134629
+  },
+  {
+    "nameAr": "سالتو",
+    "nameEn": "Salto",
+    "type": "city",
+    "lat": -23.200833333333,
+    "lng": -47.286944444444,
+    "pop": 134319
+  },
+  {
+    "nameAr": "كاميتا",
+    "nameEn": "Cametá",
+    "type": "city",
+    "lat": -2.2438888888889,
+    "lng": -49.495833333333,
+    "pop": 134184
+  },
+  {
+    "nameAr": "جاوو",
+    "nameEn": "Jaú",
+    "type": "city",
+    "lat": -22.295833333333,
+    "lng": -48.557777777778,
+    "pop": 133497
+  },
+  {
+    "nameAr": "سانتا كروز دو سول",
+    "nameEn": "Santa Cruz do Sul",
+    "type": "city",
+    "lat": -29.717777777778,
+    "lng": -52.425833333333,
+    "pop": 133230
+  },
+  {
+    "nameAr": "فالينهوس",
+    "nameEn": "Valinhos",
+    "type": "city",
+    "lat": -22.970833333333,
+    "lng": -46.995833333333,
+    "pop": 133169
+  },
+  {
+    "nameAr": "تريس لاغواس",
+    "nameEn": "Três Lagoas",
+    "type": "city",
+    "lat": -20.751111111111,
+    "lng": -51.678333333333,
+    "pop": 132152
+  },
+  {
+    "nameAr": "سابوكايا دو سول",
+    "nameEn": "Sapucaia do Sul",
+    "type": "city",
+    "lat": -29.838888888889,
+    "lng": -51.143888888889,
+    "pop": 132107
+  },
+  {
+    "nameAr": "كيوباتو",
+    "nameEn": "Cubatão",
+    "type": "city",
+    "lat": -23.895277777778,
+    "lng": -46.425555555556,
+    "pop": 131626
+  },
+  {
+    "nameAr": "كونسلهيرو لافايت",
+    "nameEn": "Conselheiro Lafaiete",
+    "type": "city",
+    "lat": -20.66,
+    "lng": -43.785833333333,
+    "pop": 131621
+  },
+  {
+    "nameAr": "إيتابيبوكا",
+    "nameEn": "Itapipoca",
+    "type": "city",
+    "lat": -3.4938888888889,
+    "lng": -39.578888888889,
+    "pop": 131123
+  },
+  {
+    "nameAr": "كراتو",
+    "nameEn": "Crato",
+    "type": "city",
+    "lat": -7.2338888888889,
+    "lng": -39.408888888889,
+    "pop": 131050
+  },
+  {
+    "nameAr": "أراراس",
+    "nameEn": "Araras",
+    "type": "city",
+    "lat": -22.356944444444,
+    "lng": -47.383888888889,
+    "pop": 130866
+  },
+  {
+    "nameAr": "أبوكارانا",
+    "nameEn": "Apucarana",
+    "type": "city",
+    "lat": -23.550833333333,
+    "lng": -51.460833333333,
+    "pop": 130134
+  },
+  {
+    "nameAr": "كولاتينا",
+    "nameEn": "Colatina",
+    "type": "city",
+    "lat": -19.538888888889,
+    "lng": -40.630833333333,
+    "pop": 129301
+  },
+  {
+    "nameAr": "فيسباسيان",
+    "nameEn": "Vespasiano",
+    "type": "city",
+    "lat": -19.691944444444,
+    "lng": -43.922777777778,
+    "pop": 129246
+  },
+  {
+    "nameAr": "فوتورانتيم",
+    "nameEn": "Votorantim",
+    "type": "city",
+    "lat": -23.546944444444,
+    "lng": -47.437777777778,
+    "pop": 127923
+  },
+  {
+    "nameAr": "بينيايس",
+    "nameEn": "Pinhais",
+    "type": "city",
+    "lat": -25.445,
+    "lng": -49.192777777778,
+    "pop": 127019
+  },
+  {
+    "nameAr": "سيرتاوزينيو",
+    "nameEn": "Sertãozinho",
+    "type": "city",
+    "lat": -21.137777777778,
+    "lng": -47.99,
+    "pop": 126887
+  },
+  {
+    "nameAr": "باركارينا",
+    "nameEn": "Barcarena",
+    "type": "city",
+    "lat": -1.5058333333333,
+    "lng": -48.625833333333,
+    "pop": 126650
+  },
+  {
+    "nameAr": "جانديرا",
+    "nameEn": "Jandira",
+    "type": "city",
+    "lat": -23.527777777778,
+    "lng": -46.902777777778,
+    "pop": 126356
+  },
+  {
+    "nameAr": "التاميرا",
+    "nameEn": "Altamira",
+    "type": "city",
+    "lat": -3.2027777777778,
+    "lng": -52.205833333333,
+    "pop": 126279
+  },
+  {
+    "nameAr": "بارباسينا",
+    "nameEn": "Barbacena",
+    "type": "city",
+    "lat": -21.225833333333,
+    "lng": -43.773888888889,
+    "pop": 125317
+  },
+  {
+    "nameAr": "ريزندي",
+    "nameEn": "Resende",
+    "type": "city",
+    "lat": -22.468888888889,
+    "lng": -44.446944444444,
+    "pop": 125214
+  },
+  {
+    "nameAr": "غواراباري",
+    "nameEn": "Guarapari",
+    "type": "city",
+    "lat": -20.657777777778,
+    "lng": -40.510833333333,
+    "pop": 124656
+  },
+  {
+    "nameAr": "كودو",
+    "nameEn": "Codó",
+    "type": "city",
+    "lat": -4.455,
+    "lng": -43.885833333333,
+    "pop": 123368
+  },
+  {
+    "nameAr": "بينتو غونسالفيس، ريو غراندي دو سول",
+    "nameEn": "Bento Gonçalves",
+    "type": "city",
+    "lat": -29.170833333333,
+    "lng": -51.518888888889,
+    "pop": 123151
+  },
+  {
+    "nameAr": "براغانسا",
+    "nameEn": "Bragança",
+    "type": "city",
+    "lat": -1.0627777777778,
+    "lng": -46.772777777778,
+    "pop": 123082
+  },
+  {
+    "nameAr": "إتياتيبا",
+    "nameEn": "Itatiba",
+    "type": "city",
+    "lat": -23.005833333333,
+    "lng": -46.838888888889,
+    "pop": 122581
+  },
+  {
+    "nameAr": "بارريتوس",
+    "nameEn": "Barretos",
+    "type": "city",
+    "lat": -20.556944444444,
+    "lng": -48.567777777778,
+    "pop": 122485
+  },
+  {
+    "nameAr": "إيونابوليس",
+    "nameEn": "Eunápolis",
+    "type": "city",
+    "lat": -16.377777777778,
+    "lng": -39.58,
+    "pop": 121067
+  },
+  {
+    "nameAr": "ألميرانتي تامانداري",
+    "nameEn": "Almirante Tamandaré",
+    "type": "city",
+    "lat": -25.325,
+    "lng": -49.31,
+    "pop": 119825
+  },
+  {
+    "nameAr": "أرابونغاس",
+    "nameEn": "Arapongas",
+    "type": "city",
+    "lat": -23.418888888889,
+    "lng": -51.423888888889,
+    "pop": 119138
+  },
+  {
+    "nameAr": "Guaratinguetá",
+    "nameEn": "Guaratinguetá",
+    "type": "city",
+    "lat": -22.816666666667,
+    "lng": -45.227777777778,
+    "pop": 119073
+  },
+  {
+    "nameAr": "Birigui",
+    "nameEn": "Birigui",
+    "type": "city",
+    "lat": -21.288888888889,
+    "lng": -50.34,
+    "pop": 118979
+  },
+  {
+    "nameAr": "Piraquara",
+    "nameEn": "Piraquara",
+    "type": "city",
+    "lat": -25.441944444444,
+    "lng": -49.062777777778,
+    "pop": 118730
+  },
+  {
+    "nameAr": "باخي، ريو غراندي دو سول",
+    "nameEn": "Bagé",
+    "type": "city",
+    "lat": -31.330833333333,
+    "lng": -54.106944444444,
+    "pop": 117938
+  },
+  {
+    "nameAr": "اراغواري",
+    "nameEn": "Araguari",
+    "type": "city",
+    "lat": -18.648888888889,
+    "lng": -48.186944444444,
+    "pop": 117808
+  },
+  {
+    "nameAr": "أوروغوايانا، ريو غراندي دو سول",
+    "nameEn": "Uruguaiana",
+    "type": "city",
+    "lat": -29.755,
+    "lng": -57.087777777778,
+    "pop": 117210
+  },
+  {
+    "nameAr": "أومواراما",
+    "nameEn": "Umuarama",
+    "type": "city",
+    "lat": -23.765833333333,
+    "lng": -53.325,
+    "pop": 117095
+  },
+  {
+    "nameAr": "إيتاغواي",
+    "nameEn": "Itaguaí",
+    "type": "city",
+    "lat": -22.851944444444,
+    "lng": -43.775,
+    "pop": 116841
+  },
+  {
+    "nameAr": "تاتوي",
+    "nameEn": "Tatuí",
+    "type": "city",
+    "lat": -23.355555555556,
+    "lng": -47.856944444444,
+    "pop": 116682
+  },
+  {
+    "nameAr": "فورموزا",
+    "nameEn": "Formosa",
+    "type": "city",
+    "lat": -15.536944444444,
+    "lng": -47.333888888889,
+    "pop": 115901
+  },
+  {
+    "nameAr": "فارزيا باوليستا",
+    "nameEn": "Várzea Paulista",
+    "type": "city",
+    "lat": -23.210833333333,
+    "lng": -46.827777777778,
+    "pop": 115771
+  },
+  {
+    "nameAr": "ريبيراو بيريس",
+    "nameEn": "Ribeirão Pires",
+    "type": "city",
+    "lat": -23.710833333333,
+    "lng": -46.412777777778,
+    "pop": 115559
+  },
+  {
+    "nameAr": "إيغاراسو",
+    "nameEn": "Igarassu",
+    "type": "city",
+    "lat": -7.8338888888889,
+    "lng": -34.905833333333,
+    "pop": 115196
+  },
+  {
+    "nameAr": "كاتالان",
+    "nameEn": "Catalão",
+    "type": "city",
+    "lat": -18.17,
+    "lng": -47.941944444444,
+    "pop": 114427
+  },
+  {
+    "nameAr": "بوا",
+    "nameEn": "Poá",
+    "type": "city",
+    "lat": -23.528611111111,
+    "lng": -46.345,
+    "pop": 113793
+  },
+  {
+    "nameAr": "إيتابيرا",
+    "nameEn": "Itabira",
+    "type": "city",
+    "lat": -19.618888888889,
+    "lng": -43.226944444444,
+    "pop": 113343
+  },
+  {
+    "nameAr": "باولو أفونسو",
+    "nameEn": "Paulo Afonso",
+    "type": "city",
+    "lat": -9.4077777777778,
+    "lng": -38.221944444444,
+    "pop": 112870
+  },
+  {
+    "nameAr": "باسوس، ميناس جيرايس",
+    "nameEn": "Passos",
+    "type": "city",
+    "lat": -20.718888888889,
+    "lng": -46.61,
+    "pop": 111939
+  },
+  {
+    "nameAr": "آراكسا",
+    "nameEn": "Araxá",
+    "type": "city",
+    "lat": -19.592777777778,
+    "lng": -46.940833333333,
+    "pop": 111691
+  },
+  {
+    "nameAr": "أريكيميس",
+    "nameEn": "Ariquemes",
+    "type": "city",
+    "lat": -9.9161111111111,
+    "lng": -63.040833333333,
+    "pop": 111148
+  },
+  {
+    "nameAr": "توباراو",
+    "nameEn": "Tubarão",
+    "type": "city",
+    "lat": -28.466944444444,
+    "lng": -49.006944444444,
+    "pop": 110088
+  },
+  {
+    "nameAr": "إيتومبيارا",
+    "nameEn": "Itumbiara",
+    "type": "city",
+    "lat": -18.42,
+    "lng": -49.217777777778,
+    "pop": 107970
+  },
+  {
+    "nameAr": "سانتانا",
+    "nameEn": "Santana",
+    "type": "city",
+    "lat": -0.035,
+    "lng": -51.175,
+    "pop": 107618
+  },
+  {
+    "nameAr": "كامبي",
+    "nameEn": "Cambé",
+    "type": "city",
+    "lat": -23.275833333333,
+    "lng": -51.277777777778,
+    "pop": 107208
+  },
+  {
+    "nameAr": "Breves",
+    "nameEn": "Breves",
+    "type": "city",
+    "lat": -1.68036,
+    "lng": -50.479085,
+    "pop": 106968
+  },
+  {
+    "nameAr": "أسالانديا",
+    "nameEn": "Açailândia",
+    "type": "city",
+    "lat": -4.9469444444444,
+    "lng": -47.505,
+    "pop": 106550
+  },
+  {
+    "nameAr": "Balsas",
+    "nameEn": "Balsas",
+    "type": "city",
+    "lat": -7.5327777777778,
+    "lng": -46.035833333333,
+    "pop": 106094
+  },
+  {
+    "nameAr": "إيريتشيم",
+    "nameEn": "Erechim",
+    "type": "city",
+    "lat": -27.633888888889,
+    "lng": -52.273888888889,
+    "pop": 105705
+  },
+  {
+    "nameAr": "Nova Serrana",
+    "nameEn": "Nova Serrana",
+    "type": "city",
+    "lat": -19.875833333333,
+    "lng": -44.983888888889,
+    "pop": 105552
+  },
+  {
+    "nameAr": "ليمي",
+    "nameEn": "Leme",
+    "type": "city",
+    "lat": -22.185833333333,
+    "lng": -47.39,
+    "pop": 105273
+  },
+  {
+    "nameAr": "مارانغوابي",
+    "nameEn": "Maranguape",
+    "type": "city",
+    "lat": -3.89,
+    "lng": -38.685833333333,
+    "pop": 105093
+  },
+  {
+    "nameAr": "Aracruz",
+    "nameEn": "Aracruz",
+    "type": "city",
+    "lat": -19.82,
+    "lng": -40.272777777778,
+    "pop": 104942
+  },
+  {
+    "nameAr": "لفراس",
+    "nameEn": "Lavras",
+    "type": "city",
+    "lat": -21.245,
+    "lng": -45,
+    "pop": 104761
+  },
+  {
+    "nameAr": "كورونيل فابريسيانو",
+    "nameEn": "Coronel Fabriciano",
+    "type": "city",
+    "lat": -19.518888888889,
+    "lng": -42.628888888889,
+    "pop": 104736
+  },
+  {
+    "nameAr": "مورياي",
+    "nameEn": "Muriaé",
+    "type": "city",
+    "lat": -21.130833333333,
+    "lng": -42.365833333333,
+    "pop": 104108
+  },
+  {
+    "nameAr": "São Pedro da Aldeia",
+    "nameEn": "São Pedro da Aldeia",
+    "type": "city",
+    "lat": -22.838888888889,
+    "lng": -42.102777777778,
+    "pop": 104029
+  },
+  {
+    "nameAr": "أورينهوس",
+    "nameEn": "Ourinhos",
+    "type": "city",
+    "lat": -22.978888888889,
+    "lng": -49.870833333333,
+    "pop": 103970
+  },
+  {
+    "nameAr": "باكابال",
+    "nameEn": "Bacabal",
+    "type": "city",
+    "lat": -4.225,
+    "lng": -44.78,
+    "pop": 103711
+  },
+  {
+    "nameAr": "Mairiporã",
+    "nameEn": "Mairiporã",
+    "type": "city",
+    "lat": -23.318888888889,
+    "lng": -46.586944444444,
+    "pop": 103645
+  },
+  {
+    "nameAr": "أوبا",
+    "nameEn": "Ubá",
+    "type": "city",
+    "lat": -21.12,
+    "lng": -42.94277778,
+    "pop": 103365
+  },
+  {
+    "nameAr": "باتوس",
+    "nameEn": "Patos",
+    "type": "city",
+    "lat": -7.0244444444444,
+    "lng": -37.28,
+    "pop": 103165
+  },
+  {
+    "nameAr": "سانتو أنطونيو دي جيسوس",
+    "nameEn": "Santo Antônio de Jesus",
+    "type": "city",
+    "lat": -12.969188888889,
+    "lng": -39.261080555556,
+    "pop": 103055
+  },
+  {
+    "nameAr": "إتويوتابا",
+    "nameEn": "Ituiutaba",
+    "type": "city",
+    "lat": -18.968888888889,
+    "lng": -49.465,
+    "pop": 102217
+  },
+  {
+    "nameAr": "لاغارتو",
+    "nameEn": "Lagarto",
+    "type": "city",
+    "lat": -10.916944444444,
+    "lng": -37.65,
+    "pop": 101579
+  },
+  {
+    "nameAr": "أسيز",
+    "nameEn": "Assis",
+    "type": "city",
+    "lat": -22.661944444444,
+    "lng": -50.411944444444,
+    "pop": 101409
+  },
+  {
+    "nameAr": "Itaperuna",
+    "nameEn": "Itaperuna",
+    "type": "city",
+    "lat": -21.205,
+    "lng": -41.887777777778,
+    "pop": 101041
+  },
+  {
+    "nameAr": "Abreu e Lima",
+    "nameEn": "Abreu e Lima",
+    "type": "city",
+    "lat": -7.9116666666667,
+    "lng": -34.902777777778,
+    "pop": 98462
+  },
+  {
+    "nameAr": "إتينا",
+    "nameEn": "Itaúna",
+    "type": "city",
+    "lat": -20.075,
+    "lng": -44.575833333333,
+    "pop": 97669
+  },
+  {
+    "nameAr": "بارينتينس",
+    "nameEn": "Parintins",
+    "type": "city",
+    "lat": -2.6277777777778,
+    "lng": -56.735833333333,
+    "pop": 96372
+  },
+  {
+    "nameAr": "جابيري",
+    "nameEn": "Japeri",
+    "type": "city",
+    "lat": -22.642777777778,
+    "lng": -43.652777777778,
+    "pop": 96289
+  },
+  {
+    "nameAr": "توكوروي",
+    "nameEn": "Tucuruí",
+    "type": "city",
+    "lat": -3.7677777777778,
+    "lng": -49.672777777778,
+    "pop": 91306
+  },
+  {
+    "nameAr": "Goioerê",
+    "nameEn": "Goioerê",
+    "type": "city",
+    "lat": -24.185,
+    "lng": -53.027777777778,
+    "pop": 28437
+  },
+  {
+    "nameAr": "Mariluz",
+    "nameEn": "Mariluz",
+    "type": "city",
+    "lat": -24.001944444444,
+    "lng": -53.145833333333,
+    "pop": 9847
+  },
+  {
+    "nameAr": "Alvorada",
+    "nameEn": "Alvorada",
+    "type": "city",
+    "lat": -12.48,
+    "lng": -49.125,
+    "pop": 8802
+  },
+  {
+    "nameAr": "Monsenhor João Alexandre",
+    "nameEn": "Monsenhor João Alexandre",
+    "type": "city",
+    "lat": -20.365102777778,
+    "lng": -44.686577777778,
+    "pop": 3137
+  },
+  {
+    "nameAr": "Maristela",
+    "nameEn": "Maristela",
+    "type": "city",
+    "lat": -23.0390673,
+    "lng": -47.8895083,
+    "pop": 2269
+  },
+  {
+    "nameAr": "Desemboque",
+    "nameEn": "Desemboque",
+    "type": "city",
+    "lat": -20.014166666667,
+    "lng": -47.020833333333,
+    "pop": 2019
+  },
+  {
+    "nameAr": "Laras",
+    "nameEn": "Laras",
+    "type": "city",
+    "lat": -22.9255367,
+    "lng": -47.8965138,
+    "pop": 742
+  },
+  {
+    "nameAr": "Vitoriano Veloso",
+    "nameEn": "Vitoriano Veloso",
+    "type": "city",
+    "lat": -21.097416666667,
+    "lng": -44.1175,
+    "pop": 715
+  },
+  {
+    "nameAr": "Acuruí",
+    "nameEn": "Acuruí",
+    "type": "city",
+    "lat": -20.209166666667,
+    "lng": -43.721944444444,
+    "pop": 378
+  },
+  {
+    "nameAr": "Abaitinga",
+    "nameEn": "Abaitinga",
+    "type": "city",
+    "lat": -24.039472222222,
+    "lng": -48.012638888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Aldeia Velha",
+    "nameEn": "Aldeia Velha",
+    "type": "city",
+    "lat": -22.46346,
+    "lng": -42.30684,
+    "pop": null
+  },
+  {
+    "nameAr": "Barra do Una",
+    "nameEn": "Barra do Una",
+    "type": "city",
+    "lat": -24.44095,
+    "lng": -47.0721,
+    "pop": null
+  },
+  {
+    "nameAr": "Boqueirão",
+    "nameEn": "Boqueirão",
+    "type": "city",
+    "lat": -10.811944444444,
+    "lng": -37.392777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Bugre - Iporá",
+    "nameEn": "Bugre - Iporá",
+    "type": "city",
+    "lat": -16.451417284403,
+    "lng": -51.236774325371,
+    "pop": null
+  },
+  {
+    "nameAr": "Cajueiro",
+    "nameEn": "Cajueiro",
+    "type": "city",
+    "lat": -10.836111111111,
+    "lng": -37.394722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Canela",
+    "nameEn": "Canela",
+    "type": "city",
+    "lat": -29.35622,
+    "lng": -50.81357,
+    "pop": null
+  },
+  {
+    "nameAr": "Chapada dos Guimarães",
+    "nameEn": "Chapada dos Guimarães",
+    "type": "city",
+    "lat": -15.460833333333,
+    "lng": -55.75,
+    "pop": null
+  },
+  {
+    "nameAr": "Cidade Real do Guaíra",
+    "nameEn": "Cidade Real do Guaíra",
+    "type": "city",
+    "lat": -24.040341,
+    "lng": -54.092531,
+    "pop": null
+  },
+  {
+    "nameAr": "Cumbuco",
+    "nameEn": "Cumbuco",
+    "type": "city",
+    "lat": -3.6333333333333,
+    "lng": -38.716666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Dois Rios",
+    "nameEn": "Dois Rios",
+    "type": "city",
+    "lat": -23.1816,
+    "lng": -44.191,
+    "pop": null
+  },
+  {
+    "nameAr": "Escarpas do Lago",
+    "nameEn": "Escarpas do Lago",
+    "type": "city",
+    "lat": -20.641055555556,
+    "lng": -46.015666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Estiva",
+    "nameEn": "Estiva",
+    "type": "city",
+    "lat": -16.167480326311,
+    "lng": -41.207136511803,
+    "pop": null
+  },
+  {
+    "nameAr": "Floriano",
+    "nameEn": "Floriano",
+    "type": "city",
+    "lat": -6.76694,
+    "lng": -43.0225,
+    "pop": null
+  },
+  {
+    "nameAr": "Guaranilândia",
+    "nameEn": "Guaranilândia",
+    "type": "city",
+    "lat": -16.297748358349,
+    "lng": -40.806403756142,
+    "pop": null
+  },
+  {
+    "nameAr": "Iauaretê",
+    "nameEn": "Iauaretê",
+    "type": "city",
+    "lat": 0.607878,
+    "lng": -69.193626,
+    "pop": null
+  },
+  {
+    "nameAr": "Ibiraçu",
+    "nameEn": "Ibiraçu",
+    "type": "city",
+    "lat": -19.83194,
+    "lng": -40.36972,
+    "pop": null
+  },
+  {
+    "nameAr": "Igreja Nova",
+    "nameEn": "Igreja Nova",
+    "type": "city",
+    "lat": -5.8074,
+    "lng": -35.4565,
+    "pop": null
+  },
+  {
+    "nameAr": "Jacaré",
+    "nameEn": "Jacaré",
+    "type": "city",
+    "lat": -16.466666666667,
+    "lng": -41.985555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Jeribá - Palmópolis",
+    "nameEn": "Jeribá - Palmópolis",
+    "type": "city",
+    "lat": -16.842374479057,
+    "lng": -40.39734005928,
+    "pop": null
+  },
+  {
+    "nameAr": "Junco",
+    "nameEn": "Junco",
+    "type": "city",
+    "lat": -10.785555555556,
+    "lng": -37.376944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Lagoa do Pau",
+    "nameEn": "Lagoa do Pau",
+    "type": "city",
+    "lat": -10.1268383,
+    "lng": -36.1164388,
+    "pop": null
+  },
+  {
+    "nameAr": "Mandacaru",
+    "nameEn": "Mandacaru",
+    "type": "city",
+    "lat": -2.5917,
+    "lng": -42.707,
+    "pop": null
+  },
+  {
+    "nameAr": "Manga",
+    "nameEn": "Manga",
+    "type": "city",
+    "lat": -14.75583,
+    "lng": -43.93222,
+    "pop": null
+  },
+  {
+    "nameAr": "Marajoara (Pau D'Arco)",
+    "nameEn": "Marajoara (Pau D'Arco)",
+    "type": "city",
+    "lat": -7.7356119,
+    "lng": -50.0391125,
+    "pop": null
+  },
+  {
+    "nameAr": "Monte Azul",
+    "nameEn": "Monte Azul",
+    "type": "city",
+    "lat": -16.713099779497,
+    "lng": -40.20884513855,
+    "pop": null
+  },
+  {
+    "nameAr": "Monteiro",
+    "nameEn": "Monteiro",
+    "type": "city",
+    "lat": -7.88944,
+    "lng": -37.12,
+    "pop": null
+  },
+  {
+    "nameAr": "Osório",
+    "nameEn": "Osório",
+    "type": "city",
+    "lat": -29.88667,
+    "lng": -50.26972,
+    "pop": null
+  },
+  {
+    "nameAr": "Pedrinhas",
+    "nameEn": "Pedrinhas",
+    "type": "city",
+    "lat": -10.824166666667,
+    "lng": -37.316388888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Penalva",
+    "nameEn": "Penalva",
+    "type": "city",
+    "lat": -3.29417,
+    "lng": -45.17361,
+    "pop": null
+  },
+  {
+    "nameAr": "Pititinga",
+    "nameEn": "Pititinga",
+    "type": "city",
+    "lat": -5.3793865,
+    "lng": -35.336086,
+    "pop": null
+  },
+  {
+    "nameAr": "Planalto do Araguaia",
+    "nameEn": "Planalto do Araguaia",
+    "type": "city",
+    "lat": -12.10983,
+    "lng": -51.72915,
+    "pop": null
+  },
+  {
+    "nameAr": "Pocinhos do Rio Verde",
+    "nameEn": "Pocinhos do Rio Verde",
+    "type": "city",
+    "lat": -21.934483333333,
+    "lng": -46.422247222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Pontal do Coruripe",
+    "nameEn": "Pontal do Coruripe",
+    "type": "city",
+    "lat": -10.1554144,
+    "lng": -36.1375662,
+    "pop": null
+  },
+  {
+    "nameAr": "Porto Calvo",
+    "nameEn": "Porto Calvo",
+    "type": "city",
+    "lat": -9.0561633586593,
+    "lng": -35.398528590638,
+    "pop": null
+  },
+  {
+    "nameAr": "Quilombo Antari",
+    "nameEn": "Quilombo Antari",
+    "type": "city",
+    "lat": -12.1609047,
+    "lng": -42.0240355,
+    "pop": null
+  },
+  {
+    "nameAr": "Ribeira",
+    "nameEn": "Ribeira",
+    "type": "city",
+    "lat": -24.65694,
+    "lng": -49.00889,
+    "pop": null
+  },
+  {
+    "nameAr": "Rio Claro do Sul",
+    "nameEn": "Rio Claro do Sul",
+    "type": "city",
+    "lat": -25.95167,
+    "lng": -50.68111,
+    "pop": null
+  },
+  {
+    "nameAr": "Rio das Pedras",
+    "nameEn": "Rio das Pedras",
+    "type": "city",
+    "lat": -10.772222222222,
+    "lng": -37.376666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Rosário",
+    "nameEn": "Rosário",
+    "type": "city",
+    "lat": -13.9531686,
+    "lng": -46.1976435,
+    "pop": null
+  },
+  {
+    "nameAr": "Santa Isabel do Morro",
+    "nameEn": "Santa Isabel do Morro",
+    "type": "city",
+    "lat": -11.5752474,
+    "lng": -50.6688546,
+    "pop": null
+  },
+  {
+    "nameAr": "Santana de Caldas",
+    "nameEn": "Santana de Caldas",
+    "type": "city",
+    "lat": -21.825997222222,
+    "lng": -46.404444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Santiago do Iguape",
+    "nameEn": "Santiago do Iguape",
+    "type": "city",
+    "lat": -12.684476618942,
+    "lng": -38.860018832122,
+    "pop": null
+  },
+  {
+    "nameAr": "Santo Amaro",
+    "nameEn": "Santo Amaro",
+    "type": "city",
+    "lat": -29.93818,
+    "lng": -51.89891,
+    "pop": null
+  },
+  {
+    "nameAr": "São Berto",
+    "nameEn": "São Berto",
+    "type": "city",
+    "lat": -23.0452,
+    "lng": -49.2495,
+    "pop": null
+  },
+  {
+    "nameAr": "São Cristóvão",
+    "nameEn": "São Cristóvão",
+    "type": "city",
+    "lat": -10.208611111111,
+    "lng": -37.69,
+    "pop": null
+  },
+  {
+    "nameAr": "São Lourenço",
+    "nameEn": "São Lourenço",
+    "type": "city",
+    "lat": -22.11639,
+    "lng": -45.05444,
+    "pop": null
+  },
+  {
+    "nameAr": "São Simão",
+    "nameEn": "São Simão",
+    "type": "city",
+    "lat": -21.479166666667,
+    "lng": -47.550833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Serra Azul",
+    "nameEn": "Serra Azul",
+    "type": "city",
+    "lat": -20.091305555556,
+    "lng": -44.434194444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Serra Comprida",
+    "nameEn": "Serra Comprida",
+    "type": "city",
+    "lat": -10.798611111111,
+    "lng": -37.380555555556,
+    "pop": null
+  },
+  {
+    "nameAr": "Southern Cross",
+    "nameEn": "Southern Cross",
+    "type": "city",
+    "lat": -7.6308333333333,
+    "lng": -72.67,
+    "pop": null
+  },
+  {
+    "nameAr": "Taquaral",
+    "nameEn": "Taquaral",
+    "type": "city",
+    "lat": -21.072488,
+    "lng": -48.412641,
+    "pop": null
+  },
+  {
+    "nameAr": "Taquaral de Minas",
+    "nameEn": "Taquaral de Minas",
+    "type": "city",
+    "lat": -16.693333333333,
+    "lng": -41.865833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Taracuá",
+    "nameEn": "Taracuá",
+    "type": "city",
+    "lat": 0.12833333333333,
+    "lng": -68.544166666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Trindade",
+    "nameEn": "Trindade",
+    "type": "city",
+    "lat": -23.350694444444,
+    "lng": -44.723888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "Unidades Habitacionais de Picinguaba",
+    "nameEn": "Unidades Habitacionais de Picinguaba",
+    "type": "city",
+    "lat": -23.37838901,
+    "lng": -44.83800999,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila da Prainha Branca",
+    "nameEn": "Vila da Prainha Branca",
+    "type": "city",
+    "lat": -23.867354834417,
+    "lng": -46.13728158669,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila de Beja",
+    "nameEn": "Vila de Beja",
+    "type": "city",
+    "lat": -1.6222825,
+    "lng": -48.8101773,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila de Estrela Capela de Nossa Senhora de Estrela",
+    "nameEn": "Vila de Estrela Capela de Nossa Senhora de Estrela",
+    "type": "city",
+    "lat": -22.681433517353,
+    "lng": -43.216375920795,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila de Picotes",
+    "nameEn": "Vila de Picotes",
+    "type": "city",
+    "lat": -6.9833329,
+    "lng": -37.1675096,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila Ferroviária de Paranapiacaba",
+    "nameEn": "Vila Ferroviária de Paranapiacaba",
+    "type": "city",
+    "lat": -23.7778474,
+    "lng": -46.3012913,
+    "pop": null
+  },
+  {
+    "nameAr": "Vila Realidade",
+    "nameEn": "Vila Realidade",
+    "type": "city",
+    "lat": -6.9791462,
+    "lng": -63.0972809,
+    "pop": null
+  }
+]

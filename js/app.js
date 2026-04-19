@@ -1632,8 +1632,13 @@ function _isWardLike(name) {
 }
 
 // إنشاء slug لاسم المدينة (للـ URL)
+// NFD يُفكِّك الحروف ذات العلامات (ã → a+◌̃) فيُحتَفَظ بالحرف الأساسيّ بعد حذف العلامات.
+// مثال: "São Paulo" → "sao-paulo" (بدل "so-paulo" المُشوَّه في النسخة القديمة).
 function makeSlug(englishName, lat, lng) {
-    const latin = (englishName || '').toLowerCase()
+    const latin = (englishName || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
         .replace(/[^a-z0-9\s]+/g, '')
         .trim()
         .replace(/\s+/g, '-');
@@ -1656,9 +1661,10 @@ function getSlugFromURL() {
     if (/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(window.location.pathname)) return 'hijri-day';
     if (/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(window.location.pathname)) return 'hijri-year';
     if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/[a-z-]+-\d+$/.test(window.location.pathname)) return 'hijri-month';
-    // القمر: /moon-today أو /moon-today-in-{slug} — نعيد 'moon' كمفتاح جلسة
-    //   لاستعادة موقع المستخدم (لاستمراريّة السياق عند الانتقال من صفحة المدينة)
-    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname)) return 'moon';
+    // القمر: /moon-today أو /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}] — نعيد 'moon' كمفتاح جلسة
+    //   لاستعادة موقع المستخدم (لاستمراريّة السياق عند الانتقال من صفحة المدينة).
+    //   Round 12: نضيف دعم coord-suffix (-LAT-LNG) + تاريخ اختياريّ.
+    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?)?$/.test(window.location.pathname)) return 'moon';
     return null;
 }
 
@@ -2098,8 +2104,9 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="zakat"]')?.classList.add('active');
     }
 
-    // تفعيل صفحة القمر عند URL /moon-today (canonical) أو /moon-today-in-{slug} [/{YYYY-MM-DD}]
-    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:\/\d{4}-\d{2}-\d{2})?)?$/.test(window.location.pathname);
+    // تفعيل صفحة القمر عند URL /moon-today (canonical) أو /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}]
+    // Round 12: نضيف دعم coord-suffix (-LAT-LNG) — للمدن خارج cities-*.json.
+    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?)?$/.test(window.location.pathname);
     if (_isMoonPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');
@@ -2158,12 +2165,16 @@ function initNavigation() {
                 return;
             }
 
-            // القمر → /moon-today-in-{slug} — يربط دائمًا بمدينة:
+            // القمر → /moon-today-in-{slug}[-{lat}-{lng}] — يربط دائمًا بمدينة:
             //   • من صفحة مدينة (prayer-times-in-X / qibla-in-X) → استخدم slugها
             //   • من الرئيسيّة/صفحة عامّة → استخدم المدينة المحدّدة حاليًّا (Mecca افتراضيًّا)
             //   • يبقى كما هو إن كان المستخدم أصلًا على أيّ صفحة قمر
+            //
+            // Round 12: لأيّ مدينة (حتّى خارج cities-*.json) نضع coord-suffix في الـ URL.
+            // الخادم يُصدِر 301 إلى الرابط القصير إن كانت المدينة في الـ DB، وإلّا يرسم
+            // الصفحة بـ noindex. هذا يحلّ مشكلة "city not found" نهائيّاً.
             if (pageId === 'moon' && window.location.protocol !== 'file:') {
-                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname);
+                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(window.location.pathname);
                 if (!_alreadyOnMoon) {
                     // 1) جرّب استخراج slug من URL صفحة المدينة الحاليّة (prayer-times-in-* / qibla-in-*)
                     //    ثمّ تنظيفه من الإحداثيّات: "tokyo-35.6895-139.6917" → "tokyo"
@@ -2171,9 +2182,10 @@ function initNavigation() {
                     if (_moonSlug) {
                         _moonSlug = _moonSlug.replace(/-?-?\d.*$/, '').replace(/-+$/, '');
                     }
-                    // 2) fallback: من المدينة الحاليّة في الذاكرة (Mecca بشكل افتراضيّ في بداية الجلسة)
+                    // 2) fallback: من المدينة الحاليّة في الذاكرة عبر makeSlug (NFD-aware)
+                    //    مثال: "São Paulo" → "sao-paulo" (بدل "so-paulo" المُشوَّه).
                     if (!_moonSlug && currentEnglishName) {
-                        _moonSlug = currentEnglishName.toLowerCase().trim().replace(/\s+/g, '-');
+                        _moonSlug = makeSlug(currentEnglishName, currentLat, currentLng);
                     }
                     // 3) آخر ملجأ: مكّة
                     if (!_moonSlug) _moonSlug = 'mecca';
@@ -2188,7 +2200,18 @@ function initNavigation() {
                             }));
                         } catch (_e) { /* silent */ }
                     }
-                    window.location.href = pageUrl(`/moon-today-in-${_moonSlug}`);
+                    // Round 12: نُضمّن coord-suffix لكلّ مدينة (حتّى خارج DB).
+                    // الخادم يُطبّق 301 إلى الرابط القصير تلقائيّاً للمدن المعروفة.
+                    let _moonUrl = `/moon-today-in-${_moonSlug}`;
+                    if (currentLat != null && currentLng != null &&
+                        isFinite(currentLat) && isFinite(currentLng) &&
+                        !/loc-/.test(_moonSlug)) {
+                        // إحداثيّات بدقّة معقولة (4 كسور ≈ 11 م)
+                        const _latStr = Number(currentLat).toFixed(4);
+                        const _lngStr = Number(currentLng).toFixed(4);
+                        _moonUrl = `/moon-today-in-${_moonSlug}-${_latStr}-${_lngStr}`;
+                    }
+                    window.location.href = pageUrl(_moonUrl);
                 }
                 return;
             }
@@ -5123,7 +5146,12 @@ function makeCountrySlug(cc, englishName) {
     // 1) اسم من geocoding (الأشمل — يعمل مع أي دولة)
     // 2) COUNTRY_EN_NAMES المعرَّف أعلى الملف
     const name = englishName || COUNTRY_EN_NAMES[cc];
-    if (name) return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (name) return name
+        .normalize('NFD')                           // Côte → Co + combining circumflex
+        .replace(/[\u0300-\u036f]/g, '')            // حذف العلامات التشكيليّة فقط
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
     return cc;
 }
 
@@ -6460,9 +6488,26 @@ const FAMOUS_MOON_CITIES = {
 };
 
 function _moonCitySlugFromPath() {
-    // يقبل: /moon-today-in-{slug}  و  /moon-today-in-{slug}/YYYY-MM-DD
-    const m = window.location.pathname.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:\/\d{4}-\d{2}-\d{2})?$/);
+    // يقبل الصيغ التالية:
+    //   /moon-today-in-{slug}
+    //   /moon-today-in-{slug}/YYYY-MM-DD
+    //   /moon-today-in-{slug}-{lat}-{lng}           (Round 12: مدن خارج DB)
+    //   /moon-today-in-{slug}-{lat}-{lng}/YYYY-MM-DD
+    // نُرجِع slug فقط — الإحداثيّات تُقرأ عبر _moonCoordsFromPath().
+    const m = window.location.pathname.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/);
     return m ? m[1] : null;
+}
+
+// Round 12: إحداثيّات المدينة من الـ URL إن كانت coord-suffix موجودة.
+// يُرجِع {lat, lng} أو null.
+function _moonCoordsFromPath() {
+    const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)(?:\/\d{4}-\d{2}-\d{2})?$/);
+    if (!m) return null;
+    const lat = parseFloat(m[1]);
+    const lng = parseFloat(m[2]);
+    if (!isFinite(lat) || !isFinite(lng)) return null;
+    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+    return { lat, lng };
 }
 
 // يستخرج التاريخ الـ ISO من المسار (إن وُجد)، ويُرجِع Date صالحاً أو null
@@ -6680,12 +6725,48 @@ function updateMoonInfo() {
     // إن كانت الصفحة هي /moon-today-in-{slug} → استخدم إحداثيّات المدينة لمطابقة الـ URL
     const _citySlug = _moonCitySlugFromPath();
     const _cityCoords = _citySlug && FAMOUS_MOON_CITIES[_citySlug];
-    const _lat = _cityCoords ? _cityCoords.lat : currentLat;
-    const _lng = _cityCoords ? _cityCoords.lng : currentLng;
-    // tz للمدن المعروفة من القاموس (dقيقة + DST). للمستخدم الحاليّ (بلا slug):
-    // نترك tz=undefined → getMoonTimes تستعمل تقدير من lng (Etc/GMT±N) وهو قريب من
-    // توقيت المتصفّح في معظم الحالات. في غيابها يرجع تنسيق الوقت إلى ساعة المتصفّح.
-    const _tz = _cityCoords ? _cityCoords.tz : undefined;
+    // Round 12: إحداثيّات من coord-suffix في الـ URL (للمدن خارج DB/FAMOUS).
+    const _urlCoords = _moonCoordsFromPath();
+    // Round 11 fallback: للمدن خارج FAMOUS_MOON_CITIES (مثل Tokyo من cities-jp.json)
+    //   نقرأ البيانات التي حقنها SSR في <meta>:
+    //   - <meta name="geo.position" content="lat;lng">
+    //   - <meta name="moon.city.tz" content="Asia/Tokyo">
+    //   وبهذا تُعرَض شروق/غروب القمر بتوقيت المدينة الصحيح وتظهر ملاحظة
+    //   «جميع الأوقات بتوقيت {city} ({tz})» حتّى لو كانت المدينة غير شهيرة.
+    let _metaLat = null, _metaLng = null, _metaTz = null;
+    if (_citySlug && !_cityCoords) {
+        try {
+            const _geoMeta = document.querySelector('meta[name="geo.position"]');
+            if (_geoMeta) {
+                const _parts = String(_geoMeta.getAttribute('content') || '').split(';');
+                const _pLat = parseFloat(_parts[0]);
+                const _pLng = parseFloat(_parts[1]);
+                if (isFinite(_pLat) && isFinite(_pLng)) {
+                    _metaLat = _pLat; _metaLng = _pLng;
+                }
+            }
+            const _tzMeta = document.querySelector('meta[name="moon.city.tz"]');
+            if (_tzMeta) {
+                const _tzVal = String(_tzMeta.getAttribute('content') || '').trim();
+                if (_tzVal) _metaTz = _tzVal;
+            }
+        } catch (_e) { /* silent */ }
+    }
+    // أولويّة مصادر الإحداثيّات:
+    //   1) FAMOUS_MOON_CITIES (قاموس العميل، مع tz دقيق)
+    //   2) coord-suffix في الـ URL (Round 12 — أعلى من meta لأنّها جاءت من المستخدم)
+    //   3) SSR meta geo.position (Round 11 — للمدن في cities-*.json)
+    //   4) currentLat/currentLng (موقع المستخدم الحاليّ)
+    const _lat = _cityCoords ? _cityCoords.lat
+               : (_urlCoords ? _urlCoords.lat
+               : (_metaLat != null ? _metaLat : currentLat));
+    const _lng = _cityCoords ? _cityCoords.lng
+               : (_urlCoords ? _urlCoords.lng
+               : (_metaLng != null ? _metaLng : currentLng));
+    // tz للمدن المعروفة من القاموس (دقيقة + DST). للمدن من الـ SSR meta: IANA دقيق أيضًا.
+    // للمستخدم الحاليّ (بلا slug): نترك tz=undefined → getMoonTimes تستعمل تقدير من lng
+    // (Etc/GMT±N) وهو قريب من توقيت المتصفّح في معظم الحالات.
+    const _tz = _cityCoords ? _cityCoords.tz : (_metaTz || undefined);
 
     const phase = MoonCalc.getPhaseName(today);
     const illumination = MoonCalc.getMoonIllumination(today);
@@ -7075,6 +7156,8 @@ function updateMoonInfo() {
         }
 
         // فقرة تعريفيّة ديناميكيّة — نستخدم «المدينة، البلد» مطابقةً للـ SSR
+        // Round 11: أضفنا جملة الارتفاع/السَّمت لجعل الفقرة فعلاً معتمدة على الموقع
+        //   (قبل ذلك كانت جميع القيم عالميّة، والعبارة "بناءً على إحداثيّات موقعك" مُضلِّلة).
         const _introEl = document.getElementById('moon-intro');
         if (_introEl && typeof t === 'function' && zodiac) {
             const zName = t(zodiac.i18nKey);
@@ -7082,6 +7165,43 @@ function updateMoonInfo() {
             const _cityLabelForIntro = _citySlug
                 ? _moonCityLabel(_citySlug, _lng_, _cityDisplay2)
                 : _cityDisplay2;
+
+            // ─ بناء جملة الارتفاع/السَّمت (معتمدة على lat/lng) ─
+            let _altitudeSentence = '';
+            try {
+                if (typeof _lat === 'number' && typeof _lng === 'number'
+                    && typeof MoonCalc.getMoonAltitude === 'function') {
+                    const _alt = MoonCalc.getMoonAltitude(today, _lat, _lng);
+                    if (_alt !== null && isFinite(_alt)) {
+                        const _altFmt = _fmtNum2(Math.abs(_alt), 1);
+                        if (_alt > 0) {
+                            // القمر فوق الأفق: نذكر الاتجاه (N/NE/E/SE/S/SW/W/NW)
+                            const _az = MoonCalc.getMoonAzimuth(today, _lat, _lng);
+                            const _dirKeys = ['n','ne','e','se','s','sw','w','nw'];
+                            // نُقسّم الدائرة إلى 8 قطاعات 45° مركزها الاتّجاهات الرئيسيّة
+                            const _dirIdx = Math.round(((_az || 0) % 360) / 45) % 8;
+                            const _dirKey = 'moon.compass.' + _dirKeys[_dirIdx];
+                            let _dirName = t(_dirKey);
+                            if (!_dirName || _dirName === _dirKey) {
+                                // fallback إنجليزيّ
+                                const _dirEn = ['N','NE','E','SE','S','SW','W','NW'];
+                                _dirName = _dirEn[_dirIdx];
+                            }
+                            const _aboveTpl = t('moon.altitude_above', { alt: _altFmt, dir: _dirName });
+                            if (_aboveTpl && _aboveTpl !== 'moon.altitude_above') {
+                                _altitudeSentence = _aboveTpl;
+                            }
+                        } else {
+                            // القمر تحت الأفق
+                            const _belowTpl = t('moon.altitude_below', { alt: _altFmt });
+                            if (_belowTpl && _belowTpl !== 'moon.altitude_below') {
+                                _altitudeSentence = _belowTpl;
+                            }
+                        }
+                    }
+                }
+            } catch (_e) { /* silent — الجملة اختياريّة */ }
+
             const tpl = t('moon.intro_template', {
                 city: _cityLabelForIntro,
                 country: _countryDisplay,
@@ -7090,7 +7210,8 @@ function updateMoonInfo() {
                 illum: _fmtNum2(illumination, 2),
                 age: _fmtNum2(age, 2),
                 zodiacIcon: zodiac.icon,
-                zodiacName: zNameDisplay
+                zodiacName: zNameDisplay,
+                altitudeSentence: _altitudeSentence
             });
             if (tpl && tpl !== 'moon.intro_template') _introEl.textContent = tpl;
         }
@@ -7432,19 +7553,28 @@ function updateMoonInfo() {
             return _bcCurrent + _sep + cityName;
         };
 
+        // مُساعِد: تحويل عنصر الـ breadcrumb إلى "current page" غير قابل للضغط
+        // يزيل href ويضيف aria-current، ممّا يحوّله دلاليًّا وبصريًّا إلى نصّ جامد.
+        // CSS يُطبِّق pointer-events:none و cursor:default و يُزيل hover underline.
+        const _markAsCurrentPage = function(el) {
+            if (!el) return;
+            el.removeAttribute('href');
+            el.setAttribute('aria-current', 'page');
+        };
+
         if (_citySlug) {
             const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
             const _moonCityText = _buildMoonCityText(_cityNameBC);
 
             if (_isDatePage) {
-                // المستوى 2: "القمر اليوم في {City}" كرابط لـ /moon-today-in-{slug}
+                // المستوى 2: "القمر اليوم في {City}" كرابط لـ /moon-today-in-{slug} (قابل للضغط)
                 if (_bcMoon) {
                     _bcMoon.textContent = _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
                     _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
                     _bcMoon.removeAttribute('aria-current');
                 }
-                // المستوى 3: {Date} — current page
+                // المستوى 3: {Date} — current page (span أصلاً، غير قابل للضغط)
                 if (_bcDateSep) _bcDateSep.hidden = false;
                 if (_bcDate) {
                     // تاريخ مختصر بلا يوم الأسبوع: "25 أبريل 2026"
@@ -7457,12 +7587,11 @@ function updateMoonInfo() {
                     _bcDate.hidden = false;
                 }
             } else {
-                // المستوى 2 النهائيّ: "القمر اليوم في {City}" — current page
+                // المستوى 2 النهائيّ: "القمر اليوم في {City}" — current page (بلا href)
                 if (_bcMoon) {
                     _bcMoon.textContent = _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
-                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
-                    _bcMoon.setAttribute('aria-current', 'page');
+                    _markAsCurrentPage(_bcMoon);
                 }
             }
         } else {
@@ -7479,16 +7608,15 @@ function updateMoonInfo() {
             const _isRawCoords = /^-?\d+(?:\.\d+)?\s*°?\s*,\s*-?\d+(?:\.\d+)?\s*°?$/.test(_currentCityLabel);
 
             if (_currentCityLabel && !_isRawCoords) {
-                // المستوى 2: "القمر اليوم في {CurrentCity}" — current page
+                // المستوى 2: "القمر اليوم في {CurrentCity}" — current page (بلا href)
                 if (_bcMoon) {
                     _bcMoon.textContent = _buildMoonCityText(_currentCityLabel);
                     _bcMoon.removeAttribute('data-i18n');
-                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today');
-                    _bcMoon.setAttribute('aria-current', 'page');
+                    _markAsCurrentPage(_bcMoon);
                 }
             } else {
-                // لا مدينة معروفة → "القمر اليوم" كـ current
-                if (_bcMoon) _bcMoon.setAttribute('aria-current', 'page');
+                // لا مدينة معروفة → "القمر اليوم" كـ current (بلا href)
+                _markAsCurrentPage(_bcMoon);
             }
         }
     } catch (_bcerr) {

@@ -1,0 +1,385 @@
+[
+  {
+    "nameAr": "فيينا",
+    "nameEn": "Vienna",
+    "type": "city",
+    "lat": 48.2082,
+    "lng": 16.3738
+  },
+  {
+    "nameAr": "غراتس",
+    "nameEn": "Graz",
+    "type": "city",
+    "lat": 47.070833333333,
+    "lng": 15.438611111111,
+    "pop": 292630
+  },
+  {
+    "nameAr": "لينتس",
+    "nameEn": "Linz",
+    "type": "city",
+    "lat": 48.305833333333,
+    "lng": 14.286388888889,
+    "pop": 211944
+  },
+  {
+    "nameAr": "سالزبورغ",
+    "nameEn": "Salzburg",
+    "type": "city",
+    "lat": 47.8,
+    "lng": 13.045,
+    "pop": 155021
+  },
+  {
+    "nameAr": "إنسبروك",
+    "nameEn": "Innsbruck",
+    "type": "city",
+    "lat": 47.268333333333,
+    "lng": 11.393333333333,
+    "pop": 132499
+  },
+  {
+    "nameAr": "كلاغنفورت",
+    "nameEn": "Klagenfurt am Wörthersee",
+    "type": "city",
+    "lat": 46.616666666667,
+    "lng": 14.3,
+    "pop": 101403
+  },
+  {
+    "nameAr": "فيلز",
+    "nameEn": "Wels",
+    "type": "city",
+    "lat": 48.15,
+    "lng": 14.016666666667,
+    "pop": 65303
+  },
+  {
+    "nameAr": "فيلاخ",
+    "nameEn": "Villach",
+    "type": "city",
+    "lat": 46.616666666667,
+    "lng": 13.833333333333,
+    "pop": 65127
+  },
+  {
+    "nameAr": "سانت بولتن",
+    "nameEn": "St. Pölten",
+    "type": "city",
+    "lat": 48.2,
+    "lng": 15.616666666667,
+    "pop": 55514
+  },
+  {
+    "nameAr": "دورنبيرن",
+    "nameEn": "Dornbirn",
+    "type": "city",
+    "lat": 47.416666666667,
+    "lng": 9.75,
+    "pop": 48067
+  },
+  {
+    "nameAr": "فينر نويشتات",
+    "nameEn": "Wiener Neustadt",
+    "type": "city",
+    "lat": 47.816666666667,
+    "lng": 16.25,
+    "pop": 44461
+  },
+  {
+    "nameAr": "كلوسترنوبرغ",
+    "nameEn": "Klosterneuburg",
+    "type": "city",
+    "lat": 48.304166666667,
+    "lng": 16.316666666667,
+    "pop": 27058
+  },
+  {
+    "nameAr": "براوناو أم إن",
+    "nameEn": "Braunau am Inn",
+    "type": "city",
+    "lat": 48.258333333333,
+    "lng": 13.033333333333,
+    "pop": 17095
+  },
+  {
+    "nameAr": "Hall in Tirol",
+    "nameEn": "Hall in Tirol",
+    "type": "city",
+    "lat": 47.283333333333,
+    "lng": 11.5,
+    "pop": 14771
+  },
+  {
+    "nameAr": "آيزنشتات",
+    "nameEn": "Eisenstadt",
+    "type": "city",
+    "lat": 47.845649,
+    "lng": 16.52327,
+    "pop": 14476
+  },
+  {
+    "nameAr": "Feldkirchen in Kärnten",
+    "nameEn": "Feldkirchen in Kärnten",
+    "type": "city",
+    "lat": 46.723611111111,
+    "lng": 14.091944444444,
+    "pop": 14198
+  },
+  {
+    "nameAr": "Wörgl",
+    "nameEn": "Wörgl",
+    "type": "city",
+    "lat": 47.483055555556,
+    "lng": 12.066388888889,
+    "pop": 13811
+  },
+  {
+    "nameAr": "غموندن",
+    "nameEn": "Gmunden",
+    "type": "city",
+    "lat": 47.918055555556,
+    "lng": 13.799444444444,
+    "pop": 13191
+  },
+  {
+    "nameAr": "ليينز",
+    "nameEn": "Lienz",
+    "type": "city",
+    "lat": 46.829722222222,
+    "lng": 12.769722222222,
+    "pop": 11935
+  },
+  {
+    "nameAr": "Laakirchen",
+    "nameEn": "Laakirchen",
+    "type": "city",
+    "lat": 47.982777777778,
+    "lng": 13.824166666667,
+    "pop": 9861
+  },
+  {
+    "nameAr": "Weitra",
+    "nameEn": "Weitra",
+    "type": "city",
+    "lat": 48.700833333333,
+    "lng": 14.895555555556,
+    "pop": 2693
+  },
+  {
+    "nameAr": "رايدنغ، النمسا",
+    "nameEn": "Raiding",
+    "type": "city",
+    "lat": 47.566111111111,
+    "lng": 16.531388888889,
+    "pop": 895
+  },
+  {
+    "nameAr": "Bach bei Altenmarkt",
+    "nameEn": "Bach bei Altenmarkt",
+    "type": "city",
+    "lat": 46.870833333333,
+    "lng": 14.152777777778,
+    "pop": null
+  },
+  {
+    "nameAr": "Berwang",
+    "nameEn": "Berwang",
+    "type": "city",
+    "lat": 47.4091141,
+    "lng": 10.747685,
+    "pop": null
+  },
+  {
+    "nameAr": "Bludenz",
+    "nameEn": "Bludenz",
+    "type": "city",
+    "lat": 47.15457,
+    "lng": 9.86819,
+    "pop": null
+  },
+  {
+    "nameAr": "Bludesch",
+    "nameEn": "Bludesch",
+    "type": "city",
+    "lat": 47.19415,
+    "lng": 9.73596,
+    "pop": null
+  },
+  {
+    "nameAr": "Bregenz",
+    "nameEn": "Bregenz",
+    "type": "city",
+    "lat": 47.50661,
+    "lng": 9.73792,
+    "pop": null
+  },
+  {
+    "nameAr": "Dornbirn",
+    "nameEn": "Dornbirn",
+    "type": "city",
+    "lat": 47.37512,
+    "lng": 9.77234,
+    "pop": null
+  },
+  {
+    "nameAr": "Ehrenhausen",
+    "nameEn": "Ehrenhausen",
+    "type": "city",
+    "lat": 46.726388888889,
+    "lng": 15.584444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "Feichten",
+    "nameEn": "Feichten",
+    "type": "city",
+    "lat": 47.029722222222,
+    "lng": 10.7475,
+    "pop": null
+  },
+  {
+    "nameAr": "Feldkirch",
+    "nameEn": "Feldkirch",
+    "type": "city",
+    "lat": 47.23705,
+    "lng": 9.59707,
+    "pop": null
+  },
+  {
+    "nameAr": "Galtür",
+    "nameEn": "Galtür",
+    "type": "city",
+    "lat": 46.92228,
+    "lng": 10.17996,
+    "pop": null
+  },
+  {
+    "nameAr": "Gaschurn",
+    "nameEn": "Gaschurn",
+    "type": "city",
+    "lat": 46.9459,
+    "lng": 10.07076,
+    "pop": null
+  },
+  {
+    "nameAr": "Göfis",
+    "nameEn": "Göfis",
+    "type": "city",
+    "lat": 47.2364396,
+    "lng": 9.6313427,
+    "pop": null
+  },
+  {
+    "nameAr": "Inneralpbach",
+    "nameEn": "Inneralpbach",
+    "type": "city",
+    "lat": 47.373333333333,
+    "lng": 11.960833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Kaisers",
+    "nameEn": "Kaisers",
+    "type": "city",
+    "lat": 47.2155823,
+    "lng": 10.2995316,
+    "pop": null
+  },
+  {
+    "nameAr": "Laterns-Thal",
+    "nameEn": "Laterns-Thal",
+    "type": "city",
+    "lat": 47.26617,
+    "lng": 9.70279,
+    "pop": null
+  },
+  {
+    "nameAr": "Lingenau",
+    "nameEn": "Lingenau",
+    "type": "city",
+    "lat": 47.4503224,
+    "lng": 9.920538,
+    "pop": null
+  },
+  {
+    "nameAr": "Locus Felicis",
+    "nameEn": "Locus Felicis",
+    "type": "city",
+    "lat": 48.0956,
+    "lng": 14.7981,
+    "pop": null
+  },
+  {
+    "nameAr": "Mittelberg",
+    "nameEn": "Mittelberg",
+    "type": "city",
+    "lat": 47.3228,
+    "lng": 10.1528,
+    "pop": null
+  },
+  {
+    "nameAr": "Möggers",
+    "nameEn": "Möggers",
+    "type": "city",
+    "lat": 47.5620084,
+    "lng": 9.8166592,
+    "pop": null
+  },
+  {
+    "nameAr": "Neusiedl am See",
+    "nameEn": "Neusiedl am See",
+    "type": "city",
+    "lat": 47.949,
+    "lng": 16.8417,
+    "pop": null
+  },
+  {
+    "nameAr": "Rankweil",
+    "nameEn": "Rankweil",
+    "type": "city",
+    "lat": 47.27644,
+    "lng": 9.63032,
+    "pop": null
+  },
+  {
+    "nameAr": "Sankt Anton am Arlberg",
+    "nameEn": "Sankt Anton am Arlberg",
+    "type": "city",
+    "lat": 47.08257,
+    "lng": 10.22347,
+    "pop": null
+  },
+  {
+    "nameAr": "Satteins",
+    "nameEn": "Satteins",
+    "type": "city",
+    "lat": 47.23015,
+    "lng": 9.67541,
+    "pop": null
+  },
+  {
+    "nameAr": "Villach",
+    "nameEn": "Villach",
+    "type": "city",
+    "lat": 46.610277777778,
+    "lng": 13.855833333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Vils",
+    "nameEn": "Vils",
+    "type": "city",
+    "lat": 47.5493283,
+    "lng": 10.6304727,
+    "pop": null
+  },
+  {
+    "nameAr": "Weißenbach am Attersee",
+    "nameEn": "Weißenbach am Attersee",
+    "type": "city",
+    "lat": 47.799886111111,
+    "lng": 13.536533333333,
+    "pop": null
+  }
+]

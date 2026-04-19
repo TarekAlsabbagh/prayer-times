@@ -1,0 +1,86 @@
+[
+  {
+    "nameAr": "كانبيرا",
+    "nameEn": "Canberra",
+    "type": "city",
+    "lat": -35.2809,
+    "lng": 149.13
+  },
+  {
+    "nameAr": "أديلايد",
+    "nameEn": "Adelaide",
+    "type": "city",
+    "lat": -34.9285,
+    "lng": 138.6007
+  },
+  {
+    "nameAr": "بريسبان",
+    "nameEn": "Brisbane",
+    "type": "city",
+    "lat": -27.4698,
+    "lng": 153.0251
+  },
+  {
+    "nameAr": "بيرث",
+    "nameEn": "Perth",
+    "type": "city",
+    "lat": -31.9505,
+    "lng": 115.8605
+  },
+  {
+    "nameAr": "داروين",
+    "nameEn": "Darwin",
+    "type": "city",
+    "lat": -12.4634,
+    "lng": 130.8456
+  },
+  {
+    "nameAr": "سيدني",
+    "nameEn": "Sydney",
+    "type": "city",
+    "lat": -33.8688,
+    "lng": 151.2093
+  },
+  {
+    "nameAr": "غولد كوست",
+    "nameEn": "Gold Coast",
+    "type": "city",
+    "lat": -28.0167,
+    "lng": 153.4
+  },
+  {
+    "nameAr": "لاكمبا",
+    "nameEn": "Lakemba",
+    "type": "city",
+    "lat": -33.9167,
+    "lng": 151.0667
+  },
+  {
+    "nameAr": "ملبورن",
+    "nameEn": "Melbourne",
+    "type": "city",
+    "lat": -37.8136,
+    "lng": 144.9631
+  },
+  {
+    "nameAr": "نيوكاسل",
+    "nameEn": "Newcastle",
+    "type": "city",
+    "lat": -32.9167,
+    "lng": 151.75
+  },
+  {
+    "nameAr": "هوبارت",
+    "nameEn": "Hobart",
+    "type": "city",
+    "lat": -42.8821,
+    "lng": 147.3272
+  },
+  {
+    "nameAr": "ولونغونغ",
+    "nameEn": "Wollongong",
+    "type": "city",
+    "lat": -34.4278,
+    "lng": 150.8931
+  }
+]

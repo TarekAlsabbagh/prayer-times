@@ -25,7 +25,7 @@
     "nameEn": "Bursa",
     "type": "city",
     "lat": 40.1885,
-    "lng": 29.0610
+    "lng": 29.061
   },
   {
     "nameAr": "قونيا",
@@ -52,7 +52,7 @@
     "nameAr": "أضنة",
     "nameEn": "Adana",
     "type": "city",
-    "lat": 37.0000,
+    "lat": 37,
     "lng": 35.3213
   },
   {
@@ -61,5 +61,82 @@
     "type": "city",
     "lat": 37.1674,
     "lng": 38.7955
+  },
+  {
+    "nameAr": "طرابزون",
+    "nameEn": "Trabzon",
+    "type": "city",
+    "lat": 41.005,
+    "lng": 39.7239
+  },
+  {
+    "nameAr": "كونيا",
+    "nameEn": "Konya",
+    "type": "city",
+    "lat": 37.871,
+    "lng": 32.4932
+  },
+  {
+    "nameAr": "مرسين",
+    "nameEn": "Mersin",
+    "type": "city",
+    "lat": 36.8,
+    "lng": 34.6333
+  },
+  {
+    "nameAr": "قيصري",
+    "nameEn": "Kayseri",
+    "type": "city",
+    "lat": 38.7225,
+    "lng": 35.4875
+  },
+  {
+    "nameAr": "إسكندرونة",
+    "nameEn": "Iskenderun",
+    "type": "city",
+    "lat": 36.5853,
+    "lng": 36.1667
+  },
+  {
+    "nameAr": "ديار بكر",
+    "nameEn": "Diyarbakir",
+    "type": "city",
+    "lat": 37.9144,
+    "lng": 40.2306
+  },
+  {
+    "nameAr": "أورفة",
+    "nameEn": "Urfa",
+    "type": "city",
+    "lat": 37.1591,
+    "lng": 38.7969
+  },
+  {
+    "nameAr": "ملاطية",
+    "nameEn": "Malatya",
+    "type": "city",
+    "lat": 38.3552,
+    "lng": 38.3095
+  },
+  {
+    "nameAr": "إسكيشهير",
+    "nameEn": "Eskisehir",
+    "type": "city",
+    "lat": 39.7767,
+    "lng": 30.5206
+  },
+  {
+    "nameAr": "طرسوس",
+    "nameEn": "Tarsus",
+    "type": "city",
+    "lat": 36.9163,
+    "lng": 34.8956
+  },
+  {
+    "nameAr": "سامسون",
+    "nameEn": "Samsun",
+    "type": "city",
+    "lat": 41.2867,
+    "lng": 36.33
   }
 ]

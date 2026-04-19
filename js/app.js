@@ -6071,6 +6071,16 @@ function _moonCityCountryName(slug, lang) {
     return dict[cc] || '';
 }
 
+// يبني «المدينة، البلد» بترجمة مناسبة للغة وفاصل مناسب (AR/UR → ، و غيرها → ,).
+// يُستخدم للفقرة التعريفيّة وللـ Article schema — يطابق ما يراه Googlebot من SSR.
+function _moonCityLabel(slug, lang, cityFallback) {
+    const city = slug ? _moonCityDisplayName(slug) : (cityFallback || '');
+    const country = slug ? _moonCityCountryName(slug, lang) : '';
+    if (!country) return city;
+    const sep = (lang === 'ar' || lang === 'ur') ? '، ' : ', ';
+    return city + sep + country;
+}
+
 function updateMoonInfo() {
     const today = new Date();
 
@@ -6373,13 +6383,16 @@ function updateMoonInfo() {
             _zodiacEl.textContent = `${zodiac.icon} ${zNameDisplay}`;
         }
 
-        // فقرة تعريفيّة ديناميكيّة
+        // فقرة تعريفيّة ديناميكيّة — نستخدم «المدينة، البلد» مطابقةً للـ SSR
         const _introEl = document.getElementById('moon-intro');
         if (_introEl && typeof t === 'function' && zodiac) {
             const zName = t(zodiac.i18nKey);
             const zNameDisplay = (zName && zName !== zodiac.i18nKey) ? zName : zodiac.key;
+            const _cityLabelForIntro = _citySlug
+                ? _moonCityLabel(_citySlug, _lng_, _cityDisplay2)
+                : _cityDisplay2;
             const tpl = t('moon.intro_template', {
-                city: _cityDisplay2,
+                city: _cityLabelForIntro,
                 country: _countryDisplay,
                 phaseIcon: phase.icon,
                 phaseName: _phaseLabel2,

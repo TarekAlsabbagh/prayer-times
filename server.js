@@ -5238,7 +5238,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         }[Lm] || `Today in ${cityName}, ${countryName}, check the current moon phase, illumination, age, and rise/set times with astronomical precision.`;
         // نصّ ديناميكيّ بأرقام حقيقيّة (SSR) — إن فشل نُعيد النصّ الثابت.
         // cityLabel يدمج المدينة والبلد لحقنها في {city} داخل قوالب i18n.
-        const _cityLabel = countryName ? `${cityName}, ${countryName}` : cityName;
+        // الفاصل: ، في العربيّة/الأردو، و , في باقي اللغات — ليطابق ما يعرضه العميل.
+        const _sepMoon = (Lm === 'ar' || Lm === 'ur') ? '، ' : ', ';
+        const _cityLabel = countryName ? `${cityName}${_sepMoon}${countryName}` : cityName;
         const _introMoonDynamic = _buildSsrMoonIntro(Lm, _cityLabel) || _introMoon;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.

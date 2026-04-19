@@ -6292,6 +6292,13 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
+    // /health — keep-alive endpoint (used by GitHub Actions cron to prevent Render Free spin-down)
+    if (urlPath === '/health') {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+        res.end(JSON.stringify({ status: 'ok', ts: Date.now() }));
+        return;
+    }
+
     if (urlPath === '/index.html') {
         res.writeHead(301, {'Location': '/' + (qs ? '?'+qs : '')});
         res.end(); return;

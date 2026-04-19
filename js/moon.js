@@ -256,15 +256,79 @@ const MoonCalc = (function() {
 
     // حساب المطلع/المغيب — بأخذ عيّنات لارتفاع القمر كلّ ساعة وإيجاد الإشارات المتغيّرة
     // يستخدم خوارزميّة الـ bisection لتحسين الدقّة إلى < 1 دقيقة
-    function getMoonTimes(date, lat, lng) {
+    // ══════════ دعم المناطق الزمنيّة (IANA TZ) ══════════
+    // السبب: حتّى يظهر وقت المطلع/المغيب بتوقيت المدينة الهدف (لا توقيت متصفّح المستخدم)
+    //   - tz صريحة من FAMOUS_MOON_CITIES (IANA مثل 'Asia/Jakarta') → أدقّ مع DST
+    //   - أو تقدير من خطّ الطول للمدن غير المدرَجة/lat-lng العشوائيّة
+    //   - أو UTC fallback إن فشل Intl
+
+    // تقدير IANA tz من خطّ الطول (±30 د، يتجاهل DST و الاستثناءات السياسيّة)
+    function _tzFromLongitude(lng) {
+        if (typeof lng !== 'number' || !isFinite(lng)) return 'UTC';
+        const off = Math.round(lng / 15);
+        if (off === 0) return 'UTC';
+        // Etc/GMT إشارات معكوسة (POSIX): UTC+7 → 'Etc/GMT-7'
+        return off > 0 ? 'Etc/GMT-' + off : 'Etc/GMT+' + (-off);
+    }
+
+    // إزاحة المنطقة الزمنيّة عن UTC بالـ ms في لحظة معيّنة (DST-aware عبر Intl)
+    function _getTzOffsetMs(instantMs, tz) {
+        try {
+            const fmt = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            });
+            const parts = {};
+            fmt.formatToParts(new Date(instantMs)).forEach(function(p) {
+                if (p.type !== 'literal') parts[p.type] = p.value;
+            });
+            let h = parseInt(parts.hour, 10);
+            if (h === 24) h = 0;
+            const tzAsUTC = Date.UTC(
+                parseInt(parts.year, 10),
+                parseInt(parts.month, 10) - 1,
+                parseInt(parts.day, 10),
+                h,
+                parseInt(parts.minute, 10),
+                parseInt(parts.second, 10)
+            );
+            return tzAsUTC - instantMs;
+        } catch (_e) { return 0; }
+    }
+
+    // UTC instant يقابل 00:00 في `tz` على اليوم الذي تقع فيه `date` عند عرضها في `tz`
+    function _localMidnightInTz(date, tz) {
+        try {
+            const dateMs = date.getTime();
+            const fmt = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
+            });
+            const parts = {};
+            fmt.formatToParts(new Date(dateMs)).forEach(function(p) {
+                if (p.type !== 'literal') parts[p.type] = p.value;
+            });
+            const y = parseInt(parts.year, 10);
+            const m = parseInt(parts.month, 10);
+            const d = parseInt(parts.day, 10);
+            const naiveMidUTC = Date.UTC(y, m - 1, d, 0, 0, 0);
+            const offset = _getTzOffsetMs(naiveMidUTC, tz);
+            return new Date(naiveMidUTC - offset);
+        } catch (_e) {
+            const s = new Date(date); s.setHours(0, 0, 0, 0); return s;
+        }
+    }
+
+    function getMoonTimes(date, lat, lng, tz) {
         if (typeof lat !== 'number' || typeof lng !== 'number') {
             return { rise: '--:--', set: '--:--' };
         }
         const h0 = -0.5833; // أفق القمر بالدرجات (شامل انكسار + نصف قطر قمريّ)
 
-        // بداية اليوم المحلّيّ (00:00)
-        const startTime = new Date(date);
-        startTime.setHours(0, 0, 0, 0);
+        // المنطقة الزمنيّة الفعّالة: صريحة > تقدير من lng > UTC
+        const resolvedTz = tz || _tzFromLongitude(lng);
+
+        // بداية اليوم (00:00) **بتوقيت المدينة الهدف** — ليس بتوقيت المتصفّح
+        const startTime = _localMidnightInTz(date, resolvedTz);
 
         // أخذ عيّنات كلّ ساعة لـ 24 ساعة كاملة
         const samples = [];
@@ -297,16 +361,35 @@ const MoonCalc = (function() {
         }
 
         return {
-            rise: riseT ? _formatTime(riseT) : '--:--',
-            set:  setT  ? _formatTime(setT)  : '--:--'
+            rise: riseT ? _formatTime(riseT, resolvedTz) : '--:--',
+            set:  setT  ? _formatTime(setT,  resolvedTz) : '--:--'
         };
     }
 
-    function _formatTime(d) {
-        const lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-        const useLatin = (lng !== 'ar');
-        const hours = d.getHours();
-        const minutes = d.getMinutes();
+    // تنسيق وقت 12-ساعة بلغة الواجهة، مع تحويل إلى `tz` إن أُعطيت (وإلاّ توقيت المتصفّح)
+    function _formatTime(d, tz) {
+        const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const useLatin = (lang !== 'ar');
+        let hours, minutes;
+        if (tz) {
+            try {
+                const fmt = new Intl.DateTimeFormat('en-US', {
+                    timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false
+                });
+                const parts = {};
+                fmt.formatToParts(d).forEach(function(p) {
+                    if (p.type !== 'literal') parts[p.type] = p.value;
+                });
+                hours = parseInt(parts.hour, 10);
+                if (hours === 24) hours = 0;
+                minutes = parseInt(parts.minute, 10);
+            } catch (_e) {
+                hours = d.getHours(); minutes = d.getMinutes();
+            }
+        } else {
+            hours = d.getHours();
+            minutes = d.getMinutes();
+        }
         const period = useLatin ? (hours >= 12 ? 'PM' : 'AM') : (hours >= 12 ? 'م' : 'ص');
         const h12 = hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours);
         return `${h12 < 10 ? '0' : ''}${h12}:${minutes < 10 ? '0' : ''}${minutes} ${period}`;
@@ -418,36 +501,38 @@ const MoonCalc = (function() {
     // توقّعات قمريّة لعدد أيّام اختياريّ (14 افتراضيًّا) — يستخدم الحسابات الدقيقة الجديدة
     // ✨ تحسين: إذا وقع حدث طَور (محاق/تربيع أوّل/بدر/تربيع أخير) خلال اليوم المحلّيّ
     //    فإسم الطور لذلك اليوم يأتي من الحدث (ليس من عتبة الإضاءة).
-    function getForecast(startDate, lat, lng, days) {
+    function getForecast(startDate, lat, lng, days, tz) {
         const n = (typeof days === 'number' && days > 0 && days <= 60) ? Math.floor(days) : 14;
         const out = [];
         const d0 = new Date(startDate);
 
-        // نطاق البحث عن الأحداث: من منتصف ليل اليوم الأوّل حتّى نهاية اليوم الأخير محلّيًّا
-        const rangeStart = new Date(d0); rangeStart.setHours(0, 0, 0, 0);
-        const rangeEnd   = new Date(rangeStart); rangeEnd.setDate(rangeStart.getDate() + n);
+        // المنطقة الزمنيّة الفعّالة — تُستخدم لرسم حدود الأيّام وتنسيق الأوقات
+        const resolvedTz = tz || _tzFromLongitude(lng);
+
+        // نطاق البحث عن الأحداث: من منتصف ليل اليوم الأوّل **في تلك المنطقة** حتّى نهاية اليوم الأخير
+        const rangeStart = _localMidnightInTz(d0, resolvedTz);
+        const rangeEnd   = new Date(rangeStart.getTime() + n * 86400000);
         const events = findPhaseEventsInRange(rangeStart, rangeEnd);
 
         for (let i = 0; i < n; i++) {
-            // نافذة اليوم المحلّيّ [00:00 اليوم, 00:00 اليوم التالي)
-            const dayStart = new Date(rangeStart);
-            dayStart.setDate(rangeStart.getDate() + i);
-            const dayEnd = new Date(dayStart);
-            dayEnd.setDate(dayStart.getDate() + 1);
+            // نافذة اليوم المحلّيّ [00:00 اليوم, 00:00 اليوم التالي) بتوقيت المدينة
+            const dayStart = new Date(rangeStart.getTime() + i * 86400000);
+            const dayEnd   = new Date(rangeStart.getTime() + (i + 1) * 86400000);
 
-            // نأخذ عيّنة الإضاءة/الطور من لحظة اليوم + نفس وقت startDate (توافق مع السلوك السابق)
-            const dSample = new Date(d0);
-            dSample.setDate(d0.getDate() + i);
+            // عيّنة الإضاءة/الطور من منتصف اليوم (أقلّ حساسيّة لحدود DST)
+            const dSample = new Date((dayStart.getTime() + dayEnd.getTime()) / 2);
 
             // هل يحتوي هذا اليوم المحلّيّ على حدث من الأحداث الأربعة؟
             const evInDay = events.find(e => e.date >= dayStart && e.date < dayEnd);
 
             const phase        = evInDay ? evInDay.phase : getPhaseName(dSample);
             const illumination = getMoonIllumination(dSample);
-            const times        = getMoonTimes(dSample, lat, lng);
+            const times        = getMoonTimes(dayStart, lat, lng, resolvedTz);
 
             out.push({
-                date: dSample,
+                date: dSample,          // لحظة في منتصف يوم المدينة (UTC instant)
+                dayStart: dayStart,     // بداية يوم المدينة (UTC instant) — للاستخدامات المتقدّمة
+                tz: resolvedTz,         // المنطقة الزمنيّة المستخدمة — للمستهلكين للعرض الصحيح
                 phase,
                 illumination,
                 rise: times.rise,
@@ -460,38 +545,65 @@ const MoonCalc = (function() {
     }
 
     // alias للحفاظ على التوافق الخلفيّ مع الشيفرة القديمة
-    function get7DayForecast(startDate, lat, lng) {
-        return getForecast(startDate, lat, lng, 7);
+    function get7DayForecast(startDate, lat, lng, tz) {
+        return getForecast(startDate, lat, lng, 7, tz);
     }
 
-    // ══════════ برج القمر الحاليّ (Zodiac / كوكبة الخلفيّة) ══════════
-    // يعتمد على خطّ الطول السماويّ (ecliptic longitude, λ) المحسوب في _moonEquatorial
-    // كلّ برج = 30° (360° ÷ 12). ترتيب الأبراج يبدأ من الحمل عند λ=0°.
-    const _ZODIAC_SIGNS = [
-        { key: 'aries',       icon: '\u2648' }, // ♈
-        { key: 'taurus',      icon: '\u2649' }, // ♉
-        { key: 'gemini',      icon: '\u264A' }, // ♊
-        { key: 'cancer',      icon: '\u264B' }, // ♋
-        { key: 'leo',         icon: '\u264C' }, // ♌
-        { key: 'virgo',       icon: '\u264D' }, // ♍
-        { key: 'libra',       icon: '\u264E' }, // ♎
-        { key: 'scorpio',     icon: '\u264F' }, // ♏
-        { key: 'sagittarius', icon: '\u2650' }, // ♐
-        { key: 'capricorn',   icon: '\u2651' }, // ♑
-        { key: 'aquarius',    icon: '\u2652' }, // ♒
-        { key: 'pisces',      icon: '\u2653' }  // ♓
+    // ══════════ كوكبة القمر على المسار الفلكيّ (IAU Constellation) ══════════
+    // تعتمد على خطّ الطول السماويّ (ecliptic longitude, λ) المحسوب في _moonEquatorial.
+    //
+    // ملاحظة مهمّة: نستخدم حدود الكوكبات الفلكيّة المعتمدة من الاتّحاد الفلكيّ الدوليّ (IAU)،
+    // وليس الأبراج التنجيميّة المتساوية (30° لكلّ برج). الفرق:
+    //   • الأبراج التنجيميّة = 12 شريحة متساوية (اختصرت الواقع لسهولة التبويب)
+    //   • الكوكبات الفلكيّة  = 13 كوكبة بحدود غير متساوية، تشمل الحوّاء (Ophiuchus ⛎)
+    //     التي يمرّ المسار الظاهريّ للشمس عبرها نحو 18 يومًا سنويًّا.
+    //
+    // القيم التالية هي نقاط دخول المسار الظاهريّ (ecliptic) في كلّ كوكبة
+    // بالدرجات (J2000.0) من مصادر IAU الموثوقة.
+    const _IAU_CONSTELLATIONS = [
+        // { key, icon, enter: ecliptic longitude where the ecliptic enters this constellation }
+        { key: 'aries',       icon: '\u2648', enter:  28.69 }, // ♈
+        { key: 'taurus',      icon: '\u2649', enter:  53.43 }, // ♉
+        { key: 'gemini',      icon: '\u264A', enter:  90.43 }, // ♊
+        { key: 'cancer',      icon: '\u264B', enter: 118.27 }, // ♋
+        { key: 'leo',         icon: '\u264C', enter: 138.18 }, // ♌
+        { key: 'virgo',       icon: '\u264D', enter: 173.93 }, // ♍
+        { key: 'libra',       icon: '\u264E', enter: 217.79 }, // ♎
+        { key: 'scorpio',     icon: '\u264F', enter: 241.15 }, // ♏
+        { key: 'ophiuchus',   icon: '\u26CE', enter: 247.75 }, // ⛎
+        { key: 'sagittarius', icon: '\u2650', enter: 266.59 }, // ♐
+        { key: 'capricorn',   icon: '\u2651', enter: 299.71 }, // ♑
+        { key: 'aquarius',    icon: '\u2652', enter: 327.59 }, // ♒
+        { key: 'pisces',      icon: '\u2653', enter: 351.57 }  // ♓ (تلتفّ عبر 360° → 28.69°)
     ];
+
+    function _iauConstellationAt(lambda) {
+        // lambda ∈ [0, 360). نختار آخر كوكبة دخلها المسار قبل λ.
+        // الحوت (Pisces) تلتفّ حول 0°، لذا أيّ قيمة < 28.69° أو ≥ 351.57° تقع فيها.
+        let last = _IAU_CONSTELLATIONS[_IAU_CONSTELLATIONS.length - 1]; // pisces (wrap)
+        for (let i = 0; i < _IAU_CONSTELLATIONS.length; i++) {
+            const c = _IAU_CONSTELLATIONS[i];
+            if (lambda >= c.enter) {
+                last = c;
+            } else {
+                break; // المصفوفة مرتّبة تصاعديًّا بـ enter
+            }
+        }
+        // إن كان λ < أوّل enter (28.69°) → نحن في ذيل Pisces الملتفّ
+        if (lambda < _IAU_CONSTELLATIONS[0].enter) {
+            last = _IAU_CONSTELLATIONS[_IAU_CONSTELLATIONS.length - 1]; // Pisces
+        }
+        return last;
+    }
 
     function getMoonZodiac(date) {
         const eq = _moonEquatorial(date);
-        const lambda = eq.lambda; // [0, 360)
-        const idx = Math.floor(lambda / 30) % 12;
-        const sign = _ZODIAC_SIGNS[idx];
+        const lambda = ((eq.lambda % 360) + 360) % 360; // تطبيع [0, 360)
+        const cons = _iauConstellationAt(lambda);
         return {
-            index: idx,
-            key: sign.key,
-            icon: sign.icon,
-            i18nKey: 'moon.zodiac.' + sign.key,
+            key: cons.key,
+            icon: cons.icon,
+            i18nKey: 'moon.zodiac.' + cons.key,
             lambda: lambda
         };
     }

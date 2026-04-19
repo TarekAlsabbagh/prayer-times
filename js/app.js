@@ -7367,43 +7367,59 @@ function updateMoonInfo() {
         if (window.console && console.warn) console.warn('Moon date H1/intro override failed:', _derr);
     }
 
-    // ── Breadcrumb: Home › القمر اليوم › {City} › {Date} ──
-    //   - بلا city slug → Home › (current) القمر اليوم
-    //   - مع city slug بلا تاريخ → Home › (link) القمر اليوم › (current) {City}
-    //   - مع city slug + تاريخ → Home › (link) القمر اليوم › (link) {City} › (current) {Date}
+    // ── Breadcrumb: Home › [القمر اليوم | القمر اليوم في {City}] › {Date} ──
+    //   - بلا city slug وبلا مدينة حاليّة → Home › (current) القمر اليوم
+    //   - بلا city slug مع مدينة حاليّة → Home › (current) القمر اليوم في {CurrentCity}
+    //   - مع city slug بلا تاريخ → Home › (current) القمر اليوم في {City}
+    //   - مع city slug + تاريخ → Home › (link) القمر اليوم في {City} › (current) {Date}
     try {
         const _bcMoon       = document.getElementById('bc-moon');
-        const _bcCitySep    = document.getElementById('bc-city-sep');
-        const _bcCity       = document.getElementById('bc-city');           // link (عند وجود تاريخ)
-        const _bcCityCurr   = document.getElementById('bc-city-current');   // span (عند انعدام التاريخ)
         const _bcDateSep    = document.getElementById('bc-date-sep');
         const _bcDate       = document.getElementById('bc-date');
 
-        // تطبيع: أخفِ جميع العناصر القابلة للاختفاء أوّلًا
-        [_bcCitySep, _bcCity, _bcCityCurr, _bcDateSep, _bcDate].forEach((el) => {
+        // تطبيع: أخفِ عناصر التاريخ أوّلًا
+        [_bcDateSep, _bcDate].forEach((el) => {
             if (el) el.hidden = true;
         });
 
-        if (_citySlug) {
-            const _lngBC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-            const _langPrefixBC = (_lngBC === 'ar') ? '' : ('/' + _lngBC);
-            const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
+        const _lngBC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _langPrefixBC = (_lngBC === 'ar') ? '' : ('/' + _lngBC);
 
-            // المستوى 2: القمر اليوم — يصبح رابطًا لـ /moon-today
-            if (_bcMoon) {
-                _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today');
-                _bcMoon.removeAttribute('aria-current');
+        // قالب "القمر اليوم في {city}" — يستخدم مفتاح i18n أو fallback يدويّ حسب اللغة
+        const _buildMoonCityText = function(cityName) {
+            let _tpl = '';
+            try { _tpl = (typeof t === 'function') ? t('moon.bc_moon_in_city') : ''; } catch(_){}
+            if (_tpl && _tpl !== 'moon.bc_moon_in_city' && _tpl.indexOf('{city}') !== -1) {
+                return _tpl.replace('{city}', cityName);
             }
-            if (_bcCitySep) _bcCitySep.hidden = false;
+            // Fallback بلغة الواجهة
+            let _bcCurrent = '';
+            try { _bcCurrent = (typeof t === 'function') ? t('moon.bc_current') : ''; } catch(_){}
+            if (!_bcCurrent || _bcCurrent === 'moon.bc_current') _bcCurrent = 'Moon Today';
+            const _sep = (_lngBC === 'ar' || _lngBC === 'ur') ? ' في ' :
+                         (_lngBC === 'fr') ? ' à ' :
+                         (_lngBC === 'de') ? ' in ' :
+                         (_lngBC === 'tr') ? ' - ' :
+                         (_lngBC === 'es') ? ' en ' :
+                         (_lngBC === 'id' || _lngBC === 'ms') ? ' di ' :
+                         (_lngBC === 'bn') ? ' - ' :
+                         ' in ';
+            return _bcCurrent + _sep + cityName;
+        };
+
+        if (_citySlug) {
+            const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
+            const _moonCityText = _buildMoonCityText(_cityNameBC);
 
             if (_isDatePage) {
-                // المستوى 3: {City} — رابط لـ /moon-today-in-{slug}
-                if (_bcCity) {
-                    _bcCity.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
-                    _bcCity.textContent = _cityNameBC;
-                    _bcCity.hidden = false;
+                // المستوى 2: "القمر اليوم في {City}" كرابط لـ /moon-today-in-{slug}
+                if (_bcMoon) {
+                    _bcMoon.textContent = _moonCityText;
+                    _bcMoon.removeAttribute('data-i18n');
+                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
+                    _bcMoon.removeAttribute('aria-current');
                 }
-                // المستوى 4: {Date} — current page
+                // المستوى 3: {Date} — current page
                 if (_bcDateSep) _bcDateSep.hidden = false;
                 if (_bcDate) {
                     // تاريخ مختصر بلا يوم الأسبوع: "25 أبريل 2026"
@@ -7416,16 +7432,16 @@ function updateMoonInfo() {
                     _bcDate.hidden = false;
                 }
             } else {
-                // المستوى 3 النهائيّ: {City} — current page (span، لا رابط)
-                if (_bcCityCurr) {
-                    _bcCityCurr.textContent = _cityNameBC;
-                    _bcCityCurr.hidden = false;
+                // المستوى 2 النهائيّ: "القمر اليوم في {City}" — current page
+                if (_bcMoon) {
+                    _bcMoon.textContent = _moonCityText;
+                    _bcMoon.removeAttribute('data-i18n');
+                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
+                    _bcMoon.setAttribute('aria-current', 'page');
                 }
             }
         } else {
             // لا slug في الـ URL، لكن قد توجد مدينة محدّدة حاليًّا (جيولوكيشن أو اختيار)
-            //   نريد: الرئيسية › [القمر اليوم] › {المدينة الحاليّة}
-            //   ≠ نسخة slug: المدينة هنا ليست رابطًا لأنّ الـ URL عامّ /moon-today.
             let _currentCityLabel = '';
             try {
                 if (typeof getDisplayCity === 'function') {
@@ -7438,20 +7454,15 @@ function updateMoonInfo() {
             const _isRawCoords = /^-?\d+(?:\.\d+)?\s*°?\s*,\s*-?\d+(?:\.\d+)?\s*°?$/.test(_currentCityLabel);
 
             if (_currentCityLabel && !_isRawCoords) {
-                // المستوى 2: القمر اليوم يصبح رابطًا، المستوى 3: اسم المدينة الحاليّ (current)
-                const _lngBC2 = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                const _langPrefixBC2 = (_lngBC2 === 'ar') ? '' : ('/' + _lngBC2);
+                // المستوى 2: "القمر اليوم في {CurrentCity}" — current page
                 if (_bcMoon) {
-                    _bcMoon.setAttribute('href', _langPrefixBC2 + '/moon-today');
-                    _bcMoon.removeAttribute('aria-current');
-                }
-                if (_bcCitySep) _bcCitySep.hidden = false;
-                if (_bcCityCurr) {
-                    _bcCityCurr.textContent = _currentCityLabel;
-                    _bcCityCurr.hidden = false;
+                    _bcMoon.textContent = _buildMoonCityText(_currentCityLabel);
+                    _bcMoon.removeAttribute('data-i18n');
+                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today');
+                    _bcMoon.setAttribute('aria-current', 'page');
                 }
             } else {
-                // لا مدينة معروفة → سلوك أصليّ: القمر اليوم كـ current
+                // لا مدينة معروفة → "القمر اليوم" كـ current
                 if (_bcMoon) _bcMoon.setAttribute('aria-current', 'page');
             }
         }

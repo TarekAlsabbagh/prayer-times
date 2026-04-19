@@ -154,6 +154,7 @@ const TRANSLATIONS = {
         // ── صفحة القمر الموسّعة (H1، breadcrumb، توقّعات، مدن، أسئلة، محتوى تثقيفيّ) ──
         'moon.h1': '🌙 القمر اليوم',
         'moon.bc_current': 'القمر اليوم',
+        'moon.bc_moon_in_city': 'القمر اليوم في {city}',
         'moon.location_note': 'الموقع: جاري التحديد…',
         'moon.forecast_title': '📅 توقّعات القمر للأربعة عشر يومًا القادمة',
         'moon.fc_day': 'اليوم',
@@ -720,6 +721,7 @@ const TRANSLATIONS = {
         // ── Expanded moon page (H1, breadcrumb, forecast, cities, FAQ, evergreen) ──
         'moon.h1': '🌙 Moon Tonight',
         'moon.bc_current': 'Moon Today',
+        'moon.bc_moon_in_city': 'Moon Today in {city}',
         'moon.location_note': 'Location: detecting…',
         'moon.forecast_title': '📅 14-Day Moon Forecast',
         'moon.fc_day': 'Day',
@@ -1256,6 +1258,7 @@ const TRANSLATIONS = {
         // ── Page Lune (étiquettes courtes ; le FAQ/contenu éducatif retombe sur l'anglais) ──
         'moon.h1': '🌙 La Lune ce soir',
         'moon.bc_current': 'La Lune aujourd\u2019hui',
+        'moon.bc_moon_in_city': 'La Lune aujourd\u2019hui à {city}',
         'moon.location_note': 'Emplacement : détection\u2026',
         'moon.forecast_title': '📅 Prévisions lunaires sur 14 jours',
         'moon.fc_day': 'Jour',
@@ -1675,6 +1678,7 @@ const TRANSLATIONS = {
         // ── Ay Sayfası (kısa etiketler; SSS/eğitim içeriği İngilizceye düşer) ──
         'moon.h1': '🌙 Bu Gece Ay',
         'moon.bc_current': 'Bugün Ay',
+        'moon.bc_moon_in_city': 'Bugün {city}\u2019de Ay',
         'moon.location_note': 'Konum: algılanıyor\u2026',
         'moon.forecast_title': '📅 14 Günlük Ay Tahmini',
         'moon.fc_day': 'Gün',
@@ -2094,6 +2098,7 @@ const TRANSLATIONS = {
         // ── چاند کا صفحہ (مختصر لیبلز؛ FAQ اور تعلیمی مواد انگریزی پر گرتا ہے) ──
         'moon.h1': '🌙 آج رات کا چاند',
         'moon.bc_current': 'آج کا چاند',
+        'moon.bc_moon_in_city': 'آج {city} میں چاند',
         'moon.location_note': 'مقام: معلوم کیا جا رہا ہے\u2026',
         'moon.forecast_title': '📅 14 دن کی چاند کی پیش گوئی',
         'moon.fc_day': 'دن',
@@ -2540,6 +2545,7 @@ const TRANSLATIONS = {
         // ── Mond-Seite (Kurzlabels; FAQ/Bildungsinhalte fallen auf Englisch zurück) ──
         'moon.h1': '🌙 Der Mond heute Nacht',
         'moon.bc_current': 'Mond heute',
+        'moon.bc_moon_in_city': 'Mond heute in {city}',
         'moon.location_note': 'Standort: Erkennung\u2026',
         'moon.forecast_title': '📅 14-Tage-Mondvorhersage',
         'moon.fc_day': 'Tag',
@@ -3014,6 +3020,7 @@ const TRANSLATIONS = {
         // ── Halaman Bulan (label pendek; FAQ/konten edukasi fallback ke Inggris) ──
         'moon.h1': '🌙 Bulan Malam Ini',
         'moon.bc_current': 'Bulan Hari Ini',
+        'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.location_note': 'Lokasi: mendeteksi\u2026',
         'moon.forecast_title': '📅 Prakiraan Bulan 14 Hari',
         'moon.fc_day': 'Hari',
@@ -3488,6 +3495,7 @@ const TRANSLATIONS = {
         // ── Página de la Luna (etiquetas cortas; FAQ/contenido educativo recae en inglés) ──
         'moon.h1': '🌙 La Luna esta noche',
         'moon.bc_current': 'La Luna hoy',
+        'moon.bc_moon_in_city': 'La Luna hoy en {city}',
         'moon.location_note': 'Ubicación: detectando\u2026',
         'moon.forecast_title': '📅 Pronóstico lunar a 14 días',
         'moon.fc_day': 'Día',
@@ -3962,6 +3970,7 @@ const TRANSLATIONS = {
         // ── চাঁদের পাতা (সংক্ষিপ্ত লেবেল; FAQ/শিক্ষামূলক বিষয়বস্তু ইংরেজিতে ফলব্যাক হবে) ──
         'moon.h1': '🌙 আজ রাতের চাঁদ',
         'moon.bc_current': 'আজকের চাঁদ',
+        'moon.bc_moon_in_city': 'আজকের চাঁদ {city}-এ',
         'moon.location_note': 'অবস্থান: সনাক্ত করা হচ্ছে\u2026',
         'moon.forecast_title': '📅 ১৪ দিনের চাঁদ পূর্বাভাস',
         'moon.fc_day': 'দিন',
@@ -4436,6 +4445,7 @@ const TRANSLATIONS = {
         // ── Halaman Bulan (label pendek; FAQ/kandungan pendidikan fallback ke Inggeris) ──
         'moon.h1': '🌙 Bulan Malam Ini',
         'moon.bc_current': 'Bulan Hari Ini',
+        'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.location_note': 'Lokasi: sedang dikesan\u2026',
         'moon.forecast_title': '📅 Ramalan Bulan 14 Hari',
         'moon.fc_day': 'Hari',

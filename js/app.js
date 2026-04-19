@@ -2837,10 +2837,10 @@ function detectLocation() {
 
             const _hasPageParam = new URLSearchParams(window.location.search).has('page');
             const _isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
+            const _p = window.location.pathname;
             const _onHomePage  = !_hasPageParam && (
-                window.location.pathname === '/' ||
-                window.location.pathname === '/en/' ||
-                window.location.pathname === '/en'
+                _p === '/' || _p === '' ||
+                /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(_p)
             );
             const _isProtocol = window.location.protocol !== 'file:';
 
@@ -3403,7 +3403,9 @@ function _renderLocationBar(arCity, lat, lng, enName) {
     const btn  = document.getElementById('lsb-go-btn');
     if (!bar || !city || !btn) return;
 
-    city.textContent = arCity;
+    // اعرض اسم المدينة حسب لغة الصفحة الحاليّة: العربيّة → arCity، غيرها → enName
+    const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    city.textContent = (_lang === 'ar') ? arCity : (enName || arCity);
     const slug = makeSlug(enName, lat, lng);
     btn.href = pageUrl(`/prayer-times-in-${slug}`);
 
@@ -3433,7 +3435,7 @@ function dismissLocationSuggestion() {
  */
 function injectHomepageSchema() {
     const path = window.location.pathname;
-    const onHome = path === '/' || path === '/en/' || path === '/en' || path === '';
+    const onHome = path === '/' || path === '' || /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(path);
     if (!onHome || window.location.protocol === 'file:') return;
     if (document.getElementById('homepage-schema')) return; // تجنب التكرار
 
@@ -3511,7 +3513,7 @@ function injectHomepageSchema() {
  */
 function handleHomeSearchQuery() {
     const path = window.location.pathname;
-    const onHome = path === '/' || /^\/(?:en|fr|tr|ur)\/?$/.test(path) || path === '';
+    const onHome = path === '/' || path === '' || /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(path);
     if (!onHome) return;
     const params = new URLSearchParams(window.location.search);
     // دعم ?detect=1 (من الصفحات التي تعيد التوجيه للرئيسية)
@@ -4083,7 +4085,7 @@ function updateCitySEO(city, englishName, country, lat, lng) {
 
 function checkSavedLocationSuggestion() {
     const path = window.location.pathname;
-    const onHome = path === '/' || path === '/en/' || path === '/en';
+    const onHome = path === '/' || path === '' || /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(path);
     if (!onHome || window.location.protocol === 'file:') return;
 
     try {

@@ -3359,17 +3359,21 @@ function updateHomeGateway() {
  */
 function reverseGeocodeForSuggestion(lat, lng) {
     // نفس الكاش الذي يستخدمه reverseGeocode (zoom=10) — توفير مضاعف عند زيارة نفس المدينة
-    const arReq = _cached(_coordKey('revGeoCity', lat, lng, 'ar'), () => fetch(nomUrl(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=ar&namedetails=1`
-    )).then(r => r.json()).catch(() => null), 30 * 86400000);
-    const enReq = _cached(_coordKey('revGeoCity', lat, lng, 'en'), () => fetch(nomUrl(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=en`
+    const _fetchLang = (l) => _cached(_coordKey('revGeoCity', lat, lng, l), () => fetch(nomUrl(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=${l}&namedetails=1`
     )).then(r => r.json()).catch(() => null), 30 * 86400000);
 
-    Promise.all([arReq, enReq]).then(([arData, enData]) => {
+    const _uiLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const arReq   = _fetchLang('ar');
+    const enReq   = _fetchLang('en');
+    // اطلب اللغة الحاليّة أيضًا إن كانت غير ar/en
+    const extraReq = (_uiLang !== 'ar' && _uiLang !== 'en') ? _fetchLang(_uiLang) : Promise.resolve(null);
+
+    Promise.all([arReq, enReq, extraReq]).then(([arData, enData, localData]) => {
         if (!arData?.address) return;
         const addr   = arData.address;
         const enAddr = enData?.address || {};
+        const locAddr = (localData && localData.address) ? localData.address : {};
 
         const arCity = addr.city || addr.town || addr.village
             || (addr.state || '').replace(/^منطقة\s+|^محافظة\s+/g, '').trim() || '';
@@ -3380,32 +3384,48 @@ function reverseGeocodeForSuggestion(lat, lng) {
             || rawEn || '').replace(/\s*District\b/gi, '').trim();
         const countryCode = (addr.country_code || '').toLowerCase();
 
+        // اسم المدينة بلغة الواجهة الحاليّة (غير ar/en)
+        // مصدران: namedetails[`name:${lang}`] (من OSM tags، أدقّ) ← ثمّ address.city من الطلب بلغة المستخدم
+        const names = { ar: arCity, en: enCity };
+        if (_uiLang !== 'ar' && _uiLang !== 'en') {
+            const fromDetails = arData.namedetails?.[`name:${_uiLang}`]
+                             || enData?.namedetails?.[`name:${_uiLang}`]
+                             || localData?.namedetails?.[`name:${_uiLang}`];
+            const fromLocAddr = locAddr.city || locAddr.town || locAddr.village || '';
+            const localCity = (fromDetails || fromLocAddr || '').trim();
+            if (localCity) names[_uiLang] = localCity;
+        }
+
         if (arCity && enCity) {
-            _saveAndShowSuggestion(arCity, lat, lng, enCity, addr.country || '', countryCode);
+            _saveAndShowSuggestion(arCity, lat, lng, enCity, addr.country || '', countryCode, names);
         }
     }).catch(() => {});
 }
 
 /** حفظ البيانات في localStorage وعرض الشريط */
-function _saveAndShowSuggestion(arCity, lat, lng, enName, country, countryCode) {
+function _saveAndShowSuggestion(arCity, lat, lng, enName, country, countryCode, names) {
     try {
         localStorage.setItem('lsb_detected', JSON.stringify({
-            arCity, lat, lng, enName, country, countryCode, ts: Date.now()
+            arCity, lat, lng, enName, country, countryCode,
+            names: names || { ar: arCity, en: enName },
+            ts: Date.now()
         }));
     } catch (e) {}
-    _renderLocationBar(arCity, lat, lng, enName);
+    _renderLocationBar(arCity, lat, lng, enName, names);
 }
 
 /** رسم شريط الاقتراح في DOM */
-function _renderLocationBar(arCity, lat, lng, enName) {
+function _renderLocationBar(arCity, lat, lng, enName, names) {
     const bar  = document.getElementById('location-suggestion-bar');
     const city = document.getElementById('lsb-city-name');
     const btn  = document.getElementById('lsb-go-btn');
     if (!bar || !city || !btn) return;
 
-    // اعرض اسم المدينة حسب لغة الصفحة الحاليّة: العربيّة → arCity، غيرها → enName
+    // اختر اسم المدينة حسب لغة الواجهة:
+    //   names[lang] إن وُجد (مُخزَّن من جلب Nominatim بتلك اللغة)، وإلّا fallback ذكي
     const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    city.textContent = (_lang === 'ar') ? arCity : (enName || arCity);
+    const _fromMap = names && names[_lang];
+    city.textContent = _fromMap || (_lang === 'ar' ? arCity : (enName || arCity));
     const slug = makeSlug(enName, lat, lng);
     btn.href = pageUrl(`/prayer-times-in-${slug}`);
 
@@ -4097,7 +4117,7 @@ function checkSavedLocationSuggestion() {
         const dismissedTs = parseInt(localStorage.getItem('lsb_dismissed_ts') || '0');
         if (Date.now() - dismissedTs < 3600 * 1000) return; // رفض مؤخراً
 
-        _renderLocationBar(d.arCity, d.lat, d.lng, d.enName);
+        _renderLocationBar(d.arCity, d.lat, d.lng, d.enName, d.names);
     } catch (e) {}
 }
 

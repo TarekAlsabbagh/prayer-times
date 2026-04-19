@@ -6071,6 +6071,46 @@ function _moonCityCountryName(slug, lang) {
     return dict[cc] || '';
 }
 
+// يبني مسار SVG لشكل القمر من نسبة الإضاءة الحقيقيّة.
+// illum: [0..1] (0=محاق، 0.5=تربيع، 1=بدر)
+// waxing: true = القمر يتزايد (مضاء على اليمين في نصف الكرة الشماليّ)،
+//         false = يتناقص (مضاء على اليسار)
+// r: نصف قطر القمر في إحداثيّات SVG (افتراضيًّا 45 للـ viewBox -50 -50 100 100)
+//
+// الخوارزميّة:
+//   - limb = نصف دائرة من الأعلى إلى الأسفل على الجهة المضاءة.
+//   - terminator = نصف قطع ناقص من الأسفل إلى الأعلى، نصف محوره الأفقيّ rx = |1-2·illum|·r.
+//   - موقع القطع الناقص:
+//       هلال (i<0.5): terminator على الجهة المضاءة (يمرّ عبر +rx لواكس).
+//       أحدب (i>0.5): terminator على الجهة المظلمة (يمرّ عبر -rx لواكس).
+//   - إشارة sweep لـ SVG: "CCW على الشاشة" (y يزداد للأسفل) = sweep=0، والعكس.
+function _buildMoonPhasePath(illum, waxing, r) {
+    r = r || 45;
+    const i = Math.max(0, Math.min(1, illum));
+    if (i <= 0.003) return '';  // محاق: لا شيء مضاء
+    if (i >= 0.997) {
+        // بدر: دائرة كاملة (قوسان كبيران)
+        return `M 0 ${-r} A ${r} ${r} 0 1 1 0 ${r} A ${r} ${r} 0 1 1 0 ${-r} Z`;
+    }
+    const rx = r * Math.abs(1 - 2 * i);
+    const isCrescent = i < 0.5;
+    if (waxing) {
+        // limb على اليمين → sweep=1 (من الأعلى للأسفل عبر +x)
+        // terminator من (0,+r) إلى (0,-r):
+        //   هلال → يمرّ عبر (+rx,0) → sweep=0 (CCW on screen: bottom→+x→top)
+        //   أحدب → يمرّ عبر (-rx,0) → sweep=1 (CW on screen: bottom→-x→top)
+        const sweep = isCrescent ? 0 : 1;
+        return `M 0 ${-r} A ${r} ${r} 0 0 1 0 ${r} A ${rx} ${r} 0 0 ${sweep} 0 ${-r} Z`;
+    } else {
+        // limb على اليسار → sweep=0
+        // terminator:
+        //   هلال → يمرّ عبر (-rx,0) → sweep=1
+        //   أحدب → يمرّ عبر (+rx,0) → sweep=0
+        const sweep = isCrescent ? 1 : 0;
+        return `M 0 ${-r} A ${r} ${r} 0 0 0 0 ${r} A ${rx} ${r} 0 0 ${sweep} 0 ${-r} Z`;
+    }
+}
+
 // يبني «المدينة، البلد» بترجمة مناسبة للغة وفاصل مناسب (AR/UR → ، و غيرها → ,).
 // يُستخدم للفقرة التعريفيّة وللـ Article schema — يطابق ما يراه Googlebot من SSR.
 function _moonCityLabel(slug, lang, cityFallback) {
@@ -6100,7 +6140,26 @@ function updateMoonInfo() {
     const _iconEl = document.getElementById('moon-icon');
     if (_iconEl) _iconEl.textContent = phase.icon;
     const _phaseNameEl = document.getElementById('moon-phase-name');
-    if (_phaseNameEl) _phaseNameEl.textContent = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
+    if (_phaseNameEl) {
+        const _phaseLocalized = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
+        const _phaseValid = (_phaseLocalized && _phaseLocalized !== phase.key) ? _phaseLocalized : (phase.name || '');
+        // أدرج الإيموجي كـ badge صغير قبل اسم الطور
+        _phaseNameEl.textContent = `${phase.icon || ''} ${_phaseValid}`.trim();
+    }
+
+    // ── رسم SVG دقيق لشكل القمر من نسبة الإضاءة الفعليّة ──
+    // دقيق لـ 100 درجة — يغطّي كلّ وضعيّة بين المحاق والبدر بسلاسة (ليس 8 أطوار فقط)
+    try {
+        const _litEl = document.getElementById('moon-svg-lit');
+        if (_litEl) {
+            const _phaseFrac = MoonCalc.getMoonPhase(today); // 0..1 (0=new, 0.5=full, 1=new)
+            const _waxing = _phaseFrac < 0.5;
+            const _illumNorm = Math.max(0, Math.min(1, illumination / 100));
+            _litEl.setAttribute('d', _buildMoonPhasePath(_illumNorm, _waxing, 45));
+        }
+    } catch (_e) {
+        try { console.warn('Moon SVG render failed:', _e && _e.message); } catch(_){}
+    }
 
     const _illumLabel = (typeof t === 'function') ? t('moon.illumination_label') : 'الإضاءة';
     const _daysSfx = (typeof t === 'function') ? t('moon.days_suffix') : 'يوم';

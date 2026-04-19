@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=261" as="script">
-    <link rel="stylesheet" href="css/style.css?v=66">
+    <link rel="preload" href="js/app.js?v=263" as="script">
+    <link rel="stylesheet" href="css/style.css?v=67">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -649,7 +649,26 @@
                     <h2 id="moon-title-h2" data-i18n="moon.title">🌙 القمر اليوم</h2>
                     <div class="moon-location-note" id="moon-location-note" data-i18n="moon.location_note">الموقع: جاري التحديد…</div>
                     <div class="moon-display">
-                        <span class="moon-icon" id="moon-icon" role="img" aria-label="Current moon phase icon">🌕</span>
+                        <!-- تمثيل SVG دقيق للقمر: مبنيّ من نسبة الإضاءة الفعليّة (ليس 8 أطوار عيد) -->
+                        <div class="moon-visual" id="moon-visual" role="img" aria-label="Current moon phase visualization">
+                            <svg class="moon-svg" viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                                <defs>
+                                    <radialGradient id="moonLitGrad" cx="35%" cy="35%" r="65%">
+                                        <stop offset="0%"  stop-color="#fffbea"/>
+                                        <stop offset="60%" stop-color="#f9e6a4"/>
+                                        <stop offset="100%" stop-color="#d9b866"/>
+                                    </radialGradient>
+                                    <radialGradient id="moonDarkGrad" cx="65%" cy="60%" r="80%">
+                                        <stop offset="0%"  stop-color="#202136"/>
+                                        <stop offset="100%" stop-color="#0c0d1a"/>
+                                    </radialGradient>
+                                </defs>
+                                <circle class="moon-svg-dark" cx="0" cy="0" r="45" fill="url(#moonDarkGrad)"/>
+                                <path id="moon-svg-lit" class="moon-svg-lit" d="" fill="url(#moonLitGrad)"/>
+                                <circle class="moon-svg-outline" cx="0" cy="0" r="45" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+                            </svg>
+                            <span class="moon-icon" id="moon-icon" role="img" aria-label="Current moon phase icon" hidden>🌕</span>
+                        </div>
                         <div class="moon-phase-name" id="moon-phase-name">--</div>
                         <div class="moon-illumination" id="moon-illumination">--</div>
                     </div>
@@ -1518,7 +1537,7 @@
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=49"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=261"></script>
+    <script defer src="js/app.js?v=263"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

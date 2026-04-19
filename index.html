@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=256" as="script">
-    <link rel="stylesheet" href="css/style.css?v=65">
+    <link rel="preload" href="js/app.js?v=258" as="script">
+    <link rel="stylesheet" href="css/style.css?v=66">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -690,9 +690,40 @@
                     </div>
 
                     <!-- Yesterday vs Today comparison — filled by JS -->
-                    <div class="moon-comparison" id="moon-comparison" hidden>
-                        <span class="moon-comparison-arrow" id="moon-comparison-arrow">↑</span>
-                        <span class="moon-comparison-text" id="moon-comparison-text">--</span>
+                    <div class="moon-comparison" id="moon-comparison" hidden data-direction="waxing">
+                        <div class="mc-header">
+                            <span class="mc-header-icon" aria-hidden="true">📊</span>
+                            <span class="mc-header-title" data-i18n="moon.mc_title">تطوّر القمر</span>
+                            <span class="mc-header-badge" id="mc-direction-badge" data-i18n="moon.mc_waxing">متزايد</span>
+                        </div>
+                        <div class="mc-compare-row">
+                            <div class="mc-day mc-day-yesterday">
+                                <span class="mc-day-label" data-i18n="moon.mc_yesterday">الأمس</span>
+                                <span class="mc-day-phase" id="mc-yesterday-icon" aria-hidden="true">🌑</span>
+                                <span class="mc-day-illum" id="mc-yesterday-illum">--%</span>
+                            </div>
+                            <div class="mc-delta" id="mc-delta">
+                                <span class="mc-delta-arrow" id="mc-delta-arrow" aria-hidden="true">↑</span>
+                                <span class="mc-delta-value" id="mc-delta-value">--</span>
+                            </div>
+                            <div class="mc-day mc-day-today mc-day-active">
+                                <span class="mc-day-label" data-i18n="moon.mc_today">اليوم</span>
+                                <span class="mc-day-phase" id="mc-today-icon" aria-hidden="true">🌒</span>
+                                <span class="mc-day-illum" id="mc-today-illum">--%</span>
+                            </div>
+                        </div>
+                        <div class="mc-progress-wrap">
+                            <div class="mc-progress-label">
+                                <span class="mc-progress-current" id="mc-progress-current">--</span>
+                                <span class="mc-progress-arrow" aria-hidden="true">→</span>
+                                <span class="mc-progress-next" id="mc-progress-next">--</span>
+                            </div>
+                            <div class="mc-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="mc-progress-fill" id="mc-progress-fill" style="width: 0%"></div>
+                                <span class="mc-progress-dot" id="mc-progress-dot" style="inset-inline-start: 0%">🌙</span>
+                            </div>
+                            <div class="mc-progress-status" id="mc-progress-status">--</div>
+                        </div>
                     </div>
 
                     <!-- Phase Insight — three lines about the current phase (visual/visibility/about) -->
@@ -751,7 +782,7 @@
                     <h2 id="moon-faq-live-h2" data-i18n="moon.faq_live_title">🔴 الآن: القمر الليلة</h2>
                     <div class="moon-faq moon-faq-live" id="moon-faq-live">
                         <details class="moon-faq-item" open>
-                            <summary data-i18n="moon.faq.dq1">ما طور القمر الليلة في مدينتك؟</summary>
+                            <summary data-i18n="moon.faq.dq1" id="moon-dq1-q">ما طور القمر الليلة في مدينتك؟</summary>
                             <p data-i18n="moon.faq.da1" id="moon-dq1-a">يعرض الموقع طور القمر الحاليّ ونسبة إضاءته لحظياً. يمرّ القمر بثمانية أطوار خلال 29.5 يوم.</p>
                         </details>
                         <details class="moon-faq-item">
@@ -771,15 +802,15 @@
                             <p data-i18n="moon.faq.da5" id="moon-dq5-a">عمر القمر هو عدد الأيّام المنقضية منذ آخر محاق، ويتراوح بين 0 و29.5 يوم.</p>
                         </details>
                         <details class="moon-faq-item">
-                            <summary data-i18n="moon.faq.dq6">متى يطلع القمر الليلة في مدينتك؟</summary>
+                            <summary data-i18n="moon.faq.dq6" id="moon-dq6-q">متى يطلع القمر الليلة في مدينتك؟</summary>
                             <p data-i18n="moon.faq.da6" id="moon-dq6-a">مطلع القمر يعتمد على خطّ الطول الجغرافيّ لموقعك. يعرض الموقع وقت المطلع بالتوقيت المحلّيّ بعد تحديد الموقع.</p>
                         </details>
                         <details class="moon-faq-item">
-                            <summary data-i18n="moon.faq.dq7">متى يغيب القمر الليلة في مدينتك؟</summary>
+                            <summary data-i18n="moon.faq.dq7" id="moon-dq7-q">متى يغيب القمر الليلة في مدينتك؟</summary>
                             <p data-i18n="moon.faq.da7" id="moon-dq7-a">مغيب القمر يعتمد على خطّ الطول الجغرافيّ وخطّ العرض لموقعك. يعرض الموقع وقت المغيب بالتوقيت المحلّيّ.</p>
                         </details>
                         <details class="moon-faq-item">
-                            <summary data-i18n="moon.faq.dq8">ما المسافة بين مدينتك والقمر الآن؟</summary>
+                            <summary data-i18n="moon.faq.dq8" id="moon-dq8-q">ما المسافة بين مدينتك والقمر الآن؟</summary>
                             <p data-i18n="moon.faq.da8" id="moon-dq8-a">تتراوح المسافة بين الأرض والقمر بين 356,500 كم (الحضيض) و406,700 كم (الأوج). يحسب الموقع المسافة الدقيقة من مدينتك إلى القمر باستخدام تصحيح topocentric.</p>
                         </details>
                     </div>
@@ -1481,13 +1512,13 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=86"></script>
+    <script defer src="js/i18n.js?v=87"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=49"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=256"></script>
+    <script defer src="js/app.js?v=258"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

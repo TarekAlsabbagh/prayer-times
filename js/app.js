@@ -6283,6 +6283,12 @@ function updateMoonInfo() {
             if (tpl && tpl !== key) el.textContent = tpl;
         };
 
+        // أسئلة FAQ — استبدال «مدينتك» باسم المدينة الفعليّ
+        _setAnswer('moon-dq1-q', 'moon.faq.tpl_dq1_q', { city: _cityDisplay });
+        _setAnswer('moon-dq6-q', 'moon.faq.tpl_dq6_q', { city: _cityDisplay });
+        _setAnswer('moon-dq7-q', 'moon.faq.tpl_dq7_q', { city: _cityDisplay });
+        _setAnswer('moon-dq8-q', 'moon.faq.tpl_dq8_q', { city: _cityDisplay });
+
         _setAnswer('moon-dq1-a', 'moon.faq.tpl_dq1', {
             city: _cityDisplay,
             phaseIcon: phase.icon,
@@ -6368,30 +6374,41 @@ function updateMoonInfo() {
             if (tpl && tpl !== 'moon.intro_template') _introEl.textContent = tpl;
         }
 
-        // مقارنة الأمس vs اليوم
+        // مقارنة الأمس vs اليوم — بطاقة تفاعليّة غنيّة
+        // البنية: كلّ قسم في try/catch منفصل حتّى لا يمنع فشل أحدها ظهور البقيّة
         const _cmpWrap = document.getElementById('moon-comparison');
-        const _cmpArrow = document.getElementById('moon-comparison-arrow');
-        const _cmpText = document.getElementById('moon-comparison-text');
-        if (_cmpWrap && _cmpText && typeof t === 'function') {
+        if (_cmpWrap && typeof t === 'function') {
+            let _yesterday = null, yIllum = 0, diffRaw = 0, diffAbs = 0, isWaxing = true, yPhaseIcon = '🌑';
+            let nextPhaseIcon = '', nextPhaseName = '', nextEventDate = null;
+            let progressPct = 0, daysToNext = null;
+
+            // 1) حساب أمس/اليوم/الاتّجاه
             try {
-                const _yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 12, 0, 0);
-                const yIllum = MoonCalc.getMoonIllumination(_yesterday);
-                const diffRaw = illumination - yIllum;
-                const diffAbs = Math.abs(diffRaw);
-                // استنتاج الطور القادم
-                let nextPhaseIcon = '', nextPhaseName = '';
+                _yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 12, 0, 0);
+                yIllum = MoonCalc.getMoonIllumination(_yesterday);
+                diffRaw = illumination - yIllum;
+                diffAbs = Math.abs(diffRaw);
+                isWaxing = diffRaw >= 0;
+                try {
+                    const yPhase = (typeof MoonCalc.getPhaseName === 'function') ? MoonCalc.getPhaseName(_yesterday) : null;
+                    if (yPhase && yPhase.icon) yPhaseIcon = yPhase.icon;
+                } catch (_eP) { /* silent */ }
+            } catch (_e1) { if (window.console && console.warn) console.warn('mc step1 (yesterday) failed:', _e1); }
+
+            // 2) الطور القادم
+            try {
                 if (typeof MoonCalc.findPhaseEventsInRange === 'function') {
                     const events = MoonCalc.findPhaseEventsInRange(today, new Date(today.getTime() + 14 * 86400000));
                     if (events && events.length) {
                         const ev = events[0];
-                        nextPhaseIcon = ev.phase.icon || '';
-                        const evKey = ev.phase.key;
-                        const evName = (evKey && typeof t === 'function') ? t(evKey) : (ev.phase.name || '');
+                        nextPhaseIcon = (ev.phase && ev.phase.icon) || '';
+                        nextEventDate = ev.date || ev.time || null;
+                        const evKey = ev.phase && ev.phase.key;
+                        const evName = (evKey && typeof t === 'function') ? t(evKey) : ((ev.phase && ev.phase.name) || '');
                         nextPhaseName = evName;
                     }
                 }
                 if (!nextPhaseName && MoonCalc.getNextFullMoon && MoonCalc.getNextNewMoon) {
-                    // fallback: أقرب بين nextFull و nextNew
                     const nf = MoonCalc.getNextFullMoon(today);
                     const nn = MoonCalc.getNextNewMoon(today);
                     let picked, pickedKey, pickedIcon;
@@ -6404,20 +6421,100 @@ function updateMoonInfo() {
                         const pn = t(pickedKey);
                         nextPhaseName = (pn && pn !== pickedKey) ? pn : '';
                         nextPhaseIcon = pickedIcon;
+                        nextEventDate = picked;
                     }
                 }
-                const key = diffRaw >= 0 ? 'moon.comparison_waxing' : 'moon.comparison_waning';
-                const tpl = t(key, {
-                    diff: _fmtNum2(diffAbs, 1),
-                    nextPhaseIcon: nextPhaseIcon,
-                    nextPhaseName: nextPhaseName
-                });
-                if (tpl && tpl !== key) {
-                    _cmpText.textContent = tpl;
-                    if (_cmpArrow) _cmpArrow.textContent = diffRaw >= 0 ? '↑' : '↓';
-                    _cmpWrap.hidden = false;
+            } catch (_e2) { if (window.console && console.warn) console.warn('mc step2 (next phase) failed:', _e2); }
+
+            // 3) حساب progress
+            try {
+                if (nextEventDate) {
+                    const _msPerDay = 86400000;
+                    const _ned = (nextEventDate instanceof Date) ? nextEventDate.getTime() : Number(nextEventDate);
+                    const _tod = today.getTime();
+                    daysToNext = Math.max(0, Math.round((_ned - _tod) / _msPerDay));
+                    let prevEventDate = null;
+                    if (typeof MoonCalc.findPhaseEventsInRange === 'function') {
+                        const pEvents = MoonCalc.findPhaseEventsInRange(new Date(_tod - 14 * _msPerDay), today);
+                        if (pEvents && pEvents.length) {
+                            const pev = pEvents[pEvents.length - 1];
+                            prevEventDate = pev.date || pev.time || null;
+                        }
+                    }
+                    if (prevEventDate) {
+                        const _ped = (prevEventDate instanceof Date) ? prevEventDate.getTime() : Number(prevEventDate);
+                        if (_ned > _ped) {
+                            const total = _ned - _ped;
+                            const elapsed = _tod - _ped;
+                            progressPct = Math.max(0, Math.min(100, (elapsed / total) * 100));
+                        }
+                    }
+                    if (!progressPct && daysToNext != null) {
+                        // fallback: 7 days cycle
+                        progressPct = Math.max(0, Math.min(100, ((7 - daysToNext) / 7) * 100));
+                    }
+                    if (!isFinite(progressPct)) progressPct = 0;
                 }
-            } catch (_cmpErr) { /* silent */ }
+            } catch (_e3) { if (window.console && console.warn) console.warn('mc step3 (progress calc) failed:', _e3); }
+
+            // 4) ملء DOM — العنوان وعلامة الاتّجاه
+            try {
+                _cmpWrap.setAttribute('data-direction', isWaxing ? 'waxing' : 'waning');
+                const _mcBadge = document.getElementById('mc-direction-badge');
+                if (_mcBadge) {
+                    const badgeKey = isWaxing ? 'moon.mc_waxing' : 'moon.mc_waning';
+                    const badgeText = t(badgeKey);
+                    if (badgeText && badgeText !== badgeKey) _mcBadge.textContent = badgeText;
+                }
+            } catch (_e4) { if (window.console && console.warn) console.warn('mc step4 (badge) failed:', _e4); }
+
+            // 5) الأمس واليوم
+            try {
+                const _yIcon = document.getElementById('mc-yesterday-icon');
+                const _yIllumEl = document.getElementById('mc-yesterday-illum');
+                const _tIcon = document.getElementById('mc-today-icon');
+                const _tIllumEl = document.getElementById('mc-today-illum');
+                if (_yIcon) _yIcon.textContent = yPhaseIcon;
+                if (_yIllumEl) _yIllumEl.textContent = _fmtNum2(yIllum, 1) + '%';
+                if (_tIcon) _tIcon.textContent = phase.icon || '🌙';
+                if (_tIllumEl) _tIllumEl.textContent = _fmtNum2(illumination, 1) + '%';
+            } catch (_e5) { if (window.console && console.warn) console.warn('mc step5 (y/t fill) failed:', _e5); }
+
+            // 6) الدلتا
+            try {
+                const _dArrow = document.getElementById('mc-delta-arrow');
+                const _dValue = document.getElementById('mc-delta-value');
+                if (_dArrow) _dArrow.textContent = isWaxing ? '↑' : '↓';
+                if (_dValue) _dValue.textContent = (isWaxing ? '+' : '−') + _fmtNum2(diffAbs, 1) + '%';
+            } catch (_e6) { if (window.console && console.warn) console.warn('mc step6 (delta) failed:', _e6); }
+
+            // 7) Progress bar (نصّ + سهم + حالة)
+            try {
+                const _pCur = document.getElementById('mc-progress-current');
+                const _pNext = document.getElementById('mc-progress-next');
+                const _pFill = document.getElementById('mc-progress-fill');
+                const _pDot = document.getElementById('mc-progress-dot');
+                const _pStatus = document.getElementById('mc-progress-status');
+                const _safeProgress = (typeof progressPct === 'number' && isFinite(progressPct)) ? progressPct : 0;
+                if (_pCur) _pCur.textContent = (phase.icon || '') + ' ' + (_phaseLabel2 || phase.name || '');
+                if (_pNext && nextPhaseName) _pNext.textContent = (nextPhaseIcon || '') + ' ' + nextPhaseName;
+                if (_pFill) _pFill.style.width = _safeProgress.toFixed(1) + '%';
+                if (_pDot) _pDot.style.insetInlineStart = _safeProgress.toFixed(1) + '%';
+                if (_pStatus && nextPhaseName) {
+                    let statusKey = 'moon.mc_status_days';
+                    const statusParams = { nextPhaseIcon: nextPhaseIcon, nextPhaseName: nextPhaseName };
+                    if (daysToNext != null) {
+                        if (daysToNext === 0) statusKey = 'moon.mc_status_today';
+                        else if (daysToNext === 1) statusKey = 'moon.mc_status_tomorrow';
+                        else statusParams.days = _fmtNum2(daysToNext, 0);
+                    }
+                    const sTpl = t(statusKey, statusParams);
+                    if (sTpl && sTpl !== statusKey) _pStatus.textContent = sTpl;
+                }
+            } catch (_e7) { if (window.console && console.warn) console.warn('mc step7 (progress DOM) failed:', _e7); }
+
+            // 8) إظهار البطاقة دائمًا — حتّى لو فشل قسم واحد، تظهر الباقي
+            _cmpWrap.hidden = false;
         }
 
         // نظرة على الطور الحاليّ — 3 أسطر

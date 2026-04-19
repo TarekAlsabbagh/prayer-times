@@ -876,6 +876,8 @@ button, input, select { font-family: inherit; }
 
 .moon-detail-card .label { font-size: 0.85rem; color: var(--text-light); }
 .moon-detail-card .value { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-top: 4px; }
+.moon-detail-card .value-sub { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; opacity: 0.85; }
+.moon-distance-card .value { color: var(--accent, #d4af37); letter-spacing: 0.3px; }
 
 /* Round 9: Moon page extras — H1, breadcrumb, forecast, cities, FAQ, evergreen */
 #page-moon .page-h1 {
@@ -990,6 +992,22 @@ button, input, select { font-family: inherit; }
     color: var(--text);
     line-height: 1.7;
     font-size: 0.95rem;
+}
+/* قسم «الآن»: إجابات ديناميكيّة بأرقام وتواريخ حقيقيّة */
+.moon-faq-live .moon-faq-item {
+    border-left: 3px solid var(--primary);
+    background: linear-gradient(90deg, rgba(26,107,60,0.05), var(--bg) 60%);
+}
+html[dir="rtl"] .moon-faq-live .moon-faq-item {
+    border-left: 1px solid var(--border);
+    border-right: 3px solid var(--primary);
+}
+.moon-faq-live .moon-faq-item summary {
+    color: var(--primary-dark);
+}
+.moon-faq-live .moon-faq-item p {
+    font-weight: 500;
+    color: var(--text);
 }
 .moon-evergreen h3 {
     font-size: 1.08rem;

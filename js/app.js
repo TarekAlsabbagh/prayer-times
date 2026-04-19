@@ -6068,6 +6068,18 @@ function updateMoonInfo() {
         if (_nnEl) _nnEl.textContent = `${nextNew.getDate()} ${months[nextNew.getMonth()]}`;
     }
 
+    // ── المسافة بين موقع المستخدم/المدينة والقمر (كم، topocentric) ─────────
+    const _distEl = document.getElementById('moon-distance');
+    if (_distEl && typeof MoonCalc.getMoonDistance === 'function') {
+        const distKm = MoonCalc.getMoonDistance(today, _lat, _lng);
+        const _lng_fmt = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        try {
+            _distEl.textContent = distKm.toLocaleString(_lng_fmt === 'ar' ? 'ar-SA' : 'en-US', { maximumFractionDigits: 0 });
+        } catch (_e) {
+            _distEl.textContent = Math.round(distKm).toString();
+        }
+    }
+
     // ── H1 وموقع الصفحة (ديناميكيّ حسب المدينة من الـ URL) ─────────────
     const _lng_ = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _h1El = document.getElementById('moon-page-h1');
@@ -6122,29 +6134,45 @@ function updateMoonInfo() {
         _locEl.textContent = _locTemplates[_lng_] || _locTemplates.en;
     }
 
-    // ── توقّعات السبعة أيّام القادمة ─────────────────────────────────
+    // ── جداول أسماء الأيّام/الأشهر — تُستخدم في الجدول والـ FAQ ─────
+    const _weekdayNames = {
+        ar: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+        en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+        fr: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+        tr: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+        ur: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+        de: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+        id: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+        es: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        bn: ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
+        ms: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu']
+    };
+    const _gregMonthNames = {
+        ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+        en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+        fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+        tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+        ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+        de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+        id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+        es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+        bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+        ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+    };
+    const _wk = _weekdayNames[_lng_] || _weekdayNames.en;
+    const _gm = _gregMonthNames[_lng_] || _gregMonthNames.en;
+
+    // ── توقّعات الأربعة عشر يومًا القادمة ─────────────────────────────
     const _fcBody = document.getElementById('moon-forecast-body');
-    if (_fcBody && typeof MoonCalc.get7DayForecast === 'function') {
-        const fc = MoonCalc.get7DayForecast(today, _lat, _lng);
-        const _weekdayNames = {
-            ar: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
-            en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-            fr: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-            tr: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
-            ur: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
-            de: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
-            id: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
-            es: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-            bn: ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
-            ms: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu']
-        };
-        const _wk = _weekdayNames[_lng_] || _weekdayNames.en;
+    const _getForecast = MoonCalc.getForecast || MoonCalc.get7DayForecast;
+    if (_fcBody && typeof _getForecast === 'function') {
+        const fc = MoonCalc.getForecast ? MoonCalc.getForecast(today, _lat, _lng, 14) : MoonCalc.get7DayForecast(today, _lat, _lng);
         let html = '';
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
             const wd = _wk[row.date.getDay()];
             const dd = row.date.getDate();
-            const mm = (HijriDate && HijriDate.gregorianMonths) ? HijriDate.gregorianMonths[row.date.getMonth()] : (row.date.getMonth() + 1);
+            const mm = _gm[row.date.getMonth()];
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
             html += `<tr>`
                 + `<td>${wd} ${dd} ${mm}</td>`
@@ -6155,6 +6183,101 @@ function updateMoonInfo() {
                 + `</tr>`;
         }
         _fcBody.innerHTML = html;
+    }
+
+    // ── FAQ ديناميكيّ: يملأ dq1..dq8 بأرقام وتواريخ حقيقيّة للمدينة المختارة ─
+    try {
+        const _cityDisplay = _citySlug
+            ? _moonCityDisplayName(_citySlug)
+            : (currentCity || (_lng_ === 'ar' ? 'مدينتك' : 'your city'));
+
+        const _fmtNum = (n, maxFD) => {
+            try {
+                return Number(n).toLocaleString(_lng_ === 'ar' ? 'ar-SA' : _lng_, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
+            } catch (_e) { return String(n); }
+        };
+
+        // تاريخ ميلاديّ منسّق بلغة الواجهة
+        const _fmtDate = (d) => {
+            if (!d) return '--';
+            const wd = _wk[d.getDay()];
+            const dd = d.getDate();
+            const mo = _gm[d.getMonth()];
+            const yy = d.getFullYear();
+            return `${wd} ${dd} ${mo} ${yy}`;
+        };
+
+        // تاريخ هجريّ للبدر/المحاق (يعرض بالعربيّة دائمًا — اسم الشهر الهجريّ)
+        const _hijriStr = (d) => {
+            if (!d || typeof HijriDate === 'undefined' || typeof HijriDate.toHijri !== 'function') return '';
+            try {
+                const h = HijriDate.toHijri(d.getFullYear(), d.getMonth() + 1, d.getDate());
+                const monthName = (HijriDate.hijriMonths && HijriDate.hijriMonths[h.month - 1]) || String(h.month);
+                return `${h.day} ${monthName} ${h.year}`;
+            } catch (_e) { return ''; }
+        };
+
+        // عدد الأيّام بين تاريخين (تجاهل الوقت)
+        const _daysBetween = (a, b) => {
+            if (!a || !b) return 0;
+            const d1 = new Date(a.getFullYear(), a.getMonth(), a.getDate());
+            const d2 = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+            return Math.round((d2 - d1) / 86400000);
+        };
+
+        const _phaseLabel = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
+        const _daysUntilFull = nextFull ? _daysBetween(today, nextFull) : '—';
+        const _daysUntilNew  = nextNew  ? _daysBetween(today, nextNew)  : '—';
+        const _distKm = (typeof MoonCalc.getMoonDistance === 'function') ? MoonCalc.getMoonDistance(today, _lat, _lng) : null;
+
+        const _setAnswer = (id, key, params) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const tpl = (typeof t === 'function') ? t(key, params) : key;
+            // فقط إن تمّ استبدال placeholder فعليًّا — وإلّا أبقِ النصّ الافتراضيّ
+            if (tpl && tpl !== key) el.textContent = tpl;
+        };
+
+        _setAnswer('moon-dq1-a', 'moon.faq.tpl_dq1', {
+            city: _cityDisplay,
+            phaseIcon: phase.icon,
+            phaseName: _phaseLabel,
+            illum: _fmtNum(illumination, 2)
+        });
+        _setAnswer('moon-dq2-a', 'moon.faq.tpl_dq2', {
+            date: _fmtDate(nextFull),
+            hijri: _hijriStr(nextFull),
+            days: _fmtNum(_daysUntilFull, 0)
+        });
+        _setAnswer('moon-dq3-a', 'moon.faq.tpl_dq3', {
+            date: _fmtDate(nextNew),
+            hijri: _hijriStr(nextNew),
+            days: _fmtNum(_daysUntilNew, 0)
+        });
+        _setAnswer('moon-dq4-a', 'moon.faq.tpl_dq4', {
+            date: _fmtDate(nextFull),
+            days: _fmtNum(_daysUntilFull, 0)
+        });
+        _setAnswer('moon-dq5-a', 'moon.faq.tpl_dq5', {
+            age: _fmtNum(age, 2)
+        });
+        _setAnswer('moon-dq6-a', 'moon.faq.tpl_dq6', {
+            city: _cityDisplay,
+            time: moonTimes.rise
+        });
+        _setAnswer('moon-dq7-a', 'moon.faq.tpl_dq7', {
+            city: _cityDisplay,
+            time: moonTimes.set
+        });
+        if (_distKm != null) {
+            _setAnswer('moon-dq8-a', 'moon.faq.tpl_dq8', {
+                city: _cityDisplay,
+                distance: _fmtNum(Math.round(_distKm), 0)
+            });
+        }
+    } catch (_err) {
+        // فشل هادئ — تبقى الإجابات الافتراضيّة ظاهرة
+        if (window.console && console.warn) console.warn('Dynamic moon FAQ fill failed:', _err);
     }
 }
 

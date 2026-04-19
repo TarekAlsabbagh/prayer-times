@@ -361,6 +361,46 @@ const CITY_NAMES_ID = {
     'Andorra la Vella':'Andorra la Vella', Vaduz:'Vaduz',
     Luxembourg:'Luksemburg', Valletta:'Valletta',
 };
+// ===== أسماء المدن بالعربيّة =====
+// للـ fallback في _moonCityDisplayName عند الزيارة المباشرة لـ /moon-today-in-<slug>
+// بدون session storage (مثلًا طوكيو بدون إعادة توجيه من صفحة الصلاة).
+const CITY_NAMES_AR = {
+    Mecca:'مكّة المكرّمة', Medina:'المدينة المنوّرة', Riyadh:'الرياض', Jeddah:'جدّة',
+    Dammam:'الدمام', Khobar:'الخُبر', Taif:'الطائف', Tabuk:'تبوك',
+    Buraidah:'بريدة', Buraydah:'بريدة', Abha:'أبها', Yanbu:'ينبع', Hail:'حائل',
+    Najran:'نجران', Jizan:'جازان', 'Khamis Mushait':'خميس مشيط',
+    'Al Hofuf':'الهفوف', Hofuf:'الهفوف', 'Al Kharj':'الخرج',
+    Qatif:'القطيف', 'Al Jubail':'الجبيل', Jubail:'الجبيل',
+    Cairo:'القاهرة', Alexandria:'الإسكندريّة', Giza:'الجيزة',
+    Istanbul:'إسطنبول', Ankara:'أنقرة', Izmir:'إزمير',
+    Dubai:'دبي', 'Abu Dhabi':'أبوظبي', Sharjah:'الشارقة',
+    Amman:'عمّان', Baghdad:'بغداد', Basra:'البصرة', Mosul:'الموصل',
+    Damascus:'دمشق', Aleppo:'حلب', Homs:'حمص',
+    Casablanca:'الدار البيضاء', Rabat:'الرباط', Marrakesh:'مرّاكش',
+    Jerusalem:'القدس', Gaza:'غزّة', Ramallah:'رام الله',
+    Doha:'الدوحة', 'Kuwait City':'مدينة الكويت', Manama:'المنامة',
+    Muscat:'مسقط', Sanaa:'صنعاء', Aden:'عدن',
+    Dhaka:'دكّا', Chittagong:'شيتاغونغ',
+    Karachi:'كراتشي', Lahore:'لاهور', Islamabad:'إسلام آباد',
+    Delhi:'دلهي', Mumbai:'مومباي', Kolkata:'كولكاتا',
+    Bangalore:'بنغالور', Chennai:'تشيناي', Hyderabad:'حيدر آباد',
+    Jakarta:'جاكرتا', Surabaya:'سورابايا', Bandung:'باندونغ',
+    'Kuala Lumpur':'كوالالمبور', Singapore:'سنغافورة',
+    London:'لندن', Manchester:'مانشستر', Birmingham:'برمنغهام',
+    Paris:'باريس', Berlin:'برلين', Munich:'ميونخ',
+    Madrid:'مدريد', Barcelona:'برشلونة', Rome:'روما',
+    Milan:'ميلانو', Moscow:'موسكو', 'New York':'نيويورك',
+    'Los Angeles':'لوس أنجلوس', Chicago:'شيكاغو', Toronto:'تورنتو',
+    Tokyo:'طوكيو', Beijing:'بكين', Shanghai:'شنغهاي',
+    Seoul:'سيول', Bangkok:'بانكوك', Hanoi:'هانوي',
+    'Ho Chi Minh City':'هو تشي منه', Manila:'مانيلا',
+    Sydney:'سيدني', Melbourne:'ملبورن',
+    // Microstates / city-states
+    Monaco:'موناكو', 'Monte Carlo':'مونت كارلو',
+    'San Marino':'سان مارينو', 'Vatican City':'مدينة الفاتيكان',
+    'Andorra la Vella':'أندورا لا فيلا', Vaduz:'فادوتس',
+    Luxembourg:'لوكسمبورغ', Valletta:'فاليتا',
+};
 // ===== أسماء الدول بالأوردو =====
 const COUNTRY_NAMES_UR = {
     sa:'سعودی عرب', eg:'مصر', sy:'شام', iq:'عراق', jo:'اردن', lb:'لبنان',
@@ -453,16 +493,34 @@ const _LOCALIZED_CITY_MAPS = {
 };
 
 // ===== دوال مساعدة لعرض الأسماء حسب اللغة =====
-// أولوية المدينة: Nominatim المترجَم (إن تَوفَّر) → قاموس محلي (مباشر لأسماء المدن الشائعة)
+// أولوية المدينة: Nominatim المترجَم (إن تَوفَّر وكان بخطّ متوافق) → قاموس محلي (مباشر لأسماء المدن الشائعة)
 // → fallback إنجليزي. نفس المنطق لكل 8 لغات غير ar/en.
+// _isDisplayScriptAcceptable: يتحقّق من أنّ currentLocalizedName بخطّ يمكن قراءته للغة الواجهة
+//   (مثلاً يرفض "千代田区" في صفحة بالتركيّة → يسقط للقاموس أو الإنجليزيّة).
+function _isDisplayScriptAcceptable(s, lang) {
+    if (!s) return false;
+    // CJK (ياباني/صينيّ/كوريّ/Halfwidth-Fullwidth)
+    if (/[\u3000-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uAC00-\uD7AF\uF900-\uFAFF\uFF00-\uFFEF]/.test(s)) return false;
+    // خطوط أخرى غير مدعومة في لغات الواجهة (Cyrillic/Greek/Hebrew/Devanagari/Thai/Tamil/…)
+    if (/[\u0370-\u03FF\u0400-\u04FF\u0500-\u052F\u0530-\u058F\u0590-\u05FF\u0700-\u074F\u0900-\u097F\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u10A0-\u10FF\u1100-\u11FF\u1200-\u137F]/.test(s)) return false;
+    const hasArabic  = /[\u0600-\u06FF]/.test(s);
+    const hasBengali = /[\u0980-\u09FF]/.test(s);
+    const hasUrduSpecific = /[\u067E\u0686\u0698\u06A9\u06AF\u0688\u0691\u0679\u06BA\u06CC\u06D2\u06C1]/.test(s);
+    if (lang === 'ar') return !hasBengali;
+    if (lang === 'ur') { if (hasArabic && !hasUrduSpecific) return false; return !hasBengali; }
+    if (lang === 'bn') return !hasArabic;
+    // EN/FR/TR/DE/ID/ES/MS: لاتينيّ بحت — ارفض العربيّ والبنغاليّة
+    return !hasArabic && !hasBengali;
+}
 function getDisplayCity() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     if (lang === 'ar') return currentCity;
     if (lang === 'en') return currentEnglishDisplayName || currentEnglishName || currentCity;
-    // Nominatim أعاد اسماً مترجَماً حقيقياً (ليس endonym إنجليزي) → استخدمه
+    // Nominatim أعاد اسماً مترجَماً حقيقياً (ليس endonym إنجليزي) وبخطّ متوافق → استخدمه
     if (currentLocalizedName
         && currentLocalizedName !== currentEnglishName
-        && currentLocalizedName !== currentEnglishDisplayName) {
+        && currentLocalizedName !== currentEnglishDisplayName
+        && _isDisplayScriptAcceptable(currentLocalizedName, lang)) {
         return currentLocalizedName;
     }
     // قاموس محلي (متوفّر للغات 8 كلّها: ur/tr/fr/de/id/bn/es/ms)
@@ -1550,6 +1608,29 @@ async function fetchTimezone(lat, lng) {
 const _LATIN_NAME_RE = /^[A-Za-z0-9\u00C0-\u024F\u1E00-\u1EFF\s\-'.]+$/;
 function _latinOr(name) { return (name && _LATIN_NAME_RE.test(name)) ? name : ''; }
 
+// كاشف «حيّ/مقاطعة فرعيّة» — للتمييز بين المدن الحقيقيّة وبين أحياء تُصنَّف في OSM كـ city
+//   مثال: Chiyoda-ku في طوكيو (addresstype='city' في OSM) لأنّ الأحياء الخاصّة بطوكيو لها
+//   استقلاليّة بلديّة. لكن من منظور المستخدم هي أحياء داخل طوكيو، لا مدن مستقلّة.
+// نَكتشف:
+//   • CJK: 区 (ياباني/صيني ward) = U+533A، 구 (كوريّ gu) = U+AD6C
+//   • رومنة: -ku/-gu في الاسم اللاتينيّ (Tokyo-ku, Chongno-gu)
+//   • كلمات مفتاحيّة: Ward, Borough, Bezirk, Arrondissement, Kecamatan, Distrito, İlçe(si), Daerah
+function _isWardLike(name) {
+    if (!name) return false;
+    const s = String(name);
+    // CJK ward characters
+    if (s.indexOf('\u533A') !== -1) return true; // 区 (Japanese/Chinese ward)
+    if (s.indexOf('\uAD6C') !== -1) return true; // 구 (Korean gu)
+    // Romanized ward suffixes
+    if (/[-\s]ku$/i.test(s)) return true;
+    if (/[-\s]gu$/i.test(s)) return true;
+    // Western/Turkish/Malay/Indonesian ward indicators
+    if (/\b(Ward|Borough|Bezirk|Arrondissement|Distrito|Kecamatan|Daerah)\b/i.test(s)) return true;
+    // Turkish: "ilçe" / "ilçesi" — `\b` لا يعمل مع İ/ç، نعتمد على حدود بيضاء/نهاية
+    if (/(^|[\s\-,])[Iİ]l[çc]e(si)?($|[\s\-,])/i.test(s)) return true;
+    return false;
+}
+
 // إنشاء slug لاسم المدينة (للـ URL)
 function makeSlug(englishName, lat, lng) {
     const latin = (englishName || '').toLowerCase()
@@ -1575,13 +1656,16 @@ function getSlugFromURL() {
     if (/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(window.location.pathname)) return 'hijri-day';
     if (/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(window.location.pathname)) return 'hijri-year';
     if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/[a-z-]+-\d+$/.test(window.location.pathname)) return 'hijri-month';
+    // القمر: /moon-today أو /moon-today-in-{slug} — نعيد 'moon' كمفتاح جلسة
+    //   لاستعادة موقع المستخدم (لاستمراريّة السياق عند الانتقال من صفحة المدينة)
+    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname)) return 'moon';
     return null;
 }
 
 // التنقل إلى صفحة القبلة المخصصة للمدينة
 function navigateToQibla(lat, lng, city, country, englishName = '', countryCode = '') {
     const slug = makeSlug(englishName || city, lat, lng);
-    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, timezone: currentTimezone }));
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, timezone: currentTimezone, _v: 2 }));
     if (window.location.protocol === 'file:') {
         window.location.hash = `qibla-in-${slug}`;
     } else {
@@ -1702,6 +1786,69 @@ async function geocodeSlug(slug) {
     return null;
 }
 
+// Ward-fix migration helper: إذا كان sessionStorage القديم يحتوي على حيّ (مثل Chiyoda-ku
+//   محفوظ بالإنجليزيّة "Chiyoda" بدون -ku واضح) نعيد اكتشاف الموقع.
+// الخدعة: الاسم الإنجليزيّ "Chiyoda" لا يُظهر ward-ness، لكنّ namedetails تحتوي على:
+//   name:ja=千代田区 (فيه 区)، name:ja-Latn=Chiyoda-ku (فيه -ku)، name:fr=Arrondissement de Chiyoda
+//   فإن وُجد أيّ اسم ward-like في namedetails → نطلب zoom=8 للمدينة الأمّ (Tokyo).
+async function _revalidateCachedCity(lat, lng, slug, expectedEn) {
+    try {
+        const resp = await fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=en&namedetails=1`))
+            .then(r => r.json()).catch(() => null);
+        if (!resp?.address) return;
+        // افحص namedetails: إذا وجد أيّ اسم ward-like (بالـ 区/ku/구/Arrondissement/…) → حيّ
+        const nd = resp.namedetails || {};
+        const _anyWardLike = (() => {
+            for (const k in nd) {
+                if (_isWardLike(nd[k])) return true;
+            }
+            return _isWardLike(resp.name) || _isWardLike(resp.address?.city);
+        })();
+        let freshEn = '';
+        if (_anyWardLike) {
+            // اطلب zoom=8 للصعود إلى الأمّ (province/state)
+            const parent = await fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=8&accept-language=en&namedetails=1`))
+                .then(r => r.json()).catch(() => null);
+            if (parent?.address) {
+                freshEn = (parent.address.city || parent.address.state || parent.address.province || parent.name || '')
+                    .replace(/\s*(Region|Governorate|Province|Prefecture|Metropolis|District)\b/gi, '').trim();
+            }
+        }
+        const _norm = (s) => String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '');
+        let healed = false;
+        if (freshEn && _norm(freshEn) !== _norm(expectedEn)) {
+            // كان الاسم القديم حيّاً — نستدعي reverseGeocode الذي سيكتشف نفس الشيء ويحدّث الواجهة
+            await reverseGeocode(lat, lng, false);
+            healed = true;
+            // إعادة رسم صفحة القمر إن كنّا عليها
+            try {
+                const onMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/
+                    .test(window.location.pathname);
+                if (onMoon && typeof updateMoonInfo === 'function') updateMoonInfo();
+            } catch (_e) { /* silent */ }
+        }
+        // تحديث جلسة التخزين:
+        //   • healed=true → اكتُب الاسم الجديد (currentCity/currentEnglishName من reverseGeocode)
+        //   • healed=false → فقط ضَع _v:2 لمنع إعادة الفحص مستقبلاً
+        try {
+            const k = `city_${slug}`;
+            const cur = sessionStorage.getItem(k);
+            if (cur) {
+                const obj = JSON.parse(cur);
+                if (healed) {
+                    // currentCity قد يكون fallback رقميّ إن فشل reverseGeocode — لا تقبل إلا القيم الحقيقيّة
+                    if (typeof currentCity === 'string' && currentCity && !/^\d/.test(currentCity)) obj.name = currentCity;
+                    if (typeof currentCountry === 'string' && currentCountry) obj.country = currentCountry;
+                    if (typeof currentEnglishName === 'string' && currentEnglishName) obj.englishName = currentEnglishName;
+                    if (typeof currentCountryCode === 'string' && currentCountryCode) obj.countryCode = currentCountryCode;
+                }
+                obj._v = 2;
+                sessionStorage.setItem(k, JSON.stringify(obj));
+            }
+        } catch (_e) { /* silent */ }
+    } catch (_e) { /* silent */ }
+}
+
 async function initFromURL() {
     const slug = getSlugFromURL();
     if (!slug) return false;
@@ -1709,10 +1856,24 @@ async function initFromURL() {
     // 1) من sessionStorage (تنقل عادي داخل الموقع)
     const cached = sessionStorage.getItem(`city_${slug}`);
     if (cached) {
-        const { lat, lng, name, country, countryCode, englishName, timezone } = JSON.parse(cached);
+        const parsed = JSON.parse(cached);
+        const { lat, lng, name, country, countryCode, englishName, timezone, _v } = parsed;
         await loadCityData(lat, lng, name, country, countryCode || '', englishName || '', timezone || null);
+        // Ward-fix migration: جلسات قديمة (_v غير موجود) قد تحتوي على أحياء مثل "Chiyoda"
+        //   بدل المدينة الأمّ "Tokyo". نعيد التحقّق في الخلفيّة عبر reverseGeocode الذي
+        //   يستخدم الآن _pickCityLevel (يتخطّى الأحياء-المقنّعة).
+        try {
+            if (_v !== 2 && !isNaN(lat) && !isNaN(lng)) {
+                setTimeout(() => _revalidateCachedCity(lat, lng, slug, englishName || name), 600);
+            }
+        } catch (_e) { /* silent */ }
         return true;
     }
+
+    // ⭐ slug='moon' مفتاح جلسة فقط — لا نحاول geocoding له (يعطي Muhu/Estonia خاطئًا).
+    //   بدون جلسة → نترك الصفحة تَعمل بالـ slug من URL (مثل /moon-today-in-mecca) عبر
+    //   منطق صفحة القمر الخاصّ، مع currentCity/Lat الافتراضيّة للمستخدم.
+    if (slug === 'moon') return false;
 
     // 2) من query string (روابط قديمة)
     const params = new URLSearchParams(window.location.search);
@@ -1937,8 +2098,8 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="zakat"]')?.classList.add('active');
     }
 
-    // تفعيل صفحة القمر عند URL /moon-today (canonical) أو /moon-today-in-{slug}
-    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname);
+    // تفعيل صفحة القمر عند URL /moon-today (canonical) أو /moon-today-in-{slug} [/{YYYY-MM-DD}]
+    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:\/\d{4}-\d{2}-\d{2})?)?$/.test(window.location.pathname);
     if (_isMoonPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');
@@ -2005,13 +2166,28 @@ function initNavigation() {
                 const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname);
                 if (!_alreadyOnMoon) {
                     // 1) جرّب استخراج slug من URL صفحة المدينة الحاليّة (prayer-times-in-* / qibla-in-*)
+                    //    ثمّ تنظيفه من الإحداثيّات: "tokyo-35.6895-139.6917" → "tokyo"
                     let _moonSlug = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/)?.[1] || null;
+                    if (_moonSlug) {
+                        _moonSlug = _moonSlug.replace(/-?-?\d.*$/, '').replace(/-+$/, '');
+                    }
                     // 2) fallback: من المدينة الحاليّة في الذاكرة (Mecca بشكل افتراضيّ في بداية الجلسة)
-                    if (!_moonSlug && currentEnglishName && currentLat != null) {
-                        try { _moonSlug = makeSlug(currentEnglishName, currentLat, currentLng); } catch (_e) { /* silent */ }
+                    if (!_moonSlug && currentEnglishName) {
+                        _moonSlug = currentEnglishName.toLowerCase().trim().replace(/\s+/g, '-');
                     }
                     // 3) آخر ملجأ: مكّة
                     if (!_moonSlug) _moonSlug = 'mecca';
+                    // ⭐ حفظ موقع المدينة لصفحة القمر — بحيث تُعرَض Tokyo الصحيحة حتّى لو لم تكن في FAMOUS_MOON_CITIES
+                    if (currentLat != null && currentLng != null) {
+                        try {
+                            sessionStorage.setItem('city_moon', JSON.stringify({
+                                lat: currentLat, lng: currentLng,
+                                name: currentCity, country: currentCountry,
+                                englishName: currentEnglishName, countryCode: currentCountryCode,
+                                timezone: currentTimezone
+                            }));
+                        } catch (_e) { /* silent */ }
+                    }
                     window.location.href = pageUrl(`/moon-today-in-${_moonSlug}`);
                 }
                 return;
@@ -2047,7 +2223,8 @@ function initNavigation() {
                 if (_slug && currentLat) {
                     sessionStorage.setItem(`city_${_slug}`, JSON.stringify({
                         lat: currentLat, lng: currentLng, name: currentCity,
-                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone
+                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone,
+                        _v: 2
                     }));
                     window.location.href = pageUrl(`/prayer-times-in-${_slug}`);
                     return;
@@ -2307,12 +2484,18 @@ function fetchCitySuggestions(query) {
                                   'road', 'path', 'footway', 'motorway', 'trunk',
                                   'primary', 'secondary', 'tertiary', 'unclassified',
                                   'service', 'track', 'living_street', 'residential']);
-        let results = all.filter(p =>
-            !rejected.has(p.addresstype) &&
-            !rejected.has(p.type) &&
-            p.class !== 'country' &&
-            p.class !== 'highway'
-        );
+        let results = all.filter(p => {
+            if (rejected.has(p.addresstype)) return false;
+            if (rejected.has(p.type)) return false;
+            if (p.class === 'country' || p.class === 'highway') return false;
+            // رفض أحياء مُقنَّعة كـ city (مثل 千代田区 Chiyoda-ku في طوكيو)
+            const _nm = p.name || '';
+            const _rawEn = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
+                || (p.address && (p.address.city || p.address.town || p.address.village))
+                || p.display_name?.split(',')[0] || '');
+            if (_isWardLike(_nm) || _isWardLike(_rawEn)) return false;
+            return true;
+        });
 
         const typeRank = p => {
             const t = p.addresstype || p.type || '';
@@ -2458,6 +2641,11 @@ function fetchCityOnlineBroader(query) {
                     const nm = p.name || '';
                     if (nm.startsWith('حي ') || nm.startsWith('شارع ')) return false;
                     if (/\b(District|Neighborhood|Neighbourhood|Quarter|Street|Road|Avenue|Boulevard|Lane|Drive|Way)\s*$/i.test(nm)) return false;
+                    // أحياء مُقنَّعة كـ city (مثل طوكيو-ku في OSM) — نرفضها من البحث أيضاً
+                    const _rawEnForWard = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
+                        || (p.address && (p.address.city || p.address.town || p.address.village))
+                        || p.display_name?.split(',')[0] || '');
+                    if (_isWardLike(nm) || _isWardLike(_rawEnForWard)) return false;
                     return true;
                 })
                 .slice(0, 6);
@@ -2514,7 +2702,7 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
     const slug = makeSlug(englishName || city, lat, lng);
     // لا نخزّن timezone هنا لأن currentTimezone قد يكون للمدينة السابقة
     // سيتم جلب timezone الصحيح عند تحميل الصفحة الجديدة
-    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode }));
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, _v: 2 }));
     if (window.location.protocol === 'file:') {
         window.location.hash = `prayer-times-in-${slug}`;
     } else {
@@ -2652,18 +2840,49 @@ async function fetchLocalizedCityName(lat, lng) {
         // أحرف خاصّة بالأوردو (موجودة في Unicode block Arabic لكنّ الأوردو فقط يستخدمها)
         // مثال: "مکہ" تحوي ک U+06A9 و ہ U+06C1 — بينما "مكة" (عربية) ليس فيها
         const _hasUrduSpecific = (s) => /[\u067E\u0686\u0698\u06A9\u06AF\u0688\u0691\u0679\u06BA\u06CC\u06D2\u06C1]/.test(String(s || ''));
-        // لغات مكتوبة بحروف لاتينية فقط → لا نقبل محتوى عربي
-        // UR يستخدم خطّاً عربياً لكن فقط إذا كان يحوي أحرف أوردو خاصة (ليس مجرّد endonym عربي)
+        // خطوط CJK (صينيّة/يابانيّة/كوريّة) — لا تُستخدَم في أيٍّ من لغاتنا العشر
+        //   3000-30FF: Japanese Hiragana/Katakana + CJK Symbols
+        //   3400-4DBF: CJK Extension A
+        //   4E00-9FFF: CJK Unified Ideographs
+        //   AC00-D7AF: Korean Hangul Syllables
+        //   F900-FAFF: CJK Compatibility Ideographs
+        //   FF00-FFEF: Halfwidth/Fullwidth Forms
+        const _hasCjkChar = (s) => /[\u3000-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uAC00-\uD7AF\uF900-\uFAFF\uFF00-\uFFEF]/.test(String(s || ''));
+        // Bengali Unicode block (U+0980-U+09FF) — تُستخدم فقط في bn
+        const _hasBengaliChar = (s) => /[\u0980-\u09FF]/.test(String(s || ''));
+        // خطوط أخرى غير مدعومة (Cyrillic/Devanagari/Thai/Hebrew/Greek/Tamil/Telugu/…)
+        const _hasOtherUnsupportedChar = (s) => /[\u0370-\u03FF\u0400-\u04FF\u0500-\u052F\u0530-\u058F\u0590-\u05FF\u0700-\u074F\u0900-\u097F\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u10A0-\u10FF\u1100-\u11FF\u1200-\u137F]/.test(String(s || ''));
+        // التحقّق من أنّ النصّ بخطّ متوافق مع لغة الواجهة:
+        //  AR      → يسمح عربيّ + لاتينيّ. يرفض CJK/البنغاليّة/السيريليّة/…
+        //  UR      → لاتينيّ أو عربيّ-بأوردو-خاصّ. يرفض العربيّ المحض والخطوط الأخرى
+        //  BN      → لاتينيّ أو بنغاليّ. يرفض العربيّ/CJK/…
+        //  غيرها  → لاتينيّ بحت (EN/FR/TR/DE/ID/ES/MS). يرفض كلّ ما عدا اللاتينيّة
         const _isAcceptableScript = (s) => {
             if (!s) return false;
-            if (!_hasArabicChar(s)) return true; // لاتيني/سيريليّ/لاتيني-ممتدّ → مقبول
-            // يحوي حروفاً عربية — مقبول فقط إذا كانت UR وتحوي أحرف أوردو خاصّة
-            return (lang === 'ur') && _hasUrduSpecific(s);
+            // أوّلاً: ارفض CJK وباقي الخطوط غير المدعومة لجميع اللغات
+            if (_hasCjkChar(s)) return false;
+            if (_hasOtherUnsupportedChar(s)) return false;
+            if (lang === 'ar') {
+                // يسمح عربيّ أو لاتينيّ، يرفض البنغاليّة
+                return !_hasBengaliChar(s);
+            }
+            if (lang === 'ur') {
+                // عربيّ محض بدون أحرف أوردو خاصّة → غير مقبول (endonym عربيّ)
+                if (_hasArabicChar(s) && !_hasUrduSpecific(s)) return false;
+                return !_hasBengaliChar(s);
+            }
+            if (lang === 'bn') {
+                // bn: بنغاليّ أو لاتينيّ، ارفض العربيّ
+                return !_hasArabicChar(s);
+            }
+            // EN/FR/TR/DE/ID/ES/MS: لاتينيّ بحت — ارفض العربيّ والبنغاليّة
+            return !_hasArabicChar(s) && !_hasBengaliChar(s);
         };
         const targetEn = _normalizeEn(currentEnglishName);
         let cityMain = '';
         if (targetEn) {
             // المستويات من الأخصّ للأعمّ — بعض الدول (مثل الإمارات) تُسجِّل الإمارة كـ state (مثلاً Dubai)
+            // نتخطّى المستويات التي يكون اسمها الإنجليزيّ «حيّاً-مقنّعاً» (ward-like) مثل Chiyoda-ku
             const levels = [
                 [addr.village,      addrEn.village],
                 [addr.hamlet,       addrEn.hamlet],
@@ -2674,6 +2893,7 @@ async function fetchLocalizedCityName(lat, lng) {
             ];
             for (const [loc, en] of levels) {
                 if (!loc || !en) continue;
+                if (_isWardLike(en) || _isWardLike(loc)) continue;
                 if (_normalizeEn(en) === targetEn) {
                     // إذا Nominatim لم يكن لديه ترجمة حقيقية → يُعيد endonym عربي (مثل "الجموم")
                     // فنَستخدم الإنجليزي بدلاً منه (مثلاً "Al Jumum" لصفحات DE/TR/FR)
@@ -2683,17 +2903,42 @@ async function fetchLocalizedCityName(lat, lng) {
             }
         }
         // fallback: الأولوية الأصلية (قرية > بلدة > مدينة) لحالات بدون currentEnglishName أو عدم مطابقة
+        // مع تخطّي المستويات الـ ward-like في كلا اللغتين
         if (!cityMain) {
-            const _localeFirst = addr.village || addr.hamlet || addr.town
-                || addr.city || addr.municipality
-                || (addr.state || '').trim()
-                || nd[`name:${lang}`]
-                || '';
-            const _enFirst = addrEn.village || addrEn.hamlet || addrEn.town
-                || addrEn.city || addrEn.municipality
-                || (addrEn.state || '').trim()
-                || '';
-            cityMain = _isAcceptableScript(_localeFirst) ? _localeFirst : (_enFirst || _localeFirst);
+            const _pickNonWard = (a) => {
+                const candidates = [a.village, a.hamlet, a.town, a.city, a.municipality];
+                for (const c of candidates) { if (c && !_isWardLike(c)) return c; }
+                const st = (a.state || '').trim();
+                return (st && !_isWardLike(st)) ? st : '';
+            };
+            // إن كان لدينا currentEnglishName (مثل "Tokyo") ولم يتطابق أيّ مستوى معه، فالـ fallback يجب ألّا
+            // يختار اسماً عشوائيّاً من zoom=12 (مثل "Chiyoda") — فهذا حيّ فرعيّ لا يُمثّل المدينة.
+            //   الحلّ: إن كان addrEn لا يحوي مستوى مطابق لـ targetEn → استخدم currentEnglishName مباشرةً
+            //   (يتيح للواجهة عرض "Tokyo" بدلاً من "Chiyoda" حتّى لو لم نجد الترجمة المحلّيّة).
+            let _mismatchedToTarget = false;
+            if (targetEn) {
+                const enCandidates = [addrEn.village, addrEn.hamlet, addrEn.town, addrEn.city, addrEn.municipality, addrEn.state];
+                const anyMatches = enCandidates.some(c => c && _normalizeEn(c) === targetEn);
+                _mismatchedToTarget = !anyMatches;
+            }
+            if (_mismatchedToTarget) {
+                // استخدم namedetails[`name:${lang}`] إن كان متطابقاً مع currentEnglishName
+                const ndLocal = nd[`name:${lang}`] || '';
+                const ndEn = nd[`name:en`] || nd[`name:en-US`] || '';
+                if (ndLocal && !_isWardLike(ndLocal) && _isAcceptableScript(ndLocal)
+                    && (_normalizeEn(ndEn) === targetEn || !ndEn)) {
+                    cityMain = ndLocal;
+                } else {
+                    // لا ترجمة موثوقة — استخدم الإنجليزيّ مباشرةً (Tokyo)
+                    cityMain = currentEnglishName;
+                }
+            } else {
+                const _localeFirst = _pickNonWard(addr)
+                    || (nd[`name:${lang}`] && !_isWardLike(nd[`name:${lang}`]) ? nd[`name:${lang}`] : '')
+                    || '';
+                const _enFirst = _pickNonWard(addrEn);
+                cityMain = _isAcceptableScript(_localeFirst) ? _localeFirst : (_enFirst || _localeFirst);
+            }
         }
         const countryMain = addr.country || '';
         const _prevLocalized = currentLocalizedName;
@@ -2710,6 +2955,13 @@ async function fetchLocalizedCityName(lat, lng) {
             && typeof loadCityAboutSection === 'function') {
             loadCityAboutSection();
         }
+        // إعادة رسم محتوى صفحة القمر (H1/H2/intro/FAQ) بالاسم المترجَم — مهمّ للغات UR/TR/FR/DE/ID/BN/ES/MS
+        //   لأنّ updateMoonInfo() يستخدم _moonCityDisplayName() الذي يعتمد على currentCity/currentLocalizedName.
+        try {
+            const _onMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/
+                .test(window.location.pathname);
+            if (_onMoonPage && typeof updateMoonInfo === 'function') updateMoonInfo();
+        } catch (_e) { /* silent */ }
     } catch (_e) { /* تجاهل — الـ fallback الإنجليزي يعمل */ }
 }
 
@@ -2913,21 +3165,73 @@ function reverseGeocode(lat, lng, navigateAfter = false) {
         fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=ar&namedetails=1`)).then(r=>r.json()).catch(()=>null),
         30 * 86400000);
     const enReq = _cached(_coordKey('revGeoCity', lat, lng, 'en'), () =>
-        fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=en`)).then(r=>r.json()).catch(()=>null),
+        fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&accept-language=en&namedetails=1`)).then(r=>r.json()).catch(()=>null),
         30 * 86400000);
 
-    Promise.all([arReq, enReq]).then(([arData, enData]) => {
+    return Promise.all([arReq, enReq]).then(async ([arData, enData]) => {
         if (arData?.address) {
             const addr = arData.address;
             const enAddr = enData?.address || {};
 
             // اسم المدينة الرئيسية فقط (بدون أحياء) مع احتياط لحالة غياب city
-            const arCityMain = addr.city || addr.town || addr.village
-                || (addr.state || '').replace(/^منطقة\s+/, '').replace(/^محافظة\s+/, '').trim()
-                || '';
-            const rawEnCity = enAddr.city || enAddr.town || enAddr.village
-                || (enAddr.state || '').replace(/\s*(Region|Governorate|Province)\b/gi, '').trim()
-                || '';
+            // إذا كان addr.city/town/village حيّاً مُقنَّعاً (مثل 千代田区 في طوكيو) → نصعد إلى state
+            const _stripAdminSuffixes = (s) => (s || '')
+                .replace(/^منطقة\s+/, '').replace(/^محافظة\s+/, '')
+                .replace(/\s*(Region|Governorate|Province|Prefecture|Metropolis|District)\b/gi, '')
+                .trim();
+            const _pickCityLevel = (a) => {
+                const candidates = [a.city, a.town, a.village];
+                for (const c of candidates) {
+                    if (c && !_isWardLike(c)) return c;
+                }
+                // كلّها أحياء-مقنّعة أو فارغة → استخدم state
+                return _stripAdminSuffixes(a.state || '');
+            };
+            let arCityMain = _pickCityLevel(addr) || '';
+            let rawEnCity = _pickCityLevel(enAddr) || '';
+
+            // Ward-fix escalation: إن كان city في zoom=10 حيّاً-مقنّعاً (مثل 千代田区 في Arabic)
+            //   أو كانت جميع الحقول فارغة/أحياء ولم يوجد state → نصعد إلى zoom=8 (المدينة الأمّ).
+            //   مثال: Chiyoda(Arabic zoom=10) = 千代田区 بدون state → نصعد إلى Tokyo عبر zoom=8.
+            //   ملاحظة: الإنجليزي "Chiyoda" وحده لا يُكتَشف كحيّ، لكنّ namedetails (name:ja=千代田区،
+            //   name:ja-Latn=Chiyoda-ku، name:fr=Arrondissement de Chiyoda) تكشف طبيعته الحقيقيّة.
+            //   لذا نفحص namedetails في أيّ من arData/enData: إذا وُجد أيّ ward-like → تصعيد إجباريّ.
+            const arCityIsWard = _isWardLike(addr.city) || _isWardLike(addr.town) || _isWardLike(addr.village);
+            const enCityIsWard = _isWardLike(enAddr.city) || _isWardLike(enAddr.town) || _isWardLike(enAddr.village);
+            const _anyNdWard = (r) => {
+                const nd = r?.namedetails || {};
+                for (const k in nd) { if (_isWardLike(nd[k])) return true; }
+                return false;
+            };
+            const ndWardDetected = _anyNdWard(arData) || _anyNdWard(enData);
+            const needParentAr = !arCityMain || (arCityIsWard && !addr.state) || ndWardDetected;
+            const needParentEn = !rawEnCity || (enCityIsWard && !enAddr.state) || ndWardDetected;
+            if (needParentAr || needParentEn) {
+                try {
+                    const arP = needParentAr
+                        ? _cached(_coordKey('revGeoParent8', lat, lng, 'ar'), () =>
+                            fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=8&accept-language=ar&namedetails=1`)).then(r=>r.json()).catch(()=>null),
+                            30 * 86400000)
+                        : null;
+                    const enP = needParentEn
+                        ? _cached(_coordKey('revGeoParent8', lat, lng, 'en'), () =>
+                            fetch(nomUrl(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=8&accept-language=en&namedetails=1`)).then(r=>r.json()).catch(()=>null),
+                            30 * 86400000)
+                        : null;
+                    const [arPD, enPD] = await Promise.all([arP, enP]);
+                    if (needParentAr && arPD) {
+                        const pAddr = arPD.address || {};
+                        const parentAr = _stripAdminSuffixes(pAddr.city || pAddr.town || pAddr.village || pAddr.province || pAddr.state || arPD.name || '');
+                        if (parentAr) arCityMain = parentAr;
+                    }
+                    if (needParentEn && enPD) {
+                        const pAddr = enPD.address || {};
+                        const parentEn = _stripAdminSuffixes(pAddr.city || pAddr.town || pAddr.village || pAddr.province || pAddr.state || enPD.name || '');
+                        if (parentEn) rawEnCity = parentEn;
+                    }
+                } catch (_e) { /* silent — fall back to original values */ }
+            }
+
             // حذف كلمة District من الأسماء الإنجليزية
             const enCityMain = rawEnCity.replace(/\s*District\b/gi, '').trim();
 
@@ -2937,9 +3241,13 @@ function reverseGeocode(lat, lng, navigateAfter = false) {
             currentCountryCode = (addr.country_code || '').toLowerCase();
 
             // الاسم الإنجليزي (للـ slug والعرض): المدينة فقط بدون District
-            currentEnglishName = (arData.namedetails?.['name:en']
-                || arData.namedetails?.['name:en-US']
+            // namedetails عبر arData قد تحتوي أيضاً على ward-like name:en (مثلاً "Chiyoda")
+            //   لذا عند تصعيد zoom=8 نفضّل rawEnCity (من zoom=8) على namedetails.
+            const ndEnRaw = (arData.namedetails?.['name:en'] || arData.namedetails?.['name:en-US'] || '').trim();
+            const ndEnIsWard = _isWardLike(ndEnRaw);
+            currentEnglishName = ((needParentEn ? '' : ndEnRaw && !ndEnIsWard ? ndEnRaw : '')
                 || enCityMain
+                || ndEnRaw
                 || '').replace(/\s*District\b/gi, '').trim();
 
             currentEnglishDisplayName = enCityMain || currentEnglishName || '';
@@ -3012,7 +3320,8 @@ function updateCityDisplay() {
             sessionStorage.setItem(`city_${slug}`, JSON.stringify({
                 lat: currentLat, lng: currentLng,
                 name: currentCity, country: currentCountry,
-                englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone
+                englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone,
+                _v: 2
             }));
             window.location.href = qiblaBackBtn.href;
         };
@@ -3023,6 +3332,44 @@ function updateCityDisplay() {
     } else if (qiblaBackBtn) {
         qiblaBackBtn.style.display = 'none';
     }
+
+    // ── تجاوز خاصّ بصفحة /moon-today-in-{slug}: ────────────────────────────
+    //   يجب أن يظهر الهيدر العلويّ باسم مدينة الصفحة (Tokyo/Japan) لا باسم
+    //   موقع المستخدم (Mecca/Saudi Arabia). لا نُعدّل currentCity/Lat/Lng —
+    //   فقط النصّ المعروض في #city-name و #country-name.
+    //
+    //   للسيناريو الأهمّ (انتقال من prayer-times-in-tokyo → moon): تعتمد
+    //   العرض على sessionStorage 'city_moon' الذي يُحمَّل في initFromURL —
+    //   وبالتالي currentCity/Country يحملان Tokyo، ولا نحتاج التجاوز هنا.
+    //   لكن عند الزيارة المباشرة لـ /moon-today-in-{famous-slug} (بدون جلسة)،
+    //   نستبدل الهيدر بناءً على slug في FAMOUS_MOON_CITIES فقط — لضمان أنّ
+    //   currentCity/Country ما زالا صحيحَين للمدن المعروفة.
+    try {
+        const _mmatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)(?:\.html)?$/);
+        if (_mmatch && _mmatch[1]) {
+            const _mSlug = _mmatch[1];
+            // لا نتجاوز إلا إذا:
+            //   (أ) المدينة معروفة في FAMOUS_MOON_CITIES (بيانات موثوقة)، أو
+            //   (ب) لم يتمّ استعادة الجلسة (لا Tokyo من prayer-times → currentCity افتراضيّ)
+            const _inFamous = (typeof FAMOUS_MOON_CITIES !== 'undefined') && !!FAMOUS_MOON_CITIES[_mSlug];
+            // التحقّق من أنّ الـ currentEnglishName لا يطابق الـ slug (أي لم تُستعَد الجلسة)
+            const _simpleCurEn = (currentEnglishName || '').toLowerCase().trim().replace(/\s+/g, '-');
+            const _sessionMatchesSlug = (_simpleCurEn === _mSlug);
+            if (_inFamous && !_sessionMatchesSlug) {
+                const _mCity = (typeof _moonCityDisplayName === 'function') ? _moonCityDisplayName(_mSlug) : _mSlug;
+                const _mCountry = (typeof _moonCityCountryName === 'function') ? _moonCityCountryName(_mSlug, _lng) : '';
+                const _cityEl = document.getElementById('city-name');
+                const _countryEl = document.getElementById('country-name');
+                if (_cityEl && _mCity) {
+                    _cityEl.textContent = _mCity;
+                    _cityEl.removeAttribute('data-i18n');
+                }
+                if (_countryEl) {
+                    _countryEl.textContent = _mCountry || '';
+                }
+            }
+        }
+    } catch (_e) { /* silent */ }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -3379,6 +3726,65 @@ function updateHomeGateway() {
             if (moonIconEl) moonIconEl.textContent = phaseInfo.icon;
         } catch (e) { /* استمر بدون طور */ }
     }
+
+    // ── 4. في صفحات المدن: عناوين البطاقات الثلاث (هجري/قبلة/قمر) تحمل اسم المدينة
+    //   "التاريخ الهجري اليوم في {المدينة}"، "اتجاه القبلة في {المدينة}"، "القمر اليوم في {المدينة}"
+    //   — نعدّل .qa-title ونُزيل data-i18n لمنع i18n auto-binder من دَوس نصّنا
+    try {
+        const _isCityPage = document.body.classList.contains('city-prayer-page')
+                         || (document.documentElement && document.documentElement.classList.contains('city-page'));
+        if (_isCityPage) {
+            // استخراج slug المدينة من عنوان URL أوّلاً (أدق من currentCity على صفحات URL-based)
+            //   مثال: /en/prayer-times-in-london-51.5074-0.1278 → london
+            //   ثم نستخدم _moonCityDisplayName للتعريب التلقائيّ (city.<slug>) مع fallback للـ prettify
+            let _cityLabelQA = '';
+            try {
+                const _pmatch = window.location.pathname.match(
+                    /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/
+                );
+                if (_pmatch && _pmatch[1]) {
+                    const _cleanSlug = _pmatch[1].replace(/-?-?\d.*$/, '').replace(/-+$/, '');
+                    if (_cleanSlug && typeof _moonCityDisplayName === 'function') {
+                        _cityLabelQA = _moonCityDisplayName(_cleanSlug);
+                    }
+                }
+            } catch (_e1) { /* silent */ }
+            // fallback: getDisplayCity() / currentCity — مع تنظيف دفاعيّ لأيّ أرقام إحداثيّات
+            if (!_cityLabelQA) {
+                _cityLabelQA = (typeof getDisplayCity === 'function') ? getDisplayCity() : (currentCity || '');
+                if (_cityLabelQA && /\s+-?\d+\.\d+/.test(_cityLabelQA)) {
+                    _cityLabelQA = _cityLabelQA.replace(/\s+-?\d+\.\d+.*$/, '').trim();
+                }
+            }
+            if (_cityLabelQA) {
+                const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                // قوالب معرّبة لـ 10 لغات (hijri / qibla / moon)
+                const QA_TPL = {
+                    ar: { hijri: c => `التاريخ الهجري اليوم في ${c}`, qibla: c => `اتجاه القبلة في ${c}`,   moon: c => `القمر اليوم في ${c}` },
+                    en: { hijri: c => `Today's Hijri Date in ${c}`,   qibla: c => `Qibla Direction in ${c}`, moon: c => `Moon Today in ${c}` },
+                    fr: { hijri: c => `Date hégirienne aujourd'hui à ${c}`, qibla: c => `Direction de la Qibla à ${c}`, moon: c => `Lune aujourd'hui à ${c}` },
+                    tr: { hijri: c => `${c} için Bugünkü Hicri Tarih`, qibla: c => `${c} Kıble Yönü`,    moon: c => `${c} için Bugün Ay` },
+                    ur: { hijri: c => `${c} میں آج کی ہجری تاریخ`,    qibla: c => `${c} میں قبلہ کا رخ`, moon: c => `${c} میں آج کا چاند` },
+                    de: { hijri: c => `Hidschri-Datum heute in ${c}`, qibla: c => `Qibla-Richtung in ${c}`, moon: c => `Mond heute in ${c}` },
+                    id: { hijri: c => `Tanggal Hijriah Hari Ini di ${c}`, qibla: c => `Arah Kiblat di ${c}`, moon: c => `Bulan Hari Ini di ${c}` },
+                    es: { hijri: c => `Fecha hijri de hoy en ${c}`,  qibla: c => `Dirección de la Qibla en ${c}`, moon: c => `Luna hoy en ${c}` },
+                    bn: { hijri: c => `${c}-এ আজকের হিজরি তারিখ`,   qibla: c => `${c}-এ কিবলার দিক`, moon: c => `${c}-এ আজকের চাঁদ` },
+                    ms: { hijri: c => `Tarikh Hijrah Hari Ini di ${c}`, qibla: c => `Arah Kiblat di ${c}`, moon: c => `Bulan Hari Ini di ${c}` }
+                };
+                const _tpl = QA_TPL[_lang] || QA_TPL.en;
+                const _apply = (selector, tplFn) => {
+                    const el = document.querySelector(selector);
+                    if (!el) return;
+                    el.textContent = tplFn(_cityLabelQA);
+                    // منع i18n من إعادة الكتابة لاحقًا
+                    el.removeAttribute('data-i18n');
+                };
+                _apply('#home-quick-access a[onclick*="hijri-today"] .qa-title', _tpl.hijri);
+                _apply('#home-quick-access a[onclick*="qibla"] .qa-title',        _tpl.qibla);
+                _apply('#home-quick-access a[onclick*="\'moon\'"] .qa-title',     _tpl.moon);
+            }
+        }
+    } catch (_e) { /* silent */ }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -4277,6 +4683,25 @@ function updateCityRelatedServices() {
     };
     const t = L[lang] || L.ar;
 
+    // للقمر: يربط دائمًا بـ /moon-today-in-{slug} (نستخدم اسم المدينة النظيف).
+    // sessionStorage يحمل الإحداثيّات، لذا لا حاجة لقصر الاختيار على FAMOUS_MOON_CITIES.
+    // 1) استخراج slug من URL الحاليّ (prayer-times-in-X / qibla-in-X) → تنظيفه من الإحداثيّات.
+    // 2) fallback: من currentEnglishName (lowercase + hyphens).
+    const _moonCitySlug = (function() {
+        let candidate = null;
+        try {
+            const m = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/);
+            if (m && m[1]) {
+                // "london-51.5-0.1" → "london"; "abu-dhabi-24.4-54.3" → "abu-dhabi"
+                candidate = m[1].replace(/-?-?\d.*$/, '').replace(/-+$/, '');
+            }
+        } catch (_e) { /* silent */ }
+        if (!candidate && currentEnglishName) {
+            candidate = currentEnglishName.toLowerCase().trim().replace(/\s+/g, '-');
+        }
+        return candidate || null;
+    })();
+
     // تنسيق "القبلة في {المدينة}" حسب اللغة (SOV للعربية والأردية والبنغالية)
     const qiblaLabel = (function(c) {
         switch (lang) {
@@ -4317,7 +4742,7 @@ function updateCityRelatedServices() {
         {
             icon: '🌙',
             label: t.moon,
-            url: pageUrl('/moon-today')
+            url: _moonCitySlug ? pageUrl(`/moon-today-in-${_moonCitySlug}`) : pageUrl('/moon-today')
         },
         {
             icon: '💰',
@@ -4332,6 +4757,26 @@ function updateCityRelatedServices() {
             <span>${s.label}</span>
         </a>`
     ).join('');
+
+    // ⭐ عند النقر على رابط القمر: احفظ موقع المدينة الحاليّة في sessionStorage
+    //   حتّى تعرضها صفحة القمر بشكل صحيح (مفيد للمدن خارج FAMOUS_MOON_CITIES مثل Tokyo)
+    try {
+        const _moonLink = grid.querySelector('a.rel-service-link[href*="moon-today"]');
+        if (_moonLink) {
+            _moonLink.addEventListener('click', () => {
+                if (currentLat != null && currentLng != null) {
+                    try {
+                        sessionStorage.setItem('city_moon', JSON.stringify({
+                            lat: currentLat, lng: currentLng,
+                            name: currentCity, country: currentCountry,
+                            englishName: currentEnglishName, countryCode: currentCountryCode,
+                            timezone: currentTimezone
+                        }));
+                    } catch (_e) { /* silent */ }
+                }
+            });
+        }
+    } catch (_e) { /* silent */ }
 }
 
 // ========= جدول مواقيت الأسبوع/الشهر =========
@@ -5967,53 +6412,88 @@ function requestCompassPermission() {
 // ========= القمر =========
 // جدول المدن المشهورة (يُطابق FAMOUS_CITY_OVERRIDES في server.js) —
 // يُستخدم فقط على صفحة /moon-today-in-{slug} لمطابقة الإحداثيّات مع الـ URL.
+// ملاحظة: كلّ مدينة تحمل tz (IANA) دقيقة + DST-aware.
+// للمواقع التي يحدّدها المستخدم لاحقًا خارج هذه القائمة (لو وُسِّعت المنصّة) →
+// MoonCalc.getMoonTimes تستخدم تقدير من lng (Etc/GMT±N) — دقّة ±30 د للقمر، كافٍ.
 const FAMOUS_MOON_CITIES = {
-    'mecca':         { lat: 21.4225, lng: 39.8262 },
-    'medina':        { lat: 24.4672, lng: 39.6112 },
-    'riyadh':        { lat: 24.7136, lng: 46.6753 },
-    'jeddah':        { lat: 21.4858, lng: 39.1925 },
-    'dammam':        { lat: 26.4207, lng: 50.0888 },
-    'cairo':         { lat: 30.0444, lng: 31.2357 },
-    'alexandria':    { lat: 31.2001, lng: 29.9187 },
-    'istanbul':      { lat: 41.0082, lng: 28.9784 },
-    'ankara':        { lat: 39.9334, lng: 32.8597 },
-    'dubai':         { lat: 25.2048, lng: 55.2708 },
-    'abu-dhabi':     { lat: 24.4539, lng: 54.3773 },
-    'doha':          { lat: 25.2854, lng: 51.5310 },
-    'kuwait':        { lat: 29.3759, lng: 47.9774 },
-    'manama':        { lat: 26.2285, lng: 50.5860 },
-    'muscat':        { lat: 23.5859, lng: 58.4059 },
-    'amman':         { lat: 31.9454, lng: 35.9284 },
-    'baghdad':       { lat: 33.3152, lng: 44.3661 },
-    'beirut':        { lat: 33.8938, lng: 35.5018 },
-    'damascus':      { lat: 33.5138, lng: 36.2765 },
-    'sanaa':         { lat: 15.3694, lng: 44.1910 },
-    'tunis':         { lat: 36.8065, lng: 10.1815 },
-    'algiers':       { lat: 36.7538, lng: 3.0588 },
-    'rabat':         { lat: 34.0209, lng: -6.8416 },
-    'casablanca':    { lat: 33.5731, lng: -7.5898 },
-    'khartoum':      { lat: 15.5007, lng: 32.5599 },
-    'tripoli':       { lat: 32.8872, lng: 13.1913 },
-    'jerusalem':     { lat: 31.7683, lng: 35.2137 },
-    'karachi':       { lat: 24.8607, lng: 67.0011 },
-    'lahore':        { lat: 31.5204, lng: 74.3587 },
-    'islamabad':     { lat: 33.6844, lng: 73.0479 },
-    'dhaka':         { lat: 23.8103, lng: 90.4125 },
-    'jakarta':       { lat: -6.2088, lng: 106.8456 },
-    'kuala-lumpur':  { lat: 3.1390, lng: 101.6869 },
-    'london':        { lat: 51.5074, lng: -0.1278 },
-    'paris':         { lat: 48.8566, lng: 2.3522 },
-    'berlin':        { lat: 52.5200, lng: 13.4050 },
-    'madrid':        { lat: 40.4168, lng: -3.7038 },
-    'rome':          { lat: 41.9028, lng: 12.4964 },
-    'new-york':      { lat: 40.7128, lng: -74.0060 },
-    'toronto':       { lat: 43.6532, lng: -79.3832 },
-    'sydney':        { lat: -33.8688, lng: 151.2093 }
+    'mecca':         { lat: 21.4225, lng: 39.8262,  tz: 'Asia/Riyadh' },
+    'medina':        { lat: 24.4672, lng: 39.6112,  tz: 'Asia/Riyadh' },
+    'riyadh':        { lat: 24.7136, lng: 46.6753,  tz: 'Asia/Riyadh' },
+    'jeddah':        { lat: 21.4858, lng: 39.1925,  tz: 'Asia/Riyadh' },
+    'dammam':        { lat: 26.4207, lng: 50.0888,  tz: 'Asia/Riyadh' },
+    'cairo':         { lat: 30.0444, lng: 31.2357,  tz: 'Africa/Cairo' },
+    'alexandria':    { lat: 31.2001, lng: 29.9187,  tz: 'Africa/Cairo' },
+    'istanbul':      { lat: 41.0082, lng: 28.9784,  tz: 'Europe/Istanbul' },
+    'ankara':        { lat: 39.9334, lng: 32.8597,  tz: 'Europe/Istanbul' },
+    'dubai':         { lat: 25.2048, lng: 55.2708,  tz: 'Asia/Dubai' },
+    'abu-dhabi':     { lat: 24.4539, lng: 54.3773,  tz: 'Asia/Dubai' },
+    'doha':          { lat: 25.2854, lng: 51.5310,  tz: 'Asia/Qatar' },
+    'kuwait':        { lat: 29.3759, lng: 47.9774,  tz: 'Asia/Kuwait' },
+    'manama':        { lat: 26.2285, lng: 50.5860,  tz: 'Asia/Bahrain' },
+    'muscat':        { lat: 23.5859, lng: 58.4059,  tz: 'Asia/Muscat' },
+    'amman':         { lat: 31.9454, lng: 35.9284,  tz: 'Asia/Amman' },
+    'baghdad':       { lat: 33.3152, lng: 44.3661,  tz: 'Asia/Baghdad' },
+    'beirut':        { lat: 33.8938, lng: 35.5018,  tz: 'Asia/Beirut' },
+    'damascus':      { lat: 33.5138, lng: 36.2765,  tz: 'Asia/Damascus' },
+    'sanaa':         { lat: 15.3694, lng: 44.1910,  tz: 'Asia/Aden' },
+    'tunis':         { lat: 36.8065, lng: 10.1815,  tz: 'Africa/Tunis' },
+    'algiers':       { lat: 36.7538, lng: 3.0588,   tz: 'Africa/Algiers' },
+    'rabat':         { lat: 34.0209, lng: -6.8416,  tz: 'Africa/Casablanca' },
+    'casablanca':    { lat: 33.5731, lng: -7.5898,  tz: 'Africa/Casablanca' },
+    'khartoum':      { lat: 15.5007, lng: 32.5599,  tz: 'Africa/Khartoum' },
+    'tripoli':       { lat: 32.8872, lng: 13.1913,  tz: 'Africa/Tripoli' },
+    'jerusalem':     { lat: 31.7683, lng: 35.2137,  tz: 'Asia/Jerusalem' },
+    'karachi':       { lat: 24.8607, lng: 67.0011,  tz: 'Asia/Karachi' },
+    'lahore':        { lat: 31.5204, lng: 74.3587,  tz: 'Asia/Karachi' },
+    'islamabad':     { lat: 33.6844, lng: 73.0479,  tz: 'Asia/Karachi' },
+    'dhaka':         { lat: 23.8103, lng: 90.4125,  tz: 'Asia/Dhaka' },
+    'jakarta':       { lat: -6.2088, lng: 106.8456, tz: 'Asia/Jakarta' },
+    'kuala-lumpur':  { lat: 3.1390,  lng: 101.6869, tz: 'Asia/Kuala_Lumpur' },
+    'london':        { lat: 51.5074, lng: -0.1278,  tz: 'Europe/London' },
+    'paris':         { lat: 48.8566, lng: 2.3522,   tz: 'Europe/Paris' },
+    'berlin':        { lat: 52.5200, lng: 13.4050,  tz: 'Europe/Berlin' },
+    'madrid':        { lat: 40.4168, lng: -3.7038,  tz: 'Europe/Madrid' },
+    'rome':          { lat: 41.9028, lng: 12.4964,  tz: 'Europe/Rome' },
+    'new-york':      { lat: 40.7128, lng: -74.0060, tz: 'America/New_York' },
+    'toronto':       { lat: 43.6532, lng: -79.3832, tz: 'America/Toronto' },
+    'sydney':        { lat: -33.8688, lng: 151.2093, tz: 'Australia/Sydney' }
 };
 
 function _moonCitySlugFromPath() {
-    const m = window.location.pathname.match(/\/moon-today-in-([a-z][a-z0-9-]+)$/);
+    // يقبل: /moon-today-in-{slug}  و  /moon-today-in-{slug}/YYYY-MM-DD
+    const m = window.location.pathname.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:\/\d{4}-\d{2}-\d{2})?$/);
     return m ? m[1] : null;
+}
+
+// يستخرج التاريخ الـ ISO من المسار (إن وُجد)، ويُرجِع Date صالحاً أو null
+//   مثال: /moon-today-in-mecca/2026-04-19 → Date(2026, 3, 19)
+//   الـ Date يعود في منتصف النهار (12:00) لتجنّب حدود DST.
+function _moonDateFromPath() {
+    const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+\/(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return null;
+    const y = parseInt(m[1], 10);
+    const mo = parseInt(m[2], 10);
+    const d = parseInt(m[3], 10);
+    if (!y || !mo || !d || mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+    const dt = new Date(y, mo - 1, d, 12, 0, 0, 0);
+    // تأكّد من صحّة التقويم (مثلاً: 2026-02-30 → تنزلق إلى 2 مارس)
+    if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+    return dt;
+}
+
+// يرجع {y, m, d} بصيغة ISO strings (padded) من Date
+function _isoDateStr(d) {
+    const pad = n => n < 10 ? '0' + n : String(n);
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+}
+
+// ينتج رابط صفحة moon-today-in-{slug}/{iso} مع الحفاظ على بادئة اللغة
+function _moonDatePagePath(slug, dateOrNull) {
+    const path = window.location.pathname;
+    const langMatch = path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
+    const prefix = langMatch ? '/' + langMatch[1] : '';
+    const base = prefix + '/moon-today-in-' + slug;
+    return dateOrNull ? (base + '/' + _isoDateStr(dateOrNull)) : base;
 }
 
 function _prettifySlug(slug) {
@@ -6023,44 +6503,113 @@ function _prettifySlug(slug) {
         .join(' ');
 }
 
-// يرجع اسم المدينة بلغة الواجهة (من i18n key "city.<slug_normalized>" إن وُجد)،
-// وإلاّ يعود إلى تجميل الـ slug.
+// يرجع اسم المدينة بلغة الواجهة.
+// الأولويّة:
+//   1) مفتاح i18n "city.<slug_normalized>" (للمدن المعروفة مع ترجمات يدويّة).
+//   2) currentCity (إن كان اسم المدينة الحاليّة يُطابق الـ slug) — يُعرِّب المدن غير
+//      المُدرَجة في i18n تلقائيًّا عبر reverse-geocoding أو DB السيرفر (مثل "طوكيو").
+//   3) fallback: تجميل الـ slug (e.g., "tokyo" → "Tokyo").
 function _moonCityDisplayName(slug) {
     if (!slug) return '';
+    // 1) مفتاح i18n city.<slug>
     const key = 'city.' + slug.replace(/-/g, '_');
     if (typeof t === 'function') {
         const localized = t(key);
         if (localized && localized !== key) return localized;
     }
+    // 2) الاسم الحاليّ (lang-aware) إن كان يُمثِّل نفس المدينة في الـ slug
+    //    نستخدم getDisplayCity() التي ترجع الاسم بلغة الواجهة:
+    //      AR → currentCity (عربيّ)، EN → currentEnglishDisplayName/Name، غيرها → currentLocalizedName أو قاموس
+    try {
+        if (typeof currentEnglishName === 'string' && currentEnglishName) {
+            const _simpleCurEn = currentEnglishName.toLowerCase().trim()
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            // slug يُطابق إذا كان currentEnglishName = slug أو يبدأ بـ slug + '-'
+            //   مثال: slug="tokyo" مع currentEnglishName="Tokyo Metropolitan Government Main Building 1"
+            //   → simpleCurEn="tokyo-metropolitan-government..." يبدأ بـ "tokyo-" → نطابق.
+            if (_simpleCurEn === slug || _simpleCurEn.startsWith(slug + '-')) {
+                const _lngCur = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                // حارس خطّ: إن كان _disp/currentCity بخطّ غير متوافق مع اللغة
+                //   (مثلاً "千代田区" في صفحة تركيّة)، نتجاوز هذا المستوى لنسقط للقاموس/tier 3+.
+                const _scriptOk = (v) => {
+                    if (!v) return false;
+                    if (typeof _isDisplayScriptAcceptable === 'function') {
+                        return _isDisplayScriptAcceptable(v, _lngCur);
+                    }
+                    return true;
+                };
+                if (typeof getDisplayCity === 'function') {
+                    const _disp = getDisplayCity();
+                    if (_disp && _scriptOk(_disp)) return _disp;
+                }
+                if (typeof currentCity === 'string' && currentCity && _scriptOk(currentCity)) return currentCity;
+            }
+        }
+    } catch (_e) { /* silent */ }
+    // 3) قاموس _LOCALIZED_CITY_MAPS للغات UR/TR/FR/DE/ID/BN/ES/MS
+    //    (عندما لا يوجد مفتاح i18n ولا session currentCity — الزيارة المباشرة للـ URL)
+    try {
+        const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        if (_lng && _lng !== 'ar' && _lng !== 'en'
+            && typeof _LOCALIZED_CITY_MAPS !== 'undefined'
+            && _LOCALIZED_CITY_MAPS[_lng]) {
+            const _englishName = _prettifySlug(slug); // "tokyo" → "Tokyo", "kuala-lumpur" → "Kuala Lumpur"
+            const _localized = _LOCALIZED_CITY_MAPS[_lng][_englishName];
+            if (_localized) return _localized;
+        }
+    } catch (_e) { /* silent */ }
+    // 4) قاموس CITY_NAMES_AR للعربيّة (زيارة مباشرة بدون session)
+    try {
+        const _lng2 = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        if (_lng2 === 'ar' && typeof CITY_NAMES_AR !== 'undefined') {
+            const _englishName2 = _prettifySlug(slug);
+            if (CITY_NAMES_AR[_englishName2]) return CITY_NAMES_AR[_englishName2];
+        }
+    } catch (_e) { /* silent */ }
+    // 5) fallback نهائيّ: _prettifySlug (يُرجع النسخة الإنجليزيّة فقط إذا لم يوجد شيء آخر)
     return _prettifySlug(slug);
 }
 
 // خريطة المدينة → البلد (key 'country.<code>' في i18n)؛ تُستخدم في الفقرة التعريفيّة وH1
 const _MOON_CITY_COUNTRY_KEYS = {
     'mecca': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
-    'cairo': 'eg', 'alexandria': 'eg',
-    'istanbul': 'tr', 'ankara': 'tr',
-    'dubai': 'ae', 'abu-dhabi': 'ae',
-    'doha': 'qa', 'kuwait': 'kw', 'manama': 'bh', 'muscat': 'om',
-    'amman': 'jo', 'baghdad': 'iq', 'beirut': 'lb', 'damascus': 'sy', 'sanaa': 'ye',
-    'tunis': 'tn', 'algiers': 'dz', 'rabat': 'ma', 'casablanca': 'ma',
-    'khartoum': 'sd', 'tripoli': 'ly', 'jerusalem': 'ps',
+    'khobar': 'sa', 'taif': 'sa', 'tabuk': 'sa', 'buraidah': 'sa', 'buraydah': 'sa',
+    'abha': 'sa', 'yanbu': 'sa', 'hail': 'sa', 'najran': 'sa', 'jizan': 'sa',
+    'qatif': 'sa', 'jubail': 'sa', 'hofuf': 'sa',
+    'cairo': 'eg', 'alexandria': 'eg', 'giza': 'eg',
+    'istanbul': 'tr', 'ankara': 'tr', 'izmir': 'tr',
+    'dubai': 'ae', 'abu-dhabi': 'ae', 'sharjah': 'ae',
+    'doha': 'qa', 'kuwait': 'kw', 'kuwait-city': 'kw', 'manama': 'bh', 'muscat': 'om',
+    'amman': 'jo', 'baghdad': 'iq', 'basra': 'iq', 'mosul': 'iq',
+    'beirut': 'lb', 'damascus': 'sy', 'aleppo': 'sy', 'homs': 'sy', 'sanaa': 'ye', 'aden': 'ye',
+    'tunis': 'tn', 'algiers': 'dz', 'rabat': 'ma', 'casablanca': 'ma', 'marrakesh': 'ma',
+    'khartoum': 'sd', 'tripoli': 'ly', 'jerusalem': 'ps', 'gaza': 'ps', 'ramallah': 'ps',
     'karachi': 'pk', 'lahore': 'pk', 'islamabad': 'pk',
-    'dhaka': 'bd', 'jakarta': 'id', 'kuala-lumpur': 'my',
-    'london': 'gb', 'paris': 'fr', 'berlin': 'de', 'madrid': 'es', 'rome': 'it',
-    'new-york': 'us', 'toronto': 'ca', 'sydney': 'au'
+    'dhaka': 'bd', 'chittagong': 'bd',
+    'jakarta': 'id', 'surabaya': 'id', 'bandung': 'id',
+    'kuala-lumpur': 'my', 'singapore': 'sg',
+    'london': 'gb', 'manchester': 'gb', 'birmingham': 'gb',
+    'paris': 'fr', 'berlin': 'de', 'munich': 'de',
+    'madrid': 'es', 'barcelona': 'es', 'rome': 'it', 'milan': 'it',
+    'moscow': 'ru',
+    'new-york': 'us', 'los-angeles': 'us', 'chicago': 'us',
+    'toronto': 'ca',
+    'tokyo': 'jp', 'beijing': 'cn', 'shanghai': 'cn',
+    'seoul': 'kr', 'bangkok': 'th', 'hanoi': 'vn', 'manila': 'ph',
+    'delhi': 'in', 'mumbai': 'in', 'kolkata': 'in', 'bangalore': 'in', 'chennai': 'in', 'hyderabad': 'in',
+    'sydney': 'au', 'melbourne': 'au'
 };
 const _MOON_COUNTRY_NAMES = {
-    ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا' },
-    en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia' },
-    fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie' },
-    tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya' },
-    ur: { sa:'سعودی عرب', eg:'مصر', tr:'ترکی', ae:'متحدہ عرب امارات', qa:'قطر', kw:'کویت', bh:'بحرین', om:'عمان', jo:'اردن', iq:'عراق', lb:'لبنان', sy:'شام', ye:'یمن', tn:'تیونس', dz:'الجزائر', ma:'مراکش', sd:'سوڈان', ly:'لیبیا', ps:'فلسطین', pk:'پاکستان', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا', gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', us:'امریکہ', ca:'کینیڈا', au:'آسٹریلیا' },
-    de: { sa:'Saudi-Arabien', eg:'Ägypten', tr:'Türkei', ae:'VAE', qa:'Katar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordanien', iq:'Irak', lb:'Libanon', sy:'Syrien', ye:'Jemen', tn:'Tunesien', dz:'Algerien', ma:'Marokko', sd:'Sudan', ly:'Libyen', ps:'Palästina', pk:'Pakistan', bd:'Bangladesch', id:'Indonesien', my:'Malaysia', gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', us:'USA', ca:'Kanada', au:'Australien' },
-    id: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UEA', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Yordania', iq:'Irak', lb:'Lebanon', sy:'Suriah', ye:'Yaman', tn:'Tunisia', dz:'Aljazair', ma:'Maroko', sd:'Sudan', ly:'Libya', ps:'Palestina', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'Britania Raya', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', us:'Amerika Serikat', ca:'Kanada', au:'Australia' },
-    es: { sa:'Arabia Saudí', eg:'Egipto', tr:'Turquía', ae:'EAU', qa:'Catar', kw:'Kuwait', bh:'Baréin', om:'Omán', jo:'Jordania', iq:'Irak', lb:'Líbano', sy:'Siria', ye:'Yemen', tn:'Túnez', dz:'Argelia', ma:'Marruecos', sd:'Sudán', ly:'Libia', ps:'Palestina', pk:'Pakistán', bd:'Bangladés', id:'Indonesia', my:'Malasia', gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', us:'Estados Unidos', ca:'Canadá', au:'Australia' },
-    bn: { sa:'সৌদি আরব', eg:'মিশর', tr:'তুরস্ক', ae:'সংযুক্ত আরব আমিরাত', qa:'কাতার', kw:'কুয়েত', bh:'বাহরাইন', om:'ওমান', jo:'জর্ডান', iq:'ইরাক', lb:'লেবানন', sy:'সিরিয়া', ye:'ইয়েমেন', tn:'তিউনিসিয়া', dz:'আলজেরিয়া', ma:'মরক্কো', sd:'সুদান', ly:'লিবিয়া', ps:'ফিলিস্তিন', pk:'পাকিস্তান', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া', gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', us:'মার্কিন যুক্তরাষ্ট্র', ca:'কানাডা', au:'অস্ট্রেলিয়া' },
-    ms: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lubnan', sy:'Syria', ye:'Yaman', tn:'Tunisia', dz:'Algeria', ma:'Maghribi', sd:'Sudan', ly:'Libya', ps:'Palestin', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', us:'Amerika Syarikat', ca:'Kanada', au:'Australia' }
+    ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا', jp:'اليابان', cn:'الصين', kr:'كوريا الجنوبيّة', th:'تايلاند', vn:'فيتنام', ph:'الفلبّين', in:'الهند', ru:'روسيا', sg:'سنغافورة' },
+    en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia', jp:'Japan', cn:'China', kr:'South Korea', th:'Thailand', vn:'Vietnam', ph:'Philippines', in:'India', ru:'Russia', sg:'Singapore' },
+    fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie', jp:'Japon', cn:'Chine', kr:'Corée du Sud', th:'Thaïlande', vn:'Vietnam', ph:'Philippines', in:'Inde', ru:'Russie', sg:'Singapour' },
+    tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya', jp:'Japonya', cn:'Çin', kr:'Güney Kore', th:'Tayland', vn:'Vietnam', ph:'Filipinler', in:'Hindistan', ru:'Rusya', sg:'Singapur' },
+    ur: { sa:'سعودی عرب', eg:'مصر', tr:'ترکی', ae:'متحدہ عرب امارات', qa:'قطر', kw:'کویت', bh:'بحرین', om:'عمان', jo:'اردن', iq:'عراق', lb:'لبنان', sy:'شام', ye:'یمن', tn:'تیونس', dz:'الجزائر', ma:'مراکش', sd:'سوڈان', ly:'لیبیا', ps:'فلسطین', pk:'پاکستان', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا', gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', us:'امریکہ', ca:'کینیڈا', au:'آسٹریلیا', jp:'جاپان', cn:'چین', kr:'جنوبی کوریا', th:'تھائی لینڈ', vn:'ویتنام', ph:'فلپائن', in:'بھارت', ru:'روس', sg:'سنگاپور' },
+    de: { sa:'Saudi-Arabien', eg:'Ägypten', tr:'Türkei', ae:'VAE', qa:'Katar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordanien', iq:'Irak', lb:'Libanon', sy:'Syrien', ye:'Jemen', tn:'Tunesien', dz:'Algerien', ma:'Marokko', sd:'Sudan', ly:'Libyen', ps:'Palästina', pk:'Pakistan', bd:'Bangladesch', id:'Indonesien', my:'Malaysia', gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', us:'USA', ca:'Kanada', au:'Australien', jp:'Japan', cn:'China', kr:'Südkorea', th:'Thailand', vn:'Vietnam', ph:'Philippinen', in:'Indien', ru:'Russland', sg:'Singapur' },
+    id: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UEA', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Yordania', iq:'Irak', lb:'Lebanon', sy:'Suriah', ye:'Yaman', tn:'Tunisia', dz:'Aljazair', ma:'Maroko', sd:'Sudan', ly:'Libya', ps:'Palestina', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'Britania Raya', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', us:'Amerika Serikat', ca:'Kanada', au:'Australia', jp:'Jepang', cn:'Tiongkok', kr:'Korea Selatan', th:'Thailand', vn:'Vietnam', ph:'Filipina', in:'India', ru:'Rusia', sg:'Singapura' },
+    es: { sa:'Arabia Saudí', eg:'Egipto', tr:'Turquía', ae:'EAU', qa:'Catar', kw:'Kuwait', bh:'Baréin', om:'Omán', jo:'Jordania', iq:'Irak', lb:'Líbano', sy:'Siria', ye:'Yemen', tn:'Túnez', dz:'Argelia', ma:'Marruecos', sd:'Sudán', ly:'Libia', ps:'Palestina', pk:'Pakistán', bd:'Bangladés', id:'Indonesia', my:'Malasia', gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', us:'Estados Unidos', ca:'Canadá', au:'Australia', jp:'Japón', cn:'China', kr:'Corea del Sur', th:'Tailandia', vn:'Vietnam', ph:'Filipinas', in:'India', ru:'Rusia', sg:'Singapur' },
+    bn: { sa:'সৌদি আরব', eg:'মিশর', tr:'তুরস্ক', ae:'সংযুক্ত আরব আমিরাত', qa:'কাতার', kw:'কুয়েত', bh:'বাহরাইন', om:'ওমান', jo:'জর্ডান', iq:'ইরাক', lb:'লেবানন', sy:'সিরিয়া', ye:'ইয়েমেন', tn:'তিউনিসিয়া', dz:'আলজেরিয়া', ma:'মরক্কো', sd:'সুদান', ly:'লিবিয়া', ps:'ফিলিস্তিন', pk:'পাকিস্তান', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া', gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', us:'মার্কিন যুক্তরাষ্ট্র', ca:'কানাডা', au:'অস্ট্রেলিয়া', jp:'জাপান', cn:'চীন', kr:'দক্ষিণ কোরিয়া', th:'থাইল্যান্ড', vn:'ভিয়েতনাম', ph:'ফিলিপাইন', in:'ভারত', ru:'রাশিয়া', sg:'সিঙ্গাপুর' },
+    ms: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lubnan', sy:'Syria', ye:'Yaman', tn:'Tunisia', dz:'Algeria', ma:'Maghribi', sd:'Sudan', ly:'Libya', ps:'Palestin', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', us:'Amerika Syarikat', ca:'Kanada', au:'Australia', jp:'Jepun', cn:'China', kr:'Korea Selatan', th:'Thailand', vn:'Vietnam', ph:'Filipina', in:'India', ru:'Rusia', sg:'Singapura' }
 };
 
 function _moonCityCountryName(slug, lang) {
@@ -6122,18 +6671,26 @@ function _moonCityLabel(slug, lang, cityFallback) {
 }
 
 function updateMoonInfo() {
-    const today = new Date();
+    // إن كان المسار /moon-today-in-{slug}/YYYY-MM-DD → استخدم التاريخ المطلوب
+    // وإلا اليوم الحاليّ.
+    const _requestedDate = _moonDateFromPath();
+    const today = _requestedDate || new Date();
+    const _isDatePage = !!_requestedDate;
 
     // إن كانت الصفحة هي /moon-today-in-{slug} → استخدم إحداثيّات المدينة لمطابقة الـ URL
     const _citySlug = _moonCitySlugFromPath();
     const _cityCoords = _citySlug && FAMOUS_MOON_CITIES[_citySlug];
     const _lat = _cityCoords ? _cityCoords.lat : currentLat;
     const _lng = _cityCoords ? _cityCoords.lng : currentLng;
+    // tz للمدن المعروفة من القاموس (dقيقة + DST). للمستخدم الحاليّ (بلا slug):
+    // نترك tz=undefined → getMoonTimes تستعمل تقدير من lng (Etc/GMT±N) وهو قريب من
+    // توقيت المتصفّح في معظم الحالات. في غيابها يرجع تنسيق الوقت إلى ساعة المتصفّح.
+    const _tz = _cityCoords ? _cityCoords.tz : undefined;
 
     const phase = MoonCalc.getPhaseName(today);
     const illumination = MoonCalc.getMoonIllumination(today);
     const age = MoonCalc.getMoonAge(today);
-    const moonTimes = MoonCalc.getMoonTimes(today, _lat, _lng);
+    const moonTimes = MoonCalc.getMoonTimes(today, _lat, _lng, _tz);
     const nextFull = MoonCalc.getNextFullMoon(today);
     const nextNew = MoonCalc.getNextNewMoon(today);
 
@@ -6173,6 +6730,26 @@ function updateMoonInfo() {
     if (_riseEl) _riseEl.textContent = moonTimes.rise;
     const _setEl = document.getElementById('moon-set');
     if (_setEl) _setEl.textContent = moonTimes.set;
+
+    // ── ملاحظة المنطقة الزمنيّة — تظهر فقط في صفحات المدن المحدّدة ────────
+    // الهدف: إبلاغ المستخدم أنّ أوقات المطلع/المغيب/الجدول بتوقيت المدينة
+    // المختارة، حتّى لو كان هو في منطقة زمنيّة مختلفة.
+    const _tzNoteEl = document.getElementById('moon-timezone-note');
+    if (_tzNoteEl) {
+        if (_citySlug && _tz && typeof t === 'function') {
+            const _cityNameForTz = _moonCityDisplayName(_citySlug);
+            const _tzNote = t('moon.tz_note_template', {
+                city: _cityNameForTz,
+                tz: _tz
+            });
+            if (_tzNote && _tzNote !== 'moon.tz_note_template') {
+                _tzNoteEl.textContent = _tzNote;
+                _tzNoteEl.hidden = false;
+            }
+        } else {
+            _tzNoteEl.hidden = true;
+        }
+    }
 
     if (nextFull) {
         const months = HijriDate.gregorianMonths;
@@ -6290,16 +6867,41 @@ function updateMoonInfo() {
     const _gm = _gregMonthNames[_lng_] || _gregMonthNames.en;
 
     // ── توقّعات الأربعة عشر يومًا القادمة ─────────────────────────────
+    // ملاحظة مهمّة: `row.date` هو لحظة UTC تمثّل منتصف يوم *المدينة*. إن كان
+    // المتصفّح في منطقة مختلفة (مثلًا مكّة يشاهد جاكرتا) فإنّ getDay()/getDate()
+    // قد تُرجع يومًا مختلفًا. لذلك نستخرج الحقول عبر Intl بتوقيت المدينة.
+    const _getDayPartsInTz = (d, tz) => {
+        if (!tz) return { wd: d.getDay(), d: d.getDate(), m: d.getMonth() };
+        try {
+            const fmt = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz, weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric'
+            });
+            const parts = {};
+            fmt.formatToParts(d).forEach(p => { if (p.type !== 'literal') parts[p.type] = p.value; });
+            const wdMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+            return {
+                wd: (wdMap[parts.weekday] != null) ? wdMap[parts.weekday] : d.getDay(),
+                d:  parseInt(parts.day, 10),
+                m:  parseInt(parts.month, 10) - 1
+            };
+        } catch (_e) {
+            return { wd: d.getDay(), d: d.getDate(), m: d.getMonth() };
+        }
+    };
+
     const _fcBody = document.getElementById('moon-forecast-body');
     const _getForecast = MoonCalc.getForecast || MoonCalc.get7DayForecast;
     if (_fcBody && typeof _getForecast === 'function') {
-        const fc = MoonCalc.getForecast ? MoonCalc.getForecast(today, _lat, _lng, 14) : MoonCalc.get7DayForecast(today, _lat, _lng);
+        const fc = MoonCalc.getForecast
+            ? MoonCalc.getForecast(today, _lat, _lng, 14, _tz)
+            : MoonCalc.get7DayForecast(today, _lat, _lng, _tz);
         let html = '';
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
-            const wd = _wk[row.date.getDay()];
-            const dd = row.date.getDate();
-            const mm = _gm[row.date.getMonth()];
+            const dp = _getDayPartsInTz(row.date, row.tz || _tz);
+            const wd = _wk[dp.wd];
+            const dd = dp.d;
+            const mm = _gm[dp.m];
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
             html += `<tr>`
                 + `<td>${wd} ${dd} ${mm}</td>`
@@ -6417,9 +7019,12 @@ function updateMoonInfo() {
 
     // ── Round 10: الكوكبة + الفقرة التعريفيّة + المقارنة مع الأمس + نظرة على الطور ─
     try {
+        // استخدم getDisplayCity() بدل currentCity الخام — فالأخير عربيّ دائماً من reverseGeocode
+        //   بينما getDisplayCity يُرجع الاسم المناسب للغة الواجهة (tr→Türkçe، es→Español، إلخ).
+        const _rawDisplayCity = (typeof getDisplayCity === 'function') ? getDisplayCity() : currentCity;
         const _cityDisplay2 = _citySlug
             ? _moonCityDisplayName(_citySlug)
-            : (currentCity || (_lng_ === 'ar' ? 'مدينتك' : 'your city'));
+            : (_rawDisplayCity || currentCity || (_lng_ === 'ar' ? 'مدينتك' : 'your city'));
         const _countryDisplay = _citySlug ? _moonCityCountryName(_citySlug, _lng_) : '';
         const _phaseLabel2 = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
         const _fmtNum2 = (n, maxFD) => {
@@ -6625,6 +7230,114 @@ function updateMoonInfo() {
         }
     } catch (_err2) {
         if (window.console && console.warn) console.warn('Moon Round-10 fill failed:', _err2);
+    }
+
+    // ── صفحة التاريخ (moon-date-page): شريط التنقّل + الرسم البيانيّ ──
+    //   يُستدعى دائمًا؛ شريط التنقّل يظهر عبر CSS فقط على moon-date-page،
+    //   أمّا الرسم فيُرسم على كلّ صفحات القمر (اليوم + تاريخ محدّد).
+    try {
+        const _chartContainer = document.getElementById('moon-chart-container');
+        if (_chartContainer && typeof MoonChart !== 'undefined' && MoonChart.render) {
+            const _langNow = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            MoonChart.render(_chartContainer, {
+                date: today,
+                rangeDays: 7,
+                lang: _langNow,
+                citySlug: _citySlug || '',
+                langPrefix: (_langNow === 'ar') ? '' : ('/' + _langNow)
+            });
+        }
+    } catch (_cerr) {
+        if (window.console && console.warn) console.warn('Moon chart render failed:', _cerr);
+    }
+
+    // شريط التنقّل بين الأيّام — يُملأ دائمًا (hidden على الصفحات غير date-page عبر CSS)
+    try {
+        const _navEl = document.getElementById('moon-date-nav');
+        if (_navEl && _citySlug) {
+            const _prevDate = new Date(today); _prevDate.setDate(_prevDate.getDate() - 1);
+            const _nextDate = new Date(today); _nextDate.setDate(_nextDate.getDate() + 1);
+
+            const _prevEl = document.getElementById('moon-date-prev');
+            const _nextEl = document.getElementById('moon-date-next');
+            const _todayLinkEl = document.getElementById('moon-date-today');
+            const _prevSubEl = document.getElementById('moon-date-prev-sub');
+            const _nextSubEl = document.getElementById('moon-date-next-sub');
+
+            if (_prevEl) _prevEl.href = _moonDatePagePath(_citySlug, _prevDate);
+            if (_nextEl) _nextEl.href = _moonDatePagePath(_citySlug, _nextDate);
+            if (_todayLinkEl) _todayLinkEl.href = _moonDatePagePath(_citySlug, null);
+
+            // نصوص فرعيّة: "19 أبريل" / "21 أبريل" بلغة المستخدم
+            const _fmtShort = (d) => {
+                const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                let mon = '';
+                try { if (typeof t === 'function') mon = t('gmonth.' + (d.getMonth() + 1)); } catch(_){}
+                if (!mon || mon === 'gmonth.' + (d.getMonth() + 1)) {
+                    mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+                }
+                return d.getDate() + ' ' + mon;
+            };
+            if (_prevSubEl) _prevSubEl.textContent = _fmtShort(_prevDate);
+            if (_nextSubEl) _nextSubEl.textContent = _fmtShort(_nextDate);
+
+            // إظهار الشريط حين نحن على صفحة date محدّد
+            if (_isDatePage) _navEl.hidden = false;
+            else _navEl.hidden = true;
+        }
+    } catch (_nerr) {
+        if (window.console && console.warn) console.warn('Moon date nav fill failed:', _nerr);
+    }
+
+    // ── إعادة كتابة H1 + intro لتتضمّن التاريخ على moon-date-page ──
+    try {
+        if (_isDatePage && _citySlug) {
+            const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            const _cityName = _moonCityDisplayName(_citySlug);
+            let _gMon = '';
+            try { _gMon = (typeof t === 'function') ? t('gmonth.' + (today.getMonth() + 1)) : ''; } catch(_) {}
+            if (!_gMon || _gMon === 'gmonth.' + (today.getMonth() + 1)) {
+                _gMon = ['January','February','March','April','May','June','July','August','September','October','November','December'][today.getMonth()];
+            }
+            let _wday = '';
+            try { _wday = (typeof t === 'function') ? t('wday.' + today.getDay()) : ''; } catch(_) {}
+            if (!_wday || _wday === 'wday.' + today.getDay()) {
+                _wday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][today.getDay()];
+            }
+            const _dateLabel = _wday + ' ' + today.getDate() + ' ' + _gMon + ' ' + today.getFullYear();
+
+            const _h1 = document.getElementById('moon-page-h1');
+            if (_h1) {
+                let _h1Tpl = '';
+                try { _h1Tpl = (typeof t === 'function') ? t('moon.h1_date_template', { city: _cityName, date: _dateLabel }) : ''; } catch(_){}
+                if (_h1Tpl && _h1Tpl !== 'moon.h1_date_template') {
+                    _h1.textContent = _h1Tpl;
+                    _h1.removeAttribute('data-i18n');
+                }
+            }
+
+            // intro paragraph — تمكّن من الإبقاء على النصّ الديناميكيّ لو وُجد (يُملأ لاحقًا)
+            const _introEl = document.getElementById('moon-intro');
+            if (_introEl) {
+                let _introTpl = '';
+                try {
+                    _introTpl = (typeof t === 'function') ? t('moon.intro_date_template', {
+                        city: _cityName,
+                        date: _dateLabel,
+                        phaseIcon: (phase && phase.icon) || '',
+                        phaseName: (phase && phase.key && typeof t === 'function') ? t(phase.key) : ((phase && phase.name) || ''),
+                        illum: String(illumination),
+                        age: String(age)
+                    }) : '';
+                } catch(_){}
+                if (_introTpl && _introTpl !== 'moon.intro_date_template') {
+                    _introEl.textContent = _introTpl;
+                    _introEl.removeAttribute('data-i18n');
+                }
+            }
+        }
+    } catch (_derr) {
+        if (window.console && console.warn) console.warn('Moon date H1/intro override failed:', _derr);
     }
 }
 

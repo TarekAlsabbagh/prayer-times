@@ -136,6 +136,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'نسبة الإضاءة',
         'moon.rise': 'شروق القمر',
         'moon.set': 'غروب القمر',
+        'moon.tz_note_template': '🕐 جميع الأوقات (الطلوع، الغروب، جدول الأربعة عشر يومًا) معروضة بالتوقيت المحلّيّ لـ {city} ({tz})',
         'moon.next_full': 'البدر القادم',
         'moon.next_new': 'المحاق القادم',
         'moon.days_suffix': 'يوم',
@@ -254,6 +255,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'غدًا يبلغ القمر طور {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'اليوم يبلغ القمر طور {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 تابع تطوّر القمر خلال الأربعة عشر يومًا القادمة ↓',
+        // صفحة القمر في تاريخ محدّد (/moon-today-in-{city}/{YYYY-MM-DD}) + الرسم البيانيّ
+        'moon.prev_day': 'اليوم السابق',
+        'moon.next_day': 'اليوم التالي',
+        'moon.return_today': 'اليوم',
+        'moon.chart_title': '📈 مخطّط إضاءة القمر — 7 أيّام',
+        'moon.chart_subtitle': 'نسبة الإضاءة المرئيّة من ثلاثة أيّام قبل إلى ثلاثة أيّام بعد',
+        'moon.chart_caption': 'اضغط على أيّ نقطة للانتقال إلى صفحة ذلك اليوم.',
+        'moon.chart_a11y': 'مخطّط إضاءة القمر — 7 أيّام',
+        'moon.h1_date_template': '🌙 حالة القمر في {city} يوم {date}',
+        'moon.title_date_template': 'حالة القمر في {city} يوم {date} — الطور والإضاءة والعمر',
+        'moon.desc_date_template': 'طور القمر في {city} يوم {date}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة الموجود فيها — محسوبة بدقّة فلكيّة.',
+        'moon.intro_date_template': 'في {city} يوم {date}، القمر في طور {phaseIcon} {phaseName} بنسبة إضاءة {illum}٪ وعمر {age} يومًا منذ آخر محاق. تُحسب هذه البيانات بخوارزميّات فلكيّة دقيقة (Meeus) لإحداثيّات المدينة.',
+        'moon.out_of_range_notice': 'هذا التاريخ خارج النطاق المدعوم لصفحات الأيّام المنفصلة. اطّلع على حالة القمر اليوم في {city}.',
         'moon.zodiac_label': 'الكوكبة',
         'moon.zodiac.aries': 'الحمل',
         'moon.zodiac.taurus': 'الثور',
@@ -688,6 +702,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Illumination',
         'moon.rise': 'Moonrise',
         'moon.set': 'Moonset',
+        'moon.tz_note_template': '🕐 All times (rise, set, 14-day forecast) are shown in {city}\u2019s local time ({tz})',
         'moon.next_full': 'Next Full Moon',
         'moon.next_new': 'Next New Moon',
         'moon.days_suffix': 'days',
@@ -806,6 +821,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Tomorrow the Moon reaches {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Today the Moon reaches {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': "📅 Track the Moon's evolution over the next 14 days ↓",
+        // Per-date moon page (/moon-today-in-{city}/{YYYY-MM-DD}) + chart
+        'moon.prev_day': 'Previous day',
+        'moon.next_day': 'Next day',
+        'moon.return_today': 'Today',
+        'moon.chart_title': '📈 Moon Illumination Chart — 7 Days',
+        'moon.chart_subtitle': 'Illumination percentage from 3 days before to 3 days after',
+        'moon.chart_caption': 'Click any point to jump to that day\u2019s page.',
+        'moon.chart_a11y': 'Moon illumination chart — 7 days',
+        'moon.h1_date_template': '🌙 Moon in {city} on {date}',
+        'moon.title_date_template': 'Moon in {city} on {date} — Phase, Illumination & Age',
+        'moon.desc_date_template': 'Moon phase in {city} on {date}: illumination, moon age, moonrise, moonset, and zodiac — calculated with precise astronomical formulas.',
+        'moon.intro_date_template': 'On {date} in {city}, the Moon is in {phaseIcon} {phaseName} phase with {illum}% illumination and an age of {age} days since the last new moon. All data is computed using high-precision astronomical algorithms (Meeus) for the city coordinates.',
+        'moon.out_of_range_notice': 'This date is outside the supported range for per-day pages. See today\u2019s Moon status in {city}.',
         'moon.zodiac_label': 'Constellation',
         'moon.zodiac.aries': 'Aries',
         'moon.zodiac.taurus': 'Taurus',
@@ -1212,6 +1240,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Illumination',
         'moon.rise': 'Lever de la lune',
         'moon.set': 'Coucher de la lune',
+        'moon.tz_note_template': '🕐 Toutes les heures (lever, coucher, prévisions 14 jours) sont affichées à l\u2019heure locale de {city} ({tz})',
         'moon.next_full': 'Prochaine pleine lune',
         'moon.next_new': 'Prochaine nouvelle lune',
         'moon.days_suffix': 'jours',
@@ -1255,6 +1284,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Demain, la Lune atteint la phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Aujourd\u2019hui, la Lune atteint la phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Suivez l\u2019évolution de la Lune au cours des 14 prochains jours ↓',
+        // Page Lune par date (/moon-today-in-{city}/{YYYY-MM-DD}) + graphique
+        'moon.prev_day': 'Jour précédent',
+        'moon.next_day': 'Jour suivant',
+        'moon.return_today': 'Aujourd\u2019hui',
+        'moon.chart_title': '📈 Graphique d\u2019illumination de la Lune — 7 jours',
+        'moon.chart_subtitle': 'Pourcentage d\u2019illumination de 3 jours avant à 3 jours après',
+        'moon.chart_caption': 'Cliquez sur un point pour accéder à la page de ce jour.',
+        'moon.chart_a11y': 'Graphique d\u2019illumination de la Lune — 7 jours',
+        'moon.h1_date_template': '🌙 La Lune à {city} le {date}',
+        'moon.title_date_template': 'La Lune à {city} le {date} — Phase, illumination et âge',
+        'moon.desc_date_template': 'Phase de la Lune à {city} le {date} : illumination, âge, heures de lever et coucher, et signe zodiacal — calculés avec des algorithmes astronomiques précis.',
+        'moon.intro_date_template': 'Le {date} à {city}, la Lune est en phase {phaseIcon} {phaseName} avec une illumination de {illum} % et un âge de {age} jours depuis la dernière nouvelle lune. Les données sont calculées par des algorithmes astronomiques précis (Meeus) pour les coordonnées de la ville.',
+        'moon.out_of_range_notice': 'Cette date est hors de la plage couverte par les pages par jour. Voir l\u2019état actuel de la Lune à {city}.',
         'moon.zodiac_label': 'Constellation',
         'moon.zodiac.aries': 'Bélier',
         'moon.zodiac.taurus': 'Taureau',
@@ -1617,6 +1659,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Aydınlanma',
         'moon.rise': 'Ay Doğuşu',
         'moon.set': 'Ay Batışı',
+        'moon.tz_note_template': '🕐 Tüm saatler (doğuş, batış, 14 günlük tahmin) {city} yerel saatine göre gösterilmektedir ({tz})',
         'moon.next_full': 'Sonraki Dolunay',
         'moon.next_new': 'Sonraki Yeniay',
         'moon.days_suffix': 'gün',
@@ -1660,6 +1703,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Yarın Ay {nextPhaseIcon} {nextPhaseName} evresine ulaşıyor.',
         'moon.mc_status_today': 'Bugün Ay {nextPhaseIcon} {nextPhaseName} evresine ulaşıyor.',
         'moon.forecast_cta': '📅 Ayın önümüzdeki 14 gündeki seyrini takip edin ↓',
+        // Tarihe özel Ay sayfası (/moon-today-in-{city}/{YYYY-MM-DD}) + grafik
+        'moon.prev_day': 'Önceki gün',
+        'moon.next_day': 'Sonraki gün',
+        'moon.return_today': 'Bugün',
+        'moon.chart_title': '📈 Ay Aydınlatma Grafiği — 7 gün',
+        'moon.chart_subtitle': 'Aydınlatma yüzdesi 3 gün öncesinden 3 gün sonrasına',
+        'moon.chart_caption': 'O günün sayfasına gitmek için herhangi bir noktaya tıklayın.',
+        'moon.chart_a11y': 'Ay aydınlatma grafiği — 7 gün',
+        'moon.h1_date_template': '🌙 {city} için {date} tarihinde Ay',
+        'moon.title_date_template': '{city} için {date} tarihinde Ay — Evre, Aydınlatma ve Yaş',
+        'moon.desc_date_template': '{city} için {date} tarihinde Ay evresi: aydınlatma, yaş, doğuş ve batış saatleri ve burç — kesin astronomik algoritmalarla hesaplanır.',
+        'moon.intro_date_template': '{city} için {date} tarihinde Ay, {phaseIcon} {phaseName} evresinde; aydınlatma %{illum} ve son yeni aydan bu yana {age} gün yaşında. Tüm veriler şehrin koordinatları için yüksek hassasiyetli astronomik algoritmalarla (Meeus) hesaplanır.',
+        'moon.out_of_range_notice': 'Bu tarih, günlük sayfalar için desteklenen aralığın dışındadır. {city} için bugünkü Ay durumunu görün.',
         'moon.zodiac_label': 'Takımyıldız',
         'moon.zodiac.aries': 'Koç',
         'moon.zodiac.taurus': 'Boğa',
@@ -2022,6 +2078,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'روشنی',
         'moon.rise': 'طلوعِ قمر',
         'moon.set': 'غروبِ قمر',
+        'moon.tz_note_template': '🕐 تمام اوقات (طلوع، غروب، 14 روزہ پیش گوئی) {city} کے مقامی وقت کے مطابق دکھائے گئے ہیں ({tz})',
         'moon.next_full': 'اگلا پورا چاند',
         'moon.next_new': 'اگلا نیا چاند',
         'moon.days_suffix': 'دن',
@@ -2065,6 +2122,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'کل چاند {nextPhaseIcon} {nextPhaseName} کے مرحلے پر پہنچ جاتا ہے۔',
         'moon.mc_status_today': 'آج چاند {nextPhaseIcon} {nextPhaseName} کے مرحلے پر پہنچتا ہے۔',
         'moon.forecast_cta': '📅 اگلے 14 دنوں میں چاند کی تبدیلی کا مشاہدہ کریں ↓',
+        // مخصوص تاریخ کے لیے چاند صفحہ (/moon-today-in-{city}/{YYYY-MM-DD}) + چارٹ
+        'moon.prev_day': 'پچھلا دن',
+        'moon.next_day': 'اگلا دن',
+        'moon.return_today': 'آج',
+        'moon.chart_title': '📈 چاند کی روشنی کا چارٹ — 7 دن',
+        'moon.chart_subtitle': 'تین دن پہلے سے تین دن بعد تک روشنی کا فیصد',
+        'moon.chart_caption': 'اس دن کے صفحے پر جانے کے لیے کسی بھی نقطے پر کلک کریں۔',
+        'moon.chart_a11y': 'چاند کی روشنی کا چارٹ — 7 دن',
+        'moon.h1_date_template': '🌙 {city} میں {date} کو چاند',
+        'moon.title_date_template': '{city} میں {date} کو چاند — مرحلہ، روشنی اور عمر',
+        'moon.desc_date_template': '{city} میں {date} کو چاند کا مرحلہ: روشنی، عمر، طلوع و غروب کے اوقات اور برج — درست فلکی فارمولوں سے حساب لگایا گیا۔',
+        'moon.intro_date_template': '{city} میں {date} کو چاند {phaseIcon} {phaseName} مرحلے میں ہے، روشنی {illum}٪ اور آخری نئے چاند سے {age} دن کی عمر کے ساتھ۔ تمام اعداد و شمار شہر کے نقاط کے لیے اعلیٰ درستگی والے فلکی الگورتھم (Meeus) سے حساب کیے گئے ہیں۔',
+        'moon.out_of_range_notice': 'یہ تاریخ روزانہ صفحات کے لیے معاون حدود سے باہر ہے۔ {city} میں آج کی چاند کی حالت دیکھیں۔',
         'moon.zodiac_label': 'برج',
         'moon.zodiac.aries': 'برج حمل',
         'moon.zodiac.taurus': 'برج ثور',
@@ -2454,6 +2524,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Beleuchtung',
         'moon.rise': 'Mondaufgang',
         'moon.set': 'Monduntergang',
+        'moon.tz_note_template': '🕐 Alle Zeiten (Aufgang, Untergang, 14-Tage-Vorhersage) werden in der Ortszeit von {city} angezeigt ({tz})',
         'moon.next_full': 'Nächster Vollmond',
         'moon.next_new': 'Nächster Neumond',
         'moon.days_suffix': 'Tage',
@@ -2497,6 +2568,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Morgen erreicht der Mond die Phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Heute erreicht der Mond die Phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Verfolgen Sie die Entwicklung des Mondes in den nächsten 14 Tagen ↓',
+        // Mond-Seite für ein bestimmtes Datum (/moon-today-in-{city}/{YYYY-MM-DD}) + Diagramm
+        'moon.prev_day': 'Vortag',
+        'moon.next_day': 'Folgetag',
+        'moon.return_today': 'Heute',
+        'moon.chart_title': '📈 Mond-Beleuchtungsdiagramm — 7 Tage',
+        'moon.chart_subtitle': 'Beleuchtungsanteil von 3 Tagen davor bis 3 Tagen danach',
+        'moon.chart_caption': 'Klicken Sie auf einen Punkt, um zur Seite dieses Tages zu gelangen.',
+        'moon.chart_a11y': 'Mond-Beleuchtungsdiagramm — 7 Tage',
+        'moon.h1_date_template': '🌙 Der Mond in {city} am {date}',
+        'moon.title_date_template': 'Der Mond in {city} am {date} — Phase, Beleuchtung & Alter',
+        'moon.desc_date_template': 'Mondphase in {city} am {date}: Beleuchtung, Mondalter, Aufgang, Untergang und Sternbild — berechnet mit präzisen astronomischen Algorithmen.',
+        'moon.intro_date_template': 'Am {date} in {city} befindet sich der Mond in der Phase {phaseIcon} {phaseName} mit einer Beleuchtung von {illum} % und einem Alter von {age} Tagen seit dem letzten Neumond. Alle Werte werden mit hochpräzisen astronomischen Algorithmen (Meeus) für die Koordinaten der Stadt berechnet.',
+        'moon.out_of_range_notice': 'Dieses Datum liegt außerhalb des unterstützten Bereichs für Tagesseiten. Sehen Sie den heutigen Mondstatus in {city}.',
         'moon.zodiac_label': 'Sternbild',
         'moon.zodiac.aries': 'Widder',
         'moon.zodiac.taurus': 'Stier',
@@ -2914,6 +2998,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Iluminasi',
         'moon.rise': 'Bulan Terbit',
         'moon.set': 'Bulan Terbenam',
+        'moon.tz_note_template': '🕐 Semua waktu (terbit, terbenam, prakiraan 14 hari) ditampilkan dalam waktu lokal {city} ({tz})',
         'moon.next_full': 'Purnama Berikutnya',
         'moon.next_new': 'Bulan Baru Berikutnya',
         'moon.days_suffix': 'hari',
@@ -2957,6 +3042,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Besok Bulan memasuki fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Hari ini Bulan memasuki fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Ikuti perkembangan Bulan selama 14 hari ke depan ↓',
+        // Halaman Bulan untuk tanggal tertentu (/moon-today-in-{city}/{YYYY-MM-DD}) + grafik
+        'moon.prev_day': 'Hari sebelumnya',
+        'moon.next_day': 'Hari berikutnya',
+        'moon.return_today': 'Hari ini',
+        'moon.chart_title': '📈 Grafik Iluminasi Bulan — 7 Hari',
+        'moon.chart_subtitle': 'Persentase iluminasi dari 3 hari sebelum hingga 3 hari setelah',
+        'moon.chart_caption': 'Klik titik mana saja untuk membuka halaman hari tersebut.',
+        'moon.chart_a11y': 'Grafik iluminasi Bulan — 7 hari',
+        'moon.h1_date_template': '🌙 Bulan di {city} pada {date}',
+        'moon.title_date_template': 'Bulan di {city} pada {date} — Fase, Iluminasi & Usia',
+        'moon.desc_date_template': 'Fase Bulan di {city} pada {date}: iluminasi, usia Bulan, terbit, terbenam, dan rasi bintang — dihitung dengan algoritme astronomi presisi.',
+        'moon.intro_date_template': 'Pada {date} di {city}, Bulan berada di fase {phaseIcon} {phaseName} dengan iluminasi {illum}% dan usia {age} hari sejak bulan baru terakhir. Seluruh data dihitung menggunakan algoritme astronomi presisi (Meeus) untuk koordinat kota.',
+        'moon.out_of_range_notice': 'Tanggal ini di luar rentang yang didukung untuk halaman harian. Lihat status Bulan hari ini di {city}.',
         'moon.zodiac_label': 'Rasi Bintang',
         'moon.zodiac.aries': 'Aries',
         'moon.zodiac.taurus': 'Taurus',
@@ -3374,6 +3472,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Iluminación',
         'moon.rise': 'Salida de la Luna',
         'moon.set': 'Puesta de la Luna',
+        'moon.tz_note_template': '🕐 Todas las horas (salida, puesta, pronóstico de 14 días) se muestran en la hora local de {city} ({tz})',
         'moon.next_full': 'Próxima Luna Llena',
         'moon.next_new': 'Próxima Luna Nueva',
         'moon.days_suffix': 'días',
@@ -3417,6 +3516,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Mañana la Luna alcanza la fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Hoy la Luna alcanza la fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Sigue la evolución de la Luna durante los próximos 14 días ↓',
+        // Página de la Luna para una fecha específica (/moon-today-in-{city}/{YYYY-MM-DD}) + gráfico
+        'moon.prev_day': 'Día anterior',
+        'moon.next_day': 'Día siguiente',
+        'moon.return_today': 'Hoy',
+        'moon.chart_title': '📈 Gráfico de iluminación de la Luna — 7 días',
+        'moon.chart_subtitle': 'Porcentaje de iluminación de 3 días antes a 3 días después',
+        'moon.chart_caption': 'Haz clic en cualquier punto para ir a la página de ese día.',
+        'moon.chart_a11y': 'Gráfico de iluminación de la Luna — 7 días',
+        'moon.h1_date_template': '🌙 La Luna en {city} el {date}',
+        'moon.title_date_template': 'La Luna en {city} el {date} — Fase, iluminación y edad',
+        'moon.desc_date_template': 'Fase de la Luna en {city} el {date}: iluminación, edad, salida y puesta lunar y constelación — calculadas con algoritmos astronómicos precisos.',
+        'moon.intro_date_template': 'El {date} en {city}, la Luna está en fase {phaseIcon} {phaseName} con una iluminación del {illum}% y una edad de {age} días desde la última luna nueva. Todos los datos se calculan con algoritmos astronómicos de alta precisión (Meeus) para las coordenadas de la ciudad.',
+        'moon.out_of_range_notice': 'Esta fecha está fuera del rango admitido para las páginas por día. Consulta el estado actual de la Luna en {city}.',
         'moon.zodiac_label': 'Constelación',
         'moon.zodiac.aries': 'Aries',
         'moon.zodiac.taurus': 'Tauro',
@@ -3834,6 +3946,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'আলোকিততা',
         'moon.rise': 'চাঁদ উদয়',
         'moon.set': 'চাঁদ অস্ত',
+        'moon.tz_note_template': '🕐 সমস্ত সময় (উদয়, অস্ত, 14-দিনের পূর্বাভাস) {city}-এর স্থানীয় সময়ে দেখানো হয়েছে ({tz})',
         'moon.next_full': 'পরবর্তী পূর্ণিমা',
         'moon.next_new': 'পরবর্তী অমাবস্যা',
         'moon.days_suffix': 'দিন',
@@ -3877,6 +3990,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'আগামীকাল চাঁদ {nextPhaseIcon} {nextPhaseName} পর্যায়ে পৌঁছাবে।',
         'moon.mc_status_today': 'আজ চাঁদ {nextPhaseIcon} {nextPhaseName} পর্যায়ে পৌঁছাবে।',
         'moon.forecast_cta': '📅 পরবর্তী ১৪ দিনে চাঁদের পরিবর্তন অনুসরণ করুন ↓',
+        // নির্দিষ্ট তারিখের জন্য চাঁদের পৃষ্ঠা (/moon-today-in-{city}/{YYYY-MM-DD}) + চার্ট
+        'moon.prev_day': 'আগের দিন',
+        'moon.next_day': 'পরবর্তী দিন',
+        'moon.return_today': 'আজ',
+        'moon.chart_title': '📈 চাঁদের আলোকসজ্জা চার্ট — ৭ দিন',
+        'moon.chart_subtitle': '৩ দিন আগে থেকে ৩ দিন পর পর্যন্ত আলোকসজ্জার শতাংশ',
+        'moon.chart_caption': 'সেই দিনের পৃষ্ঠায় যেতে যেকোনো বিন্দুতে ক্লিক করুন।',
+        'moon.chart_a11y': 'চাঁদের আলোকসজ্জা চার্ট — ৭ দিন',
+        'moon.h1_date_template': '🌙 {city}-এ {date}-এ চাঁদ',
+        'moon.title_date_template': '{city}-এ {date}-এ চাঁদ — দশা, আলোকসজ্জা ও বয়স',
+        'moon.desc_date_template': '{city}-এ {date}-এ চাঁদের দশা: আলোকসজ্জা, বয়স, উদয় ও অস্তের সময় এবং রাশি — নির্ভুল জ্যোতির্বিজ্ঞান অ্যালগরিদম দ্বারা গণনা।',
+        'moon.intro_date_template': '{city}-এ {date}-এ চাঁদ {phaseIcon} {phaseName} দশায় আছে, আলোকসজ্জা {illum}% এবং সর্বশেষ অমাবস্যা থেকে বয়স {age} দিন। সমস্ত তথ্য শহরের স্থানাঙ্কের জন্য উচ্চ-নির্ভুলতার জ্যোতির্বিজ্ঞান অ্যালগরিদম (Meeus) দ্বারা গণনা করা হয়।',
+        'moon.out_of_range_notice': 'এই তারিখটি দৈনিক পৃষ্ঠাগুলির জন্য সমর্থিত পরিসরের বাইরে। {city}-এ আজকের চাঁদের অবস্থা দেখুন।',
         'moon.zodiac_label': 'রাশি',
         'moon.zodiac.aries': 'মেষ',
         'moon.zodiac.taurus': 'বৃষ',
@@ -4294,6 +4420,7 @@ const TRANSLATIONS = {
         'moon.illumination': 'Pencahayaan',
         'moon.rise': 'Bulan Terbit',
         'moon.set': 'Bulan Terbenam',
+        'moon.tz_note_template': '🕐 Semua masa (terbit, terbenam, ramalan 14 hari) dipaparkan dalam waktu tempatan {city} ({tz})',
         'moon.next_full': 'Purnama Seterusnya',
         'moon.next_new': 'Bulan Baru Seterusnya',
         'moon.days_suffix': 'hari',
@@ -4337,6 +4464,19 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Esok Bulan mencapai fasa {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Hari ini Bulan mencapai fasa {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Ikuti perkembangan Bulan sepanjang 14 hari akan datang ↓',
+        // Halaman Bulan untuk tarikh tertentu (/moon-today-in-{city}/{YYYY-MM-DD}) + carta
+        'moon.prev_day': 'Hari sebelumnya',
+        'moon.next_day': 'Hari seterusnya',
+        'moon.return_today': 'Hari ini',
+        'moon.chart_title': '📈 Carta Pencahayaan Bulan — 7 Hari',
+        'moon.chart_subtitle': 'Peratusan pencahayaan dari 3 hari sebelum hingga 3 hari selepas',
+        'moon.chart_caption': 'Klik mana-mana titik untuk ke halaman hari tersebut.',
+        'moon.chart_a11y': 'Carta pencahayaan Bulan — 7 hari',
+        'moon.h1_date_template': '🌙 Bulan di {city} pada {date}',
+        'moon.title_date_template': 'Bulan di {city} pada {date} — Fasa, Pencahayaan & Usia',
+        'moon.desc_date_template': 'Fasa Bulan di {city} pada {date}: pencahayaan, usia, waktu terbit dan terbenam, serta buruj — dikira dengan algoritma astronomi tepat.',
+        'moon.intro_date_template': 'Pada {date} di {city}, Bulan berada dalam fasa {phaseIcon} {phaseName} dengan pencahayaan {illum}% dan usia {age} hari sejak bulan baru lalu. Semua data dikira menggunakan algoritma astronomi berketepatan tinggi (Meeus) untuk koordinat bandar.',
+        'moon.out_of_range_notice': 'Tarikh ini di luar julat yang disokong untuk halaman harian. Lihat status Bulan hari ini di {city}.',
         'moon.zodiac_label': 'Buruj',
         'moon.zodiac.aries': 'Aries',
         'moon.zodiac.taurus': 'Taurus',
@@ -4623,12 +4763,14 @@ const TRANSLATIONS = {
     }
 };
 
-// Node.js export — يتيح للخادم (server.js) استخدام TRANSLATIONS في SSR
-// return يُنهي تنفيذ الـ module مبكّرًا (Node يلفّ كلّ ملفّ بدالّة، فـ return صحيح)
-// → يتجاوز شيفرة الـ DOM أدناه التي لا تعمل خارج المتصفّح
+// Node.js export — يتيح للخادم (server.js) استخدام TRANSLATIONS في SSR.
+// ملاحظة مهمّة: كنّا نستخدم `return;` هنا لإيقاف تنفيذ ما بعده على Node،
+// لكنّ `return` في scope السكربت العامّ في المتصفّح **SyntaxError** ⇒ يُفشل
+// تحميل الملفّ بالكامل (فلا t() ولا TRANSLATIONS ولا data-i18n). البديل
+// الآمن: نصدّر للـ Node فقط، ونحمي الدوالّ التي تستخدم window من الانهيار
+// أثناء الـ SSR. شيفرة DOMContentLoaded تبقى آمنة (لا تُستدعى على Node).
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { TRANSLATIONS };
-    return;
 }
 
 // اكتشاف اللغة: URL هو المرجع الوحيد
@@ -4636,6 +4778,8 @@ if (typeof module !== 'undefined' && module.exports) {
 const SUPPORTED_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
 const RTL_LANGS = ['ar', 'ur'];
 function _detectLang() {
+    // حماية SSR: لا نصل إلى window خارج المتصفّح — server.js يستورد هذا الملفّ للترجمات فقط
+    if (typeof window === 'undefined') return 'ar';
     const p = window.location.pathname;
     for (const l of ['en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms']) {
         if (p === '/' + l || p.startsWith('/' + l + '/')) return l;
@@ -4819,25 +4963,28 @@ function toggleLangMenu(btn) {
     });
 }
 
-// إغلاق القائمة عند النقر خارجها أو Escape
-document.addEventListener('click', (e) => {
-    document.querySelectorAll('.lang-switcher.open').forEach(sw => {
-        if (!sw.contains(e.target)) {
-            sw.classList.remove('open');
-            const b = sw.querySelector('.lang-switcher-btn');
-            if (b) b.setAttribute('aria-expanded', 'false');
+// حماية SSR: تجاهل ربط أحداث DOM خارج المتصفّح
+if (typeof document !== 'undefined') {
+    // إغلاق القائمة عند النقر خارجها أو Escape
+    document.addEventListener('click', (e) => {
+        document.querySelectorAll('.lang-switcher.open').forEach(sw => {
+            if (!sw.contains(e.target)) {
+                sw.classList.remove('open');
+                const b = sw.querySelector('.lang-switcher-btn');
+                if (b) b.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.lang-switcher.open').forEach(sw => {
+                sw.classList.remove('open');
+                const b = sw.querySelector('.lang-switcher-btn');
+                if (b) b.setAttribute('aria-expanded', 'false');
+            });
         }
     });
-});
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.querySelectorAll('.lang-switcher.open').forEach(sw => {
-            sw.classList.remove('open');
-            const b = sw.querySelector('.lang-switcher-btn');
-            if (b) b.setAttribute('aria-expanded', 'false');
-        });
-    }
-});
 
-// تطبيق اللغة عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => setLanguage(_lang));
+    // تطبيق اللغة عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', () => setLanguage(_lang));
+}

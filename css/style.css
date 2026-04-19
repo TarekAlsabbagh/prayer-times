@@ -1195,12 +1195,154 @@ button, input, select { font-family: inherit; }
     .moon-forecast-cta { font-size: 0.98rem; padding: 12px 14px; }
 }
 
+/* ── صفحة القمر حسب التاريخ: شريط التنقّل (أمس/اليوم/غدًا) ── */
+.moon-date-nav {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: 14px 0 18px;
+    flex-wrap: wrap;
+}
+.moon-date-nav[hidden] { display: none; }
+.moon-date-link {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--bg-elevated, rgba(46,125,50,0.06));
+    color: var(--text, #1a1a1a);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    border: 1px solid rgba(46,125,50,0.12);
+    text-align: center;
+}
+.moon-date-link:hover {
+    background: var(--primary-light, #4caf50);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(46,125,50,0.18);
+    text-decoration: none;
+}
+.moon-date-link .moon-date-arrow {
+    font-size: 1.05rem;
+    opacity: 0.85;
+    line-height: 1;
+}
+.moon-date-link .moon-date-label {
+    display: block;
+    line-height: 1.25;
+}
+.moon-date-link .moon-date-sub {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    opacity: 0.72;
+    line-height: 1.2;
+}
+.moon-date-today-link {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    border-color: transparent;
+}
+.moon-date-today-link:hover {
+    background: var(--primary-dark, #1b5e20);
+    color: #fff;
+}
+/* إظهار الشريط حصريّاً على moon-date-page حتّى لو كان مخفيّاً بـ [hidden] */
+html.moon-date-page .moon-date-nav { display: flex; }
+
+@media (max-width: 480px) {
+    .moon-date-nav { gap: 6px; }
+    .moon-date-link { padding: 8px 8px; font-size: 0.82rem; }
+    .moon-date-link .moon-date-sub { font-size: 0.72rem; }
+}
+
+/* ── مخطّط إضاءة القمر (7 أيّام: 3 قبل + اليوم + 3 بعد) ── */
+.moon-chart-section {
+    padding: 20px 16px;
+    margin-top: 18px;
+}
+.moon-chart-section h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0 0 4px;
+}
+.moon-chart-subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-light, #5a5a5a);
+    margin-bottom: 14px;
+}
+.moon-chart-container {
+    width: 100%;
+    overflow: hidden;
+    min-height: 200px;
+}
+.moon-chart-container svg {
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    display: block;
+}
+.moon-chart-container a circle {
+    cursor: pointer;
+    transition: r 0.15s, opacity 0.15s;
+}
+.moon-chart-container a:hover circle {
+    opacity: 0.85;
+    r: 6;
+}
+.moon-chart-caption {
+    text-align: center;
+    color: var(--text-light, #5a5a5a);
+    font-size: 0.85rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+/* RTL: عكس المحور الأفقيّ للغات RTL (AR/UR) */
+html[dir="rtl"] .moon-chart-container svg { transform: scaleX(-1); }
+html[dir="rtl"] .moon-chart-container svg text { transform: scaleX(-1); transform-origin: center; transform-box: fill-box; }
+
+@media (max-width: 480px) {
+    .moon-chart-section { padding: 14px 10px; }
+    .moon-chart-section h2 { font-size: 1.05rem; }
+    .moon-chart-subtitle { font-size: 0.82rem; }
+    .moon-chart-container svg { max-height: 220px; }
+}
+
 .moon-location-note {
     font-size: 0.92rem;
     color: var(--text-light);
     text-align: center;
     margin-bottom: 12px;
     font-weight: 500;
+}
+
+/* ملاحظة التوقيت المحلّيّ — تظهر أسفل موقع المطلع/المغيب لتوضيح أنّ
+   الأوقات بتوقيت المدينة الهدف لا بتوقيت متصفّح المستخدم */
+.moon-timezone-note {
+    font-size: 0.88rem;
+    color: var(--text-light, #5a5a5a);
+    text-align: center;
+    margin: 14px 0 0;
+    padding: 10px 14px;
+    background: var(--bg-elevated, rgba(46,125,50,0.05));
+    border: 1px dashed rgba(46,125,50,0.25);
+    border-radius: 10px;
+    line-height: 1.55;
+}
+.moon-timezone-note[hidden] { display: none !important; }
+@media (max-width: 520px) {
+    .moon-timezone-note { font-size: 0.84rem; padding: 9px 12px; }
 }
 .moon-forecast-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .moon-forecast-table {
@@ -2751,15 +2893,14 @@ html.city-page #city-breadcrumb {
     .bc-sep { padding: 0 3px; }
 }
 
-/* صفحات /prayer-times-in-{city}: إخفاء البوابة الذكية
-   CLS FIX: نستخدم html.city-page (يُطبَّق في inline head script قبل paint)
-   بدل body.city-prayer-page (يُطبَّق بعد DOMContentLoaded → يسبب CLS ضخم) */
-.city-prayer-page #home-quick-access,
-html.city-page #home-quick-access { display: none !important; }
+/* صفحات /prayer-times-in-{city}: نُظهر البوابة الذكية (home-quick-access)
+   بعناوين ديناميكيّة تحوي اسم المدينة للبطاقات الثلاث (hijri/qibla/moon).
+   تبقى مخفيّة فقط على صفحات غير الصلاة (qibla/moon/hijri pages ...). */
+html:not(.city-page):not(.home-page) #home-quick-access:not(.hqa-on-home) { /* placeholder to keep rule tree */ }
 
-/* إظهار روابط الخدمات ذات الصلة */
+/* إخفاء القسم القديم المكرَّر (city-related-services) — استُعيض عنه بـ home-quick-access */
 .city-prayer-page #city-related-services,
-html.city-page #city-related-services { display: block !important; }
+html.city-page #city-related-services { display: none !important; }
 
 /* شبكة الروابط ذات الصلة */
 .related-services-grid {

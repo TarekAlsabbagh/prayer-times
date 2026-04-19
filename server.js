@@ -144,6 +144,49 @@ const POPULAR_CITY_NAMES = {
     'new-york':    { ar:'نيويورك',        en:'New York',      fr:'New York',      tr:'New York',     ur:'نیویارک',       de:'New York',      id:'New York',      es:'Nueva York',   bn:'নিউ ইয়র্ক',     ms:'New York' },
     'new-york-city':{ar:'نيويورك',        en:'New York',      fr:'New York',      tr:'New York',     ur:'نیویارک',       de:'New York',      id:'New York',      es:'Nueva York',   bn:'নিউ ইয়র্ক',     ms:'New York' }, // مرادف slug في db/cities-us.json
     toronto:       { ar:'تورنتو',         en:'Toronto',       fr:'Toronto',       tr:'Toronto',      ur:'ٹورنٹو',        de:'Toronto',       id:'Toronto',       es:'Toronto',      bn:'টরন্টো',          ms:'Toronto' },
+    // ── توسعة آسيا الشرقيّة / الجنوبيّة / جنوب شرق آسيا (غير إسلاميّة — للمستخدمين المسلمين في الشتات) ──
+    tokyo:         { ar:'طوكيو',          en:'Tokyo',         fr:'Tokyo',         tr:'Tokyo',        ur:'ٹوکیو',         de:'Tokio',         id:'Tokyo',         es:'Tokio',        bn:'টোকিও',           ms:'Tokyo' },
+    seoul:         { ar:'سيول',           en:'Seoul',         fr:'Séoul',         tr:'Seul',         ur:'سیول',          de:'Seoul',         id:'Seoul',         es:'Seúl',         bn:'সিউল',           ms:'Seoul' },
+    beijing:       { ar:'بكين',           en:'Beijing',       fr:'Pékin',         tr:'Pekin',        ur:'بیجنگ',         de:'Peking',        id:'Beijing',       es:'Pekín',        bn:'বেইজিং',         ms:'Beijing' },
+    shanghai:      { ar:'شنغهاي',         en:'Shanghai',      fr:'Shanghai',      tr:'Şanghay',      ur:'شنگھائی',       de:'Shanghai',      id:'Shanghai',      es:'Shanghái',     bn:'সাংহাই',         ms:'Shanghai' },
+    bangkok:       { ar:'بانكوك',         en:'Bangkok',       fr:'Bangkok',       tr:'Bangkok',      ur:'بینکاک',        de:'Bangkok',       id:'Bangkok',       es:'Bangkok',      bn:'ব্যাংকক',         ms:'Bangkok' },
+    hanoi:         { ar:'هانوي',          en:'Hanoi',         fr:'Hanoï',         tr:'Hanoi',        ur:'ہنوئی',         de:'Hanoi',         id:'Hanoi',         es:'Hanói',        bn:'হ্যানয়',         ms:'Hanoi' },
+    manila:        { ar:'مانيلا',         en:'Manila',        fr:'Manille',       tr:'Manila',       ur:'منیلا',         de:'Manila',        id:'Manila',        es:'Manila',       bn:'ম্যানিলা',        ms:'Manila' },
+    delhi:         { ar:'دلهي',           en:'Delhi',         fr:'Delhi',         tr:'Delhi',        ur:'دہلی',          de:'Delhi',         id:'Delhi',         es:'Delhi',        bn:'দিল্লি',          ms:'Delhi' },
+    'new-delhi':   { ar:'نيودلهي',        en:'New Delhi',     fr:'New Delhi',     tr:'Yeni Delhi',   ur:'نئی دہلی',       de:'Neu-Delhi',     id:'New Delhi',     es:'Nueva Delhi',  bn:'নতুন দিল্লি',      ms:'New Delhi' },
+    mumbai:        { ar:'مومباي',         en:'Mumbai',        fr:'Mumbai',        tr:'Mumbai',       ur:'ممبئی',         de:'Mumbai',        id:'Mumbai',        es:'Bombay',       bn:'মুম্বাই',         ms:'Mumbai' },
+    kolkata:       { ar:'كولكاتا',        en:'Kolkata',       fr:'Calcutta',      tr:'Kalküta',      ur:'کولکاتا',       de:'Kalkutta',      id:'Kolkata',       es:'Calcuta',      bn:'কলকাতা',          ms:'Kolkata' },
+    bangalore:     { ar:'بنغالور',        en:'Bangalore',     fr:'Bangalore',     tr:'Bangalore',    ur:'بنگلور',        de:'Bangalore',     id:'Bangalore',     es:'Bangalore',    bn:'ব্যাঙ্গালোর',      ms:'Bangalore' },
+    chennai:       { ar:'تشيناي',         en:'Chennai',       fr:'Chennai',       tr:'Chennai',      ur:'چنئی',          de:'Chennai',       id:'Chennai',       es:'Chennai',      bn:'চেন্নাই',         ms:'Chennai' },
+    hyderabad:     { ar:'حيدر آباد',      en:'Hyderabad',     fr:'Hyderabad',     tr:'Haydarabad',   ur:'حیدرآباد',      de:'Hyderabad',     id:'Hyderabad',     es:'Hyderabad',    bn:'হায়দ্রাবাদ',     ms:'Hyderabad' },
+    // أوروبا (غير المذكورة أعلاه)
+    madrid:        { ar:'مدريد',          en:'Madrid',        fr:'Madrid',        tr:'Madrid',       ur:'میڈرڈ',         de:'Madrid',        id:'Madrid',        es:'Madrid',       bn:'মাদ্রিদ',         ms:'Madrid' },
+    barcelona:     { ar:'برشلونة',        en:'Barcelona',     fr:'Barcelone',     tr:'Barselona',    ur:'بارسلونا',      de:'Barcelona',     id:'Barcelona',     es:'Barcelona',    bn:'বার্সেলোনা',      ms:'Barcelona' },
+    rome:          { ar:'روما',           en:'Rome',          fr:'Rome',          tr:'Roma',         ur:'روم',           de:'Rom',           id:'Roma',          es:'Roma',         bn:'রোম',             ms:'Rome' },
+    milan:         { ar:'ميلانو',         en:'Milan',         fr:'Milan',         tr:'Milano',       ur:'میلان',         de:'Mailand',       id:'Milan',         es:'Milán',        bn:'মিলান',           ms:'Milan' },
+    moscow:        { ar:'موسكو',          en:'Moscow',        fr:'Moscou',        tr:'Moskova',      ur:'ماسکو',         de:'Moskau',        id:'Moskwa',        es:'Moscú',        bn:'মস্কো',           ms:'Moscow' },
+    munich:        { ar:'ميونخ',          en:'Munich',        fr:'Munich',        tr:'Münih',        ur:'میونخ',         de:'München',       id:'München',       es:'Múnich',       bn:'মিউনিখ',          ms:'Munich' },
+    manchester:    { ar:'مانشستر',        en:'Manchester',    fr:'Manchester',    tr:'Manchester',   ur:'مانچسٹر',       de:'Manchester',    id:'Manchester',    es:'Mánchester',   bn:'ম্যানচেস্টার',     ms:'Manchester' },
+    birmingham:    { ar:'برمنغهام',       en:'Birmingham',    fr:'Birmingham',    tr:'Birmingham',   ur:'برمنگھم',       de:'Birmingham',    id:'Birmingham',    es:'Birmingham',   bn:'বার্মিংহাম',      ms:'Birmingham' },
+    // أمريكا الشماليّة (غير المذكورة أعلاه)
+    'los-angeles': { ar:'لوس أنجلوس',     en:'Los Angeles',   fr:'Los Angeles',   tr:'Los Angeles',  ur:'لاس اینجلس',    de:'Los Angeles',   id:'Los Angeles',   es:'Los Ángeles',  bn:'লস অ্যাঞ্জেলেস',  ms:'Los Angeles' },
+    chicago:       { ar:'شيكاغو',         en:'Chicago',       fr:'Chicago',       tr:'Chicago',      ur:'شکاگو',         de:'Chicago',       id:'Chicago',       es:'Chicago',      bn:'শিকাগো',          ms:'Chicago' },
+    // أستراليا
+    sydney:        { ar:'سيدني',          en:'Sydney',        fr:'Sydney',        tr:'Sidney',       ur:'سڈنی',          de:'Sydney',        id:'Sydney',        es:'Sídney',       bn:'সিডনি',           ms:'Sydney' },
+    melbourne:     { ar:'ملبورن',         en:'Melbourne',     fr:'Melbourne',     tr:'Melbourne',    ur:'میلبورن',       de:'Melbourne',     id:'Melbourne',     es:'Melbourne',    bn:'মেলবোর্ন',        ms:'Melbourne' },
+    // المشرق العربيّ (تكملة — Gaza/Ramallah/Homs/Aden/Basra/Mosul)
+    gaza:          { ar:'غزّة',           en:'Gaza',          fr:'Gaza',          tr:'Gazze',        ur:'غزہ',           de:'Gaza',          id:'Gaza',          es:'Gaza',         bn:'গাজা',            ms:'Gaza' },
+    ramallah:      { ar:'رام الله',       en:'Ramallah',      fr:'Ramallah',      tr:'Ramallah',     ur:'رام اللہ',      de:'Ramallah',      id:'Ramallah',      es:'Ramala',       bn:'রামাল্লা',        ms:'Ramallah' },
+    homs:          { ar:'حمص',            en:'Homs',          fr:'Homs',          tr:'Humus',        ur:'حمص',           de:'Homs',          id:'Homs',          es:'Homs',         bn:'হোমস',           ms:'Homs' },
+    aden:          { ar:'عدن',            en:'Aden',          fr:'Aden',          tr:'Aden',         ur:'عدن',           de:'Aden',          id:'Aden',          es:'Adén',         bn:'এডেন',            ms:'Aden' },
+    basra:         { ar:'البصرة',         en:'Basra',         fr:'Bassora',       tr:'Basra',        ur:'بصرہ',          de:'Basra',         id:'Basra',         es:'Basora',       bn:'বসরা',           ms:'Basra' },
+    mosul:         { ar:'الموصل',         en:'Mosul',         fr:'Mossoul',       tr:'Musul',        ur:'موصل',          de:'Mosul',         id:'Mosul',         es:'Mosul',        bn:'মসুল',            ms:'Mosul' },
+    marrakesh:     { ar:'مرّاكش',         en:'Marrakesh',     fr:'Marrakech',     tr:'Marakeş',      ur:'مراکش',         de:'Marrakesch',    id:'Marrakesh',     es:'Marrakech',    bn:'মারাকেশ',         ms:'Marrakesh' },
+    marrakech:     { ar:'مرّاكش',         en:'Marrakesh',     fr:'Marrakech',     tr:'Marakeş',      ur:'مراکش',         de:'Marrakesch',    id:'Marrakesh',     es:'Marrakech',    bn:'মারাকেশ',         ms:'Marrakesh' }, // مرادف slug
+    // مدن سعوديّة إضافيّة
+    dammam:        { ar:'الدمام',         en:'Dammam',        fr:'Dammam',        tr:'Dammam',       ur:'دمام',          de:'Dammam',        id:'Dammam',        es:'Dammam',       bn:'দাম্মাম',         ms:'Dammam' },
+    // مدن ماليزيّة إضافيّة (خارج kuala-lumpur)
+    singapore:     { ar:'سنغافورة',       en:'Singapore',     fr:'Singapour',     tr:'Singapur',     ur:'سنگاپور',       de:'Singapur',      id:'Singapura',     es:'Singapur',     bn:'সিঙ্গাপুর',      ms:'Singapura' },
 };
 
 // ===== Round 9: FAMOUS_CITY_OVERRIDES — إحداثيّات المدن الشهيرة =====
@@ -2894,7 +2937,9 @@ function buildSeoForPath(urlPath) {
     const esUrl = langUrl('es');
     const bnUrl = langUrl('bn');
     const msUrl = langUrl('ms');
-    const canonical = origin + p;
+    let canonical = origin + p;
+    // robots override: null = default index,follow; otherwise استخدم هذه القيمة
+    let robotsOverride = null;
     const SITE_NAMES = {
         ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
         tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز', de: 'Gebetszeiten',
@@ -3371,48 +3416,140 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
-    // ── Moon city pages: /moon-today-in-{slug} ── (Round 9)
+    // ── Moon city pages: /moon-today-in-{slug} [optional /{YYYY-MM-DD}] ── (Round 9 + date pages)
     // slug فقط (بلا lat/lng) — يُفكّ عبر FAMOUS_CITY_OVERRIDES أو cities-*.json.
     // slug غير معروف يُرفَض قبل هذه النقطة (صفحة 404).
-    m = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+)$/);
+    m = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+)(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
     if (m) {
         const citySlug = m[1];
         const cityGeo = _resolveCityForMoon(citySlug);
+        // ── تحليل التاريخ إن وُجد ──
+        let _moonDateIso = null;        // 'YYYY-MM-DD' — null يعني صفحة اليوم
+        let _moonDateObj = null;        // Date object للتاريخ المحدَّد
+        let _moonDateInRange = true;    // true عندما التاريخ ضمن [today-30, today+90]
+        if (m[2]) {
+            const _dy = parseInt(m[2], 10);
+            const _dm = parseInt(m[3], 10);
+            const _dd = parseInt(m[4], 10);
+            // صحّة التقويم: Date.UTC يعيد NaN أو يصحّح الأرقام؛ نتحقّق بإعادة المقارنة
+            if (_dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
+                const _testUtc = Date.UTC(_dy, _dm - 1, _dd);
+                const _test = new Date(_testUtc);
+                if (_test.getUTCFullYear() === _dy && _test.getUTCMonth() === (_dm - 1) && _test.getUTCDate() === _dd) {
+                    _moonDateObj = _test;
+                    _moonDateIso = m[2] + '-' + m[3] + '-' + m[4];
+                    // نطاق: today − 30 إلى today + 90 بتوقيت UTC
+                    const _todayUtc = new Date();
+                    const _t0 = Date.UTC(_todayUtc.getUTCFullYear(), _todayUtc.getUTCMonth(), _todayUtc.getUTCDate());
+                    const _diffDays = Math.round((_testUtc - _t0) / 86400000);
+                    if (_diffDays < -30 || _diffDays > 90) {
+                        _moonDateInRange = false;
+                    }
+                } else {
+                    // تاريخ غير صالح (مثل 2026-02-30) → نعيد kind 404 عبر ترك الـ match بدون تعديل
+                    // لكن بما أنّ slug مقبول، نترك الصفحة تفتح مع التاريخ كـ out-of-range (noindex)
+                    _moonDateInRange = false;
+                }
+            } else {
+                _moonDateInRange = false;
+            }
+        }
         if (cityGeo) {
             const cityDisplay = _resolveCityName(citySlug, lang);
-            // Title × 10 لغات — غنيّ بالكلمات المفتاحيّة (حالة القمر اليوم في {المدينة})
-            const _moonTitle = {
-                ar: `حالة القمر اليوم في ${cityDisplay} - طور القمر ونسبة الإضاءة`,
-                en: `Moon State Today in ${cityDisplay} - Phase, Illumination & Distance`,
-                fr: `État de la Lune aujourd\u2019hui à ${cityDisplay} - Phase et Illumination`,
-                tr: `${cityDisplay}'da Bugün Ayın Durumu - Evre ve Aydınlanma`,
-                ur: `${cityDisplay} میں آج چاند کی حالت - طور اور روشنی`,
-                de: `Mondzustand heute in ${cityDisplay} - Phase und Beleuchtung`,
-                id: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fase & Iluminasi`,
-                es: `Estado de la Luna hoy en ${cityDisplay} - Fase e Iluminación`,
-                bn: `${cityDisplay}-এ আজ চাঁদের অবস্থা - দশা ও আলোকন`,
-                ms: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fasa & Pencahayaan`,
-            };
-            const _moonDesc = {
-                ar: `حالة القمر اليوم في ${cityDisplay}: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين ${cityDisplay} والقمر بالكيلومتر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.`,
-                en: `Moon state today in ${cityDisplay}: current phase and illumination percentage, moon age in days, distance from ${cityDisplay} to the Moon in kilometers, moonrise and moonset times, next full moon and hilal visibility for the upcoming Hijri month.`,
-                fr: `État de la Lune aujourd\u2019hui à ${cityDisplay} : phase actuelle et pourcentage d\u2019illumination, âge de la Lune en jours, distance entre ${cityDisplay} et la Lune en kilomètres, heures de lever/coucher, prochaine pleine lune et visibilité du croissant pour le prochain mois hégirien.`,
-                tr: `${cityDisplay}'da bugün ayın durumu: mevcut evre ve aydınlanma yüzdesi, ayın gün olarak yaşı, ${cityDisplay} ile Ay arasındaki mesafe (km), ay doğuşu/batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.`,
-                ur: `${cityDisplay} میں آج چاند کی حالت: موجودہ طور اور روشنی کا فیصد، چاند کی عمر دنوں میں، ${cityDisplay} اور چاند کے درمیان فاصلہ کلومیٹر میں، مطلع اور مغیبِ چاند کے اوقات، اگلا بدر اور آنے والے ہجری مہینے کے ہلال کی رؤیت۔`,
-                de: `Mondzustand heute in ${cityDisplay}: aktuelle Phase und Beleuchtungsprozent, Mondalter in Tagen, Entfernung zwischen ${cityDisplay} und dem Mond in Kilometern, Mondaufgang und -untergang, nächster Vollmond und Hilal-Sichtbarkeit für den kommenden Hidschri-Monat.`,
-                id: `Keadaan Bulan hari ini di ${cityDisplay}: fase dan persentase iluminasi saat ini, usia bulan dalam hari, jarak antara ${cityDisplay} dan Bulan dalam kilometer, waktu terbit dan terbenam bulan, purnama berikutnya dan rukyat hilal untuk bulan Hijriyah mendatang.`,
-                es: `Estado de la Luna hoy en ${cityDisplay}: fase y porcentaje de iluminación actuales, edad de la Luna en días, distancia entre ${cityDisplay} y la Luna en kilómetros, horas de salida y puesta, próxima luna llena y visibilidad del hilal para el próximo mes Hijri.`,
-                bn: `${cityDisplay}-এ আজ চাঁদের অবস্থা: বর্তমান দশা ও আলোকন শতাংশ, দিনের হিসেবে চাঁদের বয়স, ${cityDisplay} ও চাঁদের মধ্যকার দূরত্ব কিলোমিটারে, চাঁদের উদয় ও অস্ত সময়, পরবর্তী পূর্ণিমা এবং আসন্ন হিজরি মাসের হিলাল দৃশ্যমানতা।`,
-                ms: `Keadaan Bulan hari ini di ${cityDisplay}: fasa dan peratus pencahayaan semasa, usia bulan dalam hari, jarak antara ${cityDisplay} dan Bulan dalam kilometer, waktu terbit dan terbenam bulan, bulan purnama seterusnya dan rukyah hilal untuk bulan Hijrah mendatang.`,
-            };
+            // ── توليد سلسلة تاريخ مقروءة لكلّ لغة ── (مثل: "19 أبريل 2026" / "19 April 2026")
+            let _moonDateLabel = '';
+            if (_moonDateObj) {
+                const _GMONTH_NAMES = {
+                    ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                    en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                    fr: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                    tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                    de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                    id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                    es: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                    ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+                };
+                const _mon = (_GMONTH_NAMES[lang] || _GMONTH_NAMES.en)[_moonDateObj.getUTCMonth()];
+                _moonDateLabel = _moonDateObj.getUTCDate() + ' ' + _mon + ' ' + _moonDateObj.getUTCFullYear();
+            }
+
+            // Title/Description — اختيار حسب صفحة اليوم أو صفحة تاريخ محدَّد
+            let _moonTitle, _moonDesc;
+            if (_moonDateIso && _moonDateInRange) {
+                // ── عناوين خاصّة بصفحة التاريخ ──
+                _moonTitle = {
+                    ar: `حالة القمر في ${cityDisplay} يوم ${_moonDateLabel} — الطور والإضاءة والعمر`,
+                    en: `Moon in ${cityDisplay} on ${_moonDateLabel} — Phase, Illumination & Age`,
+                    fr: `La Lune à ${cityDisplay} le ${_moonDateLabel} — Phase, illumination et âge`,
+                    tr: `${cityDisplay} için ${_moonDateLabel} tarihinde Ay — Evre, Aydınlanma ve Yaş`,
+                    ur: `${cityDisplay} میں ${_moonDateLabel} کو چاند — مرحلہ، روشنی اور عمر`,
+                    de: `Der Mond in ${cityDisplay} am ${_moonDateLabel} — Phase, Beleuchtung & Alter`,
+                    id: `Bulan di ${cityDisplay} pada ${_moonDateLabel} — Fase, Iluminasi & Usia`,
+                    es: `La Luna en ${cityDisplay} el ${_moonDateLabel} — Fase, iluminación y edad`,
+                    bn: `${cityDisplay}-এ ${_moonDateLabel}-এ চাঁদ — দশা, আলোকসজ্জা ও বয়স`,
+                    ms: `Bulan di ${cityDisplay} pada ${_moonDateLabel} — Fasa, Pencahayaan & Usia`,
+                };
+                _moonDesc = {
+                    ar: `طور القمر في ${cityDisplay} يوم ${_moonDateLabel}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,
+                    en: `Moon phase in ${cityDisplay} on ${_moonDateLabel}: illumination, moon age, moonrise, moonset, and zodiac — calculated with precise astronomical formulas.`,
+                    fr: `Phase de la Lune à ${cityDisplay} le ${_moonDateLabel} : illumination, âge, heures de lever et coucher, et signe zodiacal — calculés avec des algorithmes astronomiques précis.`,
+                    tr: `${cityDisplay} için ${_moonDateLabel} tarihinde Ay evresi: aydınlanma, yaş, doğuş ve batış saatleri ve burç — kesin astronomik algoritmalarla hesaplanır.`,
+                    ur: `${cityDisplay} میں ${_moonDateLabel} کو چاند کا مرحلہ: روشنی، عمر، طلوع و غروب کے اوقات اور برج — درست فلکی فارمولوں سے حساب لگایا گیا۔`,
+                    de: `Mondphase in ${cityDisplay} am ${_moonDateLabel}: Beleuchtung, Mondalter, Aufgang, Untergang und Sternbild — berechnet mit präzisen astronomischen Algorithmen.`,
+                    id: `Fase Bulan di ${cityDisplay} pada ${_moonDateLabel}: iluminasi, usia Bulan, terbit, terbenam, dan rasi bintang — dihitung dengan algoritme astronomi presisi.`,
+                    es: `Fase de la Luna en ${cityDisplay} el ${_moonDateLabel}: iluminación, edad, salida y puesta lunar y constelación — calculadas con algoritmos astronómicos precisos.`,
+                    bn: `${cityDisplay}-এ ${_moonDateLabel}-এ চাঁদের দশা: আলোকসজ্জা, বয়স, উদয় ও অস্তের সময় এবং রাশি — নির্ভুল জ্যোতির্বিজ্ঞান অ্যালগরিদম দ্বারা গণনা।`,
+                    ms: `Fasa Bulan di ${cityDisplay} pada ${_moonDateLabel}: pencahayaan, usia, waktu terbit dan terbenam, serta buruj — dikira dengan algoritma astronomi tepat.`,
+                };
+            } else {
+                // ── عناوين صفحة اليوم (القديمة) ──
+                _moonTitle = {
+                    ar: `حالة القمر اليوم في ${cityDisplay} - طور القمر ونسبة الإضاءة`,
+                    en: `Moon State Today in ${cityDisplay} - Phase, Illumination & Distance`,
+                    fr: `État de la Lune aujourd\u2019hui à ${cityDisplay} - Phase et Illumination`,
+                    tr: `${cityDisplay}'da Bugün Ayın Durumu - Evre ve Aydınlanma`,
+                    ur: `${cityDisplay} میں آج چاند کی حالت - طور اور روشنی`,
+                    de: `Mondzustand heute in ${cityDisplay} - Phase und Beleuchtung`,
+                    id: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fase & Iluminasi`,
+                    es: `Estado de la Luna hoy en ${cityDisplay} - Fase e Iluminación`,
+                    bn: `${cityDisplay}-এ আজ চাঁদের অবস্থা - দশা ও আলোকন`,
+                    ms: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fasa & Pencahayaan`,
+                };
+                _moonDesc = {
+                    ar: `حالة القمر اليوم في ${cityDisplay}: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين ${cityDisplay} والقمر بالكيلومتر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.`,
+                    en: `Moon state today in ${cityDisplay}: current phase and illumination percentage, moon age in days, distance from ${cityDisplay} to the Moon in kilometers, moonrise and moonset times, next full moon and hilal visibility for the upcoming Hijri month.`,
+                    fr: `État de la Lune aujourd\u2019hui à ${cityDisplay} : phase actuelle et pourcentage d\u2019illumination, âge de la Lune en jours, distance entre ${cityDisplay} et la Lune en kilomètres, heures de lever/coucher, prochaine pleine lune et visibilité du croissant pour le prochain mois hégirien.`,
+                    tr: `${cityDisplay}'da bugün ayın durumu: mevcut evre ve aydınlanma yüzdesi, ayın gün olarak yaşı, ${cityDisplay} ile Ay arasındaki mesafe (km), ay doğuşu/batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.`,
+                    ur: `${cityDisplay} میں آج چاند کی حالت: موجودہ طور اور روشنی کا فیصد، چاند کی عمر دنوں میں، ${cityDisplay} اور چاند کے درمیان فاصلہ کلومیٹر میں، مطلع اور مغیبِ چاند کے اوقات، اگلا بدر اور آنے والے ہجری مہینے کے ہلال کی رؤیت۔`,
+                    de: `Mondzustand heute in ${cityDisplay}: aktuelle Phase und Beleuchtungsprozent, Mondalter in Tagen, Entfernung zwischen ${cityDisplay} und dem Mond in Kilometern, Mondaufgang und -untergang, nächster Vollmond und Hilal-Sichtbarkeit für den kommenden Hidschri-Monat.`,
+                    id: `Keadaan Bulan hari ini di ${cityDisplay}: fase dan persentase iluminasi saat ini, usia bulan dalam hari, jarak antara ${cityDisplay} dan Bulan dalam kilometer, waktu terbit dan terbenam bulan, purnama berikutnya dan rukyat hilal untuk bulan Hijriyah mendatang.`,
+                    es: `Estado de la Luna hoy en ${cityDisplay}: fase y porcentaje de iluminación actuales, edad de la Luna en días, distancia entre ${cityDisplay} y la Luna en kilómetros, horas de salida y puesta, próxima luna llena y visibilidad del hilal para el próximo mes Hijri.`,
+                    bn: `${cityDisplay}-এ আজ চাঁদের অবস্থা: বর্তমান দশা ও আলোকন শতাংশ, দিনের হিসেবে চাঁদের বয়স, ${cityDisplay} ও চাঁদের মধ্যকার দূরত্ব কিলোমিটারে, চাঁদের উদয় ও অস্ত সময়, পরবর্তী পূর্ণিমা এবং আসন্ন হিজরি মাসের হিলাল দৃশ্যমানতা।`,
+                    ms: `Keadaan Bulan hari ini di ${cityDisplay}: fasa dan peratus pencahayaan semasa, usia bulan dalam hari, jarak antara ${cityDisplay} dan Bulan dalam kilometer, waktu terbit dan terbenam bulan, bulan purnama seterusnya dan rukyah hilal untuk bulan Hijrah mendatang.`,
+                };
+            }
             title = _moonTitle[lang] || _moonTitle.en;
             description = _moonDesc[lang] || _moonDesc.en;
             ogType = 'article';
             geo = { lat: cityGeo.lat, lng: cityGeo.lng };
-            cityModified = new Date().toISOString();
+            cityModified = _moonDateObj ? _moonDateObj.toISOString() : new Date().toISOString();
+            // ── out-of-range: noindex + canonical يشير للصفحة بدون تاريخ ──
+            if (_moonDateIso && !_moonDateInRange) {
+                robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+                // canonical → /moon-today-in-{slug} (الصفحة الأساسيّة)
+                const _basePath = '/moon-today-in-' + citySlug;
+                canonical = origin + (lang === 'ar' ? '' : '/' + lang) + _basePath;
+            }
             webApp = { name: title, url: canonical, category: 'UtilitiesApplication' };
             moonFaq = true;
-            moonCity = { slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng };
+            moonCity = {
+                slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
+                date: _moonDateIso,       // null = اليوم؛ وإلا 'YYYY-MM-DD'
+                dateObj: _moonDateObj,    // Date للـ Article.datePublished
+                dateLabel: _moonDateLabel // نصّ مقروء للـ H1 / الفقرة
+            };
             // Breadcrumb: أضف "القمر اليوم" قبل اسم المدينة
             const _moonLabel = {
                 ar: 'القمر اليوم', en: 'Moon Today', fr: "Lune aujourd'hui", tr: 'Bugün Ay',
@@ -3420,7 +3557,10 @@ function buildSeoForPath(urlPath) {
                 es: 'Luna hoy', bn: 'আজকের চাঁদ', ms: 'Bulan Hari Ini',
             }[lang] || 'Moon Today';
             breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today' });
-            breadcrumbs.push({ name: cityDisplay, item: canonical });
+            breadcrumbs.push({ name: cityDisplay, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today-in-' + citySlug });
+            if (_moonDateIso && _moonDateInRange && _moonDateLabel) {
+                breadcrumbs.push({ name: _moonDateLabel, item: canonical });
+            }
         }
     }
 
@@ -3668,7 +3808,7 @@ function buildSeoForPath(urlPath) {
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, cityModified, origin,
-        moonFaq, moonCity
+        moonFaq, moonCity, robotsOverride
     };
 }
 
@@ -3680,7 +3820,9 @@ function renderSeoHeadHtml(seo) {
     const esc = _escHtml;
     const parts = [];
     parts.push('<!-- SSR-SEO-START -->');
-    parts.push(`<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">`);
+    // robots: استخدم override (noindex للتواريخ خارج النطاق مثلاً) وإلا القيمة الافتراضيّة
+    const _robots = seo.robotsOverride || 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1';
+    parts.push(`<meta name="robots" content="${esc(_robots)}">`);
     // NOTE: لا نضيف preconnect لـ nominatim — جميع طلبات الـ geocoding تمرّ عبر proxy محلي (/api/geocode)
     parts.push(`<link rel="canonical" href="${esc(seo.canonical)}">`);
     parts.push(`<link rel="alternate" hreflang="ar" href="${esc(seo.arUrl)}">`);
@@ -5178,35 +5320,84 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     if (seo.moonCity) {
         const Lm = seo.lang;
         const cityName = seo.moonCity.name;
-        // خريطة slug → country code (نفس خريطة app.js)
+        // خريطة slug → country code (نفس خريطة app.js، موسَّعة)
         const _COUNTRY_BY_CITY = {
             'mecca': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
-            'cairo': 'eg', 'alexandria': 'eg', 'istanbul': 'tr', 'ankara': 'tr',
-            'dubai': 'ae', 'abu-dhabi': 'ae', 'doha': 'qa', 'kuwait': 'kw',
-            'manama': 'bh', 'muscat': 'om', 'amman': 'jo', 'baghdad': 'iq',
-            'beirut': 'lb', 'damascus': 'sy', 'sanaa': 'ye', 'tunis': 'tn',
-            'algiers': 'dz', 'rabat': 'ma', 'casablanca': 'ma', 'khartoum': 'sd',
-            'tripoli': 'ly', 'jerusalem': 'ps', 'karachi': 'pk', 'lahore': 'pk',
-            'islamabad': 'pk', 'dhaka': 'bd', 'jakarta': 'id', 'kuala-lumpur': 'my',
-            'london': 'gb', 'paris': 'fr', 'berlin': 'de', 'madrid': 'es',
-            'rome': 'it', 'new-york': 'us', 'toronto': 'ca', 'sydney': 'au'
+            'khobar': 'sa', 'taif': 'sa', 'tabuk': 'sa', 'buraidah': 'sa', 'buraydah': 'sa',
+            'abha': 'sa', 'yanbu': 'sa', 'hail': 'sa', 'najran': 'sa', 'jizan': 'sa',
+            'qatif': 'sa', 'jubail': 'sa', 'hofuf': 'sa',
+            'cairo': 'eg', 'alexandria': 'eg', 'giza': 'eg',
+            'istanbul': 'tr', 'ankara': 'tr', 'izmir': 'tr', 'bursa': 'tr',
+            'dubai': 'ae', 'abu-dhabi': 'ae', 'sharjah': 'ae',
+            'doha': 'qa', 'kuwait': 'kw', 'kuwait-city': 'kw',
+            'manama': 'bh', 'manama-al': 'bh', 'muscat': 'om',
+            'amman': 'jo', 'aqaba': 'jo',
+            'baghdad': 'iq', 'basra': 'iq', 'mosul': 'iq',
+            'beirut': 'lb',
+            'damascus': 'sy', 'aleppo': 'sy', 'homs': 'sy',
+            'sanaa': 'ye', 'aden': 'ye',
+            'tunis': 'tn', 'algiers': 'dz',
+            'rabat': 'ma', 'casablanca': 'ma', 'marrakesh': 'ma', 'marrakech': 'ma',
+            'khartoum': 'sd', 'tripoli': 'ly',
+            'jerusalem': 'ps', 'gaza': 'ps', 'ramallah': 'ps',
+            'karachi': 'pk', 'lahore': 'pk', 'islamabad': 'pk', 'rawalpindi': 'pk',
+            'multan': 'pk', 'peshawar': 'pk', 'quetta': 'pk',
+            'dhaka': 'bd', 'chittagong': 'bd',
+            'jakarta': 'id', 'surabaya': 'id', 'bandung': 'id', 'medan': 'id',
+            'kuala-lumpur': 'my', 'johor': 'my', 'penang': 'my',
+            'singapore': 'sg',
+            'london': 'gb', 'manchester': 'gb', 'birmingham': 'gb',
+            'paris': 'fr',
+            'berlin': 'de', 'munich': 'de',
+            'madrid': 'es', 'barcelona': 'es',
+            'rome': 'it', 'milan': 'it',
+            'moscow': 'ru',
+            'new-york': 'us', 'new-york-city': 'us', 'los-angeles': 'us', 'chicago': 'us',
+            'toronto': 'ca',
+            'tokyo': 'jp', 'beijing': 'cn', 'shanghai': 'cn',
+            'seoul': 'kr', 'bangkok': 'th', 'hanoi': 'vn', 'manila': 'ph',
+            'delhi': 'in', 'new-delhi': 'in', 'mumbai': 'in', 'kolkata': 'in',
+            'bangalore': 'in', 'chennai': 'in', 'hyderabad': 'in',
+            'sydney': 'au', 'melbourne': 'au',
+            'tehran': 'ir', 'mashhad': 'ir', 'isfahan': 'ir', 'qom': 'ir',
+            'tashkent': 'uz', 'samarkand': 'uz', 'bukhara': 'uz',
+            'baku': 'az', 'kabul': 'af', 'kandahar': 'af', 'herat': 'af',
+            'mogadishu': 'so', 'nouakchott': 'mr',
+            'dushanbe': 'tj', 'bishkek': 'kg',
+            'astana': 'kz', 'almaty': 'kz',
+            'addis': 'et', 'lagos': 'ng', 'abuja': 'ng', 'kano': 'ng',
+            'nairobi': 'ke', 'dar': 'tz',
+            'bandar': 'bn'
         };
         const _COUNTRY_NAMES_SSR = {
-            ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا' },
-            en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia' },
-            fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie' },
-            tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya' },
-            ur: { sa:'سعودی عرب', eg:'مصر', tr:'ترکی', ae:'متحدہ عرب امارات', qa:'قطر', kw:'کویت', bh:'بحرین', om:'عمان', jo:'اردن', iq:'عراق', lb:'لبنان', sy:'شام', ye:'یمن', tn:'تیونس', dz:'الجزائر', ma:'مراکش', sd:'سوڈان', ly:'لیبیا', ps:'فلسطین', pk:'پاکستان', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا', gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', us:'امریکہ', ca:'کینیڈا', au:'آسٹریلیا' },
-            de: { sa:'Saudi-Arabien', eg:'Ägypten', tr:'Türkei', ae:'VAE', qa:'Katar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordanien', iq:'Irak', lb:'Libanon', sy:'Syrien', ye:'Jemen', tn:'Tunesien', dz:'Algerien', ma:'Marokko', sd:'Sudan', ly:'Libyen', ps:'Palästina', pk:'Pakistan', bd:'Bangladesch', id:'Indonesien', my:'Malaysia', gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', us:'USA', ca:'Kanada', au:'Australien' },
-            id: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UEA', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Yordania', iq:'Irak', lb:'Lebanon', sy:'Suriah', ye:'Yaman', tn:'Tunisia', dz:'Aljazair', ma:'Maroko', sd:'Sudan', ly:'Libya', ps:'Palestina', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'Britania Raya', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', us:'Amerika Serikat', ca:'Kanada', au:'Australia' },
-            es: { sa:'Arabia Saudí', eg:'Egipto', tr:'Turquía', ae:'EAU', qa:'Catar', kw:'Kuwait', bh:'Baréin', om:'Omán', jo:'Jordania', iq:'Irak', lb:'Líbano', sy:'Siria', ye:'Yemen', tn:'Túnez', dz:'Argelia', ma:'Marruecos', sd:'Sudán', ly:'Libia', ps:'Palestina', pk:'Pakistán', bd:'Bangladés', id:'Indonesia', my:'Malasia', gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', us:'Estados Unidos', ca:'Canadá', au:'Australia' },
-            bn: { sa:'সৌদি আরব', eg:'মিশর', tr:'তুরস্ক', ae:'সংযুক্ত আরব আমিরাত', qa:'কাতার', kw:'কুয়েত', bh:'বাহরাইন', om:'ওমান', jo:'জর্ডান', iq:'ইরাক', lb:'লেবানন', sy:'সিরিয়া', ye:'ইয়েমেন', tn:'তিউনিসিয়া', dz:'আলজেরিয়া', ma:'মরক্কো', sd:'সুদান', ly:'লিবিয়া', ps:'ফিলিস্তিন', pk:'পাকিস্তান', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া', gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', us:'মার্কিন যুক্তরাষ্ট্র', ca:'কানাডা', au:'অস্ট্রেলিয়া' },
-            ms: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lubnan', sy:'Syria', ye:'Yaman', tn:'Tunisia', dz:'Algeria', ma:'Maghribi', sd:'Sudan', ly:'Libya', ps:'Palestin', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', us:'Amerika Syarikat', ca:'Kanada', au:'Australia' }
+            ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا', jp:'اليابان', cn:'الصين', kr:'كوريا الجنوبيّة', th:'تايلاند', vn:'فيتنام', ph:'الفلبّين', in:'الهند', ru:'روسيا', sg:'سنغافورة', ir:'إيران', uz:'أوزبكستان', az:'أذربيجان', af:'أفغانستان', so:'الصومال', mr:'موريتانيا', tj:'طاجيكستان', kg:'قيرغيزستان', kz:'كازاخستان', et:'إثيوبيا', ng:'نيجيريا', ke:'كينيا', tz:'تنزانيا', bn:'بروناي' },
+            en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia', jp:'Japan', cn:'China', kr:'South Korea', th:'Thailand', vn:'Vietnam', ph:'Philippines', in:'India', ru:'Russia', sg:'Singapore', ir:'Iran', uz:'Uzbekistan', az:'Azerbaijan', af:'Afghanistan', so:'Somalia', mr:'Mauritania', tj:'Tajikistan', kg:'Kyrgyzstan', kz:'Kazakhstan', et:'Ethiopia', ng:'Nigeria', ke:'Kenya', tz:'Tanzania', bn:'Brunei' },
+            fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie', jp:'Japon', cn:'Chine', kr:'Corée du Sud', th:'Thaïlande', vn:'Vietnam', ph:'Philippines', in:'Inde', ru:'Russie', sg:'Singapour', ir:'Iran', uz:'Ouzbékistan', az:'Azerbaïdjan', af:'Afghanistan', so:'Somalie', mr:'Mauritanie', tj:'Tadjikistan', kg:'Kirghizistan', kz:'Kazakhstan', et:'Éthiopie', ng:'Nigéria', ke:'Kenya', tz:'Tanzanie', bn:'Brunei' },
+            tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya', jp:'Japonya', cn:'Çin', kr:'Güney Kore', th:'Tayland', vn:'Vietnam', ph:'Filipinler', in:'Hindistan', ru:'Rusya', sg:'Singapur', ir:'İran', uz:'Özbekistan', az:'Azerbaycan', af:'Afganistan', so:'Somali', mr:'Moritanya', tj:'Tacikistan', kg:'Kırgızistan', kz:'Kazakistan', et:'Etiyopya', ng:'Nijerya', ke:'Kenya', tz:'Tanzanya', bn:'Brunei' },
+            ur: { sa:'سعودی عرب', eg:'مصر', tr:'ترکی', ae:'متحدہ عرب امارات', qa:'قطر', kw:'کویت', bh:'بحرین', om:'عمان', jo:'اردن', iq:'عراق', lb:'لبنان', sy:'شام', ye:'یمن', tn:'تیونس', dz:'الجزائر', ma:'مراکش', sd:'سوڈان', ly:'لیبیا', ps:'فلسطین', pk:'پاکستان', bd:'بنگلہ دیش', id:'انڈونیشیا', my:'ملیشیا', gb:'برطانیہ', fr:'فرانس', de:'جرمنی', es:'اسپین', it:'اٹلی', us:'امریکہ', ca:'کینیڈا', au:'آسٹریلیا', jp:'جاپان', cn:'چین', kr:'جنوبی کوریا', th:'تھائی لینڈ', vn:'ویتنام', ph:'فلپائن', in:'بھارت', ru:'روس', sg:'سنگاپور', ir:'ایران', uz:'ازبکستان', az:'آذربائیجان', af:'افغانستان', so:'صومالیہ', mr:'موریتانیہ', tj:'تاجکستان', kg:'کرغیزستان', kz:'قازقستان', et:'ایتھوپیا', ng:'نائجیریا', ke:'کینیا', tz:'تنزانیہ', bn:'برونائی' },
+            de: { sa:'Saudi-Arabien', eg:'Ägypten', tr:'Türkei', ae:'VAE', qa:'Katar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordanien', iq:'Irak', lb:'Libanon', sy:'Syrien', ye:'Jemen', tn:'Tunesien', dz:'Algerien', ma:'Marokko', sd:'Sudan', ly:'Libyen', ps:'Palästina', pk:'Pakistan', bd:'Bangladesch', id:'Indonesien', my:'Malaysia', gb:'Vereinigtes Königreich', fr:'Frankreich', de:'Deutschland', es:'Spanien', it:'Italien', us:'USA', ca:'Kanada', au:'Australien', jp:'Japan', cn:'China', kr:'Südkorea', th:'Thailand', vn:'Vietnam', ph:'Philippinen', in:'Indien', ru:'Russland', sg:'Singapur', ir:'Iran', uz:'Usbekistan', az:'Aserbaidschan', af:'Afghanistan', so:'Somalia', mr:'Mauretanien', tj:'Tadschikistan', kg:'Kirgisistan', kz:'Kasachstan', et:'Äthiopien', ng:'Nigeria', ke:'Kenia', tz:'Tansania', bn:'Brunei' },
+            id: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UEA', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Yordania', iq:'Irak', lb:'Lebanon', sy:'Suriah', ye:'Yaman', tn:'Tunisia', dz:'Aljazair', ma:'Maroko', sd:'Sudan', ly:'Libya', ps:'Palestina', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'Britania Raya', fr:'Prancis', de:'Jerman', es:'Spanyol', it:'Italia', us:'Amerika Serikat', ca:'Kanada', au:'Australia', jp:'Jepang', cn:'Tiongkok', kr:'Korea Selatan', th:'Thailand', vn:'Vietnam', ph:'Filipina', in:'India', ru:'Rusia', sg:'Singapura', ir:'Iran', uz:'Uzbekistan', az:'Azerbaijan', af:'Afghanistan', so:'Somalia', mr:'Mauritania', tj:'Tajikistan', kg:'Kyrgyzstan', kz:'Kazakhstan', et:'Etiopia', ng:'Nigeria', ke:'Kenya', tz:'Tanzania', bn:'Brunei' },
+            es: { sa:'Arabia Saudí', eg:'Egipto', tr:'Turquía', ae:'EAU', qa:'Catar', kw:'Kuwait', bh:'Baréin', om:'Omán', jo:'Jordania', iq:'Irak', lb:'Líbano', sy:'Siria', ye:'Yemen', tn:'Túnez', dz:'Argelia', ma:'Marruecos', sd:'Sudán', ly:'Libia', ps:'Palestina', pk:'Pakistán', bd:'Bangladés', id:'Indonesia', my:'Malasia', gb:'Reino Unido', fr:'Francia', de:'Alemania', es:'España', it:'Italia', us:'Estados Unidos', ca:'Canadá', au:'Australia', jp:'Japón', cn:'China', kr:'Corea del Sur', th:'Tailandia', vn:'Vietnam', ph:'Filipinas', in:'India', ru:'Rusia', sg:'Singapur', ir:'Irán', uz:'Uzbekistán', az:'Azerbaiyán', af:'Afganistán', so:'Somalia', mr:'Mauritania', tj:'Tayikistán', kg:'Kirguistán', kz:'Kazajistán', et:'Etiopía', ng:'Nigeria', ke:'Kenia', tz:'Tanzania', bn:'Brunéi' },
+            bn: { sa:'সৌদি আরব', eg:'মিশর', tr:'তুরস্ক', ae:'সংযুক্ত আরব আমিরাত', qa:'কাতার', kw:'কুয়েত', bh:'বাহরাইন', om:'ওমান', jo:'জর্ডান', iq:'ইরাক', lb:'লেবানন', sy:'সিরিয়া', ye:'ইয়েমেন', tn:'তিউনিসিয়া', dz:'আলজেরিয়া', ma:'মরক্কো', sd:'সুদান', ly:'লিবিয়া', ps:'ফিলিস্তিন', pk:'পাকিস্তান', bd:'বাংলাদেশ', id:'ইন্দোনেশিয়া', my:'মালয়েশিয়া', gb:'যুক্তরাজ্য', fr:'ফ্রান্স', de:'জার্মানি', es:'স্পেন', it:'ইতালি', us:'মার্কিন যুক্তরাষ্ট্র', ca:'কানাডা', au:'অস্ট্রেলিয়া', jp:'জাপান', cn:'চীন', kr:'দক্ষিণ কোরিয়া', th:'থাইল্যান্ড', vn:'ভিয়েতনাম', ph:'ফিলিপাইন', in:'ভারত', ru:'রাশিয়া', sg:'সিঙ্গাপুর', ir:'ইরান', uz:'উজবেকিস্তান', az:'আজারবাইজান', af:'আফগানিস্তান', so:'সোমালিয়া', mr:'মৌরিতানিয়া', tj:'তাজিকিস্তান', kg:'কিরগিজস্তান', kz:'কাজাখস্তান', et:'ইথিওপিয়া', ng:'নাইজেরিয়া', ke:'কেনিয়া', tz:'তানজানিয়া', bn:'ব্রুনাই' },
+            ms: { sa:'Arab Saudi', eg:'Mesir', tr:'Turki', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lubnan', sy:'Syria', ye:'Yaman', tn:'Tunisia', dz:'Algeria', ma:'Maghribi', sd:'Sudan', ly:'Libya', ps:'Palestin', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'Perancis', de:'Jerman', es:'Sepanyol', it:'Itali', us:'Amerika Syarikat', ca:'Kanada', au:'Australia', jp:'Jepun', cn:'China', kr:'Korea Selatan', th:'Thailand', vn:'Vietnam', ph:'Filipina', in:'India', ru:'Rusia', sg:'Singapura', ir:'Iran', uz:'Uzbekistan', az:'Azerbaijan', af:'Afghanistan', so:'Somalia', mr:'Mauritania', tj:'Tajikistan', kg:'Kyrgyzstan', kz:'Kazakhstan', et:'Ethiopia', ng:'Nigeria', ke:'Kenya', tz:'Tanzania', bn:'Brunei' }
         };
         const cc = _COUNTRY_BY_CITY[seo.moonCity.slug] || '';
         const countryName = cc ? ((_COUNTRY_NAMES_SSR[Lm] || _COUNTRY_NAMES_SSR.en)[cc] || '') : '';
-        // قوالب H1 لكل لغة
-        const _h1Moon = {
+        // ── H1: يختلف بين صفحة اليوم وصفحة تاريخ محدَّد ──
+        const _moonDateLabelSsr = seo.moonCity.dateLabel || '';
+        const _isMoonDatePage = !!(seo.moonCity.date && _moonDateLabelSsr);
+        const _h1Moon = _isMoonDatePage ? ({
+            ar: `🌙 حالة القمر في ${cityName} يوم ${_moonDateLabelSsr}`,
+            en: `🌙 Moon in ${cityName} on ${_moonDateLabelSsr}`,
+            fr: `🌙 La Lune à ${cityName} le ${_moonDateLabelSsr}`,
+            tr: `🌙 ${cityName} için ${_moonDateLabelSsr} tarihinde Ay`,
+            ur: `🌙 ${cityName} میں ${_moonDateLabelSsr} کو چاند`,
+            de: `🌙 Der Mond in ${cityName} am ${_moonDateLabelSsr}`,
+            id: `🌙 Bulan di ${cityName} pada ${_moonDateLabelSsr}`,
+            es: `🌙 La Luna en ${cityName} el ${_moonDateLabelSsr}`,
+            bn: `🌙 ${cityName}-এ ${_moonDateLabelSsr}-এ চাঁদ`,
+            ms: `🌙 Bulan di ${cityName} pada ${_moonDateLabelSsr}`
+        }[Lm] || `🌙 Moon in ${cityName} on ${_moonDateLabelSsr}`) : ({
             ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
             en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
             fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
@@ -5217,7 +5408,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             es: `🌙 Fase de la Luna hoy en ${cityName}, ${countryName} — Iluminación y edad`,
             bn: `🌙 আজ ${cityName}, ${countryName}-এ চাঁদের পর্যায় — আলোকসজ্জা ও বয়স`,
             ms: `🌙 Fasa Bulan Hari Ini di ${cityName}, ${countryName} — Pencahayaan & Usia`
-        }[Lm] || `🌙 Moon Phase Today in ${cityName}, ${countryName}`;
+        }[Lm] || `🌙 Moon Phase Today in ${cityName}, ${countryName}`);
         // استبدال H1 موقع القمر (يسبق SSR 5a الذي لا يلمس moon-page-h1)
         html = html.replace(
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
@@ -5252,12 +5443,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         // حقن Article Schema (JSON-LD) لصفحة القمر — "محدَّث يوميًّا"
         try {
             const nowIso = new Date().toISOString();
+            // على صفحة تاريخ محدَّد: datePublished/dateModified = التاريخ المطلوب
+            const _dateIso = (_isMoonDatePage && seo.moonCity.dateObj)
+                ? seo.moonCity.dateObj.toISOString()
+                : nowIso;
             const articleSchema = {
                 "@context": "https://schema.org",
                 "@type": "Article",
                 "headline": _h1Moon,
-                "datePublished": nowIso,
-                "dateModified": nowIso,
+                "datePublished": _dateIso,
+                "dateModified": _dateIso,
                 "author": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
                 "publisher": { "@type": "Organization", "name": seo.siteName || 'Prayer Times' },
                 "inLanguage": Lm,
@@ -7085,9 +7280,14 @@ const server = http.createServer(async (req, res) => {
             }
             const entries = [];
             // Round 9: استخرج الـ base slug (بدون lat/lng) لصفحات القمر المدنيّة
-            // /prayer-times-in-london-51.5-0.1 → /moon-today-in-london
+            // مثال 1: /prayer-times-in-london-51.5-0.1 → london
+            // مثال 2: /prayer-times-in-mecca → mecca (الـ slug بالفعل نظيف)
             const _moonBase = (fullSlug) => {
-                const m = String(fullSlug).match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+                const s = String(fullSlug);
+                // إن كان slug نظيف (بدون lat/lng) ومُعرَّف في FAMOUS_CITY_OVERRIDES → استخدمه مباشرة
+                if (FAMOUS_CITY_OVERRIDES[s]) return s;
+                // وإلا جرّب فصل lat/lng من الآخر
+                const m = s.match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
                 return m ? m[1] : null;
             };
             for (const slug of chunk) {
@@ -7100,6 +7300,14 @@ const server = http.createServer(async (req, res) => {
                 const baseSlug = _moonBase(slug);
                 if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
                     entries.push(...bilingualUrl('/moon-today-in-' + baseSlug, '0.6', 'weekly', today));
+                    // صفحات تاريخ محدَّد: 30 يومًا مستقبليّة بخطوة 3 أيّام = 10 URL لكلّ مدينة
+                    // × hreflang×10 = 100 entry/مدينة. للمدن الشهيرة فقط لتوفير crawl budget.
+                    const _todayDate = new Date();
+                    for (let offset = 0; offset <= 90; offset += 3) {
+                        const d = new Date(_todayDate); d.setDate(d.getDate() + offset);
+                        const iso = d.toISOString().slice(0, 10);
+                        entries.push(...bilingualUrl('/moon-today-in-' + baseSlug + '/' + iso, '0.4', 'daily', iso));
+                    }
                 }
             }
             const xml = `${URLSET_OPEN}\n${entries.join('\n')}\n${URLSET_CLOSE}`;
@@ -7154,7 +7362,7 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -7167,15 +7375,32 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
-        // Round 9: فحص صحّة slug لـ /moon-today-in-{slug} — إن لم توجد المدينة → 404
+        // Round 9: فحص صحّة slug لـ /moon-today-in-{slug} [/{YYYY-MM-DD}] — إن لم توجد المدينة → 404
         // (يمنع spam redirects وتكدّس صفحات مكرّرة لمدن غير موجودة).
-        const _moonCityMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)$/);
+        const _moonCityMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
         if (_moonCityMatch) {
             const _moonSlug = _moonCityMatch[1];
             if (!_resolveCityForMoon(_moonSlug)) {
                 res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
                 res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>City not found</h1>');
                 return;
+            }
+            // إن وُجد تاريخ، فحص صحّته التقويميّة — تاريخ غير موجود مثل 2026-02-30 → 404
+            if (_moonCityMatch[2]) {
+                const _dy = parseInt(_moonCityMatch[2], 10);
+                const _dm = parseInt(_moonCityMatch[3], 10);
+                const _dd = parseInt(_moonCityMatch[4], 10);
+                if (_dm < 1 || _dm > 12 || _dd < 1 || _dd > 31) {
+                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+                    res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Invalid date</h1>');
+                    return;
+                }
+                const _test = new Date(Date.UTC(_dy, _dm - 1, _dd));
+                if (_test.getUTCFullYear() !== _dy || _test.getUTCMonth() !== (_dm - 1) || _test.getUTCDate() !== _dd) {
+                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+                    res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Invalid date</h1>');
+                    return;
+                }
             }
         }
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {

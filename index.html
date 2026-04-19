@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}</script>
+    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+\/\d{4}-\d{2}-\d{2}$/.test(location.pathname)){document.documentElement.classList.add('moon-date-page');}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=263" as="script">
-    <link rel="stylesheet" href="css/style.css?v=67">
+    <link rel="preload" href="js/app.js?v=281" as="script">
+    <link rel="stylesheet" href="css/style.css?v=70">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -644,6 +644,24 @@
                 <!-- Intro paragraph — SEO-rich, filled by JS with live data -->
                 <p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">اليوم يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.</p>
 
+                <!-- Date navigation (يظهر فقط على moon-date-page عبر CSS) -->
+                <nav class="moon-date-nav" id="moon-date-nav" aria-label="Moon date navigation" hidden>
+                    <a class="moon-date-link moon-date-prev" id="moon-date-prev" href="#" rel="prev">
+                        <span class="moon-date-arrow" aria-hidden="true">←</span>
+                        <span class="moon-date-label" data-i18n="moon.prev_day">اليوم السابق</span>
+                        <span class="moon-date-sub" id="moon-date-prev-sub"></span>
+                    </a>
+                    <a class="moon-date-link moon-date-today-link" id="moon-date-today" href="#">
+                        <span class="moon-date-arrow" aria-hidden="true">🏠</span>
+                        <span class="moon-date-label" data-i18n="moon.return_today">اليوم</span>
+                    </a>
+                    <a class="moon-date-link moon-date-next" id="moon-date-next" href="#" rel="next">
+                        <span class="moon-date-label" data-i18n="moon.next_day">اليوم التالي</span>
+                        <span class="moon-date-sub" id="moon-date-next-sub"></span>
+                        <span class="moon-date-arrow" aria-hidden="true">→</span>
+                    </a>
+                </nav>
+
                 <!-- القسم الرئيسيّ — الحالة الحاليّة -->
                 <div class="section-card">
                     <h2 id="moon-title-h2" data-i18n="moon.title">🌙 القمر اليوم</h2>
@@ -708,6 +726,9 @@
                         </div>
                     </div>
 
+                    <!-- Timezone note — shown only when viewing a specific city page (filled by JS) -->
+                    <p class="moon-timezone-note" id="moon-timezone-note" hidden></p>
+
                     <!-- Yesterday vs Today comparison — filled by JS -->
                     <div class="moon-comparison" id="moon-comparison" hidden data-direction="waxing">
                         <div class="mc-header">
@@ -752,6 +773,14 @@
                         <div class="insight-row"><span class="insight-icon" aria-hidden="true">📚</span><span class="insight-text" id="moon-insight-about">--</span></div>
                     </div>
                 </div>
+
+                <!-- مخطّط إضاءة القمر (7 أيّام: 3 قبل + اليوم + 3 بعد) -->
+                <section class="section-card moon-chart-section" id="moon-chart-section" aria-labelledby="moon-chart-h2">
+                    <h2 id="moon-chart-h2" data-i18n="moon.chart_title">📈 مخطّط إضاءة القمر — 7 أيّام</h2>
+                    <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة الإضاءة المرئيّة من ثلاثة أيّام قبل إلى ثلاثة أيّام بعد</div>
+                    <div class="moon-chart-container" id="moon-chart-container" role="img" aria-label="Moon illumination 7-day trend"></div>
+                    <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اضغط على أيّ نقطة للانتقال إلى صفحة ذلك اليوم.</p>
+                </section>
 
                 <!-- CTA: link from current state to the 14-day forecast -->
                 <a class="moon-forecast-cta" href="#moon-forecast" data-i18n="moon.forecast_cta">📅 تابع تطوّر القمر خلال الأربعة عشر يومًا القادمة ↓</a>
@@ -1531,13 +1560,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=87"></script>
+    <script defer src="js/i18n.js?v=90"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
-    <script defer src="js/moon.js?v=49"></script>
+    <script defer src="js/moon.js?v=50"></script>
+    <script defer src="js/moon-chart.js?v=2"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=263"></script>
+    <script defer src="js/app.js?v=281"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

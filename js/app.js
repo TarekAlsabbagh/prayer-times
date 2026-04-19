@@ -6122,7 +6122,8 @@ function updateMoonInfo() {
         const distKm = MoonCalc.getMoonDistance(today, _lat, _lng);
         const _lng_fmt = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         try {
-            _distEl.textContent = distKm.toLocaleString(_lng_fmt === 'ar' ? 'ar-SA' : 'en-US', { maximumFractionDigits: 0 });
+            // نستخدم en-US دائمًا لعرض أرقام لاتينيّة (لا Arabic-Indic ٠١٢) حتّى في الواجهة العربيّة
+            _distEl.textContent = distKm.toLocaleString('en-US', { maximumFractionDigits: 0 });
         } catch (_e) {
             _distEl.textContent = Math.round(distKm).toString();
         }
@@ -6250,7 +6251,9 @@ function updateMoonInfo() {
 
         const _fmtNum = (n, maxFD) => {
             try {
-                return Number(n).toLocaleString(_lng_ === 'ar' ? 'ar-SA' : _lng_, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
+                // أرقام لاتينيّة دائمًا (حتّى في العربيّة) — تجنّب Arabic-Indic ٠١٢٣
+                const _fmtLocale = (_lng_ === 'ar') ? 'en-US' : _lng_;
+                return Number(n).toLocaleString(_fmtLocale, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
             } catch (_e) { return String(n); }
         };
 
@@ -6352,7 +6355,9 @@ function updateMoonInfo() {
         const _phaseLabel2 = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
         const _fmtNum2 = (n, maxFD) => {
             try {
-                return Number(n).toLocaleString(_lng_ === 'ar' ? 'ar-SA' : _lng_, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
+                // أرقام لاتينيّة دائمًا (حتّى في العربيّة) — تجنّب Arabic-Indic ٠١٢٣
+                const _fmtLocale = (_lng_ === 'ar') ? 'en-US' : _lng_;
+                return Number(n).toLocaleString(_fmtLocale, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
             } catch (_e) { return String(n); }
         };
 

@@ -1997,6 +1997,14 @@ function initNavigation() {
                 return;
             }
 
+            // القمر → /moon-today (canonical) — يبقى على /moon-today-in-{slug} إن كان المستخدم عليها
+            if (pageId === 'moon' && window.location.protocol !== 'file:') {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname)) {
+                    window.location.href = pageUrl('/moon-today');
+                }
+                return;
+            }
+
             // التقويم الهجري → /hijri-calendar (بدون سنة — landing page)
             if (pageId === 'hijri-calendar' && window.location.protocol !== 'file:') {
                 // صفحة الهبوط الجديدة بدون سنة؛ السنة تُفتح من داخل الصفحة

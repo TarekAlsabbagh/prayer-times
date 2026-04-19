@@ -142,6 +142,161 @@ const POPULAR_CITY_NAMES = {
     toronto:       { ar:'تورنتو',         en:'Toronto',       fr:'Toronto',       tr:'Toronto',      ur:'ٹورنٹو',        de:'Toronto',       id:'Toronto',       es:'Toronto',      bn:'টরন্টো',          ms:'Toronto' },
 };
 
+// ===== Round 9: FAMOUS_CITY_OVERRIDES — إحداثيّات المدن الشهيرة =====
+// يُستعمَل لـ /moon-today-in-{slug} لفكّ تضارب المدن المتشابهة في الاسم
+// (London=UK لا Canada، Tripoli=LY لا Lebanon، Paris=FR لا Texas، …) ولضمان
+// موقع ثابت لمدن flagship في سكلّاف السيتي-سلَاغ قبل الرجوع إلى cities-*.json.
+// Country code هو ISO-3166 alpha-2 (sa=Saudi Arabia، gb=United Kingdom، …).
+const FAMOUS_CITY_OVERRIDES = {
+    // الحرمان الشريفان
+    mecca:         { lat: 21.4225, lng: 39.8262, cc: 'sa' },
+    medina:        { lat: 24.4672, lng: 39.6112, cc: 'sa' },
+    // عواصم وكبرى السعوديّة
+    riyadh:        { lat: 24.7136, lng: 46.6753, cc: 'sa' },
+    jeddah:        { lat: 21.4858, lng: 39.1925, cc: 'sa' },
+    dammam:        { lat: 26.4207, lng: 50.0888, cc: 'sa' },
+    // مصر
+    cairo:         { lat: 30.0444, lng: 31.2357, cc: 'eg' },
+    alexandria:    { lat: 31.2001, lng: 29.9187, cc: 'eg' },
+    giza:          { lat: 30.0131, lng: 31.2089, cc: 'eg' },
+    // تركيا
+    istanbul:      { lat: 41.0082, lng: 28.9784, cc: 'tr' },
+    ankara:        { lat: 39.9334, lng: 32.8597, cc: 'tr' },
+    izmir:         { lat: 38.4237, lng: 27.1428, cc: 'tr' },
+    bursa:         { lat: 40.1828, lng: 29.0665, cc: 'tr' },
+    // إمارات + خليج
+    dubai:         { lat: 25.2048, lng: 55.2708, cc: 'ae' },
+    'abu-dhabi':   { lat: 24.4539, lng: 54.3773, cc: 'ae' },
+    sharjah:       { lat: 25.3463, lng: 55.4209, cc: 'ae' },
+    doha:          { lat: 25.2854, lng: 51.5310, cc: 'qa' },
+    manama:        { lat: 26.2285, lng: 50.5860, cc: 'bh' },
+    'manama-al':   { lat: 26.2285, lng: 50.5860, cc: 'bh' },
+    muscat:        { lat: 23.5880, lng: 58.3829, cc: 'om' },
+    'kuwait-city': { lat: 29.3759, lng: 47.9774, cc: 'kw' },
+    // بلاد الشام + العراق
+    amman:         { lat: 31.9454, lng: 35.9284, cc: 'jo' },
+    'aqaba':       { lat: 29.5321, lng: 35.0063, cc: 'jo' },
+    jerusalem:     { lat: 31.7683, lng: 35.2137, cc: 'ps' },
+    damascus:      { lat: 33.5138, lng: 36.2765, cc: 'sy' },
+    aleppo:        { lat: 36.2021, lng: 37.1343, cc: 'sy' },
+    beirut:        { lat: 33.8938, lng: 35.5018, cc: 'lb' },
+    baghdad:       { lat: 33.3152, lng: 44.3661, cc: 'iq' },
+    basra:         { lat: 30.5258, lng: 47.7737, cc: 'iq' },
+    mosul:         { lat: 36.3350, lng: 43.1189, cc: 'iq' },
+    sanaa:         { lat: 15.3694, lng: 44.1910, cc: 'ye' },
+    // المغرب العربيّ
+    casablanca:    { lat: 33.5731, lng: -7.5898, cc: 'ma' },
+    rabat:         { lat: 34.0209, lng: -6.8416, cc: 'ma' },
+    marrakech:     { lat: 31.6295, lng: -7.9811, cc: 'ma' },
+    tunis:         { lat: 36.8065, lng: 10.1815, cc: 'tn' },
+    algiers:       { lat: 36.7538, lng:  3.0588, cc: 'dz' },
+    tripoli:       { lat: 32.8872, lng: 13.1913, cc: 'ly' }, // ليبيا — يتفوّق على Tripoli-LB لأنّها أكبر
+    khartoum:      { lat: 15.5007, lng: 32.5599, cc: 'sd' },
+    nouakchott:    { lat: 18.0735, lng: -15.9582, cc: 'mr' },
+    // جنوب آسيا
+    karachi:       { lat: 24.8607, lng: 67.0011, cc: 'pk' },
+    lahore:        { lat: 31.5204, lng: 74.3587, cc: 'pk' },
+    islamabad:     { lat: 33.6844, lng: 73.0479, cc: 'pk' },
+    rawalpindi:    { lat: 33.5651, lng: 73.0169, cc: 'pk' },
+    multan:        { lat: 30.1575, lng: 71.5249, cc: 'pk' },
+    peshawar:      { lat: 34.0151, lng: 71.5249, cc: 'pk' },
+    quetta:        { lat: 30.1798, lng: 66.9750, cc: 'pk' },
+    dhaka:         { lat: 23.8103, lng: 90.4125, cc: 'bd' },
+    chittagong:    { lat: 22.3569, lng: 91.7832, cc: 'bd' },
+    kabul:         { lat: 34.5553, lng: 69.2075, cc: 'af' },
+    kandahar:      { lat: 31.6289, lng: 65.7372, cc: 'af' },
+    herat:         { lat: 34.3529, lng: 62.2040, cc: 'af' },
+    // جنوب شرق آسيا
+    jakarta:       { lat: -6.2088, lng: 106.8456, cc: 'id' },
+    surabaya:      { lat: -7.2575, lng: 112.7521, cc: 'id' },
+    bandung:       { lat: -6.9175, lng: 107.6191, cc: 'id' },
+    medan:         { lat:  3.5952, lng: 98.6722,  cc: 'id' },
+    'kuala-lumpur':{ lat:  3.1390, lng: 101.6869, cc: 'my' },
+    johor:         { lat:  1.4927, lng: 103.7414, cc: 'my' },
+    penang:        { lat:  5.4141, lng: 100.3288, cc: 'my' },
+    singapore:     { lat:  1.3521, lng: 103.8198, cc: 'sg' },
+    bandar:        { lat:  4.9031, lng: 114.9398, cc: 'bn' }, // بندر سري بكاوان
+    manila:        { lat: 14.5995, lng: 120.9842, cc: 'ph' },
+    // إيران + آسيا الوسطى + تركيا الأوروبيّة
+    tehran:        { lat: 35.6892, lng: 51.3890, cc: 'ir' },
+    mashhad:       { lat: 36.2605, lng: 59.6168, cc: 'ir' },
+    isfahan:       { lat: 32.6546, lng: 51.6680, cc: 'ir' },
+    qom:           { lat: 34.6401, lng: 50.8764, cc: 'ir' },
+    tashkent:      { lat: 41.2995, lng: 69.2401, cc: 'uz' },
+    samarkand:     { lat: 39.6542, lng: 66.9597, cc: 'uz' },
+    bukhara:       { lat: 39.7747, lng: 64.4286, cc: 'uz' },
+    baku:          { lat: 40.4093, lng: 49.8671, cc: 'az' },
+    dushanbe:      { lat: 38.5598, lng: 68.7870, cc: 'tj' },
+    bishkek:       { lat: 42.8746, lng: 74.5698, cc: 'kg' },
+    astana:        { lat: 51.1605, lng: 71.4704, cc: 'kz' },
+    almaty:        { lat: 43.2220, lng: 76.8512, cc: 'kz' },
+    // أفريقيا
+    mogadishu:     { lat:  2.0469, lng: 45.3182, cc: 'so' },
+    addis:         { lat:  9.0320, lng: 38.7469, cc: 'et' },
+    lagos:         { lat:  6.5244, lng:  3.3792, cc: 'ng' },
+    abuja:         { lat:  9.0765, lng:  7.3986, cc: 'ng' },
+    kano:          { lat: 12.0022, lng:  8.5920, cc: 'ng' },
+    nairobi:       { lat: -1.2921, lng: 36.8219, cc: 'ke' },
+    dar:           { lat: -6.7924, lng: 39.2083, cc: 'tz' }, // دار السلام
+    // الشتات الغربيّ (يحلّ نزاعات الأسماء)
+    london:        { lat: 51.5074, lng: -0.1278, cc: 'gb' }, // London=GB (ليس Canada)
+    birmingham:    { lat: 52.4862, lng: -1.8904, cc: 'gb' }, // Birmingham=GB (ليس Alabama)
+    manchester:    { lat: 53.4808, lng: -2.2426, cc: 'gb' }, // Manchester=GB (ليس New Hampshire)
+    paris:         { lat: 48.8566, lng:  2.3522, cc: 'fr' }, // Paris=FR (ليس Texas)
+    lyon:          { lat: 45.7640, lng:  4.8357, cc: 'fr' },
+    marseille:     { lat: 43.2965, lng:  5.3698, cc: 'fr' },
+    berlin:        { lat: 52.5200, lng: 13.4050, cc: 'de' },
+    munich:        { lat: 48.1351, lng: 11.5820, cc: 'de' },
+    hamburg:       { lat: 53.5511, lng:  9.9937, cc: 'de' },
+    frankfurt:     { lat: 50.1109, lng:  8.6821, cc: 'de' },
+    cologne:       { lat: 50.9375, lng:  6.9603, cc: 'de' },
+    madrid:        { lat: 40.4168, lng: -3.7038, cc: 'es' },
+    barcelona:     { lat: 41.3851, lng:  2.1734, cc: 'es' },
+    rome:          { lat: 41.9028, lng: 12.4964, cc: 'it' },
+    milan:         { lat: 45.4642, lng:  9.1900, cc: 'it' },
+    amsterdam:     { lat: 52.3676, lng:  4.9041, cc: 'nl' },
+    brussels:      { lat: 50.8503, lng:  4.3517, cc: 'be' },
+    vienna:        { lat: 48.2082, lng: 16.3738, cc: 'at' },
+    stockholm:     { lat: 59.3293, lng: 18.0686, cc: 'se' },
+    oslo:          { lat: 59.9139, lng: 10.7522, cc: 'no' },
+    copenhagen:    { lat: 55.6761, lng: 12.5683, cc: 'dk' },
+    moscow:        { lat: 55.7558, lng: 37.6173, cc: 'ru' },
+    'st-petersburg':{lat: 59.9311, lng: 30.3609, cc: 'ru' },
+    // أمريكا
+    'new-york':    { lat: 40.7128, lng: -74.0060, cc: 'us' },
+    'new-york-city':{lat: 40.7128, lng: -74.0060, cc: 'us' },
+    'los-angeles': { lat: 34.0522, lng: -118.2437, cc: 'us' },
+    chicago:       { lat: 41.8781, lng: -87.6298, cc: 'us' },
+    houston:       { lat: 29.7604, lng: -95.3698, cc: 'us' },
+    dallas:        { lat: 32.7767, lng: -96.7970, cc: 'us' },
+    detroit:       { lat: 42.3314, lng: -83.0458, cc: 'us' },
+    toronto:       { lat: 43.6532, lng: -79.3832, cc: 'ca' },
+    montreal:      { lat: 45.5017, lng: -73.5673, cc: 'ca' },
+    vancouver:     { lat: 49.2827, lng: -123.1207, cc: 'ca' },
+    ottawa:        { lat: 45.4215, lng: -75.6972, cc: 'ca' },
+    calgary:       { lat: 51.0447, lng: -114.0719, cc: 'ca' },
+    // أستراليا
+    sydney:        { lat: -33.8688, lng: 151.2093, cc: 'au' },
+    melbourne:     { lat: -37.8136, lng: 144.9631, cc: 'au' },
+    perth:         { lat: -31.9505, lng: 115.8605, cc: 'au' },
+};
+
+// ===== Round 9: _resolveCityForMoon — استرجاع كامل لبيانات مدينة من slug =====
+// يحاول: (1) FAMOUS_CITY_OVERRIDES ← (2) _getCitySlugIndex() ← (3) null (→ 404).
+// العائد: { lat, lng, cc? } أو null.
+function _resolveCityForMoon(slug) {
+    if (!slug) return null;
+    const s = String(slug).toLowerCase();
+    const fx = FAMOUS_CITY_OVERRIDES[s];
+    if (fx) return fx;
+    const idx = _getCitySlugIndex();
+    const c = idx[s];
+    if (c && typeof c.lat === 'number' && typeof c.lng === 'number') {
+        return { lat: c.lat, lng: c.lng };
+    }
+    return null;
+}
+
 // ===== Round 8C: فهرس كسول slug → {nameAr, lat, lng} من ملفّات db/cities-*.json =====
 // يُبنى عند أوّل استعمال (lazy) لتجنّب تكاليف startup. O(N) مرّة واحدة فقط.
 // lat/lng يستعملان لاستنباط توقيت المدينة لعرض تاريخها المحلّيّ الصحيح.
@@ -2826,6 +2981,8 @@ function buildSeoForPath(urlPath) {
     let webApp = null;           // WebApplication schema metadata (tool pages)
     let qiblaRef = null;         // Kaaba reference for /qibla-in-*
     let cityModified = null;     // dateModified for city pages
+    let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
+    let moonCity = null;         // Round 9: بيانات مدينة لصفحة /moon-today-in-{slug}
     // Localize homepage description for additional languages (title unified عبر _buildCityDatedTitle).
     if (lang === 'fr') {
         const _gMonthLoc = _G_MONTHS.fr[_gMonthIdx];
@@ -2865,10 +3022,32 @@ function buildSeoForPath(urlPath) {
             app: { category: 'UtilitiesApplication' },
         },
         '/moon-today': {
-            title: [ 'Moon Today — Phase, Age & Illumination', 'القمر اليوم — الطور، العمر والإضاءة' ],
-            desc:  [ "Track tonight's moon phase, age, illumination percentage, and upcoming moon events based on your location.",
-                     'معلومات القمر اليوم: طور القمر، عمره، نسبة إضاءته، والأحداث القادمة حسب موقعك.' ],
+            title: {
+                ar: 'القمر اليوم — الطور ونسبة الإضاءة الليلة',
+                en: 'Moon Today — Phase & Illumination Tonight',
+                fr: "Lune aujourd'hui — Phase et illumination ce soir",
+                tr: 'Bugün Ay — Evresi ve Aydınlanma Bu Gece',
+                ur: 'آج چاند — طور اور آج رات روشنی',
+                de: 'Mond heute — Phase und Beleuchtung heute Nacht',
+                id: 'Bulan Hari Ini — Fase dan Iluminasi Malam Ini',
+                es: 'Luna hoy — Fase e iluminación esta noche',
+                bn: 'আজকের চাঁদ — দশা ও আজ রাতের আলোকন',
+                ms: 'Bulan Hari Ini — Fasa dan Pencahayaan Malam Ini',
+            },
+            desc: {
+                ar: 'طور القمر اليوم ونسبة إضاءته الآن، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ في مدينتك.',
+                en: "Today's moon phase and illumination percentage, moonrise and moonset times, next full moon and crescent (hilal) visibility for the upcoming Hijri month.",
+                fr: "Phase de la lune aujourd'hui et pourcentage d'illumination, heures de lever et coucher de la lune, prochaine pleine lune et visibilité du croissant (hilal) pour le mois hégirien à venir.",
+                tr: 'Bugünün ay evresi ve aydınlanma yüzdesi, ay doğuşu ve batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.',
+                ur: 'آج چاند کا طور اور روشنی فیصد، مطلع اور مغیبِ چاند، اگلا بدر اور آنے والے ہجری مہینے کے لیے ہلال کی رؤیت۔',
+                de: 'Heutige Mondphase und Beleuchtungsprozentsatz, Mondaufgang und Monduntergang, nächster Vollmond und Hilal-Sichtbarkeit für den kommenden Hidschri-Monat.',
+                id: 'Fase bulan hari ini dan persentase iluminasi, waktu bulan terbit dan terbenam, purnama berikutnya dan rukyat hilal untuk bulan Hijriyah mendatang.',
+                es: 'Fase lunar de hoy y porcentaje de iluminación, horas de salida y puesta de la luna, próxima luna llena y visibilidad del hilal para el próximo mes Hijri.',
+                bn: 'আজকের চাঁদের দশা ও আলোকন শতাংশ, চাঁদের উদয় ও অস্ত, পরবর্তী পূর্ণিমা এবং আসন্ন হিজরি মাসের হিলাল দৃশ্যমানতা।',
+                ms: 'Fasa bulan hari ini dan peratus pencahayaan, waktu terbit dan terbenam bulan, bulan purnama seterusnya dan rukyah hilal untuk bulan Hijrah mendatang.',
+            },
             app: { category: 'UtilitiesApplication' },
+            moonFaq: true,   // يُفعّل FAQPage schema لصفحة القمر
         },
         '/zakat-calculator': {
             title: [ 'Zakat Calculator — Free Islamic Tool', 'حاسبة الزكاة — أداة إسلامية مجانية' ],
@@ -3086,6 +3265,7 @@ function buildSeoForPath(urlPath) {
         description = _pickField('desc');
         if (sp.ogType) ogType = sp.ogType;
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
+        if (sp.moonFaq) moonFaq = true;
         breadcrumbs.push({ name: title, item: canonical });
     }
 
@@ -3149,6 +3329,59 @@ function buildSeoForPath(urlPath) {
         geo = { lat, lng };
         cityModified = new Date().toISOString();
         breadcrumbs.push({ name: cityDisplay, item: canonical });
+    }
+
+    // ── Moon city pages: /moon-today-in-{slug} ── (Round 9)
+    // slug فقط (بلا lat/lng) — يُفكّ عبر FAMOUS_CITY_OVERRIDES أو cities-*.json.
+    // slug غير معروف يُرفَض قبل هذه النقطة (صفحة 404).
+    m = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+)$/);
+    if (m) {
+        const citySlug = m[1];
+        const cityGeo = _resolveCityForMoon(citySlug);
+        if (cityGeo) {
+            const cityDisplay = _resolveCityName(citySlug, lang);
+            // Title × 10 لغات — مُخصَّص للقمر + مدينة (55-65 حرف)
+            const _moonTitle = {
+                ar: `القمر الليلة في ${cityDisplay} - طور القمر وإضاءته`,
+                en: `Moon Tonight in ${cityDisplay} — Phase & Illumination`,
+                fr: `Lune ce soir à ${cityDisplay} — Phase et illumination`,
+                tr: `${cityDisplay}'da Bu Gece Ay — Evresi ve Aydınlanma`,
+                ur: `${cityDisplay} میں آج رات چاند — طور اور روشنی`,
+                de: `Mond heute Nacht in ${cityDisplay} — Phase & Beleuchtung`,
+                id: `Bulan Malam Ini di ${cityDisplay} — Fase & Iluminasi`,
+                es: `Luna esta noche en ${cityDisplay} — Fase e iluminación`,
+                bn: `${cityDisplay}-এ আজ রাতের চাঁদ — দশা ও আলোকন`,
+                ms: `Bulan Malam Ini di ${cityDisplay} — Fasa & Pencahayaan`,
+            };
+            const _moonDesc = {
+                ar: `طور القمر في ${cityDisplay} الليلة، نسبة إضاءته، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ في ${cityDisplay}.`,
+                en: `Moon phase in ${cityDisplay} tonight, illumination percentage, moonrise and moonset times, next full moon and crescent visibility for the upcoming Hijri month.`,
+                fr: `Phase de la lune à ${cityDisplay} ce soir, pourcentage d'illumination, heures de lever et de coucher de la lune, prochaine pleine lune et visibilité du croissant pour le mois hégirien à venir.`,
+                tr: `${cityDisplay}'da bu gece ay evresi, aydınlanma yüzdesi, ay doğuşu ve batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.`,
+                ur: `${cityDisplay} میں آج رات چاند کا طور، روشنی کا فیصد، مطلع اور مغیبِ چاند، اگلا بدر اور آنے والے ہجری مہینے کے ہلال کی رؤیت۔`,
+                de: `Mondphase in ${cityDisplay} heute Nacht, Beleuchtungsprozentsatz, Mondaufgang und Monduntergang, nächster Vollmond und Hilal-Sichtbarkeit für den kommenden Hidschri-Monat.`,
+                id: `Fase bulan di ${cityDisplay} malam ini, persentase iluminasi, waktu bulan terbit dan terbenam, purnama berikutnya dan rukyat hilal bulan Hijriyah mendatang.`,
+                es: `Fase lunar en ${cityDisplay} esta noche, porcentaje de iluminación, horas de salida y puesta de la luna, próxima luna llena y visibilidad del hilal para el próximo mes Hijri.`,
+                bn: `${cityDisplay}-এ আজ রাতের চাঁদের দশা, আলোকন শতাংশ, চাঁদের উদয় ও অস্ত, পরবর্তী পূর্ণিমা এবং আসন্ন হিজরি মাসের হিলাল দৃশ্যমানতা।`,
+                ms: `Fasa bulan di ${cityDisplay} malam ini, peratus pencahayaan, waktu terbit dan terbenam bulan, bulan purnama seterusnya dan rukyah hilal bulan Hijrah mendatang.`,
+            };
+            title = _moonTitle[lang] || _moonTitle.en;
+            description = _moonDesc[lang] || _moonDesc.en;
+            ogType = 'article';
+            geo = { lat: cityGeo.lat, lng: cityGeo.lng };
+            cityModified = new Date().toISOString();
+            webApp = { name: title, url: canonical, category: 'UtilitiesApplication' };
+            moonFaq = true;
+            moonCity = { slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng };
+            // Breadcrumb: أضف "القمر اليوم" قبل اسم المدينة
+            const _moonLabel = {
+                ar: 'القمر اليوم', en: 'Moon Today', fr: "Lune aujourd'hui", tr: 'Bugün Ay',
+                ur: 'آج چاند', de: 'Mond heute', id: 'Bulan Hari Ini',
+                es: 'Luna hoy', bn: 'আজকের চাঁদ', ms: 'Bulan Hari Ini',
+            }[lang] || 'Moon Today';
+            breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today' });
+            breadcrumbs.push({ name: cityDisplay, item: canonical });
+        }
     }
 
     // المسار للغة (بدون prefix لـ AR، وإلا /{lang})
@@ -3394,7 +3627,8 @@ function buildSeoForPath(urlPath) {
         title, description, canonical, arUrl, enUrl, frUrl, trUrl, urUrl, deUrl, idUrl, esUrl, bnUrl, msUrl,
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
-        webApp, qiblaRef, countryListing, cityModified, origin
+        webApp, qiblaRef, countryListing, cityModified, origin,
+        moonFaq, moonCity
     };
 }
 
@@ -3682,6 +3916,99 @@ function renderSeoHeadHtml(seo) {
             "description": seo.description,
             "url": seo.canonical,
             "additionalType": "https://schema.org/Country"
+        });
+    }
+
+    // Round 9: Moon FAQPage schema — لصفحات /moon-today و /moon-today-in-{slug}
+    // (rich snippets في Google SERP للسؤال/الجواب عن القمر)
+    if (seo.moonFaq) {
+        const _cityName = seo.moonCity && seo.moonCity.name;
+        const MOON_FAQ_I18N = {
+            ar: [
+                { q: 'ما هو طور القمر الليلة؟',
+                  a: 'طور القمر الآن يتبدّل خلال دورة 29.5 يوم بين المحاق والهلال والبدر. يعرض الموقع الطور الحاليّ ونسبة الإضاءة لحظياً حسب الوقت المحلّيّ' + (_cityName ? ` في ${_cityName}.` : '.') },
+                { q: 'متى البدر القادم؟',
+                  a: 'يتكرّر البدر كلّ 29.5 يوم. يعرض الموقع التاريخ الميلاديّ والهجريّ للبدر القادم بدقّة حسابية عالية، مع نسبة الإضاءة 100٪ ليلة اكتمال القمر.' },
+                { q: _cityName ? `في أيّ ساعة يطلع القمر الليلة في ${_cityName}؟` : 'في أيّ ساعة يطلع القمر الليلة؟',
+                  a: (_cityName ? `يطلع القمر الليلة في ${_cityName}` : 'يطلع القمر') + ' حسب خطّ الطول الجغرافيّ للموقع. يعرض الموقع وقت المطلع والمغيب بالتوقيت المحلّيّ مباشرةً بعد تحديد موقعك.' },
+                { q: 'كيف تُحسب نسبة إضاءة القمر؟',
+                  a: 'نسبة إضاءة القمر هي الجزء المرئيّ من سطحه المضاء بالشمس كما يُرى من الأرض. تتراوح من 0٪ (محاق) إلى 100٪ (بدر) وتُحسب فلكياً من الزاوية بين الشمس والقمر والأرض.' },
+                { q: 'ما الفرق بين المحاق والهلال؟',
+                  a: 'المحاق هو اللحظة التي يكون فيها القمر بين الأرض والشمس (إضاءة 0٪ وغير مرئيّ). الهلال يظهر بعد المحاق بيوم أو يومين، وهو أوّل ظهور للقمر في السماء بشكل قوس دقيق في الأفق الغربيّ بعد غروب الشمس.' },
+                { q: 'متى يبدأ الشهر الهجريّ القادم؟',
+                  a: 'يبدأ الشهر الهجريّ القادم برؤية هلاله بعد غروب شمس اليوم الـ29 من الشهر الحاليّ. يعرض الموقع التاريخ المتوقَّع بناءً على حسابات فلكيّة دقيقة، وقد يختلف بيوم حسب الرؤية المحلّيّة للهلال.' },
+                { q: 'متى رمضان القادم؟',
+                  a: 'يبدأ شهر رمضان القادم (متوقَّعاً) بعد رؤية هلال رمضان في اليوم الـ29 من شهر شعبان. التاريخ النهائيّ يعتمد على الرؤية المحلّيّة للهلال في كلّ بلد.' },
+                { q: 'متى عيد الفطر القادم؟',
+                  a: 'يبدأ عيد الفطر بظهور هلال شهر شوّال في اليوم الـ29 من رمضان. يُحتفَل به اليوم الأوّل من شوّال ويستمرّ ثلاثة أيّام في كثير من الدول الإسلاميّة.' },
+                { q: 'متى عيد الأضحى القادم؟',
+                  a: 'يقع عيد الأضحى في اليوم العاشر من شهر ذي الحجّة، بعد رؤية هلاله في اليوم الـ29 من ذي القعدة. يُحتفَل به أربعة أيّام يوم النحر وأيّام التشريق.' },
+                { q: 'كيف أرى الهلال بالعين المجرّدة؟',
+                  a: 'يُرى الهلال بعد غروب الشمس في الأفق الغربيّ، عند عمر قمر لا يقلّ عن 15 ساعة تقريباً، مع ارتفاع كافٍ عن الأفق وابتعاد زاويّ عن الشمس. يحتاج أفقاً غربيّاً صافياً بلا غيوم أو أضواء.' },
+                { q: 'ما هي أطوار القمر الثمانية؟',
+                  a: 'أطوار القمر: (1) المحاق، (2) الهلال المتزايد، (3) التربيع الأوّل، (4) الأحدب المتزايد، (5) البدر، (6) الأحدب المتناقص، (7) التربيع الأخير، (8) الهلال المتناقص. تتكرّر كلّ 29.5 يوم.' },
+                { q: 'لماذا تختلف مواعيد مطلع القمر من مدينة لأخرى؟',
+                  a: 'مطلع القمر يعتمد على خطّ الطول الجغرافيّ للمدينة. الفرق قد يصل إلى 12 ساعة بين شرق العالم وغربه. كما أنّ خطّ العرض يؤثّر قليلاً على الاتّجاه الذي يطلع منه.' },
+                { q: 'ما هي ليلة القدر؟',
+                  a: 'ليلة القدر ليلة مباركة في العشر الأواخر من رمضان، يُرجَّح أنّها ليلة 27 رمضان لكنّها قد تكون في أيّ من الليالي الوتريّة (21، 23، 25، 27، 29). يُستحبّ فيها القيام والدعاء.' },
+                { q: 'هل يمكن رؤية القمر في النهار؟',
+                  a: 'نعم، يمكن رؤية القمر أحياناً في النهار، خاصّة خلال أطوار التربيع الأوّل والتربيع الأخير والأحدب. في طور البدر يرتفع القمر عند غروب الشمس ويغيب مع شروقها، لذا يُرى ليلاً فقط.' }
+            ],
+            en: [
+                { q: "What moon phase is tonight?",
+                  a: "Tonight's moon phase cycles through an approximately 29.5-day lunar month between new moon, crescent, and full moon. This page shows the current phase and illumination percentage in real time" + (_cityName ? ` for ${_cityName}.` : ' based on your location.') },
+                { q: 'When is the next full moon?',
+                  a: 'A full moon occurs approximately every 29.5 days. We display the precise Gregorian and Hijri dates of the next full moon, when the moon reaches 100% illumination.' },
+                { q: _cityName ? `What time does the moon rise tonight in ${_cityName}?` : 'What time does the moon rise tonight?',
+                  a: (_cityName ? `Moonrise in ${_cityName}` : 'Moonrise time') + ' depends on the longitude of your location. We calculate and display the exact moonrise and moonset in local time.' },
+                { q: 'How is moon illumination calculated?',
+                  a: "Moon illumination is the fraction of the moon's surface illuminated by the sun as seen from Earth. It ranges from 0% (new moon) to 100% (full moon), calculated astronomically from the sun-moon-earth angle." },
+                { q: 'What is the difference between a new moon and a crescent?',
+                  a: 'A new moon is when the moon lies between Earth and the sun (0% illuminated, invisible). A crescent appears 1-2 days after the new moon as the first thin visible arc of light on the western horizon after sunset.' },
+                { q: 'When does the next Hijri (Islamic) month begin?',
+                  a: 'The next Hijri month begins with the crescent sighting after sunset on the 29th of the current month. We show the expected date based on astronomical calculations; the actual date may vary by one day depending on local crescent visibility.' },
+                { q: 'When is the next Ramadan?',
+                  a: "The next Ramadan is expected to begin after the crescent of Ramadan is sighted on the 29th of Sha'ban. The final start date depends on local moon sighting in each country." },
+                { q: 'When is the next Eid al-Fitr?',
+                  a: 'Eid al-Fitr begins with the sighting of the Shawwal crescent on the 29th of Ramadan. It is celebrated on the 1st of Shawwal and lasts for 3 days in many Muslim countries.' },
+                { q: 'When is the next Eid al-Adha?',
+                  a: "Eid al-Adha falls on the 10th of Dhu al-Hijjah, after the crescent is sighted on the 29th of Dhu al-Qi'dah. It's celebrated for 4 days — the Day of Sacrifice and the days of Tashriq." },
+                { q: 'How can I see the crescent moon with the naked eye?',
+                  a: 'The crescent appears after sunset on the western horizon, when the moon is at least ~15 hours old, with sufficient altitude and angular distance from the sun. A clear western horizon without clouds or artificial light is needed.' },
+                { q: 'What are the 8 phases of the moon?',
+                  a: 'The 8 phases are: (1) New Moon, (2) Waxing Crescent, (3) First Quarter, (4) Waxing Gibbous, (5) Full Moon, (6) Waning Gibbous, (7) Last Quarter, (8) Waning Crescent. The full cycle repeats every 29.5 days.' },
+                { q: 'Why do moonrise times differ from city to city?',
+                  a: "Moonrise depends on the city's longitude. The difference can reach 12 hours between east and west of the globe. Latitude also slightly affects the direction of moonrise." },
+                { q: 'What is Laylat al-Qadr (the Night of Power)?',
+                  a: 'Laylat al-Qadr is a blessed night in the last 10 days of Ramadan, most likely on the 27th night but possibly any odd night (21, 23, 25, 27, 29). Muslims increase worship, prayer, and Quran recitation on this night.' },
+                { q: 'Can the moon be seen during the day?',
+                  a: 'Yes, the moon is sometimes visible during the day, especially during first quarter, last quarter, and gibbous phases. At full moon the moon rises at sunset and sets at sunrise, so it is visible only at night.' }
+            ],
+        };
+        const moonFaqs = MOON_FAQ_I18N[seo.lang] || MOON_FAQ_I18N.en;
+        ssrGraph.push({
+            "@type": "FAQPage",
+            "@id": `${seo.canonical}#moon-faq`,
+            "inLanguage": seo.lang,
+            "mainEntity": moonFaqs.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": { "@type": "Answer", "text": f.a }
+            }))
+        });
+    }
+
+    // Round 9: Place schema لصفحات المدن القمريّة /moon-today-in-{slug}
+    if (seo.moonCity) {
+        ssrGraph.push({
+            "@type": "Place",
+            "@id": `${seo.canonical}#place-moon`,
+            "name": seo.moonCity.name,
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": seo.moonCity.lat,
+                "longitude": seo.moonCity.lng
+            }
         });
     }
 
@@ -6542,10 +6869,23 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found'); return;
             }
             const entries = [];
+            // Round 9: استخرج الـ base slug (بدون lat/lng) لصفحات القمر المدنيّة
+            // /prayer-times-in-london-51.5-0.1 → /moon-today-in-london
+            const _moonBase = (fullSlug) => {
+                const m = String(fullSlug).match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+                return m ? m[1] : null;
+            };
             for (const slug of chunk) {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.7', 'daily', today));
                 entries.push(...bilingualUrl('/qibla-in-' + slug, '0.6', 'monthly', today));
                 entries.push(...bilingualUrl('/about-' + slug, '0.5', 'monthly', today));
+                // Round 9: /moon-today-in-{slug-بدون-إحداثيّات} — فقط للمدن الشهيرة
+                // (FAMOUS_CITY_OVERRIDES)؛ البقيّة تُحلّ عبر _getCitySlugIndex() بشكل ديناميكيّ
+                // لكنّنا لا نُدرجها في sitemap لتفادي إرهاق crawl budget بالمدن الصغيرة.
+                const baseSlug = _moonBase(slug);
+                if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
+                    entries.push(...bilingualUrl('/moon-today-in-' + baseSlug, '0.6', 'weekly', today));
+                }
             }
             const xml = `${URLSET_OPEN}\n${entries.join('\n')}\n${URLSET_CLOSE}`;
             sendXml(res, xml, req.headers['accept-encoding']||'', !!mc[2]);
@@ -6598,7 +6938,8 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -6611,6 +6952,17 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
+        // Round 9: فحص صحّة slug لـ /moon-today-in-{slug} — إن لم توجد المدينة → 404
+        // (يمنع spam redirects وتكدّس صفحات مكرّرة لمدن غير موجودة).
+        const _moonCityMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)$/);
+        if (_moonCityMatch) {
+            const _moonSlug = _moonCityMatch[1];
+            if (!_resolveCityForMoon(_moonSlug)) {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+                res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>City not found</h1>');
+                return;
+            }
+        }
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
             serveHtmlWithSeo(html, urlPath, res, _acceptEnc);

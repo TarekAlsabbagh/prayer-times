@@ -1937,13 +1937,15 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="zakat"]')?.classList.add('active');
     }
 
-    // تفعيل صفحة القمر عند URL /moon-today (canonical)
-    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(window.location.pathname);
+    // تفعيل صفحة القمر عند URL /moon-today (canonical) أو /moon-today-in-{slug}
+    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname);
     if (_isMoonPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
+        // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
+        try { updateMoonInfo(); } catch (_e) {}
     }
 
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
@@ -5943,34 +5945,208 @@ function requestCompassPermission() {
 }
 
 // ========= القمر =========
+// جدول المدن المشهورة (يُطابق FAMOUS_CITY_OVERRIDES في server.js) —
+// يُستخدم فقط على صفحة /moon-today-in-{slug} لمطابقة الإحداثيّات مع الـ URL.
+const FAMOUS_MOON_CITIES = {
+    'mecca':         { lat: 21.4225, lng: 39.8262 },
+    'medina':        { lat: 24.4672, lng: 39.6112 },
+    'riyadh':        { lat: 24.7136, lng: 46.6753 },
+    'jeddah':        { lat: 21.4858, lng: 39.1925 },
+    'dammam':        { lat: 26.4207, lng: 50.0888 },
+    'cairo':         { lat: 30.0444, lng: 31.2357 },
+    'alexandria':    { lat: 31.2001, lng: 29.9187 },
+    'istanbul':      { lat: 41.0082, lng: 28.9784 },
+    'ankara':        { lat: 39.9334, lng: 32.8597 },
+    'dubai':         { lat: 25.2048, lng: 55.2708 },
+    'abu-dhabi':     { lat: 24.4539, lng: 54.3773 },
+    'doha':          { lat: 25.2854, lng: 51.5310 },
+    'kuwait':        { lat: 29.3759, lng: 47.9774 },
+    'manama':        { lat: 26.2285, lng: 50.5860 },
+    'muscat':        { lat: 23.5859, lng: 58.4059 },
+    'amman':         { lat: 31.9454, lng: 35.9284 },
+    'baghdad':       { lat: 33.3152, lng: 44.3661 },
+    'beirut':        { lat: 33.8938, lng: 35.5018 },
+    'damascus':      { lat: 33.5138, lng: 36.2765 },
+    'sanaa':         { lat: 15.3694, lng: 44.1910 },
+    'tunis':         { lat: 36.8065, lng: 10.1815 },
+    'algiers':       { lat: 36.7538, lng: 3.0588 },
+    'rabat':         { lat: 34.0209, lng: -6.8416 },
+    'casablanca':    { lat: 33.5731, lng: -7.5898 },
+    'khartoum':      { lat: 15.5007, lng: 32.5599 },
+    'tripoli':       { lat: 32.8872, lng: 13.1913 },
+    'jerusalem':     { lat: 31.7683, lng: 35.2137 },
+    'karachi':       { lat: 24.8607, lng: 67.0011 },
+    'lahore':        { lat: 31.5204, lng: 74.3587 },
+    'islamabad':     { lat: 33.6844, lng: 73.0479 },
+    'dhaka':         { lat: 23.8103, lng: 90.4125 },
+    'jakarta':       { lat: -6.2088, lng: 106.8456 },
+    'kuala-lumpur':  { lat: 3.1390, lng: 101.6869 },
+    'london':        { lat: 51.5074, lng: -0.1278 },
+    'paris':         { lat: 48.8566, lng: 2.3522 },
+    'berlin':        { lat: 52.5200, lng: 13.4050 },
+    'madrid':        { lat: 40.4168, lng: -3.7038 },
+    'rome':          { lat: 41.9028, lng: 12.4964 },
+    'new-york':      { lat: 40.7128, lng: -74.0060 },
+    'toronto':       { lat: 43.6532, lng: -79.3832 },
+    'sydney':        { lat: -33.8688, lng: 151.2093 }
+};
+
+function _moonCitySlugFromPath() {
+    const m = window.location.pathname.match(/\/moon-today-in-([a-z][a-z0-9-]+)$/);
+    return m ? m[1] : null;
+}
+
+function _prettifySlug(slug) {
+    return String(slug || '')
+        .split('-')
+        .map(w => w.length ? w[0].toUpperCase() + w.slice(1) : w)
+        .join(' ');
+}
+
+// يرجع اسم المدينة بلغة الواجهة (من i18n key "city.<slug_normalized>" إن وُجد)،
+// وإلاّ يعود إلى تجميل الـ slug.
+function _moonCityDisplayName(slug) {
+    if (!slug) return '';
+    const key = 'city.' + slug.replace(/-/g, '_');
+    if (typeof t === 'function') {
+        const localized = t(key);
+        if (localized && localized !== key) return localized;
+    }
+    return _prettifySlug(slug);
+}
+
 function updateMoonInfo() {
     const today = new Date();
+
+    // إن كانت الصفحة هي /moon-today-in-{slug} → استخدم إحداثيّات المدينة لمطابقة الـ URL
+    const _citySlug = _moonCitySlugFromPath();
+    const _cityCoords = _citySlug && FAMOUS_MOON_CITIES[_citySlug];
+    const _lat = _cityCoords ? _cityCoords.lat : currentLat;
+    const _lng = _cityCoords ? _cityCoords.lng : currentLng;
+
     const phase = MoonCalc.getPhaseName(today);
     const illumination = MoonCalc.getMoonIllumination(today);
     const age = MoonCalc.getMoonAge(today);
-    const moonTimes = MoonCalc.getMoonTimes(today, currentLat, currentLng);
+    const moonTimes = MoonCalc.getMoonTimes(today, _lat, _lng);
     const nextFull = MoonCalc.getNextFullMoon(today);
     const nextNew = MoonCalc.getNextNewMoon(today);
 
-    document.getElementById('moon-icon').textContent = phase.icon;
-    document.getElementById('moon-phase-name').textContent = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
+    const _iconEl = document.getElementById('moon-icon');
+    if (_iconEl) _iconEl.textContent = phase.icon;
+    const _phaseNameEl = document.getElementById('moon-phase-name');
+    if (_phaseNameEl) _phaseNameEl.textContent = (phase.key && typeof t === 'function') ? t(phase.key) : phase.name;
+
     const _illumLabel = (typeof t === 'function') ? t('moon.illumination_label') : 'الإضاءة';
     const _daysSfx = (typeof t === 'function') ? t('moon.days_suffix') : 'يوم';
-    document.getElementById('moon-illumination').textContent = `${_illumLabel}: ${illumination}%`;
-    document.getElementById('moon-age').textContent = age + ' ' + _daysSfx;
-    document.getElementById('moon-illumination-pct').textContent = illumination + '%';
-    document.getElementById('moon-rise').textContent = moonTimes.rise;
-    document.getElementById('moon-set').textContent = moonTimes.set;
+    const _illumEl = document.getElementById('moon-illumination');
+    if (_illumEl) _illumEl.textContent = `${_illumLabel}: ${illumination}%`;
+    const _ageEl = document.getElementById('moon-age');
+    if (_ageEl) _ageEl.textContent = age + ' ' + _daysSfx;
+    const _illumPctEl = document.getElementById('moon-illumination-pct');
+    if (_illumPctEl) _illumPctEl.textContent = illumination + '%';
+    const _riseEl = document.getElementById('moon-rise');
+    if (_riseEl) _riseEl.textContent = moonTimes.rise;
+    const _setEl = document.getElementById('moon-set');
+    if (_setEl) _setEl.textContent = moonTimes.set;
 
     if (nextFull) {
         const months = HijriDate.gregorianMonths;
-        document.getElementById('next-full-moon').textContent =
-            `${nextFull.getDate()} ${months[nextFull.getMonth()]}`;
+        const _nfEl = document.getElementById('next-full-moon');
+        if (_nfEl) _nfEl.textContent = `${nextFull.getDate()} ${months[nextFull.getMonth()]}`;
     }
     if (nextNew) {
         const months = HijriDate.gregorianMonths;
-        document.getElementById('next-new-moon').textContent =
-            `${nextNew.getDate()} ${months[nextNew.getMonth()]}`;
+        const _nnEl = document.getElementById('next-new-moon');
+        if (_nnEl) _nnEl.textContent = `${nextNew.getDate()} ${months[nextNew.getMonth()]}`;
+    }
+
+    // ── H1 وموقع الصفحة (ديناميكيّ حسب المدينة من الـ URL) ─────────────
+    const _lng_ = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _h1El = document.getElementById('moon-page-h1');
+    const _locEl = document.getElementById('moon-location-note');
+    if (_citySlug) {
+        const _cityName = _moonCityDisplayName(_citySlug);
+        // H1 — صياغة مختصرة بلغة الواجهة
+        if (_h1El) {
+            const _h1Templates = {
+                ar: `🌙 القمر اليوم في ${_cityName}`,
+                en: `🌙 Moon Tonight in ${_cityName}`,
+                fr: `🌙 La Lune ce soir à ${_cityName}`,
+                tr: `🌙 ${_cityName}'de Bu Gece Ay`,
+                ur: `🌙 ${_cityName} میں آج رات کا چاند`,
+                de: `🌙 Mond heute in ${_cityName}`,
+                id: `🌙 Bulan Malam Ini di ${_cityName}`,
+                es: `🌙 La Luna esta noche en ${_cityName}`,
+                bn: `🌙 ${_cityName}-এ আজ রাতের চাঁদ`,
+                ms: `🌙 Bulan Malam Ini di ${_cityName}`
+            };
+            _h1El.textContent = _h1Templates[_lng_] || _h1Templates.en;
+        }
+        if (_locEl) {
+            const _locTemplates = {
+                ar: `الموقع: ${_cityName}`,
+                en: `Location: ${_cityName}`,
+                fr: `Emplacement : ${_cityName}`,
+                tr: `Konum: ${_cityName}`,
+                ur: `مقام: ${_cityName}`,
+                de: `Standort: ${_cityName}`,
+                id: `Lokasi: ${_cityName}`,
+                es: `Ubicación: ${_cityName}`,
+                bn: `অবস্থান: ${_cityName}`,
+                ms: `Lokasi: ${_cityName}`
+            };
+            _locEl.textContent = _locTemplates[_lng_] || _locTemplates.en;
+        }
+    } else if (_locEl && currentCity) {
+        // /moon-today العامّ — استخدم المدينة الحاليّة المكتشفة
+        const _locTemplates = {
+            ar: `الموقع: ${currentCity}`,
+            en: `Location: ${currentCity}`,
+            fr: `Emplacement : ${currentCity}`,
+            tr: `Konum: ${currentCity}`,
+            ur: `مقام: ${currentCity}`,
+            de: `Standort: ${currentCity}`,
+            id: `Lokasi: ${currentCity}`,
+            es: `Ubicación: ${currentCity}`,
+            bn: `অবস্থান: ${currentCity}`,
+            ms: `Lokasi: ${currentCity}`
+        };
+        _locEl.textContent = _locTemplates[_lng_] || _locTemplates.en;
+    }
+
+    // ── توقّعات السبعة أيّام القادمة ─────────────────────────────────
+    const _fcBody = document.getElementById('moon-forecast-body');
+    if (_fcBody && typeof MoonCalc.get7DayForecast === 'function') {
+        const fc = MoonCalc.get7DayForecast(today, _lat, _lng);
+        const _weekdayNames = {
+            ar: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+            en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+            fr: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+            tr: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+            ur: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+            de: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+            id: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+            es: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+            bn: ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
+            ms: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu']
+        };
+        const _wk = _weekdayNames[_lng_] || _weekdayNames.en;
+        let html = '';
+        for (let i = 0; i < fc.length; i++) {
+            const row = fc[i];
+            const wd = _wk[row.date.getDay()];
+            const dd = row.date.getDate();
+            const mm = (HijriDate && HijriDate.gregorianMonths) ? HijriDate.gregorianMonths[row.date.getMonth()] : (row.date.getMonth() + 1);
+            const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
+            html += `<tr>`
+                + `<td>${wd} ${dd} ${mm}</td>`
+                + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${phaseLabel}</td>`
+                + `<td>${row.illumination}%</td>`
+                + `<td>${row.rise}</td>`
+                + `<td>${row.set}</td>`
+                + `</tr>`;
+        }
+        _fcBody.innerHTML = html;
     }
 }
 

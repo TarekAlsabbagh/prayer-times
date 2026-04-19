@@ -106,6 +106,27 @@ const MoonCalc = (function() {
         return null;
     }
 
+    // Round 9: 7-day forecast generator
+    function get7DayForecast(startDate, lat, lng) {
+        const out = [];
+        const d0 = new Date(startDate);
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(d0);
+            d.setDate(d0.getDate() + i);
+            const phase = getPhaseName(d);
+            const illumination = getMoonIllumination(d);
+            const times = getMoonTimes(d, lat, lng);
+            out.push({
+                date: d,
+                phase,
+                illumination,
+                rise: times.rise,
+                set: times.set
+            });
+        }
+        return out;
+    }
+
     return {
         getMoonPhase,
         getMoonIllumination,
@@ -113,6 +134,7 @@ const MoonCalc = (function() {
         getPhaseName,
         getMoonTimes,
         getNextFullMoon,
-        getNextNewMoon
+        getNextNewMoon,
+        get7DayForecast
     };
 })();

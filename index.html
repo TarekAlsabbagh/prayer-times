@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=249" as="script">
-    <link rel="stylesheet" href="css/style.css?v=61">
+    <link rel="preload" href="js/app.js?v=250" as="script">
+    <link rel="stylesheet" href="css/style.css?v=62">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -629,12 +629,24 @@
                 </div>
             </div>
 
-            <!-- ===== صفحة القمر ===== -->
+            <!-- ===== صفحة القمر — Moon Today (SEO-rich) ===== -->
             <div class="page" id="page-moon">
+                <!-- H1 دلاليّ — يُعاد كتابته JS-side حسب المدينة واللغة -->
+                <h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">🌙 القمر اليوم</h1>
+
+                <!-- Breadcrumb navigation -->
+                <nav class="moon-breadcrumb" aria-label="breadcrumb">
+                    <a href="/" data-i18n="nav.home">الرئيسية</a>
+                    <span class="bc-sep">›</span>
+                    <span data-i18n="moon.bc_current" aria-current="page">القمر اليوم</span>
+                </nav>
+
+                <!-- القسم الرئيسيّ — الحالة الحاليّة -->
                 <div class="section-card">
                     <h2 data-i18n="moon.title">🌙 القمر اليوم</h2>
+                    <div class="moon-location-note" id="moon-location-note" data-i18n="moon.location_note">الموقع: جاري التحديد…</div>
                     <div class="moon-display">
-                        <span class="moon-icon" id="moon-icon">🌕</span>
+                        <span class="moon-icon" id="moon-icon" role="img" aria-label="Current moon phase icon">🌕</span>
                         <div class="moon-phase-name" id="moon-phase-name">--</div>
                         <div class="moon-illumination" id="moon-illumination">--</div>
                     </div>
@@ -648,11 +660,11 @@
                             <div class="value" id="moon-illumination-pct">--</div>
                         </div>
                         <div class="moon-detail-card">
-                            <div class="label" data-i18n="moon.rise">شروق القمر</div>
+                            <div class="label" data-i18n="moon.rise">مطلع القمر</div>
                             <div class="value" id="moon-rise">--</div>
                         </div>
                         <div class="moon-detail-card">
-                            <div class="label" data-i18n="moon.set">غروب القمر</div>
+                            <div class="label" data-i18n="moon.set">مغيب القمر</div>
                             <div class="value" id="moon-set">--</div>
                         </div>
                         <div class="moon-detail-card">
@@ -664,6 +676,135 @@
                             <div class="value" id="next-new-moon">--</div>
                         </div>
                     </div>
+                </div>
+
+                <!-- 7-day forecast -->
+                <div class="section-card">
+                    <h2 data-i18n="moon.forecast_title">📅 توقّعات القمر للسبعة أيّام القادمة</h2>
+                    <div class="moon-forecast-wrap">
+                        <table class="moon-forecast-table" id="moon-forecast-table" aria-label="7-day moon forecast">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="moon.fc_day">اليوم</th>
+                                    <th data-i18n="moon.fc_phase">الطور</th>
+                                    <th data-i18n="moon.fc_illum">الإضاءة</th>
+                                    <th data-i18n="moon.fc_rise">المطلع</th>
+                                    <th data-i18n="moon.fc_set">المغيب</th>
+                                </tr>
+                            </thead>
+                            <tbody id="moon-forecast-body">
+                                <!-- يُملأ JS-side -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- القمر في مدن أخرى — internal linking -->
+                <div class="section-card">
+                    <h2 data-i18n="moon.cities_title">🌐 القمر اليوم في مدن أخرى</h2>
+                    <ul class="moon-cities-list">
+                        <li><a href="/moon-today-in-mecca" data-i18n="city.mecca">مكة المكرمة</a></li>
+                        <li><a href="/moon-today-in-medina" data-i18n="city.medina">المدينة المنورة</a></li>
+                        <li><a href="/moon-today-in-riyadh" data-i18n="city.riyadh">الرياض</a></li>
+                        <li><a href="/moon-today-in-cairo" data-i18n="city.cairo">القاهرة</a></li>
+                        <li><a href="/moon-today-in-dubai" data-i18n="city.dubai">دبي</a></li>
+                        <li><a href="/moon-today-in-istanbul" data-i18n="city.istanbul">إسطنبول</a></li>
+                        <li><a href="/moon-today-in-jakarta" data-i18n="city.jakarta">جاكرتا</a></li>
+                        <li><a href="/moon-today-in-karachi" data-i18n="city.karachi">كراتشي</a></li>
+                        <li><a href="/moon-today-in-london" data-i18n="city.london">لندن</a></li>
+                        <li><a href="/moon-today-in-paris" data-i18n="city.paris">باريس</a></li>
+                        <li><a href="/moon-today-in-new-york" data-i18n="city.new_york">نيويورك</a></li>
+                        <li><a href="/moon-today-in-kuala-lumpur" data-i18n="city.kuala_lumpur">كوالالمبور</a></li>
+                    </ul>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div class="section-card">
+                    <h2 data-i18n="moon.faq_title">❓ الأسئلة الشائعة عن القمر</h2>
+                    <div class="moon-faq" id="moon-faq">
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q1">ما هو طور القمر الليلة؟</summary>
+                            <p data-i18n="moon.faq.a1">يعرض الموقع طور القمر الحاليّ ونسبة الإضاءة لحظياً حسب موقعك والوقت المحلّيّ. يمرّ القمر بثمانية أطوار خلال 29.5 يوم.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q2">متى البدر القادم؟</summary>
+                            <p data-i18n="moon.faq.a2">البدر يتكرّر كلّ 29.5 يوم. يعرض الموقع التاريخ الميلاديّ والهجريّ للبدر القادم مع نسبة إضاءة 100٪.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q3">في أيّ ساعة يطلع القمر الليلة؟</summary>
+                            <p data-i18n="moon.faq.a3">يطلع القمر حسب خطّ الطول الجغرافيّ لموقعك. يعرض الموقع وقت المطلع والمغيب بالتوقيت المحلّيّ بعد تحديد موقعك.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q4">كيف تُحسب نسبة إضاءة القمر؟</summary>
+                            <p data-i18n="moon.faq.a4">نسبة إضاءة القمر هي الجزء المرئيّ من سطحه المضاء بالشمس كما يُرى من الأرض. تتراوح من 0٪ (محاق) إلى 100٪ (بدر) وتُحسب فلكياً من الزاوية بين الشمس والقمر والأرض.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q5">ما الفرق بين المحاق والهلال؟</summary>
+                            <p data-i18n="moon.faq.a5">المحاق هو اللحظة التي يكون فيها القمر بين الأرض والشمس (إضاءة 0٪ وغير مرئيّ). الهلال يظهر بعد المحاق بيوم أو يومين، وهو أوّل ظهور للقمر في السماء بشكل قوس دقيق.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q6">متى يبدأ الشهر الهجريّ القادم؟</summary>
+                            <p data-i18n="moon.faq.a6">يبدأ الشهر الهجريّ القادم برؤية هلاله بعد غروب شمس اليوم الـ29 من الشهر الحاليّ. قد يختلف التاريخ بيوم حسب الرؤية المحلّيّة للهلال.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q7">متى رمضان القادم؟</summary>
+                            <p data-i18n="moon.faq.a7">يبدأ شهر رمضان برؤية هلاله في اليوم الـ29 من شعبان. التاريخ النهائيّ يعتمد على الرؤية المحلّيّة للهلال في كلّ بلد.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q8">متى عيد الفطر القادم؟</summary>
+                            <p data-i18n="moon.faq.a8">يبدأ عيد الفطر بظهور هلال شهر شوّال في اليوم الـ29 من رمضان. يُحتفَل به أوّل شوّال ويستمرّ ثلاثة أيّام.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q9">متى عيد الأضحى القادم؟</summary>
+                            <p data-i18n="moon.faq.a9">يقع عيد الأضحى في اليوم العاشر من ذي الحجّة، بعد رؤية هلاله في اليوم الـ29 من ذي القعدة. يُحتفَل به أربعة أيّام.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q10">كيف أرى الهلال بالعين المجرّدة؟</summary>
+                            <p data-i18n="moon.faq.a10">يُرى الهلال بعد غروب الشمس في الأفق الغربيّ، عند عمر قمر لا يقلّ عن 15 ساعة تقريباً. يحتاج أفقاً غربيّاً صافياً بلا غيوم.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q11">ما هي أطوار القمر الثمانية؟</summary>
+                            <p data-i18n="moon.faq.a11">أطوار القمر الثمانية: (1) المحاق، (2) الهلال المتزايد، (3) التربيع الأوّل، (4) الأحدب المتزايد، (5) البدر، (6) الأحدب المتناقص، (7) التربيع الأخير، (8) الهلال المتناقص. تتكرّر كلّ 29.5 يوم.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q12">لماذا تختلف مواعيد مطلع القمر من مدينة لأخرى؟</summary>
+                            <p data-i18n="moon.faq.a12">مطلع القمر يعتمد على خطّ الطول الجغرافيّ للمدينة. الفرق قد يصل إلى 12 ساعة بين شرق العالم وغربه. خطّ العرض يؤثّر قليلاً على الاتّجاه.</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q13">ما هي ليلة القدر؟</summary>
+                            <p data-i18n="moon.faq.a13">ليلة القدر ليلة مباركة في العشر الأواخر من رمضان، يُرجَّح أنّها ليلة 27 لكنّها قد تكون في أيّ من الليالي الوتريّة (21، 23، 25، 27، 29).</p>
+                        </details>
+                        <details class="moon-faq-item">
+                            <summary data-i18n="moon.faq.q14">هل يمكن رؤية القمر في النهار؟</summary>
+                            <p data-i18n="moon.faq.a14">نعم، يمكن رؤية القمر أحياناً في النهار، خاصّة خلال أطوار التربيع الأوّل والتربيع الأخير والأحدب. في طور البدر يُرى ليلاً فقط.</p>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Evergreen content (~800 words) -->
+                <div class="section-card moon-evergreen">
+                    <h2 data-i18n="moon.edu_title">📖 فهم أطوار القمر</h2>
+
+                    <h3 data-i18n="moon.edu_phases_title">الدورة القمريّة والأطوار الثمانية</h3>
+                    <p data-i18n="moon.edu_phases_1">دورة القمر حول الأرض تستغرق 29.5 يوماً تقريباً، تُعرف بالشهر القمريّ. خلال هذه الفترة يمرّ القمر بثمانية أطوار متتابعة، تبدأ من المحاق وتنتهي بالهلال المتناقص قبل أن تتكرّر الدورة.</p>
+                    <p data-i18n="moon.edu_phases_2">المحاق (New Moon) هو اللحظة التي يقع فيها القمر بين الشمس والأرض، فيكون الوجه المقابل للأرض مظلماً تماماً (إضاءة 0٪). لا يُرى القمر في هذه اللحظة لأنّه يرتفع ويغيب مع الشمس.</p>
+                    <p data-i18n="moon.edu_phases_3">بعد المحاق بيوم أو يومين يبدأ الهلال المتزايد (Waxing Crescent) في الظهور على شكل قوس نحيل في الأفق الغربيّ بعد غروب الشمس. تزداد الإضاءة تدريجياً من 1٪ إلى نحو 49٪.</p>
+                    <p data-i18n="moon.edu_phases_4">عند وصول الإضاءة إلى 50٪ يصل القمر إلى طور التربيع الأوّل (First Quarter)، ويظهر كنصف دائرة. بعد ذلك يأتي الأحدب المتزايد (Waxing Gibbous) حيث تزيد الإضاءة من 51٪ إلى 99٪، ثمّ يصل القمر إلى البدر (Full Moon) بإضاءة 100٪.</p>
+                    <p data-i18n="moon.edu_phases_5">البدر يطلع وقت غروب الشمس ويغيب مع شروقها. بعد البدر تبدأ الإضاءة بالنقصان في الأطوار المتناقصة: الأحدب المتناقص ثمّ التربيع الأخير ثمّ الهلال المتناقص قبل أن يعود القمر إلى المحاق من جديد.</p>
+
+                    <h3 data-i18n="moon.edu_city_title">لماذا تختلف مواعيد القمر من مدينة لأخرى؟</h3>
+                    <p data-i18n="moon.edu_city_1">مطلع القمر ومغيبه يعتمدان بشكل أساسيّ على خطّ الطول الجغرافيّ للمدينة. لأنّ الأرض تدور حول محورها مرّة كلّ 24 ساعة، فإنّ المدن الواقعة شرقاً تشهد مطلع القمر قبل المدن الغربيّة. الفرق بين شرق الأرض وأقصى غربها قد يصل إلى 12 ساعة.</p>
+                    <p data-i18n="moon.edu_city_2">كما يؤثّر خطّ العرض على اتّجاه مطلع القمر (شمال-شرق أم جنوب-شرق) ومدّة بقائه في السماء. لذا فإنّ مواعيد القمر في مكّة تختلف عن الرياض، وعن دبي، وعن القاهرة، وعن لندن، وعن جاكرتا.</p>
+
+                    <h3 data-i18n="moon.edu_islam_title">الأهمّيّة الإسلاميّة لدورة القمر</h3>
+                    <p data-i18n="moon.edu_islam_1">يعتمد التقويم الهجريّ كلّيّاً على دورة القمر. كلّ شهر هجريّ يبدأ بظهور الهلال ويستمرّ 29 أو 30 يوماً. هذه الدورة القمريّة تحدّد مواعيد العبادات الكبرى في الإسلام:</p>
+                    <ul class="moon-islam-list">
+                        <li data-i18n="moon.edu_islam_ramadan">رمضان: يبدأ صيامه بظهور هلال رمضان بعد غروب شمس اليوم الـ29 من شعبان.</li>
+                        <li data-i18n="moon.edu_islam_fitr">عيد الفطر: يبدأ بظهور هلال شوّال بعد رمضان.</li>
+                        <li data-i18n="moon.edu_islam_adha">الحجّ وعيد الأضحى: يُحدَّدان بهلال ذي الحجّة.</li>
+                        <li data-i18n="moon.edu_islam_qadr">ليلة القدر: في العشر الأواخر من رمضان، غالباً ليلة 27.</li>
+                    </ul>
+                    <p data-i18n="moon.edu_islam_2">رؤية الهلال بالعين المجرّدة شرطٌ في كثير من الاجتهادات الفقهيّة لبداية الشهر الهجريّ. يُشترط أن يكون عمر الهلال 15 ساعة على الأقلّ وقت غروب الشمس، وأن يكون ارتفاعه عن الأفق كافياً لرؤيته.</p>
                 </div>
             </div>
 
@@ -1277,13 +1418,13 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=81"></script>
+    <script defer src="js/i18n.js?v=82"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
-    <script defer src="js/moon.js?v=44"></script>
+    <script defer src="js/moon.js?v=45"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=249"></script>
+    <script defer src="js/app.js?v=250"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

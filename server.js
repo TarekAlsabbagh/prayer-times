@@ -2864,7 +2864,7 @@ function buildSeoForPath(urlPath) {
                      'تحديد اتجاه القبلة الدقيق من موقعك عبر GPS. بوصلة وخريطة تفاعلية لمعرفة اتجاه الكعبة المشرفة في مكة.' ],
             app: { category: 'UtilitiesApplication' },
         },
-        '/moon': {
+        '/moon-today': {
             title: [ 'Moon Today — Phase, Age & Illumination', 'القمر اليوم — الطور، العمر والإضاءة' ],
             desc:  [ "Track tonight's moon phase, age, illumination percentage, and upcoming moon events based on your location.",
                      'معلومات القمر اليوم: طور القمر، عمره، نسبة إضاءته، والأحداث القادمة حسب موقعك.' ],
@@ -6325,6 +6325,17 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
+    // ===== SEO: 301 redirect من /moon (+ بادئات اللغات) → /moon-today =====
+    {
+        const _oldMoonMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/?$/);
+        if (_oldMoonMatch) {
+            const _prefix = _oldMoonMatch[1] || '';
+            res.writeHead(301, { 'Location': `/${_prefix}moon-today`, 'Cache-Control': 'public, max-age=31536000' });
+            res.end();
+            return;
+        }
+    }
+
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
@@ -6470,7 +6481,7 @@ const server = http.createServer(async (req, res) => {
             const staticPaths = [
                 ['/', '1.0', 'daily'],
                 ['/qibla', '0.9', 'monthly'],
-                ['/moon', '0.8', 'daily'],
+                ['/moon-today', '0.8', 'daily'],
                 ['/zakat-calculator', '0.8', 'monthly'],
                 ['/duas', '0.8', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],

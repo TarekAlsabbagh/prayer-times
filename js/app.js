@@ -1937,9 +1937,18 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="zakat"]')?.classList.add('active');
     }
 
+    // تفعيل صفحة القمر عند URL /moon-today (canonical)
+    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(window.location.pathname);
+    if (_isMoonPage) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-moon')?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
+    }
+
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
     const _pageParam = new URLSearchParams(window.location.search).get('page');
-    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage && !_isDateConverterPage && !_isZakatPage) {
+    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage && !_isDateConverterPage && !_isZakatPage && !_isMoonPage) {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }
@@ -3510,7 +3519,7 @@ function injectHomepageSchema() {
             },
             { "@type": "SiteNavigationElement", "name": "مواقيت الصلاة",      "url": `${origin}/`                              },
             { "@type": "SiteNavigationElement", "name": "اتجاه القبلة",       "url": `${origin}/qibla`                         },
-            { "@type": "SiteNavigationElement", "name": "القمر اليوم",         "url": `${origin}/moon`                          },
+            { "@type": "SiteNavigationElement", "name": "القمر اليوم",         "url": `${origin}/moon-today`                    },
             { "@type": "SiteNavigationElement", "name": "حاسبة الزكاة",       "url": `${origin}/zakat-calculator`              },
             { "@type": "SiteNavigationElement", "name": "الأدعية والأذكار",   "url": `${origin}/duas`                          },
             { "@type": "SiteNavigationElement", "name": "المسبحة الإلكترونية","url": `${origin}/msbaha`                        },
@@ -4286,7 +4295,7 @@ function updateCityRelatedServices() {
         {
             icon: '🌙',
             label: t.moon,
-            url: pageUrl('/moon')
+            url: pageUrl('/moon-today')
         },
         {
             icon: '💰',

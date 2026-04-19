@@ -1,6 +1,6 @@
 // Service Worker: cache-first for versioned static assets, network-first for HTML, stale-while-revalidate for /api/*
 // Bump CACHE_VERSION whenever precache list changes
-const CACHE_VERSION = 'v84';
+const CACHE_VERSION = 'v85';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -14,7 +14,7 @@ const PRECACHE_URLS = [
     '/js/moon.js?v=50',
     '/js/moon-chart.js?v=2',
     '/js/duas.js?v=42',
-    '/js/app.js?v=282',
+    '/js/app.js?v=283',
 ];
 
 self.addEventListener('install', (event) => {

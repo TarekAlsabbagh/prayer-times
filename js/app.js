@@ -7423,10 +7423,36 @@ function updateMoonInfo() {
                 }
             }
         } else {
-            // لا مدينة: أبقِ السلوك الأصليّ (القمر اليوم كـ current)
-            if (_bcMoon) {
-                _bcMoon.setAttribute('aria-current', 'page');
-                // نبقي href معرَّف للـ crawler لكن العنصر هو الحاليّ
+            // لا slug في الـ URL، لكن قد توجد مدينة محدّدة حاليًّا (جيولوكيشن أو اختيار)
+            //   نريد: الرئيسية › [القمر اليوم] › {المدينة الحاليّة}
+            //   ≠ نسخة slug: المدينة هنا ليست رابطًا لأنّ الـ URL عامّ /moon-today.
+            let _currentCityLabel = '';
+            try {
+                if (typeof getDisplayCity === 'function') {
+                    _currentCityLabel = (getDisplayCity() || '').trim();
+                } else if (typeof currentCity === 'string') {
+                    _currentCityLabel = currentCity.trim();
+                }
+            } catch (_) {}
+            // لا نعرض إحداثيّات خامّة كـ "21.42°, 39.83°" إن لم يُعرَف الاسم
+            const _isRawCoords = /^-?\d+(?:\.\d+)?\s*°?\s*,\s*-?\d+(?:\.\d+)?\s*°?$/.test(_currentCityLabel);
+
+            if (_currentCityLabel && !_isRawCoords) {
+                // المستوى 2: القمر اليوم يصبح رابطًا، المستوى 3: اسم المدينة الحاليّ (current)
+                const _lngBC2 = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _langPrefixBC2 = (_lngBC2 === 'ar') ? '' : ('/' + _lngBC2);
+                if (_bcMoon) {
+                    _bcMoon.setAttribute('href', _langPrefixBC2 + '/moon-today');
+                    _bcMoon.removeAttribute('aria-current');
+                }
+                if (_bcCitySep) _bcCitySep.hidden = false;
+                if (_bcCityCurr) {
+                    _bcCityCurr.textContent = _currentCityLabel;
+                    _bcCityCurr.hidden = false;
+                }
+            } else {
+                // لا مدينة معروفة → سلوك أصليّ: القمر اليوم كـ current
+                if (_bcMoon) _bcMoon.setAttribute('aria-current', 'page');
             }
         }
     } catch (_bcerr) {

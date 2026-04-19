@@ -1997,10 +1997,22 @@ function initNavigation() {
                 return;
             }
 
-            // القمر → /moon-today (canonical) — يبقى على /moon-today-in-{slug} إن كان المستخدم عليها
+            // القمر → /moon-today-in-{slug} — يربط دائمًا بمدينة:
+            //   • من صفحة مدينة (prayer-times-in-X / qibla-in-X) → استخدم slugها
+            //   • من الرئيسيّة/صفحة عامّة → استخدم المدينة المحدّدة حاليًّا (Mecca افتراضيًّا)
+            //   • يبقى كما هو إن كان المستخدم أصلًا على أيّ صفحة قمر
             if (pageId === 'moon' && window.location.protocol !== 'file:') {
-                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname)) {
-                    window.location.href = pageUrl('/moon-today');
+                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/.test(window.location.pathname);
+                if (!_alreadyOnMoon) {
+                    // 1) جرّب استخراج slug من URL صفحة المدينة الحاليّة (prayer-times-in-* / qibla-in-*)
+                    let _moonSlug = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/)?.[1] || null;
+                    // 2) fallback: من المدينة الحاليّة في الذاكرة (Mecca بشكل افتراضيّ في بداية الجلسة)
+                    if (!_moonSlug && currentEnglishName && currentLat != null) {
+                        try { _moonSlug = makeSlug(currentEnglishName, currentLat, currentLng); } catch (_e) { /* silent */ }
+                    }
+                    // 3) آخر ملجأ: مكّة
+                    if (!_moonSlug) _moonSlug = 'mecca';
+                    window.location.href = pageUrl(`/moon-today-in-${_moonSlug}`);
                 }
                 return;
             }

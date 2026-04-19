@@ -926,6 +926,27 @@ button, input, select { font-family: inherit; }
 .moon-breadcrumb a { color: var(--primary); text-decoration: none; }
 .moon-breadcrumb a:hover { text-decoration: underline; }
 .moon-breadcrumb .bc-sep { color: var(--text-light); opacity: 0.6; }
+.moon-breadcrumb .bc-city-current,
+.moon-breadcrumb .bc-date { color: var(--text-primary); font-weight: 600; }
+
+/* خلايا جدول التوقّعات 14 يومًا: الأيّام قابلة للضغط (تنتقل لصفحة ذلك اليوم) */
+.fc-day-cell { padding: 0; }
+.fc-day-link {
+    display: block;
+    padding: 12px 10px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.fc-day-link:hover,
+.fc-day-link:focus {
+    background: rgba(46, 125, 50, 0.08);
+    text-decoration: underline;
+    outline: none;
+}
+.fc-day-link:focus-visible { box-shadow: 0 0 0 2px var(--primary); }
 
 /* ═══ Round 10: intro, comparison, phase-insight, forecast-cta ═══ */
 .moon-intro {

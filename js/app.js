@@ -6871,7 +6871,7 @@ function updateMoonInfo() {
     // المتصفّح في منطقة مختلفة (مثلًا مكّة يشاهد جاكرتا) فإنّ getDay()/getDate()
     // قد تُرجع يومًا مختلفًا. لذلك نستخرج الحقول عبر Intl بتوقيت المدينة.
     const _getDayPartsInTz = (d, tz) => {
-        if (!tz) return { wd: d.getDay(), d: d.getDate(), m: d.getMonth() };
+        if (!tz) return { wd: d.getDay(), d: d.getDate(), m: d.getMonth(), y: d.getFullYear() };
         try {
             const fmt = new Intl.DateTimeFormat('en-US', {
                 timeZone: tz, weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric'
@@ -6882,10 +6882,11 @@ function updateMoonInfo() {
             return {
                 wd: (wdMap[parts.weekday] != null) ? wdMap[parts.weekday] : d.getDay(),
                 d:  parseInt(parts.day, 10),
-                m:  parseInt(parts.month, 10) - 1
+                m:  parseInt(parts.month, 10) - 1,
+                y:  parseInt(parts.year, 10)
             };
         } catch (_e) {
-            return { wd: d.getDay(), d: d.getDate(), m: d.getMonth() };
+            return { wd: d.getDay(), d: d.getDate(), m: d.getMonth(), y: d.getFullYear() };
         }
     };
 
@@ -6895,6 +6896,21 @@ function updateMoonInfo() {
         const fc = MoonCalc.getForecast
             ? MoonCalc.getForecast(today, _lat, _lng, 14, _tz)
             : MoonCalc.get7DayForecast(today, _lat, _lng, _tz);
+
+        // رابط اليوم → صفحة ذلك اليوم لنفس المدينة (فقط إن وُجد slug)
+        const _lngFC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _langPrefixFC = (_lngFC === 'ar') ? '' : ('/' + _lngFC);
+        const _escHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
+        const _fcIso = (parts, fallbackDate) => {
+            // parts من _getDayPartsInTz (y/m/d — m is zero-based). fallback للـ date إن لم يتوفّر.
+            if (parts && parts.y != null && parts.m != null && parts.d != null) {
+                return parts.y + '-' + _pad2(parts.m + 1) + '-' + _pad2(parts.d);
+            }
+            const _d = fallbackDate;
+            return _d.getFullYear() + '-' + _pad2(_d.getMonth() + 1) + '-' + _pad2(_d.getDate());
+        };
+
         let html = '';
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
@@ -6903,9 +6919,20 @@ function updateMoonInfo() {
             const dd = dp.d;
             const mm = _gm[dp.m];
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
+
+            // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
+            let dayCell;
+            if (_citySlug) {
+                const _iso = _fcIso(dp, row.date);
+                const _href = _langPrefixFC + '/moon-today-in-' + _citySlug + '/' + _iso;
+                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(wd + ' ' + dd + ' ' + mm)}</a></td>`;
+            } else {
+                dayCell = `<td>${_escHtml(wd + ' ' + dd + ' ' + mm)}</td>`;
+            }
+
             html += `<tr>`
-                + `<td>${wd} ${dd} ${mm}</td>`
-                + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${phaseLabel}</td>`
+                + dayCell
+                + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
                 + `<td>${row.illumination}%</td>`
                 + `<td>${row.rise}</td>`
                 + `<td>${row.set}</td>`
@@ -7338,6 +7365,72 @@ function updateMoonInfo() {
         }
     } catch (_derr) {
         if (window.console && console.warn) console.warn('Moon date H1/intro override failed:', _derr);
+    }
+
+    // ── Breadcrumb: Home › القمر اليوم › {City} › {Date} ──
+    //   - بلا city slug → Home › (current) القمر اليوم
+    //   - مع city slug بلا تاريخ → Home › (link) القمر اليوم › (current) {City}
+    //   - مع city slug + تاريخ → Home › (link) القمر اليوم › (link) {City} › (current) {Date}
+    try {
+        const _bcMoon       = document.getElementById('bc-moon');
+        const _bcCitySep    = document.getElementById('bc-city-sep');
+        const _bcCity       = document.getElementById('bc-city');           // link (عند وجود تاريخ)
+        const _bcCityCurr   = document.getElementById('bc-city-current');   // span (عند انعدام التاريخ)
+        const _bcDateSep    = document.getElementById('bc-date-sep');
+        const _bcDate       = document.getElementById('bc-date');
+
+        // تطبيع: أخفِ جميع العناصر القابلة للاختفاء أوّلًا
+        [_bcCitySep, _bcCity, _bcCityCurr, _bcDateSep, _bcDate].forEach((el) => {
+            if (el) el.hidden = true;
+        });
+
+        if (_citySlug) {
+            const _lngBC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            const _langPrefixBC = (_lngBC === 'ar') ? '' : ('/' + _lngBC);
+            const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
+
+            // المستوى 2: القمر اليوم — يصبح رابطًا لـ /moon-today
+            if (_bcMoon) {
+                _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today');
+                _bcMoon.removeAttribute('aria-current');
+            }
+            if (_bcCitySep) _bcCitySep.hidden = false;
+
+            if (_isDatePage) {
+                // المستوى 3: {City} — رابط لـ /moon-today-in-{slug}
+                if (_bcCity) {
+                    _bcCity.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
+                    _bcCity.textContent = _cityNameBC;
+                    _bcCity.hidden = false;
+                }
+                // المستوى 4: {Date} — current page
+                if (_bcDateSep) _bcDateSep.hidden = false;
+                if (_bcDate) {
+                    // تاريخ مختصر بلا يوم الأسبوع: "25 أبريل 2026"
+                    let _gmBC = '';
+                    try { _gmBC = (typeof t === 'function') ? t('gmonth.' + (today.getMonth() + 1)) : ''; } catch(_){}
+                    if (!_gmBC || _gmBC === 'gmonth.' + (today.getMonth() + 1)) {
+                        _gmBC = ['January','February','March','April','May','June','July','August','September','October','November','December'][today.getMonth()];
+                    }
+                    _bcDate.textContent = today.getDate() + ' ' + _gmBC + ' ' + today.getFullYear();
+                    _bcDate.hidden = false;
+                }
+            } else {
+                // المستوى 3 النهائيّ: {City} — current page (span، لا رابط)
+                if (_bcCityCurr) {
+                    _bcCityCurr.textContent = _cityNameBC;
+                    _bcCityCurr.hidden = false;
+                }
+            }
+        } else {
+            // لا مدينة: أبقِ السلوك الأصليّ (القمر اليوم كـ current)
+            if (_bcMoon) {
+                _bcMoon.setAttribute('aria-current', 'page');
+                // نبقي href معرَّف للـ crawler لكن العنصر هو الحاليّ
+            }
+        }
+    } catch (_bcerr) {
+        if (window.console && console.warn) console.warn('Moon breadcrumb fill failed:', _bcerr);
     }
 }
 

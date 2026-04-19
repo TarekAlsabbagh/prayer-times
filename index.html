@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=281" as="script">
-    <link rel="stylesheet" href="css/style.css?v=70">
+    <link rel="preload" href="js/app.js?v=282" as="script">
+    <link rel="stylesheet" href="css/style.css?v=71">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -634,11 +634,17 @@
                 <!-- H1 دلاليّ — يُعاد كتابته JS-side حسب المدينة واللغة -->
                 <h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">🌙 القمر اليوم</h1>
 
-                <!-- Breadcrumb navigation -->
+                <!-- Breadcrumb navigation (4 levels max): Home › Moon Today › {City} › {Date}
+                     عناصر City/Date مخفيّة افتراضيًّا وتُظهِرها app.js عند وجود slug/تاريخ. -->
                 <nav class="moon-breadcrumb" aria-label="breadcrumb">
                     <a href="/" data-i18n="nav.home">الرئيسية</a>
                     <span class="bc-sep">›</span>
-                    <span data-i18n="moon.bc_current" aria-current="page">القمر اليوم</span>
+                    <a class="bc-moon" id="bc-moon" href="/moon-today" data-i18n="moon.bc_current">القمر اليوم</a>
+                    <span class="bc-sep bc-city-sep" id="bc-city-sep" hidden>›</span>
+                    <a class="bc-city" id="bc-city" href="#" hidden></a>
+                    <span class="bc-city-current" id="bc-city-current" aria-current="page" hidden></span>
+                    <span class="bc-sep bc-date-sep" id="bc-date-sep" hidden>›</span>
+                    <span class="bc-date" id="bc-date" aria-current="page" hidden></span>
                 </nav>
 
                 <!-- Intro paragraph — SEO-rich, filled by JS with live data -->
@@ -1567,7 +1573,7 @@
     <script defer src="js/moon.js?v=50"></script>
     <script defer src="js/moon-chart.js?v=2"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=281"></script>
+    <script defer src="js/app.js?v=282"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

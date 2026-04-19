@@ -7346,6 +7346,29 @@ function updateMoonInfo() {
             // intro paragraph — تمكّن من الإبقاء على النصّ الديناميكيّ لو وُجد (يُملأ لاحقًا)
             const _introEl = document.getElementById('moon-intro');
             if (_introEl) {
+                // zodiac للتاريخ المطلوب (قد يختلف عن اليوم الحاليّ)
+                let _zodIcon = '', _zodName = '';
+                try {
+                    if (typeof MoonCalc !== 'undefined' && typeof MoonCalc.getMoonZodiac === 'function') {
+                        const _z = MoonCalc.getMoonZodiac(today);
+                        if (_z) {
+                            _zodIcon = _z.icon || '';
+                            let _zn = '';
+                            try { _zn = (typeof t === 'function') ? t(_z.i18nKey) : ''; } catch(_){}
+                            _zodName = (_zn && _zn !== _z.i18nKey) ? _zn : (_z.key || '');
+                        }
+                    }
+                } catch(_){}
+
+                // تنسيق رقميّ 2 خانات عشريّة حسب لغة الواجهة
+                const _fmtNumDate = (n, maxFD) => {
+                    try {
+                        const _lng2 = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                        const _loc = (_lng2 === 'ar') ? 'en-US' : _lng2;
+                        return Number(n).toLocaleString(_loc, { maximumFractionDigits: maxFD != null ? maxFD : 2 });
+                    } catch(_e) { return String(n); }
+                };
+
                 let _introTpl = '';
                 try {
                     _introTpl = (typeof t === 'function') ? t('moon.intro_date_template', {
@@ -7353,8 +7376,10 @@ function updateMoonInfo() {
                         date: _dateLabel,
                         phaseIcon: (phase && phase.icon) || '',
                         phaseName: (phase && phase.key && typeof t === 'function') ? t(phase.key) : ((phase && phase.name) || ''),
-                        illum: String(illumination),
-                        age: String(age)
+                        illum: _fmtNumDate(illumination, 2),
+                        age: _fmtNumDate(age, 2),
+                        zodiacIcon: _zodIcon,
+                        zodiacName: _zodName
                     }) : '';
                 } catch(_){}
                 if (_introTpl && _introTpl !== 'moon.intro_date_template') {

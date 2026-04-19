@@ -2757,12 +2757,12 @@ function buildSeoForPath(urlPath) {
     const _HM_BY_LANG_CITY = {
         ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
         en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
-        fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
+        fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
         tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
         ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
         de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
         id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
-        es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qi‘da','Du al-Hiyya'],
+        es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
         bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
         ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
     };
@@ -2829,28 +2829,28 @@ function buildSeoForPath(urlPath) {
     // Localize homepage description for additional languages (title unified عبر _buildCityDatedTitle).
     if (lang === 'fr') {
         const _gMonthLoc = _G_MONTHS.fr[_gMonthIdx];
-        description = `Heures de prière aujourd'hui à La Mecque, Médine ${_gMonthLoc} ${_gYear} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
+        description = `Horaires de prière aujourd'hui à La Mecque, Médine ${_gMonthLoc} ${_gYear} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMonthLoc} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'tr') {
         const _gMonthLoc = _G_MONTHS.tr[_gMonthIdx];
-        description = `Bugün Mekke, Medine namaz vakitleri ${_gMonthLoc} ${_gYear}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMonthEn} ${_hYear}, kıble, zekât.`;
+        description = `Bugün Mekke, Medine namaz vakitleri ${_gMonthLoc} ${_gYear}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMonthLoc} ${_hYear}, kıble, zekât.`;
     } else if (lang === 'ur') {
         const _gMonthLoc = _G_MONTHS.ur[_gMonthIdx];
-        description = `آج مکہ مکرمہ، مدینہ اور دنیا میں اوقاتِ نماز ${_gMonthLoc} ${_gYear}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthEn} ${_hYear}، قبلہ، زکاۃ، دعائیں۔`;
+        description = `آج مکہ مکرمہ، مدینہ اور دنیا میں اوقاتِ نماز ${_gMonthLoc} ${_gYear}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthLoc} ${_hYear}، قبلہ، زکاۃ، دعائیں۔`;
     } else if (lang === 'de') {
         const _gMonthLoc = _G_MONTHS.de[_gMonthIdx];
-        description = `Heutige Gebetszeiten in Mekka, Medina ${_gMonthLoc} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
+        description = `Heutige Gebetszeiten in Mekka, Medina ${_gMonthLoc} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMonthLoc} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'id') {
         const _gMonthLoc = _G_MONTHS.id[_gMonthIdx];
-        description = `Jadwal sholat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMonthEn} ${_hYear}, kiblat, zakat.`;
+        description = `Jadwal sholat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMonthLoc} ${_hYear}, kiblat, zakat.`;
     } else if (lang === 'es') {
         const _gMonthLoc = _G_MONTHS.es[_gMonthIdx];
-        description = `Horarios de oración hoy en La Meca, Medina ${_gMonthLoc} ${_gYear}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMonthEn} ${_hYear}, Qibla, Zakat.`;
+        description = `Horarios de oración hoy en La Meca, Medina ${_gMonthLoc} ${_gYear}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMonthLoc} ${_hYear}, Qibla, Zakat.`;
     } else if (lang === 'bn') {
         const _gMonthLoc = _G_MONTHS.bn[_gMonthIdx];
-        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে ${_gMonthLoc} ${_gYear}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthEn} ${_hYear}, কিবলা, যাকাত, দোয়া।`;
+        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে ${_gMonthLoc} ${_gYear}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthLoc} ${_hYear}, কিবলা, যাকাত, দোয়া।`;
     } else if (lang === 'ms') {
         const _gMonthLoc = _G_MONTHS.ms[_gMonthIdx];
-        description = `Waktu solat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMonthEn} ${_hYear}, Kiblat, Zakat.`;
+        description = `Waktu solat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMonthLoc} ${_hYear}, Kiblat, Zakat.`;
     }
 
     const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };
@@ -3210,12 +3210,12 @@ function buildSeoForPath(urlPath) {
         const _HM_BY_LANG_M = {
             ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
             en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
-            fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
+            fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
             tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
             ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
             de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
             id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
-            es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qi‘da','Du al-Hiyya'],
+            es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
             bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
             ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
         };
@@ -3282,12 +3282,12 @@ function buildSeoForPath(urlPath) {
         const _HM_BY_LANG = {
             ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
             en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
-            fr: ['Mouharram','Safar',"Rabi' al-Awwal","Rabi' al-Thani",'Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal',"Dhou al-Qi'da",'Dhou al-Hijja'],
+            fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
             tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
             ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
             de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
             id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
-            es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qi‘da','Du al-Hiyya'],
+            es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
             bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
             ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
         };

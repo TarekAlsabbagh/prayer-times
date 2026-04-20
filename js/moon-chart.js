@@ -83,6 +83,19 @@
             fill: 'none'
         }));
 
+        // 🆕 Wave C: خطّ عموديّ مرجعيّ على اليوم المركزيّ (يُضاف قبل المنحنى ليظهر خلفه)
+        const centerIdx = points.findIndex(function(p) { return p.isCenter; });
+        if (centerIdx >= 0) {
+            const cx = PAD_L + ((points.length === 1) ? CW / 2 : (centerIdx * CW) / (points.length - 1));
+            svg.appendChild(_createEl('line', {
+                x1: cx, x2: cx,
+                y1: PAD_T, y2: PAD_T + CH,
+                stroke: 'rgba(217,168,46,0.30)',
+                'stroke-width': '1.5',
+                'stroke-dasharray': '4,3'
+            }));
+        }
+
         // خطوط أفقيّة مرجعيّة (0% / 50% / 100%)
         [0, 50, 100].forEach(function(pct) {
             const y = PAD_T + CH - (pct / 100) * CH;
@@ -154,8 +167,28 @@
             const p = points[i];
             const cx = xAt(i), cy = yAt(p.pct);
             const isCenter = p.isCenter;
-            const r = isCenter ? 6 : 3.5;
+            const r = isCenter ? 6.5 : 3.5;
             const fill = isCenter ? '#d9a82e' : 'rgba(217,168,46,0.85)';
+
+            // 🆕 Wave C: هالة متوهّجة (glow halo) حول نقطة اليوم المركزيّ
+            if (isCenter) {
+                // طبقة خارجيّة كبيرة شبه شفّافة (pulse animation عبر CSS)
+                const halo = _createEl('circle', {
+                    cx: cx, cy: cy, r: 14,
+                    fill: '#f9d648',
+                    opacity: '0.22',
+                    class: 'moon-chart-halo'
+                });
+                svg.appendChild(halo);
+                // حلقة وسطى
+                svg.appendChild(_createEl('circle', {
+                    cx: cx, cy: cy, r: 9,
+                    fill: 'none',
+                    stroke: '#f9d648',
+                    'stroke-width': '1.5',
+                    opacity: '0.55'
+                }));
+            }
 
             let dotGroup = svg;
             if (p.href) {
@@ -171,10 +204,14 @@
                 fill: fill,
                 stroke: isCenter ? '#fff' : 'none',
                 'stroke-width': isCenter ? '2.5' : '0',
-                'data-date': p.iso
+                'data-date': p.iso,
+                'data-idx': i,
+                class: 'moon-chart-dot' + (isCenter ? ' is-center' : '')
             });
+            // SVG <title> يبقى للـ accessibility والـ fallback
             const title = _createEl('title', {});
-            title.textContent = p.label + ' — ' + p.pct.toFixed(1) + '%';
+            title.textContent = p.label + ' — ' + p.pct.toFixed(1) + '%' +
+                (p.phaseName ? ' · ' + p.phaseName : '');
             circle.appendChild(title);
             dotGroup.appendChild(circle);
 
@@ -260,6 +297,25 @@
                 pct = MC.getMoonIllumination(d) || 0;
             } catch (_) {}
 
+            // 🆕 Wave C: اسم الطور + icon لكلّ نقطة (للـ tooltip الغنيّ)
+            let phaseIcon = '•';
+            let phaseName = '';
+            try {
+                if (typeof MC.getPhaseName === 'function') {
+                    const ph = MC.getPhaseName(d);
+                    if (ph) {
+                        phaseIcon = ph.icon || phaseIcon;
+                        // تفضيل الترجمة إن توفّرت i18n
+                        const _t = (typeof t === 'function') ? t : (global.t || null);
+                        if (_t && ph.key) {
+                            const tr = _t(ph.key);
+                            if (tr && !/^moon\.phase_/.test(tr)) phaseName = tr;
+                        }
+                        if (!phaseName) phaseName = ph.name || ph.english || '';
+                    }
+                }
+            } catch (_) {}
+
             const iso = _isoDate(d);
             // ابحث عن حدث طور يقع في نفس اليوم
             const ev = phaseEvents.find(function(e) {
@@ -273,10 +329,39 @@
                 label: _shortLabel(d, null),
                 isCenter: iso === centerIso,
                 href: (citySlug && iso !== centerIso) ? (urlBase + '/' + iso) : null,
-                phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || '•' } : null
+                phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || phaseIcon } : null,
+                phaseIcon: phaseIcon,
+                phaseName: phaseName
             });
         }
         return points;
+    }
+
+    // 🆕 Wave C: تنسيق تاريخ كامل للـ tooltip (مثلاً: "الاثنين 20 أبريل 2026")
+    function _fullDateLabel(d, lang) {
+        try {
+            const _t = (typeof t === 'function') ? t : (global.t || null);
+            const wd = _t ? _t('wday.' + d.getDay()) : '';
+            const mon = _t ? _t('gmonth.' + (d.getMonth() + 1)) : GREG_MONTHS_EN[d.getMonth()];
+            const wdStr = (wd && !/^wday\./.test(wd)) ? wd + ' ' : '';
+            const monStr = (mon && !/^gmonth\./.test(mon)) ? mon : GREG_MONTHS_EN[d.getMonth()];
+            return wdStr + d.getDate() + ' ' + monStr + ' ' + d.getFullYear();
+        } catch (_) {
+            return _shortLabel(d, lang) + ' ' + d.getFullYear();
+        }
+    }
+
+    // 🆕 Wave C: تسمية نسبة الإضاءة مترجَمة
+    function _illumLabel(pct, lang) {
+        const n = pct.toFixed(1) + '%';
+        try {
+            const _t = (typeof t === 'function') ? t : (global.t || null);
+            if (_t) {
+                const lbl = _t('moon.illumination');
+                if (lbl && lbl !== 'moon.illumination') return lbl + ': ' + n;
+            }
+        } catch (_) {}
+        return n;
     }
 
     /**
@@ -306,7 +391,75 @@
         // — لكن نصّ labels داخل SVG سينعكس أيضًا. الحلّ في CSS: مضاد للـ text فقط.
 
         container.textContent = '';
+        // حاويّة موضعيّة للـ tooltip العائم
+        try { container.style.position = container.style.position || 'relative'; } catch (_) {}
         container.appendChild(svg);
+
+        // 🆕 Wave C: tooltip مخصَّص غنيّ بالمحتوى
+        const tooltip = document.createElement('div');
+        tooltip.className = 'moon-chart-tooltip';
+        tooltip.setAttribute('role', 'tooltip');
+        tooltip.setAttribute('aria-hidden', 'true');
+        tooltip.style.cssText = [
+            'position:absolute',
+            'pointer-events:none',
+            'opacity:0',
+            'transition:opacity 0.15s ease',
+            'z-index:10',
+            'transform:translate(-50%, -100%)',
+            'white-space:nowrap'
+        ].join(';');
+        container.appendChild(tooltip);
+
+        function _showTip(pt, cx, cy) {
+            const dateTxt = _fullDateLabel(pt.date, lang);
+            const illumTxt = _illumLabel(pt.pct, lang);
+            const phaseTxt = (pt.phaseIcon || '') + (pt.phaseName ? ' ' + pt.phaseName : '');
+            tooltip.innerHTML =
+                '<div class="mct-date">' + _escHtml(dateTxt) + '</div>' +
+                '<div class="mct-illum">' + _escHtml(illumTxt) + '</div>' +
+                (phaseTxt.trim() ? '<div class="mct-phase">' + _escHtml(phaseTxt) + '</div>' : '');
+            // تحويل إحداثيّات SVG إلى pixels
+            const rect = container.getBoundingClientRect();
+            const svgRect = svg.getBoundingClientRect();
+            const scaleX = svgRect.width / 600;
+            const scaleY = svgRect.height / 220;
+            const px = (svgRect.left - rect.left) + cx * scaleX;
+            const py = (svgRect.top - rect.top) + cy * scaleY - 8;
+            tooltip.style.left = px + 'px';
+            tooltip.style.top  = py + 'px';
+            tooltip.style.opacity = '1';
+            tooltip.setAttribute('aria-hidden', 'false');
+        }
+        function _hideTip() {
+            tooltip.style.opacity = '0';
+            tooltip.setAttribute('aria-hidden', 'true');
+        }
+        function _escHtml(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // ربط الأحداث بكلّ نقطة دائريّة
+        const dots = svg.querySelectorAll('circle.moon-chart-dot');
+        dots.forEach(function(dot) {
+            const idx = parseInt(dot.getAttribute('data-idx'), 10);
+            if (!(idx >= 0) || !points[idx]) return;
+            const cx = parseFloat(dot.getAttribute('cx'));
+            const cy = parseFloat(dot.getAttribute('cy'));
+            const pt = points[idx];
+            function onEnter() { _showTip(pt, cx, cy); }
+            dot.addEventListener('mouseenter', onEnter);
+            dot.addEventListener('focus', onEnter);
+            dot.addEventListener('mouseleave', _hideTip);
+            dot.addEventListener('blur', _hideTip);
+            // دعم اللمس على mobile — tap يُظهر المؤقَّت
+            dot.addEventListener('touchstart', function(e) {
+                onEnter();
+                setTimeout(_hideTip, 2500);
+            }, { passive: true });
+        });
     }
 
     // تصدير

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}var _mdm=location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-\d{2}-\d{2}$/);if(_mdm){document.documentElement.classList.add('moon-date-page');document.documentElement.classList.add(parseInt(_mdm[3],10)<1800?'moon-hijri-context':'moon-gregorian-context');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/.test(location.pathname)){document.documentElement.classList.add('countdown-page');var _cdMatch=location.pathname.match(/(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown/);if(_cdMatch)document.documentElement.classList.add('countdown-'+_cdMatch[1]);}</script>
+    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}var _mdm=location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-\d{2}-\d{2}$/);if(_mdm){document.documentElement.classList.add('moon-date-page');document.documentElement.classList.add(parseInt(_mdm[3],10)<1800?'moon-hijri-context':'moon-gregorian-context');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/.test(location.pathname)){document.documentElement.classList.add('countdown-page');var _cdMatch=location.pathname.match(/(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown/);if(_cdMatch)document.documentElement.classList.add('countdown-'+_cdMatch[1]);}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
@@ -28,7 +28,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=307" as="script">
+    <link rel="preload" href="js/app.js?v=308" as="script">
     <link rel="stylesheet" href="css/style.css?v=85">
 </head>
 <body>
@@ -2263,7 +2263,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=307"></script>
+    <script defer src="js/app.js?v=308"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

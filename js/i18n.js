@@ -628,7 +628,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'غدًا يبلغ القمر طور {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'اليوم يبلغ القمر طور {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 تابع تطوّر القمر خلال الأربعة عشر يومًا القادمة ↓',
-        // صفحة القمر في تاريخ محدّد (/moon-today-in-{city}/{YYYY-MM-DD}) + الرسم البيانيّ
+        // صفحة القمر في تاريخ محدّد (/moon-in-{city}/{YYYY-MM-DD}) + الرسم البيانيّ
         'moon.prev_day': 'اليوم السابق',
         'moon.next_day': 'اليوم التالي',
         'moon.return_today': 'اليوم',
@@ -1568,7 +1568,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Tomorrow the Moon reaches {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Today the Moon reaches {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': "📅 Track the Moon's evolution over the next 14 days ↓",
-        // Per-date moon page (/moon-today-in-{city}/{YYYY-MM-DD}) + chart
+        // Per-date moon page (/moon-in-{city}/{YYYY-MM-DD}) + chart
         'moon.prev_day': 'Previous day',
         'moon.next_day': 'Next day',
         'moon.return_today': 'Today',
@@ -2401,7 +2401,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Demain, la Lune atteint la phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Aujourd\u2019hui, la Lune atteint la phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Suivez l\u2019évolution de la Lune au cours des 14 prochains jours ↓',
-        // Page Lune par date (/moon-today-in-{city}/{YYYY-MM-DD}) + graphique
+        // Page Lune par date (/moon-in-{city}/{YYYY-MM-DD}) + graphique
         'moon.prev_day': 'Jour précédent',
         'moon.next_day': 'Jour suivant',
         'moon.return_today': 'Aujourd\u2019hui',
@@ -3190,7 +3190,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Yarın Ay {nextPhaseIcon} {nextPhaseName} evresine ulaşıyor.',
         'moon.mc_status_today': 'Bugün Ay {nextPhaseIcon} {nextPhaseName} evresine ulaşıyor.',
         'moon.forecast_cta': '📅 Ayın önümüzdeki 14 gündeki seyrini takip edin ↓',
-        // Tarihe özel Ay sayfası (/moon-today-in-{city}/{YYYY-MM-DD}) + grafik
+        // Tarihe özel Ay sayfası (/moon-in-{city}/{YYYY-MM-DD}) + grafik
         'moon.prev_day': 'Önceki gün',
         'moon.next_day': 'Sonraki gün',
         'moon.return_today': 'Bugün',
@@ -3979,7 +3979,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'کل چاند {nextPhaseIcon} {nextPhaseName} کے مرحلے پر پہنچ جاتا ہے۔',
         'moon.mc_status_today': 'آج چاند {nextPhaseIcon} {nextPhaseName} کے مرحلے پر پہنچتا ہے۔',
         'moon.forecast_cta': '📅 اگلے 14 دنوں میں چاند کی تبدیلی کا مشاہدہ کریں ↓',
-        // مخصوص تاریخ کے لیے چاند صفحہ (/moon-today-in-{city}/{YYYY-MM-DD}) + چارٹ
+        // مخصوص تاریخ کے لیے چاند صفحہ (/moon-in-{city}/{YYYY-MM-DD}) + چارٹ
         'moon.prev_day': 'پچھلا دن',
         'moon.next_day': 'اگلا دن',
         'moon.return_today': 'آج',
@@ -4795,7 +4795,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Morgen erreicht der Mond die Phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Heute erreicht der Mond die Phase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Verfolgen Sie die Entwicklung des Mondes in den nächsten 14 Tagen ↓',
-        // Mond-Seite für ein bestimmtes Datum (/moon-today-in-{city}/{YYYY-MM-DD}) + Diagramm
+        // Mond-Seite für ein bestimmtes Datum (/moon-in-{city}/{YYYY-MM-DD}) + Diagramm
         'moon.prev_day': 'Vortag',
         'moon.next_day': 'Folgetag',
         'moon.return_today': 'Heute',
@@ -5639,7 +5639,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Besok Bulan memasuki fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Hari ini Bulan memasuki fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Ikuti perkembangan Bulan selama 14 hari ke depan ↓',
-        // Halaman Bulan untuk tanggal tertentu (/moon-today-in-{city}/{YYYY-MM-DD}) + grafik
+        // Halaman Bulan untuk tanggal tertentu (/moon-in-{city}/{YYYY-MM-DD}) + grafik
         'moon.prev_day': 'Hari sebelumnya',
         'moon.next_day': 'Hari berikutnya',
         'moon.return_today': 'Hari ini',
@@ -6483,7 +6483,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Mañana la Luna alcanza la fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Hoy la Luna alcanza la fase {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Sigue la evolución de la Luna durante los próximos 14 días ↓',
-        // Página de la Luna para una fecha específica (/moon-today-in-{city}/{YYYY-MM-DD}) + gráfico
+        // Página de la Luna para una fecha específica (/moon-in-{city}/{YYYY-MM-DD}) + gráfico
         'moon.prev_day': 'Día anterior',
         'moon.next_day': 'Día siguiente',
         'moon.return_today': 'Hoy',
@@ -7327,7 +7327,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'আগামীকাল চাঁদ {nextPhaseIcon} {nextPhaseName} পর্যায়ে পৌঁছাবে।',
         'moon.mc_status_today': 'আজ চাঁদ {nextPhaseIcon} {nextPhaseName} পর্যায়ে পৌঁছাবে।',
         'moon.forecast_cta': '📅 পরবর্তী ১৪ দিনে চাঁদের পরিবর্তন অনুসরণ করুন ↓',
-        // নির্দিষ্ট তারিখের জন্য চাঁদের পৃষ্ঠা (/moon-today-in-{city}/{YYYY-MM-DD}) + চার্ট
+        // নির্দিষ্ট তারিখের জন্য চাঁদের পৃষ্ঠা (/moon-in-{city}/{YYYY-MM-DD}) + চার্ট
         'moon.prev_day': 'আগের দিন',
         'moon.next_day': 'পরবর্তী দিন',
         'moon.return_today': 'আজ',
@@ -8171,7 +8171,7 @@ const TRANSLATIONS = {
         'moon.mc_status_tomorrow': 'Esok Bulan mencapai fasa {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_today': 'Hari ini Bulan mencapai fasa {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': '📅 Ikuti perkembangan Bulan sepanjang 14 hari akan datang ↓',
-        // Halaman Bulan untuk tarikh tertentu (/moon-today-in-{city}/{YYYY-MM-DD}) + carta
+        // Halaman Bulan untuk tarikh tertentu (/moon-in-{city}/{YYYY-MM-DD}) + carta
         'moon.prev_day': 'Hari sebelumnya',
         'moon.next_day': 'Hari seterusnya',
         'moon.return_today': 'Hari ini',

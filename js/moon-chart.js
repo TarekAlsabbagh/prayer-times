@@ -7,7 +7,7 @@
  *     rangeDays: 7,           // إجماليّ الأيّام (3 قبل + اليوم + 3 بعد)
  *     lang: 'ar',             // لترجمة labels وعكس RTL
  *     citySlug: 'mecca',      // للروابط على كلّ نقطة
- *     urlPrefix: '/moon-today-in-mecca'  // يُستخدم لبناء /{urlPrefix}/{iso}
+ *     urlPrefix: '/moon-in-mecca'  // Round 15: روابط نقاط المنحنى تنتقل إلى /moon-in-{slug}/{iso}
  *   });
  *
  * يعتمد على:
@@ -286,7 +286,9 @@
 
         const centerIso = _isoDate(centerDate);
         const points = [];
-        const urlBase = langPrefix ? (langPrefix + '/moon-today-in-' + citySlug) : ('/moon-today-in-' + citySlug);
+        // Round 15: نقاط المنحنى تشير لأيّام محدَّدة → /moon-in-{slug}/{iso}
+        // (النقطة المركزيّة «اليوم» تحصل href=null أسفل، لا تستخدم urlBase).
+        const urlBase = langPrefix ? (langPrefix + '/moon-in-' + citySlug) : ('/moon-in-' + citySlug);
 
         for (let offset = -half; offset <= half; offset++) {
             const d = new Date(centerDate);

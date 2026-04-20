@@ -3643,27 +3643,26 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
-    // ── Moon city pages: /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}] ── (Round 9 + date pages + Round 12)
-    // Round 12: أُضيف دعم coord-suffix عالميّ لحلّ "city not found" لأيّ مدينة يعرف
-    // العميل إحداثيّاتها (من الجيوكود/Nominatim) حتّى لو لم تكن ضمن cities-*.json.
-    // مثال: /moon-today-in-del-rio-29.36-(-100.90) ← يُقبل كـ noindex page.
-    // ملاحظة: للمدن المعروفة (FAMOUS أو DB)، يصدر السيرفر 301 إلى الرابط القصير أعلاه في route handler.
-    // Regex: slug غير جشع ثمّ lat/lng اختياريّان (أعداد بعلامة/بدونها، عشريّة اختياريّة).
-    m = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
+    // ── Moon city pages (Round 15): فصل الـ URLs — clean split ──
+    //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم (today only)
+    //   /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}         → صفحة مؤرَّخة (ميلاديّ)
+    //   /moon-in-{slug}[-{lat}-{lng}]/{HYYYY-HMM-HDD}      → صفحة مؤرَّخة (هجريّ، canonical→ميلاديّ)
+    //
+    // Round 12: coord-suffix عالميّ (مثل /moon-today-in-del-rio-29.36--100.90) — يبقى مدعوماً.
+    // كلا النمطَين يدعمان coord-suffix. Regex: slug غير جشع ثمّ lat/lng اختياريّان.
+    // ملاحظة: /moon-in-{slug} بلا تاريخ → 404 (خارج النطاق حاليّاً).
+    const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+    const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
+    m = _MT || _MD;
     if (m) {
         const citySlug = m[1];
         const _coordLat = m[2] != null ? parseFloat(m[2]) : null;
         const _coordLng = m[3] != null ? parseFloat(m[3]) : null;
         const _hasCoordSuffix = (_coordLat != null && _coordLng != null && isFinite(_coordLat) && isFinite(_coordLng));
-        // التاريخ: أصبح في المواضع 4/5/6 بعد إضافة مجموعات lat/lng
-        // نُعيد توزيع المصفوفة m ليتوافق بقيّة الكود الذي يتوقّع m[2]/m[3]/m[4] كتاريخ.
-        if (!m[2] && !m[3] && m[4]) {
-            // الحالة الشائعة: بدون coords — نحوّل m[4..6] → m[2..4]
-            m = [m[0], m[1], m[4], m[5], m[6]];
-        } else if (_hasCoordSuffix) {
-            // مع coords: نحوّل m[4..6] إلى m[2..4] مع الاحتفاظ بـ coords منفصلة (محلّياً فوق)
-            m = [m[0], m[1], m[4], m[5], m[6]];
-        }
+        // التاريخ موجود فقط في _MD (المواضع 4/5/6). لـ _MT (صفحة اليوم): null.
+        const _dyStr = (_MD && m[4]) ? m[4] : null;
+        const _dmStr = (_MD && m[5]) ? m[5] : null;
+        const _ddStr = (_MD && m[6]) ? m[6] : null;
         // استرجاع إحداثيّات المدينة: أولويّة للـ DB (SEO)، ثمّ coord-suffix (fallback)
         let cityGeo = _resolveCityForMoon(citySlug);
         if (!cityGeo && _hasCoordSuffix) {
@@ -3682,10 +3681,10 @@ function buildSeoForPath(urlPath) {
         let _moonDateObj = null;        // Date object للتاريخ المحدَّد
         let _moonDateInRange = true;    // true عندما التاريخ ضمن [today-30, today+90]
         let _moonDateWasHijri = false;  // لإرسال 301 redirect إلى الصيغة الميلاديّة canonical
-        if (m[2]) {
-            let _dy = parseInt(m[2], 10);
-            let _dm = parseInt(m[3], 10);
-            let _dd = parseInt(m[4], 10);
+        if (_dyStr) {
+            let _dy = parseInt(_dyStr, 10);
+            let _dm = parseInt(_dmStr, 10);
+            let _dd = parseInt(_ddStr, 10);
             // إن كانت السنة < 1800 → تاريخ هجريّ، نحوّله إلى ميلاديّ
             if (_dy > 0 && _dy < 1800 && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
                 try {
@@ -3868,10 +3867,11 @@ function buildSeoForPath(urlPath) {
                 canonical = origin + p;
             }
             // ── Hijri URL → canonical يُشير دوماً إلى الصيغة الميلاديّة (SEO: duplicate content) ──
-            // الرابط الهجريّ (/moon-today-in-X/1447-10-03) هو نسخة إنسانيّة بديلة
+            // الرابط الهجريّ (/moon-in-X/1447-10-03) هو نسخة إنسانيّة بديلة
             // والميلاديّ هو المصدر الرئيسيّ. نوجِّه Google للنسخة الميلاديّة فقط.
+            // Round 15: صفحات التاريخ تحت /moon-in- (لا تحوي "today").
             if (_moonDateWasHijri && _moonDateIso && _moonDateInRange) {
-                const _gregCanonicalPath = '/moon-today-in-' + citySlug + '/' + _moonDateIso;
+                const _gregCanonicalPath = '/moon-in-' + citySlug + '/' + _moonDateIso;
                 canonical = origin + (lang === 'ar' ? '' : '/' + lang) + _gregCanonicalPath;
             }
             webApp = { name: title, url: canonical, category: 'UtilitiesApplication' };
@@ -7792,13 +7792,14 @@ const server = http.createServer(async (req, res) => {
                 const baseSlug = _moonBase(slug);
                 if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
                     entries.push(...bilingualUrl('/moon-today-in-' + baseSlug, '0.6', 'weekly', today));
-                    // صفحات تاريخ محدَّد: 30 يومًا مستقبليّة بخطوة 3 أيّام = 10 URL لكلّ مدينة
+                    // Round 15: صفحات تاريخ محدَّد تحت /moon-in- (بدل /moon-today-in-).
+                    // 30 يومًا مستقبليّة بخطوة 3 أيّام = 10 URL لكلّ مدينة.
                     // × hreflang×10 = 100 entry/مدينة. للمدن الشهيرة فقط لتوفير crawl budget.
                     const _todayDate = new Date();
                     for (let offset = 0; offset <= 90; offset += 3) {
                         const d = new Date(_todayDate); d.setDate(d.getDate() + offset);
                         const iso = d.toISOString().slice(0, 10);
-                        entries.push(...bilingualUrl('/moon-today-in-' + baseSlug + '/' + iso, '0.4', 'daily', iso));
+                        entries.push(...bilingualUrl('/moon-in-' + baseSlug + '/' + iso, '0.4', 'daily', iso));
                     }
                 }
             }
@@ -7854,7 +7855,9 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
+        // Round 15: فصل الـ URLs — /moon-today-in-{slug} للـ today، /moon-in-{slug}/{date} للصفحات المؤرَّخة
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -7867,21 +7870,32 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
-        // Round 9 + Round 12: فحص slug لـ /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}].
-        // قواعد:
+        // Round 9 + Round 12 + Round 15: فحص slug لصفحات القمر.
+        // Round 15 فصل الهيكل:
+        //   _MTroute → /moon-today-in-{slug}[-{lat}-{lng}]           (today only)
+        //   _MDroute → /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}    (dated)
+        // قواعد موحَّدة للنمطَين:
         //  - إن كانت المدينة في الـ DB وجاءت مع coord-suffix → 301 إلى الرابط القصير (canonical).
         //  - إن لم تكن في الـ DB وجاءت بلا coord-suffix → 404 "city not found".
         //  - إن لم تكن في الـ DB وجاءت مع coord-suffix → مرّر كـ noindex صفحة (العميل عرّف الإحداثيّات).
-        const _moonCityMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/(\d{4})-(\d{2})-(\d{2}))?$/);
+        const _MTroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        const _MDroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
+        const _moonCityMatch = _MTroute || _MDroute;
         if (_moonCityMatch) {
             const _moonLangPrefix = _moonCityMatch[1] || '';
             const _moonSlug = _moonCityMatch[2];
             const _moonHasCoord = (_moonCityMatch[3] != null && _moonCityMatch[4] != null);
-            const _moonDatePath = _moonCityMatch[5] ? ('/' + _moonCityMatch[5] + '-' + _moonCityMatch[6] + '-' + _moonCityMatch[7]) : '';
+            // التاريخ موجود فقط في _MDroute في المواضع 5/6/7.
+            const _dyRt = (_MDroute && _moonCityMatch[5]) ? _moonCityMatch[5] : null;
+            const _dmRt = (_MDroute && _moonCityMatch[6]) ? _moonCityMatch[6] : null;
+            const _ddRt = (_MDroute && _moonCityMatch[7]) ? _moonCityMatch[7] : null;
             const _moonInDb = !!_resolveCityForMoon(_moonSlug);
-            // 1) المدينة في DB + coord-suffix → 301 إلى الشكل القصير
+            // 1) المدينة في DB + coord-suffix → 301 إلى الشكل القصير (يحترم فصل الـ URLs الجديد)
             if (_moonInDb && _moonHasCoord) {
-                const _canonicalPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug + _moonDatePath;
+                // today → /moon-today-in-{slug}، dated → /moon-in-{slug}/{date}
+                const _canonicalPath = _dyRt
+                    ? ('/' + _moonLangPrefix + 'moon-in-' + _moonSlug + '/' + _dyRt + '-' + _dmRt + '-' + _ddRt)
+                    : ('/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug);
                 res.writeHead(301, { 'Location': _canonicalPath });
                 res.end();
                 return;
@@ -7893,10 +7907,10 @@ const server = http.createServer(async (req, res) => {
                 return;
             }
             // 3) إن كان لدينا تاريخ، فحص صحّته التقويميّة
-            if (_moonCityMatch[5]) {
-                const _dy = parseInt(_moonCityMatch[5], 10);
-                const _dm = parseInt(_moonCityMatch[6], 10);
-                const _dd = parseInt(_moonCityMatch[7], 10);
+            if (_dyRt) {
+                const _dy = parseInt(_dyRt, 10);
+                const _dm = parseInt(_dmRt, 10);
+                const _dd = parseInt(_ddRt, 10);
                 if (_dm < 1 || _dm > 12 || _dd < 1 || _dd > 31) {
                     res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
                     res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Invalid date</h1>');
@@ -7915,6 +7929,21 @@ const server = http.createServer(async (req, res) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
             serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
         });
+        return;
+    }
+
+    // ===== Round 15: 404 صريح لصيغ URLs غير مدعومة في الهيكل الجديد =====
+    //   - /moon-today-in-{slug}/{date}  → 404 (الصيغة القديمة قبل clean-slate)
+    //   - /moon-in-{slug}                → 404 (بلا تاريخ؛ خارج النطاق حاليّاً)
+    // هذه الحماية تمنع SPA fallback عند 8300 من تسليم index.html لصفحات لا تقبلها الهيكل.
+    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/.test(urlPath)) {
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Date pages are under <code>/moon-in-{city}/{date}</code> — not <code>/moon-today-in-</code>.</p>');
+        return;
+    }
+    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/.test(urlPath)) {
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Out of scope — use <code>/moon-today-in-{city}</code> for today or <code>/moon-in-{city}/{date}</code> for a specific date.</p>');
         return;
     }
 

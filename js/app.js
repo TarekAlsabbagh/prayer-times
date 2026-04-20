@@ -6739,20 +6739,25 @@ const FAMOUS_MOON_CITIES = {
 };
 
 function _moonCitySlugFromPath() {
-    // يقبل الصيغ التالية:
-    //   /moon-today-in-{slug}
-    //   /moon-today-in-{slug}/YYYY-MM-DD
-    //   /moon-today-in-{slug}-{lat}-{lng}           (Round 12: مدن خارج DB)
-    //   /moon-today-in-{slug}-{lat}-{lng}/YYYY-MM-DD
+    // Round 15: فصل الـ URLs — نحاول today ثمّ dated.
+    //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم
+    //   /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM-DD          → صفحة مؤرَّخة
     // نُرجِع slug فقط — الإحداثيّات تُقرأ عبر _moonCoordsFromPath().
-    const m = window.location.pathname.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/);
+    const p = window.location.pathname;
+    let m = p.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+    if (m) return m[1];
+    m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/);
     return m ? m[1] : null;
 }
 
 // Round 12: إحداثيّات المدينة من الـ URL إن كانت coord-suffix موجودة.
-// يُرجِع {lat, lng} أو null.
+// Round 15: ندعم الشكلَين (today + dated). يُرجِع {lat, lng} أو null.
 function _moonCoordsFromPath() {
-    const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)(?:\/\d{4}-\d{2}-\d{2})?$/);
+    const p = window.location.pathname;
+    let m = p.match(/\/moon-today-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+    if (!m) {
+        m = p.match(/\/moon-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)\/\d{4}-\d{2}-\d{2}$/);
+    }
     if (!m) return null;
     const lat = parseFloat(m[1]);
     const lng = parseFloat(m[2]);
@@ -6762,12 +6767,13 @@ function _moonCoordsFromPath() {
 }
 
 // يستخرج التاريخ الـ ISO من المسار (إن وُجد)، ويُرجِع Date صالحاً أو null
-//   مثال ميلاديّ: /moon-today-in-mecca/2026-04-19 → Date(2026, 3, 19)
-//   مثال هجريّ:  /moon-today-in-mecca/1447-10-03 → يُحوَّل إلى Date ميلاديّ المكافئ
+//   مثال ميلاديّ: /moon-in-mecca/2026-04-19 → Date(2026, 3, 19)
+//   مثال هجريّ:  /moon-in-mecca/1447-10-03 → يُحوَّل إلى Date ميلاديّ المكافئ
 //   heuristic: السنوات < 1800 تُعامَل هجريّة (لا تداخل مع سنوات ميلاديّة مستعملة).
 //   الـ Date يعود في منتصف النهار (12:00) لتجنّب حدود DST.
+//   Round 15: التاريخ موجود فقط تحت /moon-in- (ليس /moon-today-in-).
 function _moonDateFromPath() {
-    const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+\/(\d{4})-(\d{2})-(\d{2})$/);
+    const m = window.location.pathname.match(/\/moon-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
     if (!m) return null;
     const y = parseInt(m[1], 10);
     const mo = parseInt(m[2], 10);
@@ -6796,12 +6802,15 @@ function _isoDateStr(d) {
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 }
 
-// ينتج رابط صفحة moon-today-in-{slug}/{iso} مع الحفاظ على بادئة اللغة
+// Round 15: ينتج رابط صفحة القمر — today أو dated:
+//   بدون تاريخ → /moon-today-in-{slug}         (صفحة اليوم)
+//   مع تاريخ   → /moon-in-{slug}/{iso}         (صفحة مؤرَّخة)
+// يحافظ على بادئة اللغة الحاليّة.
 function _moonDatePagePath(slug, dateOrNull) {
     const path = window.location.pathname;
     const langMatch = path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
     const prefix = langMatch ? '/' + langMatch[1] : '';
-    const base = prefix + '/moon-today-in-' + slug;
+    const base = prefix + (dateOrNull ? '/moon-in-' : '/moon-today-in-') + slug;
     return dateOrNull ? (base + '/' + _isoDateStr(dateOrNull)) : base;
 }
 
@@ -6981,8 +6990,9 @@ function _moonCityLabel(slug, lang, cityFallback) {
 
 // يحدِّد ما إذا كان الجزء التاريخيّ في الـ URL بصيغة هجريّة (السنة < 1800)
 // يعود {isHijri: boolean, hYear, hMonth, hDay, gYear, gMonth, gDay} أو null إن لا تاريخ
+// Round 15: التاريخ موجود فقط تحت /moon-in- (ليس /moon-today-in-)، ويدعم coord-suffix.
 function _moonDateKindFromPath() {
-    const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+\/(\d{4})-(\d{2})-(\d{2})$/);
+    const m = window.location.pathname.match(/\/moon-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
     if (!m) return null;
     const y = parseInt(m[1], 10);
     const mo = parseInt(m[2], 10);
@@ -7520,8 +7530,8 @@ function updateMoonInfo() {
             const yy = dp.y;
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
 
-            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — الرابط يفتح نفس صفحة
-            // moon-today-in-{city} لكن بتاريخ هجريّ (HYYYY-HMM-HDD) بدل الميلاديّ.
+            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — الرابط يفتح صفحة
+            // moon-in-{city}/{HYYYY-HMM-HDD} (Round 15: صفحات التاريخ تحت /moon-in-).
             let hijriCell = '<td class="fc-hijri-cell">—</td>';
             try {
                 if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
@@ -7530,7 +7540,7 @@ function updateMoonInfo() {
                     const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
                     if (_citySlug) {
                         const _hIso = hj.year + '-' + _pad2(hj.month) + '-' + _pad2(hj.day);
-                        const _hHref = _langPrefixFC + '/moon-today-in-' + _citySlug + '/' + _hIso;
+                        const _hHref = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _hIso;
                         hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHref)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">📿</span> ${_escHtml(hijriText)}</a></td>`;
                     } else {
                         hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">📿</span> ${_escHtml(hijriText)}</td>`;
@@ -7545,7 +7555,8 @@ function updateMoonInfo() {
             const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
             if (_citySlug) {
                 const _iso = _fcIso(dp, row.date);
-                const _href = _langPrefixFC + '/moon-today-in-' + _citySlug + '/' + _iso;
+                // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
+                const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _iso;
                 dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
                 ctaCell = `<td class="fc-cta-cell"><a class="fc-cta-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_ctaTxt + ' — ' + _dayText)}"><span class="fc-cta-text">${_escHtml(_ctaTxt)}</span><span class="fc-cta-arrow" aria-hidden="true">›</span></a></td>`;
                 rowClass = ' class="fc-row-clickable"';
@@ -7715,7 +7726,8 @@ function updateMoonInfo() {
         };
         const _eventHref = (d) => {
             if (!d || !_citySlug) return null;
-            return _langPrefixLD + '/moon-today-in-' + _citySlug + '/' + _isoOf(d);
+            // Round 15: روابط أحداث القمر (بدر/محاق) لتاريخ محدَّد → /moon-in-.
+            return _langPrefixLD + '/moon-in-' + _citySlug + '/' + _isoOf(d);
         };
 
         // 2) Quick Highlights box (BOND 6 + 8): البدر التالي + المحاق التالي + تقييم الرؤية بالنجوم

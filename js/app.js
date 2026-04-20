@@ -7202,64 +7202,13 @@ function updateMoonInfo() {
             }
         }
 
-        // 3) QUICK STATS — rise / set / distance with EMPTY STATES + DISTANCE INTERPRETATION
-        // Helper to read a translation key and gracefully fallback when key missing
-        const _tOrFb = (key, fallback) => {
-            if (typeof t !== 'function') return fallback;
-            const v = t(key);
-            return (v && v !== key) ? v : fallback;
-        };
-
-        // Rise: if MoonCalc returns '--:--', show "Doesn't rise today" (localized)
-        const _riseRaw = moonTimes && moonTimes.rise ? moonTimes.rise : '—';
-        const _riseDisplay = (_riseRaw === '--:--')
-            ? _tOrFb('moon.live.no_rise_today', 'Doesn\u2019t rise today')
-            : _riseRaw;
-        _setText('moon-stat-rise', _riseDisplay);
-
-        // Set: same empty-state handling
-        const _setRaw = moonTimes && moonTimes.set ? moonTimes.set : '—';
-        const _setDisplay = (_setRaw === '--:--')
-            ? _tOrFb('moon.live.no_set_today', 'Doesn\u2019t set today')
-            : _setRaw;
-        _setText('moon-stat-set', _setDisplay);
-
-        // Distance: format as km + classify as close/average/far
+        // 3) QUICK STATS — rise / set / distance
+        _setText('moon-stat-rise', moonTimes && moonTimes.rise ? moonTimes.rise : '—');
+        _setText('moon-stat-set',  moonTimes && moonTimes.set  ? moonTimes.set  : '—');
         if (_distKm != null) {
-            const _kmLabel = _tOrFb('moon.live.km_unit', 'km');
+            const _kmUnit = (typeof t === 'function') ? t('moon.live.km_unit') : 'km';
+            const _kmLabel = (_kmUnit && _kmUnit !== 'moon.live.km_unit') ? _kmUnit : 'km';
             _setText('moon-stat-distance', _fmtNum(Math.round(_distKm), 0) + ' ' + _kmLabel);
-            // Earth-Moon distance varies ~356,500 km (perigee) to ~406,700 km (apogee), mean ~384,400 km.
-            // Classify: <370k = close, <395k = average, else far
-            let _distBucket = 'distance_average';
-            if (_distKm < 370000) _distBucket = 'distance_close';
-            else if (_distKm > 395000) _distBucket = 'distance_far';
-            const _distContextLabel = _tOrFb('moon.live.' + _distBucket, _distBucket.replace('distance_', ''));
-            _setText('moon-stat-distance-context', '(' + _distContextLabel + ')');
-        }
-
-        // 4) CTA LINKS — tomorrow's date page + week forecast anchor
-        if (_citySlug) {
-            const _tomorrow = new Date();
-            _tomorrow.setDate(_tomorrow.getDate() + 1);
-            const _tomorrowIso = _isoOf(_tomorrow);
-            const _ctaTomorrowEl = document.getElementById('moon-cta-tomorrow');
-            if (_ctaTomorrowEl) {
-                _ctaTomorrowEl.setAttribute('href', _langPrefixLD + '/moon-today-in-' + _citySlug + '/' + _tomorrowIso);
-                // Replace {city} placeholder in label with actual city name
-                const _ctaTpl = _tOrFb('moon.live.cta_tomorrow', '🌙 Moon Status Tomorrow in {city}');
-                _ctaTomorrowEl.textContent = _ctaTpl.replace('{city}', _cityDisplay || '');
-            }
-            const _ctaWeekEl = document.getElementById('moon-cta-week');
-            if (_ctaWeekEl) {
-                // Week forecast lives in the existing 14-day forecast section on the moon page
-                _ctaWeekEl.setAttribute('href', _langPrefixLD + '/moon-today-in-' + _citySlug + '#moon-forecast');
-            }
-        } else {
-            // No city → hide CTA links entirely
-            const _ctaTomorrowEl = document.getElementById('moon-cta-tomorrow');
-            if (_ctaTomorrowEl) _ctaTomorrowEl.style.display = 'none';
-            const _ctaWeekEl = document.getElementById('moon-cta-week');
-            if (_ctaWeekEl) _ctaWeekEl.style.display = 'none';
         }
     } catch (_err) {
         // فشل هادئ — تبقى الإجابات الافتراضيّة ظاهرة

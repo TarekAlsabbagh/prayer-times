@@ -1501,23 +1501,17 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 108px;
-    height: 108px;
+    width: 84px;
+    height: 84px;
     background: var(--card-bg);
     border-radius: 50%;
-    box-shadow: 0 4px 18px rgba(26,107,60,0.18), 0 0 32px rgba(255,224,130,0.08);
-    border: 2px solid rgba(26,107,60,0.22);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+    border: 2px solid rgba(26,107,60,0.18);
     flex-shrink: 0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.moon-hero-icon-wrap:hover {
-    transform: scale(1.04);
-    box-shadow: 0 6px 22px rgba(26,107,60,0.22), 0 0 42px rgba(255,224,130,0.14);
 }
 .moon-hero-icon {
-    font-size: 4.2rem;
+    font-size: 3.2rem;
     line-height: 1;
-    filter: drop-shadow(0 0 6px rgba(255,238,180,0.25));
 }
 .moon-hero-info {
     display: flex;
@@ -1562,38 +1556,18 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     color: var(--text-light);
     font-weight: 500;
 }
-.moon-hero-progress-wrap {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.moon-hero-progress-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--text-light);
-    letter-spacing: 0.2px;
-}
 .moon-hero-progress {
     height: 7px;
     background: rgba(26,107,60,0.12);
     border-radius: 4px;
     overflow: hidden;
+    margin-top: 10px;
 }
 .moon-hero-progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--primary-light), var(--primary));
     border-radius: 4px;
     transition: width 0.6s ease;
-    box-shadow: 0 0 8px rgba(26,107,60,0.25) inset;
-}
-
-/* ----- Subtitle below H2 ----- */
-.moon-live-subtitle {
-    margin: -4px 0 16px;
-    font-size: 0.92rem;
-    color: var(--text-light);
-    line-height: 1.5;
 }
 
 /* ----- 2) Events Grid: Next Full + Next New Moon ----- */
@@ -1658,16 +1632,15 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     margin-top: 2px;
 }
 
-/* ----- 3) Quick Stats: Rise / Set / Distance (grouped, no accordion) ----- */
+/* ----- 3) Quick Stats: Rise / Set / Distance (no accordion) ----- */
 .moon-quick-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr 1.2fr;
-    gap: 6px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
     background: rgba(0,0,0,0.025);
     border: 1px solid rgba(0,0,0,0.04);
     border-radius: 10px;
     padding: 12px;
-    margin-bottom: 14px;
 }
 .moon-stat {
     display: flex;
@@ -1676,13 +1649,6 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     text-align: center;
     gap: 2px;
     padding: 6px 4px;
-    transition: background 0.2s ease;
-    border-radius: 8px;
-}
-.moon-stat:hover { background: rgba(26,107,60,0.05); }
-/* Visual separator: a thin vertical divider between Times group (rise+set) and Extra group (distance) */
-.moon-stat-times + .moon-stat-extra {
-    border-inline-start: 1px solid rgba(0,0,0,0.08);
 }
 .moon-stat-icon {
     font-size: 1.5rem;
@@ -1701,42 +1667,6 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     line-height: 1.25;
     margin-top: 1px;
 }
-.moon-stat-context {
-    font-size: 0.7rem;
-    color: var(--primary);
-    font-weight: 600;
-    margin-top: 2px;
-    font-style: italic;
-}
-
-/* ----- 4) CTA Links: tomorrow + week forecast (Flow continuation) ----- */
-.moon-cta-links {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 4px;
-}
-.moon-cta-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 12px 14px;
-    background: linear-gradient(135deg, rgba(26,107,60,0.08), rgba(45,143,84,0.04));
-    border: 1px solid rgba(26,107,60,0.18);
-    border-radius: 10px;
-    color: var(--primary-dark);
-    font-weight: 600;
-    font-size: 0.92rem;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
-.moon-cta-link:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, rgba(26,107,60,0.16), rgba(45,143,84,0.08));
-    border-color: rgba(26,107,60,0.35);
-    box-shadow: 0 4px 14px rgba(26,107,60,0.10);
-}
 
 /* ----- Mobile responsive ----- */
 @media (max-width: 600px) {
@@ -1748,16 +1678,15 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     }
     .moon-hero-icon-wrap {
         margin: 0 auto;
-        width: 92px;
-        height: 92px;
+        width: 76px;
+        height: 76px;
     }
-    .moon-hero-icon { font-size: 3.5rem; }
+    .moon-hero-icon { font-size: 2.8rem; }
     .moon-hero-stats {
         justify-content: center;
         gap: 16px;
     }
     .moon-hero-phase { font-size: 1.35rem; }
-    .moon-live-subtitle { font-size: 0.85rem; }
     .moon-events-grid {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -1771,15 +1700,6 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     .moon-stat-value { font-size: 0.95rem; }
     .moon-stat-label { font-size: 0.72rem; }
     .moon-stat-icon { font-size: 1.35rem; }
-    .moon-stat-context { font-size: 0.66rem; }
-    .moon-cta-links {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    .moon-cta-link {
-        padding: 10px 12px;
-        font-size: 0.86rem;
-    }
 }
 .moon-evergreen h3 {
     font-size: 1.08rem;

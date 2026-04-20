@@ -1388,6 +1388,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (تويتر): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>يوتيوب: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>لينكد إن: Times Prayers</strong></a></li>
 </ul>`,
         en: `<h1>Contact Us</h1>
 <p>We are pleased to hear from you. Whether you have a question, suggestion, or report about inaccurate prayer times in your city, our team is ready to listen.</p>
@@ -1420,6 +1421,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         fr: `<h1>Contact</h1>
 <p>Nous sommes heureux de vous lire. Que vous ayez une question, une suggestion ou un signalement concernant des heures de prière inexactes dans votre ville, notre équipe est prête à vous écouter.</p>
@@ -1452,6 +1454,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter) : @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube : @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn : Times Prayers</strong></a></li>
 </ul>`,
         tr: `<h1>İletişim</h1>
 <p>Sizden haber almak bizi mutlu eder. Bir sorunuz, öneriniz veya şehrinizdeki yanlış namaz vakitleri hakkında bildiriminiz olsun, ekibimiz sizi dinlemeye hazırdır.</p>
@@ -1484,6 +1487,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         ur: `<h1>ہم سے رابطہ کریں</h1>
 <p>ہمیں آپ سے سن کر خوشی ہوگی۔ چاہے آپ کا کوئی سوال، تجویز، یا آپ کے شہر میں نماز کے غلط اوقات کے بارے میں رپورٹ ہو، ہماری ٹیم سننے کے لیے تیار ہے۔</p>
@@ -1516,6 +1520,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (ٹویٹر): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>یوٹیوب: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>لنکڈ ان: Times Prayers</strong></a></li>
 </ul>`,
         de: `<h1>Kontakt</h1>
 <p>Wir freuen uns, von Ihnen zu hören. Ob Sie eine Frage, einen Vorschlag oder eine Meldung zu ungenauen Gebetszeiten in Ihrer Stadt haben — unser Team steht bereit, Ihnen zuzuhören.</p>
@@ -1548,6 +1553,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         id: `<h1>Hubungi Kami</h1>
 <p>Kami senang mendengar dari Anda. Baik Anda memiliki pertanyaan, saran, atau laporan tentang jadwal sholat yang tidak akurat di kota Anda, tim kami siap mendengarkan.</p>
@@ -1580,6 +1586,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         es: `<h1>Contáctanos</h1>
 <p>Nos encanta saber de ti. Ya sea que tengas una pregunta, una sugerencia o un informe sobre un horario de oración inexacto en tu ciudad, nuestro equipo está listo para escucharte.</p>
@@ -1612,6 +1619,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         bn: `<h1>যোগাযোগ করুন</h1>
 <p>আমরা আপনার কাছ থেকে শুনতে ভালোবাসি। আপনার কোনো প্রশ্ন, পরামর্শ, বা আপনার শহরে ভুল নামাজের সময় সম্পর্কে রিপোর্ট থাকুক — আমাদের দল শুনতে প্রস্তুত।</p>
@@ -1644,6 +1652,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (টুইটার): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         ms: `<h1>Hubungi Kami</h1>
 <p>Kami gembira mendengar daripada anda. Sama ada anda mempunyai pertanyaan, cadangan atau laporan tentang waktu solat yang tidak tepat di bandar anda, pasukan kami sedia mendengar.</p>
@@ -1676,6 +1685,7 @@ const LEGAL_PAGES = {
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
 <li><a href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>YouTube: @TIMESPRAYESRS</strong></a></li>
+<li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`
     },
     'about-us': {
@@ -4138,7 +4148,8 @@ function renderSeoHeadHtml(seo) {
         "description": seo.description,
         "sameAs": [
             "https://x.com/TIMESPRAYESRS",
-            "https://www.youtube.com/@TIMESPRAYESRS"
+            "https://www.youtube.com/@TIMESPRAYESRS",
+            "https://www.linkedin.com/in/times-prayers-072861404"
         ]
     });
 
@@ -5152,7 +5163,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:',
                   wikiText:'الصلاة على ويكيبيديا ↗',
                   share:'🔗 شارك الموقع',
-                  follow:'📣 تابعنا', followX:'@TIMESPRAYESRS على X', followYT:'@TIMESPRAYESRS على يوتيوب',
+                  follow:'📣 تابعنا', followX:'@TIMESPRAYESRS على X', followYT:'@TIMESPRAYESRS على يوتيوب', followLI:'Times Prayers على لينكد إن',
                   l_hijri_today:'التاريخ الهجري اليوم', l_hijri_year:'التقويم الهجري 1447',
                   l_date_conv:'تحويل التاريخ', l_tasbih:'المسبحة الإلكترونية',
                   x:'تويتر/X', fb:'فيسبوك', wa:'واتساب', tg:'تلغرام' },
@@ -5161,7 +5172,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'Learn more about Salah in Islam from an encyclopedic source:',
                   wikiText:'Salah on Wikipedia ↗',
                   share:'🔗 Share This Site',
-                  follow:'📣 Follow Us', followX:'@TIMESPRAYESRS on X', followYT:'@TIMESPRAYESRS on YouTube',
+                  follow:'📣 Follow Us', followX:'@TIMESPRAYESRS on X', followYT:'@TIMESPRAYESRS on YouTube', followLI:'Times Prayers on LinkedIn',
                   l_hijri_today:"Today's Hijri Date", l_hijri_year:'Hijri Calendar 1447',
                   l_date_conv:'Date Converter', l_tasbih:'Digital Tasbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5170,7 +5181,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:"Apprenez-en plus sur la Salat en Islam à partir d'une source encyclopédique :",
                   wikiText:'Salat sur Wikipedia ↗',
                   share:'🔗 Partager ce site',
-                  follow:'📣 Suivez-nous', followX:'@TIMESPRAYESRS sur X', followYT:'@TIMESPRAYESRS sur YouTube',
+                  follow:'📣 Suivez-nous', followX:'@TIMESPRAYESRS sur X', followYT:'@TIMESPRAYESRS sur YouTube', followLI:'Times Prayers sur LinkedIn',
                   l_hijri_today:"Date Hijri d'aujourd'hui", l_hijri_year:'Calendrier Hijri 1447',
                   l_date_conv:'Convertisseur de date', l_tasbih:'Tasbih numérique',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5179,7 +5190,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'İslam\'da namaz hakkında ansiklopedik bir kaynaktan daha fazla bilgi edinin:',
                   wikiText:'Wikipedia\'da Namaz ↗',
                   share:'🔗 Bu siteyi paylaş',
-                  follow:'📣 Bizi takip edin', followX:'X\'te @TIMESPRAYESRS', followYT:'YouTube\'da @TIMESPRAYESRS',
+                  follow:'📣 Bizi takip edin', followX:'X\'te @TIMESPRAYESRS', followYT:'YouTube\'da @TIMESPRAYESRS', followLI:'LinkedIn\'de Times Prayers',
                   l_hijri_today:'Bugünün Hicri Tarihi', l_hijri_year:'Hicri Takvim 1447',
                   l_date_conv:'Tarih Dönüştürücü', l_tasbih:'Dijital Tesbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5188,7 +5199,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'اسلام میں نماز کے بارے میں ایک انسائیکلوپیڈیا ذریعہ سے مزید جانیں:',
                   wikiText:'نماز ویکیپیڈیا پر ↗',
                   share:'🔗 سائٹ شیئر کریں',
-                  follow:'📣 ہمیں فالو کریں', followX:'X پر @TIMESPRAYESRS', followYT:'یوٹیوب پر @TIMESPRAYESRS',
+                  follow:'📣 ہمیں فالو کریں', followX:'X پر @TIMESPRAYESRS', followYT:'یوٹیوب پر @TIMESPRAYESRS', followLI:'لنکڈ ان پر Times Prayers',
                   l_hijri_today:'آج کی ہجری تاریخ', l_hijri_year:'ہجری کیلنڈر 1447',
                   l_date_conv:'تاریخ کنورٹر', l_tasbih:'ڈیجیٹل تسبیح',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5197,7 +5208,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'Erfahren Sie mehr über das Gebet im Islam aus einer enzyklopädischen Quelle:',
                   wikiText:'Salah auf Wikipedia ↗',
                   share:'🔗 Diese Seite teilen',
-                  follow:'📣 Folgen Sie uns', followX:'@TIMESPRAYESRS auf X', followYT:'@TIMESPRAYESRS auf YouTube',
+                  follow:'📣 Folgen Sie uns', followX:'@TIMESPRAYESRS auf X', followYT:'@TIMESPRAYESRS auf YouTube', followLI:'Times Prayers auf LinkedIn',
                   l_hijri_today:'Heutiges Hidschri-Datum', l_hijri_year:'Hidschri-Kalender 1447',
                   l_date_conv:'Datumsumrechner', l_tasbih:'Digitale Tasbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5206,7 +5217,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'Pelajari lebih lanjut tentang sholat dalam Islam dari sumber ensiklopedia:',
                   wikiText:'Sholat di Wikipedia ↗',
                   share:'🔗 Bagikan situs ini',
-                  follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X', followYT:'@TIMESPRAYESRS di YouTube',
+                  follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X', followYT:'@TIMESPRAYESRS di YouTube', followLI:'Times Prayers di LinkedIn',
                   l_hijri_today:'Tanggal Hijriyah Hari Ini', l_hijri_year:'Kalender Hijriyah 1447',
                   l_date_conv:'Konverter Tanggal', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5215,7 +5226,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'Aprenda más sobre el Salah en el Islam desde una fuente enciclopédica:',
                   wikiText:'Salah en Wikipedia ↗',
                   share:'🔗 Compartir este sitio',
-                  follow:'📣 Síguenos', followX:'@TIMESPRAYESRS en X', followYT:'@TIMESPRAYESRS en YouTube',
+                  follow:'📣 Síguenos', followX:'@TIMESPRAYESRS en X', followYT:'@TIMESPRAYESRS en YouTube', followLI:'Times Prayers en LinkedIn',
                   l_hijri_today:'Fecha Hijri de Hoy', l_hijri_year:'Calendario Hijri 1447',
                   l_date_conv:'Conversor de Fechas', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5224,7 +5235,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'একটি বিশ্বকোষীয় উৎস থেকে ইসলামে সালাত সম্পর্কে আরও জানুন:',
                   wikiText:'উইকিপিডিয়ায় সালাত ↗',
                   share:'🔗 এই সাইট শেয়ার করুন',
-                  follow:'📣 আমাদের ফলো করুন', followX:'X-এ @TIMESPRAYESRS', followYT:'YouTube-এ @TIMESPRAYESRS',
+                  follow:'📣 আমাদের ফলো করুন', followX:'X-এ @TIMESPRAYESRS', followYT:'YouTube-এ @TIMESPRAYESRS', followLI:'LinkedIn-এ Times Prayers',
                   l_hijri_today:'আজকের হিজরি তারিখ', l_hijri_year:'হিজরি ক্যালেন্ডার 1447',
                   l_date_conv:'তারিখ রূপান্তরকারী', l_tasbih:'ডিজিটাল তাসবিহ',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5233,7 +5244,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                   refsText:'Ketahui lebih lanjut tentang solat dalam Islam daripada sumber ensiklopedia:',
                   wikiText:'Solat di Wikipedia ↗',
                   share:'🔗 Kongsi laman ini',
-                  follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X', followYT:'@TIMESPRAYESRS di YouTube',
+                  follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X', followYT:'@TIMESPRAYESRS di YouTube', followLI:'Times Prayers di LinkedIn',
                   l_hijri_today:'Tarikh Hijrah Hari Ini', l_hijri_year:'Kalendar Hijrah 1447',
                   l_date_conv:'Penukar Tarikh', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
@@ -5254,6 +5265,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 `<span data-i18n="footer.follow_x">${_escHtml(f.followX)}</span>`)
             .replace(/<span data-i18n="footer\.follow_yt">[^<]*<\/span>/,
                 `<span data-i18n="footer.follow_yt">${_escHtml(f.followYT)}</span>`)
+            .replace(/<span data-i18n="footer\.follow_li">[^<]*<\/span>/,
+                `<span data-i18n="footer.follow_li">${_escHtml(f.followLI)}</span>`)
             .replace(/<a href="\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
             .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
@@ -5273,25 +5286,25 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         // 5c-aria) SSR لـ aria-label لأزرار المشاركة + المتابعة + مجموعات الأزرار
         const shareAriaI18n = {
             ar: { grp:'مشاركة الموقع', x:'شارك عبر تويتر/X', fb:'شارك عبر فيسبوك', wa:'شارك عبر واتساب', tg:'شارك عبر تلغرام',
-                  followGrp:'تابعنا على الشبكات الاجتماعية', followX:'تابعنا على X (تويتر) @TIMESPRAYESRS', followYT:'تابعنا على يوتيوب @TIMESPRAYESRS' },
+                  followGrp:'تابعنا على الشبكات الاجتماعية', followX:'تابعنا على X (تويتر) @TIMESPRAYESRS', followYT:'تابعنا على يوتيوب @TIMESPRAYESRS', followLI:'تابعنا على لينكد إن Times Prayers' },
             en: { grp:'Share site', x:'Share on Twitter/X', fb:'Share on Facebook', wa:'Share on WhatsApp', tg:'Share on Telegram',
-                  followGrp:'Follow us on social media', followX:'Follow us on X (Twitter) @TIMESPRAYESRS', followYT:'Follow us on YouTube @TIMESPRAYESRS' },
+                  followGrp:'Follow us on social media', followX:'Follow us on X (Twitter) @TIMESPRAYESRS', followYT:'Follow us on YouTube @TIMESPRAYESRS', followLI:'Follow us on LinkedIn Times Prayers' },
             fr: { grp:'Partager le site', x:'Partager sur Twitter/X', fb:'Partager sur Facebook', wa:'Partager sur WhatsApp', tg:'Partager sur Telegram',
-                  followGrp:'Suivez-nous sur les réseaux sociaux', followX:'Suivez-nous sur X (Twitter) @TIMESPRAYESRS', followYT:'Suivez-nous sur YouTube @TIMESPRAYESRS' },
+                  followGrp:'Suivez-nous sur les réseaux sociaux', followX:'Suivez-nous sur X (Twitter) @TIMESPRAYESRS', followYT:'Suivez-nous sur YouTube @TIMESPRAYESRS', followLI:'Suivez-nous sur LinkedIn Times Prayers' },
             tr: { grp:'Siteyi paylaş', x:'Twitter/X\'te paylaş', fb:'Facebook\'ta paylaş', wa:'WhatsApp\'ta paylaş', tg:'Telegram\'da paylaş',
-                  followGrp:'Bizi sosyal medyada takip edin', followX:'X\'te @TIMESPRAYESRS takip edin', followYT:'YouTube\'da @TIMESPRAYESRS takip edin' },
+                  followGrp:'Bizi sosyal medyada takip edin', followX:'X\'te @TIMESPRAYESRS takip edin', followYT:'YouTube\'da @TIMESPRAYESRS takip edin', followLI:'LinkedIn\'de Times Prayers takip edin' },
             ur: { grp:'سائٹ شیئر کریں', x:'ٹویٹر/X پر شیئر کریں', fb:'فیس بک پر شیئر کریں', wa:'واٹس ایپ پر شیئر کریں', tg:'ٹیلیگرام پر شیئر کریں',
-                  followGrp:'سوشل میڈیا پر ہمیں فالو کریں', followX:'X پر @TIMESPRAYESRS کو فالو کریں', followYT:'یوٹیوب پر @TIMESPRAYESRS کو فالو کریں' },
+                  followGrp:'سوشل میڈیا پر ہمیں فالو کریں', followX:'X پر @TIMESPRAYESRS کو فالو کریں', followYT:'یوٹیوب پر @TIMESPRAYESRS کو فالو کریں', followLI:'لنکڈ ان پر Times Prayers کو فالو کریں' },
             de: { grp:'Seite teilen', x:'Auf Twitter/X teilen', fb:'Auf Facebook teilen', wa:'Auf WhatsApp teilen', tg:'Auf Telegram teilen',
-                  followGrp:'Folgen Sie uns in den sozialen Medien', followX:'Folgen Sie uns auf X (Twitter) @TIMESPRAYESRS', followYT:'Folgen Sie uns auf YouTube @TIMESPRAYESRS' },
+                  followGrp:'Folgen Sie uns in den sozialen Medien', followX:'Folgen Sie uns auf X (Twitter) @TIMESPRAYESRS', followYT:'Folgen Sie uns auf YouTube @TIMESPRAYESRS', followLI:'Folgen Sie uns auf LinkedIn Times Prayers' },
             id: { grp:'Bagikan situs', x:'Bagikan di Twitter/X', fb:'Bagikan di Facebook', wa:'Bagikan di WhatsApp', tg:'Bagikan di Telegram',
-                  followGrp:'Ikuti kami di media sosial', followX:'Ikuti kami di X (Twitter) @TIMESPRAYESRS', followYT:'Ikuti kami di YouTube @TIMESPRAYESRS' },
+                  followGrp:'Ikuti kami di media sosial', followX:'Ikuti kami di X (Twitter) @TIMESPRAYESRS', followYT:'Ikuti kami di YouTube @TIMESPRAYESRS', followLI:'Ikuti kami di LinkedIn Times Prayers' },
             es: { grp:'Compartir sitio', x:'Compartir en Twitter/X', fb:'Compartir en Facebook', wa:'Compartir en WhatsApp', tg:'Compartir en Telegram',
-                  followGrp:'Síguenos en redes sociales', followX:'Síguenos en X (Twitter) @TIMESPRAYESRS', followYT:'Síguenos en YouTube @TIMESPRAYESRS' },
+                  followGrp:'Síguenos en redes sociales', followX:'Síguenos en X (Twitter) @TIMESPRAYESRS', followYT:'Síguenos en YouTube @TIMESPRAYESRS', followLI:'Síguenos en LinkedIn Times Prayers' },
             bn: { grp:'সাইট শেয়ার করুন', x:'টুইটার/X-এ শেয়ার করুন', fb:'ফেসবুকে শেয়ার করুন', wa:'হোয়াটসঅ্যাপে শেয়ার করুন', tg:'টেলিগ্রামে শেয়ার করুন',
-                  followGrp:'সামাজিক মাধ্যমে আমাদের ফলো করুন', followX:'X-এ @TIMESPRAYESRS ফলো করুন', followYT:'YouTube-এ @TIMESPRAYESRS ফলো করুন' },
+                  followGrp:'সামাজিক মাধ্যমে আমাদের ফলো করুন', followX:'X-এ @TIMESPRAYESRS ফলো করুন', followYT:'YouTube-এ @TIMESPRAYESRS ফলো করুন', followLI:'LinkedIn-এ Times Prayers ফলো করুন' },
             ms: { grp:'Kongsi laman', x:'Kongsi di Twitter/X', fb:'Kongsi di Facebook', wa:'Kongsi di WhatsApp', tg:'Kongsi di Telegram',
-                  followGrp:'Ikuti kami di media sosial', followX:'Ikuti kami di X (Twitter) @TIMESPRAYESRS', followYT:'Ikuti kami di YouTube @TIMESPRAYESRS' },
+                  followGrp:'Ikuti kami di media sosial', followX:'Ikuti kami di X (Twitter) @TIMESPRAYESRS', followYT:'Ikuti kami di YouTube @TIMESPRAYESRS', followLI:'Ikuti kami di LinkedIn Times Prayers' },
         };
         const sa = shareAriaI18n[Lf] || shareAriaI18n.ar;
         html = html
@@ -5310,7 +5323,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             .replace(/<a class="home-follow-btn" id="follow-x"([^>]*?)aria-label="[^"]*"/,
                 `<a class="home-follow-btn" id="follow-x"$1aria-label="${_escHtml(sa.followX)}"`)
             .replace(/<a class="home-follow-btn" id="follow-yt"([^>]*?)aria-label="[^"]*"/,
-                `<a class="home-follow-btn" id="follow-yt"$1aria-label="${_escHtml(sa.followYT)}"`);
+                `<a class="home-follow-btn" id="follow-yt"$1aria-label="${_escHtml(sa.followYT)}"`)
+            .replace(/<a class="home-follow-btn" id="follow-li"([^>]*?)aria-label="[^"]*"/,
+                `<a class="home-follow-btn" id="follow-li"$1aria-label="${_escHtml(sa.followLI)}"`);
 
         // 5c-bis) SSR لـ popular-cities-grid (12 مدينة): ترجمة الاسم + prefix للّغة
         const popCityI18n = {

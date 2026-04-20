@@ -411,7 +411,7 @@
         ].join(';');
         container.appendChild(tooltip);
 
-        function _showTip(pt, cx, cy) {
+        function _showTip(pt, dot) {
             const dateTxt = _fullDateLabel(pt.date, lang);
             const illumTxt = _illumLabel(pt.pct, lang);
             const phaseTxt = (pt.phaseIcon || '') + (pt.phaseName ? ' ' + pt.phaseName : '');
@@ -419,13 +419,12 @@
                 '<div class="mct-date">' + _escHtml(dateTxt) + '</div>' +
                 '<div class="mct-illum">' + _escHtml(illumTxt) + '</div>' +
                 (phaseTxt.trim() ? '<div class="mct-phase">' + _escHtml(phaseTxt) + '</div>' : '');
-            // تحويل إحداثيّات SVG إلى pixels
-            const rect = container.getBoundingClientRect();
-            const svgRect = svg.getBoundingClientRect();
-            const scaleX = svgRect.width / 600;
-            const scaleY = svgRect.height / 220;
-            const px = (svgRect.left - rect.left) + cx * scaleX;
-            const py = (svgRect.top - rect.top) + cy * scaleY - 8;
+            // 🛠️ استخدم getBoundingClientRect للدائرة نفسها — يُراعي transforms
+            //    (RTL يقلب الـ SVG بـ scaleX(-1)، فالإحداثيّات الخام cx تكون معكوسة بصريًّا)
+            const ctrRect = container.getBoundingClientRect();
+            const dRect = dot.getBoundingClientRect();
+            const px = (dRect.left - ctrRect.left) + dRect.width / 2;
+            const py = (dRect.top  - ctrRect.top) - 6;
             tooltip.style.left = px + 'px';
             tooltip.style.top  = py + 'px';
             tooltip.style.opacity = '1';
@@ -446,10 +445,8 @@
         dots.forEach(function(dot) {
             const idx = parseInt(dot.getAttribute('data-idx'), 10);
             if (!(idx >= 0) || !points[idx]) return;
-            const cx = parseFloat(dot.getAttribute('cx'));
-            const cy = parseFloat(dot.getAttribute('cy'));
             const pt = points[idx];
-            function onEnter() { _showTip(pt, cx, cy); }
+            function onEnter() { _showTip(pt, dot); }
             dot.addEventListener('mouseenter', onEnter);
             dot.addEventListener('focus', onEnter);
             dot.addEventListener('mouseleave', _hideTip);

@@ -2137,9 +2137,253 @@ async function initApp() {
         } catch(_se) {}
     }
 
+    // ═══════════════ صفحات العدّ التنازليّ (رمضان، عيد الفطر، عيد الأضحى، رأس السنة الهجريّة) ═══════════════
+    const _CD_PAGES = {
+        'ramadan-countdown':        { id: 'ramadan',        pageId: 'page-ramadan-countdown',        hMonth: 9,  hDay: 1  },
+        'eid-al-fitr-countdown':    { id: 'eid-al-fitr',    pageId: 'page-eid-al-fitr-countdown',    hMonth: 10, hDay: 1  },
+        'eid-al-adha-countdown':    { id: 'eid-al-adha',    pageId: 'page-eid-al-adha-countdown',    hMonth: 12, hDay: 10 },
+        'hijri-new-year-countdown': { id: 'hijri-new-year', pageId: 'page-hijri-new-year-countdown', hMonth: 1,  hDay: 1  }
+    };
+    const _cdPathMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?([a-z-]+-countdown)$/);
+    const _cdPageKey = _cdPathMatch && _CD_PAGES[_cdPathMatch[1]] ? _cdPathMatch[1] : null;
+    if (_cdPageKey) {
+        const _cdCfg = _CD_PAGES[_cdPageKey];
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(_cdCfg.pageId)?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        try { _initCountdownPage(_cdCfg); } catch (_cdErr) { console.warn('[countdown]', _cdErr); }
+    }
+
+    /**
+     * تهيئة صفحة العدّ التنازليّ لمناسبة إسلاميّة.
+     * cfg = { id, pageId, hMonth, hDay }
+     */
+    function _initCountdownPage(cfg) {
+        if (typeof HijriDate === 'undefined' || !HijriDate) return;
+        const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _tt = (k, params) => {
+            try {
+                if (typeof t === 'function') {
+                    const tr = t(k, params);
+                    if (tr && tr !== k) return tr;
+                }
+            } catch (_) {}
+            return '';
+        };
+        const _hToday = HijriDate.getToday();
+        // HijriDate.toGregorian يُرجع {year, month, day} (month 1-based) — نحوّلها إلى Date حقيقيّ
+        const _toGreg = (y, m, d) => {
+            try {
+                const g = HijriDate.toGregorian(y, m, d);
+                if (!g) return null;
+                if (g instanceof Date) return g;
+                if (typeof g.year === 'number') {
+                    return new Date(g.year, (g.month || 1) - 1, g.day || 1);
+                }
+                return null;
+            } catch (_) { return null; }
+        };
+        const _startOfDay = (d) => { const x = new Date(d); x.setHours(0,0,0,0); return x; };
+        const _todayStart = _startOfDay(new Date());
+
+        // احسب تاريخ الحدث القادم — إن فات هذا العام هجريًّا، استخدم العام التالي
+        let _eventHYear = _hToday.year;
+        let _eventGreg = _toGreg(_eventHYear, cfg.hMonth, cfg.hDay);
+        if (_eventGreg && _startOfDay(_eventGreg) < _todayStart) {
+            _eventHYear += 1;
+            _eventGreg = _toGreg(_eventHYear, cfg.hMonth, cfg.hDay);
+        }
+        if (!_eventGreg) return;
+
+        // ── (أ) تحديث meta tags + document.title ──
+        const _titleKey = 'ramadan.meta_title'; // سنعمّمها لاحقاً للـ 4 صفحات
+        const _descKey = 'ramadan.meta_desc';
+        try {
+            const _title = _tt(_titleKey) || _tt('ramadan.h1') || document.title;
+            if (_title) document.title = _title;
+            let _metaDesc = document.querySelector('meta[name="description"]');
+            if (!_metaDesc) {
+                _metaDesc = document.createElement('meta');
+                _metaDesc.setAttribute('name', 'description');
+                document.head.appendChild(_metaDesc);
+            }
+            const _desc = _tt(_descKey) || _tt('ramadan.intro') || '';
+            if (_desc) _metaDesc.setAttribute('content', _desc);
+        } catch (_) {}
+
+        // ── (ب) قيم ثابتة من الـ event ──
+        const _fmtGreg = (d) => {
+            if (!d) return '—';
+            const day = d.getDate();
+            const mon = _tt('gmonth.' + (d.getMonth() + 1)) || (d.getMonth() + 1);
+            return day + ' ' + mon + ' ' + d.getFullYear();
+        };
+        const _setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+        const _P = cfg.id === 'ramadan' ? 'ram'
+                 : cfg.id === 'eid-al-fitr' ? 'fitr'
+                 : cfg.id === 'eid-al-adha' ? 'adha'
+                 : 'ny';
+
+        _setText(_P + '-hyear', _eventHYear);
+        _setText(_P + '-card-hy', _eventHYear);
+        _setText(_P + '-greg', _fmtGreg(_eventGreg));
+        _setText(_P + '-card-start', _fmtGreg(_eventGreg));
+
+        // ── (ج) بيانات الارتباط القمريّ ──
+        try {
+            if (typeof MoonCalc !== 'undefined' && MoonCalc) {
+                const now = new Date();
+                const illum = MoonCalc.getMoonIllumination(now);
+                const phase = MoonCalc.getPhaseName(now);
+                if (phase) {
+                    const phaseName = _tt(phase.key) || phase.name || phase.english || '';
+                    _setText(_P + '-current-phase', (phase.icon || '') + ' ' + phaseName);
+                }
+                _setText(_P + '-current-illum', (typeof illum === 'number') ? illum.toFixed(1) + '%' : '—');
+            }
+        } catch (_) {}
+
+        // ── (د) قسم "ما قبل" (يظهر لرمضان فقط بمنطقه الخاصّ) ──
+        if (cfg.id === 'ramadan') {
+            try {
+                const _curMonthKey = 'hmonth.' + _hToday.month;
+                const _curMonthName = _tt(_curMonthKey) || ('شهر ' + _hToday.month);
+                _setText('ram-pre-month', _curMonthName + ' ' + _hToday.year);
+                // أيّام متبقّية على نهاية شعبان (شهر 8)
+                if (typeof HijriDate.getDaysInHijriMonth === 'function') {
+                    if (_hToday.month === 8) {
+                        const totalShaban = HijriDate.getDaysInHijriMonth(_hToday.year, 8);
+                        _setText('ram-pre-shaban', (totalShaban - _hToday.day) + ' ' + (_tt('countdown.days_suffix') || 'يوم'));
+                    } else if (_hToday.month < 8) {
+                        _setText('ram-pre-shaban', _tt('ramadan.pre_shaban_not_yet') || 'لم يبدأ شعبان بعد');
+                    } else {
+                        _setText('ram-pre-shaban', _tt('ramadan.pre_shaban_passed') || 'انتهى شعبان');
+                    }
+                }
+                // قرب المحاق
+                if (typeof MoonCalc !== 'undefined' && MoonCalc.getMoonIllumination) {
+                    const illumNow = MoonCalc.getMoonIllumination(new Date());
+                    const nearNew = illumNow < 10;
+                    _setText('ram-pre-near-new', nearNew ? (_tt('ramadan.pre_yes') || 'نعم، نحن قريبون') : (_tt('ramadan.pre_no') || 'ليس بعد'));
+                }
+            } catch (_) {}
+        }
+
+        // ── (هـ) جدول السنوات القادمة (5 سنوات) ──
+        const _yearsTbody = document.getElementById(_P + '-years-tbody');
+        if (_yearsTbody) {
+            const rows = [];
+            for (let i = 0; i < 5; i++) {
+                const hy = _eventHYear + i;
+                const gd = _toGreg(hy, cfg.hMonth, cfg.hDay);
+                if (!gd) continue;
+                rows.push(
+                    '<tr>' +
+                        '<td>' + hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH') + '</td>' +
+                        '<td>' + gd.getFullYear() + '</td>' +
+                        '<td>' + _fmtGreg(gd) + '</td>' +
+                        '<td class="countdown-small-note">' + (_tt('ramadan.years_note_cell') || 'تقديريّ · يعتمد على الرؤية') + '</td>' +
+                    '</tr>'
+                );
+            }
+            _yearsTbody.innerHTML = rows.join('') || '<tr><td colspan="4" class="countdown-loading">—</td></tr>';
+        }
+
+        // ── (و) أسئلة FAQ ── (10 أسئلة)
+        const _faqList = document.getElementById(_P + '-faq-list');
+        if (_faqList && cfg.id === 'ramadan') {
+            const _daysLeft = Math.round((_startOfDay(_eventGreg) - _todayStart) / 86400000);
+            const _gregStr = _fmtGreg(_eventGreg);
+            const faqs = [
+                { q: _tt('ramadan.faq_q1') || 'كم باقي على رمضان؟',
+                  a: (_tt('ramadan.faq_a1', { n: _daysLeft }) || ('يتبقّى ' + _daysLeft + ' يومًا على بداية رمضان المتوقّعة.')) },
+                { q: _tt('ramadan.faq_q2') || 'متى يبدأ رمضان هذا العام؟',
+                  a: (_tt('ramadan.faq_a2', { date: _gregStr, hyear: _eventHYear }) || ('يبدأ رمضان ' + _eventHYear + ' هـ بتاريخ ' + _gregStr + ' تقديريًّا.')) },
+                { q: _tt('ramadan.faq_q3') || 'ما التاريخ الهجريّ لبداية رمضان؟',
+                  a: (_tt('ramadan.faq_a3', { hyear: _eventHYear }) || ('يوافق اليوم الأوّل من شهر رمضان ' + _eventHYear + ' هـ.')) },
+                { q: _tt('ramadan.faq_q4') || 'هل قد يختلف موعد رمضان بين الدول؟',
+                  a: _tt('ramadan.faq_a4') || 'نعم، قد يختلف يومًا واحدًا بين الدول حسب الرؤية المحلّيّة للهلال والجهة الشرعيّة المعتمدة.' },
+                { q: _tt('ramadan.faq_q5') || 'كيف يتمّ تحديد بداية رمضان؟',
+                  a: _tt('ramadan.faq_a5') || 'بثبوت رؤية هلال رمضان بعد غروب شمس اليوم 29 من شعبان، أو بإكمال شعبان 30 يومًا.' },
+                { q: _tt('ramadan.faq_q6') || 'ما علاقة رمضان برؤية الهلال؟',
+                  a: _tt('ramadan.faq_a6') || 'ترتبط بداية ونهاية رمضان فقهيًّا برؤية الهلال، لذا يختلف عن الحساب الفلكيّ أحيانًا بيوم واحد.' },
+                { q: _tt('ramadan.faq_q7') || 'هل التاريخ المعروض نهائيّ أم متوقّع؟',
+                  a: _tt('ramadan.faq_a7') || 'التاريخ المعروض هو تقدير فلكيّ حسابيّ، والإعلان الرسميّ النهائيّ يصدر عن الجهة الشرعيّة في كلّ بلد.' },
+                { q: _tt('ramadan.faq_q8') || 'متى تتمّ رؤية هلال رمضان عادة؟',
+                  a: _tt('ramadan.faq_a8') || 'عادةً ما يُتحرّى الهلال بعد غروب شمس اليوم 29 من شعبان في مناطق متعدّدة من العالم الإسلاميّ.' },
+                { q: _tt('ramadan.faq_q9') || 'هل يبدأ رمضان بعد المحاق مباشرة؟',
+                  a: _tt('ramadan.faq_a9') || 'لا، يبدأ رمضان عند رؤية الهلال بعد المحاق بحوالي 15-30 ساعة، وليس لحظة المحاق نفسه.' },
+                { q: _tt('ramadan.faq_q10') || 'لماذا يتغيّر موعد رمضان كلّ سنة ميلاديّة؟',
+                  a: _tt('ramadan.faq_a10') || 'لأنّ السنة الهجريّة القمريّة أقصر بحوالي 10-11 يومًا من الميلاديّة، فيتقدّم رمضان بنفس المقدار سنويًّا.' }
+            ];
+            _faqList.innerHTML = faqs.map(function(f) {
+                return '<details><summary>' + _escHtml(f.q) + '</summary><p>' + _escHtml(f.a) + '</p></details>';
+            }).join('');
+        }
+
+        // ── (ز) Countdown timer يحدّث كلّ ثانية ──
+        const _timerEl = document.getElementById(cfg.id === 'ramadan' ? 'ramadan-timer' :
+                                                 cfg.id === 'eid-al-fitr' ? 'fitr-timer' :
+                                                 cfg.id === 'eid-al-adha' ? 'adha-timer' :
+                                                 'ny-timer');
+        const _tick = () => {
+            const now = new Date();
+            let diff = _eventGreg.getTime() - now.getTime();
+            if (diff < 0) diff = 0;
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins = Math.floor((diff % 3600000) / 60000);
+            const secs = Math.floor((diff % 60000) / 1000);
+            _setText(_P + '-days', days);
+            _setText(_P + '-hours', String(hours).padStart(2, '0'));
+            _setText(_P + '-mins', String(mins).padStart(2, '0'));
+            _setText(_P + '-secs', String(secs).padStart(2, '0'));
+            _setText(_P + '-card-days', days + ' ' + (_tt('countdown.days_suffix') || 'يوم'));
+            if (_timerEl) {
+                _timerEl.classList.toggle('is-close', days > 0 && days <= 5);
+                _timerEl.classList.toggle('is-today', days === 0);
+            }
+        };
+        _tick();
+        setInterval(_tick, 1000);
+
+        // ── (ح) JSON-LD Schema ──
+        try {
+            const _schema = {
+                '@context': 'https://schema.org',
+                '@type': 'Event',
+                'name': _tt('ramadan.event_name') || 'رمضان',
+                'startDate': _eventGreg.toISOString().slice(0, 10),
+                'description': _tt('ramadan.intro') || '',
+                'eventAttendanceMode': 'https://schema.org/MixedEventAttendanceMode',
+                'eventStatus': 'https://schema.org/EventScheduled',
+                'location': {
+                    '@type': 'Place',
+                    'name': 'Worldwide',
+                    'address': 'Worldwide'
+                }
+            };
+            let _schemaEl = document.getElementById('countdown-schema');
+            if (!_schemaEl) {
+                _schemaEl = document.createElement('script');
+                _schemaEl.id = 'countdown-schema';
+                _schemaEl.type = 'application/ld+json';
+                document.head.appendChild(_schemaEl);
+            }
+            _schemaEl.textContent = JSON.stringify(_schema);
+        } catch (_) {}
+
+        function _escHtml(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+    }
+
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
     const _pageParam = new URLSearchParams(window.location.search).get('page');
-    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage && !_isDateConverterPage && !_isZakatPage && !_isMoonPage) {
+    if (_pageParam && !_isQiblaPage && !_isMsbahaPage && !_isHijriPage && !_isDateConverterPage && !_isZakatPage && !_isMoonPage && !_cdPageKey) {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }

@@ -1229,6 +1229,388 @@ html[dir="rtl"] .fc-cta-arrow { transform: scaleX(-1); }
     .moon-event-date { font-size: 0.76rem; }
 }
 
+/* ═════════════════ صفحات العدّ التنازليّ (رمضان/فطر/أضحى/سنة هجريّة) ═════════════════ */
+/* إظهار الصفحات المناسبة فقط على مسارها */
+html.countdown-page #page-ramadan-countdown,
+html.countdown-page #page-eid-al-fitr-countdown,
+html.countdown-page #page-eid-al-adha-countdown,
+html.countdown-page #page-hijri-new-year-countdown { display: none; }
+html.countdown-page.countdown-ramadan #page-ramadan-countdown,
+html.countdown-page.countdown-eid-al-fitr #page-eid-al-fitr-countdown,
+html.countdown-page.countdown-eid-al-adha #page-eid-al-adha-countdown,
+html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown { display: block; }
+
+/* على صفحة العدّ التنازليّ: إخفاء باقي عناصر الصفحة الرئيسيّة */
+html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
+
+/* ── (1) Hero: H1 + intro + timer ── */
+.countdown-page .countdown-hero {
+    text-align: center;
+    padding: 24px 20px;
+    background: linear-gradient(135deg, rgba(76,175,80,0.10), rgba(46,125,50,0.06));
+    border: 1px solid rgba(76,175,80,0.20);
+}
+.countdown-page .countdown-h1 {
+    font-size: 1.8rem;
+    margin: 0 0 10px;
+    color: var(--primary-dark, #2e7d32);
+    font-weight: 800;
+    line-height: 1.25;
+}
+.countdown-page .countdown-intro {
+    max-width: 640px;
+    margin: 0 auto 20px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-light, #5a5a5a);
+}
+.countdown-timer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 520px;
+    margin: 0 auto 20px;
+}
+.ct-cell {
+    background: var(--surface, #fff);
+    border: 1px solid rgba(76,175,80,0.22);
+    border-radius: 12px;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.ct-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-dark, #2e7d32);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+.ct-label {
+    font-size: 0.78rem;
+    color: var(--text-light, #5a5a5a);
+    font-weight: 500;
+}
+
+/* حالة قريبة (≤5 أيام): نبضة برتقاليّة + 🔥 */
+.countdown-timer.is-close .ct-cell {
+    border-color: rgba(255,152,0,0.55);
+    animation: cdSoonPulse 1.8s ease-in-out infinite;
+}
+.countdown-timer.is-close .ct-value { color: #e65100; }
+.countdown-timer.is-close::before {
+    content: '🔥';
+    display: block;
+    font-size: 1.4rem;
+    grid-column: 1 / -1;
+    margin-bottom: 2px;
+}
+@keyframes cdSoonPulse {
+    0%, 100% { box-shadow: 0 2px 6px rgba(255,152,0,0.08); }
+    50%      { box-shadow: 0 2px 14px rgba(255,152,0,0.35); }
+}
+/* يوم المناسبة */
+.countdown-timer.is-today .ct-cell { border-color: rgba(76,175,80,0.65); background: rgba(76,175,80,0.10); }
+.countdown-timer.is-today .ct-value { color: #1b5e20; }
+
+.countdown-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 520px;
+    margin: 0 auto;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+.countdown-meta .cm-key { color: var(--text-light, #5a5a5a); }
+.countdown-meta strong { color: var(--text, #222); }
+
+/* ── (2) Info cards grid ── */
+.countdown-info-cards h2,
+.countdown-notice h2,
+.countdown-lunar h2,
+.countdown-pre h2,
+.countdown-years h2,
+.countdown-cities h2,
+.countdown-faq h2,
+.countdown-info h2,
+.countdown-links h2 {
+    font-size: 1.15rem;
+    margin: 0 0 14px;
+    color: var(--primary-dark, #2e7d32);
+}
+.cic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+}
+.cic-card {
+    background: var(--bg-elevated, #f7f7f7);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+.cic-label {
+    font-size: 0.78rem;
+    color: var(--text-light, #5a5a5a);
+    font-weight: 500;
+}
+.cic-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text, #222);
+    line-height: 1.4;
+}
+
+/* ── (3) Notice box ── */
+.countdown-notice p {
+    background: rgba(255,236,179,0.25);
+    border-inline-start: 4px solid #ffb300;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── (4) Lunar link row ── */
+.countdown-lunar .lunar-illum { color: var(--text-light, #5a5a5a); }
+.countdown-links-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+.countdown-links-row a {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: var(--bg-elevated, #f7f7f7);
+    color: var(--primary-dark, #2e7d32);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border: 1px solid rgba(76,175,80,0.18);
+    transition: all 0.15s;
+}
+.countdown-links-row a:hover {
+    background: rgba(76,175,80,0.10);
+    border-color: rgba(76,175,80,0.45);
+}
+
+/* ── (5) Pre-section facts list ── */
+.countdown-facts {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.countdown-facts li {
+    padding: 10px 12px;
+    background: var(--bg-elevated, #f7f7f7);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+}
+.countdown-facts .cf-key { color: var(--text-light, #5a5a5a); }
+.countdown-facts strong { color: var(--primary-dark, #2e7d32); }
+.cd-inline-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--primary-dark, #2e7d32);
+    text-decoration: none;
+    font-weight: 500;
+}
+.cd-inline-link:hover { text-decoration: underline; }
+
+/* ── (6) Years table ── */
+.countdown-table-wrap {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+.countdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+.countdown-table th {
+    background: rgba(76,175,80,0.10);
+    color: var(--primary-dark, #2e7d32);
+    padding: 10px 12px;
+    text-align: start;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(76,175,80,0.2);
+}
+.countdown-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.countdown-table tbody tr:hover { background: rgba(76,175,80,0.05); }
+.countdown-table tbody tr:last-child td { border-bottom: none; }
+.countdown-loading { text-align: center; color: var(--text-light); padding: 20px; }
+.countdown-small-note {
+    font-size: 0.8rem;
+    color: var(--text-light, #5a5a5a);
+    margin: 10px 0 0;
+    text-align: center;
+}
+
+/* ── (7) Cities grid ── */
+.countdown-cities-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+}
+.countdown-cities-grid li a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--bg-elevated, #f7f7f7);
+    color: var(--text, #222);
+    text-decoration: none;
+    font-size: 0.92rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.15s;
+}
+.countdown-cities-grid li a:hover {
+    background: rgba(76,175,80,0.08);
+    transform: translateY(-1px);
+    border-color: rgba(76,175,80,0.25);
+}
+.countdown-cities-grid .cg-flag { font-size: 1.15rem; line-height: 1; }
+
+/* ── (8) FAQ accordion ── */
+.countdown-faq-list { display: flex; flex-direction: column; gap: 8px; }
+.countdown-faq-list details {
+    background: var(--bg-elevated, #f7f7f7);
+    border-radius: 8px;
+    padding: 2px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.countdown-faq-list summary {
+    cursor: pointer;
+    padding: 12px 14px;
+    font-weight: 600;
+    color: var(--text, #222);
+    font-size: 0.95rem;
+    list-style: none;
+    position: relative;
+}
+.countdown-faq-list summary::-webkit-details-marker { display: none; }
+.countdown-faq-list summary::after {
+    content: '+';
+    position: absolute;
+    inset-inline-end: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--primary-dark, #2e7d32);
+    font-weight: 400;
+}
+.countdown-faq-list details[open] summary::after { content: '−'; }
+.countdown-faq-list details > :not(summary) {
+    padding: 0 14px 14px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-light, #5a5a5a);
+    margin: 0;
+}
+
+/* ── (9) Static info content ── */
+.countdown-info h3 {
+    font-size: 1rem;
+    margin: 14px 0 6px;
+    color: var(--primary-dark, #2e7d32);
+}
+.countdown-info h3:first-of-type { margin-top: 0; }
+.countdown-info p {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    margin: 0 0 8px;
+    color: var(--text, #222);
+}
+
+/* ── (10) Internal links ── */
+.countdown-links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 6px;
+}
+.countdown-links-list li a {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--bg-elevated, #f7f7f7);
+    color: var(--primary-dark, #2e7d32);
+    text-decoration: none;
+    font-size: 0.92rem;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+}
+.countdown-links-list li a:hover {
+    background: rgba(76,175,80,0.08);
+    border-color: rgba(76,175,80,0.25);
+}
+
+/* ── Dark mode tweaks ── */
+@media (prefers-color-scheme: dark) {
+    .countdown-page .countdown-hero {
+        background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(46,125,50,0.08));
+        border-color: rgba(76,175,80,0.35);
+    }
+    .countdown-page .countdown-h1 { color: #81c784; }
+    .ct-cell { background: #1e1f24; border-color: rgba(76,175,80,0.3); }
+    .ct-value { color: #a5d6a7; }
+    .cic-card { background: #252630; border-color: rgba(255,255,255,0.06); }
+    .countdown-notice p { background: rgba(255,167,38,0.12); border-inline-start-color: #ffa726; }
+    .countdown-facts li { background: #252630; }
+    .countdown-table th { background: rgba(76,175,80,0.15); color: #81c784; }
+    .countdown-cities-grid li a,
+    .countdown-links-list li a,
+    .countdown-links-row a,
+    .countdown-faq-list details { background: #252630; border-color: rgba(255,255,255,0.06); color: #e0e0e0; }
+    .countdown-faq-list summary { color: #f0f0f0; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .countdown-page .countdown-h1 { font-size: 1.35rem; }
+    .countdown-page .countdown-intro { font-size: 0.88rem; }
+    .countdown-timer { gap: 6px; }
+    .ct-cell { padding: 12px 4px; }
+    .ct-value { font-size: 1.5rem; }
+    .ct-label { font-size: 0.7rem; }
+    .cic-grid { grid-template-columns: repeat(2, 1fr); }
+    .countdown-table { font-size: 0.82rem; }
+    .countdown-table th, .countdown-table td { padding: 8px 6px; }
+    .countdown-cities-grid { grid-template-columns: 1fr; }
+    .countdown-links-row { flex-direction: column; }
+    .countdown-links-row a { text-align: center; }
+}
+/* ═════════════════ /صفحات العدّ التنازليّ ═════════════════ */
+
 /* ═══ Sticky Mini Bar (BOND 7): يظهر عند التمرير، يعرض الطور والإضاءة ═══ */
 .moon-sticky-bar {
     position: fixed;

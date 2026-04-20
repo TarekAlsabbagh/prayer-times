@@ -2139,10 +2139,10 @@ async function initApp() {
 
     // ═══════════════ صفحات العدّ التنازليّ (رمضان، عيد الفطر، عيد الأضحى، رأس السنة الهجريّة) ═══════════════
     const _CD_PAGES = {
-        'ramadan-countdown':        { id: 'ramadan',        pageId: 'page-ramadan-countdown',        hMonth: 9,  hDay: 1  },
-        'eid-al-fitr-countdown':    { id: 'eid-al-fitr',    pageId: 'page-eid-al-fitr-countdown',    hMonth: 10, hDay: 1  },
-        'eid-al-adha-countdown':    { id: 'eid-al-adha',    pageId: 'page-eid-al-adha-countdown',    hMonth: 12, hDay: 10 },
-        'hijri-new-year-countdown': { id: 'hijri-new-year', pageId: 'page-hijri-new-year-countdown', hMonth: 1,  hDay: 1  }
+        'ramadan-countdown':        { id: 'ramadan',        keyPrefix: 'ramadan',   pageId: 'page-ramadan-countdown',        hMonth: 9,  hDay: 1  },
+        'eid-al-fitr-countdown':    { id: 'eid-al-fitr',    keyPrefix: 'eid_fitr',  pageId: 'page-eid-al-fitr-countdown',    hMonth: 10, hDay: 1  },
+        'eid-al-adha-countdown':    { id: 'eid-al-adha',    keyPrefix: 'eid_adha',  pageId: 'page-eid-al-adha-countdown',    hMonth: 12, hDay: 10 },
+        'hijri-new-year-countdown': { id: 'hijri-new-year', keyPrefix: 'hijri_ny',  pageId: 'page-hijri-new-year-countdown', hMonth: 1,  hDay: 1  }
     };
     const _cdPathMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?([a-z-]+-countdown)$/);
     const _cdPageKey = _cdPathMatch && _CD_PAGES[_cdPathMatch[1]] ? _cdPathMatch[1] : null;
@@ -2195,11 +2195,12 @@ async function initApp() {
         }
         if (!_eventGreg) return;
 
+        // بادئة مفاتيح i18n الخاصّة بهذه الصفحة (ramadan / eid_fitr / eid_adha / hijri_ny)
+        const _kp = cfg.keyPrefix || cfg.id;
+
         // ── (أ) تحديث meta tags + document.title ──
-        const _titleKey = 'ramadan.meta_title'; // سنعمّمها لاحقاً للـ 4 صفحات
-        const _descKey = 'ramadan.meta_desc';
         try {
-            const _title = _tt(_titleKey) || _tt('ramadan.h1') || document.title;
+            const _title = _tt(_kp + '.meta_title') || _tt(_kp + '.h1') || document.title;
             if (_title) document.title = _title;
             let _metaDesc = document.querySelector('meta[name="description"]');
             if (!_metaDesc) {
@@ -2207,7 +2208,7 @@ async function initApp() {
                 _metaDesc.setAttribute('name', 'description');
                 document.head.appendChild(_metaDesc);
             }
-            const _desc = _tt(_descKey) || _tt('ramadan.intro') || '';
+            const _desc = _tt(_kp + '.meta_desc') || _tt(_kp + '.intro') || '';
             if (_desc) _metaDesc.setAttribute('content', _desc);
         } catch (_) {}
 
@@ -2283,40 +2284,25 @@ async function initApp() {
                         '<td>' + hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH') + '</td>' +
                         '<td>' + gd.getFullYear() + '</td>' +
                         '<td>' + _fmtGreg(gd) + '</td>' +
-                        '<td class="countdown-small-note">' + (_tt('ramadan.years_note_cell') || 'تقديريّ · يعتمد على الرؤية') + '</td>' +
+                        '<td class="countdown-small-note">' + (_tt(_kp + '.years_note_cell') || 'تقديريّ · يعتمد على الرؤية') + '</td>' +
                     '</tr>'
                 );
             }
             _yearsTbody.innerHTML = rows.join('') || '<tr><td colspan="4" class="countdown-loading">—</td></tr>';
         }
 
-        // ── (و) أسئلة FAQ ── (10 أسئلة)
+        // ── (و) أسئلة FAQ ── (10 أسئلة) — ديناميكيّ حسب _kp
         const _faqList = document.getElementById(_P + '-faq-list');
-        if (_faqList && cfg.id === 'ramadan') {
+        if (_faqList) {
             const _daysLeft = Math.round((_startOfDay(_eventGreg) - _todayStart) / 86400000);
             const _gregStr = _fmtGreg(_eventGreg);
-            const faqs = [
-                { q: _tt('ramadan.faq_q1') || 'كم باقي على رمضان؟',
-                  a: (_tt('ramadan.faq_a1', { n: _daysLeft }) || ('يتبقّى ' + _daysLeft + ' يومًا على بداية رمضان المتوقّعة.')) },
-                { q: _tt('ramadan.faq_q2') || 'متى يبدأ رمضان هذا العام؟',
-                  a: (_tt('ramadan.faq_a2', { date: _gregStr, hyear: _eventHYear }) || ('يبدأ رمضان ' + _eventHYear + ' هـ بتاريخ ' + _gregStr + ' تقديريًّا.')) },
-                { q: _tt('ramadan.faq_q3') || 'ما التاريخ الهجريّ لبداية رمضان؟',
-                  a: (_tt('ramadan.faq_a3', { hyear: _eventHYear }) || ('يوافق اليوم الأوّل من شهر رمضان ' + _eventHYear + ' هـ.')) },
-                { q: _tt('ramadan.faq_q4') || 'هل قد يختلف موعد رمضان بين الدول؟',
-                  a: _tt('ramadan.faq_a4') || 'نعم، قد يختلف يومًا واحدًا بين الدول حسب الرؤية المحلّيّة للهلال والجهة الشرعيّة المعتمدة.' },
-                { q: _tt('ramadan.faq_q5') || 'كيف يتمّ تحديد بداية رمضان؟',
-                  a: _tt('ramadan.faq_a5') || 'بثبوت رؤية هلال رمضان بعد غروب شمس اليوم 29 من شعبان، أو بإكمال شعبان 30 يومًا.' },
-                { q: _tt('ramadan.faq_q6') || 'ما علاقة رمضان برؤية الهلال؟',
-                  a: _tt('ramadan.faq_a6') || 'ترتبط بداية ونهاية رمضان فقهيًّا برؤية الهلال، لذا يختلف عن الحساب الفلكيّ أحيانًا بيوم واحد.' },
-                { q: _tt('ramadan.faq_q7') || 'هل التاريخ المعروض نهائيّ أم متوقّع؟',
-                  a: _tt('ramadan.faq_a7') || 'التاريخ المعروض هو تقدير فلكيّ حسابيّ، والإعلان الرسميّ النهائيّ يصدر عن الجهة الشرعيّة في كلّ بلد.' },
-                { q: _tt('ramadan.faq_q8') || 'متى تتمّ رؤية هلال رمضان عادة؟',
-                  a: _tt('ramadan.faq_a8') || 'عادةً ما يُتحرّى الهلال بعد غروب شمس اليوم 29 من شعبان في مناطق متعدّدة من العالم الإسلاميّ.' },
-                { q: _tt('ramadan.faq_q9') || 'هل يبدأ رمضان بعد المحاق مباشرة؟',
-                  a: _tt('ramadan.faq_a9') || 'لا، يبدأ رمضان عند رؤية الهلال بعد المحاق بحوالي 15-30 ساعة، وليس لحظة المحاق نفسه.' },
-                { q: _tt('ramadan.faq_q10') || 'لماذا يتغيّر موعد رمضان كلّ سنة ميلاديّة؟',
-                  a: _tt('ramadan.faq_a10') || 'لأنّ السنة الهجريّة القمريّة أقصر بحوالي 10-11 يومًا من الميلاديّة، فيتقدّم رمضان بنفس المقدار سنويًّا.' }
-            ];
+            const _faqParams = { n: _daysLeft, date: _gregStr, hyear: _eventHYear };
+            const faqs = [];
+            for (let _i = 1; _i <= 10; _i++) {
+                const _q = _tt(_kp + '.faq_q' + _i);
+                const _a = _tt(_kp + '.faq_a' + _i, _faqParams);
+                if (_q && _a) faqs.push({ q: _q, a: _a });
+            }
             _faqList.innerHTML = faqs.map(function(f) {
                 return '<details><summary>' + _escHtml(f.q) + '</summary><p>' + _escHtml(f.a) + '</p></details>';
             }).join('');
@@ -2353,9 +2339,9 @@ async function initApp() {
             const _schema = {
                 '@context': 'https://schema.org',
                 '@type': 'Event',
-                'name': _tt('ramadan.event_name') || 'رمضان',
+                'name': _tt(_kp + '.event_name') || cfg.id,
                 'startDate': _eventGreg.toISOString().slice(0, 10),
-                'description': _tt('ramadan.intro') || '',
+                'description': _tt(_kp + '.intro') || '',
                 'eventAttendanceMode': 'https://schema.org/MixedEventAttendanceMode',
                 'eventStatus': 'https://schema.org/EventScheduled',
                 'location': {

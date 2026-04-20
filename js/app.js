@@ -7023,21 +7023,27 @@ function updateMoonInfo() {
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
 
             // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
-            let dayCell;
+            let dayCell, ctaCell, rowClass = '';
+            const _ctaLabel = (typeof t === 'function') ? t('moon.fc_details_cta') : 'Details';
+            const _ctaTxt = (_ctaLabel && _ctaLabel !== 'moon.fc_details_cta') ? _ctaLabel : 'تفاصيل';
             if (_citySlug) {
                 const _iso = _fcIso(dp, row.date);
                 const _href = _langPrefixFC + '/moon-today-in-' + _citySlug + '/' + _iso;
                 dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(wd + ' ' + dd + ' ' + mm)}</a></td>`;
+                ctaCell = `<td class="fc-cta-cell"><a class="fc-cta-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_ctaTxt + ' — ' + wd + ' ' + dd + ' ' + mm)}"><span class="fc-cta-text">${_escHtml(_ctaTxt)}</span><span class="fc-cta-arrow" aria-hidden="true">›</span></a></td>`;
+                rowClass = ' class="fc-row-clickable"';
             } else {
                 dayCell = `<td>${_escHtml(wd + ' ' + dd + ' ' + mm)}</td>`;
+                ctaCell = `<td class="fc-cta-cell"></td>`;
             }
 
-            html += `<tr>`
+            html += `<tr${rowClass}>`
                 + dayCell
                 + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
                 + `<td>${row.illumination}%</td>`
                 + `<td>${row.rise}</td>`
                 + `<td>${row.set}</td>`
+                + ctaCell
                 + `</tr>`;
         }
         _fcBody.innerHTML = html;

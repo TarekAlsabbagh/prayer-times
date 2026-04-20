@@ -237,6 +237,27 @@ const TRANSLATIONS = {
         'moon.faq.tpl_dq6_q': 'متى يطلع القمر الليلة في {city}؟',
         'moon.faq.tpl_dq7_q': 'متى يغيب القمر الليلة في {city}؟',
         'moon.faq.tpl_dq8_q': 'ما المسافة بين {city} والقمر الآن؟',
+        // ═══ FAQ خاصّ بالمدينة — عنوان القسم + 4 أسئلة ثابتة ═══
+        'moon.faq_city_title': '❓ أسئلة شائعة عن القمر اليوم في {city}',
+        'moon.faq.q_age': 'كم عمر القمر اليوم؟',
+        'moon.faq.q_full_when': 'متى سيكون البدر القادم؟',
+        'moon.faq.q_new_when': 'متى سيكون المحاق القادم؟',
+        'moon.faq.q_full_count': 'كم تبقّى على البدر القادم؟',
+        // ═══ Top Summary chip تحت H1 ═══
+        'moon.summary.phase': 'الطور:',
+        'moon.summary.illum': 'إضاءة',
+        'moon.summary.age': 'يوم من الدورة',
+        // ═══ Quick Highlights box (BOND 6 + 8) ═══
+        'moon.hl.next_full': 'البدر التالي',
+        'moon.hl.next_new': 'المحاق التالي',
+        'moon.hl.visibility': 'الرؤية الليلة',
+        'moon.hl.vis_excellent': 'ممتازة',
+        'moon.hl.vis_very_good': 'جيّدة جداً',
+        'moon.hl.vis_good': 'جيّدة',
+        'moon.hl.vis_fair': 'متوسّطة',
+        'moon.hl.vis_poor': 'ضعيفة',
+        // ═══ Sticky Mini Bar (BOND 7) ═══
+        'moon.sticky.top': '↑ أعلى',
         // ═══ Round 10: قوالب العناوين الديناميكيّة + فقرة تعريفيّة + مقارنة + CTA + الكوكبة + نظرة الطور ═══
         'moon.h1_city_template': '🌙 طور القمر اليوم في {city}، {country} — الإضاءة وعمر القمر',
         'moon.h1_generic': '🌙 طور القمر اليوم — الإضاءة والعمر والبدر القادم',
@@ -832,6 +853,27 @@ const TRANSLATIONS = {
         'moon.faq.tpl_dq6_q': 'What time does the moon rise tonight in {city}?',
         'moon.faq.tpl_dq7_q': 'What time does the moon set tonight in {city}?',
         'moon.faq.tpl_dq8_q': 'What is the distance between {city} and the Moon right now?',
+        // ═══ City-specific FAQ — section title + 4 static questions ═══
+        'moon.faq_city_title': '❓ Frequently Asked Questions about the Moon today in {city}',
+        'moon.faq.q_age': "What is the Moon's age today?",
+        'moon.faq.q_full_when': 'When is the next full moon?',
+        'moon.faq.q_new_when': 'When is the next new moon?',
+        'moon.faq.q_full_count': 'How many days until the next full moon?',
+        // ═══ Top Summary chip under H1 ═══
+        'moon.summary.phase': 'Phase:',
+        'moon.summary.illum': 'illuminated',
+        'moon.summary.age': 'days into cycle',
+        // ═══ Quick Highlights box (BOND 6 + 8) ═══
+        'moon.hl.next_full': 'Next Full Moon',
+        'moon.hl.next_new': 'Next New Moon',
+        'moon.hl.visibility': 'Visibility tonight',
+        'moon.hl.vis_excellent': 'Excellent',
+        'moon.hl.vis_very_good': 'Very Good',
+        'moon.hl.vis_good': 'Good',
+        'moon.hl.vis_fair': 'Fair',
+        'moon.hl.vis_poor': 'Poor',
+        // ═══ Sticky Mini Bar (BOND 7) ═══
+        'moon.sticky.top': '↑ Top',
         // ═══ Round 10: dynamic headings + intro paragraph + comparison + CTA + zodiac + phase insight ═══
         'moon.h1_city_template': '🌙 Moon Phase Today in {city}, {country} — Illumination & Age',
         'moon.h1_generic': '🌙 Moon Phase Today — Illumination, Age & Next Full Moon',

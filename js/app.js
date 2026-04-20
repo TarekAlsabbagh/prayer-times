@@ -2114,6 +2114,27 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
         // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
         try { updateMoonInfo(); } catch (_e) {}
+
+        // BOND 7: Sticky Mini Bar — show/hide on scroll past hero (~250px)
+        try {
+            const _stickyBar = document.getElementById('moon-sticky-bar');
+            const _stickyUp  = document.getElementById('moon-sticky-up');
+            if (_stickyBar) {
+                _stickyBar.hidden = false;
+                let _ticking = false;
+                const _onScroll = () => {
+                    if (_ticking) return;
+                    _ticking = true;
+                    requestAnimationFrame(() => {
+                        if (window.scrollY > 250) _stickyBar.classList.add('is-visible');
+                        else _stickyBar.classList.remove('is-visible');
+                        _ticking = false;
+                    });
+                };
+                window.addEventListener('scroll', _onScroll, { passive: true });
+                if (_stickyUp) _stickyUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            }
+        } catch(_se) {}
     }
 
     // تفعيل القسم المطلوب من URL param ?page=xxx (مثل /?page=qibla)
@@ -7077,6 +7098,13 @@ function updateMoonInfo() {
             if (tpl && tpl !== key) el.textContent = tpl;
         };
 
+        // عنوان قسم FAQ خاصّ بالمدينة — استبدال {city}
+        const _cityFaqH2 = document.getElementById('moon-faq-city-h2');
+        if (_cityFaqH2 && typeof t === 'function') {
+            const _h2Tpl = t('moon.faq_city_title', { city: _cityDisplay });
+            if (_h2Tpl && _h2Tpl !== 'moon.faq_city_title') _cityFaqH2.textContent = _h2Tpl;
+        }
+
         // أسئلة FAQ — استبدال «مدينتك» باسم المدينة الفعليّ
         _setAnswer('moon-dq1-q', 'moon.faq.tpl_dq1_q', { city: _cityDisplay });
         _setAnswer('moon-dq6-q', 'moon.faq.tpl_dq6_q', { city: _cityDisplay });
@@ -7142,18 +7170,16 @@ function updateMoonInfo() {
             return 'in ' + n + ' days';
         };
 
-        // 1) HERO — phase icon + name + illumination + age + progress
-        _setText('moon-hero-icon', phase.icon || '🌙');
-        _setText('moon-hero-phase', _phaseLabel || phase.name || '');
-        _setText('moon-hero-illum-pct', _fmtNum(illumination, 2) + '%');
-        _setText('moon-hero-age-val', _fmtNum(age, 2));
-        const _heroProgressEl = document.getElementById('moon-hero-progress-fill');
-        if (_heroProgressEl) {
-            const _pct = Math.max(0, Math.min(100, (Number(age) / 29.5) * 100));
-            _heroProgressEl.style.width = _pct.toFixed(1) + '%';
-            const _heroBarEl = _heroProgressEl.parentElement;
-            if (_heroBarEl) _heroBarEl.setAttribute('aria-valuenow', String(Math.round(_pct)));
-        }
+        // 1) Top Summary line — chip سريع تحت H1 (يحلّ محلّ HERO المحذوف، يستخدم نفس البيانات)
+        _setText('moon-summary-icon', phase.icon || '🌙');
+        _setText('moon-summary-phase', _phaseLabel || phase.name || '');
+        _setText('moon-summary-illum', _fmtNum(illumination, 2) + '%');
+        _setText('moon-summary-age', _fmtNum(age, 1) + ' / 29.5');
+
+        // BOND 7: Sticky Mini Bar — نفس البيانات لشريط ثابت يظهر عند التمرير
+        _setText('moon-sticky-icon', phase.icon || '🌙');
+        _setText('moon-sticky-phase', _phaseLabel || phase.name || '');
+        _setText('moon-sticky-illum', '· ' + _fmtNum(illumination, 1) + '%');
 
         // 2) EVENTS — full moon + new moon cards (date + countdown + hijri + clickable link to that day)
         const _lngLD = (typeof getCurrentLang === 'function') ? getCurrentLang() : (_lng_ || 'ar');
@@ -7168,48 +7194,33 @@ function updateMoonInfo() {
             return _langPrefixLD + '/moon-today-in-' + _citySlug + '/' + _isoOf(d);
         };
 
+        // 2) Quick Highlights box (BOND 6 + 8): البدر التالي + المحاق التالي + تقييم الرؤية بالنجوم
         if (nextFull) {
-            _setText('moon-event-full-date', _fmtDate(nextFull));
-            _setText('moon-event-full-countdown', _countdownLabel(_daysUntilFull));
-            _setText('moon-event-full-hijri', _hijriStr(nextFull));
-            const _fullLink = document.getElementById('moon-event-full-link');
-            const _fullHref = _eventHref(nextFull);
-            if (_fullLink) {
-                if (_fullHref) {
-                    _fullLink.setAttribute('href', _fullHref);
-                    _fullLink.removeAttribute('rel');
-                } else {
-                    // لا توجد مدينة → اجعل البطاقة غير قابلة للنقر
-                    _fullLink.removeAttribute('href');
-                    _fullLink.style.cursor = 'default';
-                }
-            }
+            _setText('moon-hl-full-date', _fmtDate(nextFull));
+            _setText('moon-hl-full-countdown', _countdownLabel(_daysUntilFull));
         }
         if (nextNew) {
-            _setText('moon-event-new-date', _fmtDate(nextNew));
-            _setText('moon-event-new-countdown', _countdownLabel(_daysUntilNew));
-            _setText('moon-event-new-hijri', _hijriStr(nextNew));
-            const _newLink = document.getElementById('moon-event-new-link');
-            const _newHref = _eventHref(nextNew);
-            if (_newLink) {
-                if (_newHref) {
-                    _newLink.setAttribute('href', _newHref);
-                    _newLink.removeAttribute('rel');
-                } else {
-                    _newLink.removeAttribute('href');
-                    _newLink.style.cursor = 'default';
-                }
-            }
+            _setText('moon-hl-new-date', _fmtDate(nextNew));
+            _setText('moon-hl-new-countdown', _countdownLabel(_daysUntilNew));
         }
 
-        // 3) QUICK STATS — rise / set / distance
-        _setText('moon-stat-rise', moonTimes && moonTimes.rise ? moonTimes.rise : '—');
-        _setText('moon-stat-set',  moonTimes && moonTimes.set  ? moonTimes.set  : '—');
-        if (_distKm != null) {
-            const _kmUnit = (typeof t === 'function') ? t('moon.live.km_unit') : 'km';
-            const _kmLabel = (_kmUnit && _kmUnit !== 'moon.live.km_unit') ? _kmUnit : 'km';
-            _setText('moon-stat-distance', _fmtNum(Math.round(_distKm), 0) + ' ' + _kmLabel);
-        }
+        // BOND 8: Visibility rating — يستند إلى نسبة الإضاءة بشكل أساسيّ.
+        // 5★ ≥ 80%, 4★ 50-80%, 3★ 20-50%, 2★ 5-20%, 1★ < 5%
+        const _illumPct = Number(illumination) || 0;
+        let _stars, _visKey, _visFallback;
+        if (_illumPct >= 80) { _stars = 5; _visKey = 'moon.hl.vis_excellent'; _visFallback = 'ممتازة'; }
+        else if (_illumPct >= 50) { _stars = 4; _visKey = 'moon.hl.vis_very_good'; _visFallback = 'جيّدة جداً'; }
+        else if (_illumPct >= 20) { _stars = 3; _visKey = 'moon.hl.vis_good'; _visFallback = 'جيّدة'; }
+        else if (_illumPct >= 5)  { _stars = 2; _visKey = 'moon.hl.vis_fair'; _visFallback = 'متوسّطة'; }
+        else { _stars = 1; _visKey = 'moon.hl.vis_poor'; _visFallback = 'ضعيفة'; }
+        const _starsStr = '★'.repeat(_stars) + '☆'.repeat(5 - _stars);
+        _setText('moon-hl-vis-stars', _starsStr);
+        let _visLabel = _visFallback;
+        try {
+            const _visT = (typeof t === 'function') ? t(_visKey) : '';
+            if (_visT && _visT !== _visKey) _visLabel = _visT;
+        } catch(_) {}
+        _setText('moon-hl-vis-label', _visLabel + ' (' + _fmtNum(_illumPct, 1) + '%)');
     } catch (_err) {
         // فشل هادئ — تبقى الإجابات الافتراضيّة ظاهرة
         if (window.console && console.warn) console.warn('Dynamic moon FAQ fill failed:', _err);
@@ -7519,9 +7530,19 @@ function updateMoonInfo() {
             if (_prevSubEl) _prevSubEl.textContent = _fmtShort(_prevDate);
             if (_nextSubEl) _nextSubEl.textContent = _fmtShort(_nextDate);
 
-            // إظهار الشريط حين نحن على صفحة date محدّد
-            if (_isDatePage) _navEl.hidden = false;
-            else _navEl.hidden = true;
+            // إظهار الشريط على كلّ صفحات المدينة القمريّة (today + date-pages)
+            //   على صفحة اليوم: زرّ "اليوم" يصبح active بصريّاً عبر CSS class.
+            _navEl.hidden = false;
+            const _todayLinkEl2 = document.getElementById('moon-date-today');
+            if (_todayLinkEl2) {
+                if (!_isDatePage) {
+                    _todayLinkEl2.classList.add('moon-date-today-active');
+                    _todayLinkEl2.setAttribute('aria-current', 'page');
+                } else {
+                    _todayLinkEl2.classList.remove('moon-date-today-active');
+                    _todayLinkEl2.removeAttribute('aria-current');
+                }
+            }
         }
     } catch (_nerr) {
         if (window.console && console.warn) console.warn('Moon date nav fill failed:', _nerr);

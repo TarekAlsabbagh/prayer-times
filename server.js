@@ -3302,7 +3302,8 @@ function buildSeoForPath(urlPath) {
     }
 
     const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };
-    const breadcrumbs = [{ name: HOME_LABELS[lang] || HOME_LABELS.ar, item: langUrl(lang) }];
+    // Breadcrumb «Home» يجب أن يشير دائماً إلى الصفحة الرئيسيّة (/ أو /{lang}/) لا إلى الصفحة الحاليّة.
+    const breadcrumbs = [{ name: HOME_LABELS[lang] || HOME_LABELS.ar, item: origin + (lang === 'ar' ? '/' : '/' + lang + '/') }];
 
     // ── Static tool pages ──
     const staticPages = {

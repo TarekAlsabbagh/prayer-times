@@ -958,6 +958,145 @@ button, input, select { font-family: inherit; }
 }
 .fc-day-link:focus-visible { box-shadow: 0 0 0 2px var(--primary); }
 
+/* ═══ Quick Highlights box (BOND 6 + 8): البدر/المحاق + تقييم الرؤية بالنجوم ═══ */
+.moon-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 18px 0 4px;
+}
+.moon-hl-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-elevated, rgba(0,0,0,0.025));
+    border: 1px solid rgba(46,125,50,0.12);
+    border-radius: 12px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.moon-hl-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46,125,50,0.10);
+}
+.moon-hl-icon {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.moon-hl-body { flex: 1; min-width: 0; }
+.moon-hl-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary, rgba(0,0,0,0.65));
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.moon-hl-value {
+    font-size: 1.05rem;
+    color: var(--primary);
+    font-weight: 700;
+    line-height: 1.3;
+}
+.moon-hl-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary, rgba(0,0,0,0.6));
+    margin-top: 2px;
+}
+.moon-hl-stars {
+    letter-spacing: 2px;
+    color: #f9a825 !important;
+}
+.moon-hl-full { background: linear-gradient(135deg, rgba(255,193,7,0.06), rgba(255,193,7,0.02)); }
+.moon-hl-new  { background: linear-gradient(135deg, rgba(33,33,33,0.06), rgba(33,33,33,0.02)); }
+.moon-hl-visibility { background: linear-gradient(135deg, rgba(76,175,80,0.06), rgba(76,175,80,0.02)); }
+
+/* ═══ Sticky Mini Bar (BOND 7): يظهر عند التمرير، يعرض الطور والإضاءة ═══ */
+.moon-sticky-bar {
+    position: fixed;
+    top: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(46,125,50,0.20);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transform: translateY(-100%);
+    transition: transform 0.25s ease;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+.moon-sticky-bar.is-visible { transform: translateY(0); }
+.moon-sticky-icon { font-size: 1.4rem; }
+.moon-sticky-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.moon-sticky-text strong { color: var(--primary); font-weight: 700; margin-inline-end: 6px; }
+.moon-sticky-up {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.moon-sticky-up:hover { background: var(--primary-dark, #1b5e20); }
+@media (prefers-color-scheme: dark) {
+    .moon-sticky-bar { background: rgba(20,20,20,0.96); border-bottom-color: rgba(76,175,80,0.30); }
+}
+@media (max-width: 480px) {
+    .moon-sticky-bar { padding: 6px 10px; font-size: 0.82rem; }
+    .moon-sticky-up { padding: 3px 8px; font-size: 0.78rem; }
+}
+
+/* ═══ Top Summary chip تحت H1 — ملخّص سريع قابل للمسح ═══ */
+.moon-summary-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    margin: 6px 0 12px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, rgba(46,125,50,0.10), rgba(46,125,50,0.04));
+    border: 1px solid rgba(46,125,50,0.20);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.5;
+}
+.moon-summary-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+.moon-summary-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+.moon-summary-chip strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+.moon-summary-label {
+    color: var(--text-secondary, rgba(0,0,0,0.65));
+    font-size: 0.88rem;
+}
+.moon-summary-sep {
+    color: var(--text-secondary, rgba(0,0,0,0.45));
+    opacity: 0.6;
+}
+@media (max-width: 480px) {
+    .moon-summary-line {
+        border-radius: 14px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+}
+
 /* ═══ Round 10: intro, comparison, phase-insight, forecast-cta ═══ */
 .moon-intro {
     font-size: 1.02rem;
@@ -1289,6 +1428,15 @@ button, input, select { font-family: inherit; }
 }
 /* إظهار الشريط حصريّاً على moon-date-page حتّى لو كان مخفيّاً بـ [hidden] */
 html.moon-date-page .moon-date-nav { display: flex; }
+/* تمييز زرّ "اليوم" لمّا يكون active (الصفحة الحاليّة) */
+.moon-date-link.moon-date-today-active {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    pointer-events: none;
+}
+.moon-date-link.moon-date-today-active .moon-date-arrow,
+.moon-date-link.moon-date-today-active .moon-date-label { color: #fff; }
 
 @media (max-width: 480px) {
     .moon-date-nav { gap: 6px; }

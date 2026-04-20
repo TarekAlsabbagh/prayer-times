@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=292" as="script">
-    <link rel="stylesheet" href="css/style.css?v=76">
+    <link rel="preload" href="js/app.js?v=293" as="script">
+    <link rel="stylesheet" href="css/style.css?v=77">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -840,6 +840,7 @@
                      FAQPage schema lives server-side and is matched by the static FAQ below. -->
                 <div class="section-card moon-live-card">
                     <h2 id="moon-faq-live-h2" data-i18n="moon.faq_live_title">🔴 الآن: القمر الليلة</h2>
+                    <p class="moon-live-subtitle" data-i18n="moon.live.subtitle">الطور، نسبة الإضاءة، عمر القمر وأوقات الشروق والغروب — محسوبة فلكياً</p>
 
                     <!-- 1) HERO: الطور الحاليّ + عمر القمر + شريط التقدّم -->
                     <div class="moon-hero" id="moon-hero">
@@ -859,8 +860,11 @@
                                     <span class="moon-hero-stat-label" data-i18n="moon.live.age_days_label">يوم من الدورة</span>
                                 </div>
                             </div>
-                            <div class="moon-hero-progress" role="progressbar" aria-label="Moon age progress" aria-valuemin="0" aria-valuemax="100">
-                                <div class="moon-hero-progress-fill" id="moon-hero-progress-fill" style="width:0%;"></div>
+                            <div class="moon-hero-progress-wrap">
+                                <div class="moon-hero-progress-label" data-i18n="moon.live.cycle_progress_label">اكتمال الدورة القمريّة</div>
+                                <div class="moon-hero-progress" role="progressbar" aria-label="Moon cycle progress" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="moon-hero-progress-fill" id="moon-hero-progress-fill" style="width:0%;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -887,23 +891,30 @@
                         </a>
                     </div>
 
-                    <!-- 3) Quick Stats: شروق + غروب + مسافة (no accordion — instant scan) -->
+                    <!-- 3) Quick Stats: شروق + غروب (Times) + مسافة (Extras) — grouped, no accordion -->
                     <div class="moon-quick-stats">
-                        <div class="moon-stat">
+                        <div class="moon-stat moon-stat-times">
                             <span class="moon-stat-icon" aria-hidden="true">🌅</span>
                             <span class="moon-stat-label" data-i18n="moon.live.rise_label">يشرق</span>
                             <span class="moon-stat-value" id="moon-stat-rise">—</span>
                         </div>
-                        <div class="moon-stat">
+                        <div class="moon-stat moon-stat-times">
                             <span class="moon-stat-icon" aria-hidden="true">🌇</span>
                             <span class="moon-stat-label" data-i18n="moon.live.set_label">يغرب</span>
                             <span class="moon-stat-value" id="moon-stat-set">—</span>
                         </div>
-                        <div class="moon-stat">
+                        <div class="moon-stat moon-stat-extra">
                             <span class="moon-stat-icon" aria-hidden="true">📏</span>
                             <span class="moon-stat-label" data-i18n="moon.live.distance_label">المسافة</span>
                             <span class="moon-stat-value" id="moon-stat-distance">—</span>
+                            <span class="moon-stat-context" id="moon-stat-distance-context"></span>
                         </div>
+                    </div>
+
+                    <!-- 4) CTA links: حالة القمر غدًا + توقّعات الأسبوع -->
+                    <div class="moon-cta-links">
+                        <a class="moon-cta-link" id="moon-cta-tomorrow" href="#" rel="nofollow" data-i18n="moon.live.cta_tomorrow">🌙 حالة القمر غدًا في {city}</a>
+                        <a class="moon-cta-link" id="moon-cta-week" href="#forecast" data-i18n="moon.live.cta_week">📅 توقّعات القمر للأسبوع القادم</a>
                     </div>
                 </div>
 
@@ -1603,14 +1614,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=96"></script>
+    <script defer src="js/i18n.js?v=97"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=2"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=292"></script>
+    <script defer src="js/app.js?v=293"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -1010,6 +1010,184 @@ button, input, select { font-family: inherit; }
 .moon-hl-new  { background: linear-gradient(135deg, rgba(33,33,33,0.06), rgba(33,33,33,0.02)); }
 .moon-hl-visibility { background: linear-gradient(135deg, rgba(76,175,80,0.06), rgba(76,175,80,0.02)); }
 
+/* ═══ Wave A: التاريخ الهجريّ اليوم — كارد مميّز مرتبط بالقمر ═══ */
+.moon-hijri-today {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 14px 0 4px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(46,125,50,0.08), rgba(46,125,50,0.02));
+    border: 1px solid rgba(46,125,50,0.22);
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(46,125,50,0.05);
+}
+.moon-hijri-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.moon-hijri-icon {
+    font-size: 2.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.moon-hijri-body { flex: 1; min-width: 0; }
+.moon-hijri-label {
+    font-size: 0.82rem;
+    color: var(--text-secondary, rgba(0,0,0,0.65));
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.moon-hijri-date {
+    font-size: 1.35rem;
+    color: var(--primary);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+.moon-hijri-greg {
+    font-size: 0.92rem;
+    color: var(--text-secondary, rgba(0,0,0,0.65));
+    margin-top: 3px;
+}
+.moon-hijri-lunar {
+    margin: 4px 0 2px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text);
+    border-inline-start: 3px solid var(--primary);
+}
+.moon-hijri-notice {
+    font-size: 0.78rem;
+    color: var(--text-secondary, rgba(0,0,0,0.55));
+    font-style: italic;
+    margin-top: 2px;
+}
+@media (prefers-color-scheme: dark) {
+    .moon-hijri-today {
+        background: linear-gradient(135deg, rgba(76,175,80,0.14), rgba(76,175,80,0.04));
+        border-color: rgba(76,175,80,0.32);
+    }
+    .moon-hijri-lunar { background: rgba(0,0,0,0.25); }
+}
+@media (max-width: 480px) {
+    .moon-hijri-today { padding: 12px 14px; }
+    .moon-hijri-date { font-size: 1.15rem; }
+    .moon-hijri-icon { font-size: 1.8rem; }
+}
+
+/* ═══ Wave A: العدّ التنازليّ للمناسبات الإسلاميّة — 4 كروت ═══ */
+.moon-events-section {
+    padding: 18px 16px;
+}
+.moon-events-title {
+    font-size: 1.15rem;
+    margin: 0 0 14px;
+    color: var(--primary);
+    font-weight: 700;
+}
+.moon-events-countdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.moon-event-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-elevated, rgba(0,0,0,0.025));
+    border: 1px solid rgba(46,125,50,0.15);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    position: relative;
+    overflow: hidden;
+}
+.moon-event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 14px rgba(46,125,50,0.14);
+    border-color: rgba(46,125,50,0.32);
+    text-decoration: none;
+}
+.moon-event-icon {
+    font-size: 2.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
+}
+.moon-event-body { flex: 1; min-width: 0; }
+.moon-event-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary, rgba(0,0,0,0.65));
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+.moon-event-days {
+    font-size: 1.25rem;
+    color: var(--primary);
+    font-weight: 800;
+    line-height: 1.15;
+}
+.moon-event-date {
+    font-size: 0.82rem;
+    color: var(--text-secondary, rgba(0,0,0,0.6));
+    margin-top: 3px;
+    line-height: 1.3;
+}
+/* تلوينات ناعمة خاصة بكلّ مناسبة */
+.moon-event-ramadan { background: linear-gradient(135deg, rgba(156,39,176,0.08), rgba(156,39,176,0.02)); }
+.moon-event-fitr    { background: linear-gradient(135deg, rgba(255,193,7,0.10),  rgba(255,193,7,0.02)); }
+.moon-event-adha    { background: linear-gradient(135deg, rgba(244,67,54,0.08),  rgba(244,67,54,0.02)); }
+.moon-event-newyear { background: linear-gradient(135deg, rgba(33,150,243,0.08), rgba(33,150,243,0.02)); }
+
+/* تمييز عند اقتراب المناسبة (≤ 5 أيّام) */
+.moon-event-soon {
+    animation: moonEventPulse 2.2s ease-in-out infinite;
+    border-color: rgba(255,152,0,0.55);
+    box-shadow: 0 0 0 0 rgba(255,152,0,0.5);
+}
+.moon-event-soon .moon-event-days {
+    color: #e65100;
+}
+.moon-event-soon::before {
+    content: '🔥';
+    position: absolute;
+    top: 6px;
+    inset-inline-end: 8px;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+@keyframes moonEventPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,152,0,0.35); }
+    50%      { box-shadow: 0 0 0 6px rgba(255,152,0,0); }
+}
+.moon-events-notice {
+    font-size: 0.78rem;
+    color: var(--text-secondary, rgba(0,0,0,0.55));
+    font-style: italic;
+    margin: 6px 0 0;
+    text-align: center;
+}
+@media (prefers-color-scheme: dark) {
+    .moon-event-card { border-color: rgba(76,175,80,0.25); }
+    .moon-event-soon { border-color: rgba(255,167,38,0.6); }
+    .moon-event-soon .moon-event-days { color: #ffb74d; }
+}
+@media (max-width: 480px) {
+    .moon-events-countdown { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .moon-event-card { padding: 12px 10px; gap: 8px; }
+    .moon-event-icon { font-size: 1.7rem; }
+    .moon-event-days { font-size: 1.05rem; }
+    .moon-event-label { font-size: 0.78rem; }
+    .moon-event-date { font-size: 0.76rem; }
+}
+
 /* ═══ Sticky Mini Bar (BOND 7): يظهر عند التمرير، يعرض الطور والإضاءة ═══ */
 .moon-sticky-bar {
     position: fixed;

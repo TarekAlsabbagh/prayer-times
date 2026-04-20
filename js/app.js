@@ -7221,6 +7221,118 @@ function updateMoonInfo() {
             if (_visT && _visT !== _visKey) _visLabel = _visT;
         } catch(_) {}
         _setText('moon-hl-vis-label', _visLabel + ' (' + _fmtNum(_illumPct, 1) + '%)');
+
+        // ═══ Wave A: التاريخ الهجريّ + عدّ تنازليّ للمناسبات الإسلاميّة ═══
+        try {
+            if (typeof HijriDate !== 'undefined' && HijriDate) {
+                const _today = new Date();
+                const _hToday = HijriDate.getToday(); // { day, month, year }
+                const _lngA = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _tt = (k, p) => {
+                    try {
+                        const v = (typeof t === 'function') ? t(k, p) : null;
+                        return (v && v !== k) ? v : null;
+                    } catch(_) { return null; }
+                };
+
+                // (1) التاريخ الهجريّ — اسم اليوم + اليوم + الشهر + السنة
+                const _dayName = _tt('wday.' + _today.getDay()) || '';
+                const _hMonthName = _tt('hmonth.' + _hToday.month) || '';
+                // فاصلة مناسبة لكلّ لغة (عربيّة/أردية = «، »، الباقي = «, »)
+                const _comma = (_lngA === 'ar' || _lngA === 'ur') ? '، ' : ', ';
+                // لاحقة السنة الهجريّة: «هـ» للعربيّة والأردية، «AH» للبقيّة
+                const _ahSuffix = (_lngA === 'ar') ? ' هـ' : (_lngA === 'ur') ? ' ہجری' : ' AH';
+                const _hijriText = (_dayName ? _dayName + _comma : '') +
+                    _hToday.day + ' ' + _hMonthName + ' ' + _hToday.year + _ahSuffix;
+                _setText('moon-hijri-date', _hijriText);
+
+                // (2) التاريخ الميلاديّ — اليوم + اسم الشهر + السنة
+                const _gMonthName = _tt('gmonth.' + (_today.getMonth() + 1)) || String(_today.getMonth() + 1);
+                _setText('moon-hijri-greg', _today.getDate() + ' ' + _gMonthName + ' ' + _today.getFullYear());
+
+                // (3) رابط اليوم في الشهر القمريّ
+                try {
+                    const _daysInMonth = (typeof HijriDate.getDaysInHijriMonth === 'function')
+                        ? HijriDate.getDaysInHijriMonth(_hToday.year, _hToday.month)
+                        : 29;
+                    const _remaining = Math.max(0, _daysInMonth - _hToday.day);
+                    const _lunarTxt = _tt('moon.hijri.lunar_day_template', {
+                        day: _hToday.day,
+                        month: _hMonthName,
+                        remaining: _remaining
+                    });
+                    if (_lunarTxt) _setText('moon-hijri-lunar', _lunarTxt);
+                } catch(_) {}
+
+                // (4) حساب المناسبات الإسلاميّة الأربع
+                // helper: هل hijri-date (y,m,d) في المستقبل أو اليوم؟
+                const _toGreg = (hy, hm, hd) => {
+                    try {
+                        const g = HijriDate.toGregorian(hy, hm, hd); // { year, month, day }
+                        return new Date(g.year, g.month - 1, g.day);
+                    } catch(_) { return null; }
+                };
+                const _startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+                const _todayStart = _startOfDay(_today);
+                const _daysBetween = (futureDate) => {
+                    if (!futureDate) return null;
+                    const _f = _startOfDay(futureDate);
+                    return Math.round((_f - _todayStart) / 86400000);
+                };
+
+                // لكلّ حدث: نحسب التاريخ القادم — إن كان اليوم قد فات، ننتقل للسنة الهجريّة التالية.
+                const _nextEventDate = (targetMonth, targetDay) => {
+                    // اختبر السنة الحاليّة أوّلاً
+                    let d = _toGreg(_hToday.year, targetMonth, targetDay);
+                    if (d && d >= _todayStart) return d;
+                    // إن فات، جرّب السنة التالية
+                    d = _toGreg(_hToday.year + 1, targetMonth, targetDay);
+                    return d;
+                };
+
+                // فرمتة تاريخ ميلاديّ مختصرة (DD MMM YYYY)
+                const _fmtEventDate = (d) => {
+                    if (!d) return '—';
+                    const m = _tt('gmonth.' + (d.getMonth() + 1)) || String(d.getMonth() + 1);
+                    return d.getDate() + ' ' + m + ' ' + d.getFullYear();
+                };
+
+                // وسم الأيام المتبقّية
+                const _daysLabel = (n) => {
+                    if (n === 0) return _tt('moon.events.today') || 'Today';
+                    if (n === 1) return _tt('moon.events.tomorrow') || 'Tomorrow';
+                    return _tt('moon.events.days_template', { n: n }) || (n + ' days');
+                };
+
+                // قائمة الأحداث: [id, hijriMonth, hijriDay]
+                const _events = [
+                    { id: 'ramadan', hm: 9,  hd: 1  }, // 1 رمضان
+                    { id: 'fitr',    hm: 10, hd: 1  }, // 1 شوّال — عيد الفطر
+                    { id: 'adha',    hm: 12, hd: 10 }, // 10 ذو الحجّة — عيد الأضحى
+                    { id: 'newyear', hm: 1,  hd: 1  }  // 1 محرّم — رأس السنة
+                ];
+
+                _events.forEach(ev => {
+                    const d = _nextEventDate(ev.hm, ev.hd);
+                    const days = _daysBetween(d);
+                    _setText('moon-event-' + ev.id + '-days', (days != null) ? _daysLabel(days) : '—');
+                    _setText('moon-event-' + ev.id + '-date', _fmtEventDate(d));
+                    // تمييز إن كان قريباً (≤ 5 أيّام)
+                    try {
+                        const _card = document.getElementById('moon-event-' + ev.id);
+                        if (_card) {
+                            if (days != null && days >= 0 && days <= 5) {
+                                _card.classList.add('moon-event-soon');
+                            } else {
+                                _card.classList.remove('moon-event-soon');
+                            }
+                        }
+                    } catch(_) {}
+                });
+            }
+        } catch (_hijriErr) {
+            if (window.console && console.warn) console.warn('Hijri/events fill failed:', _hijriErr);
+        }
     } catch (_err) {
         // فشل هادئ — تبقى الإجابات الافتراضيّة ظاهرة
         if (window.console && console.warn) console.warn('Dynamic moon FAQ fill failed:', _err);

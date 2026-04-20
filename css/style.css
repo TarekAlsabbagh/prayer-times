@@ -2360,6 +2360,8 @@ html[dir="ltr"] .moon-subtitle { text-align: left; }
 }
 /* إظهار الشريط حصريّاً على moon-date-page حتّى لو كان مخفيّاً بـ [hidden] */
 html.moon-date-page .moon-date-nav { display: flex; }
+/* Round 16: Hub page — إخفاء شريط التنقّل بين الأيّام (prev/next date غير منطقيّ هنا) */
+html.moon-hub-page .moon-date-nav { display: none !important; }
 /* تمييز زرّ "اليوم" لمّا يكون active (الصفحة الحاليّة) */
 .moon-date-link.moon-date-today-active {
     background: var(--primary);

@@ -3643,23 +3643,27 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
-    // ── Moon city pages (Round 15): فصل الـ URLs — clean split ──
+    // ── Moon city pages (Round 15 + Round 16): فصل الـ URLs — clean split ──
     //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم (today only)
+    //   /moon-in-{slug}[-{lat}-{lng}]                       → صفحة المدينة (hub — Round 16)
     //   /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}         → صفحة مؤرَّخة (ميلاديّ)
     //   /moon-in-{slug}[-{lat}-{lng}]/{HYYYY-HMM-HDD}      → صفحة مؤرَّخة (هجريّ، canonical→ميلاديّ)
     //
     // Round 12: coord-suffix عالميّ (مثل /moon-today-in-del-rio-29.36--100.90) — يبقى مدعوماً.
-    // كلا النمطَين يدعمان coord-suffix. Regex: slug غير جشع ثمّ lat/lng اختياريّان.
-    // ملاحظة: /moon-in-{slug} بلا تاريخ → 404 (خارج النطاق حاليّاً).
+    // جميع الأنماط تدعم coord-suffix. Regex: slug غير جشع ثمّ lat/lng اختياريّان.
     const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
-    m = _MT || _MD;
+    // Round 16: hub match — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ. يُفحَص أخيراً لأنّ _MD أوّلاً.
+    const _MH = (!_MD) ? corePath.match(/^\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
+    m = _MT || _MD || _MH;
+    // flag: هل الـ URL الحاليّ hub page (بلا تاريخ، تحت /moon-in-)؟
+    const _isMoonHubPage = !!_MH && !_MD && !_MT;
     if (m) {
         const citySlug = m[1];
         const _coordLat = m[2] != null ? parseFloat(m[2]) : null;
         const _coordLng = m[3] != null ? parseFloat(m[3]) : null;
         const _hasCoordSuffix = (_coordLat != null && _coordLng != null && isFinite(_coordLat) && isFinite(_coordLng));
-        // التاريخ موجود فقط في _MD (المواضع 4/5/6). لـ _MT (صفحة اليوم): null.
+        // التاريخ موجود فقط في _MD (المواضع 4/5/6). لـ _MT/_MH: null.
         const _dyStr = (_MD && m[4]) ? m[4] : null;
         const _dmStr = (_MD && m[5]) ? m[5] : null;
         const _ddStr = (_MD && m[6]) ? m[6] : null;
@@ -3792,9 +3796,35 @@ function buildSeoForPath(urlPath) {
                 ? (_primaryDateLabel + ' ' + _equivFn(_secondaryDateLabel))
                 : _primaryDateLabel;
 
-            // Title/Description — اختيار حسب صفحة اليوم أو صفحة تاريخ محدَّد
+            // Title/Description — ثلاث حالات: hub (Round 16) / صفحة تاريخ محدَّد / صفحة اليوم
             let _moonTitle, _moonDesc;
-            if (_moonDateIso && _moonDateInRange) {
+            if (_isMoonHubPage) {
+                // ── Round 16: Hub للمدينة ── (evergreen، بلا "اليوم"، تجمع كلّ التواريخ كصفحة أمّ للمدينة)
+                _moonTitle = {
+                    ar: `حالة القمر في ${cityDisplay} — الطور اليوم، والتواريخ القادمة، والتقويم الهجريّ`,
+                    en: `Moon in ${cityDisplay} — Current Phase, Upcoming Dates & Hijri Calendar`,
+                    fr: `La Lune à ${cityDisplay} — Phase actuelle, dates à venir et calendrier hégirien`,
+                    tr: `${cityDisplay}'da Ay — Güncel Evre, Yaklaşan Tarihler ve Hicri Takvim`,
+                    ur: `${cityDisplay} میں چاند — موجودہ طور، آنے والی تاریخیں اور ہجری تقویم`,
+                    de: `Der Mond in ${cityDisplay} — Aktuelle Phase, kommende Daten & Hidschri-Kalender`,
+                    id: `Bulan di ${cityDisplay} — Fase Saat Ini, Tanggal Mendatang & Kalender Hijriah`,
+                    es: `La Luna en ${cityDisplay} — Fase actual, fechas próximas y calendario hijri`,
+                    bn: `${cityDisplay}-এ চাঁদ — বর্তমান দশা, আসন্ন তারিখ ও হিজরি ক্যালেন্ডার`,
+                    ms: `Bulan di ${cityDisplay} — Fasa Semasa, Tarikh Akan Datang & Kalendar Hijrah`,
+                };
+                _moonDesc = {
+                    ar: `كلّ ما تحتاجه عن القمر في ${cityDisplay}: الطور والإضاءة الآن، مواعيد البدر والمحاق، رؤية الهلال، والتقويم الهجريّ مع روابط لجميع التواريخ القادمة والماضية.`,
+                    en: `Everything about the Moon in ${cityDisplay}: current phase and illumination, full moon and new moon dates, hilal visibility, and Hijri calendar — with links to all upcoming and past dates.`,
+                    fr: `Tout sur la Lune à ${cityDisplay} : phase et illumination actuelles, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien — avec liens vers toutes les dates à venir et passées.`,
+                    tr: `${cityDisplay}'da Ay hakkında her şey: güncel evre ve aydınlanma, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve hicri takvim — gelecek ve geçmiş tüm tarihlere bağlantılarla.`,
+                    ur: `${cityDisplay} میں چاند کے بارے میں سب کچھ: موجودہ طور اور روشنی، بدر اور نئے چاند کی تاریخیں، ہلال کی رؤیت اور ہجری تقویم — تمام آنے والی اور گزشتہ تاریخوں کے روابط کے ساتھ۔`,
+                    de: `Alles über den Mond in ${cityDisplay}: aktuelle Phase und Beleuchtung, Vollmond- und Neumonddaten, Hilal-Sichtbarkeit und Hidschri-Kalender — mit Links zu allen kommenden und vergangenen Daten.`,
+                    id: `Segala tentang Bulan di ${cityDisplay}: fase dan iluminasi saat ini, tanggal purnama dan bulan baru, rukyat hilal, dan kalender Hijriah — dengan tautan ke semua tanggal mendatang dan lampau.`,
+                    es: `Todo sobre la Luna en ${cityDisplay}: fase e iluminación actuales, fechas de luna llena y nueva, visibilidad del hilal y calendario hijri — con enlaces a todas las fechas próximas y pasadas.`,
+                    bn: `${cityDisplay}-এ চাঁদ সম্পর্কে সবকিছু: বর্তমান দশা ও আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার তারিখ, হিলাল দৃশ্যমানতা এবং হিজরি ক্যালেন্ডার — সমস্ত আসন্ন ও অতীত তারিখের লিঙ্কসহ।`,
+                    ms: `Semua tentang Bulan di ${cityDisplay}: fasa dan pencahayaan semasa, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah — dengan pautan ke semua tarikh akan datang dan lalu.`,
+                };
+            } else if (_moonDateIso && _moonDateInRange) {
                 // ── عناوين خاصّة بصفحة التاريخ ── (التاريخ الأساسيّ + الموافق بين قوسين)
                 _moonTitle = {
                     ar: `حالة القمر في ${cityDisplay} يوم ${_mainWithEquiv} — الطور والإضاءة والعمر`,
@@ -3849,7 +3879,8 @@ function buildSeoForPath(urlPath) {
             }
             title = _moonTitle[lang] || _moonTitle.en;
             description = _moonDesc[lang] || _moonDesc.en;
-            ogType = 'article';
+            // Round 16: hub = 'website' (evergreen)، dated/today = 'article'
+            ogType = _isMoonHubPage ? 'website' : 'article';
             geo = { lat: cityGeo.lat, lng: cityGeo.lng };
             cityModified = _moonDateObj ? _moonDateObj.toISOString() : new Date().toISOString();
             // ── out-of-range: noindex + canonical يشير للصفحة بدون تاريخ ──
@@ -3883,13 +3914,15 @@ function buildSeoForPath(urlPath) {
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
                 tz: _moonTz,                          // Asia/Tokyo إلخ — أو null عند عدم التوفّر
-                date: _moonDateIso,                   // null = اليوم؛ وإلا 'YYYY-MM-DD'
+                date: _moonDateIso,                   // null = اليوم/hub؛ وإلا 'YYYY-MM-DD'
                 dateObj: _moonDateObj,                // Date للـ Article.datePublished
                 dateLabel: _moonDateLabel,            // ميلاديّ مقروء (دوماً)
                 // ── Hijri context (Round 13): لدعم H1/badge/subtitle بلا إعادة حساب عميلة ──
                 dateIsHijri: _moonDateWasHijri,       // true → دخل المستخدم عبر رابط هجريّ
                 hijriLabel: _hijriLabel,              // "3 ذو القعدة 1447" (بلا لاحقة)
-                hijriLabelWithSfx: _hijriLabelWithSfx // "3 ذو القعدة 1447 هـ"
+                hijriLabelWithSfx: _hijriLabelWithSfx, // "3 ذو القعدة 1447 هـ"
+                // ── Round 16: hub flag — يُميّز /moon-in-{city} عن /moon-today-in-{city} في SSR ──
+                isHub: _isMoonHubPage                 // true → صفحة hub للمدينة (بلا "اليوم")
             };
             // Breadcrumb: أضف "القمر اليوم" قبل اسم المدينة
             const _moonLabel = {
@@ -3898,7 +3931,15 @@ function buildSeoForPath(urlPath) {
                 es: 'Luna hoy', bn: 'আজকের চাঁদ', ms: 'Bulan Hari Ini',
             }[lang] || 'Moon Today';
             breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today' });
-            breadcrumbs.push({ name: cityDisplay, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today-in-' + citySlug });
+            // Round 16: city breadcrumb يشير إلى hub (/moon-in-{slug}) كوالد لصفحات التاريخ،
+            // أو إلى صفحة اليوم (/moon-today-in-{slug}) كوالد للصفحة الحاليّة إن كانت هي صفحة اليوم.
+            // - hub page: self (/moon-in-{slug})
+            // - dated page: parent (/moon-in-{slug}) — hub أعلى هرم المدينة
+            // - today page: self (/moon-today-in-{slug})
+            const _cityBcHref = (_isMoonHubPage || (_moonDateIso && _moonDateInRange))
+                ? ('/moon-in-' + citySlug)
+                : ('/moon-today-in-' + citySlug);
+            breadcrumbs.push({ name: cityDisplay, item: origin + (lang === 'ar' ? '' : '/' + lang) + _cityBcHref });
             if (_moonDateIso && _moonDateInRange && _primaryDateLabel) {
                 // نعرض التاريخ بنفس نوعيّة الرابط (هجريّ للرابط الهجريّ، ميلاديّ للرابط الميلاديّ)
                 breadcrumbs.push({ name: _primaryDateLabel, item: origin + p });
@@ -5782,6 +5823,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             : _moonDateLabelSsr;
         const _secondaryDateLabelSsr = _moonDateIsHijriSsr ? _moonDateLabelSsr : _moonHijriLabelSfxSsr;
         const _isMoonDatePage = !!(seo.moonCity.date && _moonDateLabelSsr);
+        // Round 16: hub page (بلا تاريخ، تحت /moon-in-) — H1 evergreen بلا "اليوم"
+        const _isMoonHubPageSsr = !!seo.moonCity.isHub;
         const _h1Moon = _isMoonDatePage ? ({
             ar: `🌙 حالة القمر في ${cityName} يوم ${_primaryDateLabelSsr}`,
             en: `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`,
@@ -5793,7 +5836,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             es: `🌙 La Luna en ${cityName} el ${_primaryDateLabelSsr}`,
             bn: `🌙 ${cityName}-এ ${_primaryDateLabelSsr}-এ চাঁদ`,
             ms: `🌙 Bulan di ${cityName} pada ${_primaryDateLabelSsr}`
-        }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : ({
+        }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : _isMoonHubPageSsr ? ({
+            ar: `🌙 حالة القمر في ${cityName}، ${countryName} — الطور والإضاءة والتقويم`,
+            en: `🌙 The Moon in ${cityName}, ${countryName} — Phase, Illumination & Calendar`,
+            fr: `🌙 La Lune à ${cityName}, ${countryName} — Phase, illumination et calendrier`,
+            tr: `🌙 ${cityName}, ${countryName}'da Ay — Evre, Aydınlanma ve Takvim`,
+            ur: `🌙 ${cityName}، ${countryName} میں چاند — مرحلہ، روشنی اور تقویم`,
+            de: `🌙 Der Mond in ${cityName}, ${countryName} — Phase, Beleuchtung und Kalender`,
+            id: `🌙 Bulan di ${cityName}, ${countryName} — Fase, Iluminasi & Kalender`,
+            es: `🌙 La Luna en ${cityName}, ${countryName} — Fase, iluminación y calendario`,
+            bn: `🌙 ${cityName}, ${countryName}-এ চাঁদ — দশা, আলোকসজ্জা ও ক্যালেন্ডার`,
+            ms: `🌙 Bulan di ${cityName}, ${countryName} — Fasa, Pencahayaan & Kalendar`
+        }[Lm] || `🌙 The Moon in ${cityName}, ${countryName}`) : ({
             ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
             en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
             fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
@@ -5868,7 +5922,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             };
             const _bcMoonTextSsr = _BC_MOON_CITY[Lm] || _BC_MOON_CITY.en;
             // رابط نسبيّ — يعمل من أيّ host، ولا يحتاج origin في هذا الـ scope
-            const _bcCityHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-today-in-' + seo.moonCity.slug;
+            // Round 16: city breadcrumb يشير إلى hub (/moon-in-{slug}) — parent canonical للمدينة.
+            // يتطابق مع JSON-LD BreadcrumbList فوق لتجنّب rich-result mismatch في Google.
+            const _bcCityHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-in-' + seo.moonCity.slug;
             // استبدال عنصر bc-moon: من current-page (بلا href) إلى رابط قابل للضغط باسم المدينة
             html = html.replace(
                 /<a class="bc-moon" id="bc-moon"[^>]*>[^<]*<\/a>/,
@@ -7792,6 +7848,9 @@ const server = http.createServer(async (req, res) => {
                 const baseSlug = _moonBase(slug);
                 if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
                     entries.push(...bilingualUrl('/moon-today-in-' + baseSlug, '0.6', 'weekly', today));
+                    // Round 16: hub page /moon-in-{city} — evergreen، canonical للمدينة كـ entity.
+                    // أعلى أولويّة (0.7) لأنّها الصفحة الرئيسيّة للمدينة (أعلى من today).
+                    entries.push(...bilingualUrl('/moon-in-' + baseSlug, '0.7', 'weekly', today));
                     // Round 15: صفحات تاريخ محدَّد تحت /moon-in- (بدل /moon-today-in-).
                     // 30 يومًا مستقبليّة بخطوة 3 أيّام = 10 URL لكلّ مدينة.
                     // × hreflang×10 = 100 entry/مدينة. للمدن الشهيرة فقط لتوفير crawl budget.
@@ -7856,8 +7915,9 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
         // Round 15: فصل الـ URLs — /moon-today-in-{slug} للـ today، /moon-in-{slug}/{date} للصفحات المؤرَّخة
+        // Round 16: /moon-in-{slug} hub page (بلا تاريخ) — صفحة مدينة دائمة
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -7870,17 +7930,19 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
-        // Round 9 + Round 12 + Round 15: فحص slug لصفحات القمر.
-        // Round 15 فصل الهيكل:
-        //   _MTroute → /moon-today-in-{slug}[-{lat}-{lng}]           (today only)
+        // Round 9 + Round 12 + Round 15 + Round 16: فحص slug لصفحات القمر.
+        // الهيكل الكامل:
+        //   _MTroute → /moon-today-in-{slug}[-{lat}-{lng}]           (today)
+        //   _MHroute → /moon-in-{slug}[-{lat}-{lng}]                 (hub — Round 16)
         //   _MDroute → /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}    (dated)
-        // قواعد موحَّدة للنمطَين:
+        // قواعد موحَّدة:
         //  - إن كانت المدينة في الـ DB وجاءت مع coord-suffix → 301 إلى الرابط القصير (canonical).
         //  - إن لم تكن في الـ DB وجاءت بلا coord-suffix → 404 "city not found".
         //  - إن لم تكن في الـ DB وجاءت مع coord-suffix → مرّر كـ noindex صفحة (العميل عرّف الإحداثيّات).
         const _MTroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        const _MHroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         const _MDroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
-        const _moonCityMatch = _MTroute || _MDroute;
+        const _moonCityMatch = _MTroute || _MDroute || _MHroute;
         if (_moonCityMatch) {
             const _moonLangPrefix = _moonCityMatch[1] || '';
             const _moonSlug = _moonCityMatch[2];
@@ -7889,13 +7951,20 @@ const server = http.createServer(async (req, res) => {
             const _dyRt = (_MDroute && _moonCityMatch[5]) ? _moonCityMatch[5] : null;
             const _dmRt = (_MDroute && _moonCityMatch[6]) ? _moonCityMatch[6] : null;
             const _ddRt = (_MDroute && _moonCityMatch[7]) ? _moonCityMatch[7] : null;
+            // نوع الصفحة: today / hub / dated
+            const _isHubRt = !!_MHroute && !_MDroute && !_MTroute;
             const _moonInDb = !!_resolveCityForMoon(_moonSlug);
             // 1) المدينة في DB + coord-suffix → 301 إلى الشكل القصير (يحترم فصل الـ URLs الجديد)
             if (_moonInDb && _moonHasCoord) {
-                // today → /moon-today-in-{slug}، dated → /moon-in-{slug}/{date}
-                const _canonicalPath = _dyRt
-                    ? ('/' + _moonLangPrefix + 'moon-in-' + _moonSlug + '/' + _dyRt + '-' + _dmRt + '-' + _ddRt)
-                    : ('/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug);
+                // today → /moon-today-in-{slug}، hub → /moon-in-{slug}، dated → /moon-in-{slug}/{date}
+                let _canonicalPath;
+                if (_dyRt) {
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonSlug + '/' + _dyRt + '-' + _dmRt + '-' + _ddRt;
+                } else if (_isHubRt) {
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonSlug;
+                } else {
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug;
+                }
                 res.writeHead(301, { 'Location': _canonicalPath });
                 res.end();
                 return;
@@ -7932,18 +8001,13 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== Round 15: 404 صريح لصيغ URLs غير مدعومة في الهيكل الجديد =====
+    // ===== Round 15+16: 404 صريح للصيغة القديمة =====
     //   - /moon-today-in-{slug}/{date}  → 404 (الصيغة القديمة قبل clean-slate)
-    //   - /moon-in-{slug}                → 404 (بلا تاريخ؛ خارج النطاق حاليّاً)
-    // هذه الحماية تمنع SPA fallback عند 8300 من تسليم index.html لصفحات لا تقبلها الهيكل.
+    //   ملاحظة: /moon-in-{slug} (بلا تاريخ) أصبحت hub page صالحة في Round 16 —
+    //   تُعالَج عبر _isIndexHtmlRoute أعلاه، لا عبر 404 هنا.
     if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/.test(urlPath)) {
         res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Date pages are under <code>/moon-in-{city}/{date}</code> — not <code>/moon-today-in-</code>.</p>');
-        return;
-    }
-    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/.test(urlPath)) {
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Out of scope — use <code>/moon-today-in-{city}</code> for today or <code>/moon-in-{city}/{date}</code> for a specific date.</p>');
         return;
     }
 

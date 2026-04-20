@@ -6739,24 +6739,44 @@ const FAMOUS_MOON_CITIES = {
 };
 
 function _moonCitySlugFromPath() {
-    // Round 15: فصل الـ URLs — نحاول today ثمّ dated.
+    // Round 15 + Round 16: فصل الـ URLs — ثلاثة أشكال:
     //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم
     //   /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM-DD          → صفحة مؤرَّخة
+    //   /moon-in-{slug}[-{lat}-{lng}]                      → صفحة hub (Round 16)
     // نُرجِع slug فقط — الإحداثيّات تُقرأ عبر _moonCoordsFromPath().
     const p = window.location.pathname;
     let m = p.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     if (m) return m[1];
     m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/);
+    if (m) return m[1];
+    // Round 16: hub — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ
+    m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     return m ? m[1] : null;
 }
 
+// Round 16: يرجِع true إذا كان المسار الحاليّ هو hub page للمدينة (/moon-in-{slug} بلا تاريخ).
+// مستخدَم لـ:
+//   (أ) إخفاء moon-date-nav عن الـ hub (غير مفيد هناك)
+//   (ب) تعديل H1 إن لزم
+//   (ج) تعديل روابط «مدن أخرى» لتشير إلى hub بدل today
+function _moonIsHubPath() {
+    const p = window.location.pathname;
+    // استبعد صفحة التاريخ أوّلاً (التاريخ ينتهي بـ /YYYY-MM-DD)
+    if (/\/moon-in-[a-z][a-z0-9-]+(?:-[-.\d]+-[-.\d]+)?\/\d{4}-\d{2}-\d{2}$/.test(p)) return false;
+    return /\/moon-in-[a-z][a-z0-9-]+?(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/.test(p);
+}
+
 // Round 12: إحداثيّات المدينة من الـ URL إن كانت coord-suffix موجودة.
-// Round 15: ندعم الشكلَين (today + dated). يُرجِع {lat, lng} أو null.
+// Round 15 + Round 16: ندعم ثلاثة أشكال (today + dated + hub). يُرجِع {lat, lng} أو null.
 function _moonCoordsFromPath() {
     const p = window.location.pathname;
     let m = p.match(/\/moon-today-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
     if (!m) {
         m = p.match(/\/moon-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)\/\d{4}-\d{2}-\d{2}$/);
+    }
+    if (!m) {
+        // Round 16: hub — /moon-in-{slug}-lat-lng (بلا تاريخ)
+        m = p.match(/\/moon-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
     }
     if (!m) return null;
     const lat = parseFloat(m[1]);
@@ -7116,6 +7136,9 @@ function updateMoonInfo() {
     const _requestedDate = _moonDateFromPath();
     const today = _requestedDate || new Date();
     const _isDatePage = !!_requestedDate;
+    // Round 16: hub page = /moon-in-{slug} (بلا تاريخ) — نستعمله في هذا الملفّ لـ:
+    //   (أ) اختيار H1 بلا "اليوم"  (ب) إخفاء moon-date-nav (عبر CSS أيضاً)  (ج) تعديل subtitle
+    const _isHubPage = !_isDatePage && _moonIsHubPath();
 
     // Round 13: تطبيق سياق الرابط (هجريّ/ميلاديّ) — badge + subtitle
     try { _applyMoonDateBadge(); } catch (_e) { /* silent */ }
@@ -7404,6 +7427,117 @@ function updateMoonInfo() {
             // Round 14 polish #3b: عنوان «الأطوار القمريّة القادمة» يبقى كما هو (يحوي «القادمة» أصلاً
             //   وهي صياغة محايدة)، لكن نُبرز الكلمة «القادمة» في الـ subtitle بلغة المستخدم
             //   لتطمئن الزائر بأنّ هذه توقّعات مستقبليّة (من الآن، لا من تاريخ الصفحة).
+
+            // ── Round 16a: روابط «مدن أخرى» على صفحة التاريخ تفتح نفس التاريخ في المدن الأخرى
+            //   (بدل فتح صفحة اليوم في تلك المدن). يحافظ على اتّساق النيّة الزمنيّة:
+            //   زائر يقرأ عن القمر يوم 2026-05-01 في مكّة ← يضغط «القاهرة» ← يتوقّع نفس اليوم
+            //   في القاهرة، لا «اليوم الحاليّ» في القاهرة.
+            //   نُحوّل href من "/moon-today-in-{slug}" إلى "/moon-in-{slug}/{YYYY-MM-DD}".
+            //   نستخدم الصيغة الميلاديّة دائماً (canonical) حتّى لو كان الرابط الحاليّ هجريّاً —
+            //   الـ server يقبل الشكلَين ويعيد canonical للميلاديّ تلقائيّاً.
+            try {
+                const _kindForLinks = _moonDateKindFromPath();
+                if (_kindForLinks && _kindForLinks.gYear) {
+                    const _padN = (n) => String(n).padStart(2, '0');
+                    const _isoG = _kindForLinks.gYear + '-' + _padN(_kindForLinks.gMonth) + '-' + _padN(_kindForLinks.gDay);
+                    const _gridLinks = document.querySelectorAll('.moon-cities-grid a[href^="/moon-today-in-"], .moon-cities-grid a[href*="/moon-today-in-"]');
+                    _gridLinks.forEach(a => {
+                        const _h = a.getAttribute('href') || '';
+                        // ندعم بادئة اللغة: /moon-today-in-X أو /en/moon-today-in-X
+                        const _newHref = _h.replace(/(^|\/)moon-today-in-([a-z0-9-]+)$/, '$1moon-in-$2/' + _isoG);
+                        if (_newHref !== _h) a.setAttribute('href', _newHref);
+                    });
+                }
+            } catch (_e) { /* silent */ }
+        }
+        // ── Round 16: Hub page — H1 بلا «اليوم» + subtitle عامّ للمدينة ──
+        // الصفحة evergreen؛ تمثّل المدينة كـ entity، لا يوم معيّن. العنوان هنا
+        // يجب ألّا يحوي «اليوم/Today/...»  ليعكس دوره الدلاليّ (hub/canonical للمدينة).
+        if (_isHubPage) {
+            const _HUB_H1 = {
+                ar: `🌙 حالة القمر في ${_cityName}، ${_countryName} — الطور والإضاءة والتقويم`,
+                en: `🌙 The Moon in ${_cityName}, ${_countryName} — Phase, Illumination & Calendar`,
+                fr: `🌙 La Lune à ${_cityName}, ${_countryName} — Phase, illumination et calendrier`,
+                tr: `🌙 ${_cityName}, ${_countryName}'da Ay — Evre, Aydınlanma ve Takvim`,
+                ur: `🌙 ${_cityName}، ${_countryName} میں چاند — مرحلہ، روشنی اور تقویم`,
+                de: `🌙 Der Mond in ${_cityName}, ${_countryName} — Phase, Beleuchtung und Kalender`,
+                id: `🌙 Bulan di ${_cityName}, ${_countryName} — Fase, Iluminasi & Kalender`,
+                es: `🌙 La Luna en ${_cityName}, ${_countryName} — Fase, iluminación y calendario`,
+                bn: `🌙 ${_cityName}, ${_countryName}-এ চাঁদ — দশা, আলোকসজ্জা ও ক্যালেন্ডার`,
+                ms: `🌙 Bulan di ${_cityName}, ${_countryName} — Fasa, Pencahayaan & Kalendar`
+            };
+            if (_h1El) _h1El.textContent = _HUB_H1[_lng_] || _HUB_H1.en;
+            // H2 الأقسام — نستبدل بعناوين محايدة زمنيّاً (لا تحوي «اليوم»)
+            const _HUB_H2 = {
+                ar: {
+                    title: `تفاصيل حالة القمر في ${_cityName}`,
+                    faq: `أسئلة شائعة عن القمر في ${_cityName}`,
+                    subtitle: `كلّ ما تحتاجه عن القمر في ${_cityName}: الطور الحاليّ، التقويم الهجريّ، ومواعيد البدر والمحاق القادمة`
+                },
+                en: {
+                    title: `Moon details in ${_cityName}`,
+                    faq: `FAQ about the Moon in ${_cityName}`,
+                    subtitle: `Everything about the Moon in ${_cityName}: current phase, Hijri calendar, upcoming full moon and new moon dates`
+                },
+                fr: {
+                    title: `Détails de la Lune à ${_cityName}`,
+                    faq: `FAQ sur la Lune à ${_cityName}`,
+                    subtitle: `Tout sur la Lune à ${_cityName} : phase actuelle, calendrier hégirien, prochaines pleines et nouvelles lunes`
+                },
+                tr: {
+                    title: `${_cityName} için Ay ayrıntıları`,
+                    faq: `${_cityName} için Ay hakkında SSS`,
+                    subtitle: `${_cityName}'da Ay hakkında her şey: güncel evre, hicri takvim ve yaklaşan dolunay/yeni ay tarihleri`
+                },
+                ur: {
+                    title: `${_cityName} میں چاند کی تفصیلات`,
+                    faq: `${_cityName} میں چاند کے بارے میں عام سوالات`,
+                    subtitle: `${_cityName} میں چاند کے بارے میں سب کچھ: موجودہ مرحلہ، ہجری تقویم، آنے والے بدر اور نئے چاند کی تاریخیں`
+                },
+                de: {
+                    title: `Monddetails in ${_cityName}`,
+                    faq: `FAQ zum Mond in ${_cityName}`,
+                    subtitle: `Alles über den Mond in ${_cityName}: aktuelle Phase, Hidschri-Kalender, kommende Vollmond- und Neumonddaten`
+                },
+                id: {
+                    title: `Detail Bulan di ${_cityName}`,
+                    faq: `FAQ Bulan di ${_cityName}`,
+                    subtitle: `Segala tentang Bulan di ${_cityName}: fase saat ini, kalender Hijriah, tanggal purnama dan bulan baru mendatang`
+                },
+                es: {
+                    title: `Detalles de la Luna en ${_cityName}`,
+                    faq: `Preguntas frecuentes sobre la Luna en ${_cityName}`,
+                    subtitle: `Todo sobre la Luna en ${_cityName}: fase actual, calendario hijri, próximas lunas llenas y nuevas`
+                },
+                bn: {
+                    title: `${_cityName}-এ চাঁদের বিস্তারিত`,
+                    faq: `${_cityName}-এ চাঁদ সম্পর্কে সাধারণ প্রশ্ন`,
+                    subtitle: `${_cityName}-এ চাঁদ সম্পর্কে সবকিছু: বর্তমান দশা, হিজরি ক্যালেন্ডার, আসন্ন পূর্ণিমা ও অমাবস্যার তারিখ`
+                },
+                ms: {
+                    title: `Butiran Bulan di ${_cityName}`,
+                    faq: `Soalan lazim tentang Bulan di ${_cityName}`,
+                    subtitle: `Semua tentang Bulan di ${_cityName}: fasa semasa, kalendar Hijrah, tarikh bulan purnama dan anak bulan akan datang`
+                }
+            };
+            const _hubTpl = _HUB_H2[_lng_] || _HUB_H2.en;
+            const _overH2Hub = (id, txt, keepIcon) => {
+                const el = document.getElementById(id);
+                if (!el || !txt) return;
+                const _raw = el.textContent || '';
+                const _emoMatch = _raw.match(/^\s*([\p{Emoji_Presentation}\p{Extended_Pictographic}]+\s*)/u);
+                const _prefix = (keepIcon && _emoMatch) ? _emoMatch[1] : '';
+                el.textContent = _prefix + txt;
+            };
+            _overH2Hub('moon-title-h2', _hubTpl.title, true);
+            _overH2Hub('moon-faq-live-h2', _hubTpl.faq, true);
+            _overH2Hub('moon-faq-city-h2', _hubTpl.faq, true);
+            _overH2Hub('moon-subtitle', _hubTpl.subtitle, false);
+            // إخفاء شريط التنقّل بين الأيّام على صفحة hub (لا يوجد «prev/next date»)
+            try {
+                const _navElHub = document.getElementById('moon-date-nav');
+                if (_navElHub) _navElHub.hidden = true;
+            } catch (_e) { /* silent */ }
         }
         if (_locEl) {
             const _locTemplates = {
@@ -8286,9 +8420,10 @@ function updateMoonInfo() {
     }
 
     // شريط التنقّل بين الأيّام — يُملأ دائمًا (hidden على الصفحات غير date-page عبر CSS)
+    // Round 16: لا نُعرِضه على صفحة hub (لا يوجد prev/next date في سياق hub).
     try {
         const _navEl = document.getElementById('moon-date-nav');
-        if (_navEl && _citySlug) {
+        if (_navEl && _citySlug && !_isHubPage) {
             const _prevDate = new Date(today); _prevDate.setDate(_prevDate.getDate() - 1);
             const _nextDate = new Date(today); _nextDate.setDate(_nextDate.getDate() + 1);
 

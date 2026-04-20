@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=291" as="script">
-    <link rel="stylesheet" href="css/style.css?v=75">
+    <link rel="preload" href="js/app.js?v=292" as="script">
+    <link rel="stylesheet" href="css/style.css?v=76">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -835,60 +835,74 @@
                     </ul>
                 </div>
 
-                <!-- FAQ — Live Dynamic Section (real-time data per city/date)
-                     Restructured: top 3 highlight cards (always visible) + 3 grouped accordions for the rest.
-                     IDs preserved (moon-dq*-q / moon-dq*-a) so app.js dynamic fillers and FAQPage schema continue to align. -->
-                <div class="section-card moon-faq-live-card">
+                <!-- 🔴 LIVE Dashboard — redesigned: HERO (current phase) + Events + Quick Stats
+                     Replaces the prior Q+A list with a scannable, glance-first UI. The general
+                     FAQPage schema lives server-side and is matched by the static FAQ below. -->
+                <div class="section-card moon-live-card">
                     <h2 id="moon-faq-live-h2" data-i18n="moon.faq_live_title">🔴 الآن: القمر الليلة</h2>
 
-                    <!-- 3 BARZE: ما يهمّ أوّلًا — الطور، البدر القادم، المحاق القادم -->
-                    <div class="moon-faq-highlight moon-faq-live">
-                        <div class="moon-faq-card">
-                            <h3 class="moon-faq-card-q" data-i18n="moon.faq.dq1" id="moon-dq1-q">ما طور القمر الليلة في مدينتك؟</h3>
-                            <p class="moon-faq-card-a" data-i18n="moon.faq.da1" id="moon-dq1-a">يعرض الموقع طور القمر الحاليّ ونسبة إضاءته لحظياً. يمرّ القمر بثمانية أطوار خلال 29.5 يوم.</p>
+                    <!-- 1) HERO: الطور الحاليّ + عمر القمر + شريط التقدّم -->
+                    <div class="moon-hero" id="moon-hero">
+                        <div class="moon-hero-icon-wrap">
+                            <span class="moon-hero-icon" id="moon-hero-icon" aria-hidden="true">🌒</span>
                         </div>
-                        <div class="moon-faq-card">
-                            <h3 class="moon-faq-card-q" data-i18n="moon.faq.dq2">متى البدر القادم؟</h3>
-                            <p class="moon-faq-card-a" data-i18n="moon.faq.da2" id="moon-dq2-a">البدر يتكرّر كلّ 29.5 يوم. يعرض الموقع التاريخ الميلاديّ والهجريّ للبدر القادم مع نسبة إضاءة 100٪.</p>
-                        </div>
-                        <div class="moon-faq-card">
-                            <h3 class="moon-faq-card-q" data-i18n="moon.faq.dq3">متى المحاق القادم؟</h3>
-                            <p class="moon-faq-card-a" data-i18n="moon.faq.da3" id="moon-dq3-a">المحاق هو اللحظة التي يكون فيها القمر بين الأرض والشمس بإضاءة 0٪. يتكرّر كلّ 29.5 يوم ويبدأ به الشهر القمريّ الجديد.</p>
+                        <div class="moon-hero-info">
+                            <div class="moon-hero-eyebrow" data-i18n="moon.live.phase_now">الطور الآن</div>
+                            <h3 class="moon-hero-phase" id="moon-hero-phase">هلال متزايد</h3>
+                            <div class="moon-hero-stats">
+                                <div class="moon-hero-stat">
+                                    <span class="moon-hero-stat-value" id="moon-hero-illum-pct">—</span>
+                                    <span class="moon-hero-stat-label" data-i18n="moon.live.illumination">إضاءة</span>
+                                </div>
+                                <div class="moon-hero-stat">
+                                    <span class="moon-hero-stat-value"><span id="moon-hero-age-val">—</span> / 29.5</span>
+                                    <span class="moon-hero-stat-label" data-i18n="moon.live.age_days_label">يوم من الدورة</span>
+                                </div>
+                            </div>
+                            <div class="moon-hero-progress" role="progressbar" aria-label="Moon age progress" aria-valuemin="0" aria-valuemax="100">
+                                <div class="moon-hero-progress-fill" id="moon-hero-progress-fill" style="width:0%;"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- مجموعات Accordion: الباقي مصنّف بصريًا في 3 فئات أخفّ وزنًا -->
-                    <div class="moon-faq moon-faq-live moon-faq-grouped" id="moon-faq-live">
-                        <div class="moon-faq-group">
-                            <h3 class="moon-faq-group-title" data-i18n="moon.faq.group_times">⏰ أوقات القمر اليوم</h3>
-                            <details class="moon-faq-item">
-                                <summary data-i18n="moon.faq.dq6" id="moon-dq6-q">متى يطلع القمر الليلة في مدينتك؟</summary>
-                                <p data-i18n="moon.faq.da6" id="moon-dq6-a">مطلع القمر يعتمد على خطّ الطول الجغرافيّ لموقعك. يعرض الموقع وقت المطلع بالتوقيت المحلّيّ بعد تحديد الموقع.</p>
-                            </details>
-                            <details class="moon-faq-item">
-                                <summary data-i18n="moon.faq.dq7" id="moon-dq7-q">متى يغيب القمر الليلة في مدينتك؟</summary>
-                                <p data-i18n="moon.faq.da7" id="moon-dq7-a">مغيب القمر يعتمد على خطّ الطول الجغرافيّ وخطّ العرض لموقعك. يعرض الموقع وقت المغيب بالتوقيت المحلّيّ.</p>
-                            </details>
-                        </div>
+                    <!-- 2) Events: البدر القادم + المحاق القادم -->
+                    <div class="moon-events-grid">
+                        <a class="moon-event-card moon-event-full" id="moon-event-full-link" href="#" rel="nofollow">
+                            <div class="moon-event-icon" aria-hidden="true">🌕</div>
+                            <div class="moon-event-body">
+                                <div class="moon-event-title" data-i18n="moon.live.next_full_title">البدر القادم</div>
+                                <div class="moon-event-date" id="moon-event-full-date">—</div>
+                                <div class="moon-event-countdown" id="moon-event-full-countdown">—</div>
+                                <div class="moon-event-hijri" id="moon-event-full-hijri"></div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-new" id="moon-event-new-link" href="#" rel="nofollow">
+                            <div class="moon-event-icon" aria-hidden="true">🌑</div>
+                            <div class="moon-event-body">
+                                <div class="moon-event-title" data-i18n="moon.live.next_new_title">المحاق القادم</div>
+                                <div class="moon-event-date" id="moon-event-new-date">—</div>
+                                <div class="moon-event-countdown" id="moon-event-new-countdown">—</div>
+                                <div class="moon-event-hijri" id="moon-event-new-hijri"></div>
+                            </div>
+                        </a>
+                    </div>
 
-                        <div class="moon-faq-group">
-                            <h3 class="moon-faq-group-title" data-i18n="moon.faq.group_info">📊 معلومات القمر</h3>
-                            <details class="moon-faq-item">
-                                <summary data-i18n="moon.faq.dq5">كم عمر القمر اليوم؟</summary>
-                                <p data-i18n="moon.faq.da5" id="moon-dq5-a">عمر القمر هو عدد الأيّام المنقضية منذ آخر محاق، ويتراوح بين 0 و29.5 يوم.</p>
-                            </details>
-                            <details class="moon-faq-item">
-                                <summary data-i18n="moon.faq.dq8" id="moon-dq8-q">ما المسافة بين مدينتك والقمر الآن؟</summary>
-                                <p data-i18n="moon.faq.da8" id="moon-dq8-a">تتراوح المسافة بين الأرض والقمر بين 356,500 كم (الحضيض) و406,700 كم (الأوج). يحسب الموقع المسافة الدقيقة من مدينتك إلى القمر باستخدام تصحيح topocentric.</p>
-                            </details>
+                    <!-- 3) Quick Stats: شروق + غروب + مسافة (no accordion — instant scan) -->
+                    <div class="moon-quick-stats">
+                        <div class="moon-stat">
+                            <span class="moon-stat-icon" aria-hidden="true">🌅</span>
+                            <span class="moon-stat-label" data-i18n="moon.live.rise_label">يشرق</span>
+                            <span class="moon-stat-value" id="moon-stat-rise">—</span>
                         </div>
-
-                        <div class="moon-faq-group">
-                            <h3 class="moon-faq-group-title" data-i18n="moon.faq.group_events">🌕 الأحداث القادمة</h3>
-                            <details class="moon-faq-item">
-                                <summary data-i18n="moon.faq.dq4">كم يومًا حتّى البدر القادم؟</summary>
-                                <p data-i18n="moon.faq.da4" id="moon-dq4-a">يحسب الموقع عدد الأيّام المتبقّية حتّى البدر التالي تلقائيًّا بناءً على الموقع الفلكيّ الحاليّ للقمر.</p>
-                            </details>
+                        <div class="moon-stat">
+                            <span class="moon-stat-icon" aria-hidden="true">🌇</span>
+                            <span class="moon-stat-label" data-i18n="moon.live.set_label">يغرب</span>
+                            <span class="moon-stat-value" id="moon-stat-set">—</span>
+                        </div>
+                        <div class="moon-stat">
+                            <span class="moon-stat-icon" aria-hidden="true">📏</span>
+                            <span class="moon-stat-label" data-i18n="moon.live.distance_label">المسافة</span>
+                            <span class="moon-stat-value" id="moon-stat-distance">—</span>
                         </div>
                     </div>
                 </div>
@@ -1589,14 +1603,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=95"></script>
+    <script defer src="js/i18n.js?v=96"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=2"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=291"></script>
+    <script defer src="js/app.js?v=292"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

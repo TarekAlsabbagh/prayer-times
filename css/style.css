@@ -1479,88 +1479,227 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     color: var(--text);
 }
 
-/* ── Redesign: 3 بطاقات بارزة (دون Accordion) لأهمّ أسئلة الـ FAQ المباشر ── */
-.moon-faq-highlight {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
-    margin-bottom: 18px;
-}
-.moon-faq-card {
-    background: linear-gradient(135deg, rgba(26,107,60,0.08), rgba(26,107,60,0.02));
-    border: 1px solid rgba(26,107,60,0.2);
-    border-radius: 10px;
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.moon-faq-card-q {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin: 0;
-    line-height: 1.4;
-}
-.moon-faq-card-a {
-    font-size: 0.92rem;
-    line-height: 1.65;
-    color: var(--text);
-    margin: 0;
-    font-weight: 500;
-}
+/* ============================================================
+   🔴 LIVE DASHBOARD (redesign): HERO + Events + Quick Stats
+   Glance-first UI replacing the previous dynamic FAQ accordion.
+   ============================================================ */
 
-/* ── Redesign: مجموعات Accordion المصنّفة (وزن بصريّ أخفّ) ── */
-.moon-faq-grouped {
-    gap: 16px;
+/* ----- 1) HERO: Current Phase (the main visual anchor) ----- */
+.moon-hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(26,107,60,0.12), rgba(45,143,84,0.04));
+    border: 1px solid rgba(26,107,60,0.20);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 8px rgba(26,107,60,0.06);
 }
-.moon-faq-group {
+.moon-hero-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 84px;
+    height: 84px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+    border: 2px solid rgba(26,107,60,0.18);
+    flex-shrink: 0;
+}
+.moon-hero-icon {
+    font-size: 3.2rem;
+    line-height: 1;
+}
+.moon-hero-info {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    min-width: 0;
 }
-.moon-faq-group-title {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--text-secondary, #666);
-    margin: 4px 0 2px;
-    padding-bottom: 5px;
-    border-bottom: 1px dashed var(--border);
-    line-height: 1.3;
+.moon-hero-eyebrow {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin: 0;
 }
-/* عناصر Accordion داخل المجموعات: أخفّ وزنًا من البطاقات البارزة */
-.moon-faq-grouped .moon-faq-item {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    border-left-width: 1px;
+.moon-hero-phase {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin: 0;
+    line-height: 1.15;
 }
-html[dir="rtl"] .moon-faq-grouped .moon-faq-item {
-    border-right-width: 1px;
+.moon-hero-stats {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 6px;
 }
-.moon-faq-grouped .moon-faq-item summary {
-    padding: 9px 14px;
-    padding-inline-end: 32px;
-    font-size: 0.92rem;
-    font-weight: 600;
+.moon-hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
 }
-.moon-faq-grouped .moon-faq-item p {
-    padding: 0 14px 11px;
-    font-size: 0.9rem;
+.moon-hero-stat-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+}
+.moon-hero-stat-label {
+    font-size: 0.76rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+.moon-hero-progress {
+    height: 7px;
+    background: rgba(26,107,60,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.moon-hero-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    border-radius: 4px;
+    transition: width 0.6s ease;
 }
 
-/* جوّال: البطاقات البارزة في عمود واحد */
+/* ----- 2) Events Grid: Next Full + Next New Moon ----- */
+.moon-events-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.moon-event-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.moon-event-card[href]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    border-color: rgba(26,107,60,0.35);
+}
+.moon-event-icon {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.moon-event-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.moon-event-title {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.moon-event-date {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+}
+.moon-event-countdown {
+    font-size: 0.92rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin-top: 1px;
+}
+.moon-event-hijri {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+/* ----- 3) Quick Stats: Rise / Set / Distance (no accordion) ----- */
+.moon-quick-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: rgba(0,0,0,0.025);
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 10px;
+    padding: 12px;
+}
+.moon-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2px;
+    padding: 6px 4px;
+}
+.moon-stat-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.moon-stat-label {
+    font-size: 0.76rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+.moon-stat-value {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.25;
+    margin-top: 1px;
+}
+
+/* ----- Mobile responsive ----- */
 @media (max-width: 600px) {
-    .moon-faq-highlight {
+    .moon-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 16px;
+        gap: 12px;
+    }
+    .moon-hero-icon-wrap {
+        margin: 0 auto;
+        width: 76px;
+        height: 76px;
+    }
+    .moon-hero-icon { font-size: 2.8rem; }
+    .moon-hero-stats {
+        justify-content: center;
+        gap: 16px;
+    }
+    .moon-hero-phase { font-size: 1.35rem; }
+    .moon-events-grid {
         grid-template-columns: 1fr;
         gap: 10px;
-        margin-bottom: 14px;
     }
-    .moon-faq-card {
-        padding: 12px 14px;
+    .moon-event-card { padding: 12px; }
+    .moon-event-date { font-size: 0.98rem; }
+    .moon-quick-stats {
+        padding: 10px 6px;
+        gap: 4px;
     }
-    .moon-faq-card-q { font-size: 0.93rem; }
-    .moon-faq-card-a { font-size: 0.9rem; }
+    .moon-stat-value { font-size: 0.95rem; }
+    .moon-stat-label { font-size: 0.72rem; }
+    .moon-stat-icon { font-size: 1.35rem; }
 }
 .moon-evergreen h3 {
     font-size: 1.08rem;

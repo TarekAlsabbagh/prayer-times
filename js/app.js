@@ -7120,6 +7120,96 @@ function updateMoonInfo() {
                 distance: _fmtNum(Math.round(_distKm), 0)
             });
         }
+
+        // ── LIVE DASHBOARD (HERO + Events + Quick Stats) — populates compact, scannable values
+        const _setText = (id, value) => {
+            const el = document.getElementById(id);
+            if (el && value != null) el.textContent = value;
+        };
+
+        // مساعد للعدّ التنازليّ مع تعريب اللغة وأخذ الجمع/المثنّى/المفرد بالاعتبار
+        const _countdownLabel = (n) => {
+            if (n === 0) {
+                const todayLbl = (typeof t === 'function') ? t('moon.live.today') : 'Today';
+                return (todayLbl && todayLbl !== 'moon.live.today') ? todayLbl : 'Today';
+            }
+            if (n === 1) {
+                const tmrwLbl = (typeof t === 'function') ? t('moon.live.tomorrow') : 'Tomorrow';
+                return (tmrwLbl && tmrwLbl !== 'moon.live.tomorrow') ? tmrwLbl : 'Tomorrow';
+            }
+            const tpl = (typeof t === 'function') ? t('moon.live.in_n_days', { n: _fmtNum(n, 0) }) : null;
+            if (tpl && tpl !== 'moon.live.in_n_days') return tpl;
+            return 'in ' + n + ' days';
+        };
+
+        // 1) HERO — phase icon + name + illumination + age + progress
+        _setText('moon-hero-icon', phase.icon || '🌙');
+        _setText('moon-hero-phase', _phaseLabel || phase.name || '');
+        _setText('moon-hero-illum-pct', _fmtNum(illumination, 2) + '%');
+        _setText('moon-hero-age-val', _fmtNum(age, 2));
+        const _heroProgressEl = document.getElementById('moon-hero-progress-fill');
+        if (_heroProgressEl) {
+            const _pct = Math.max(0, Math.min(100, (Number(age) / 29.5) * 100));
+            _heroProgressEl.style.width = _pct.toFixed(1) + '%';
+            const _heroBarEl = _heroProgressEl.parentElement;
+            if (_heroBarEl) _heroBarEl.setAttribute('aria-valuenow', String(Math.round(_pct)));
+        }
+
+        // 2) EVENTS — full moon + new moon cards (date + countdown + hijri + clickable link to that day)
+        const _lngLD = (typeof getCurrentLang === 'function') ? getCurrentLang() : (_lng_ || 'ar');
+        const _langPrefixLD = (_lngLD === 'ar') ? '' : ('/' + _lngLD);
+        const _isoOf = (d) => {
+            if (!d) return '';
+            const _p = (n) => (n < 10 ? '0' + n : String(n));
+            return d.getFullYear() + '-' + _p(d.getMonth() + 1) + '-' + _p(d.getDate());
+        };
+        const _eventHref = (d) => {
+            if (!d || !_citySlug) return null;
+            return _langPrefixLD + '/moon-today-in-' + _citySlug + '/' + _isoOf(d);
+        };
+
+        if (nextFull) {
+            _setText('moon-event-full-date', _fmtDate(nextFull));
+            _setText('moon-event-full-countdown', _countdownLabel(_daysUntilFull));
+            _setText('moon-event-full-hijri', _hijriStr(nextFull));
+            const _fullLink = document.getElementById('moon-event-full-link');
+            const _fullHref = _eventHref(nextFull);
+            if (_fullLink) {
+                if (_fullHref) {
+                    _fullLink.setAttribute('href', _fullHref);
+                    _fullLink.removeAttribute('rel');
+                } else {
+                    // لا توجد مدينة → اجعل البطاقة غير قابلة للنقر
+                    _fullLink.removeAttribute('href');
+                    _fullLink.style.cursor = 'default';
+                }
+            }
+        }
+        if (nextNew) {
+            _setText('moon-event-new-date', _fmtDate(nextNew));
+            _setText('moon-event-new-countdown', _countdownLabel(_daysUntilNew));
+            _setText('moon-event-new-hijri', _hijriStr(nextNew));
+            const _newLink = document.getElementById('moon-event-new-link');
+            const _newHref = _eventHref(nextNew);
+            if (_newLink) {
+                if (_newHref) {
+                    _newLink.setAttribute('href', _newHref);
+                    _newLink.removeAttribute('rel');
+                } else {
+                    _newLink.removeAttribute('href');
+                    _newLink.style.cursor = 'default';
+                }
+            }
+        }
+
+        // 3) QUICK STATS — rise / set / distance
+        _setText('moon-stat-rise', moonTimes && moonTimes.rise ? moonTimes.rise : '—');
+        _setText('moon-stat-set',  moonTimes && moonTimes.set  ? moonTimes.set  : '—');
+        if (_distKm != null) {
+            const _kmUnit = (typeof t === 'function') ? t('moon.live.km_unit') : 'km';
+            const _kmLabel = (_kmUnit && _kmUnit !== 'moon.live.km_unit') ? _kmUnit : 'km';
+            _setText('moon-stat-distance', _fmtNum(Math.round(_distKm), 0) + ' ' + _kmLabel);
+        }
     } catch (_err) {
         // فشل هادئ — تبقى الإجابات الافتراضيّة ظاهرة
         if (window.console && console.warn) console.warn('Dynamic moon FAQ fill failed:', _err);

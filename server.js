@@ -2148,6 +2148,26 @@ function _jdToHijri(jd) {
     const day = jd - _hijriToJD(year, month, 1) + 1;
     return { year: year, month: Math.max(1, month), day: Math.max(1, Math.floor(day)) };
 }
+// Julian Day → Gregorian date
+function _jdToGregorian(jd) {
+    const jdInt = Math.floor(jd) + 0.5;
+    const l = jdInt + 68569;
+    const n = Math.floor((4 * l) / 146097);
+    const l2 = l - Math.floor((146097 * n + 3) / 4);
+    const i = Math.floor((4000 * (l2 + 1)) / 1461001);
+    const l3 = l2 - Math.floor((1461 * i) / 4) + 31;
+    const j = Math.floor((80 * l3) / 2447);
+    const day = l3 - Math.floor((2447 * j) / 80);
+    const l4 = Math.floor(j / 11);
+    const month = j + 2 - 12 * l4;
+    const year = 100 * (n - 49) + i + l4;
+    return { year: Math.floor(year), month: Math.floor(month), day: Math.floor(day) };
+}
+// Hijri → Gregorian (نفس خوارزمية client-side لضمان التطابق)
+function _hijriToGregorian(hYear, hMonth, hDay) {
+    const jd = _hijriToJD(hYear, hMonth, hDay);
+    return _jdToGregorian(jd);
+}
 // الحاضر دائماً بتوقيت مكّة المكرّمة (Asia/Riyadh) — ضروريّ لئلّا يتأخّر
 // التاريخ الهجري/الميلادي يوماً كاملاً حين يكون TZ السيرفر UTC وفرق
 // السعوديّة +3 لم يتخطَّ منتصف الليل بعد.
@@ -3655,20 +3675,37 @@ function buildSeoForPath(urlPath) {
         // إشارة للراوتر: الصفحة noindex إذا كانت coord-only (بلا DB)
         const _isCoordOnlyMoon = _hasCoordSuffix && !_resolveCityForMoon(citySlug);
         // ── تحليل التاريخ إن وُجد ──
+        // ندعم شكلين: ميلاديّ (YYYY-MM-DD حيث YYYY≥1800) وهجريّ (HYYYY-HMM-HDD حيث HYYYY<1800).
+        // بالنسبة للتطبيق لا تداخل بين النطاقين (Hijri ≈ 1300-1600، Gregorian ≥ 1900).
+        // عند التاريخ الهجريّ → نحوّله إلى الميلاديّ ونُعيد URL الـ canonical إلى الصيغة الميلاديّة.
         let _moonDateIso = null;        // 'YYYY-MM-DD' — null يعني صفحة اليوم
         let _moonDateObj = null;        // Date object للتاريخ المحدَّد
         let _moonDateInRange = true;    // true عندما التاريخ ضمن [today-30, today+90]
+        let _moonDateWasHijri = false;  // لإرسال 301 redirect إلى الصيغة الميلاديّة canonical
         if (m[2]) {
-            const _dy = parseInt(m[2], 10);
-            const _dm = parseInt(m[3], 10);
-            const _dd = parseInt(m[4], 10);
+            let _dy = parseInt(m[2], 10);
+            let _dm = parseInt(m[3], 10);
+            let _dd = parseInt(m[4], 10);
+            // إن كانت السنة < 1800 → تاريخ هجريّ، نحوّله إلى ميلاديّ
+            if (_dy > 0 && _dy < 1800 && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
+                try {
+                    const _g = _hijriToGregorian(_dy, _dm, _dd);
+                    if (_g && _g.year && _g.month && _g.day) {
+                        _moonDateWasHijri = true;
+                        _dy = _g.year; _dm = _g.month; _dd = _g.day;
+                    } else {
+                        _moonDateInRange = false;
+                    }
+                } catch (_e) { _moonDateInRange = false; }
+            }
             // صحّة التقويم: Date.UTC يعيد NaN أو يصحّح الأرقام؛ نتحقّق بإعادة المقارنة
-            if (_dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
+            if (_moonDateInRange && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
                 const _testUtc = Date.UTC(_dy, _dm - 1, _dd);
                 const _test = new Date(_testUtc);
                 if (_test.getUTCFullYear() === _dy && _test.getUTCMonth() === (_dm - 1) && _test.getUTCDate() === _dd) {
                     _moonDateObj = _test;
-                    _moonDateIso = m[2] + '-' + m[3] + '-' + m[4];
+                    const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
+                    _moonDateIso = _dy + '-' + _pad2(_dm) + '-' + _pad2(_dd);
                     // نطاق: today − 30 إلى today + 90 بتوقيت UTC
                     const _todayUtc = new Date();
                     const _t0 = Date.UTC(_todayUtc.getUTCFullYear(), _todayUtc.getUTCMonth(), _todayUtc.getUTCDate());
@@ -3681,7 +3718,7 @@ function buildSeoForPath(urlPath) {
                     // لكن بما أنّ slug مقبول، نترك الصفحة تفتح مع التاريخ كـ out-of-range (noindex)
                     _moonDateInRange = false;
                 }
-            } else {
+            } else if (_moonDateInRange) {
                 _moonDateInRange = false;
             }
         }
@@ -3689,6 +3726,8 @@ function buildSeoForPath(urlPath) {
             const cityDisplay = _resolveCityName(citySlug, lang);
             // ── توليد سلسلة تاريخ مقروءة لكلّ لغة ── (مثل: "19 أبريل 2026" / "19 April 2026")
             let _moonDateLabel = '';
+            let _hijriLabel = '';          // "3 ذو القعدة 1447" (بلا لاحقة)
+            let _hijriLabelWithSfx = '';   // "3 ذو القعدة 1447 هـ"
             if (_moonDateObj) {
                 const _GMONTH_NAMES = {
                     ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
@@ -3704,35 +3743,83 @@ function buildSeoForPath(urlPath) {
                 };
                 const _mon = (_GMONTH_NAMES[lang] || _GMONTH_NAMES.en)[_moonDateObj.getUTCMonth()];
                 _moonDateLabel = _moonDateObj.getUTCDate() + ' ' + _mon + ' ' + _moonDateObj.getUTCFullYear();
+
+                // ── Hijri label (للعرض عندما كان URL هجريّاً) ──
+                // Hijri month names في 10 لغات — من HIJRI_MONTHS_BY_LANG في js/app.js
+                const _HMONTH_NAMES_L = {
+                    ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                    en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                    fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                    tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                    ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                    de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                    id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                    es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                    bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                    ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
+                };
+                const _HIJRI_SFX = {
+                    ar: ' هـ', en: ' AH', fr: ' H', tr: ' H', ur: ' ہجری',
+                    de: ' AH', id: ' H', es: ' H', bn: ' হিজরি', ms: ' H'
+                };
+                try {
+                    const _hj = _jdToHijri(_gregToJD(_moonDateObj.getUTCFullYear(), _moonDateObj.getUTCMonth() + 1, _moonDateObj.getUTCDate()));
+                    const _hMon = (_HMONTH_NAMES_L[lang] || _HMONTH_NAMES_L.en)[_hj.month - 1];
+                    _hijriLabel = _hj.day + ' ' + _hMon + ' ' + _hj.year;
+                    _hijriLabelWithSfx = _hijriLabel + (_HIJRI_SFX[lang] || _HIJRI_SFX.en);
+                } catch (_e) { /* keep blank */ }
             }
+
+            // اختر "تسمية رئيسيّة" للتاريخ: هجريّ إن كان URL هجريّاً، وإلا ميلاديّ
+            const _primaryDateLabel = _moonDateWasHijri && _hijriLabelWithSfx ? _hijriLabelWithSfx : _moonDateLabel;
+            // ثانويّة (الموافق ...): العكس
+            const _secondaryDateLabel = _moonDateWasHijri ? _moonDateLabel : _hijriLabelWithSfx;
+
+            // "الموافق X" بكلّ لغة
+            const _EQUIV = {
+                ar: (d) => `الموافق ${d}`,
+                en: (d) => `(equivalent to ${d})`,
+                fr: (d) => `(équivalent au ${d})`,
+                tr: (d) => `(${d} tarihine denk gelir)`,
+                ur: (d) => `(${d} کے مطابق)`,
+                de: (d) => `(entspricht ${d})`,
+                id: (d) => `(bertepatan dengan ${d})`,
+                es: (d) => `(equivalente al ${d})`,
+                bn: (d) => `(${d} তারিখের সমতুল্য)`,
+                ms: (d) => `(bersamaan ${d})`
+            };
+            const _equivFn = _EQUIV[lang] || _EQUIV.en;
+            const _mainWithEquiv = _secondaryDateLabel
+                ? (_primaryDateLabel + ' ' + _equivFn(_secondaryDateLabel))
+                : _primaryDateLabel;
 
             // Title/Description — اختيار حسب صفحة اليوم أو صفحة تاريخ محدَّد
             let _moonTitle, _moonDesc;
             if (_moonDateIso && _moonDateInRange) {
-                // ── عناوين خاصّة بصفحة التاريخ ──
+                // ── عناوين خاصّة بصفحة التاريخ ── (التاريخ الأساسيّ + الموافق بين قوسين)
                 _moonTitle = {
-                    ar: `حالة القمر في ${cityDisplay} يوم ${_moonDateLabel} — الطور والإضاءة والعمر`,
-                    en: `Moon in ${cityDisplay} on ${_moonDateLabel} — Phase, Illumination & Age`,
-                    fr: `La Lune à ${cityDisplay} le ${_moonDateLabel} — Phase, illumination et âge`,
-                    tr: `${cityDisplay} için ${_moonDateLabel} tarihinde Ay — Evre, Aydınlanma ve Yaş`,
-                    ur: `${cityDisplay} میں ${_moonDateLabel} کو چاند — مرحلہ، روشنی اور عمر`,
-                    de: `Der Mond in ${cityDisplay} am ${_moonDateLabel} — Phase, Beleuchtung & Alter`,
-                    id: `Bulan di ${cityDisplay} pada ${_moonDateLabel} — Fase, Iluminasi & Usia`,
-                    es: `La Luna en ${cityDisplay} el ${_moonDateLabel} — Fase, iluminación y edad`,
-                    bn: `${cityDisplay}-এ ${_moonDateLabel}-এ চাঁদ — দশা, আলোকসজ্জা ও বয়স`,
-                    ms: `Bulan di ${cityDisplay} pada ${_moonDateLabel} — Fasa, Pencahayaan & Usia`,
+                    ar: `حالة القمر في ${cityDisplay} يوم ${_mainWithEquiv} — الطور والإضاءة والعمر`,
+                    en: `Moon in ${cityDisplay} on ${_mainWithEquiv} — Phase, Illumination & Age`,
+                    fr: `La Lune à ${cityDisplay} le ${_mainWithEquiv} — Phase, illumination et âge`,
+                    tr: `${cityDisplay} için ${_mainWithEquiv} tarihinde Ay — Evre, Aydınlanma ve Yaş`,
+                    ur: `${cityDisplay} میں ${_mainWithEquiv} کو چاند — مرحلہ، روشنی اور عمر`,
+                    de: `Der Mond in ${cityDisplay} am ${_mainWithEquiv} — Phase, Beleuchtung & Alter`,
+                    id: `Bulan di ${cityDisplay} pada ${_mainWithEquiv} — Fase, Iluminasi & Usia`,
+                    es: `La Luna en ${cityDisplay} el ${_mainWithEquiv} — Fase, iluminación y edad`,
+                    bn: `${cityDisplay}-এ ${_mainWithEquiv}-এ চাঁদ — দশা, আলোকসজ্জা ও বয়স`,
+                    ms: `Bulan di ${cityDisplay} pada ${_mainWithEquiv} — Fasa, Pencahayaan & Usia`,
                 };
                 _moonDesc = {
-                    ar: `طور القمر في ${cityDisplay} يوم ${_moonDateLabel}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,
-                    en: `Moon phase in ${cityDisplay} on ${_moonDateLabel}: illumination, moon age, moonrise, moonset, and zodiac — calculated with precise astronomical formulas.`,
-                    fr: `Phase de la Lune à ${cityDisplay} le ${_moonDateLabel} : illumination, âge, heures de lever et coucher, et signe zodiacal — calculés avec des algorithmes astronomiques précis.`,
-                    tr: `${cityDisplay} için ${_moonDateLabel} tarihinde Ay evresi: aydınlanma, yaş, doğuş ve batış saatleri ve burç — kesin astronomik algoritmalarla hesaplanır.`,
-                    ur: `${cityDisplay} میں ${_moonDateLabel} کو چاند کا مرحلہ: روشنی، عمر، طلوع و غروب کے اوقات اور برج — درست فلکی فارمولوں سے حساب لگایا گیا۔`,
-                    de: `Mondphase in ${cityDisplay} am ${_moonDateLabel}: Beleuchtung, Mondalter, Aufgang, Untergang und Sternbild — berechnet mit präzisen astronomischen Algorithmen.`,
-                    id: `Fase Bulan di ${cityDisplay} pada ${_moonDateLabel}: iluminasi, usia Bulan, terbit, terbenam, dan rasi bintang — dihitung dengan algoritme astronomi presisi.`,
-                    es: `Fase de la Luna en ${cityDisplay} el ${_moonDateLabel}: iluminación, edad, salida y puesta lunar y constelación — calculadas con algoritmos astronómicos precisos.`,
-                    bn: `${cityDisplay}-এ ${_moonDateLabel}-এ চাঁদের দশা: আলোকসজ্জা, বয়স, উদয় ও অস্তের সময় এবং রাশি — নির্ভুল জ্যোতির্বিজ্ঞান অ্যালগরিদম দ্বারা গণনা।`,
-                    ms: `Fasa Bulan di ${cityDisplay} pada ${_moonDateLabel}: pencahayaan, usia, waktu terbit dan terbenam, serta buruj — dikira dengan algoritma astronomi tepat.`,
+                    ar: `طور القمر في ${cityDisplay} يوم ${_mainWithEquiv}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,
+                    en: `Moon phase in ${cityDisplay} on ${_mainWithEquiv}: illumination, moon age, moonrise, moonset, and zodiac — calculated with precise astronomical formulas.`,
+                    fr: `Phase de la Lune à ${cityDisplay} le ${_mainWithEquiv} : illumination, âge, heures de lever et coucher, et signe zodiacal — calculés avec des algorithmes astronomiques précis.`,
+                    tr: `${cityDisplay} için ${_mainWithEquiv} tarihinde Ay evresi: aydınlanma, yaş, doğuş ve batış saatleri ve burç — kesin astronomik algoritmalarla hesaplanır.`,
+                    ur: `${cityDisplay} میں ${_mainWithEquiv} کو چاند کا مرحلہ: روشنی، عمر، طلوع و غروب کے اوقات اور برج — درست فلکی فارمولوں سے حساب لگایا گیا۔`,
+                    de: `Mondphase in ${cityDisplay} am ${_mainWithEquiv}: Beleuchtung, Mondalter, Aufgang, Untergang und Sternbild — berechnet mit präzisen astronomischen Algorithmen.`,
+                    id: `Fase Bulan di ${cityDisplay} pada ${_mainWithEquiv}: iluminasi, usia Bulan, terbit, terbenam, dan rasi bintang — dihitung dengan algoritme astronomi presisi.`,
+                    es: `Fase de la Luna en ${cityDisplay} el ${_mainWithEquiv}: iluminación, edad, salida y puesta lunar y constelación — calculadas con algoritmos astronómicos precisos.`,
+                    bn: `${cityDisplay}-এ ${_mainWithEquiv}-এ চাঁদের দশা: আলোকসজ্জা, বয়স, উদয় ও অস্তের সময় এবং রাশি — নির্ভুল জ্যোতির্বিজ্ঞান অ্যালগরিদম দ্বারা গণনা।`,
+                    ms: `Fasa Bulan di ${cityDisplay} pada ${_mainWithEquiv}: pencahayaan, usia, waktu terbit dan terbenam, serta buruj — dikira dengan algoritma astronomi tepat.`,
                 };
             } else {
                 // ── عناوين صفحة اليوم (القديمة) ──
@@ -3780,6 +3867,13 @@ function buildSeoForPath(urlPath) {
                 // canonical → نفس الـ URL (هي الشكل الوحيد المتاح لهذه المدينة)
                 canonical = origin + p;
             }
+            // ── Hijri URL → canonical يُشير دوماً إلى الصيغة الميلاديّة (SEO: duplicate content) ──
+            // الرابط الهجريّ (/moon-today-in-X/1447-10-03) هو نسخة إنسانيّة بديلة
+            // والميلاديّ هو المصدر الرئيسيّ. نوجِّه Google للنسخة الميلاديّة فقط.
+            if (_moonDateWasHijri && _moonDateIso && _moonDateInRange) {
+                const _gregCanonicalPath = '/moon-today-in-' + citySlug + '/' + _moonDateIso;
+                canonical = origin + (lang === 'ar' ? '' : '/' + lang) + _gregCanonicalPath;
+            }
             webApp = { name: title, url: canonical, category: 'UtilitiesApplication' };
             moonFaq = true;
             // IANA tz — مُستنتَج من cc عبر _CC_TO_PRIMARY_TZ. للمدن خارج الخريطة:
@@ -3788,10 +3882,14 @@ function buildSeoForPath(urlPath) {
             const _moonTz = _moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null;
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
-                tz: _moonTz,              // Asia/Tokyo إلخ — أو null عند عدم التوفّر
-                date: _moonDateIso,       // null = اليوم؛ وإلا 'YYYY-MM-DD'
-                dateObj: _moonDateObj,    // Date للـ Article.datePublished
-                dateLabel: _moonDateLabel // نصّ مقروء للـ H1 / الفقرة
+                tz: _moonTz,                          // Asia/Tokyo إلخ — أو null عند عدم التوفّر
+                date: _moonDateIso,                   // null = اليوم؛ وإلا 'YYYY-MM-DD'
+                dateObj: _moonDateObj,                // Date للـ Article.datePublished
+                dateLabel: _moonDateLabel,            // ميلاديّ مقروء (دوماً)
+                // ── Hijri context (Round 13): لدعم H1/badge/subtitle بلا إعادة حساب عميلة ──
+                dateIsHijri: _moonDateWasHijri,       // true → دخل المستخدم عبر رابط هجريّ
+                hijriLabel: _hijriLabel,              // "3 ذو القعدة 1447" (بلا لاحقة)
+                hijriLabelWithSfx: _hijriLabelWithSfx // "3 ذو القعدة 1447 هـ"
             };
             // Breadcrumb: أضف "القمر اليوم" قبل اسم المدينة
             const _moonLabel = {
@@ -3801,8 +3899,9 @@ function buildSeoForPath(urlPath) {
             }[lang] || 'Moon Today';
             breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today' });
             breadcrumbs.push({ name: cityDisplay, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today-in-' + citySlug });
-            if (_moonDateIso && _moonDateInRange && _moonDateLabel) {
-                breadcrumbs.push({ name: _moonDateLabel, item: canonical });
+            if (_moonDateIso && _moonDateInRange && _primaryDateLabel) {
+                // نعرض التاريخ بنفس نوعيّة الرابط (هجريّ للرابط الهجريّ، ميلاديّ للرابط الميلاديّ)
+                breadcrumbs.push({ name: _primaryDateLabel, item: origin + p });
             }
         }
     }
@@ -5674,20 +5773,27 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         const cc = _COUNTRY_BY_CITY[seo.moonCity.slug] || '';
         const countryName = cc ? ((_COUNTRY_NAMES_SSR[Lm] || _COUNTRY_NAMES_SSR.en)[cc] || '') : '';
         // ── H1: يختلف بين صفحة اليوم وصفحة تاريخ محدَّد ──
+        // الرابط الهجريّ (مثل /moon-today-in-mecca/1447-10-03) يُعرَض بصيغة هجريّة أوّلاً.
         const _moonDateLabelSsr = seo.moonCity.dateLabel || '';
+        const _moonDateIsHijriSsr = !!seo.moonCity.dateIsHijri;
+        const _moonHijriLabelSfxSsr = seo.moonCity.hijriLabelWithSfx || '';
+        const _primaryDateLabelSsr = (_moonDateIsHijriSsr && _moonHijriLabelSfxSsr)
+            ? _moonHijriLabelSfxSsr
+            : _moonDateLabelSsr;
+        const _secondaryDateLabelSsr = _moonDateIsHijriSsr ? _moonDateLabelSsr : _moonHijriLabelSfxSsr;
         const _isMoonDatePage = !!(seo.moonCity.date && _moonDateLabelSsr);
         const _h1Moon = _isMoonDatePage ? ({
-            ar: `🌙 حالة القمر في ${cityName} يوم ${_moonDateLabelSsr}`,
-            en: `🌙 Moon in ${cityName} on ${_moonDateLabelSsr}`,
-            fr: `🌙 La Lune à ${cityName} le ${_moonDateLabelSsr}`,
-            tr: `🌙 ${cityName} için ${_moonDateLabelSsr} tarihinde Ay`,
-            ur: `🌙 ${cityName} میں ${_moonDateLabelSsr} کو چاند`,
-            de: `🌙 Der Mond in ${cityName} am ${_moonDateLabelSsr}`,
-            id: `🌙 Bulan di ${cityName} pada ${_moonDateLabelSsr}`,
-            es: `🌙 La Luna en ${cityName} el ${_moonDateLabelSsr}`,
-            bn: `🌙 ${cityName}-এ ${_moonDateLabelSsr}-এ চাঁদ`,
-            ms: `🌙 Bulan di ${cityName} pada ${_moonDateLabelSsr}`
-        }[Lm] || `🌙 Moon in ${cityName} on ${_moonDateLabelSsr}`) : ({
+            ar: `🌙 حالة القمر في ${cityName} يوم ${_primaryDateLabelSsr}`,
+            en: `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`,
+            fr: `🌙 La Lune à ${cityName} le ${_primaryDateLabelSsr}`,
+            tr: `🌙 ${cityName} için ${_primaryDateLabelSsr} tarihinde Ay`,
+            ur: `🌙 ${cityName} میں ${_primaryDateLabelSsr} کو چاند`,
+            de: `🌙 Der Mond in ${cityName} am ${_primaryDateLabelSsr}`,
+            id: `🌙 Bulan di ${cityName} pada ${_primaryDateLabelSsr}`,
+            es: `🌙 La Luna en ${cityName} el ${_primaryDateLabelSsr}`,
+            bn: `🌙 ${cityName}-এ ${_primaryDateLabelSsr}-এ চাঁদ`,
+            ms: `🌙 Bulan di ${cityName} pada ${_primaryDateLabelSsr}`
+        }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : ({
             ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
             en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
             fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
@@ -5699,10 +5805,49 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             bn: `🌙 আজ ${cityName}, ${countryName}-এ চাঁদের পর্যায় — আলোকসজ্জা ও বয়স`,
             ms: `🌙 Fasa Bulan Hari Ini di ${cityName}, ${countryName} — Pencahayaan & Usia`
         }[Lm] || `🌙 Moon Phase Today in ${cityName}, ${countryName}`);
-        // استبدال H1 موقع القمر (يسبق SSR 5a الذي لا يلمس moon-page-h1)
+        // ── subtitle SSR: "الموافق الجمعة 1 مايو 2026" (أو العكس للرابط الميلاديّ) ──
+        const _SUBTITLE_EQUIV = {
+            ar: (d) => `الموافق ${d}`,
+            en: (d) => `(equivalent to ${d})`,
+            fr: (d) => `(équivalent au ${d})`,
+            tr: (d) => `(${d} tarihine denk gelir)`,
+            ur: (d) => `بمطابق ${d}`,
+            de: (d) => `(entspricht ${d})`,
+            id: (d) => `(setara dengan ${d})`,
+            es: (d) => `(equivalente al ${d})`,
+            bn: (d) => `(${d}-এর সমতুল্য)`,
+            ms: (d) => `(bersamaan ${d})`
+        };
+        const _subtitleTextSsr = (_isMoonDatePage && _secondaryDateLabelSsr)
+            ? (_SUBTITLE_EQUIV[Lm] || _SUBTITLE_EQUIV.en)(_secondaryDateLabelSsr)
+            : '';
+        // ── badge: "📿 عرض حسب التاريخ الهجري" / "📅 عرض حسب التاريخ الميلادي" ──
+        const _BADGE_TEXT = {
+            ar: { hijri: '📿 عرض حسب التاريخ الهجري', greg: '📅 عرض حسب التاريخ الميلادي' },
+            en: { hijri: '📿 Viewing by Hijri date', greg: '📅 Viewing by Gregorian date' },
+            fr: { hijri: '📿 Affichage par date hégirienne', greg: '📅 Affichage par date grégorienne' },
+            tr: { hijri: '📿 Hicri tarihe göre görüntüleme', greg: '📅 Miladi tarihe göre görüntüleme' },
+            ur: { hijri: '📿 ہجری تاریخ کے مطابق نمائش', greg: '📅 میلادی تاریخ کے مطابق نمائش' },
+            de: { hijri: '📿 Anzeige nach Hidschri-Datum', greg: '📅 Anzeige nach gregorianischem Datum' },
+            id: { hijri: '📿 Dilihat menurut tanggal Hijriah', greg: '📅 Dilihat menurut tanggal Masehi' },
+            es: { hijri: '📿 Vista por fecha hijrí', greg: '📅 Vista por fecha gregoriana' },
+            bn: { hijri: '📿 হিজরি তারিখ অনুযায়ী দেখা', greg: '📅 গ্রেগরীয় তারিখ অনুযায়ী দেখা' },
+            ms: { hijri: '📿 Paparan mengikut tarikh Hijrah', greg: '📅 Paparan mengikut tarikh Masihi' }
+        };
+        const _badgeTextSsr = _isMoonDatePage
+            ? ((_BADGE_TEXT[Lm] || _BADGE_TEXT.en)[_moonDateIsHijriSsr ? 'hijri' : 'greg'])
+            : '';
+        const _badgeClassSsr = _moonDateIsHijriSsr ? 'moon-date-badge hijri' : 'moon-date-badge gregorian';
+        // استبدال H1 موقع القمر + حقن شريط الـ subtitle والـ badge بعده (فقط على صفحة تاريخ محدَّد)
+        const _badgeHtmlSsr = (_isMoonDatePage && _badgeTextSsr)
+            ? `<div class="${_badgeClassSsr}" id="moon-date-badge">${_escHtml(_badgeTextSsr)}</div>`
+            : '';
+        const _subtitleHtmlSsr = (_isMoonDatePage && _subtitleTextSsr)
+            ? `<p class="moon-subtitle-hijri" id="moon-subtitle-hijri">${_escHtml(_subtitleTextSsr)}</p>`
+            : '';
         html = html.replace(
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
-            `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1Moon)}</h1>`
+            `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
         );
         // قوالب الفقرة التعريفيّة (fallback — بدون JS) — تُستبدَل لاحقًا بالنصّ الديناميكيّ
         const _introMoon = {

@@ -6762,7 +6762,9 @@ function _moonCoordsFromPath() {
 }
 
 // يستخرج التاريخ الـ ISO من المسار (إن وُجد)، ويُرجِع Date صالحاً أو null
-//   مثال: /moon-today-in-mecca/2026-04-19 → Date(2026, 3, 19)
+//   مثال ميلاديّ: /moon-today-in-mecca/2026-04-19 → Date(2026, 3, 19)
+//   مثال هجريّ:  /moon-today-in-mecca/1447-10-03 → يُحوَّل إلى Date ميلاديّ المكافئ
+//   heuristic: السنوات < 1800 تُعامَل هجريّة (لا تداخل مع سنوات ميلاديّة مستعملة).
 //   الـ Date يعود في منتصف النهار (12:00) لتجنّب حدود DST.
 function _moonDateFromPath() {
     const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+\/(\d{4})-(\d{2})-(\d{2})$/);
@@ -6771,6 +6773,17 @@ function _moonDateFromPath() {
     const mo = parseInt(m[2], 10);
     const d = parseInt(m[3], 10);
     if (!y || !mo || !d || mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+    // سنة < 1800 → تاريخ هجريّ (نطاق Hijri ≈ 1300-1600، Gregorian ≥ 1900)
+    if (y < 1800) {
+        if (typeof HijriDate === 'undefined' || typeof HijriDate.toGregorian !== 'function') return null;
+        try {
+            const g = HijriDate.toGregorian(y, mo, d);
+            if (!g || !g.year || !g.month || !g.day) return null;
+            const dt = new Date(g.year, g.month - 1, g.day, 12, 0, 0, 0);
+            if (isNaN(dt.getTime())) return null;
+            return dt;
+        } catch (_e) { return null; }
+    }
     const dt = new Date(y, mo - 1, d, 12, 0, 0, 0);
     // تأكّد من صحّة التقويم (مثلاً: 2026-02-30 → تنزلق إلى 2 مارس)
     if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
@@ -6966,12 +6979,136 @@ function _moonCityLabel(slug, lang, cityFallback) {
     return city + sep + country;
 }
 
+// يحدِّد ما إذا كان الجزء التاريخيّ في الـ URL بصيغة هجريّة (السنة < 1800)
+// يعود {isHijri: boolean, hYear, hMonth, hDay, gYear, gMonth, gDay} أو null إن لا تاريخ
+function _moonDateKindFromPath() {
+    const m = window.location.pathname.match(/\/moon-today-in-[a-z][a-z0-9-]+\/(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return null;
+    const y = parseInt(m[1], 10);
+    const mo = parseInt(m[2], 10);
+    const d = parseInt(m[3], 10);
+    if (!y || !mo || !d) return null;
+    if (y < 1800) {
+        if (typeof HijriDate === 'undefined' || typeof HijriDate.toGregorian !== 'function') return null;
+        try {
+            const g = HijriDate.toGregorian(y, mo, d);
+            if (!g || !g.year) return null;
+            return { isHijri: true, hYear: y, hMonth: mo, hDay: d, gYear: g.year, gMonth: g.month, gDay: g.day };
+        } catch (_e) { return null; }
+    }
+    // ميلاديّ — نحسب الهجريّ للعرض
+    let hj = null;
+    if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
+        try { hj = HijriDate.toHijri(y, mo, d); } catch (_e) { hj = null; }
+    }
+    return { isHijri: false, gYear: y, gMonth: mo, gDay: d, hYear: hj ? hj.year : null, hMonth: hj ? hj.month : null, hDay: hj ? hj.day : null };
+}
+
+// يُعيد نصًّا مقروءًا للتاريخ الهجريّ (مثال: "3 ذو القعدة 1447 هـ") بلغة الواجهة
+function _formatHijriLabelLang(hY, hM, hD, lang) {
+    if (!hY || !hM || !hD) return '';
+    const _H = {
+        ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+        en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+        fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+        tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+        ur: ['محرم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذی القعدہ','ذی الحجہ'],
+        de: ['Muharram','Safar','Rabiʿ al-awwal','Rabiʿ ath-thani','Dschumada l-ula','Dschumada th-thaniya','Radschab','Schaʿban','Ramadan','Schawwal','Dhu l-qaʿda','Dhu l-hiddscha'],
+        id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syakban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+        es: ['Muharram','Safar','Rabí al-Awwal','Rabí al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Dhu al-Qida','Dhu al-Hiyya'],
+        bn: ['মহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জুমাদাল আউয়াল','জুমাদাস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+        ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
+    };
+    const _SFX = { ar: ' هـ', en: ' AH', fr: ' H', tr: ' H', ur: ' ھ', de: ' n.H.', id: ' H', es: ' d.H.', bn: ' হিজরি', ms: ' H' };
+    const names = _H[lang] || _H.en;
+    const mName = names[hM - 1] || String(hM);
+    const sfx = _SFX[lang] || _SFX.en;
+    return hD + ' ' + mName + ' ' + hY + sfx;
+}
+
+// يُنشئ/يُحدِّث الـ badge والسطر التوضيحيّ تحت H1 عند الدخول عبر رابط هجريّ/ميلاديّ
+function _applyMoonDateBadge() {
+    const kind = _moonDateKindFromPath();
+    const h1 = document.getElementById('moon-page-h1');
+    if (!h1) return;
+    // إزالة أيّ شارة/subtitle سابقة من SSR ثمّ إعادة البناء (لدعم SPA nav)
+    const prevBadge = document.getElementById('moon-date-badge');
+    const prevSub = document.getElementById('moon-subtitle-hijri');
+    if (prevBadge && prevBadge.parentNode) prevBadge.parentNode.removeChild(prevBadge);
+    if (prevSub && prevSub.parentNode) prevSub.parentNode.removeChild(prevSub);
+    // أزل classes السياقيّة
+    document.documentElement.classList.remove('moon-hijri-context', 'moon-gregorian-context');
+    if (!kind) return;
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    // أعد ضبط الـ class السياقيّة
+    document.documentElement.classList.add(kind.isHijri ? 'moon-hijri-context' : 'moon-gregorian-context');
+    // نصّ الـ badge
+    const _BADGES = {
+        ar: { hijri: '📿 عرض حسب التاريخ الهجري', greg: '📅 عرض حسب التاريخ الميلادي' },
+        en: { hijri: '📿 Viewing by Hijri date', greg: '📅 Viewing by Gregorian date' },
+        fr: { hijri: '📿 Affichage par date hégirienne', greg: '📅 Affichage par date grégorienne' },
+        tr: { hijri: '📿 Hicri tarihe göre görüntüleme', greg: '📅 Miladi tarihe göre görüntüleme' },
+        ur: { hijri: '📿 ہجری تاریخ کے مطابق نمائش', greg: '📅 میلادی تاریخ کے مطابق نمائش' },
+        de: { hijri: '📿 Anzeige nach Hidschri-Datum', greg: '📅 Anzeige nach gregorianischem Datum' },
+        id: { hijri: '📿 Dilihat menurut tanggal Hijriah', greg: '📅 Dilihat menurut tanggal Masehi' },
+        es: { hijri: '📿 Vista por fecha hijrí', greg: '📅 Vista por fecha gregoriana' },
+        bn: { hijri: '📿 হিজরি তারিখ অনুযায়ী দেখা', greg: '📅 গ্রেগরীয় তারিখ অনুযায়ী দেখা' },
+        ms: { hijri: '📿 Paparan mengikut tarikh Hijrah', greg: '📅 Paparan mengikut tarikh Masihi' }
+    };
+    const badgeText = ((_BADGES[lang] || _BADGES.en)[kind.isHijri ? 'hijri' : 'greg']);
+    const badge = document.createElement('div');
+    badge.id = 'moon-date-badge';
+    badge.className = 'moon-date-badge ' + (kind.isHijri ? 'hijri' : 'gregorian');
+    badge.textContent = badgeText;
+    // نصّ الـ subtitle «الموافق الميلاديّ/الهجريّ»
+    const _EQUIV = {
+        ar: (d) => `الموافق ${d}`,
+        en: (d) => `(equivalent to ${d})`,
+        fr: (d) => `(équivalent au ${d})`,
+        tr: (d) => `(${d} tarihine denk gelir)`,
+        ur: (d) => `بمطابق ${d}`,
+        de: (d) => `(entspricht ${d})`,
+        id: (d) => `(setara dengan ${d})`,
+        es: (d) => `(equivalente al ${d})`,
+        bn: (d) => `(${d}-এর সমতুল্য)`,
+        ms: (d) => `(bersamaan ${d})`
+    };
+    // حساب التاريخ الثانويّ:
+    //   إن كان الرابط هجريًّا → الميلاديّ (من getMoonForecast أو formatter محليّ)
+    //   إن كان الرابط ميلاديًّا → الهجريّ
+    let secondaryLabel = '';
+    if (kind.isHijri) {
+        try {
+            const gdt = new Date(kind.gYear, kind.gMonth - 1, kind.gDay);
+            // نفضّل مُنسّق اللغة للتأريخ الميلاديّ (Intl)
+            const _GLOCALE = { ar: 'ar', en: 'en-US', fr: 'fr-FR', tr: 'tr-TR', ur: 'ur-PK', de: 'de-DE', id: 'id-ID', es: 'es-ES', bn: 'bn-BD', ms: 'ms-MY' };
+            secondaryLabel = new Intl.DateTimeFormat(_GLOCALE[lang] || 'en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(gdt);
+        } catch (_e) { secondaryLabel = kind.gYear + '-' + String(kind.gMonth).padStart(2, '0') + '-' + String(kind.gDay).padStart(2, '0'); }
+    } else if (kind.hYear) {
+        secondaryLabel = _formatHijriLabelLang(kind.hYear, kind.hMonth, kind.hDay, lang);
+    }
+    const subtitle = document.createElement('p');
+    subtitle.id = 'moon-subtitle-hijri';
+    subtitle.className = 'moon-subtitle-hijri';
+    subtitle.textContent = secondaryLabel ? (_EQUIV[lang] || _EQUIV.en)(secondaryLabel) : '';
+    // أدرج بعد H1 مباشرةً: أوّلاً subtitle ثمّ badge
+    if (subtitle.textContent) {
+        h1.parentNode.insertBefore(subtitle, h1.nextSibling);
+        h1.parentNode.insertBefore(badge, subtitle.nextSibling);
+    } else {
+        h1.parentNode.insertBefore(badge, h1.nextSibling);
+    }
+}
+
 function updateMoonInfo() {
     // إن كان المسار /moon-today-in-{slug}/YYYY-MM-DD → استخدم التاريخ المطلوب
     // وإلا اليوم الحاليّ.
     const _requestedDate = _moonDateFromPath();
     const today = _requestedDate || new Date();
     const _isDatePage = !!_requestedDate;
+
+    // Round 13: تطبيق سياق الرابط (هجريّ/ميلاديّ) — badge + subtitle
+    try { _applyMoonDateBadge(); } catch (_e) { /* silent */ }
 
     // إن كانت الصفحة هي /moon-today-in-{slug} → استخدم إحداثيّات المدينة لمطابقة الـ URL
     const _citySlug = _moonCitySlugFromPath();
@@ -7133,6 +7270,8 @@ function updateMoonInfo() {
         _setH2('moon-title-h2', 'moon.title_city_template');
         _setH2('moon-forecast-h2', 'moon.forecast_title_city_template');
         _setH2('moon-faq-live-h2', 'moon.faq_live_title_city_template');
+        // 🆕 Priority A: subtitle تحت H1 — نسخة city-specific
+        _setH2('moon-subtitle', 'moon.subtitle_city_template');
         if (_locEl) {
             const _locTemplates = {
                 ar: `الموقع: ${_cityName}`,
@@ -7243,6 +7382,11 @@ function updateMoonInfo() {
             return _d.getFullYear() + '-' + _pad2(_d.getMonth() + 1) + '-' + _pad2(_d.getDate());
         };
 
+        // أسماء الأشهر الهجريّة باللغة الحاليّة (للعمود الجديد)
+        const _hMonthsLang = (typeof hijriMonthsFor === 'function')
+            ? hijriMonthsFor(_lng_)
+            : (typeof HijriDate !== 'undefined' && HijriDate.hijriMonths ? HijriDate.hijriMonths : []);
+
         let html = '';
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
@@ -7250,25 +7394,46 @@ function updateMoonInfo() {
             const wd = _wk[dp.wd];
             const dd = dp.d;
             const mm = _gm[dp.m];
+            const yy = dp.y;
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
+
+            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — الرابط يفتح نفس صفحة
+            // moon-today-in-{city} لكن بتاريخ هجريّ (HYYYY-HMM-HDD) بدل الميلاديّ.
+            let hijriCell = '<td class="fc-hijri-cell">—</td>';
+            try {
+                if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
+                    const hj = HijriDate.toHijri(dp.y, dp.m + 1, dp.d);
+                    const hMonthName = _hMonthsLang[hj.month - 1] || String(hj.month);
+                    const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
+                    if (_citySlug) {
+                        const _hIso = hj.year + '-' + _pad2(hj.month) + '-' + _pad2(hj.day);
+                        const _hHref = _langPrefixFC + '/moon-today-in-' + _citySlug + '/' + _hIso;
+                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHref)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">📿</span> ${_escHtml(hijriText)}</a></td>`;
+                    } else {
+                        hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">📿</span> ${_escHtml(hijriText)}</td>`;
+                    }
+                }
+            } catch (_e) { /* keep placeholder */ }
 
             // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
             let dayCell, ctaCell, rowClass = '';
             const _ctaLabel = (typeof t === 'function') ? t('moon.fc_details_cta') : 'Details';
             const _ctaTxt = (_ctaLabel && _ctaLabel !== 'moon.fc_details_cta') ? _ctaLabel : 'تفاصيل';
+            const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
             if (_citySlug) {
                 const _iso = _fcIso(dp, row.date);
                 const _href = _langPrefixFC + '/moon-today-in-' + _citySlug + '/' + _iso;
-                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(wd + ' ' + dd + ' ' + mm)}</a></td>`;
-                ctaCell = `<td class="fc-cta-cell"><a class="fc-cta-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_ctaTxt + ' — ' + wd + ' ' + dd + ' ' + mm)}"><span class="fc-cta-text">${_escHtml(_ctaTxt)}</span><span class="fc-cta-arrow" aria-hidden="true">›</span></a></td>`;
+                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
+                ctaCell = `<td class="fc-cta-cell"><a class="fc-cta-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_ctaTxt + ' — ' + _dayText)}"><span class="fc-cta-text">${_escHtml(_ctaTxt)}</span><span class="fc-cta-arrow" aria-hidden="true">›</span></a></td>`;
                 rowClass = ' class="fc-row-clickable"';
             } else {
-                dayCell = `<td>${_escHtml(wd + ' ' + dd + ' ' + mm)}</td>`;
+                dayCell = `<td>${_escHtml(_dayText)}</td>`;
                 ctaCell = `<td class="fc-cta-cell"></td>`;
             }
 
             html += `<tr${rowClass}>`
                 + dayCell
+                + hijriCell
                 + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
                 + `<td>${row.illumination}%</td>`
                 + `<td>${row.rise}</td>`
@@ -7804,6 +7969,45 @@ function updateMoonInfo() {
                 }
             } catch (_e7) { if (window.console && console.warn) console.warn('mc step7 (progress DOM) failed:', _e7); }
 
+            // 7b) 🆕 Priority A: إبراز الطور الحاليّ على شريط دورة الأطوار (5 slots)
+            //      التعيين: 8 أطوار فلكيّة → 5 خانات في الشريط
+            //        moon.phase_new                 → "new"
+            //        moon.phase_waxing/waning_crescent  → "crescent"
+            //        moon.phase_first/last_quarter      → "quarter"
+            //        moon.phase_waxing/waning_gibbous   → "gibbous"
+            //        moon.phase_full                → "full"
+            try {
+                const _phaseToCycle = {
+                    'moon.phase_new': 'new',
+                    'moon.phase_waxing_crescent': 'crescent',
+                    'moon.phase_waning_crescent': 'crescent',
+                    'moon.phase_first_quarter': 'quarter',
+                    'moon.phase_last_quarter': 'quarter',
+                    'moon.phase_waxing_gibbous': 'gibbous',
+                    'moon.phase_waning_gibbous': 'gibbous',
+                    'moon.phase_full': 'full'
+                };
+                const _currentCycle = _phaseToCycle[phase && phase.key] || null;
+                const _cycleOrder = isWaxing
+                    ? ['new', 'crescent', 'quarter', 'gibbous', 'full']
+                    : ['full', 'gibbous', 'quarter', 'crescent', 'new'];
+                const _currentIdx = _currentCycle ? _cycleOrder.indexOf(_currentCycle) : -1;
+                const _cycleSteps = document.querySelectorAll('#mc-phase-cycle .mc-cycle-step');
+                _cycleSteps.forEach((step) => {
+                    const slot = step.getAttribute('data-phase');
+                    step.classList.remove('is-active', 'is-past');
+                    if (!_currentCycle) return;
+                    if (slot === _currentCycle) {
+                        step.classList.add('is-active');
+                    } else {
+                        const slotIdx = _cycleOrder.indexOf(slot);
+                        if (_currentIdx >= 0 && slotIdx >= 0 && slotIdx < _currentIdx) {
+                            step.classList.add('is-past');
+                        }
+                    }
+                });
+            } catch (_e7b) { if (window.console && console.warn) console.warn('mc step7b (phase cycle) failed:', _e7b); }
+
             // 8) إظهار البطاقة دائمًا — حتّى لو فشل قسم واحد، تظهر الباقي
             _cmpWrap.hidden = false;
         }
@@ -7827,6 +8031,104 @@ function updateMoonInfo() {
         }
     } catch (_err2) {
         if (window.console && console.warn) console.warn('Moon Round-10 fill failed:', _err2);
+    }
+
+    // ── 🆕 Priority C: الأطوار القمريّة القادمة (Timeline) ─────────────
+    //     أربع أطوار تالية: كلّ واحد ببطاقة ببصمته ولحظته الدقيقة
+    try {
+        const _upTimelineEl = document.getElementById('moon-upcoming-timeline');
+        if (_upTimelineEl && typeof MoonCalc !== 'undefined' && MoonCalc.findPhaseEventsInRange) {
+            const _nowD = today;
+            const _endD = new Date(_nowD.getTime() + 35 * 86400000);
+            const _evs = MoonCalc.findPhaseEventsInRange(_nowD, _endD);
+            const _next4 = _evs.filter(e => e.date.getTime() > _nowD.getTime()).slice(0, 4);
+
+            // H2 بالعنوان الموقعيّ عند توفّر مدينة
+            if (_citySlug) {
+                const _h2 = document.getElementById('moon-upcoming-h2');
+                if (_h2 && typeof t === 'function') {
+                    const _cityName = _moonCityDisplayName(_citySlug);
+                    const _v = t('moon.upcoming.title_city', { city: _cityName });
+                    if (_v && _v !== 'moon.upcoming.title_city') _h2.textContent = _v;
+                }
+            }
+
+            // تنسيقات ساعة (24h) وتاريخ (يوم شهر سنة)
+            const _fmtUpTime = (d) => {
+                const hh = String(d.getHours()).padStart(2, '0');
+                const mm = String(d.getMinutes()).padStart(2, '0');
+                return hh + ':' + mm;
+            };
+            const _fmtUpDate = (d) => {
+                const wd = _wk[d.getDay()] || '';
+                const dd = d.getDate();
+                const mo = _gm[d.getMonth()] || '';
+                const yy = d.getFullYear();
+                return `${wd}، ${dd} ${mo} ${yy}`;
+            };
+            // عدّ تنازليّ مرن: اليوم/غدًا/بعد يومين/بعد N يوم
+            const _fmtCountdown = (d) => {
+                const msDiff = d.getTime() - _nowD.getTime();
+                const days = Math.round(msDiff / 86400000);
+                if (typeof t !== 'function') return '';
+                if (days <= 0) return t('moon.upcoming.today');
+                if (days === 1) return t('moon.upcoming.in_1_day');
+                if (days === 2) return t('moon.upcoming.in_2_days');
+                return t('moon.upcoming.in_days', { days: days });
+            };
+
+            // اسم الطور بلغة المستخدم — نعيد استخدام مفاتيح moon.phase_*
+            const _phaseDisplayName = (phase) => {
+                if (!phase || typeof t !== 'function') return (phase && phase.name) || '';
+                const v = t(phase.key);
+                if (v && v !== phase.key) return v;
+                return phase.name || '';
+            };
+
+            // بنِ البطاقات
+            _upTimelineEl.innerHTML = '';
+            _next4.forEach((ev, idx) => {
+                const card = document.createElement('div');
+                card.className = 'moon-upcoming-card mu-phase-' + (ev.type || '');
+                card.setAttribute('data-phase-type', ev.type || '');
+                card.setAttribute('role', 'listitem');
+                if (idx === 0) card.classList.add('is-next');
+
+                const icon = document.createElement('span');
+                icon.className = 'mu-icon';
+                icon.setAttribute('aria-hidden', 'true');
+                icon.textContent = (ev.phase && ev.phase.icon) || '🌙';
+
+                const body = document.createElement('div');
+                body.className = 'mu-body';
+
+                const nameEl = document.createElement('div');
+                nameEl.className = 'mu-phase-name';
+                nameEl.textContent = _phaseDisplayName(ev.phase);
+
+                const dateEl = document.createElement('div');
+                dateEl.className = 'mu-date';
+                dateEl.textContent = _fmtUpDate(ev.date);
+
+                const timeEl = document.createElement('div');
+                timeEl.className = 'mu-time';
+                timeEl.textContent = _fmtUpTime(ev.date);
+
+                const cdEl = document.createElement('div');
+                cdEl.className = 'mu-countdown';
+                cdEl.textContent = _fmtCountdown(ev.date);
+
+                body.appendChild(nameEl);
+                body.appendChild(dateEl);
+                body.appendChild(timeEl);
+                body.appendChild(cdEl);
+                card.appendChild(icon);
+                card.appendChild(body);
+                _upTimelineEl.appendChild(card);
+            });
+        }
+    } catch (_uerr) {
+        if (window.console && console.warn) console.warn('Upcoming phases render failed:', _uerr);
     }
 
     // ── صفحة التاريخ (moon-date-page): شريط التنقّل + الرسم البيانيّ ──
@@ -7911,7 +8213,15 @@ function updateMoonInfo() {
             if (!_wday || _wday === 'wday.' + today.getDay()) {
                 _wday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][today.getDay()];
             }
-            const _dateLabel = _wday + ' ' + today.getDate() + ' ' + _gMon + ' ' + today.getFullYear();
+            const _gregLabel = _wday + ' ' + today.getDate() + ' ' + _gMon + ' ' + today.getFullYear();
+            // Round 13: عند رابط هجريّ → الـ label الرئيسيّ هجريّ (الميلاديّ في الـ subtitle)
+            let _dateLabel = _gregLabel;
+            try {
+                const _kind = _moonDateKindFromPath();
+                if (_kind && _kind.isHijri && _kind.hYear) {
+                    _dateLabel = _formatHijriLabelLang(_kind.hYear, _kind.hMonth, _kind.hDay, _lng);
+                }
+            } catch (_e) { /* silent */ }
 
             const _h1 = document.getElementById('moon-page-h1');
             if (_h1) {

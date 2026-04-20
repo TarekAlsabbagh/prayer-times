@@ -860,6 +860,8 @@ button, input, select { font-family: inherit; }
 .moon-icon[hidden] { display: none; }
 .moon-phase-name { font-size: 1.4rem; font-weight: 700; color: var(--primary-dark); }
 .moon-illumination { font-size: 1.1rem; color: var(--text-light); margin-top: 4px; }
+/* 🆕 Priority B.2: إخفاء نسبة الإضاءة تحت SVG — مكرّرة مع الـ summary chips + detail card */
+#moon-illumination { display: none; }
 
 /* ───── تمثيل SVG دقيق للقمر (شكل من نسبة الإضاءة الحقيقيّة — ليس 8 أطوار منفصلة) ───── */
 .moon-visual {
@@ -957,6 +959,100 @@ button, input, select { font-family: inherit; }
     outline: none;
 }
 .fc-day-link:focus-visible { box-shadow: 0 0 0 2px var(--primary); }
+
+/* خلية التاريخ الهجريّ في جدول التوقّعات — رابط قابل للضغط لصفحة ذلك اليوم الهجريّ */
+.fc-hijri-cell { padding: 0; white-space: nowrap; }
+.fc-hijri-link {
+    display: block;
+    padding: 12px 10px;
+    color: var(--accent, #d4a017);
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.fc-hijri-link:hover,
+.fc-hijri-link:focus {
+    background: rgba(212, 160, 23, 0.10);
+    text-decoration: underline;
+    outline: none;
+}
+.fc-hijri-link:focus-visible { box-shadow: 0 0 0 2px var(--accent, #d4a017); }
+.fc-hijri-icon { margin-inline-end: 4px; }
+
+/* على الشاشات الصغيرة — تصغير العمود الهجريّ لحفظ الحيّز */
+@media (max-width: 640px) {
+    .fc-hijri-cell { font-size: 0.82rem; }
+    .fc-hijri-link { padding: 10px 6px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Round 13 — سياق التاريخ الهجريّ/الميلاديّ على صفحات moon-today-in-{city}/{date}
+   يظهر فقط عندما يكون التاريخ مُحدَّدًا (_isMoonDatePage).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* السطر التوضيحيّ تحت H1: "الموافق الجمعة 1 مايو 2026" */
+.moon-subtitle-hijri {
+    margin: 4px 0 10px;
+    font-size: 0.95rem;
+    color: var(--text-secondary, #6b7280);
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}
+
+/* شارة توضّح نوع الرابط (هجريّ أو ميلاديّ) */
+.moon-date-badge {
+    display: inline-block;
+    margin: 6px auto 14px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border: 1px solid transparent;
+}
+/* يجب أن تظهر في سطر مستقلّ وسط الصفحة */
+.moon-date-badge { display: block; width: max-content; max-width: 92%; margin-inline: auto; text-align: center; }
+
+/* اللون لرابط هجريّ — ذهبيّ/عنبريّ (مطابق لـ fc-hijri-link) */
+.moon-date-badge.hijri {
+    background: rgba(212, 160, 23, 0.12);
+    color: var(--accent, #d4a017);
+    border-color: rgba(212, 160, 23, 0.35);
+}
+/* اللون لرابط ميلاديّ — أساسيّ باهت */
+.moon-date-badge.gregorian {
+    background: rgba(59, 130, 246, 0.10);
+    color: var(--primary, #2563eb);
+    border-color: rgba(59, 130, 246, 0.30);
+}
+
+/* ضمن الوضع الداكن — نرفع السطوع قليلاً لأجل التباين */
+@media (prefers-color-scheme: dark) {
+    .moon-date-badge.hijri {
+        background: rgba(212, 160, 23, 0.22);
+    }
+    .moon-date-badge.gregorian {
+        background: rgba(59, 130, 246, 0.22);
+    }
+}
+
+/* تمييز بصريّ إضافيّ للصندوق «اليوم الهجريّ» عند دخول المستخدم عبر رابط هجريّ */
+html.moon-hijri-context .hijri-today-card,
+html.moon-hijri-context #hijri-today {
+    outline: 2px solid var(--accent, #d4a017);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.10);
+    border-radius: 12px;
+    transition: box-shadow 0.3s ease;
+}
+
+/* الشاشات الصغيرة — تصغير حجم الشارة والسطر التوضيحيّ */
+@media (max-width: 480px) {
+    .moon-date-badge { font-size: 0.82rem; padding: 5px 10px; }
+    .moon-subtitle-hijri { font-size: 0.88rem; }
+}
 
 /* ═══ Wave B.2: CTA column on 14-day forecast rows — visible call-to-action ═══ */
 .fc-cta-th { width: 1%; }
@@ -1698,6 +1794,149 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     }
 }
 
+/* ═══ 🆕 Priority C: Upcoming Phase Forecast (4-phase timeline) ═══ */
+.moon-upcoming-section {
+    padding: 20px 18px;
+    background: linear-gradient(135deg, rgba(100, 181, 246, 0.06), rgba(100, 181, 246, 0.02));
+    border: 1px solid rgba(100, 181, 246, 0.18);
+    border-radius: 14px;
+    margin: 16px 0;
+}
+.moon-upcoming-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: var(--text, #1a1a1a);
+    text-align: center;
+}
+.moon-upcoming-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-light, #555);
+    text-align: center;
+    margin: 0 0 16px;
+    line-height: 1.55;
+}
+.moon-upcoming-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.moon-upcoming-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(100, 181, 246, 0.25);
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.moon-upcoming-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(100, 181, 246, 0.18);
+    border-color: rgba(100, 181, 246, 0.5);
+}
+.moon-upcoming-card.is-next {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.10), rgba(46, 125, 50, 0.04));
+    border-color: rgba(46, 125, 50, 0.35);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.15);
+    position: relative;
+}
+.moon-upcoming-card.is-next::before {
+    content: "●";
+    position: absolute;
+    top: -6px;
+    inset-inline-end: 8px;
+    font-size: 0.6rem;
+    color: #2e7d32;
+    background: #fff;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.25);
+    animation: mu-next-pulse 2s ease-in-out infinite;
+}
+@keyframes mu-next-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.25); }
+    50%      { box-shadow: 0 0 0 5px rgba(46, 125, 50, 0.10); }
+}
+.moon-upcoming-card .mu-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.10));
+}
+.moon-upcoming-card .mu-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    width: 100%;
+}
+.moon-upcoming-card .mu-phase-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1b5e20);
+    line-height: 1.3;
+}
+.moon-upcoming-card.mu-phase-new_moon .mu-phase-name     { color: #3949ab; }
+.moon-upcoming-card.mu-phase-first_quarter .mu-phase-name { color: #ef6c00; }
+.moon-upcoming-card.mu-phase-full_moon .mu-phase-name    { color: #f57f17; }
+.moon-upcoming-card.mu-phase-last_quarter .mu-phase-name { color: #6a1b9a; }
+.moon-upcoming-card .mu-date {
+    font-size: 0.82rem;
+    color: var(--text, #333);
+    font-weight: 600;
+    line-height: 1.3;
+}
+.moon-upcoming-card .mu-time {
+    font-size: 0.9rem;
+    color: var(--text-light, #555);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+.moon-upcoming-card .mu-countdown {
+    font-size: 0.78rem;
+    color: var(--primary, #2e7d32);
+    font-weight: 700;
+    padding: 3px 8px;
+    background: rgba(46, 125, 50, 0.08);
+    border-radius: 999px;
+    margin-top: 2px;
+}
+.moon-upcoming-card.is-next .mu-countdown {
+    background: rgba(46, 125, 50, 0.18);
+    color: #1b5e20;
+}
+.moon-upcoming-notice {
+    font-size: 0.78rem;
+    color: var(--text-light, #666);
+    text-align: center;
+    margin: 8px 0 0;
+    font-style: italic;
+}
+@media (max-width: 700px) {
+    .moon-upcoming-timeline {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .moon-upcoming-card { padding: 12px 8px; }
+    .moon-upcoming-card .mu-icon { font-size: 1.85rem; }
+    .moon-upcoming-card .mu-phase-name { font-size: 0.88rem; }
+    .moon-upcoming-card .mu-date { font-size: 0.78rem; }
+    .moon-upcoming-card .mu-time { font-size: 0.85rem; }
+    .moon-upcoming-card .mu-countdown { font-size: 0.72rem; }
+}
+@media (max-width: 380px) {
+    .moon-upcoming-title { font-size: 1.02rem; }
+    .moon-upcoming-subtitle { font-size: 0.8rem; }
+}
+
 /* ═══ Round 10: intro, comparison, phase-insight, forecast-cta ═══ */
 .moon-intro {
     font-size: 1.02rem;
@@ -1708,6 +1947,91 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     padding: 14px 16px;
     border-radius: 10px;
     margin: 8px 0 16px;
+}
+/* 🆕 Priority A: H2 تعريفيّ (subtitle) تحت H1 مباشرة — Hook مرئيّ + keyword-rich */
+.moon-subtitle {
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.55;
+    color: var(--text-light, #555);
+    margin: -4px 0 12px;
+    padding: 0;
+    letter-spacing: 0;
+    text-align: start;
+}
+html[dir="rtl"] .moon-subtitle { text-align: right; }
+html[dir="ltr"] .moon-subtitle { text-align: left; }
+@media (max-width: 520px) {
+    .moon-subtitle { font-size: 0.98rem; line-height: 1.5; margin: -2px 0 10px; }
+}
+/* 🆕 Priority A: شريط دورة الأطوار داخل بطاقة المقارنة */
+.moon-comparison .mc-phase-cycle {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 14px;
+    padding: 10px 6px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 10px;
+    border: 1px dashed rgba(46, 125, 50, 0.22);
+}
+.moon-comparison[data-direction="waning"] .mc-phase-cycle {
+    background: rgba(255, 255, 255, 0.55);
+    border-color: rgba(216, 67, 21, 0.25);
+}
+.moon-comparison .mc-cycle-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 4px;
+    border-radius: 8px;
+    opacity: 0.42;
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    text-align: center;
+}
+.moon-comparison .mc-cycle-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    filter: grayscale(0.4);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+.moon-comparison .mc-cycle-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-light, #666);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+.moon-comparison .mc-cycle-step.is-active {
+    opacity: 1;
+    background: rgba(46, 125, 50, 0.15);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+    transform: translateY(-1px);
+}
+.moon-comparison .mc-cycle-step.is-active .mc-cycle-icon {
+    filter: grayscale(0) drop-shadow(0 0 6px rgba(255, 200, 80, 0.5));
+    transform: scale(1.15);
+}
+.moon-comparison .mc-cycle-step.is-active .mc-cycle-label {
+    color: var(--primary-dark, #1b5e20);
+    font-weight: 800;
+}
+.moon-comparison[data-direction="waning"] .mc-cycle-step.is-active {
+    background: rgba(216, 67, 21, 0.12);
+    box-shadow: 0 2px 8px rgba(216, 67, 21, 0.18);
+}
+.moon-comparison[data-direction="waning"] .mc-cycle-step.is-active .mc-cycle-label {
+    color: #bf360c;
+}
+.moon-comparison .mc-cycle-step.is-past {
+    opacity: 0.65;
+}
+@media (max-width: 520px) {
+    .moon-comparison .mc-phase-cycle { gap: 3px; padding: 8px 3px; }
+    .moon-comparison .mc-cycle-icon { font-size: 1.05rem; }
+    .moon-comparison .mc-cycle-label { font-size: 0.65rem; }
 }
 /* ===== Interactive Moon Comparison Card ===== */
 .moon-comparison {
@@ -1814,11 +2138,18 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 0 4px;
-    color: var(--primary-dark);
+    padding: 6px 10px;
+    color: #1b5e20;
+    background: rgba(46, 125, 50, 0.12);
+    border: 1px solid rgba(46, 125, 50, 0.28);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(46, 125, 50, 0.15);
 }
 .moon-comparison[data-direction="waning"] .mc-delta {
-    color: #e65100;
+    color: #bf360c;
+    background: rgba(216, 67, 21, 0.10);
+    border-color: rgba(216, 67, 21, 0.28);
+    box-shadow: 0 1px 4px rgba(216, 67, 21, 0.15);
 }
 .moon-comparison .mc-delta-arrow {
     font-size: 1.4rem;
@@ -2302,6 +2633,21 @@ html[dir="rtl"] .moon-cities-grid a:hover::after { transform: scaleX(-1) transla
     .moon-cities-grid a:hover { box-shadow: 0 4px 10px rgba(76,175,80,0.18); }
 }
 .moon-faq { display: flex; flex-direction: column; gap: 8px; }
+/* 🆕 Priority B.1: عنوان فرعيّ لمجموعات FAQ */
+.moon-faq-group-heading {
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1b5e20);
+    margin: 16px 0 4px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.08), rgba(46, 125, 50, 0.02));
+    border-inline-start: 4px solid var(--primary, #2e7d32);
+    border-radius: 8px;
+    line-height: 1.4;
+}
+.moon-faq-group-heading:first-child { margin-top: 0; }
+html[dir="rtl"] .moon-faq-group-heading { text-align: right; }
+html[dir="ltr"] .moon-faq-group-heading { text-align: left; }
 .moon-faq-item {
     background: var(--bg);
     border-radius: 8px;

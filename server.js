@@ -5794,6 +5794,27 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         } catch(_e) { /* silent */ }
     }
 
+    // 5i) Single-H1 enforcement (SEO): the SPA template ships two <h1>s — one per page.
+    //     Crawlers see static HTML with both, triggering "multiple H1" warnings.
+    //     Demote the inactive page's H1 to <h2> server-side based on route.
+    //     The IDs and classes are preserved so client-side JS / CSS keep working.
+    {
+        const _isMoonRoute = !!seo.moonFaq;
+        if (_isMoonRoute) {
+            // Moon page is active → demote the prayer-times H1
+            html = html.replace(
+                /<h1(\s[^>]*?\bid="page-h1"[^>]*)>([\s\S]*?)<\/h1>/,
+                '<h2$1>$2</h2>'
+            );
+        } else {
+            // Any non-moon route (home, city, hijri, qibla, etc.) → demote moon H1
+            html = html.replace(
+                /<h1(\s[^>]*?\bid="moon-page-h1"[^>]*)>([\s\S]*?)<\/h1>/,
+                '<h2$1>$2</h2>'
+            );
+        }
+    }
+
     const buf = Buffer.from(html, 'utf8');
     const headers = {
         'Content-Type': 'text/html; charset=utf-8',

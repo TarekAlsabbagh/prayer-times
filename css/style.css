@@ -1478,6 +1478,90 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     font-weight: 500;
     color: var(--text);
 }
+
+/* ── Redesign: 3 بطاقات بارزة (دون Accordion) لأهمّ أسئلة الـ FAQ المباشر ── */
+.moon-faq-highlight {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.moon-faq-card {
+    background: linear-gradient(135deg, rgba(26,107,60,0.08), rgba(26,107,60,0.02));
+    border: 1px solid rgba(26,107,60,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.moon-faq-card-q {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0;
+    line-height: 1.4;
+}
+.moon-faq-card-a {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text);
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ── Redesign: مجموعات Accordion المصنّفة (وزن بصريّ أخفّ) ── */
+.moon-faq-grouped {
+    gap: 16px;
+}
+.moon-faq-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.moon-faq-group-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    margin: 4px 0 2px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed var(--border);
+    line-height: 1.3;
+}
+/* عناصر Accordion داخل المجموعات: أخفّ وزنًا من البطاقات البارزة */
+.moon-faq-grouped .moon-faq-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    border-left-width: 1px;
+}
+html[dir="rtl"] .moon-faq-grouped .moon-faq-item {
+    border-right-width: 1px;
+}
+.moon-faq-grouped .moon-faq-item summary {
+    padding: 9px 14px;
+    padding-inline-end: 32px;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+.moon-faq-grouped .moon-faq-item p {
+    padding: 0 14px 11px;
+    font-size: 0.9rem;
+}
+
+/* جوّال: البطاقات البارزة في عمود واحد */
+@media (max-width: 600px) {
+    .moon-faq-highlight {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+    .moon-faq-card {
+        padding: 12px 14px;
+    }
+    .moon-faq-card-q { font-size: 0.93rem; }
+    .moon-faq-card-a { font-size: 0.9rem; }
+}
 .moon-evergreen h3 {
     font-size: 1.08rem;
     font-weight: 700;

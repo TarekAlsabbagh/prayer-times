@@ -5849,6 +5849,42 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
             `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
         );
+        // ── Round 14 polish #4: Breadcrumb SSR — يعرض التاريخ الهجريّ أو الميلاديّ حسب نوع URL ──
+        //   قبل: bc-date يبقى hidden حتى JS. الآن: نحقنه في SSR بلغة الزائر مع التسمية الصحيحة
+        //   ليراه الزائر بلا JS وتراه محرّكات البحث مباشرةً.
+        if (_isMoonDatePage) {
+            // نصّ "القمر اليوم في {City}" بلغة الواجهة — يطابق ما يفعله العميل عبر moon.bc_moon_in_city
+            const _BC_MOON_CITY = {
+                ar: `القمر اليوم في ${cityName}`,
+                en: `Moon Today in ${cityName}`,
+                fr: `Lune aujourd'hui à ${cityName}`,
+                tr: `Bugün ${cityName} - Ay`,
+                ur: `آج ${cityName} میں چاند`,
+                de: `Mond heute in ${cityName}`,
+                id: `Bulan Hari Ini di ${cityName}`,
+                es: `Luna hoy en ${cityName}`,
+                bn: `আজকের চাঁদ - ${cityName}`,
+                ms: `Bulan Hari Ini di ${cityName}`
+            };
+            const _bcMoonTextSsr = _BC_MOON_CITY[Lm] || _BC_MOON_CITY.en;
+            // رابط نسبيّ — يعمل من أيّ host، ولا يحتاج origin في هذا الـ scope
+            const _bcCityHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-today-in-' + seo.moonCity.slug;
+            // استبدال عنصر bc-moon: من current-page (بلا href) إلى رابط قابل للضغط باسم المدينة
+            html = html.replace(
+                /<a class="bc-moon" id="bc-moon"[^>]*>[^<]*<\/a>/,
+                `<a class="bc-moon" id="bc-moon" href="${_escHtml(_bcCityHref)}">${_escHtml(_bcMoonTextSsr)}</a>`
+            );
+            // استبدال bc-date-sep (إزالة hidden)
+            html = html.replace(
+                /<span class="bc-sep bc-date-sep" id="bc-date-sep" hidden>›<\/span>/,
+                `<span class="bc-sep bc-date-sep" id="bc-date-sep">›</span>`
+            );
+            // استبدال bc-date: إزالة hidden + حقن التسمية الرئيسيّة (هجريّة أو ميلاديّة)
+            html = html.replace(
+                /<span class="bc-date" id="bc-date" aria-current="page" hidden><\/span>/,
+                `<span class="bc-date" id="bc-date" aria-current="page">${_escHtml(_primaryDateLabelSsr)}</span>`
+            );
+        }
         // قوالب الفقرة التعريفيّة (fallback — بدون JS) — تُستبدَل لاحقًا بالنصّ الديناميكيّ
         const _introMoon = {
             ar: `اليوم في ${cityName}، ${countryName}، يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.`,

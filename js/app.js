@@ -7272,6 +7272,129 @@ function updateMoonInfo() {
         _setH2('moon-faq-live-h2', 'moon.faq_live_title_city_template');
         // 🆕 Priority A: subtitle تحت H1 — نسخة city-specific
         _setH2('moon-subtitle', 'moon.subtitle_city_template');
+        // ── Round 13 polish: على صفحة التاريخ المحدَّد نَستبدل «اليوم» بصياغة زمنيّة محايدة
+        // حتّى لا تبدو الصفحة المؤرشفة/المستقبليّة كأنّها اليوم الحاليّ. نُعيد كتابة عناوين
+        // الأقسام الثانويّة مباشرةً (بدل مفاتيح i18n التي تحوي «اليوم»).
+        if (_isDatePage) {
+            // نصّ تعريفيّ للمدينة لتوليد العنوان (لأنّ أسماء المدن الشهيرة مترجَمة فعلاً)
+            const _kindForH2 = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+            const _dateForH2 = _kindForH2 && _kindForH2.isHijri && _kindForH2.hYear
+                ? _formatHijriLabelLang(_kindForH2.hYear, _kindForH2.hMonth, _kindForH2.hDay, _lng_)
+                : '';
+            const _H2TPL = {
+                ar: {
+                    title: 'تفاصيل حالة القمر في ' + _cityName,
+                    cities: 'حالة القمر في مدن أخرى لنفس التاريخ',
+                    faq: 'أسئلة شائعة عن حالة القمر في ' + _cityName + (_dateForH2 ? ' يوم ' + _dateForH2 : ''),
+                    subtitle: 'تابع حالة القمر في ' + _cityName + ' بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب'
+                },
+                en: {
+                    title: 'Moon details in ' + _cityName,
+                    cities: 'Moon in other cities for the same date',
+                    faq: 'FAQ about the Moon in ' + _cityName + (_dateForH2 ? ' on ' + _dateForH2 : ''),
+                    subtitle: 'Track the Moon in ' + _cityName + ' with astronomical precision — phase, illumination, age, rise & set'
+                },
+                fr: {
+                    title: 'Détails de la Lune à ' + _cityName,
+                    cities: 'La Lune dans d\u2019autres villes pour la même date',
+                    faq: 'FAQ sur la Lune à ' + _cityName + (_dateForH2 ? ' le ' + _dateForH2 : ''),
+                    subtitle: 'Suivez la Lune à ' + _cityName + ' avec précision astronomique — phase, illumination, âge, lever et coucher'
+                },
+                tr: {
+                    title: _cityName + ' için Ay ayrıntıları',
+                    cities: 'Aynı tarih için diğer şehirlerde Ay',
+                    faq: _cityName + ' için Ay hakkında SSS' + (_dateForH2 ? ' — ' + _dateForH2 : ''),
+                    subtitle: _cityName + ' için Ay\'ı astronomik doğrulukla takip edin — evre, aydınlanma, yaş, doğuş ve batış'
+                },
+                ur: {
+                    title: _cityName + ' میں چاند کی تفصیلات',
+                    cities: 'اسی تاریخ کے لیے دیگر شہروں میں چاند',
+                    faq: _cityName + ' میں چاند کے بارے میں عام سوالات' + (_dateForH2 ? ' ' + _dateForH2 + ' کو' : ''),
+                    subtitle: _cityName + ' میں چاند کو فلکیاتی درستگی کے ساتھ دیکھیں — مرحلہ، روشنی، عمر، طلوع اور غروب'
+                },
+                de: {
+                    title: 'Monddetails in ' + _cityName,
+                    cities: 'Der Mond in anderen Städten am selben Datum',
+                    faq: 'FAQ zum Mond in ' + _cityName + (_dateForH2 ? ' am ' + _dateForH2 : ''),
+                    subtitle: 'Verfolgen Sie den Mond in ' + _cityName + ' mit astronomischer Präzision — Phase, Beleuchtung, Alter, Auf- und Untergang'
+                },
+                id: {
+                    title: 'Detail Bulan di ' + _cityName,
+                    cities: 'Bulan di kota lain untuk tanggal yang sama',
+                    faq: 'FAQ Bulan di ' + _cityName + (_dateForH2 ? ' pada ' + _dateForH2 : ''),
+                    subtitle: 'Pantau Bulan di ' + _cityName + ' dengan presisi astronomi — fase, iluminasi, usia, terbit dan terbenam'
+                },
+                es: {
+                    title: 'Detalles de la Luna en ' + _cityName,
+                    cities: 'La Luna en otras ciudades para la misma fecha',
+                    faq: 'Preguntas frecuentes sobre la Luna en ' + _cityName + (_dateForH2 ? ' el ' + _dateForH2 : ''),
+                    subtitle: 'Sigue la Luna en ' + _cityName + ' con precisión astronómica — fase, iluminación, edad, salida y puesta'
+                },
+                bn: {
+                    title: _cityName + '-এ চাঁদের বিস্তারিত',
+                    cities: 'একই তারিখে অন্যান্য শহরে চাঁদ',
+                    faq: _cityName + '-এ চাঁদ সম্পর্কে সাধারণ প্রশ্ন' + (_dateForH2 ? ' (' + _dateForH2 + ')' : ''),
+                    subtitle: _cityName + '-এ চাঁদকে জ্যোতির্বৈজ্ঞানিক নির্ভুলতার সাথে অনুসরণ করুন — দশা, আলোকসজ্জা, বয়স, উদয় ও অস্ত'
+                },
+                ms: {
+                    title: 'Butiran Bulan di ' + _cityName,
+                    cities: 'Bulan di bandar lain untuk tarikh yang sama',
+                    faq: 'Soalan lazim tentang Bulan di ' + _cityName + (_dateForH2 ? ' pada ' + _dateForH2 : ''),
+                    subtitle: 'Ikuti Bulan di ' + _cityName + ' dengan ketepatan astronomi — fasa, pencahayaan, usia, terbit dan terbenam'
+                }
+            };
+            const _tpl = _H2TPL[_lng_] || _H2TPL.en;
+            const _overH2 = (id, txt, keepIcon) => {
+                const el = document.getElementById(id);
+                if (!el || !txt) return;
+                // نحفظ الإيموجي إن كان في بداية النصّ الأصليّ
+                const _raw = el.textContent || '';
+                const _emoMatch = _raw.match(/^\s*([\p{Emoji_Presentation}\p{Extended_Pictographic}]+\s*)/u);
+                const _prefix = (keepIcon && _emoMatch) ? _emoMatch[1] : '';
+                el.textContent = _prefix + txt;
+            };
+            _overH2('moon-title-h2', _tpl.title, true);
+            _overH2('moon-faq-live-h2', _tpl.faq, true);
+            _overH2('moon-faq-city-h2', _tpl.faq, true);
+            _overH2('moon-subtitle', _tpl.subtitle, false);
+            // H2 «القمر اليوم في مدن أخرى» — نبحث بالـ data-i18n
+            try {
+                const _otherCitiesH2 = document.querySelector('[data-i18n="moon.cities_title"]');
+                if (_otherCitiesH2) {
+                    const _emoMatch = (_otherCitiesH2.textContent || '').match(/^\s*([\p{Emoji_Presentation}\p{Extended_Pictographic}]+\s*)/u);
+                    _otherCitiesH2.textContent = (_emoMatch ? _emoMatch[1] : '') + _tpl.cities;
+                }
+            } catch (_e) { /* silent */ }
+            // Round 14 polish #3: عنوان قسم المناسبات الإسلاميّة — نحيِّد «العدّ التنازليّ» في الصفحات المؤرَّخة
+            //   لأنّ الزائر على صفحة تاريخ محدَّد قد يتوقَّع عدّاً تنازليّاً من ذلك التاريخ (غير صحيح —
+            //   نحن دائماً نحسب من الآن). نستبدلها بـ «مناسبات إسلاميّة قادمة» وهو وصف زمنيّ محايد.
+            try {
+                const _EVENTS_H2 = {
+                    ar: 'مناسبات إسلاميّة قادمة',
+                    en: 'Upcoming Islamic occasions',
+                    fr: 'Occasions islamiques à venir',
+                    tr: 'Yaklaşan İslami günler',
+                    ur: 'آنے والے اسلامی مواقع',
+                    de: 'Bevorstehende islamische Anlässe',
+                    id: 'Acara Islam mendatang',
+                    es: 'Próximas ocasiones islámicas',
+                    bn: 'আসন্ন ইসলামিক উপলক্ষ',
+                    ms: 'Acara Islam yang akan datang'
+                };
+                const _evH2 = document.getElementById('moon-events-h2');
+                if (_evH2) {
+                    const _raw = _evH2.textContent || '';
+                    const _em = _raw.match(/^\s*([\p{Emoji_Presentation}\p{Extended_Pictographic}]+\s*)/u);
+                    const _prefix = _em ? _em[1] : '⏳ ';
+                    _evH2.textContent = _prefix + (_EVENTS_H2[_lng_] || _EVENTS_H2.en);
+                    // نزيل data-i18n كي لا يُعاد استبداله عند تغيير اللغة لاحقاً في الـ SPA
+                    _evH2.removeAttribute('data-i18n');
+                }
+            } catch (_e) { /* silent */ }
+            // Round 14 polish #3b: عنوان «الأطوار القمريّة القادمة» يبقى كما هو (يحوي «القادمة» أصلاً
+            //   وهي صياغة محايدة)، لكن نُبرز الكلمة «القادمة» في الـ subtitle بلغة المستخدم
+            //   لتطمئن الزائر بأنّ هذه توقّعات مستقبليّة (من الآن، لا من تاريخ الصفحة).
+        }
         if (_locEl) {
             const _locTemplates = {
                 ar: `الموقع: ${_cityName}`,
@@ -8193,6 +8316,49 @@ function updateMoonInfo() {
                     _todayLinkEl2.removeAttribute('aria-current');
                 }
             }
+            // ── Round 14 polish: على صفحة التاريخ، الزرّ الأوسط يعرض التاريخ المعروض
+            // حاليًّا (بدلاً من «اليوم» الذي يُربك المستخدم). الرابط يبقى إلى /moon-today-in-X
+            // (صفحة اليوم الحقيقيّة) لكن النصّ المرئيّ يُطابق التاريخ المعروض الآن.
+            //   - رابط هجريّ → نعرض التسمية الهجريّة (مثلاً «3 ذو القعدة 1447»).
+            //   - رابط ميلاديّ → نعرض التسمية الميلاديّة المختصرة (مثلاً «20 أبريل 2026»).
+            //   على صفحة اليوم الحقيقيّة: يبقى النصّ الافتراضيّ «اليوم» / «Today».
+            if (_todayLinkEl2 && _isDatePage) {
+                try {
+                    const _labelEl = _todayLinkEl2.querySelector('.moon-date-label');
+                    if (_labelEl) {
+                        const _lngNav = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                        const _kindNav = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+                        let _midText = '';
+                        if (_kindNav && _kindNav.isHijri && _kindNav.hYear) {
+                            // تسمية هجريّة كاملة
+                            try { _midText = _formatHijriLabelLang(_kindNav.hYear, _kindNav.hMonth, _kindNav.hDay, _lngNav); } catch(_){}
+                        }
+                        if (!_midText) {
+                            // تسمية ميلاديّة: "20 أبريل 2026" / "Apr 20, 2026"
+                            let _gm = '';
+                            try { if (typeof t === 'function') _gm = t('gmonth.' + (today.getMonth() + 1)); } catch(_){}
+                            if (!_gm || _gm === 'gmonth.' + (today.getMonth() + 1)) {
+                                _gm = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()];
+                            }
+                            // ترتيب: لغات RTL وعربيّة → يوم شهر سنة؛ EN → مختصر "Apr 20, 2026"
+                            if (_lngNav === 'en') {
+                                _midText = _gm + ' ' + today.getDate() + ', ' + today.getFullYear();
+                            } else {
+                                _midText = today.getDate() + ' ' + _gm + ' ' + today.getFullYear();
+                            }
+                        }
+                        _labelEl.textContent = _midText;
+                        // نزيل data-i18n حتّى لا يُعاد استبداله بـ «اليوم» عند تغيير اللغة
+                        _labelEl.removeAttribute('data-i18n');
+                        // aria-label وصفيّ للـ screen readers
+                        _todayLinkEl2.setAttribute('aria-label', _midText);
+                        _todayLinkEl2.setAttribute('title', _midText);
+                    }
+                    // الأيقونة: على صفحة التاريخ نُغيّر 🏠 إلى 📅 (تاريخ) لأنّها ليست «العودة للرئيسيّة»
+                    const _arrowEl = _todayLinkEl2.querySelector('.moon-date-arrow');
+                    if (_arrowEl) _arrowEl.textContent = '📅';
+                } catch (_mlerr) { /* silent */ }
+            }
         }
     } catch (_nerr) {
         if (window.console && console.warn) console.warn('Moon date nav fill failed:', _nerr);
@@ -8344,15 +8510,26 @@ function updateMoonInfo() {
                     _bcMoon.removeAttribute('aria-current');
                 }
                 // المستوى 3: {Date} — current page (span أصلاً، غير قابل للضغط)
+                //   Round 14 polish #4: إن كان URL هجريّاً نستخدم التسمية الهجريّة؛ وإلّا الميلاديّة.
                 if (_bcDateSep) _bcDateSep.hidden = false;
                 if (_bcDate) {
-                    // تاريخ مختصر بلا يوم الأسبوع: "25 أبريل 2026"
-                    let _gmBC = '';
-                    try { _gmBC = (typeof t === 'function') ? t('gmonth.' + (today.getMonth() + 1)) : ''; } catch(_){}
-                    if (!_gmBC || _gmBC === 'gmonth.' + (today.getMonth() + 1)) {
-                        _gmBC = ['January','February','March','April','May','June','July','August','September','October','November','December'][today.getMonth()];
+                    let _bcDateText = '';
+                    try {
+                        const _kindBC = _moonDateKindFromPath();
+                        if (_kindBC && _kindBC.isHijri && _kindBC.hYear) {
+                            _bcDateText = _formatHijriLabelLang(_kindBC.hYear, _kindBC.hMonth, _kindBC.hDay, _lngBC);
+                        }
+                    } catch (_e) { /* silent */ }
+                    if (!_bcDateText) {
+                        // Fallback: تاريخ ميلاديّ مختصر "25 أبريل 2026"
+                        let _gmBC = '';
+                        try { _gmBC = (typeof t === 'function') ? t('gmonth.' + (today.getMonth() + 1)) : ''; } catch(_){}
+                        if (!_gmBC || _gmBC === 'gmonth.' + (today.getMonth() + 1)) {
+                            _gmBC = ['January','February','March','April','May','June','July','August','September','October','November','December'][today.getMonth()];
+                        }
+                        _bcDateText = today.getDate() + ' ' + _gmBC + ' ' + today.getFullYear();
                     }
-                    _bcDate.textContent = today.getDate() + ' ' + _gmBC + ' ' + today.getFullYear();
+                    _bcDate.textContent = _bcDateText;
                     _bcDate.hidden = false;
                 }
             } else {

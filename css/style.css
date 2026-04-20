@@ -4289,3 +4289,36 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 #share-telegram { background: #26a5e4; }
 #share-telegram:hover { background: #0e90d2; }
 
+/* Follow-us buttons (social accounts, not share links) */
+.home-follow-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.home-follow-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    background: #000;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background .15s, transform .1s;
+    line-height: 1;
+}
+.home-follow-btn:hover { background: #222; transform: translateY(-1px); }
+.home-follow-btn .share-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: block;
+}
+#follow-x { background: #000; }
+#follow-x:hover { background: #222; }
+#follow-yt { background: #ff0000; }
+#follow-yt:hover { background: #cc0000; }
+

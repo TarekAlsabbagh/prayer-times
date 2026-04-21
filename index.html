@@ -28,7 +28,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=312" as="script">
+    <link rel="preload" href="js/app.js?v=313" as="script">
     <link rel="stylesheet" href="css/style.css?v=90">
 </head>
 <body>
@@ -364,17 +364,31 @@
                     <div id="schedule-pagination" class="u-hidden"></div>
                 </div>
 
-                <!-- 🔥 الأكثر بحثاً اليوم — chips (Round 20) -->
+                <!-- 🔥 الأكثر بحثاً اليوم — chips (Round 20 | Round 21: SEO title+aria+heading) -->
                 <section class="section-card most-searched-chips" id="most-searched-chips" aria-labelledby="msc-title">
-                    <h3 class="msc-title" id="msc-title" data-i18n="home.most_searched">🔥 الأكثر بحثاً اليوم</h3>
+                    <h3 class="msc-title" id="msc-title" data-i18n="home.most_searched">🔥 الأكثر بحثاً اليوم عن مواقيت الصلاة</h3>
                     <div class="msc-list">
-                        <a class="msc-chip" href="/prayer-times-in-riyadh"><span data-i18n="city.riyadh">الرياض</span></a>
-                        <a class="msc-chip" href="/prayer-times-in-mecca"><span data-i18n="city.mecca">مكة المكرمة</span></a>
-                        <a class="msc-chip" href="/prayer-times-in-medina"><span data-i18n="city.medina">المدينة المنورة</span></a>
-                        <a class="msc-chip" href="/prayer-times-in-cairo"><span data-i18n="city.cairo">القاهرة</span></a>
-                        <a class="msc-chip" href="/prayer-times-in-dubai"><span data-i18n="city.dubai">دبي</span></a>
-                        <a class="msc-chip" href="/prayer-times-in-istanbul"><span data-i18n="city.istanbul">إسطنبول</span></a>
-                        <a class="msc-chip" href="/prayer-times-in-london"><span data-i18n="city.london">لندن</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-riyadh"
+                           title="مواقيت الصلاة اليوم في الرياض"
+                           aria-label="مواقيت الصلاة اليوم في الرياض"><span data-i18n="city.riyadh">الرياض</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-mecca"
+                           title="مواقيت الصلاة اليوم في مكة المكرمة"
+                           aria-label="مواقيت الصلاة اليوم في مكة المكرمة"><span data-i18n="city.mecca">مكة المكرمة</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-medina"
+                           title="مواقيت الصلاة اليوم في المدينة المنورة"
+                           aria-label="مواقيت الصلاة اليوم في المدينة المنورة"><span data-i18n="city.medina">المدينة المنورة</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-cairo"
+                           title="مواقيت الصلاة اليوم في القاهرة"
+                           aria-label="مواقيت الصلاة اليوم في القاهرة"><span data-i18n="city.cairo">القاهرة</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-dubai"
+                           title="مواقيت الصلاة اليوم في دبي"
+                           aria-label="مواقيت الصلاة اليوم في دبي"><span data-i18n="city.dubai">دبي</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-istanbul"
+                           title="مواقيت الصلاة اليوم في إسطنبول"
+                           aria-label="مواقيت الصلاة اليوم في إسطنبول"><span data-i18n="city.istanbul">إسطنبول</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-london"
+                           title="مواقيت الصلاة اليوم في لندن"
+                           aria-label="مواقيت الصلاة اليوم في لندن"><span data-i18n="city.london">لندن</span></a>
                     </div>
                 </section>
 
@@ -389,8 +403,8 @@
                     </div>
                 </div>
 
-                <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX) -->
-                <section class="section-card arab-countries-section" id="arab-countries-section" aria-labelledby="arab-countries-title">
+                <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX | Round 21: collapse افتراضيّاً) -->
+                <section class="section-card arab-countries-section countries-limited" id="arab-countries-section" aria-labelledby="arab-countries-title" data-full="false">
                     <h2 id="arab-countries-title" data-i18n="footer.arab_countries">🕌 مواقيت الصلاة في الدول العربية</h2>
                     <nav class="arab-countries-grid" aria-label="الدول العربية">
                         <a href="/prayer-times-in-saudi-arabia" class="country-tile" data-cc="sa"><img src="https://flagcdn.com/w40/sa.png" alt="علم السعودية" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sa">السعودية</span></a>
@@ -442,7 +456,8 @@
                         <a href="/prayer-times-in-south-africa" class="country-tile" data-cc="za"><img src="https://flagcdn.com/w40/za.png" alt="علم جنوب أفريقيا" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.za">جنوب أفريقيا</span></a>
                     </nav>
 
-                    <div class="u-center-mt">
+                    <div class="u-center-mt countries-toggle-wrap">
+                        <button type="button" class="countries-expand-btn" onclick="toggleCountriesFull(this)" data-i18n="countries.show_all">📖 عرض كلّ الدول</button>
                         <a href="/prayer-times-worldwide" class="more-countries-btn" id="more-countries-btn" data-i18n="countries.more">🌐 استعرض كل دول العالم</a>
                     </div>
                 </section>
@@ -462,43 +477,59 @@
                     <div class="related-services-grid" id="related-services-grid"></div>
                 </div>
 
-                <!-- 🕌 الخدمات الإسلامية — 8 بطاقات (نُقلت لأسفل Round 20 — أولويّات أعلى في الأعلى) -->
+                <!-- 🕌 الخدمات الإسلامية — 8 بطاقات (Round 20: نُقلت لأسفل | Round 21: Qibla + Moon مميّزتان + SEO titles) -->
                 <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
                     <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
                     <div class="qa-grid">
-                        <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;">
+                        <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;"
+                           title="معرفة التاريخ الهجري اليوم بالتفصيل"
+                           aria-label="التاريخ الهجري اليوم بالتفصيل">
                             <span class="qa-icon">📅</span>
                             <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
                             <div class="qa-sub" id="qa-hijri-date">--</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('qibla');return false;">
+                        <a class="qa-card qa-featured" href="#" onclick="navToPage('qibla');return false;"
+                           title="تحديد اتجاه القبلة الآن من موقعك"
+                           aria-label="اتجاه القبلة من موقعك الحاليّ">
                             <span class="qa-icon">🧭</span>
                             <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
                             <div class="qa-sub" id="qa-qibla-dir">--</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('moon');return false;">
+                        <a class="qa-card qa-featured" href="#" onclick="navToPage('moon');return false;"
+                           title="حالة القمر اليوم — الطور والنسبة والعمر"
+                           aria-label="حالة القمر اليوم والمرحلة القمريّة">
                             <span class="qa-icon" id="qa-moon-icon">🌙</span>
                             <div class="qa-title" data-i18n="home.moon">القمر اليوم</div>
                             <div class="qa-sub" id="qa-moon-phase">--</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;">
+                        <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;"
+                           title="تحويل التاريخ بين الميلادي والهجري"
+                           aria-label="تحويل التاريخ ميلادي هجري">
                             <span class="qa-icon">🔄</span>
                             <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
                             <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('hijri-calendar');return false;">
+                        <a class="qa-card" href="#" onclick="navToPage('hijri-calendar');return false;"
+                           title="التقويم الهجري — عرض الأشهر والمناسبات"
+                           aria-label="التقويم الهجري الكامل">
                             <span class="qa-icon">🗓️</span>
                             <div class="qa-title" data-i18n="nav.hijri_calendar">التقويم الهجري</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('duas');return false;">
+                        <a class="qa-card" href="#" onclick="navToPage('duas');return false;"
+                           title="أدعية وأذكار المسلم اليوميّة من الكتاب والسنّة"
+                           aria-label="الأدعية والأذكار اليوميّة">
                             <span class="qa-icon">🤲</span>
                             <div class="qa-title" data-i18n="nav.duas">الأدعية والأذكار</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;">
+                        <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;"
+                           title="مسبحة إلكترونيّة لعدّ الأذكار والتسابيح"
+                           aria-label="المسبحة الإلكترونيّة لعدّ التسابيح">
                             <span class="qa-icon">📿</span>
                             <div class="qa-title" data-i18n="nav.tasbih">المسبحة الإلكترونية</div>
                         </a>
-                        <a class="qa-card" href="#" onclick="navToPage('zakat');return false;">
+                        <a class="qa-card" href="#" onclick="navToPage('zakat');return false;"
+                           title="حاسبة الزكاة — نصاب الذهب والفضة والمال"
+                           aria-label="حاسبة الزكاة الشرعيّة">
                             <span class="qa-icon">💰</span>
                             <div class="qa-title" data-i18n="nav.zakat">حاسبة الزكاة</div>
                         </a>
@@ -2279,7 +2310,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=312"></script>
+    <script defer src="js/app.js?v=313"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

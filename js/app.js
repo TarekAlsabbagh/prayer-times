@@ -2381,6 +2381,9 @@ async function initApp() {
 
     // ربط Hero search mirror (يعكس #city-suggestions إلى #loc-hero-suggestions تلقائيّاً)
     try { wireHeroSuggestionsMirror(); } catch (_e) { /* silent */ }
+
+    // تطبيق عناوين SEO الثابتة (country tiles + popular cities في الفوتر)
+    try { applyStaticLinkTitlesSEO(); } catch (_e) { /* silent */ }
 }
 
 // ========= التنقل بين الصفحات =========
@@ -4175,6 +4178,22 @@ function toggleFaqAll(btn) {
     if (btn) {
         btn.setAttribute('data-i18n', newKey);
         btn.textContent = (typeof t === 'function') ? t(newKey) : (expanded ? 'طيّ الأسئلة' : 'عرض كلّ الأسئلة');
+    }
+}
+
+/**
+ * Countries Toggle — يفتح/يُطوي قسم الدول (Round 21).
+ * افتراضيّاً يعرض 12 دولة عربيّة + 10 عالميّة؛ الزرّ يكشف الباقي.
+ */
+function toggleCountriesFull(btn) {
+    const sec = document.getElementById('arab-countries-section');
+    if (!sec) return;
+    const isFull = sec.getAttribute('data-full') === 'true';
+    sec.setAttribute('data-full', isFull ? 'false' : 'true');
+    const newKey = isFull ? 'countries.show_all' : 'countries.collapse';
+    if (btn) {
+        btn.setAttribute('data-i18n', newKey);
+        btn.textContent = (typeof t === 'function') ? t(newKey) : (isFull ? '📖 عرض كلّ الدول' : '🔼 طيّ');
     }
 }
 
@@ -6051,11 +6070,111 @@ function updateActivePrayer() {
     const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
     document.getElementById('next-prayer-name').textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
 
-    // تحديث البطاقة النشطة
+    // تحديث البطاقة النشطة + الحاليّة (Round 21)
+    const prev = (typeof PrayerTimes.getCurrentPrayer === 'function')
+        ? PrayerTimes.getCurrentPrayer(currentPrayerTimes, currentTimezone)
+        : null;
     document.querySelectorAll('.prayer-card').forEach(card => {
         card.classList.remove('active');
-        if (card.dataset.prayer === next.key) {
-            card.classList.add('active');
+        card.classList.remove('current');
+        if (card.dataset.prayer === next.key) card.classList.add('active');
+        if (prev && card.dataset.prayer === prev.key) card.classList.add('current');
+    });
+    try { updatePrayerCardsSEO(); } catch (_e) {}
+}
+
+/**
+ * يُرجع اسم المدينة الحاليّة (Ar أو localized) — fallback helper (Round 21).
+ * يعتمد على المتغيّرات العامّة: currentCity (Ar), currentLocalizedName (localized).
+ */
+function getCurrentCityLabel() {
+    const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    if (_ln === 'ar') return (typeof currentCity !== 'undefined' && currentCity) ? currentCity : '';
+    // للّغات الأخرى: جرّب localized name أوّلاً ثم map ثم English
+    if (typeof currentLocalizedName !== 'undefined' && currentLocalizedName) return currentLocalizedName;
+    try {
+        const cityMap = (typeof _LOCALIZED_CITY_MAPS !== 'undefined') ? _LOCALIZED_CITY_MAPS[_ln] : null;
+        const enName = (typeof currentEnglishName !== 'undefined') ? currentEnglishName : '';
+        if (cityMap && enName && cityMap[enName]) return cityMap[enName];
+        return enName || (typeof currentCity !== 'undefined' ? currentCity : '');
+    } catch (_e) {
+        return (typeof currentCity !== 'undefined') ? currentCity : '';
+    }
+}
+
+/**
+ * SEO Layering لبطاقات الصلوات (Round 21).
+ * يضيف title + aria-label ديناميكيّاً بصيغة: "موعد صلاة {الصلاة} اليوم في {المدينة}".
+ * المستخدم يرى فقط الاسم المختصر ("الفجر")، لكنّ Google يرى الجملة الكاملة.
+ */
+function updatePrayerCardsSEO() {
+    const cityLabel = getCurrentCityLabel();
+    if (!cityLabel) return;
+    const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    document.querySelectorAll('.prayer-card').forEach(card => {
+        const key = card.dataset.prayer;
+        if (!key) return;
+        const prayerName = (typeof t === 'function') ? t('prayer.' + key) : key;
+        let title;
+        if (_ln === 'ar') {
+            title = `موعد صلاة ${prayerName} اليوم في ${cityLabel}`;
+        } else {
+            // fallback لبقيّة اللغات
+            title = `${prayerName} prayer time today in ${cityLabel}`;
+        }
+        card.setAttribute('title', title);
+        card.setAttribute('aria-label', title);
+    });
+
+    // Weekly button → title ديناميكيّ
+    const wb = document.querySelector('.weekly-expand-btn');
+    if (wb) {
+        wb.setAttribute('title', (_ln === 'ar')
+            ? `جدول مواقيت الصلاة الأسبوعيّ في ${cityLabel}`
+            : `Weekly prayer times schedule in ${cityLabel}`);
+    }
+
+    // Moon CTA → title ديناميكيّ
+    const mtc = document.getElementById('mtc-cta');
+    if (mtc) {
+        mtc.setAttribute('title', (_ln === 'ar')
+            ? `حالة القمر اليوم في ${cityLabel} — الطور والنسبة والعمر`
+            : `Moon status today in ${cityLabel}`);
+    }
+
+    // Hero tagline → H2 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21)
+    const tagline = document.querySelector('.loc-hero-tagline');
+    if (tagline) {
+        if (_ln === 'ar') {
+            tagline.textContent = `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`;
+        } else {
+            tagline.textContent = `Prayer Times Today in ${cityLabel} — Hijri & Gregorian Date`;
+        }
+    }
+}
+
+/**
+ * SEO Static — يُطبّق titles لروابط Countries و Popular Cities (Round 21).
+ * تلك العناصر تحوي نصّاً كاملاً بالفعل ("مواقيت الصلاة في X")، لكنّ إضافة title
+ * يعطي tooltip + يُعزّز الإشارة لـ crawlers.
+ */
+function applyStaticLinkTitlesSEO() {
+    // Country tiles
+    document.querySelectorAll('.country-tile').forEach(a => {
+        if (a.getAttribute('title')) return; // لا تُعد الكتابة لو ضُبط يدوياً
+        const txt = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        if (txt) {
+            a.setAttribute('title', txt);
+            if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', txt);
+        }
+    });
+    // Popular cities in footer
+    document.querySelectorAll('.popular-cities-grid a').forEach(a => {
+        if (a.getAttribute('title')) return;
+        const txt = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        if (txt) {
+            a.setAttribute('title', txt);
+            if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', txt);
         }
     });
 }

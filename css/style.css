@@ -3634,8 +3634,15 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     border-color: var(--primary);
     background: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 18px rgba(46,125,50,0.18);
 }
+/* Round 21: البطاقة الأولى (أقرب مدينة) تحصل على تلميح لونيّ خفيف — hierarchy بصريّ */
+.nearby-item:first-child {
+    background: linear-gradient(135deg, #f0f7f1 0%, #e6f0e7 100%);
+    border-color: rgba(46,125,50,.22);
+}
+.nearby-item:first-child .nearby-label { color: var(--primary-dark, #1e5631); }
+.nearby-item:first-child:hover { background: #fff; }
 
 .nearby-item .nearby-flag { font-size: 1.2rem; flex-shrink: 0; }
 .nearby-item .nearby-info {
@@ -4061,10 +4068,11 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
 
 /* ========= قسم الكلمات المفتاحية SEO =========
    Round 20: مرئيّ على الهوم (SEO + معلومة للزائر)؛ يُخفى إن فارغاً عبر :empty */
+/* SEO Keywords — مخفيّ بصريّاً (crawlers فقط). display:none يُبقي الـ DOM لكن لا يحجز CLS.
+   (قرار Round 21: المستخدم اعتبر النصّ الطويل تحت الكروت ثقيلاً — الإخفاء يُحافظ على SEO value دون ضوضاء بصريّة.) */
 .seo-section {
-    padding: 18px 24px;
+    display: none !important;
 }
-.seo-section:has(.seo-line:empty + .seo-line:empty + .seo-line:empty) { display: none; }
 .seo-line {
     font-size: 0.97rem;
     color: var(--text-secondary, #555);
@@ -5733,7 +5741,7 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 
 /* ═══ Location Hero — ركن البحث الأساسيّ (primary search) ═══ */
 .location-hero {
-    padding: 24px 20px;
+    padding: 16px 20px;
     text-align: center;
     background: linear-gradient(135deg, #f8faf8 0%, #eef5ef 100%);
     margin-bottom: 16px;
@@ -5741,19 +5749,19 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 .loc-hero-city {
     font-size: 0.95rem;
     color: var(--text-light, #555);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: 500;
 }
 .loc-hero-tagline {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
     color: var(--primary-dark, #1e5631);
     line-height: 1.3;
 }
 .loc-hero-search-wrap {
     max-width: 560px;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
     position: relative;
 }
 .loc-hero-search {
@@ -5810,26 +5818,43 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     .loc-hero-search { padding: 12px 14px; font-size: 1rem; }
 }
 
-/* Header search أقلّ وزناً بصريّاً — أصبح secondary */
+/* Header search أصبح secondary — أضيق + أفتح بصريّاً (Round 21: المستخدم أشار إلى الازدواجيّة مع Hero search) */
 @media (min-width: 641px) {
-    .city-search-input { max-width: 260px; font-size: .9rem; }
+    .city-search-input {
+        max-width: 200px;
+        font-size: .85rem;
+        padding: 6px 12px;
+        opacity: .78;
+        transition: opacity .15s, max-width .15s;
+    }
+    .city-search-input:hover,
+    .city-search-input:focus { opacity: 1; max-width: 280px; }
 }
 
-/* ═══ Summary+Info Strip — 3 عناصر + زرّ إعدادات ═══ */
+/* ═══ Summary+Info Strip — 3 Pills + زرّ إعدادات (Round 21: pill-style لرفع الوضوح) ═══ */
 .summary-info-strip {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 10px;
     align-items: center;
     justify-content: center;
     padding: 14px 18px;
-    font-size: .95rem;
+    font-size: .92rem;
     margin: 0 0 16px;
     min-height: 52px;
 }
-.sis-item { white-space: nowrap; color: var(--text, #333); }
+.sis-item {
+    white-space: nowrap;
+    color: var(--text, #333);
+    background: var(--bg-subtle, #f5f5f5);
+    border: 1px solid var(--border, #e6e6e6);
+    border-radius: 999px;
+    padding: 7px 14px;
+    transition: background .15s, border-color .15s;
+}
+.sis-item:hover { background: #eef5ef; border-color: var(--primary, #2e7d32); }
 .sis-item b { color: var(--primary-dark, #1e5631); font-weight: 700; }
-.sis-sep { color: var(--border, #ccc); font-weight: 700; }
+.sis-sep { display: none; } /* الفواصل لم تعد ضروريّة مع الـ pills */
 .sis-settings {
     margin-inline-start: auto;
     padding: 7px 14px;
@@ -5944,4 +5969,51 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 
 /* Hadith section — hook (للاستخدام المستقبليّ) */
 .hadith-section { /* يرث من .section-card */ }
+
+/* ═══ Countries Collapse — Round 21 ═══
+   يُخفى ما بعد الصفّ 12 في العربية وما بعد الصفّ 10 في العالميّة افتراضيّاً؛
+   الزرّ يُحوّل data-full="true" → كلّ التايلز تظهر. */
+.countries-limited[data-full="false"] nav[aria-label="الدول العربية"] a.country-tile:nth-child(n+13) { display: none; }
+.countries-limited[data-full="false"] nav[aria-label="أبرز دول العالم"] a.country-tile:nth-child(n+11) { display: none; }
+.countries-toggle-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.countries-expand-btn {
+    padding: 9px 22px;
+    background: var(--bg-subtle, #f5f5f5);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: .95rem;
+    color: var(--primary-dark, #1e5631);
+    font-weight: 600;
+    font-family: inherit;
+    transition: background .15s, border-color .15s;
+}
+.countries-expand-btn:hover { background: #eef5ef; border-color: var(--primary, #2e7d32); }
+.countries-limited[data-full="true"] .countries-expand-btn { background: #eef5ef; }
+
+/* ═══ Islamic Tools — إبراز 2 (Qibla + Moon) — Round 21 ═══ */
+.home-quick-access .qa-card.qa-featured {
+    background: linear-gradient(135deg, rgba(46,125,50,.08) 0%, rgba(46,125,50,.02) 100%);
+    border: 1.5px solid rgba(46,125,50,.28);
+    box-shadow: 0 2px 8px rgba(46,125,50,.08);
+    position: relative;
+}
+.home-quick-access .qa-card.qa-featured::before {
+    content: "⭐";
+    position: absolute;
+    top: 6px;
+    inset-inline-end: 8px;
+    font-size: .85rem;
+    opacity: .75;
+}
+.home-quick-access .qa-card.qa-featured:hover {
+    border-color: var(--primary, #2e7d32);
+    box-shadow: 0 6px 20px rgba(46,125,50,.18);
+}
 

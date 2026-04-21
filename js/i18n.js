@@ -949,8 +949,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'مواقيت الصلاة اليوم والتاريخ الهجريّ',
         'home.search_big': '🔍 ابحث عن مدينة أو موقع…',
-        'home.use_location': 'استخدم موقعي الحاليّ',
-        'home.most_searched': '🔥 الأكثر بحثاً اليوم',
+        'home.use_location': '📍 عرض مواقيت الصلاة في موقعي الآن',
+        'home.most_searched': '🔥 الأكثر بحثاً اليوم عن مواقيت الصلاة',
         'sis.imsak': 'الإمساك',
         'sis.fasting': 'مدّة الصيام',
         'sis.last_third': 'آخر ثلث الليل',
@@ -960,8 +960,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'عرض كلّ الأسئلة',
         'faq.collapse': 'طيّ الأسئلة',
         'moon.today_status': 'حالة القمر اليوم',
-        'moon.view_details': 'عرض التفاصيل',
+        'moon.view_details': 'عرض تفاصيل القمر',
         'moon.days': 'يوماً',
+        'countries.show_all': '📖 عرض كلّ الدول',
+        'countries.collapse': '🔼 طيّ الدول',
     },
 
     en: {
@@ -1909,8 +1911,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': "Today's Prayer Times & Hijri Date",
         'home.search_big': '🔍 Search for a city or location…',
-        'home.use_location': 'Use my current location',
-        'home.most_searched': '🔥 Most Searched Today',
+        'home.use_location': '📍 Show prayer times at my location now',
+        'home.most_searched': '🔥 Most Searched Prayer Times Today',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Fasting Duration',
         'sis.last_third': 'Last Third of Night',
@@ -1920,8 +1922,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Show all questions',
         'faq.collapse': 'Collapse questions',
         'moon.today_status': 'Moon Status Today',
-        'moon.view_details': 'View details',
+        'moon.view_details': 'View moon details',
         'moon.days': 'days',
+        'countries.show_all': '📖 Show all countries',
+        'countries.collapse': '🔼 Collapse countries',
     },
 
     fr: {
@@ -2719,8 +2723,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': "Heures de prière du jour & date hégirienne",
         'home.search_big': '🔍 Rechercher une ville ou un lieu…',
-        'home.use_location': 'Utiliser ma position actuelle',
-        'home.most_searched': '🔥 Plus recherchés aujourd\u2019hui',
+        'home.use_location': '📍 Afficher les horaires de prière à ma position',
+        'home.most_searched': '🔥 Horaires de prière les plus recherchés aujourd\u2019hui',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Durée du jeûne',
         'sis.last_third': 'Dernier tiers de la nuit',
@@ -2730,8 +2734,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Afficher toutes les questions',
         'faq.collapse': 'Réduire les questions',
         'moon.today_status': 'État de la lune aujourd\u2019hui',
-        'moon.view_details': 'Voir les détails',
+        'moon.view_details': 'Voir les détails de la lune',
         'moon.days': 'jours',
+        'countries.show_all': '📖 Afficher tous les pays',
+        'countries.collapse': '🔼 Réduire les pays',
     },
 
     tr: {
@@ -3529,8 +3535,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Bugünün Namaz Vakitleri & Hicri Tarih',
         'home.search_big': '🔍 Şehir veya konum ara…',
-        'home.use_location': 'Mevcut konumumu kullan',
-        'home.most_searched': '🔥 Bugün En Çok Aranan',
+        'home.use_location': '📍 Konumuma göre namaz vakitlerini göster',
+        'home.most_searched': '🔥 Bugün En Çok Aranan Namaz Vakitleri',
         'sis.imsak': 'İmsak',
         'sis.fasting': 'Oruç Süresi',
         'sis.last_third': 'Gecenin Son Üçte Biri',
@@ -3540,8 +3546,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Tüm soruları göster',
         'faq.collapse': 'Soruları gizle',
         'moon.today_status': 'Bugün Ay Durumu',
-        'moon.view_details': 'Ayrıntıları gör',
+        'moon.view_details': 'Ay ayrıntılarını gör',
         'moon.days': 'gün',
+        'countries.show_all': '📖 Tüm ülkeleri göster',
+        'countries.collapse': '🔼 Ülkeleri daralt',
     },
 
     ur: {
@@ -4339,8 +4347,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'آج کے اوقاتِ نماز اور ہجری تاریخ',
         'home.search_big': '🔍 شہر یا مقام تلاش کریں…',
-        'home.use_location': 'میرا موجودہ مقام استعمال کریں',
-        'home.most_searched': '🔥 آج سب سے زیادہ تلاش شدہ',
+        'home.use_location': '📍 میرے مقام پر نماز کے اوقات دکھائیں',
+        'home.most_searched': '🔥 آج سب سے زیادہ تلاش کیے گئے نماز کے اوقات',
         'sis.imsak': 'امساک',
         'sis.fasting': 'روزے کا دورانیہ',
         'sis.last_third': 'رات کا آخری تہائی',
@@ -4350,8 +4358,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'تمام سوالات دکھائیں',
         'faq.collapse': 'سوالات بند کریں',
         'moon.today_status': 'آج چاند کی حالت',
-        'moon.view_details': 'تفصیلات دیکھیں',
+        'moon.view_details': 'چاند کی تفصیلات دیکھیں',
         'moon.days': 'دن',
+        'countries.show_all': '📖 تمام ممالک دکھائیں',
+        'countries.collapse': '🔼 ممالک سمیٹیں',
     },
 
     de: {
@@ -5205,8 +5215,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Heutige Gebetszeiten & Hidschri-Datum',
         'home.search_big': '🔍 Stadt oder Ort suchen…',
-        'home.use_location': 'Aktuellen Standort verwenden',
-        'home.most_searched': '🔥 Am meisten gesucht heute',
+        'home.use_location': '📍 Gebetszeiten an meinem Standort anzeigen',
+        'home.most_searched': '🔥 Meistgesuchte Gebetszeiten heute',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Fastendauer',
         'sis.last_third': 'Letztes Drittel der Nacht',
@@ -5216,8 +5226,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Alle Fragen anzeigen',
         'faq.collapse': 'Fragen einklappen',
         'moon.today_status': 'Mondstatus heute',
-        'moon.view_details': 'Details anzeigen',
+        'moon.view_details': 'Monddetails anzeigen',
         'moon.days': 'Tage',
+        'countries.show_all': '📖 Alle Länder anzeigen',
+        'countries.collapse': '🔼 Länder einklappen',
     },
     id: {
         // App
@@ -6070,8 +6082,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Jadwal Sholat Hari Ini & Tanggal Hijriah',
         'home.search_big': '🔍 Cari kota atau lokasi…',
-        'home.use_location': 'Gunakan lokasi saya saat ini',
-        'home.most_searched': '🔥 Paling Dicari Hari Ini',
+        'home.use_location': '📍 Tampilkan jadwal shalat di lokasi saya',
+        'home.most_searched': '🔥 Jadwal Shalat Paling Dicari Hari Ini',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Durasi Puasa',
         'sis.last_third': 'Sepertiga Malam Terakhir',
@@ -6081,8 +6093,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Tampilkan semua pertanyaan',
         'faq.collapse': 'Ciutkan pertanyaan',
         'moon.today_status': 'Status Bulan Hari Ini',
-        'moon.view_details': 'Lihat detail',
+        'moon.view_details': 'Lihat detail bulan',
         'moon.days': 'hari',
+        'countries.show_all': '📖 Tampilkan semua negara',
+        'countries.collapse': '🔼 Sembunyikan negara',
     },
     es: {
         // App
@@ -6935,8 +6949,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Horarios de oración hoy y fecha hijri',
         'home.search_big': '🔍 Buscar una ciudad o ubicación…',
-        'home.use_location': 'Usar mi ubicación actual',
-        'home.most_searched': '🔥 Más buscado hoy',
+        'home.use_location': '📍 Ver horarios de oración en mi ubicación',
+        'home.most_searched': '🔥 Horarios de oración más buscados hoy',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Duración del ayuno',
         'sis.last_third': 'Último tercio de la noche',
@@ -6946,8 +6960,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Mostrar todas las preguntas',
         'faq.collapse': 'Contraer preguntas',
         'moon.today_status': 'Estado de la luna hoy',
-        'moon.view_details': 'Ver detalles',
+        'moon.view_details': 'Ver detalles de la luna',
         'moon.days': 'días',
+        'countries.show_all': '📖 Mostrar todos los países',
+        'countries.collapse': '🔼 Ocultar países',
     },
     bn: {
         // App
@@ -7800,8 +7816,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'আজকের নামাজের সময় ও হিজরি তারিখ',
         'home.search_big': '🔍 শহর বা অবস্থান খুঁজুন…',
-        'home.use_location': 'আমার বর্তমান অবস্থান ব্যবহার করুন',
-        'home.most_searched': '🔥 আজ সবচেয়ে বেশি অনুসন্ধান',
+        'home.use_location': '📍 আমার অবস্থানের নামাজের সময় দেখান',
+        'home.most_searched': '🔥 আজ সবচেয়ে বেশি অনুসন্ধান করা নামাজের সময়',
         'sis.imsak': 'ইমসাক',
         'sis.fasting': 'রোজার সময়কাল',
         'sis.last_third': 'রাতের শেষ তৃতীয়াংশ',
@@ -7811,8 +7827,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'সব প্রশ্ন দেখান',
         'faq.collapse': 'প্রশ্ন গুটিয়ে নিন',
         'moon.today_status': 'আজ চাঁদের অবস্থা',
-        'moon.view_details': 'বিস্তারিত দেখুন',
+        'moon.view_details': 'চাঁদের বিস্তারিত দেখুন',
         'moon.days': 'দিন',
+        'countries.show_all': '📖 সব দেশ দেখান',
+        'countries.collapse': '🔼 দেশ লুকান',
     },
     ms: {
         // App
@@ -8665,8 +8683,8 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Waktu Solat Hari Ini & Tarikh Hijrah',
         'home.search_big': '🔍 Cari bandar atau lokasi…',
-        'home.use_location': 'Gunakan lokasi semasa saya',
-        'home.most_searched': '🔥 Paling Dicari Hari Ini',
+        'home.use_location': '📍 Tunjuk waktu solat di lokasi saya',
+        'home.most_searched': '🔥 Waktu Solat Paling Dicari Hari Ini',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Tempoh Berpuasa',
         'sis.last_third': 'Sepertiga Malam Terakhir',
@@ -8676,8 +8694,10 @@ const TRANSLATIONS = {
         'faq.show_all': 'Papar semua soalan',
         'faq.collapse': 'Runtuhkan soalan',
         'moon.today_status': 'Status Bulan Hari Ini',
-        'moon.view_details': 'Lihat butiran',
+        'moon.view_details': 'Lihat butiran bulan',
         'moon.days': 'hari',
+        'countries.show_all': '📖 Tunjuk semua negara',
+        'countries.collapse': '🔼 Runtuh negara',
     }
 };
 

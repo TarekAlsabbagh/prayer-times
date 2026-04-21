@@ -6302,6 +6302,28 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     padding-top: env(safe-area-inset-top, 0px);
 }
 
+/* ═══════════ Round 23 — Hide top-header when Sticky Bar visible ═══════════
+   كلاهما يُقدّم نفس الـ context (اسم المدينة) + Sticky Bar أكثر فائدة على التمرير.
+   نُخفي الهيدر بـ slide-up ناعم لتجنّب التداخل ولتخفيف الضوضاء البصريّة. */
+.top-header {
+    transition: transform .25s ease, max-height .25s ease, opacity .2s ease, margin .25s ease, padding .25s ease;
+    will-change: transform;
+}
+body.has-sticky-bar .top-header {
+    transform: translateY(-100%);
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+/* احترام تفضيل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+    .top-header { transition: none; }
+}
+
 /* ═══════════ Round 23 — Differentiate .current vs .active (R22 polish) ═══════════
    .current = الصلاة التي نحن الآن داخل وقتها (accent ذهبيّ + نبض هادئ)
    .active  = الصلاة التالية (accent أخضر أقوى + glow) */

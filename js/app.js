@@ -6179,13 +6179,18 @@ function initStickyNextBar() {
     if (!bar || !banner || typeof IntersectionObserver === 'undefined') return;
     // لا نُظهر الـ Sticky Bar إلا على الصفحة الرئيسيّة (صفحات أخرى لها headers مخصّصة).
     // الشرط: Hero Banner موجود.
+    // R23 fix: نُضيف .has-sticky-bar على body → CSS يُخفي .top-header لتجنّب التداخل.
     const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (e.isIntersecting) {
                 bar.classList.remove('snb-visible');
+                document.body.classList.remove('has-sticky-bar');
             } else {
                 // ظهر فقط إن نزلنا أسفل البانر (ليس عند الصعود قبله)
-                if (window.scrollY > 60) bar.classList.add('snb-visible');
+                if (window.scrollY > 60) {
+                    bar.classList.add('snb-visible');
+                    document.body.classList.add('has-sticky-bar');
+                }
             }
         });
     }, { rootMargin: '-50px 0px 0px 0px', threshold: 0 });

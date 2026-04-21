@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=310" as="script">
-    <link rel="stylesheet" href="css/style.css?v=89">
+    <link rel="preload" href="js/app.js?v=312" as="script">
+    <link rel="stylesheet" href="css/style.css?v=90">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -116,6 +116,24 @@
 
             <!-- ===== صفحة مواقيت الصلاة ===== -->
             <div class="page active" id="page-prayer-times">
+
+                <!-- ═══════ Location Hero — ركن البحث الأساسيّ (Round 20) ═══════ -->
+                <section class="location-hero section-card" id="location-hero">
+                    <div class="loc-hero-city">📍 <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
+                    <h2 class="loc-hero-tagline" data-i18n="home.tagline">مواقيت الصلاة اليوم والتاريخ الهجريّ</h2>
+                    <div class="loc-hero-search-wrap">
+                        <input type="search" class="loc-hero-search" id="loc-hero-search"
+                               placeholder="🔍 ابحث عن مدينة أو موقع…"
+                               data-i18n-placeholder="home.search_big"
+                               autocomplete="off"
+                               oninput="onHeroSearchInput(this.value)"
+                               onkeydown="onHeroSearchKeyDown(event)">
+                        <div class="loc-hero-suggestions" id="loc-hero-suggestions"></div>
+                    </div>
+                    <button class="loc-hero-cta" onclick="detectLocation()" type="button">
+                        📍 <span data-i18n="home.use_location">استخدم موقعي الحاليّ</span>
+                    </button>
+                </section>
 
                 <!-- H1 رئيسي للصفحة — يُستبدَل نصّه عبر SSR حسب الـ URL
                      مرئي بصرياً بحجم صغير (SEO + A11y) -->
@@ -213,111 +231,35 @@
                 </div>
 
                 <!-- ══════════════════════════════════════════════════════
-                     البوابة الذكية — وصول سريع
+                     Round 20 — إعادة ترتيب الصفحة (Hero → Navigation → Discovery)
                 ══════════════════════════════════════════════════════ -->
 
-                <!-- قسم الكلمات المفتاحية SEO -->
+                <!-- ⭐ Summary+Info Strip — 3 عناصر + زرّ إعدادات (يدمج Additional Info + Settings FAB) -->
+                <div class="section-card summary-info-strip" id="summary-info-strip">
+                    <span class="sis-item">🌅 <span data-i18n="sis.imsak">الإمساك</span>: <b id="sis-imsak">—</b></span>
+                    <span class="sis-sep" aria-hidden="true">•</span>
+                    <span class="sis-item">⏳ <span data-i18n="sis.fasting">مدّة الصيام</span>: <b id="sis-fasting">—</b></span>
+                    <span class="sis-sep" aria-hidden="true">•</span>
+                    <span class="sis-item">🌙 <span data-i18n="sis.last_third">آخر ثلث الليل</span>: <b id="sis-last-third">—</b></span>
+                    <button class="sis-settings" onclick="openSettingsModal()" type="button" aria-label="إعدادات حساب المواقيت">
+                        ⚙️ <span data-i18n="settings.trigger_short">إعدادات</span>
+                    </button>
+                </div>
+
+                <!-- قسم الكلمات المفتاحية SEO (مخفيّ بصريّاً — للـ crawlers فقط، display:none فلا CLS) -->
                 <div class="section-card seo-section" id="seo-keywords">
                     <p class="seo-line" id="seo-line-1"></p>
                     <p class="seo-line" id="seo-line-2"></p>
                     <p class="seo-line" id="seo-line-3"></p>
                 </div>
 
-                <!-- زر إعدادات المواقيت (يفتح Modal) -->
-                <div class="settings-fab-row">
-                    <button class="settings-fab-btn" onclick="openSettingsModal()" aria-label="إعدادات حساب المواقيت">
-                        ⚙️ <span data-i18n="settings.trigger">إعدادات حساب المواقيت</span>
-                    </button>
-                </div>
-
-                <!-- شبكة الخدمات السريعة المُوحَّدة (8 بطاقات — دُمجت من 4 أقسام سابقة لإزالة التكرار) -->
-                <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
-                    <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
-                    <div class="qa-grid">
-                        <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;">
-                            <span class="qa-icon">📅</span>
-                            <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
-                            <div class="qa-sub" id="qa-hijri-date">--</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('qibla');return false;">
-                            <span class="qa-icon">🧭</span>
-                            <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
-                            <div class="qa-sub" id="qa-qibla-dir">--</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('moon');return false;">
-                            <span class="qa-icon" id="qa-moon-icon">🌙</span>
-                            <div class="qa-title" data-i18n="home.moon">القمر اليوم</div>
-                            <div class="qa-sub" id="qa-moon-phase">--</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;">
-                            <span class="qa-icon">🔄</span>
-                            <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
-                            <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('hijri-calendar');return false;">
-                            <span class="qa-icon">🗓️</span>
-                            <div class="qa-title" data-i18n="nav.hijri_calendar">التقويم الهجري</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('duas');return false;">
-                            <span class="qa-icon">🤲</span>
-                            <div class="qa-title" data-i18n="nav.duas">الأدعية والأذكار</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;">
-                            <span class="qa-icon">📿</span>
-                            <div class="qa-title" data-i18n="nav.tasbih">المسبحة الإلكترونية</div>
-                        </a>
-                        <a class="qa-card" href="#" onclick="navToPage('zakat');return false;">
-                            <span class="qa-icon">💰</span>
-                            <div class="qa-title" data-i18n="nav.zakat">حاسبة الزكاة</div>
-                        </a>
-                    </div>
-                </section>
-
-                <!-- عداد السكان الحي (display يُدار عبر CSS: مخفي افتراضياً، محجوز على city-page) -->
-                <div class="section-card" id="city-country-info-section">
-                    <div class="pop-counter-wrap">
-                        <div class="pop-counter-label"><span data-i18n="pop.label">عدد سكان</span> <span id="pop-country-name"></span></div>
-                        <div class="pop-number-row">
-                            <div class="pop-live-number" id="pop-live-number">0</div>
-                            <div class="pop-category" id="pop-category"></div>
-                        </div>
-                        <div class="pop-session-row">
-                            <span class="pop-dot" id="pop-live-dot"></span>
-                            <span class="pop-session" id="pop-session-added" data-i18n="pop.live">تابع التحديث المباشر</span>
-                        </div>
-                        <div class="pop-method-note" data-i18n="pop.note">
-                            📊 تقدير إحصائي — يُحسب بناءً على آخر إحصاء رسمي مضافاً إليه معدل النمو السنوي للدولة مقسّماً على ثانية
-                        </div>
-                    </div>
-                </div>
-
-                <!-- أماكن قريبة (display يُدار عبر CSS) -->
+                <!-- أماكن قريبة — مُرفَع لموقع أعلى (display عبر CSS: يظهر عند توفّر موقع) -->
                 <div class="section-card" id="nearby-section">
                     <h2 data-i18n="nearby.title">📍 أماكن قريبة من موقعك</h2>
                     <div class="nearby-grid" id="nearby-grid"></div>
                 </div>
 
-                <!-- معلومات إضافية -->
-                <div class="section-card">
-                    <h2 data-i18n="info.title">📊 معلومات إضافية</h2>
-                    <div class="info-location" id="info-location">--</div>
-                    <div class="info-grid">
-                        <div class="info-card">
-                            <div class="info-label" data-i18n="info.hijri">التاريخ الهجري</div>
-                            <div class="info-value" id="info-hijri">--</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="info-label" data-i18n="info.gregorian">التاريخ الميلادي</div>
-                            <div class="info-value" id="info-gregorian">--</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="info-label" data-i18n="info.fasting">ساعات الصيام</div>
-                            <div class="info-value" id="info-fasting">--</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- جدول مواقيت الأسبوع -->
+                <!-- جدول مواقيت الأسبوع (Compact: 3 أيّام افتراضيّاً + زرّ توسيع) -->
                 <div class="section-card" id="prayer-schedule-section">
                     <h2 id="schedule-title">📅 جدول مواقيت الصلاة</h2>
 
@@ -399,8 +341,8 @@
                         </div>
                     </div>
 
-                    <!-- الجدول -->
-                    <div class="schedule-table-wrap">
+                    <!-- الجدول (Compact mode: يُخفى الصفوف 4+ عبر data-full="false") -->
+                    <div class="schedule-table-wrap weekly-limit-3" id="weekly-table-wrap" data-full="false">
                         <table class="schedule-table" id="schedule-table">
                             <thead>
                                 <tr>
@@ -416,57 +358,27 @@
                             <tbody id="schedule-body"></tbody>
                         </table>
                     </div>
+                    <!-- زرّ توسيع الجدول — يُغيّر data-full على الـ wrap ليكشف/يخفي الصفوف 4+ -->
+                    <button class="weekly-expand-btn" id="weekly-expand-btn" onclick="toggleWeeklyFull(this)" type="button" data-i18n="weekly.show_all">عرض الجدول الكامل</button>
                     <!-- ترقيم الصفحات (البحث اليدوي فقط) -->
                     <div id="schedule-pagination" class="u-hidden"></div>
                 </div>
 
-                <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن (display عبر CSS) -->
-                <div class="section-card city-about-section" id="city-about-section">
-                    <h2 id="city-about-title">معلومات عن المدينة</h2>
-                    <div class="city-about-body">
-                        <p id="city-about-extract" class="city-about-extract"></p>
-                        <a id="city-about-link" class="city-about-link" href="#" target="_blank" rel="noopener nofollow"></a>
+                <!-- 🔥 الأكثر بحثاً اليوم — chips (Round 20) -->
+                <section class="section-card most-searched-chips" id="most-searched-chips" aria-labelledby="msc-title">
+                    <h3 class="msc-title" id="msc-title" data-i18n="home.most_searched">🔥 الأكثر بحثاً اليوم</h3>
+                    <div class="msc-list">
+                        <a class="msc-chip" href="/prayer-times-in-riyadh"><span data-i18n="city.riyadh">الرياض</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-mecca"><span data-i18n="city.mecca">مكة المكرمة</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-medina"><span data-i18n="city.medina">المدينة المنورة</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-cairo"><span data-i18n="city.cairo">القاهرة</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-dubai"><span data-i18n="city.dubai">دبي</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-istanbul"><span data-i18n="city.istanbul">إسطنبول</span></a>
+                        <a class="msc-chip" href="/prayer-times-in-london"><span data-i18n="city.london">لندن</span></a>
                     </div>
-                </div>
+                </section>
 
-                <!-- الأسئلة الشائعة -->
-                <div class="section-card faq-section" id="faq-section">
-                    <h2 id="faq-title" data-i18n="faq.title">❓ الأسئلة الشائعة حول مواقيت الصلاة</h2>
-
-                    <!-- س1 -->
-                    <div class="faq-item">
-                        <div class="faq-question" id="faq-q1"></div>
-                        <div class="faq-answer">
-                            <p id="faq-a1-intro"></p>
-                            <ul class="faq-times-list" id="faq-times-list"></ul>
-                        </div>
-                    </div>
-
-                    <div class="faq-divider"></div>
-
-                    <!-- س2 -->
-                    <div class="faq-item">
-                        <div class="faq-question" id="faq-q2"></div>
-                        <div class="faq-answer">
-                            <p id="faq-a2"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- حديث يومي (مرفوع فوق الأقسام الشرطية لتفادي CLS) -->
-                <div class="section-card">
-                    <h2 data-i18n="hadith.title">📜 حديث اليوم</h2>
-                    <div class="dua-item">
-                        <div class="dua-text" id="daily-hadith" data-i18n="hadith.daily">عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "مَنْ صَلَّى عَلَيَّ صَلاَةً وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"</div>
-                        <div class="dua-reference" data-i18n="hadith.reference">رواه مسلم</div>
-                    </div>
-                </div>
-
-                <!-- روابط ذات صلة — تظهر في صفحات المدن فقط (في الأسفل لتجنّب CLS) -->
-                <div class="section-card u-hidden" id="city-related-services">
-                    <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
-                    <div class="related-services-grid" id="related-services-grid"></div>
-                </div>
+                <!-- (Round 20) City About + FAQ + Hadith + Related Services نُقلت لأسفل المدن -->
 
                 <!-- مدن الدولة (في الأسفل لتجنّب CLS) -->
                 <div class="section-card u-hidden" id="country-cities-section">
@@ -535,25 +447,110 @@
                     </div>
                 </section>
 
-                <!-- Round 18-C: تقاويم القمر حول العالم — مدخل بارز إلى الـ hubs من الرئيسيّة -->
-                <section class="section-card moon-hubs-section" id="moon-hubs-section" aria-labelledby="moon-hubs-title">
-                    <h2 id="moon-hubs-title" data-i18n="home.moon_hubs_title">🌙 تقاويم القمر حول العالم</h2>
-                    <p class="moon-hubs-subtitle" data-i18n="home.moon_hubs_subtitle">استعرض تقويم القمر في أيّ مدينة — واختر التاريخ الذي تريد.</p>
-                    <ul class="moon-cities-grid moon-hubs-grid">
-                        <li><a href="/moon-in-mecca"><span class="moon-city-flag" aria-hidden="true">🇸🇦</span><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
-                        <li><a href="/moon-in-medina"><span class="moon-city-flag" aria-hidden="true">🇸🇦</span><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
-                        <li><a href="/moon-in-riyadh"><span class="moon-city-flag" aria-hidden="true">🇸🇦</span><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
-                        <li><a href="/moon-in-cairo"><span class="moon-city-flag" aria-hidden="true">🇪🇬</span><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
-                        <li><a href="/moon-in-dubai"><span class="moon-city-flag" aria-hidden="true">🇦🇪</span><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
-                        <li><a href="/moon-in-istanbul"><span class="moon-city-flag" aria-hidden="true">🇹🇷</span><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
-                        <li><a href="/moon-in-jakarta"><span class="moon-city-flag" aria-hidden="true">🇮🇩</span><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
-                        <li><a href="/moon-in-karachi"><span class="moon-city-flag" aria-hidden="true">🇵🇰</span><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
-                        <li><a href="/moon-in-london"><span class="moon-city-flag" aria-hidden="true">🇬🇧</span><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
-                        <li><a href="/moon-in-paris"><span class="moon-city-flag" aria-hidden="true">🇫🇷</span><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
-                        <li><a href="/moon-in-new-york"><span class="moon-city-flag" aria-hidden="true">🇺🇸</span><span class="moon-city-name" data-i18n="city.new-york">نيويورك</span></a></li>
-                        <li><a href="/moon-in-kuala-lumpur"><span class="moon-city-flag" aria-hidden="true">🇲🇾</span><span class="moon-city-name" data-i18n="city.kuala-lumpur">كوالالمبور</span></a></li>
-                    </ul>
+                <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن (display عبر CSS) -->
+                <div class="section-card city-about-section" id="city-about-section">
+                    <h2 id="city-about-title">معلومات عن المدينة</h2>
+                    <div class="city-about-body">
+                        <p id="city-about-extract" class="city-about-extract"></p>
+                        <a id="city-about-link" class="city-about-link" href="#" target="_blank" rel="noopener nofollow"></a>
+                    </div>
+                </div>
+
+                <!-- روابط ذات صلة — تظهر في صفحات المدن فقط (في الأسفل لتجنّب CLS) -->
+                <div class="section-card u-hidden" id="city-related-services">
+                    <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
+                    <div class="related-services-grid" id="related-services-grid"></div>
+                </div>
+
+                <!-- 🕌 الخدمات الإسلامية — 8 بطاقات (نُقلت لأسفل Round 20 — أولويّات أعلى في الأعلى) -->
+                <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
+                    <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
+                    <div class="qa-grid">
+                        <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;">
+                            <span class="qa-icon">📅</span>
+                            <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
+                            <div class="qa-sub" id="qa-hijri-date">--</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('qibla');return false;">
+                            <span class="qa-icon">🧭</span>
+                            <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
+                            <div class="qa-sub" id="qa-qibla-dir">--</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('moon');return false;">
+                            <span class="qa-icon" id="qa-moon-icon">🌙</span>
+                            <div class="qa-title" data-i18n="home.moon">القمر اليوم</div>
+                            <div class="qa-sub" id="qa-moon-phase">--</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;">
+                            <span class="qa-icon">🔄</span>
+                            <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
+                            <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('hijri-calendar');return false;">
+                            <span class="qa-icon">🗓️</span>
+                            <div class="qa-title" data-i18n="nav.hijri_calendar">التقويم الهجري</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('duas');return false;">
+                            <span class="qa-icon">🤲</span>
+                            <div class="qa-title" data-i18n="nav.duas">الأدعية والأذكار</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;">
+                            <span class="qa-icon">📿</span>
+                            <div class="qa-title" data-i18n="nav.tasbih">المسبحة الإلكترونية</div>
+                        </a>
+                        <a class="qa-card" href="#" onclick="navToPage('zakat');return false;">
+                            <span class="qa-icon">💰</span>
+                            <div class="qa-title" data-i18n="nav.zakat">حاسبة الزكاة</div>
+                        </a>
+                    </div>
                 </section>
+
+                <!-- 🌙 حالة القمر اليوم — بطاقة مضغوطة (استبدلت Moon Hubs الكاملة في Round 20) -->
+                <section class="section-card moon-today-card" id="moon-today-card" aria-labelledby="mtc-title-id">
+                    <div class="mtc-icon" id="mtc-icon">🌙</div>
+                    <div class="mtc-body">
+                        <div class="mtc-title" id="mtc-title-id" data-i18n="moon.today_status">حالة القمر اليوم</div>
+                        <div class="mtc-phase" id="mtc-phase-label">—</div>
+                        <div class="mtc-sub" id="mtc-illum-age">—</div>
+                    </div>
+                    <a class="mtc-cta" id="mtc-cta" href="/moon-today-in-mecca" data-i18n="moon.view_details">عرض التفاصيل</a>
+                </section>
+
+                <!-- ❓ الأسئلة الشائعة (Compact: 3 أسئلة افتراضيّاً + زرّ كشف الكل) -->
+                <div class="section-card faq-section faq-limit-3" id="faq-section">
+                    <h2 id="faq-title" data-i18n="faq.title">❓ الأسئلة الشائعة حول مواقيت الصلاة</h2>
+
+                    <!-- س1 -->
+                    <div class="faq-item">
+                        <div class="faq-question" id="faq-q1"></div>
+                        <div class="faq-answer">
+                            <p id="faq-a1-intro"></p>
+                            <ul class="faq-times-list" id="faq-times-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-divider"></div>
+
+                    <!-- س2 -->
+                    <div class="faq-item">
+                        <div class="faq-question" id="faq-q2"></div>
+                        <div class="faq-answer">
+                            <p id="faq-a2"></p>
+                        </div>
+                    </div>
+
+                    <!-- زرّ كشف كلّ الأسئلة — يظهر عند إضافة أسئلة ≥ 4 -->
+                    <button class="faq-expand-all" id="faq-expand-all" onclick="toggleFaqAll(this)" type="button" data-i18n="faq.show_all" hidden>عرض كلّ الأسئلة</button>
+                </div>
+
+                <!-- 📜 حديث اليوم — منقول لأسفل FAQ (Round 20) -->
+                <div class="section-card hadith-section">
+                    <h2 data-i18n="hadith.title">📜 حديث اليوم</h2>
+                    <div class="dua-item">
+                        <div class="dua-text" id="daily-hadith" data-i18n="hadith.daily">عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "مَنْ صَلَّى عَلَيَّ صَلاَةً وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"</div>
+                        <div class="dua-reference" data-i18n="hadith.reference">رواه مسلم</div>
+                    </div>
+                </div>
 
                 <!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->
                 <section class="section-card home-footer-links" id="home-footer-links" aria-labelledby="home-footer-links-title">
@@ -2275,14 +2272,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=110"></script>
+    <script defer src="js/i18n.js?v=111"></script>
     <script defer src="js/prayer-times.js?v=44"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=310"></script>
+    <script defer src="js/app.js?v=312"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

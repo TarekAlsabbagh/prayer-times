@@ -2378,6 +2378,9 @@ async function initApp() {
         const _targetLink = document.querySelector(`.sidebar-nav a[data-page="${_pageParam}"]`);
         if (_targetLink) _targetLink.click();
     }
+
+    // ربط Hero search mirror (يعكس #city-suggestions إلى #loc-hero-suggestions تلقائيّاً)
+    try { wireHeroSuggestionsMirror(); } catch (_e) { /* silent */ }
 }
 
 // ========= التنقل بين الصفحات =========
@@ -3569,6 +3572,12 @@ function updateCityDisplay() {
     document.getElementById('city-name').textContent = dispCity;
     document.getElementById('country-name').textContent = dispCountry;
 
+    // Round 20: Location Hero city label (ركن البحث الأساسيّ في الأعلى)
+    const _locHeroLbl = document.getElementById('loc-hero-city-label');
+    if (_locHeroLbl) {
+        _locHeroLbl.textContent = dispCountry ? `${dispCity}${sep}${dispCountry}` : dispCity;
+    }
+
     // مسار التنقل (Breadcrumb)
     updateBreadcrumb();
 
@@ -3814,11 +3823,13 @@ function updatePrayerTimes() {
     const gSuffix = (typeof t === 'function') ? t('date.greg_suffix') : ' م';
     const _dsLng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const dateSep = (_dsLng === 'ar' || _dsLng === 'ur') ? '، ' : ', ';
-    document.getElementById('info-hijri').textContent =
-        `${dayName}${dateSep}${hijri.day} ${HijriDate.hijriMonths[hijri.month-1]} ${hijri.year}${hSuffix}`;
+    // Round 20: info-hijri/info-gregorian/info-fasting حُذفت (كانت في قسم "معلومات إضافية" المدموج)
+    // null-guards للحماية في حال ظهرت على صفحات قادمة:
+    const _ihEl = document.getElementById('info-hijri');
+    if (_ihEl) _ihEl.textContent = `${dayName}${dateSep}${hijri.day} ${HijriDate.hijriMonths[hijri.month-1]} ${hijri.year}${hSuffix}`;
     const gMonths = HijriDate.gregorianMonths;
-    document.getElementById('info-gregorian').textContent =
-        `${dayName}${dateSep}${cityDate.getDate()} ${gMonths[cityDate.getMonth()]} ${cityDate.getFullYear()}${gSuffix}`;
+    const _igEl = document.getElementById('info-gregorian');
+    if (_igEl) _igEl.textContent = `${dayName}${dateSep}${cityDate.getDate()} ${gMonths[cityDate.getMonth()]} ${cityDate.getFullYear()}${gSuffix}`;
 
     // ساعات الصيام (فجر → مغرب)
     const rawFajr    = currentPrayerTimes.raw.fajr;
@@ -3833,6 +3844,11 @@ function updatePrayerTimes() {
         const minLbl = (typeof t === 'function') ? t('unit.min') : 'دقيقة';
         const andLbl = (typeof t === 'function') ? t('unit.and') : ' و';
         fastEl.textContent = fH + ' ' + hrLbl + (fM > 0 ? andLbl + fM + ' ' + minLbl : '');
+    }
+
+    // Round 20: Summary+Info Strip (Imsak + Fasting + Last Third of Night + Settings)
+    if (typeof updateSummaryInfoStrip === 'function') {
+        try { updateSummaryInfoStrip(currentPrayerTimes, fH, fM); } catch (_) {}
     }
 
     // تحديث الصلاة النشطة
@@ -4064,6 +4080,232 @@ function updateHomeGateway() {
             }
         }
     } catch (_e) { /* silent */ }
+
+    // Round 20: Moon Today Card — update href to city + phase label + illumination/age
+    try { updateMoonTodayCard(); } catch (_e2) { /* silent */ }
+}
+
+// ─────────────────────────────────────────────────────────────
+//   Round 20 — Summary Strip + Moon Today Card + Weekly/FAQ toggles
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * تحديث Summary+Info Strip (3 عناصر + زرّ إعدادات):
+ * - الإمساك (الفجر − 10 دقائق)
+ * - مدّة الصيام (Fajr → Maghrib)
+ * - آخر ثلث الليل (Maghrib → Fajr، الثلث الأخير)
+ */
+function updateSummaryInfoStrip(times, fH, fM) {
+    if (!times || !times.raw) return;
+    const _imsakEl   = document.getElementById('sis-imsak');
+    const _fastEl    = document.getElementById('sis-fasting');
+    const _thirdEl   = document.getElementById('sis-last-third');
+    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _tf  = (typeof PrayerTimes !== 'undefined' && typeof PrayerTimes.getTimeFormat === 'function')
+        ? PrayerTimes.getTimeFormat() : '24h';
+
+    // ── (1) Imsak = Fajr − 10 دقائق ─────────────────────────
+    if (_imsakEl) {
+        try {
+            const imsakDec = (times.raw.fajr - 10/60 + 24) % 24;
+            _imsakEl.textContent = _formatDecimalHours(imsakDec, _tf);
+        } catch (_) { _imsakEl.textContent = '—'; }
+    }
+
+    // ── (2) Fasting duration (reuse precomputed fH, fM) ─────
+    if (_fastEl && typeof fH === 'number') {
+        const hrLbl = (typeof t === 'function') ? t(fH === 1 ? 'unit.hour' : 'unit.hours') : 'ساعة';
+        const minLbl = (typeof t === 'function') ? t('unit.min') : 'دقيقة';
+        const andLbl = (typeof t === 'function') ? t('unit.and') : ' و';
+        _fastEl.textContent = fH + ' ' + hrLbl + (fM > 0 ? andLbl + fM + ' ' + minLbl : '');
+    }
+
+    // ── (3) Last Third of Night (من المغرب → الفجر، الثلث الأخير) ─
+    if (_thirdEl) {
+        try {
+            const magh = times.raw.maghrib;
+            const fajr = times.raw.fajr;
+            let nightLen = fajr - magh; if (nightLen <= 0) nightLen += 24; // عبر منتصف الليل
+            const lastThirdStart = (magh + (nightLen * 2/3)) % 24;
+            const lastThirdEnd   = fajr;
+            _thirdEl.textContent = _formatDecimalHours(lastThirdStart, _tf) + ' → ' + _formatDecimalHours(lastThirdEnd, _tf);
+        } catch (_) { _thirdEl.textContent = '—'; }
+    }
+}
+
+// Helper: decimal hours (e.g. 4.5) → "HH:MM" (respects 12h/24h format)
+function _formatDecimalHours(dec, tf) {
+    const h = Math.floor(dec);
+    const m = Math.round((dec - h) * 60);
+    const hh = ((m === 60) ? (h + 1) : h) % 24;
+    const mm = (m === 60) ? 0 : m;
+    if (tf === '12h') {
+        const ampm = hh >= 12 ? 'PM' : 'AM';
+        let h12 = hh % 12; if (h12 === 0) h12 = 12;
+        return h12 + ':' + String(mm).padStart(2, '0') + ' ' + ampm;
+    }
+    return String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+}
+
+/**
+ * Weekly Table — toggle between compact (3 days) and full (7+ days).
+ * يُغيّر data-full على #weekly-table-wrap + نصّ الزرّ.
+ */
+function toggleWeeklyFull(btn) {
+    const wrap = document.getElementById('weekly-table-wrap');
+    if (!wrap) return;
+    const isFull = wrap.getAttribute('data-full') === 'true';
+    wrap.setAttribute('data-full', isFull ? 'false' : 'true');
+    const newKey = isFull ? 'weekly.show_all' : 'weekly.collapse';
+    if (btn) {
+        btn.setAttribute('data-i18n', newKey);
+        btn.textContent = (typeof t === 'function') ? t(newKey) : (isFull ? 'عرض الجدول الكامل' : 'طيّ الجدول');
+    }
+}
+
+/**
+ * FAQ — toggle between compact (3 questions) and full (all).
+ * يُضيف/يُزيل كلاس faq-full على #faq-section + يُغيّر نصّ الزرّ.
+ */
+function toggleFaqAll(btn) {
+    const faq = document.getElementById('faq-section');
+    if (!faq) return;
+    const expanded = faq.classList.toggle('faq-full');
+    const newKey = expanded ? 'faq.collapse' : 'faq.show_all';
+    if (btn) {
+        btn.setAttribute('data-i18n', newKey);
+        btn.textContent = (typeof t === 'function') ? t(newKey) : (expanded ? 'طيّ الأسئلة' : 'عرض كلّ الأسئلة');
+    }
+}
+
+/**
+ * Moon Today Card — compact moon status card (استبدلت Moon Hubs الكاملة).
+ * يحدّث: href → /moon-today-in-{city}، phase name، illum + age.
+ */
+function updateMoonTodayCard() {
+    const cta = document.getElementById('mtc-cta');
+    if (!cta) return;
+
+    // ── (1) href: /moon-today-in-{citySlug} (with language prefix) ──
+    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _langPrefix = (_lng === 'ar') ? '' : ('/' + _lng);
+    let _citySlug = 'mecca';
+    try {
+        const _m = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+?)(?:-\-?\d+(?:\.\d+)?-\-?\d+(?:\.\d+)?)?\/?$/);
+        if (_m && _m[1]) _citySlug = _m[1];
+    } catch (_) {}
+    cta.setAttribute('href', _langPrefix + '/moon-today-in-' + _citySlug);
+
+    // ── (2) phase name + illum + age ──────────────────────────
+    const phaseEl = document.getElementById('mtc-phase-label');
+    const subEl   = document.getElementById('mtc-illum-age');
+    const iconEl  = document.getElementById('mtc-icon');
+    try {
+        if (typeof MoonCalc !== 'undefined' && MoonCalc.getPhaseName) {
+            const p = MoonCalc.getPhaseName(new Date());
+            if (phaseEl) phaseEl.textContent = (p.key && typeof t === 'function') ? t(p.key) : p.name;
+            if (iconEl)  iconEl.textContent  = p.icon || '🌙';
+        }
+        if (typeof MoonCalc !== 'undefined' && (MoonCalc.getMoonIllumination || MoonCalc.getIllumination)) {
+            const _illumRaw = (MoonCalc.getMoonIllumination || MoonCalc.getIllumination)(new Date());
+            // قد يكون object {phase, fraction} أو رقم بين 0-1 أو 0-100
+            let illum = (typeof _illumRaw === 'object' && _illumRaw !== null)
+                ? (typeof _illumRaw.fraction === 'number' ? _illumRaw.fraction : (_illumRaw.phase || 0))
+                : _illumRaw;
+            if (illum > 0 && illum <= 1) illum = illum * 100;
+            const _getAge = MoonCalc.getMoonAge || MoonCalc.getAge;
+            const ageDays = (typeof _getAge === 'function') ? Math.round(_getAge(new Date())) : null;
+            const daysLbl = (typeof t === 'function') ? t('moon.days') : 'يوم';
+            if (subEl) {
+                subEl.textContent = Math.round(illum) + '%' + (ageDays != null ? ' · ' + ageDays + ' ' + daysLbl : '');
+            }
+        }
+    } catch (_e) { /* silent */ }
+}
+
+/**
+ * يُعكس suggestions من حقل البحث الأصليّ (city-suggestions) إلى حقل البحث الكبير في Hero.
+ * يُستدعى تلقائيّاً عبر MutationObserver — راجع wireHeroSuggestionsMirror().
+ */
+function mirrorSuggestionsToHero() {
+    const src = document.getElementById('city-suggestions');
+    const dst = document.getElementById('loc-hero-suggestions');
+    if (!src || !dst) return;
+    dst.innerHTML = src.innerHTML;
+    // عكس حالة الفتح/الإغلاق أيضاً
+    if (src.classList.contains('open')) {
+        dst.classList.add('open');
+    } else {
+        dst.classList.remove('open');
+    }
+}
+
+/**
+ * يربط MutationObserver بـ #city-suggestions فيعكس أيّ تغيير تلقائيّاً إلى #loc-hero-suggestions.
+ * كذلك يُفوِّض النقرات في Hero إلى العنصر المطابق في المصدر.
+ * يُستدعى مرّة واحدة بعد DOMContentLoaded.
+ */
+let _heroMirrorObserver = null;
+function wireHeroSuggestionsMirror() {
+    try {
+        const src = document.getElementById('city-suggestions');
+        const dst = document.getElementById('loc-hero-suggestions');
+        if (!src || !dst || _heroMirrorObserver) return;
+        _heroMirrorObserver = new MutationObserver(() => {
+            try { mirrorSuggestionsToHero(); } catch (_e) { /* silent */ }
+        });
+        _heroMirrorObserver.observe(src, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        // تفويض النقر: عند الضغط على عنصر في Hero suggestions، نُشغّل click على الـ counterpart في المصدر
+        dst.addEventListener('click', function (ev) {
+            const item = ev.target.closest('.suggestion-item');
+            if (!item) return;
+            const srcItems = src.querySelectorAll('.suggestion-item');
+            const dstItems = dst.querySelectorAll('.suggestion-item');
+            let idx = -1;
+            dstItems.forEach((el, i) => { if (el === item) idx = i; });
+            if (idx >= 0 && srcItems[idx]) {
+                srcItems[idx].click();
+                // مزامنة قيمة Hero input من Header input
+                try {
+                    const mainInput = document.getElementById('city-search-input');
+                    const heroInput = document.getElementById('loc-hero-search');
+                    if (mainInput && heroInput) heroInput.value = mainInput.value;
+                } catch (_e) { /* silent */ }
+            }
+        });
+        // إغلاق Hero suggestions عند النقر خارج loc-hero-search-wrap
+        document.addEventListener('click', function (ev) {
+            if (!ev.target.closest('.loc-hero-search-wrap')) {
+                dst.classList.remove('open');
+            }
+        });
+        // تحقّق أوّليّ
+        mirrorSuggestionsToHero();
+    } catch (_e) { /* silent */ }
+}
+
+/**
+ * إدخال Hero search يُحوَّل إلى حقل البحث الأصليّ onCitySearchInput.
+ */
+function onHeroSearchInput(query) {
+    try {
+        const mainInput = document.getElementById('city-search-input');
+        if (mainInput) mainInput.value = query;
+    } catch (_e) { /* silent */ }
+    try { onCitySearchInput(query); } catch (_e) { /* silent */ }
+}
+
+/**
+ * إدخال Enter/Escape/Arrow keys من Hero search — نعيد التوجيه إلى المعالج الأصليّ.
+ */
+function onHeroSearchKeyDown(e) {
+    try { onSearchKeyDown(e); } catch (_e) { /* silent */ }
 }
 
 // ─────────────────────────────────────────────────────────────

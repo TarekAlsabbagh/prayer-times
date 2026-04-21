@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=314" as="script">
-    <link rel="stylesheet" href="css/style.css?v=91">
+    <link rel="preload" href="js/app.js?v=315" as="script">
+    <link rel="stylesheet" href="css/style.css?v=92">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -113,16 +113,17 @@
                         </button>
                         <div class="lang-menu" role="menu"></div>
                     </div>
-                    <div class="city-search-wrapper">
+                    <!-- Hidden header search (preserved in DOM for Hero mirror logic — Round 23) -->
+                    <div class="city-search-wrapper header-search-hidden" aria-hidden="true">
                         <input type="text" id="city-search-input" class="city-search-input"
                             placeholder="🔍 ابحث عن مدينة أو موقع..."
                             data-i18n-placeholder="header.search_placeholder"
                             autocomplete="off"
+                            tabindex="-1"
                             oninput="onCitySearchInput(this.value)"
                             onkeydown="onSearchKeyDown(event)">
                         <div class="city-search-suggestions" id="city-suggestions"></div>
                     </div>
-                    <button class="btn btn-outline" onclick="detectLocation()" title="تحديد موقعي تلقائياً" data-i18n-title="header.detect_title">📍 <span class="btn-text" data-i18n="header.my_location">موقعي</span></button>
                     <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
                 </div>
             </div>
@@ -2342,13 +2343,13 @@
 
     <!-- ========= السكريبتات ========= -->
     <script defer src="js/i18n.js?v=113"></script>
-    <script defer src="js/prayer-times.js?v=45"></script>
+    <script defer src="js/prayer-times.js?v=46"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=314"></script>
+    <script defer src="js/app.js?v=315"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

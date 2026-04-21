@@ -6080,18 +6080,22 @@ function updateActivePrayer() {
     const curr = (typeof PrayerTimes.getCurrentPrayer === 'function')
         ? PrayerTimes.getCurrentPrayer(currentPrayerTimes, currentTimezone)
         : null;
+    // R23 polish: إن كان الوقت بعد الشروق وقبل الظهر → لا نُعلِّم أيّ بطاقة كـ current
+    //            (الشروق ليس صلاة مفروضة)
+    const _isSunrisePseudo = curr && curr.key === 'sunrise' && curr.afterSunrise;
     document.querySelectorAll('.prayer-card').forEach(card => {
         card.classList.remove('active');
         card.classList.remove('current');
         if (card.dataset.prayer === next.key) card.classList.add('active');
-        if (curr && card.dataset.prayer === curr.key) card.classList.add('current');
+        if (curr && !_isSunrisePseudo && card.dataset.prayer === curr.key) card.classList.add('current');
     });
 
     // Round 22: Hero Banner — pill الصلاة الحاليّة
+    // R23 polish: في نافذة ما بعد الشروق نُخفي pill "نحن الآن في وقت" (ليس وقت صلاة)
     try {
         const bcpWrap = document.getElementById('banner-current-prayer');
         const bcpName = document.getElementById('banner-current-prayer-name');
-        if (bcpWrap && bcpName && curr) {
+        if (bcpWrap && bcpName && curr && !_isSunrisePseudo) {
             const localName = (typeof t === 'function') ? t('prayer.' + curr.key) : curr.name;
             bcpName.textContent = localName;
             bcpWrap.hidden = false;
@@ -6100,19 +6104,26 @@ function updateActivePrayer() {
         }
     } catch (_e) {}
 
-    // Round 22: Hero Banner — "ثمّ" الصلاة القادمة بعدها
+    // Round 22 + R23 polish: Hero Banner — "ثمّ" الصلاة القادمة بعدها
+    // ملاحظة: إن كان next.key === 'isha' فإنّ الصلاة التي تليها هي فجر الغد،
+    // لذا نُخفي السطر لتجنّب عرض وقت فجر اليوم الحاليّ (الذي مضى) كـ"القادمة بعد العشاء".
     try {
         const btWrap = document.getElementById('banner-then-prayer');
         const btName = document.getElementById('banner-then-prayer-name');
         const btTime = document.getElementById('banner-then-prayer-time');
         if (btWrap && btName && btTime && next && next.key) {
-            const nextAfter = _getNextAfter(next.key);
-            if (nextAfter && currentPrayerTimes[nextAfter]) {
-                btName.textContent = (typeof t === 'function') ? t('prayer.' + nextAfter) : nextAfter;
-                btTime.textContent = currentPrayerTimes[nextAfter];
-                btWrap.hidden = false;
-            } else {
+            // نخفي السطر عند العشاء (الفجر القادم غداً، ولا نملك قيمة الغد بسهولة)
+            if (next.key === 'isha') {
                 btWrap.hidden = true;
+            } else {
+                const nextAfter = _getNextAfter(next.key);
+                if (nextAfter && currentPrayerTimes[nextAfter] && nextAfter !== 'fajr') {
+                    btName.textContent = (typeof t === 'function') ? t('prayer.' + nextAfter) : nextAfter;
+                    btTime.textContent = currentPrayerTimes[nextAfter];
+                    btWrap.hidden = false;
+                } else {
+                    btWrap.hidden = true;
+                }
             }
         }
     } catch (_e) {}
@@ -6306,14 +6317,22 @@ function updatePrayerCardsSEO() {
             : `Moon status today in ${cityLabel}`);
     }
 
-    // Hero tagline → H2 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21)
+    // Hero tagline → H2 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21 → R23: 10 langs)
     const tagline = document.querySelector('.loc-hero-tagline');
     if (tagline) {
-        if (_ln === 'ar') {
-            tagline.textContent = `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`;
-        } else {
-            tagline.textContent = `Prayer Times Today in ${cityLabel} — Hijri & Gregorian Date`;
-        }
+        const _taglineByLang = {
+            ar: `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`,
+            en: `Prayer Times Today in ${cityLabel} — Hijri & Gregorian Date`,
+            fr: `Horaires de prière aujourd'hui à ${cityLabel} — Date hégirienne et grégorienne`,
+            tr: `${cityLabel} İçin Bugünün Namaz Vakitleri — Hicri ve Miladi Tarih`,
+            ur: `آج ${cityLabel} میں اوقاتِ نماز — ہجری و عیسوی تاریخ`,
+            de: `Gebetszeiten heute in ${cityLabel} — Hidschri- und gregorianisches Datum`,
+            id: `Jadwal Sholat Hari Ini di ${cityLabel} — Tanggal Hijriah & Masehi`,
+            es: `Horarios de oración hoy en ${cityLabel} — Fecha hijri y gregoriana`,
+            bn: `আজকের নামাজের সময়সূচি ${cityLabel} — হিজরি ও গ্রেগরিয়ান তারিখ`,
+            ms: `Waktu Solat Hari Ini di ${cityLabel} — Tarikh Hijrah & Masihi`
+        };
+        tagline.textContent = _taglineByLang[_ln] || _taglineByLang.en;
     }
 }
 

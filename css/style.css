@@ -6253,3 +6253,71 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     .ecb-days { font-size: 1rem; }
 }
 
+/* ═══════════ Round 23 — Header cleanup ═══════════
+   المبدأ: الهيدر = دعم + تنقّل فقط. البحث و"موقعي" في الهيرو حصراً.
+   نُبقي #city-search-input و #city-suggestions في DOM (مخفيّة) لكي يعمل Hero mirror. */
+
+/* إخفاء كامل لحقل البحث في الهيدر (DOM محفوظ للـ mirror logic) */
+.top-header .header-search-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    border: 0 !important;
+    pointer-events: none !important;
+}
+
+/* تنحيف الهيدر: ارتفاع أقلّ، spacing أهدأ */
+.top-header {
+    padding: 10px 20px;
+}
+.top-header .location-info .city-name {
+    font-size: 1.08rem;
+}
+.top-header .location-info .country {
+    font-size: 0.78rem;
+}
+.top-header .location-info .icon { font-size: 1.3rem; }
+
+/* زرّ "الرئيسية" يبقى خفيفاً */
+.top-header .header-actions .btn {
+    padding: 7px 14px;
+    font-size: 0.88rem;
+}
+
+@media (max-width: 640px) {
+    .top-header { padding: 8px 12px; gap: 10px; }
+    .top-header .location-info .city-name { font-size: 0.98rem; }
+    .top-header .location-info .country { font-size: 0.72rem; }
+}
+
+/* ═══════════ Round 23 — Sticky Bar safe-area (R22 polish) ═══════════ */
+.sticky-next-bar {
+    /* يضمن ألا تتداخل مع notch الموبايل */
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* ═══════════ Round 23 — Differentiate .current vs .active (R22 polish) ═══════════
+   .current = الصلاة التي نحن الآن داخل وقتها (accent ذهبيّ + نبض هادئ)
+   .active  = الصلاة التالية (accent أخضر أقوى + glow) */
+
+/* تمييز أعمق للـ .active (next) — border أكثر ثخانة + shadow أوضح */
+.prayer-card.active {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+    box-shadow: 0 4px 16px rgba(46,125,50,.22);
+}
+/* .current (now) — بقي ذهبيّ، لكن مع خلفية أهدأ لتمييزه عن الأخضر */
+.prayer-card.current {
+    background: linear-gradient(180deg, #fffbeb, #fff8dd);
+}
+/* عند اجتماع الحالتين (نادر — لا يجب أن يحدث) نُفضّل active */
+.prayer-card.current.active {
+    background: linear-gradient(180deg, #fff8dd, #eaf5ea);
+}
+

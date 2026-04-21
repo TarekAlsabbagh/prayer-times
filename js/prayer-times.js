@@ -216,9 +216,10 @@ const PrayerTimes = (function () {
             remainingMinutes: diff };
     }
 
-    // ====== الصلاة الحاليّة (Round 22) ======
+    // ====== الصلاة الحاليّة (Round 22 + R23 sunrise polish) ======
     // تُعيد الصلاة الأخيرة التي بدأت (بمعنى: الوقت الحاليّ ضمن نافذتها).
     // إن كنّا قبل الفجر → نُعيد عشاء اليوم السابق (key = 'isha').
+    // إن كنّا بعد الشروق وقبل الظهر → نُعيد pseudo "sunrise" (ليس صلاة مفروضة).
     function getCurrentPrayer(times, timezone) {
         var now = new Date();
         var localOffset = -now.getTimezoneOffset() / 60;
@@ -226,7 +227,7 @@ const PrayerTimes = (function () {
         var cityTime = new Date(now.getTime() + (tz - localOffset) * 3600000);
         var currentSeconds = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
 
-        // نستخدم فقط صلوات "الفجر، الظهر، العصر، المغرب، العشاء" (الشروق ليس صلاة)
+        // نستخدم فقط صلوات "الفجر، الظهر، العصر، المغرب، العشاء" (الشروق ليس صلاة مفروضة)
         var prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
         var names   = {
             fajr: 'الفجر', dhuhr: 'الظهر',
@@ -244,6 +245,13 @@ const PrayerTimes = (function () {
         // قبل الفجر → الصلاة الحاليّة هي عشاء البارحة
         if (!last) {
             return { key: 'isha', name: names.isha, beforeFajr: true };
+        }
+        // R23: إن كنّا في نافذة "بعد الشروق وقبل الظهر" → علامة خاصّة (ليست صلاة)
+        if (last.key === 'fajr' && times.raw.sunrise !== undefined) {
+            var sunriseSeconds = Math.floor(fixHour(times.raw.sunrise) * 3600);
+            if (currentSeconds >= sunriseSeconds) {
+                return { key: 'sunrise', name: 'الشروق', afterSunrise: true, notAPrayer: true };
+            }
         }
         return last;
     }

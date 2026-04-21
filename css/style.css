@@ -4272,6 +4272,12 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
         max-width: 100%;
         overflow: hidden;
     }
+    /* Fix: على الموبايل نحتاج الأعمدة الثلاثة (وقت + عدّاد + تواريخ) تُرتَّب عموديّاً
+       — كانت تبقى صفّاً أفقيّاً فتنضغط كلّ كتلة إلى 32px ويُقطع النصّ من الجانبين. */
+    .banner-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
     .banner-block {
         padding: 14px 16px;
         width: 100%;

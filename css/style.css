@@ -1054,45 +1054,166 @@ html.moon-hijri-context #hijri-today {
     .moon-subtitle-hijri { font-size: 0.88rem; }
 }
 
-/* ═══ Wave B.2: CTA column on 14-day forecast rows — visible call-to-action ═══ */
-.fc-cta-th { width: 1%; }
-.fc-cta-cell { padding: 0 !important; text-align: end !important; }
-.fc-cta-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 6px 10px;
-    background: rgba(46,125,50,0.07);
-    color: var(--primary);
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: background 0.15s ease, transform 0.15s ease;
-    white-space: nowrap;
+/* ═══ Row hover — forecast rows with clickable day/hijri links ═══
+ * Round 16b: Wave B.2 CTA column removed; hover effect retained on .fc-row-clickable
+ * since the day cell and the hijri cell still navigate to the dated page.
+ */
+.fc-row-clickable:hover { background: rgba(46,125,50,0.04); }
+@media (prefers-color-scheme: dark) {
+    .fc-row-clickable:hover { background: rgba(76,175,80,0.06); }
 }
-.fc-cta-link:hover,
-.fc-cta-link:focus {
+
+/* ═══ Round 17: Hub Weekly Moon Calendar (7 cells: −3 … +3 days) ═══
+ * SSR-rendered on /moon-in-{city} hub pages only. Each cell links to a dated page,
+ * except the "today" cell which links back to /moon-today-in-{city}.
+ */
+.moon-hub-calendar-card .moon-hub-cal-title {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+    color: var(--text);
+}
+.moon-hub-cal-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+.moon-hub-cal-cell { margin: 0; }
+.moon-hub-cal-cell a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 92px;
+    padding: 10px 6px;
+    background: rgba(46,125,50,0.05);
+    border: 1px solid rgba(46,125,50,0.15);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.85rem;
+    text-align: center;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.moon-hub-cal-cell a:hover,
+.moon-hub-cal-cell a:focus {
+    background: rgba(46,125,50,0.12);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+.moon-hub-cal-rel {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.8rem;
+}
+.moon-hub-cal-date { font-size: 0.82rem; opacity: 0.85; }
+.moon-hub-cal-phase { font-size: 1.6rem; line-height: 1; }
+.moon-hub-cal-cell--today a {
+    background: rgba(46,125,50,0.14);
+    border-color: var(--primary);
+    font-weight: 600;
+}
+@media (max-width: 600px) {
+    .moon-hub-cal-grid { grid-template-columns: repeat(4, 1fr); }
+    .moon-hub-cal-cell a { min-height: 80px; font-size: 0.78rem; }
+    .moon-hub-cal-phase { font-size: 1.4rem; }
+}
+@media (prefers-color-scheme: dark) {
+    .moon-hub-cal-cell a {
+        background: rgba(76,175,80,0.08);
+        border-color: rgba(76,175,80,0.22);
+    }
+    .moon-hub-cal-cell a:hover,
+    .moon-hub-cal-cell a:focus { background: rgba(76,175,80,0.18); }
+    .moon-hub-cal-cell--today a {
+        background: rgba(76,175,80,0.22);
+        border-color: rgba(76,175,80,0.5);
+    }
+}
+
+/* ═══ Round 18-A: Today-page Hub CTA ═══
+   مكمِّل لـ .moon-forecast-cta — مظهر outlined بدل filled ليُميَّز عنه بصريّاً
+   ويبقى بارزاً كـ action ثانويّ-مهمّ (استكشاف التقويم الكامل). */
+.moon-hub-cta {
+    display: block;
+    margin: 10px 0 18px;
+    padding: 14px 18px;
+    text-align: center;
+    background: transparent;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 12px;
+    font-size: 1.02rem;
+    border: 2px solid var(--primary);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+}
+.moon-hub-cta:hover,
+.moon-hub-cta:focus {
+    transform: translateY(-2px);
     background: var(--primary);
     color: #fff;
     text-decoration: none;
-    transform: translateX(-2px);
+    box-shadow: 0 6px 18px rgba(46,125,50,0.22);
 }
-html[dir="ltr"] .fc-cta-link:hover,
-html[dir="ltr"] .fc-cta-link:focus { transform: translateX(2px); }
-.fc-cta-arrow { font-size: 1.1rem; line-height: 1; }
-/* في RTL، نعكس السهم › → ‹ تلقائيًا */
-html[dir="rtl"] .fc-cta-arrow { transform: scaleX(-1); }
-/* Row hover effect — كامل الصفّ يبدو قابلاً للنقر */
-.fc-row-clickable:hover { background: rgba(46,125,50,0.04); }
-@media (max-width: 600px) {
-    .fc-cta-link { padding: 4px 6px; font-size: 0.78rem; }
-    .fc-cta-text { display: none; }
-    .fc-cta-arrow { font-size: 1.2rem; }
+@media (max-width: 640px) {
+    .moon-hub-cta { font-size: 0.98rem; padding: 12px 14px; }
 }
 @media (prefers-color-scheme: dark) {
-    .fc-cta-link { background: rgba(76,175,80,0.14); }
-    .fc-row-clickable:hover { background: rgba(76,175,80,0.06); }
+    .moon-hub-cta {
+        color: #81c784;
+        border-color: rgba(129,199,132,0.6);
+    }
+    .moon-hub-cta:hover,
+    .moon-hub-cta:focus {
+        background: rgba(129,199,132,0.22);
+        color: #e8f5e9;
+        border-color: #81c784;
+    }
+}
+
+/* ═══ Round 19: Hub-page primary CTA — "استعرض تفاصيل اليوم" ═══
+   يظهر داخل /moon-in-{city} بعد Calendar Grid، يقود إلى /moon-in-{city}/{today-iso}.
+   مظهر filled (أخضر مُصمت) لأنّه الآن CTA الرئيسيّ الوحيد في الصفحة (moon-forecast-cta محذوف). */
+.moon-hub-detail-cta {
+    display: block;
+    margin: 16px 0 18px;
+    padding: 14px 18px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 12px;
+    font-size: 1.02rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(46,125,50,0.22);
+}
+.moon-hub-detail-cta:hover,
+.moon-hub-detail-cta:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46,125,50,0.3);
+    color: #fff;
+    text-decoration: none;
+}
+@media (max-width: 640px) {
+    .moon-hub-detail-cta { font-size: 0.98rem; padding: 12px 14px; }
+}
+
+/* ═══ Round 18-C: Home-page Moon Calendars section ═══ */
+.moon-hubs-section { /* يرث من .section-card */ }
+.moon-hubs-subtitle {
+    margin: -4px 0 14px;
+    color: var(--text-muted, rgba(0,0,0,0.65));
+    font-size: 0.96rem;
+    line-height: 1.55;
+}
+@media (prefers-color-scheme: dark) {
+    .moon-hubs-subtitle { color: rgba(255,255,255,0.72); }
 }
 
 /* ═══ Quick Highlights box (BOND 6 + 8): البدر/المحاق + تقييم الرؤية بالنجوم ═══ */

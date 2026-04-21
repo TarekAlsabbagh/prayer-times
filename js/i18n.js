@@ -607,6 +607,8 @@ const TRANSLATIONS = {
         'moon.live.today': 'اليوم',
         'moon.intro_fallback': 'اليوم في {city}، يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.',
         'moon.intro_template': 'القمر اليوم في {city} في طور {phaseIcon} {phaseName} بإضاءة {illum}٪ وعمر {age} يومًا، ويمرّ في كوكبة {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        // Round 17 — Smart content لصفحات /moon-in-{city}/{date}: فقرة فريدة بتاريخها (Gregorian + Hijri).
+        'moon.date_intro_template': 'في {date}{hijriInline}، القمر فوق {city} في طور {phaseIcon} {phaseName} بإضاءة {illum}٪، عمره {age} يومًا، ويمرّ في كوكبة {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'ومن موقعك، يرتفع القمر حاليًا {alt}° فوق الأفق باتجاه {dir}.',
         'moon.altitude_below': 'ومن موقعك، القمر حاليًا تحت الأفق ({alt}° تحته).',
         'moon.compass.n':  'الشمال',
@@ -914,6 +916,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'التاريخ الهجري اليوم',
         'home.view_details': 'عرض التفاصيل ←',
         'home.services_title': '🕌 الخدمات الإسلامية',
+        // Round 18-C — مدخل الـ hub من الرئيسيّة
+        'home.moon_hubs_title': '🌙 تقاويم القمر حول العالم',
+        'home.moon_hubs_subtitle': 'استعرض تقويم القمر في أيّ مدينة — واختر التاريخ الذي تريد.',
         'home.converter_cta_title': 'تحويل التاريخ الهجري ↔ الميلادي',
         'home.converter_cta_sub': 'حوّل أي تاريخ بين التقويمين بسهولة ودقة',
         'home.start_convert': 'ابدأ التحويل ←',
@@ -1547,6 +1552,8 @@ const TRANSLATIONS = {
         'moon.live.today': 'Today',
         'moon.intro_fallback': 'Today in {city}, you can check the current moon phase, illumination percentage, moon age, moonrise and moonset times with astronomical precision. These figures are computed with rigorous astronomical models (Meeus algorithms) based on your location coordinates.',
         'moon.intro_template': 'The Moon today in {city} is in a {phaseIcon} {phaseName} phase at {illum}% illumination, {age} days into its cycle, passing through the {zodiacIcon} {zodiacName} constellation. {altitudeSentence}',
+        // Round 17 — Smart content for /moon-in-{city}/{date}: unique paragraph with date context.
+        'moon.date_intro_template': 'On {date}{hijriInline}, the Moon over {city} is in its {phaseIcon} {phaseName} phase at {illum}% illumination, age {age} days, crossing the {zodiacIcon} {zodiacName} constellation.',
         'moon.altitude_above': 'From your location, the Moon is currently {alt}° above the horizon toward the {dir}.',
         'moon.altitude_below': 'From your location, the Moon is currently below the horizon ({alt}° below).',
         'moon.compass.n':  'north',
@@ -1853,6 +1860,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': "Today's Hijri Date",
         'home.view_details': 'View Details →',
         'home.services_title': '🕌 Islamic Services',
+        // Round 18-C — hub entry from home page
+        'home.moon_hubs_title': '🌙 Moon Calendars Worldwide',
+        'home.moon_hubs_subtitle': 'Browse the moon calendar for any city — and pick the date you want.',
         'home.converter_cta_title': 'Convert Hijri ↔ Gregorian',
         'home.converter_cta_sub': 'Convert any date between the two calendars easily and accurately',
         'home.start_convert': 'Start Converting →',
@@ -2380,6 +2390,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'Quand aura lieu la prochaine nouvelle lune ?',
         'moon.faq.q_full_count': 'Combien de jours avant la prochaine pleine lune ?',
         'moon.intro_template': 'La Lune aujourd\u2019hui à {city} est en phase {phaseIcon} {phaseName} avec {illum}% d\u2019illumination, {age} jours dans son cycle, traversant la constellation {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        // Round 17 — Smart content pour /moon-in-{city}/{date}: paragraphe unique avec le contexte de date.
+        'moon.date_intro_template': 'Le {date}{hijriInline}, la Lune au-dessus de {city} est en phase {phaseIcon} {phaseName} à {illum}% d\u2019illumination, \u00e2ge {age} jours, traversant la constellation {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Depuis votre emplacement, la Lune se trouve actuellement à {alt}° au-dessus de l\u2019horizon, en direction du {dir}.',
         'moon.altitude_below': 'Depuis votre emplacement, la Lune est actuellement sous l\u2019horizon ({alt}° en dessous).',
         'moon.compass.n':  'nord',
@@ -2649,6 +2661,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'Date hégirienne du jour',
         'home.view_details': 'Voir détails →',
         'home.services_title': '🕌 Services islamiques',
+        // Round 18-C — entrée vers le hub depuis l'accueil
+        'home.moon_hubs_title': '🌙 Calendriers lunaires dans le monde',
+        'home.moon_hubs_subtitle': 'Parcourez le calendrier lunaire de n\u2019importe quelle ville — et choisissez la date voulue.',
         'home.converter_cta_title': 'Convertir Hégirien ↔ Grégorien',
         'home.converter_cta_sub': 'Convertissez toute date entre les deux calendriers facilement',
         'home.start_convert': 'Commencer →',
@@ -3169,6 +3184,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'Bir sonraki yeniay ne zaman?',
         'moon.faq.q_full_count': 'Bir sonraki dolunaya kaç gün kaldı?',
         'moon.intro_template': 'Ay bugün {city} için {phaseIcon} {phaseName} evresinde ve %{illum} aydınlanmada, döngüsünün {age} gününde, {zodiacIcon} {zodiacName} takımyıldızından geçiyor. {altitudeSentence}',
+        // Round 17 — /moon-in-{city}/{date} için akıllı içerik: tarih bağlamlı benzersiz paragraf.
+        'moon.date_intro_template': '{date}{hijriInline} tarihinde {city} üzerindeki Ay, {phaseIcon} {phaseName} evresinde, %{illum} aydınlanmada, {age} günlük, {zodiacIcon} {zodiacName} takımyıldızından geçiyor.',
         'moon.altitude_above': 'Konumunuzdan Ay şu anda ufkun {alt}° üzerinde, {dir} yönünde.',
         'moon.altitude_below': 'Konumunuzdan Ay şu anda ufkun altında ({alt}° aşağıda).',
         'moon.compass.n':  'kuzey',
@@ -3438,6 +3455,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'Bugünün Hicri Tarihi',
         'home.view_details': 'Ayrıntılar →',
         'home.services_title': '🕌 İslami Hizmetler',
+        // Round 18-C — ana sayfadan hub girişi
+        'home.moon_hubs_title': '🌙 Dünya Genelinde Ay Takvimleri',
+        'home.moon_hubs_subtitle': 'Herhangi bir şehrin ay takvimini keşfedin — ve istediğiniz tarihi seçin.',
         'home.converter_cta_title': 'Hicri ↔ Miladi Dönüştür',
         'home.converter_cta_sub': 'İki takvim arasında kolayca dönüştürün',
         'home.start_convert': 'Başla →',
@@ -3958,6 +3978,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'اگلا نیا چاند کب ہوگا؟',
         'moon.faq.q_full_count': 'اگلے مکمل چاند تک کتنے دن باقی ہیں؟',
         'moon.intro_template': 'آج {city} میں چاند {phaseIcon} {phaseName} مرحلے میں ہے، {illum}٪ روشنی کے ساتھ، اپنے چکر کے {age}ویں دن، اور {zodiacIcon} {zodiacName} برج سے گزر رہا ہے۔ {altitudeSentence}',
+        // Round 17 — /moon-in-{city}/{date} کے لیے سمارٹ مواد: تاریخ کے سیاق میں منفرد پیراگراف۔
+        'moon.date_intro_template': '{date}{hijriInline} کو {city} کے اوپر چاند {phaseIcon} {phaseName} مرحلے میں ہے، {illum}٪ روشنی، عمر {age} دن، اور {zodiacIcon} {zodiacName} برج سے گزر رہا ہے۔',
         'moon.altitude_above': 'آپ کے مقام سے چاند اس وقت افق سے {alt}° اوپر، {dir} کی سمت میں ہے۔',
         'moon.altitude_below': 'آپ کے مقام سے چاند اس وقت افق سے نیچے ہے ({alt}° نیچے)۔',
         'moon.compass.n':  'شمال',
@@ -4227,6 +4249,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'آج کی ہجری تاریخ',
         'home.view_details': 'تفصیل ←',
         'home.services_title': '🕌 اسلامی خدمات',
+        // Round 18-C — ہوم سے hub کا داخلہ
+        'home.moon_hubs_title': '🌙 دنیا بھر میں چاند کے تقویم',
+        'home.moon_hubs_subtitle': 'کسی بھی شہر کا چاند کا تقویم دیکھیں — اور اپنی مطلوبہ تاریخ منتخب کریں۔',
         'home.converter_cta_title': 'ہجری ↔ عیسوی تبدیل کریں',
         'home.converter_cta_sub': 'دونوں کیلنڈروں میں کوئی بھی تاریخ آسانی سے بدلیں',
         'home.start_convert': 'شروع کریں ←',
@@ -4774,6 +4799,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'Wann ist der nächste Neumond?',
         'moon.faq.q_full_count': 'Wie viele Tage bis zum nächsten Vollmond?',
         'moon.intro_template': 'Der Mond heute in {city} befindet sich in der Phase {phaseIcon} {phaseName} mit {illum}% Beleuchtung, am Tag {age} seines Zyklus, durch das Sternbild {zodiacIcon} {zodiacName} ziehend. {altitudeSentence}',
+        // Round 17 — Smart Content für /moon-in-{city}/{date}: einzigartiger Absatz mit Datumskontext.
+        'moon.date_intro_template': 'Am {date}{hijriInline} befindet sich der Mond über {city} in der Phase {phaseIcon} {phaseName} mit {illum}% Beleuchtung, Alter {age} Tage, durch das Sternbild {zodiacIcon} {zodiacName} ziehend.',
         'moon.altitude_above': 'Von Ihrem Standort aus steht der Mond derzeit {alt}° über dem Horizont in Richtung {dir}.',
         'moon.altitude_below': 'Von Ihrem Standort aus steht der Mond derzeit unter dem Horizont ({alt}° darunter).',
         'moon.compass.n':  'Norden',
@@ -5065,6 +5092,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'Heutiges Hidschri-Datum',
         'home.view_details': 'Details anzeigen →',
         'home.services_title': '🕌 Islamische Dienste',
+        // Round 18-C — Hub-Einstieg von der Startseite
+        'home.moon_hubs_title': '🌙 Mondkalender weltweit',
+        'home.moon_hubs_subtitle': 'Durchsuchen Sie den Mondkalender für jede Stadt — und wählen Sie das gewünschte Datum.',
         'home.converter_cta_title': 'Hidschri ↔ Gregorianisch umrechnen',
         'home.converter_cta_sub': 'Wandeln Sie jedes Datum einfach und genau zwischen den beiden Kalendern um',
         'home.start_convert': 'Jetzt umrechnen →',
@@ -5618,6 +5648,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'Kapan bulan baru berikutnya?',
         'moon.faq.q_full_count': 'Berapa hari lagi sampai bulan purnama berikutnya?',
         'moon.intro_template': 'Bulan hari ini di {city} berada pada fase {phaseIcon} {phaseName} dengan pencahayaan {illum}%, pada hari ke-{age} siklusnya, melintasi rasi bintang {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        // Round 17 — Smart content untuk /moon-in-{city}/{date}: paragraf unik dengan konteks tanggal.
+        'moon.date_intro_template': 'Pada {date}{hijriInline} di {city}, Bulan berada dalam fase {phaseIcon} {phaseName} dengan pencahayaan {illum}%, usia {age} hari, melintasi rasi {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Dari lokasi Anda, Bulan saat ini berada {alt}° di atas cakrawala ke arah {dir}.',
         'moon.altitude_below': 'Dari lokasi Anda, Bulan saat ini berada di bawah cakrawala ({alt}° di bawah).',
         'moon.compass.n':  'utara',
@@ -5909,6 +5941,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'Tanggal Hijriah Hari Ini',
         'home.view_details': 'Lihat detail →',
         'home.services_title': '🕌 Layanan Islami',
+        // Round 18-C — pintu masuk hub dari beranda
+        'home.moon_hubs_title': '🌙 Kalender Bulan di Seluruh Dunia',
+        'home.moon_hubs_subtitle': 'Jelajahi kalender Bulan untuk kota mana saja — dan pilih tanggal yang Anda inginkan.',
         'home.converter_cta_title': 'Konversi Hijriah ↔ Masehi',
         'home.converter_cta_sub': 'Konversi tanggal apa saja dengan mudah dan akurat antara kedua kalender',
         'home.start_convert': 'Mulai konversi →',
@@ -6462,6 +6497,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': '¿Cuándo será la próxima luna nueva?',
         'moon.faq.q_full_count': '¿Cuántos días faltan para la próxima luna llena?',
         'moon.intro_template': 'La Luna hoy en {city} está en la fase {phaseIcon} {phaseName} con un {illum}% de iluminación, en el día {age} de su ciclo, pasando por la constelación {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        // Round 17 — Contenido inteligente para /moon-in-{city}/{date}: párrafo único con contexto de fecha.
+        'moon.date_intro_template': 'El {date}{hijriInline} en {city}, la Luna está en fase {phaseIcon} {phaseName} con {illum}% de iluminación, edad {age} días, atravesando la constelación {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Desde tu ubicación, la Luna está actualmente a {alt}° sobre el horizonte, en dirección {dir}.',
         'moon.altitude_below': 'Desde tu ubicación, la Luna está actualmente bajo el horizonte ({alt}° por debajo).',
         'moon.compass.n':  'norte',
@@ -6753,6 +6790,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'Fecha Hijri de Hoy',
         'home.view_details': 'Ver detalles →',
         'home.services_title': '🕌 Servicios Islámicos',
+        // Round 18-C — entrada al hub desde la página de inicio
+        'home.moon_hubs_title': '🌙 Calendarios Lunares en el Mundo',
+        'home.moon_hubs_subtitle': 'Explora el calendario lunar de cualquier ciudad — y elige la fecha que quieras.',
         'home.converter_cta_title': 'Conversión Hijri ↔ Gregoriano',
         'home.converter_cta_sub': 'Convierte cualquier fecha fácilmente y con precisión entre ambos calendarios',
         'home.start_convert': 'Comenzar conversión →',
@@ -7306,6 +7346,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'পরবর্তী অমাবস্যা কখন?',
         'moon.faq.q_full_count': 'পরবর্তী পূর্ণিমা পর্যন্ত কত দিন বাকি?',
         'moon.intro_template': 'আজ {city}-এ চাঁদ {phaseIcon} {phaseName} পর্যায়ে আছে, {illum}% আলোকসজ্জা নিয়ে, চক্রের {age} দিনে, {zodiacIcon} {zodiacName} রাশির মধ্য দিয়ে। {altitudeSentence}',
+        // Round 17 — /moon-in-{city}/{date}-এর জন্য স্মার্ট কন্টেন্ট: তারিখ প্রসঙ্গসহ অনন্য অনুচ্ছেদ।
+        'moon.date_intro_template': '{date}{hijriInline} তারিখে {city}-এর উপরে চাঁদ {phaseIcon} {phaseName} পর্যায়ে আছে, {illum}% আলোকসজ্জা, বয়স {age} দিন, {zodiacIcon} {zodiacName} রাশির মধ্য দিয়ে যাচ্ছে।',
         'moon.altitude_above': 'আপনার অবস্থান থেকে চাঁদ বর্তমানে দিগন্ত থেকে {alt}° উপরে, {dir} দিকে রয়েছে।',
         'moon.altitude_below': 'আপনার অবস্থান থেকে চাঁদ বর্তমানে দিগন্তের নিচে ({alt}° নিচে)।',
         'moon.compass.n':  'উত্তর',
@@ -7597,6 +7639,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'আজকের হিজরি তারিখ',
         'home.view_details': 'বিস্তারিত দেখুন →',
         'home.services_title': '🕌 ইসলামিক সেবা',
+        // Round 18-C — হোম থেকে hub প্রবেশ
+        'home.moon_hubs_title': '🌙 বিশ্বজুড়ে চাঁদের পঞ্জিকা',
+        'home.moon_hubs_subtitle': 'যেকোনো শহরের চাঁদের পঞ্জিকা দেখুন — এবং আপনার পছন্দের তারিখ নির্বাচন করুন।',
         'home.converter_cta_title': 'হিজরি ↔ গ্রেগরিয়ান রূপান্তর',
         'home.converter_cta_sub': 'দুই ক্যালেন্ডারের মধ্যে যে কোনো তারিখ সহজে ও নির্ভুলভাবে রূপান্তর করুন',
         'home.start_convert': 'রূপান্তর শুরু করুন →',
@@ -8150,6 +8195,8 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'Bilakah bulan baru seterusnya?',
         'moon.faq.q_full_count': 'Berapa hari lagi untuk bulan purnama seterusnya?',
         'moon.intro_template': 'Bulan hari ini di {city} berada pada fasa {phaseIcon} {phaseName} dengan pencahayaan {illum}%, pada hari ke-{age} kitarannya, melintasi buruj {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        // Round 17 — Kandungan pintar untuk /moon-in-{city}/{date}: perenggan unik dengan konteks tarikh.
+        'moon.date_intro_template': 'Pada {date}{hijriInline} di {city}, Bulan berada pada fasa {phaseIcon} {phaseName} dengan pencahayaan {illum}%, usia {age} hari, melintasi buruj {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Dari lokasi anda, Bulan pada masa ini berada {alt}° di atas ufuk ke arah {dir}.',
         'moon.altitude_below': 'Dari lokasi anda, Bulan pada masa ini berada di bawah ufuk ({alt}° di bawah).',
         'moon.compass.n':  'utara',
@@ -8441,6 +8488,9 @@ const TRANSLATIONS = {
         'home.hijri_date_label': 'Tarikh Hijrah Hari Ini',
         'home.view_details': 'Lihat butiran →',
         'home.services_title': '🕌 Perkhidmatan Islam',
+        // Round 18-C — pintu masuk hub dari laman utama
+        'home.moon_hubs_title': '🌙 Kalendar Bulan di Seluruh Dunia',
+        'home.moon_hubs_subtitle': 'Terokai kalendar Bulan untuk mana-mana bandar — dan pilih tarikh yang anda inginkan.',
         'home.converter_cta_title': 'Penukaran Hijrah ↔ Masihi',
         'home.converter_cta_sub': 'Tukar mana-mana tarikh dengan mudah dan tepat antara kedua-dua kalendar',
         'home.start_convert': 'Mula menukar →',

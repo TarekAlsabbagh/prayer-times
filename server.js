@@ -2197,17 +2197,26 @@ function _escHtml(s) {
 // يُرجع النصّ الناتج، أو null عند أيّ فشل (ليتمّ الرجوع للنصّ الثابت).
 // المدخل cityLabel = "City, Country" جاهزة لوضعها في {city}.
 // lat/lng (اختياريّان): لبناء جملة الارتفاع/السَمت المرتبطة بالموقع حقًّا.
-function _buildSsrMoonIntro(lang, cityLabel, lat, lng) {
+// Round 17 (smart content): dateObj (اختياريّ) — إن مُرِّر، تُحتسب البيانات لذلك اليوم بدل
+// new Date()، ما يجعل كلّ صفحة `/moon-in-{city}/{date}` تحصل على فقرة فريدة بأرقامها الحقيقيّة.
+// dateLabel/hijriLabel (اختياريّان): لحقن التاريخ في الفقرة (unique-per-page SEO).
+function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel) {
     try {
         if (!MoonCalc || !I18N) return null;
-        const today = new Date();
+        const _hasDate = (dateObj instanceof Date && !isNaN(dateObj.getTime()));
+        const today = _hasDate ? dateObj : new Date();
         const phase = MoonCalc.getPhaseName(today);                 // {name, icon, english, key}
         const illumRaw = MoonCalc.getMoonIllumination(today);       // 0..100
         const ageRaw = MoonCalc.getMoonAge(today);                  // 0..29.53
         const zodiac = MoonCalc.getMoonZodiac(today);               // {key, icon, i18nKey, ...}
         const dict = I18N[lang] || I18N.en || {};
         const enDict = I18N.en || {};
-        const template = dict['moon.intro_template']
+        // Round 17: على صفحات التاريخ نستعمل قالباً مختلفاً يحقن {date} بدل «اليوم/today/aujourd'hui…»
+        // ليُنتِج لكلّ تاريخ فقرة فريدة 100% بأرقامها الفلكيّة الحقيقيّة (unique-per-page SEO).
+        const _templateKey = (_hasDate && dateLabel) ? 'moon.date_intro_template' : 'moon.intro_template';
+        const template = dict[_templateKey]
+            || enDict[_templateKey]
+            || dict['moon.intro_template']
             || enDict['moon.intro_template']
             || 'Today in {city}, the Moon is in a {phaseIcon} {phaseName} phase at {illum}% illumination. The Moon is {age} days old and currently in the {zodiacIcon} {zodiacName} constellation.';
         const phaseName = dict[phase.key] || enDict[phase.key] || phase.english || phase.name || '';
@@ -2244,8 +2253,18 @@ function _buildSsrMoonIntro(lang, cityLabel, lat, lng) {
                 }
             }
         } catch (_eAlt) { /* silent */ }
+        // Round 17: {date} و {hijriInline} لصفحات التاريخ — فارغان لصفحة اليوم/الـhub.
+        const _dateStr = (_hasDate && typeof dateLabel === 'string' && dateLabel) ? dateLabel : '';
+        let _hijriInlineStr = '';
+        if (_hasDate && typeof hijriLabel === 'string' && hijriLabel) {
+            _hijriInlineStr = (lang === 'ar' || lang === 'ur')
+                ? ` (الموافق ${hijriLabel})`
+                : ` (${hijriLabel})`;
+        }
         return template
             .replace(/\{city\}/g, cityLabel)
+            .replace(/\{date\}/g, _dateStr)
+            .replace(/\{hijriInline\}/g, _hijriInlineStr)
             .replace(/\{phaseIcon\}/g, phase.icon || '')
             .replace(/\{phaseName\}/g, phaseName)
             .replace(/\{illum\}/g, illumStr)
@@ -5837,17 +5856,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             bn: `🌙 ${cityName}-এ ${_primaryDateLabelSsr}-এ চাঁদ`,
             ms: `🌙 Bulan di ${cityName} pada ${_primaryDateLabelSsr}`
         }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : _isMoonHubPageSsr ? ({
-            ar: `🌙 حالة القمر في ${cityName}، ${countryName} — الطور والإضاءة والتقويم`,
-            en: `🌙 The Moon in ${cityName}, ${countryName} — Phase, Illumination & Calendar`,
-            fr: `🌙 La Lune à ${cityName}, ${countryName} — Phase, illumination et calendrier`,
-            tr: `🌙 ${cityName}, ${countryName}'da Ay — Evre, Aydınlanma ve Takvim`,
-            ur: `🌙 ${cityName}، ${countryName} میں چاند — مرحلہ، روشنی اور تقویم`,
-            de: `🌙 Der Mond in ${cityName}, ${countryName} — Phase, Beleuchtung und Kalender`,
-            id: `🌙 Bulan di ${cityName}, ${countryName} — Fase, Iluminasi & Kalender`,
-            es: `🌙 La Luna en ${cityName}, ${countryName} — Fase, iluminación y calendario`,
-            bn: `🌙 ${cityName}, ${countryName}-এ চাঁদ — দশা, আলোকসজ্জা ও ক্যালেন্ডার`,
-            ms: `🌙 Bulan di ${cityName}, ${countryName} — Fasa, Pencahayaan & Kalendar`
-        }[Lm] || `🌙 The Moon in ${cityName}, ${countryName}`) : ({
+            // Round 19: H1 الـ hub ينظَّف ويُختصر ليعكس هدف الصفحة (توجيه + استكشاف)
+            //   قديم: "حالة القمر في {city}, {country} — الطور والإضاءة والتقويم" (ثقيل/مكرَّر)
+            //   جديد: "تقويم القمر في {city}" — قصير، واضح، موازٍ لنصّ bc-moon (Round 18-B).
+            ar: `🌙 تقويم القمر في ${cityName}`,
+            en: `🌙 Moon Calendar in ${cityName}`,
+            fr: `🌙 Calendrier de la Lune à ${cityName}`,
+            tr: `🌙 ${cityName} Ay Takvimi`,
+            ur: `🌙 ${cityName} کا چاند کا تقویم`,
+            de: `🌙 Mondkalender für ${cityName}`,
+            id: `🌙 Kalender Bulan di ${cityName}`,
+            es: `🌙 Calendario Lunar en ${cityName}`,
+            bn: `🌙 ${cityName}-এর চাঁদের পঞ্জিকা`,
+            ms: `🌙 Kalendar Bulan di ${cityName}`
+        }[Lm] || `🌙 Moon Calendar in ${cityName}`) : ({
             ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
             en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
             fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
@@ -5907,18 +5929,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         //   قبل: bc-date يبقى hidden حتى JS. الآن: نحقنه في SSR بلغة الزائر مع التسمية الصحيحة
         //   ليراه الزائر بلا JS وتراه محرّكات البحث مباشرةً.
         if (_isMoonDatePage) {
-            // نصّ "القمر اليوم في {City}" بلغة الواجهة — يطابق ما يفعله العميل عبر moon.bc_moon_in_city
+            // Round 18-B: breadcrumb يُشير إلى hub (/moon-in-{slug}) → النصّ يصبح "تقويم القمر في {City}"
+            //   إصلاح تناقض الدلالة: سابقاً كان "القمر اليوم في..." مع رابط hub (بلا "اليوم") → misleading.
             const _BC_MOON_CITY = {
-                ar: `القمر اليوم في ${cityName}`,
-                en: `Moon Today in ${cityName}`,
-                fr: `Lune aujourd'hui à ${cityName}`,
-                tr: `Bugün ${cityName} - Ay`,
-                ur: `آج ${cityName} میں چاند`,
-                de: `Mond heute in ${cityName}`,
-                id: `Bulan Hari Ini di ${cityName}`,
-                es: `Luna hoy en ${cityName}`,
-                bn: `আজকের চাঁদ - ${cityName}`,
-                ms: `Bulan Hari Ini di ${cityName}`
+                ar: `تقويم القمر في ${cityName}`,
+                en: `Moon Calendar in ${cityName}`,
+                fr: `Calendrier de la Lune à ${cityName}`,
+                tr: `${cityName} Ay Takvimi`,
+                ur: `${cityName} کا چاند کا تقویم`,
+                de: `Mondkalender für ${cityName}`,
+                id: `Kalender Bulan di ${cityName}`,
+                es: `Calendario Lunar en ${cityName}`,
+                bn: `${cityName}-এর চাঁদের পঞ্জিকা`,
+                ms: `Kalendar Bulan di ${cityName}`
             };
             const _bcMoonTextSsr = _BC_MOON_CITY[Lm] || _BC_MOON_CITY.en;
             // رابط نسبيّ — يعمل من أيّ host، ولا يحتاج origin في هذا الـ scope
@@ -5959,7 +5982,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         // الفاصل: ، في العربيّة/الأردو، و , في باقي اللغات — ليطابق ما يعرضه العميل.
         const _sepMoon = (Lm === 'ar' || Lm === 'ur') ? '، ' : ', ';
         const _cityLabel = countryName ? `${cityName}${_sepMoon}${countryName}` : cityName;
-        const _introMoonDynamic = _buildSsrMoonIntro(Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng) || _introMoon;
+        // Round 17 (smart content): على صفحات التاريخ نمرّر dateObj + dateLabel + hijriLabel
+        //   → أرقام حقيقيّة + فقرة فريدة بتاريخها (Gregorian + Hijri) — anti-thin-content.
+        const _introDateObj = (_isMoonDatePage && seo.moonCity.dateObj) ? seo.moonCity.dateObj : null;
+        const _introDateLabel = _isMoonDatePage ? (seo.moonCity.dateLabel || '') : '';
+        const _introHijriLabel = _isMoonDatePage ? (seo.moonCity.hijriLabelWithSfx || seo.moonCity.hijriLabel || '') : '';
+        const _introMoonDynamic = _buildSsrMoonIntro(
+            Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng,
+            _introDateObj, _introDateLabel, _introHijriLabel
+        ) || _introMoon;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.
         // الفقرة ستُحدَّث لاحقًا عبر app.js (#moon-intro by id) بالبيانات الحيّة من المستخدم.
@@ -5990,6 +6021,262 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             // أدرِج قبل </head>
             html = html.replace('</head>', `    ${articleJsonLd}\n</head>`);
         } catch(_e) { /* silent */ }
+
+        // ═════════════════════════════════════════════════════════════════════
+        // ROUND 17: Elite Polish — 3 تحسينات (Cross-Links / Calendar / Smart Content)
+        // ═════════════════════════════════════════════════════════════════════
+
+        // ── (17-A) Hub pages: تحويل cities-grid من today→today إلى hub→hub ──
+        //   حصريّاً على /moon-in-{slug} (بدون تاريخ). يربط الـ hubs ببعضها لبناء City Network.
+        if (_isMoonHubPageSsr) {
+            // استبدل كلّ href="/moon-today-in-X" أو href="/en/moon-today-in-X" داخل .moon-cities-grid
+            // إلى /moon-in-X (حصريّاً داخل <ul class="moon-cities-grid">…</ul> — لا نمسّ أيّ رابط آخر).
+            html = html.replace(
+                /(<ul class="moon-cities-grid">[\s\S]*?<\/ul>)/,
+                function (gridHtml) {
+                    return gridHtml
+                        .replace(/href="\/moon-today-in-/g, 'href="/moon-in-')
+                        .replace(/href="\/(en|fr|tr|ur|de|id|es|bn|ms)\/moon-today-in-/g, 'href="/$1/moon-in-');
+                }
+            );
+        }
+
+        // ── (17-B) Hub pages: حقن Calendar Grid (يوم ± 3) قبل جدول التوقّعات ──
+        //   كلّ خليّة: يوم نسبيّ (أمس/اليوم/غدًا/+2/…) + تاريخ + أيقونة طور + رابط /moon-in-{slug}/{iso}.
+        //   يَكشف Googlebot 7 روابط تاريخ فوريّاً لكلّ hub → discovery أسرع.
+        if (_isMoonHubPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
+            try {
+                const _hubCalTitles = {
+                    ar: '📆 تقويم القمر الأسبوعيّ',
+                    en: '📆 Weekly Moon Calendar',
+                    fr: '📆 Calendrier lunaire hebdomadaire',
+                    tr: '📆 Haftalık Ay Takvimi',
+                    ur: '📆 ہفتہ وار چاند کیلنڈر',
+                    de: '📆 Wöchentlicher Mondkalender',
+                    id: '📆 Kalender Bulan Mingguan',
+                    es: '📆 Calendario lunar semanal',
+                    bn: '📆 সাপ্তাহিক চাঁদের ক্যালেন্ডার',
+                    ms: '📆 Kalendar Bulan Mingguan'
+                };
+                const _hubCalTodayLbl = {
+                    ar: 'اليوم', en: 'Today', fr: "Aujourd'hui", tr: 'Bugün', ur: 'آج',
+                    de: 'Heute', id: 'Hari ini', es: 'Hoy', bn: 'আজ', ms: 'Hari ini'
+                };
+                const _hubCalYesterdayLbl = {
+                    ar: 'أمس', en: 'Yesterday', fr: 'Hier', tr: 'Dün', ur: 'کل (گزشتہ)',
+                    de: 'Gestern', id: 'Kemarin', es: 'Ayer', bn: 'গতকাল', ms: 'Semalam'
+                };
+                const _hubCalTomorrowLbl = {
+                    ar: 'غدًا', en: 'Tomorrow', fr: 'Demain', tr: 'Yarın', ur: 'کل (آنے والا)',
+                    de: 'Morgen', id: 'Besok', es: 'Mañana', bn: 'আগামীকাল', ms: 'Esok'
+                };
+                // Arabic dual form: يومين لـ n=2، أيّام لـ n≥3
+                const _hubCalDaysFmt = {
+                    ar: (n) => {
+                        const _abs = Math.abs(n);
+                        const _unit = (_abs === 2) ? 'يومين' : `${_abs} أيّام`;
+                        return n > 0 ? `بعد ${_unit}` : `قبل ${_unit}`;
+                    },
+                    en: (n) => (n > 0 ? `In ${n} days` : `${Math.abs(n)} days ago`),
+                    fr: (n) => (n > 0 ? `Dans ${n} jours` : `Il y a ${Math.abs(n)} jours`),
+                    tr: (n) => (n > 0 ? `${n} gün sonra` : `${Math.abs(n)} gün önce`),
+                    ur: (n) => (n > 0 ? `${n} دن بعد` : `${Math.abs(n)} دن پہلے`),
+                    de: (n) => (n > 0 ? `In ${n} Tagen` : `Vor ${Math.abs(n)} Tagen`),
+                    id: (n) => (n > 0 ? `${n} hari lagi` : `${Math.abs(n)} hari lalu`),
+                    es: (n) => (n > 0 ? `En ${n} días` : `Hace ${Math.abs(n)} días`),
+                    bn: (n) => (n > 0 ? `${n} দিন পরে` : `${Math.abs(n)} দিন আগে`),
+                    ms: (n) => (n > 0 ? `${n} hari lagi` : `${Math.abs(n)} hari lalu`)
+                };
+                const _gMonthShortLang = {
+                    ar: ['ينا','فبر','مار','أبر','ماي','يون','يول','أغس','سبت','أكت','نوف','ديس'],
+                    en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                    fr: ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'],
+                    tr: ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
+                    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                    de: ['Jan.','Feb.','März','Apr.','Mai','Juni','Juli','Aug.','Sept.','Okt.','Nov.','Dez.'],
+                    id: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+                    es: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
+                    bn: ['জানু','ফেব','মার','এপ্রি','মে','জুন','জুল','আগ','সেপ্টে','অক্টো','নভে','ডিসে'],
+                    ms: ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis']
+                };
+                const _pad2Hc = (n) => (n < 10 ? '0' + n : String(n));
+                const _isoOf = (d) => d.getFullYear() + '-' + _pad2Hc(d.getMonth() + 1) + '-' + _pad2Hc(d.getDate());
+                const _gMonths = _gMonthShortLang[Lm] || _gMonthShortLang.en;
+                const _calTitle = _hubCalTitles[Lm] || _hubCalTitles.en;
+                const _calToday = _hubCalTodayLbl[Lm] || _hubCalTodayLbl.en;
+                const _calYesterday = _hubCalYesterdayLbl[Lm] || _hubCalYesterdayLbl.en;
+                const _calTomorrow = _hubCalTomorrowLbl[Lm] || _hubCalTomorrowLbl.en;
+                const _calDaysFn = _hubCalDaysFmt[Lm] || _hubCalDaysFmt.en;
+                const _calTodayD = new Date(); _calTodayD.setHours(12, 0, 0, 0);
+                const _langPrefixHc = (Lm === 'ar' ? '' : '/' + Lm);
+                let _calCellsHtml = '';
+                for (let i = -3; i <= 3; i++) {
+                    const _cellD = new Date(_calTodayD);
+                    _cellD.setDate(_calTodayD.getDate() + i);
+                    const _cellIso = _isoOf(_cellD);
+                    const _cellPhase = MoonCalc.getPhaseName(_cellD) || { icon: '🌕' };
+                    const _cellDateTxt = _cellD.getDate() + ' ' + _gMonths[_cellD.getMonth()];
+                    let _cellLabel;
+                    if (i === 0) _cellLabel = _calToday;
+                    else if (i === -1) _cellLabel = _calYesterday;
+                    else if (i === 1) _cellLabel = _calTomorrow;
+                    else _cellLabel = _calDaysFn(i);
+                    // اليوم الحاليّ → hub (الصفحة الحاليّة، بلا self-ref href زائد) → نُبقي رابط صفحة اليوم (more useful)
+                    const _cellHref = (i === 0)
+                        ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
+                        : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
+                    const _cellActive = (i === 0) ? ' moon-hub-cal-cell--today' : '';
+                    _calCellsHtml += `<li class="moon-hub-cal-cell${_cellActive}"><a href="${_escHtml(_cellHref)}">`
+                        + `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
+                        + `<span class="moon-hub-cal-date">${_escHtml(_cellDateTxt)}</span>`
+                        + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
+                        + `</a></li>`;
+                }
+                // ── Round 19: CTA رئيسيّ داخل الـ hub → /moon-in-{slug}/{today-iso} ──
+                //   نقطة دخول طبيعيّة لتفاصيل اليوم بعد ما يرى المستخدم الشبكة الأسبوعيّة.
+                //   الـ grid يغطّي ±3 أيّام، وهذا الـ CTA يفتح الصفحة المؤرَّخة الكاملة لليوم الحاليّ.
+                const _hubDetailCtaTpl = {
+                    ar: '📅 استعرض تفاصيل اليوم',
+                    en: "📅 Explore today's details",
+                    fr: "📅 Explorer les détails d'aujourd'hui",
+                    tr: "📅 Bugünün ayrıntılarını keşfedin",
+                    ur: "📅 آج کی تفصیلات دیکھیں",
+                    de: "📅 Details von heute erkunden",
+                    id: "📅 Jelajahi detail hari ini",
+                    es: "📅 Explora los detalles de hoy",
+                    bn: "📅 আজকের বিস্তারিত দেখুন",
+                    ms: "📅 Terokai butiran hari ini"
+                };
+                const _hubDetailCtaText = _hubDetailCtaTpl[Lm] || _hubDetailCtaTpl.en;
+                const _todayIsoForHub = _isoOf(_calTodayD);
+                const _hubDetailCtaHref = _langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _todayIsoForHub;
+                const _hubDetailCtaHtml = `<a class="moon-hub-detail-cta" href="${_escHtml(_hubDetailCtaHref)}">${_escHtml(_hubDetailCtaText)}</a>`;
+                const _hubCalHtml = `<div class="section-card moon-hub-calendar-card">`
+                    + `<h2 class="moon-hub-cal-title">${_escHtml(_calTitle)}</h2>`
+                    + `<ul class="moon-hub-cal-grid">${_calCellsHtml}</ul>`
+                    + `</div>\n                ${_hubDetailCtaHtml}`;
+                // Round 19: حقن قبل قسم "الأطوار القادمة" (بدل قبل moon-forecast-cta الذي سيُحذف)
+                //   النتيجة: [Hero] → [Summary] → [Moon visual + 4 cards] → [Calendar Grid] → [CTA] → [Upcoming] → [Cities]
+                html = html.replace(
+                    /(<section class="section-card moon-upcoming-section")/,
+                    _hubCalHtml + '\n                $1'
+                );
+            } catch (_eCal) { /* silent — fall back to no calendar */ }
+        }
+
+        // ═════════════════════════════════════════════════════════════════════
+        // ROUND 18: Hub Entry Points — يحوّل الـ hub من صفحة SEO مخفيّة إلى مدخل استكشاف بارز
+        // ═════════════════════════════════════════════════════════════════════
+
+        // ═════════════════════════════════════════════════════════════════════
+        // ROUND 19: Hub Trimming — تحويل /moon-in-{city} إلى صفحة توجيه خفيفة
+        //   الفلسفة: Today = حالة الآن • Dated = تحليل يوم محدَّد • Hub = استكشاف + تنقل
+        //   نحذف: Chart 7d، 14-day table، Events countdown، FAQ (×2)، Evergreen،
+        //         moon-comparison، moon-phase-insight، moon-highlights،
+        //         4 بطاقات ثقيلة (moonset/distance/next-full/next-new)، moon-forecast-cta.
+        //   نُبقي: H1، Summary line، Moon visual + 4 cards، Calendar Grid (مصعَّد)،
+        //         CTA "استعرض تفاصيل اليوم"، Upcoming phases، Cities Grid.
+        //   ~74% تخفيف من ~8200px → ~2100px.
+        // ═════════════════════════════════════════════════════════════════════
+        if (_isMoonHubPageSsr) {
+            // (19-A) حذف كتلة بعد upcoming-section: events + chart + forecast-cta + forecast.
+            //   يُستخدم anchor بين "<!-- 🆕 Wave A" (بداية events) و "<!-- القمر في مدن أخرى" (بداية cities).
+            html = html.replace(
+                /<!-- 🆕 Wave A: عدّ تنازليّ[\s\S]*?(?=<!-- القمر في مدن أخرى)/,
+                ''
+            );
+            // (19-B) حذف FAQ المدينة (بعد cities) → قبل FAQ العامّ.
+            html = html.replace(
+                /<!-- FAQ — City-specific[\s\S]*?(?=<!-- FAQ — General Astronomy)/,
+                ''
+            );
+            // (19-C) حذف FAQ العامّ → قبل Evergreen.
+            html = html.replace(
+                /<!-- FAQ — General Astronomy[\s\S]*?(?=<!-- Evergreen content)/,
+                ''
+            );
+            // (19-D) حذف Evergreen → حتى نهاية page-moon (قبل تعليق صفحة الزكاة).
+            html = html.replace(
+                /<!-- Evergreen content[\s\S]*?(?=<!-- ===== صفحة حاسبة الزكاة)/,
+                ''
+            );
+            // (19-E) حذف blocks فرعيّة داخل section-card الـ "details":
+            //   moon-comparison (yesterday→today): thick, "حالة اليوم" لا تناسب hub.
+            html = html.replace(
+                /<!-- Yesterday vs Today[\s\S]*?<div class="moon-comparison"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/,
+                ''
+            );
+            //   moon-phase-insight (3 سطور تفسيريّة): verbose.
+            html = html.replace(
+                /<!-- Phase Insight[\s\S]*?<div class="moon-phase-insight"[\s\S]*?<\/div>\s*<\/div>/,
+                ''
+            );
+            //   moon-highlights (next full + next new + visibility): redundant (upcoming يغطّي الأطوار).
+            html = html.replace(
+                /<!-- 🆕 Quick Highlights[\s\S]*?<div class="moon-highlights"[\s\S]*?<\/div>\s*<\/div>/,
+                ''
+            );
+            // (19-F) حذف 4 بطاقات داخل moon-details → نُبقي 4 فقط (age, illumination, zodiac, moonrise).
+            //   نستخدم id داخل الـ value لتمييز البطاقة بدقّة (كلّ id فريد على الصفحة).
+            const _stripCardByValueId = (valueId) => {
+                const rx = new RegExp(
+                    '<div class="moon-detail-card[^"]*">\\s*<div class="label"[^>]*>[^<]*</div>\\s*<div class="value" id="' + valueId + '"[^>]*>[^<]*</div>(?:\\s*<div class="value-sub"[^>]*>[^<]*</div>)?\\s*</div>',
+                    'i'
+                );
+                html = html.replace(rx, '');
+            };
+            _stripCardByValueId('moon-set');          // مغيب القمر
+            _stripCardByValueId('next-full-moon');    // البدر القادم
+            _stripCardByValueId('next-new-moon');     // المحاق القادم
+            _stripCardByValueId('moon-distance');     // المسافة
+            // (19-G) حذف الـ hero CTA القديم (moon-forecast-cta) — يشير إلى #moon-forecast المحذوف.
+            html = html.replace(/<a class="moon-forecast-cta"[^>]*>[^<]*<\/a>/, '');
+            // (19-H) استبدال moon-intro (فقرة طويلة multi-line) بسطر واحد توجيهيّ مختصر.
+            const _hubIntroTpl = {
+                ar: `استعرض طور القمر الحاليّ في ${cityName}، والتنقّل بين التواريخ القادمة والسابقة، ومتابعة التقويم القمريّ والهجريّ.`,
+                en: `Explore the current moon phase in ${cityName}, navigate past and future dates, and follow the lunar and Hijri calendar.`,
+                fr: `Explorez la phase actuelle de la Lune à ${cityName}, naviguez entre les dates passées et futures, et suivez le calendrier lunaire et hégirien.`,
+                tr: `${cityName} için geçerli Ay evresini keşfedin, geçmiş ve gelecek tarihler arasında gezinin, Ay ve Hicri takvimi takip edin.`,
+                ur: `${cityName} میں چاند کا موجودہ مرحلہ دیکھیں، گزشتہ اور آنے والی تاریخوں میں سفر کریں، اور قمری و ہجری تقویم پر نظر رکھیں۔`,
+                de: `Entdecken Sie die aktuelle Mondphase in ${cityName}, navigieren Sie durch vergangene und zukünftige Daten und verfolgen Sie den Mond- und Hidschri-Kalender.`,
+                id: `Jelajahi fase Bulan saat ini di ${cityName}, telusuri tanggal lampau dan mendatang, serta ikuti kalender lunar dan Hijriah.`,
+                es: `Explora la fase actual de la Luna en ${cityName}, navega por fechas pasadas y futuras, y sigue el calendario lunar y hijrí.`,
+                bn: `${cityName}-এ চাঁদের বর্তমান দশা দেখুন, অতীত ও ভবিষ্যতের তারিখগুলি ঘুরে দেখুন, এবং চন্দ্র ও হিজরি পঞ্জিকা অনুসরণ করুন।`,
+                ms: `Terokai fasa Bulan semasa di ${cityName}, layari tarikh lampau dan akan datang, serta ikuti kalendar lunar dan Hijrah.`
+            };
+            const _hubIntroText = _hubIntroTpl[Lm] || _hubIntroTpl.en;
+            html = html.replace(
+                /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
+                `<p class="moon-intro" id="moon-intro">${_escHtml(_hubIntroText)}</p>`
+            );
+        }
+
+        // ── (18-A) Today page: CTA بارز يقود إلى الـ hub (/moon-in-{slug}) ──
+        //   يظهر حصراً على /moon-today-in-{slug} — ليس على الـ hub ولا على الـ dated.
+        //   سدّ فجوة UX: كان الوصول للـ hub ممكناً فقط عبر sitemap/SEO. الآن مرئيّ بشريّاً.
+        if (!_isMoonDatePage && !_isMoonHubPageSsr) {
+            const _hubCtaTpl = {
+                ar: '📅 تقويم القمر في {city} — استعرض أيّ تاريخ',
+                en: '📅 Moon Calendar for {city} — Explore any date',
+                fr: '📅 Calendrier de la Lune pour {city} — Explorer toute date',
+                tr: '📅 {city} Ay Takvimi — İstediğiniz tarihi keşfedin',
+                ur: '📅 {city} کا چاند کا تقویم — کوئی بھی تاریخ دیکھیں',
+                de: '📅 Mondkalender für {city} — Jedes Datum erkunden',
+                id: '📅 Kalender Bulan untuk {city} — Jelajahi tanggal apa pun',
+                es: '📅 Calendario Lunar para {city} — Explora cualquier fecha',
+                bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ দেখুন',
+                ms: '📅 Kalendar Bulan untuk {city} — Terokai mana-mana tarikh'
+            };
+            const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', cityName);
+            const _hubCtaHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-in-' + seo.moonCity.slug;
+            const _hubCtaHtml = `<a class="moon-hub-cta" href="${_escHtml(_hubCtaHref)}">${_escHtml(_hubCtaText)}</a>`;
+            // حقن بعد CTA التوقّعات (14-day) مباشرة → كلاهما مرئيّان بتوازن.
+            html = html.replace(
+                /(<a class="moon-forecast-cta"[^>]*>[^<]*<\/a>)/,
+                '$1\n                ' + _hubCtaHtml
+            );
+        }
+
     }
 
     // 5h) SSR لصفحة القمر العامّة /moon-today (بدون مدينة) — H1 و intro بلا placeholders

@@ -2104,9 +2104,14 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="zakat"]')?.classList.add('active');
     }
 
-    // تفعيل صفحة القمر عند URL /moon-today (canonical) أو /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}]
-    // Round 12: نضيف دعم coord-suffix (-LAT-LNG) — للمدن خارج cities-*.json.
-    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?)?$/.test(window.location.pathname);
+    // تفعيل صفحة القمر عند URL:
+    //   • /moon-today                                          (canonical)
+    //   • /moon-today-in-{slug}[-{lat}-{lng}]                   (Round 12: coord-suffix)
+    //   • /moon-in-{slug}[-{lat}-{lng}]                         (Round 16: hub)
+    //   • /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}            (Round 15: dated)
+    const _mpPath = window.location.pathname;
+    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(_mpPath)
+        || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(_mpPath);
     if (_isMoonPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');
@@ -7683,20 +7688,17 @@ function updateMoonInfo() {
             } catch (_e) { /* keep placeholder */ }
 
             // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
-            let dayCell, ctaCell, rowClass = '';
-            const _ctaLabel = (typeof t === 'function') ? t('moon.fc_details_cta') : 'Details';
-            const _ctaTxt = (_ctaLabel && _ctaLabel !== 'moon.fc_details_cta') ? _ctaLabel : 'تفاصيل';
+            // (Round 16b: أُزيل عمود «تفاصيل» — خليّة اليوم والخليّة الهجريّة تبقيان قابلتَين للنقر.)
+            let dayCell, rowClass = '';
             const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
             if (_citySlug) {
                 const _iso = _fcIso(dp, row.date);
                 // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
                 const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _iso;
                 dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
-                ctaCell = `<td class="fc-cta-cell"><a class="fc-cta-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_ctaTxt + ' — ' + _dayText)}"><span class="fc-cta-text">${_escHtml(_ctaTxt)}</span><span class="fc-cta-arrow" aria-hidden="true">›</span></a></td>`;
                 rowClass = ' class="fc-row-clickable"';
             } else {
                 dayCell = `<td>${_escHtml(_dayText)}</td>`;
-                ctaCell = `<td class="fc-cta-cell"></td>`;
             }
 
             html += `<tr${rowClass}>`
@@ -7706,7 +7708,6 @@ function updateMoonInfo() {
                 + `<td>${row.illumination}%</td>`
                 + `<td>${row.rise}</td>`
                 + `<td>${row.set}</td>`
-                + ctaCell
                 + `</tr>`;
         }
         _fcBody.innerHTML = html;

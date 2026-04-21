@@ -415,6 +415,36 @@ button, input, select { font-family: inherit; }
 
 .prayer-card.active { border: 2px solid var(--gold); }
 .prayer-card.active::before { background: var(--gold); height: 6px; }
+/* Round 22: الصلاة الحاليّة — نحن في نافذتها الآن (النبض الأخضر = "حيّ") */
+.prayer-card.current {
+    border: 2px solid var(--primary, #2e7d32);
+    background: linear-gradient(180deg, rgba(46,125,50,.06), rgba(46,125,50,.02));
+    position: relative;
+}
+.prayer-card.current::before { background: var(--primary, #2e7d32); height: 6px; }
+.prayer-card.current::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    inset-inline-end: 10px;
+    width: 10px;
+    height: 10px;
+    background: var(--primary, #2e7d32);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(46,125,50,.55);
+    animation: tp-current-pulse 2s infinite;
+}
+@keyframes tp-current-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(46,125,50,.55); }
+    70%  { box-shadow: 0 0 0 10px rgba(46,125,50,0); }
+    100% { box-shadow: 0 0 0 0 rgba(46,125,50,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .prayer-card.current::after { animation: none; }
+}
+/* عند تزامن current + active (نادر: قبل دقيقة من الصلاة التالية) → أولويّة للـ current */
+.prayer-card.current.active { border-color: var(--primary, #2e7d32); }
+.prayer-card.current.active::before { background: var(--primary, #2e7d32); }
 
 .prayer-card .prayer-icon {
     font-size: 2rem;
@@ -3524,11 +3554,64 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 /* ========= بانر العد التنازلي المحسّن ========= */
 .next-prayer-banner {
     display: flex;
+    flex-direction: column; /* Round 22: pillow + row layout */
     align-items: stretch;
     gap: 0;
     padding: 0;
     overflow: hidden;
 }
+/* Round 22: inner row — يحوي البلوكات الثلاثة */
+.banner-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+}
+
+/* Round 22: pill الصلاة الحاليّة */
+.banner-current-prayer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,.12);
+    border-bottom: 1px solid rgba(255,255,255,.15);
+    font-size: .95rem;
+    font-weight: 600;
+    color: #fff;
+}
+.banner-current-prayer[hidden] { display: none; }
+.bcp-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gold-light, #ffd75e);
+    box-shadow: 0 0 0 0 rgba(255,215,94,.7);
+    animation: tp-bcp-pulse 2s infinite;
+    flex-shrink: 0;
+}
+@keyframes tp-bcp-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,215,94,.7); }
+    70%  { box-shadow: 0 0 0 8px rgba(255,215,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,215,94,0); }
+}
+@media (prefers-reduced-motion: reduce) { .bcp-dot { animation: none; } }
+.bcp-label { opacity: .92; }
+.bcp-name { font-weight: 800; color: var(--gold-light, #ffd75e); }
+
+/* Round 22: ثمّ الصلاة القادمة بعدها */
+.banner-then-prayer {
+    margin-top: 8px;
+    font-size: .92rem;
+    opacity: .88;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.banner-then-prayer[hidden] { display: none; }
+.banner-then-prayer b { color: var(--gold-light, #ffd75e); font-weight: 700; }
+.banner-then-prayer .btp-time { direction: ltr; opacity: .85; font-size: .88rem; }
 
 .banner-block {
     flex: 1;
@@ -3636,13 +3719,19 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(46,125,50,0.18);
 }
-/* Round 21: البطاقة الأولى (أقرب مدينة) تحصل على تلميح لونيّ خفيف — hierarchy بصريّ */
+/* Round 22: البطاقة الأولى (أقرب مدينة) تحصل على تلميح لونيّ خفيف جداً — hint لا selected.
+   المستخدم طلب: لا contrast زائد، لا يبدو selected دائم. */
 .nearby-item:first-child {
-    background: linear-gradient(135deg, #f0f7f1 0%, #e6f0e7 100%);
-    border-color: rgba(46,125,50,.22);
+    background: linear-gradient(135deg, #f8fbf8 0%, #f2f7f2 100%);
+    border-color: rgba(46,125,50,.14);
+    box-shadow: 0 1px 3px rgba(46,125,50,.04);
 }
 .nearby-item:first-child .nearby-label { color: var(--primary-dark, #1e5631); }
-.nearby-item:first-child:hover { background: #fff; }
+.nearby-item:first-child:hover {
+    background: #fff;
+    border-color: rgba(46,125,50,.3);
+    box-shadow: 0 2px 6px rgba(46,125,50,.1);
+}
 
 .nearby-item .nearby-flag { font-size: 1.2rem; flex-shrink: 0; }
 .nearby-item .nearby-info {
@@ -4068,10 +4157,20 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
 
 /* ========= قسم الكلمات المفتاحية SEO =========
    Round 20: مرئيّ على الهوم (SEO + معلومة للزائر)؛ يُخفى إن فارغاً عبر :empty */
-/* SEO Keywords — مخفيّ بصريّاً (crawlers فقط). display:none يُبقي الـ DOM لكن لا يحجز CLS.
-   (قرار Round 21: المستخدم اعتبر النصّ الطويل تحت الكروت ثقيلاً — الإخفاء يُحافظ على SEO value دون ضوضاء بصريّة.) */
+/* SEO Keywords — مخفيّ بصريّاً عبر نمط "visually hidden" القياسيّ (Round 22).
+   أفضل من display:none للـ SEO طويل المدى — جوجل لا يُعاقب النصّ المخفيّ،
+   لكن بعض search engines تعامل display:none بشيء من الحذر. */
 .seo-section {
-    display: none !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: -1px !important;
 }
 .seo-line {
     font-size: 0.97rem;
@@ -5812,6 +5911,8 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     font-size: 0.98rem;
 }
 .loc-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(46,125,50,.3); }
+/* Round 22: Icon separated من i18n text (النصّ نظيف، الأيقونة لها وزن بصريّ مستقلّ) */
+.loc-hero-cta-icon { font-size: 1.05rem; line-height: 1; display: inline-block; }
 @media (max-width: 640px) {
     .location-hero { padding: 18px 14px; }
     .loc-hero-tagline { font-size: 1.1rem; }
@@ -5975,6 +6076,18 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
    الزرّ يُحوّل data-full="true" → كلّ التايلز تظهر. */
 .countries-limited[data-full="false"] nav[aria-label="الدول العربية"] a.country-tile:nth-child(n+13) { display: none; }
 .countries-limited[data-full="false"] nav[aria-label="أبرز دول العالم"] a.country-tile:nth-child(n+11) { display: none; }
+/* Round 22: fade-in خفيف عند التوسّع (premium feel) */
+.countries-limited[data-full="true"] nav[aria-label="الدول العربية"] a.country-tile:nth-child(n+13),
+.countries-limited[data-full="true"] nav[aria-label="أبرز دول العالم"] a.country-tile:nth-child(n+11) {
+    animation: tp-countries-reveal .22s ease-out both;
+}
+@keyframes tp-countries-reveal {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .countries-limited[data-full="true"] a.country-tile { animation: none; }
+}
 .countries-toggle-wrap {
     display: flex;
     flex-wrap: wrap;
@@ -6015,5 +6128,128 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 .home-quick-access .qa-card.qa-featured:hover {
     border-color: var(--primary, #2e7d32);
     box-shadow: 0 6px 20px rgba(46,125,50,.18);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Round 22: Sticky Next-Prayer Bar (يظهر عند التمرير تحت Hero)
+   - position: fixed، يتحرّك من top: -100% إلى top: 0
+   - IntersectionObserver على البانر الأخضر
+   - Retention tool: المستخدم دائماً يرى "ما التالي"
+   ═══════════════════════════════════════════════════════════════ */
+.sticky-next-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 95; /* أقل من modals (100+) لكن فوق المحتوى */
+    background: linear-gradient(135deg, var(--primary, #2e7d32) 0%, var(--primary-dark, #1e5631) 100%);
+    color: #fff;
+    padding: 10px 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    transform: translateY(-100%);
+    transition: transform .3s ease;
+    pointer-events: none;
+}
+.sticky-next-bar.snb-visible {
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.snb-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: .92rem;
+    flex-wrap: wrap;
+}
+.snb-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold-light, #ffd75e);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 0 rgba(255,215,94,.7);
+    animation: tp-bcp-pulse 2s infinite;
+}
+@media (prefers-reduced-motion: reduce) { .snb-dot { animation: none; } }
+.snb-label { opacity: .92; }
+.snb-prayer { font-weight: 800; color: var(--gold-light, #ffd75e); }
+.snb-remaining { direction: ltr; font-weight: 700; letter-spacing: .3px; }
+.snb-sep { opacity: .4; margin: 0 2px; }
+.snb-city { opacity: .88; }
+@media (max-width: 520px) {
+    .sticky-next-bar { padding: 8px 12px; }
+    .snb-inner { gap: 6px; font-size: .85rem; }
+    .snb-city-sep, .snb-city { display: none; }  /* تبسيط على الموبايل */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Round 22: Event Countdown Badge (Ramadan / Eid) — SEO Gold
+   - يُعرض فقط إن الحدث قريب (≤ 180 يوم)
+   - يرتبط بصفحة /ramadan-countdown
+   - Seasonal trigger = traffic spike
+   ═══════════════════════════════════════════════════════════════ */
+.event-countdown-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #fff9e6 0%, #fef3d0 100%);
+    border: 1.5px solid rgba(201, 162, 39, .35);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text, #2c3e50);
+    font-size: .95rem;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    box-shadow: 0 2px 8px rgba(201, 162, 39, .08);
+}
+.event-countdown-badge[hidden] { display: none; }
+.event-countdown-badge:hover {
+    transform: translateY(-2px);
+    border-color: rgba(201, 162, 39, .6);
+    box-shadow: 0 4px 14px rgba(201, 162, 39, .18);
+    color: var(--text, #2c3e50);
+    text-decoration: none;
+}
+.ecb-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(201, 162, 39, .25));
+}
+.ecb-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.ecb-label { font-size: .88rem; color: var(--text-secondary, #6b7280); }
+.ecb-days {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #8a6914;
+}
+.ecb-cta {
+    padding: 7px 14px;
+    background: rgba(201, 162, 39, .12);
+    border: 1px solid rgba(201, 162, 39, .3);
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #8a6914;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.event-countdown-badge:hover .ecb-cta {
+    background: rgba(201, 162, 39, .22);
+    border-color: rgba(201, 162, 39, .5);
+}
+@media (max-width: 520px) {
+    .event-countdown-badge { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+    .ecb-cta { width: 100%; text-align: center; order: 3; }
+    .ecb-icon { font-size: 1.5rem; }
+    .ecb-days { font-size: 1rem; }
 }
 

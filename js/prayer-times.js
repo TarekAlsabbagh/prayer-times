@@ -216,6 +216,38 @@ const PrayerTimes = (function () {
             remainingMinutes: diff };
     }
 
+    // ====== الصلاة الحاليّة (Round 22) ======
+    // تُعيد الصلاة الأخيرة التي بدأت (بمعنى: الوقت الحاليّ ضمن نافذتها).
+    // إن كنّا قبل الفجر → نُعيد عشاء اليوم السابق (key = 'isha').
+    function getCurrentPrayer(times, timezone) {
+        var now = new Date();
+        var localOffset = -now.getTimezoneOffset() / 60;
+        var tz = (timezone !== undefined && !isNaN(timezone)) ? timezone : localOffset;
+        var cityTime = new Date(now.getTime() + (tz - localOffset) * 3600000);
+        var currentSeconds = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
+
+        // نستخدم فقط صلوات "الفجر، الظهر، العصر، المغرب، العشاء" (الشروق ليس صلاة)
+        var prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        var names   = {
+            fajr: 'الفجر', dhuhr: 'الظهر',
+            asr:  'العصر', maghrib: 'المغرب', isha:  'العشاء'
+        };
+
+        var last = null;
+        for (var i = 0; i < prayers.length; i++) {
+            var pr = prayers[i];
+            var ps = Math.floor(fixHour(times.raw[pr]) * 3600);
+            if (ps <= currentSeconds) {
+                last = { key: pr, name: names[pr], startSeconds: ps };
+            }
+        }
+        // قبل الفجر → الصلاة الحاليّة هي عشاء البارحة
+        if (!last) {
+            return { key: 'isha', name: names.isha, beforeFajr: true };
+        }
+        return last;
+    }
+
     // ====== الواجهة العامة ======
     return {
         methods,
@@ -232,6 +264,7 @@ const PrayerTimes = (function () {
         getTimesByAddress(date, lat, lng) {
             return computeAllTimes(date, lat, lng, -date.getTimezoneOffset() / 60);
         },
-        getNextPrayer
+        getNextPrayer,
+        getCurrentPrayer
     };
 })();

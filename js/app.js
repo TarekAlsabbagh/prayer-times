@@ -2384,6 +2384,12 @@ async function initApp() {
 
     // تطبيق عناوين SEO الثابتة (country tiles + popular cities في الفوتر)
     try { applyStaticLinkTitlesSEO(); } catch (_e) { /* silent */ }
+
+    // Round 22: تهيئة Sticky Next-Prayer Bar (IntersectionObserver على Hero Banner)
+    try { initStickyNextBar(); } catch (_e) { /* silent */ }
+
+    // Round 22: تهيئة Ramadan Countdown Badge (إن كان الصفحة الرئيسيّة)
+    try { initRamadanBadge(); } catch (_e) { /* silent */ }
 }
 
 // ========= التنقل بين الصفحات =========
@@ -6070,17 +6076,175 @@ function updateActivePrayer() {
     const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
     document.getElementById('next-prayer-name').textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
 
-    // تحديث البطاقة النشطة + الحاليّة (Round 21)
-    const prev = (typeof PrayerTimes.getCurrentPrayer === 'function')
+    // Round 22: تحديث البطاقة النشطة + الحاليّة
+    const curr = (typeof PrayerTimes.getCurrentPrayer === 'function')
         ? PrayerTimes.getCurrentPrayer(currentPrayerTimes, currentTimezone)
         : null;
     document.querySelectorAll('.prayer-card').forEach(card => {
         card.classList.remove('active');
         card.classList.remove('current');
         if (card.dataset.prayer === next.key) card.classList.add('active');
-        if (prev && card.dataset.prayer === prev.key) card.classList.add('current');
+        if (curr && card.dataset.prayer === curr.key) card.classList.add('current');
     });
+
+    // Round 22: Hero Banner — pill الصلاة الحاليّة
+    try {
+        const bcpWrap = document.getElementById('banner-current-prayer');
+        const bcpName = document.getElementById('banner-current-prayer-name');
+        if (bcpWrap && bcpName && curr) {
+            const localName = (typeof t === 'function') ? t('prayer.' + curr.key) : curr.name;
+            bcpName.textContent = localName;
+            bcpWrap.hidden = false;
+        } else if (bcpWrap) {
+            bcpWrap.hidden = true;
+        }
+    } catch (_e) {}
+
+    // Round 22: Hero Banner — "ثمّ" الصلاة القادمة بعدها
+    try {
+        const btWrap = document.getElementById('banner-then-prayer');
+        const btName = document.getElementById('banner-then-prayer-name');
+        const btTime = document.getElementById('banner-then-prayer-time');
+        if (btWrap && btName && btTime && next && next.key) {
+            const nextAfter = _getNextAfter(next.key);
+            if (nextAfter && currentPrayerTimes[nextAfter]) {
+                btName.textContent = (typeof t === 'function') ? t('prayer.' + nextAfter) : nextAfter;
+                btTime.textContent = currentPrayerTimes[nextAfter];
+                btWrap.hidden = false;
+            } else {
+                btWrap.hidden = true;
+            }
+        }
+    } catch (_e) {}
+
     try { updatePrayerCardsSEO(); } catch (_e) {}
+}
+
+/**
+ * Round 22 helper: يُرجع key الصلاة التي تأتي بعد الـ currentKey في التسلسل.
+ * التسلسل: fajr → sunrise → dhuhr → asr → maghrib → isha → (fajr غد)
+ * نتجاهل sunrise لأنّه ليس صلاة مكتوبة.
+ */
+function _getNextAfter(currentKey) {
+    const seq = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    // نحن عند currentKey (= "next prayer"). ما يأتي بعده؟
+    let idx = seq.indexOf(currentKey);
+    if (currentKey === 'sunrise') idx = seq.indexOf('fajr'); // بعد sunrise التالية هي dhuhr
+    if (idx < 0) return null;
+    const nextIdx = idx + 1;
+    if (nextIdx < seq.length) return seq[nextIdx];
+    return 'fajr'; // بعد العشاء → فجر الغد
+}
+
+/**
+ * Round 22: Sticky Next-Prayer Bar — يُحدَّث كلّ ثانية من updateCountdown().
+ * مع IntersectionObserver على البانر الأخضر — يظهر عند اختفاء البانر من viewport.
+ */
+function updateStickyBar(countdownStr) {
+    const remaining = document.getElementById('snb-remaining');
+    const prayer    = document.getElementById('snb-prayer-name');
+    const cityEl    = document.getElementById('snb-city');
+    if (!remaining) return;
+
+    if (countdownStr) remaining.textContent = countdownStr;
+
+    // اسم الصلاة القادمة + المدينة
+    if (currentPrayerTimes && typeof PrayerTimes !== 'undefined' && PrayerTimes.getNextPrayer) {
+        try {
+            const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
+            if (prayer && next) {
+                prayer.textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
+            }
+        } catch (_e) {}
+    }
+    if (cityEl) {
+        try { cityEl.textContent = getCurrentCityLabel() || ''; } catch (_e) {}
+    }
+}
+
+function initStickyNextBar() {
+    const bar    = document.getElementById('sticky-next-bar');
+    const banner = document.querySelector('.next-prayer-banner');
+    if (!bar || !banner || typeof IntersectionObserver === 'undefined') return;
+    // لا نُظهر الـ Sticky Bar إلا على الصفحة الرئيسيّة (صفحات أخرى لها headers مخصّصة).
+    // الشرط: Hero Banner موجود.
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                bar.classList.remove('snb-visible');
+            } else {
+                // ظهر فقط إن نزلنا أسفل البانر (ليس عند الصعود قبله)
+                if (window.scrollY > 60) bar.classList.add('snb-visible');
+            }
+        });
+    }, { rootMargin: '-50px 0px 0px 0px', threshold: 0 });
+    io.observe(banner);
+}
+
+/**
+ * Round 22: Ramadan Countdown Badge على الصفحة الرئيسيّة
+ * - يحسب الأيّام المتبقّية حتّى 1 رمضان (شهر 9 هجريّ، يوم 1)
+ * - يُعرض فقط إن كان ≤ 180 يوم (seasonal signal)
+ * - يرتبط بصفحة /ramadan-countdown الموجودة سلفاً
+ */
+function initRamadanBadge() {
+    const badge = document.getElementById('event-countdown-badge');
+    const daysEl = document.getElementById('ecb-days');
+    if (!badge || !daysEl) return;
+    if (typeof HijriDate === 'undefined' || !HijriDate.toGregorian || !HijriDate.getToday) return;
+
+    try {
+        const _hToday = HijriDate.getToday();
+        let hYear = _hToday.year;
+        // إن كنّا بعد 1 رمضان هذا العام → احسب السنة القادمة
+        const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+        let ramGreg = _toDate(HijriDate.toGregorian(hYear, 9, 1));
+        if (ramGreg && ramGreg < todayStart) {
+            hYear += 1;
+            ramGreg = _toDate(HijriDate.toGregorian(hYear, 9, 1));
+        }
+        if (!ramGreg) return;
+
+        const diffDays = Math.round((ramGreg - todayStart) / 86400000);
+        if (diffDays < 0) return;
+        if (diffDays > 180) return; // خارج موسم الاهتمام
+
+        const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        // نصّ العدّ: "142 يوم" / "142 days"
+        const dayWord = (typeof t === 'function') ? t('countdown.days_suffix') : 'يوم';
+        daysEl.textContent = diffDays + ' ' + (dayWord || 'يوم');
+
+        // أضف lang prefix للرابط
+        try {
+            const prefix = (typeof _langPrefix === 'function') ? _langPrefix(lang) : '';
+            badge.setAttribute('href', (prefix || '') + '/ramadan-countdown');
+        } catch (_e) {}
+
+        badge.hidden = false;
+
+        // SEO title
+        try {
+            const cityLabel = getCurrentCityLabel();
+            const titleAr = `باقي على رمضان ${diffDays} يوم — اعرض العدّاد التفصيليّ${cityLabel ? ' في ' + cityLabel : ''}`;
+            const titleEn = `${diffDays} days until Ramadan — open full countdown${cityLabel ? ' in ' + cityLabel : ''}`;
+            badge.setAttribute('title', lang === 'ar' ? titleAr : titleEn);
+            badge.setAttribute('aria-label', lang === 'ar' ? titleAr : titleEn);
+        } catch (_e) {}
+    } catch (_e) {
+        // silent
+    }
+
+    // helper
+    function _toDate(g) {
+        if (!g) return null;
+        if (g instanceof Date) return g;
+        if (typeof g.year === 'number') {
+            const d = new Date(g.year, (g.month || 1) - 1, g.day || 1);
+            d.setHours(0, 0, 0, 0);
+            return d;
+        }
+        return null;
+    }
 }
 
 /**
@@ -6475,8 +6639,10 @@ function startCountdown() {
         const minutes = Math.floor((diff % 3600) / 60);
         const seconds = diff % 60;
 
-        document.getElementById('next-prayer-countdown').textContent =
-            `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        const _countdownStr = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        document.getElementById('next-prayer-countdown').textContent = _countdownStr;
+        // Round 22: sync Sticky Bar countdown + prayer name
+        try { updateStickyBar(_countdownStr); } catch (_e) {}
 
         // تشغيل الأذان عند عبور ثانية وقت الصلاة بدقة كاملة
         if (_prevCurrentSeconds !== null) {

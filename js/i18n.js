@@ -23,7 +23,15 @@ const TRANSLATIONS = {
         'header.home': 'الرئيسية',
         // البانر
         'banner.current_time': 'الوقت الحالي في',
+        'banner.current_prayer': 'نحن الآن في وقت',
+        'banner.then': 'ثمّ',
+
         'banner.next_prayer': 'الوقت المتبقي للصلاة التالية',
+
+
+        'sticky.next': 'القادمة:',
+        'event_badge.ramadan': 'باقي على شهر رمضان المبارك',
+        'event_badge.view': 'اعرض العدّاد',
         'banner.today_date': 'التاريخ اليوم',
         // شريط اقتراح الموقع
         'lsb.detected': 'تم تحديد موقعك:',
@@ -949,7 +957,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'مواقيت الصلاة اليوم والتاريخ الهجريّ',
         'home.search_big': '🔍 ابحث عن مدينة أو موقع…',
-        'home.use_location': '📍 عرض مواقيت الصلاة في موقعي الآن',
+        'home.use_location': 'عرض مواقيت الصلاة في موقعي الآن',
         'home.most_searched': '🔥 الأكثر بحثاً اليوم عن مواقيت الصلاة',
         'sis.imsak': 'الإمساك',
         'sis.fasting': 'مدّة الصيام',
@@ -986,7 +994,15 @@ const TRANSLATIONS = {
         'header.home': 'Home',
         // Banner
         'banner.current_time': 'Current time in',
+        'banner.current_prayer': 'We are now in',
+        'banner.then': 'then',
+
         'banner.next_prayer': 'Time until next prayer',
+
+
+        'sticky.next': 'Next:',
+        'event_badge.ramadan': 'Until holy Ramadan',
+        'event_badge.view': 'View countdown',
         'banner.today_date': "Today's date",
         // Location suggestion bar
         'lsb.detected': 'Your location detected:',
@@ -1911,7 +1927,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': "Today's Prayer Times & Hijri Date",
         'home.search_big': '🔍 Search for a city or location…',
-        'home.use_location': '📍 Show prayer times at my location now',
+        'home.use_location': 'Show prayer times at my location now',
         'home.most_searched': '🔥 Most Searched Prayer Times Today',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Fasting Duration',
@@ -1944,7 +1960,12 @@ const TRANSLATIONS = {
         'header.my_location': 'Ma position',
         'header.home': 'Accueil',
         'banner.current_time': 'Heure actuelle à',
+        'banner.current_prayer': 'Nous sommes maintenant dans',
+        'banner.then': 'puis',
         'banner.next_prayer': 'Temps jusqu\'à la prochaine prière',
+        'sticky.next': 'Prochaine :',
+        'event_badge.ramadan': 'Avant le Ramadan béni',
+        'event_badge.view': 'Voir le compte',
         'banner.today_date': 'Date d\'aujourd\'hui',
         'lsb.detected': 'Votre position détectée :',
         'lsb.view': 'Voir les horaires',
@@ -2723,7 +2744,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': "Heures de prière du jour & date hégirienne",
         'home.search_big': '🔍 Rechercher une ville ou un lieu…',
-        'home.use_location': '📍 Afficher les horaires de prière à ma position',
+        'home.use_location': 'Afficher les horaires de prière à ma position',
         'home.most_searched': '🔥 Horaires de prière les plus recherchés aujourd\u2019hui',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Durée du jeûne',
@@ -2756,7 +2777,15 @@ const TRANSLATIONS = {
         'header.my_location': 'Konumum',
         'header.home': 'Ana Sayfa',
         'banner.current_time': 'Şu anki saat',
+        'banner.current_prayer': 'Şu anda',
+        'banner.then': 'sonra',
+
         'banner.next_prayer': 'Sonraki namaza kalan süre',
+
+
+        'sticky.next': 'Sıradaki:',
+        'event_badge.ramadan': 'Mübarek Ramazan\u2019a kalan',
+        'event_badge.view': 'Geri sayımı aç',
         'banner.today_date': 'Bugünün tarihi',
         'lsb.detected': 'Konumunuz tespit edildi:',
         'lsb.view': 'Vakitleri Gör',
@@ -3535,7 +3564,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Bugünün Namaz Vakitleri & Hicri Tarih',
         'home.search_big': '🔍 Şehir veya konum ara…',
-        'home.use_location': '📍 Konumuma göre namaz vakitlerini göster',
+        'home.use_location': 'Konumuma göre namaz vakitlerini göster',
         'home.most_searched': '🔥 Bugün En Çok Aranan Namaz Vakitleri',
         'sis.imsak': 'İmsak',
         'sis.fasting': 'Oruç Süresi',
@@ -3568,7 +3597,15 @@ const TRANSLATIONS = {
         'header.my_location': 'میرا مقام',
         'header.home': 'ہوم',
         'banner.current_time': 'موجودہ وقت',
+        'banner.current_prayer': 'ہم ابھی ہیں',
+        'banner.then': 'پھر',
+
         'banner.next_prayer': 'اگلی نماز تک وقت',
+
+
+        'sticky.next': 'اگلی:',
+        'event_badge.ramadan': 'مبارک رمضان تک باقی',
+        'event_badge.view': 'الٹی گنتی دیکھیں',
         'banner.today_date': 'آج کی تاریخ',
         'lsb.detected': 'آپ کا مقام متعین ہوا:',
         'lsb.view': 'اوقات دیکھیں',
@@ -4347,7 +4384,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'آج کے اوقاتِ نماز اور ہجری تاریخ',
         'home.search_big': '🔍 شہر یا مقام تلاش کریں…',
-        'home.use_location': '📍 میرے مقام پر نماز کے اوقات دکھائیں',
+        'home.use_location': 'میرے مقام پر نماز کے اوقات دکھائیں',
         'home.most_searched': '🔥 آج سب سے زیادہ تلاش کیے گئے نماز کے اوقات',
         'sis.imsak': 'امساک',
         'sis.fasting': 'روزے کا دورانیہ',
@@ -4384,7 +4421,15 @@ const TRANSLATIONS = {
         'header.home': 'Startseite',
         // Banner
         'banner.current_time': 'Aktuelle Uhrzeit in',
+        'banner.current_prayer': 'Wir sind jetzt in',
+        'banner.then': 'dann',
+
         'banner.next_prayer': 'Zeit bis zum nächsten Gebet',
+
+
+        'sticky.next': 'Nächste:',
+        'event_badge.ramadan': 'Bis zum gesegneten Ramadan',
+        'event_badge.view': 'Countdown öffnen',
         'banner.today_date': 'Heutiges Datum',
         // Location suggestion bar
         'lsb.detected': 'Ihr Standort wurde erkannt:',
@@ -5215,7 +5260,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Heutige Gebetszeiten & Hidschri-Datum',
         'home.search_big': '🔍 Stadt oder Ort suchen…',
-        'home.use_location': '📍 Gebetszeiten an meinem Standort anzeigen',
+        'home.use_location': 'Gebetszeiten an meinem Standort anzeigen',
         'home.most_searched': '🔥 Meistgesuchte Gebetszeiten heute',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Fastendauer',
@@ -5251,7 +5296,15 @@ const TRANSLATIONS = {
         'header.home': 'Beranda',
         // Banner
         'banner.current_time': 'Waktu sekarang di',
+        'banner.current_prayer': 'Sekarang waktunya',
+        'banner.then': 'lalu',
+
         'banner.next_prayer': 'Waktu menuju sholat berikutnya',
+
+
+        'sticky.next': 'Berikutnya:',
+        'event_badge.ramadan': 'Menjelang Ramadan mubarak',
+        'event_badge.view': 'Lihat hitung mundur',
         'banner.today_date': 'Tanggal hari ini',
         // Location suggestion bar
         'lsb.detected': 'Lokasi Anda telah terdeteksi:',
@@ -6082,7 +6135,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Jadwal Sholat Hari Ini & Tanggal Hijriah',
         'home.search_big': '🔍 Cari kota atau lokasi…',
-        'home.use_location': '📍 Tampilkan jadwal shalat di lokasi saya',
+        'home.use_location': 'Tampilkan jadwal shalat di lokasi saya',
         'home.most_searched': '🔥 Jadwal Shalat Paling Dicari Hari Ini',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Durasi Puasa',
@@ -6118,7 +6171,15 @@ const TRANSLATIONS = {
         'header.home': 'Inicio',
         // Banner
         'banner.current_time': 'Hora actual en',
+        'banner.current_prayer': 'Estamos en',
+        'banner.then': 'luego',
+
         'banner.next_prayer': 'Tiempo hasta la próxima oración',
+
+
+        'sticky.next': 'Siguiente:',
+        'event_badge.ramadan': 'Para el bendito Ramadán',
+        'event_badge.view': 'Ver cuenta atrás',
         'banner.today_date': 'Fecha de hoy',
         // Location suggestion bar
         'lsb.detected': 'Se ha detectado tu ubicación:',
@@ -6949,7 +7010,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Horarios de oración hoy y fecha hijri',
         'home.search_big': '🔍 Buscar una ciudad o ubicación…',
-        'home.use_location': '📍 Ver horarios de oración en mi ubicación',
+        'home.use_location': 'Ver horarios de oración en mi ubicación',
         'home.most_searched': '🔥 Horarios de oración más buscados hoy',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Duración del ayuno',
@@ -6985,7 +7046,15 @@ const TRANSLATIONS = {
         'header.home': 'হোম',
         // Banner
         'banner.current_time': 'বর্তমান সময়',
+        'banner.current_prayer': 'এখন আমরা আছি',
+        'banner.then': 'তারপর',
+
         'banner.next_prayer': 'পরবর্তী নামাজের সময়',
+
+
+        'sticky.next': 'পরবর্তী:',
+        'event_badge.ramadan': 'পবিত্র রমজান পর্যন্ত',
+        'event_badge.view': 'কাউন্টডাউন দেখুন',
         'banner.today_date': 'আজকের তারিখ',
         // Location suggestion bar
         'lsb.detected': 'আপনার অবস্থান সনাক্ত করা হয়েছে:',
@@ -7816,7 +7885,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'আজকের নামাজের সময় ও হিজরি তারিখ',
         'home.search_big': '🔍 শহর বা অবস্থান খুঁজুন…',
-        'home.use_location': '📍 আমার অবস্থানের নামাজের সময় দেখান',
+        'home.use_location': 'আমার অবস্থানের নামাজের সময় দেখান',
         'home.most_searched': '🔥 আজ সবচেয়ে বেশি অনুসন্ধান করা নামাজের সময়',
         'sis.imsak': 'ইমসাক',
         'sis.fasting': 'রোজার সময়কাল',
@@ -7852,7 +7921,15 @@ const TRANSLATIONS = {
         'header.home': 'Utama',
         // Banner
         'banner.current_time': 'Waktu sekarang di',
+        'banner.current_prayer': 'Kini waktu',
+        'banner.then': 'kemudian',
+
         'banner.next_prayer': 'Waktu menuju solat seterusnya',
+
+
+        'sticky.next': 'Seterusnya:',
+        'event_badge.ramadan': 'Menjelang Ramadan mubarak',
+        'event_badge.view': 'Lihat kira detik',
         'banner.today_date': 'Tarikh hari ini',
         // Location suggestion bar
         'lsb.detected': 'Lokasi anda telah dikesan:',
@@ -8683,7 +8760,7 @@ const TRANSLATIONS = {
         // Round 20: Hero + Summary Strip + Compact toggles
         'home.tagline': 'Waktu Solat Hari Ini & Tarikh Hijrah',
         'home.search_big': '🔍 Cari bandar atau lokasi…',
-        'home.use_location': '📍 Tunjuk waktu solat di lokasi saya',
+        'home.use_location': 'Tunjuk waktu solat di lokasi saya',
         'home.most_searched': '🔥 Waktu Solat Paling Dicari Hari Ini',
         'sis.imsak': 'Imsak',
         'sis.fasting': 'Tempoh Berpuasa',

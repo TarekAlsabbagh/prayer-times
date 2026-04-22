@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:en\/)?hijri-calendar\/[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:en\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}var _mdm=location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-\d{2}-\d{2}$/);if(_mdm){document.documentElement.classList.add('moon-date-page');document.documentElement.classList.add(parseInt(_mdm[3],10)<1800?'moon-hijri-context':'moon-gregorian-context');}if(!_mdm&&/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(location.pathname)){document.documentElement.classList.add('moon-hub-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/.test(location.pathname)){document.documentElement.classList.add('countdown-page');var _cdMatch=location.pathname.match(/(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown/);if(_cdMatch)document.documentElement.classList.add('countdown-'+_cdMatch[1]);}</script>
+    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');document.documentElement.classList.add('time-left-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-time-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');document.documentElement.classList.add('next-prayer-time-page');}var _mdm=location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-\d{2}-\d{2}$/);if(_mdm){document.documentElement.classList.add('moon-date-page');document.documentElement.classList.add(parseInt(_mdm[3],10)<1800?'moon-hijri-context':'moon-gregorian-context');}if(!_mdm&&/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(location.pathname)){document.documentElement.classList.add('moon-hub-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/.test(location.pathname)){document.documentElement.classList.add('countdown-page');var _cdMatch=location.pathname.match(/(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown/);if(_cdMatch)document.documentElement.classList.add('countdown-'+_cdMatch[1]);}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=316" as="script">
-    <link rel="stylesheet" href="css/style.css?v=95">
+    <link rel="preload" href="js/app.js?v=378" as="script">
+    <link rel="stylesheet" href="css/style.css?v=114">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -83,17 +83,27 @@
         <main class="main-content">
 
             <!-- ===== Round 22: Sticky Next-Prayer Bar (يظهر عند التمرير تحت Hero) ===== -->
-            <div class="sticky-next-bar" id="sticky-next-bar" role="status" aria-live="polite">
+            <!-- 🆕 Round 4 (Minimal): Sticky bar = clickable → /time-left-until-prayer-in-{slug} -->
+            <a class="sticky-next-bar" id="sticky-next-bar" role="status" aria-live="polite" href="#">
                 <div class="snb-inner">
                     <span class="snb-dot" aria-hidden="true"></span>
-                    <span class="snb-label" data-i18n="sticky.next">القادمة:</span>
+                    <span class="snb-label">
+                        <!-- 🆕 Round 3.1: span حاليّ للحالة العاديّة + span بديل لحالة «حان الآن» -->
+                        <span class="snb-label-normal" data-i18n="sticky.next">القادمة:</span>
+                        <span class="snb-label-now" data-i18n="sticky.now_time">🕌 حان الآن وقت</span>
+                    </span>
                     <b class="snb-prayer" id="snb-prayer-name">--</b>
                     <span class="snb-sep" aria-hidden="true">·</span>
                     <span class="snb-remaining" id="snb-remaining">--</span>
                     <span class="snb-sep snb-city-sep" aria-hidden="true">|</span>
                     <span class="snb-city" id="snb-city">--</span>
+                    <!-- 🆕 UX Polish: CTA hint يوضّح أنّ الشريط clickable -->
+                    <span class="snb-cta" aria-hidden="true">
+                        <span class="snb-cta-text" data-i18n="sticky.cta_details">التفاصيل</span>
+                        <span class="snb-cta-arrow">›</span>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- ===== الهيدر الثابت المشترك لجميع الصفحات ===== -->
             <div class="top-header">
@@ -112,17 +122,6 @@
                             <span class="lang-caret">▾</span>
                         </button>
                         <div class="lang-menu" role="menu"></div>
-                    </div>
-                    <!-- Hidden header search (preserved in DOM for Hero mirror logic — Round 23) -->
-                    <div class="city-search-wrapper header-search-hidden" aria-hidden="true">
-                        <input type="text" id="city-search-input" class="city-search-input"
-                            placeholder="🔍 ابحث عن مدينة أو موقع..."
-                            data-i18n-placeholder="header.search_placeholder"
-                            autocomplete="off"
-                            tabindex="-1"
-                            oninput="onCitySearchInput(this.value)"
-                            onkeydown="onSearchKeyDown(event)">
-                        <div class="city-search-suggestions" id="city-suggestions"></div>
                     </div>
                     <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
                 </div>
@@ -152,24 +151,146 @@
 
                 <!-- H1 رئيسي للصفحة — يُستبدَل نصّه عبر SSR حسب الـ URL
                      مرئي بصرياً بحجم صغير (SEO + A11y) -->
-                <h1 class="page-h1" id="page-h1">مواقيت الصلاة والتاريخ الهجري</h1>
-
-                <!-- ===== مسار التنقل (Breadcrumb) — يظهر فقط على صفحات /prayer-times-in-{city} ===== -->
+                <!-- ===== مسار التنقل (Breadcrumb 3-levels + Schema.org) — يظهر فقط على صفحات /prayer-times-in-{city} ===== -->
                 <nav class="city-breadcrumb" id="city-breadcrumb" aria-label="مسار التنقل">
-                    <ol class="breadcrumb-list">
-                        <li class="bc-item">
-                            <a class="bc-link" href="/" id="bc-home" data-i18n="breadcrumb.home">الرئيسية</a>
+                    <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+                        <li class="bc-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a class="bc-link" href="/" id="bc-home" itemprop="item"><span itemprop="name" id="bc-home-name" data-i18n="breadcrumb.home">الرئيسية</span></a>
+                            <meta itemprop="position" content="1" />
                         </li>
                         <li class="bc-sep" aria-hidden="true">›</li>
-                        <li class="bc-item">
-                            <a class="bc-link" href="#" id="bc-country">--</a>
+                        <li class="bc-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <a class="bc-link" href="#" id="bc-country" itemprop="item"><span itemprop="name" id="bc-country-name">--</span></a>
+                            <meta itemprop="position" content="2" />
                         </li>
                         <li class="bc-sep" aria-hidden="true">›</li>
-                        <li class="bc-item bc-current">
-                            <span id="bc-city" aria-current="page">--</span>
+                        <li class="bc-item bc-current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <span itemprop="name" id="bc-city" aria-current="page">--</span>
+                            <meta itemprop="position" content="3" />
                         </li>
                     </ol>
                 </nav>
+
+                <!-- 🆕 City Page Compact Search — يستخدم البحث الأصليّ مباشرة (بدون mirror) -->
+                <section class="city-page-search" id="city-page-search" role="search" aria-label="ابحث عن مدينة أخرى">
+                    <div class="cps-inner">
+                        <span class="cps-icon" aria-hidden="true">🔍</span>
+                        <input type="search" id="city-search-input" class="cps-input"
+                               placeholder="ابحث عن مدينة أخرى..."
+                               data-i18n-placeholder="cps.placeholder"
+                               autocomplete="off"
+                               aria-label="ابحث عن مدينة أخرى"
+                               data-i18n-aria-label="cps.placeholder"
+                               oninput="onCitySearchInput(this.value)"
+                               onkeydown="onSearchKeyDown(event)">
+                        <button class="cps-locate" type="button" onclick="detectLocation()" title="استخدم موقعي" data-i18n-title="home.use_location" aria-label="استخدم موقعي">
+                            <span aria-hidden="true">📍</span>
+                        </button>
+                        <div class="cps-suggestions" id="city-suggestions" role="listbox"></div>
+                    </div>
+                </section>
+
+                <!-- 🆕 City Hero Answer (Phase 2) — يظهر فقط في city-page عبر html.city-page CSS -->
+                <section class="section-card city-hero-answer u-hidden" id="city-hero-answer" aria-labelledby="cha-question">
+                    <!-- SSR:CITY_HERO_ANSWER -->
+                    <div class="cha-location">📍 <span id="cha-city-label">—</span><span id="cha-country-wrap" hidden>, <span id="cha-country-label">—</span></span></div>
+                    <h2 class="cha-question" id="cha-question">
+                        <span data-i18n="cha.title_prefix">مواقيت الصلاة في</span> <span id="cha-city-inline">—</span> <span data-i18n="cha.title_suffix">اليوم</span>
+                    </h2>
+                    <div class="cha-next-row">
+                        <span class="cha-next-label" data-i18n="cha.next">الصلاة القادمة:</span>
+                        <b class="cha-next-name" id="cha-next-name">—</b>
+                        <span class="cha-next-sep" aria-hidden="true">•</span>
+                        <span class="cha-next-time" id="cha-next-time">—</span>
+                    </div>
+                    <!-- 🆕 Round 2.1: countdown with "متبقي:" label for clearer context -->
+                    <div class="cha-countdown" aria-live="polite">
+                        <span class="cha-countdown-label" data-i18n="cha.remaining">متبقي:</span>
+                        <span class="cha-countdown-value" id="cha-countdown">—</span>
+                    </div>
+                    <!-- 🆕 Round 3.1 — Smart CTA: قفزة سريعة إلى البطاقة النشطة -->
+                    <button class="cha-cta" id="cha-cta" type="button" onclick="jumpToActivePrayer()" data-i18n="cha.cta_jump">↓ انتقل إلى الصلاة القادمة</button>
+                    <div class="cha-quick-times" id="cha-quick-times"></div>
+                </section>
+
+                <!-- 🆕 Time-Left TOOL Page (Round 5) — Tool-first design: HUGE countdown, minimal context, no duplication -->
+                <section class="section-card tl-hero u-hidden" id="tl-hero" aria-labelledby="tl-h1">
+                    <div class="tl-location">📍 <span id="tl-city-label">—</span></div>
+                    <h1 class="tl-h1" id="tl-h1">
+                        <span data-i18n="tl.h1_prefix">كم باقي على صلاة</span>
+                        <b class="tl-h1-prayer" id="tl-h1-prayer">—</b>
+                        <span data-i18n="tl.h1_in">في</span>
+                        <b class="tl-h1-city" id="tl-city">—</b>؟
+                    </h1>
+                    <div class="tl-countdown" id="tl-countdown" aria-live="polite" aria-label="Time remaining">--:--:--</div>
+                    <div class="tl-live" aria-hidden="true">
+                        <span class="tl-live-dot"></span>
+                        <span class="tl-live-text" data-i18n="tl.live">مباشر الآن</span>
+                    </div>
+                    <!-- 🆕 Level 3: تبسيط سطر واحد "الصلاة القادمة: X • HH:MM ص" -->
+                    <div class="tl-meta">
+                        <span class="tl-meta-label" data-i18n="tl.next">الصلاة القادمة:</span>
+                        <b class="tl-prayer-name" id="tl-prayer-name">—</b>
+                        <span class="tl-meta-sep" aria-hidden="true">•</span>
+                        <b class="tl-prayer-time" id="tl-prayer-time">--:--</b>
+                    </div>
+                    <div class="tl-autoupdate" aria-hidden="true">
+                        <span data-i18n="tl.auto_update">⏳ يتم تحديث العد تلقائيًا</span>
+                    </div>
+                    <a class="tl-cta" id="tl-cta" href="#">
+                        <span class="tl-cta-text" id="tl-cta-text" data-i18n="tl.cta_all">عرض جميع مواقيت الصلاة اليوم في {loc}</span>
+                        <span class="tl-cta-arrow" aria-hidden="true">←</span>
+                    </a>
+
+                    <!-- 🆕 Simple Timeline (6 prayers, "now" marker) -->
+                    <ul class="tl-timeline" id="tl-timeline" aria-label="Prayer sequence"></ul>
+
+                    <!-- 🆕 Tiny SEO paragraph (2 lines max) -->
+                    <p class="tl-seo" id="tl-seo"></p>
+                </section>
+
+                <!-- 🆕 Level 3: Sticky Mini Timer — يظهر عند scroll بعد الـ hero -->
+                <div class="tl-sticky" id="tl-sticky" aria-hidden="true">
+                    <span class="tl-sticky-icon">⏳</span>
+                    <b class="tl-sticky-cd" id="tl-sticky-cd">--:--:--</b>
+                    <span class="tl-sticky-sep">على</span>
+                    <b class="tl-sticky-prayer" id="tl-sticky-prayer">—</b>
+                </div>
+
+                <!-- 🆕 Next-Prayer-Time Hero (Round 4 Minimal) — يظهر فقط في /next-prayer-time-in-{slug} عبر html.next-prayer-time-page CSS -->
+                <!-- R-3: H1 بإضافة «اليوم» — R-1: label «اليوم» — R-2: 3 صلوات دائماً -->
+                <section class="section-card npt-hero u-hidden" id="npt-hero" aria-labelledby="npt-h1">
+                    <div class="npt-hero-inner">
+                        <h1 id="npt-h1" class="npt-h1">
+                            <span data-i18n="npt.h1_prefix">الصلاة القادمة في</span>
+                            <span class="npt-h1-city" id="npt-h1-city">—</span>
+                            <span class="npt-h1-today" data-i18n="npt.h1_today">اليوم</span>
+                        </h1>
+                        <div class="npt-next-card">
+                            <div class="npt-next-label" data-i18n="npt.next_is">الصلاة القادمة اليوم:</div>
+                            <div class="npt-next-name" id="npt-next-name">—</div>
+                            <div class="npt-next-time" id="npt-next-time">—</div>
+                        </div>
+                        <div class="npt-upcoming" aria-label="Upcoming prayers">
+                            <div class="npt-upcoming-title" data-i18n="npt.after">بعدها:</div>
+                            <ul class="npt-upcoming-list" id="npt-upcoming-list"></ul>
+                        </div>
+
+                        <!-- 🆕 CTA رئيسيّ — نصّ فيه {loc} يُستبدَل بـ JS -->
+                        <a class="npt-cta" id="npt-cta" href="#">
+                            <span class="npt-cta-text" id="npt-cta-text" data-i18n="npt.cta_all">عرض جميع مواقيت الصلاة في {loc}</span>
+                            <span class="npt-cta-arrow" aria-hidden="true">→</span>
+                        </a>
+
+                        <!-- 🆕 رابط ثانويّ صغير إلى time-left — نصّ {prayer} + {city} يُستبدلان بـ JS -->
+                        <a class="npt-secondary" id="npt-secondary" href="#" data-i18n="npt.how_long">كم باقي على صلاة {prayer} في {city}؟</a>
+
+                        <!-- 🆕 فقرة SEO قصيرة (سطر أو سطران) — تُمَلَأ بـ JS لكلّ لغة -->
+                        <p class="npt-seo" id="npt-seo"></p>
+                    </div>
+                </section>
+
+                <h1 class="page-h1" id="page-h1">مواقيت الصلاة والتاريخ الهجري</h1>
 
                 <!-- شريط اقتراح المدينة المكتشفة (يظهر فقط إذا تم الاكتشاف) -->
                 <div class="location-suggestion-bar u-hidden" id="location-suggestion-bar">
@@ -231,31 +352,37 @@
                         <span class="prayer-icon">🌄</span>
                         <div class="prayer-name" data-i18n="prayer.fajr">الفجر</div>
                         <div class="prayer-time" id="time-fajr">--:--</div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="sunrise">
                         <span class="prayer-icon">🌅</span>
                         <div class="prayer-name" data-i18n="prayer.sunrise">الشروق</div>
                         <div class="prayer-time" id="time-sunrise">--:--</div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="dhuhr">
                         <span class="prayer-icon">☀️</span>
                         <div class="prayer-name" data-i18n="prayer.dhuhr">الظهر</div>
                         <div class="prayer-time" id="time-dhuhr">--:--</div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="asr">
                         <span class="prayer-icon">🌤️</span>
                         <div class="prayer-name" data-i18n="prayer.asr">العصر</div>
                         <div class="prayer-time" id="time-asr">--:--</div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="maghrib">
                         <span class="prayer-icon">🌇</span>
                         <div class="prayer-name" data-i18n="prayer.maghrib">المغرب</div>
                         <div class="prayer-time" id="time-maghrib">--:--</div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="isha">
                         <span class="prayer-icon">🌃</span>
                         <div class="prayer-name" data-i18n="prayer.isha">العشاء</div>
                         <div class="prayer-time" id="time-isha">--:--</div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                 </div>
 
@@ -273,17 +400,36 @@
                     <span class="ecb-cta" data-i18n="event_badge.view">اعرض العدّاد</span>
                 </a>
 
-                <!-- ⭐ Summary+Info Strip — 3 عناصر + زرّ إعدادات (يدمج Additional Info + Settings FAB) -->
+                <!-- ⭐ Summary+Info Strip — 4 عناصر + زرّ إعدادات (Phase 2: +طريقة الحساب) -->
                 <div class="section-card summary-info-strip" id="summary-info-strip">
                     <span class="sis-item">🌅 <span data-i18n="sis.imsak">الإمساك</span>: <b id="sis-imsak">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
                     <span class="sis-item">⏳ <span data-i18n="sis.fasting">مدّة الصيام</span>: <b id="sis-fasting">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
                     <span class="sis-item">🌙 <span data-i18n="sis.last_third">آخر ثلث الليل</span>: <b id="sis-last-third">—</b></span>
+                    <span class="sis-sep" aria-hidden="true">•</span>
+                    <span class="sis-item">📐 <span data-i18n="sis.calc_method">طريقة الحساب</span>: <b id="sis-calc-method">—</b></span>
                     <button class="sis-settings" onclick="openSettingsModal()" type="button" aria-label="إعدادات حساب المواقيت">
                         ⚙️ <span data-i18n="settings.trigger_short">إعدادات</span>
                     </button>
                 </div>
+
+                <!-- 🆕 City Summary Paragraph (Phase 2) — فقرة SEO غنيّة، تُحقَن SSR لصفحات المدن -->
+                <section class="section-card city-summary-paragraph u-hidden" id="city-summary-paragraph">
+                    <!-- 🆕 Round 2: visible short summary (user-facing, 1 line) -->
+                    <p id="city-summary-visible" class="city-summary-visible"><!-- SSR:CITY_SUMMARY_SHORT --></p>
+
+                    <!-- 🔒 Round 2: hidden SEO paragraph — visually hidden via clip-path, crawlable by Google -->
+                    <p id="city-summary-text" class="city-summary-hidden-seo"><!-- SSR:CITY_SUMMARY --></p>
+
+                    <!-- Polish Round (B): سطر حيّ ديناميكيّ — engagement booster -->
+                    <div class="city-summary-live" id="city-summary-live" aria-live="polite">
+                        <span class="csl-label" data-i18n="summary.next_prefix">الصلاة القادمة:</span>
+                        <span class="csl-prayer" id="csl-prayer-name">—</span>
+                        <span class="csl-sep" data-i18n="summary.in_words">خلال</span>
+                        <span class="csl-countdown" id="csl-countdown">—</span>
+                    </div>
+                </section>
 
                 <!-- قسم الكلمات المفتاحية SEO (مخفيّ بصريّاً — للـ crawlers فقط، display:none فلا CLS) -->
                 <div class="section-card seo-section" id="seo-keywords">
@@ -505,7 +651,9 @@
                 <div class="section-card city-about-section" id="city-about-section">
                     <h2 id="city-about-title">معلومات عن المدينة</h2>
                     <div class="city-about-body">
-                        <p id="city-about-extract" class="city-about-extract"></p>
+                        <p id="city-about-extract" class="city-about-extract city-about-clamped"></p>
+                        <!-- 🆕 Round 2: expand/collapse toggle (hidden by default; JS reveals if scrollHeight > clientHeight) -->
+                        <button class="city-about-toggle" id="city-about-toggle" type="button" onclick="toggleCityAbout(this)" data-i18n="cityabout.expand" hidden>عرض المزيد</button>
                         <a id="city-about-link" class="city-about-link" href="#" target="_blank" rel="noopener nofollow"></a>
                     </div>
                 </div>
@@ -516,59 +664,160 @@
                     <div class="related-services-grid" id="related-services-grid"></div>
                 </div>
 
+                <!-- 🆕 Related Links (Polish Round E) — 3 tiers × 6 روابط: Live / Info / Nav — intent-based navigation -->
+                <section class="section-card related-links-section u-hidden" id="related-links-section" aria-labelledby="rls-title">
+                    <h3 class="rls-title" id="rls-title">
+                        <span data-i18n="rls.title_prefix">روابط ذات صلة في</span>
+                        <span id="rls-city-label">—</span>
+                    </h3>
+
+                    <!-- 🟢 Tier 1: Live Intent — أخضر مع badge "الآن" -->
+                    <div class="rls-tier rls-tier-live">
+                        <h4 class="rls-tier-label" data-i18n="rls.tier_live">الآن</h4>
+                        <ul class="rls-list rls-list-live">
+                            <li><a id="rl-time-left" href="#" data-rel="time-left">
+                                <span class="rls-icon" aria-hidden="true">⏳</span>
+                                <span class="rls-text" data-i18n="rls.time_left">كم باقي على الصلاة في {loc}</span>
+                                <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
+                            </a></li>
+                            <li><a id="rl-next-prayer" href="#" data-rel="next-prayer">
+                                <span class="rls-icon" aria-hidden="true">🕌</span>
+                                <span class="rls-text" data-i18n="rls.next_prayer">الصلاة القادمة في {loc}</span>
+                                <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
+                            </a></li>
+                            <li><a id="rl-qibla" href="#" data-rel="qibla">
+                                <span class="rls-icon" aria-hidden="true">🧭</span>
+                                <span class="rls-text" data-i18n="rls.qibla">اتّجاه القبلة في {loc}</span>
+                                <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
+                            </a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 🔵 Tier 2: Info Intent — أزرق رماديّ -->
+                    <div class="rls-tier rls-tier-info">
+                        <h4 class="rls-tier-label" data-i18n="rls.tier_info">معلومات</h4>
+                        <ul class="rls-list rls-list-info">
+                            <li><a id="rl-hijri" href="/hijri-calendar" data-rel="hijri">
+                                <span class="rls-icon" aria-hidden="true">📅</span>
+                                <span class="rls-text" data-i18n="rls.hijri">التاريخ الهجريّ اليوم في {loc}</span>
+                            </a></li>
+                            <li><a id="rl-moon" href="#" data-rel="moon">
+                                <span class="rls-icon" aria-hidden="true">🌙</span>
+                                <span class="rls-text" data-i18n="rls.moon">حالة القمر اليوم في {loc}</span>
+                            </a></li>
+                        </ul>
+                    </div>
+
+                    <!-- ⚪ Tier 3: Navigational Intent — outline + سهم → -->
+                    <div class="rls-tier rls-tier-nav">
+                        <h4 class="rls-tier-label" data-i18n="rls.tier_nav">تصفّح</h4>
+                        <ul class="rls-list rls-list-nav">
+                            <li><a id="rl-weekly" href="#prayer-schedule-section" data-rel="weekly">
+                                <span class="rls-text" data-i18n="rls.weekly">الجدول الأسبوعيّ في {loc}</span>
+                                <span class="rls-arrow" aria-hidden="true">→</span>
+                            </a></li>
+                            <li><a id="rl-country" href="#" data-rel="country">
+                                <span class="rls-text" data-i18n="rls.country">مواقيت الصلاة اليوم في {loc}</span>
+                                <span class="rls-arrow" aria-hidden="true">→</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 🆕 Other Trending Cities (Phase 2) — مدن يبحث عنها الناس الآن (popularity، مستبعد المدينة الحاليّة) -->
+                <section class="section-card other-trending-cities u-hidden" id="other-trending-cities" aria-labelledby="otc-title">
+                    <h3 class="otc-title" id="otc-title" data-i18n="otc.title">🔥 مدن أخرى يبحث عنها الناس الآن</h3>
+                    <div class="otc-list" id="otc-list"></div>
+                </section>
+
                 <!-- 🕌 الخدمات الإسلامية — 8 بطاقات (Round 20: نُقلت لأسفل | Round 21: Qibla + Moon مميّزتان + SEO titles) -->
                 <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
                     <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
                     <div class="qa-grid">
                         <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;"
-                           title="معرفة التاريخ الهجري اليوم بالتفصيل"
-                           aria-label="التاريخ الهجري اليوم بالتفصيل">
+                           data-i18n-title="home.hijri_today"
+                           data-i18n-aria-label="home.hijri_today"
+                           title="التاريخ الهجري اليوم"
+                           aria-label="التاريخ الهجري اليوم">
                             <span class="qa-icon">📅</span>
                             <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
                             <div class="qa-sub" id="qa-hijri-date">--</div>
                         </a>
                         <a class="qa-card qa-featured" href="#" onclick="navToPage('qibla');return false;"
-                           title="تحديد اتجاه القبلة الآن من موقعك"
-                           aria-label="اتجاه القبلة من موقعك الحاليّ">
+                           data-i18n-title="home.qibla"
+                           data-i18n-aria-label="home.qibla"
+                           title="اتجاه القبلة"
+                           aria-label="اتجاه القبلة">
                             <span class="qa-icon">🧭</span>
                             <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
                             <div class="qa-sub" id="qa-qibla-dir">--</div>
                         </a>
                         <a class="qa-card qa-featured" href="#" onclick="navToPage('moon');return false;"
-                           title="حالة القمر اليوم — الطور والنسبة والعمر"
-                           aria-label="حالة القمر اليوم والمرحلة القمريّة">
+                           data-i18n-title="home.moon"
+                           data-i18n-aria-label="home.moon"
+                           title="القمر اليوم"
+                           aria-label="القمر اليوم">
                             <span class="qa-icon" id="qa-moon-icon">🌙</span>
                             <div class="qa-title" data-i18n="home.moon">القمر اليوم</div>
                             <div class="qa-sub" id="qa-moon-phase">--</div>
                         </a>
+                        <!-- 🆕 Round 7 (Homepage Audit): entry points to single-purpose pages — closes 0-link gap -->
+                        <a class="qa-card" id="qa-time-left" href="{LANG_PREFIX}/time-left-until-prayer-in-mecca"
+                           data-i18n-title="home.time_left"
+                           data-i18n-aria-label="home.time_left"
+                           title="كم باقي على الصلاة"
+                           aria-label="كم باقي على الصلاة">
+                            <span class="qa-icon">⏳</span>
+                            <div class="qa-title" data-i18n="home.time_left">كم باقي على الصلاة</div>
+                            <div class="qa-sub" id="qa-time-left-sub" data-i18n="home.time_left_sub">الوقت المتبقّي للصلاة التالية</div>
+                        </a>
+                        <a class="qa-card" id="qa-next-prayer" href="{LANG_PREFIX}/next-prayer-time-in-mecca"
+                           data-i18n-title="home.next_prayer"
+                           data-i18n-aria-label="home.next_prayer"
+                           title="الصلاة القادمة"
+                           aria-label="الصلاة القادمة">
+                            <span class="qa-icon">🕌</span>
+                            <div class="qa-title" data-i18n="home.next_prayer">الصلاة القادمة</div>
+                            <div class="qa-sub" id="qa-next-prayer-sub" data-i18n="home.next_prayer_sub">اسم الصلاة التالية ووقتها</div>
+                        </a>
                         <a class="qa-card" href="#" onclick="navToPage('date-converter');return false;"
-                           title="تحويل التاريخ بين الميلادي والهجري"
-                           aria-label="تحويل التاريخ ميلادي هجري">
+                           data-i18n-title="home.date_converter"
+                           data-i18n-aria-label="home.date_converter"
+                           title="تحويل التاريخ"
+                           aria-label="تحويل التاريخ">
                             <span class="qa-icon">🔄</span>
                             <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
                             <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('hijri-calendar');return false;"
-                           title="التقويم الهجري — عرض الأشهر والمناسبات"
-                           aria-label="التقويم الهجري الكامل">
+                           data-i18n-title="nav.hijri_calendar"
+                           data-i18n-aria-label="nav.hijri_calendar"
+                           title="التقويم الهجري"
+                           aria-label="التقويم الهجري">
                             <span class="qa-icon">🗓️</span>
                             <div class="qa-title" data-i18n="nav.hijri_calendar">التقويم الهجري</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('duas');return false;"
-                           title="أدعية وأذكار المسلم اليوميّة من الكتاب والسنّة"
-                           aria-label="الأدعية والأذكار اليوميّة">
+                           data-i18n-title="nav.duas"
+                           data-i18n-aria-label="nav.duas"
+                           title="الأدعية والأذكار"
+                           aria-label="الأدعية والأذكار">
                             <span class="qa-icon">🤲</span>
                             <div class="qa-title" data-i18n="nav.duas">الأدعية والأذكار</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;"
-                           title="مسبحة إلكترونيّة لعدّ الأذكار والتسابيح"
-                           aria-label="المسبحة الإلكترونيّة لعدّ التسابيح">
+                           data-i18n-title="nav.tasbih"
+                           data-i18n-aria-label="nav.tasbih"
+                           title="المسبحة الإلكترونية"
+                           aria-label="المسبحة الإلكترونية">
                             <span class="qa-icon">📿</span>
                             <div class="qa-title" data-i18n="nav.tasbih">المسبحة الإلكترونية</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('zakat');return false;"
-                           title="حاسبة الزكاة — نصاب الذهب والفضة والمال"
-                           aria-label="حاسبة الزكاة الشرعيّة">
+                           data-i18n-title="nav.zakat"
+                           data-i18n-aria-label="nav.zakat"
+                           title="حاسبة الزكاة"
+                           aria-label="حاسبة الزكاة">
                             <span class="qa-icon">💰</span>
                             <div class="qa-title" data-i18n="nav.zakat">حاسبة الزكاة</div>
                         </a>
@@ -583,10 +832,24 @@
                         <div class="mtc-phase" id="mtc-phase-label">—</div>
                         <div class="mtc-sub" id="mtc-illum-age">—</div>
                     </div>
-                    <a class="mtc-cta" id="mtc-cta" href="/moon-today-in-mecca" data-i18n="moon.view_details">عرض التفاصيل</a>
+                    <!-- 🆕 Round 8 (Moon Hub Entry): dual-CTA — primary opens Moon Hub (global), ghost opens city moon page -->
+                    <div class="mtc-cta-group">
+                        <a class="mtc-cta mtc-cta-primary" id="mtc-cta-hub" href="{LANG_PREFIX}/moon-today"
+                           data-i18n-title="moon.explore_hub"
+                           data-i18n-aria-label="moon.explore_hub"
+                           title="🌙 استكشف القمر"
+                           aria-label="استكشف القمر"
+                           data-i18n="moon.explore_hub">🌙 استكشف القمر</a>
+                        <a class="mtc-cta mtc-cta-ghost" id="mtc-cta" href="/moon-today-in-mecca"
+                           data-i18n-title="moon.view_in_city"
+                           data-i18n-aria-label="moon.view_in_city"
+                           title="في مدينتك"
+                           aria-label="في مدينتك"
+                           data-i18n="moon.view_in_city">في مدينتك</a>
+                    </div>
                 </section>
 
-                <!-- ❓ الأسئلة الشائعة (Compact: 3 أسئلة افتراضيّاً + زرّ كشف الكل) -->
+                <!-- ❓ الأسئلة الشائعة — Phase 2: 7 أسئلة city-specific (في city-page عبر .faq-city-mode) -->
                 <div class="section-card faq-section faq-limit-3" id="faq-section">
                     <h2 id="faq-title" data-i18n="faq.title">❓ الأسئلة الشائعة حول مواقيت الصلاة</h2>
 
@@ -609,9 +872,77 @@
                         </div>
                     </div>
 
+                    <!-- 🆕 س3 — Phase 2 city-specific -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q3"></div>
+                        <div class="faq-answer"><p id="faq-a3"></p></div>
+                    </div>
+
+                    <!-- 🆕 س4 — Phase 2 city-specific -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q4"></div>
+                        <div class="faq-answer"><p id="faq-a4"></p></div>
+                    </div>
+
+                    <!-- 🆕 س5 — Phase 2 city-specific -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q5"></div>
+                        <div class="faq-answer"><p id="faq-a5"></p></div>
+                    </div>
+
+                    <!-- 🔥 س6 — Phase 2 (طلب المستخدم: ساعات الصيام) -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q6"></div>
+                        <div class="faq-answer"><p id="faq-a6"></p></div>
+                    </div>
+
+                    <!-- 🔥 س7 — Phase 2 (طلب المستخدم: مقارنة بـ مكّة) -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q7"></div>
+                        <div class="faq-answer"><p id="faq-a7"></p></div>
+                    </div>
+
+                    <!-- 🆕 س8 — Round 4 (Minimal): link to time-left page (inline anchor) -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q8"></div>
+                        <div class="faq-answer"><p id="faq-a8"></p></div>
+                    </div>
+
+                    <!-- 🆕 س9 — Round 4 (Minimal): link to next-prayer-time page (inline anchor) -->
+                    <div class="faq-divider faq-city-only"></div>
+                    <div class="faq-item faq-city-only">
+                        <div class="faq-question" id="faq-q9"></div>
+                        <div class="faq-answer"><p id="faq-a9"></p></div>
+                    </div>
+
                     <!-- زرّ كشف كلّ الأسئلة — يظهر عند إضافة أسئلة ≥ 4 -->
                     <button class="faq-expand-all" id="faq-expand-all" onclick="toggleFaqAll(this)" type="button" data-i18n="faq.show_all" hidden>عرض كلّ الأسئلة</button>
                 </div>
+
+                <!-- 🆕 Mini Islamic Tools (Phase 2) — 3 أدوات فقط لصفحات المدن -->
+                <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
+                    <h3 class="mit-title" id="mit-title" data-i18n="mit.title">🕌 أدوات إسلاميّة سريعة</h3>
+                    <div class="mit-grid">
+                        <a class="mit-item" id="mit-qibla" href="#" data-tool="qibla" aria-label="اتجاه القبلة">
+                            <span class="mit-icon" aria-hidden="true">🧭</span>
+                            <span class="mit-label" data-i18n="mit.qibla">اتّجاه القبلة</span>
+                        </a>
+                        <a class="mit-item" id="mit-hijri" href="/hijri-calendar" data-tool="hijri" aria-label="التقويم الهجري">
+                            <span class="mit-icon" aria-hidden="true">📅</span>
+                            <span class="mit-label" data-i18n="mit.hijri">التقويم الهجريّ</span>
+                        </a>
+                        <a class="mit-item" id="mit-moon" href="#" data-tool="moon" aria-label="القمر اليوم">
+                            <span class="mit-icon" aria-hidden="true">🌙</span>
+                            <span class="mit-label" data-i18n="mit.moon">أوقات القمر</span>
+                        </a>
+                    </div>
+                </section>
 
                 <!-- 📜 حديث اليوم — منقول لأسفل FAQ (Round 20) -->
                 <div class="section-card hadith-section">
@@ -1272,76 +1603,65 @@
                 </div>
             </div>
 
-            <!-- ===== صفحة التاريخ الهجري ===== -->
+            <!-- ===== صفحة التاريخ الهجري — Round 9 Redesign (Answer-page focus) ===== -->
             <div class="page" id="page-hijri-today">
 
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="htoday-breadcrumbs" aria-label="breadcrumb"></nav>
 
-                <!-- 1. Hero -->
-                <div class="section-card hpage-hero">
-                    <h2 id="hijri-today-full" class="hpage-hero-title--lg">التاريخ الهجري اليوم</h2>
+                <!-- 1. Hero — 🆕 Round 9: big-number visual stack + SEO-rich H2 + Gregorian subtitle -->
+                <div class="section-card hpage-hero ht-hero">
+                    <h1 id="hijri-today-full" class="hpage-hero-title--lg">التاريخ الهجري اليوم</h1>
+                    <!-- Visual stack (big day number + month + year) — aria-hidden because H1 has same info -->
+                    <div class="ht-hero-stack" aria-hidden="true">
+                        <div class="ht-day-num"  id="hijri-today-day-num">--</div>
+                        <div class="ht-month"    id="hijri-today-month">--</div>
+                        <div class="ht-year"     id="hijri-today-year">--</div>
+                    </div>
                     <p id="hijri-today-greg" class="hpage-hero-subtitle">--</p>
                     <p id="hijri-today-desc" class="hpage-hero-intro--narrow"></p>
                 </div>
 
-                <!-- 2. Quick Info Cards -->
+                <!-- 1b. Hierarchy Navigation (Today → Month → Year) — prominent, right under the Hero for SEO + UX -->
+                <div class="section-card">
+                    <div id="hijri-today-hierarchy" class="u-flex-center"></div>
+                </div>
+
+                <!-- 2. Quick Info Cards (6 facts: day/hijri/greg/month/year/leap) -->
                 <div class="section-card">
                     <div class="info-grid" id="hijri-today-info-grid"></div>
                 </div>
 
-                <!-- 3. CTA Links -->
+                <!-- 3. CTA Distribution — 🆕 Round 9: 3 focused entry points (converter + moon + prayer) -->
                 <div class="section-card">
                     <div id="hijri-today-cta" class="u-flex-center"></div>
                 </div>
 
-                <!-- 4. FAQ -->
+                <!-- 4. Prev / Next Day Navigation — 🆕 Round 9: moved up to be near hero for quick exploration -->
+                <div class="section-card">
+                    <div id="hijri-today-nav" class="u-flex-btns"></div>
+                </div>
+
+                <!-- 5. FAQ — focused on "today" intent (3 Qs) -->
                 <div class="section-card">
                     <h2 id="hijri-today-faq-title">❓ أسئلة عن التاريخ الهجري اليوم</h2>
                     <div id="hijri-today-faq"></div>
                 </div>
 
-                <!-- 5. OTD Events -->
-                <div class="section-card">
-                    <h2 id="hijri-today-otd-title">📖 أبرز أحداث هذا اليوم في التاريخ الهجري</h2>
-                    <p id="wiki-otd-subtitle" class="hpage-intro-note"></p>
-                    <div id="wiki-otd-container">
-                        <div id="wiki-otd-loading" class="hpage-empty" data-i18n="loading.generic">جاري التحميل...</div>
-                        <ul id="wiki-otd-list" class="otd-list u-hidden"></ul>
-                    </div>
-                </div>
-
-                <!-- 6. Prev / Next Navigation -->
-                <div class="section-card">
-                    <div id="hijri-today-nav" class="u-flex-btns"></div>
-                </div>
-
-                <!-- 7. Mini Calendar (3 rows only) -->
-                <div class="section-card">
-                    <h2 id="hijri-today-mini-title">📅 التنقل السريع</h2>
-                    <div class="hpage-table-wrap">
-                        <table class="hpage-table">
-                            <thead>
-                                <tr>
-                                    <th id="hijri-today-th-hijri">التاريخ الهجري</th>
-                                    <th id="hijri-today-th-greg">التاريخ الميلادي</th>
-                                </tr>
-                            </thead>
-                            <tbody id="hijri-today-mini-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- 8. Extra Links -->
+                <!-- 6. Related Links (4 secondary navs: year cal, month cal, converter, moon-today) -->
                 <div class="section-card">
                     <h2 id="hijri-today-extra-title">🌙 روابط إضافية</h2>
                     <div id="hijri-today-extra-links" class="u-flex-wrap"></div>
                 </div>
 
-                <!-- 9. Footer SEO -->
+                <!-- 7. Footer SEO — 🆕 Round 9: shortened to 2 sentences -->
                 <div class="section-card">
                     <p id="hijri-today-footer-seo" class="hpage-footer-seo"></p>
                 </div>
+
+                <!-- 🗑️ REMOVED in Round 9 (intent separation):
+                     — OTD "أبرز أحداث هذا اليوم" section (moved out; different intent = historical events)
+                     — Mini Calendar 3-row table (redundant with Prev/Next) -->
 
             </div>
 
@@ -1349,59 +1669,57 @@
             <div class="page" id="page-hijri-day">
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hday-breadcrumbs" aria-label="breadcrumb"></nav>
-                <!-- 1. Hero -->
-                <div class="section-card hpage-hero">
-                    <h2 id="hday-title" class="hpage-hero-title">تفاصيل اليوم الهجري</h2>
-                    <p id="hday-subtitle" class="hpage-hero-subtitle--tight">--</p>
-                    <p id="hday-intro" class="hpage-hero-intro"></p>
+
+                <!-- 1. Hero — Answer Page: H2 SEO sentence + big-number visual stack + Gregorian subtitle -->
+                <div class="section-card hpage-hero ht-hero">
+                    <h1 id="hday-title" class="hpage-hero-title--lg">تفاصيل اليوم الهجري</h1>
+                    <!-- Visual stack (big day number + month + year) — aria-hidden because H2 has same info -->
+                    <div class="ht-hero-stack" aria-hidden="true">
+                        <div class="ht-day-num" id="hday-day-num">--</div>
+                        <div class="ht-month"   id="hday-month">--</div>
+                        <div class="ht-year"    id="hday-year">--</div>
+                    </div>
+                    <p id="hday-subtitle" class="hpage-hero-subtitle">--</p>
                 </div>
-                <!-- 2. Quick Info Cards -->
+
+                <!-- 1b. Hierarchy Navigation (Day → Month → Year) — prominent, right under the Hero for SEO + UX -->
                 <div class="section-card">
-                    <h2>📋 معلومات اليوم الهجري</h2>
+                    <div id="hday-hierarchy" class="u-flex-center"></div>
+                </div>
+
+                <!-- 2. Quick Info Cards (6 facts: day/hijri/greg/month/year/leap) -->
+                <div class="section-card">
                     <div class="info-grid" id="hday-info-grid"></div>
                 </div>
-                <!-- 3. Internal Links -->
+
+                <!-- 3. CTA Distribution — 3 focused entry points (converter + moon + prayer) -->
                 <div class="section-card">
-                    <h2>🔗 روابط مرتبطة بهذا اليوم</h2>
-                    <div id="hday-links" class="u-flex-wrap-top"></div>
+                    <div id="hday-cta" class="u-flex-center"></div>
                 </div>
-                <!-- 4. FAQ -->
+
+                <!-- 4. Prev / Next Day Navigation -->
                 <div class="section-card">
-                    <h2>❓ أسئلة عن اليوم الهجري</h2>
+                    <div id="hday-nav" class="u-flex-btns"></div>
+                </div>
+
+                <!-- 5. FAQ -->
+                <div class="section-card">
+                    <h2 id="hday-faq-title">❓ أسئلة عن اليوم الهجري</h2>
                     <div id="hday-faq"></div>
                 </div>
-                <!-- 5. OTD -->
+
+                <!-- 6. Related Links (3 truly-related: converter, moon, prayer) — hierarchy links moved up under Hero -->
                 <div class="section-card">
-                    <h2>📖 أحداث في هذا اليوم الهجري</h2>
-                    <p id="hday-otd-subtitle" class="hpage-intro-note"></p>
-                    <div id="hday-otd-loading" class="hpage-empty" data-i18n="loading.generic">جاري التحميل...</div>
-                    <ul id="hday-otd-list" class="otd-list u-hidden"></ul>
+                    <h2 id="hday-related-title">🌙 روابط ذات صلة</h2>
+                    <div id="hday-related" class="u-flex-wrap"></div>
                 </div>
-                <!-- 6. Mini Calendar + Prev/Next Nav -->
+
+                <!-- 7. Footer SEO — short 1-2 sentence paragraph -->
                 <div class="section-card">
-                    <h2>📅 تنقل بين أيام الشهر الهجري</h2>
-                    <div class="hpage-table-wrap">
-                        <table class="hpage-table">
-                            <thead>
-                                <tr>
-                                    <th>التاريخ الهجري</th>
-                                    <th>التاريخ الميلادي</th>
-                                </tr>
-                            </thead>
-                            <tbody id="hday-mini-cal"></tbody>
-                        </table>
-                    </div>
-                    <div class="u-flex-btns hpage-nav-buttons" id="hday-nav"></div>
+                    <p id="hday-footer-seo" class="hpage-footer-seo"></p>
                 </div>
-                <!-- 7. Other Months -->
-                <div class="section-card">
-                    <h2>🌙 تصفح شهور هجرية أخرى</h2>
-                    <div id="hday-other-months" class="u-flex-wrap-top"></div>
-                </div>
-                <!-- 8. Footer SEO -->
-                <div class="section-card">
-                    <p id="hday-footer-seo" class="hpage-footer-seo-note"></p>
-                </div>
+
+                <!-- 🗑️ REMOVED: OTD section, Mini-Calendar table, "Other Months" browser — Answer Page single-purpose -->
             </div>
 
             <!-- ===== صفحة التقويم الهجري السنوي /hijri-calendar/1447 ===== -->
@@ -1420,9 +1738,10 @@
                 <div class="section-card">
                     <div class="info-grid" id="hyear-info-grid"></div>
                 </div>
-                <!-- Months Table -->
+                <!-- Months Table — with "today in year" banner above it -->
                 <div class="section-card">
-                    <h2 id="hyear-table-title">🗓️ أشهر السنة الهجرية</h2>
+                    <h2 id="hyear-table-title">🗓️ جميع أشهر التقويم الهجري</h2>
+                    <div id="hyear-today-in-year" class="hpage-today-in-month" hidden></div>
                     <div class="hpage-table-wrap">
                         <table class="hpage-table">
                             <thead>
@@ -1437,14 +1756,16 @@
                         </table>
                     </div>
                 </div>
-                <!-- Month Buttons Grid -->
-                <div class="section-card">
-                    <h2 id="hyear-months-title">📅 تصفح أشهر السنة</h2>
-                    <div id="hyear-months-grid" class="hpage-months-grid"></div>
-                </div>
-                <!-- CTA Links -->
+                <!-- CTA Links — moved up: right after the table for immediate user action -->
                 <div class="section-card">
                     <div id="hyear-cta" class="u-flex-center"></div>
+                </div>
+                <!-- Years Navigation — 5-year window (y-2..y+2) for internal-linking structure -->
+                <div class="section-card">
+                    <h2 id="hyear-years-title">📆 تصفّح السنوات الهجرية</h2>
+                    <p id="hyear-years-current" class="hpage-years-current"></p>
+                    <div id="hyear-years-grid" class="u-flex-wrap-top"></div>
+                    <p class="hpage-years-more"><a id="hyear-years-all" href="/hijri-calendar"></a></p>
                 </div>
                 <!-- FAQ -->
                 <div class="section-card">
@@ -1469,14 +1790,17 @@
                 <div class="section-card hpage-hero">
                     <h2 id="hmonth-title" class="hpage-hero-title">تقويم الشهر الهجري</h2>
                     <p id="hmonth-subtitle" class="hpage-hero-mini-sub"></p>
-                    <p id="hmonth-intro" class="hpage-hero-intro"></p>
                 </div>
                 <div class="section-card">
                     <h2 id="hmonth-info-title">📋 معلومات الشهر الهجري</h2>
                     <div class="info-grid" id="hmonth-info-grid"></div>
                 </div>
                 <div class="section-card">
+                    <div class="u-flex-btns" id="hmonth-nav"></div>
+                </div>
+                <div class="section-card">
                     <h2 id="hmonth-days-title">📅 أيام هذا الشهر الهجري</h2>
+                    <div id="hmonth-today-in-month" class="hpage-today-in-month" hidden></div>
                     <p id="hmonth-days-summary" class="hpage-days-summary"></p>
                     <div class="hpage-table-wrap">
                         <table class="hpage-table" id="hmonth-table">
@@ -1496,10 +1820,13 @@
                 </div>
                 <div class="section-card">
                     <h2 id="hmonth-other-months-title">🌙 شهور أخرى من السنة الهجرية</h2>
-                    <div id="hmonth-other-months" class="u-flex-wrap-top"></div>
+                    <div id="hmonth-other-months" class="hpage-months-grid"></div>
                 </div>
                 <div class="section-card">
-                    <div class="u-flex-btns" id="hmonth-nav"></div>
+                    <h2 id="hmonth-years-title">📆 تصفّح السنوات الهجرية</h2>
+                    <p id="hmonth-years-current" class="hpage-years-current"></p>
+                    <div id="hmonth-years-grid" class="u-flex-wrap-top"></div>
+                    <p class="hpage-years-more"><a id="hmonth-years-all" href="/hijri-calendar"></a></p>
                 </div>
                 <div class="section-card">
                     <p id="hmonth-footer-seo" class="hpage-footer-seo-note"></p>
@@ -2342,14 +2669,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=113"></script>
+    <script defer src="js/i18n.js?v=129"></script>
     <script defer src="js/prayer-times.js?v=46"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=316"></script>
+    <script defer src="js/app.js?v=378"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->
@@ -2381,6 +2708,16 @@
                 <div class="adhan-progress-fill" id="adhan-progress-fill"></div>
             </div>
             <button class="adhan-popup-close-btn" onclick="closeAdhanPopup()" data-i18n="adhan_popup.close">⏹ إغلاق</button>
+        </div>
+    </div>
+
+    <!-- 🆕 Round 3.1 — Smart Notification suggestion toast (city-page، يظهر بعد 10s) -->
+    <div class="notif-prompt" id="notif-prompt" role="dialog" aria-live="polite" hidden>
+        <span class="notif-prompt-icon" aria-hidden="true">🔔</span>
+        <span class="notif-prompt-text" data-i18n="notif.prompt_text">هل تريد تنبيهك قبل الصلاة القادمة؟</span>
+        <div class="notif-prompt-actions">
+            <button class="notif-btn notif-btn-primary" type="button" onclick="onNotifEnable()" data-i18n="notif.prompt_enable">تفعيل</button>
+            <button class="notif-btn notif-btn-ghost" type="button" onclick="onNotifDismiss()" data-i18n="notif.prompt_later">لاحقاً</button>
         </div>
     </div>
 </body>

@@ -14,7 +14,7 @@ html.date-converter-page #page-prayer-times { display: none !important; }
 html.hijri-year-page #page-hijri-year { display: block !important; }
 html.hijri-year-page #page-prayer-times { display: none !important; }
 
-/* عرض صفحة التقويم الهجري الشهري فوراً عند URL /hijri-calendar/shawwal-1447 */
+/* عرض صفحة التقويم الهجري الشهري فوراً عند URL /hijri-calendar/YYYY-MM */
 html.hijri-month-page #page-hijri-month { display: block !important; }
 html.hijri-month-page #page-prayer-times { display: none !important; }
 
@@ -22,7 +22,7 @@ html.hijri-month-page #page-prayer-times { display: none !important; }
 html.hijri-today-page #page-hijri-today { display: block !important; }
 html.hijri-today-page #page-prayer-times { display: none !important; }
 
-/* عرض صفحة يوم هجري فردي فوراً عند URL /hijri-date/26-shawwal-1447 */
+/* عرض صفحة يوم هجري فردي فوراً عند URL /hijri-date/YYYY-MM-DD */
 html.hijri-day-page #page-hijri-day { display: block !important; }
 html.hijri-day-page #page-prayer-times { display: none !important; }
 
@@ -445,6 +445,34 @@ button, input, select { font-family: inherit; }
 /* عند تزامن current + active (نادر: قبل دقيقة من الصلاة التالية) → أولويّة للـ current */
 .prayer-card.current.active { border-color: var(--primary, #2e7d32); }
 .prayer-card.current.active::before { background: var(--primary, #2e7d32); }
+
+/* 🆕 Round 3.1 — Progress Bar: يظهر فقط داخل .prayer-card.current */
+.prayer-progress {
+    display: none;
+    margin-top: 10px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(46, 125, 50, 0.14);
+    overflow: hidden;
+}
+.prayer-progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary, #2e7d32), var(--gold, #ffd700));
+    transition: width 1s linear;
+}
+.prayer-card.current .prayer-progress { display: block; }
+@media (prefers-reduced-motion: reduce) {
+    .prayer-progress-fill { transition: none; }
+}
+
+/* 🆕 Round 3.1 — Prayer State System: past / upcoming
+   ملاحظة: تمّ إلغاء التمييز البصريّ بين past / upcoming / active (opacity موحّد).
+   الـclasses لا تزال تُضاف في JS لدواعٍ مستقبليّة/a11y لكن لا تأثير بصريّ لها هنا. */
+.prayer-card {
+    transition: transform var(--transition), box-shadow var(--transition);
+}
 
 .prayer-card .prayer-icon {
     font-size: 2rem;
@@ -1091,6 +1119,24 @@ html.moon-hijri-context #hijri-today {
 .fc-row-clickable:hover { background: rgba(46,125,50,0.04); }
 @media (prefers-color-scheme: dark) {
     .fc-row-clickable:hover { background: rgba(76,175,80,0.06); }
+}
+
+/* ═══ Today-row highlight in the 14-day moon forecast ═══
+ * Row matching the real current date gets a tinted background + colored inline-start border
+ * + bold first-column label. Keeps hover working on clickable rows.
+ */
+.moon-forecast-table tr.fc-row-today {
+    background: rgba(46,125,50,0.10);
+    box-shadow: inset 4px 0 0 var(--primary);
+}
+html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
+    box-shadow: inset -4px 0 0 var(--primary);
+}
+.moon-forecast-table tr.fc-row-today td { font-weight: 700; color: var(--primary); }
+.moon-forecast-table tr.fc-row-today:hover { background: rgba(46,125,50,0.15); }
+@media (prefers-color-scheme: dark) {
+    .moon-forecast-table tr.fc-row-today { background: rgba(76,175,80,0.14); }
+    .moon-forecast-table tr.fc-row-today:hover { background: rgba(76,175,80,0.22); }
 }
 
 /* ═══ Round 17: Hub Weekly Moon Calendar (7 cells: −3 … +3 days) ═══
@@ -3711,6 +3757,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     transition: all var(--transition);
     font-size: 0.9rem;
     font-weight: 600;
+    position: relative;
 }
 
 .nearby-item:hover {
@@ -3731,6 +3778,36 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     background: #fff;
     border-color: rgba(46,125,50,.3);
     box-shadow: 0 2px 6px rgba(46,125,50,.1);
+}
+
+/* 🆕 Round 2: .featured (أوّل عنصر مع geolocation) — badge واضح + تمييز أقوى */
+.nearby-item.featured {
+    border: 2px solid #2d7a3e;
+    background: linear-gradient(135deg, #e8f5ec 0%, #d4ead9 100%);
+    box-shadow: 0 2px 8px rgba(45, 122, 62, 0.12);
+    margin-top: 14px; /* مساحة للـbadge */
+}
+.nearby-item.featured:hover {
+    background: linear-gradient(135deg, #d4ead9 0%, #c2dfc9 100%);
+    border-color: #1e5631;
+    box-shadow: 0 6px 18px rgba(45, 122, 62, 0.25);
+}
+.nearby-item.featured::before {
+    content: attr(data-closest-label);
+    position: absolute;
+    top: -10px;
+    inset-inline-end: 10px;
+    background: #2d7a3e;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    white-space: nowrap;
+    pointer-events: none;
 }
 
 .nearby-item .nearby-flag { font-size: 1.2rem; flex-shrink: 0; }
@@ -4073,7 +4150,57 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     font-size: 1rem;
     margin: 0 0 12px 0;
     white-space: pre-wrap;
+    position: relative;
+    /* 🆕 Round 2.1: smooth expand animation */
+    transition: max-height 0.3s ease;
 }
+/* 🆕 Round 2: 3-line clamp with fade gradient */
+.city-about-clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: calc(1.8em * 3);
+}
+/* 🆕 Round 2.1: fade أقوى (90% stop) — يطوّر الانتقال البصريّ */
+.city-about-clamped::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent 0%, var(--card-bg, #ffffff) 90%);
+    pointer-events: none;
+}
+.city-about-expanded {
+    display: block;
+    max-height: 2000px; /* قيمة كبيرة تسمح بالـtransition بسلاسة */
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+.city-about-expanded::after { display: none; }
+
+/* 🆕 Round 2: read-more / read-less toggle button */
+.city-about-toggle {
+    display: inline-block;
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--primary, #2e7d32);
+    color: var(--primary, #2e7d32);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 8px 12px 0;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.city-about-toggle:hover {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+}
+.city-about-toggle[hidden] { display: none; }
+
 .city-about-link {
     display: inline-block;
     padding: 8px 14px;
@@ -5431,6 +5558,45 @@ html[dir="rtl"] .hpage-table thead tr th:last-child  { border-radius: 6px 0 0 0;
     color: var(--text-light);
     line-height: 1.9;
 }
+
+/* ═══ 🆕 Round 9: Today's Hijri Date — Answer Page Hero Visual Stack ═══
+   Large day number + month + year, optimized to make the page "memorize itself" visually.
+   H2 above contains the full SEO sentence; stack is aria-hidden (duplicate semantic info). */
+.ht-hero { padding-top: 18px; padding-bottom: 18px; }
+.ht-hero-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 14px 0 12px;
+    line-height: 1.1;
+}
+.ht-hero-stack .ht-day-num {
+    font-size: 5.5rem;
+    font-weight: 900;
+    color: var(--primary, #2e7d32);
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+.ht-hero-stack .ht-month {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    letter-spacing: -0.3px;
+}
+.ht-hero-stack .ht-year {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-light, #888);
+    margin-top: 4px;
+    opacity: 0.85;
+}
+@media (max-width: 520px) {
+    .ht-hero-stack .ht-day-num { font-size: 4.2rem; letter-spacing: -1.5px; }
+    .ht-hero-stack .ht-month   { font-size: 1.5rem; }
+    .ht-hero-stack .ht-year    { font-size: 0.9rem; }
+}
 .hpage-footer-seo-note {
     font-size: 0.9rem;
     color: var(--text-light);
@@ -5475,6 +5641,63 @@ html[dir="ltr"] .hpage-hero-start { text-align: left; }
     color: var(--primary);
     font-weight: 600;
     margin-bottom: 12px;
+}
+.hpage-today-in-month {
+    font-size: 0.95rem;
+    color: var(--text);
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    background: rgba(46,125,50,0.08);
+    border-radius: 10px;
+    border-inline-start: 4px solid var(--primary);
+}
+.hpage-today-in-month strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+.hpage-today-in-month a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+}
+.hpage-today-in-month a:hover { opacity: 0.85; }
+@media (prefers-color-scheme: dark) {
+    .hpage-today-in-month {
+        background: rgba(76,175,80,0.14);
+    }
+}
+/* Footer SEO paragraph — inline anchors (dynamic internal links) */
+.hpage-footer-seo-note a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+}
+.hpage-footer-seo-note a:hover {
+    border-bottom-color: var(--primary);
+}
+/* Years Navigation section */
+.hpage-years-current {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin: 6px 0 12px;
+}
+.hpage-years-current strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+.hpage-years-more {
+    margin-top: 14px;
+    font-size: 0.9rem;
+}
+.hpage-years-more a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+.hpage-years-more a:hover {
+    text-decoration: underline;
 }
 .hpage-months-grid {
     display: grid;
@@ -6046,9 +6269,28 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     transition: background .15s;
 }
 .mtc-cta:hover { background: var(--primary-dark, #1e5631); color: #fff; }
+
+/* 🆕 Round 8 (Moon Hub Entry): dual-CTA group — primary (Hub) + ghost (city) */
+.mtc-cta-group { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+.mtc-cta-primary {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    border: 1px solid var(--primary, #2e7d32);
+}
+.mtc-cta-primary:hover { background: var(--primary-dark, #1e5631); border-color: var(--primary-dark, #1e5631); color: #fff; }
+.mtc-cta-ghost {
+    background: transparent;
+    color: var(--primary-dark, #1e5631);
+    border: 1px solid var(--primary, #2e7d32);
+    font-weight: 500;
+    text-align: center;
+}
+.mtc-cta-ghost:hover { background: #eef5ef; color: var(--primary-dark, #1e5631); }
+
 @media (max-width: 520px) {
     .moon-today-card { flex-wrap: wrap; }
-    .mtc-cta { width: 100%; text-align: center; margin-top: 8px; box-sizing: border-box; }
+    .mtc-cta-group { width: 100%; margin-top: 8px; }
+    .mtc-cta { width: 100%; text-align: center; box-sizing: border-box; }
 }
 
 /* ═══ FAQ Limit 3 — يُخفى الأسئلة 4+ افتراضيّاً ═══
@@ -6178,15 +6420,89 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     animation: tp-bcp-pulse 2s infinite;
 }
 @media (prefers-reduced-motion: reduce) { .snb-dot { animation: none; } }
-.snb-label { opacity: .92; }
+.snb-label { opacity: 1; color: #fff; }
 .snb-prayer { font-weight: 800; color: var(--gold-light, #ffd75e); }
-.snb-remaining { direction: ltr; font-weight: 700; letter-spacing: .3px; }
-.snb-sep { opacity: .4; margin: 0 2px; }
-.snb-city { opacity: .88; }
+.snb-remaining { direction: ltr; font-weight: 700; letter-spacing: .3px; color: #fff; opacity: 1; }
+.snb-sep { opacity: 1; color: #fff; margin: 0 2px; }
+.snb-city { opacity: 1; color: #fff; }
+
+/* 🆕 Round 3.1 — Sticky Bar: حالة «حان الآن» (countdown == 00:00:00) */
+.snb-label-now { display: none; }
+.snb-inner.snb-now .snb-label-normal { display: none; }
+.snb-inner.snb-now .snb-label-now    { display: inline; }
+.snb-inner.snb-now {
+    background: linear-gradient(90deg, rgba(45,122,62,0.35), rgba(255,215,0,0.28));
+    animation: snb-now-pulse 1.2s ease-in-out infinite;
+}
+.snb-inner.snb-now .snb-sep,
+.snb-inner.snb-now .snb-remaining,
+.snb-inner.snb-now .snb-city,
+.snb-inner.snb-now .snb-city-sep { display: none; }
+.snb-inner.snb-now .snb-prayer {
+    color: var(--gold-light, #ffd75e);
+    font-weight: 900;
+}
+@keyframes snb-now-pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(45,122,62,0.5); }
+    50%     { box-shadow: 0 0 0 6px rgba(45,122,62,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .snb-inner.snb-now { animation: none; }
+}
+
 @media (max-width: 520px) {
     .sticky-next-bar { padding: 8px 12px; }
     .snb-inner { gap: 6px; font-size: .85rem; }
     .snb-city-sep, .snb-city { display: none; }  /* تبسيط على الموبايل */
+}
+
+/* 🆕 UX Polish — Sticky Bar CTA hint (يوضّح أنّ الشريط clickable) */
+.snb-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-inline-start: 8px;
+    padding: 3px 10px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.sticky-next-bar:hover .snb-cta,
+.sticky-next-bar:focus-visible .snb-cta {
+    background: rgba(255,255,255,0.32);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateX(-2px);
+}
+[dir="ltr"] .sticky-next-bar:hover .snb-cta,
+[dir="ltr"] .sticky-next-bar:focus-visible .snb-cta {
+    transform: translateX(2px);
+}
+.snb-cta-arrow {
+    display: inline-block;
+    font-size: 1.25em;
+    line-height: 1;
+    font-weight: 900;
+    margin-top: -2px;
+}
+[dir="rtl"] .snb-cta-arrow { transform: scaleX(-1); }
+
+/* لا يظهر الـ CTA على صفحة time-left نفسها (self-link معطّل) */
+html.time-left-page .snb-cta { display: none; }
+
+/* الموبايل: نصّ مُخفيّ، سهم فقط (لتوفير المساحة) */
+@media (max-width: 520px) {
+    .snb-cta-text { display: none; }
+    .snb-cta { padding: 2px 8px; margin-inline-start: 4px; }
+    .snb-cta-arrow { font-size: 1.15em; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .sticky-next-bar:hover .snb-cta,
+    .sticky-next-bar:focus-visible .snb-cta { transform: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -6333,11 +6649,30 @@ body.has-sticky-bar .top-header {
    .current = الصلاة التي نحن الآن داخل وقتها (accent ذهبيّ + نبض هادئ)
    .active  = الصلاة التالية (accent أخضر أقوى + glow) */
 
-/* تمييز أعمق للـ .active (next) — border أكثر ثخانة + shadow أوضح */
+/* تمييز أعمق للـ .active (next) — 🆕 Round 2: dual-layer glow + pulse-soft */
 .prayer-card.active {
     outline: 2px solid var(--primary);
     outline-offset: -2px;
-    box-shadow: 0 4px 16px rgba(46,125,50,.22);
+    /* Dual-layer: thin inner ring (for pulse) + soft outer glow (stable) */
+    box-shadow: 0 0 0 2px rgba(45, 122, 62, 0.15),
+                0 8px 25px rgba(45, 122, 62, 0.25);
+}
+@media (prefers-reduced-motion: no-preference) {
+    .prayer-card.active {
+        /* 🆕 Round 2.1: delay prevents perceived "jump" on page load */
+        animation: pulse-soft 3s ease-in-out 0.5s infinite;
+    }
+}
+@keyframes pulse-soft {
+    0%   { box-shadow: 0 0 0 0 rgba(45, 122, 62, 0.25),
+                       0 8px 25px rgba(45, 122, 62, 0.25); }
+    70%  { box-shadow: 0 0 0 8px rgba(45, 122, 62, 0),
+                       0 8px 25px rgba(45, 122, 62, 0.25); }
+    100% { box-shadow: 0 0 0 0 rgba(45, 122, 62, 0),
+                       0 8px 25px rgba(45, 122, 62, 0.25); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .prayer-card.active { animation: none; }
 }
 /* .current (now) — بقي ذهبيّ، لكن مع خلفية أهدأ لتمييزه عن الأخضر */
 .prayer-card.current {
@@ -6347,4 +6682,1060 @@ body.has-sticky-bar .top-header {
 .prayer-card.current.active {
     background: linear-gradient(180deg, #fff8dd, #eaf5ea);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Phase 2 — إعادة هيكلة صفحة المدينة (v96)
+   Philosophy: Home = Search | City = Answer + Depth + Internal Linking
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── City Page — show city-only sections ─────────────────────────────── */
+html.city-page #city-hero-answer,
+html.city-page #city-summary-paragraph,
+html.city-page #related-links-section,
+html.city-page #other-trending-cities,
+html.city-page #mini-islamic-tools {
+    display: block;
+}
+html.city-page #city-hero-answer.u-hidden,
+html.city-page #city-summary-paragraph.u-hidden,
+html.city-page #related-links-section.u-hidden,
+html.city-page #other-trending-cities.u-hidden,
+html.city-page #mini-islamic-tools.u-hidden {
+    display: block;
+}
+
+/* ── City Page — hide home-only sections ─────────────────────────────── */
+html.city-page .location-hero,
+html.city-page .most-searched-chips,
+html.city-page #country-cities-section,
+html.city-page #arab-countries-section,
+html.city-page #home-quick-access,
+html.city-page .moon-today-card {
+    display: none !important;
+}
+
+/* ── FAQ city-only items hidden outside city-page ───────────────────── */
+html:not(.city-page) .faq-city-only {
+    display: none !important;
+}
+
+/* ── Breadcrumb 3-levels (enhanced for Schema.org microdata) ────────── */
+.city-breadcrumb .breadcrumb-list li.bc-item[itemprop="itemListElement"] meta {
+    display: none;
+}
+
+/* ── 🆕 City Page Compact Search (Phase 2) ────────────────────────────
+   Hidden by default — shown ONLY on .city-page via html.city-page rule below.
+   Compact, single-line, positioned between breadcrumb and city-hero-answer. */
+.city-page-search {
+    display: none;
+    margin: 10px 0 14px;
+}
+html.city-page .city-page-search {
+    display: block;
+}
+.city-page-search .cps-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 1px solid var(--border, #d9e3d9);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.06);
+    transition: border-color .15s, box-shadow .15s;
+}
+.city-page-search .cps-inner:focus-within {
+    border-color: var(--primary, #2e7d32);
+    box-shadow: 0 2px 12px rgba(46, 125, 50, 0.15);
+}
+.city-page-search .cps-icon {
+    font-size: 1.1rem;
+    color: var(--text-secondary, #5f6b5a);
+    flex-shrink: 0;
+}
+.city-page-search .cps-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font-size: 0.98rem;
+    color: var(--text, #1f2a1c);
+    padding: 6px 4px;
+    font-family: inherit;
+}
+.city-page-search .cps-input::placeholder {
+    color: var(--text-secondary, #8a9187);
+    opacity: 1;
+}
+.city-page-search .cps-locate {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border, #d9e3d9);
+    background: var(--bg-subtle, #f3f8f3);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+.city-page-search .cps-locate:hover {
+    background: #eaf4ea;
+    border-color: var(--primary, #2e7d32);
+    transform: scale(1.05);
+}
+.city-page-search .cps-locate:active {
+    transform: scale(0.97);
+}
+.city-page-search .cps-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid var(--border, #d9e3d9);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 50;
+    display: none;
+}
+.city-page-search .cps-suggestions.open {
+    display: block;
+}
+.city-page-search .cps-suggestions .suggestion-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-light, #ecf0ec);
+    font-size: 0.94rem;
+    color: var(--text, #1f2a1c);
+    transition: background .12s;
+}
+.city-page-search .cps-suggestions .suggestion-item:last-child {
+    border-bottom: 0;
+}
+.city-page-search .cps-suggestions .suggestion-item:hover,
+.city-page-search .cps-suggestions .suggestion-item.active {
+    background: #eef5ef;
+    color: var(--primary-dark, #1b5e20);
+}
+@media (max-width: 480px) {
+    .city-page-search .cps-inner { padding: 6px 10px; }
+    .city-page-search .cps-input { font-size: 0.92rem; }
+    .city-page-search .cps-locate { width: 30px; height: 30px; font-size: 0.92rem; }
+}
+
+/* ── City Hero Answer ─────────────────────────────────────────────────── */
+.city-hero-answer {
+    text-align: center;
+    padding: 22px 20px;
+    background: linear-gradient(135deg, #f1f8f2, #e4f1e8);
+    margin-bottom: 16px;
+}
+.cha-location {
+    font-size: .92rem;
+    color: var(--text-secondary, #5f6b5a);
+    margin-bottom: 6px;
+}
+.cha-question {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--primary-dark, #1b5e20);
+    line-height: 1.4;
+}
+.cha-next-row {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.cha-next-row b {
+    color: var(--primary-dark, #1b5e20);
+}
+/* 🆕 Round 2 (A): إبراز اسم الصلاة القادمة — focus بصريّ */
+.cha-next-name {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1b5e20);
+    letter-spacing: 0.3px;
+}
+.cha-next-sep {
+    color: var(--border, #d7e3d6);
+    font-weight: 700;
+}
+.cha-countdown {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary, #2e7d32);
+    font-variant-numeric: tabular-nums;
+    margin: 10px 0 4px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+}
+/* 🆕 Round 2.1: "متبقي:" label — أصغر وأهدأ من الرقم */
+.cha-countdown-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary, #5a6a5a);
+    letter-spacing: 0;
+}
+.cha-countdown-value {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    font-variant-numeric: tabular-nums;
+}
+.cha-quick-times {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+}
+.cha-quick-times .cha-chip {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--border, #d7e3d6);
+    border-radius: 999px;
+    font-size: .88rem;
+    color: var(--text, #2e3a2e);
+    white-space: nowrap;
+}
+.cha-quick-times .cha-chip b {
+    color: var(--primary-dark, #1b5e20);
+    margin-inline-start: 4px;
+}
+/* 🆕 Round 3.1 — Smart CTA button داخل City Hero Answer */
+.cha-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 10px 22px;
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    border: 0;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(45,122,62,0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.cha-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(45,122,62,0.35);
+    background: var(--primary-dark, #1b5e20);
+}
+.cha-cta:active { transform: translateY(0); }
+.cha-cta:focus-visible {
+    outline: 2px solid var(--gold, #ffd700);
+    outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .cha-cta { transition: none; }
+    .cha-cta:hover { transform: none; }
+}
+
+/* 🆕 Round 3.1 — Notification Prompt toast */
+.notif-prompt {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 70px);
+    inset-inline-end: 16px;
+    max-width: 360px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-inline-start: 3px solid var(--primary, #2e7d32);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    color: var(--text, #2e3a2e);
+    z-index: 1400;
+    animation: notif-slide-in 0.4s ease-out;
+}
+.notif-prompt[hidden] { display: none; }
+.notif-prompt-icon { font-size: 1.3rem; }
+.notif-prompt-text { flex: 1 1 auto; min-width: 140px; }
+.notif-prompt-actions {
+    margin-inline-start: auto;
+    display: flex;
+    gap: 6px;
+}
+.notif-btn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    font-family: inherit;
+}
+.notif-btn-primary {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+}
+.notif-btn-primary:hover { background: var(--primary-dark, #1b5e20); }
+.notif-btn-ghost {
+    background: transparent;
+    color: #666;
+    border: 1px solid #ddd;
+}
+.notif-btn-ghost:hover { background: #f5f5f5; }
+@keyframes notif-slide-in {
+    from { transform: translateX(24px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .notif-prompt { animation: none; }
+}
+@media (max-width: 520px) {
+    .notif-prompt {
+        left: 8px;
+        right: 8px;
+        max-width: none;
+        inset-inline-end: auto;
+    }
+    .notif-prompt-actions { width: 100%; justify-content: flex-end; }
+}
+
+@media (max-width: 640px) {
+    .city-hero-answer { padding: 18px 16px; }
+    .cha-question { font-size: 1.1rem; }
+    .cha-next-row { font-size: 1rem; }
+    .cha-next-name { font-size: 1.2rem; }
+    .cha-countdown { font-size: 1.8rem; }
+    .cha-quick-times .cha-chip { font-size: .82rem; padding: 5px 10px; }
+    .cha-cta { padding: 9px 18px; font-size: 0.88rem; }
+}
+
+/* ── City Summary Paragraph (SEO-rich text block) ────────────────────── */
+.city-summary-paragraph { padding: 16px 20px; }
+.city-summary-paragraph p {
+    margin: 0;
+    font-size: .98rem;
+    line-height: 1.75;
+    color: var(--text, #2e3a2e);
+}
+
+/* 🆕 Round 2: visible short summary (user-facing — 1 sentence) */
+.city-summary-visible {
+    margin: 0 0 10px 0 !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    color: var(--text, #2e3a2e);
+}
+
+/* 🔒 Round 2: hide long SEO paragraph visually while keeping it crawlable */
+.city-summary-hidden-seo {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    clip: rect(0 0 0 0);
+    white-space: nowrap !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+/* ── Polish Round (D): إخفاء شبكة المدن السفليّة على city-page ──────── */
+/* السبب: مكرَّرة مع Other Trending Cities → ازدحام بصريّ */
+html.city-page #home-footer-links,
+html.city-page .home-footer-links { display: none !important; }
+
+/* ── Polish Round (B): سطر حيّ ديناميكيّ تحت City Summary ───────────── */
+.city-summary-live {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: var(--bg-subtle, #f4faf4);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary, #5a6a5a);
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.city-summary-live .csl-prayer,
+.city-summary-live .csl-countdown {
+    color: var(--primary-dark, #1b5e20);
+    font-weight: 600;
+}
+.city-summary-live .csl-label { font-weight: 500; }
+
+/* ── Related Links (Polish Round E — 3 tiers × 6 links) ────────────── */
+.related-links-section { padding: 16px 20px; }
+.rls-title {
+    font-size: 1.1rem;
+    margin: 0 0 14px;
+    font-weight: 700;
+    color: var(--primary-dark, #1b5e20);
+}
+.rls-tier { margin: 14px 0; }
+.rls-tier-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+    letter-spacing: 0.5px;
+}
+.rls-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.rls-list a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: .95rem;
+    position: relative;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
+}
+.rls-list .rls-text { flex: 1; min-width: 0; }
+
+/* 🟢 Live Tier — Refinements #1 + #5: scale boost + i18n badge span */
+.rls-tier-live .rls-tier-label { color: #2d7a3e; }
+.rls-tier-live .rls-list a {
+    background: linear-gradient(135deg, #e8f5ec, #d4ead9);
+    border: 1px solid #2d7a3e;
+    color: #1b5e26;
+    font-weight: 600;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(45, 122, 62, 0.12);
+    padding-inline-end: 56px; /* room for badge */
+}
+.rls-tier-live .rls-list a:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 12px rgba(45, 122, 62, 0.25);
+    background: linear-gradient(135deg, #d4ead9, #b8dcc1);
+    color: #1b5e26;
+}
+.rls-tier-live .rls-list a:focus-visible {
+    outline: 3px solid #2d7a3e;
+    outline-offset: 2px;
+}
+.rls-tier-live .rls-icon { font-size: 1.25rem; }
+.rls-tier-live .rls-badge {
+    position: absolute;
+    top: 8px;
+    inset-inline-end: 8px;
+    background: #2d7a3e;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* 🔵 Info Tier */
+.rls-tier-info .rls-tier-label { color: #1976d2; }
+.rls-tier-info .rls-list a {
+    background: #f1f7fd;
+    border: 1px solid #b3d4fc;
+    color: #1e3a5f;
+    font-weight: 500;
+}
+.rls-tier-info .rls-list a:hover {
+    background: #e3f0fc;
+    border-color: #1976d2;
+    color: #0d47a1;
+}
+.rls-tier-info .rls-icon { font-size: 1.1rem; }
+
+/* ⚪ Nav Tier */
+.rls-tier-nav .rls-tier-label { color: var(--text-secondary, #6a7a6a); }
+.rls-tier-nav .rls-list a {
+    background: transparent;
+    border: 1px solid var(--border, #d7e3d6);
+    color: var(--text-secondary, #4a5a4a);
+    font-weight: 500;
+}
+.rls-tier-nav .rls-list a:hover {
+    background: #f4faf4;
+    border-color: var(--primary, #2e7d32);
+    color: var(--primary-dark, #1b5e20);
+}
+.rls-tier-nav .rls-arrow {
+    margin-inline-start: 6px;
+    opacity: 0.7;
+    transition: transform .15s, opacity .15s;
+    display: inline-block;
+}
+.rls-tier-nav .rls-list a:hover .rls-arrow {
+    opacity: 1;
+    transform: translateX(3px);
+}
+[dir="rtl"] .rls-tier-nav .rls-list a:hover .rls-arrow {
+    transform: translateX(-3px);
+}
+
+@media (max-width: 480px) {
+    .rls-list { grid-template-columns: 1fr; }
+    .rls-tier-live .rls-list a { transform: scale(1); }
+    .rls-tier-live .rls-list a:hover { transform: scale(1.02); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   🆕 Polish Round (F): Time-Left Page — /time-left-until-prayer-in-{slug}
+   يظهر tl-hero فقط على html.time-left-page، مع إخفاء city-hero-answer
+   ───────────────────────────────────────────────────────────────────── */
+/* افتراضيّاً: tl-hero مخفيّ — يُظهَر فقط على time-left-page */
+.tl-hero { display: none; }
+html.time-left-page .tl-hero {
+    display: block;
+    background: linear-gradient(135deg, #e8f5ec, #d4ead9);
+    border: 1px solid #2d7a3e;
+    padding: 40px 22px 32px;
+    margin: 18px auto;
+    max-width: 720px;
+    text-align: center;
+    border-radius: 18px;
+    box-shadow: 0 6px 22px rgba(45,122,62,0.10);
+}
+
+/* ═══ Round 5: Tool-page isolation — إخفاء كلّ ما ليس tl-hero ═══ */
+html.time-left-page .page-h1,
+html.time-left-page #city-hero-answer,
+html.time-left-page #npt-hero,
+html.time-left-page .city-breadcrumb,
+html.time-left-page #city-page-search,
+html.time-left-page #location-hero,
+html.time-left-page .next-prayer-banner,
+html.time-left-page .prayer-cards,
+html.time-left-page #summary-info-strip,
+html.time-left-page #city-summary-paragraph,
+html.time-left-page #seo-keywords,
+html.time-left-page #nearby-section,
+html.time-left-page #prayer-schedule-section,
+html.time-left-page #most-searched-chips,
+html.time-left-page #country-cities-section,
+html.time-left-page #arab-countries-section,
+html.time-left-page #city-about-section,
+html.time-left-page #city-related-services,
+html.time-left-page #related-links-section,
+html.time-left-page #other-trending-cities,
+html.time-left-page #home-quick-access,
+html.time-left-page #moon-today-card,
+html.time-left-page #faq-section,
+html.time-left-page #mini-islamic-tools,
+html.time-left-page .hadith-section,
+html.time-left-page #home-footer-links,
+html.time-left-page #location-suggestion-bar { display: none !important; }
+
+.tl-location {
+    font-size: 0.92rem;
+    color: #1b5e26;
+    margin-bottom: 10px;
+    font-weight: 600;
+    opacity: 0.85;
+}
+.tl-h1 {
+    font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+    font-weight: 700;
+    color: #1b5e26;
+    margin: 0 0 8px;
+    line-height: 1.45;
+}
+.tl-h1-prayer { color: #2d7a3e; font-weight: 800; }
+.tl-h1-city { color: #1b5e26; font-weight: 800; }
+/* 🔥 BIG countdown — الرقم هو البطل */
+.tl-countdown {
+    font-size: clamp(3rem, 11vw, 6rem);
+    font-weight: 900;
+    color: #1b5e26;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.05;
+    margin: 18px 0 6px;
+    letter-spacing: 2px;
+    font-family: ui-monospace, "SF Mono", "Menlo", Consolas, monospace;
+    text-shadow: 0 2px 4px rgba(27,94,38,0.08);
+    direction: ltr;
+    display: block;
+    transition: color .3s ease;
+    animation: tl-tick 1s ease-in-out infinite;
+}
+@keyframes tl-tick {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.93; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tl-countdown { animation: none; }
+}
+/* 🆕 Smart urgency colors */
+.tl-countdown[data-urgency="warn"]   { color: #d97706; text-shadow: 0 2px 4px rgba(217,119,6,0.14); }
+.tl-countdown[data-urgency="urgent"] { color: #dc2626; text-shadow: 0 2px 4px rgba(220,38,38,0.18); }
+
+/* 🆕 Live pulse indicator under countdown */
+.tl-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    color: #3d6e48;
+    margin-bottom: 16px;
+    opacity: 0.88;
+}
+.tl-live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #34a853;
+    box-shadow: 0 0 0 0 rgba(52,168,83,0.6);
+    animation: tl-live-pulse 1.6s ease-out infinite;
+}
+@keyframes tl-live-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(52,168,83,0.55); }
+    70%  { box-shadow: 0 0 0 8px rgba(52,168,83,0); }
+    100% { box-shadow: 0 0 0 0 rgba(52,168,83,0); }
+}
+@media (prefers-reduced-motion: reduce) { .tl-live-dot { animation: none; } }
+.tl-countdown[data-urgency="warn"]   ~ .tl-live .tl-live-dot { background: #d97706; }
+.tl-countdown[data-urgency="urgent"] ~ .tl-live .tl-live-dot { background: #dc2626; }
+
+/* 🆕 Level 3: Micro-tick animation — نبضة خفيفة كل ثانية */
+.tl-countdown.tl-tick-pulse { animation: tl-tick-pulse 0.22s ease-out; }
+@keyframes tl-tick-pulse {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.018); }
+    100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .tl-countdown.tl-tick-pulse { animation: none; } }
+
+/* 🆕 Level 3: Auto-update hint تحت المؤشر الحي */
+.tl-autoupdate {
+    font-size: 0.78rem;
+    color: var(--text-secondary, #728272);
+    margin: 4px 0 14px;
+    opacity: 0.82;
+    text-align: center;
+}
+
+/* 🆕 Level 3: Sticky Mini Timer — يظهر عند scroll (time-left-page فقط) */
+html:not(.time-left-page) .tl-sticky { display: none !important; }
+.tl-sticky {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    background: #2d7a3e;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s ease, opacity .22s ease, background .2s;
+    white-space: nowrap;
+}
+.tl-sticky-on {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+.tl-sticky-cd { font-variant-numeric: tabular-nums; }
+.tl-sticky-sep { opacity: 0.85; font-weight: 500; }
+.tl-sticky-icon { font-size: 1rem; }
+/* Sticky يتأثر بحالة الإلحاح من الـ hero */
+.tl-hero.tl-state-soon   ~ .tl-sticky { background: #d97706; }
+.tl-hero.tl-state-urgent ~ .tl-sticky { background: #dc2626; }
+@media (max-width: 640px) {
+    .tl-sticky { font-size: 0.84rem; padding: 6px 14px; }
+}
+.tl-meta {
+    font-size: 0.98rem;
+    color: var(--text, #2e3a2e);
+    margin: 0 0 22px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    align-items: center;
+    justify-content: center;
+}
+.tl-meta-label { color: var(--text-secondary, #546e54); margin-inline-end: 4px; }
+.tl-meta-sep { color: #b7c9b8; }
+.tl-prayer-name { color: #2d7a3e; font-weight: 700; }
+.tl-prayer-time { color: var(--text, #2e3a2e); font-weight: 700; font-variant-numeric: tabular-nums; }
+.tl-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    background: #2d7a3e;
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.98rem;
+    transition: background .15s, transform .15s, box-shadow .15s;
+    box-shadow: 0 2px 8px rgba(45, 122, 62, 0.25);
+}
+.tl-cta:hover {
+    background: #1b5e26;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(45, 122, 62, 0.35);
+}
+.tl-cta-arrow { font-size: 1.15rem; line-height: 1; }
+[dir="rtl"] .tl-cta-arrow { transform: rotate(180deg); }
+
+/* 🆕 Level 2: Inline Horizontal Timeline — خفيف، بدون box */
+.tl-timeline {
+    list-style: none;
+    margin: 24px auto 0;
+    padding: 0;
+    max-width: 640px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+.tl-timeline li {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    color: #7a8a7a;
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+}
+.tl-timeline .tl-tl-icon {
+    font-size: 0.85em;
+    line-height: 1;
+    opacity: 0.9;
+}
+.tl-timeline .tl-tl-name { font-weight: 600; }
+.tl-timeline .tl-tl-time { display: none; }  /* الوقت غير مطلوب في الـ inline mode — فقط الأسماء والمؤشّر */
+.tl-timeline li.tl-done { color: #8fa393; }
+.tl-timeline li.tl-done .tl-tl-icon { color: #2d7a3e; }
+.tl-timeline li.tl-now {
+    background: #2d7a3e;
+    color: #fff;
+    font-weight: 800;
+    padding: 5px 14px;
+    box-shadow: 0 2px 6px rgba(45,122,62,0.3);
+}
+.tl-timeline li.tl-now .tl-tl-icon { color: #ffd75e; font-size: 0.95em; }
+.tl-timeline li.tl-upcoming { color: #8a998a; }
+.tl-timeline li.tl-upcoming .tl-tl-icon { opacity: 0.6; }
+
+/* 🆕 Tiny SEO paragraph */
+.tl-seo {
+    max-width: 560px;
+    margin: 22px auto 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #4a5a4a;
+    opacity: 0.88;
+}
+
+@media (max-width: 480px) {
+    html.time-left-page .tl-hero { padding: 28px 14px 22px; margin: 10px 8px; }
+    .tl-h1 { font-size: 1.05rem; }
+    .tl-countdown { font-size: clamp(2.6rem, 15vw, 4.4rem); letter-spacing: 1px; }
+    .tl-meta { font-size: 0.88rem; }
+    .tl-cta { padding: 10px 20px; font-size: 0.92rem; }
+    .tl-timeline { padding: 12px 10px; font-size: 0.9rem; }
+    .tl-seo { font-size: 0.85rem; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   🆕 Round 4 (Minimal): Next-Prayer-Time Page — /next-prayer-time-in-{slug}
+   Schedule Awareness — يعرض الصلاة القادمة + 3 صلوات تالية (ليس countdown).
+   R-1: «اليوم» في label   |   R-2: 3 صلوات دائماً   |   R-3: H1 «اليوم»
+   ───────────────────────────────────────────────────────────────────── */
+.npt-hero { display: none; }
+html.next-prayer-time-page .npt-hero { display: block; }
+/* على NPT-page: أخفِ العناصر الأخرى المتعارضة بصريّاً */
+html.next-prayer-time-page #city-hero-answer,
+html.next-prayer-time-page .tl-hero,
+html.next-prayer-time-page .page-h1 { display: none !important; }
+
+.npt-hero-inner {
+    max-width: 760px;
+    margin: 28px auto 20px;
+    padding: 32px 22px;
+    background: linear-gradient(180deg, #fff 0%, #f8fbf9 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(45,122,62,0.08);
+    text-align: center;
+}
+.npt-h1 {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 800;
+    color: #1c4a2a;
+    margin: 0 0 22px;
+    line-height: 1.4;
+}
+.npt-h1-city { color: var(--primary, #2e7d32); }
+.npt-h1-today { color: #666; font-weight: 600; margin-inline-start: 4px; }  /* R-3: subtle «اليوم» */
+
+.npt-next-card {
+    padding: 18px 16px;
+    background: linear-gradient(135deg, rgba(45,122,62,0.08), rgba(255,215,0,0.08));
+    border: 1px solid rgba(45,122,62,0.15);
+    border-radius: 14px;
+    margin: 0 auto 18px;
+    max-width: 420px;
+}
+.npt-next-label { font-size: 0.88rem; color: #666; margin-bottom: 6px; }
+.npt-next-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary, #2e7d32);
+    line-height: 1.2;
+}
+.npt-next-time {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+}
+
+.npt-upcoming {
+    margin: 18px auto 0;
+    max-width: 420px;
+    text-align: start;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 14px 18px;
+}
+.npt-upcoming-title {
+    font-size: 0.95rem;
+    color: #555;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.npt-upcoming-list { list-style: none; padding: 0; margin: 0; }
+.npt-upcoming-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #ececec;
+    font-size: 0.96rem;
+}
+.npt-upcoming-list li:last-child { border-bottom: 0; }
+.npt-upcoming-list .npt-up-name { color: #333; font-weight: 600; }
+.npt-upcoming-list .npt-up-time {
+    color: var(--primary, #2e7d32);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 480px) {
+    .npt-hero-inner { padding: 22px 14px; margin: 18px auto 14px; }
+    .npt-next-name { font-size: 1.5rem; }
+    .npt-next-time { font-size: 1.2rem; }
+}
+
+/* ─── NPT: Primary CTA + Secondary link + SEO paragraph ─── */
+.npt-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px auto 0;
+    padding: 13px 24px;
+    background: linear-gradient(135deg, var(--primary, #2e7d32), #1c4a2a);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(45,122,62,0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.npt-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(45,122,62,0.35);
+}
+.npt-cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+.npt-cta-arrow {
+    transition: transform 0.15s ease;
+}
+html[dir="rtl"] .npt-cta-arrow { transform: scaleX(-1); }
+.npt-cta:hover .npt-cta-arrow { transform: translateX(3px); }
+html[dir="rtl"] .npt-cta:hover .npt-cta-arrow { transform: scaleX(-1) translateX(3px); }
+
+.npt-secondary {
+    display: block;
+    margin: 14px auto 0;
+    font-size: 0.92rem;
+    color: #666;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(45,122,62,0.35);
+    padding-bottom: 2px;
+    width: fit-content;
+    transition: color 0.12s ease, border-color 0.12s ease;
+}
+.npt-secondary:hover {
+    color: var(--primary, #2e7d32);
+    border-color: var(--primary, #2e7d32);
+}
+
+.npt-seo {
+    max-width: 560px;
+    margin: 20px auto 0;
+    padding: 0 8px;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+    .npt-cta { font-size: 0.95rem; padding: 12px 20px; }
+    .npt-secondary { font-size: 0.86rem; }
+    .npt-seo { font-size: 0.85rem; }
+}
+
+/* ─── Round 4 (Minimal): Sticky bar clickable ─── */
+.sticky-next-bar {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+.sticky-next-bar:focus-visible {
+    outline: 2px solid var(--primary, #2e7d32);
+    outline-offset: 2px;
+}
+/* على time-left-page: لا self-link (البار يظلّ مرئيّاً لكن لا يُضغط) */
+html.time-left-page .sticky-next-bar {
+    pointer-events: none;
+    cursor: default;
+}
+
+/* ─── Round 4 (Minimal): FAQ inline anchors ─── */
+.faq-link {
+    color: var(--primary, #2e7d32);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.faq-link:hover { color: #1c4a2a; }
+
+/* ── Other Trending Cities ──────────────────────────────────────────── */
+.other-trending-cities { padding: 16px 20px; }
+.otc-title {
+    font-size: 1.05rem;
+    margin: 0 0 12px;
+    font-weight: 700;
+    color: var(--primary-dark, #1b5e20);
+}
+.otc-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.otc-chip {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--bg-subtle, #f4faf4);
+    border: 1px solid var(--border, #d7e3d6);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text, #2e3a2e);
+    font-size: .92rem;
+    transition: background .15s, border-color .15s, color .15s;
+}
+.otc-chip:hover {
+    background: #eef5ef;
+    border-color: var(--primary, #2e7d32);
+    color: var(--primary-dark, #1b5e20);
+}
+
+/* ── Mini Islamic Tools (3 fixed) ──────────────────────────────────── */
+.mini-islamic-tools { padding: 16px 20px; }
+.mit-title {
+    font-size: 1.1rem;
+    margin: 0 0 14px;
+    font-weight: 700;
+    color: var(--primary-dark, #1b5e20);
+}
+.mit-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+}
+.mit-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 14px;
+    background: var(--bg-subtle, #f4faf4);
+    border: 1px solid var(--border, #d7e3d6);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text, #2e3a2e);
+    text-align: center;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+}
+.mit-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary, #2e7d32);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, .12);
+}
+.mit-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+.mit-label {
+    font-size: .92rem;
+    font-weight: 600;
+    color: var(--primary-dark, #1b5e20);
+}
+@media (max-width: 480px) {
+    .mit-grid { gap: 8px; }
+    .mit-item { padding: 12px 8px; }
+    .mit-icon { font-size: 1.5rem; }
+    .mit-label { font-size: .8rem; }
+}
+
+/* ── Weekly — في city-page: 7 أيّام افتراضيّاً (data-full يُضبط من JS) ── */
+/* الزرّ يبقى مرئيّاً، نصّه يتغيّر إلى "عرض الجدول الشهريّ" عبر JS */
+
+/* ── FAQ city mode — إظهار كلّ الأسئلة الـ7 ─────────────────────────── */
+.faq-city-mode .faq-expand-all { display: none !important; }
+.faq-city-mode .faq-item,
+.faq-city-mode .faq-divider { display: block !important; }
+.faq-city-mode .faq-item { display: block !important; }
+
 

@@ -3,12 +3,23 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 const zlib  = require('zlib');
+const { execSync } = require('child_process');
 const Terser   = require('terser');
 const CleanCSS = require('clean-css');
 // MoonCalc للـ SSR: حقن أرقام حقيقيّة (إضاءة/عمر/طور) في فقرة /moon-today-in-{slug}
 // TRANSLATIONS للـ SSR: لترجمة أسماء الأطوار والأبراج قبل الإرسال (بدون Googlebot-JS)
 const MoonCalc   = require('./js/moon.js');
 const { TRANSLATIONS: I18N } = require('./js/i18n.js');
+
+// 🆕 Round 2.1 (H): Build hash — git short SHA مُحسَب مرّة عند الإقلاع
+// يُضاف لـ asset URLs كـ&b={hash} → يُبطّل الـcache عند كلّ deploy (بدون bump يدويّ)
+// fallback إلى 'dev' عند غياب git أو .git/
+const BUILD_HASH = (() => {
+    try {
+        return execSync('git rev-parse --short HEAD', { cwd: __dirname, stdio: ['ignore', 'pipe', 'ignore'] })
+            .toString().trim() || 'dev';
+    } catch (_e) { return 'dev'; }
+})();
 
 // ===== معالجات أخطاء العملية (تمنع السقوط الكلي عند خطأ واحد) =====
 process.on('uncaughtException', (err) => {
@@ -2091,25 +2102,21 @@ const COUNTRY_NAMES_AR = {
     li:'ليختنشتاين', lu:'لوكسمبورغ', mt:'مالطا',
 };
 
-// أشهر الهجرية (slug → {ar, en, order})
+// أشهر الهجرية (order 1..12 → {ar, en}) — keyed numerically since URL slugs were removed
 const _HIJRI_MONTHS = {
-    'muharram':        { ar: 'محرم',            en: 'Muharram',         order: 1 },
-    'safar':           { ar: 'صفر',             en: 'Safar',            order: 2 },
-    'rabi-al-awwal':   { ar: 'ربيع الأول',      en: 'Rabi al-Awwal',    order: 3 },
-    'rabi-al-thani':   { ar: 'ربيع الآخر',       en: 'Rabi al-Thani',    order: 4 },
-    'jumada-al-ula':   { ar: 'جمادى الأولى',    en: 'Jumada al-Ula',    order: 5 },
-    'jumada-al-akhira':{ ar: 'جمادى الآخرة',    en: 'Jumada al-Akhira', order: 6 },
-    'rajab':           { ar: 'رجب',             en: 'Rajab',            order: 7 },
-    'shaban':          { ar: 'شعبان',           en: 'Shaban',           order: 8 },
-    'ramadan':         { ar: 'رمضان',           en: 'Ramadan',          order: 9 },
-    'shawwal':         { ar: 'شوال',            en: 'Shawwal',          order: 10 },
-    'dhu-al-qidah':    { ar: 'ذو القعدة',        en: 'Dhu al-Qidah',     order: 11 },
-    'dhu-al-hijjah':   { ar: 'ذو الحجة',         en: 'Dhu al-Hijjah',    order: 12 },
+    1:  { ar: 'محرم',            en: 'Muharram'        },
+    2:  { ar: 'صفر',             en: 'Safar'           },
+    3:  { ar: 'ربيع الأول',      en: 'Rabi al-Awwal'   },
+    4:  { ar: 'ربيع الآخر',       en: 'Rabi al-Thani'   },
+    5:  { ar: 'جمادى الأولى',    en: 'Jumada al-Ula'   },
+    6:  { ar: 'جمادى الآخرة',    en: 'Jumada al-Akhira'},
+    7:  { ar: 'رجب',             en: 'Rajab'           },
+    8:  { ar: 'شعبان',           en: 'Shaban'          },
+    9:  { ar: 'رمضان',           en: 'Ramadan'         },
+    10: { ar: 'شوال',            en: 'Shawwal'         },
+    11: { ar: 'ذو القعدة',        en: 'Dhu al-Qidah'    },
+    12: { ar: 'ذو الحجة',         en: 'Dhu al-Hijjah'   },
 };
-const _HIJRI_MONTHS_BY_ORDER = Object.keys(_HIJRI_MONTHS).reduce((m, k) => {
-    m[_HIJRI_MONTHS[k].order] = k;
-    return m;
-}, {});
 
 // الشهر الميلادي (لـ SSR تحسين keyword consistency: "أبريل 2026" إلخ)
 const _GREG_MONTHS = {
@@ -2190,6 +2197,175 @@ function _escHtml(s) {
     return String(s == null ? '' : s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ===== 🆕 Level 3+: HTML stripper =====
+// يحذف عنصرًا كاملاً من HTML عبر مطابقة وسم الفتح ثمّ عدّ الوسوم المتداخلة حتى الإغلاق المتوازن.
+// lookup: { type: 'id'|'class', value: string }
+// يُرجع HTML بدون العنصر (أو نفس HTML إن لم يُعثر عليه).
+function _stripElement(html, lookup) {
+    const attrName = lookup.type === 'id' ? 'id' : 'class';
+    let openRe;
+    if (lookup.type === 'id') {
+        openRe = new RegExp(
+            '<(\\w+)\\b[^>]*?\\sid="' + _reEsc(lookup.value) + '"[^>]*?>', 'i'
+        );
+    } else {
+        // class يمكن أن يحتوي عدّة أصناف: class="a b c"
+        openRe = new RegExp(
+            '<(\\w+)\\b[^>]*?\\sclass="[^"]*\\b' + _reEsc(lookup.value) + '\\b[^"]*"[^>]*?>', 'i'
+        );
+    }
+    const m = openRe.exec(html);
+    if (!m) return html;
+    const tag = m[1].toLowerCase();
+    const startIdx = m.index;
+    const afterOpen = startIdx + m[0].length;
+    // self-closing?
+    if (m[0].endsWith('/>')) {
+        return html.slice(0, startIdx) + html.slice(afterOpen);
+    }
+    // عدّ متوازن
+    const openTagRe  = new RegExp('<' + tag + '\\b',  'ig');
+    const closeTagRe = new RegExp('</' + tag + '\\s*>', 'ig');
+    let depth = 1, i = afterOpen;
+    while (depth > 0 && i < html.length) {
+        openTagRe.lastIndex  = i;
+        closeTagRe.lastIndex = i;
+        const nextOpen  = openTagRe.exec(html);
+        const nextClose = closeTagRe.exec(html);
+        if (!nextClose) return html; // HTML سيّء؛ لا نحذف شيئاً
+        if (nextOpen && nextOpen.index < nextClose.index) {
+            depth++;
+            i = nextOpen.index + nextOpen[0].length;
+        } else {
+            depth--;
+            i = nextClose.index + nextClose[0].length;
+        }
+    }
+    if (depth !== 0) return html;
+    return html.slice(0, startIdx) + html.slice(i);
+}
+function _reEsc(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ===== 🆕 Level 3+: Time-Left page pruner =====
+// يُحدَّث هذا المصفوف بتزامن مع قاعدة CSS `html.time-left-page ... { display: none }`.
+// هدفه: صفحة time-left أخفّ بأكثر من النصف (حذف فعليّ من الـDOM، لا إخفاء بصريّ).
+const _TL_STRIP_IDS = [
+    'city-hero-answer',
+    'npt-hero',
+    'city-page-search',
+    'location-hero',
+    'summary-info-strip',
+    'city-summary-paragraph',
+    'seo-keywords',
+    'nearby-section',
+    'prayer-schedule-section',
+    'most-searched-chips',
+    'country-cities-section',
+    'arab-countries-section',
+    'city-about-section',
+    'city-related-services',
+    'related-links-section',
+    'other-trending-cities',
+    'home-quick-access',
+    'moon-today-card',
+    'faq-section',
+    'mini-islamic-tools',
+    'home-footer-links',
+    'location-suggestion-bar',
+    'page-h1',
+    'city-breadcrumb',
+    'prayer-cards'
+];
+const _TL_STRIP_CLASSES = [
+    'next-prayer-banner',
+    'hadith-section'
+];
+function _stripHtmlForTimeLeft(html) {
+    for (const id of _TL_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    for (const cls of _TL_STRIP_CLASSES) {
+        // قد يوجد أكثر من عنصر بنفس الصنف (مثلاً hadith-section) — كرّر
+        let prev = '';
+        let guard = 8;
+        while (prev !== html && guard-- > 0) {
+            prev = html;
+            html = _stripElement(html, { type: 'class', value: cls });
+        }
+    }
+    return html;
+}
+
+// 🆕 NPT Page Pruner — نفس فلسفة TL: صفحة single-purpose.
+// الصفحة تجيب عن سؤال واحد: "ما الصلاة القادمة في {city}؟ ومتى؟"
+// نحذف كلّ الأقسام الموروثة من city-page ونحتفظ فقط بـ #npt-hero.
+// ملاحظة: tl-hero و tl-sticky مستبعدان هنا (خاصّان بـ time-left) فنحذفهما أيضًا.
+const _NPT_STRIP_IDS = [
+    'tl-hero',                  // time-left hero (غير مناسب هنا)
+    'tl-sticky',                // sticky mini timer (خاصّ بـ time-left)
+    'city-hero-answer',
+    // 'npt-hero',              ← NOT stripped — this is the star of the page
+    'city-page-search',
+    'location-hero',
+    'summary-info-strip',
+    'city-summary-paragraph',
+    'seo-keywords',
+    'nearby-section',
+    'prayer-schedule-section',
+    'most-searched-chips',
+    'country-cities-section',
+    'arab-countries-section',
+    'city-about-section',
+    'city-related-services',
+    'related-links-section',
+    'other-trending-cities',
+    'home-quick-access',
+    'moon-today-card',
+    'faq-section',
+    'mini-islamic-tools',
+    'home-footer-links',
+    'location-suggestion-bar',
+    'page-h1',
+    'city-breadcrumb',
+    'prayer-cards'
+];
+const _NPT_STRIP_CLASSES = [
+    'next-prayer-banner',
+    'hadith-section'
+];
+function _stripHtmlForNpt(html) {
+    for (const id of _NPT_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    for (const cls of _NPT_STRIP_CLASSES) {
+        let prev = '';
+        let guard = 8;
+        while (prev !== html && guard-- > 0) {
+            prev = html;
+            html = _stripElement(html, { type: 'class', value: cls });
+        }
+    }
+    return html;
+}
+
+// 🆕 Round 6 (City Audit): City Page Dead-Weight Pruner
+// صفحة /prayer-times-in-{city} ترث قوالب (time-left hero + sticky + next-prayer hero) من index.html
+// كانت تُخفى بـ CSS display:none فقط ⇒ dead weight في كل request + تكرار intent في نظر SEO + race على H1.
+// الحل: حذف فعليّ من الـ DOM server-side (نفس فلسفة TL و NPT).
+const _CITY_STRIP_IDS = [
+    'tl-hero',      // time-left hero (خاصّ بصفحة time-left)
+    'tl-sticky',    // sticky mini countdown bar (خاصّ بـ time-left)
+    'npt-hero',     // next-prayer hero standalone (خاصّ بـ next-prayer)
+];
+function _stripHtmlForCity(html) {
+    for (const id of _CITY_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    return html;
 }
 
 // ===== SSR: بناء فقرة تعريفيّة ديناميكيّة لصفحة القمر =====
@@ -3102,16 +3278,24 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
             `<nav class="home-services-links" aria-label="${_escHtml(_f.svcAria)}">`
         );
 
-        // Services links text
+        // Services links text — footer: اليوم يذهب مباشرة إلى الصفحة المؤرّخة (canonical)
+        const _pC_h = _hijriNow();
+        const _pC_pad = (n) => String(n).padStart(2, '0');
+        const _pC_dated = `/hijri-date/${_pC_h.year}-${_pC_pad(_pC_h.month)}-${_pC_pad(_pC_h.day)}`;
         html = html
             .replace(/<a href="[^"]*\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
-                `<a href="${_langPrefix}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(_f.l_hijri_today)}</a>`)
+                `<a href="${_langPrefix}${_pC_dated}" data-i18n="footer.link_hijri_today">${_escHtml(_f.l_hijri_today)}</a>`)
             .replace(/<a href="[^"]*\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(_f.l_hijri_year)}</a>`)
             .replace(/<a href="[^"]*\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/dateconverter" data-i18n="footer.link_date_converter">${_escHtml(_f.l_date_conv)}</a>`)
             .replace(/<a href="[^"]*\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/msbaha" data-i18n="footer.link_tasbih">${_escHtml(_f.l_tasbih)}</a>`);
+
+        // countries navbar + qa-card: استبدال أي href=/today-hijri-date → الصفحة المؤرّخة
+        html = html
+            .replace(/href="\/today-hijri-date"/g, `href="${_langPrefix}${_pC_dated}"`)
+            .replace(/href="\{LANG_PREFIX\}\/today-hijri-date"/g, `href="${_langPrefix}${_pC_dated}"`);
 
         // Share buttons text
         html = html
@@ -3198,9 +3382,8 @@ function buildSeoForPath(urlPath) {
     // Description يحوي: اليوم + مكة + المدينة + الشهر الهجري الحالي ديناميكياً
     //                   (لإزالة Seobility "missing keywords" warnings)
     const _hNow = _hijriNow();
-    const _hMonthSlug = _HIJRI_MONTHS_BY_ORDER[_hNow.month];
-    const _hMonthAr = (_HIJRI_MONTHS[_hMonthSlug] || {}).ar || '';
-    const _hMonthEn = (_HIJRI_MONTHS[_hMonthSlug] || {}).en || '';
+    const _hMonthAr = (_HIJRI_MONTHS[_hNow.month] || {}).ar || '';
+    const _hMonthEn = (_HIJRI_MONTHS[_hNow.month] || {}).en || '';
     const _hYear = _hNow.year;
     // _gNow بتوقيت مكّة (Asia/Riyadh) — انظر _nowMeccaDate(). استعمل get**UTC**
     // لاستخراج أجزاء التاريخ لأنّ الـ Date مبنيّ بـ Date.UTC(y,m-1,d).
@@ -3600,6 +3783,25 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: title, item: canonical });
     }
 
+    // ===== Round 11: /today-hijri-date canonical → /hijri-date/YYYY-MM-DD =====
+    //   الصفحة UX dynamic. الـ canonical الرسميّة هي الصفحة الثابتة لليوم الحاليّ.
+    //   هذا يمنع duplicate content ويوجّه Google إلى صفحة الـ SEO.
+    //   نستبدل أيضاً عنصر الـ breadcrumb الأخير ليُطابق الـ canonical الجديد.
+    // flag: عندما نُغيّر canonical قصداً (لا بسبب خلل build)،
+    // نخبر renderSeoHeadHtml ألّا يُضيف hreflang fallback إضافيّ (يمنع duplicate).
+    let _canonicalOverride = false;
+    if (corePath === '/today-hijri-date') {
+        const _pad2Today = n => String(n).padStart(2, '0');
+        const _hToday = _hijriNow();
+        const _langPrefix = (lang === 'ar') ? '' : ('/' + lang);
+        canonical = origin + _langPrefix + `/hijri-date/${_hToday.year}-${_pad2Today(_hToday.month)}-${_pad2Today(_hToday.day)}`;
+        _canonicalOverride = true;
+        // حدِّث آخر breadcrumb (title push من static pages) ليُشير للـ canonical الجديد
+        if (breadcrumbs.length > 0) {
+            breadcrumbs[breadcrumbs.length - 1].item = canonical;
+        }
+    }
+
     // للصفحات الديناميكية: استخدم النص الإنجليزي لـ EN/FR/TR/UR (احتياط) والعربي لـ AR فقط
     const useEnTxt = (lang !== 'ar');
 
@@ -3621,6 +3823,91 @@ function buildSeoForPath(urlPath) {
         geo = { lat, lng };
         cityModified = new Date().toISOString();
         breadcrumbs.push({ name: cityDisplay, item: canonical });
+    }
+
+    // ── 🆕 Time-Left pages (Polish Round F): /time-left-until-prayer-in-{slug} ──
+    // صفحة SSR مستقلّة تُركّز على countdown + CTA، تُشارك نفس منطق SSR لصفحة المدينة
+    // (يُعامَل الـ slug كمدينة في cityMatchSsr لاحقاً، لكن H1/title/description يختلفون).
+    let timeLeftPage = null;
+    const _tlMatch = corePath.match(/^\/time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+    if (_tlMatch) {
+        const _tlSlug = _tlMatch[1];
+        const _tlCityDisplay = (typeof _resolveCityName === 'function')
+            ? (_resolveCityName(_tlSlug, lang) || _slugToTitle(_tlSlug))
+            : _slugToTitle(_tlSlug);
+        const _TL_TITLE = {
+            ar: `كم باقي على الصلاة القادمة في ${_tlCityDisplay}؟ — جدول اليوم`,
+            en: `Time Left Until Next Prayer in ${_tlCityDisplay} — Today's Schedule`,
+            fr: `Temps restant avant la prochaine prière à ${_tlCityDisplay}`,
+            tr: `${_tlCityDisplay} için bir sonraki namaza kalan süre`,
+            ur: `${_tlCityDisplay} میں اگلی نماز تک کتنا وقت باقی ہے؟`,
+            de: `Verbleibende Zeit bis zum nächsten Gebet in ${_tlCityDisplay}`,
+            id: `Waktu Tersisa Menjelang Sholat di ${_tlCityDisplay}`,
+            es: `Tiempo restante para la próxima oración en ${_tlCityDisplay}`,
+            bn: `${_tlCityDisplay}-এ পরবর্তী নামাজ পর্যন্ত কত সময় বাকি?`,
+            ms: `Masa Tinggal Sebelum Solat Seterusnya di ${_tlCityDisplay}`,
+        };
+        const _TL_DESC = {
+            ar: `العدّ التنازليّ الحيّ للصلاة القادمة في ${_tlCityDisplay}، مع اسم الصلاة، الوقت الحاليّ، والجدول اليوميّ الكامل (الفجر، الظهر، العصر، المغرب، العشاء).`,
+            en: `Live countdown to the next prayer in ${_tlCityDisplay} with prayer name, current time, and today's full schedule (Fajr, Dhuhr, Asr, Maghrib, Isha).`,
+            fr: `Compte à rebours en direct jusqu'à la prochaine prière à ${_tlCityDisplay}, avec le nom de la prière, l'heure actuelle et le programme du jour.`,
+            tr: `${_tlCityDisplay} için bir sonraki namaza canlı geri sayım — namaz adı, mevcut saat ve günün tam programı.`,
+            ur: `${_tlCityDisplay} میں اگلی نماز تک براہِ راست ٹائمر — نماز کا نام، موجودہ وقت، اور آج کا مکمل شیڈول۔`,
+            de: `Live-Countdown bis zum nächsten Gebet in ${_tlCityDisplay} mit Gebetsname, aktueller Uhrzeit und dem vollständigen Tagesplan.`,
+            id: `Hitung mundur langsung menuju sholat berikutnya di ${_tlCityDisplay} dengan nama sholat, waktu sekarang, dan jadwal lengkap hari ini.`,
+            es: `Cuenta regresiva en vivo hasta la próxima oración en ${_tlCityDisplay}, con el nombre de la oración, la hora actual y el horario completo de hoy.`,
+            bn: `${_tlCityDisplay}-এ পরবর্তী নামাজ পর্যন্ত লাইভ কাউন্টডাউন — নামাজের নাম, বর্তমান সময়, এবং আজকের সম্পূর্ণ সময়সূচি।`,
+            ms: `Kira undur langsung sehingga solat seterusnya di ${_tlCityDisplay} dengan nama solat, waktu semasa, dan jadual penuh hari ini.`,
+        };
+        title = _TL_TITLE[lang] || _TL_TITLE.en;
+        description = _TL_DESC[lang] || _TL_DESC.en;
+        ogType = 'article';
+        cityModified = new Date().toISOString();
+        breadcrumbs.push({ name: _tlCityDisplay, item: canonical });
+        timeLeftPage = { slug: _tlSlug, cityName: _tlCityDisplay };
+    }
+
+    // ── 🆕 Round 4 (Minimal): Next-Prayer-Time pages: /next-prayer-time-in-{slug} ──
+    //     Schedule Awareness (ليس countdown) — يعرض الصلاة القادمة + 3 صلوات تالية.
+    //     هويّة مختلفة تماماً عن time-left لتجنّب duplicate content.
+    //     R-4: Title CTR boost — "(Exact Time & Next Prayers)" / "(الوقت الدقيق + الصلوات التالية)"
+    let nextPrayerPage = null;
+    const _nptMatch = corePath.match(/^\/next-prayer-time-in-([a-z][a-z0-9-]+)$/);
+    if (_nptMatch) {
+        const _nptSlug = _nptMatch[1];
+        const _nptCityDisplay = (typeof _resolveCityName === 'function')
+            ? (_resolveCityName(_nptSlug, lang) || _slugToTitle(_nptSlug))
+            : _slugToTitle(_nptSlug);
+        const _NPT_TITLE = {
+            ar: `الصلاة القادمة في ${_nptCityDisplay} اليوم (الوقت الدقيق + الصلوات التالية) | Prayer Times`,
+            en: `Next Prayer Time in ${_nptCityDisplay} Today (Exact Time & Next Prayers) | Prayer Times`,
+            fr: `Prochaine Prière à ${_nptCityDisplay} Aujourd'hui (Heure Exacte + Prières Suivantes) | Prayer Times`,
+            tr: `Bugün ${_nptCityDisplay} Bir Sonraki Namaz Vakti (Kesin Saat + Sonraki Namazlar) | Prayer Times`,
+            ur: `آج ${_nptCityDisplay} میں اگلی نماز کا وقت (درست وقت + اگلی نمازیں) | Prayer Times`,
+            de: `Nächstes Gebet in ${_nptCityDisplay} Heute (Genaue Zeit + Nächste Gebete) | Prayer Times`,
+            id: `Waktu Sholat Berikutnya di ${_nptCityDisplay} Hari Ini (Waktu Tepat + Sholat Selanjutnya) | Prayer Times`,
+            es: `Próxima Oración en ${_nptCityDisplay} Hoy (Hora Exacta + Próximas Oraciones) | Prayer Times`,
+            bn: `আজ ${_nptCityDisplay}-এ পরবর্তী নামাজের সময় (সঠিক সময় + পরবর্তী নামাজসমূহ) | Prayer Times`,
+            ms: `Solat Seterusnya di ${_nptCityDisplay} Hari Ini (Masa Tepat + Solat Seterusnya) | Prayer Times`,
+        };
+        const _NPT_DESC = {
+            ar: `تعرف على الصلاة القادمة في ${_nptCityDisplay} اليوم مع موعدها الدقيق والصلوات الثلاث التي تليها في جدول مرتّب.`,
+            en: `Find out the next prayer time in ${_nptCityDisplay} today with its exact time and the following three prayers in a clean schedule.`,
+            fr: `Découvrez la prochaine prière à ${_nptCityDisplay} aujourd'hui avec son heure exacte et les trois prières suivantes dans un emploi du temps clair.`,
+            tr: `${_nptCityDisplay} için bugünkü bir sonraki namazın kesin saatini ve onu takip eden üç namazı düzenli bir programda görün.`,
+            ur: `${_nptCityDisplay} میں آج کی اگلی نماز کا درست وقت اور اس کے بعد کی تین نمازیں ایک صاف شیڈول میں جانیں۔`,
+            de: `Erfahren Sie die nächste Gebetszeit in ${_nptCityDisplay} heute mit der genauen Uhrzeit und den drei folgenden Gebeten in einem klaren Zeitplan.`,
+            id: `Ketahui sholat berikutnya di ${_nptCityDisplay} hari ini dengan waktu tepatnya dan tiga sholat berikutnya dalam jadwal yang rapi.`,
+            es: `Descubre la próxima oración en ${_nptCityDisplay} hoy con su hora exacta y las tres oraciones siguientes en un horario claro.`,
+            bn: `${_nptCityDisplay}-এ আজকের পরবর্তী নামাজের সঠিক সময় এবং তারপরের তিনটি নামাজ একটি পরিষ্কার সময়সূচিতে জানুন।`,
+            ms: `Ketahui solat seterusnya di ${_nptCityDisplay} hari ini dengan masa tepatnya dan tiga solat seterusnya dalam jadual yang kemas.`,
+        };
+        title = _NPT_TITLE[lang] || _NPT_TITLE.en;
+        description = _NPT_DESC[lang] || _NPT_DESC.en;
+        ogType = 'article';
+        cityModified = new Date().toISOString();
+        breadcrumbs.push({ name: _nptCityDisplay, item: canonical });
+        nextPrayerPage = { slug: _nptSlug, cityName: _nptCityDisplay };
     }
 
     // ── Qibla city pages: /qibla-in-{slug}-{lat}-{lng} ──
@@ -4016,12 +4303,13 @@ function buildSeoForPath(urlPath) {
         article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
     }
 
-    // ── Hijri month: /hijri-calendar/{month-slug}-{year} ──
-    m = corePath.match(/^\/hijri-calendar\/([a-z-]+)-(\d+)$/);
+    // ── Hijri month: /hijri-calendar/{YYYY}-{MM} ── 🆕 Round 11: numeric zero-padded (MM = 01..12)
+    m = corePath.match(/^\/hijri-calendar\/(\d{4})-(0[1-9]|1[0-2])$/);
     if (m) {
-        const monthSlug = m[1];
-        const year = m[2];
-        const info = _HIJRI_MONTHS[monthSlug];
+        const year = m[1];
+        const monthNum = parseInt(m[2], 10);
+        const _pad2 = n => String(n).padStart(2, '0');
+        const info = { order: monthNum };
         const _HM_BY_LANG_M = {
             ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
             en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
@@ -4035,8 +4323,7 @@ function buildSeoForPath(urlPath) {
             ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
         };
         const _hSfxM = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' }[lang] || ' AH';
-        const _mName = info ? (_HM_BY_LANG_M[lang] ? _HM_BY_LANG_M[lang][info.order - 1] : (info.en))
-                            : _slugToTitle(monthSlug);
+        const _mName = (_HM_BY_LANG_M[lang] || _HM_BY_LANG_M.en)[monthNum - 1];
         const _HMO_TITLE = {
             ar: `التقويم الهجري لشهر ${_mName} ${year}${_hSfxM}`,
             en: `Hijri Calendar: ${_mName} ${year}${_hSfxM}`,
@@ -4068,31 +4355,29 @@ function buildSeoForPath(urlPath) {
         };
         title = _HMO_TITLE[lang] || _HMO_TITLE.en;
         description = _HMO_DESC[lang] || _HMO_DESC.en;
-        ogType = 'article';
+        // Answer-Page pattern: month page is a WebPage, not an Article
+        ogType = 'website';
         breadcrumbs.push({ name: _HMO_CAL_LBL[lang] || _HMO_CAL_LBL.en, item: origin + langPrefix + `/hijri-calendar` });
         breadcrumbs.push({ name: `${year}${_hSfxM}`, item: origin + langPrefix + `/hijri-calendar/${year}` });
         breadcrumbs.push({ name: `${_mName} ${year}${_hSfxM}`, item: canonical });
-        // prev/next month navigation
-        if (info) {
-            const prevOrder = info.order === 1 ? 12 : info.order - 1;
-            const prevYear = info.order === 1 ? parseInt(year) - 1 : parseInt(year);
-            const nextOrder = info.order === 12 ? 1 : info.order + 1;
-            const nextYear = info.order === 12 ? parseInt(year) + 1 : parseInt(year);
-            prev = origin + langPrefix + `/hijri-calendar/${_HIJRI_MONTHS_BY_ORDER[prevOrder]}-${prevYear}`;
-            next = origin + langPrefix + `/hijri-calendar/${_HIJRI_MONTHS_BY_ORDER[nextOrder]}-${nextYear}`;
+        // prev/next month navigation — numeric format
+        {
+            const prevOrder = monthNum === 1 ? 12 : monthNum - 1;
+            const prevYear  = monthNum === 1 ? parseInt(year) - 1 : parseInt(year);
+            const nextOrder = monthNum === 12 ? 1 : monthNum + 1;
+            const nextYear  = monthNum === 12 ? parseInt(year) + 1 : parseInt(year);
+            prev = origin + langPrefix + `/hijri-calendar/${prevYear}-${_pad2(prevOrder)}`;
+            next = origin + langPrefix + `/hijri-calendar/${nextYear}-${_pad2(nextOrder)}`;
         }
-        article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
     }
 
-    // ── Hijri day: /hijri-date/{day}-{month-slug}-{year} ──
-    m = corePath.match(/^\/hijri-date\/(\d+)-([a-z-]+)-(\d+)$/);
+    // ── Hijri day: /hijri-date/{YYYY}-{MM}-{DD} ── 🆕 Round 11: numeric zero-padded (MM=01..12, DD=01..30)
+    m = corePath.match(/^\/hijri-date\/(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30)$/);
     if (m) {
-        const day = m[1];
-        const monthSlug = m[2];
-        const year = m[3];
-        const info = _HIJRI_MONTHS[monthSlug];
-        const monthAr = info ? info.ar : _slugToTitle(monthSlug);
-        const monthEn = info ? info.en : _slugToTitle(monthSlug);
+        const year = m[1];
+        const monthNum = parseInt(m[2], 10);
+        const day = String(parseInt(m[3], 10)); // strip leading zero for display (e.g. "05" → "5")
+        const _pad2d = n => String(n).padStart(2, '0');
         // أسماء الأشهر الهجرية المُترجَمة لكل لغة (10 لغات)
         const _HM_BY_LANG = {
             ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
@@ -4106,32 +4391,32 @@ function buildSeoForPath(urlPath) {
             bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
             ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
         };
-        const _mName  = info ? (_HM_BY_LANG[lang] ? _HM_BY_LANG[lang][info.order - 1] : monthEn) : monthEn;
+        const _mName  = (_HM_BY_LANG[lang] || _HM_BY_LANG.en)[monthNum - 1];
         const _hSfx   = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' }[lang] || ' AH';
-        // قوالب العناوين والأوصاف لكل لغة
+        // قوالب العناوين والأوصاف — Answer Page: مختصرة جداً، التاريخ أولاً
         const _HDAY_TITLE = {
-            ar: `${day} ${_mName} ${year}${_hSfx} — التاريخ الهجري والميلادي`,
-            en: `${day} ${_mName} ${year}${_hSfx} — Islamic Date with Gregorian Equivalent`,
-            fr: `${day} ${_mName} ${year}${_hSfx} — Date hégirienne et équivalent grégorien`,
-            tr: `${day} ${_mName} ${year}${_hSfx} — Hicri ve Miladi Tarih`,
-            ur: `${day} ${_mName} ${year}${_hSfx} — ہجری اور عیسوی تاریخ`,
-            de: `${day} ${_mName} ${year}${_hSfx} — Hidschri-Datum mit gregorianischer Entsprechung`,
-            id: `${day} ${_mName} ${year}${_hSfx} — Tanggal Hijriah dan Masehi`,
-            es: `${day} ${_mName} ${year}${_hSfx} — Fecha Hégira con equivalente gregoriano`,
-            bn: `${day} ${_mName} ${year}${_hSfx} — হিজরি ও খ্রিস্টীয় তারিখ`,
-            ms: `${day} ${_mName} ${year}${_hSfx} — Tarikh Hijrah dan Masihi`,
+            ar: `التاريخ الهجري: ${day} ${_mName} ${year}${_hSfx}`,
+            en: `Hijri Date: ${day} ${_mName} ${year}${_hSfx}`,
+            fr: `Date hégirienne : ${day} ${_mName} ${year}${_hSfx}`,
+            tr: `Hicri Tarih: ${day} ${_mName} ${year}${_hSfx}`,
+            ur: `ہجری تاریخ: ${day} ${_mName} ${year}${_hSfx}`,
+            de: `Hidschri-Datum: ${day} ${_mName} ${year}${_hSfx}`,
+            id: `Tanggal Hijriah: ${day} ${_mName} ${year}${_hSfx}`,
+            es: `Fecha Hégira: ${day} ${_mName} ${year}${_hSfx}`,
+            bn: `হিজরি তারিখ: ${day} ${_mName} ${year}${_hSfx}`,
+            ms: `Tarikh Hijrah: ${day} ${_mName} ${year}${_hSfx}`,
         };
         const _HDAY_DESC = {
-            ar: `التاريخ الهجري ${day} ${_mName} ${year}${_hSfx} مع مقابله الميلادي الدقيق والأحداث والخلفية التاريخية لهذا اليوم.`,
-            en: `The Hijri (Islamic) date ${day} ${_mName} ${year}${_hSfx} with its exact Gregorian equivalent, events and historical background.`,
-            fr: `La date hégirienne ${day} ${_mName} ${year}${_hSfx} avec son équivalent grégorien exact, les événements et le contexte historique de ce jour.`,
-            tr: `${day} ${_mName} ${year}${_hSfx} hicri tarihi, miladi karşılığı, bu günün olayları ve tarihsel arka planı.`,
-            ur: `ہجری تاریخ ${day} ${_mName} ${year}${_hSfx} کا عیسوی مقابلہ، اس دن کے واقعات اور تاریخی پس منظر۔`,
-            de: `Das Hidschri-Datum ${day} ${_mName} ${year}${_hSfx} mit seiner gregorianischen Entsprechung, Ereignissen und historischem Hintergrund.`,
-            id: `Tanggal Hijriah ${day} ${_mName} ${year}${_hSfx} dengan padanan Masehi, peristiwa dan latar belakang sejarah hari ini.`,
-            es: `La fecha Hégira ${day} ${_mName} ${year}${_hSfx} con su equivalente gregoriano exacto, eventos y contexto histórico.`,
-            bn: `হিজরি তারিখ ${day} ${_mName} ${year}${_hSfx} এর খ্রিস্টীয় সমতুল্য, এই দিনের ঘটনা ও ঐতিহাসিক পটভূমি।`,
-            ms: `Tarikh Hijrah ${day} ${_mName} ${year}${_hSfx} dengan padanan Masihi, peristiwa dan latar belakang sejarah hari ini.`,
+            ar: `تعرّف على التاريخ الهجري ${day} ${_mName} ${year}${_hSfx} والتاريخ الميلادي المقابل، مع روابط مفيدة للتقويم وتحويل التاريخ.`,
+            en: `Hijri date ${day} ${_mName} ${year}${_hSfx} with its Gregorian equivalent, plus quick links to the calendar and date converter.`,
+            fr: `Date hégirienne ${day} ${_mName} ${year}${_hSfx} et son équivalent grégorien, avec des liens utiles vers le calendrier et le convertisseur.`,
+            tr: `${day} ${_mName} ${year}${_hSfx} hicri tarihi ve miladi karşılığı; takvim ve tarih dönüştürücüye hızlı bağlantılar.`,
+            ur: `ہجری تاریخ ${day} ${_mName} ${year}${_hSfx} اور اس کی عیسوی مساوی، کیلنڈر اور تاریخ کنورٹر کے مفید لنکس کے ساتھ۔`,
+            de: `Hidschri-Datum ${day} ${_mName} ${year}${_hSfx} mit gregorianischer Entsprechung sowie schnellen Links zum Kalender und Datumsumrechner.`,
+            id: `Tanggal Hijriah ${day} ${_mName} ${year}${_hSfx} beserta padanan Masehi, dengan tautan ke kalender dan konverter tanggal.`,
+            es: `Fecha Hégira ${day} ${_mName} ${year}${_hSfx} con su equivalente gregoriano y enlaces al calendario y al conversor de fechas.`,
+            bn: `হিজরি তারিখ ${day} ${_mName} ${year}${_hSfx} এবং এর খ্রিস্টীয় সমতুল্য, ক্যালেন্ডার ও তারিখ রূপান্তরকারীর দ্রুত লিঙ্কসহ।`,
+            ms: `Tarikh Hijrah ${day} ${_mName} ${year}${_hSfx} dan padanan Masihi, dengan pautan pantas ke kalendar dan penukar tarikh.`,
         };
         const _HDAY_CAL_LABEL = {
             ar: 'التقويم الهجري', en: 'Hijri Calendar', fr: 'Calendrier hégirien', tr: 'Hicri Takvim',
@@ -4140,12 +4425,13 @@ function buildSeoForPath(urlPath) {
         };
         title = _HDAY_TITLE[lang] || _HDAY_TITLE.en;
         description = _HDAY_DESC[lang] || _HDAY_DESC.en;
-        ogType = 'article';
+        ogType = 'website'; // Answer Page — not an article
         const _calL = _HDAY_CAL_LABEL[lang] || _HDAY_CAL_LABEL.en;
-        breadcrumbs.push({ name: _calL, item: origin + langPrefix + `/hijri-calendar/${year}` });
-        breadcrumbs.push({ name: `${_mName} ${year}`, item: origin + langPrefix + `/hijri-calendar/${monthSlug}-${year}` });
+        breadcrumbs.push({ name: _calL, item: origin + langPrefix + `/hijri-calendar` });
+        breadcrumbs.push({ name: `${year}`, item: origin + langPrefix + `/hijri-calendar/${year}` });
+        breadcrumbs.push({ name: `${_mName} ${year}`, item: origin + langPrefix + `/hijri-calendar/${year}-${_pad2d(monthNum)}` });
         breadcrumbs.push({ name: `${day} ${_mName}`, item: canonical });
-        article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
+        // لا schema Article — هذه Answer Page (WebPage + FAQPage + BreadcrumbList فقط)
     }
 
     // ── Country listing: /prayer-times-in-{country-slug} ──
@@ -4210,7 +4496,10 @@ function buildSeoForPath(urlPath) {
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, cityModified, origin,
-        moonFaq, moonCity, robotsOverride
+        moonFaq, moonCity, robotsOverride,
+        canonicalOverride: _canonicalOverride,
+        timeLeftPage,
+        nextPrayerPage
     };
 }
 
@@ -4240,8 +4529,10 @@ function renderSeoHeadHtml(seo) {
     parts.push(`<link rel="alternate" hreflang="x-default" href="${esc(seo.arUrl)}">`);
     // ضمان self-referential hreflang: إذا لم يكن URL اللغة الحالية = canonical (خلل build)،
     // أضف alternate إضافي يشير للـ canonical (SEO best practice: كل صفحة يجب أن ترى نفسها في hreflang).
+    // عند canonical override مقصود (مثل /today-hijri-date → /hijri-date/...)، نتخطّى هذا الـ fallback
+    // لمنع duplicate hreflang لنفس اللغة.
     const _currentLangUrl = { ar: seo.arUrl, en: seo.enUrl, fr: seo.frUrl, tr: seo.trUrl, ur: seo.urUrl, de: seo.deUrl, id: seo.idUrl, es: seo.esUrl, bn: seo.bnUrl, ms: seo.msUrl }[seo.lang];
-    if (_currentLangUrl && _currentLangUrl !== seo.canonical) {
+    if (_currentLangUrl && _currentLangUrl !== seo.canonical && !seo.canonicalOverride) {
         parts.push(`<link rel="alternate" hreflang="${seo.lang}" href="${esc(seo.canonical)}">`);
     }
     // OpenGraph
@@ -4658,6 +4949,57 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         const newDir = seo.isRtl ? 'rtl' : 'ltr';
         html = html.replace(/<html([^>]*)\blang="ar"([^>]*)\bdir="rtl"/, `<html$1lang="${seo.lang}"$2dir="${newDir}"`);
     }
+    // 1b) 🆕 Polish Round (F): حقن class="time-left-page" في <html> لصفحة time-left
+    //     CSS يستخدم html.time-left-page لإظهار .tl-hero وإخفاء .city-hero-answer
+    if (seo && seo.timeLeftPage) {
+        // نضيف class دون المساس بـ lang/dir
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            // إن كانت هناك class موجودة: ألحق
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} time-left-page"`) + '>';
+            }
+            return '<html' + a + ' class="time-left-page">';
+        });
+
+        // 1b-PRUNE) 🆕 Level 3+: إزالة فعليّة (ليس display:none) للأقسام غير المستخدمة على
+        //           صفحة time-left — توفير ~60-80KB من الحمولة الأولى + LCP أسرع.
+        //           نحذف العناصر بالمعرّف أو الصنف مع مطابقة متوازنة لوسم الفتح/الإغلاق.
+        html = _stripHtmlForTimeLeft(html);
+    }
+    // 1c) 🆕 Round 4 (Minimal): حقن class="next-prayer-time-page" في <html> لصفحة NPT
+    //     CSS يستخدم html.next-prayer-time-page لإظهار .npt-hero وإخفاء .city-hero-answer + .tl-hero
+    if (seo && seo.nextPrayerPage) {
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} next-prayer-time-page"`) + '>';
+            }
+            return '<html' + a + ' class="next-prayer-time-page">';
+        });
+
+        // 1c-PRUNE) 🆕 NPT Physical DOM pruning — single-purpose page.
+        //           نفس فلسفة TL: حذف فعليّ لكلّ ما ليس #npt-hero (city inherited sections + TL-specific bits)
+        //           يوفّر ~60-80KB من حمولة الـ NPT ويجعل الصفحة مركّزة على سؤالها الوحيد.
+        html = _stripHtmlForNpt(html);
+    }
+    // 1d) 🆕 Round 6 (City Audit): city page (not TL, not NPT) → strip dead-weight heroes.
+    //     صفحة /prayer-times-in-{city} كانت تُرسِل #tl-hero + #tl-sticky + #npt-hero مخفيّة بـ CSS.
+    //     الحذف الفعليّ يُنظِّف DOM (~6-10KB) ويُلغي H1 race + intent duplication أمام SEO.
+    const _isCityPageSsr = !!(seo && !seo.timeLeftPage && !seo.nextPrayerPage
+        && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9.-]+$/.test(urlPath));
+    if (_isCityPageSsr) {
+        html = _stripHtmlForCity(html);
+    }
+    // 1e) 🆕 Round 7 (Homepage Audit): homepage (distribution hub) → strip same dead-weight.
+    //     الرئيسية كانت تحمل #tl-hero + #tl-sticky + #npt-hero + #tl-h1 + #npt-h1 مخفيّة بـ CSS.
+    //     نفس الفكرة: تنظيف DOM + حل مشكلة H1 junk placeholders (tl-h1 "كم باقي على صلاة —").
+    //     الرئيسية = `/` أو `/{lang}/` (لا URL بعد البادئة).
+    const _isHomepageSsr = !!(seo && !seo.timeLeftPage && !seo.nextPrayerPage
+        && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?$/.test(urlPath));
+    if (_isHomepageSsr) {
+        html = _stripHtmlForCity(html);  // نفس مجموعة الشطب (tl-hero/tl-sticky/npt-hero)
+    }
     // 2) base href لحل المسارات النسبية تحت /en/... أو /hijri-calendar/...
     if (!html.includes('<base ')) {
         html = html.replace('<head>', '<head>\n    <base href="/">');
@@ -4678,11 +5020,31 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         );
     }
 
+    // 4.6) 🆕 Round 2.1 (H): حقن build hash على asset URLs للـJS (style.css مُضمَّن)
+    //      النمط: app.js?v=330 → app.js?v=330&b=6900d60
+    //      فائدة: كسر الـcache عند أيّ deploy حتّى لو نسي المطوّر bump يدويّاً
+    if (BUILD_HASH && BUILD_HASH !== 'dev') {
+        html = html.replace(/(\b(?:app|i18n)\.js\?v=\d+)(?=["'\s])/g, `$1&b=${BUILD_HASH}`);
+    }
+
     // 5) SSR نص #seo-line-1 و #seo-line-2 لصفحات المدن (LCP fix: -3.5s render delay)
     //    JS يستبدلها لاحقاً بالأوقات الفعلية. هذا placeholder ثابت يُقدَّم في HTML الأولي.
-    const cityMatchSsr = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/')
-                                .replace(/\.html$/, '')
-                                .match(/^\/prayer-times-in-([a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+    const _urlPathNoLang = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/').replace(/\.html$/, '');
+    // 🆕 Polish Round (F): صفحة time-left تُشارك SSR city-page logic (city-summary، breadcrumb، FAQ…).
+    //    نطابقها كـ "city-like" عبر cityMatchSsr، ثمّ نفرض overrides على H1/hero وclass='time-left-page'.
+    const _timeLeftMatchSsr = _urlPathNoLang.match(/^\/time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+    const _isTimeLeftSsr = !!(_timeLeftMatchSsr && seo && seo.timeLeftPage);
+    // 🆕 Round 4 (Minimal): صفحة NPT تُشارك نفس SSR city-page logic — H1 مخصّص + hide غيره عبر CSS
+    const _nptMatchSsr = _urlPathNoLang.match(/^\/next-prayer-time-in-([a-z][a-z0-9-]+)$/);
+    const _isNptSsr = !!(_nptMatchSsr && seo && seo.nextPrayerPage);
+    let cityMatchSsr = _urlPathNoLang.match(/^\/prayer-times-in-([a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+    if (!cityMatchSsr && _isTimeLeftSsr) {
+        // نصنع match-like array بنفس الشكل: [full, slug] حتّى يعمل cityMatchSsr[1] في بقيّة الكود
+        cityMatchSsr = [_urlPathNoLang, _timeLeftMatchSsr[1]];
+    }
+    if (!cityMatchSsr && _isNptSsr) {
+        cityMatchSsr = [_urlPathNoLang, _nptMatchSsr[1]];
+    }
 
     // 5a) SSR لـ H1 — الـ crawler يرى H1 دلالياً قبل تنفيذ JS (يحلّ H1='--' placeholder)
     {
@@ -4704,19 +5066,57 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 ms: `Waktu Solat di Bandar-Bandar ${cn}`,
             }[Lh] || `Prayer Times in Cities of ${cn}`;
         } else if (cityMatchSsr) {
-            const cityDisplay = _slugToTitle(cityMatchSsr[1]);
-            _h1Text = {
-                ar: `مواقيت الصلاة في ${cityDisplay} اليوم`,
-                en: `Prayer Times in ${cityDisplay} Today`,
-                fr: `Heures de prière à ${cityDisplay} aujourd'hui`,
-                tr: `${cityDisplay} için bugünkü namaz vakitleri`,
-                ur: `آج ${cityDisplay} میں اوقاتِ نماز`,
-                de: `Gebetszeiten in ${cityDisplay} heute`,
-                id: `Jadwal Sholat di ${cityDisplay} Hari Ini`,
-                es: `Horarios de Oración en ${cityDisplay} Hoy`,
-                bn: `আজ ${cityDisplay}-এ নামাজের সময়`,
-                ms: `Waktu Solat di ${cityDisplay} Hari Ini`,
-            }[Lh] || `Prayer times in ${cityDisplay}`;
+            // 🔧 Phase 2 (هـ) — استخدام الاسم المحلّي بدل slug title case
+            const _slug = cityMatchSsr[1];
+            const cityDisplay = (typeof _resolveCityName === 'function')
+                ? (_resolveCityName(_slug, Lh) || _slugToTitle(_slug))
+                : _slugToTitle(_slug);
+            if (_isTimeLeftSsr) {
+                // 🆕 Polish Round (F): page-h1 مخفيّ على time-left-page (CSS)، لذا نتركه فارغاً
+                //     H1 الفعليّ يأتي من tl-h1 داخل tl-hero (مكتوب في HTML مع data-i18n)
+                //     نستخدم نفس نصّ SEO في page-h1 (crawler يراه لكن hidden عن المستخدم عبر display:none)
+                //     ⚠️ لا نستخدم نصّاً مختلفاً لتجنّب ازدواج H1 لـGoogle — فقط نصّ واحد متطابق مع tl-h1
+                _h1Text = {
+                    ar: `كم باقي على الصلاة القادمة في ${cityDisplay}؟`,
+                    en: `Time Left Until Next Prayer in ${cityDisplay}`,
+                    fr: `Temps restant avant la prochaine prière à ${cityDisplay}`,
+                    tr: `${cityDisplay} için bir sonraki namaza kalan süre`,
+                    ur: `${cityDisplay} میں اگلی نماز تک کتنا وقت باقی ہے؟`,
+                    de: `Verbleibende Zeit bis zum nächsten Gebet in ${cityDisplay}`,
+                    id: `Waktu Tersisa Menjelang Sholat di ${cityDisplay}`,
+                    es: `Tiempo restante para la próxima oración en ${cityDisplay}`,
+                    bn: `${cityDisplay}-এ পরবর্তী নামাজ পর্যন্ত কত সময় বাকি?`,
+                    ms: `Masa Tinggal Sebelum Solat Seterusnya di ${cityDisplay}`,
+                }[Lh] || `Time left until next prayer in ${cityDisplay}`;
+            } else if (_isNptSsr) {
+                // 🆕 Round 4 (Minimal): H1 لـnpt-page — يطابق npt-h1 (Schedule Awareness)
+                //     R-3: "اليوم" مُضافة في كلّ لغة لتعزيز temporal context + keyword match
+                _h1Text = {
+                    ar: `الصلاة القادمة في ${cityDisplay} اليوم`,
+                    en: `Next Prayer in ${cityDisplay} Today`,
+                    fr: `Prochaine prière à ${cityDisplay} aujourd'hui`,
+                    tr: `${cityDisplay} — bugün bir sonraki namaz`,
+                    ur: `آج ${cityDisplay} میں اگلی نماز`,
+                    de: `Nächstes Gebet in ${cityDisplay} heute`,
+                    id: `Sholat berikutnya di ${cityDisplay} hari ini`,
+                    es: `Próxima oración en ${cityDisplay} hoy`,
+                    bn: `আজ ${cityDisplay}-এ পরবর্তী নামাজ`,
+                    ms: `Solat seterusnya di ${cityDisplay} hari ini`,
+                }[Lh] || `Next prayer in ${cityDisplay} today`;
+            } else {
+                _h1Text = {
+                    ar: `مواقيت الصلاة في ${cityDisplay} اليوم`,
+                    en: `Prayer Times in ${cityDisplay} Today`,
+                    fr: `Heures de prière à ${cityDisplay} aujourd'hui`,
+                    tr: `${cityDisplay} için bugünkü namaz vakitleri`,
+                    ur: `آج ${cityDisplay} میں اوقاتِ نماز`,
+                    de: `Gebetszeiten in ${cityDisplay} heute`,
+                    id: `Jadwal Sholat di ${cityDisplay} Hari Ini`,
+                    es: `Horarios de Oración en ${cityDisplay} Hoy`,
+                    bn: `আজ ${cityDisplay}-এ নামাজের সময়`,
+                    ms: `Waktu Solat di ${cityDisplay} Hari Ini`,
+                }[Lh] || `Prayer times in ${cityDisplay}`;
+            }
         } else {
             // Homepage H1 — يحوي keyword "اليوم" (Keyword Consistency Round 7e)
             _h1Text = {
@@ -4802,9 +5202,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             `<span id="banner-city-name">${_escHtml(cn)}</span>`
         );
         // breadcrumb الأخير → اسم الدولة فقط (ليس "مواقيت الصلاة في ...")
+        // Phase 2: المتن الجديد يحوي itemprop="name" أوّلاً لـSchema.org
         html = html.replace(
-            '<span id="bc-city" aria-current="page">--</span>',
-            `<span id="bc-city" aria-current="page">${_escHtml(cn)}</span>`
+            '<span itemprop="name" id="bc-city" aria-current="page">--</span>',
+            `<span itemprop="name" id="bc-city" aria-current="page">${_escHtml(cn)}</span>`
+        );
+        // Phase 2: ملء bc-country-name المتوسط بـ (فارغ في هذا المسار — دولة صفحة)
+        // نُضمِّن نفس القيمة في bc-country-name لتفادي "--"
+        html = html.replace(
+            '<span itemprop="name" id="bc-country-name">--</span>',
+            `<span itemprop="name" id="bc-country-name">${_escHtml(cn)}</span>`
         );
         try {
             const localeMap = { ar: 'ar', en: 'en-US', fr: 'fr-FR', tr: 'tr-TR', ur: 'ur-PK', de: 'de-DE', id: 'id-ID', es: 'es-ES', bn: 'bn-BD', ms: 'ms-MY' };
@@ -4820,6 +5227,35 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     } else if (cityMatchSsr) {
         const cityDisplay = _slugToTitle(cityMatchSsr[1]);
         const L = seo.lang;
+        // 🔧 Phase 2 fix: استخدام الاسم الـlocalized (العربيّ/الإنجليزيّ/الخ) بدل slug title case
+        //              مثال: "Riyadh" (L=ar) → "الرياض"،  "Mecca" → "مكّة المكرمة"
+        const cityDisplayLoc = (typeof _resolveCityName === 'function')
+            ? (_resolveCityName(cityMatchSsr[1], L) || cityDisplay)
+            : cityDisplay;
+        // cc → IANA timezone map (أساسيّ لـCity Summary — لا يعود "UTC" لمدن نعرف منطقتها)
+        const _CC_TZ_MAP = {
+            sa:'Asia/Riyadh', eg:'Africa/Cairo', ae:'Asia/Dubai', qa:'Asia/Qatar', bh:'Asia/Bahrain',
+            om:'Asia/Muscat', kw:'Asia/Kuwait', jo:'Asia/Amman', lb:'Asia/Beirut', ps:'Asia/Hebron',
+            sy:'Asia/Damascus', iq:'Asia/Baghdad', ye:'Asia/Aden', tr:'Europe/Istanbul',
+            ir:'Asia/Tehran', pk:'Asia/Karachi', in:'Asia/Kolkata', bd:'Asia/Dhaka',
+            id:'Asia/Jakarta', my:'Asia/Kuala_Lumpur', sg:'Asia/Singapore', bn:'Asia/Brunei',
+            ma:'Africa/Casablanca', dz:'Africa/Algiers', tn:'Africa/Tunis', ly:'Africa/Tripoli',
+            sd:'Africa/Khartoum', so:'Africa/Mogadishu', ng:'Africa/Lagos', et:'Africa/Addis_Ababa',
+            ke:'Africa/Nairobi', sn:'Africa/Dakar', gb:'Europe/London', fr:'Europe/Paris',
+            de:'Europe/Berlin', es:'Europe/Madrid', it:'Europe/Rome', nl:'Europe/Amsterdam',
+            be:'Europe/Brussels', ch:'Europe/Zurich', at:'Europe/Vienna', gr:'Europe/Athens',
+            ru:'Europe/Moscow', ua:'Europe/Kyiv', us:'America/New_York', ca:'America/Toronto',
+            mx:'America/Mexico_City', br:'America/Sao_Paulo', ar:'America/Argentina/Buenos_Aires',
+            au:'Australia/Sydney', jp:'Asia/Tokyo', cn:'Asia/Shanghai', hk:'Asia/Hong_Kong',
+            kr:'Asia/Seoul', th:'Asia/Bangkok', ph:'Asia/Manila', vn:'Asia/Ho_Chi_Minh',
+            af:'Asia/Kabul', az:'Asia/Baku', kz:'Asia/Almaty', uz:'Asia/Tashkent'
+        };
+        // cc → calc method (لمدن الدول المعروفة نعرض الطريقة المحلّيّة)
+        const _CC_METHOD_MAP = {
+            sa:'Makkah', eg:'Egyptian', tr:'Diyanet', ir:'Tehran', pk:'Karachi',
+            my:'JAKIM', id:'Kemenag', ru:'Russia', kw:'Kuwait', qa:'Qatar',
+            ae:'Dubai', sg:'Singapore', fr:'UOIF', gb:'ISNA', us:'ISNA', ca:'ISNA'
+        };
         const line1 = {
             ar: `مواقيت الصلاة في ${cityDisplay} — الجدول اليومي.`,
             en: `Prayer times in ${cityDisplay} — today's schedule.`,
@@ -4854,19 +5290,290 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             `<span id="banner-city-name">${_escHtml(cityDisplay)}</span>`
         );
         // SSR للـ breadcrumb الأخير المدمج "مواقيت الصلاة في {city}" (3-item hierarchy)
+        // Phase 2: المتن الجديد يحوي itemprop="name" لـSchema.org microdata
+        // 🔧 استخدام cityDisplayLoc (اسم localized) بدل cityDisplay (slug title) — "الرياض" بدل "Riyadh"
         const _ssrFinal = ({
-            ar: `مواقيت الصلاة في ${cityDisplay}`,
-            en: `Prayer Times in ${cityDisplay}`,
-            fr: `Heures de prière à ${cityDisplay}`,
-            tr: `${cityDisplay} Namaz Vakitleri`,
-            ur: `${cityDisplay} میں اوقاتِ نماز`,
-            de: `Gebetszeiten in ${cityDisplay}`,
-            id: `Jadwal Sholat di ${cityDisplay}`,
-        })[L] || `Prayer Times in ${cityDisplay}`;
+            ar: `مواقيت الصلاة في ${cityDisplayLoc}`,
+            en: `Prayer Times in ${cityDisplayLoc}`,
+            fr: `Heures de prière à ${cityDisplayLoc}`,
+            tr: `${cityDisplayLoc} Namaz Vakitleri`,
+            ur: `${cityDisplayLoc} میں اوقاتِ نماز`,
+            de: `Gebetszeiten in ${cityDisplayLoc}`,
+            id: `Jadwal Sholat di ${cityDisplayLoc}`,
+            es: `Horarios de Oración en ${cityDisplayLoc}`,
+            bn: `${cityDisplayLoc}-এ নামাজের সময়`,
+            ms: `Waktu Solat di ${cityDisplayLoc}`,
+        })[L] || `Prayer Times in ${cityDisplayLoc}`;
         html = html.replace(
-            '<span id="bc-city" aria-current="page">--</span>',
-            `<span id="bc-city" aria-current="page">${_escHtml(_ssrFinal)}</span>`
+            '<span itemprop="name" id="bc-city" aria-current="page">--</span>',
+            `<span itemprop="name" id="bc-city" aria-current="page">${_escHtml(_ssrFinal)}</span>`
         );
+        // Phase 2: ملء bc-country-name (المستوى الأوسط) لـbreadcrumb 3-levels
+        // نحتاج الدولة من lookup — نستخدم FAMOUS_CITY_OVERRIDES + _countryNameForLang
+        try {
+            const _citySlug = cityMatchSsr[1];
+            const _cityOverride = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[_citySlug]) ? FAMOUS_CITY_OVERRIDES[_citySlug] : null;
+            if (_cityOverride && _cityOverride.cc && typeof _countryNameForLang === 'function') {
+                const _countryNameLoc = _countryNameForLang(_cityOverride.cc, L) || _cityOverride.cc;
+                const _countrySlugSsr = (typeof makeCountrySlugSrv === 'function')
+                    ? makeCountrySlugSrv(_cityOverride.cc)
+                    : (_cityOverride.cc ? _cityOverride.cc.toLowerCase() : '');
+                const _langPfxSsr = (L === 'ar') ? '' : ('/' + L);
+                const _countryHrefSsr = _countrySlugSsr
+                    ? `${_langPfxSsr}/prayer-times-in-${_countrySlugSsr}`
+                    : `${_langPfxSsr}/`;
+                html = html.replace(
+                    '<span itemprop="name" id="bc-country-name">--</span>',
+                    `<span itemprop="name" id="bc-country-name">${_escHtml(_countryNameLoc)}</span>`
+                );
+                // ضع href للدولة في bc-country
+                html = html.replace(
+                    '<a class="bc-link" href="#" id="bc-country" itemprop="item">',
+                    `<a class="bc-link" href="${_countryHrefSsr}" id="bc-country" itemprop="item">`
+                );
+            }
+        } catch (_e) { /* silent */ }
+        // ملء bc-home-name حسب اللغة (قد يظلّ "الرئيسية" في AR، أو "Home" في EN, إلخ)
+        try {
+            const _homeByLang = { ar: 'الرئيسيّة', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'صفحۂ اوّل', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Laman Utama' };
+            const _homeLbl = _homeByLang[L] || 'Home';
+            html = html.replace(
+                '<span itemprop="name" id="bc-home-name" data-i18n="breadcrumb.home">الرئيسية</span>',
+                `<span itemprop="name" id="bc-home-name" data-i18n="breadcrumb.home">${_escHtml(_homeLbl)}</span>`
+            );
+        } catch (_e) { /* silent */ }
+
+        // ═══ Phase 2 — SSR حقن City Summary Paragraph (فقرة SEO غنيّة) ═══
+        try {
+            const _citySlug = cityMatchSsr[1];
+            const _override = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[_citySlug]) ? FAMOUS_CITY_OVERRIDES[_citySlug] : null;
+            // 🔧 (د) الـtimezone الحقيقيّة: من override إن كانت، ثمّ cc-map، ثمّ fallback
+            const _ccSummary = (_override && _override.cc) ? String(_override.cc).toLowerCase() : '';
+            const _tz = (_override && _override.tz) || _CC_TZ_MAP[_ccSummary] || 'UTC';
+            // الـcalc method الحقيقيّة: من override، ثمّ حسب cc، ثمّ MWL
+            const _method = (_override && _override.method) || _CC_METHOD_MAP[_ccSummary] || 'MWL';
+            let _countryNameForSummary = '';
+            if (_override && _override.cc && typeof _countryNameForLang === 'function') {
+                _countryNameForSummary = _countryNameForLang(_override.cc, L) || '';
+            }
+            // ═══ Polish Round (B) — تعريب method label (بدل "MWL" → "رابطة العالم الإسلامي") ═══
+            const _METHOD_LABELS_BY_LANG = {
+                ar: { 'Makkah':'أمّ القرى - مكّة المكرّمة', 'MWL':'رابطة العالم الإسلاميّ', 'ISNA':'أمريكا الشمالية (ISNA)', 'Egyptian':'الهيئة المصريّة العامّة للمساحة', 'Karachi':'جامعة العلوم الإسلاميّة - كراتشي', 'Tehran':'معهد الجيوفيزياء - طهران', 'Kuwait':'الكويت', 'Qatar':'قطر', 'Singapore':'سنغافورة', 'Diyanet':'تركيا - ديانت', 'UOIF':'اتّحاد المنظّمات الإسلاميّة في فرنسا', 'Russia':'روسيا', 'JAKIM':'ماليزيا - جاكيم', 'Kemenag':'إندونيسيا - كمناج', 'Dubai':'دبي' },
+                en: { 'Makkah':'Umm Al-Qura University', 'MWL':'Muslim World League', 'ISNA':'Islamic Society of North America', 'Egyptian':'Egyptian General Authority', 'Karachi':'University of Islamic Sciences - Karachi', 'Tehran':'Tehran Geophysics Institute', 'Kuwait':'Kuwait', 'Qatar':'Qatar', 'Singapore':'Singapore', 'Diyanet':'Turkey - Diyanet', 'UOIF':'France - UOIF', 'Russia':'Russia', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Indonesia - Kemenag', 'Dubai':'Dubai' },
+                fr: { 'Makkah':'Université Umm Al-Qura', 'MWL':'Ligue islamique mondiale', 'ISNA':'Société islamique d\u2019Amérique du Nord', 'Egyptian':'Autorité égyptienne générale', 'Karachi':'Université de Karachi', 'Tehran':'Institut de géophysique de Téhéran', 'Kuwait':'Koweït', 'Qatar':'Qatar', 'Singapore':'Singapour', 'Diyanet':'Turquie - Diyanet', 'UOIF':'UOIF France', 'Russia':'Russie', 'JAKIM':'Malaisie - JAKIM', 'Kemenag':'Indonésie - Kemenag', 'Dubai':'Dubaï' },
+                tr: { 'Makkah':'Ümmü\u2019l-Kura Üniversitesi', 'MWL':'İslam Dünyası Birliği', 'ISNA':'Kuzey Amerika İslam Birliği (ISNA)', 'Egyptian':'Mısır Genel Otoritesi', 'Karachi':'Karaçi Üniversitesi', 'Tehran':'Tahran Jeofizik Enstitüsü', 'Kuwait':'Kuveyt', 'Qatar':'Katar', 'Singapore':'Singapur', 'Diyanet':'Türkiye - Diyanet', 'UOIF':'Fransa - UOIF', 'Russia':'Rusya', 'JAKIM':'Malezya - JAKIM', 'Kemenag':'Endonezya - Kemenag', 'Dubai':'Dubai' },
+                ur: { 'Makkah':'جامعہ ام القریٰ', 'MWL':'رابطۃ العالم الاسلامی', 'ISNA':'شمالی امریکہ (ISNA)', 'Egyptian':'مصری جنرل اتھارٹی', 'Karachi':'جامعہ علومِ اسلامیہ کراچی', 'Tehran':'تہران جیوفزکس انسٹیٹیوٹ', 'Kuwait':'کویت', 'Qatar':'قطر', 'Singapore':'سنگاپور', 'Diyanet':'ترکی - دیانت', 'UOIF':'فرانس - UOIF', 'Russia':'روس', 'JAKIM':'ملائیشیا - جاکم', 'Kemenag':'انڈونیشیا - کمناج', 'Dubai':'دبئی' },
+                de: { 'Makkah':'Umm Al-Qura Universität', 'MWL':'Islamische Weltliga', 'ISNA':'Islamic Society of North America', 'Egyptian':'Ägyptische Behörde', 'Karachi':'Universität Karatschi', 'Tehran':'Teheran Geophysik-Institut', 'Kuwait':'Kuwait', 'Qatar':'Katar', 'Singapore':'Singapur', 'Diyanet':'Türkei - Diyanet', 'UOIF':'Frankreich - UOIF', 'Russia':'Russland', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Indonesien - Kemenag', 'Dubai':'Dubai' },
+                id: { 'Makkah':'Universitas Umm Al-Qura', 'MWL':'Liga Muslim Dunia', 'ISNA':'Masyarakat Islam Amerika Utara', 'Egyptian':'Otoritas Mesir', 'Karachi':'Universitas Karachi', 'Tehran':'Institut Geofisika Tehran', 'Kuwait':'Kuwait', 'Qatar':'Qatar', 'Singapore':'Singapura', 'Diyanet':'Turki - Diyanet', 'UOIF':'Prancis - UOIF', 'Russia':'Rusia', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Kementerian Agama RI', 'Dubai':'Dubai' },
+                es: { 'Makkah':'Universidad Umm Al-Qura', 'MWL':'Liga Mundial Islámica', 'ISNA':'Sociedad Islámica de Norteamérica', 'Egyptian':'Autoridad Egipcia', 'Karachi':'Universidad de Karachi', 'Tehran':'Instituto de Geofísica de Teherán', 'Kuwait':'Kuwait', 'Qatar':'Catar', 'Singapore':'Singapur', 'Diyanet':'Turquía - Diyanet', 'UOIF':'Francia - UOIF', 'Russia':'Rusia', 'JAKIM':'Malasia - JAKIM', 'Kemenag':'Indonesia - Kemenag', 'Dubai':'Dubái' },
+                bn: { 'Makkah':'উম্মুল কুরা বিশ্ববিদ্যালয়', 'MWL':'মুসলিম ওয়ার্ল্ড লীগ', 'ISNA':'উত্তর আমেরিকা (ISNA)', 'Egyptian':'মিশরীয় কর্তৃপক্ষ', 'Karachi':'করাচি বিশ্ববিদ্যালয়', 'Tehran':'তেহরান ভূপদার্থবিদ্যা ইনস্টিটিউট', 'Kuwait':'কুয়েত', 'Qatar':'কাতার', 'Singapore':'সিঙ্গাপুর', 'Diyanet':'তুরস্ক - দিয়ানেত', 'UOIF':'ফ্রান্স - UOIF', 'Russia':'রাশিয়া', 'JAKIM':'মালয়েশিয়া - জাকিম', 'Kemenag':'ইন্দোনেশিয়া - কেমেনাগ', 'Dubai':'দুবাই' },
+                ms: { 'Makkah':'Universiti Umm Al-Qura', 'MWL':'Liga Dunia Islam', 'ISNA':'Masyarakat Islam Amerika Utara', 'Egyptian':'Pihak Berkuasa Mesir', 'Karachi':'Universiti Karachi', 'Tehran':'Institut Geofizik Tehran', 'Kuwait':'Kuwait', 'Qatar':'Qatar', 'Singapore':'Singapura', 'Diyanet':'Turki - Diyanet', 'UOIF':'Perancis - UOIF', 'Russia':'Rusia', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Indonesia - Kemenag', 'Dubai':'Dubai' }
+            };
+            const _methodLabel = (_METHOD_LABELS_BY_LANG[L] && _METHOD_LABELS_BY_LANG[L][_method]) || _method;
+            // 🔧 (Polish Round B) استبدال ${_tz} IANA → "بالتوقيت المحلّي لـ{city}" (لغة طبيعيّة) + _methodLabel بدل رمز الـmethod
+            const _summaryTpl = ({
+                ar: `تعرض هذه الصفحة مواقيت الصلاة لمدينة ${cityDisplayLoc}${_countryNameForSummary ? '، ' + _countryNameForSummary : ''}، وفق طريقة ${_methodLabel}، بالتوقيت المحلّي لـ${cityDisplayLoc}. تُحدَّث المواقيت يوميّاً وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء.`,
+                en: `This page shows prayer times for ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} using the ${_methodLabel} method, in the local time of ${cityDisplayLoc}. Times are updated daily and include Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.`,
+                fr: `Cette page affiche les heures de prière pour ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} selon la méthode ${_methodLabel}, à l'heure locale de ${cityDisplayLoc}.`,
+                tr: `${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} için namaz vakitleri — ${_methodLabel} yöntemi, ${cityDisplayLoc} yerel saati.`,
+                ur: `یہ صفحہ ${cityDisplayLoc}${_countryNameForSummary ? '، ' + _countryNameForSummary : ''} کے اوقاتِ نماز دکھاتا ہے — طریقہ ${_methodLabel}, ${cityDisplayLoc} کے مقامی وقت کے مطابق۔`,
+                de: `Diese Seite zeigt die Gebetszeiten für ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} nach der ${_methodLabel}-Methode, in der Ortszeit von ${cityDisplayLoc}.`,
+                id: `Halaman ini menampilkan jadwal sholat untuk ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} menggunakan metode ${_methodLabel}, waktu setempat ${cityDisplayLoc}.`,
+                es: `Esta página muestra los horarios de oración para ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} usando el método ${_methodLabel}, en la hora local de ${cityDisplayLoc}.`,
+                bn: `এই পৃষ্ঠায় ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''}-এর নামাজের সময় দেখানো হয়েছে — পদ্ধতি ${_methodLabel}, ${cityDisplayLoc}-এর স্থানীয় সময় অনুযায়ী।`,
+                ms: `Halaman ini menunjukkan waktu solat untuk ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} menggunakan kaedah ${_methodLabel}, waktu tempatan ${cityDisplayLoc}.`,
+            })[L] || `Prayer times for ${cityDisplayLoc} using ${_methodLabel} method, local time of ${cityDisplayLoc}.`;
+            // 🆕 Round 2.1: SHORT visible summary — humanized + Hijri+Gregorian keywords (SEO boost)
+            const _summaryShortTpl = ({
+                ar: `مواقيت الصلاة اليوم في ${cityDisplayLoc} بالتوقيت المحلّي — مع التاريخ الهجريّ والميلاديّ.`,
+                en: `Today's prayer times in ${cityDisplayLoc} in local time — with Hijri and Gregorian dates.`,
+                fr: `Heures de prière aujourd'hui à ${cityDisplayLoc} à l'heure locale — avec les dates hégirienne et grégorienne.`,
+                tr: `${cityDisplayLoc} için bugünün namaz vakitleri — yerel saatle, Hicri ve Miladi tarihle birlikte.`,
+                ur: `آج ${cityDisplayLoc} میں اوقاتِ نماز مقامی وقت کے مطابق — ہجری اور عیسوی تاریخ کے ساتھ۔`,
+                de: `Heutige Gebetszeiten in ${cityDisplayLoc} in Ortszeit — mit Hijri- und gregorianischem Datum.`,
+                id: `Jadwal sholat hari ini di ${cityDisplayLoc} dalam waktu setempat — dengan tanggal Hijriah dan Masehi.`,
+                es: `Horarios de oración hoy en ${cityDisplayLoc} en hora local — con fechas Hijri y Gregoriana.`,
+                bn: `আজ ${cityDisplayLoc}-এ নামাজের সময় স্থানীয় সময়ে — হিজরি ও গ্রেগরিয়ান তারিখসহ।`,
+                ms: `Waktu solat hari ini di ${cityDisplayLoc} dalam waktu tempatan — dengan tarikh Hijrah dan Masihi.`,
+            })[L] || `Today's prayer times in ${cityDisplayLoc} in local time — with Hijri and Gregorian dates.`;
+            html = html.replace(
+                '<p id="city-summary-text" class="city-summary-hidden-seo"><!-- SSR:CITY_SUMMARY --></p>',
+                `<p id="city-summary-text" class="city-summary-hidden-seo">${_escHtml(_summaryTpl)}</p>`
+            );
+            html = html.replace(
+                '<p id="city-summary-visible" class="city-summary-visible"><!-- SSR:CITY_SUMMARY_SHORT --></p>',
+                `<p id="city-summary-visible" class="city-summary-visible">${_escHtml(_summaryShortTpl)}</p>`
+            );
+            // إزالة u-hidden من city-summary-paragraph لأن المحتوى SSR موجود
+            html = html.replace(
+                'class="section-card city-summary-paragraph u-hidden" id="city-summary-paragraph"',
+                'class="section-card city-summary-paragraph" id="city-summary-paragraph"'
+            );
+        } catch (_e) { /* silent */ }
+
+        // ═══ Phase 2 — SSR حقن BreadcrumbList JSON-LD + FAQPage JSON-LD ═══
+        try {
+            const _citySlug = cityMatchSsr[1];
+            const _override = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[_citySlug]) ? FAMOUS_CITY_OVERRIDES[_citySlug] : null;
+            let _countryNameJL = '';
+            let _countrySlugJL = '';
+            if (_override && _override.cc) {
+                if (typeof _countryNameForLang === 'function') _countryNameJL = _countryNameForLang(_override.cc, L) || '';
+                if (typeof makeCountrySlugSrv === 'function') _countrySlugJL = makeCountrySlugSrv(_override.cc) || '';
+            }
+            const _origin = (typeof SITE_URL !== 'undefined' && SITE_URL) ? SITE_URL : '';
+            const _prefix = (L === 'ar') ? '' : ('/' + L);
+            const _homeByLangJL = { ar: 'الرئيسيّة', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'صفحۂ اوّل', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Laman Utama' };
+            const _homeLblJL = _homeByLangJL[L] || 'Home';
+            const _bcItems = [
+                { name: _homeLblJL, item: `${_origin}${_prefix}/` },
+            ];
+            if (_countryNameJL && _countrySlugJL) {
+                _bcItems.push({ name: _countryNameJL, item: `${_origin}${_prefix}/prayer-times-in-${_countrySlugJL}` });
+            }
+            _bcItems.push({ name: _ssrFinal, item: null });
+            const _bcJsonLd = {
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                'itemListElement': _bcItems.map((it, i) => {
+                    const obj = { '@type': 'ListItem', 'position': i + 1, 'name': it.name };
+                    if (it.item) obj.item = it.item;
+                    return obj;
+                })
+            };
+            const _ld = `<script type="application/ld+json" id="breadcrumb-schema-ssr">${JSON.stringify(_bcJsonLd)}</script>`;
+            html = html.replace('</head>', _ld + '</head>');
+        } catch (_e) { /* silent */ }
+
+        // ═══ Phase 2 (ج) — FAQPage JSON-LD لصفحات المدن (Google Rich Results) ═══
+        try {
+            // 7 أسئلة city-specific (q1/q2 + Phase 2 q3–q7). نصوص بسيطة لكلّ لغة — Google يقرأ الـtext.
+            const _faqByLang = {
+                ar: [
+                    { q: `متى صلاة الفجر في ${cityDisplayLoc}؟`, a: `يمكنك معرفة وقت صلاة الفجر اليوم في ${cityDisplayLoc} من جدول مواقيت الصلاة في هذه الصفحة.` },
+                    { q: `ما هي مدة الصيام في ${cityDisplayLoc} اليوم؟`, a: `مدة الصيام في ${cityDisplayLoc} تُحسب من وقت أذان الفجر وحتّى أذان المغرب.` },
+                    { q: `كيف تُحسب مواقيت الصلاة في ${cityDisplayLoc}؟`, a: `تُحسب مواقيت الصلاة في ${cityDisplayLoc} وفق طريقة حسابيّة معتمدة تعتمد على إحداثيّات المدينة (خطّ الطول ودائرة العرض) لتحديد أوقات الفجر والشروق والظهر والعصر والمغرب والعشاء بدقّة.` },
+                    { q: `ما اتّجاه القبلة من ${cityDisplayLoc}؟`, a: `اتّجاه القبلة من ${cityDisplayLoc} يُحسب بناءً على إحداثيّات المدينة باتّجاه الكعبة المشرّفة في مكّة المكرّمة.` },
+                    { q: `هل تختلف المواقيت في ${cityDisplayLoc} عن المدن المجاورة؟`, a: `نعم، تختلف مواقيت الصلاة في ${cityDisplayLoc} قليلاً عن المدن المجاورة بسبب اختلاف خطّ الطول ودائرة العرض.` },
+                    { q: `كم عدد ساعات الصيام اليوم في ${cityDisplayLoc}؟`, a: `ساعات الصيام اليوم في ${cityDisplayLoc} تُحسب من أذان الفجر وحتّى أذان المغرب.` },
+                    { q: `هل تختلف مواقيت الصلاة في ${cityDisplayLoc} عن مكّة المكرّمة؟`, a: `نعم، تختلف مواقيت ${cityDisplayLoc} عن مكّة المكرّمة بسبب اختلاف خطّ الطول ودائرة العرض.` },
+                    { q: `كم باقي على الصلاة القادمة في ${cityDisplayLoc}؟`, a: `يمكنك معرفة الوقت المتبقّي حتّى الصلاة القادمة في ${cityDisplayLoc} بدقّة من خلال صفحة «كم باقي على الصلاة»، حيث يُحدَّث العدّ التنازليّ لحظيّاً.` },
+                    { q: `متى تكون الصلاة القادمة في ${cityDisplayLoc} اليوم؟`, a: `تعتمد الصلاة القادمة في ${cityDisplayLoc} على الوقت الحاليّ. يمكنك معرفة موعدها بالتفصيل مع الصلوات الثلاث التالية من خلال صفحة «الصلاة القادمة».` }
+                ],
+                en: [
+                    { q: `When is Fajr prayer in ${cityDisplayLoc}?`, a: `You can find today's Fajr time in ${cityDisplayLoc} from the prayer times schedule on this page.` },
+                    { q: `How long is the fasting period in ${cityDisplayLoc} today?`, a: `The fasting period in ${cityDisplayLoc} is calculated from Fajr Adhan until Maghrib Adhan.` },
+                    { q: `How are prayer times in ${cityDisplayLoc} calculated?`, a: `Prayer times in ${cityDisplayLoc} are calculated using a standard method based on the city coordinates (longitude and latitude) to accurately determine Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.` },
+                    { q: `What is the Qibla direction from ${cityDisplayLoc}?`, a: `The Qibla direction from ${cityDisplayLoc} is calculated based on the city coordinates toward the Kaaba in Mecca.` },
+                    { q: `Do prayer times in ${cityDisplayLoc} differ from neighboring cities?`, a: `Yes, prayer times in ${cityDisplayLoc} differ slightly from neighboring cities due to different longitude and latitude.` },
+                    { q: `How many fasting hours are there today in ${cityDisplayLoc}?`, a: `Fasting hours today in ${cityDisplayLoc} are calculated from Fajr Adhan until Maghrib Adhan.` },
+                    { q: `Do prayer times in ${cityDisplayLoc} differ from Mecca?`, a: `Yes, prayer times in ${cityDisplayLoc} differ from Mecca due to different longitude and latitude.` },
+                    { q: `How much time is left until the next prayer in ${cityDisplayLoc}?`, a: `You can see the exact time left until the next prayer in ${cityDisplayLoc} on the Time Left page, where a live countdown updates every second.` },
+                    { q: `When is the next prayer in ${cityDisplayLoc} today?`, a: `The next prayer in ${cityDisplayLoc} depends on the current time. You can see its exact time along with the three following prayers on the Next Prayer page.` }
+                ],
+                fr: [
+                    { q: `Quand est la prière du Fajr à ${cityDisplayLoc}?`, a: `Vous pouvez trouver l'heure du Fajr aujourd'hui à ${cityDisplayLoc} dans le tableau des horaires de prière sur cette page.` },
+                    { q: `Quelle est la durée du jeûne à ${cityDisplayLoc} aujourd'hui?`, a: `La durée du jeûne à ${cityDisplayLoc} est calculée de l'Adhan du Fajr jusqu'à l'Adhan du Maghrib.` },
+                    { q: `Comment sont calculées les heures de prière à ${cityDisplayLoc}?`, a: `Les heures de prière à ${cityDisplayLoc} sont calculées selon une méthode standard basée sur les coordonnées de la ville (longitude et latitude).` },
+                    { q: `Quelle est la direction de la Qibla depuis ${cityDisplayLoc}?`, a: `La direction de la Qibla depuis ${cityDisplayLoc} est calculée en fonction des coordonnées de la ville vers la Kaaba à La Mecque.` },
+                    { q: `Les heures de prière à ${cityDisplayLoc} diffèrent-elles des villes voisines?`, a: `Oui, les heures de prière à ${cityDisplayLoc} diffèrent légèrement des villes voisines en raison de la différence de longitude et de latitude.` },
+                    { q: `Combien d'heures de jeûne y a-t-il aujourd'hui à ${cityDisplayLoc}?`, a: `Les heures de jeûne aujourd'hui à ${cityDisplayLoc} sont calculées de l'Adhan du Fajr jusqu'à l'Adhan du Maghrib.` },
+                    { q: `Les heures de prière à ${cityDisplayLoc} diffèrent-elles de La Mecque?`, a: `Oui, les heures de prière à ${cityDisplayLoc} diffèrent de La Mecque en raison de la différence de longitude et de latitude.` },
+                    { q: `Combien de temps reste-t-il avant la prochaine prière à ${cityDisplayLoc}?`, a: `Vous pouvez voir le temps exact restant avant la prochaine prière à ${cityDisplayLoc} sur la page «Temps restant», avec un compte à rebours mis à jour en direct.` },
+                    { q: `Quand est la prochaine prière à ${cityDisplayLoc} aujourd'hui?`, a: `La prochaine prière à ${cityDisplayLoc} dépend de l'heure actuelle. Vous trouverez son heure exacte et les trois prières suivantes sur la page «Prochaine prière».` }
+                ],
+                tr: [
+                    { q: `${cityDisplayLoc} için sabah namazı vakti nedir?`, a: `${cityDisplayLoc} için bugünkü sabah namazı vaktini bu sayfadaki namaz vakitleri tablosunda bulabilirsiniz.` },
+                    { q: `${cityDisplayLoc} için bugün oruç süresi ne kadar?`, a: `${cityDisplayLoc} için oruç süresi sabah ezanından akşam ezanına kadar hesaplanır.` },
+                    { q: `${cityDisplayLoc} için namaz vakitleri nasıl hesaplanır?`, a: `${cityDisplayLoc} için namaz vakitleri, şehir koordinatlarına (boylam ve enlem) dayalı standart bir yöntem kullanılarak hesaplanır.` },
+                    { q: `${cityDisplayLoc} için kıble yönü nedir?`, a: `${cityDisplayLoc} için kıble yönü, şehrin koordinatlarından Mekke'deki Kâbe'ye doğru hesaplanır.` },
+                    { q: `${cityDisplayLoc} için namaz vakitleri komşu şehirlerden farklı mı?`, a: `Evet, ${cityDisplayLoc} için namaz vakitleri, farklı boylam ve enlem nedeniyle komşu şehirlerden biraz farklıdır.` },
+                    { q: `${cityDisplayLoc} için bugün kaç saat oruç tutulur?`, a: `${cityDisplayLoc} için bugün oruç saatleri sabah ezanından akşam ezanına kadar hesaplanır.` },
+                    { q: `${cityDisplayLoc} için namaz vakitleri Mekke'den farklı mı?`, a: `Evet, ${cityDisplayLoc} için namaz vakitleri, farklı boylam ve enlem nedeniyle Mekke'den farklıdır.` },
+                    { q: `${cityDisplayLoc} için bir sonraki namaza ne kadar kaldı?`, a: `${cityDisplayLoc} için bir sonraki namaza kalan süreyi «Kalan süre» sayfasında canlı olarak güncellenen geri sayım ile görebilirsiniz.` },
+                    { q: `Bugün ${cityDisplayLoc} için bir sonraki namaz ne zaman?`, a: `${cityDisplayLoc} için bir sonraki namaz mevcut saate bağlıdır. Kesin saatini ve sonraki üç namazı «Bir sonraki namaz» sayfasında görebilirsiniz.` }
+                ],
+                ur: [
+                    { q: `${cityDisplayLoc} میں فجر کی نماز کب ہے؟`, a: `آپ اس صفحے پر نماز کے اوقات کی جدول سے ${cityDisplayLoc} میں آج فجر کا وقت معلوم کر سکتے ہیں۔` },
+                    { q: `${cityDisplayLoc} میں آج روزے کی مدت کتنی ہے؟`, a: `${cityDisplayLoc} میں روزے کی مدت اذانِ فجر سے اذانِ مغرب تک شمار کی جاتی ہے۔` },
+                    { q: `${cityDisplayLoc} میں نماز کے اوقات کیسے شمار ہوتے ہیں؟`, a: `${cityDisplayLoc} میں نماز کے اوقات شہر کے نقاط (طول و عرض البلد) کی بنیاد پر ایک معیاری طریقے سے شمار کیے جاتے ہیں۔` },
+                    { q: `${cityDisplayLoc} سے قبلہ کی سمت کیا ہے؟`, a: `${cityDisplayLoc} سے قبلہ کی سمت شہر کے نقاط کی بنیاد پر مکہ مکرمہ میں کعبہ کی طرف شمار کی جاتی ہے۔` },
+                    { q: `کیا ${cityDisplayLoc} میں نماز کے اوقات پڑوسی شہروں سے مختلف ہیں؟`, a: `جی ہاں، ${cityDisplayLoc} میں نماز کے اوقات طول و عرض البلد کے فرق کی وجہ سے پڑوسی شہروں سے تھوڑے مختلف ہیں۔` },
+                    { q: `${cityDisplayLoc} میں آج روزے کے کتنے گھنٹے ہیں؟`, a: `${cityDisplayLoc} میں آج روزے کے گھنٹے اذانِ فجر سے اذانِ مغرب تک شمار کیے جاتے ہیں۔` },
+                    { q: `کیا ${cityDisplayLoc} میں نماز کے اوقات مکہ سے مختلف ہیں؟`, a: `جی ہاں، ${cityDisplayLoc} میں نماز کے اوقات طول و عرض البلد کے فرق کی وجہ سے مکہ سے مختلف ہیں۔` },
+                    { q: `${cityDisplayLoc} میں اگلی نماز تک کتنا وقت باقی ہے؟`, a: `آپ ${cityDisplayLoc} میں اگلی نماز تک باقی وقت کو «باقی وقت» صفحے پر براہِ راست اپ ڈیٹ ہونے والے کاؤنٹ ڈاؤن کے ساتھ دیکھ سکتے ہیں۔` },
+                    { q: `آج ${cityDisplayLoc} میں اگلی نماز کب ہے؟`, a: `${cityDisplayLoc} میں اگلی نماز موجودہ وقت پر منحصر ہے۔ آپ اس کا درست وقت اور اس کے بعد کی تین نمازیں «اگلی نماز» صفحے پر دیکھ سکتے ہیں۔` }
+                ],
+                de: [
+                    { q: `Wann ist das Fajr-Gebet in ${cityDisplayLoc}?`, a: `Die heutige Fajr-Zeit in ${cityDisplayLoc} finden Sie im Gebetszeitenplan auf dieser Seite.` },
+                    { q: `Wie lang ist die Fastenperiode in ${cityDisplayLoc} heute?`, a: `Die Fastenperiode in ${cityDisplayLoc} wird vom Fajr-Adhan bis zum Maghrib-Adhan berechnet.` },
+                    { q: `Wie werden die Gebetszeiten in ${cityDisplayLoc} berechnet?`, a: `Die Gebetszeiten in ${cityDisplayLoc} werden nach einer Standardmethode anhand der Stadtkoordinaten (Längen- und Breitengrad) berechnet.` },
+                    { q: `Was ist die Qibla-Richtung von ${cityDisplayLoc}?`, a: `Die Qibla-Richtung von ${cityDisplayLoc} wird anhand der Stadtkoordinaten in Richtung der Kaaba in Mekka berechnet.` },
+                    { q: `Unterscheiden sich die Gebetszeiten in ${cityDisplayLoc} von den Nachbarstädten?`, a: `Ja, die Gebetszeiten in ${cityDisplayLoc} unterscheiden sich aufgrund unterschiedlicher Längen- und Breitengrade leicht von denen der Nachbarstädte.` },
+                    { q: `Wie viele Fastenstunden gibt es heute in ${cityDisplayLoc}?`, a: `Die Fastenstunden heute in ${cityDisplayLoc} werden vom Fajr-Adhan bis zum Maghrib-Adhan berechnet.` },
+                    { q: `Unterscheiden sich die Gebetszeiten in ${cityDisplayLoc} von Mekka?`, a: `Ja, die Gebetszeiten in ${cityDisplayLoc} unterscheiden sich aufgrund unterschiedlicher Längen- und Breitengrade von denen in Mekka.` },
+                    { q: `Wie viel Zeit bleibt bis zum nächsten Gebet in ${cityDisplayLoc}?`, a: `Sie können die genaue Zeit bis zum nächsten Gebet in ${cityDisplayLoc} auf der Seite «Verbleibende Zeit» sehen, mit einem live aktualisierten Countdown.` },
+                    { q: `Wann ist das nächste Gebet in ${cityDisplayLoc} heute?`, a: `Das nächste Gebet in ${cityDisplayLoc} hängt von der aktuellen Uhrzeit ab. Die genaue Zeit und die drei folgenden Gebete finden Sie auf der Seite «Nächstes Gebet».` }
+                ],
+                id: [
+                    { q: `Kapan sholat Subuh di ${cityDisplayLoc}?`, a: `Anda dapat menemukan waktu Subuh hari ini di ${cityDisplayLoc} dari jadwal sholat di halaman ini.` },
+                    { q: `Berapa lama durasi puasa di ${cityDisplayLoc} hari ini?`, a: `Durasi puasa di ${cityDisplayLoc} dihitung dari adzan Subuh hingga adzan Maghrib.` },
+                    { q: `Bagaimana jadwal sholat di ${cityDisplayLoc} dihitung?`, a: `Jadwal sholat di ${cityDisplayLoc} dihitung menggunakan metode standar berdasarkan koordinat kota (garis bujur dan lintang).` },
+                    { q: `Apa arah kiblat dari ${cityDisplayLoc}?`, a: `Arah kiblat dari ${cityDisplayLoc} dihitung berdasarkan koordinat kota menuju Ka'bah di Mekkah.` },
+                    { q: `Apakah jadwal sholat di ${cityDisplayLoc} berbeda dari kota-kota tetangga?`, a: `Ya, jadwal sholat di ${cityDisplayLoc} sedikit berbeda dari kota-kota tetangga karena perbedaan garis bujur dan lintang.` },
+                    { q: `Berapa jam puasa hari ini di ${cityDisplayLoc}?`, a: `Jam puasa hari ini di ${cityDisplayLoc} dihitung dari adzan Subuh hingga adzan Maghrib.` },
+                    { q: `Apakah jadwal sholat di ${cityDisplayLoc} berbeda dari Mekkah?`, a: `Ya, jadwal sholat di ${cityDisplayLoc} berbeda dari Mekkah karena perbedaan garis bujur dan lintang.` },
+                    { q: `Berapa waktu tersisa sampai sholat berikutnya di ${cityDisplayLoc}?`, a: `Anda dapat melihat waktu tepat yang tersisa sampai sholat berikutnya di ${cityDisplayLoc} di halaman «Waktu Tersisa», dengan hitung mundur yang diperbarui langsung.` },
+                    { q: `Kapan sholat berikutnya di ${cityDisplayLoc} hari ini?`, a: `Sholat berikutnya di ${cityDisplayLoc} bergantung pada waktu saat ini. Anda dapat melihat waktu tepatnya dan tiga sholat berikutnya di halaman «Sholat Berikutnya».` }
+                ],
+                es: [
+                    { q: `¿Cuándo es la oración del Fajr en ${cityDisplayLoc}?`, a: `Puedes encontrar la hora del Fajr hoy en ${cityDisplayLoc} en el horario de oración de esta página.` },
+                    { q: `¿Cuál es la duración del ayuno en ${cityDisplayLoc} hoy?`, a: `La duración del ayuno en ${cityDisplayLoc} se calcula desde el Adhan del Fajr hasta el Adhan del Maghrib.` },
+                    { q: `¿Cómo se calculan los horarios de oración en ${cityDisplayLoc}?`, a: `Los horarios de oración en ${cityDisplayLoc} se calculan usando un método estándar basado en las coordenadas de la ciudad (longitud y latitud).` },
+                    { q: `¿Cuál es la dirección de la Qibla desde ${cityDisplayLoc}?`, a: `La dirección de la Qibla desde ${cityDisplayLoc} se calcula en función de las coordenadas de la ciudad hacia la Kaaba en La Meca.` },
+                    { q: `¿Los horarios de oración en ${cityDisplayLoc} difieren de las ciudades vecinas?`, a: `Sí, los horarios de oración en ${cityDisplayLoc} difieren ligeramente de las ciudades vecinas debido a la diferencia de longitud y latitud.` },
+                    { q: `¿Cuántas horas de ayuno hay hoy en ${cityDisplayLoc}?`, a: `Las horas de ayuno hoy en ${cityDisplayLoc} se calculan desde el Adhan del Fajr hasta el Adhan del Maghrib.` },
+                    { q: `¿Los horarios de oración en ${cityDisplayLoc} difieren de La Meca?`, a: `Sí, los horarios de oración en ${cityDisplayLoc} difieren de La Meca debido a la diferencia de longitud y latitud.` },
+                    { q: `¿Cuánto tiempo falta para la próxima oración en ${cityDisplayLoc}?`, a: `Puedes ver el tiempo exacto que falta hasta la próxima oración en ${cityDisplayLoc} en la página «Tiempo restante», con una cuenta regresiva en vivo.` },
+                    { q: `¿Cuándo es la próxima oración en ${cityDisplayLoc} hoy?`, a: `La próxima oración en ${cityDisplayLoc} depende de la hora actual. Puedes ver su hora exacta y las tres oraciones siguientes en la página «Próxima oración».` }
+                ],
+                bn: [
+                    { q: `${cityDisplayLoc}-এ ফজরের নামাজ কখন?`, a: `আপনি এই পৃষ্ঠার নামাজের সময়সূচি থেকে ${cityDisplayLoc}-এ আজকের ফজরের সময় জানতে পারেন।` },
+                    { q: `${cityDisplayLoc}-এ আজকের রোজার সময়কাল কত?`, a: `${cityDisplayLoc}-এ রোজার সময়কাল ফজরের আজান থেকে মাগরিবের আজান পর্যন্ত গণনা করা হয়।` },
+                    { q: `${cityDisplayLoc}-এ নামাজের সময় কীভাবে গণনা করা হয়?`, a: `${cityDisplayLoc}-এ নামাজের সময় শহরের স্থানাঙ্ক (দ্রাঘিমা ও অক্ষাংশ) ভিত্তিক একটি মানক পদ্ধতি ব্যবহার করে গণনা করা হয়।` },
+                    { q: `${cityDisplayLoc} থেকে কিবলার দিক কোনটি?`, a: `${cityDisplayLoc} থেকে কিবলার দিক শহরের স্থানাঙ্কের ভিত্তিতে মক্কার কাবার দিকে গণনা করা হয়।` },
+                    { q: `${cityDisplayLoc}-এ নামাজের সময় কি প্রতিবেশী শহর থেকে ভিন্ন?`, a: `হ্যাঁ, দ্রাঘিমা ও অক্ষাংশের পার্থক্যের কারণে ${cityDisplayLoc}-এ নামাজের সময় প্রতিবেশী শহর থেকে সামান্য ভিন্ন।` },
+                    { q: `${cityDisplayLoc}-এ আজ কত ঘণ্টা রোজা?`, a: `${cityDisplayLoc}-এ আজ রোজার ঘণ্টা ফজরের আজান থেকে মাগরিবের আজান পর্যন্ত গণনা করা হয়।` },
+                    { q: `${cityDisplayLoc}-এ নামাজের সময় কি মক্কা থেকে ভিন্ন?`, a: `হ্যাঁ, দ্রাঘিমা ও অক্ষাংশের পার্থক্যের কারণে ${cityDisplayLoc}-এ নামাজের সময় মক্কা থেকে ভিন্ন।` },
+                    { q: `${cityDisplayLoc}-এ পরবর্তী নামাজ পর্যন্ত কত সময় বাকি?`, a: `আপনি ${cityDisplayLoc}-এ পরবর্তী নামাজ পর্যন্ত সঠিক বাকি সময় «বাকি সময়» পৃষ্ঠায় লাইভ আপডেট হওয়া কাউন্টডাউন সহ দেখতে পারেন।` },
+                    { q: `আজ ${cityDisplayLoc}-এ পরবর্তী নামাজ কখন?`, a: `${cityDisplayLoc}-এ পরবর্তী নামাজ বর্তমান সময়ের উপর নির্ভর করে। আপনি এর সঠিক সময় এবং পরবর্তী তিনটি নামাজ «পরবর্তী নামাজ» পৃষ্ঠায় দেখতে পারেন।` }
+                ],
+                ms: [
+                    { q: `Bilakah solat Subuh di ${cityDisplayLoc}?`, a: `Anda boleh mendapatkan waktu Subuh hari ini di ${cityDisplayLoc} dari jadual waktu solat di halaman ini.` },
+                    { q: `Berapa lamakah tempoh puasa di ${cityDisplayLoc} hari ini?`, a: `Tempoh puasa di ${cityDisplayLoc} dikira dari azan Subuh sehingga azan Maghrib.` },
+                    { q: `Bagaimanakah waktu solat di ${cityDisplayLoc} dikira?`, a: `Waktu solat di ${cityDisplayLoc} dikira menggunakan kaedah standard berdasarkan koordinat bandar (garis bujur dan latitud).` },
+                    { q: `Apakah arah kiblat dari ${cityDisplayLoc}?`, a: `Arah kiblat dari ${cityDisplayLoc} dikira berdasarkan koordinat bandar ke arah Kaabah di Makkah.` },
+                    { q: `Adakah waktu solat di ${cityDisplayLoc} berbeza daripada bandar jiran?`, a: `Ya, waktu solat di ${cityDisplayLoc} sedikit berbeza daripada bandar jiran kerana perbezaan garis bujur dan latitud.` },
+                    { q: `Berapa jam puasa hari ini di ${cityDisplayLoc}?`, a: `Jam puasa hari ini di ${cityDisplayLoc} dikira dari azan Subuh sehingga azan Maghrib.` },
+                    { q: `Adakah waktu solat di ${cityDisplayLoc} berbeza daripada Makkah?`, a: `Ya, waktu solat di ${cityDisplayLoc} berbeza daripada Makkah kerana perbezaan garis bujur dan latitud.` },
+                    { q: `Berapa banyak masa lagi sebelum solat seterusnya di ${cityDisplayLoc}?`, a: `Anda boleh melihat masa tepat yang tinggal sebelum solat seterusnya di ${cityDisplayLoc} di halaman «Masa Tinggal», dengan kiraan undur langsung.` },
+                    { q: `Bilakah solat seterusnya di ${cityDisplayLoc} hari ini?`, a: `Solat seterusnya di ${cityDisplayLoc} bergantung pada masa sekarang. Anda boleh melihat masa tepatnya dan tiga solat seterusnya di halaman «Solat Seterusnya».` }
+                ]
+            };
+            const _faqList = _faqByLang[L] || _faqByLang.en;
+            const _faqJsonLd = {
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                'mainEntity': _faqList.map(it => ({
+                    '@type': 'Question',
+                    'name': it.q,
+                    'acceptedAnswer': { '@type': 'Answer', 'text': it.a }
+                }))
+            };
+            const _faqLd = `<script type="application/ld+json" id="city-faq-schema-ssr">${JSON.stringify(_faqJsonLd)}</script>`;
+            html = html.replace('</head>', _faqLd + '</head>');
+        } catch (_e) { /* silent */ }
+
         try {
             const localeMap = { ar: 'ar', en: 'en-US', fr: 'fr-FR', tr: 'tr-TR', ur: 'ur-PK', de: 'de-DE', id: 'id-ID', es: 'es-ES', bn: 'bn-BD', ms: 'ms-MY' };
             const gregDate = new Date().toLocaleDateString(
@@ -4884,9 +5591,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         const Lh = seo.lang;
         // Round 7e: إضافة keywords ديناميكية (شوال 1447، أبريل 2026، مكة المكرمة، الصلاة في)
         const _hN = _hijriNow();
-        const _hmSlug = _HIJRI_MONTHS_BY_ORDER[_hN.month];
-        const _hMAr = (_HIJRI_MONTHS[_hmSlug] || {}).ar || '';
-        const _hMEn = (_HIJRI_MONTHS[_hmSlug] || {}).en || '';
+        const _hMAr = (_HIJRI_MONTHS[_hN.month] || {}).ar || '';
+        const _hMEn = (_HIJRI_MONTHS[_hN.month] || {}).en || '';
         const _hY = _hN.year;
         const _gNow2 = new Date();
         const _gMIdx = _gNow2.getMonth();
@@ -5428,7 +6134,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             .replace(/<span data-i18n="footer\.follow_li">[^<]*<\/span>/,
                 `<span data-i18n="footer.follow_li">${_escHtml(f.followLI)}</span>`)
             .replace(/<a href="\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
-                `<a href="${Lf==='ar'?'':'/'+Lf}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
+                (() => {
+                    const _hH = _hijriNow();
+                    const _pH = (n) => String(n).padStart(2, '0');
+                    const _dated = `/hijri-date/${_hH.year}-${_pH(_hH.month)}-${_pH(_hH.day)}`;
+                    return `<a href="${Lf==='ar'?'':'/'+Lf}${_dated}" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`;
+                })())
             .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(f.l_hijri_year)}</a>`)
             .replace(/<a href="\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
@@ -7911,7 +8622,7 @@ const server = http.createServer(async (req, res) => {
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|about-[a-z0-9]|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d+-[a-z-]+-\d+$|hijri-calendar\/[a-z-]+-\d+$)/.test(_clean)) {
+        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|about-[a-z0-9]|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
@@ -8029,7 +8740,7 @@ const server = http.createServer(async (req, res) => {
         if (mi) {
             const today = new Date().toISOString().split('T')[0];
             const { cities } = getSitemapData();
-            const CHUNK_SIZE = 8000;
+            const CHUNK_SIZE = 4000;
             const chunkCount = Math.max(1, Math.ceil(cities.length / CHUNK_SIZE));
             const sitemaps = [];
             sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-main.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
@@ -8058,7 +8769,8 @@ const server = http.createServer(async (req, res) => {
                 ['/duas', '0.8', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
-                ['/today-hijri-date', '0.9', 'daily'],
+                // 🆕 Round 11: /today-hijri-date ليست في sitemap — SEO يعتمد على /hijri-date/YYYY-MM-DD.
+                // الصفحة UX dynamic وتحوي canonical → الصفحة الثابتة لليوم.
                 ['/prayer-times-worldwide', '0.9', 'weekly'],
                 ['/about-us', '0.6', 'monthly'],
                 ['/contact', '0.5', 'monthly'],
@@ -8076,22 +8788,21 @@ const server = http.createServer(async (req, res) => {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.8', 'weekly', today));
             }
 
-            // 3) التقويم الهجري — 3 سنوات (سنوي + شهري)
-            const hijriMonths = ['muharram','safar','rabi-al-awwal','rabi-al-thani','jumada-al-awwal','jumada-al-thani','rajab','shaban','ramadan','shawwal','dhu-al-qadah','dhu-al-hijjah'];
+            // 3) التقويم الهجري — 3 سنوات (سنوي + شهري) 🆕 Round 11: numeric zero-padded URLs
+            const _pad2S = n => String(n).padStart(2, '0');
             const gYear = new Date().getFullYear();
             const hYearApprox = Math.round((gYear - 622) * 33 / 32);
             for (const hy of [hYearApprox - 1, hYearApprox, hYearApprox + 1]) {
                 entries.push(...bilingualUrl('/hijri-calendar/' + hy, '0.7', 'monthly', today));
-                for (const m of hijriMonths) {
-                    entries.push(...bilingualUrl(`/hijri-calendar/${m}-${hy}`, '0.6', 'monthly', today));
+                for (let m = 1; m <= 12; m++) {
+                    entries.push(...bilingualUrl(`/hijri-calendar/${hy}-${_pad2S(m)}`, '0.6', 'monthly', today));
                 }
             }
 
             // 4) صفحات اليوم الهجري — السنة الحالية فقط (12 شهر × 30 يوم × 2 لغة = ~720)
-            for (let mi = 0; mi < hijriMonths.length; mi++) {
-                const m = hijriMonths[mi];
+            for (let m = 1; m <= 12; m++) {
                 for (let d = 1; d <= 30; d++) {
-                    entries.push(...bilingualUrl(`/hijri-date/${d}-${m}-${hYearApprox}`, '0.4', 'yearly', today));
+                    entries.push(...bilingualUrl(`/hijri-date/${hYearApprox}-${_pad2S(m)}-${_pad2S(d)}`, '0.4', 'yearly', today));
                 }
             }
 
@@ -8108,7 +8819,7 @@ const server = http.createServer(async (req, res) => {
             const idx = parseInt(mc[1], 10) - 1;
             const today = new Date().toISOString().split('T')[0];
             const { cities } = getSitemapData();
-            const CHUNK_SIZE = 8000;
+            const CHUNK_SIZE = 4000;
             const chunk = cities.slice(idx * CHUNK_SIZE, (idx + 1) * CHUNK_SIZE);
             if (chunk.length === 0) {
                 res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found'); return;
@@ -8129,6 +8840,13 @@ const server = http.createServer(async (req, res) => {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.7', 'daily', today));
                 entries.push(...bilingualUrl('/qibla-in-' + slug, '0.6', 'monthly', today));
                 entries.push(...bilingualUrl('/about-' + slug, '0.5', 'monthly', today));
+                // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة countdown live
+                //     slug نظيف فقط (بدون lat/lng) لأنّ الـ URL الجديد لا يحوي إحداثيّات
+                if (!/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
+                    entries.push(...bilingualUrl('/time-left-until-prayer-in-' + slug, '0.5', 'hourly', today));
+                    // 🆕 Round 4 (Minimal): /next-prayer-time-in-{slug} — Schedule Awareness page
+                    entries.push(...bilingualUrl('/next-prayer-time-in-' + slug, '0.75', 'hourly', today));
+                }
                 // Round 9: /moon-today-in-{slug-بدون-إحداثيّات} — فقط للمدن الشهيرة
                 // (FAMOUS_CITY_OVERRIDES)؛ البقيّة تُحلّ عبر _getCitySlugIndex() بشكل ديناميكيّ
                 // لكنّنا لا نُدرجها في sitemap لتفادي إرهاق crawl budget بالمدن الصغيرة.
@@ -8209,12 +8927,14 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/[a-z-]+-\d+$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(urlPath) ||
         // ملاحظة: /prayer-times-in-* (لكل اللغات) يُخدَم لاحقاً من الـ route الموحَّد
         // عند السطر ~4224 — حيث يُفحَص الـ slug للتمييز بين دولة (prayer-times-cities.html)
         // ومدينة (index.html). لا نُدرجه هنا لئلا نفرض index.html على جميع الحالات.
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath);
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath) ||
+        // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة time-left (index.html + SSR overrides)
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
         // Round 9 + Round 12 + Round 15 + Round 16: فحص slug لصفحات القمر.
@@ -8298,6 +9018,27 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    // ===== Round 11: 404 صريح لأي /hijri-calendar/* أو /hijri-date/* لا يطابق الصيغة الرقميّة =====
+    //   - الصيغة القديمة (سابقاً بأسماء شهور نصّيّة)، والصيغ الخاطئة (غير مُصفَّرة أو خارج النطاق)
+    //   - الصيغ الخاطئة: /hijri-calendar/1447-1 (غير مُصفَّر)، /hijri-calendar/1447-13 (خارج النطاق)
+    //   - المسارات الصالحة مُعالَجة أعلاه عبر _isIndexHtmlRoute. هنا نصيد البقايا فقط.
+    {
+        const _hijriPathMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(hijri-calendar|hijri-date)\/(.+)$/);
+        if (_hijriPathMatch) {
+            const _kind = _hijriPathMatch[1];
+            const _rest = _hijriPathMatch[2];
+            // تحقّق صارم: hijri-calendar/YYYY أو YYYY-MM، hijri-date/YYYY-MM-DD
+            const _validYearOnly  = _kind === 'hijri-calendar' && /^\d{4}$/.test(_rest);
+            const _validMonth     = _kind === 'hijri-calendar' && /^\d{4}-(?:0[1-9]|1[0-2])$/.test(_rest);
+            const _validDay       = _kind === 'hijri-date'     && /^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(_rest);
+            if (!_validYearOnly && !_validMonth && !_validDay) {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+                res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Hijri URLs use numeric zero-padded format: <code>/hijri-calendar/YYYY-MM</code> or <code>/hijri-date/YYYY-MM-DD</code>.</p>');
+                return;
+            }
+        }
+    }
+
     // ===== Legal pages: /privacy, /terms, /contact, /about-us (+ /en/...) =====
     {
         const _legalMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?(privacy|terms|contact|about-us)$/);
@@ -8316,6 +9057,14 @@ const server = http.createServer(async (req, res) => {
                 // Set lang/dir attributes
                 const dir = isRtl ? 'rtl' : 'ltr';
                 htmlStr = htmlStr.replace('<html lang="ar" dir="rtl">', `<html lang="${urlLang}" dir="${dir}">`);
+                // إعادة كتابة navbar /today-hijri-date → الصفحة المؤرّخة (canonical)
+                {
+                    const _hL = _hijriNow();
+                    const _pL = (n) => String(n).padStart(2, '0');
+                    const _langPref = (urlLang === 'ar') ? '' : ('/' + urlLang);
+                    const _datedL = `${_langPref}/hijri-date/${_hL.year}-${_pL(_hL.month)}-${_pL(_hL.day)}`;
+                    htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_datedL}"`);
+                }
                 serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc);
             });
             return;

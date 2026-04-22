@@ -552,13 +552,9 @@ let countdownInterval;
 let searchDebounceTimer = null;
 let searchFocusedIndex = -1;
 let lastAzanPrayer = null;     // آخر صلاة شُغِّل لها الأذان (لمنع التكرار)
+let _lastNextKey = null;       // 🆕 Round 3.1: تتبّع آخر next.key لاكتشاف انتقال حدّ الصلاة
 
-// ===== slugs الأشهر الهجرية (للروابط) =====
-const HIJRI_MONTH_SLUGS = [
-    'muharram','safar','rabi-al-awwal','rabi-al-thani',
-    'jumada-al-awwal','jumada-al-thani','rajab','shaban',
-    'ramadan','shawwal','dhu-al-qidah','dhu-al-hijjah'
-];
+// 🆕 Round 11: HIJRI_MONTH_SLUGS removed — URLs are now numeric zero-padded (e.g. 1447-11 / 1447-11-05).
 const HIJRI_MONTHS_EN = [
     'Muharram','Safar','Rabi al-Awwal','Rabi al-Thani',
     'Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban',
@@ -816,6 +812,345 @@ const _HDAY_UI = {
 };
 function hdayUi(lang) { return _HDAY_UI[lang] || _HDAY_UI.en; }
 
+// 🆕 Answer-Page extras: CTA + related + faq title (strings only — no intro/otd)
+// ⚡ Anchor variation: CTA text ≠ Related text (SEO best practice)
+const _HDAY_EXTRA = {
+    ar: { faqTitle:'❓ أسئلة عن اليوم الهجري', relatedTitle:'🌙 روابط ذات صلة',
+          ctaConv:'🔄 تحويل التاريخ', ctaMoon:'🌙 حالة القمر اليوم', ctaPrayer:'🕌 مواقيت الصلاة اليوم',
+          relMonth:(m,y)=>`🌙 شهر ${m} ${y} هـ`, relYear:(y)=>`📆 تقويم سنة ${y} هـ`,
+          relConv:'🔄 أداة تحويل التاريخ الهجري والميلادي', relMoon:'🌙 مراحل القمر اليوم', relPrayer:'🕌 أوقات الصلاة الخمس',
+          footerLink:(m,y)=>`التقويم الهجري لشهر ${m} ${y} هـ` },
+    en: { faqTitle:'❓ Frequently Asked Questions', relatedTitle:'🌙 Related Links',
+          ctaConv:'🔄 Date Converter', ctaMoon:"🌙 Moon Today", ctaPrayer:'🕌 Prayer Times Today',
+          relMonth:(m,y)=>`🌙 ${m} ${y} Calendar`, relYear:(y)=>`📆 ${y} AH Full Year`,
+          relConv:'🔄 Hijri-Gregorian Conversion Tool', relMoon:'🌙 Current Moon Phase', relPrayer:'🕌 Five Daily Prayer Times',
+          footerLink:(m,y)=>`full ${m} ${y} Hijri calendar` },
+    fr: { faqTitle:'❓ Questions fréquentes', relatedTitle:'🌙 Liens connexes',
+          ctaConv:'🔄 Convertisseur de dates', ctaMoon:'🌙 Lune aujourd’hui', ctaPrayer:'🕌 Heures de prière',
+          relMonth:(m,y)=>`🌙 Mois de ${m} ${y} H`, relYear:(y)=>`📆 Année complète ${y} H`,
+          relConv:'🔄 Outil de conversion hégire ↔ grégorien', relMoon:'🌙 Phase lunaire actuelle', relPrayer:'🕌 Les cinq prières quotidiennes',
+          footerLink:(m,y)=>`calendrier hégirien complet de ${m} ${y} H` },
+    tr: { faqTitle:'❓ Sıkça Sorulan Sorular', relatedTitle:'🌙 İlgili Bağlantılar',
+          ctaConv:'🔄 Tarih Dönüştürücü', ctaMoon:'🌙 Bugünkü Ay', ctaPrayer:'🕌 Bugünün Namaz Vakitleri',
+          relMonth:(m,y)=>`🌙 ${m} ${y} H Ayı`, relYear:(y)=>`📆 ${y} H Tam Yıl`,
+          relConv:'🔄 Hicri–Miladi Çevrim Aracı', relMoon:'🌙 Güncel Ay Evresi', relPrayer:'🕌 Beş Vakit Namaz',
+          footerLink:(m,y)=>`${m} ${y} H tam hicri takvimi` },
+    ur: { faqTitle:'❓ اکثر پوچھے گئے سوالات', relatedTitle:'🌙 متعلقہ روابط',
+          ctaConv:'🔄 تاریخ کنورٹر', ctaMoon:'🌙 آج کی چاند کی حالت', ctaPrayer:'🕌 آج کی نماز کے اوقات',
+          relMonth:(m,y)=>`🌙 ${m} ${y} کا مہینہ`, relYear:(y)=>`📆 ${y} ہجری کا مکمل سال`,
+          relConv:'🔄 ہجری–عیسوی کنورژن ٹول', relMoon:'🌙 چاند کا موجودہ مرحلہ', relPrayer:'🕌 پانچ نمازوں کے اوقات',
+          footerLink:(m,y)=>`${m} ${y} کا مکمل ہجری کیلنڈر` },
+    de: { faqTitle:'❓ Häufig gestellte Fragen', relatedTitle:'🌙 Verwandte Links',
+          ctaConv:'🔄 Datumsumrechner', ctaMoon:'🌙 Mond heute', ctaPrayer:'🕌 Gebetszeiten heute',
+          relMonth:(m,y)=>`🌙 Monat ${m} ${y} AH`, relYear:(y)=>`📆 Gesamtes Jahr ${y} AH`,
+          relConv:'🔄 Hidschri-Gregorianisches Umrechnungstool', relMoon:'🌙 Aktuelle Mondphase', relPrayer:'🕌 Fünf tägliche Gebetszeiten',
+          footerLink:(m,y)=>`vollständiger Hidschri-Kalender ${m} ${y} AH` },
+    id: { faqTitle:'❓ Pertanyaan yang Sering Diajukan', relatedTitle:'🌙 Tautan Terkait',
+          ctaConv:'🔄 Konverter Tanggal', ctaMoon:'🌙 Bulan Hari Ini', ctaPrayer:'🕌 Jadwal Sholat Hari Ini',
+          relMonth:(m,y)=>`🌙 Bulan ${m} ${y} H`, relYear:(y)=>`📆 Setahun Penuh ${y} H`,
+          relConv:'🔄 Alat Konversi Hijriah–Masehi', relMoon:'🌙 Fase Bulan Saat Ini', relPrayer:'🕌 Lima Waktu Sholat',
+          footerLink:(m,y)=>`kalender Hijriah lengkap ${m} ${y} H` },
+    es: { faqTitle:'❓ Preguntas frecuentes', relatedTitle:'🌙 Enlaces relacionados',
+          ctaConv:'🔄 Convertidor de fechas', ctaMoon:'🌙 Luna hoy', ctaPrayer:'🕌 Horarios de oración hoy',
+          relMonth:(m,y)=>`🌙 Mes de ${m} ${y} H`, relYear:(y)=>`📆 Año completo ${y} H`,
+          relConv:'🔄 Herramienta de conversión Hégira–Gregoriano', relMoon:'🌙 Fase lunar actual', relPrayer:'🕌 Cinco oraciones diarias',
+          footerLink:(m,y)=>`calendario Hégira completo de ${m} ${y} H` },
+    bn: { faqTitle:'❓ প্রায়শই জিজ্ঞাসিত প্রশ্ন', relatedTitle:'🌙 সম্পর্কিত লিঙ্ক',
+          ctaConv:'🔄 তারিখ রূপান্তরকারী', ctaMoon:'🌙 আজকের চাঁদ', ctaPrayer:'🕌 আজকের নামাজের সময়',
+          relMonth:(m,y)=>`🌙 ${m} ${y} হিজরির মাস`, relYear:(y)=>`📆 ${y} হিজরি পূর্ণ বছর`,
+          relConv:'🔄 হিজরি–খ্রিস্টীয় রূপান্তর টুল', relMoon:'🌙 বর্তমান চাঁদের পর্যায়', relPrayer:'🕌 পাঁচ ওয়াক্ত নামাজ',
+          footerLink:(m,y)=>`${m} ${y} হিজরির পূর্ণ ক্যালেন্ডার` },
+    ms: { faqTitle:'❓ Soalan Lazim', relatedTitle:'🌙 Pautan Berkaitan',
+          ctaConv:'🔄 Penukar Tarikh', ctaMoon:'🌙 Bulan Hari Ini', ctaPrayer:'🕌 Waktu Solat Hari Ini',
+          relMonth:(m,y)=>`🌙 Bulan ${m} ${y} H`, relYear:(y)=>`📆 Setahun Penuh ${y} H`,
+          relConv:'🔄 Alat Penukaran Hijrah–Masihi', relMoon:'🌙 Fasa Bulan Semasa', relPrayer:'🕌 Lima Waktu Solat',
+          footerLink:(m,y)=>`kalendar Hijrah penuh ${m} ${y} H` },
+};
+function hdayExtraUi(lang) { return _HDAY_EXTRA[lang] || _HDAY_EXTRA.en; }
+
+// 🆕 Non-today date page extras (for /hijri-date/YYYY-MM-DD when date ≠ today)
+// Rule: NO "today" phrasing anywhere — this is a static reference page for a specific date.
+const _HDAY_NONTODAY = {
+    ar: {
+        faqTitle:'❓ أسئلة عن هذا التاريخ',
+        cardYear:'📅 السنة', cardOrder:'📊 ترتيب اليوم', orderOf:(d,t)=>`${d} من ${t}`,
+        relPrayerCity:(city)=>`🕌 مواقيت الصلاة في ${city}`,
+        footer:(c)=>`يوافق التاريخ ${c.hDate} التاريخ الميلادي ${c.gDate} حسب تقويم أم القرى. شهر ${c.monthName} هو الشهر رقم ${c.monthNum} في السنة الهجرية، وتحتوي سنة ${c.year}${c.hSfx} على ${c.totalYearDays} يوماً. يمكنك تصفّح التقويم الهجري الكامل أو استخدام أداة تحويل التاريخ.`,
+        faq:(c)=>[
+            [`ما هو التاريخ الميلادي الموافق لـ ${c.hDate}؟`, `${c.hDate} يوافق ${c.gDate} حسب تقويم أم القرى.`],
+            [`ما هو اليوم الذي يوافق ${c.hDate}؟`, `${c.hDate} يوافق يوم ${c.dayName}.`],
+            [`ما هو شهر ${c.monthName}؟`, `${c.monthName} هو الشهر الهجري رقم ${c.monthNum} ضمن أشهر السنة الهجرية الاثني عشر.`],
+            [`هل سنة ${c.year}${c.hSfx} سنة كبيسة؟`, c.isLeap?`نعم، سنة ${c.year}${c.hSfx} سنة كبيسة عدد أيامها 355 يوماً.`:`لا، سنة ${c.year}${c.hSfx} سنة بسيطة عدد أيامها 354 يوماً.`],
+            [`كم عدد أيام شهر ${c.monthName} ${c.year}؟`, `شهر ${c.monthName} ${c.year}${c.hSfx} يتكوّن من ${c.totalDays} يوماً.`],
+        ],
+    },
+    en: {
+        faqTitle:'❓ About this date',
+        cardYear:'📅 Year', cardOrder:'📊 Day of month', orderOf:(d,t)=>`${d} of ${t}`,
+        relPrayerCity:(city)=>`🕌 Prayer Times in ${city}`,
+        footer:(c)=>`${c.hDate} corresponds to ${c.gDate} according to the Umm al-Qura calendar. ${c.monthName} is month ${c.monthNum} of the Hijri year, and ${c.year}${c.hSfx} has ${c.totalYearDays} days in total. Browse the full Hijri calendar or use the date converter tool.`,
+        faq:(c)=>[
+            [`Which Gregorian date corresponds to ${c.hDate}?`, `${c.hDate} corresponds to ${c.gDate} under the Umm al-Qura calendar.`],
+            [`What day of the week is ${c.hDate}?`, `${c.hDate} falls on ${c.dayName}.`],
+            [`What is the month of ${c.monthName}?`, `${c.monthName} is the ${c.monthNum}${_ord(c.monthNum)} month of the Hijri lunar year.`],
+            [`Is ${c.year}${c.hSfx} a leap year?`, c.isLeap?`Yes — ${c.year}${c.hSfx} is a leap year of 355 days.`:`No — ${c.year}${c.hSfx} is a common year of 354 days.`],
+            [`How many days in ${c.monthName} ${c.year}?`, `${c.monthName} ${c.year}${c.hSfx} has ${c.totalDays} days.`],
+        ],
+    },
+    fr: {
+        faqTitle:'❓ À propos de cette date',
+        cardYear:'📅 Année', cardOrder:'📊 Jour du mois', orderOf:(d,t)=>`${d} sur ${t}`,
+        relPrayerCity:(city)=>`🕌 Heures de prière à ${city}`,
+        footer:(c)=>`${c.hDate} correspond au ${c.gDate} selon le calendrier Umm al-Qura. ${c.monthName} est le mois n° ${c.monthNum} de l’année hégirienne, et ${c.year}${c.hSfx} compte ${c.totalYearDays} jours. Consultez le calendrier hégirien complet ou le convertisseur de dates.`,
+        faq:(c)=>[
+            [`À quelle date grégorienne correspond ${c.hDate} ?`, `${c.hDate} correspond au ${c.gDate} selon le calendrier Umm al-Qura.`],
+            [`Quel jour de la semaine est ${c.hDate} ?`, `${c.hDate} tombe un ${c.dayName}.`],
+            [`Qu’est-ce que le mois de ${c.monthName} ?`, `${c.monthName} est le ${c.monthNum}ᵉ mois de l’année hégirienne lunaire.`],
+            [`${c.year}${c.hSfx} est-elle une année bissextile ?`, c.isLeap?`Oui — ${c.year}${c.hSfx} est une année bissextile de 355 jours.`:`Non — ${c.year}${c.hSfx} est une année ordinaire de 354 jours.`],
+            [`Combien de jours compte ${c.monthName} ${c.year} ?`, `${c.monthName} ${c.year}${c.hSfx} compte ${c.totalDays} jours.`],
+        ],
+    },
+    tr: {
+        faqTitle:'❓ Bu tarih hakkında',
+        cardYear:'📅 Yıl', cardOrder:'📊 Ayın günü', orderOf:(d,t)=>`${d} / ${t}`,
+        relPrayerCity:(city)=>`🕌 ${city} Namaz Vakitleri`,
+        footer:(c)=>`${c.hDate}, Ümmülkura takvimine göre ${c.gDate} tarihine denk gelir. ${c.monthName}, hicri yılın ${c.monthNum}. ayıdır ve ${c.year}${c.hSfx} yılı toplam ${c.totalYearDays} gün sürer. Tam hicri takvime göz atın veya tarih dönüştürücüyü kullanın.`,
+        faq:(c)=>[
+            [`${c.hDate} hangi miladi tarihe denk gelir?`, `${c.hDate}, Ümmülkura takvimine göre ${c.gDate} tarihine denk gelir.`],
+            [`${c.hDate} hangi güne denk gelir?`, `${c.hDate}, ${c.dayName} gününe denk gelir.`],
+            [`${c.monthName} ayı nedir?`, `${c.monthName}, hicri kameri yılın ${c.monthNum}. ayıdır.`],
+            [`${c.year}${c.hSfx} artık yıl mı?`, c.isLeap?`Evet — ${c.year}${c.hSfx} 355 günlük artık yıldır.`:`Hayır — ${c.year}${c.hSfx} 354 günlük normal yıldır.`],
+            [`${c.monthName} ${c.year} kaç gündür?`, `${c.monthName} ${c.year}${c.hSfx} ${c.totalDays} gündür.`],
+        ],
+    },
+    ur: {
+        faqTitle:'❓ اس تاریخ کے بارے میں',
+        cardYear:'📅 سال', cardOrder:'📊 مہینے کا دن', orderOf:(d,t)=>`${d} از ${t}`,
+        relPrayerCity:(city)=>`🕌 ${city} میں نماز کے اوقات`,
+        footer:(c)=>`${c.hDate} ام القری کیلنڈر کے مطابق ${c.gDate} کے موافق ہے۔ ${c.monthName} ہجری سال کا ${c.monthNum} واں مہینہ ہے، اور سال ${c.year}${c.hSfx} کل ${c.totalYearDays} دن پر مشتمل ہے۔ مکمل ہجری کیلنڈر دیکھیں یا تاریخ کنورٹر استعمال کریں۔`,
+        faq:(c)=>[
+            [`${c.hDate} کس عیسوی تاریخ کے موافق ہے؟`, `${c.hDate} ام القری کیلنڈر کے مطابق ${c.gDate} کے موافق ہے۔`],
+            [`${c.hDate} کس دن کو پڑتی ہے؟`, `${c.hDate} ${c.dayName} کو پڑتی ہے۔`],
+            [`${c.monthName} کا مہینہ کیا ہے؟`, `${c.monthName} ہجری سال کا ${c.monthNum} واں مہینہ ہے۔`],
+            [`کیا سال ${c.year}${c.hSfx} لیپ سال ہے؟`, c.isLeap?`جی ہاں — ${c.year}${c.hSfx} 355 دن کا لیپ سال ہے۔`:`نہیں — ${c.year}${c.hSfx} 354 دن کا عام سال ہے۔`],
+            [`${c.monthName} ${c.year} میں کتنے دن ہیں؟`, `${c.monthName} ${c.year}${c.hSfx} میں ${c.totalDays} دن ہیں۔`],
+        ],
+    },
+    de: {
+        faqTitle:'❓ Über dieses Datum',
+        cardYear:'📅 Jahr', cardOrder:'📊 Tag des Monats', orderOf:(d,t)=>`${d} von ${t}`,
+        relPrayerCity:(city)=>`🕌 Gebetszeiten in ${city}`,
+        footer:(c)=>`${c.hDate} entspricht nach dem Umm-al-Qura-Kalender dem ${c.gDate}. ${c.monthName} ist der ${c.monthNum}. Monat des Hidschri-Jahres; ${c.year}${c.hSfx} umfasst insgesamt ${c.totalYearDays} Tage. Durchsuchen Sie den vollständigen Hidschri-Kalender oder nutzen Sie den Datumsumrechner.`,
+        faq:(c)=>[
+            [`Welchem gregorianischen Datum entspricht ${c.hDate}?`, `${c.hDate} entspricht ${c.gDate} nach dem Umm-al-Qura-Kalender.`],
+            [`Auf welchen Wochentag fällt ${c.hDate}?`, `${c.hDate} fällt auf einen ${c.dayName}.`],
+            [`Was ist der Monat ${c.monthName}?`, `${c.monthName} ist der ${c.monthNum}. Monat des Hidschri-Mondjahres.`],
+            [`Ist ${c.year}${c.hSfx} ein Schaltjahr?`, c.isLeap?`Ja — ${c.year}${c.hSfx} ist ein Schaltjahr mit 355 Tagen.`:`Nein — ${c.year}${c.hSfx} ist ein Gemeinjahr mit 354 Tagen.`],
+            [`Wie viele Tage hat ${c.monthName} ${c.year}?`, `${c.monthName} ${c.year}${c.hSfx} hat ${c.totalDays} Tage.`],
+        ],
+    },
+    id: {
+        faqTitle:'❓ Tentang tanggal ini',
+        cardYear:'📅 Tahun', cardOrder:'📊 Hari ke', orderOf:(d,t)=>`${d} dari ${t}`,
+        relPrayerCity:(city)=>`🕌 Jadwal Sholat di ${city}`,
+        footer:(c)=>`${c.hDate} bertepatan dengan ${c.gDate} menurut kalender Umm al-Qura. ${c.monthName} adalah bulan ke-${c.monthNum} dalam tahun Hijriah, dan tahun ${c.year}${c.hSfx} berdurasi ${c.totalYearDays} hari. Telusuri kalender Hijriah lengkap atau gunakan konverter tanggal.`,
+        faq:(c)=>[
+            [`Tanggal Masehi apa yang bertepatan dengan ${c.hDate}?`, `${c.hDate} bertepatan dengan ${c.gDate} menurut kalender Umm al-Qura.`],
+            [`${c.hDate} jatuh pada hari apa?`, `${c.hDate} jatuh pada hari ${c.dayName}.`],
+            [`Apa itu bulan ${c.monthName}?`, `${c.monthName} adalah bulan ke-${c.monthNum} dalam tahun Hijriah.`],
+            [`Apakah tahun ${c.year}${c.hSfx} tahun kabisat?`, c.isLeap?`Ya — ${c.year}${c.hSfx} adalah tahun kabisat dengan 355 hari.`:`Tidak — ${c.year}${c.hSfx} adalah tahun biasa dengan 354 hari.`],
+            [`Berapa jumlah hari bulan ${c.monthName} ${c.year}?`, `${c.monthName} ${c.year}${c.hSfx} berjumlah ${c.totalDays} hari.`],
+        ],
+    },
+    es: {
+        faqTitle:'❓ Sobre esta fecha',
+        cardYear:'📅 Año', cardOrder:'📊 Día del mes', orderOf:(d,t)=>`${d} de ${t}`,
+        relPrayerCity:(city)=>`🕌 Horarios de oración en ${city}`,
+        footer:(c)=>`${c.hDate} corresponde al ${c.gDate} según el calendario Umm al-Qura. ${c.monthName} es el mes n.º ${c.monthNum} del año hégira, y ${c.year}${c.hSfx} consta de ${c.totalYearDays} días. Explore el calendario hégira completo o use el convertidor de fechas.`,
+        faq:(c)=>[
+            [`¿A qué fecha gregoriana corresponde ${c.hDate}?`, `${c.hDate} corresponde al ${c.gDate} según el calendario Umm al-Qura.`],
+            [`¿Qué día de la semana cae ${c.hDate}?`, `${c.hDate} cae en ${c.dayName}.`],
+            [`¿Qué es el mes de ${c.monthName}?`, `${c.monthName} es el ${c.monthNum}.º mes del año hégira lunar.`],
+            [`¿Es ${c.year}${c.hSfx} un año bisiesto?`, c.isLeap?`Sí — ${c.year}${c.hSfx} es un año bisiesto de 355 días.`:`No — ${c.year}${c.hSfx} es un año común de 354 días.`],
+            [`¿Cuántos días tiene ${c.monthName} ${c.year}?`, `${c.monthName} ${c.year}${c.hSfx} tiene ${c.totalDays} días.`],
+        ],
+    },
+    bn: {
+        faqTitle:'❓ এই তারিখ সম্পর্কে',
+        cardYear:'📅 বছর', cardOrder:'📊 মাসের দিন', orderOf:(d,t)=>`${d} / ${t}`,
+        relPrayerCity:(city)=>`🕌 ${city}-এ নামাজের সময়`,
+        footer:(c)=>`${c.hDate} উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.gDate}-এর সমতুল্য। ${c.monthName} হলো হিজরি বর্ষের ${c.monthNum}তম মাস, এবং ${c.year}${c.hSfx} বছরে মোট ${c.totalYearDays} দিন রয়েছে। পূর্ণ হিজরি ক্যালেন্ডার ব্রাউজ করুন বা তারিখ রূপান্তরকারী ব্যবহার করুন।`,
+        faq:(c)=>[
+            [`${c.hDate} কোন খ্রিস্টীয় তারিখের সমতুল্য?`, `${c.hDate} উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.gDate}-এর সমতুল্য।`],
+            [`${c.hDate} সপ্তাহের কোন দিনে পড়ে?`, `${c.hDate} ${c.dayName}-এ পড়ে।`],
+            [`${c.monthName} মাসটি কী?`, `${c.monthName} হলো হিজরি চন্দ্র বর্ষের ${c.monthNum}তম মাস।`],
+            [`${c.year}${c.hSfx} কি অধিবর্ষ?`, c.isLeap?`হ্যাঁ — ${c.year}${c.hSfx} ৩৫৫ দিনের একটি অধিবর্ষ।`:`না — ${c.year}${c.hSfx} ৩৫৪ দিনের একটি সাধারণ বছর।`],
+            [`${c.monthName} ${c.year} মাসে কত দিন?`, `${c.monthName} ${c.year}${c.hSfx} মাসে ${c.totalDays} দিন।`],
+        ],
+    },
+    ms: {
+        faqTitle:'❓ Tentang tarikh ini',
+        cardYear:'📅 Tahun', cardOrder:'📊 Hari dalam bulan', orderOf:(d,t)=>`${d} daripada ${t}`,
+        relPrayerCity:(city)=>`🕌 Waktu Solat di ${city}`,
+        footer:(c)=>`${c.hDate} bersamaan dengan ${c.gDate} mengikut kalendar Umm al-Qura. ${c.monthName} ialah bulan ke-${c.monthNum} tahun Hijrah, dan tahun ${c.year}${c.hSfx} mempunyai jumlah ${c.totalYearDays} hari. Layari kalendar Hijrah penuh atau gunakan penukar tarikh.`,
+        faq:(c)=>[
+            [`Tarikh Masihi apa bersamaan dengan ${c.hDate}?`, `${c.hDate} bersamaan dengan ${c.gDate} mengikut kalendar Umm al-Qura.`],
+            [`${c.hDate} jatuh pada hari apa?`, `${c.hDate} jatuh pada hari ${c.dayName}.`],
+            [`Apakah bulan ${c.monthName}?`, `${c.monthName} ialah bulan ke-${c.monthNum} tahun qamari Hijrah.`],
+            [`Adakah ${c.year}${c.hSfx} tahun lompat?`, c.isLeap?`Ya — ${c.year}${c.hSfx} tahun lompat 355 hari.`:`Tidak — ${c.year}${c.hSfx} tahun biasa 354 hari.`],
+            [`Berapa hari dalam ${c.monthName} ${c.year}?`, `${c.monthName} ${c.year}${c.hSfx} mempunyai ${c.totalDays} hari.`],
+        ],
+    },
+};
+function _ord(n) { const s=['th','st','nd','rd'], v=n%100; return s[(v-20)%10]||s[v]||s[0]; }
+function hdayNonTodayUi(lang) { return _HDAY_NONTODAY[lang] || _HDAY_NONTODAY.en; }
+
+// 🆕 Geo-aware strings for today-page (/hijri-date/YYYY-MM-DD when date === today AND city known)
+// Pattern: a city-aware suffix/inline that upgrades intent strength ("date + location").
+const _HDAY_GEO = {
+    ar: {
+        h1:(loc,day,date)=>`التاريخ الهجري اليوم في ${loc}: ${day} ${date}`,
+        ctaPrayer:(loc)=>`🕌 مواقيت الصلاة اليوم في ${loc}`,
+        ctaMoon:(loc)=>`🌙 حالة القمر اليوم في ${loc}`,
+        relPrayer:(loc)=>`🕌 مواقيت الصلاة في ${loc}`,
+        relMoon:(loc)=>`🌙 مراحل القمر اليوم في ${loc}`,
+        footer:(c,loc)=>`يعرض هذا القسم التاريخ الهجري اليوم بدقة حسب تقويم أم القرى في ${loc}. التاريخ اليوم هو ${c.hDate} الموافق ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`التقويم الهجري لشهر ${m} ${y} هـ في ${loc}`,
+        faqFirstQ:(loc)=>`ما هو التاريخ الهجري اليوم في ${loc}؟`,
+        faqFirstA:(c,loc)=>`التاريخ الهجري اليوم في ${loc} هو ${c.hDate} الموافق ${c.gDate} حسب تقويم أم القرى.`,
+        seoTitle:(loc,date)=>`التاريخ الهجري اليوم في ${loc}: ${date}`,
+        schemaName:(loc)=>`التاريخ الهجري اليوم في ${loc}`,
+        schemaAbout:'التاريخ الهجري اليوم حسب تقويم أم القرى',
+    },
+    en: {
+        h1:(loc,day,date)=>`Today's Hijri Date in ${loc}: ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 Today's Prayer Times in ${loc}`,
+        ctaMoon:(loc)=>`🌙 Moon Today in ${loc}`,
+        relPrayer:(loc)=>`🕌 Prayer Times in ${loc}`,
+        relMoon:(loc)=>`🌙 Current Moon Phase in ${loc}`,
+        footer:(c,loc)=>`This section shows today's Hijri date accurately per the Umm al-Qura calendar in ${loc}. Today is ${c.hDate} corresponding to ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`full ${m} ${y} Hijri calendar in ${loc}`,
+        faqFirstQ:(loc)=>`What is today's Hijri date in ${loc}?`,
+        faqFirstA:(c,loc)=>`Today's Hijri date in ${loc} is ${c.hDate}, corresponding to ${c.gDate} per the Umm al-Qura calendar.`,
+        seoTitle:(loc,date)=>`Today's Hijri Date in ${loc}: ${date}`,
+        schemaName:(loc)=>`Today's Hijri Date in ${loc}`,
+        schemaAbout:"Today's Hijri date per the Umm al-Qura calendar",
+    },
+    fr: {
+        h1:(loc,day,date)=>`Date hégirienne aujourd'hui à ${loc} : ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 Heures de prière aujourd'hui à ${loc}`,
+        ctaMoon:(loc)=>`🌙 Lune aujourd'hui à ${loc}`,
+        relPrayer:(loc)=>`🕌 Heures de prière à ${loc}`,
+        relMoon:(loc)=>`🌙 Phase lunaire actuelle à ${loc}`,
+        footer:(c,loc)=>`Cette section affiche la date hégirienne d'aujourd'hui selon le calendrier Oumm al-Qoura à ${loc}. Aujourd'hui c'est ${c.hDate}, soit ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`calendrier hégirien complet de ${m} ${y} H à ${loc}`,
+        faqFirstQ:(loc)=>`Quelle est la date hégirienne aujourd'hui à ${loc} ?`,
+        faqFirstA:(c,loc)=>`La date hégirienne aujourd'hui à ${loc} est ${c.hDate}, correspondant à ${c.gDate} selon le calendrier Oumm al-Qoura.`,
+        seoTitle:(loc,date)=>`Date hégirienne aujourd'hui à ${loc} : ${date}`,
+        schemaName:(loc)=>`Date hégirienne aujourd'hui à ${loc}`,
+        schemaAbout:"Date hégirienne aujourd'hui selon le calendrier Oumm al-Qoura",
+    },
+    tr: {
+        h1:(loc,day,date)=>`Bugünün Hicri Tarihi (${loc}): ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 ${loc} için Bugünün Namaz Vakitleri`,
+        ctaMoon:(loc)=>`🌙 Bugün ${loc}'de Ay`,
+        relPrayer:(loc)=>`🕌 ${loc} Namaz Vakitleri`,
+        relMoon:(loc)=>`🌙 ${loc} Güncel Ay Evresi`,
+        footer:(c,loc)=>`Bu bölüm, Ümmü'l-Kura takvimine göre ${loc} için bugünün hicri tarihini doğru şekilde gösterir. Bugün ${c.hDate}, miladi ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`${loc} için ${m} ${y} H tam hicri takvimi`,
+        faqFirstQ:(loc)=>`${loc} için bugünün hicri tarihi nedir?`,
+        faqFirstA:(c,loc)=>`${loc} için bugünün hicri tarihi ${c.hDate}, miladi ${c.gDate} (Ümmü'l-Kura takvimine göre).`,
+        seoTitle:(loc,date)=>`Bugünün Hicri Tarihi (${loc}): ${date}`,
+        schemaName:(loc)=>`${loc} için Bugünün Hicri Tarihi`,
+        schemaAbout:"Ümmü'l-Kura takvimine göre bugünün hicri tarihi",
+    },
+    ur: {
+        h1:(loc,day,date)=>`آج کی ہجری تاریخ ${loc} میں: ${day}، ${date}`,
+        ctaPrayer:(loc)=>`🕌 آج ${loc} میں نماز کے اوقات`,
+        ctaMoon:(loc)=>`🌙 آج ${loc} میں چاند کی حالت`,
+        relPrayer:(loc)=>`🕌 ${loc} میں نماز کے اوقات`,
+        relMoon:(loc)=>`🌙 ${loc} میں چاند کا موجودہ مرحلہ`,
+        footer:(c,loc)=>`یہ سیکشن ام القریٰ کیلنڈر کے مطابق ${loc} میں آج کی ہجری تاریخ ظاہر کرتا ہے۔ آج ${c.hDate} ہے، جو ${c.gDate} کے مطابق ہے۔`,
+        footerLink:(m,y,loc)=>`${loc} کے لیے ${m} ${y} کا مکمل ہجری کیلنڈر`,
+        faqFirstQ:(loc)=>`${loc} میں آج کی ہجری تاریخ کیا ہے؟`,
+        faqFirstA:(c,loc)=>`${loc} میں آج کی ہجری تاریخ ${c.hDate} ہے، جو ام القریٰ کیلنڈر کے مطابق ${c.gDate} ہے۔`,
+        seoTitle:(loc,date)=>`آج کی ہجری تاریخ ${loc} میں: ${date}`,
+        schemaName:(loc)=>`${loc} میں آج کی ہجری تاریخ`,
+        schemaAbout:'ام القریٰ کیلنڈر کے مطابق آج کی ہجری تاریخ',
+    },
+    de: {
+        h1:(loc,day,date)=>`Heutiges Hidschri-Datum in ${loc}: ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 Heutige Gebetszeiten in ${loc}`,
+        ctaMoon:(loc)=>`🌙 Mond heute in ${loc}`,
+        relPrayer:(loc)=>`🕌 Gebetszeiten in ${loc}`,
+        relMoon:(loc)=>`🌙 Aktuelle Mondphase in ${loc}`,
+        footer:(c,loc)=>`Dieser Abschnitt zeigt das heutige Hidschri-Datum nach dem Umm-al-Qura-Kalender in ${loc}. Heute ist ${c.hDate}, entspricht ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`vollständiger Hidschri-Kalender ${m} ${y} AH für ${loc}`,
+        faqFirstQ:(loc)=>`Was ist das heutige Hidschri-Datum in ${loc}?`,
+        faqFirstA:(c,loc)=>`Das heutige Hidschri-Datum in ${loc} ist ${c.hDate}, entspricht ${c.gDate} nach dem Umm-al-Qura-Kalender.`,
+        seoTitle:(loc,date)=>`Heutiges Hidschri-Datum in ${loc}: ${date}`,
+        schemaName:(loc)=>`Heutiges Hidschri-Datum in ${loc}`,
+        schemaAbout:'Heutiges Hidschri-Datum nach dem Umm-al-Qura-Kalender',
+    },
+    id: {
+        h1:(loc,day,date)=>`Tanggal Hijriah Hari Ini di ${loc}: ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 Jadwal Sholat Hari Ini di ${loc}`,
+        ctaMoon:(loc)=>`🌙 Bulan Hari Ini di ${loc}`,
+        relPrayer:(loc)=>`🕌 Jadwal Sholat di ${loc}`,
+        relMoon:(loc)=>`🌙 Fase Bulan Saat Ini di ${loc}`,
+        footer:(c,loc)=>`Bagian ini menampilkan tanggal Hijriah hari ini secara akurat menurut kalender Umm al-Qura di ${loc}. Hari ini adalah ${c.hDate}, bertepatan dengan ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`kalender Hijriah lengkap ${m} ${y} H di ${loc}`,
+        faqFirstQ:(loc)=>`Apa tanggal Hijriah hari ini di ${loc}?`,
+        faqFirstA:(c,loc)=>`Tanggal Hijriah hari ini di ${loc} adalah ${c.hDate}, bertepatan dengan ${c.gDate} menurut kalender Umm al-Qura.`,
+        seoTitle:(loc,date)=>`Tanggal Hijriah Hari Ini di ${loc}: ${date}`,
+        schemaName:(loc)=>`Tanggal Hijriah Hari Ini di ${loc}`,
+        schemaAbout:'Tanggal Hijriah hari ini menurut kalender Umm al-Qura',
+    },
+    es: {
+        h1:(loc,day,date)=>`Fecha hégira hoy en ${loc}: ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 Horarios de oración hoy en ${loc}`,
+        ctaMoon:(loc)=>`🌙 Luna hoy en ${loc}`,
+        relPrayer:(loc)=>`🕌 Horarios de oración en ${loc}`,
+        relMoon:(loc)=>`🌙 Fase lunar actual en ${loc}`,
+        footer:(c,loc)=>`Esta sección muestra la fecha hégira de hoy con precisión según el calendario Umm al-Qura en ${loc}. Hoy es ${c.hDate}, correspondiente a ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`calendario Hégira completo de ${m} ${y} H en ${loc}`,
+        faqFirstQ:(loc)=>`¿Cuál es la fecha hégira hoy en ${loc}?`,
+        faqFirstA:(c,loc)=>`La fecha hégira hoy en ${loc} es ${c.hDate}, correspondiente a ${c.gDate} según el calendario Umm al-Qura.`,
+        seoTitle:(loc,date)=>`Fecha hégira hoy en ${loc}: ${date}`,
+        schemaName:(loc)=>`Fecha hégira hoy en ${loc}`,
+        schemaAbout:'Fecha hégira hoy según el calendario Umm al-Qura',
+    },
+    bn: {
+        h1:(loc,day,date)=>`আজকের হিজরি তারিখ ${loc}-এ: ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 আজ ${loc}-এ নামাজের সময়`,
+        ctaMoon:(loc)=>`🌙 আজ ${loc}-এ চাঁদ`,
+        relPrayer:(loc)=>`🕌 ${loc}-এ নামাজের সময়`,
+        relMoon:(loc)=>`🌙 ${loc}-এ বর্তমান চাঁদের পর্যায়`,
+        footer:(c,loc)=>`এই বিভাগটি উম্মুল কুরা ক্যালেন্ডার অনুযায়ী ${loc}-এ আজকের হিজরি তারিখ সঠিকভাবে প্রদর্শন করে। আজ ${c.hDate}, যা ${c.gDate}-এর সমতুল্য।`,
+        footerLink:(m,y,loc)=>`${loc}-এর জন্য ${m} ${y} হিজরির পূর্ণ ক্যালেন্ডার`,
+        faqFirstQ:(loc)=>`${loc}-এ আজকের হিজরি তারিখ কী?`,
+        faqFirstA:(c,loc)=>`${loc}-এ আজকের হিজরি তারিখ ${c.hDate}, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী ${c.gDate}-এর সমতুল্য।`,
+        seoTitle:(loc,date)=>`আজকের হিজরি তারিখ ${loc}-এ: ${date}`,
+        schemaName:(loc)=>`${loc}-এ আজকের হিজরি তারিখ`,
+        schemaAbout:'উম্মুল কুরা ক্যালেন্ডার অনুযায়ী আজকের হিজরি তারিখ',
+    },
+    ms: {
+        h1:(loc,day,date)=>`Tarikh Hijrah Hari Ini di ${loc}: ${day}, ${date}`,
+        ctaPrayer:(loc)=>`🕌 Waktu Solat Hari Ini di ${loc}`,
+        ctaMoon:(loc)=>`🌙 Bulan Hari Ini di ${loc}`,
+        relPrayer:(loc)=>`🕌 Waktu Solat di ${loc}`,
+        relMoon:(loc)=>`🌙 Fasa Bulan Semasa di ${loc}`,
+        footer:(c,loc)=>`Bahagian ini memaparkan tarikh Hijrah hari ini dengan tepat mengikut kalendar Umm al-Qura di ${loc}. Hari ini ialah ${c.hDate}, bersamaan ${c.gDate}.`,
+        footerLink:(m,y,loc)=>`kalendar Hijrah penuh ${m} ${y} H di ${loc}`,
+        faqFirstQ:(loc)=>`Apakah tarikh Hijrah hari ini di ${loc}?`,
+        faqFirstA:(c,loc)=>`Tarikh Hijrah hari ini di ${loc} ialah ${c.hDate}, bersamaan ${c.gDate} mengikut kalendar Umm al-Qura.`,
+        seoTitle:(loc,date)=>`Tarikh Hijrah Hari Ini di ${loc}: ${date}`,
+        schemaName:(loc)=>`Tarikh Hijrah Hari Ini di ${loc}`,
+        schemaAbout:'Tarikh Hijrah hari ini mengikut kalendar Umm al-Qura',
+    },
+};
+function hdayGeoUi(lang) { return _HDAY_GEO[lang] || _HDAY_GEO.en; }
+
 // ========= تسميات واجهة صفحة السنة الهجرية (/hijri-calendar[/year]) لكلّ لغة =========
 // c = { year, hSfx, country, isLeap, totalYearDays, monthName, todayYear }
 const _HYEAR_UI = {
@@ -827,13 +1162,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`سنة كبيسة`:`سنة بسيطة`,
           th:['الشهر','البداية (ميلادي)','النهاية (ميلادي)','الأيام'],
           cta_today:'📌 التاريخ الهجري اليوم', cta_converter:'🔄 تحويل التاريخ',
-          cta_month: (mn, y) => `🌙 التقويم الهجري لشهر ${mn} ${y}`,
-          title: c => `التقويم الهجري لعام ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 عرض تقويم شهر ${mn} ${y}`,
+          title: c => `التقويم الهجري لعام ${c.year}${c.hSfx} — كامل مع التواريخ الميلادية`,
           intro: c => `يعرض هذا التقويم الهجري لعام ${c.year}${c.hSfx} جميع الأشهر الهجرية مع التواريخ الميلادية المقابلة حسب تقويم أم القرى في ${c.country}.`,
-          table_title: c => `🗓️ أشهر السنة الهجرية ${c.year}${c.hSfx}`,
+          table_title: c => `📊 جميع أشهر السنة الهجرية ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 تصفح أشهر السنة الهجرية ${c.year}${c.hSfx}`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 اليوم الهجري اليوم: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 تصفّح السنوات الهجرية',
+          years_current: ()=>'سنوات قريبة:',
+          years_active_suffix: '',
+          years_all_link: '→ عرض التقويم الهجري الكامل',
           seo_text: c => `يتكون التقويم الهجري من 12 شهراً تبدأ بمحرم وتنتهي بذي الحجة، ويعتمد على دورة القمر حيث يبدأ كل شهر برؤية الهلال. عام ${c.year}${c.hSfx} يحتوي على ${c.totalYearDays} يوماً وهو ${c.isLeap?'سنة كبيسة':'سنة بسيطة'}. تقويم أم القرى المعتمد في المملكة العربية السعودية هو تقويم قمري حسابي يستخدم لتحديد المناسبات الإسلامية مثل رمضان وعيد الفطر وعيد الأضحى.`,
-          footer: c => `التقويم الهجري لعام ${c.year}${c.hSfx} يشمل سنة كاملة من ${c.totalYearDays} يوماً موزعة على 12 شهراً. تصفح كل شهر لعرض التقويم الهجري الكامل مع التواريخ الميلادية المقابلة حسب تقويم أم القرى في ${c.country}. يمكنك أيضاً معرفة التاريخ الهجري اليوم أو استخدام تحويل التاريخ بين الهجري والميلادي.`,
+          footer: c => `يعرض هذا التقويم الهجري لعام ${c.year}${c.hSfx} جميع الأشهر مع التواريخ الميلادية المقابلة، مما يساعدك على متابعة المناسبات الإسلامية ومعرفة التاريخ الهجري بدقة حسب تقويم أم القرى في المملكة العربية السعودية. يمكنك أيضًا الانتقال إلى أي شهر أو يوم هجري بسهولة أو استخدام أداة تحويل التاريخ بين الهجري والميلادي.`,
           faq: c => [
               [`كم عدد أيام السنة الهجرية ${c.year}${c.hSfx}؟`, `${c.totalYearDays} يوماً.`],
               [`هل سنة ${c.year}${c.hSfx} كبيسة؟`, c.isLeap?`نعم، سنة ${c.year}${c.hSfx} كبيسة وعدد أيامها 355 يوماً.`:`لا، سنة ${c.year}${c.hSfx} بسيطة وعدد أيامها 354 يوماً.`],
@@ -850,13 +1190,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`a leap year`:`a regular year`,
           th:['Month','Start (Gregorian)','End (Gregorian)','Days'],
           cta_today:"📌 Today's Hijri Date", cta_converter:'🔄 Date Converter',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `Hijri Calendar for the Year ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 View ${mn} ${y} Calendar`,
+          title: c => `Hijri Calendar for the Year ${c.year}${c.hSfx} — Complete with Gregorian Dates`,
           intro: c => `This calendar displays all Hijri months of ${c.year}${c.hSfx} with their corresponding Gregorian dates, according to the Umm al-Qura calendar in ${c.country}.`,
-          table_title: c => `🗓️ Months of ${c.year}${c.hSfx}`,
+          table_title: c => `📊 All Months of Hijri Year ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Browse Months of ${c.year}${c.hSfx}`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Today's Hijri Date: <strong><a href="${href}">${mn} ${d}, ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Browse Hijri Years',
+          years_current: ()=>'Nearby years:',
+          years_active_suffix: '',
+          years_all_link: '→ View the full Hijri calendar',
           seo_text: c => `The Hijri calendar consists of 12 months starting with Muharram and ending with Dhu al-Hijjah. It is based on the lunar cycle, where each month begins with the sighting of the new crescent moon. The year ${c.year}${c.hSfx} contains ${c.totalYearDays} days and is ${c.isLeap?'a leap year':'a regular year'}. The Umm al-Qura calendar, used in Saudi Arabia, is a calculated lunar calendar used to determine Islamic occasions such as Ramadan, Eid al-Fitr, and Eid al-Adha.`,
-          footer: c => `The Hijri calendar for ${c.year}${c.hSfx} covers a full year of ${c.totalYearDays} days across 12 months. Browse each month to see the complete Hijri calendar with corresponding Gregorian dates according to the Umm al-Qura calendar in ${c.country}. You can also check today's Hijri date or use the date converter to convert any date between Hijri and Gregorian.`,
+          footer: c => `This Hijri calendar for ${c.year}${c.hSfx} shows all months with their corresponding Gregorian dates, helping you follow Islamic occasions and track the Hijri date accurately according to the Umm al-Qura calendar used in Saudi Arabia. You can also navigate to any Hijri month or day easily, or use our date converter tool to convert between Hijri and Gregorian calendars.`,
           faq: c => [
               [`How many days are in the Hijri year ${c.year}${c.hSfx}?`, `${c.totalYearDays} days.`],
               [`Is ${c.year}${c.hSfx} a leap year?`, c.isLeap?`Yes, ${c.year}${c.hSfx} is a leap year with 355 days.`:`No, ${c.year}${c.hSfx} is a regular year with 354 days.`],
@@ -873,13 +1218,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`une année bissextile`:`une année ordinaire`,
           th:['Mois','Début (grégorien)','Fin (grégorien)','Jours'],
           cta_today:"📌 Date hégirienne d'aujourd'hui", cta_converter:'🔄 Convertisseur de dates',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `Calendrier hégirien de l'année ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 Voir le calendrier de ${mn} ${y}`,
+          title: c => `Calendrier hégirien de l'année ${c.year}${c.hSfx} — complet avec les dates grégoriennes`,
           intro: c => `Ce calendrier affiche tous les mois hégiriens de ${c.year}${c.hSfx} avec leurs dates grégoriennes correspondantes, selon le calendrier Umm al-Qura à ${c.country}.`,
-          table_title: c => `🗓️ Mois de ${c.year}${c.hSfx}`,
+          table_title: c => `📊 Tous les mois de l'année hégirienne ${c.year}${c.hSfx} :`,
           months_grid_title: c => `📅 Parcourir les mois de ${c.year}${c.hSfx}`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Date hégirienne d'aujourd'hui : <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Parcourir les années hégiriennes',
+          years_current: ()=>'Années proches :',
+          years_active_suffix: '',
+          years_all_link: '→ Voir le calendrier hégirien complet',
           seo_text: c => `Le calendrier hégirien se compose de 12 mois, de Mouharram à Dhou al-Hijja. Il est basé sur le cycle lunaire, où chaque mois commence par l'observation du croissant de lune. L'année ${c.year}${c.hSfx} contient ${c.totalYearDays} jours et est ${c.isLeap?'une année bissextile':'une année ordinaire'}. Le calendrier Umm al-Qura, utilisé en Arabie saoudite, est un calendrier lunaire calculé utilisé pour déterminer les occasions islamiques telles que le Ramadan, l'Aïd el-Fitr et l'Aïd el-Adha.`,
-          footer: c => `Le calendrier hégirien de ${c.year}${c.hSfx} couvre une année complète de ${c.totalYearDays} jours répartis sur 12 mois. Parcourez chaque mois pour voir le calendrier hégirien complet avec les dates grégoriennes correspondantes selon le calendrier Umm al-Qura à ${c.country}. Vous pouvez également consulter la date hégirienne du jour ou utiliser le convertisseur de dates.`,
+          footer: c => `Ce calendrier hégirien pour ${c.year}${c.hSfx} affiche tous les mois avec leurs dates grégoriennes correspondantes, vous permettant de suivre les occasions islamiques et de connaître la date hégirienne avec précision selon le calendrier Umm al-Qura utilisé en Arabie saoudite. Vous pouvez également accéder facilement à n'importe quel mois ou jour hégirien, ou utiliser notre convertisseur de dates pour passer entre les calendriers hégirien et grégorien.`,
           faq: c => [
               [`Combien de jours compte l'année hégirienne ${c.year}${c.hSfx} ?`, `${c.totalYearDays} jours.`],
               [`${c.year}${c.hSfx} est-elle une année bissextile ?`, c.isLeap?`Oui, ${c.year}${c.hSfx} est une année bissextile de 355 jours.`:`Non, ${c.year}${c.hSfx} est une année ordinaire de 354 jours.`],
@@ -896,13 +1246,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`artık yıl`:`normal yıl`,
           th:['Ay','Başlangıç (Miladi)','Bitiş (Miladi)','Gün'],
           cta_today:'📌 Bugünün Hicri Tarihi', cta_converter:'🔄 Tarih Dönüştürücü',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `${c.year}${c.hSfx} Hicri Takvimi`,
+          cta_month: (mn, y) => `🌙 ${mn} ${y} Takvimini Görüntüle`,
+          title: c => `${c.year}${c.hSfx} Hicri Takvimi — Tüm Aylar Miladi Tarihlerle`,
           intro: c => `Bu takvim, ${c.year}${c.hSfx} yılının tüm hicri aylarını, ${c.country} ülkesinde Ümmülkura takvimine göre miladi karşılıklarıyla birlikte gösterir.`,
-          table_title: c => `🗓️ ${c.year}${c.hSfx} Ayları`,
+          table_title: c => `📊 ${c.year}${c.hSfx} Hicri Yılının Tüm Ayları:`,
           months_grid_title: c => `📅 ${c.year}${c.hSfx} Aylarına Göz At`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Bugünün Hicri Tarihi: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Hicri Yıllarına Göz At',
+          years_current: ()=>'Yakın yıllar:',
+          years_active_suffix: '',
+          years_all_link: '→ Tam Hicri takvimi görüntüle',
           seo_text: c => `Hicri takvim, Muharrem'den Zilhicce'ye kadar 12 aydan oluşur. Ay döngüsüne dayanır; her ay yeni hilalin görülmesiyle başlar. ${c.year}${c.hSfx} yılı ${c.totalYearDays} gündür ve ${c.isLeap?'artık yıl':'normal yıl'}dır. Suudi Arabistan'da kullanılan Ümmülkura takvimi, Ramazan, Ramazan Bayramı ve Kurban Bayramı gibi İslami olayları belirlemek için kullanılan hesaplanmış bir ay takvimidir.`,
-          footer: c => `${c.year}${c.hSfx} hicri takvimi, 12 ay boyunca ${c.totalYearDays} günden oluşan tam bir yılı kapsar. ${c.country} ülkesinde Ümmülkura takvimine göre miladi karşılıklarıyla birlikte tüm ayları gözden geçirin. Ayrıca bugünün hicri tarihini kontrol edebilir veya tarih dönüştürücüyü kullanabilirsiniz.`,
+          footer: c => `${c.year}${c.hSfx} hicri takvimi tüm ayları ve karşılık gelen miladi tarihleri göstererek İslami olayları takip etmenize ve hicri tarihi Suudi Arabistan'da kullanılan Ümmülkura takvimine göre kesin şekilde bilmenize yardımcı olur. Ayrıca herhangi bir hicri aya veya güne kolayca ulaşabilir ya da hicri-miladi dönüştürücümüzü kullanabilirsiniz.`,
           faq: c => [
               [`${c.year}${c.hSfx} hicri yılı kaç gündür?`, `${c.totalYearDays} gün.`],
               [`${c.year}${c.hSfx} artık yıl mı?`, c.isLeap?`Evet, ${c.year}${c.hSfx} artık yıldır ve 355 gündür.`:`Hayır, ${c.year}${c.hSfx} normal yıldır ve 354 gündür.`],
@@ -919,13 +1274,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`لیپ سال`:`عام سال`,
           th:['مہینہ','آغاز (عیسوی)','اختتام (عیسوی)','دن'],
           cta_today:'📌 آج کی ہجری تاریخ', cta_converter:'🔄 تاریخ کنورٹر',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `${c.year}${c.hSfx} کا ہجری کیلنڈر`,
+          cta_month: (mn, y) => `🌙 ${mn} ${y} کا کیلنڈر دیکھیں`,
+          title: c => `${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر — عیسوی تاریخوں کے ساتھ`,
           intro: c => `یہ کیلنڈر ${c.year}${c.hSfx} کے تمام ہجری مہینے ${c.country} میں ام القری کیلنڈر کے مطابق عیسوی تاریخوں کے ساتھ دکھاتا ہے۔`,
-          table_title: c => `🗓️ ${c.year}${c.hSfx} کے مہینے`,
+          table_title: c => `📊 ${c.year}${c.hSfx} ہجری سال کے تمام مہینے:`,
           months_grid_title: c => `📅 ${c.year}${c.hSfx} کے مہینے دیکھیں`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 آج کی ہجری تاریخ: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 ہجری سال دیکھیں',
+          years_current: ()=>'قریبی سال:',
+          years_active_suffix: '',
+          years_all_link: '→ مکمل ہجری کیلنڈر دیکھیں',
           seo_text: c => `ہجری کیلنڈر محرم سے ذی الحجہ تک 12 مہینوں پر مشتمل ہے۔ یہ چاند کی گردش پر مبنی ہے، جہاں ہر مہینہ نئے چاند کے دیدار سے شروع ہوتا ہے۔ ${c.year}${c.hSfx} ${c.totalYearDays} دن کا ہے اور یہ ${c.isLeap?'لیپ سال':'عام سال'} ہے۔ سعودی عرب میں استعمال ہونے والا ام القری کیلنڈر ایک حسابی چاند کا کیلنڈر ہے جو رمضان، عید الفطر اور عید الاضحی جیسے اسلامی مواقع کا تعین کرتا ہے۔`,
-          footer: c => `${c.year}${c.hSfx} کا ہجری کیلنڈر 12 مہینوں پر مشتمل ${c.totalYearDays} دن کا مکمل سال ہے۔ ${c.country} میں ام القری کیلنڈر کے مطابق مکمل ہجری کیلنڈر کے لیے ہر مہینہ دیکھیں۔ آپ آج کی ہجری تاریخ بھی دیکھ سکتے ہیں یا تاریخ کنورٹر استعمال کر سکتے ہیں۔`,
+          footer: c => `${c.year}${c.hSfx} کا یہ ہجری کیلنڈر تمام مہینے عیسوی تاریخوں کے ساتھ ظاہر کرتا ہے، جو سعودی عرب میں رائج ام القری کیلنڈر کے مطابق ہجری تاریخ کو درست طور پر جاننے اور اسلامی مواقع کا پیچھا کرنے میں مدد کرتا ہے۔ آپ کسی بھی ہجری مہینے یا دن تک آسانی سے پہنچ سکتے ہیں یا ہجری اور عیسوی کیلنڈر کے درمیان تاریخ کنورٹر استعمال کر سکتے ہیں۔`,
           faq: c => [
               [`${c.year}${c.hSfx} ہجری سال میں کتنے دن ہیں؟`, `${c.totalYearDays} دن۔`],
               [`کیا ${c.year}${c.hSfx} لیپ سال ہے؟`, c.isLeap?`ہاں، ${c.year}${c.hSfx} لیپ سال ہے جس میں 355 دن ہیں۔`:`نہیں، ${c.year}${c.hSfx} عام سال ہے جس میں 354 دن ہیں۔`],
@@ -942,13 +1302,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`ein Schaltjahr`:`ein normales Jahr`,
           th:['Monat','Beginn (gregorianisch)','Ende (gregorianisch)','Tage'],
           cta_today:'📌 Heutiges Hidschri-Datum', cta_converter:'🔄 Datumsumrechner',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `Hidschri-Kalender für das Jahr ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 Kalender für ${mn} ${y} anzeigen`,
+          title: c => `Hidschri-Kalender für das Jahr ${c.year}${c.hSfx} — vollständig mit gregorianischen Daten`,
           intro: c => `Dieser Kalender zeigt alle Hidschri-Monate des Jahres ${c.year}${c.hSfx} mit ihren entsprechenden gregorianischen Daten gemäß dem Umm-al-Qura-Kalender in ${c.country}.`,
-          table_title: c => `🗓️ Monate von ${c.year}${c.hSfx}`,
+          table_title: c => `📊 Alle Monate des Hidschri-Jahres ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Monate von ${c.year}${c.hSfx} durchsuchen`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Heutiges Hidschri-Datum: <strong><a href="${href}">${d}. ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Hidschri-Jahre durchsuchen',
+          years_current: ()=>'Benachbarte Jahre:',
+          years_active_suffix: '',
+          years_all_link: '→ Vollständigen Hidschri-Kalender anzeigen',
           seo_text: c => `Der Hidschri-Kalender besteht aus 12 Monaten, beginnend mit Muharram und endend mit Dhū l-hidscha. Er basiert auf dem Mondzyklus, wobei jeder Monat mit der Sichtung der neuen Mondsichel beginnt. Das Jahr ${c.year}${c.hSfx} enthält ${c.totalYearDays} Tage und ist ${c.isLeap?'ein Schaltjahr':'ein normales Jahr'}. Der in Saudi-Arabien verwendete Umm-al-Qura-Kalender ist ein berechneter Mondkalender zur Bestimmung islamischer Anlässe wie Ramadan, Eid al-Fitr und Eid al-Adha.`,
-          footer: c => `Der Hidschri-Kalender für ${c.year}${c.hSfx} umfasst ein volles Jahr mit ${c.totalYearDays} Tagen, verteilt auf 12 Monate. Durchsuchen Sie jeden Monat, um den vollständigen Hidschri-Kalender mit entsprechenden gregorianischen Daten gemäß dem Umm-al-Qura-Kalender in ${c.country} zu sehen. Sie können auch das heutige Hidschri-Datum prüfen oder den Datumsumrechner verwenden.`,
+          footer: c => `Dieser Hidschri-Kalender für ${c.year}${c.hSfx} zeigt alle Monate mit entsprechenden gregorianischen Daten und hilft Ihnen, islamische Anlässe zu verfolgen und das Hidschri-Datum genau gemäß dem in Saudi-Arabien verwendeten Umm-al-Qura-Kalender zu kennen. Sie können auch einfach zu jedem Hidschri-Monat oder -Tag navigieren oder unseren Datumsumrechner zwischen Hidschri- und gregorianischem Kalender verwenden.`,
           faq: c => [
               [`Wie viele Tage hat das Hidschri-Jahr ${c.year}${c.hSfx}?`, `${c.totalYearDays} Tage.`],
               [`Ist ${c.year}${c.hSfx} ein Schaltjahr?`, c.isLeap?`Ja, ${c.year}${c.hSfx} ist ein Schaltjahr mit 355 Tagen.`:`Nein, ${c.year}${c.hSfx} ist ein normales Jahr mit 354 Tagen.`],
@@ -965,13 +1330,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`tahun kabisat`:`tahun biasa`,
           th:['Bulan','Awal (Masehi)','Akhir (Masehi)','Hari'],
           cta_today:'📌 Tanggal Hijriah Hari Ini', cta_converter:'🔄 Konversi Tanggal',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `Kalender Hijriah Tahun ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 Lihat Kalender ${mn} ${y}`,
+          title: c => `Kalender Hijriah Tahun ${c.year}${c.hSfx} — Lengkap dengan Tanggal Masehi`,
           intro: c => `Kalender ini menampilkan semua bulan Hijriah tahun ${c.year}${c.hSfx} beserta tanggal Masehi yang bertepatan, menurut kalender Umm al-Qura di ${c.country}.`,
-          table_title: c => `🗓️ Bulan-bulan ${c.year}${c.hSfx}`,
+          table_title: c => `📊 Semua Bulan Tahun Hijriah ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Jelajahi Bulan-bulan ${c.year}${c.hSfx}`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Tanggal Hijriah Hari Ini: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Jelajahi Tahun Hijriah',
+          years_current: ()=>'Tahun terdekat:',
+          years_active_suffix: '',
+          years_all_link: '→ Lihat kalender Hijriah lengkap',
           seo_text: c => `Kalender Hijriah terdiri dari 12 bulan, mulai dari Muharram hingga Zulhijah. Didasarkan pada siklus bulan, di mana setiap bulan dimulai dengan terlihatnya hilal. Tahun ${c.year}${c.hSfx} memiliki ${c.totalYearDays} hari dan merupakan ${c.isLeap?'tahun kabisat':'tahun biasa'}. Kalender Umm al-Qura yang digunakan di Arab Saudi adalah kalender lunar terhitung yang digunakan untuk menentukan peristiwa Islam seperti Ramadan, Idul Fitri, dan Idul Adha.`,
-          footer: c => `Kalender Hijriah untuk ${c.year}${c.hSfx} mencakup satu tahun penuh sebanyak ${c.totalYearDays} hari yang tersebar di 12 bulan. Jelajahi setiap bulan untuk melihat kalender Hijriah lengkap dengan tanggal Masehi yang bertepatan menurut kalender Umm al-Qura di ${c.country}. Anda juga dapat melihat tanggal Hijriah hari ini atau menggunakan konverter tanggal.`,
+          footer: c => `Kalender Hijriah tahun ${c.year}${c.hSfx} ini menampilkan semua bulan beserta tanggal Masehi yang bertepatan, membantu Anda mengikuti peristiwa Islam dan mengetahui tanggal Hijriah secara akurat menurut kalender Umm al-Qura yang digunakan di Arab Saudi. Anda juga dapat berpindah ke bulan atau hari Hijriah mana pun dengan mudah atau menggunakan alat konversi tanggal antara Hijriah dan Masehi.`,
           faq: c => [
               [`Berapa jumlah hari dalam tahun Hijriah ${c.year}${c.hSfx}?`, `${c.totalYearDays} hari.`],
               [`Apakah ${c.year}${c.hSfx} tahun kabisat?`, c.isLeap?`Ya, ${c.year}${c.hSfx} adalah tahun kabisat dengan 355 hari.`:`Tidak, ${c.year}${c.hSfx} adalah tahun biasa dengan 354 hari.`],
@@ -988,13 +1358,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`un año bisiesto`:`un año regular`,
           th:['Mes','Inicio (Gregoriano)','Fin (Gregoriano)','Días'],
           cta_today:'📌 Fecha Hégira de hoy', cta_converter:'🔄 Convertidor de fechas',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `Calendario Hégira del año ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 Ver calendario de ${mn} ${y}`,
+          title: c => `Calendario Hégira del año ${c.year}${c.hSfx} — completo con fechas gregorianas`,
           intro: c => `Este calendario muestra todos los meses del calendario Hégira del año ${c.year}${c.hSfx} con sus fechas gregorianas correspondientes, según el calendario Umm al-Qura en ${c.country}.`,
-          table_title: c => `🗓️ Meses de ${c.year}${c.hSfx}`,
+          table_title: c => `📊 Todos los meses del año Hégira ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Explorar meses de ${c.year}${c.hSfx}`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Fecha Hégira de hoy: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Explorar años Hégira',
+          years_current: ()=>'Años cercanos:',
+          years_active_suffix: '',
+          years_all_link: '→ Ver el calendario Hégira completo',
           seo_text: c => `El calendario Hégira se compone de 12 meses, empezando por Muharram y terminando con Du al-Hiyya. Se basa en el ciclo lunar, donde cada mes comienza con el avistamiento de la luna nueva. El año ${c.year}${c.hSfx} contiene ${c.totalYearDays} días y es ${c.isLeap?'un año bisiesto':'un año regular'}. El calendario Umm al-Qura, utilizado en Arabia Saudí, es un calendario lunar calculado que se utiliza para determinar ocasiones islámicas como el Ramadán, Eid al-Fitr y Eid al-Adha.`,
-          footer: c => `El calendario Hégira para ${c.year}${c.hSfx} cubre un año completo de ${c.totalYearDays} días repartidos en 12 meses. Explore cada mes para ver el calendario Hégira completo con las fechas gregorianas correspondientes según el calendario Umm al-Qura en ${c.country}. También puede consultar la fecha Hégira de hoy o usar el convertidor de fechas.`,
+          footer: c => `Este calendario Hégira para ${c.year}${c.hSfx} muestra todos los meses con sus fechas gregorianas correspondientes, ayudándote a seguir las ocasiones islámicas y conocer la fecha Hégira con precisión según el calendario Umm al-Qura utilizado en Arabia Saudí. También puedes ir fácilmente a cualquier mes o día Hégira, o usar nuestro convertidor de fechas entre el calendario Hégira y gregoriano.`,
           faq: c => [
               [`¿Cuántos días tiene el año Hégira ${c.year}${c.hSfx}?`, `${c.totalYearDays} días.`],
               [`¿Es ${c.year}${c.hSfx} un año bisiesto?`, c.isLeap?`Sí, ${c.year}${c.hSfx} es un año bisiesto con 355 días.`:`No, ${c.year}${c.hSfx} es un año regular con 354 días.`],
@@ -1011,13 +1386,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`একটি অধিবর্ষ`:`একটি সাধারণ বছর`,
           th:['মাস','শুরু (খ্রিস্টীয়)','শেষ (খ্রিস্টীয়)','দিন'],
           cta_today:'📌 আজকের হিজরি তারিখ', cta_converter:'🔄 তারিখ রূপান্তরকারী',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `${c.year}${c.hSfx} সনের হিজরি ক্যালেন্ডার`,
+          cta_month: (mn, y) => `🌙 ${mn} ${y} এর ক্যালেন্ডার দেখুন`,
+          title: c => `${c.year}${c.hSfx} সনের পূর্ণ হিজরি ক্যালেন্ডার — খ্রিস্টীয় তারিখ সহ`,
           intro: c => `এই ক্যালেন্ডারটি ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.year}${c.hSfx} সনের সব হিজরি মাস এবং সেগুলোর সংশ্লিষ্ট খ্রিস্টীয় তারিখ প্রদর্শন করে।`,
-          table_title: c => `🗓️ ${c.year}${c.hSfx} সনের মাস`,
+          table_title: c => `📊 ${c.year}${c.hSfx} হিজরি বর্ষের সব মাস:`,
           months_grid_title: c => `📅 ${c.year}${c.hSfx} সনের মাস ব্রাউজ করুন`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 আজকের হিজরি তারিখ: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 হিজরি বছর ব্রাউজ করুন',
+          years_current: ()=>'কাছাকাছি বছর:',
+          years_active_suffix: '',
+          years_all_link: '→ সম্পূর্ণ হিজরি ক্যালেন্ডার দেখুন',
           seo_text: c => `হিজরি ক্যালেন্ডার ১২টি মাস নিয়ে গঠিত — মুহররম থেকে জিলহজ পর্যন্ত। এটি চন্দ্রচক্রের উপর ভিত্তি করে গঠিত, প্রতিটি মাস নতুন চাঁদ দেখার মধ্য দিয়ে শুরু হয়। ${c.year}${c.hSfx} সনে ${c.totalYearDays} দিন রয়েছে এবং এটি ${c.isLeap?'একটি অধিবর্ষ':'একটি সাধারণ বছর'}। সৌদি আরবে ব্যবহৃত উম্ম আল-কুরা ক্যালেন্ডার একটি গণনাকৃত চন্দ্র ক্যালেন্ডার যা রমজান, ঈদুল ফিতর ও ঈদুল আযহার মতো ইসলামি উপলক্ষ নির্ধারণে ব্যবহৃত হয়।`,
-          footer: c => `${c.year}${c.hSfx} সনের হিজরি ক্যালেন্ডার ১২ মাসে ${c.totalYearDays} দিনের পুরো একটি বছর নিয়ে গঠিত। ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী সংশ্লিষ্ট খ্রিস্টীয় তারিখ সহ সম্পূর্ণ হিজরি ক্যালেন্ডার দেখতে প্রতিটি মাস ব্রাউজ করুন। আপনি আজকের হিজরি তারিখও দেখতে পারেন বা তারিখ রূপান্তরকারী ব্যবহার করতে পারেন।`,
+          footer: c => `${c.year}${c.hSfx} সনের এই হিজরি ক্যালেন্ডার সব মাস খ্রিস্টীয় তারিখের সাথে দেখায়, যা আপনাকে সৌদি আরবে ব্যবহৃত উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী হিজরি তারিখ নির্ভুলভাবে জানতে এবং ইসলামি উপলক্ষ অনুসরণ করতে সাহায্য করে। আপনি যেকোনো হিজরি মাস বা দিনে সহজেই যেতে পারেন অথবা হিজরি ও খ্রিস্টীয় ক্যালেন্ডারের মধ্যে তারিখ রূপান্তরকারী ব্যবহার করতে পারেন।`,
           faq: c => [
               [`${c.year}${c.hSfx} হিজরি সনে কত দিন আছে?`, `${c.totalYearDays} দিন।`],
               [`${c.year}${c.hSfx} কি অধিবর্ষ?`, c.isLeap?`হ্যাঁ, ${c.year}${c.hSfx} একটি অধিবর্ষ যাতে ৩৫৫ দিন আছে।`:`না, ${c.year}${c.hSfx} একটি সাধারণ বছর যাতে ৩৫৪ দিন আছে।`],
@@ -1034,13 +1414,18 @@ const _HYEAR_UI = {
           leap_text:(y,d)=>y?`tahun lompat`:`tahun biasa`,
           th:['Bulan','Mula (Masihi)','Tamat (Masihi)','Hari'],
           cta_today:'📌 Tarikh Hijrah Hari Ini', cta_converter:'🔄 Penukar Tarikh',
-          cta_month: (mn, y) => `🌙 ${mn} ${y}`,
-          title: c => `Kalendar Hijrah Tahun ${c.year}${c.hSfx}`,
+          cta_month: (mn, y) => `🌙 Lihat Kalendar ${mn} ${y}`,
+          title: c => `Kalendar Hijrah Tahun ${c.year}${c.hSfx} — Lengkap dengan Tarikh Masihi`,
           intro: c => `Kalendar ini memaparkan semua bulan Hijrah bagi tahun ${c.year}${c.hSfx} dengan tarikh Masihi yang bersamaan, mengikut kalendar Umm al-Qura di ${c.country}.`,
-          table_title: c => `🗓️ Bulan-bulan ${c.year}${c.hSfx}`,
+          table_title: c => `📊 Semua Bulan Tahun Hijrah ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Layari Bulan-bulan ${c.year}${c.hSfx}`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 Tarikh Hijrah Hari Ini: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          years_title: '📆 Layari Tahun Hijrah',
+          years_current: ()=>'Tahun berdekatan:',
+          years_active_suffix: '',
+          years_all_link: '→ Lihat kalendar Hijrah penuh',
           seo_text: c => `Kalendar Hijrah terdiri daripada 12 bulan bermula dengan Muharam dan berakhir dengan Zulhijah. Ia berdasarkan kitaran bulan, di mana setiap bulan bermula dengan kelihatan anak bulan. Tahun ${c.year}${c.hSfx} mengandungi ${c.totalYearDays} hari dan ia adalah ${c.isLeap?'tahun lompat':'tahun biasa'}. Kalendar Umm al-Qura yang digunakan di Arab Saudi ialah kalendar lunar yang dikira untuk menentukan peristiwa Islam seperti Ramadan, Aidilfitri dan Aidiladha.`,
-          footer: c => `Kalendar Hijrah bagi ${c.year}${c.hSfx} meliputi satu tahun penuh selama ${c.totalYearDays} hari merentasi 12 bulan. Layari setiap bulan untuk melihat kalendar Hijrah lengkap dengan tarikh Masihi yang bersamaan mengikut kalendar Umm al-Qura di ${c.country}. Anda juga boleh menyemak tarikh Hijrah hari ini atau menggunakan penukar tarikh.`,
+          footer: c => `Kalendar Hijrah tahun ${c.year}${c.hSfx} ini memaparkan semua bulan bersama tarikh Masihi yang bersamaan, membantu anda mengikuti peristiwa Islam dan mengetahui tarikh Hijrah dengan tepat mengikut kalendar Umm al-Qura yang digunakan di Arab Saudi. Anda juga boleh beralih ke mana-mana bulan atau hari Hijrah dengan mudah atau menggunakan penukar tarikh antara kalendar Hijrah dan Masihi.`,
           faq: c => [
               [`Berapakah jumlah hari dalam tahun Hijrah ${c.year}${c.hSfx}?`, `${c.totalYearDays} hari.`],
               [`Adakah ${c.year}${c.hSfx} tahun lompat?`, c.isLeap?`Ya, ${c.year}${c.hSfx} ialah tahun lompat dengan 355 hari.`:`Tidak, ${c.year}${c.hSfx} ialah tahun biasa dengan 354 hari.`],
@@ -1056,22 +1441,28 @@ function hyearUi(lang) { return _HYEAR_UI[lang] || _HYEAR_UI.en; }
 // c = { monthName, year, hSfx, gSfx, totalDays, isLeap, gFirstStr, gLastStr, gRange, country }
 const _HMONTH_UI = {
     ar: { home:'الرئيسية', cal:'التقويم الهجري', site:'مواقيت الصلاة والتقويم الهجري',
-          card_labels:['📅 الشهر','🔢 عدد أيام الشهر','🗓️ أول يوم (ميلادي)','🗓️ آخر يوم (ميلادي)','✅ السنة','✔️ سنة كبيسة'],
-          leap_yes:'نعم (355 يوماً)', leap_no:'لا (354 يوماً)',
-          days_word_n:(n)=>`${n} يوم`,
-          section_info:'📋 معلومات الشهر الهجري', section_days:'📅 أيام هذا الشهر الهجري', section_links:'🔗 روابط مرتبطة بهذا الشهر',
+          card_labels:['📅 عدد الأيام','🗓️ يبدأ','🗓️ ينتهي'],
+          days_word_n:(n)=>`${n} يوماً`,
+          section_info:'📋 معلومات الشهر', section_days:'📅 أيام هذا الشهر الهجري', section_links:'🔗 روابط مرتبطة',
           th_hijri:'التاريخ الهجري', th_greg:'التاريخ الميلادي',
           prev_label:'الشهر السابق', next_label:'الشهر التالي',
-          link_convert:'🔄 تحويل التاريخ هجري ميلادي', link_today:'📌 التاريخ الهجري اليوم',
-          link_day1:(mn,y)=>`📅 اليوم الأول من ${mn} ${y}`,
-          title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`الموافق: ${c.gRange}`,
-          intro:c=>`يعرض هذا الجدول التقويم الهجري الكامل لشهر ${c.monthName} ${c.year}${c.hSfx} مع التاريخ الميلادي المقابل لكل يوم حسب تقويم أم القرى في ${c.country}.`,
+          link_convert:'🔄 تحويل التاريخ الهجري والميلادي', link_today:'📌 التاريخ الهجري اليوم',
+          link_year:(y,hSfx)=>`📅 تقويم سنة ${y}${hSfx}`,
+          link_moon:'🌙 حالة القمر اليوم',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 اليوم الحالي في شهر ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`التاريخ الهجري ${hDate} الموافق ${gDate}`,
+          title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} يوماً)`,
+          subtitle:c=>`يوافق الفترة من ${c.gFirstStr} إلى ${c.gLastStr} حسب تقويم أم القرى`,
           days_summary:c=>`📅 عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx} هو ${c.totalDays} يوماً.`,
-          other_months_title:c=>`🌙 التقويم الهجري للأشهر الأخرى لعام ${c.year}${c.hSfx}`,
-          footer:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} يمتد من ${c.gFirstStr} إلى ${c.gLastStr}${c.gSfx}، ويحتوي على ${c.totalDays} يوماً حسب تقويم أم القرى في ${c.country}. يمكنك استخدام أداة تحويل التاريخ بين الهجري والميلادي، أو تصفح التقويم الهجري الكامل، أو معرفة التاريخ الهجري اليوم.`,
+          other_months_title:c=>`🌙 التقويم الهجري لعام ${c.year}${c.hSfx} — جميع الأشهر`,
+          other_months_active_suffix:' (الحالي)',
+          years_title:'📆 تصفّح السنوات الهجرية',
+          years_current:()=>'سنوات قريبة:',
+          years_active_suffix:'',
+          years_all_link:'→ عرض التقويم الهجري الكامل',
+          footer:c=>`يعرض هذا التقويم جميع أيام شهر ${c.monthName} ${c.year}${c.hSfx} مع ما يقابلها بالتاريخ الميلادي بدقة حسب تقويم أم القرى، مما يساعدك على متابعة التاريخ الهجري والمناسبات الإسلامية بسهولة. يمكنك أيضًا معرفة <a href="${c.todayUrl}">التاريخ الهجري اليوم</a> أو تصفح <a href="${c.yearUrl}">التقويم الهجري الكامل لعام ${c.year}${c.hSfx}</a> أو الانتقال إلى أي يوم داخل الشهر.`,
           headline:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`التقويم الهجري الكامل لشهر ${c.monthName} ${c.year}${c.hSfx} مع التاريخ الميلادي لكل يوم حسب تقويم أم القرى في ${c.country}.`,
+          meta_desc:c=>`التقويم الهجري الكامل لشهر ${c.monthName} ${c.year}${c.hSfx} مع التاريخ الميلادي لكل يوم حسب تقويم أم القرى.`,
           meta_title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`جدول أيام شهر ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`جدول يوضح الأيام الهجرية لشهر ${c.monthName} ${c.year}${c.hSfx} مع ما يقابلها من التاريخ الميلادي.`,
@@ -1082,22 +1473,28 @@ const _HMONTH_UI = {
               [`متى ينتهي شهر ${c.monthName} ${c.year}${c.hSfx}؟`, `ينتهي شهر ${c.monthName} ${c.year}${c.hSfx} يوم ${c.gLastStr}${c.gSfx} حسب تقويم أم القرى.`]
           ] },
     en: { home:'Home', cal:'Hijri Calendar', site:'Prayer Times & Hijri Calendar',
-          card_labels:['📅 Month','🔢 Days in Month','🗓️ First Day (Gregorian)','🗓️ Last Day (Gregorian)','✅ Year','✔️ Leap Year'],
-          leap_yes:'Yes (355 days)', leap_no:'No (354 days)',
+          card_labels:['📅 Days Count','🗓️ Starts','🗓️ Ends'],
           days_word_n:(n)=>`${n} days`,
-          section_info:'📋 Month Information', section_days:'📅 Days of This Hijri Month', section_links:'🔗 Related Links for This Month',
+          section_info:'📋 Month Information', section_days:'📅 Days of This Hijri Month', section_links:'🔗 Related Links',
           th_hijri:'Hijri Date', th_greg:'Gregorian Date',
           prev_label:'Previous Month', next_label:'Next Month',
           link_convert:'🔄 Convert Hijri ↔ Gregorian', link_today:'📌 Today\'s Hijri Date',
-          link_day1:(mn,y)=>`📅 ${mn} ${y} – Day 1`,
-          title:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Corresponding to: ${c.gRange}`,
-          intro:c=>`This table shows the full Hijri calendar for ${c.monthName} ${c.year}${c.hSfx} with the corresponding Gregorian date for each day, according to the Umm al-Qura calendar in ${c.country}.`,
+          link_year:(y,hSfx)=>`📅 Year ${y}${hSfx} Calendar`,
+          link_moon:'🌙 Moon Today',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 Today in ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Hijri date ${hDate} equivalent to ${gDate}`,
+          title:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} days)`,
+          subtitle:c=>`Covers ${c.gFirstStr} to ${c.gLastStr} per the Umm al-Qura calendar`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} contains ${c.totalDays} days.`,
-          other_months_title:c=>`🌙 Hijri Calendar for Other Months of ${c.year}${c.hSfx}`,
-          footer:c=>`The Hijri calendar for ${c.monthName} ${c.year}${c.hSfx} spans from ${c.gFirstStr} to ${c.gLastStr}${c.gSfx}. It contains ${c.totalDays} days according to the Umm al-Qura calendar in ${c.country}. Use our date converter to convert any Hijri date to Gregorian, browse the Hijri calendar, or check today's Hijri date.`,
+          other_months_title:c=>`🌙 Hijri Calendar for ${c.year}${c.hSfx} — All Months`,
+          other_months_active_suffix:' (current)',
+          years_title:'📆 Browse Hijri Years',
+          years_current:()=>'Nearby years:',
+          years_active_suffix:'',
+          years_all_link:'→ View Full Hijri Calendar',
+          footer:c=>`This calendar lists every day of ${c.monthName} ${c.year}${c.hSfx} with its Gregorian equivalent per the Umm al-Qura calendar, helping you track the Hijri date and Islamic occasions easily. You can also check <a href="${c.todayUrl}">today's Hijri date</a>, browse the <a href="${c.yearUrl}">full Hijri calendar for ${c.year}${c.hSfx}</a>, or jump to any day within the month.`,
           headline:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`Full Hijri calendar for ${c.monthName} ${c.year}${c.hSfx} with Gregorian date for each day, per Umm al-Qura calendar in ${c.country}.`,
+          meta_desc:c=>`Full Hijri calendar for ${c.monthName} ${c.year}${c.hSfx} with Gregorian date for each day, per the Umm al-Qura calendar.`,
           meta_title:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`Days of ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`Table showing the Hijri days of ${c.monthName} ${c.year}${c.hSfx} with their Gregorian equivalents.`,
@@ -1108,22 +1505,28 @@ const _HMONTH_UI = {
               [`When does ${c.monthName} ${c.year}${c.hSfx} end?`, `${c.monthName} ${c.year}${c.hSfx} ends on ${c.gLastStr}${c.gSfx} according to the Umm al-Qura calendar.`]
           ] },
     fr: { home:'Accueil', cal:'Calendrier hégirien', site:'Horaires de prière et calendrier hégirien',
-          card_labels:['📅 Mois','🔢 Jours du mois','🗓️ Premier jour (grégorien)','🗓️ Dernier jour (grégorien)','✅ Année','✔️ Année bissextile'],
-          leap_yes:'Oui (355 jours)', leap_no:'Non (354 jours)',
+          card_labels:['📅 Nombre de jours','🗓️ Début','🗓️ Fin'],
           days_word_n:(n)=>`${n} jours`,
-          section_info:'📋 Informations sur le mois', section_days:'📅 Jours de ce mois hégirien', section_links:'🔗 Liens liés à ce mois',
+          section_info:'📋 Informations sur le mois', section_days:'📅 Jours de ce mois hégirien', section_links:'🔗 Liens associés',
           th_hijri:'Date hégirienne', th_greg:'Date grégorienne',
           prev_label:'Mois précédent', next_label:'Mois suivant',
           link_convert:'🔄 Convertir hégirien ↔ grégorien', link_today:'📌 Date hégirienne d\'aujourd\'hui',
-          link_day1:(mn,y)=>`📅 Premier jour de ${mn} ${y}`,
-          title:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Correspondant à : ${c.gRange}`,
-          intro:c=>`Ce tableau présente le calendrier hégirien complet du mois de ${c.monthName} ${c.year}${c.hSfx} avec la date grégorienne correspondante pour chaque jour, selon le calendrier Umm al-Qura à ${c.country}.`,
+          link_year:(y,hSfx)=>`📅 Calendrier de l'an ${y}${hSfx}`,
+          link_moon:'🌙 État de la lune aujourd\'hui',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 Aujourd'hui dans ${mn} ${y}${hSfx} : <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Date hégirienne ${hDate} correspondant au ${gDate}`,
+          title:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} jours)`,
+          subtitle:c=>`Couvre du ${c.gFirstStr} au ${c.gLastStr} selon le calendrier Umm al-Qura`,
           days_summary:c=>`📅 Le mois de ${c.monthName} ${c.year}${c.hSfx} compte ${c.totalDays} jours.`,
-          other_months_title:c=>`🌙 Calendrier hégirien pour les autres mois de ${c.year}${c.hSfx}`,
-          footer:c=>`Le calendrier hégirien du mois de ${c.monthName} ${c.year}${c.hSfx} s'étend du ${c.gFirstStr} au ${c.gLastStr}${c.gSfx}. Il comprend ${c.totalDays} jours selon le calendrier Umm al-Qura à ${c.country}. Utilisez notre convertisseur pour passer d'une date hégirienne à une date grégorienne, parcourez le calendrier hégirien ou consultez la date hégirienne d'aujourd'hui.`,
+          other_months_title:c=>`🌙 Calendrier hégirien de l'an ${c.year}${c.hSfx} — tous les mois`,
+          other_months_active_suffix:' (actuel)',
+          years_title:'📆 Parcourir les années hégiriennes',
+          years_current:()=>'Années proches :',
+          years_active_suffix:'',
+          years_all_link:'→ Voir le calendrier hégirien complet',
+          footer:c=>`Ce calendrier répertorie tous les jours du mois de ${c.monthName} ${c.year}${c.hSfx} avec leur équivalent grégorien selon le calendrier Umm al-Qura, vous aidant à suivre la date hégirienne et les occasions islamiques facilement. Vous pouvez aussi consulter <a href="${c.todayUrl}">la date hégirienne d'aujourd'hui</a>, parcourir le <a href="${c.yearUrl}">calendrier hégirien complet de l'an ${c.year}${c.hSfx}</a>, ou accéder à n'importe quel jour du mois.`,
           headline:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`Calendrier hégirien complet de ${c.monthName} ${c.year}${c.hSfx} avec la date grégorienne de chaque jour, selon le calendrier Umm al-Qura à ${c.country}.`,
+          meta_desc:c=>`Calendrier hégirien complet de ${c.monthName} ${c.year}${c.hSfx} avec la date grégorienne de chaque jour, selon le calendrier Umm al-Qura.`,
           meta_title:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`Jours de ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`Tableau des jours hégiriens de ${c.monthName} ${c.year}${c.hSfx} avec leurs équivalents grégoriens.`,
@@ -1134,22 +1537,28 @@ const _HMONTH_UI = {
               [`Quand se termine ${c.monthName} ${c.year}${c.hSfx} ?`, `${c.monthName} ${c.year}${c.hSfx} se termine le ${c.gLastStr}${c.gSfx} selon le calendrier Umm al-Qura.`]
           ] },
     tr: { home:'Ana Sayfa', cal:'Hicri Takvim', site:'Namaz Vakitleri ve Hicri Takvim',
-          card_labels:['📅 Ay','🔢 Ayın Gün Sayısı','🗓️ İlk Gün (Miladi)','🗓️ Son Gün (Miladi)','✅ Yıl','✔️ Artık Yıl'],
-          leap_yes:'Evet (355 gün)', leap_no:'Hayır (354 gün)',
+          card_labels:['📅 Gün Sayısı','🗓️ Başlangıç','🗓️ Bitiş'],
           days_word_n:(n)=>`${n} gün`,
-          section_info:'📋 Ay Bilgileri', section_days:'📅 Bu Hicri Ayın Günleri', section_links:'🔗 Bu Aya İlişkin Bağlantılar',
+          section_info:'📋 Ay Bilgileri', section_days:'📅 Bu Hicri Ayın Günleri', section_links:'🔗 İlgili Bağlantılar',
           th_hijri:'Hicri Tarih', th_greg:'Miladi Tarih',
           prev_label:'Önceki Ay', next_label:'Sonraki Ay',
           link_convert:'🔄 Hicri ↔ Miladi Dönüştür', link_today:'📌 Bugünün Hicri Tarihi',
-          link_day1:(mn,y)=>`📅 ${mn} ${y} – 1. Gün`,
-          title:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Karşılık gelen: ${c.gRange}`,
-          intro:c=>`Bu tablo, ${c.country} ülkesinde Ümmülkura takvimine göre ${c.monthName} ${c.year}${c.hSfx} ayının tam hicri takvimini, her gün için miladi karşılığıyla birlikte gösterir.`,
+          link_year:(y,hSfx)=>`📅 ${y}${hSfx} Yılı Takvimi`,
+          link_moon:'🌙 Bugün Ay Durumu',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 ${mn} ${y}${hSfx} ayındaki bugün: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Hicri tarih ${hDate}, ${gDate} tarihine karşılık gelir`,
+          title:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} gün)`,
+          subtitle:c=>`${c.gFirstStr} ile ${c.gLastStr} tarihleri arasını kapsar (Ümmülkura takvimine göre)`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} ayı ${c.totalDays} gündür.`,
-          other_months_title:c=>`🌙 ${c.year}${c.hSfx} Yılının Diğer Aylarının Hicri Takvimi`,
-          footer:c=>`${c.monthName} ${c.year}${c.hSfx} hicri takvimi ${c.gFirstStr} tarihinden ${c.gLastStr}${c.gSfx} tarihine kadar uzanır. ${c.country} ülkesinde Ümmülkura takvimine göre ${c.totalDays} gün içerir. Herhangi bir hicri tarihi miladiye çevirmek için dönüştürücümüzü kullanın, hicri takvime göz atın veya bugünün hicri tarihini kontrol edin.`,
+          other_months_title:c=>`🌙 ${c.year}${c.hSfx} Yılı Hicri Takvimi — Tüm Aylar`,
+          other_months_active_suffix:' (güncel)',
+          years_title:'📆 Hicri Yıllara Gözat',
+          years_current:()=>'Yakın yıllar:',
+          years_active_suffix:'',
+          years_all_link:'→ Tam Hicri Takvimi Görüntüle',
+          footer:c=>`Bu takvim, ${c.monthName} ${c.year}${c.hSfx} ayının her gününü miladi karşılığıyla Ümmülkura takvimine göre listeler ve hicri tarihi ile İslami münasebetleri kolayca takip etmenize yardımcı olur. <a href="${c.todayUrl}">Bugünün hicri tarihini</a> kontrol edebilir, <a href="${c.yearUrl}">${c.year}${c.hSfx} yılının tam hicri takvimini</a> görüntüleyebilir veya ay içindeki herhangi bir güne geçebilirsiniz.`,
           headline:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx} için tam hicri takvim, her günün miladi tarihiyle, ${c.country} ülkesinde Ümmülkura takvimine göre.`,
+          meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx} için tam hicri takvim, her günün miladi tarihiyle, Ümmülkura takvimine göre.`,
           meta_title:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`${c.monthName} ${c.year}${c.hSfx} Günleri`,
           dataset_desc:c=>`${c.monthName} ${c.year}${c.hSfx} hicri günlerini miladi karşılıklarıyla gösteren tablo.`,
@@ -1160,22 +1569,28 @@ const _HMONTH_UI = {
               [`${c.monthName} ${c.year}${c.hSfx} ne zaman biter?`, `${c.monthName} ${c.year}${c.hSfx}, Ümmülkura takvimine göre ${c.gLastStr}${c.gSfx} tarihinde biter.`]
           ] },
     ur: { home:'ہوم', cal:'ہجری کیلنڈر', site:'نماز کے اوقات اور ہجری کیلنڈر',
-          card_labels:['📅 مہینہ','🔢 مہینے کے دن','🗓️ پہلا دن (عیسوی)','🗓️ آخری دن (عیسوی)','✅ سال','✔️ لیپ سال'],
-          leap_yes:'ہاں (355 دن)', leap_no:'نہیں (354 دن)',
+          card_labels:['📅 دنوں کی تعداد','🗓️ آغاز','🗓️ اختتام'],
           days_word_n:(n)=>`${n} دن`,
-          section_info:'📋 مہینے کی معلومات', section_days:'📅 اس ہجری مہینے کے دن', section_links:'🔗 اس مہینے سے متعلق روابط',
+          section_info:'📋 مہینے کی معلومات', section_days:'📅 اس ہجری مہینے کے دن', section_links:'🔗 متعلقہ روابط',
           th_hijri:'ہجری تاریخ', th_greg:'عیسوی تاریخ',
           prev_label:'پچھلا مہینہ', next_label:'اگلا مہینہ',
-          link_convert:'🔄 ہجری ↔ عیسوی تبدیل کریں', link_today:'📌 آج کی ہجری تاریخ',
-          link_day1:(mn,y)=>`📅 ${mn} ${y} کا پہلا دن`,
-          title:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`مطابق: ${c.gRange}`,
-          intro:c=>`یہ جدول ${c.country} میں ام القری کیلنڈر کے مطابق ${c.monthName} ${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر ہر دن کی عیسوی تاریخ کے ساتھ دکھاتا ہے۔`,
+          link_convert:'🔄 ہجری اور عیسوی تاریخ کی تبدیلی', link_today:'📌 آج کی ہجری تاریخ',
+          link_year:(y,hSfx)=>`📅 ${y}${hSfx} کا کیلنڈر`,
+          link_moon:'🌙 آج چاند کی حالت',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 ${mn} ${y}${hSfx} میں آج کا دن: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`ہجری تاریخ ${hDate} مطابق ${gDate}`,
+          title:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} دن)`,
+          subtitle:c=>`${c.gFirstStr} سے ${c.gLastStr} تک (ام القری کیلنڈر کے مطابق)`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} میں ${c.totalDays} دن ہیں۔`,
-          other_months_title:c=>`🌙 ${c.year}${c.hSfx} کے دیگر مہینوں کا ہجری کیلنڈر`,
-          footer:c=>`${c.monthName} ${c.year}${c.hSfx} کا ہجری کیلنڈر ${c.gFirstStr} سے ${c.gLastStr}${c.gSfx} تک پھیلا ہوا ہے۔ ${c.country} میں ام القری کیلنڈر کے مطابق یہ ${c.totalDays} دن پر مشتمل ہے۔ کسی بھی ہجری تاریخ کو عیسوی میں بدلنے کے لیے ہمارا کنورٹر استعمال کریں، ہجری کیلنڈر دیکھیں یا آج کی ہجری تاریخ معلوم کریں۔`,
+          other_months_title:c=>`🌙 ${c.year}${c.hSfx} کا ہجری کیلنڈر — تمام مہینے`,
+          other_months_active_suffix:' (موجودہ)',
+          years_title:'📆 ہجری سالوں کی تصفّح',
+          years_current:()=>'قریبی سال:',
+          years_active_suffix:'',
+          years_all_link:'→ مکمل ہجری کیلنڈر دیکھیں',
+          footer:c=>`یہ کیلنڈر ${c.monthName} ${c.year}${c.hSfx} کے تمام دنوں کو ان کی عیسوی تاریخ کے ساتھ ام القری کیلنڈر کے مطابق درج کرتا ہے، جس سے آپ ہجری تاریخ اور اسلامی مواقع کی آسانی سے پیروی کر سکتے ہیں۔ آپ <a href="${c.todayUrl}">آج کی ہجری تاریخ</a> دیکھ سکتے ہیں، <a href="${c.yearUrl}">${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر</a> براؤز کر سکتے ہیں، یا مہینے کے کسی بھی دن پر جا سکتے ہیں۔`,
           headline:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر، ہر دن کی عیسوی تاریخ کے ساتھ، ${c.country} میں ام القری کیلنڈر کے مطابق۔`,
+          meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر، ہر دن کی عیسوی تاریخ کے ساتھ، ام القری کیلنڈر کے مطابق۔`,
           meta_title:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`${c.monthName} ${c.year}${c.hSfx} کے دن`,
           dataset_desc:c=>`${c.monthName} ${c.year}${c.hSfx} کے ہجری دنوں کو ان کی عیسوی مطابقت کے ساتھ دکھانے والا جدول۔`,
@@ -1186,22 +1601,28 @@ const _HMONTH_UI = {
               [`${c.monthName} ${c.year}${c.hSfx} کب ختم ہوتا ہے؟`, `${c.monthName} ${c.year}${c.hSfx} ام القری کیلنڈر کے مطابق ${c.gLastStr}${c.gSfx} کو ختم ہوتا ہے۔`]
           ] },
     de: { home:'Startseite', cal:'Hidschri-Kalender', site:'Gebetszeiten & Hidschri-Kalender',
-          card_labels:['📅 Monat','🔢 Tage des Monats','🗓️ Erster Tag (gregorianisch)','🗓️ Letzter Tag (gregorianisch)','✅ Jahr','✔️ Schaltjahr'],
-          leap_yes:'Ja (355 Tage)', leap_no:'Nein (354 Tage)',
+          card_labels:['📅 Anzahl Tage','🗓️ Beginn','🗓️ Ende'],
           days_word_n:(n)=>`${n} Tage`,
-          section_info:'📋 Monatsinformationen', section_days:'📅 Tage dieses Hidschri-Monats', section_links:'🔗 Verwandte Links zu diesem Monat',
+          section_info:'📋 Monatsinformationen', section_days:'📅 Tage dieses Hidschri-Monats', section_links:'🔗 Verwandte Links',
           th_hijri:'Hidschri-Datum', th_greg:'Gregorianisches Datum',
           prev_label:'Vorheriger Monat', next_label:'Nächster Monat',
           link_convert:'🔄 Hidschri ↔ Gregorianisch umrechnen', link_today:'📌 Heutiges Hidschri-Datum',
-          link_day1:(mn,y)=>`📅 Erster Tag von ${mn} ${y}`,
-          title:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Entspricht: ${c.gRange}`,
-          intro:c=>`Diese Tabelle zeigt den vollständigen Hidschri-Kalender für ${c.monthName} ${c.year}${c.hSfx} mit dem entsprechenden gregorianischen Datum für jeden Tag, gemäß dem Umm-al-Qura-Kalender in ${c.country}.`,
+          link_year:(y,hSfx)=>`📅 Kalender für das Jahr ${y}${hSfx}`,
+          link_moon:'🌙 Mond heute',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 Heute im ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Hidschri-Datum ${hDate} entspricht ${gDate}`,
+          title:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} Tage)`,
+          subtitle:c=>`Umfasst den Zeitraum vom ${c.gFirstStr} bis zum ${c.gLastStr} gemäß dem Umm-al-Qura-Kalender`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} hat ${c.totalDays} Tage.`,
-          other_months_title:c=>`🌙 Hidschri-Kalender für weitere Monate des Jahres ${c.year}${c.hSfx}`,
-          footer:c=>`Der Hidschri-Kalender für ${c.monthName} ${c.year}${c.hSfx} reicht vom ${c.gFirstStr} bis zum ${c.gLastStr}${c.gSfx}. Er umfasst ${c.totalDays} Tage gemäß dem Umm-al-Qura-Kalender in ${c.country}. Nutzen Sie unseren Datumsumrechner, um jedes Hidschri-Datum ins Gregorianische zu übertragen, blättern Sie durch den Hidschri-Kalender oder prüfen Sie das heutige Hidschri-Datum.`,
+          other_months_title:c=>`🌙 Hidschri-Kalender für das Jahr ${c.year}${c.hSfx} — alle Monate`,
+          other_months_active_suffix:' (aktuell)',
+          years_title:'📆 Hidschri-Jahre durchsuchen',
+          years_current:()=>'Nahegelegene Jahre:',
+          years_active_suffix:'',
+          years_all_link:'→ Vollständigen Hidschri-Kalender anzeigen',
+          footer:c=>`Dieser Kalender listet alle Tage des Monats ${c.monthName} ${c.year}${c.hSfx} mit ihrem gregorianischen Äquivalent gemäß dem Umm-al-Qura-Kalender auf und hilft Ihnen, das Hidschri-Datum und islamische Anlässe einfach nachzuverfolgen. Sie können auch <a href="${c.todayUrl}">das heutige Hidschri-Datum</a> prüfen, den <a href="${c.yearUrl}">vollständigen Hidschri-Kalender für ${c.year}${c.hSfx}</a> durchsuchen oder zu einem beliebigen Tag des Monats springen.`,
           headline:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`Vollständiger Hidschri-Kalender für ${c.monthName} ${c.year}${c.hSfx} mit gregorianischem Datum für jeden Tag, gemäß dem Umm-al-Qura-Kalender in ${c.country}.`,
+          meta_desc:c=>`Vollständiger Hidschri-Kalender für ${c.monthName} ${c.year}${c.hSfx} mit gregorianischem Datum für jeden Tag, gemäß dem Umm-al-Qura-Kalender.`,
           meta_title:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`Tage von ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`Tabelle der Hidschri-Tage von ${c.monthName} ${c.year}${c.hSfx} mit ihren gregorianischen Entsprechungen.`,
@@ -1212,22 +1633,28 @@ const _HMONTH_UI = {
               [`Wann endet ${c.monthName} ${c.year}${c.hSfx}?`, `${c.monthName} ${c.year}${c.hSfx} endet am ${c.gLastStr}${c.gSfx} gemäß dem Umm-al-Qura-Kalender.`]
           ] },
     id: { home:'Beranda', cal:'Kalender Hijriah', site:'Jadwal Sholat & Kalender Hijriah',
-          card_labels:['📅 Bulan','🔢 Jumlah Hari dalam Bulan','🗓️ Hari Pertama (Masehi)','🗓️ Hari Terakhir (Masehi)','✅ Tahun','✔️ Tahun Kabisat'],
-          leap_yes:'Ya (355 hari)', leap_no:'Tidak (354 hari)',
+          card_labels:['📅 Jumlah Hari','🗓️ Mulai','🗓️ Berakhir'],
           days_word_n:(n)=>`${n} hari`,
-          section_info:'📋 Informasi Bulan', section_days:'📅 Hari-hari Bulan Hijriah Ini', section_links:'🔗 Tautan Terkait Bulan Ini',
+          section_info:'📋 Informasi Bulan', section_days:'📅 Hari-hari Bulan Hijriah Ini', section_links:'🔗 Tautan Terkait',
           th_hijri:'Tanggal Hijriah', th_greg:'Tanggal Masehi',
           prev_label:'Bulan Sebelumnya', next_label:'Bulan Berikutnya',
           link_convert:'🔄 Konversi Hijriah ↔ Masehi', link_today:'📌 Tanggal Hijriah Hari Ini',
-          link_day1:(mn,y)=>`📅 Hari pertama ${mn} ${y}`,
-          title:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Bertepatan dengan: ${c.gRange}`,
-          intro:c=>`Tabel ini menampilkan kalender Hijriah lengkap untuk ${c.monthName} ${c.year}${c.hSfx} beserta tanggal Masehi yang bertepatan untuk setiap hari, menurut kalender Umm al-Qura di ${c.country}.`,
+          link_year:(y,hSfx)=>`📅 Kalender Tahun ${y}${hSfx}`,
+          link_moon:'🌙 Kondisi Bulan Hari Ini',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 Hari ini di ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Tanggal Hijriah ${hDate} bertepatan dengan ${gDate}`,
+          title:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} hari)`,
+          subtitle:c=>`Mencakup ${c.gFirstStr} hingga ${c.gLastStr} menurut kalender Umm al-Qura`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} memiliki ${c.totalDays} hari.`,
-          other_months_title:c=>`🌙 Kalender Hijriah untuk Bulan-bulan Lain Tahun ${c.year}${c.hSfx}`,
-          footer:c=>`Kalender Hijriah untuk ${c.monthName} ${c.year}${c.hSfx} berlangsung dari ${c.gFirstStr} hingga ${c.gLastStr}${c.gSfx}. Bulan ini terdiri dari ${c.totalDays} hari menurut kalender Umm al-Qura di ${c.country}. Gunakan pengonversi tanggal kami untuk mengubah tanggal Hijriah ke Masehi, jelajahi kalender Hijriah, atau periksa tanggal Hijriah hari ini.`,
+          other_months_title:c=>`🌙 Kalender Hijriah Tahun ${c.year}${c.hSfx} — Semua Bulan`,
+          other_months_active_suffix:' (saat ini)',
+          years_title:'📆 Jelajahi Tahun-tahun Hijriah',
+          years_current:()=>'Tahun terdekat:',
+          years_active_suffix:'',
+          years_all_link:'→ Lihat Kalender Hijriah Lengkap',
+          footer:c=>`Kalender ini menampilkan seluruh hari bulan ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masehinya menurut kalender Umm al-Qura, membantu Anda mengikuti tanggal Hijriah dan momen-momen Islam dengan mudah. Anda juga dapat melihat <a href="${c.todayUrl}">tanggal Hijriah hari ini</a>, menjelajahi <a href="${c.yearUrl}">kalender Hijriah lengkap tahun ${c.year}${c.hSfx}</a>, atau menuju hari apa pun dalam bulan ini.`,
           headline:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`Kalender Hijriah lengkap untuk ${c.monthName} ${c.year}${c.hSfx} dengan tanggal Masehi setiap hari, menurut kalender Umm al-Qura di ${c.country}.`,
+          meta_desc:c=>`Kalender Hijriah lengkap untuk ${c.monthName} ${c.year}${c.hSfx} dengan tanggal Masehi setiap hari, menurut kalender Umm al-Qura.`,
           meta_title:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`Hari-hari ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`Tabel yang menampilkan hari-hari Hijriah ${c.monthName} ${c.year}${c.hSfx} beserta padanannya dalam Masehi.`,
@@ -1238,22 +1665,28 @@ const _HMONTH_UI = {
               [`Kapan ${c.monthName} ${c.year}${c.hSfx} berakhir?`, `${c.monthName} ${c.year}${c.hSfx} berakhir pada ${c.gLastStr}${c.gSfx} menurut kalender Umm al-Qura.`]
           ] },
     es: { home:'Inicio', cal:'Calendario Hégira', site:'Horarios de oración y calendario Hégira',
-          card_labels:['📅 Mes','🔢 Días del mes','🗓️ Primer día (gregoriano)','🗓️ Último día (gregoriano)','✅ Año','✔️ Año bisiesto'],
-          leap_yes:'Sí (355 días)', leap_no:'No (354 días)',
+          card_labels:['📅 Número de días','🗓️ Inicio','🗓️ Fin'],
           days_word_n:(n)=>`${n} días`,
-          section_info:'📋 Información del mes', section_days:'📅 Días de este mes Hégira', section_links:'🔗 Enlaces relacionados con este mes',
+          section_info:'📋 Información del mes', section_days:'📅 Días de este mes Hégira', section_links:'🔗 Enlaces relacionados',
           th_hijri:'Fecha Hégira', th_greg:'Fecha gregoriana',
           prev_label:'Mes anterior', next_label:'Mes siguiente',
           link_convert:'🔄 Convertir Hégira ↔ Gregoriano', link_today:'📌 Fecha Hégira de hoy',
-          link_day1:(mn,y)=>`📅 Primer día de ${mn} ${y}`,
-          title:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Correspondiente a: ${c.gRange}`,
-          intro:c=>`Esta tabla muestra el calendario Hégira completo de ${c.monthName} ${c.year}${c.hSfx} con la fecha gregoriana correspondiente a cada día, según el calendario Umm al-Qura en ${c.country}.`,
+          link_year:(y,hSfx)=>`📅 Calendario del año ${y}${hSfx}`,
+          link_moon:'🌙 Estado de la luna hoy',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 Hoy en ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Fecha Hégira ${hDate}, equivalente a ${gDate}`,
+          title:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} días)`,
+          subtitle:c=>`Abarca desde el ${c.gFirstStr} hasta el ${c.gLastStr} según el calendario Umm al-Qura`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} tiene ${c.totalDays} días.`,
-          other_months_title:c=>`🌙 Calendario Hégira para otros meses de ${c.year}${c.hSfx}`,
-          footer:c=>`El calendario Hégira de ${c.monthName} ${c.year}${c.hSfx} abarca desde el ${c.gFirstStr} hasta el ${c.gLastStr}${c.gSfx}. Incluye ${c.totalDays} días según el calendario Umm al-Qura en ${c.country}. Use nuestro conversor para convertir cualquier fecha Hégira a gregoriana, explore el calendario Hégira o consulte la fecha Hégira de hoy.`,
+          other_months_title:c=>`🌙 Calendario Hégira del año ${c.year}${c.hSfx} — todos los meses`,
+          other_months_active_suffix:' (actual)',
+          years_title:'📆 Explorar años Hégira',
+          years_current:()=>'Años cercanos:',
+          years_active_suffix:'',
+          years_all_link:'→ Ver calendario Hégira completo',
+          footer:c=>`Este calendario enumera todos los días de ${c.monthName} ${c.year}${c.hSfx} con su equivalente gregoriano según el calendario Umm al-Qura, ayudándole a seguir la fecha Hégira y las ocasiones islámicas con facilidad. También puede consultar <a href="${c.todayUrl}">la fecha Hégira de hoy</a>, explorar el <a href="${c.yearUrl}">calendario Hégira completo del año ${c.year}${c.hSfx}</a>, o ir a cualquier día del mes.`,
           headline:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`Calendario Hégira completo de ${c.monthName} ${c.year}${c.hSfx} con la fecha gregoriana de cada día, según el calendario Umm al-Qura en ${c.country}.`,
+          meta_desc:c=>`Calendario Hégira completo de ${c.monthName} ${c.year}${c.hSfx} con la fecha gregoriana de cada día, según el calendario Umm al-Qura.`,
           meta_title:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`Días de ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`Tabla con los días Hégira de ${c.monthName} ${c.year}${c.hSfx} y sus equivalentes gregorianos.`,
@@ -1264,22 +1697,28 @@ const _HMONTH_UI = {
               [`¿Cuándo termina ${c.monthName} ${c.year}${c.hSfx}?`, `${c.monthName} ${c.year}${c.hSfx} termina el ${c.gLastStr}${c.gSfx} según el calendario Umm al-Qura.`]
           ] },
     bn: { home:'হোম', cal:'হিজরি ক্যালেন্ডার', site:'নামাজের সময় ও হিজরি ক্যালেন্ডার',
-          card_labels:['📅 মাস','🔢 মাসের দিনসংখ্যা','🗓️ প্রথম দিন (খ্রিস্টীয়)','🗓️ শেষ দিন (খ্রিস্টীয়)','✅ বছর','✔️ অধিবর্ষ'],
-          leap_yes:'হ্যাঁ (355 দিন)', leap_no:'না (354 দিন)',
+          card_labels:['📅 দিনসংখ্যা','🗓️ শুরু','🗓️ শেষ'],
           days_word_n:(n)=>`${n} দিন`,
-          section_info:'📋 মাসের তথ্য', section_days:'📅 এই হিজরি মাসের দিনগুলো', section_links:'🔗 এই মাস সম্পর্কিত লিংক',
+          section_info:'📋 মাসের তথ্য', section_days:'📅 এই হিজরি মাসের দিনগুলো', section_links:'🔗 সংশ্লিষ্ট লিংক',
           th_hijri:'হিজরি তারিখ', th_greg:'খ্রিস্টীয় তারিখ',
           prev_label:'আগের মাস', next_label:'পরের মাস',
-          link_convert:'🔄 হিজরি ↔ খ্রিস্টীয় রূপান্তর', link_today:'📌 আজকের হিজরি তারিখ',
-          link_day1:(mn,y)=>`📅 ${mn} ${y}-এর প্রথম দিন`,
-          title:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`সংশ্লিষ্ট: ${c.gRange}`,
-          intro:c=>`এই সারণিটি ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.monthName} ${c.year}${c.hSfx} মাসের সম্পূর্ণ হিজরি ক্যালেন্ডার প্রতিটি দিনের সংশ্লিষ্ট খ্রিস্টীয় তারিখসহ দেখায়।`,
+          link_convert:'🔄 হিজরি ও খ্রিস্টীয় তারিখ রূপান্তর', link_today:'📌 আজকের হিজরি তারিখ',
+          link_year:(y,hSfx)=>`📅 ${y}${hSfx} সনের ক্যালেন্ডার`,
+          link_moon:'🌙 আজকের চাঁদের অবস্থা',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 ${mn} ${y}${hSfx}-এর আজকের দিন: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`হিজরি তারিখ ${hDate}, ${gDate}-এর সংশ্লিষ্ট`,
+          title:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} দিন)`,
+          subtitle:c=>`${c.gFirstStr} থেকে ${c.gLastStr} পর্যন্ত (উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী)`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} মাসে ${c.totalDays} দিন রয়েছে।`,
-          other_months_title:c=>`🌙 ${c.year}${c.hSfx} সনের অন্যান্য মাসের হিজরি ক্যালেন্ডার`,
-          footer:c=>`${c.monthName} ${c.year}${c.hSfx} মাসের হিজরি ক্যালেন্ডার ${c.gFirstStr} থেকে ${c.gLastStr}${c.gSfx} পর্যন্ত বিস্তৃত। ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী এতে ${c.totalDays} দিন রয়েছে। যেকোনো হিজরি তারিখকে খ্রিস্টীয় তারিখে রূপান্তর করতে আমাদের কনভার্টার ব্যবহার করুন, হিজরি ক্যালেন্ডার ব্রাউজ করুন বা আজকের হিজরি তারিখ দেখুন।`,
+          other_months_title:c=>`🌙 ${c.year}${c.hSfx} সনের হিজরি ক্যালেন্ডার — সব মাস`,
+          other_months_active_suffix:' (বর্তমান)',
+          years_title:'📆 হিজরি সনসমূহ ব্রাউজ করুন',
+          years_current:()=>'নিকটবর্তী সন:',
+          years_active_suffix:'',
+          years_all_link:'→ সম্পূর্ণ হিজরি ক্যালেন্ডার দেখুন',
+          footer:c=>`এই ক্যালেন্ডার ${c.monthName} ${c.year}${c.hSfx} মাসের প্রতিটি দিন সংশ্লিষ্ট খ্রিস্টীয় তারিখসহ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী প্রদর্শন করে, যা আপনাকে হিজরি তারিখ এবং ইসলামী উপলক্ষ সহজে অনুসরণ করতে সাহায্য করে। আপনি <a href="${c.todayUrl}">আজকের হিজরি তারিখ</a> দেখতে পারেন, <a href="${c.yearUrl}">${c.year}${c.hSfx} সনের সম্পূর্ণ হিজরি ক্যালেন্ডার</a> ব্রাউজ করতে পারেন, বা মাসের যেকোনো দিনে যেতে পারেন।`,
           headline:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx}-এর সম্পূর্ণ হিজরি ক্যালেন্ডার প্রতিটি দিনের খ্রিস্টীয় তারিখসহ, ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী।`,
+          meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx}-এর সম্পূর্ণ হিজরি ক্যালেন্ডার প্রতিটি দিনের খ্রিস্টীয় তারিখসহ, উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী।`,
           meta_title:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`${c.monthName} ${c.year}${c.hSfx}-এর দিনগুলো`,
           dataset_desc:c=>`${c.monthName} ${c.year}${c.hSfx}-এর হিজরি দিনগুলো এবং তাদের খ্রিস্টীয় সমতুল্য দেখানো সারণি।`,
@@ -1290,22 +1729,28 @@ const _HMONTH_UI = {
               [`${c.monthName} ${c.year}${c.hSfx} কখন শেষ হয়?`, `${c.monthName} ${c.year}${c.hSfx} উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.gLastStr}${c.gSfx}-এ শেষ হয়।`]
           ] },
     ms: { home:'Laman Utama', cal:'Kalendar Hijrah', site:'Waktu Solat & Kalendar Hijrah',
-          card_labels:['📅 Bulan','🔢 Bilangan Hari Bulan','🗓️ Hari Pertama (Masihi)','🗓️ Hari Terakhir (Masihi)','✅ Tahun','✔️ Tahun Lompat'],
-          leap_yes:'Ya (355 hari)', leap_no:'Tidak (354 hari)',
+          card_labels:['📅 Jumlah Hari','🗓️ Bermula','🗓️ Berakhir'],
           days_word_n:(n)=>`${n} hari`,
-          section_info:'📋 Maklumat Bulan', section_days:'📅 Hari-hari Bulan Hijrah Ini', section_links:'🔗 Pautan Berkaitan Bulan Ini',
+          section_info:'📋 Maklumat Bulan', section_days:'📅 Hari-hari Bulan Hijrah Ini', section_links:'🔗 Pautan Berkaitan',
           th_hijri:'Tarikh Hijrah', th_greg:'Tarikh Masihi',
           prev_label:'Bulan Sebelumnya', next_label:'Bulan Berikutnya',
           link_convert:'🔄 Tukar Hijrah ↔ Masihi', link_today:'📌 Tarikh Hijrah Hari Ini',
-          link_day1:(mn,y)=>`📅 Hari pertama ${mn} ${y}`,
-          title:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx} (${c.gRange})`,
-          subtitle:c=>`Bersamaan dengan: ${c.gRange}`,
-          intro:c=>`Jadual ini memaparkan kalendar Hijrah lengkap bagi ${c.monthName} ${c.year}${c.hSfx} dengan tarikh Masihi yang bersamaan untuk setiap hari, mengikut kalendar Umm al-Qura di ${c.country}.`,
+          link_year:(y,hSfx)=>`📅 Kalendar Tahun ${y}${hSfx}`,
+          link_moon:'🌙 Keadaan Bulan Hari Ini',
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 Hari ini dalam ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          day_row_title:(hDate,gDate)=>`Tarikh Hijrah ${hDate} bersamaan dengan ${gDate}`,
+          title:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} hari)`,
+          subtitle:c=>`Meliputi ${c.gFirstStr} hingga ${c.gLastStr} mengikut kalendar Umm al-Qura`,
           days_summary:c=>`📅 ${c.monthName} ${c.year}${c.hSfx} mempunyai ${c.totalDays} hari.`,
-          other_months_title:c=>`🌙 Kalendar Hijrah untuk Bulan-bulan Lain Tahun ${c.year}${c.hSfx}`,
-          footer:c=>`Kalendar Hijrah bagi ${c.monthName} ${c.year}${c.hSfx} berlangsung dari ${c.gFirstStr} hingga ${c.gLastStr}${c.gSfx}. Ia merangkumi ${c.totalDays} hari mengikut kalendar Umm al-Qura di ${c.country}. Gunakan penukar tarikh kami untuk menukar sebarang tarikh Hijrah kepada Masihi, layari kalendar Hijrah, atau semak tarikh Hijrah hari ini.`,
+          other_months_title:c=>`🌙 Kalendar Hijrah Tahun ${c.year}${c.hSfx} — Semua Bulan`,
+          other_months_active_suffix:' (semasa)',
+          years_title:'📆 Layari Tahun-tahun Hijrah',
+          years_current:()=>'Tahun berdekatan:',
+          years_active_suffix:'',
+          years_all_link:'→ Lihat Kalendar Hijrah Penuh',
+          footer:c=>`Kalendar ini menyenaraikan semua hari bulan ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masihinya mengikut kalendar Umm al-Qura, membantu anda mengikuti tarikh Hijrah dan peristiwa Islam dengan mudah. Anda boleh menyemak <a href="${c.todayUrl}">tarikh Hijrah hari ini</a>, melayari <a href="${c.yearUrl}">kalendar Hijrah penuh tahun ${c.year}${c.hSfx}</a>, atau pergi ke mana-mana hari dalam bulan ini.`,
           headline:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx}`,
-          meta_desc:c=>`Kalendar Hijrah lengkap bagi ${c.monthName} ${c.year}${c.hSfx} dengan tarikh Masihi bagi setiap hari, mengikut kalendar Umm al-Qura di ${c.country}.`,
+          meta_desc:c=>`Kalendar Hijrah lengkap bagi ${c.monthName} ${c.year}${c.hSfx} dengan tarikh Masihi bagi setiap hari, mengikut kalendar Umm al-Qura.`,
           meta_title:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_name:c=>`Hari-hari ${c.monthName} ${c.year}${c.hSfx}`,
           dataset_desc:c=>`Jadual yang memaparkan hari-hari Hijrah ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masihinya.`,
@@ -1318,18 +1763,21 @@ const _HMONTH_UI = {
 };
 function hmonthUi(lang) { return _HMONTH_UI[lang] || _HMONTH_UI.en; }
 
+// 🆕 Round 11: Numeric zero-padded URL scheme (ISO-like). Old text-slug format fully removed.
+//   /hijri-calendar/1447-11     (month)
+//   /hijri-date/1447-11-05      (day)
+const _pad2 = n => String(n).padStart(2, '0');
+
 function hijriDayUrl(year, month, day) {
-    const slug = HIJRI_MONTH_SLUGS[month - 1];
     const _ln  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const base = (_ln === 'ar') ? '' : ('/' + _ln);
-    return `${base}/hijri-date/${day}-${slug}-${year}`;
+    return `${base}/hijri-date/${year}-${_pad2(month)}-${_pad2(day)}`;
 }
 
 function hijriMonthUrl(year, month) {
-    const slug = HIJRI_MONTH_SLUGS[month - 1];
     const _ln  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const base = (_ln === 'ar') ? '' : ('/' + _ln);
-    return `${base}/hijri-calendar/${slug}-${year}`;
+    return `${base}/hijri-calendar/${year}-${_pad2(month)}`;
 }
 
 /** يبني <ol class="breadcrumb-list"> بنفس تصميم city-breadcrumb لصفحات التقويم الهجري */
@@ -1625,9 +2073,51 @@ function _isWardLike(name) {
     if (/[-\s]ku$/i.test(s)) return true;
     if (/[-\s]gu$/i.test(s)) return true;
     // Western/Turkish/Malay/Indonesian ward indicators
-    if (/\b(Ward|Borough|Bezirk|Arrondissement|Distrito|Kecamatan|Daerah)\b/i.test(s)) return true;
+    if (/\b(Ward|Bezirk|Arrondissement|Distrito|Kecamatan|Daerah)\b/i.test(s)) return true;
     // Turkish: "ilçe" / "ilçesi" — `\b` لا يعمل مع İ/ç، نعتمد على حدود بيضاء/نهاية
     if (/(^|[\s\-,])[Iİ]l[çc]e(si)?($|[\s\-,])/i.test(s)) return true;
+    return false;
+}
+
+/**
+ * يُحدِّد إذا كان الاسم يبدو كتقسيم إداريّ (محافظة/منطقة/مقاطعة) أو شارع/طريق/حي/ضاحية
+ * في أيّ من الـ10 لغات المدعومة (ar/en/fr/tr/ur/de/id/es/bn/ms).
+ * يُستخدم في فلترة اقتراحات البحث لعرض **المدن والقرى فقط**.
+ * ملاحظة: "Desa/Kampung/Village/Villaggio" تبقى مقبولة (قرى حقيقيّة).
+ */
+function _isAdminOrStreetLike(name) {
+    if (!name) return false;
+    const s = String(name).trim();
+
+    // ── Arabic (ar) ─── prefix form, followed by whitespace
+    if (/^(محافظة|منطقة|مقاطعة|ولاية|إمارة|حي|شارع|طريق|مخيم|ضاحية|ناحية|قضاء|بلدية)\s/.test(s)) return true;
+
+    // ── Urdu (ur) ─── prefix or space-separated
+    if (/(?:^|\s)(صوبہ|ضلع|تحصیل|محلہ|گلی|سڑک|علاقہ)(?:$|\s)/.test(s)) return true;
+
+    // ── Bengali (bn) ─── contains these suffix/prefix terms
+    if (/(জেলা|উপজেলা|বিভাগ|মহকুমা|মহল্লা|সড়ক|রোড|এভিনিউ|থানা)/.test(s)) return true;
+
+    // ── Latin-script languages (en, fr, tr, de, id, es, ms) ─── word-boundary match
+    // Admin divisions
+    if (/\b(Governorate|Province|Region|District|Sub-?District|County|Prefecture|State|Emirate|Municipality|Township|Parish|Canton|Oblast|Raion)\b/i.test(s)) return true;
+    // Neighborhoods / suburbs / quarters (English)
+    if (/\b(Neighbou?rhood|Quarter|Suburb)\b/i.test(s)) return true;
+    // Streets / roads (English)
+    if (/\b(Street|Road|Avenue|Boulevard|Lane|Drive|Way|Plaza|Highway|Freeway|Motorway|Expressway)\b/i.test(s)) return true;
+    // French
+    if (/\b(Gouvernorat|Préfecture|Département|Arrondissement|Quartier|Faubourg|Banlieue|Rue|Chemin|Allée|Impasse|Cours|Ruelle)\b/i.test(s)) return true;
+    // Turkish — İ/ı/ç تحتاج تعامل خاص — Köyü (village) & Beldesi (town) مقبولتان فلا تُرفَضان
+    if (/(^|[\s\-,])(Vilayeti|[Iİ]li|[Iİ]l[çc]esi|Mahallesi|Soka[ğg][iı]|Caddesi|Bulvar[iı]|Yolu|Bölge(si)?|Eyaleti)($|[\s\-,])/i.test(s)) return true;
+    // German — أسماء الشوارع تُركَّب كلمة واحدة (Hauptstraße, Alexanderplatz…)، لذا نطابق لاحقة أيضاً
+    if (/\b(Bezirk|Kreis|Landkreis|Regierungsbezirk|Bundesland|Stadtteil|Stadtviertel|Viertel|Vorort|Chaussee)\b/i.test(s)) return true;
+    // `\w` لا يُغطّي Unicode في JS بدون علم `u`؛ نستخدم [^\s\-,]* لتمرير ö/ü/ä…
+    if (/(?:^|[\s\-])[^\s\-,]*(?:stra(?:ß|ss)e|platz|allee|damm|gasse|weg|chaussee|ufer)(?:$|[\s\-,])/i.test(s)) return true;
+    // Indonesian / Malay (shared Malay family) — Desa/Kampung/Kampong = village → DON'T reject
+    if (/\b(Provinsi|Wilayah|Kabupaten|Kecamatan|Kelurahan|Daerah|Banjaran|Mukim|Jalan|Lorong|Lebuh|Persiaran|Lebuhraya)\b/i.test(s)) return true;
+    // Spanish
+    if (/\b(Provincia|Departamento|Distrito|Comarca|Condado|Barrio|Colonia|Urbanización|Fraccionamiento|Calle|Avenida|Carrera|Paseo|Camino|Ronda|Autopista|Autovía)\b/i.test(s)) return true;
+
     return false;
 }
 
@@ -1653,14 +2143,20 @@ function makeSlug(englishName, lat, lng) {
 // قراءة بيانات المدينة من URL عند تحميل الصفحة
 // استخراج slug المدينة من الرابط الحالي
 function getSlugFromURL() {
+    // 🆕 Polish Round (F): دعم /time-left-until-prayer-in-{slug} — نعامله كصفحة مدينة لجلب الـ data
+    const tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+    if (tlMatch) return tlMatch[1];
+    // 🆕 Round 4 (Minimal): دعم /next-prayer-time-in-{slug}
+    const nptMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-time-in-([a-z][a-z0-9-]+)$/);
+    if (nptMatch) return nptMatch[1];
     const pathMatch = window.location.pathname.match(/\/(?:en\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/);
     if (pathMatch) return pathMatch[1];
     const hashMatch = window.location.hash.match(/#prayer-times-in-([^?]+)/);
     if (hashMatch) return hashMatch[1];
     if (/\/(?:en\/)?today-hijri-date$/.test(window.location.pathname)) return 'hijri-today';
-    if (/\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(window.location.pathname)) return 'hijri-day';
-    if (/\/(?:en\/)?hijri-calendar\/\d{4}$/.test(window.location.pathname)) return 'hijri-year';
-    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/[a-z-]+-\d+$/.test(window.location.pathname)) return 'hijri-month';
+    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(window.location.pathname)) return 'hijri-day';
+    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}$/.test(window.location.pathname)) return 'hijri-year';
+    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(window.location.pathname)) return 'hijri-month';
     // القمر: /moon-today أو /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}] — نعيد 'moon' كمفتاح جلسة
     //   لاستعادة موقع المستخدم (لاستمراريّة السياق عند الانتقال من صفحة المدينة).
     //   Round 12: نضيف دعم coord-suffix (-LAT-LNG) + تاريخ اختياريّ.
@@ -1910,6 +2406,30 @@ async function initFromURL() {
 }
 
 // ========= التهيئة =========
+// —— إعادة كتابة روابط /today-hijri-date → /hijri-date/YYYY-MM-DD (canonical) ——
+// قاعدة ذهبيّة: no user-facing link يجب أن يقود إلى /today-hijri-date؛ الـ canonical هو
+// الصفحة المؤرّخة. يتمّ هذا قبل DOMContentLoaded عبر MutationObserver البسيط لإلتقاط
+// أيّ إضافات لاحقة (holiday sidebars، countries.html، legal.html).
+(function rewriteTodayHijriLinks() {
+    if (typeof HijriDate === 'undefined' || !HijriDate.getToday) return;
+    const _h = HijriDate.getToday();
+    const _pad2 = (n) => String(n).padStart(2, '0');
+    const _datedPath = `/hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
+    const _rewrite = (root) => {
+        const nodes = (root || document).querySelectorAll('a[href*="/today-hijri-date"]');
+        nodes.forEach((a) => {
+            const href = a.getAttribute('href') || '';
+            const m = href.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/today-hijri-date(?:[?#].*)?$/);
+            if (m) a.setAttribute('href', (m[1] || '') + _datedPath);
+        });
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => _rewrite(document));
+    } else {
+        _rewrite(document);
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', async function() {
     await initApp();
 });
@@ -1974,35 +2494,40 @@ async function initApp() {
     initScheduleDatePicker();
 
     // عرض مكة المكرمة فوراً (البيانات الافتراضية جاهزة)
-    const loadedFromURL = await initFromURL();
+    let loadedFromURL = false;
+    try { loadedFromURL = await initFromURL(); }
+    catch (_e) { try { console.warn('[initApp] initFromURL:', _e); } catch(_){} }
     if (!loadedFromURL) {
         // الصفحة الرئيسية تعرض مكة دائماً كافتراضي — لا نستبدلها بموقع المستخدم المحفوظ
         // موقع المستخدم (إن وُجد) يظهر فقط في شريط الاقتراح عبر checkSavedLocationSuggestion()
-        updateCityDisplay();
-        updatePrayerTimes();
-        updateQibla();
+        try { updateCityDisplay(); } catch(_e) { try { console.warn('[initApp] updateCityDisplay:', _e); } catch(_){} }
+        try { updatePrayerTimes(); } catch(_e) { try { console.warn('[initApp] updatePrayerTimes:', _e); } catch(_){} }
+        try { updateQibla();       } catch(_e) { try { console.warn('[initApp] updateQibla:',       _e); } catch(_){} }
         // اطلب الإذن للموقع الحقيقي — يستعمله detectLocation() لملء شريط الاقتراح فقط على الرئيسية
-        detectLocation();
+        try { detectLocation(); } catch(_e) { try { console.warn('[initApp] detectLocation:', _e); } catch(_){} }
     }
 
-    // تحديث البيانات الأولية
-    updateHijriToday();
-    updateMoonInfo();
+    // تحديث البيانات الأولية — كلّ استدعاء ملفوف في try/catch لضمان الوصول إلى startCountdown()
+    // على الصفحات المقصوصة (time-left-page) قد تفقد بعض الدوال عناصرها فترمي.
+    try { updateHijriToday(); } catch (_e) { try { console.warn('[initApp] updateHijriToday:', _e); } catch(_){} }
+    try { updateMoonInfo();  } catch (_e) { try { console.warn('[initApp] updateMoonInfo:',  _e); } catch(_){} }
     // PERF: تأجيل renderCalendar على الصفحات غير الهجرية (توفير 100-150ms من load)
-    const _onHijriCalPage = /\/(?:en\/)?hijri-calendar\//.test(window.location.pathname);
-    if (_onHijriCalPage) {
-        renderCalendar();
-    } else if (typeof requestIdleCallback === 'function') {
-        requestIdleCallback(() => renderCalendar(), { timeout: 3000 });
-    } else {
-        setTimeout(() => renderCalendar(), 800);
-    }
+    try {
+        const _onHijriCalPage = /\/(?:en\/)?hijri-calendar\//.test(window.location.pathname);
+        if (_onHijriCalPage) {
+            renderCalendar();
+        } else if (typeof requestIdleCallback === 'function') {
+            requestIdleCallback(() => { try { renderCalendar(); } catch(_){} }, { timeout: 3000 });
+        } else {
+            setTimeout(() => { try { renderCalendar(); } catch(_){} }, 800);
+        }
+    } catch (_e) { try { console.warn('[initApp] renderCalendar:', _e); } catch(_){} }
 
     // دعم SearchAction (?q=) على الصفحة الرئيسية
-    handleHomeSearchQuery();
+    try { handleHomeSearchQuery(); } catch (_e) { try { console.warn('[initApp] handleHomeSearchQuery:', _e); } catch(_){} }
 
-    // بدء العد التنازلي
-    startCountdown();
+    // بدء العد التنازلي — must run; دوال مسبقة محميّة فلا تكسر initApp
+    try { startCountdown(); } catch (_e) { try { console.warn('[initApp] startCountdown:', _e); } catch(_){} }
 
     // تفعيل قسم القبلة تلقائياً إذا كان المسار /qibla-in-*
     const _isQiblaPage = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
@@ -2025,6 +2550,15 @@ async function initApp() {
         document.documentElement.classList.remove('msbaha-page');
     }
 
+    // Helper: صفحات التاريخ الهجري لا تستعمل Sticky Next-Prayer Bar — نُعيد الهيدر العلوي.
+    // R24 fix: يُزيل .has-sticky-bar من body و .snb-visible من الشريط نفسه عند تفعيل أيّ صفحة هجريّة.
+    const _resetStickyBarForHijri = () => {
+        try {
+            document.getElementById('sticky-next-bar')?.classList.remove('snb-visible');
+            document.body.classList.remove('has-sticky-bar');
+        } catch (_) {}
+    };
+
     // تفعيل صفحة التاريخ الهجري عند URL /today-hijri-date
     const _isHijriPage = /\/(?:en\/)?today-hijri-date$/.test(window.location.pathname);
     if (_isHijriPage) {
@@ -2033,10 +2567,11 @@ async function initApp() {
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         document.documentElement.classList.remove('hijri-today-page');
+        _resetStickyBarForHijri();
     }
 
-    // تفعيل صفحة اليوم الهجري الفردي عند URL /hijri-date/26-shawwal-1447
-    const _isHijriDayPage = /\/(?:en\/)?hijri-date\/\d+-[a-z-]+-\d+$/.test(window.location.pathname);
+    // تفعيل صفحة اليوم الهجري الفردي عند URL /hijri-date/YYYY-MM-DD
+    const _isHijriDayPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(window.location.pathname);
     if (_isHijriDayPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-day')?.classList.add('active');
@@ -2044,6 +2579,7 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         loadHijriDayPage();
         document.documentElement.classList.remove('hijri-day-page');
+        _resetStickyBarForHijri();
     }
 
     // تفعيل صفحة التقويم الهجري السنوي عند URL /hijri-calendar أو /hijri-calendar/1447
@@ -2055,10 +2591,11 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="hijri-calendar"]')?.classList.add('active');
         loadHijriYearPage();
         document.documentElement.classList.remove('hijri-year-page');
+        _resetStickyBarForHijri();
     }
 
-    // تفعيل صفحة التقويم الهجري الشهري عند URL /hijri-calendar/shawwal-1447
-    const _isHijriMonthPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/[a-z-]+-\d+$/.test(window.location.pathname);
+    // تفعيل صفحة التقويم الهجري الشهري عند URL /hijri-calendar/YYYY-MM
+    const _isHijriMonthPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(window.location.pathname);
     if (_isHijriMonthPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-month')?.classList.add('active');
@@ -2066,6 +2603,7 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="hijri-calendar"]')?.classList.add('active');
         loadHijriMonthPage();
         document.documentElement.classList.remove('hijri-month-page');
+        _resetStickyBarForHijri();
     }
 
     // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
@@ -2402,16 +2940,31 @@ function initNavigation() {
 
             // ── الصفحات التي لها URL خاص → تنقّل فوراً قبل أي تبديل ──────────
 
-            // التاريخ الهجري → /today-hijri-date
+            // التاريخ الهجري → /hijri-date/YYYY-MM-DD (canonical، لا يمرّ بـ /today-hijri-date)
             if (pageId === 'hijri-today' && window.location.protocol !== 'file:') {
-                if (!/\/(?:en\/)?today-hijri-date$/.test(window.location.pathname)) {
-                    if (currentLat && currentEnglishName) {
-                        sessionStorage.setItem('city_hijri-today', JSON.stringify({
-                            lat: currentLat, lng: currentLng, name: currentCity,
-                            country: currentCountry, englishName: currentEnglishName,
-                            countryCode: currentCountryCode, timezone: currentTimezone
-                        }));
+                try {
+                    const _h = (typeof HijriDate !== 'undefined' && HijriDate.getToday)
+                        ? HijriDate.getToday()
+                        : null;
+                    if (_h) {
+                        const _pad2 = (n) => String(n).padStart(2, '0');
+                        const _datedPath = `/hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
+                        const _re = /\/(?:en|fr|tr|ur|de|id|es|bn|ms)?\/?hijri-date\/\d{4}-\d{2}-\d{2}$/;
+                        if (!_re.test(window.location.pathname)) {
+                            if (currentLat && currentEnglishName) {
+                                sessionStorage.setItem('city_hijri-today', JSON.stringify({
+                                    lat: currentLat, lng: currentLng, name: currentCity,
+                                    country: currentCountry, englishName: currentEnglishName,
+                                    countryCode: currentCountryCode, timezone: currentTimezone
+                                }));
+                            }
+                            window.location.href = pageUrl(_datedPath);
+                        }
+                        return;
                     }
+                } catch (_e) { /* fallthrough */ }
+                // fallback لو مكتبة الهجري غير مُحمّلة
+                if (!/\/(?:en\/)?today-hijri-date$/.test(window.location.pathname)) {
                     window.location.href = pageUrl('/today-hijri-date');
                 }
                 return;
@@ -2587,12 +3140,36 @@ function onCitySearchInput(query) {
     }
 
     const isEnSearch = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
-    suggestionsEl.innerHTML = `<div class="search-loading">${isEnSearch ? '🔍 Searching...' : '🔍 جاري البحث...'}</div>`;
+
+    // ⚡ عرض فوريّ للنتائج المحلّيّة — بلا debounce. يرى المستخدم النتائج مباشرة.
+    const localResults = searchLocalCities(query);
+    suggestionsEl.innerHTML = '';
+    if (localResults.length > 0) {
+        localResults.forEach(city => {
+            const div = document.createElement('div');
+            div.className = 'suggestion-item';
+            const displayName = isEnSearch ? city.en : city.ar;
+            const countryName = isEnSearch ? (city.countryEn || city.country) : city.country;
+            const flagImg = city.cc
+                ? `<img src="https://flagcdn.com/28x21/${city.cc}.png" class="sugg-flag" alt="${city.cc}" onerror="this.style.display='none'">`
+                : `<span style="font-size:1.2rem">🌍</span>`;
+            div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayName}</div><div class="sugg-country">${countryName}</div></div>`;
+            div.addEventListener('click', async () => {
+                document.getElementById('city-search-input').value = displayName;
+                suggestionsEl.classList.remove('open');
+                await selectCity(city.lat, city.lng, city.ar, countryName, city.en, city.cc);
+            });
+            suggestionsEl.appendChild(div);
+        });
+    } else {
+        suggestionsEl.innerHTML = `<div class="search-loading">${isEnSearch ? '🔍 Searching...' : '🔍 جاري البحث...'}</div>`;
+    }
     suggestionsEl.classList.add('open');
 
+    // استدعاء Nominatim بعد debounce قصير جداً لإثراء النتائج
     searchDebounceTimer = setTimeout(() => {
         fetchCitySuggestions(query);
-    }, 400);
+    }, 120);
 }
 
 // ===== قاعدة بيانات محلية للمدن الكبرى (بحث فوري بدون API) =====
@@ -2685,14 +3262,102 @@ const LOCAL_CITIES = [
     // الولايات المتحدة
     {ar:'نيويورك',en:'New York',lat:40.7128,lng:-74.0060,cc:'us',country:'الولايات المتحدة'},
     {ar:'لوس أنجلوس',en:'Los Angeles',lat:34.0522,lng:-118.2437,cc:'us',country:'الولايات المتحدة'},
+    {ar:'واشنطن',en:'Washington',lat:38.9072,lng:-77.0369,cc:'us',country:'الولايات المتحدة'},
+    {ar:'شيكاغو',en:'Chicago',lat:41.8781,lng:-87.6298,cc:'us',country:'الولايات المتحدة'},
+    {ar:'لاس فيغاس',en:'Las Vegas',lat:36.1699,lng:-115.1398,cc:'us',country:'الولايات المتحدة'},
+    {ar:'ميامي',en:'Miami',lat:25.7617,lng:-80.1918,cc:'us',country:'الولايات المتحدة'},
+    {ar:'هيوستن',en:'Houston',lat:29.7604,lng:-95.3698,cc:'us',country:'الولايات المتحدة'},
+    {ar:'دالاس',en:'Dallas',lat:32.7767,lng:-96.7970,cc:'us',country:'الولايات المتحدة'},
+    {ar:'سان فرانسيسكو',en:'San Francisco',lat:37.7749,lng:-122.4194,cc:'us',country:'الولايات المتحدة'},
+    {ar:'بوسطن',en:'Boston',lat:42.3601,lng:-71.0589,cc:'us',country:'الولايات المتحدة'},
+    {ar:'سياتل',en:'Seattle',lat:47.6062,lng:-122.3321,cc:'us',country:'الولايات المتحدة'},
+    {ar:'فيلادلفيا',en:'Philadelphia',lat:39.9526,lng:-75.1652,cc:'us',country:'الولايات المتحدة'},
+    {ar:'أتلانتا',en:'Atlanta',lat:33.7490,lng:-84.3880,cc:'us',country:'الولايات المتحدة'},
+    {ar:'دنفر',en:'Denver',lat:39.7392,lng:-104.9903,cc:'us',country:'الولايات المتحدة'},
+    {ar:'مينيابوليس',en:'Minneapolis',lat:44.9778,lng:-93.2650,cc:'us',country:'الولايات المتحدة'},
+    {ar:'بورتلاند',en:'Portland',lat:45.5152,lng:-122.6784,cc:'us',country:'الولايات المتحدة'},
+    // كندا
+    {ar:'مونتريال',en:'Montreal',lat:45.5017,lng:-73.5673,cc:'ca',country:'كندا'},
+    {ar:'فانكوفر',en:'Vancouver',lat:49.2827,lng:-123.1207,cc:'ca',country:'كندا'},
+    {ar:'أوتاوا',en:'Ottawa',lat:45.4215,lng:-75.6972,cc:'ca',country:'كندا'},
+    {ar:'كالغاري',en:'Calgary',lat:51.0447,lng:-114.0719,cc:'ca',country:'كندا'},
+    // اليابان/كوريا/الصين (city-states & metropolises)
+    {ar:'طوكيو',en:'Tokyo',lat:35.6762,lng:139.6503,cc:'jp',country:'اليابان'},
+    {ar:'أوساكا',en:'Osaka',lat:34.6937,lng:135.5023,cc:'jp',country:'اليابان'},
+    {ar:'سيول',en:'Seoul',lat:37.5665,lng:126.9780,cc:'kr',country:'كوريا الجنوبية'},
+    {ar:'بكين',en:'Beijing',lat:39.9042,lng:116.4074,cc:'cn',country:'الصين'},
+    {ar:'شنغهاي',en:'Shanghai',lat:31.2304,lng:121.4737,cc:'cn',country:'الصين'},
+    {ar:'هونغ كونغ',en:'Hong Kong',lat:22.3193,lng:114.1694,cc:'hk',country:'هونغ كونغ'},
+    {ar:'سنغافورة',en:'Singapore',lat:1.3521,lng:103.8198,cc:'sg',country:'سنغافورة'},
+    {ar:'بانكوك',en:'Bangkok',lat:13.7563,lng:100.5018,cc:'th',country:'تايلاند'},
+    {ar:'مانيلا',en:'Manila',lat:14.5995,lng:120.9842,cc:'ph',country:'الفلبين'},
+    // أوروبا الكبرى
+    {ar:'موسكو',en:'Moscow',lat:55.7558,lng:37.6173,cc:'ru',country:'روسيا'},
+    {ar:'روما',en:'Rome',lat:41.9028,lng:12.4964,cc:'it',country:'إيطاليا'},
+    {ar:'مدريد',en:'Madrid',lat:40.4168,lng:-3.7038,cc:'es',country:'إسبانيا'},
+    {ar:'فيينا',en:'Vienna',lat:48.2082,lng:16.3738,cc:'at',country:'النمسا'},
+    {ar:'أمستردام',en:'Amsterdam',lat:52.3676,lng:4.9041,cc:'nl',country:'هولندا'},
+    {ar:'هامبورغ',en:'Hamburg',lat:53.5511,lng:9.9937,cc:'de',country:'ألمانيا'},
+    {ar:'ميونخ',en:'Munich',lat:48.1351,lng:11.5820,cc:'de',country:'ألمانيا'},
+    // أخرى
+    {ar:'مكسيكو سيتي',en:'Mexico City',lat:19.4326,lng:-99.1332,cc:'mx',country:'المكسيك'},
+    {ar:'بوينس آيرس',en:'Buenos Aires',lat:-34.6037,lng:-58.3816,cc:'ar',country:'الأرجنتين'},
+    {ar:'ساو باولو',en:'São Paulo',lat:-23.5505,lng:-46.6333,cc:'br',country:'البرازيل'},
+    {ar:'سيدني',en:'Sydney',lat:-33.8688,lng:151.2093,cc:'au',country:'أستراليا'},
+    {ar:'تورنتو',en:'Toronto',lat:43.6532,lng:-79.3832,cc:'ca',country:'كندا'},
 ];
 
+// ═══ المدن-المحافظات/العواصم الخاصّة (city-states & special metropolises) ═══
+// Nominatim يُصنّف هذه كـstate/province/region رغم أنّها فعليّاً مدن (مثل Tokyo, HK, Singapore).
+// الاسم هنا = name:en من Nominatim — يُستخدم لاستثنائها من whitelist rejection.
+const SPECIAL_CITY_STATES = new Set([
+    'Tokyo', 'Hong Kong', 'Macau', 'Macao', 'Singapore',
+    'Kuala Lumpur', 'Jakarta', 'Special Capital Region of Jakarta',
+    'Seoul', 'Bangkok', 'Manila',
+    'Beijing', 'Shanghai', 'Chongqing', 'Tianjin',
+    'Moscow', 'Saint Petersburg', 'St. Petersburg',
+    'Berlin', 'Hamburg', 'Bremen',
+    'Vienna', 'Wien',
+    'Washington, D.C.', 'Washington',
+    'Mexico City',
+    'Buenos Aires',
+    'Brasília', 'Brasilia',
+    'Bucharest', 'București',
+    'Budapest',
+    'Vatican City',
+    'Monaco', 'Monaco-Ville',
+    'San Marino',
+    'Andorra la Vella'
+]);
+
+// Arabic normalization — توحيد الهمزات والألف والتاء المربوطة حتّى يطابق "الاسكندر" → "الإسكندرية"
+function _normArabic(s) {
+    if (!s) return '';
+    return String(s)
+        .toLowerCase()
+        .replace(/[إأآٱا]/g, 'ا')           // كلّ أشكال الألف → ا
+        .replace(/ى/g, 'ي')                   // ألف مقصورة → ياء
+        .replace(/ؤ/g, 'و').replace(/ئ/g, 'ي')
+        .replace(/ة/g, 'ه')                   // تاء مربوطة → هاء (يتجاوز اختلاف ة/ه)
+        .replace(/[\u064B-\u065F\u0670]/g, ''); // إزالة التشكيل
+}
 function searchLocalCities(query) {
-    const q = query.trim().toLowerCase();
-    return LOCAL_CITIES.filter(c =>
-        c.ar.toLowerCase().includes(q) ||
-        c.en.toLowerCase().includes(q)
-    ).slice(0, 5);
+    const qRaw  = query.trim().toLowerCase();
+    const qNorm = _normArabic(qRaw);
+    if (!qRaw) return [];
+    // ترتيب ذكيّ: prefix match أوّلاً ثمّ substring — لتظهر "لاس فيغاس" قبل "دالاس" عند البحث عن "لاس"
+    const scored = [];
+    for (const c of LOCAL_CITIES) {
+        const arNorm = _normArabic(c.ar);
+        const enLow  = c.en.toLowerCase();
+        let score = 0;
+        if (arNorm.startsWith(qNorm) || enLow.startsWith(qRaw))      score = 3;
+        else if (arNorm.includes(' ' + qNorm) || enLow.includes(' ' + qRaw)) score = 2; // تطابق بداية كلمة ثانية
+        else if (arNorm.includes(qNorm) || enLow.includes(qRaw))     score = 1;
+        if (score > 0) scored.push({ c, score });
+    }
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, 6).map(x => x.c);
 }
 
 function fetchCitySuggestions(query) {
@@ -2768,23 +3433,35 @@ function fetchCitySuggestions(query) {
             suggestionsEl.appendChild(btn);
         }
 
-        // الأنواع المرفوضة (أحياء وشوارع ومناطق فرعية)
-        const rejected = new Set(['state', 'county', 'country', 'region',
-                                  'continent', 'ocean', 'sea', 'island',
-                                  'suburb', 'quarter', 'neighbourhood', 'hamlet',
-                                  'road', 'path', 'footway', 'motorway', 'trunk',
-                                  'primary', 'secondary', 'tertiary', 'unclassified',
-                                  'service', 'track', 'living_street', 'residential']);
+        // قائمة بيضاء صارمة: مدن وقرى وبلدات فقط — لا محافظات، لا مناطق، لا أحياء، لا شوارع
+        // ملاحظة: لا نرفض class==='boundary' لأنّ Nominatim يُرجع كثيراً من المدن الأوروبيّة كـboundary+administrative.
+        // القائمة البيضاء على addresstype (city/town/village/...) كافية لاستبعاد المحافظات/المناطق.
+        const acceptedTypes = new Set(['city', 'town', 'village', 'municipality', 'borough']);
         let results = all.filter(p => {
-            if (rejected.has(p.addresstype)) return false;
-            if (rejected.has(p.type)) return false;
+            // رفض الدول والطرق فقط (الحدود الإداريّة تُرفَض عبر القائمة البيضاء للـaddresstype)
             if (p.class === 'country' || p.class === 'highway') return false;
+            // يجب أن يكون addresstype في القائمة البيضاء — وإلّا نرفض
+            const addrT  = p.addresstype || '';
+            const plainT = p.type || '';
+            // استثناء: city-states و metropolitan areas (Tokyo, HK, Singapore…) تُصنَّف state/province
+            const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
+            const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
+            if (!acceptedTypes.has(addrT) && !acceptedTypes.has(plainT) && !isSpecialCityState) return false;
+            // فلتر اسميّ متعدّد اللغات (ar/en/fr/tr/ur/de/id/es/bn/ms): محافظة/منطقة/حي/شارع…
+            const rawName   = p.name || '';
+            const ndName    = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
+            const firstPart = (p.display_name || '').split(',')[0] || '';
+            // للمدن الخاصّة: نتجاوز الفلتر الاسميّ لأنّ أسماءها قد تحوي "Region/Capital" (مثل Special Capital Region of Jakarta)
+            if (!isSpecialCityState) {
+                if (_isAdminOrStreetLike(rawName))   return false;
+                if (_isAdminOrStreetLike(ndName))    return false;
+                if (_isAdminOrStreetLike(firstPart)) return false;
+            }
             // رفض أحياء مُقنَّعة كـ city (مثل 千代田区 Chiyoda-ku في طوكيو)
-            const _nm = p.name || '';
             const _rawEn = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
                 || (p.address && (p.address.city || p.address.town || p.address.village))
-                || p.display_name?.split(',')[0] || '');
-            if (_isWardLike(_nm) || _isWardLike(_rawEn)) return false;
+                || firstPart || '');
+            if (_isWardLike(rawName) || _isWardLike(_rawEn)) return false;
             return true;
         });
 
@@ -2814,10 +3491,9 @@ function fetchCitySuggestions(query) {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
 
-            // فلتر اسمي إضافي: استبعاد الأحياء والشوارع بالعربي والإنجليزي
+            // فلتر اسميّ إضافيّ متعدّد اللغات (belt & suspenders)
             const rawName = place.name || '';
-            if (rawName.startsWith('حي ') || rawName.startsWith('شارع ')) return;
-            if (/\b(District|Neighborhood|Neighbourhood|Quarter|Street|Road|Avenue|Boulevard|Lane|Drive|Way)\s*$/i.test(rawName)) return;
+            if (_isAdminOrStreetLike(rawName)) return;
 
             // المدينة الرئيسية فقط (بدون أحياء)
             const arCityMain = nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || '';
@@ -2907,11 +3583,8 @@ function fetchCityOnlineBroader(query) {
     const searchLang = currentLang;
     const url = nomUrl(`https://nominatim.openstreetmap.org/search?format=json&limit=15&accept-language=${searchLang}&addressdetails=1&namedetails=1&q=${encodeURIComponent(query)}`);
 
-    const rejected = new Set(['state','county','country','region','continent','ocean','sea','island',
-                              'suburb','quarter','neighbourhood','hamlet','residential','plot',
-                              'road','path','footway','motorway','trunk','primary','secondary',
-                              'tertiary','unclassified','service','track','living_street']);
-    const accepted = new Set(['city','town','village','municipality','borough','administrative']);
+    // قائمة بيضاء صارمة: مدن وقرى وبلدات فقط (لا محافظات/مناطق/أحياء/شوارع)
+    const accepted = new Set(['city','town','village','municipality','borough']);
 
     fetch(url)
         .then(r => r.json())
@@ -2919,23 +3592,37 @@ function fetchCityOnlineBroader(query) {
         .then(data => {
             suggestionsEl.innerHTML = '';
 
-            // فلترة: مدن وقرى فقط — استبعاد الأحياء والمناطق الفرعية
+            // فلترة: مدن وقرى فقط — استبعاد الأحياء والمناطق الفرعية والمحافظات
             const seen = new Set();
             const results = (data || [])
                 .filter(p => {
                     if (seen.has(p.place_id)) return false;
                     seen.add(p.place_id);
-                    const pt = p.addresstype || p.type || '';
-                    if (rejected.has(pt) || p.class === 'country' || p.class === 'highway') return false;
-                    if (pt && !accepted.has(pt) && p.class === 'place') return false;
-                    // فلتر اسمي: أحياء وشوارع بالعربي والإنجليزي
-                    const nm = p.name || '';
-                    if (nm.startsWith('حي ') || nm.startsWith('شارع ')) return false;
-                    if (/\b(District|Neighborhood|Neighbourhood|Quarter|Street|Road|Avenue|Boulevard|Lane|Drive|Way)\s*$/i.test(nm)) return false;
+                    // رفض الدول والطرق فقط — الحدود الإداريّة (boundary) تُرفَض عبر القائمة البيضاء
+                    // للـaddresstype (city/town/village/municipality/borough)؛ Nominatim كثيراً
+                    // ما يُرجع مدناً أوروبيّة كـboundary+administrative.
+                    if (p.class === 'country' || p.class === 'highway') return false;
+                    // قائمة بيضاء: addresstype أو type يجب أن يكون من المقبولة
+                    const addrT  = p.addresstype || '';
+                    const plainT = p.type || '';
+                    // استثناء: city-states (Tokyo, HK, Singapore…) تُصنَّف state/province في OSM
+                    const _nmEn2 = (p.namedetails?.['name:en'] || p.name || '').trim();
+                    const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn2);
+                    if (!accepted.has(addrT) && !accepted.has(plainT) && !isSpecialCityState) return false;
+                    // فلتر اسميّ متعدّد اللغات (ar/en/fr/tr/ur/de/id/es/bn/ms)
+                    const nm        = p.name || '';
+                    const ndName2   = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
+                    const firstPart = (p.display_name || '').split(',')[0] || '';
+                    // للمدن الخاصّة: نتجاوز الفلتر الاسميّ (لأنّ أسماءها قد تحوي "Region" مثل Jakarta)
+                    if (!isSpecialCityState) {
+                        if (_isAdminOrStreetLike(nm))        return false;
+                        if (_isAdminOrStreetLike(ndName2))   return false;
+                        if (_isAdminOrStreetLike(firstPart)) return false;
+                    }
                     // أحياء مُقنَّعة كـ city (مثل طوكيو-ku في OSM) — نرفضها من البحث أيضاً
                     const _rawEnForWard = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
                         || (p.address && (p.address.city || p.address.town || p.address.village))
-                        || p.display_name?.split(',')[0] || '');
+                        || firstPart || '');
                     if (_isWardLike(nm) || _isWardLike(_rawEnForWard)) return false;
                     return true;
                 })
@@ -3359,6 +4046,9 @@ function _renderCityAbout(data, refs) {
     // عند نجاح الـ fallback (مثلاً "Mecca Museum" → "Mecca")، استخدم عنوان ويكيبيديا الحقيقي
     const displayName = (data.title && data.title !== refs.cityName) ? data.title : refs.cityName;
     refs.titleEl.textContent = t('cityabout.title', { city: displayName });
+    // 🆕 Round 2: ضمان تطبيق clamp class عند إعادة render
+    refs.extractEl.classList.add('city-about-clamped');
+    refs.extractEl.classList.remove('city-about-expanded');
     refs.extractEl.textContent = data.extract;
     if (data.url) {
         refs.linkEl.href = data.url;
@@ -3367,6 +4057,40 @@ function _renderCityAbout(data, refs) {
     }
     refs.section.style.display = 'block';
     refs.section.classList.add('cls-ready');
+
+    // 🆕 Round 2: كشف زرّ "عرض المزيد" فقط إن كان النصّ أطول من 3 أسطر
+    const toggleBtn = document.getElementById('city-about-toggle');
+    if (toggleBtn) {
+        toggleBtn.hidden = true;
+        toggleBtn.setAttribute('data-i18n', 'cityabout.expand');
+        toggleBtn.textContent = (typeof t === 'function') ? t('cityabout.expand') : 'عرض المزيد';
+        // انتظار layout + fonts لقياس دقيق
+        const _measure = () => {
+            // إن لم يكن النصّ محاطاً بـclamp (expanded) لا نقيس
+            if (!refs.extractEl.classList.contains('city-about-clamped')) return;
+            const needsToggle = refs.extractEl.scrollHeight > refs.extractEl.clientHeight + 2;
+            toggleBtn.hidden = !needsToggle;
+        };
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => requestAnimationFrame(_measure));
+        } else {
+            requestAnimationFrame(() => requestAnimationFrame(_measure));
+        }
+    }
+}
+
+// 🆕 Round 2: toggle expand/collapse for City About section
+function toggleCityAbout(btn) {
+    const extract = document.getElementById('city-about-extract');
+    if (!extract) return;
+    const expanded = extract.classList.toggle('city-about-expanded');
+    extract.classList.toggle('city-about-clamped', !expanded);
+    if (btn) {
+        const key = expanded ? 'cityabout.collapse' : 'cityabout.expand';
+        btn.setAttribute('data-i18n', key);
+        const fallback = expanded ? 'عرض أقل' : 'عرض المزيد';
+        btn.textContent = (typeof t === 'function') ? (t(key) || fallback) : fallback;
+    }
 }
 
 // للتوافق مع الكود القديم - ينتقل للصفحة مباشرة
@@ -3695,12 +4419,13 @@ function updateBreadcrumb() {
     // ── نصوص العرض (عبر i18n مع fallback) ──
     const _t = (typeof t === 'function') ? t : (k) => k;
     const homeLabel        = _t('breadcrumb.home') || (isAr ? 'الرئيسية' : 'Home');
-    // AR: عربي — EN: إنجليزي — UR/TR/FR: الاسم المترجَم ثم الإنجليزي fallback
+    // AR: عربي — EN: إنجليزي — UR/TR/FR/DE/ID/BN/ES/MS: getDisplayCountry() يفحص _LOCALIZED_COUNTRY_MAPS أوّلاً
     const countryLabel = (lang === 'ar')
         ? (currentCountry        || currentEnglishCountry || countrySlug)
         : (lang === 'en')
             ? (currentEnglishCountry || currentCountry    || countrySlug)
-            : (currentLocalizedCountry || currentEnglishCountry || currentCountry || countrySlug);
+            : ((typeof getDisplayCountry === 'function' && getDisplayCountry())
+                || currentLocalizedCountry || currentEnglishCountry || currentCountry || countrySlug);
     // UR/TR/FR/DE/ID/BN/ES/MS: نستعمل getDisplayCity() لتطبيق قاموس CITY_NAMES_* المحلّي
     // قبل الرجوع للاسم الإنجليزي — يضمن ترجمة عواصم الدول-المدن (Monaco → موناکو للأوردو).
     const cityLabel = (lang === 'ar')
@@ -3722,14 +4447,23 @@ function updateBreadcrumb() {
     const countryHref = `${origin}${langPrefix}prayer-times-in-${countrySlug}`;
 
     // ── تحديث DOM ──
-    const bcHome    = document.getElementById('bc-home');
-    const bcCountry = document.getElementById('bc-country');
-    const bcCity    = document.getElementById('bc-city');
+    // ملاحظة: الـmarkup الجديد يحوي <span itemprop="name"> داخل الـ<a>/<span> الأبّ
+    //        نكتب على الـinner span فقط لحفظ Schema.org microdata.
+    const bcHome     = document.getElementById('bc-home');
+    const bcHomeName = document.getElementById('bc-home-name');
+    const bcCountry     = document.getElementById('bc-country');
+    const bcCountryName = document.getElementById('bc-country-name');
+    const bcCity        = document.getElementById('bc-city');
 
-    if (bcHome)    bcHome.textContent    = homeLabel;
-    if (bcHome)    bcHome.href           = `${origin}${langPrefix}`;
-    if (bcCountry) { bcCountry.textContent = countryFinal; bcCountry.href = countryHref; }
-    if (bcCity)    bcCity.textContent    = finalLabel;  // <span> لا <a> — بدون href
+    if (bcHomeName) bcHomeName.textContent = homeLabel;
+    else if (bcHome) bcHome.textContent = homeLabel;
+    if (bcHome) bcHome.href = `${origin}${langPrefix}`;
+
+    if (bcCountryName) bcCountryName.textContent = countryFinal;
+    else if (bcCountry) bcCountry.textContent = countryFinal;
+    if (bcCountry) bcCountry.href = countryHref;
+
+    if (bcCity) bcCity.textContent = finalLabel;  // <span> لا <a> — بدون href
 
     // ── تحديث H1 باسم المدينة الأصلي (SSR يعرف slug فقط — الـ client يعرف الاسم العربي) ──
     // مثلاً: "مواقيت الصلاة في Riyadh اليوم" → "مواقيت الصلاة في الرياض اليوم"
@@ -3817,13 +4551,13 @@ function updatePrayerTimes() {
 
     currentPrayerTimes = PrayerTimes.getTimes(cityDate, currentLat, currentLng, currentTimezone);
 
-    // تحديث العرض
-    document.getElementById('time-fajr').textContent    = currentPrayerTimes.fajr;
-    document.getElementById('time-sunrise').textContent = currentPrayerTimes.sunrise;
-    document.getElementById('time-dhuhr').textContent   = currentPrayerTimes.dhuhr;
-    document.getElementById('time-asr').textContent     = currentPrayerTimes.asr;
-    document.getElementById('time-maghrib').textContent = currentPrayerTimes.maghrib;
-    document.getElementById('time-isha').textContent    = currentPrayerTimes.isha;
+    // تحديث العرض — null-guards لأنّ #prayer-cards مقصوص على صفحة time-left (DOM pruner)
+    const _tfEl = document.getElementById('time-fajr');    if (_tfEl) _tfEl.textContent = currentPrayerTimes.fajr;
+    const _tsEl = document.getElementById('time-sunrise'); if (_tsEl) _tsEl.textContent = currentPrayerTimes.sunrise;
+    const _tdEl = document.getElementById('time-dhuhr');   if (_tdEl) _tdEl.textContent = currentPrayerTimes.dhuhr;
+    const _taEl = document.getElementById('time-asr');     if (_taEl) _taEl.textContent = currentPrayerTimes.asr;
+    const _tmEl = document.getElementById('time-maghrib'); if (_tmEl) _tmEl.textContent = currentPrayerTimes.maghrib;
+    const _tiEl = document.getElementById('time-isha');    if (_tiEl) _tiEl.textContent = currentPrayerTimes.isha;
 
     // تحديث المعلومات الإضافية
     const hijri = HijriDate.getToday();
@@ -3863,28 +4597,54 @@ function updatePrayerTimes() {
     // تحديث الصلاة النشطة
     updateActivePrayer();
 
-    // تحديث جدول المواقيت
+    // تحديث جدول المواقيت — كلّها ملفوفة بـ try/catch لأقسام قد تكون مقصوصة على time-left
     scheduleStartDate = null; // إعادة ضبط إلى اليوم عند تغيير المدينة
-    initScheduleDatePicker();
-    renderPrayerSchedule(scheduleDays, null);
+    try { initScheduleDatePicker(); }              catch (_e) {}
+    try { renderPrayerSchedule(scheduleDays, null); } catch (_e) {}
 
     // تحديث الأسئلة الشائعة
-    updateFaqSection();
+    try { updateFaqSection(); }                    catch (_e) {}
 
     // تحديث قسم مدن الدولة
-    updateCountryCitiesSection();
+    try { updateCountryCitiesSection(); }          catch (_e) {}
 
     // تحديث قسم الكلمات المفتاحية
-    updateSeoSection();
+    try { updateSeoSection(); }                    catch (_e) {}
 
     // تحديث البوابة الذكية (الصفحة الرئيسية)
-    updateHomeGateway();
+    try { updateHomeGateway(); }                   catch (_e) {}
 
     // تعبئة روابط الخدمات ذات الصلة (صفحات المدن فقط)
-    updateCityRelatedServices();
+    try { updateCityRelatedServices(); }           catch (_e) {}
 
     // حقن Event schema لأوقات الصلاة (صفحات المدن فقط)
-    injectPrayerEventsSchema();
+    try { injectPrayerEventsSchema(); }            catch (_e) {}
+
+    // ═══ Phase 2 — City Page orchestration (6 أقسام جديدة + weekly/faq switches) ═══
+    try {
+        if (typeof applyPhase2CityPage === 'function' && currentPrayerTimes) {
+            // الصلاة القادمة — اسم مترجم + وقت منسّق
+            let _nextName = '', _nextTime = '';
+            try {
+                if (typeof PrayerTimes !== 'undefined' && PrayerTimes.getNextPrayer) {
+                    const _nx = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
+                    if (_nx) {
+                        _nextName = (typeof t === 'function') ? t('prayer.' + _nx.key) : (_nx.name || '');
+                        _nextTime = currentPrayerTimes[_nx.key] || '';
+                    }
+                }
+            } catch (_) {}
+            applyPhase2CityPage(currentPrayerTimes, _nextName, _nextTime);
+        }
+    } catch (_e) {}
+
+    // 🆕 Round 3.1 — auto-scroll + initial progress + notif prompt (بعد آخر DOM settle)
+    try { updatePrayerProgress(); } catch (_e) {}
+    try { autoScrollToActivePrayer(); } catch (_e) {}
+    try { maybeShowNotifPrompt(); } catch (_e) {}
+
+    // 🆕 Round 4 (Minimal) — تحديث صفحة NPT (Schedule Awareness)
+    try { updateNextPrayerPage(); } catch (_e) {}
 }
 
 /**
@@ -4031,6 +4791,25 @@ function updateHomeGateway() {
         } catch (e) { /* استمر بدون طور */ }
     }
 
+    // ── 3b. 🆕 Round 7 (Homepage Audit): upgrade time-left / next-prayer tiles hrefs to user's city
+    //    على الرئيسيّة فقط (لا نلمس على صفحات المدن). إذا المستخدم في الرياض مثلاً، نحدّث:
+    //    /time-left-until-prayer-in-mecca → /time-left-until-prayer-in-riyadh
+    try {
+        const _onHomepage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?$/.test(window.location.pathname);
+        if (_onHomepage && typeof currentEnglishName === 'string' && currentEnglishName) {
+            const _slug = currentEnglishName.toLowerCase().trim()
+                .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            if (_slug) {
+                const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _pfx = (_lng === 'ar') ? '' : ('/' + _lng);
+                const _tlTile = document.getElementById('qa-time-left');
+                const _npTile = document.getElementById('qa-next-prayer');
+                if (_tlTile) _tlTile.href = _pfx + '/time-left-until-prayer-in-' + _slug;
+                if (_npTile) _npTile.href = _pfx + '/next-prayer-time-in-' + _slug;
+            }
+        }
+    } catch (_e) { /* keep default mecca href */ }
+
     // ── 4. في صفحات المدن: عناوين البطاقات الثلاث (هجري/قبلة/قمر) تحمل اسم المدينة
     //   "التاريخ الهجري اليوم في {المدينة}"، "اتجاه القبلة في {المدينة}"، "القمر اليوم في {المدينة}"
     //   — نعدّل .qa-title ونُزيل data-i18n لمنع i18n auto-binder من دَوس نصّنا
@@ -4140,6 +4919,33 @@ function updateSummaryInfoStrip(times, fH, fM) {
             _thirdEl.textContent = _formatDecimalHours(lastThirdStart, _tf) + ' → ' + _formatDecimalHours(lastThirdEnd, _tf);
         } catch (_) { _thirdEl.textContent = '—'; }
     }
+
+    // ── (4) 🆕 Calculation Method (city-page OR homepage — SEO) ───
+    const _calcEl = document.getElementById('sis-calc-method');
+    if (_calcEl) {
+        try {
+            let method = '';
+            if (typeof PrayerTimes !== 'undefined' && PrayerTimes.getMethod) {
+                method = PrayerTimes.getMethod();
+            } else {
+                const sel = document.getElementById('calc-method');
+                if (sel) method = sel.value;
+            }
+            method = (method || 'MWL').toString();
+            // محاولة الترجمة عبر i18n، مع fallback لـshort label من <option>
+            let label = '';
+            if (typeof t === 'function') {
+                const _try = t('method.' + method);
+                if (_try && _try !== 'method.' + method) label = _try;
+            }
+            if (!label) {
+                const sel = document.getElementById('calc-method');
+                const opt = sel ? sel.querySelector('option[value="' + method + '"]') : null;
+                if (opt) label = (opt.textContent || '').trim().split('(')[0].trim();
+            }
+            _calcEl.textContent = label || method;
+        } catch (_) { _calcEl.textContent = '—'; }
+    }
 }
 
 // Helper: decimal hours (e.g. 4.5) → "HH:MM" (respects 12h/24h format)
@@ -4154,6 +4960,409 @@ function _formatDecimalHours(dec, tf) {
         return h12 + ':' + String(mm).padStart(2, '0') + ' ' + ampm;
     }
     return String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+}
+
+// ═════════════════════════════════════════════════════════════════
+//   Phase 2 — City Page helpers (City Hero, Summary Paragraph,
+//   Next Days Forecast, Related Links, Other Trending Cities,
+//   Mini Islamic Tools)
+// ═════════════════════════════════════════════════════════════════
+
+/**
+ * Phase 2 helper: get current city slug from pathname
+ * @returns {string} citySlug (e.g. 'riyadh')
+ */
+function _getCitySlugFromPath() {
+    try {
+        const m = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+?)(?:-\-?\d+(?:\.\d+)?-\-?\d+(?:\.\d+)?)?\/?$/);
+        return (m && m[1]) ? m[1] : '';
+    } catch (_) { return ''; }
+}
+
+/**
+ * Phase 2 helper: get country slug from currentCountryCode / currentEnglishCountry
+ * يستعمل الـ helper الموجود في الملف: makeCountrySlug()
+ */
+function _getCurrentCountrySlug() {
+    try {
+        if (typeof makeCountrySlug === 'function') {
+            return makeCountrySlug(currentCountryCode, currentEnglishCountry) || '';
+        }
+    } catch (_) {}
+    return '';
+}
+
+/**
+ * Phase 2 helper: is this a city page?
+ */
+function _isCityPagePhase2() {
+    try {
+        return document.body.classList.contains('city-prayer-page')
+            || document.documentElement.classList.contains('city-page');
+    } catch (_) { return false; }
+}
+
+/**
+ * 🆕 updateCityHeroAnswer — Answer-First hero for SEO.
+ * يملأ: اسم المدينة/الدولة، الصلاة القادمة + وقتها، 6 chips (أذان ⇢ وقت).
+ * (Polish round: أُزيل sub-question المكرِّر مع countdown).
+ */
+function updateCityHeroAnswer(times, nextName, nextTime, cityName, countryName) {
+    const sec = document.getElementById('city-hero-answer');
+    if (!sec || !_isCityPagePhase2()) return;
+    sec.classList.remove('u-hidden');
+
+    const _t = (typeof t === 'function') ? t : (k) => k;
+    const _setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && (val !== undefined && val !== null && val !== '')) el.textContent = val;
+    };
+
+    _setText('cha-city-label',    cityName || '—');
+    _setText('cha-country-label', countryName || '');
+    _setText('cha-city-inline',   cityName || '');
+    _setText('cha-next-name',     nextName || '—');
+    _setText('cha-next-time',     nextTime || '—');
+
+    // 6 chips: الفجر/الشروق/الظهر/العصر/المغرب/العشاء
+    _renderChaQuickTimes(times);
+}
+
+/**
+ * داخليّ: يرسم 6 chips لـcha-quick-times من times.raw
+ */
+function _renderChaQuickTimes(times) {
+    const host = document.getElementById('cha-quick-times');
+    if (!host || !times || !times.raw) return;
+    const tf = (typeof PrayerTimes !== 'undefined' && PrayerTimes.getTimeFormat)
+        ? PrayerTimes.getTimeFormat() : '24h';
+    const _t = (typeof t === 'function') ? t : (k) => k;
+    const keys = [
+        ['fajr',    'prayer.fajr',    'الفجر'],
+        ['sunrise', 'prayer.sunrise', 'الشروق'],
+        ['dhuhr',   'prayer.dhuhr',   'الظهر'],
+        ['asr',     'prayer.asr',     'العصر'],
+        ['maghrib', 'prayer.maghrib', 'المغرب'],
+        ['isha',    'prayer.isha',    'العشاء'],
+    ];
+    host.innerHTML = keys.map(([k, i18nKey, fallback]) => {
+        const dec = times.raw[k];
+        if (typeof dec !== 'number') return '';
+        const label = _t(i18nKey) || fallback;
+        return `<span class="cha-chip"><span class="cha-chip-label">${label}</span> <b>${_formatDecimalHours(dec, tf)}</b></span>`;
+    }).join('');
+}
+
+/**
+ * 🆕 updateCityHeroCountdown — يُحدَّث كلّ ثانية مع عدّاد الصلاة القادمة.
+ * يستقبل نصّ العدّاد (مثلاً "2h 15m") — لا يحسبه بنفسه.
+ */
+function updateCityHeroCountdown(countdownText) {
+    const el = document.getElementById('cha-countdown');
+    if (el && _isCityPagePhase2()) el.textContent = countdownText || '—';
+}
+
+/**
+ * 🆕 updateCitySummaryParagraph — فقرة SEO بعد Summary Strip.
+ * إذا تمّ حقنها SSR لا نلمسها (detection via text length > 30).
+ */
+function updateCitySummaryParagraph(cityName, countryName, methodLabel, tz) {
+    const sec = document.getElementById('city-summary-paragraph');
+    const el  = document.getElementById('city-summary-text');
+    const visEl = document.getElementById('city-summary-visible');
+    if (!sec || !el || !_isCityPagePhase2()) return;
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+
+    // 🆕 Round 2.1: ملء النصّ القصير المرئيّ (humanized + Hijri keyword للـSEO)
+    if (visEl && (visEl.textContent || '').trim().length < 10) {
+        const shortTpl = (({
+            ar: `مواقيت الصلاة اليوم في ${cityName || ''} بالتوقيت المحلّي — مع التاريخ الهجريّ والميلاديّ.`,
+            en: `Today's prayer times in ${cityName || ''} in local time — with Hijri and Gregorian dates.`,
+            fr: `Heures de prière aujourd'hui à ${cityName || ''} à l'heure locale — avec les dates hégirienne et grégorienne.`,
+            tr: `${cityName || ''} için bugünün namaz vakitleri — yerel saatle, Hicri ve Miladi tarihle birlikte.`,
+            ur: `آج ${cityName || ''} میں اوقاتِ نماز مقامی وقت کے مطابق — ہجری اور عیسوی تاریخ کے ساتھ۔`,
+            de: `Heutige Gebetszeiten in ${cityName || ''} in Ortszeit — mit Hijri- und gregorianischem Datum.`,
+            id: `Jadwal sholat hari ini di ${cityName || ''} dalam waktu setempat — dengan tanggal Hijriah dan Masehi.`,
+            es: `Horarios de oración hoy en ${cityName || ''} en hora local — con fechas Hijri y Gregoriana.`,
+            bn: `আজ ${cityName || ''}-এ নামাজের সময় স্থানীয় সময়ে — হিজরি ও গ্রেগরিয়ান তারিখসহ।`,
+            ms: `Waktu solat hari ini di ${cityName || ''} dalam waktu tempatan — dengan tarikh Hijrah dan Masihi.`,
+        })[lang]) || `Today's prayer times in ${cityName || ''} in local time — with Hijri and Gregorian dates.`;
+        visEl.textContent = shortTpl;
+    }
+
+    // إن كان SSR حقنه — اكتفِ بإزالة u-hidden
+    if ((el.textContent || '').trim().length > 30) {
+        sec.classList.remove('u-hidden');
+        return;
+    }
+    const _t = (typeof t === 'function') ? t : null;
+    const tpl = (_t ? _t('city.summary.tpl') : '') ||
+        (({
+            ar: 'تعرض هذه الصفحة مواقيت الصلاة لمدينة {city}, {country}, وفق طريقة {method}, بتوقيت {tz}. تُحدَّث المواقيت يوميّاً وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء.',
+            en: 'This page shows prayer times for {city}, {country} using the {method} method, in timezone {tz}. Times are updated daily and include Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.',
+            fr: "Cette page affiche les heures de prière pour {city}, {country} selon la méthode {method}, fuseau horaire {tz}. Mises à jour quotidiennement.",
+            tr: '{city}, {country} için namaz vakitleri — {method} yöntemi, {tz} zaman dilimi. Günlük güncellenir.',
+            ur: 'یہ صفحہ {city}, {country} کے اوقاتِ نماز دکھاتا ہے — طریقہ {method}, ٹائم زون {tz}۔',
+            de: 'Diese Seite zeigt die Gebetszeiten für {city}, {country} nach der {method}-Methode, Zeitzone {tz}.',
+            id: 'Halaman ini menampilkan jadwal sholat untuk {city}, {country} menggunakan metode {method}, zona waktu {tz}.',
+            es: 'Esta página muestra los horarios de oración para {city}, {country} usando el método {method}, zona horaria {tz}.',
+            bn: 'এই পৃষ্ঠায় {city}, {country}-এর নামাজের সময় দেখানো হয়েছে — পদ্ধতি {method}, টাইমজোন {tz}।',
+            ms: 'Halaman ini menunjukkan waktu solat untuk {city}, {country} menggunakan kaedah {method}, zon waktu {tz}.',
+        })[lang] || 'This page shows prayer times for {city}, {country} using the {method} method, timezone {tz}.');
+    el.textContent = tpl
+        .replace(/\{city\}/g,    cityName    || '')
+        .replace(/\{country\}/g, countryName || '')
+        .replace(/\{method\}/g,  methodLabel || '')
+        .replace(/\{tz\}/g,      tz          || '');
+    sec.classList.remove('u-hidden');
+}
+
+/**
+ * 🆕 updateRelatedLinks — 6 روابط في 3 tiers (Polish Round E)
+ * 🟢 Live: time-left, qibla   🔵 Info: hijri, moon   ⚪ Nav: weekly, country
+ */
+function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) {
+    const sec = document.getElementById('related-links-section');
+    if (!sec || !_isCityPagePhase2()) return;
+
+    const _t = (typeof t === 'function') ? t : null;
+    const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
+
+    // عنوان القسم "روابط ذات صلة في {المدينة}"
+    const lblCity = document.getElementById('rls-city-label');
+    if (lblCity && cityName) lblCity.textContent = cityName;
+
+    const items = [
+        // 🟢 Live tier (Refinement #5 — i18n badge): time-left, next-prayer, qibla
+        ['rl-time-left',    prefix + '/time-left-until-prayer-in-' + citySlug, 'rls.time_left',    cityName, true],
+        ['rl-next-prayer',  prefix + '/next-prayer-time-in-' + citySlug,       'rls.next_prayer',  cityName, true],
+        ['rl-qibla',        prefix + '/qibla-in-' + citySlug,                  'rls.qibla',        cityName, true],
+        // 🔵 Info tier
+        ['rl-hijri',     prefix + '/hijri-calendar',                        'rls.hijri',     cityName, true],
+        ['rl-moon',      prefix + '/moon-today-in-' + citySlug,             'rls.moon',      cityName, true],
+        // ⚪ Nav tier (Refinement #4 — country link uses "اليوم")
+        ['rl-weekly',    prefix + '/prayer-times-in-' + citySlug + '#prayer-schedule-section', 'rls.weekly', cityName, true],
+        ['rl-country',   prefix + '/prayer-times-in-' + (countrySlug || ''), 'rls.country',   countryName || cityName, !!countrySlug],
+    ];
+
+    const fallbackTpl = {
+        'rls.time_left': { ar: 'كم باقي على الصلاة في {loc}', en: 'Time left until prayer in {loc}', fr: 'Temps restant avant la prière à {loc}', tr: '{loc} namaza kalan süre', ur: '{loc} اگلی نماز میں وقت باقی', de: 'Zeit bis zum nächsten Gebet in {loc}', id: 'Berapa lama lagi sholat di {loc}', es: 'Tiempo restante para la oración en {loc}', bn: '{loc}-এ পরবর্তী নামাজের বাকি সময়', ms: 'Berapa lama lagi solat di {loc}' },
+        'rls.next_prayer': { ar: 'الصلاة القادمة في {loc}', en: 'Next prayer in {loc}', fr: 'Prochaine prière à {loc}', tr: '{loc} için sıradaki namaz', ur: '{loc} میں اگلی نماز', de: 'Nächstes Gebet in {loc}', id: 'Sholat berikutnya di {loc}', es: 'Próxima oración en {loc}', bn: '{loc}-এ পরবর্তী নামাজ', ms: 'Solat seterusnya di {loc}' },
+        'rls.country':   { ar: 'مواقيت الصلاة اليوم في {loc}', en: "Today's Prayer Times in {loc}", fr: "Heures de prière aujourd'hui à {loc}", tr: '{loc} için bugünkü namaz vakitleri', ur: 'آج {loc} میں اوقاتِ نماز', de: 'Gebetszeiten heute in {loc}', id: 'Jadwal Sholat Hari Ini di {loc}', es: 'Horarios de Oración Hoy en {loc}', bn: 'আজ {loc}-এ নামাজের সময়', ms: 'Waktu Solat Hari Ini di {loc}' },
+        'rls.weekly':    { ar: 'الجدول الأسبوعيّ في {loc}',    en: 'Weekly Schedule in {loc}',      fr: 'Programme hebdomadaire à {loc}', tr: '{loc} Haftalık Program', ur: '{loc} ہفتہ وار شیڈول', de: 'Wochenplan in {loc}', id: 'Jadwal Mingguan di {loc}', es: 'Programa Semanal en {loc}', bn: '{loc}-এ সাপ্তাহিক সূচি', ms: 'Jadual Mingguan di {loc}' },
+        'rls.qibla':     { ar: 'اتّجاه القبلة في {loc}',       en: 'Qibla Direction in {loc}',      fr: 'Direction de la Qibla à {loc}', tr: '{loc} Kıble Yönü', ur: '{loc} سمتِ قبلہ', de: 'Qibla-Richtung in {loc}', id: 'Arah Kiblat di {loc}', es: 'Dirección de Qibla en {loc}', bn: '{loc}-এ কিবলার দিক', ms: 'Arah Kiblat di {loc}' },
+        'rls.hijri':     { ar: 'التاريخ الهجريّ في {loc}',     en: 'Hijri Date in {loc}',           fr: 'Date Hijri à {loc}', tr: '{loc} Hicri Tarih', ur: '{loc} ہجری تاریخ', de: 'Hidschri-Datum in {loc}', id: 'Tanggal Hijriah di {loc}', es: 'Fecha Hijri en {loc}', bn: '{loc}-এ হিজরি তারিখ', ms: 'Tarikh Hijriah di {loc}' },
+        'rls.moon':      { ar: 'حالة القمر اليوم في {loc}',    en: 'Moon Phase Today in {loc}',     fr: 'Phase de la lune à {loc}', tr: '{loc} Ay Evresi', ur: '{loc} میں چاند کی حالت', de: 'Mondphase heute in {loc}', id: 'Fase Bulan Hari Ini di {loc}', es: 'Fase Lunar Hoy en {loc}', bn: '{loc}-এ আজকের চাঁদ', ms: 'Fasa Bulan Hari Ini di {loc}' },
+    };
+
+    items.forEach(([id, href, key, loc, enabled]) => {
+        const a = document.getElementById(id);
+        if (!a) return;
+        const li = a.closest('li');
+        if (!enabled) { if (li) li.style.display = 'none'; return; }
+        if (li) li.style.display = '';
+        a.href = href;
+        let tpl = '';
+        if (_t) {
+            const _try = _t(key);
+            if (_try && _try !== key) tpl = _try;
+        }
+        if (!tpl) tpl = (fallbackTpl[key] && fallbackTpl[key][lang]) || (fallbackTpl[key] && fallbackTpl[key].en) || ('{loc}');
+        // Polish Round E: update inner .rls-text span (not the whole anchor — icon/badge/arrow preserved)
+        const txt = a.querySelector('.rls-text');
+        const finalText = tpl.replace(/\{loc\}/g, loc || '');
+        if (txt) {
+            txt.textContent = finalText;
+        } else {
+            a.textContent = finalText; // fallback compat if structure not yet loaded
+        }
+    });
+
+    sec.classList.remove('u-hidden');
+}
+
+/**
+ * 🆕 updateOtherTrendingCities — مدن مبنيّة على popularity (مختلفة عن Nearby الجغرافيّة).
+ * تستبعد المدينة الحاليّة ديناميكيّاً.
+ */
+function updateOtherTrendingCities(currentSlug, lang) {
+    const sec = document.getElementById('other-trending-cities');
+    const host = document.getElementById('otc-list');
+    if (!sec || !host || !_isCityPagePhase2()) return;
+
+    // قائمة popularity (تُستبدَل Phase 3 بـanalytics). أسماء محلّية لكلّ لغة.
+    const POP = [
+        { slug: 'mecca',      names: { ar:'مكّة المكرّمة', en:'Mecca', fr:'La Mecque', tr:'Mekke', ur:'مکّہ مکرّمہ', de:'Mekka', id:'Makkah', es:'La Meca', bn:'মক্কা', ms:'Mekah' } },
+        { slug: 'medina',     names: { ar:'المدينة المنوّرة', en:'Medina', fr:'Médine', tr:'Medine', ur:'مدینہ منوّرہ', de:'Medina', id:'Madinah', es:'Medina', bn:'মদিনা', ms:'Madinah' } },
+        { slug: 'riyadh',     names: { ar:'الرياض', en:'Riyadh', fr:'Riyad', tr:'Riyad', ur:'ریاض', de:'Riad', id:'Riyadh', es:'Riad', bn:'রিয়াদ', ms:'Riyadh' } },
+        { slug: 'cairo',      names: { ar:'القاهرة', en:'Cairo', fr:'Le Caire', tr:'Kahire', ur:'قاہرہ', de:'Kairo', id:'Kairo', es:'El Cairo', bn:'কায়রো', ms:'Kaherah' } },
+        { slug: 'dubai',      names: { ar:'دبي', en:'Dubai', fr:'Dubaï', tr:'Dubai', ur:'دبئی', de:'Dubai', id:'Dubai', es:'Dubái', bn:'দুবাই', ms:'Dubai' } },
+        { slug: 'istanbul',   names: { ar:'إسطنبول', en:'Istanbul', fr:'Istanbul', tr:'İstanbul', ur:'استنبول', de:'Istanbul', id:'Istanbul', es:'Estambul', bn:'ইস্তাম্বুল', ms:'Istanbul' } },
+        { slug: 'london',     names: { ar:'لندن', en:'London', fr:'Londres', tr:'Londra', ur:'لندن', de:'London', id:'London', es:'Londres', bn:'লন্ডন', ms:'London' } },
+        { slug: 'jakarta',    names: { ar:'جاكرتا', en:'Jakarta', fr:'Jakarta', tr:'Cakarta', ur:'جکارتہ', de:'Jakarta', id:'Jakarta', es:'Yakarta', bn:'জাকার্তা', ms:'Jakarta' } },
+        { slug: 'karachi',    names: { ar:'كراتشي', en:'Karachi', fr:'Karachi', tr:'Karaçi', ur:'کراچی', de:'Karatschi', id:'Karachi', es:'Karachi', bn:'করাচি', ms:'Karachi' } },
+    ];
+
+    const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
+    const list = POP.filter(c => c.slug !== currentSlug).slice(0, 8);
+    host.innerHTML = list.map(c => {
+        const name = (c.names && (c.names[lang] || c.names.en)) || c.slug;
+        return `<a class="otc-chip" href="${prefix}/prayer-times-in-${c.slug}">${name}</a>`;
+    }).join('');
+    sec.classList.remove('u-hidden');
+}
+
+/**
+ * 🆕 updateMiniIslamicTools — 3 أدوات فقط (قبلة/هجري/قمر) موجّهة للمدينة.
+ */
+function updateMiniIslamicTools(citySlug, lang) {
+    const sec = document.getElementById('mini-islamic-tools');
+    if (!sec || !_isCityPagePhase2()) return;
+
+    const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
+    const _t = (typeof t === 'function') ? t : null;
+
+    const items = [
+        { id: 'mit-qibla', href: prefix + '/qibla-in-' + citySlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
+        { id: 'mit-hijri', href: prefix + '/hijri-calendar',           key: 'mit.hijri', fallback: { ar:'التاريخ الهجريّ', en:'Hijri Date', fr:'Date Hijri', tr:'Hicri Tarih', ur:'ہجری تاریخ', de:'Hidschri',    id:'Tanggal Hijriah', es:'Fecha Hijri', bn:'হিজরি তারিখ', ms:'Tarikh Hijriah' } },
+        { id: 'mit-moon',  href: prefix + '/moon-today-in-' + citySlug, key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
+    ];
+
+    items.forEach(it => {
+        const a = document.getElementById(it.id);
+        if (!a) return;
+        a.href = it.href;
+        const lblEl = a.querySelector('.mit-label');
+        if (lblEl) {
+            let txt = '';
+            if (_t) { const _try = _t(it.key); if (_try && _try !== it.key) txt = _try; }
+            if (!txt) txt = it.fallback[lang] || it.fallback.en;
+            lblEl.textContent = txt;
+        }
+    });
+}
+
+/**
+ * 🆕 applyCityPageWeekly — في صفحة المدينة: 7 أيّام كاملة + زرّ يوجّه لـmonthly.
+ */
+function applyCityPageWeekly(citySlug, lang) {
+    if (!_isCityPagePhase2()) return;
+    const wrap = document.getElementById('weekly-table-wrap');
+    if (wrap) wrap.setAttribute('data-full', 'true');
+    // 🔧 BUGFIX: الزرّ كان يوجّه إلى /monthly-prayer-times-in-{slug} الذي لم يُنشَأ بعد (Phase 3).
+    //          الضغط عليه يفتح 404 — نُخفيه حتّى إنشاء الصفحة الشهريّة.
+    //          + الجدول الأسبوعيّ كلّه ظاهر (data-full=true) فلا حاجة لزرّ "عرض المزيد".
+    const btn = document.querySelector('.weekly-expand-btn, [data-weekly-toggle]');
+    if (btn) {
+        btn.style.display = 'none';
+        btn.setAttribute('hidden', '');
+        btn.onclick = null;
+    }
+    const pag = document.getElementById('schedule-pagination');
+    if (pag) pag.classList.add('u-hidden');
+}
+
+/**
+ * 🆕 applyFaqCityMode — فتح كلّ الـ7 أسئلة في city-page + تطبيق placeholders.
+ */
+function applyFaqCityMode(cityName, methodLabel, countryName) {
+    const faq = document.getElementById('faq-section');
+    if (!faq) return;
+    if (_isCityPagePhase2()) {
+        faq.classList.add('faq-city-mode');
+        faq.classList.add('faq-full');
+    }
+    // تطبيق {loc} / {method} / {country} على كلّ الأسئلة
+    try {
+        if (typeof replaceFaqPlaceholders === 'function') {
+            replaceFaqPlaceholders(cityName, methodLabel, countryName);
+        }
+    } catch (_) {}
+}
+
+// ═════════════════════════════════════════════════════════════════
+//   Phase 2 — Orchestration (يُستدعى بعد تحديث المواقيت)
+// ═════════════════════════════════════════════════════════════════
+
+/**
+ * orchestrator يُستدعى من updatePrayerTimes() بعد حساب الصلاة القادمة.
+ * يستقبل: times (pt object), nextPrayerName, nextPrayerTime (formatted).
+ */
+function applyPhase2CityPage(times, nextPrayerName, nextPrayerTime) {
+    if (!_isCityPagePhase2()) return;
+    try {
+        const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const citySlug = _getCitySlugFromPath();
+        const countrySlug = _getCurrentCountrySlug();
+
+        // أسماء محلّية
+        const cityNameLoc = (lang === 'ar')
+            ? (currentCity || currentEnglishDisplayName || currentEnglishName || '')
+            : ((typeof getDisplayCity === 'function' && getDisplayCity())
+                || currentLocalizedName || currentEnglishDisplayName || currentEnglishName || currentCity || '');
+        // 🔧 Round 2 fix: استخدام getDisplayCountry() للتحقّق من _LOCALIZED_COUNTRY_MAPS أوّلاً
+        // (يُصلح مشكلة ظهور "Saudi Arabia" بدل "সৌদি আরব" في البنغاليّة وغيرها من اللغات)
+        const countryNameLoc = (lang === 'ar')
+            ? (currentCountry || currentEnglishCountry || '')
+            : ((typeof getDisplayCountry === 'function' && getDisplayCountry())
+                || currentLocalizedCountry || currentEnglishCountry || currentCountry || '');
+
+        // method label
+        let methodLabel = '';
+        try {
+            const sel = document.getElementById('calc-method');
+            const methodVal = (typeof PrayerTimes !== 'undefined' && PrayerTimes.getMethod) ? PrayerTimes.getMethod() : (sel ? sel.value : 'MWL');
+            if (typeof t === 'function') {
+                const _try = t('method.' + methodVal);
+                if (_try && _try !== 'method.' + methodVal) methodLabel = _try;
+            }
+            if (!methodLabel && sel) {
+                const opt = sel.querySelector('option[value="' + methodVal + '"]');
+                if (opt) methodLabel = (opt.textContent || '').trim().split('(')[0].trim();
+            }
+            if (!methodLabel) methodLabel = methodVal || 'MWL';
+        } catch (_) { methodLabel = 'MWL'; }
+
+        // tz
+        let tz = '';
+        try { tz = (typeof PrayerTimes !== 'undefined' && PrayerTimes.getTimeZone) ? (PrayerTimes.getTimeZone() || '') : ''; } catch (_) {}
+        if (!tz) { try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; } catch (_) { tz = 'UTC'; } }
+
+        // coords
+        const lat = (typeof currentLat === 'number') ? currentLat : null;
+        const lng = (typeof currentLng === 'number') ? currentLng : null;
+
+        // 1. City Hero Answer
+        updateCityHeroAnswer(times, nextPrayerName, nextPrayerTime, cityNameLoc, countryNameLoc);
+
+        // 2. City Summary Paragraph (SSR-aware)
+        updateCitySummaryParagraph(cityNameLoc, countryNameLoc, methodLabel, tz);
+
+        // 4. Related Links (5 هرميّة)
+        if (citySlug) {
+            updateRelatedLinks(citySlug, cityNameLoc, countrySlug, countryNameLoc, lang);
+        }
+
+        // 5. Other Trending Cities (popularity)
+        if (citySlug) {
+            updateOtherTrendingCities(citySlug, lang);
+        }
+
+        // 6. Mini Islamic Tools (3 أدوات)
+        if (citySlug) {
+            updateMiniIslamicTools(citySlug, lang);
+        }
+
+        // 7. Weekly → full + monthly re-route
+        if (citySlug) {
+            applyCityPageWeekly(citySlug, lang);
+        }
+
+        // 8. FAQ city mode + placeholders
+        applyFaqCityMode(cityNameLoc, methodLabel, countryNameLoc);
+    } catch (e) {
+        try { console.warn('[Phase2] applyPhase2CityPage failed', e); } catch (_) {}
+    }
 }
 
 /**
@@ -4443,7 +5652,10 @@ function injectHomepageSchema() {
     if (document.getElementById('homepage-schema')) return; // تجنب التكرار
 
     const origin      = window.SITE_URL || window.location.origin;
-    const hijriYear   = HijriDate.getToday().year;
+    const _hToday     = HijriDate.getToday();
+    const hijriYear   = _hToday.year;
+    const _p2         = (n) => String(n).padStart(2, '0');
+    const hijriDated  = `/hijri-date/${_hToday.year}-${_p2(_hToday.month)}-${_p2(_hToday.day)}`;
     const siteName    = 'مواقيت الصلاة';
     const siteDesc    = 'منصة إسلامية تعرض مواقيت الصلاة، التاريخ الهجري، تحويل التاريخ، اتجاه القبلة، القمر اليوم، وحاسبة الزكاة.';
 
@@ -4497,7 +5709,7 @@ function injectHomepageSchema() {
             { "@type": "SiteNavigationElement", "name": "حاسبة الزكاة",       "url": `${origin}/zakat-calculator`              },
             { "@type": "SiteNavigationElement", "name": "الأدعية والأذكار",   "url": `${origin}/duas`                          },
             { "@type": "SiteNavigationElement", "name": "المسبحة الإلكترونية","url": `${origin}/msbaha`                        },
-            { "@type": "SiteNavigationElement", "name": "التاريخ الهجري اليوم","url": `${origin}/today-hijri-date`             },
+            { "@type": "SiteNavigationElement", "name": "التاريخ الهجري اليوم","url": `${origin}${hijriDated}`                  },
             { "@type": "SiteNavigationElement", "name": "التقويم الهجري",     "url": `${origin}/hijri-calendar/${hijriYear}`   },
             { "@type": "SiteNavigationElement", "name": "تحويل التاريخ",      "url": `${origin}/dateconverter`                 }
         ]
@@ -4930,20 +6142,26 @@ function updateCitySEO(city, englishName, country, lat, lng) {
     const lang = urls.lang || 'ar';
 
     // اختيار اسم المدينة والدولة بحسب اللغة
-    // fr/tr/ur/de: نُفضِّل currentLocalizedName (مِن Nominatim accept-language) إذا توفَّر،
-    // وإلّا نرجع إلى englishName كحلّ وسط (لتجنُّب عرض اسم عربي في صفحة لاتينية)
+    // 🆕 Round 6 (City Audit Fix #2): استخدام الـ helpers لضمان عدم تسرُّب العربيّ إلى title غير-عربيّ.
+    //   السابق: EN branch كان يستخدم `country || ''` مباشرة ⇒ يُسرّب الاسم العربيّ إلى <title>.
+    //   الحالي: نمرّ عبر getDisplayCity/getDisplayCountry — يضمن فلترة الخطّ + fallback لقاموس EN.
     let cityDisplay, countryDisplay;
     if (lang === 'ar') {
         cityDisplay = city;
         countryDisplay = country || '';
-    } else if (lang === 'en') {
-        cityDisplay = englishName || city;
-        countryDisplay = country || '';
     } else {
-        cityDisplay = (typeof currentLocalizedName === 'string' && currentLocalizedName)
-            ? currentLocalizedName : (englishName || city);
-        countryDisplay = (typeof currentLocalizedCountry === 'string' && currentLocalizedCountry)
-            ? currentLocalizedCountry : (country || '');
+        // استخدِم الـ helpers (تعالج جميع اللغات الـ9 غير-AR + تمنع تسرُّب الأسماء العربية)
+        cityDisplay = (typeof getDisplayCity === 'function')
+            ? getDisplayCity()
+            : (englishName || city);
+        countryDisplay = (typeof getDisplayCountry === 'function')
+            ? getDisplayCountry()
+            : (country || '');
+        // Hard-guard: لا نسمح بحروف عربية أو بنغالية في title لغة لاتينية/تركية/ألمانية...
+        if (typeof _isDisplayScriptAcceptable === 'function') {
+            if (!_isDisplayScriptAcceptable(cityDisplay, lang)) cityDisplay = englishName || city;
+            if (!_isDisplayScriptAcceptable(countryDisplay, lang)) countryDisplay = '';
+        }
     }
 
     // فاصل: ar/ur يستخدمان الفاصلة العربية، الباقي الفاصلة اللاتينية
@@ -5973,6 +7191,8 @@ function renderCitiesPagination(totalPages) {
 // ========= الأسئلة الشائعة FAQ =========
 function updateFaqSection() {
     if (!currentPrayerTimes || !currentCity) return;
+    // Early-exit إذا كان #faq-section مقصوص (صفحة time-left) — يوفّر الكثير من null-guards
+    if (!document.getElementById('faq-title')) return;
 
     const lang    = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const city    = getDisplayCity();
@@ -6022,6 +7242,87 @@ function updateFaqSection() {
     const fastStr = `<strong>${fH} ${hrLbl2}${fM > 0 ? andLbl2 + fM + ' ' + minLbl2 : ''}</strong>`;
     document.getElementById('faq-q2').innerHTML = t('faq.q2', { loc });
     document.getElementById('faq-a2').innerHTML = t('faq.a2', { loc, duration: fastStr });
+
+    // ═══ Phase 2 — FAQ q3..q7 (city-page فقط) ═══
+    const _isCityPage = (typeof _isCityPagePhase2 === 'function' && _isCityPagePhase2());
+    if (_isCityPage) {
+        // method + country labels
+        let methodLabel = '';
+        try {
+            const sel = document.getElementById('calc-method');
+            const methodVal = (typeof PrayerTimes !== 'undefined' && PrayerTimes.getMethod) ? PrayerTimes.getMethod() : (sel ? sel.value : 'MWL');
+            const _try = t('method.' + methodVal);
+            methodLabel = (_try && _try !== 'method.' + methodVal) ? _try : methodVal;
+        } catch (_) { methodLabel = 'MWL'; }
+        const methodStr = `<strong>${methodLabel}</strong>`;
+        const countryStr = country ? `<strong>${country}</strong>` : `<strong>${city}</strong>`;
+        const cityStr = `<strong>${city}</strong>`;
+
+        // ساعات الصيام (نفس fastStr محسوب أعلاه)
+        const fastHoursStr = fastStr;
+
+        const _fill = (id, key, vars) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const _try = t(key, vars);
+            if (_try && _try !== key) el.innerHTML = _try;
+        };
+
+        // q3/a3 — كيف تُحسب المواقيت
+        _fill('faq-q3', 'faq.city.q3', { loc });
+        _fill('faq-a3', 'faq.city.a3', { loc, method: methodStr });
+
+        // q4/a4 — اتّجاه القبلة
+        _fill('faq-q4', 'faq.city.q4', { loc });
+        _fill('faq-a4', 'faq.city.a4', { loc });
+
+        // q5/a5 — الفرق عن المجاورة
+        _fill('faq-q5', 'faq.city.q5', { loc });
+        _fill('faq-a5', 'faq.city.a5', { loc });
+
+        // q6/a6 — ساعات الصيام
+        _fill('faq-q6', 'faq.city.q6', { loc });
+        _fill('faq-a6', 'faq.city.a6', { loc, duration: fastHoursStr });
+
+        // q7/a7 — مقارنة بمكّة
+        _fill('faq-q7', 'faq.city.q7', { loc });
+        _fill('faq-a7', 'faq.city.a7', { loc });
+
+        // 🆕 Round 4 (Minimal) — q8/a8 رابط time-left + q9/a9 رابط next-prayer-time
+        try {
+            const _slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
+            const _lng = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
+            const tlHref = _slug ? (_lng + '/time-left-until-prayer-in-' + _slug) : '#';
+            const nptHref = _slug ? (_lng + '/next-prayer-time-in-' + _slug) : '#';
+            _fill('faq-q8', 'faq.city.q8', { loc });
+            _fill('faq-a8', 'faq.city.a8', { loc, tlHref });
+            _fill('faq-q9', 'faq.city.q9', { loc });
+            _fill('faq-a9', 'faq.city.a9', { loc, nptHref });
+        } catch (_e) {}
+    }
+}
+
+/**
+ * 🆕 Phase 2 — يُطبَّق قوالب {loc}/{method}/{country} على كلّ #faq-section
+ * تُستدعى من applyFaqCityMode() — تكمّل الـfill الموجود في updateFaqSection().
+ * تحديداً: تمرير على عناصر data-i18n التي ربّما لم تُعالج أثناء updateFaqSection.
+ */
+function replaceFaqPlaceholders(cityName, methodLabel, countryName) {
+    const faq = document.getElementById('faq-section');
+    if (!faq) return;
+    const vars = {};
+    if (cityName)    vars.loc     = cityName;
+    if (methodLabel) vars.method  = methodLabel;
+    if (countryName) vars.country = countryName;
+    // إذا عنصر data-i18n مازال فيه placeholder — نستبدله
+    faq.querySelectorAll('[data-i18n]').forEach(el => {
+        const txt = el.textContent || '';
+        if (!/\{(loc|method|country|duration)\}/.test(txt)) return;
+        el.textContent = txt
+            .replace(/\{loc\}/g,     cityName || '')
+            .replace(/\{method\}/g,  methodLabel || '')
+            .replace(/\{country\}/g, countryName || '');
+    });
 }
 
 // ========= قسم الكلمات المفتاحية SEO =========
@@ -6074,7 +7375,9 @@ function updateActivePrayer() {
     if (!currentPrayerTimes) return;
 
     const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
-    document.getElementById('next-prayer-name').textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
+    // 🆕 null-guard: #next-prayer-name مقصوص على صفحة time-left (DOM pruner)
+    const _npnEl2 = document.getElementById('next-prayer-name');
+    if (_npnEl2) _npnEl2.textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
 
     // Round 22: تحديث البطاقة النشطة + الحاليّة
     const curr = (typeof PrayerTimes.getCurrentPrayer === 'function')
@@ -6083,11 +7386,23 @@ function updateActivePrayer() {
     // R23 polish: إن كان الوقت بعد الشروق وقبل الظهر → لا نُعلِّم أيّ بطاقة كـ current
     //            (الشروق ليس صلاة مفروضة)
     const _isSunrisePseudo = curr && curr.key === 'sunrise' && curr.afterSunrise;
+    // 🆕 Round 3.1 — Prayer State System: past + upcoming
+    const _PRAYER_ORDER = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    const _nextIdx = next ? _PRAYER_ORDER.indexOf(next.key) : -1;
     document.querySelectorAll('.prayer-card').forEach(card => {
-        card.classList.remove('active');
-        card.classList.remove('current');
-        if (card.dataset.prayer === next.key) card.classList.add('active');
-        if (curr && !_isSunrisePseudo && card.dataset.prayer === curr.key) card.classList.add('current');
+        card.classList.remove('active', 'current', 'past', 'upcoming');
+        const cardIdx = _PRAYER_ORDER.indexOf(card.dataset.prayer);
+        if (cardIdx === -1) return;
+        if (card.dataset.prayer === next.key) { card.classList.add('active'); return; }
+        if (curr && !_isSunrisePseudo && card.dataset.prayer === curr.key) { card.classList.add('current'); return; }
+        // past vs upcoming — قبل الفجر كلّ الصلوات السابقة تُعدّ past
+        if (_nextIdx === 0 /* next=fajr */ && cardIdx !== 0) {
+            card.classList.add('past');
+        } else if (_nextIdx > 0 && cardIdx < _nextIdx) {
+            card.classList.add('past');
+        } else if (_nextIdx >= 0 && cardIdx > _nextIdx) {
+            card.classList.add('upcoming');
+        }
     });
 
     // Round 22: Hero Banner — pill الصلاة الحاليّة
@@ -6152,10 +7467,17 @@ function _getNextAfter(currentKey) {
  * مع IntersectionObserver على البانر الأخضر — يظهر عند اختفاء البانر من viewport.
  */
 function updateStickyBar(countdownStr) {
+    const inner     = document.querySelector('#sticky-next-bar .snb-inner');
     const remaining = document.getElementById('snb-remaining');
     const prayer    = document.getElementById('snb-prayer-name');
     const cityEl    = document.getElementById('snb-city');
     if (!remaining) return;
+
+    // 🆕 Round 3.1 — حالة «حان الآن»: countdownStr === "00:00:00" تعني الأذان دُقّ هذه الثانية
+    if (inner) {
+        const _isNowTime = (countdownStr === '00:00:00');
+        inner.classList.toggle('snb-now', _isNowTime);
+    }
 
     if (countdownStr) remaining.textContent = countdownStr;
 
@@ -6171,22 +7493,159 @@ function updateStickyBar(countdownStr) {
     if (cityEl) {
         try { cityEl.textContent = getCurrentCityLabel() || ''; } catch (_e) {}
     }
+
+    // 🆕 Round 4 (Minimal) — Sticky bar clickable → /time-left-until-prayer-in-{slug}
+    try { updateStickyBarHref(); } catch (_e) {}
+}
+
+/**
+ * 🆕 Round 4 (Minimal) — يُحدّث href الـsticky bar ليشير إلى صفحة time-left للمدينة الحاليّة.
+ * يُستدعى من updateStickyBar() في كلّ تحديث. على time-left-page نفسها CSS يُعطّل الضغط.
+ */
+function updateStickyBarHref() {
+    const bar = document.getElementById('sticky-next-bar');
+    if (!bar || bar.tagName !== 'A') return;
+    const slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
+    if (!slug || /^hijri-|^loc-/.test(slug)) { bar.removeAttribute('href'); return; }
+    const lang = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
+    bar.href = `${lang}/time-left-until-prayer-in-${slug}`;
+}
+
+/**
+ * 🆕 Round 4 (Minimal) — يُحدّث محتويات /next-prayer-time-in-{city} page.
+ * هدف الصفحة: Schedule Awareness — اسم الصلاة القادمة + وقتها + 3 صلوات تالية.
+ * R-2: دائماً 3 صلوات (loop حتّى 12 step لضمان consistency).
+ */
+const _NPT_PRAYER_ORDER = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+function updateNextPrayerPage() {
+    if (!document.documentElement.classList.contains('next-prayer-time-page')) return;
+    if (!currentPrayerTimes || !currentPrayerTimes.raw) return;
+    if (typeof PrayerTimes === 'undefined' || !PrayerTimes.getNextPrayer) return;
+
+    const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
+    if (!next) return;
+
+    // اسم الصلاة القادمة
+    const nameEl = document.getElementById('npt-next-name');
+    if (nameEl) {
+        nameEl.textContent = (typeof t === 'function') ? t('prayer.' + next.key) : (next.name || next.key);
+    }
+    // وقت الصلاة القادمة — currentPrayerTimes[key] نصّ منسَّق جاهز
+    const timeEl = document.getElementById('npt-next-time');
+    if (timeEl) {
+        const formatted = currentPrayerTimes[next.key];
+        timeEl.textContent = (formatted != null) ? String(formatted) : '—';
+    }
+
+    // اسم المدينة في H1
+    const cityEl = document.getElementById('npt-h1-city');
+    if (cityEl) {
+        try {
+            const label = (typeof getCurrentCityLabel === 'function') ? getCurrentCityLabel() : '';
+            if (label) cityEl.textContent = label;
+        } catch (_e) {}
+    }
+
+    // R-2: 3 صلوات قادمة (loop حتّى 12 step لضمان consistency حتّى لو wrap-around)
+    const list = document.getElementById('npt-upcoming-list');
+    if (list) {
+        const startIdx = _NPT_PRAYER_ORDER.indexOf(next.key);
+        const upcoming = [];
+        if (startIdx >= 0) {
+            for (let i = 1; i <= 12 && upcoming.length < 3; i++) {
+                const key = _NPT_PRAYER_ORDER[(startIdx + i) % _NPT_PRAYER_ORDER.length];
+                if (!key || key === 'sunrise') continue;  // sunrise ليست صلاة
+                if (upcoming.some(u => u.key === key)) continue;  // تجنّب duplicate
+                const formatted = currentPrayerTimes[key];
+                if (formatted == null) continue;
+                upcoming.push({ key, time: formatted });
+            }
+        }
+        list.innerHTML = upcoming.map(u => {
+            const name = (typeof t === 'function') ? t('prayer.' + u.key) : u.key;
+            // escape basic — _esc أسفل القيم من currentPrayerTimes (مُولّد داخلياً، آمن)
+            return `<li><span class="npt-up-name">${name}</span><span class="npt-up-time">${u.time}</span></li>`;
+        }).join('');
+    }
+
+    // 🆕 NPT Single-purpose: CTA + secondary link + SEO paragraph
+    //    نفس نمط TL — {loc}/{prayer}/{city} تُستبدَل بالقيم الفعليّة بلغة المستخدم.
+    const _nptMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-time-in-([a-z][a-z0-9-]+)$/);
+    if (_nptMatch) {
+        const _nptSlug = _nptMatch[1];
+        const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _langPfx = (_lng === 'ar') ? '' : ('/' + _lng);
+        const _city = (typeof getDisplayCity === 'function') ? getDisplayCity() : _nptSlug;
+        const _prayer = (typeof t === 'function') ? t('prayer.' + next.key) : (next.name || next.key);
+
+        // Primary CTA → /prayer-times-in-{slug}
+        const _cta = document.getElementById('npt-cta');
+        if (_cta) {
+            if (!_cta.dataset.wired) {
+                _cta.href = _langPfx + '/prayer-times-in-' + _nptSlug;
+                _cta.dataset.wired = '1';
+            }
+            const _ctaTxt = document.getElementById('npt-cta-text');
+            if (_ctaTxt && _ctaTxt.textContent.includes('{loc}')) {
+                _ctaTxt.textContent = _ctaTxt.textContent.replace('{loc}', _city);
+            }
+        }
+
+        // Secondary link → /time-left-until-prayer-in-{slug}
+        const _sec = document.getElementById('npt-secondary');
+        if (_sec) {
+            if (!_sec.dataset.wired) {
+                _sec.href = _langPfx + '/time-left-until-prayer-in-' + _nptSlug;
+                _sec.dataset.wired = '1';
+            }
+            // استبدل {prayer} و {city} في نصّ الرابط (يتجدّد عند تغيّر الصلاة)
+            if (_sec.dataset.lastPrayer !== next.key) {
+                const _tpl = (typeof t === 'function') ? t('npt.how_long') : 'Time left until {prayer} in {city}?';
+                _sec.textContent = String(_tpl)
+                    .replace('{prayer}', _prayer)
+                    .replace('{city}', _city);
+                _sec.dataset.lastPrayer = next.key;
+            }
+        }
+
+        // SEO paragraph (refresh عند تغيّر الصلاة للكتابة الحيويّة)
+        const _seo = document.getElementById('npt-seo');
+        if (_seo && _seo.dataset.lastCity !== _city) {
+            const _seoTpl = (typeof t === 'function') ? t('npt.seo') : '';
+            if (_seoTpl) {
+                _seo.textContent = String(_seoTpl)
+                    .replace('{prayer}', _prayer)
+                    .replace('{city}', _city);
+                _seo.dataset.lastCity = _city;
+            }
+        }
+    }
 }
 
 function initStickyNextBar() {
-    const bar    = document.getElementById('sticky-next-bar');
-    const banner = document.querySelector('.next-prayer-banner');
-    if (!bar || !banner || typeof IntersectionObserver === 'undefined') return;
-    // لا نُظهر الـ Sticky Bar إلا على الصفحة الرئيسيّة (صفحات أخرى لها headers مخصّصة).
-    // الشرط: Hero Banner موجود.
+    const bar = document.getElementById('sticky-next-bar');
+    if (!bar || typeof IntersectionObserver === 'undefined') return;
+    // 🆕 Round 3.1 — اختيار pivot ذكيّ: homepage → .next-prayer-banner، city-page → .city-hero-answer
+    const isCity = document.documentElement.classList.contains('city-page');
+    const pivot = isCity
+        ? document.querySelector('.city-hero-answer')
+        : document.querySelector('.next-prayer-banner');
+    if (!pivot) return;
+    // لا نُظهر الـ Sticky Bar إلا بعد التمرير تحت الـpivot.
     // R23 fix: نُضيف .has-sticky-bar على body → CSS يُخفي .top-header لتجنّب التداخل.
+    // R24 fix: نتأكّد أنّ الـpivot داخل صفحة نشطة قبل إظهار الشريط — وإلا الشريط يظلّ ظاهراً
+    // عند التنقّل (SPA) إلى صفحة لا تحتوي pivot (مثل صفحات التاريخ الهجري).
+    const _pivotPageActive = () => {
+        const pg = pivot.closest('.page');
+        return !pg || pg.classList.contains('active');
+    };
     const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-            if (e.isIntersecting) {
+            if (e.isIntersecting || !_pivotPageActive()) {
                 bar.classList.remove('snb-visible');
                 document.body.classList.remove('has-sticky-bar');
             } else {
-                // ظهر فقط إن نزلنا أسفل البانر (ليس عند الصعود قبله)
+                // ظهر فقط إن نزلنا أسفل الـpivot (ليس عند الصعود قبله)
                 if (window.scrollY > 60) {
                     bar.classList.add('snb-visible');
                     document.body.classList.add('has-sticky-bar');
@@ -6194,7 +7653,186 @@ function initStickyNextBar() {
             }
         });
     }, { rootMargin: '-50px 0px 0px 0px', threshold: 0 });
-    io.observe(banner);
+    io.observe(pivot);
+}
+
+// 🆕 Round 3.1 — Progress Bar: يُحدِّث عرض الشريط داخل .prayer-card.current
+// يُستدعى من updateCountdown() مرّة كلّ 60 ثانية (ليس كلّ ثانية)
+// ملاحظة: startSeconds هي seconds-of-day (0–86400) بتوقيت المدينة، وليست epoch.
+// getNextPrayer لا يُرجع startSeconds — نحسبه من times.raw[key].
+function updatePrayerProgress() {
+    if (!currentPrayerTimes || !currentPrayerTimes.raw) return;
+    if (!PrayerTimes || typeof PrayerTimes.getCurrentPrayer !== 'function') return;
+    const curr = PrayerTimes.getCurrentPrayer(currentPrayerTimes, currentTimezone);
+    if (!curr || curr.afterSunrise || curr.beforeFajr || curr.notAPrayer) return;
+    if (typeof curr.startSeconds !== 'number') return;
+    const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
+    if (!next || !next.key) return;
+    const rawNext = currentPrayerTimes.raw[next.key];
+    if (typeof rawNext !== 'number') return;
+
+    // seconds-of-day في توقيت المدينة (نفس منطق getCurrentPrayer)
+    const nowDate = new Date();
+    const localOffset = -nowDate.getTimezoneOffset() / 60;
+    const tz = (typeof currentTimezone === 'number' && !isNaN(currentTimezone)) ? currentTimezone : localOffset;
+    const cityTime = new Date(nowDate.getTime() + (tz - localOffset) * 3600000);
+    const currentSecOfDay = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
+
+    // next startSeconds (seconds-of-day) — مع إضافة 86400 إذا كان فجر الغد
+    let nextStartSec = Math.floor(((rawNext % 24) + 24) % 24 * 3600);
+    if (nextStartSec <= curr.startSeconds) nextStartSec += 86400; // فجر الغد بعد العشاء
+
+    const elapsed = currentSecOfDay >= curr.startSeconds
+        ? currentSecOfDay - curr.startSeconds
+        : currentSecOfDay + 86400 - curr.startSeconds; // fallback لو عبرنا منتصف الليل
+    const total = nextStartSec - curr.startSeconds;
+    if (total <= 0) return; // حماية من division-by-zero
+    const pct = Math.max(0, Math.min(100, (elapsed / total) * 100));
+
+    const fill = document.querySelector(`.prayer-card[data-prayer="${curr.key}"] .prayer-progress-fill`);
+    if (fill) fill.style.width = pct.toFixed(1) + '%';
+}
+
+// 🆕 Round 3.1 — Auto-scroll إلى .prayer-card.active/.current (city-page فقط، مرّة واحدة)
+let _autoScrollDone = false;
+
+// إذا المستخدم بدأ scroll قبل ما نطلق الـauto-scroll، نُلغي العمليّة فوراً
+(function _armAutoScrollGuard() {
+    try {
+        window.addEventListener('scroll', () => {
+            try { sessionStorage.setItem('tp_no_autoscroll', '1'); } catch (_e) {}
+        }, { once: true, passive: true });
+    } catch (_e) {}
+})();
+
+function autoScrollToActivePrayer() {
+    if (_autoScrollDone) return;
+    if (!document.documentElement.classList.contains('city-page')) return;
+    if (window.scrollY > 10) return;
+    if (window.location.hash) return;
+    try {
+        if (sessionStorage.getItem('tp_no_autoscroll')) return;
+    } catch (_e) {}
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const target = document.querySelector('.prayer-card.current')
+                || document.querySelector('.prayer-card.active');
+    if (!target) return;
+    _autoScrollDone = true;
+    setTimeout(() => {
+        // فحص ثاني قبل الـscroll فعلياً — user قد يكون تفاعل بين now + 500ms
+        try { if (sessionStorage.getItem('tp_no_autoscroll')) return; } catch (_e) {}
+        try {
+            target.scrollIntoView({
+                behavior: reducedMotion ? 'auto' : 'smooth',
+                block: 'center'
+            });
+        } catch (_e) {}
+    }, 500);
+}
+
+// 🆕 Round 3.1 — Smart CTA: القفز إلى البطاقة القادمة مع offset للـheader + sticky bar
+function jumpToActivePrayer() {
+    const tgt = document.querySelector('.prayer-card.active')
+             || document.querySelector('.prayer-card.current');
+    if (!tgt) return;
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const y = tgt.getBoundingClientRect().top + window.scrollY - 120; // 120px = top-header + sticky-bar
+    window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' });
+}
+
+// 🆕 Round 3.1 — Smart Notification Suggestion
+const _NOTIF_STORAGE_KEY = 'tp_notif';
+let _notifTimer = null;
+
+function maybeShowNotifPrompt() {
+    // الشروط:
+    // 1) فقط على city-page (تقليل noise على homepage)
+    // 2) Notification API مدعوم
+    // 3) لم يُقرَّر قبلاً (لا 'on' ولا 'dismissed')
+    // 4) permission ليس مرفوضاً مسبقاً من المتصفّح
+    if (!document.documentElement.classList.contains('city-page')) return;
+    if (typeof Notification === 'undefined') return;
+    if (Notification.permission === 'denied') return;
+    if (Notification.permission === 'granted') {
+        try { localStorage.setItem(_NOTIF_STORAGE_KEY, 'on'); } catch (_e) {}
+        schedulePrayerNotif();
+        return;
+    }
+    let state = null;
+    try { state = localStorage.getItem(_NOTIF_STORAGE_KEY); } catch (_e) {}
+    if (state === 'dismissed' || state === 'on') return;
+    setTimeout(() => {
+        const el = document.getElementById('notif-prompt');
+        if (el) el.hidden = false;
+    }, 10000);
+}
+
+function onNotifEnable() {
+    const el = document.getElementById('notif-prompt');
+    if (el) el.hidden = true;
+    try {
+        const p = Notification.requestPermission();
+        const _handle = (perm) => {
+            if (perm === 'granted') {
+                try { localStorage.setItem(_NOTIF_STORAGE_KEY, 'on'); } catch (_e) {}
+                schedulePrayerNotif();
+            } else {
+                try { localStorage.setItem(_NOTIF_STORAGE_KEY, 'dismissed'); } catch (_e) {}
+            }
+        };
+        if (p && typeof p.then === 'function') p.then(_handle).catch(() => {
+            try { localStorage.setItem(_NOTIF_STORAGE_KEY, 'dismissed'); } catch (_e) {}
+        });
+        else _handle(p);
+    } catch (_e) {
+        try { localStorage.setItem(_NOTIF_STORAGE_KEY, 'dismissed'); } catch (_e2) {}
+    }
+}
+
+function onNotifDismiss() {
+    const el = document.getElementById('notif-prompt');
+    if (el) el.hidden = true;
+    try { localStorage.setItem(_NOTIF_STORAGE_KEY, 'dismissed'); } catch (_e) {}
+}
+
+function _fireNotif(next) {
+    // guard ضدّ إطلاق notification من tab مخفيّ
+    if (document.visibilityState !== 'visible') return;
+    try {
+        const localName = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
+        const city = (typeof getCurrentCityLabel === 'function') ? (getCurrentCityLabel() || '') : '';
+        let body;
+        if (typeof t === 'function') {
+            const raw = t('notif.before_10_body') || '';
+            body = raw.replace('{prayer}', localName).replace('{city}', city);
+        } else {
+            body = `${localName} in ${city} — in 10 minutes`;
+        }
+        new Notification('🕌 ' + localName, { body, tag: 'tp-prayer-notif' });
+    } catch (_e) {}
+}
+
+function schedulePrayerNotif() {
+    if (_notifTimer) { clearTimeout(_notifTimer); _notifTimer = null; }
+    if (!currentPrayerTimes) return;
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    if (!PrayerTimes || typeof PrayerTimes.getNextPrayer !== 'function') return;
+    const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
+    if (!next || typeof next.remainingMinutes !== 'number') return;
+
+    // Smart trigger: إذا المتبقّي ≤ 10 دقائق → أطلق فوراً (لا ننتظر event فات)
+    if (next.remainingMinutes <= 10) {
+        _fireNotif(next);
+        // جدولة للصلاة التاليّة بعد انقضاء هذه (remainingMinutes + 1min buffer)
+        _notifTimer = setTimeout(schedulePrayerNotif, (next.remainingMinutes + 1) * 60 * 1000);
+        return;
+    }
+    // المعتاد: قبل 10 دقائق من دخول الصلاة
+    const _delaySec = (next.remainingMinutes - 10) * 60;
+    _notifTimer = setTimeout(() => {
+        _fireNotif(next);
+        setTimeout(schedulePrayerNotif, 60 * 1000);
+    }, _delaySec * 1000);
 }
 
 /**
@@ -6295,31 +7933,58 @@ function updatePrayerCardsSEO() {
         const key = card.dataset.prayer;
         if (!key) return;
         const prayerName = (typeof t === 'function') ? t('prayer.' + key) : key;
-        let title;
-        if (_ln === 'ar') {
-            title = `موعد صلاة ${prayerName} اليوم في ${cityLabel}`;
-        } else {
-            // fallback لبقيّة اللغات
-            title = `${prayerName} prayer time today in ${cityLabel}`;
-        }
+        // 🆕 Round 8c (Loc cleanup): 10-lang templates (was: AR + EN-fallback for 8)
+        const _prayerTitleByLang = {
+            ar: `موعد صلاة ${prayerName} اليوم في ${cityLabel}`,
+            en: `${prayerName} prayer time today in ${cityLabel}`,
+            fr: `Horaire de la prière ${prayerName} aujourd'hui à ${cityLabel}`,
+            tr: `${cityLabel} için bugünün ${prayerName} namaz vakti`,
+            ur: `${cityLabel} میں آج ${prayerName} کی نماز کا وقت`,
+            de: `${prayerName} Gebetszeit heute in ${cityLabel}`,
+            id: `Waktu sholat ${prayerName} hari ini di ${cityLabel}`,
+            es: `Hora de oración ${prayerName} hoy en ${cityLabel}`,
+            bn: `${cityLabel} এ আজকের ${prayerName} নামাজের সময়`,
+            ms: `Waktu solat ${prayerName} hari ini di ${cityLabel}`
+        };
+        const title = _prayerTitleByLang[_ln] || _prayerTitleByLang.en;
         card.setAttribute('title', title);
         card.setAttribute('aria-label', title);
     });
 
-    // Weekly button → title ديناميكيّ
+    // Weekly button → title ديناميكيّ (🆕 Round 8c: 10-lang)
     const wb = document.querySelector('.weekly-expand-btn');
     if (wb) {
-        wb.setAttribute('title', (_ln === 'ar')
-            ? `جدول مواقيت الصلاة الأسبوعيّ في ${cityLabel}`
-            : `Weekly prayer times schedule in ${cityLabel}`);
+        const _weeklyByLang = {
+            ar: `جدول مواقيت الصلاة الأسبوعيّ في ${cityLabel}`,
+            en: `Weekly prayer times schedule in ${cityLabel}`,
+            fr: `Horaires de prière hebdomadaires à ${cityLabel}`,
+            tr: `${cityLabel} için haftalık namaz vakitleri`,
+            ur: `${cityLabel} میں ہفتہ وار اوقاتِ نماز`,
+            de: `Wöchentliche Gebetszeiten in ${cityLabel}`,
+            id: `Jadwal sholat mingguan di ${cityLabel}`,
+            es: `Horarios semanales de oración en ${cityLabel}`,
+            bn: `${cityLabel} এ সাপ্তাহিক নামাজের সময়সূচি`,
+            ms: `Jadual waktu solat mingguan di ${cityLabel}`
+        };
+        wb.setAttribute('title', _weeklyByLang[_ln] || _weeklyByLang.en);
     }
 
-    // Moon CTA → title ديناميكيّ
+    // Moon CTA → title ديناميكيّ (🆕 Round 8c: 10-lang)
     const mtc = document.getElementById('mtc-cta');
     if (mtc) {
-        mtc.setAttribute('title', (_ln === 'ar')
-            ? `حالة القمر اليوم في ${cityLabel} — الطور والنسبة والعمر`
-            : `Moon status today in ${cityLabel}`);
+        const _moonCtaByLang = {
+            ar: `حالة القمر اليوم في ${cityLabel} — الطور والنسبة والعمر`,
+            en: `Moon status today in ${cityLabel}`,
+            fr: `État de la Lune aujourd'hui à ${cityLabel}`,
+            tr: `${cityLabel} için bugün ay durumu`,
+            ur: `${cityLabel} میں آج چاند کی حالت`,
+            de: `Mondstatus heute in ${cityLabel}`,
+            id: `Status bulan hari ini di ${cityLabel}`,
+            es: `Estado de la Luna hoy en ${cityLabel}`,
+            bn: `${cityLabel} এ আজকের চাঁদের অবস্থা`,
+            ms: `Status bulan hari ini di ${cityLabel}`
+        };
+        mtc.setAttribute('title', _moonCtaByLang[_ln] || _moonCtaByLang.en);
     }
 
     // Hero tagline → H2 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21 → R23: 10 langs)
@@ -6608,10 +8273,13 @@ function startCountdown() {
         const _timeStr = useLatin
             ? `${pad(h12)}:${pad(mm)}:${pad(ss)} ${period}`
             : `${period} ${pad(h12)}:${pad(mm)}:${pad(ss)}`;
-        document.getElementById('current-time').textContent = _timeStr;
+        // 🆕 null-guards: البانر مقصوص على صفحة time-left (DOM pruner)
+        const _ctEl = document.getElementById('current-time');
+        if (_ctEl) _ctEl.textContent = _timeStr;
 
         // اسم المدينة في البانر
-        document.getElementById('banner-city-name').textContent = getDisplayCity();
+        const _bcnEl = document.getElementById('banner-city-name');
+        if (_bcnEl) _bcnEl.textContent = getDisplayCity();
 
         // التاريخ الهجري والميلادي في البانر
         const hijri = HijriDate.getToday();
@@ -6622,9 +8290,11 @@ function startCountdown() {
         const _bLng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         const sep  = (_bLng === 'ar' || _bLng === 'ur') ? '، ' : ', ';
         const gMonths = HijriDate.gregorianMonths;
-        document.getElementById('banner-hijri-date').textContent =
+        const _bhdEl = document.getElementById('banner-hijri-date');
+        if (_bhdEl) _bhdEl.textContent =
             `${dayName}${sep}${hijri.day} ${hijriMonthName} ${hijri.year}${hSfx}`;
-        document.getElementById('banner-greg-date').textContent =
+        const _bgdEl = document.getElementById('banner-greg-date');
+        if (_bgdEl) _bgdEl.textContent =
             `${dayName}${sep}${cityTime.getDate()} ${gMonths[cityTime.getMonth()]} ${cityTime.getFullYear()}${gSfx}`;
 
         // (التاريخ تحت الوقت تم حذفه حسب طلب المستخدم)
@@ -6632,7 +8302,9 @@ function startCountdown() {
         if (!currentPrayerTimes) return;
 
         const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
-        document.getElementById('next-prayer-name').textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
+        // 🆕 null-guard: #next-prayer-name مقصوص على صفحة time-left (DOM pruner)
+        const _npnEl = document.getElementById('next-prayer-name');
+        if (_npnEl) _npnEl.textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
 
         // حساب العد التنازلي بالثواني (بتوقيت المدينة المختارة)
         const currentSeconds = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
@@ -6664,9 +8336,207 @@ function startCountdown() {
         const seconds = diff % 60;
 
         const _countdownStr = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-        document.getElementById('next-prayer-countdown').textContent = _countdownStr;
+        // 🆕 null-guard: #next-prayer-countdown مقصوص على صفحة time-left (DOM pruner)
+        const _npcEl = document.getElementById('next-prayer-countdown');
+        if (_npcEl) _npcEl.textContent = _countdownStr;
         // Round 22: sync Sticky Bar countdown + prayer name
         try { updateStickyBar(_countdownStr); } catch (_e) {}
+        // 🆕 Round 3.1: تحديث progress bar داخل .current كلّ 60 ثانية (تحديث سلس مع transition 1s)
+        try { if ((diff % 60) === 0) updatePrayerProgress(); } catch (_e) {}
+        // 🆕 Round 3.1: state boundary — عند تبدّل next.key نُعيد تطبيق past/current/active/upcoming
+        try {
+            if (next && next.key && next.key !== _lastNextKey) {
+                _lastNextKey = next.key;
+                updateActivePrayer();
+                try { schedulePrayerNotif(); } catch (_e) {}
+                // 🆕 NPT: حدّث صفحة next-prayer-time على انتقال الحدّ — حتّى يتبدّل اسم/وقت الصلاة والرابط الثانويّ
+                try { updateNextPrayerPage(); } catch (_e) {}
+            }
+        } catch (_e) {}
+        // Phase 2: sync City Hero Answer countdown
+        try { if (typeof updateCityHeroCountdown === 'function') updateCityHeroCountdown(_countdownStr); } catch (_e) {}
+        // Polish Round (B): sync City Summary Live tagline — اسم الصلاة + عدّاد طبيعيّ
+        try {
+            const _cslPrayer = document.getElementById('csl-prayer-name');
+            const _cslCd     = document.getElementById('csl-countdown');
+            if (_cslPrayer) {
+                _cslPrayer.textContent = (typeof t === 'function') ? (t('prayer.' + next.key) || next.name) : next.name;
+            }
+            if (_cslCd) {
+                // صياغة طبيعيّة: "14 دقيقة" / "1 ساعة و 23 دقيقة" / "45 ثانية"
+                const _cslLng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _units = {
+                    ar: { h: 'ساعة', m: 'دقيقة', s: 'ثانية', and: ' و ' },
+                    en: { h: 'h', m: 'min', s: 'sec', and: ' ' },
+                    fr: { h: 'h', m: 'min', s: 's', and: ' ' },
+                    tr: { h: 'sa', m: 'dk', s: 'sn', and: ' ' },
+                    ur: { h: 'گھنٹہ', m: 'منٹ', s: 'سیکنڈ', and: ' اور ' },
+                    de: { h: 'Std', m: 'Min', s: 'Sek', and: ' ' },
+                    id: { h: 'jam', m: 'menit', s: 'detik', and: ' ' },
+                    es: { h: 'h', m: 'min', s: 's', and: ' ' },
+                    bn: { h: 'ঘণ্টা', m: 'মিনিট', s: 'সেকেন্ড', and: ' ও ' },
+                    ms: { h: 'jam', m: 'minit', s: 'saat', and: ' ' }
+                };
+                const _u = _units[_cslLng] || _units.en;
+                let _natural = '';
+                if (hours > 0) {
+                    _natural = `${hours} ${_u.h}${minutes > 0 ? _u.and + minutes + ' ' + _u.m : ''}`;
+                } else if (minutes > 0) {
+                    _natural = `${minutes} ${_u.m}`;
+                } else {
+                    _natural = `${seconds} ${_u.s}`;
+                }
+                _cslCd.textContent = _natural;
+            }
+        } catch (_e) {}
+
+        // 🆕 Round 5 (Tool Page): sync Time-Left Page hero — BIG countdown + timeline + dynamic title + SEO
+        try {
+            if (document.documentElement.classList.contains('time-left-page')) {
+                const _tlH1Prayer = document.getElementById('tl-h1-prayer');
+                const _tlPrayer   = document.getElementById('tl-prayer-name');
+                const _tlPTime    = document.getElementById('tl-prayer-time');
+                const _tlCd       = document.getElementById('tl-countdown');
+                const _tlCity     = document.getElementById('tl-city');
+                const _tlCityLabel= document.getElementById('tl-city-label');
+                const _tlCta      = document.getElementById('tl-cta');
+                const _tlTimeline = document.getElementById('tl-timeline');
+                const _tlSeo      = document.getElementById('tl-seo');
+
+                const _prayerLabel = (typeof t === 'function') ? (t('prayer.' + next.key) || next.name) : next.name;
+                if (_tlH1Prayer) _tlH1Prayer.textContent = _prayerLabel;
+                if (_tlPrayer)   _tlPrayer.textContent   = _prayerLabel;
+                if (_tlCd) {
+                    // 🆕 Level 3: micro-tick animation كل ثانية
+                    if (_tlCd.textContent !== _countdownStr) {
+                        _tlCd.textContent = _countdownStr;
+                        _tlCd.classList.remove('tl-tick-pulse');
+                        // force reflow to restart animation
+                        void _tlCd.offsetWidth;
+                        _tlCd.classList.add('tl-tick-pulse');
+                    }
+                }
+
+                // وقت الصلاة القادمة — استخدام النصّ المنسَّق الجاهز من prayer-times.js
+                if (_tlPTime && currentPrayerTimes && currentPrayerTimes[next.key]) {
+                    _tlPTime.textContent = currentPrayerTimes[next.key];
+                }
+
+                // 🔥 Dynamic document.title — live countdown (CTR boost)
+                const _tlDocCity = (_tlCity && _tlCity.textContent && _tlCity.textContent !== '—')
+                    ? _tlCity.textContent
+                    : '';
+                if (_tlDocCity && _countdownStr) {
+                    const _tlT = (typeof t === 'function') ? t('tl.title_live') : '{cd} | {prayer} in {city}';
+                    document.title = String(_tlT || '{cd} | {prayer} in {city}')
+                        .replace('{cd}', _countdownStr)
+                        .replace('{prayer}', _prayerLabel)
+                        .replace('{city}', _tlDocCity);
+                }
+
+                // City name + CTA href (once)
+                const _tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+                if (_tlMatch) {
+                    const _tlSlug = _tlMatch[1];
+                    const _tlLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                    const _tlCityDisplay = (typeof getDisplayCity === 'function') ? getDisplayCity() : _tlSlug;
+                    if (_tlCity && _tlCity.textContent !== _tlCityDisplay) _tlCity.textContent = _tlCityDisplay;
+                    if (_tlCityLabel && _tlCityLabel.textContent !== _tlCityDisplay) _tlCityLabel.textContent = _tlCityDisplay;
+                    if (_tlCta && !_tlCta.dataset.wired) {
+                        const _langPfx = (_tlLang === 'ar') ? '' : ('/' + _tlLang);
+                        _tlCta.href = _langPfx + '/prayer-times-in-' + _tlSlug;
+                        // 🆕 Level 2: substitute {loc} in CTA text with actual city
+                        const _ctaTextEl = document.getElementById('tl-cta-text') || _tlCta.querySelector('.tl-cta-text');
+                        if (_ctaTextEl && _ctaTextEl.textContent.includes('{loc}')) {
+                            _ctaTextEl.textContent = _ctaTextEl.textContent.replace('{loc}', _tlCityDisplay);
+                        }
+                        _tlCta.dataset.wired = '1';
+                    }
+
+                    // 🆕 Level 3: Sticky mini timer — wire scroll listener once
+                    const _tlSticky = document.getElementById('tl-sticky');
+                    if (_tlSticky && !_tlSticky.dataset.wired) {
+                        const _heroEl = document.getElementById('tl-hero');
+                        const _onScroll = function () {
+                            if (!_heroEl) return;
+                            const rect = _heroEl.getBoundingClientRect();
+                            // يظهر بعد تجاوز الـ hero (bottom < 80)
+                            const shouldShow = rect.bottom < 80;
+                            _tlSticky.classList.toggle('tl-sticky-on', shouldShow);
+                        };
+                        window.addEventListener('scroll', _onScroll, { passive: true });
+                        _onScroll();
+                        _tlSticky.dataset.wired = '1';
+                    }
+
+                    // 🆕 SEO paragraph (2 lines) — refresh عند تغيّر الصلاة
+                    if (_tlSeo && _tlSeo.dataset.lastPrayer !== next.key) {
+                        const _seoTpl = (typeof t === 'function') ? t('tl.seo') : '';
+                        if (_seoTpl) {
+                            _tlSeo.textContent = String(_seoTpl)
+                                .replace('{prayer}', _prayerLabel)
+                                .replace('{city}', _tlCityDisplay);
+                            _tlSeo.dataset.lastPrayer = next.key;
+                        }
+                    }
+                }
+
+                // 🆕 Level 3: Smart color states (urgency tiers)
+                // > 60min: default (green) | < 30min: warn (orange) | < 10min: urgent (red)
+                if (_tlCd && typeof diff === 'number') {
+                    const _remMin = diff / 60;
+                    let _urg = '';
+                    if      (_remMin < 10) _urg = 'urgent';
+                    else if (_remMin < 30) _urg = 'warn';
+                    if (_urg) _tlCd.setAttribute('data-urgency', _urg);
+                    else      _tlCd.removeAttribute('data-urgency');
+
+                    // Also set state class on .tl-hero for live dot sync
+                    const _tlHero = document.getElementById('tl-hero');
+                    if (_tlHero) {
+                        _tlHero.classList.toggle('tl-state-urgent', _urg === 'urgent');
+                        _tlHero.classList.toggle('tl-state-soon',   _urg === 'warn');
+                    }
+                }
+
+                // 🆕 Level 3: Sticky Mini Timer — تحديث القيم
+                const _tlStickyCd     = document.getElementById('tl-sticky-cd');
+                const _tlStickyPrayer = document.getElementById('tl-sticky-prayer');
+                if (_tlStickyCd && _tlStickyCd.textContent !== _countdownStr) {
+                    _tlStickyCd.textContent = _countdownStr;
+                }
+                if (_tlStickyPrayer && _tlStickyPrayer.textContent !== _prayerLabel) {
+                    _tlStickyPrayer.textContent = _prayerLabel;
+                }
+
+                // 🆕 Timeline render (✓ done / ← now / · upcoming)
+                if (_tlTimeline && currentPrayerTimes && currentPrayerTimes.raw) {
+                    const _ORDER = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+                    const _nowSec = (function () {
+                        const d = new Date();
+                        return d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+                    })();
+                    const _items = _ORDER.map(function (k) {
+                        const raw = currentPrayerTimes.raw[k];
+                        if (typeof raw !== 'number') return null;
+                        const ph = ((raw % 24) + 24) % 24;
+                        const sec = Math.floor(ph * 3600);
+                        let state = 'upcoming';
+                        if (sec < _nowSec) state = 'done';
+                        if (k === next.key) state = 'now';
+                        const nm = (typeof t === 'function') ? (t('prayer.' + k) || k) : k;
+                        // استخدام النصّ المنسَّق الجاهز (currentPrayerTimes[k]) بدل raw decimal
+                        const tm = currentPrayerTimes[k] || '';
+                        const icon = state === 'done' ? '✓' : (state === 'now' ? '←' : '·');
+                        return '<li class="tl-' + state + '"><span class="tl-tl-icon">' + icon + '</span><span class="tl-tl-name">' + nm + '</span><span class="tl-tl-time">' + tm + '</span></li>';
+                    }).filter(Boolean).join('');
+                    if (_tlTimeline.dataset.lastRender !== _items) {
+                        _tlTimeline.innerHTML = _items;
+                        _tlTimeline.dataset.lastRender = _items;
+                    }
+                }
+            }
+        } catch (_e) {}
 
         // تشغيل الأذان عند عبور ثانية وقت الصلاة بدقة كاملة
         if (_prevCurrentSeconds !== null) {
@@ -6685,8 +8555,12 @@ function startCountdown() {
         _prevCurrentSeconds = currentSeconds;
     }
 
-    updateCountdown();
-    countdownInterval = setInterval(updateCountdown, 1000);
+    // 🆕 Defensive: wrap first-tick so a synchronous throw on the stripped time-left page
+    // cannot prevent setInterval from starting. Subsequent ticks are independent.
+    try { updateCountdown(); } catch (_e) { try { console.warn('[countdown] first-tick failed:', _e); } catch(_) {} }
+    countdownInterval = setInterval(function () {
+        try { updateCountdown(); } catch (_e) { /* swallow per-tick errors */ }
+    }, 1000);
 }
 
 // ========= الرجوع للرئيسية =========
@@ -7086,7 +8960,8 @@ async function fetchNearbyPlaces(lat, lng) {
             const nameEn = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(p.name) ? p.name : '');
             const dist = Math.round(Math.sqrt((elLat-lat)**2 + (elLon-lng)**2) * 111);
             const icon = p.type === 'village' ? '🏘️' : p.type === 'town' ? '🏡' : '🏙️';
-            return { lat: elLat, lon: elLon, dist, nameAr, nameEn, icon };
+            // 🆕 Round 2.1: preserve type + importance for smart badge logic
+            return { lat: elLat, lon: elLon, dist, nameAr, nameEn, icon, type: p.type || 'city', importance: parseFloat(p.importance || 0) };
         });
     } else {
         // Nominatim أعاد القليل — انتظر Overpass
@@ -7097,7 +8972,8 @@ async function fetchNearbyPlaces(lat, lng) {
             const nameEn = tags['name:en'] || (/^[a-zA-Z\s\-'.]+$/.test(tags.name) ? tags.name : '');
             const dist = Math.round(Math.sqrt((el.lat-lat)**2 + (el.lon-lng)**2) * 111);
             const icon = tags.place === 'village' ? '🏘️' : tags.place === 'town' ? '🏡' : '🏙️';
-            return { lat: el.lat, lon: el.lon, dist, nameAr, nameEn, icon };
+            // 🆕 Round 2.1: preserve type + population for smart badge logic
+            return { lat: el.lat, lon: el.lon, dist, nameAr, nameEn, icon, type: tags.place || 'city', importance: parseFloat(tags.population || 0) / 1e7 };
         });
     }
 
@@ -7129,7 +9005,26 @@ function renderNearbyGrid(places, grid) {
     if (!grid) grid = document.getElementById('nearby-grid');
     if (!grid || !places || places.length === 0) return;
     grid.innerHTML = '';
-    places.forEach(place => {
+    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    // 🆕 Round 2.1: smart badge selector — closest / popular / capital
+    // المنطق: dist <= 30km → الأقرب | dist > 30km && type==='city' → بارزة قريبة | else → الأقرب
+    const _pickBadge = (place) => {
+        const _fb = {
+            closest: { ar: '📍 الأقرب إليك الآن', en: '📍 Closest to you', fr: '📍 Le plus proche', tr: '📍 Size en yakın', ur: '📍 آپ کے قریب ترین', de: '📍 Am nächsten', id: '📍 Terdekat', es: '📍 Más cercano', bn: '📍 আপনার কাছাকাছি', ms: '📍 Terdekat' },
+            popular: { ar: '⭐ مدينة قريبة بارزة', en: '⭐ Popular nearby city', fr: '⭐ Ville populaire proche', tr: '⭐ Popüler yakın şehir', ur: '⭐ قریبی مشہور شہر', de: '⭐ Beliebte Nachbarstadt', id: '⭐ Kota populer terdekat', es: '⭐ Ciudad cercana popular', bn: '⭐ কাছাকাছি জনপ্রিয় শহর', ms: '⭐ Bandar popular berdekatan' },
+        };
+        const _tier = (typeof place.dist === 'number' && place.dist <= 30)
+            ? 'closest'
+            : ((place.type === 'city' || place.importance >= 0.5) ? 'popular' : 'closest');
+        const _key = `nearby.badge_${_tier}`;
+        if (typeof t === 'function') {
+            const _try = t(_key);
+            if (_try && _try !== _key) return _try;
+        }
+        return (_fb[_tier] && _fb[_tier][_lng]) || _fb.closest[_lng] || _fb.closest.en;
+    };
+
+    places.forEach((place, _idx) => {
         const _nLng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         const isArNearby = (_nLng === 'ar');
         let placeLabel;
@@ -7140,12 +9035,34 @@ function renderNearbyGrid(places, grid) {
             placeLabel = (cityMap && cityMap[place.nameEn]) || place.nameEn || place.nameAr;
         }
         const distLabel = isArNearby ? `${place.dist} كم` : `${place.dist} km`;
-        const nearbyTitle = isArNearby
-            ? `مواقيت الصلاة في ${place.nameAr}`
-            : ((typeof t === 'function') ? t('prayer_times_in', { city: placeLabel }) : `Prayer Times in ${placeLabel}`);
+        // Polish Round (C): إضافة "اليوم" — SEO boost + اتّساق مع chips الصفحة الرئيسيّة
+        const _nearbyTplFallback = {
+            ar: 'مواقيت الصلاة اليوم في {loc}',
+            en: "Today's Prayer Times in {loc}",
+            fr: "Heures de prière aujourd'hui à {loc}",
+            tr: '{loc} için bugünkü namaz vakitleri',
+            ur: 'آج {loc} میں اوقاتِ نماز',
+            de: 'Gebetszeiten heute in {loc}',
+            id: 'Jadwal Sholat Hari Ini di {loc}',
+            es: 'Horarios de Oración Hoy en {loc}',
+            bn: 'আজ {loc}-এ নামাজের সময়',
+            ms: 'Waktu Solat Hari Ini di {loc}'
+        };
+        let _nearbyTpl = '';
+        if (typeof t === 'function') {
+            const _try = t('nearby.item_today');
+            if (_try && _try !== 'nearby.item_today') _nearbyTpl = _try;
+        }
+        if (!_nearbyTpl) _nearbyTpl = _nearbyTplFallback[_nLng] || _nearbyTplFallback.en;
+        const nearbyTitle = _nearbyTpl.replace(/\{loc\}/g, placeLabel);
 
         const a = document.createElement('a');
         a.className = 'nearby-item';
+        // 🆕 Round 2.1: أوّل عنصر يحصل على .featured + badge ديناميكيّ (closest / popular)
+        if (_idx === 0) {
+            a.classList.add('featured');
+            a.setAttribute('data-closest-label', _pickBadge(place));
+        }
         a.href = buildCityUrl(place.lat, place.lon, place.nameAr, currentCountry, place.nameEn);
         a.title = nearbyTitle;
         a.innerHTML = `
@@ -8210,6 +10127,10 @@ function updateMoonInfo() {
             ? hijriMonthsFor(_lng_)
             : (typeof HijriDate !== 'undefined' && HijriDate.hijriMonths ? HijriDate.hijriMonths : []);
 
+        // Highlight the row matching the real current date (in city timezone) — regardless of
+        // whether the user is on the generic /moon-today page or a specific /moon-in-{city}/{date} page.
+        const _nowParts = _getDayPartsInTz(new Date(), _tz);
+
         let html = '';
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
@@ -8218,6 +10139,7 @@ function updateMoonInfo() {
             const dd = dp.d;
             const mm = _gm[dp.m];
             const yy = dp.y;
+            const _isTodayRow = (_nowParts && dp.y === _nowParts.y && dp.m === _nowParts.m && dp.d === _nowParts.d);
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
 
             // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — الرابط يفتح صفحة
@@ -8240,19 +10162,22 @@ function updateMoonInfo() {
 
             // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
             // (Round 16b: أُزيل عمود «تفاصيل» — خليّة اليوم والخليّة الهجريّة تبقيان قابلتَين للنقر.)
-            let dayCell, rowClass = '';
+            let dayCell, rowClasses = [];
             const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
             if (_citySlug) {
                 const _iso = _fcIso(dp, row.date);
                 // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
                 const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _iso;
                 dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
-                rowClass = ' class="fc-row-clickable"';
+                rowClasses.push('fc-row-clickable');
             } else {
                 dayCell = `<td>${_escHtml(_dayText)}</td>`;
             }
+            if (_isTodayRow) rowClasses.push('fc-row-today');
+            const rowClass = rowClasses.length ? ` class="${rowClasses.join(' ')}"` : '';
+            const rowAria  = _isTodayRow ? ' aria-current="date"' : '';
 
-            html += `<tr${rowClass}>`
+            html += `<tr${rowClass}${rowAria}>`
                 + dayCell
                 + hijriCell
                 + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
@@ -9281,12 +11206,14 @@ const HT_I18N = {
         bcYear:y=>`${y} هـ`, bcMonth:(m,y)=>`${m} ${y} هـ`, bcDay:(d,m,y)=>`${d} ${m} ${y} هـ`,
         hero:(dn,d,m,y)=>`التاريخ الهجري اليوم: ${dn} ${d} ${m} ${y} هـ`,
         greg:(dn,g)=>`الموافق: ${dn} ${g} م – حسب تقويم أم القرى`,
-        desc:(c,l)=>`اعرف التاريخ الهجري اليوم بدقة في ${c} حسب تقويم أم القرى، مع إمكانية ${l} بسهولة.`,
+        desc:c=>`يعرض التاريخ الهجري اليوم في ${c} بدقة حسب تقويم أم القرى، مع التاريخ الميلادي المقابل.`,
         descLink:'تحويل التاريخ بين الهجري والميلادي',
         infoLabels:['اليوم','التاريخ الهجري','التاريخ الميلادي','الشهر','السنة','سنة كبيسة'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} هـ`, infoGreg:g=>`${g} م`, infoYear:y=>`${y} هـ`,
         leapYes:'نعم (355 يوماً)', leapNo:'لا (354 يوماً)',
-        ctaConv:'🔥 تحويل التاريخ هجري ميلادي',
+        ctaConv:'🔄 تحويل التاريخ',
+        ctaMoon:'🌙 حالة القمر اليوم',
+        ctaPrayer:'🕌 مواقيت الصلاة اليوم',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} هـ`,
         ctaMonth:(m,y)=>`🌙 التقويم الهجري لشهر ${m} ${y}`,
         ctaYear:y=>`📆 التقويم الهجري ${y} هـ كامل`,
@@ -9306,7 +11233,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 التقويم الهجري لشهر ${m}`,
         extraYear:y=>`📆 التقويم الهجري ${y} هـ كامل`,
         extraConv:'🔄 تحويل التاريخ',
-        footer:c=>`يعتمد التقويم الهجري على دورة القمر، ويستخدم في تحديد المناسبات الإسلامية مثل رمضان والحج. يعرض هذا الموقع التاريخ الهجري اليوم بدقة حسب تقويم أم القرى في ${c}. يمكنك أيضاً استخدام أداة تحويل التاريخ بين الهجري والميلادي، أو تصفح التقويم الهجري الكامل، أو معرفة التاريخ الهجري اليوم.`,
+        extraMoon:'🌙 حالة القمر اليوم',
+        extraTimeLeft:'⏳ كم باقي على الصلاة اليوم',
+        footer:c=>`يعرض هذا القسم التاريخ الهجري اليوم بدقة حسب تقويم أم القرى في ${c}، مع التاريخ الميلادي المقابل. استخدم الروابط أعلاه للوصول السريع إلى التقويم الهجري الكامل وأداة تحويل التاريخ وحالة القمر اليوم.`,
     },
     en: {
         hSfx:' AH',
@@ -9317,12 +11246,14 @@ const HT_I18N = {
         bcYear:y=>`${y} AH`, bcMonth:(m,y)=>`${m} ${y} AH`, bcDay:(d,m,y)=>`${d} ${m} ${y} AH`,
         hero:(dn,d,m,y)=>`Today's Hijri Date: ${dn}, ${d} ${m} ${y} AH`,
         greg:(dn,g)=>`Corresponding to: ${dn} ${g} CE – Umm al-Qura Calendar`,
-        desc:(c,l)=>`Know today's Hijri date accurately in ${c} according to the Umm al-Qura calendar, with the ability to ${l} easily.`,
+        desc:c=>`Displays today's Hijri date in ${c} accurately according to the Umm al-Qura calendar, alongside the corresponding Gregorian date.`,
         descLink:'convert dates between Hijri and Gregorian',
         infoLabels:['Day','Hijri Date','Gregorian Date','Month','Year','Leap Year'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} AH`, infoGreg:g=>`${g} CE`, infoYear:y=>`${y} AH`,
         leapYes:'Yes (355 days)', leapNo:'No (354 days)',
-        ctaConv:'🔥 Convert Hijri ↔ Gregorian',
+        ctaConv:'🔄 Date Converter',
+        ctaMoon:'🌙 Moon Status Today',
+        ctaPrayer:'🕌 Today\'s Prayer Times',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} AH`,
         ctaMonth:(m,y)=>`🌙 ${m} ${y} AH Calendar`,
         ctaYear:y=>`📆 Full ${y} AH Calendar`,
@@ -9342,7 +11273,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 ${m} Calendar`,
         extraYear:y=>`📆 ${y} AH Full Calendar`,
         extraConv:'🔄 Date Converter',
-        footer:c=>`The Hijri calendar is based on the lunar cycle and is used to determine Islamic occasions such as Ramadan and Hajj. This site displays today's Hijri date accurately according to the Umm al-Qura calendar in ${c}. You can also use the date converter tool to convert between Hijri and Gregorian, or browse the full Hijri calendar.`,
+        extraMoon:'🌙 Moon Status Today',
+        extraTimeLeft:'⏳ Time Left Until Next Prayer',
+        footer:c=>`This page shows today's Hijri date accurately according to the Umm al-Qura calendar in ${c}, along with its Gregorian equivalent. Use the links above for quick access to the full Hijri calendar, the date converter, and today's moon status.`,
     },
     fr: {
         hSfx:' AH',
@@ -9353,12 +11286,14 @@ const HT_I18N = {
         bcYear:y=>`${y} AH`, bcMonth:(m,y)=>`${m} ${y} AH`, bcDay:(d,m,y)=>`${d} ${m} ${y} AH`,
         hero:(dn,d,m,y)=>`Date hégirienne d'aujourd'hui : ${dn}, ${d} ${m} ${y} AH`,
         greg:(dn,g)=>`Correspondant au : ${dn} ${g} – Calendrier Oumm al-Qura`,
-        desc:(c,l)=>`Connaissez la date hégirienne d'aujourd'hui avec précision en ${c} selon le calendrier Oumm al-Qura, avec la possibilité de ${l} facilement.`,
+        desc:c=>`Affiche la date hégirienne d'aujourd'hui à ${c} avec précision selon le calendrier Oumm al-Qura, ainsi que la date grégorienne correspondante.`,
         descLink:'convertir les dates entre hégirien et grégorien',
         infoLabels:['Jour','Date hégirienne','Date grégorienne','Mois','Année','Année bissextile'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} AH`, infoGreg:g=>`${g}`, infoYear:y=>`${y} AH`,
         leapYes:'Oui (355 jours)', leapNo:'Non (354 jours)',
-        ctaConv:'🔥 Convertir hégirien ↔ grégorien',
+        ctaConv:'🔄 Convertisseur de Date',
+        ctaMoon:'🌙 État de la Lune aujourd\'hui',
+        ctaPrayer:'🕌 Horaires de prière aujourd\'hui',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} AH`,
         ctaMonth:(m,y)=>`🌙 Calendrier ${m} ${y} AH`,
         ctaYear:y=>`📆 Calendrier ${y} AH complet`,
@@ -9378,7 +11313,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 Calendrier ${m}`,
         extraYear:y=>`📆 Calendrier ${y} AH complet`,
         extraConv:'🔄 Convertisseur de dates',
-        footer:c=>`Le calendrier hégirien est basé sur le cycle lunaire et sert à déterminer les occasions islamiques comme le Ramadan et le Hajj. Ce site affiche la date hégirienne d'aujourd'hui avec précision selon le calendrier Oumm al-Qura en ${c}. Vous pouvez aussi utiliser le convertisseur pour convertir entre hégirien et grégorien, ou parcourir le calendrier hégirien complet.`,
+        extraMoon:'🌙 État de la Lune aujourd\'hui',
+        extraTimeLeft:'⏳ Temps restant jusqu\'à la prière',
+        footer:c=>`Cette page affiche la date hégirienne d'aujourd'hui avec précision selon le calendrier Oumm al-Qura en ${c}, ainsi que son équivalent grégorien. Utilisez les liens ci-dessus pour accéder rapidement au calendrier hégirien complet, au convertisseur de dates et à l'état de la Lune.`,
     },
     tr: {
         hSfx:' H',
@@ -9389,12 +11326,14 @@ const HT_I18N = {
         bcYear:y=>`${y} H`, bcMonth:(m,y)=>`${m} ${y} H`, bcDay:(d,m,y)=>`${d} ${m} ${y} H`,
         hero:(dn,d,m,y)=>`Bugünün Hicri Tarihi: ${dn}, ${d} ${m} ${y} H`,
         greg:(dn,g)=>`Miladi karşılığı: ${dn} ${g} M – Ümmü'l-Kurra Takvimi`,
-        desc:(c,l)=>`${c} için bugünün Hicri tarihini Ümmü'l-Kurra takvimine göre tam olarak öğrenin, ayrıca ${l} kolayca yapabilirsiniz.`,
+        desc:c=>`${c} için bugünün Hicri tarihini Ümmü'l-Kurra takvimine göre tam olarak, karşılık gelen Miladi tarihle birlikte gösterir.`,
         descLink:'Hicri ile Miladi arasında tarih dönüştürme',
         infoLabels:['Gün','Hicri Tarih','Miladi Tarih','Ay','Yıl','Artık Yıl'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} H`, infoGreg:g=>`${g} M`, infoYear:y=>`${y} H`,
         leapYes:'Evet (355 gün)', leapNo:'Hayır (354 gün)',
-        ctaConv:'🔥 Hicri ↔ Miladi Dönüştür',
+        ctaConv:'🔄 Tarih Çevirici',
+        ctaMoon:'🌙 Bugün Ay Durumu',
+        ctaPrayer:'🕌 Bugünün Namaz Vakitleri',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} H`,
         ctaMonth:(m,y)=>`🌙 ${m} ${y} H Takvimi`,
         ctaYear:y=>`📆 ${y} H Tam Takvim`,
@@ -9414,7 +11353,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 ${m} Takvimi`,
         extraYear:y=>`📆 ${y} H Tam Takvim`,
         extraConv:'🔄 Tarih Dönüştürücü',
-        footer:c=>`Hicri takvim, ay döngüsüne dayanır ve Ramazan ile Hac gibi İslami olayları belirlemede kullanılır. Bu site, ${c} için bugünün Hicri tarihini Ümmü'l-Kurra takvimine göre tam olarak gösterir. Ayrıca Hicri ile Miladi arasında dönüştürme aracını kullanabilir veya tam Hicri takvime göz atabilirsiniz.`,
+        extraMoon:'🌙 Bugün Ay Durumu',
+        extraTimeLeft:'⏳ Bir Sonraki Namaza Kalan Süre',
+        footer:c=>`Bu sayfa, ${c} için bugünün Hicri tarihini Ümmü'l-Kurra takvimine göre tam olarak ve Miladi karşılığıyla birlikte gösterir. Tam Hicri takvime, tarih dönüştürücüye ve bugünkü ay durumuna hızlı erişim için yukarıdaki bağlantıları kullanın.`,
     },
     ur: {
         hSfx:' ہجری',
@@ -9425,12 +11366,14 @@ const HT_I18N = {
         bcYear:y=>`${y} ہجری`, bcMonth:(m,y)=>`${m} ${y} ہجری`, bcDay:(d,m,y)=>`${d} ${m} ${y} ہجری`,
         hero:(dn,d,m,y)=>`آج کی ہجری تاریخ: ${dn}، ${d} ${m} ${y} ہجری`,
         greg:(dn,g)=>`مطابق: ${dn} ${g} عیسوی – ام القریٰ کیلنڈر`,
-        desc:(c,l)=>`${c} میں آج کی ہجری تاریخ ام القریٰ کیلنڈر کے مطابق بالکل درست جانیں، اور آسانی سے ${l} کر سکتے ہیں۔`,
+        desc:c=>`${c} میں آج کی ہجری تاریخ ام القریٰ کیلنڈر کے مطابق بالکل درست دکھاتا ہے، ساتھ میں متعلقہ عیسوی تاریخ بھی۔`,
         descLink:'ہجری اور عیسوی کے درمیان تاریخ کی تبدیلی',
         infoLabels:['دن','ہجری تاریخ','عیسوی تاریخ','مہینہ','سال','لیپ سال'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} ہجری`, infoGreg:g=>`${g} عیسوی`, infoYear:y=>`${y} ہجری`,
         leapYes:'ہاں (355 دن)', leapNo:'نہیں (354 دن)',
-        ctaConv:'🔥 ہجری ↔ عیسوی تبدیل کریں',
+        ctaConv:'🔄 تاریخ تبدیل',
+        ctaMoon:'🌙 آج چاند کی حالت',
+        ctaPrayer:'🕌 آج کے نماز کے اوقات',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} ہجری`,
         ctaMonth:(m,y)=>`🌙 ${m} ${y} ہجری کیلنڈر`,
         ctaYear:y=>`📆 ${y} ہجری مکمل کیلنڈر`,
@@ -9450,7 +11393,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 ${m} کیلنڈر`,
         extraYear:y=>`📆 ${y} ہجری مکمل کیلنڈر`,
         extraConv:'🔄 تاریخ کنورٹر',
-        footer:c=>`ہجری کیلنڈر چاند کے چکر پر مبنی ہے اور رمضان اور حج جیسے اسلامی مواقع کا تعین کرنے کے لیے استعمال ہوتا ہے۔ یہ سائٹ ${c} میں ام القریٰ کیلنڈر کے مطابق آج کی ہجری تاریخ درست طور پر دکھاتی ہے۔ آپ ہجری اور عیسوی کے درمیان تبدیل کرنے کے لیے کنورٹر بھی استعمال کر سکتے ہیں یا مکمل ہجری کیلنڈر دیکھ سکتے ہیں۔`,
+        extraMoon:'🌙 آج چاند کی حالت',
+        extraTimeLeft:'⏳ اگلی نماز تک باقی وقت',
+        footer:c=>`یہ صفحہ ${c} میں ام القریٰ کیلنڈر کے مطابق آج کی ہجری تاریخ کو درست طور پر دکھاتا ہے، اس کے عیسوی مساوی کے ساتھ۔ مکمل ہجری کیلنڈر، تاریخ کنورٹر، اور آج کے چاند کی حالت تک فوری رسائی کے لیے اوپر دیے گئے روابط استعمال کریں۔`,
     },
     de: {
         hSfx:' AH',
@@ -9461,12 +11406,14 @@ const HT_I18N = {
         bcYear:y=>`${y} AH`, bcMonth:(m,y)=>`${m} ${y} AH`, bcDay:(d,m,y)=>`${d} ${m} ${y} AH`,
         hero:(dn,d,m,y)=>`Heutiges Hidschri-Datum: ${dn}, ${d} ${m} ${y} AH`,
         greg:(dn,g)=>`Entspricht: ${dn} ${g} n. Chr. – Umm-al-Qura-Kalender`,
-        desc:(c,l)=>`Erfahren Sie das heutige Hidschri-Datum in ${c} genau nach dem Umm-al-Qura-Kalender und können Sie einfach ${l}.`,
+        desc:c=>`Zeigt das heutige Hidschri-Datum in ${c} präzise nach dem Umm-al-Qura-Kalender zusammen mit dem entsprechenden gregorianischen Datum.`,
         descLink:'Daten zwischen Hidschri und Gregorianisch umrechnen',
         infoLabels:['Tag','Hidschri-Datum','Gregorianisches Datum','Monat','Jahr','Schaltjahr'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} AH`, infoGreg:g=>`${g} n. Chr.`, infoYear:y=>`${y} AH`,
         leapYes:'Ja (355 Tage)', leapNo:'Nein (354 Tage)',
-        ctaConv:'🔥 Hidschri ↔ Gregorianisch umrechnen',
+        ctaConv:'🔄 Datumsumrechner',
+        ctaMoon:'🌙 Heutiger Mondstatus',
+        ctaPrayer:'🕌 Heutige Gebetszeiten',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} AH`,
         ctaMonth:(m,y)=>`🌙 ${m} ${y} AH Kalender`,
         ctaYear:y=>`📆 Kompletter ${y} AH Kalender`,
@@ -9486,7 +11433,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 ${m} Kalender`,
         extraYear:y=>`📆 ${y} AH Kompletter Kalender`,
         extraConv:'🔄 Datumsumrechner',
-        footer:c=>`Der Hidschri-Kalender basiert auf dem Mondzyklus und dient zur Bestimmung islamischer Anlässe wie Ramadan und Hadsch. Diese Seite zeigt das heutige Hidschri-Datum in ${c} genau nach dem Umm-al-Qura-Kalender. Sie können auch das Umrechnungstool verwenden, um zwischen Hidschri und Gregorianisch umzurechnen, oder den vollständigen Hidschri-Kalender durchsuchen.`,
+        extraMoon:'🌙 Heutiger Mondstatus',
+        extraTimeLeft:'⏳ Verbleibende Zeit bis zum nächsten Gebet',
+        footer:c=>`Diese Seite zeigt das heutige Hidschri-Datum in ${c} präzise nach dem Umm-al-Qura-Kalender zusammen mit dem entsprechenden gregorianischen Datum. Nutzen Sie die Links oben für schnellen Zugriff auf den vollständigen Hidschri-Kalender, den Datumsumrechner und den heutigen Mondstatus.`,
     },
     id: {
         hSfx:' H',
@@ -9497,12 +11446,14 @@ const HT_I18N = {
         bcYear:y=>`${y} H`, bcMonth:(m,y)=>`${m} ${y} H`, bcDay:(d,m,y)=>`${d} ${m} ${y} H`,
         hero:(dn,d,m,y)=>`Tanggal Hijriah Hari Ini: ${dn}, ${d} ${m} ${y} H`,
         greg:(dn,g)=>`Bertepatan dengan: ${dn} ${g} M – Kalender Umm al-Qura`,
-        desc:(c,l)=>`Ketahui tanggal Hijriah hari ini secara akurat di ${c} menurut kalender Umm al-Qura, dengan kemampuan untuk ${l} dengan mudah.`,
+        desc:c=>`Menampilkan tanggal Hijriah hari ini di ${c} secara akurat menurut kalender Umm al-Qura bersama dengan tanggal Masehi yang sesuai.`,
         descLink:'mengonversi tanggal antara Hijriah dan Masehi',
         infoLabels:['Hari','Tanggal Hijriah','Tanggal Masehi','Bulan','Tahun','Tahun Kabisat'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} H`, infoGreg:g=>`${g} M`, infoYear:y=>`${y} H`,
         leapYes:'Ya (355 hari)', leapNo:'Tidak (354 hari)',
-        ctaConv:'🔥 Konversi Hijriah ↔ Masehi',
+        ctaConv:'🔄 Konverter Tanggal',
+        ctaMoon:'🌙 Status Bulan Hari Ini',
+        ctaPrayer:'🕌 Waktu Shalat Hari Ini',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} H`,
         ctaMonth:(m,y)=>`🌙 Kalender ${m} ${y} H`,
         ctaYear:y=>`📆 Kalender Lengkap ${y} H`,
@@ -9522,7 +11473,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 Kalender ${m}`,
         extraYear:y=>`📆 Kalender Lengkap ${y} H`,
         extraConv:'🔄 Konverter Tanggal',
-        footer:c=>`Kalender Hijriah didasarkan pada siklus bulan dan digunakan untuk menentukan peristiwa Islam seperti Ramadan dan Haji. Situs ini menampilkan tanggal Hijriah hari ini secara akurat menurut kalender Umm al-Qura di ${c}. Anda juga dapat menggunakan alat konverter tanggal untuk mengonversi antara Hijriah dan Masehi, atau menelusuri kalender Hijriah lengkap.`,
+        extraMoon:'🌙 Status Bulan Hari Ini',
+        extraTimeLeft:'⏳ Waktu Tersisa Hingga Shalat Berikutnya',
+        footer:c=>`Halaman ini menampilkan tanggal Hijriah hari ini di ${c} secara akurat menurut kalender Umm al-Qura bersama dengan tanggal Masehi yang sesuai. Gunakan tautan di atas untuk akses cepat ke kalender Hijriah lengkap, konverter tanggal, dan status bulan hari ini.`,
     },
     es: {
         hSfx:' AH',
@@ -9533,12 +11486,14 @@ const HT_I18N = {
         bcYear:y=>`${y} AH`, bcMonth:(m,y)=>`${m} ${y} AH`, bcDay:(d,m,y)=>`${d} ${m} ${y} AH`,
         hero:(dn,d,m,y)=>`Fecha Hégira de Hoy: ${dn}, ${d} ${m} ${y} AH`,
         greg:(dn,g)=>`Corresponde al: ${dn} ${g} d.C. – Calendario Umm al-Qura`,
-        desc:(c,l)=>`Conoce la fecha Hégira de hoy con precisión en ${c} según el calendario Umm al-Qura, con la capacidad de ${l} fácilmente.`,
+        desc:c=>`Muestra la fecha Hégira de hoy en ${c} con precisión según el calendario Umm al-Qura junto con la fecha gregoriana correspondiente.`,
         descLink:'convertir fechas entre Hégira y Gregoriano',
         infoLabels:['Día','Fecha Hégira','Fecha Gregoriana','Mes','Año','Año Bisiesto'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} AH`, infoGreg:g=>`${g} d.C.`, infoYear:y=>`${y} AH`,
         leapYes:'Sí (355 días)', leapNo:'No (354 días)',
-        ctaConv:'🔥 Convertir Hégira ↔ Gregoriano',
+        ctaConv:'🔄 Conversor de Fechas',
+        ctaMoon:'🌙 Estado de la Luna Hoy',
+        ctaPrayer:'🕌 Horarios de Oración Hoy',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} AH`,
         ctaMonth:(m,y)=>`🌙 Calendario ${m} ${y} AH`,
         ctaYear:y=>`📆 Calendario Completo ${y} AH`,
@@ -9558,7 +11513,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 Calendario ${m}`,
         extraYear:y=>`📆 Calendario Completo ${y} AH`,
         extraConv:'🔄 Conversor de Fechas',
-        footer:c=>`El calendario Hégira se basa en el ciclo lunar y se utiliza para determinar las ocasiones islámicas como el Ramadán y el Hach. Este sitio muestra la fecha Hégira de hoy con precisión según el calendario Umm al-Qura en ${c}. También puedes usar la herramienta de conversión de fechas para convertir entre Hégira y Gregoriano, o explorar el calendario Hégira completo.`,
+        extraMoon:'🌙 Estado de la Luna Hoy',
+        extraTimeLeft:'⏳ Tiempo Restante Hasta la Próxima Oración',
+        footer:c=>`Esta página muestra la fecha Hégira de hoy en ${c} con precisión según el calendario Umm al-Qura junto con la fecha gregoriana correspondiente. Utiliza los enlaces de arriba para acceder rápidamente al calendario Hégira completo, al conversor de fechas y al estado de la luna hoy.`,
     },
     bn: {
         hSfx:' হিজরি',
@@ -9569,12 +11526,14 @@ const HT_I18N = {
         bcYear:y=>`${y} হিজরি`, bcMonth:(m,y)=>`${m} ${y} হিজরি`, bcDay:(d,m,y)=>`${d} ${m} ${y} হিজরি`,
         hero:(dn,d,m,y)=>`আজকের হিজরি তারিখ: ${dn}, ${d} ${m} ${y} হিজরি`,
         greg:(dn,g)=>`সমতুল্য: ${dn} ${g} খ্রিস্টাব্দ – উম্মুল কুরা ক্যালেন্ডার`,
-        desc:(c,l)=>`${c}-এ উম্মুল কুরা ক্যালেন্ডার অনুযায়ী আজকের হিজরি তারিখ সঠিকভাবে জানুন, এবং সহজেই ${l} করতে পারেন।`,
+        desc:c=>`${c}-এ উম্মুল কুরা ক্যালেন্ডার অনুযায়ী আজকের হিজরি তারিখ সঠিকভাবে প্রদর্শন করে, সঙ্গে সংশ্লিষ্ট খ্রিস্টীয় তারিখও।`,
         descLink:'হিজরি ও খ্রিস্টীয় তারিখের মধ্যে রূপান্তর',
         infoLabels:['দিন','হিজরি তারিখ','খ্রিস্টীয় তারিখ','মাস','বছর','অধিবর্ষ'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} হিজরি`, infoGreg:g=>`${g} খ্রিস্টাব্দ`, infoYear:y=>`${y} হিজরি`,
         leapYes:'হ্যাঁ (৩৫৫ দিন)', leapNo:'না (৩৫৪ দিন)',
-        ctaConv:'🔥 হিজরি ↔ খ্রিস্টীয় রূপান্তর',
+        ctaConv:'🔄 তারিখ রূপান্তর',
+        ctaMoon:'🌙 আজকের চাঁদের অবস্থা',
+        ctaPrayer:'🕌 আজকের নামাজের সময়',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} হিজরি`,
         ctaMonth:(m,y)=>`🌙 ${m} ${y} হিজরি ক্যালেন্ডার`,
         ctaYear:y=>`📆 ${y} হিজরি পূর্ণ ক্যালেন্ডার`,
@@ -9594,7 +11553,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 ${m} ক্যালেন্ডার`,
         extraYear:y=>`📆 ${y} হিজরি পূর্ণ ক্যালেন্ডার`,
         extraConv:'🔄 তারিখ রূপান্তরকারী',
-        footer:c=>`হিজরি ক্যালেন্ডার চন্দ্র চক্রের উপর ভিত্তি করে তৈরি এবং রমজান ও হজের মতো ইসলামি অনুষ্ঠান নির্ধারণে ব্যবহৃত হয়। এই সাইট ${c}-এ উম্মুল কুরা ক্যালেন্ডার অনুযায়ী আজকের হিজরি তারিখ সঠিকভাবে প্রদর্শন করে। আপনি হিজরি ও খ্রিস্টীয়ের মধ্যে রূপান্তর করার জন্য তারিখ রূপান্তরকারী টুলটিও ব্যবহার করতে পারেন, অথবা সম্পূর্ণ হিজরি ক্যালেন্ডার ব্রাউজ করতে পারেন।`,
+        extraMoon:'🌙 আজকের চাঁদের অবস্থা',
+        extraTimeLeft:'⏳ পরবর্তী নামাজ পর্যন্ত বাকি সময়',
+        footer:c=>`এই পৃষ্ঠাটি ${c}-এ উম্মুল কুরা ক্যালেন্ডার অনুযায়ী আজকের হিজরি তারিখ সঠিকভাবে প্রদর্শন করে এবং সংশ্লিষ্ট খ্রিস্টীয় তারিখও দেখায়। উপরের লিঙ্কগুলি ব্যবহার করে সম্পূর্ণ হিজরি ক্যালেন্ডার, তারিখ রূপান্তরকারী এবং আজকের চাঁদের অবস্থায় দ্রুত অ্যাক্সেস পান।`,
     },
     ms: {
         hSfx:' H',
@@ -9605,12 +11566,14 @@ const HT_I18N = {
         bcYear:y=>`${y} H`, bcMonth:(m,y)=>`${m} ${y} H`, bcDay:(d,m,y)=>`${d} ${m} ${y} H`,
         hero:(dn,d,m,y)=>`Tarikh Hijrah Hari Ini: ${dn}, ${d} ${m} ${y} H`,
         greg:(dn,g)=>`Bersamaan dengan: ${dn} ${g} M – Kalendar Umm al-Qura`,
-        desc:(c,l)=>`Ketahui tarikh Hijrah hari ini dengan tepat di ${c} mengikut kalendar Umm al-Qura, dengan kemampuan untuk ${l} dengan mudah.`,
+        desc:c=>`Memaparkan tarikh Hijrah hari ini di ${c} dengan tepat mengikut kalendar Umm al-Qura bersama dengan tarikh Masihi yang sepadan.`,
         descLink:'menukar tarikh antara Hijrah dan Masihi',
         infoLabels:['Hari','Tarikh Hijrah','Tarikh Masihi','Bulan','Tahun','Tahun Lompat'],
         infoHijri:(d,m,y)=>`${d} ${m} ${y} H`, infoGreg:g=>`${g} M`, infoYear:y=>`${y} H`,
         leapYes:'Ya (355 hari)', leapNo:'Tidak (354 hari)',
-        ctaConv:'🔥 Tukar Hijrah ↔ Masihi',
+        ctaConv:'🔄 Penukar Tarikh',
+        ctaMoon:'🌙 Status Bulan Hari Ini',
+        ctaPrayer:'🕌 Waktu Solat Hari Ini',
         ctaToday:(dn,d,m,y)=>`📅 ${dn} ${d} ${m} ${y} H`,
         ctaMonth:(m,y)=>`🌙 Kalendar ${m} ${y} H`,
         ctaYear:y=>`📆 Kalendar Penuh ${y} H`,
@@ -9630,7 +11593,9 @@ const HT_I18N = {
         extraMonth:m=>`🌙 Kalendar ${m}`,
         extraYear:y=>`📆 Kalendar Penuh ${y} H`,
         extraConv:'🔄 Penukar Tarikh',
-        footer:c=>`Kalendar Hijrah berdasarkan kitaran bulan dan digunakan untuk menentukan peristiwa Islam seperti Ramadan dan Haji. Laman ini memaparkan tarikh Hijrah hari ini dengan tepat mengikut kalendar Umm al-Qura di ${c}. Anda juga boleh menggunakan alat penukar tarikh untuk menukar antara Hijrah dan Masihi, atau melayari kalendar Hijrah penuh.`,
+        extraMoon:'🌙 Status Bulan Hari Ini',
+        extraTimeLeft:'⏳ Masa Berbaki Sehingga Solat Seterusnya',
+        footer:c=>`Halaman ini memaparkan tarikh Hijrah hari ini di ${c} dengan tepat mengikut kalendar Umm al-Qura bersama-sama dengan tarikh Masihi yang sepadan. Gunakan pautan di atas untuk akses pantas ke kalendar Hijrah penuh, penukar tarikh, dan status bulan hari ini.`,
     },
 };
 
@@ -9655,30 +11620,36 @@ function updateHijriToday() {
         const yearUrl   = `${prefix}/hijri-calendar/${hijri.year}`;
         const monthUrl0 = hijriMonthUrl(hijri.year, hijri.month);
         const homeUrl   = (lang === 'ar') ? '/' : (prefix + '/');
-        const calUrl    = `${prefix}/hijri-calendar/${hijri.year}`;
+        const calHubUrl = `${prefix}/hijri-calendar`;
         const _t        = (typeof t === 'function') ? t : (k) => k;
         const homeL     = _t('breadcrumb.home') || T.bcHome;
         htBcEl.innerHTML = _buildHijriBreadcrumbOl([
             { href: homeUrl,   text: homeL },
-            { href: calUrl,    text: T.bcCal  },
+            { href: calHubUrl, text: T.bcCal  },
             { href: yearUrl,   text: T.bcYear(hijri.year) },
             { href: monthUrl0, text: T.bcMonth(monthName, hijri.year) },
             { text: T.bcDay(hijri.day, monthName, hijri.year), current: true }
         ]);
     }
 
-    // ── 1. Hero ──────────────────────────────────────────────────
+    // ── 1. Hero — 🆕 Round 9: H2 full sentence (SEO) + big-number visual stack ────
     const fullEl = document.getElementById('hijri-today-full');
     if (fullEl) fullEl.textContent = T.hero(dayName, hijri.day, monthName, hijri.year);
+
+    // Visual stack (aria-hidden — duplicates H2 info semantically)
+    const dayNumEl = document.getElementById('hijri-today-day-num');
+    if (dayNumEl) dayNumEl.textContent = hijri.day;
+    const monthEl  = document.getElementById('hijri-today-month');
+    if (monthEl)  monthEl.textContent  = monthName;
+    const yearEl   = document.getElementById('hijri-today-year');
+    if (yearEl)   yearEl.textContent   = `${hijri.year}${T.hSfx}`;
 
     const gregEl = document.getElementById('hijri-today-greg');
     if (gregEl) gregEl.textContent = T.greg(dayName, gregToday);
 
     const descEl = document.getElementById('hijri-today-desc');
     if (descEl) {
-        const cvPath = `${prefix}/dateconverter`;
-        const linkHtml = `<a href="${cvPath}" style="color:var(--primary);text-decoration:underline;">${T.descLink}</a>`;
-        descEl.innerHTML = T.desc(country, linkHtml);
+        descEl.textContent = T.desc(country);
     }
 
     // ── 2. Quick Info Cards ───────────────────────────────────────
@@ -9698,20 +11669,27 @@ function updateHijriToday() {
         ).join('');
     }
 
-    // ── 3. CTA Links ─────────────────────────────────────────────
+    // ── 3. CTA Distribution — 🆕 Round 9: 3 focused entries (converter + moon + smart prayer) ─
     const ctaEl = document.getElementById('hijri-today-cta');
     if (ctaEl) {
-        const monthUrl  = hijriMonthUrl(hijri.year, hijri.month);
-        const yearUrl   = `${prefix}/hijri-calendar/${hijri.year}`;
-        const todayUrl  = hijriDayUrl(hijri.year, hijri.month, hijri.day);
+        // Smart prayer routing: city known → /prayer-times-in-{slug}; else → homepage
+        let _citySlug = '';
+        try {
+            if (typeof currentEnglishName === 'string' && currentEnglishName) {
+                _citySlug = currentEnglishName.toLowerCase().trim()
+                    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            }
+        } catch (_) {}
+        const _prayerHref = _citySlug
+            ? `${prefix}/prayer-times-in-${_citySlug}`
+            : ((lang === 'ar') ? '/' : (prefix + '/'));
         const ctas = [
-            [`${prefix}/dateconverter`, T.ctaConv, true],
-            [todayUrl,                  T.ctaToday(dayName, hijri.day, monthName, hijri.year), false],
-            [monthUrl,                  T.ctaMonth(monthName, hijri.year), false],
-            [yearUrl,                   T.ctaYear(hijri.year), false],
+            [`${prefix}/dateconverter`,           T.ctaConv,   true],   // primary
+            [`${prefix}/moon-today`,              T.ctaMoon,   false],
+            [_prayerHref,                         T.ctaPrayer, false],
         ];
         ctaEl.innerHTML = ctas.map(([href, text, primary]) =>
-            `<a href="${href}" style="display:inline-block;padding:10px 20px;background:${primary ? 'var(--primary)' : 'var(--bg)'};color:${primary ? '#fff' : 'var(--primary)'};border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:${primary ? '700' : '500'};border:1px solid var(--border);">${text}</a>`
+            `<a href="${href}" style="display:inline-block;padding:10px 20px;background:${primary ? 'var(--primary)' : 'var(--bg)'};color:${primary ? '#fff' : 'var(--primary)'};border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:${primary ? '700' : '500'};border:1px solid var(--border);margin:4px;">${text}</a>`
         ).join('');
     }
 
@@ -9735,14 +11713,8 @@ function updateHijriToday() {
         ).join('');
     }
 
-    // ── 5. OTD subtitle ──────────────────────────────────────────
-    const otdTitleEl = document.getElementById('hijri-today-otd-title');
-    if (otdTitleEl) otdTitleEl.textContent = T.otdTitle;
-
-    const subtitleEl = document.getElementById('wiki-otd-subtitle');
-    if (subtitleEl) subtitleEl.textContent = T.otdSub(dayName, hijri.day, monthName, hijri.year);
-
-    loadWikiOTD();
+    // ── 5. [REMOVED Round 9] OTD historical events — different intent, moved off this page.
+    //      (Kept loadWikiOTD() and HT_I18N.otd* strings intact for future standalone page.)
 
     // ── 6. Prev / Next Navigation ─────────────────────────────────
     const navEl = document.getElementById('hijri-today-nav');
@@ -9771,46 +11743,7 @@ function updateHijriToday() {
             </a>`;
     }
 
-    // ── 7. Mini Calendar (3 rows: yesterday, today, tomorrow) ─────
-    const miniTitleEl = document.getElementById('hijri-today-mini-title');
-    if (miniTitleEl) miniTitleEl.textContent = T.miniTitle;
-
-    const thHijri = document.getElementById('hijri-today-th-hijri');
-    const thGreg  = document.getElementById('hijri-today-th-greg');
-    if (thHijri) thHijri.textContent = T.thHijri;
-    if (thGreg)  thGreg.textContent  = T.thGreg;
-
-    const miniBody = document.getElementById('hijri-today-mini-body');
-    if (miniBody) {
-        const rows = [];
-        // yesterday (hijri)
-        let yd = hijri.day - 1, ym = hijri.month, yy = hijri.year;
-        if (yd < 1) { ym--; if (ym < 1) { ym = 12; yy--; } yd = HijriDate.getDaysInHijriMonth(yy, ym); }
-        // tomorrow (hijri)
-        let td2 = hijri.day + 1, tm = hijri.month, ty = hijri.year;
-        if (td2 > totalDays) { td2 = 1; tm++; if (tm > 12) { tm = 1; ty++; } }
-
-        [[yd, ym, yy, false], [hijri.day, hijri.month, hijri.year, true], [td2, tm, ty, false]].forEach(([d, m, y, isT]) => {
-            const g    = HijriDate.toGregorian(y, m, d);
-            const mN   = T.hM[m-1];
-            const gMN  = T.gM[g.month-1];
-            const dowG = new Date(g.year, g.month-1, g.day).getDay();
-            const dN   = T.days[dowG];
-            const dayUrl = hijriDayUrl(y, m, d);
-            const rowBg  = isT ? 'background:var(--primary-light);' : '';
-            const lnkClr = isT ? 'color:#fff;font-weight:700;text-decoration:none;' : 'color:var(--primary);text-decoration:none;';
-            const txtClr = isT ? 'color:#fff;' : '';
-            rows.push(`<tr style="${rowBg}">
-                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;${txtClr}">
-                    <a href="${dayUrl}" style="${lnkClr}">${d} ${mN} ${y}${T.hSfx} (${dN})</a>
-                </td>
-                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;${txtClr}">
-                    <a href="${dayUrl}" style="${lnkClr}">${dN} ${g.day} ${gMN} ${g.year}</a>
-                </td>
-            </tr>`);
-        });
-        miniBody.innerHTML = rows.join('');
-    }
+    // ── 7. [REMOVED Round 9] Mini Calendar 3-row table — redundant with Prev/Next navigation.
 
     // ── 8. Extra Links ────────────────────────────────────────────
     const extraTitleEl = document.getElementById('hijri-today-extra-title');
@@ -9820,42 +11753,101 @@ function updateHijriToday() {
     if (extraEl) {
         const monthUrl = hijriMonthUrl(hijri.year, hijri.month);
         const yearUrl2 = `${prefix}/hijri-calendar/${hijri.year}`;
+        // 🆕 Smart prayer-times routing: city known → /prayer-times-in-{slug}; else → homepage
+        let _citySlug2 = '';
+        try {
+            if (typeof currentEnglishName === 'string' && currentEnglishName) {
+                _citySlug2 = currentEnglishName.toLowerCase().trim()
+                    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            }
+        } catch (_) {}
+        const _prayerHref2 = _citySlug2
+            ? `${prefix}/prayer-times-in-${_citySlug2}`
+            : ((lang === 'ar') ? '/' : (prefix + '/'));
+        // Only truly-related secondary links. Month + Year (hierarchy) render above under the Hero.
         const extras = [
-            [monthUrl,                  T.extraMonth(`${monthName} ${hijri.year}${T.hSfx}`.trim())],
-            [yearUrl2,                  T.extraYear(hijri.year)],
-            [`${prefix}/dateconverter`, T.extraConv],
+            [`${prefix}/dateconverter`,  T.extraConv],
+            [`${prefix}/moon-today`,     T.extraMoon],
+            [_prayerHref2,               T.extraTimeLeft],
         ];
         extraEl.innerHTML = extras.map(([href, text]) =>
-            `<a href="${href}" style="display:inline-block;padding:9px 18px;background:var(--bg);color:var(--primary);border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);">${text}</a>`
+            `<a href="${href}" style="display:inline-block;padding:9px 18px;background:var(--bg);color:var(--primary);border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);margin:4px;">${text}</a>`
         ).join('');
     }
 
-    // ── 9. Footer SEO ─────────────────────────────────────────────
+    // ── 1b. Hierarchy Navigation (Today → Month → Year) — above the fold, primary-colored for crawl priority ──
+    const hierTodayEl = document.getElementById('hijri-today-hierarchy');
+    if (hierTodayEl) {
+        const _monthLabelT = (typeof T.extraMonth === 'function')
+            ? T.extraMonth(`${monthName} ${hijri.year}${T.hSfx}`.trim())
+            : `${monthName} ${hijri.year}${T.hSfx}`;
+        const _yearLabelT = (typeof T.extraYear === 'function')
+            ? T.extraYear(hijri.year)
+            : `${hijri.year}${T.hSfx}`;
+        const hierRows = [
+            [hijriMonthUrl(hijri.year, hijri.month),   _monthLabelT],
+            [`${prefix}/hijri-calendar/${hijri.year}`, _yearLabelT],
+        ];
+        hierTodayEl.innerHTML = hierRows.map(([href, text]) =>
+            `<a href="${href}" style="display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;background:var(--primary);color:#fff;border-radius:10px;text-decoration:none;font-size:0.95rem;font-weight:700;margin:6px;border:1px solid var(--primary);min-height:44px;">${text}</a>`
+        ).join('');
+    }
+
+    // ── 9. Footer SEO — with inline internal link to the current Hijri month (anchor variation + crawl depth) ──
     const footerEl = document.getElementById('hijri-today-footer-seo');
-    if (footerEl) footerEl.textContent = T.footer(country);
+    if (footerEl) {
+        const _esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const _ex  = (typeof hdayExtraUi === 'function') ? hdayExtraUi(lang) : null;
+        const _baseText = _esc(T.footer(country));
+        const _linkHref = _esc(hijriMonthUrl(hijri.year, hijri.month));
+        const _linkText = _ex
+            ? _esc(_ex.footerLink(monthName, hijri.year))
+            : _esc(`${monthName} ${hijri.year}${T.hSfx}`);
+        footerEl.innerHTML = `${_baseText} — <a href="${_linkHref}" style="color:var(--primary);text-decoration:underline;">${_linkText}</a>.`;
+    }
 }
 
-// ========= صفحة اليوم الهجري الفردي =========
+// ========= صفحة اليوم الهجري الفردي — Answer Page (مختصرة + مركّزة) =========
 function loadHijriDayPage() {
-    const match = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d+)-([a-z-]+)-(\d+)$/);
+    const match = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
     if (!match) return;
 
-    const day      = parseInt(match[1]);
-    const monthSlug = match[2];
-    const year     = parseInt(match[3]);
-    const monthIdx = HIJRI_MONTH_SLUGS.indexOf(monthSlug);
-    if (monthIdx === -1 || day < 1 || day > 30) return;
-    const month    = monthIdx + 1;
+    // ── Hydrate current-city globals from sessionStorage (set by sidebar "التاريخ الهجري" click) ──
+    // After a full-page navigation the globals reset to Mecca defaults; if the user had another
+    // city selected, the nav handler stashed it under `city_hijri-today` so we can geo-localize.
+    try {
+        const _stash = sessionStorage.getItem('city_hijri-today');
+        if (_stash) {
+            const _p = JSON.parse(_stash);
+            if (_p && _p.englishName && _p.name) {
+                currentCity         = _p.name         || currentCity;
+                currentEnglishName  = _p.englishName  || currentEnglishName;
+                currentCountry      = _p.country      || currentCountry;
+                currentCountryCode  = _p.countryCode  || currentCountryCode;
+                if (typeof _p.lat === 'number')  currentLat = _p.lat;
+                if (typeof _p.lng === 'number')  currentLng = _p.lng;
+                if (_p.timezone)                 currentTimezone = _p.timezone;
+            }
+        }
+    } catch (_) {}
+
+    const year  = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10);
+    const day   = parseInt(match[3], 10);
+    if (month < 1 || month > 12 || day < 1 || day > 30) return;
+    const monthIdx = month - 1;
 
     const lang       = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const ui         = hdayUi(lang);
+    const ex         = hdayExtraUi(lang);
+    const nt         = hdayNonTodayUi(lang); // static (non-today) overrides
+    const geo        = hdayGeoUi(lang);      // geo-aware today overrides
     const hijriNames = hijriMonthsFor(lang);
     const monthName  = hijriNames[monthIdx];
-    const monthNameEn = HIJRI_MONTHS_EN[monthIdx];
     const hSfx       = hSfxFor(lang);
     const gSfx       = gSfxFor(lang);
 
-    // احسب التاريخ الميلادي وأيام الأسبوع
+    // Greg equivalent + day-of-week
     const greg       = HijriDate.toGregorian(year, month, day);
     const gregDate   = new Date(greg.year, greg.month - 1, greg.day);
     const dow        = gregDate.getDay();
@@ -9864,132 +11856,153 @@ function loadHijriDayPage() {
 
     const totalDays  = HijriDate.getDaysInHijriMonth(year, month);
     const isLeap     = HijriDate.isHijriLeapYear(year);
+    const totalYearDays = isLeap ? 355 : 354;
     const country    = getDisplayCountry();
     const countryLabel = (lang === 'ar') ? (currentCountry || currentCity || country) : country;
     const prefix     = (lang === 'ar') ? '' : '/' + lang;
 
-    // بناء context لقوالب ui
     const hDate   = `${day} ${monthName} ${year}${hSfx}`;
     const gDate   = `${greg.day} ${gMonthName} ${greg.year}${gSfx}`;
     const _todayH  = HijriDate.getToday();
     const _todayMN = hijriNames[_todayH.month - 1];
     const todayH  = `${_todayH.day} ${_todayMN} ${_todayH.year}${hSfx}`;
-    const ctx = { day, monthName, year, dayName, hDate, gDate, country, countryLabel, todayH, isLeap, hSfx, gSfx };
+    // Are we rendering today's date? (Distinguishes H1 between "Today's Hijri Date: X" vs "Hijri Date: X")
+    const isToday = (_todayH.year === year && _todayH.month === month && _todayH.day === day);
+    const ctx = { day, monthName, year, dayName, hDate, gDate, country, countryLabel, todayH, isLeap, hSfx, gSfx, isToday,
+                  monthNum: month, totalDays, totalYearDays };
 
-    // 1. Breadcrumbs
+    // ── City (geo-aware) — used when isToday && city known ─────────
+    // Use the app's proper display-name resolver so every language gets the
+    // localized city name (Bengali "রিয়াদ", Urdu "ریاض", Turkish "Riyad"…).
+    // Helper order: currentLocalizedName (Nominatim) → per-lang dictionary → English fallback.
+    let locDisplay = '', locSlug = '';
+    try {
+        locDisplay = (typeof getDisplayCity === 'function') ? (getDisplayCity() || '') : '';
+        if (!locDisplay) {
+            locDisplay = (lang === 'ar') ? (currentCity || currentEnglishName || '')
+                                         : (currentEnglishName || currentCity || '');
+        }
+        if (typeof currentEnglishName === 'string' && currentEnglishName) {
+            locSlug = currentEnglishName.toLowerCase().trim()
+                .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+        }
+    } catch (_) {}
+    const isGeoToday = isToday && !!locDisplay && !!locSlug;
+
+    // ── 1. Breadcrumbs ─────────────────────────────────────────────
     const bcEl = document.getElementById('hday-breadcrumbs');
     if (bcEl) {
-        const calPath   = `${prefix}/hijri-calendar/${year}`;
+        const calHubUrl = `${prefix}/hijri-calendar`;
         const yearPath  = `${prefix}/hijri-calendar/${year}`;
         const monthPath = hijriMonthUrl(year, month);
         const homeUrl   = (lang === 'ar') ? '/' : (prefix + '/');
         const _t        = (typeof t === 'function') ? t : (k) => k;
         const homeL     = _t('breadcrumb.home') || ui.home;
-        const calL      = ui.cal;
-        const yearL     = `${year}${hSfx}`;
-        const monthL    = `${monthName} ${year}${hSfx}`;
-        const dayL      = hDate;
-        bcEl.innerHTML = _buildHijriBreadcrumbOl([
-            { href: homeUrl, text: homeL },
-            { href: calPath, text: calL },
-            { href: yearPath, text: yearL },
-            { href: monthPath, text: monthL },
-            { text: dayL, current: true }
-        ]);
+        // Geo-aware breadcrumb: insert city hop after Home (local-SEO boost) when today + city known
+        const _bcItems = [{ href: homeUrl, text: homeL }];
+        if (isGeoToday) {
+            _bcItems.push({ href: `${prefix}/prayer-times-in-${locSlug}`, text: locDisplay });
+        }
+        _bcItems.push(
+            { href: calHubUrl, text: ui.cal },
+            { href: yearPath,  text: `${year}${hSfx}` },
+            { href: monthPath, text: `${monthName} ${year}${hSfx}` },
+            { text: hDate, current: true }
+        );
+        bcEl.innerHTML = _buildHijriBreadcrumbOl(_bcItems);
     }
 
-    // 2. Title & Subtitle
+    // ── 2. Hero — H1 SEO sentence (date-aware: today vs arbitrary) + big-number stack + Gregorian subtitle ──
     const titleEl    = document.getElementById('hday-title');
+    if (titleEl) {
+        // ui.title always says "Today's Hijri Date: X" — correct only when date === today.
+        // For past/future dates, swap to plain "Hijri Date: X" per lang.
+        const _H1_PLAIN = {
+            ar: `التاريخ الهجري: ${dayName} ${hDate}`,
+            en: `Hijri Date: ${dayName}, ${hDate}`,
+            fr: `Date hégirienne : ${dayName}, ${hDate}`,
+            tr: `Hicri Tarih: ${dayName}, ${hDate}`,
+            ur: `ہجری تاریخ: ${dayName}، ${hDate}`,
+            de: `Hidschri-Datum: ${dayName}, ${hDate}`,
+            id: `Tanggal Hijriah: ${dayName}, ${hDate}`,
+            es: `Fecha Hégira: ${dayName}, ${hDate}`,
+            bn: `হিজরি তারিখ: ${dayName}, ${hDate}`,
+            ms: `Tarikh Hijrah: ${dayName}, ${hDate}`,
+        };
+        titleEl.textContent = isGeoToday
+            ? geo.h1(locDisplay, dayName, hDate)
+            : (isToday ? ui.title(ctx) : (_H1_PLAIN[lang] || _H1_PLAIN.en));
+    }
+
+    const dayNumEl = document.getElementById('hday-day-num');
+    if (dayNumEl) dayNumEl.textContent = day;
+    const monthElH = document.getElementById('hday-month');
+    if (monthElH)  monthElH.textContent = monthName;
+    const yearElH  = document.getElementById('hday-year');
+    if (yearElH)   yearElH.textContent  = `${year}${hSfx}`;
+
     const subtitleEl = document.getElementById('hday-subtitle');
-    if (titleEl)    titleEl.textContent    = ui.title(ctx);
     if (subtitleEl) subtitleEl.textContent = ui.subtitle(ctx);
 
-    // 3. SEO Intro
-    const introEl = document.getElementById('hday-intro');
-    if (introEl) introEl.textContent = ui.intro(ctx);
-
-    // 4. Info Cards
+    // ── 3. Info Cards (today vs non-today: drop redundant hDate card, add year + order-of-day) ──
     const gridEl = document.getElementById('hday-info-grid');
     if (gridEl) {
         const leapText = isLeap ? ui.leap_yes : ui.leap_no;
-        const cards = [
+        const cards = isToday ? [
             [ui.cards[0], dayName],
-            [ui.cards[1], hDate],
             [ui.cards[2], gDate],
             [ui.cards[3], monthName],
             [ui.cards[4], `${totalDays} ${ui.days_word}`],
+            [nt.cardOrder, nt.orderOf(day, totalDays)],
             [ui.cards[5], leapText],
+        ] : [
+            [ui.cards[0], dayName],
+            [ui.cards[2], gDate],
+            [ui.cards[3], monthName],
+            [nt.cardYear,  `${year}${hSfx}`],
+            [ui.cards[4],  `${totalDays} ${ui.days_word}`],
+            [nt.cardOrder, nt.orderOf(day, totalDays)],
         ];
         gridEl.innerHTML = cards.map(([label, val]) =>
             `<div class="info-card"><div class="info-label">${label}</div><div class="info-value">${val}</div></div>`
         ).join('');
     }
 
-    // 5. Internal Links
-    const linksEl = document.getElementById('hday-links');
-    if (linksEl) {
-        const converterPath = `${prefix}/dateconverter`;
-        const todayPath2    = `${prefix}/today-hijri-date`;
-        const links = [
-            [converterPath, ui.link_convert],
-            [hijriMonthUrl(year, month), ui.link_cal(ctx)],
-            [todayPath2, ui.link_today],
+    // ── 4. CTA — 3 focused buttons (converter + moon + smart prayer) ──
+    // Smart prayer routing: city known → /prayer-times-in-{slug}; else → homepage
+    const ctaEl = document.getElementById('hday-cta');
+    if (ctaEl) {
+        let _citySlug = '';
+        try {
+            if (typeof currentEnglishName === 'string' && currentEnglishName) {
+                _citySlug = currentEnglishName.toLowerCase().trim()
+                    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            }
+        } catch (_) {}
+        const prayerHref = _citySlug
+            ? `${prefix}/prayer-times-in-${_citySlug}`
+            : ((lang === 'ar') ? '/' : (prefix + '/'));
+        const _ctaPrayerText = isGeoToday ? geo.ctaPrayer(locDisplay) : ex.ctaPrayer;
+        const _ctaMoonText   = isGeoToday ? geo.ctaMoon(locDisplay)   : ex.ctaMoon;
+        // Geo-aware moon URL: /moon-today-in-{slug}[-{lat}-{lng}] when city known, else generic /moon-today
+        let _moonHref = `${prefix}/moon-today`;
+        if (isGeoToday) {
+            _moonHref = `${prefix}/moon-today-in-${locSlug}`;
+            if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/loc-/.test(locSlug)) {
+                _moonHref = `${prefix}/moon-today-in-${locSlug}-${Number(currentLat).toFixed(4)}-${Number(currentLng).toFixed(4)}`;
+            }
+        }
+        const ctas = [
+            [`${prefix}/dateconverter`, ex.ctaConv,     true],   // primary
+            [_moonHref,                 _ctaMoonText,   false],
+            [prayerHref,                _ctaPrayerText, false],
         ];
-        linksEl.innerHTML = links.map(([href, text]) =>
-            `<a href="${href}" style="display:inline-block;padding:9px 18px;background:var(--primary);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem;">${text}</a>`
+        ctaEl.innerHTML = ctas.map(([href, text, primary]) =>
+            `<a href="${href}" style="display:inline-block;padding:10px 20px;background:${primary ? 'var(--primary)' : 'var(--bg)'};color:${primary ? '#fff' : 'var(--primary)'};border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:${primary ? '700' : '500'};border:1px solid var(--border);margin:4px;">${text}</a>`
         ).join('');
     }
 
-    // 6. FAQ
-    const faqEl = document.getElementById('hday-faq');
-    if (faqEl) {
-        const faqs = ui.faq(ctx);
-        faqEl.innerHTML = faqs.map(([q, a]) =>
-            `<div style="margin-bottom:14px;padding:14px 18px;background:var(--bg);border-radius:10px;border-right:4px solid var(--primary);">
-                <div style="font-weight:700;color:var(--primary);margin-bottom:6px;">${q}</div>
-                <div style="color:var(--text);font-size:0.95rem;">${a}</div>
-            </div>`
-        ).join('');
-    }
-
-    // 7. OTD Subtitle + Load
-    const otdSubEl = document.getElementById('hday-otd-subtitle');
-    if (otdSubEl) otdSubEl.textContent = ui.otd(ctx);
-    loadHijriDayOTD(day, HijriDate.hijriMonths[monthIdx]);
-
-    // 8. Mini Calendar (prev, current, next day)
-    const miniCal = document.getElementById('hday-mini-cal');
-    if (miniCal) {
-        let prevD, prevM, prevY, nextD, nextM, nextY;
-        if (day > 1)       { prevD = day - 1; prevM = month; prevY = year; }
-        else if (month > 1){ prevM = month - 1; prevY = year; prevD = HijriDate.getDaysInHijriMonth(prevY, prevM); }
-        else               { prevY = year - 1; prevM = 12; prevD = HijriDate.getDaysInHijriMonth(prevY, prevM); }
-
-        if (day < totalDays)   { nextD = day + 1; nextM = month; nextY = year; }
-        else if (month < 12)   { nextD = 1; nextM = month + 1; nextY = year; }
-        else                   { nextD = 1; nextM = 1; nextY = year + 1; }
-
-        const rows = [
-            { d: prevD, m: prevM, y: prevY, cur: false },
-            { d: day,   m: month, y: year,  cur: true  },
-            { d: nextD, m: nextM, y: nextY, cur: false },
-        ];
-        miniCal.innerHTML = rows.map(({ d, m, y, cur }) => {
-            const g     = HijriDate.toGregorian(y, m, d);
-            const mName = hijriNames[m - 1];
-            const gM    = gregMonthFor(lang, g.month - 1);
-            const url   = hijriDayUrl(y, m, d);
-            const style = cur ? 'background:var(--primary-light);color:#fff;font-weight:700;' : (d % 2 === 0 ? 'background:var(--bg);' : '');
-            const hCell = cur ? `${d} ${mName} ${y}${hSfx}` : `<a href="${url}" style="color:var(--primary);text-decoration:none;">${d} ${mName} ${y}${hSfx}</a>`;
-            const gCell = cur ? `${g.day} ${gM} ${g.year}${gSfx}` : `<a href="${url}" style="color:var(--primary);text-decoration:none;">${g.day} ${gM} ${g.year}${gSfx}</a>`;
-            return `<tr style="${style}">
-                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;">${hCell}</td>
-                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;">${gCell}</td>
-            </tr>`;
-        }).join('');
-    }
-
-    // 9. Prev / Next Navigation
+    // ── 5. Prev / Next Navigation ──────────────────────────────────
     const navEl = document.getElementById('hday-nav');
     if (navEl) {
         let prevD2, prevM2, prevY2, nextD2, nextM2, nextY2;
@@ -10007,57 +12020,148 @@ function loadHijriDayPage() {
         const prevFullName = `${prevD2} ${prevName} ${prevY2}${hSfx}`;
         const nextFullName = `${nextD2} ${nextName} ${nextY2}${hSfx}`;
         navEl.innerHTML = `
-            <a href="${prevUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);transition:border-color .2s;">
-                <span style="font-size:0.75rem;color:var(--text-light);display:flex;align-items:center;gap:4px;">← ${ui.prev}</span>
+            <a href="${prevUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
+                <span style="font-size:0.75rem;color:var(--text-light);">← ${ui.prev}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevFullName}</span>
             </a>
-            <a href="${nextUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);transition:border-color .2s;">
-                <span style="font-size:0.75rem;color:var(--text-light);display:flex;align-items:center;gap:4px;">${ui.next} →</span>
+            <a href="${nextUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
+                <span style="font-size:0.75rem;color:var(--text-light);">${ui.next} →</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextFullName}</span>
             </a>`;
     }
 
-    // 10. Other Months
-    const otherEl = document.getElementById('hday-other-months');
-    if (otherEl) {
-        const otherMonths = [];
-        for (let delta = -2; delta <= 3; delta++) {
-            if (delta === 0) continue;
-            let mo = month + delta, yr = year;
-            if (mo < 1)  { mo += 12; yr--; }
-            if (mo > 12) { mo -= 12; yr++; }
-            otherMonths.push({ mo, yr });
+    // ── 6. FAQ (today: "اليوم" Qs; non-today: date-specific Qs without "today" phrasing) ──
+    const faqTitleEl = document.getElementById('hday-faq-title');
+    if (faqTitleEl) faqTitleEl.textContent = isToday ? ex.faqTitle : nt.faqTitle;
+
+    const faqEl = document.getElementById('hday-faq');
+    if (faqEl) {
+        // Geo-aware: when city known, substitute city name for country name in ALL FAQ pairs
+        const _faqCtx = isGeoToday ? { ...ctx, country: locDisplay, countryLabel: locDisplay } : ctx;
+        let faqs = isToday ? ui.faq(_faqCtx) : nt.faq(_faqCtx);
+        // Geo-aware: if today + city known, swap the first FAQ pair for a location-specific Q/A
+        if (isGeoToday && faqs.length) {
+            faqs = [[geo.faqFirstQ(locDisplay), geo.faqFirstA(ctx, locDisplay)], ...faqs.slice(1)];
         }
-        otherEl.innerHTML = otherMonths.map(({ mo, yr }) => {
-            const mName = hijriNames[mo - 1];
-            const url   = hijriDayUrl(yr, mo, 1);
-            return `<a href="${url}" style="display:inline-block;padding:8px 16px;background:var(--bg);color:var(--primary);border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);">${mName} ${yr}${hSfx}</a>`;
-        }).join('');
+        faqEl.innerHTML = faqs.map(([q, a]) =>
+            `<div style="margin-bottom:14px;padding:14px 18px;background:var(--bg);border-radius:10px;border-right:4px solid var(--primary);">
+                <div style="font-weight:700;color:var(--primary);margin-bottom:6px;">${q}</div>
+                <div style="color:var(--text);font-size:0.95rem;">${a}</div>
+            </div>`
+        ).join('');
     }
 
-    // 11. Footer SEO
-    const footerEl = document.getElementById('hday-footer-seo');
-    if (footerEl) footerEl.textContent = ui.footer(ctx);
+    // ── 7. Related Links (5 items: month cal + year cal + converter + moon + prayer) ──
+    const relTitleEl = document.getElementById('hday-related-title');
+    if (relTitleEl) relTitleEl.textContent = ex.relatedTitle;
 
-    // 12. Schema JSON-LD — @graph: BreadcrumbList + WebPage + FAQPage
+    const relEl = document.getElementById('hday-related');
+    if (relEl) {
+        let _citySlug2 = '';
+        try {
+            if (typeof currentEnglishName === 'string' && currentEnglishName) {
+                _citySlug2 = currentEnglishName.toLowerCase().trim()
+                    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            }
+        } catch (_) {}
+        const prayerHref2 = _citySlug2
+            ? `${prefix}/prayer-times-in-${_citySlug2}`
+            : ((lang === 'ar') ? '/' : (prefix + '/'));
+        // Geo-aware prayer + moon labels (city known) — localized via getDisplayCity()
+        const _cityDisplay = locDisplay
+            || ((typeof getDisplayCity === 'function') ? (getDisplayCity() || '') : '')
+            || ((lang === 'ar') ? (currentCity || currentEnglishName || '') : (currentEnglishName || currentCity || ''));
+        const _cityKnown = _citySlug2 && _cityDisplay;
+        const _prayerLabel = _cityKnown
+            ? (isToday ? geo.relPrayer(_cityDisplay) : nt.relPrayerCity(_cityDisplay))
+            : ex.relPrayer;
+        const _moonLabel = (isToday && _cityKnown) ? geo.relMoon(_cityDisplay) : ex.relMoon;
+        // Geo-aware moon URL for today+city: /moon-today-in-{slug}[-{lat}-{lng}]
+        let _moonRelHref = `${prefix}/moon-today`;
+        if (isToday && _cityKnown) {
+            _moonRelHref = `${prefix}/moon-today-in-${_citySlug2}`;
+            if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/loc-/.test(_citySlug2)) {
+                _moonRelHref = `${prefix}/moon-today-in-${_citySlug2}-${Number(currentLat).toFixed(4)}-${Number(currentLng).toFixed(4)}`;
+            }
+        }
+        // Only truly-related secondary links here. Month + Year (hierarchy) live above under the Hero.
+        const rels = [
+            [`${prefix}/dateconverter`,            ex.relConv],
+            [_moonRelHref,                         _moonLabel],
+            [prayerHref2,                          _prayerLabel],
+        ];
+        relEl.innerHTML = rels.map(([href, text]) =>
+            `<a href="${href}" style="display:inline-block;padding:9px 18px;background:var(--bg);color:var(--primary);border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);margin:4px;">${text}</a>`
+        ).join('');
+    }
+
+    // ── 1b. Hierarchy Navigation (Day → Month → Year) — placed above the fold for crawl priority ──
+    const hierEl = document.getElementById('hday-hierarchy');
+    if (hierEl) {
+        const hier = [
+            [hijriMonthUrl(year, month),          ex.relMonth(monthName, year)],
+            [`${prefix}/hijri-calendar/${year}`,  ex.relYear(year)],
+        ];
+        hierEl.innerHTML = hier.map(([href, text]) =>
+            `<a href="${href}" style="display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;background:var(--primary);color:#fff;border-radius:10px;text-decoration:none;font-size:0.95rem;font-weight:700;margin:6px;border:1px solid var(--primary);min-height:44px;">${text}</a>`
+        ).join('');
+    }
+
+    // ── 8. Footer SEO — with inline internal link to the month calendar (anchor variation + crawl depth) ──
+    const footerEl = document.getElementById('hday-footer-seo');
+    if (footerEl) {
+        // Escape user-facing text (country/date strings) before embedding raw HTML
+        const _esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const _baseText  = _esc(isGeoToday
+            ? geo.footer(ctx, locDisplay)
+            : (isToday ? ui.footer(ctx) : nt.footer(ctx)));
+        const _linkText  = _esc(isGeoToday
+            ? geo.footerLink(monthName, year, locDisplay)
+            : ex.footerLink(monthName, year));
+        const _linkHref  = _esc(hijriMonthUrl(year, month));
+        // Append a linked sentence at the end — clean separator, anchor varies per language
+        const _separator = (lang === 'ar' || lang === 'ur') ? ' — ' : ' — ';
+        footerEl.innerHTML = `${_baseText}${_separator}<a href="${_linkHref}" style="color:var(--primary);text-decoration:underline;">${_linkText}</a>.`;
+    }
+
+    // ── 9. Schema JSON-LD — @graph: BreadcrumbList + WebPage + FAQPage (NO Article — Answer Page) ──
     ['hday-schema-faq','hday-schema-bc','hday-schema-article','hday-schema-graph'].forEach(id => document.getElementById(id)?.remove());
 
     const _origin    = window.SITE_URL || window.location.origin;
     const _pageUrl   = _origin + window.location.pathname;
-    const _calUrl    = _origin + `${prefix}/today-hijri-date`;
+    const _calHubUrl = _origin + `${prefix}/hijri-calendar`;
+    const _yearUrl   = _origin + `${prefix}/hijri-calendar/${year}`;
     const _monthUrl  = _origin + hijriMonthUrl(year, month);
     const _siteName  = ui.site;
     const _headline  = ui.headline(ctx);
     const _desc      = ui.desc(ctx);
     const _homeUrl   = _origin + ((lang === 'ar') ? '/' : ('/' + lang + '/'));
 
-    const _nowIso = new Date().toISOString();
-    // روابط FAQ: نعيد استخدام نفس أسئلة ui.faq مع إجابات كاملة
-    const _faqItems = ui.faq(ctx).map(([q, a]) => ({
+    // Mirror the visible FAQ: substitute city for country when city known, then swap first pair
+    const _faqCtxLd = isGeoToday ? { ...ctx, country: locDisplay, countryLabel: locDisplay } : ctx;
+    let _faqSrc = isToday ? ui.faq(_faqCtxLd) : nt.faq(_faqCtxLd);
+    if (isGeoToday && _faqSrc.length) {
+        _faqSrc = [[geo.faqFirstQ(locDisplay), geo.faqFirstA(ctx, locDisplay)], ..._faqSrc.slice(1)];
+    }
+    const _faqItems = _faqSrc.map(([q, a]) => ({
         "@type": "Question",
         "name": q,
         "acceptedAnswer": { "@type": "Answer", "text": a }
     }));
+
+    // BreadcrumbList (geo-aware: insert city hop after Home when today + city known)
+    const _bcList = [];
+    let _bcPos = 1;
+    _bcList.push({ "@type":"ListItem", "position": _bcPos++, "name": ui.home, "item": _homeUrl });
+    if (isGeoToday) {
+        _bcList.push({ "@type":"ListItem", "position": _bcPos++, "name": locDisplay, "item": _origin + `${prefix}/prayer-times-in-${locSlug}` });
+    }
+    _bcList.push(
+        { "@type":"ListItem", "position": _bcPos++, "name": ui.cal,  "item": _calHubUrl },
+        { "@type":"ListItem", "position": _bcPos++, "name": `${year}${hSfx}`, "item": _yearUrl },
+        { "@type":"ListItem", "position": _bcPos++, "name": `${monthName} ${year}${hSfx}`, "item": _monthUrl },
+        { "@type":"ListItem", "position": _bcPos++, "name": hDate, "item": _pageUrl }
+    );
 
     const hdaySchema = {
         "@context": "https://schema.org",
@@ -10065,41 +12169,22 @@ function loadHijriDayPage() {
             {
                 "@type": "BreadcrumbList",
                 "@id": `${_pageUrl}#breadcrumb`,
-                "itemListElement": [
-                    { "@type":"ListItem","position":1, "name": ui.home, "item": _homeUrl },
-                    { "@type":"ListItem","position":2, "name": ui.cal,  "item": _calUrl },
-                    { "@type":"ListItem","position":3, "name": `${year}${hSfx}`, "item": _calUrl },
-                    { "@type":"ListItem","position":4, "name": `${monthName} ${year}${hSfx}`, "item": _monthUrl },
-                    { "@type":"ListItem","position":5, "name": hDate, "item": _pageUrl }
-                ]
+                "itemListElement": _bcList
             },
-            {
-                "@type": "Article",
-                "@id": `${_pageUrl}#article`,
-                "headline": _headline,
-                "description": _desc,
-                "inLanguage": lang,
-                "datePublished": _nowIso,
-                "dateModified": _nowIso,
-                "mainEntityOfPage": { "@id": `${_pageUrl}#webpage` },
-                "author": { "@type": "Organization", "name": _siteName, "url": _homeUrl },
-                "publisher": { "@type": "Organization", "name": _siteName, "url": _homeUrl }
-            },
-            {
+            Object.assign({
                 "@type": "WebPage",
                 "@id": `${_pageUrl}#webpage`,
                 "url": _pageUrl,
-                "name": _headline,
+                "name": isGeoToday ? geo.schemaName(locDisplay) : _headline,
                 "headline": _headline,
                 "description": _desc,
                 "inLanguage": lang,
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "name": _siteName,
-                    "url": _homeUrl
-                },
+                "isPartOf": { "@type":"WebSite", "name": _siteName, "url": _homeUrl },
                 "breadcrumb": { "@id": `${_pageUrl}#breadcrumb` }
-            },
+            }, isGeoToday ? {
+                "about": geo.schemaAbout,
+                "spatialCoverage": { "@type": "Place", "name": locDisplay }
+            } : {}),
             {
                 "@type": "FAQPage",
                 "@id": `${_pageUrl}#faq`,
@@ -10114,8 +12199,9 @@ function loadHijriDayPage() {
     hdaySchemaScript.textContent = JSON.stringify(hdaySchema);
     document.head.appendChild(hdaySchemaScript);
 
-    // ── 13. SEO Meta (title + description + canonical + hreflang + OG + Twitter) ──
-    setSEOMeta({ title: _headline, description: _desc, ogType: 'article' });
+    // ── 10. SEO Meta — Answer Page → ogType:'website' (not 'article'), geo-aware title when city known ──
+    const _seoTitle = isGeoToday ? geo.seoTitle(locDisplay, hDate) : _headline;
+    setSEOMeta({ title: _seoTitle, description: _desc, ogType: 'website' });
 }
 
 // ========= صفحة التقويم الهجري السنوي /hijri-calendar أو /hijri-calendar/1447 =========
@@ -10204,6 +12290,8 @@ function loadHijriYearPage() {
     const tbody = document.getElementById('hyear-table-body');
     if (tbody) {
         tbody.innerHTML = '';
+        const _pad2 = (n) => String(n).padStart(2, '0');
+        const gSfx = (typeof gSfxFor === 'function') ? gSfxFor(lang) : '';
         for (let m = 1; m <= 12; m++) {
             const mDays   = HijriDate.getDaysInHijriMonth(year, m);
             const gFirst  = HijriDate.toGregorian(year, m, 1);
@@ -10214,37 +12302,49 @@ function loadHijriYearPage() {
             const gm2     = gregMonthFor(lang, gLast.month - 1);
             const startStr = `${gFirst.day} ${gm1} ${gFirst.year}`;
             const endStr   = `${gLast.day} ${gm2} ${gLast.year}`;
+            // Each Gregorian boundary links to its specific Hijri day page (long-tail SEO + UX).
+            const startHref = `${prefix}/hijri-date/${year}-${_pad2(m)}-01`;
+            const endHref   = `${prefix}/hijri-date/${year}-${_pad2(m)}-${_pad2(mDays)}`;
             const isCurrentMonth = (() => { const h = HijriDate.getToday(); return h.year === year && h.month === m; })();
             const rowBg  = isCurrentMonth ? 'background:var(--primary-light);' : (m % 2 === 0 ? 'background:var(--bg);' : '');
             const lnkClr = isCurrentMonth ? 'color:#fff;font-weight:700;text-decoration:none;' : 'color:var(--primary);text-decoration:none;';
             const txtClr = isCurrentMonth ? 'color:#fff;' : '';
             const td = 'padding:10px 14px;border-bottom:1px solid var(--border);text-align:center;';
+            // Localized tooltips: "التاريخ الهجري 1 محرم 1447 هـ الموافق 27 يونيو 2025"
+            const startTitle = (typeof ui.day_row_title === 'function')
+                ? ui.day_row_title(`1 ${mName} ${year}${hSfx}`, `${gFirst.day} ${gm1} ${gFirst.year}${gSfx}`)
+                : '';
+            const endTitle   = (typeof ui.day_row_title === 'function')
+                ? ui.day_row_title(`${mDays} ${mName} ${year}${hSfx}`, `${gLast.day} ${gm2} ${gLast.year}${gSfx}`)
+                : '';
+            const startTitleAttr = startTitle ? ` title="${startTitle.replace(/"/g, '&quot;')}"` : '';
+            const endTitleAttr   = endTitle   ? ` title="${endTitle.replace(/"/g, '&quot;')}"`   : '';
             tbody.innerHTML += `<tr style="${rowBg}">
                 <td style="${td}${txtClr}"><a href="${mUrl}" style="${lnkClr}">${mName} ${year}${hSfx}</a></td>
-                <td style="${td}${txtClr}">${startStr}</td>
-                <td style="${td}${txtClr}">${endStr}</td>
-                <td style="${td}${txtClr}">${mDays}</td>
+                <td style="${td}${txtClr}"><a href="${startHref}"${startTitleAttr} style="${lnkClr}">${startStr}</a></td>
+                <td style="${td}${txtClr}"><a href="${endHref}"${endTitleAttr} style="${lnkClr}">${endStr}</a></td>
+                <td style="${td}${txtClr}"><a href="${mUrl}" style="${lnkClr}">${mDays}</a></td>
             </tr>`;
         }
     }
 
-    // ── 5. Month Buttons Grid ─────────────────────────────────────
-    const monthsTitleEl = document.getElementById('hyear-months-title');
-    if (monthsTitleEl) monthsTitleEl.textContent = ui.months_grid_title(ctx);
-
-    const monthsGrid = document.getElementById('hyear-months-grid');
-    if (monthsGrid) {
-        monthsGrid.innerHTML = '';
-        for (let m = 1; m <= 12; m++) {
-            const mName = hijriNames[m - 1];
-            const mUrl  = hijriMonthUrl(year, m);
-            const isCurrentMonth = (() => { const h = HijriDate.getToday(); return h.year === year && h.month === m; })();
-            const bg  = isCurrentMonth ? 'var(--primary)' : 'var(--bg)';
-            const clr = isCurrentMonth ? '#fff' : 'var(--primary)';
-            const fw  = isCurrentMonth ? '700' : '500';
-            monthsGrid.innerHTML += `<a href="${mUrl}" style="display:block;padding:12px 10px;background:${bg};color:${clr};border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:${fw};text-align:center;border:1px solid var(--border);">${mName}<br><span style="font-size:0.78rem;opacity:0.75;">${year}${hSfx}</span></a>`;
+    // Today-in-year banner — shown only when viewing the current Hijri year
+    const todayInYearEl = document.getElementById('hyear-today-in-year');
+    if (todayInYearEl) {
+        const todayH = HijriDate.getToday();
+        if (todayH.year === year && typeof ui.today_in_year === 'function') {
+            const _todayMN = hijriNames[todayH.month - 1];
+            const _pad2 = (n) => String(n).padStart(2, '0');
+            const _todayHref = `${prefix}/hijri-date/${todayH.year}-${_pad2(todayH.month)}-${_pad2(todayH.day)}`;
+            todayInYearEl.innerHTML = ui.today_in_year(todayH.day, _todayMN, todayH.year, hSfx, _todayHref);
+            todayInYearEl.hidden = false;
+        } else {
+            todayInYearEl.innerHTML = '';
+            todayInYearEl.hidden = true;
         }
     }
+
+    // Month Buttons Grid removed — duplicated the table above. Hierarchy now flows through the table.
 
     // ── 6. CTA Links ─────────────────────────────────────────────
     const ctaEl = document.getElementById('hyear-cta');
@@ -10260,6 +12360,29 @@ function loadHijriYearPage() {
         ctaEl.innerHTML = ctas.map(([href, text, primary]) =>
             `<a href="${href}" style="display:inline-block;padding:10px 20px;background:${primary ? 'var(--primary)' : 'var(--bg)'};color:${primary ? '#fff' : 'var(--primary)'};border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:${primary ? '700' : '500'};border:1px solid var(--border);">${text}</a>`
         ).join('');
+    }
+
+    // Years Navigation — 5-year window (y-2..y+2), current year highlighted
+    const yearsTitleEl   = document.getElementById('hyear-years-title');
+    const yearsCurrentEl = document.getElementById('hyear-years-current');
+    const yearsGridEl    = document.getElementById('hyear-years-grid');
+    const yearsAllLinkEl = document.getElementById('hyear-years-all');
+    if (yearsTitleEl   && ui.years_title)   yearsTitleEl.textContent = ui.years_title;
+    if (yearsCurrentEl && ui.years_current) yearsCurrentEl.innerHTML = ui.years_current(year, hSfx);
+    if (yearsGridEl) {
+        const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1);
+        yearsGridEl.innerHTML = yearsWindow.map((y) => {
+            const isActive = (y === year);
+            const bg       = isActive ? 'var(--primary)' : 'var(--bg)';
+            const fg       = isActive ? '#fff'           : 'var(--primary)';
+            const wt       = isActive ? 'font-weight:700;' : '';
+            const suffix   = (isActive && ui.years_active_suffix) ? ui.years_active_suffix : '';
+            return `<a href="${prefix}/hijri-calendar/${y}" style="display:inline-block;padding:8px 16px;background:${bg};color:${fg};border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);${wt}">${y}${hSfx}${suffix}</a>`;
+        }).join('');
+    }
+    if (yearsAllLinkEl && ui.years_all_link) {
+        yearsAllLinkEl.textContent = ui.years_all_link;
+        yearsAllLinkEl.href = `${prefix}/hijri-calendar`;
     }
 
     // ── 7. FAQ ────────────────────────────────────────────────────
@@ -10307,7 +12430,7 @@ function loadHijriYearPage() {
                 "@id": `${_pageUrl}#breadcrumb`,
                 "itemListElement": [
                     { "@type":"ListItem","position":1, "name": ui.home, "item": _homeUrl },
-                    { "@type":"ListItem","position":2, "name": ui.cal,  "item": _origin+`${prefix}/today-hijri-date` },
+                    { "@type":"ListItem","position":2, "name": ui.cal,  "item": _origin+`${prefix}/hijri-calendar` },
                     { "@type":"ListItem","position":3, "name": `${year}${hSfx}`, "item": _pageUrl }
                 ]
             },
@@ -10357,13 +12480,12 @@ function loadHijriYearPage() {
 
 // ========= صفحة التقويم الهجري الشهري =========
 function loadHijriMonthPage() {
-    const match = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/([a-z-]+)-(\d+)$/);
+    const match = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(\d{2})$/);
     if (!match) return;
-    const monthSlug = match[1];
-    const year      = parseInt(match[2]);
-    const monthIdx  = HIJRI_MONTH_SLUGS.indexOf(monthSlug);
-    if (monthIdx === -1) return;
-    const month     = monthIdx + 1;
+    const year  = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10);
+    if (month < 1 || month > 12) return;
+    const monthIdx = month - 1;
 
     const lang       = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const prefix     = (lang && lang !== 'ar') ? '/' + lang : '';
@@ -10386,7 +12508,11 @@ function loadHijriMonthPage() {
     const gFirstStr = `${gregFirst.day} ${gm1} ${gregFirst.year}`;
     const gLastStr  = `${gregLast.day} ${gm2} ${gregLast.year}`;
 
-    const ctx = { monthName, year, hSfx, gSfx, totalDays, isLeap, gRange, gFirstStr, gLastStr, country };
+    // URLs that the footer paragraph embeds as internal links (crawl-equity + UX)
+    const _hmTodayUrl = `${prefix}/today-hijri-date`;
+    const _hmYearUrl  = `${prefix}/hijri-calendar/${year}`;
+    const ctx = { monthName, year, hSfx, gSfx, totalDays, isLeap, gRange, gFirstStr, gLastStr, country,
+                  todayUrl: _hmTodayUrl, yearUrl: _hmYearUrl };
 
     // 1. Breadcrumbs
     const bcEl = document.getElementById('hmonth-breadcrumbs');
@@ -10402,17 +12528,17 @@ function loadHijriMonthPage() {
         ]);
     }
 
-    // 2. Title & Subtitle
+    // 2. Title & Subtitle (Answer-page style: clean H1, descriptive subtitle)
     const titleEl    = document.getElementById('hmonth-title');
     const subtitleEl = document.getElementById('hmonth-subtitle');
     if (titleEl)    titleEl.textContent    = ui.title(ctx);
     if (subtitleEl) subtitleEl.textContent = ui.subtitle(ctx);
 
-    // 3. Intro
+    // Intro element is removed from the new skeleton. Keep defensive cleanup in case legacy DOM exists.
     const introEl = document.getElementById('hmonth-intro');
-    if (introEl) introEl.textContent = ui.intro(ctx);
+    if (introEl) { introEl.textContent = ''; introEl.hidden = true; }
 
-    // 3b. Section headings + table column headers (localized)
+    // 2b. Section headings + table column headers (localized)
     const infoTitleEl  = document.getElementById('hmonth-info-title');
     const daysTitleEl  = document.getElementById('hmonth-days-title');
     const linksTitleEl = document.getElementById('hmonth-links-title');
@@ -10424,20 +12550,33 @@ function loadHijriMonthPage() {
     if (thHijriEl    && ui.th_hijri)      thHijriEl.textContent    = ui.th_hijri;
     if (thGregEl     && ui.th_greg)       thGregEl.textContent     = ui.th_greg;
 
-    // 4. Info Cards
+    // 3. Info Cards — reduced to 3 essential facts: days count, start (Gregorian), end (Gregorian)
     const gridEl = document.getElementById('hmonth-info-grid');
     if (gridEl) {
         const cards = [
-            [ui.card_labels[0], monthName],
-            [ui.card_labels[1], ui.days_word_n(totalDays)],
-            [ui.card_labels[2], `${gregFirst.day} ${gm1} ${gregFirst.year}`],
-            [ui.card_labels[3], `${gregLast.day} ${gm2} ${gregLast.year}`],
-            [ui.card_labels[4], `${year}${hSfx}`],
-            [ui.card_labels[5], isLeap ? ui.leap_yes : ui.leap_no],
+            [ui.card_labels[0], ui.days_word_n(totalDays)],
+            [ui.card_labels[1], `${gregFirst.day} ${gm1} ${gregFirst.year}`],
+            [ui.card_labels[2], `${gregLast.day} ${gm2} ${gregLast.year}`],
         ];
         gridEl.innerHTML = cards.map(([label, value]) =>
             `<div class="info-card"><div class="info-card-label">${label}</div><div class="info-card-value">${value}</div></div>`
         ).join('');
+    }
+
+    // 3b. "Today in this month" indicator — only when the rendered month IS the current hijri month.
+    // The date itself is a link to the day page (hijri-date/YYYY-MM-DD).
+    const todayInMonthEl = document.getElementById('hmonth-today-in-month');
+    if (todayInMonthEl) {
+        const _isCurrentMonth = (todayH.year === year && todayH.month === month);
+        if (_isCurrentMonth && typeof ui.today_in_month === 'function') {
+            const _todayMN   = hijriNames[todayH.month - 1];
+            const _todayHref = hijriDayUrl(todayH.year, todayH.month, todayH.day);
+            todayInMonthEl.innerHTML = ui.today_in_month(todayH.day, _todayMN, todayH.year, hSfx, _todayHref);
+            todayInMonthEl.hidden = false;
+        } else {
+            todayInMonthEl.innerHTML = '';
+            todayInMonthEl.hidden = true;
+        }
     }
 
     // 5. Full Calendar Table
@@ -10454,25 +12593,30 @@ function loadHijriMonthPage() {
             const dowIdx    = new Date(greg.year, greg.month - 1, greg.day).getDay();
             const dayName   = dayNameFor(lang, dowIdx);
             const gmLoc     = gregMonthFor(lang, greg.month - 1);
+            // Long-tail SEO: per-row title="التاريخ الهجري {hDate} الموافق {gDate}"
+            const _hDate    = `${d} ${monthName} ${year}${hSfx}`;
+            const _gDate    = `${greg.day} ${gmLoc} ${greg.year}${gSfx}`;
+            const _rowTitle = (typeof ui.day_row_title === 'function') ? ui.day_row_title(_hDate, _gDate) : '';
+            const _titleAttr = _rowTitle ? ` title="${_rowTitle.replace(/"/g, '&quot;')}"` : '';
             tr.innerHTML = `
                 <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;">
-                    <a href="${dayUrl}" style="${linkStyle}">${d} ${monthName} ${year}${hSfx} (${dayName})</a>
+                    <a href="${dayUrl}"${_titleAttr} style="${linkStyle}">${d} ${monthName} ${year}${hSfx} (${dayName})</a>
                 </td>
                 <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;">
-                    <a href="${dayUrl}" style="${linkStyle}">${dayName} ${greg.day} ${gmLoc} ${greg.year}</a>
+                    <a href="${dayUrl}"${_titleAttr} style="${linkStyle}">${dayName} ${greg.day} ${gmLoc} ${greg.year}</a>
                 </td>`;
             tbody.appendChild(tr);
         }
     }
 
-    // 6. Internal Links
+    // 6. Related Links — 4 ecosystem anchors (today + year calendar + converter + moon today)
     const linksEl = document.getElementById('hmonth-links');
     if (linksEl) {
-        const day1Target = (month === todayH.month && year === todayH.year) ? todayH.day : 1;
         const links = [
-            [`${prefix}/dateconverter`, ui.link_convert],
             [`${prefix}/today-hijri-date`, ui.link_today],
-            [hijriDayUrl(year, month, day1Target), ui.link_day1(monthName, `${year}${hSfx}`)],
+            [`${prefix}/hijri-calendar/${year}`, ui.link_year(year, hSfx)],
+            [`${prefix}/dateconverter`, ui.link_convert],
+            [`${prefix}/moon-today`, ui.link_moon],
         ];
         linksEl.innerHTML = links.map(([href, text]) =>
             `<a href="${href}" style="display:inline-block;padding:9px 18px;background:var(--primary);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem;">${text}</a>`
@@ -10489,18 +12633,44 @@ function loadHijriMonthPage() {
     if (otherTitleEl) otherTitleEl.textContent = ui.other_months_title(ctx);
 
     if (otherEl) {
-        const others = [];
-        for (let delta = -3; delta <= 3; delta++) {
-            if (delta === 0) continue;
-            let mo = month + delta, yr = year;
-            if (mo < 1)  { mo += 12; yr--; }
-            if (mo > 12) { mo -= 12; yr++; }
-            others.push({ mo, yr });
-        }
-        otherEl.innerHTML = others.map(({ mo, yr }) => {
-            const mName = hijriNames[mo-1];
-            return `<a href="${hijriMonthUrl(yr, mo)}" style="display:inline-block;padding:8px 16px;background:var(--bg);color:var(--primary);border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);">${mName} ${yr}${hSfx}</a>`;
+        // All 12 months of the current Hijri year, in calendar order (1 → 12).
+        // Each card: single-line "اسم الشهر 1447 هـ" — current month highlighted + aria-current + (الحالي) suffix.
+        const items = [];
+        for (let mo = 1; mo <= 12; mo++) items.push(mo);
+        const activeSfx = ui.other_months_active_suffix || '';
+        otherEl.innerHTML = items.map((mo) => {
+            const mName    = hijriNames[mo-1];
+            const isActive = (mo === month);
+            const bg       = isActive ? 'var(--primary)' : 'var(--bg)';
+            const fg       = isActive ? '#fff'           : 'var(--primary)';
+            const fw       = isActive ? '700' : '500';
+            const aria     = isActive ? ' aria-current="true"' : '';
+            const sfx      = isActive ? activeSfx : '';
+            return `<a href="${hijriMonthUrl(year, mo)}"${aria} style="display:block;padding:12px 10px;background:${bg};color:${fg};border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:${fw};text-align:center;border:1px solid var(--border);">${mName} ${year}${hSfx}${sfx}</a>`;
         }).join('');
+    }
+
+    // 7b. Years Navigation — 5-year window (y-2 .. y+2), current year highlighted, "full calendar" link below.
+    const yearsTitleEl   = document.getElementById('hmonth-years-title');
+    const yearsCurrentEl = document.getElementById('hmonth-years-current');
+    const yearsGridEl    = document.getElementById('hmonth-years-grid');
+    const yearsAllLinkEl = document.getElementById('hmonth-years-all');
+    if (yearsTitleEl   && ui.years_title)   yearsTitleEl.textContent = ui.years_title;
+    if (yearsCurrentEl && ui.years_current) yearsCurrentEl.innerHTML = ui.years_current(year, hSfx);
+    if (yearsGridEl) {
+        const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1);
+        yearsGridEl.innerHTML = yearsWindow.map((y) => {
+            const isActive = (y === year);
+            const bg       = isActive ? 'var(--primary)' : 'var(--bg)';
+            const fg       = isActive ? '#fff'           : 'var(--primary)';
+            const wt       = isActive ? 'font-weight:700;' : '';
+            const suffix   = (isActive && ui.years_active_suffix) ? ui.years_active_suffix : '';
+            return `<a href="${prefix}/hijri-calendar/${y}" style="display:inline-block;padding:8px 16px;background:${bg};color:${fg};border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);${wt}">${y}${hSfx}${suffix}</a>`;
+        }).join('');
+    }
+    if (yearsAllLinkEl && ui.years_all_link) {
+        yearsAllLinkEl.textContent = ui.years_all_link;
+        yearsAllLinkEl.href = `${prefix}/hijri-calendar`;
     }
 
     // 8. Prev / Next Month Navigation
@@ -10524,9 +12694,9 @@ function loadHijriMonthPage() {
             </a>`;
     }
 
-    // 9. Footer SEO
+    // 9. Footer SEO — dynamic paragraph with inline internal links (today + year calendar)
     const footerEl = document.getElementById('hmonth-footer-seo');
-    if (footerEl) footerEl.textContent = ui.footer(ctx);
+    if (footerEl) footerEl.innerHTML = ui.footer(ctx);
 
     // 10. Schema JSON-LD — @graph: BreadcrumbList + Article + WebPage + FAQPage
     document.getElementById('hmonth-schema-graph')?.remove();
@@ -10534,7 +12704,6 @@ function loadHijriMonthPage() {
     const calUrl_   = _origin + `${prefix}/hijri-calendar`;
     const yearUrl_  = _origin + `${prefix}/hijri-calendar/${year}`;
     const siteName_ = ui.site;
-    const _hmonthNowIso = new Date().toISOString();
     const _faqItems = ui.faq(ctx).map(([q, a]) => ({
         "@type": "Question", "name": q,
         "acceptedAnswer": { "@type": "Answer", "text": a }
@@ -10551,18 +12720,6 @@ function loadHijriMonthPage() {
                     {"@type":"ListItem","position":3,"name": `${year}${hSfx}`,            "item": yearUrl_},
                     {"@type":"ListItem","position":4,"name": `${monthName} ${year}${hSfx}`,"item": pageUrl_}
                 ]
-            },
-            {
-                "@type": "Article",
-                "@id": `${pageUrl_}#article`,
-                "headline": ui.headline(ctx),
-                "description": ui.meta_desc(ctx),
-                "inLanguage": lang,
-                "datePublished": _hmonthNowIso,
-                "dateModified": _hmonthNowIso,
-                "mainEntityOfPage": { "@id": `${pageUrl_}#webpage` },
-                "author": { "@type": "Organization", "name": siteName_, "url": _origin + (lang==='ar' ? '/' : (prefix+'/')) },
-                "publisher": { "@type": "Organization", "name": siteName_, "url": _origin + (lang==='ar' ? '/' : (prefix+'/')) }
             },
             {
                 "@type": "WebPage",
@@ -10603,7 +12760,7 @@ function loadHijriMonthPage() {
     setSEOMeta({
         title: ui.meta_title(ctx),
         description: ui.meta_desc(ctx),
-        ogType: 'article'
+        ogType: 'website'
     });
 }
 

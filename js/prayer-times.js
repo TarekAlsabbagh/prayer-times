@@ -243,8 +243,13 @@ const PrayerTimes = (function () {
             }
         }
         // قبل الفجر → الصلاة الحاليّة هي عشاء البارحة
+        // R36: نُرجِع startSeconds (وقت بدء عشاء أمس بقيمة اليوم — التغيّر اليوميّ < دقيقة)
+        // ليتمكّن updatePrayerProgress من حساب الـpct أثناء الفترة بين العشاء والفجر.
+        // wrap-around: currentSeconds < ishaStart → الـ consumer يضيف 86400 للحصول على elapsed صحيح.
         if (!last) {
-            return { key: 'isha', name: names.isha, beforeFajr: true };
+            var ishaStartSeconds = (times.raw && typeof times.raw.isha === 'number')
+                ? Math.floor(fixHour(times.raw.isha) * 3600) : undefined;
+            return { key: 'isha', name: names.isha, beforeFajr: true, startSeconds: ishaStartSeconds };
         }
         // R23: إن كنّا في نافذة "بعد الشروق وقبل الظهر" → علامة خاصّة (ليست صلاة)
         if (last.key === 'fajr' && times.raw.sunrise !== undefined) {

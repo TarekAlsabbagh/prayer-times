@@ -8131,7 +8131,12 @@ function updatePrayerProgress() {
     if (!currentPrayerTimes || !currentPrayerTimes.raw) return;
     if (!PrayerTimes || typeof PrayerTimes.getCurrentPrayer !== 'function') return;
     const curr = PrayerTimes.getCurrentPrayer(currentPrayerTimes, currentTimezone);
-    if (!curr || curr.afterSunrise || curr.beforeFajr || curr.notAPrayer) return;
+    if (!curr || curr.afterSunrise || curr.notAPrayer) return;
+    // R36 fix: keep updating progress when curr.beforeFajr=true AND curr.key='isha'.
+    // That state means "after Isha, before tomorrow's Fajr" — Isha is still the active
+    // prayer and its progress (toward next Fajr) should keep filling overnight.
+    // The wrap-around math below already handles startSeconds > nextStartSec.
+    if (curr.beforeFajr && curr.key !== 'isha') return;
     if (typeof curr.startSeconds !== 'number') return;
     const next = PrayerTimes.getNextPrayer(currentPrayerTimes, currentTimezone);
     if (!next || !next.key) return;

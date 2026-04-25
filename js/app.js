@@ -11408,12 +11408,13 @@ function startDeviceCompass() {
     if (_compassListening || !window.DeviceOrientationEvent) return;
 
     let _usingAbsolute = false;
-    let _gotUsefulEvent = false;
+    const _btn = document.getElementById('compass-permission-btn');
+    const _hideBtnOnFirstEvent = () => { if (_btn) _btn.style.display = 'none'; };
 
     _orientationHandler = function(e) {
         // على iOS: استخدم webkitCompassHeading (شمال حقيقي)
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            _gotUsefulEvent = true;
+            _hideBtnOnFirstEvent();
             _applyCompassHeading(e.webkitCompassHeading);
             return;
         }
@@ -11421,29 +11422,28 @@ function startDeviceCompass() {
         if (e.type === 'deviceorientation' && _usingAbsolute) return;
         if (e.type === 'deviceorientationabsolute') _usingAbsolute = true;
         if (e.alpha == null) return;  // phantom event من بعض المتصفّحات — تجاهل
-        _gotUsefulEvent = true;
+        _hideBtnOnFirstEvent();
         _applyCompassHeading((360 - e.alpha) % 360);
     };
 
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ يحتاج إذن صريح — أظهر الزر
-        const btn = document.getElementById('compass-permission-btn');
-        if (btn) btn.style.display = 'block';
-    } else {
-        // Android وغيرها — يعمل تلقائياً
-        window.addEventListener('deviceorientationabsolute', _orientationHandler, true);
-        window.addEventListener('deviceorientation',         _orientationHandler, true);
-        _compassListening = true;
-        // R36 fallback: لو لم تصل أيّ أحداث خلال 2.5 ثانية (Chrome/Android بإعدادات صارمة،
-        //   متصفّح in-app webview، أو Permissions-Policy تمنع المستشعرات)، أظهر زرّ التفعيل
-        //   ليتمكّن المستخدم من تفعيلها بإيماءة صريحة.
-        setTimeout(function() {
-            if (!_gotUsefulEvent) {
-                const btn = document.getElementById('compass-permission-btn');
-                if (btn) btn.style.display = 'block';
-                try { console.warn('[compass] no useful deviceorientation events in 2.5s — showing permission button'); } catch (_) {}
-            }
-        }, 2500);
+    // R36c: نُسجّل المستمعين دائماً (حتى على iOS — قد يفيد لو السماحيّة مُمنوحة مسبقاً).
+    try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
+    try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
+    _compassListening = true;
+
+    // R36c: على أيّ جهاز touchscreen أو متصفّح يحتاج requestPermission (iOS 13+)،
+    //   أظهر زرّ التفعيل فوراً. هذا يضمن:
+    //   • iOS — المستخدم يضغط لمنح الإذن.
+    //   • Android Chrome مع Permissions-Policy صارمة / WebView / in-app browsers
+    //     (Facebook/Instagram/X) — المستخدم يضغط لتفعيل المستشعرات بإيماءة صريحة.
+    //   • Desktop — لا يظهر الزرّ (لا touchscreen ولا requestPermission).
+    //   الزرّ يختفي تلقائياً مع أوّل حدث orientation مفيد (_hideBtnOnFirstEvent).
+    const _needsButton = (typeof DeviceOrientationEvent.requestPermission === 'function')
+        || (typeof window !== 'undefined' && (
+            ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
+        ));
+    if (_needsButton && _btn) {
+        _btn.style.display = 'block';
     }
 }
 

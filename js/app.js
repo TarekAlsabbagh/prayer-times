@@ -3484,6 +3484,44 @@ const LOCAL_CITIES = [
     {ar:'ساو باولو',en:'São Paulo',lat:-23.5505,lng:-46.6333,cc:'br',country:'البرازيل'},
     {ar:'سيدني',en:'Sydney',lat:-33.8688,lng:151.2093,cc:'au',country:'أستراليا'},
     {ar:'تورنتو',en:'Toronto',lat:43.6532,lng:-79.3832,cc:'ca',country:'كندا'},
+    // R35 expansion — fill country gaps so nearest-city lookup never returns a far-away city
+    // الهند
+    {ar:'مومباي',en:'Mumbai',lat:19.0760,lng:72.8777,cc:'in',country:'الهند'},
+    {ar:'دلهي',en:'Delhi',lat:28.6139,lng:77.2090,cc:'in',country:'الهند'},
+    {ar:'حيدر آباد',en:'Hyderabad',lat:17.3850,lng:78.4867,cc:'in',country:'الهند'},
+    {ar:'بنغالور',en:'Bengaluru',lat:12.9716,lng:77.5946,cc:'in',country:'الهند'},
+    {ar:'كولكاتا',en:'Kolkata',lat:22.5726,lng:88.3639,cc:'in',country:'الهند'},
+    {ar:'تشيناي',en:'Chennai',lat:13.0827,lng:80.2707,cc:'in',country:'الهند'},
+    // نيجيريا
+    {ar:'لاغوس',en:'Lagos',lat:6.5244,lng:3.3792,cc:'ng',country:'نيجيريا'},
+    {ar:'كانو',en:'Kano',lat:12.0022,lng:8.5920,cc:'ng',country:'نيجيريا'},
+    {ar:'أبوجا',en:'Abuja',lat:9.0765,lng:7.3986,cc:'ng',country:'نيجيريا'},
+    {ar:'إيبادان',en:'Ibadan',lat:7.3776,lng:3.9470,cc:'ng',country:'نيجيريا'},
+    // إندونيسيا
+    {ar:'سورابايا',en:'Surabaya',lat:-7.2575,lng:112.7521,cc:'id',country:'إندونيسيا'},
+    {ar:'باندونغ',en:'Bandung',lat:-6.9175,lng:107.6191,cc:'id',country:'إندونيسيا'},
+    {ar:'ميدان',en:'Medan',lat:3.5952,lng:98.6722,cc:'id',country:'إندونيسيا'},
+    {ar:'ماكاسار',en:'Makassar',lat:-5.1477,lng:119.4327,cc:'id',country:'إندونيسيا'},
+    // باكستان
+    {ar:'فيصل آباد',en:'Faisalabad',lat:31.4504,lng:73.1350,cc:'pk',country:'باكستان'},
+    {ar:'مولتان',en:'Multan',lat:30.1575,lng:71.5249,cc:'pk',country:'باكستان'},
+    // تركيا
+    {ar:'إزمير',en:'Izmir',lat:38.4192,lng:27.1287,cc:'tr',country:'تركيا'},
+    {ar:'بورصة',en:'Bursa',lat:40.1828,lng:29.0665,cc:'tr',country:'تركيا'},
+    // ألمانيا
+    {ar:'كولونيا',en:'Cologne',lat:50.9375,lng:6.9603,cc:'de',country:'ألمانيا'},
+    {ar:'فرانكفورت',en:'Frankfurt',lat:50.1109,lng:8.6821,cc:'de',country:'ألمانيا'},
+    // المملكة المتحدة
+    {ar:'برمنغهام',en:'Birmingham',lat:52.4862,lng:-1.8904,cc:'gb',country:'المملكة المتحدة'},
+    {ar:'مانشستر',en:'Manchester',lat:53.4808,lng:-2.2426,cc:'gb',country:'المملكة المتحدة'},
+    // فرنسا
+    {ar:'مرسيليا',en:'Marseille',lat:43.2965,lng:5.3698,cc:'fr',country:'فرنسا'},
+    {ar:'ليون',en:'Lyon',lat:45.7640,lng:4.8357,cc:'fr',country:'فرنسا'},
+    // روسيا
+    {ar:'سانت بطرسبرغ',en:'Saint Petersburg',lat:59.9311,lng:30.3609,cc:'ru',country:'روسيا'},
+    {ar:'كازان',en:'Kazan',lat:55.8304,lng:49.0661,cc:'ru',country:'روسيا'},
+    // الصين
+    {ar:'قوانغتشو',en:'Guangzhou',lat:23.1291,lng:113.2644,cc:'cn',country:'الصين'},
 ];
 
 // ═══ المدن-المحافظات/العواصم الخاصّة (city-states & special metropolises) ═══
@@ -5780,17 +5818,19 @@ function wireHeroSuggestionsMirror() {
  * Hero "use my location" handler — explicitly user-triggered.
  * Detects geolocation and navigates DIRECTLY to /prayer-times-in-{city-slug}.
  *
- * Robust strategy (proven on slow hosts like render.com cold-start):
+ * R35 strategy — local-first nearest-city, never `loc-*`:
  *   1) Fast path — if localStorage['lsb_detected'] is fresh (≤ 30 min),
- *      navigate instantly. No GPS, no network. ~50ms.
- *   2) Cold path — request GPS, then run the SAME minimal Nominatim pair
- *      (ar+en zoom=10) that the LSB uses, but inline so we navigate
- *      AS SOON as the data arrives (no localStorage poll dependency).
- *      Side-effect: write lsb_detected so the next click is instant.
- *   3) Coords-only fallback — only if Nominatim is genuinely down (15s timeout).
- *      The destination loadCityData re-runs reverseGeocode to fill the H1.
+ *      navigate instantly using the cached city. No GPS, no network. ~50ms.
+ *   2) GPS — getCurrentPosition (1-3s typical, unavoidable).
+ *   3) Local nearest-city via _findNearestKnownCity(lat, lng) — ~10ms,
+ *      offline, deterministic, always returns a result.
+ *   4) navigateToCity with USER's coords + nearest city's name fields →
+ *      URL slug = clean English city name (e.g. /prayer-times-in-riyadh),
+ *      prayer-times/qibla math runs on the user's actual coords.
+ *   5) Side-effect: _writeLsbDetected so future clicks hit the fast path.
  *
  * Singapore/Djibouti slug-collision guards live in navigateToCity().
+ * No Nominatim. No timeouts. No retries. No `loc-*` URL ever produced from this button.
  */
 let _locHeroNavInProgress = false;
 function _locHeroDetectAndNavigate() {
@@ -5810,15 +5850,6 @@ function _locHeroDetectAndNavigate() {
         if (btn) btn.disabled = false;
     };
 
-    const _doNav = (lat, lng, arCity, enCity, country, cc) => {
-        try {
-            navigateToCity(lat, lng, arCity || '', country || '', enCity || '', cc || '');
-        } catch (e) {
-            _restore();
-            try { console.warn('[locHeroNav] navigateToCity failed:', e); } catch (_) {}
-        }
-    };
-
     // ── 1) مسار سريع — استخدم lsb_detected إن كان حديثاً (≤ 30 دقيقة) ──
     try {
         const raw = localStorage.getItem('lsb_detected');
@@ -5826,17 +5857,19 @@ function _locHeroDetectAndNavigate() {
             const d = JSON.parse(raw);
             if (d && isFinite(+d.lat) && isFinite(+d.lng) && (d.enName || d.arCity)
                 && d.ts && (Date.now() - d.ts) < 30 * 60 * 1000) {
-                _doNav(+d.lat, +d.lng,
-                    d.arCity || (d.names && d.names.ar) || '',
-                    d.enName || (d.names && d.names.en) || '',
-                    d.country || '',
-                    (d.countryCode || '').toLowerCase());
+                try {
+                    navigateToCity(+d.lat, +d.lng,
+                        d.arCity || (d.names && d.names.ar) || '',
+                        d.country || '',
+                        d.enName || (d.names && d.names.en) || '',
+                        (d.countryCode || '').toLowerCase());
+                } catch (e) { _restore(); try { console.warn('[locHeroNav] fast-path nav failed:', e); } catch(_) {} }
                 return;
             }
         }
     } catch (_e) { /* silent */ }
 
-    // ── 2) مسار بارد — اطلب GPS ثم Nominatim مباشر (لا اعتماد على localStorage poll) ──
+    // ── 2) GPS → 3) أقرب مدينة محليّة → 4) تنقّل مباشر ──
     if (!navigator.geolocation) {
         _restore();
         try { alert('الموقع غير مدعوم في هذا المتصفح'); } catch (_e) {}
@@ -5844,62 +5877,17 @@ function _locHeroDetectAndNavigate() {
     }
 
     navigator.geolocation.getCurrentPosition(
-        async function (position) {
+        function (position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
-
-            const _stripDistrict = (s) => (s || '').replace(/\s*District\b/gi, '').trim();
-            const _stripAdmin    = (s) => (s || '').replace(/^منطقة\s+|^محافظة\s+/g, '').replace(/\s*(Region|Governorate|Province)\b/gi, '').trim();
-
-            const baseUrl = 'https://nominatim.openstreetmap.org/reverse?format=json&zoom=10&namedetails=1';
-            const _doFetch = (langCode) => fetch(nomUrl(`${baseUrl}&accept-language=${langCode}&lat=${lat}&lon=${lng}`))
-                .then(r => r.json()).catch(() => null);
-            const _isUsable = (d) => d && d.address && (d.address.city || d.address.town || d.address.village
-                || d.address.municipality || d.address.county || d.address.state);
-
-            // محاولة + إعادة محاولة لمرّتين (proxy slow على cold-start قد يُرجع `{}` في المحاولة الأولى)
-            // مهلة كلّيّة 15 ثانية. الزيارة الثانية لنفس الإحداثيّات فوريّة (_cached).
-            const startTs = Date.now();
-            const HARD_DEADLINE_MS = 15000;
-            let arData = null, enData = null;
-            for (let attempt = 0; attempt < 3; attempt++) {
-                if (Date.now() - startTs > HARD_DEADLINE_MS) break;
-                const remainMs = HARD_DEADLINE_MS - (Date.now() - startTs);
-                const tPromise = new Promise(r => setTimeout(() => r('__TIMEOUT__'), Math.min(7000, remainMs)));
-                const arReq = _cached(_coordKey('revGeoCity', lat, lng, 'ar'), () => _doFetch('ar'), 30 * 86400000);
-                const enReq = _cached(_coordKey('revGeoCity', lat, lng, 'en'), () => _doFetch('en'), 30 * 86400000);
-                const r = await Promise.race([Promise.all([arReq, enReq]), tPromise]);
-                if (r !== '__TIMEOUT__') {
-                    [arData, enData] = r;
-                    if (_isUsable(arData) && _isUsable(enData)) break;
-                }
-                // نتيجة فارغة (proxy `{}` على slow host) — انتظر 700ms ثمّ أعد المحاولة
-                await new Promise(rs => setTimeout(rs, 700));
-            }
-
-            const a  = arData?.address || {};
-            const ae = enData?.address || {};
-            const arCity = a.city || a.town || a.village || a.municipality || a.county || _stripAdmin(a.state) || '';
-            const enRaw  = ae.city || ae.town || ae.village || ae.municipality || ae.county || _stripAdmin(ae.state) || '';
-            const enCity = _stripDistrict(
-                (arData?.namedetails?.['name:en'] || arData?.namedetails?.['name:en-US'] || enRaw)
-            );
-            const country = a.country || '';
-            const cc = (a.country_code || '').toLowerCase();
-
-            // كتابة lsb_detected كـ side-effect لاستفادة النقرات اللاحقة من المسار السريع
             try {
-                if (arCity && enCity) {
-                    localStorage.setItem('lsb_detected', JSON.stringify({
-                        arCity, lat, lng,
-                        enName: enCity, country, countryCode: cc,
-                        names: { ar: arCity, en: enCity },
-                        ts: Date.now()
-                    }));
-                }
-            } catch (_e) { /* silent */ }
-
-            _doNav(lat, lng, arCity, enCity, country, cc);
+                const c = _findNearestKnownCity(lat, lng);
+                _writeLsbDetected(c, lat, lng);
+                navigateToCity(lat, lng, c.ar, c.country, c.en, c.cc);
+            } catch (e) {
+                _restore();
+                try { console.warn('[locHeroNav] navigateToCity failed:', e); } catch (_) {}
+            }
         },
         function (error) {
             _restore();
@@ -9605,10 +9593,103 @@ function _haversineKm(lat1, lng1, lat2, lng2) {
 function _nearestCitiesFrom(lat, lng, citiesArr, n, excludeKey) {
     if (!Array.isArray(citiesArr) || citiesArr.length === 0) return [];
     const arr = citiesArr
-        .filter(c => c && c.key !== excludeKey && typeof c.lat === 'number' && typeof c.lng === 'number')
+        .filter(c => c && (excludeKey == null || c.key !== excludeKey)
+                       && typeof c.lat === 'number' && typeof c.lng === 'number')
         .map(c => ({ ...c, _d: _haversineKm(lat, lng, c.lat, c.lng) }))
         .sort((a, b) => a._d - b._d);
     return arr.slice(0, n || 5);
+}
+
+/**
+ * Single source of truth for "nearest known city" lookups across all geo buttons.
+ * Returns a record with {ar, en, lat, lng, cc, country, _d, _src} — never null,
+ * because LOCAL_CITIES is non-empty in practice (Tier 1).
+ *
+ * Tier 1: LOCAL_CITIES — full {ar, en, lat, lng, cc, country} records.
+ * Tier 2: FAMOUS_MOON_CITIES — slug-keyed; we synthesize ar/en via existing resolvers.
+ *         Defensive only; LOCAL_CITIES alone is enough on Earth.
+ *
+ * Used by:
+ *   - _locHeroDetectAndNavigate (prayer-times hero geo button)
+ *   - qibla-hub-geo-btn click handler (qibla hub)
+ *
+ * Goal: NO geo button click ever produces /prayer-times-in-loc-* or /qibla-in-loc-*.
+ */
+function _findNearestKnownCity(lat, lng) {
+    try {
+        if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES) && LOCAL_CITIES.length) {
+            const t1 = _nearestCitiesFrom(lat, lng, LOCAL_CITIES, 1)[0];
+            if (t1 && typeof t1.lat === 'number' && typeof t1.lng === 'number' && t1.en) {
+                return {
+                    ar: t1.ar || '', en: t1.en,
+                    lat: t1.lat, lng: t1.lng,
+                    cc: t1.cc || '', country: t1.country || '',
+                    _d: t1._d, _src: 'local'
+                };
+            }
+        }
+    } catch (_e) { /* fall through to tier 2 */ }
+
+    try {
+        if (typeof FAMOUS_MOON_CITIES !== 'undefined' && FAMOUS_MOON_CITIES) {
+            const famArr = Object.entries(FAMOUS_MOON_CITIES)
+                .filter(([_, c]) => c && typeof c.lat === 'number' && typeof c.lng === 'number')
+                .map(([slug, c]) => {
+                    const titleEn = slug.replace(/-/g, ' ').replace(/\b\w/g, m => m.toUpperCase());
+                    const arName = (typeof _resolveCityNameClient === 'function')
+                        ? (_resolveCityNameClient(slug, 'ar', '') || '')
+                        : '';
+                    return { slug, en: titleEn, ar: arName, lat: c.lat, lng: c.lng, cc: '', country: '' };
+                });
+            const t2 = _nearestCitiesFrom(lat, lng, famArr, 1)[0];
+            if (t2) {
+                return {
+                    ar: t2.ar, en: t2.en,
+                    lat: t2.lat, lng: t2.lng,
+                    cc: '', country: '',
+                    _d: t2._d, _src: 'famous'
+                };
+            }
+        }
+    } catch (_e) { /* fall through */ }
+
+    // Last-ditch defensive — should be unreachable. Returns user's coords with empty names;
+    // navigateToCity will then use a coords-only slug. The destination's loadCityData
+    // self-heal (reverseGeocode fallback) will populate the name on the destination page.
+    return { ar: '', en: '', lat, lng, cc: '', country: '', _d: 0, _src: 'self' };
+}
+
+/**
+ * Side-effect helper: write localStorage['lsb_detected'] in the canonical shape so
+ * (a) the prayer-times hero fast path can hit it instantly on next click,
+ * (b) the smart-pill on the hero shows the right city,
+ * (c) the location-suggestion bar stays in sync.
+ *
+ * Safe to call from any geo entry point (prayer hero, qibla hub).
+ */
+function _writeLsbDetected(city, userLat, userLng) {
+    try {
+        if (!city || !city.en) return;
+        const lat = (typeof userLat === 'number') ? userLat : city.lat;
+        const lng = (typeof userLng === 'number') ? userLng : city.lng;
+        const uiLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const names = { ar: city.ar || '', en: city.en };
+        // Best-effort localized name for the current UI language (no API call —
+        // just the in-memory map shipped with the bundle).
+        try {
+            const cityMap = (typeof _LOCALIZED_CITY_MAPS !== 'undefined') ? _LOCALIZED_CITY_MAPS[uiLang] : null;
+            if (cityMap && cityMap[city.en]) names[uiLang] = cityMap[city.en];
+        } catch (_e) {}
+        localStorage.setItem('lsb_detected', JSON.stringify({
+            arCity: city.ar || '',
+            lat: lat, lng: lng,
+            enName: city.en,
+            country: city.country || '',
+            countryCode: (city.cc || '').toLowerCase(),
+            names: names,
+            ts: Date.now()
+        }));
+    } catch (_e) { /* quota or disabled storage — silent */ }
 }
 
 function _popularCitiesList(currentKey, n) {
@@ -10665,37 +10746,18 @@ function _loadQiblaHubPage(ctx) {
                         sessionStorage.setItem('qibla_hub_user_loc',
                             JSON.stringify({ lat: la, lng: lo, ts: Date.now() }));
                     } catch (_) {}
-                    // Prefer the nearest FAMOUS_MOON_CITIES slug ≤ 30 km; then the nearest
-                    // LOCAL_CITIES slug ≤ 30 km; else a coord-only "loc-xx-yy" slug.
-                    // Always a clean URL — no numeric suffix after the slug.
+                    // R35: unified nearest-city helper across all geo buttons.
+                    // Always returns a clean city slug — never `qibla-in-loc-*`.
+                    // Also writes lsb_detected so the prayer-times hero fast-path picks it up.
                     let target;
                     try {
-                        let bestFamSlug = null, bestFamKm = Infinity;
-                        if (typeof FAMOUS_MOON_CITIES !== 'undefined') {
-                            for (const k in FAMOUS_MOON_CITIES) {
-                                if (!Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, k)) continue;
-                                const c = FAMOUS_MOON_CITIES[k];
-                                const d = _haversineKm(la, lo, c.lat, c.lng);
-                                if (d < bestFamKm) { bestFamKm = d; bestFamSlug = k; }
-                            }
-                        }
-                        if (bestFamSlug && bestFamKm <= 30) {
-                            target = pageUrl(`/qibla-in-${bestFamSlug}`);
-                        } else if (typeof LOCAL_CITIES !== 'undefined') {
-                            let bestLc = null, bestLcKm = Infinity;
-                            for (let i = 0; i < LOCAL_CITIES.length; i++) {
-                                const c = LOCAL_CITIES[i];
-                                const d = _haversineKm(la, lo, c.lat, c.lng);
-                                if (d < bestLcKm) { bestLcKm = d; bestLc = c; }
-                            }
-                            if (bestLc && bestLcKm <= 30) {
-                                const s = makeSlug(bestLc.en, bestLc.lat, bestLc.lng);
-                                target = pageUrl(`/qibla-in-${s}`);
-                            }
-                        }
-                    } catch (_) {}
-                    if (!target) {
-                        // Coord-only slug (no digits after dashes — keeps "no numbers" rule).
+                        const c = _findNearestKnownCity(la, lo);
+                        const slug = makeSlug(c.en, c.lat, c.lng);
+                        target = pageUrl(`/qibla-in-${slug}`);
+                        try { _writeLsbDetected(c, la, lo); } catch (_) {}
+                    } catch (_) {
+                        // Truly unreachable defensive — keep coord-only as a last resort
+                        // (this branch should never fire because LOCAL_CITIES is non-empty).
                         const laS = Math.abs(la).toFixed(1) + (la >= 0 ? 'n' : 's');
                         const loS = Math.abs(lo).toFixed(1) + (lo >= 0 ? 'e' : 'w');
                         target = pageUrl(`/qibla-in-loc-${laS}-${loS}`);

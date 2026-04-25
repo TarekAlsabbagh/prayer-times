@@ -5753,6 +5753,76 @@ function wireHeroSuggestionsMirror() {
 }
 
 /**
+ * Hero "use my location" handler — explicitly user-triggered.
+ * Detects geolocation and navigates DIRECTLY to /prayer-times-in-{city-slug}.
+ * Differs from auto-detectLocation() which only updates the home page in-place
+ * (because auto-detection on initApp() should not navigate the user away).
+ *
+ * Singapore/Djibouti slug-collision guards live in navigateToCity().
+ */
+let _locHeroNavInProgress = false;
+function _locHeroDetectAndNavigate() {
+    if (_locHeroNavInProgress) return;
+    _locHeroNavInProgress = true;
+
+    const btn   = document.getElementById('loc-hero-geo-btn');
+    const label = btn?.querySelector('.lhb-label');
+    const origText = label?.textContent || '';
+    const loadingText = (typeof t === 'function' ? (t('header.locating') || origText) : origText);
+    if (label) label.textContent = loadingText;
+    if (btn)   btn.disabled = true;
+
+    const _restore = () => {
+        _locHeroNavInProgress = false;
+        if (label && origText) label.textContent = origText;
+        if (btn) btn.disabled = false;
+    };
+
+    if (!navigator.geolocation) {
+        _restore();
+        try { alert(typeof t === 'function' ? (t('errors.geo_unsupported') || 'Geolocation not supported') : 'Geolocation not supported'); } catch (_e) {}
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        async function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            try {
+                // reverseGeocode(..., true) يستخرج اسم المدينة + countryCode، ثم يستدعي navigateToCity
+                // (الذي يطبّق حراسة Singapore/Djibouti slug-collision ويتوجّه لصفحة المدينة).
+                currentLat = lat;
+                currentLng = lng;
+                try { currentTimezone = await fetchTimezone(lat, lng); } catch (_e) {}
+                await reverseGeocode(lat, lng, true);
+                // إن فشل التنقّل لأي سبب (مثلاً اسم مدينة فارغ)، نُجبره عبر slug إحداثيّاتيّ
+                setTimeout(() => {
+                    if (_locHeroNavInProgress) {
+                        try { navigateToCity(lat, lng, '', '', '', ''); } catch (_e) {}
+                        _restore();
+                    }
+                }, 4000);
+            } catch (e) {
+                _restore();
+                try { console.warn('[locHeroNav] reverseGeocode failed:', e); } catch (_) {}
+                // fallback: انتقل بالإحداثيّات فقط (slug سيكون loc-LAT-LNG)
+                try { navigateToCity(lat, lng, '', '', '', ''); } catch (_e) {}
+            }
+        },
+        function (error) {
+            _restore();
+            try {
+                const msg = (typeof t === 'function' ? (t('errors.geo_denied') || '') : '') ||
+                    'فشل تحديد الموقع. يُرجى السماح بالوصول إلى الموقع من إعدادات المتصفح.';
+                alert(msg);
+                try { console.warn('[locHeroNav] geo error:', error?.message); } catch (_) {}
+            } catch (_e) {}
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
+}
+
+/**
  * Location-hero persuasive landing extras:
  *   1) Secondary "pick city" button → smooth-scroll to #loc-hero-search and focus it.
  *   2) Smart-pill hydration from localStorage['lsb_detected'] (last detected location).
@@ -6044,8 +6114,14 @@ function handleHomeSearchQuery() {
     if (!onHome) return;
     const params = new URLSearchParams(window.location.search);
     // دعم ?detect=1 (من الصفحات التي تعيد التوجيه للرئيسية)
+    // النيّة هنا صريحة: المستخدم ضغط "استخدم موقعي" — لذا نتنقّل مباشرة إلى صفحة المدينة
+    // عبر _locHeroDetectAndNavigate (لا مجرّد تحديث الرئيسية في-المكان).
     if (params.get('detect') === '1') {
-        if (typeof detectLocation === 'function') setTimeout(() => detectLocation(), 300);
+        if (typeof _locHeroDetectAndNavigate === 'function') {
+            setTimeout(() => _locHeroDetectAndNavigate(), 300);
+        } else if (typeof detectLocation === 'function') {
+            setTimeout(() => detectLocation(), 300);
+        }
         return;
     }
     // دعم ?q= و ?search= (من الصفحات التي تعيد التوجيه للرئيسية)

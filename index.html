@@ -28,7 +28,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=409" as="script">
+    <link rel="preload" href="js/app.js?v=410" as="script">
     <link rel="stylesheet" href="css/style.css?v=127">
 </head>
 <body>
@@ -174,7 +174,7 @@
                         </label>
 
                         <div id="loc-hero-dual-cta" class="loc-hero-dual-cta">
-                            <button type="button" id="loc-hero-geo-btn" class="btn btn-primary loc-hero-geo-btn" onclick="detectLocation()">
+                            <button type="button" id="loc-hero-geo-btn" class="btn btn-primary loc-hero-geo-btn" onclick="_locHeroDetectAndNavigate()">
                                 <span class="lhb-icon" aria-hidden="true">📍</span>
                                 <span class="lhb-label" data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
                             </button>
@@ -2761,7 +2761,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=409"></script>
+    <script defer src="js/app.js?v=410"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

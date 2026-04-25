@@ -11408,17 +11408,20 @@ function startDeviceCompass() {
     if (_compassListening || !window.DeviceOrientationEvent) return;
 
     let _usingAbsolute = false;
+    let _gotUsefulEvent = false;
 
     _orientationHandler = function(e) {
         // على iOS: استخدم webkitCompassHeading (شمال حقيقي)
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
+            _gotUsefulEvent = true;
             _applyCompassHeading(e.webkitCompassHeading);
             return;
         }
         // على Android: فضّل deviceorientationabsolute واتجاهل deviceorientation العادي
         if (e.type === 'deviceorientation' && _usingAbsolute) return;
         if (e.type === 'deviceorientationabsolute') _usingAbsolute = true;
-        if (e.alpha == null) return;
+        if (e.alpha == null) return;  // phantom event من بعض المتصفّحات — تجاهل
+        _gotUsefulEvent = true;
         _applyCompassHeading((360 - e.alpha) % 360);
     };
 
@@ -11431,20 +11434,38 @@ function startDeviceCompass() {
         window.addEventListener('deviceorientationabsolute', _orientationHandler, true);
         window.addEventListener('deviceorientation',         _orientationHandler, true);
         _compassListening = true;
+        // R36 fallback: لو لم تصل أيّ أحداث خلال 2.5 ثانية (Chrome/Android بإعدادات صارمة،
+        //   متصفّح in-app webview، أو Permissions-Policy تمنع المستشعرات)، أظهر زرّ التفعيل
+        //   ليتمكّن المستخدم من تفعيلها بإيماءة صريحة.
+        setTimeout(function() {
+            if (!_gotUsefulEvent) {
+                const btn = document.getElementById('compass-permission-btn');
+                if (btn) btn.style.display = 'block';
+                try { console.warn('[compass] no useful deviceorientation events in 2.5s — showing permission button'); } catch (_) {}
+            }
+        }, 2500);
     }
 }
 
 function requestCompassPermission() {
-    if (typeof DeviceOrientationEvent.requestPermission !== 'function') return;
-    DeviceOrientationEvent.requestPermission().then(state => {
-        if (state === 'granted') {
-            window.addEventListener('deviceorientationabsolute', _orientationHandler, true);
-            window.addEventListener('deviceorientation',         _orientationHandler, true);
-            _compassListening = true;
-            const btn = document.getElementById('compass-permission-btn');
-            if (btn) btn.style.display = 'none';
-        }
-    }).catch(console.error);
+    const _attach = () => {
+        // قد تكون المستمعون مُسجّلون مسبقاً من startDeviceCompass على Android — مكرّر آمن.
+        try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
+        try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
+        _compassListening = true;
+        const btn = document.getElementById('compass-permission-btn');
+        if (btn) btn.style.display = 'none';
+    };
+    // iOS 13+ — يحتاج إذن صريح عبر requestPermission()
+    if (typeof DeviceOrientationEvent !== 'undefined'
+        && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(state => {
+            if (state === 'granted') _attach();
+        }).catch(console.error);
+        return;
+    }
+    // R36: غير-iOS — مجرّد user-gesture يكفي لكي يسمح المتصفّح بأحداث المستشعر.
+    _attach();
 }
 
 // ========= القمر =========

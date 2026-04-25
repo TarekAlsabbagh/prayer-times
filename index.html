@@ -28,7 +28,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=420" as="script">
+    <link rel="preload" href="js/app.js?v=423" as="script">
     <link rel="stylesheet" href="css/style.css?v=127">
 </head>
 <body>
@@ -124,6 +124,21 @@
                         <div class="lang-menu" role="menu"></div>
                     </div>
                     <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
+                </div>
+            </div>
+
+            <!-- ===== شريط اقتراح المدينة المُكتشفة (مرفوع تحت الهيدر مباشرة — يظهر على كلّ الصفحات) ===== -->
+            <div class="location-suggestion-bar u-hidden" id="location-suggestion-bar">
+                <div class="lsb-inner">
+                    <span class="lsb-pin">📍</span>
+                    <div class="lsb-text">
+                        <span class="lsb-label" data-i18n="lsb.detected">تم تحديد موقعك:</span>
+                        <strong class="lsb-city" id="lsb-city-name">--</strong>
+                    </div>
+                    <a class="lsb-btn" id="lsb-go-btn" href="#">
+                        <span data-i18n="lsb.view">عرض المواقيت</span> ←
+                    </a>
+                    <button class="lsb-dismiss" onclick="dismissLocationSuggestion()" aria-label="إغلاق">✕</button>
                 </div>
             </div>
 
@@ -289,21 +304,6 @@
                 </section>
 
                 <h1 class="page-h1" id="page-h1">مواقيت الصلاة والتاريخ الهجري</h1>
-
-                <!-- شريط اقتراح المدينة المكتشفة (يظهر فقط إذا تم الاكتشاف) -->
-                <div class="location-suggestion-bar u-hidden" id="location-suggestion-bar">
-                    <div class="lsb-inner">
-                        <span class="lsb-pin">📍</span>
-                        <div class="lsb-text">
-                            <span class="lsb-label" data-i18n="lsb.detected">تم تحديد موقعك:</span>
-                            <strong class="lsb-city" id="lsb-city-name">--</strong>
-                        </div>
-                        <a class="lsb-btn" id="lsb-go-btn" href="#">
-                            <span data-i18n="lsb.view">عرض المواقيت</span> ←
-                        </a>
-                        <button class="lsb-dismiss" onclick="dismissLocationSuggestion()" aria-label="إغلاق">✕</button>
-                    </div>
-                </div>
 
                 <!-- البانر الرئيسي -->
                 <div class="next-prayer-banner">
@@ -2761,7 +2761,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=420"></script>
+    <script defer src="js/app.js?v=423"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

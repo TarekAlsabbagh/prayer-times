@@ -8659,7 +8659,12 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Permissions-Policy', 'geolocation=(self), camera=(), microphone=(), payment=()');
+    // R36: explicitly grant motion sensors so the qibla compass keeps working
+    //   on Chrome/Android. Without explicit listing, the strict policy can suppress
+    //   `deviceorientation` / `deviceorientationabsolute` even on first-party origin.
+    res.setHeader('Permissions-Policy',
+        'geolocation=(self), accelerometer=(self), gyroscope=(self), magnetometer=(self), '
+        + 'camera=(), microphone=(), payment=()');
     // HSTS: 2 سنوات + includeSubDomains + preload (يحلّ "No HSTS" warning في Seobility/SEOptimer)
     res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
     // CSP — يحمي من XSS ويرفع Security grade. القائمة تطابق المصادر الخارجية المستخدمة فعلياً.

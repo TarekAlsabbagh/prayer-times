@@ -5755,10 +5755,16 @@ function wireHeroSuggestionsMirror() {
 /**
  * Hero "use my location" handler — explicitly user-triggered.
  * Detects geolocation and navigates DIRECTLY to /prayer-times-in-{city-slug}.
- * Differs from auto-detectLocation() which only updates the home page in-place
- * (because auto-detection on initApp() should not navigate the user away).
+ *
+ * Speed strategy:
+ *   1) getCurrentPosition (1-3s typical, unavoidable)
+ *   2) Race a minimal reverseGeocode (parallel ar+en zoom=10, no ward escalation,
+ *      no fetchTimezone) against a 1.8s hard cap.
+ *   3) Whichever wins, navigateToCity fires with the best available name.
  *
  * Singapore/Djibouti slug-collision guards live in navigateToCity().
+ * Differs from auto-detectLocation() which only updates the home page in-place
+ * (because auto-detection on initApp() should not navigate the user away).
  */
 let _locHeroNavInProgress = false;
 function _locHeroDetectAndNavigate() {
@@ -5788,25 +5794,40 @@ function _locHeroDetectAndNavigate() {
         async function (position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
+
+            // ─── سباق سريع: reverseGeocode بالتوازي vs مهلة 1.8 ثانية ───
+            // الفائز يقوده navigateToCity مباشرةً. لا fetchTimezone هنا — صفحة الوجهة تتولّى ذلك.
+            const _stripDistrict = (s) => (s || '').replace(/\s*District\b/gi, '').trim();
+            const namePromise = (async () => {
+                try {
+                    const baseUrl = 'https://nominatim.openstreetmap.org/reverse?format=json&zoom=10&namedetails=1';
+                    const [arResp, enResp] = await Promise.all([
+                        fetch(nomUrl(`${baseUrl}&accept-language=ar&lat=${lat}&lon=${lng}`)).then(r => r.json()).catch(() => null),
+                        fetch(nomUrl(`${baseUrl}&accept-language=en&lat=${lat}&lon=${lng}`)).then(r => r.json()).catch(() => null),
+                    ]);
+                    const a  = arResp?.address || {};
+                    const ae = enResp?.address || {};
+                    const arCity  = a.city  || a.town  || a.village  || a.municipality  || a.county  || '';
+                    const enCity  = _stripDistrict(ae.city || ae.town || ae.village || ae.municipality || ae.county || '');
+                    const country = a.country || '';
+                    const cc      = (a.country_code || '').toLowerCase();
+                    return { arCity, enCity, country, cc };
+                } catch (_e) {
+                    return { arCity: '', enCity: '', country: '', cc: '' };
+                }
+            })();
+            const timeoutPromise = new Promise(resolve =>
+                setTimeout(() => resolve({ arCity: '', enCity: '', country: '', cc: '', __timedOut: true }), 1800)
+            );
+
+            const result = await Promise.race([namePromise, timeoutPromise]);
+            // إن فاز timeout والاسم لم يحضر، نواصل بالإحداثيّات (slug = loc-LAT-LNG) —
+            // صفحة المدينة الوجهة ستُكمل reverseGeocode بنفسها لتحديث العرض.
             try {
-                // reverseGeocode(..., true) يستخرج اسم المدينة + countryCode، ثم يستدعي navigateToCity
-                // (الذي يطبّق حراسة Singapore/Djibouti slug-collision ويتوجّه لصفحة المدينة).
-                currentLat = lat;
-                currentLng = lng;
-                try { currentTimezone = await fetchTimezone(lat, lng); } catch (_e) {}
-                await reverseGeocode(lat, lng, true);
-                // إن فشل التنقّل لأي سبب (مثلاً اسم مدينة فارغ)، نُجبره عبر slug إحداثيّاتيّ
-                setTimeout(() => {
-                    if (_locHeroNavInProgress) {
-                        try { navigateToCity(lat, lng, '', '', '', ''); } catch (_e) {}
-                        _restore();
-                    }
-                }, 4000);
+                navigateToCity(lat, lng, result.arCity, result.country, result.enCity, result.cc);
             } catch (e) {
                 _restore();
-                try { console.warn('[locHeroNav] reverseGeocode failed:', e); } catch (_) {}
-                // fallback: انتقل بالإحداثيّات فقط (slug سيكون loc-LAT-LNG)
-                try { navigateToCity(lat, lng, '', '', '', ''); } catch (_e) {}
+                try { console.warn('[locHeroNav] navigateToCity failed:', e); } catch (_) {}
             }
         },
         function (error) {
@@ -5818,7 +5839,7 @@ function _locHeroDetectAndNavigate() {
                 try { console.warn('[locHeroNav] geo error:', error?.message); } catch (_) {}
             } catch (_e) {}
         },
-        { enableHighAccuracy: true, timeout: 10000 }
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
     );
 }
 

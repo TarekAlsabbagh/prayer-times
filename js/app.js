@@ -11404,44 +11404,70 @@ function _applyCompassHeading(heading) {
     arrow.style.transform = `translate(-50%, -100%) rotate(${_qiblaAngle}deg)`;
 }
 
+// R36e diagnostic: visible compass debug overlay, helps users on mobile
+//   self-report what's happening (event count, last alpha, browser support, etc.)
+function _showCompassDebug(line) {
+    let d = document.getElementById('compass-debug');
+    if (!d) {
+        d = document.createElement('div');
+        d.id = 'compass-debug';
+        d.style.cssText = 'position:relative;margin-top:10px;padding:8px 12px;background:#0d7c55;color:#fff;border-radius:8px;font-size:0.85rem;direction:ltr;text-align:left;font-family:monospace;line-height:1.5;word-break:break-all;';
+        const compassSection = document.querySelector('.qibla-compass-section');
+        if (compassSection) compassSection.appendChild(d);
+    }
+    d.textContent = line;
+}
+
 function startDeviceCompass() {
-    if (_compassListening || !window.DeviceOrientationEvent) return;
+    if (_compassListening || !window.DeviceOrientationEvent) {
+        if (!window.DeviceOrientationEvent) _showCompassDebug('❌ DeviceOrientationEvent غير مدعوم في هذا المتصفّح');
+        return;
+    }
 
     const _btn = document.getElementById('compass-permission-btn');
     const _hideBtnOnFirstEvent = () => { if (_btn) _btn.style.display = 'none'; };
 
-    // R36d: simple original handler restored — any usable heading wins.
-    //   (The `_usingAbsolute` lockout that locked onto absolute on first
-    //    null-alpha event was the actual regression; Android Chrome fires
-    //    `deviceorientationabsolute` once on attach with all-null values,
-    //    poisoning the lockout and ignoring every subsequent real event.)
+    let _evCount = 0;
+    let _lastSrc = '-';
+
     _orientationHandler = function(e) {
+        _evCount++;
         let heading = null;
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            heading = e.webkitCompassHeading; // iOS — true magnetic heading
+            heading = e.webkitCompassHeading; _lastSrc = 'webkit';
         } else if (e.alpha != null) {
-            heading = (360 - e.alpha) % 360;   // Android — alpha is screen-relative
+            heading = (360 - e.alpha) % 360;   _lastSrc = e.type;
         }
+        _showCompassDebug(`✅ events:${_evCount} src:${_lastSrc} α:${e.alpha==null?'null':e.alpha.toFixed(1)} h:${heading==null?'null':heading.toFixed(0)}°`);
         if (heading === null) return;
         _hideBtnOnFirstEvent();
         _applyCompassHeading(heading);
     };
 
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ — explicit permission required, show the enable button
+    const _hasReqPerm = (typeof DeviceOrientationEvent.requestPermission === 'function');
+    _showCompassDebug(`⏳ مستمعون مُسجَّلون. iOS-perm:${_hasReqPerm} touch:${('ontouchstart' in window)||navigator.maxTouchPoints>0} v=425`);
+
+    // Always attach listeners (safe even on iOS — works if permission already granted).
+    try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
+    try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
+    _compassListening = true;
+
+    if (_hasReqPerm) {
+        // iOS 13+ — needs explicit permission, show the enable button
         if (_btn) _btn.style.display = 'block';
     } else {
-        // Android & others — auto-attach
-        try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
-        try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
-        _compassListening = true;
         // Belt-and-suspenders: also surface the button on touchscreen devices so
         // strict-policy / WebView / in-app browser users can grant via gesture.
-        const _isTouch = (typeof window !== 'undefined' && (
-            ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
-        ));
+        const _isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         if (_isTouch && _btn) _btn.style.display = 'block';
     }
+
+    // After 3s with zero events, surface the diagnostic prominently
+    setTimeout(function() {
+        if (_evCount === 0) {
+            _showCompassDebug('⚠️ events:0 — لم تصل أيّ أحداث من المستشعر. اضغط زرّ التفعيل أو افتح في Chrome مباشرة (ليس WebView)');
+        }
+    }, 3000);
 }
 
 function requestCompassPermission() {

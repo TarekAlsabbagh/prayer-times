@@ -5773,15 +5773,13 @@ function wireHeroSuggestionsMirror() {
  * Hero "use my location" handler — explicitly user-triggered.
  * Detects geolocation and navigates DIRECTLY to /prayer-times-in-{city-slug}.
  *
- * Speed strategy:
- *   1) getCurrentPosition (1-3s typical, unavoidable)
- *   2) Race a minimal reverseGeocode (parallel ar+en zoom=10, no ward escalation,
- *      no fetchTimezone) against a 1.8s hard cap.
- *   3) Whichever wins, navigateToCity fires with the best available name.
+ * Strategy: reuse the SAME pipeline as the LSB (Location Suggestion Bar) —
+ *   1) If localStorage['lsb_detected'] is fresh (≤ 30 min), use it instantly (no GPS, no Nominatim).
+ *   2) Otherwise call reverseGeocodeForSuggestion(lat, lng) which writes lsb_detected,
+ *      then navigate to its URL exactly like clicking the LSB "Go" button.
  *
- * Singapore/Djibouti slug-collision guards live in navigateToCity().
- * Differs from auto-detectLocation() which only updates the home page in-place
- * (because auto-detection on initApp() should not navigate the user away).
+ * This guarantees the same correct city resolution that the LSB already proves works.
+ * Singapore/Djibouti slug-collision guards still apply via navigateToCity().
  */
 let _locHeroNavInProgress = false;
 function _locHeroDetectAndNavigate() {
@@ -5801,59 +5799,76 @@ function _locHeroDetectAndNavigate() {
         if (btn) btn.disabled = false;
     };
 
+    // ── ينقل المستخدم إلى صفحة المدينة باستخدام بيانات lsb_detected (نفس مصدر شريط الاقتراح) ──
+    const _navFromLsb = (d) => {
+        try {
+            const lat = +d.lat, lng = +d.lng;
+            const arCity = d.arCity || (d.names && d.names.ar) || '';
+            const enName = d.enName || (d.names && d.names.en) || '';
+            const country = d.country || '';
+            const cc = (d.countryCode || '').toLowerCase();
+            navigateToCity(lat, lng, arCity, country, enName, cc);
+        } catch (e) {
+            _restore();
+            try { console.warn('[locHeroNav] _navFromLsb failed:', e); } catch (_) {}
+        }
+    };
+
+    // 1) مسار سريع — استخدم lsb_detected إن كان حديثاً (≤ 30 دقيقة)
+    try {
+        const raw = localStorage.getItem('lsb_detected');
+        if (raw) {
+            const d = JSON.parse(raw);
+            if (d && isFinite(+d.lat) && isFinite(+d.lng) && (d.enName || d.arCity)
+                && d.ts && (Date.now() - d.ts) < 30 * 60 * 1000) {
+                _navFromLsb(d);
+                return;
+            }
+        }
+    } catch (_e) { /* silent */ }
+
+    // 2) لا يوجد كاش حديث — اطلب الموقع، استدعِ نفس pipeline الـ LSB، ثمّ تنقّل من lsb_detected
     if (!navigator.geolocation) {
         _restore();
-        try { alert(typeof t === 'function' ? (t('errors.geo_unsupported') || 'Geolocation not supported') : 'Geolocation not supported'); } catch (_e) {}
+        try { alert('الموقع غير مدعوم في هذا المتصفح'); } catch (_e) {}
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
-        async function (position) {
+        function (position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
 
-            // ─── سباق سريع: reverseGeocode بالتوازي vs مهلة 1.8 ثانية ───
-            // الفائز يقوده navigateToCity مباشرةً. لا fetchTimezone هنا — صفحة الوجهة تتولّى ذلك.
-            const _stripDistrict = (s) => (s || '').replace(/\s*District\b/gi, '').trim();
-            const namePromise = (async () => {
-                try {
-                    const baseUrl = 'https://nominatim.openstreetmap.org/reverse?format=json&zoom=10&namedetails=1';
-                    const [arResp, enResp] = await Promise.all([
-                        fetch(nomUrl(`${baseUrl}&accept-language=ar&lat=${lat}&lon=${lng}`)).then(r => r.json()).catch(() => null),
-                        fetch(nomUrl(`${baseUrl}&accept-language=en&lat=${lat}&lon=${lng}`)).then(r => r.json()).catch(() => null),
-                    ]);
-                    const a  = arResp?.address || {};
-                    const ae = enResp?.address || {};
-                    const arCity  = a.city  || a.town  || a.village  || a.municipality  || a.county  || '';
-                    const enCity  = _stripDistrict(ae.city || ae.town || ae.village || ae.municipality || ae.county || '');
-                    const country = a.country || '';
-                    const cc      = (a.country_code || '').toLowerCase();
-                    return { arCity, enCity, country, cc };
-                } catch (_e) {
-                    return { arCity: '', enCity: '', country: '', cc: '' };
-                }
-            })();
-            const timeoutPromise = new Promise(resolve =>
-                setTimeout(() => resolve({ arCity: '', enCity: '', country: '', cc: '', __timedOut: true }), 1800)
-            );
+            // نفس الدالة التي يستخدمها شريط الاقتراح — تحلّ ar+en+lang_ui وتكتب lsb_detected.
+            try { reverseGeocodeForSuggestion(lat, lng); } catch (_e) {}
 
-            const result = await Promise.race([namePromise, timeoutPromise]);
-            // إن فاز timeout والاسم لم يحضر، نواصل بالإحداثيّات (slug = loc-LAT-LNG) —
-            // صفحة المدينة الوجهة ستُكمل reverseGeocode بنفسها لتحديث العرض.
-            try {
-                navigateToCity(lat, lng, result.arCity, result.country, result.enCity, result.cc);
-            } catch (e) {
-                _restore();
-                try { console.warn('[locHeroNav] navigateToCity failed:', e); } catch (_) {}
-            }
+            // اقرأ lsb_detected بعد كتابته (poll قصير حتى 5 ثوانٍ)
+            const t0 = Date.now();
+            const poll = setInterval(() => {
+                try {
+                    const raw = localStorage.getItem('lsb_detected');
+                    if (raw) {
+                        const d = JSON.parse(raw);
+                        // نتأكّد أنّ الكاش يطابق إحداثيّات هذه المحاولة (ليس من جلسة سابقة)
+                        if (d && Math.abs(+d.lat - lat) < 0.05 && Math.abs(+d.lng - lng) < 0.05) {
+                            clearInterval(poll);
+                            _navFromLsb(d);
+                            return;
+                        }
+                    }
+                } catch (_e) { /* silent */ }
+                if (Date.now() - t0 > 5000) {
+                    clearInterval(poll);
+                    // fallback: تنقّل بالإحداثيّات فقط — صفحة المدينة الوجهة ستستكمل reverseGeocode
+                    try { navigateToCity(lat, lng, '', '', '', ''); } catch (_e) {}
+                }
+            }, 150);
         },
         function (error) {
             _restore();
             try {
-                const msg = (typeof t === 'function' ? (t('errors.geo_denied') || '') : '') ||
-                    'فشل تحديد الموقع. يُرجى السماح بالوصول إلى الموقع من إعدادات المتصفح.';
-                alert(msg);
-                try { console.warn('[locHeroNav] geo error:', error?.message); } catch (_) {}
+                alert('فشل تحديد الموقع. يُرجى السماح بالوصول إلى الموقع من إعدادات المتصفح.');
+                console.warn('[locHeroNav] geo error:', error?.message);
             } catch (_e) {}
         },
         { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }

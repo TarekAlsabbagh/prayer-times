@@ -170,6 +170,10 @@ const POPULAR_CITY_NAMES = {
     alexandria:    { ar:'الإسكندرية',     en:'Alexandria',    fr:'Alexandrie',    tr:'İskenderiye',  ur:'اسکندریہ',      de:'Alexandria',    id:'Aleksandria',   es:'Alejandría',   bn:'আলেকজান্দ্রিয়া', ms:'Alexandria' },
     aleppo:        { ar:'حلب',            en:'Aleppo',        fr:'Alep',          tr:'Halep',        ur:'حلب',           de:'Aleppo',        id:'Aleppo',        es:'Alepo',        bn:'আলেপ্পো',         ms:'Aleppo' },
     mogadishu:     { ar:'مقديشو',         en:'Mogadishu',     fr:'Mogadiscio',    tr:'Mogadişu',     ur:'مگادیشو',       de:'Mogadischu',    id:'Mogadishu',     es:'Mogadiscio',   bn:'মোগাদিশু',        ms:'Mogadishu' },
+    // جيبوتي: نستعمل slug خاصّ "djibouti-city" لتفادي تضارب مع slug الدولة "djibouti"
+    'djibouti-city':{ ar:'جيبوتي',         en:'Djibouti',      fr:'Djibouti',      tr:'Cibuti',       ur:'جبوتی',         de:'Dschibuti',     id:'Djibouti',      es:'Yibuti',       bn:'জিবুতি',          ms:'Djibouti' },
+    // سنغافورة (المدينة): نستعمل slug خاصّ "singapore-city" لتفادي تضارب مع slug الدولة "singapore"
+    'singapore-city':{ ar:'سنغافورة',      en:'Singapore',     fr:'Singapour',     tr:'Singapur',     ur:'سنگاپور',       de:'Singapur',      id:'Singapura',     es:'Singapur',     bn:'সিঙ্গাপুর',      ms:'Singapura' },
     // شتات إسلامي غربي
     london:        { ar:'لندن',           en:'London',        fr:'Londres',       tr:'Londra',       ur:'لندن',          de:'London',        id:'London',        es:'Londres',      bn:'লন্ডন',           ms:'London' },
     paris:         { ar:'باريس',          en:'Paris',         fr:'Paris',         tr:'Paris',        ur:'پیرس',          de:'Paris',         id:'Paris',         es:'París',        bn:'প্যারিস',         ms:'Paris' },
@@ -273,6 +277,8 @@ const FAMOUS_CITY_OVERRIDES = {
     tripoli:       { lat: 32.8872, lng: 13.1913, cc: 'ly' }, // ليبيا — يتفوّق على Tripoli-LB لأنّها أكبر
     khartoum:      { lat: 15.5007, lng: 32.5599, cc: 'sd' },
     nouakchott:    { lat: 18.0735, lng: -15.9582, cc: 'mr' },
+    // جيبوتي (العاصمة) — slug خاصّ لفصلها عن slug الدولة "djibouti"
+    'djibouti-city':{ lat: 11.595, lng: 43.1481, cc: 'dj' },
     // جنوب آسيا
     karachi:       { lat: 24.8607, lng: 67.0011, cc: 'pk' },
     lahore:        { lat: 31.5204, lng: 74.3587, cc: 'pk' },
@@ -295,6 +301,7 @@ const FAMOUS_CITY_OVERRIDES = {
     johor:         { lat:  1.4927, lng: 103.7414, cc: 'my' },
     penang:        { lat:  5.4141, lng: 100.3288, cc: 'my' },
     singapore:     { lat:  1.3521, lng: 103.8198, cc: 'sg' },
+    'singapore-city':{ lat:  1.3521, lng: 103.8198, cc: 'sg' }, // slug خاصّ للمدينة لتفادي تضارب مع slug الدولة
     bandar:        { lat:  4.9031, lng: 114.9398, cc: 'bn' }, // بندر سري بكاوان
     manila:        { lat: 14.5995, lng: 120.9842, cc: 'ph' },
     // إيران + آسيا الوسطى + تركيا الأوروبيّة
@@ -3530,10 +3537,32 @@ function buildSeoForPath(urlPath) {
     // ── Static tool pages ──
     const staticPages = {
         '/qibla': {
-            title: [ 'Qibla Direction Finder — Online Compass to Mecca', 'اتجاه القبلة — بوصلة الكعبة المشرفة في مكة' ],
-            desc:  [ 'Find the accurate Qibla direction from your location using GPS. Interactive compass and map to locate the Kaaba in Mecca.',
-                     'تحديد اتجاه القبلة الدقيق من موقعك عبر GPS. بوصلة وخريطة تفاعلية لمعرفة اتجاه الكعبة المشرفة في مكة.' ],
+            title: {
+                ar: 'اتجاه القبلة — بوصلة الكعبة المشرفة',
+                en: 'Qibla Direction — Online Compass to the Kaaba',
+                fr: 'Direction de la Qibla — Boussole vers La Mecque',
+                tr: 'Kıble Yönü — Kâbe\u2019ye Online Pusula',
+                ur: 'سمتِ قبلہ — خانہ کعبہ کی طرف قطب نما',
+                de: 'Qibla-Richtung — Online-Kompass zur Kaaba',
+                id: 'Arah Kiblat — Kompas Online ke Kakbah',
+                es: 'Dirección de la Qibla — Brújula a la Kaaba',
+                bn: 'কিবলার দিক — কাবা পর্যন্ত অনলাইন কম্পাস',
+                ms: 'Arah Kiblat — Kompas Dalam Talian ke Kaabah',
+            },
+            desc: {
+                ar: 'احسب اتجاه القبلة بدقة من أي موقع مع المسافة إلى الكعبة المشرفة وبوصلة تفاعلية وأسئلة شائعة.',
+                en: 'Calculate the Qibla direction accurately from any location with the distance to the Kaaba, an interactive compass and a helpful FAQ.',
+                fr: 'Calculez la direction précise de la Qibla depuis n\u2019importe quel lieu : distance à la Kaaba, boussole interactive et FAQ utile.',
+                tr: 'Her konumdan kıble yönünü doğru hesaplayın: Kâbe\u2019ye uzaklık, etkileşimli pusula ve SSS.',
+                ur: 'کسی بھی مقام سے قبلہ کی درست سمت، کعبہ تک فاصلہ، انٹرایکٹو قطب نما اور عام سوالات کے ساتھ۔',
+                de: 'Berechnen Sie die Qibla-Richtung genau von jedem Ort aus: Entfernung zur Kaaba, interaktiver Kompass und hilfreiche FAQ.',
+                id: 'Hitung arah kiblat dengan akurat dari lokasi mana pun, lengkap dengan jarak ke Kakbah, kompas interaktif, dan FAQ.',
+                es: 'Calcule la dirección precisa de la Qibla desde cualquier lugar con la distancia a la Kaaba, una brújula interactiva y una FAQ útil.',
+                bn: 'যেকোনো অবস্থান থেকে কিবলার সঠিক দিক—কাবা পর্যন্ত দূরত্ব, ইন্টারঅ্যাকটিভ কম্পাস এবং FAQ সহ।',
+                ms: 'Kira arah kiblat dengan tepat dari mana-mana lokasi dengan jarak ke Kaabah, kompas interaktif dan FAQ berguna.',
+            },
             app: { category: 'UtilitiesApplication' },
+            ogType: 'website',
         },
         '/moon-today': {
             title: {
@@ -3910,23 +3939,107 @@ function buildSeoForPath(urlPath) {
         nextPrayerPage = { slug: _nptSlug, cityName: _nptCityDisplay };
     }
 
-    // ── Qibla city pages: /qibla-in-{slug}-{lat}-{lng} ──
+    // ── Qibla city pages: /qibla-in-{slug} OR /qibla-in-{slug}-{lat}-{lng} ──
+    //   Clean form (no coords) is the canonical shape — resolve lat/lng from the shared
+    //   slug index (FAMOUS_CITY_OVERRIDES + db/cities-*.json via _resolveCityForMoon).
+    //   Coord form preserved for backward compatibility with any legacy bookmarks.
     m = corePath.match(/^\/qibla-in-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+    if (!m) {
+        const mClean = corePath.match(/^\/qibla-in-([a-z][a-z0-9-]+)$/);
+        if (mClean) {
+            const _cleanSlug = mClean[1];
+            const _res = (typeof _resolveCityForMoon === 'function')
+                ? _resolveCityForMoon(_cleanSlug)
+                : (FAMOUS_CITY_OVERRIDES[_cleanSlug] || null);
+            if (_res && typeof _res.lat === 'number' && typeof _res.lng === 'number') {
+                m = [corePath, _cleanSlug, String(_res.lat), String(_res.lng)];
+            }
+        }
+    }
     if (m) {
         const citySlug = m[1];
         const lat = parseFloat(m[2]);
         const lng = parseFloat(m[3]);
-        const cityDisplay = _slugToTitle(citySlug);
-        const _qBase = useEnTxt ? `Qibla Direction in ${cityDisplay}` : `اتجاه القبلة في ${cityDisplay}`;
-        const _qSuf  = useEnTxt ? ' — Compass to the Kaaba in Mecca' : ' — بوصلة الكعبة في مكة';
-        title = (_qBase + _qSuf).length <= 60 ? _qBase + _qSuf : _qBase;
-        description = useEnTxt
-            ? `Accurate Qibla direction from ${cityDisplay} to the Kaaba in Mecca, with exact bearing, compass and map view.`
-            : `اتجاه القبلة الدقيق من ${cityDisplay} إلى الكعبة المشرفة في مكة، مع درجة الانحراف وبوصلة وخريطة تفاعلية.`;
-        ogType = 'article';
+        const cityDisplay = (typeof _resolveCityName === 'function')
+            ? (_resolveCityName(citySlug, lang) || _slugToTitle(citySlug))
+            : _slugToTitle(citySlug);
+        const _qTitles = {
+            ar: `اتجاه القبلة في ${cityDisplay}`,
+            en: `Qibla Direction in ${cityDisplay}`,
+            fr: `Direction de la Qibla à ${cityDisplay}`,
+            tr: `${cityDisplay} Kıble Yönü`,
+            ur: `${cityDisplay} سے سمتِ قبلہ`,
+            de: `Qibla-Richtung in ${cityDisplay}`,
+            id: `Arah Kiblat di ${cityDisplay}`,
+            es: `Dirección de la Qibla en ${cityDisplay}`,
+            bn: `${cityDisplay}-এ কিবলার দিক`,
+            ms: `Arah Kiblat di ${cityDisplay}`,
+        };
+        const _qDescs = {
+            ar: `اتجاه القبلة الدقيق من ${cityDisplay} إلى الكعبة المشرفة، مع الزاوية والمسافة وبوصلة تفاعلية.`,
+            en: `Accurate Qibla direction from ${cityDisplay} with bearing, distance to the Kaaba and an interactive compass.`,
+            fr: `Direction précise de la Qibla depuis ${cityDisplay} avec azimut, distance à la Kaaba et boussole interactive.`,
+            tr: `${cityDisplay} şehrinden doğru kıble yönü: açı, Kâbe\u2019ye uzaklık ve etkileşimli pusula.`,
+            ur: `${cityDisplay} سے قبلہ کی درست سمت، زاویہ، کعبہ تک فاصلہ اور انٹرایکٹو قطب نما کے ساتھ۔`,
+            de: `Präzise Qibla-Richtung von ${cityDisplay} mit Peilung, Entfernung zur Kaaba und interaktivem Kompass.`,
+            id: `Arah kiblat akurat dari ${cityDisplay} dengan sudut, jarak ke Kakbah, dan kompas interaktif.`,
+            es: `Dirección precisa de la Qibla desde ${cityDisplay} con rumbo, distancia a la Kaaba y brújula interactiva.`,
+            bn: `${cityDisplay} থেকে কিবলার সঠিক দিক—কোণ, কাবা পর্যন্ত দূরত্ব এবং ইন্টারঅ্যাকটিভ কম্পাস।`,
+            ms: `Arah kiblat tepat dari ${cityDisplay} dengan sudut, jarak ke Kaabah dan kompas interaktif.`,
+        };
+        title = _qTitles[lang] || _qTitles.en;
+        description = _qDescs[lang] || _qDescs.en;
+        ogType = 'website';
         geo = { lat, lng };
         cityModified = new Date().toISOString();
-        qiblaRef = { cityName: cityDisplay, lat, lng };
+        // Multilingual name table for client hydration (window.__QIBLA_CITY__).
+        // Resolves each lang via _resolveCityName → POPULAR_CITY_NAMES → cities-DB Arabic → title-cased slug.
+        const _qNames = {};
+        try {
+            ['ar','en','fr','tr','ur','de','id','es','bn','ms'].forEach(L => {
+                _qNames[L] = _resolveCityName(citySlug, L);
+            });
+            // Pull English base name from cities-DB when available (preferred over Title-casing).
+            const _idx = _getCitySlugIndex();
+            const _dbEntry = _idx && _idx[citySlug];
+            if (_dbEntry && _dbEntry.nameAr && !_qNames.ar) _qNames.ar = _dbEntry.nameAr;
+        } catch (_e) { /* silent */ }
+        // Also include the canonical English name from the DB (via cities-*.json) so the
+        // client can regenerate a stable slug or show proper English fallbacks.
+        let _dbNameEn = '';
+        try {
+            const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
+            for (const f of files) {
+                try {
+                    const arr = JSON.parse(fs.readFileSync(path.join(DB_DIR, f), 'utf8'));
+                    if (!Array.isArray(arr)) continue;
+                    for (const c of arr) {
+                        if (c && c.nameEn && typeof c.lat === 'number' && typeof c.lng === 'number') {
+                            if (makeCitySlugSrv(c.nameEn, c.lat, c.lng) === citySlug) {
+                                _dbNameEn = c.nameEn;
+                                break;
+                            }
+                        }
+                    }
+                } catch (_e) {}
+                if (_dbNameEn) break;
+            }
+        } catch (_e) { /* silent */ }
+        qiblaRef = { cityName: cityDisplay, lat, lng, slug: citySlug, names: _qNames, englishName: _dbNameEn || cityDisplay };
+        // Add hub to breadcrumb chain before city (Home › Qibla › {City})
+        const _qHubUrls = {
+            ar: origin + '/qibla', en: origin + '/en/qibla', fr: origin + '/fr/qibla',
+            tr: origin + '/tr/qibla', ur: origin + '/ur/qibla', de: origin + '/de/qibla',
+            id: origin + '/id/qibla', es: origin + '/es/qibla', bn: origin + '/bn/qibla',
+            ms: origin + '/ms/qibla',
+        };
+        const _qHubLabels = {
+            ar: 'اتجاه القبلة', en: 'Qibla Direction', fr: 'Direction de la Qibla',
+            tr: 'Kıble Yönü', ur: 'سمتِ قبلہ', de: 'Qibla-Richtung',
+            id: 'Arah Kiblat', es: 'Dirección de la Qibla', bn: 'কিবলার দিক',
+            ms: 'Arah Kiblat',
+        };
+        breadcrumbs.push({ name: _qHubLabels[lang] || _qHubLabels.en, item: _qHubUrls[lang] || _qHubUrls.en });
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
@@ -4926,6 +5039,29 @@ function renderSeoHeadHtml(seo) {
         const graphSchema = { "@context": "https://schema.org", "@graph": ssrGraph };
         parts.push(`<script id="ssr-graph-schema" type="application/ld+json">${JSON.stringify(graphSchema)}</script>`);
     }
+
+    // Expose the server's authoritative city-name table to the client so the
+    // Qibla page (and any other client renderer) can render localized city
+    // names without guessing via Title-cased slugs. Mirrors _resolveCityName
+    // behaviour for POPULAR_CITY_NAMES keys. Long-tail cities fall back to
+    // LOCAL_CITIES (client-side) or to the slug.
+    parts.push(`<script id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(POPULAR_CITY_NAMES)};</script>`);
+
+    // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the
+    // resolved city (lat/lng + 10-lang name table + English DB name) so the client
+    // can render localized text without needing the city in LOCAL_CITIES.
+    if (seo.qiblaRef && typeof seo.qiblaRef.lat === 'number' && typeof seo.qiblaRef.lng === 'number') {
+        const _qcPayload = {
+            slug: seo.qiblaRef.slug || '',
+            lat: seo.qiblaRef.lat,
+            lng: seo.qiblaRef.lng,
+            name: seo.qiblaRef.cityName || '',
+            englishName: seo.qiblaRef.englishName || '',
+            names: seo.qiblaRef.names || {}
+        };
+        parts.push(`<script id="ssr-qibla-city">window.__QIBLA_CITY__=${JSON.stringify(_qcPayload)};</script>`);
+    }
+
     parts.push('<!-- SSR-SEO-END -->');
     return parts.map(x => '    ' + x).join('\n');
 }

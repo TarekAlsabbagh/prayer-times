@@ -974,30 +974,28 @@ button, input, select { font-family: inherit; }
     margin: 8px 0 12px;
     line-height: 1.3;
 }
+/* Breadcrumb على صفحة القمر: يستخدم نفس ستايل .breadcrumb-list (البطاقة) كما في صفحات الهجري.
+   لا حاجة لأي ستايل خاص هنا — الحاوية فقط لتوفير aria-label وحيّز سفلي. */
 .moon-breadcrumb {
-    font-size: 0.88rem;
-    color: var(--text-light);
-    margin-bottom: 14px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: center;
+    margin: 0 0 14px;
+    display: block;
 }
-.moon-breadcrumb a { color: var(--primary); text-decoration: none; }
-.moon-breadcrumb a:hover { text-decoration: underline; }
-/* الصفحة الحاليّة: العنصر الذي يحمل aria-current="page" يصبح جامداً (غير قابل للضغط) */
-/* ملاحظة: JS يُزيل href عند الصفحة الحاليّة، لكن الـ CSS يضمن السلوك البصريّ كذلك */
-.moon-breadcrumb a[aria-current="page"],
-.moon-breadcrumb [aria-current="page"] {
-    color: var(--text-primary);
-    font-weight: 600;
+/* العنصر الحاليّ (aria-current="page") داخل .breadcrumb-list:
+   إن كان .bc-current ذو <a> داخله (كما في صفحة القمر)، يأخذ الـ <a> ستايل النصّ الجامد. */
+.breadcrumb-list .bc-item.bc-current .bc-link,
+.breadcrumb-list .bc-link[aria-current="page"] {
+    color: var(--text-light);
+    font-weight: 500;
     cursor: default;
     pointer-events: none;
     text-decoration: none;
+    background: transparent;
 }
-.moon-breadcrumb a[aria-current="page"]:hover { text-decoration: none; }
-.moon-breadcrumb .bc-sep { color: var(--text-light); opacity: 0.6; }
-.moon-breadcrumb .bc-date { color: var(--text-primary); font-weight: 600; }
+.breadcrumb-list .bc-item.bc-current .bc-link:hover,
+.breadcrumb-list .bc-link[aria-current="page"]:hover {
+    background: transparent;
+    text-decoration: none;
+}
 
 /* خلايا جدول التوقّعات 14 يومًا: الأيّام قابلة للضغط (تنتقل لصفحة ذلك اليوم) */
 .fc-day-cell { padding: 0; }
@@ -6067,47 +6065,118 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
    Round 20 — إعادة ترتيب الصفحة الرئيسيّة (Hero → Navigation → Discovery)
 ═══════════════════════════════════════════════════════════════════ */
 
-/* ═══ Location Hero — ركن البحث الأساسيّ (primary search) ═══ */
-.location-hero {
-    padding: 16px 20px;
+/* ═══ Location Hero v2 — Persuasive Landing (mirrors Qibla-Hub-Hero) ═══ */
+.location-hero,
+.loc-hero-card {
+    padding: 22px 18px;
     text-align: center;
     background: linear-gradient(135deg, #f8faf8 0%, #eef5ef 100%);
     margin-bottom: 16px;
+    position: relative;
+    overflow: visible;
 }
+
+/* Smart-redirect pill above H1 (last-used location shortcut) */
+.loc-hero-smart-pill {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(13,124,85,0.08) 0%, rgba(13,124,85,0.14) 100%);
+    border: 1px solid rgba(13,124,85,0.22);
+    color: #214936;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    max-width: fit-content;
+}
+.loc-hero-smart-pill.is-visible { display: inline-flex; }
+.loc-hero-smart-pill:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, rgba(13,124,85,0.13) 0%, rgba(13,124,85,0.20) 100%);
+    box-shadow: 0 3px 10px rgba(13,124,85,0.18);
+}
+.loc-hero-smart-pill .lhsp-arrow { opacity: 0.75; }
+.loc-hero-smart-pill .lhsp-city { font-weight: 700; }
+
+/* H1 title (was h2.loc-hero-tagline) */
+.loc-hero-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    color: #214936;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+/* Subtitle under H1 */
+.loc-hero-subtitle {
+    margin: 0 auto 10px;
+    color: #6b7b75;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 60ch;
+}
+
+/* Small current-city line */
 .loc-hero-city {
-    font-size: 0.95rem;
-    color: var(--text-light, #555);
+    font-size: 0.9rem;
+    color: #6b7b75;
     margin-bottom: 6px;
     font-weight: 500;
 }
-.loc-hero-tagline {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0 0 12px;
-    color: var(--primary-dark, #1e5631);
-    line-height: 1.3;
+
+/* Hero actions stack */
+.loc-hero-hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
 }
+
+/* Search wrap (suggestions anchor) — full-width like qibla-hub */
 .loc-hero-search-wrap {
-    max-width: 560px;
-    margin: 0 auto 10px;
     position: relative;
+    display: block;
+    width: 100%;
+    margin: 0;
 }
+
+/* Hero-scale search input */
 .loc-hero-search {
     width: 100%;
-    padding: 14px 18px;
-    font-size: 1.05rem;
-    border: 2px solid var(--border, #e0e0e0);
-    border-radius: 14px;
-    background: #fff;
     box-sizing: border-box;
-    transition: border-color .2s, box-shadow .2s;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(13,124,85,0.22);
+    background: #fff;
+    font-size: 1rem;
+    color: #214936;
+    outline: none;
     font-family: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .loc-hero-search:focus {
-    outline: 0;
-    border-color: var(--primary, #2e7d32);
-    box-shadow: 0 0 0 3px rgba(46,125,50,.15);
+    border-color: rgba(13,124,85,0.55);
+    box-shadow: 0 0 0 3px rgba(13,124,85,0.12);
 }
+.loc-hero-search.loc-hero-search--hero {
+    min-height: 60px;
+    padding: 16px 20px;
+    font-size: 1.08rem;
+    border-radius: 14px;
+    border-width: 2px;
+    box-shadow: 0 2px 10px rgba(13,124,85,0.06);
+}
+.loc-hero-search.loc-hero-search--hero:focus {
+    border-color: rgba(13,124,85,0.7);
+    box-shadow: 0 0 0 4px rgba(13,124,85,0.14), 0 4px 14px rgba(13,124,85,0.10);
+}
+
+/* Suggestions dropdown (unchanged semantics) */
 .loc-hero-suggestions {
     position: absolute;
     top: 100%;
@@ -6124,28 +6193,151 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     text-align: initial;
 }
 .loc-hero-suggestions:empty { display: none; }
-.loc-hero-cta {
+
+/* Dual CTA grid: primary wider than secondary so the long Arabic label fits on one line */
+.loc-hero-dual-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 12px;
+    align-items: stretch;
+    max-width: 720px;
+    margin: 0 auto;
+}
+@media (max-width: 640px) {
+    .loc-hero-dual-cta { grid-template-columns: 1fr; }
+}
+
+/* Primary (geolocation) button with glow pulse — SAME colors as qibla-hub-geo-btn */
+#page-prayer-times .loc-hero-geo-btn,
+.loc-hero-geo-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.12rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0d7c55 0%, #0a9963 100%) !important;
+    color: #fff !important;
+    border: 0 !important;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(13,124,85,0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+    font-family: inherit;
+    text-align: center;
+    line-height: 1.3;
+}
+.loc-hero-geo-btn:hover   { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13,124,85,0.36); filter: brightness(1.04); }
+.loc-hero-geo-btn:active  { transform: translateY(0);    box-shadow: 0 3px 10px rgba(13,124,85,0.32); }
+.loc-hero-geo-btn:disabled{ opacity: 0.65; cursor: wait; }
+.loc-hero-geo-btn::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 18px;
+    background: radial-gradient(closest-side, rgba(13,124,85,0.35) 0%, rgba(13,124,85,0) 70%);
+    z-index: -1;
+    animation: lhbPulse 2.4s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes lhbPulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 0.95; transform: scale(1.04); }
+}
+.loc-hero-geo-btn .lhb-icon  { font-size: 1.05rem; line-height: 1; display: inline-block; flex-shrink: 0; }
+.loc-hero-geo-btn .lhb-label { display: inline-block; white-space: nowrap; }
+@media (max-width: 640px) {
+    .loc-hero-geo-btn .lhb-label { white-space: normal; }
+}
+
+/* Secondary outlined "pick a city" button — SAME colors as qibla-hub-pick-btn */
+.loc-hero-pick-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: transparent;
+    color: #0d7c55;
+    border: 2px solid rgba(13,124,85,0.5);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    width: 100%;
+    font-family: inherit;
+    line-height: 1.3;
+}
+.loc-hero-pick-btn:hover {
+    background: rgba(13,124,85,0.08);
+    border-color: rgba(13,124,85,0.75);
+    transform: translateY(-1px);
+}
+.loc-hero-pick-btn:active { transform: translateY(0); }
+
+/* Microcopy under the primary CTA */
+.loc-hero-geo-microcopy {
+    margin: 2px 0 0 0;
+    color: #6b7b75;
+    font-size: 0.86rem;
+    text-align: center;
+}
+
+/* Trust badges row */
+.loc-hero-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+.loc-hero-hero-badges li {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 12px 22px;
-    background: linear-gradient(135deg, var(--primary, #2e7d32), var(--primary-dark, #1e5631));
-    color: #fff;
-    font-weight: 700;
-    border-radius: 12px;
-    border: 0;
-    cursor: pointer;
-    transition: transform .15s, box-shadow .15s;
-    font-family: inherit;
-    font-size: 0.98rem;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(13,124,85,0.07);
+    color: #214936;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
-.loc-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(46,125,50,.3); }
-/* Round 22: Icon separated من i18n text (النصّ نظيف، الأيقونة لها وزن بصريّ مستقلّ) */
-.loc-hero-cta-icon { font-size: 1.05rem; line-height: 1; display: inline-block; }
+.loc-hero-hero-badges li::before {
+    content: '✔';
+    color: #0d7c55;
+    font-weight: 700;
+}
+
+/* Responsive */
 @media (max-width: 640px) {
-    .location-hero { padding: 18px 14px; }
-    .loc-hero-tagline { font-size: 1.1rem; }
+    .location-hero,
+    .loc-hero-card { padding: 18px 14px; }
+    .loc-hero-title { font-size: 1.28rem; }
+    .loc-hero-subtitle { font-size: 0.95rem; }
     .loc-hero-search { padding: 12px 14px; font-size: 1rem; }
+    .loc-hero-search.loc-hero-search--hero { min-height: 52px; padding: 14px 16px; font-size: 1rem; }
+    .loc-hero-geo-btn,
+    .loc-hero-pick-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loc-hero-geo-btn,
+    .loc-hero-pick-btn,
+    .loc-hero-smart-pill { transition: none; }
+    .loc-hero-geo-btn:hover,
+    .loc-hero-pick-btn:hover,
+    .loc-hero-smart-pill:hover { transform: none; }
+    .loc-hero-geo-btn::before { animation: none; }
 }
 
 /* Header search أصبح secondary — أضيق + أفتح بصريّاً (Round 21: المستخدم أشار إلى الازدواجيّة مع Hero search) */
@@ -6705,12 +6897,18 @@ html.city-page #mini-islamic-tools.u-hidden {
 }
 
 /* ── City Page — hide home-only sections ─────────────────────────────── */
-html.city-page .location-hero,
+/* NOTE: .location-hero is kept visible on city pages — it now serves as the
+   persuasive landing hero there too (H1 + subtitle + search + dual CTA + badges),
+   with the dynamic H1 already wired to city context via .loc-hero-title selector. */
 html.city-page .most-searched-chips,
 html.city-page #country-cities-section,
 html.city-page #arab-countries-section,
 html.city-page #home-quick-access,
 html.city-page .moon-today-card {
+    display: none !important;
+}
+/* On city pages the in-page compact search duplicates the hero search — hide it */
+html.city-page #city-page-search {
     display: none !important;
 }
 
@@ -7739,3 +7937,968 @@ html.time-left-page .sticky-next-bar {
 .faq-city-mode .faq-item { display: block !important; }
 
 
+
+/* ═══════════ Qibla Tool Page (Round 26 — Visual Identity Layer) ═══════════ */
+/* Scoped to #page-qibla to avoid bleed into other pages.
+   Goal: keep the Tool-page shell, raise the visual hierarchy. */
+
+/* ── Hero (H1 + summary) — becomes a soft premium panel ── */
+#page-qibla .section-card:nth-of-type(1) {
+    background: linear-gradient(180deg, rgba(42,163,107,0.06) 0%, var(--bg, #fff) 100%);
+    border: 1px solid rgba(42,163,107,0.18);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border-radius: 20px;
+}
+.qibla-hero-title {
+    font-size: clamp(1.6rem, 4.4vw, 2.3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 6px 0 6px;
+    line-height: 1.2;
+}
+.qibla-summary-line {
+    color: var(--text-light);
+    margin: 0;
+    font-size: 1.02rem;
+    line-height: 1.55;
+    font-weight: 500;
+}
+
+/* ── Compass section — give "presence" ── */
+#page-qibla .section-card:nth-of-type(2) {
+    background: radial-gradient(ellipse at center, rgba(42,163,107,0.06) 0%, var(--bg, #fff) 70%);
+    border-radius: 20px;
+}
+#page-qibla .compass {
+    box-shadow:
+        inset 0 0 24px rgba(0,0,0,0.06),
+        0 20px 40px rgba(31,122,76,0.12),
+        0 8px 16px rgba(0,0,0,0.05);
+    animation: qibla-compass-float 5s ease-in-out infinite;
+}
+@keyframes qibla-compass-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+    #page-qibla .compass { animation: none; }
+}
+/* Angle number — the real hero readout */
+#page-qibla .qibla-info .angle {
+    font-size: clamp(2.4rem, 6vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--primary, #1f7a4c), #2aa36b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+#page-qibla .qibla-info .direction { font-size: 1.15rem; font-weight: 600; margin-top: 2px; }
+#page-qibla .qibla-info .distance  { margin-top: 6px; }
+
+/* ── Main CTA — promoted to primary gradient button ── */
+.qibla-main-cta-card { text-align: center; }
+.qibla-main-cta {
+    display: inline-block;
+    width: 100%;
+    max-width: 440px;
+    padding: 14px 22px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1f7a4c 0%, #2aa36b 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 10px 22px rgba(31,122,76,0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    text-decoration: none;
+}
+.qibla-main-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(31,122,76,0.35);
+    filter: brightness(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+    .qibla-main-cta { transition: none; }
+    .qibla-main-cta:hover { transform: none; }
+}
+
+/* ── Info cards — lift on hover, accent border ── */
+#page-qibla .info-card {
+    border: 1px solid rgba(42,163,107,0.15);
+    border-radius: 14px;
+    background: var(--bg, #fff);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+#page-qibla .info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+    border-color: rgba(42,163,107,0.35);
+}
+#page-qibla .info-card .info-value {
+    background: linear-gradient(135deg, var(--primary, #1f7a4c), #2aa36b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.4rem;
+}
+@media (prefers-reduced-motion: reduce) {
+    #page-qibla .info-card { transition: none; }
+    #page-qibla .info-card:hover { transform: none; }
+}
+
+/* ── Quick text links ── */
+.qibla-quicklinks { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px 20px; }
+.qibla-quicklinks a {
+    text-decoration: none;
+    color: var(--primary, var(--text));
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+.qibla-quicklinks a:hover { color: #2aa36b; text-decoration: underline; }
+
+/* ── Other cities — chip style ── */
+.qibla-other-cities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+}
+.qibla-other-cities-grid a {
+    display: inline-block;
+    padding: 9px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text);
+    background: rgba(42,163,107,0.08);
+    border: 1px solid rgba(42,163,107,0.15);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+}
+.qibla-other-cities-grid a:hover {
+    background: rgba(42,163,107,0.16);
+    border-color: rgba(42,163,107,0.4);
+    transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+    .qibla-other-cities-grid a { transition: none; }
+    .qibla-other-cities-grid a:hover { transform: none; }
+}
+
+/* ── FAQ — softer details with accent on open ── */
+#qibla-faq details {
+    border: 1px solid var(--border, rgba(0,0,0,0.08));
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    background: var(--bg, #fff);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#qibla-faq details[open] {
+    border-color: rgba(42,163,107,0.35);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+}
+#qibla-faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+#qibla-faq details[open] summary { margin-bottom: 10px; color: var(--primary); }
+
+/* ── Related text links ── */
+.qibla-related { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.qibla-related a { text-decoration: none; color: var(--primary, var(--text)); font-size: 0.96rem; font-weight: 500; }
+.qibla-related a:hover { text-decoration: underline; }
+
+/* ── Spacing hierarchy: give hero + compass more breathing room ── */
+#page-qibla .section-card:nth-of-type(1),
+#page-qibla .section-card:nth-of-type(2) {
+    padding: 28px 22px;
+}
+@media (max-width: 560px) {
+    #page-qibla .section-card:nth-of-type(1),
+    #page-qibla .section-card:nth-of-type(2) {
+        padding: 22px 16px;
+    }
+}
+
+/* ═══════════ Qibla Tool Page (Round 27 — Advanced Polish) ═══════════ */
+/* Goal: take the page from "clean SaaS" to a product with a personality. */
+
+#page-qibla {
+    --qibla-gold: #c89b3c;
+    --qibla-gold-soft: rgba(200,155,60,0.12);
+    --qibla-gold-border: rgba(200,155,60,0.35);
+}
+
+/* ── Hero: directional overlay hint (subtle diagonal toward Qibla) ── */
+#page-qibla .section-card:nth-of-type(1) { position: relative; overflow: hidden; }
+#page-qibla .section-card:nth-of-type(1)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 55%, rgba(200,155,60,0.06) 100%);
+    pointer-events: none;
+}
+.qibla-summary-line {
+    font-size: 1.08rem;
+    font-weight: 500;
+}
+
+/* ── Compass: outer dashed ring + stronger radial glow + Kaaba pulse ── */
+#page-qibla .qibla-container { position: relative; }
+#page-qibla .compass { position: relative; }
+#page-qibla .compass::before {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+    border: 1px dashed rgba(42,163,107,0.28);
+    pointer-events: none;
+}
+#page-qibla .section-card:nth-of-type(2) {
+    background:
+        radial-gradient(circle at center, rgba(200,155,60,0.05) 0%, transparent 45%),
+        radial-gradient(ellipse at center, rgba(42,163,107,0.07) 0%, var(--bg, #fff) 70%);
+}
+#page-qibla .compass-kaaba {
+    animation: qibla-kaaba-pulse 2.6s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(200,155,60,0.5));
+}
+@keyframes qibla-kaaba-pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50%      { transform: translateX(-50%) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+    #page-qibla .compass-kaaba { animation: none; }
+}
+
+/* ── WOW caption: short gold-accented line below the compass readout ── */
+.qibla-wow-caption {
+    text-align: center;
+    margin: 14px auto 0;
+    font-size: 0.95rem;
+    color: var(--qibla-gold);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    opacity: 0.9;
+}
+.qibla-wow-caption:empty { display: none; }
+
+/* ── Main CTA microcopy under the button ── */
+.qibla-main-cta-note {
+    margin: 10px 0 0;
+    font-size: 0.92rem;
+    color: var(--text-light, #6b7b75);
+    font-weight: 500;
+}
+.qibla-main-cta-note:empty { display: none; }
+
+/* ── Primary info card (angle = hero readout) ── */
+#page-qibla .info-card.info-card-primary {
+    background: linear-gradient(180deg, rgba(200,155,60,0.08) 0%, var(--bg, #fff) 100%);
+    border: 1.5px solid var(--qibla-gold-border);
+    box-shadow: 0 6px 14px rgba(200,155,60,0.08);
+}
+#page-qibla .info-card.info-card-primary .info-value {
+    background: linear-gradient(135deg, var(--qibla-gold), #e6b350);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.55rem;
+}
+
+/* ── Info-card icons (prefix via data-icon) ── */
+#page-qibla .info-card .info-label::before {
+    content: attr(data-icon) "  ";
+    margin-inline-end: 2px;
+    filter: grayscale(0.2);
+}
+
+/* ── FAQ polish: numbering, gold answer accent, smooth open ── */
+#qibla-faq details {
+    counter-increment: qibla-faq;
+}
+#qibla-faq summary {
+    position: relative;
+    padding-inline-start: 42px;
+}
+#qibla-faq summary::before {
+    content: counter(qibla-faq, decimal-leading-zero);
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--qibla-gold-soft);
+    color: var(--qibla-gold);
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#qibla-faq details[open] summary::before {
+    background: var(--qibla-gold);
+    color: #fff;
+}
+#qibla-faq { counter-reset: qibla-faq; }
+#qibla-faq details > div {
+    color: var(--text, #1a1a1a);
+    line-height: 1.65;
+    padding-inline-start: 42px;
+    border-inline-start: 2px solid var(--qibla-gold-soft);
+    margin-inline-start: 14px;
+}
+
+/* ── Other-cities: distance chip variant ── */
+.qibla-other-cities-grid a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+}
+.qibla-other-cities-grid .chip-dist {
+    color: var(--text-light, #6b7b75);
+    font-weight: 400;
+    font-size: 0.85rem;
+}
+
+/* ── Spacing hierarchy refinement ── */
+#page-qibla #qibla-faq + * { padding: 18px 20px; }  /* footer SEO = smallest */
+#page-qibla .section-card:has(#qibla-faq) { padding: 22px 22px; }
+#page-qibla .section-card:has(#qibla-other-cities) { padding: 22px 22px; }
+
+/* ─────────────────────────────────────────────────────────────
+   Round 29 — Footer Smart Summary + Use-case pills + Trust note
+   Replaces flat "links inline" with an action-driven block.
+   ───────────────────────────────────────────────────────────── */
+#page-qibla .qibla-footer-seo {
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: var(--text, #1f2a24);
+    margin: 0 0 14px 0;
+}
+
+#page-qibla .qibla-related-pills {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+#page-qibla .qibla-related-pills li { margin: 0; padding: 0; }
+#page-qibla .qibla-related-pills a {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(42,163,107,0.06) 0%, rgba(42,163,107,0.02) 100%);
+    border: 1px solid rgba(42,163,107,0.22);
+    color: var(--primary-dark, #1e6f48);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+#page-qibla .qibla-related-pills a:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(180deg, rgba(42,163,107,0.12) 0%, rgba(42,163,107,0.04) 100%);
+    border-color: rgba(42,163,107,0.45);
+    box-shadow: 0 4px 12px rgba(42,163,107,0.12);
+}
+@media (max-width: 480px) {
+    #page-qibla .qibla-related-pills { flex-direction: column; }
+    #page-qibla .qibla-related-pills a { width: 100%; justify-content: flex-start; }
+}
+
+#page-qibla .qibla-trust-note {
+    margin: 6px 0 0 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(200,155,60,0.06);
+    border-inline-start: 3px solid var(--qibla-gold, #c89b3c);
+    color: var(--text-light, #6b7b75);
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-qibla .qibla-related-pills a { transition: none; }
+    #page-qibla .qibla-related-pills a:hover { transform: none; box-shadow: none; }
+}
+
+/* =========================================================================
+ * Round 30 — Qibla Hub (Decision Engine) mode
+ * Hub = /qibla landing page; City = /qibla-in-{slug}
+ * Hub mode is the default; city mode is toggled via [data-qibla-mode="city"].
+ * ========================================================================= */
+
+/* Mode visibility toggles */
+#page-qibla[data-qibla-mode="hub"]  .qibla-city-only { display: none !important; }
+#page-qibla[data-qibla-mode="city"] .qibla-hub-only  { display: none !important; }
+
+/* Hub subtitle under H1 */
+#page-qibla .qibla-hub-subtitle {
+    margin: 6px 0 0 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 60ch;
+}
+
+/* Hub hero CTA card */
+#page-qibla .qibla-hub-hero-card {
+    text-align: center;
+    padding: 22px 18px;
+}
+#page-qibla .qibla-hub-geo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.12rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0d7c55 0%, #0a9963 100%);
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(13,124,85,0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    max-width: 100%;
+    width: min(420px, 100%);
+}
+#page-qibla .qibla-hub-geo-btn:hover   { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13,124,85,0.36); filter: brightness(1.04); }
+#page-qibla .qibla-hub-geo-btn:active  { transform: translateY(0);    box-shadow: 0 3px 10px rgba(13,124,85,0.32); }
+#page-qibla .qibla-hub-geo-btn:disabled{ opacity: 0.65; cursor: wait; }
+#page-qibla .qibla-hub-geo-note {
+    margin: 12px 0 0 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.92rem;
+}
+#page-qibla .qibla-hub-geo-status {
+    margin: 6px 0 0 0;
+    font-size: 0.88rem;
+    color: var(--text-light, #6b7b75);
+    min-height: 1.2em;
+}
+#page-qibla .qibla-hub-geo-status.is-error { color: #c0392b; }
+
+/* Hub nearby title styling */
+#page-qibla #qibla-hub-nearby-title,
+#page-qibla #qibla-hub-countries-title {
+    margin: 0 0 12px 0;
+    font-size: 1.15rem;
+    color: var(--text-dark, #214936);
+}
+
+/* Country picker grid (flags + label) */
+#page-qibla .qibla-hub-countries {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+#page-qibla .qibla-hub-countries a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(13,124,85,0.06);
+    border: 1px solid rgba(13,124,85,0.14);
+    color: var(--text-dark, #214936);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+#page-qibla .qibla-hub-countries a:hover {
+    background: rgba(13,124,85,0.11);
+    border-color: rgba(13,124,85,0.28);
+    transform: translateY(-1px);
+}
+#page-qibla .qibla-hub-countries .qhc-flag { font-size: 1.2rem; line-height: 1; }
+
+/* Responsive */
+@media (max-width: 560px) {
+    #page-qibla .qibla-hub-geo-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
+    #page-qibla .qibla-hub-countries { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-qibla .qibla-hub-geo-btn,
+    #page-qibla .qibla-hub-countries a { transition: none; }
+    #page-qibla .qibla-hub-geo-btn:hover,
+    #page-qibla .qibla-hub-countries a:hover { transform: none; }
+    #page-qibla .qibla-hub-geo-btn::before { animation: none; }
+}
+
+/* ───── Round 32: Qibla Hub — Decision-engine UX upgrades ───── */
+
+/* SEO badge (small muted line below subtitle) */
+#page-qibla .qibla-hub-seo-badge {
+    margin: 8px 0 0 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.86rem;
+    opacity: 0.85;
+}
+
+/* Hero card: give it space for the glow pulse */
+#page-qibla .qibla-hub-hero-card { position: relative; overflow: visible; }
+
+/* Glow pulse halo behind the primary CTA (subtle attention pull) */
+#page-qibla .qibla-hub-geo-btn { position: relative; z-index: 1; }
+#page-qibla .qibla-hub-geo-btn::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 18px;
+    background: radial-gradient(closest-side, rgba(13,124,85,0.35) 0%, rgba(13,124,85,0) 70%);
+    z-index: -1;
+    animation: qhbPulse 2.4s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes qhbPulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 0.95; transform: scale(1.04); }
+}
+
+/* Spinner inside the CTA (hidden by default, shown in .is-loading) */
+#page-qibla .qhb-spinner {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.45);
+    border-top-color: #fff;
+    display: none;
+    animation: qhbSpin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+#page-qibla .qibla-hub-geo-btn.is-loading .qhb-spinner { display: inline-block; }
+#page-qibla .qibla-hub-geo-btn.is-loading::before { animation: none; opacity: 0.3; }
+@keyframes qhbSpin { to { transform: rotate(360deg); } }
+
+/* Search input (hub only) */
+#page-qibla .qibla-hub-search-card { padding: 14px 16px; }
+#page-qibla .qibla-hub-search-wrap {
+    display: block;
+    width: 100%;
+}
+#page-qibla .qibla-hub-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(13,124,85,0.22);
+    background: #fff;
+    font-size: 1rem;
+    color: var(--text-dark, #214936);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+#page-qibla .qibla-hub-search:focus {
+    border-color: rgba(13,124,85,0.55);
+    box-shadow: 0 0 0 3px rgba(13,124,85,0.12);
+}
+#page-qibla .qibla-hub-search-empty {
+    margin: 10px 0 0 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.9rem;
+}
+
+/* Countries note (hub only) */
+#page-qibla .qibla-hub-countries-note {
+    margin: -4px 0 12px 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.9rem;
+}
+
+/* =========================================================================
+ * Round 33 — Qibla Hub v4 (Persuasive + Guided Landing)
+ * Smart-pill + hero badges + dual CTA + microcopy + trust strip + hero search
+ * + tiered city cards + visited row.
+ * ========================================================================= */
+
+/* Smart-redirect pill above H1 (last_city_context shortcut) */
+#page-qibla .qibla-hub-smart-pill {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px 0;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(13,124,85,0.08) 0%, rgba(13,124,85,0.14) 100%);
+    border: 1px solid rgba(13,124,85,0.22);
+    color: var(--text-dark, #214936);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    max-width: fit-content;
+}
+#page-qibla .qibla-hub-smart-pill.is-visible { display: inline-flex; }
+#page-qibla .qibla-hub-smart-pill:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, rgba(13,124,85,0.13) 0%, rgba(13,124,85,0.20) 100%);
+    box-shadow: 0 3px 10px rgba(13,124,85,0.18);
+}
+#page-qibla .qibla-hub-smart-pill .qhsp-arrow { opacity: 0.75; }
+#page-qibla .qibla-hub-smart-pill .qhsp-city { font-weight: 700; }
+
+/* Hero trust-chip row (under subtitle) */
+#page-qibla .qibla-hub-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+#page-qibla .qibla-hub-hero-badges li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(13,124,85,0.07);
+    color: var(--text-dark, #214936);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+#page-qibla .qibla-hub-hero-badges li::before {
+    content: '✔';
+    color: #0d7c55;
+    font-weight: 700;
+}
+
+/* Dual CTA grid: primary + secondary, side by side on desktop */
+#page-qibla .qibla-dual-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: stretch;
+    max-width: 720px;
+    margin: 0 auto;
+}
+#page-qibla .qibla-dual-cta > .qibla-hub-geo-btn,
+#page-qibla .qibla-dual-cta > .qibla-hub-pick-btn {
+    width: 100%;
+    max-width: none;
+}
+@media (max-width: 640px) {
+    #page-qibla .qibla-dual-cta { grid-template-columns: 1fr; }
+}
+
+/* Microcopy under the primary CTA */
+#page-qibla .qibla-hub-geo-microcopy {
+    margin: 8px 0 0 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.86rem;
+    text-align: center;
+}
+
+/* Secondary "pick a city" button (outlined) */
+#page-qibla .qibla-hub-pick-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: transparent;
+    color: #0d7c55;
+    border: 2px solid rgba(13,124,85,0.5);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+#page-qibla .qibla-hub-pick-btn:hover {
+    background: rgba(13,124,85,0.08);
+    border-color: rgba(13,124,85,0.75);
+    transform: translateY(-1px);
+}
+#page-qibla .qibla-hub-pick-btn:active { transform: translateY(0); }
+@media (max-width: 640px) {
+    #page-qibla .qibla-hub-pick-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
+}
+
+/* Trust + Authority strip */
+#page-qibla .qibla-hub-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+}
+#page-qibla .qibla-hub-trust-strip li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: rgba(13,124,85,0.06);
+    border: 1px solid rgba(13,124,85,0.14);
+    color: var(--text-dark, #214936);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+#page-qibla .qibla-hub-trust-strip li::before {
+    content: '✔';
+    color: #0d7c55;
+    font-weight: 700;
+}
+#page-qibla .qibla-hub-authority-note {
+    margin: 10px 0 0 0;
+    text-align: center;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+/* Hero-scale search input (taller + bigger + stronger focus) */
+#page-qibla .qibla-hub-search.qibla-hub-search--hero {
+    min-height: 60px;
+    padding: 16px 20px;
+    font-size: 1.08rem;
+    border-radius: 14px;
+    border-width: 2px;
+    box-shadow: 0 2px 10px rgba(13,124,85,0.06);
+}
+#page-qibla .qibla-hub-search.qibla-hub-search--hero:focus {
+    border-color: rgba(13,124,85,0.7);
+    box-shadow: 0 0 0 4px rgba(13,124,85,0.14), 0 4px 14px rgba(13,124,85,0.10);
+}
+#page-qibla .qibla-hub-search-results {
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+#page-qibla .qibla-hub-search-results:empty { display: none; }
+#page-qibla .qibla-hub-search-results li { margin: 0; }
+#page-qibla .qibla-hub-search-results .qhsr-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(13,124,85,0.08);
+    color: var(--text-dark, #214936);
+    font-size: 0.98rem;
+    background: #fff;
+    transition: background 0.1s ease;
+}
+#page-qibla .qibla-hub-search-results .qhsr-item:hover,
+#page-qibla .qibla-hub-search-results .qhsr-item:focus {
+    background: rgba(13,124,85,0.07);
+    outline: none;
+}
+#page-qibla .qibla-hub-search-results .qhsr-item:last-child { border-bottom: 0; }
+#page-qibla .qibla-hub-search-results .qhsr-country {
+    color: var(--text-light, #6b7b75);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Visited cities row (optional, shown only when localStorage has entries) */
+#page-qibla .qibla-hub-visited-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+#page-qibla .qibla-hub-visited-grid .qhv-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(200,155,60,0.09);
+    border: 1px solid rgba(200,155,60,0.24);
+    color: var(--text-dark, #214936);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+#page-qibla .qibla-hub-visited-grid .qhv-chip:hover {
+    background: rgba(200,155,60,0.18);
+    transform: translateY(-1px);
+}
+
+/* Tiered popular city cards (replaces chips) */
+#page-qibla .qibla-hub-cities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+@media (min-width: 720px) {
+    #page-qibla .qibla-hub-cities-grid { grid-template-columns: repeat(4, 1fr); }
+}
+#page-qibla .qibla-hub-cities-grid .city-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(13,124,85,0.05);
+    border: 1px solid rgba(13,124,85,0.12);
+    color: var(--text-dark, #214936);
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+#page-qibla .qibla-hub-cities-grid .city-card:hover {
+    background: rgba(13,124,85,0.10);
+    border-color: rgba(13,124,85,0.28);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(13,124,85,0.12);
+}
+#page-qibla .qibla-hub-cities-grid .city-card .cc-flag { font-size: 1.5rem; line-height: 1; }
+#page-qibla .qibla-hub-cities-grid .city-card .cc-city  { font-weight: 700; font-size: 1rem; }
+#page-qibla .qibla-hub-cities-grid .city-card .cc-country { color: var(--text-light, #6b7b75); font-size: 0.84rem; }
+#page-qibla .qibla-hub-cities-grid .city-card .cc-chevron { color: rgba(13,124,85,0.65); font-size: 0.9rem; margin-top: 2px; }
+
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1 {
+    background: linear-gradient(135deg, rgba(13,124,85,0.07) 0%, rgba(200,155,60,0.08) 100%);
+    border-color: rgba(200,155,60,0.36);
+    box-shadow: 0 2px 10px rgba(200,155,60,0.10);
+}
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1 .cc-city { font-size: 1.08rem; }
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1 .cc-flag { font-size: 1.8rem; }
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1:hover {
+    border-color: rgba(200,155,60,0.60);
+    box-shadow: 0 6px 18px rgba(200,155,60,0.20);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-qibla .qibla-hub-smart-pill,
+    #page-qibla .qibla-hub-pick-btn,
+    #page-qibla .qibla-hub-cities-grid .city-card,
+    #page-qibla .qibla-hub-visited-grid .qhv-chip { transition: none; }
+    #page-qibla .qibla-hub-smart-pill:hover,
+    #page-qibla .qibla-hub-pick-btn:hover,
+    #page-qibla .qibla-hub-cities-grid .city-card:hover,
+    #page-qibla .qibla-hub-visited-grid .qhv-chip:hover { transform: none; }
+}
+
+/* ─── v5: Unified hero actions (Search + Dual CTA + badges inside hero) ─── */
+#page-qibla .qibla-hub-hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 18px;
+}
+#page-qibla .qibla-hub-hero-actions .qibla-hub-search-wrap {
+    display: block;
+}
+#page-qibla .qibla-hub-hero-actions #qibla-hub-search-results {
+    margin-top: 0;
+}
+#page-qibla .qibla-hub-hero-actions .qibla-hub-hero-badges {
+    margin-top: 4px;
+}
+
+/* ─── v5: How-to — 3 guided steps ─── */
+#page-qibla #qibla-hub-howto-title {
+    margin: 0 0 14px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-dark, #214936);
+}
+#page-qibla .qibla-hub-howto-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    counter-reset: qhhs-counter;
+}
+#page-qibla .qibla-hub-howto-steps .qhhs-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(13,124,85,0.05);
+    border: 1px solid rgba(13,124,85,0.10);
+}
+#page-qibla .qibla-hub-howto-steps .qhhs-num {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0d7c55 0%, #159b6b 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(13,124,85,0.25);
+}
+#page-qibla .qibla-hub-howto-steps .qhhs-text {
+    flex: 1 1 auto;
+    color: var(--text-dark, #214936);
+    font-size: 0.98rem;
+    line-height: 1.55;
+}
+
+/* ─── v5: Use-cases strip ─── */
+#page-qibla #qibla-hub-usecases-title {
+    margin: 0 0 14px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-dark, #214936);
+    text-align: center;
+}
+#page-qibla .qibla-hub-usecases {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+@media (min-width: 640px) {
+    #page-qibla .qibla-hub-usecases {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+#page-qibla .qibla-hub-usecases .qhuc-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 16px 10px;
+    border-radius: 12px;
+    background: rgba(200,155,60,0.06);
+    border: 1px solid rgba(200,155,60,0.18);
+    text-align: center;
+}
+#page-qibla .qibla-hub-usecases .qhuc-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+}
+#page-qibla .qibla-hub-usecases .qhuc-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-dark, #214936);
+}

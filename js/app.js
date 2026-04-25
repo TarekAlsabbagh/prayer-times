@@ -2171,7 +2171,10 @@ function navigateToQibla(lat, lng, city, country, englishName = '', countryCode 
     if (window.location.protocol === 'file:') {
         window.location.hash = `qibla-in-${slug}`;
     } else {
-        window.location.href = pageUrl(`/qibla-in-${slug}.html`);
+        // Clean URL (/qibla-in-{slug}) for known cities; long-tail fallback keeps coords.
+        window.location.href = (typeof _buildQiblaCityUrl === 'function')
+            ? _buildQiblaCityUrl(englishName || city, lat, lng, slug)
+            : pageUrl(`/qibla-in-${slug}.html`);
     }
 }
 
@@ -2498,13 +2501,52 @@ async function initApp() {
     try { loadedFromURL = await initFromURL(); }
     catch (_e) { try { console.warn('[initApp] initFromURL:', _e); } catch(_){} }
     if (!loadedFromURL) {
+        // ── Round 31: على الصفحات غير-المدنية (dateconverter, zakat-calculator,
+        //   msbaha, duas, hijri-calendar بدون سنة، …) حمِّل آخر سياق مدينة
+        //   معروف حتّى يحمل الشريط الجانبي هذا السياق لأيّ نقرة لاحقة.
+        //   قاعدة المستخدم: "من الرئيسيّة → مكّة / من أيّ مكان آخر → الموقع الحاليّ".
+        //   نعرّف "الرئيسيّة" كـ "/" أو "/index.html" (مع prefix اللغة اختياريّاً).
+        let _isHomeRoute = false;
+        try {
+            const _p = window.location.pathname;
+            _isHomeRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_p);
+        } catch (_e) { _isHomeRoute = false; }
+        let _hydratedFromContext = false;
+        if (!_isHomeRoute) {
+            try {
+                const _stash = sessionStorage.getItem('last_city_context');
+                if (_stash) {
+                    const _p = JSON.parse(_stash);
+                    if (_p && _p.englishName && isFinite(_p.lat) && isFinite(_p.lng)) {
+                        currentLat         = _p.lat;
+                        currentLng         = _p.lng;
+                        currentCity        = _p.name        || currentCity;
+                        currentEnglishName = _p.englishName || currentEnglishName;
+                        currentCountry     = _p.country     || currentCountry;
+                        currentCountryCode = _p.countryCode || currentCountryCode;
+                        if (typeof _p.timezone === 'number') currentTimezone = _p.timezone;
+                        _hydratedFromContext = true;
+                    }
+                }
+            } catch (_e) { /* silent */ }
+        } else {
+            // على الرئيسيّة: امسح آخر سياق مدينة حتى تعود نقرات الشريط الجانبي
+            //   افتراضيّاً إلى مكّة حسب قاعدة المستخدم.
+            try { sessionStorage.removeItem('last_city_context'); } catch (_e) { /* silent */ }
+        }
         // الصفحة الرئيسية تعرض مكة دائماً كافتراضي — لا نستبدلها بموقع المستخدم المحفوظ
         // موقع المستخدم (إن وُجد) يظهر فقط في شريط الاقتراح عبر checkSavedLocationSuggestion()
         try { updateCityDisplay(); } catch(_e) { try { console.warn('[initApp] updateCityDisplay:', _e); } catch(_){} }
         try { updatePrayerTimes(); } catch(_e) { try { console.warn('[initApp] updatePrayerTimes:', _e); } catch(_){} }
         try { updateQibla();       } catch(_e) { try { console.warn('[initApp] updateQibla:',       _e); } catch(_){} }
-        // اطلب الإذن للموقع الحقيقي — يستعمله detectLocation() لملء شريط الاقتراح فقط على الرئيسية
-        try { detectLocation(); } catch(_e) { try { console.warn('[initApp] detectLocation:', _e); } catch(_){} }
+        // Round 31: لا تستدعِ detectLocation على صفحة غير-مدنيّة حين يوجد سياق
+        //   (مثل /dateconverter بعد /prayer-times-in-tokyo): detectLocation يكتب
+        //   فوق currentLat/Lng/EnglishName بموقع GPS الحقيقيّ للمستخدم عبر
+        //   reverseGeocode، فيضيع سياق طوكيو قبل أن يقرأه الشريط الجانبي.
+        //   اطلب الإذن للموقع الحقيقي — يستعمله detectLocation() لملء شريط الاقتراح فقط على الرئيسية
+        if (!_hydratedFromContext) {
+            try { detectLocation(); } catch(_e) { try { console.warn('[initApp] detectLocation:', _e); } catch(_){} }
+        }
     }
 
     // تحديث البيانات الأولية — كلّ استدعاء ملفوف في try/catch لضمان الوصول إلى startCountdown()
@@ -2607,7 +2649,7 @@ async function initApp() {
     }
 
     // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
-    const _isDateConverterPage = /\/(?:(?:en|ar)\/)?dateconverter$/.test(window.location.pathname);
+    const _isDateConverterPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname);
     if (_isDateConverterPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-date-converter')?.classList.add('active');
@@ -2624,13 +2666,36 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="duas"]')?.classList.add('active');
     }
 
-    // تفعيل صفحة القبلة عند URL /qibla (بدون -in-)
-    const _isQiblaIndexPage = /\/(?:(?:en|ar)\/)?qibla$/.test(window.location.pathname);
-    if (_isQiblaIndexPage) {
+    // تفعيل صفحة القبلة عند URL:
+    //   • /qibla                                                   (hub)
+    //   • /qibla-in-{slug}[-{lat}-{lng}]                            (city page)
+    const _qiblaPath = window.location.pathname;
+    const _isQiblaHubPage  = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(_qiblaPath);
+    const _isQiblaCityPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(_qiblaPath);
+    if (_isQiblaHubPage || _isQiblaCityPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-qibla')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="qibla"]')?.classList.add('active');
+
+        let _qctx = { mode: 'hub' };
+        if (_isQiblaCityPage) {
+            const _qm = _qiblaPath.match(/\/qibla-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+            if (_qm) {
+                const _slug = _qm[1];
+                const _cityData = {};
+                if (_qm[2] && _qm[3]) {
+                    _cityData.lat = parseFloat(_qm[2]);
+                    _cityData.lng = parseFloat(_qm[3]);
+                    _cityData.slug = _slug;
+                    _cityData.name = _slug.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                    _qctx = { mode: 'city', citySlug: _slug, cityData: _cityData };
+                } else {
+                    _qctx = { mode: 'city', citySlug: _slug };
+                }
+            }
+        }
+        try { loadQiblaPage(_qctx); } catch (_e) {}
     }
 
     // تفعيل صفحة حاسبة الزكاة عند URL /zakat-calculator
@@ -2920,6 +2985,9 @@ async function initApp() {
     // ربط Hero search mirror (يعكس #city-suggestions إلى #loc-hero-suggestions تلقائيّاً)
     try { wireHeroSuggestionsMirror(); } catch (_e) { /* silent */ }
 
+    // Location-hero extras: pick-btn scroll + smart-pill hydration
+    try { _wireLocHeroExtras(); } catch (_e) { /* silent */ }
+
     // تطبيق عناوين SEO الثابتة (country tiles + popular cities في الفوتر)
     try { applyStaticLinkTitlesSEO(); } catch (_e) { /* silent */ }
 
@@ -2972,7 +3040,7 @@ function initNavigation() {
 
             // تحويل التاريخ → /dateconverter
             if (pageId === 'date-converter' && window.location.protocol !== 'file:') {
-                if (!/\/(?:(?:en|ar)\/)?dateconverter$/.test(window.location.pathname)) {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname)) {
                     window.location.href = pageUrl('/dateconverter');
                 }
                 return;
@@ -3041,6 +3109,20 @@ function initNavigation() {
             if (pageId === 'hijri-calendar' && window.location.protocol !== 'file:') {
                 // صفحة الهبوط الجديدة بدون سنة؛ السنة تُفتح من داخل الصفحة
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar$/.test(window.location.pathname)) {
+                    // ── احفظ سياق المدينة الحالي (إن وُجد) كي تحتفظ صفحة التقويم الهجري
+                    //   بالموقع المختار بدل السقوط إلى مكّة الافتراضيّة.
+                    //   من الرئيسيّة: لا يوجد currentEnglishName موثوق → يسقط لمكّة طبيعياً.
+                    //   من صفحة سياق-مدينة (قبلة/قمر/صلاة): نحفظ البيانات لتُستعاد.
+                    try {
+                        if (currentLat && currentEnglishName) {
+                            sessionStorage.setItem('city_hijri-calendar', JSON.stringify({
+                                lat: currentLat, lng: currentLng, name: currentCity,
+                                country: currentCountry, englishName: currentEnglishName,
+                                countryCode: currentCountryCode,
+                                timezone: (typeof currentTimezone === 'number') ? currentTimezone : null
+                            }));
+                        }
+                    } catch (_e) { /* silent */ }
                     window.location.href = pageUrl('/hijri-calendar');
                 }
                 return;
@@ -3065,9 +3147,19 @@ function initNavigation() {
                     ? makeSlug(currentEnglishName, currentLat, currentLng)
                     : window.location.pathname.match(/\/(?:en\/)?(?:qibla-in|prayer-times-in)-(.+?)(?:\.html)?$/)?.[1] || null;
                 if (_slug && currentLat) {
+                    // Round 29 fix: إذا كان currentCountryCode فارغاً (قدوم من سياق قمر/قبلة
+                    //   حيث لم يُحلّ رمز الدولة) — استنتجه من الـ slug عبر خريطة المدن.
+                    let _pcCC = currentCountryCode || '';
+                    if (!_pcCC) {
+                        // استخرج الـ base slug (بدون الإحداثيّات) لمطابقة خريطة المدن
+                        const _baseSlug = String(_slug).replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
+                        if (typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined' && _MOON_CITY_COUNTRY_KEYS[_baseSlug]) {
+                            _pcCC = _MOON_CITY_COUNTRY_KEYS[_baseSlug];
+                        }
+                    }
                     sessionStorage.setItem(`city_${_slug}`, JSON.stringify({
                         lat: currentLat, lng: currentLng, name: currentCity,
-                        country: currentCountry, englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone,
+                        country: currentCountry, englishName: currentEnglishName, countryCode: _pcCC, timezone: currentTimezone,
                         _v: 2
                     }));
                     window.location.href = pageUrl(`/prayer-times-in-${_slug}`);
@@ -3077,10 +3169,90 @@ function initNavigation() {
 
             // عند الانتقال لقسم القبلة
             if (pageId === 'qibla') {
-                const _alreadyOnQibla = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
-                if (!_alreadyOnQibla && currentLat && currentEnglishName && window.location.protocol !== 'file:') {
-                    navigateToQibla(currentLat, currentLng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
-                    return;
+                const _alreadyOnQibla = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-/.test(window.location.pathname);
+                if (!_alreadyOnQibla && window.location.protocol !== 'file:') {
+                    // ── Round 28 fix: إذا كان المستخدم على صفحة سياق-مدينة (قمر/صلاة/…)
+                    //   لكن currentLat/currentEnglishName لا يعكسان تلك المدينة (زيارة مباشرة
+                    //   لـ /moon-today-in-tokyo-… مثلًا)، استخرج الـ slug + الإحداثيّات من
+                    //   الـ URL بدلًا من الاعتماد على الموقع الحاليّ للمستخدم.
+                    const _cp = window.location.pathname;
+                    let _ctx = null; // { slug, lat, lng }
+                    const _mm = _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/)
+                             || _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/)
+                             || _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\.html)?$/);
+                    if (_mm) {
+                        const _slug = _mm[1];
+                        let _lat = _mm[2] != null ? parseFloat(_mm[2]) : NaN;
+                        let _lng = _mm[3] != null ? parseFloat(_mm[3]) : NaN;
+                        // Fallback: إحداثيّات المدن المشهورة من FAMOUS_MOON_CITIES
+                        if ((!isFinite(_lat) || !isFinite(_lng))
+                            && typeof FAMOUS_MOON_CITIES !== 'undefined'
+                            && FAMOUS_MOON_CITIES[_slug]) {
+                            _lat = FAMOUS_MOON_CITIES[_slug].lat;
+                            _lng = FAMOUS_MOON_CITIES[_slug].lng;
+                        }
+                        if (_slug && isFinite(_lat) && isFinite(_lng)) {
+                            _ctx = { slug: _slug, lat: _lat, lng: _lng };
+                        }
+                    }
+                    if (_ctx) {
+                        // حفظ جلسة لصفحة القبلة حتّى تعرض اسم المدينة الصحيح.
+                        //   نحفظ تحت مفتاحَين:
+                        //     (أ) `city_{slug}`                  — لـ /qibla-in-tokyo (بلا إحداثيّات)
+                        //     (ب) `city_{slug}-{lat}-{lng}`      — لـ /qibla-in-tokyo-35.68-139.65
+                        //   لأنّ getSlugFromURL يُرجع الرمز الكامل بعد "qibla-in-" وهو يختلف
+                        //   بين الحالتَين — فنضمن أنّ القيمة تُقرَأ من الجلسة في كلا الحالتَين
+                        //   ولا تجري عملية reverse-geocode تعيد اسماً مبنيّاً على الإحداثيّات
+                        //   (مثل "東京メトロ丸ノ内線" لـ Tokyo).
+                        const _la = Number(_ctx.lat).toFixed(2);
+                        const _lo = Number(_ctx.lng).toFixed(2);
+                        try {
+                            const _enName = (typeof _prettifySlug === 'function')
+                                ? _prettifySlug(_ctx.slug)
+                                : _ctx.slug.replace(/-/g, ' ');
+                            const _displayName = (typeof _moonCityDisplayName === 'function')
+                                ? _moonCityDisplayName(_ctx.slug)
+                                : _enName;
+                            // timezone: لا نحفظ IANA string ("Asia/Tokyo") من FAMOUS_MOON_CITIES
+                            //   لأنّ updatePrayerTimes يتوقّع offset رقميّ (ساعات-UTC).
+                            //   نتركه فارغاً ليُحلّه loadCityData عبر fetchTimezone(lat,lng).
+                            const _tz = null;
+                            // اسم الدولة الصحيح للسياق (طوكيو → اليابان، لا السعودية)
+                            const _lngNow = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                            const _ctxCountry = (typeof _moonCityCountryName === 'function')
+                                ? (_moonCityCountryName(_ctx.slug, _lngNow) || '')
+                                : '';
+                            // رمز الدولة ISO (tokyo → jp) — ضروري لـ autoSelectMethod ومواقيت الصلاة
+                            const _ctxCountryCode = (typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined' && _MOON_CITY_COUNTRY_KEYS[_ctx.slug])
+                                ? _MOON_CITY_COUNTRY_KEYS[_ctx.slug]
+                                : '';
+                            const _sessionPayload = JSON.stringify({
+                                lat: _ctx.lat, lng: _ctx.lng,
+                                name: _displayName || _enName,
+                                country: _ctxCountry,
+                                englishName: _enName,
+                                countryCode: _ctxCountryCode,
+                                timezone: _tz,
+                                _v: 2
+                            });
+                            sessionStorage.setItem(`city_${_ctx.slug}`, _sessionPayload);
+                            sessionStorage.setItem(`city_${_ctx.slug}-${_la}-${_lo}`, _sessionPayload);
+                        } catch (_e) { /* silent */ }
+                        // Emit clean URL (/qibla-in-{slug}) for known cities; keep coords
+                        // only for long-tail slugs not in FAMOUS_MOON_CITIES.
+                        const _enName = (typeof _prettifySlug === 'function')
+                            ? _prettifySlug(_ctx.slug)
+                            : _ctx.slug.replace(/-/g, ' ');
+                        window.location.href = (typeof _buildQiblaCityUrl === 'function')
+                            ? _buildQiblaCityUrl(_enName, _ctx.lat, _ctx.lng, _ctx.slug)
+                            : pageUrl(`/qibla-in-${_ctx.slug}-${_la}-${_lo}`);
+                        return;
+                    }
+                    // Fallback الأصليّ: استخدم موقع المستخدم الحاليّ
+                    if (currentLat && currentEnglishName) {
+                        navigateToQibla(currentLat, currentLng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
+                        return;
+                    }
                 }
                 startDeviceCompass();
             }
@@ -3677,7 +3849,16 @@ function buildCityUrl(lat, lng, city, country, englishName) {
 
 // التنقل الحقيقي لصفحة المدينة (حفظ البيانات في sessionStorage)
 function navigateToCity(lat, lng, city, country, englishName = '', countryCode = '') {
-    const slug = makeSlug(englishName || city, lat, lng);
+    let slug = makeSlug(englishName || city, lat, lng);
+    // Djibouti: slug الافتراضي "djibouti" يتضارب مع slug الدولة (/prayer-times-in-djibouti
+    // يُعالَج كـ "قائمة مدن دولة"). نستعمل slug خاصّاً "djibouti-city" للعاصمة فقط.
+    if (slug === 'djibouti' && (countryCode || '').toLowerCase() === 'dj') {
+        slug = 'djibouti-city';
+    }
+    // Singapore: نفس التضارب — slug "singapore" يطابق slug الدولة. نحوّله إلى "singapore-city".
+    if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') {
+        slug = 'singapore-city';
+    }
     // لا نخزّن timezone هنا لأن currentTimezone قد يكون للمدينة السابقة
     // سيتم جلب timezone الصحيح عند تحميل الصفحة الجديدة
     sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, _v: 2 }));
@@ -3955,7 +4136,10 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     currentEnglishCountry = COUNTRY_EN_NAMES[countryCode] || '';
     currentLocalizedName = ''; // إعادة ضبط قبل الجلب
     currentLocalizedCountry = '';
-    currentTimezone = timezone || await fetchTimezone(lat, lng);
+    // timezone يجب أن يكون offset رقميّ (ساعات-UTC)؛ نرفض IANA strings مثل "Asia/Tokyo"
+    //   (جلسات قديمة قد تحتوي على السلسلة) ونُعيد الحلّ عبر fetchTimezone.
+    const _tzNum = (typeof timezone === 'number' && isFinite(timezone)) ? timezone : null;
+    currentTimezone = (_tzNum !== null) ? _tzNum : await fetchTimezone(lat, lng);
     // اختيار طريقة الحساب بكود الدولة ISO (موثوق) ثم الاسم كاحتياطي
     autoSelectMethod(countryCode, country);
     // SEO شامل: title + description + canonical + hreflang + OG + Twitter + schema
@@ -3968,6 +4152,36 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     loadCityAboutSection();
     // UR/TR/FR: جلب الاسم المترجَم في الخلفية ثمّ إعادة رسم الواجهة
     fetchLocalizedCityName(lat, lng);
+
+    // ── Round 31: احفظ آخر سياق مدينة معروف في sessionStorage حتّى
+    //   تحتفظ الصفحات غير-المدنية (dateconverter, zakat, msbaha, duas…)
+    //   بالموقع الحاليّ عند المرور عليها، ثمّ يُسلِّمه الشريط الجانبي لأيّ
+    //   صفحة لاحقة. القاعدة: من الرئيسيّة → مكّة (لا يُحفظ سياق)؛ من صفحة
+    //   سياق → نحفظ ونحمِّل لاحقًا. loadCityData هو choke point مشترك.
+    try {
+        if (lat && lng && englishName) {
+            sessionStorage.setItem('last_city_context', JSON.stringify({
+                lat: lat, lng: lng, name: city, country: country,
+                englishName: englishName, countryCode: countryCode,
+                timezone: (typeof currentTimezone === 'number') ? currentTimezone : null,
+                ts: Date.now()
+            }));
+        }
+    } catch (_e) { /* silent */ }
+
+    // Qibla hub LRU: when user lands on a /qibla-in-* route, push this city
+    // into the visited-cities list so the hub can display it on return.
+    try {
+        if (lat && lng && englishName && typeof _pushQiblaVisited === 'function'
+            && /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-/.test(window.location.pathname)) {
+            _pushQiblaVisited({
+                englishName: englishName,
+                lat: lat,
+                lng: lng,
+                slug: (typeof makeSlug === 'function') ? makeSlug(englishName, lat, lng) : ''
+            });
+        }
+    } catch (_e) { /* silent */ }
 }
 
 // ========= قسم "عن المدينة" من ويكيبيديا (Point 12: محتوى فريد لكل مدينة) =========
@@ -4366,19 +4580,24 @@ function updateCityDisplay() {
     //   نستبدل الهيدر بناءً على slug في FAMOUS_MOON_CITIES فقط — لضمان أنّ
     //   currentCity/Country ما زالا صحيحَين للمدن المعروفة.
     try {
-        const _mmatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)(?:\.html)?$/);
+        // ── Round 28 fix: يشمل moon/qibla/prayer-times + يستخرج slug بلا coord-suffix
+        //   + يُمرّر lang صحيحاً (كان _lng غير معرَّف سابقاً → الدولة فارغة).
+        const _lngNow = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _pathHere = window.location.pathname;
+        const _reCityCtx = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in|moon-in|qibla-in|prayer-times-in)-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/;
+        const _mmatch = _pathHere.match(_reCityCtx);
         if (_mmatch && _mmatch[1]) {
             const _mSlug = _mmatch[1];
             // لا نتجاوز إلا إذا:
-            //   (أ) المدينة معروفة في FAMOUS_MOON_CITIES (بيانات موثوقة)، أو
-            //   (ب) لم يتمّ استعادة الجلسة (لا Tokyo من prayer-times → currentCity افتراضيّ)
+            //   (أ) المدينة معروفة في FAMOUS_MOON_CITIES أو جدول الدول، أو
+            //   (ب) لم يتمّ استعادة الجلسة (currentEnglishName لا يطابق الـ slug)
             const _inFamous = (typeof FAMOUS_MOON_CITIES !== 'undefined') && !!FAMOUS_MOON_CITIES[_mSlug];
-            // التحقّق من أنّ الـ currentEnglishName لا يطابق الـ slug (أي لم تُستعَد الجلسة)
+            const _inCountryMap = (typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined') && !!_MOON_CITY_COUNTRY_KEYS[_mSlug];
             const _simpleCurEn = (currentEnglishName || '').toLowerCase().trim().replace(/\s+/g, '-');
             const _sessionMatchesSlug = (_simpleCurEn === _mSlug);
-            if (_inFamous && !_sessionMatchesSlug) {
+            if ((_inFamous || _inCountryMap) && !_sessionMatchesSlug) {
                 const _mCity = (typeof _moonCityDisplayName === 'function') ? _moonCityDisplayName(_mSlug) : _mSlug;
-                const _mCountry = (typeof _moonCityCountryName === 'function') ? _moonCityCountryName(_mSlug, _lng) : '';
+                const _mCountry = (typeof _moonCityCountryName === 'function') ? _moonCityCountryName(_mSlug, _lngNow) : '';
                 const _cityEl = document.getElementById('city-name');
                 const _countryEl = document.getElementById('country-name');
                 if (_cityEl && _mCity) {
@@ -4387,6 +4606,7 @@ function updateCityDisplay() {
                 }
                 if (_countryEl) {
                     _countryEl.textContent = _mCountry || '';
+                    _countryEl.removeAttribute('data-i18n');
                 }
             }
         }
@@ -4550,6 +4770,14 @@ function updatePrayerTimes() {
     const cityDate = new Date(now.getTime() + (currentTimezone - localOffset) * 3600000);
 
     currentPrayerTimes = PrayerTimes.getTimes(cityDate, currentLat, currentLng, currentTimezone);
+
+    // ⚠️ مهم: عند تغيّر المدينة/المنطقة الزمنيّة، نُصفّر رصّاد العبور حتّى لا
+    //   يكشف "فجوة وهميّة" تبتلع وقت صلاة وتُطلِق الأذان خطأً.
+    //   مثال: كانت الصفحة على توقيت مكّة (UTC+3) ثمّ تحمَّلت بكين (UTC+8) →
+    //   currentSeconds يقفز 5 ساعات فجأة، فيبدو وكأنّ ظهر/عصر/مغرب بكين قد عُبر،
+    //   والأذان يدقّ فوراً رغم أنّنا لم نكن فعلياً عند وقت الصلاة.
+    //   لا نُصفّر lastAzanPrayer للحفاظ على منع تكرار الأذان خلال فترة تشغيله.
+    _prevCurrentSeconds = null;
 
     // تحديث العرض — null-guards لأنّ #prayer-cards مقصوص على صفحة time-left (DOM pruner)
     const _tfEl = document.getElementById('time-fajr');    if (_tfEl) _tfEl.textContent = currentPrayerTimes.fajr;
@@ -5525,6 +5753,90 @@ function wireHeroSuggestionsMirror() {
 }
 
 /**
+ * Location-hero persuasive landing extras:
+ *   1) Secondary "pick city" button → smooth-scroll to #loc-hero-search and focus it.
+ *   2) Smart-pill hydration from localStorage['lsb_detected'] (last detected location).
+ *      Clicking the pill navigates to /prayer-times-in-{slug} of that city.
+ */
+function _wireLocHeroExtras() {
+    // ── Pick-city button → scroll to search + focus ──
+    const pickBtn = document.getElementById('loc-hero-pick-btn');
+    if (pickBtn && !pickBtn.dataset.wired) {
+        pickBtn.dataset.wired = '1';
+        pickBtn.addEventListener('click', function () {
+            const s = document.getElementById('loc-hero-search');
+            if (!s) return;
+            try { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_e) {}
+            setTimeout(() => { try { s.focus(); } catch (_e) {} }, 200);
+        });
+    }
+
+    // ── Smart-redirect pill ──
+    const pill = document.getElementById('loc-hero-smart-pill');
+    if (!pill) return;
+
+    let shown = false;
+    try {
+        const raw = localStorage.getItem('lsb_detected');
+        if (raw) {
+            const d = JSON.parse(raw);
+            const ttlMs = 7 * 86400000;
+            if (d && isFinite(d.lat) && isFinite(d.lng) && (d.enName || d.arCity)
+                && (!d.ts || (Date.now() - d.ts) < ttlMs)) {
+                const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const localized = (d.names && d.names[lang])
+                    || (lang === 'ar' ? (d.arCity || d.enName) : (d.enName || d.arCity));
+                const enName = d.enName || d.arCity;
+                const slug = (typeof makeSlug === 'function')
+                    ? makeSlug(enName, d.lat, d.lng)
+                    : String(enName).toLowerCase().replace(/\s+/g, '-');
+                // Djibouti capital uses special slug to avoid collision with country page
+                const finalSlug = (slug === 'djibouti' && (d.countryCode || '').toLowerCase() === 'dj')
+                    ? 'djibouti-city'
+                    : slug;
+                const href = (typeof pageUrl === 'function')
+                    ? pageUrl(`/prayer-times-in-${finalSlug}`)
+                    : `/prayer-times-in-${finalSlug}`;
+
+                // Localized labels
+                const prefixMap = {
+                    ar: 'آخر موقع استخدمته', en: 'Last location you used',
+                    fr: 'Dernier emplacement utilisé', tr: 'Son kullandığınız konum',
+                    ur: 'آخری استعمال شدہ مقام', de: 'Zuletzt verwendeter Standort',
+                    id: 'Lokasi terakhir yang kamu pakai', es: 'Última ubicación usada',
+                    bn: 'শেষ ব্যবহৃত অবস্থান', ms: 'Lokasi terakhir anda guna'
+                };
+                const ctaMap = {
+                    ar: 'عرض مواقيت الصلاة', en: 'Show prayer times',
+                    fr: 'Voir les horaires', tr: 'Namaz vakitlerini göster',
+                    ur: 'اوقاتِ نماز دیکھیں', de: 'Gebetszeiten anzeigen',
+                    id: 'Lihat jadwal sholat', es: 'Ver horarios de oración',
+                    bn: 'নামাজের সময় দেখুন', ms: 'Lihat waktu solat'
+                };
+                const prefix = prefixMap[lang] || prefixMap.en;
+                const cta    = ctaMap[lang]    || ctaMap.en;
+
+                pill.setAttribute('href', href);
+                pill.innerHTML =
+                    `<span class="lhsp-icon" aria-hidden="true">📍</span>` +
+                    `<span class="lhsp-prefix">${prefix}:</span>` +
+                    `<strong class="lhsp-city">${localized}</strong>` +
+                    `<span class="lhsp-arrow" aria-hidden="true">→</span>` +
+                    `<span class="lhsp-cta">${cta}</span>`;
+                pill.hidden = false;
+                pill.classList.add('is-visible');
+                shown = true;
+            }
+        }
+    } catch (_e) { /* silent */ }
+
+    if (!shown) {
+        pill.hidden = true;
+        pill.classList.remove('is-visible');
+    }
+}
+
+/**
  * إدخال Hero search يُحوَّل إلى حقل البحث الأصليّ onCitySearchInput.
  */
 function onHeroSearchInput(query) {
@@ -6070,7 +6382,7 @@ function updatePageSEO() {
     }
 
     // ── محول التاريخ ──
-    if (/^\/(?:en\/)?dateconverter$/.test(path)) {
+    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(path)) {
         setSEOMeta({
             title: isEn ? 'Hijri ↔ Gregorian Date Converter' : 'محول التاريخ الهجري ↔ الميلادي',
             description: isEn
@@ -7625,10 +7937,11 @@ function updateNextPrayerPage() {
 function initStickyNextBar() {
     const bar = document.getElementById('sticky-next-bar');
     if (!bar || typeof IntersectionObserver === 'undefined') return;
-    // 🆕 Round 3.1 — اختيار pivot ذكيّ: homepage → .next-prayer-banner، city-page → .city-hero-answer
+    // 🆕 Round 3.1 — اختيار pivot ذكيّ: homepage → .next-prayer-banner، city-page → #location-hero (was .city-hero-answer)
+    // R34: city-hero-answer removed; #location-hero now serves as the city-page hero pivot
     const isCity = document.documentElement.classList.contains('city-page');
     const pivot = isCity
-        ? document.querySelector('.city-hero-answer')
+        ? document.querySelector('#location-hero, .city-hero-answer')
         : document.querySelector('.next-prayer-banner');
     if (!pivot) return;
     // لا نُظهر الـ Sticky Bar إلا بعد التمرير تحت الـpivot.
@@ -7987,8 +8300,9 @@ function updatePrayerCardsSEO() {
         mtc.setAttribute('title', _moonCtaByLang[_ln] || _moonCtaByLang.en);
     }
 
-    // Hero tagline → H2 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21 → R23: 10 langs)
-    const tagline = document.querySelector('.loc-hero-tagline');
+    // Hero tagline → H1 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21 → R23: 10 langs)
+    // R34: renamed from h2.loc-hero-tagline → h1.loc-hero-title (persuasive-landing refactor)
+    const tagline = document.querySelector('.loc-hero-title, .loc-hero-tagline');
     if (tagline) {
         const _taglineByLang = {
             ar: `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`,
@@ -9085,6 +9399,1745 @@ let _qiblaAngle = 0;
 let _compassListening = false;
 let _orientationHandler = null;
 
+// ───── Qibla helpers (Round 25: Tool Page + localized city names) ─────
+
+// Localized city-name resolver (client-side mirror of server's _resolveCityName).
+// Source 1: window.__POPULAR_CITY_NAMES__ (injected by SSR; ~40 cities × 10 langs).
+// Source 2: LOCAL_CITIES (ar + en only) — fallback for cities not in #1.
+// Last resort: `fallback` (should be the English name, never a Title-cased slug).
+// DO NOT Title-case slugs anywhere — that leaks English into non-Latin pages.
+function _resolveCityNameClient(slug, lang, fallback) {
+    try {
+        const pop = (typeof window !== 'undefined') && window.__POPULAR_CITY_NAMES__;
+        if (pop && slug && pop[slug]) {
+            return pop[slug][lang] || pop[slug].en || fallback || slug;
+        }
+    } catch (_e) {}
+    try {
+        if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES) && slug) {
+            const hit = LOCAL_CITIES.find(c => {
+                try { return makeSlug(c.en, c.lat, c.lng).startsWith(slug); }
+                catch (_e2) { return false; }
+            });
+            if (hit) return (lang === 'ar') ? hit.ar : hit.en;
+        }
+    } catch (_e) {}
+    return fallback || slug || '';
+}
+
+function _haversineKm(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const DEG = Math.PI / 180;
+    const dLat = (lat2 - lat1) * DEG;
+    const dLng = (lng2 - lng1) * DEG;
+    const a = Math.sin(dLat / 2) ** 2
+            + Math.cos(lat1 * DEG) * Math.cos(lat2 * DEG) * Math.sin(dLng / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function _nearestCitiesFrom(lat, lng, citiesArr, n, excludeKey) {
+    if (!Array.isArray(citiesArr) || citiesArr.length === 0) return [];
+    const arr = citiesArr
+        .filter(c => c && c.key !== excludeKey && typeof c.lat === 'number' && typeof c.lng === 'number')
+        .map(c => ({ ...c, _d: _haversineKm(lat, lng, c.lat, c.lng) }))
+        .sort((a, b) => a._d - b._d);
+    return arr.slice(0, n || 5);
+}
+
+function _popularCitiesList(currentKey, n) {
+    // يستخدم LOCAL_CITIES إن وُجد، وإلا FAMOUS_MOON_CITIES كـ fallback
+    const max = n || 6;
+    const out = [];
+    try {
+        if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES)) {
+            for (const c of LOCAL_CITIES) {
+                const key = makeSlug(c.en, c.lat, c.lng);
+                if (key === currentKey) continue;
+                out.push({ key, name: c.en, nameAr: c.ar, lat: c.lat, lng: c.lng });
+                if (out.length >= max) break;
+            }
+            if (out.length > 0) return out;
+        }
+    } catch (_e) {}
+    try {
+        if (typeof FAMOUS_MOON_CITIES !== 'undefined' && FAMOUS_MOON_CITIES) {
+            for (const key of Object.keys(FAMOUS_MOON_CITIES)) {
+                if (key === currentKey) continue;
+                const c = FAMOUS_MOON_CITIES[key];
+                const name = key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                out.push({ key, name, nameAr: name, lat: c.lat, lng: c.lng });
+                if (out.length >= max) break;
+            }
+        }
+    } catch (_e) {}
+    return out;
+}
+
+function _buildQiblaUrl(citySlug, lat, lng) {
+    // Always append -{lat}-{lng} so target page can parse coords via URL regex
+    // and compute the correct Qibla angle — never fall back to Mecca by accident.
+    if (isFinite(lat) && isFinite(lng)) {
+        const la = Number(lat).toFixed(2);
+        const lo = Number(lng).toFixed(2);
+        return pageUrl(`/qibla-in-${citySlug}-${la}-${lo}`);
+    }
+    return pageUrl(`/qibla-in-${citySlug}`);
+}
+
+// Resolve a canonical Qibla slug for (englishName, lat, lng).
+// Returns a FAMOUS_MOON_CITIES key when the input matches a known city
+// (either by slug or within ~30 km by coordinates) — else null.
+// Used to emit clean URLs (/qibla-in-riyadh) instead of coord URLs.
+function _canonicalQiblaSlug(englishName, lat, lng) {
+    try {
+        if (typeof FAMOUS_MOON_CITIES === 'undefined') return null;
+        // 1) Exact slug match
+        if (englishName) {
+            const slug = (typeof makeSlug === 'function') ? makeSlug(englishName, lat, lng) : '';
+            if (slug && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug)) return slug;
+        }
+        // 2) Common aliases (Arabic-name slugs for the two holy cities)
+        const ALIASES = {
+            'makkah': 'mecca', 'makkah-al-mukarramah': 'mecca', 'makkah-al-mukarrama': 'mecca',
+            'madinah': 'medina', 'al-madinah': 'medina', 'al-madinah-al-munawwarah': 'medina',
+            'al-madinah-al-munawara': 'medina',
+            'al-qahirah': 'cairo',
+            'istanbul-turkey': 'istanbul'
+        };
+        if (englishName) {
+            const rawSlug = (typeof makeSlug === 'function') ? makeSlug(englishName, lat, lng) : '';
+            if (rawSlug && ALIASES[rawSlug]) return ALIASES[rawSlug];
+        }
+        // 3) Proximity search — match by coordinates (≤ 30 km)
+        if (isFinite(lat) && isFinite(lng)) {
+            let best = null, bestKm = Infinity;
+            for (const k in FAMOUS_MOON_CITIES) {
+                if (!Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, k)) continue;
+                const c = FAMOUS_MOON_CITIES[k];
+                const d = _haversineKm(lat, lng, c.lat, c.lng);
+                if (d < bestKm) { bestKm = d; best = k; }
+            }
+            if (best && bestKm <= 30) return best;
+        }
+    } catch (_e) {}
+    return null;
+}
+
+// Build a clean Qibla city URL — ALWAYS /qibla-in-{slug}, never with coords.
+//   • Priority 1: canonical FAMOUS_MOON_CITIES key via _canonicalQiblaSlug()
+//   • Priority 2: hintSlug (when it matches a known famous slug)
+//   • Priority 3: slug derived from the English name via makeSlug()
+//   • Priority 4: last-resort slug derived from coords ("loc-xx-yy")
+// Any slug returned here is resolvable client-side (LOCAL_CITIES) and server-side
+// (_resolveCityForMoon → _getCitySlugIndex over db/cities-*.json).
+function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
+    const canonical = _canonicalQiblaSlug(englishName || hintSlug || '', lat, lng);
+    if (canonical) return pageUrl(`/qibla-in-${canonical}`);
+    if (hintSlug && typeof FAMOUS_MOON_CITIES !== 'undefined'
+        && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, hintSlug)) {
+        return pageUrl(`/qibla-in-${hintSlug}`);
+    }
+    // Derive a slug from the English name — no coords suffix.
+    let slug = hintSlug;
+    if (!slug && englishName && typeof makeSlug === 'function') {
+        slug = makeSlug(englishName, lat, lng);
+    }
+    // Last-resort when name missing: coordinate-only slug "loc-xx-yy" (still clean — no numeric suffix).
+    if (!slug) {
+        if (isFinite(lat) && isFinite(lng)) {
+            const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
+            const lo = Math.abs(lng).toFixed(1) + (lng >= 0 ? 'e' : 'w');
+            slug = `loc-${la}-${lo}`;
+        } else {
+            slug = 'mecca';
+        }
+    }
+    return pageUrl(`/qibla-in-${slug}`);
+}
+
+function _buildQiblaBreadcrumbOl(cityName, isHub, lang) {
+    const ui = _QIBLA_UI[lang] || _QIBLA_UI.en;
+    const homeHref = pageUrl('/') || '/';
+    const qiblaHref = pageUrl('/qibla');
+    const items = [
+        { text: ui.bc_home, href: homeHref }
+    ];
+    if (isHub) {
+        items.push({ text: ui.bc_qibla, current: true });
+    } else {
+        items.push({ text: ui.bc_qibla, href: qiblaHref });
+        items.push({ text: cityName, current: true });
+    }
+    return _buildHijriBreadcrumbOl(items);
+}
+
+function _cardinalKeyFromAngle(deg) {
+    const a = ((deg % 360) + 360) % 360;
+    if (a < 22.5)  return 'qibla.direction_north';
+    if (a < 67.5)  return 'qibla.direction_ne';
+    if (a < 112.5) return 'qibla.direction_east';
+    if (a < 157.5) return 'qibla.direction_se';
+    if (a < 202.5) return 'qibla.direction_south';
+    if (a < 247.5) return 'qibla.direction_sw';
+    if (a < 292.5) return 'qibla.direction_west';
+    if (a < 337.5) return 'qibla.direction_nw';
+    return 'qibla.direction_north';
+}
+
+// ───── i18n UI table for Qibla Tool pages (10 languages) ─────
+// Shape (Tool page — minimal):
+//   bc_home, bc_qibla                       — breadcrumb labels
+//   h1(city, isHub)                         — page title
+//   summary(angle, cardinal, distanceKm, lang) — one-line summary "0° • شمال • 0 كم إلى الكعبة"
+//   info_city, info_angle, info_lat, info_lng — 4 card labels
+//   cta_prayer(city)                        — main button
+//   link_moon(city), link_hijri, link_home  — 3 quick text links
+//   other_cities_title                      — section heading
+//   faq(ctx) → [[q, a]×4]                   — FAQ array (city already localized)
+//   footer(ctx)                             — 1–2 sentence SEO paragraph
+//   related_labels[3]                       — 3 related text-link labels
+const _QIBLA_UI = {
+    ar: {
+        bc_home: 'الرئيسية', bc_qibla: 'اتجاه القبلة',
+        h1: (city, isHub) => isHub ? `🧭 اتجاه القبلة` : `🧭 اتجاه القبلة في ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} كم إلى الكعبة`,
+        info_city: 'المدينة', info_angle: 'زاوية القبلة', info_lat: 'خط العرض', info_lng: 'خط الطول',
+        cta_prayer: city => `🕌 مواقيت الصلاة في ${city}`,
+        cta_note: city => `اعرف أوقات الصلاة في ${city} الآن →`,
+        wow_caption: (city, cardinal) => `← أنت تتجه نحو الكعبة المشرفة (${cardinal})`,
+        link_moon: city => `🌙 حالة القمر اليوم في ${city}`,
+        link_hijri: '📅 التاريخ الهجري اليوم',
+        link_home: '🏠 الصفحة الرئيسية',
+        other_cities_title: 'مدن أخرى لاتجاه القبلة',
+        faq_title: 'أسئلة شائعة',
+        faq: (ctx) => [
+            [`ما هي زاوية القبلة من ${ctx.cityName}؟`, `زاوية القبلة من ${ctx.cityName} تساوي تقريباً ${ctx.angle}° باتجاه ${ctx.cardinal}، مُقاسة من الشمال الجغرافي باتجاه عقارب الساعة.`],
+            [`كم تبعد ${ctx.cityName} عن الكعبة؟`, `المسافة بين ${ctx.cityName} والكعبة المشرفة في مكة المكرمة تبلغ ${ctx.distanceKm.toLocaleString('ar')} كم تقريباً.`],
+            [`كيف أحدّد اتجاه القبلة يدوياً؟`, `استخدم البوصلة أعلاه وأَدِر نفسك حتى يشير السهم إلى ${ctx.angle}°، مع الابتعاد عن المعادن لزيادة الدقة.`],
+            [`هل الصلاة صحيحة مع انحراف بسيط؟`, `نعم، الانحراف اليسير مغتفر شرعاً ما دام الاتجاه العام إلى الكعبة.`]
+        ],
+        footer: ctx => `اتجاه القبلة في ${ctx.cityName} هو ${ctx.angle}° (${ctx.cardinal})، وتبلغ المسافة إلى الكعبة المشرفة ${ctx.distanceKm.toLocaleString('ar')} كم. يمكنك استخدام البوصلة أعلاه لتحديد الاتجاه بدقّة، أو الاستفادة من الخدمات التالية المرتبطة بمدينة ${ctx.cityName}:`,
+        trust_note: '📍 يُحسب الاتجاه باستخدام إحداثيات الموقع الجغرافيّة بدقّة فلكيّة عالية.',
+        related_labels: city => [`🕌 اعرف مواقيت الصلاة في ${city}`, `🌙 تحقّق من حالة القمر اليوم في ${city}`, `📅 اعرف التاريخ الهجري اليوم`],
+    },
+    en: {
+        bc_home: 'Home', bc_qibla: 'Qibla Direction',
+        h1: (city, isHub) => isHub ? `🧭 Qibla Direction` : `🧭 Qibla Direction in ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km to the Kaaba`,
+        info_city: 'City', info_angle: 'Qibla Angle', info_lat: 'Latitude', info_lng: 'Longitude',
+        cta_prayer: city => `🕌 Prayer Times in ${city}`,
+        cta_note: city => `See today's prayer times in ${city} →`,
+        wow_caption: (city, cardinal) => `← You are facing the Holy Kaaba (${cardinal})`,
+        link_moon: city => `🌙 Moon Today in ${city}`,
+        link_hijri: "📅 Today's Hijri Date",
+        link_home: '🏠 Home',
+        other_cities_title: 'Other cities for Qibla direction',
+        faq_title: 'Frequently asked questions',
+        faq: (ctx) => [
+            [`What is the Qibla angle from ${ctx.cityName}?`, `The Qibla bearing from ${ctx.cityName} is about ${ctx.angle}° toward ${ctx.cardinal}, measured clockwise from true north.`],
+            [`How far is ${ctx.cityName} from the Kaaba?`, `The great-circle distance between ${ctx.cityName} and the Kaaba is about ${ctx.distanceKm.toLocaleString('en')} km.`],
+            [`How do I face the Qibla manually?`, `Use the compass above and turn until the needle points to ${ctx.angle}°; stay away from metal and magnets for better accuracy.`],
+            [`Is my prayer valid with a small deviation?`, `Yes — minor deviation is religiously excused as long as you face the general direction of the Kaaba.`]
+        ],
+        footer: ctx => `The Qibla direction from ${ctx.cityName} is ${ctx.angle}° (${ctx.cardinal}), and the distance to the Holy Kaaba is ${ctx.distanceKm.toLocaleString('en')} km. Use the compass above to align precisely, or jump to services linked to ${ctx.cityName}:`,
+        trust_note: '📍 The bearing is computed from geographic coordinates with high astronomical precision.',
+        related_labels: city => [`🕌 See Prayer Times in ${city}`, `🌙 Check the Moon tonight in ${city}`, `📅 View today's Hijri date`],
+    },
+    fr: {
+        bc_home: 'Accueil', bc_qibla: 'Direction de la Qibla',
+        h1: (city, isHub) => isHub ? `🧭 Direction de la Qibla` : `🧭 Direction de la Qibla à ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km jusqu\u2019à la Kaaba`,
+        info_city: 'Ville', info_angle: 'Angle de la Qibla', info_lat: 'Latitude', info_lng: 'Longitude',
+        cta_prayer: city => `🕌 Horaires de prière à ${city}`,
+        cta_note: city => `Voir les horaires de prière à ${city} →`,
+        wow_caption: (city, cardinal) => `← Vous êtes orienté vers la Kaaba (${cardinal})`,
+        link_moon: city => `🌙 La Lune aujourd\u2019hui à ${city}`,
+        link_hijri: '📅 Date hégirienne du jour',
+        link_home: '🏠 Accueil',
+        other_cities_title: 'Autres villes pour la direction de la Qibla',
+        faq_title: 'Questions fréquentes',
+        faq: (ctx) => [
+            [`Quel est l'angle de la Qibla depuis ${ctx.cityName} ?`, `L'azimut de la Qibla depuis ${ctx.cityName} est d'environ ${ctx.angle}° vers ${ctx.cardinal}, mesuré dans le sens horaire à partir du nord géographique.`],
+            [`Quelle est la distance entre ${ctx.cityName} et la Kaaba ?`, `La distance orthodromique entre ${ctx.cityName} et la Kaaba est d'environ ${ctx.distanceKm.toLocaleString('fr')} km.`],
+            [`Comment s'orienter vers la Qibla manuellement ?`, `Utilisez la boussole ci-dessus et tournez jusqu'à pointer ${ctx.angle}°; éloignez-vous du métal et des aimants pour plus de précision.`],
+            [`La prière est-elle valide avec un léger écart ?`, `Oui, un écart mineur est toléré tant que l'orientation générale est vers la Kaaba.`]
+        ],
+        footer: ctx => `La direction de la Qibla depuis ${ctx.cityName} est de ${ctx.angle}° (${ctx.cardinal}), et la distance jusqu'à la Sainte Kaaba est d'environ ${ctx.distanceKm.toLocaleString('fr')} km. Utilisez la boussole ci-dessus pour vous orienter précisément, ou accédez aux services liés à ${ctx.cityName} :`,
+        trust_note: '📍 Le cap est calculé à partir des coordonnées géographiques avec une haute précision astronomique.',
+        related_labels: city => [`🕌 Voir les horaires de prière à ${city}`, `🌙 Vérifier la Lune ce soir à ${city}`, `📅 Voir la date hégirienne du jour`],
+    },
+    tr: {
+        bc_home: 'Ana Sayfa', bc_qibla: 'Kıble Yönü',
+        h1: (city, isHub) => isHub ? `🧭 Kıble Yönü` : `🧭 ${city} Kıble Yönü`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • Kâbe\u2019ye ${distKm.toLocaleString(L)} km`,
+        info_city: 'Şehir', info_angle: 'Kıble Açısı', info_lat: 'Enlem', info_lng: 'Boylam',
+        cta_prayer: city => `🕌 ${city} Namaz Vakitleri`,
+        cta_note: city => `${city} için günün namaz vakitlerini görün →`,
+        wow_caption: (city, cardinal) => `← Kutsal Kâbe'ye yöneliksiniz (${cardinal})`,
+        link_moon: city => `🌙 ${city}'de Bugün Ay`,
+        link_hijri: '📅 Bugün Hicri Tarih',
+        link_home: '🏠 Ana Sayfa',
+        other_cities_title: 'Kıble yönü için diğer şehirler',
+        faq_title: 'Sıkça sorulan sorular',
+        faq: (ctx) => [
+            [`${ctx.cityName} için kıble açısı nedir?`, `${ctx.cityName} için kıble açısı yaklaşık ${ctx.angle}°, ${ctx.cardinal} yönünde; coğrafi kuzeyden saat yönünde ölçülür.`],
+            [`${ctx.cityName} Kâbe'ye ne kadar uzak?`, `${ctx.cityName} ile Kâbe arasındaki büyük daire mesafesi yaklaşık ${ctx.distanceKm.toLocaleString('tr')} km'dir.`],
+            [`Kıbleye manuel olarak nasıl yönelirim?`, `Yukarıdaki pusulayı kullanın ve iğne ${ctx.angle}° gösterene kadar dönün; metal ve mıknatıslardan uzak durun.`],
+            [`Küçük bir sapma ile namaz geçerli mi?`, `Evet — genel olarak Kâbe'ye yöneldiğiniz sürece küçük sapmalar mazurdur.`]
+        ],
+        footer: ctx => `${ctx.cityName} için kıble yönü ${ctx.angle}° (${ctx.cardinal}), Kutsal Kâbe'ye uzaklık ise ${ctx.distanceKm.toLocaleString('tr')} km'dir. Hassas yönelim için yukarıdaki pusulayı kullanın veya ${ctx.cityName} ile ilgili aşağıdaki hizmetlere geçin:`,
+        trust_note: '📍 Yön, coğrafi koordinatlardan yüksek astronomik doğrulukla hesaplanır.',
+        related_labels: city => [`🕌 ${city} için namaz vakitlerini görün`, `🌙 Bu gece ${city} için Ay durumunu kontrol edin`, `📅 Bugünün hicri tarihini görün`],
+    },
+    ur: {
+        bc_home: 'ہوم', bc_qibla: 'سمتِ قبلہ',
+        h1: (city, isHub) => isHub ? `🧭 سمتِ قبلہ` : `🧭 ${city} سے سمتِ قبلہ`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • کعبہ تک ${distKm.toLocaleString(L)} کلومیٹر`,
+        info_city: 'شہر', info_angle: 'قبلہ کا زاویہ', info_lat: 'عرض البلد', info_lng: 'طول البلد',
+        cta_prayer: city => `🕌 ${city} کے نماز اوقات`,
+        cta_note: city => `${city} کے آج کے نماز اوقات دیکھیں →`,
+        wow_caption: (city, cardinal) => `← آپ کعبہ مکرمہ کی طرف رخ کیے ہوئے ہیں (${cardinal})`,
+        link_moon: city => `🌙 ${city} میں آج چاند`,
+        link_hijri: '📅 آج کی ہجری تاریخ',
+        link_home: '🏠 ہوم',
+        other_cities_title: 'قبلہ کی سمت کے لیے دیگر شہر',
+        faq_title: 'اکثر پوچھے جانے والے سوالات',
+        faq: (ctx) => [
+            [`${ctx.cityName} سے قبلہ کا زاویہ کیا ہے؟`, `${ctx.cityName} سے قبلہ کا زاویہ تقریباً ${ctx.angle}° ہے بسمت ${ctx.cardinal}، جغرافیائی شمال سے گھڑی کی سوئی کی سمت ناپا جاتا ہے۔`],
+            [`${ctx.cityName} کعبہ سے کتنا دور ہے؟`, `${ctx.cityName} اور کعبہ کے درمیان فاصلہ تقریباً ${ctx.distanceKm.toLocaleString('ur')} کلومیٹر ہے۔`],
+            [`قبلہ کی سمت کیسے متعین کریں؟`, `اوپر دی گئی بوصلہ استعمال کریں اور اس وقت تک مڑیں جب تک سوئی ${ctx.angle}° کی طرف اشارہ نہ کرے، دھات و مقناطیس سے دور رہیں۔`],
+            [`کیا معمولی فرق کے ساتھ نماز درست ہے؟`, `جی ہاں، معمولی انحراف شرعاً معاف ہے جب تک آپ عمومی طور پر کعبہ کی طرف ہوں۔`]
+        ],
+        footer: ctx => `${ctx.cityName} سے سمتِ قبلہ ${ctx.angle}° (${ctx.cardinal}) ہے، اور کعبہ مکرمہ تک فاصلہ ${ctx.distanceKm.toLocaleString('ur')} کلومیٹر ہے۔ درست سمت کے لیے اوپر دی گئی بوصلہ استعمال کریں، یا ${ctx.cityName} سے متعلقہ درج ذیل خدمات پر جائیں:`,
+        trust_note: '📍 سمت جغرافیائی نقاط سے فلکی دقت کے ساتھ احتساب کی جاتی ہے۔',
+        related_labels: city => [`🕌 ${city} کے نماز اوقات دیکھیں`, `🌙 آج رات ${city} میں چاند کی حالت چیک کریں`, `📅 آج کی ہجری تاریخ دیکھیں`],
+    },
+    de: {
+        bc_home: 'Startseite', bc_qibla: 'Qibla-Richtung',
+        h1: (city, isHub) => isHub ? `🧭 Qibla-Richtung` : `🧭 Qibla-Richtung in ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km zur Kaaba`,
+        info_city: 'Stadt', info_angle: 'Qibla-Winkel', info_lat: 'Breitengrad', info_lng: 'Längengrad',
+        cta_prayer: city => `🕌 Gebetszeiten in ${city}`,
+        cta_note: city => `Gebetszeiten in ${city} heute anzeigen →`,
+        wow_caption: (city, cardinal) => `← Sie sind zur heiligen Kaaba ausgerichtet (${cardinal})`,
+        link_moon: city => `🌙 Mond heute in ${city}`,
+        link_hijri: '📅 Heutiges Hidschri-Datum',
+        link_home: '🏠 Startseite',
+        other_cities_title: 'Andere Städte für die Qibla-Richtung',
+        faq_title: 'Häufig gestellte Fragen',
+        faq: (ctx) => [
+            [`Wie groß ist der Qibla-Winkel von ${ctx.cityName}?`, `Die Qibla-Peilung von ${ctx.cityName} beträgt etwa ${ctx.angle}° nach ${ctx.cardinal}, im Uhrzeigersinn vom geografischen Norden gemessen.`],
+            [`Wie weit ist ${ctx.cityName} von der Kaaba entfernt?`, `Die Großkreis-Entfernung zwischen ${ctx.cityName} und der Kaaba beträgt etwa ${ctx.distanceKm.toLocaleString('de')} km.`],
+            [`Wie richte ich mich manuell zur Qibla aus?`, `Benutzen Sie den Kompass oben und drehen Sie sich, bis die Nadel auf ${ctx.angle}° zeigt; halten Sie sich von Metall und Magneten fern.`],
+            [`Ist mein Gebet bei kleiner Abweichung gültig?`, `Ja — eine geringfügige Abweichung ist religiös entschuldigt, solange Sie in die allgemeine Richtung der Kaaba schauen.`]
+        ],
+        footer: ctx => `Die Qibla-Richtung von ${ctx.cityName} beträgt ${ctx.angle}° (${ctx.cardinal}), die Entfernung zur heiligen Kaaba liegt bei ${ctx.distanceKm.toLocaleString('de')} km. Richten Sie sich mit dem Kompass oben präzise aus oder nutzen Sie die folgenden auf ${ctx.cityName} bezogenen Dienste:`,
+        trust_note: '📍 Die Peilung wird aus geografischen Koordinaten mit hoher astronomischer Genauigkeit berechnet.',
+        related_labels: city => [`🕌 Gebetszeiten in ${city} ansehen`, `🌙 Mond heute Abend in ${city} prüfen`, `📅 Heutiges Hidschri-Datum anzeigen`],
+    },
+    id: {
+        bc_home: 'Beranda', bc_qibla: 'Arah Kiblat',
+        h1: (city, isHub) => isHub ? `🧭 Arah Kiblat` : `🧭 Arah Kiblat di ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km ke Kakbah`,
+        info_city: 'Kota', info_angle: 'Sudut Kiblat', info_lat: 'Lintang', info_lng: 'Bujur',
+        cta_prayer: city => `🕌 Jadwal Salat di ${city}`,
+        cta_note: city => `Lihat jadwal salat di ${city} hari ini →`,
+        wow_caption: (city, cardinal) => `← Anda menghadap Ka'bah (${cardinal})`,
+        link_moon: city => `🌙 Bulan Hari Ini di ${city}`,
+        link_hijri: '📅 Tanggal Hijriah Hari Ini',
+        link_home: '🏠 Beranda',
+        other_cities_title: 'Kota lain untuk arah kiblat',
+        faq_title: 'Pertanyaan umum',
+        faq: (ctx) => [
+            [`Berapa sudut kiblat dari ${ctx.cityName}?`, `Sudut kiblat dari ${ctx.cityName} sekitar ${ctx.angle}° ke arah ${ctx.cardinal}, diukur searah jarum jam dari utara sejati.`],
+            [`Berapa jarak ${ctx.cityName} ke Kakbah?`, `Jarak lingkaran besar antara ${ctx.cityName} dan Kakbah sekitar ${ctx.distanceKm.toLocaleString('id')} km.`],
+            [`Bagaimana menentukan kiblat secara manual?`, `Gunakan kompas di atas dan putar tubuh hingga jarum menunjuk ke ${ctx.angle}°; jauhkan dari logam dan magnet.`],
+            [`Apakah salat sah dengan sedikit pergeseran?`, `Ya — pergeseran kecil dimaafkan selama Anda menghadap arah umum Kakbah.`]
+        ],
+        footer: ctx => `Arah kiblat dari ${ctx.cityName} adalah ${ctx.angle}° (${ctx.cardinal}), dan jarak ke Kakbah yang mulia sekitar ${ctx.distanceKm.toLocaleString('id')} km. Gunakan kompas di atas untuk mengarah dengan tepat, atau buka layanan berikut yang terkait dengan ${ctx.cityName}:`,
+        trust_note: '📍 Sudut dihitung dari koordinat geografis dengan presisi astronomis tinggi.',
+        related_labels: city => [`🕌 Lihat jadwal salat di ${city}`, `🌙 Cek bulan malam ini di ${city}`, `📅 Lihat tanggal Hijriah hari ini`],
+    },
+    es: {
+        bc_home: 'Inicio', bc_qibla: 'Dirección de la Qibla',
+        h1: (city, isHub) => isHub ? `🧭 Dirección de la Qibla` : `🧭 Dirección de la Qibla en ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km hasta la Kaaba`,
+        info_city: 'Ciudad', info_angle: 'Ángulo de la Qibla', info_lat: 'Latitud', info_lng: 'Longitud',
+        cta_prayer: city => `🕌 Horarios de oración en ${city}`,
+        cta_note: city => `Ver los horarios de oración en ${city} hoy →`,
+        wow_caption: (city, cardinal) => `← Estás orientado hacia la Kaaba (${cardinal})`,
+        link_moon: city => `🌙 La Luna hoy en ${city}`,
+        link_hijri: '📅 Fecha Hijri de hoy',
+        link_home: '🏠 Inicio',
+        other_cities_title: 'Otras ciudades para la dirección de la Qibla',
+        faq_title: 'Preguntas frecuentes',
+        faq: (ctx) => [
+            [`¿Cuál es el ángulo de la Qibla desde ${ctx.cityName}?`, `El rumbo de la Qibla desde ${ctx.cityName} es de unos ${ctx.angle}° hacia ${ctx.cardinal}, medido en sentido horario desde el norte verdadero.`],
+            [`¿A qué distancia está ${ctx.cityName} de la Kaaba?`, `La distancia ortodrómica entre ${ctx.cityName} y la Kaaba es de unos ${ctx.distanceKm.toLocaleString('es')} km.`],
+            [`¿Cómo oriento manualmente hacia la Qibla?`, `Use la brújula de arriba y gire hasta que la aguja apunte a ${ctx.angle}°; manténgase lejos de metales e imanes.`],
+            [`¿Es válida la oración con una pequeña desviación?`, `Sí — una desviación leve está excusada siempre que mire en la dirección general de la Kaaba.`]
+        ],
+        footer: ctx => `La dirección de la Qibla desde ${ctx.cityName} es de ${ctx.angle}° (${ctx.cardinal}), y la distancia a la Sagrada Kaaba es de unos ${ctx.distanceKm.toLocaleString('es')} km. Use la brújula de arriba para orientarse con precisión, o acceda a los siguientes servicios vinculados a ${ctx.cityName}:`,
+        trust_note: '📍 El rumbo se calcula a partir de las coordenadas geográficas con alta precisión astronómica.',
+        related_labels: city => [`🕌 Ver los horarios de oración en ${city}`, `🌙 Consultar la Luna esta noche en ${city}`, `📅 Ver la fecha Hijri de hoy`],
+    },
+    bn: {
+        bc_home: 'হোম', bc_qibla: 'কিবলার দিক',
+        h1: (city, isHub) => isHub ? `🧭 কিবলার দিক` : `🧭 ${city}-এ কিবলার দিক`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • কাবা পর্যন্ত ${distKm.toLocaleString(L)} কিমি`,
+        info_city: 'শহর', info_angle: 'কিবলার কোণ', info_lat: 'অক্ষাংশ', info_lng: 'দ্রাঘিমাংশ',
+        cta_prayer: city => `🕌 ${city}-এ নামাজের সময়`,
+        cta_note: city => `${city}-এ আজকের নামাজের সময় দেখুন →`,
+        wow_caption: (city, cardinal) => `← আপনি পবিত্র কাবার দিকে মুখ করে আছেন (${cardinal})`,
+        link_moon: city => `🌙 আজ চাঁদ ${city}-এ`,
+        link_hijri: '📅 আজকের হিজরি তারিখ',
+        link_home: '🏠 হোম',
+        other_cities_title: 'কিবলার দিকের জন্য অন্যান্য শহর',
+        faq_title: 'সাধারণ প্রশ্ন',
+        faq: (ctx) => [
+            [`${ctx.cityName} থেকে কিবলার কোণ কত?`, `${ctx.cityName} থেকে কিবলার কোণ আনুমানিক ${ctx.angle}° ${ctx.cardinal} অভিমুখে, প্রকৃত উত্তর থেকে ঘড়ির কাঁটার দিকে মাপা হয়।`],
+            [`${ctx.cityName} কাবা থেকে কত দূরে?`, `${ctx.cityName} এবং কাবার মধ্যে মহাবৃত্তীয় দূরত্ব প্রায় ${ctx.distanceKm.toLocaleString('bn')} কিমি।`],
+            [`ম্যানুয়ালি কিবলার দিক কীভাবে নির্ধারণ করব?`, `উপরের কম্পাস ব্যবহার করুন এবং সূঁচ ${ctx.angle}° না পৌঁছানো পর্যন্ত ঘুরুন; ধাতু ও চুম্বক থেকে দূরে থাকুন।`],
+            [`সামান্য ভিন্নতায় কি নামাজ শুদ্ধ?`, `হ্যাঁ — যতক্ষণ আপনি সাধারণভাবে কাবার দিকে মুখ করে আছেন, সামান্য বিচ্যুতি শরীয়তের দৃষ্টিতে মাফ।`]
+        ],
+        footer: ctx => `${ctx.cityName} থেকে কিবলার দিক ${ctx.angle}° (${ctx.cardinal}), এবং পবিত্র কাবা পর্যন্ত দূরত্ব প্রায় ${ctx.distanceKm.toLocaleString('bn')} কিমি। সঠিকভাবে মুখ করার জন্য উপরের কম্পাস ব্যবহার করুন, অথবা ${ctx.cityName}-এর সাথে সম্পর্কিত নিম্নলিখিত পরিষেবাগুলিতে যান:`,
+        trust_note: '📍 দিকটি ভৌগোলিক স্থানাঙ্ক থেকে উচ্চ জ্যোতির্বিজ্ঞানীয় নির্ভুলতায় গণনা করা হয়।',
+        related_labels: city => [`🕌 ${city}-এ নামাজের সময় দেখুন`, `🌙 আজ রাতে ${city}-এ চাঁদের অবস্থা দেখুন`, `📅 আজকের হিজরি তারিখ দেখুন`],
+    },
+    ms: {
+        bc_home: 'Utama', bc_qibla: 'Arah Kiblat',
+        h1: (city, isHub) => isHub ? `🧭 Arah Kiblat` : `🧭 Arah Kiblat di ${city}`,
+        summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km ke Kaabah`,
+        info_city: 'Bandar', info_angle: 'Sudut Kiblat', info_lat: 'Latitud', info_lng: 'Longitud',
+        cta_prayer: city => `🕌 Waktu Solat di ${city}`,
+        cta_note: city => `Lihat waktu solat di ${city} hari ini →`,
+        wow_caption: (city, cardinal) => `← Anda sedang menghadap Kaabah (${cardinal})`,
+        link_moon: city => `🌙 Bulan Hari Ini di ${city}`,
+        link_hijri: '📅 Tarikh Hijrah Hari Ini',
+        link_home: '🏠 Utama',
+        other_cities_title: 'Bandar lain untuk arah kiblat',
+        faq_title: 'Soalan lazim',
+        faq: (ctx) => [
+            [`Apakah sudut kiblat dari ${ctx.cityName}?`, `Sudut kiblat dari ${ctx.cityName} adalah kira-kira ${ctx.angle}° menuju ${ctx.cardinal}, diukur mengikut arah jam dari utara sebenar.`],
+            [`Berapa jauh ${ctx.cityName} dari Kaabah?`, `Jarak bulatan agung antara ${ctx.cityName} dan Kaabah adalah kira-kira ${ctx.distanceKm.toLocaleString('ms')} km.`],
+            [`Bagaimana menentukan kiblat secara manual?`, `Gunakan kompas di atas dan pusing sehingga jarum menunjuk ke ${ctx.angle}°; jauhkan dari logam dan magnet.`],
+            [`Adakah solat sah dengan sedikit penyimpangan?`, `Ya — penyimpangan kecil dimaafkan selagi anda menghadap arah umum Kaabah.`]
+        ],
+        footer: ctx => `Arah kiblat dari ${ctx.cityName} ialah ${ctx.angle}° (${ctx.cardinal}), dan jarak ke Kaabah yang mulia adalah kira-kira ${ctx.distanceKm.toLocaleString('ms')} km. Gunakan kompas di atas untuk mengarah dengan tepat, atau lawati perkhidmatan berikut yang berkaitan dengan ${ctx.cityName}:`,
+        trust_note: '📍 Arah dikira daripada koordinat geografi dengan ketepatan astronomi yang tinggi.',
+        related_labels: city => [`🕌 Lihat waktu solat di ${city}`, `🌙 Semak bulan malam ini di ${city}`, `📅 Lihat tarikh Hijrah hari ini`],
+    },
+};
+
+// ============================================================================
+// Round 30 — Qibla HUB UI (Decision-Engine landing page)
+//   /qibla = tool-entry page: Hero CTA → geolocation OR city chip → /qibla-in-*
+//   No fake angle/distance/city values. No Place schema.
+// ============================================================================
+const _QIBLA_HUB_UI = {
+    ar: {
+        title: '🧭 اعرف اتجاه القبلة بدقّة من أيّ مكان في العالم',
+        subtitle: 'باستخدام بوصلة ذكيّة تعتمد على موقعك الجغرافيّ أو اختيار مدينتك',
+        hero_badges: ['يعمل في جميع الدول', 'دقّة فلكيّة عالية'],
+        smart_pill_prefix: 'آخر موقع استخدمته',
+        smart_pill_cta: 'اعرف اتجاه القبلة',
+        geo_btn: '📍 اعرف اتجاه القبلة من موقعي',
+        geo_btn_loading: 'جارٍ تحديد موقعك…',
+        cta_pick_city: '🌍 اختر مدينتك يدويّاً',
+        cta_microcopy: 'سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ',
+        geo_status_loading: '… جارٍ تحديد موقعك',
+        geo_status_denied: '⚠️ لم نتمكّن من تحديد موقعك — يمكنك البحث عن مدينتك في الأسفل.',
+        geo_status_unavailable: 'متصفّحك لا يدعم تحديد الموقع — ابحث عن مدينتك في الأسفل.',
+        trust_chips: ['دقّة عالية باستخدام GPS', 'يعمل بدون تطبيق', 'مناسب لجميع الدول'],
+        authority_note: '📍 يُحسب اتجاه القبلة باستخدام إحداثيّات دقيقة ونماذج فلكيّة معتمدة.',
+        search_placeholder: 'ابحث عن مدينتك (مثال: الرياض، القاهرة، Istanbul)',
+        search_empty: 'لا توجد مدن مطابقة — جرّب اختيار بلد من الأسفل.',
+        visited_title: '🕓 آخر المدن التي زرتها',
+        cities_title: 'المدن الأكثر بحثًا عن القبلة',
+        tier1_label: 'مميّز',
+        countries_title: '🌐 اختر بلدك',
+        countries_note: 'اختر بلدك لعرض أقرب المدن إليك.',
+        howto_title: 'كيف تحدّد اتجاه القبلة؟',
+        howto_steps: [
+            'اضغط «اعرف اتجاه القبلة من موقعي»، أو اكتب اسم مدينتك في شريط البحث أعلاه.',
+            'نحسب الزاوية الدقيقة نحو الكعبة المشرّفة باستخدام صيغة Great-Circle الفلكيّة.',
+            'اتّجِه بهاتفك أو بوصلتك نحو الزاوية المعروضة — ستكون الكعبة أمامك مباشرةً.'
+        ],
+        usecases_title: 'يمكنك استخدامها في أيّ مكان',
+        usecases: [
+            { icon: '🏠', label: 'في البيت' },
+            { icon: '✈️', label: 'في السفر' },
+            { icon: '🕌', label: 'في المسجد' },
+            { icon: '🌍', label: 'حول العالم' }
+        ],
+        faq_title: 'أسئلة شائعة',
+        faq: [
+            ['كيف أحدّد اتجاه القبلة بدقّة؟',
+             'اضغط زرّ «اعرف اتجاه القبلة من موقعي» ليحدّد المتصفّح موقعك تلقائيًّا، ثمّ نحسب الزاوية هندسيًّا نحو الكعبة المشرّفة بمعادلة Great-Circle الفلكيّة. إذا لم ترغب بمشاركة الموقع، يمكنك اختيار مدينتك من قائمة المدن للحصول على نفس الدقّة.'],
+            ['هل يمكن معرفة القبلة بدون GPS؟',
+             'نعم — اختر مدينتك من قائمة المدن أو ابحث عن اسمها، وسنعرض لك اتجاه القبلة الدقيق من تلك المدينة بالاعتماد على إحداثيّاتها الرسميّة.'],
+            ['ما هي زاوية القبلة؟',
+             'زاوية القبلة هي الاتجاه الأقصر هندسيًّا بين موقعك والكعبة المشرّفة على سطح الكرة الأرضيّة، وتُقاس بالدرجات انطلاقًا من الشمال الجغرافيّ.'],
+            ['هل تختلف القبلة حسب الموقع؟',
+             'نعم — تختلف زاوية القبلة من مدينة إلى أخرى بحسب موقعها نسبةً إلى مكّة المكرّمة، لذلك نحسب الزاوية مخصّصة لموقعك أو لمدينتك المختارة.']
+        ],
+        footer: 'استخدم هذه الصفحة لتحديد اتجاه القبلة من أيّ مكان في العالم، عبر تحديد موقعك تلقائيًّا أو اختيار مدينتك، للحصول على زاوية دقيقة نحو الكعبة المشرّفة.',
+        trust_note: '📍 يُحسب الاتجاه باستخدام إحداثيّات الموقع الجغرافيّة بدقّة فلكيّة عالية.',
+        bc_home: 'الرئيسيّة', bc_qibla: 'اتجاه القبلة'
+    },
+    en: {
+        title: '🧭 Find the exact Qibla direction from anywhere in the world',
+        subtitle: 'Use a smart compass powered by your geolocation — or pick your city manually',
+        hero_badges: ['Works in every country', 'High astronomical precision'],
+        smart_pill_prefix: 'Last location you used',
+        smart_pill_cta: 'Show Qibla',
+        geo_btn: '📍 Show Qibla from my location',
+        geo_btn_loading: 'Detecting your location…',
+        cta_pick_city: '🌍 Pick your city manually',
+        cta_microcopy: 'Your location will be detected automatically in seconds',
+        geo_status_loading: '… Detecting your location',
+        geo_status_denied: "⚠️ Couldn't detect your location — search for your city below.",
+        geo_status_unavailable: 'Your browser does not support geolocation — search for your city below.',
+        trust_chips: ['High-precision GPS', 'No app required', 'Works in every country'],
+        authority_note: '📍 Qibla direction is computed from precise coordinates using certified astronomical models.',
+        search_placeholder: 'Search for your city (e.g. Riyadh, Cairo, Istanbul)',
+        search_empty: 'No matching city — try picking a country below.',
+        visited_title: '🕓 Recently visited cities',
+        cities_title: 'Most-searched Qibla cities',
+        tier1_label: 'Featured',
+        countries_title: '🌐 Choose your country',
+        countries_note: 'Pick your country to see the nearest cities.',
+        howto_title: 'How do you find the Qibla?',
+        howto_steps: [
+            'Tap "Show Qibla from my location" — or type your city into the search above.',
+            'We compute the precise bearing toward the Kaaba using the astronomical Great-Circle formula.',
+            'Point your phone or compass at the displayed angle — the Kaaba is directly in front of you.'
+        ],
+        usecases_title: 'Use it anywhere',
+        usecases: [
+            { icon: '🏠', label: 'At home' },
+            { icon: '✈️', label: 'While traveling' },
+            { icon: '🕌', label: 'At the mosque' },
+            { icon: '🌍', label: 'Anywhere in the world' }
+        ],
+        faq_title: 'Frequently asked questions',
+        faq: [
+            ['How do I determine the Qibla direction accurately?',
+             "Click 'Show Qibla from my location' and let your browser detect your position. We then compute the bearing toward the Kaaba geometrically using the Great-Circle formula. If you prefer not to share location, pick your city from the list to get the same precision."],
+            ['Can I find the Qibla without GPS?',
+             'Yes — pick your city from the list or search for it by name. We display the exact Qibla direction from that city using its official coordinates.'],
+            ['What is the Qibla angle?',
+             'The Qibla angle is the shortest geometric bearing between your location and the Holy Kaaba on the surface of the Earth, measured in degrees from true north.'],
+            ['Does the Qibla differ by location?',
+             'Yes — the Qibla bearing changes from one city to another based on its position relative to Makkah, so we compute a custom angle for your location or chosen city.']
+        ],
+        footer: 'Use this page to find the Qibla direction from anywhere in the world, either by detecting your location automatically or by choosing your city, to get a precise bearing toward the Holy Kaaba.',
+        trust_note: '📍 The bearing is computed from geographic coordinates with high astronomical precision.',
+        bc_home: 'Home', bc_qibla: 'Qibla Direction'
+    },
+    fr: {
+        title: '🧭 Trouvez la direction exacte de la Qibla depuis n\'importe où',
+        subtitle: 'Boussole intelligente basée sur votre géolocalisation ou sur le choix de votre ville',
+        hero_badges: ['Fonctionne dans tous les pays', 'Haute précision astronomique'],
+        smart_pill_prefix: 'Dernière position utilisée',
+        smart_pill_cta: 'Voir la Qibla',
+        geo_btn: '📍 Afficher la Qibla depuis ma position',
+        geo_btn_loading: 'Détection de votre position…',
+        cta_pick_city: '🌍 Choisissez votre ville manuellement',
+        cta_microcopy: 'Votre position sera détectée automatiquement en quelques secondes',
+        geo_status_loading: '… Détection de votre position',
+        geo_status_denied: '⚠️ Impossible de détecter votre position — recherchez votre ville ci-dessous.',
+        geo_status_unavailable: 'Votre navigateur ne prend pas en charge la géolocalisation — recherchez votre ville.',
+        trust_chips: ['GPS haute précision', 'Sans application', 'Fonctionne partout'],
+        authority_note: '📍 La Qibla est calculée à partir de coordonnées précises et de modèles astronomiques certifiés.',
+        search_placeholder: 'Recherchez votre ville (ex. Paris, Le Caire, Istanbul)',
+        search_empty: 'Aucune ville trouvée — essayez un pays ci-dessous.',
+        visited_title: '🕓 Villes récemment visitées',
+        cities_title: 'Villes les plus consultées pour la Qibla',
+        tier1_label: 'En vedette',
+        countries_title: '🌐 Choisissez votre pays',
+        countries_note: 'Choisissez votre pays pour voir les villes les plus proches.',
+        howto_title: 'Comment trouvez-vous la Qibla ?',
+        howto_steps: [
+            'Appuyez sur « Afficher la Qibla depuis ma position » — ou saisissez votre ville dans la recherche.',
+            "Nous calculons l'angle précis vers la Kaaba avec la formule astronomique du cercle orthodromique.",
+            "Orientez votre téléphone ou votre boussole sur l'angle affiché — la Kaaba est droit devant vous."
+        ],
+        usecases_title: 'Utilisable partout',
+        usecases: [
+            { icon: '🏠', label: 'À la maison' },
+            { icon: '✈️', label: 'En voyage' },
+            { icon: '🕌', label: 'À la mosquée' },
+            { icon: '🌍', label: 'Partout dans le monde' }
+        ],
+        faq_title: 'Questions fréquentes',
+        faq: [
+            ['Comment déterminer la direction de la Qibla avec précision ?',
+             "Cliquez sur « Afficher la Qibla depuis ma position » pour que le navigateur détecte votre position. Nous calculons ensuite l'angle vers la Kaaba géométriquement avec la formule du cercle orthodromique. Si vous préférez ne pas partager votre position, choisissez votre ville dans la liste."],
+            ['Peut-on connaître la Qibla sans GPS ?',
+             'Oui — sélectionnez votre ville dans la liste ou recherchez-la. Nous affichons la direction exacte de la Qibla depuis cette ville à partir de ses coordonnées officielles.'],
+            ['Qu\'est-ce que l\'angle de la Qibla ?',
+             'L\'angle de la Qibla est l\'orientation géométrique la plus courte entre votre position et la Sainte Kaaba à la surface de la Terre, mesurée en degrés à partir du nord géographique.'],
+            ['La Qibla varie-t-elle selon la position ?',
+             'Oui — l\'angle de la Qibla change d\'une ville à l\'autre selon sa position par rapport à La Mecque, c\'est pourquoi nous calculons un angle personnalisé pour votre localisation ou votre ville.']
+        ],
+        footer: 'Cette page vous permet de trouver la direction de la Qibla de n\'importe où dans le monde, en détectant votre position ou en choisissant votre ville, pour obtenir un angle précis vers la Sainte Kaaba.',
+        trust_note: '📍 La direction est calculée à partir de coordonnées géographiques avec une haute précision astronomique.',
+        bc_home: 'Accueil', bc_qibla: 'Direction de la Qibla'
+    },
+    tr: {
+        title: '🧭 Dünyanın her yerinden Kıble yönünü hassasiyetle bulun',
+        subtitle: 'Coğrafi konumunuza veya şehrinizi seçmenize dayalı akıllı pusula',
+        hero_badges: ['Her ülkede çalışır', 'Yüksek astronomik doğruluk'],
+        smart_pill_prefix: 'Son kullandığınız konum',
+        smart_pill_cta: 'Kıbleyi göster',
+        geo_btn: '📍 Konumumdan Kıbleyi göster',
+        geo_btn_loading: 'Konumunuz belirleniyor…',
+        cta_pick_city: '🌍 Şehrinizi elle seçin',
+        cta_microcopy: 'Konumunuz saniyeler içinde otomatik olarak tespit edilecek',
+        geo_status_loading: '… Konumunuz belirleniyor',
+        geo_status_denied: '⚠️ Konumunuza erişilemedi — aşağıdan şehrinizi arayın.',
+        geo_status_unavailable: 'Tarayıcınız konum desteklemiyor — aşağıdan şehrinizi arayın.',
+        trust_chips: ['Yüksek hassasiyetli GPS', 'Uygulama gerekmez', 'Her ülkede çalışır'],
+        authority_note: '📍 Kıble yönü, hassas koordinatlar ve onaylı astronomik modellerle hesaplanır.',
+        search_placeholder: 'Şehrinizi arayın (örn. İstanbul, Kahire, Riyad)',
+        search_empty: 'Eşleşen şehir yok — aşağıdan bir ülke deneyin.',
+        visited_title: '🕓 Son ziyaret edilen şehirler',
+        cities_title: 'En çok aranan Kıble şehirleri',
+        tier1_label: 'Öne çıkan',
+        countries_title: '🌐 Ülkenizi seçin',
+        countries_note: 'Size en yakın şehirleri görmek için ülkenizi seçin.',
+        howto_title: 'Kıbleyi nasıl buluyorsunuz?',
+        howto_steps: [
+            '"Konumumdan Kıbleyi göster" butonuna dokunun veya yukarıdaki aramadan şehrinizi seçin.',
+            "Büyük Çember (Great-Circle) formülüyle Kâbe'ye olan kesin açıyı hesaplarız.",
+            'Telefonunuzu veya pusulanızı gösterilen açıya çevirin — Kâbe tam karşınızdadır.'
+        ],
+        usecases_title: 'Her yerde kullanılır',
+        usecases: [
+            { icon: '🏠', label: 'Evde' },
+            { icon: '✈️', label: 'Seyahatte' },
+            { icon: '🕌', label: 'Camide' },
+            { icon: '🌍', label: 'Dünyanın her yerinde' }
+        ],
+        faq_title: 'Sıkça sorulan sorular',
+        faq: [
+            ['Kıble yönünü tam olarak nasıl belirlerim?',
+             "'Konumumdan Kıbleyi göster' düğmesine dokunun; tarayıcı konumunuzu tespit etsin. Ardından Büyük Çember formülüyle Kâbe'ye yönü geometrik olarak hesaplarız. Konum paylaşmak istemiyorsanız aşağıdaki listeden şehrinizi seçebilirsiniz."],
+            ['GPS olmadan Kıble yönü bulunabilir mi?',
+             'Evet — şehrinizi listeden seçin veya adını arayın. O şehrin resmî koordinatlarına göre tam Kıble yönünü gösteririz.'],
+            ['Kıble açısı nedir?',
+             'Kıble açısı, bulunduğunuz yer ile Kâbe arasındaki en kısa geometrik yöndür; gerçek kuzeyden dereceyle ölçülür.'],
+            ['Kıble konuma göre değişir mi?',
+             'Evet — Kıble açısı Mekke\'ye göre her şehirde farklıdır; bu yüzden konumunuza veya seçtiğiniz şehre özel bir açı hesaplarız.']
+        ],
+        footer: 'Bu sayfayı dünyanın her yerinden Kıble yönünü bulmak için kullanabilirsiniz; konumunuzu otomatik tespit ederek veya şehrinizi seçerek Mübarek Kâbe\'ye tam açıyı elde edin.',
+        trust_note: '📍 Yön, coğrafi koordinatlardan yüksek astronomik doğrulukla hesaplanır.',
+        bc_home: 'Ana Sayfa', bc_qibla: 'Kıble Yönü'
+    },
+    ur: {
+        title: '🧭 دنیا کے کسی بھی مقام سے قبلہ کی درست سمت جانیں',
+        subtitle: 'آپ کی جغرافیائی لوکیشن یا منتخب شہر پر مبنی ذہین کمپاس',
+        hero_badges: ['ہر ملک میں کام کرتا ہے', 'اعلیٰ فلکیاتی درستگی'],
+        smart_pill_prefix: 'آخری استعمال شدہ مقام',
+        smart_pill_cta: 'قبلہ دکھائیں',
+        geo_btn: '📍 میرے مقام سے قبلہ دکھائیں',
+        geo_btn_loading: 'مقام تلاش کیا جا رہا ہے…',
+        cta_pick_city: '🌍 دستی طور پر اپنا شہر چنیں',
+        cta_microcopy: 'آپ کا مقام چند سیکنڈ میں خود بخود معلوم ہو جائے گا',
+        geo_status_loading: '… آپ کا مقام معلوم کیا جا رہا ہے',
+        geo_status_denied: '⚠️ آپ کے مقام تک رسائی نہ ہو سکی — نیچے سے شہر تلاش کریں۔',
+        geo_status_unavailable: 'آپ کا براؤزر مقام کی حمایت نہیں کرتا — نیچے سے شہر تلاش کریں۔',
+        trust_chips: ['اعلیٰ درستگی والا GPS', 'ایپ کی ضرورت نہیں', 'ہر ملک میں کام کرتا ہے'],
+        authority_note: '📍 قبلہ کی سمت درست نقاط اور معتبر فلکیاتی ماڈلز سے حساب کی جاتی ہے۔',
+        search_placeholder: 'اپنا شہر تلاش کریں (مثال: لاہور، کراچی، Istanbul)',
+        search_empty: 'کوئی شہر نہیں ملا — نیچے سے ملک چنیں۔',
+        visited_title: '🕓 حال ہی میں دیکھے گئے شہر',
+        cities_title: 'سب سے زیادہ تلاش کیے گئے قبلہ شہر',
+        tier1_label: 'نمایاں',
+        countries_title: '🌐 اپنا ملک چنیں',
+        countries_note: 'قریبی شہر دیکھنے کے لیے اپنا ملک چنیں۔',
+        howto_title: 'آپ قبلہ کیسے معلوم کرتے ہیں؟',
+        howto_steps: [
+            '"میرے مقام سے قبلہ دکھائیں" دبائیں یا اوپر والے سرچ میں اپنا شہر لکھیں۔',
+            'ہم Great-Circle فلکیاتی فارمولے سے کعبہ کی سمت کا درست زاویہ نکالتے ہیں۔',
+            'فون یا کمپاس کو دکھائے گئے زاویے کی طرف موڑیں — کعبہ عین آپ کے سامنے ہے۔'
+        ],
+        usecases_title: 'ہر جگہ استعمال کریں',
+        usecases: [
+            { icon: '🏠', label: 'گھر میں' },
+            { icon: '✈️', label: 'سفر میں' },
+            { icon: '🕌', label: 'مسجد میں' },
+            { icon: '🌍', label: 'دنیا بھر میں' }
+        ],
+        faq_title: 'اکثر پوچھے گئے سوالات',
+        faq: [
+            ['قبلہ کی سمت درست طور پر کیسے معلوم کروں؟',
+             '"میرے مقام سے قبلہ دکھائیں" بٹن دبائیں تاکہ براؤزر خود بخود آپ کا مقام معلوم کرے۔ پھر ہم Great-Circle فارمولے کے ذریعے کعبہ کی سمت کا زاویہ نکالتے ہیں۔ اگر آپ مقام شیئر نہیں کرنا چاہتے تو فہرست سے اپنا شہر چنیں۔'],
+            ['کیا GPS کے بغیر قبلہ معلوم ہو سکتا ہے؟',
+             'جی ہاں — فہرست سے اپنا شہر چنیں یا نام سے تلاش کریں؛ ہم اس شہر کے سرکاری نقاط کے مطابق قبلہ کی درست سمت دکھائیں گے۔'],
+            ['قبلہ کا زاویہ کیا ہے؟',
+             'قبلہ کا زاویہ زمین کی سطح پر آپ کے مقام اور کعبہ معظمہ کے درمیان مختصر ترین ہندسی سمت ہے، جو جغرافیائی شمال سے ڈگری میں ناپا جاتا ہے۔'],
+            ['کیا قبلہ مقام کے لحاظ سے مختلف ہوتا ہے؟',
+             'جی ہاں — ہر شہر کا قبلہ زاویہ مکہ مکرمہ کے مقام کے لحاظ سے مختلف ہے، اس لیے ہم آپ کے مقام یا منتخب شہر کے لیے مخصوص زاویہ نکالتے ہیں۔']
+        ],
+        footer: 'آپ اس صفحے سے دنیا کے کسی بھی مقام سے قبلہ کی سمت معلوم کر سکتے ہیں؛ یا تو اپنا مقام خود متعین کریں یا شہر چنیں، اور مقدّس کعبہ کی طرف درست زاویہ حاصل کریں۔',
+        trust_note: '📍 سمت جغرافیائی نقاط سے فلکیاتی درستگی کے ساتھ نکالی جاتی ہے۔',
+        bc_home: 'ہوم', bc_qibla: 'قبلہ کی سمت'
+    },
+    de: {
+        title: '🧭 Finden Sie die exakte Qibla-Richtung von überall auf der Welt',
+        subtitle: 'Intelligenter Kompass – basierend auf Ihrem Standort oder Ihrer gewählten Stadt',
+        hero_badges: ['Funktioniert in jedem Land', 'Hohe astronomische Präzision'],
+        smart_pill_prefix: 'Zuletzt genutzter Standort',
+        smart_pill_cta: 'Qibla anzeigen',
+        geo_btn: '📍 Qibla von meinem Standort anzeigen',
+        geo_btn_loading: 'Standort wird ermittelt…',
+        cta_pick_city: '🌍 Stadt manuell auswählen',
+        cta_microcopy: 'Ihr Standort wird automatisch in Sekunden ermittelt',
+        geo_status_loading: '… Standort wird ermittelt',
+        geo_status_denied: '⚠️ Standort nicht ermittelbar — suchen Sie unten nach Ihrer Stadt.',
+        geo_status_unavailable: 'Ihr Browser unterstützt keine Standortbestimmung — suchen Sie unten nach Ihrer Stadt.',
+        trust_chips: ['Hochpräziser GPS', 'Keine App erforderlich', 'Funktioniert in jedem Land'],
+        authority_note: '📍 Die Qibla wird aus präzisen Koordinaten und zertifizierten astronomischen Modellen berechnet.',
+        search_placeholder: 'Nach Ihrer Stadt suchen (z. B. Berlin, Kairo, Istanbul)',
+        search_empty: 'Keine passende Stadt — versuchen Sie ein Land unten.',
+        visited_title: '🕓 Kürzlich besuchte Städte',
+        cities_title: 'Meistgesuchte Qibla-Städte',
+        tier1_label: 'Ausgewählt',
+        countries_title: '🌐 Wählen Sie Ihr Land',
+        countries_note: 'Wählen Sie Ihr Land, um die nächstgelegenen Städte zu sehen.',
+        howto_title: 'Wie findet man die Qibla?',
+        howto_steps: [
+            'Tippen Sie auf „Qibla von meinem Standort anzeigen" — oder geben Sie Ihre Stadt oben in die Suche ein.',
+            'Wir berechnen den exakten Winkel zur Kaaba mit der astronomischen Großkreisformel.',
+            'Richten Sie Ihr Telefon oder Ihren Kompass auf den angezeigten Winkel — die Kaaba liegt direkt vor Ihnen.'
+        ],
+        usecases_title: 'Überall nutzbar',
+        usecases: [
+            { icon: '🏠', label: 'Zu Hause' },
+            { icon: '✈️', label: 'Auf Reisen' },
+            { icon: '🕌', label: 'In der Moschee' },
+            { icon: '🌍', label: 'Überall auf der Welt' }
+        ],
+        faq_title: 'Häufig gestellte Fragen',
+        faq: [
+            ['Wie bestimme ich die Qibla-Richtung genau?',
+             "Klicken Sie auf \"Qibla von meinem Standort anzeigen\" und lassen Sie den Browser Ihren Standort ermitteln. Anschließend berechnen wir den Winkel zur Kaaba geometrisch mit der Großkreisformel. Wenn Sie Ihren Standort nicht teilen möchten, wählen Sie Ihre Stadt aus der Liste."],
+            ['Kann ich die Qibla ohne GPS finden?',
+             'Ja — wählen Sie Ihre Stadt aus der Liste oder suchen Sie nach ihrem Namen. Wir zeigen die exakte Qibla-Richtung von dieser Stadt basierend auf ihren offiziellen Koordinaten.'],
+            ['Was ist der Qibla-Winkel?',
+             'Der Qibla-Winkel ist die kürzeste geometrische Richtung zwischen Ihrem Standort und der Heiligen Kaaba auf der Erdoberfläche, gemessen in Grad vom geografischen Norden.'],
+            ['Unterscheidet sich die Qibla je nach Standort?',
+             'Ja — der Qibla-Winkel ändert sich von Stadt zu Stadt je nach Lage zu Mekka. Deshalb berechnen wir einen individuellen Winkel für Ihren Standort oder Ihre gewählte Stadt.']
+        ],
+        footer: 'Mit dieser Seite finden Sie die Qibla-Richtung von überall auf der Welt – entweder durch automatische Standortbestimmung oder durch Auswahl Ihrer Stadt – für einen präzisen Winkel zur Heiligen Kaaba.',
+        trust_note: '📍 Die Richtung wird aus geografischen Koordinaten mit hoher astronomischer Präzision berechnet.',
+        bc_home: 'Startseite', bc_qibla: 'Qibla-Richtung'
+    },
+    id: {
+        title: '🧭 Temukan arah kiblat yang tepat dari mana saja di dunia',
+        subtitle: 'Kompas cerdas berbasis geolokasi Anda atau pilihan kota Anda',
+        hero_badges: ['Berfungsi di setiap negara', 'Presisi astronomi tinggi'],
+        smart_pill_prefix: 'Lokasi terakhir yang digunakan',
+        smart_pill_cta: 'Tampilkan kiblat',
+        geo_btn: '📍 Tampilkan kiblat dari lokasi saya',
+        geo_btn_loading: 'Mendeteksi lokasi Anda…',
+        cta_pick_city: '🌍 Pilih kota Anda secara manual',
+        cta_microcopy: 'Lokasi Anda akan terdeteksi otomatis dalam beberapa detik',
+        geo_status_loading: '… Mendeteksi lokasi Anda',
+        geo_status_denied: '⚠️ Tidak dapat mendeteksi lokasi Anda — cari kota Anda di bawah.',
+        geo_status_unavailable: 'Peramban Anda tidak mendukung lokasi — cari kota Anda di bawah.',
+        trust_chips: ['GPS berpresisi tinggi', 'Tanpa perlu aplikasi', 'Berfungsi di setiap negara'],
+        authority_note: '📍 Arah kiblat dihitung dari koordinat presisi dan model astronomi tersertifikasi.',
+        search_placeholder: 'Cari kota Anda (mis. Jakarta, Kairo, Istanbul)',
+        search_empty: 'Tidak ada kota yang cocok — coba pilih negara di bawah.',
+        visited_title: '🕓 Kota yang baru saja dikunjungi',
+        cities_title: 'Kota kiblat yang paling banyak dicari',
+        tier1_label: 'Unggulan',
+        countries_title: '🌐 Pilih negara Anda',
+        countries_note: 'Pilih negara Anda untuk melihat kota terdekat.',
+        howto_title: 'Bagaimana cara menemukan kiblat?',
+        howto_steps: [
+            'Ketuk "Tampilkan kiblat dari lokasi saya" — atau ketik nama kota Anda pada pencarian di atas.',
+            "Kami menghitung sudut yang tepat ke Ka'bah dengan rumus astronomi Great-Circle.",
+            "Arahkan ponsel atau kompas Anda ke sudut yang ditampilkan — Ka'bah tepat di depan Anda."
+        ],
+        usecases_title: 'Gunakan di mana saja',
+        usecases: [
+            { icon: '🏠', label: 'Di rumah' },
+            { icon: '✈️', label: 'Saat bepergian' },
+            { icon: '🕌', label: 'Di masjid' },
+            { icon: '🌍', label: 'Di seluruh dunia' }
+        ],
+        faq_title: 'Pertanyaan yang sering diajukan',
+        faq: [
+            ['Bagaimana menentukan arah kiblat dengan akurat?',
+             'Klik "Tampilkan kiblat dari lokasi saya" agar peramban mendeteksi posisi Anda. Kami kemudian menghitung arah ke Ka\'bah secara geometris dengan rumus Great-Circle. Bila Anda tidak ingin berbagi lokasi, pilih kota Anda dari daftar untuk mendapatkan presisi yang sama.'],
+            ['Bisakah mengetahui kiblat tanpa GPS?',
+             'Ya — pilih kota Anda dari daftar atau cari namanya. Kami menampilkan arah kiblat yang tepat dari kota tersebut berdasarkan koordinat resminya.'],
+            ['Apa itu sudut kiblat?',
+             'Sudut kiblat adalah arah geometris terpendek antara lokasi Anda dan Ka\'bah di permukaan Bumi, diukur dalam derajat dari utara sebenarnya.'],
+            ['Apakah arah kiblat berbeda menurut lokasi?',
+             'Ya — sudut kiblat berubah dari satu kota ke kota lain berdasarkan posisinya relatif terhadap Makkah, sehingga kami menghitung sudut khusus untuk lokasi atau kota pilihan Anda.']
+        ],
+        footer: 'Gunakan halaman ini untuk menemukan arah kiblat dari mana pun di dunia, baik dengan mendeteksi lokasi secara otomatis maupun memilih kota, agar memperoleh sudut yang tepat menuju Kabah.',
+        trust_note: '📍 Arah dihitung dari koordinat geografis dengan presisi astronomi tinggi.',
+        bc_home: 'Beranda', bc_qibla: 'Arah Kiblat'
+    },
+    es: {
+        title: '🧭 Encuentra la dirección exacta de la Qibla desde cualquier lugar del mundo',
+        subtitle: 'Brújula inteligente basada en tu geolocalización o en la ciudad que elijas',
+        hero_badges: ['Funciona en todos los países', 'Alta precisión astronómica'],
+        smart_pill_prefix: 'Última ubicación usada',
+        smart_pill_cta: 'Ver la Qibla',
+        geo_btn: '📍 Ver la Qibla desde mi ubicación',
+        geo_btn_loading: 'Detectando tu ubicación…',
+        cta_pick_city: '🌍 Elige tu ciudad manualmente',
+        cta_microcopy: 'Tu ubicación se detectará automáticamente en segundos',
+        geo_status_loading: '… Detectando tu ubicación',
+        geo_status_denied: '⚠️ No pudimos detectar tu ubicación — busca tu ciudad abajo.',
+        geo_status_unavailable: 'Tu navegador no admite geolocalización — busca tu ciudad abajo.',
+        trust_chips: ['GPS de alta precisión', 'Sin necesidad de app', 'Funciona en todos los países'],
+        authority_note: '📍 La dirección se calcula a partir de coordenadas precisas y modelos astronómicos certificados.',
+        search_placeholder: 'Busca tu ciudad (p. ej. Madrid, El Cairo, Estambul)',
+        search_empty: 'No hay ciudades que coincidan — prueba con un país abajo.',
+        visited_title: '🕓 Ciudades visitadas recientemente',
+        cities_title: 'Ciudades Qibla más buscadas',
+        tier1_label: 'Destacada',
+        countries_title: '🌐 Elige tu país',
+        countries_note: 'Elige tu país para ver las ciudades más cercanas.',
+        howto_title: '¿Cómo encuentras la Qibla?',
+        howto_steps: [
+            'Toca "Ver la Qibla desde mi ubicación" — o escribe tu ciudad en la búsqueda de arriba.',
+            'Calculamos el ángulo preciso hacia la Kaaba con la fórmula astronómica del círculo máximo.',
+            'Apunta tu móvil o brújula al ángulo mostrado — la Kaaba estará justo frente a ti.'
+        ],
+        usecases_title: 'Úsala en cualquier lugar',
+        usecases: [
+            { icon: '🏠', label: 'En casa' },
+            { icon: '✈️', label: 'De viaje' },
+            { icon: '🕌', label: 'En la mezquita' },
+            { icon: '🌍', label: 'En todo el mundo' }
+        ],
+        faq_title: 'Preguntas frecuentes',
+        faq: [
+            ['¿Cómo determino la dirección de la Qibla con precisión?',
+             'Haz clic en "Ver la Qibla desde mi ubicación" y deja que el navegador detecte tu posición. Luego calculamos el ángulo hacia la Kaaba con la fórmula del círculo máximo. Si prefieres no compartir la ubicación, elige tu ciudad en la lista para obtener la misma precisión.'],
+            ['¿Puedo saber la Qibla sin GPS?',
+             'Sí — elige tu ciudad en la lista o búscala por su nombre. Mostramos la dirección exacta de la Qibla desde esa ciudad usando sus coordenadas oficiales.'],
+            ['¿Qué es el ángulo de la Qibla?',
+             'El ángulo de la Qibla es la dirección geométrica más corta entre tu ubicación y la Sagrada Kaaba sobre la superficie de la Tierra, medida en grados desde el norte verdadero.'],
+            ['¿La Qibla cambia según la ubicación?',
+             'Sí — el ángulo de la Qibla cambia de una ciudad a otra según su posición respecto a La Meca, por eso calculamos un ángulo personalizado para tu ubicación o la ciudad elegida.']
+        ],
+        footer: 'Puedes usar esta página para hallar la dirección de la Qibla desde cualquier lugar del mundo, ya sea detectando tu ubicación automáticamente o eligiendo tu ciudad, para obtener un ángulo preciso hacia la Sagrada Kaaba.',
+        trust_note: '📍 La dirección se calcula a partir de coordenadas geográficas con alta precisión astronómica.',
+        bc_home: 'Inicio', bc_qibla: 'Dirección de la Qibla'
+    },
+    bn: {
+        title: '🧭 বিশ্বের যেকোনো স্থান থেকে কিবলার সঠিক দিক জানুন',
+        subtitle: 'আপনার ভৌগোলিক অবস্থান বা নির্বাচিত শহরের উপর নির্ভর করে স্মার্ট কম্পাস',
+        hero_badges: ['প্রতিটি দেশে কাজ করে', 'উচ্চ জ্যোতির্বিদ্যার নির্ভুলতা'],
+        smart_pill_prefix: 'সর্বশেষ ব্যবহৃত অবস্থান',
+        smart_pill_cta: 'কিবলা দেখুন',
+        geo_btn: '📍 আমার অবস্থান থেকে কিবলা দেখুন',
+        geo_btn_loading: 'আপনার অবস্থান খোঁজা হচ্ছে…',
+        cta_pick_city: '🌍 ম্যানুয়ালি আপনার শহর বাছাই করুন',
+        cta_microcopy: 'আপনার অবস্থান কয়েক সেকেন্ডে স্বয়ংক্রিয়ভাবে শনাক্ত হবে',
+        geo_status_loading: '… আপনার অবস্থান খোঁজা হচ্ছে',
+        geo_status_denied: '⚠️ আপনার অবস্থান পাওয়া যায়নি — নিচে আপনার শহর খুঁজুন।',
+        geo_status_unavailable: 'আপনার ব্রাউজার জিওলোকেশন সমর্থন করে না — নিচে আপনার শহর খুঁজুন।',
+        trust_chips: ['উচ্চ-নির্ভুলতার GPS', 'অ্যাপের প্রয়োজন নেই', 'প্রতিটি দেশে কাজ করে'],
+        authority_note: '📍 কিবলার দিক নির্ভুল স্থানাঙ্ক ও প্রত্যয়িত জ্যোতির্বৈজ্ঞানিক মডেল থেকে গণনা করা হয়।',
+        search_placeholder: 'আপনার শহর খুঁজুন (যেমন ঢাকা, কায়রো, Istanbul)',
+        search_empty: 'কোন শহর মিলেনি — নিচ থেকে একটি দেশ বেছে নিন।',
+        visited_title: '🕓 সম্প্রতি দেখা শহর',
+        cities_title: 'সর্বাধিক অনুসন্ধানকৃত কিবলা শহর',
+        tier1_label: 'নির্বাচিত',
+        countries_title: '🌐 আপনার দেশ বাছাই করুন',
+        countries_note: 'আপনার কাছের শহর দেখতে আপনার দেশ বাছাই করুন।',
+        howto_title: 'আপনি কীভাবে কিবলা খুঁজে পান?',
+        howto_steps: [
+            '"আমার অবস্থান থেকে কিবলা দেখুন" চাপুন — অথবা উপরের সার্চে আপনার শহরের নাম লিখুন।',
+            'আমরা Great-Circle জ্যোতির্বৈজ্ঞানিক সূত্রে কাবার দিকে সঠিক কোণ গণনা করি।',
+            'আপনার ফোন বা কম্পাস দেখানো কোণের দিকে ঘোরান — কাবা সরাসরি আপনার সামনে।'
+        ],
+        usecases_title: 'যেকোনো জায়গায় ব্যবহার করুন',
+        usecases: [
+            { icon: '🏠', label: 'ঘরে' },
+            { icon: '✈️', label: 'ভ্রমণে' },
+            { icon: '🕌', label: 'মসজিদে' },
+            { icon: '🌍', label: 'বিশ্বের যেকোনো জায়গায়' }
+        ],
+        faq_title: 'সাধারণ জিজ্ঞাসা',
+        faq: [
+            ['কিবলার দিক কীভাবে নির্ভুলভাবে নির্ধারণ করব?',
+             '"আমার অবস্থান থেকে কিবলা দেখুন" ক্লিক করুন; ব্রাউজার আপনার অবস্থান স্বয়ংক্রিয়ভাবে শনাক্ত করবে। এরপর আমরা Great-Circle সূত্রে কাবা পর্যন্ত কোণ জ্যামিতিকভাবে গণনা করি। যদি অবস্থান শেয়ার করতে না চান, তালিকা থেকে আপনার শহর বেছে নিন।'],
+            ['GPS ছাড়া কি কিবলা জানা যায়?',
+             'হ্যাঁ — তালিকা থেকে আপনার শহর বাছাই করুন বা নাম দিয়ে খুঁজুন; সেই শহরের সরকারি স্থানাঙ্ক অনুসারে আমরা কিবলার সঠিক দিক দেখাব।'],
+            ['কিবলার কোণ কী?',
+             'কিবলার কোণ হলো পৃথিবীর পৃষ্ঠে আপনার অবস্থান ও পবিত্র কাবার মধ্যে সবচেয়ে সংক্ষিপ্ত জ্যামিতিক দিক, যা প্রকৃত উত্তর থেকে ডিগ্রিতে পরিমাপ করা হয়।'],
+            ['কিবলা কি অবস্থান অনুযায়ী ভিন্ন হয়?',
+             'হ্যাঁ — মক্কার সাপেক্ষে প্রতিটি শহরের অবস্থানে কিবলার কোণ ভিন্ন হয়, তাই আমরা আপনার অবস্থান বা নির্বাচিত শহরের জন্য কাস্টম কোণ গণনা করি।']
+        ],
+        footer: 'এই পৃষ্ঠাটি ব্যবহার করে বিশ্বের যেকোনো জায়গা থেকে কিবলার দিক নির্ণয় করতে পারেন — স্বয়ংক্রিয়ভাবে অবস্থান শনাক্ত করে বা শহর নির্বাচন করে — পবিত্র কাবার দিকে নির্ভুল কোণ পাওয়ার জন্য।',
+        trust_note: '📍 দিকটি ভৌগোলিক স্থানাঙ্ক থেকে উচ্চ জ্যোতির্বিদ্যার নির্ভুলতার সাথে গণনা করা হয়।',
+        bc_home: 'হোম', bc_qibla: 'কিবলার দিক'
+    },
+    ms: {
+        title: '🧭 Cari arah kiblat yang tepat dari mana-mana tempat di dunia',
+        subtitle: 'Kompas pintar berdasarkan geolokasi anda atau bandar pilihan anda',
+        hero_badges: ['Berfungsi di setiap negara', 'Ketepatan astronomi yang tinggi'],
+        smart_pill_prefix: 'Lokasi terakhir digunakan',
+        smart_pill_cta: 'Tunjukkan kiblat',
+        geo_btn: '📍 Tunjukkan kiblat dari lokasi saya',
+        geo_btn_loading: 'Mengesan lokasi anda…',
+        cta_pick_city: '🌍 Pilih bandar anda secara manual',
+        cta_microcopy: 'Lokasi anda akan dikesan secara automatik dalam beberapa saat',
+        geo_status_loading: '… Mengesan lokasi anda',
+        geo_status_denied: '⚠️ Tidak dapat mengesan lokasi anda — cari bandar anda di bawah.',
+        geo_status_unavailable: 'Pelayar anda tidak menyokong lokasi — cari bandar anda di bawah.',
+        trust_chips: ['GPS berketepatan tinggi', 'Tiada aplikasi diperlukan', 'Berfungsi di setiap negara'],
+        authority_note: '📍 Arah kiblat dikira daripada koordinat tepat dan model astronomi bertauliah.',
+        search_placeholder: 'Cari bandar anda (cth. Kuala Lumpur, Kaherah, Istanbul)',
+        search_empty: 'Tiada bandar sepadan — cuba pilih negara di bawah.',
+        visited_title: '🕓 Bandar yang baru dilawati',
+        cities_title: 'Bandar kiblat yang paling banyak dicari',
+        tier1_label: 'Pilihan',
+        countries_title: '🌐 Pilih negara anda',
+        countries_note: 'Pilih negara anda untuk melihat bandar berdekatan.',
+        howto_title: 'Bagaimana anda mencari kiblat?',
+        howto_steps: [
+            'Ketuk "Tunjukkan kiblat dari lokasi saya" — atau taip nama bandar anda dalam carian di atas.',
+            'Kami mengira sudut tepat ke Kaabah dengan formula astronomi Great-Circle.',
+            'Halakan telefon atau kompas anda ke sudut yang dipaparkan — Kaabah tepat di hadapan anda.'
+        ],
+        usecases_title: 'Guna di mana-mana',
+        usecases: [
+            { icon: '🏠', label: 'Di rumah' },
+            { icon: '✈️', label: 'Semasa mengembara' },
+            { icon: '🕌', label: 'Di masjid' },
+            { icon: '🌍', label: 'Di seluruh dunia' }
+        ],
+        faq_title: 'Soalan lazim',
+        faq: [
+            ['Bagaimana saya menentukan arah kiblat dengan tepat?',
+             'Klik "Tunjukkan kiblat dari lokasi saya" supaya pelayar mengesan posisi anda. Seterusnya kami mengira sudut ke arah Kaabah secara geometri dengan formula Great-Circle. Jika anda enggan berkongsi lokasi, pilih bandar anda dari senarai untuk mendapatkan ketepatan yang sama.'],
+            ['Bolehkah mengetahui kiblat tanpa GPS?',
+             'Ya — pilih bandar anda dari senarai atau cari namanya; kami memaparkan arah kiblat yang tepat dari bandar tersebut berdasarkan koordinat rasminya.'],
+            ['Apakah sudut kiblat?',
+             'Sudut kiblat ialah arah geometri terpendek antara lokasi anda dan Kaabah di permukaan Bumi, diukur dalam darjah dari utara sebenar.'],
+            ['Adakah kiblat berbeza mengikut lokasi?',
+             'Ya — sudut kiblat berbeza bagi setiap bandar berdasarkan kedudukannya berbanding Makkah, jadi kami mengira sudut khusus untuk lokasi atau bandar pilihan anda.']
+        ],
+        footer: 'Anda boleh menggunakan halaman ini untuk mencari arah kiblat dari mana-mana tempat di dunia, sama ada dengan mengesan lokasi secara automatik atau memilih bandar anda, untuk mendapatkan sudut yang tepat ke arah Kaabah yang mulia.',
+        trust_note: '📍 Arah dikira daripada koordinat geografi dengan ketepatan astronomi yang tinggi.',
+        bc_home: 'Laman Utama', bc_qibla: 'Arah Kiblat'
+    }
+};
+
+// Hub city chips — 12 popular global cities (slug matches POPULAR_CITY_NAMES / FAMOUS_MOON_CITIES)
+const _QIBLA_HUB_CITY_KEYS = [
+    'mecca', 'medina', 'riyadh', 'jeddah', 'cairo',
+    'istanbul', 'dubai', 'doha',
+    'jakarta', 'kuala-lumpur', 'london', 'paris'
+];
+
+// Hub country picker — { slug, flag, code, representative city slug (for /qibla-in-*) }
+const _QIBLA_HUB_COUNTRIES = [
+    { code: 'sa', flag: '🇸🇦', city: 'mecca' },
+    { code: 'eg', flag: '🇪🇬', city: 'cairo' },
+    { code: 'tr', flag: '🇹🇷', city: 'istanbul' },
+    { code: 'id', flag: '🇮🇩', city: 'jakarta' },
+    { code: 'pk', flag: '🇵🇰', city: 'karachi' },
+    { code: 'ae', flag: '🇦🇪', city: 'dubai' },
+    { code: 'ma', flag: '🇲🇦', city: 'casablanca' },
+    { code: 'fr', flag: '🇫🇷', city: 'paris' },
+    { code: 'gb', flag: '🇬🇧', city: 'london' },
+    { code: 'de', flag: '🇩🇪', city: 'berlin' },
+    { code: 'my', flag: '🇲🇾', city: 'kuala-lumpur' },
+    { code: 'bd', flag: '🇧🇩', city: 'dhaka' }
+];
+
+// ── Visited-cities LRU (qibla hub) ──────────────────────────────────────
+// localStorage['qibla_visited_cities'] = [{ slug, englishName, lat, lng, ts }, …]
+// Cap 5, most-recent first.
+const _QIBLA_VISITED_KEY = 'qibla_visited_cities';
+const _QIBLA_VISITED_MAX = 5;
+function _readQiblaVisited() {
+    try {
+        const raw = localStorage.getItem(_QIBLA_VISITED_KEY);
+        if (!raw) return [];
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr)) return [];
+        return arr.filter(x => x && isFinite(x.lat) && isFinite(x.lng) && x.slug);
+    } catch (_e) { return []; }
+}
+function _pushQiblaVisited(entry) {
+    try {
+        if (!entry || !isFinite(entry.lat) || !isFinite(entry.lng)) return;
+        const slug = entry.slug || (typeof makeSlug === 'function'
+            ? makeSlug(entry.englishName || '', entry.lat, entry.lng) : '');
+        if (!slug) return;
+        const list = _readQiblaVisited().filter(x => x.slug !== slug);
+        list.unshift({
+            slug: slug,
+            englishName: entry.englishName || slug,
+            lat: Number(entry.lat),
+            lng: Number(entry.lng),
+            ts: Date.now()
+        });
+        while (list.length > _QIBLA_VISITED_MAX) list.pop();
+        localStorage.setItem(_QIBLA_VISITED_KEY, JSON.stringify(list));
+    } catch (_e) { /* silent */ }
+}
+
+// Hub renderer — persuasive landing page (v4). No compass DOM touches.
+function _loadQiblaHubPage(ctx) {
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const ui = _QIBLA_HUB_UI[lang] || _QIBLA_HUB_UI.en;
+
+    // Switch page to hub mode (CSS hides city-only sections)
+    const pageEl = document.getElementById('page-qibla');
+    if (pageEl) pageEl.setAttribute('data-qibla-mode', 'hub');
+
+    // ── 1. Breadcrumb: Home > Qibla (2 items only) ──
+    const bcOl = document.querySelector('#qibla-breadcrumb > ol.breadcrumb-list');
+    if (bcOl) {
+        try {
+            const prefix = (lang === 'ar') ? '' : ('/' + lang);
+            const homeHref = (lang === 'ar') ? '/' : (prefix + '/');
+            bcOl.outerHTML = _buildQiblaBreadcrumbOl('', true, lang) ||
+                `<ol class="breadcrumb-list"><li class="bc-item"><a href="${homeHref}">${ui.bc_home}</a></li><li class="bc-item bc-current" aria-current="page">${ui.bc_qibla}</li></ol>`;
+        } catch (_e) { /* silent */ }
+    }
+
+    // ── 2. Smart-redirect pill (only if last_city_context exists) ──
+    const pillEl = document.getElementById('qibla-hub-smart-pill');
+    if (pillEl) {
+        let _pillShown = false;
+        try {
+            const raw = sessionStorage.getItem('last_city_context');
+            if (raw) {
+                const ctxObj = JSON.parse(raw);
+                if (ctxObj && isFinite(ctxObj.lat) && isFinite(ctxObj.lng) && ctxObj.englishName) {
+                    const canonical = _canonicalQiblaSlug(ctxObj.englishName, ctxObj.lat, ctxObj.lng);
+                    const slug = canonical || ((typeof makeSlug === 'function')
+                        ? makeSlug(ctxObj.englishName, ctxObj.lat, ctxObj.lng)
+                        : String(ctxObj.englishName).toLowerCase().replace(/\s+/g, '-'));
+                    const target = _buildQiblaCityUrl(ctxObj.englishName, ctxObj.lat, ctxObj.lng, slug);
+                    const localized = _resolveCityNameClient(slug, lang,
+                        (lang === 'ar' ? (ctxObj.name || ctxObj.englishName) : (ctxObj.englishName || ctxObj.name)));
+                    pillEl.setAttribute('href', target);
+                    pillEl.innerHTML =
+                        `<span class="qhsp-icon" aria-hidden="true">📍</span>` +
+                        `<span class="qhsp-prefix">${ui.smart_pill_prefix}:</span>` +
+                        `<strong class="qhsp-city">${localized}</strong>` +
+                        `<span class="qhsp-arrow" aria-hidden="true">→</span>` +
+                        `<span class="qhsp-cta">${ui.smart_pill_cta}</span>`;
+                    pillEl.hidden = false;
+                    pillEl.classList.add('is-visible');
+                    _pillShown = true;
+                }
+            }
+        } catch (_e) { /* silent */ }
+        if (!_pillShown) {
+            pillEl.hidden = true;
+            pillEl.classList.remove('is-visible');
+        }
+    }
+
+    // ── 3. Hero — H1 + subtitle + trust chips ──
+    const h1El  = document.getElementById('qibla-hero-title');
+    const subEl = document.getElementById('qibla-hub-subtitle');
+    const badgesEl = document.getElementById('qibla-hub-hero-badges');
+    if (h1El)  h1El.textContent  = ui.title;
+    if (subEl) subEl.textContent = ui.subtitle;
+    if (badgesEl) {
+        const chips = Array.isArray(ui.hero_badges) ? ui.hero_badges : [];
+        badgesEl.innerHTML = chips.map(c =>
+            `<li class="qhhb-chip"><span class="qhhb-tick" aria-hidden="true">✔</span>${c}</li>`
+        ).join('');
+    }
+
+    // ── 4. Dual CTA — primary (geo) + secondary (pick-city scroll) ──
+    const geoBtn    = document.getElementById('qibla-hub-geo-btn');
+    const geoStatus = document.getElementById('qibla-hub-geo-status');
+    const geoMicro  = document.getElementById('qibla-hub-geo-microcopy');
+    const pickBtn   = document.getElementById('qibla-hub-pick-btn');
+    const geoLabel  = geoBtn ? geoBtn.querySelector('.qhb-label') : null;
+    if (geoLabel)  geoLabel.textContent  = ui.geo_btn;
+    if (geoMicro)  geoMicro.textContent  = ui.cta_microcopy || '';
+    if (geoStatus) { geoStatus.textContent = ''; geoStatus.classList.remove('is-error'); }
+    if (geoBtn)    { geoBtn.classList.remove('is-loading'); geoBtn.disabled = false; }
+    if (pickBtn)   pickBtn.textContent = ui.cta_pick_city;
+
+    if (geoBtn && !geoBtn.dataset.wired) {
+        geoBtn.dataset.wired = '1';
+        geoBtn.addEventListener('click', function () {
+            if (!navigator.geolocation) {
+                if (geoStatus) {
+                    geoStatus.textContent = ui.geo_status_unavailable;
+                    geoStatus.classList.add('is-error');
+                }
+                return;
+            }
+            geoBtn.disabled = true;
+            geoBtn.classList.add('is-loading');
+            if (geoLabel) geoLabel.textContent = ui.geo_btn_loading || ui.geo_btn;
+            if (geoStatus) {
+                geoStatus.textContent = ui.geo_status_loading;
+                geoStatus.classList.remove('is-error');
+            }
+            navigator.geolocation.getCurrentPosition(
+                function (pos) {
+                    const la = pos.coords.latitude;
+                    const lo = pos.coords.longitude;
+                    try {
+                        sessionStorage.setItem('qibla_hub_user_loc',
+                            JSON.stringify({ lat: la, lng: lo, ts: Date.now() }));
+                    } catch (_) {}
+                    // Prefer the nearest FAMOUS_MOON_CITIES slug ≤ 30 km; then the nearest
+                    // LOCAL_CITIES slug ≤ 30 km; else a coord-only "loc-xx-yy" slug.
+                    // Always a clean URL — no numeric suffix after the slug.
+                    let target;
+                    try {
+                        let bestFamSlug = null, bestFamKm = Infinity;
+                        if (typeof FAMOUS_MOON_CITIES !== 'undefined') {
+                            for (const k in FAMOUS_MOON_CITIES) {
+                                if (!Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, k)) continue;
+                                const c = FAMOUS_MOON_CITIES[k];
+                                const d = _haversineKm(la, lo, c.lat, c.lng);
+                                if (d < bestFamKm) { bestFamKm = d; bestFamSlug = k; }
+                            }
+                        }
+                        if (bestFamSlug && bestFamKm <= 30) {
+                            target = pageUrl(`/qibla-in-${bestFamSlug}`);
+                        } else if (typeof LOCAL_CITIES !== 'undefined') {
+                            let bestLc = null, bestLcKm = Infinity;
+                            for (let i = 0; i < LOCAL_CITIES.length; i++) {
+                                const c = LOCAL_CITIES[i];
+                                const d = _haversineKm(la, lo, c.lat, c.lng);
+                                if (d < bestLcKm) { bestLcKm = d; bestLc = c; }
+                            }
+                            if (bestLc && bestLcKm <= 30) {
+                                const s = makeSlug(bestLc.en, bestLc.lat, bestLc.lng);
+                                target = pageUrl(`/qibla-in-${s}`);
+                            }
+                        }
+                    } catch (_) {}
+                    if (!target) {
+                        // Coord-only slug (no digits after dashes — keeps "no numbers" rule).
+                        const laS = Math.abs(la).toFixed(1) + (la >= 0 ? 'n' : 's');
+                        const loS = Math.abs(lo).toFixed(1) + (lo >= 0 ? 'e' : 'w');
+                        target = pageUrl(`/qibla-in-loc-${laS}-${loS}`);
+                    }
+                    window.location.href = target;
+                },
+                function (_err) {
+                    if (geoStatus) {
+                        geoStatus.textContent = ui.geo_status_denied;
+                        geoStatus.classList.add('is-error');
+                    }
+                    geoBtn.disabled = false;
+                    geoBtn.classList.remove('is-loading');
+                    if (geoLabel) geoLabel.textContent = ui.geo_btn;
+                    const s = document.getElementById('qibla-hub-search');
+                    if (s && s.scrollIntoView) s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (s) { try { s.focus(); } catch (_) {} }
+                },
+                { enableHighAccuracy: false, timeout: 15000, maximumAge: 120000 }
+            );
+        });
+    }
+    if (pickBtn && !pickBtn.dataset.wired) {
+        pickBtn.dataset.wired = '1';
+        pickBtn.addEventListener('click', function () {
+            const s = document.getElementById('qibla-hub-search');
+            if (s && s.scrollIntoView) s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (s) { try { s.focus(); } catch (_) {} }
+        });
+    }
+
+    // ── 5. (removed: standalone trust strip is now inline hero badges) ──
+
+    // ── 6. Hero-scale search — local-first autocomplete into #qibla-hub-search-results ──
+    const searchEl    = document.getElementById('qibla-hub-search');
+    const searchList  = document.getElementById('qibla-hub-search-results');
+    const searchEmpty = document.getElementById('qibla-hub-search-empty');
+    if (searchEl) {
+        searchEl.placeholder = ui.search_placeholder || '';
+        if (!searchEl.dataset.wired) {
+            searchEl.dataset.wired = '1';
+            let _qhsDebounce = null;
+            const renderSuggestions = (q) => {
+                if (!searchList) return;
+                const results = (typeof searchLocalCities === 'function') ? searchLocalCities(q) : [];
+                if (!q || q.length < 2) {
+                    searchList.innerHTML = '';
+                    searchList.classList.remove('is-open');
+                    if (searchEmpty) searchEmpty.hidden = true;
+                    return;
+                }
+                if (results.length === 0) {
+                    searchList.innerHTML = '';
+                    searchList.classList.remove('is-open');
+                    if (searchEmpty) {
+                        searchEmpty.textContent = ui.search_empty || '';
+                        searchEmpty.hidden = false;
+                    }
+                    return;
+                }
+                if (searchEmpty) searchEmpty.hidden = true;
+                const isEnUi = (lang === 'en');
+                const html = results.map((c, i) => {
+                    const display = isEnUi ? c.en : c.ar;
+                    const country = isEnUi ? (c.countryEn || c.country) : c.country;
+                    const flag = c.cc
+                        ? `<img src="https://flagcdn.com/28x21/${c.cc}.png" class="qhsr-flag" alt="${c.cc}" onerror="this.style.display='none'">`
+                        : `<span class="qhsr-flag">🌍</span>`;
+                    return `<li class="qhsr-item" role="option" data-idx="${i}">`
+                         + `${flag}<div class="qhsr-text"><div class="qhsr-name">${display}</div>`
+                         + `<div class="qhsr-country">${country}</div></div>`
+                         + `<span class="qhsr-arrow" aria-hidden="true">→</span>`
+                         + `</li>`;
+                }).join('');
+                searchList.innerHTML = html;
+                searchList.classList.add('is-open');
+                searchList.querySelectorAll('.qhsr-item').forEach(li => {
+                    li.addEventListener('click', () => {
+                        const idx = parseInt(li.dataset.idx, 10);
+                        const city = results[idx];
+                        if (!city) return;
+                        const canonical = _canonicalQiblaSlug(city.en, city.lat, city.lng);
+                        const storeSlug = canonical || ((typeof makeSlug === 'function')
+                            ? makeSlug(city.en, city.lat, city.lng) : '');
+                        _pushQiblaVisited({
+                            englishName: city.en,
+                            lat: city.lat,
+                            lng: city.lng,
+                            slug: storeSlug
+                        });
+                        // Pre-seed sessionStorage so the target page resolves lat/lng instantly
+                        // even for cities outside FAMOUS_MOON_CITIES / LOCAL_CITIES (defensive).
+                        try {
+                            const _payload = JSON.stringify({
+                                lat: city.lat, lng: city.lng,
+                                name: (lang === 'ar' ? city.ar : city.en),
+                                country: (lang === 'ar' ? city.country : (city.countryEn || city.country)),
+                                englishName: city.en,
+                                countryCode: city.cc || '',
+                                _v: 2
+                            });
+                            sessionStorage.setItem(`city_${storeSlug}`, _payload);
+                        } catch (_) {}
+                        const target = _buildQiblaCityUrl(city.en, city.lat, city.lng, storeSlug);
+                        window.location.href = target;
+                    });
+                });
+            };
+            searchEl.addEventListener('input', function () {
+                clearTimeout(_qhsDebounce);
+                const q = String(searchEl.value || '').trim();
+                _qhsDebounce = setTimeout(() => renderSuggestions(q), 80);
+            });
+            // Close dropdown on outside click (search now lives inside #qibla-hub-hero)
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('#qibla-hub-hero')) {
+                    if (searchList) searchList.classList.remove('is-open');
+                }
+            });
+        }
+    }
+
+    // ── 7. Visited cities (LRU) ──
+    const visitedCard  = document.getElementById('qibla-hub-visited-card');
+    const visitedTitle = document.getElementById('qibla-hub-visited-title');
+    const visitedGrid  = document.getElementById('qibla-hub-visited-grid');
+    const visited = _readQiblaVisited();
+    if (visitedCard && visitedGrid) {
+        if (visited.length > 0) {
+            if (visitedTitle) visitedTitle.textContent = ui.visited_title;
+            visitedGrid.innerHTML = visited.map(v => {
+                const display = _resolveCityNameClient(v.slug, lang, v.englishName || v.slug);
+                const href = _buildQiblaCityUrl(v.englishName || v.slug, v.lat, v.lng, v.slug);
+                return `<a class="qhv-chip" href="${href}" data-slug="${v.slug}">`
+                     + `<span class="qhv-icon" aria-hidden="true">🕓</span>`
+                     + `<span class="qhv-name">${display}</span>`
+                     + `<span class="qhv-arrow" aria-hidden="true">→</span></a>`;
+            }).join('');
+            visitedCard.hidden = false;
+        } else {
+            visitedGrid.innerHTML = '';
+            visitedCard.hidden = true;
+        }
+    }
+
+    // ── 8. How-to: 3 guided steps (replaces tiered popular-cities grid on hub) ──
+    const howtoTitleEl = document.getElementById('qibla-hub-howto-title');
+    const howtoStepsEl = document.getElementById('qibla-hub-howto-steps');
+    if (howtoTitleEl) howtoTitleEl.textContent = ui.howto_title || '';
+    if (howtoStepsEl) {
+        const steps = Array.isArray(ui.howto_steps) ? ui.howto_steps : [];
+        howtoStepsEl.innerHTML = steps.map((txt, i) =>
+            `<li class="qhhs-step">`
+          + `<span class="qhhs-num" aria-hidden="true">${i + 1}</span>`
+          + `<span class="qhhs-text">${txt}</span>`
+          + `</li>`
+        ).join('');
+    }
+
+    // ── 9. Use-cases strip (replaces countries picker on hub) ──
+    const ucTitleEl = document.getElementById('qibla-hub-usecases-title');
+    const ucListEl  = document.getElementById('qibla-hub-usecases');
+    if (ucTitleEl) ucTitleEl.textContent = ui.usecases_title || '';
+    if (ucListEl) {
+        const cases = Array.isArray(ui.usecases) ? ui.usecases : [];
+        ucListEl.innerHTML = cases.map(c =>
+            `<li class="qhuc-item">`
+          + `<span class="qhuc-icon" aria-hidden="true">${c.icon || '🌍'}</span>`
+          + `<span class="qhuc-label">${c.label || ''}</span>`
+          + `</li>`
+        ).join('');
+    }
+
+    // ── 10. FAQ ──
+    const faqTitle = document.getElementById('qibla-faq-title');
+    const faqEl    = document.getElementById('qibla-faq');
+    if (faqTitle) faqTitle.textContent = ui.faq_title;
+    if (faqEl) {
+        const items = Array.isArray(ui.faq) ? ui.faq : [];
+        faqEl.innerHTML = items.map(pair =>
+            `<details class="qibla-faq-item"><summary>${pair[0]}</summary><div class="qibla-faq-answer">${pair[1]}</div></details>`
+        ).join('');
+    }
+
+    // ── 11. Footer + trust note ──
+    const footEl  = document.getElementById('qibla-footer-seo');
+    const tNoteEl = document.getElementById('qibla-trust-note');
+    if (footEl)  footEl.textContent  = ui.footer;
+    if (tNoteEl) tNoteEl.textContent = ui.trust_note;
+
+    // ── 12. JSON-LD: BreadcrumbList + WebPage + FAQPage (no Place on hub) ──
+    try {
+        const jsonldEl = document.getElementById('qibla-jsonld');
+        if (jsonldEl) {
+            const origin = (typeof window !== 'undefined' && window.SITE_URL)
+                ? window.SITE_URL
+                : (window.location.origin || '');
+            const pageUrlAbs = origin + window.location.pathname;
+            const prefix = (lang === 'ar') ? '' : ('/' + lang);
+            const homeUrlAbs = origin + ((lang === 'ar') ? '/' : (prefix + '/'));
+            const graph = [
+                {
+                    '@type': 'BreadcrumbList',
+                    itemListElement: [
+                        { '@type': 'ListItem', position: 1, name: ui.bc_home,  item: homeUrlAbs },
+                        { '@type': 'ListItem', position: 2, name: ui.bc_qibla, item: pageUrlAbs }
+                    ]
+                },
+                {
+                    '@type': 'WebPage',
+                    '@id': pageUrlAbs + '#webpage',
+                    name: ui.title,
+                    url: pageUrlAbs,
+                    description: ui.subtitle,
+                    inLanguage: lang
+                },
+                {
+                    '@type': 'FAQPage',
+                    mainEntity: (ui.faq || []).map(p => ({
+                        '@type': 'Question',
+                        name: p[0],
+                        acceptedAnswer: { '@type': 'Answer', text: p[1] }
+                    }))
+                }
+            ];
+            jsonldEl.textContent = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+        }
+    } catch (_e) { /* silent */ }
+}
+
+// ───── Renderer for /qibla (hub) and /qibla-in-{slug} (city) — Tool page ─────
+function loadQiblaPage(ctx) {
+    try {
+        ctx = ctx || { mode: 'hub' };
+        const mode = ctx.mode || 'hub';
+
+        // ── Round 30: hub becomes a decision-engine landing page.
+        //   Early-return to the hub renderer — no fake angle/distance/city data.
+        if (mode === 'hub') {
+            _loadQiblaHubPage(ctx);
+            return;
+        }
+
+        // ── City mode: switch page-qibla to city layout (shows city-only DOM) ──
+        const _pageEl = document.getElementById('page-qibla');
+        if (_pageEl) _pageEl.setAttribute('data-qibla-mode', 'city');
+        const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const ui = _QIBLA_UI[lang] || _QIBLA_UI.en;
+
+        // ── 1. Resolve city — lat/lng + localized display name via _resolveCityNameClient ──
+        let lat, lng, cityName, citySlugForUrl, currentKey;
+        if (mode === 'city' && ctx.cityData) {
+            lat = ctx.cityData.lat;
+            lng = ctx.cityData.lng;
+            citySlugForUrl = ctx.cityData.slug || (ctx.citySlug || '');
+            currentKey = citySlugForUrl;
+            // cityData.name may already be localized; pass it as fallback.
+            cityName = _resolveCityNameClient(citySlugForUrl, lang, ctx.cityData.name);
+        } else if (mode === 'city' && ctx.citySlug) {
+            const slug = ctx.citySlug;
+            const fam = (typeof FAMOUS_MOON_CITIES !== 'undefined') ? FAMOUS_MOON_CITIES[slug] : null;
+            // Priority 1: server-injected __QIBLA_CITY__ (authoritative for clean URLs).
+            let ssrCity = null;
+            try {
+                if (typeof window !== 'undefined' && window.__QIBLA_CITY__
+                    && window.__QIBLA_CITY__.slug === slug
+                    && isFinite(window.__QIBLA_CITY__.lat)
+                    && isFinite(window.__QIBLA_CITY__.lng)) {
+                    ssrCity = window.__QIBLA_CITY__;
+                }
+            } catch (_) {}
+            if (ssrCity) {
+                lat = ssrCity.lat;
+                lng = ssrCity.lng;
+            } else if (fam) {
+                lat = fam.lat;
+                lng = fam.lng;
+            } else {
+                // Priority 3: LOCAL_CITIES by slug(English name) match.
+                try {
+                    if (typeof LOCAL_CITIES !== 'undefined' && typeof makeSlug === 'function') {
+                        for (let i = 0; i < LOCAL_CITIES.length; i++) {
+                            const c = LOCAL_CITIES[i];
+                            if (makeSlug(c.en, c.lat, c.lng) === slug) {
+                                lat = c.lat; lng = c.lng; break;
+                            }
+                        }
+                        // "loc-xx-yy" coord-slug fallback (GPS without a city match).
+                        if (!isFinite(lat) || !isFinite(lng)) {
+                            const locM = slug.match(/^loc-(\d+\.\d)([ns])-(\d+\.\d)([ew])$/);
+                            if (locM) {
+                                lat = parseFloat(locM[1]) * (locM[2] === 'n' ? 1 : -1);
+                                lng = parseFloat(locM[3]) * (locM[4] === 'e' ? 1 : -1);
+                            }
+                        }
+                    }
+                } catch (_) {}
+                // Legacy coord-suffix URL still supported: /qibla-in-{slug}-{lat}-{lng}
+                if (!isFinite(lat) || !isFinite(lng)) {
+                    const u = window.location.pathname.match(/\/qibla-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+                    if (u) { lat = parseFloat(u[1]); lng = parseFloat(u[2]); }
+                }
+            }
+            if (!isFinite(lat) || !isFinite(lng)) {
+                // give up to Mecca
+                lat = 21.4225; lng = 39.8262;
+            }
+            citySlugForUrl = slug;
+            currentKey = slug;
+            // Name resolution — prefer SSR name table (10 langs), then client resolver, then slug.
+            if (ssrCity && ssrCity.names && ssrCity.names[lang]) {
+                cityName = ssrCity.names[lang];
+            } else if (ssrCity && ssrCity.name) {
+                cityName = ssrCity.name;
+            } else {
+                cityName = _resolveCityNameClient(slug, lang, slug);
+            }
+        } else {
+            // hub — use geolocation globals, fall back to Mecca
+            if (isFinite(currentLat) && isFinite(currentLng)) {
+                lat = currentLat;
+                lng = currentLng;
+                citySlugForUrl = (currentEnglishName ? makeSlug(currentEnglishName, lat, lng) : 'mecca');
+                // Prefer resolver (popular cities) then app globals (user-chosen). Never raw English.
+                const geoFallback = (lang === 'ar') ? (currentCity || '') : (currentEnglishName || currentCity || '');
+                cityName = _resolveCityNameClient(citySlugForUrl, lang, geoFallback);
+                currentKey = citySlugForUrl;
+            } else {
+                lat = 21.4225; lng = 39.8262;
+                citySlugForUrl = 'mecca';
+                currentKey = 'mecca';
+                cityName = _resolveCityNameClient('mecca', lang, 'Mecca');
+            }
+        }
+
+        // ── 2. Compute angle, cardinal, distance ──
+        const angle = Qibla.calculate(lat, lng);
+        const angleDisplay = angle.toFixed(1);
+        const cardinalKey = _cardinalKeyFromAngle(angle);
+        let cardinalLabel = cardinalKey;
+        try { if (typeof t === 'function') cardinalLabel = t(cardinalKey) || cardinalKey; } catch (_e) {}
+        const distanceKm = Math.round(_haversineKm(lat, lng, 21.4225, 39.8262));
+        const _distLocale = (lang === 'bn' ? 'bn' : lang);
+
+        // ── 3. Breadcrumb ──
+        const bcOl = document.querySelector('#qibla-breadcrumb > ol.breadcrumb-list');
+        if (bcOl) bcOl.outerHTML = _buildQiblaBreadcrumbOl(cityName, mode === 'hub', lang);
+
+        // ── 4. H1 + one-line summary ──
+        const h1El = document.getElementById('qibla-hero-title');
+        const sumEl = document.getElementById('qibla-summary-line');
+        if (h1El) h1El.textContent = ui.h1(cityName, mode === 'hub');
+        if (sumEl) sumEl.textContent = ui.summary(angleDisplay, cardinalLabel, distanceKm, _distLocale);
+
+        // ── 5. Compass init (unchanged) ──
+        if (mode === 'city') {
+            currentLat = lat;
+            currentLng = lng;
+        }
+        try { updateQibla(); } catch (_e) {}
+
+        // ── 6. Main CTA — one prominent button ──
+        const mainCtaEl = document.getElementById('qibla-main-cta');
+        if (mainCtaEl) {
+            mainCtaEl.href = citySlugForUrl
+                ? pageUrl(`/prayer-times-in-${citySlugForUrl}`)
+                : pageUrl('/');
+            mainCtaEl.textContent = ui.cta_prayer(cityName);
+        }
+        // Round 27: CTA microcopy (short reassurance line under the button)
+        const ctaNoteEl = document.getElementById('qibla-main-cta-note');
+        if (ctaNoteEl && typeof ui.cta_note === 'function') {
+            ctaNoteEl.textContent = ui.cta_note(cityName) || '';
+        }
+
+        // Round 27: WOW caption below the compass readout
+        const wowEl = document.getElementById('qibla-wow-caption');
+        if (wowEl && typeof ui.wow_caption === 'function') {
+            wowEl.textContent = ui.wow_caption(cityName, cardinalLabel) || '';
+        }
+
+        // ── 7. Info cards (4: city · angle · lat · lng) ──
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        setText('qibla-info-label-city',  ui.info_city);
+        setText('qibla-info-label-angle', ui.info_angle);
+        setText('qibla-info-label-lat',   ui.info_lat);
+        setText('qibla-info-label-lng',   ui.info_lng);
+        setText('qibla-city',        cityName);
+        setText('qibla-exact-angle', angle.toFixed(2) + '°');
+        setText('qibla-lat',         Number(lat).toFixed(4));
+        setText('qibla-lng',         Number(lng).toFixed(4));
+
+        // Round 27: icons on info labels + primary highlight on the angle card
+        try {
+            const iconMap = {
+                'qibla-info-label-city':  '📍',
+                'qibla-info-label-angle': '📐',
+                'qibla-info-label-lat':   '🌐',
+                'qibla-info-label-lng':   '🌐'
+            };
+            Object.keys(iconMap).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.setAttribute('data-icon', iconMap[id]);
+            });
+            // Mark the ANGLE card as primary — it's the true hero readout.
+            const angleCard = document.getElementById('qibla-info-label-angle')?.closest('.info-card');
+            document.querySelectorAll('#qibla-info-grid .info-card.info-card-primary')
+                .forEach(c => c.classList.remove('info-card-primary'));
+            if (angleCard) angleCard.classList.add('info-card-primary');
+        } catch (_e) {}
+
+        // ── 8. 3 quick text links ──
+        const qlEl = document.getElementById('qibla-quicklinks');
+        if (qlEl) {
+            // Round 27.1: moon link must point to the CITY-specific moon page
+            // (/moon-today-in-{slug}-{lat}-{lng}) since the label reads
+            // "Moon Today in {city}". Bare /moon-today would mismatch the copy.
+            let moonHref;
+            if (citySlugForUrl && isFinite(lat) && isFinite(lng)) {
+                const la = Number(lat).toFixed(2);
+                const lo = Number(lng).toFixed(2);
+                moonHref = pageUrl(`/moon-today-in-${citySlugForUrl}-${la}-${lo}`);
+            } else if (citySlugForUrl) {
+                moonHref = pageUrl(`/moon-today-in-${citySlugForUrl}`);
+            } else {
+                moonHref = pageUrl('/moon-today');
+            }
+            const hijriHref = pageUrl('/today-hijri-date');
+            const homeHref  = pageUrl('/') || '/';
+            qlEl.innerHTML = [
+                `<li><a href="${moonHref}">${ui.link_moon(cityName)}</a></li>`,
+                `<li><a href="${hijriHref}">${ui.link_hijri}</a></li>`,
+                `<li><a href="${homeHref}">${ui.link_home}</a></li>`
+            ].join('');
+        }
+
+        // ── 9. Other cities for Qibla direction (merged: nearest + popular) ──
+        const otherTitleEl = document.getElementById('qibla-other-cities-title');
+        if (otherTitleEl) otherTitleEl.textContent = ui.other_cities_title;
+        const otherEl = document.getElementById('qibla-other-cities');
+        if (otherEl) {
+            // Build pool from LOCAL_CITIES + FAMOUS_MOON_CITIES. All names through resolver.
+            const pool = [];
+            try {
+                if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES)) {
+                    for (const c of LOCAL_CITIES) {
+                        const k = makeSlug(c.en, c.lat, c.lng);
+                        const nm = _resolveCityNameClient(k, lang, (lang === 'ar' ? c.ar : c.en));
+                        pool.push({ key: k, name: nm, lat: c.lat, lng: c.lng });
+                    }
+                }
+            } catch (_e) {}
+            try {
+                if (typeof FAMOUS_MOON_CITIES !== 'undefined' && FAMOUS_MOON_CITIES) {
+                    for (const k of Object.keys(FAMOUS_MOON_CITIES)) {
+                        if (pool.some(p => p.key === k)) continue;
+                        const c = FAMOUS_MOON_CITIES[k];
+                        // Resolver first; last-resort fallback uses slug itself (not Title-case).
+                        const nm = _resolveCityNameClient(k, lang, k);
+                        pool.push({ key: k, name: nm, lat: c.lat, lng: c.lng });
+                    }
+                }
+            } catch (_e) {}
+
+            // 5 nearest + up to 6 popular (deduped, excluding current city)
+            const nearest = _nearestCitiesFrom(lat, lng, pool, 5, currentKey);
+            const seenKeys = new Set([currentKey, ...nearest.map(e => e.key)]);
+            const popularRaw = _popularCitiesList(currentKey, 10);
+            const popularLocalized = popularRaw
+                .filter(p => p && !seenKeys.has(p.key))
+                .slice(0, 6)
+                .map(p => ({
+                    ...p,
+                    name: _resolveCityNameClient(p.key, lang, (lang === 'ar' ? (p.nameAr || p.name) : p.name))
+                }));
+
+            // Round 27: show distance on the "nearest" chips (honest UX signal).
+            // Popular chips skip distance so the visual rhythm stays calm.
+            const nearestWithDist = nearest.map(e => ({
+                ...e,
+                _distKm: Math.round(_haversineKm(lat, lng, e.lat, e.lng))
+            }));
+            const merged = [...nearestWithDist, ...popularLocalized];
+            const _distLoc = (lang === 'bn' ? 'bn' : lang);
+            const _kmLabel = (lang === 'en') ? 'km' :
+                             (lang === 'fr') ? 'km' :
+                             (lang === 'tr') ? 'km' :
+                             (lang === 'de') ? 'km' :
+                             (lang === 'es') ? 'km' :
+                             (lang === 'id' || lang === 'ms') ? 'km' :
+                             (lang === 'ur') ? 'کلومیٹر' :
+                             (lang === 'bn') ? 'কিমি' : 'كم';
+            otherEl.innerHTML = merged.map(e => {
+                const href = _buildQiblaUrl(e.key, e.lat, e.lng);
+                const safe = String(e.name || e.key).replace(/</g, '&lt;');
+                if (typeof e._distKm === 'number' && isFinite(e._distKm) && e._distKm > 0) {
+                    const d = e._distKm.toLocaleString(_distLoc);
+                    return `<a href="${href}">${safe} <span class="chip-dist">· ${d} ${_kmLabel}</span></a>`;
+                }
+                return `<a href="${href}">${safe}</a>`;
+            }).join('');
+        }
+
+        // ── 10. FAQ — city name already localized ──
+        const faqTitleEl = document.getElementById('qibla-faq-title');
+        if (faqTitleEl) faqTitleEl.textContent = ui.faq_title;
+        const faqEl = document.getElementById('qibla-faq');
+        const faqCtx = {
+            cityName,
+            angle: angleDisplay,
+            cardinal: cardinalLabel,
+            distanceKm,
+            lat: Number(lat).toFixed(4),
+            lng: Number(lng).toFixed(4)
+        };
+        let faqItems = [];
+        try { faqItems = ui.faq(faqCtx) || []; } catch (_e) { faqItems = []; }
+        if (faqEl) {
+            faqEl.innerHTML = faqItems.map(([q, a]) =>
+                `<details><summary>${q}</summary><div>${a}</div></details>`
+            ).join('');
+        }
+
+        // ── 11. SEO footer (Smart Summary) + Trust micro-line + 3 use-case links ──
+        const footerEl = document.getElementById('qibla-footer-seo');
+        if (footerEl) footerEl.textContent = ui.footer(faqCtx);
+        // Round 29: Trust micro-line beneath the smart summary
+        const trustEl = document.getElementById('qibla-trust-note');
+        if (trustEl) trustEl.textContent = ui.trust_note || '';
+        const relatedEl = document.getElementById('qibla-related');
+        if (relatedEl) {
+            const prayerHref = citySlugForUrl ? pageUrl(`/prayer-times-in-${citySlugForUrl}`) : pageUrl('/');
+            // Round 27.1: same moon-URL logic as the quicklinks — prefer city page
+            let relMoonHref;
+            if (citySlugForUrl && isFinite(lat) && isFinite(lng)) {
+                const la = Number(lat).toFixed(2);
+                const lo = Number(lng).toFixed(2);
+                relMoonHref = pageUrl(`/moon-today-in-${citySlugForUrl}-${la}-${lo}`);
+            } else if (citySlugForUrl) {
+                relMoonHref = pageUrl(`/moon-today-in-${citySlugForUrl}`);
+            } else {
+                relMoonHref = pageUrl('/moon-today');
+            }
+            // Round 29: related_labels is now a function taking cityName — use-case verbs with city interpolation
+            const _labels = (typeof ui.related_labels === 'function')
+                ? ui.related_labels(cityName)
+                : (ui.related_labels || []);
+            const rels = [
+                { href: prayerHref,                    label: _labels[0] || '' },
+                { href: relMoonHref,                   label: _labels[1] || '' },
+                { href: pageUrl('/today-hijri-date'),  label: _labels[2] || '' }
+            ];
+            relatedEl.innerHTML = rels.map(r => `<li><a href="${r.href}">${r.label}</a></li>`).join('');
+        }
+
+        // ── 12. JSON-LD @graph (BreadcrumbList + WebPage about Kaaba + FAQPage + Place) ──
+        const jsonldEl = document.getElementById('qibla-jsonld');
+        if (jsonldEl) {
+            const origin = (window.location.protocol === 'file:') ? '' : window.location.origin;
+            const canonicalUrl = origin + window.location.pathname;
+            const homeUrl = origin + (pageUrl('/') || '/');
+            const qiblaHubUrl = origin + pageUrl('/qibla');
+            const h1Text = ui.h1(cityName, mode === 'hub');
+            const summaryText = ui.summary(angleDisplay, cardinalLabel, distanceKm, _distLocale);
+
+            const bcItems = [
+                { "@type": "ListItem", "position": 1, "name": ui.bc_home, "item": homeUrl }
+            ];
+            if (mode === 'hub') {
+                bcItems.push({ "@type": "ListItem", "position": 2, "name": ui.bc_qibla, "item": canonicalUrl });
+            } else {
+                bcItems.push({ "@type": "ListItem", "position": 2, "name": ui.bc_qibla, "item": qiblaHubUrl });
+                bcItems.push({ "@type": "ListItem", "position": 3, "name": cityName,    "item": canonicalUrl });
+            }
+
+            const faqEntities = faqItems.map(([q, a]) => ({
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": { "@type": "Answer", "text": a }
+            }));
+
+            const graph = {
+                "@context": "https://schema.org",
+                "@graph": [
+                    { "@type": "BreadcrumbList", "itemListElement": bcItems },
+                    {
+                        "@type": "WebPage",
+                        "name": h1Text,
+                        "url": canonicalUrl,
+                        "description": summaryText,
+                        "about": {
+                            "@type": "Place",
+                            "name": "Kaaba",
+                            "geo": { "@type": "GeoCoordinates", "latitude": 21.4225, "longitude": 39.8262 }
+                        }
+                    },
+                    { "@type": "FAQPage", "mainEntity": faqEntities },
+                    { "@type": "Place", "name": cityName,
+                      "geo": { "@type": "GeoCoordinates", "latitude": lat, "longitude": lng } }
+                ]
+            };
+            jsonldEl.textContent = JSON.stringify(graph);
+        }
+    } catch (e) {
+        try { console.warn('loadQiblaPage failed:', e); } catch (_e) {}
+    }
+}
+
 function updateQibla() {
     _qiblaAngle = Qibla.calculate(currentLat, currentLng);
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -9208,7 +11261,31 @@ const FAMOUS_MOON_CITIES = {
     'rome':          { lat: 41.9028, lng: 12.4964,  tz: 'Europe/Rome' },
     'new-york':      { lat: 40.7128, lng: -74.0060, tz: 'America/New_York' },
     'toronto':       { lat: 43.6532, lng: -79.3832, tz: 'America/Toronto' },
-    'sydney':        { lat: -33.8688, lng: 151.2093, tz: 'Australia/Sydney' }
+    'sydney':        { lat: -33.8688, lng: 151.2093, tz: 'Australia/Sydney' },
+    // ── Asia-Pacific (added so Tokyo/Seoul/Bangkok users see real neighbors) ──
+    'tokyo':         { lat: 35.6762, lng: 139.6503, tz: 'Asia/Tokyo' },
+    'seoul':         { lat: 37.5665, lng: 126.9780, tz: 'Asia/Seoul' },
+    'beijing':       { lat: 39.9042, lng: 116.4074, tz: 'Asia/Shanghai' },
+    'shanghai':      { lat: 31.2304, lng: 121.4737, tz: 'Asia/Shanghai' },
+    'hong-kong':     { lat: 22.3193, lng: 114.1694, tz: 'Asia/Hong_Kong' },
+    'taipei':        { lat: 25.0330, lng: 121.5654, tz: 'Asia/Taipei' },
+    'manila':        { lat: 14.5995, lng: 120.9842, tz: 'Asia/Manila' },
+    'bangkok':       { lat: 13.7563, lng: 100.5018, tz: 'Asia/Bangkok' },
+    'singapore':     { lat: 1.3521,  lng: 103.8198, tz: 'Asia/Singapore' },
+    'delhi':         { lat: 28.6139, lng: 77.2090,  tz: 'Asia/Kolkata' },
+    'mumbai':        { lat: 19.0760, lng: 72.8777,  tz: 'Asia/Kolkata' },
+    // ── Africa / Americas / Europe extras ──
+    'lagos':         { lat: 6.5244,  lng: 3.3792,   tz: 'Africa/Lagos' },
+    'nairobi':       { lat: -1.2921, lng: 36.8219,  tz: 'Africa/Nairobi' },
+    'johannesburg':  { lat: -26.2041, lng: 28.0473, tz: 'Africa/Johannesburg' },
+    'addis-ababa':   { lat: 9.0320,  lng: 38.7469,  tz: 'Africa/Addis_Ababa' },
+    'los-angeles':   { lat: 34.0522, lng: -118.2437, tz: 'America/Los_Angeles' },
+    'chicago':       { lat: 41.8781, lng: -87.6298,  tz: 'America/Chicago' },
+    'mexico-city':   { lat: 19.4326, lng: -99.1332,  tz: 'America/Mexico_City' },
+    'sao-paulo':     { lat: -23.5505, lng: -46.6333, tz: 'America/Sao_Paulo' },
+    'amsterdam':     { lat: 52.3676, lng: 4.9041,    tz: 'Europe/Amsterdam' },
+    'moscow':        { lat: 55.7558, lng: 37.6173,   tz: 'Europe/Moscow' },
+    'vienna':        { lat: 48.2082, lng: 16.3738,   tz: 'Europe/Vienna' }
 };
 
 function _moonCitySlugFromPath() {
@@ -11090,17 +13167,30 @@ function updateMoonInfo() {
         const _lngBC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         const _langPrefixBC = (_lngBC === 'ar') ? '' : ('/' + _lngBC);
 
-        // قالب "القمر اليوم في {city}" — يستخدم مفتاح i18n أو fallback يدويّ حسب اللغة
-        const _buildMoonCityText = function(cityName) {
+        // قالب "القمر اليوم في {city}" أو "القمر في {city}" — يستخدم مفتاح i18n أو fallback يدويّ حسب اللغة.
+        // skipToday=true → يحذف كلمة "اليوم" (للتواريخ غير تاريخ اليوم الحاليّ).
+        const _buildMoonCityText = function(cityName, skipToday) {
+            const _key = skipToday ? 'moon.bc_moon_in_city_nodate' : 'moon.bc_moon_in_city';
             let _tpl = '';
-            try { _tpl = (typeof t === 'function') ? t('moon.bc_moon_in_city') : ''; } catch(_){}
-            if (_tpl && _tpl !== 'moon.bc_moon_in_city' && _tpl.indexOf('{city}') !== -1) {
+            try { _tpl = (typeof t === 'function') ? t(_key) : ''; } catch(_){}
+            if (_tpl && _tpl !== _key && _tpl.indexOf('{city}') !== -1) {
                 return _tpl.replace('{city}', cityName);
             }
             // Fallback بلغة الواجهة
             let _bcCurrent = '';
-            try { _bcCurrent = (typeof t === 'function') ? t('moon.bc_current') : ''; } catch(_){}
-            if (!_bcCurrent || _bcCurrent === 'moon.bc_current') _bcCurrent = 'Moon Today';
+            if (skipToday) {
+                _bcCurrent = (_lngBC === 'ar' || _lngBC === 'ur') ? 'القمر' :
+                             (_lngBC === 'fr') ? 'La Lune' :
+                             (_lngBC === 'de') ? 'Mond' :
+                             (_lngBC === 'tr') ? 'Ay' :
+                             (_lngBC === 'es') ? 'La Luna' :
+                             (_lngBC === 'id' || _lngBC === 'ms') ? 'Bulan' :
+                             (_lngBC === 'bn') ? 'চাঁদ' :
+                             'Moon';
+            } else {
+                try { _bcCurrent = (typeof t === 'function') ? t('moon.bc_current') : ''; } catch(_){}
+                if (!_bcCurrent || _bcCurrent === 'moon.bc_current') _bcCurrent = 'Moon Today';
+            }
             const _sep = (_lngBC === 'ar' || _lngBC === 'ur') ? ' في ' :
                          (_lngBC === 'fr') ? ' à ' :
                          (_lngBC === 'de') ? ' in ' :
@@ -11112,26 +13202,48 @@ function updateMoonInfo() {
             return _bcCurrent + _sep + cityName;
         };
 
+        // هل الـ URL date هو نفس تاريخ اليوم؟ (لتقرير حذف كلمة "اليوم" من breadcrumb)
+        const _isUrlDateToday = function() {
+            try {
+                const _k = _moonDateKindFromPath();
+                if (!_k) return true; // لا تاريخ في الـ URL → نعتبره اليوم
+                const _n = new Date();
+                return (_k.gYear === _n.getFullYear() && _k.gMonth === (_n.getMonth() + 1) && _k.gDay === _n.getDate());
+            } catch (_) { return true; }
+        };
+
         // مُساعِد: تحويل عنصر الـ breadcrumb إلى "current page" غير قابل للضغط
         // يزيل href ويضيف aria-current، ممّا يحوّله دلاليًّا وبصريًّا إلى نصّ جامد.
-        // CSS يُطبِّق pointer-events:none و cursor:default و يُزيل hover underline.
+        // يضيف أيضاً .bc-current على عنصر الـ <li> الأب ليوائم ستايل bread-crumb-list.
         const _markAsCurrentPage = function(el) {
             if (!el) return;
             el.removeAttribute('href');
             el.setAttribute('aria-current', 'page');
+            const _li = el.closest && el.closest('li.bc-item');
+            if (_li) _li.classList.add('bc-current');
+        };
+        // مُساعِد: إعادة عنصر الـ breadcrumb إلى حالة "رابط قابل للضغط"
+        // يزيل .bc-current من الـ <li> الأب ويزيل aria-current من الـ <a>.
+        const _markAsLink = function(el) {
+            if (!el) return;
+            el.removeAttribute('aria-current');
+            const _li = el.closest && el.closest('li.bc-item');
+            if (_li) _li.classList.remove('bc-current');
         };
 
         if (_citySlug) {
             const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
-            const _moonCityText = _buildMoonCityText(_cityNameBC);
+            // عند صفحة تاريخ مختلف عن اليوم → نحذف كلمة "اليوم"
+            const _skipTodayBC = _isDatePage && !_isUrlDateToday();
+            const _moonCityText = _buildMoonCityText(_cityNameBC, _skipTodayBC);
 
             if (_isDatePage) {
-                // المستوى 2: "القمر اليوم في {City}" كرابط لـ /moon-today-in-{slug} (قابل للضغط)
+                // المستوى 2: "القمر [اليوم] في {City}" كرابط لـ /moon-today-in-{slug} (قابل للضغط)
                 if (_bcMoon) {
                     _bcMoon.textContent = _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
                     _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
-                    _bcMoon.removeAttribute('aria-current');
+                    _markAsLink(_bcMoon);
                 }
                 // المستوى 3: {Date} — current page (span أصلاً، غير قابل للضغط)
                 //   Round 14 polish #4: إن كان URL هجريّاً نستخدم التسمية الهجريّة؛ وإلّا الميلاديّة.
@@ -12208,6 +14320,25 @@ function loadHijriDayPage() {
 function loadHijriYearPage() {
     const match = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/(\d{4}))?$/);
     if (!match) return;
+
+    // ── استعادة سياق المدينة إن كان المستخدم قادماً من صفحة مدينة ──
+    //   (الشريط الجانبي يحفظ city_hijri-calendar قبل التنقل)
+    try {
+        const _stash = sessionStorage.getItem('city_hijri-calendar');
+        if (_stash) {
+            const _p = JSON.parse(_stash);
+            if (_p && _p.englishName && _p.name) {
+                currentCity         = _p.name         || currentCity;
+                currentEnglishName  = _p.englishName  || currentEnglishName;
+                currentCountry      = _p.country      || currentCountry;
+                currentCountryCode  = _p.countryCode  || currentCountryCode;
+                if (typeof _p.lat === 'number')  currentLat = _p.lat;
+                if (typeof _p.lng === 'number')  currentLng = _p.lng;
+                if (typeof _p.timezone === 'number') currentTimezone = _p.timezone;
+                try { if (typeof updateCityDisplay === 'function') updateCityDisplay(); } catch (_) {}
+            }
+        }
+    } catch (_) {}
     // إن لم تُحدَّد السنة في الـ URL → استخدم السنة الهجرية الحالية
     const year   = match[1] ? parseInt(match[1]) : HijriDate.getToday().year;
     const lang   = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -12482,6 +14613,25 @@ function loadHijriYearPage() {
 function loadHijriMonthPage() {
     const match = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(\d{2})$/);
     if (!match) return;
+
+    // ── استعادة سياق المدينة إن كان المستخدم قادماً من صفحة مدينة ──
+    try {
+        const _stash = sessionStorage.getItem('city_hijri-calendar');
+        if (_stash) {
+            const _p = JSON.parse(_stash);
+            if (_p && _p.englishName && _p.name) {
+                currentCity         = _p.name         || currentCity;
+                currentEnglishName  = _p.englishName  || currentEnglishName;
+                currentCountry      = _p.country      || currentCountry;
+                currentCountryCode  = _p.countryCode  || currentCountryCode;
+                if (typeof _p.lat === 'number')  currentLat = _p.lat;
+                if (typeof _p.lng === 'number')  currentLng = _p.lng;
+                if (typeof _p.timezone === 'number') currentTimezone = _p.timezone;
+                try { if (typeof updateCityDisplay === 'function') updateCityDisplay(); } catch (_) {}
+            }
+        }
+    } catch (_) {}
+
     const year  = parseInt(match[1], 10);
     const month = parseInt(match[2], 10);
     if (month < 1 || month > 12) return;

@@ -28,8 +28,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=378" as="script">
-    <link rel="stylesheet" href="css/style.css?v=114">
+    <link rel="preload" href="js/app.js?v=409" as="script">
+    <link rel="stylesheet" href="css/style.css?v=127">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -130,27 +130,6 @@
             <!-- ===== صفحة مواقيت الصلاة ===== -->
             <div class="page active" id="page-prayer-times">
 
-                <!-- ═══════ Location Hero — ركن البحث الأساسيّ (Round 20) ═══════ -->
-                <section class="location-hero section-card" id="location-hero">
-                    <div class="loc-hero-city">📍 <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
-                    <h2 class="loc-hero-tagline" data-i18n="home.tagline">مواقيت الصلاة اليوم والتاريخ الهجريّ</h2>
-                    <div class="loc-hero-search-wrap">
-                        <input type="search" class="loc-hero-search" id="loc-hero-search"
-                               placeholder="🔍 ابحث عن مدينة أو موقع…"
-                               data-i18n-placeholder="home.search_big"
-                               autocomplete="off"
-                               oninput="onHeroSearchInput(this.value)"
-                               onkeydown="onHeroSearchKeyDown(event)">
-                        <div class="loc-hero-suggestions" id="loc-hero-suggestions"></div>
-                    </div>
-                    <button class="loc-hero-cta" onclick="detectLocation()" type="button">
-                        <span class="loc-hero-cta-icon" aria-hidden="true">📍</span>
-                        <span data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
-                    </button>
-                </section>
-
-                <!-- H1 رئيسي للصفحة — يُستبدَل نصّه عبر SSR حسب الـ URL
-                     مرئي بصرياً بحجم صغير (SEO + A11y) -->
                 <!-- ===== مسار التنقل (Breadcrumb 3-levels + Schema.org) — يظهر فقط على صفحات /prayer-times-in-{city} ===== -->
                 <nav class="city-breadcrumb" id="city-breadcrumb" aria-label="مسار التنقل">
                     <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
@@ -171,6 +150,46 @@
                     </ol>
                 </nav>
 
+                <!-- ═══════ Location Hero — Persuasive Landing (mirrors qibla-hub-hero) ═══════ -->
+                <section class="location-hero section-card loc-hero-card" id="location-hero">
+                    <!-- Smart-redirect pill (hidden until a last-used location is cached) -->
+                    <a id="loc-hero-smart-pill" class="loc-hero-smart-pill" href="#" hidden></a>
+
+                    <h1 id="loc-hero-title" class="loc-hero-title" data-i18n="home.tagline">مواقيت الصلاة اليوم والتاريخ الهجريّ</h1>
+                    <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="home.subtitle">اعرف أوقات الصلاة الدقيقة في مدينتك أو انطلاقاً من موقعك الجغرافيّ</p>
+
+                    <!-- Small current-city hint (preserved from Round 20) -->
+                    <div class="loc-hero-city">📍 <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
+
+                    <!-- Hero actions: search → dual CTA → microcopy → badges -->
+                    <div class="loc-hero-hero-actions">
+                        <label class="loc-hero-search-wrap">
+                            <input type="search" class="loc-hero-search loc-hero-search--hero" id="loc-hero-search"
+                                   placeholder="🔍 ابحث عن مدينة أو موقع…"
+                                   data-i18n-placeholder="home.search_big"
+                                   autocomplete="off"
+                                   oninput="onHeroSearchInput(this.value)"
+                                   onkeydown="onHeroSearchKeyDown(event)">
+                            <div class="loc-hero-suggestions" id="loc-hero-suggestions"></div>
+                        </label>
+
+                        <div id="loc-hero-dual-cta" class="loc-hero-dual-cta">
+                            <button type="button" id="loc-hero-geo-btn" class="btn btn-primary loc-hero-geo-btn" onclick="detectLocation()">
+                                <span class="lhb-icon" aria-hidden="true">📍</span>
+                                <span class="lhb-label" data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
+                            </button>
+                            <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn" data-i18n="home.pick_city">🌍 اختر مدينتك يدويّاً</button>
+                        </div>
+
+                        <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ</p>
+
+                        <ul id="loc-hero-hero-badges" class="loc-hero-hero-badges">
+                            <li data-i18n="home.badge_gps">دقّة عالية باستخدام GPS</li>
+                            <li data-i18n="home.badge_all_countries">يعمل في جميع الدول</li>
+                        </ul>
+                    </div>
+                </section>
+
                 <!-- 🆕 City Page Compact Search — يستخدم البحث الأصليّ مباشرة (بدون mirror) -->
                 <section class="city-page-search" id="city-page-search" role="search" aria-label="ابحث عن مدينة أخرى">
                     <div class="cps-inner">
@@ -190,28 +209,7 @@
                     </div>
                 </section>
 
-                <!-- 🆕 City Hero Answer (Phase 2) — يظهر فقط في city-page عبر html.city-page CSS -->
-                <section class="section-card city-hero-answer u-hidden" id="city-hero-answer" aria-labelledby="cha-question">
-                    <!-- SSR:CITY_HERO_ANSWER -->
-                    <div class="cha-location">📍 <span id="cha-city-label">—</span><span id="cha-country-wrap" hidden>, <span id="cha-country-label">—</span></span></div>
-                    <h2 class="cha-question" id="cha-question">
-                        <span data-i18n="cha.title_prefix">مواقيت الصلاة في</span> <span id="cha-city-inline">—</span> <span data-i18n="cha.title_suffix">اليوم</span>
-                    </h2>
-                    <div class="cha-next-row">
-                        <span class="cha-next-label" data-i18n="cha.next">الصلاة القادمة:</span>
-                        <b class="cha-next-name" id="cha-next-name">—</b>
-                        <span class="cha-next-sep" aria-hidden="true">•</span>
-                        <span class="cha-next-time" id="cha-next-time">—</span>
-                    </div>
-                    <!-- 🆕 Round 2.1: countdown with "متبقي:" label for clearer context -->
-                    <div class="cha-countdown" aria-live="polite">
-                        <span class="cha-countdown-label" data-i18n="cha.remaining">متبقي:</span>
-                        <span class="cha-countdown-value" id="cha-countdown">—</span>
-                    </div>
-                    <!-- 🆕 Round 3.1 — Smart CTA: قفزة سريعة إلى البطاقة النشطة -->
-                    <button class="cha-cta" id="cha-cta" type="button" onclick="jumpToActivePrayer()" data-i18n="cha.cta_jump">↓ انتقل إلى الصلاة القادمة</button>
-                    <div class="cha-quick-times" id="cha-quick-times"></div>
-                </section>
+                <!-- City Hero Answer (Phase 2) — removed (R34): #location-hero now serves as the unified city hero -->
 
                 <!-- 🆕 Time-Left TOOL Page (Round 5) — Tool-first design: HUGE countdown, minimal context, no duplication -->
                 <section class="section-card tl-hero u-hidden" id="tl-hero" aria-labelledby="tl-h1">
@@ -1002,10 +1000,45 @@
                 </section>
             </div>
 
-            <!-- ===== صفحة اتجاه القبلة ===== -->
-            <div class="page" id="page-qibla">
-                <div class="section-card">
-                    <h2 data-i18n="qibla.title">🧭 اتجاه القبلة</h2>
+            <!-- ===== صفحة اتجاه القبلة — v4: Hub = Persuasive Landing, City = Tool ===== -->
+            <div class="page" id="page-qibla" data-qibla-mode="hub">
+                <!-- Section 1: Breadcrumb (both modes) -->
+                <nav id="qibla-breadcrumb" class="qibla-breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb-list"></ol>
+                </nav>
+
+                <!-- Section 2: Unified Hero (H1 + subtitle + Search + Dual CTA + badges) -->
+                <div class="section-card qibla-hub-hero-card" id="qibla-hub-hero">
+                    <!-- Smart-redirect pill (hub only; hidden until last_city_context is found) -->
+                    <a id="qibla-hub-smart-pill" class="qibla-hub-smart-pill qibla-hub-only" href="#" hidden></a>
+                    <h1 id="qibla-hero-title" class="qibla-hero-title" data-i18n="qibla.title">🧭 اتجاه القبلة</h1>
+                    <p id="qibla-hub-subtitle" class="qibla-hub-subtitle qibla-hub-only"></p>
+                    <p id="qibla-summary-line" class="qibla-summary-line qibla-city-only"></p>
+
+                    <!-- Hub-only: Search FIRST, then dual CTA, then badges -->
+                    <div class="qibla-hub-only qibla-hub-hero-actions">
+                        <label class="qibla-hub-search-wrap">
+                            <input type="search" id="qibla-hub-search" class="qibla-hub-search qibla-hub-search--hero" autocomplete="off" />
+                        </label>
+                        <ul id="qibla-hub-search-results" class="qibla-hub-search-results" role="listbox"></ul>
+                        <p id="qibla-hub-search-empty" class="qibla-hub-search-empty" hidden></p>
+
+                        <div id="qibla-dual-cta" class="qibla-dual-cta">
+                            <button type="button" id="qibla-hub-geo-btn" class="btn btn-primary qibla-hub-geo-btn">
+                                <span class="qhb-spinner" aria-hidden="true"></span>
+                                <span class="qhb-label"></span>
+                            </button>
+                            <button type="button" id="qibla-hub-pick-btn" class="qibla-hub-pick-btn"></button>
+                        </div>
+                        <p id="qibla-hub-geo-microcopy" class="qibla-hub-geo-microcopy"></p>
+                        <p id="qibla-hub-geo-status" class="qibla-hub-geo-status" aria-live="polite"></p>
+
+                        <ul id="qibla-hub-hero-badges" class="qibla-hub-hero-badges"></ul>
+                    </div>
+                </div>
+
+                <!-- Section 3: Compass (city mode only — IDs preserved for js/qibla.js) -->
+                <div class="section-card qibla-compass-section qibla-city-only">
                     <div class="qibla-container">
                         <div class="compass" id="compass">
                             <div class="compass-directions">
@@ -1027,31 +1060,81 @@
                             🧭 <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
                         </button>
                     </div>
-                    <a id="qibla-back-btn" href="#" class="btn btn-outline qibla-back-btn u-hidden">
-                        🕐 <span id="qibla-back-label" data-i18n="qibla.back_to_prayer_times">العودة إلى مواقيت الصلاة</span>
-                    </a>
+                    <p id="qibla-wow-caption" class="qibla-wow-caption" aria-live="polite"></p>
                 </div>
-                <div class="section-card">
-                    <h2 data-i18n="qibla.location_title">📍 موقعك الحالي</h2>
-                    <div class="info-grid">
+
+                <!-- Section 4: Main CTA (prayer times in {city}) — city mode only -->
+                <div class="section-card qibla-main-cta-card qibla-city-only">
+                    <a id="qibla-main-cta" class="btn btn-primary qibla-main-cta" href="#"></a>
+                    <p id="qibla-main-cta-note" class="qibla-main-cta-note"></p>
+                </div>
+
+                <!-- Section 5: 4 info cards (city · angle · lat · lng) — city mode only -->
+                <div class="section-card qibla-city-only">
+                    <div id="qibla-info-grid" class="info-grid">
                         <div class="info-card">
-                            <div class="info-label" data-i18n="qibla.city">المدينة</div>
+                            <div class="info-label" id="qibla-info-label-city" data-i18n="qibla.city">المدينة</div>
                             <div class="info-value" id="qibla-city">--</div>
                         </div>
                         <div class="info-card">
-                            <div class="info-label" data-i18n="qibla.lat">خط العرض</div>
+                            <div class="info-label" id="qibla-info-label-angle" data-i18n="qibla.angle">زاوية القبلة</div>
+                            <div class="info-value" id="qibla-exact-angle">--</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label" id="qibla-info-label-lat" data-i18n="qibla.lat">خط العرض</div>
                             <div class="info-value" id="qibla-lat">--</div>
                         </div>
                         <div class="info-card">
-                            <div class="info-label" data-i18n="qibla.lng">خط الطول</div>
+                            <div class="info-label" id="qibla-info-label-lng" data-i18n="qibla.lng">خط الطول</div>
                             <div class="info-value" id="qibla-lng">--</div>
-                        </div>
-                        <div class="info-card">
-                            <div class="info-label" data-i18n="qibla.angle">زاوية القبلة</div>
-                            <div class="info-value" id="qibla-exact-angle">--</div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Section 6: 3 quick text links (city mode only) -->
+                <div class="section-card qibla-city-only">
+                    <ul id="qibla-quicklinks" class="qibla-quicklinks"></ul>
+                </div>
+
+                <!-- Section 7.1: Visited cities (hub only, shown only when LRU non-empty) -->
+                <div class="section-card qibla-hub-only" id="qibla-hub-visited-card" hidden>
+                    <h2 id="qibla-hub-visited-title" class="qibla-hub-visited-title"></h2>
+                    <div id="qibla-hub-visited-grid" class="qibla-hub-visited-grid"></div>
+                </div>
+
+                <!-- Section 7.2: How to determine Qibla — 3 steps (hub only) -->
+                <div class="section-card qibla-hub-only" id="qibla-hub-howto-card">
+                    <h2 id="qibla-hub-howto-title" class="qibla-hub-howto-title"></h2>
+                    <ol id="qibla-hub-howto-steps" class="qibla-hub-howto-steps"></ol>
+                </div>
+
+                <!-- Section 7.3: Use cases strip (hub only) -->
+                <div class="section-card qibla-hub-only" id="qibla-hub-usecases-card">
+                    <h2 id="qibla-hub-usecases-title" class="qibla-hub-usecases-title"></h2>
+                    <ul id="qibla-hub-usecases" class="qibla-hub-usecases"></ul>
+                </div>
+
+                <!-- Section 7.5: Other cities (city mode only — related cities under the tool) -->
+                <div class="section-card qibla-city-only">
+                    <h2 id="qibla-other-cities-title">مدن أخرى لاتجاه القبلة</h2>
+                    <div id="qibla-other-cities" class="qibla-other-cities-grid"></div>
+                </div>
+
+                <!-- Section 8: FAQ (both modes, different content) -->
+                <div class="section-card">
+                    <h2 id="qibla-faq-title">أسئلة شائعة</h2>
+                    <div id="qibla-faq"></div>
+                </div>
+
+                <!-- Section 9: Footer -->
+                <div class="section-card">
+                    <p id="qibla-footer-seo" class="qibla-footer-seo"></p>
+                    <ul id="qibla-related" class="qibla-related qibla-related-pills qibla-city-only"></ul>
+                    <p id="qibla-trust-note" class="qibla-trust-note"></p>
+                </div>
+
+                <!-- JSON-LD @graph (not a visible section) -->
+                <script type="application/ld+json" id="qibla-jsonld"></script>
             </div>
 
             <!-- ===== صفحة القمر — Moon Today (SEO-rich) ===== -->
@@ -1075,11 +1158,13 @@
                 <!-- Breadcrumb navigation (3 levels max): Home › Moon Today [in {City}] › {Date}
                      نصّ bc-moon ديناميّ — يصبح "القمر اليوم في {City}" عند توفّر مدينة. -->
                 <nav class="moon-breadcrumb" aria-label="breadcrumb">
-                    <a href="/" data-i18n="nav.home">الرئيسية</a>
-                    <span class="bc-sep">›</span>
-                    <a class="bc-moon" id="bc-moon" href="/moon-today" data-i18n="moon.bc_current" aria-current="page">القمر اليوم</a>
-                    <span class="bc-sep bc-date-sep" id="bc-date-sep" hidden>›</span>
-                    <span class="bc-date" id="bc-date" aria-current="page" hidden></span>
+                    <ol class="breadcrumb-list">
+                        <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item" id="bc-moon-li"><a class="bc-link bc-moon" id="bc-moon" href="/moon-today" data-i18n="moon.bc_current" aria-current="page">القمر اليوم</a></li>
+                        <li class="bc-sep bc-date-sep" id="bc-date-sep" aria-hidden="true" hidden>›</li>
+                        <li class="bc-item bc-current bc-date" id="bc-date" aria-current="page" hidden></li>
+                    </ol>
                 </nav>
 
                 <!-- 🆕 Top Summary line — ملخّص سريع قابل للمسح بنظرة واحدة، يُملأ بـ JS -->
@@ -2669,14 +2754,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=129"></script>
+    <script defer src="js/i18n.js?v=130"></script>
     <script defer src="js/prayer-times.js?v=46"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=378"></script>
+    <script defer src="js/app.js?v=409"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

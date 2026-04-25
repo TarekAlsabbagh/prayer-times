@@ -11,7 +11,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=65">
+    <link rel="stylesheet" href="css/style.css?v=127">
     <style>
         /* ===== شريط البحث ===== */
         .cities-search-card {
@@ -289,7 +289,7 @@
             <div class="location-info">
                 <span class="icon">🏙️</span>
                 <div>
-                    <h1 class="city-name" id="page-title" style="margin:0;font:inherit;">مواقيت الصلاة في مدن الدولة</h1>
+                    <span class="city-name" id="page-title" style="margin:0;font:inherit;font-weight:700;">مواقيت الصلاة في مدن الدولة</span>
                     <div class="country" id="page-subtitle"></div>
                 </div>
             </div>
@@ -327,19 +327,44 @@
             </ol>
         </nav>
 
-        <!-- شريط البحث -->
-        <div class="cities-search-card">
-            <div class="cities-search-wrapper">
-                <input type="text" id="search-input"
-                    placeholder="🔍 ابحث عن مدينة أو منطقة..."
-                    data-i18n-placeholder="cities_page.search_placeholder"
-                    oninput="onSearch()"
-                    onkeydown="onSearchKeyDown(event)"
-                    autocomplete="off">
-                <div class="cities-suggestions" id="cities-suggestions"></div>
+        <!-- ═══════ Persuasive Landing Hero (mirrors qibla-hub-hero / index.html) ═══════ -->
+        <section class="location-hero section-card loc-hero-card" id="location-hero">
+            <!-- Smart-redirect pill (hidden until a last-used location is cached) -->
+            <a id="loc-hero-smart-pill" class="loc-hero-smart-pill" href="#" hidden></a>
+
+            <h1 id="loc-hero-title" class="loc-hero-title" data-i18n="cities_page.hero_title">مواقيت الصلاة في مدن الدولة</h1>
+            <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="cities_page.hero_subtitle">تصفّح المدن أدناه أو استخدم موقعك الجغرافيّ للحصول على مواقيت دقيقة</p>
+
+            <!-- Hero actions: search → dual CTA → microcopy → badges -->
+            <div class="loc-hero-hero-actions">
+                <label class="loc-hero-search-wrap">
+                    <input type="search" id="search-input" class="loc-hero-search loc-hero-search--hero"
+                           placeholder="🔍 ابحث عن مدينة أو منطقة..."
+                           data-i18n-placeholder="cities_page.search_placeholder"
+                           autocomplete="off"
+                           oninput="onSearch()"
+                           onkeydown="onSearchKeyDown(event)">
+                    <div class="cities-suggestions" id="cities-suggestions"></div>
+                </label>
+
+                <div id="loc-hero-dual-cta" class="loc-hero-dual-cta">
+                    <button type="button" id="loc-hero-geo-btn" class="btn btn-primary loc-hero-geo-btn" onclick="detectLocation()">
+                        <span class="lhb-icon" aria-hidden="true">📍</span>
+                        <span class="lhb-label" data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
+                    </button>
+                    <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn" data-i18n="home.pick_city">🌍 اختر مدينتك يدويّاً</button>
+                </div>
+
+                <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ</p>
+
+                <ul id="loc-hero-hero-badges" class="loc-hero-hero-badges">
+                    <li data-i18n="home.badge_gps">دقّة عالية باستخدام GPS</li>
+                    <li data-i18n="home.badge_all_countries">يعمل في جميع الدول</li>
+                </ul>
             </div>
-            <div class="results-count" id="results-count"></div>
-        </div>
+
+            <div class="results-count" id="results-count" style="margin-top:14px;"></div>
+        </section>
 
         <!-- شبكة المدن -->
         <div class="cities-main-card">
@@ -364,7 +389,7 @@
     </main>
 </div>
 
-<script src="js/i18n.js?v=86"></script>
+<script src="js/i18n.js?v=130"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
@@ -375,6 +400,75 @@ function onSearchKeyDown(e) {
     if (e.key === 'Enter' && e.target.value.trim()) window.location.href = pageUrl('/') + '?search=' + encodeURIComponent(e.target.value.trim());
 }
 function detectLocation() { window.location.href = pageUrl('/') + '?detect=1'; }
+
+/* ===== Persuasive-landing hero wiring (mirrors _wireLocHeroExtras in js/app.js) ===== */
+function _wireLocHeroExtras() {
+    // Pick-city button → scroll to cities grid + focus search input
+    const pickBtn = document.getElementById('loc-hero-pick-btn');
+    if (pickBtn && !pickBtn.dataset.wired) {
+        pickBtn.dataset.wired = '1';
+        pickBtn.addEventListener('click', function () {
+            const s = document.getElementById('search-input');
+            const container = document.getElementById('cities-container') || s;
+            try { (container || s).scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_e) {}
+            setTimeout(function () { try { s && s.focus(); } catch (_e) {} }, 220);
+        });
+    }
+
+    // Smart-redirect pill: hydrate from localStorage['lsb_detected']
+    const pill = document.getElementById('loc-hero-smart-pill');
+    if (!pill) return;
+    var shown = false;
+    try {
+        const raw = localStorage.getItem('lsb_detected');
+        if (raw) {
+            const d = JSON.parse(raw);
+            const ttlMs = 7 * 86400000;
+            if (d && isFinite(d.lat) && isFinite(d.lng) && (d.enName || d.arCity)
+                && (!d.ts || (Date.now() - d.ts) < ttlMs)) {
+                const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const localized = (d.names && d.names[lang])
+                    || (lang === 'ar' ? (d.arCity || d.enName) : (d.enName || d.arCity));
+                const enName = d.enName || d.arCity;
+                // simple slug (fallback when app.js isn't loaded)
+                const slug = String(enName).toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                const finalSlug = (slug === 'djibouti' && (d.countryCode || '').toLowerCase() === 'dj')
+                    ? 'djibouti-city' : slug;
+                const href = pageUrl('/prayer-times-in-' + finalSlug);
+                const prefixMap = {
+                    ar: 'آخر موقع استخدمته', en: 'Last location you used',
+                    fr: 'Dernier emplacement utilisé', tr: 'Son kullandığınız konum',
+                    ur: 'آخری استعمال شدہ مقام', de: 'Zuletzt verwendeter Standort',
+                    id: 'Lokasi terakhir yang kamu pakai', es: 'Última ubicación usada',
+                    bn: 'শেষ ব্যবহৃত অবস্থান', ms: 'Lokasi terakhir anda guna'
+                };
+                const ctaMap = {
+                    ar: 'عرض مواقيت الصلاة', en: 'Show prayer times',
+                    fr: 'Voir les horaires', tr: 'Namaz vakitlerini göster',
+                    ur: 'اوقاتِ نماز دیکھیں', de: 'Gebetszeiten anzeigen',
+                    id: 'Lihat jadwal sholat', es: 'Ver horarios de oración',
+                    bn: 'নামাজের সময় দেখুন', ms: 'Lihat waktu solat'
+                };
+                const prefix = prefixMap[lang] || prefixMap.en;
+                const cta    = ctaMap[lang]    || ctaMap.en;
+                pill.setAttribute('href', href);
+                pill.innerHTML =
+                    '<span class="lhsp-icon" aria-hidden="true">📍</span>' +
+                    '<span class="lhsp-prefix">' + prefix + ':</span>' +
+                    '<strong class="lhsp-city">' + localized + '</strong>' +
+                    '<span class="lhsp-arrow" aria-hidden="true">→</span>' +
+                    '<span class="lhsp-cta">' + cta + '</span>';
+                pill.hidden = false;
+                pill.classList.add('is-visible');
+                shown = true;
+            }
+        }
+    } catch (_e) { /* silent */ }
+    if (!shown) { pill.hidden = true; pill.classList.remove('is-visible'); }
+}
+document.addEventListener('DOMContentLoaded', _wireLocHeroExtras);
 
 // مساعد URL حسب اللغة الحالية
 function pageUrl(arabicPath) {
@@ -878,6 +972,9 @@ function updatePageHeader() {
     document.getElementById('page-title').textContent = fullTitle;
     document.getElementById('page-subtitle').textContent = cn;
     document.title = fullTitle;
+    // Also update the persuasive-landing hero H1 to match the country-specific title
+    const _heroH1 = document.getElementById('loc-hero-title');
+    if (_heroH1) _heroH1.textContent = fullTitle;
     updateCountryBreadcrumb();
     updateCountryListingSEO(lng, cn);
 }

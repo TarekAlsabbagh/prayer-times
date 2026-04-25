@@ -11105,7 +11105,10 @@ function loadQiblaPage(ctx) {
         let cardinalLabel = cardinalKey;
         try { if (typeof t === 'function') cardinalLabel = t(cardinalKey) || cardinalKey; } catch (_e) {}
         const distanceKm = Math.round(_haversineKm(lat, lng, 21.4225, 39.8262));
-        const _distLocale = (lang === 'bn' ? 'bn' : lang);
+        // R36g — distance always rendered in Western Arabic numerals (0-9) regardless
+        //   of UI language, for consistency with the angle (243.8°) which already uses
+        //   Latin digits via toFixed().
+        const _distLocale = 'en';
 
         // ── 3. Breadcrumb ──
         const bcOl = document.querySelector('#qibla-breadcrumb > ol.breadcrumb-list');

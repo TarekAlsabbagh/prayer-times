@@ -9301,10 +9301,13 @@ const server = http.createServer(async (req, res) => {
             res.end('[]'); return;
         }
 
+        // reverse expects OBJECT response; search expects ARRAY. Use the right empty-shape per type
+        // so the client can distinguish "no result" from "real city with no city/town field".
+        const _emptyShape = (type === 'reverse') ? '{}' : '[]';
         const nominatimUrl = `https://nominatim.openstreetmap.org/${type}?${cleanQs}`;
         try {
             const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), 6000);
+            const timer = setTimeout(() => ctrl.abort(), 12000); // slow hosts (render.com cold-start) need headroom
             const nomRes = await fetch(nominatimUrl, {
                 signal: ctrl.signal,
                 headers: { 'User-Agent': 'Mozilla/5.0 PrayerTimesApp/1.0', 'Accept': 'application/json' }
@@ -9313,7 +9316,7 @@ const server = http.createServer(async (req, res) => {
             if (nomRes.status === 429 || nomRes.status >= 500) {
                 circuitFail('nominatim');
                 res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
-                res.end('[]'); return;
+                res.end(_emptyShape); return;
             }
             const data = await nomRes.text();
             if (data.trim().startsWith('[') || data.trim().startsWith('{')) {
@@ -9321,11 +9324,11 @@ const server = http.createServer(async (req, res) => {
             }
             circuitSuccess('nominatim');
             res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'public, max-age=3600'});
-            res.end(data.trim().startsWith('[') || data.trim().startsWith('{') ? data : '[]');
+            res.end(data.trim().startsWith('[') || data.trim().startsWith('{') ? data : _emptyShape);
         } catch(e) {
             circuitFail('nominatim');
             res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
-            res.end('[]');
+            res.end(_emptyShape);
         }
         return;
     }

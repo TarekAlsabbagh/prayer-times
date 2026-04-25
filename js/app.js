@@ -1814,22 +1814,29 @@ function nomUrl(url) {
 // يقلل الطلبات الخارجية عند زيارة نفس الموقع مرتين.
 // fallback transparent: إذا فشل localStorage → fetch مباشر.
 // ─────────────────────────────────────────────────────────────
+// مفاتيح "revGeo*" تتوقّع object فيه .address — أيّ شيء بدونها نعتبره فشلاً (لا تخزين، لا قراءة).
+// هذا يحمي من proxy fallback `[]`/`{}` على مضيف بطيء (render.com cold-start).
+function _isEmptyJunkForKey(v, key) {
+    if (v === null || v === undefined) return true;
+    if (Array.isArray(v) && v.length === 0) return true;
+    if (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0) return true;
+    if (typeof v === 'object' && /^revGeo/.test(key) && !v.address) return true;
+    return false;
+}
 async function _cached(key, fetchFn, ttlMs) {
-    // قراءة الكاش
+    // قراءة الكاش — نتجاهل أيّ قيمة فارغة/junk حتى لو لم تنتهِ TTL
     try {
         const raw = localStorage.getItem(key);
         if (raw) {
             const parsed = JSON.parse(raw);
-            if (parsed && parsed.v !== null && parsed.v !== undefined
-                && (Date.now() - parsed.t) < ttlMs) {
+            if (parsed && (Date.now() - parsed.t) < ttlMs && !_isEmptyJunkForKey(parsed.v, key)) {
                 return parsed.v;
             }
         }
     } catch(e) { /* localStorage غير متاح؟ نتابع */ }
     // استدعاء المصدر الأصلي
     const value = await fetchFn();
-    // حفظ فقط إن كانت القيمة صالحة (لا نخزّن null/undefined — أخطاء)
-    if (value !== null && value !== undefined) {
+    if (!_isEmptyJunkForKey(value, key)) {
         try {
             localStorage.setItem(key, JSON.stringify({ v: value, t: Date.now() }));
         } catch(e) { /* quota ممتلئ؟ نتجاهل بصمت */ }
@@ -5844,29 +5851,30 @@ function _locHeroDetectAndNavigate() {
             const _stripDistrict = (s) => (s || '').replace(/\s*District\b/gi, '').trim();
             const _stripAdmin    = (s) => (s || '').replace(/^منطقة\s+|^محافظة\s+/g, '').replace(/\s*(Region|Governorate|Province)\b/gi, '').trim();
 
-            // نفس استدعاءات الـ LSB (مع _cached → الزيارة الثانية فوريّة).
             const baseUrl = 'https://nominatim.openstreetmap.org/reverse?format=json&zoom=10&namedetails=1';
-            const arReq = _cached(_coordKey('revGeoCity', lat, lng, 'ar'), () =>
-                fetch(nomUrl(`${baseUrl}&accept-language=ar&lat=${lat}&lon=${lng}`)).then(r => r.json()).catch(() => null),
-                30 * 86400000);
-            const enReq = _cached(_coordKey('revGeoCity', lat, lng, 'en'), () =>
-                fetch(nomUrl(`${baseUrl}&accept-language=en&lat=${lat}&lon=${lng}`)).then(r => r.json()).catch(() => null),
-                30 * 86400000);
+            const _doFetch = (langCode) => fetch(nomUrl(`${baseUrl}&accept-language=${langCode}&lat=${lat}&lon=${lng}`))
+                .then(r => r.json()).catch(() => null);
+            const _isUsable = (d) => d && d.address && (d.address.city || d.address.town || d.address.village
+                || d.address.municipality || d.address.county || d.address.state);
 
-            // مهلة سخيّة 15 ثانية — تكفي حتى لـ render.com cold-start
-            const timeoutPromise = new Promise(r => setTimeout(() => r('__TIMEOUT__'), 15000));
-            let arData, enData;
-            try {
-                const result = await Promise.race([Promise.all([arReq, enReq]), timeoutPromise]);
-                if (result === '__TIMEOUT__') {
-                    // Nominatim بطيء جدّاً — تنقّل بإحداثيّات فقط، الوجهة ستحلّ الاسم
-                    _doNav(lat, lng, '', '', '', '');
-                    return;
+            // محاولة + إعادة محاولة لمرّتين (proxy slow على cold-start قد يُرجع `{}` في المحاولة الأولى)
+            // مهلة كلّيّة 15 ثانية. الزيارة الثانية لنفس الإحداثيّات فوريّة (_cached).
+            const startTs = Date.now();
+            const HARD_DEADLINE_MS = 15000;
+            let arData = null, enData = null;
+            for (let attempt = 0; attempt < 3; attempt++) {
+                if (Date.now() - startTs > HARD_DEADLINE_MS) break;
+                const remainMs = HARD_DEADLINE_MS - (Date.now() - startTs);
+                const tPromise = new Promise(r => setTimeout(() => r('__TIMEOUT__'), Math.min(7000, remainMs)));
+                const arReq = _cached(_coordKey('revGeoCity', lat, lng, 'ar'), () => _doFetch('ar'), 30 * 86400000);
+                const enReq = _cached(_coordKey('revGeoCity', lat, lng, 'en'), () => _doFetch('en'), 30 * 86400000);
+                const r = await Promise.race([Promise.all([arReq, enReq]), tPromise]);
+                if (r !== '__TIMEOUT__') {
+                    [arData, enData] = r;
+                    if (_isUsable(arData) && _isUsable(enData)) break;
                 }
-                [arData, enData] = result;
-            } catch (_e) {
-                _doNav(lat, lng, '', '', '', '');
-                return;
+                // نتيجة فارغة (proxy `{}` على slow host) — انتظر 700ms ثمّ أعد المحاولة
+                await new Promise(rs => setTimeout(rs, 700));
             }
 
             const a  = arData?.address || {};

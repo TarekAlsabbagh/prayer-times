@@ -4136,6 +4136,23 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     currentEnglishCountry = COUNTRY_EN_NAMES[countryCode] || '';
     currentLocalizedName = ''; // إعادة ضبط قبل الجلب
     currentLocalizedCountry = '';
+
+    // ── Resilience: if name/country are missing (e.g. nav landed via coords-only
+    //   slug from _locHeroDetectAndNavigate when Nominatim was slow),
+    //   trigger reverseGeocode in the background to populate H1/breadcrumb/SEO.
+    //   navigateAfter=false → just resolves and updates display, no second navigation.
+    if ((!city || !englishName || !countryCode) && isFinite(lat) && isFinite(lng)) {
+        try {
+            reverseGeocode(lat, lng, false).then(() => {
+                try { updateCityDisplay(); } catch (_e) {}
+                try { updateCityCountryInfo(); } catch (_e) {}
+                try { updateCitySEO(currentCity, currentEnglishName, currentCountry, lat, lng); } catch (_e) {}
+                try { updatePrayerCardsSEO(); } catch (_e) {} // refreshes the hero H1 with city name
+                try { loadCityAboutSection(); } catch (_e) {}
+                try { fetchLocalizedCityName(lat, lng); } catch (_e) {}
+            }).catch(() => {});
+        } catch (_e) { /* silent */ }
+    }
     // timezone يجب أن يكون offset رقميّ (ساعات-UTC)؛ نرفض IANA strings مثل "Asia/Tokyo"
     //   (جلسات قديمة قد تحتوي على السلسلة) ونُعيد الحلّ عبر fetchTimezone.
     const _tzNum = (typeof timezone === 'number' && isFinite(timezone)) ? timezone : null;

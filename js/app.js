@@ -11407,43 +11407,40 @@ function _applyCompassHeading(heading) {
 function startDeviceCompass() {
     if (_compassListening || !window.DeviceOrientationEvent) return;
 
-    let _usingAbsolute = false;
     const _btn = document.getElementById('compass-permission-btn');
     const _hideBtnOnFirstEvent = () => { if (_btn) _btn.style.display = 'none'; };
 
+    // R36d: simple original handler restored — any usable heading wins.
+    //   (The `_usingAbsolute` lockout that locked onto absolute on first
+    //    null-alpha event was the actual regression; Android Chrome fires
+    //    `deviceorientationabsolute` once on attach with all-null values,
+    //    poisoning the lockout and ignoring every subsequent real event.)
     _orientationHandler = function(e) {
-        // على iOS: استخدم webkitCompassHeading (شمال حقيقي)
+        let heading = null;
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            _hideBtnOnFirstEvent();
-            _applyCompassHeading(e.webkitCompassHeading);
-            return;
+            heading = e.webkitCompassHeading; // iOS — true magnetic heading
+        } else if (e.alpha != null) {
+            heading = (360 - e.alpha) % 360;   // Android — alpha is screen-relative
         }
-        // على Android: فضّل deviceorientationabsolute واتجاهل deviceorientation العادي
-        if (e.type === 'deviceorientation' && _usingAbsolute) return;
-        if (e.type === 'deviceorientationabsolute') _usingAbsolute = true;
-        if (e.alpha == null) return;  // phantom event من بعض المتصفّحات — تجاهل
+        if (heading === null) return;
         _hideBtnOnFirstEvent();
-        _applyCompassHeading((360 - e.alpha) % 360);
+        _applyCompassHeading(heading);
     };
 
-    // R36c: نُسجّل المستمعين دائماً (حتى على iOS — قد يفيد لو السماحيّة مُمنوحة مسبقاً).
-    try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
-    try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
-    _compassListening = true;
-
-    // R36c: على أيّ جهاز touchscreen أو متصفّح يحتاج requestPermission (iOS 13+)،
-    //   أظهر زرّ التفعيل فوراً. هذا يضمن:
-    //   • iOS — المستخدم يضغط لمنح الإذن.
-    //   • Android Chrome مع Permissions-Policy صارمة / WebView / in-app browsers
-    //     (Facebook/Instagram/X) — المستخدم يضغط لتفعيل المستشعرات بإيماءة صريحة.
-    //   • Desktop — لا يظهر الزرّ (لا touchscreen ولا requestPermission).
-    //   الزرّ يختفي تلقائياً مع أوّل حدث orientation مفيد (_hideBtnOnFirstEvent).
-    const _needsButton = (typeof DeviceOrientationEvent.requestPermission === 'function')
-        || (typeof window !== 'undefined' && (
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+ — explicit permission required, show the enable button
+        if (_btn) _btn.style.display = 'block';
+    } else {
+        // Android & others — auto-attach
+        try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
+        try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
+        _compassListening = true;
+        // Belt-and-suspenders: also surface the button on touchscreen devices so
+        // strict-policy / WebView / in-app browser users can grant via gesture.
+        const _isTouch = (typeof window !== 'undefined' && (
             ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
         ));
-    if (_needsButton && _btn) {
-        _btn.style.display = 'block';
+        if (_isTouch && _btn) _btn.style.display = 'block';
     }
 }
 

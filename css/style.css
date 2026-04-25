@@ -824,7 +824,10 @@ button, input, select { font-family: inherit; }
     position: relative;
     box-shadow: 0 8px 32px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.5);
     border: 4px solid var(--primary);
-    transition: transform 0.3s ease-out;
+    /* R36f — short transition keeps the disc following device rotation smoothly.
+       0.3s was too long for real-time tracking; 0.12s feels live. */
+    transition: transform 0.12s linear;
+    will-change: transform;
 }
 
 .compass-permission-btn {
@@ -857,7 +860,8 @@ button, input, select { font-family: inherit; }
     transform-origin: bottom center;
     transform: translate(-50%, -100%);
     border-radius: 2px;
-    transition: transform 1s ease;
+    /* R36f — was 1s; now 0.12s linear so the arrow tracks the disc tightly. */
+    transition: transform 0.12s linear;
 }
 
 .compass-arrow::after {
@@ -7974,15 +7978,11 @@ html.time-left-page .sticky-next-bar {
         inset 0 0 24px rgba(0,0,0,0.06),
         0 20px 40px rgba(31,122,76,0.12),
         0 8px 16px rgba(0,0,0,0.05);
-    animation: qibla-compass-float 5s ease-in-out infinite;
 }
-@keyframes qibla-compass-float {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-4px); }
-}
-@media (prefers-reduced-motion: reduce) {
-    #page-qibla .compass { animation: none; }
-}
+/* R36f — float animation removed: it set `transform: translateY(...)` continuously
+   and CSS animations override inline `transform` set by JS. The result was that
+   `compass.style.transform = rotate(-heading)` was silently dropped every frame,
+   and the compass disc never visually rotated despite events firing correctly. */
 /* Angle number — the real hero readout */
 #page-qibla .qibla-info .angle {
     font-size: clamp(2.4rem, 6vw, 3.4rem);

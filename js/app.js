@@ -11379,9 +11379,11 @@ function updateQibla() {
 
     document.getElementById('qibla-angle').textContent = _qiblaAngle.toFixed(1) + '°';
     document.getElementById('qibla-direction').textContent = t('qibla.direction_label', { dir: direction });
-    const _distLocale = _ln === 'ar' ? 'ar' : (_ln === 'ur' ? 'ur' : (_ln === 'fr' ? 'fr' : (_ln === 'tr' ? 'tr' : (_ln === 'de' ? 'de' : 'en'))));
+    // R36g — always render the distance in Western Arabic numerals (0-9). User reported
+    //   that Arabic-Indic digits (٧٩٠) on Arabic UI were unwanted; Latin digits read
+    //   easier alongside the unit and feel more consistent with the angle display.
     document.getElementById('qibla-distance').textContent = t('qibla.distance_to_kaaba', {
-        distance: distance.toLocaleString(_distLocale),
+        distance: distance.toLocaleString('en'),
         unit: t('unit.km')
     });
     document.getElementById('qibla-exact-angle').textContent = _qiblaAngle.toFixed(2) + '°';

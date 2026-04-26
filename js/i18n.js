@@ -87,6 +87,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 تقدير إحصائي — يُحسب بناءً على آخر إحصاء رسمي مضافاً إليه معدل النمو السنوي للدولة مقسّماً على ثانية',
         // الأماكن القريبة
         'nearby.title': '📍 أماكن قريبة من موقعك',
+        'search.loading': '🔍 جاري البحث...',
+        'search.online_for': '🌐 ابحث على الإنترنت عن',
+        'schedule.err_to_before_from': 'يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساوياً له',
+        'schedule.err_max_365': 'لا يمكن اختيار نطاق يتجاوز 365 يوماً',
         'nearby.loading': '⏳ جاري البحث عن أماكن قريبة...',
         'nearby.none': 'لا توجد أماكن قريبة',
         // معلومات إضافية
@@ -1163,6 +1167,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 Statistical estimate — based on the latest census plus annual growth rate per second',
         // Nearby
         'nearby.title': '📍 Nearby Places',
+        'search.loading': '🔍 Searching...',
+        'search.online_for': '🌐 Search online for',
+        'schedule.err_to_before_from': 'End date must be on or after start date',
+        'schedule.err_max_365': 'Cannot select range exceeding 365 days',
         'nearby.loading': '⏳ Loading nearby places...',
         'nearby.none': 'No nearby places found',
         // Info
@@ -2217,6 +2225,10 @@ const TRANSLATIONS = {
         'pop.since_opened': '+{count} depuis l\'ouverture de la page',
         'pop.note': '📊 Estimation statistique — basée sur le dernier recensement plus le taux de croissance annuel par seconde',
         'nearby.title': '📍 Lieux à proximité',
+        'search.loading': '🔍 Recherche...',
+        'search.online_for': '🌐 Rechercher en ligne',
+        'schedule.err_to_before_from': 'La date de fin doit être après ou égale à la date de début',
+        'schedule.err_max_365': 'Impossible de sélectionner une plage supérieure à 365 jours',
         'nearby.loading': '⏳ Recherche de lieux à proximité...',
         'nearby.none': 'Aucun lieu à proximité trouvé',
         'info.title': '📊 Informations supplémentaires',
@@ -3138,6 +3150,10 @@ const TRANSLATIONS = {
         'pop.since_opened': 'Sayfa açıldığından beri +{count}',
         'pop.note': '📊 İstatistiksel tahmin — son sayıma yıllık büyüme oranı saniye başına eklenir',
         'nearby.title': '📍 Yakındaki Yerler',
+        'search.loading': '🔍 Aranıyor...',
+        'search.online_for': '🌐 Çevrimiçi ara',
+        'schedule.err_to_before_from': 'Bitiş tarihi başlangıç tarihinden sonra veya aynı olmalıdır',
+        'schedule.err_max_365': '365 günü aşan bir aralık seçilemez',
         'nearby.loading': '⏳ Yakındaki yerler aranıyor...',
         'nearby.none': 'Yakında yer bulunamadı',
         'info.title': '📊 Ek Bilgiler',
@@ -4059,6 +4075,10 @@ const TRANSLATIONS = {
         'pop.since_opened': 'صفحہ کھلنے کے بعد سے +{count}',
         'pop.note': '📊 شماریاتی اندازہ — آخری مردم شماری پر سالانہ شرح اضافہ فی سیکنڈ',
         'nearby.title': '📍 قریبی مقامات',
+        'search.loading': '🔍 تلاش جاری ہے...',
+        'search.online_for': '🌐 آن لائن تلاش کریں',
+        'schedule.err_to_before_from': 'اختتامی تاریخ آغاز کی تاریخ کے بعد یا اس کے برابر ہونی چاہیے',
+        'schedule.err_max_365': '365 دن سے زیادہ کی حد منتخب نہیں کر سکتے',
         'nearby.loading': '⏳ قریبی مقامات تلاش کیے جا رہے ہیں...',
         'nearby.none': 'کوئی قریبی مقام نہیں ملا',
         'info.title': '📊 اضافی معلومات',
@@ -4994,6 +5014,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 Statistische Schätzung — basierend auf der letzten Volkszählung plus jährlicher Wachstumsrate pro Sekunde',
         // Nearby
         'nearby.title': '📍 Orte in der Nähe',
+        'search.loading': '🔍 Suche läuft...',
+        'search.online_for': '🌐 Online suchen nach',
+        'schedule.err_to_before_from': 'Das Enddatum muss am oder nach dem Startdatum liegen',
+        'schedule.err_max_365': 'Bereich kann 365 Tage nicht überschreiten',
         'nearby.loading': '⏳ Suche nach Orten in der Nähe...',
         'nearby.none': 'Keine Orte in der Nähe gefunden',
         // Info
@@ -5970,6 +5994,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 Perkiraan statistik — berdasarkan sensus terakhir ditambah laju pertumbuhan tahunan per detik',
         // Nearby
         'nearby.title': '📍 Tempat terdekat',
+        'search.loading': '🔍 Mencari...',
+        'search.online_for': '🌐 Cari online untuk',
+        'schedule.err_to_before_from': 'Tanggal akhir harus setelah atau sama dengan tanggal mulai',
+        'schedule.err_max_365': 'Tidak dapat memilih rentang lebih dari 365 hari',
         'nearby.loading': '⏳ Mencari tempat terdekat...',
         'nearby.none': 'Tidak ada tempat terdekat ditemukan',
         // Info
@@ -6946,6 +6974,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 Estadística estimada — basada en el último censo más la tasa de crecimiento anual por segundo',
         // Nearby
         'nearby.title': '📍 Lugares cercanos',
+        'search.loading': '🔍 Buscando...',
+        'search.online_for': '🌐 Buscar en línea',
+        'schedule.err_to_before_from': 'La fecha de fin debe ser igual o posterior a la de inicio',
+        'schedule.err_max_365': 'No se puede seleccionar un rango mayor a 365 días',
         'nearby.loading': '⏳ Buscando lugares cercanos...',
         'nearby.none': 'No se encontraron lugares cercanos',
         // Info
@@ -7922,6 +7954,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 আনুমানিক পরিসংখ্যান — সর্বশেষ আদমশুমারির ভিত্তিতে প্রতি সেকেন্ডে বার্ষিক বৃদ্ধির হার যোগ করে',
         // Nearby
         'nearby.title': '📍 কাছাকাছি স্থান',
+        'search.loading': '🔍 অনুসন্ধান চলছে...',
+        'search.online_for': '🌐 অনলাইনে খুঁজুন',
+        'schedule.err_to_before_from': 'শেষ তারিখ অবশ্যই শুরুর তারিখের পরে বা সমান হতে হবে',
+        'schedule.err_max_365': '৩৬৫ দিনের বেশি পরিসর নির্বাচন করা যাবে না',
         'nearby.loading': '⏳ কাছাকাছি স্থান খোঁজা হচ্ছে...',
         'nearby.none': 'কাছাকাছি কোনো স্থান পাওয়া যায়নি',
         // Info
@@ -8898,6 +8934,10 @@ const TRANSLATIONS = {
         'pop.note': '📊 Anggaran statistik — berdasarkan banci terkini ditambah kadar pertumbuhan tahunan per saat',
         // Nearby
         'nearby.title': '📍 Tempat berdekatan',
+        'search.loading': '🔍 Mencari...',
+        'search.online_for': '🌐 Cari dalam talian',
+        'schedule.err_to_before_from': 'Tarikh tamat mestilah pada atau selepas tarikh mula',
+        'schedule.err_max_365': 'Tidak boleh memilih julat lebih dari 365 hari',
         'nearby.loading': '⏳ Mencari tempat berdekatan...',
         'nearby.none': 'Tiada tempat berdekatan dijumpai',
         // Info

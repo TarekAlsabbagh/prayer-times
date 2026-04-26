@@ -4205,7 +4205,8 @@ function onCitySearchInput(query) {
             suggestionsEl.appendChild(div);
         });
     } else {
-        suggestionsEl.innerHTML = `<div class="search-loading">${isEnSearch ? '🔍 Searching...' : '🔍 جاري البحث...'}</div>`;
+        // FIX i18n: نصّ البحث لكل اللغات (10) — كان AR/EN فقط
+        suggestionsEl.innerHTML = `<div class="search-loading">${(typeof t === 'function' ? t('search.loading') : null) || '🔍 Searching...'}</div>`;
     }
     suggestionsEl.classList.add('open');
 
@@ -4471,7 +4472,8 @@ function fetchCitySuggestions(query) {
         localResults.forEach(city => suggestionsEl.appendChild(renderLocalItem(city)));
         suggestionsEl.classList.add('open');
     } else {
-        suggestionsEl.innerHTML = `<div class="search-loading">${isEnSugg ? '⏳ Searching...' : '⏳ جاري البحث...'}</div>`;
+        // FIX i18n: نصّ البحث لكل اللغات
+        suggestionsEl.innerHTML = `<div class="search-loading">${(typeof t === 'function' ? t('search.loading') : null) || '⏳ Searching...'}</div>`;
         suggestionsEl.classList.add('open');
     }
 
@@ -4502,11 +4504,12 @@ function fetchCitySuggestions(query) {
         function showOnlineSearchBtn() {
             const btn = document.createElement('div');
             btn.className = 'sugg-online-btn';
-            btn.innerHTML = isEnSugg
-                ? `<span>🌐</span> Search online for "${query}"`
-                : `<span>🌐</span> ابحث على الإنترنت عن "${query}"`;
+            // FIX i18n: نصّ البحث الأونلاين لكل اللغات
+            const _onlineLbl = (typeof t === 'function' ? t('search.online_for') : null) || 'Search online for';
+            btn.innerHTML = `<span>🌐</span> ${_onlineLbl} "${query}"`;
             btn.addEventListener('click', () => {
-                btn.innerHTML = isEnSugg ? `<span>⏳</span> Searching...` : `<span>⏳</span> جاري البحث...`;
+                const _searchingLbl = (typeof t === 'function' ? t('search.loading') : null) || '⏳ Searching...';
+                btn.innerHTML = `<span>⏳</span> ${_searchingLbl}`;
                 btn.style.opacity = '0.6';
                 btn.style.pointerEvents = 'none';
                 fetchCityOnlineBroader(query);
@@ -7949,7 +7952,9 @@ function onRangeDateChange() {
     if (toDate < fromDate) {
         if (errorEl) {
             errorEl.classList.remove('u-hidden');
-            errorEl.textContent   = 'يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساوياً له';
+            // FIX i18n: رسالة الخطأ لكل اللغات
+            errorEl.textContent = (typeof t === 'function' ? t('schedule.err_to_before_from') : null)
+                || 'End date must be on or after start date';
         }
         const toYearEl = document.getElementById('range-to-year');
         if (toYearEl && toYear < fromYear) toYearEl.value = fromYear;
@@ -7961,7 +7966,9 @@ function onRangeDateChange() {
     if (diffDays > 365) {
         if (errorEl) {
             errorEl.classList.remove('u-hidden');
-            errorEl.textContent   = 'لا يمكن اختيار نطاق يتجاوز 365 يوماً';
+            // FIX i18n: رسالة الخطأ لكل اللغات
+            errorEl.textContent = (typeof t === 'function' ? t('schedule.err_max_365') : null)
+                || 'Cannot select range exceeding 365 days';
         }
         return;
     }

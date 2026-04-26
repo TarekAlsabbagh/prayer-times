@@ -208,11 +208,11 @@
                 'data-idx': i,
                 class: 'moon-chart-dot' + (isCenter ? ' is-center' : '')
             });
-            // SVG <title> يبقى للـ accessibility والـ fallback
-            const title = _createEl('title', {});
-            title.textContent = p.label + ' — ' + p.pct.toFixed(1) + '%' +
-                (p.phaseName ? ' · ' + p.phaseName : '');
-            circle.appendChild(title);
+            // R37ab — أزلنا <title> الأصليّ:
+            //   كان يُنتج tooltip متصفّح أصليّ (small popup) كان يقطع عند حدود
+            //   الشاشة على الجوال. نعتمد فقط على الـ tooltip المخصَّص (HTML)
+            //   الذي يدعم الإيقاع والمحاذاة والتنسيق. accessibility مغطّى من
+            //   aria-label على الـ <a> الأبّ.
             dotGroup.appendChild(circle);
 
             // تسمية X-axis تحت كلّ نقطة
@@ -425,12 +425,25 @@
             //    (RTL يقلب الـ SVG بـ scaleX(-1)، فالإحداثيّات الخام cx تكون معكوسة بصريًّا)
             const ctrRect = container.getBoundingClientRect();
             const dRect = dot.getBoundingClientRect();
-            const px = (dRect.left - ctrRect.left) + dRect.width / 2;
+            let px = (dRect.left - ctrRect.left) + dRect.width / 2;
             const py = (dRect.top  - ctrRect.top) - 6;
+            // R37ab — clamp X so the tooltip never overflows the container edges.
+            // Tooltip uses transform: translate(-50%, -100%), so its visible
+            // half-width is tooltip.offsetWidth/2 on each side of px.
             tooltip.style.left = px + 'px';
             tooltip.style.top  = py + 'px';
             tooltip.style.opacity = '1';
             tooltip.setAttribute('aria-hidden', 'false');
+            // Re-clamp after layout (offsetWidth available now)
+            try {
+                const halfW = tooltip.offsetWidth / 2;
+                const margin = 8;
+                const minX = halfW + margin;
+                const maxX = ctrRect.width - halfW - margin;
+                if (px < minX) px = minX;
+                else if (px > maxX) px = maxX;
+                tooltip.style.left = px + 'px';
+            } catch (_) {}
         }
         function _hideTip() {
             tooltip.style.opacity = '0';

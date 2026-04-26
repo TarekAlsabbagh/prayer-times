@@ -4692,41 +4692,53 @@ function fetchCityOnlineBroader(query) {
         .then(data => {
             suggestionsEl.innerHTML = '';
 
-            // فلترة: مدن وقرى فقط — استبعاد الأحياء والمناطق الفرعية والمحافظات
+            // ─── helpers: فلترة مع dedup ───
             const seen = new Set();
-            const results = (data || [])
-                .filter(p => {
-                    if (seen.has(p.place_id)) return false;
-                    seen.add(p.place_id);
-                    // رفض الدول والطرق فقط — الحدود الإداريّة (boundary) تُرفَض عبر القائمة البيضاء
-                    // للـaddresstype (city/town/village/municipality/borough)؛ Nominatim كثيراً
-                    // ما يُرجع مدناً أوروبيّة كـboundary+administrative.
-                    if (p.class === 'country' || p.class === 'highway') return false;
-                    // قائمة بيضاء: addresstype أو type يجب أن يكون من المقبولة
-                    const addrT  = p.addresstype || '';
-                    const plainT = p.type || '';
-                    // استثناء: city-states (Tokyo, HK, Singapore…) تُصنَّف state/province في OSM
-                    const _nmEn2 = (p.namedetails?.['name:en'] || p.name || '').trim();
-                    const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn2);
-                    if (!accepted.has(addrT) && !accepted.has(plainT) && !isSpecialCityState) return false;
-                    // فلتر اسميّ متعدّد اللغات (ar/en/fr/tr/ur/de/id/es/bn/ms)
-                    const nm        = p.name || '';
-                    const ndName2   = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
-                    const firstPart = (p.display_name || '').split(',')[0] || '';
-                    // للمدن الخاصّة: نتجاوز الفلتر الاسميّ (لأنّ أسماءها قد تحوي "Region" مثل Jakarta)
-                    if (!isSpecialCityState) {
-                        if (_isAdminOrStreetLike(nm))        return false;
-                        if (_isAdminOrStreetLike(ndName2))   return false;
-                        if (_isAdminOrStreetLike(firstPart)) return false;
-                    }
-                    // أحياء مُقنَّعة كـ city (مثل طوكيو-ku في OSM) — نرفضها من البحث أيضاً
-                    const _rawEnForWard = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
-                        || (p.address && (p.address.city || p.address.town || p.address.village))
-                        || firstPart || '');
-                    if (_isWardLike(nm) || _isWardLike(_rawEnForWard)) return false;
-                    return true;
-                })
-                .slice(0, 6);
+            const _dedup = (p) => {
+                if (seen.has(p.place_id)) return false;
+                seen.add(p.place_id);
+                return true;
+            };
+            // Tier 1 (صارم): مدن/قرى/بلدات + hamlet/locality
+            const _strict = (p) => {
+                if (p.class === 'country' || p.class === 'highway') return false;
+                const addrT  = p.addresstype || '';
+                const plainT = p.type || '';
+                const _nmEn2 = (p.namedetails?.['name:en'] || p.name || '').trim();
+                const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn2);
+                if (!accepted.has(addrT) && !accepted.has(plainT) && !isSpecialCityState) return false;
+                const nm        = p.name || '';
+                const ndName2   = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
+                const firstPart = (p.display_name || '').split(',')[0] || '';
+                if (!isSpecialCityState) {
+                    if (_isAdminOrStreetLike(nm))        return false;
+                    if (_isAdminOrStreetLike(ndName2))   return false;
+                    if (_isAdminOrStreetLike(firstPart)) return false;
+                }
+                const _rawEnForWard = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
+                    || (p.address && (p.address.city || p.address.town || p.address.village))
+                    || firstPart || '');
+                if (_isWardLike(nm) || _isWardLike(_rawEnForWard)) return false;
+                return true;
+            };
+            // Tier 2 (مرن): أيّ مكان جغرافيّ — يرفض فقط الواضح غير-المكاني
+            const _laxRejectTypes = new Set(['country', 'highway', 'building', 'amenity',
+                'shop', 'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made']);
+            const _lax = (p) => {
+                if (_laxRejectTypes.has(p.class)) return false;
+                const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
+                if (!isFinite(lat) || !isFinite(lon)) return false;
+                if (!p.name && !p.display_name) return false;
+                return true;
+            };
+            const arr = (data || []).filter(_dedup);
+            // Tier 1 أوّلاً
+            let results = arr.filter(_strict).slice(0, 6);
+            // Tier 2 لو فاضي
+            if (results.length === 0) {
+                seen.clear();
+                results = (data || []).filter(_dedup).filter(_lax).slice(0, 6);
+            }
 
             if (results.length === 0) {
                 const _noRes = (typeof t === 'function')

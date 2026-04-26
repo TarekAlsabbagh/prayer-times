@@ -1,12 +1,12 @@
 // Service Worker: cache-first for versioned static assets, network-first for HTML, stale-while-revalidate for /api/*
 // Bump CACHE_VERSION whenever precache list changes
-const CACHE_VERSION = 'v256';
+const CACHE_VERSION = 'v257';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
 // الأصول التي تُحمَّل بشكل متكرر ومفيد كاشها محلياً
 const PRECACHE_URLS = [
-    '/css/style.css?v=131',
+    '/css/style.css?v=132',
     '/js/i18n.js?v=131',
     '/js/prayer-times.js?v=47',
     '/js/hijri-date.js?v=42',
@@ -14,7 +14,7 @@ const PRECACHE_URLS = [
     '/js/moon.js?v=52',
     '/js/moon-chart.js?v=5',
     '/js/duas.js?v=42',
-    '/js/app.js?v=430',
+    '/js/app.js?v=431',
 ];
 
 self.addEventListener('install', (event) => {

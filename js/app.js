@@ -3315,7 +3315,7 @@ function toggleTheme() {
         localStorage.setItem('theme', next);
         // حدّث meta[name=theme-color] لتلوين شريط المتصفّح على الجوال
         const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-        if (metaThemeColor) metaThemeColor.setAttribute('content', next === 'dark' ? '#0f1419' : '#1e5631');
+        if (metaThemeColor) metaThemeColor.setAttribute('content', next === 'dark' ? '#22272e' : '#1e5631');
         const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
         if (metaColorScheme) metaColorScheme.setAttribute('content', next);
     } catch (_e) { /* silent */ }

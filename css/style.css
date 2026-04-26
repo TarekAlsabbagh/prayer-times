@@ -51,24 +51,24 @@ html.hijri-day-page #page-prayer-times { display: none !important; }
 }
 
 /* ========= الوضع الداكن ========= */
-/* R37 — dark mode tokens. Activated via [data-theme="dark"] on <html>.
-   Toggle button lives next to the language switcher in the header on every page.
-   The early-load script in <head> applies theme before first paint to avoid FOUC. */
+/* R37d — eye-comfort palette. Avoids pure black/white (high contrast = eye strain).
+   Inspired by GitHub Dark Dimmed and Notion Dark — warm-gray surfaces, soft text,
+   desaturated brand green. Activated via [data-theme="dark"] on <html>. */
 html[data-theme="dark"] {
-    --primary: #2aa36b;            /* slightly brightened brand green for AA contrast on dark */
-    --primary-dark: #1f7a4c;
-    --primary-light: #3bbf80;
-    --gold: #e8c860;
-    --gold-light: #f0d878;
-    --bg: #0f1419;                 /* page background */
-    --card-bg: #1a2028;            /* default card */
-    --surface-raised: #1f2731;     /* raised card */
-    --surface-sunken: #161b22;     /* sub-card */
-    --text: #e8eaed;               /* primary text */
-    --text-light: #9aa0a6;         /* secondary text */
-    --border: #2d3540;
-    --shadow: 0 2px 12px rgba(0,0,0,0.4);
-    --link: #6ea8ff;
+    --primary: #5ab788;            /* desaturated brand green — comfortable on dark */
+    --primary-dark: #4aa776;
+    --primary-light: #7ac79e;
+    --gold: #d4b561;
+    --gold-light: #e0c570;
+    --bg: #22272e;                 /* warm-dark page bg (not pure black) — GitHub Dimmed */
+    --card-bg: #2d333b;            /* default card — slightly lifted */
+    --surface-raised: #373e47;     /* raised card / header */
+    --surface-sunken: #262c36;     /* sub-card / input */
+    --text: #cdd9e5;               /* off-white text — softer than pure #fff */
+    --text-light: #768390;         /* secondary text — muted */
+    --border: #444c56;             /* subtle borders */
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+    --link: #6cb6ff;
     color-scheme: dark;
 }
 html[data-theme="dark"] body { background: var(--bg); color: var(--text); }

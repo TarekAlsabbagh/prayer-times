@@ -6215,14 +6215,27 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
     const lblCity = document.getElementById('rls-city-label');
     if (lblCity && cityName) lblCity.textContent = cityName;
 
+    // FIX: للمدن غير المعروفة (التي ليست في DB) — نُلحق إحداثيّات للـ slug
+    //   عبر coord-suffix support للسيرفر (Round 12). يحلّ مشكلة "City not found".
+    let _moonSlug = citySlug;
+    let _qiblaSlug = citySlug;
+    if (currentLat != null && currentLng != null
+        && isFinite(currentLat) && isFinite(currentLng)
+        && citySlug && !/^loc-/.test(citySlug) && !/-\d+(\.\d+)?-\d+(\.\d+)?$/.test(citySlug)) {
+        const _latStr = Number(currentLat).toFixed(4);
+        const _lngStr = Number(currentLng).toFixed(4);
+        _moonSlug = `${citySlug}-${_latStr}-${_lngStr}`;
+        _qiblaSlug = `${citySlug}-${_latStr}-${_lngStr}`;
+    }
+
     const items = [
         // 🟢 Live tier (Refinement #5 — i18n badge): time-left, next-prayer, qibla
         ['rl-time-left',    prefix + '/time-left-until-prayer-in-' + citySlug, 'rls.time_left',    cityName, true],
         ['rl-next-prayer',  prefix + '/next-prayer-time-in-' + citySlug,       'rls.next_prayer',  cityName, true],
-        ['rl-qibla',        prefix + '/qibla-in-' + citySlug,                  'rls.qibla',        cityName, true],
+        ['rl-qibla',        prefix + '/qibla-in-' + _qiblaSlug,                'rls.qibla',        cityName, true],
         // 🔵 Info tier
         ['rl-hijri',     prefix + '/hijri-calendar',                        'rls.hijri',     cityName, true],
-        ['rl-moon',      prefix + '/moon-today-in-' + citySlug,             'rls.moon',      cityName, true],
+        ['rl-moon',      prefix + '/moon-today-in-' + _moonSlug,            'rls.moon',      cityName, true],
         // ⚪ Nav tier (Refinement #4 — country link uses "اليوم")
         ['rl-weekly',    prefix + '/prayer-times-in-' + citySlug + '#prayer-schedule-section', 'rls.weekly', cityName, true],
         ['rl-country',   prefix + '/prayer-times-in-' + (countrySlug || ''), 'rls.country',   countryName || cityName, !!countrySlug],
@@ -6332,10 +6345,20 @@ function updateMiniIslamicTools(citySlug, lang) {
     const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
     const _t = (typeof t === 'function') ? t : null;
 
+    // FIX: للمدن غير المعروفة (Phonsavan/Ban Thad/المذنب…) — أَلحِق إحداثيّات للـ slug
+    let _mitSlug = citySlug;
+    if (currentLat != null && currentLng != null
+        && isFinite(currentLat) && isFinite(currentLng)
+        && citySlug && !/^loc-/.test(citySlug) && !/-\d+(\.\d+)?-\d+(\.\d+)?$/.test(citySlug)) {
+        const _latStr = Number(currentLat).toFixed(4);
+        const _lngStr = Number(currentLng).toFixed(4);
+        _mitSlug = `${citySlug}-${_latStr}-${_lngStr}`;
+    }
+
     const items = [
-        { id: 'mit-qibla', href: prefix + '/qibla-in-' + citySlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
+        { id: 'mit-qibla', href: prefix + '/qibla-in-' + _mitSlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
         { id: 'mit-hijri', href: prefix + '/hijri-calendar',           key: 'mit.hijri', fallback: { ar:'التاريخ الهجريّ', en:'Hijri Date', fr:'Date Hijri', tr:'Hicri Tarih', ur:'ہجری تاریخ', de:'Hidschri',    id:'Tanggal Hijriah', es:'Fecha Hijri', bn:'হিজরি তারিখ', ms:'Tarikh Hijriah' } },
-        { id: 'mit-moon',  href: prefix + '/moon-today-in-' + citySlug, key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
+        { id: 'mit-moon',  href: prefix + '/moon-today-in-' + _mitSlug, key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
     ];
 
     items.forEach(it => {
@@ -6530,7 +6553,7 @@ function updateMoonTodayCard() {
     const cta = document.getElementById('mtc-cta');
     if (!cta) return;
 
-    // ── (1) href: /moon-today-in-{citySlug} (with language prefix) ──
+    // ── (1) href: /moon-today-in-{citySlug}[-{lat}-{lng}] (with language prefix) ──
     const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _langPrefix = (_lng === 'ar') ? '' : ('/' + _lng);
     let _citySlug = 'mecca';
@@ -6538,7 +6561,17 @@ function updateMoonTodayCard() {
         const _m = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+?)(?:-\-?\d+(?:\.\d+)?-\-?\d+(?:\.\d+)?)?\/?$/);
         if (_m && _m[1]) _citySlug = _m[1];
     } catch (_) {}
-    cta.setAttribute('href', _langPrefix + '/moon-today-in-' + _citySlug);
+    // FIX: للمدن غير المعروفة (Phonsavan, Ban Thad…) — أَلحِق إحداثيّات
+    let _ctaSlug = _citySlug;
+    if (currentLat != null && currentLng != null
+        && isFinite(currentLat) && isFinite(currentLng)
+        && _citySlug !== 'mecca' && !/^loc-/.test(_citySlug)
+        && !/-\d+(\.\d+)?-\d+(\.\d+)?$/.test(_citySlug)) {
+        const _latStr = Number(currentLat).toFixed(4);
+        const _lngStr = Number(currentLng).toFixed(4);
+        _ctaSlug = `${_citySlug}-${_latStr}-${_lngStr}`;
+    }
+    cta.setAttribute('href', _langPrefix + '/moon-today-in-' + _ctaSlug);
 
     // ── (2) phase name + illum + age ──────────────────────────
     const phaseEl = document.getElementById('mtc-phase-label');

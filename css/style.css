@@ -83,7 +83,9 @@ html[data-theme="dark"] {
     --text-light: #a8b3c1;
     --border: #444c56;             /* subtle borders */
     --shadow: 0 2px 8px rgba(0,0,0,0.3);
-    --link: #6cb6ff;
+    /* R37t — links use the brand green on dark per user request (was Twitter-blue
+       #6cb6ff which clashed with the brand identity). */
+    --link: #4dcb8c;
     --bg-subtle:  #2a3038;         /* chip/pill bg on dark */
     --bg-muted:   #2a3038;         /* popular-cities chip bg */
     --bg-elevated:#373e47;         /* sub-card raised */
@@ -668,8 +670,12 @@ html[data-theme="dark"] .hijri-breadcrumb {
     color: var(--text-light);
     border-color: var(--border);
 }
+/* R37t — use the bright brand green for breadcrumb links (and any "a" tag
+   inside the breadcrumb) instead of the previous Twitter-blue link color. */
 html[data-theme="dark"] .breadcrumb-list a,
-html[data-theme="dark"] .bc-link { color: var(--link); }
+html[data-theme="dark"] .bc-link { color: var(--primary-dark) !important; }
+html[data-theme="dark"] .breadcrumb-list a:hover,
+html[data-theme="dark"] .bc-link:hover { color: var(--primary-light) !important; }
 html[data-theme="dark"] .bc-current,
 html[data-theme="dark"] .bc-sep { color: var(--text-light); }
 /* Location-suggestion bar */

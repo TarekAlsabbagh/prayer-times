@@ -4541,26 +4541,29 @@ function fetchCitySuggestions(query) {
             if (_isWardLike(rawName) || _isWardLike(_rawEn)) return false;
             return true;
         };
-        // ─── الفلتر المتساهل (Tier 2 — fallback): يقبل أي مكان مأهول له إحداثيّات
-        //   مفيد للمدن/القرى الصغيرة التي لا يصنّفها OSM دائماً بـ city/town/village.
-        //   نرفض فقط ما هو ليس "مكان": دولة، طريق، مبنى، POI، حدود إداريّة بحتة.
-        const _laxRejectTypes = new Set(['country', 'highway', 'building', 'amenity', 'shop',
-            'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made']);
+        // ─── الفلتر المتساهل (Tier 2): يقبل المدن والقرى والمناطق الإداريّة ───
+        //   ➜ يرفض صراحةً: دولة، شارع/طريق، حي/ضاحية، مبنى، POI
+        const _laxRejectClass = new Set(['country', 'highway', 'building', 'amenity', 'shop',
+            'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made', 'waterway',
+            'natural', 'landuse', 'aeroway', 'railway']);
+        const _laxRejectType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential',
+            'hamlet_neighbourhood', 'isolated_dwelling', 'farm', 'plot']);
+        const _laxRejectAddrType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential']);
         const _laxFilter = (p) => {
-            if (_laxRejectTypes.has(p.class)) return false;
-            // يجب أن يكون له إحداثيّات صالحة
+            if (_laxRejectClass.has(p.class)) return false;
+            if (_laxRejectType.has(p.type)) return false;
+            if (_laxRejectAddrType.has(p.addresstype)) return false;
             const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
             if (!isFinite(lat) || !isFinite(lon)) return false;
-            // يجب أن يكون له اسم
             if (!p.name && !p.display_name) return false;
-            // استبعد الشوارع/الأحياء الواضحة بالاسم
+            // رفض الشوارع/الأحياء بالاسم (محافظة/منطقة/مقاطعة مقبولتان لأنّها مكان جغرافيّ)
             const firstPart = (p.display_name || '').split(',')[0] || '';
-            if (_isAdminOrStreetLike(firstPart) && !p.namedetails?.name) return false;
+            if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
             return true;
         };
         // Tier 1: صارم
         let results = all.filter(_strictFilter);
-        // Tier 2: لو فاضي → أعد المحاولة بالفلتر المرن (لا تُسقط نتائج صارمة موجودة)
+        // Tier 2: لو فاضي → أعد المحاولة بالفلتر المرن
         if (results.length === 0) {
             results = all.filter(_laxFilter);
         }
@@ -4721,14 +4724,26 @@ function fetchCityOnlineBroader(query) {
                 if (_isWardLike(nm) || _isWardLike(_rawEnForWard)) return false;
                 return true;
             };
-            // Tier 2 (مرن): أيّ مكان جغرافيّ — يرفض فقط الواضح غير-المكاني
-            const _laxRejectTypes = new Set(['country', 'highway', 'building', 'amenity',
-                'shop', 'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made']);
+            // Tier 2 (مرن): يقبل المدن والقرى والمناطق الإداريّة (district/county/province/region)
+            //   ➜ يرفض صراحةً: دولة، شارع/طريق، حي/ضاحية، مبنى، POI
+            const _laxRejectClass = new Set(['country', 'highway', 'building', 'amenity',
+                'shop', 'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made', 'waterway',
+                'natural', 'landuse', 'aeroway', 'railway']);
+            // أنواع الأحياء/الضواحي (نرفضها بالاسم سواء كانت place أو boundary)
+            const _laxRejectType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential',
+                'hamlet_neighbourhood', 'isolated_dwelling', 'farm', 'plot']);
+            // addresstype للأحياء
+            const _laxRejectAddrType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential']);
             const _lax = (p) => {
-                if (_laxRejectTypes.has(p.class)) return false;
+                if (_laxRejectClass.has(p.class)) return false;
+                if (_laxRejectType.has(p.type)) return false;
+                if (_laxRejectAddrType.has(p.addresstype)) return false;
                 const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
                 if (!isFinite(lat) || !isFinite(lon)) return false;
                 if (!p.name && !p.display_name) return false;
+                // فلتر اسميّ: رفض الشوارع/الأحياء بالاسم (محافظة/منطقة مقبولتان لأنّهما مكان جغرافيّ)
+                const firstPart = (p.display_name || '').split(',')[0] || '';
+                if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
                 return true;
             };
             const arr = (data || []).filter(_dedup);

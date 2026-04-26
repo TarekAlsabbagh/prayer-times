@@ -8691,14 +8691,19 @@ html.city-page #mini-islamic-tools.u-hidden {
 }
 
 /* ── City Page — hide home-only sections ─────────────────────────────── */
-/* NOTE: .location-hero is kept visible on city pages — it now serves as the
+/* NOTE: .location-hero is kept visible on DESKTOP city pages — it serves as the
    persuasive landing hero there too (H1 + subtitle + search + dual CTA + badges),
-   with the dynamic H1 already wired to city context via .loc-hero-title selector. */
+   with the dynamic H1 already wired to city context via .loc-hero-title selector.
+   On MOBILE (≤768px) we hide it (UAT-2.5) so #page-h1 + .next-prayer-banner +
+   .prayer-cards rise above the fold — that's the answer the visitor came for. */
 html.city-page .most-searched-chips,
 html.city-page #arab-countries-section,
 html.city-page #home-quick-access,
 html.city-page .moon-today-card {
     display: none !important;
+}
+@media (max-width: 768px) {
+    html.city-page .location-hero { display: none !important; }
 }
 /* #country-cities-section يظهر على صفحة المدينة بدلاً من إخفائه */
 /* On city pages the in-page compact search duplicates the hero search — hide it */

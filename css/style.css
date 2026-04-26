@@ -240,6 +240,37 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37j — Home Quick-Access cards (#home-quick-access .qa-card).
+   Issues on dark: .qa-title used var(--primary-dark) which on dark
+   resolves to #4aa776 — readable but dim. Featured cards used a faint
+   light-green gradient that's invisible on dark surfaces. */
+html[data-theme="dark"] .home-quick-access .qa-card {
+    background: var(--surface-raised);
+    color: var(--text);
+    border: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+html[data-theme="dark"] .home-quick-access .qa-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.5);
+    background: var(--card-bg);
+}
+html[data-theme="dark"] .qa-title { color: var(--text) !important; font-weight: 700; }
+html[data-theme="dark"] .qa-sub   { color: var(--text-light) !important; }
+html[data-theme="dark"] .qa-icon  { opacity: 1; }
+/* Featured cards (Qibla / Moon — those marked qa-featured) — boost the
+   green tint so they actually stand out on dark surfaces. */
+html[data-theme="dark"] .home-quick-access .qa-card.qa-featured {
+    background: linear-gradient(135deg, rgba(122,199,158,0.18) 0%, rgba(122,199,158,0.06) 100%) !important;
+    border: 1.5px solid var(--primary) !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .home-quick-access .qa-card.qa-featured:hover {
+    border-color: var(--primary-light) !important;
+    box-shadow: 0 8px 22px rgba(122,199,158,0.20);
+}
+html[data-theme="dark"] #home-services-title { color: var(--text); }
+
 /* R37i — Most-Searched chips + weekly-expand button + similar pills.
    Defining --bg-subtle in both themes (above) auto-themes the bg.
    But text colors (var(--primary-dark) → #4aa776 on dark) need brighter:

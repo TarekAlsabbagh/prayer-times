@@ -10130,7 +10130,11 @@ async function updateCityCountryInfo() {
 async function fetchNearbyPlaces(lat, lng) {
     const section = document.getElementById('nearby-section');
     const grid = document.getElementById('nearby-grid');
-    grid.innerHTML = '<div style="padding:16px;color:var(--text-light)">⏳ جاري البحث عن أماكن قريبة...</div>';
+    // FIX i18n: نصّ التحميل لكل اللغات
+    const _loadingTxt = (typeof t === 'function')
+        ? (t('nearby.loading') || '⏳ Loading nearby places...')
+        : '⏳ Loading nearby places...';
+    grid.innerHTML = '<div style="padding:16px;color:var(--text-light)">' + _loadingTxt + '</div>';
     section.style.display = 'block';
     section.classList.add('cls-ready');
 
@@ -10227,7 +10231,11 @@ async function fetchNearbyPlaces(lat, lng) {
     }));
 
     if (places.length === 0) {
-        grid.innerHTML = '<div style="padding:16px;color:var(--text-light)">لا توجد أماكن قريبة</div>';
+        // FIX i18n: نصّ "لا توجد" لكل اللغات
+        const _noneTxt = (typeof t === 'function')
+            ? (t('nearby.none') || 'No nearby places found')
+            : 'No nearby places found';
+        grid.innerHTML = '<div style="padding:16px;color:var(--text-light)">' + _noneTxt + '</div>';
         return;
     }
 

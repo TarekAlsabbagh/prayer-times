@@ -87,6 +87,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 تقدير إحصائي — يُحسب بناءً على آخر إحصاء رسمي مضافاً إليه معدل النمو السنوي للدولة مقسّماً على ثانية',
         // الأماكن القريبة
         'nearby.title': '📍 أماكن قريبة من موقعك',
+        'nearby.loading': '⏳ جاري البحث عن أماكن قريبة...',
+        'nearby.none': 'لا توجد أماكن قريبة',
         // معلومات إضافية
         'info.title': '📊 معلومات إضافية',
         'info.hijri': 'التاريخ الهجري',
@@ -1161,6 +1163,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 Statistical estimate — based on the latest census plus annual growth rate per second',
         // Nearby
         'nearby.title': '📍 Nearby Places',
+        'nearby.loading': '⏳ Loading nearby places...',
+        'nearby.none': 'No nearby places found',
         // Info
         'info.title': '📊 Additional Info',
         'info.hijri': 'Hijri Date',
@@ -2213,6 +2217,8 @@ const TRANSLATIONS = {
         'pop.since_opened': '+{count} depuis l\'ouverture de la page',
         'pop.note': '📊 Estimation statistique — basée sur le dernier recensement plus le taux de croissance annuel par seconde',
         'nearby.title': '📍 Lieux à proximité',
+        'nearby.loading': '⏳ Recherche de lieux à proximité...',
+        'nearby.none': 'Aucun lieu à proximité trouvé',
         'info.title': '📊 Informations supplémentaires',
         'info.hijri': 'Date Hégirienne',
         'info.gregorian': 'Date Grégorienne',
@@ -3132,6 +3138,8 @@ const TRANSLATIONS = {
         'pop.since_opened': 'Sayfa açıldığından beri +{count}',
         'pop.note': '📊 İstatistiksel tahmin — son sayıma yıllık büyüme oranı saniye başına eklenir',
         'nearby.title': '📍 Yakındaki Yerler',
+        'nearby.loading': '⏳ Yakındaki yerler aranıyor...',
+        'nearby.none': 'Yakında yer bulunamadı',
         'info.title': '📊 Ek Bilgiler',
         'info.hijri': 'Hicri Tarih',
         'info.gregorian': 'Miladi Tarih',
@@ -4051,6 +4059,8 @@ const TRANSLATIONS = {
         'pop.since_opened': 'صفحہ کھلنے کے بعد سے +{count}',
         'pop.note': '📊 شماریاتی اندازہ — آخری مردم شماری پر سالانہ شرح اضافہ فی سیکنڈ',
         'nearby.title': '📍 قریبی مقامات',
+        'nearby.loading': '⏳ قریبی مقامات تلاش کیے جا رہے ہیں...',
+        'nearby.none': 'کوئی قریبی مقام نہیں ملا',
         'info.title': '📊 اضافی معلومات',
         'info.hijri': 'ہجری تاریخ',
         'info.gregorian': 'عیسوی تاریخ',
@@ -4984,6 +4994,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 Statistische Schätzung — basierend auf der letzten Volkszählung plus jährlicher Wachstumsrate pro Sekunde',
         // Nearby
         'nearby.title': '📍 Orte in der Nähe',
+        'nearby.loading': '⏳ Suche nach Orten in der Nähe...',
+        'nearby.none': 'Keine Orte in der Nähe gefunden',
         // Info
         'info.title': '📊 Zusätzliche Informationen',
         'info.hijri': 'Hidschri-Datum',
@@ -5958,6 +5970,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 Perkiraan statistik — berdasarkan sensus terakhir ditambah laju pertumbuhan tahunan per detik',
         // Nearby
         'nearby.title': '📍 Tempat terdekat',
+        'nearby.loading': '⏳ Mencari tempat terdekat...',
+        'nearby.none': 'Tidak ada tempat terdekat ditemukan',
         // Info
         'info.title': '📊 Informasi Tambahan',
         'info.hijri': 'Tanggal Hijriah',
@@ -6932,6 +6946,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 Estadística estimada — basada en el último censo más la tasa de crecimiento anual por segundo',
         // Nearby
         'nearby.title': '📍 Lugares cercanos',
+        'nearby.loading': '⏳ Buscando lugares cercanos...',
+        'nearby.none': 'No se encontraron lugares cercanos',
         // Info
         'info.title': '📊 Información Adicional',
         'info.hijri': 'Fecha Hijri',
@@ -7906,6 +7922,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 আনুমানিক পরিসংখ্যান — সর্বশেষ আদমশুমারির ভিত্তিতে প্রতি সেকেন্ডে বার্ষিক বৃদ্ধির হার যোগ করে',
         // Nearby
         'nearby.title': '📍 কাছাকাছি স্থান',
+        'nearby.loading': '⏳ কাছাকাছি স্থান খোঁজা হচ্ছে...',
+        'nearby.none': 'কাছাকাছি কোনো স্থান পাওয়া যায়নি',
         // Info
         'info.title': '📊 অতিরিক্ত তথ্য',
         'info.hijri': 'হিজরি তারিখ',
@@ -8880,6 +8898,8 @@ const TRANSLATIONS = {
         'pop.note': '📊 Anggaran statistik — berdasarkan banci terkini ditambah kadar pertumbuhan tahunan per saat',
         // Nearby
         'nearby.title': '📍 Tempat berdekatan',
+        'nearby.loading': '⏳ Mencari tempat berdekatan...',
+        'nearby.none': 'Tiada tempat berdekatan dijumpai',
         // Info
         'info.title': '📊 Maklumat Tambahan',
         'info.hijri': 'Tarikh Hijrah',

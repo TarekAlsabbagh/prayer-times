@@ -1488,14 +1488,14 @@ button, input, select { font-family: inherit; }
 }
 
 /* ضمن الوضع الداكن — نرفع السطوع قليلاً لأجل التباين */
-@media (prefers-color-scheme: dark) {
-    .moon-date-badge.hijri {
+
+    html[data-theme="dark"] .moon-date-badge.hijri {
         background: rgba(212, 160, 23, 0.22);
     }
-    .moon-date-badge.gregorian {
+    html[data-theme="dark"] .moon-date-badge.gregorian {
         background: rgba(59, 130, 246, 0.22);
     }
-}
+
 
 /* تمييز بصريّ إضافيّ للصندوق «اليوم الهجريّ» عند دخول المستخدم عبر رابط هجريّ */
 html.moon-hijri-context .hijri-today-card,
@@ -1518,9 +1518,9 @@ html.moon-hijri-context #hijri-today {
  * since the day cell and the hijri cell still navigate to the dated page.
  */
 .fc-row-clickable:hover { background: rgba(46,125,50,0.04); }
-@media (prefers-color-scheme: dark) {
-    .fc-row-clickable:hover { background: rgba(76,175,80,0.06); }
-}
+
+    html[data-theme="dark"] .fc-row-clickable:hover { background: rgba(76,175,80,0.06); }
+
 
 /* ═══ Today-row highlight in the 14-day moon forecast ═══
  * Row matching the real current date gets a tinted background + colored inline-start border
@@ -1535,10 +1535,10 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
 }
 .moon-forecast-table tr.fc-row-today td { font-weight: 700; color: var(--primary); }
 .moon-forecast-table tr.fc-row-today:hover { background: rgba(46,125,50,0.15); }
-@media (prefers-color-scheme: dark) {
-    .moon-forecast-table tr.fc-row-today { background: rgba(76,175,80,0.14); }
-    .moon-forecast-table tr.fc-row-today:hover { background: rgba(76,175,80,0.22); }
-}
+
+    html[data-theme="dark"] .moon-forecast-table tr.fc-row-today { background: rgba(76,175,80,0.14); }
+    html[data-theme="dark"] .moon-forecast-table tr.fc-row-today:hover { background: rgba(76,175,80,0.22); }
+
 
 /* ═══ Round 17: Hub Weekly Moon Calendar (7 cells: −3 … +3 days) ═══
  * SSR-rendered on /moon-in-{city} hub pages only. Each cell links to a dated page,
@@ -1599,18 +1599,17 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     .moon-hub-cal-cell a { min-height: 80px; font-size: 0.78rem; }
     .moon-hub-cal-phase { font-size: 1.4rem; }
 }
-@media (prefers-color-scheme: dark) {
-    .moon-hub-cal-cell a {
+
+    html[data-theme="dark"] .moon-hub-cal-cell a {
         background: rgba(76,175,80,0.08);
         border-color: rgba(76,175,80,0.22);
     }
-    .moon-hub-cal-cell a:hover,
-    .moon-hub-cal-cell a:focus { background: rgba(76,175,80,0.18); }
-    .moon-hub-cal-cell--today a {
+    html[data-theme="dark"] .moon-hub-cal-cell a:hover, html[data-theme="dark"] .moon-hub-cal-cell a:focus { background: rgba(76,175,80,0.18); }
+    html[data-theme="dark"] .moon-hub-cal-cell--today a {
         background: rgba(76,175,80,0.22);
         border-color: rgba(76,175,80,0.5);
     }
-}
+
 
 /* ═══ Round 18-A: Today-page Hub CTA ═══
    مكمِّل لـ .moon-forecast-cta — مظهر outlined بدل filled ليُميَّز عنه بصريّاً
@@ -1640,18 +1639,17 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
 @media (max-width: 640px) {
     .moon-hub-cta { font-size: 0.98rem; padding: 12px 14px; }
 }
-@media (prefers-color-scheme: dark) {
-    .moon-hub-cta {
-        color: #81c784;
+
+    html[data-theme="dark"] .moon-hub-cta {
+        color: var(--primary-light);
         border-color: rgba(129,199,132,0.6);
     }
-    .moon-hub-cta:hover,
-    .moon-hub-cta:focus {
+    html[data-theme="dark"] .moon-hub-cta:hover, html[data-theme="dark"] .moon-hub-cta:focus {
         background: rgba(129,199,132,0.22);
         color: #e8f5e9;
-        border-color: #81c784;
+        border-color: var(--primary-light);
     }
-}
+
 
 /* ═══ Round 19: Hub-page primary CTA — "استعرض تفاصيل اليوم" ═══
    يظهر داخل /moon-in-{city} بعد Calendar Grid، يقود إلى /moon-in-{city}/{today-iso}.
@@ -1791,13 +1789,13 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     font-style: italic;
     margin-top: 2px;
 }
-@media (prefers-color-scheme: dark) {
-    .moon-hijri-today {
+
+    html[data-theme="dark"] .moon-hijri-today {
         background: linear-gradient(135deg, rgba(76,175,80,0.14), rgba(76,175,80,0.04));
         border-color: rgba(76,175,80,0.32);
     }
-    .moon-hijri-lunar { background: rgba(0,0,0,0.25); }
-}
+    html[data-theme="dark"] .moon-hijri-lunar { background: rgba(0,0,0,0.25); }
+
 @media (max-width: 480px) {
     .moon-hijri-today { padding: 12px 14px; }
     .moon-hijri-date { font-size: 1.15rem; }
@@ -1899,11 +1897,11 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     margin: 6px 0 0;
     text-align: center;
 }
-@media (prefers-color-scheme: dark) {
-    .moon-event-card { border-color: rgba(76,175,80,0.25); }
-    .moon-event-soon { border-color: rgba(255,167,38,0.6); }
-    .moon-event-soon .moon-event-days { color: #ffb74d; }
-}
+
+    html[data-theme="dark"] .moon-event-card { border-color: rgba(76,175,80,0.25); }
+    html[data-theme="dark"] .moon-event-soon { border-color: rgba(255,167,38,0.6); }
+    html[data-theme="dark"] .moon-event-soon .moon-event-days { color: #ffb74d; }
+
 @media (max-width: 480px) {
     .moon-events-countdown { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .moon-event-card { padding: 12px 10px; gap: 8px; }
@@ -2259,24 +2257,21 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
 }
 
 /* ── Dark mode tweaks ── */
-@media (prefers-color-scheme: dark) {
-    .countdown-page .countdown-hero {
+
+    html[data-theme="dark"] .countdown-page .countdown-hero {
         background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(46,125,50,0.08));
         border-color: rgba(76,175,80,0.35);
     }
-    .countdown-page .countdown-h1 { color: #81c784; }
-    .ct-cell { background: #1e1f24; border-color: rgba(76,175,80,0.3); }
-    .ct-value { color: #a5d6a7; }
-    .cic-card { background: #252630; border-color: rgba(255,255,255,0.06); }
-    .countdown-notice p { background: rgba(255,167,38,0.12); border-inline-start-color: #ffa726; }
-    .countdown-facts li { background: #252630; }
-    .countdown-table th { background: rgba(76,175,80,0.15); color: #81c784; }
-    .countdown-cities-grid li a,
-    .countdown-links-list li a,
-    .countdown-links-row a,
-    .countdown-faq-list details { background: #252630; border-color: rgba(255,255,255,0.06); color: #e0e0e0; }
-    .countdown-faq-list summary { color: #f0f0f0; }
-}
+    html[data-theme="dark"] .countdown-page .countdown-h1 { color: var(--primary-light); }
+    html[data-theme="dark"] .ct-cell { background: var(--surface-sunken); border-color: rgba(76,175,80,0.3); }
+    html[data-theme="dark"] .ct-value { color: var(--primary-light); }
+    html[data-theme="dark"] .cic-card { background: var(--card-bg); border-color: rgba(255,255,255,0.06); }
+    html[data-theme="dark"] .countdown-notice p { background: rgba(255,167,38,0.12); border-inline-start-color: #ffa726; }
+    html[data-theme="dark"] .countdown-facts li { background: var(--card-bg); }
+    html[data-theme="dark"] .countdown-table th { background: rgba(76,175,80,0.15); color: var(--primary-light); }
+    html[data-theme="dark"] .countdown-cities-grid li a, html[data-theme="dark"] .countdown-links-list li a, html[data-theme="dark"] .countdown-links-row a, html[data-theme="dark"] .countdown-faq-list details { background: var(--card-bg); border-color: rgba(255,255,255,0.06); color: var(--text); }
+    html[data-theme="dark"] .countdown-faq-list summary { color: var(--text); }
+
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
@@ -2329,9 +2324,9 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     font-size: 0.85rem;
 }
 .moon-sticky-up:hover { background: var(--primary-dark, #1b5e20); }
-@media (prefers-color-scheme: dark) {
-    .moon-sticky-bar { background: rgba(20,20,20,0.96); border-bottom-color: rgba(76,175,80,0.30); }
-}
+
+    html[data-theme="dark"] .moon-sticky-bar { background: rgba(20,20,20,0.96); border-bottom-color: rgba(76,175,80,0.30); }
+
 @media (max-width: 480px) {
     .moon-sticky-bar { padding: 6px 10px; font-size: 0.82rem; }
     .moon-sticky-up { padding: 3px 8px; font-size: 0.78rem; }
@@ -3219,9 +3214,9 @@ html[dir="rtl"] .moon-cities-grid a:hover::after { transform: scaleX(-1) transla
     .moon-cities-grid a { padding: 10px; font-size: 0.88rem; gap: 8px; }
     .moon-city-flag { font-size: 1.2rem; }
 }
-@media (prefers-color-scheme: dark) {
-    .moon-cities-grid a:hover { box-shadow: 0 4px 10px rgba(76,175,80,0.18); }
-}
+
+    html[data-theme="dark"] .moon-cities-grid a:hover { box-shadow: 0 4px 10px rgba(76,175,80,0.18); }
+
 .moon-faq { display: flex; flex-direction: column; gap: 8px; }
 /* 🆕 Priority B.1: عنوان فرعيّ لمجموعات FAQ */
 .moon-faq-group-heading {
@@ -6062,11 +6057,11 @@ html[dir="ltr"] .hpage-hero-start { text-align: left; }
     border-bottom: 1px dashed currentColor;
 }
 .hpage-today-in-month a:hover { opacity: 0.85; }
-@media (prefers-color-scheme: dark) {
-    .hpage-today-in-month {
+
+    html[data-theme="dark"] .hpage-today-in-month {
         background: rgba(76,175,80,0.14);
     }
-}
+
 /* Footer SEO paragraph — inline anchors (dynamic internal links) */
 .hpage-footer-seo-note a {
     color: var(--primary);

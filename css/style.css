@@ -7602,6 +7602,10 @@ body.has-sticky-bar .top-header {
    Philosophy: Home = Search | City = Answer + Depth + Internal Linking
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* R37q — Prayer-schedule table is a CITY-PAGE feature only; remove from
+   the home page (and any non-city page) entirely. */
+html:not(.city-page) #prayer-schedule-section { display: none !important; }
+
 /* ── City Page — show city-only sections ─────────────────────────────── */
 html.city-page #city-hero-answer,
 html.city-page #city-summary-paragraph,

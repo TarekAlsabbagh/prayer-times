@@ -262,6 +262,33 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37ad — Moon-Forecast 14-day table (#moon-forecast). Day links use
+   var(--primary) which on dark is the deeper button-green (#2d9059) — too
+   dim for body text on a dark surface. Hijri-link uses var(--accent) which
+   themes to soft gold but could be brighter. */
+html[data-theme="dark"] .moon-forecast-table { color: var(--text); }
+html[data-theme="dark"] .moon-forecast-table th { background: var(--surface-sunken); color: var(--text); border-color: var(--border); }
+html[data-theme="dark"] .moon-forecast-table td { border-color: var(--border); color: var(--text); }
+html[data-theme="dark"] .fc-day-link { color: var(--primary-dark) !important; font-weight: 700; }
+html[data-theme="dark"] .fc-day-link:hover,
+html[data-theme="dark"] .fc-day-link:focus { background: rgba(122,199,158,0.12); }
+html[data-theme="dark"] .fc-hijri-link { color: var(--accent) !important; font-weight: 600; }
+html[data-theme="dark"] .fc-hijri-link:hover,
+html[data-theme="dark"] .fc-hijri-link:focus { background: rgba(232,200,96,0.12); }
+html[data-theme="dark"] .fc-phase-icon,
+html[data-theme="dark"] .fc-hijri-icon { filter: none; }
+/* Today row */
+html[data-theme="dark"] .moon-forecast-table tr.fc-row-today {
+    background: rgba(122,199,158,0.18) !important;
+}
+html[data-theme="dark"] .moon-forecast-table tr.fc-row-today:hover {
+    background: rgba(122,199,158,0.26) !important;
+}
+html[data-theme="dark"] .moon-forecast-table tr.fc-row-today td { color: var(--primary-dark); }
+html[data-theme="dark"] .moon-forecast-table tr.fc-row-today .fc-day-link { color: var(--primary-dark) !important; }
+/* Section title */
+html[data-theme="dark"] #moon-forecast-h2 { color: var(--text); }
+
 /* R37aa — Islamic events countdown (.moon-events-section: رمضان / عيد الفطر /
    عيد الأضحى / رأس السنة الهجريّة). Each card has a per-event tinted gradient
    designed for white bg — on dark these become faint blots that overpaint the

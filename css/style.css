@@ -262,6 +262,54 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37z — Upcoming Moon Phases section (.moon-upcoming-section).
+   Originals use a washed-out light-blue gradient on the section, semi-white
+   bg on each card, and per-phase pastel hex colors (indigo/orange/yellow/
+   purple) — all become weird on dark. */
+html[data-theme="dark"] .moon-upcoming-section {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+}
+html[data-theme="dark"] .moon-upcoming-title { color: var(--text); }
+html[data-theme="dark"] .moon-upcoming-subtitle,
+html[data-theme="dark"] .moon-upcoming-notice { color: var(--text-light); }
+html[data-theme="dark"] .moon-upcoming-card {
+    background: var(--surface-sunken) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text);
+}
+html[data-theme="dark"] .moon-upcoming-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border-color: var(--primary) !important;
+}
+html[data-theme="dark"] .moon-upcoming-card.is-next {
+    background: linear-gradient(135deg, rgba(122,199,158,0.16), rgba(122,199,158,0.06)) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px rgba(45,144,89,0.3), 0 4px 12px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .moon-upcoming-card.is-next::before {
+    background: var(--card-bg);
+    color: var(--primary-light);
+}
+/* Per-phase brand-aligned colors for dark — brightened from the light-mode
+   pastels so they stay readable on dark surfaces. */
+html[data-theme="dark"] .moon-upcoming-card.mu-phase-new_moon .mu-phase-name      { color: #8aa3ff; }
+html[data-theme="dark"] .moon-upcoming-card.mu-phase-first_quarter .mu-phase-name { color: #ffb74d; }
+html[data-theme="dark"] .moon-upcoming-card.mu-phase-full_moon .mu-phase-name     { color: #ffd54f; }
+html[data-theme="dark"] .moon-upcoming-card.mu-phase-last_quarter .mu-phase-name  { color: #ce93d8; }
+html[data-theme="dark"] .moon-upcoming-card .mu-date  { color: var(--text); }
+html[data-theme="dark"] .moon-upcoming-card .mu-time  { color: var(--text-light); }
+html[data-theme="dark"] .moon-upcoming-card .mu-icon  { filter: none; }
+html[data-theme="dark"] .moon-upcoming-card .mu-countdown {
+    background: rgba(122,199,158,0.15);
+    color: var(--primary-dark);
+}
+html[data-theme="dark"] .moon-upcoming-card.is-next .mu-countdown {
+    background: rgba(122,199,158,0.28);
+    color: var(--text);
+    font-weight: 800;
+}
+
 /* R37x — Moon phase cycle row (.mc-phase-cycle: 🌑 محاق / 🌒 هلال / 🌓 تربيع
    / 🌔 أحدب / 🌕 بدر). Two original issues on dark:
    - Container bg: rgba(255,255,255,0.55) — bright washed-out on dark

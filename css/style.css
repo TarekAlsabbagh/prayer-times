@@ -238,20 +238,30 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
-/* R37f — Summary-Info-Strip pills (الإمساك / مدّة الصيام / آخر ثلث / طريقة الحساب / إعدادات).
+/* R37f — Summary-Info-Strip pills (الإمساك / مدّة الصيام / آخر ثلث / طريقة الحساب).
    Originals use var(--bg-subtle, #f5f5f5) — but --bg-subtle is undefined,
    so they paint pure light gray on dark backgrounds. */
-html[data-theme="dark"] .sis-item,
-html[data-theme="dark"] .sis-settings {
+html[data-theme="dark"] .sis-item {
     background: var(--surface-sunken) !important;
     color: var(--text) !important;
     border-color: var(--border) !important;
 }
 html[data-theme="dark"] .sis-item b { color: var(--primary-light) !important; }
-html[data-theme="dark"] .sis-item:hover,
-html[data-theme="dark"] .sis-settings:hover {
+html[data-theme="dark"] .sis-item:hover {
     background: rgba(122,199,158,0.12) !important;
     border-color: var(--primary) !important;
+}
+/* Settings button — keep it as a branded CTA (R37g) on dark too */
+html[data-theme="dark"] .sis-settings {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    color: #fff !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .sis-settings:hover {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary)) !important;
+    border-color: var(--primary-light) !important;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.5);
 }
 
 /* R37e — tame text/title colors that don't theme via variables (originals
@@ -6907,25 +6917,44 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 .sis-item b { color: var(--primary-dark, #1e5631); font-weight: 700; }
 .sis-sep { display: none; } /* الفواصل لم تعد ضروريّة مع الـ pills */
 .sis-settings {
+    /* R37g — promote to a primary CTA: bigger, bolder, branded green so it
+       stands out from the surrounding info-pills, especially on mobile. */
     margin-inline-start: auto;
-    padding: 7px 14px;
-    background: var(--bg-subtle, #f5f5f5);
-    border: 1px solid var(--border, #e0e0e0);
-    border-radius: 10px;
+    padding: 11px 22px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: 1px solid var(--primary);
+    border-radius: 12px;
     cursor: pointer;
-    color: var(--text, #333);
-    font-size: .9rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
     font-family: inherit;
-    transition: background .15s, border-color .15s;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    box-shadow: 0 3px 10px rgba(26,107,60,0.25);
+    min-height: 44px;
 }
-.sis-settings:hover { background: #eef5ef; border-color: var(--primary, #2e7d32); }
+.sis-settings:hover {
+    background: linear-gradient(135deg, var(--primary-light, var(--primary)), var(--primary));
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(26,107,60,0.35);
+}
+.sis-settings:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(26,107,60,0.25); }
 @media (max-width: 640px) {
     .summary-info-strip { flex-direction: column; gap: 8px; text-align: center; }
     .sis-sep { display: none; }
-    .sis-settings { margin-inline-start: 0; }
+    /* R37g — on mobile: full-width prominent CTA */
+    .sis-settings {
+        margin-inline-start: 0;
+        width: 100%;
+        justify-content: center;
+        padding: 13px 22px;
+        font-size: 1.05rem;
+        min-height: 48px;
+    }
 }
 
 /* ═══ Weekly Compact — 3 أيّام افتراضيّاً ═══ */

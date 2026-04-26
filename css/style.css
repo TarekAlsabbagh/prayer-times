@@ -43,7 +43,106 @@ html.hijri-day-page #page-prayer-times { display: none !important; }
     --radius: 12px;
     --sidebar-width: 280px;
     --transition: 0.3s ease;
+    /* R37 — surface tokens used by the dark theme overrides below */
+    --surface-raised: #ffffff;          /* raised cards on top of --bg */
+    --surface-sunken: #fafbfc;          /* sub-cards inside cards */
+    --link: #0d6efd;
+    color-scheme: light;
 }
+
+/* ========= الوضع الداكن ========= */
+/* R37 — dark mode tokens. Activated via [data-theme="dark"] on <html>.
+   Toggle button lives next to the language switcher in the header on every page.
+   The early-load script in <head> applies theme before first paint to avoid FOUC. */
+html[data-theme="dark"] {
+    --primary: #2aa36b;            /* slightly brightened brand green for AA contrast on dark */
+    --primary-dark: #1f7a4c;
+    --primary-light: #3bbf80;
+    --gold: #e8c860;
+    --gold-light: #f0d878;
+    --bg: #0f1419;                 /* page background */
+    --card-bg: #1a2028;            /* default card */
+    --surface-raised: #1f2731;     /* raised card */
+    --surface-sunken: #161b22;     /* sub-card */
+    --text: #e8eaed;               /* primary text */
+    --text-light: #9aa0a6;         /* secondary text */
+    --border: #2d3540;
+    --shadow: 0 2px 12px rgba(0,0,0,0.4);
+    --link: #6ea8ff;
+    color-scheme: dark;
+}
+html[data-theme="dark"] body { background: var(--bg); color: var(--text); }
+html[data-theme="dark"] img { opacity: 0.92; }
+html[data-theme="dark"] img.lang-flag { opacity: 1; }
+/* Compass disc — original light gradient is too bright on dark; switch to dark gradient */
+html[data-theme="dark"] .compass {
+    background: linear-gradient(145deg, #232a36 0%, #1a2028 100%);
+    border-color: var(--primary);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.04);
+}
+html[data-theme="dark"] .compass-directions span { color: var(--text-light); }
+html[data-theme="dark"] .compass-directions .north { color: var(--primary-light); }
+/* Prayer time text-on-gradient cards — keep contrast */
+html[data-theme="dark"] .next-prayer-banner,
+html[data-theme="dark"] .prayer-card { color: var(--text); }
+/* Inputs / search */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+    background: var(--surface-sunken);
+    color: var(--text);
+    border-color: var(--border);
+}
+html[data-theme="dark"] input::placeholder { color: var(--text-light); }
+/* Outlined buttons need a visible border on dark */
+html[data-theme="dark"] .btn-outline { border-color: var(--primary); color: var(--text); }
+/* Sidebar */
+html[data-theme="dark"] .sidebar { background: var(--surface-raised); border-color: var(--border); }
+/* Suggestion lists / menus */
+html[data-theme="dark"] .suggestion-item:hover,
+html[data-theme="dark"] .lang-menu .lang-item:hover { background: var(--surface-sunken); }
+/* Footer / legal text on dark */
+html[data-theme="dark"] .home-footer,
+html[data-theme="dark"] .footer-cookie-bar { background: var(--surface-raised); color: var(--text); }
+/* Code/pre blocks (legal page) */
+html[data-theme="dark"] code, html[data-theme="dark"] pre { background: var(--surface-sunken); color: var(--text); }
+/* Smooth transition between themes (skip on first load via .theme-no-transition) */
+html:not(.theme-no-transition) body,
+html:not(.theme-no-transition) .section-card,
+html:not(.theme-no-transition) .top-header,
+html:not(.theme-no-transition) .sidebar,
+html:not(.theme-no-transition) .next-prayer-banner,
+html:not(.theme-no-transition) .prayer-card {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ========= زر الوضع الداكن/الفاتح ========= */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    line-height: 1;
+    height: 36px;
+    min-width: 40px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.theme-toggle-btn:hover { border-color: var(--primary); background: rgba(26,107,60,0.06); }
+html[data-theme="dark"] .theme-toggle-btn:hover { background: rgba(42,163,107,0.12); }
+.theme-toggle-btn:active { transform: scale(0.96); }
+.theme-toggle-btn .ttb-icon { display: inline-block; line-height: 1; }
+/* Show sun on dark mode (clicking returns to light), moon on light mode */
+.theme-toggle-btn .ttb-icon-sun { display: none; }
+.theme-toggle-btn .ttb-icon-moon { display: inline-block; }
+html[data-theme="dark"] .theme-toggle-btn .ttb-icon-sun { display: inline-block; }
+html[data-theme="dark"] .theme-toggle-btn .ttb-icon-moon { display: none; }
 
 /* ========= إعادة تعيين ========= */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

@@ -1010,6 +1010,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'الرئيسية',
         'header.detect_title': 'تحديد موقعي تلقائياً',
         'header.home_title': 'الصفحة الرئيسية',
+        'header.theme_toggle': 'تبديل الوضع الداكن/الفاتح',
         // الصفحة الرئيسية
         'home.hijri_today': 'التاريخ الهجري اليوم',
         'home.date_converter': 'تحويل التاريخ',
@@ -2083,6 +2084,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Home',
         'header.detect_title': 'Detect my location automatically',
         'header.home_title': 'Home page',
+        'header.theme_toggle': 'Toggle dark/light mode',
         // Homepage
         'home.hijri_today': "Today's Hijri Date",
         'home.date_converter': 'Date Converter',
@@ -3011,6 +3013,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Accueil',
         'header.detect_title': 'Détecter ma position automatiquement',
         'header.home_title': 'Page d\'accueil',
+        'header.theme_toggle': 'Basculer en mode sombre/clair',
         'home.hijri_today': 'Date hégirienne du jour',
         'home.date_converter': 'Convertisseur de date',
         'home.date_converter_sub': 'Grégorien ↔ Hégirien',
@@ -3934,6 +3937,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Ana Sayfa',
         'header.detect_title': 'Konumumu otomatik tespit et',
         'header.home_title': 'Ana Sayfa',
+        'header.theme_toggle': 'Karanlık/Aydınlık modu değiştir',
         'home.hijri_today': 'Bugünün Hicri Tarihi',
         'home.date_converter': 'Tarih Dönüştürücü',
         'home.date_converter_sub': 'Miladi ↔ Hicri',
@@ -4857,6 +4861,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'ہوم',
         'header.detect_title': 'میرا مقام خودکار معلوم کریں',
         'header.home_title': 'ہوم پیج',
+        'header.theme_toggle': 'ڈارک/لائٹ موڈ تبدیل کریں',
         'home.hijri_today': 'آج کی ہجری تاریخ',
         'home.date_converter': 'تاریخ کنورٹر',
         'home.date_converter_sub': 'عیسوی ↔ ہجری',
@@ -5828,6 +5833,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Startseite',
         'header.detect_title': 'Meinen Standort automatisch erkennen',
         'header.home_title': 'Startseite',
+        'header.theme_toggle': 'Dunkel-/Hell-Modus umschalten',
         // Homepage
         'home.hijri_today': 'Heutiges Hidschri-Datum',
         'home.date_converter': 'Datumsumrechner',
@@ -6806,6 +6812,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Beranda',
         'header.detect_title': 'Deteksi lokasi saya otomatis',
         'header.home_title': 'Beranda',
+        'header.theme_toggle': 'Beralih mode gelap/terang',
         // Homepage
         'home.hijri_today': 'Tanggal Hijriah Hari Ini',
         'home.date_converter': 'Konversi Tanggal',
@@ -7784,6 +7791,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Inicio',
         'header.detect_title': 'Detectar mi ubicación automáticamente',
         'header.home_title': 'Inicio',
+        'header.theme_toggle': 'Cambiar modo oscuro/claro',
         // Homepage
         'home.hijri_today': 'Fecha Hijri de Hoy',
         'home.date_converter': 'Conversión de Fechas',
@@ -8762,6 +8770,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'হোম',
         'header.detect_title': 'স্বয়ংক্রিয়ভাবে আমার অবস্থান সনাক্ত করুন',
         'header.home_title': 'হোম',
+        'header.theme_toggle': 'ডার্ক/লাইট মোড পরিবর্তন করুন',
         // Homepage
         'home.hijri_today': 'আজকের হিজরি তারিখ',
         'home.date_converter': 'তারিখ রূপান্তর',
@@ -9740,6 +9749,7 @@ const TRANSLATIONS = {
         'header.logo_title': 'Utama',
         'header.detect_title': 'Kesan lokasi saya secara automatik',
         'header.home_title': 'Utama',
+        'header.theme_toggle': 'Tukar mod gelap/cerah',
         // Homepage
         'home.hijri_today': 'Tarikh Hijrah Hari Ini',
         'home.date_converter': 'Penukaran Tarikh',

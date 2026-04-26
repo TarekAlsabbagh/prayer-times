@@ -3299,6 +3299,44 @@ function toggleSidebar() {
     overlay.classList.toggle('open');
 }
 
+// ========= الوضع الداكن/الفاتح (R37) =========
+// الـ early-load script في <head> يطبّق الـ data-theme قبل first paint
+// (يمنع FOUC). هذه الدالة فقط للنقر اليدويّ من زرّ الهيدر.
+function toggleTheme() {
+    try {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const next = isDark ? 'light' : 'dark';
+        if (next === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+        } else {
+            html.removeAttribute('data-theme');
+        }
+        localStorage.setItem('theme', next);
+        // حدّث meta[name=theme-color] لتلوين شريط المتصفّح على الجوال
+        const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        if (metaThemeColor) metaThemeColor.setAttribute('content', next === 'dark' ? '#0f1419' : '#1e5631');
+        const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
+        if (metaColorScheme) metaColorScheme.setAttribute('content', next);
+    } catch (_e) { /* silent */ }
+}
+// استمع لتغيّر تفضيل النظام عندما لا يكون للمستخدم اختيار صريح محفوظ
+(function _watchSystemTheme() {
+    try {
+        if (!window.matchMedia) return;
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (e) => {
+            // نطبّق فقط لو لم يختر المستخدم وضعاً صريحاً
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) document.documentElement.setAttribute('data-theme', 'dark');
+                else document.documentElement.removeAttribute('data-theme');
+            }
+        };
+        if (mq.addEventListener) mq.addEventListener('change', handler);
+        else if (mq.addListener) mq.addListener(handler); // Safari < 14
+    } catch (_e) { /* silent */ }
+})();
+
 function closeSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.querySelector('.sidebar-overlay');

@@ -262,6 +262,21 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37v — Moon-detail cards (.moon-detail-card grid: عمر القمر / نسبة الإضاءة /
+   الكوكبة / شروق / غروب / البدر / المحاق / المسافة). The original sets
+       background: var(--bg);
+   On dark, --bg IS the page bg → the cards blend invisibly into the page. */
+html[data-theme="dark"] .moon-detail-card {
+    background: var(--surface-sunken) !important;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+html[data-theme="dark"] .moon-detail-card .label { color: var(--text-light); }
+html[data-theme="dark"] .moon-detail-card .value { color: var(--text); }
+html[data-theme="dark"] .moon-detail-card .value-sub { color: var(--text-light); }
+html[data-theme="dark"] .moon-zodiac-card .value,
+html[data-theme="dark"] .moon-distance-card .value { color: var(--accent); }
+
 /* R37s — Moon-page sections that hardcoded near-black/near-white surfaces.
    Token --text-secondary is now defined for both themes (above), but a few
    classes use rgba(255,255,255,0.55) etc. literally — patch them here. */

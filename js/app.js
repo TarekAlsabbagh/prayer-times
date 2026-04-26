@@ -2440,6 +2440,26 @@ async function initFromURL() {
     }
 })();
 
+// R37r — reorder: move #home-quick-access to sit immediately after
+// #nearby-section on both home and city pages (per user request).
+// Runs synchronously before initApp so the new order is the FIRST paint.
+(function _reorderQuickAccessAfterNearby() {
+    function reorder() {
+        try {
+            const qa = document.getElementById('home-quick-access');
+            const nb = document.getElementById('nearby-section');
+            if (qa && nb && nb.nextElementSibling !== qa) {
+                nb.parentNode.insertBefore(qa, nb.nextElementSibling);
+            }
+        } catch (_e) { /* silent */ }
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', reorder, { once: true });
+    } else {
+        reorder();
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', async function() {
     await initApp();
 });

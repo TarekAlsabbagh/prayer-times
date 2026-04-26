@@ -222,6 +222,16 @@ const POPULAR_CITY_NAMES = {
     marrakech:     { ar:'مرّاكش',         en:'Marrakesh',     fr:'Marrakech',     tr:'Marakeş',      ur:'مراکش',         de:'Marrakesch',    id:'Marrakesh',     es:'Marrakech',    bn:'মারাকেশ',         ms:'Marrakesh' }, // مرادف slug
     // مدن سعوديّة إضافيّة
     dammam:        { ar:'الدمام',         en:'Dammam',        fr:'Dammam',        tr:'Dammam',       ur:'دمام',          de:'Dammam',        id:'Dammam',        es:'Dammam',       bn:'দাম্মাম',         ms:'Dammam' },
+    taif:          { ar:'الطائف',         en:'Taif',          fr:'Taëf',          tr:'Taif',         ur:'طائف',          de:'Taif',          id:'Taif',          es:'Taif',         bn:'তায়েফ',           ms:'Taif' },
+    'at-taif':     { ar:'الطائف',         en:'Taif',          fr:'Taëf',          tr:'Taif',         ur:'طائف',          de:'Taif',          id:'Taif',          es:'Taif',         bn:'তায়েফ',           ms:'Taif' }, // مرادف slug (OSM/Wikipedia)
+    khobar:        { ar:'الخبر',          en:'Khobar',        fr:'Al Khobar',     tr:'El Hubar',     ur:'الخبر',         de:'Al-Chubar',     id:'Al Khobar',     es:'Al-Khobar',    bn:'আল খোবার',        ms:'Khobar' },
+    tabuk:         { ar:'تبوك',           en:'Tabuk',         fr:'Tabouk',        tr:'Tebük',        ur:'تبوک',          de:'Tabuk',         id:'Tabuk',         es:'Tabuk',        bn:'তাবুক',           ms:'Tabuk' },
+    buraidah:      { ar:'بريدة',          en:'Buraidah',      fr:'Buraydah',      tr:'Bureyde',      ur:'بریدہ',         de:'Buraida',       id:'Buraidah',      es:'Buraida',      bn:'বুরাইদাহ',        ms:'Buraidah' },
+    abha:          { ar:'أبها',           en:'Abha',          fr:'Abha',          tr:'Abha',         ur:'ابها',          de:'Abha',          id:'Abha',          es:'Abha',         bn:'আবহা',           ms:'Abha' },
+    yanbu:         { ar:'ينبع',           en:'Yanbu',         fr:'Yanbu',         tr:'Yanbu',        ur:'ینبع',          de:'Yanbu',         id:'Yanbu',         es:'Yanbu',        bn:'ইয়ানবু',         ms:'Yanbu' },
+    hail:          { ar:'حائل',           en:'Hail',          fr:'Haïl',          tr:'Hail',         ur:'حائل',          de:'Hāʾil',         id:'Hail',          es:'Hail',         bn:'হাইল',            ms:'Hail' },
+    najran:        { ar:'نجران',          en:'Najran',        fr:'Najran',        tr:'Necran',       ur:'نجران',         de:'Nadschran',     id:'Najran',        es:'Nayrán',       bn:'নাজরান',          ms:'Najran' },
+    jizan:         { ar:'جازان',          en:'Jizan',         fr:'Djizan',        tr:'Cizan',        ur:'جیزان',         de:'Dschāzān',      id:'Jizan',         es:'Jizan',        bn:'জিজান',           ms:'Jizan' },
     // مدن ماليزيّة إضافيّة (خارج kuala-lumpur)
     singapore:     { ar:'سنغافورة',       en:'Singapore',     fr:'Singapour',     tr:'Singapur',     ur:'سنگاپور',       de:'Singapur',      id:'Singapura',     es:'Singapur',     bn:'সিঙ্গাপুর',      ms:'Singapura' },
 };
@@ -482,13 +492,13 @@ function _getCitySlugIndex() {
                         const slug = makeCitySlugSrv(c.nameEn, c.lat, c.lng);
                         // أوّل مُطابقة تفوز — يمنع تضارب المدن المتشابهة الأسماء
                         if (slug && !_CITY_SLUG_INDEX[slug]) {
-                            _CITY_SLUG_INDEX[slug] = { nameAr: c.nameAr, lat: c.lat, lng: c.lng, cc };
+                            _CITY_SLUG_INDEX[slug] = { nameAr: c.nameAr, nameEn: c.nameEn, lat: c.lat, lng: c.lng, cc };
                         }
                         // Round 10: تسجيل الـ slug القديم أيضاً (بلا NFD) لتوافُق رجعيّ
                         // مثلاً São Paulo يسجَّل تحت 'sao-paulo' (جديد) و 'so-paulo' (قديم)
                         const legacySlug = _makeCityLegacySlug(c.nameEn);
                         if (legacySlug && legacySlug !== slug && !_CITY_SLUG_INDEX[legacySlug]) {
-                            _CITY_SLUG_INDEX[legacySlug] = { nameAr: c.nameAr, lat: c.lat, lng: c.lng, cc };
+                            _CITY_SLUG_INDEX[legacySlug] = { nameAr: c.nameAr, nameEn: c.nameEn, lat: c.lat, lng: c.lng, cc };
                         }
                     }
                 }
@@ -514,12 +524,31 @@ function _getCityLngBySlug(slug) {
 // (B) POPULAR_CITY_NAMES — 12 مدينة × 10 لغات → ترجمة كاملة.
 // (C) cities-*.json — nameAr لكلّ المدن (العربيّة فقط).
 // Fallback: _slugToTitle (slug مُهنْدَس حروف كبيرة).
+// قائمة بادئات أداة التعريف العربيّة المُروَنة (الشمسيّة/القمريّة) — لاستبعادها عند البحث:
+//   at-taif → taif، al-qahirah → qahirah، ad-dammam → dammam، إلخ.
+// تُستعمل كـ fallback إذا لم يُوجد الـ slug الكامل في POPULAR_CITY_NAMES أو فهرس المدن.
+const _ARAB_ARTICLE_PREFIX_RE = /^(at|al|el|ad|an|ar|as|ash|ath|az|ed)-/;
+
 function _resolveCityName(slug, lang) {
-    const pop = POPULAR_CITY_NAMES[slug];
-    if (pop) return pop[lang] || pop.en || _slugToTitle(slug);
-    if (lang === 'ar') {
+    const _try = (s) => {
+        const pop = POPULAR_CITY_NAMES[s];
+        if (pop) return pop[lang] || pop.en || _slugToTitle(s);
         const idx = _getCitySlugIndex();
-        if (idx[slug]) return idx[slug].nameAr;
+        const e = idx[s];
+        if (e) {
+            if (lang === 'ar') return e.nameAr;
+            // اللغات غير العربيّة: استعمل nameEn من DB المدينة (قراءة لاتينيّة صحيحة)
+            if (e.nameEn) return e.nameEn;
+        }
+        return null;
+    };
+    let resolved = _try(slug);
+    if (resolved) return resolved;
+    // Fallback: جرّب نزع بادئة "ال" العربيّة (at-/al-/ad-/an-/...) — يُغطّي أسماء OSM/Wikipedia
+    if (_ARAB_ARTICLE_PREFIX_RE.test(slug)) {
+        const stripped = slug.replace(_ARAB_ARTICLE_PREFIX_RE, '');
+        resolved = _try(stripped);
+        if (resolved) return resolved;
     }
     return _slugToTitle(slug);
 }
@@ -2273,7 +2302,6 @@ const _TL_STRIP_IDS = [
     'most-searched-chips',
     'country-cities-section',
     'arab-countries-section',
-    'city-about-section',
     'city-related-services',
     'related-links-section',
     'other-trending-cities',
@@ -2326,7 +2354,6 @@ const _NPT_STRIP_IDS = [
     'most-searched-chips',
     'country-cities-section',
     'arab-countries-section',
-    'city-about-section',
     'city-related-services',
     'related-links-section',
     'other-trending-cities',
@@ -7076,8 +7103,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             _stripCardByValueId('next-full-moon');    // البدر القادم
             _stripCardByValueId('next-new-moon');     // المحاق القادم
             _stripCardByValueId('moon-distance');     // المسافة
-            // (19-G) حذف الـ hero CTA القديم (moon-forecast-cta) — يشير إلى #moon-forecast المحذوف.
-            html = html.replace(/<a class="moon-forecast-cta"[^>]*>[^<]*<\/a>/, '');
+            // (19-G) moon-forecast-cta حُذف من index.html — لا حاجة للحذف هنا (no-op).
             // (19-H) استبدال moon-intro (فقرة طويلة multi-line) بسطر واحد توجيهيّ مختصر.
             const _hubIntroTpl = {
                 ar: `استعرض طور القمر الحاليّ في ${cityName}، والتنقّل بين التواريخ القادمة والسابقة، ومتابعة التقويم القمريّ والهجريّ.`,
@@ -7117,10 +7143,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', cityName);
             const _hubCtaHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-in-' + seo.moonCity.slug;
             const _hubCtaHtml = `<a class="moon-hub-cta" href="${_escHtml(_hubCtaHref)}">${_escHtml(_hubCtaText)}</a>`;
-            // حقن بعد CTA التوقّعات (14-day) مباشرة → كلاهما مرئيّان بتوازن.
+            // حقن قبل قسم #moon-forecast (موضع moon-forecast-cta السابق بعد حذفه).
             html = html.replace(
-                /(<a class="moon-forecast-cta"[^>]*>[^<]*<\/a>)/,
-                '$1\n                ' + _hubCtaHtml
+                /(<div class="section-card" id="moon-forecast")/,
+                _hubCtaHtml + '\n                $1'
             );
         }
 
@@ -9427,49 +9453,11 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== Wikipedia Person/City Summary Proxy =====
+    // ===== /api/wiki-summary endpoint حُذف بالكامل (قسم "عن المدينة" مزال) =====
     if (urlPath === '/api/wiki-summary' && req.method === 'GET') {
-        const params = new URLSearchParams(qs);
-        const title = decodeURIComponent(params.get('title') || '').trim();
-        const langRaw = (params.get('lang') || 'ar').trim().toLowerCase();
-        const _WIKI_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
-        const lang = _WIKI_LANGS.includes(langRaw) ? langRaw : 'ar';
-        if (!title) { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return; }
-        const cacheKey = `wiki-summary-${lang}-${title}`;
-        const _SUMMARY_TTL = 7 * 24 * 60 * 60 * 1000; // 7 أيام
-        const cached = _geocodeCache.get(cacheKey);
-        if (cached && (Date.now() - cached.ts) < _SUMMARY_TTL) {
-            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'public, max-age=86400'});
-            res.end(cached.data); return;
-        }
-        // Circuit breaker check
-        if (!circuitAllow('wikipedia')) {
-            res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return;
-        }
-        try {
-            const wUrl = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
-            const wRes = await fetch(wUrl, { headers: { 'User-Agent': 'PrayerTimesApp/1.0' } });
-            if (!wRes.ok) {
-                if (wRes.status >= 500 || wRes.status === 429) circuitFail('wikipedia');
-                res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{}'); return;
-            }
-            const json = await wRes.json();
-            const out = JSON.stringify({
-                extract: json.extract || '',
-                description: json.description || '',
-                title: json.title || title,
-                url: (json.content_urls && json.content_urls.desktop && json.content_urls.desktop.page) || `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title)}`,
-                lang
-            });
-            _geocodeCache.set(cacheKey, { ts: Date.now(), data: out });
-            circuitSuccess('wikipedia');
-            res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'public, max-age=86400'});
-            res.end(out);
-        } catch(e) {
-            circuitFail('wikipedia');
-            res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
-            res.end('{}');
-        }
+        // إرجاع 410 Gone — الـ endpoint مهجور
+        res.writeHead(410, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+        res.end('{"removed":true}');
         return;
     }
 

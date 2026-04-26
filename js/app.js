@@ -2624,6 +2624,7 @@ async function initApp() {
     const _resetStickyBarForHijri = () => {
         try {
             document.getElementById('sticky-next-bar')?.classList.remove('snb-visible');
+            document.getElementById('moon-sticky-bar')?.classList.remove('is-visible');
             document.body.classList.remove('has-sticky-bar');
         } catch (_) {}
     };
@@ -2682,6 +2683,8 @@ async function initApp() {
         document.getElementById('page-date-converter')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="date-converter"]')?.classList.add('active');
+        // FIX: تحويل inputs الـ number إلى stepper مع أزرار +/− مرئيّة
+        try { _enhanceConverterSteppers(); } catch (_) {}
     }
 
     // تفعيل صفحة الأدعية عند URL /duas
@@ -2750,6 +2753,40 @@ async function initApp() {
         // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
         try { updateMoonInfo(); } catch (_e) {}
 
+        // FIX: استبدال اسم المدينة في moon-hub-cta بالاسم الفعليّ الظاهر في الهيدر
+        //   (يحلّ مشكلة "At Taif" بدل "الطائف" بدون الاعتماد على slug resolution)
+        try {
+            const _patchCityNameInCta = () => {
+                const _liveCityName = (document.getElementById('city-name')?.textContent || '').trim();
+                if (!_liveCityName) return;
+                const _cta = document.querySelector('.moon-hub-cta');
+                if (!_cta) return;
+                // قوالب 10 لغات — مطابقة لـ server.js
+                const _tpl = {
+                    ar: '📅 تقويم القمر في {city} — استعرض أيّ تاريخ',
+                    en: '📅 Moon Calendar for {city} — Explore any date',
+                    fr: '📅 Calendrier de la Lune pour {city} — Explorer toute date',
+                    tr: '📅 {city} Ay Takvimi — İstediğiniz tarihi keşfedin',
+                    ur: '📅 {city} کا چاند کا تقویم — کوئی بھی تاریخ دیکھیں',
+                    de: '📅 Mondkalender für {city} — Jedes Datum erkunden',
+                    id: '📅 Kalender Bulan untuk {city} — Jelajahi tanggal apa pun',
+                    es: '📅 Calendario Lunar para {city} — Explora cualquier fecha',
+                    bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ দেখুন',
+                    ms: '📅 Kalendar Bulan untuk {city} — Terokai mana-mana tarikh'
+                };
+                const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _newText = (_tpl[_lang] || _tpl.en).replace('{city}', _liveCityName);
+                if (_cta.textContent !== _newText) _cta.textContent = _newText;
+            };
+            // patch فوريّ + بعد تحديث city-name (قد يأتي بعد geocoding)
+            _patchCityNameInCta();
+            const _cityNameEl = document.getElementById('city-name');
+            if (_cityNameEl && window.MutationObserver) {
+                new MutationObserver(_patchCityNameInCta)
+                    .observe(_cityNameEl, { childList: true, characterData: true, subtree: true });
+            }
+        } catch (_e) {}
+
         // BOND 7: Sticky Mini Bar — show/hide on scroll past hero (~250px)
         try {
             const _stickyBar = document.getElementById('moon-sticky-bar');
@@ -2757,12 +2794,32 @@ async function initApp() {
             if (_stickyBar) {
                 _stickyBar.hidden = false;
                 let _ticking = false;
+                // قياس ارتفاع الشريط مرّة واحدة عند التهيئة → CSS var --moon-sticky-h
+                const _measureBar = () => {
+                    try {
+                        const _h = Math.round(_stickyBar.getBoundingClientRect().height) || 50;
+                        document.documentElement.style.setProperty('--moon-sticky-h', _h + 'px');
+                    } catch (_) {}
+                };
+                // قياس فوريّ + تأخير قصير لاحتساب الخطوط
+                _measureBar();
+                setTimeout(_measureBar, 200);
+                if (window.ResizeObserver) {
+                    try { new ResizeObserver(_measureBar).observe(_stickyBar); } catch (_) {}
+                }
+
                 const _onScroll = () => {
                     if (_ticking) return;
                     _ticking = true;
                     requestAnimationFrame(() => {
-                        if (window.scrollY > 250) _stickyBar.classList.add('is-visible');
-                        else _stickyBar.classList.remove('is-visible');
+                        const _shouldShow = window.scrollY > 250;
+                        const _wasVisible = _stickyBar.classList.contains('is-visible');
+                        if (_shouldShow !== _wasVisible) {
+                            _stickyBar.classList.toggle('is-visible', _shouldShow);
+                            // FIX: نُضيف has-moon-sticky على body → CSS يُضيف padding-top
+                            // على #page-moon ليُفسح مكاناً للشريط فلا يغطّي المحتوى
+                            document.body.classList.toggle('has-moon-sticky', _shouldShow);
+                        }
                         _ticking = false;
                     });
                 };
@@ -2866,6 +2923,256 @@ async function initApp() {
         _setText(_P + '-greg', _fmtGreg(_eventGreg));
         _setText(_P + '-card-start', _fmtGreg(_eventGreg));
 
+        // ── الأيّام المتبقّية بنفس صيغة العدّاد (Math.floor diff/86400000) — ضماناً للاتّساق ──
+        const _diffNow = _eventGreg.getTime() - Date.now();
+        const _daysLeft = Math.max(0, Math.floor(_diffNow / 86400000));
+
+        // ── جملة SEO تحت العدّاد (10 لغات) — مع "يوم" قبل التاريخ ──
+        // "يبدأ شهر {event} {hyear}هـ يوم {date}، ويتبقّى عليه X يوماً"
+        try {
+            const _eventName = _tt(_kp + '.event_name') || cfg.id;
+            const _gregFmt = _fmtGreg(_eventGreg);
+            const _seoTpl = {
+                ar: `يبدأ شهر ${_eventName} ${_eventHYear} هـ يوم ${_gregFmt}، ويتبقّى عليه ${_daysLeft} يوماً`,
+                en: `${_eventName} ${_eventHYear} AH begins on ${_gregFmt}, with ${_daysLeft} days remaining`,
+                fr: `${_eventName} ${_eventHYear} AH commence le jour du ${_gregFmt}, il reste ${_daysLeft} jours`,
+                tr: `${_eventName} ${_eventHYear} AH ${_gregFmt} günü başlar, ${_daysLeft} gün kaldı`,
+                ur: `${_eventName} ${_eventHYear} ھ ${_gregFmt} کے دن شروع ہوگا، ${_daysLeft} دن باقی`,
+                de: `${_eventName} ${_eventHYear} AH beginnt am ${_gregFmt}, noch ${_daysLeft} Tage`,
+                id: `${_eventName} ${_eventHYear} H dimulai pada hari ${_gregFmt}, tersisa ${_daysLeft} hari`,
+                es: `${_eventName} ${_eventHYear} AH comienza el día ${_gregFmt}, faltan ${_daysLeft} días`,
+                bn: `${_eventName} ${_eventHYear} হিজরি ${_gregFmt}-এ শুরু হবে, ${_daysLeft} দিন বাকি`,
+                ms: `${_eventName} ${_eventHYear} H bermula pada hari ${_gregFmt}, ${_daysLeft} hari lagi`
+            };
+            _setText(_P + '-seo-line', _seoTpl[_lang] || _seoTpl.en);
+        } catch (_) {}
+
+        // ── helper: للحدث "رمضان" نستخدم "شهر رمضان" — للأعياد/السنة بدون "شهر"
+        const _isRamadan = cfg.id === 'ramadan';
+        const _evWithPrefix = (eventName) => {
+            if (_lang === 'ar' && _isRamadan) return `شهر ${eventName}`;
+            return eventName;
+        };
+
+        // ── جملة واحدة قويّة تحت H1 — جواب فقط (السؤال موجود في H1) ──
+        // "يتبقّى 287 يوماً على بداية شهر رمضان 1448 هـ الموافق 8 فبراير 2027."
+        try {
+            const _h1SeoEl = document.getElementById(_P + '-h1-seo');
+            if (_h1SeoEl) {
+                const _evN = _tt(_kp + '.event_name') || cfg.id;
+                const _evNFull = _evWithPrefix(_evN);
+                const _gFmt = _fmtGreg(_eventGreg);
+                const _aTpl = {
+                    ar: `يتبقّى ${_daysLeft} يوماً على بداية ${_evNFull} ${_eventHYear} هـ الموافق ${_gFmt}.`,
+                    en: `${_daysLeft} days remain until ${_evN} ${_eventHYear} AH begins on ${_gFmt}.`,
+                    fr: `Il reste ${_daysLeft} jours avant le début de ${_evN} ${_eventHYear} AH le ${_gFmt}.`,
+                    tr: `${_evN} ${_eventHYear} AH'ın ${_gFmt} tarihinde başlamasına ${_daysLeft} gün kaldı.`,
+                    ur: `${_evN} ${_eventHYear} ھ ${_gFmt} کو شروع ہوگا، ${_daysLeft} دن باقی۔`,
+                    de: `Noch ${_daysLeft} Tage bis ${_evN} ${_eventHYear} AH am ${_gFmt} beginnt.`,
+                    id: `Tersisa ${_daysLeft} hari sampai ${_evN} ${_eventHYear} H dimulai pada ${_gFmt}.`,
+                    es: `Faltan ${_daysLeft} días para que ${_evN} ${_eventHYear} AH comience el ${_gFmt}.`,
+                    bn: `${_evN} ${_eventHYear} হিজরি ${_gFmt}-এ শুরু হবে, ${_daysLeft} দিন বাকি।`,
+                    ms: `${_daysLeft} hari lagi sebelum ${_evN} ${_eventHYear} H bermula pada ${_gFmt}.`
+                };
+                _h1SeoEl.textContent = _aTpl[_lang] || _aTpl.en;
+            }
+        } catch (_) {}
+
+        // ── H1 ديناميكيّ: "كم باقي على رمضان 1448 في طوكيو؟" ──
+        try {
+            const _h1El = document.querySelector('#' + cfg.pageId + ' .countdown-h1');
+            if (_h1El) {
+                const _evN = _tt(_kp + '.event_name') || cfg.id;
+                const _city0 = currentCity || (_lang === 'ar' ? 'مكة المكرمة' : 'Mecca');
+                const _emojiMap = { ramadan: '🕋', 'eid-al-fitr': '🌙', 'eid-al-adha': '🐑', 'hijri-new-year': '📅' };
+                const _emoji = _emojiMap[cfg.id] || '📅';
+                const _h1Tpl = {
+                    ar: `${_emoji} كم باقي على ${_evN} ${_eventHYear} في ${_city0}؟`,
+                    en: `${_emoji} How long until ${_evN} ${_eventHYear} in ${_city0}?`,
+                    fr: `${_emoji} Combien de jours jusqu'à ${_evN} ${_eventHYear} à ${_city0} ?`,
+                    tr: `${_emoji} ${_city0}'de ${_evN} ${_eventHYear}'a ne kadar kaldı?`,
+                    ur: `${_emoji} ${_city0} میں ${_evN} ${_eventHYear} میں کتنے دن باقی؟`,
+                    de: `${_emoji} Wie lange bis ${_evN} ${_eventHYear} in ${_city0}?`,
+                    id: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} di ${_city0}?`,
+                    es: `${_emoji} ¿Cuántos días faltan para ${_evN} ${_eventHYear} en ${_city0}?`,
+                    bn: `${_emoji} ${_city0}-এ ${_evN} ${_eventHYear} পর্যন্ত কতদিন?`,
+                    ms: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} di ${_city0}?`
+                };
+                _h1El.textContent = _h1Tpl[_lang] || _h1Tpl.en;
+            }
+        } catch (_) {}
+
+        // ── CTA hint: يربط بصفحة مواقيت الصلاة للمدينة الحاليّة (أو مكّة افتراضياً) ──
+        try {
+            const _ctaEl = document.querySelector('#' + cfg.pageId + ' .cd-cta-hint');
+            if (_ctaEl) {
+                let _ctaSlug = null;
+                if (currentEnglishName && currentLat != null && currentLng != null
+                    && typeof makeSlug === 'function') {
+                    try { _ctaSlug = makeSlug(currentEnglishName, currentLat, currentLng); } catch (_) {}
+                }
+                if (!_ctaSlug) _ctaSlug = 'mecca';
+                // احفظ سياق المدينة قبل التنقّل (مطابقاً لباقي الموقع)
+                _ctaEl.addEventListener('click', function _ctaClickOnce(e) {
+                    e.preventDefault();
+                    try {
+                        if (currentLat != null && currentLng != null && currentEnglishName) {
+                            sessionStorage.setItem('city_' + _ctaSlug, JSON.stringify({
+                                lat: currentLat, lng: currentLng, name: currentCity,
+                                country: currentCountry, englishName: currentEnglishName,
+                                countryCode: currentCountryCode, timezone: currentTimezone, _v: 2
+                            }));
+                            sessionStorage.setItem('last_city_context', JSON.stringify({
+                                lat: currentLat, lng: currentLng, name: currentCity,
+                                country: currentCountry, englishName: currentEnglishName,
+                                countryCode: currentCountryCode, timezone: currentTimezone, ts: Date.now()
+                            }));
+                        }
+                    } catch (_) {}
+                    const _prefix = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar')
+                        ? '/' + getCurrentLang() : '';
+                    window.location.href = _prefix + '/prayer-times-in-' + _ctaSlug;
+                }, { once: true });
+                // حدّث الـ href أيضاً (لـ tooltips ومحرّكات البحث)
+                const _prefix2 = (_lang !== 'ar') ? '/' + _lang : '';
+                _ctaEl.setAttribute('href', _prefix2 + '/prayer-times-in-' + _ctaSlug);
+            }
+        } catch (_) {}
+
+        // ── شريط التخصيص: يظهر دائماً (بمدينة المستخدم أو مكّة كافتراضي) ──
+        try {
+            const _personalBar = document.getElementById(_P + '-personal-bar');
+            const _personalText = document.getElementById(_P + '-personal-text');
+            // ترطيب من sessionStorage إن لم يكن currentCity معبّأ
+            if ((!currentCity || !currentLat) && typeof _hydrateCurrentCityFromUrlOrStorage === 'function') {
+                try { _hydrateCurrentCityFromUrlOrStorage(); } catch (_) {}
+                try {
+                    const _stash = sessionStorage.getItem('last_city_context');
+                    if (_stash && (!currentCity || !currentLat)) {
+                        const _o = JSON.parse(_stash);
+                        if (_o && _o.name) currentCity = _o.name;
+                    }
+                } catch (_) {}
+            }
+            const _city = currentCity || (_lang === 'ar' ? 'مكة المكرمة' : 'Mecca');
+            const _evName = _tt(_kp + '.event_name') || cfg.id;
+            if (_personalBar && _personalText) {
+                // سطران: عنوان مدينة + جملة كاملة
+                //   📍 في مكة المكرمة:
+                //   يتبقّى 287 يوماً على بداية رمضان
+                const _line1Tpl = {
+                    ar: `في ${_city}:`,
+                    en: `In ${_city}:`,
+                    fr: `À ${_city} :`,
+                    tr: `${_city}'de:`,
+                    ur: `${_city} میں:`,
+                    de: `In ${_city}:`,
+                    id: `Di ${_city}:`,
+                    es: `En ${_city}:`,
+                    bn: `${_city}-এ:`,
+                    ms: `Di ${_city}:`
+                };
+                const _evNameFull = _evWithPrefix(_evName);
+                const _line2Tpl = {
+                    ar: `يتبقّى ${_daysLeft} يوماً على بداية ${_evNameFull}`,
+                    en: `${_daysLeft} days remain until ${_evName} begins`,
+                    fr: `Il reste ${_daysLeft} jours avant le début de ${_evName}`,
+                    tr: `${_evName}'ın başlamasına ${_daysLeft} gün kaldı`,
+                    ur: `${_evName} کی شروعات تک ${_daysLeft} دن باقی`,
+                    de: `Noch ${_daysLeft} Tage bis ${_evName} beginnt`,
+                    id: `Tersisa ${_daysLeft} hari sebelum ${_evName} dimulai`,
+                    es: `Faltan ${_daysLeft} días para que comience ${_evName}`,
+                    bn: `${_evName} শুরু হতে ${_daysLeft} দিন বাকি`,
+                    ms: `${_daysLeft} hari lagi sebelum ${_evName} bermula`
+                };
+                const _l1 = _line1Tpl[_lang] || _line1Tpl.en;
+                const _l2 = _line2Tpl[_lang] || _line2Tpl.en;
+                _personalText.innerHTML = '<strong class="cdp-l1">' + _escHtml(_l1) + '</strong>'
+                                        + '<span class="cdp-l2">' + _escHtml(_l2) + '</span>';
+                _personalBar.hidden = false;
+            }
+        } catch (_) {}
+
+        // ── سطر تعريفيّ مختصر فوق "معلومات عن المناسبة" (SEO boost) ──
+        try {
+            const _infoSection = document.querySelector('#page-' + cfg.pageId.replace('page-', '') + ' .countdown-info');
+            const _infoSectionByCfg = document.getElementById(cfg.pageId)?.querySelector('.countdown-info');
+            const _section = _infoSectionByCfg || _infoSection;
+            if (_section) {
+                let _intro = _section.querySelector('.cd-info-intro');
+                if (!_intro) {
+                    _intro = document.createElement('p');
+                    _intro.className = 'cd-info-intro';
+                    const _h2 = _section.querySelector('h2');
+                    if (_h2 && _h2.nextSibling) _section.insertBefore(_intro, _h2.nextSibling);
+                    else if (_h2) _section.appendChild(_intro);
+                    else _section.insertBefore(_intro, _section.firstChild);
+                }
+                const _evN = _tt(_kp + '.event_name') || cfg.id;
+                const _gFmt = _fmtGreg(_eventGreg);
+                const _introTpl = {
+                    ar: `${_evN} هو إحدى أهمّ المناسبات الإسلاميّة، ويبدأ هذا العام في ${_gFmt}.`,
+                    en: `${_evN} is one of the most important Islamic occasions, beginning this year on ${_gFmt}.`,
+                    fr: `${_evN} est l'une des occasions islamiques les plus importantes, commence cette année le ${_gFmt}.`,
+                    tr: `${_evN}, en önemli İslami günlerden biridir ve bu yıl ${_gFmt} tarihinde başlar.`,
+                    ur: `${_evN} اہم ترین اسلامی مواقع میں سے ایک ہے، اس سال ${_gFmt} کو شروع ہوگا۔`,
+                    de: `${_evN} ist eine der wichtigsten islamischen Anlässe und beginnt dieses Jahr am ${_gFmt}.`,
+                    id: `${_evN} adalah salah satu peristiwa Islam terpenting, dimulai tahun ini pada ${_gFmt}.`,
+                    es: `${_evN} es una de las ocasiones islámicas más importantes, comienza este año el ${_gFmt}.`,
+                    bn: `${_evN} সবচেয়ে গুরুত্বপূর্ণ ইসলামী উপলক্ষগুলির একটি, এই বছর ${_gFmt}-এ শুরু হবে।`,
+                    ms: `${_evN} adalah salah satu peristiwa Islam terpenting, bermula tahun ini pada ${_gFmt}.`
+                };
+                _intro.textContent = _introTpl[_lang] || _introTpl.en;
+            }
+        } catch (_) {}
+
+        // ── حدّث سطر القمر:
+        //   ترتيب جديد: "🌙 القمر الآن: أحدب متزايد (74%) — اقتراب فلكي من رمضان"
+        //   نُعيد بناء الـ box بالكامل (إلّا strong و illum spans يحتفظان بـ IDs).
+        try {
+            const _lunarBox = document.getElementById(_P + '-lunar-inline');
+            if (_lunarBox) {
+                const _evN = _tt(_kp + '.event_name') || cfg.id;
+                const _curEl = document.getElementById(_P + '-current-phase');
+                const _illEl = document.getElementById(_P + '-current-illum');
+                const _curText = _curEl ? _curEl.textContent : '—';
+                const _illText = _illEl ? _illEl.textContent : '—';
+                const _labelTpl = {
+                    ar: 'القمر الآن:',
+                    en: 'Moon now:',
+                    fr: 'Lune actuelle :',
+                    tr: 'Şu an Ay:',
+                    ur: 'چاند ابھی:',
+                    de: 'Mond jetzt:',
+                    id: 'Bulan sekarang:',
+                    es: 'Luna ahora:',
+                    bn: 'চাঁদ এখন:',
+                    ms: 'Bulan sekarang:'
+                };
+                const _evNS = _evWithPrefix(_evN);
+                const _suffixTpl = {
+                    ar: `— اقتراب فلكيّ من ${_evNS}`,
+                    en: `— astronomical approach to ${_evN}`,
+                    fr: `— approche astronomique de ${_evN}`,
+                    tr: `— ${_evN}'a astronomik yaklaşım`,
+                    ur: `— ${_evN} کا فلکی قرب`,
+                    de: `— astronomische Annäherung an ${_evN}`,
+                    id: `— pendekatan astronomis ${_evN}`,
+                    es: `— aproximación astronómica a ${_evN}`,
+                    bn: `— ${_evN}-এর জ্যোতির্বিদ্যাগত নৈকট্য`,
+                    ms: `— pendekatan astronomi ${_evN}`
+                };
+                const _lblHtml = (_labelTpl[_lang] || _labelTpl.en);
+                const _sufHtml = (_suffixTpl[_lang] || _suffixTpl.en);
+                _lunarBox.innerHTML =
+                    '<span class="cdli-icon">🌙</span>' +
+                    '<span>' + _escHtml(_lblHtml) + '</span>' +
+                    '<strong id="' + _P + '-current-phase">' + _escHtml(_curText) + '</strong>' +
+                    '<span class="lunar-illum">(<span id="' + _P + '-current-illum">' + _escHtml(_illText) + '</span>)</span>' +
+                    '<span class="cdli-suffix">' + _escHtml(_sufHtml) + '</span>';
+            }
+        } catch (_) {}
+
         // ── (ج) بيانات الارتباط القمريّ ──
         try {
             if (typeof MoonCalc !== 'undefined' && MoonCalc) {
@@ -2906,27 +3213,61 @@ async function initApp() {
             } catch (_) {}
         }
 
-        // ── (هـ) جدول السنوات القادمة (5 سنوات) ──
+        // ── (هـ) جدول السنوات القادمة (5 سنوات) — تمييز "القادم" + "بعد X يوم" + داخل note ──
         const _yearsTbody = document.getElementById(_P + '-years-tbody');
         if (_yearsTbody) {
             const rows = [];
+            const _nextLabel = _tt(_kp + '.year_next_badge') || (_lang === 'ar' ? 'القادم' : 'Next');
+            const _afterTpl = (n) => {
+                const t = {
+                    ar: `بعد ${n} يوماً`,
+                    en: `in ${n} days`,
+                    fr: `dans ${n} jours`,
+                    tr: `${n} gün sonra`,
+                    ur: `${n} دن بعد`,
+                    de: `in ${n} Tagen`,
+                    id: `dalam ${n} hari`,
+                    es: `en ${n} días`,
+                    bn: `${n} দিন পরে`,
+                    ms: `dalam ${n} hari`
+                };
+                return t[_lang] || t.en;
+            };
             for (let i = 0; i < 5; i++) {
                 const hy = _eventHYear + i;
                 const gd = _toGreg(hy, cfg.hMonth, cfg.hDay);
                 if (!gd) continue;
+                const _isNext = (i === 0); // أوّل صفّ = القادم
+                const _badge = _isNext ? ' <span class="cd-badge-next">' + _escHtml(_nextLabel) + '</span>' : '';
+                const _noteCell = _isNext
+                    ? '<strong class="cd-after-days">' + _escHtml(_afterTpl(_daysLeft)) + '</strong>'
+                    : (_tt(_kp + '.years_note_cell') || 'تقديريّ · يعتمد على الرؤية');
                 rows.push(
-                    '<tr>' +
-                        '<td>' + hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH') + '</td>' +
+                    '<tr' + (_isNext ? ' class="cd-row-current"' : '') + '>' +
+                        '<td>' + hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH') + _badge + '</td>' +
                         '<td>' + gd.getFullYear() + '</td>' +
                         '<td>' + _fmtGreg(gd) + '</td>' +
-                        '<td class="countdown-small-note">' + (_tt(_kp + '.years_note_cell') || 'تقديريّ · يعتمد على الرؤية') + '</td>' +
+                        '<td class="countdown-small-note">' + _noteCell + '</td>' +
                     '</tr>'
                 );
             }
             _yearsTbody.innerHTML = rows.join('') || '<tr><td colspan="4" class="countdown-loading">—</td></tr>';
         }
 
-        // ── (و) أسئلة FAQ ── (10 أسئلة) — ديناميكيّ حسب _kp
+        // ── (هـ-2) معلومات قمريّة مبسّطة: المحاق القادم + الهلال المتوقّع ──
+        try {
+            if (typeof MoonCalc !== 'undefined' && MoonCalc.getNextNewMoon) {
+                const nm = MoonCalc.getNextNewMoon(new Date());
+                if (nm) _setText(_P + '-next-new-moon', _fmtGreg(nm));
+                // الهلال = اليوم التالي للمحاق (تقدير عمليّ)
+                if (nm) {
+                    const cr = new Date(nm.getTime() + 86400000);
+                    _setText(_P + '-next-crescent', _fmtGreg(cr));
+                }
+            }
+        } catch (_) {}
+
+        // ── (و) أسئلة FAQ ── (10 أسئلة) + زرّ "عرض المزيد" يعرض أوّل 4 ──
         const _faqList = document.getElementById(_P + '-faq-list');
         if (_faqList) {
             const _daysLeft = Math.round((_startOfDay(_eventGreg) - _todayStart) / 86400000);
@@ -2941,6 +3282,23 @@ async function initApp() {
             _faqList.innerHTML = faqs.map(function(f) {
                 return '<details><summary>' + _escHtml(f.q) + '</summary><p>' + _escHtml(f.a) + '</p></details>';
             }).join('');
+            // أضف زرّ "عرض المزيد" إن كان عدد الأسئلة > 3
+            if (faqs.length > 3) {
+                const _showLbl = _tt(_kp + '.faq_show_more') || (_lang === 'ar' ? '↓ عرض جميع الأسئلة' : '↓ Show all questions');
+                const _hideLbl = _tt(_kp + '.faq_show_less') || (_lang === 'ar' ? '↑ عرض أقلّ' : '↑ Show less');
+                const _btn = document.createElement('button');
+                _btn.type = 'button';
+                _btn.className = 'cd-faq-toggle';
+                _btn.textContent = _showLbl;
+                _btn.addEventListener('click', () => {
+                    const expanded = _faqList.classList.toggle('is-expanded');
+                    _btn.textContent = expanded ? _hideLbl : _showLbl;
+                });
+                // أزل زرّ سابق (إن كان موجوداً من re-init)
+                const _prev = _faqList.parentNode.querySelector('.cd-faq-toggle');
+                if (_prev) _prev.remove();
+                _faqList.parentNode.appendChild(_btn);
+            }
         }
 
         // ── (ز) Countdown timer يحدّث كلّ ثانية ──
@@ -3026,14 +3384,413 @@ async function initApp() {
 }
 
 // ========= التنقل بين الصفحات =========
+// FIX: يحفظ السياق الحاليّ في last_city_context — تستعمله صفحات أخرى عند التنقّل
+//   مثل /ramadan-countdown و /eid-* و /hijri-* لتُحافظ على المدينة بدل العودة لمكّة.
+function _saveLastCityContextNow() {
+    try {
+        if (currentLat && currentLng && currentEnglishName) {
+            sessionStorage.setItem('last_city_context', JSON.stringify({
+                lat: currentLat, lng: currentLng,
+                name: currentCity, country: currentCountry,
+                englishName: currentEnglishName, countryCode: currentCountryCode,
+                timezone: (typeof currentTimezone === 'number') ? currentTimezone : null,
+                ts: Date.now()
+            }));
+        }
+    } catch (_) {}
+}
+
+// FIX: helper موحّد يضمن أنّ currentLat/currentLng/currentEnglishName معبّأة قبل
+//   أي تنقّل من الـ sidebar — يهيّئها من الـ URL الحاليّ أو sessionStorage.
+//   يُستعمَل تلقائياً في initNavigation قبل تنفيذ كل branch.
+// FIX: يحوّل كل <input type="number"> داخل صفحة محوّل التاريخ إلى combobox-stepper:
+//   [−]  [ input ▼ ]  [+]
+//   • الكتابة: input عاديّ — مع تثبيت القيمة داخل [min, max]
+//   • الاختيار: زرّ ▼ يفتح قائمة بكل القيم من min إلى max — ضغطة تُحدّد
+//   • الزيادة/النقصان: أزرار + و − (مع ضغط مطوّل للسرعة)
+//   يحترم min/max على الـ input. يُطلِق input+change بعد كل تغيير.
+//   • للأيّام: max يُحدَّث ديناميكياً حسب الشهر/السنة المختارَين (28-31 ميلاديّ، 29-30 هجريّ).
+function _enhanceConverterSteppers() {
+    const _root = document.getElementById('page-date-converter');
+    if (!_root) return;
+
+    // ── helper: عدد أيّام الشهر الميلاديّ ──
+    //   new Date(y, m, 0).getDate() = آخر يوم من الشهر الميلاديّ (يحسب الكبيسة تلقائياً)
+    const _daysInGregMonth = (y, m) => new Date(y, m, 0).getDate();
+
+    // ── helper: عدد أيّام الشهر الهجريّ ──
+    //   نستخدم HijriDate.getDaysInHijriMonth مباشرة لأنّ:
+    //   1) نفس المكتبة تستخدمها كل صفحات الموقع (تحويل، تقويم، مواقيت).
+    //   2) لو استخدمنا حساباً فلكياً مختلفاً → تناقض بين validation الواجهة
+    //      ومنطق التحويل (المستخدم يُدخل يوم 30 صفر فيُعطيه التحويل نتيجة خاطئة).
+    //   القاعدة: validation الواجهة يجب أن يطابق منطق التحويل.
+    const _daysInHijriMonth = (y, m) => {
+        try {
+            if (typeof HijriDate !== 'undefined' && HijriDate.getDaysInHijriMonth) {
+                return HijriDate.getDaysInHijriMonth(y, m);
+            }
+        } catch (_) {}
+        // fallback (لن يُستخدم إن كانت المكتبة محمَّلة): قاعدة الحسابيّ
+        if (m === 12) return 29;
+        return (m % 2 === 1) ? 30 : 29;
+    };
+
+    // ── helper: عدد أيّام الشهر الشمسيّ (Jalali / Persian) ──
+    //   • شهور 1-6 (فروردين إلى شهريور):  31 يوماً
+    //   • شهور 7-11 (مهر إلى بهمن):       30 يوماً
+    //   • شهر 12 (إسفند):                 29 يوماً عاديّة، 30 في السنة الكبيسة
+    //   نستخدم round-trip عبر jalaliToGregorian: السنة الكبيسة تحتوي 366 يوماً
+    //   فالفرق بين Farvardin 1 لسنة (y) و Farvardin 1 لسنة (y+1) = 366.
+    const _isJalaliLeap = (jy) => {
+        try {
+            if (typeof jalaliToGregorian !== 'function') return false;
+            const g0 = jalaliToGregorian(jy, 1, 1);
+            const g1 = jalaliToGregorian(jy + 1, 1, 1);
+            const d0 = new Date(g0.year, g0.month - 1, g0.day).getTime();
+            const d1 = new Date(g1.year, g1.month - 1, g1.day).getTime();
+            const diffDays = Math.round((d1 - d0) / 86400000);
+            return diffDays === 366;
+        } catch (_) { return false; }
+    };
+    const _daysInJalaliMonth = (y, m) => {
+        if (m >= 1 && m <= 6) return 31;
+        if (m >= 7 && m <= 11) return 30;
+        if (m === 12) return _isJalaliLeap(y) ? 30 : 29;
+        return 30; // fallback آمن
+    };
+
+    // ── helper: حدّث max لحقل اليوم بناءً على month/year + نوع التقويم ──
+    //   ويثبّت قيمته الحاليّة داخل النطاق الجديد.
+    const _updateDayMax = (dayInp, monthSel, yearInp, calType) => {
+        if (!dayInp || !monthSel || !yearInp) return;
+        const m = parseInt(monthSel.value, 10) || 1;
+        const y = parseInt(yearInp.value, 10)
+                  || (calType === 'hijri' ? 1447 : calType === 'jalali' ? 1404 : 2026);
+        let newMax;
+        if (calType === 'hijri')      newMax = _daysInHijriMonth(y, m);
+        else if (calType === 'jalali') newMax = _daysInJalaliMonth(y, m);
+        else                           newMax = _daysInGregMonth(y, m);
+        dayInp.max = String(newMax);
+        const cur = parseInt(dayInp.value, 10) || 1;
+        if (cur > newMax) {
+            dayInp.value = String(newMax);
+            dayInp.dispatchEvent(new Event('input',  { bubbles: true }));
+            dayInp.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        // أعد بناء القائمة المنسدلة (إن كانت موجودة)
+        if (dayInp._rebuildList) dayInp._rebuildList();
+    };
+
+    // ── ربط شهر/سنة → تحديث يوم لكل تقويم ──
+    const _wireGroup = (dayId, monthId, yearId, calType) => {
+        const di = document.getElementById(dayId);
+        const mi = document.getElementById(monthId);
+        const yi = document.getElementById(yearId);
+        if (!di || !mi || !yi) return;
+        const _refresh = () => _updateDayMax(di, mi, yi, calType);
+        mi.addEventListener('change', _refresh);
+        yi.addEventListener('change', _refresh);
+        yi.addEventListener('input',  _refresh);
+        // نفّذ مرّة عند التهيئة
+        setTimeout(_refresh, 50);
+    };
+    _wireGroup('conv-g-day', 'conv-g-month', 'conv-g-year', 'gregorian');
+    _wireGroup('conv-h-day', 'conv-h-month', 'conv-h-year', 'hijri');
+    _wireGroup('conv-s-day', 'conv-s-month', 'conv-s-year', 'jalali');
+
+    _root.querySelectorAll('input[type="number"]').forEach(inp => {
+        if (inp.dataset.stepperWrapped === '1') return;
+        const min = inp.min !== '' ? parseInt(inp.min, 10) : 1;
+        const initMax = inp.max !== '' ? parseInt(inp.max, 10) : 31;
+        // قائمة الـ dropdown — تُولَّد فقط للنطاقات المعقولة (≤ 200 قيمة)
+        // للسنوات (نطاق كبير)، نولّد ±50 سنة حول القيمة الحاليّة
+        const _isLargeRange = (initMax - min) > 200;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'number-stepper';
+        const minus = document.createElement('button');
+        minus.type = 'button';
+        minus.className = 'ns-btn ns-minus';
+        minus.textContent = '−';
+        minus.setAttribute('aria-label', 'Decrease');
+        const plus = document.createElement('button');
+        plus.type = 'button';
+        plus.className = 'ns-btn ns-plus';
+        plus.textContent = '+';
+        plus.setAttribute('aria-label', 'Increase');
+        // زرّ الـ dropdown — مدمج داخل الـ input visually
+        const dropBtn = document.createElement('button');
+        dropBtn.type = 'button';
+        dropBtn.className = 'ns-drop';
+        dropBtn.innerHTML = '▼';
+        dropBtn.setAttribute('aria-label', 'Open list');
+        dropBtn.setAttribute('aria-haspopup', 'listbox');
+        dropBtn.setAttribute('aria-expanded', 'false');
+        // حاوية الـ input + زرّ الـ dropdown (يُلصقان معاً)
+        const inputBox = document.createElement('div');
+        inputBox.className = 'ns-input-box';
+        // قائمة الخيارات (مخفيّة حتى تُفتح)
+        const list = document.createElement('ul');
+        list.className = 'ns-list';
+        list.setAttribute('role', 'listbox');
+        list.hidden = true;
+
+        const parent = inp.parentNode;
+        parent.insertBefore(wrap, inp);
+        wrap.appendChild(minus);
+        wrap.appendChild(inputBox);
+        inputBox.appendChild(inp);
+        inputBox.appendChild(dropBtn);
+        inputBox.appendChild(list);
+        wrap.appendChild(plus);
+
+        const _fire = () => {
+            inp.dispatchEvent(new Event('input',  { bubbles: true }));
+            inp.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+        // ── helper: اقرأ الحدّ الأعلى الحاليّ من الـ input (يتغيّر ديناميكياً) ──
+        const _curMax = () => (inp.max !== '' ? parseInt(inp.max, 10) : initMax);
+        const _curMin = () => (inp.min !== '' ? parseInt(inp.min, 10) : min);
+        const _step = (dir) => {
+            const cur = parseFloat(inp.value || '0');
+            const stp = parseFloat(inp.step || '1') || 1;
+            const lo = _curMin(), hi = _curMax();
+            let next = cur + (dir * stp);
+            if (_isLargeRange) {
+                // سنوات / نطاقات كبيرة: clamp بدل wrap-around (تجنّب القفز الكبير)
+                if (next < lo) next = lo;
+                if (next > hi) next = hi;
+            } else {
+                // أيّام / شهور: wrap-around مفيد للتنقّل بين أوّل/آخر الشهر
+                if (next < lo) next = hi;
+                if (next > hi) next = lo;
+            }
+            inp.value = String(next);
+            _fire();
+        };
+        // ── ثبّت قيمة الـ input داخل [min, max] ── يمنع السالب وخارج النطاق
+        const _clamp = () => {
+            let v = parseInt(inp.value, 10);
+            const lo = _curMin(), hi = _curMax();
+            if (isNaN(v)) return; // فارغ — نتجاهل أثناء الكتابة
+            if (v < lo) v = lo;
+            if (v > hi) v = hi;
+            if (String(v) !== inp.value) {
+                inp.value = String(v);
+            }
+        };
+        // أثناء الكتابة: أزل الإشارات السالبة والأحرف غير-الرقميّة
+        inp.addEventListener('input', () => {
+            const cleaned = inp.value.replace(/[^0-9]/g, '');
+            if (cleaned !== inp.value) inp.value = cleaned;
+        });
+        // عند الخروج/blur: ثبّت داخل النطاق
+        inp.addEventListener('blur', () => {
+            if (inp.value === '') inp.value = String(_curMin());
+            _clamp();
+            _fire();
+        });
+        // عند Enter: نفس الـ blur logic
+        inp.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                _clamp();
+                _fire();
+                inp.blur();
+            }
+            // امنع علامة السالب صراحةً
+            if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === 'E') {
+                e.preventDefault();
+            }
+        });
+        // ─── ضغط مطوّل للأزرار (350ms ثمّ تكرار كل 100ms) ───
+        const _hold = (btn, dir) => {
+            let t1 = null, t2 = null;
+            const _start = (e) => {
+                e.preventDefault();
+                _step(dir);
+                t1 = setTimeout(() => {
+                    t2 = setInterval(() => _step(dir), 100);
+                }, 350);
+            };
+            const _stop = () => { clearTimeout(t1); clearInterval(t2); t1 = t2 = null; };
+            btn.addEventListener('mousedown', _start);
+            btn.addEventListener('touchstart', _start, { passive: false });
+            ['mouseup','mouseleave','touchend','touchcancel','blur'].forEach(ev => btn.addEventListener(ev, _stop));
+        };
+        _hold(minus, -1);
+        _hold(plus,  +1);
+
+        // ─── منطق الـ dropdown ───
+        const _buildList = () => {
+            list.innerHTML = '';
+            const cur = parseInt(inp.value, 10) || _curMin();
+            const lo0 = _curMin();
+            const hi0 = _curMax();
+            let lo = lo0, hi = hi0;
+            if (_isLargeRange) {
+                // ±50 حول القيمة الحاليّة (بحدود min/max)
+                lo = Math.max(lo0, cur - 50);
+                hi = Math.min(hi0, cur + 50);
+            }
+            for (let i = lo; i <= hi; i++) {
+                const li = document.createElement('li');
+                li.className = 'ns-item';
+                li.textContent = i;
+                li.setAttribute('role', 'option');
+                li.dataset.value = i;
+                if (i === cur) li.classList.add('is-selected');
+                list.appendChild(li);
+            }
+        };
+        // اعرض الدالّة على الـ input ليُمكن لـ _updateDayMax إعادة بناء القائمة
+        inp._rebuildList = _buildList;
+        const _openList = () => {
+            _buildList();
+            list.hidden = false;
+            dropBtn.setAttribute('aria-expanded', 'true');
+            wrap.classList.add('is-open');
+            // مرّر إلى العنصر المحدّد
+            const sel = list.querySelector('.is-selected');
+            if (sel) sel.scrollIntoView({ block: 'nearest' });
+        };
+        const _closeList = () => {
+            list.hidden = true;
+            dropBtn.setAttribute('aria-expanded', 'false');
+            wrap.classList.remove('is-open');
+        };
+        const _toggleList = () => {
+            if (list.hidden) _openList(); else _closeList();
+        };
+        dropBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            _toggleList();
+        });
+        list.addEventListener('click', (e) => {
+            const li = e.target.closest('.ns-item');
+            if (!li) return;
+            inp.value = li.dataset.value;
+            _fire();
+            _closeList();
+            inp.focus();
+        });
+        // إغلاق عند النقر خارجاً
+        document.addEventListener('click', (e) => {
+            if (!wrap.contains(e.target)) _closeList();
+        });
+        // كيبورد: Escape يُغلق، Down/Up يفتح ويتنقّل
+        inp.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') _closeList();
+            else if (e.key === 'ArrowDown' && list.hidden) {
+                e.preventDefault();
+                _openList();
+            }
+        });
+
+        inp.dataset.stepperWrapped = '1';
+    });
+}
+
+function _hydrateCurrentCityFromUrlOrStorage() {
+    if (currentLat && currentLng && currentEnglishName) return; // معبّأة بالفعل
+    const _p = window.location.pathname;
+    // جرّب استخراج slug + إحداثيّات من URL (قمر/قبلة/صلاة)
+    const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
+    if (!_m) return;
+    const _slug = _m[1];
+    const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
+    const _urlLng = _m[3] != null ? parseFloat(_m[3]) : NaN;
+    // 1) sessionStorage بمفتاح `city_{slug}` أو `city_moon` أو `city_hijri-*`
+    try {
+        const _stored = sessionStorage.getItem('city_' + _slug)
+                     || sessionStorage.getItem('city_moon');
+        if (_stored) {
+            const _o = JSON.parse(_stored);
+            if (_o && _o.lat != null && _o.lng != null) {
+                currentLat = _o.lat; currentLng = _o.lng;
+                if (_o.name) currentCity = _o.name;
+                if (_o.country) currentCountry = _o.country;
+                if (_o.englishName) currentEnglishName = _o.englishName;
+                if (_o.countryCode) currentCountryCode = _o.countryCode;
+                if (_o.timezone != null) currentTimezone = _o.timezone;
+                return;
+            }
+        }
+    } catch (_) {}
+    // 2) إحداثيّات من الـ URL مباشرة (إن وُجدت)
+    if (isFinite(_urlLat) && isFinite(_urlLng)) {
+        currentLat = _urlLat; currentLng = _urlLng;
+    }
+    // 3) إحداثيّات + اسم من خرائط المدن الشهيرة
+    if ((!currentLat || !currentLng) && typeof FAMOUS_MOON_CITIES !== 'undefined' && FAMOUS_MOON_CITIES[_slug]) {
+        currentLat = FAMOUS_MOON_CITIES[_slug].lat;
+        currentLng = FAMOUS_MOON_CITIES[_slug].lng;
+    }
+    if (!currentEnglishName && _slug) {
+        currentEnglishName = _slug.replace(/-/g, ' ').replace(/\b\w/g, m => m.toUpperCase());
+    }
+    if (!currentCity && typeof _moonCityDisplayName === 'function') {
+        try { currentCity = _moonCityDisplayName(_slug) || currentCity; } catch (_) {}
+    }
+    if (!currentCountryCode && typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined' && _MOON_CITY_COUNTRY_KEYS[_slug]) {
+        currentCountryCode = _MOON_CITY_COUNTRY_KEYS[_slug];
+    }
+}
+
+// FIX: معالج عامّ يحفظ سياق المدينة الحاليّة قبل أي تنقّل عبر <a> داخل الموقع.
+//   يُغطّي moon-event-cards (رمضان/عيد الفطر/عيد الأضحى/رأس السنة الهجريّة)،
+//   روابط FAQ، روابط Hijri/تاريخ، وأي رابط داخليّ آخر.
+//   لا يُنفَّذ على: الرئيسيّة (/), بادئة لغة فقط (/en/), تنزيلات، روابط جديدة-تبويب.
+//   النتيجة: الصفحة الوجهة تقرأ last_city_context وتُحافظ على المدينة بدل العودة لمكّة.
+(function _wireGlobalCityCtxOnNav() {
+    document.addEventListener('click', function(e) {
+        try {
+            const a = e.target.closest('a[href]');
+            if (!a) return;
+            const href = a.getAttribute('href') || '';
+            if (!href || href === '#' || href.startsWith('#') || href.startsWith('javascript:')
+                || a.target === '_blank' || a.hasAttribute('download')
+                || /^(?:https?:|mailto:|tel:)/i.test(href)) return;
+            // استثناء الرئيسيّة → نمسح السياق ليعود الافتراضي إلى مكّة
+            const _isHomeHref = /^\/?(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?(?:[?#].*)?$/.test(href);
+            if (_isHomeHref) {
+                try { sessionStorage.removeItem('last_city_context'); } catch (_) {}
+                return;
+            }
+            // ترطيب من الـ URL الحاليّ إن لم تكن globals جاهزة
+            _hydrateCurrentCityFromUrlOrStorage();
+            _saveLastCityContextNow();
+        } catch (_) {}
+    }, true /* capture: قبل أي معالج آخر */);
+})();
+
 function initNavigation() {
     const navLinks = document.querySelectorAll('.sidebar-nav a');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const pageId = this.dataset.page;
+            // FIX: ترطيب الموقع الحاليّ قبل أي تنقّل (يحلّ مشكلة "يأخذني إلى مكّة دائماً")
+            try { _hydrateCurrentCityFromUrlOrStorage(); _saveLastCityContextNow(); } catch (_) {}
 
             // ── الصفحات التي لها URL خاص → تنقّل فوراً قبل أي تبديل ──────────
+
+            // FIX: helper مساعد لحفظ سياق مدينة باسم مفتاح مخصّص — يأخذ المدينة الحاليّة
+            //   إن وُجدت، وإلا يحفظ مكّة كافتراضي. يضمن أن الصفحة الوجهة تجد سياقاً دائماً.
+            const _saveCityCtxFor = (key) => {
+                try {
+                    const _payload = {
+                        lat: currentLat || 21.4225,
+                        lng: currentLng || 39.8262,
+                        name: currentCity || 'مكة المكرمة',
+                        country: currentCountry || 'المملكة العربية السعودية',
+                        englishName: currentEnglishName || 'Mecca',
+                        countryCode: currentCountryCode || 'sa',
+                        timezone: (typeof currentTimezone === 'number') ? currentTimezone : 3
+                    };
+                    sessionStorage.setItem('city_' + key, JSON.stringify(_payload));
+                    sessionStorage.setItem('last_city_context', JSON.stringify({ ..._payload, ts: Date.now() }));
+                } catch (_) {}
+            };
 
             // التاريخ الهجري → /hijri-date/YYYY-MM-DD (canonical، لا يمرّ بـ /today-hijri-date)
             if (pageId === 'hijri-today' && window.location.protocol !== 'file:') {
@@ -3046,13 +3803,8 @@ function initNavigation() {
                         const _datedPath = `/hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
                         const _re = /\/(?:en|fr|tr|ur|de|id|es|bn|ms)?\/?hijri-date\/\d{4}-\d{2}-\d{2}$/;
                         if (!_re.test(window.location.pathname)) {
-                            if (currentLat && currentEnglishName) {
-                                sessionStorage.setItem('city_hijri-today', JSON.stringify({
-                                    lat: currentLat, lng: currentLng, name: currentCity,
-                                    country: currentCountry, englishName: currentEnglishName,
-                                    countryCode: currentCountryCode, timezone: currentTimezone
-                                }));
-                            }
+                            // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي
+                            _saveCityCtxFor('hijri-today');
                             window.location.href = pageUrl(_datedPath);
                         }
                         return;
@@ -3060,6 +3812,7 @@ function initNavigation() {
                 } catch (_e) { /* fallthrough */ }
                 // fallback لو مكتبة الهجري غير مُحمّلة
                 if (!/\/(?:en\/)?today-hijri-date$/.test(window.location.pathname)) {
+                    _saveCityCtxFor('hijri-today');
                     window.location.href = pageUrl('/today-hijri-date');
                 }
                 return;
@@ -3068,6 +3821,8 @@ function initNavigation() {
             // تحويل التاريخ → /dateconverter
             if (pageId === 'date-converter' && window.location.protocol !== 'file:') {
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname)) {
+                    // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي
+                    _saveCityCtxFor('date-converter');
                     window.location.href = pageUrl('/dateconverter');
                 }
                 return;
@@ -3134,22 +3889,9 @@ function initNavigation() {
 
             // التقويم الهجري → /hijri-calendar (بدون سنة — landing page)
             if (pageId === 'hijri-calendar' && window.location.protocol !== 'file:') {
-                // صفحة الهبوط الجديدة بدون سنة؛ السنة تُفتح من داخل الصفحة
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar$/.test(window.location.pathname)) {
-                    // ── احفظ سياق المدينة الحالي (إن وُجد) كي تحتفظ صفحة التقويم الهجري
-                    //   بالموقع المختار بدل السقوط إلى مكّة الافتراضيّة.
-                    //   من الرئيسيّة: لا يوجد currentEnglishName موثوق → يسقط لمكّة طبيعياً.
-                    //   من صفحة سياق-مدينة (قبلة/قمر/صلاة): نحفظ البيانات لتُستعاد.
-                    try {
-                        if (currentLat && currentEnglishName) {
-                            sessionStorage.setItem('city_hijri-calendar', JSON.stringify({
-                                lat: currentLat, lng: currentLng, name: currentCity,
-                                country: currentCountry, englishName: currentEnglishName,
-                                countryCode: currentCountryCode,
-                                timezone: (typeof currentTimezone === 'number') ? currentTimezone : null
-                            }));
-                        }
-                    } catch (_e) { /* silent */ }
+                    // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي (مع last_city_context)
+                    _saveCityCtxFor('hijri-calendar');
                     window.location.href = pageUrl('/hijri-calendar');
                 }
                 return;
@@ -3168,11 +3910,42 @@ function initNavigation() {
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
             }
 
-            // عند الانتقال لمواقيت الصلاة → انتقل لصفحة المدينة إذا كان هناك موقع محدد
+            // عند الانتقال لمواقيت الصلاة → انتقل لصفحة المدينة الحاليّة (لا الافتراضيّة).
+            // FIX: نوسّع التغطية لتشمل URLs القمر (moon-today-in-* / moon-in-*) والقبلة (qibla-in-*)
+            //      والصلاة (prayer-times-in-*). نُسقط الإحداثيّات ولاحقة التاريخ من الـ slug.
             if (pageId === 'prayer-times' && window.location.protocol !== 'file:') {
-                const _slug = (currentLat && currentEnglishName)
+                let _slug = (currentLat && currentEnglishName)
                     ? makeSlug(currentEnglishName, currentLat, currentLng)
-                    : window.location.pathname.match(/\/(?:en\/)?(?:qibla-in|prayer-times-in)-(.+?)(?:\.html)?$/)?.[1] || null;
+                    : null;
+                if (!_slug) {
+                    // استخرج من URL الحاليّ (قمر/قبلة/صلاة بأيّ بادئة لغة)
+                    const _m = window.location.pathname.match(
+                        /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
+                    );
+                    if (_m) {
+                        // أزل ذيل الإحداثيّات إن وُجد (مثل: at-taif-21.2854-40.4151)
+                        _slug = _m[1].replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
+                    }
+                }
+                // FIX: استرجاع موقع المدينة من sessionStorage إذا غاب currentLat
+                //   (يحدث عند الوصول لصفحة قمر مباشرةً عبر URL — currentLat لم يُعبَّأ بعد)
+                if (_slug && (!currentLat || !currentLng)) {
+                    try {
+                        const _stored = sessionStorage.getItem('city_moon')
+                                     || sessionStorage.getItem('city_' + _slug);
+                        if (_stored) {
+                            const _o = JSON.parse(_stored);
+                            if (_o && _o.lat != null && _o.lng != null) {
+                                currentLat = _o.lat; currentLng = _o.lng;
+                                if (_o.name) currentCity = _o.name;
+                                if (_o.country) currentCountry = _o.country;
+                                if (_o.englishName) currentEnglishName = _o.englishName;
+                                if (_o.countryCode) currentCountryCode = _o.countryCode;
+                                if (_o.timezone != null) currentTimezone = _o.timezone;
+                            }
+                        }
+                    } catch (_e) {}
+                }
                 if (_slug && currentLat) {
                     // Round 29 fix: إذا كان currentCountryCode فارغاً (قدوم من سياق قمر/قبلة
                     //   حيث لم يُحلّ رمز الدولة) — استنتجه من الـ slug عبر خريطة المدن.
@@ -3345,6 +4118,36 @@ function toggleTheme() {
 // precedence — only when the user hasn't explicitly chosen do we follow the
 // system. The matchMedia listener keeps the page in sync if the OS preference
 // flips while the page is open.
+// ─── Measure top-header height → CSS var --top-header-h ───
+// يُستخدم لوضع الأشرطة العلويّة (moon-sticky-bar / sticky-next-bar) أسفل الهيدر تماماً
+// بدلاً من تغطيته. يُحدَّث عند load و resize و تغيير DOM.
+(function _trackTopHeaderHeight() {
+    try {
+        const _setVar = () => {
+            const _h = document.querySelector('.top-header');
+            if (!_h) return;
+            const _height = Math.round(_h.getBoundingClientRect().height);
+            if (_height > 0) {
+                document.documentElement.style.setProperty('--top-header-h', _height + 'px');
+            }
+        };
+        // قياس فوريّ + تكرار قصير لاحتساب FOUC والخطوط
+        _setVar();
+        window.addEventListener('load', _setVar);
+        window.addEventListener('resize', _setVar, { passive: true });
+        // observe header content changes (لغة، اسم مدينة طويل، إلخ.)
+        const _h = document.querySelector('.top-header');
+        if (_h && window.ResizeObserver) {
+            const _ro = new ResizeObserver(_setVar);
+            _ro.observe(_h);
+        }
+        // Fallback: re-measure after fonts load
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(_setVar).catch(() => {});
+        }
+    } catch (_e) { /* silent */ }
+})();
+
 (function _watchSystemTheme() {
     try {
         if (!window.matchMedia) return;
@@ -4307,128 +5110,11 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     } catch (_e) { /* silent */ }
 }
 
-// ========= قسم "عن المدينة" من ويكيبيديا (Point 12: محتوى فريد لكل مدينة) =========
-async function loadCityAboutSection() {
-    const section = document.getElementById('city-about-section');
-    if (!section) return;
-
-    // يظهر فقط في صفحات مواقيت المدينة
-    const isCityPage = /\/(?:en\/)?prayer-times-in-/.test(window.location.pathname);
-    if (!isCityPage) { section.style.display = 'none'; return; }
-
-    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    // الاسم العربي لـar، الاسم المحلي (إن توفر) للغات الأخرى، ثم الإنجليزي كـfallback
-    const cityName = (lang === 'ar')
-        ? currentCity
-        : (currentLocalizedName || currentEnglishName || currentCity);
-    if (!cityName) { section.style.display = 'none'; return; }
-
-    const titleEl   = document.getElementById('city-about-title');
-    const extractEl = document.getElementById('city-about-extract');
-    const linkEl    = document.getElementById('city-about-link');
-    if (!titleEl || !extractEl || !linkEl) return;
-
-    titleEl.textContent   = t('cityabout.title', { city: cityName });
-    extractEl.textContent = t('cityabout.loading');
-    linkEl.style.display  = 'none';
-    section.style.display = 'block';
-    section.classList.add('cls-ready');
-
-    // كاش في localStorage (7 أيام) — v2 بعد إصلاح دعم tr/fr/ur/de
-    const cacheKey = `wiki_city_v2_${lang}_${cityName}`;
-    const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
-    try {
-        const raw = localStorage.getItem(cacheKey);
-        if (raw) {
-            const obj = JSON.parse(raw);
-            if (obj && obj.ts && (Date.now() - obj.ts) < CACHE_TTL && obj.data) {
-                _renderCityAbout(obj.data, { titleEl, extractEl, linkEl, section, cityName });
-                return;
-            }
-        }
-    } catch(_) {}
-
-    // محاولات متعددة: الاسم المحلي، الإنجليزي، ثم الكلمة الأولى من كل منهما
-    const candidates = [];
-    const _pushCand = (n) => { if (n && !candidates.includes(n)) candidates.push(n); };
-    _pushCand(cityName);
-    if (lang !== 'ar' && currentEnglishName && currentEnglishName !== cityName) {
-        _pushCand(currentEnglishName);
-    }
-    // الكلمة الأولى كاحتياطي لأسماء مثل "Mecca Museum" أو "New York"
-    for (const base of [...candidates]) {
-        const firstToken = base.split(/\s+/)[0];
-        if (firstToken && firstToken !== base && firstToken.length >= 3) {
-            _pushCand(firstToken);
-        }
-    }
-
-    for (const candidate of candidates) {
-        try {
-            const url = `/api/wiki-summary?title=${encodeURIComponent(candidate)}&lang=${encodeURIComponent(lang)}`;
-            const r = await fetch(url);
-            if (!r.ok) continue;
-            const data = await r.json();
-            if (!data || !data.extract) continue;
-            try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch(_) {}
-            _renderCityAbout(data, { titleEl, extractEl, linkEl, section, cityName });
-            return;
-        } catch(_) { /* try next candidate */ }
-    }
-    section.style.display = 'none';
-}
-
-function _renderCityAbout(data, refs) {
-    if (!data || !data.extract) { refs.section.style.display = 'none'; return; }
-    // عند نجاح الـ fallback (مثلاً "Mecca Museum" → "Mecca")، استخدم عنوان ويكيبيديا الحقيقي
-    const displayName = (data.title && data.title !== refs.cityName) ? data.title : refs.cityName;
-    refs.titleEl.textContent = t('cityabout.title', { city: displayName });
-    // 🆕 Round 2: ضمان تطبيق clamp class عند إعادة render
-    refs.extractEl.classList.add('city-about-clamped');
-    refs.extractEl.classList.remove('city-about-expanded');
-    refs.extractEl.textContent = data.extract;
-    if (data.url) {
-        refs.linkEl.href = data.url;
-        refs.linkEl.textContent = t('cityabout.read_more');
-        refs.linkEl.style.display = 'inline-block';
-    }
-    refs.section.style.display = 'block';
-    refs.section.classList.add('cls-ready');
-
-    // 🆕 Round 2: كشف زرّ "عرض المزيد" فقط إن كان النصّ أطول من 3 أسطر
-    const toggleBtn = document.getElementById('city-about-toggle');
-    if (toggleBtn) {
-        toggleBtn.hidden = true;
-        toggleBtn.setAttribute('data-i18n', 'cityabout.expand');
-        toggleBtn.textContent = (typeof t === 'function') ? t('cityabout.expand') : 'عرض المزيد';
-        // انتظار layout + fonts لقياس دقيق
-        const _measure = () => {
-            // إن لم يكن النصّ محاطاً بـclamp (expanded) لا نقيس
-            if (!refs.extractEl.classList.contains('city-about-clamped')) return;
-            const needsToggle = refs.extractEl.scrollHeight > refs.extractEl.clientHeight + 2;
-            toggleBtn.hidden = !needsToggle;
-        };
-        if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(() => requestAnimationFrame(_measure));
-        } else {
-            requestAnimationFrame(() => requestAnimationFrame(_measure));
-        }
-    }
-}
-
-// 🆕 Round 2: toggle expand/collapse for City About section
-function toggleCityAbout(btn) {
-    const extract = document.getElementById('city-about-extract');
-    if (!extract) return;
-    const expanded = extract.classList.toggle('city-about-expanded');
-    extract.classList.toggle('city-about-clamped', !expanded);
-    if (btn) {
-        const key = expanded ? 'cityabout.collapse' : 'cityabout.expand';
-        btn.setAttribute('data-i18n', key);
-        const fallback = expanded ? 'عرض أقل' : 'عرض المزيد';
-        btn.textContent = (typeof t === 'function') ? (t(key) || fallback) : fallback;
-    }
-}
+// ========= قسم "عن المدينة" من ويكيبيديا — حُذف بالكامل بناءً على طلب المستخدم =========
+// stubs محتفظ بها لتجنّب أخطاء مراجع خارجيّة
+function loadCityAboutSection() { /* removed */ }
+function _renderCityAbout() { /* removed */ }
+function toggleCityAbout() { /* removed */ }
 
 // للتوافق مع الكود القديم - ينتقل للصفحة مباشرة
 async function selectCity(lat, lng, city, country, englishName = '', countryCode = '') {
@@ -5541,24 +6227,51 @@ function updateOtherTrendingCities(currentSlug, lang) {
     const host = document.getElementById('otc-list');
     if (!sec || !host || !_isCityPagePhase2()) return;
 
-    // قائمة popularity (تُستبدَل Phase 3 بـanalytics). أسماء محلّية لكلّ لغة.
+    // قائمة popularity موسّعة لتعبئة الفراغ (16 مدينة بدل 8).
+    // تُستبدَل Phase 3 بـ analytics. أسماء محلّية لكلّ لغة.
     const POP = [
-        { slug: 'mecca',      names: { ar:'مكّة المكرّمة', en:'Mecca', fr:'La Mecque', tr:'Mekke', ur:'مکّہ مکرّمہ', de:'Mekka', id:'Makkah', es:'La Meca', bn:'মক্কা', ms:'Mekah' } },
-        { slug: 'medina',     names: { ar:'المدينة المنوّرة', en:'Medina', fr:'Médine', tr:'Medine', ur:'مدینہ منوّرہ', de:'Medina', id:'Madinah', es:'Medina', bn:'মদিনা', ms:'Madinah' } },
-        { slug: 'riyadh',     names: { ar:'الرياض', en:'Riyadh', fr:'Riyad', tr:'Riyad', ur:'ریاض', de:'Riad', id:'Riyadh', es:'Riad', bn:'রিয়াদ', ms:'Riyadh' } },
-        { slug: 'cairo',      names: { ar:'القاهرة', en:'Cairo', fr:'Le Caire', tr:'Kahire', ur:'قاہرہ', de:'Kairo', id:'Kairo', es:'El Cairo', bn:'কায়রো', ms:'Kaherah' } },
-        { slug: 'dubai',      names: { ar:'دبي', en:'Dubai', fr:'Dubaï', tr:'Dubai', ur:'دبئی', de:'Dubai', id:'Dubai', es:'Dubái', bn:'দুবাই', ms:'Dubai' } },
-        { slug: 'istanbul',   names: { ar:'إسطنبول', en:'Istanbul', fr:'Istanbul', tr:'İstanbul', ur:'استنبول', de:'Istanbul', id:'Istanbul', es:'Estambul', bn:'ইস্তাম্বুল', ms:'Istanbul' } },
-        { slug: 'london',     names: { ar:'لندن', en:'London', fr:'Londres', tr:'Londra', ur:'لندن', de:'London', id:'London', es:'Londres', bn:'লন্ডন', ms:'London' } },
-        { slug: 'jakarta',    names: { ar:'جاكرتا', en:'Jakarta', fr:'Jakarta', tr:'Cakarta', ur:'جکارتہ', de:'Jakarta', id:'Jakarta', es:'Yakarta', bn:'জাকার্তা', ms:'Jakarta' } },
-        { slug: 'karachi',    names: { ar:'كراتشي', en:'Karachi', fr:'Karachi', tr:'Karaçi', ur:'کراچی', de:'Karatschi', id:'Karachi', es:'Karachi', bn:'করাচি', ms:'Karachi' } },
+        { slug: 'mecca',         names: { ar:'مكّة المكرّمة', en:'Mecca', fr:'La Mecque', tr:'Mekke', ur:'مکّہ مکرّمہ', de:'Mekka', id:'Makkah', es:'La Meca', bn:'মক্কা', ms:'Mekah' } },
+        { slug: 'medina',        names: { ar:'المدينة المنوّرة', en:'Medina', fr:'Médine', tr:'Medine', ur:'مدینہ منوّرہ', de:'Medina', id:'Madinah', es:'Medina', bn:'মদিনা', ms:'Madinah' } },
+        { slug: 'riyadh',        names: { ar:'الرياض', en:'Riyadh', fr:'Riyad', tr:'Riyad', ur:'ریاض', de:'Riad', id:'Riyadh', es:'Riad', bn:'রিয়াদ', ms:'Riyadh' } },
+        { slug: 'jeddah',        names: { ar:'جدّة', en:'Jeddah', fr:'Djeddah', tr:'Cidde', ur:'جدہ', de:'Dschidda', id:'Jeddah', es:'Yeda', bn:'জেদ্দা', ms:'Jeddah' } },
+        { slug: 'cairo',         names: { ar:'القاهرة', en:'Cairo', fr:'Le Caire', tr:'Kahire', ur:'قاہرہ', de:'Kairo', id:'Kairo', es:'El Cairo', bn:'কায়রো', ms:'Kaherah' } },
+        { slug: 'alexandria',    names: { ar:'الإسكندرية', en:'Alexandria', fr:'Alexandrie', tr:'İskenderiye', ur:'اسکندریہ', de:'Alexandria', id:'Aleksandria', es:'Alejandría', bn:'আলেকজান্দ্রিয়া', ms:'Alexandria' } },
+        { slug: 'dubai',         names: { ar:'دبي', en:'Dubai', fr:'Dubaï', tr:'Dubai', ur:'دبئی', de:'Dubai', id:'Dubai', es:'Dubái', bn:'দুবাই', ms:'Dubai' } },
+        { slug: 'abu-dhabi',     names: { ar:'أبوظبي', en:'Abu Dhabi', fr:'Abou Dabi', tr:'Abu Dabi', ur:'ابوظہبی', de:'Abu Dhabi', id:'Abu Dhabi', es:'Abu Dabi', bn:'আবুধাবি', ms:'Abu Dhabi' } },
+        { slug: 'istanbul',      names: { ar:'إسطنبول', en:'Istanbul', fr:'Istanbul', tr:'İstanbul', ur:'استنبول', de:'Istanbul', id:'Istanbul', es:'Estambul', bn:'ইস্তাম্বুল', ms:'Istanbul' } },
+        { slug: 'amman',         names: { ar:'عمّان', en:'Amman', fr:'Amman', tr:'Amman', ur:'عمان', de:'Amman', id:'Amman', es:'Amán', bn:'আম্মান', ms:'Amman' } },
+        { slug: 'baghdad',       names: { ar:'بغداد', en:'Baghdad', fr:'Bagdad', tr:'Bağdat', ur:'بغداد', de:'Bagdad', id:'Baghdad', es:'Bagdad', bn:'বাগদাদ', ms:'Baghdad' } },
+        { slug: 'doha',          names: { ar:'الدوحة', en:'Doha', fr:'Doha', tr:'Doha', ur:'دوحہ', de:'Doha', id:'Doha', es:'Doha', bn:'দোহা', ms:'Doha' } },
+        { slug: 'kuwait-city',   names: { ar:'مدينة الكويت', en:'Kuwait City', fr:'Koweït', tr:'Kuveyt', ur:'کویت سٹی', de:'Kuwait-Stadt', id:'Kota Kuwait', es:'Kuwait', bn:'কুয়েত সিটি', ms:'Bandar Kuwait' } },
+        { slug: 'london',        names: { ar:'لندن', en:'London', fr:'Londres', tr:'Londra', ur:'لندن', de:'London', id:'London', es:'Londres', bn:'লন্ডন', ms:'London' } },
+        { slug: 'paris',         names: { ar:'باريس', en:'Paris', fr:'Paris', tr:'Paris', ur:'پیرس', de:'Paris', id:'Paris', es:'París', bn:'প্যারিস', ms:'Paris' } },
+        { slug: 'new-york',      names: { ar:'نيويورك', en:'New York', fr:'New York', tr:'New York', ur:'نیویارک', de:'New York', id:'New York', es:'Nueva York', bn:'নিউ ইয়র্ক', ms:'New York' } },
+        { slug: 'jakarta',       names: { ar:'جاكرتا', en:'Jakarta', fr:'Jakarta', tr:'Cakarta', ur:'جکارتہ', de:'Jakarta', id:'Jakarta', es:'Yakarta', bn:'জাকার্তা', ms:'Jakarta' } },
+        { slug: 'kuala-lumpur',  names: { ar:'كوالالمبور', en:'Kuala Lumpur', fr:'Kuala Lumpur', tr:'Kuala Lumpur', ur:'کوالالمپور', de:'Kuala Lumpur', id:'Kuala Lumpur', es:'Kuala Lumpur', bn:'কুয়ালালামপুর', ms:'Kuala Lumpur' } },
+        { slug: 'karachi',       names: { ar:'كراتشي', en:'Karachi', fr:'Karachi', tr:'Karaçi', ur:'کراچی', de:'Karatschi', id:'Karachi', es:'Karachi', bn:'করাচি', ms:'Karachi' } },
+        { slug: 'lahore',        names: { ar:'لاهور', en:'Lahore', fr:'Lahore', tr:'Lahor', ur:'لاہور', de:'Lahore', id:'Lahore', es:'Lahore', bn:'লাহোর', ms:'Lahore' } },
+        { slug: 'dhaka',         names: { ar:'دكا', en:'Dhaka', fr:'Dacca', tr:'Dakka', ur:'ڈھاکہ', de:'Dhaka', id:'Dhaka', es:'Daca', bn:'ঢাকা', ms:'Dhaka' } },
     ];
 
+    // FIX: Prefix الترجمة "مواقيت الصلاة في" قبل اسم كل مدينة (لكل اللغات)
+    const PREFIX_LBL = {
+        ar: 'مواقيت الصلاة في',
+        en: 'Prayer Times in',
+        fr: 'Horaires des prières à',
+        tr: 'Namaz vakitleri',
+        ur: 'نماز کے اوقات',
+        de: 'Gebetszeiten in',
+        id: 'Jadwal Sholat',
+        es: 'Horarios de oración en',
+        bn: 'নামাজের সময় -',
+        ms: 'Waktu Solat'
+    };
     const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
-    const list = POP.filter(c => c.slug !== currentSlug).slice(0, 8);
+    const _lblPrefix = PREFIX_LBL[lang] || PREFIX_LBL.en;
+    const list = POP.filter(c => c.slug !== currentSlug).slice(0, 16);
     host.innerHTML = list.map(c => {
         const name = (c.names && (c.names[lang] || c.names.en)) || c.slug;
-        return `<a class="otc-chip" href="${prefix}/prayer-times-in-${c.slug}">${name}</a>`;
+        return `<a class="otc-chip" href="${prefix}/prayer-times-in-${c.slug}">${_lblPrefix} ${name}</a>`;
     }).join('');
     sec.classList.remove('u-hidden');
 }
@@ -8032,8 +8745,19 @@ function updateStickyBar(countdownStr) {
 function updateStickyBarHref() {
     const bar = document.getElementById('sticky-next-bar');
     if (!bar || bar.tagName !== 'A') return;
-    const slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
-    if (!slug || /^hijri-|^loc-/.test(slug)) { bar.removeAttribute('href'); return; }
+    let slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
+    // FIX: على الرئيسيّة (لا slug في URL) — استعمل المدينة الحاليّة (currentEnglishName)
+    //   ⇒ إن لم تكن متاحة أو كانت loc-/hijri- ⇒ مكّة كافتراضي.
+    if (!slug || /^hijri-|^loc-/.test(slug)) {
+        if (currentEnglishName && currentLat != null && currentLng != null
+            && typeof makeSlug === 'function') {
+            try {
+                const _s = makeSlug(currentEnglishName, currentLat, currentLng);
+                if (_s && !/^loc-/.test(_s)) slug = _s;
+            } catch (_) {}
+        }
+        if (!slug || /^hijri-|^loc-/.test(slug)) slug = 'mecca';
+    }
     const lang = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
     bar.href = `${lang}/time-left-until-prayer-in-${slug}`;
 }
@@ -8152,6 +8876,26 @@ function updateNextPrayerPage() {
 function initStickyNextBar() {
     const bar = document.getElementById('sticky-next-bar');
     if (!bar || typeof IntersectionObserver === 'undefined') return;
+    // FIX: حدّث href فوراً (لا تنتظر updateCountdown) — يحلّ مشكلة "لا يعمل في الرئيسيّة"
+    try { updateStickyBarHref(); } catch (_) {}
+    // FIX: click handler احتياطيّ — لو href ما زال "#" أو فارغاً، نَنتقل برمجياً للمدينة الحاليّة
+    if (!bar.dataset.fallbackWired) {
+        bar.dataset.fallbackWired = '1';
+        bar.addEventListener('click', function(e) {
+            try {
+                // إعادة الحساب الآن (currentEnglishName قد يكون متاحاً الآن)
+                updateStickyBarHref();
+                const _href = bar.getAttribute('href') || '';
+                if (!_href || _href === '#') {
+                    e.preventDefault();
+                    // fallback نهائيّ: مكّة
+                    const _lng = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar')
+                        ? '/' + getCurrentLang() : '';
+                    window.location.href = _lng + '/time-left-until-prayer-in-mecca';
+                }
+            } catch (_) {}
+        });
+    }
     // 🆕 Round 3.1 — اختيار pivot ذكيّ: homepage → .next-prayer-banner، city-page → #location-hero (was .city-hero-answer)
     // R34: city-hero-answer removed; #location-hero now serves as the city-page hero pivot
     const isCity = document.documentElement.classList.contains('city-page');
@@ -8673,7 +9417,7 @@ function onLanguageChange(lang) {
     if (currentPrayerTimes) renderPrayerSchedule(scheduleDays, scheduleStartDate);
 }
 
-// إعادة ملء قوائم محوّل التاريخ بعد تغيير اللغة
+// إعادة ملء قوائم محوّل التاريخ بعد تغيير اللغة — مع ترقيم الأشهر
 function updateConverterSelects() {
     const gSelect = document.getElementById('conv-g-month');
     if (gSelect) {
@@ -8682,7 +9426,7 @@ function updateConverterSelects() {
         HijriDate.gregorianMonths.forEach((m, i) => {
             const opt = document.createElement('option');
             opt.value = i + 1;
-            opt.textContent = m;
+            opt.textContent = `${i + 1} - ${m}`;
             gSelect.appendChild(opt);
         });
         gSelect.value = curG;
@@ -8694,7 +9438,7 @@ function updateConverterSelects() {
         HijriDate.hijriMonths.forEach((m, i) => {
             const opt = document.createElement('option');
             opt.value = i + 1;
-            opt.textContent = m;
+            opt.textContent = `${i + 1} - ${m}`;
             hSelect.appendChild(opt);
         });
         hSelect.value = curH;
@@ -9371,55 +10115,11 @@ async function updateCityCountryInfo() {
     if (hijriEl) hijriEl.textContent = `${hijri.day} ${HijriDate.hijriMonths[hijri.month-1]} ${hijri.year} هـ`;
     if (gregEl)  gregEl.textContent  = `${cityTime.getDate()} ${HijriDate.gregorianMonths[cityTime.getMonth()]} ${cityTime.getFullYear()} م`;
 
-    // وصف المدينة من ويكيبيديا العربية
-    const cityDescEl   = document.getElementById('city-wiki-desc');
-    const readMoreBtn  = document.getElementById('city-read-more');
-    const CITY_DESC_MAX = 200; // عدد الأحرف قبل "اقرأ المزيد"
-
-    if (cityDescEl) {
-        cityDescEl.textContent = '...';
-        if (readMoreBtn) readMoreBtn.style.display = 'none';
-        try {
-            const wikiUrl = `https://ar.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(currentCity)}`;
-            const wr = await fetch(wikiUrl);
-            if (wr.ok) {
-                const wd = await wr.json();
-                if (wd.extract) {
-                    const fullText = wd.extract;
-                    if (fullText.length > CITY_DESC_MAX) {
-                        cityDescEl.textContent = fullText.substring(0, CITY_DESC_MAX) + '...';
-                        // زر اقرأ المزيد → صفحة about-{slug}
-                        if (readMoreBtn) {
-                            // prayerSlug: من URL الصفحة الحالية (الأدق) أو من الاسم الإنجليزي
-                            const prayerSlug = getSlugFromURL()
-                                || makeSlug(currentEnglishName || currentCity, currentLat, currentLng);
-                            // احفظ البيانات مع prayerSlug لضمان تطابق رابط أوقات الصلاة
-                            sessionStorage.setItem(`about_${prayerSlug}`, JSON.stringify({
-                                city: currentCity, country: currentCountry,
-                                countryCode: currentCountryCode,
-                                lat: currentLat, lng: currentLng,
-                                englishName: currentEnglishName || '',
-                                prayerSlug: prayerSlug,
-                                wikiTitle: wd.title || currentCity,
-                                wikiExtract: fullText,
-                                wikiUrl: wd.content_urls?.desktop?.page || wd.content_urls?.mobile?.page || '',
-                            }));
-                            const aboutUrl = pageUrl(`/about-${prayerSlug}.html`);
-                            readMoreBtn.href = aboutUrl;
-                            readMoreBtn.onclick = e => {
-                                e.preventDefault();
-                                window.location.href = aboutUrl;
-                            };
-                            readMoreBtn.style.display = 'inline-block';
-                        }
-                    } else {
-                        cityDescEl.textContent = fullText;
-                        if (readMoreBtn) readMoreBtn.style.display = 'none';
-                    }
-                } else { cityDescEl.textContent = ''; }
-            } else { cityDescEl.textContent = ''; }
-        } catch(e) { cityDescEl.textContent = ''; }
-    }
+    // وصف المدينة من ويكيبيديا — حُذف بالكامل بناءً على طلب المستخدم
+    const cityDescEl  = document.getElementById('city-wiki-desc');
+    const readMoreBtn = document.getElementById('city-read-more');
+    if (cityDescEl) cityDescEl.textContent = '';
+    if (readMoreBtn) readMoreBtn.style.display = 'none';
 
     section.style.display = 'block';
     // CLS: على صفحات المدن البطاقة محجوزة مسبقاً (visibility:hidden) — نكشفها الآن
@@ -9627,21 +10327,34 @@ let _orientationHandler = null;
 // Last resort: `fallback` (should be the English name, never a Title-cased slug).
 // DO NOT Title-case slugs anywhere — that leaks English into non-Latin pages.
 function _resolveCityNameClient(slug, lang, fallback) {
-    try {
-        const pop = (typeof window !== 'undefined') && window.__POPULAR_CITY_NAMES__;
-        if (pop && slug && pop[slug]) {
-            return pop[slug][lang] || pop[slug].en || fallback || slug;
-        }
-    } catch (_e) {}
-    try {
-        if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES) && slug) {
-            const hit = LOCAL_CITIES.find(c => {
-                try { return makeSlug(c.en, c.lat, c.lng).startsWith(slug); }
-                catch (_e2) { return false; }
-            });
-            if (hit) return (lang === 'ar') ? hit.ar : hit.en;
-        }
-    } catch (_e) {}
+    // قائمة بادئات أداة التعريف العربيّة (شمسيّة/قمريّة) — fallback عند غياب slug
+    //   at-taif → taif، al-qahirah → qahirah، إلخ. (مطابِقة لـ server.js)
+    const _ARAB_PFX = /^(at|al|el|ad|an|ar|as|ash|ath|az|ed)-/;
+    const _tryLookup = (s) => {
+        try {
+            const pop = (typeof window !== 'undefined') && window.__POPULAR_CITY_NAMES__;
+            if (pop && s && pop[s]) {
+                return pop[s][lang] || pop[s].en || null;
+            }
+        } catch (_e) {}
+        try {
+            if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES) && s) {
+                const hit = LOCAL_CITIES.find(c => {
+                    try { return makeSlug(c.en, c.lat, c.lng).startsWith(s); }
+                    catch (_e2) { return false; }
+                });
+                if (hit) return (lang === 'ar') ? hit.ar : hit.en;
+            }
+        } catch (_e) {}
+        return null;
+    };
+    let r = _tryLookup(slug);
+    if (r) return r;
+    // Fallback: انزع بادئة "ال" العربيّة (at-/al-/...) → جرّب اللوكاب مرّة أخرى
+    if (slug && _ARAB_PFX.test(slug)) {
+        r = _tryLookup(slug.replace(_ARAB_PFX, ''));
+        if (r) return r;
+    }
     return fallback || slug || '';
 }
 
@@ -12847,21 +13560,28 @@ function updateMoonInfo() {
                     { id: 'newyear', hm: 1,  hd: 1  }  // 1 محرّم — رأس السنة
                 ];
 
+                // FIX: نحدّث كل العناصر (سواء بالـ ID الأصليّ أو بالكلاس) — يدعم
+                //   نسخاً متعدّدة من moon-events-section في صفحات مختلفة (الرئيسيّة + المدينة).
+                const _setAll = (selector, value) => {
+                    document.querySelectorAll(selector).forEach(el => { el.textContent = value; });
+                };
                 _events.forEach(ev => {
                     const d = _nextEventDate(ev.hm, ev.hd);
                     const days = _daysBetween(d);
-                    _setText('moon-event-' + ev.id + '-days', (days != null) ? _daysLabel(days) : '—');
-                    _setText('moon-event-' + ev.id + '-date', _fmtEventDate(d));
-                    // تمييز إن كان قريباً (≤ 5 أيّام)
+                    const _daysVal = (days != null) ? _daysLabel(days) : '—';
+                    const _dateVal = _fmtEventDate(d);
+                    // updates ALL instances by ID OR class (for multi-page support)
+                    _setAll('#moon-event-' + ev.id + '-days, .moon-event-' + ev.id + '-days', _daysVal);
+                    _setAll('#moon-event-' + ev.id + '-date, .moon-event-' + ev.id + '-date', _dateVal);
+                    // تمييز إن كان قريباً (≤ 5 أيّام) — لكل البطاقات
                     try {
-                        const _card = document.getElementById('moon-event-' + ev.id);
-                        if (_card) {
+                        document.querySelectorAll('#moon-event-' + ev.id + ', .moon-event-' + ev.id + '-card').forEach(_card => {
                             if (days != null && days >= 0 && days <= 5) {
                                 _card.classList.add('moon-event-soon');
                             } else {
                                 _card.classList.remove('moon-event-soon');
                             }
-                        }
+                        });
                     } catch(_) {}
                 });
             }
@@ -15450,33 +16170,42 @@ async function loadWikiOTD() {
 
 // ========= تحويل التاريخ =========
 function initDateConverter() {
-    // ملء الأشهر الميلادية
+    // FIX: امسح الخيارات قبل الإضافة (idempotent) — يمنع تكرار الأشهر إن استُدعيت
+    // الدالّة أكثر من مرّة (تغيير لغة، إعادة تهيئة، إلخ.)
+    // ملء الأشهر الميلادية — مع رقم الشهر للوضوح
     const gSelect = document.getElementById('conv-g-month');
-    HijriDate.gregorianMonths.forEach((m, i) => {
-        const opt = document.createElement('option');
-        opt.value = i + 1;
-        opt.textContent = m;
-        gSelect.appendChild(opt);
-    });
+    if (gSelect) {
+        gSelect.innerHTML = '';
+        HijriDate.gregorianMonths.forEach((m, i) => {
+            const opt = document.createElement('option');
+            opt.value = i + 1;
+            opt.textContent = `${i + 1} - ${m}`;
+            gSelect.appendChild(opt);
+        });
+    }
 
-    // ملء الأشهر الهجرية
+    // ملء الأشهر الهجرية — مع رقم الشهر للوضوح
     const hSelect = document.getElementById('conv-h-month');
-    HijriDate.hijriMonths.forEach((m, i) => {
-        const opt = document.createElement('option');
-        opt.value = i + 1;
-        opt.textContent = m;
-        hSelect.appendChild(opt);
-    });
+    if (hSelect) {
+        hSelect.innerHTML = '';
+        HijriDate.hijriMonths.forEach((m, i) => {
+            const opt = document.createElement('option');
+            opt.value = i + 1;
+            opt.textContent = `${i + 1} - ${m}`;
+            hSelect.appendChild(opt);
+        });
+    }
 
     // ملء الأشهر الشمسية (الأبراج للعربية والأردو، الأسماء الفارسية لباقي اللغات)
     const sSelect = document.getElementById('conv-s-month');
     if (sSelect) {
+        sSelect.innerHTML = '';
         const _tx = (k, fb) => ((typeof t === 'function') ? t(k) : fb);
         for (let i = 0; i < 12; i++) {
             const localized = _tx('jmonth.' + (i + 1), _jalaliMonths[i]);
             const opt = document.createElement('option');
             opt.value = i + 1;
-            // أظهر التسمية المترجمة + الاسم الفارسي الأصلي كمرجع ثابت
+            // أظهر الرقم + التسمية المترجمة + الاسم الفارسي الأصلي كمرجع ثابت
             opt.textContent = `${i + 1} - ${localized} - ${_jalaliMonthsOriginal[i]}`;
             sSelect.appendChild(opt);
         }

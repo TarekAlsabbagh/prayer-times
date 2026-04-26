@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=435" as="script">
-    <link rel="stylesheet" href="css/style.css?v=155">
+    <link rel="preload" href="js/app.js?v=468" as="script">
+    <link rel="stylesheet" href="css/style.css?v=177">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -655,16 +655,8 @@
                     </div>
                 </section>
 
-                <!-- معلومات عن المدينة (من ويكيبيديا) — يظهر فقط في صفحات المدن (display عبر CSS) -->
-                <div class="section-card city-about-section" id="city-about-section">
-                    <h2 id="city-about-title">معلومات عن المدينة</h2>
-                    <div class="city-about-body">
-                        <p id="city-about-extract" class="city-about-extract city-about-clamped"></p>
-                        <!-- 🆕 Round 2: expand/collapse toggle (hidden by default; JS reveals if scrollHeight > clientHeight) -->
-                        <button class="city-about-toggle" id="city-about-toggle" type="button" onclick="toggleCityAbout(this)" data-i18n="cityabout.expand" hidden>عرض المزيد</button>
-                        <a id="city-about-link" class="city-about-link" href="#" target="_blank" rel="noopener nofollow"></a>
-                    </div>
-                </div>
+                <!-- city-about-section حُذف نهائياً -->
+
 
                 <!-- روابط ذات صلة — تظهر في صفحات المدن فقط (في الأسفل لتجنّب CLS) -->
                 <div class="section-card u-hidden" id="city-related-services">
@@ -1452,9 +1444,6 @@
                     <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اضغط على أيّ نقطة للانتقال إلى صفحة ذلك اليوم.</p>
                 </section>
 
-                <!-- CTA: link from current state to the 14-day forecast -->
-                <a class="moon-forecast-cta" href="#moon-forecast" data-i18n="moon.forecast_cta">📅 تابع تطوّر القمر خلال الأربعة عشر يومًا القادمة ↓</a>
-
                 <!-- 14-day forecast -->
                 <div class="section-card" id="moon-forecast">
                     <h2 id="moon-forecast-h2" data-i18n="moon.forecast_title">📅 توقّعات القمر للأربعة عشر يومًا القادمة</h2>
@@ -1481,18 +1470,18 @@
                 <div class="section-card">
                     <h2 data-i18n="moon.cities_title">🌐 القمر اليوم في مدن أخرى</h2>
                     <ul class="moon-cities-grid">
-                        <li><a href="/moon-today-in-mecca"><span class="moon-city-flag" aria-hidden="true">🇸🇦</span><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
-                        <li><a href="/moon-today-in-medina"><span class="moon-city-flag" aria-hidden="true">🇸🇦</span><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
-                        <li><a href="/moon-today-in-riyadh"><span class="moon-city-flag" aria-hidden="true">🇸🇦</span><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
-                        <li><a href="/moon-today-in-cairo"><span class="moon-city-flag" aria-hidden="true">🇪🇬</span><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
-                        <li><a href="/moon-today-in-dubai"><span class="moon-city-flag" aria-hidden="true">🇦🇪</span><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
-                        <li><a href="/moon-today-in-istanbul"><span class="moon-city-flag" aria-hidden="true">🇹🇷</span><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
-                        <li><a href="/moon-today-in-jakarta"><span class="moon-city-flag" aria-hidden="true">🇮🇩</span><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
-                        <li><a href="/moon-today-in-karachi"><span class="moon-city-flag" aria-hidden="true">🇵🇰</span><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
-                        <li><a href="/moon-today-in-london"><span class="moon-city-flag" aria-hidden="true">🇬🇧</span><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
-                        <li><a href="/moon-today-in-paris"><span class="moon-city-flag" aria-hidden="true">🇫🇷</span><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
-                        <li><a href="/moon-today-in-new-york"><span class="moon-city-flag" aria-hidden="true">🇺🇸</span><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
-                        <li><a href="/moon-today-in-kuala-lumpur"><span class="moon-city-flag" aria-hidden="true">🇲🇾</span><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
+                        <li><a href="/moon-today-in-mecca"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
+                        <li><a href="/moon-today-in-medina"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
+                        <li><a href="/moon-today-in-riyadh"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
+                        <li><a href="/moon-today-in-cairo"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
+                        <li><a href="/moon-today-in-dubai"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
+                        <li><a href="/moon-today-in-istanbul"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
+                        <li><a href="/moon-today-in-jakarta"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
+                        <li><a href="/moon-today-in-karachi"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
+                        <li><a href="/moon-today-in-london"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
+                        <li><a href="/moon-today-in-paris"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
+                        <li><a href="/moon-today-in-new-york"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
+                        <li><a href="/moon-today-in-kuala-lumpur"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
                     </ul>
                 </div>
 
@@ -1951,7 +1940,7 @@
                             </div>
                             <div>
                                 <label data-i18n="converter.year">السنة</label>
-                                <input type="number" id="conv-g-year" min="622" max="3000" value="2026" onchange="convertToHijri()">
+                                <input type="number" id="conv-g-year" min="1900" max="2200" value="2026" onchange="convertToHijri()">
                             </div>
                         </div>
                         <button class="btn btn-primary btn-convert-full" onclick="convertToHijri()" data-i18n="converter.convert">تحويل</button>
@@ -1974,7 +1963,7 @@
                             </div>
                             <div>
                                 <label data-i18n="converter.year">السنة</label>
-                                <input type="number" id="conv-h-year" min="1" max="2000" value="1447" onchange="convertToGreg()">
+                                <input type="number" id="conv-h-year" min="1300" max="1620" value="1447" onchange="convertToGreg()">
                             </div>
                         </div>
                         <button class="btn btn-primary btn-convert-full" onclick="convertToGreg()" data-i18n="converter.convert">تحويل</button>
@@ -1997,7 +1986,7 @@
                             </div>
                             <div>
                                 <label data-i18n="converter.year">السنة</label>
-                                <input type="number" id="conv-s-year" min="1" max="2000" value="1404">
+                                <input type="number" id="conv-s-year" min="1300" max="1600" value="1404">
                             </div>
                         </div>
                         <button class="btn btn-primary btn-convert-full" onclick="convertFromSolar()" data-i18n="converter.convert">تحويل</button>
@@ -2135,15 +2124,35 @@
 
             <!-- ========= صفحة العدّ التنازليّ لرمضان ========= -->
             <div class="page countdown-page cd-ramadan" id="page-ramadan-countdown">
-                <!-- (1) Hero: H1 + intro + main countdown timer -->
+                <!-- [1] HERO — العدّاد كامل + جملة SEO + شريط التخصيص + سطر القمر -->
                 <section class="section-card countdown-hero">
                     <h1 class="countdown-h1" data-i18n="ramadan.h1">🕋 كم باقي على رمضان؟</h1>
+                    <p class="cd-h1-seo" id="ram-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="ramadan.intro">اكتشف الأيام المتبقّية حتّى شهر رمضان المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد تختلف بداية الشهر يوماً حسب رؤية الهلال في بلدك.</p>
                     <div class="countdown-timer" id="ramadan-timer" role="timer" aria-live="polite">
-                        <div class="ct-cell"><span class="ct-value" id="ram-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="ram-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="ram-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
                         <div class="ct-cell"><span class="ct-value" id="ram-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="ram-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="ram-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="ram-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
+                    </div>
+                    <!-- ① جملة SEO تحت العدّاد مباشرة -->
+                    <p class="cd-seo-line" id="ram-seo-line"></p>
+                    <!-- ② 📍 شريط التخصيص (يأتي قبل الزرّ — المستخدم يرى نفسه أوّلاً) -->
+                    <div class="cd-personal-bar" id="ram-personal-bar" hidden>
+                        <span class="cd-personal-icon">📍</span>
+                        <span class="cd-personal-text" id="ram-personal-text"></span>
+                    </div>
+                    <!-- ③ CTA — بعد الموقع: المستخدم يرى موقعه ثم يتفاعل -->
+                    <a class="cd-cta-hint" href="/" data-page="prayer-times">
+                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="ramadan.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-sub" data-i18n="ramadan.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
+                    </a>
+                    <!-- سطر القمر داخل الـ Hero (بدل قسم منفصل) -->
+                    <div class="cd-lunar-inline" id="ram-lunar-inline">
+                        <span class="cdli-icon">🌙</span>
+                        <span data-i18n="ramadan.lunar_current_short">القمر الآن:</span>
+                        <strong id="ram-current-phase">—</strong>
+                        <span class="lunar-illum">(<span id="ram-current-illum">—</span>)</span>
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="ramadan.event_name">رمضان</strong></div>
@@ -2152,71 +2161,12 @@
                     </div>
                 </section>
 
-                <!-- (2) Basic info cards -->
-                <section class="section-card countdown-info-cards">
-                    <h2 data-i18n="ramadan.cards_title">📋 معلومات أساسيّة</h2>
-                    <div class="cic-grid">
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="ramadan.card1_title">بداية رمضان المتوقّعة</span>
-                            <span class="cic-value" id="ram-card-start">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="ramadan.card2_title">التاريخ الهجريّ</span>
-                            <span class="cic-value"><span data-i18n="ramadan.hijri_1">1 رمضان</span> <span id="ram-card-hy">—</span></span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="ramadan.card3_title">الأيام المتبقّية</span>
-                            <span class="cic-value" id="ram-card-days">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="ramadan.card4_title">حالة التحديد</span>
-                            <span class="cic-value" data-i18n="ramadan.card4_value">حسابيّ · بانتظار الرؤية</span>
-                        </div>
-                    </div>
-                </section>
+                <!-- [2] قسم facts row حُذف بالكامل (مكرّر من الـ Hero meta) — نُبقي IDs مخفيّة لـ JS -->
+                <span id="ram-card-start" hidden>—</span>
+                <span id="ram-card-hy" hidden>—</span>
+                <span id="ram-card-days" hidden>—</span>
 
-                <!-- (3) Date approval notice -->
-                <section class="section-card countdown-notice">
-                    <h2 data-i18n="ramadan.notice_title">📜 اعتماد التاريخ</h2>
-                    <p data-i18n="ramadan.notice_body">بداية رمضان ترتبط بثبوت هلال 1 رمضان. التاريخ المعروض أعلاه محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
-                </section>
-
-                <!-- (4) Lunar link section -->
-                <section class="section-card countdown-lunar">
-                    <h2 data-i18n="ramadan.lunar_title">🌙 الارتباط القمريّ</h2>
-                    <p>
-                        <span data-i18n="ramadan.lunar_current">مرحلة القمر الحاليّة:</span>
-                        <strong id="ram-current-phase">—</strong>
-                        <span class="lunar-illum">(<span id="ram-current-illum">—</span>)</span>
-                    </p>
-                    <div class="countdown-links-row">
-                        <a href="/moon-today" data-i18n="ramadan.lunar_link_today">🌙 حالة القمر اليوم →</a>
-                        <a href="/moon-today#next-new-moon" data-i18n="ramadan.lunar_link_new_moon">🌑 المحاق القادم →</a>
-                        <a href="/moon-today#next-crescent" data-i18n="ramadan.lunar_link_crescent">🌒 الهلال القادم →</a>
-                    </div>
-                </section>
-
-                <!-- (5) Pre-Ramadan section -->
-                <section class="section-card countdown-pre">
-                    <h2 data-i18n="ramadan.pre_title">⏳ ما قبل رمضان</h2>
-                    <ul class="countdown-facts">
-                        <li>
-                            <span class="cf-key" data-i18n="ramadan.pre_current_month">الشهر الهجريّ الحاليّ:</span>
-                            <strong id="ram-pre-month">—</strong>
-                        </li>
-                        <li>
-                            <span class="cf-key" data-i18n="ramadan.pre_shaban_left">المتبقّي على نهاية شعبان:</span>
-                            <strong id="ram-pre-shaban">—</strong>
-                        </li>
-                        <li>
-                            <span class="cf-key" data-i18n="ramadan.pre_near_new">قرب المحاق القادم:</span>
-                            <strong id="ram-pre-near-new">—</strong>
-                        </li>
-                    </ul>
-                    <a class="cd-inline-link" href="/moon-today" data-i18n="ramadan.pre_link">🔭 حالة القمر في ليلة تحرّي هلال رمضان →</a>
-                </section>
-
-                <!-- (6) Future years table -->
+                <!-- [3] جدول السنوات (الأهم بعد العدّاد) -->
                 <section class="section-card countdown-years">
                     <h2 data-i18n="ramadan.years_title">📅 مواعيد بداية رمضان في السنوات القادمة</h2>
                     <div class="countdown-table-wrap">
@@ -2237,26 +2187,45 @@
                     <p class="countdown-small-note" data-i18n="ramadan.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
-                <!-- (7) Cities/countries section -->
-                <section class="section-card countdown-cities">
-                    <h2 data-i18n="ramadan.cities_title">🌍 رمضان حول العالم</h2>
-                    <ul class="countdown-cities-grid">
-                        <li><a href="/prayer-times-in-mecca"><span class="cg-flag">🇸🇦</span> <span data-i18n="ramadan.city_sa">رمضان في السعودية</span></a></li>
-                        <li><a href="/prayer-times-in-cairo"><span class="cg-flag">🇪🇬</span> <span data-i18n="ramadan.city_eg">رمضان في مصر</span></a></li>
-                        <li><a href="/prayer-times-in-dubai"><span class="cg-flag">🇦🇪</span> <span data-i18n="ramadan.city_ae">رمضان في الإمارات</span></a></li>
-                        <li><a href="/prayer-times-in-london"><span class="cg-flag">🇬🇧</span> <span data-i18n="ramadan.city_uk">رمضان في لندن</span></a></li>
-                        <li><a href="/prayer-times-in-istanbul"><span class="cg-flag">🇹🇷</span> <span data-i18n="ramadan.city_tr">رمضان في إسطنبول</span></a></li>
-                        <li><a href="/prayer-times-in-jakarta"><span class="cg-flag">🇮🇩</span> <span data-i18n="ramadan.city_id">رمضان في جاكرتا</span></a></li>
-                    </ul>
+                <!-- [4] روابط ذات صلة (CTA ذكيّ — Cards بعد جدول السنوات مباشرة) -->
+                <section class="section-card countdown-links">
+                    <h2 data-i18n="ramadan.links_title">🔗 روابط ذات صلة</h2>
+                    <div class="cd-link-cards">
+                        <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
+                            <span class="cdc-icon">🕌</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_prayer">مواقيت الصلاة</span>
+                        </a>
+                        <a class="cd-link-card" href="/eid-al-fitr-countdown">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_eid_fitr">كم باقي على عيد الفطر</span>
+                        </a>
+                        <a class="cd-link-card" href="/eid-al-adha-countdown">
+                            <span class="cdc-icon">🐑</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_eid_adha">كم باقي على عيد الأضحى</span>
+                        </a>
+                        <a class="cd-link-card" href="/hijri-new-year-countdown">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_new_year">كم باقي على رأس السنة الهجريّة</span>
+                        </a>
+                        <a class="cd-link-card" href="/moon-today">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_moon">حالة القمر اليوم</span>
+                        </a>
+                        <a class="cd-link-card" href="/today-hijri-date">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                        </a>
+                    </div>
                 </section>
 
-                <!-- (8) FAQ -->
+                <!-- [5] FAQ مختصر — 3 أسئلة + عرض المزيد -->
                 <section class="section-card countdown-faq">
                     <h2 data-i18n="ramadan.faq_title">❓ أسئلة شائعة عن رمضان</h2>
+                    <p class="cd-faq-hook" data-i18n="ramadan.faq_hook">هل تريد معرفة تفاصيل أكثر عن شهر رمضان هذا العام؟</p>
                     <div id="ram-faq-list" class="countdown-faq-list"></div>
                 </section>
 
-                <!-- (9) Static info content -->
+                <!-- [6] معلومات عن شهر رمضان (SEO قوي) -->
                 <section class="section-card countdown-info">
                     <h2 data-i18n="ramadan.info_title">📖 معلومات عن شهر رمضان</h2>
                     <h3 data-i18n="ramadan.info_h1">ما هو شهر رمضان</h3>
@@ -2267,30 +2236,40 @@
                     <p data-i18n="ramadan.info_h3_body">السنة الهجريّة القمريّة أقصر من السنة الميلاديّة الشمسيّة بحوالي 10 إلى 11 يومًا، لذلك يتقدّم رمضان (مع كلّ المناسبات الإسلاميّة) في التقويم الميلاديّ بنفس المقدار سنويًّا.</p>
                 </section>
 
-                <!-- (10) Internal links -->
-                <section class="section-card countdown-links">
-                    <h2 data-i18n="ramadan.links_title">🔗 روابط ذات صلة</h2>
-                    <ul class="countdown-links-list">
-                        <li><a href="/eid-al-fitr-countdown" data-i18n="ramadan.link_eid_fitr">🌙 كم باقي على عيد الفطر</a></li>
-                        <li><a href="/eid-al-adha-countdown" data-i18n="ramadan.link_eid_adha">🐑 كم باقي على عيد الأضحى</a></li>
-                        <li><a href="/hijri-new-year-countdown" data-i18n="ramadan.link_new_year">📅 كم باقي على رأس السنة الهجريّة</a></li>
-                        <li><a href="/moon-today" data-i18n="ramadan.link_moon">🌙 حالة القمر اليوم</a></li>
-                        <li><a href="/today-hijri-date" data-i18n="ramadan.link_hijri_today">📅 التاريخ الهجريّ اليوم</a></li>
-                    </ul>
+                <!-- [7] اعتماد التاريخ — آخر شيء بالصفحة -->
+                <section class="section-card countdown-notice">
+                    <h2 data-i18n="ramadan.notice_title">📜 اعتماد التاريخ</h2>
+                    <p data-i18n="ramadan.notice_body">بداية رمضان ترتبط بثبوت هلال 1 رمضان. التاريخ المعروض أعلاه محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
                 </section>
             </div>
 
             <!-- ========= صفحة العدّ التنازليّ لـ eid-al-fitr ========= -->
             <div class="page countdown-page cd-eid-al-fitr" id="page-eid-al-fitr-countdown">
-                <!-- (1) Hero: H1 + intro + main countdown timer -->
+                <!-- [1] HERO — العدّاد كامل + جملة SEO + شريط التخصيص + سطر القمر -->
                 <section class="section-card countdown-hero">
                     <h1 class="countdown-h1" data-i18n="eid_fitr.h1">🌙 كم باقي على عيد الفطر؟</h1>
+                    <p class="cd-h1-seo" id="fitr-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="eid_fitr.intro">اكتشف الأيّام المتبقّية حتّى عيد الفطر المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد يختلف يوم العيد يوماً حسب رؤية هلال شوّال في بلدك.</p>
                     <div class="countdown-timer" id="fitr-timer" role="timer" aria-live="polite">
-                        <div class="ct-cell"><span class="ct-value" id="fitr-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="fitr-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="fitr-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
                         <div class="ct-cell"><span class="ct-value" id="fitr-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="fitr-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="fitr-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="fitr-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
+                    </div>
+                    <p class="cd-seo-line" id="fitr-seo-line"></p>
+                    <div class="cd-personal-bar" id="fitr-personal-bar" hidden>
+                        <span class="cd-personal-icon">📍</span>
+                        <span class="cd-personal-text" id="fitr-personal-text"></span>
+                    </div>
+                    <a class="cd-cta-hint" href="/" data-page="prayer-times">
+                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="eid_fitr.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-sub" data-i18n="eid_fitr.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
+                    </a>
+                    <div class="cd-lunar-inline" id="fitr-lunar-inline">
+                        <span class="cdli-icon">🌙</span>
+                        <span data-i18n="eid_fitr.lunar_current_short">القمر الآن:</span>
+                        <strong id="fitr-current-phase">—</strong>
+                        <span class="lunar-illum">(<span id="fitr-current-illum">—</span>)</span>
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="eid_fitr.event_name">عيد الفطر</strong></div>
@@ -2299,51 +2278,12 @@
                     </div>
                 </section>
 
-                <!-- (2) Basic info cards -->
-                <section class="section-card countdown-info-cards">
-                    <h2 data-i18n="eid_fitr.cards_title">📋 معلومات أساسيّة</h2>
-                    <div class="cic-grid">
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_fitr.card1_title">عيد الفطر المتوقّع</span>
-                            <span class="cic-value" id="fitr-card-start">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_fitr.card2_title">التاريخ الهجريّ</span>
-                            <span class="cic-value"><span data-i18n="eid_fitr.hijri_1">1 شوّال</span> <span id="fitr-card-hy">—</span></span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_fitr.card3_title">الأيّام المتبقّية</span>
-                            <span class="cic-value" id="fitr-card-days">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_fitr.card4_title">حالة التحديد</span>
-                            <span class="cic-value" data-i18n="eid_fitr.card4_value">حسابيّ · بانتظار الرؤية</span>
-                        </div>
-                    </div>
-                </section>
+                <!-- [2] قسم facts row حُذف — IDs مخفيّة لـ JS -->
+                <span id="fitr-card-start" hidden>—</span>
+                <span id="fitr-card-hy" hidden>—</span>
+                <span id="fitr-card-days" hidden>—</span>
 
-                <!-- (3) Date approval notice -->
-                <section class="section-card countdown-notice">
-                    <h2 data-i18n="eid_fitr.notice_title">📜 اعتماد التاريخ</h2>
-                    <p data-i18n="eid_fitr.notice_body">يرتبط عيد الفطر بثبوت هلال شوّال بعد إكمال 29 أو 30 يومًا من رمضان. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
-                </section>
-
-                <!-- (4) Lunar link section -->
-                <section class="section-card countdown-lunar">
-                    <h2 data-i18n="eid_fitr.lunar_title">🌙 الارتباط القمريّ</h2>
-                    <p>
-                        <span data-i18n="eid_fitr.lunar_current">مرحلة القمر الحاليّة:</span>
-                        <strong id="fitr-current-phase">—</strong>
-                        <span class="lunar-illum">(<span id="fitr-current-illum">—</span>)</span>
-                    </p>
-                    <div class="countdown-links-row">
-                        <a href="/moon-today" data-i18n="eid_fitr.lunar_link_today">🌙 حالة القمر اليوم →</a>
-                        <a href="/moon-today#next-new-moon" data-i18n="eid_fitr.lunar_link_new_moon">🌑 المحاق القادم →</a>
-                        <a href="/moon-today#next-crescent" data-i18n="eid_fitr.lunar_link_crescent">🌒 هلال شوّال القادم →</a>
-                    </div>
-                </section>
-                <!-- (5) Pre-event section omitted for eid-al-fitr -->
-<!-- (6) Future years table -->
+                <!-- [3] جدول السنوات -->
                 <section class="section-card countdown-years">
                     <h2 data-i18n="eid_fitr.years_title">📅 مواعيد عيد الفطر في السنوات القادمة</h2>
                     <div class="countdown-table-wrap">
@@ -2364,26 +2304,46 @@
                     <p class="countdown-small-note" data-i18n="eid_fitr.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
-                <!-- (7) Cities/countries section -->
-                <section class="section-card countdown-cities">
-                    <h2 data-i18n="eid_fitr.cities_title">🌍 عيد الفطر حول العالم</h2>
-                    <ul class="countdown-cities-grid">
-                        <li><a href="/prayer-times-in-mecca"><span class="cg-flag">🇸🇦</span> <span data-i18n="eid_fitr.city_sa">عيد الفطر في السعودية</span></a></li>
-                        <li><a href="/prayer-times-in-cairo"><span class="cg-flag">🇪🇬</span> <span data-i18n="eid_fitr.city_eg">عيد الفطر في مصر</span></a></li>
-                        <li><a href="/prayer-times-in-dubai"><span class="cg-flag">🇦🇪</span> <span data-i18n="eid_fitr.city_ae">عيد الفطر في الإمارات</span></a></li>
-                        <li><a href="/prayer-times-in-london"><span class="cg-flag">🇬🇧</span> <span data-i18n="eid_fitr.city_uk">عيد الفطر في لندن</span></a></li>
-                        <li><a href="/prayer-times-in-istanbul"><span class="cg-flag">🇹🇷</span> <span data-i18n="eid_fitr.city_tr">عيد الفطر في إسطنبول</span></a></li>
-                        <li><a href="/prayer-times-in-jakarta"><span class="cg-flag">🇮🇩</span> <span data-i18n="eid_fitr.city_id">عيد الفطر في جاكرتا</span></a></li>
-                    </ul>
+                <!-- [5] FAQ مختصر -->
+                <!-- [4] روابط ذات صلة (CTA — Cards) — قبل الـ FAQ -->
+                <section class="section-card countdown-links">
+                    <h2 data-i18n="eid_fitr.links_title">🔗 روابط ذات صلة</h2>
+                    <div class="cd-link-cards">
+                        <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
+                            <span class="cdc-icon">🕌</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_prayer">مواقيت الصلاة</span>
+                        </a>
+                        <a class="cd-link-card" href="/ramadan-countdown">
+                            <span class="cdc-icon">🕋</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_ramadan">كم باقي على رمضان</span>
+                        </a>
+                        <a class="cd-link-card" href="/eid-al-adha-countdown">
+                            <span class="cdc-icon">🐑</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_adha">كم باقي على عيد الأضحى</span>
+                        </a>
+                        <a class="cd-link-card" href="/hijri-new-year-countdown">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_new_year">كم باقي على رأس السنة الهجريّة</span>
+                        </a>
+                        <a class="cd-link-card" href="/moon-today">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_moon">حالة القمر اليوم</span>
+                        </a>
+                        <a class="cd-link-card" href="/today-hijri-date">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                        </a>
+                    </div>
                 </section>
 
-                <!-- (8) FAQ -->
+                <!-- [5] FAQ مختصر -->
                 <section class="section-card countdown-faq">
                     <h2 data-i18n="eid_fitr.faq_title">❓ أسئلة شائعة عن عيد الفطر</h2>
+                    <p class="cd-faq-hook" data-i18n="eid_fitr.faq_hook">هل تريد معرفة تفاصيل أكثر عن عيد الفطر هذا العام؟</p>
                     <div id="fitr-faq-list" class="countdown-faq-list"></div>
                 </section>
 
-                <!-- (9) Static info content -->
+                <!-- [6] Static info content -->
                 <section class="section-card countdown-info">
                     <h2 data-i18n="eid_fitr.info_title">📖 معلومات عن عيد الفطر</h2>
                     <h3 data-i18n="eid_fitr.info_h1">ما هو عيد الفطر</h3>
@@ -2394,30 +2354,40 @@
                     <p data-i18n="eid_fitr.info_h3_body">السنة الهجريّة القمريّة أقصر بحوالي 10-11 يومًا من الميلاديّة، لذا يتقدّم عيد الفطر في التقويم الميلاديّ بنفس المقدار سنويًّا، ويدور عبر جميع الفصول كلّ ~33 سنة.</p>
                 </section>
 
-                <!-- (10) Internal links -->
-                <section class="section-card countdown-links">
-                    <h2 data-i18n="eid_fitr.links_title">🔗 روابط ذات صلة</h2>
-                    <ul class="countdown-links-list">
-                        <li><a href="/ramadan-countdown" data-i18n="eid_fitr.link_ramadan">🕋 كم باقي على رمضان</a></li>
-                        <li><a href="/eid-al-adha-countdown" data-i18n="eid_fitr.link_adha">🐑 كم باقي على عيد الأضحى</a></li>
-                        <li><a href="/hijri-new-year-countdown" data-i18n="eid_fitr.link_new_year">📅 كم باقي على رأس السنة الهجريّة</a></li>
-                        <li><a href="/moon-today" data-i18n="eid_fitr.link_moon">🌙 حالة القمر اليوم</a></li>
-                        <li><a href="/today-hijri-date" data-i18n="eid_fitr.link_hijri_today">📅 التاريخ الهجريّ اليوم</a></li>
-                    </ul>
+                <!-- [7] اعتماد التاريخ — آخر شيء بالصفحة -->
+                <section class="section-card countdown-notice">
+                    <h2 data-i18n="eid_fitr.notice_title">📜 اعتماد التاريخ</h2>
+                    <p data-i18n="eid_fitr.notice_body">يرتبط عيد الفطر بثبوت هلال شوّال بعد إكمال 29 أو 30 يومًا من رمضان. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
                 </section>
             </div>
 
             <!-- ========= صفحة العدّ التنازليّ لـ eid-al-adha ========= -->
             <div class="page countdown-page cd-eid-al-adha" id="page-eid-al-adha-countdown">
-                <!-- (1) Hero: H1 + intro + main countdown timer -->
+                <!-- [1] HERO -->
                 <section class="section-card countdown-hero">
                     <h1 class="countdown-h1" data-i18n="eid_adha.h1">🐑 كم باقي على عيد الأضحى؟</h1>
+                    <p class="cd-h1-seo" id="adha-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="eid_adha.intro">اكتشف الأيّام المتبقّية حتّى عيد الأضحى المبارك مع التاريخ الميلاديّ والهجريّ. يُصادف عيد الأضحى يوم النحر (10 ذي الحجّة) وقد يختلف يومًا بين الدول حسب ثبوت هلال ذي الحجّة.</p>
                     <div class="countdown-timer" id="adha-timer" role="timer" aria-live="polite">
-                        <div class="ct-cell"><span class="ct-value" id="adha-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="adha-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="adha-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
                         <div class="ct-cell"><span class="ct-value" id="adha-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="adha-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="adha-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="adha-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
+                    </div>
+                    <p class="cd-seo-line" id="adha-seo-line"></p>
+                    <div class="cd-personal-bar" id="adha-personal-bar" hidden>
+                        <span class="cd-personal-icon">📍</span>
+                        <span class="cd-personal-text" id="adha-personal-text"></span>
+                    </div>
+                    <a class="cd-cta-hint" href="/" data-page="prayer-times">
+                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="eid_adha.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-sub" data-i18n="eid_adha.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
+                    </a>
+                    <div class="cd-lunar-inline" id="adha-lunar-inline">
+                        <span class="cdli-icon">🌙</span>
+                        <span data-i18n="eid_adha.lunar_current_short">القمر الآن:</span>
+                        <strong id="adha-current-phase">—</strong>
+                        <span class="lunar-illum">(<span id="adha-current-illum">—</span>)</span>
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="eid_adha.event_name">عيد الأضحى</strong></div>
@@ -2426,51 +2396,12 @@
                     </div>
                 </section>
 
-                <!-- (2) Basic info cards -->
-                <section class="section-card countdown-info-cards">
-                    <h2 data-i18n="eid_adha.cards_title">📋 معلومات أساسيّة</h2>
-                    <div class="cic-grid">
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_adha.card1_title">عيد الأضحى المتوقّع</span>
-                            <span class="cic-value" id="adha-card-start">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_adha.card2_title">التاريخ الهجريّ</span>
-                            <span class="cic-value"><span data-i18n="eid_adha.hijri_1">10 ذو الحجّة</span> <span id="adha-card-hy">—</span></span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_adha.card3_title">الأيّام المتبقّية</span>
-                            <span class="cic-value" id="adha-card-days">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="eid_adha.card4_title">حالة التحديد</span>
-                            <span class="cic-value" data-i18n="eid_adha.card4_value">حسابيّ · بانتظار الرؤية</span>
-                        </div>
-                    </div>
-                </section>
+                <!-- [2] قسم facts row حُذف — IDs مخفيّة لـ JS -->
+                <span id="adha-card-start" hidden>—</span>
+                <span id="adha-card-hy" hidden>—</span>
+                <span id="adha-card-days" hidden>—</span>
 
-                <!-- (3) Date approval notice -->
-                <section class="section-card countdown-notice">
-                    <h2 data-i18n="eid_adha.notice_title">📜 اعتماد التاريخ</h2>
-                    <p data-i18n="eid_adha.notice_body">عيد الأضحى يرتبط بيوم النحر العاشر من ذي الحجّة بعد يوم عرفة. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال ذي الحجّة في كلّ بلد.</p>
-                </section>
-
-                <!-- (4) Lunar link section -->
-                <section class="section-card countdown-lunar">
-                    <h2 data-i18n="eid_adha.lunar_title">🌙 الارتباط القمريّ</h2>
-                    <p>
-                        <span data-i18n="eid_adha.lunar_current">مرحلة القمر الحاليّة:</span>
-                        <strong id="adha-current-phase">—</strong>
-                        <span class="lunar-illum">(<span id="adha-current-illum">—</span>)</span>
-                    </p>
-                    <div class="countdown-links-row">
-                        <a href="/moon-today" data-i18n="eid_adha.lunar_link_today">🌙 حالة القمر اليوم →</a>
-                        <a href="/moon-today#next-new-moon" data-i18n="eid_adha.lunar_link_new_moon">🌑 المحاق القادم →</a>
-                        <a href="/moon-today#next-crescent" data-i18n="eid_adha.lunar_link_crescent">🌒 هلال ذي الحجّة القادم →</a>
-                    </div>
-                </section>
-                <!-- (5) Pre-event section omitted for eid-al-adha -->
-<!-- (6) Future years table -->
+                <!-- [3] جدول السنوات -->
                 <section class="section-card countdown-years">
                     <h2 data-i18n="eid_adha.years_title">📅 مواعيد عيد الأضحى في السنوات القادمة</h2>
                     <div class="countdown-table-wrap">
@@ -2491,26 +2422,45 @@
                     <p class="countdown-small-note" data-i18n="eid_adha.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
-                <!-- (7) Cities/countries section -->
-                <section class="section-card countdown-cities">
-                    <h2 data-i18n="eid_adha.cities_title">🌍 عيد الأضحى حول العالم</h2>
-                    <ul class="countdown-cities-grid">
-                        <li><a href="/prayer-times-in-mecca"><span class="cg-flag">🇸🇦</span> <span data-i18n="eid_adha.city_sa">عيد الأضحى في السعودية</span></a></li>
-                        <li><a href="/prayer-times-in-cairo"><span class="cg-flag">🇪🇬</span> <span data-i18n="eid_adha.city_eg">عيد الأضحى في مصر</span></a></li>
-                        <li><a href="/prayer-times-in-dubai"><span class="cg-flag">🇦🇪</span> <span data-i18n="eid_adha.city_ae">عيد الأضحى في الإمارات</span></a></li>
-                        <li><a href="/prayer-times-in-london"><span class="cg-flag">🇬🇧</span> <span data-i18n="eid_adha.city_uk">عيد الأضحى في لندن</span></a></li>
-                        <li><a href="/prayer-times-in-istanbul"><span class="cg-flag">🇹🇷</span> <span data-i18n="eid_adha.city_tr">عيد الأضحى في إسطنبول</span></a></li>
-                        <li><a href="/prayer-times-in-jakarta"><span class="cg-flag">🇮🇩</span> <span data-i18n="eid_adha.city_id">عيد الأضحى في جاكرتا</span></a></li>
-                    </ul>
+                <!-- [4] روابط ذات صلة (CTA — Cards) -->
+                <section class="section-card countdown-links">
+                    <h2 data-i18n="eid_adha.links_title">🔗 روابط ذات صلة</h2>
+                    <div class="cd-link-cards">
+                        <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
+                            <span class="cdc-icon">🕌</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_prayer">مواقيت الصلاة</span>
+                        </a>
+                        <a class="cd-link-card" href="/ramadan-countdown">
+                            <span class="cdc-icon">🕋</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_ramadan">كم باقي على رمضان</span>
+                        </a>
+                        <a class="cd-link-card" href="/eid-al-fitr-countdown">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_fitr">كم باقي على عيد الفطر</span>
+                        </a>
+                        <a class="cd-link-card" href="/hijri-new-year-countdown">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_new_year">كم باقي على رأس السنة الهجريّة</span>
+                        </a>
+                        <a class="cd-link-card" href="/moon-today">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_moon">حالة القمر اليوم</span>
+                        </a>
+                        <a class="cd-link-card" href="/today-hijri-date">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                        </a>
+                    </div>
                 </section>
 
-                <!-- (8) FAQ -->
+                <!-- [5] FAQ مختصر -->
                 <section class="section-card countdown-faq">
                     <h2 data-i18n="eid_adha.faq_title">❓ أسئلة شائعة عن عيد الأضحى</h2>
+                    <p class="cd-faq-hook" data-i18n="eid_adha.faq_hook">هل تريد معرفة تفاصيل أكثر عن عيد الأضحى هذا العام؟</p>
                     <div id="adha-faq-list" class="countdown-faq-list"></div>
                 </section>
 
-                <!-- (9) Static info content -->
+                <!-- [6] معلومات (SEO) -->
                 <section class="section-card countdown-info">
                     <h2 data-i18n="eid_adha.info_title">📖 معلومات عن عيد الأضحى</h2>
                     <h3 data-i18n="eid_adha.info_h1">ما هو عيد الأضحى</h3>
@@ -2521,30 +2471,40 @@
                     <p data-i18n="eid_adha.info_h3_body">السنة الهجريّة القمريّة أقصر بحوالي 10-11 يومًا من الميلاديّة، لذا يتقدّم عيد الأضحى في التقويم الميلاديّ بنفس المقدار سنويًّا، ويدور عبر جميع الفصول كلّ ~33 سنة.</p>
                 </section>
 
-                <!-- (10) Internal links -->
-                <section class="section-card countdown-links">
-                    <h2 data-i18n="eid_adha.links_title">🔗 روابط ذات صلة</h2>
-                    <ul class="countdown-links-list">
-                        <li><a href="/ramadan-countdown" data-i18n="eid_adha.link_ramadan">🕋 كم باقي على رمضان</a></li>
-                        <li><a href="/eid-al-fitr-countdown" data-i18n="eid_adha.link_fitr">🌙 كم باقي على عيد الفطر</a></li>
-                        <li><a href="/hijri-new-year-countdown" data-i18n="eid_adha.link_new_year">📅 كم باقي على رأس السنة الهجريّة</a></li>
-                        <li><a href="/moon-today" data-i18n="eid_adha.link_moon">🌙 حالة القمر اليوم</a></li>
-                        <li><a href="/today-hijri-date" data-i18n="eid_adha.link_hijri_today">📅 التاريخ الهجريّ اليوم</a></li>
-                    </ul>
+                <!-- [7] اعتماد التاريخ — آخر شيء -->
+                <section class="section-card countdown-notice">
+                    <h2 data-i18n="eid_adha.notice_title">📜 اعتماد التاريخ</h2>
+                    <p data-i18n="eid_adha.notice_body">عيد الأضحى يرتبط بيوم النحر العاشر من ذي الحجّة بعد يوم عرفة. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال ذي الحجّة في كلّ بلد.</p>
                 </section>
             </div>
 
             <!-- ========= صفحة العدّ التنازليّ لـ hijri-new-year ========= -->
             <div class="page countdown-page cd-hijri-new-year" id="page-hijri-new-year-countdown">
-                <!-- (1) Hero: H1 + intro + main countdown timer -->
+                <!-- [1] HERO -->
                 <section class="section-card countdown-hero">
                     <h1 class="countdown-h1" data-i18n="hijri_ny.h1">📅 كم باقي على رأس السنة الهجريّة؟</h1>
+                    <p class="cd-h1-seo" id="ny-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="hijri_ny.intro">اكتشف الأيّام المتبقّية حتّى رأس السنة الهجريّة الجديدة مع التاريخ الميلاديّ والهجريّ. يوافق أوّل يوم من شهر محرّم بداية السنة الهجريّة، وقد يختلف الإعلان يومًا بين الدول حسب ثبوت هلال محرّم.</p>
                     <div class="countdown-timer" id="ny-timer" role="timer" aria-live="polite">
-                        <div class="ct-cell"><span class="ct-value" id="ny-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="ny-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
-                        <div class="ct-cell"><span class="ct-value" id="ny-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
                         <div class="ct-cell"><span class="ct-value" id="ny-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="ny-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="ny-hours">--</span><span class="ct-label" data-i18n="countdown.hours">ساعات</span></div>
+                        <div class="ct-cell"><span class="ct-value" id="ny-days">--</span><span class="ct-label" data-i18n="countdown.days">أيام</span></div>
+                    </div>
+                    <p class="cd-seo-line" id="ny-seo-line"></p>
+                    <div class="cd-personal-bar" id="ny-personal-bar" hidden>
+                        <span class="cd-personal-icon">📍</span>
+                        <span class="cd-personal-text" id="ny-personal-text"></span>
+                    </div>
+                    <a class="cd-cta-hint" href="/" data-page="prayer-times">
+                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="hijri_ny.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-sub" data-i18n="hijri_ny.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
+                    </a>
+                    <div class="cd-lunar-inline" id="ny-lunar-inline">
+                        <span class="cdli-icon">🌙</span>
+                        <span data-i18n="hijri_ny.lunar_current_short">القمر الآن:</span>
+                        <strong id="ny-current-phase">—</strong>
+                        <span class="lunar-illum">(<span id="ny-current-illum">—</span>)</span>
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="hijri_ny.event_name">رأس السنة الهجريّة</strong></div>
@@ -2553,51 +2513,12 @@
                     </div>
                 </section>
 
-                <!-- (2) Basic info cards -->
-                <section class="section-card countdown-info-cards">
-                    <h2 data-i18n="hijri_ny.cards_title">📋 معلومات أساسيّة</h2>
-                    <div class="cic-grid">
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="hijri_ny.card1_title">رأس السنة الهجريّة المتوقّع</span>
-                            <span class="cic-value" id="ny-card-start">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="hijri_ny.card2_title">التاريخ الهجريّ</span>
-                            <span class="cic-value"><span data-i18n="hijri_ny.hijri_1">1 محرّم</span> <span id="ny-card-hy">—</span></span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="hijri_ny.card3_title">الأيّام المتبقّية</span>
-                            <span class="cic-value" id="ny-card-days">—</span>
-                        </div>
-                        <div class="cic-card">
-                            <span class="cic-label" data-i18n="hijri_ny.card4_title">حالة التحديد</span>
-                            <span class="cic-value" data-i18n="hijri_ny.card4_value">حسابيّ · بانتظار الرؤية</span>
-                        </div>
-                    </div>
-                </section>
+                <!-- [2] قسم facts row حُذف — IDs مخفيّة لـ JS -->
+                <span id="ny-card-start" hidden>—</span>
+                <span id="ny-card-hy" hidden>—</span>
+                <span id="ny-card-days" hidden>—</span>
 
-                <!-- (3) Date approval notice -->
-                <section class="section-card countdown-notice">
-                    <h2 data-i18n="hijri_ny.notice_title">📜 اعتماد التاريخ</h2>
-                    <p data-i18n="hijri_ny.notice_body">رأس السنة الهجريّة يبدأ بأوّل يوم من شهر محرّم. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال محرّم في كلّ بلد.</p>
-                </section>
-
-                <!-- (4) Lunar link section -->
-                <section class="section-card countdown-lunar">
-                    <h2 data-i18n="hijri_ny.lunar_title">🌙 الارتباط القمريّ</h2>
-                    <p>
-                        <span data-i18n="hijri_ny.lunar_current">مرحلة القمر الحاليّة:</span>
-                        <strong id="ny-current-phase">—</strong>
-                        <span class="lunar-illum">(<span id="ny-current-illum">—</span>)</span>
-                    </p>
-                    <div class="countdown-links-row">
-                        <a href="/moon-today" data-i18n="hijri_ny.lunar_link_today">🌙 حالة القمر اليوم →</a>
-                        <a href="/moon-today#next-new-moon" data-i18n="hijri_ny.lunar_link_new_moon">🌑 المحاق القادم →</a>
-                        <a href="/moon-today#next-crescent" data-i18n="hijri_ny.lunar_link_crescent">🌒 هلال محرّم القادم →</a>
-                    </div>
-                </section>
-                <!-- (5) Pre-event section omitted for hijri-new-year -->
-<!-- (6) Future years table -->
+                <!-- [3] جدول السنوات -->
                 <section class="section-card countdown-years">
                     <h2 data-i18n="hijri_ny.years_title">📅 مواعيد رأس السنة الهجريّة في السنوات القادمة</h2>
                     <div class="countdown-table-wrap">
@@ -2618,26 +2539,45 @@
                     <p class="countdown-small-note" data-i18n="hijri_ny.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
-                <!-- (7) Cities/countries section -->
-                <section class="section-card countdown-cities">
-                    <h2 data-i18n="hijri_ny.cities_title">🌍 رأس السنة الهجريّة حول العالم</h2>
-                    <ul class="countdown-cities-grid">
-                        <li><a href="/prayer-times-in-mecca"><span class="cg-flag">🇸🇦</span> <span data-i18n="hijri_ny.city_sa">رأس السنة الهجريّة في السعودية</span></a></li>
-                        <li><a href="/prayer-times-in-cairo"><span class="cg-flag">🇪🇬</span> <span data-i18n="hijri_ny.city_eg">رأس السنة الهجريّة في مصر</span></a></li>
-                        <li><a href="/prayer-times-in-dubai"><span class="cg-flag">🇦🇪</span> <span data-i18n="hijri_ny.city_ae">رأس السنة الهجريّة في الإمارات</span></a></li>
-                        <li><a href="/prayer-times-in-london"><span class="cg-flag">🇬🇧</span> <span data-i18n="hijri_ny.city_uk">رأس السنة الهجريّة في لندن</span></a></li>
-                        <li><a href="/prayer-times-in-istanbul"><span class="cg-flag">🇹🇷</span> <span data-i18n="hijri_ny.city_tr">رأس السنة الهجريّة في إسطنبول</span></a></li>
-                        <li><a href="/prayer-times-in-jakarta"><span class="cg-flag">🇮🇩</span> <span data-i18n="hijri_ny.city_id">رأس السنة الهجريّة في جاكرتا</span></a></li>
-                    </ul>
+                <!-- [4] روابط ذات صلة (CTA — Cards) -->
+                <section class="section-card countdown-links">
+                    <h2 data-i18n="hijri_ny.links_title">🔗 روابط مفيدة</h2>
+                    <div class="cd-link-cards">
+                        <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
+                            <span class="cdc-icon">🕌</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_prayer">مواقيت الصلاة</span>
+                        </a>
+                        <a class="cd-link-card" href="/ramadan-countdown">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_ramadan">كم باقي على رمضان</span>
+                        </a>
+                        <a class="cd-link-card" href="/eid-al-fitr-countdown">
+                            <span class="cdc-icon">🎉</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_fitr">كم باقي على عيد الفطر</span>
+                        </a>
+                        <a class="cd-link-card" href="/eid-al-adha-countdown">
+                            <span class="cdc-icon">🐑</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_adha">كم باقي على عيد الأضحى</span>
+                        </a>
+                        <a class="cd-link-card" href="/moon-today">
+                            <span class="cdc-icon">🌙</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_moon">حالة القمر اليوم</span>
+                        </a>
+                        <a class="cd-link-card" href="/today-hijri-date">
+                            <span class="cdc-icon">📅</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                        </a>
+                    </div>
                 </section>
 
-                <!-- (8) FAQ -->
+                <!-- [5] FAQ مختصر -->
                 <section class="section-card countdown-faq">
                     <h2 data-i18n="hijri_ny.faq_title">❓ أسئلة شائعة عن رأس السنة الهجريّة</h2>
+                    <p class="cd-faq-hook" data-i18n="hijri_ny.faq_hook">هل تريد معرفة تفاصيل أكثر عن رأس السنة الهجريّة؟</p>
                     <div id="ny-faq-list" class="countdown-faq-list"></div>
                 </section>
 
-                <!-- (9) Static info content -->
+                <!-- [6] معلومات (SEO) -->
                 <section class="section-card countdown-info">
                     <h2 data-i18n="hijri_ny.info_title">📖 معلومات عن رأس السنة الهجريّة</h2>
                     <h3 data-i18n="hijri_ny.info_h1">بداية التقويم الإسلاميّ</h3>
@@ -2648,16 +2588,10 @@
                     <p data-i18n="hijri_ny.info_h3_body">اليوم العاشر من محرّم يوم فضيل؛ صامه النبيّ ﷺ شكرًا لله لما نجّى موسى عليه السلام، ويُستحبّ صيامه مع اليوم التاسع (تاسوعاء) مخالفةً لأهل الكتاب.</p>
                 </section>
 
-                <!-- (10) Internal links -->
-                <section class="section-card countdown-links">
-                    <h2 data-i18n="hijri_ny.links_title">🔗 روابط مفيدة</h2>
-                    <ul class="countdown-links-list">
-                        <li><a href="/ramadan-countdown" data-i18n="hijri_ny.link_ramadan">🌙 كم باقي على رمضان</a></li>
-                        <li><a href="/eid-al-fitr-countdown" data-i18n="hijri_ny.link_fitr">🎉 كم باقي على عيد الفطر</a></li>
-                        <li><a href="/eid-al-adha-countdown" data-i18n="hijri_ny.link_adha">🐑 كم باقي على عيد الأضحى</a></li>
-                        <li><a href="/moon-today" data-i18n="hijri_ny.link_moon">🌙 حالة القمر اليوم</a></li>
-                        <li><a href="/today-hijri-date" data-i18n="hijri_ny.link_hijri_today">📅 التاريخ الهجريّ اليوم</a></li>
-                    </ul>
+                <!-- [7] اعتماد التاريخ — آخر شيء -->
+                <section class="section-card countdown-notice">
+                    <h2 data-i18n="hijri_ny.notice_title">📜 اعتماد التاريخ</h2>
+                    <p data-i18n="hijri_ny.notice_body">رأس السنة الهجريّة يبدأ بأوّل يوم من شهر محرّم. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال محرّم في كلّ بلد.</p>
                 </section>
             </div>
 
@@ -2771,7 +2705,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=435"></script>
+    <script defer src="js/app.js?v=468"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

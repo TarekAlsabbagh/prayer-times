@@ -98,14 +98,169 @@ html[data-theme="dark"] {
 html[data-theme="dark"] body { background: var(--bg); color: var(--text); }
 html[data-theme="dark"] img { opacity: 0.92; }
 html[data-theme="dark"] img.lang-flag { opacity: 1; }
-/* Compass disc — original light gradient is too bright on dark; switch to dark gradient */
-html[data-theme="dark"] .compass {
-    background: linear-gradient(145deg, #232a36 0%, #1a2028 100%);
-    border-color: var(--primary);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.04);
+/* ─── زرّ تبديل اللغة في الوضع الداكن ─── */
+html[data-theme="dark"] .lang-switcher-btn {
+    border-color: var(--primary-light);
+    color: #80d8a8;
+    background: rgba(77,203,140,0.08);
 }
-html[data-theme="dark"] .compass-directions span { color: var(--text-light); }
-html[data-theme="dark"] .compass-directions .north { color: var(--primary-light); }
+html[data-theme="dark"] .lang-switcher-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+html[data-theme="dark"] .lang-switcher-btn .lang-code,
+html[data-theme="dark"] .lang-switcher-btn .lang-caret { color: inherit; }
+/* ─── صفحة "وقت الصلاة الباقي" — ألوان مريحة للعين في الوضع الداكن ─── */
+/*  المبدأ: نصّ هادئ + قيم بارزة. لا نُسرف في الأخضر الفاتح (يُجهد العين). */
+
+/* خلفيّة hero: محايدة داكنة (لا أخضر-فاتح) */
+html.time-left-page[data-theme="dark"] .tl-hero,
+html[data-theme="dark"] html.time-left-page .tl-hero,
+html[data-theme="dark"] .tl-hero {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.35) !important;
+}
+/* النصوص العاديّة → text رئيسيّ هادئ */
+html[data-theme="dark"] .tl-h1 {
+    color: var(--text) !important;
+    font-weight: 600;
+}
+html[data-theme="dark"] .tl-location {
+    color: var(--text-light) !important;
+    font-weight: 500;
+}
+/* العنصر الأبرز: العدّاد + اسم الصلاة (في h1 وفي meta) → أخضر فاتح هادئ */
+html[data-theme="dark"] .tl-h1-prayer,
+html[data-theme="dark"] .tl-h1-city,
+html[data-theme="dark"] .tl-prayer-name,
+html[data-theme="dark"] .tl-countdown {
+    color: #5fc096 !important;       /* أخضر متوسّط — مريح، ليس صارخاً */
+}
+/* الـ countdown يكتسب وزناً عبر font-size الكبير، لا يحتاج تشبّع لون عالٍ */
+html[data-theme="dark"] .tl-countdown {
+    text-shadow: 0 2px 12px rgba(95,192,150,0.20);
+}
+/* meta سطر "الصلاة القادمة:" — رماديّ متوسّط للنصّ، أخضر هادئ للقيم */
+html[data-theme="dark"] .tl-meta-label { color: var(--text-light) !important; }
+html[data-theme="dark"] .tl-meta-sep   { color: var(--border) !important; }
+html[data-theme="dark"] .tl-prayer-time { color: var(--text) !important; }
+/* ملاحظة auto-update — نصّ ثانويّ هادئ */
+html[data-theme="dark"] .tl-autoupdate {
+    color: var(--text-light) !important;
+    opacity: 0.75;
+}
+/* الـ live dot يبقى مُلَوَّناً (للجاذبيّة) — لكن النصّ هادئ */
+html[data-theme="dark"] .tl-live-text { color: var(--text-light) !important; }
+/* CTA — تدرّج هادئ */
+html[data-theme="dark"] .tl-cta {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4) !important;
+}
+/* اسم المدينة في location → نفس بهجة الإيقونة */
+html[data-theme="dark"] #tl-city-label { color: var(--text) !important; font-weight: 600; }
+
+/* فقرة SEO — نصّ مرئيّ وواضح */
+html[data-theme="dark"] .tl-seo {
+    color: var(--text-light) !important;
+    background: var(--surface-sunken) !important;
+    border-color: var(--border) !important;
+}
+html[data-theme="dark"] .tl-seo strong { color: var(--text) !important; }
+
+/* timeline — كل أسماء الصلوات والأوقات */
+html[data-theme="dark"] .tl-timeline li { color: var(--text) !important; }
+html[data-theme="dark"] .tl-timeline li.tl-done {
+    color: var(--text-light) !important;     /* الصلوات الفائتة → باهتة قليلاً */
+    opacity: 0.85;
+}
+html[data-theme="dark"] .tl-timeline li.tl-done .tl-tl-icon { color: #5fc096 !important; }
+html[data-theme="dark"] .tl-timeline li.tl-done .tl-tl-name,
+html[data-theme="dark"] .tl-timeline li.tl-done .tl-tl-time { color: var(--text-light) !important; }
+html[data-theme="dark"] .tl-timeline li.tl-now {
+    color: var(--text) !important;
+    font-weight: 700;
+}
+html[data-theme="dark"] .tl-timeline li.tl-now .tl-tl-icon,
+html[data-theme="dark"] .tl-timeline li.tl-now .tl-tl-name {
+    color: #5fc096 !important;
+}
+html[data-theme="dark"] .tl-timeline li.tl-now .tl-tl-time { color: var(--text) !important; }
+html[data-theme="dark"] .tl-timeline li.tl-upcoming {
+    color: var(--text-light) !important;
+    opacity: 0.7;
+}
+html[data-theme="dark"] .tl-timeline li.tl-upcoming .tl-tl-icon,
+html[data-theme="dark"] .tl-timeline li.tl-upcoming .tl-tl-name,
+html[data-theme="dark"] .tl-timeline li.tl-upcoming .tl-tl-time {
+    color: var(--text-light) !important;
+}
+
+/* CTA arrow — أبيض كامل */
+html[data-theme="dark"] .tl-cta .tl-cta-text,
+html[data-theme="dark"] .tl-cta .tl-cta-arrow { color: #fff !important; }
+
+html[data-theme="dark"] .rls-tier-live .rls-tier-label { color: #80d8a8 !important; }
+/* faq-link hover */
+html[data-theme="dark"] .faq-link:hover { color: #a0e8c0 !important; }
+/* ─── Compass / Qibla — Dark theme overrides (full polish) ─── */
+html[data-theme="dark"] .compass {
+    background: radial-gradient(circle at 35% 30%, #3a4250 0%, #2a3038 55%, #1e2229 100%);
+    border-color: var(--primary-light);
+    box-shadow:
+        0 12px 36px rgba(0,0,0,0.55),
+        inset 0 2px 6px rgba(255,255,255,0.06),
+        inset 0 -4px 12px rgba(0,0,0,0.3);
+}
+html[data-theme="dark"] #page-qibla .compass::before {
+    border-color: rgba(77,203,140,0.35); /* dashed ring أوضح */
+}
+html[data-theme="dark"] .compass-directions span {
+    color: #e8eef5;        /* أبيض-فاتح بدلاً من --text-light الباهت */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    font-weight: 800;
+}
+html[data-theme="dark"] .compass-directions .north {
+    color: #ffd87a;        /* الذهبي-الفاتح للشمال (يميز عن باقي الجهات) */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+}
+html[data-theme="dark"] .compass-arrow {
+    background: var(--primary-light);
+    box-shadow: 0 0 8px rgba(77,203,140,0.5);
+}
+html[data-theme="dark"] .compass-arrow::after {
+    border-bottom-color: var(--primary-light);
+    filter: drop-shadow(0 0 4px rgba(77,203,140,0.5));
+}
+/* مؤشّر الزاوية (الرقم الكبير) — تدرّج مرئيّ على الخلفية الداكنة */
+html[data-theme="dark"] #page-qibla .qibla-info .angle {
+    background: linear-gradient(135deg, #4dcb8c 0%, #80d8a8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+html[data-theme="dark"] .qibla-info .direction { color: #cdd9e5; font-weight: 700; }
+html[data-theme="dark"] .qibla-info .distance  { color: #a8b3c1; }
+/* Section-card الذي يحوي البوصلة — الخلفيّة كانت radial gradient على var(--bg) فاتح */
+html[data-theme="dark"] #page-qibla .section-card:nth-of-type(2) {
+    background:
+        radial-gradient(circle at center, rgba(232,200,96,0.07) 0%, transparent 45%),
+        radial-gradient(ellipse at center, rgba(77,203,140,0.10) 0%, var(--card-bg) 70%);
+}
+/* بطاقة المعلومات الأساسيّة (الزاوية الرئيسيّة) */
+html[data-theme="dark"] #page-qibla .info-card.info-card-primary {
+    background: linear-gradient(180deg, rgba(232,200,96,0.10) 0%, var(--card-bg) 100%);
+    border-color: rgba(232,200,96,0.45);
+}
+html[data-theme="dark"] #page-qibla .info-card.info-card-primary .info-value {
+    background: linear-gradient(135deg, #ffd87a, #e8c860);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 /* Prayer time text-on-gradient cards — keep contrast */
 html[data-theme="dark"] .next-prayer-banner,
 html[data-theme="dark"] .prayer-card { color: var(--text); }
@@ -247,8 +402,6 @@ html[data-theme="dark"] .schedule-section,
 html[data-theme="dark"] .weekly-section,
 html[data-theme="dark"] .countries-section,
 html[data-theme="dark"] .city-page-search,
-html[data-theme="dark"] .city-about-toggle,
-html[data-theme="dark"] .city-about-content,
 html[data-theme="dark"] .home-faq-list details,
 html[data-theme="dark"] .moon-faq-list details,
 html[data-theme="dark"] .qibla-faq-list details,
@@ -777,9 +930,6 @@ html[data-theme="dark"] .moon-faq-city-card,
 html[data-theme="dark"] .moon-tonight-section,
 html[data-theme="dark"] .moon-cta-card,
 html[data-theme="dark"] .qibla-evergreen,
-html[data-theme="dark"] .city-about-section,
-html[data-theme="dark"] .city-about-toggle,
-html[data-theme="dark"] .city-about-content,
 html[data-theme="dark"] .home-faq,
 html[data-theme="dark"] .home-faq-list details,
 html[data-theme="dark"] .moon-faq-list details,
@@ -822,7 +972,6 @@ html[data-theme="dark"] details summary:hover { background: rgba(42,163,107,0.08
 html[data-theme="dark"] .moon-evergreen,
 html[data-theme="dark"] .moon-faq-city-card,
 html[data-theme="dark"] .qibla-evergreen,
-html[data-theme="dark"] .city-about-section,
 html[data-theme="dark"] .home-faq,
 html[data-theme="dark"] .next-prayer-banner,
 html[data-theme="dark"] .banner-current-prayer {
@@ -975,6 +1124,70 @@ html[data-theme="dark"] .prayer-card.active {
 html[data-theme="dark"] .prayer-name { color: var(--text); }
 html[data-theme="dark"] .prayer-time { color: var(--primary-light); }
 html[data-theme="dark"] .prayer-progress { background: var(--surface-sunken); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Dark mode: ترقية شاملة لألوان النصّ التي تستعمل var(--primary)
+   ─────────────────────────────────────────────────────────────────────
+   var(--primary) في الداكن = #2d9059 (أخضر داكن مشبَّع) — مناسب للأزرار
+   والخلفيّات/الحدود لكنّه غير-مقروء كنصّ على خلفيّات داكنة. هذه القاعدة
+   تستهدف جميع الكلاسات التي تستخدم color:var(--primary) كنصّ وتُحوّلها
+   إلى #80d8a8 (أخضر فاتح مشبع، مقروء على الخلفيّات الداكنة).
+   ═════════════════════════════════════════════════════════════════════ */
+html[data-theme="dark"] .btn-outline,
+html[data-theme="dark"] .btn-test-adhan,
+html[data-theme="dark"] .moon-hub-cal-rel,
+html[data-theme="dark"] .moon-hl-value,
+html[data-theme="dark"] .moon-hijri-date,
+html[data-theme="dark"] .moon-events-title,
+html[data-theme="dark"] .moon-event-days,
+html[data-theme="dark"] .moon-summary-chip strong,
+html[data-theme="dark"] .moon-hero-eyebrow,
+html[data-theme="dark"] .moon-event-countdown,
+html[data-theme="dark"] .calendar-table th,
+html[data-theme="dark"] .converter-result .result-date,
+html[data-theme="dark"] .conv-summary-day,
+html[data-theme="dark"] #hday-otd-list .otd-year,
+html[data-theme="dark"] #conv-otd-list .otd-bio-toggle,
+html[data-theme="dark"] .range-label,
+html[data-theme="dark"] .pagination-btn,
+html[data-theme="dark"] .bc-link:not([aria-current="page"]),
+html[data-theme="dark"] .block-title,
+html[data-theme="dark"] .city-read-more-btn,
+html[data-theme="dark"] .time-val,
+html[data-theme="dark"] .site-footer .footer-links a,
+html[data-theme="dark"] .hpage-days-summary,
+html[data-theme="dark"] .hpage-today-in-month strong,
+html[data-theme="dark"] .hpage-footer-seo-note a,
+html[data-theme="dark"] .hpage-years-current strong,
+html[data-theme="dark"] .hpage-years-more a,
+html[data-theme="dark"] .location-info .icon,
+html[data-theme="dark"] .moon-sticky-text strong,
+html[data-theme="dark"] .qibla-info .direction,
+html[data-theme="dark"] .moon-event-card,
+html[data-theme="dark"] .moon-event-label,
+html[data-theme="dark"] .moon-cities-grid a,
+html[data-theme="dark"] .related-link,
+html[data-theme="dark"] .countries-grid a,
+html[data-theme="dark"] .nearby-card a,
+html[data-theme="dark"] .hpage-table tbody td a {
+    color: #80d8a8 !important;
+}
+
+/* Inline styles من JS — overrides عبر attribute selectors */
+html[data-theme="dark"] [style*="color:var(--primary)"]:not(.tasbih-tab.active):not(button),
+html[data-theme="dark"] [style*="color: var(--primary)"]:not(.tasbih-tab.active):not(button) {
+    color: #80d8a8 !important;
+}
+
+/* hover حالات أكثر إشراقاً */
+html[data-theme="dark"] .moon-cities-grid a:hover,
+html[data-theme="dark"] .countries-grid a:hover,
+html[data-theme="dark"] .related-link:hover,
+html[data-theme="dark"] .city-read-more-btn:hover,
+html[data-theme="dark"] .hpage-footer-seo-note a:hover,
+html[data-theme="dark"] .site-footer .footer-links a:hover {
+    color: #a0e8c0 !important;
+}
 /* Sticky next-prayer bar */
 html[data-theme="dark"] .sticky-next-bar,
 html[data-theme="dark"] #sticky-next-bar {
@@ -1189,7 +1402,7 @@ button, input, select { font-family: inherit; }
 .top-header {
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 1000; /* أعلى من جميع الأشرطة العلويّة (sticky-next-bar / moon-sticky-bar) */
     background: var(--card-bg);
     border-radius: 0;
     padding: 14px 24px;
@@ -1518,7 +1731,6 @@ button, input, select { font-family: inherit; }
 
 /* PERF: content-visibility يتخطّى layout/paint للأقسام خارج الشاشة → توفير ~50% من main-thread rendering.
    contain-intrinsic-size يحجز المساحة فلا CLS. */
-#city-about-section,
 #faq-section,
 #city-related-services,
 #country-cities-section,
@@ -1790,6 +2002,152 @@ button, input, select { font-family: inherit; }
     font-size: 0.95rem;
     background: var(--card-bg);
     transition: border-color var(--transition);
+}
+
+/* ─── Combobox-Stepper (محوّل التاريخ — يُحقَن JS): [−] [input ▼] [+] ─── */
+.number-stepper {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    overflow: visible;            /* القائمة تظهر خارج الإطار */
+    background: var(--card-bg);
+    transition: border-color var(--transition);
+    position: relative;           /* anchor للـ popup */
+}
+.number-stepper:focus-within { border-color: var(--primary); }
+.number-stepper.is-open      { border-color: var(--primary); }
+.number-stepper .ns-input-box {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+    position: relative;
+}
+.number-stepper input[type="number"] {
+    flex: 1;
+    border: none !important;
+    background: transparent !important;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 8px 4px;
+    min-width: 0;
+    color: var(--text);
+    -moz-appearance: textfield;
+    appearance: textfield;
+    border-radius: 0 !important;
+}
+.number-stepper input[type="number"]::-webkit-outer-spin-button,
+.number-stepper input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* زرّ الـ dropdown ▼ — صغير، داخل صندوق الـ input */
+.ns-drop {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 0.7rem;
+    width: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s, transform 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.ns-drop:hover { color: var(--primary); }
+.number-stepper.is-open .ns-drop { transform: rotate(180deg); color: var(--primary); }
+/* قائمة الخيارات (popup) */
+.ns-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--card-bg);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    z-index: 200;
+}
+.ns-list[hidden] { display: none; }
+.ns-item {
+    padding: 8px 14px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: background 0.12s;
+    -webkit-tap-highlight-color: transparent;
+}
+.ns-item:hover { background: rgba(45,144,89,0.10); color: var(--primary); }
+.ns-item.is-selected {
+    background: var(--primary);
+    color: #fff;
+}
+/* أزرار +/− */
+.ns-btn {
+    background: var(--bg-subtle, #f0f4f7);
+    border: none;
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    width: 44px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, transform 0.08s;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.ns-btn:hover { background: var(--primary); color: #fff; }
+.ns-btn:active { transform: scale(0.92); }
+.ns-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+/* dark mode */
+html[data-theme="dark"] .number-stepper {
+    border-color: var(--border);
+    background: var(--surface-sunken);
+}
+html[data-theme="dark"] .number-stepper:focus-within,
+html[data-theme="dark"] .number-stepper.is-open { border-color: var(--primary-light); }
+html[data-theme="dark"] .number-stepper input[type="number"] { color: var(--text); }
+html[data-theme="dark"] .ns-btn {
+    background: var(--surface-raised);
+    color: #80d8a8;
+}
+html[data-theme="dark"] .ns-btn:hover { background: var(--primary); color: #fff; }
+html[data-theme="dark"] .ns-drop { color: var(--text-light); }
+html[data-theme="dark"] .ns-drop:hover { color: #80d8a8; }
+html[data-theme="dark"] .number-stepper.is-open .ns-drop { color: #80d8a8; }
+html[data-theme="dark"] .ns-list {
+    background: var(--surface-raised);
+    border-color: var(--primary-light);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+html[data-theme="dark"] .ns-item { color: var(--text); }
+html[data-theme="dark"] .ns-item:hover {
+    background: rgba(77,203,140,0.18);
+    color: #80d8a8;
+}
+html[data-theme="dark"] .ns-item.is-selected {
+    background: var(--primary);
+    color: #fff;
 }
 
 .settings-grid select:focus,
@@ -2455,11 +2813,37 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     margin-top: 3px;
     line-height: 1.3;
 }
-/* تلوينات ناعمة خاصة بكلّ مناسبة */
-.moon-event-ramadan { background: linear-gradient(135deg, rgba(156,39,176,0.08), rgba(156,39,176,0.02)); }
-.moon-event-fitr    { background: linear-gradient(135deg, rgba(255,193,7,0.10),  rgba(255,193,7,0.02)); }
-.moon-event-adha    { background: linear-gradient(135deg, rgba(244,67,54,0.08),  rgba(244,67,54,0.02)); }
-.moon-event-newyear { background: linear-gradient(135deg, rgba(33,150,243,0.08), rgba(33,150,243,0.02)); }
+/* تلوينات لكلّ مناسبة — على الفاتح: تباين أوضح + إطار ملوّن */
+.moon-event-ramadan {
+    background: linear-gradient(135deg, rgba(156,39,176,0.18), rgba(156,39,176,0.06));
+    border-color: rgba(156,39,176,0.40) !important;
+}
+.moon-event-fitr {
+    background: linear-gradient(135deg, rgba(255,193,7,0.20),  rgba(255,193,7,0.06));
+    border-color: rgba(255,193,7,0.55) !important;
+}
+.moon-event-adha {
+    background: linear-gradient(135deg, rgba(244,67,54,0.18),  rgba(244,67,54,0.06));
+    border-color: rgba(244,67,54,0.40) !important;
+}
+.moon-event-newyear {
+    background: linear-gradient(135deg, rgba(33,150,243,0.18), rgba(33,150,243,0.06));
+    border-color: rgba(33,150,243,0.40) !important;
+}
+/* لون الـ label لكل بطاقة — يطابق هويّة المناسبة */
+.moon-event-ramadan .moon-event-label { color: #7b1fa2; }
+.moon-event-fitr    .moon-event-label { color: #b07a00; }
+.moon-event-adha    .moon-event-label { color: #c62828; }
+.moon-event-newyear .moon-event-label { color: #1565c0; }
+.moon-event-ramadan:hover { background: linear-gradient(135deg, rgba(156,39,176,0.28), rgba(156,39,176,0.10)); }
+.moon-event-fitr:hover    { background: linear-gradient(135deg, rgba(255,193,7,0.30),  rgba(255,193,7,0.10)); }
+.moon-event-adha:hover    { background: linear-gradient(135deg, rgba(244,67,54,0.28),  rgba(244,67,54,0.10)); }
+.moon-event-newyear:hover { background: linear-gradient(135deg, rgba(33,150,243,0.28), rgba(33,150,243,0.10)); }
+/* dark mode: ألوان label أفتح للقراءة */
+html[data-theme="dark"] .moon-event-ramadan .moon-event-label { color: #ce93d8; }
+html[data-theme="dark"] .moon-event-fitr    .moon-event-label { color: #ffd54f; }
+html[data-theme="dark"] .moon-event-adha    .moon-event-label { color: #ef9a9a; }
+html[data-theme="dark"] .moon-event-newyear .moon-event-label { color: #90caf9; }
 
 /* تمييز عند اقتراب المناسبة (≤ 5 أيّام) */
 .moon-event-soon {
@@ -2823,7 +3207,7 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     color: var(--text, #222);
 }
 
-/* ── (10) Internal links ── */
+/* ── (10) Internal links — قديم، احتياط ── */
 .countdown-links-list {
     list-style: none;
     padding: 0;
@@ -2846,6 +3230,428 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
 .countdown-links-list li a:hover {
     background: rgba(76,175,80,0.08);
     border-color: rgba(76,175,80,0.25);
+}
+
+/* ── Internal links — Cards الجديد (يحلّ محلّ القائمة) ── */
+.cd-link-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+.cd-link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 18px 14px;
+    border-radius: 14px;
+    background: var(--bg-elevated, #f7f7f7);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1.5px solid var(--border);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s, background 0.15s;
+}
+.cd-link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(46,125,50,0.15);
+    border-color: var(--primary);
+    background: rgba(45,144,89,0.06);
+    text-decoration: none;
+}
+.cdc-icon { font-size: 2rem; line-height: 1; }
+.cdc-text {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+html[data-theme="dark"] .cd-link-card {
+    background: var(--surface-raised);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .cd-link-card:hover {
+    background: rgba(77,203,140,0.10);
+    border-color: var(--primary-light);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .cdc-text { color: #80d8a8; }
+
+/* Primary CTA cards (مواقيت الصلاة + القمر) — تباين أعلى */
+.cd-link-card.cd-link-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(46,125,50,0.20);
+}
+.cd-link-card.cd-link-primary .cdc-text { color: #fff; }
+.cd-link-card.cd-link-primary:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    border-color: var(--primary-dark);
+    box-shadow: 0 8px 18px rgba(46,125,50,0.30);
+    color: #fff;
+}
+html[data-theme="dark"] .cd-link-card.cd-link-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: var(--primary-light);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .cd-link-card.cd-link-primary .cdc-text { color: #fff; }
+html[data-theme="dark"] .cd-link-card.cd-link-primary:hover {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+}
+
+/* "بعد X يوماً" داخل الجدول */
+.cd-after-days {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+html[data-theme="dark"] .cd-after-days { color: #80d8a8; }
+
+/* ── سطر SEO تحت الـ H1 — سؤال + جواب على سطرَين ── */
+.cd-h1-seo {
+    margin: 8px auto 12px;
+    text-align: center;
+    line-height: 1.65;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.cd-h1-seo:empty { display: none; }
+.cd-h1-seo .cdh1-q {
+    font-size: 1.08rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+.cd-h1-seo .cdh1-a {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+}
+html[data-theme="dark"] .cd-h1-seo .cdh1-q { color: #80d8a8; }
+html[data-theme="dark"] .cd-h1-seo .cdh1-a { color: var(--text); }
+
+/* CTA hint — سطر رئيسيّ + sub */
+.cd-cta-hint .cdh-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.cd-cta-hint .cdh-sub {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    opacity: 0.85;
+    color: inherit;
+}
+.cd-cta-hint {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px 18px;
+}
+
+/* ── Hook قبل أسئلة FAQ ── */
+.cd-faq-hook {
+    margin: -4px 0 14px;
+    color: var(--text-light);
+    font-size: 0.98rem;
+    font-style: italic;
+    font-weight: 500;
+}
+html[data-theme="dark"] .cd-faq-hook { color: var(--text-light); }
+
+/* ── جملة SEO تحت العدّاد ── */
+.cd-seo-line {
+    margin: 14px auto 8px;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(45,144,89,0.06);
+    border-radius: 10px;
+    max-width: 720px;
+    line-height: 1.55;
+}
+.cd-seo-line:empty { display: none; }
+html[data-theme="dark"] .cd-seo-line {
+    background: rgba(77,203,140,0.10);
+    color: var(--text);
+}
+
+/* ── شريط التخصيص (موقع المستخدم) — info ناعم، سطران ── */
+.cd-personal-bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    margin: 12px auto;
+    padding: 10px 16px;
+    background: rgba(45,144,89,0.04);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: var(--text);
+    max-width: 720px;
+    font-weight: 500;
+    text-align: start;
+}
+.cd-personal-icon { font-size: 1.1rem; opacity: 0.95; flex-shrink: 0; line-height: 1.4; }
+.cd-personal-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.5;
+}
+.cd-personal-text .cdp-l1 {
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 0.98rem;
+}
+.cd-personal-text .cdp-l2 {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+html[data-theme="dark"] .cd-personal-bar {
+    background: rgba(77,203,140,0.07);
+}
+html[data-theme="dark"] .cd-personal-text .cdp-l1 { color: #80d8a8; }
+html[data-theme="dark"] .cd-personal-text .cdp-l2 { color: var(--text); }
+
+/* ── CTA خفيّ تحت العدّاد: "📍 اعرف كم باقي على رمضان في مدينتك" ── */
+.cd-cta-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 10px auto 4px;
+    padding: 8px 14px;
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s;
+}
+.cd-cta-hint:hover {
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+}
+html[data-theme="dark"] .cd-cta-hint {
+    border-color: var(--primary-light);
+    color: #80d8a8;
+}
+html[data-theme="dark"] .cd-cta-hint:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* ── سطر تعريفيّ فوق محتوى المعلومات (SEO boost) ── */
+.cd-info-intro {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--text);
+    padding: 12px 16px;
+    background: rgba(45,144,89,0.05);
+    border-inline-start: 3px solid var(--primary);
+    border-radius: 6px;
+    margin: 10px 0 18px;
+    font-weight: 500;
+}
+html[data-theme="dark"] .cd-info-intro {
+    background: rgba(77,203,140,0.10);
+    border-inline-start-color: var(--primary-light);
+    color: var(--text);
+}
+
+/* ── سياق القمر — لاحقة "اقتراب فلكيّ" بلون مختلف ── */
+.cdli-suffix {
+    color: var(--primary);
+    font-weight: 500;
+    font-style: italic;
+    margin-inline-start: 4px;
+    font-size: 0.9rem;
+}
+html[data-theme="dark"] .cdli-suffix { color: #80d8a8; }
+
+/* ── سطر القمر داخل الـ Hero (مبسّط جداً) ── */
+.cd-lunar-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px auto;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    flex-wrap: wrap;
+}
+.cd-lunar-inline strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+.cd-lunar-inline .lunar-illum { color: var(--text-light); font-size: 0.88rem; }
+.cdli-icon { font-size: 1.15rem; }
+html[data-theme="dark"] .cd-lunar-inline strong { color: #80d8a8; }
+
+/* ── 3 معلومات أساسيّة (compact horizontal row — لا بوكسات) ── */
+.cd-facts-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: center;
+    justify-content: space-around;
+}
+.cd-facts-row li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 4px;
+    font-size: 1rem;
+    flex: 1 1 220px;
+    min-width: 200px;
+}
+.cd-facts-row .cdf-icon { font-size: 1.4rem; flex-shrink: 0; }
+.cd-facts-row .cdf-key { color: var(--text-light); font-weight: 600; }
+.cd-facts-row strong {
+    color: var(--primary-dark);
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin-inline-start: auto;
+    text-align: end;
+}
+html[data-theme="dark"] .cd-facts-row strong { color: #80d8a8; }
+@media (max-width: 640px) {
+    .cd-facts-row li { font-size: 0.95rem; }
+    .cd-facts-row strong { font-size: 1rem; }
+}
+
+/* ── Lunar facts (مبسّط، 3 أسطر) ── */
+.lunar-facts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.lunar-facts li {
+    padding: 10px 14px;
+    background: var(--bg-elevated, #f7f7f7);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    border-inline-start: 3px solid var(--primary);
+}
+.lunar-facts li strong {
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-inline-start: 6px;
+}
+.lunar-facts .lunar-illum {
+    color: var(--text-light);
+    font-size: 0.88rem;
+    margin-inline-start: 4px;
+}
+html[data-theme="dark"] .lunar-facts li {
+    background: var(--surface-sunken);
+    border-inline-start-color: var(--primary-light);
+}
+html[data-theme="dark"] .lunar-facts li strong { color: #80d8a8; }
+
+/* ── جدول السنوات: تمييز + sticky head + hover + fade-in ── */
+.countdown-table-wrap { max-height: 360px; overflow-y: auto; }
+.countdown-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.countdown-table tbody tr {
+    transition: background 0.15s, transform 0.15s;
+    animation: cd-row-fadein 0.45s ease-out backwards;
+}
+.countdown-table tbody tr:nth-child(1) { animation-delay: 0s; }
+.countdown-table tbody tr:nth-child(2) { animation-delay: 0.06s; }
+.countdown-table tbody tr:nth-child(3) { animation-delay: 0.12s; }
+.countdown-table tbody tr:nth-child(4) { animation-delay: 0.18s; }
+.countdown-table tbody tr:nth-child(5) { animation-delay: 0.24s; }
+@keyframes cd-row-fadein {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .countdown-table tbody tr { animation: none; }
+}
+.countdown-table tbody tr:hover {
+    background: rgba(45,144,89,0.08);
+    transform: translateX(-2px);
+}
+html[dir="rtl"] .countdown-table tbody tr:hover {
+    transform: translateX(2px);
+}
+.countdown-table tbody tr.cd-row-current {
+    background: rgba(45,144,89,0.10) !important;
+    font-weight: 700;
+}
+.countdown-table tbody tr.cd-row-current td:first-child::before {
+    content: '⭐ ';
+    margin-inline-end: 4px;
+}
+.cd-badge-next {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-inline-start: 6px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 999px;
+}
+html[data-theme="dark"] .countdown-table tbody tr.cd-row-current {
+    background: rgba(77,203,140,0.18) !important;
+}
+html[data-theme="dark"] .cd-badge-next {
+    background: var(--primary-light);
+}
+
+/* ── FAQ مختصر: عرض 3 ثمّ "عرض المزيد" ── */
+.countdown-faq-list:not(.is-expanded) > details:nth-of-type(n+4) {
+    display: none;
+}
+.cd-faq-toggle {
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.92rem;
+    transition: background 0.15s, color 0.15s;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.cd-faq-toggle:hover {
+    background: var(--primary);
+    color: #fff;
+}
+html[data-theme="dark"] .cd-faq-toggle {
+    border-color: var(--primary-light);
+    color: #80d8a8;
+}
+html[data-theme="dark"] .cd-faq-toggle:hover {
+    background: var(--primary);
+    color: #fff;
 }
 
 /* ── Dark mode tweaks ── */
@@ -2885,10 +3691,10 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
 /* ═══ Sticky Mini Bar (BOND 7): يظهر عند التمرير، يعرض الطور والإضاءة ═══ */
 .moon-sticky-bar {
     position: fixed;
-    top: 0;
+    top: var(--top-header-h, 64px); /* تحت top-header مباشرة (لا يغطّيه) */
     inset-inline-start: 0;
     inset-inline-end: 0;
-    z-index: 950;
+    z-index: 90; /* أقل من top-header (1000) — لا يخترقه */
     display: flex;
     align-items: center;
     gap: 12px;
@@ -2903,6 +3709,9 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     color: var(--text);
 }
 .moon-sticky-bar.is-visible { transform: translateY(0); }
+/* عند ظهور moon-sticky-bar نُفسح مكاناً له داخل #page-moon ليُظهر بدلاً من تغطية المحتوى */
+#page-moon { transition: padding-top 0.25s ease; }
+body.has-moon-sticky #page-moon { padding-top: var(--moon-sticky-h, 50px); }
 .moon-sticky-icon { font-size: 1.4rem; }
 .moon-sticky-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .moon-sticky-text strong { color: var(--primary); font-weight: 700; margin-inline-end: 6px; }
@@ -3447,29 +4256,9 @@ html[dir="ltr"] .moon-subtitle { text-align: left; }
     color: var(--text);
     font-size: 0.95rem;
 }
-.moon-forecast-cta {
-    display: block;
-    margin: 16px 0 18px;
-    padding: 14px 18px;
-    text-align: center;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-    border-radius: 12px;
-    font-size: 1.02rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 14px rgba(46,125,50,0.22);
-}
-.moon-forecast-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(46,125,50,0.3);
-    color: #fff;
-    text-decoration: none;
-}
+/* moon-forecast-cta — مَحذوف (الزرّ غير مفيد). أبقينا فقط .moon-intro mobile rule */
 @media (max-width: 640px) {
     .moon-intro { font-size: 0.98rem; padding: 12px 14px; }
-    .moon-forecast-cta { font-size: 0.98rem; padding: 12px 14px; }
 }
 
 /* ── صفحة القمر حسب التاريخ: شريط التنقّل (أمس/اليوم/غدًا) ── */
@@ -3782,6 +4571,18 @@ html[dir="rtl"] .moon-chart-tooltip { direction: rtl; }
     line-height: 1;
     flex-shrink: 0;
 }
+img.moon-city-flag {
+    width: 24px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+    display: inline-block;
+    vertical-align: middle;
+}
+html[data-theme="dark"] img.moon-city-flag {
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
+}
 .moon-city-name {
     flex: 1;
     min-width: 0;
@@ -3805,6 +4606,7 @@ html[dir="rtl"] .moon-cities-grid a:hover::after { transform: scaleX(-1) transla
     .moon-cities-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .moon-cities-grid a { padding: 10px; font-size: 0.88rem; gap: 8px; }
     .moon-city-flag { font-size: 1.2rem; }
+    img.moon-city-flag { width: 20px; height: 15px; }
 }
 
     html[data-theme="dark"] .moon-cities-grid a:hover { box-shadow: 0 4px 10px rgba(76,175,80,0.18); }
@@ -4908,23 +5710,14 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
    - على city-page: محجوزة بـ visibility:hidden + min-height
    - عند وصول البيانات: JS يضيف .cls-ready → تظهر بدون shift
    ============================================================ */
-/* Round 20: #city-country-info-section (Population Card) حُذف من HTML */
-#nearby-section,
-#city-about-section {
-    display: none;
-}
+/* Round 20: #city-country-info-section + #city-about-section حُذفا من HTML */
+#nearby-section { display: none; }
 html.city-page #nearby-section {
     display: block;
     visibility: hidden;
     min-height: 120px;
 }
-html.city-page #city-about-section {
-    display: block;
-    visibility: hidden;
-    min-height: 160px;
-}
-html.city-page #nearby-section.cls-ready,
-html.city-page #city-about-section.cls-ready {
+html.city-page #nearby-section.cls-ready {
     visibility: visible;
     min-height: 0;
 }
@@ -5126,81 +5919,7 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     font-weight: 600;
 }
 
-/* ========= قسم "عن المدينة" (ويكيبيديا) ========= */
-.city-about-section h2 {
-    margin-bottom: 14px;
-    font-size: 1.15rem;
-    line-height: 1.5;
-}
-.city-about-body { line-height: 1.8; }
-.city-about-extract {
-    color: var(--text);
-    font-size: 1rem;
-    margin: 0 0 12px 0;
-    white-space: pre-wrap;
-    position: relative;
-    /* 🆕 Round 2.1: smooth expand animation */
-    transition: max-height 0.3s ease;
-}
-/* 🆕 Round 2: 3-line clamp with fade gradient */
-.city-about-clamped {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    max-height: calc(1.8em * 3);
-}
-/* 🆕 Round 2.1: fade أقوى (90% stop) — يطوّر الانتقال البصريّ */
-.city-about-clamped::after {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
-    bottom: 0;
-    height: 40px;
-    background: linear-gradient(to bottom, transparent 0%, var(--card-bg, #ffffff) 90%);
-    pointer-events: none;
-}
-.city-about-expanded {
-    display: block;
-    max-height: 2000px; /* قيمة كبيرة تسمح بالـtransition بسلاسة */
-    -webkit-line-clamp: unset;
-    overflow: visible;
-}
-.city-about-expanded::after { display: none; }
-
-/* 🆕 Round 2: read-more / read-less toggle button */
-.city-about-toggle {
-    display: inline-block;
-    padding: 6px 14px;
-    background: transparent;
-    border: 1px solid var(--primary, #2e7d32);
-    color: var(--primary, #2e7d32);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin: 0 8px 12px 0;
-    transition: background 0.15s ease, color 0.15s ease;
-}
-.city-about-toggle:hover {
-    background: var(--primary, #2e7d32);
-    color: #fff;
-}
-.city-about-toggle[hidden] { display: none; }
-
-.city-about-link {
-    display: inline-block;
-    padding: 8px 14px;
-    background: var(--primary);
-    color: #fff;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.92rem;
-    transition: background 0.15s ease;
-}
-.city-about-link:hover { background: var(--primary-dark); }
+/* قسم "عن المدينة" (ويكيبيديا) — حُذف بالكامل بناءً على طلب المستخدم */
 
 /* ========= الأسئلة الشائعة ========= */
 .faq-section h2 { margin-bottom: 20px; }
@@ -5963,6 +6682,27 @@ html.city-page #city-related-services { display: none !important; }
 .tasbih-tab.active {
     background: var(--primary); color: #fff;
 }
+.tasbih-tab:not(.active):hover {
+    background: rgba(45,144,89,0.08);
+}
+/* ─── Dark mode: التبويب غير الفعّال يظهر بوضوح أعلى ─── */
+html[data-theme="dark"] .tasbih-tabs {
+    border-color: var(--primary-light);
+    background: var(--surface-sunken);
+}
+html[data-theme="dark"] .tasbih-tab {
+    color: #80d8a8;                      /* أخضر فاتح مُشبع */
+    font-weight: 700;
+}
+html[data-theme="dark"] .tasbih-tab.active {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+html[data-theme="dark"] .tasbih-tab:not(.active):hover {
+    background: rgba(77,203,140,0.14);
+    color: #a0e8c0;
+}
 
 /* مؤشر خطوات التسبيح */
 .tasbih-steps-row {
@@ -6019,13 +6759,26 @@ html.city-page #city-related-services { display: none !important; }
     box-shadow: 0 6px 32px rgba(21,128,61,0.35);
     transition: transform 0.1s;
     position: relative;
+    /* FIX (موبايل): منع double-tap zoom + تحديد النصّ + قائمة سياق طويلة-اللمس */
+    touch-action: manipulation;       /* يلغي تأخير double-tap zoom على الزرّ */
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;      /* يلغي قائمة "نسخ/حفظ" عند طول الضغط على iOS */
+    -webkit-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 .tasbih-circle:active { transform: scale(0.93); }
 .tasbih-circle-count {
     font-size: 3.2rem; font-weight: 800; line-height: 1;
     pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+/* FIX: نطبّق منع الـ zoom على الـ wrap أيضاً ليُغطّي اللمسات خارج حدود الزرّ بقليل */
+.tasbih-circle-wrap {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
 }
 /* موجة عند الضغط */
 .tasbih-circle::after {
@@ -6503,6 +7256,44 @@ html[dir="rtl"] .hpage-table thead tr th:last-child  { border-radius: 6px 0 0 0;
 .hpage-table tbody tr:hover { background: #e8f5e9 !important; }
 .hpage-table tbody tr:hover td a { color: var(--primary-dark) !important; }
 
+/* ─── Dark mode: تباين أعلى لجدول الهجري ─── */
+/* الصفوف المتناوبة (الـ JS يحقن background:var(--bg) — وهي نفس خلفيّة البطاقة في الداكن
+   فلا فرق بصريّ). نستبدل عبر !important. */
+html[data-theme="dark"] .hpage-table tbody tr[style*="background:var(--bg)"],
+html[data-theme="dark"] .hpage-table tbody tr[style*="background: var(--bg)"] {
+    background: var(--surface-raised) !important;
+}
+/* روابط داخل خلايا الجدول — اللون الافتراضيّ var(--primary) داكن جداً على خلفية داكنة */
+html[data-theme="dark"] .hpage-table tbody td a {
+    color: #80d8a8 !important;
+    font-weight: 600;
+}
+html[data-theme="dark"] .hpage-table tbody td a:hover {
+    color: #a0e8c0 !important;
+    text-decoration: underline;
+}
+/* الصفّ الفعّال (اليوم/الشهر الحاليّ) — يحقن background:var(--primary-light) */
+html[data-theme="dark"] .hpage-table tbody tr[style*="background:var(--primary-light)"],
+html[data-theme="dark"] .hpage-table tbody tr[style*="background: var(--primary-light)"] {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+    color: #fff !important;
+}
+html[data-theme="dark"] .hpage-table tbody tr[style*="background:var(--primary-light)"] td a {
+    color: #fff !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+/* حدود الخلايا في الداكن */
+html[data-theme="dark"] .hpage-table tbody td {
+    border-bottom-color: var(--border) !important;
+}
+/* hover override لتجنّب اللون الفاتح #e8f5e9 (يبقى للوضع الفاتح فقط) */
+html[data-theme="dark"] .hpage-table tbody tr:hover {
+    background: rgba(77,203,140,0.16) !important;
+}
+html[data-theme="dark"] .hpage-table tbody tr:hover td a {
+    color: #b8f0d0 !important;
+}
+
 /* بطاقة Hero لصفحات الهجري (hday/hyear/hmonth/today-hijri-date) */
 .hpage-hero { text-align: center; }
 .hpage-hero-title {
@@ -6651,8 +7442,12 @@ html[dir="ltr"] .hpage-hero-start { text-align: left; }
 .hpage-today-in-month a:hover { opacity: 0.85; }
 
     html[data-theme="dark"] .hpage-today-in-month {
-        background: rgba(76,175,80,0.14);
+        background: rgba(77,203,140,0.14);
+        border-inline-start-color: var(--primary-light);
     }
+    html[data-theme="dark"] .hpage-today-in-month strong { color: #80d8a8; }
+    html[data-theme="dark"] .hpage-today-in-month a { color: #80d8a8; }
+    html[data-theme="dark"] .hpage-today-in-month a:hover { color: #a0e8c0; opacity: 1; }
 
 /* Footer SEO paragraph — inline anchors (dynamic internal links) */
 .hpage-footer-seo-note a {
@@ -7587,10 +8382,10 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
    ═══════════════════════════════════════════════════════════════ */
 .sticky-next-bar {
     position: fixed;
-    top: 0;
+    top: var(--top-header-h, 64px); /* تحت top-header مباشرة (لا يغطّيه) */
     left: 0;
     right: 0;
-    z-index: 95; /* أقل من modals (100+) لكن فوق المحتوى */
+    z-index: 90; /* أقل من top-header (1000) — لا يخترقه */
     background: linear-gradient(135deg, var(--primary, #2e7d32) 0%, var(--primary-dark, #1e5631) 100%);
     color: #fff;
     padding: 10px 16px;
@@ -7825,25 +8620,11 @@ html.time-left-page .snb-cta { display: none; }
     padding-top: env(safe-area-inset-top, 0px);
 }
 
-/* ═══════════ Round 23 — Hide top-header when Sticky Bar visible ═══════════
-   كلاهما يُقدّم نفس الـ context (اسم المدينة) + Sticky Bar أكثر فائدة على التمرير.
-   نُخفي الهيدر بصريّاً (translateY + opacity) **دون** تقليص الـ flow size
-   لتجنّب Layout Shift (CLS). المساحة تبقى محجوزة، والـ sticky bar يغطّيها. */
-.top-header {
-    transition: transform .25s ease, opacity .2s ease, visibility 0s linear .25s;
-    will-change: transform, opacity;
-}
+/* ═══════════ Update — Sticky bars sit BELOW top-header (no longer hide it) ═══════════
+   الهيدر يبقى ظاهراً دائماً، والأشرطة العلويّة (sticky-next-bar / moon-sticky-bar)
+   تظهر أسفله تماماً عبر top: var(--top-header-h) و z-index أقل. */
 body.has-sticky-bar .top-header {
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: transform .25s ease, opacity .2s ease, visibility 0s linear 0s;
-}
-/* احترام تفضيل تقليل الحركة */
-@media (prefers-reduced-motion: reduce) {
-    .top-header { transition: none !important; }
-    body.has-sticky-bar .top-header { transition: none !important; }
+    /* لا إخفاء — الهيدر مستقرّ في مكانه */
 }
 
 /* ═══════════ Round 23 — Differentiate .current vs .active (R22 polish) ═══════════
@@ -8274,6 +9055,10 @@ html.city-page .city-page-search {
 html.city-page #home-footer-links,
 html.city-page .home-footer-links { display: none !important; }
 
+/* ── حذف نهائيّ لقسم "معلومات عن المدينة" من الرئيسيّة وصفحة مواقيت الصلاة ── */
+#city-about-section,
+.city-about-section { display: none !important; }
+
 /* ── Polish Round (B): سطر حيّ ديناميكيّ تحت City Summary ───────────── */
 .city-summary-live {
     margin-top: 10px;
@@ -8316,7 +9101,8 @@ html.city-page .home-footer-links { display: none !important; }
     margin: 0;
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    /* FIX: auto-fit بدل auto-fill — يلغي الأعمدة الفارغة فتمتدّ البطاقات لكامل العرض */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 .rls-list a {
     display: flex;
@@ -8329,7 +9115,20 @@ html.city-page .home-footer-links { display: none !important; }
     position: relative;
     transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
 }
-.rls-list .rls-text { flex: 1; min-width: 0; }
+.rls-list .rls-text {
+    flex: 1;
+    min-width: 0;
+    text-align: center; /* محاذاة النصّ في الوسط داخل البطاقة */
+}
+/* البطاقات نفسها في الوسط (لما يكون < ملء الصفّ) */
+.rls-list { justify-content: center; justify-items: center; }
+.rls-list a {
+    width: 100%;
+    max-width: 360px;
+    justify-content: center;  /* محتوى الزرّ في الوسط */
+}
+/* مع badge "الآن" — أعِد التوسيط مع room للـ badge */
+.rls-tier-live .rls-list a .rls-text { text-align: center; }
 
 /* 🟢 Live Tier — Refinements #1 + #5: scale boost + i18n badge span */
 .rls-tier-live .rls-tier-label { color: #2d7a3e; }
@@ -8449,7 +9248,6 @@ html.time-left-page #prayer-schedule-section,
 html.time-left-page #most-searched-chips,
 html.time-left-page #country-cities-section,
 html.time-left-page #arab-countries-section,
-html.time-left-page #city-about-section,
 html.time-left-page #city-related-services,
 html.time-left-page #related-links-section,
 html.time-left-page #other-trending-cities,

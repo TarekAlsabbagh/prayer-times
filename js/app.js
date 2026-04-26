@@ -3320,9 +3320,25 @@ function toggleTheme() {
         if (metaColorScheme) metaColorScheme.setAttribute('content', next);
     } catch (_e) { /* silent */ }
 }
-// R37o — system-preference watcher removed per user request: site defaults to
-// LIGHT regardless of OS dark-mode preference. Dark mode only via the explicit
-// toggle button (which writes localStorage['theme'] = 'dark' / 'light').
+// R37p — restored per user request: site follows OS dark-mode preference on
+// both mobile and desktop. Manual toggle (writes localStorage['theme']) takes
+// precedence — only when the user hasn't explicitly chosen do we follow the
+// system. The matchMedia listener keeps the page in sync if the OS preference
+// flips while the page is open.
+(function _watchSystemTheme() {
+    try {
+        if (!window.matchMedia) return;
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (e) => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) document.documentElement.setAttribute('data-theme', 'dark');
+                else document.documentElement.removeAttribute('data-theme');
+            }
+        };
+        if (mq.addEventListener) mq.addEventListener('change', handler);
+        else if (mq.addListener) mq.addListener(handler); // Safari < 14
+    } catch (_e) { /* silent */ }
+})();
 
 function closeSidebar() {
     const sidebar = document.getElementById('sidebar');

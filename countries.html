@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>window.SITE_URL=window.location.origin;(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(_e){}})();function toggleTheme(){try{var h=document.documentElement;var d=h.getAttribute('data-theme')==='dark';if(d){h.removeAttribute('data-theme');localStorage.setItem('theme','light');}else{h.setAttribute('data-theme','dark');localStorage.setItem('theme','dark');}var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'#1e5631':'#22272e');}catch(_e){}}</script>
+    <script>window.SITE_URL=window.location.origin;(function(){try{var s=localStorage.getItem('theme');var d=(s==='dark')||(!s&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.setAttribute('data-theme','dark');}}catch(_e){}})();function toggleTheme(){try{var h=document.documentElement;var d=h.getAttribute('data-theme')==='dark';if(d){h.removeAttribute('data-theme');localStorage.setItem('theme','light');}else{h.setAttribute('data-theme','dark');localStorage.setItem('theme','dark');}var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'#1e5631':'#22272e');}catch(_e){}}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة في دول العالم</title>

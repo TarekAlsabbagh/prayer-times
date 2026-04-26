@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- R37o — default theme is LIGHT. Dark mode only when the user has
-         explicitly toggled it (localStorage['theme'] === 'dark').
-         System preference is no longer auto-applied per user request. -->
-    <script>(function(){try{if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('theme-no-transition');setTimeout(function(){document.documentElement.classList.remove('theme-no-transition');},50);}}catch(_e){}})();</script>
+    <!-- R37p — Follow OS preference by default (mobile + desktop).
+         Manual toggle (localStorage['theme']) overrides:
+           localStorage 'dark' → dark
+           localStorage 'light' → light
+           absent → prefers-color-scheme: dark? -->
+    <script>(function(){try{var s=localStorage.getItem('theme');var d=(s==='dark')||(!s&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('theme-no-transition');setTimeout(function(){document.documentElement.classList.remove('theme-no-transition');},50);}}catch(_e){}})();</script>
     <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}if(/\/(?:en\/)?qibla-in-/.test(location.pathname)){document.documentElement.classList.add('qibla-page-loading');}if(/\/(?:en\/)?msbaha$/.test(location.pathname)){document.documentElement.classList.add('msbaha-page');}if(/\/(?:(?:en|ar)\/)?dateconverter$/.test(location.pathname)){document.documentElement.classList.add('date-converter-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}$/.test(location.pathname)){document.documentElement.classList.add('hijri-year-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(location.pathname)){document.documentElement.classList.add('hijri-month-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(location.pathname)){document.documentElement.classList.add('hijri-today-page');}if(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(location.pathname)){document.documentElement.classList.add('hijri-day-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');document.documentElement.classList.add('time-left-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-time-in-/.test(location.pathname)){document.documentElement.classList.add('city-page');document.documentElement.classList.add('next-prayer-time-page');}var _mdm=location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-\d{2}-\d{2}$/);if(_mdm){document.documentElement.classList.add('moon-date-page');document.documentElement.classList.add(parseInt(_mdm[3],10)<1800?'moon-hijri-context':'moon-gregorian-context');}if(!_mdm&&/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(location.pathname)){document.documentElement.classList.add('moon-hub-page');}if(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/.test(location.pathname)){document.documentElement.classList.add('countdown-page');var _cdMatch=location.pathname.match(/(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown/);if(_cdMatch)document.documentElement.classList.add('countdown-'+_cdMatch[1]);}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +34,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=432" as="script">
+    <link rel="preload" href="js/app.js?v=433" as="script">
     <link rel="stylesheet" href="css/style.css?v=144">
 </head>
 <body>
@@ -2769,7 +2771,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=4"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=432"></script>
+    <script defer src="js/app.js?v=433"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -106,6 +106,182 @@ html[data-theme="dark"] .home-footer,
 html[data-theme="dark"] .footer-cookie-bar { background: var(--surface-raised); color: var(--text); }
 /* Code/pre blocks (legal page) */
 html[data-theme="dark"] code, html[data-theme="dark"] pre { background: var(--surface-sunken); color: var(--text); }
+
+/* ===== R37b — comprehensive dark-mode supplement ===== */
+/* Light green-tint hover backgrounds (#eef5ef, #e8f5e9, #e6f4ec) */
+html[data-theme="dark"] .sis-item:hover,
+html[data-theme="dark"] .sis-settings:hover,
+html[data-theme="dark"] .weekly-expand-btn:hover,
+html[data-theme="dark"] .msc-chip:hover,
+html[data-theme="dark"] .hpage-table tbody tr:hover,
+html[data-theme="dark"] .fc-row-clickable:hover {
+    background: rgba(42,163,107,0.12) !important;
+    color: var(--text);
+}
+/* Light gradients on cards / hero sections */
+html[data-theme="dark"] .moon-evergreen,
+html[data-theme="dark"] .moon-faq-city-card,
+html[data-theme="dark"] .qibla-evergreen,
+html[data-theme="dark"] .city-about-section,
+html[data-theme="dark"] .home-faq,
+html[data-theme="dark"] .next-prayer-banner,
+html[data-theme="dark"] .banner-current-prayer {
+    background: var(--surface-raised) !important;
+    color: var(--text);
+    border-color: var(--border);
+}
+/* Tables */
+html[data-theme="dark"] th, html[data-theme="dark"] thead,
+html[data-theme="dark"] .countdown-table th,
+html[data-theme="dark"] .moon-forecast-table th,
+html[data-theme="dark"] .hpage-table th {
+    background: var(--surface-sunken);
+    color: var(--text);
+    border-color: var(--border);
+}
+html[data-theme="dark"] td, html[data-theme="dark"] tbody td,
+html[data-theme="dark"] tr { border-color: var(--border); color: var(--text); }
+/* Settings modal */
+html[data-theme="dark"] .settings-modal,
+html[data-theme="dark"] .settings-modal-content {
+    background: var(--card-bg);
+    color: var(--text);
+}
+html[data-theme="dark"] .settings-modal-overlay { background: rgba(0,0,0,0.7); }
+/* Country tiles & city/quick-link cards */
+html[data-theme="dark"] .country-tile,
+html[data-theme="dark"] .country-flag-card,
+html[data-theme="dark"] .moon-quick-link,
+html[data-theme="dark"] .qibla-related-pill,
+html[data-theme="dark"] .qh-row,
+html[data-theme="dark"] .city-card,
+html[data-theme="dark"] .hub-city-link {
+    background: var(--surface-raised);
+    color: var(--text);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .country-tile:hover,
+html[data-theme="dark"] .country-flag-card:hover,
+html[data-theme="dark"] .moon-quick-link:hover,
+html[data-theme="dark"] .city-card:hover,
+html[data-theme="dark"] .hub-city-link:hover {
+    background: var(--surface-sunken);
+    border-color: var(--primary);
+}
+/* Headings (catch-all so dark text stays readable) */
+html[data-theme="dark"] h1, html[data-theme="dark"] h2,
+html[data-theme="dark"] h3, html[data-theme="dark"] h4,
+html[data-theme="dark"] h5, html[data-theme="dark"] h6 { color: var(--text); }
+/* Brand-colored numbers stay primary */
+html[data-theme="dark"] .qibla-info .angle,
+html[data-theme="dark"] .countdown-h1,
+html[data-theme="dark"] .countdown-timer .ct-value { color: var(--primary-light); }
+/* Breadcrumbs */
+html[data-theme="dark"] .city-breadcrumb,
+html[data-theme="dark"] .moon-breadcrumb,
+html[data-theme="dark"] .qibla-breadcrumb,
+html[data-theme="dark"] .hijri-breadcrumb {
+    background: var(--surface-raised);
+    color: var(--text-light);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .breadcrumb-list a,
+html[data-theme="dark"] .bc-link { color: var(--link); }
+html[data-theme="dark"] .bc-current,
+html[data-theme="dark"] .bc-sep { color: var(--text-light); }
+/* Location-suggestion bar */
+html[data-theme="dark"] .location-suggestion-bar {
+    background: var(--surface-raised);
+    color: var(--text);
+    border-color: var(--primary);
+}
+html[data-theme="dark"] .lsb-city { color: var(--primary-light); }
+html[data-theme="dark"] .lsb-btn { background: var(--primary); color: #fff; }
+html[data-theme="dark"] .lsb-dismiss { color: var(--text-light); }
+/* Smart pills */
+html[data-theme="dark"] .qibla-hub-smart-pill,
+html[data-theme="dark"] .loc-hero-smart-pill {
+    background: rgba(42,163,107,0.15);
+    color: var(--text);
+    border-color: var(--primary);
+}
+/* Lang menu / suggestion dropdowns */
+html[data-theme="dark"] .lang-menu {
+    background: var(--card-bg);
+    border-color: var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+html[data-theme="dark"] .lang-menu .lang-item { color: var(--text); }
+html[data-theme="dark"] .city-search-suggestions,
+html[data-theme="dark"] .loc-hero-suggestions,
+html[data-theme="dark"] .qibla-hub-search-results {
+    background: var(--card-bg);
+    border-color: var(--border);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+html[data-theme="dark"] .suggestion-item {
+    background: var(--card-bg);
+    color: var(--text);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .sugg-name { color: var(--text); }
+html[data-theme="dark"] .sugg-country { color: var(--text-light); }
+html[data-theme="dark"] .city-search-input:focus,
+html[data-theme="dark"] .loc-hero-search:focus,
+html[data-theme="dark"] .qibla-hub-search:focus,
+html[data-theme="dark"] .cps-input:focus {
+    background: var(--surface-raised);
+    box-shadow: 0 2px 12px rgba(42,163,107,0.25);
+}
+/* Sidebar nav */
+html[data-theme="dark"] .sidebar-nav a { color: var(--text); }
+html[data-theme="dark"] .sidebar-nav a:hover { background: var(--surface-sunken); }
+html[data-theme="dark"] .sidebar-nav a.active { background: var(--primary); color: #fff; }
+html[data-theme="dark"] .sidebar-logo { color: var(--text); border-color: var(--border); }
+/* Top header */
+html[data-theme="dark"] .top-header {
+    background: var(--surface-raised);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .city-name { color: var(--text); }
+html[data-theme="dark"] .country { color: var(--text-light); }
+/* Prayer cards */
+html[data-theme="dark"] .prayer-card {
+    background: var(--surface-raised);
+    color: var(--text);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .prayer-card.current,
+html[data-theme="dark"] .prayer-card.active {
+    background: linear-gradient(135deg, rgba(42,163,107,0.25), rgba(42,163,107,0.10));
+    border-color: var(--primary);
+}
+html[data-theme="dark"] .prayer-name { color: var(--text); }
+html[data-theme="dark"] .prayer-time { color: var(--primary-light); }
+html[data-theme="dark"] .prayer-progress { background: var(--surface-sunken); }
+/* Sticky next-prayer bar */
+html[data-theme="dark"] .sticky-next-bar,
+html[data-theme="dark"] #sticky-next-bar {
+    background: var(--surface-raised);
+    color: var(--text);
+    border-color: var(--border);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.4);
+}
+/* Generic muted text */
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .text-light,
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] small { color: var(--text-light); }
+/* Form inputs catch-all */
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="search"],
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] input[type="email"] {
+    background: var(--surface-sunken);
+    color: var(--text);
+    border-color: var(--border);
+}
+
 /* Smooth transition between themes (skip on first load via .theme-no-transition) */
 html:not(.theme-no-transition) body,
 html:not(.theme-no-transition) .section-card,
@@ -425,7 +601,7 @@ button, input, select { font-family: inherit; }
     top: calc(100% + 6px);
     inset-inline-end: 0;
     min-width: 170px;
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
@@ -715,7 +891,7 @@ button, input, select { font-family: inherit; }
     height: 22px;
     right: 3px;
     top: 3px;
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 50%;
     transition: transform 0.3s;
     box-shadow: 0 1px 4px rgba(0,0,0,0.2);
@@ -896,7 +1072,7 @@ button, input, select { font-family: inherit; }
     border: 2px solid var(--border);
     border-radius: 8px;
     font-size: 0.95rem;
-    background: #fff;
+    background: var(--card-bg);
     transition: border-color var(--transition);
 }
 
@@ -2140,7 +2316,7 @@ html.countdown-page .page:not([id$="-countdown"]) { display: none !important; }
     inset-inline-end: 8px;
     font-size: 0.6rem;
     color: #2e7d32;
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 50%;
     width: 12px;
     height: 12px;
@@ -3317,7 +3493,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     font-weight: 600;
     border: 1.5px solid var(--primary);
     border-radius: 8px;
-    background: #fff;
+    background: var(--card-bg);
     color: var(--primary-dark);
     cursor: pointer;
     font-family: inherit;
@@ -3345,7 +3521,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     height: 36px;
     border-radius: 50%;
     border: 2px solid var(--border);
-    background: #fff;
+    background: var(--card-bg);
     cursor: pointer;
     font-size: 1rem;
     display: flex;
@@ -3417,7 +3593,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     cursor: pointer;
     font-weight: 600;
     transition: all var(--transition);
-    background: #fff;
+    background: var(--card-bg);
 }
 
 .converter-tab.active {
@@ -3615,7 +3791,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 .city-search-input:focus {
     outline: none;
     border-color: var(--primary);
-    background: #fff;
+    background: var(--card-bg);
     box-shadow: 0 2px 12px rgba(26,107,60,0.15);
 }
 
@@ -3624,7 +3800,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     top: calc(100% + 6px);
     right: 0;
     left: 0;
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     z-index: 999;
@@ -3863,7 +4039,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 
 .nearby-item:hover {
     border-color: var(--primary);
-    background: #fff;
+    background: var(--card-bg);
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(46,125,50,0.18);
 }
@@ -3876,7 +4052,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 }
 .nearby-item:first-child .nearby-label { color: var(--primary-dark, #1e5631); }
 .nearby-item:first-child:hover {
-    background: #fff;
+    background: var(--card-bg);
     border-color: rgba(46,125,50,.3);
     box-shadow: 0 2px 6px rgba(46,125,50,.1);
 }
@@ -4132,7 +4308,7 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     padding: 7px 10px;
     border-radius: 8px;
     border: 1px solid var(--border, #ddd);
-    background: #fff;
+    background: var(--card-bg);
     font-size: 0.88rem;
     font-family: inherit;
     color: var(--text);
@@ -4178,7 +4354,7 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     padding: 7px 16px;
     border-radius: 8px;
     border: 1.5px solid var(--primary);
-    background: #fff;
+    background: var(--card-bg);
     color: var(--primary);
     font-family: inherit;
     font-size: 0.88rem;
@@ -4208,7 +4384,7 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     height: 34px;
     border-radius: 8px;
     border: 1.5px solid var(--border);
-    background: #fff;
+    background: var(--card-bg);
     color: var(--text);
     font-family: inherit;
     font-size: 0.88rem;
@@ -4981,7 +5157,7 @@ html.city-page #city-related-services { display: none !important; }
     border: 2px solid var(--border, #ddd);
     font-size: 0.95rem;
     font-family: inherit;
-    background: #fff;
+    background: var(--card-bg);
     color: var(--text);
     box-sizing: border-box;
     transition: border-color var(--transition);
@@ -5013,7 +5189,7 @@ html.city-page #city-related-services { display: none !important; }
 }
 .all-city-item:hover {
     border-color: var(--primary);
-    background: #fff;
+    background: var(--card-bg);
     color: var(--primary-dark);
 }
 
@@ -5031,7 +5207,7 @@ html.city-page #city-related-services { display: none !important; }
     height: 36px;
     border-radius: 8px;
     border: 2px solid var(--border, #ddd);
-    background: #fff;
+    background: var(--card-bg);
     color: var(--text);
     font-size: 0.88rem;
     font-weight: 600;
@@ -5526,7 +5702,7 @@ html.city-page #city-related-services { display: none !important; }
     width: 18px;
     left: 3px;
     top: 3px;
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 50%;
     transition: transform 0.2s;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
@@ -6004,7 +6180,7 @@ html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
     font-family: inherit;
     border: 2px solid var(--border);
     border-radius: 10px;
-    background: #fff;
+    background: var(--card-bg);
     color: var(--text);
     transition: border-color .15s;
     box-sizing: border-box;
@@ -6255,7 +6431,7 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     padding: 12px 16px;
     border-radius: 12px;
     border: 1.5px solid rgba(13,124,85,0.22);
-    background: #fff;
+    background: var(--card-bg);
     font-size: 1rem;
     color: #214936;
     outline: none;
@@ -6286,7 +6462,7 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     left: 0;
     right: 0;
     margin-top: 4px;
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid var(--border, #e0e0e0);
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,.08);
@@ -7041,7 +7217,7 @@ html.city-page .city-page-search {
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border, #d9e3d9);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(46, 125, 50, 0.06);
@@ -7100,7 +7276,7 @@ html.city-page .city-page-search {
     right: 0;
     max-height: 320px;
     overflow-y: auto;
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border, #d9e3d9);
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -7258,7 +7434,7 @@ html.city-page .city-page-search {
     top: calc(env(safe-area-inset-top, 0px) + 70px);
     inset-inline-end: 16px;
     max-width: 360px;
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid #e0e0e0;
     border-inline-start: 3px solid var(--primary, #2e7d32);
     border-radius: 12px;
@@ -8599,7 +8775,7 @@ html.time-left-page .sticky-next-bar {
     padding: 12px 16px;
     border-radius: 12px;
     border: 1.5px solid rgba(13,124,85,0.22);
-    background: #fff;
+    background: var(--card-bg);
     font-size: 1rem;
     color: var(--text-dark, #214936);
     outline: none;
@@ -8800,7 +8976,7 @@ html.time-left-page .sticky-next-bar {
     border-bottom: 1px solid rgba(13,124,85,0.08);
     color: var(--text-dark, #214936);
     font-size: 0.98rem;
-    background: #fff;
+    background: var(--card-bg);
     transition: background 0.1s ease;
 }
 #page-qibla .qibla-hub-search-results .qhsr-item:hover,

@@ -670,12 +670,24 @@ html[data-theme="dark"] .hijri-breadcrumb {
     color: var(--text-light);
     border-color: var(--border);
 }
-/* R37t — use the bright brand green for breadcrumb links (and any "a" tag
-   inside the breadcrumb) instead of the previous Twitter-blue link color. */
-html[data-theme="dark"] .breadcrumb-list a,
-html[data-theme="dark"] .bc-link { color: var(--primary-dark) !important; }
-html[data-theme="dark"] .breadcrumb-list a:hover,
-html[data-theme="dark"] .bc-link:hover { color: var(--primary-light) !important; }
+/* R37t — bright brand green for breadcrumb links, BUT not for the current
+   page (.bc-current / [aria-current="page"]) — that should read as plain
+   secondary text (not a link). */
+html[data-theme="dark"] .breadcrumb-list a:not([aria-current="page"]),
+html[data-theme="dark"] .bc-link:not([aria-current="page"]) {
+    color: var(--primary-dark) !important;
+}
+html[data-theme="dark"] .breadcrumb-list a:not([aria-current="page"]):hover,
+html[data-theme="dark"] .bc-link:not([aria-current="page"]):hover {
+    color: var(--primary-light) !important;
+}
+/* Current page in breadcrumb — plain secondary text, no brand color */
+html[data-theme="dark"] .breadcrumb-list .bc-item.bc-current,
+html[data-theme="dark"] .breadcrumb-list .bc-item.bc-current .bc-link,
+html[data-theme="dark"] .breadcrumb-list .bc-link[aria-current="page"] {
+    color: var(--text-light) !important;
+    background: transparent;
+}
 html[data-theme="dark"] .bc-current,
 html[data-theme="dark"] .bc-sep { color: var(--text-light); }
 /* Location-suggestion bar */

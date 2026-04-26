@@ -4517,37 +4517,53 @@ function fetchCitySuggestions(query) {
             suggestionsEl.appendChild(btn);
         }
 
-        // قائمة بيضاء صارمة: مدن وقرى وبلدات فقط — لا محافظات، لا مناطق، لا أحياء، لا شوارع
-        // ملاحظة: لا نرفض class==='boundary' لأنّ Nominatim يُرجع كثيراً من المدن الأوروبيّة كـboundary+administrative.
-        // القائمة البيضاء على addresstype (city/town/village/...) كافية لاستبعاد المحافظات/المناطق.
-        const acceptedTypes = new Set(['city', 'town', 'village', 'municipality', 'borough']);
-        let results = all.filter(p => {
-            // رفض الدول والطرق فقط (الحدود الإداريّة تُرفَض عبر القائمة البيضاء للـaddresstype)
+        // قائمة بيضاء صارمة (Tier 1): مدن/قرى/بلدات/مزارع صغيرة
+        const acceptedTypes = new Set(['city', 'town', 'village', 'municipality', 'borough', 'hamlet', 'locality']);
+        // ─── الفلتر الصارم (Tier 1) ───
+        const _strictFilter = (p) => {
             if (p.class === 'country' || p.class === 'highway') return false;
-            // يجب أن يكون addresstype في القائمة البيضاء — وإلّا نرفض
             const addrT  = p.addresstype || '';
             const plainT = p.type || '';
-            // استثناء: city-states و metropolitan areas (Tokyo, HK, Singapore…) تُصنَّف state/province
             const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
             const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
             if (!acceptedTypes.has(addrT) && !acceptedTypes.has(plainT) && !isSpecialCityState) return false;
-            // فلتر اسميّ متعدّد اللغات (ar/en/fr/tr/ur/de/id/es/bn/ms): محافظة/منطقة/حي/شارع…
             const rawName   = p.name || '';
             const ndName    = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
             const firstPart = (p.display_name || '').split(',')[0] || '';
-            // للمدن الخاصّة: نتجاوز الفلتر الاسميّ لأنّ أسماءها قد تحوي "Region/Capital" (مثل Special Capital Region of Jakarta)
             if (!isSpecialCityState) {
                 if (_isAdminOrStreetLike(rawName))   return false;
                 if (_isAdminOrStreetLike(ndName))    return false;
                 if (_isAdminOrStreetLike(firstPart)) return false;
             }
-            // رفض أحياء مُقنَّعة كـ city (مثل 千代田区 Chiyoda-ku في طوكيو)
             const _rawEn = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
                 || (p.address && (p.address.city || p.address.town || p.address.village))
                 || firstPart || '');
             if (_isWardLike(rawName) || _isWardLike(_rawEn)) return false;
             return true;
-        });
+        };
+        // ─── الفلتر المتساهل (Tier 2 — fallback): يقبل أي مكان مأهول له إحداثيّات
+        //   مفيد للمدن/القرى الصغيرة التي لا يصنّفها OSM دائماً بـ city/town/village.
+        //   نرفض فقط ما هو ليس "مكان": دولة، طريق، مبنى، POI، حدود إداريّة بحتة.
+        const _laxRejectTypes = new Set(['country', 'highway', 'building', 'amenity', 'shop',
+            'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made']);
+        const _laxFilter = (p) => {
+            if (_laxRejectTypes.has(p.class)) return false;
+            // يجب أن يكون له إحداثيّات صالحة
+            const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
+            if (!isFinite(lat) || !isFinite(lon)) return false;
+            // يجب أن يكون له اسم
+            if (!p.name && !p.display_name) return false;
+            // استبعد الشوارع/الأحياء الواضحة بالاسم
+            const firstPart = (p.display_name || '').split(',')[0] || '';
+            if (_isAdminOrStreetLike(firstPart) && !p.namedetails?.name) return false;
+            return true;
+        };
+        // Tier 1: صارم
+        let results = all.filter(_strictFilter);
+        // Tier 2: لو فاضي → أعد المحاولة بالفلتر المرن (لا تُسقط نتائج صارمة موجودة)
+        if (results.length === 0) {
+            results = all.filter(_laxFilter);
+        }
 
         const typeRank = p => {
             const t = p.addresstype || p.type || '';
@@ -4667,8 +4683,8 @@ function fetchCityOnlineBroader(query) {
     const searchLang = currentLang;
     const url = nomUrl(`https://nominatim.openstreetmap.org/search?format=json&limit=15&accept-language=${searchLang}&addressdetails=1&namedetails=1&q=${encodeURIComponent(query)}`);
 
-    // قائمة بيضاء صارمة: مدن وقرى وبلدات فقط (لا محافظات/مناطق/أحياء/شوارع)
-    const accepted = new Set(['city','town','village','municipality','borough']);
+    // قائمة بيضاء: مدن/قرى/بلدات + hamlet/locality للمدن الصغيرة
+    const accepted = new Set(['city','town','village','municipality','borough','hamlet','locality']);
 
     fetch(url)
         .then(r => r.json())
@@ -6563,21 +6579,31 @@ function wireHeroSuggestionsMirror() {
             attributeFilter: ['class']
         });
         // تفويض النقر: عند الضغط على عنصر في Hero suggestions، نُشغّل click على الـ counterpart في المصدر
+        // FIX: يشمل .sugg-online-btn أيضاً (كان مَنسياً → الزر لا يعمل من Hero)
         dst.addEventListener('click', function (ev) {
+            // (1) suggestion-item ← مدن مقترحة
             const item = ev.target.closest('.suggestion-item');
-            if (!item) return;
-            const srcItems = src.querySelectorAll('.suggestion-item');
-            const dstItems = dst.querySelectorAll('.suggestion-item');
-            let idx = -1;
-            dstItems.forEach((el, i) => { if (el === item) idx = i; });
-            if (idx >= 0 && srcItems[idx]) {
-                srcItems[idx].click();
-                // مزامنة قيمة Hero input من Header input
-                try {
-                    const mainInput = document.getElementById('city-search-input');
-                    const heroInput = document.getElementById('loc-hero-search');
-                    if (mainInput && heroInput) heroInput.value = mainInput.value;
-                } catch (_e) { /* silent */ }
+            if (item) {
+                const srcItems = src.querySelectorAll('.suggestion-item');
+                const dstItems = dst.querySelectorAll('.suggestion-item');
+                let idx = -1;
+                dstItems.forEach((el, i) => { if (el === item) idx = i; });
+                if (idx >= 0 && srcItems[idx]) {
+                    srcItems[idx].click();
+                    try {
+                        const mainInput = document.getElementById('city-search-input');
+                        const heroInput = document.getElementById('loc-hero-search');
+                        if (mainInput && heroInput) heroInput.value = mainInput.value;
+                    } catch (_e) {}
+                }
+                return;
+            }
+            // (2) sugg-online-btn ← زرّ "ابحث على الإنترنت عن X" — كان مكسوراً
+            const onlineBtn = ev.target.closest('.sugg-online-btn');
+            if (onlineBtn) {
+                const srcBtn = src.querySelector('.sugg-online-btn');
+                if (srcBtn) srcBtn.click();
+                return;
             }
         });
         // إغلاق Hero suggestions عند النقر خارج loc-hero-search-wrap

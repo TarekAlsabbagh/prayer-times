@@ -238,15 +238,60 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
-/* R37e — also tame text/title colors that don't theme via variables */
+/* R37e — tame text/title colors that don't theme via variables (originals
+   use hardcoded dark-green hex like #0d7c55, #214936, #6b7b75 that
+   become invisible on dark backgrounds — !important beats source-order). */
 html[data-theme="dark"] .loc-hero-smart-pill { color: var(--text) !important; }
-html[data-theme="dark"] .loc-hero-title,
+html[data-theme="dark"] .loc-hero-title { color: var(--text) !important; }
 html[data-theme="dark"] .loc-hero-subtitle,
 html[data-theme="dark"] .loc-hero-city,
-html[data-theme="dark"] .loc-hero-geo-microcopy { color: var(--text); }
 html[data-theme="dark"] .loc-hero-city-label,
-html[data-theme="dark"] .loc-hero-subtitle { color: var(--text-light); }
-html[data-theme="dark"] .loc-hero-hero-badges li { color: var(--text-light); background: rgba(42,163,107,0.10); border-color: var(--border); }
+html[data-theme="dark"] .loc-hero-geo-microcopy { color: var(--text-light) !important; }
+
+/* Trust badges (✓ دقّة عالية … / يعمل في جميع الدول) */
+html[data-theme="dark"] .loc-hero-hero-badges li {
+    background: rgba(122,199,158,0.12) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border);
+}
+html[data-theme="dark"] .loc-hero-hero-badges li::before {
+    color: var(--primary-light) !important;
+}
+
+/* Outlined "اختر مدينتك يدويًّا" pick button — original was dark-green-on-light */
+html[data-theme="dark"] .loc-hero-pick-btn {
+    color: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+    background: transparent !important;
+}
+html[data-theme="dark"] .loc-hero-pick-btn:hover {
+    background: rgba(122,199,158,0.12) !important;
+    border-color: var(--primary-light) !important;
+}
+
+/* Mirror the same fixes for the qibla-hub equivalents */
+html[data-theme="dark"] .qibla-hub-subtitle,
+html[data-theme="dark"] .qibla-hub-summary,
+html[data-theme="dark"] .qibla-hub-microcopy { color: var(--text-light) !important; }
+html[data-theme="dark"] .qibla-hub-pick-btn,
+html[data-theme="dark"] .qibla-hub-trust-strip li,
+html[data-theme="dark"] .qibla-hub-hero-badges li { color: var(--text) !important; }
+html[data-theme="dark"] .qibla-hub-trust-strip li,
+html[data-theme="dark"] .qibla-hub-hero-badges li {
+    background: rgba(122,199,158,0.12) !important;
+    border-color: var(--border) !important;
+}
+html[data-theme="dark"] .qibla-hub-trust-strip li::before,
+html[data-theme="dark"] .qibla-hub-hero-badges li::before { color: var(--primary-light) !important; }
+html[data-theme="dark"] .qibla-hub-pick-btn {
+    color: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+    background: transparent !important;
+}
+html[data-theme="dark"] .qibla-hub-pick-btn:hover {
+    background: rgba(122,199,158,0.12) !important;
+    border-color: var(--primary-light) !important;
+}
 
 /* R37e — kill ALL light-cream gradients on cards by overriding the full
    `background` shorthand (background-color alone loses to the original

@@ -3320,22 +3320,9 @@ function toggleTheme() {
         if (metaColorScheme) metaColorScheme.setAttribute('content', next);
     } catch (_e) { /* silent */ }
 }
-// استمع لتغيّر تفضيل النظام عندما لا يكون للمستخدم اختيار صريح محفوظ
-(function _watchSystemTheme() {
-    try {
-        if (!window.matchMedia) return;
-        const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        const handler = (e) => {
-            // نطبّق فقط لو لم يختر المستخدم وضعاً صريحاً
-            if (!localStorage.getItem('theme')) {
-                if (e.matches) document.documentElement.setAttribute('data-theme', 'dark');
-                else document.documentElement.removeAttribute('data-theme');
-            }
-        };
-        if (mq.addEventListener) mq.addEventListener('change', handler);
-        else if (mq.addListener) mq.addListener(handler); // Safari < 14
-    } catch (_e) { /* silent */ }
-})();
+// R37o — system-preference watcher removed per user request: site defaults to
+// LIGHT regardless of OS dark-mode preference. Dark mode only via the explicit
+// toggle button (which writes localStorage['theme'] = 'dark' / 'light').
 
 function closeSidebar() {
     const sidebar = document.getElementById('sidebar');

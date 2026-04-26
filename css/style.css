@@ -53,6 +53,7 @@ html.hijri-day-page #page-prayer-times { display: none !important; }
     --bg-card:    #ffffff;              /* alias for --card-bg */
     --border-light:#ecf0ec;              /* very subtle dividers */
     --accent:     #d4a017;              /* gold accent (hijri date highlights) */
+    --text-secondary: rgba(0,0,0,0.65);  /* soft secondary labels (moon, mc, hl) */
     color-scheme: light;
 }
 
@@ -89,6 +90,7 @@ html[data-theme="dark"] {
     --bg-card:    #2d333b;         /* alias for --card-bg */
     --border-light:#3a4250;        /* subtle dividers */
     --accent:     #e8c860;         /* softer gold for dark */
+    --text-secondary: #a8b3c1;     /* secondary labels — visible on dark */
     color-scheme: dark;
 }
 html[data-theme="dark"] body { background: var(--bg); color: var(--text); }
@@ -257,6 +259,58 @@ html[data-theme="dark"] details > summary {
     color: var(--text);
     border-color: var(--border);
 }
+
+/* R37s — Moon-page sections that hardcoded near-black/near-white surfaces.
+   Token --text-secondary is now defined for both themes (above), but a few
+   classes use rgba(255,255,255,0.55) etc. literally — patch them here. */
+html[data-theme="dark"] .moon-hijri-lunar {
+    background: rgba(255,255,255,0.05) !important;
+    color: var(--text);
+    border-inline-start-color: var(--primary);
+}
+html[data-theme="dark"] .moon-hijri-label,
+html[data-theme="dark"] .moon-hijri-greg,
+html[data-theme="dark"] .moon-hijri-notice { color: var(--text-secondary); }
+html[data-theme="dark"] .moon-hijri-date { color: var(--primary-dark); }
+html[data-theme="dark"] .moon-summary-line { background: var(--card-bg) !important; color: var(--text); }
+html[data-theme="dark"] .moon-summary-label { color: var(--text-light); }
+html[data-theme="dark"] .moon-summary-line strong { color: var(--primary-dark); }
+
+/* Moon Comparison (yesterday vs today + cycle steps) */
+html[data-theme="dark"] .moon-comparison .mc-cycle-label { color: var(--text-secondary); }
+html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-active .mc-cycle-label,
+html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-past .mc-cycle-label { color: var(--text); }
+html[data-theme="dark"] .moon-comparison .mc-delta-value { color: var(--primary-dark); }
+html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-active .mc-cycle-icon { filter: none; }
+
+/* Moon Highlights (البدر التالي / المحاق التالي / الرؤية) */
+html[data-theme="dark"] .moon-hl-label { color: var(--text-secondary); }
+html[data-theme="dark"] .moon-hl-value { color: var(--text); }
+html[data-theme="dark"] .moon-hl-sub { color: var(--text-light); }
+html[data-theme="dark"] .moon-hl-full,
+html[data-theme="dark"] .moon-hl-new,
+html[data-theme="dark"] .moon-hl-visibility {
+    background: var(--surface-sunken);
+    border: 1px solid var(--border);
+}
+
+/* Moon page H1, subtitle, breadcrumb */
+html[data-theme="dark"] #moon-page-h1 { color: var(--text); }
+html[data-theme="dark"] #moon-subtitle { color: var(--text-light); }
+html[data-theme="dark"] .bc-link.bc-moon { color: var(--text-light); }
+
+/* Moon stats grid (عمر القمر / نسبة الإضاءة / الكوكبة / شروق / غروب) */
+html[data-theme="dark"] .moon-stat,
+html[data-theme="dark"] .info-card,
+html[data-theme="dark"] .info-grid > div {
+    background: var(--surface-sunken);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+html[data-theme="dark"] .info-label,
+html[data-theme="dark"] .moon-stat-label { color: var(--text-light); }
+html[data-theme="dark"] .info-value,
+html[data-theme="dark"] .moon-stat-value { color: var(--text); }
 
 /* R37n — moon-today-card (.mtc-title was --text-light = dim label color).
    Promote to var(--text) so the title reads clearly. .mtc-phase already

@@ -57,7 +57,11 @@ html.hijri-day-page #page-prayer-times { display: none !important; }
    desaturated brand green. Activated via [data-theme="dark"] on <html>. */
 html[data-theme="dark"] {
     --primary: #5ab788;            /* desaturated brand green — comfortable on dark */
-    --primary-dark: #4aa776;
+    /* R37k — `--primary-dark` is used as TEXT COLOR in 83+ places (.qa-title,
+       .mtc-title, .moon-phase-name, etc.). On dark, "darker" hurts readability —
+       we want a BRIGHTER green for text-on-dark contrast. Set it as a bright
+       brand-green so every "title in primary-dark" auto-becomes readable. */
+    --primary-dark: #a0d8b8;
     --primary-light: #7ac79e;
     --gold: #d4b561;
     --gold-light: #e0c570;

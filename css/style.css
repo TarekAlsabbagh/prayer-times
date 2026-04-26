@@ -61,13 +61,18 @@ html.hijri-day-page #page-prayer-times { display: none !important; }
    Inspired by GitHub Dark Dimmed and Notion Dark — warm-gray surfaces, soft text,
    desaturated brand green. Activated via [data-theme="dark"] on <html>. */
 html[data-theme="dark"] {
-    --primary: #5ab788;            /* desaturated brand green — comfortable on dark */
-    /* R37k — `--primary-dark` is used as TEXT COLOR in 83+ places (.qa-title,
-       .mtc-title, .moon-phase-name, etc.). On dark, "darker" hurts readability —
-       we want a BRIGHTER green for text-on-dark contrast. Set it as a bright
-       brand-green so every "title in primary-dark" auto-becomes readable. */
-    --primary-dark: #a0d8b8;
-    --primary-light: #7ac79e;
+    /* R37m — saturated brand-aligned green palette (was too desaturated/pale).
+       User feedback: "the green is too pale, doesn't match our identity".
+       Brand origin (#1a6b3c, HSL 143/61%/26%) — for dark we need higher
+       lightness AND keep saturation so it still reads as "our brand green".
+       AA contrast against #fff verified for buttons/active backgrounds. */
+    --primary: #2d9059;            /* saturated brand green — buttons/active bg, AA on white */
+    --primary-light: #4ab87a;      /* hover/focus states */
+    /* `--primary-dark` is used as TEXT COLOR in 83+ places (.qa-title,
+       .mtc-title, .moon-phase-name, …). On dark we want a BRIGHT but
+       SATURATED green that reads as "our brand" + has enough lift over the
+       dark surface for AA contrast. */
+    --primary-dark: #80d8a8;
     --gold: #d4b561;
     --gold-light: #e0c570;
     --bg: #22272e;                 /* warm-dark page bg (not pure black) — GitHub Dimmed */

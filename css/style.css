@@ -273,17 +273,36 @@ html[data-theme="dark"] .moon-comparison .mc-phase-cycle {
 }
 html[data-theme="dark"] .moon-comparison .mc-cycle-step { opacity: 0.7; }
 html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-past { opacity: 0.85; }
-html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-active {
-    background: rgba(122,199,158,0.18) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    opacity: 1;
-}
 html[data-theme="dark"] .moon-comparison .mc-cycle-icon { filter: none; }
-html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-cycle-step.is-active {
-    background: rgba(220,120,80,0.18) !important;
+
+/* R37y — Make the ACTIVE phase step (current moon phase) significantly more
+   prominent: solid brand-green bg, white text, glow ring, scale-up.
+   Applies in BOTH light and dark — the user wanted more emphasis overall. */
+.moon-comparison .mc-cycle-step.is-active {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    border: 2px solid var(--primary-light) !important;
+    box-shadow: 0 0 0 3px rgba(45,144,89,0.25), 0 6px 18px rgba(0,0,0,0.35) !important;
+    transform: translateY(-3px) scale(1.08) !important;
+    opacity: 1 !important;
+    z-index: 1;
+    position: relative;
 }
-html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-cycle-step.is-active .mc-cycle-label {
-    color: #ffaa80 !important;
+.moon-comparison .mc-cycle-step.is-active .mc-cycle-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.6)) !important;
+    transform: scale(1.2) !important;
+}
+.moon-comparison .mc-cycle-step.is-active .mc-cycle-label {
+    color: #fff !important;
+    font-weight: 800 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.moon-comparison[data-direction="waning"] .mc-cycle-step.is-active {
+    background: linear-gradient(135deg, #d97149, #c0593a) !important;
+    border-color: #ffaa80 !important;
+    box-shadow: 0 0 0 3px rgba(217,113,73,0.25), 0 6px 18px rgba(0,0,0,0.35) !important;
+}
+.moon-comparison[data-direction="waning"] .mc-cycle-step.is-active .mc-cycle-label {
+    color: #fff !important;
 }
 
 /* R37w — Moon Comparison row (yesterday | Δ | today). Original card bg uses

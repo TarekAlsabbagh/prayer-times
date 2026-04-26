@@ -11935,16 +11935,16 @@ function _applyMoonDateBadge() {
     document.documentElement.classList.add(kind.isHijri ? 'moon-hijri-context' : 'moon-gregorian-context');
     // نصّ الـ badge
     const _BADGES = {
-        ar: { hijri: '📿 عرض حسب التاريخ الهجري', greg: '📅 عرض حسب التاريخ الميلادي' },
-        en: { hijri: '📿 Viewing by Hijri date', greg: '📅 Viewing by Gregorian date' },
-        fr: { hijri: '📿 Affichage par date hégirienne', greg: '📅 Affichage par date grégorienne' },
-        tr: { hijri: '📿 Hicri tarihe göre görüntüleme', greg: '📅 Miladi tarihe göre görüntüleme' },
-        ur: { hijri: '📿 ہجری تاریخ کے مطابق نمائش', greg: '📅 میلادی تاریخ کے مطابق نمائش' },
-        de: { hijri: '📿 Anzeige nach Hidschri-Datum', greg: '📅 Anzeige nach gregorianischem Datum' },
-        id: { hijri: '📿 Dilihat menurut tanggal Hijriah', greg: '📅 Dilihat menurut tanggal Masehi' },
-        es: { hijri: '📿 Vista por fecha hijrí', greg: '📅 Vista por fecha gregoriana' },
-        bn: { hijri: '📿 হিজরি তারিখ অনুযায়ী দেখা', greg: '📅 গ্রেগরীয় তারিখ অনুযায়ী দেখা' },
-        ms: { hijri: '📿 Paparan mengikut tarikh Hijrah', greg: '📅 Paparan mengikut tarikh Masihi' }
+        ar: { hijri: '🌙 عرض حسب التاريخ الهجري', greg: '📅 عرض حسب التاريخ الميلادي' },
+        en: { hijri: '🌙 Viewing by Hijri date', greg: '📅 Viewing by Gregorian date' },
+        fr: { hijri: '🌙 Affichage par date hégirienne', greg: '📅 Affichage par date grégorienne' },
+        tr: { hijri: '🌙 Hicri tarihe göre görüntüleme', greg: '📅 Miladi tarihe göre görüntüleme' },
+        ur: { hijri: '🌙 ہجری تاریخ کے مطابق نمائش', greg: '📅 میلادی تاریخ کے مطابق نمائش' },
+        de: { hijri: '🌙 Anzeige nach Hidschri-Datum', greg: '📅 Anzeige nach gregorianischem Datum' },
+        id: { hijri: '🌙 Dilihat menurut tanggal Hijriah', greg: '📅 Dilihat menurut tanggal Masehi' },
+        es: { hijri: '🌙 Vista por fecha hijrí', greg: '📅 Vista por fecha gregoriana' },
+        bn: { hijri: '🌙 হিজরি তারিখ অনুযায়ী দেখা', greg: '📅 গ্রেগরীয় তারিখ অনুযায়ী দেখা' },
+        ms: { hijri: '🌙 Paparan mengikut tarikh Hijrah', greg: '📅 Paparan mengikut tarikh Masihi' }
     };
     const badgeText = ((_BADGES[lang] || _BADGES.en)[kind.isHijri ? 'hijri' : 'greg']);
     const badge = document.createElement('div');
@@ -12541,9 +12541,9 @@ function updateMoonInfo() {
                     if (_citySlug) {
                         const _hIso = hj.year + '-' + _pad2(hj.month) + '-' + _pad2(hj.day);
                         const _hHref = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _hIso;
-                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHref)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">📿</span> ${_escHtml(hijriText)}</a></td>`;
+                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHref)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
                     } else {
-                        hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">📿</span> ${_escHtml(hijriText)}</td>`;
+                        hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
                     }
                 }
             } catch (_e) { /* keep placeholder */ }

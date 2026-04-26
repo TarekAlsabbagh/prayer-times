@@ -1296,7 +1296,7 @@ button, input, select { font-family: inherit; }
     right: 0;
     height: 100vh;
     overflow-y: auto;
-    z-index: 100;
+    z-index: 1100; /* أعلى من .top-header (1000) لمنع تداخل الـ sticky header مع الشريط الجانبيّ */
     transition: transform var(--transition);
 }
 
@@ -5625,7 +5625,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     position: fixed;
     top: 16px;
     right: 16px;
-    z-index: 200;
+    z-index: 1200; /* أعلى من .top-header (1000) و .sidebar (1100) ليبقى ظاهرًا قابلًا للضغط دائمًا */
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -5646,7 +5646,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.5);
-    z-index: 90;
+    z-index: 1050; /* أعلى من .top-header (1000) ليُعتم الهيدر السّتيكي عند فتح القائمة، وأقل من .sidebar (1100) */
 }
 
 /* ========= صفحة لم يتم العثور عليها ========= */

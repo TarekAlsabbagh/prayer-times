@@ -1,0 +1,594 @@
+[
+  {
+    "nameAr": "طرابلس",
+    "nameEn": "Tripoli",
+    "type": "city",
+    "lat": 32.8872,
+    "lng": 13.1913
+  },
+  {
+    "nameAr": "أجدابيا",
+    "nameEn": "Ajdabiya",
+    "type": "city",
+    "lat": 30.7554,
+    "lng": 20.2264
+  },
+  {
+    "nameAr": "البيضاء",
+    "nameEn": "Al Bayda",
+    "type": "city",
+    "lat": 32.7636,
+    "lng": 21.7553
+  },
+  {
+    "nameAr": "الخمس",
+    "nameEn": "Al Khums",
+    "type": "city",
+    "lat": 32.6486,
+    "lng": 14.2619
+  },
+  {
+    "nameAr": "الزاوية",
+    "nameEn": "Zawiya",
+    "type": "city",
+    "lat": 32.7522,
+    "lng": 12.7279
+  },
+  {
+    "nameAr": "بنغازي",
+    "nameEn": "Benghazi",
+    "type": "city",
+    "lat": 32.1167,
+    "lng": 20.0667
+  },
+  {
+    "nameAr": "ترهونة",
+    "nameEn": "Tarhuna",
+    "type": "city",
+    "lat": 32.4346,
+    "lng": 13.6367
+  },
+  {
+    "nameAr": "توكرة",
+    "nameEn": "Tocra",
+    "type": "city",
+    "lat": 32.5323,
+    "lng": 20.5823
+  },
+  {
+    "nameAr": "درنة",
+    "nameEn": "Derna",
+    "type": "city",
+    "lat": 32.7668,
+    "lng": 22.6335
+  },
+  {
+    "nameAr": "زليتن",
+    "nameEn": "Zliten",
+    "type": "city",
+    "lat": 32.4674,
+    "lng": 14.5688
+  },
+  {
+    "nameAr": "سبها",
+    "nameEn": "Sabha",
+    "type": "city",
+    "lat": 27.0369,
+    "lng": 14.4289
+  },
+  {
+    "nameAr": "سرت",
+    "nameEn": "Sirte",
+    "type": "city",
+    "lat": 31.2089,
+    "lng": 16.5887
+  },
+  {
+    "nameAr": "غدامس",
+    "nameEn": "Ghadames",
+    "type": "city",
+    "lat": 30.1333,
+    "lng": 9.5
+  },
+  {
+    "nameAr": "غريان",
+    "nameEn": "Gharyan",
+    "type": "city",
+    "lat": 32.1724,
+    "lng": 13.0201
+  },
+  {
+    "nameAr": "مرزق",
+    "nameEn": "Murzuq",
+    "type": "city",
+    "lat": 25.9167,
+    "lng": 13.9167
+  },
+  {
+    "nameAr": "مصراتة",
+    "nameEn": "Misrata",
+    "type": "city",
+    "lat": 32.3754,
+    "lng": 15.0925
+  },
+  {
+    "nameAr": "طبرق",
+    "nameEn": "Tobruk",
+    "type": "city",
+    "lat": 32.083333333333,
+    "lng": 23.95,
+    "pop": 135832
+  },
+  {
+    "nameAr": "صبراتة",
+    "nameEn": "Sabratha",
+    "type": "city",
+    "lat": 32.805401758894,
+    "lng": 12.485187948145,
+    "pop": 102038
+  },
+  {
+    "nameAr": "صرمان",
+    "nameEn": "Surman",
+    "type": "city",
+    "lat": 32.756666666667,
+    "lng": 12.571666666667,
+    "pop": 100707
+  },
+  {
+    "nameAr": "زوارة",
+    "nameEn": "Zaltan",
+    "type": "city",
+    "lat": 32.933333333333,
+    "lng": 12.083333333333,
+    "pop": 80310
+  },
+  {
+    "nameAr": "يفرن",
+    "nameEn": "Yafran",
+    "type": "city",
+    "lat": 32.062777777778,
+    "lng": 12.526666666667,
+    "pop": 72662
+  },
+  {
+    "nameAr": "بني وليد",
+    "nameEn": "Bani Walid",
+    "type": "city",
+    "lat": 31.74554,
+    "lng": 13.98354,
+    "pop": 50824
+  },
+  {
+    "nameAr": "تاجوراء",
+    "nameEn": "Tajura",
+    "type": "city",
+    "lat": 32.881944444444,
+    "lng": 13.34,
+    "pop": 48836
+  },
+  {
+    "nameAr": "براك",
+    "nameEn": "Brak",
+    "type": "city",
+    "lat": 27.545833333333,
+    "lng": 14.268611111111,
+    "pop": 43100
+  },
+  {
+    "nameAr": "نالوت",
+    "nameEn": "Nalut",
+    "type": "city",
+    "lat": 31.868611111111,
+    "lng": 10.981111111111,
+    "pop": 26788
+  },
+  {
+    "nameAr": "غات",
+    "nameEn": "Ghat",
+    "type": "city",
+    "lat": 24.961111111111,
+    "lng": 10.175,
+    "pop": 22000
+  },
+  {
+    "nameAr": "الكفرة",
+    "nameEn": "Al Jawf",
+    "type": "city",
+    "lat": 24.216666666667,
+    "lng": 23.3,
+    "pop": 18587
+  },
+  {
+    "nameAr": "راس لانوف",
+    "nameEn": "Ras Lanuf",
+    "type": "city",
+    "lat": 30.587238,
+    "lng": 18.415747,
+    "pop": 13300
+  },
+  {
+    "nameAr": "مرسى البريقة",
+    "nameEn": "Brega",
+    "type": "city",
+    "lat": 30.406111111111,
+    "lng": 19.573888888889,
+    "pop": 13000
+  },
+  {
+    "nameAr": "العزيزية",
+    "nameEn": "‘Aziziya",
+    "type": "city",
+    "lat": 32.530833333333,
+    "lng": 13.021111111111,
+    "pop": 4000
+  },
+  {
+    "nameAr": "أبوقرين",
+    "nameEn": "Abu Qurayn",
+    "type": "city",
+    "lat": 31.451111111111,
+    "lng": 15.248888888889,
+    "pop": null
+  },
+  {
+    "nameAr": "البردية",
+    "nameEn": "Bardia",
+    "type": "city",
+    "lat": 31.76,
+    "lng": 25.075,
+    "pop": null
+  },
+  {
+    "nameAr": "البياضة",
+    "nameEn": "El Bayyada",
+    "type": "city",
+    "lat": 32.5619,
+    "lng": 21.2528,
+    "pop": null
+  },
+  {
+    "nameAr": "الرابطة",
+    "nameEn": "al raabita",
+    "type": "city",
+    "lat": 32.164888888889,
+    "lng": 12.850527777778,
+    "pop": null
+  },
+  {
+    "nameAr": "الرجبان",
+    "nameEn": "Ar Rajban",
+    "type": "city",
+    "lat": 31.940333333333,
+    "lng": 12.091358333333,
+    "pop": null
+  },
+  {
+    "nameAr": "الزويتينة",
+    "nameEn": "Zuwetina",
+    "type": "city",
+    "lat": 30.952222222222,
+    "lng": 20.120277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "السراديب المسيحية (صبراتة",
+    "nameEn": "Christian Catacomb, Sabratha",
+    "type": "city",
+    "lat": 32.804571666667,
+    "lng": 12.489245,
+    "pop": null
+  },
+  {
+    "nameAr": "الصابرية",
+    "nameEn": "Es-Sabria",
+    "type": "city",
+    "lat": 32.72833333,
+    "lng": 12.64111111,
+    "pop": null
+  },
+  {
+    "nameAr": "العقيلة",
+    "nameEn": "El Agheila",
+    "type": "city",
+    "lat": 30.255833333333,
+    "lng": 19.199444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "الغريفة",
+    "nameEn": "Ghurayfah",
+    "type": "city",
+    "lat": 26.525887,
+    "lng": 13.009949,
+    "pop": null
+  },
+  {
+    "nameAr": "المالقي",
+    "nameEn": "Al Malaqi",
+    "type": "city",
+    "lat": 23.3121646,
+    "lng": 15.5705038,
+    "pop": null
+  },
+  {
+    "nameAr": "الملايطة",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.37531,
+    "lng": 15.186346,
+    "pop": null
+  },
+  {
+    "nameAr": "أم الرزم",
+    "nameEn": "Umm al Rizam",
+    "type": "city",
+    "lat": 32.5325,
+    "lng": 23.0053,
+    "pop": null
+  },
+  {
+    "nameAr": "أوباري",
+    "nameEn": "Ubari",
+    "type": "city",
+    "lat": 26.583333333333,
+    "lng": 12.766666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "أوجلة",
+    "nameEn": "Awjila",
+    "type": "city",
+    "lat": 29.108055555556,
+    "lng": 21.286944444444,
+    "pop": null
+  },
+  {
+    "nameAr": "بوزيمة",
+    "nameEn": "Buzema",
+    "type": "city",
+    "lat": 24.8994,
+    "lng": 22.028,
+    "pop": null
+  },
+  {
+    "nameAr": "بيضا فوم",
+    "nameEn": "Beda Fomm",
+    "type": "city",
+    "lat": 31.241111,
+    "lng": 20.308611,
+    "pop": null
+  },
+  {
+    "nameAr": "تجرهي",
+    "nameEn": "Tajarhi",
+    "type": "city",
+    "lat": 24.2622,
+    "lng": 14.5603,
+    "pop": null
+  },
+  {
+    "nameAr": "تساوة",
+    "nameEn": "Tasawah",
+    "type": "city",
+    "lat": 26.087511,
+    "lng": 13.508051,
+    "pop": null
+  },
+  {
+    "nameAr": "تكوت (ليبيا)",
+    "nameEn": "",
+    "type": "city",
+    "lat": 31.961288888889,
+    "lng": 11.019416666667,
+    "pop": null
+  },
+  {
+    "nameAr": "تيجي",
+    "nameEn": "Tiji",
+    "type": "city",
+    "lat": 32.00472222,
+    "lng": 11.33083333,
+    "pop": null
+  },
+  {
+    "nameAr": "جنزور",
+    "nameEn": "Janzur",
+    "type": "city",
+    "lat": 32.8172,
+    "lng": 13.0111,
+    "pop": null
+  },
+  {
+    "nameAr": "درج",
+    "nameEn": "Derje",
+    "type": "city",
+    "lat": 30.16277778,
+    "lng": 10.45333333,
+    "pop": null
+  },
+  {
+    "nameAr": "سلطان",
+    "nameEn": "Sultan",
+    "type": "city",
+    "lat": 31.093055555556,
+    "lng": 20.223611111111,
+    "pop": null
+  },
+  {
+    "nameAr": "سلوق",
+    "nameEn": "Suluq",
+    "type": "city",
+    "lat": 31.668611111111,
+    "lng": 20.250277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "سواني بن آدم",
+    "nameEn": "Suani Ben Adem",
+    "type": "city",
+    "lat": 32.7175,
+    "lng": 13.07638889,
+    "pop": null
+  },
+  {
+    "nameAr": "عمر المختار",
+    "nameEn": "Qaryat ‘Umar al Mukhtar",
+    "type": "city",
+    "lat": 32.630277777778,
+    "lng": 21.674722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "عين زارة",
+    "nameEn": "Ain Zara",
+    "type": "city",
+    "lat": 32.8133,
+    "lng": 13.2697,
+    "pop": null
+  },
+  {
+    "nameAr": "قمينس",
+    "nameEn": "Qaminis",
+    "type": "city",
+    "lat": 31.657222222222,
+    "lng": 20.014444444444,
+    "pop": null
+  },
+  {
+    "nameAr": "ميناء السدرة النفطي",
+    "nameEn": "Sidra",
+    "type": "city",
+    "lat": 30.629444444444,
+    "lng": 18.350277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "هون",
+    "nameEn": "Hun",
+    "type": "city",
+    "lat": 29.121111111111,
+    "lng": 15.940277777778,
+    "pop": null
+  },
+  {
+    "nameAr": "وادي الربيع",
+    "nameEn": "",
+    "type": "city",
+    "lat": 32.739396,
+    "lng": 13.355831,
+    "pop": null
+  },
+  {
+    "nameAr": "Basilica, Cyrene",
+    "nameEn": "Basilica, Cyrene",
+    "type": "city",
+    "lat": 32.81805,
+    "lng": 21.858491666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Byzantine Tower, Cyrene",
+    "nameEn": "Byzantine Tower, Cyrene",
+    "type": "city",
+    "lat": 32.818226666667,
+    "lng": 21.857293333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Commando Del Presidio, Ptolemais",
+    "nameEn": "Commando Del Presidio, Ptolemais",
+    "type": "city",
+    "lat": 32.70359,
+    "lng": 20.93868,
+    "pop": null
+  },
+  {
+    "nameAr": "Corpo Di Guardia della Sussistenza, Ptolemais",
+    "nameEn": "Corpo Di Guardia della Sussistenza, Ptolemais",
+    "type": "city",
+    "lat": 32.70359,
+    "lng": 20.93868,
+    "pop": null
+  },
+  {
+    "nameAr": "Curia, Sabratha",
+    "nameEn": "Curia, Sabratha",
+    "type": "city",
+    "lat": 32.807133333333,
+    "lng": 12.48078,
+    "pop": null
+  },
+  {
+    "nameAr": "Forte della Vite",
+    "nameEn": "Forte della Vite",
+    "type": "city",
+    "lat": 32.899361666667,
+    "lng": 13.171803333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Fortress of the Dux, Ptolemais",
+    "nameEn": "Fortress of the Dux, Ptolemais",
+    "type": "city",
+    "lat": 32.711113333333,
+    "lng": 20.95409,
+    "pop": null
+  },
+  {
+    "nameAr": "Necropolis SE of Church III, Sabratha",
+    "nameEn": "Necropolis SE of Church III, Sabratha",
+    "type": "city",
+    "lat": 32.805926666667,
+    "lng": 12.485483333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Old Tukrah village",
+    "nameEn": "Old Tukrah village",
+    "type": "city",
+    "lat": 32.53661,
+    "lng": 20.571368333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Quarry 2, Ptolemais",
+    "nameEn": "Quarry 2, Ptolemais",
+    "type": "city",
+    "lat": 32.699815,
+    "lng": 20.932248333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Quarry 4, Ptolemais",
+    "nameEn": "Quarry 4, Ptolemais",
+    "type": "city",
+    "lat": 32.696081666667,
+    "lng": 20.925771666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Royal Tomb, Ptolemais",
+    "nameEn": "Royal Tomb, Ptolemais",
+    "type": "city",
+    "lat": 32.69853,
+    "lng": 20.930143333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Street of the Monuments, Ptolemais",
+    "nameEn": "Street of the Monuments, Ptolemais",
+    "type": "city",
+    "lat": 32.70895,
+    "lng": 20.949651666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Wath",
+    "nameEn": "Wath",
+    "type": "city",
+    "lat": 22.671388888889,
+    "lng": 17.699722222222,
+    "pop": null
+  }
+]

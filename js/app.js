@@ -4219,174 +4219,427 @@ function onCitySearchInput(query) {
 // ===== قاعدة بيانات محلية للمدن الكبرى (بحث فوري بدون API) =====
 const LOCAL_CITIES = [
     // السعودية
-    {ar:'مكة المكرمة',en:'Mecca',lat:21.4225,lng:39.8262,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'المدينة المنورة',en:'Medina',lat:24.5247,lng:39.5692,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'الرياض',en:'Riyadh',lat:24.7136,lng:46.6753,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'جدة',en:'Jeddah',lat:21.5433,lng:39.1728,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'الدمام',en:'Dammam',lat:26.4207,lng:50.0888,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'الطائف',en:'Taif',lat:21.2854,lng:40.4151,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'تبوك',en:'Tabuk',lat:28.3998,lng:36.5715,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'أبها',en:'Abha',lat:18.2164,lng:42.5053,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'القصيم',en:'Qassim',lat:26.3260,lng:43.9750,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'الأحساء',en:'Al-Ahsa',lat:25.3833,lng:49.5861,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'حائل',en:'Hail',lat:27.5114,lng:41.7208,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'نجران',en:'Najran',lat:17.4925,lng:44.1277,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'جازان',en:'Jazan',lat:16.8892,lng:42.5511,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'الباحة',en:'Al Baha',lat:20.0129,lng:41.4677,cc:'sa',country:'المملكة العربية السعودية'},
-    {ar:'الجوف',en:'Al Jouf',lat:29.9697,lng:38.9435,cc:'sa',country:'المملكة العربية السعودية'},
+    {ar:'مكة المكرمة',en:'Mecca',lat:21.4225,lng:39.8262,cc:'sa',country:'المملكة العربية السعودية',slug:'makkah',type:'city',priority:100,countryEn:'Saudi Arabia',aliasEn:['Makkah','Makkah al-Mukarramah','Mecca al-Mukarramah']},
+    {ar:'المدينة المنورة',en:'Medina',lat:24.5247,lng:39.5692,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:100,countryEn:'Saudi Arabia',aliasEn:['Madinah','Al Madinah','Al Madinah Al Munawwarah','Madina']},
+    {ar:'الرياض',en:'Riyadh',lat:24.7136,lng:46.6753,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:100,countryEn:'Saudi Arabia'},
+    {ar:'جدة',en:'Jeddah',lat:21.5433,lng:39.1728,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:80,countryEn:'Saudi Arabia',aliasEn:['Jiddah','Jedda']},
+    {ar:'الدمام',en:'Dammam',lat:26.4207,lng:50.0888,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:80,countryEn:'Saudi Arabia'},
+    {ar:'الطائف',en:'Taif',lat:21.2854,lng:40.4151,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:80,countryEn:'Saudi Arabia'},
+    {ar:'تبوك',en:'Tabuk',lat:28.3998,lng:36.5715,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
+    {ar:'أبها',en:'Abha',lat:18.2164,lng:42.5053,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
+    {ar:'القصيم',en:'Qassim',lat:26.3260,lng:43.9750,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Al Qassim','Buraidah','Buraydah']},
+    {ar:'الأحساء',en:'Al-Ahsa',lat:25.3833,lng:49.5861,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Al Ahsa','Hofuf','Al Hofuf']},
+    {ar:'حائل',en:'Hail',lat:27.5114,lng:41.7208,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Ha\'il','Hayil']},
+    {ar:'نجران',en:'Najran',lat:17.4925,lng:44.1277,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
+    {ar:'جازان',en:'Jazan',lat:16.8892,lng:42.5511,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
+    {ar:'الباحة',en:'Al Baha',lat:20.0129,lng:41.4677,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
+    {ar:'الجوف',en:'Al Jouf',lat:29.9697,lng:38.9435,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
     // الإمارات
-    {ar:'دبي',en:'Dubai',lat:25.2048,lng:55.2708,cc:'ae',country:'الإمارات العربية المتحدة'},
-    {ar:'أبوظبي',en:'Abu Dhabi',lat:24.4539,lng:54.3773,cc:'ae',country:'الإمارات العربية المتحدة'},
-    {ar:'الشارقة',en:'Sharjah',lat:25.3463,lng:55.4209,cc:'ae',country:'الإمارات العربية المتحدة'},
+    {ar:'دبي',en:'Dubai',lat:25.2048,lng:55.2708,cc:'ae',country:'الإمارات العربية المتحدة',type:'city',priority:80,countryEn:'United Arab Emirates'},
+    {ar:'أبوظبي',en:'Abu Dhabi',lat:24.4539,lng:54.3773,cc:'ae',country:'الإمارات العربية المتحدة',type:'city',priority:100,countryEn:'United Arab Emirates'},
+    {ar:'الشارقة',en:'Sharjah',lat:25.3463,lng:55.4209,cc:'ae',country:'الإمارات العربية المتحدة',type:'city',priority:80,countryEn:'United Arab Emirates',aliasEn:['Ash Shariqah']},
     // مصر
-    {ar:'القاهرة',en:'Cairo',lat:30.0444,lng:31.2357,cc:'eg',country:'مصر'},
-    {ar:'الإسكندرية',en:'Alexandria',lat:31.2001,lng:29.9187,cc:'eg',country:'مصر'},
-    {ar:'الجيزة',en:'Giza',lat:30.0131,lng:31.2089,cc:'eg',country:'مصر'},
-    {ar:'الإسماعيلية',en:'Ismailia',lat:30.5965,lng:32.2715,cc:'eg',country:'مصر'},
-    {ar:'أسوان',en:'Aswan',lat:24.0889,lng:32.8998,cc:'eg',country:'مصر'},
-    {ar:'الأقصر',en:'Luxor',lat:25.6872,lng:32.6396,cc:'eg',country:'مصر'},
+    {ar:'القاهرة',en:'Cairo',lat:30.0444,lng:31.2357,cc:'eg',country:'مصر',type:'city',priority:100,countryEn:'Egypt',aliasEn:['Al Qahirah','El Qahira']},
+    {ar:'الإسكندرية',en:'Alexandria',lat:31.2001,lng:29.9187,cc:'eg',country:'مصر',type:'city',priority:80,countryEn:'Egypt',aliasEn:['El Iskandariyah','Al Iskandariyah']},
+    {ar:'الجيزة',en:'Giza',lat:30.0131,lng:31.2089,cc:'eg',country:'مصر',type:'city',priority:60,countryEn:'Egypt'},
+    {ar:'الإسماعيلية',en:'Ismailia',lat:30.5965,lng:32.2715,cc:'eg',country:'مصر',type:'city',priority:60,countryEn:'Egypt'},
+    {ar:'أسوان',en:'Aswan',lat:24.0889,lng:32.8998,cc:'eg',country:'مصر',type:'city',priority:60,countryEn:'Egypt'},
+    {ar:'الأقصر',en:'Luxor',lat:25.6872,lng:32.6396,cc:'eg',country:'مصر',type:'city',priority:60,countryEn:'Egypt'},
     // الكويت
-    {ar:'الكويت',en:'Kuwait City',lat:29.3759,lng:47.9774,cc:'kw',country:'الكويت'},
+    {ar:'الكويت',en:'Kuwait City',lat:29.3759,lng:47.9774,cc:'kw',country:'الكويت',type:'city',priority:100,countryEn:'Kuwait'},
     // قطر
-    {ar:'الدوحة',en:'Doha',lat:25.2854,lng:51.5310,cc:'qa',country:'قطر'},
+    {ar:'الدوحة',en:'Doha',lat:25.2854,lng:51.5310,cc:'qa',country:'قطر',type:'city',priority:100,countryEn:'Qatar',aliasEn:['Ad Dawhah']},
     // البحرين
-    {ar:'المنامة',en:'Manama',lat:26.2154,lng:50.5832,cc:'bh',country:'البحرين'},
+    {ar:'المنامة',en:'Manama',lat:26.2154,lng:50.5832,cc:'bh',country:'البحرين',type:'city',priority:100,countryEn:'Bahrain',aliasEn:['Al Manamah']},
     // عُمان
-    {ar:'مسقط',en:'Muscat',lat:23.5880,lng:58.3829,cc:'om',country:'عُمان'},
+    {ar:'مسقط',en:'Muscat',lat:23.5880,lng:58.3829,cc:'om',country:'عُمان',type:'city',priority:100,countryEn:'Oman',aliasEn:['Masqat']},
     // اليمن
-    {ar:'صنعاء',en:'Sanaa',lat:15.3694,lng:44.1910,cc:'ye',country:'اليمن'},
-    {ar:'عدن',en:'Aden',lat:12.7794,lng:45.0367,cc:'ye',country:'اليمن'},
+    {ar:'صنعاء',en:'Sanaa',lat:15.3694,lng:44.1910,cc:'ye',country:'اليمن',type:'city',priority:100,countryEn:'Yemen',aliasEn:['San\'a','Sanaá']},
+    {ar:'عدن',en:'Aden',lat:12.7794,lng:45.0367,cc:'ye',country:'اليمن',type:'city',priority:60,countryEn:'Yemen'},
     // الأردن
-    {ar:'عمّان',en:'Amman',lat:31.9454,lng:35.9284,cc:'jo',country:'الأردن'},
+    {ar:'عمّان',en:'Amman',lat:31.9454,lng:35.9284,cc:'jo',country:'الأردن',type:'city',priority:100,countryEn:'Jordan',aliasEn:['Ammaan']},
     // سوريا
-    {ar:'دمشق',en:'Damascus',lat:33.5138,lng:36.2765,cc:'sy',country:'سوريا'},
-    {ar:'حلب',en:'Aleppo',lat:36.2021,lng:37.1343,cc:'sy',country:'سوريا'},
+    {ar:'دمشق',en:'Damascus',lat:33.5138,lng:36.2765,cc:'sy',country:'سوريا',type:'city',priority:100,countryEn:'Syria',aliasEn:['Dimashq','Esh Sham']},
+    {ar:'حلب',en:'Aleppo',lat:36.2021,lng:37.1343,cc:'sy',country:'سوريا',type:'city',priority:80,countryEn:'Syria',aliasEn:['Halab']},
     // العراق
-    {ar:'بغداد',en:'Baghdad',lat:33.3152,lng:44.3661,cc:'iq',country:'العراق'},
-    {ar:'البصرة',en:'Basra',lat:30.5085,lng:47.7804,cc:'iq',country:'العراق'},
-    {ar:'النجف',en:'Najaf',lat:31.9896,lng:44.3422,cc:'iq',country:'العراق'},
-    {ar:'كربلاء',en:'Karbala',lat:32.6160,lng:44.0285,cc:'iq',country:'العراق'},
+    {ar:'بغداد',en:'Baghdad',lat:33.3152,lng:44.3661,cc:'iq',country:'العراق',type:'city',priority:100,countryEn:'Iraq',aliasEn:['Bagdad']},
+    {ar:'البصرة',en:'Basra',lat:30.5085,lng:47.7804,cc:'iq',country:'العراق',type:'city',priority:80,countryEn:'Iraq',aliasEn:['Al Basrah']},
+    {ar:'النجف',en:'Najaf',lat:31.9896,lng:44.3422,cc:'iq',country:'العراق',type:'city',priority:80,countryEn:'Iraq',aliasEn:['An Najaf']},
+    {ar:'كربلاء',en:'Karbala',lat:32.6160,lng:44.0285,cc:'iq',country:'العراق',type:'city',priority:80,countryEn:'Iraq',aliasEn:['Kerbala']},
     // لبنان
-    {ar:'بيروت',en:'Beirut',lat:33.8938,lng:35.5018,cc:'lb',country:'لبنان'},
+    {ar:'بيروت',en:'Beirut',lat:33.8938,lng:35.5018,cc:'lb',country:'لبنان',type:'city',priority:100,countryEn:'Lebanon'},
     // المغرب
-    {ar:'الرباط',en:'Rabat',lat:34.0209,lng:-6.8416,cc:'ma',country:'المغرب'},
-    {ar:'الدار البيضاء',en:'Casablanca',lat:33.5731,lng:-7.5898,cc:'ma',country:'المغرب'},
-    {ar:'مراكش',en:'Marrakech',lat:31.6295,lng:-7.9811,cc:'ma',country:'المغرب'},
-    {ar:'فاس',en:'Fes',lat:34.0181,lng:-5.0078,cc:'ma',country:'المغرب'},
+    {ar:'الرباط',en:'Rabat',lat:34.0209,lng:-6.8416,cc:'ma',country:'المغرب',type:'city',priority:100,countryEn:'Morocco'},
+    {ar:'الدار البيضاء',en:'Casablanca',lat:33.5731,lng:-7.5898,cc:'ma',country:'المغرب',type:'city',priority:80,countryEn:'Morocco',aliasEn:['Dar el Beida']},
+    {ar:'مراكش',en:'Marrakech',lat:31.6295,lng:-7.9811,cc:'ma',country:'المغرب',type:'city',priority:80,countryEn:'Morocco',aliasEn:['Marrakesh']},
+    {ar:'فاس',en:'Fes',lat:34.0181,lng:-5.0078,cc:'ma',country:'المغرب',type:'city',priority:60,countryEn:'Morocco',aliasEn:['Fez']},
     // الجزائر
-    {ar:'الجزائر',en:'Algiers',lat:36.7372,lng:3.0865,cc:'dz',country:'الجزائر'},
+    {ar:'الجزائر',en:'Algiers',lat:36.7372,lng:3.0865,cc:'dz',country:'الجزائر',type:'city',priority:100,countryEn:'Algeria',aliasEn:['El Jaza\'ir','Al Jaza\'ir']},
     // تونس
-    {ar:'تونس',en:'Tunis',lat:36.8190,lng:10.1658,cc:'tn',country:'تونس'},
+    {ar:'تونس',en:'Tunis',lat:36.8190,lng:10.1658,cc:'tn',country:'تونس',type:'city',priority:100,countryEn:'Tunisia',aliasEn:['Tunes']},
     // ليبيا
-    {ar:'طرابلس',en:'Tripoli',lat:32.9022,lng:13.1801,cc:'ly',country:'ليبيا'},
+    {ar:'طرابلس',en:'Tripoli',lat:32.9022,lng:13.1801,cc:'ly',country:'ليبيا',type:'city',priority:100,countryEn:'Libya',aliasEn:['Tarabulus']},
     // السودان
-    {ar:'الخرطوم',en:'Khartoum',lat:15.5007,lng:32.5599,cc:'sd',country:'السودان'},
+    {ar:'الخرطوم',en:'Khartoum',lat:15.5007,lng:32.5599,cc:'sd',country:'السودان',type:'city',priority:100,countryEn:'Sudan',aliasEn:['Al Khartum']},
     // باكستان
-    {ar:'كراتشي',en:'Karachi',lat:24.8607,lng:67.0011,cc:'pk',country:'باكستان'},
-    {ar:'لاهور',en:'Lahore',lat:31.5204,lng:74.3587,cc:'pk',country:'باكستان'},
-    {ar:'إسلام آباد',en:'Islamabad',lat:33.6844,lng:73.0479,cc:'pk',country:'باكستان'},
+    {ar:'كراتشي',en:'Karachi',lat:24.8607,lng:67.0011,cc:'pk',country:'باكستان',type:'city',priority:80,countryEn:'Pakistan'},
+    {ar:'لاهور',en:'Lahore',lat:31.5204,lng:74.3587,cc:'pk',country:'باكستان',type:'city',priority:80,countryEn:'Pakistan'},
+    {ar:'إسلام آباد',en:'Islamabad',lat:33.6844,lng:73.0479,cc:'pk',country:'باكستان',type:'city',priority:100,countryEn:'Pakistan'},
     // تركيا
-    {ar:'إسطنبول',en:'Istanbul',lat:41.0082,lng:28.9784,cc:'tr',country:'تركيا'},
-    {ar:'أنقرة',en:'Ankara',lat:39.9334,lng:32.8597,cc:'tr',country:'تركيا'},
+    {ar:'إسطنبول',en:'Istanbul',lat:41.0082,lng:28.9784,cc:'tr',country:'تركيا',type:'city',priority:80,countryEn:'Turkey'},
+    {ar:'أنقرة',en:'Ankara',lat:39.9334,lng:32.8597,cc:'tr',country:'تركيا',type:'city',priority:100,countryEn:'Turkey'},
     // إيران
-    {ar:'طهران',en:'Tehran',lat:35.6892,lng:51.3890,cc:'ir',country:'إيران'},
+    {ar:'طهران',en:'Tehran',lat:35.6892,lng:51.3890,cc:'ir',country:'إيران',type:'city',priority:100,countryEn:'Iran',aliasEn:['Teheran']},
     // ماليزيا
-    {ar:'كوالالمبور',en:'Kuala Lumpur',lat:3.1390,lng:101.6869,cc:'my',country:'ماليزيا'},
+    {ar:'كوالالمبور',en:'Kuala Lumpur',lat:3.1390,lng:101.6869,cc:'my',country:'ماليزيا',type:'city',priority:100,countryEn:'Malaysia'},
     // إندونيسيا
-    {ar:'جاكرتا',en:'Jakarta',lat:-6.2088,lng:106.8456,cc:'id',country:'إندونيسيا'},
+    {ar:'جاكرتا',en:'Jakarta',lat:-6.2088,lng:106.8456,cc:'id',country:'إندونيسيا',type:'city',priority:100,countryEn:'Indonesia'},
     // فلسطين
-    {ar:'القدس',en:'Jerusalem',lat:31.7683,lng:35.2137,cc:'ps',country:'فلسطين'},
-    {ar:'غزة',en:'Gaza',lat:31.5017,lng:34.4668,cc:'ps',country:'فلسطين'},
+    {ar:'القدس',en:'Jerusalem',lat:31.7683,lng:35.2137,cc:'ps',country:'فلسطين',type:'city',priority:100,countryEn:'Palestine'},
+    {ar:'غزة',en:'Gaza',lat:31.5017,lng:34.4668,cc:'ps',country:'فلسطين',type:'city',priority:60,countryEn:'Palestine'},
     // المملكة المتحدة
-    {ar:'لندن',en:'London',lat:51.5074,lng:-0.1278,cc:'gb',country:'المملكة المتحدة'},
+    {ar:'لندن',en:'London',lat:51.5074,lng:-0.1278,cc:'gb',country:'المملكة المتحدة',type:'city',priority:100,countryEn:'United Kingdom'},
     // فرنسا
-    {ar:'باريس',en:'Paris',lat:48.8566,lng:2.3522,cc:'fr',country:'فرنسا'},
+    {ar:'باريس',en:'Paris',lat:48.8566,lng:2.3522,cc:'fr',country:'فرنسا',type:'city',priority:100,countryEn:'France'},
     // ألمانيا
-    {ar:'برلين',en:'Berlin',lat:52.5200,lng:13.4050,cc:'de',country:'ألمانيا'},
+    {ar:'برلين',en:'Berlin',lat:52.5200,lng:13.4050,cc:'de',country:'ألمانيا',type:'city',priority:100,countryEn:'Germany'},
     // الولايات المتحدة
-    {ar:'نيويورك',en:'New York',lat:40.7128,lng:-74.0060,cc:'us',country:'الولايات المتحدة'},
-    {ar:'لوس أنجلوس',en:'Los Angeles',lat:34.0522,lng:-118.2437,cc:'us',country:'الولايات المتحدة'},
-    {ar:'واشنطن',en:'Washington',lat:38.9072,lng:-77.0369,cc:'us',country:'الولايات المتحدة'},
-    {ar:'شيكاغو',en:'Chicago',lat:41.8781,lng:-87.6298,cc:'us',country:'الولايات المتحدة'},
-    {ar:'لاس فيغاس',en:'Las Vegas',lat:36.1699,lng:-115.1398,cc:'us',country:'الولايات المتحدة'},
-    {ar:'ميامي',en:'Miami',lat:25.7617,lng:-80.1918,cc:'us',country:'الولايات المتحدة'},
-    {ar:'هيوستن',en:'Houston',lat:29.7604,lng:-95.3698,cc:'us',country:'الولايات المتحدة'},
-    {ar:'دالاس',en:'Dallas',lat:32.7767,lng:-96.7970,cc:'us',country:'الولايات المتحدة'},
-    {ar:'سان فرانسيسكو',en:'San Francisco',lat:37.7749,lng:-122.4194,cc:'us',country:'الولايات المتحدة'},
-    {ar:'بوسطن',en:'Boston',lat:42.3601,lng:-71.0589,cc:'us',country:'الولايات المتحدة'},
-    {ar:'سياتل',en:'Seattle',lat:47.6062,lng:-122.3321,cc:'us',country:'الولايات المتحدة'},
-    {ar:'فيلادلفيا',en:'Philadelphia',lat:39.9526,lng:-75.1652,cc:'us',country:'الولايات المتحدة'},
-    {ar:'أتلانتا',en:'Atlanta',lat:33.7490,lng:-84.3880,cc:'us',country:'الولايات المتحدة'},
-    {ar:'دنفر',en:'Denver',lat:39.7392,lng:-104.9903,cc:'us',country:'الولايات المتحدة'},
-    {ar:'مينيابوليس',en:'Minneapolis',lat:44.9778,lng:-93.2650,cc:'us',country:'الولايات المتحدة'},
-    {ar:'بورتلاند',en:'Portland',lat:45.5152,lng:-122.6784,cc:'us',country:'الولايات المتحدة'},
+    {ar:'نيويورك',en:'New York',lat:40.7128,lng:-74.0060,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'لوس أنجلوس',en:'Los Angeles',lat:34.0522,lng:-118.2437,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'واشنطن',en:'Washington',lat:38.9072,lng:-77.0369,cc:'us',country:'الولايات المتحدة',type:'city',priority:100,countryEn:'United States'},
+    {ar:'شيكاغو',en:'Chicago',lat:41.8781,lng:-87.6298,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'لاس فيغاس',en:'Las Vegas',lat:36.1699,lng:-115.1398,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
+    {ar:'ميامي',en:'Miami',lat:25.7617,lng:-80.1918,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'هيوستن',en:'Houston',lat:29.7604,lng:-95.3698,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'دالاس',en:'Dallas',lat:32.7767,lng:-96.7970,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
+    {ar:'سان فرانسيسكو',en:'San Francisco',lat:37.7749,lng:-122.4194,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'بوسطن',en:'Boston',lat:42.3601,lng:-71.0589,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'سياتل',en:'Seattle',lat:47.6062,lng:-122.3321,cc:'us',country:'الولايات المتحدة',type:'city',priority:80,countryEn:'United States'},
+    {ar:'فيلادلفيا',en:'Philadelphia',lat:39.9526,lng:-75.1652,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
+    {ar:'أتلانتا',en:'Atlanta',lat:33.7490,lng:-84.3880,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
+    {ar:'دنفر',en:'Denver',lat:39.7392,lng:-104.9903,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
+    {ar:'مينيابوليس',en:'Minneapolis',lat:44.9778,lng:-93.2650,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
+    {ar:'بورتلاند',en:'Portland',lat:45.5152,lng:-122.6784,cc:'us',country:'الولايات المتحدة',type:'city',priority:60,countryEn:'United States'},
     // كندا
-    {ar:'مونتريال',en:'Montreal',lat:45.5017,lng:-73.5673,cc:'ca',country:'كندا'},
-    {ar:'فانكوفر',en:'Vancouver',lat:49.2827,lng:-123.1207,cc:'ca',country:'كندا'},
-    {ar:'أوتاوا',en:'Ottawa',lat:45.4215,lng:-75.6972,cc:'ca',country:'كندا'},
-    {ar:'كالغاري',en:'Calgary',lat:51.0447,lng:-114.0719,cc:'ca',country:'كندا'},
+    {ar:'مونتريال',en:'Montreal',lat:45.5017,lng:-73.5673,cc:'ca',country:'كندا',type:'city',priority:60,countryEn:'Canada'},
+    {ar:'فانكوفر',en:'Vancouver',lat:49.2827,lng:-123.1207,cc:'ca',country:'كندا',type:'city',priority:80,countryEn:'Canada'},
+    {ar:'أوتاوا',en:'Ottawa',lat:45.4215,lng:-75.6972,cc:'ca',country:'كندا',type:'city',priority:100,countryEn:'Canada'},
+    {ar:'كالغاري',en:'Calgary',lat:51.0447,lng:-114.0719,cc:'ca',country:'كندا',type:'city',priority:60,countryEn:'Canada'},
     // اليابان/كوريا/الصين (city-states & metropolises)
-    {ar:'طوكيو',en:'Tokyo',lat:35.6762,lng:139.6503,cc:'jp',country:'اليابان'},
-    {ar:'أوساكا',en:'Osaka',lat:34.6937,lng:135.5023,cc:'jp',country:'اليابان'},
-    {ar:'سيول',en:'Seoul',lat:37.5665,lng:126.9780,cc:'kr',country:'كوريا الجنوبية'},
-    {ar:'بكين',en:'Beijing',lat:39.9042,lng:116.4074,cc:'cn',country:'الصين'},
-    {ar:'شنغهاي',en:'Shanghai',lat:31.2304,lng:121.4737,cc:'cn',country:'الصين'},
-    {ar:'هونغ كونغ',en:'Hong Kong',lat:22.3193,lng:114.1694,cc:'hk',country:'هونغ كونغ'},
-    {ar:'سنغافورة',en:'Singapore',lat:1.3521,lng:103.8198,cc:'sg',country:'سنغافورة'},
-    {ar:'بانكوك',en:'Bangkok',lat:13.7563,lng:100.5018,cc:'th',country:'تايلاند'},
-    {ar:'مانيلا',en:'Manila',lat:14.5995,lng:120.9842,cc:'ph',country:'الفلبين'},
+    {ar:'طوكيو',en:'Tokyo',lat:35.6762,lng:139.6503,cc:'jp',country:'اليابان',type:'city',priority:100,countryEn:'Japan'},
+    {ar:'أوساكا',en:'Osaka',lat:34.6937,lng:135.5023,cc:'jp',country:'اليابان',type:'city',priority:80,countryEn:'Japan'},
+    {ar:'سيول',en:'Seoul',lat:37.5665,lng:126.9780,cc:'kr',country:'كوريا الجنوبية',type:'city',priority:100,countryEn:'South Korea'},
+    {ar:'بكين',en:'Beijing',lat:39.9042,lng:116.4074,cc:'cn',country:'الصين',type:'city',priority:100,countryEn:'China',aliasEn:['Peking']},
+    {ar:'شنغهاي',en:'Shanghai',lat:31.2304,lng:121.4737,cc:'cn',country:'الصين',type:'city',priority:80,countryEn:'China'},
+    {ar:'هونغ كونغ',en:'Hong Kong',lat:22.3193,lng:114.1694,cc:'hk',country:'هونغ كونغ',type:'city',priority:100,countryEn:'Hong Kong'},
+    {ar:'سنغافورة',en:'Singapore',lat:1.3521,lng:103.8198,cc:'sg',country:'سنغافورة',slug:'singapore-city',type:'city',priority:100,countryEn:'Singapore'},
+    {ar:'بانكوك',en:'Bangkok',lat:13.7563,lng:100.5018,cc:'th',country:'تايلاند',type:'city',priority:100,countryEn:'Thailand'},
+    {ar:'مانيلا',en:'Manila',lat:14.5995,lng:120.9842,cc:'ph',country:'الفلبين',type:'city',priority:100,countryEn:'Philippines'},
     // أوروبا الكبرى
-    {ar:'موسكو',en:'Moscow',lat:55.7558,lng:37.6173,cc:'ru',country:'روسيا'},
-    {ar:'روما',en:'Rome',lat:41.9028,lng:12.4964,cc:'it',country:'إيطاليا'},
-    {ar:'مدريد',en:'Madrid',lat:40.4168,lng:-3.7038,cc:'es',country:'إسبانيا'},
-    {ar:'فيينا',en:'Vienna',lat:48.2082,lng:16.3738,cc:'at',country:'النمسا'},
-    {ar:'أمستردام',en:'Amsterdam',lat:52.3676,lng:4.9041,cc:'nl',country:'هولندا'},
-    {ar:'هامبورغ',en:'Hamburg',lat:53.5511,lng:9.9937,cc:'de',country:'ألمانيا'},
-    {ar:'ميونخ',en:'Munich',lat:48.1351,lng:11.5820,cc:'de',country:'ألمانيا'},
+    {ar:'موسكو',en:'Moscow',lat:55.7558,lng:37.6173,cc:'ru',country:'روسيا',type:'city',priority:100,countryEn:'Russia'},
+    {ar:'روما',en:'Rome',lat:41.9028,lng:12.4964,cc:'it',country:'إيطاليا',type:'city',priority:100,countryEn:'Italy'},
+    {ar:'مدريد',en:'Madrid',lat:40.4168,lng:-3.7038,cc:'es',country:'إسبانيا',type:'city',priority:100,countryEn:'Spain'},
+    {ar:'فيينا',en:'Vienna',lat:48.2082,lng:16.3738,cc:'at',country:'النمسا',type:'city',priority:100,countryEn:'Austria'},
+    {ar:'أمستردام',en:'Amsterdam',lat:52.3676,lng:4.9041,cc:'nl',country:'هولندا',type:'city',priority:100,countryEn:'Netherlands'},
+    {ar:'هامبورغ',en:'Hamburg',lat:53.5511,lng:9.9937,cc:'de',country:'ألمانيا',type:'city',priority:80,countryEn:'Germany'},
+    {ar:'ميونخ',en:'Munich',lat:48.1351,lng:11.5820,cc:'de',country:'ألمانيا',type:'city',priority:80,countryEn:'Germany'},
     // أخرى
-    {ar:'مكسيكو سيتي',en:'Mexico City',lat:19.4326,lng:-99.1332,cc:'mx',country:'المكسيك'},
-    {ar:'بوينس آيرس',en:'Buenos Aires',lat:-34.6037,lng:-58.3816,cc:'ar',country:'الأرجنتين'},
-    {ar:'ساو باولو',en:'São Paulo',lat:-23.5505,lng:-46.6333,cc:'br',country:'البرازيل'},
-    {ar:'سيدني',en:'Sydney',lat:-33.8688,lng:151.2093,cc:'au',country:'أستراليا'},
-    {ar:'تورنتو',en:'Toronto',lat:43.6532,lng:-79.3832,cc:'ca',country:'كندا'},
+    {ar:'مكسيكو سيتي',en:'Mexico City',lat:19.4326,lng:-99.1332,cc:'mx',country:'المكسيك',type:'city',priority:100,countryEn:'Mexico'},
+    {ar:'بوينس آيرس',en:'Buenos Aires',lat:-34.6037,lng:-58.3816,cc:'ar',country:'الأرجنتين',type:'city',priority:100,countryEn:'Argentina'},
+    {ar:'ساو باولو',en:'São Paulo',lat:-23.5505,lng:-46.6333,cc:'br',country:'البرازيل',type:'city',priority:80,countryEn:'Brazil'},
+    {ar:'سيدني',en:'Sydney',lat:-33.8688,lng:151.2093,cc:'au',country:'أستراليا',type:'city',priority:80,countryEn:'Australia'},
+    {ar:'تورنتو',en:'Toronto',lat:43.6532,lng:-79.3832,cc:'ca',country:'كندا',type:'city',priority:80,countryEn:'Canada'},
     // R35 expansion — fill country gaps so nearest-city lookup never returns a far-away city
     // الهند
-    {ar:'مومباي',en:'Mumbai',lat:19.0760,lng:72.8777,cc:'in',country:'الهند'},
-    {ar:'دلهي',en:'Delhi',lat:28.6139,lng:77.2090,cc:'in',country:'الهند'},
-    {ar:'حيدر آباد',en:'Hyderabad',lat:17.3850,lng:78.4867,cc:'in',country:'الهند'},
-    {ar:'بنغالور',en:'Bengaluru',lat:12.9716,lng:77.5946,cc:'in',country:'الهند'},
-    {ar:'كولكاتا',en:'Kolkata',lat:22.5726,lng:88.3639,cc:'in',country:'الهند'},
-    {ar:'تشيناي',en:'Chennai',lat:13.0827,lng:80.2707,cc:'in',country:'الهند'},
+    {ar:'مومباي',en:'Mumbai',lat:19.0760,lng:72.8777,cc:'in',country:'الهند',type:'city',priority:80,countryEn:'India',aliasEn:['Bombay']},
+    {ar:'دلهي',en:'Delhi',lat:28.6139,lng:77.2090,cc:'in',country:'الهند',type:'city',priority:100,countryEn:'India'},
+    {ar:'حيدر آباد',en:'Hyderabad',lat:17.3850,lng:78.4867,cc:'in',country:'الهند',type:'city',priority:80,countryEn:'India'},
+    {ar:'بنغالور',en:'Bengaluru',lat:12.9716,lng:77.5946,cc:'in',country:'الهند',type:'city',priority:80,countryEn:'India',aliasEn:['Bangalore']},
+    {ar:'كولكاتا',en:'Kolkata',lat:22.5726,lng:88.3639,cc:'in',country:'الهند',type:'city',priority:80,countryEn:'India',aliasEn:['Calcutta']},
+    {ar:'تشيناي',en:'Chennai',lat:13.0827,lng:80.2707,cc:'in',country:'الهند',type:'city',priority:80,countryEn:'India',aliasEn:['Madras']},
     // نيجيريا
-    {ar:'لاغوس',en:'Lagos',lat:6.5244,lng:3.3792,cc:'ng',country:'نيجيريا'},
-    {ar:'كانو',en:'Kano',lat:12.0022,lng:8.5920,cc:'ng',country:'نيجيريا'},
-    {ar:'أبوجا',en:'Abuja',lat:9.0765,lng:7.3986,cc:'ng',country:'نيجيريا'},
-    {ar:'إيبادان',en:'Ibadan',lat:7.3776,lng:3.9470,cc:'ng',country:'نيجيريا'},
+    {ar:'لاغوس',en:'Lagos',lat:6.5244,lng:3.3792,cc:'ng',country:'نيجيريا',type:'city',priority:80,countryEn:'Nigeria'},
+    {ar:'كانو',en:'Kano',lat:12.0022,lng:8.5920,cc:'ng',country:'نيجيريا',type:'city',priority:80,countryEn:'Nigeria'},
+    {ar:'أبوجا',en:'Abuja',lat:9.0765,lng:7.3986,cc:'ng',country:'نيجيريا',type:'city',priority:100,countryEn:'Nigeria'},
+    {ar:'إيبادان',en:'Ibadan',lat:7.3776,lng:3.9470,cc:'ng',country:'نيجيريا',type:'city',priority:60,countryEn:'Nigeria'},
     // إندونيسيا
-    {ar:'سورابايا',en:'Surabaya',lat:-7.2575,lng:112.7521,cc:'id',country:'إندونيسيا'},
-    {ar:'باندونغ',en:'Bandung',lat:-6.9175,lng:107.6191,cc:'id',country:'إندونيسيا'},
-    {ar:'ميدان',en:'Medan',lat:3.5952,lng:98.6722,cc:'id',country:'إندونيسيا'},
-    {ar:'ماكاسار',en:'Makassar',lat:-5.1477,lng:119.4327,cc:'id',country:'إندونيسيا'},
+    {ar:'سورابايا',en:'Surabaya',lat:-7.2575,lng:112.7521,cc:'id',country:'إندونيسيا',type:'city',priority:80,countryEn:'Indonesia'},
+    {ar:'باندونغ',en:'Bandung',lat:-6.9175,lng:107.6191,cc:'id',country:'إندونيسيا',type:'city',priority:80,countryEn:'Indonesia'},
+    {ar:'ميدان',en:'Medan',lat:3.5952,lng:98.6722,cc:'id',country:'إندونيسيا',type:'city',priority:80,countryEn:'Indonesia'},
+    {ar:'ماكاسار',en:'Makassar',lat:-5.1477,lng:119.4327,cc:'id',country:'إندونيسيا',type:'city',priority:60,countryEn:'Indonesia'},
     // باكستان
-    {ar:'فيصل آباد',en:'Faisalabad',lat:31.4504,lng:73.1350,cc:'pk',country:'باكستان'},
-    {ar:'مولتان',en:'Multan',lat:30.1575,lng:71.5249,cc:'pk',country:'باكستان'},
+    {ar:'فيصل آباد',en:'Faisalabad',lat:31.4504,lng:73.1350,cc:'pk',country:'باكستان',type:'city',priority:80,countryEn:'Pakistan'},
+    {ar:'مولتان',en:'Multan',lat:30.1575,lng:71.5249,cc:'pk',country:'باكستان',type:'city',priority:80,countryEn:'Pakistan'},
     // تركيا
-    {ar:'إزمير',en:'Izmir',lat:38.4192,lng:27.1287,cc:'tr',country:'تركيا'},
-    {ar:'بورصة',en:'Bursa',lat:40.1828,lng:29.0665,cc:'tr',country:'تركيا'},
+    {ar:'إزمير',en:'Izmir',lat:38.4192,lng:27.1287,cc:'tr',country:'تركيا',type:'city',priority:80,countryEn:'Turkey'},
+    {ar:'بورصة',en:'Bursa',lat:40.1828,lng:29.0665,cc:'tr',country:'تركيا',type:'city',priority:80,countryEn:'Turkey'},
     // ألمانيا
-    {ar:'كولونيا',en:'Cologne',lat:50.9375,lng:6.9603,cc:'de',country:'ألمانيا'},
-    {ar:'فرانكفورت',en:'Frankfurt',lat:50.1109,lng:8.6821,cc:'de',country:'ألمانيا'},
+    {ar:'كولونيا',en:'Cologne',lat:50.9375,lng:6.9603,cc:'de',country:'ألمانيا',type:'city',priority:80,countryEn:'Germany'},
+    {ar:'فرانكفورت',en:'Frankfurt',lat:50.1109,lng:8.6821,cc:'de',country:'ألمانيا',type:'city',priority:80,countryEn:'Germany'},
     // المملكة المتحدة
-    {ar:'برمنغهام',en:'Birmingham',lat:52.4862,lng:-1.8904,cc:'gb',country:'المملكة المتحدة'},
-    {ar:'مانشستر',en:'Manchester',lat:53.4808,lng:-2.2426,cc:'gb',country:'المملكة المتحدة'},
+    {ar:'برمنغهام',en:'Birmingham',lat:52.4862,lng:-1.8904,cc:'gb',country:'المملكة المتحدة',type:'city',priority:80,countryEn:'United Kingdom'},
+    {ar:'مانشستر',en:'Manchester',lat:53.4808,lng:-2.2426,cc:'gb',country:'المملكة المتحدة',type:'city',priority:80,countryEn:'United Kingdom'},
     // فرنسا
-    {ar:'مرسيليا',en:'Marseille',lat:43.2965,lng:5.3698,cc:'fr',country:'فرنسا'},
-    {ar:'ليون',en:'Lyon',lat:45.7640,lng:4.8357,cc:'fr',country:'فرنسا'},
+    {ar:'مرسيليا',en:'Marseille',lat:43.2965,lng:5.3698,cc:'fr',country:'فرنسا',type:'city',priority:80,countryEn:'France'},
+    {ar:'ليون',en:'Lyon',lat:45.7640,lng:4.8357,cc:'fr',country:'فرنسا',type:'city',priority:80,countryEn:'France'},
     // روسيا
-    {ar:'سانت بطرسبرغ',en:'Saint Petersburg',lat:59.9311,lng:30.3609,cc:'ru',country:'روسيا'},
-    {ar:'كازان',en:'Kazan',lat:55.8304,lng:49.0661,cc:'ru',country:'روسيا'},
+    {ar:'سانت بطرسبرغ',en:'Saint Petersburg',lat:59.9311,lng:30.3609,cc:'ru',country:'روسيا',type:'city',priority:80,countryEn:'Russia'},
+    {ar:'كازان',en:'Kazan',lat:55.8304,lng:49.0661,cc:'ru',country:'روسيا',type:'city',priority:80,countryEn:'Russia'},
     // الصين
-    {ar:'قوانغتشو',en:'Guangzhou',lat:23.1291,lng:113.2644,cc:'cn',country:'الصين'},
+    {ar:'قوانغتشو',en:'Guangzhou',lat:23.1291,lng:113.2644,cc:'cn',country:'الصين',type:'city',priority:80,countryEn:'China'},
+];
+
+// ═══ المحافظات/المناطق الإداريّة (Phase D — دفعة أولى) ═══════════════════════
+// منفصلة عن LOCAL_CITIES، لكن تُدمج معها داخل searchSmartCities وقت البحث.
+// type='governorate' للدول العربيّة (السعودية، مصر، العراق، الأردن، الكويت…)
+// type='province' للدول التي تستخدم Province دوليّاً
+// priority: 85 رئيسيّة، 70 متوسّطة، 55 صغيرة
+const LOCAL_PROVINCES = [
+    // ─── السعودية: محافظات منطقة الرياض + غيرها ───
+    {ar:'المذنب',en:'Al Mithnab',lat:25.8602,lng:44.2226,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55,aliasEn:['Al Midhnab','Al Madhannab']},
+    {ar:'القويعية',en:'Al Quwayiyah',lat:24.0651,lng:45.2844,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55,aliasEn:['Al Quway\'iyah','Quwayiyah']},
+    {ar:'الخرج',en:'Al Kharj',lat:24.1554,lng:47.3120,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:70,aliasEn:['Kharj']},
+    {ar:'المزاحمية',en:'Al Muzahimiyah',lat:24.4869,lng:46.2756,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55},
+    {ar:'وادي الدواسر',en:'Wadi ad-Dawasir',lat:20.4946,lng:44.8014,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55},
+    {ar:'الدوادمي',en:'Ad Dawadmi',lat:24.5083,lng:44.3919,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55,aliasEn:['Dawadmi']},
+    {ar:'الزلفي',en:'Az Zulfi',lat:26.2978,lng:44.8147,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55,aliasEn:['Zulfi']},
+    {ar:'شقراء',en:'Shaqra',lat:25.2400,lng:45.2580,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55,aliasEn:['Shaqraa']},
+    {ar:'ثادق',en:'Thadiq',lat:25.2929,lng:45.8595,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55},
+    {ar:'حريملاء',en:'Huraymila',lat:25.1314,lng:46.0929,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55},
+    {ar:'ينبع',en:'Yanbu',lat:24.0890,lng:38.0617,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:70,aliasEn:["Yanbu' al Bahr"]},
+    {ar:'القنفذة',en:'Al Qunfudhah',lat:19.1285,lng:41.0789,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'governorate',priority:55,aliasEn:['Qunfudhah']},
+    // مناطق إداريّة كبرى
+    {ar:'منطقة الرياض',en:'Riyadh Region',lat:24.7136,lng:46.6753,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'province',priority:85},
+    {ar:'منطقة مكة المكرمة',en:'Makkah Region',lat:21.4225,lng:39.8262,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'province',priority:85,aliasAr:['منطقة مكة'],aliasEn:['Mecca Region']},
+    {ar:'منطقة المدينة المنورة',en:'Madinah Region',lat:24.5247,lng:39.5692,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'province',priority:85,aliasEn:['Medina Region']},
+    {ar:'المنطقة الشرقية',en:'Eastern Province',lat:26.4207,lng:50.0888,cc:'sa',country:'المملكة العربية السعودية',countryEn:'Saudi Arabia',type:'province',priority:85,aliasEn:['Sharqiyah','Ash Sharqiyah']},
+
+    // ─── مصر: محافظات ───
+    {ar:'محافظة الجيزة',en:'Giza Governorate',lat:30.0131,lng:31.2089,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:85,aliasAr:['الجيزة'],aliasEn:['Giza']},
+    {ar:'القليوبية',en:'Qalyubia',lat:30.4215,lng:31.2107,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Qalyub','Qalyoubia']},
+    {ar:'الشرقية',en:'Sharqia',lat:30.7327,lng:31.7195,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Ash Sharqia','El Sharqia']},
+    {ar:'الغربية',en:'Gharbia',lat:30.8754,lng:31.0335,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Al Gharbia']},
+    {ar:'الدقهلية',en:'Dakahlia',lat:31.0379,lng:31.3815,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Daqahlia']},
+    {ar:'كفر الشيخ',en:'Kafr el-Sheikh',lat:31.1107,lng:30.9388,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Kafr ash Shaykh']},
+    {ar:'البحيرة',en:'Beheira',lat:30.8481,lng:30.3436,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Buhayrah']},
+    {ar:'المنوفية',en:'Monufia',lat:30.5972,lng:30.9876,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Menoufia']},
+    {ar:'الفيوم',en:'Faiyum',lat:29.3084,lng:30.8428,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Fayoum','Fayum']},
+    {ar:'بني سويف',en:'Beni Suef',lat:29.0744,lng:31.0978,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70},
+    {ar:'المنيا',en:'Minya',lat:28.0871,lng:30.7618,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Al Minya']},
+    {ar:'أسيوط',en:'Asyut',lat:27.1809,lng:31.1837,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70,aliasEn:['Assiut']},
+    {ar:'سوهاج',en:'Sohag',lat:26.5569,lng:31.6948,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70},
+    {ar:'قنا',en:'Qena',lat:26.1551,lng:32.7160,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70},
+    {ar:'البحر الأحمر',en:'Red Sea',lat:26.0667,lng:33.9333,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70},
+    {ar:'شمال سيناء',en:'North Sinai',lat:31.1313,lng:33.8030,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70},
+    {ar:'جنوب سيناء',en:'South Sinai',lat:28.5400,lng:33.7340,cc:'eg',country:'مصر',countryEn:'Egypt',type:'governorate',priority:70},
+
+    // ─── الكويت: محافظات ───
+    {ar:'الأحمدي',en:'Al Ahmadi',lat:29.0769,lng:48.0838,cc:'kw',country:'الكويت',countryEn:'Kuwait',type:'governorate',priority:70,aliasEn:['Ahmadi']},
+    {ar:'حولي',en:'Hawalli',lat:29.3328,lng:48.0288,cc:'kw',country:'الكويت',countryEn:'Kuwait',type:'governorate',priority:70},
+    {ar:'الفروانية',en:'Al Farwaniyah',lat:29.2775,lng:47.9586,cc:'kw',country:'الكويت',countryEn:'Kuwait',type:'governorate',priority:70,aliasEn:['Farwaniyah']},
+    {ar:'مبارك الكبير',en:'Mubarak Al-Kabeer',lat:29.2092,lng:48.0930,cc:'kw',country:'الكويت',countryEn:'Kuwait',type:'governorate',priority:70},
+    {ar:'الجهراء',en:'Al Jahra',lat:29.3375,lng:47.6581,cc:'kw',country:'الكويت',countryEn:'Kuwait',type:'governorate',priority:70,aliasEn:['Jahra']},
+
+    // ─── قطر: بلديات ───
+    {ar:'الريان',en:'Al Rayyan',lat:25.2919,lng:51.4244,cc:'qa',country:'قطر',countryEn:'Qatar',type:'municipality',priority:70,aliasEn:['Rayyan']},
+    {ar:'الوكرة',en:'Al Wakrah',lat:25.1715,lng:51.6033,cc:'qa',country:'قطر',countryEn:'Qatar',type:'municipality',priority:70,aliasEn:['Wakra']},
+    {ar:'الخور',en:'Al Khor',lat:25.6804,lng:51.4955,cc:'qa',country:'قطر',countryEn:'Qatar',type:'municipality',priority:55,aliasEn:['Khor']},
+    {ar:'الشمال',en:'Ash-Shamal',lat:26.1233,lng:51.2135,cc:'qa',country:'قطر',countryEn:'Qatar',type:'municipality',priority:55,aliasEn:['Madinat ash Shamal']},
+
+    // ─── البحرين: محافظات ───
+    {ar:'المحرق',en:'Muharraq',lat:26.2572,lng:50.6111,cc:'bh',country:'البحرين',countryEn:'Bahrain',type:'governorate',priority:70},
+    {ar:'الجنوبية',en:'Southern Governorate',lat:26.0489,lng:50.5550,cc:'bh',country:'البحرين',countryEn:'Bahrain',type:'governorate',priority:55,aliasAr:['المحافظة الجنوبية']},
+    {ar:'الشمالية',en:'Northern Governorate',lat:26.2078,lng:50.4781,cc:'bh',country:'البحرين',countryEn:'Bahrain',type:'governorate',priority:55,aliasAr:['المحافظة الشمالية']},
+    {ar:'العاصمة',en:'Capital Governorate',lat:26.2235,lng:50.5876,cc:'bh',country:'البحرين',countryEn:'Bahrain',type:'governorate',priority:55,aliasAr:['محافظة العاصمة']},
+
+    // ─── الإمارات: إمارات + مدن إداريّة ───
+    {ar:'عجمان',en:'Ajman',lat:25.4052,lng:55.5136,cc:'ae',country:'الإمارات العربية المتحدة',countryEn:'United Arab Emirates',type:'province',priority:70,aliasEn:['Ajman Emirate']},
+    {ar:'أم القيوين',en:'Umm Al Quwain',lat:25.5648,lng:55.5552,cc:'ae',country:'الإمارات العربية المتحدة',countryEn:'United Arab Emirates',type:'province',priority:55,aliasEn:['Umm al-Qaiwain']},
+    {ar:'رأس الخيمة',en:'Ras Al Khaimah',lat:25.7895,lng:55.9432,cc:'ae',country:'الإمارات العربية المتحدة',countryEn:'United Arab Emirates',type:'province',priority:70,aliasEn:["Ra's al-Khaimah",'RAK']},
+    {ar:'الفجيرة',en:'Fujairah',lat:25.1288,lng:56.3265,cc:'ae',country:'الإمارات العربية المتحدة',countryEn:'United Arab Emirates',type:'province',priority:70,aliasEn:['Fujayrah']},
+    {ar:'العين',en:'Al Ain',lat:24.2075,lng:55.7447,cc:'ae',country:'الإمارات العربية المتحدة',countryEn:'United Arab Emirates',type:'city',priority:80,aliasEn:['Al-Ain','Alain']},
+
+    // ─── الأردن: محافظات ───
+    {ar:'إربد',en:'Irbid',lat:32.5556,lng:35.8500,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:80,aliasEn:['Erbid']},
+    {ar:'الزرقاء',en:'Zarqa',lat:32.0728,lng:36.0876,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:80,aliasEn:['Az Zarqa']},
+    {ar:'عجلون',en:'Ajloun',lat:32.3326,lng:35.7517,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['Ajlun']},
+    {ar:'جرش',en:'Jerash',lat:32.2806,lng:35.8990,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['Jarash']},
+    {ar:'مادبا',en:'Madaba',lat:31.7195,lng:35.7948,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55},
+    {ar:'الكرك',en:'Karak',lat:31.1854,lng:35.7048,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['Al Karak']},
+    {ar:'الطفيلة',en:'Tafilah',lat:30.8378,lng:35.6044,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['At Tafilah']},
+    {ar:'معان',en:"Ma'an",lat:30.1962,lng:35.7339,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['Maan']},
+    {ar:'العقبة',en:'Aqaba',lat:29.5267,lng:35.0064,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:70,aliasEn:["Al 'Aqabah"]},
+    {ar:'البلقاء',en:'Balqa',lat:32.0387,lng:35.7286,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['Al Balqa']},
+    {ar:'المفرق',en:'Mafraq',lat:32.3415,lng:36.2079,cc:'jo',country:'الأردن',countryEn:'Jordan',type:'governorate',priority:55,aliasEn:['Al Mafraq']},
+
+    // ─── العراق: محافظات (Phase D Batch 2A) ───
+    {ar:'محافظة بغداد',en:'Baghdad Governorate',lat:33.3152,lng:44.3661,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:85,aliasAr:['بغداد']},
+    {ar:'محافظة البصرة',en:'Basra Governorate',lat:30.5085,lng:47.7804,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:80,aliasAr:['البصرة'],aliasEn:['Basrah','Al Basrah']},
+    {ar:'نينوى',en:'Nineveh',lat:36.3450,lng:43.1450,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:80,aliasEn:['Ninawa','Mosul']},
+    {ar:'صلاح الدين',en:'Saladin',lat:34.6000,lng:43.6800,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Salah ad Din','Tikrit']},
+    {ar:'الأنبار',en:'Anbar',lat:33.4258,lng:43.2992,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Al Anbar']},
+    {ar:'ديالى',en:'Diyala',lat:33.7700,lng:44.9800,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Diyala']},
+    {ar:'بابل',en:'Babil',lat:32.5000,lng:44.4000,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Babylon']},
+    {ar:'ذي قار',en:'Dhi Qar',lat:31.0500,lng:46.2500,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Nasiriyah']},
+    {ar:'ميسان',en:'Maysan',lat:31.8400,lng:47.1500,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Amarah']},
+    {ar:'المثنى',en:'Muthanna',lat:30.7000,lng:45.7000,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:55,aliasEn:['Al Muthanna','Samawah']},
+    {ar:'القادسية',en:'Qadisiyyah',lat:31.9900,lng:44.9000,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:55,aliasEn:['Al Qadisiyyah','Diwaniyah']},
+    {ar:'واسط',en:'Wasit',lat:32.5000,lng:45.8400,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:55,aliasEn:['Kut']},
+    {ar:'كركوك',en:'Kirkuk',lat:35.4681,lng:44.3922,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:80,aliasEn:['Karkuk']},
+    {ar:'أربيل',en:'Erbil',lat:36.1900,lng:44.0090,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:80,aliasEn:['Arbil','Hewler']},
+    {ar:'السليمانية',en:'Sulaymaniyah',lat:35.5650,lng:45.4316,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:80,aliasEn:['Slemani']},
+    {ar:'دهوك',en:'Duhok',lat:36.8669,lng:42.9883,cc:'iq',country:'العراق',countryEn:'Iraq',type:'governorate',priority:70,aliasEn:['Dahuk','Dohuk']},
+
+    // ─── سوريا: محافظات ───
+    {ar:'حمص',en:'Homs',lat:34.7324,lng:36.7137,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:80,aliasEn:['Hims']},
+    {ar:'حماة',en:'Hama',lat:35.1318,lng:36.7578,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:80,aliasEn:['Hamah']},
+    {ar:'اللاذقية',en:'Latakia',lat:35.5167,lng:35.7833,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:80,aliasEn:['Lattakia','Al Ladhiqiyah']},
+    {ar:'طرطوس',en:'Tartus',lat:34.8888,lng:35.8866,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Tartous']},
+    {ar:'إدلب',en:'Idlib',lat:35.9333,lng:36.6333,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Idleb']},
+    {ar:'درعا',en:'Daraa',lat:32.6189,lng:36.1021,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Dara','Deraa']},
+    {ar:'القنيطرة',en:'Quneitra',lat:33.1257,lng:35.8244,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:55,aliasEn:['Qunaytirah']},
+    {ar:'السويداء',en:'As-Suwayda',lat:32.7081,lng:36.5712,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:55,aliasEn:['Sweida','Suwayda']},
+    {ar:'دير الزور',en:'Deir ez-Zor',lat:35.3358,lng:40.1411,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Deir Ezzor','Dayr az-Zawr']},
+    {ar:'الرقة',en:'Raqqa',lat:35.9528,lng:39.0079,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Ar Raqqah']},
+    {ar:'الحسكة',en:'Al-Hasakah',lat:36.5023,lng:40.7480,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Hasaka','Hasakah']},
+    {ar:'ريف دمشق',en:'Rif Dimashq',lat:33.5167,lng:36.3000,cc:'sy',country:'سوريا',countryEn:'Syria',type:'governorate',priority:70,aliasEn:['Damascus Countryside']},
+
+    // ─── لبنان: محافظات ───
+    {ar:'جبل لبنان',en:'Mount Lebanon',lat:33.8333,lng:35.6667,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:80,aliasEn:['Jabal Lubnan']},
+    {ar:'شمال لبنان',en:'North Lebanon',lat:34.4346,lng:35.8362,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:80,aliasEn:['Ash Shamal','Tripoli']},
+    {ar:'جنوب لبنان',en:'South Lebanon',lat:33.2700,lng:35.2030,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:70,aliasEn:['Al Janub','Sidon']},
+    {ar:'البقاع',en:'Beqaa',lat:33.8667,lng:36.0000,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:70,aliasEn:['Bekaa','Al Biqa','Zahle']},
+    {ar:'النبطية',en:'Nabatieh',lat:33.3789,lng:35.4839,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:70,aliasEn:['An Nabatiyah']},
+    {ar:'بعلبك-الهرمل',en:'Baalbek-Hermel',lat:34.0064,lng:36.2126,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:55,aliasEn:['Baalbek','Hermel']},
+    {ar:'عكار',en:'Akkar',lat:34.5400,lng:36.1100,cc:'lb',country:'لبنان',countryEn:'Lebanon',type:'governorate',priority:55,aliasEn:['Akkar District']},
+
+    // ─── فلسطين: محافظات ───
+    {ar:'رام الله والبيرة',en:'Ramallah',lat:31.9038,lng:35.2034,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:85,aliasAr:['رام الله'],aliasEn:['Ram Allah','Ramallah and al-Bireh']},
+    {ar:'الخليل',en:'Hebron',lat:31.5326,lng:35.0998,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:80,aliasEn:['Al Khalil','Al-Khalil']},
+    {ar:'بيت لحم',en:'Bethlehem',lat:31.7054,lng:35.2024,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:80,aliasEn:['Bayt Lahm']},
+    {ar:'نابلس',en:'Nablus',lat:32.2211,lng:35.2544,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:80,aliasEn:['Nabulus']},
+    {ar:'جنين',en:'Jenin',lat:32.4639,lng:35.3027,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:70,aliasEn:['Janin']},
+    {ar:'طولكرم',en:'Tulkarm',lat:32.3104,lng:35.0286,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:70,aliasEn:['Tul Karim']},
+    {ar:'قلقيلية',en:'Qalqilya',lat:32.1896,lng:34.9706,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:55,aliasEn:['Qalqilyah']},
+    {ar:'أريحا',en:'Jericho',lat:31.8569,lng:35.4607,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:70,aliasEn:['Ariha']},
+    {ar:'سلفيت',en:'Salfit',lat:32.0852,lng:35.1817,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:55},
+    {ar:'طوباس',en:'Tubas',lat:32.3217,lng:35.3692,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:55},
+    {ar:'شمال غزة',en:'North Gaza',lat:31.5500,lng:34.4833,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:70,aliasEn:['Northern Gaza']},
+    {ar:'خان يونس',en:'Khan Yunis',lat:31.3408,lng:34.3061,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:70,aliasEn:['Khan Younis']},
+    {ar:'دير البلح',en:'Deir al-Balah',lat:31.4181,lng:34.3517,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:55,aliasEn:['Deir el-Balah']},
+    {ar:'رفح',en:'Rafah',lat:31.2966,lng:34.2419,cc:'ps',country:'فلسطين',countryEn:'Palestine',type:'governorate',priority:70,aliasEn:['Rafah']},
+
+    // ─── اليمن: محافظات ───
+    {ar:'تعز',en:'Taiz',lat:13.5784,lng:44.0181,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:80,aliasEn:["Ta'izz"]},
+    {ar:'الحديدة',en:'Hodeidah',lat:14.7978,lng:42.9536,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:80,aliasEn:['Hudaydah','Al Hudaydah']},
+    {ar:'إب',en:'Ibb',lat:13.9667,lng:44.1833,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:70},
+    {ar:'ذمار',en:'Dhamar',lat:14.5500,lng:44.4167,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:70},
+    {ar:'حضرموت',en:'Hadhramaut',lat:15.5928,lng:48.5164,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:80,aliasEn:['Hadramawt','Mukalla']},
+    {ar:'المكلا',en:'Mukalla',lat:14.5425,lng:49.1242,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'city',priority:70,aliasEn:['Al Mukalla']},
+    {ar:'شبوة',en:'Shabwah',lat:14.5300,lng:46.8200,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:70,aliasEn:['Shabwa']},
+    {ar:'مأرب',en:'Marib',lat:15.4708,lng:45.3247,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:70,aliasEn:["Ma'rib"]},
+    {ar:'صعدة',en:'Saada',lat:16.9402,lng:43.7634,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:70,aliasEn:['Sadah','Saadah']},
+    {ar:'عمران',en:'Amran',lat:15.6594,lng:43.9436,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:70,aliasEn:['Amran']},
+    {ar:'لحج',en:'Lahij',lat:13.0586,lng:44.8814,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:55,aliasEn:['Lahj']},
+    {ar:'أبين',en:'Abyan',lat:13.5847,lng:46.0950,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:55},
+    {ar:'البيضاء',en:'Al Bayda',lat:14.0167,lng:45.5667,cc:'ye',country:'اليمن',countryEn:'Yemen',type:'governorate',priority:55,aliasEn:['Bayda']},
+
+    // ─── عُمان: محافظات + صلالة ───
+    {ar:'صلالة',en:'Salalah',lat:17.0151,lng:54.0924,cc:'om',country:'عُمان',countryEn:'Oman',type:'city',priority:80,aliasEn:['Salaalah']},
+    {ar:'ظفار',en:'Dhofar',lat:17.0151,lng:54.0924,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:80,aliasEn:['Dhofar Governorate','Zufar']},
+    {ar:'شمال الباطنة',en:'North Batinah',lat:24.3429,lng:56.7290,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:70,aliasEn:['Al Batinah North','Sohar']},
+    {ar:'جنوب الباطنة',en:'South Batinah',lat:23.6857,lng:57.4660,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:70,aliasEn:['Al Batinah South','Rustaq']},
+    {ar:'الداخلية',en:'Ad-Dakhiliyah',lat:22.9333,lng:57.5333,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:70,aliasEn:['Nizwa']},
+    {ar:'شمال الشرقية',en:'North Sharqiyah',lat:22.5667,lng:58.5333,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:55,aliasEn:['Ash Sharqiyah North','Ibra']},
+    {ar:'جنوب الشرقية',en:'South Sharqiyah',lat:22.0000,lng:59.3000,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:55,aliasEn:['Ash Sharqiyah South','Sur']},
+    {ar:'الظاهرة',en:'Az-Zahirah',lat:23.5800,lng:56.5200,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:55,aliasEn:['Adh Dhahirah','Ibri']},
+    {ar:'البريمي',en:'Al Buraimi',lat:24.2500,lng:55.7833,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:55,aliasEn:['Buraimi']},
+    {ar:'مسندم',en:'Musandam',lat:26.1986,lng:56.2469,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:55,aliasEn:['Musandam Peninsula','Khasab']},
+    {ar:'الوسطى',en:'Al Wusta',lat:19.9333,lng:56.3167,cc:'om',country:'عُمان',countryEn:'Oman',type:'governorate',priority:55,aliasEn:['Wusta']},
+
+    // ─── المغرب: جهات (Phase D Batch 2B) ───
+    {ar:'الدار البيضاء-سطات',en:'Casablanca-Settat',lat:33.5731,lng:-7.5898,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:85,aliasAr:['جهة الدار البيضاء'],aliasEn:['Casablanca','Settat']},
+    {ar:'الرباط-سلا-القنيطرة',en:'Rabat-Sale-Kenitra',lat:34.0209,lng:-6.8416,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:85,aliasAr:['جهة الرباط'],aliasEn:['Rabat','Sale','Kenitra']},
+    {ar:'مراكش-آسفي',en:'Marrakesh-Safi',lat:31.6295,lng:-7.9811,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:80,aliasEn:['Marrakech-Safi','Marrakesh','Safi']},
+    {ar:'فاس-مكناس',en:'Fes-Meknes',lat:34.0181,lng:-5.0078,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:80,aliasEn:['Fes','Meknes','Fez']},
+    {ar:'طنجة-تطوان-الحسيمة',en:'Tangier-Tetouan-Al Hoceima',lat:35.7595,lng:-5.8340,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:80,aliasEn:['Tangier','Tetouan','Tanger']},
+    {ar:'سوس-ماسة',en:'Souss-Massa',lat:30.4278,lng:-9.5981,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:70,aliasEn:['Agadir','Souss']},
+    {ar:'بني ملال-خنيفرة',en:'Beni Mellal-Khenifra',lat:32.3373,lng:-6.3498,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:55,aliasEn:['Beni Mellal']},
+    {ar:'الشرق',en:'Oriental',lat:34.6814,lng:-1.9086,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:70,aliasEn:['Oujda']},
+    {ar:'درعة-تافيلالت',en:'Draa-Tafilalet',lat:31.4356,lng:-4.4276,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:55,aliasEn:['Errachidia','Ouarzazate']},
+    {ar:'الداخلة-وادي الذهب',en:'Dakhla-Oued Ed-Dahab',lat:23.6848,lng:-15.9579,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:55,aliasEn:['Dakhla']},
+    {ar:'العيون-الساقية الحمراء',en:'Laayoune-Sakia El Hamra',lat:27.1418,lng:-13.1872,cc:'ma',country:'المغرب',countryEn:'Morocco',type:'province',priority:55,aliasEn:['Laayoune','El Aaiun']},
+
+    // ─── الجزائر: ولايات (top 18) ───
+    {ar:'وهران',en:'Oran',lat:35.6911,lng:-0.6417,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:85,aliasEn:['Wahran']},
+    {ar:'قسنطينة',en:'Constantine',lat:36.3650,lng:6.6147,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:85,aliasEn:['Qsentina','Qsantina']},
+    {ar:'عنابة',en:'Annaba',lat:36.9000,lng:7.7667,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:80,aliasEn:['Bone','Annabah']},
+    {ar:'البليدة',en:'Blida',lat:36.4720,lng:2.8277,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70,aliasEn:['El Boulaida']},
+    {ar:'باتنة',en:'Batna',lat:35.5559,lng:6.1741,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70},
+    {ar:'سطيف',en:'Setif',lat:36.1898,lng:5.4108,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70,aliasEn:['Sétif']},
+    {ar:'تلمسان',en:'Tlemcen',lat:34.8881,lng:-1.3156,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70,aliasEn:['Tilimsan']},
+    {ar:'تيزي وزو',en:'Tizi Ouzou',lat:36.7117,lng:4.0436,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70},
+    {ar:'بجاية',en:'Bejaia',lat:36.7525,lng:5.0667,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70,aliasEn:['Bgayet','Bougie']},
+    {ar:'بسكرة',en:'Biskra',lat:34.8500,lng:5.7333,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:70},
+    {ar:'تمنراست',en:'Tamanrasset',lat:22.7850,lng:5.5228,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Tamanghasset']},
+    {ar:'ورقلة',en:'Ouargla',lat:31.9492,lng:5.3236,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Wargla']},
+    {ar:'غرداية',en:'Ghardaia',lat:32.4906,lng:3.6739,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Ghardaïa']},
+    {ar:'تيارت',en:'Tiaret',lat:35.3711,lng:1.3169,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Tihert']},
+    {ar:'مستغانم',en:'Mostaganem',lat:35.9311,lng:0.0894,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Mostaghanem']},
+    {ar:'جيجل',en:'Jijel',lat:36.8208,lng:5.7669,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Djidjel']},
+    {ar:'بشار',en:'Bechar',lat:31.6177,lng:-2.2161,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['Béchar']},
+    {ar:'الأغواط',en:'Laghouat',lat:33.8000,lng:2.8650,cc:'dz',country:'الجزائر',countryEn:'Algeria',type:'province',priority:55,aliasEn:['El Aghouat']},
+
+    // ─── تونس: ولايات ───
+    {ar:'صفاقس',en:'Sfax',lat:34.7406,lng:10.7603,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:85,aliasEn:['Safakis']},
+    {ar:'سوسة',en:'Sousse',lat:35.8254,lng:10.6360,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:80,aliasEn:['Susah']},
+    {ar:'بنزرت',en:'Bizerte',lat:37.2746,lng:9.8627,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:70,aliasEn:['Bizerta','Banzart']},
+    {ar:'القيروان',en:'Kairouan',lat:35.6781,lng:10.0963,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:80,aliasEn:['Al Qayrawan']},
+    {ar:'قابس',en:'Gabes',lat:33.8814,lng:10.0982,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:70,aliasEn:['Qabis','Gabès']},
+    {ar:'قفصة',en:'Gafsa',lat:34.4250,lng:8.7842,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:70,aliasEn:['Qafsah']},
+    {ar:'المنستير',en:'Monastir',lat:35.7780,lng:10.8262,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:70,aliasEn:['Al Munastir']},
+    {ar:'المهدية',en:'Mahdia',lat:35.5048,lng:11.0622,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Al Mahdiyah']},
+    {ar:'نابل',en:'Nabeul',lat:36.4561,lng:10.7376,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:70,aliasEn:['Nabul']},
+    {ar:'جندوبة',en:'Jendouba',lat:36.5011,lng:8.7800,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Jundubah']},
+    {ar:'باجة',en:'Beja',lat:36.7256,lng:9.1842,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Bajah','Béja']},
+    {ar:'مدنين',en:'Medenine',lat:33.3399,lng:10.4951,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Madanin','Médenine']},
+    {ar:'تطاوين',en:'Tataouine',lat:32.9300,lng:10.4500,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Tataween']},
+    {ar:'القصرين',en:'Kasserine',lat:35.1722,lng:8.8306,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Al Qasrayn']},
+    {ar:'سيدي بوزيد',en:'Sidi Bouzid',lat:35.0381,lng:9.4858,cc:'tn',country:'تونس',countryEn:'Tunisia',type:'governorate',priority:55,aliasEn:['Sidi Bu Zayd']},
+
+    // ─── ليبيا: شعبيات/مناطق ───
+    {ar:'طرابلس',en:'Tripoli District',lat:32.8872,lng:13.1913,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:85,aliasAr:['طرابلس ليبيا'],aliasEn:['Tarabulus','Tripoli']},
+    {ar:'بنغازي',en:'Benghazi',lat:32.1167,lng:20.0667,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:85,aliasEn:['Banghazi']},
+    {ar:'مصراتة',en:'Misrata',lat:32.3754,lng:15.0925,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:80,aliasEn:['Misratah']},
+    {ar:'سبها',en:'Sabha',lat:27.0377,lng:14.4283,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:70,aliasEn:['Sebha']},
+    {ar:'الزاوية',en:'Az Zawiyah',lat:32.7522,lng:12.7278,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:70,aliasEn:['Zawiya']},
+    {ar:'البيضاء',en:'Al Bayda Libya',lat:32.7625,lng:21.7551,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:55,aliasAr:['البيضاء (ليبيا)']},
+    {ar:'الكفرة',en:'Kufra',lat:24.1797,lng:23.3147,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:55,aliasEn:['Al Kufrah']},
+    {ar:'طبرق',en:'Tobruk',lat:32.0833,lng:23.9333,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:55,aliasEn:['Tubruq']},
+    {ar:'سرت',en:'Sirte',lat:31.2089,lng:16.5887,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:70,aliasEn:['Surt']},
+    {ar:'درنة',en:'Derna',lat:32.7641,lng:22.6372,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:55,aliasEn:['Darnah']},
+    {ar:'غات',en:'Ghat',lat:24.9667,lng:10.1833,cc:'ly',country:'ليبيا',countryEn:'Libya',type:'district',priority:55},
+
+    // ─── السودان: ولايات ───
+    {ar:'ولاية الخرطوم',en:'Khartoum State',lat:15.5007,lng:32.5599,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:85,aliasAr:['الخرطوم']},
+    {ar:'الجزيرة',en:'Al Jazirah',lat:14.4000,lng:33.5167,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:80,aliasEn:['Gezira','Al Jazira','Wad Madani']},
+    {ar:'القضارف',en:'Gedaref',lat:14.0353,lng:35.3837,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:70,aliasEn:['Al Qadarif']},
+    {ar:'كسلا',en:'Kassala',lat:15.4500,lng:36.4000,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:70,aliasEn:['Kassalah']},
+    {ar:'البحر الأحمر',en:'Red Sea Sudan',lat:19.0167,lng:37.2167,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:70,aliasAr:['البحر الأحمر (السودان)'],aliasEn:['Port Sudan']},
+    {ar:'النيل الأزرق',en:'Blue Nile',lat:11.5000,lng:34.5000,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['An Nil al Azraq','Damazin']},
+    {ar:'سنار',en:'Sennar',lat:13.5500,lng:33.5667,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['Sinnar']},
+    {ar:'النيل الأبيض',en:'White Nile',lat:13.1667,lng:32.6667,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['An Nil al Abyad','Rabak']},
+    {ar:'شمال كردفان',en:'North Kordofan',lat:13.1833,lng:30.2167,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:70,aliasEn:['Shamal Kurdufan','El Obeid']},
+    {ar:'جنوب كردفان',en:'South Kordofan',lat:11.0167,lng:29.7167,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['Janub Kurdufan','Kadugli']},
+    {ar:'غرب كردفان',en:'West Kordofan',lat:11.5000,lng:28.4000,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['Gharb Kurdufan']},
+    {ar:'شمال دارفور',en:'North Darfur',lat:14.1500,lng:24.3833,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:80,aliasEn:['Shamal Darfur','El Fasher']},
+    {ar:'جنوب دارفور',en:'South Darfur',lat:12.0500,lng:24.8833,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:70,aliasEn:['Janub Darfur','Nyala']},
+    {ar:'غرب دارفور',en:'West Darfur',lat:13.4500,lng:22.7000,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:70,aliasEn:['Gharb Darfur','Geneina']},
+    {ar:'شرق دارفور',en:'East Darfur',lat:11.7000,lng:26.1167,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['Sharq Darfur','Ad-Daein']},
+    {ar:'وسط دارفور',en:'Central Darfur',lat:12.9000,lng:23.4833,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['Wasat Darfur','Zalingei']},
+    {ar:'دارفور',en:'Darfur',lat:13.0000,lng:24.0000,cc:'sd',country:'السودان',countryEn:'Sudan',type:'province',priority:80,aliasEn:['Darfur Region']},
+    {ar:'نهر النيل',en:'River Nile',lat:18.0000,lng:33.6500,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasEn:['Nahr an Nil','Ad-Damar']},
+    {ar:'الشمالية',en:'Northern State Sudan',lat:18.5500,lng:31.8500,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasAr:['الشمالية (السودان)'],aliasEn:['Ash Shamaliyah','Dongola']},
 ];
 
 // ═══ المدن-المحافظات/العواصم الخاصّة (city-states & special metropolises) ═══
@@ -4423,23 +4676,169 @@ function _normArabic(s) {
         .replace(/ة/g, 'ه')                   // تاء مربوطة → هاء (يتجاوز اختلاف ة/ه)
         .replace(/[\u064B-\u065F\u0670]/g, ''); // إزالة التشكيل
 }
+// ====== Smart Search Engine (Phase 1: logic-first) ======
+// تطبيع موحّد للنصوص العربيّة واللاتينيّة قبل المقارنة
+function normalizeText(s) {
+    if (!s) return '';
+    return _normArabic(String(s))
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')                // علامات لاتينيّة (Tromsø → tromso)
+        .replace(/[^a-z0-9؀-ۿ\s-]/g, ' ')     // إبقاء العربي/اللاتيني/المسافات/الشرطة
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+// أنواع مسموحة (تظهر في النتائج)
+const SMART_ALLOWED_TYPES = new Set([
+    'city', 'town', 'village', 'municipality',
+    'province', 'governorate', 'state', 'county', 'district',
+    'administrative', 'borough', 'hamlet', 'locality', 'region'
+]);
+// أنواع ممنوعة (تُرفض دائمًا — Nominatim class/type/addresstype)
+const SMART_BLOCKED_TYPES = new Set([
+    'country', 'road', 'street', 'highway', 'suburb',
+    'neighbourhood', 'quarter', 'building', 'shop', 'amenity',
+    'tourism', 'landmark', 'address', 'postcode',
+    'office', 'leisure', 'historic', 'craft', 'man_made',
+    'waterway', 'natural', 'landuse', 'aeroway', 'railway',
+    'residential', 'hamlet_neighbourhood', 'isolated_dwelling',
+    'farm', 'plot'
+]);
+
+// مفتاح موحّد للـ deduplication: cc + slug(en)
+function _smartKey(item) {
+    const cc = (item.cc || '').toLowerCase();
+    const slug = (item.en || '')
+        .toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    if (cc && slug) return `${cc}-${slug}`;
+    if (slug) return slug;
+    const lat = isFinite(item.lat) ? Number(item.lat).toFixed(2) : '0';
+    const lng = isFinite(item.lng) ? Number(item.lng).toFixed(2) : '0';
+    return `loc-${lat}-${lng}`;
+}
+
+// تسمية النوع المترجمة حسب لغة الواجهة (مع fallback إنجليزي)
+function _smartTypeLabel(type) {
+    if (!type) return '';
+    if (typeof t === 'function') {
+        const key = `search.type.${type}`;
+        const v = t(key);
+        if (v && v !== key) return v;
+    }
+    const fallback = {
+        city: 'City', town: 'Town', village: 'Village',
+        province: 'Province', governorate: 'Governorate',
+        state: 'State', county: 'County', municipality: 'Municipality',
+        administrative: 'Region', region: 'Region', district: 'District',
+        borough: 'Borough', hamlet: 'Village', locality: 'Locality'
+    };
+    return fallback[type] || '';
+}
+
+// تطبيع نوع Nominatim → نوع موحّد من SMART_ALLOWED_TYPES
+function _smartTypeFromNominatim(p) {
+    const addr = p.addresstype || '';
+    const plain = p.type || '';
+    const cls = p.class || '';
+    // أوّلاً — كشف "محافظة" بالعربيّة في الاسم (له أولويّة على addrtype=province
+    // لأنّ Nominatim يضع كلّ الإداريّات الفرعيّة كـ province، لكنّ التسمية المحليّة "محافظة")
+    const _nmFull = `${p.name || ''} ${p.display_name || ''}`.toLowerCase();
+    if (addr === 'city'         || plain === 'city')         return 'city';
+    if (addr === 'town'         || plain === 'town')         return 'town';
+    if (addr === 'village'      || plain === 'village')      return 'village';
+    if (addr === 'municipality' || plain === 'municipality') return 'municipality';
+    if (addr === 'borough'      || plain === 'borough')      return 'borough';
+    if (addr === 'hamlet'       || plain === 'hamlet')       return 'hamlet';
+    if (addr === 'locality'     || plain === 'locality')     return 'locality';
+    if (addr === 'county'       || plain === 'county')       return 'county';
+    if (addr === 'state'        || plain === 'state')        return 'state';
+    if (addr === 'governorate'  || plain === 'governorate')  return 'governorate';
+    if (addr === 'district'     || plain === 'district')     return 'district';
+    if (addr === 'region'       || plain === 'region')       return 'region';
+    if (addr === 'province'     || plain === 'province') {
+        // إن وُسم في الاسم بـ"محافظة" أو "Governorate" → governorate أدقّ
+        if (/محافظ|governorate/i.test(_nmFull)) return 'governorate';
+        return 'province';
+    }
+    if (addr === 'administrative' || cls === 'boundary') {
+        if (/governorate|محافظ/i.test(_nmFull)) return 'governorate';
+        if (/province|provincia|provinz/i.test(_nmFull)) return 'province';
+        return 'administrative';
+    }
+    return '';
+}
+
+// مسافة هافرسين بالكيلومترات (للـ dedup الجغرافيّ)
+function _smartDistKm(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) ** 2 +
+              Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+              Math.sin(dLng/2) ** 2;
+    return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+
 function searchLocalCities(query) {
     const qRaw  = query.trim().toLowerCase();
-    const qNorm = _normArabic(qRaw);
     if (!qRaw) return [];
-    // ترتيب ذكيّ: prefix match أوّلاً ثمّ substring — لتظهر "لاس فيغاس" قبل "دالاس" عند البحث عن "لاس"
-    const scored = [];
-    for (const c of LOCAL_CITIES) {
-        const arNorm = _normArabic(c.ar);
-        const enLow  = c.en.toLowerCase();
+    // searchSmartCities() بدون مصدر يدمج LOCAL_CITIES + LOCAL_PROVINCES تلقائيًا
+    return searchSmartCities(query);
+}
+
+// ====== Smart Search: dedup + rank + filter (Phase 1) ======
+// يقبل أنواعًا من SMART_ALLOWED_TYPES فقط (city/town/village/province/governorate/…)
+// dedup عبر key، ترتيب: تطابق كامل > prefix > priority > substring
+function searchSmartCities(query, sources) {
+    const qNorm = normalizeText(query);
+    if (!qNorm || qNorm.length < 1) return [];
+
+    // افتراضيّاً: ندمج المدن + المحافظات في مصدر واحد
+    const list = Array.isArray(sources) ? sources : LOCAL_CITIES.concat(typeof LOCAL_PROVINCES !== 'undefined' ? LOCAL_PROVINCES : []);
+    const seen = new Map(); // key → bestScored entry
+
+    for (const raw of list) {
+        if (!raw) continue;
+        const type = raw.type || 'city';                 // افتراضي: city
+        if (!SMART_ALLOWED_TYPES.has(type)) continue;
+
+        const ar = normalizeText(raw.ar || '');
+        const en = normalizeText(raw.en || '');
+        const countryAr = normalizeText(raw.country || raw.countryAr || '');
+        const countryEn = normalizeText(raw.countryEn || '');
+        // أسماء بديلة (مثل Makkah/Mecca, Madinah/Medina) — تُطابَق بأقلّ score
+        const aliases = []
+            .concat(raw.aliasEn ? (Array.isArray(raw.aliasEn) ? raw.aliasEn : [raw.aliasEn]) : [])
+            .concat(raw.aliasAr ? (Array.isArray(raw.aliasAr) ? raw.aliasAr : [raw.aliasAr]) : [])
+            .map(a => normalizeText(a))
+            .filter(Boolean);
+
+        // المطابقة: نص كامل، بداية، أو ضمن "اسم بلد"
         let score = 0;
-        if (arNorm.startsWith(qNorm) || enLow.startsWith(qRaw))      score = 3;
-        else if (arNorm.includes(' ' + qNorm) || enLow.includes(' ' + qRaw)) score = 2; // تطابق بداية كلمة ثانية
-        else if (arNorm.includes(qNorm) || enLow.includes(qRaw))     score = 1;
-        if (score > 0) scored.push({ c, score });
+        if (ar === qNorm || en === qNorm)                              score = 100; // تطابق كامل
+        else if (aliases.some(a => a === qNorm))                       score = 90;  // alias تطابق كامل
+        else if (ar.startsWith(qNorm) || en.startsWith(qNorm))         score = 80;  // بداية
+        else if (aliases.some(a => a.startsWith(qNorm)))               score = 70;  // alias بداية
+        else if ((' ' + ar).includes(' ' + qNorm) || (' ' + en).includes(' ' + qNorm)) score = 60; // بداية كلمة
+        else if (ar.includes(qNorm) || en.includes(qNorm))             score = 40;  // ضمن
+        else if (aliases.some(a => a.includes(qNorm)))                 score = 35;  // alias ضمن
+        else if (`${ar} ${countryAr}`.includes(qNorm) || `${en} ${countryEn}`.includes(qNorm)) score = 20; // اسم+بلد
+        if (score === 0) continue;
+
+        const priority = Number.isFinite(raw.priority) ? raw.priority : 50;
+        const finalScore = score + (priority * 0.3); // priority كسر مرجَّح
+
+        const key = _smartKey(raw);
+        const prev = seen.get(key);
+        if (!prev || prev._score < finalScore) {
+            seen.set(key, { ...raw, type, _score: finalScore });
+        }
     }
-    scored.sort((a, b) => b.score - a.score);
-    return scored.slice(0, 6).map(x => x.c);
+
+    return Array.from(seen.values())
+        .sort((a, b) => b._score - a._score)
+        .slice(0, 10);
 }
 
 function fetchCitySuggestions(query) {
@@ -4453,10 +4852,12 @@ function fetchCitySuggestions(query) {
         div.className = 'suggestion-item';
         const displayName = isEnSugg ? city.en : city.ar;
         const countryName = isEnSugg ? (city.countryEn || city.country) : city.country;
+        const typeLbl = _smartTypeLabel(city.type || 'city');
+        const subText = typeLbl ? `${countryName} · ${typeLbl}` : countryName;
         const flagImg = city.cc
             ? `<img src="https://flagcdn.com/28x21/${city.cc}.png" class="sugg-flag" alt="${city.cc}" onerror="this.style.display='none'">`
             : `<span style="font-size:1.2rem">🌍</span>`;
-        div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayName}</div><div class="sugg-country">${countryName}</div></div>`;
+        div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayName}</div><div class="sugg-country">${subText}</div></div>`;
         div.addEventListener('click', async () => {
             document.getElementById('city-search-input').value = displayName;
             suggestionsEl.classList.remove('open');
@@ -4517,64 +4918,42 @@ function fetchCitySuggestions(query) {
             suggestionsEl.appendChild(btn);
         }
 
-        // قائمة بيضاء صارمة (Tier 1): مدن/قرى/بلدات/مزارع صغيرة
-        const acceptedTypes = new Set(['city', 'town', 'village', 'municipality', 'borough', 'hamlet', 'locality']);
-        // ─── الفلتر الصارم (Tier 1) ───
-        const _strictFilter = (p) => {
-            if (p.class === 'country' || p.class === 'highway') return false;
-            const addrT  = p.addresstype || '';
-            const plainT = p.type || '';
-            const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
-            const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
-            if (!acceptedTypes.has(addrT) && !acceptedTypes.has(plainT) && !isSpecialCityState) return false;
-            const rawName   = p.name || '';
-            const ndName    = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
-            const firstPart = (p.display_name || '').split(',')[0] || '';
-            if (!isSpecialCityState) {
-                if (_isAdminOrStreetLike(rawName))   return false;
-                if (_isAdminOrStreetLike(ndName))    return false;
-                if (_isAdminOrStreetLike(firstPart)) return false;
-            }
-            const _rawEn = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
-                || (p.address && (p.address.city || p.address.town || p.address.village))
-                || firstPart || '');
-            if (_isWardLike(rawName) || _isWardLike(_rawEn)) return false;
-            return true;
-        };
-        // ─── الفلتر المتساهل (Tier 2): يقبل المدن والقرى والمناطق الإداريّة ───
-        //   ➜ يرفض صراحةً: دولة، شارع/طريق، حي/ضاحية، مبنى، POI
-        const _laxRejectClass = new Set(['country', 'highway', 'building', 'amenity', 'shop',
-            'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made', 'waterway',
-            'natural', 'landuse', 'aeroway', 'railway']);
-        const _laxRejectType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential',
-            'hamlet_neighbourhood', 'isolated_dwelling', 'farm', 'plot']);
-        const _laxRejectAddrType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential']);
-        const _laxFilter = (p) => {
-            if (_laxRejectClass.has(p.class)) return false;
-            if (_laxRejectType.has(p.type)) return false;
-            if (_laxRejectAddrType.has(p.addresstype)) return false;
+        // ─── Smart Filter موحّد: ALLOWED_TYPES + BLOCKED_TYPES ───
+        // Phase J fix: addresstype له الأولويّة على class/type. مدن مثل Nouakchott
+        // تأتي من Nominatim بـ class=landuse, type=residential لكنّ addresstype=city
+        // لأنّها مُعنوَنة عبر boundary بدل place=city. نَقبل بناءً على addresstype.
+        const _smartFilter = (p) => {
             const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
             if (!isFinite(lat) || !isFinite(lon)) return false;
             if (!p.name && !p.display_name) return false;
-            // رفض الشوارع/الأحياء بالاسم (محافظة/منطقة/مقاطعة مقبولتان لأنّها مكان جغرافيّ)
             const firstPart = (p.display_name || '').split(',')[0] || '';
             if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
+            // المسار 1: addresstype مسموح صراحةً → اقبل (يتجاوز quirks في class/type)
+            if (SMART_ALLOWED_TYPES.has(p.addresstype)) return true;
+            // المسار 2: لا addresstype مفيد — افحص class/type/addresstype للحظر
+            if (SMART_BLOCKED_TYPES.has(p.class)) return false;
+            if (SMART_BLOCKED_TYPES.has(p.type)) return false;
+            if (SMART_BLOCKED_TYPES.has(p.addresstype)) return false;
+            // استنتاج النوع الموحّد — يجب أن يكون من ALLOWED
+            const _t = _smartTypeFromNominatim(p);
+            const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
+            const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
+            if (!_t && !isSpecialCityState) return false;
+            if (_t && !SMART_ALLOWED_TYPES.has(_t) && !isSpecialCityState) return false;
             return true;
         };
-        // Tier 1: صارم
-        let results = all.filter(_strictFilter);
-        // Tier 2: لو فاضي → أعد المحاولة بالفلتر المرن
-        if (results.length === 0) {
-            results = all.filter(_laxFilter);
-        }
 
+        let results = all.filter(_smartFilter);
+
+        // ترتيب: المدن أولاً، ثم البلدات، ثم القرى، ثم المناطق الإداريّة، حسب importance
         const typeRank = p => {
-            const t = p.addresstype || p.type || '';
-            if (t === 'city')                                       return 0;
-            if (['town', 'municipality'].includes(t))               return 1;
-            if (['village', 'hamlet'].includes(t))                  return 2;
-            if (['suburb', 'quarter', 'neighbourhood'].includes(t)) return 3;
-            return 4;
+            const _t = _smartTypeFromNominatim(p) || (p.addresstype || p.type || '');
+            if (_t === 'city')                                          return 0;
+            if (['town', 'municipality', 'borough'].includes(_t))       return 1;
+            if (['governorate', 'province', 'state'].includes(_t))      return 2;
+            if (['county', 'administrative'].includes(_t))              return 3;
+            if (['village', 'hamlet', 'locality'].includes(_t))         return 4;
+            return 5;
         };
         results.sort((a, b) => {
             const tr = typeRank(a) - typeRank(b);
@@ -4585,49 +4964,71 @@ function fetchCitySuggestions(query) {
         // إعادة بناء القائمة: المحلية أولاً ثم نتائج Nominatim الجديدة
         suggestionsEl.innerHTML = '';
 
-        // عرض النتائج المحلية أولاً
-        const localSet = new Set(localResults.map(c => c.ar + '|' + c.en));
-        localResults.forEach(city => suggestionsEl.appendChild(renderLocalItem(city)));
+        // عرض النتائج المحلية أولاً + بناء dedup keys (key + bucket إحداثيّ تقريبيّ)
+        const seenKeys = new Set();
+        const localGeo = []; // [{lat, lng, ar, en}] لـ dedup هندسيّ
+        localResults.forEach(city => {
+            seenKeys.add(_smartKey(city));
+            localGeo.push({ lat: +city.lat, lng: +city.lng, ar: normalizeText(city.ar), en: normalizeText(city.en) });
+            suggestionsEl.appendChild(renderLocalItem(city));
+        });
 
         // إضافة نتائج Nominatim التي لا تتكرر مع المحلية
         results.forEach((place) => {
             const addr = place.address || {};
             const nd   = place.namedetails || {};
 
-            // فلتر اسميّ إضافيّ متعدّد اللغات (belt & suspenders)
-            const rawName = place.name || '';
-            if (_isAdminOrStreetLike(rawName)) return;
-
-            // المدينة الرئيسية فقط (بدون أحياء)
-            const arCityMain = nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || '';
-            // Nominatim بلغة عربية قد لا يُرجِع name:en — لكن nd.name هو الـ endonym (Tromsø, Zürich…)
-            // لذا نُفضِّله كبديل Latin موثوق، ثم نُطبّق _latinOr على بقيّة الحقول لتصفية العربي/CJK.
+            // المدينة/المنطقة الرئيسية (بدون أحياء)
+            // ملاحظة: لا نطبّق _isAdminOrStreetLike — مرشّح Smart يقبل المحافظات/المقاطعات صراحةً
+            const _stripAdminPrefix = (s) => (s || '')
+                .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
+                .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
+                .trim();
+            const arCityMain = _stripAdminPrefix(nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || '');
             const rawEnCity  = nd['name:en'] || nd['name:en-US']
                     || _latinOr(nd.name)
                     || _latinOr(place.name)
                     || _latinOr(addr.city) || _latinOr(addr.town) || _latinOr(addr.village) || _latinOr(addr.municipality)
                     || place.display_name.split(',')[0];
-            const enCityMain = rawEnCity.replace(/\s*District\b/gi, '').trim();
-
-            // تجنب التكرار مع النتائج المحلية
-            const dupKey = arCityMain + '|' + enCityMain;
-            if (localSet.has(dupKey)) return;
+            const enCityMain = _stripAdminPrefix(rawEnCity.replace(/\s*District\b/gi, '').trim());
 
             const country     = addr.country || '';
             const countryCode = (addr.country_code || '').toLowerCase();
+            const placeLat = parseFloat(place.lat);
+            const placeLng = parseFloat(place.lon);
+            const placeType = _smartTypeFromNominatim(place) || 'city';
+
+            // dedup عبر key (cc + slug)
+            const candidateKey = _smartKey({ cc: countryCode, en: enCityMain, lat: placeLat, lng: placeLng });
+            if (seenKeys.has(candidateKey)) return;
+            // dedup هندسيّ: إذا < 5 كم من نتيجة محلية مع تطابق اسم تقريبيّ
+            const arN = normalizeText(arCityMain);
+            const enN = normalizeText(enCityMain);
+            const tooClose = localGeo.some(g => {
+                if (!isFinite(g.lat) || !isFinite(g.lng)) return false;
+                const d = _smartDistKm(g.lat, g.lng, placeLat, placeLng);
+                if (d > 5) return false;
+                return (g.ar && (g.ar === arN || arN.includes(g.ar) || g.ar.includes(arN))) ||
+                       (g.en && (g.en === enN || enN.includes(g.en) || g.en.includes(enN)));
+            });
+            if (tooClose) return;
+            seenKeys.add(candidateKey);
+
             const displayCity = isEnSugg ? enCityMain : arCityMain;
+            const typeLbl = _smartTypeLabel(placeType);
+            const subText = typeLbl ? `${country} · ${typeLbl}` : country;
             const flagImg = countryCode
                 ? `<img src="https://flagcdn.com/28x21/${countryCode}.png" class="sugg-flag" alt="${countryCode}" onerror="this.style.display='none'">`
                 : `<span style="font-size:1.2rem">🌍</span>`;
 
             const div = document.createElement('div');
             div.className = 'suggestion-item';
-            div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayCity}</div><div class="sugg-country">${country}</div></div>`;
+            div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayCity}</div><div class="sugg-country">${subText}</div></div>`;
             div.addEventListener('click', async () => {
                 document.getElementById('city-search-input').value = displayCity;
                 suggestionsEl.classList.remove('open');
                 currentEnglishDisplayName = enCityMain;
-                await selectCity(parseFloat(place.lat), parseFloat(place.lon), arCityMain, country, enCityMain, countryCode);
+                await selectCity(placeLat, placeLng, arCityMain, country, enCityMain, countryCode);
             });
             suggestionsEl.appendChild(div);
         });
@@ -4686,74 +5087,59 @@ function fetchCityOnlineBroader(query) {
     const searchLang = currentLang;
     const url = nomUrl(`https://nominatim.openstreetmap.org/search?format=json&limit=15&accept-language=${searchLang}&addressdetails=1&namedetails=1&q=${encodeURIComponent(query)}`);
 
-    // قائمة بيضاء: مدن/قرى/بلدات + hamlet/locality للمدن الصغيرة
-    const accepted = new Set(['city','town','village','municipality','borough','hamlet','locality']);
-
     fetch(url)
         .then(r => r.json())
         .catch(() => [])
         .then(data => {
             suggestionsEl.innerHTML = '';
 
-            // ─── helpers: فلترة مع dedup ───
-            const seen = new Set();
-            const _dedup = (p) => {
-                if (seen.has(p.place_id)) return false;
-                seen.add(p.place_id);
+            // dedup عبر place_id من Nominatim
+            const seenIds = new Set();
+            const _dedupId = (p) => {
+                if (!p || seenIds.has(p.place_id)) return false;
+                seenIds.add(p.place_id);
                 return true;
             };
-            // Tier 1 (صارم): مدن/قرى/بلدات + hamlet/locality
-            const _strict = (p) => {
-                if (p.class === 'country' || p.class === 'highway') return false;
-                const addrT  = p.addresstype || '';
-                const plainT = p.type || '';
-                const _nmEn2 = (p.namedetails?.['name:en'] || p.name || '').trim();
-                const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn2);
-                if (!accepted.has(addrT) && !accepted.has(plainT) && !isSpecialCityState) return false;
-                const nm        = p.name || '';
-                const ndName2   = (p.namedetails && (p.namedetails.name || p.namedetails['name:en'])) || '';
-                const firstPart = (p.display_name || '').split(',')[0] || '';
-                if (!isSpecialCityState) {
-                    if (_isAdminOrStreetLike(nm))        return false;
-                    if (_isAdminOrStreetLike(ndName2))   return false;
-                    if (_isAdminOrStreetLike(firstPart)) return false;
-                }
-                const _rawEnForWard = (p.namedetails?.['name:en'] || p.namedetails?.['name:en-US']
-                    || (p.address && (p.address.city || p.address.town || p.address.village))
-                    || firstPart || '');
-                if (_isWardLike(nm) || _isWardLike(_rawEnForWard)) return false;
-                return true;
-            };
-            // Tier 2 (مرن): يقبل المدن والقرى والمناطق الإداريّة (district/county/province/region)
-            //   ➜ يرفض صراحةً: دولة، شارع/طريق، حي/ضاحية، مبنى، POI
-            const _laxRejectClass = new Set(['country', 'highway', 'building', 'amenity',
-                'shop', 'office', 'leisure', 'tourism', 'historic', 'craft', 'man_made', 'waterway',
-                'natural', 'landuse', 'aeroway', 'railway']);
-            // أنواع الأحياء/الضواحي (نرفضها بالاسم سواء كانت place أو boundary)
-            const _laxRejectType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential',
-                'hamlet_neighbourhood', 'isolated_dwelling', 'farm', 'plot']);
-            // addresstype للأحياء
-            const _laxRejectAddrType = new Set(['neighbourhood', 'suburb', 'quarter', 'residential']);
-            const _lax = (p) => {
-                if (_laxRejectClass.has(p.class)) return false;
-                if (_laxRejectType.has(p.type)) return false;
-                if (_laxRejectAddrType.has(p.addresstype)) return false;
+
+            // ─── Smart Filter موحّد ───
+            // Phase J fix: addresstype له الأولويّة على class/type (Nouakchott bug)
+            const _smartFilter = (p) => {
                 const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
                 if (!isFinite(lat) || !isFinite(lon)) return false;
                 if (!p.name && !p.display_name) return false;
-                // فلتر اسميّ: رفض الشوارع/الأحياء بالاسم (محافظة/منطقة مقبولتان لأنّهما مكان جغرافيّ)
                 const firstPart = (p.display_name || '').split(',')[0] || '';
                 if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
+                // المسار 1: addresstype مسموح صراحةً → اقبل
+                if (SMART_ALLOWED_TYPES.has(p.addresstype)) return true;
+                // المسار 2: افحص class/type/addresstype للحظر
+                if (SMART_BLOCKED_TYPES.has(p.class)) return false;
+                if (SMART_BLOCKED_TYPES.has(p.type)) return false;
+                if (SMART_BLOCKED_TYPES.has(p.addresstype)) return false;
+                const _t = _smartTypeFromNominatim(p);
+                const _nmEn2 = (p.namedetails?.['name:en'] || p.name || '').trim();
+                const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn2);
+                if (!_t && !isSpecialCityState) return false;
+                if (_t && !SMART_ALLOWED_TYPES.has(_t) && !isSpecialCityState) return false;
                 return true;
             };
-            const arr = (data || []).filter(_dedup);
-            // Tier 1 أوّلاً
-            let results = arr.filter(_strict).slice(0, 6);
-            // Tier 2 لو فاضي
-            if (results.length === 0) {
-                seen.clear();
-                results = (data || []).filter(_dedup).filter(_lax).slice(0, 6);
-            }
+
+            let results = (data || []).filter(_dedupId).filter(_smartFilter);
+
+            // ترتيب: مدن > بلدات > محافظات > مقاطعات > قرى
+            const typeRank = p => {
+                const _t = _smartTypeFromNominatim(p) || '';
+                if (_t === 'city')                                          return 0;
+                if (['town', 'municipality', 'borough'].includes(_t))       return 1;
+                if (['governorate', 'province', 'state'].includes(_t))      return 2;
+                if (['county', 'administrative'].includes(_t))              return 3;
+                if (['village', 'hamlet', 'locality'].includes(_t))         return 4;
+                return 5;
+            };
+            results.sort((a, b) => {
+                const tr = typeRank(a) - typeRank(b);
+                return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
+            });
+            results = results.slice(0, 8);
 
             if (results.length === 0) {
                 const _noRes = (typeof t === 'function')
@@ -4763,30 +5149,46 @@ function fetchCityOnlineBroader(query) {
                 return;
             }
 
+            // dedup عبر key (cc + slug) لمنع تكرار النتائج المتقاربة
+            const seenKeys = new Set();
+
             results.forEach(place => {
-                const div = document.createElement('div');
-                div.className = 'suggestion-item';
                 const addr        = place.address || {};
                 const nd          = place.namedetails || {};
 
-                // المدينة الرئيسية فقط (بدون أحياء)
-                const arCityMain  = nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || place.display_name.split(',')[0];
+                const _stripAdminPrefix = (s) => (s || '')
+                    .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
+                    .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
+                    .trim();
+                const arCityMain  = _stripAdminPrefix(nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || place.display_name.split(',')[0]);
                 const rawEnName   = nd['name:en'] || nd['name:en-US']
                         || _latinOr(nd.name) || _latinOr(place.name)
                         || _latinOr(addr.city) || _latinOr(addr.town) || _latinOr(addr.village) || _latinOr(addr.municipality)
                         || place.display_name.split(',')[0];
-                const englishName = rawEnName.replace(/\s*District\b/gi, '').trim();
-
-                const displayCity = isEn ? (englishName || place.name) : arCityMain;
+                const englishName = _stripAdminPrefix(rawEnName.replace(/\s*District\b/gi, '').trim());
                 const country     = addr.country || '';
                 const cc          = (addr.country_code || '').toLowerCase();
-                const flagImg     = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
-                div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayCity}</div><div class="sugg-country">${country}</div></div>`;
+                const placeLat    = parseFloat(place.lat);
+                const placeLng    = parseFloat(place.lon);
+                const placeType   = _smartTypeFromNominatim(place) || 'city';
+
+                const candidateKey = _smartKey({ cc, en: englishName, lat: placeLat, lng: placeLng });
+                if (seenKeys.has(candidateKey)) return;
+                seenKeys.add(candidateKey);
+
+                const displayCity = isEn ? (englishName || place.name) : arCityMain;
+                const typeLbl = _smartTypeLabel(placeType);
+                const subText = typeLbl ? `${country} · ${typeLbl}` : country;
+                const flagImg = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
+
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayCity}</div><div class="sugg-country">${subText}</div></div>`;
                 div.addEventListener('click', async () => {
                     document.getElementById('city-search-input').value = displayCity;
                     suggestionsEl.classList.remove('open');
                     currentEnglishDisplayName = englishName;
-                    await selectCity(parseFloat(place.lat), parseFloat(place.lon), arCityMain, country, englishName, cc);
+                    await selectCity(placeLat, placeLng, arCityMain, country, englishName, cc);
                 });
                 suggestionsEl.appendChild(div);
             });
@@ -4794,28 +5196,105 @@ function fetchCityOnlineBroader(query) {
 }
 
 // بناء رابط مدينة (نظيف بدون params)
-function buildCityUrl(lat, lng, city, country, englishName) {
-    const slug = makeSlug(englishName || city, lat, lng);
-    if (window.location.protocol === 'file:') {
+// ════════ Phase F — SEO Routing for Smart Search ════════════════════════════
+// لاحقات إداريّة تُحذف من اسم المدينة عند بناء الـ slug
+//   "Giza Governorate" → "giza"   /   "Casablanca-Settat" يبقى كما هو (شرطة داخليّة)
+const _ROUTING_ADMIN_SUFFIX_RE = /\s+(Governorate|Province|Region|State|Emirate|Municipality|District|County)$/i;
+
+function _routingBaseSlug(en) {
+    const cleaned = (en || '').replace(_ROUTING_ADMIN_SUFFIX_RE, '').trim();
+    return cleaned.normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+// مؤشّر التضارب: slug → [items] (يُبنى مرّة واحدة، lazy)
+let _routingSlugIndex = null;
+function _buildRoutingIndex() {
+    if (_routingSlugIndex) return _routingSlugIndex;
+    const map = new Map();
+    const sources = LOCAL_CITIES.concat(typeof LOCAL_PROVINCES !== 'undefined' ? LOCAL_PROVINCES : []);
+    for (const item of sources) {
+        if (!item) continue;
+        // Slug فعّال = slug صريح إن وُجد، وإلّا base من en
+        const slug = item.slug || _routingBaseSlug(item.en);
+        if (!slug) continue;
+        const list = map.get(slug);
+        if (list) list.push(item);
+        else map.set(slug, [item]);
+    }
+    _routingSlugIndex = map;
+    return map;
+}
+
+// تضارب: نفس الـ slug يظهر لأكثر من مدخل بـ cc مختلف (Tripoli LB ↔ LY)
+function _isRoutingSlugConflict(slug, item) {
+    const idx = _buildRoutingIndex();
+    const list = idx.get(slug);
+    if (!list || list.length < 2) return false;
+    return list.some(x => x !== item && (x.cc || '').toLowerCase() !== (item.cc || '').toLowerCase());
+}
+
+/**
+ * يبني slug ثابتًا (مستقلًّا عن لغة الواجهة) لصفحة مواقيت الصلاة:
+ *   - يستعمل `item.slug` إن كان مُعرَّفًا (override صريح: Mecca → 'makkah')
+ *   - وإلّا يحذف لاحقات Governorate/Province/… من en ثمّ يُسلسلها
+ *   - عند التضارب (Tripoli LY ↔ LB) يلحق -{country-slug}
+ *   - يقع على fallback إلى makeSlug(en, lat, lng) للأسماء غير اللاتينيّة
+ *
+ * يقبل:
+ *   1) كائن من LOCAL_CITIES/LOCAL_PROVINCES (له en + countryEn + cc + lat/lng [+ slug])
+ *   2) أو كائن مُجمَّع من تفاعل (en + countryEn + cc + lat/lng) — يحاول إيجاد المطابق محليًّا أوّلاً
+ */
+function buildPrayerTimesSlug(item) {
+    if (!item) return '';
+    // 1) override صريح
+    if (item.slug) return String(item.slug);
+    // 2) base من en بعد حذف لاحقات إداريّة
+    const base = _routingBaseSlug(item.en);
+    if (!base || base.length < 2) {
+        // fallback لاتينيّ غير متاح → استعمل makeSlug (الذي يقع على coord-suffix)
+        return makeSlug(item.en, item.lat, item.lng);
+    }
+    // 3) تضارب → ألحق slug للبلد
+    if (_isRoutingSlugConflict(base, item)) {
+        const countryPart = _routingBaseSlug(item.countryEn || '');
+        if (countryPart) return `${base}-${countryPart}`;
+    }
+    return base;
+}
+
+/**
+ * يبني رابطًا كاملًا (مع لغة prefix) لصفحة مواقيت الصلاة من نتيجة بحث.
+ *   buildPrayerTimesUrl({en:'Mecca', cc:'sa', countryEn:'Saudi Arabia', slug:'makkah'})
+ *   → '/prayer-times-in-makkah'
+ *
+ * في protocol file:// يُرجع hash لصفحة index.
+ */
+function buildPrayerTimesUrl(item) {
+    const slug = buildPrayerTimesSlug(item);
+    if (!slug) return pageUrl('/');
+    if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
         return `#prayer-times-in-${slug}`;
     }
     return pageUrl(`/prayer-times-in-${slug}`);
 }
 
+// ── النسخة القديمة buildCityUrl تبقى للتوافق الخلفيّ (تستدعي buildPrayerTimesUrl) ──
+function buildCityUrl(lat, lng, city, country, englishName) {
+    return buildPrayerTimesUrl({ en: englishName || city, country, lat, lng });
+}
+
 // التنقل الحقيقي لصفحة المدينة (حفظ البيانات في sessionStorage)
 function navigateToCity(lat, lng, city, country, englishName = '', countryCode = '') {
-    let slug = makeSlug(englishName || city, lat, lng);
-    // Djibouti: slug الافتراضي "djibouti" يتضارب مع slug الدولة (/prayer-times-in-djibouti
-    // يُعالَج كـ "قائمة مدن دولة"). نستعمل slug خاصّاً "djibouti-city" للعاصمة فقط.
-    if (slug === 'djibouti' && (countryCode || '').toLowerCase() === 'dj') {
-        slug = 'djibouti-city';
-    }
-    // Singapore: نفس التضارب — slug "singapore" يطابق slug الدولة. نحوّله إلى "singapore-city".
-    if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') {
-        slug = 'singapore-city';
-    }
+    // Phase F: نمرّر العنصر إلى buildPrayerTimesSlug — يتعامل مع slug-override،
+    //   حذف لاحقات Governorate/Province، وdisambiguation عبر الدولة عند التضارب.
+    let slug = buildPrayerTimesSlug({
+        en: englishName || city, country, cc: countryCode, lat, lng
+    });
+    // city-state special cases (Djibouti / Singapore) — لا تُحلّ من LOCAL_CITIES إن لم تكن مضافة
+    if (slug === 'djibouti' && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
+    if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
     // لا نخزّن timezone هنا لأن currentTimezone قد يكون للمدينة السابقة
-    // سيتم جلب timezone الصحيح عند تحميل الصفحة الجديدة
     sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, _v: 2 }));
     if (window.location.protocol === 'file:') {
         window.location.hash = `prayer-times-in-${slug}`;
@@ -11864,6 +12343,7 @@ function _loadQiblaHubPage(ctx) {
                 }
             ];
             jsonldEl.textContent = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+            jsonldEl.setAttribute('type', 'application/ld+json');
         }
     } catch (_e) { /* silent */ }
 }
@@ -12243,6 +12723,7 @@ function loadQiblaPage(ctx) {
                 ]
             };
             jsonldEl.textContent = JSON.stringify(graph);
+            jsonldEl.setAttribute('type', 'application/ld+json');
         }
     } catch (e) {
         try { console.warn('loadQiblaPage failed:', e); } catch (_e) {}

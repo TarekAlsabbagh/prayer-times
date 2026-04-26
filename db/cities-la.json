@@ -1,0 +1,170 @@
+[
+  {
+    "nameAr": "سافانخت",
+    "nameEn": "Savannakhet",
+    "type": "city",
+    "lat": 16.55,
+    "lng": 104.75,
+    "pop": 124000
+  },
+  {
+    "nameAr": "باكسي",
+    "nameEn": "Pāksē",
+    "type": "city",
+    "lat": 15.116666666667,
+    "lng": 105.78333333333,
+    "pop": 119848
+  },
+  {
+    "nameAr": "ثاكيك",
+    "nameEn": "Thakhèk",
+    "type": "city",
+    "lat": 17.4,
+    "lng": 104.8,
+    "pop": 70000
+  },
+  {
+    "nameAr": "لوانغ برابانغ",
+    "nameEn": "Luang Prabang",
+    "type": "city",
+    "lat": 19.89,
+    "lng": 102.13472222222,
+    "pop": 53792
+  },
+  {
+    "nameAr": "فونسافان",
+    "nameEn": "Phōnsavan",
+    "type": "city",
+    "lat": 19.45,
+    "lng": 103.2,
+    "pop": 37507
+  },
+  {
+    "nameAr": "آتابو",
+    "nameEn": "Attapư̄",
+    "type": "city",
+    "lat": 14.8,
+    "lng": 106.83333333333,
+    "pop": 19200
+  },
+  {
+    "nameAr": "Ban Houayxay",
+    "nameEn": "Ban Houayxay",
+    "type": "city",
+    "lat": 20.276388888889,
+    "lng": 100.41305555556,
+    "pop": 17687
+  },
+  {
+    "nameAr": "فونغسالي",
+    "nameEn": "Phongsālī",
+    "type": "city",
+    "lat": 21.683333333333,
+    "lng": 102.1,
+    "pop": 15083
+  },
+  {
+    "nameAr": "Sekong",
+    "nameEn": "Sekong",
+    "type": "city",
+    "lat": 15.4,
+    "lng": 106.7,
+    "pop": 5000
+  },
+  {
+    "nameAr": "باكسان",
+    "nameEn": "Pakxan",
+    "type": "city",
+    "lat": 18.383055555556,
+    "lng": 103.66694444444,
+    "pop": null
+  },
+  {
+    "nameAr": "سالافان",
+    "nameEn": "Sālavan",
+    "type": "city",
+    "lat": 15.716666666667,
+    "lng": 106.41666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "B. Home Phanh",
+    "nameEn": "B. Home Phanh",
+    "type": "city",
+    "lat": 20.48,
+    "lng": 104.26,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Ang",
+    "nameEn": "Ban Ang",
+    "type": "city",
+    "lat": 15.066667,
+    "lng": 107.15,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Dak-Lay",
+    "nameEn": "Ban Dak-Lay",
+    "type": "city",
+    "lat": 14.583333333333,
+    "lng": 107.11666666667,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Langkeo",
+    "nameEn": "Ban Langkeo",
+    "type": "city",
+    "lat": 14.8667,
+    "lng": 106.733,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Thieng",
+    "nameEn": "Ban Thieng",
+    "type": "city",
+    "lat": 19.13333333,
+    "lng": 102.23333333,
+    "pop": null
+  },
+  {
+    "nameAr": "Ban Yang",
+    "nameEn": "Ban Yang",
+    "type": "city",
+    "lat": 19.700277777778,
+    "lng": 101.95722222222,
+    "pop": null
+  },
+  {
+    "nameAr": "Cha Ho",
+    "nameEn": "Cha Ho",
+    "type": "city",
+    "lat": 19.295589468449,
+    "lng": 103.13303962321,
+    "pop": null
+  },
+  {
+    "nameAr": "Don Khon",
+    "nameEn": "Don Khon",
+    "type": "city",
+    "lat": 13.95518,
+    "lng": 105.92601,
+    "pop": null
+  },
+  {
+    "nameAr": "Sam Thong",
+    "nameEn": "Sam Thong",
+    "type": "city",
+    "lat": 19.179722222222,
+    "lng": 102.89,
+    "pop": null
+  },
+  {
+    "nameAr": "Xépôn",
+    "nameEn": "Xépôn",
+    "type": "city",
+    "lat": 16.6816,
+    "lng": 106.2374,
+    "pop": null
+  }
+]

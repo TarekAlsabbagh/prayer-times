@@ -99,6 +99,24 @@ function makeCountrySlugSrv(cc) {
 let _sitemapCache = { data: null, time: 0 };
 const SITEMAP_TTL = 30 * 60 * 1000;
 function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; }
+
+// ===== Phase G — Curated slug redirects (db/curated-slugs.json) =====
+// مولَّد عبر scripts/build-curated-sitemap.mjs من LOCAL_CITIES + LOCAL_PROVINCES
+//   - يحتوي خريطة { oldSlug: canonicalSlug } (مثلًا mecca → makkah, giza-governorate → giza)
+//   - يُحمَّل مرّة عند الإقلاع، ويُستخدم في 301 redirect handler قبل routing الرئيسيّ
+let CURATED_REDIRECTS = {};
+let CURATED_ENTRIES = [];
+try {
+    const _curatedPath = path.join(__dirname, 'db', 'curated-slugs.json');
+    if (fs.existsSync(_curatedPath)) {
+        const _curated = JSON.parse(fs.readFileSync(_curatedPath, 'utf8'));
+        CURATED_REDIRECTS = _curated.redirects || {};
+        CURATED_ENTRIES = _curated.entries || [];
+        console.log(`[Curated] Loaded ${CURATED_ENTRIES.length} entries + ${Object.keys(CURATED_REDIRECTS).length} redirects`);
+    }
+} catch (e) {
+    console.warn(`[Curated] Failed to load curated-slugs.json: ${e.message}`);
+}
 function makeCitySlugSrv(nameEn, lat, lng) {
     // NFD decomposes accented chars (ã → a+◌̃, ü → u+◌̈, ç → c+◌̧)
     // ثمّ نحذف العلامات التشكيليّة [U+0300..U+036F] فقط، فيتبقّى الحرف الأساسيّ ASCII
@@ -2400,6 +2418,45 @@ function _stripHtmlForCity(html) {
         html = _stripElement(html, { type: 'id', value: id });
     }
     return html;
+}
+
+// ===== Phase I — H1 deduplication per route =====
+// SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
+// CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
+// هذه الدالة تُحوِّل H1 غير النشط إلى H2 (ساعى الـ SSR، يُحافظ على class للستايل).
+// Map: route → identifier للـ H1 النشط (id أو data-i18n)
+function _getActiveH1Marker(urlPath) {
+    const path = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
+    if (/^\/prayer-times-in-/.test(path))            return { kind: 'id',   value: 'page-h1' };
+    if (/^\/qibla-in-/.test(path))                   return { kind: 'id',   value: 'qibla-hero-title' };
+    if (/^\/time-left-until-prayer-in-/.test(path))  return { kind: 'id',   value: 'tl-h1' };
+    if (/^\/next-prayer-time-in-/.test(path))        return { kind: 'id',   value: 'npt-h1' };
+    if (/^\/today-hijri-date$/.test(path))           return { kind: 'id',   value: 'hijri-today-full' };
+    if (/^\/hijri-date\//.test(path))                return { kind: 'id',   value: 'hday-title' };
+    if (/^\/(?:moon-today|moon-in)-/.test(path))     return { kind: 'id',   value: 'moon-page-h1' };
+    if (/^\/(?:moon-today|moon-in)$/.test(path))     return { kind: 'id',   value: 'moon-page-h1' };
+    if (/^\/ramadan-countdown$/.test(path))          return { kind: 'i18n', value: 'ramadan.h1' };
+    if (/^\/eid-al-fitr-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_fitr.h1' };
+    if (/^\/eid-al-adha-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_adha.h1' };
+    if (/^\/hijri-new-year-countdown$/.test(path))   return { kind: 'i18n', value: 'hijri_ny.h1' };
+    if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
+    return null;   // route غير معروف — لا تعديل
+}
+function _downgradeInactiveH1s(html, urlPath) {
+    const active = _getActiveH1Marker(urlPath);
+    if (!active) return html;
+    return html.replace(/<h1\b([^>]*)>([\s\S]*?)<\/h1>/gi, (full, attrs, content) => {
+        let isActive = false;
+        if (active.kind === 'id') {
+            const m = attrs.match(/\bid=["']([^"']+)["']/);
+            if (m && m[1] === active.value) isActive = true;
+        } else if (active.kind === 'i18n') {
+            const m = attrs.match(/\bdata-i18n=["']([^"']+)["']/);
+            if (m && m[1] === active.value) isActive = true;
+        }
+        if (isActive) return full;
+        return `<h2${attrs}>${content}</h2>`;
+    });
 }
 
 // ===== SSR: بناء فقرة تعريفيّة ديناميكيّة لصفحة القمر =====
@@ -5153,6 +5210,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9.-]+$/.test(urlPath));
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);
+        // Phase I — حقن روابط داخليّة canonical في #related-links-section
+        // (كانت href="#" placeholder تُحقَن client-side فقط → غير مرئيّة لـ Googlebot)
+        const _slugMatch = urlPath.match(/^\/(?:[a-z]{2}\/)?prayer-times-in-([a-z][a-z0-9.-]+)$/);
+        if (_slugMatch) {
+            const _slug = _slugMatch[1];
+            const _lp = (seo.lang === 'ar') ? '' : `/${seo.lang}`;
+            html = html
+                .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_lp}/qibla-in-${_slug}"`)
+                .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_lp}/moon-today-in-${_slug}"`)
+                .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-prayer-in-${_slug}"`)
+                .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-time-in-${_slug}"`);
+        }
     }
     // 1e) 🆕 Round 7 (Homepage Audit): homepage (distribution hub) → strip same dead-weight.
     //     الرئيسية كانت تحمل #tl-hero + #tl-sticky + #npt-hero + #tl-h1 + #npt-h1 مخفيّة بـ CSS.
@@ -5163,6 +5232,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     if (_isHomepageSsr) {
         html = _stripHtmlForCity(html);  // نفس مجموعة الشطب (tl-hero/tl-sticky/npt-hero)
     }
+    // 1f) Phase I — تحويل H1 غير النشط إلى H2 (يحوّل SPA shell إلى صفحة بـ H1 وحيد)
+    html = _downgradeInactiveH1s(html, urlPath);
     // 2) base href لحل المسارات النسبية تحت /en/... أو /hijri-calendar/...
     if (!html.includes('<base ')) {
         html = html.replace('<head>', '<head>\n    <base href="/">');
@@ -8726,6 +8797,27 @@ const server = http.createServer(async (req, res) => {
     let urlPath = req.url.split('?')[0];
     const qs    = req.url.includes('?') ? req.url.split('?')[1] : '';
 
+    // ===== Phase G — Curated 301 redirects (mecca → makkah, etc.) =====
+    // يطابق /prayer-times-in-{old}, /qibla-in-{old}, /moon-today-in-{old} مع/بدون لغة prefix
+    if (Object.keys(CURATED_REDIRECTS).length > 0) {
+        const _redirMatch = urlPath.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9-]+)$/);
+        if (_redirMatch) {
+            const _langPart = _redirMatch[1] || '';   // '/en' أو ''
+            const _kind = _redirMatch[2];
+            const _slug = _redirMatch[3];
+            const _newSlug = CURATED_REDIRECTS[_slug];
+            if (_newSlug && _newSlug !== _slug) {
+                const _newUrl = `${_langPart}/${_kind}-${_newSlug}` + (qs ? `?${qs}` : '');
+                res.writeHead(301, {
+                    'Location': _newUrl,
+                    'Cache-Control': 'public, max-age=31536000',
+                });
+                res.end();
+                return;
+            }
+        }
+    }
+
     // Rate Limit متدرّج على /api/* فقط
     if (urlPath.startsWith('/api/')) {
         const ip   = getClientIp(req);
@@ -8798,7 +8890,20 @@ const server = http.createServer(async (req, res) => {
 
     // ===== robots.txt =====
     if (urlPath === '/robots.txt') {
-        const body = `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
+        // Phase H: حظر الـ query params + /search لتفادي فهرسة روابط غير canonical
+        const body = [
+            'User-agent: *',
+            'Allow: /',
+            'Disallow: /api/',
+            'Disallow: /search',
+            'Disallow: /*?city=',
+            'Disallow: /*?lat=',
+            'Disallow: /*?lng=',
+            'Disallow: /*?q=',
+            '',
+            `Sitemap: ${SITE_URL}/sitemap.xml`,
+            '',
+        ].join('\n');
         res.writeHead(200, {'Content-Type':'text/plain; charset=utf-8', 'Cache-Control':'public, max-age=86400'});
         res.end(body);
         return;
@@ -8845,7 +8950,18 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ===== Sitemap: توليد بيانات المدن (مع cache) =====
+    // Phase H: المصدر الوحيد = db/curated-slugs.json (مولَّد من LOCAL_CITIES + LOCAL_PROVINCES).
+    //   كلّ slug فيه canonical، لا تكرار، لا coord-only، لا روابط Nominatim.
+    //   نُبقي fallback إلى الطريقة القديمة فقط لو لم يُحمَّل الملف (للسلامة في dev).
     function buildSitemapDataFresh() {
+        // Primary: curated entries
+        if (CURATED_ENTRIES && CURATED_ENTRIES.length > 0) {
+            const cities = CURATED_ENTRIES.map(e => e.slug).filter(Boolean);
+            const ccSet = new Set(CURATED_ENTRIES.map(e => (e.cc || '').toLowerCase()).filter(Boolean));
+            return { countryCodes: [...ccSet], cities: [...new Set(cities)] };
+        }
+        // Legacy fallback (dev-only): db/cities-*.json
+        console.warn('[Sitemap] curated-slugs.json not loaded — falling back to legacy db generator');
         const countryCodes = new Set([
             ...Object.keys(STATIC_CITIES),
             ...Object.keys(CAPITAL_DATA),

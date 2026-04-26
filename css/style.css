@@ -61,18 +61,15 @@ html.hijri-day-page #page-prayer-times { display: none !important; }
    Inspired by GitHub Dark Dimmed and Notion Dark — warm-gray surfaces, soft text,
    desaturated brand green. Activated via [data-theme="dark"] on <html>. */
 html[data-theme="dark"] {
-    /* R37m — saturated brand-aligned green palette (was too desaturated/pale).
-       User feedback: "the green is too pale, doesn't match our identity".
-       Brand origin (#1a6b3c, HSL 143/61%/26%) — for dark we need higher
-       lightness AND keep saturation so it still reads as "our brand green".
-       AA contrast against #fff verified for buttons/active backgrounds. */
-    --primary: #2d9059;            /* saturated brand green — buttons/active bg, AA on white */
+    /* R37n — punchier brand-green palette. User reported colors still
+       unreadable — bumped saturation+lightness to maximise legibility on
+       dark surfaces while keeping the brand identity (HSL hue ~142). */
+    --primary: #2d9059;            /* saturated brand green — buttons/active bg */
     --primary-light: #4ab87a;      /* hover/focus states */
-    /* `--primary-dark` is used as TEXT COLOR in 83+ places (.qa-title,
-       .mtc-title, .moon-phase-name, …). On dark we want a BRIGHT but
-       SATURATED green that reads as "our brand" + has enough lift over the
-       dark surface for AA contrast. */
-    --primary-dark: #80d8a8;
+    /* `--primary-dark` is used as TEXT COLOR in 83+ places. On dark a
+       saturated bright green (HSL 142/56%/55%) gives strong contrast
+       against the warm-dark surfaces while staying "brand green". */
+    --primary-dark: #4dcb8c;
     --gold: #d4b561;
     --gold-light: #e0c570;
     --bg: #22272e;                 /* warm-dark page bg (not pure black) — GitHub Dimmed */
@@ -80,7 +77,9 @@ html[data-theme="dark"] {
     --surface-raised: #373e47;     /* raised card / header */
     --surface-sunken: #262c36;     /* sub-card / input */
     --text: #cdd9e5;               /* off-white text — softer than pure #fff */
-    --text-light: #768390;         /* secondary text — muted */
+    /* R37n — bumped from #768390 (was too dim for sub-titles/labels).
+       #a8b3c1 reads clearly while staying secondary in hierarchy. */
+    --text-light: #a8b3c1;
     --border: #444c56;             /* subtle borders */
     --shadow: 0 2px 8px rgba(0,0,0,0.3);
     --link: #6cb6ff;
@@ -258,6 +257,19 @@ html[data-theme="dark"] details > summary {
     color: var(--text);
     border-color: var(--border);
 }
+
+/* R37n — moon-today-card (.mtc-title was --text-light = dim label color).
+   Promote to var(--text) so the title reads clearly. .mtc-phase already
+   uses --primary-dark which is the bright brand green now. */
+html[data-theme="dark"] .mtc-title { color: var(--text) !important; font-weight: 700; }
+html[data-theme="dark"] .mtc-phase { color: var(--primary-dark) !important; }
+html[data-theme="dark"] .mtc-sub   { color: var(--text-light) !important; }
+
+/* FAQ-times list (أذان الفجر / الظهر / العصر … row labels in #faq-times-list).
+   First span = label (Arabic prayer name) was --text-light = dim. Promote
+   to var(--text). Last span (the time value) already uses --primary-dark. */
+html[data-theme="dark"] .faq-times-list li span:first-child { color: var(--text) !important; }
+html[data-theme="dark"] .faq-times-list li span:last-child  { color: var(--primary-dark) !important; }
 
 /* R37l — Popular-Cities chip-grid + footer link blocks. .popular-cities-grid a
    inherits color via var(--primary-dark) which is now bright on dark; bg

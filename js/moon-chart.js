@@ -393,25 +393,30 @@
         // — لكن نصّ labels داخل SVG سينعكس أيضًا. الحلّ في CSS: مضاد للـ text فقط.
 
         container.textContent = '';
-        // حاويّة موضعيّة للـ tooltip العائم
-        try { container.style.position = container.style.position || 'relative'; } catch (_) {}
         container.appendChild(svg);
 
-        // 🆕 Wave C: tooltip مخصَّص غنيّ بالمحتوى
-        const tooltip = document.createElement('div');
-        tooltip.className = 'moon-chart-tooltip';
-        tooltip.setAttribute('role', 'tooltip');
-        tooltip.setAttribute('aria-hidden', 'true');
-        tooltip.style.cssText = [
-            'position:absolute',
-            'pointer-events:none',
-            'opacity:0',
-            'transition:opacity 0.15s ease',
-            'z-index:10',
-            'transform:translate(-50%, -100%)',
-            'white-space:nowrap'
-        ].join(';');
-        container.appendChild(tooltip);
+        // R37ac — tooltip is appended to <body> with position: fixed so it
+        //   floats above ALL containers, regardless of any ancestor's
+        //   `overflow: hidden` (which would otherwise clip it inside the
+        //   chart container — the bug the user reported).
+        let tooltip = document.getElementById('moon-chart-tooltip-floating');
+        if (!tooltip) {
+            tooltip = document.createElement('div');
+            tooltip.id = 'moon-chart-tooltip-floating';
+            tooltip.className = 'moon-chart-tooltip';
+            tooltip.setAttribute('role', 'tooltip');
+            tooltip.setAttribute('aria-hidden', 'true');
+            tooltip.style.cssText = [
+                'position:fixed',
+                'pointer-events:none',
+                'opacity:0',
+                'transition:opacity 0.15s ease',
+                'z-index:10000',
+                'transform:translate(-50%, -100%)',
+                'white-space:nowrap'
+            ].join(';');
+            document.body.appendChild(tooltip);
+        }
 
         function _showTip(pt, dot) {
             const dateTxt = _fullDateLabel(pt.date, lang);
@@ -421,25 +426,21 @@
                 '<div class="mct-date">' + _escHtml(dateTxt) + '</div>' +
                 '<div class="mct-illum">' + _escHtml(illumTxt) + '</div>' +
                 (phaseTxt.trim() ? '<div class="mct-phase">' + _escHtml(phaseTxt) + '</div>' : '');
-            // 🛠️ استخدم getBoundingClientRect للدائرة نفسها — يُراعي transforms
-            //    (RTL يقلب الـ SVG بـ scaleX(-1)، فالإحداثيّات الخام cx تكون معكوسة بصريًّا)
-            const ctrRect = container.getBoundingClientRect();
+            // R37ac — tooltip is position:fixed in <body>, so use viewport
+            //   coordinates from the dot's getBoundingClientRect directly.
             const dRect = dot.getBoundingClientRect();
-            let px = (dRect.left - ctrRect.left) + dRect.width / 2;
-            const py = (dRect.top  - ctrRect.top) - 6;
-            // R37ab — clamp X so the tooltip never overflows the container edges.
-            // Tooltip uses transform: translate(-50%, -100%), so its visible
-            // half-width is tooltip.offsetWidth/2 on each side of px.
+            let px = dRect.left + dRect.width / 2;
+            const py = dRect.top - 6;
             tooltip.style.left = px + 'px';
             tooltip.style.top  = py + 'px';
             tooltip.style.opacity = '1';
             tooltip.setAttribute('aria-hidden', 'false');
-            // Re-clamp after layout (offsetWidth available now)
+            // Clamp to viewport (after layout so offsetWidth is final)
             try {
                 const halfW = tooltip.offsetWidth / 2;
                 const margin = 8;
                 const minX = halfW + margin;
-                const maxX = ctrRect.width - halfW - margin;
+                const maxX = (window.innerWidth || document.documentElement.clientWidth) - halfW - margin;
                 if (px < minX) px = minX;
                 else if (px > maxX) px = maxX;
                 tooltip.style.left = px + 'px';

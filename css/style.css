@@ -8695,12 +8695,12 @@ html.city-page #mini-islamic-tools.u-hidden {
    persuasive landing hero there too (H1 + subtitle + search + dual CTA + badges),
    with the dynamic H1 already wired to city context via .loc-hero-title selector. */
 html.city-page .most-searched-chips,
-html.city-page #country-cities-section,
 html.city-page #arab-countries-section,
 html.city-page #home-quick-access,
 html.city-page .moon-today-card {
     display: none !important;
 }
+/* #country-cities-section يظهر على صفحة المدينة بدلاً من إخفائه */
 /* On city pages the in-page compact search duplicates the hero search — hide it */
 html.city-page #city-page-search {
     display: none !important;
@@ -9058,6 +9058,13 @@ html.city-page .home-footer-links { display: none !important; }
 /* ── حذف نهائيّ لقسم "معلومات عن المدينة" من الرئيسيّة وصفحة مواقيت الصلاة ── */
 #city-about-section,
 .city-about-section { display: none !important; }
+
+/* ── #country-cities-section يظهر على الرئيسيّة وصفحة مواقيت الصلاة في مدينة ── */
+body.city-prayer-page #country-cities-section,
+html.city-page #country-cities-section {
+    display: block !important;
+    visibility: visible !important;
+}
 
 /* ── Polish Round (B): سطر حيّ ديناميكيّ تحت City Summary ───────────── */
 .city-summary-live {

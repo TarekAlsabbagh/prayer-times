@@ -262,6 +262,30 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37x — Moon phase cycle row (.mc-phase-cycle: 🌑 محاق / 🌒 هلال / 🌓 تربيع
+   / 🌔 أحدب / 🌕 بدر). Two original issues on dark:
+   - Container bg: rgba(255,255,255,0.55) — bright washed-out on dark
+   - Each .mc-cycle-step has opacity:0.42 (default), 0.65 (.is-past) — dim
+     on light, near-invisible on dark. Bumped per-state on dark. */
+html[data-theme="dark"] .moon-comparison .mc-phase-cycle {
+    background: var(--surface-sunken) !important;
+    border: 1px dashed var(--border) !important;
+}
+html[data-theme="dark"] .moon-comparison .mc-cycle-step { opacity: 0.7; }
+html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-past { opacity: 0.85; }
+html[data-theme="dark"] .moon-comparison .mc-cycle-step.is-active {
+    background: rgba(122,199,158,0.18) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    opacity: 1;
+}
+html[data-theme="dark"] .moon-comparison .mc-cycle-icon { filter: none; }
+html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-cycle-step.is-active {
+    background: rgba(220,120,80,0.18) !important;
+}
+html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-cycle-step.is-active .mc-cycle-label {
+    color: #ffaa80 !important;
+}
+
 /* R37w — Moon Comparison row (yesterday | Δ | today). Original card bg uses
    var(--card-bg) which on dark sits at #2d333b — barely distinct from the
    surrounding section card. Border rgba(0,0,0,0.08) is also invisible. */

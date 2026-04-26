@@ -262,6 +262,59 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37w — Moon Comparison row (yesterday | Δ | today). Original card bg uses
+   var(--card-bg) which on dark sits at #2d333b — barely distinct from the
+   surrounding section card. Border rgba(0,0,0,0.08) is also invisible. */
+html[data-theme="dark"] .moon-comparison .mc-day {
+    background: var(--surface-sunken) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text);
+}
+html[data-theme="dark"] .moon-comparison .mc-day:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .moon-comparison .mc-day-active {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+}
+html[data-theme="dark"] .moon-comparison .mc-day-label,
+html[data-theme="dark"] .moon-comparison .mc-day-illum { color: inherit; }
+
+/* Delta cluster (Δ + percentage) — was dark-green text on light-green bg */
+html[data-theme="dark"] .moon-comparison .mc-delta {
+    background: rgba(122,199,158,0.15) !important;
+    border-color: var(--primary) !important;
+    color: var(--text);
+}
+html[data-theme="dark"] .moon-comparison .mc-delta-value,
+html[data-theme="dark"] .moon-comparison .mc-delta-arrow { color: var(--primary-dark); }
+html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-day-active {
+    background: #c0593a !important;
+    border-color: #c0593a !important;
+}
+html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-delta {
+    background: rgba(220,120,80,0.15) !important;
+    border-color: #d97149 !important;
+}
+html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-delta-value,
+html[data-theme="dark"] .moon-comparison[data-direction="waning"] .mc-delta-arrow { color: #ffaa80; }
+
+/* Progress label (current arrow next) */
+html[data-theme="dark"] .moon-comparison .mc-progress-current { color: var(--text-light); }
+html[data-theme="dark"] .moon-comparison .mc-progress-arrow { color: var(--text-light); opacity: 0.85; }
+html[data-theme="dark"] .moon-comparison .mc-progress-next { color: var(--primary-dark); }
+html[data-theme="dark"] .moon-comparison .mc-progress-track { background: var(--surface-sunken); }
+
+/* R37w — RTL arrow direction fix: `→` always renders pointing right visually,
+   but in RTL flow "current → next" should point LEFT. Mirror with scaleX(-1)
+   so the same character serves both directions consistently. */
+html[dir="rtl"] .mc-progress-arrow {
+    display: inline-block;
+    transform: scaleX(-1);
+}
+
 /* R37v — Moon-detail cards (.moon-detail-card grid: عمر القمر / نسبة الإضاءة /
    الكوكبة / شروق / غروب / البدر / المحاق / المسافة). The original sets
        background: var(--bg);

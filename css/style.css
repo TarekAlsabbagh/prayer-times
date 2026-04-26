@@ -238,6 +238,76 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37e — also tame text/title colors that don't theme via variables */
+html[data-theme="dark"] .loc-hero-smart-pill { color: var(--text) !important; }
+html[data-theme="dark"] .loc-hero-title,
+html[data-theme="dark"] .loc-hero-subtitle,
+html[data-theme="dark"] .loc-hero-city,
+html[data-theme="dark"] .loc-hero-geo-microcopy { color: var(--text); }
+html[data-theme="dark"] .loc-hero-city-label,
+html[data-theme="dark"] .loc-hero-subtitle { color: var(--text-light); }
+html[data-theme="dark"] .loc-hero-hero-badges li { color: var(--text-light); background: rgba(42,163,107,0.10); border-color: var(--border); }
+
+/* R37e — kill ALL light-cream gradients on cards by overriding the full
+   `background` shorthand (background-color alone loses to the original
+   shorthand). Use !important to beat the source-order cascade. */
+html[data-theme="dark"] .location-hero,
+html[data-theme="dark"] .loc-hero-card,
+html[data-theme="dark"] .home-hero-card,
+html[data-theme="dark"] .home-hero,
+html[data-theme="dark"] .loc-hero-search-card,
+html[data-theme="dark"] .qibla-hub-hero,
+html[data-theme="dark"] .qibla-hub-hero-card,
+html[data-theme="dark"] .qibla-main-cta-card,
+html[data-theme="dark"] .qibla-hub-search-card,
+html[data-theme="dark"] .qibla-hub-cities-card,
+html[data-theme="dark"] .qibla-hub-countries-card,
+html[data-theme="dark"] .qibla-hub-faq-card,
+html[data-theme="dark"] .qibla-hub-footer-card,
+html[data-theme="dark"] .qibla-hub-trust-strip,
+html[data-theme="dark"] .qibla-hub-visited-card,
+html[data-theme="dark"] .moon-evergreen,
+html[data-theme="dark"] .moon-faq-city-card,
+html[data-theme="dark"] .moon-tonight-section,
+html[data-theme="dark"] .moon-cta-card,
+html[data-theme="dark"] .qibla-evergreen,
+html[data-theme="dark"] .city-about-section,
+html[data-theme="dark"] .city-about-toggle,
+html[data-theme="dark"] .city-about-content,
+html[data-theme="dark"] .home-faq,
+html[data-theme="dark"] .home-faq-list details,
+html[data-theme="dark"] .moon-faq-list details,
+html[data-theme="dark"] .qibla-faq-list details,
+html[data-theme="dark"] .next-prayer-banner,
+html[data-theme="dark"] .banner-current-prayer,
+html[data-theme="dark"] .countdown-hero,
+html[data-theme="dark"] .home-about,
+html[data-theme="dark"] .moon-intro,
+html[data-theme="dark"] .moon-summary-line,
+html[data-theme="dark"] .moon-hijri-today,
+html[data-theme="dark"] .moon-date-nav,
+html[data-theme="dark"] .moon-sticky-bar,
+html[data-theme="dark"] .qibla-summary-line,
+html[data-theme="dark"] .nearby-card,
+html[data-theme="dark"] .info-section,
+html[data-theme="dark"] .schedule-section,
+html[data-theme="dark"] .weekly-section,
+html[data-theme="dark"] .countries-section,
+html[data-theme="dark"] .city-page-search,
+html[data-theme="dark"] .qibla-info,
+html[data-theme="dark"] .qibla-container,
+html[data-theme="dark"] .summary-info-strip,
+html[data-theme="dark"] .related-links-section,
+html[data-theme="dark"] .seo-section,
+html[data-theme="dark"] .home-footer-links,
+html[data-theme="dark"] .other-trending-cities,
+html[data-theme="dark"] .mini-islamic-tools,
+html[data-theme="dark"] .hadith-section {
+    background: var(--card-bg) !important;
+    color: var(--text);
+    border-color: var(--border);
+}
+
 /* R37c — light <details> background pattern */
 html[data-theme="dark"] details[open] { background-color: var(--surface-raised); }
 html[data-theme="dark"] details summary { color: var(--text); }

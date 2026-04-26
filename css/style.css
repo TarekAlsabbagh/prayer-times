@@ -262,6 +262,35 @@ html[data-theme="dark"] details > summary {
     border-color: var(--border);
 }
 
+/* R37aa — Islamic events countdown (.moon-events-section: رمضان / عيد الفطر /
+   عيد الأضحى / رأس السنة الهجريّة). Each card has a per-event tinted gradient
+   designed for white bg — on dark these become faint blots that overpaint the
+   surface-sunken bg from the generic dark override. */
+html[data-theme="dark"] .moon-events-section { background: var(--card-bg) !important; border: 1px solid var(--border) !important; }
+html[data-theme="dark"] .moon-events-title { color: var(--text); }
+html[data-theme="dark"] .moon-event-card {
+    background: var(--surface-sunken) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text);
+}
+html[data-theme="dark"] .moon-event-card:hover {
+    box-shadow: 0 5px 14px rgba(0,0,0,0.4) !important;
+    border-color: var(--primary) !important;
+}
+html[data-theme="dark"] .moon-event-icon { filter: none; }
+html[data-theme="dark"] .moon-event-label { color: var(--text-light); }
+html[data-theme="dark"] .moon-event-days  { color: var(--primary-dark); }
+html[data-theme="dark"] .moon-event-date  { color: var(--text-light); }
+/* Per-event tints — punchier brand-aligned for dark */
+html[data-theme="dark"] .moon-event-ramadan { background: linear-gradient(135deg, rgba(186,104,200,0.16), rgba(186,104,200,0.04)) !important; border-color: rgba(186,104,200,0.4) !important; }
+html[data-theme="dark"] .moon-event-fitr    { background: linear-gradient(135deg, rgba(255,213,79,0.16),  rgba(255,213,79,0.04))  !important; border-color: rgba(255,213,79,0.4)  !important; }
+html[data-theme="dark"] .moon-event-adha    { background: linear-gradient(135deg, rgba(239,108,108,0.16), rgba(239,108,108,0.04)) !important; border-color: rgba(239,108,108,0.4) !important; }
+html[data-theme="dark"] .moon-event-newyear { background: linear-gradient(135deg, rgba(100,181,246,0.16), rgba(100,181,246,0.04)) !important; border-color: rgba(100,181,246,0.4) !important; }
+/* "soon" pulse — readable orange on dark */
+html[data-theme="dark"] .moon-event-soon { border-color: rgba(255,167,38,0.7) !important; }
+html[data-theme="dark"] .moon-event-soon .moon-event-days { color: #ffb74d; }
+html[data-theme="dark"] .moon-events-notice { color: var(--text-light); }
+
 /* R37z — Upcoming Moon Phases section (.moon-upcoming-section).
    Originals use a washed-out light-blue gradient on the section, semi-white
    bg on each card, and per-phase pastel hex colors (indigo/orange/yellow/

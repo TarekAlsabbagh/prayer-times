@@ -516,7 +516,7 @@
 
                 <!-- جدول مواقيت الأسبوع (Compact: 3 أيّام افتراضيّاً + زرّ توسيع) -->
                 <div class="section-card" id="prayer-schedule-section">
-                    <h2 id="schedule-title">📅 جدول مواقيت الصلاة</h2>
+                    <h2 id="schedule-title" data-i18n="schedule.title">📅 جدول مواقيت الصلاة</h2>
 
                     <!-- أزرار المدة -->
                     <div class="schedule-tabs">
@@ -651,7 +651,7 @@
 
                 <!-- مدن الدولة (في الأسفل لتجنّب CLS) -->
                 <div class="section-card u-hidden" id="country-cities-section">
-                    <h2 id="country-cities-title">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
+                    <h2 id="country-cities-title" data-i18n="country_cities.title_default">مواقيت الصلاة في مدن المملكة العربية السعودية</h2>
                     <div class="country-cities-grid" id="country-cities-grid"></div>
                     <div class="u-center-mt">
                         <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
@@ -1163,13 +1163,13 @@
 
                 <!-- Section 7.5: Other cities (city mode only — related cities under the tool) -->
                 <div class="section-card qibla-city-only">
-                    <h2 id="qibla-other-cities-title">مدن أخرى لاتجاه القبلة</h2>
+                    <h2 id="qibla-other-cities-title" data-i18n="qibla.other_cities_title">مدن أخرى لاتجاه القبلة</h2>
                     <div id="qibla-other-cities" class="qibla-other-cities-grid"></div>
                 </div>
 
                 <!-- Section 8: FAQ (both modes, different content) -->
                 <div class="section-card">
-                    <h2 id="qibla-faq-title">أسئلة شائعة</h2>
+                    <h2 id="qibla-faq-title" data-i18n="faq.short_title">أسئلة شائعة</h2>
                     <div id="qibla-faq"></div>
                 </div>
 
@@ -1773,13 +1773,13 @@
 
                 <!-- 5. FAQ — focused on "today" intent (3 Qs) -->
                 <div class="section-card">
-                    <h2 id="hijri-today-faq-title">❓ أسئلة عن التاريخ الهجري اليوم</h2>
+                    <h2 id="hijri-today-faq-title" data-i18n="hijri_today.faq_title">❓ أسئلة عن التاريخ الهجري اليوم</h2>
                     <div id="hijri-today-faq"></div>
                 </div>
 
                 <!-- 6. Related Links (4 secondary navs: year cal, month cal, converter, moon-today) -->
                 <div class="section-card">
-                    <h2 id="hijri-today-extra-title">🌙 روابط إضافية</h2>
+                    <h2 id="hijri-today-extra-title" data-i18n="hijri_today.extra_title">🌙 روابط إضافية</h2>
                     <div id="hijri-today-extra-links" class="u-flex-wrap"></div>
                 </div>
 
@@ -1833,13 +1833,13 @@
 
                 <!-- 5. FAQ -->
                 <div class="section-card">
-                    <h2 id="hday-faq-title">❓ أسئلة عن اليوم الهجري</h2>
+                    <h2 id="hday-faq-title" data-i18n="hday.faq_title">❓ أسئلة عن اليوم الهجري</h2>
                     <div id="hday-faq"></div>
                 </div>
 
                 <!-- 6. Related Links (3 truly-related: converter, moon, prayer) — hierarchy links moved up under Hero -->
                 <div class="section-card">
-                    <h2 id="hday-related-title">🌙 روابط ذات صلة</h2>
+                    <h2 id="hday-related-title" data-i18n="hday.related_title">🌙 روابط ذات صلة</h2>
                     <div id="hday-related" class="u-flex-wrap"></div>
                 </div>
 
@@ -1869,16 +1869,16 @@
                 </div>
                 <!-- Months Table — with "today in year" banner above it -->
                 <div class="section-card">
-                    <h2 id="hyear-table-title">🗓️ جميع أشهر التقويم الهجري</h2>
+                    <h2 id="hyear-table-title" data-i18n="hyear.table_title">🗓️ جميع أشهر التقويم الهجري</h2>
                     <div id="hyear-today-in-year" class="hpage-today-in-month" hidden></div>
                     <div class="hpage-table-wrap">
                         <table class="hpage-table">
                             <thead>
                                 <tr>
-                                    <th id="hyear-th-month">الشهر</th>
-                                    <th id="hyear-th-start">البداية (ميلادي)</th>
-                                    <th id="hyear-th-end">النهاية (ميلادي)</th>
-                                    <th id="hyear-th-days">الأيام</th>
+                                    <th id="hyear-th-month" data-i18n="table.month">الشهر</th>
+                                    <th id="hyear-th-start" data-i18n="table.start_greg">البداية (ميلادي)</th>
+                                    <th id="hyear-th-end" data-i18n="table.end_greg">النهاية (ميلادي)</th>
+                                    <th id="hyear-th-days" data-i18n="table.days">الأيام</th>
                                 </tr>
                             </thead>
                             <tbody id="hyear-table-body"></tbody>
@@ -1891,19 +1891,19 @@
                 </div>
                 <!-- Years Navigation — 5-year window (y-2..y+2) for internal-linking structure -->
                 <div class="section-card">
-                    <h2 id="hyear-years-title">📆 تصفّح السنوات الهجرية</h2>
+                    <h2 id="hyear-years-title" data-i18n="hyear.years_title">📆 تصفّح السنوات الهجرية</h2>
                     <p id="hyear-years-current" class="hpage-years-current"></p>
                     <div id="hyear-years-grid" class="u-flex-wrap-top"></div>
                     <p class="hpage-years-more"><a id="hyear-years-all" href="/hijri-calendar"></a></p>
                 </div>
                 <!-- FAQ -->
                 <div class="section-card">
-                    <h2 id="hyear-faq-title">❓ أسئلة عن السنة الهجرية</h2>
+                    <h2 id="hyear-faq-title" data-i18n="hyear.faq_title">❓ أسئلة عن السنة الهجرية</h2>
                     <div id="hyear-faq"></div>
                 </div>
                 <!-- SEO Text -->
                 <div class="section-card">
-                    <h2 id="hyear-seo-title">🌙 عن التقويم الهجري</h2>
+                    <h2 id="hyear-seo-title" data-i18n="hyear.seo_title">🌙 عن التقويم الهجري</h2>
                     <p id="hyear-seo-text" class="hpage-seo-text"></p>
                 </div>
                 <!-- Footer SEO -->
@@ -1921,22 +1921,22 @@
                     <p id="hmonth-subtitle" class="hpage-hero-mini-sub"></p>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-info-title">📋 معلومات الشهر الهجري</h2>
+                    <h2 id="hmonth-info-title" data-i18n="hmonth.info_title">📋 معلومات الشهر الهجري</h2>
                     <div class="info-grid" id="hmonth-info-grid"></div>
                 </div>
                 <div class="section-card">
                     <div class="u-flex-btns" id="hmonth-nav"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-days-title">📅 أيام هذا الشهر الهجري</h2>
+                    <h2 id="hmonth-days-title" data-i18n="hmonth.days_title">📅 أيام هذا الشهر الهجري</h2>
                     <div id="hmonth-today-in-month" class="hpage-today-in-month" hidden></div>
                     <p id="hmonth-days-summary" class="hpage-days-summary"></p>
                     <div class="hpage-table-wrap">
                         <table class="hpage-table" id="hmonth-table">
                             <thead>
                                 <tr>
-                                    <th id="hmonth-th-hijri">التاريخ الهجري</th>
-                                    <th id="hmonth-th-greg">التاريخ الميلادي</th>
+                                    <th id="hmonth-th-hijri" data-i18n="table.hijri_date">التاريخ الهجري</th>
+                                    <th id="hmonth-th-greg" data-i18n="table.gregorian_date">التاريخ الميلادي</th>
                                 </tr>
                             </thead>
                             <tbody id="hmonth-table-body"></tbody>
@@ -1944,15 +1944,15 @@
                     </div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-links-title">🔗 روابط مرتبطة بهذا الشهر</h2>
+                    <h2 id="hmonth-links-title" data-i18n="hmonth.links_title">🔗 روابط مرتبطة بهذا الشهر</h2>
                     <div id="hmonth-links" class="u-flex-wrap-top"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-other-months-title">🌙 شهور أخرى من السنة الهجرية</h2>
+                    <h2 id="hmonth-other-months-title" data-i18n="hmonth.other_months_title">🌙 شهور أخرى من السنة الهجرية</h2>
                     <div id="hmonth-other-months" class="hpage-months-grid"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-years-title">📆 تصفّح السنوات الهجرية</h2>
+                    <h2 id="hmonth-years-title" data-i18n="hyear.years_title">📆 تصفّح السنوات الهجرية</h2>
                     <p id="hmonth-years-current" class="hpage-years-current"></p>
                     <div id="hmonth-years-grid" class="u-flex-wrap-top"></div>
                     <p class="hpage-years-more"><a id="hmonth-years-all" href="/hijri-calendar"></a></p>
@@ -2054,7 +2054,7 @@
                     </div>
                     <div class="calendar-header">
                         <button class="btn btn-outline" onclick="changeCalendarMonth(-1)" data-i18n="calendar.prev">→ السابق</button>
-                        <h3 id="calendar-title">التقويم الشهري الهجري</h3>
+                        <h3 id="calendar-title" data-i18n="calendar.title">التقويم الشهري الهجري</h3>
                         <button class="btn btn-outline" onclick="changeCalendarMonth(1)" data-i18n="calendar.next">التالي ←</button>
                     </div>
                     <table class="calendar-table">
@@ -2081,7 +2081,7 @@
                     <div class="dua-categories" id="dua-categories"></div>
                 </div>
                 <div class="section-card u-hidden" id="dua-list-section">
-                    <h2 id="dua-list-title">قائمة الأدعية والأذكار</h2>
+                    <h2 id="dua-list-title" data-i18n="dua.list_title">قائمة الأدعية والأذكار</h2>
                     <div class="dua-list" id="dua-list"></div>
                 </div>
             </div>
@@ -2643,7 +2643,7 @@
             <!-- صفحة جميع مدن الدولة -->
             <div class="page" id="page-all-cities">
                 <div class="section-card">
-                    <h2 id="all-cities-page-title">مدن المملكة العربية السعودية</h2>
+                    <h2 id="all-cities-page-title" data-i18n="all_cities.page_title">مدن المملكة العربية السعودية</h2>
                     <div class="cities-search-bar">
                         <input type="text" id="all-cities-search" placeholder="🔍 ابحث عن مدينة أو منطقة..." oninput="filterAllCities()">
                     </div>
@@ -2743,7 +2743,7 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=138"></script>
+    <script defer src="js/i18n.js?v=139"></script>
     <script defer src="js/prayer-times.js?v=47"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
@@ -2775,7 +2775,7 @@
             <div class="adhan-popup-icon">🕌</div>
             <div class="adhan-popup-text">
                 <span data-i18n="adhan_popup.prefix">يحين الآن موعد أذان</span>
-                <strong id="adhan-popup-prayer-name">الفجر</strong>
+                <strong id="adhan-popup-prayer-name" data-i18n="prayer.fajr">الفجر</strong>
             </div>
             <div class="adhan-popup-location"><span data-i18n="adhan_popup.location">بالتوقيت المحلي لـ</span> <span id="adhan-popup-city">مكة المكرمة</span></div>
             <div class="adhan-progress-wrap u-hidden" id="adhan-progress-wrap">

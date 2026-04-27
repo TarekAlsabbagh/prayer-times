@@ -16,6 +16,67 @@ let currentCountryCode = 'sa'; // كود ISO للدولة الحالية
 let currentLocalizedName = '';
 let currentLocalizedCountry = '';
 
+// UAT-FOUC: synchronous URL-slug → globals override at script-top.
+//   Runs immediately when app.js executes (after `let` declarations, before
+//   any other code or rendering). Reads the URL pathname for a city slug;
+//   if found, looks up sessionStorage('city_${slug}') OR FAMOUS_MOON_CITIES
+//   and overrides the Mecca defaults inline. This kills the "Mecca flash"
+//   on cold visits to /qibla-in-X, /moon-today-in-X, /prayer-times-in-X.
+//   Self-contained — does NOT depend on any function defined later
+//   (no makeSlug, no _moonCityDisplayName), so it's safe to run pre-init.
+(function _initialSyncHydrate() {
+    try {
+        const _p = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+        const _m = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
+        if (!_m) return;
+        const _slug = _m[1];
+        const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
+        const _urlLng = _m[3] != null ? parseFloat(_m[3]) : NaN;
+        // 1) sessionStorage seed (fastest, highest fidelity)
+        try {
+            const _stored = sessionStorage.getItem('city_' + _slug);
+            if (_stored) {
+                const _o = JSON.parse(_stored);
+                if (_o && typeof _o.lat === 'number' && typeof _o.lng === 'number') {
+                    currentLat = _o.lat; currentLng = _o.lng;
+                    if (_o.name) currentCity = _o.name;
+                    if (_o.country) currentCountry = _o.country;
+                    if (_o.englishName) { currentEnglishName = _o.englishName; currentEnglishDisplayName = _o.englishName; }
+                    if (_o.countryCode) currentCountryCode = _o.countryCode;
+                    return;
+                }
+            }
+        } catch (_) {}
+        // 2) URL coord-suffix
+        if (isFinite(_urlLat) && isFinite(_urlLng)) {
+            currentLat = _urlLat; currentLng = _urlLng;
+            // Clear name defaults so first paint doesn't show "Mecca" — wait
+            //   for _hydrateCurrentCityFromUrlOrStorage / loadXxxPage to fill in.
+            currentCity = ''; currentEnglishName = ''; currentEnglishDisplayName = '';
+            currentCountry = ''; currentEnglishCountry = ''; currentCountryCode = '';
+            return;
+        }
+        // 3) loc-XX.X-YY.Y coord-only slug
+        const _locM = _slug.match(/^loc-(\d+\.\d)([ns])-(\d+\.\d)([ew])$/);
+        if (_locM) {
+            currentLat = parseFloat(_locM[1]) * (_locM[2] === 'n' ? 1 : -1);
+            currentLng = parseFloat(_locM[3]) * (_locM[4] === 'e' ? 1 : -1);
+            currentCity = ''; currentEnglishName = ''; currentEnglishDisplayName = '';
+            currentCountry = ''; currentEnglishCountry = ''; currentCountryCode = '';
+            return;
+        }
+        // 4) URL has a name slug but no coords + no sessionStorage seed → clear
+        //    the Mecca defaults to avoid a flash. Real coords come from
+        //    FAMOUS_MOON_CITIES check inside _hydrateCurrentCityFromUrlOrStorage
+        //    (fires on initApp).
+        if (_slug !== 'mecca' && _slug !== 'makkah') {
+            currentCity = ''; currentEnglishName = ''; currentEnglishDisplayName = '';
+            currentCountry = ''; currentEnglishCountry = ''; currentCountryCode = '';
+            currentLat = 0; currentLng = 0;
+        }
+    } catch (_) { /* fail-soft — keep Mecca defaults */ }
+})();
+
 // ===== أسماء الدول بالإنجليزية (مفهرسة بكود ISO) =====
 const COUNTRY_EN_NAMES = {
     sa:'Saudi Arabia', eg:'Egypt', sy:'Syria', iq:'Iraq',
@@ -2561,6 +2622,13 @@ function updateSidebar() {
 }
 
 async function initApp() {
+    // UAT-FOUC: hydrate currentLat/Lng/EnglishName/etc. from the URL slug
+    //   FIRST THING — before any rendering. Otherwise the Mecca defaults
+    //   (currentCity = 'مكة المكرمة', currentLat = 21.4225, …) leak into
+    //   any UI element that reads them on first paint, producing a brief
+    //   "Mecca flash" before page-specific load functions update them.
+    try { _hydrateCurrentCityFromUrlOrStorage(); } catch (_) {}
+
     // تعيين السنة في الفوتر
     document.getElementById('footer-year').textContent = new Date().getFullYear();
 
@@ -3766,12 +3834,24 @@ function _enhanceConverterSteppers() {
 }
 
 function _hydrateCurrentCityFromUrlOrStorage() {
-    if (currentLat && currentLng && currentEnglishName) return; // معبّأة بالفعل
     const _p = window.location.pathname;
     // UAT-Q5h: include `.` in slug class for loc-XX.X-YY.Y (Persian/Asian).
     const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
+    // UAT-FOUC: NO URL slug → bail (homepage, hub pages — keep current globals
+    //   for geo detection or the Mecca defaults until the user picks a city).
     if (!_m) return;
     const _slug = _m[1];
+    // UAT-FOUC: replaces the old "early return when globals are truthy" guard
+    //   that was bailing on Mecca defaults and causing a Mecca-flash on cold
+    //   visits to /qibla-in-{X}, /moon-today-in-{X}, etc. New rule: bail ONLY
+    //   when the current globals already represent this URL's slug. Otherwise
+    //   force re-hydration so the page shows the correct city from the start.
+    try {
+        if (currentLat && currentLng && currentEnglishName && typeof makeSlug === 'function') {
+            const _curSlug = makeSlug(currentEnglishName, currentLat, currentLng);
+            if (_curSlug === _slug) return; // already in sync — no-op
+        }
+    } catch (_) { /* ignore — proceed with hydration */ }
     const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
     const _urlLng = _m[3] != null ? parseFloat(_m[3]) : NaN;
     // ── UAT-Q5h: REORDERED priority ────────────────────────────────────

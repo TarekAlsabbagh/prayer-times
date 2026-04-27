@@ -587,7 +587,11 @@ function _tzFromCitySlug(slug) {
 }
 
 // ===== Round 9: _resolveCityForMoon — استرجاع كامل لبيانات مدينة من slug =====
-// يحاول: (1) FAMOUS_CITY_OVERRIDES ← (2) _getCitySlugIndex() ← (3) null (→ 404).
+// يحاول: (1) FAMOUS_CITY_OVERRIDES ← (2) _getCitySlugIndex() ←
+//   (3) reverse-redirect: لو الـ slug هو "makkah" (post-redirect form) لكن
+//       الـ overrides تَستخدم "mecca" (المفتاح الدلاليّ)، نَقلب CURATED_REDIRECTS
+//       (mecca→makkah) لإيجاد الـ slug المصدر ونحاول الجلب به ←
+//   (4) null (→ 404).
 // العائد: { lat, lng, cc? } أو null.
 function _resolveCityForMoon(slug) {
     if (!slug) return null;
@@ -597,8 +601,21 @@ function _resolveCityForMoon(slug) {
     const idx = _getCitySlugIndex();
     const c = idx[s];
     if (c && typeof c.lat === 'number' && typeof c.lng === 'number') {
-        // cc يُسترَد من اسم الملفّ cities-xx.json؛ مفيد لاستنتاج IANA tz
         return { lat: c.lat, lng: c.lng, cc: c.cc || '' };
+    }
+    // Reverse-redirect lookup: if some `oldSlug` in CURATED_REDIRECTS points
+    // to `s` (e.g. mecca → makkah, madinah-region → madinah), try the source
+    // slug — it likely exists in the dicts under its semantic name.
+    if (CURATED_REDIRECTS) {
+        for (const oldSlug in CURATED_REDIRECTS) {
+            if (CURATED_REDIRECTS[oldSlug] !== s) continue;
+            const fxOld = FAMOUS_CITY_OVERRIDES[oldSlug];
+            if (fxOld) return fxOld;
+            const cOld = idx[oldSlug];
+            if (cOld && typeof cOld.lat === 'number' && typeof cOld.lng === 'number') {
+                return { lat: cOld.lat, lng: cOld.lng, cc: cOld.cc || '' };
+            }
+        }
     }
     return null;
 }
@@ -684,6 +701,17 @@ function _resolveCityName(slug, lang) {
         const stripped = slug.replace(_ARAB_ARTICLE_PREFIX_RE, '');
         resolved = _try(stripped);
         if (resolved) return resolved;
+    }
+    // Reverse-redirect: if some `oldSlug` in CURATED_REDIRECTS points to this
+    // slug (e.g. mecca→makkah, medina→madinah, riyadh-region→riyadh), the
+    // semantic name lives under the source. Look it up and return.
+    if (CURATED_REDIRECTS) {
+        const sLower = String(slug).toLowerCase();
+        for (const oldSlug in CURATED_REDIRECTS) {
+            if (CURATED_REDIRECTS[oldSlug] !== sLower) continue;
+            resolved = _try(oldSlug);
+            if (resolved) return resolved;
+        }
     }
     return _slugToTitle(slug);
 }

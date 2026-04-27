@@ -4354,16 +4354,25 @@ function buildSeoForPath(urlPath) {
         const _dyStr = (_MD && m[4]) ? m[4] : null;
         const _dmStr = (_MD && m[5]) ? m[5] : null;
         const _ddStr = (_MD && m[6]) ? m[6] : null;
-        // استرجاع إحداثيّات المدينة: أولويّة للـ DB (SEO)، ثمّ coord-suffix (fallback)
+        // استرجاع إحداثيّات المدينة: أولويّة للـ DB (SEO)، ثمّ coord-suffix (fallback).
+        // UAT-Moon-5: عندما الـ slug غير معروف ولا توجد coord-suffix (مثل
+        //   /moon-today-in-yastrebovka بدون إحداثيّات)، استعمل إحداثيّات
+        //   مكّة كـ SSR fallback مع noindex. الصفحة تَرسم 200 مع slug-as-
+        //   title (Yastrebovka)، والعميل سيُحدّث الـ rise/set times من
+        //   sessionStorage.city_moon لإحداثيّات المستخدم الحقيقيّة.
         let cityGeo = _resolveCityForMoon(citySlug);
+        const _moonResolvedFromDb = !!cityGeo;
         if (!cityGeo && _hasCoordSuffix) {
             cityGeo = { lat: _coordLat, lng: _coordLng, cc: '' };
+        } else if (!cityGeo) {
+            // No DB hit, no coord-suffix → fallback to Mecca for SSR.
+            cityGeo = { lat: 21.4225, lng: 39.8262, cc: '' };
         }
         // لو كانت المدينة معروفة من الـ DB وهي متاحة عبر coord-suffix، نضع علامة
         // ليرسل الراوتر 301 redirect إلى الرابط القصير لاحقاً.
-        const _shouldRedirectToCanonical = _hasCoordSuffix && !!_resolveCityForMoon(citySlug);
-        // إشارة للراوتر: الصفحة noindex إذا كانت coord-only (بلا DB)
-        const _isCoordOnlyMoon = _hasCoordSuffix && !_resolveCityForMoon(citySlug);
+        const _shouldRedirectToCanonical = _hasCoordSuffix && _moonResolvedFromDb;
+        // إشارة للراوتر: الصفحة noindex إذا كانت غير-DB (سواء coord-only أو slug-only fallback).
+        const _isCoordOnlyMoon = !_moonResolvedFromDb;
         // ── تحليل التاريخ إن وُجد ──
         // ندعم شكلين: ميلاديّ (YYYY-MM-DD حيث YYYY≥1800) وهجريّ (HYYYY-HMM-HDD حيث HYYYY<1800).
         // بالنسبة للتطبيق لا تداخل بين النطاقين (Hijri ≈ 1300-1600، Gregorian ≥ 1900).
@@ -9476,17 +9485,17 @@ const server = http.createServer(async (req, res) => {
                 res.end();
                 return;
             }
-            // 2) ليست في DB + بلا coord-suffix → 301 إلى hub القمر (UAT-Moon-4).
-            //    سابقاً كان 404 "City not found"، لكن المستخدم لا يجب أن يرى
-            //    صفحة كسرة أبدًا. الـ moon hub (/moon-today أو /{lang}/moon-today)
-            //    صفحة generic تَعمل بدون مدينة محدّدة، فترجمة المسار إليها تَحفظ
-            //    تجربة الاستخدام وتُحافظ على لغة المستخدم.
-            if (!_moonInDb && !_moonHasCoord) {
-                const _hubPath = '/' + _moonLangPrefix + 'moon-today';
-                res.writeHead(301, { 'Location': _hubPath });
-                res.end();
-                return;
-            }
+            // 2) ليست في DB + بلا coord-suffix → مرّر (UAT-Moon-5).
+            //    سابقاً (UAT-Moon-4) كنّا نَعمل 301 إلى hub القمر، لكن هذا
+            //    يكسر التماثل مع /prayer-times-in-{slug} الذي يَرسم 200 لأيّ
+            //    slug. مَرّ من سيارة المدينة (Yastrebovka) → ضغط القمر يجب
+            //    أن يأخذ المستخدم إلى /moon-today-in-yastrebovka (ليس hub
+            //    عام). الصفحة تُرسَم مع slug-as-title، والعميل يَستعمل
+            //    sessionStorage.city_moon لإحداثيّات المستخدم الحقيقيّة
+            //    عند عرض الـ rise/set times.
+            //
+            //    المرور هنا يَتركه يَصل إلى readCachedFile → serveHtmlWithSeo
+            //    وتعرض الصفحة 200 (مع noindex لو coord-only — لا ينطبق هنا).
             // 3) إن كان لدينا تاريخ، فحص صحّته التقويميّة → 301 إلى hub بدلاً من 404 (UAT-Moon-4)
             if (_dyRt) {
                 const _dy = parseInt(_dyRt, 10);

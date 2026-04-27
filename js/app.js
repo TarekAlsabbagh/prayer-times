@@ -12781,32 +12781,6 @@ function loadQiblaPage(ctx) {
                     const u = window.location.pathname.match(/\/qibla-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
                     if (u) { lat = parseFloat(u[1]); lng = parseFloat(u[2]); }
                 }
-                // UAT-Q5d Priority 5: cold-visit fallback — Nominatim geocode
-                //   the slug name. Async, so kick it off and let the page
-                //   re-render itself when coords arrive (the geocodeSlug
-                //   helper writes to sessionStorage, so a re-call to
-                //   loadQiblaPage will pick it up). For now we render with
-                //   Mecca defaults so the page isn't blocked.
-                if (!isFinite(lat) || !isFinite(lng) && typeof geocodeSlug === 'function') {
-                    try {
-                        geocodeSlug(slug).then(res => {
-                            if (res && isFinite(+res.lat) && isFinite(+res.lng)) {
-                                try {
-                                    sessionStorage.setItem('city_' + slug, JSON.stringify({
-                                        lat: +res.lat, lng: +res.lng,
-                                        name: res.name || slug,
-                                        country: res.country || '',
-                                        englishName: res.englishName || res.name || slug,
-                                        countryCode: res.countryCode || '',
-                                        _v: 2
-                                    }));
-                                } catch (_) {}
-                                // Re-run loadQiblaPage with fresh ctx
-                                try { loadQiblaPage(ctx); } catch (_) {}
-                            }
-                        }).catch(() => {});
-                    } catch (_) {}
-                }
             }
             if (!isFinite(lat) || !isFinite(lng)) {
                 // give up to Mecca
@@ -12814,13 +12788,64 @@ function loadQiblaPage(ctx) {
             }
             citySlugForUrl = slug;
             currentKey = slug;
-            // Name resolution — prefer SSR name table (10 langs), then client resolver, then slug.
+            // ── Name resolution (UAT-Q5e — localized name for any city, any lang) ──
+            //   Priority: SSR name table → sessionStorage seed → resolver → slug.
+            //   For non-DB cities, sessionStorage holds the localized name from the
+            //   page-of-origin (search result, prayer-times-in-* hydration, etc.).
+            //   If still not found and the cityName would be "minab" / "Baghoo" /
+            //   raw slug, fire geocodeSlug() to fetch a localized name from
+            //   Nominatim with `accept-language: ${lang}`, save it, and re-render.
             if (ssrCity && ssrCity.names && ssrCity.names[lang]) {
                 cityName = ssrCity.names[lang];
             } else if (ssrCity && ssrCity.name) {
                 cityName = ssrCity.name;
             } else {
-                cityName = _resolveCityNameClient(slug, lang, slug);
+                // sessionStorage seed (set by search/click flow OR by a previous
+                // geocodeSlug call). 'name' holds the localized form when the
+                // seed was created in the current UI language.
+                let storedName = '';
+                try {
+                    const _stored = sessionStorage.getItem('city_' + slug);
+                    if (_stored) {
+                        const _o = JSON.parse(_stored);
+                        if (_o && _o.name) storedName = _o.name;
+                        else if (_o && _o.englishName) storedName = _o.englishName;
+                    }
+                } catch (_) {}
+                cityName = storedName || _resolveCityNameClient(slug, lang, slug);
+
+                // Cold visit / lang switch / cityName fell back to slug → kick
+                //   off a localized Nominatim lookup. When it resolves, we save
+                //   {lat, lng, name (in current lang)} to sessionStorage and
+                //   re-call loadQiblaPage so the H1 / breadcrumb / FAQ all
+                //   refresh with the proper localized name.
+                const _slugTitleCase = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                const _looksLikeSlug = (cityName === slug)
+                    || (cityName.toLowerCase() === slug.toLowerCase().replace(/-/g, ' '))
+                    || (cityName === _slugTitleCase);
+                const _coordsMissing = !isFinite(lat) || !isFinite(lng) || (lat === 21.4225 && lng === 39.8262 && slug !== 'mecca' && slug !== 'makkah');
+                if ((_looksLikeSlug || _coordsMissing) && typeof geocodeSlug === 'function') {
+                    try {
+                        geocodeSlug(slug).then(res => {
+                            if (!res) return;
+                            const _hasName = res.name && res.name !== slug;
+                            const _hasCoords = isFinite(+res.lat) && isFinite(+res.lng);
+                            if (!_hasName && !_hasCoords) return;
+                            try {
+                                sessionStorage.setItem('city_' + slug, JSON.stringify({
+                                    lat: _hasCoords ? +res.lat : lat,
+                                    lng: _hasCoords ? +res.lng : lng,
+                                    name: res.name || cityName,
+                                    country: res.country || '',
+                                    englishName: res.englishName || res.name || slug,
+                                    countryCode: res.countryCode || '',
+                                    _v: 2
+                                }));
+                            } catch (_) {}
+                            try { loadQiblaPage(ctx); } catch (_) {}
+                        }).catch(() => {});
+                    } catch (_) {}
+                }
             }
         } else {
             // hub — use geolocation globals, fall back to Mecca
@@ -12922,15 +12947,21 @@ function loadQiblaPage(ctx) {
         // ── 8. 3 quick text links ──
         const qlEl = document.getElementById('qibla-quicklinks');
         if (qlEl) {
-            // Round 27.1: moon link must point to the CITY-specific moon page
-            // (/moon-today-in-{slug}-{lat}-{lng}) since the label reads
-            // "Moon Today in {city}". Bare /moon-today would mismatch the copy.
+            // UAT-Q5d: clean moon URL — coords go via sessionStorage seed,
+            // not URL coord-suffix.
             let moonHref;
-            if (citySlugForUrl && isFinite(lat) && isFinite(lng)) {
-                const la = Number(lat).toFixed(2);
-                const lo = Number(lng).toFixed(2);
-                moonHref = pageUrl(`/moon-today-in-${citySlugForUrl}-${la}-${lo}`);
-            } else if (citySlugForUrl) {
+            if (citySlugForUrl) {
+                // Seed sessionStorage('city_${slug}') so the moon page can
+                // resolve coords without needing them in the URL.
+                try {
+                    if (isFinite(lat) && isFinite(lng)) {
+                        sessionStorage.setItem('city_' + citySlugForUrl, JSON.stringify({
+                            lat, lng, name: cityName,
+                            englishName: (typeof currentEnglishName === 'string') ? currentEnglishName : cityName,
+                            _v: 2
+                        }));
+                    }
+                } catch (_) {}
                 moonHref = pageUrl(`/moon-today-in-${citySlugForUrl}`);
             } else {
                 moonHref = pageUrl('/moon-today');
@@ -13040,17 +13071,10 @@ function loadQiblaPage(ctx) {
         const relatedEl = document.getElementById('qibla-related');
         if (relatedEl) {
             const prayerHref = citySlugForUrl ? pageUrl(`/prayer-times-in-${citySlugForUrl}`) : pageUrl('/');
-            // Round 27.1: same moon-URL logic as the quicklinks — prefer city page
-            let relMoonHref;
-            if (citySlugForUrl && isFinite(lat) && isFinite(lng)) {
-                const la = Number(lat).toFixed(2);
-                const lo = Number(lng).toFixed(2);
-                relMoonHref = pageUrl(`/moon-today-in-${citySlugForUrl}-${la}-${lo}`);
-            } else if (citySlugForUrl) {
-                relMoonHref = pageUrl(`/moon-today-in-${citySlugForUrl}`);
-            } else {
-                relMoonHref = pageUrl('/moon-today');
-            }
+            // UAT-Q5d: clean moon URL — sessionStorage seed (above) carries coords.
+            const relMoonHref = citySlugForUrl
+                ? pageUrl(`/moon-today-in-${citySlugForUrl}`)
+                : pageUrl('/moon-today');
             // Round 29: related_labels is now a function taking cityName — use-case verbs with city interpolation
             const _labels = (typeof ui.related_labels === 'function')
                 ? ui.related_labels(cityName)
@@ -16101,13 +16125,22 @@ function loadHijriDayPage() {
             : ((lang === 'ar') ? '/' : (prefix + '/'));
         const _ctaPrayerText = isGeoToday ? geo.ctaPrayer(locDisplay) : ex.ctaPrayer;
         const _ctaMoonText   = isGeoToday ? geo.ctaMoon(locDisplay)   : ex.ctaMoon;
-        // Geo-aware moon URL: /moon-today-in-{slug}[-{lat}-{lng}] when city known, else generic /moon-today
+        // UAT-Q5d: clean moon URL (no coord-suffix). sessionStorage seed
+        // (set elsewhere via _hydrateCurrentCityFromUrlOrStorage / search)
+        // carries coords for the destination page.
         let _moonHref = `${prefix}/moon-today`;
         if (isGeoToday) {
             _moonHref = `${prefix}/moon-today-in-${locSlug}`;
-            if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/loc-/.test(locSlug)) {
-                _moonHref = `${prefix}/moon-today-in-${locSlug}-${Number(currentLat).toFixed(4)}-${Number(currentLng).toFixed(4)}`;
-            }
+            try {
+                if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/^loc-/.test(locSlug)) {
+                    sessionStorage.setItem('city_' + locSlug, JSON.stringify({
+                        lat: currentLat, lng: currentLng,
+                        name: currentCity, englishName: currentEnglishName,
+                        country: currentCountry, countryCode: currentCountryCode,
+                        _v: 2
+                    }));
+                }
+            } catch (_) {}
         }
         const ctas = [
             [`${prefix}/dateconverter`, ex.ctaConv,     true],   // primary
@@ -16193,13 +16226,20 @@ function loadHijriDayPage() {
             ? (isToday ? geo.relPrayer(_cityDisplay) : nt.relPrayerCity(_cityDisplay))
             : ex.relPrayer;
         const _moonLabel = (isToday && _cityKnown) ? geo.relMoon(_cityDisplay) : ex.relMoon;
-        // Geo-aware moon URL for today+city: /moon-today-in-{slug}[-{lat}-{lng}]
+        // UAT-Q5d: clean moon URL (no coord-suffix). Coords go via sessionStorage.
         let _moonRelHref = `${prefix}/moon-today`;
         if (isToday && _cityKnown) {
             _moonRelHref = `${prefix}/moon-today-in-${_citySlug2}`;
-            if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/loc-/.test(_citySlug2)) {
-                _moonRelHref = `${prefix}/moon-today-in-${_citySlug2}-${Number(currentLat).toFixed(4)}-${Number(currentLng).toFixed(4)}`;
-            }
+            try {
+                if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/^loc-/.test(_citySlug2)) {
+                    sessionStorage.setItem('city_' + _citySlug2, JSON.stringify({
+                        lat: currentLat, lng: currentLng,
+                        name: currentCity, englishName: currentEnglishName,
+                        country: currentCountry, countryCode: currentCountryCode,
+                        _v: 2
+                    }));
+                }
+            } catch (_) {}
         }
         // Only truly-related secondary links here. Month + Year (hierarchy) live above under the Hero.
         const rels = [

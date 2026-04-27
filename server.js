@@ -5216,11 +5216,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         if (_slugMatch) {
             const _slug = _slugMatch[1];
             const _lp = (seo.lang === 'ar') ? '' : `/${seo.lang}`;
+            // UAT-2.6: compute today's hijri date for the canonical /hijri-date/{YYYY-MM-DD} URL
+            const _hToday = _hijriNow();
+            const _hPad = n => String(n).padStart(2, '0');
+            const _hijriDated = `/hijri-date/${_hToday.year}-${_hPad(_hToday.month)}-${_hPad(_hToday.day)}`;
             html = html
                 .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_lp}/qibla-in-${_slug}"`)
                 .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_lp}/moon-today-in-${_slug}"`)
                 .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-prayer-in-${_slug}"`)
-                .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-time-in-${_slug}"`);
+                .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-time-in-${_slug}"`)
+                // UAT-2.6: compact tools strip after #prayer-cards (mit-* — qibla/moon/hijri-today)
+                .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_lp}/qibla-in-${_slug}"`)
+                .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_lp}/moon-today-in-${_slug}"`)
+                .replace('id="mit-hijri" href="#"',     `id="mit-hijri" href="${_lp}${_hijriDated}"`);
         }
     }
     // 1e) 🆕 Round 7 (Homepage Audit): homepage (distribution hub) → strip same dead-weight.

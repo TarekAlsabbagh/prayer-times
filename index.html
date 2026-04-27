@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=488" as="script">
-    <link rel="stylesheet" href="css/style.css?v=182">
+    <link rel="preload" href="js/app.js?v=489" as="script">
+    <link rel="stylesheet" href="css/style.css?v=183">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -403,6 +403,27 @@
                         <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
                     </div>
                 </div>
+
+                <!-- 🆕 (UAT-2.6) Mini Islamic Tools — compact strip بعد جدول الصلاة مباشرة
+                     يَظهر فقط على صفحات المدينة (html.city-page) عبر CSS،
+                     ويتلقّى hrefs canonical عبر SSR injection (mit-qibla / mit-moon / mit-hijri). -->
+                <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
+                    <h3 class="mit-title" id="mit-title" data-i18n="mit.title">🕌 أدوات إسلاميّة سريعة</h3>
+                    <div class="mit-grid">
+                        <a class="mit-item" id="mit-qibla" href="#" data-tool="qibla" aria-label="اتجاه القبلة">
+                            <span class="mit-icon" aria-hidden="true">🧭</span>
+                            <span class="mit-label" data-i18n="mit.qibla">اتّجاه القبلة</span>
+                        </a>
+                        <a class="mit-item" id="mit-moon" href="#" data-tool="moon" aria-label="القمر اليوم">
+                            <span class="mit-icon" aria-hidden="true">🌙</span>
+                            <span class="mit-label" data-i18n="mit.moon">أوقات القمر</span>
+                        </a>
+                        <a class="mit-item" id="mit-hijri" href="#" data-tool="hijri" aria-label="التاريخ الهجري اليوم">
+                            <span class="mit-icon" aria-hidden="true">📅</span>
+                            <span class="mit-label" data-i18n="mit.hijri">التاريخ الهجري</span>
+                        </a>
+                    </div>
+                </section>
 
                 <!-- ══════════════════════════════════════════════════════
                      Round 20 — إعادة ترتيب الصفحة (Hero → Navigation → Discovery)
@@ -935,26 +956,9 @@
                     <button class="faq-expand-all" id="faq-expand-all" onclick="toggleFaqAll(this)" type="button" data-i18n="faq.show_all" hidden>عرض كلّ الأسئلة</button>
                 </div>
 
-                <!-- 🆕 Mini Islamic Tools (Phase 2) — 3 أدوات فقط لصفحات المدن -->
-                <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
-                    <h3 class="mit-title" id="mit-title" data-i18n="mit.title">🕌 أدوات إسلاميّة سريعة</h3>
-                    <div class="mit-grid">
-                        <a class="mit-item" id="mit-qibla" href="#" data-tool="qibla" aria-label="اتجاه القبلة">
-                            <span class="mit-icon" aria-hidden="true">🧭</span>
-                            <span class="mit-label" data-i18n="mit.qibla">اتّجاه القبلة</span>
-                        </a>
-                        <a class="mit-item" id="mit-hijri" href="/hijri-calendar" data-tool="hijri" aria-label="التقويم الهجري">
-                            <span class="mit-icon" aria-hidden="true">📅</span>
-                            <span class="mit-label" data-i18n="mit.hijri">التقويم الهجريّ</span>
-                        </a>
-                        <a class="mit-item" id="mit-moon" href="#" data-tool="moon" aria-label="القمر اليوم">
-                            <span class="mit-icon" aria-hidden="true">🌙</span>
-                            <span class="mit-label" data-i18n="mit.moon">أوقات القمر</span>
-                        </a>
-                    </div>
-                </section>
-
                 <!-- 📜 حديث اليوم — منقول لأسفل FAQ (Round 20) -->
+                <!-- (UAT-2.6) #mini-islamic-tools نُقل إلى ما بعد #prayer-cards مباشرة لتقديم
+                     الأدوات (قبلة/قمر/هجريّ) كـ compact strip بعد جدول الصلاة على صفحات المدينة. -->
                 <div class="section-card hadith-section">
                     <h2 data-i18n="hadith.title">📜 حديث اليوم</h2>
                     <div class="dua-item">
@@ -2715,7 +2719,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=488"></script>
+    <script defer src="js/app.js?v=489"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

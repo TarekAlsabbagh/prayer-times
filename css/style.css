@@ -8705,6 +8705,15 @@ html.city-page .moon-today-card {
 @media (max-width: 768px) {
     html.city-page .location-hero { display: none !important; }
 }
+/* ── UAT-2.6: dedup — qibla/moon/hijri now live in #mini-islamic-tools (after
+   #prayer-cards). Hide their duplicate <li> rows from #related-links-section on
+   city pages so each tool URL appears exactly once on the page. We target the
+   <li> parent (via :has) so the grid layout doesn't keep an empty cell. */
+html.city-page #related-links-section li:has(#rl-qibla),
+html.city-page #related-links-section li:has(#rl-moon),
+html.city-page #related-links-section li:has(#rl-hijri) {
+    display: none !important;
+}
 
 /* ── UAT-2.9: Mobile compactness — softer secondary section cards ────
    Reduces visual weight on secondary .section-card blocks (countries, FAQ,

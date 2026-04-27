@@ -11216,21 +11216,23 @@ function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
     return pageUrl(`/qibla-in-${slug}`);
 }
 
-// Build a clean Moon city URL — same idea as _buildQiblaCityUrl but tuned
-// for the Moon page:
-//   • Priority 1: exact slug or alias match (mecca / makkah / madinah / …)
-//   • Priority 2: 30 km proximity snap to a FAMOUS_MOON_CITIES entry —
-//     fine-grained Nominatim names (e.g. "Tumayr" right next to Mecca)
-//     get folded into the parent famous city. Lunar data is identical
-//     within a few km, so this is intentional.
-//   • Priority 3: derived slug from the English name (no coords).
-//   • Priority 4: coords-suffixed slug for SSR fallback (rare).
+// Build a clean Moon city URL.
 //
-// Diverges from `_buildQiblaCityUrl` only on Priority 2 — the qibla URL
-// builder intentionally suppresses proximity (UAT-Q1) so suburbs like
-// Al Rayyan stay distinct from Doha. The moon page benefits from the
-// snap because the lunar phase is the same across a metro area, and
-// users prefer clean URLs over coord clutter.
+// Strategy (UAT-Moon-1, replaces the UAT-Q4/Q4b proximity-snap):
+//   1. If the slug matches a FAMOUS_MOON_CITIES key (or a known alias of
+//      one — makkah→mecca, madinah→medina, etc.) → emit the clean URL.
+//   2. Otherwise emit `/moon-today-in-{slug}` WITHOUT coords. Every real
+//      city has its own moon page; the server resolves the slug against
+//      FAMOUS_CITY_OVERRIDES + the cities-DB index and renders the page
+//      with that city's exact lat/lng — no snapping.
+//   3. Coord-suffix is the *last-resort* fallback, used only when we
+//      genuinely have no slug for the location (raw GPS without a name).
+//      The server will 301 a known coord-suffix URL back to its clean
+//      form via `_shouldRedirectToCanonical`.
+//
+// We deliberately do NOT snap a long-tail town to the nearest famous
+// city: a place like Tumayr (Saudi Arabia, 137 km from Riyadh) deserves
+// its own moon page based on its own coordinates, not Riyadh's.
 function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
     if (typeof FAMOUS_MOON_CITIES !== 'undefined') {
         // 1) Exact slug match
@@ -11243,7 +11245,7 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         if (hintSlug && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, hintSlug)) {
             return pageUrl(`/moon-today-in-${hintSlug}`);
         }
-        // 2) Common aliases for the holy cities
+        // 2) Common aliases for the holy cities (URL form → semantic key)
         const ALIASES = {
             'makkah': 'mecca', 'makkah-al-mukarramah': 'mecca', 'makkah-al-mukarrama': 'mecca',
             'madinah': 'medina', 'al-madinah': 'medina',
@@ -11255,34 +11257,16 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
             if (raw && ALIASES[raw]) return pageUrl(`/moon-today-in-${ALIASES[raw]}`);
         }
         if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-today-in-${ALIASES[hintSlug]}`);
-        // 3) Proximity snap to the nearest FAMOUS_MOON_CITIES entry. We use a
-        //    generous 500 km radius (vs. 30 km on Qibla — UAT-Q1) because:
-        //      • Lunar phase / illumination is identical at this scale —
-        //        moonrise time differs by ~minutes, not the hour.
-        //      • The user's exact lat/lng is still saved in sessionStorage
-        //        (`city_moon`) so the page can compute precise rise/set
-        //        times if it wants — the URL just identifies the *region*.
-        //      • Without this, every rural town that Nominatim names with a
-        //        local hamlet (e.g. "Tumayr" 137 km from Riyadh) ends up
-        //        stuck with a coord-suffix URL like
-        //        /moon-today-in-tumayr-25.7044-45.8677 — exactly the bug
-        //        UAT-Q4 was meant to fix.
-        if (isFinite(lat) && isFinite(lng)) {
-            let best = null, bestKm = Infinity;
-            for (const k in FAMOUS_MOON_CITIES) {
-                if (!Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, k)) continue;
-                const c = FAMOUS_MOON_CITIES[k];
-                const d = _haversineKm(lat, lng, c.lat, c.lng);
-                if (d < bestKm) { bestKm = d; best = k; }
-            }
-            if (best && bestKm <= 500) return pageUrl(`/moon-today-in-${best}`);
-        }
     }
-    // 4) Derive a slug; only attach coords as last-resort SSR aid
+    // 3) Derive a slug from the English name (no coord suffix). The server
+    //    will resolve it against the cities-DB index. If the slug is a real
+    //    city present in db/cities-*.json, the page renders with that
+    //    city's coordinates. If not, the server falls back gracefully.
     let slug = hintSlug;
     if (!slug && englishName && typeof makeSlug === 'function') {
         slug = makeSlug(englishName, lat, lng);
     }
+    // Last resort — raw GPS without any name → coord-only slug.
     if (!slug) {
         if (isFinite(lat) && isFinite(lng)) {
             const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
@@ -11291,17 +11275,6 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         } else {
             slug = 'mecca';
         }
-    }
-    // Coord suffix only when slug isn't a known famous city — the SSR side
-    // can't resolve long-tail slugs without coordinates.
-    if (typeof FAMOUS_MOON_CITIES !== 'undefined'
-        && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug)) {
-        return pageUrl(`/moon-today-in-${slug}`);
-    }
-    if (isFinite(lat) && isFinite(lng) && !/^loc-/.test(slug)) {
-        const la = Number(lat).toFixed(4);
-        const lo = Number(lng).toFixed(4);
-        return pageUrl(`/moon-today-in-${slug}-${la}-${lo}`);
     }
     return pageUrl(`/moon-today-in-${slug}`);
 }

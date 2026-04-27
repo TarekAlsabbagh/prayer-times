@@ -11258,15 +11258,20 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         }
         if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-today-in-${ALIASES[hintSlug]}`);
     }
-    // 3) Derive a slug from the English name (no coord suffix). The server
-    //    will resolve it against the cities-DB index. If the slug is a real
-    //    city present in db/cities-*.json, the page renders with that
-    //    city's coordinates. If not, the server falls back gracefully.
+    // 3) Derive a slug from the English name. The client can't tell whether
+    //    the slug is in the server's cities-DB, so we ATTACH the coord-
+    //    suffix as a safety net (UAT-Moon-2). The server then:
+    //      • If the slug IS in DB → 301 to the clean URL  /moon-today-in-{slug}
+    //        (matches Tumayr after UAT-Moon-1 added it to db/cities-sa.json).
+    //      • If the slug is NOT in DB → render the page from the supplied
+    //        coords (with noindex), so e.g. /moon-today-in-yastrebovka-…
+    //        actually renders Yastrebovka's moon data instead of 404ing
+    //        with "city not found".
     let slug = hintSlug;
     if (!slug && englishName && typeof makeSlug === 'function') {
         slug = makeSlug(englishName, lat, lng);
     }
-    // Last resort — raw GPS without any name → coord-only slug.
+    // Last resort — raw GPS without any name → coord-only slug "loc-{la}-{lo}".
     if (!slug) {
         if (isFinite(lat) && isFinite(lng)) {
             const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
@@ -11275,6 +11280,16 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         } else {
             slug = 'mecca';
         }
+    }
+    // Coord-suffix safety net — only for "real" slugs (skip when slug is
+    // already coord-only or already coord-suffixed, and skip when coords
+    // aren't available).
+    if (isFinite(lat) && isFinite(lng)
+        && !/^loc-/.test(slug)
+        && !/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
+        const la = Number(lat).toFixed(4);
+        const lo = Number(lng).toFixed(4);
+        return pageUrl(`/moon-today-in-${slug}-${la}-${lo}`);
     }
     return pageUrl(`/moon-today-in-${slug}`);
 }

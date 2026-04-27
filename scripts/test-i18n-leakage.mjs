@@ -1,16 +1,23 @@
-// UAT-3a — i18n Leakage Audit (REPORT MODE)
+// UAT-3a / UAT-3e — i18n Leakage Audit (FAIL MODE)
 //
 // Fetches /{lang}/prayer-times-in-riyadh for every non-Arabic language and
 // counts Arabic-Unicode visible strings, categorising each occurrence by
-// likely source so we can plan the cleanup:
+// likely source:
 //
 //     data-i18n         — element has data-i18n* attribute → fixable via SSR
 //     hardcoded         — Arabic text with no data-i18n binding → needs HTML edit
 //     jsonld            — text inside <script type="application/ld+json"> → expected (lang neutrality)
 //     allowed-religious — known religious contexts (hadith, duas, Quran spans)
 //
-// The script does NOT exit non-zero on findings. It is a REPORT, used to
-// inform the size and shape of UAT-3b/3c. predeploy-check is unchanged.
+// As of UAT-3e the script ENFORCES per-language thresholds and exits non-
+// zero when any language leaks above its threshold. This makes it part of
+// predeploy-check (suite #6 → 27/27).
+//
+// Thresholds (override via env):
+//   STRICT (en/fr/de/tr/id/es/bn/ms): max LEAKAGE_STRICT_THRESHOLD (default 20)
+//   FUZZY  (ur):                      max LEAKAGE_FUZZY_THRESHOLD  (default 2)
+//
+// Set LEAKAGE_REPORT_ONLY=1 to suppress the non-zero exit (legacy soft mode).
 //
 // Usage:
 //     node scripts/test-i18n-leakage.mjs
@@ -20,6 +27,10 @@
 
 const BASE = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/+$/, '');
 const SAMPLE_PATH = '/prayer-times-in-riyadh';   // representative city page
+
+const STRICT_THRESHOLD = Number(process.env.LEAKAGE_STRICT_THRESHOLD || 20);
+const FUZZY_THRESHOLD  = Number(process.env.LEAKAGE_FUZZY_THRESHOLD  || 2);
+const REPORT_ONLY      = process.env.LEAKAGE_REPORT_ONLY === '1';
 
 // ── Languages ──────────────────────────────────────────────────────────
 // STRICT = use Arabic Unicode range as leakage detector (script differs from text)
@@ -237,11 +248,11 @@ async function auditFuzzy(lang) {
 
 // ── Main ───────────────────────────────────────────────────────────────
 console.log(`\n══════════════════════════════════════════════════════════════════`);
-console.log(`  UAT-3a — i18n Leakage Audit`);
+console.log(`  UAT-3 — i18n Leakage Audit`);
 console.log(`══════════════════════════════════════════════════════════════════`);
 console.log(`  Base: ${BASE}`);
 console.log(`  Sample path: ${SAMPLE_PATH}`);
-console.log(`  Mode: REPORT (no fail) — for UAT-3b/3c planning\n`);
+console.log(`  Thresholds: STRICT≤${STRICT_THRESHOLD}  FUZZY≤${FUZZY_THRESHOLD}  Mode: ${REPORT_ONLY ? 'REPORT (soft)' : 'FAIL'}\n`);
 
 const reports = { strict: [], fuzzy: [] };
 
@@ -269,28 +280,61 @@ for (const lang of FUZZY_LANGS) {
     }
 }
 
-// ── Detailed per-language top examples ─────────────────────────────────
+// ── Threshold check + verdict ──────────────────────────────────────────
 console.log(`\n══════════════════════════════════════════════════════════════════`);
-console.log(`  Top examples per language (first 20 each)`);
+console.log(`  Threshold verdict`);
 console.log(`══════════════════════════════════════════════════════════════════`);
+
+const verdicts = [];   // { lang, count, threshold, kind, pass }
 for (const r of reports.strict) {
-    console.log(`\n  /${r.lang}/  →  ${r.total} unique Arabic strings`);
-    console.log(`  Categories: data-i18n=${r['data-i18n']}, hardcoded=${r.hardcoded}, jsonld=${r.jsonld}, religious=${r['allowed-religious']}`);
-    console.log(`  ─────────────────────────────────────────────────────────────`);
-    r.top.forEach((line, i) => console.log(`    ${String(i + 1).padStart(2)}. ${line}`));
+    const pass = r.total <= STRICT_THRESHOLD;
+    verdicts.push({ lang: r.lang, count: r.total, threshold: STRICT_THRESHOLD, kind: 'STRICT', pass, report: r });
+}
+for (const r of reports.fuzzy) {
+    const pass = r.total_phrases_leaked <= FUZZY_THRESHOLD;
+    verdicts.push({ lang: r.lang, count: r.total_phrases_leaked, threshold: FUZZY_THRESHOLD, kind: 'FUZZY ', pass, report: r });
 }
 
-for (const r of reports.fuzzy) {
-    console.log(`\n  /${r.lang}/  →  ${r.total_phrases_leaked} known-leak phrases found`);
-    console.log(`  ─────────────────────────────────────────────────────────────`);
-    r.leaks.slice(0, 25).forEach((l, i) =>
-        console.log(`    ${String(i + 1).padStart(2)}. (×${l.occurrences})  ${l.phrase}`)
-    );
+for (const v of verdicts) {
+    const mark = v.pass ? '✓ PASS' : '✗ FAIL';
+    console.log(`  ${mark}  /${v.lang.padEnd(3)}/  ${v.kind}  count=${String(v.count).padStart(4)}  threshold=${String(v.threshold).padStart(4)}`);
+}
+
+const failed = verdicts.filter(v => !v.pass);
+const passed = verdicts.length - failed.length;
+
+// On FAIL: print the top examples for each failing language so we can act.
+if (failed.length > 0) {
+    console.log(`\n══════════════════════════════════════════════════════════════════`);
+    console.log(`  Top examples for failing languages (first 20 each)`);
+    console.log(`══════════════════════════════════════════════════════════════════`);
+    for (const v of failed) {
+        if (v.kind === 'STRICT') {
+            const r = v.report;
+            console.log(`\n  /${r.lang}/  →  ${r.total} unique Arabic strings (over threshold ${v.threshold})`);
+            console.log(`  Categories: data-i18n=${r['data-i18n']}, hardcoded=${r.hardcoded}, jsonld=${r.jsonld}, religious=${r['allowed-religious']}`);
+            console.log(`  ─────────────────────────────────────────────────────────────`);
+            r.top.forEach((line, i) => console.log(`    ${String(i + 1).padStart(2)}. ${line}`));
+        } else {
+            const r = v.report;
+            console.log(`\n  /${r.lang}/  →  ${r.total_phrases_leaked} known-leak phrases found (over threshold ${v.threshold})`);
+            console.log(`  ─────────────────────────────────────────────────────────────`);
+            r.leaks.slice(0, 25).forEach((l, i) =>
+                console.log(`    ${String(i + 1).padStart(2)}. (×${l.occurrences})  ${l.phrase}`)
+            );
+        }
+    }
 }
 
 console.log(`\n══════════════════════════════════════════════════════════════════`);
-console.log(`  Report-mode complete — no fail. predeploy-check unchanged.`);
-console.log(`  Next: UAT-3b (SSR data-i18n translation) + UAT-3c (hardcoded → data-i18n).`);
+console.log(`  Summary:  ${passed} pass / ${failed.length} fail   (${verdicts.length} total)`);
+if (failed.length === 0) {
+    console.log(`  ✓ All languages under their leakage thresholds.`);
+} else if (REPORT_ONLY) {
+    console.log(`  ⚠  ${failed.length} language(s) over threshold — REPORT mode → exit 0.`);
+} else {
+    console.log(`  ✗  ${failed.length} language(s) over threshold — FAIL.`);
+}
 console.log(`══════════════════════════════════════════════════════════════════\n`);
 
-process.exit(0);
+process.exit(failed.length > 0 && !REPORT_ONLY ? 1 : 0);

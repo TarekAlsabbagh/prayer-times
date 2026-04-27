@@ -54,7 +54,7 @@ if (fs.existsSync('db/curated-slugs.json')) {
     bad('db/curated-slugs.json missing');
 }
 
-// ── 2) Run all 5 test suites ──────────────────────────────────────────
+// ── 2) Run all 6 test suites ──────────────────────────────────────────
 console.log(`\n▌ B) Test suites`);
 const suites = [
     'test-smart-search',
@@ -62,6 +62,8 @@ const suites = [
     'test-sitemap-canonical',
     'test-sitemap-output',
     'test-page-template-seo',
+    // UAT-3e — i18n leakage gate (STRICT≤20 / FUZZY≤2 by default)
+    'test-i18n-leakage',
 ];
 for (const s of suites) {
     const r = spawnSync('node', [`scripts/${s}.mjs`], { encoding: 'utf8', env: { ...process.env, SITE_URL: BASE } });

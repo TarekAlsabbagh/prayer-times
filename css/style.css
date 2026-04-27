@@ -7984,9 +7984,29 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     50%      { opacity: 0.95; transform: scale(1.04); }
 }
 .loc-hero-geo-btn .lhb-icon  { font-size: 1.05rem; line-height: 1; display: inline-block; flex-shrink: 0; }
-.loc-hero-geo-btn .lhb-label { display: inline-block; white-space: nowrap; }
-@media (max-width: 640px) {
-    .loc-hero-geo-btn .lhb-label { white-space: normal; }
+/* UAT-UI-1: allow wrapping at all sizes — long Arabic translations
+   ("عرض مواقيت الصلاة في موقعي الآن", "Mevcut konumda namaz vakitlerini göster")
+   were overflowing the button on narrow tablets (640-820px). Wrap by default;
+   only avoid wrap on very wide viewports where it fits comfortably on one line. */
+.loc-hero-geo-btn .lhb-label {
+    display: inline-block;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    text-align: center;
+    max-width: 100%;
+}
+@media (min-width: 1024px) {
+    .loc-hero-geo-btn .lhb-label { white-space: nowrap; }
+}
+/* On very narrow viewports, shrink padding + font so button doesn't dwarf its container */
+@media (max-width: 480px) {
+    #page-prayer-times .loc-hero-geo-btn,
+    .loc-hero-geo-btn {
+        padding: 12px 16px;
+        font-size: 1rem;
+        min-height: 52px;
+    }
 }
 
 /* Secondary outlined "pick a city" button — SAME colors as qibla-hub-pick-btn */

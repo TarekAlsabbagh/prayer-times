@@ -7511,9 +7511,9 @@ function handleOgImage(qs, res) {
 const _rlWindowMs = 60 * 1000;
 const _RL_TIERS = {
     cheap:    300,  // /api/cities, /api/cities/add — DB محلي + كاش ذاكرة
+    external: 60,   // /api/wiki-* — كاش داخلي 24h/7d
     strict:   30,   // /api/geocode — Nominatim policy (1 req/sec)
 };
-// (UAT-2.8) tier `external` removed — Wikipedia proxy endpoints are gone.
 const _rlMap = new Map(); // ip → { [tier]: { count, resetAt } }
 function checkRateLimit(ip, tier) {
     const max = _RL_TIERS[tier] || _RL_TIERS.strict;
@@ -7533,6 +7533,7 @@ function checkRateLimit(ip, tier) {
 }
 function getTierForPath(urlPath) {
     if (urlPath === '/api/cities' || urlPath === '/api/cities/add') return 'cheap';
+    if (urlPath.startsWith('/api/wiki-')) return 'external';
     if (urlPath === '/api/geocode') return 'strict';
     return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
 }
@@ -9610,14 +9611,100 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== UAT-2.8 — Wikipedia API endpoints removed =====
-    // /api/wiki-onthisday and /api/wiki-summary used to proxy ar.wikipedia.org
-    // for the "About City" / OTD features. Both features were removed (the
-    // city-about-section is gone from index.html, the JS loaders were deleted
-    // in UAT-2.8). Endpoints now return 410 Gone so any stragglers fail loud.
-    if (urlPath === '/api/wiki-onthisday' || urlPath === '/api/wiki-summary') {
-        res.writeHead(410, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-        res.end('{"removed":true,"reason":"UAT-2.8 — Wikipedia dependency removed"}');
+    // ===== Wikipedia Hijri On This Day Proxy =====
+    if (urlPath === '/api/wiki-onthisday' && req.method === 'GET') {
+        const params  = new URLSearchParams(qs);
+        const day     = parseInt(params.get('day'))   || 1;
+        const month   = decodeURIComponent(params.get('month') || '');
+        const _WIKI_TTL = 24 * 60 * 60 * 1000;
+        const cacheKey  = `wiki-hijri-${day}-${month}`;
+
+        const cached = _geocodeCache.get(cacheKey);
+        if (cached && Date.now() - cached.ts < _WIKI_TTL) {
+            res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.end(cached.data); return;
+        }
+
+        // Circuit breaker check
+        if (!circuitAllow('wikipedia')) {
+            res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+            res.end('{"events":[]}'); return;
+        }
+
+        // صفحة اليوم الهجري في ويكيبيديا العربية مثل "26 شوال"
+        const pageTitle = encodeURIComponent(`${day} ${month}`);
+        const wikiUrl = `https://ar.wikipedia.org/w/api.php?action=parse&page=${pageTitle}&prop=wikitext&format=json&origin=*`;
+        try {
+            const ctrl  = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 8000);
+            const wRes  = await fetch(wikiUrl, { signal: ctrl.signal, headers: { 'User-Agent': 'PrayerTimesApp/1.0', 'Accept': 'application/json' } });
+            clearTimeout(timer);
+            if (!wRes.ok) {
+                if (wRes.status >= 500 || wRes.status === 429) circuitFail('wikipedia');
+                res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end('{"events":[]}'); return;
+            }
+            const json = await wRes.json();
+            const wikitext = json?.parse?.wikitext?.['*'] || '';
+
+            // استخراج اسم مقالة الشخص (تجاهل روابط السنة)
+            const extractFirstArticle = raw => {
+                const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g;
+                let m;
+                while ((m = re.exec(raw)) !== null) {
+                    const name = m[1].trim();
+                    // تجاهل روابط السنة الهجرية أو الميلادية
+                    if (/^\d{1,4}\s*هـ$/.test(name) || /^\d{4}$/.test(name)) continue;
+                    return name;
+                }
+                return null;
+            };
+            const cleanWiki = t => t
+                .replace(/\[\[(?:[^|\]]*\|)?([^\]]+)\]\]/g, '$1')
+                .replace(/\{\{[^}]*\}\}/g, '')
+                .replace(/<[^>]+>/g, '')
+                .replace(/'{2,}/g, '')
+                .trim();
+            const TARGET_SECTIONS = { 'أحداث': 'أحداث', 'مواليد': 'مواليد', 'وفيات': 'وفيات' };
+            const events = [];
+            let currentType = null;
+            for (const line of wikitext.split('\n')) {
+                const secHeader = line.match(/^==\s*([^=]+?)\s*==\s*$/);
+                if (secHeader) {
+                    currentType = TARGET_SECTIONS[secHeader[1].trim()] || null;
+                    continue;
+                }
+                if (!currentType) continue;
+                const bullet = line.match(/^\*+\s*(.*)/);
+                if (!bullet) continue;
+                const raw  = bullet[1];
+                const text = cleanWiki(raw);
+                if (text.length <= 10) continue;
+                const ev = { text, type: currentType };
+                // للمواليد والوفيات: احفظ اسم المقالة لجلب تفاصيل الشخص
+                if (currentType === 'مواليد' || currentType === 'وفيات') {
+                    const article = extractFirstArticle(raw);
+                    if (article) ev.article = article;
+                }
+                events.push(ev);
+            }
+            const data = JSON.stringify({ events });
+            _geocodeCache.set(cacheKey, { ts: Date.now(), data });
+            circuitSuccess('wikipedia');
+            res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'});
+            res.end(data);
+        } catch(e) {
+            circuitFail('wikipedia');
+            res.writeHead(200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+            res.end('{"events":[]}');
+        }
+        return;
+    }
+
+    // ===== /api/wiki-summary endpoint حُذف بالكامل (قسم "عن المدينة" مزال) =====
+    if (urlPath === '/api/wiki-summary' && req.method === 'GET') {
+        // إرجاع 410 Gone — الـ endpoint مهجور
+        res.writeHead(410, {'Content-Type':'application/json','Access-Control-Allow-Origin':'*'});
+        res.end('{"removed":true}');
         return;
     }
 

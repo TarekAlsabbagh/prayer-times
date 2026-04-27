@@ -11255,7 +11255,18 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
             if (raw && ALIASES[raw]) return pageUrl(`/moon-today-in-${ALIASES[raw]}`);
         }
         if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-today-in-${ALIASES[hintSlug]}`);
-        // 3) Proximity snap (≤ 30 km) — fine-grained Nominatim names → famous parent
+        // 3) Proximity snap to the nearest FAMOUS_MOON_CITIES entry. We use a
+        //    generous 500 km radius (vs. 30 km on Qibla — UAT-Q1) because:
+        //      • Lunar phase / illumination is identical at this scale —
+        //        moonrise time differs by ~minutes, not the hour.
+        //      • The user's exact lat/lng is still saved in sessionStorage
+        //        (`city_moon`) so the page can compute precise rise/set
+        //        times if it wants — the URL just identifies the *region*.
+        //      • Without this, every rural town that Nominatim names with a
+        //        local hamlet (e.g. "Tumayr" 137 km from Riyadh) ends up
+        //        stuck with a coord-suffix URL like
+        //        /moon-today-in-tumayr-25.7044-45.8677 — exactly the bug
+        //        UAT-Q4 was meant to fix.
         if (isFinite(lat) && isFinite(lng)) {
             let best = null, bestKm = Infinity;
             for (const k in FAMOUS_MOON_CITIES) {
@@ -11264,7 +11275,7 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
                 const d = _haversineKm(lat, lng, c.lat, c.lng);
                 if (d < bestKm) { bestKm = d; best = k; }
             }
-            if (best && bestKm <= 30) return pageUrl(`/moon-today-in-${best}`);
+            if (best && bestKm <= 500) return pageUrl(`/moon-today-in-${best}`);
         }
     }
     // 4) Derive a slug; only attach coords as last-resort SSR aid

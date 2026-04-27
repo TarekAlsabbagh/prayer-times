@@ -1146,8 +1146,6 @@ html[data-theme="dark"] .moon-event-countdown,
 html[data-theme="dark"] .calendar-table th,
 html[data-theme="dark"] .converter-result .result-date,
 html[data-theme="dark"] .conv-summary-day,
-html[data-theme="dark"] #hday-otd-list .otd-year,
-html[data-theme="dark"] #conv-otd-list .otd-bio-toggle,
 html[data-theme="dark"] .range-label,
 html[data-theme="dark"] .pagination-btn,
 html[data-theme="dark"] .bc-link:not([aria-current="page"]),
@@ -5161,59 +5159,9 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     color: var(--text);
 }
 
-/* أحداث اليوم */
-#wiki-otd-list li,
-#hday-otd-list li {
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.9rem;
-    line-height: 1.8;
-    color: var(--text);
-}
-#wiki-otd-list li:last-child,
-#hday-otd-list li:last-child { border-bottom: none; }
-#wiki-otd-list .otd-year,
-#hday-otd-list .otd-year {
-    font-weight: 800;
-    color: var(--primary);
-    font-size: 0.95rem;
-}
-#wiki-otd-list .otd-badge,
-#hday-otd-list .otd-badge {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 1px 7px;
-    border-radius: 20px;
-    margin: 0 4px;
-    vertical-align: middle;
-}
-#wiki-otd-list .otd-badge.birth, #hday-otd-list .otd-badge.birth  { background: #d4edda; color: #155724; }
-#wiki-otd-list .otd-badge.death, #hday-otd-list .otd-badge.death  { background: #f8d7da; color: #721c24; }
-#wiki-otd-list .otd-badge.event, #hday-otd-list .otd-badge.event  { background: #d1ecf1; color: #0c5460; }
-#wiki-otd-list .otd-bio,
-#hday-otd-list .otd-bio,
-#conv-otd-list .otd-bio {
-    margin: 6px 0 0;
-    font-size: 0.85rem;
-    color: var(--text-light);
-    line-height: 1.55;
-    border-right: 3px solid var(--border);
-    padding-right: 8px;
-}
-#wiki-otd-list .otd-bio-toggle,
-#hday-otd-list .otd-bio-toggle,
-#conv-otd-list .otd-bio-toggle {
-    display: inline-block;
-    margin-top: 4px;
-    font-size: 0.8rem;
-    color: var(--primary);
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    text-decoration: underline;
-}
+/* (UAT-2.8) أحداث اليوم — قواعد #wiki-otd-list / #hday-otd-list / #conv-otd-list حُذفت
+   لأنّ JS الذي ينشئ هذه العناصر (loadHijriDayOTD / loadWikiOTD / loadConverterOTD)
+   حُذف بدوره مع إيقاف الاعتماد على Wikipedia API. */
 
 /* ========= الأدعية والأذكار ========= */
 .dua-categories {

@@ -5344,9 +5344,15 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     padding: 0;
     overflow: hidden;
 }
-/* Round 22: inner row — يحوي البلوكات الثلاثة */
+/* Round 22 + UAT-UI-2: inner row — يحوي البلوكات الثلاثة.
+   flex-wrap allows blocks to drop to a new line on narrow viewports
+   instead of horizontally clipping. Combined with min-width: 0 on
+   children below, prevents the 392+302+260px blocks from clipping
+   when the main-content area is < ~960px (e.g., 768-1023px tablets
+   with the sidebar visible). */
 .banner-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: stretch;
     gap: 0;
     width: 100%;
@@ -5398,7 +5404,8 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 .banner-then-prayer .btp-time { direction: ltr; opacity: .85; font-size: .88rem; }
 
 .banner-block {
-    flex: 1;
+    flex: 1 1 280px;
+    min-width: 0;          /* UAT-UI-2: allow shrinking inside flex parent */
     padding: 20px 24px;
     text-align: center;
     display: flex;
@@ -5408,6 +5415,28 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     gap: 6px;
     /* CLS FIX: ارتفاع محجوز حتى لا يتغيّر البانر عند استبدال "--" بالنصوص */
     min-height: 148px;
+}
+
+/* UAT-UI-2: at 769-1023px (sidebar-visible tablet/small-desktop), the
+   3 banner blocks (~392 + 1 + 302 + 1 + 260 = ~956px) overflow the
+   main-content column when the sidebar is showing. Stack them
+   vertically in this range — same column treatment as ≤768px. */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .banner-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .banner-block {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .banner-divider {
+        width: 90%;
+        height: 1px;
+        margin: 0 auto;
+    }
 }
 
 .banner-divider {

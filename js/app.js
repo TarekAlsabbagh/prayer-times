@@ -16652,97 +16652,13 @@ function renderBio(li, article, lang) {
     }).catch(() => bioEl.remove());
 }
 
+// (UAT-2.8) _wikiOTDLoaded module-state retained as inert flag.
 let _wikiOTDLoaded = false;
 async function loadWikiOTD() {
-    if (_wikiOTDLoaded) return;
-    _wikiOTDLoaded = true;
-    const hijri = HijriDate.getToday();
-    const hijriMonthName = HijriDate.hijriMonths[hijri.month - 1];
-    const lang  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-
-    const loadingEl = document.getElementById('wiki-otd-loading');
-    const listEl    = document.getElementById('wiki-otd-list');
-    if (!loadingEl || !listEl) { _wikiOTDLoaded = false; return; }
-
-    loadingEl.style.display = 'block';
-    listEl.style.display    = 'none';
-    listEl.innerHTML        = '';
-
-    try {
-        const url = window.location.protocol === 'file:'
-            ? `https://ar.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(hijri.day + ' ' + hijriMonthName)}&prop=wikitext&format=json&origin=*`
-            : `/api/wiki-onthisday?day=${hijri.day}&month=${encodeURIComponent(hijriMonthName)}`;
-
-        const res  = await fetch(url);
-        const data = await res.json();
-
-        let events = data.events || [];
-        if (!events.length && data?.parse?.wikitext) {
-            const wikitext = data.parse.wikitext['*'] || '';
-            const eventsMatch = wikitext.match(/==\s*أحداث\s*==([\s\S]*?)(?:==|$)/);
-            const raw = eventsMatch ? eventsMatch[1] : '';
-            for (const line of raw.split('\n')) {
-                const m = line.match(/^\*+\s*(.*)/);
-                if (!m) continue;
-                let text = m[1].replace(/\[\[(?:[^|\]]*\|)?([^\]]+)\]\]/g,'$1').replace(/\{\{[^}]*\}\}/g,'').replace(/<[^>]+>/g,'').replace(/'{2,}/g,'').trim();
-                if (text.length > 10) events.push({ text });
-            }
-        }
-
-        // إزالة المكررات
-        const seen = new Set();
-        events = events.filter(ev => {
-            if (seen.has(ev.text)) return false;
-            seen.add(ev.text); return true;
-        });
-
-        // استخراج السنة الهجرية من نص الحدث
-        const getHijriYear = text => {
-            const m = text.match(/^(\d{1,4})\s*هـ/);
-            return m ? parseInt(m[1]) : null;
-        };
-
-        // فلتر: أحداث حتى سقوط الأندلس (897 هـ)
-        const ANDALUSIA_FALL = 897;
-        const finalEvents = events.filter(ev => {
-            if (!ev.text) return false;
-            const year = getHijriYear(ev.text);
-            return year !== null && year <= ANDALUSIA_FALL;
-        });
-
-        if (!finalEvents.length) {
-            loadingEl.textContent = lang !== 'ar' ? 'No events found.' : 'لا توجد أحداث متاحة.';
-            _wikiOTDLoaded = false;
-            return;
-        }
-
-        finalEvents.slice(0, 20).forEach(ev => {
-            const li = document.createElement('li');
-            const text = ev.text || '';
-            // استخرج السنة من بداية النص (مثل "310 هـ - ...")
-            const yearMatch = text.match(/^(\d{1,4})\s*هـ\s*[-–]\s*(.*)/s);
-            if (yearMatch) {
-                const year    = yearMatch[1];
-                const detail  = yearMatch[2].trim();
-                const typeMap = { 'مواليد': { cls: 'birth', label: 'ولادة' }, 'وفيات': { cls: 'death', label: 'وفاة' } };
-                const badge   = typeMap[ev.type] || { cls: 'event', label: 'حدث تاريخي:' };
-                li.innerHTML  = `<strong class="otd-year">${year} هـ</strong><span class="otd-badge ${badge.cls}">${badge.label}</span>${detail}`;
-                // جلب تفاصيل الشخص من ويكيبيديا للمواليد والوفيات
-                if (ev.article && (ev.type === 'مواليد' || ev.type === 'وفيات')) {
-                    renderBio(li, ev.article, lang);
-                }
-            } else {
-                li.textContent = text;
-            }
-            listEl.appendChild(li);
-        });
-
-        loadingEl.style.display = 'none';
-        listEl.style.display    = 'block';
-    } catch(e) {
-        loadingEl.textContent = lang !== 'ar' ? 'Failed to load events.' : 'تعذّر تحميل الأحداث.';
-        _wikiOTDLoaded = false;
-    }
+    // (UAT-2.8) Wikipedia OTD body removed — declaration kept as a no-op stub
+    //   so any leftover `typeof loadWikiOTD === 'function'` check still passes
+    //   without triggering a fetch to ar.wikipedia.org.
+    return;
 }
 
 // ========= تحويل التاريخ =========

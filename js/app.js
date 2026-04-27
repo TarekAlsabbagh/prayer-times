@@ -4049,7 +4049,7 @@ function initNavigation() {
                             : _ctx.slug.replace(/-/g, ' ');
                         window.location.href = (typeof _buildQiblaCityUrl === 'function')
                             ? _buildQiblaCityUrl(_enName, _ctx.lat, _ctx.lng, _ctx.slug)
-                            : pageUrl(`/qibla-in-${_ctx.slug}-${_la}-${_lo}`);
+                            : pageUrl(`/qibla-in-${_ctx.slug}`);  // UAT-Q5e: clean fallback (coords seeded in sessionStorage above)
                         return;
                     }
                     // Fallback الأصليّ: استخدم موقع المستخدم الحاليّ
@@ -11143,13 +11143,17 @@ function _popularCitiesList(currentKey, n) {
 }
 
 function _buildQiblaUrl(citySlug, lat, lng) {
-    // Always append -{lat}-{lng} so target page can parse coords via URL regex
-    // and compute the correct Qibla angle — never fall back to Mecca by accident.
-    if (isFinite(lat) && isFinite(lng)) {
-        const la = Number(lat).toFixed(2);
-        const lo = Number(lng).toFixed(2);
-        return pageUrl(`/qibla-in-${citySlug}-${la}-${lo}`);
-    }
+    // UAT-Q5e: clean URL only. Coords go via sessionStorage seed so the
+    // destination /qibla-in-{slug} page can resolve them without a
+    // coord-suffix URL. Used by the "other trending cities" grid where
+    // every entry is in FAMOUS_MOON_CITIES (server resolves via DB).
+    try {
+        if (citySlug && isFinite(lat) && isFinite(lng) && !/^loc-/.test(citySlug)) {
+            sessionStorage.setItem('city_' + citySlug, JSON.stringify({
+                lat, lng, _v: 2
+            }));
+        }
+    } catch (_) {}
     return pageUrl(`/qibla-in-${citySlug}`);
 }
 

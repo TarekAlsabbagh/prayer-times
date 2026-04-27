@@ -9476,26 +9476,32 @@ const server = http.createServer(async (req, res) => {
                 res.end();
                 return;
             }
-            // 2) ليست في DB + بلا coord-suffix → 404
+            // 2) ليست في DB + بلا coord-suffix → 301 إلى hub القمر (UAT-Moon-4).
+            //    سابقاً كان 404 "City not found"، لكن المستخدم لا يجب أن يرى
+            //    صفحة كسرة أبدًا. الـ moon hub (/moon-today أو /{lang}/moon-today)
+            //    صفحة generic تَعمل بدون مدينة محدّدة، فترجمة المسار إليها تَحفظ
+            //    تجربة الاستخدام وتُحافظ على لغة المستخدم.
             if (!_moonInDb && !_moonHasCoord) {
-                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-                res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>City not found</h1>');
+                const _hubPath = '/' + _moonLangPrefix + 'moon-today';
+                res.writeHead(301, { 'Location': _hubPath });
+                res.end();
                 return;
             }
-            // 3) إن كان لدينا تاريخ، فحص صحّته التقويميّة
+            // 3) إن كان لدينا تاريخ، فحص صحّته التقويميّة → 301 إلى hub بدلاً من 404 (UAT-Moon-4)
             if (_dyRt) {
                 const _dy = parseInt(_dyRt, 10);
                 const _dm = parseInt(_dmRt, 10);
                 const _dd = parseInt(_ddRt, 10);
-                if (_dm < 1 || _dm > 12 || _dd < 1 || _dd > 31) {
-                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-                    res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Invalid date</h1>');
-                    return;
+                let _dateOk = (_dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31);
+                if (_dateOk) {
+                    const _test = new Date(Date.UTC(_dy, _dm - 1, _dd));
+                    _dateOk = (_test.getUTCFullYear() === _dy && _test.getUTCMonth() === (_dm - 1) && _test.getUTCDate() === _dd);
                 }
-                const _test = new Date(Date.UTC(_dy, _dm - 1, _dd));
-                if (_test.getUTCFullYear() !== _dy || _test.getUTCMonth() !== (_dm - 1) || _test.getUTCDate() !== _dd) {
-                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-                    res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Invalid date</h1>');
+                if (!_dateOk) {
+                    // تاريخ غير صالح → 301 إلى صفحة المدينة لليوم بدل 404
+                    const _todayPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug;
+                    res.writeHead(301, { 'Location': _todayPath });
+                    res.end();
                     return;
                 }
             }
@@ -9508,14 +9514,23 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== Round 15+16: 404 صريح للصيغة القديمة =====
-    //   - /moon-today-in-{slug}/{date}  → 404 (الصيغة القديمة قبل clean-slate)
-    //   ملاحظة: /moon-in-{slug} (بلا تاريخ) أصبحت hub page صالحة في Round 16 —
-    //   تُعالَج عبر _isIndexHtmlRoute أعلاه، لا عبر 404 هنا.
-    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/.test(urlPath)) {
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Date pages are under <code>/moon-in-{city}/{date}</code> — not <code>/moon-today-in-</code>.</p>');
-        return;
+    // ===== Round 15+16 + UAT-Moon-4: legacy /moon-today-in-{slug}/{date} =====
+    //   The old shape (today + date together) was deprecated: dated pages
+    //   moved to /moon-in-{slug}/{date}. Old behaviour was a hard 404 with
+    //   a "use this URL instead" hint. UAT-Moon-4 swaps that for a 301 to
+    //   the new shape — same intent, no broken-page UX.
+    {
+        const _legacy = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+)((?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?)\/(\d{4}-\d{2}-\d{2})$/);
+        if (_legacy) {
+            const _lp = _legacy[1] || '';
+            const _slug = _legacy[2];
+            const _coords = _legacy[3] || '';
+            const _date = _legacy[4];
+            const _newPath = '/' + _lp + 'moon-in-' + _slug + _coords + '/' + _date;
+            res.writeHead(301, { 'Location': _newPath, 'Cache-Control': 'public, max-age=31536000' });
+            res.end();
+            return;
+        }
     }
 
     // ===== Round 11: 404 صريح لأي /hijri-calendar/* أو /hijri-date/* لا يطابق الصيغة الرقميّة =====

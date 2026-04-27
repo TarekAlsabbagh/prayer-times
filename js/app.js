@@ -11135,14 +11135,8 @@ function _buildQiblaUrl(citySlug, lat, lng) {
 
 // Resolve a canonical Qibla slug for (englishName, lat, lng).
 // Returns a FAMOUS_MOON_CITIES key when the input matches a known city
-// by slug or by alias — else null.
-//
-// Note (UAT-Q1): the previous implementation also did a 30 km proximity
-// snap, which caused "Al Rayyan" (Qatar) to be rewritten to "Doha"
-// because Al Rayyan is ~7 km from Doha. The proximity fallback now only
-// runs when no englishName/hintSlug is supplied — i.e. coords-only — so
-// an explicitly-selected city always wins, even if it's a suburb of a
-// FAMOUS city. This keeps URLs like /qibla-in-al-rayyan honest.
+// (either by slug or within ~30 km by coordinates) — else null.
+// Used to emit clean URLs (/qibla-in-riyadh) instead of coord URLs.
 function _canonicalQiblaSlug(englishName, lat, lng) {
     try {
         if (typeof FAMOUS_MOON_CITIES === 'undefined') return null;
@@ -11163,10 +11157,8 @@ function _canonicalQiblaSlug(englishName, lat, lng) {
             const rawSlug = (typeof makeSlug === 'function') ? makeSlug(englishName, lat, lng) : '';
             if (rawSlug && ALIASES[rawSlug]) return ALIASES[rawSlug];
         }
-        // 3) Proximity search — match by coordinates (≤ 30 km).
-        //    SKIPPED when an englishName is supplied, so a suburb is never
-        //    rewritten into the famous city next to it (UAT-Q1).
-        if (!englishName && isFinite(lat) && isFinite(lng)) {
+        // 3) Proximity search — match by coordinates (≤ 30 km)
+        if (isFinite(lat) && isFinite(lng)) {
             let best = null, bestKm = Infinity;
             for (const k in FAMOUS_MOON_CITIES) {
                 if (!Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, k)) continue;

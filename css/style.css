@@ -8706,6 +8706,31 @@ html.city-page .moon-today-card {
     html.city-page .location-hero { display: none !important; }
 }
 
+/* ── UAT-2.9: Mobile compactness — softer secondary section cards ────
+   Reduces visual weight on secondary .section-card blocks (countries, FAQ,
+   nearby, schedule, summary, related-links, etc.) on mobile.
+   Hero (.location-hero), prayer banner (.next-prayer-banner) and
+   prayer cards (.prayer-cards) are explicitly protected because they ARE
+   the primary content. Buttons/chips/CTAs are not touched (touch-target
+   safety). Desktop is unaffected (rule lives only inside the media query). */
+@media (max-width: 768px) {
+    .section-card {
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    }
+    .section-card h2 {
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+    /* Protected — primary sections keep their breathing room */
+    .section-card.location-hero,
+    .location-hero {
+        padding: 24px;
+        box-shadow: var(--shadow);
+    }
+}
+
 /* ── UAT-2.1: Homepage above-the-fold simplification ────────────────── */
 /* 1) Hide the leftover #page-h1 (already an <h2> since Phase I) on home mobile.
       Restricted to html.home-page so city pages (where #page-h1 is the real H1) are unaffected. */

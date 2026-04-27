@@ -8705,6 +8705,59 @@ html.city-page .moon-today-card {
 @media (max-width: 768px) {
     html.city-page .location-hero { display: none !important; }
 }
+
+/* ── UAT-2.1: Homepage above-the-fold simplification ────────────────── */
+/* 1) Hide the leftover #page-h1 (already an <h2> since Phase I) on home mobile.
+      Restricted to html.home-page so city pages (where #page-h1 is the real H1) are unaffected. */
+@media (max-width: 768px) {
+    html.home-page #page-h1 { display: none !important; }
+}
+
+/* 2) Popular city shortcuts inside the hero — quick links above the fold.
+      Mobile: prominent (filled chips). Desktop: lighter (no fill, smaller) so the hero stays uncluttered. */
+.loc-hero-popular-cities {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+}
+.lhpc-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid var(--primary);
+    color: var(--primary-dark);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: background 0.2s, color 0.2s;
+}
+.lhpc-chip:hover,
+.lhpc-chip:focus-visible {
+    background: var(--primary);
+    color: #fff;
+}
+@media (min-width: 769px) {
+    .loc-hero-popular-cities { margin-top: 10px; gap: 6px; }
+    .lhpc-chip {
+        padding: 5px 11px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        background: transparent;
+        border-color: rgba(0, 0, 0, 0.12);
+        color: var(--text-light);
+    }
+    .lhpc-chip:hover,
+    .lhpc-chip:focus-visible {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+    }
+}
 /* #country-cities-section يظهر على صفحة المدينة بدلاً من إخفائه */
 /* On city pages the in-page compact search duplicates the hero search — hide it */
 html.city-page #city-page-search {

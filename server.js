@@ -4213,7 +4213,8 @@ function buildSeoForPath(urlPath) {
     //   Coord form preserved for backward compatibility with any legacy bookmarks.
     m = corePath.match(/^\/qibla-in-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
     if (!m) {
-        const mClean = corePath.match(/^\/qibla-in-([a-z][a-z0-9-]+)$/);
+        // UAT-Q5f: include `.` in slug character class for loc-XX.X-YY.Y
+        const mClean = corePath.match(/^\/qibla-in-([a-z][a-z0-9.-]+)$/);
         if (mClean) {
             const _cleanSlug = mClean[1];
             const _res = (typeof _resolveCityForMoon === 'function')
@@ -4338,10 +4339,11 @@ function buildSeoForPath(urlPath) {
     //
     // Round 12: coord-suffix عالميّ (مثل /moon-today-in-del-rio-29.36--100.90) — يبقى مدعوماً.
     // جميع الأنماط تدعم coord-suffix. Regex: slug غير جشع ثمّ lat/lng اختياريّان.
-    const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
-    const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
+    // UAT-Q5f: include `.` in slug character class for loc-XX.X-YY.Y format.
+    const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+    const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
     // Round 16: hub match — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ. يُفحَص أخيراً لأنّ _MD أوّلاً.
-    const _MH = (!_MD) ? corePath.match(/^\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
+    const _MH = (!_MD) ? corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
     m = _MT || _MD || _MH;
     // flag: هل الـ URL الحاليّ hub page (بلا تاريخ، تحت /moon-in-)؟
     const _isMoonHubPage = !!_MH && !_MD && !_MT;
@@ -9422,8 +9424,10 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
         // Round 15: فصل الـ URLs — /moon-today-in-{slug} للـ today، /moon-in-{slug}/{date} للصفحات المؤرَّخة
         // Round 16: /moon-in-{slug} hub page (بلا تاريخ) — صفحة مدينة دائمة
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
+        // UAT-Q5f: include `.` in slug character class to accept loc-XX.X-YY.Y
+        //   (coord-only slugs for non-Latin city names: Persian/Arabic/Asian).
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -9447,9 +9451,11 @@ const server = http.createServer(async (req, res) => {
         //  - إن كانت المدينة في الـ DB وجاءت مع coord-suffix → 301 إلى الرابط القصير (canonical).
         //  - إن لم تكن في الـ DB وجاءت بلا coord-suffix → 404 "city not found".
         //  - إن لم تكن في الـ DB وجاءت مع coord-suffix → مرّر كـ noindex صفحة (العميل عرّف الإحداثيّات).
-        const _MTroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
-        const _MHroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
-        const _MDroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
+        // UAT-Q5f: include `.` in slug character class for loc-XX.X-YY.Y
+        //   (coord-only slugs for non-Latin city names).
+        const _MTroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        const _MHroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        const _MDroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
         const _moonCityMatch = _MTroute || _MDroute || _MHroute;
         if (_moonCityMatch) {
             const _moonLangPrefix = _moonCityMatch[1] || '';
@@ -9534,7 +9540,8 @@ const server = http.createServer(async (req, res) => {
         //     so the page renders with the real coords from the URL,
         //     ensuring the qibla angle/distance reflect the user's actual
         //     location instead of falling back to Mecca's coords (= 0°).
-        const _Qroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        // UAT-Q5f: include `.` in slug character class for loc-XX.X-YY.Y
+        const _Qroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         if (_Qroute) {
             const _qLangPrefix = _Qroute[1] || '';
             const _qSlug = _Qroute[2];

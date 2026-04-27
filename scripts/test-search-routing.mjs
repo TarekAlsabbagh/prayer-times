@@ -44,8 +44,32 @@ function extractFunc(name) {
     return src.slice(m.index, i + 1);
 }
 
+// Extract a `const NAME = (() => { ... })();` IIFE expression.
+//   Used for _TRANSLIT_MAP which is built by an IIFE for readability.
+function extractIIFEConst(name) {
+    const startRe = new RegExp(`const\\s+${name}\\s*=\\s*\\(\\(\\)\\s*=>\\s*\\{`);
+    const m = startRe.exec(src);
+    if (!m) throw new Error(`const ${name} (IIFE) not found`);
+    // Walk to find matching `})()`
+    let i = m.index + m[0].length;  // we're inside the outer arrow body now
+    let depth = 1;
+    while (i < src.length && depth > 0) {
+        const ch = src[i];
+        if (ch === '{') depth++;
+        else if (ch === '}') { depth--; if (depth === 0) break; }
+        i++;
+    }
+    // After the closing brace, swallow `)();`
+    const tail = src.slice(i + 1);
+    const closeIdx = tail.indexOf(')();');
+    if (closeIdx === -1) throw new Error(`could not find )(); for ${name}`);
+    return src.slice(m.index, i + 1 + closeIdx + ')();'.length);
+}
+
 // Build sandbox with routing helpers + data
 const sandbox = [
+    extractIIFEConst('_TRANSLIT_MAP'),       // UAT-Q5f: transliteration table
+    extractFunc('_transliterate'),            // UAT-Q5f: used by makeSlug
     extractFunc('makeSlug'),
     `const _ROUTING_ADMIN_SUFFIX_RE = /\\s+(Governorate|Province|Region|State|Emirate|Municipality|District|County)$/i;`,
     extractFunc('_routingBaseSlug'),

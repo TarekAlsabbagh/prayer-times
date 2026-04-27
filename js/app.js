@@ -2131,12 +2131,78 @@ function _isAdminOrStreetLike(name) {
 // إنشاء slug لاسم المدينة (للـ URL)
 // NFD يُفكِّك الحروف ذات العلامات (ã → a+◌̃) فيُحتَفَظ بالحرف الأساسيّ بعد حذف العلامات.
 // مثال: "São Paulo" → "sao-paulo" (بدل "so-paulo" المُشوَّه في النسخة القديمة).
+// UAT-Q5f: transliteration tables for non-Latin scripts. Used by makeSlug
+//   so cities with Persian/Arabic/Cyrillic/Greek/Hebrew names produce
+//   readable slugs (bakhsh-e-markazi-minab, dehestan-e-mish-khas, …)
+//   instead of coord-only `loc-27.2n-57.0e`. CJK (Japanese/Chinese/Korean)
+//   is rare to need this since major Asian cities have OSM `name:en` tags;
+//   for those edge cases the loc- fallback still applies.
+const _TRANSLIT_MAP = (() => {
+    const m = Object.create(null);
+    // Arabic + Persian (Persian extends Arabic with پ چ ژ گ ک ی)
+    const ar = {
+        'ا':'a','أ':'a','إ':'i','آ':'a','ء':'','ؤ':'w','ئ':'y',
+        'ب':'b','ت':'t','ث':'th','ج':'j','ح':'h','خ':'kh',
+        'د':'d','ذ':'dh','ر':'r','ز':'z','س':'s','ش':'sh',
+        'ص':'s','ض':'d','ط':'t','ظ':'z','ع':'a','غ':'gh',
+        'ف':'f','ق':'q','ك':'k','ل':'l','م':'m','ن':'n',
+        'ه':'h','و':'w','ي':'y','ى':'a','ة':'a',
+        'پ':'p','چ':'ch','ژ':'zh','گ':'g','ک':'k','ی':'y',
+        'َ':'','ُ':'','ِ':'','ً':'','ٌ':'','ٍ':'','ْ':'','ّ':'','ـ':''
+    };
+    for (const k in ar) m[k] = ar[k];
+    // Cyrillic (Russian + Ukrainian basics)
+    const cy = {
+        'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo',
+        'ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m',
+        'н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u',
+        'ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch',
+        'ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',
+        'і':'i','ї':'yi','є':'ye','ґ':'g'
+    };
+    for (const k in cy) { m[k] = cy[k]; m[k.toUpperCase()] = cy[k]; }
+    // Greek
+    const gr = {
+        'α':'a','β':'b','γ':'g','δ':'d','ε':'e','ζ':'z','η':'i',
+        'θ':'th','ι':'i','κ':'k','λ':'l','μ':'m','ν':'n','ξ':'x',
+        'ο':'o','π':'p','ρ':'r','σ':'s','ς':'s','τ':'t','υ':'y',
+        'φ':'ph','χ':'ch','ψ':'ps','ω':'o',
+        'ά':'a','έ':'e','ή':'i','ί':'i','ό':'o','ύ':'y','ώ':'o'
+    };
+    for (const k in gr) { m[k] = gr[k]; m[k.toUpperCase()] = gr[k]; }
+    // Hebrew (basic)
+    const he = {
+        'א':'a','ב':'b','ג':'g','ד':'d','ה':'h','ו':'v','ז':'z',
+        'ח':'ch','ט':'t','י':'y','כ':'k','ך':'k','ל':'l','מ':'m',
+        'ם':'m','נ':'n','ן':'n','ס':'s','ע':'a','פ':'p','ף':'p',
+        'צ':'ts','ץ':'ts','ק':'q','ר':'r','ש':'sh','ת':'t'
+    };
+    for (const k in he) m[k] = he[k];
+    return m;
+})();
+
+function _transliterate(s) {
+    if (!s) return '';
+    let out = '';
+    for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        const tr = _TRANSLIT_MAP[ch];
+        out += (tr !== undefined) ? tr : ch;
+    }
+    return out;
+}
+
 function makeSlug(englishName, lat, lng) {
-    const latin = (englishName || '')
+    // UAT-Q5f: NFD strips Latin diacritics (é→e, ö→o), then transliterate
+    //   non-Latin scripts (Arabic/Persian/Cyrillic/Greek/Hebrew) to ASCII
+    //   so we get readable slugs even when name:en isn't in OSM.
+    const stage1 = (englishName || '')
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[\u0300-\u036f]/g, '');
+    const stage2 = _transliterate(stage1);
+    const latin = stage2
         .toLowerCase()
-        .replace(/[^a-z0-9\s]+/g, '')
+        .replace(/[^a-z0-9\s]+/g, ' ')
         .trim()
         .replace(/\s+/g, '-');
     if (latin.length >= 2) return latin;

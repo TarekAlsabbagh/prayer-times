@@ -16620,36 +16620,12 @@ const _nonIslamicKeywords = [
     'نابليون','اليهود','الكنيسة','أوروبا','الناتو','المحكمة الأمريكية'
 ];
 
-// ====== مساعد عرض الترجمة المختصرة للشخصيات ======
-function renderBio(li, article, lang) {
-    const bioEl = document.createElement('p');
-    bioEl.className = 'otd-bio';
-    bioEl.textContent = '...';
-    li.appendChild(bioEl);
-    const summaryUrl = window.location.protocol === 'file:'
-        ? `https://ar.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(article)}`
-        : `/api/wiki-summary?title=${encodeURIComponent(article)}`;
-    fetch(summaryUrl).then(r => r.json()).then(s => {
-        const full = (s.extract || s.description || '').trim();
-        if (!full) { bioEl.remove(); return; }
-        const SHORT = 150;
-        const isLong = full.length > SHORT;
-        bioEl.textContent = isLong ? full.substring(0, SHORT) + '…' : full;
-        if (isLong) {
-            const toggleBtn = document.createElement('button');
-            toggleBtn.className = 'otd-bio-toggle';
-            toggleBtn.textContent = lang !== 'ar' ? 'Show more' : 'أظهر المزيد';
-            let expanded = false;
-            toggleBtn.addEventListener('click', () => {
-                expanded = !expanded;
-                bioEl.textContent = expanded ? full : full.substring(0, SHORT) + '…';
-                toggleBtn.textContent = expanded
-                    ? (lang !== 'ar' ? 'Show less' : 'أظهر أقل')
-                    : (lang !== 'ar' ? 'Show more' : 'أظهر المزيد');
-            });
-            bioEl.after(toggleBtn);
-        }
-    }).catch(() => bioEl.remove());
+// (UAT-2.8) renderBio body removed — was the last Wikipedia-touching helper,
+//   only invoked from the now-stubbed OTD loaders (steps A/B/C). Declaration
+//   kept as a no-op so any straggling `typeof renderBio === 'function'`
+//   check still resolves cleanly.
+function renderBio(/* li, article, lang */) {
+    return;
 }
 
 // (UAT-2.8) _wikiOTDLoaded module-state retained as inert flag.

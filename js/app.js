@@ -3880,18 +3880,13 @@ function initNavigation() {
                             }));
                         } catch (_e) { /* silent */ }
                     }
-                    // Round 12: نُضمّن coord-suffix لكلّ مدينة (حتّى خارج DB).
-                    // الخادم يُطبّق 301 إلى الرابط القصير تلقائيّاً للمدن المعروفة.
-                    let _moonUrl = `/moon-today-in-${_moonSlug}`;
-                    if (currentLat != null && currentLng != null &&
-                        isFinite(currentLat) && isFinite(currentLng) &&
-                        !/loc-/.test(_moonSlug)) {
-                        // إحداثيّات بدقّة معقولة (4 كسور ≈ 11 م)
-                        const _latStr = Number(currentLat).toFixed(4);
-                        const _lngStr = Number(currentLng).toFixed(4);
-                        _moonUrl = `/moon-today-in-${_moonSlug}-${_latStr}-${_lngStr}`;
-                    }
-                    window.location.href = pageUrl(_moonUrl);
+                    // Build the URL via _buildMoonCityUrl — clean URL for known
+                    // famous cities (mecca/riyadh/…), proximity-snap a fine-
+                    // grained Nominatim name (e.g. "Tumayr") to its parent
+                    // famous city, coord-suffix only for true long-tail.
+                    window.location.href = (typeof _buildMoonCityUrl === 'function')
+                        ? _buildMoonCityUrl(currentEnglishName, currentLat, currentLng, _moonSlug)
+                        : pageUrl(`/moon-today-in-${_moonSlug}`);
                 }
                 return;
             }
@@ -11219,6 +11214,85 @@ function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
         }
     }
     return pageUrl(`/qibla-in-${slug}`);
+}
+
+// Build a clean Moon city URL — same idea as _buildQiblaCityUrl but tuned
+// for the Moon page:
+//   • Priority 1: exact slug or alias match (mecca / makkah / madinah / …)
+//   • Priority 2: 30 km proximity snap to a FAMOUS_MOON_CITIES entry —
+//     fine-grained Nominatim names (e.g. "Tumayr" right next to Mecca)
+//     get folded into the parent famous city. Lunar data is identical
+//     within a few km, so this is intentional.
+//   • Priority 3: derived slug from the English name (no coords).
+//   • Priority 4: coords-suffixed slug for SSR fallback (rare).
+//
+// Diverges from `_buildQiblaCityUrl` only on Priority 2 — the qibla URL
+// builder intentionally suppresses proximity (UAT-Q1) so suburbs like
+// Al Rayyan stay distinct from Doha. The moon page benefits from the
+// snap because the lunar phase is the same across a metro area, and
+// users prefer clean URLs over coord clutter.
+function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
+    if (typeof FAMOUS_MOON_CITIES !== 'undefined') {
+        // 1) Exact slug match
+        if (englishName && typeof makeSlug === 'function') {
+            const slug = makeSlug(englishName, lat, lng);
+            if (slug && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug)) {
+                return pageUrl(`/moon-today-in-${slug}`);
+            }
+        }
+        if (hintSlug && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, hintSlug)) {
+            return pageUrl(`/moon-today-in-${hintSlug}`);
+        }
+        // 2) Common aliases for the holy cities
+        const ALIASES = {
+            'makkah': 'mecca', 'makkah-al-mukarramah': 'mecca', 'makkah-al-mukarrama': 'mecca',
+            'madinah': 'medina', 'al-madinah': 'medina',
+            'al-madinah-al-munawwarah': 'medina', 'al-madinah-al-munawara': 'medina',
+            'al-qahirah': 'cairo', 'istanbul-turkey': 'istanbul'
+        };
+        if (englishName && typeof makeSlug === 'function') {
+            const raw = makeSlug(englishName, lat, lng);
+            if (raw && ALIASES[raw]) return pageUrl(`/moon-today-in-${ALIASES[raw]}`);
+        }
+        if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-today-in-${ALIASES[hintSlug]}`);
+        // 3) Proximity snap (≤ 30 km) — fine-grained Nominatim names → famous parent
+        if (isFinite(lat) && isFinite(lng)) {
+            let best = null, bestKm = Infinity;
+            for (const k in FAMOUS_MOON_CITIES) {
+                if (!Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, k)) continue;
+                const c = FAMOUS_MOON_CITIES[k];
+                const d = _haversineKm(lat, lng, c.lat, c.lng);
+                if (d < bestKm) { bestKm = d; best = k; }
+            }
+            if (best && bestKm <= 30) return pageUrl(`/moon-today-in-${best}`);
+        }
+    }
+    // 4) Derive a slug; only attach coords as last-resort SSR aid
+    let slug = hintSlug;
+    if (!slug && englishName && typeof makeSlug === 'function') {
+        slug = makeSlug(englishName, lat, lng);
+    }
+    if (!slug) {
+        if (isFinite(lat) && isFinite(lng)) {
+            const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
+            const lo = Math.abs(lng).toFixed(1) + (lng >= 0 ? 'e' : 'w');
+            slug = `loc-${la}-${lo}`;
+        } else {
+            slug = 'mecca';
+        }
+    }
+    // Coord suffix only when slug isn't a known famous city — the SSR side
+    // can't resolve long-tail slugs without coordinates.
+    if (typeof FAMOUS_MOON_CITIES !== 'undefined'
+        && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug)) {
+        return pageUrl(`/moon-today-in-${slug}`);
+    }
+    if (isFinite(lat) && isFinite(lng) && !/^loc-/.test(slug)) {
+        const la = Number(lat).toFixed(4);
+        const lo = Number(lng).toFixed(4);
+        return pageUrl(`/moon-today-in-${slug}-${la}-${lo}`);
+    }
+    return pageUrl(`/moon-today-in-${slug}`);
 }
 
 function _buildQiblaBreadcrumbOl(cityName, isHub, lang) {

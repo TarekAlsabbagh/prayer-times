@@ -117,6 +117,116 @@ try {
 } catch (e) {
     console.warn(`[Curated] Failed to load curated-slugs.json: ${e.message}`);
 }
+
+// ===== UAT-3b — Server-side i18n: load TRANSLATIONS from js/i18n.js =====
+// Runs js/i18n.js inside a vm sandbox at boot. Stub document/window/etc so
+// the DOM-touching helpers (setLanguage, etc.) don't throw — we only need
+// the TRANSLATIONS object. Cached for the life of the process.
+let TRANSLATIONS_BY_LANG = null;
+try {
+    const _i18nPath = path.join(__dirname, 'js', 'i18n.js');
+    if (fs.existsSync(_i18nPath)) {
+        const _vm = require('vm');
+        const _i18nSrc = fs.readFileSync(_i18nPath, 'utf8');
+        const _stubDoc = {
+            documentElement: { lang: 'ar', dir: 'rtl', classList: { add: ()=>{}, remove: ()=>{}, contains: ()=>false, toggle: ()=>{} } },
+            querySelectorAll: () => [],
+            querySelector: () => null,
+            getElementById: () => null,
+            createElement: () => ({ setAttribute: ()=>{}, appendChild: ()=>{}, addEventListener: ()=>{} }),
+            head: { appendChild: () => {} },
+            body: { appendChild: () => {} },
+            addEventListener: () => {},
+            cookie: '',
+            location: { pathname: '/', hostname: 'localhost', protocol: 'http:', href: 'http://localhost/' }
+        };
+        const _sandbox = {
+            window: { location: _stubDoc.location, addEventListener: () => {}, removeEventListener: () => {} },
+            document: _stubDoc,
+            localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+            navigator: { language: 'ar', languages: ['ar'] },
+            console: { log: () => {}, warn: () => {}, error: () => {} },
+            setTimeout: () => 0, clearTimeout: () => {}, setInterval: () => 0, clearInterval: () => {}
+        };
+        _sandbox.window.document = _stubDoc;
+        _vm.createContext(_sandbox);
+        // Append exposer line so const TRANSLATIONS becomes reachable on the sandbox
+        _vm.runInContext(_i18nSrc + '\n;try{this.__TRANSLATIONS = TRANSLATIONS;}catch(e){}', _sandbox);
+        TRANSLATIONS_BY_LANG = _sandbox.__TRANSLATIONS || null;
+        if (TRANSLATIONS_BY_LANG) {
+            const _langs = Object.keys(TRANSLATIONS_BY_LANG);
+            const _arKeys = TRANSLATIONS_BY_LANG.ar ? Object.keys(TRANSLATIONS_BY_LANG.ar).length : 0;
+            console.log(`[i18n] Loaded ${_langs.length} languages (${_langs.join(',')}) — ${_arKeys} keys per lang`);
+        }
+    }
+} catch (e) {
+    console.warn(`[i18n] Failed to load TRANSLATIONS: ${e.message}`);
+    TRANSLATIONS_BY_LANG = null;
+}
+
+// HTML-escape attribute values (for placeholder/title/aria-label injection).
+function _escAttr(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;');
+}
+
+/**
+ * UAT-3b — translate data-i18n attributes server-side.
+ * Replaces inline Arabic default text/attribute values with the target-lang
+ * value from TRANSLATIONS. Skipped for ar (default) and when dict missing.
+ *
+ * Handles 4 binding kinds:
+ *   data-i18n               → replace text content of the host element
+ *   data-i18n-placeholder   → replace `placeholder="..."` value
+ *   data-i18n-title         → replace `title="..."` value
+ *   data-i18n-aria-label    → replace `aria-label="..."` value
+ *
+ * Conservative: only swaps simple `<tag ...>TEXT</tag>` patterns where the
+ * text content has no nested elements. Complex/nested cases fall back to the
+ * existing client-side i18n.js handler (no regression).
+ */
+function _translateI18nAttrs(html, lang) {
+    if (!lang || lang === 'ar' || !TRANSLATIONS_BY_LANG) return html;
+    const dict = TRANSLATIONS_BY_LANG[lang];
+    if (!dict) return html;
+
+    // 1) text content for elements with data-i18n="key"
+    html = html.replace(
+        /<([a-z][a-z0-9-]*)\b([^>]*?\bdata-i18n=["']([^"']+)["'][^>]*?)>([^<]*)<\/\1>/gi,
+        (m, tag, attrs, key, _text) => {
+            const trans = dict[key];
+            if (typeof trans !== 'string') return m;
+            return `<${tag}${attrs}>${trans}</${tag}>`;
+        }
+    );
+
+    // 2) attribute-bound i18n: placeholder / title / aria-label
+    const attrPairs = [
+        ['data-i18n-placeholder', 'placeholder'],
+        ['data-i18n-title',       'title'],
+        ['data-i18n-aria-label',  'aria-label'],
+    ];
+    for (const [keyAttr, valAttr] of attrPairs) {
+        const tagRe = /<[a-z][a-z0-9-]*\b[^>]*?\/?>/gi;
+        html = html.replace(tagRe, tagStr => {
+            const km = tagStr.match(new RegExp(`\\b${keyAttr}=["']([^"']+)["']`, 'i'));
+            if (!km) return tagStr;
+            const trans = dict[km[1]];
+            if (typeof trans !== 'string') return tagStr;
+            const valRe = new RegExp(`\\b${valAttr}=["'][^"']*["']`, 'i');
+            const escaped = _escAttr(trans);
+            if (valRe.test(tagStr)) {
+                return tagStr.replace(valRe, `${valAttr}="${escaped}"`);
+            }
+            // attribute missing — inject before the closing > (or />)
+            return tagStr.replace(/(\/?>)\s*$/, ` ${valAttr}="${escaped}"$1`);
+        });
+    }
+    return html;
+}
+
 function makeCitySlugSrv(nameEn, lat, lng) {
     // NFD decomposes accented chars (ã → a+◌̃, ü → u+◌̈, ç → c+◌̧)
     // ثمّ نحذف العلامات التشكيليّة [U+0300..U+036F] فقط، فيتبقّى الحرف الأساسيّ ASCII
@@ -7306,6 +7416,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             );
         }
     }
+
+    // UAT-3b — server-side i18n: swap data-i18n* attribute defaults for the URL lang
+    // (no-op for ar). Runs LAST so any prior text replacements (e.g. the footer
+    // hijri-today rewrite) are already in place. Client-side i18n.js still loads
+    // and remains the fallback / dynamic updater.
+    html = _translateI18nAttrs(html, seo.lang);
 
     const buf = Buffer.from(html, 'utf8');
     const headers = {

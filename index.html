@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=509" as="script">
-    <link rel="stylesheet" href="css/style.css?v=189">
+    <link rel="preload" href="js/app.js?v=510" as="script">
+    <link rel="stylesheet" href="css/style.css?v=190">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -1664,72 +1664,394 @@
                 </div>
             </div>
 
-            <!-- ===== صفحة حاسبة الزكاة ===== -->
+            <!-- ===== صفحة حاسبة الزكاة — UAT-Z1 Redesign (Professional Tool) ===== -->
             <div class="page" id="page-zakat">
-                <div class="section-card">
-                    <h2 data-i18n="zakat.title">💰 حاسبة الزكاة</h2>
-                    <div class="zakat-form">
-                        <div class="form-group">
-                            <label data-i18n="zakat.currency">العملة</label>
-                            <select id="zakat-currency">
-                                <option value="SAR" data-i18n="currency.SAR">ريال سعودي (SAR)</option>
-                                <option value="AED" data-i18n="currency.AED">درهم إماراتي (AED)</option>
-                                <option value="EGP" data-i18n="currency.EGP">جنيه مصري (EGP)</option>
-                                <option value="USD" data-i18n="currency.USD">دولار أمريكي (USD)</option>
-                                <option value="EUR" data-i18n="currency.EUR">يورو (EUR)</option>
-                                <option value="GBP" data-i18n="currency.GBP">جنيه إسترليني (GBP)</option>
-                                <option value="KWD" data-i18n="currency.KWD">دينار كويتي (KWD)</option>
-                                <option value="QAR" data-i18n="currency.QAR">ريال قطري (QAR)</option>
-                                <option value="BHD" data-i18n="currency.BHD">دينار بحريني (BHD)</option>
-                                <option value="OMR" data-i18n="currency.OMR">ريال عماني (OMR)</option>
-                                <option value="JOD" data-i18n="currency.JOD">دينار أردني (JOD)</option>
-                                <option value="TRY" data-i18n="currency.TRY">ليرة تركية (TRY)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="zakat.cash">النقد (كاش + حسابات بنكية)</label>
-                            <input type="number" id="zakat-cash" placeholder="0" oninput="calculateZakat()">
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="zakat.gold">قيمة الذهب</label>
-                            <input type="number" id="zakat-gold" placeholder="0" oninput="calculateZakat()">
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="zakat.silver">قيمة الفضة</label>
-                            <input type="number" id="zakat-silver" placeholder="0" oninput="calculateZakat()">
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="zakat.stocks">أسهم واستثمارات</label>
-                            <input type="number" id="zakat-stocks" placeholder="0" oninput="calculateZakat()">
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="zakat.property">عقارات تجارية (للبيع)</label>
-                            <input type="number" id="zakat-property" placeholder="0" oninput="calculateZakat()">
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="zakat.debt">ديون عليك (تُخصم)</label>
-                            <input type="number" id="zakat-debts" placeholder="0" oninput="calculateZakat()">
-                        </div>
 
-                        <div class="zakat-result u-hidden" id="zakat-result">
-                            <div class="label" data-i18n="zakat.total">إجمالي الأموال الخاضعة للزكاة</div>
-                            <div id="zakat-total" class="zakat-total-value">--</div>
-                            <div class="label" data-i18n="zakat.amount">مبلغ الزكاة المستحق (2.5%)</div>
-                            <div class="amount" id="zakat-amount">0</div>
-                        </div>
+                <!-- Breadcrumb -->
+                <nav class="zakat-breadcrumb city-breadcrumb" id="zakat-breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb-list">
+                        <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item bc-current"><span aria-current="page" data-i18n="zakat.hero.title">💰 حاسبة الزكاة</span></li>
+                    </ol>
+                </nav>
 
-                        <div class="section-card zakat-conditions-card">
-                            <h2 class="zakat-conditions-heading" data-i18n="zakat.conditions_title">📋 شروط وجوب الزكاة</h2>
-                            <ul class="zakat-conditions-list">
-                                <li data-i18n="zakat.cond1">بلوغ النصاب: ما يعادل 85 غراماً من الذهب أو 595 غراماً من الفضة</li>
-                                <li data-i18n="zakat.cond2">مرور حول كامل (سنة هجرية) على المال</li>
-                                <li data-i18n="zakat.cond3">أن يكون المال ملكاً تاماً لصاحبه</li>
-                                <li data-i18n="zakat.cond4">أن يكون المال نامياً أو قابلاً للنماء</li>
-                                <li data-i18n="zakat.cond5">نسبة الزكاة: 2.5% من إجمالي الأموال</li>
-                            </ul>
-                        </div>
+                <!-- 1. HERO — Title + subtitle + 3 badges -->
+                <section class="section-card zakat-hero">
+                    <h1 class="zakat-hero-title" data-i18n="zakat.hero.title">💰 حاسبة الزكاة</h1>
+                    <p class="zakat-hero-subtitle" data-i18n="zakat.hero.subtitle">احسب زكاة المال والمدخرات والذهب والأسهم بسهولة، مع توضيح النصاب ونسبة الزكاة المستحقّة.</p>
+                    <ul class="zakat-hero-badges" role="list">
+                        <li><span class="zhb-icon" aria-hidden="true">📊</span> <span data-i18n="zakat.hero.badge_percent">النسبة 2.5%</span></li>
+                        <li><span class="zhb-icon" aria-hidden="true">⚖️</span> <span data-i18n="zakat.hero.badge_nisab">النصاب 85غ ذهب أو 595غ فضّة</span></li>
+                        <li><span class="zhb-icon" aria-hidden="true">📅</span> <span data-i18n="zakat.hero.badge_hawl">الحول سنة هجريّة</span></li>
+                    </ul>
+                </section>
+
+                <!-- 2. GRID: inputs (60%) + sticky result (40%) on desktop -->
+                <div class="zakat-grid">
+
+                    <!-- ── Inputs column ─────────────────────── -->
+                    <div class="zakat-inputs-col">
+
+                        <!-- Settings card -->
+                        <details class="zakat-card zakat-settings" open>
+                            <summary class="zakat-card-summary"><span class="zcs-icon" aria-hidden="true">⚙️</span> <span data-i18n="zakat.settings.title">إعدادات الحساب</span></summary>
+                            <div class="zakat-card-grid">
+                                <div class="form-group">
+                                    <label for="zakat-currency" data-i18n="zakat.settings.currency">العملة</label>
+                                    <select id="zakat-currency">
+                                        <option value="SAR" data-i18n="currency.SAR">ريال سعودي (SAR)</option>
+                                        <option value="AED" data-i18n="currency.AED">درهم إماراتي (AED)</option>
+                                        <option value="EGP" data-i18n="currency.EGP">جنيه مصري (EGP)</option>
+                                        <option value="USD" data-i18n="currency.USD">دولار أمريكي (USD)</option>
+                                        <option value="EUR" data-i18n="currency.EUR">يورو (EUR)</option>
+                                        <option value="GBP" data-i18n="currency.GBP">جنيه إسترليني (GBP)</option>
+                                        <option value="KWD" data-i18n="currency.KWD">دينار كويتي (KWD)</option>
+                                        <option value="QAR" data-i18n="currency.QAR">ريال قطري (QAR)</option>
+                                        <option value="BHD" data-i18n="currency.BHD">دينار بحريني (BHD)</option>
+                                        <option value="OMR" data-i18n="currency.OMR">ريال عماني (OMR)</option>
+                                        <option value="JOD" data-i18n="currency.JOD">دينار أردني (JOD)</option>
+                                        <option value="TRY" data-i18n="currency.TRY">ليرة تركية (TRY)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="zakat.settings.nisab_type">النصاب المعتمد</label>
+                                    <div class="zakat-radio-row" role="radiogroup">
+                                        <label class="zakat-radio">
+                                            <input type="radio" name="zakat-nisab-type" value="gold" checked>
+                                            <span data-i18n="zakat.settings.nisab_gold">نصاب الذهب (85غ)</span>
+                                        </label>
+                                        <label class="zakat-radio">
+                                            <input type="radio" name="zakat-nisab-type" value="silver">
+                                            <span data-i18n="zakat.settings.nisab_silver">نصاب الفضّة (595غ)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-gold-price-per-gram">
+                                        <span data-i18n="zakat.settings.gold_price">سعر جرام الذهب</span>
+                                        <span class="zakat-approx-badge" data-i18n="zakat.settings.price_approx_badge">تقديريّ</span>
+                                    </label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-gold-price-per-gram" placeholder="280">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-silver-price-per-gram">
+                                        <span data-i18n="zakat.settings.silver_price">سعر جرام الفضّة</span>
+                                        <span class="zakat-approx-badge" data-i18n="zakat.settings.price_approx_badge">تقديريّ</span>
+                                    </label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-silver-price-per-gram" placeholder="3.5">
+                                </div>
+                            </div>
+                            <p class="zakat-card-note" data-i18n="zakat.settings.price_helper">عدّل سعر الجرام حسب السوق المحلّيّ لديك.</p>
+                        </details>
+
+                        <!-- Hawl card -->
+                        <details class="zakat-card zakat-hawl-card" open>
+                            <summary class="zakat-card-summary"><span class="zcs-icon" aria-hidden="true">📅</span> <span data-i18n="zakat.hawl.title">هل مرّ حول هجريّ كامل على المال؟</span></summary>
+                            <div class="zakat-radio-stack" role="radiogroup">
+                                <label class="zakat-radio">
+                                    <input type="radio" name="zakat-hawl" value="yes">
+                                    <span data-i18n="zakat.hawl.yes">نعم</span>
+                                </label>
+                                <label class="zakat-radio">
+                                    <input type="radio" name="zakat-hawl" value="no">
+                                    <span data-i18n="zakat.hawl.no">لا</span>
+                                </label>
+                                <label class="zakat-radio">
+                                    <input type="radio" name="zakat-hawl" value="unsure" checked>
+                                    <span data-i18n="zakat.hawl.unsure">غير متأكّد</span>
+                                </label>
+                            </div>
+                            <p class="zakat-card-note zakat-hawl-note-yes" data-i18n="zakat.hawl.note_yes" hidden>سيتم احتساب الزكاة إذا بلغ المال النصاب.</p>
+                            <p class="zakat-card-note zakat-hawl-note-no" data-i18n="zakat.hawl.note_no" hidden>قد لا تجب الزكاة بعد إذا لم يَمرّ حول هجريّ كامل على المال، إلّا في حالات خاصّة.</p>
+                            <p class="zakat-card-note zakat-hawl-note-unsure" data-i18n="zakat.hawl.note_unsure">يُمكنك استخدام الحاسبة لمعرفة المبلغ التقريبيّ، ثمّ مراجعة تاريخ امتلاك المال أو سؤال جهة شرعيّة موثوقة.</p>
+                        </details>
+
+                        <!-- Cash & savings card -->
+                        <details class="zakat-card zakat-cash-card" open>
+                            <summary class="zakat-card-summary"><span class="zcs-icon" aria-hidden="true">💵</span> <span data-i18n="zakat.cash.title">الأموال النقديّة والمدّخرات</span></summary>
+                            <div class="zakat-card-grid">
+                                <div class="form-group">
+                                    <label for="zakat-cash" data-i18n="zakat.cash.cash">النقد المتوفّر</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-cash" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-bank" data-i18n="zakat.cash.bank">الحسابات البنكيّة</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-bank" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-savings" data-i18n="zakat.cash.savings">المدّخرات</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-savings" placeholder="0">
+                                </div>
+                            </div>
+                            <p class="zakat-card-note" data-i18n="zakat.cash.note">أدخل الأموال التي تَملكها فعليًّا عند موعد الزكاة.</p>
+                        </details>
+
+                        <!-- Gold & silver card -->
+                        <details class="zakat-card zakat-gold-silver-card">
+                            <summary class="zakat-card-summary"><span class="zcs-icon" aria-hidden="true">🪙</span> <span data-i18n="zakat.gs.title">الذهب والفضّة</span></summary>
+
+                            <!-- Gold -->
+                            <fieldset class="zakat-fieldset">
+                                <legend><span aria-hidden="true">🥇</span> <span data-i18n="zakat.gs.gold">الذهب</span></legend>
+                                <div class="zakat-tabs" role="tablist" data-target="gold">
+                                    <button type="button" class="zakat-tab is-active" role="tab" aria-selected="true" data-mode="value" data-i18n="zakat.gs.by_value">بالقيمة</button>
+                                    <button type="button" class="zakat-tab" role="tab" aria-selected="false" data-mode="weight" data-i18n="zakat.gs.by_weight">بالوزن</button>
+                                </div>
+                                <div class="zakat-tab-panel" data-mode-panel="gold-value">
+                                    <div class="form-group">
+                                        <label for="zakat-gold" data-i18n="zakat.gs.gold_value">قيمة الذهب</label>
+                                        <input type="number" inputmode="decimal" step="0.01" id="zakat-gold" placeholder="0">
+                                    </div>
+                                </div>
+                                <div class="zakat-tab-panel" data-mode-panel="gold-weight" hidden>
+                                    <div class="form-group">
+                                        <label for="zakat-gold-weight" data-i18n="zakat.gs.weight_grams">الوزن (جرام)</label>
+                                        <input type="number" inputmode="decimal" step="0.01" id="zakat-gold-weight" placeholder="0">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- Silver -->
+                            <fieldset class="zakat-fieldset">
+                                <legend><span aria-hidden="true">🥈</span> <span data-i18n="zakat.gs.silver">الفضّة</span></legend>
+                                <div class="zakat-tabs" role="tablist" data-target="silver">
+                                    <button type="button" class="zakat-tab is-active" role="tab" aria-selected="true" data-mode="value" data-i18n="zakat.gs.by_value">بالقيمة</button>
+                                    <button type="button" class="zakat-tab" role="tab" aria-selected="false" data-mode="weight" data-i18n="zakat.gs.by_weight">بالوزن</button>
+                                </div>
+                                <div class="zakat-tab-panel" data-mode-panel="silver-value">
+                                    <div class="form-group">
+                                        <label for="zakat-silver" data-i18n="zakat.gs.silver_value">قيمة الفضّة</label>
+                                        <input type="number" inputmode="decimal" step="0.01" id="zakat-silver" placeholder="0">
+                                    </div>
+                                </div>
+                                <div class="zakat-tab-panel" data-mode-panel="silver-weight" hidden>
+                                    <div class="form-group">
+                                        <label for="zakat-silver-weight" data-i18n="zakat.gs.weight_grams">الوزن (جرام)</label>
+                                        <input type="number" inputmode="decimal" step="0.01" id="zakat-silver-weight" placeholder="0">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <p class="zakat-card-note" data-i18n="zakat.gs.note">في زكاة الذهب الشخصيّ المعدّ للزينة توجد خلافات فقهيّة، لذلك قد تَختلف طريقة الحساب حسب الفتوى المعتمدة.</p>
+                        </details>
+
+                        <!-- Investments card -->
+                        <details class="zakat-card zakat-investments-card">
+                            <summary class="zakat-card-summary"><span class="zcs-icon" aria-hidden="true">📈</span> <span data-i18n="zakat.invest.title">الاستثمارات وعروض التجارة</span></summary>
+                            <div class="zakat-card-grid">
+                                <div class="form-group">
+                                    <label for="zakat-stocks" data-i18n="zakat.invest.stocks">الأسهم والاستثمارات</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-stocks" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-trade-goods" data-i18n="zakat.invest.trade">البضائع التجاريّة</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-trade-goods" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-property" data-i18n="zakat.invest.property">العقارات المعدّة للبيع</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-property" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-receivables" data-i18n="zakat.invest.receivables">أموال مستحقّة لك</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-receivables" placeholder="0">
+                                </div>
+                            </div>
+                            <p class="zakat-card-note" data-i18n="zakat.invest.note">العقارات المخصّصة للسكن أو الاستخدام الشخصيّ لا تَدخل عادة في زكاة عروض التجارة، أمّا العقارات المعدّة للبيع فتَدخل بقيمتها السوقيّة.</p>
+                        </details>
+
+                        <!-- Debts card -->
+                        <details class="zakat-card zakat-debts-card">
+                            <summary class="zakat-card-summary"><span class="zcs-icon" aria-hidden="true">🧾</span> <span data-i18n="zakat.debts.title">الديون والخصومات</span></summary>
+                            <div class="zakat-card-grid">
+                                <div class="form-group">
+                                    <label for="zakat-debts" data-i18n="zakat.debts.debts">ديون مستحقّة عليك</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-debts" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zakat-obligations" data-i18n="zakat.debts.obligations">التزامات قريبة</label>
+                                    <input type="number" inputmode="decimal" step="0.01" id="zakat-obligations" placeholder="0">
+                                </div>
+                            </div>
+                            <p class="zakat-card-note" data-i18n="zakat.debts.note">تَختلف طريقة خصم الديون في الزكاة حسب نوع الدين وحالته، وهذه الحاسبة تُقدّم تقديرًا عامًّا.</p>
+                        </details>
+
                     </div>
+
+                    <!-- ── Result column (sticky on desktop) ─────────────────────── -->
+                    <aside class="zakat-result-col" aria-label="Zakat result">
+                        <div class="zakat-sticky-result" id="zakat-sticky-result" data-state="empty">
+                            <h2 class="zakat-result-title" data-i18n="zakat.result.title">نتيجة حساب الزكاة</h2>
+
+                            <!-- State: empty -->
+                            <div class="zakat-state-empty" data-state-block="empty">
+                                <div class="zakat-state-icon" aria-hidden="true">💰</div>
+                                <p class="zakat-state-msg" data-i18n="zakat.result.empty">أدخل بيانات أموالك لبدء الحساب</p>
+                            </div>
+
+                            <!-- State: below nisab -->
+                            <div class="zakat-state-below" data-state-block="below" hidden>
+                                <div class="zakat-state-icon" aria-hidden="true">ℹ️</div>
+                                <p class="zakat-state-msg" data-i18n="zakat.result.below">لم يَبلغ المال النصاب</p>
+                                <div class="zakat-result-rows">
+                                    <div class="zrr"><span data-i18n="zakat.result.net">صافي المال الزكويّ</span><strong id="zakat-net-below">0</strong></div>
+                                    <div class="zrr"><span data-i18n="zakat.result.nisab">النصاب المعتمد</span><strong id="zakat-nisab-below">0</strong></div>
+                                </div>
+                            </div>
+
+                            <!-- State: due (hawl=yes) -->
+                            <div class="zakat-state-due" data-state-block="due" hidden>
+                                <div class="zakat-state-badge zakat-state-badge--due">
+                                    <span aria-hidden="true">✓</span> <span data-i18n="zakat.result.due">بلغ النصاب — الزكاة مستحقّة</span>
+                                </div>
+                                <div class="zakat-result-rows">
+                                    <div class="zrr"><span data-i18n="zakat.result.net">صافي المال الزكويّ</span><strong id="zakat-net-due">0</strong></div>
+                                    <div class="zrr"><span data-i18n="zakat.result.nisab">النصاب المعتمد</span><strong id="zakat-nisab-due">0</strong></div>
+                                </div>
+                                <div class="zakat-amount-block">
+                                    <div class="zakat-amount-label" data-i18n="zakat.result.amount">الزكاة المستحقّة</div>
+                                    <div class="zakat-amount-big" id="zakat-amount-due">0</div>
+                                </div>
+                                <p class="zakat-formula" data-i18n="zakat.result.formula">الزكاة = صافي المال الزكويّ × 2.5%</p>
+                            </div>
+
+                            <!-- State: pending (hawl=no) -->
+                            <div class="zakat-state-pending" data-state-block="pending" hidden>
+                                <div class="zakat-state-badge zakat-state-badge--pending">
+                                    <span aria-hidden="true">⏳</span> <span data-i18n="zakat.result.pending">بلغ النصاب لكن لم يَمرّ الحول</span>
+                                </div>
+                                <div class="zakat-result-rows">
+                                    <div class="zrr"><span data-i18n="zakat.result.net">صافي المال الزكويّ</span><strong id="zakat-net-pending">0</strong></div>
+                                    <div class="zrr"><span data-i18n="zakat.result.nisab">النصاب المعتمد</span><strong id="zakat-nisab-pending">0</strong></div>
+                                </div>
+                                <p class="zakat-state-note" data-i18n="zakat.result.pending_note">قد لا تجب الزكاة حتّى يَمرّ حول هجريّ كامل على المال.</p>
+                            </div>
+
+                            <!-- State: estimate (hawl=unsure) -->
+                            <div class="zakat-state-estimate" data-state-block="estimate" hidden>
+                                <div class="zakat-state-badge zakat-state-badge--estimate">
+                                    <span aria-hidden="true">≈</span> <span data-i18n="zakat.result.estimate_badge">تقديريّ</span>
+                                </div>
+                                <div class="zakat-result-rows">
+                                    <div class="zrr"><span data-i18n="zakat.result.net">صافي المال الزكويّ</span><strong id="zakat-net-est">0</strong></div>
+                                    <div class="zrr"><span data-i18n="zakat.result.nisab">النصاب المعتمد</span><strong id="zakat-nisab-est">0</strong></div>
+                                </div>
+                                <div class="zakat-amount-block zakat-amount-block--estimate">
+                                    <div class="zakat-amount-label" data-i18n="zakat.result.amount">الزكاة المستحقّة</div>
+                                    <div class="zakat-amount-big" id="zakat-amount-est">0</div>
+                                </div>
+                                <p class="zakat-state-note zakat-state-note--estimate" data-i18n="zakat.result.estimate">بلغ المال النصاب، وهذه قيمة تقديريّة — تأكّد من مرور الحول الهجريّ.</p>
+                                <p class="zakat-formula" data-i18n="zakat.result.formula">الزكاة = صافي المال الزكويّ × 2.5%</p>
+                            </div>
+
+                            <!-- Action buttons -->
+                            <div class="zakat-actions">
+                                <button type="button" id="zakat-reset" class="zakat-action-btn zakat-action-btn--secondary">
+                                    <span aria-hidden="true">🗑️</span> <span data-i18n="zakat.actions.reset">مسح البيانات</span>
+                                </button>
+                                <button type="button" id="zakat-copy" class="zakat-action-btn zakat-action-btn--primary">
+                                    <span aria-hidden="true">📋</span> <span data-i18n="zakat.actions.copy">نسخ النتيجة</span>
+                                </button>
+                            </div>
+
+                            <!-- Backward-compat hidden mirrors for old code paths -->
+                            <div id="zakat-result" class="u-hidden" aria-hidden="true">
+                                <span id="zakat-total">--</span>
+                                <span id="zakat-amount">0</span>
+                            </div>
+                        </div>
+                    </aside>
+
                 </div>
+
+                <!-- 3. Breakdown table -->
+                <section class="section-card zakat-card zakat-breakdown" id="zakat-breakdown">
+                    <h2 class="zakat-breakdown-title"><span aria-hidden="true">📊</span> <span data-i18n="zakat.breakdown.title">تفصيل الحساب</span></h2>
+                    <div class="zakat-breakdown-table-wrap">
+                        <table class="zakat-breakdown-table">
+                            <tbody>
+                                <tr><td data-i18n="zakat.breakdown.cash_total">مجموع الأموال</td><td class="zbt-value" id="zbt-cash">0</td></tr>
+                                <tr><td data-i18n="zakat.breakdown.gs_total">مجموع الذهب والفضّة</td><td class="zbt-value" id="zbt-gs">0</td></tr>
+                                <tr><td data-i18n="zakat.breakdown.invest_total">مجموع الاستثمارات والتجارة</td><td class="zbt-value" id="zbt-invest">0</td></tr>
+                                <tr><td data-i18n="zakat.breakdown.debts_total">الديون المخصومة</td><td class="zbt-value" id="zbt-debts">0</td></tr>
+                                <tr class="is-net"><td data-i18n="zakat.breakdown.net">صافي المال الزكويّ</td><td class="zbt-value" id="zbt-net">0</td></tr>
+                                <tr><td data-i18n="zakat.breakdown.nisab">النصاب</td><td class="zbt-value" id="zbt-nisab">0</td></tr>
+                                <tr class="is-total"><td data-i18n="zakat.breakdown.amount">الزكاة المستحقّة</td><td class="zbt-value" id="zbt-amount">0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 4. SEO content blocks -->
+                <section class="section-card zakat-seo">
+                    <h2 data-i18n="zakat.seo.h1">كيف يتمّ حساب زكاة المال؟</h2>
+                    <p data-i18n="zakat.seo.h1_body">يتمّ حساب زكاة المال عادة بنسبة 2.5% من صافي المال الزكويّ إذا بلغ النصاب ومرّ عليه حول هجريّ كامل. المعادلة: الزكاة = صافي المال الزكويّ × 2.5%.</p>
+
+                    <h2 data-i18n="zakat.seo.h2">ما هو نصاب الزكاة؟</h2>
+                    <p data-i18n="zakat.seo.h2_body">النصاب هو الحدّ الأدنى من المال الذي إذا بلغه ومرّ عليه الحول وجبت فيه الزكاة. ويُقدّر نصاب المال غالبًا بما يَعادل 85 جرامًا من الذهب أو 595 جرامًا من الفضّة.</p>
+
+                    <h2 data-i18n="zakat.seo.h3">ما الأموال التي تَدخل في حساب الزكاة؟</h2>
+                    <ul class="zakat-seo-list" data-i18n-html="zakat.seo.h3_body">
+                        <li>النقد والحسابات البنكيّة والمدّخرات</li>
+                        <li>الذهب والفضّة</li>
+                        <li>عروض التجارة والبضائع</li>
+                        <li>الأسهم والاستثمارات</li>
+                        <li>العقارات المعدّة للبيع</li>
+                    </ul>
+
+                    <h2 data-i18n="zakat.seo.h4">ما الأموال التي لا تَدخل غالبًا؟</h2>
+                    <ul class="zakat-seo-list" data-i18n-html="zakat.seo.h4_body">
+                        <li>المنزل الشخصيّ</li>
+                        <li>السيّارة الشخصيّة</li>
+                        <li>الأثاث والأغراض الشخصيّة</li>
+                        <li>العقار غير المعدّ للبيع</li>
+                        <li>الأدوات المستخدمة للعمل وليست للبيع</li>
+                    </ul>
+                </section>
+
+                <!-- 5. FAQ — uses same i18n keys as JSON-LD (Single Source of Truth) -->
+                <section class="section-card zakat-faq-section" id="zakat-faq-section">
+                    <h2 class="zakat-faq-title" data-i18n="zakat.faq.title">❓ أسئلة شائعة عن الزكاة</h2>
+                    <div class="zakat-faq-list">
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q1">كيف أحسب زكاة المال؟</summary>
+                            <p data-i18n="zakat.faq.a1">إذا بلغ المال النصاب ومرّ عليه حول هجريّ كامل، تُحسَب الزكاة بنسبة 2.5% من صافي المال الزكويّ.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q2">كم نسبة زكاة المال؟</summary>
+                            <p data-i18n="zakat.faq.a2">نسبة زكاة المال غالبًا هي 2.5%.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q3">هل تجب الزكاة على الراتب؟</summary>
+                            <p data-i18n="zakat.faq.a3">الراتب نفسه لا تجب فيه الزكاة بمجرّد استلامه، لكن ما يَتبقّى منه ويُدّخر ويَبلغ النصاب ويَمرّ عليه الحول يَدخل في حساب الزكاة.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q4">هل الذهب عليه زكاة؟</summary>
+                            <p data-i18n="zakat.faq.a4">تجب الزكاة في الذهب إذا بلغ النصاب، لكنّ الذهب المعدّ للزينة فيه اختلاف فقهيّ، لذلك يُفضَّل الرجوع للفتوى المعتمدة لديك.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q5">هل الأسهم عليها زكاة؟</summary>
+                            <p data-i18n="zakat.faq.a5">نعم، قد تجب الزكاة على الأسهم حسب نيّة التملّك (استثمار طويل أو مضاربة أو تجارة). يُمكن تقديرها ضمن الاستثمارات في الحاسبة.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q6">هل أخصم الديون من الزكاة؟</summary>
+                            <p data-i18n="zakat.faq.a6">قد تُخصَم بعض الديون المستحقّة، لكنّ التفصيل يَختلف حسب نوع الدين ووقته، لذلك الحاسبة تُقدّم تقديرًا عامًّا.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q7">هل هذه الحاسبة تُغني عن سؤال المفتي؟</summary>
+                            <p data-i18n="zakat.faq.a7">لا، الحاسبة تُساعدك في التقدير، لكنّها لا تُغني عن سؤال أهل العلم في الحالات الخاصّة أو المعقّدة.</p>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- 6. Disclaimer -->
+                <div class="zakat-disclaimer" role="note">
+                    <strong data-i18n="zakat.disclaimer.title">تنبيه مهمّ</strong>
+                    <p data-i18n="zakat.disclaimer.body">هذه الحاسبة تُقدّم تقديرًا عامًّا لزكاة المال بناءً على المدخلات. قد تَختلف بعض التفاصيل حسب نوع المال، الديون، الذهب، الأسهم، أو الفتوى المعتمدة في بلدك. في الحالات الخاصّة، يُنصَح بسؤال جهة شرعيّة موثوقة.</p>
+                </div>
+
+                <!-- Toast for copy success -->
+                <div class="zakat-toast" id="zakat-toast" role="status" aria-live="polite" hidden></div>
             </div>
 
             <!-- ===== صفحة التاريخ الهجري — Round 9 Redesign (Answer-page focus) ===== -->
@@ -2750,7 +3072,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=509"></script>
+    <script defer src="js/app.js?v=510"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

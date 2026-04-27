@@ -7503,6 +7503,573 @@ html[dir="ltr"] .hpage-hero-start { text-align: left; }
 }
 html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
 
+/* ============================================================
+   UAT-Z1: Zakat Calculator Redesign — Professional tool
+   ============================================================ */
+
+/* Breadcrumb (reuses .city-breadcrumb base styles) */
+.zakat-breadcrumb { margin-bottom: 12px; }
+
+/* ── Hero ── */
+.zakat-hero {
+    background: linear-gradient(135deg, rgba(13,124,85,0.08) 0%, rgba(255,215,94,0.04) 100%);
+    border: 1px solid rgba(13,124,85,0.10);
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+.zakat-hero-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 8px;
+    line-height: 1.3;
+}
+.zakat-hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0 auto 16px;
+    max-width: 720px;
+    line-height: 1.7;
+}
+.zakat-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.zakat-hero-badges li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(13,124,85,0.15);
+    color: var(--primary-dark, #1e5631);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+.zakat-hero-badges .zhb-icon { font-size: 1rem; }
+
+/* ── Grid layout ── */
+.zakat-grid {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+.zakat-inputs-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+.zakat-result-col {
+    min-width: 0;
+}
+
+/* Desktop ≥1024px: two columns. RTL/LTR auto-mirror via direction. */
+@media (min-width: 1024px) {
+    .zakat-grid {
+        grid-template-columns: minmax(0, 60fr) minmax(0, 40fr);
+        grid-template-areas: "inputs result";
+        align-items: start;
+    }
+    .zakat-inputs-col { grid-area: inputs; }
+    .zakat-result-col { grid-area: result; }
+}
+
+/* Mobile-first: result appears AFTER hero, BEFORE settings/inputs. */
+@media (max-width: 1023px) {
+    .zakat-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: "result" "inputs";
+    }
+    .zakat-inputs-col { grid-area: inputs; }
+    .zakat-result-col { grid-area: result; }
+}
+
+/* ── Sticky result ── */
+.zakat-sticky-result {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    /* CLS guard */
+    min-height: 320px;
+}
+@media (min-width: 1024px) {
+    .zakat-sticky-result {
+        position: sticky;
+        top: calc(var(--top-header-h, 64px) + 16px);
+    }
+}
+.zakat-result-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 14px;
+    text-align: center;
+}
+
+/* State blocks */
+.zakat-state-empty,
+.zakat-state-below,
+.zakat-state-due,
+.zakat-state-pending,
+.zakat-state-estimate {
+    text-align: center;
+}
+.zakat-state-icon {
+    font-size: 2.6rem;
+    margin-bottom: 8px;
+    opacity: 0.7;
+}
+.zakat-state-msg {
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.zakat-state-note {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+.zakat-state-note--estimate {
+    background: rgba(255,180,0,0.08);
+    border-inline-start: 3px solid #ffb400;
+    color: #8a6a00;
+}
+
+/* State badges (one per state, with distinct color) */
+.zakat-state-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+.zakat-state-badge--due {
+    background: rgba(13,124,85,0.12);
+    color: var(--primary-dark, #1e5631);
+    border: 1px solid rgba(13,124,85,0.25);
+}
+.zakat-state-badge--pending {
+    background: rgba(255,180,0,0.12);
+    color: #8a6a00;
+    border: 1px solid rgba(255,180,0,0.35);
+}
+.zakat-state-badge--estimate {
+    background: rgba(155,135,255,0.10);
+    color: #5d4ec0;
+    border: 1px solid rgba(155,135,255,0.30);
+}
+
+/* Result rows (net + nisab side-by-side or stacked) */
+.zakat-result-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+}
+.zakat-result-rows .zrr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(13,124,85,0.04);
+    border-radius: 8px;
+    font-size: 0.92rem;
+}
+.zakat-result-rows .zrr span { color: var(--text-light, #6b7b75); }
+.zakat-result-rows .zrr strong { color: var(--text, #214936); font-weight: 700; }
+
+/* Big amount block */
+.zakat-amount-block {
+    margin: 14px 0;
+    padding: 18px 14px;
+    background: linear-gradient(135deg, rgba(13,124,85,0.08), rgba(255,215,94,0.06));
+    border-radius: 12px;
+    border: 1px solid rgba(13,124,85,0.18);
+}
+.zakat-amount-block--estimate {
+    background: linear-gradient(135deg, rgba(155,135,255,0.08), rgba(255,215,94,0.04));
+    border-color: rgba(155,135,255,0.25);
+}
+.zakat-amount-label {
+    font-size: 0.85rem;
+    color: var(--text-light, #6b7b75);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+.zakat-amount-big {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--primary-dark, #1e5631);
+    line-height: 1.1;
+    direction: ltr;
+    letter-spacing: 1px;
+}
+.zakat-state-estimate .zakat-amount-big {
+    color: #5d4ec0;
+}
+
+/* Formula line */
+.zakat-formula {
+    margin: 8px 0 0;
+    font-size: 0.82rem;
+    color: var(--text-light, #6b7b75);
+    text-align: center;
+    font-style: italic;
+    direction: ltr;
+}
+
+/* Action buttons */
+.zakat-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+.zakat-action-btn {
+    flex: 1 1 130px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
+    border: 1px solid transparent;
+}
+.zakat-action-btn--primary {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    border-color: var(--primary-dark, #1e5631);
+}
+.zakat-action-btn--primary:hover { background: var(--primary-dark, #1e5631); }
+.zakat-action-btn--secondary {
+    background: transparent;
+    color: var(--text, #214936);
+    border-color: var(--border, #e0e0e0);
+}
+.zakat-action-btn--secondary:hover { background: var(--bg-subtle, #f5f5f5); }
+
+/* ── Cards (details) ── */
+.zakat-card {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 14px;
+    padding: 16px 18px;
+    overflow: visible;
+}
+.zakat-card[open] { padding-bottom: 18px; }
+.zakat-card-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--primary-dark, #1e5631);
+    font-size: 1rem;
+    user-select: none;
+    padding: 4px 0;
+}
+.zakat-card-summary::-webkit-details-marker { display: none; }
+.zakat-card-summary::after {
+    content: '▾';
+    margin-inline-start: auto;
+    font-size: 0.85rem;
+    color: var(--text-light, #6b7b75);
+    transition: transform 0.2s;
+}
+.zakat-card[open] > .zakat-card-summary::after { transform: rotate(180deg); }
+.zakat-card .zcs-icon { font-size: 1.1rem; }
+.zakat-card-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+    margin-top: 12px;
+}
+@media (min-width: 1280px) {
+    .zakat-card-grid { grid-template-columns: 1fr 1fr; }
+}
+.zakat-card-note {
+    margin: 10px 0 0;
+    font-size: 0.82rem;
+    color: var(--text-light, #6b7b75);
+    line-height: 1.6;
+    padding: 8px 10px;
+    background: rgba(0,0,0,0.025);
+    border-radius: 6px;
+}
+
+/* Approx badge */
+.zakat-approx-badge {
+    display: inline-block;
+    margin-inline-start: 6px;
+    padding: 1px 8px;
+    background: rgba(255,180,0,0.12);
+    color: #8a6a00;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Radio rows */
+.zakat-radio-row,
+.zakat-radio-stack {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+.zakat-radio-stack { flex-direction: column; }
+.zakat-radio-row { flex-wrap: wrap; }
+.zakat-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    transition: background 0.1s, border-color 0.1s;
+}
+.zakat-radio:has(input:checked) {
+    background: rgba(13,124,85,0.08);
+    border-color: var(--primary, #2e7d32);
+    color: var(--primary-dark, #1e5631);
+    font-weight: 600;
+}
+.zakat-radio input { margin: 0; }
+
+/* Fieldset (gold/silver) */
+.zakat-fieldset {
+    border: 1px dashed var(--border, #e0e0e0);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 10px 0;
+}
+.zakat-fieldset legend {
+    font-weight: 700;
+    color: var(--primary-dark, #1e5631);
+    padding: 0 8px;
+    font-size: 0.95rem;
+}
+
+/* Tabs (value | weight) */
+.zakat-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border, #e0e0e0);
+    padding-bottom: 4px;
+}
+.zakat-tab {
+    background: transparent;
+    border: 0;
+    padding: 8px 14px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-light, #6b7b75);
+    font-family: inherit;
+}
+.zakat-tab.is-active {
+    color: var(--primary-dark, #1e5631);
+    background: rgba(13,124,85,0.08);
+    border-bottom: 2px solid var(--primary, #2e7d32);
+}
+.zakat-tab:hover { color: var(--primary-dark, #1e5631); }
+
+/* ── Breakdown table ── */
+.zakat-breakdown {
+    margin-top: 8px;
+}
+.zakat-breakdown-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.zakat-breakdown-table-wrap { overflow-x: auto; }
+.zakat-breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+.zakat-breakdown-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-light, #f0f0f0);
+}
+.zakat-breakdown-table td:first-child { color: var(--text-light, #6b7b75); }
+.zakat-breakdown-table td.zbt-value {
+    font-weight: 700;
+    color: var(--text, #214936);
+    text-align: end;
+    direction: ltr;
+}
+.zakat-breakdown-table tr.is-net td {
+    background: rgba(13,124,85,0.04);
+    font-weight: 700;
+}
+.zakat-breakdown-table tr.is-total td {
+    background: linear-gradient(90deg, rgba(13,124,85,0.10), rgba(255,215,94,0.08));
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    font-size: 1.05rem;
+}
+.zakat-breakdown-table tr:last-child td { border-bottom: 0; }
+
+/* ── SEO content ── */
+.zakat-seo {
+    line-height: 1.8;
+}
+.zakat-seo h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 18px 0 8px;
+}
+.zakat-seo h2:first-child { margin-top: 0; }
+.zakat-seo p { color: var(--text, #214936); margin: 0 0 12px; }
+.zakat-seo-list {
+    list-style: disc;
+    padding-inline-start: 22px;
+    margin: 0 0 16px;
+    color: var(--text, #214936);
+}
+
+/* ── FAQ (own styling — independent from prayer-times faq) ── */
+.zakat-faq-section { padding: 20px 22px; }
+.zakat-faq-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 14px;
+}
+.zakat-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.zakat-faq-item {
+    background: var(--bg-subtle, #f9faf9);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 10px;
+    padding: 0;
+}
+.zakat-faq-item > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 14px;
+    font-weight: 600;
+    color: var(--primary-dark, #1e5631);
+    font-size: 0.95rem;
+    user-select: none;
+    position: relative;
+}
+.zakat-faq-item > summary::-webkit-details-marker { display: none; }
+.zakat-faq-item > summary::after {
+    content: '+';
+    margin-inline-start: auto;
+    color: var(--primary, #2e7d32);
+    font-size: 1.2rem;
+    font-weight: 800;
+    position: absolute;
+    inset-inline-end: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.2s;
+}
+.zakat-faq-item[open] > summary::after { content: '−'; }
+.zakat-faq-item > p {
+    padding: 0 14px 12px;
+    margin: 0;
+    color: var(--text, #214936);
+    line-height: 1.8;
+    font-size: 0.92rem;
+}
+
+/* ── Disclaimer ── */
+.zakat-disclaimer {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: rgba(255,215,94,0.08);
+    border-inline-start: 4px solid var(--gold-light, #ffd75e);
+    border-radius: 8px;
+    color: var(--text, #214936);
+}
+.zakat-disclaimer strong {
+    display: block;
+    color: #8a6a00;
+    margin-bottom: 4px;
+    font-weight: 700;
+}
+.zakat-disclaimer p { margin: 0; line-height: 1.7; font-size: 0.9rem; }
+
+/* ── Toast ── */
+.zakat-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-dark, #1e5631);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    z-index: 9999;
+    animation: zkt-toast-in 0.2s ease-out;
+}
+@keyframes zkt-toast-in {
+    from { transform: translate(-50%, 16px); opacity: 0; }
+    to   { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* ── Dark theme tweaks ── */
+html[data-theme="dark"] .zakat-hero {
+    background: linear-gradient(135deg, rgba(122,199,158,0.12) 0%, rgba(255,215,94,0.06) 100%);
+    border-color: rgba(122,199,158,0.20);
+}
+html[data-theme="dark"] .zakat-card,
+html[data-theme="dark"] .zakat-sticky-result {
+    background: var(--card-bg);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .zakat-result-rows .zrr { background: rgba(122,199,158,0.08); }
+html[data-theme="dark"] .zakat-amount-block {
+    background: linear-gradient(135deg, rgba(122,199,158,0.16), rgba(255,215,94,0.06));
+    border-color: rgba(122,199,158,0.30);
+}
+html[data-theme="dark"] .zakat-amount-big { color: var(--primary-light, #7ac79e); }
+html[data-theme="dark"] .zakat-faq-item { background: var(--surface-sunken); }
+html[data-theme="dark"] .zakat-disclaimer { background: rgba(255,215,94,0.06); }
+
 /* Footer note */
 .footer-note {
     margin-top: 4px;

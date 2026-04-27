@@ -192,13 +192,27 @@ function _translateI18nAttrs(html, lang) {
     if (!lang || lang === 'ar' || !TRANSLATIONS_BY_LANG) return html;
     const dict = TRANSLATIONS_BY_LANG[lang];
     if (!dict) return html;
+    // UAT-Z1: English fallback chain — when a key is missing from the
+    // target lang dict (e.g. zakat.hero.title not yet translated to fr),
+    // fall back to the English value before leaving the Arabic text in
+    // place. Eliminates i18n-leakage for newly-added keys before all
+    // 10 langs are translated. AR fallback never used for non-AR langs
+    // (defeats the purpose).
+    const enDict = TRANSLATIONS_BY_LANG.en || {};
+    const _trans = (key) => {
+        const t = dict[key];
+        if (typeof t === 'string') return t;
+        const e = enDict[key];
+        if (typeof e === 'string') return e;
+        return null;
+    };
 
     // 1) text content for elements with data-i18n="key"
     html = html.replace(
         /<([a-z][a-z0-9-]*)\b([^>]*?\bdata-i18n=["']([^"']+)["'][^>]*?)>([^<]*)<\/\1>/gi,
         (m, tag, attrs, key, _text) => {
-            const trans = dict[key];
-            if (typeof trans !== 'string') return m;
+            const trans = _trans(key);
+            if (trans === null) return m;
             return `<${tag}${attrs}>${trans}</${tag}>`;
         }
     );
@@ -212,22 +226,17 @@ function _translateI18nAttrs(html, lang) {
     ];
     for (const [keyAttr, valAttr] of attrPairs) {
         const tagRe = /<[a-z][a-z0-9-]*\b[^>]*?\/?>/gi;
-        // Match the value attribute only when it stands alone (preceded by whitespace
-        // or the opening `<`), NOT when it appears as a suffix inside another attr
-        // name like `data-i18n-aria-label`. `\b` would match either side of `-`, so
-        // we use an explicit lookbehind for whitespace / tag-start instead.
         const valRe = new RegExp(`(^|<[a-z][a-z0-9-]*|\\s)(${valAttr}=["'][^"']*["'])`, 'i');
         const keyRe = new RegExp(`(?:^|\\s)${keyAttr}=["']([^"']+)["']`, 'i');
         html = html.replace(tagRe, tagStr => {
             const km = tagStr.match(keyRe);
             if (!km) return tagStr;
-            const trans = dict[km[1]];
-            if (typeof trans !== 'string') return tagStr;
+            const trans = _trans(km[1]);
+            if (trans === null) return tagStr;
             const escaped = _escAttr(trans);
             if (valRe.test(tagStr)) {
                 return tagStr.replace(valRe, `$1${valAttr}="${escaped}"`);
             }
-            // attribute missing — inject before the closing > (or />)
             return tagStr.replace(/(\/?>)\s*$/, ` ${valAttr}="${escaped}"$1`);
         });
     }
@@ -3770,6 +3779,7 @@ function buildSeoForPath(urlPath) {
     let qiblaRef = null;         // Kaaba reference for /qibla-in-*
     let cityModified = null;     // dateModified for city pages
     let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
+    let zakatFaq = false;        // UAT-Z1: يُفعّل FAQPage + HowTo schemas لصفحة الزكاة
     let moonCity = null;         // Round 9: بيانات مدينة لصفحة /moon-today-in-{slug}
     // Localize homepage description for additional languages (title unified عبر _buildCityDatedTitle).
     if (lang === 'fr') {
@@ -3861,10 +3871,13 @@ function buildSeoForPath(urlPath) {
             moonFaq: true,   // يُفعّل FAQPage schema لصفحة القمر
         },
         '/zakat-calculator': {
-            title: [ 'Zakat Calculator — Free Islamic Tool', 'حاسبة الزكاة — أداة إسلامية مجانية' ],
-            desc:  [ 'Calculate your Zakat accurately with our free Islamic tool. Covers cash, gold, silver, stocks & investments.',
-                     'احسب زكاتك بدقة عبر حاسبة الزكاة المجانية: النقد، الذهب، الفضة، الأسهم والاستثمارات.' ],
+            // UAT-Z1: redesigned as professional tool — title reflects calculator scope
+            title: [ 'Zakat Calculator | Calculate Zakat on Money, Gold and Investments',
+                     'حاسبة الزكاة | احسب زكاة المال والذهب والأسهم بسهولة' ],
+            desc:  [ 'Use the Zakat Calculator to estimate zakat on cash, savings, gold, silver, investments, and trade assets with nisab and 2.5% zakat calculation.',
+                     'استخدم حاسبة الزكاة لحساب زكاة المال والمدخرات والذهب والفضة والأسهم والعقارات المعدة للبيع، مع توضيح النصاب ونسبة الزكاة 2.5%.' ],
             app: { category: 'FinanceApplication' },
+            zakatFaq: true,    // UAT-Z1: enables FAQPage + HowTo schemas
         },
         '/duas': {
             title: [ 'Duas & Athkar — Authentic Islamic Supplications', 'الأدعية والأذكار الصحيحة من الكتاب والسنة' ],
@@ -4077,6 +4090,7 @@ function buildSeoForPath(urlPath) {
         if (sp.ogType) ogType = sp.ogType;
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
         if (sp.moonFaq) moonFaq = true;
+        if (sp.zakatFaq) zakatFaq = true;
         breadcrumbs.push({ name: title, item: canonical });
     }
 
@@ -4888,7 +4902,7 @@ function buildSeoForPath(urlPath) {
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, cityModified, origin,
-        moonFaq, moonCity, robotsOverride,
+        moonFaq, moonCity, zakatFaq, robotsOverride,
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
         nextPrayerPage
@@ -5297,6 +5311,49 @@ function renderSeoHeadHtml(seo) {
                 "name": f.q,
                 "acceptedAnswer": { "@type": "Answer", "text": f.a }
             }))
+        });
+    }
+
+    // ─── UAT-Z1: Zakat FAQPage + HowTo schemas ───
+    // Reads from the i18n dictionary (same source as the visible HTML
+    // via data-i18n attributes), so JSON-LD never diverges from rendered
+    // content. Falls back to English then Arabic dict, then to a hard-
+    // coded English string if a key is missing in both dicts.
+    if (seo.zakatFaq) {
+        const _zDict = I18N[seo.lang] || I18N.en || {};
+        const _zEn   = I18N.en || {};
+        const _zAr   = I18N.ar || {};
+        const _zT = (k, fb) => _zDict[k] || _zEn[k] || _zAr[k] || fb || '';
+        const zakatFaqKeys = [
+            ['zakat.faq.q1', 'zakat.faq.a1'],
+            ['zakat.faq.q2', 'zakat.faq.a2'],
+            ['zakat.faq.q3', 'zakat.faq.a3'],
+            ['zakat.faq.q4', 'zakat.faq.a4'],
+            ['zakat.faq.q5', 'zakat.faq.a5'],
+            ['zakat.faq.q6', 'zakat.faq.a6'],
+            ['zakat.faq.q7', 'zakat.faq.a7']
+        ];
+        ssrGraph.push({
+            "@type": "FAQPage",
+            "@id": `${seo.canonical}#zakat-faq`,
+            "inLanguage": seo.lang,
+            "mainEntity": zakatFaqKeys.map(([qK, aK]) => ({
+                "@type": "Question",
+                "name": _zT(qK),
+                "acceptedAnswer": { "@type": "Answer", "text": _zT(aK) }
+            }))
+        });
+        ssrGraph.push({
+            "@type": "HowTo",
+            "@id": `${seo.canonical}#zakat-howto`,
+            "name": _zT('zakat.seo.h1', 'How to calculate zakat'),
+            "inLanguage": seo.lang,
+            "step": [
+                { "@type": "HowToStep", "position": 1, "name": _zT('zakat.howto.step1', 'Determine the nisab.') },
+                { "@type": "HowToStep", "position": 2, "name": _zT('zakat.howto.step2', 'Sum your zakatable wealth.') },
+                { "@type": "HowToStep", "position": 3, "name": _zT('zakat.howto.step3', 'Subtract debts.') },
+                { "@type": "HowToStep", "position": 4, "name": _zT('zakat.howto.step4', 'Multiply net wealth × 2.5%.') }
+            ]
         });
     }
 

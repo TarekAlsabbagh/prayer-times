@@ -2663,6 +2663,9 @@ async function initApp() {
     initDuas();
     initTasbih();
 
+    // UAT-Z1: تهيئة حاسبة الزكاة (state machine + tabs + persistence)
+    initZakatCalculator();
+
     // تهيئة منتقي التاريخ في الجدول
     initScheduleDatePicker();
 
@@ -17548,30 +17551,387 @@ function changeCalendarMonth(delta) {
     renderCalendar();
 }
 
-// ========= حاسبة الزكاة =========
-function calculateZakat() {
-    const cash = parseFloat(document.getElementById('zakat-cash').value) || 0;
-    const gold = parseFloat(document.getElementById('zakat-gold').value) || 0;
-    const silver = parseFloat(document.getElementById('zakat-silver').value) || 0;
-    const stocks = parseFloat(document.getElementById('zakat-stocks').value) || 0;
-    const property = parseFloat(document.getElementById('zakat-property').value) || 0;
-    const debts = parseFloat(document.getElementById('zakat-debts').value) || 0;
+// ========= حاسبة الزكاة (UAT-Z1: redesigned professional tool) =========
+//
+// Architecture:
+//   1) _zakatComputeState() — pure: read all inputs → compute 5-state result
+//      States: empty / below / due / pending / estimate
+//   2) _zakatRender(state)  — paints UI: shows the right state block, updates
+//      breakdown table, formats amounts in current locale + currency
+//   3) calculateZakat()     — public entry, called from oninput/onchange
+//   4) initZakatCalculator() — wires inputs, restores state from localStorage,
+//      sets default gold/silver prices for current currency
+//   5) resetZakat() / copyZakatResult() — action handlers
+//   6) _zakatPersist() / _zakatRestore() — localStorage ('zakat_state_v1')
+//
+// Backward compat: keeps old IDs (#zakat-cash, #zakat-gold, #zakat-silver,
+//   #zakat-stocks, #zakat-property, #zakat-debts, #zakat-currency,
+//   #zakat-result, #zakat-total, #zakat-amount) so any external code still works.
 
-    const total = cash + gold + silver + stocks + property - debts;
-    const zakatAmount = total > 0 ? total * 0.025 : 0;
+const _ZAKAT_LS_KEY = 'zakat_state_v1';
+const _ZAKAT_LS_TTL_DAYS = 30;
 
-    const currency = document.getElementById('zakat-currency').value;
-    const resultDiv = document.getElementById('zakat-result');
+// Approximate gold price per gram (24k) per currency — market-rate placeholders.
+// Users see a "تقديريّ / approx" badge and a helper line; they can override.
+const _ZAKAT_DEFAULT_GOLD_PRICE = {
+    SAR: 280, AED: 275, EGP: 3700, USD: 75, EUR: 70, GBP: 60,
+    KWD: 23, QAR: 273, BHD: 28, OMR: 29, JOD: 53, TRY: 2400
+};
+const _ZAKAT_DEFAULT_SILVER_PRICE = {
+    SAR: 3.5, AED: 3.4, EGP: 46, USD: 0.95, EUR: 0.88, GBP: 0.75,
+    KWD: 0.29, QAR: 3.4, BHD: 0.36, OMR: 0.36, JOD: 0.67, TRY: 30
+};
 
-    if (total > 0) {
-        resultDiv.style.display = 'block';
-        document.getElementById('zakat-total').textContent =
-            total.toLocaleString('ar') + ' ' + currency;
-        document.getElementById('zakat-amount').textContent =
-            zakatAmount.toLocaleString('ar', { maximumFractionDigits: 2 }) + ' ' + currency;
-    } else {
-        resultDiv.style.display = 'none';
+function _zakatNum(id) {
+    const el = document.getElementById(id);
+    if (!el) return 0;
+    const v = parseFloat(el.value);
+    return isFinite(v) ? v : 0;
+}
+
+function _zakatGoldValue(goldPrice) {
+    // Tab state determines which input to read.
+    const card = document.querySelector('.zakat-gold-silver-card');
+    if (!card) return _zakatNum('zakat-gold');
+    const goldTabs = card.querySelector('[data-target="gold"]');
+    const mode = goldTabs?.querySelector('.zakat-tab.is-active')?.dataset.mode || 'value';
+    if (mode === 'weight') {
+        const weight = _zakatNum('zakat-gold-weight');
+        return weight * goldPrice;
     }
+    return _zakatNum('zakat-gold');
+}
+
+function _zakatSilverValue(silverPrice) {
+    const card = document.querySelector('.zakat-gold-silver-card');
+    if (!card) return _zakatNum('zakat-silver');
+    const silverTabs = card.querySelector('[data-target="silver"]');
+    const mode = silverTabs?.querySelector('.zakat-tab.is-active')?.dataset.mode || 'value';
+    if (mode === 'weight') {
+        const weight = _zakatNum('zakat-silver-weight');
+        return weight * silverPrice;
+    }
+    return _zakatNum('zakat-silver');
+}
+
+function _zakatComputeState() {
+    const currency = (document.getElementById('zakat-currency')?.value) || 'SAR';
+    const goldPrice = _zakatNum('zakat-gold-price-per-gram')
+        || _ZAKAT_DEFAULT_GOLD_PRICE[currency] || _ZAKAT_DEFAULT_GOLD_PRICE.SAR;
+    const silverPrice = _zakatNum('zakat-silver-price-per-gram')
+        || _ZAKAT_DEFAULT_SILVER_PRICE[currency] || _ZAKAT_DEFAULT_SILVER_PRICE.SAR;
+
+    const cash = _zakatNum('zakat-cash') + _zakatNum('zakat-bank') + _zakatNum('zakat-savings');
+    const gold = _zakatGoldValue(goldPrice);
+    const silver = _zakatSilverValue(silverPrice);
+    const invest = _zakatNum('zakat-stocks') + _zakatNum('zakat-trade-goods')
+                 + _zakatNum('zakat-property') + _zakatNum('zakat-receivables');
+    const debts = _zakatNum('zakat-debts') + _zakatNum('zakat-obligations');
+    const totalEntered = cash + gold + silver + invest;
+    const net = Math.max(0, totalEntered - debts);
+
+    const nisabType = document.querySelector('input[name="zakat-nisab-type"]:checked')?.value || 'gold';
+    const nisab = (nisabType === 'silver') ? (595 * silverPrice) : (85 * goldPrice);
+
+    const hawl = document.querySelector('input[name="zakat-hawl"]:checked')?.value || 'unsure';
+
+    // 5 states (UAT-Z1 per spec):
+    //   empty    — no inputs entered
+    //   below    — net < nisab
+    //   due      — net ≥ nisab + hawl=yes (final amount)
+    //   pending  — net ≥ nisab + hawl=no  (no amount, awaiting hawl)
+    //   estimate — net ≥ nisab + hawl=unsure (estimated amount + warning)
+    let state = 'empty';
+    if (totalEntered === 0)        state = 'empty';
+    else if (net < nisab)          state = 'below';
+    else if (hawl === 'yes')       state = 'due';
+    else if (hawl === 'no')        state = 'pending';
+    else                           state = 'estimate';
+
+    const zakatAmount = (state === 'due' || state === 'estimate') ? net * 0.025 : 0;
+
+    return {
+        currency, goldPrice, silverPrice,
+        cash, gold, silver, invest, debts,
+        net, nisab, nisabType, totalEntered, hawl,
+        state, zakatAmount,
+        isEstimate: state === 'estimate'
+    };
+}
+
+function _zakatFmtMoney(amount, currency, lang) {
+    const _lang = lang || (typeof getCurrentLang === 'function' ? getCurrentLang() : 'ar');
+    const _locale = (_lang === 'ar' || _lang === 'ur') ? 'en' : _lang; // Latin digits for finance UX
+    try {
+        return Number(amount).toLocaleString(_locale, {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        }) + ' ' + (currency || '');
+    } catch (_) {
+        return amount.toFixed(2) + ' ' + (currency || '');
+    }
+}
+
+function _zakatRender(s) {
+    const root = document.getElementById('zakat-sticky-result');
+    if (!root) return;
+    root.dataset.state = s.state;
+
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const fmt = (amt) => _zakatFmtMoney(amt, s.currency, lang);
+
+    // Toggle 5 state blocks
+    const blocks = root.querySelectorAll('[data-state-block]');
+    blocks.forEach(b => {
+        b.hidden = (b.dataset.stateBlock !== s.state);
+    });
+
+    // Update per-state values
+    if (s.state === 'below') {
+        _zakatSetText('zakat-net-below', fmt(s.net));
+        _zakatSetText('zakat-nisab-below', fmt(s.nisab));
+    } else if (s.state === 'due') {
+        _zakatSetText('zakat-net-due', fmt(s.net));
+        _zakatSetText('zakat-nisab-due', fmt(s.nisab));
+        _zakatSetText('zakat-amount-due', fmt(s.zakatAmount));
+    } else if (s.state === 'pending') {
+        _zakatSetText('zakat-net-pending', fmt(s.net));
+        _zakatSetText('zakat-nisab-pending', fmt(s.nisab));
+    } else if (s.state === 'estimate') {
+        _zakatSetText('zakat-net-est', fmt(s.net));
+        _zakatSetText('zakat-nisab-est', fmt(s.nisab));
+        _zakatSetText('zakat-amount-est', fmt(s.zakatAmount));
+    }
+
+    // Breakdown table
+    _zakatSetText('zbt-cash', fmt(s.cash));
+    _zakatSetText('zbt-gs', fmt(s.gold + s.silver));
+    _zakatSetText('zbt-invest', fmt(s.invest));
+    _zakatSetText('zbt-debts', fmt(s.debts));
+    _zakatSetText('zbt-net', fmt(s.net));
+    _zakatSetText('zbt-nisab', fmt(s.nisab));
+    _zakatSetText('zbt-amount', fmt(s.zakatAmount));
+
+    // Hawl note visibility
+    document.querySelector('.zakat-hawl-note-yes')?.toggleAttribute('hidden', s.hawl !== 'yes');
+    document.querySelector('.zakat-hawl-note-no')?.toggleAttribute('hidden', s.hawl !== 'no');
+    document.querySelector('.zakat-hawl-note-unsure')?.toggleAttribute('hidden', s.hawl !== 'unsure');
+
+    // Backward-compat mirrors
+    const oldTotal = document.getElementById('zakat-total');
+    const oldAmount = document.getElementById('zakat-amount');
+    if (oldTotal) oldTotal.textContent = fmt(s.net);
+    if (oldAmount) oldAmount.textContent = fmt(s.zakatAmount);
+
+    _zakatPersist();
+}
+
+function _zakatSetText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+}
+
+function calculateZakat() {
+    try { _zakatRender(_zakatComputeState()); } catch (_) {}
+}
+
+function resetZakat() {
+    document.querySelectorAll('#page-zakat input[type="number"]').forEach(el => el.value = '');
+    // Reset radios to defaults: nisab-type=gold, hawl=unsure
+    const goldNisab = document.querySelector('input[name="zakat-nisab-type"][value="gold"]');
+    if (goldNisab) goldNisab.checked = true;
+    const unsureHawl = document.querySelector('input[name="zakat-hawl"][value="unsure"]');
+    if (unsureHawl) unsureHawl.checked = true;
+    // Reset gold/silver tabs to "value"
+    document.querySelectorAll('#page-zakat .zakat-tabs').forEach(tabs => {
+        tabs.querySelectorAll('.zakat-tab').forEach(t => {
+            t.classList.toggle('is-active', t.dataset.mode === 'value');
+            t.setAttribute('aria-selected', t.dataset.mode === 'value' ? 'true' : 'false');
+        });
+        const target = tabs.dataset.target;
+        const card = tabs.closest('.zakat-gold-silver-card');
+        card?.querySelector(`[data-mode-panel="${target}-value"]`)?.removeAttribute('hidden');
+        card?.querySelector(`[data-mode-panel="${target}-weight"]`)?.setAttribute('hidden', '');
+    });
+    // Re-apply default gold/silver prices for current currency
+    _zakatApplyDefaultPrices();
+    try { localStorage.removeItem(_ZAKAT_LS_KEY); } catch (_) {}
+    calculateZakat();
+}
+
+function copyZakatResult() {
+    const s = _zakatComputeState();
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const fmt = (amt) => _zakatFmtMoney(amt, s.currency, lang);
+    const _t = (k, fb) => (typeof t === 'function') ? (t(k) || fb) : fb;
+    let text = '';
+    text += _t('zakat.result.net', 'صافي المال الزكويّ') + ': ' + fmt(s.net) + '\n';
+    text += _t('zakat.result.nisab', 'النصاب المعتمد') + ': ' + fmt(s.nisab) + '\n';
+    text += _t('zakat.result.amount', 'الزكاة المستحقّة') + ': ' + fmt(s.zakatAmount);
+    if (s.isEstimate) {
+        text += ' (' + _t('zakat.result.estimate_badge', 'تقديريّ') + ')';
+    }
+    text += '\n';
+
+    const showToast = () => {
+        const toast = document.getElementById('zakat-toast');
+        if (!toast) return;
+        toast.textContent = _t('zakat.actions.copied', 'تمّ النسخ ✓');
+        toast.hidden = false;
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => { toast.hidden = true; }, 2000);
+    };
+
+    try {
+        navigator.clipboard.writeText(text).then(showToast).catch(() => {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed'; ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showToast(); } catch (_) {}
+            document.body.removeChild(ta);
+        });
+    } catch (_) {}
+}
+
+function _zakatPersist() {
+    try {
+        const inputs = {};
+        document.querySelectorAll('#page-zakat input, #page-zakat select').forEach(el => {
+            if (!el.id && !el.name) return;
+            if (el.type === 'radio') {
+                if (el.checked && el.name) inputs['radio:' + el.name] = el.value;
+            } else {
+                if (el.id) inputs[el.id] = el.value;
+            }
+        });
+        // Save active tab modes
+        document.querySelectorAll('#page-zakat .zakat-tabs').forEach(tabs => {
+            const target = tabs.dataset.target;
+            const active = tabs.querySelector('.zakat-tab.is-active')?.dataset.mode;
+            if (target && active) inputs['tab:' + target] = active;
+        });
+        localStorage.setItem(_ZAKAT_LS_KEY, JSON.stringify({ inputs, ts: Date.now() }));
+    } catch (_) {}
+}
+
+function _zakatRestore() {
+    try {
+        const raw = localStorage.getItem(_ZAKAT_LS_KEY);
+        if (!raw) return false;
+        const o = JSON.parse(raw);
+        if (!o || !o.inputs) return false;
+        const ttl = _ZAKAT_LS_TTL_DAYS * 86400 * 1000;
+        if (Date.now() - (o.ts || 0) > ttl) {
+            localStorage.removeItem(_ZAKAT_LS_KEY);
+            return false;
+        }
+        for (const key in o.inputs) {
+            const val = o.inputs[key];
+            if (key.startsWith('radio:')) {
+                const name = key.slice(6);
+                const radio = document.querySelector(`input[name="${name}"][value="${val}"]`);
+                if (radio) radio.checked = true;
+            } else if (key.startsWith('tab:')) {
+                const target = key.slice(4);
+                _zakatActivateTab(target, val);
+            } else {
+                const el = document.getElementById(key);
+                if (el) el.value = val;
+            }
+        }
+        return true;
+    } catch (_) { return false; }
+}
+
+function _zakatActivateTab(target, mode) {
+    const tabs = document.querySelector(`#page-zakat .zakat-tabs[data-target="${target}"]`);
+    if (!tabs) return;
+    tabs.querySelectorAll('.zakat-tab').forEach(t => {
+        const isActive = t.dataset.mode === mode;
+        t.classList.toggle('is-active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    const card = tabs.closest('.zakat-gold-silver-card');
+    card?.querySelectorAll(`[data-mode-panel^="${target}-"]`).forEach(panel => {
+        panel.hidden = (panel.dataset.modePanel !== `${target}-${mode}`);
+    });
+}
+
+function _zakatApplyDefaultPrices(force) {
+    const currency = (document.getElementById('zakat-currency')?.value) || 'SAR';
+    const goldDefault = _ZAKAT_DEFAULT_GOLD_PRICE[currency] || _ZAKAT_DEFAULT_GOLD_PRICE.SAR;
+    const silverDefault = _ZAKAT_DEFAULT_SILVER_PRICE[currency] || _ZAKAT_DEFAULT_SILVER_PRICE.SAR;
+    const goldEl = document.getElementById('zakat-gold-price-per-gram');
+    const silverEl = document.getElementById('zakat-silver-price-per-gram');
+    if (goldEl) {
+        if (force || !goldEl.value || !goldEl.dataset.userEdited) {
+            goldEl.value = goldDefault;
+        }
+        goldEl.placeholder = String(goldDefault);
+    }
+    if (silverEl) {
+        if (force || !silverEl.value || !silverEl.dataset.userEdited) {
+            silverEl.value = silverDefault;
+        }
+        silverEl.placeholder = String(silverDefault);
+    }
+}
+
+function initZakatCalculator() {
+    const page = document.getElementById('page-zakat');
+    if (!page || page.dataset.zakatWired) return;
+    page.dataset.zakatWired = '1';
+
+    // Restore persisted inputs first (if any)
+    const restored = _zakatRestore();
+    // If nothing restored, set default gold/silver prices for current currency
+    if (!restored) _zakatApplyDefaultPrices(false);
+
+    // Mark gold/silver price fields as user-edited when changed
+    ['zakat-gold-price-per-gram', 'zakat-silver-price-per-gram'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => { el.dataset.userEdited = '1'; });
+        }
+    });
+
+    // Currency change → re-apply default prices (if not user-edited) + recompute
+    const currencyEl = document.getElementById('zakat-currency');
+    if (currencyEl) {
+        currencyEl.addEventListener('change', () => {
+            _zakatApplyDefaultPrices(false);
+            calculateZakat();
+        });
+    }
+
+    // Tabs (gold/silver: value | weight)
+    page.querySelectorAll('.zakat-tabs').forEach(tabs => {
+        tabs.addEventListener('click', (e) => {
+            const btn = e.target.closest('.zakat-tab');
+            if (!btn) return;
+            const target = tabs.dataset.target;
+            const mode = btn.dataset.mode;
+            if (!target || !mode) return;
+            _zakatActivateTab(target, mode);
+            calculateZakat();
+        });
+    });
+
+    // All inputs/selects/radios → recompute on change
+    page.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', calculateZakat);
+        el.addEventListener('change', calculateZakat);
+    });
+
+    // Action buttons
+    document.getElementById('zakat-reset')?.addEventListener('click', resetZakat);
+    document.getElementById('zakat-copy')?.addEventListener('click', copyZakatResult);
+
+    // Initial render
+    calculateZakat();
 }
 
 // ========= الأدعية والأذكار =========

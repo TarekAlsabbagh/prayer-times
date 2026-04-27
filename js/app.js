@@ -16863,72 +16863,13 @@ function convertFromSolar() {
 }
 
 // ========= أحداث التاريخ المحوّل =========
+// (UAT-2.8) _converterOTDToken module-state retained as inert counter.
 let _converterOTDToken = 0;
-async function loadConverterOTD(hijriDay, hijriMonthIndex, hijriYear) {
-    const myToken = ++_converterOTDToken;
-    const section    = document.getElementById('conv-otd-section');
-    const loadingEl  = document.getElementById('conv-otd-loading');
-    const listEl     = document.getElementById('conv-otd-list');
-    const subtitleEl = document.getElementById('conv-otd-subtitle');
-    if (!section || !loadingEl || !listEl) return;
-
-    const lang           = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const hijriMonthName = HijriDate.hijriMonths[hijriMonthIndex - 1];
-    const hijriMonthsEn  = ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'];
-
-    // تحديث العنوان الفرعي فوراً
-    if (subtitleEl) {
-        subtitleEl.textContent = lang !== 'ar'
-            ? `On this day, ${hijriDay} ${hijriMonthsEn[hijriMonthIndex - 1]} ${hijriYear} AH, we review the most notable events in Islamic history.`
-            : `في مثل هذا اليوم، ${hijriDay} ${hijriMonthName} ${hijriYear} هـ، نستعرض أبرز الأحداث التي وقعت عبر التاريخ الإسلامي.`;
-    }
-
-    section.style.display    = 'block';
-    loadingEl.style.display  = 'block';
-    listEl.style.display     = 'none';
-    listEl.innerHTML         = '';
-
-    try {
-        const url  = `/api/wiki-onthisday?day=${hijriDay}&month=${encodeURIComponent(hijriMonthName)}`;
-        const res  = await fetch(url);
-        if (myToken !== _converterOTDToken) return;
-        const data = await res.json();
-        if (myToken !== _converterOTDToken) return;
-
-        let events = data.events || [];
-        const seen = new Set();
-        events = events.filter(ev => { if (!ev.text || seen.has(ev.text)) return false; seen.add(ev.text); return true; });
-
-        const getYear = t => { const m = t.match(/^(\d{1,4})\s*هـ/); return m ? parseInt(m[1]) : null; };
-        const final   = events.filter(ev => { const y = getYear(ev.text); return y !== null && y <= 897; });
-
-        if (!final.length) {
-            loadingEl.textContent = lang !== 'ar' ? 'No events found for this date.' : 'لا توجد أحداث متاحة لهذا التاريخ.';
-            return;
-        }
-
-        const typeMap = { 'مواليد': { cls: 'birth', label: 'ولادة' }, 'وفيات': { cls: 'death', label: 'وفاة' } };
-        final.slice(0, 20).forEach(ev => {
-            const li = document.createElement('li');
-            const m  = (ev.text || '').match(/^(\d{1,4})\s*هـ\s*[-–]\s*(.*)/s);
-            if (m) {
-                const badge = typeMap[ev.type] || { cls: 'event', label: 'حدث تاريخي:' };
-                li.innerHTML = `<strong class="otd-year">${m[1]} هـ</strong><span class="otd-badge ${badge.cls}">${badge.label}</span>${m[2].trim()}`;
-                if (ev.article && (ev.type === 'مواليد' || ev.type === 'وفيات')) {
-                    renderBio(li, ev.article, lang);
-                }
-            } else {
-                li.textContent = ev.text;
-            }
-            listEl.appendChild(li);
-        });
-
-        loadingEl.style.display = 'none';
-        listEl.style.display    = 'block';
-    } catch(e) {
-        if (myToken === _converterOTDToken)
-            loadingEl.textContent = lang !== 'ar' ? 'Failed to load events.' : 'تعذّر تحميل الأحداث.';
-    }
+async function loadConverterOTD(/* hijriDay, hijriMonthIndex, hijriYear */) {
+    // (UAT-2.8) Wikipedia OTD body removed — declaration kept as a no-op stub
+    //   so any leftover `typeof loadConverterOTD === 'function'` check still
+    //   passes without triggering a fetch to /api/wiki-onthisday.
+    return;
 }
 
 // ========= التقويم الهجري =========

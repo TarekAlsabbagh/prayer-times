@@ -5552,11 +5552,7 @@ async function fetchLocalizedCityName(lat, lng) {
         if (typeof updateCitySEO === 'function' && typeof currentLat === 'number') {
             updateCitySEO(currentCity, currentEnglishName, currentCountry, currentLat, currentLng);
         }
-        // إعادة جلب قسم "عن المدينة" باسم ويكيبيديا المترجَم (مهمّ لـur حيث يوجد فقط الاسم بالأحرف المحلية)
-        if (currentLocalizedName && currentLocalizedName !== _prevLocalized
-            && typeof loadCityAboutSection === 'function') {
-            loadCityAboutSection();
-        }
+        // (UAT-2.8) قسم "عن المدينة" + الاعتماد على Wikipedia API أُزيلا.
         // إعادة رسم محتوى صفحة القمر (H1/H2/intro/FAQ) بالاسم المترجَم — مهمّ للغات UR/TR/FR/DE/ID/BN/ES/MS
         //   لأنّ updateMoonInfo() يستخدم _moonCityDisplayName() الذي يعتمد على currentCity/currentLocalizedName.
         try {
@@ -5591,7 +5587,6 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
                 try { updateCityCountryInfo(); } catch (_e) {}
                 try { updateCitySEO(currentCity, currentEnglishName, currentCountry, lat, lng); } catch (_e) {}
                 try { updatePrayerCardsSEO(); } catch (_e) {} // refreshes the hero H1 with city name
-                try { loadCityAboutSection(); } catch (_e) {}
                 try { fetchLocalizedCityName(lat, lng); } catch (_e) {}
             }).catch(() => {});
         } catch (_e) { /* silent */ }
@@ -5609,7 +5604,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     updateQibla();
     fetchNearbyPlaces(lat, lng);
     updateCityCountryInfo();
-    loadCityAboutSection();
+    // (UAT-2.8) قسم "عن المدينة" المعتمد على Wikipedia API أُزيل.
     // UR/TR/FR: جلب الاسم المترجَم في الخلفية ثمّ إعادة رسم الواجهة
     fetchLocalizedCityName(lat, lng);
 
@@ -5646,7 +5641,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
 
 // ========= قسم "عن المدينة" من ويكيبيديا — حُذف بالكامل بناءً على طلب المستخدم =========
 // stubs محتفظ بها لتجنّب أخطاء مراجع خارجيّة
-function loadCityAboutSection() { /* removed */ }
+// (UAT-2.8) loadCityAboutSection() — removed, callsites also dropped.
 function _renderCityAbout() { /* removed */ }
 function toggleCityAbout() { /* removed */ }
 

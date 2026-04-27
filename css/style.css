@@ -8715,6 +8715,80 @@ html.city-page #related-links-section li:has(#rl-hijri) {
     display: none !important;
 }
 
+/* ── UAT-2.7: Inline <details> calculation settings (city pages only) ─────
+   Replaces the modal-only settings UX with a native <details>/<summary>
+   collapsed block. The modal still exists for advanced settings (high-lats +
+   adhan); access is via the "إعدادات متقدّمة" button inside <details>. */
+.city-calc-settings { display: none; }
+html.city-page .city-calc-settings {
+    display: block;
+    margin-top: 14px;
+}
+/* Hide the redundant ⚙️ trigger from #summary-info-strip on city pages
+   since the inline details is now the primary entry point. */
+html.city-page .sis-settings { display: none !important; }
+
+.ccs-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+.ccs-summary::-webkit-details-marker { display: none; }
+.ccs-icon { font-size: 1.1rem; }
+.ccs-title { flex: 1; }
+.ccs-chevron { font-size: 0.9rem; transition: transform 0.2s; }
+details[open] > .ccs-summary .ccs-chevron { transform: rotate(180deg); }
+
+.ccs-grid {
+    display: grid;
+    gap: 12px;
+    padding: 4px 14px 14px;
+}
+.ccs-row { display: flex; flex-direction: column; gap: 6px; }
+.ccs-row label { font-size: 0.85rem; color: var(--text-light, #5a6a5a); }
+.ccs-row select {
+    padding: 8px 10px;
+    border: 1px solid var(--border, #d7e3d6);
+    border-radius: 8px;
+    background: var(--card-bg, #fff);
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: var(--text, #2e3a2e);
+}
+.ccs-row select:focus-visible {
+    outline: 2px solid var(--primary, #2e7d32);
+    outline-offset: 1px;
+}
+
+.ccs-advanced-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding: 8px 10px;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--border, #d7e3d6);
+    color: var(--primary, #2e7d32);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+    text-align: start;
+}
+.ccs-advanced-link:hover,
+.ccs-advanced-link:focus-visible {
+    color: var(--primary-dark, #1b5e20);
+    background: var(--bg-subtle, #f4faf4);
+}
+
 /* ── UAT-2.9: Mobile compactness — softer secondary section cards ────
    Reduces visual weight on secondary .section-card blocks (countries, FAQ,
    nearby, schedule, summary, related-links, etc.) on mobile.

@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=489" as="script">
-    <link rel="stylesheet" href="css/style.css?v=183">
+    <link rel="preload" href="js/app.js?v=490" as="script">
+    <link rel="stylesheet" href="css/style.css?v=184">
 </head>
 <body>
     <!-- زر القائمة للموبايل -->
@@ -452,6 +452,37 @@
                         ⚙️ <span data-i18n="settings.trigger_short">إعدادات</span>
                     </button>
                 </div>
+
+                <!-- 🆕 (UAT-2.7) City Calc Settings — inline <details>/<summary>
+                     يَظهر فقط على صفحات المدينة عبر CSS (html.city-page).
+                     options الـ <select> تُنسَخ من selects الـ modal عند التحميل،
+                     والقيم تتزامن ثنائيّ الاتّجاه عبر _ccsSyncInit() في app.js.
+                     زرّ "إعدادات متقدّمة" يفتح الـ modal الأصليّ (high-lats + adhan + Apply/Cancel). -->
+                <details class="city-calc-settings section-card" id="city-calc-settings">
+                    <summary class="ccs-summary">
+                        <span class="ccs-icon" aria-hidden="true">⚙️</span>
+                        <span class="ccs-title" data-i18n="settings.section_title">إعدادات الحساب</span>
+                        <span class="ccs-chevron" aria-hidden="true">▾</span>
+                    </summary>
+                    <div class="ccs-grid">
+                        <div class="ccs-row">
+                            <label for="cs-method" data-i18n="settings.method">طريقة الحساب</label>
+                            <select id="cs-method"></select>
+                        </div>
+                        <div class="ccs-row">
+                            <label for="cs-asr" data-i18n="settings.asr_method">طريقة حساب العصر</label>
+                            <select id="cs-asr"></select>
+                        </div>
+                        <div class="ccs-row">
+                            <label for="cs-time" data-i18n="settings.time_format">صيغة الوقت</label>
+                            <select id="cs-time"></select>
+                        </div>
+                        <button type="button" class="ccs-advanced-link" onclick="openSettingsModal()">
+                            <span data-i18n="settings.advanced">إعدادات متقدّمة</span>
+                            <span aria-hidden="true">›</span>
+                        </button>
+                    </div>
+                </details>
 
                 <!-- 🆕 City Summary Paragraph (Phase 2) — فقرة SEO غنيّة، تُحقَن SSR لصفحات المدن -->
                 <section class="section-card city-summary-paragraph u-hidden" id="city-summary-paragraph">
@@ -2712,14 +2743,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=137"></script>
+    <script defer src="js/i18n.js?v=138"></script>
     <script defer src="js/prayer-times.js?v=47"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=489"></script>
+    <script defer src="js/app.js?v=490"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -6861,6 +6861,44 @@ function updateMiniIslamicTools(citySlug, lang) {
 }
 
 /**
+ * 🆕 (UAT-2.7) _ccsSyncInit — مزامنة inline <details> selects ↔ modal selects.
+ * يُنسخ الـ <option> elements من selects الـ modal (calc-method/asr-method/time-format)
+ * إلى الـ inline selects (cs-method/cs-asr/cs-time)، ثمّ يُربَط change event ثنائيّ الاتّجاه.
+ * يُستدعى عند تحميل صفحة المدينة (بعد استعادة الإعدادات من localStorage).
+ */
+function _ccsSyncInit() {
+    if (!document.documentElement.classList.contains('city-page')) return;
+    const pairs = [
+        ['cs-method', 'calc-method'],
+        ['cs-asr',    'asr-method'],
+        ['cs-time',   'time-format']
+    ];
+    for (const [ccsId, modalId] of pairs) {
+        const ccs = document.getElementById(ccsId);
+        const modal = document.getElementById(modalId);
+        if (!ccs || !modal) continue;
+        // 1) Copy options + value from modal to inline (only if not already cloned)
+        if (ccs.options.length === 0) ccs.innerHTML = modal.innerHTML;
+        ccs.value = modal.value;
+        // 2) On inline change → mirror to modal + fire its onchange (which calls updatePrayerTimes)
+        if (!ccs.dataset.ccsBound) {
+            ccs.addEventListener('change', () => {
+                modal.value = ccs.value;
+                modal.dispatchEvent(new Event('change'));
+            });
+            ccs.dataset.ccsBound = '1';
+        }
+        // 3) When modal's value changes (e.g., from Apply or other code), keep inline in sync
+        if (!modal.dataset.ccsBoundReverse) {
+            modal.addEventListener('change', () => {
+                if (ccs.value !== modal.value) ccs.value = modal.value;
+            });
+            modal.dataset.ccsBoundReverse = '1';
+        }
+    }
+}
+
+/**
  * 🆕 applyCityPageWeekly — في صفحة المدينة: 7 أيّام كاملة + زرّ يوجّه لـmonthly.
  */
 function applyCityPageWeekly(citySlug, lang) {
@@ -6970,6 +7008,9 @@ function applyPhase2CityPage(times, nextPrayerName, nextPrayerTime) {
         if (citySlug) {
             updateMiniIslamicTools(citySlug, lang);
         }
+
+        // 6.5 (UAT-2.7) Inline calc-settings <details> sync with modal selects
+        _ccsSyncInit();
 
         // 7. Weekly → full + monthly re-route
         if (citySlug) {

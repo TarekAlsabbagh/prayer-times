@@ -5413,19 +5413,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             const _hToday = _hijriNow();
             const _hPad = n => String(n).padStart(2, '0');
             const _hijriDated = `/hijri-date/${_hToday.year}-${_hPad(_hToday.month)}-${_hPad(_hToday.day)}`;
-            // UAT-Q5b: only emit canonical clean URLs (e.g. /qibla-in-yastrebovka)
-            // when the slug is actually in the DB. For unknown long-tail cities
-            // (Yastrebovka, Tumayr, Phonsavan...) the SSR has no coords to
-            // build the right URL — keep href="#" so the client (which has
-            // currentLat/currentLng from search/Nominatim) can fill in the
-            // coord-suffix URL that triggers the server's fuzzy 301 to the
-            // canonical DB slug. Otherwise the user lands on a clean URL
-            // the server can't resolve → 0° qibla angle / generic moon page.
-            const _slugInDb = (typeof _resolveCityForMoon === 'function')
-                ? !!_resolveCityForMoon(_slug)
-                : false;
-            const _qHref = _slugInDb ? `${_lp}/qibla-in-${_slug}` : '#';
-            const _mHref = _slugInDb ? `${_lp}/moon-today-in-${_slug}` : '#';
+            // UAT-Q5d: always emit canonical clean URLs (no coord-suffix).
+            // The destination qibla/moon page resolves coords via:
+            //   1. SSR __QIBLA_CITY__ / __MOON_CITY__ when slug is in DB,
+            //   2. sessionStorage('city_${slug}') seeded by the page that
+            //      built this href (updateRelatedLinks/updateMiniIslamicTools),
+            //   3. client-side slug→Nominatim geocode fallback for cold visits.
+            const _qHref = `${_lp}/qibla-in-${_slug}`;
+            const _mHref = `${_lp}/moon-today-in-${_slug}`;
             html = html
                 .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_qHref}"`)
                 .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_mHref}"`)

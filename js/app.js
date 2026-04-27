@@ -6693,18 +6693,27 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
     const lblCity = document.getElementById('rls-city-label');
     if (lblCity && cityName) lblCity.textContent = cityName;
 
-    // FIX: للمدن غير المعروفة (التي ليست في DB) — نُلحق إحداثيّات للـ slug
-    //   عبر coord-suffix support للسيرفر (Round 12). يحلّ مشكلة "City not found".
-    let _moonSlug = citySlug;
-    let _qiblaSlug = citySlug;
-    if (currentLat != null && currentLng != null
-        && isFinite(currentLat) && isFinite(currentLng)
-        && citySlug && !/^loc-/.test(citySlug) && !/-\d+(\.\d+)?-\d+(\.\d+)?$/.test(citySlug)) {
-        const _latStr = Number(currentLat).toFixed(4);
-        const _lngStr = Number(currentLng).toFixed(4);
-        _moonSlug = `${citySlug}-${_latStr}-${_lngStr}`;
-        _qiblaSlug = `${citySlug}-${_latStr}-${_lngStr}`;
-    }
+    // UAT-Q5d: ALWAYS use clean slug (no coord-suffix). Coords are passed
+    // to the destination page via sessionStorage seed (set just below).
+    const _moonSlug  = citySlug;
+    const _qiblaSlug = citySlug;
+    // Seed sessionStorage so the destination qibla/moon page can resolve
+    // coords without depending on URL coord-suffix or DB membership.
+    try {
+        if (citySlug && currentLat != null && currentLng != null
+            && isFinite(currentLat) && isFinite(currentLng)) {
+            const _seedPayload = JSON.stringify({
+                lat: currentLat, lng: currentLng,
+                name: cityName || currentCity,
+                country: countryName || currentCountry,
+                englishName: currentEnglishName,
+                countryCode: currentCountryCode,
+                timezone: currentTimezone,
+                _v: 2
+            });
+            sessionStorage.setItem(`city_${citySlug}`, _seedPayload);
+        }
+    } catch (_) {}
 
     const items = [
         // 🟢 Live tier (Refinement #5 — i18n badge): time-left, next-prayer, qibla
@@ -6823,15 +6832,25 @@ function updateMiniIslamicTools(citySlug, lang) {
     const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
     const _t = (typeof t === 'function') ? t : null;
 
-    // FIX: للمدن غير المعروفة (Phonsavan/Ban Thad/المذنب…) — أَلحِق إحداثيّات للـ slug
-    let _mitSlug = citySlug;
-    if (currentLat != null && currentLng != null
-        && isFinite(currentLat) && isFinite(currentLng)
-        && citySlug && !/^loc-/.test(citySlug) && !/-\d+(\.\d+)?-\d+(\.\d+)?$/.test(citySlug)) {
-        const _latStr = Number(currentLat).toFixed(4);
-        const _lngStr = Number(currentLng).toFixed(4);
-        _mitSlug = `${citySlug}-${_latStr}-${_lngStr}`;
-    }
+    // UAT-Q5d: ALWAYS use clean slug (no coord-suffix). Coords are passed
+    // via sessionStorage seed (also written by updateRelatedLinks for the
+    // same slug — idempotent).
+    const _mitSlug = citySlug;
+    try {
+        if (citySlug && currentLat != null && currentLng != null
+            && isFinite(currentLat) && isFinite(currentLng)) {
+            const _seedPayload = JSON.stringify({
+                lat: currentLat, lng: currentLng,
+                name: currentCity,
+                country: currentCountry,
+                englishName: currentEnglishName,
+                countryCode: currentCountryCode,
+                timezone: currentTimezone,
+                _v: 2
+            });
+            sessionStorage.setItem(`city_${citySlug}`, _seedPayload);
+        }
+    } catch (_) {}
 
     const items = [
         { id: 'mit-qibla', href: prefix + '/qibla-in-' + _mitSlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
@@ -6842,20 +6861,10 @@ function updateMiniIslamicTools(citySlug, lang) {
     items.forEach(it => {
         const a = document.getElementById(it.id);
         if (!a) return;
-        // UAT-2.6 + UAT-Q5b: respect SSR canonical href, but always override
-        // when the client has computed a richer slug (i.e. appended coord-suffix
-        // because the city isn't in the DB). This guarantees that for any non-DB
-        // city — Yastrebovka, Tumayr, Phonsavan, etc. — the qibla/moon button
-        // points to a coord-suffix URL that the server can fuzzy-match (≤2 km)
-        // back to the canonical DB slug, instead of a clean URL the server can't
-        // resolve and would render with 0° angle / generic content.
-        const _curHref = a.getAttribute('href');
-        const _shouldOverride = !_curHref
-            || _curHref === '#'
-            || (_mitSlug !== citySlug);
-        if (_shouldOverride) {
-            a.href = it.href;
-        }
+        // UAT-Q5d: clean URLs everywhere. Always set the client-computed
+        // canonical href; the destination page reads sessionStorage seeded
+        // above for non-DB cities, falls back to slug→Nominatim geocode.
+        a.href = it.href;
         const lblEl = a.querySelector('.mit-label');
         if (lblEl) {
             let txt = '';
@@ -11220,21 +11229,12 @@ function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
             slug = 'mecca';
         }
     }
-    // UAT-Q5: attach coord-suffix when slug isn't a known famous city. The
-    // server-side handler resolves the slug against the cities-DB and 301s
-    // a DB hit back to the clean URL; for unknown slugs (Yastrebovka, …)
-    // the coords are needed so the qibla page can compute the right angle
-    // / distance instead of falling back to Mecca's coords (= 0° angle).
-    // Mirrors what UAT-Moon-2 does on the moon side.
-    if (isFinite(lat) && isFinite(lng)
-        && !/^loc-/.test(slug)
-        && !/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)
-        && (typeof FAMOUS_MOON_CITIES === 'undefined'
-            || !Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug))) {
-        const la = Number(lat).toFixed(4);
-        const lo = Number(lng).toFixed(4);
-        return pageUrl(`/qibla-in-${slug}-${la}-${lo}`);
-    }
+    // UAT-Q5d: ALWAYS emit a clean URL (no coord-suffix). For non-DB cities,
+    // the caller seeds sessionStorage('city_${slug}') with coords *before*
+    // navigation, and the qibla page reads it via `_qiblaResolveCityCoords`.
+    // For cold visits without sessionStorage, the page falls back to a
+    // client-side Nominatim geocode of the slug name (`geocodeSlug`), so
+    // /qibla-in-baghoo computes the right angle without an ugly /-{lat}-{lng}.
     return pageUrl(`/qibla-in-${slug}`);
 }
 
@@ -11280,15 +11280,10 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         }
         if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-today-in-${ALIASES[hintSlug]}`);
     }
-    // 3) Derive a slug from the English name. The client can't tell whether
-    //    the slug is in the server's cities-DB, so we ATTACH the coord-
-    //    suffix as a safety net (UAT-Moon-2). The server then:
-    //      • If the slug IS in DB → 301 to the clean URL  /moon-today-in-{slug}
-    //        (matches Tumayr after UAT-Moon-1 added it to db/cities-sa.json).
-    //      • If the slug is NOT in DB → render the page from the supplied
-    //        coords (with noindex), so e.g. /moon-today-in-yastrebovka-…
-    //        actually renders Yastrebovka's moon data instead of 404ing
-    //        with "city not found".
+    // 3) UAT-Q5d: ALWAYS emit a clean URL (no coord-suffix). Mirrors the
+    //    qibla side. The caller seeds sessionStorage('city_${slug}') / 'city_moon'
+    //    before navigation, and the moon page reads it. For cold visits
+    //    without sessionStorage, the page falls back to slug→Nominatim geocode.
     let slug = hintSlug;
     if (!slug && englishName && typeof makeSlug === 'function') {
         slug = makeSlug(englishName, lat, lng);
@@ -11302,16 +11297,6 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         } else {
             slug = 'mecca';
         }
-    }
-    // Coord-suffix safety net — only for "real" slugs (skip when slug is
-    // already coord-only or already coord-suffixed, and skip when coords
-    // aren't available).
-    if (isFinite(lat) && isFinite(lng)
-        && !/^loc-/.test(slug)
-        && !/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
-        const la = Number(lat).toFixed(4);
-        const lo = Number(lng).toFixed(4);
-        return pageUrl(`/moon-today-in-${slug}-${la}-${lo}`);
     }
     return pageUrl(`/moon-today-in-${slug}`);
 }
@@ -12304,7 +12289,13 @@ function _loadQiblaHubPage(ctx) {
 
     // ── 5. (removed: standalone trust strip is now inline hero badges) ──
 
-    // ── 6. Hero-scale search — local-first autocomplete into #qibla-hub-search-results ──
+    // ── 6. Hero-scale search — local + Nominatim autocomplete (UAT-Q5c parity with homepage) ──
+    //   Mirrors #loc-hero-search behavior so any city the user can type works:
+    //     • Instant local results (LOCAL_CITIES via searchLocalCities)
+    //     • Nominatim fallback with smart-filter + 5km geometric dedup
+    //     • Loading state while fetching online
+    //     • Keyboard nav (Arrow Up/Down, Enter, Escape)
+    //     • Click → _buildQiblaCityUrl (handles non-DB cities via coord-suffix → server fuzzy 301)
     const searchEl    = document.getElementById('qibla-hub-search');
     const searchList  = document.getElementById('qibla-hub-search-results');
     const searchEmpty = document.getElementById('qibla-hub-search-empty');
@@ -12313,77 +12304,274 @@ function _loadQiblaHubPage(ctx) {
         if (!searchEl.dataset.wired) {
             searchEl.dataset.wired = '1';
             let _qhsDebounce = null;
+            let _qhsActiveQuery = '';   // tracks the current in-flight query (avoids late-arrival flicker)
+            let _qhsFocusedIdx = -1;    // keyboard focus index across .qhsr-item items
+            const isEnUi = (lang === 'en');
+
+            // unified click navigator — used by both local + online items
+            const _qhsNavigate = (city) => {
+                const canonical = _canonicalQiblaSlug(city.en, city.lat, city.lng);
+                const storeSlug = canonical || ((typeof makeSlug === 'function')
+                    ? makeSlug(city.en, city.lat, city.lng) : '');
+                _pushQiblaVisited({
+                    englishName: city.en,
+                    lat: city.lat,
+                    lng: city.lng,
+                    slug: storeSlug
+                });
+                // Pre-seed sessionStorage so the target page resolves lat/lng instantly
+                // even for cities outside FAMOUS_MOON_CITIES / LOCAL_CITIES (defensive).
+                try {
+                    const _payload = JSON.stringify({
+                        lat: city.lat, lng: city.lng,
+                        name: (lang === 'ar' ? city.ar : city.en),
+                        country: (lang === 'ar' ? city.country : (city.countryEn || city.country)),
+                        englishName: city.en,
+                        countryCode: city.cc || '',
+                        _v: 2
+                    });
+                    sessionStorage.setItem(`city_${storeSlug}`, _payload);
+                } catch (_) {}
+                const target = _buildQiblaCityUrl(city.en, city.lat, city.lng, storeSlug);
+                window.location.href = target;
+            };
+
+            // build a single <li> for either a local LOCAL_CITIES entry or a normalized Nominatim result
+            const _qhsBuildItem = (c, idx, isOnline) => {
+                const display = isEnUi ? c.en : c.ar;
+                const country = isEnUi ? (c.countryEn || c.country) : c.country;
+                const typeLbl = (typeof _smartTypeLabel === 'function') ? _smartTypeLabel(c.type || 'city') : '';
+                const subText = typeLbl ? `${country} · ${typeLbl}` : country;
+                const flag = c.cc
+                    ? `<img src="https://flagcdn.com/28x21/${c.cc}.png" class="qhsr-flag" alt="${c.cc}" onerror="this.style.display='none'">`
+                    : `<span class="qhsr-flag">${isOnline ? '🌐' : '🌍'}</span>`;
+                return `<li class="qhsr-item" role="option" data-idx="${idx}" data-online="${isOnline ? '1' : '0'}">`
+                     + `${flag}<div class="qhsr-text"><div class="qhsr-name">${display}</div>`
+                     + `<div class="qhsr-country">${subText}</div></div>`
+                     + `<span class="qhsr-arrow" aria-hidden="true">→</span>`
+                     + `</li>`;
+            };
+
+            // shared store of currently-displayed results (local + online merged)
+            let _qhsCurrentResults = [];
+
+            // attach click handlers to all .qhsr-item nodes in searchList
+            const _qhsBindClicks = () => {
+                searchList.querySelectorAll('.qhsr-item').forEach(li => {
+                    li.addEventListener('click', () => {
+                        const idx = parseInt(li.dataset.idx, 10);
+                        const city = _qhsCurrentResults[idx];
+                        if (city) _qhsNavigate(city);
+                    });
+                });
+            };
+
+            // Apply smart-filter + dedup vs local, normalize Nominatim result into LOCAL_CITIES shape
+            const _qhsNormalizeOnline = (places, localResults) => {
+                if (!Array.isArray(places)) return [];
+                // dedup keys + geometric basis
+                const seenKeys = new Set();
+                const localGeo = localResults.map(c => ({
+                    lat: +c.lat, lng: +c.lng,
+                    ar: normalizeText(c.ar), en: normalizeText(c.en),
+                    cc: c.cc || ''
+                }));
+                localResults.forEach(c => seenKeys.add(_smartKey(c)));
+
+                const _smartFilter = (p) => {
+                    const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
+                    if (!isFinite(lat) || !isFinite(lon)) return false;
+                    if (!p.name && !p.display_name) return false;
+                    const firstPart = (p.display_name || '').split(',')[0] || '';
+                    if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
+                    if (SMART_ALLOWED_TYPES.has(p.addresstype)) return true;
+                    if (SMART_BLOCKED_TYPES.has(p.class)) return false;
+                    if (SMART_BLOCKED_TYPES.has(p.type)) return false;
+                    if (SMART_BLOCKED_TYPES.has(p.addresstype)) return false;
+                    const _t = _smartTypeFromNominatim(p);
+                    const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
+                    const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
+                    if (!_t && !isSpecialCityState) return false;
+                    if (_t && !SMART_ALLOWED_TYPES.has(_t) && !isSpecialCityState) return false;
+                    return true;
+                };
+
+                let filtered = places.filter(_smartFilter);
+                const typeRank = p => {
+                    const _t = _smartTypeFromNominatim(p) || (p.addresstype || p.type || '');
+                    if (_t === 'city')                                          return 0;
+                    if (['town', 'municipality', 'borough'].includes(_t))       return 1;
+                    if (['governorate', 'province', 'state'].includes(_t))      return 2;
+                    if (['county', 'administrative'].includes(_t))              return 3;
+                    if (['village', 'hamlet', 'locality'].includes(_t))         return 4;
+                    return 5;
+                };
+                filtered.sort((a, b) => {
+                    const tr = typeRank(a) - typeRank(b);
+                    return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
+                });
+                filtered = filtered.slice(0, 6);
+
+                const out = [];
+                for (const place of filtered) {
+                    const addr = place.address || {};
+                    const nd   = place.namedetails || {};
+                    const _stripAdminPrefix = (s) => (s || '')
+                        .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
+                        .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
+                        .trim();
+                    const arCityMain = _stripAdminPrefix(nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || '');
+                    const rawEnCity  = nd['name:en'] || nd['name:en-US']
+                            || _latinOr(nd.name)
+                            || _latinOr(place.name)
+                            || _latinOr(addr.city) || _latinOr(addr.town) || _latinOr(addr.village) || _latinOr(addr.municipality)
+                            || (place.display_name || '').split(',')[0];
+                    const enCityMain = _stripAdminPrefix(rawEnCity.replace(/\s*District\b/gi, '').trim());
+                    const country     = addr.country || '';
+                    const countryCode = (addr.country_code || '').toLowerCase();
+                    const placeLat    = parseFloat(place.lat);
+                    const placeLng    = parseFloat(place.lon);
+                    const placeType   = _smartTypeFromNominatim(place) || 'city';
+
+                    const candidateKey = _smartKey({ cc: countryCode, en: enCityMain, lat: placeLat, lng: placeLng });
+                    if (seenKeys.has(candidateKey)) continue;
+                    const arN = normalizeText(arCityMain);
+                    const enN = normalizeText(enCityMain);
+                    const tooClose = localGeo.some(g => {
+                        if (!isFinite(g.lat) || !isFinite(g.lng)) return false;
+                        const d = _smartDistKm(g.lat, g.lng, placeLat, placeLng);
+                        if (d > 5) return false;
+                        return (g.ar && (g.ar === arN || arN.includes(g.ar) || g.ar.includes(arN))) ||
+                               (g.en && (g.en === enN || enN.includes(g.en) || g.en.includes(enN)));
+                    });
+                    if (tooClose) continue;
+                    seenKeys.add(candidateKey);
+
+                    out.push({
+                        ar: arCityMain || enCityMain,
+                        en: enCityMain || arCityMain,
+                        country: country,
+                        countryEn: country,
+                        cc: countryCode,
+                        lat: placeLat,
+                        lng: placeLng,
+                        type: placeType,
+                        _online: true
+                    });
+                }
+                return out;
+            };
+
             const renderSuggestions = (q) => {
                 if (!searchList) return;
-                const results = (typeof searchLocalCities === 'function') ? searchLocalCities(q) : [];
+                _qhsActiveQuery = q;
+                _qhsFocusedIdx = -1;
+
                 if (!q || q.length < 2) {
+                    _qhsCurrentResults = [];
                     searchList.innerHTML = '';
                     searchList.classList.remove('is-open');
                     if (searchEmpty) searchEmpty.hidden = true;
                     return;
                 }
-                if (results.length === 0) {
-                    searchList.innerHTML = '';
-                    searchList.classList.remove('is-open');
-                    if (searchEmpty) {
-                        searchEmpty.textContent = ui.search_empty || '';
-                        searchEmpty.hidden = false;
-                    }
-                    return;
-                }
+
+                // 1) Render local results immediately (no waiting for network)
+                const localResults = (typeof searchLocalCities === 'function') ? searchLocalCities(q) : [];
+                _qhsCurrentResults = localResults.slice();
                 if (searchEmpty) searchEmpty.hidden = true;
-                const isEnUi = (lang === 'en');
-                const html = results.map((c, i) => {
-                    const display = isEnUi ? c.en : c.ar;
-                    const country = isEnUi ? (c.countryEn || c.country) : c.country;
-                    const flag = c.cc
-                        ? `<img src="https://flagcdn.com/28x21/${c.cc}.png" class="qhsr-flag" alt="${c.cc}" onerror="this.style.display='none'">`
-                        : `<span class="qhsr-flag">🌍</span>`;
-                    return `<li class="qhsr-item" role="option" data-idx="${i}">`
-                         + `${flag}<div class="qhsr-text"><div class="qhsr-name">${display}</div>`
-                         + `<div class="qhsr-country">${country}</div></div>`
-                         + `<span class="qhsr-arrow" aria-hidden="true">→</span>`
-                         + `</li>`;
-                }).join('');
+
+                let html = localResults.map((c, i) => _qhsBuildItem(c, i, false)).join('');
+                // Loading row (replaced when Nominatim returns)
+                const _loadingLbl = (typeof t === 'function' ? t('search.loading') : null) || '🔍 Searching online…';
+                html += `<li class="qhsr-loading" data-loading="1">${_loadingLbl}</li>`;
                 searchList.innerHTML = html;
                 searchList.classList.add('is-open');
-                searchList.querySelectorAll('.qhsr-item').forEach(li => {
-                    li.addEventListener('click', () => {
-                        const idx = parseInt(li.dataset.idx, 10);
-                        const city = results[idx];
-                        if (!city) return;
-                        const canonical = _canonicalQiblaSlug(city.en, city.lat, city.lng);
-                        const storeSlug = canonical || ((typeof makeSlug === 'function')
-                            ? makeSlug(city.en, city.lat, city.lng) : '');
-                        _pushQiblaVisited({
-                            englishName: city.en,
-                            lat: city.lat,
-                            lng: city.lng,
-                            slug: storeSlug
-                        });
-                        // Pre-seed sessionStorage so the target page resolves lat/lng instantly
-                        // even for cities outside FAMOUS_MOON_CITIES / LOCAL_CITIES (defensive).
-                        try {
-                            const _payload = JSON.stringify({
-                                lat: city.lat, lng: city.lng,
-                                name: (lang === 'ar' ? city.ar : city.en),
-                                country: (lang === 'ar' ? city.country : (city.countryEn || city.country)),
-                                englishName: city.en,
-                                countryCode: city.cc || '',
-                                _v: 2
-                            });
-                            sessionStorage.setItem(`city_${storeSlug}`, _payload);
-                        } catch (_) {}
-                        const target = _buildQiblaCityUrl(city.en, city.lat, city.lng, storeSlug);
-                        window.location.href = target;
+                _qhsBindClicks();
+
+                // 2) Fetch Nominatim in parallel — append online results when done
+                const base = `format=json&limit=8&accept-language=${lang}&addressdetails=1&namedetails=1`;
+                const urlQ    = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(q)}`);
+                const urlCity = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(q)}`);
+                Promise.all([
+                    fetch(urlQ).then(r => r.json()).catch(() => []),
+                    fetch(urlCity).then(r => r.json()).catch(() => [])
+                ])
+                .then(([resQ, resCity]) => {
+                    // Stale response — user typed something else
+                    if (_qhsActiveQuery !== q) return;
+                    if (!Array.isArray(resQ)) resQ = [];
+                    if (!Array.isArray(resCity)) resCity = [];
+                    const seen = new Set();
+                    const all  = [...resQ, ...resCity].filter(p => {
+                        if (!p || seen.has(p.place_id)) return false;
+                        seen.add(p.place_id);
+                        return true;
                     });
+                    const onlineResults = _qhsNormalizeOnline(all, localResults);
+                    _qhsCurrentResults = [...localResults, ...onlineResults];
+
+                    // No results at all → show empty state
+                    if (_qhsCurrentResults.length === 0) {
+                        searchList.innerHTML = '';
+                        searchList.classList.remove('is-open');
+                        if (searchEmpty) {
+                            searchEmpty.textContent = ui.search_empty || '';
+                            searchEmpty.hidden = false;
+                        }
+                        return;
+                    }
+                    let merged = '';
+                    _qhsCurrentResults.forEach((c, i) => {
+                        merged += _qhsBuildItem(c, i, !!c._online);
+                    });
+                    searchList.innerHTML = merged;
+                    _qhsBindClicks();
+                })
+                .catch(() => {
+                    // Network error — drop the loading row, keep local
+                    const loadingRow = searchList.querySelector('.qhsr-loading');
+                    if (loadingRow) loadingRow.remove();
                 });
             };
+
             searchEl.addEventListener('input', function () {
                 clearTimeout(_qhsDebounce);
                 const q = String(searchEl.value || '').trim();
-                _qhsDebounce = setTimeout(() => renderSuggestions(q), 80);
+                _qhsDebounce = setTimeout(() => renderSuggestions(q), 120);
             });
+
+            // Keyboard navigation: Arrow Up/Down, Enter, Escape
+            searchEl.addEventListener('keydown', function (e) {
+                const items = searchList ? searchList.querySelectorAll('.qhsr-item') : [];
+                if (!items.length) {
+                    if (e.key === 'Escape' && searchList) searchList.classList.remove('is-open');
+                    return;
+                }
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    _qhsFocusedIdx = Math.min(_qhsFocusedIdx + 1, items.length - 1);
+                    items.forEach((it, i) => it.classList.toggle('focused', i === _qhsFocusedIdx));
+                    items[_qhsFocusedIdx]?.scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    _qhsFocusedIdx = Math.max(_qhsFocusedIdx - 1, 0);
+                    items.forEach((it, i) => it.classList.toggle('focused', i === _qhsFocusedIdx));
+                    items[_qhsFocusedIdx]?.scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'Enter') {
+                    if (_qhsFocusedIdx >= 0 && items[_qhsFocusedIdx]) {
+                        e.preventDefault();
+                        items[_qhsFocusedIdx].click();
+                    } else if (items[0]) {
+                        // Bare Enter: pick the first suggestion
+                        e.preventDefault();
+                        items[0].click();
+                    }
+                } else if (e.key === 'Escape') {
+                    if (searchList) searchList.classList.remove('is-open');
+                    searchEl.blur();
+                }
+            });
+
             // Close dropdown on outside click (search now lives inside #qibla-hub-hero)
             document.addEventListener('click', function (e) {
                 if (!e.target.closest('#qibla-hub-hero')) {
@@ -12569,10 +12757,55 @@ function loadQiblaPage(ctx) {
                         }
                     }
                 } catch (_) {}
-                // Legacy coord-suffix URL still supported: /qibla-in-{slug}-{lat}-{lng}
+                // UAT-Q5d Priority 4: sessionStorage('city_${slug}') seeded
+                //   by the page the user came from (search bar, mit/rl button…).
+                //   This is the primary path for non-DB cities now that URLs
+                //   are clean (no coord-suffix). Without this, e.g. clicking
+                //   the qibla button on /prayer-times-in-baghoo would land on
+                //   /qibla-in-baghoo and fall back to Mecca's coords (= 0deg).
+                if (!isFinite(lat) || !isFinite(lng)) {
+                    try {
+                        const _stored = sessionStorage.getItem('city_' + slug);
+                        if (_stored) {
+                            const _o = JSON.parse(_stored);
+                            if (_o && isFinite(+_o.lat) && isFinite(+_o.lng)) {
+                                lat = +_o.lat;
+                                lng = +_o.lng;
+                            }
+                        }
+                    } catch (_) {}
+                }
+                // Legacy coord-suffix URL still supported (backward compat for
+                // bookmarks / shared links): /qibla-in-{slug}-{lat}-{lng}
                 if (!isFinite(lat) || !isFinite(lng)) {
                     const u = window.location.pathname.match(/\/qibla-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
                     if (u) { lat = parseFloat(u[1]); lng = parseFloat(u[2]); }
+                }
+                // UAT-Q5d Priority 5: cold-visit fallback — Nominatim geocode
+                //   the slug name. Async, so kick it off and let the page
+                //   re-render itself when coords arrive (the geocodeSlug
+                //   helper writes to sessionStorage, so a re-call to
+                //   loadQiblaPage will pick it up). For now we render with
+                //   Mecca defaults so the page isn't blocked.
+                if (!isFinite(lat) || !isFinite(lng) && typeof geocodeSlug === 'function') {
+                    try {
+                        geocodeSlug(slug).then(res => {
+                            if (res && isFinite(+res.lat) && isFinite(+res.lng)) {
+                                try {
+                                    sessionStorage.setItem('city_' + slug, JSON.stringify({
+                                        lat: +res.lat, lng: +res.lng,
+                                        name: res.name || slug,
+                                        country: res.country || '',
+                                        englishName: res.englishName || res.name || slug,
+                                        countryCode: res.countryCode || '',
+                                        _v: 2
+                                    }));
+                                } catch (_) {}
+                                // Re-run loadQiblaPage with fresh ctx
+                                try { loadQiblaPage(ctx); } catch (_) {}
+                            }
+                        }).catch(() => {});
+                    } catch (_) {}
                 }
             }
             if (!isFinite(lat) || !isFinite(lng)) {

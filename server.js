@@ -5413,14 +5413,27 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             const _hToday = _hijriNow();
             const _hPad = n => String(n).padStart(2, '0');
             const _hijriDated = `/hijri-date/${_hToday.year}-${_hPad(_hToday.month)}-${_hPad(_hToday.day)}`;
+            // UAT-Q5b: only emit canonical clean URLs (e.g. /qibla-in-yastrebovka)
+            // when the slug is actually in the DB. For unknown long-tail cities
+            // (Yastrebovka, Tumayr, Phonsavan...) the SSR has no coords to
+            // build the right URL — keep href="#" so the client (which has
+            // currentLat/currentLng from search/Nominatim) can fill in the
+            // coord-suffix URL that triggers the server's fuzzy 301 to the
+            // canonical DB slug. Otherwise the user lands on a clean URL
+            // the server can't resolve → 0° qibla angle / generic moon page.
+            const _slugInDb = (typeof _resolveCityForMoon === 'function')
+                ? !!_resolveCityForMoon(_slug)
+                : false;
+            const _qHref = _slugInDb ? `${_lp}/qibla-in-${_slug}` : '#';
+            const _mHref = _slugInDb ? `${_lp}/moon-today-in-${_slug}` : '#';
             html = html
-                .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_lp}/qibla-in-${_slug}"`)
-                .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_lp}/moon-today-in-${_slug}"`)
+                .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_qHref}"`)
+                .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_mHref}"`)
                 .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-prayer-in-${_slug}"`)
                 .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-time-in-${_slug}"`)
                 // UAT-2.6: compact tools strip after #prayer-cards (mit-* — qibla/moon/hijri-today)
-                .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_lp}/qibla-in-${_slug}"`)
-                .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_lp}/moon-today-in-${_slug}"`)
+                .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_qHref}"`)
+                .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_mHref}"`)
                 .replace('id="mit-hijri" href="#"',     `id="mit-hijri" href="${_lp}${_hijriDated}"`);
         }
     }

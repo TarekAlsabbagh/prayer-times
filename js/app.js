@@ -6842,11 +6842,18 @@ function updateMiniIslamicTools(citySlug, lang) {
     items.forEach(it => {
         const a = document.getElementById(it.id);
         if (!a) return;
-        // UAT-2.6: respect SSR-set canonical href. Only override if the server
-        // didn't fill it in (still "#" or empty). On city pages, server.js injects
-        // canonical /qibla-in-{slug}, /moon-today-in-{slug}, /hijri-date/{YYYY-MM-DD}.
+        // UAT-2.6 + UAT-Q5b: respect SSR canonical href, but always override
+        // when the client has computed a richer slug (i.e. appended coord-suffix
+        // because the city isn't in the DB). This guarantees that for any non-DB
+        // city — Yastrebovka, Tumayr, Phonsavan, etc. — the qibla/moon button
+        // points to a coord-suffix URL that the server can fuzzy-match (≤2 km)
+        // back to the canonical DB slug, instead of a clean URL the server can't
+        // resolve and would render with 0° angle / generic content.
         const _curHref = a.getAttribute('href');
-        if (!_curHref || _curHref === '#') {
+        const _shouldOverride = !_curHref
+            || _curHref === '#'
+            || (_mitSlug !== citySlug);
+        if (_shouldOverride) {
             a.href = it.href;
         }
         const lblEl = a.querySelector('.mit-label');

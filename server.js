@@ -620,6 +620,42 @@ function _resolveCityForMoon(slug) {
     return null;
 }
 
+// ===== UAT-Moon-3: proximity-based slug fallback =====
+// Used when a /moon-today-in-{slug}-{lat}-{lng} URL arrives with a slug
+// that isn't in our DB but whose coordinates land on top of an entry we
+// DO have under a different transliteration (Nominatim's Russian form
+// "Yastrebovka" vs. our Ukrainian DB form "Iastrubivka", or any other
+// quirk where the same physical place has two valid English names).
+//
+// Returns the canonical DB slug if some entry sits within `maxKm` of
+// (lat, lng) — strictly local, ≤ 2 km is the default — else null.
+// Different intent from _canonicalQiblaSlug's proximity (which snapped
+// to a famous big city); this is "same place, different label" rather
+// than "same region".
+const _haversineKmSrv = (lat1, lng1, lat2, lng2) => {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2
+            + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180)
+            * Math.sin(dLng / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+};
+function _findNearbyDbSlug(lat, lng, maxKm) {
+    if (!isFinite(lat) || !isFinite(lng)) return null;
+    const tol = (typeof maxKm === 'number' && maxKm > 0) ? maxKm : 2;
+    const idx = _getCitySlugIndex();
+    let bestSlug = null;
+    let bestKm = Infinity;
+    for (const slug in idx) {
+        const c = idx[slug];
+        if (!c || typeof c.lat !== 'number' || typeof c.lng !== 'number') continue;
+        const d = _haversineKmSrv(lat, lng, c.lat, c.lng);
+        if (d < bestKm) { bestKm = d; bestSlug = slug; }
+    }
+    return (bestSlug && bestKm <= tol) ? bestSlug : null;
+}
+
 // ===== Round 8C: فهرس كسول slug → {nameAr, lat, lng} من ملفّات db/cities-*.json =====
 // يُبنى عند أوّل استعمال (lazy) لتجنّب تكاليف startup. O(N) مرّة واحدة فقط.
 // lat/lng يستعملان لاستنباط توقيت المدينة لعرض تاريخها المحلّيّ الصحيح.
@@ -9409,16 +9445,32 @@ const server = http.createServer(async (req, res) => {
             // نوع الصفحة: today / hub / dated
             const _isHubRt = !!_MHroute && !_MDroute && !_MTroute;
             const _moonInDb = !!_resolveCityForMoon(_moonSlug);
+            // UAT-Moon-3: when the slug isn't in DB but the coord-suffix
+            // points within ≤2 km of a city we DO know under a different
+            // transliteration (e.g. "Yastrebovka" / "Iastrubivka"), 301 to
+            // the canonical slug instead of carrying around the alien one.
+            let _moonResolvedSlug = _moonSlug;
+            if (!_moonInDb && _moonHasCoord) {
+                const _clat = parseFloat(_moonCityMatch[3]);
+                const _clng = parseFloat(_moonCityMatch[4]);
+                const _nearby = (typeof _findNearbyDbSlug === 'function')
+                    ? _findNearbyDbSlug(_clat, _clng, 2)
+                    : null;
+                if (_nearby) _moonResolvedSlug = _nearby;
+            }
+            const _moonInDbResolved = (_moonResolvedSlug !== _moonSlug)
+                || _moonInDb;
             // 1) المدينة في DB + coord-suffix → 301 إلى الشكل القصير (يحترم فصل الـ URLs الجديد)
-            if (_moonInDb && _moonHasCoord) {
+            //    Also fires when UAT-Moon-3 found a different DB slug for the same coords.
+            if (_moonInDbResolved && _moonHasCoord) {
                 // today → /moon-today-in-{slug}، hub → /moon-in-{slug}، dated → /moon-in-{slug}/{date}
                 let _canonicalPath;
                 if (_dyRt) {
-                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonSlug + '/' + _dyRt + '-' + _dmRt + '-' + _ddRt;
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonResolvedSlug + '/' + _dyRt + '-' + _dmRt + '-' + _ddRt;
                 } else if (_isHubRt) {
-                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonSlug;
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonResolvedSlug;
                 } else {
-                    _canonicalPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug;
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonResolvedSlug;
                 }
                 res.writeHead(301, { 'Location': _canonicalPath });
                 res.end();

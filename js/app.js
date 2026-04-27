@@ -3768,16 +3768,26 @@ function _enhanceConverterSteppers() {
 function _hydrateCurrentCityFromUrlOrStorage() {
     if (currentLat && currentLng && currentEnglishName) return; // معبّأة بالفعل
     const _p = window.location.pathname;
-    // جرّب استخراج slug + إحداثيّات من URL (قمر/قبلة/صلاة)
-    const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
+    // UAT-Q5h: include `.` in slug class for loc-XX.X-YY.Y (Persian/Asian).
+    const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
     if (!_m) return;
     const _slug = _m[1];
     const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
     const _urlLng = _m[3] != null ? parseFloat(_m[3]) : NaN;
-    // 1) sessionStorage بمفتاح `city_{slug}` أو `city_moon` أو `city_hijri-*`
+    // ── UAT-Q5h: REORDERED priority ────────────────────────────────────
+    //   The URL slug is THE authoritative current-city source. The previous
+    //   ordering put generic 'city_moon' before slug-specific lookups, so
+    //   navigating /moon-today-in-mecca → /moon-today-in-kuala-lumpur via
+    //   the cities-grid hydrated FROM mecca's stale city_moon, not the
+    //   new slug. New order:
+    //     1) sessionStorage('city_' + slug)         ← slug-specific seed
+    //     2) FAMOUS_MOON_CITIES[slug]               ← built-in famous lookup
+    //     3) URL coord-suffix                        ← if present
+    //     4) loc-XX.X-YY.Y parser                    ← coord-only slug
+    //     5) sessionStorage('city_moon') (last)      ← legacy generic key
+    // 1) Slug-specific seed
     try {
-        const _stored = sessionStorage.getItem('city_' + _slug)
-                     || sessionStorage.getItem('city_moon');
+        const _stored = sessionStorage.getItem('city_' + _slug);
         if (_stored) {
             const _o = JSON.parse(_stored);
             if (_o && _o.lat != null && _o.lng != null) {
@@ -3791,15 +3801,42 @@ function _hydrateCurrentCityFromUrlOrStorage() {
             }
         }
     } catch (_) {}
-    // 2) إحداثيّات من الـ URL مباشرة (إن وُجدت)
-    if (isFinite(_urlLat) && isFinite(_urlLng)) {
-        currentLat = _urlLat; currentLng = _urlLng;
-    }
-    // 3) إحداثيّات + اسم من خرائط المدن الشهيرة
-    if ((!currentLat || !currentLng) && typeof FAMOUS_MOON_CITIES !== 'undefined' && FAMOUS_MOON_CITIES[_slug]) {
+    // 2) Famous city lookup
+    if (typeof FAMOUS_MOON_CITIES !== 'undefined' && FAMOUS_MOON_CITIES[_slug]) {
         currentLat = FAMOUS_MOON_CITIES[_slug].lat;
         currentLng = FAMOUS_MOON_CITIES[_slug].lng;
     }
+    // 3) URL coord-suffix
+    if ((!currentLat || !currentLng) && isFinite(_urlLat) && isFinite(_urlLng)) {
+        currentLat = _urlLat; currentLng = _urlLng;
+    }
+    // 4) loc-XX.X-YY.Y parser (coord-only slug for non-Latin city names)
+    if (!currentLat || !currentLng) {
+        const locM = _slug.match(/^loc-(\d+\.\d)([ns])-(\d+\.\d)([ew])$/);
+        if (locM) {
+            currentLat = parseFloat(locM[1]) * (locM[2] === 'n' ? 1 : -1);
+            currentLng = parseFloat(locM[3]) * (locM[4] === 'e' ? 1 : -1);
+        }
+    }
+    // 5) Last-resort: legacy generic city_moon key (only when nothing else
+    //    worked — never override a slug-derived position).
+    if (!currentLat || !currentLng) {
+        try {
+            const _stored2 = sessionStorage.getItem('city_moon');
+            if (_stored2) {
+                const _o2 = JSON.parse(_stored2);
+                if (_o2 && _o2.lat != null && _o2.lng != null) {
+                    currentLat = _o2.lat; currentLng = _o2.lng;
+                    if (_o2.name) currentCity = _o2.name;
+                    if (_o2.country) currentCountry = _o2.country;
+                    if (_o2.englishName) currentEnglishName = _o2.englishName;
+                    if (_o2.countryCode) currentCountryCode = _o2.countryCode;
+                    if (_o2.timezone != null) currentTimezone = _o2.timezone;
+                }
+            }
+        } catch (_) {}
+    }
+    // Name + country fallbacks for fields not yet set.
     if (!currentEnglishName && _slug) {
         currentEnglishName = _slug.replace(/-/g, ' ').replace(/\b\w/g, m => m.toUpperCase());
     }
@@ -3906,6 +3943,8 @@ function initNavigation() {
             // حاسبة الزكاة → /zakat-calculator
             if (pageId === 'zakat' && window.location.protocol !== 'file:') {
                 if (!/\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(window.location.pathname)) {
+                    // UAT-Q5h: save city context before navigating to generic tool
+                    _saveCityCtxFor('zakat');
                     window.location.href = pageUrl('/zakat-calculator');
                 }
                 return;
@@ -3920,20 +3959,24 @@ function initNavigation() {
             // الخادم يُصدِر 301 إلى الرابط القصير إن كانت المدينة في الـ DB، وإلّا يرسم
             // الصفحة بـ noindex. هذا يحلّ مشكلة "city not found" نهائيّاً.
             if (pageId === 'moon' && window.location.protocol !== 'file:') {
-                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(window.location.pathname);
+                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(window.location.pathname);
                 if (!_alreadyOnMoon) {
-                    // 1) جرّب استخراج slug من URL صفحة المدينة الحاليّة (prayer-times-in-* / qibla-in-*)
-                    //    ثمّ تنظيفه من الإحداثيّات: "tokyo-35.6895-139.6917" → "tokyo"
-                    let _moonSlug = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in)-(.+?)(?:\.html)?$/)?.[1] || null;
+                    // UAT-Q5h: URL slug is authoritative — also accept moon-today-in-/moon-in-
+                    //   plus other city pages, plus loc-XX.X-YY.Y dot-containing slugs.
+                    let _moonSlug = window.location.pathname.match(
+                        /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-time-in)-(.+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
+                    )?.[1] || null;
                     if (_moonSlug) {
-                        _moonSlug = _moonSlug.replace(/-?-?\d.*$/, '').replace(/-+$/, '');
+                        // Strip trailing -lat-lng coord-suffix (legacy URLs); keep loc-XX.X-YY.Y intact (it's the slug itself).
+                        if (!/^loc-\d+\.\d[ns]-\d+\.\d[ew]$/.test(_moonSlug)) {
+                            _moonSlug = _moonSlug.replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
+                        }
                     }
-                    // 2) fallback: من المدينة الحاليّة في الذاكرة عبر makeSlug (NFD-aware)
-                    //    مثال: "São Paulo" → "sao-paulo" (بدل "so-paulo" المُشوَّه).
+                    // 2) fallback: from current globals
                     if (!_moonSlug && currentEnglishName) {
                         _moonSlug = makeSlug(currentEnglishName, currentLat, currentLng);
                     }
-                    // 3) آخر ملجأ: مكّة
+                    // 3) last resort
                     if (!_moonSlug) _moonSlug = 'mecca';
                     // ⭐ حفظ موقع المدينة لصفحة القمر — بحيث تُعرَض Tokyo الصحيحة حتّى لو لم تكن في FAMOUS_MOON_CITIES
                     if (currentLat != null && currentLng != null) {
@@ -3984,18 +4027,20 @@ function initNavigation() {
             // FIX: نوسّع التغطية لتشمل URLs القمر (moon-today-in-* / moon-in-*) والقبلة (qibla-in-*)
             //      والصلاة (prayer-times-in-*). نُسقط الإحداثيّات ولاحقة التاريخ من الـ slug.
             if (pageId === 'prayer-times' && window.location.protocol !== 'file:') {
-                let _slug = (currentLat && currentEnglishName)
-                    ? makeSlug(currentEnglishName, currentLat, currentLng)
-                    : null;
-                if (!_slug) {
-                    // استخرج من URL الحاليّ (قمر/قبلة/صلاة بأيّ بادئة لغة)
-                    const _m = window.location.pathname.match(
-                        /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
-                    );
-                    if (_m) {
-                        // أزل ذيل الإحداثيّات إن وُجد (مثل: at-taif-21.2854-40.4151)
-                        _slug = _m[1].replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
-                    }
+                // UAT-Q5h: URL slug is the AUTHORITATIVE current-city source —
+                //   read it FIRST, before falling back to globals. Otherwise
+                //   navigating /moon-today-in-X via cities-grid (which doesn't
+                //   refresh currentEnglishName) → sidebar prayer-times click
+                //   uses stale Mecca instead of X.
+                let _slug = null;
+                const _m = window.location.pathname.match(
+                    /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9.-]+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
+                );
+                if (_m) {
+                    _slug = _m[1].replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
+                }
+                if (!_slug && currentLat && currentEnglishName) {
+                    _slug = makeSlug(currentEnglishName, currentLat, currentLng);
                 }
                 // FIX: استرجاع موقع المدينة من sessionStorage إذا غاب currentLat
                 //   (يحدث عند الوصول لصفحة قمر مباشرةً عبر URL — currentLat لم يُعبَّأ بعد)
@@ -4047,9 +4092,10 @@ function initNavigation() {
                     //   الـ URL بدلًا من الاعتماد على الموقع الحاليّ للمستخدم.
                     const _cp = window.location.pathname;
                     let _ctx = null; // { slug, lat, lng }
-                    const _mm = _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/)
-                             || _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/)
-                             || _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\.html)?$/);
+                    // UAT-Q5h: include `.` in slug class for loc-XX.X-YY.Y
+                    const _mm = _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/)
+                             || _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/)
+                             || _cp.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\.html)?$/);
                     if (_mm) {
                         const _slug = _mm[1];
                         let _lat = _mm[2] != null ? parseFloat(_mm[2]) : NaN;
@@ -4129,8 +4175,19 @@ function initNavigation() {
 
             // عند الضغط على المسبحة → انتقل لصفحة /msbaha
             if (pageId === 'tasbih' && window.location.protocol !== 'file:') {
-                if (!/\/(?:en\/)?msbaha$/.test(window.location.pathname)) {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(window.location.pathname)) {
+                    // UAT-Q5h: save city context before navigating
+                    _saveCityCtxFor('tasbih');
                     window.location.href = pageUrl('/msbaha');
+                    return;
+                }
+            }
+
+            // UAT-Q5h: عند الضغط على الأدعية → انتقل لصفحة /duas (لم يَكن لها handler)
+            if (pageId === 'duas' && window.location.protocol !== 'file:') {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(window.location.pathname)) {
+                    _saveCityCtxFor('duas');
+                    window.location.href = pageUrl('/duas');
                     return;
                 }
             }

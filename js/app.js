@@ -11198,7 +11198,7 @@ function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
         && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, hintSlug)) {
         return pageUrl(`/qibla-in-${hintSlug}`);
     }
-    // Derive a slug from the English name — no coords suffix.
+    // Derive a slug from the English name.
     let slug = hintSlug;
     if (!slug && englishName && typeof makeSlug === 'function') {
         slug = makeSlug(englishName, lat, lng);
@@ -11212,6 +11212,21 @@ function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
         } else {
             slug = 'mecca';
         }
+    }
+    // UAT-Q5: attach coord-suffix when slug isn't a known famous city. The
+    // server-side handler resolves the slug against the cities-DB and 301s
+    // a DB hit back to the clean URL; for unknown slugs (Yastrebovka, …)
+    // the coords are needed so the qibla page can compute the right angle
+    // / distance instead of falling back to Mecca's coords (= 0° angle).
+    // Mirrors what UAT-Moon-2 does on the moon side.
+    if (isFinite(lat) && isFinite(lng)
+        && !/^loc-/.test(slug)
+        && !/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)
+        && (typeof FAMOUS_MOON_CITIES === 'undefined'
+            || !Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug))) {
+        const la = Number(lat).toFixed(4);
+        const lo = Number(lng).toFixed(4);
+        return pageUrl(`/qibla-in-${slug}-${la}-${lo}`);
     }
     return pageUrl(`/qibla-in-${slug}`);
 }

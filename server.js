@@ -9516,6 +9516,41 @@ const server = http.createServer(async (req, res) => {
             }
             // 4) ليست في DB + مع coord-suffix → مرّر (تُرسم كـ noindex من buildSeoFor)
         }
+        // ===== UAT-Q5: same proximity-based fuzzy-match for qibla URLs =====
+        //   - /qibla-in-{slug}-{lat}-{lng} → 301 to /qibla-in-{slug}
+        //     when the slug is in DB (canonical clean form).
+        //   - When the slug isn't in DB but the coords land within ≤2 km
+        //     of a city we DO have under a different transliteration
+        //     (Yastrebovka ↔ Iastrubivka, …), 301 to the DB slug instead.
+        //   - Otherwise (slug not in DB, no nearby DB hit) → fall through
+        //     so the page renders with the real coords from the URL,
+        //     ensuring the qibla angle/distance reflect the user's actual
+        //     location instead of falling back to Mecca's coords (= 0°).
+        const _Qroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        if (_Qroute) {
+            const _qLangPrefix = _Qroute[1] || '';
+            const _qSlug = _Qroute[2];
+            const _qHasCoord = (_Qroute[3] != null && _Qroute[4] != null);
+            const _qInDb = !!_resolveCityForMoon(_qSlug);
+            let _qResolvedSlug = _qSlug;
+            if (!_qInDb && _qHasCoord) {
+                const _qLat = parseFloat(_Qroute[3]);
+                const _qLng = parseFloat(_Qroute[4]);
+                const _qNearby = (typeof _findNearbyDbSlug === 'function')
+                    ? _findNearbyDbSlug(_qLat, _qLng, 2)
+                    : null;
+                if (_qNearby) _qResolvedSlug = _qNearby;
+            }
+            const _qInDbResolved = (_qResolvedSlug !== _qSlug) || _qInDb;
+            if (_qInDbResolved && _qHasCoord) {
+                const _qCanonicalPath = '/' + _qLangPrefix + 'qibla-in-' + _qResolvedSlug;
+                res.writeHead(301, { 'Location': _qCanonicalPath });
+                res.end();
+                return;
+            }
+            // else: fall through to readCachedFile — page renders with the
+            // coords from the URL (qibla calc uses real lat/lng from suffix).
+        }
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
             serveHtmlWithSeo(html, urlPath, res, _acceptEnc);

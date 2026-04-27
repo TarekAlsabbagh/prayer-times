@@ -2399,7 +2399,16 @@ async function initFromURL() {
     }
 
     // 3) بحث محلي سريع في LOCAL_CITIES (بدون API)
-    const localMatch = LOCAL_CITIES.find(c => makeSlug(c.en, c.lat, c.lng) === slug);
+    //   match either by explicit `slug` field OR by makeSlug-derived slug.
+    //   The explicit-slug match is needed for cities whose canonical URL
+    //   slug differs from makeSlug(en,lat,lng) — e.g. Mecca: en='Mecca' →
+    //   makeSlug='mecca' but slug='makkah' (the post-redirect canonical).
+    //   Without this, /qibla-in-makkah falls through to Nominatim which
+    //   returns "محافظة مكة المكرمة" instead of "مكة المكرمة" (UAT-Q2b).
+    const localMatch = LOCAL_CITIES.find(c =>
+        (c.slug && c.slug === slug) ||
+        makeSlug(c.en, c.lat, c.lng) === slug
+    );
     if (localMatch) {
         await loadCityData(localMatch.lat, localMatch.lng, localMatch.ar, localMatch.country, localMatch.cc || '', localMatch.en || '');
         return true;

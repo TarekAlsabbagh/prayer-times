@@ -16597,85 +16597,11 @@ function loadHijriMonthPage() {
 }
 
 // ========= تحميل أحداث اليوم لصفحة اليوم الفردي =========
-async function loadHijriDayOTD(day, monthName) {
-    const lang      = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const loadingEl = document.getElementById('hday-otd-loading');
-    const listEl    = document.getElementById('hday-otd-list');
-    if (!loadingEl || !listEl) return;
-    loadingEl.style.display = 'block';
-    listEl.style.display    = 'none';
-    listEl.innerHTML        = '';
-
-    try {
-        const url = window.location.protocol === 'file:'
-            ? `https://ar.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(day + ' ' + monthName)}&prop=wikitext&format=json&origin=*`
-            : `/api/wiki-onthisday?day=${day}&month=${encodeURIComponent(monthName)}`;
-
-        const res  = await fetch(url);
-        const data = await res.json();
-        let events = data.events || [];
-
-        if (!events.length && data?.parse?.wikitext) {
-            const wikitext = data.parse.wikitext['*'] || '';
-            const eventsMatch = wikitext.match(/==\s*أحداث\s*==([\s\S]*?)(?:==|$)/);
-            const raw = eventsMatch ? eventsMatch[1] : '';
-            for (const line of raw.split('\n')) {
-                const m = line.match(/^\*+\s*(.*)/);
-                if (!m) continue;
-                let text = m[1].replace(/\[\[(?:[^|\]]*\|)?([^\]]+)\]\]/g,'$1').replace(/\{\{[^}]*\}\}/g,'').replace(/<[^>]+>/g,'').replace(/'{2,}/g,'').trim();
-                if (text.length > 10) events.push({ text });
-            }
-        }
-
-        const seen = new Set();
-        events = events.filter(ev => { if (seen.has(ev.text)) return false; seen.add(ev.text); return true; });
-
-        const getHijriYear = text => { const m = text.match(/^(\d{1,4})\s*هـ/); return m ? parseInt(m[1]) : null; };
-        const finalEvents  = events.filter(ev => { if (!ev.text) return false; const y = getHijriYear(ev.text); return y !== null && y <= 897; });
-
-        if (!finalEvents.length) {
-            loadingEl.textContent = lang !== 'ar' ? 'No events found.' : 'لا توجد أحداث متاحة.';
-            return;
-        }
-
-        finalEvents.slice(0, 20).forEach(ev => {
-            const li = document.createElement('li');
-            const text = ev.text || '';
-            // يدعم كل أنواع الفواصل العربية والإنجليزية:
-            // - hyphen-minus, – en-dash, — em-dash, ـ Arabic tatweel, − minus
-            const yearMatch = text.match(/^(\d{1,4})\s*هـ\s*[\-–—ـ−:]+\s*(.*)/s);
-            if (yearMatch) {
-                const year2  = yearMatch[1];
-                const detail = yearMatch[2].trim();
-                const typeMap = {
-                    'مواليد': { cls:'birth', label: lang !== 'ar' ? 'Birth' : 'ولادة' },
-                    'وفيات':  { cls:'death', label: lang !== 'ar' ? 'Death' : 'وفاة' }
-                };
-                const badge  = typeMap[ev.type] || { cls:'event', label: lang !== 'ar' ? 'Historical event' : 'حدث تاريخي' };
-                li.innerHTML = `<strong class="otd-year">${year2} هـ</strong><span class="otd-badge ${badge.cls}">${badge.label}</span><span class="otd-text">${detail}</span>`;
-                if (ev.article && (ev.type === 'مواليد' || ev.type === 'وفيات')) {
-                    renderBio(li, ev.article, lang);
-                }
-            } else {
-                // محاولة استخراج السنة دون فاصل (نص مباشر بعد "هـ")
-                const altMatch = text.match(/^(\d{1,4})\s*هـ\s+(.*)/s);
-                if (altMatch) {
-                    const year2  = altMatch[1];
-                    const detail = altMatch[2].trim();
-                    const badge  = { cls:'event', label: lang !== 'ar' ? 'Historical event' : 'حدث تاريخي' };
-                    li.innerHTML = `<strong class="otd-year">${year2} هـ</strong><span class="otd-badge ${badge.cls}">${badge.label}</span><span class="otd-text">${detail}</span>`;
-                } else {
-                    li.textContent = text;
-                }
-            }
-            listEl.appendChild(li);
-        });
-
-        loadingEl.style.display = 'none';
-        listEl.style.display    = 'block';
-    } catch(e) {
-        loadingEl.textContent = lang !== 'ar' ? 'Failed to load events.' : 'تعذّر تحميل الأحداث.';
-    }
+async function loadHijriDayOTD(/* day, monthName */) {
+    // (UAT-2.8) Wikipedia OTD body removed — declaration kept as a no-op stub
+    //   so any leftover `typeof loadHijriDayOTD === 'function'` check still
+    //   passes without triggering a fetch to ar.wikipedia.org.
+    return;
 }
 
 // ========= أبرز أحداث اليوم من ويكيبيديا =========

@@ -177,11 +177,12 @@ function _escAttr(s) {
  * Replaces inline Arabic default text/attribute values with the target-lang
  * value from TRANSLATIONS. Skipped for ar (default) and when dict missing.
  *
- * Handles 4 binding kinds:
+ * Handles 5 binding kinds:
  *   data-i18n               → replace text content of the host element
  *   data-i18n-placeholder   → replace `placeholder="..."` value
  *   data-i18n-title         → replace `title="..."` value
  *   data-i18n-aria-label    → replace `aria-label="..."` value
+ *   data-i18n-alt           → replace `alt="..."` value (UAT-3c.2)
  *
  * Conservative: only swaps simple `<tag ...>TEXT</tag>` patterns where the
  * text content has no nested elements. Complex/nested cases fall back to the
@@ -202,23 +203,29 @@ function _translateI18nAttrs(html, lang) {
         }
     );
 
-    // 2) attribute-bound i18n: placeholder / title / aria-label
+    // 2) attribute-bound i18n: placeholder / title / aria-label / alt
     const attrPairs = [
         ['data-i18n-placeholder', 'placeholder'],
         ['data-i18n-title',       'title'],
         ['data-i18n-aria-label',  'aria-label'],
+        ['data-i18n-alt',         'alt'],
     ];
     for (const [keyAttr, valAttr] of attrPairs) {
         const tagRe = /<[a-z][a-z0-9-]*\b[^>]*?\/?>/gi;
+        // Match the value attribute only when it stands alone (preceded by whitespace
+        // or the opening `<`), NOT when it appears as a suffix inside another attr
+        // name like `data-i18n-aria-label`. `\b` would match either side of `-`, so
+        // we use an explicit lookbehind for whitespace / tag-start instead.
+        const valRe = new RegExp(`(^|<[a-z][a-z0-9-]*|\\s)(${valAttr}=["'][^"']*["'])`, 'i');
+        const keyRe = new RegExp(`(?:^|\\s)${keyAttr}=["']([^"']+)["']`, 'i');
         html = html.replace(tagRe, tagStr => {
-            const km = tagStr.match(new RegExp(`\\b${keyAttr}=["']([^"']+)["']`, 'i'));
+            const km = tagStr.match(keyRe);
             if (!km) return tagStr;
             const trans = dict[km[1]];
             if (typeof trans !== 'string') return tagStr;
-            const valRe = new RegExp(`\\b${valAttr}=["'][^"']*["']`, 'i');
             const escaped = _escAttr(trans);
             if (valRe.test(tagStr)) {
-                return tagStr.replace(valRe, `${valAttr}="${escaped}"`);
+                return tagStr.replace(valRe, `$1${valAttr}="${escaped}"`);
             }
             // attribute missing — inject before the closing > (or />)
             return tagStr.replace(/(\/?>)\s*$/, ` ${valAttr}="${escaped}"$1`);

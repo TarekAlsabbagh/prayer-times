@@ -13492,6 +13492,27 @@ function _moonCityDisplayName(slug) {
         const localized = t(key);
         if (localized && localized !== key) return localized;
     }
+    // 1.5) UAT-Q5g: sessionStorage seed FIRST — يَحوي الاسم الموطَّن لأيّ مدينة
+    //      (Persian/Asian/non-Latin) من صفحة المنشأ. أعلى أولويّة من
+    //      currentCity/قواميس لأنّه يَحمل الاسم بلغة الواجهة الحاليّة.
+    try {
+        const _stored0 = sessionStorage.getItem('city_' + slug);
+        if (_stored0) {
+            const _o0 = JSON.parse(_stored0);
+            if (_o0 && _o0.name && typeof _o0.name === 'string') {
+                const _lng0 = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _scriptOk0 = (v) => {
+                    if (!v) return false;
+                    if (typeof _isDisplayScriptAcceptable === 'function') {
+                        return _isDisplayScriptAcceptable(v, _lng0);
+                    }
+                    return true;
+                };
+                if (_scriptOk0(_o0.name)) return _o0.name;
+                if (_lng0 === 'en' && _o0.englishName) return _o0.englishName;
+            }
+        }
+    } catch (_e) { /* silent */ }
     // 2) الاسم الحاليّ (lang-aware) إن كان يُمثِّل نفس المدينة في الـ slug
     //    نستخدم getDisplayCity() التي ترجع الاسم بلغة الواجهة:
     //      AR → currentCity (عربيّ)، EN → currentEnglishDisplayName/Name، غيرها → currentLocalizedName أو قاموس
@@ -13541,7 +13562,49 @@ function _moonCityDisplayName(slug) {
             if (CITY_NAMES_AR[_englishName2]) return CITY_NAMES_AR[_englishName2];
         }
     } catch (_e) { /* silent */ }
-    // 5) fallback نهائيّ: _prettifySlug (يُرجع النسخة الإنجليزيّة فقط إذا لم يوجد شيء آخر)
+    // 5) UAT-Q5g: cold-visit fallback — Nominatim geocode بلغة المستخدم.
+    //    Async: نُطلِق الطلب، نَحفظ النتيجة في sessionStorage، ثمّ نُعيد رسم
+    //    الصفحة لينعكس الاسم على H1/breadcrumb/intro/FAQ. حتّى يَصل الردّ
+    //    نُرجع _prettifySlug كـ placeholder. يَعمل لكلّ الـ10 لغات.
+    try {
+        if (typeof geocodeSlug === 'function' && !window.__moonNameGeoInflight) {
+            const _inflightKey = 'moonName:' + slug;
+            if (!window['__inflight_' + _inflightKey]) {
+                window['__inflight_' + _inflightKey] = true;
+                geocodeSlug(slug).then(res => {
+                    if (res && res.name) {
+                        try {
+                            // Merge into existing sessionStorage seed (preserve coords)
+                            let prev = {};
+                            try { prev = JSON.parse(sessionStorage.getItem('city_' + slug) || '{}'); } catch (_) {}
+                            sessionStorage.setItem('city_' + slug, JSON.stringify({
+                                lat: (typeof prev.lat === 'number') ? prev.lat : (+res.lat || 0),
+                                lng: (typeof prev.lng === 'number') ? prev.lng : (+res.lng || 0),
+                                name: res.name,
+                                country: res.country || prev.country || '',
+                                englishName: res.englishName || res.name || prev.englishName || '',
+                                countryCode: res.countryCode || prev.countryCode || '',
+                                _v: 2
+                            }));
+                        } catch (_) {}
+                        // Re-render moon page so H1/breadcrumb/FAQ pick up the new name.
+                        try {
+                            // Trigger a fresh load if the moon page is currently visible.
+                            if (document.documentElement.classList.contains('moon-hub-page')
+                                || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-(?:today|in)-/.test(window.location.pathname)) {
+                                if (typeof updateMoonInfo === 'function') updateMoonInfo();
+                                if (typeof updateMoonForecast === 'function') updateMoonForecast();
+                                if (typeof loadMoonPage === 'function') loadMoonPage();
+                            }
+                        } catch (_) {}
+                    }
+                }).catch(() => {}).finally(() => {
+                    delete window['__inflight_' + _inflightKey];
+                });
+            }
+        }
+    } catch (_e) { /* silent */ }
+    // 7) fallback نهائيّ: _prettifySlug (يُرجع النسخة الإنجليزيّة فقط إذا لم يوجد شيء آخر)
     return _prettifySlug(slug);
 }
 

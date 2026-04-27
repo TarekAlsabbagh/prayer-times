@@ -3471,17 +3471,14 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
             `<nav class="popular-cities-grid" aria-label="${_escHtml(_f.popAria)}">`
         );
         html = html.replace(
-            // UAT-3f: URL slug is `makkah` (canonical), but dict key is `mecca`
-            // (semantic English). Accept both, normalise the dict lookup.
-            /<a href="[^"]*\/prayer-times-in-(makkah|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)"[^>]*>[\s\S]*?<\/a>/g,
+            /<a href="[^"]*\/prayer-times-in-(mecca|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)"[^>]*>[\s\S]*?<\/a>/g,
             (m, slug) => {
-                const dictKey = (slug === 'makkah') ? 'mecca' : slug;
-                const name = _pc[dictKey];
+                const name = _pc[slug];
                 // "مواقيت الصلاة في <strong>{city}</strong>" — نُرمِّز pre/post منفصلَين
                 // لإبقاء وسم `<strong>` حول اسم المدينة فقط.
                 const [pre, post] = _cPtTmpl.split('{city}');
                 const label = `${_escHtml(pre)}<strong>${_escHtml(name)}</strong>${_escHtml(post)}`;
-                return `<a href="${_langPrefix}/prayer-times-in-${slug}" data-i18n="popular_city.${dictKey}">${label}</a>`;
+                return `<a href="${_langPrefix}/prayer-times-in-${slug}" data-i18n="popular_city.${slug}">${label}</a>`;
             }
         );
         html = html.replace(
@@ -6622,12 +6619,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         // 2) استبدال النص داخل كل <a href="/prayer-times-in-{slug}">...</a> + إضافة prefix للّغة
         //    النصّ يُصبح "مواقيت الصلاة في {city}" (قالب مترجَم لكلّ لغة) لتحسين SEO.
         html = html.replace(
-            // UAT-3f: URL slug is `makkah` (canonical), dict key is `mecca`.
-            // Accept both forms in the URL, normalise to `mecca` for dict lookup.
-            /<a href="\/prayer-times-in-(makkah|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)">[\s\S]*?<\/a>/g,
+            /<a href="\/prayer-times-in-(mecca|medina|riyadh|jeddah|cairo|istanbul|dubai|amman|baghdad|damascus|casablanca|jerusalem)">[\s\S]*?<\/a>/g,
             (match, slug) => {
-                const dictKey = (slug === 'makkah') ? 'mecca' : slug;
-                const name = popCities[dictKey];
+                const name = popCities[slug];
                 // اسم المدينة بـ <strong> لإبرازه في الرابط — نُرمِّز جزأَي القالب بشكل منفصل
                 // لتفادي تهريب `<strong>`.
                 const [pre, post] = _ptTmpl.split('{city}');

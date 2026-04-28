@@ -2786,6 +2786,7 @@ const _HOME_STRIP_CLASSES = [
     'next-prayer-banner',
     'hadith-section',
     'faq-city-only',     // q3-q9 (and their dividers) — hidden was CSS-only; now removed from DOM/JSON-LD
+    'loc-hero-city',     // "📍 مكة المكرمة، …" pill inside #location-hero — irrelevant on /, leaks Mecca
 ];
 function _stripHtmlForHome(html) {
     for (const id of _HOME_STRIP_IDS) {

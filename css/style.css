@@ -37,7 +37,8 @@ html.home-page #home-world-countries-block,
 html.home-page #home-refs-block,
 html.home-page #home-follow-block,
 html.home-page #home-share-block,
-html.home-page .faq-city-only { display: none !important; }
+html.home-page .faq-city-only,
+html.home-page .loc-hero-city { display: none !important; }
 
 
 /* ========= المتغيرات ========= */

@@ -10524,7 +10524,12 @@ html.time-left-page .sticky-next-bar {
 .mit-grid {
     display: grid;
     gap: 12px;
-    grid-template-columns: repeat(3, 1fr);
+    /* UAT-Home-Simplify: 4 tools (Qibla / Hijri / Moon / Date Converter) — one
+       balanced row on desktop, 2×2 on mobile. (was 3-col → orphaned 4th item) */
+    grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 768px) {
+    .mit-grid { grid-template-columns: repeat(2, 1fr); }
 }
 .mit-item {
     display: flex;

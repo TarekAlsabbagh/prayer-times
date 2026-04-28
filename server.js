@@ -6731,23 +6731,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 `<!-- SSR FAQ (Round 7f: LLM readability — IDs محفوظة للـ JS override) -->${_faqHtml}`
             );
 
-            // —— About-site section (يُضاف قبل قسم روابط الفوتر) ——
-            if (i18n.aboutTitle) {
-                const _aboutHtml = `
-                <!-- SSR About-site (Round 7f) -->
-                <section class="section-card home-about" id="home-about" aria-labelledby="home-about-title">
-                    <h2 id="home-about-title">${_escHtml(i18n.aboutTitle)}</h2>
-                    <p>${_escHtml(i18n.aboutP1)}</p>
-                    <p>${_escHtml(i18n.aboutP2)}</p>
-                    <p>${_escHtml(i18n.aboutP3)}</p>
-                </section>
-                `;
-                // نُدرج قبل section home-footer-links
-                html = html.replace(
-                    '<!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->',
-                    `${_aboutHtml}\n                <!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->`
-                );
-            }
+            // —— About-site section: REMOVED from homepage (UAT-Home-Simplify
+            //   2026-04-28). The user wants `/` to be a Gateway, not a long
+            //   SEO-text page. The i18n.aboutTitle/aboutP1-P3 strings remain
+            //   in the locale dict above for a future dedicated /about page.
         }
     }
 

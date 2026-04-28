@@ -39,10 +39,25 @@ let currentLocalizedCountry = '';
                 const _o = JSON.parse(_stored);
                 if (_o && typeof _o.lat === 'number' && typeof _o.lng === 'number') {
                     currentLat = _o.lat; currentLng = _o.lng;
-                    if (_o.name) currentCity = _o.name;
-                    if (_o.country) currentCountry = _o.country;
-                    if (_o.englishName) { currentEnglishName = _o.englishName; currentEnglishDisplayName = _o.englishName; }
-                    if (_o.countryCode) currentCountryCode = _o.countryCode;
+                    // BUG-FIX (country/city mismatch): when the seed exists for a
+                    //   non-Mecca slug, NEVER let stale Saudi/Mecca defaults linger
+                    //   for the country-name field. If the seed lacks country/
+                    //   englishCountry, clear them — the reverse-geo step inside
+                    //   loadCityData() will repopulate from the real coords. The
+                    //   slug here is authoritative, so the previous-page country
+                    //   (e.g. Saudi Arabia) MUST NOT bleed onto the Indian city.
+                    const _seedSlugIsNotMecca = (_slug !== 'mecca' && _slug !== 'makkah');
+                    currentCity = _o.name || (_seedSlugIsNotMecca ? '' : currentCity);
+                    currentCountry = _o.country || (_seedSlugIsNotMecca ? '' : currentCountry);
+                    currentCountryCode = _o.countryCode || (_seedSlugIsNotMecca ? '' : currentCountryCode);
+                    currentEnglishCountry = _o.englishCountry || (_seedSlugIsNotMecca ? '' : currentEnglishCountry);
+                    if (_o.englishName) {
+                        currentEnglishName = _o.englishName;
+                        currentEnglishDisplayName = _o.englishName;
+                    } else if (_seedSlugIsNotMecca) {
+                        currentEnglishName = '';
+                        currentEnglishDisplayName = '';
+                    }
                     return;
                 }
             }
@@ -2695,20 +2710,99 @@ async function initApp() {
                         currentLng         = _p.lng;
                         currentCity        = _p.name        || currentCity;
                         currentEnglishName = _p.englishName || currentEnglishName;
+                        currentEnglishDisplayName = _p.englishName || currentEnglishDisplayName;
                         currentCountry     = _p.country     || currentCountry;
-                        currentCountryCode = _p.countryCode || currentCountryCode;
+                        currentCountryCode = (_p.countryCode || currentCountryCode || '').toLowerCase();
+                        // Synthesize English country from countryCode (last_city_context
+                        //   doesn't carry englishCountry → header in EN was empty).
+                        if (currentCountryCode && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                            currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+                        }
                         if (typeof _p.timezone === 'number') currentTimezone = _p.timezone;
                         _hydratedFromContext = true;
                     }
                 }
             } catch (_e) { /* silent */ }
+            // BUG-FIX (Zakat/Duas/Tasbih/Hijri-date/Hijri-calendar/Date-converter):
+            //   على الصفحات غير-المدنيّة (لا تحوي slug مدينة)، إن لم يوجد
+            //   last_city_context (مثلاً: المستخدم وصل مباشرةً عبر URL أو فُتح
+            //   تبويب جديد)، استَعمل lsb_detected الذي يَستمرّ في localStorage
+            //   حتّى 7 أيّام. هذا يضمن أنّ /zakat-calculator و/duas و/msbaha
+            //   و/today-hijri-date و/hijri-calendar و/dateconverter تَعرض موقع
+            //   المستخدم الحاليّ بدلاً من Mecca defaults.
+            if (!_hydratedFromContext) {
+                try {
+                    const _lsbRaw = localStorage.getItem('lsb_detected');
+                    if (_lsbRaw) {
+                        const _lsb = JSON.parse(_lsbRaw);
+                        const _ageMs = Date.now() - (Number(_lsb && _lsb.ts) || 0);
+                        const _validTs = isFinite(_ageMs) && _ageMs < 7 * 24 * 60 * 60 * 1000;
+                        if (_lsb && _validTs && isFinite(_lsb.lat) && isFinite(_lsb.lng) && _lsb.enName) {
+                            currentLat = _lsb.lat;
+                            currentLng = _lsb.lng;
+                            currentCity = _lsb.arCity || _lsb.enName;
+                            currentEnglishName = _lsb.enName;
+                            currentEnglishDisplayName = _lsb.enName;
+                            currentCountry = _lsb.country || '';
+                            currentCountryCode = (_lsb.countryCode || '').toLowerCase();
+                            if (currentCountryCode && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                                currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+                            }
+                            if (!currentCountry && currentCountryCode
+                                && typeof _MOON_COUNTRY_NAMES !== 'undefined' && _MOON_COUNTRY_NAMES.ar) {
+                                currentCountry = _MOON_COUNTRY_NAMES.ar[currentCountryCode] || '';
+                            }
+                            if (_lsb.names && typeof _lsb.names === 'object') {
+                                const _curLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                                if (_lsb.names[_curLang]) currentLocalizedName = _lsb.names[_curLang];
+                            }
+                            _hydratedFromContext = true;
+                        }
+                    }
+                } catch (_e) { /* silent — fall back to Mecca defaults */ }
+            }
         } else {
-            // على الرئيسيّة: امسح آخر سياق مدينة حتى تعود نقرات الشريط الجانبي
-            //   افتراضيّاً إلى مكّة حسب قاعدة المستخدم.
+            // على الرئيسيّة: امسح آخر سياق مدينة (سياق التنقّل بين الصفحات)
             try { sessionStorage.removeItem('last_city_context'); } catch (_e) { /* silent */ }
+            // BUG-FIX (lang-switch reverts to Mecca): إن سبق للمستخدم اكتشاف
+            //   موقعه (lsb_detected في localStorage صالح حتّى 7 أيّام)، استعمله
+            //   على الرئيسيّة وفي كلّ روابط الناف-بار بدلاً من Mecca defaults.
+            //   هذا يضمن أنّ تبديل اللغة على الرئيسيّة لا يُعيد المدينة إلى مكّة،
+            //   وأنّ نقرات الشريط الجانبي تتوجّه إلى مدينة المستخدم الفعليّة.
+            try {
+                const _lsbRaw = localStorage.getItem('lsb_detected');
+                if (_lsbRaw) {
+                    const _lsb = JSON.parse(_lsbRaw);
+                    const _ageMs = Date.now() - (Number(_lsb && _lsb.ts) || 0);
+                    const _validTs = isFinite(_ageMs) && _ageMs < 7 * 24 * 60 * 60 * 1000; // 7 days
+                    if (_lsb && _validTs && isFinite(_lsb.lat) && isFinite(_lsb.lng) && _lsb.enName) {
+                        currentLat = _lsb.lat;
+                        currentLng = _lsb.lng;
+                        currentCity = _lsb.arCity || _lsb.enName;
+                        currentEnglishName = _lsb.enName;
+                        currentEnglishDisplayName = _lsb.enName;
+                        currentCountry = _lsb.country || '';
+                        currentCountryCode = (_lsb.countryCode || '').toLowerCase();
+                        // Synthesize English country name from countryCode
+                        if (currentCountryCode && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                            currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+                        }
+                        // Synthesize Arabic country name from countryCode if missing
+                        if (!currentCountry && currentCountryCode
+                            && typeof _MOON_COUNTRY_NAMES !== 'undefined' && _MOON_COUNTRY_NAMES.ar) {
+                            currentCountry = _MOON_COUNTRY_NAMES.ar[currentCountryCode] || '';
+                        }
+                        // localized name (per-lang) if cached in lsb.names
+                        if (_lsb.names && typeof _lsb.names === 'object') {
+                            const _curLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                            if (_lsb.names[_curLang]) currentLocalizedName = _lsb.names[_curLang];
+                        }
+                        _hydratedFromContext = true;
+                    }
+                }
+            } catch (_e) { /* silent — fall back to Mecca defaults */ }
         }
-        // الصفحة الرئيسية تعرض مكة دائماً كافتراضي — لا نستبدلها بموقع المستخدم المحفوظ
-        // موقع المستخدم (إن وُجد) يظهر فقط في شريط الاقتراح عبر checkSavedLocationSuggestion()
+        // الصفحة الرئيسية تعرض الموقع المكتشَف للمستخدم إن وُجد، وإلّا مكّة افتراضيّاً
         try { updateCityDisplay(); } catch(_e) { try { console.warn('[initApp] updateCityDisplay:', _e); } catch(_){} }
         try { updatePrayerTimes(); } catch(_e) { try { console.warn('[initApp] updatePrayerTimes:', _e); } catch(_){} }
         try { updateQibla();       } catch(_e) { try { console.warn('[initApp] updateQibla:',       _e); } catch(_){} }
@@ -3875,11 +3969,34 @@ function _hydrateCurrentCityFromUrlOrStorage() {
             const _o = JSON.parse(_stored);
             if (_o && _o.lat != null && _o.lng != null) {
                 currentLat = _o.lat; currentLng = _o.lng;
-                if (_o.name) currentCity = _o.name;
-                if (_o.country) currentCountry = _o.country;
-                if (_o.englishName) currentEnglishName = _o.englishName;
-                if (_o.countryCode) currentCountryCode = _o.countryCode;
+                // BUG-FIX (country/city mismatch): a slug-keyed seed is
+                //   authoritative for THIS slug. Never let prior-page defaults
+                //   (Saudi/Mecca) bleed onto a different city. Clear missing
+                //   fields, then synthesize country names from countryCode when
+                //   the seed has it but the country names are missing.
+                const _seedSlugIsNotMecca = (_slug !== 'mecca' && _slug !== 'makkah');
+                if (_o.name) currentCity = _o.name; else if (_seedSlugIsNotMecca) currentCity = '';
+                if (_o.englishName) currentEnglishName = _o.englishName; else if (_seedSlugIsNotMecca) currentEnglishName = '';
+                if (_o.countryCode) currentCountryCode = _o.countryCode; else if (_seedSlugIsNotMecca) currentCountryCode = '';
+                if (_o.country) currentCountry = _o.country; else if (_seedSlugIsNotMecca) currentCountry = '';
+                if (_o.englishCountry) currentEnglishCountry = _o.englishCountry; else if (_seedSlugIsNotMecca) currentEnglishCountry = '';
                 if (_o.timezone != null) currentTimezone = _o.timezone;
+                // Synthesize country name from countryCode when missing.
+                //   Tries the slug→cc map first (handles seeds with no cc), then
+                //   uses module-level _MOON_COUNTRY_NAMES + COUNTRY_EN_NAMES.
+                try {
+                    if (!currentCountryCode && typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined' && _MOON_CITY_COUNTRY_KEYS[_slug]) {
+                        currentCountryCode = _MOON_CITY_COUNTRY_KEYS[_slug];
+                    }
+                    if (currentCountryCode) {
+                        if (!currentCountry && typeof _MOON_COUNTRY_NAMES !== 'undefined' && _MOON_COUNTRY_NAMES.ar) {
+                            currentCountry = _MOON_COUNTRY_NAMES.ar[currentCountryCode] || '';
+                        }
+                        if (!currentEnglishCountry && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                            currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+                        }
+                    }
+                } catch (_) {}
                 return;
             }
         }
@@ -3929,6 +4046,19 @@ function _hydrateCurrentCityFromUrlOrStorage() {
     if (!currentCountryCode && typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined' && _MOON_CITY_COUNTRY_KEYS[_slug]) {
         currentCountryCode = _MOON_CITY_COUNTRY_KEYS[_slug];
     }
+    // BUG-FIX (country/city mismatch): final synthesis — once we have a
+    //   countryCode, derive matching country names so the header chip is
+    //   coherent (e.g. Mumbai + India, never Mumbai + Saudi Arabia).
+    try {
+        if (currentCountryCode) {
+            if (!currentCountry && typeof _MOON_COUNTRY_NAMES !== 'undefined' && _MOON_COUNTRY_NAMES.ar) {
+                currentCountry = _MOON_COUNTRY_NAMES.ar[currentCountryCode] || currentCountry;
+            }
+            if (!currentEnglishCountry && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+            }
+        }
+    } catch (_) {}
 }
 
 // FIX: معالج عامّ يحفظ سياق المدينة الحاليّة قبل أي تنقّل عبر <a> داخل الموقع.
@@ -3970,17 +4100,47 @@ function initNavigation() {
             // ── الصفحات التي لها URL خاص → تنقّل فوراً قبل أي تبديل ──────────
 
             // FIX: helper مساعد لحفظ سياق مدينة باسم مفتاح مخصّص — يأخذ المدينة الحاليّة
-            //   إن وُجدت، وإلا يحفظ مكّة كافتراضي. يضمن أن الصفحة الوجهة تجد سياقاً دائماً.
+            //   إن وُجدت، وإلا lsb_detected (موقع المستخدم المكتشَف)، وإلّا مكّة كافتراضي.
+            //   يضمن أن الصفحة الوجهة (Zakat/Duas/Hijri-…) تجد سياقاً = موقع المستخدم،
+            //   لا Mecca defaults.
             const _saveCityCtxFor = (key) => {
                 try {
+                    // Use globals first; if they're still empty/Mecca-default,
+                    //   try lsb_detected (user's last detected location).
+                    let _lat = currentLat, _lng = currentLng;
+                    let _name = currentCity, _country = currentCountry;
+                    let _enName = currentEnglishName, _cc = currentCountryCode;
+                    let _tz = currentTimezone;
+                    const _isMeccaDefault = (
+                        Math.abs((_lat || 0) - 21.4225) < 0.001 &&
+                        Math.abs((_lng || 0) - 39.8262) < 0.001 &&
+                        (_enName === 'Mecca' || _enName === '' || !_enName)
+                    );
+                    if (!_lat || !_lng || _isMeccaDefault) {
+                        try {
+                            const _lsbRaw = localStorage.getItem('lsb_detected');
+                            if (_lsbRaw) {
+                                const _lsb = JSON.parse(_lsbRaw);
+                                const _ageMs = Date.now() - (Number(_lsb && _lsb.ts) || 0);
+                                if (_lsb && isFinite(_lsb.lat) && isFinite(_lsb.lng) && _lsb.enName
+                                    && _ageMs < 7 * 24 * 60 * 60 * 1000) {
+                                    _lat = _lsb.lat; _lng = _lsb.lng;
+                                    _name = _lsb.arCity || _lsb.enName;
+                                    _enName = _lsb.enName;
+                                    _country = _lsb.country || '';
+                                    _cc = (_lsb.countryCode || '').toLowerCase();
+                                }
+                            }
+                        } catch (_) {}
+                    }
                     const _payload = {
-                        lat: currentLat || 21.4225,
-                        lng: currentLng || 39.8262,
-                        name: currentCity || 'مكة المكرمة',
-                        country: currentCountry || 'المملكة العربية السعودية',
-                        englishName: currentEnglishName || 'Mecca',
-                        countryCode: currentCountryCode || 'sa',
-                        timezone: (typeof currentTimezone === 'number') ? currentTimezone : 3
+                        lat: _lat || 21.4225,
+                        lng: _lng || 39.8262,
+                        name: _name || 'مكة المكرمة',
+                        country: _country || 'المملكة العربية السعودية',
+                        englishName: _enName || 'Mecca',
+                        countryCode: _cc || 'sa',
+                        timezone: (typeof _tz === 'number') ? _tz : 3
                     };
                     sessionStorage.setItem('city_' + key, JSON.stringify(_payload));
                     sessionStorage.setItem('last_city_context', JSON.stringify({ ..._payload, ts: Date.now() }));
@@ -11348,9 +11508,24 @@ function _buildQiblaUrl(citySlug, lat, lng) {
     // every entry is in FAMOUS_MOON_CITIES (server resolves via DB).
     try {
         if (citySlug && isFinite(lat) && isFinite(lng) && !/^loc-/.test(citySlug)) {
-            sessionStorage.setItem('city_' + citySlug, JSON.stringify({
-                lat, lng, _v: 2
-            }));
+            // BUG-FIX (country/city mismatch): also store countryCode +
+            //   englishName so the destination page hydrates a coherent
+            //   country chip on first paint instead of inheriting the
+            //   previous page's defaults (e.g. "Saudi Arabia + Mumbai").
+            const _cc = (typeof _MOON_CITY_COUNTRY_KEYS !== 'undefined' && _MOON_CITY_COUNTRY_KEYS[citySlug]) || '';
+            const _enName = citySlug.replace(/-/g, ' ').replace(/\b\w/g, m => m.toUpperCase());
+            const _payload = { lat, lng, _v: 2 };
+            if (_cc) {
+                _payload.countryCode = _cc;
+                if (typeof COUNTRY_EN_NAMES !== 'undefined' && COUNTRY_EN_NAMES[_cc]) {
+                    _payload.englishCountry = COUNTRY_EN_NAMES[_cc];
+                }
+                if (typeof _MOON_COUNTRY_NAMES !== 'undefined' && _MOON_COUNTRY_NAMES.ar && _MOON_COUNTRY_NAMES.ar[_cc]) {
+                    _payload.country = _MOON_COUNTRY_NAMES.ar[_cc];
+                }
+            }
+            _payload.englishName = _enName;
+            sessionStorage.setItem('city_' + citySlug, JSON.stringify(_payload));
         }
     } catch (_) {}
     return pageUrl(`/qibla-in-${citySlug}`);
@@ -13177,11 +13352,16 @@ function loadQiblaPage(ctx) {
             if (citySlugForUrl) {
                 // Seed sessionStorage('city_${slug}') so the moon page can
                 // resolve coords without needing them in the URL.
+                // BUG-FIX (country/city mismatch): include country fields too,
+                //   else the moon page hydrates with stale Saudi defaults.
                 try {
                     if (isFinite(lat) && isFinite(lng)) {
                         sessionStorage.setItem('city_' + citySlugForUrl, JSON.stringify({
                             lat, lng, name: cityName,
                             englishName: (typeof currentEnglishName === 'string') ? currentEnglishName : cityName,
+                            country: (typeof currentCountry === 'string') ? currentCountry : '',
+                            englishCountry: (typeof currentEnglishCountry === 'string') ? currentEnglishCountry : '',
+                            countryCode: (typeof currentCountryCode === 'string') ? currentCountryCode : '',
                             _v: 2
                         }));
                     }

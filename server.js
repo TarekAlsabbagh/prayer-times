@@ -3896,17 +3896,37 @@ function buildSeoForPath(urlPath) {
         }
     };
 
-    // Homepage title: يطابق صيغة صفحات المدن (Gregorian + Hijri مؤرَّخ)
-    // باستعمال "مكة المكرمة" (Mecca localized) كمدينة flagship.
-    // Descriptions مُحتفَظ بها كما هي لأنّها محسَّنة بمفتاح "مكة + المدينة + الشهر + keywords".
-    const _meccaHomeDisplay = (POPULAR_CITY_NAMES.mecca && POPULAR_CITY_NAMES.mecca[lang])
-        || (POPULAR_CITY_NAMES.mecca && POPULAR_CITY_NAMES.mecca.en)
-        || 'Mecca';
-    // الرئيسية: مكّة كمدينة flagship (توقيت Asia/Riyadh ≈ lng 39.83)
-    let title = _buildCityDatedTitle(_meccaHomeDisplay, 39.8262);
-    let description = isEn
-        ? `Prayer times today in Mecca, Medina ${_gMonthEn} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMonthEn} ${_hYear} AH, Qibla, Zakat.`
-        : `مواقيت الصلاة في مكة المكرمة والمدينة اليوم ${_gMonthAr} ${_gYear}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMonthAr} ${_hYear} هـ، القبلة والزكاة.`;
+    // Homepage title/description — GENERIC (no Mecca cannibalization).
+    //   The dedicated /prayer-times-in-makkah page owns the "مكة" keyword.
+    //   Homepage targets the generic "مواقيت الصلاة اليوم" so it ranks for
+    //   broad queries without competing with the city-specific page.
+    //   (UAT-SEO-Cannibalization fix — 2026-04-28)
+    const _HOME_TITLES = {
+        ar: 'مواقيت الصلاة اليوم | أوقات الصلاة والتاريخ الهجري واتجاه القبلة',
+        en: "Prayer Times Today | Daily Prayer Schedule, Hijri Calendar & Qibla Direction",
+        fr: "Heures de prière aujourd'hui | Horaires quotidiens, calendrier hégirien et direction de la Qibla",
+        tr: 'Bugünkü Namaz Vakitleri | Günlük Namaz Saatleri, Hicri Takvim ve Kıble Yönü',
+        ur: 'آج اوقاتِ نماز | روزانہ اوقاتِ نماز، ہجری کیلنڈر اور سمتِ قبلہ',
+        de: 'Heutige Gebetszeiten | Tägliche Gebetsplan, Hidschri-Kalender und Qibla-Richtung',
+        id: 'Jadwal Sholat Hari Ini | Waktu Sholat, Kalender Hijriyah dan Arah Kiblat',
+        es: 'Horarios de Oración Hoy | Horario diario, Calendario Hijri y Dirección de la Qibla',
+        bn: 'আজকের নামাজের সময় | দৈনিক নামাজের সময়সূচী, হিজরি ক্যালেন্ডার ও কিবলার দিক',
+        ms: 'Waktu Solat Hari Ini | Jadual Solat Harian, Kalendar Hijrah dan Arah Kiblat',
+    };
+    const _HOME_DESCS = {
+        ar: 'اعرف مواقيت الصلاة اليوم لأي مدينة حول العالم، مع أوقات الفجر والظهر والعصر والمغرب والعشاء، التاريخ الهجري، اتجاه القبلة، وحالة القمر.',
+        en: 'Find accurate prayer times today for any city worldwide — Fajr, Dhuhr, Asr, Maghrib, Isha — alongside the Hijri date, Qibla direction, and moon phase.',
+        fr: "Consultez les horaires de prière du jour pour toute ville dans le monde — Fajr, Dhuhr, Asr, Maghrib, Isha — avec la date hégirienne, la direction de la Qibla et la phase lunaire.",
+        tr: 'Dünyanın herhangi bir şehri için bugünkü namaz vakitlerini öğrenin — Fecir, Öğle, İkindi, Akşam, Yatsı — Hicri tarih, kıble yönü ve ay evresi ile birlikte.',
+        ur: 'دنیا کے کسی بھی شہر کے لیے آج کے اوقاتِ نماز جانیں — فجر، ظہر، عصر، مغرب، عشاء — ہجری تاریخ، سمتِ قبلہ اور چاند کی حالت کے ساتھ۔',
+        de: 'Finden Sie die heutigen Gebetszeiten für jede Stadt weltweit — Fajr, Dhuhr, Asr, Maghrib, Isha — mit Hidschri-Datum, Qibla-Richtung und Mondphase.',
+        id: 'Temukan jadwal sholat hari ini untuk setiap kota di dunia — Subuh, Zuhur, Asar, Magrib, Isya — beserta tanggal Hijriah, arah kiblat, dan fase bulan.',
+        es: 'Consulta los horarios de oración de hoy para cualquier ciudad del mundo — Fayr, Dhuhr, Asr, Magrib, Isha — junto con la fecha hijri, dirección de la Qibla y fase lunar.',
+        bn: 'বিশ্বের যেকোনো শহরের আজকের নামাজের সময় জানুন — ফজর, জোহর, আসর, মাগরিব, এশা — হিজরি তারিখ, কিবলার দিক ও চাঁদের অবস্থা সহ।',
+        ms: 'Ketahui waktu solat hari ini untuk mana-mana bandar di dunia — Subuh, Zohor, Asar, Maghrib, Isyak — bersama tarikh Hijrah, arah kiblat dan fasa bulan.',
+    };
+    let title       = _HOME_TITLES[lang] || _HOME_TITLES.en;
+    let description = _HOME_DESCS[lang]  || _HOME_DESCS.en;
     let ogType = 'website';
     let geo = null;
     let prev = null, next = null, article = null;
@@ -3916,32 +3936,10 @@ function buildSeoForPath(urlPath) {
     let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
     let zakatFaq = false;        // UAT-Z1: يُفعّل FAQPage + HowTo schemas لصفحة الزكاة
     let moonCity = null;         // Round 9: بيانات مدينة لصفحة /moon-today-in-{slug}
-    // Localize homepage description for additional languages (title unified عبر _buildCityDatedTitle).
-    if (lang === 'fr') {
-        const _gMonthLoc = _G_MONTHS.fr[_gMonthIdx];
-        description = `Horaires de prière aujourd'hui à La Mecque, Médine ${_gMonthLoc} ${_gYear} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMonthLoc} ${_hYear}, Qibla, Zakat.`;
-    } else if (lang === 'tr') {
-        const _gMonthLoc = _G_MONTHS.tr[_gMonthIdx];
-        description = `Bugün Mekke, Medine namaz vakitleri ${_gMonthLoc} ${_gYear}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMonthLoc} ${_hYear}, kıble, zekât.`;
-    } else if (lang === 'ur') {
-        const _gMonthLoc = _G_MONTHS.ur[_gMonthIdx];
-        description = `آج مکہ مکرمہ، مدینہ اور دنیا میں اوقاتِ نماز ${_gMonthLoc} ${_gYear}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMonthLoc} ${_hYear}، قبلہ، زکاۃ، دعائیں۔`;
-    } else if (lang === 'de') {
-        const _gMonthLoc = _G_MONTHS.de[_gMonthIdx];
-        description = `Heutige Gebetszeiten in Mekka, Medina ${_gMonthLoc} ${_gYear}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMonthLoc} ${_hYear}, Qibla, Zakat.`;
-    } else if (lang === 'id') {
-        const _gMonthLoc = _G_MONTHS.id[_gMonthIdx];
-        description = `Jadwal sholat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMonthLoc} ${_hYear}, kiblat, zakat.`;
-    } else if (lang === 'es') {
-        const _gMonthLoc = _G_MONTHS.es[_gMonthIdx];
-        description = `Horarios de oración hoy en La Meca, Medina ${_gMonthLoc} ${_gYear}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMonthLoc} ${_hYear}, Qibla, Zakat.`;
-    } else if (lang === 'bn') {
-        const _gMonthLoc = _G_MONTHS.bn[_gMonthIdx];
-        description = `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে ${_gMonthLoc} ${_gYear}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMonthLoc} ${_hYear}, কিবলা, যাকাত, দোয়া।`;
-    } else if (lang === 'ms') {
-        const _gMonthLoc = _G_MONTHS.ms[_gMonthIdx];
-        description = `Waktu solat hari ini di Makkah, Madinah ${_gMonthLoc} ${_gYear}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMonthLoc} ${_hYear}, Kiblat, Zakat.`;
-    }
+    // (UAT-SEO-Cannibalization) The 8 per-lang description overrides above
+    //   used to re-introduce "Mecca/Medina" mentions on the homepage. Removed
+    //   so the generic _HOME_DESCS dict above is the single source of truth.
+    //   Mecca-as-keyword now lives ONLY on /prayer-times-in-makkah.
 
     const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };
     // Breadcrumb «Home» يجب أن يشير دائماً إلى الصفحة الرئيسيّة (/ أو /{lang}/) لا إلى الصفحة الحاليّة.

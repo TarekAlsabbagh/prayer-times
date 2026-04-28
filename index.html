@@ -34,7 +34,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=513" as="script">
+    <link rel="preload" href="js/app.js?v=514" as="script">
     <link rel="stylesheet" href="css/style.css?v=193">
 </head>
 <body>
@@ -165,7 +165,7 @@
                     <span class="snb-label">
                         <!-- 🆕 Round 3.1: span حاليّ للحالة العاديّة + span بديل لحالة «حان الآن» -->
                         <span class="snb-label-normal" data-i18n="sticky.next">القادمة:</span>
-                        <span class="snb-label-now" data-i18n="sticky.now_time">🕌 حان الآن وقت</span>
+                        <span class="snb-label-now"><svg class="icon" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="sticky.now_time">حان الآن وقت</span></span>
                     </span>
                     <b class="snb-prayer" id="snb-prayer-name">--</b>
                     <span class="snb-sep" aria-hidden="true">·</span>
@@ -307,7 +307,7 @@
                                oninput="onCitySearchInput(this.value)"
                                onkeydown="onSearchKeyDown(event)">
                         <button class="cps-locate" type="button" onclick="(typeof _locHeroDetectAndNavigate==='function')?_locHeroDetectAndNavigate():detectLocation()" title="استخدم موقعي" data-i18n-title="home.use_location" aria-label="استخدم موقعي" data-i18n-aria-label="home.use_location">
-                            <span aria-hidden="true">📍</span>
+                            <svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                         </button>
                         <div class="cps-suggestions" id="city-suggestions" role="listbox"></div>
                     </div>
@@ -924,7 +924,7 @@
                            data-i18n-aria-label="nav.hijri_calendar"
                            title="التقويم الهجري"
                            aria-label="التقويم الهجري">
-                            <span class="qa-icon">🗓️</span>
+                            <svg class="icon icon-lg qa-icon" aria-hidden="true"><use href="#i-calendar-grid"/></svg>
                             <div class="qa-title" data-i18n="nav.hijri_calendar">التقويم الهجري</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('duas');return false;"
@@ -1172,7 +1172,7 @@
                             <div class="distance" id="qibla-distance">--</div>
                         </div>
                         <button class="compass-permission-btn" id="compass-permission-btn" onclick="requestCompassPermission()">
-                            🧭 <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
+                            <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
                         </button>
                     </div>
                     <p id="qibla-wow-caption" class="qibla-wow-caption" aria-live="polite"></p>
@@ -1501,7 +1501,7 @@
 
                 <!-- 🆕 Priority C: الأطوار القمريّة القادمة (Killer Feature) — التواريخ الدقيقة للأطوار الأربعة التالية -->
                 <section class="section-card moon-upcoming-section" id="moon-upcoming-section" aria-labelledby="moon-upcoming-h2">
-                    <h2 id="moon-upcoming-h2" class="moon-upcoming-title" data-i18n="moon.upcoming.title">🔮 الأطوار القمريّة القادمة</h2>
+                    <h2 id="moon-upcoming-h2" class="moon-upcoming-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-telescope"/></svg> <span data-i18n="moon.upcoming.title">الأطوار القمريّة القادمة</span></h2>
                     <p class="moon-upcoming-subtitle" data-i18n="moon.upcoming.subtitle">التواريخ الدقيقة لأطوار القمر الأربعة التالية — محسوبة بدقّة فلكيّة</p>
                     <div class="moon-upcoming-timeline" id="moon-upcoming-timeline" role="list">
                         <!-- يُملأ بـ JS: 4 بطاقات أطوار -->
@@ -3146,7 +3146,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=513"></script>
+    <script defer src="js/app.js?v=514"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

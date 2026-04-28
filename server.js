@@ -213,13 +213,36 @@ function _translateI18nAttrs(html, lang) {
         return null;
     };
 
-    // 1) text content for elements with data-i18n="key"
+    // 1) text content for elements with data-i18n="key" (text-only body)
     html = html.replace(
         /<([a-z][a-z0-9-]*)\b([^>]*?\bdata-i18n=["']([^"']+)["'][^>]*?)>([^<]*)<\/\1>/gi,
         (m, tag, attrs, key, _text) => {
             const trans = _trans(key);
             if (trans === null) return m;
             return `<${tag}${attrs}>${trans}</${tag}>`;
+        }
+    );
+
+    // 1a) UAT-SSR-FIX: mixed-content data-i18n — element has inline child
+    //     markup (e.g. <svg>icon</svg>) followed by trailing text. The
+    //     pattern at (1) requires a text-only body, so these slipped through
+    //     and the Arabic label leaked into /en/ pages. Strategy: replace
+    //     ONLY the trailing text after the last closing tag inside the
+    //     body — preserves the inline icon, translates the visible label.
+    html = html.replace(
+        /<([a-z][a-z0-9-]*)\b([^>]*?\bdata-i18n=["']([^"']+)["'][^>]*?)>([\s\S]*?)<\/\1>/gi,
+        (m, tag, attrs, key, body) => {
+            // Skip if body has no nested tags (already handled by 1) or empty
+            if (!/</.test(body)) return m;
+            const trans = _trans(key);
+            if (trans === null) return m;
+            const lastClose = body.lastIndexOf('>');
+            if (lastClose === -1) return m;
+            const before  = body.slice(0, lastClose + 1);
+            const trailRaw = body.slice(lastClose + 1);
+            // Preserve any leading whitespace between icon and text
+            const ws = (trailRaw.match(/^(\s+)/) || ['', ' '])[1] || ' ';
+            return `<${tag}${attrs}>${before}${ws}${trans}</${tag}>`;
         }
     );
 

@@ -1147,6 +1147,8 @@ const TRANSLATIONS = {
         'home.services_title': 'الخدمات الإسلامية',
         // UAT-ICON-3: footer + countries keys (formerly emoji-prefixed in markup)
         'footer.arab_countries': 'مواقيت الصلاة في الدول العربية',
+
+        'footer.world_countries': 'مواقيت الصلاة في أبرز دول العالم',
         'footer.popular_cities': 'مواقيت الصلاة في أبرز المدن',
         'footer.services_title': 'خدمات إسلامية أخرى',
         'footer.refs_title': 'مصادر ومراجع خارجية',
@@ -1215,6 +1217,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'أسئلة شائعة',
         'hijri_today.faq_title': 'أسئلة عن التاريخ الهجري اليوم',
         'hijri_today.extra_title': 'روابط إضافية',
+        'hday.title': 'تفاصيل اليوم الهجري',
+
+        'hyear.title': 'تقويم السنة الهجرية',
+
+        'hmonth.title': 'تقويم الشهر الهجري',
+
         'hday.faq_title': 'أسئلة عن اليوم الهجري',
         'hday.related_title': 'روابط ذات صلة',
         'hyear.table_title': 'جميع أشهر التقويم الهجري',
@@ -2457,6 +2465,8 @@ const TRANSLATIONS = {
         'home.services_title': 'Islamic Services',
         // UAT-ICON-3: footer + countries keys
         'footer.arab_countries': 'Prayer Times in Arab Countries',
+
+        'footer.world_countries': 'Prayer Times in Major World Countries',
         'footer.popular_cities': 'Prayer Times in Popular Cities',
         'footer.services_title': 'Other Islamic Services',
         'footer.refs_title': 'External References & Sources',
@@ -2526,6 +2536,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Frequently Asked Questions',
         'hijri_today.faq_title': "❓ Today's Hijri Date FAQ",
         'hijri_today.extra_title': 'Additional Links',
+        'hday.title': 'Hijri Day Details',
+
+        'hyear.title': 'Hijri Year Calendar',
+
+        'hmonth.title': 'Hijri Month Calendar',
+
         'hday.faq_title': 'Hijri Day FAQ',
         'hday.related_title': 'Related Links',
         'hyear.table_title': 'All Hijri Calendar Months',
@@ -3573,6 +3589,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Questions fréquentes',
         'hijri_today.faq_title': "❓ FAQ — Date Hijri d'aujourd'hui",
         'hijri_today.extra_title': 'Liens supplémentaires',
+        'hday.title': 'Détails du jour hégirien',
+
+        'hyear.title': "Calendrier de l'année hégirienne",
+
+        'hmonth.title': 'Calendrier du mois hégirien',
+
         'hday.faq_title': 'FAQ — Jour Hijri',
         'hday.related_title': 'Liens connexes',
         'hyear.table_title': 'Tous les mois du calendrier hijri',
@@ -4669,6 +4691,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Sık Sorulan Sorular',
         'hijri_today.faq_title': 'Bugünün Hicri Tarihi SSS',
         'hijri_today.extra_title': 'Ek Bağlantılar',
+        'hday.title': 'Hicri Gün Detayları',
+
+        'hyear.title': 'Hicri Yıl Takvimi',
+
+        'hmonth.title': 'Hicri Ay Takvimi',
+
         'hday.faq_title': 'Hicri Gün SSS',
         'hday.related_title': 'İlgili Bağlantılar',
         'hyear.table_title': 'Tüm Hicri Takvim Ayları',
@@ -5765,6 +5793,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'عمومی سوالات',
         'hijri_today.faq_title': 'آج کی ہجری تاریخ کے سوالات',
         'hijri_today.extra_title': 'اضافی روابط',
+        'hday.title': 'ہجری دن کی تفصیلات',
+
+        'hyear.title': 'ہجری سال کا کیلنڈر',
+
+        'hmonth.title': 'ہجری مہینے کا کیلنڈر',
+
         'hday.faq_title': 'ہجری دن کے سوالات',
         'hday.related_title': 'متعلقہ روابط',
         'hyear.table_title': 'ہجری کیلنڈر کے تمام مہینے',
@@ -6871,6 +6905,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Häufig gestellte Fragen',
         'hijri_today.faq_title': 'FAQ zum heutigen Hijri-Datum',
         'hijri_today.extra_title': 'Zusätzliche Links',
+        'hday.title': 'Hidschri-Tag Details',
+
+        'hyear.title': 'Hidschri-Jahreskalender',
+
+        'hmonth.title': 'Hidschri-Monatskalender',
+
         'hday.faq_title': 'FAQ zum Hijri-Tag',
         'hday.related_title': 'Verwandte Links',
         'hyear.table_title': 'Alle Hijri-Kalendermonate',
@@ -8022,6 +8062,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Pertanyaan yang Sering Diajukan',
         'hijri_today.faq_title': 'FAQ Tanggal Hijriah Hari Ini',
         'hijri_today.extra_title': 'Tautan Tambahan',
+        'hday.title': 'Detail Hari Hijriah',
+
+        'hyear.title': 'Kalender Tahun Hijriah',
+
+        'hmonth.title': 'Kalender Bulan Hijriah',
+
         'hday.faq_title': 'FAQ Hari Hijriah',
         'hday.related_title': 'Tautan Terkait',
         'hyear.table_title': 'Semua Bulan Kalender Hijriah',
@@ -9173,6 +9219,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Preguntas Frecuentes',
         'hijri_today.faq_title': 'FAQ sobre la Fecha Hijri de Hoy',
         'hijri_today.extra_title': 'Enlaces adicionales',
+        'hday.title': 'Detalles del día hégira',
+
+        'hyear.title': 'Calendario del año hégira',
+
+        'hmonth.title': 'Calendario del mes hégira',
+
         'hday.faq_title': 'FAQ del Día Hijri',
         'hday.related_title': 'Enlaces relacionados',
         'hyear.table_title': 'Todos los meses del calendario hijri',
@@ -10324,6 +10376,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'প্রায়শই জিজ্ঞাসিত প্রশ্ন',
         'hijri_today.faq_title': 'আজকের হিজরি তারিখ সম্পর্কিত প্রশ্ন',
         'hijri_today.extra_title': 'অতিরিক্ত লিঙ্ক',
+        'hday.title': 'হিজরি দিবসের বিবরণ',
+
+        'hyear.title': 'হিজরি বর্ষের ক্যালেন্ডার',
+
+        'hmonth.title': 'হিজরি মাসের ক্যালেন্ডার',
+
         'hday.faq_title': 'হিজরি দিন সম্পর্কিত প্রশ্ন',
         'hday.related_title': 'সম্পর্কিত লিঙ্ক',
         'hyear.table_title': 'হিজরি ক্যালেন্ডারের সমস্ত মাস',
@@ -11475,6 +11533,12 @@ const TRANSLATIONS = {
         'faq.short_title': 'Soalan Lazim',
         'hijri_today.faq_title': 'Soalan Lazim Tarikh Hijrah Hari Ini',
         'hijri_today.extra_title': 'Pautan Tambahan',
+        'hday.title': 'Butiran Hari Hijrah',
+
+        'hyear.title': 'Kalendar Tahun Hijrah',
+
+        'hmonth.title': 'Kalendar Bulan Hijrah',
+
         'hday.faq_title': 'Soalan Lazim Hari Hijrah',
         'hday.related_title': 'Pautan Berkaitan',
         'hyear.table_title': 'Semua Bulan Kalendar Hijrah',

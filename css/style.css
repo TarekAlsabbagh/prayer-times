@@ -40,19 +40,6 @@ html.home-page #home-share-block,
 html.home-page .faq-city-only,
 html.home-page .loc-hero-city { display: none !important; }
 
-/* UAT-Moon-Hub-Simplify: /moon-today (the hub) is a Moon Gateway. The SSR
-   strips the heavy moon sections + the entire #page-prayer-times shell;
-   these CSS rules are belt-and-braces (visible immediately on first paint
-   even before SSR could touch a cached/CDN response). */
-html.moon-today-hub-page #page-prayer-times { display: none !important; }
-html.moon-today-hub-page #page-moon { display: block !important; }
-html.moon-today-hub-page #moon-events-section,
-html.moon-today-hub-page #moon-chart-section,
-html.moon-today-hub-page #moon-forecast,
-html.moon-today-hub-page #moon-faq-general,
-html.moon-today-hub-page .moon-faq-city-card,
-html.moon-today-hub-page .moon-evergreen { display: none !important; }
-
 
 /* ========= المتغيرات ========= */
 :root {

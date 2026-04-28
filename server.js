@@ -2807,6 +2807,51 @@ function _stripHtmlForHome(html) {
     return html;
 }
 
+// UAT-Moon-Hub-Simplify: turn /moon-today into a Moon Gateway.
+//   Strips heavy moon sections (events/chart/14-day forecast, long general FAQ
+//   with 17 items, evergreen edu content ~800 words, city-templated FAQ since
+//   the hub has no city) AND removes the entire #page-prayer-times shell
+//   (cards/schedule/related-links/etc.) so prayer content doesn't precede
+//   moon content in the raw HTML. Keeps: H1, subtitle, breadcrumb, summary
+//   line, intro, Hijri widget, the main moon-visual card with phase/
+//   illumination/age/rise/set, upcoming-phases card, popular moon cities.
+const _MOON_HUB_STRIP_IDS = [
+    // Heavy moon sections (the user complained these turn /moon-today into a
+    //   long encyclopedia rather than a gateway).
+    'moon-events-section',
+    'moon-chart-section',
+    'moon-forecast',
+    'moon-faq-general',
+    // City-templated FAQ — hub has no city, so JS would render empty/{city}.
+    'moon-faq-city',
+    // The entire prayer-times shell (homepage uses #location-hero from this
+    //   shell, but moon hub doesn't need any of it). All children — including
+    //   prayer-cards, schedule, related-links, hadith — go.
+    'page-prayer-times',
+    // Footer wrapper sub-blocks duplicated from homepage cleanup pattern
+    'home-world-countries-block',
+    'home-refs-block',
+    'home-follow-block',
+    'home-share-block',
+];
+const _MOON_HUB_STRIP_CLASSES = [
+    'moon-evergreen',     // ~800-word educational content — wrong fit on a hub
+    'moon-faq-city-card', // wrapper that holds moon-faq-city + its h2
+];
+function _stripHtmlForMoonHub(html) {
+    for (const id of _MOON_HUB_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    for (const cls of _MOON_HUB_STRIP_CLASSES) {
+        let prev = '', guard = 8;
+        while (prev !== html && guard-- > 0) {
+            prev = html;
+            html = _stripElement(html, { type: 'class', value: cls });
+        }
+    }
+    return html;
+}
+
 // ===== Phase I — H1 deduplication per route =====
 // SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
 // CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
@@ -5694,6 +5739,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             .replace('<p id="faq-a2">', '<p id="faq-a2" data-i18n="faq.home.a2">')
             // Strip the times-list ul (only meaningful for city Q1 with prayer rows)
             .replace(/<ul class="faq-times-list" id="faq-times-list">[\s\S]*?<\/ul>/, '');
+    }
+    // 1f) UAT-Moon-Hub-Simplify: /moon-today (and /{lang}/moon-today) → Moon
+    //     Gateway. Detect via path (no `-in-{slug}` suffix). Strip the heavy
+    //     moon sections + the entire #page-prayer-times shell so prayer
+    //     content doesn't precede moon content in the raw HTML.
+    const _isMoonTodayHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath);
+    if (_isMoonTodayHub) {
+        html = _stripHtmlForMoonHub(html);
+        // Inject class="moon-today-hub-page" on <html> so CSS can take over
+        //   first paint (no JS-flash of #page-prayer-times default page).
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} moon-today-hub-page"`) + '>';
+            }
+            return '<html' + a + ' class="moon-today-hub-page">';
+        });
     }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);

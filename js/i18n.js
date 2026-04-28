@@ -1123,8 +1123,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'الرئيسية',
         'breadcrumb.prayer_times': 'مواقيت الصلاة',
         // مجموعات الشريط الجانبي
-        'nav.group_islamic': '🕌 الخدمات الإسلامية',
-        'nav.group_hijri': '📅 التاريخ الهجري',
+        'nav.group_islamic': 'الخدمات الإسلاميّة',
+        'nav.group_hijri': 'التاريخ الهجريّ',
         // عناوين أزرار الهيدر (tooltips)
         'header.logo_title': 'الرئيسية',
         'header.detect_title': 'تحديد موقعي تلقائياً',
@@ -2418,8 +2418,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'Home',
         'breadcrumb.prayer_times': 'Prayer Times',
         // Sidebar nav groups
-        'nav.group_islamic': '🕌 Islamic Services',
-        'nav.group_hijri': '📅 Hijri Date',
+        'nav.group_islamic': 'Islamic Services',
+        'nav.group_hijri': 'Hijri Date',
         // Header button tooltips
         'header.logo_title': 'Home',
         'header.detect_title': 'Detect my location automatically',
@@ -3474,8 +3474,8 @@ const TRANSLATIONS = {
         'misc.no': 'Non',
         'breadcrumb.home': 'Accueil',
         'breadcrumb.prayer_times': 'Heures de prière',
-        'nav.group_islamic': '🕌 Services islamiques',
-        'nav.group_hijri': '📅 Date hégirienne',
+        'nav.group_islamic': 'Services islamiques',
+        'nav.group_hijri': 'Date hégirienne',
         'header.logo_title': 'Accueil',
         'header.detect_title': 'Détecter ma position automatiquement',
         'header.home_title': 'Page d\'accueil',
@@ -4570,8 +4570,8 @@ const TRANSLATIONS = {
         'misc.no': 'Hayır',
         'breadcrumb.home': 'Ana Sayfa',
         'breadcrumb.prayer_times': 'Namaz Vakitleri',
-        'nav.group_islamic': '🕌 İslami Hizmetler',
-        'nav.group_hijri': '📅 Hicri Tarih',
+        'nav.group_islamic': 'İslami Hizmetler',
+        'nav.group_hijri': 'Hicri Tarih',
         'header.logo_title': 'Ana Sayfa',
         'header.detect_title': 'Konumumu otomatik tespit et',
         'header.home_title': 'Ana Sayfa',
@@ -5666,8 +5666,8 @@ const TRANSLATIONS = {
         'misc.no': 'نہیں',
         'breadcrumb.home': 'ہوم',
         'breadcrumb.prayer_times': 'اوقاتِ نماز',
-        'nav.group_islamic': '🕌 اسلامی خدمات',
-        'nav.group_hijri': '📅 ہجری تاریخ',
+        'nav.group_islamic': 'اسلامی خدمات',
+        'nav.group_hijri': 'ہجری تاریخ',
         'header.logo_title': 'ہوم',
         'header.detect_title': 'میرا مقام خودکار معلوم کریں',
         'header.home_title': 'ہوم پیج',
@@ -6763,8 +6763,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'Startseite',
         'breadcrumb.prayer_times': 'Gebetszeiten',
         // Sidebar nav groups
-        'nav.group_islamic': '🕌 Islamische Dienste',
-        'nav.group_hijri': '📅 Hidschri-Datum',
+        'nav.group_islamic': 'Islamische Dienste',
+        'nav.group_hijri': 'Hidschri-Datum',
         // Header button tooltips
         'header.logo_title': 'Startseite',
         'header.detect_title': 'Meinen Standort automatisch erkennen',
@@ -7914,8 +7914,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'Beranda',
         'breadcrumb.prayer_times': 'Jadwal Sholat',
         // Sidebar nav groups
-        'nav.group_islamic': '🕌 Layanan Islami',
-        'nav.group_hijri': '📅 Tanggal Hijriah',
+        'nav.group_islamic': 'Layanan Islami',
+        'nav.group_hijri': 'Tanggal Hijriah',
         // Header button tooltips
         'header.logo_title': 'Beranda',
         'header.detect_title': 'Deteksi lokasi saya otomatis',
@@ -9065,8 +9065,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'Inicio',
         'breadcrumb.prayer_times': 'Horarios de Oración',
         // Sidebar nav groups
-        'nav.group_islamic': '🕌 Servicios Islámicos',
-        'nav.group_hijri': '📅 Fecha Hijri',
+        'nav.group_islamic': 'Servicios Islámicos',
+        'nav.group_hijri': 'Fecha Hijri',
         // Header button tooltips
         'header.logo_title': 'Inicio',
         'header.detect_title': 'Detectar mi ubicación automáticamente',
@@ -10216,8 +10216,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'হোম',
         'breadcrumb.prayer_times': 'নামাজের সময়সূচী',
         // Sidebar nav groups
-        'nav.group_islamic': '🕌 ইসলামিক সেবা',
-        'nav.group_hijri': '📅 হিজরি তারিখ',
+        'nav.group_islamic': 'ইসলামিক সেবা',
+        'nav.group_hijri': 'হিজরি তারিখ',
         // Header button tooltips
         'header.logo_title': 'হোম',
         'header.detect_title': 'স্বয়ংক্রিয়ভাবে আমার অবস্থান সনাক্ত করুন',
@@ -11367,8 +11367,8 @@ const TRANSLATIONS = {
         'breadcrumb.home': 'Utama',
         'breadcrumb.prayer_times': 'Waktu Solat',
         // Sidebar nav groups
-        'nav.group_islamic': '🕌 Perkhidmatan Islam',
-        'nav.group_hijri': '📅 Tarikh Hijrah',
+        'nav.group_islamic': 'Perkhidmatan Islam',
+        'nav.group_hijri': 'Tarikh Hijrah',
         // Header button tooltips
         'header.logo_title': 'Utama',
         'header.detect_title': 'Kesan lokasi saya secara automatik',

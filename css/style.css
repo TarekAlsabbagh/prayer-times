@@ -1343,7 +1343,13 @@ button, input, select { font-family: inherit; }
     border-radius: 6px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
+    /* UAT-ICON-2: align SVG icon + label */
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
+.nav-group-label .icon { opacity: 0.7; }
+.sidebar-nav a .icon { color: inherit; }
 .sidebar-nav > .nav-group-label:first-child {
     margin-top: 4px;
 }

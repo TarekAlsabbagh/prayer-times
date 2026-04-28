@@ -4202,6 +4202,13 @@ function initNavigation() {
             // الخادم يُصدِر 301 إلى الرابط القصير إن كانت المدينة في الـ DB، وإلّا يرسم
             // الصفحة بـ noindex. هذا يحلّ مشكلة "city not found" نهائيّاً.
             if (pageId === 'moon' && window.location.protocol !== 'file:') {
+                // Homepage → moon hub (`/moon-today`). Any other page falls
+                //   through to the existing city-slug logic below.
+                const _moonIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
+                if (_moonIsHome) {
+                    window.location.href = pageUrl('/moon-today');
+                    return;
+                }
                 const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(window.location.pathname);
                 if (!_alreadyOnMoon) {
                     // UAT-Q5h: URL slug is authoritative — also accept moon-today-in-/moon-in-
@@ -4270,6 +4277,14 @@ function initNavigation() {
             // FIX: نوسّع التغطية لتشمل URLs القمر (moon-today-in-* / moon-in-*) والقبلة (qibla-in-*)
             //      والصلاة (prayer-times-in-*). نُسقط الإحداثيّات ولاحقة التاريخ من الـ slug.
             if (pageId === 'prayer-times' && window.location.protocol !== 'file:') {
+                // Homepage → stay on homepage (it IS the prayer-times entry).
+                //   Just close the mobile sidebar and no-op. Other pages fall
+                //   through to the city-slug logic below.
+                const _ptIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
+                if (_ptIsHome) {
+                    try { closeSidebar(); } catch (_) {}
+                    return;
+                }
                 // UAT-Q5h: URL slug is the AUTHORITATIVE current-city source —
                 //   read it FIRST, before falling back to globals. Otherwise
                 //   navigating /moon-today-in-X via cities-grid (which doesn't
@@ -4327,6 +4342,15 @@ function initNavigation() {
 
             // عند الانتقال لقسم القبلة
             if (pageId === 'qibla') {
+                // Homepage → qibla hub (`/qibla`). Any other page falls through
+                //   to the existing city-slug logic below.
+                if (window.location.protocol !== 'file:') {
+                    const _qiblaIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
+                    if (_qiblaIsHome) {
+                        window.location.href = pageUrl('/qibla');
+                        return;
+                    }
+                }
                 const _alreadyOnQibla = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-/.test(window.location.pathname);
                 if (!_alreadyOnQibla && window.location.protocol !== 'file:') {
                     // ── Round 28 fix: إذا كان المستخدم على صفحة سياق-مدينة (قمر/صلاة/…)

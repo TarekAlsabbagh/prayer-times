@@ -285,6 +285,34 @@ const TRANSLATIONS = {
         'moon.distance_sub': 'كم من موقعك',
         // ── صفحة القمر الموسّعة (H1، breadcrumb، توقّعات، مدن، أسئلة، محتوى تثقيفيّ) ──
         'moon.h1': 'القمر اليوم',
+
+        'moon.hub.title': 'حالة القمر اليوم',
+
+        'moon.hub.subtitle': 'اعرف طور القمر، الإضاءة، عمر القمر، ومواعيد طلوعه وغروبه لأيّ مدينة.',
+
+        'moon.hub.search_placeholder': 'ابحث عن مدينة لمعرفة حالة القمر اليوم…',
+
+        'moon.hub.use_location': 'استخدم موقعي الحاليّ',
+
+        'moon.hub.pick_city': 'اختر مدينتك يدويّاً',
+
+        'moon.hub.chips_label': 'مدن شائعة للقمر',
+
+        'moon.hub.faq_title': 'أسئلة شائعة عن القمر',
+
+        'moon.hub.faq.q1': 'ما هي أطوار القمر الثمانية؟',
+
+        'moon.hub.faq.a1': 'دورة القمر تستغرق 29.5 يوماً وتمرّ بثمانية أطوار: المحاق، الهلال المتزايد، التربيع الأوّل، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص.',
+
+        'moon.hub.faq.q2': 'كيف تُحسب نسبة إضاءة القمر؟',
+
+        'moon.hub.faq.a2': 'نسبة الإضاءة تُحسب فلكياً من الزاوية بين الشمس والقمر والأرض (الـ phase angle). 0% تعني المحاق، 50% تعني التربيع، و100% تعني البدر — وفق خوارزميات Meeus الفلكية.',
+
+        'moon.hub.faq.q3': 'لماذا تختلف مواعيد طلوع القمر بين المدن؟',
+
+        'moon.hub.faq.a3': 'مطلع القمر ومغيبه يعتمدان على خط طول وعرض المدينة. لأنّ الأرض تدور كلّ 24 ساعة، فإنّ المدن الشرقية ترى القمر يطلع قبل المدن الغربية، والفرق قد يصل إلى 12 ساعة.',
+
+        'moon.hub.faq.q4': 'ما علاقة دورة القمر بالتقويم الهجريّ؟',
         'moon.bc_current': 'القمر اليوم',
         'moon.bc_moon_in_city': 'القمر اليوم في {city}',
         'moon.bc_moon_in_city_nodate': 'القمر في {city}',
@@ -1614,6 +1642,34 @@ const TRANSLATIONS = {
         'moon.distance_sub': 'km from your location',
         // ── Expanded moon page (H1, breadcrumb, forecast, cities, FAQ, evergreen) ──
         'moon.h1': 'Moon Tonight',
+
+        'moon.hub.title': 'Moon Status Today',
+
+        'moon.hub.subtitle': 'Find the moon phase, illumination, age, and rise/set times for any city.',
+
+        'moon.hub.search_placeholder': 'Search for a city to view today\'s moon status…',
+
+        'moon.hub.use_location': 'Use my current location',
+
+        'moon.hub.pick_city': 'Pick a city manually',
+
+        'moon.hub.chips_label': 'Popular moon cities',
+
+        'moon.hub.faq_title': 'Moon FAQ',
+
+        'moon.hub.faq.q1': 'What are the eight moon phases?',
+
+        'moon.hub.faq.a1': 'A lunar cycle lasts about 29.5 days through eight phases: New Moon, Waxing Crescent, First Quarter, Waxing Gibbous, Full Moon, Waning Gibbous, Last Quarter, and Waning Crescent.',
+
+        'moon.hub.faq.q2': 'How is moon illumination calculated?',
+
+        'moon.hub.faq.a2': 'Illumination is computed astronomically from the sun-moon-earth angle (phase angle). 0% means New Moon, 50% means Quarter, and 100% means Full Moon — using Meeus algorithms.',
+
+        'moon.hub.faq.q3': 'Why do moonrise times differ between cities?',
+
+        'moon.hub.faq.a3': 'Moonrise and moonset depend on the city\'s latitude and longitude. Earth rotates every 24 hours, so eastern cities see the moon rise before western cities — the difference can reach 12 hours.',
+
+        'moon.hub.faq.q4': 'How is the lunar cycle related to the Hijri calendar?',
         'moon.bc_current': 'Moon Today',
         'moon.bc_moon_in_city': 'Moon Today in {city}',
         'moon.bc_moon_in_city_nodate': 'Moon in {city}',
@@ -2911,6 +2967,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'Dernier croissant',
         // ── Page Lune (étiquettes courtes ; le FAQ/contenu éducatif retombe sur l'anglais) ──
         'moon.h1': 'La Lune ce soir',
+
+        'moon.hub.title': 'État de la Lune aujourd\'hui',
+
+        'moon.hub.subtitle': 'Découvrez la phase, l\'éclairage, l\'âge et les heures de lever/coucher de la Lune pour n\'importe quelle ville.',
+
+        'moon.hub.search_placeholder': 'Rechercher une ville pour voir l\'état de la Lune aujourd\'hui…',
+
+        'moon.hub.use_location': 'Utiliser ma position actuelle',
+
+        'moon.hub.pick_city': 'Choisir une ville manuellement',
+
+        'moon.hub.chips_label': 'Villes populaires (Lune)',
+
+        'moon.hub.faq_title': 'FAQ sur la Lune',
+
+        'moon.hub.faq.q1': 'Quelles sont les huit phases de la Lune ?',
+
+        'moon.hub.faq.a1': 'Le cycle lunaire dure environ 29,5 jours et passe par huit phases : Nouvelle Lune, Premier Croissant, Premier Quartier, Lune Gibbeuse Croissante, Pleine Lune, Lune Gibbeuse Décroissante, Dernier Quartier, Dernier Croissant.',
+
+        'moon.hub.faq.q2': 'Comment est calculé l\'éclairage lunaire ?',
+
+        'moon.hub.faq.a2': 'L\'éclairage est calculé astronomiquement à partir de l\'angle Soleil-Lune-Terre (angle de phase). 0 % = Nouvelle Lune, 50 % = Quartier, 100 % = Pleine Lune — algorithmes de Meeus.',
+
+        'moon.hub.faq.q3': 'Pourquoi les heures du lever de la Lune diffèrent-elles selon les villes ?',
+
+        'moon.hub.faq.a3': 'Le lever et le coucher de la Lune dépendent de la latitude et la longitude de la ville. La Terre tourne sur elle-même en 24 heures, donc les villes orientales voient la Lune se lever avant les villes occidentales — l\'écart peut atteindre 12 heures.',
+
+        'moon.hub.faq.q4': 'Quel est le lien entre le cycle lunaire et le calendrier hégirien ?',
         'moon.bc_current': 'La Lune aujourd\u2019hui',
         'moon.bc_moon_in_city': 'La Lune aujourd\u2019hui à {city}',
         'moon.bc_moon_in_city_nodate': 'La Lune à {city}',
@@ -4023,6 +4107,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'Küçülen Hilal',
         // ── Ay Sayfası (kısa etiketler; SSS/eğitim içeriği İngilizceye düşer) ──
         'moon.h1': 'Bu Gece Ay',
+
+        'moon.hub.title': 'Bugün Ay Durumu',
+
+        'moon.hub.subtitle': 'Herhangi bir şehir için ay evresini, aydınlanma oranını, yaşını ve doğuş/batış saatlerini öğrenin.',
+
+        'moon.hub.search_placeholder': 'Bugünün ay durumunu görmek için bir şehir arayın…',
+
+        'moon.hub.use_location': 'Mevcut konumumu kullan',
+
+        'moon.hub.pick_city': 'Şehri manuel seç',
+
+        'moon.hub.chips_label': 'Popüler ay şehirleri',
+
+        'moon.hub.faq_title': 'Ay SSS',
+
+        'moon.hub.faq.q1': 'Ayın sekiz evresi nedir?',
+
+        'moon.hub.faq.a1': 'Ay döngüsü yaklaşık 29,5 gün sürer ve sekiz evreden geçer: Yeni Ay, Hilal (Büyüyen), İlk Dördün, Şişkin Ay (Büyüyen), Dolunay, Şişkin Ay (Küçülen), Son Dördün, Hilal (Küçülen).',
+
+        'moon.hub.faq.q2': 'Ay aydınlanması nasıl hesaplanır?',
+
+        'moon.hub.faq.a2': 'Aydınlanma, Güneş-Ay-Dünya açısından astronomik olarak hesaplanır. %0 Yeni Ay, %50 Dördün, %100 Dolunay anlamına gelir — Meeus algoritmaları kullanılır.',
+
+        'moon.hub.faq.q3': 'Ay doğuş saatleri şehirler arasında neden farklıdır?',
+
+        'moon.hub.faq.a3': 'Ay\'ın doğuşu ve batışı şehrin enlem ve boylamına bağlıdır. Dünya 24 saatte döner, bu nedenle doğu şehirleri Ay\'ı batı şehirlerinden önce görür — fark 12 saate kadar çıkabilir.',
+
+        'moon.hub.faq.q4': 'Ay döngüsünün Hicri takvimle ilişkisi nedir?',
         'moon.bc_current': 'Bugün Ay',
         'moon.bc_moon_in_city': 'Bugün {city}\u2019de Ay',
         'moon.bc_moon_in_city_nodate': '{city}\u2019de Ay',
@@ -5135,6 +5247,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'گھٹتا ہوا ہلال',
         // ── چاند کا صفحہ (مختصر لیبلز؛ FAQ اور تعلیمی مواد انگریزی پر گرتا ہے) ──
         'moon.h1': 'آج رات کا چاند',
+
+        'moon.hub.title': 'آج چاند کی حالت',
+
+        'moon.hub.subtitle': 'کسی بھی شہر کے لیے چاند کا طور، روشنی، عمر اور طلوع و غروب کے اوقات جانیں۔',
+
+        'moon.hub.search_placeholder': 'آج چاند کی حالت دیکھنے کے لیے شہر تلاش کریں…',
+
+        'moon.hub.use_location': 'میرا موجودہ مقام استعمال کریں',
+
+        'moon.hub.pick_city': 'شہر دستی طور پر منتخب کریں',
+
+        'moon.hub.chips_label': 'مشہور چاند شہر',
+
+        'moon.hub.faq_title': 'چاند کے بارے میں عام سوالات',
+
+        'moon.hub.faq.q1': 'چاند کے آٹھ مراحل کیا ہیں؟',
+
+        'moon.hub.faq.a1': 'چاند کا چکر تقریباً 29.5 دن کا ہوتا ہے اور آٹھ مراحل سے گزرتا ہے: نیا چاند، بڑھتا ہلال، پہلی چوتھائی، بڑھتا حدبی، پورا چاند، گھٹتا حدبی، آخری چوتھائی، گھٹتا ہلال۔',
+
+        'moon.hub.faq.q2': 'چاند کی روشنی کیسے شمار کی جاتی ہے؟',
+
+        'moon.hub.faq.a2': 'روشنی فلکی طور پر سورج-چاند-زمین کے زاویے سے شمار کی جاتی ہے۔ 0% نیا چاند، 50% چوتھائی، اور 100% پورا چاند — Meeus کے فلکی الگورتھم سے۔',
+
+        'moon.hub.faq.q3': 'مختلف شہروں میں چاند کے طلوع کے اوقات مختلف کیوں ہوتے ہیں؟',
+
+        'moon.hub.faq.a3': 'چاند کا طلوع و غروب شہر کے عرض البلد اور طول البلد پر منحصر ہے۔ زمین 24 گھنٹوں میں گھومتی ہے، اس لیے مشرقی شہر چاند کو مغربی شہروں سے پہلے دیکھتے ہیں — فرق 12 گھنٹے تک پہنچ سکتا ہے۔',
+
+        'moon.hub.faq.q4': 'چاند کے چکر کا ہجری کیلنڈر سے کیا تعلق ہے؟',
         'moon.bc_current': 'آج کا چاند',
         'moon.bc_moon_in_city': 'آج {city} میں چاند',
         'moon.bc_moon_in_city_nodate': '{city} میں چاند',
@@ -6228,6 +6368,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'Abnehmende Sichel',
         // ── Mond-Seite (Kurzlabels; FAQ/Bildungsinhalte fallen auf Englisch zurück) ──
         'moon.h1': 'Der Mond heute Nacht',
+
+        'moon.hub.title': 'Mondstatus heute',
+
+        'moon.hub.subtitle': 'Erfahren Sie Mondphase, Beleuchtung, Alter und Auf-/Untergangszeiten für jede Stadt.',
+
+        'moon.hub.search_placeholder': 'Stadt suchen, um den heutigen Mondstatus zu sehen…',
+
+        'moon.hub.use_location': 'Meinen aktuellen Standort verwenden',
+
+        'moon.hub.pick_city': 'Stadt manuell auswählen',
+
+        'moon.hub.chips_label': 'Beliebte Mondstädte',
+
+        'moon.hub.faq_title': 'Mond-FAQ',
+
+        'moon.hub.faq.q1': 'Was sind die acht Mondphasen?',
+
+        'moon.hub.faq.a1': 'Ein Mondzyklus dauert etwa 29,5 Tage und durchläuft acht Phasen: Neumond, zunehmende Sichel, erstes Viertel, zunehmender Mond, Vollmond, abnehmender Mond, letztes Viertel, abnehmende Sichel.',
+
+        'moon.hub.faq.q2': 'Wie wird die Mondbeleuchtung berechnet?',
+
+        'moon.hub.faq.a2': 'Die Beleuchtung wird astronomisch aus dem Sonne-Mond-Erde-Winkel berechnet (Phasenwinkel). 0 % = Neumond, 50 % = Viertel, 100 % = Vollmond — mit Meeus-Algorithmen.',
+
+        'moon.hub.faq.q3': 'Warum unterscheiden sich Mondaufgangszeiten zwischen Städten?',
+
+        'moon.hub.faq.a3': 'Mondauf- und -untergang hängen von Breiten- und Längengrad der Stadt ab. Die Erde dreht sich in 24 Stunden, daher sehen östliche Städte den Mond vor westlichen — der Unterschied kann bis zu 12 Stunden betragen.',
+
+        'moon.hub.faq.q4': 'Wie hängt der Mondzyklus mit dem Hidschri-Kalender zusammen?',
         'moon.bc_current': 'Mond heute',
         'moon.bc_moon_in_city': 'Mond heute in {city}',
         'moon.bc_moon_in_city_nodate': 'Mond in {city}',
@@ -7395,6 +7563,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'Sabit Tua',
         // ── Halaman Bulan (label pendek; FAQ/konten edukasi fallback ke Inggris) ──
         'moon.h1': 'Bulan Malam Ini',
+
+        'moon.hub.title': 'Status Bulan Hari Ini',
+
+        'moon.hub.subtitle': 'Ketahui fase bulan, iluminasi, usia, dan waktu terbit/terbenam bulan untuk kota mana saja.',
+
+        'moon.hub.search_placeholder': 'Cari kota untuk melihat status bulan hari ini…',
+
+        'moon.hub.use_location': 'Gunakan lokasi saya saat ini',
+
+        'moon.hub.pick_city': 'Pilih kota secara manual',
+
+        'moon.hub.chips_label': 'Kota bulan populer',
+
+        'moon.hub.faq_title': 'FAQ Bulan',
+
+        'moon.hub.faq.q1': 'Apa saja delapan fase bulan?',
+
+        'moon.hub.faq.a1': 'Siklus bulan berlangsung sekitar 29,5 hari melalui delapan fase: Bulan Baru, Sabit Awal, Kuartal Pertama, Cembung Awal, Purnama, Cembung Akhir, Kuartal Terakhir, Sabit Akhir.',
+
+        'moon.hub.faq.q2': 'Bagaimana iluminasi bulan dihitung?',
+
+        'moon.hub.faq.a2': 'Iluminasi dihitung secara astronomis dari sudut Matahari-Bulan-Bumi (sudut fase). 0% = Bulan Baru, 50% = Kuartal, 100% = Purnama — menggunakan algoritma Meeus.',
+
+        'moon.hub.faq.q3': 'Mengapa waktu terbit bulan berbeda antar kota?',
+
+        'moon.hub.faq.a3': 'Terbit dan terbenamnya bulan bergantung pada lintang dan bujur kota. Bumi berputar setiap 24 jam, sehingga kota timur melihat bulan terbit lebih dulu daripada kota barat — selisihnya bisa mencapai 12 jam.',
+
+        'moon.hub.faq.q4': 'Apa hubungan siklus bulan dengan kalender Hijriah?',
         'moon.bc_current': 'Bulan Hari Ini',
         'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.bc_moon_in_city_nodate': 'Bulan di {city}',
@@ -8562,6 +8758,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'Menguante',
         // ── Página de la Luna (etiquetas cortas; FAQ/contenido educativo recae en inglés) ──
         'moon.h1': 'La Luna esta noche',
+
+        'moon.hub.title': 'Estado de la Luna hoy',
+
+        'moon.hub.subtitle': 'Conoce la fase, iluminación, edad y horarios de salida/puesta de la Luna para cualquier ciudad.',
+
+        'moon.hub.search_placeholder': 'Busca una ciudad para ver el estado de la Luna hoy…',
+
+        'moon.hub.use_location': 'Usar mi ubicación actual',
+
+        'moon.hub.pick_city': 'Elegir una ciudad manualmente',
+
+        'moon.hub.chips_label': 'Ciudades lunares populares',
+
+        'moon.hub.faq_title': 'Preguntas frecuentes sobre la Luna',
+
+        'moon.hub.faq.q1': '¿Cuáles son las ocho fases de la Luna?',
+
+        'moon.hub.faq.a1': 'El ciclo lunar dura unos 29,5 días y pasa por ocho fases: Luna Nueva, Cuarto Creciente Inicial, Cuarto Creciente, Gibosa Creciente, Luna Llena, Gibosa Menguante, Cuarto Menguante, Cuarto Menguante Final.',
+
+        'moon.hub.faq.q2': '¿Cómo se calcula la iluminación lunar?',
+
+        'moon.hub.faq.a2': 'La iluminación se calcula astronómicamente a partir del ángulo Sol-Luna-Tierra (ángulo de fase). 0 % = Luna Nueva, 50 % = Cuarto, 100 % = Llena — usando algoritmos de Meeus.',
+
+        'moon.hub.faq.q3': '¿Por qué difieren las horas de salida de la Luna entre ciudades?',
+
+        'moon.hub.faq.a3': 'La salida y puesta de la Luna dependen de la latitud y longitud de la ciudad. La Tierra rota cada 24 horas, así que las ciudades del este ven la Luna antes que las del oeste — la diferencia puede llegar a 12 horas.',
+
+        'moon.hub.faq.q4': '¿Cuál es la relación entre el ciclo lunar y el calendario hégira?',
         'moon.bc_current': 'La Luna hoy',
         'moon.bc_moon_in_city': 'La Luna hoy en {city}',
         'moon.bc_moon_in_city_nodate': 'La Luna en {city}',
@@ -9729,6 +9953,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'কৃষ্ণপক্ষের অর্ধচন্দ্র',
         // ── চাঁদের পাতা (সংক্ষিপ্ত লেবেল; FAQ/শিক্ষামূলক বিষয়বস্তু ইংরেজিতে ফলব্যাক হবে) ──
         'moon.h1': 'আজ রাতের চাঁদ',
+
+        'moon.hub.title': 'আজকের চাঁদের অবস্থা',
+
+        'moon.hub.subtitle': 'যেকোনো শহরের চাঁদের পর্যায়, আলোকসজ্জা, বয়স এবং উদয়/অস্ত সময় জানুন।',
+
+        'moon.hub.search_placeholder': 'আজকের চাঁদের অবস্থা দেখতে শহর খুঁজুন…',
+
+        'moon.hub.use_location': 'আমার বর্তমান অবস্থান ব্যবহার করুন',
+
+        'moon.hub.pick_city': 'হাতে শহর নির্বাচন করুন',
+
+        'moon.hub.chips_label': 'জনপ্রিয় চাঁদ শহর',
+
+        'moon.hub.faq_title': 'চাঁদ সম্পর্কে প্রশ্নোত্তর',
+
+        'moon.hub.faq.q1': 'চাঁদের আটটি পর্যায় কী কী?',
+
+        'moon.hub.faq.a1': 'চাঁদের চক্র প্রায় ২৯.৫ দিনের এবং আটটি পর্যায় অতিক্রম করে: অমাবস্যা, বৃদ্ধিশীল হেলাল, প্রথম চতুর্থাংশ, বর্ধমান গিব্বাস, পূর্ণ চাঁদ, ক্ষীয়মাণ গিব্বাস, শেষ চতুর্থাংশ, ক্ষীয়মাণ হেলাল।',
+
+        'moon.hub.faq.q2': 'চাঁদের আলোকসজ্জা কীভাবে গণনা করা হয়?',
+
+        'moon.hub.faq.a2': 'আলোকসজ্জা সূর্য-চাঁদ-পৃথিবীর কোণ থেকে জ্যোতির্বিদ্যাগতভাবে গণনা করা হয় (ফেজ অ্যাঙ্গেল)। 0% অমাবস্যা, 50% চতুর্থাংশ, এবং 100% পূর্ণিমা — মিউস অ্যালগরিদম ব্যবহার করে।',
+
+        'moon.hub.faq.q3': 'বিভিন্ন শহরে চাঁদের উদয় সময় আলাদা কেন?',
+
+        'moon.hub.faq.a3': 'চাঁদের উদয় ও অস্ত শহরের অক্ষাংশ ও দ্রাঘিমাংশের উপর নির্ভর করে। পৃথিবী ২৪ ঘণ্টায় ঘোরে, তাই পূর্বের শহরগুলো পশ্চিমের শহরগুলোর আগে চাঁদ দেখে — পার্থক্য ১২ ঘণ্টা পর্যন্ত হতে পারে।',
+
+        'moon.hub.faq.q4': 'চাঁদের চক্র ও হিজরি ক্যালেন্ডারের সম্পর্ক কী?',
         'moon.bc_current': 'আজকের চাঁদ',
         'moon.bc_moon_in_city': 'আজকের চাঁদ {city}-এ',
         'moon.bc_moon_in_city_nodate': 'চাঁদ {city}-এ',
@@ -10896,6 +11148,34 @@ const TRANSLATIONS = {
         'moon.phase_waning_crescent': 'Sabit Tua',
         // ── Halaman Bulan (label pendek; FAQ/kandungan pendidikan fallback ke Inggeris) ──
         'moon.h1': 'Bulan Malam Ini',
+
+        'moon.hub.title': 'Status Bulan Hari Ini',
+
+        'moon.hub.subtitle': 'Ketahui fasa bulan, pencahayaan, usia, dan waktu terbit/terbenam bulan untuk mana-mana bandar.',
+
+        'moon.hub.search_placeholder': 'Cari bandar untuk melihat status bulan hari ini…',
+
+        'moon.hub.use_location': 'Guna lokasi semasa saya',
+
+        'moon.hub.pick_city': 'Pilih bandar secara manual',
+
+        'moon.hub.chips_label': 'Bandar bulan popular',
+
+        'moon.hub.faq_title': 'Soalan Lazim Bulan',
+
+        'moon.hub.faq.q1': 'Apakah lapan fasa bulan?',
+
+        'moon.hub.faq.a1': 'Kitaran bulan berlangsung kira-kira 29.5 hari melalui lapan fasa: Bulan Baru, Sabit Membesar, Suku Pertama, Cembung Membesar, Bulan Penuh, Cembung Mengecil, Suku Akhir, Sabit Mengecil.',
+
+        'moon.hub.faq.q2': 'Bagaimana pencahayaan bulan dikira?',
+
+        'moon.hub.faq.a2': 'Pencahayaan dikira secara astronomi daripada sudut Matahari-Bulan-Bumi (sudut fasa). 0% Bulan Baru, 50% Suku, 100% Bulan Penuh — menggunakan algoritma Meeus.',
+
+        'moon.hub.faq.q3': 'Mengapa waktu terbit bulan berbeza antara bandar?',
+
+        'moon.hub.faq.a3': 'Terbit dan terbenam bulan bergantung pada latitud dan longitud bandar. Bumi berputar setiap 24 jam, jadi bandar timur melihat bulan terbit lebih awal daripada bandar barat — perbezaan boleh mencapai 12 jam.',
+
+        'moon.hub.faq.q4': 'Apakah kaitan kitaran bulan dengan kalendar Hijrah?',
         'moon.bc_current': 'Bulan Hari Ini',
         'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.bc_moon_in_city_nodate': 'Bulan di {city}',

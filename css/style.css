@@ -40,6 +40,82 @@ html.home-page #home-share-block,
 html.home-page .faq-city-only,
 html.home-page .loc-hero-city { display: none !important; }
 
+/* UAT-Moon-Home: Moon Gateway visibility on /moon-today.
+   - Hub-only sections default to display:none, shown via .moon-today-hub-page.
+   - The full prayer-times shell + heavy moon sections are hidden so the user
+     and Googlebot see a slim Moon Gateway. */
+.hub-only { display: none; }
+html.moon-today-hub-page #page-prayer-times { display: none !important; }
+html.moon-today-hub-page #page-moon { display: block !important; }
+html.moon-today-hub-page .hub-only { display: block !important; }
+html.moon-today-hub-page #moon-page-h1,
+html.moon-today-hub-page #moon-subtitle,
+html.moon-today-hub-page #moon-intro,
+html.moon-today-hub-page .moon-breadcrumb,
+html.moon-today-hub-page #moon-events-section,
+html.moon-today-hub-page #moon-chart-section,
+html.moon-today-hub-page #moon-forecast,
+html.moon-today-hub-page #moon-faq-general,
+html.moon-today-hub-page .moon-faq-city-card,
+html.moon-today-hub-page .moon-evergreen { display: none !important; }
+
+/* Moon hub hero — gradient + search + chips */
+.moon-hub-hero {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 50%, #2b6cb0 100%);
+    color: #fff;
+    padding: 32px 24px;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.moon-hub-h1 { font-size: 2rem; margin: 0 0 12px; color: #fff; font-weight: 700; }
+.moon-hub-subtitle {
+    font-size: 1.05rem; margin: 0 0 24px; color: #e2e8f0;
+    line-height: 1.6; max-width: 720px; margin-inline: auto;
+}
+.moon-hub-hero-actions { max-width: 720px; margin: 0 auto; }
+.moon-hub-search-wrap { position: relative; display: block; margin-bottom: 16px; }
+.moon-hub-search {
+    width: 100%; padding: 14px 18px; font-size: 1rem; border: 0; border-radius: 12px;
+    background: rgba(255,255,255,0.95); color: var(--text, #2c3e50); outline: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.moon-hub-search:focus { box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+.moon-hub-suggestions {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: #fff; color: var(--text, #2c3e50); border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); max-height: 320px; overflow-y: auto; z-index: 50;
+}
+.moon-hub-suggestions:empty { display: none; }
+.moon-hub-dual-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+.moon-hub-geo-btn {
+    background: #fff; color: #1e3a5f; font-weight: 600; padding: 12px 24px;
+    border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;
+}
+.moon-hub-geo-btn:hover { background: #e2e8f0; }
+.moon-hub-pick-btn {
+    background: rgba(255,255,255,0.15); color: #fff; font-weight: 600;
+    padding: 12px 24px; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px;
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.moon-hub-pick-btn:hover { background: rgba(255,255,255,0.25); }
+.moon-hub-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.moon-hub-chip {
+    background: rgba(255,255,255,0.18); color: #fff; padding: 8px 14px;
+    border-radius: 999px; text-decoration: none; font-size: 0.92rem;
+    border: 1px solid rgba(255,255,255,0.3); transition: background .15s;
+}
+.moon-hub-chip:hover { background: rgba(255,255,255,0.32); }
+@media (max-width: 600px) {
+    .moon-hub-h1 { font-size: 1.5rem; }
+    .moon-hub-subtitle { font-size: 0.95rem; }
+    .moon-hub-hero { padding: 24px 16px; }
+    .moon-hub-dual-cta { flex-direction: column; align-items: stretch; }
+}
+html[data-theme=dark] .moon-hub-hero {
+    background: linear-gradient(135deg, #14213d 0%, #1a365d 50%, #234e7d 100%);
+}
+
 
 /* ========= المتغيرات ========= */
 :root {

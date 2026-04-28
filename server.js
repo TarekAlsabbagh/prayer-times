@@ -2807,6 +2807,44 @@ function _stripHtmlForHome(html) {
     return html;
 }
 
+// UAT-Moon-Home: /moon-today as Moon Gateway. Strips heavy moon sections +
+//   the entire #page-prayer-times shell. The new #moon-hub-hero /
+//   #moon-hub-faq sections are kept (they have class .hub-only — default
+//   display:none, shown via html.moon-today-hub-page CSS).
+const _MOON_HUB_STRIP_IDS = [
+    'page-prayer-times',          // entire prayer shell
+    'moon-page-h1',               // original moon H1 (replaced by hero #moon-hub-h1)
+    'moon-subtitle',
+    'moon-intro',
+    'moon-events-section',
+    'moon-chart-section',
+    'moon-forecast',
+    'moon-faq-general',
+    'moon-faq-city',
+    'home-world-countries-block',
+    'home-refs-block',
+    'home-follow-block',
+    'home-share-block',
+];
+const _MOON_HUB_STRIP_CLASSES = [
+    'moon-evergreen',
+    'moon-faq-city-card',
+    'moon-breadcrumb',            // nav (hero is the entry point now)
+];
+function _stripHtmlForMoonHub(html) {
+    for (const id of _MOON_HUB_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    for (const cls of _MOON_HUB_STRIP_CLASSES) {
+        let prev = '', guard = 8;
+        while (prev !== html && guard-- > 0) {
+            prev = html;
+            html = _stripElement(html, { type: 'class', value: cls });
+        }
+    }
+    return html;
+}
+
 // ===== Phase I — H1 deduplication per route =====
 // SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
 // CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
@@ -2821,7 +2859,9 @@ function _getActiveH1Marker(urlPath) {
     if (/^\/today-hijri-date$/.test(path))           return { kind: 'id',   value: 'hijri-today-full' };
     if (/^\/hijri-date\//.test(path))                return { kind: 'id',   value: 'hday-title' };
     if (/^\/(?:moon-today|moon-in)-/.test(path))     return { kind: 'id',   value: 'moon-page-h1' };
-    if (/^\/(?:moon-today|moon-in)$/.test(path))     return { kind: 'id',   value: 'moon-page-h1' };
+    // UAT-Moon-Home: hub /moon-today uses the new hero H1 (#moon-hub-h1)
+    if (/^\/moon-today$/.test(path))                 return { kind: 'id',   value: 'moon-hub-h1' };
+    if (/^\/moon-in$/.test(path))                    return { kind: 'id',   value: 'moon-page-h1' };
     if (/^\/ramadan-countdown$/.test(path))          return { kind: 'i18n', value: 'ramadan.h1' };
     if (/^\/eid-al-fitr-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_fitr.h1' };
     if (/^\/eid-al-adha-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_adha.h1' };
@@ -5661,11 +5701,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     //   JS. Runs for: (a) the homepage / language-roots (Mecca defaults),
     //   (b) /prayer-times-in-{slug} city pages (resolved from slug),
     //   NOT for /time-left-* or /next-prayer-time-* (those are pruned).
-    if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome) {
-        // (UAT-Home-Simplify) Skip on /, /en/, ... — the prayer-cards block is
-        //   stripped immediately after, so the SSR injection would be wasted.
-        // Determine which slug to compute for. City page → use slug; other
-        //   pages (Zakat/Duas/Hijri) → 'mecca' default (matches client globals).
+    // UAT-Moon-Home: detect moon-today hub upfront for both gating and strip
+    const _isMoonTodayHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath);
+    if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome && !_isMoonTodayHub) {
+        // (UAT-Home-Simplify + UAT-Moon-Home) Skip when the prayer-cards block
+        //   will be stripped immediately after (homepage + moon hub).
         let _ssrSlug = 'mecca';
         const _slugForTimes = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         if (_slugForTimes) _ssrSlug = _slugForTimes[1];
@@ -5694,6 +5734,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
             .replace('<p id="faq-a2">', '<p id="faq-a2" data-i18n="faq.home.a2">')
             // Strip the times-list ul (only meaningful for city Q1 with prayer rows)
             .replace(/<ul class="faq-times-list" id="faq-times-list">[\s\S]*?<\/ul>/, '');
+    }
+    // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections
+    //     + entire #page-prayer-times shell. Inject html.moon-today-hub-page so
+    //     CSS reveals the new #moon-hub-hero / #moon-hub-faq immediately.
+    if (_isMoonTodayHub) {
+        html = _stripHtmlForMoonHub(html);
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} moon-today-hub-page"`) + '>';
+            }
+            return '<html' + a + ' class="moon-today-hub-page">';
+        });
     }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);

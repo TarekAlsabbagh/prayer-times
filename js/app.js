@@ -6008,7 +6008,14 @@ function toggleCityAbout() { /* removed */ }
 
 // للتوافق مع الكود القديم - ينتقل للصفحة مباشرة
 async function selectCity(lat, lng, city, country, englishName = '', countryCode = '') {
-    navigateToCity(lat, lng, city, country, englishName, countryCode);
+    // UAT-Moon-Home: when the moon-hub search is active, route to the moon
+    //   city page instead of the prayer-times city page. Reset the flag.
+    if (window._moonHubSearchActive) {
+        window._moonHubSearchActive = false;
+        navigateToMoonToday(lat, lng, city, country, englishName, countryCode);
+    } else {
+        navigateToCity(lat, lng, city, country, englishName, countryCode);
+    }
     searchFocusedIndex = -1;
 }
 
@@ -7770,6 +7777,123 @@ function onHeroSearchInput(query) {
  */
 function onHeroSearchKeyDown(e) {
     try { onSearchKeyDown(e); } catch (_e) { /* silent */ }
+}
+
+// ─────────────────────────────────────────────────────────────
+//   UAT-Moon-Home: Moon Hub Search Hero (on /moon-today only)
+//   Mirrors loc-hero search/geo flow but navigates to
+//   /moon-today-in-{slug} instead of /prayer-times-in-{slug}.
+// ─────────────────────────────────────────────────────────────
+
+let _moonHubNavInProgress = false;
+
+// Parallel to navigateToCity — same slug logic, different target URL.
+function navigateToMoonToday(lat, lng, city, country, englishName = '', countryCode = '') {
+    let slug = buildPrayerTimesSlug({ en: englishName || city, country, cc: countryCode, lat, lng });
+    if (slug === 'djibouti'  && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
+    if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
+    // Seed sessionStorage so the destination page hydrates with the right city
+    //   even before its own reverseGeocode resolves.
+    try {
+        sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+            lat, lng, name: city, country, englishName, countryCode, _v: 2
+        }));
+    } catch (_) {}
+    if (window.location.protocol === 'file:') {
+        window.location.hash = `moon-today-in-${slug}`;
+    } else {
+        window.location.href = pageUrl(`/moon-today-in-${slug}`);
+    }
+}
+
+/** Search input on the moon hub — reuses onCitySearchInput's autocomplete data
+    layer by piping through #city-search-input, but on suggestion-pick the
+    overridden _moonHubAwait flag re-routes to navigateToMoonToday. */
+function onMoonHubSearchInput(query) {
+    try {
+        const mainInput = document.getElementById('city-search-input');
+        if (mainInput) mainInput.value = query;
+    } catch (_e) {}
+    // Mark current search context as "moon hub" so the global selectCity
+    //   override (see below) navigates to /moon-today-in-{slug}.
+    window._moonHubSearchActive = true;
+    try { onCitySearchInput(query); } catch (_e) {}
+}
+
+function onMoonHubSearchKeyDown(e) {
+    window._moonHubSearchActive = true;
+    try { onSearchKeyDown(e); } catch (_e) {}
+}
+
+/** Geo-detect on the moon hub — clones _locHeroDetectAndNavigate but routes
+    to navigateToMoonToday instead of navigateToCity. */
+function _moonHubDetectAndNavigate() {
+    if (_moonHubNavInProgress) return;
+    _moonHubNavInProgress = true;
+
+    const btn   = document.getElementById('moon-hub-geo-btn');
+    const label = btn?.querySelector('.lhb-label');
+    const origText = label?.textContent || '';
+    const loadingText = (typeof t === 'function' ? (t('header.locating') || origText) : origText);
+    if (label) label.textContent = loadingText;
+    if (btn)   btn.disabled = true;
+
+    const _restore = () => {
+        _moonHubNavInProgress = false;
+        if (label && origText) label.textContent = origText;
+        if (btn) btn.disabled = false;
+    };
+
+    // Fast-path: lsb_detected ≤ 30 minutes old → use cached coords directly.
+    try {
+        const raw = localStorage.getItem('lsb_detected');
+        if (raw) {
+            const d = JSON.parse(raw);
+            if (d && isFinite(+d.lat) && isFinite(+d.lng) && (d.enName || d.arCity)
+                && d.ts && (Date.now() - d.ts) < 30 * 60 * 1000) {
+                navigateToMoonToday(+d.lat, +d.lng,
+                    d.arCity || (d.names && d.names.ar) || '',
+                    d.country || '',
+                    d.enName || (d.names && d.names.en) || '',
+                    (d.countryCode || '').toLowerCase());
+                return;
+            }
+        }
+    } catch (_e) {}
+
+    if (!navigator.geolocation) {
+        _restore();
+        try { alert('الموقع غير مدعوم في هذا المتصفح'); } catch (_e) {}
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            try {
+                const c = _findNearestKnownCity(lat, lng);
+                _writeLsbDetected(c, lat, lng);
+                navigateToMoonToday(lat, lng, c.ar, c.country, c.en, c.cc);
+            } catch (e) {
+                _restore();
+                try { console.warn('[moonHubNav] failed:', e); } catch (_) {}
+            }
+        },
+        function (error) {
+            _restore();
+            try { alert('فشل تحديد الموقع. يُرجى السماح بالوصول إلى الموقع من إعدادات المتصفح.'); } catch (_e) {}
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+}
+
+/** "Pick city manually" on the moon hub — scroll to + focus the search input. */
+function _moonHubPickCity() {
+    const s = document.getElementById('moon-hub-search');
+    if (!s) return;
+    try { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_e) {}
+    setTimeout(() => { try { s.focus(); } catch (_e) {} }, 200);
 }
 
 // ─────────────────────────────────────────────────────────────

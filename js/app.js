@@ -7787,9 +7787,22 @@ function navigateToMoonToday(lat, lng, city, country, englishName = '', countryC
     let slug = buildPrayerTimesSlug({ en: englishName || city, country, cc: countryCode, lat, lng });
     if (slug === 'djibouti'  && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
     if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
+    const _payload = JSON.stringify({
+        lat, lng, name: city, country, englishName, countryCode, _v: 2
+    });
+    // BUG-FIX (UAT-Moon-Hub): writing only `city_${slug}` is NOT enough — the
+    //   destination page's initFromURL → getSlugFromURL returns the literal
+    //   string 'moon' for any /moon-today-in-* URL (it's a shared session key
+    //   for the moon hub flow). So we must write `city_moon` AND
+    //   `last_city_context` too, otherwise the page falls back to Mecca via
+    //   last_city_context. The slug-keyed entry is also written so the
+    //   _initialSyncHydrate IIFE (which reads by URL slug) is happy too.
+    try { sessionStorage.setItem(`city_${slug}`, _payload); } catch (_) {}
+    try { sessionStorage.setItem('city_moon',     _payload); } catch (_) {}
     try {
-        sessionStorage.setItem(`city_${slug}`, JSON.stringify({
-            lat, lng, name: city, country, englishName, countryCode, _v: 2
+        sessionStorage.setItem('last_city_context', JSON.stringify({
+            lat, lng, name: city, country, englishName, countryCode,
+            timezone: null, ts: Date.now()
         }));
     } catch (_) {}
     if (window.location.protocol === 'file:') {

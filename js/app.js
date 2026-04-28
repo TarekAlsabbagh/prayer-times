@@ -6008,14 +6008,7 @@ function toggleCityAbout() { /* removed */ }
 
 // للتوافق مع الكود القديم - ينتقل للصفحة مباشرة
 async function selectCity(lat, lng, city, country, englishName = '', countryCode = '') {
-    // UAT-Moon-Home: when the moon-hub search is active, route to the moon
-    //   city page instead of the prayer-times city page. Reset the flag.
-    if (window._moonHubSearchActive) {
-        window._moonHubSearchActive = false;
-        navigateToMoonToday(lat, lng, city, country, englishName, countryCode);
-    } else {
-        navigateToCity(lat, lng, city, country, englishName, countryCode);
-    }
+    navigateToCity(lat, lng, city, country, englishName, countryCode);
     searchFocusedIndex = -1;
 }
 
@@ -7781,8 +7774,10 @@ function onHeroSearchKeyDown(e) {
 
 // ─────────────────────────────────────────────────────────────
 //   UAT-Moon-Home: Moon Hub Search Hero (on /moon-today only)
-//   Mirrors loc-hero search/geo flow but navigates to
-//   /moon-today-in-{slug} instead of /prayer-times-in-{slug}.
+//   Mirrors qibla-hub-hero search/geo flow EXACTLY but navigates to
+//   /moon-today-in-{slug} instead of /qibla-in-{slug}.
+//   Reuses the same shared utilities: searchLocalCities, _smartKey,
+//   _smartTypeLabel, nomUrl, normalizeText, etc.
 // ─────────────────────────────────────────────────────────────
 
 let _moonHubNavInProgress = false;
@@ -7792,8 +7787,6 @@ function navigateToMoonToday(lat, lng, city, country, englishName = '', countryC
     let slug = buildPrayerTimesSlug({ en: englishName || city, country, cc: countryCode, lat, lng });
     if (slug === 'djibouti'  && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
     if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
-    // Seed sessionStorage so the destination page hydrates with the right city
-    //   even before its own reverseGeocode resolves.
     try {
         sessionStorage.setItem(`city_${slug}`, JSON.stringify({
             lat, lng, name: city, country, englishName, countryCode, _v: 2
@@ -7804,25 +7797,6 @@ function navigateToMoonToday(lat, lng, city, country, englishName = '', countryC
     } else {
         window.location.href = pageUrl(`/moon-today-in-${slug}`);
     }
-}
-
-/** Search input on the moon hub — reuses onCitySearchInput's autocomplete data
-    layer by piping through #city-search-input, but on suggestion-pick the
-    overridden _moonHubAwait flag re-routes to navigateToMoonToday. */
-function onMoonHubSearchInput(query) {
-    try {
-        const mainInput = document.getElementById('city-search-input');
-        if (mainInput) mainInput.value = query;
-    } catch (_e) {}
-    // Mark current search context as "moon hub" so the global selectCity
-    //   override (see below) navigates to /moon-today-in-{slug}.
-    window._moonHubSearchActive = true;
-    try { onCitySearchInput(query); } catch (_e) {}
-}
-
-function onMoonHubSearchKeyDown(e) {
-    window._moonHubSearchActive = true;
-    try { onSearchKeyDown(e); } catch (_e) {}
 }
 
 /** Geo-detect on the moon hub — clones _locHeroDetectAndNavigate but routes
@@ -7961,13 +7935,286 @@ function _wireMoonHubSmartPill() {
     }
 }
 
-// Auto-wire smart pill on /moon-today (the hub) once DOM is ready.
-(function _autoWireMoonHubSmartPill() {
+/** Full moon-hub search/geo/pick wiring — verbatim clone of the qibla-hub
+    wiring with three changes: (1) IDs are moon-hub-* instead of qibla-hub-*,
+    (2) suggestion-pick navigates to /moon-today-in-{slug} via navigateToMoonToday
+    instead of _buildQiblaCityUrl, (3) outside-click container is #moon-hub-hero. */
+function _wireMoonHubHero() {
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const isEnUi = (lang === 'en');
+
+    // ── Geo button wiring ──
+    const geoBtn = document.getElementById('moon-hub-geo-btn');
+    if (geoBtn && !geoBtn.dataset.wired) {
+        geoBtn.dataset.wired = '1';
+        geoBtn.addEventListener('click', _moonHubDetectAndNavigate);
+    }
+
+    // ── Pick button wiring ──
+    const pickBtn = document.getElementById('moon-hub-pick-btn');
+    if (pickBtn && !pickBtn.dataset.wired) {
+        pickBtn.dataset.wired = '1';
+        pickBtn.addEventListener('click', _moonHubPickCity);
+    }
+
+    // ── Search wiring (verbatim clone of qibla search) ──
+    const searchEl    = document.getElementById('moon-hub-search');
+    const searchList  = document.getElementById('moon-hub-search-results');
+    const searchEmpty = document.getElementById('moon-hub-search-empty');
+    if (!searchEl || searchEl.dataset.wired) return;
+    searchEl.dataset.wired = '1';
+
+    let _mhsDebounce = null;
+    let _mhsActiveQuery = '';
+    let _mhsFocusedIdx = -1;
+
+    // Suggestion-pick → navigate to /moon-today-in-{slug}
+    const _mhsNavigate = (city) => {
+        try {
+            navigateToMoonToday(city.lat, city.lng,
+                (lang === 'ar' ? city.ar : city.en),
+                (lang === 'ar' ? city.country : (city.countryEn || city.country)),
+                city.en, city.cc || '');
+        } catch (_) {}
+    };
+
+    // Build a single <li> — uses the same .qhsr-* class names as qibla so the
+    //   shared CSS rules (now dual-scoped to #page-moon) style it identically.
+    const _mhsBuildItem = (c, idx, isOnline) => {
+        const display = isEnUi ? c.en : c.ar;
+        const country = isEnUi ? (c.countryEn || c.country) : c.country;
+        const typeLbl = (typeof _smartTypeLabel === 'function') ? _smartTypeLabel(c.type || 'city') : '';
+        const subText = typeLbl ? `${country} · ${typeLbl}` : country;
+        const flag = c.cc
+            ? `<img src="https://flagcdn.com/28x21/${c.cc}.png" class="qhsr-flag" alt="${c.cc}" onerror="this.style.display='none'">`
+            : `<span class="qhsr-flag">${isOnline ? '🌐' : '🌍'}</span>`;
+        return `<li class="qhsr-item" role="option" data-idx="${idx}" data-online="${isOnline ? '1' : '0'}">`
+             + `${flag}<div class="qhsr-text"><div class="qhsr-name">${display}</div>`
+             + `<div class="qhsr-country">${subText}</div></div>`
+             + `<span class="qhsr-arrow" aria-hidden="true">→</span>`
+             + `</li>`;
+    };
+
+    let _mhsCurrentResults = [];
+    const _mhsBindClicks = () => {
+        searchList.querySelectorAll('.qhsr-item').forEach(li => {
+            li.addEventListener('click', () => {
+                const idx = parseInt(li.dataset.idx, 10);
+                const city = _mhsCurrentResults[idx];
+                if (city) _mhsNavigate(city);
+            });
+        });
+    };
+
+    // Online-result normalizer — verbatim from qibla wiring
+    const _mhsNormalizeOnline = (places, localResults) => {
+        if (!Array.isArray(places)) return [];
+        const seenKeys = new Set();
+        const localGeo = localResults.map(c => ({
+            lat: +c.lat, lng: +c.lng,
+            ar: normalizeText(c.ar), en: normalizeText(c.en),
+            cc: c.cc || ''
+        }));
+        localResults.forEach(c => seenKeys.add(_smartKey(c)));
+
+        const _smartFilter = (p) => {
+            const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
+            if (!isFinite(lat) || !isFinite(lon)) return false;
+            if (!p.name && !p.display_name) return false;
+            const firstPart = (p.display_name || '').split(',')[0] || '';
+            if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
+            if (SMART_ALLOWED_TYPES.has(p.addresstype)) return true;
+            if (SMART_BLOCKED_TYPES.has(p.class)) return false;
+            if (SMART_BLOCKED_TYPES.has(p.type)) return false;
+            if (SMART_BLOCKED_TYPES.has(p.addresstype)) return false;
+            const _t = _smartTypeFromNominatim(p);
+            const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
+            const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
+            if (!_t && !isSpecialCityState) return false;
+            if (_t && !SMART_ALLOWED_TYPES.has(_t) && !isSpecialCityState) return false;
+            return true;
+        };
+
+        let filtered = places.filter(_smartFilter);
+        const typeRank = p => {
+            const _t = _smartTypeFromNominatim(p) || (p.addresstype || p.type || '');
+            if (_t === 'city')                                          return 0;
+            if (['town', 'municipality', 'borough'].includes(_t))       return 1;
+            if (['governorate', 'province', 'state'].includes(_t))      return 2;
+            if (['county', 'administrative'].includes(_t))              return 3;
+            if (['village', 'hamlet', 'locality'].includes(_t))         return 4;
+            return 5;
+        };
+        filtered.sort((a, b) => {
+            const tr = typeRank(a) - typeRank(b);
+            return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
+        });
+        filtered = filtered.slice(0, 6);
+
+        const out = [];
+        for (const place of filtered) {
+            const addr = place.address || {};
+            const nd   = place.namedetails || {};
+            const _stripAdminPrefix = (s) => (s || '')
+                .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
+                .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
+                .trim();
+            const arCityMain = _stripAdminPrefix(nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || '');
+            const rawEnCity  = nd['name:en'] || nd['name:en-US']
+                    || _latinOr(nd.name)
+                    || _latinOr(place.name)
+                    || _latinOr(addr.city) || _latinOr(addr.town) || _latinOr(addr.village) || _latinOr(addr.municipality)
+                    || (place.display_name || '').split(',')[0];
+            const enCityMain = _stripAdminPrefix(rawEnCity.replace(/\s*District\b/gi, '').trim());
+            const country     = addr.country || '';
+            const countryCode = (addr.country_code || '').toLowerCase();
+            const placeLat    = parseFloat(place.lat);
+            const placeLng    = parseFloat(place.lon);
+            const placeType   = _smartTypeFromNominatim(place) || 'city';
+
+            const candidateKey = _smartKey({ cc: countryCode, en: enCityMain, lat: placeLat, lng: placeLng });
+            if (seenKeys.has(candidateKey)) continue;
+            const arN = normalizeText(arCityMain);
+            const enN = normalizeText(enCityMain);
+            const tooClose = localGeo.some(g => {
+                if (!isFinite(g.lat) || !isFinite(g.lng)) return false;
+                const d = _smartDistKm(g.lat, g.lng, placeLat, placeLng);
+                if (d > 5) return false;
+                return (g.ar && (g.ar === arN || arN.includes(g.ar) || g.ar.includes(arN))) ||
+                       (g.en && (g.en === enN || enN.includes(g.en) || g.en.includes(enN)));
+            });
+            if (tooClose) continue;
+            seenKeys.add(candidateKey);
+
+            out.push({
+                ar: arCityMain || enCityMain,
+                en: enCityMain || arCityMain,
+                country, countryEn: country, cc: countryCode,
+                lat: placeLat, lng: placeLng,
+                type: placeType, _online: true
+            });
+        }
+        return out;
+    };
+
+    const renderSuggestions = (q) => {
+        if (!searchList) return;
+        _mhsActiveQuery = q;
+        _mhsFocusedIdx = -1;
+
+        if (!q || q.length < 2) {
+            _mhsCurrentResults = [];
+            searchList.innerHTML = '';
+            searchList.classList.remove('is-open');
+            if (searchEmpty) searchEmpty.hidden = true;
+            return;
+        }
+
+        const localResults = (typeof searchLocalCities === 'function') ? searchLocalCities(q) : [];
+        _mhsCurrentResults = localResults.slice();
+        if (searchEmpty) searchEmpty.hidden = true;
+
+        let html = localResults.map((c, i) => _mhsBuildItem(c, i, false)).join('');
+        const _loadingLbl = (typeof t === 'function' ? t('search.loading') : null) || '🔍 Searching online…';
+        html += `<li class="qhsr-loading" data-loading="1">${_loadingLbl}</li>`;
+        searchList.innerHTML = html;
+        searchList.classList.add('is-open');
+        _mhsBindClicks();
+
+        const base = `format=json&limit=8&accept-language=${lang}&addressdetails=1&namedetails=1`;
+        const urlQ    = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(q)}`);
+        const urlCity = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(q)}`);
+        Promise.all([
+            fetch(urlQ).then(r => r.json()).catch(() => []),
+            fetch(urlCity).then(r => r.json()).catch(() => [])
+        ])
+        .then(([resQ, resCity]) => {
+            if (_mhsActiveQuery !== q) return;
+            if (!Array.isArray(resQ)) resQ = [];
+            if (!Array.isArray(resCity)) resCity = [];
+            const seen = new Set();
+            const all = [...resQ, ...resCity].filter(p => {
+                if (!p || seen.has(p.place_id)) return false;
+                seen.add(p.place_id);
+                return true;
+            });
+            const onlineResults = _mhsNormalizeOnline(all, localResults);
+            _mhsCurrentResults = [...localResults, ...onlineResults];
+
+            if (_mhsCurrentResults.length === 0) {
+                searchList.innerHTML = '';
+                searchList.classList.remove('is-open');
+                if (searchEmpty) {
+                    searchEmpty.textContent = (typeof t === 'function' ? t('search.empty') : null) || 'No results';
+                    searchEmpty.hidden = false;
+                }
+                return;
+            }
+            let merged = '';
+            _mhsCurrentResults.forEach((c, i) => {
+                merged += _mhsBuildItem(c, i, !!c._online);
+            });
+            searchList.innerHTML = merged;
+            _mhsBindClicks();
+        })
+        .catch(() => {
+            const loadingRow = searchList.querySelector('.qhsr-loading');
+            if (loadingRow) loadingRow.remove();
+        });
+    };
+
+    searchEl.addEventListener('input', function () {
+        clearTimeout(_mhsDebounce);
+        const q = String(searchEl.value || '').trim();
+        _mhsDebounce = setTimeout(() => renderSuggestions(q), 120);
+    });
+
+    searchEl.addEventListener('keydown', function (e) {
+        const items = searchList ? searchList.querySelectorAll('.qhsr-item') : [];
+        if (!items.length) {
+            if (e.key === 'Escape' && searchList) searchList.classList.remove('is-open');
+            return;
+        }
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            _mhsFocusedIdx = Math.min(_mhsFocusedIdx + 1, items.length - 1);
+            items.forEach((it, i) => it.classList.toggle('focused', i === _mhsFocusedIdx));
+            items[_mhsFocusedIdx]?.scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            _mhsFocusedIdx = Math.max(_mhsFocusedIdx - 1, 0);
+            items.forEach((it, i) => it.classList.toggle('focused', i === _mhsFocusedIdx));
+            items[_mhsFocusedIdx]?.scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'Enter') {
+            if (_mhsFocusedIdx >= 0 && items[_mhsFocusedIdx]) {
+                e.preventDefault();
+                items[_mhsFocusedIdx].click();
+            } else if (items[0]) {
+                e.preventDefault();
+                items[0].click();
+            }
+        } else if (e.key === 'Escape') {
+            if (searchList) searchList.classList.remove('is-open');
+            searchEl.blur();
+        }
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#moon-hub-hero')) {
+            if (searchList) searchList.classList.remove('is-open');
+        }
+    });
+}
+
+// Auto-wire moon-hub on /moon-today (the hub) once DOM is ready.
+(function _autoWireMoonHub() {
     const _run = () => {
         try {
             const path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
             if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(path)) {
                 _wireMoonHubSmartPill();
+                _wireMoonHubHero();
             }
         } catch (_) {}
     };

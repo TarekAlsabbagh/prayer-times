@@ -59,191 +59,7 @@ html.moon-today-hub-page #moon-faq-general,
 html.moon-today-hub-page .moon-faq-city-card,
 html.moon-today-hub-page .moon-evergreen { display: none !important; }
 
-/* UAT-Moon-Home v2: Moon Hub Hero — mirrors qibla-hub-hero pattern.
-   Light card, smart pill at top, centered H1+subtitle, search+dropdown,
-   dual CTA, microcopy, trust badges. Reuses the site's green theme. */
-#page-moon .moon-hub-hero-card { text-align: center; padding: 22px 18px; position: relative; overflow: visible; }
-.moon-hub-title {
-    margin: 8px 0 10px;
-    font-size: 1.55rem;
-    font-weight: 700;
-    color: var(--text-dark, #214936);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-}
-.moon-hub-subtitle {
-    margin: 0 auto 16px;
-    color: var(--text-light, #6b7b75);
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 640px;
-}
-.moon-hub-hero-actions { max-width: 720px; margin: 0 auto; }
 
-/* Smart-redirect pill above H1 */
-.moon-hub-smart-pill {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    margin: 0 auto 10px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, rgba(13,124,85,0.08) 0%, rgba(13,124,85,0.14) 100%);
-    border: 1px solid rgba(13,124,85,0.22);
-    color: var(--text-dark, #214936);
-    font-size: 0.92rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: transform .15s, box-shadow .15s, background .15s;
-    max-width: fit-content;
-}
-.moon-hub-smart-pill.is-visible { display: inline-flex; }
-.moon-hub-smart-pill:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, rgba(13,124,85,0.13) 0%, rgba(13,124,85,0.20) 100%);
-    box-shadow: 0 3px 10px rgba(13,124,85,0.18);
-}
-.moon-hub-smart-pill .mhsp-arrow { opacity: .75; }
-.moon-hub-smart-pill .mhsp-city  { font-weight: 700; }
-
-/* Search input + dropdown (qibla pattern) */
-.moon-hub-search-wrap { display: block; width: 100%; }
-.moon-hub-search {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(13,124,85,0.22);
-    background: var(--card-bg, #fff);
-    font-size: 1rem;
-    color: var(--text-dark, #214936);
-    outline: none;
-    transition: border-color .15s, box-shadow .15s;
-}
-.moon-hub-search:focus {
-    border-color: rgba(13,124,85,0.55);
-    box-shadow: 0 0 0 3px rgba(13,124,85,0.12);
-}
-.moon-hub-suggestions {
-    margin: 8px 0 0;
-    border-radius: 10px;
-    overflow: hidden;
-    text-align: start;
-}
-.moon-hub-suggestions:empty { display: none; }
-
-/* Dual CTA: primary geo + outlined pick */
-.moon-dual-cta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    align-items: stretch;
-    max-width: 720px;
-    margin: 14px auto 0;
-}
-.moon-hub-geo-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 56px;
-    padding: 14px 28px;
-    font-size: 1.08rem;
-    font-weight: 700;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #0d7c55 0%, #0a9963 100%);
-    color: #fff;
-    border: 0;
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(13,124,85,0.28);
-    transition: transform .15s, box-shadow .15s, filter .15s;
-    width: 100%;
-}
-.moon-hub-geo-btn:hover  { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13,124,85,0.36); filter: brightness(1.04); }
-.moon-hub-geo-btn:active { transform: translateY(0);    box-shadow: 0 3px 10px rgba(13,124,85,0.32); }
-.moon-hub-geo-btn:disabled { opacity: 0.65; cursor: wait; }
-.moon-hub-geo-btn .qhb-spinner {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.45);
-    border-top-color: #fff;
-    display: none;
-    animation: qhbSpin 0.8s linear infinite;
-    flex-shrink: 0;
-}
-.moon-hub-geo-btn.is-loading .qhb-spinner { display: inline-block; }
-.moon-hub-pick-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 56px;
-    padding: 14px 28px;
-    font-size: 1.04rem;
-    font-weight: 700;
-    border-radius: 14px;
-    background: transparent;
-    color: #0d7c55;
-    border: 2px solid rgba(13,124,85,0.5);
-    cursor: pointer;
-    transition: background .15s, transform .15s, border-color .15s;
-    width: 100%;
-}
-.moon-hub-pick-btn:hover {
-    background: rgba(13,124,85,0.08);
-    border-color: rgba(13,124,85,0.75);
-    transform: translateY(-1px);
-}
-@media (max-width: 640px) {
-    .moon-dual-cta { grid-template-columns: 1fr; }
-    .moon-hub-geo-btn  { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
-    .moon-hub-pick-btn { font-size: 0.98rem; min-height: 52px; padding: 12px 22px; }
-}
-
-/* Microcopy under the primary CTA */
-.moon-hub-geo-microcopy {
-    margin: 8px 0 0;
-    color: var(--text-light, #6b7b75);
-    font-size: 0.86rem;
-    text-align: center;
-}
-
-/* Trust badges below microcopy */
-.moon-hub-hero-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 12px 0 0;
-    padding: 0;
-    list-style: none;
-    justify-content: center;
-}
-.moon-hub-hero-badges li {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: rgba(13,124,85,0.07);
-    color: var(--text-dark, #214936);
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-.moon-hub-hero-badges li::before {
-    content: '✔';
-    color: #0d7c55;
-    font-weight: 700;
-}
-
-/* Dark theme adjustments */
-html[data-theme="dark"] .moon-hub-title  { color: var(--text); }
-html[data-theme="dark"] .moon-hub-pick-btn { color: var(--primary-light); border-color: rgba(77,203,140,0.4); }
-html[data-theme="dark"] .moon-hub-pick-btn:hover { background: rgba(77,203,140,0.12); }
-html[data-theme="dark"] .moon-hub-hero-badges li { color: var(--text); background: rgba(77,203,140,0.10); }
-html[data-theme="dark"] .moon-hub-hero-badges li::before { color: var(--primary-light); }
-html[data-theme="dark"] .moon-hub-smart-pill { background: rgba(77,203,140,0.10); border-color: rgba(77,203,140,0.30); color: var(--text); }
 
 
 /* ========= المتغيرات ========= */
@@ -11186,7 +11002,8 @@ html.time-left-page .sticky-next-bar {
 #page-qibla[data-qibla-mode="city"] .qibla-hub-only  { display: none !important; }
 
 /* Hub subtitle under H1 */
-#page-qibla .qibla-hub-subtitle {
+#page-qibla .qibla-hub-subtitle,
+#page-moon .qibla-hub-subtitle {
     margin: 6px 0 0 0;
     color: var(--text-light, #6b7b75);
     font-size: 1rem;
@@ -11195,11 +11012,13 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Hub hero CTA card */
-#page-qibla .qibla-hub-hero-card {
+#page-qibla .qibla-hub-hero-card,
+#page-moon .qibla-hub-hero-card {
     text-align: center;
     padding: 22px 18px;
 }
-#page-qibla .qibla-hub-geo-btn {
+#page-qibla .qibla-hub-geo-btn,
+#page-moon .qibla-hub-geo-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -11218,22 +11037,27 @@ html.time-left-page .sticky-next-bar {
     max-width: 100%;
     width: min(420px, 100%);
 }
-#page-qibla .qibla-hub-geo-btn:hover   { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13,124,85,0.36); filter: brightness(1.04); }
-#page-qibla .qibla-hub-geo-btn:active  { transform: translateY(0);    box-shadow: 0 3px 10px rgba(13,124,85,0.32); }
-#page-qibla .qibla-hub-geo-btn:disabled{ opacity: 0.65; cursor: wait; }
-#page-qibla .qibla-hub-geo-note {
+#page-qibla .qibla-hub-geo-btn:hover,
+#page-moon .qibla-hub-geo-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13,124,85,0.36); filter: brightness(1.04); }
+#page-qibla .qibla-hub-geo-btn:active,
+#page-moon .qibla-hub-geo-btn:active { transform: translateY(0);    box-shadow: 0 3px 10px rgba(13,124,85,0.32); }
+#page-qibla .qibla-hub-geo-btn:disabled,
+#page-moon .qibla-hub-geo-btn:disabled { opacity: 0.65; cursor: wait; }
+#page-qibla .qibla-hub-geo-note,
+#page-moon .qibla-hub-geo-note {
     margin: 12px 0 0 0;
     color: var(--text-light, #6b7b75);
     font-size: 0.92rem;
 }
-#page-qibla .qibla-hub-geo-status {
+#page-qibla .qibla-hub-geo-status,
+#page-moon .qibla-hub-geo-status {
     margin: 6px 0 0 0;
     font-size: 0.88rem;
     color: var(--text-light, #6b7b75);
     min-height: 1.2em;
 }
-#page-qibla .qibla-hub-geo-status.is-error { color: #c0392b; }
-
+#page-qibla .qibla-hub-geo-status.is-error,
+#page-moon .qibla-hub-geo-status.is-error { color: #c0392b; }
 /* Hub nearby title styling */
 #page-qibla #qibla-hub-nearby-title,
 #page-qibla #qibla-hub-countries-title {
@@ -11243,12 +11067,14 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Country picker grid (flags + label) */
-#page-qibla .qibla-hub-countries {
+#page-qibla .qibla-hub-countries,
+#page-moon .qibla-hub-countries {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 10px;
 }
-#page-qibla .qibla-hub-countries a {
+#page-qibla .qibla-hub-countries a,
+#page-moon .qibla-hub-countries a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -11262,31 +11088,40 @@ html.time-left-page .sticky-next-bar {
     font-weight: 600;
     transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
-#page-qibla .qibla-hub-countries a:hover {
+#page-qibla .qibla-hub-countries a:hover,
+#page-moon .qibla-hub-countries a:hover {
     background: rgba(13,124,85,0.11);
     border-color: rgba(13,124,85,0.28);
     transform: translateY(-1px);
 }
-#page-qibla .qibla-hub-countries .qhc-flag { font-size: 1.2rem; line-height: 1; }
-
+#page-qibla .qibla-hub-countries .qhc-flag,
+#page-moon .qibla-hub-countries .qhc-flag { font-size: 1.2rem; line-height: 1; }
 /* Responsive */
 @media (max-width: 560px) {
-    #page-qibla .qibla-hub-geo-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
-    #page-qibla .qibla-hub-countries { grid-template-columns: repeat(2, 1fr); }
+    #page-qibla .qibla-hub-geo-btn,
+    #page-moon .qibla-hub-geo-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
+    #page-qibla .qibla-hub-countries,
+    #page-moon .qibla-hub-countries { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
     #page-qibla .qibla-hub-geo-btn,
-    #page-qibla .qibla-hub-countries a { transition: none; }
+    #page-moon .qibla-hub-geo-btn,
+    #page-qibla .qibla-hub-countries a,
+    #page-moon .qibla-hub-countries a { transition: none; }
     #page-qibla .qibla-hub-geo-btn:hover,
-    #page-qibla .qibla-hub-countries a:hover { transform: none; }
-    #page-qibla .qibla-hub-geo-btn::before { animation: none; }
+    #page-moon .qibla-hub-geo-btn:hover,
+    #page-qibla .qibla-hub-countries a:hover,
+    #page-moon .qibla-hub-countries a:hover { transform: none; }
+    #page-qibla .qibla-hub-geo-btn::before,
+    #page-moon .qibla-hub-geo-btn::before { animation: none; }
 }
 
 /* ───── Round 32: Qibla Hub — Decision-engine UX upgrades ───── */
 
 /* SEO badge (small muted line below subtitle) */
-#page-qibla .qibla-hub-seo-badge {
+#page-qibla .qibla-hub-seo-badge,
+#page-moon .qibla-hub-seo-badge {
     margin: 8px 0 0 0;
     color: var(--text-light, #6b7b75);
     font-size: 0.86rem;
@@ -11294,11 +11129,13 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Hero card: give it space for the glow pulse */
-#page-qibla .qibla-hub-hero-card { position: relative; overflow: visible; }
-
+#page-qibla .qibla-hub-hero-card,
+#page-moon .qibla-hub-hero-card { position: relative; overflow: visible; }
 /* Glow pulse halo behind the primary CTA (subtle attention pull) */
-#page-qibla .qibla-hub-geo-btn { position: relative; z-index: 1; }
-#page-qibla .qibla-hub-geo-btn::before {
+#page-qibla .qibla-hub-geo-btn,
+#page-moon .qibla-hub-geo-btn { position: relative; z-index: 1; }
+#page-qibla .qibla-hub-geo-btn::before,
+#page-moon .qibla-hub-geo-btn::before {
     content: '';
     position: absolute;
     inset: -6px;
@@ -11324,17 +11161,22 @@ html.time-left-page .sticky-next-bar {
     animation: qhbSpin 0.8s linear infinite;
     flex-shrink: 0;
 }
-#page-qibla .qibla-hub-geo-btn.is-loading .qhb-spinner { display: inline-block; }
-#page-qibla .qibla-hub-geo-btn.is-loading::before { animation: none; opacity: 0.3; }
+#page-qibla .qibla-hub-geo-btn.is-loading .qhb-spinner,
+#page-moon .qibla-hub-geo-btn.is-loading .qhb-spinner { display: inline-block; }
+#page-qibla .qibla-hub-geo-btn.is-loading::before,
+#page-moon .qibla-hub-geo-btn.is-loading::before { animation: none; opacity: 0.3; }
 @keyframes qhbSpin { to { transform: rotate(360deg); } }
 
 /* Search input (hub only) */
-#page-qibla .qibla-hub-search-card { padding: 14px 16px; }
-#page-qibla .qibla-hub-search-wrap {
+#page-qibla .qibla-hub-search-card,
+#page-moon .qibla-hub-search-card { padding: 14px 16px; }
+#page-qibla .qibla-hub-search-wrap,
+#page-moon .qibla-hub-search-wrap {
     display: block;
     width: 100%;
 }
-#page-qibla .qibla-hub-search {
+#page-qibla .qibla-hub-search,
+#page-moon .qibla-hub-search {
     width: 100%;
     box-sizing: border-box;
     padding: 12px 16px;
@@ -11346,18 +11188,21 @@ html.time-left-page .sticky-next-bar {
     outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-#page-qibla .qibla-hub-search:focus {
+#page-qibla .qibla-hub-search:focus,
+#page-moon .qibla-hub-search:focus {
     border-color: rgba(13,124,85,0.55);
     box-shadow: 0 0 0 3px rgba(13,124,85,0.12);
 }
-#page-qibla .qibla-hub-search-empty {
+#page-qibla .qibla-hub-search-empty,
+#page-moon .qibla-hub-search-empty {
     margin: 10px 0 0 0;
     color: var(--text-light, #6b7b75);
     font-size: 0.9rem;
 }
 
 /* Countries note (hub only) */
-#page-qibla .qibla-hub-countries-note {
+#page-qibla .qibla-hub-countries-note,
+#page-moon .qibla-hub-countries-note {
     margin: -4px 0 12px 0;
     color: var(--text-light, #6b7b75);
     font-size: 0.9rem;
@@ -11370,7 +11215,8 @@ html.time-left-page .sticky-next-bar {
  * ========================================================================= */
 
 /* Smart-redirect pill above H1 (last_city_context shortcut) */
-#page-qibla .qibla-hub-smart-pill {
+#page-qibla .qibla-hub-smart-pill,
+#page-moon .qibla-hub-smart-pill {
     display: none;
     align-items: center;
     gap: 8px;
@@ -11386,17 +11232,21 @@ html.time-left-page .sticky-next-bar {
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     max-width: fit-content;
 }
-#page-qibla .qibla-hub-smart-pill.is-visible { display: inline-flex; }
-#page-qibla .qibla-hub-smart-pill:hover {
+#page-qibla .qibla-hub-smart-pill.is-visible,
+#page-moon .qibla-hub-smart-pill.is-visible { display: inline-flex; }
+#page-qibla .qibla-hub-smart-pill:hover,
+#page-moon .qibla-hub-smart-pill:hover {
     transform: translateY(-1px);
     background: linear-gradient(135deg, rgba(13,124,85,0.13) 0%, rgba(13,124,85,0.20) 100%);
     box-shadow: 0 3px 10px rgba(13,124,85,0.18);
 }
-#page-qibla .qibla-hub-smart-pill .qhsp-arrow { opacity: 0.75; }
-#page-qibla .qibla-hub-smart-pill .qhsp-city { font-weight: 700; }
-
+#page-qibla .qibla-hub-smart-pill .qhsp-arrow,
+#page-moon .qibla-hub-smart-pill .qhsp-arrow { opacity: 0.75; }
+#page-qibla .qibla-hub-smart-pill .qhsp-city,
+#page-moon .qibla-hub-smart-pill .qhsp-city { font-weight: 700; }
 /* Hero trust-chip row (under subtitle) */
-#page-qibla .qibla-hub-hero-badges {
+#page-qibla .qibla-hub-hero-badges,
+#page-moon .qibla-hub-hero-badges {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -11404,7 +11254,8 @@ html.time-left-page .sticky-next-bar {
     padding: 0;
     list-style: none;
 }
-#page-qibla .qibla-hub-hero-badges li {
+#page-qibla .qibla-hub-hero-badges li,
+#page-moon .qibla-hub-hero-badges li {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -11415,7 +11266,8 @@ html.time-left-page .sticky-next-bar {
     font-size: 0.85rem;
     font-weight: 600;
 }
-#page-qibla .qibla-hub-hero-badges li::before {
+#page-qibla .qibla-hub-hero-badges li::before,
+#page-moon .qibla-hub-hero-badges li::before {
     content: '✔';
     color: #0d7c55;
     font-weight: 700;
@@ -11440,7 +11292,8 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Microcopy under the primary CTA */
-#page-qibla .qibla-hub-geo-microcopy {
+#page-qibla .qibla-hub-geo-microcopy,
+#page-moon .qibla-hub-geo-microcopy {
     margin: 8px 0 0 0;
     color: var(--text-light, #6b7b75);
     font-size: 0.86rem;
@@ -11448,7 +11301,8 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Secondary "pick a city" button (outlined) */
-#page-qibla .qibla-hub-pick-btn {
+#page-qibla .qibla-hub-pick-btn,
+#page-moon .qibla-hub-pick-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -11464,18 +11318,22 @@ html.time-left-page .sticky-next-bar {
     cursor: pointer;
     transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-#page-qibla .qibla-hub-pick-btn:hover {
+#page-qibla .qibla-hub-pick-btn:hover,
+#page-moon .qibla-hub-pick-btn:hover {
     background: rgba(13,124,85,0.08);
     border-color: rgba(13,124,85,0.75);
     transform: translateY(-1px);
 }
-#page-qibla .qibla-hub-pick-btn:active { transform: translateY(0); }
+#page-qibla .qibla-hub-pick-btn:active,
+#page-moon .qibla-hub-pick-btn:active { transform: translateY(0); }
 @media (max-width: 640px) {
-    #page-qibla .qibla-hub-pick-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
+    #page-qibla .qibla-hub-pick-btn,
+    #page-moon .qibla-hub-pick-btn { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
 }
 
 /* Trust + Authority strip */
-#page-qibla .qibla-hub-trust-strip {
+#page-qibla .qibla-hub-trust-strip,
+#page-moon .qibla-hub-trust-strip {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -11484,7 +11342,8 @@ html.time-left-page .sticky-next-bar {
     list-style: none;
     justify-content: center;
 }
-#page-qibla .qibla-hub-trust-strip li {
+#page-qibla .qibla-hub-trust-strip li,
+#page-moon .qibla-hub-trust-strip li {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -11496,12 +11355,14 @@ html.time-left-page .sticky-next-bar {
     font-size: 0.88rem;
     font-weight: 600;
 }
-#page-qibla .qibla-hub-trust-strip li::before {
+#page-qibla .qibla-hub-trust-strip li::before,
+#page-moon .qibla-hub-trust-strip li::before {
     content: '✔';
     color: #0d7c55;
     font-weight: 700;
 }
-#page-qibla .qibla-hub-authority-note {
+#page-qibla .qibla-hub-authority-note,
+#page-moon .qibla-hub-authority-note {
     margin: 10px 0 0 0;
     text-align: center;
     color: var(--text-light, #6b7b75);
@@ -11510,7 +11371,8 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Hero-scale search input (taller + bigger + stronger focus) */
-#page-qibla .qibla-hub-search.qibla-hub-search--hero {
+#page-qibla .qibla-hub-search.qibla-hub-search--hero,
+#page-moon .qibla-hub-search.qibla-hub-search--hero {
     min-height: 60px;
     padding: 16px 20px;
     font-size: 1.08rem;
@@ -11518,20 +11380,25 @@ html.time-left-page .sticky-next-bar {
     border-width: 2px;
     box-shadow: 0 2px 10px rgba(13,124,85,0.06);
 }
-#page-qibla .qibla-hub-search.qibla-hub-search--hero:focus {
+#page-qibla .qibla-hub-search.qibla-hub-search--hero:focus,
+#page-moon .qibla-hub-search.qibla-hub-search--hero:focus {
     border-color: rgba(13,124,85,0.7);
     box-shadow: 0 0 0 4px rgba(13,124,85,0.14), 0 4px 14px rgba(13,124,85,0.10);
 }
-#page-qibla .qibla-hub-search-results {
+#page-qibla .qibla-hub-search-results,
+#page-moon .qibla-hub-search-results {
     list-style: none;
     margin: 10px 0 0 0;
     padding: 0;
     border-radius: 10px;
     overflow: hidden;
 }
-#page-qibla .qibla-hub-search-results:empty { display: none; }
-#page-qibla .qibla-hub-search-results li { margin: 0; }
-#page-qibla .qibla-hub-search-results .qhsr-item {
+#page-qibla .qibla-hub-search-results:empty,
+#page-moon .qibla-hub-search-results:empty { display: none; }
+#page-qibla .qibla-hub-search-results li,
+#page-moon .qibla-hub-search-results li { margin: 0; }
+#page-qibla .qibla-hub-search-results .qhsr-item,
+#page-moon .qibla-hub-search-results .qhsr-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11545,24 +11412,30 @@ html.time-left-page .sticky-next-bar {
     transition: background 0.1s ease;
 }
 #page-qibla .qibla-hub-search-results .qhsr-item:hover,
-#page-qibla .qibla-hub-search-results .qhsr-item:focus {
+#page-moon .qibla-hub-search-results .qhsr-item:hover,
+#page-qibla .qibla-hub-search-results .qhsr-item:focus,
+#page-moon .qibla-hub-search-results .qhsr-item:focus {
     background: rgba(13,124,85,0.07);
     outline: none;
 }
-#page-qibla .qibla-hub-search-results .qhsr-item:last-child { border-bottom: 0; }
-#page-qibla .qibla-hub-search-results .qhsr-country {
+#page-qibla .qibla-hub-search-results .qhsr-item:last-child,
+#page-moon .qibla-hub-search-results .qhsr-item:last-child { border-bottom: 0; }
+#page-qibla .qibla-hub-search-results .qhsr-country,
+#page-moon .qibla-hub-search-results .qhsr-country {
     color: var(--text-light, #6b7b75);
     font-size: 0.85rem;
     font-weight: 500;
 }
 /* UAT-Q5c: keyboard-focused row (Arrow Up/Down highlight) */
-#page-qibla .qibla-hub-search-results .qhsr-item.focused {
+#page-qibla .qibla-hub-search-results .qhsr-item.focused,
+#page-moon .qibla-hub-search-results .qhsr-item.focused {
     background: rgba(13,124,85,0.10);
     outline: 2px solid rgba(13,124,85,0.25);
     outline-offset: -2px;
 }
 /* UAT-Q5c: loading row while Nominatim is fetching */
-#page-qibla .qibla-hub-search-results .qhsr-loading {
+#page-qibla .qibla-hub-search-results .qhsr-loading,
+#page-moon .qibla-hub-search-results .qhsr-loading {
     padding: 10px 14px;
     color: var(--text-light, #6b7b75);
     font-size: 0.88rem;
@@ -11573,12 +11446,14 @@ html.time-left-page .sticky-next-bar {
 }
 
 /* Visited cities row (optional, shown only when localStorage has entries) */
-#page-qibla .qibla-hub-visited-grid {
+#page-qibla .qibla-hub-visited-grid,
+#page-moon .qibla-hub-visited-grid {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
-#page-qibla .qibla-hub-visited-grid .qhv-chip {
+#page-qibla .qibla-hub-visited-grid .qhv-chip,
+#page-moon .qibla-hub-visited-grid .qhv-chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -11592,21 +11467,25 @@ html.time-left-page .sticky-next-bar {
     text-decoration: none;
     transition: transform 0.15s ease, background 0.15s ease;
 }
-#page-qibla .qibla-hub-visited-grid .qhv-chip:hover {
+#page-qibla .qibla-hub-visited-grid .qhv-chip:hover,
+#page-moon .qibla-hub-visited-grid .qhv-chip:hover {
     background: rgba(200,155,60,0.18);
     transform: translateY(-1px);
 }
 
 /* Tiered popular city cards (replaces chips) */
-#page-qibla .qibla-hub-cities-grid {
+#page-qibla .qibla-hub-cities-grid,
+#page-moon .qibla-hub-cities-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 @media (min-width: 720px) {
-    #page-qibla .qibla-hub-cities-grid { grid-template-columns: repeat(4, 1fr); }
+    #page-qibla .qibla-hub-cities-grid,
+    #page-moon .qibla-hub-cities-grid { grid-template-columns: repeat(4, 1fr); }
 }
-#page-qibla .qibla-hub-cities-grid .city-card {
+#page-qibla .qibla-hub-cities-grid .city-card,
+#page-moon .qibla-hub-cities-grid .city-card {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -11618,54 +11497,74 @@ html.time-left-page .sticky-next-bar {
     text-decoration: none;
     transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-#page-qibla .qibla-hub-cities-grid .city-card:hover {
+#page-qibla .qibla-hub-cities-grid .city-card:hover,
+#page-moon .qibla-hub-cities-grid .city-card:hover {
     background: rgba(13,124,85,0.10);
     border-color: rgba(13,124,85,0.28);
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(13,124,85,0.12);
 }
-#page-qibla .qibla-hub-cities-grid .city-card .cc-flag { font-size: 1.5rem; line-height: 1; }
-#page-qibla .qibla-hub-cities-grid .city-card .cc-city  { font-weight: 700; font-size: 1rem; }
-#page-qibla .qibla-hub-cities-grid .city-card .cc-country { color: var(--text-light, #6b7b75); font-size: 0.84rem; }
-#page-qibla .qibla-hub-cities-grid .city-card .cc-chevron { color: rgba(13,124,85,0.65); font-size: 0.9rem; margin-top: 2px; }
-
-#page-qibla .qibla-hub-cities-grid .city-card.tier-1 {
+#page-qibla .qibla-hub-cities-grid .city-card .cc-flag,
+#page-moon .qibla-hub-cities-grid .city-card .cc-flag { font-size: 1.5rem; line-height: 1; }
+#page-qibla .qibla-hub-cities-grid .city-card .cc-city,
+#page-moon .qibla-hub-cities-grid .city-card .cc-city { font-weight: 700; font-size: 1rem; }
+#page-qibla .qibla-hub-cities-grid .city-card .cc-country,
+#page-moon .qibla-hub-cities-grid .city-card .cc-country { color: var(--text-light, #6b7b75); font-size: 0.84rem; }
+#page-qibla .qibla-hub-cities-grid .city-card .cc-chevron,
+#page-moon .qibla-hub-cities-grid .city-card .cc-chevron { color: rgba(13,124,85,0.65); font-size: 0.9rem; margin-top: 2px; }
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1,
+#page-moon .qibla-hub-cities-grid .city-card.tier-1 {
     background: linear-gradient(135deg, rgba(13,124,85,0.07) 0%, rgba(200,155,60,0.08) 100%);
     border-color: rgba(200,155,60,0.36);
     box-shadow: 0 2px 10px rgba(200,155,60,0.10);
 }
-#page-qibla .qibla-hub-cities-grid .city-card.tier-1 .cc-city { font-size: 1.08rem; }
-#page-qibla .qibla-hub-cities-grid .city-card.tier-1 .cc-flag { font-size: 1.8rem; }
-#page-qibla .qibla-hub-cities-grid .city-card.tier-1:hover {
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1 .cc-city,
+#page-moon .qibla-hub-cities-grid .city-card.tier-1 .cc-city { font-size: 1.08rem; }
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1 .cc-flag,
+#page-moon .qibla-hub-cities-grid .city-card.tier-1 .cc-flag { font-size: 1.8rem; }
+#page-qibla .qibla-hub-cities-grid .city-card.tier-1:hover,
+#page-moon .qibla-hub-cities-grid .city-card.tier-1:hover {
     border-color: rgba(200,155,60,0.60);
     box-shadow: 0 6px 18px rgba(200,155,60,0.20);
 }
 
 @media (prefers-reduced-motion: reduce) {
     #page-qibla .qibla-hub-smart-pill,
+    #page-moon .qibla-hub-smart-pill,
     #page-qibla .qibla-hub-pick-btn,
+    #page-moon .qibla-hub-pick-btn,
     #page-qibla .qibla-hub-cities-grid .city-card,
-    #page-qibla .qibla-hub-visited-grid .qhv-chip { transition: none; }
+    #page-moon .qibla-hub-cities-grid .city-card,
+    #page-qibla .qibla-hub-visited-grid .qhv-chip,
+    #page-moon .qibla-hub-visited-grid .qhv-chip { transition: none; }
     #page-qibla .qibla-hub-smart-pill:hover,
+    #page-moon .qibla-hub-smart-pill:hover,
     #page-qibla .qibla-hub-pick-btn:hover,
+    #page-moon .qibla-hub-pick-btn:hover,
     #page-qibla .qibla-hub-cities-grid .city-card:hover,
-    #page-qibla .qibla-hub-visited-grid .qhv-chip:hover { transform: none; }
+    #page-moon .qibla-hub-cities-grid .city-card:hover,
+    #page-qibla .qibla-hub-visited-grid .qhv-chip:hover,
+    #page-moon .qibla-hub-visited-grid .qhv-chip:hover { transform: none; }
 }
 
 /* ─── v5: Unified hero actions (Search + Dual CTA + badges inside hero) ─── */
-#page-qibla .qibla-hub-hero-actions {
+#page-qibla .qibla-hub-hero-actions,
+#page-moon .qibla-hub-hero-actions {
     display: flex;
     flex-direction: column;
     gap: 14px;
     margin-top: 18px;
 }
-#page-qibla .qibla-hub-hero-actions .qibla-hub-search-wrap {
+#page-qibla .qibla-hub-hero-actions .qibla-hub-search-wrap,
+#page-moon .qibla-hub-hero-actions .qibla-hub-search-wrap {
     display: block;
 }
-#page-qibla .qibla-hub-hero-actions #qibla-hub-search-results {
+#page-qibla .qibla-hub-hero-actions #qibla-hub-search-results,
+#page-moon .qibla-hub-hero-actions #qibla-hub-search-results {
     margin-top: 0;
 }
-#page-qibla .qibla-hub-hero-actions .qibla-hub-hero-badges {
+#page-qibla .qibla-hub-hero-actions .qibla-hub-hero-badges,
+#page-moon .qibla-hub-hero-actions .qibla-hub-hero-badges {
     margin-top: 4px;
 }
 
@@ -11676,7 +11575,8 @@ html.time-left-page .sticky-next-bar {
     font-weight: 700;
     color: var(--text-dark, #214936);
 }
-#page-qibla .qibla-hub-howto-steps {
+#page-qibla .qibla-hub-howto-steps,
+#page-moon .qibla-hub-howto-steps {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -11685,7 +11585,8 @@ html.time-left-page .sticky-next-bar {
     gap: 12px;
     counter-reset: qhhs-counter;
 }
-#page-qibla .qibla-hub-howto-steps .qhhs-step {
+#page-qibla .qibla-hub-howto-steps .qhhs-step,
+#page-moon .qibla-hub-howto-steps .qhhs-step {
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -11694,7 +11595,8 @@ html.time-left-page .sticky-next-bar {
     background: rgba(13,124,85,0.05);
     border: 1px solid rgba(13,124,85,0.10);
 }
-#page-qibla .qibla-hub-howto-steps .qhhs-num {
+#page-qibla .qibla-hub-howto-steps .qhhs-num,
+#page-moon .qibla-hub-howto-steps .qhhs-num {
     flex: 0 0 auto;
     width: 28px;
     height: 28px;
@@ -11709,7 +11611,8 @@ html.time-left-page .sticky-next-bar {
     line-height: 1;
     box-shadow: 0 2px 6px rgba(13,124,85,0.25);
 }
-#page-qibla .qibla-hub-howto-steps .qhhs-text {
+#page-qibla .qibla-hub-howto-steps .qhhs-text,
+#page-moon .qibla-hub-howto-steps .qhhs-text {
     flex: 1 1 auto;
     color: var(--text-dark, #214936);
     font-size: 0.98rem;
@@ -11724,7 +11627,8 @@ html.time-left-page .sticky-next-bar {
     color: var(--text-dark, #214936);
     text-align: center;
 }
-#page-qibla .qibla-hub-usecases {
+#page-qibla .qibla-hub-usecases,
+#page-moon .qibla-hub-usecases {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -11733,11 +11637,13 @@ html.time-left-page .sticky-next-bar {
     gap: 10px;
 }
 @media (min-width: 640px) {
-    #page-qibla .qibla-hub-usecases {
+    #page-qibla .qibla-hub-usecases,
+    #page-moon .qibla-hub-usecases {
         grid-template-columns: repeat(4, 1fr);
     }
 }
-#page-qibla .qibla-hub-usecases .qhuc-item {
+#page-qibla .qibla-hub-usecases .qhuc-item,
+#page-moon .qibla-hub-usecases .qhuc-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11749,11 +11655,13 @@ html.time-left-page .sticky-next-bar {
     border: 1px solid rgba(200,155,60,0.18);
     text-align: center;
 }
-#page-qibla .qibla-hub-usecases .qhuc-icon {
+#page-qibla .qibla-hub-usecases .qhuc-icon,
+#page-moon .qibla-hub-usecases .qhuc-icon {
     font-size: 1.6rem;
     line-height: 1;
 }
-#page-qibla .qibla-hub-usecases .qhuc-label {
+#page-qibla .qibla-hub-usecases .qhuc-label,
+#page-moon .qibla-hub-usecases .qhuc-label {
     font-size: 0.92rem;
     font-weight: 600;
     color: var(--text-dark, #214936);

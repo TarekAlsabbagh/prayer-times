@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=526" as="script">
-    <link rel="stylesheet" href="css/style.css?v=202">
+    <link rel="preload" href="js/app.js?v=527" as="script">
+    <link rel="stylesheet" href="css/style.css?v=203">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1253,41 +1253,35 @@
 
             <!-- ===== صفحة القمر — Moon Today (SEO-rich) ===== -->
             <div class="page" id="page-moon">
-                <!-- ═══════ UAT-Moon-Home v2: mirrors qibla-hub-hero pattern ═══════
-                     Visible only on /moon-today (hub) via .hub-only +
-                     html.moon-today-hub-page CSS. Smart-pill + H1 + subtitle +
-                     search → dropdown + dual CTA + microcopy + trust badges. -->
-                <div class="section-card moon-hub-hero-card hub-only" id="moon-hub-hero">
-                    <!-- Smart-redirect pill (populated by _wireMoonHubSmartPill from last_city_context) -->
-                    <a id="moon-hub-smart-pill" class="moon-hub-smart-pill" href="#" hidden></a>
+                <!-- ═══════ UAT-Moon-Home v3: reuses qibla-hub-hero classes (CSS shared
+                     across both #page-qibla and #page-moon via dual-scope selectors).
+                     IDs are moon-* for JS targeting; CLASSES are qibla-hub-* for styling. -->
+                <div class="section-card qibla-hub-hero-card hub-only" id="moon-hub-hero">
+                    <a id="moon-hub-smart-pill" class="qibla-hub-smart-pill" href="#" hidden></a>
+                    <h1 id="moon-hub-h1" class="qibla-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.hub.title">حالة القمر اليوم</span></h1>
+                    <p id="moon-hub-subtitle" class="qibla-hub-subtitle" data-i18n="moon.hub.subtitle">اعرف طور القمر، الإضاءة، عمر القمر، ومواعيد طلوعه وغروبه لأيّ مدينة.</p>
 
-                    <h1 id="moon-hub-h1" class="moon-hub-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.hub.title">حالة القمر اليوم</span></h1>
-                    <p id="moon-hub-subtitle" class="moon-hub-subtitle" data-i18n="moon.hub.subtitle">اعرف طور القمر، الإضاءة، عمر القمر، ومواعيد طلوعه وغروبه لأيّ مدينة.</p>
-
-                    <div class="moon-hub-hero-actions">
-                        <label class="moon-hub-search-wrap">
-                            <input type="search" class="moon-hub-search moon-hub-search--hero" id="moon-hub-search"
-                                   placeholder="ابحث عن مدينة لمعرفة حالة القمر اليوم…"
-                                   data-i18n-placeholder="moon.hub.search_placeholder"
-                                   autocomplete="off"
-                                   oninput="onMoonHubSearchInput(this.value)"
-                                   onkeydown="onMoonHubSearchKeyDown(event)">
+                    <div class="qibla-hub-hero-actions">
+                        <label class="qibla-hub-search-wrap">
+                            <input type="search" id="moon-hub-search" class="qibla-hub-search qibla-hub-search--hero" autocomplete="off" placeholder="ابحث عن مدينة لمعرفة حالة القمر اليوم…" data-i18n-placeholder="moon.hub.search_placeholder">
                         </label>
-                        <div class="moon-hub-suggestions" id="moon-hub-suggestions"></div>
+                        <ul id="moon-hub-search-results" class="qibla-hub-search-results" role="listbox"></ul>
+                        <p id="moon-hub-search-empty" class="qibla-hub-search-empty" hidden></p>
 
-                        <div id="moon-dual-cta" class="moon-dual-cta">
-                            <button type="button" id="moon-hub-geo-btn" class="btn btn-primary moon-hub-geo-btn" onclick="(typeof _moonHubDetectAndNavigate==='function')?_moonHubDetectAndNavigate():null">
+                        <div id="moon-dual-cta" class="qibla-dual-cta">
+                            <button type="button" id="moon-hub-geo-btn" class="btn btn-primary qibla-hub-geo-btn">
                                 <span class="qhb-spinner" aria-hidden="true"></span>
                                 <span class="qhb-label"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span data-i18n="moon.hub.use_location">اعرف حالة القمر من موقعي</span></span>
                             </button>
-                            <button type="button" id="moon-hub-pick-btn" class="moon-hub-pick-btn" onclick="(typeof _moonHubPickCity==='function')?_moonHubPickCity():null">
+                            <button type="button" id="moon-hub-pick-btn" class="qibla-hub-pick-btn">
                                 <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="moon.hub.pick_city">اختر مدينتك يدويّاً</span>
                             </button>
                         </div>
 
-                        <p id="moon-hub-geo-microcopy" class="moon-hub-geo-microcopy" data-i18n="moon.hub.geo_microcopy">سيتمّ تحديد موقعك تلقائيّاً خلال ثوانٍ</p>
+                        <p id="moon-hub-geo-microcopy" class="qibla-hub-geo-microcopy" data-i18n="moon.hub.geo_microcopy">سيتمّ تحديد موقعك تلقائيّاً خلال ثوانٍ</p>
+                        <p id="moon-hub-geo-status" class="qibla-hub-geo-status" aria-live="polite"></p>
 
-                        <ul id="moon-hub-hero-badges" class="moon-hub-hero-badges">
+                        <ul id="moon-hub-hero-badges" class="qibla-hub-hero-badges">
                             <li data-i18n="moon.hub.badge_accurate">دقّة فلكيّة عالية</li>
                             <li data-i18n="moon.hub.badge_global">يعمل في جميع الدول</li>
                         </ul>
@@ -3207,7 +3201,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=526"></script>
+    <script defer src="js/app.js?v=527"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

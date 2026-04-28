@@ -10,6 +10,12 @@ const CleanCSS = require('clean-css');
 // TRANSLATIONS للـ SSR: لترجمة أسماء الأطوار والأبراج قبل الإرسال (بدون Googlebot-JS)
 const MoonCalc   = require('./js/moon.js');
 const { TRANSLATIONS: I18N } = require('./js/i18n.js');
+// SSR-Prayer-Times: pre-compute the 5 daily prayer times on the server so the
+//   FIRST byte of HTML carries real numbers (07:24, 12:15, …) instead of
+//   "--:--" placeholders. Googlebot indexes the rendered numbers without
+//   waiting for JS — same algorithm runs client-side to update for the
+//   visitor's location after page load.
+const PrayerTimesSrv = require('./js/prayer-times.js');
 
 // 🆕 Round 2.1 (H): Build hash — git short SHA مُحسَب مرّة عند الإقلاع
 // يُضاف لـ asset URLs كـ&b={hash} → يُبطّل الـcache عند كلّ deploy (بدون bump يدويّ)
@@ -640,6 +646,99 @@ function _resolveCityForMoon(slug) {
         }
     }
     return null;
+}
+
+// ===== SSR-Prayer-Times: pre-compute prayer times for SEO-critical pages =====
+// Returns { fajr, sunrise, dhuhr, asr, maghrib, isha } as "HH:MM" strings (24h)
+// for the city resolved from `slug` (or Mecca defaults). Computed on the SERVER
+// using js/prayer-times.js — same algorithm the browser runs, so client-side
+// updates are seamless. Keys to inject:
+//   #time-fajr / #time-sunrise / #time-dhuhr / #time-asr / #time-maghrib / #time-isha
+// Method picked from countryCode (mirrors client autoSelectMethod() subset).
+const _SSR_METHOD_BY_CC = {
+    sa:'Makkah', ae:'Makkah', bh:'Makkah', om:'Makkah', ye:'Makkah',
+    kw:'Kuwait', qa:'Qatar',
+    sy:'Makkah', iq:'MWL', jo:'MWL', lb:'MWL', ps:'MWL',
+    eg:'Egypt', ly:'Egypt', sd:'Egypt', ss:'Egypt',
+    dz:'MWL', ma:'MWL', tn:'MWL', mr:'MWL',
+    pk:'Karachi', in:'Karachi', bd:'Karachi', af:'Karachi',
+    ir:'Tehran', tr:'Turkey',
+    my:'Singapore', id:'Singapore', sg:'Singapore',
+    us:'ISNA', ca:'ISNA', mx:'ISNA', br:'ISNA',
+    no:'MWL', se:'MWL', fi:'MWL', dk:'MWL', is:'MWL',
+    fr:'Makkah', de:'Makkah', gb:'Makkah', es:'Makkah', it:'Makkah',
+    nl:'Makkah', ru:'Makkah', au:'MWL', nz:'MWL',
+};
+
+// Compute the IANA-timezone offset (in hours, fractional) for a given Date.
+//   Uses Intl.DateTimeFormat (Node 14+). Falls back to 0 on parse failure.
+function _ianaOffsetHours(iana, date) {
+    if (!iana) return 0;
+    try {
+        const dtf = new Intl.DateTimeFormat('en-US', {
+            timeZone: iana, timeZoneName: 'longOffset',
+            hour: '2-digit', minute: '2-digit'
+        });
+        const parts = dtf.formatToParts(date);
+        const tz = (parts.find(p => p.type === 'timeZoneName') || {}).value || '';
+        // "GMT+03:00" / "GMT-05:30" / "GMT" → parse
+        const m = tz.match(/GMT(?:([+-])(\d{1,2})(?::?(\d{2}))?)?/);
+        if (!m || !m[1]) return 0;
+        const sign = m[1] === '+' ? 1 : -1;
+        const h = parseInt(m[2], 10) || 0;
+        const mn = parseInt(m[3] || '0', 10);
+        return sign * (h + mn / 60);
+    } catch (_) { return 0; }
+}
+
+// Compute today's prayer times for the city resolved from `slug`.
+//   Returns { fajr, sunrise, dhuhr, asr, maghrib, isha } as 24h "HH:MM"
+//   strings, or `null` if the city can't be resolved (caller falls back to
+//   leaving "--:--" placeholders).
+function _ssrPrayerTimesFor(slug) {
+    try {
+        const info = (slug && typeof _resolveCityForMoon === 'function')
+            ? _resolveCityForMoon(slug) : null;
+        // Default to Mecca for homepage / unresolved slugs.
+        const lat = (info && isFinite(info.lat)) ? info.lat : 21.4225;
+        const lng = (info && isFinite(info.lng)) ? info.lng : 39.8262;
+        const cc  = ((info && info.cc) || 'sa').toLowerCase();
+        const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
+        const now = new Date();
+        const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3; // sa default
+        // Configure PrayerTimes for this city's method (Makkah default).
+        const method = _SSR_METHOD_BY_CC[cc] || 'Makkah';
+        PrayerTimesSrv.setMethod(method);
+        PrayerTimesSrv.setTimeFormat('24h'); // SSR always emits 24h; client formats per-lang
+        const t = PrayerTimesSrv.getTimes(now, lat, lng, tzOffset);
+        // Validate: NaN-protected by formatTime → returns "--:--", reject those
+        const ok = ['fajr','sunrise','dhuhr','asr','maghrib','isha']
+            .every(k => /^\d{2}:\d{2}$/.test(t[k] || ''));
+        if (!ok) return null;
+        return {
+            fajr: t.fajr, sunrise: t.sunrise, dhuhr: t.dhuhr,
+            asr: t.asr,   maghrib: t.maghrib, isha: t.isha
+        };
+    } catch (_e) { return null; }
+}
+
+// Inject pre-computed prayer times into HTML by replacing the "--:--"
+//   placeholders inside #time-fajr / #time-sunrise / #time-dhuhr / #time-asr /
+//   #time-maghrib / #time-isha. Idempotent — if the placeholders are already
+//   filled, the regex won't match. Returns the modified html.
+function _ssrInjectPrayerTimes(html, slug) {
+    const t = _ssrPrayerTimesFor(slug);
+    if (!t) return html;
+    // Replace each "<div class="prayer-time" id="time-X">--:--</div>" with the
+    //   real value. Use the literal id attribute for uniqueness; allow any
+    //   intervening whitespace.
+    return html
+        .replace(/(id="time-fajr"[^>]*>)\s*--:--\s*(<)/,    `$1${t.fajr}$2`)
+        .replace(/(id="time-sunrise"[^>]*>)\s*--:--\s*(<)/, `$1${t.sunrise}$2`)
+        .replace(/(id="time-dhuhr"[^>]*>)\s*--:--\s*(<)/,   `$1${t.dhuhr}$2`)
+        .replace(/(id="time-asr"[^>]*>)\s*--:--\s*(<)/,     `$1${t.asr}$2`)
+        .replace(/(id="time-maghrib"[^>]*>)\s*--:--\s*(<)/, `$1${t.maghrib}$2`)
+        .replace(/(id="time-isha"[^>]*>)\s*--:--\s*(<)/,    `$1${t.isha}$2`);
 }
 
 // ===== UAT-Moon-3: proximity-based slug fallback =====
@@ -5473,6 +5572,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     //     الحذف الفعليّ يُنظِّف DOM (~6-10KB) ويُلغي H1 race + intent duplication أمام SEO.
     const _isCityPageSsr = !!(seo && !seo.timeLeftPage && !seo.nextPrayerPage
         && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9.-]+$/.test(urlPath));
+    // ── 1d-PRE) SSR-Prayer-Times: pre-compute the 5 daily prayer times and
+    //   inject them into the HTML before serving. Kills the "--:--" SEO
+    //   problem where Googlebot sees empty placeholders and never waits for
+    //   JS. Runs for: (a) the homepage / language-roots (Mecca defaults),
+    //   (b) /prayer-times-in-{slug} city pages (resolved from slug),
+    //   NOT for /time-left-* or /next-prayer-time-* (those are pruned).
+    if (!seo.timeLeftPage && !seo.nextPrayerPage) {
+        // Determine which slug to compute for. City page → use slug. Homepage
+        //   or any other page → 'mecca' default (matches client globals).
+        let _ssrSlug = 'mecca';
+        const _slugForTimes = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+        if (_slugForTimes) _ssrSlug = _slugForTimes[1];
+        html = _ssrInjectPrayerTimes(html, _ssrSlug);
+    }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);
         // Phase I — حقن روابط داخليّة canonical في #related-links-section

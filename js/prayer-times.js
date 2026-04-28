@@ -281,3 +281,12 @@ const PrayerTimes = (function () {
         getCurrentPrayer
     };
 })();
+
+// SSR/Node.js compatibility — exports the PrayerTimes module to Node without
+//   breaking the browser. In the browser `module` is undefined, so the typeof
+//   guard short-circuits and PrayerTimes remains a window-attached const.
+//   In Node.js, server.js can `require('./js/prayer-times.js')` to compute
+//   times during SSR (kills the "--:--" placeholder seen by Googlebot).
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = PrayerTimes;
+}

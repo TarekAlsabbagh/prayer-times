@@ -82,7 +82,7 @@
         div.setAttribute('role', 'dialog');
         div.setAttribute('aria-label', tt('cookie.aria', { ar:'موافقة ملفات الارتباط', en:'Cookie consent', fr:'Consentement aux cookies', tr:'Çerez onayı', ur:'کوکیز کی رضامندی' }));
         div.innerHTML =
-            '<div class="cc-msg">' + msg + ' <a href="' + privUrl + '" aria-label="' + learnAria + '">' + learn + '</a></div>' +
+            '<div class="cc-msg">' + msg + ' <a href="' + privUrl + '" title="' + learnAria + '">' + learn + '</a></div>' +
             '<div class="cc-actions">' +
                 '<button type="button" class="cc-btn cc-btn-secondary" data-cc="reject">' + reject + '</button>' +
                 '<button type="button" class="cc-btn cc-btn-secondary" data-cc="manage">' + manage + '</button>' +

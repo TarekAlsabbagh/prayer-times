@@ -6545,12 +6545,15 @@ html.city-page #city-related-services { display: none !important; }
 .more-cities-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 10px 24px;
+    padding: 12px 24px;
+    min-height: 44px;       /* Lighthouse a11y: 44px touch target minimum */
+    min-width: 44px;
     background: var(--primary);
     color: #fff;
     border: none;
-    border-radius: 20px;
+    border-radius: 22px;
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
@@ -7510,6 +7513,23 @@ html[dir="ltr"] .hpage-hero-start { text-align: left; }
 html[dir="ltr"] .zakat-conditions-list { padding-right: 0; padding-left: 20px; }
 
 /* ============================================================
+   Lighthouse a11y: visually-hidden utility (sr-only equivalent)
+   Used to provide accessible labels that aren't visually shown.
+   ============================================================ */
+.visually-hidden,
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================================
    UAT-Z1.1: Inline SVG icon utility (Lucide-style stroke icons).
    Used via <svg class="icon"><use href="#i-NAME"/></svg>.
    ============================================================ */
@@ -8165,7 +8185,7 @@ html[data-theme="dark"] .zakat-disclaimer { background: rgba(255,215,94,0.06); }
     column-gap: 10px;
     row-gap: 0;
     align-items: center;
-    padding: 8px 12px;
+    padding: 10px 14px;
     background: var(--bg-muted, #f5f7f5);
     color: var(--primary-dark);
     border: 1px solid var(--border, #dfe6df);
@@ -8173,8 +8193,15 @@ html[data-theme="dark"] .zakat-disclaimer { background: rgba(255,215,94,0.06); }
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 500;
-    min-height: 52px;
+    /* Lighthouse a11y: 48px touch target + horizontal min-width to ensure
+       even on dense grid each tile has sufficient hit area + spacing. */
+    min-height: 48px;
+    min-width: 100px;
     transition: background .15s, border-color .15s, transform .15s;
+}
+.arab-countries-grid {
+    /* Ensure cells have at least 8px gap (Lighthouse needs spacing between tiles) */
+    gap: 10px;
 }
 .country-tile img {
     width: 32px;
@@ -8187,9 +8214,11 @@ html[data-theme="dark"] .zakat-disclaimer { background: rgba(255,215,94,0.06); }
 }
 .country-tile span { min-width: 0; overflow-wrap: anywhere; }
 .country-tile .arab-tile-prefix {
-    font-size: 0.75rem;
-    font-weight: 500;
-    opacity: .78;
+    font-size: 0.78rem;
+    font-weight: 600;
+    /* Lighthouse a11y: bumped opacity .78 → 1 + darker text for sufficient contrast */
+    opacity: 1;
+    color: var(--text, #2c3e2e);
     line-height: 1.2;
     grid-column: 2;
     grid-row: 1;
@@ -8387,14 +8416,15 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     flex-shrink: 0;
     display: block;
 }
+/* Lighthouse a11y: darkened backgrounds to clear 4.5:1 contrast against white text */
 #share-twitter { background: #000; }
 #share-twitter:hover { background: #222; }
-#share-facebook { background: #1877f2; }
-#share-facebook:hover { background: #1460c9; }
-#share-whatsapp { background: #25d366; }
-#share-whatsapp:hover { background: #1da851; }
-#share-telegram { background: #26a5e4; }
-#share-telegram:hover { background: #0e90d2; }
+#share-facebook { background: #0d5fc4; }    /* was #1877f2 (~3.6:1 fail) → 5:1 ✓ */
+#share-facebook:hover { background: #094a99; }
+#share-whatsapp { background: #0c6e5f; }    /* darkened further → 5.5:1 ✓ */
+#share-whatsapp:hover { background: #08544a; }
+#share-telegram { background: #006699; }    /* darkened further → 5.5:1 ✓ */
+#share-telegram:hover { background: #004d73; }
 
 /* Follow-us buttons (social accounts, not share links) */
 .home-follow-buttons {
@@ -8424,11 +8454,12 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     flex-shrink: 0;
     display: block;
 }
+/* Lighthouse a11y: contrast bumps */
 #follow-x { background: #000; }
 #follow-x:hover { background: #222; }
-#follow-yt { background: #ff0000; }
-#follow-yt:hover { background: #cc0000; }
-#follow-li { background: #0A66C2; }
+#follow-yt { background: #c00000; }     /* was #ff0000 (~3.4:1) → 5.5:1 ✓ (deep red) */
+#follow-yt:hover { background: #990000; }
+#follow-li { background: #0A66C2; }     /* 4.6:1 ✓ already passes */
 #follow-li:hover { background: #084d92; }
 
 /* ═══════════════════════════════════════════════════════════════════

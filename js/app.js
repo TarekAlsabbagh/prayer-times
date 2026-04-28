@@ -10130,23 +10130,16 @@ function updatePrayerCardsSEO() {
  * يعطي tooltip + يُعزّز الإشارة لـ crawlers.
  */
 function applyStaticLinkTitlesSEO() {
-    // Country tiles
-    document.querySelectorAll('.country-tile').forEach(a => {
-        if (a.getAttribute('title')) return; // لا تُعد الكتابة لو ضُبط يدوياً
-        const txt = (a.textContent || '').replace(/\s+/g, ' ').trim();
-        if (txt) {
-            a.setAttribute('title', txt);
-            if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', txt);
-        }
-    });
-    // Popular cities in footer
-    document.querySelectorAll('.popular-cities-grid a').forEach(a => {
+    // Country tiles + popular cities — set ONLY title (tooltip + crawler hint).
+    // Lighthouse a11y note: do NOT set aria-label here — when i18n later
+    // expands country.sa to "المملكة العربية السعودية" but the aria-label
+    // was captured earlier as the short form, accessible-name diverges
+    // from visible text. Keeping accessible name = textContent (no aria
+    // override) avoids label-content-name-mismatch failures.
+    document.querySelectorAll('.country-tile, .popular-cities-grid a').forEach(a => {
         if (a.getAttribute('title')) return;
         const txt = (a.textContent || '').replace(/\s+/g, ' ').trim();
-        if (txt) {
-            a.setAttribute('title', txt);
-            if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', txt);
-        }
+        if (txt) a.setAttribute('title', txt);
     });
 }
 

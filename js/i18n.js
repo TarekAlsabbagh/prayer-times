@@ -1152,6 +1152,9 @@ const TRANSLATIONS = {
         'footer.refs_title': 'مصادر ومراجع خارجية',
         'footer.share_title': 'شارك الموقع',
         'footer.test_audio': 'تجربة الصوت',
+        // a11y labels
+        'header.change_language': 'تغيير اللغة',
+        'sticky.aria_label': 'الصلاة القادمة — اضغط للتفاصيل',
         'countries.title': 'مواقيت الصلاة في أبرز دول العالم',
         'countries.more': 'استعرض كل دول العالم',
         'countries.show_all': 'عرض كلّ الدول',
@@ -2459,6 +2462,9 @@ const TRANSLATIONS = {
         'footer.refs_title': 'External References & Sources',
         'footer.share_title': 'Share This Site',
         'footer.test_audio': 'Test Audio',
+        // a11y labels
+        'header.change_language': 'Change language',
+        'sticky.aria_label': 'Next prayer — click for details',
         'countries.title': 'Prayer Times Worldwide',
         'countries.more': 'Browse All Countries',
         'countries.show_all': 'Show All Countries',

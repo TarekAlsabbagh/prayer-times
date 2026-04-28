@@ -220,7 +220,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 مدن أخرى يبحث عنها الناس الآن',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'أدوات إسلاميّة',
+        'mit.title': 'أدوات إسلامية سريعة',
         'mit.qibla': 'القبلة',
         'mit.hijri': 'التاريخ الهجريّ',
 
@@ -1549,7 +1549,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 Other Cities People Search Now',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'Islamic Tools',
+        'mit.title': 'Quick Islamic Tools',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Hijri Date',
 
@@ -2858,7 +2858,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 Autres villes recherchées actuellement',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'Outils islamiques',
+        'mit.title': 'Outils islamiques rapides',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Date Hijri',
 
@@ -3970,7 +3970,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 İnsanların şimdi aradığı diğer şehirler',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'İslami Araçlar',
+        'mit.title': 'Hızlı İslami Araçlar',
         'mit.qibla': 'Kıble',
         'mit.hijri': 'Hicri Tarih',
 
@@ -5082,7 +5082,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 ابھی لوگ جن شہروں کو تلاش کر رہے ہیں',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'اسلامی آلات',
+        'mit.title': 'تیز اسلامی آلات',
         'mit.qibla': 'قبلہ',
         'mit.hijri': 'ہجری تاریخ',
 
@@ -6165,7 +6165,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 Andere Städte, nach denen jetzt gesucht wird',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'Islamische Werkzeuge',
+        'mit.title': 'Schnelle islamische Werkzeuge',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Hidschri-Datum',
 
@@ -7332,7 +7332,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 Kota lain yang dicari orang sekarang',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'Alat Islami',
+        'mit.title': 'Alat Islami Cepat',
         'mit.qibla': 'Kiblat',
         'mit.hijri': 'Tanggal Hijriah',
 
@@ -8499,7 +8499,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 Otras ciudades que la gente busca ahora',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'Herramientas Islámicas',
+        'mit.title': 'Herramientas Islámicas Rápidas',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Fecha Hijri',
 
@@ -9666,7 +9666,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 লোকেরা এখন যেসব শহর খুঁজছে',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'ইসলামিক সরঞ্জাম',
+        'mit.title': 'দ্রুত ইসলামিক সরঞ্জাম',
         'mit.qibla': 'কিবলা',
         'mit.hijri': 'হিজরি তারিখ',
 
@@ -10833,7 +10833,7 @@ const TRANSLATIONS = {
         // ═══ Phase 2 — Other Trending Cities ═══
         'otc.title': '🔥 Bandar lain yang dicari orang sekarang',
         // ═══ Phase 2 — Mini Islamic Tools ═══
-        'mit.title': 'Alat Islamik',
+        'mit.title': 'Alat Islamik Pantas',
         'mit.qibla': 'Kiblat',
         'mit.hijri': 'Tarikh Hijriah',
 

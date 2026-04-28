@@ -2757,6 +2757,11 @@ const _HOME_STRIP_IDS = [
     'city-breadcrumb',
     // Tool-specific heroes (already stripped on TL/NPT routes)
     'tl-hero', 'tl-sticky', 'npt-hero',
+    // Redundant — homepage already has #loc-hero-title as the active H1.
+    //   #page-h1 (downgraded to H2 by _downgradeInactiveH1s) duplicates the
+    //   "مواقيت الصلاة والتاريخ الهجري" theme just above the tools section,
+    //   confusing users into thinking it's the tools heading.
+    'page-h1',
     // Heavy city-content sections
     'next-prayer-banner',
     'prayer-cards',

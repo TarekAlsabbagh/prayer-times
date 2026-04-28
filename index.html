@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=512" as="script">
-    <link rel="stylesheet" href="css/style.css?v=192">
+    <link rel="preload" href="js/app.js?v=513" as="script">
+    <link rel="stylesheet" href="css/style.css?v=193">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -73,6 +73,22 @@
         <symbol id="i-calendar-days" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
         <symbol id="i-calendar-grid" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M9 4v18"/><path d="M15 4v18"/><path d="M3 16h18"/></symbol>
         <symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+        <!-- UAT-ICON-3: city pages + sections icons -->
+        <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+        <symbol id="i-link-2" viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></symbol>
+        <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+        <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+        <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+        <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+        <symbol id="i-sunrise" viewBox="0 0 24 24"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></symbol>
+        <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+        <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+        <symbol id="i-telescope" viewBox="0 0 24 24"><path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"/><path d="m13.56 11.747 4.332-.924"/><path d="m16 21-3.105-6.21"/><path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"/><path d="m6.158 8.633 1.114 4.456"/><path d="m8 21 3.105-6.21"/><circle cx="12" cy="13" r="2"/></symbol>
+        <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+        <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+        <symbol id="i-volume" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></symbol>
     </svg>
 
     <!-- زر القائمة للموبايل -->
@@ -83,7 +99,7 @@
         <!-- ========= الشريط الجانبي ========= -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo" role="banner" onclick="goHome()" title="الرئيسية" data-i18n-title="header.logo_title" data-i18n="app.title">🕌 مواقيت الصلاة</div>
+                <div class="sidebar-logo" role="banner" onclick="goHome()" title="الرئيسية" data-i18n-title="header.logo_title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="app.title">مواقيت الصلاة</span></div>
                 <div class="hijri-date" id="sidebar-hijri-date"></div>
                 <div class="greg-date" id="sidebar-greg-date"></div>
             </div>
@@ -167,7 +183,7 @@
             <!-- ===== الهيدر الثابت المشترك لجميع الصفحات ===== -->
             <div class="top-header">
                 <div class="location-info">
-                    <span class="icon">📍</span>
+                    <svg class="icon icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                     <div>
                         <div class="city-name" id="city-name" data-i18n="header.locating">جاري تحديد الموقع...</div>
                         <div class="country" id="country-name"></div>
@@ -175,7 +191,7 @@
                 </div>
                 <div class="header-actions">
                     <button class="theme-toggle-btn" type="button" onclick="toggleTheme()" title="تبديل الوضع الداكن/الفاتح" data-i18n-title="header.theme_toggle" aria-label="تبديل الوضع الداكن/الفاتح" data-i18n-aria-label="header.theme_toggle">
-                        <span class="ttb-icon ttb-icon-moon" aria-hidden="true">🌙</span>
+                        <svg class="icon ttb-icon ttb-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
                         <span class="ttb-icon ttb-icon-sun" aria-hidden="true">☀️</span>
                     </button>
                     <div class="lang-switcher">
@@ -186,14 +202,14 @@
                         </button>
                         <div class="lang-menu" role="menu"></div>
                     </div>
-                    <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
+                    <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
                 </div>
             </div>
 
             <!-- ===== شريط اقتراح المدينة المُكتشفة (مرفوع تحت الهيدر مباشرة — يظهر على كلّ الصفحات) ===== -->
             <div class="location-suggestion-bar u-hidden" id="location-suggestion-bar">
                 <div class="lsb-inner">
-                    <span class="lsb-pin">📍</span>
+                    <svg class="icon lsb-pin" aria-hidden="true"><use href="#i-map-pin"/></svg>
                     <div class="lsb-text">
                         <span class="lsb-label" data-i18n="lsb.detected">تم تحديد موقعك:</span>
                         <strong class="lsb-city" id="lsb-city-name">--</strong>
@@ -237,7 +253,7 @@
                     <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="home.subtitle">اعرف أوقات الصلاة الدقيقة في مدينتك أو انطلاقاً من موقعك الجغرافيّ</p>
 
                     <!-- Small current-city hint (preserved from Round 20) -->
-                    <div class="loc-hero-city">📍 <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
+                    <div class="loc-hero-city"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
 
                     <!-- Hero actions: search → dual CTA → microcopy → badges -->
                     <div class="loc-hero-hero-actions">
@@ -253,10 +269,10 @@
 
                         <div id="loc-hero-dual-cta" class="loc-hero-dual-cta">
                             <button type="button" id="loc-hero-geo-btn" class="btn btn-primary loc-hero-geo-btn" onclick="(typeof _locHeroDetectAndNavigate==='function')?_locHeroDetectAndNavigate():detectLocation()">
-                                <span class="lhb-icon" aria-hidden="true">📍</span>
+                                <svg class="icon lhb-icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                                 <span class="lhb-label" data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
                             </button>
-                            <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn" data-i18n="home.pick_city">🌍 اختر مدينتك يدويّاً</button>
+                            <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="home.pick_city">اختر مدينتك يدويّاً</span></button>
                         </div>
 
                         <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ</p>
@@ -281,7 +297,7 @@
                 <!-- 🆕 City Page Compact Search — يستخدم البحث الأصليّ مباشرة (بدون mirror) -->
                 <section class="city-page-search" id="city-page-search" role="search" aria-label="ابحث عن مدينة أخرى" data-i18n-aria-label="cps.placeholder">
                     <div class="cps-inner">
-                        <span class="cps-icon" aria-hidden="true">🔍</span>
+                        <svg class="icon cps-icon" aria-hidden="true"><use href="#i-search"/></svg>
                         <input type="search" id="city-search-input" class="cps-input"
                                placeholder="ابحث عن مدينة أخرى..."
                                data-i18n-placeholder="cps.placeholder"
@@ -301,7 +317,7 @@
 
                 <!-- 🆕 Time-Left TOOL Page (Round 5) — Tool-first design: HUGE countdown, minimal context, no duplication -->
                 <section class="section-card tl-hero u-hidden" id="tl-hero" aria-labelledby="tl-h1">
-                    <div class="tl-location">📍 <span id="tl-city-label">—</span></div>
+                    <div class="tl-location"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span id="tl-city-label">—</span></div>
                     <h1 class="tl-h1" id="tl-h1">
                         <span data-i18n="tl.h1_prefix">كم باقي على صلاة</span>
                         <b class="tl-h1-prayer" id="tl-h1-prayer">—</b>
@@ -461,18 +477,18 @@
                      يَظهر فقط على صفحات المدينة (html.city-page) عبر CSS،
                      ويتلقّى hrefs canonical عبر SSR injection (mit-qibla / mit-moon / mit-hijri). -->
                 <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
-                    <h3 class="mit-title" id="mit-title" data-i18n="mit.title">🕌 أدوات إسلاميّة سريعة</h3>
+                    <h3 class="mit-title" id="mit-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="mit.title">أدوات إسلاميّة سريعة</span></h3>
                     <div class="mit-grid">
                         <a class="mit-item" id="mit-qibla" href="#" data-tool="qibla" aria-label="اتجاه القبلة" data-i18n-aria-label="home.qibla">
-                            <span class="mit-icon" aria-hidden="true">🧭</span>
+                            <svg class="icon mit-icon" aria-hidden="true"><use href="#i-compass"/></svg>
                             <span class="mit-label" data-i18n="mit.qibla">اتّجاه القبلة</span>
                         </a>
                         <a class="mit-item" id="mit-moon" href="#" data-tool="moon" aria-label="القمر اليوم" data-i18n-aria-label="moon.title">
-                            <span class="mit-icon" aria-hidden="true">🌙</span>
+                            <svg class="icon mit-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="mit-label" data-i18n="mit.moon">أوقات القمر</span>
                         </a>
                         <a class="mit-item" id="mit-hijri" href="#" data-tool="hijri" aria-label="التاريخ الهجري اليوم" data-i18n-aria-label="home.hijri_today">
-                            <span class="mit-icon" aria-hidden="true">📅</span>
+                            <svg class="icon mit-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="mit-label" data-i18n="mit.hijri">التاريخ الهجري</span>
                         </a>
                     </div>
@@ -484,7 +500,7 @@
 
                 <!-- Round 22: Ramadan/Event Countdown Badge — يُعرض فقط إن كان باقٍ ≤ 180 يوم -->
                 <a class="event-countdown-badge" id="event-countdown-badge" href="/ramadan-countdown" hidden>
-                    <span class="ecb-icon" aria-hidden="true">🌙</span>
+                    <svg class="icon ecb-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                     <span class="ecb-text">
                         <span class="ecb-label" data-i18n="event_badge.ramadan">باقي على شهر رمضان المبارك</span>
                         <b class="ecb-days" id="ecb-days">—</b>
@@ -498,11 +514,10 @@
                     <span class="sis-sep" aria-hidden="true">•</span>
                     <span class="sis-item">⏳ <span data-i18n="sis.fasting">مدّة الصيام</span>: <b id="sis-fasting">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
-                    <span class="sis-item">🌙 <span data-i18n="sis.last_third">آخر ثلث الليل</span>: <b id="sis-last-third">—</b></span>
+                    <span class="sis-item"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="sis.last_third">آخر ثلث الليل</span>: <b id="sis-last-third">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
                     <span class="sis-item">📐 <span data-i18n="sis.calc_method">طريقة الحساب</span>: <b id="sis-calc-method">—</b></span>
-                    <button class="sis-settings" onclick="openSettingsModal()" type="button" aria-label="إعدادات حساب المواقيت" data-i18n-aria-label="settings.title">
-                        ⚙️ <span data-i18n="settings.trigger_short">إعدادات</span>
+                    <button class="sis-settings" onclick="openSettingsModal()" type="button" aria-label="إعدادات حساب المواقيت" data-i18n-aria-label="settings.title"><svg class="icon" aria-hidden="true"><use href="#i-cog"/></svg> <span data-i18n="settings.trigger_short">إعدادات</span>
                     </button>
                 </div>
 
@@ -513,7 +528,7 @@
                      زرّ "إعدادات متقدّمة" يفتح الـ modal الأصليّ (high-lats + adhan + Apply/Cancel). -->
                 <details class="city-calc-settings section-card" id="city-calc-settings">
                     <summary class="ccs-summary">
-                        <span class="ccs-icon" aria-hidden="true">⚙️</span>
+                        <svg class="icon ccs-icon" aria-hidden="true"><use href="#i-cog"/></svg>
                         <span class="ccs-title" data-i18n="settings.section_title">إعدادات الحساب</span>
                         <span class="ccs-chevron" aria-hidden="true">▾</span>
                     </summary>
@@ -563,13 +578,13 @@
 
                 <!-- أماكن قريبة — مُرفَع لموقع أعلى (display عبر CSS: يظهر عند توفّر موقع) -->
                 <div class="section-card" id="nearby-section">
-                    <h2 data-i18n="nearby.title">📍 أماكن قريبة من موقعك</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-map-pin"/></svg> <span data-i18n="nearby.title">أماكن قريبة من موقعك</span></h2>
                     <div class="nearby-grid" id="nearby-grid"></div>
                 </div>
 
                 <!-- جدول مواقيت الأسبوع (Compact: 3 أيّام افتراضيّاً + زرّ توسيع) -->
                 <div class="section-card" id="prayer-schedule-section">
-                    <h2 id="schedule-title" data-i18n="schedule.title">📅 جدول مواقيت الصلاة</h2>
+                    <h2 id="schedule-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="schedule.title">جدول مواقيت الصلاة</span></h2>
 
                     <!-- أزرار المدة -->
                     <div class="schedule-tabs">
@@ -674,7 +689,7 @@
 
                 <!-- 🔥 الأكثر بحثاً اليوم — chips (Round 20 | Round 21: SEO title+aria+heading) -->
                 <section class="section-card most-searched-chips" id="most-searched-chips" aria-labelledby="msc-title">
-                    <h3 class="msc-title" id="msc-title" data-i18n="home.most_searched">🔥 الأكثر بحثاً اليوم عن مواقيت الصلاة</h3>
+                    <h3 class="msc-title" id="msc-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-flame"/></svg> <span data-i18n="home.most_searched">الأكثر بحثاً اليوم عن مواقيت الصلاة</span></h3>
                     <div class="msc-list">
                         <a class="msc-chip" href="/prayer-times-in-riyadh"
                            title="مواقيت الصلاة اليوم في الرياض" data-i18n-title="tile.riyadh"
@@ -713,7 +728,7 @@
 
                 <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX | Round 21: collapse افتراضيّاً) -->
                 <section class="section-card arab-countries-section countries-limited" id="arab-countries-section" aria-labelledby="arab-countries-title" data-full="false">
-                    <h2 id="arab-countries-title" data-i18n="footer.arab_countries">🕌 مواقيت الصلاة في الدول العربية</h2>
+                    <h2 id="arab-countries-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="footer.arab_countries">مواقيت الصلاة في الدول العربية</span></h2>
                     <nav class="arab-countries-grid" aria-label="الدول العربية" data-i18n-aria-label="arab.countries_label">
                         <a href="/prayer-times-in-saudi-arabia" class="country-tile" data-cc="sa"><img src="https://flagcdn.com/w40/sa.png" alt="علم السعودية" data-i18n-alt="flag.sa" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sa">السعودية</span></a>
                         <a href="/prayer-times-in-egypt" class="country-tile" data-cc="eg"><img src="https://flagcdn.com/w40/eg.png" alt="علم مصر" data-i18n-alt="flag.eg" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.eg">مصر</span></a>
@@ -740,7 +755,7 @@
                     </nav>
 
                     <!-- أبرز دول العالم — قسم فرعيّ داخل نفس البطاقة -->
-                    <h2 id="world-countries-title" class="arab-countries-subtitle" data-i18n="footer.world_countries">🌍 مواقيت الصلاة في أبرز دول العالم</h2>
+                    <h2 id="world-countries-title" class="arab-countries-subtitle" data-i18n="footer.world_countries"><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> مواقيت الصلاة في أبرز دول العالم</h2>
                     <nav class="arab-countries-grid" aria-label="أبرز دول العالم" data-i18n-aria-label="world.countries_label">
                         <a href="/prayer-times-in-united-states" class="country-tile" data-cc="us"><img src="https://flagcdn.com/w40/us.png" alt="علم الولايات المتحدة" data-i18n-alt="flag.us" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.us">الولايات المتحدة</span></a>
                         <a href="/prayer-times-in-canada" class="country-tile" data-cc="ca"><img src="https://flagcdn.com/w40/ca.png" alt="علم كندا" data-i18n-alt="flag.ca" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ca">كندا</span></a>
@@ -765,8 +780,8 @@
                     </nav>
 
                     <div class="u-center-mt countries-toggle-wrap">
-                        <button type="button" class="countries-expand-btn" onclick="toggleCountriesFull(this)" data-i18n="countries.show_all">📖 عرض كلّ الدول</button>
-                        <a href="/prayer-times-worldwide" class="more-countries-btn" id="more-countries-btn" data-i18n="countries.more">🌐 استعرض كل دول العالم</a>
+                        <button type="button" class="countries-expand-btn" onclick="toggleCountriesFull(this)"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="countries.show_all">عرض كلّ الدول</span></button>
+                        <a href="/prayer-times-worldwide" class="more-countries-btn" id="more-countries-btn"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="countries.more">استعرض كل دول العالم</span></a>
                     </div>
                 </section>
 
@@ -775,7 +790,7 @@
 
                 <!-- روابط ذات صلة — تظهر في صفحات المدن فقط (في الأسفل لتجنّب CLS) -->
                 <div class="section-card u-hidden" id="city-related-services">
-                    <h2>🔗 <span data-i18n="related.title">خدمات ذات صلة</span></h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="related.title">خدمات ذات صلة</span></h2>
                     <div class="related-services-grid" id="related-services-grid"></div>
                 </div>
 
@@ -796,12 +811,12 @@
                                 <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
                             </a></li>
                             <li><a id="rl-next-prayer" href="#" data-rel="next-prayer">
-                                <span class="rls-icon" aria-hidden="true">🕌</span>
+                                <svg class="icon rls-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
                                 <span class="rls-text" data-i18n="rls.next_prayer">الصلاة القادمة في {loc}</span>
                                 <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
                             </a></li>
                             <li><a id="rl-qibla" href="#" data-rel="qibla">
-                                <span class="rls-icon" aria-hidden="true">🧭</span>
+                                <svg class="icon rls-icon" aria-hidden="true"><use href="#i-compass"/></svg>
                                 <span class="rls-text" data-i18n="rls.qibla">اتّجاه القبلة في {loc}</span>
                                 <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
                             </a></li>
@@ -813,11 +828,11 @@
                         <h4 class="rls-tier-label" data-i18n="rls.tier_info">معلومات</h4>
                         <ul class="rls-list rls-list-info">
                             <li><a id="rl-hijri" href="/hijri-calendar" data-rel="hijri">
-                                <span class="rls-icon" aria-hidden="true">📅</span>
+                                <svg class="icon rls-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                                 <span class="rls-text" data-i18n="rls.hijri">التاريخ الهجريّ اليوم في {loc}</span>
                             </a></li>
                             <li><a id="rl-moon" href="#" data-rel="moon">
-                                <span class="rls-icon" aria-hidden="true">🌙</span>
+                                <svg class="icon rls-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                                 <span class="rls-text" data-i18n="rls.moon">حالة القمر اليوم في {loc}</span>
                             </a></li>
                         </ul>
@@ -841,20 +856,20 @@
 
                 <!-- 🆕 Other Trending Cities (Phase 2) — مدن يبحث عنها الناس الآن (popularity، مستبعد المدينة الحاليّة) -->
                 <section class="section-card other-trending-cities u-hidden" id="other-trending-cities" aria-labelledby="otc-title">
-                    <h3 class="otc-title" id="otc-title" data-i18n="otc.title">🔥 مدن أخرى يبحث عنها الناس الآن</h3>
+                    <h3 class="otc-title" id="otc-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-flame"/></svg> <span data-i18n="otc.title">مدن أخرى يبحث عنها الناس الآن</span></h3>
                     <div class="otc-list" id="otc-list"></div>
                 </section>
 
                 <!-- 🕌 الخدمات الإسلامية — 8 بطاقات (Round 20: نُقلت لأسفل | Round 21: Qibla + Moon مميّزتان + SEO titles) -->
                 <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
-                    <h2 id="home-services-title" data-i18n="home.services_title">🕌 الخدمات الإسلامية</h2>
+                    <h2 id="home-services-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="home.services_title">الخدمات الإسلامية</span></h2>
                     <div class="qa-grid">
                         <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;"
                            data-i18n-title="home.hijri_today"
                            data-i18n-aria-label="home.hijri_today"
                            title="التاريخ الهجري اليوم"
                            aria-label="التاريخ الهجري اليوم">
-                            <span class="qa-icon">📅</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <div class="qa-title" data-i18n="home.hijri_today">التاريخ الهجري اليوم</div>
                             <div class="qa-sub" id="qa-hijri-date">--</div>
                         </a>
@@ -863,7 +878,7 @@
                            data-i18n-aria-label="home.qibla"
                            title="اتجاه القبلة"
                            aria-label="اتجاه القبلة">
-                            <span class="qa-icon">🧭</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-compass"/></svg>
                             <div class="qa-title" data-i18n="home.qibla">اتجاه القبلة</div>
                             <div class="qa-sub" id="qa-qibla-dir">--</div>
                         </a>
@@ -891,7 +906,7 @@
                            data-i18n-aria-label="home.next_prayer"
                            title="الصلاة القادمة"
                            aria-label="الصلاة القادمة">
-                            <span class="qa-icon">🕌</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
                             <div class="qa-title" data-i18n="home.next_prayer">الصلاة القادمة</div>
                             <div class="qa-sub" id="qa-next-prayer-sub" data-i18n="home.next_prayer_sub">اسم الصلاة التالية ووقتها</div>
                         </a>
@@ -900,7 +915,7 @@
                            data-i18n-aria-label="home.date_converter"
                            title="تحويل التاريخ"
                            aria-label="تحويل التاريخ">
-                            <span class="qa-icon">🔄</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-refresh-cw"/></svg>
                             <div class="qa-title" data-i18n="home.date_converter">تحويل التاريخ</div>
                             <div class="qa-sub" data-i18n="home.date_converter_sub">ميلادي ↔ هجري</div>
                         </a>
@@ -917,7 +932,7 @@
                            data-i18n-aria-label="nav.duas"
                            title="الأدعية والأذكار"
                            aria-label="الأدعية والأذكار">
-                            <span class="qa-icon">🤲</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-hands-praying"/></svg>
                             <div class="qa-title" data-i18n="nav.duas">الأدعية والأذكار</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('tasbih');return false;"
@@ -925,7 +940,7 @@
                            data-i18n-aria-label="nav.tasbih"
                            title="المسبحة الإلكترونية"
                            aria-label="المسبحة الإلكترونية">
-                            <span class="qa-icon">📿</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-rosary"/></svg>
                             <div class="qa-title" data-i18n="nav.tasbih">المسبحة الإلكترونية</div>
                         </a>
                         <a class="qa-card" href="#" onclick="navToPage('zakat');return false;"
@@ -933,7 +948,7 @@
                            data-i18n-aria-label="nav.zakat"
                            title="حاسبة الزكاة"
                            aria-label="حاسبة الزكاة">
-                            <span class="qa-icon">💰</span>
+                            <svg class="icon qa-icon" aria-hidden="true"><use href="#i-coins"/></svg>
                             <div class="qa-title" data-i18n="nav.zakat">حاسبة الزكاة</div>
                         </a>
                     </div>
@@ -954,7 +969,7 @@
                            data-i18n-aria-label="moon.explore_hub"
                            title="🌙 استكشف القمر"
                            aria-label="استكشف القمر"
-                           data-i18n="moon.explore_hub">🌙 استكشف القمر</a>
+                          ><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.explore_hub">استكشف القمر</span></a>
                         <a class="mtc-cta mtc-cta-ghost" id="mtc-cta" href="/moon-today-in-makkah"
                            data-i18n-title="moon.view_in_city"
                            data-i18n-aria-label="moon.view_in_city"
@@ -966,7 +981,7 @@
 
                 <!-- ❓ الأسئلة الشائعة — Phase 2: 7 أسئلة city-specific (في city-page عبر .faq-city-mode) -->
                 <div class="section-card faq-section faq-limit-3" id="faq-section">
-                    <h2 id="faq-title" data-i18n="faq.title">❓ الأسئلة الشائعة حول مواقيت الصلاة</h2>
+                    <h2 id="faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="faq.title">الأسئلة الشائعة حول مواقيت الصلاة</span></h2>
 
                     <!-- س1 -->
                     <div class="faq-item">
@@ -1044,7 +1059,7 @@
                 <!-- (UAT-2.6) #mini-islamic-tools نُقل إلى ما بعد #prayer-cards مباشرة لتقديم
                      الأدوات (قبلة/قمر/هجريّ) كـ compact strip بعد جدول الصلاة على صفحات المدينة. -->
                 <div class="section-card hadith-section">
-                    <h2 data-i18n="hadith.title">📜 حديث اليوم</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="hadith.title">حديث اليوم</span></h2>
                     <div class="dua-item">
                         <div class="dua-text" id="daily-hadith" data-i18n="hadith.daily">عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: "مَنْ صَلَّى عَلَيَّ صَلاَةً وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"</div>
                         <div class="dua-reference" data-i18n="hadith.reference">رواه مسلم</div>
@@ -1053,7 +1068,7 @@
 
                 <!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->
                 <section class="section-card home-footer-links" id="home-footer-links" aria-labelledby="home-footer-links-title">
-                    <h2 id="home-footer-links-title" data-i18n="footer.popular_cities">🕌 مواقيت الصلاة في أبرز المدن</h2>
+                    <h2 id="home-footer-links-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="footer.popular_cities">مواقيت الصلاة في أبرز المدن</span></h2>
                     <nav class="popular-cities-grid" aria-label="المدن الشائعة" data-i18n-aria-label="nav.popular_cities">
                         <a href="/prayer-times-in-makkah">مواقيت الصلاة في <strong>مكة المكرمة</strong></a>
                         <a href="/prayer-times-in-medina">مواقيت الصلاة في <strong>المدينة المنورة</strong></a>
@@ -1069,7 +1084,7 @@
                         <a href="/prayer-times-in-jerusalem">مواقيت الصلاة في <strong>القدس</strong></a>
                     </nav>
 
-                    <div class="home-footer-subtitle" data-i18n="footer.services_title">🧭 خدمات إسلامية أخرى</div>
+                    <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="footer.services_title">خدمات إسلامية أخرى</span></div>
                     <nav class="home-services-links" aria-label="الخدمات الإسلامية" data-i18n-aria-label="home.services_title">
                         <a href="/today-hijri-date" data-i18n="footer.link_hijri_today">التاريخ الهجري اليوم</a>
                         <a href="/hijri-calendar/1447" data-i18n="footer.link_hijri_year">التقويم الهجري 1447</a>
@@ -1077,7 +1092,7 @@
                         <a href="/msbaha" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</a>
                     </nav>
 
-                    <div class="home-footer-subtitle" data-i18n="footer.refs_title">📚 مصادر ومراجع خارجية</div>
+                    <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="footer.refs_title">مصادر ومراجع خارجية</span></div>
                     <p class="home-footer-refs" data-i18n="footer.refs_text">
                         تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:
                         <a href="https://ar.wikipedia.org/wiki/%D8%B5%D9%84%D8%A7%D8%A9" target="_blank" rel="noopener external">الصلاة على ويكيبيديا ↗</a>
@@ -1090,7 +1105,7 @@
                         <a class="home-follow-btn" id="follow-li" href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer me" aria-label="تابعنا على لينكد إن Times Prayers" data-i18n-aria-label="home.follow_li_label"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span data-i18n="footer.follow_li">Times Prayers على لينكد إن</span></a>
                     </div>
 
-                    <div class="home-footer-subtitle" data-i18n="footer.share_title">🔗 شارك الموقع</div>
+                    <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="footer.share_title">شارك الموقع</span></div>
                     <div class="home-share-buttons" role="group" aria-label="مشاركة الموقع" data-i18n-aria-label="home.share_label">
                         <a class="home-share-btn" id="share-twitter" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F&text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر تويتر/X" data-i18n-aria-label="home.share_x_label"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg><span data-i18n="footer.share_x">تويتر/X</span></a>
                         <a class="home-share-btn" id="share-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر فيسبوك" data-i18n-aria-label="home.share_fb_label"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span data-i18n="footer.share_fb">فيسبوك</span></a>
@@ -1111,7 +1126,7 @@
                 <div class="section-card qibla-hub-hero-card" id="qibla-hub-hero">
                     <!-- Smart-redirect pill (hub only; hidden until last_city_context is found) -->
                     <a id="qibla-hub-smart-pill" class="qibla-hub-smart-pill qibla-hub-only" href="#" hidden></a>
-                    <h1 id="qibla-hero-title" class="qibla-hero-title" data-i18n="qibla.title">🧭 اتجاه القبلة</h1>
+                    <h1 id="qibla-hero-title" class="qibla-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.title">اتجاه القبلة</span></h1>
                     <p id="qibla-hub-subtitle" class="qibla-hub-subtitle qibla-hub-only"></p>
                     <p id="qibla-summary-line" class="qibla-summary-line qibla-city-only"></p>
 
@@ -1250,7 +1265,7 @@
                 </div>
 
                 <!-- H1 دلاليّ — يُعاد كتابته JS-side حسب المدينة واللغة -->
-                <h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">🌙 القمر اليوم</h1>
+                <h1 class="page-h1" id="moon-page-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.h1">القمر اليوم</span></h1>
 
                 <!-- 🆕 Priority A: H2 تعريفيّ بارز مباشرةً تحت H1 (Hook + keyword-rich) -->
                 <h2 class="moon-subtitle" id="moon-subtitle" data-i18n="moon.subtitle_generic">تابع حالة القمر بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب</h2>
@@ -1292,7 +1307,7 @@
                 <!-- 🆕 Wave A: التاريخ الهجريّ اليوم — مرئيّ بصرياً + مرتبط بالقمر (SEO + UX) -->
                 <div class="moon-hijri-today" id="moon-hijri-today">
                     <div class="moon-hijri-row">
-                        <span class="moon-hijri-icon" aria-hidden="true">📅</span>
+                        <svg class="icon moon-hijri-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                         <div class="moon-hijri-body">
                             <div class="moon-hijri-label" data-i18n="moon.hijri.today_label">التاريخ الهجريّ اليوم</div>
                             <div class="moon-hijri-date" id="moon-hijri-date">—</div>
@@ -1311,7 +1326,7 @@
                         <span class="moon-date-sub" id="moon-date-prev-sub"></span>
                     </a>
                     <a class="moon-date-link moon-date-today-link" id="moon-date-today" href="#">
-                        <span class="moon-date-arrow" aria-hidden="true">🏠</span>
+                        <svg class="icon moon-date-arrow" aria-hidden="true"><use href="#i-home"/></svg>
                         <span class="moon-date-label" data-i18n="moon.return_today">اليوم</span>
                     </a>
                     <a class="moon-date-link moon-date-next" id="moon-date-next" href="#" rel="next">
@@ -1323,7 +1338,7 @@
 
                 <!-- القسم الرئيسيّ — الحالة الحاليّة -->
                 <div class="section-card">
-                    <h2 id="moon-title-h2" data-i18n="moon.title">🌙 القمر اليوم</h2>
+                    <h2 id="moon-title-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.title">القمر اليوم</span></h2>
                     <div class="moon-location-note" id="moon-location-note" data-i18n="moon.location_note">الموقع: جاري التحديد…</div>
                     <div class="moon-display">
                         <!-- تمثيل SVG دقيق للقمر: مبنيّ من نسبة الإضاءة الفعليّة (ليس 8 أطوار عيد) -->
@@ -1391,7 +1406,7 @@
                     <!-- Yesterday vs Today comparison — filled by JS -->
                     <div class="moon-comparison" id="moon-comparison" hidden data-direction="waxing">
                         <div class="mc-header">
-                            <span class="mc-header-icon" aria-hidden="true">📊</span>
+                            <svg class="icon mc-header-icon" aria-hidden="true"><use href="#i-bar-chart"/></svg>
                             <span class="mc-header-title" data-i18n="moon.mc_title">تطوّر القمر</span>
                             <span class="mc-header-badge" id="mc-direction-badge" data-i18n="moon.mc_waxing">متزايد</span>
                         </div>
@@ -1450,9 +1465,9 @@
 
                     <!-- Phase Insight — three lines about the current phase (visual/visibility/about) -->
                     <div class="moon-phase-insight" id="moon-phase-insight">
-                        <div class="insight-row"><span class="insight-icon" aria-hidden="true">👁</span><span class="insight-text" id="moon-insight-visual">--</span></div>
-                        <div class="insight-row"><span class="insight-icon" aria-hidden="true">🔭</span><span class="insight-text" id="moon-insight-visibility">--</span></div>
-                        <div class="insight-row"><span class="insight-icon" aria-hidden="true">📚</span><span class="insight-text" id="moon-insight-about">--</span></div>
+                        <div class="insight-row"><svg class="icon insight-icon" aria-hidden="true"><use href="#i-eye"/></svg><span class="insight-text" id="moon-insight-visual">--</span></div>
+                        <div class="insight-row"><svg class="icon insight-icon" aria-hidden="true"><use href="#i-telescope"/></svg><span class="insight-text" id="moon-insight-visibility">--</span></div>
+                        <div class="insight-row"><svg class="icon insight-icon" aria-hidden="true"><use href="#i-book-open"/></svg><span class="insight-text" id="moon-insight-about">--</span></div>
                     </div>
 
                     <!-- 🆕 Quick Highlights box: next full + next new + visibility rating (BOND 6 + 8) -->
@@ -1474,7 +1489,7 @@
                             </div>
                         </div>
                         <div class="moon-hl-item moon-hl-visibility">
-                            <span class="moon-hl-icon" aria-hidden="true">👁</span>
+                            <svg class="icon moon-hl-icon" aria-hidden="true"><use href="#i-eye"/></svg>
                             <div class="moon-hl-body">
                                 <div class="moon-hl-label" data-i18n="moon.hl.visibility">الرؤية الليلة</div>
                                 <div class="moon-hl-value moon-hl-stars" id="moon-hl-vis-stars" aria-hidden="true">—</div>
@@ -1507,7 +1522,7 @@
                             </div>
                         </a>
                         <a class="moon-event-card moon-event-fitr" id="moon-event-fitr" href="/eid-al-fitr-countdown">
-                            <span class="moon-event-icon" aria-hidden="true">🌙</span>
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <div class="moon-event-body">
                                 <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
                                 <div class="moon-event-days" id="moon-event-fitr-days">—</div>
@@ -1523,7 +1538,7 @@
                             </div>
                         </a>
                         <a class="moon-event-card moon-event-newyear" id="moon-event-newyear" href="/hijri-new-year-countdown">
-                            <span class="moon-event-icon" aria-hidden="true">📅</span>
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <div class="moon-event-body">
                                 <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجريّة</div>
                                 <div class="moon-event-days" id="moon-event-newyear-days">—</div>
@@ -1536,7 +1551,7 @@
 
                 <!-- مخطّط إضاءة القمر (7 أيّام: 3 قبل + اليوم + 3 بعد) -->
                 <section class="section-card moon-chart-section" id="moon-chart-section" aria-labelledby="moon-chart-h2">
-                    <h2 id="moon-chart-h2" data-i18n="moon.chart_title">📈 مخطّط إضاءة القمر — 7 أيّام</h2>
+                    <h2 id="moon-chart-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-trending-up"/></svg> <span data-i18n="moon.chart_title">مخطّط إضاءة القمر — 7 أيّام</span></h2>
                     <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة الإضاءة المرئيّة من ثلاثة أيّام قبل إلى ثلاثة أيّام بعد</div>
                     <div class="moon-chart-container" id="moon-chart-container" role="img" aria-label="Moon illumination 7-day trend"></div>
                     <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اضغط على أيّ نقطة للانتقال إلى صفحة ذلك اليوم.</p>
@@ -1544,13 +1559,13 @@
 
                 <!-- 14-day forecast -->
                 <div class="section-card" id="moon-forecast">
-                    <h2 id="moon-forecast-h2" data-i18n="moon.forecast_title">📅 توقّعات القمر للأربعة عشر يومًا القادمة</h2>
+                    <h2 id="moon-forecast-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="moon.forecast_title">توقّعات القمر للأربعة عشر يومًا القادمة</span></h2>
                     <div class="moon-forecast-wrap">
                         <table class="moon-forecast-table" id="moon-forecast-table" aria-label="14-day moon forecast">
                             <thead>
                                 <tr>
                                     <th data-i18n="moon.fc_day">اليوم</th>
-                                    <th data-i18n="moon.fc_hijri">🌙 التاريخ الهجري</th>
+                                    <th><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.fc_hijri">التاريخ الهجري</span></th>
                                     <th data-i18n="moon.fc_phase">الطور</th>
                                     <th data-i18n="moon.fc_illum">الإضاءة</th>
                                     <th data-i18n="moon.fc_rise">المطلع</th>
@@ -1566,7 +1581,7 @@
 
                 <!-- القمر في مدن أخرى — internal linking (🆕 Wave B.4: grid cards مع أعلام وأيقونات) -->
                 <div class="section-card">
-                    <h2 data-i18n="moon.cities_title">🌐 القمر اليوم في مدن أخرى</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="moon.cities_title">القمر اليوم في مدن أخرى</span></h2>
                     <ul class="moon-cities-grid">
                         <li><a href="/moon-today-in-makkah"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
                         <li><a href="/moon-today-in-medina"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
@@ -1585,7 +1600,7 @@
 
                 <!-- FAQ — City-specific (dynamic answers populated by app.js, accordion w/ first 2 open) -->
                 <div class="section-card moon-faq-city-card">
-                    <h2 id="moon-faq-city-h2" data-i18n="moon.faq_city_title">❓ أسئلة شائعة عن القمر اليوم في مدينتك</h2>
+                    <h2 id="moon-faq-city-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_city_title">أسئلة شائعة عن القمر اليوم في مدينتك</span></h2>
                     <div class="moon-faq moon-faq-city" id="moon-faq-city">
                         <!-- Q1: phase (dynamic question + answer) -->
                         <details class="moon-faq-item" open>
@@ -1612,10 +1627,10 @@
 
                 <!-- FAQ — General Astronomy / Islamic Section (static, SEO-friendly) -->
                 <div class="section-card">
-                    <h2 data-i18n="moon.faq_general_title">❓ أسئلة عامّة عن القمر</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_general_title">أسئلة عامّة عن القمر</span></h2>
                     <div class="moon-faq moon-faq-general" id="moon-faq-general">
                         <!-- 🆕 Priority B.1: تصنيف الأسئلة إلى مجموعتين (معلومات لحظيّة + أسئلة فلكيّة) -->
-                        <h3 class="moon-faq-group-heading" data-i18n="moon.faq.group_live">🕐 معلومات لحظيّة</h3>
+                        <h3 class="moon-faq-group-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-clock"/></svg> <span data-i18n="moon.faq.group_live">معلومات لحظيّة</span></h3>
                         <!-- 🆕 Wave B.3: الأسئلة الديناميكيّة غير الموقعيّة (الإجابات مملوءة JS-side) -->
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q_age">كم عمر القمر اليوم؟</summary>
@@ -1633,7 +1648,7 @@
                             <summary data-i18n="moon.faq.q_full_count">كم تبقى على البدر القادم؟</summary>
                             <p id="moon-dq4-a" data-i18n="moon.faq.tpl_dq4">—</p>
                         </details>
-                        <h3 class="moon-faq-group-heading" data-i18n="moon.faq.group_astronomy">🔭 أسئلة فلكيّة عامّة عن القمر</h3>
+                        <h3 class="moon-faq-group-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-telescope"/></svg> <span data-i18n="moon.faq.group_astronomy">أسئلة فلكيّة عامّة عن القمر</span></h3>
                         <!-- الأسئلة التعليميّة/الفلكيّة (ثابتة) -->
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q4">كيف تُحسب نسبة إضاءة القمر؟</summary>
@@ -1692,7 +1707,7 @@
 
                 <!-- Evergreen content (~800 words) -->
                 <div class="section-card moon-evergreen">
-                    <h2 data-i18n="moon.edu_title">📖 فهم أطوار القمر</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="moon.edu_title">فهم أطوار القمر</span></h2>
 
                     <h3 data-i18n="moon.edu_phases_title">الدورة القمريّة والأطوار الثمانية</h3>
                     <p data-i18n="moon.edu_phases_1">دورة القمر حول الأرض تستغرق 29.5 يوماً تقريباً، تُعرف بالشهر القمريّ. خلال هذه الفترة يمرّ القمر بثمانية أطوار متتابعة، تبدأ من المحاق وتنتهي بالهلال المتناقص قبل أن تتكرّر الدورة.</p>
@@ -2154,13 +2169,13 @@
 
                 <!-- 5. FAQ — focused on "today" intent (3 Qs) -->
                 <div class="section-card">
-                    <h2 id="hijri-today-faq-title" data-i18n="hijri_today.faq_title">❓ أسئلة عن التاريخ الهجري اليوم</h2>
+                    <h2 id="hijri-today-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="hijri_today.faq_title">أسئلة عن التاريخ الهجري اليوم</span></h2>
                     <div id="hijri-today-faq"></div>
                 </div>
 
                 <!-- 6. Related Links (4 secondary navs: year cal, month cal, converter, moon-today) -->
                 <div class="section-card">
-                    <h2 id="hijri-today-extra-title" data-i18n="hijri_today.extra_title">🌙 روابط إضافية</h2>
+                    <h2 id="hijri-today-extra-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="hijri_today.extra_title">روابط إضافية</span></h2>
                     <div id="hijri-today-extra-links" class="u-flex-wrap"></div>
                 </div>
 
@@ -2214,13 +2229,13 @@
 
                 <!-- 5. FAQ -->
                 <div class="section-card">
-                    <h2 id="hday-faq-title" data-i18n="hday.faq_title">❓ أسئلة عن اليوم الهجري</h2>
+                    <h2 id="hday-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="hday.faq_title">أسئلة عن اليوم الهجري</span></h2>
                     <div id="hday-faq"></div>
                 </div>
 
                 <!-- 6. Related Links (3 truly-related: converter, moon, prayer) — hierarchy links moved up under Hero -->
                 <div class="section-card">
-                    <h2 id="hday-related-title" data-i18n="hday.related_title">🌙 روابط ذات صلة</h2>
+                    <h2 id="hday-related-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="hday.related_title">روابط ذات صلة</span></h2>
                     <div id="hday-related" class="u-flex-wrap"></div>
                 </div>
 
@@ -2250,7 +2265,7 @@
                 </div>
                 <!-- Months Table — with "today in year" banner above it -->
                 <div class="section-card">
-                    <h2 id="hyear-table-title" data-i18n="hyear.table_title">🗓️ جميع أشهر التقويم الهجري</h2>
+                    <h2 id="hyear-table-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-grid"/></svg> <span data-i18n="hyear.table_title">جميع أشهر التقويم الهجري</span></h2>
                     <div id="hyear-today-in-year" class="hpage-today-in-month" hidden></div>
                     <div class="hpage-table-wrap">
                         <table class="hpage-table">
@@ -2272,19 +2287,19 @@
                 </div>
                 <!-- Years Navigation — 5-year window (y-2..y+2) for internal-linking structure -->
                 <div class="section-card">
-                    <h2 id="hyear-years-title" data-i18n="hyear.years_title">📆 تصفّح السنوات الهجرية</h2>
+                    <h2 id="hyear-years-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-days"/></svg> <span data-i18n="hyear.years_title">تصفّح السنوات الهجرية</span></h2>
                     <p id="hyear-years-current" class="hpage-years-current"></p>
                     <div id="hyear-years-grid" class="u-flex-wrap-top"></div>
                     <p class="hpage-years-more"><a id="hyear-years-all" href="/hijri-calendar"></a></p>
                 </div>
                 <!-- FAQ -->
                 <div class="section-card">
-                    <h2 id="hyear-faq-title" data-i18n="hyear.faq_title">❓ أسئلة عن السنة الهجرية</h2>
+                    <h2 id="hyear-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="hyear.faq_title">أسئلة عن السنة الهجرية</span></h2>
                     <div id="hyear-faq"></div>
                 </div>
                 <!-- SEO Text -->
                 <div class="section-card">
-                    <h2 id="hyear-seo-title" data-i18n="hyear.seo_title">🌙 عن التقويم الهجري</h2>
+                    <h2 id="hyear-seo-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="hyear.seo_title">عن التقويم الهجري</span></h2>
                     <p id="hyear-seo-text" class="hpage-seo-text"></p>
                 </div>
                 <!-- Footer SEO -->
@@ -2302,14 +2317,14 @@
                     <p id="hmonth-subtitle" class="hpage-hero-mini-sub"></p>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-info-title" data-i18n="hmonth.info_title">📋 معلومات الشهر الهجري</h2>
+                    <h2 id="hmonth-info-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-clipboard"/></svg> <span data-i18n="hmonth.info_title">معلومات الشهر الهجري</span></h2>
                     <div class="info-grid" id="hmonth-info-grid"></div>
                 </div>
                 <div class="section-card">
                     <div class="u-flex-btns" id="hmonth-nav"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-days-title" data-i18n="hmonth.days_title">📅 أيام هذا الشهر الهجري</h2>
+                    <h2 id="hmonth-days-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="hmonth.days_title">أيام هذا الشهر الهجري</span></h2>
                     <div id="hmonth-today-in-month" class="hpage-today-in-month" hidden></div>
                     <p id="hmonth-days-summary" class="hpage-days-summary"></p>
                     <div class="hpage-table-wrap">
@@ -2325,15 +2340,15 @@
                     </div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-links-title" data-i18n="hmonth.links_title">🔗 روابط مرتبطة بهذا الشهر</h2>
+                    <h2 id="hmonth-links-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="hmonth.links_title">روابط مرتبطة بهذا الشهر</span></h2>
                     <div id="hmonth-links" class="u-flex-wrap-top"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-other-months-title" data-i18n="hmonth.other_months_title">🌙 شهور أخرى من السنة الهجرية</h2>
+                    <h2 id="hmonth-other-months-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="hmonth.other_months_title">شهور أخرى من السنة الهجرية</span></h2>
                     <div id="hmonth-other-months" class="hpage-months-grid"></div>
                 </div>
                 <div class="section-card">
-                    <h2 id="hmonth-years-title" data-i18n="hyear.years_title">📆 تصفّح السنوات الهجرية</h2>
+                    <h2 id="hmonth-years-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-days"/></svg> <span data-i18n="hyear.years_title">تصفّح السنوات الهجرية</span></h2>
                     <p id="hmonth-years-current" class="hpage-years-current"></p>
                     <div id="hmonth-years-grid" class="u-flex-wrap-top"></div>
                     <p class="hpage-years-more"><a id="hmonth-years-all" href="/hijri-calendar"></a></p>
@@ -2346,7 +2361,7 @@
             <!-- ===== صفحة تحويل التاريخ ===== -->
             <div class="page" id="page-date-converter">
                 <div class="section-card">
-                    <h2 data-i18n="converter.title">🔄 تحويل التاريخ</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-refresh-cw"/></svg> <span data-i18n="converter.title">تحويل التاريخ</span></h2>
                     <div class="converter-tabs">
                         <div class="converter-tab active" onclick="switchConverter('to-hijri')" data-i18n="converter.to_hijri">التحويل من التاريخ الميلادي</div>
                         <div class="converter-tab" onclick="switchConverter('to-greg')" data-i18n="converter.to_gregorian">التحويل من التاريخ الهجري</div>
@@ -2428,7 +2443,7 @@
             <!-- ===== صفحة التقويم الهجري ===== -->
             <div class="page" id="page-hijri-calendar">
                 <div class="section-card">
-                    <h2 data-i18n="calendar.title">🗓️ التقويم الهجري</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-grid"/></svg> <span data-i18n="calendar.title">التقويم الهجري</span></h2>
                     <div class="calendar-year-picker">
                         <label for="calendar-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
                         <select id="calendar-year-select" class="year-select" onchange="goToHijriYear(this.value)"></select>
@@ -2458,7 +2473,7 @@
             <!-- ===== صفحة الأدعية والأذكار ===== -->
             <div class="page" id="page-duas">
                 <div class="section-card">
-                    <h2 data-i18n="duas.title">🤲 الأدعية والأذكار</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-hands-praying"/></svg> <span data-i18n="duas.title">الأدعية والأذكار</span></h2>
                     <div class="dua-categories" id="dua-categories"></div>
                 </div>
                 <div class="section-card u-hidden" id="dua-list-section">
@@ -2470,7 +2485,7 @@
             <!-- ===== صفحة المسبحة الإلكترونية ===== -->
             <div class="page" id="page-tasbih">
                 <div class="section-card tasbih-card">
-                    <h2 data-i18n="tasbih.title">📿 المسبحة الإلكترونية</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-rosary"/></svg> <span data-i18n="tasbih.title">المسبحة الإلكترونية</span></h2>
 
                     <!-- تابات الوضع -->
                     <div class="tasbih-tabs">
@@ -2565,17 +2580,17 @@
                     <p class="cd-seo-line" id="ram-seo-line"></p>
                     <!-- ② 📍 شريط التخصيص (يأتي قبل الزرّ — المستخدم يرى نفسه أوّلاً) -->
                     <div class="cd-personal-bar" id="ram-personal-bar" hidden>
-                        <span class="cd-personal-icon">📍</span>
+                        <svg class="icon cd-personal-icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                         <span class="cd-personal-text" id="ram-personal-text"></span>
                     </div>
                     <!-- ③ CTA — بعد الموقع: المستخدم يرى موقعه ثم يتفاعل -->
                     <a class="cd-cta-hint" href="/" data-page="prayer-times">
-                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="ramadan.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-main"><svg class="icon cdh-icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span data-i18n="ramadan.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
                         <span class="cdh-sub" data-i18n="ramadan.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
                     </a>
                     <!-- سطر القمر داخل الـ Hero (بدل قسم منفصل) -->
                     <div class="cd-lunar-inline" id="ram-lunar-inline">
-                        <span class="cdli-icon">🌙</span>
+                        <svg class="icon cdli-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                         <span data-i18n="ramadan.lunar_current_short">القمر الآن:</span>
                         <strong id="ram-current-phase">—</strong>
                         <span class="lunar-illum">(<span id="ram-current-illum">—</span>)</span>
@@ -2594,7 +2609,7 @@
 
                 <!-- [3] جدول السنوات (الأهم بعد العدّاد) -->
                 <section class="section-card countdown-years">
-                    <h2 data-i18n="ramadan.years_title">📅 مواعيد بداية رمضان في السنوات القادمة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="ramadan.years_title">مواعيد بداية رمضان في السنوات القادمة</span></h2>
                     <div class="countdown-table-wrap">
                         <table class="countdown-table" id="ram-years-table">
                             <thead>
@@ -2615,14 +2630,14 @@
 
                 <!-- [4] روابط ذات صلة (CTA ذكيّ — Cards بعد جدول السنوات مباشرة) -->
                 <section class="section-card countdown-links">
-                    <h2 data-i18n="ramadan.links_title">🔗 روابط ذات صلة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="ramadan.links_title">روابط ذات صلة</span></h2>
                     <div class="cd-link-cards">
                         <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
-                            <span class="cdc-icon">🕌</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
                             <span class="cdc-text" data-i18n="ramadan.link_prayer">مواقيت الصلاة</span>
                         </a>
                         <a class="cd-link-card" href="/eid-al-fitr-countdown">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="ramadan.link_eid_fitr">كم باقي على عيد الفطر</span>
                         </a>
                         <a class="cd-link-card" href="/eid-al-adha-countdown">
@@ -2630,15 +2645,15 @@
                             <span class="cdc-text" data-i18n="ramadan.link_eid_adha">كم باقي على عيد الأضحى</span>
                         </a>
                         <a class="cd-link-card" href="/hijri-new-year-countdown">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="ramadan.link_new_year">كم باقي على رأس السنة الهجريّة</span>
                         </a>
                         <a class="cd-link-card" href="/moon-today">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="ramadan.link_moon">حالة القمر اليوم</span>
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="ramadan.link_hijri_today">التاريخ الهجريّ اليوم</span>
                         </a>
                     </div>
@@ -2646,14 +2661,14 @@
 
                 <!-- [5] FAQ مختصر — 3 أسئلة + عرض المزيد -->
                 <section class="section-card countdown-faq">
-                    <h2 data-i18n="ramadan.faq_title">❓ أسئلة شائعة عن رمضان</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="ramadan.faq_title">أسئلة شائعة عن رمضان</span></h2>
                     <p class="cd-faq-hook" data-i18n="ramadan.faq_hook">هل تريد معرفة تفاصيل أكثر عن شهر رمضان هذا العام؟</p>
                     <div id="ram-faq-list" class="countdown-faq-list"></div>
                 </section>
 
                 <!-- [6] معلومات عن شهر رمضان (SEO قوي) -->
                 <section class="section-card countdown-info">
-                    <h2 data-i18n="ramadan.info_title">📖 معلومات عن شهر رمضان</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="ramadan.info_title">معلومات عن شهر رمضان</span></h2>
                     <h3 data-i18n="ramadan.info_h1">ما هو شهر رمضان</h3>
                     <p data-i18n="ramadan.info_h1_body">شهر رمضان هو الشهر التاسع في التقويم الهجريّ القمريّ، ويُعدّ من أعظم الشهور في الإسلام. فيه أُنزل القرآن الكريم، ويصوم المسلمون من الفجر إلى غروب الشمس طوال أيّامه.</p>
                     <h3 data-i18n="ramadan.info_h2">كيف يثبت دخول رمضان</h3>
@@ -2664,7 +2679,7 @@
 
                 <!-- [7] اعتماد التاريخ — آخر شيء بالصفحة -->
                 <section class="section-card countdown-notice">
-                    <h2 data-i18n="ramadan.notice_title">📜 اعتماد التاريخ</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="ramadan.notice_title">اعتماد التاريخ</span></h2>
                     <p data-i18n="ramadan.notice_body">بداية رمضان ترتبط بثبوت هلال 1 رمضان. التاريخ المعروض أعلاه محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
                 </section>
             </div>
@@ -2673,7 +2688,7 @@
             <div class="page countdown-page cd-eid-al-fitr" id="page-eid-al-fitr-countdown">
                 <!-- [1] HERO — العدّاد كامل + جملة SEO + شريط التخصيص + سطر القمر -->
                 <section class="section-card countdown-hero">
-                    <h1 class="countdown-h1" data-i18n="eid_fitr.h1">🌙 كم باقي على عيد الفطر؟</h1>
+                    <h1 class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="eid_fitr.h1">كم باقي على عيد الفطر؟</span></h1>
                     <p class="cd-h1-seo" id="fitr-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="eid_fitr.intro">اكتشف الأيّام المتبقّية حتّى عيد الفطر المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد يختلف يوم العيد يوماً حسب رؤية هلال شوّال في بلدك.</p>
                     <div class="countdown-timer" id="fitr-timer" role="timer" aria-live="polite">
@@ -2684,15 +2699,15 @@
                     </div>
                     <p class="cd-seo-line" id="fitr-seo-line"></p>
                     <div class="cd-personal-bar" id="fitr-personal-bar" hidden>
-                        <span class="cd-personal-icon">📍</span>
+                        <svg class="icon cd-personal-icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                         <span class="cd-personal-text" id="fitr-personal-text"></span>
                     </div>
                     <a class="cd-cta-hint" href="/" data-page="prayer-times">
-                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="eid_fitr.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-main"><svg class="icon cdh-icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span data-i18n="eid_fitr.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
                         <span class="cdh-sub" data-i18n="eid_fitr.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
                     </a>
                     <div class="cd-lunar-inline" id="fitr-lunar-inline">
-                        <span class="cdli-icon">🌙</span>
+                        <svg class="icon cdli-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                         <span data-i18n="eid_fitr.lunar_current_short">القمر الآن:</span>
                         <strong id="fitr-current-phase">—</strong>
                         <span class="lunar-illum">(<span id="fitr-current-illum">—</span>)</span>
@@ -2711,7 +2726,7 @@
 
                 <!-- [3] جدول السنوات -->
                 <section class="section-card countdown-years">
-                    <h2 data-i18n="eid_fitr.years_title">📅 مواعيد عيد الفطر في السنوات القادمة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="eid_fitr.years_title">مواعيد عيد الفطر في السنوات القادمة</span></h2>
                     <div class="countdown-table-wrap">
                         <table class="countdown-table" id="fitr-years-table">
                             <thead>
@@ -2733,10 +2748,10 @@
                 <!-- [5] FAQ مختصر -->
                 <!-- [4] روابط ذات صلة (CTA — Cards) — قبل الـ FAQ -->
                 <section class="section-card countdown-links">
-                    <h2 data-i18n="eid_fitr.links_title">🔗 روابط ذات صلة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="eid_fitr.links_title">روابط ذات صلة</span></h2>
                     <div class="cd-link-cards">
                         <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
-                            <span class="cdc-icon">🕌</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
                             <span class="cdc-text" data-i18n="eid_fitr.link_prayer">مواقيت الصلاة</span>
                         </a>
                         <a class="cd-link-card" href="/ramadan-countdown">
@@ -2748,15 +2763,15 @@
                             <span class="cdc-text" data-i18n="eid_fitr.link_adha">كم باقي على عيد الأضحى</span>
                         </a>
                         <a class="cd-link-card" href="/hijri-new-year-countdown">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="eid_fitr.link_new_year">كم باقي على رأس السنة الهجريّة</span>
                         </a>
                         <a class="cd-link-card" href="/moon-today">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="eid_fitr.link_moon">حالة القمر اليوم</span>
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="eid_fitr.link_hijri_today">التاريخ الهجريّ اليوم</span>
                         </a>
                     </div>
@@ -2764,14 +2779,14 @@
 
                 <!-- [5] FAQ مختصر -->
                 <section class="section-card countdown-faq">
-                    <h2 data-i18n="eid_fitr.faq_title">❓ أسئلة شائعة عن عيد الفطر</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="eid_fitr.faq_title">أسئلة شائعة عن عيد الفطر</span></h2>
                     <p class="cd-faq-hook" data-i18n="eid_fitr.faq_hook">هل تريد معرفة تفاصيل أكثر عن عيد الفطر هذا العام؟</p>
                     <div id="fitr-faq-list" class="countdown-faq-list"></div>
                 </section>
 
                 <!-- [6] Static info content -->
                 <section class="section-card countdown-info">
-                    <h2 data-i18n="eid_fitr.info_title">📖 معلومات عن عيد الفطر</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="eid_fitr.info_title">معلومات عن عيد الفطر</span></h2>
                     <h3 data-i18n="eid_fitr.info_h1">ما هو عيد الفطر</h3>
                     <p data-i18n="eid_fitr.info_h1_body">عيد الفطر هو أحد العيدين في الإسلام، يأتي بعد إتمام صيام شهر رمضان المبارك ويبدأ من اليوم الأوّل من شوّال. يُشرع فيه التكبير، صلاة العيد، زكاة الفطر قبل الصلاة، والتبادل بالتهاني.</p>
                     <h3 data-i18n="eid_fitr.info_h2">كيف يثبت عيد الفطر</h3>
@@ -2782,7 +2797,7 @@
 
                 <!-- [7] اعتماد التاريخ — آخر شيء بالصفحة -->
                 <section class="section-card countdown-notice">
-                    <h2 data-i18n="eid_fitr.notice_title">📜 اعتماد التاريخ</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="eid_fitr.notice_title">اعتماد التاريخ</span></h2>
                     <p data-i18n="eid_fitr.notice_body">يرتبط عيد الفطر بثبوت هلال شوّال بعد إكمال 29 أو 30 يومًا من رمضان. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
                 </section>
             </div>
@@ -2802,15 +2817,15 @@
                     </div>
                     <p class="cd-seo-line" id="adha-seo-line"></p>
                     <div class="cd-personal-bar" id="adha-personal-bar" hidden>
-                        <span class="cd-personal-icon">📍</span>
+                        <svg class="icon cd-personal-icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                         <span class="cd-personal-text" id="adha-personal-text"></span>
                     </div>
                     <a class="cd-cta-hint" href="/" data-page="prayer-times">
-                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="eid_adha.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-main"><svg class="icon cdh-icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span data-i18n="eid_adha.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
                         <span class="cdh-sub" data-i18n="eid_adha.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
                     </a>
                     <div class="cd-lunar-inline" id="adha-lunar-inline">
-                        <span class="cdli-icon">🌙</span>
+                        <svg class="icon cdli-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                         <span data-i18n="eid_adha.lunar_current_short">القمر الآن:</span>
                         <strong id="adha-current-phase">—</strong>
                         <span class="lunar-illum">(<span id="adha-current-illum">—</span>)</span>
@@ -2829,7 +2844,7 @@
 
                 <!-- [3] جدول السنوات -->
                 <section class="section-card countdown-years">
-                    <h2 data-i18n="eid_adha.years_title">📅 مواعيد عيد الأضحى في السنوات القادمة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="eid_adha.years_title">مواعيد عيد الأضحى في السنوات القادمة</span></h2>
                     <div class="countdown-table-wrap">
                         <table class="countdown-table" id="adha-years-table">
                             <thead>
@@ -2850,10 +2865,10 @@
 
                 <!-- [4] روابط ذات صلة (CTA — Cards) -->
                 <section class="section-card countdown-links">
-                    <h2 data-i18n="eid_adha.links_title">🔗 روابط ذات صلة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="eid_adha.links_title">روابط ذات صلة</span></h2>
                     <div class="cd-link-cards">
                         <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
-                            <span class="cdc-icon">🕌</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
                             <span class="cdc-text" data-i18n="eid_adha.link_prayer">مواقيت الصلاة</span>
                         </a>
                         <a class="cd-link-card" href="/ramadan-countdown">
@@ -2861,19 +2876,19 @@
                             <span class="cdc-text" data-i18n="eid_adha.link_ramadan">كم باقي على رمضان</span>
                         </a>
                         <a class="cd-link-card" href="/eid-al-fitr-countdown">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="eid_adha.link_fitr">كم باقي على عيد الفطر</span>
                         </a>
                         <a class="cd-link-card" href="/hijri-new-year-countdown">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="eid_adha.link_new_year">كم باقي على رأس السنة الهجريّة</span>
                         </a>
                         <a class="cd-link-card" href="/moon-today">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="eid_adha.link_moon">حالة القمر اليوم</span>
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="eid_adha.link_hijri_today">التاريخ الهجريّ اليوم</span>
                         </a>
                     </div>
@@ -2881,14 +2896,14 @@
 
                 <!-- [5] FAQ مختصر -->
                 <section class="section-card countdown-faq">
-                    <h2 data-i18n="eid_adha.faq_title">❓ أسئلة شائعة عن عيد الأضحى</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="eid_adha.faq_title">أسئلة شائعة عن عيد الأضحى</span></h2>
                     <p class="cd-faq-hook" data-i18n="eid_adha.faq_hook">هل تريد معرفة تفاصيل أكثر عن عيد الأضحى هذا العام؟</p>
                     <div id="adha-faq-list" class="countdown-faq-list"></div>
                 </section>
 
                 <!-- [6] معلومات (SEO) -->
                 <section class="section-card countdown-info">
-                    <h2 data-i18n="eid_adha.info_title">📖 معلومات عن عيد الأضحى</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="eid_adha.info_title">معلومات عن عيد الأضحى</span></h2>
                     <h3 data-i18n="eid_adha.info_h1">ما هو عيد الأضحى</h3>
                     <p data-i18n="eid_adha.info_h1_body">عيد الأضحى هو أكبر العيدين في الإسلام، يأتي في اليوم العاشر من شهر ذي الحجّة بعد يوم عرفة، ويُعرف بيوم النحر. فيه يذبح المسلمون أضاحيهم إحياءً لسنّة إبراهيم عليه السلام.</p>
                     <h3 data-i18n="eid_adha.info_h2">كيف يثبت عيد الأضحى</h3>
@@ -2899,7 +2914,7 @@
 
                 <!-- [7] اعتماد التاريخ — آخر شيء -->
                 <section class="section-card countdown-notice">
-                    <h2 data-i18n="eid_adha.notice_title">📜 اعتماد التاريخ</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="eid_adha.notice_title">اعتماد التاريخ</span></h2>
                     <p data-i18n="eid_adha.notice_body">عيد الأضحى يرتبط بيوم النحر العاشر من ذي الحجّة بعد يوم عرفة. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال ذي الحجّة في كلّ بلد.</p>
                 </section>
             </div>
@@ -2908,7 +2923,7 @@
             <div class="page countdown-page cd-hijri-new-year" id="page-hijri-new-year-countdown">
                 <!-- [1] HERO -->
                 <section class="section-card countdown-hero">
-                    <h1 class="countdown-h1" data-i18n="hijri_ny.h1">📅 كم باقي على رأس السنة الهجريّة؟</h1>
+                    <h1 class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="hijri_ny.h1">كم باقي على رأس السنة الهجريّة؟</span></h1>
                     <p class="cd-h1-seo" id="ny-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="hijri_ny.intro">اكتشف الأيّام المتبقّية حتّى رأس السنة الهجريّة الجديدة مع التاريخ الميلاديّ والهجريّ. يوافق أوّل يوم من شهر محرّم بداية السنة الهجريّة، وقد يختلف الإعلان يومًا بين الدول حسب ثبوت هلال محرّم.</p>
                     <div class="countdown-timer" id="ny-timer" role="timer" aria-live="polite">
@@ -2919,15 +2934,15 @@
                     </div>
                     <p class="cd-seo-line" id="ny-seo-line"></p>
                     <div class="cd-personal-bar" id="ny-personal-bar" hidden>
-                        <span class="cd-personal-icon">📍</span>
+                        <svg class="icon cd-personal-icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                         <span class="cd-personal-text" id="ny-personal-text"></span>
                     </div>
                     <a class="cd-cta-hint" href="/" data-page="prayer-times">
-                        <span class="cdh-main"><span class="cdh-icon">📍</span> <span data-i18n="hijri_ny.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
+                        <span class="cdh-main"><svg class="icon cdh-icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span data-i18n="hijri_ny.cta_hint">اعرف مواقيت الصلاة في مدينتك</span></span>
                         <span class="cdh-sub" data-i18n="hijri_ny.cta_sub">سيتم تحديد موقعك تلقائياً خلال ثوانٍ</span>
                     </a>
                     <div class="cd-lunar-inline" id="ny-lunar-inline">
-                        <span class="cdli-icon">🌙</span>
+                        <svg class="icon cdli-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                         <span data-i18n="hijri_ny.lunar_current_short">القمر الآن:</span>
                         <strong id="ny-current-phase">—</strong>
                         <span class="lunar-illum">(<span id="ny-current-illum">—</span>)</span>
@@ -2946,7 +2961,7 @@
 
                 <!-- [3] جدول السنوات -->
                 <section class="section-card countdown-years">
-                    <h2 data-i18n="hijri_ny.years_title">📅 مواعيد رأس السنة الهجريّة في السنوات القادمة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="hijri_ny.years_title">مواعيد رأس السنة الهجريّة في السنوات القادمة</span></h2>
                     <div class="countdown-table-wrap">
                         <table class="countdown-table" id="ny-years-table">
                             <thead>
@@ -2967,14 +2982,14 @@
 
                 <!-- [4] روابط ذات صلة (CTA — Cards) -->
                 <section class="section-card countdown-links">
-                    <h2 data-i18n="hijri_ny.links_title">🔗 روابط مفيدة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="hijri_ny.links_title">روابط مفيدة</span></h2>
                     <div class="cd-link-cards">
                         <a class="cd-link-card cd-link-primary" href="/" data-page="prayer-times">
-                            <span class="cdc-icon">🕌</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
                             <span class="cdc-text" data-i18n="hijri_ny.link_prayer">مواقيت الصلاة</span>
                         </a>
                         <a class="cd-link-card" href="/ramadan-countdown">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="hijri_ny.link_ramadan">كم باقي على رمضان</span>
                         </a>
                         <a class="cd-link-card" href="/eid-al-fitr-countdown">
@@ -2986,11 +3001,11 @@
                             <span class="cdc-text" data-i18n="hijri_ny.link_adha">كم باقي على عيد الأضحى</span>
                         </a>
                         <a class="cd-link-card" href="/moon-today">
-                            <span class="cdc-icon">🌙</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="cdc-text" data-i18n="hijri_ny.link_moon">حالة القمر اليوم</span>
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
-                            <span class="cdc-icon">📅</span>
+                            <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                             <span class="cdc-text" data-i18n="hijri_ny.link_hijri_today">التاريخ الهجريّ اليوم</span>
                         </a>
                     </div>
@@ -2998,14 +3013,14 @@
 
                 <!-- [5] FAQ مختصر -->
                 <section class="section-card countdown-faq">
-                    <h2 data-i18n="hijri_ny.faq_title">❓ أسئلة شائعة عن رأس السنة الهجريّة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="hijri_ny.faq_title">أسئلة شائعة عن رأس السنة الهجريّة</span></h2>
                     <p class="cd-faq-hook" data-i18n="hijri_ny.faq_hook">هل تريد معرفة تفاصيل أكثر عن رأس السنة الهجريّة؟</p>
                     <div id="ny-faq-list" class="countdown-faq-list"></div>
                 </section>
 
                 <!-- [6] معلومات (SEO) -->
                 <section class="section-card countdown-info">
-                    <h2 data-i18n="hijri_ny.info_title">📖 معلومات عن رأس السنة الهجريّة</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="hijri_ny.info_title">معلومات عن رأس السنة الهجريّة</span></h2>
                     <h3 data-i18n="hijri_ny.info_h1">بداية التقويم الإسلاميّ</h3>
                     <p data-i18n="hijri_ny.info_h1_body">التقويم الهجريّ تقويم قمريّ اعتمده المسلمون رسميًّا في عهد الخليفة عمر بن الخطّاب رضي الله عنه، وجُعلت بدايته من السنة التي هاجر فيها النبيّ ﷺ من مكّة إلى المدينة المنوّرة، ويتكوّن من 12 شهرًا قمريًّا.</p>
                     <h3 data-i18n="hijri_ny.info_h2">شهر محرّم والأشهر الحرم</h3>
@@ -3016,7 +3031,7 @@
 
                 <!-- [7] اعتماد التاريخ — آخر شيء -->
                 <section class="section-card countdown-notice">
-                    <h2 data-i18n="hijri_ny.notice_title">📜 اعتماد التاريخ</h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="hijri_ny.notice_title">اعتماد التاريخ</span></h2>
                     <p data-i18n="hijri_ny.notice_body">رأس السنة الهجريّة يبدأ بأوّل يوم من شهر محرّم. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال محرّم في كلّ بلد.</p>
                 </section>
             </div>
@@ -3052,7 +3067,7 @@
     <div class="settings-modal-overlay" id="settings-modal-overlay" onclick="onSettingsOverlayClick(event)">
         <div class="settings-modal-box" id="settings-panel">
             <div class="settings-modal-header">
-                <div class="settings-modal-title">⚙️ <span data-i18n="settings.title">إعدادات حساب المواقيت</span></div>
+                <div class="settings-modal-title"><svg class="icon" aria-hidden="true"><use href="#i-cog"/></svg> <span data-i18n="settings.title">إعدادات حساب المواقيت</span></div>
                 <button class="settings-modal-close" onclick="cancelSettings()" aria-label="إغلاق" data-i18n-aria-label="common.close">✕</button>
             </div>
             <div class="settings-grid">
@@ -3101,7 +3116,7 @@
             <!-- إعدادات الأذان -->
             <div class="adhan-setting-row">
                 <div class="adhan-setting-info">
-                    <span class="adhan-setting-icon">🔊</span>
+                    <svg class="icon adhan-setting-icon" aria-hidden="true"><use href="#i-volume"/></svg>
                     <div>
                         <div class="adhan-setting-title" data-i18n="adhan.title">تشغيل الأذان تلقائياً</div>
                         <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَّل صوت الأذان عند دخول وقت كل صلاة</div>
@@ -3124,14 +3139,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=142"></script>
+    <script defer src="js/i18n.js?v=144"></script>
     <script defer src="js/prayer-times.js?v=47"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=512"></script>
+    <script defer src="js/app.js?v=513"></script>
     <script defer src="js/footer-cookie.js?v=4"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->
@@ -3168,7 +3183,7 @@
 
     <!-- 🆕 Round 3.1 — Smart Notification suggestion toast (city-page، يظهر بعد 10s) -->
     <div class="notif-prompt" id="notif-prompt" role="dialog" aria-live="polite" hidden>
-        <span class="notif-prompt-icon" aria-hidden="true">🔔</span>
+        <svg class="icon notif-prompt-icon" aria-hidden="true"><use href="#i-bell"/></svg>
         <span class="notif-prompt-text" data-i18n="notif.prompt_text">هل تريد تنبيهك قبل الصلاة القادمة؟</span>
         <div class="notif-prompt-actions">
             <button class="notif-btn notif-btn-primary" type="button" onclick="onNotifEnable()" data-i18n="notif.prompt_enable">تفعيل</button>

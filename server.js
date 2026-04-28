@@ -217,6 +217,19 @@ function _translateI18nAttrs(html, lang) {
         }
     );
 
+    // 1b) UAT-ICON-3: data-i18n-html — replaces the FULL inner HTML (allows
+    //     translated content to contain markup like <li>...</li>).
+    //     The matched element body can span multiple lines / contain nested
+    //     elements, so use a non-greedy multiline match.
+    html = html.replace(
+        /<([a-z][a-z0-9-]*)\b([^>]*?\bdata-i18n-html=["']([^"']+)["'][^>]*?)>([\s\S]*?)<\/\1>/gi,
+        (m, tag, attrs, key, _body) => {
+            const trans = _trans(key);
+            if (trans === null) return m;
+            return `<${tag}${attrs}>${trans}</${tag}>`;
+        }
+    );
+
     // 2) attribute-bound i18n: placeholder / title / aria-label / alt
     const attrPairs = [
         ['data-i18n-placeholder', 'placeholder'],

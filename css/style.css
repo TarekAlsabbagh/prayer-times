@@ -59,62 +59,191 @@ html.moon-today-hub-page #moon-faq-general,
 html.moon-today-hub-page .moon-faq-city-card,
 html.moon-today-hub-page .moon-evergreen { display: none !important; }
 
-/* Moon hub hero — gradient + search + chips */
-.moon-hub-hero {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 50%, #2b6cb0 100%);
-    color: #fff;
-    padding: 32px 24px;
-    border-radius: 16px;
-    text-align: center;
-    margin-bottom: 20px;
+/* UAT-Moon-Home v2: Moon Hub Hero — mirrors qibla-hub-hero pattern.
+   Light card, smart pill at top, centered H1+subtitle, search+dropdown,
+   dual CTA, microcopy, trust badges. Reuses the site's green theme. */
+#page-moon .moon-hub-hero-card { text-align: center; padding: 22px 18px; position: relative; overflow: visible; }
+.moon-hub-title {
+    margin: 8px 0 10px;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--text-dark, #214936);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 }
-.moon-hub-h1 { font-size: 2rem; margin: 0 0 12px; color: #fff; font-weight: 700; }
 .moon-hub-subtitle {
-    font-size: 1.05rem; margin: 0 0 24px; color: #e2e8f0;
-    line-height: 1.6; max-width: 720px; margin-inline: auto;
+    margin: 0 auto 16px;
+    color: var(--text-light, #6b7b75);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 640px;
 }
 .moon-hub-hero-actions { max-width: 720px; margin: 0 auto; }
-.moon-hub-search-wrap { position: relative; display: block; margin-bottom: 16px; }
-.moon-hub-search {
-    width: 100%; padding: 14px 18px; font-size: 1rem; border: 0; border-radius: 12px;
-    background: rgba(255,255,255,0.95); color: var(--text, #2c3e50); outline: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+
+/* Smart-redirect pill above H1 */
+.moon-hub-smart-pill {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(13,124,85,0.08) 0%, rgba(13,124,85,0.14) 100%);
+    border: 1px solid rgba(13,124,85,0.22);
+    color: var(--text-dark, #214936);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .15s, box-shadow .15s, background .15s;
+    max-width: fit-content;
 }
-.moon-hub-search:focus { box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+.moon-hub-smart-pill.is-visible { display: inline-flex; }
+.moon-hub-smart-pill:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, rgba(13,124,85,0.13) 0%, rgba(13,124,85,0.20) 100%);
+    box-shadow: 0 3px 10px rgba(13,124,85,0.18);
+}
+.moon-hub-smart-pill .mhsp-arrow { opacity: .75; }
+.moon-hub-smart-pill .mhsp-city  { font-weight: 700; }
+
+/* Search input + dropdown (qibla pattern) */
+.moon-hub-search-wrap { display: block; width: 100%; }
+.moon-hub-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(13,124,85,0.22);
+    background: var(--card-bg, #fff);
+    font-size: 1rem;
+    color: var(--text-dark, #214936);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+.moon-hub-search:focus {
+    border-color: rgba(13,124,85,0.55);
+    box-shadow: 0 0 0 3px rgba(13,124,85,0.12);
+}
 .moon-hub-suggestions {
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-    background: #fff; color: var(--text, #2c3e50); border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2); max-height: 320px; overflow-y: auto; z-index: 50;
+    margin: 8px 0 0;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: start;
 }
 .moon-hub-suggestions:empty { display: none; }
-.moon-hub-dual-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+
+/* Dual CTA: primary geo + outlined pick */
+.moon-dual-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: stretch;
+    max-width: 720px;
+    margin: 14px auto 0;
+}
 .moon-hub-geo-btn {
-    background: #fff; color: #1e3a5f; font-weight: 600; padding: 12px 24px;
-    border-radius: 10px; display: inline-flex; align-items: center; gap: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0d7c55 0%, #0a9963 100%);
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(13,124,85,0.28);
+    transition: transform .15s, box-shadow .15s, filter .15s;
+    width: 100%;
 }
-.moon-hub-geo-btn:hover { background: #e2e8f0; }
+.moon-hub-geo-btn:hover  { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13,124,85,0.36); filter: brightness(1.04); }
+.moon-hub-geo-btn:active { transform: translateY(0);    box-shadow: 0 3px 10px rgba(13,124,85,0.32); }
+.moon-hub-geo-btn:disabled { opacity: 0.65; cursor: wait; }
+.moon-hub-geo-btn .qhb-spinner {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.45);
+    border-top-color: #fff;
+    display: none;
+    animation: qhbSpin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+.moon-hub-geo-btn.is-loading .qhb-spinner { display: inline-block; }
 .moon-hub-pick-btn {
-    background: rgba(255,255,255,0.15); color: #fff; font-weight: 600;
-    padding: 12px 24px; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px;
-    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.04rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: transparent;
+    color: #0d7c55;
+    border: 2px solid rgba(13,124,85,0.5);
+    cursor: pointer;
+    transition: background .15s, transform .15s, border-color .15s;
+    width: 100%;
 }
-.moon-hub-pick-btn:hover { background: rgba(255,255,255,0.25); }
-.moon-hub-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.moon-hub-chip {
-    background: rgba(255,255,255,0.18); color: #fff; padding: 8px 14px;
-    border-radius: 999px; text-decoration: none; font-size: 0.92rem;
-    border: 1px solid rgba(255,255,255,0.3); transition: background .15s;
+.moon-hub-pick-btn:hover {
+    background: rgba(13,124,85,0.08);
+    border-color: rgba(13,124,85,0.75);
+    transform: translateY(-1px);
 }
-.moon-hub-chip:hover { background: rgba(255,255,255,0.32); }
-@media (max-width: 600px) {
-    .moon-hub-h1 { font-size: 1.5rem; }
-    .moon-hub-subtitle { font-size: 0.95rem; }
-    .moon-hub-hero { padding: 24px 16px; }
-    .moon-hub-dual-cta { flex-direction: column; align-items: stretch; }
+@media (max-width: 640px) {
+    .moon-dual-cta { grid-template-columns: 1fr; }
+    .moon-hub-geo-btn  { font-size: 1rem; min-height: 52px; padding: 12px 22px; }
+    .moon-hub-pick-btn { font-size: 0.98rem; min-height: 52px; padding: 12px 22px; }
 }
-html[data-theme=dark] .moon-hub-hero {
-    background: linear-gradient(135deg, #14213d 0%, #1a365d 50%, #234e7d 100%);
+
+/* Microcopy under the primary CTA */
+.moon-hub-geo-microcopy {
+    margin: 8px 0 0;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.86rem;
+    text-align: center;
 }
+
+/* Trust badges below microcopy */
+.moon-hub-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+}
+.moon-hub-hero-badges li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(13,124,85,0.07);
+    color: var(--text-dark, #214936);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.moon-hub-hero-badges li::before {
+    content: '✔';
+    color: #0d7c55;
+    font-weight: 700;
+}
+
+/* Dark theme adjustments */
+html[data-theme="dark"] .moon-hub-title  { color: var(--text); }
+html[data-theme="dark"] .moon-hub-pick-btn { color: var(--primary-light); border-color: rgba(77,203,140,0.4); }
+html[data-theme="dark"] .moon-hub-pick-btn:hover { background: rgba(77,203,140,0.12); }
+html[data-theme="dark"] .moon-hub-hero-badges li { color: var(--text); background: rgba(77,203,140,0.10); }
+html[data-theme="dark"] .moon-hub-hero-badges li::before { color: var(--primary-light); }
+html[data-theme="dark"] .moon-hub-smart-pill { background: rgba(77,203,140,0.10); border-color: rgba(77,203,140,0.30); color: var(--text); }
 
 
 /* ========= المتغيرات ========= */

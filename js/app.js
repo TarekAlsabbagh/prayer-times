@@ -7896,6 +7896,88 @@ function _moonHubPickCity() {
     setTimeout(() => { try { s.focus(); } catch (_e) {} }, 200);
 }
 
+/** Smart-redirect pill on the moon hub — populated from sessionStorage
+    (last_city_context) or localStorage (lsb_detected). On click → navigate
+    to /moon-today-in-{slug} of that city. Mirrors qibla's smart-pill. */
+function _wireMoonHubSmartPill() {
+    const pillEl = document.getElementById('moon-hub-smart-pill');
+    if (!pillEl) return;
+    let _shown = false;
+    const _show = (lat, lng, name, en, cc) => {
+        try {
+            let slug = (typeof buildPrayerTimesSlug === 'function')
+                ? buildPrayerTimesSlug({ en: en || name, country: '', cc: cc || '', lat, lng })
+                : ((typeof makeSlug === 'function') ? makeSlug(en || name, lat, lng) : '');
+            if (slug === 'djibouti'  && cc === 'dj') slug = 'djibouti-city';
+            if (slug === 'singapore' && cc === 'sg') slug = 'singapore-city';
+            if (!slug) return false;
+            const target = pageUrl(`/moon-today-in-${slug}`);
+            const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            const display = (lang === 'ar' ? (name || en) : (en || name));
+            const prefix = (typeof t === 'function' ? t('moon.hub.smart_pill_prefix') : '') || 'آخر موقع استخدمته:';
+            const cta    = (typeof t === 'function' ? t('moon.hub.smart_pill_cta')    : '') || 'اعرف حالة القمر';
+            pillEl.setAttribute('href', target);
+            pillEl.innerHTML =
+                `<span class="mhsp-icon" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg></span>` +
+                `<span class="mhsp-prefix">${prefix}</span>` +
+                `<strong class="mhsp-city">${display}</strong>` +
+                `<span class="mhsp-arrow" aria-hidden="true">→</span>` +
+                `<span class="mhsp-cta">${cta}</span>`;
+            pillEl.hidden = false;
+            pillEl.classList.add('is-visible');
+            return true;
+        } catch (_) { return false; }
+    };
+    // Try last_city_context first (most recent navigation)
+    try {
+        const raw = sessionStorage.getItem('last_city_context');
+        if (raw) {
+            const c = JSON.parse(raw);
+            if (c && isFinite(c.lat) && isFinite(c.lng) && c.englishName) {
+                _shown = _show(c.lat, c.lng, c.name, c.englishName, (c.countryCode || '').toLowerCase());
+            }
+        }
+    } catch (_) {}
+    // Fallback: lsb_detected (user's last detected GPS location, ≤7 days)
+    if (!_shown) {
+        try {
+            const raw = localStorage.getItem('lsb_detected');
+            if (raw) {
+                const d = JSON.parse(raw);
+                const ageMs = Date.now() - (Number(d && d.ts) || 0);
+                if (d && isFinite(d.lat) && isFinite(d.lng) && (d.enName || d.arCity)
+                    && ageMs < 7 * 24 * 60 * 60 * 1000) {
+                    _shown = _show(d.lat, d.lng,
+                        d.arCity || (d.names && d.names.ar) || '',
+                        d.enName || (d.names && d.names.en) || '',
+                        (d.countryCode || '').toLowerCase());
+                }
+            }
+        } catch (_) {}
+    }
+    if (!_shown) {
+        pillEl.hidden = true;
+        pillEl.classList.remove('is-visible');
+    }
+}
+
+// Auto-wire smart pill on /moon-today (the hub) once DOM is ready.
+(function _autoWireMoonHubSmartPill() {
+    const _run = () => {
+        try {
+            const path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+            if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(path)) {
+                _wireMoonHubSmartPill();
+            }
+        } catch (_) {}
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _run, { once: true });
+    } else {
+        _run();
+    }
+})();
+
 // ─────────────────────────────────────────────────────────────
 //   شريط اقتراح المدينة (بدون تحويل تلقائي)
 // ─────────────────────────────────────────────────────────────

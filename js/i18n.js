@@ -313,6 +313,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'مطلع القمر ومغيبه يعتمدان على خط طول وعرض المدينة. لأنّ الأرض تدور كلّ 24 ساعة، فإنّ المدن الشرقية ترى القمر يطلع قبل المدن الغربية، والفرق قد يصل إلى 12 ساعة.',
 
         'moon.hub.faq.q4': 'ما علاقة دورة القمر بالتقويم الهجريّ؟',
+
+        'moon.hub.smart_pill_prefix': 'آخر موقع استخدمته:',
+
+        'moon.hub.smart_pill_cta': 'اعرف حالة القمر',
+
+        'moon.hub.geo_microcopy': 'سيتمّ تحديد موقعك تلقائيّاً خلال ثوانٍ',
+
+        'moon.hub.badge_accurate': 'دقّة فلكيّة عالية',
+
+        'moon.hub.badge_global': 'يعمل في جميع الدول',
         'moon.bc_current': 'القمر اليوم',
         'moon.bc_moon_in_city': 'القمر اليوم في {city}',
         'moon.bc_moon_in_city_nodate': 'القمر في {city}',
@@ -1670,6 +1680,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'Moonrise and moonset depend on the city\'s latitude and longitude. Earth rotates every 24 hours, so eastern cities see the moon rise before western cities — the difference can reach 12 hours.',
 
         'moon.hub.faq.q4': 'How is the lunar cycle related to the Hijri calendar?',
+
+        'moon.hub.smart_pill_prefix': 'Last used location:',
+
+        'moon.hub.smart_pill_cta': 'View moon status',
+
+        'moon.hub.geo_microcopy': 'Your location will be detected automatically in seconds',
+
+        'moon.hub.badge_accurate': 'Astronomical accuracy',
+
+        'moon.hub.badge_global': 'Works in all countries',
         'moon.bc_current': 'Moon Today',
         'moon.bc_moon_in_city': 'Moon Today in {city}',
         'moon.bc_moon_in_city_nodate': 'Moon in {city}',
@@ -2995,6 +3015,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'Le lever et le coucher de la Lune dépendent de la latitude et la longitude de la ville. La Terre tourne sur elle-même en 24 heures, donc les villes orientales voient la Lune se lever avant les villes occidentales — l\'écart peut atteindre 12 heures.',
 
         'moon.hub.faq.q4': 'Quel est le lien entre le cycle lunaire et le calendrier hégirien ?',
+
+        'moon.hub.smart_pill_prefix': 'Dernier emplacement utilisé :',
+
+        'moon.hub.smart_pill_cta': 'Voir l\'état de la Lune',
+
+        'moon.hub.geo_microcopy': 'Votre position sera détectée automatiquement en quelques secondes',
+
+        'moon.hub.badge_accurate': 'Précision astronomique',
+
+        'moon.hub.badge_global': 'Fonctionne dans tous les pays',
         'moon.bc_current': 'La Lune aujourd\u2019hui',
         'moon.bc_moon_in_city': 'La Lune aujourd\u2019hui à {city}',
         'moon.bc_moon_in_city_nodate': 'La Lune à {city}',
@@ -4135,6 +4165,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'Ay\'ın doğuşu ve batışı şehrin enlem ve boylamına bağlıdır. Dünya 24 saatte döner, bu nedenle doğu şehirleri Ay\'ı batı şehirlerinden önce görür — fark 12 saate kadar çıkabilir.',
 
         'moon.hub.faq.q4': 'Ay döngüsünün Hicri takvimle ilişkisi nedir?',
+
+        'moon.hub.smart_pill_prefix': 'Son kullanılan konum:',
+
+        'moon.hub.smart_pill_cta': 'Ay durumunu gör',
+
+        'moon.hub.geo_microcopy': 'Konumunuz birkaç saniye içinde otomatik olarak tespit edilecek',
+
+        'moon.hub.badge_accurate': 'Astronomik doğruluk',
+
+        'moon.hub.badge_global': 'Tüm ülkelerde çalışır',
         'moon.bc_current': 'Bugün Ay',
         'moon.bc_moon_in_city': 'Bugün {city}\u2019de Ay',
         'moon.bc_moon_in_city_nodate': '{city}\u2019de Ay',
@@ -5275,6 +5315,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'چاند کا طلوع و غروب شہر کے عرض البلد اور طول البلد پر منحصر ہے۔ زمین 24 گھنٹوں میں گھومتی ہے، اس لیے مشرقی شہر چاند کو مغربی شہروں سے پہلے دیکھتے ہیں — فرق 12 گھنٹے تک پہنچ سکتا ہے۔',
 
         'moon.hub.faq.q4': 'چاند کے چکر کا ہجری کیلنڈر سے کیا تعلق ہے؟',
+
+        'moon.hub.smart_pill_prefix': 'آخری استعمال شدہ مقام:',
+
+        'moon.hub.smart_pill_cta': 'چاند کی حالت دیکھیں',
+
+        'moon.hub.geo_microcopy': 'آپ کا مقام چند سیکنڈ میں خودکار طور پر شناخت ہو جائے گا',
+
+        'moon.hub.badge_accurate': 'فلکیاتی درستگی',
+
+        'moon.hub.badge_global': 'تمام ممالک میں کام کرتا ہے',
         'moon.bc_current': 'آج کا چاند',
         'moon.bc_moon_in_city': 'آج {city} میں چاند',
         'moon.bc_moon_in_city_nodate': '{city} میں چاند',
@@ -6396,6 +6446,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'Mondauf- und -untergang hängen von Breiten- und Längengrad der Stadt ab. Die Erde dreht sich in 24 Stunden, daher sehen östliche Städte den Mond vor westlichen — der Unterschied kann bis zu 12 Stunden betragen.',
 
         'moon.hub.faq.q4': 'Wie hängt der Mondzyklus mit dem Hidschri-Kalender zusammen?',
+
+        'moon.hub.smart_pill_prefix': 'Zuletzt verwendeter Ort:',
+
+        'moon.hub.smart_pill_cta': 'Mondstatus anzeigen',
+
+        'moon.hub.geo_microcopy': 'Ihr Standort wird in wenigen Sekunden automatisch erkannt',
+
+        'moon.hub.badge_accurate': 'Astronomische Genauigkeit',
+
+        'moon.hub.badge_global': 'Funktioniert in allen Ländern',
         'moon.bc_current': 'Mond heute',
         'moon.bc_moon_in_city': 'Mond heute in {city}',
         'moon.bc_moon_in_city_nodate': 'Mond in {city}',
@@ -7591,6 +7651,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'Terbit dan terbenamnya bulan bergantung pada lintang dan bujur kota. Bumi berputar setiap 24 jam, sehingga kota timur melihat bulan terbit lebih dulu daripada kota barat — selisihnya bisa mencapai 12 jam.',
 
         'moon.hub.faq.q4': 'Apa hubungan siklus bulan dengan kalender Hijriah?',
+
+        'moon.hub.smart_pill_prefix': 'Lokasi terakhir digunakan:',
+
+        'moon.hub.smart_pill_cta': 'Lihat status bulan',
+
+        'moon.hub.geo_microcopy': 'Lokasi Anda akan terdeteksi otomatis dalam beberapa detik',
+
+        'moon.hub.badge_accurate': 'Akurasi astronomis',
+
+        'moon.hub.badge_global': 'Berfungsi di semua negara',
         'moon.bc_current': 'Bulan Hari Ini',
         'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.bc_moon_in_city_nodate': 'Bulan di {city}',
@@ -8786,6 +8856,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'La salida y puesta de la Luna dependen de la latitud y longitud de la ciudad. La Tierra rota cada 24 horas, así que las ciudades del este ven la Luna antes que las del oeste — la diferencia puede llegar a 12 horas.',
 
         'moon.hub.faq.q4': '¿Cuál es la relación entre el ciclo lunar y el calendario hégira?',
+
+        'moon.hub.smart_pill_prefix': 'Última ubicación usada:',
+
+        'moon.hub.smart_pill_cta': 'Ver estado de la Luna',
+
+        'moon.hub.geo_microcopy': 'Tu ubicación se detectará automáticamente en segundos',
+
+        'moon.hub.badge_accurate': 'Precisión astronómica',
+
+        'moon.hub.badge_global': 'Funciona en todos los países',
         'moon.bc_current': 'La Luna hoy',
         'moon.bc_moon_in_city': 'La Luna hoy en {city}',
         'moon.bc_moon_in_city_nodate': 'La Luna en {city}',
@@ -9981,6 +10061,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'চাঁদের উদয় ও অস্ত শহরের অক্ষাংশ ও দ্রাঘিমাংশের উপর নির্ভর করে। পৃথিবী ২৪ ঘণ্টায় ঘোরে, তাই পূর্বের শহরগুলো পশ্চিমের শহরগুলোর আগে চাঁদ দেখে — পার্থক্য ১২ ঘণ্টা পর্যন্ত হতে পারে।',
 
         'moon.hub.faq.q4': 'চাঁদের চক্র ও হিজরি ক্যালেন্ডারের সম্পর্ক কী?',
+
+        'moon.hub.smart_pill_prefix': 'সর্বশেষ ব্যবহৃত অবস্থান:',
+
+        'moon.hub.smart_pill_cta': 'চাঁদের অবস্থা দেখুন',
+
+        'moon.hub.geo_microcopy': 'আপনার অবস্থান কয়েক সেকেন্ডে স্বয়ংক্রিয়ভাবে শনাক্ত হবে',
+
+        'moon.hub.badge_accurate': 'জ্যোতির্বিদ্যাগত নির্ভুলতা',
+
+        'moon.hub.badge_global': 'সব দেশে কাজ করে',
         'moon.bc_current': 'আজকের চাঁদ',
         'moon.bc_moon_in_city': 'আজকের চাঁদ {city}-এ',
         'moon.bc_moon_in_city_nodate': 'চাঁদ {city}-এ',
@@ -11176,6 +11266,16 @@ const TRANSLATIONS = {
         'moon.hub.faq.a3': 'Terbit dan terbenam bulan bergantung pada latitud dan longitud bandar. Bumi berputar setiap 24 jam, jadi bandar timur melihat bulan terbit lebih awal daripada bandar barat — perbezaan boleh mencapai 12 jam.',
 
         'moon.hub.faq.q4': 'Apakah kaitan kitaran bulan dengan kalendar Hijrah?',
+
+        'moon.hub.smart_pill_prefix': 'Lokasi terakhir digunakan:',
+
+        'moon.hub.smart_pill_cta': 'Lihat status bulan',
+
+        'moon.hub.geo_microcopy': 'Lokasi anda akan dikesan secara automatik dalam beberapa saat',
+
+        'moon.hub.badge_accurate': 'Ketepatan astronomi',
+
+        'moon.hub.badge_global': 'Berfungsi di semua negara',
         'moon.bc_current': 'Bulan Hari Ini',
         'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.bc_moon_in_city_nodate': 'Bulan di {city}',

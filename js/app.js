@@ -9435,6 +9435,16 @@ function updateFaqSection() {
     if (!document.getElementById('faq-title')) return;
 
     const lang    = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    // UAT-Home-Simplify: on the homepage, the FAQ is generic (no city). SSR
+    //   sets data-i18n="faq.home.q1/a1/q2/a2" on the divs and _translateI18nAttrs
+    //   fills them per language. Don't overwrite with city-templated content.
+    const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+    const _isHomeFaq = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_path);
+    if (_isHomeFaq) {
+        // Title stays generic from data-i18n="faq.title". q3-q9 stripped server-side.
+        // q1/q2 + a1/a2 already filled by _translateI18nAttrs via faq.home.* keys.
+        return;
+    }
     const city    = getDisplayCity();
     const country = getDisplayCountry();
     const sep     = (lang === 'ar' || lang === 'ur') ? '، ' : ', ';

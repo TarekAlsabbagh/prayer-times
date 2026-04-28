@@ -26,6 +26,19 @@ html.hijri-today-page #page-prayer-times { display: none !important; }
 html.hijri-day-page #page-hijri-day { display: block !important; }
 html.hijri-day-page #page-prayer-times { display: none !important; }
 
+/* UAT-Home-Simplify: homepage gateway visibility (الرئيسيّة كبوابة بحث).
+   الـ SSR يَحذف معظم محتوى #page-prayer-times عبر _stripHtmlForHome ويُضيف
+   class="home-page" على <html>. هنا CSS belt-and-braces:
+   - يُظهر #mini-islamic-tools (افتراضيّاً .u-hidden، يَظهر فقط على صفحات المدن).
+   - يُخفي الكتل الفرعيّة المُلَفّة (world-countries / Wikipedia refs / social) في حال
+     تَجاوَزها _stripElement لأيّ سبب — Googlebot لن يَراها على /. */
+html.home-page #mini-islamic-tools { display: block !important; }
+html.home-page #home-world-countries-block,
+html.home-page #home-refs-block,
+html.home-page #home-follow-block,
+html.home-page #home-share-block,
+html.home-page .faq-city-only { display: none !important; }
+
 
 /* ========= المتغيرات ========= */
 :root {

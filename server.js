@@ -2745,6 +2745,62 @@ function _stripHtmlForCity(html) {
     return html;
 }
 
+// UAT-Home-Simplify: Homepage Gateway Pruner.
+//   الرئيسيّة لم تَعد صفحة "مواقيت مكّة" — صارت بوابة بحث خَفيفة. نَحذف من الـDOM
+//   كلّ ما يُشبه صفحة مدينة (cards/schedule/banner/related-links/...). يَبقى فقط:
+//   Hero + Tools (4) + Arab 8 countries + 2-question FAQ + slim Footer.
+//   مَعايير القَبول: لا href="#"، لا city-templated FAQ، لا Mecca prayer table.
+const _HOME_STRIP_IDS = [
+    // Top sticky bar (no current city → "--" placeholders)
+    'sticky-next-bar',
+    // City-context (homepage has no city)
+    'city-breadcrumb',
+    // Tool-specific heroes (already stripped on TL/NPT routes)
+    'tl-hero', 'tl-sticky', 'npt-hero',
+    // Heavy city-content sections
+    'next-prayer-banner',
+    'prayer-cards',
+    'event-countdown-badge',
+    'summary-info-strip',
+    'city-calc-settings',
+    'city-summary-paragraph',
+    'seo-keywords',
+    'nearby-section',
+    'prayer-schedule-section',
+    'most-searched-chips',
+    'country-cities-section',
+    'city-related-services',
+    'related-links-section',
+    'other-trending-cities',
+    'home-quick-access',
+    'moon-today-card',
+    'city-info', 'about-city',
+    'weekly-schedule-section',
+    // Footer sub-blocks (Wikipedia refs + social + share — user spec)
+    'home-world-countries-block',
+    'home-refs-block',
+    'home-follow-block',
+    'home-share-block',
+];
+const _HOME_STRIP_CLASSES = [
+    'next-prayer-banner',
+    'hadith-section',
+    'faq-city-only',     // q3-q9 (and their dividers) — hidden was CSS-only; now removed from DOM/JSON-LD
+];
+function _stripHtmlForHome(html) {
+    for (const id of _HOME_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    for (const cls of _HOME_STRIP_CLASSES) {
+        let prev = '', guard = 12;
+        while (prev !== html && guard-- > 0) {
+            prev = html;
+            html = _stripElement(html, { type: 'class', value: cls });
+        }
+    }
+    return html;
+}
+
 // ===== Phase I — H1 deduplication per route =====
 // SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
 // CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
@@ -5599,13 +5655,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
     //   JS. Runs for: (a) the homepage / language-roots (Mecca defaults),
     //   (b) /prayer-times-in-{slug} city pages (resolved from slug),
     //   NOT for /time-left-* or /next-prayer-time-* (those are pruned).
-    if (!seo.timeLeftPage && !seo.nextPrayerPage) {
-        // Determine which slug to compute for. City page → use slug. Homepage
-        //   or any other page → 'mecca' default (matches client globals).
+    if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome) {
+        // (UAT-Home-Simplify) Skip on /, /en/, ... — the prayer-cards block is
+        //   stripped immediately after, so the SSR injection would be wasted.
+        // Determine which slug to compute for. City page → use slug; other
+        //   pages (Zakat/Duas/Hijri) → 'mecca' default (matches client globals).
         let _ssrSlug = 'mecca';
         const _slugForTimes = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         if (_slugForTimes) _ssrSlug = _slugForTimes[1];
         html = _ssrInjectPrayerTimes(html, _ssrSlug);
+    }
+    // 1e) UAT-Home-Simplify: homepage → minimal gateway (Hero + 4 tools + 8
+    //     countries + 2 generic FAQ + slim footer). Strip all city-flavored
+    //     content + add html.home-page class for any leftover CSS targeting.
+    if (seo.isHome) {
+        html = _stripHtmlForHome(html);
+        // Inject class="home-page" on <html>
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} home-page"`) + '>';
+            }
+            return '<html' + a + ' class="home-page">';
+        });
+        // FAQ q1/q2 generic — add data-i18n attributes pointing at home-only
+        //   keys so _translateI18nAttrs (later in the pipeline) fills them
+        //   per-language without {loc} interpolation. q3-q9 are stripped.
+        html = html
+            .replace('<div class="faq-question" id="faq-q1">', '<div class="faq-question" id="faq-q1" data-i18n="faq.home.q1">')
+            .replace('<p id="faq-a1-intro">', '<p id="faq-a1-intro" data-i18n="faq.home.a1">')
+            .replace('<div class="faq-question" id="faq-q2">', '<div class="faq-question" id="faq-q2" data-i18n="faq.home.q2">')
+            .replace('<p id="faq-a2">', '<p id="faq-a2" data-i18n="faq.home.a2">')
+            // Strip the times-list ul (only meaningful for city Q1 with prayer rows)
+            .replace(/<ul class="faq-times-list" id="faq-times-list">[\s\S]*?<\/ul>/, '');
     }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);

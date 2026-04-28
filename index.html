@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=523" as="script">
-    <link rel="stylesheet" href="css/style.css?v=196">
+    <link rel="preload" href="js/app.js?v=524" as="script">
+    <link rel="stylesheet" href="css/style.css?v=197">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -481,17 +481,22 @@
                 <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
                     <h3 class="mit-title" id="mit-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="mit.title">أدوات إسلاميّة سريعة</span></h3>
                     <div class="mit-grid">
-                        <a class="mit-item" id="mit-qibla" href="#" data-tool="qibla" aria-label="اتجاه القبلة" data-i18n-aria-label="home.qibla">
+                        <!-- href values are real canonical landings; on city pages, server.js Phase I rewrites them to /qibla-in-{slug}, /moon-today-in-{slug}, /hijri-date/YYYY-MM-DD. On homepage they remain the generic landings. -->
+                        <a class="mit-item" id="mit-qibla" href="/qibla" data-tool="qibla" aria-label="اتجاه القبلة" data-i18n-aria-label="home.qibla">
                             <svg class="icon mit-icon" aria-hidden="true"><use href="#i-compass"/></svg>
                             <span class="mit-label" data-i18n="mit.qibla">اتّجاه القبلة</span>
                         </a>
-                        <a class="mit-item" id="mit-moon" href="#" data-tool="moon" aria-label="القمر اليوم" data-i18n-aria-label="moon.title">
+                        <a class="mit-item" id="mit-hijri" href="/today-hijri-date" data-tool="hijri" aria-label="التاريخ الهجري اليوم" data-i18n-aria-label="home.hijri_today">
+                            <svg class="icon mit-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <span class="mit-label" data-i18n="mit.hijri">التاريخ الهجري</span>
+                        </a>
+                        <a class="mit-item" id="mit-moon" href="/moon-today" data-tool="moon" aria-label="القمر اليوم" data-i18n-aria-label="moon.title">
                             <svg class="icon mit-icon" aria-hidden="true"><use href="#i-moon"/></svg>
                             <span class="mit-label" data-i18n="mit.moon">أوقات القمر</span>
                         </a>
-                        <a class="mit-item" id="mit-hijri" href="#" data-tool="hijri" aria-label="التاريخ الهجري اليوم" data-i18n-aria-label="home.hijri_today">
-                            <svg class="icon mit-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                            <span class="mit-label" data-i18n="mit.hijri">التاريخ الهجري</span>
+                        <a class="mit-item" id="mit-date-converter" href="/dateconverter" data-tool="date-converter" aria-label="تحويل التاريخ" data-i18n-aria-label="mit.date_converter">
+                            <svg class="icon mit-icon" aria-hidden="true"><use href="#i-refresh-cw"/></svg>
+                            <span class="mit-label" data-i18n="mit.date_converter">تحويل التاريخ</span>
                         </a>
                     </div>
                 </section>
@@ -756,7 +761,8 @@
                         <a href="/prayer-times-in-comoros" class="country-tile" data-cc="km"><img src="https://flagcdn.com/w40/km.png" alt="علم جزر القمر" data-i18n-alt="flag.km" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.km">جزر القمر</span></a>
                     </nav>
 
-                    <!-- أبرز دول العالم — قسم فرعيّ داخل نفس البطاقة -->
+                    <!-- أبرز دول العالم — قسم فرعيّ داخل نفس البطاقة. مَلفوف في home-world-countries-block ليتمكّن SSR من حذفه على الرئيسيّة فقط (UAT-Home-Simplify). -->
+                    <div id="home-world-countries-block">
                     <h2 id="world-countries-title" class="arab-countries-subtitle" data-i18n="footer.world_countries"><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> مواقيت الصلاة في أبرز دول العالم</h2>
                     <nav class="arab-countries-grid" aria-label="أبرز دول العالم" data-i18n-aria-label="world.countries_label">
                         <a href="/prayer-times-in-united-states" class="country-tile" data-cc="us"><img src="https://flagcdn.com/w40/us.png" alt="علم الولايات المتحدة" data-i18n-alt="flag.us" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.us">الولايات المتحدة</span></a>
@@ -780,6 +786,7 @@
                         <a href="/prayer-times-in-nigeria" class="country-tile" data-cc="ng"><img src="https://flagcdn.com/w40/ng.png" alt="علم نيجيريا" data-i18n-alt="flag.ng" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ng">نيجيريا</span></a>
                         <a href="/prayer-times-in-south-africa" class="country-tile" data-cc="za"><img src="https://flagcdn.com/w40/za.png" alt="علم جنوب أفريقيا" data-i18n-alt="flag.za" width="40" height="30" loading="lazy"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.za">جنوب أفريقيا</span></a>
                     </nav>
+                    </div><!-- /home-world-countries-block -->
 
                     <div class="u-center-mt countries-toggle-wrap">
                         <button type="button" class="countries-expand-btn" onclick="toggleCountriesFull(this)"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="countries.show_all">عرض كلّ الدول</span></button>
@@ -1075,19 +1082,27 @@
                         <a href="/msbaha" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</a>
                     </nav>
 
+                    <!-- UAT-Home-Simplify: Wikipedia refs wrapped for SSR strip on / -->
+                    <div id="home-refs-block">
                     <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="footer.refs_title">مصادر ومراجع خارجية</span></div>
                     <p class="home-footer-refs" data-i18n="footer.refs_text">
                         تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:
                         <a href="https://ar.wikipedia.org/wiki/%D8%B5%D9%84%D8%A7%D8%A9" target="_blank" rel="noopener external">الصلاة على ويكيبيديا ↗</a>
                     </p>
+                    </div><!-- /home-refs-block -->
 
+                    <!-- UAT-Home-Simplify: social follow buttons wrapped for SSR strip on / -->
+                    <div id="home-follow-block">
                     <div class="home-footer-subtitle" data-i18n="footer.follow_title">📣 تابعنا</div>
                     <div class="home-follow-buttons" role="group" aria-label="تابعنا على الشبكات الاجتماعية" data-i18n-aria-label="home.follow_label">
                         <a class="home-follow-btn" id="follow-x" href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer me"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg><span data-i18n="footer.follow_x">@TIMESPRAYESRS على X</span></a>
                         <a class="home-follow-btn" id="follow-yt" href="https://www.youtube.com/@TIMESPRAYESRS" target="_blank" rel="noopener noreferrer me"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span data-i18n="footer.follow_yt">@TIMESPRAYESRS على يوتيوب</span></a>
                         <a class="home-follow-btn" id="follow-li" href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer me"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span data-i18n="footer.follow_li">Times Prayers على لينكد إن</span></a>
                     </div>
+                    </div><!-- /home-follow-block -->
 
+                    <!-- UAT-Home-Simplify: share-buttons block wrapped for SSR strip on / -->
+                    <div id="home-share-block">
                     <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-link-2"/></svg> <span data-i18n="footer.share_title">شارك الموقع</span></div>
                     <div class="home-share-buttons" role="group" aria-label="مشاركة الموقع" data-i18n-aria-label="home.share_label">
                         <a class="home-share-btn" id="share-twitter" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F&text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر تويتر/X" data-i18n-aria-label="home.share_x_label"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg><span data-i18n="footer.share_x">تويتر/X</span></a>
@@ -1095,6 +1110,7 @@
                         <a class="home-share-btn" id="share-whatsapp" href="https://api.whatsapp.com/send?text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A%20https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر واتساب" data-i18n-aria-label="home.share_wa_label"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span data-i18n="footer.share_wa">واتساب</span></a>
                         <a class="home-share-btn" id="share-telegram" href="https://t.me/share/url?url=https%3A%2F%2Fprayer-times-d4w8.onrender.com%2F&text=%D9%85%D9%88%D8%A7%D9%82%D9%8A%D8%AA%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D9%82%D9%88%D9%8A%D9%85%20%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D9%8A" target="_blank" rel="noopener noreferrer" aria-label="شارك عبر تلغرام" data-i18n-aria-label="home.share_tg_label"><svg class="share-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span data-i18n="footer.share_tg">تلغرام</span></a>
                     </div>
+                    </div><!-- /home-share-block -->
                 </section>
             </div>
 
@@ -3122,14 +3138,14 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=147"></script>
+    <script defer src="js/i18n.js?v=148"></script>
     <script defer src="js/prayer-times.js?v=48"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=523"></script>
+    <script defer src="js/app.js?v=524"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

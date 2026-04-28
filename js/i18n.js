@@ -223,6 +223,16 @@ const TRANSLATIONS = {
         'mit.title': 'أدوات إسلاميّة',
         'mit.qibla': 'القبلة',
         'mit.hijri': 'التاريخ الهجريّ',
+
+        'mit.date_converter': 'تحويل التاريخ',
+
+        'faq.home.q1': 'كيف تُحسب مواقيت الصلاة؟',
+
+        'faq.home.a1': 'تُحسب الأوقات بناءً على الموقع الجغرافيّ وزاوية الشمس وطريقة الحساب المختارة. اختر مدينتك من البحث أعلاه لرؤية أوقات دقيقة.',
+
+        'faq.home.q2': 'ما الفرق بين طرق الحساب (أم القرى، ISNA، MWL)؟',
+
+        'faq.home.a2': 'تختلف الطرق في زاوية الشمس المُعتمدة لحساب الفجر والعشاء. أم القرى لمكّة والخليج، ISNA لأمريكا الشماليّة، MWL مناسبة لباقي العالم.',
         'mit.moon': 'القمر اليوم',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'عرض الجدول الشهريّ',
@@ -1542,6 +1552,16 @@ const TRANSLATIONS = {
         'mit.title': 'Islamic Tools',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Hijri Date',
+
+        'mit.date_converter': 'Date Converter',
+
+        'faq.home.q1': 'How are prayer times calculated?',
+
+        'faq.home.a1': 'Prayer times are based on geographic location, the angle of the sun, and the chosen calculation method. Pick your city from the search above to see accurate times.',
+
+        'faq.home.q2': 'What\'s the difference between calculation methods (Umm al-Qura, ISNA, MWL)?',
+
+        'faq.home.a2': 'Methods differ in the sun-angle used to compute Fajr and Isha. Umm al-Qura suits Mecca and the Gulf, ISNA fits North America, MWL works well worldwide.',
         'mit.moon': 'Moon Today',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'View Monthly Schedule',
@@ -2841,6 +2861,16 @@ const TRANSLATIONS = {
         'mit.title': 'Outils islamiques',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Date Hijri',
+
+        'mit.date_converter': 'Convertisseur de date',
+
+        'faq.home.q1': 'Comment les horaires de prière sont-ils calculés ?',
+
+        'faq.home.a1': 'Les horaires sont basés sur la position géographique, l\'angle du soleil et la méthode de calcul choisie. Sélectionnez votre ville dans la recherche pour des horaires précis.',
+
+        'faq.home.q2': 'Quelle est la différence entre les méthodes (Oumm al-Qura, ISNA, MWL) ?',
+
+        'faq.home.a2': 'Les méthodes diffèrent par l\'angle solaire utilisé pour le Fajr et le Icha. Oumm al-Qura convient à La Mecque et au Golfe, ISNA à l\'Amérique du Nord, MWL au reste du monde.',
         'mit.moon': 'Lune aujourd\u2019hui',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Voir le programme mensuel',
@@ -3943,6 +3973,16 @@ const TRANSLATIONS = {
         'mit.title': 'İslami Araçlar',
         'mit.qibla': 'Kıble',
         'mit.hijri': 'Hicri Tarih',
+
+        'mit.date_converter': 'Tarih Dönüştürücü',
+
+        'faq.home.q1': 'Namaz vakitleri nasıl hesaplanır?',
+
+        'faq.home.a1': 'Vakitler coğrafi konuma, güneşin açısına ve seçilen hesaplama yöntemine göre hesaplanır. Doğru vakitler için yukarıdaki aramadan şehrinizi seçin.',
+
+        'faq.home.q2': 'Hesaplama yöntemleri (Ümmü\'l-Qura, ISNA, MWL) arasındaki fark nedir?',
+
+        'faq.home.a2': 'Yöntemler, Fecir ve Yatsı için kullanılan güneş açısı bakımından farklıdır. Ümmü\'l-Qura Mekke ve Körfez için, ISNA Kuzey Amerika için, MWL dünya geneli için uygundur.',
         'mit.moon': 'Bugün Ay',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Aylık Programı Gör',
@@ -5045,6 +5085,16 @@ const TRANSLATIONS = {
         'mit.title': 'اسلامی آلات',
         'mit.qibla': 'قبلہ',
         'mit.hijri': 'ہجری تاریخ',
+
+        'mit.date_converter': 'تاریخ تبدیل کنندہ',
+
+        'faq.home.q1': 'اوقاتِ نماز کیسے شمار کیے جاتے ہیں؟',
+
+        'faq.home.a1': 'اوقات جغرافیائی محل وقوع، سورج کے زاویے اور منتخب کردہ حساب کے طریقے پر مبنی ہوتے ہیں۔ درست اوقات دیکھنے کے لیے اوپر کی تلاش سے اپنا شہر منتخب کریں۔',
+
+        'faq.home.q2': 'حساب کے طریقوں (ام القری، ISNA، MWL) میں کیا فرق ہے؟',
+
+        'faq.home.a2': 'فجر اور عشاء کے لیے استعمال ہونے والے سورج کے زاویے میں طریقے مختلف ہیں۔ ام القری مکّہ اور خلیج کے لیے، ISNA شمالی امریکہ کے لیے، MWL دنیا بھر کے لیے موزوں ہے۔',
         'mit.moon': 'آج کا چاند',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'ماہانہ شیڈول دیکھیں',
@@ -6118,6 +6168,16 @@ const TRANSLATIONS = {
         'mit.title': 'Islamische Werkzeuge',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Hidschri-Datum',
+
+        'mit.date_converter': 'Datumsumrechner',
+
+        'faq.home.q1': 'Wie werden Gebetszeiten berechnet?',
+
+        'faq.home.a1': 'Die Zeiten basieren auf dem geografischen Standort, dem Sonnenwinkel und der gewählten Berechnungsmethode. Wählen Sie Ihre Stadt oben in der Suche für genaue Zeiten.',
+
+        'faq.home.q2': 'Was ist der Unterschied zwischen den Methoden (Umm al-Qura, ISNA, MWL)?',
+
+        'faq.home.a2': 'Die Methoden unterscheiden sich im Sonnenwinkel, der für Fajr und Isha verwendet wird. Umm al-Qura passt zu Mekka und dem Golf, ISNA zu Nordamerika, MWL ist weltweit geeignet.',
         'mit.moon': 'Mond heute',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Monatsplan anzeigen',
@@ -7275,6 +7335,16 @@ const TRANSLATIONS = {
         'mit.title': 'Alat Islami',
         'mit.qibla': 'Kiblat',
         'mit.hijri': 'Tanggal Hijriah',
+
+        'mit.date_converter': 'Konverter Tanggal',
+
+        'faq.home.q1': 'Bagaimana jadwal sholat dihitung?',
+
+        'faq.home.a1': 'Jadwal didasarkan pada lokasi geografis, sudut matahari, dan metode perhitungan yang dipilih. Pilih kota Anda dari pencarian di atas untuk melihat waktu yang akurat.',
+
+        'faq.home.q2': 'Apa perbedaan antara metode (Umm al-Qura, ISNA, MWL)?',
+
+        'faq.home.a2': 'Metode berbeda pada sudut matahari untuk Subuh dan Isya. Umm al-Qura cocok untuk Makkah dan Teluk, ISNA untuk Amerika Utara, MWL untuk seluruh dunia.',
         'mit.moon': 'Bulan Hari Ini',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Lihat Jadwal Bulanan',
@@ -8432,6 +8502,16 @@ const TRANSLATIONS = {
         'mit.title': 'Herramientas Islámicas',
         'mit.qibla': 'Qibla',
         'mit.hijri': 'Fecha Hijri',
+
+        'mit.date_converter': 'Convertidor de fecha',
+
+        'faq.home.q1': '¿Cómo se calculan los horarios de oración?',
+
+        'faq.home.a1': 'Los horarios se basan en la ubicación geográfica, el ángulo del sol y el método de cálculo elegido. Elija su ciudad en la búsqueda arriba para ver horarios precisos.',
+
+        'faq.home.q2': '¿Cuál es la diferencia entre los métodos (Umm al-Qura, ISNA, MWL)?',
+
+        'faq.home.a2': 'Los métodos difieren en el ángulo solar usado para Fayr e Isha. Umm al-Qura conviene a La Meca y el Golfo, ISNA a Norteamérica, MWL al resto del mundo.',
         'mit.moon': 'Luna Hoy',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Ver Programa Mensual',
@@ -9589,6 +9669,16 @@ const TRANSLATIONS = {
         'mit.title': 'ইসলামিক সরঞ্জাম',
         'mit.qibla': 'কিবলা',
         'mit.hijri': 'হিজরি তারিখ',
+
+        'mit.date_converter': 'তারিখ রূপান্তরকারী',
+
+        'faq.home.q1': 'নামাজের সময় কীভাবে গণনা করা হয়?',
+
+        'faq.home.a1': 'সময় ভৌগোলিক অবস্থান, সূর্যের কোণ এবং নির্বাচিত গণনা পদ্ধতির উপর নির্ভর করে। সঠিক সময় দেখতে উপরের সার্চ থেকে আপনার শহর নির্বাচন করুন।',
+
+        'faq.home.q2': 'গণনা পদ্ধতিগুলোর (উম্মুল কুরা, ISNA, MWL) মধ্যে পার্থক্য কী?',
+
+        'faq.home.a2': 'ফজর ও এশার জন্য ব্যবহৃত সূর্যের কোণে পদ্ধতিগুলো আলাদা। উম্মুল কুরা মক্কা ও উপসাগরের জন্য, ISNA উত্তর আমেরিকার জন্য, MWL সারা বিশ্বের জন্য উপযুক্ত।',
         'mit.moon': 'আজকের চাঁদ',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'মাসিক সূচি দেখুন',
@@ -10746,6 +10836,16 @@ const TRANSLATIONS = {
         'mit.title': 'Alat Islamik',
         'mit.qibla': 'Kiblat',
         'mit.hijri': 'Tarikh Hijriah',
+
+        'mit.date_converter': 'Penukar Tarikh',
+
+        'faq.home.q1': 'Bagaimana waktu solat dikira?',
+
+        'faq.home.a1': 'Waktu adalah berdasarkan kedudukan geografi, sudut matahari dan kaedah pengiraan yang dipilih. Pilih bandar anda dari carian di atas untuk waktu yang tepat.',
+
+        'faq.home.q2': 'Apakah perbezaan antara kaedah (Ummul Qura, ISNA, MWL)?',
+
+        'faq.home.a2': 'Kaedah berbeza pada sudut matahari untuk Subuh dan Isyak. Ummul Qura sesuai untuk Makkah dan Teluk, ISNA untuk Amerika Utara, MWL untuk seluruh dunia.',
         'mit.moon': 'Bulan Hari Ini',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Lihat Jadual Bulanan',

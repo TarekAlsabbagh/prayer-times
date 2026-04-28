@@ -4202,12 +4202,14 @@ function initNavigation() {
             // الخادم يُصدِر 301 إلى الرابط القصير إن كانت المدينة في الـ DB، وإلّا يرسم
             // الصفحة بـ noindex. هذا يحلّ مشكلة "city not found" نهائيّاً.
             if (pageId === 'moon' && window.location.protocol !== 'file:') {
-                // UAT-Nav-Context: from homepage `/` → generic /moon-today hub
-                //   (no city slug). From any other page → fall through to the
-                //   existing slug-based logic that builds /moon-today-in-{slug}.
+                // UAT-Nav-Context (cascading): if currently on a HUB page
+                //   (`/`, `/qibla`, `/moon-today`, with optional /{lang}/ prefix)
+                //   → go to the moon hub. From a city/tool page → fall through
+                //   to the existing slug-based logic.
+                //   Cascading: home → /qibla → click Moon → /moon-today (still hub).
                 const _moonNavPath = window.location.pathname;
-                const _moonNavIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_moonNavPath);
-                if (_moonNavIsHome) {
+                const _moonNavOnHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:|index\.html|qibla|moon-today)$/.test(_moonNavPath);
+                if (_moonNavOnHub) {
                     window.location.href = pageUrl('/moon-today');
                     return;
                 }
@@ -4279,12 +4281,22 @@ function initNavigation() {
             // FIX: نوسّع التغطية لتشمل URLs القمر (moon-today-in-* / moon-in-*) والقبلة (qibla-in-*)
             //      والصلاة (prayer-times-in-*). نُسقط الإحداثيّات ولاحقة التاريخ من الـ slug.
             if (pageId === 'prayer-times' && window.location.protocol !== 'file:') {
-                // UAT-Nav-Context: from homepage `/` → no-op (homepage IS the
-                //   prayer-times entry). Just close the mobile sidebar.
+                // UAT-Nav-Context (cascading): if currently on a HUB page
+                //   (`/`, `/qibla`, `/moon-today`, with optional /{lang}/ prefix)
+                //   → go to the homepage `/` (which IS the prayer-times entry).
+                //   From a city/tool page → fall through to slug-based logic.
+                //   Cascading: from /qibla → click Prayer Times → goes to `/`.
                 const _ptNavPath = window.location.pathname;
-                const _ptNavIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_ptNavPath);
-                if (_ptNavIsHome) {
-                    try { closeSidebar(); } catch (_) {}
+                const _ptNavOnHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:|index\.html|qibla|moon-today)$/.test(_ptNavPath);
+                if (_ptNavOnHub) {
+                    // Already on homepage? → just close mobile sidebar (no-op).
+                    // On `/qibla` or `/moon-today`? → navigate to homepage.
+                    const _ptNavIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_ptNavPath);
+                    if (_ptNavIsHome) {
+                        try { closeSidebar(); } catch (_) {}
+                    } else {
+                        window.location.href = pageUrl('/');
+                    }
                     return;
                 }
                 // UAT-Q5h: URL slug is the AUTHORITATIVE current-city source —
@@ -4344,12 +4356,14 @@ function initNavigation() {
 
             // عند الانتقال لقسم القبلة
             if (pageId === 'qibla') {
-                // UAT-Nav-Context: from homepage `/` → generic /qibla hub.
-                //   From any other page → fall through to the existing
+                // UAT-Nav-Context (cascading): if currently on a HUB page
+                //   (`/`, `/qibla`, `/moon-today`, with optional /{lang}/ prefix)
+                //   → go to /qibla hub. From a city/tool page → fall through to
                 //   slug-based logic that builds /qibla-in-{slug}.
+                //   Cascading: home → /moon-today → click Qibla → /qibla.
                 const _qiblaNavPath = window.location.pathname;
-                const _qiblaNavIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_qiblaNavPath);
-                if (_qiblaNavIsHome && window.location.protocol !== 'file:') {
+                const _qiblaNavOnHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:|index\.html|qibla|moon-today)$/.test(_qiblaNavPath);
+                if (_qiblaNavOnHub && window.location.protocol !== 'file:') {
                     window.location.href = pageUrl('/qibla');
                     return;
                 }

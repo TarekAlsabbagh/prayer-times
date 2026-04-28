@@ -10266,21 +10266,48 @@ function updatePrayerCardsSEO() {
 
     // Hero tagline → H1 ديناميكيّ يحوي اسم المدينة + التاريخ (Round 21 → R23: 10 langs)
     // R34: renamed from h2.loc-hero-tagline → h1.loc-hero-title (persuasive-landing refactor)
+    // UAT-SEO-Cannibalization (2026-04-28): on the HOMEPAGE (no city slug in
+    //   URL) keep the H1 GENERIC — same words as the SSR'd default. The
+    //   /prayer-times-in-{slug} pages own city-specific keywords; the home
+    //   ranks for "مواقيت الصلاة" generally and must not duplicate signals.
     const tagline = document.querySelector('.loc-hero-title, .loc-hero-tagline');
     if (tagline) {
-        const _taglineByLang = {
-            ar: `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`,
-            en: `Prayer Times Today in ${cityLabel} — Hijri & Gregorian Date`,
-            fr: `Horaires de prière aujourd'hui à ${cityLabel} — Date hégirienne et grégorienne`,
-            tr: `${cityLabel} İçin Bugünün Namaz Vakitleri — Hicri ve Miladi Tarih`,
-            ur: `آج ${cityLabel} میں اوقاتِ نماز — ہجری و عیسوی تاریخ`,
-            de: `Gebetszeiten heute in ${cityLabel} — Hidschri- und gregorianisches Datum`,
-            id: `Jadwal Sholat Hari Ini di ${cityLabel} — Tanggal Hijriah & Masehi`,
-            es: `Horarios de oración hoy en ${cityLabel} — Fecha hijri y gregoriana`,
-            bn: `আজকের নামাজের সময়সূচি ${cityLabel} — হিজরি ও গ্রেগরিয়ান তারিখ`,
-            ms: `Waktu Solat Hari Ini di ${cityLabel} — Tarikh Hijrah & Masihi`
-        };
-        tagline.textContent = _taglineByLang[_ln] || _taglineByLang.en;
+        // Detect homepage: path is "/" or "/{lang}/" with no city slug
+        const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+        const _isHomePage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_path);
+        if (_isHomePage) {
+            // Generic H1 — must match server.js _h1Text for the homepage branch
+            //   (see serveHtmlWithSeo "Homepage H1" else-block) so SSR + client
+            //   stay in lockstep with no flash.
+            const _genericByLang = {
+                ar: 'مواقيت الصلاة اليوم والتاريخ الهجري',
+                en: "Today's Prayer Times and Hijri Calendar",
+                fr: "Heures de prière aujourd'hui et calendrier Hégirien",
+                tr: 'Bugünkü Namaz Vakitleri ve Hicri Takvim',
+                ur: 'آج اوقاتِ نماز اور ہجری کیلنڈر',
+                de: 'Heutige Gebetszeiten und Hidschri-Kalender',
+                id: 'Jadwal Sholat Hari Ini dan Kalender Hijriyah',
+                es: 'Horarios de Oración Hoy y Calendario Hijri',
+                bn: 'আজকের নামাজের সময় ও হিজরি ক্যালেন্ডার',
+                ms: 'Waktu Solat Hari Ini dan Kalendar Hijrah'
+            };
+            tagline.textContent = _genericByLang[_ln] || _genericByLang.en;
+        } else {
+            // City pages: keep the city-specific H1 (the URL slug owns the keyword)
+            const _taglineByLang = {
+                ar: `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`,
+                en: `Prayer Times Today in ${cityLabel} — Hijri & Gregorian Date`,
+                fr: `Horaires de prière aujourd'hui à ${cityLabel} — Date hégirienne et grégorienne`,
+                tr: `${cityLabel} İçin Bugünün Namaz Vakitleri — Hicri ve Miladi Tarih`,
+                ur: `آج ${cityLabel} میں اوقاتِ نماز — ہجری و عیسوی تاریخ`,
+                de: `Gebetszeiten heute in ${cityLabel} — Hidschri- und gregorianisches Datum`,
+                id: `Jadwal Sholat Hari Ini di ${cityLabel} — Tanggal Hijriah & Masehi`,
+                es: `Horarios de oración hoy en ${cityLabel} — Fecha hijri y gregoriana`,
+                bn: `আজকের নামাজের সময়সূচি ${cityLabel} — হিজরি ও গ্রেগরিয়ান তারিখ`,
+                ms: `Waktu Solat Hari Ini di ${cityLabel} — Tarikh Hijrah & Masihi`
+            };
+            tagline.textContent = _taglineByLang[_ln] || _taglineByLang.en;
+        }
     }
 }
 

@@ -3629,6 +3629,23 @@ async function initApp() {
 function _saveLastCityContextNow() {
     try {
         if (currentLat && currentLng && currentEnglishName) {
+            // UAT-Nav-Context: never write Mecca-defaults from a HUB page
+            //   (`/`, `/qibla`, `/moon-today`, with optional /{lang}/ prefix).
+            //   Hubs are generic gateways — they must NOT seed a city context.
+            //   Without this, a user on the homepage who clicks ANY in-page link
+            //   would persist Mecca to last_city_context and contaminate every
+            //   subsequent tool page (Zakat / Duas / Tasbih / Hijri).
+            const _isMeccaDefault = (
+                Math.abs((currentLat || 0) - 21.4225) < 0.001 &&
+                Math.abs((currentLng || 0) - 39.8262) < 0.001 &&
+                (!currentEnglishName || currentEnglishName === 'Mecca')
+            );
+            if (_isMeccaDefault) {
+                const _path = (typeof window !== 'undefined' && window.location)
+                    ? window.location.pathname : '';
+                const _onHubPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:|index\.html|qibla|moon-today)$/.test(_path);
+                if (_onHubPage) return;
+            }
             sessionStorage.setItem('last_city_context', JSON.stringify({
                 lat: currentLat, lng: currentLng,
                 name: currentCity, country: currentCountry,
@@ -4133,6 +4150,29 @@ function initNavigation() {
                             }
                         } catch (_) {}
                     }
+                    // UAT-Nav-Context: if currently on a HUB page (`/`, `/qibla`,
+                    //   `/moon-today`, with optional /{lang}/ prefix) AND we would
+                    //   still be writing Mecca-defaults (no real location resolved
+                    //   from globals or lsb_detected), SKIP the save entirely so
+                    //   the destination tool page (Zakat / Duas / Tasbih / Hijri /
+                    //   Date-Converter) starts with NO city context — no fake
+                    //   "in Mecca" pollution leaked from the hub. We also clear
+                    //   any stale `city_${key}` and `last_city_context` so a
+                    //   prior nav cycle's data is not read on the destination.
+                    const _stillMecca = (!_lat || !_lng) || (
+                        Math.abs((_lat || 0) - 21.4225) < 0.001 &&
+                        Math.abs((_lng || 0) - 39.8262) < 0.001 &&
+                        (!_enName || _enName === 'Mecca')
+                    );
+                    const _navPath = window.location.pathname;
+                    const _onHubPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:|index\.html|qibla|moon-today)$/.test(_navPath);
+                    if (_onHubPage && _stillMecca) {
+                        try {
+                            sessionStorage.removeItem('city_' + key);
+                            sessionStorage.removeItem('last_city_context');
+                        } catch (_) {}
+                        return;
+                    }
                     const _payload = {
                         lat: _lat || 21.4225,
                         lng: _lng || 39.8262,
@@ -4145,6 +4185,64 @@ function initNavigation() {
                     sessionStorage.setItem('city_' + key, JSON.stringify(_payload));
                     sessionStorage.setItem('last_city_context', JSON.stringify({ ..._payload, ts: Date.now() }));
                 } catch (_) {}
+            };
+
+            // UAT-Nav-Context: detect a REAL city signal (not boot-time Mecca
+            //   defaults). Returns the signal data ({lat,lng,name,country,
+            //   englishName,countryCode}) or null. Priority order:
+            //   1) sessionStorage('last_city_context') — explicit recent nav
+            //   2) localStorage('lsb_detected')        — user's GPS (≤7 days)
+            //   3) current globals — only if NOT Mecca-defaults
+            //   Used by Moon/Qibla/Prayer-Times branches to decide between
+            //   "build city URL" vs "route to hub" when on a generic tool page
+            //   (e.g. /zakat-calculator). Without real signal → route to hub.
+            const _getRealCitySignal = () => {
+                try {
+                    // 1) last_city_context — explicit signal from prior nav
+                    const _lcc = sessionStorage.getItem('last_city_context');
+                    if (_lcc) {
+                        const _ctx = JSON.parse(_lcc);
+                        if (_ctx && _ctx.lat && _ctx.lng && _ctx.englishName) {
+                            return {
+                                lat: _ctx.lat, lng: _ctx.lng,
+                                name: _ctx.name || _ctx.englishName,
+                                country: _ctx.country || '',
+                                englishName: _ctx.englishName,
+                                countryCode: _ctx.countryCode || ''
+                            };
+                        }
+                    }
+                    // 2) lsb_detected — GPS detection within 7 days
+                    const _lsbRaw = localStorage.getItem('lsb_detected');
+                    if (_lsbRaw) {
+                        const _lsb = JSON.parse(_lsbRaw);
+                        const _ageMs = Date.now() - (Number(_lsb && _lsb.ts) || 0);
+                        if (_lsb && isFinite(_lsb.lat) && isFinite(_lsb.lng) && _lsb.enName
+                            && _ageMs < 7 * 24 * 60 * 60 * 1000) {
+                            return {
+                                lat: _lsb.lat, lng: _lsb.lng,
+                                name: _lsb.arCity || _lsb.enName,
+                                country: _lsb.country || '',
+                                englishName: _lsb.enName,
+                                countryCode: (_lsb.countryCode || '').toLowerCase()
+                            };
+                        }
+                    }
+                    // 3) Current globals — accept ONLY if not Mecca defaults
+                    const _globMecca = (
+                        Math.abs((currentLat || 0) - 21.4225) < 0.001 &&
+                        Math.abs((currentLng || 0) - 39.8262) < 0.001 &&
+                        (!currentEnglishName || currentEnglishName === 'Mecca')
+                    );
+                    if (currentLat && currentLng && currentEnglishName && !_globMecca) {
+                        return {
+                            lat: currentLat, lng: currentLng,
+                            name: currentCity, country: currentCountry,
+                            englishName: currentEnglishName, countryCode: currentCountryCode
+                        };
+                    }
+                    return null;
+                } catch (_) { return null; }
             };
 
             // التاريخ الهجري → /hijri-date/YYYY-MM-DD (canonical، لا يمرّ بـ /today-hijri-date)
@@ -4226,8 +4324,25 @@ function initNavigation() {
                             _moonSlug = _moonSlug.replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
                         }
                     }
-                    // 2) fallback: from current globals
-                    if (!_moonSlug && currentEnglishName) {
+                    // UAT-Nav-Context (tool-page origin): NO URL slug means we're
+                    //   on a generic tool page (Zakat/Duas/Tasbih/Hijri/Date-Conv).
+                    //   Check for a REAL city signal — if none, the user came from
+                    //   a hub-only chain (e.g. `/` → `/moon-today` → `/zakat-…`).
+                    //   Stay on the moon hub instead of fabricating /moon-today-in-mecca.
+                    if (!_moonSlug) {
+                        const _moonSignal = _getRealCitySignal();
+                        if (!_moonSignal) {
+                            window.location.href = pageUrl('/moon-today');
+                            return;
+                        }
+                        // Lift signal into globals so the slug + URL builder + city_moon
+                        //   seed all reflect the real location (overrides Mecca defaults).
+                        currentLat          = _moonSignal.lat;
+                        currentLng          = _moonSignal.lng;
+                        currentCity         = _moonSignal.name        || currentCity;
+                        currentCountry      = _moonSignal.country     || currentCountry;
+                        currentEnglishName  = _moonSignal.englishName || currentEnglishName;
+                        currentCountryCode  = _moonSignal.countryCode || currentCountryCode;
                         _moonSlug = makeSlug(currentEnglishName, currentLat, currentLng);
                     }
                     // 3) last resort
@@ -4311,7 +4426,23 @@ function initNavigation() {
                 if (_m) {
                     _slug = _m[1].replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
                 }
-                if (!_slug && currentLat && currentEnglishName) {
+                // UAT-Nav-Context (tool-page origin): no city URL → check for
+                //   a REAL signal. If none, user came from hub-only chain
+                //   (e.g. `/` → `/qibla` → `/zakat-calculator`). Route to
+                //   homepage `/` (the prayer-times hub) instead of /prayer-times-in-mecca.
+                if (!_slug) {
+                    const _ptSignal = _getRealCitySignal();
+                    if (!_ptSignal) {
+                        window.location.href = pageUrl('/');
+                        return;
+                    }
+                    // Lift signal so the slug + city_${slug} seed reflect real location.
+                    currentLat          = _ptSignal.lat;
+                    currentLng          = _ptSignal.lng;
+                    currentCity         = _ptSignal.name        || currentCity;
+                    currentCountry      = _ptSignal.country     || currentCountry;
+                    currentEnglishName  = _ptSignal.englishName || currentEnglishName;
+                    currentCountryCode  = _ptSignal.countryCode || currentCountryCode;
                     _slug = makeSlug(currentEnglishName, currentLat, currentLng);
                 }
                 // FIX: استرجاع موقع المدينة من sessionStorage إذا غاب currentLat
@@ -4447,11 +4578,22 @@ function initNavigation() {
                             : pageUrl(`/qibla-in-${_ctx.slug}`);  // UAT-Q5e: clean fallback (coords seeded in sessionStorage above)
                         return;
                     }
-                    // Fallback الأصليّ: استخدم موقع المستخدم الحاليّ
-                    if (currentLat && currentEnglishName) {
-                        navigateToQibla(currentLat, currentLng, currentCity, currentCountry, currentEnglishName, currentCountryCode);
+                    // UAT-Nav-Context (tool-page origin): no city URL ctx →
+                    //   check for a REAL city signal. If none, user came from
+                    //   a hub-only chain (e.g. `/` → `/qibla` → `/zakat-calc`).
+                    //   Route to the qibla hub instead of /qibla-in-mecca.
+                    const _qiblaSignal = _getRealCitySignal();
+                    if (!_qiblaSignal) {
+                        window.location.href = pageUrl('/qibla');
                         return;
                     }
+                    // Real signal exists → use it (overrides any Mecca-default globals).
+                    navigateToQibla(
+                        _qiblaSignal.lat, _qiblaSignal.lng,
+                        _qiblaSignal.name, _qiblaSignal.country,
+                        _qiblaSignal.englishName, _qiblaSignal.countryCode
+                    );
+                    return;
                 }
                 startDeviceCompass();
             }

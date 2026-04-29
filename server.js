@@ -7673,8 +7673,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _calBtn  = _hubCalShowBtn[Lm] || _hubCalShowBtn.en;
                 // Title now reads "📆 تقويم القمر — أبريل 2026" (month + year, dynamic)
                 const _calTitle = `📆 ${_hubCalTitles[Lm] || _hubCalTitles.en} — ${_gMonthsFull[_calMo - 1]} ${_calY}`;
-                // Use _gMonthShortLang for the per-cell short month label (e.g. "29 أبر").
-                const _gMonthsShort = _gMonthShortLang[Lm] || _gMonthShortLang.en;
+                // Use _gMonthFullLang for the per-cell month label (e.g. "29 أبريل" — full name).
+                //   The cell layout is generous enough for the full name; abbreviations
+                //   like "أبر" felt clipped, so we use "يناير / فبراير / مارس / ..." here.
+                const _gMonthsShort = _gMonthFullLang[Lm] || _gMonthFullLang.en;
                 // Compute today's day-of-year-style offset (in days) for any cell so
                 // we can produce a relative label like "قبل 3 أيّام / اليوم / بعد X يوم".
                 const _msPerDay = 24 * 60 * 60 * 1000;
@@ -7716,12 +7718,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 for (let w = 0; w < 7; w++) {
                     _calWdHtml += `<li class="moon-hub-cal-wd">${_escHtml(_wdayLbls[w])}</li>`;
                 }
-                // Prev/next month nav
+                // Prev/next month nav. Append `#moon-hub-cal` fragment so the new
+                //   page scrolls the visitor straight back to the calendar widget
+                //   (otherwise the browser lands at the top of the page after nav).
                 const _prevMo = (_calMo === 1) ? { y: _calY - 1, m: 12 } : { y: _calY, m: _calMo - 1 };
                 const _nextMo = (_calMo === 12) ? { y: _calY + 1, m: 1 } : { y: _calY, m: _calMo + 1 };
                 const _hubPath = _langPrefixHc + '/moon-in-' + seo.moonCity.slug;
-                const _prevHref = `${_hubPath}?cal=${_prevMo.y}-${_pad2Hc(_prevMo.m)}`;
-                const _nextHref = `${_hubPath}?cal=${_nextMo.y}-${_pad2Hc(_nextMo.m)}`;
+                const _prevHref = `${_hubPath}?cal=${_prevMo.y}-${_pad2Hc(_prevMo.m)}#moon-hub-cal`;
+                const _nextHref = `${_hubPath}?cal=${_nextMo.y}-${_pad2Hc(_nextMo.m)}#moon-hub-cal`;
                 // Year/Month picker form (no-JS fallback uses cal-y + cal-m;
                 // the JS handler in app.js auto-submits + folds them into cal=YYYY-MM)
                 let _yearOptsHtml = '';
@@ -7732,7 +7736,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 for (let m = 1; m <= 12; m++) {
                     _moOptsHtml += `<option value="${m}"${m === _calMo ? ' selected' : ''}>${_escHtml(_gMonthsFull[m - 1])}</option>`;
                 }
-                const _pickerHtml = `<form class="moon-hub-cal-picker" method="get" action="${_escHtml(_hubPath)}" role="search">`
+                // Picker form action also gets the #moon-hub-cal fragment so a no-JS
+                //   submit (using cal-y/cal-m) lands on the calendar after navigation.
+                const _pickerActionHref = _hubPath + '#moon-hub-cal';
+                const _pickerHtml = `<form class="moon-hub-cal-picker" method="get" action="${_escHtml(_pickerActionHref)}" role="search">`
                     + `<select name="cal-y" aria-label="Year">${_yearOptsHtml}</select>`
                     + `<select name="cal-m" aria-label="Month">${_moOptsHtml}</select>`
                     + `<button type="submit">${_escHtml(_calBtn)}</button>`
@@ -7760,7 +7767,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _todayIsoForHub = _isoOf(_calTodayD);
                 const _hubDetailCtaHref = _langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _todayIsoForHub;
                 const _hubDetailCtaHtml = `<a class="moon-hub-detail-cta" href="${_escHtml(_hubDetailCtaHref)}">${_escHtml(_hubDetailCtaText)}</a>`;
-                const _hubCalHtml = `<div class="section-card moon-hub-calendar-card">`
+                // id="moon-hub-cal" lets prev/next/picker URLs use #moon-hub-cal
+                //   fragment to scroll the visitor straight back to the calendar
+                //   widget after a month navigation. tabindex=-1 prevents the
+                //   anchor jump from also stealing focus from interactive children.
+                const _hubCalHtml = `<div class="section-card moon-hub-calendar-card" id="moon-hub-cal" tabindex="-1">`
                     + `<div class="moon-hub-cal-header">`
                     +   `<h2 class="moon-hub-cal-title">${_escHtml(_calTitle)}</h2>`
                     +   _pickerHtml

@@ -2632,7 +2632,15 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
  * SSR-rendered on /moon-in-{city} hub pages. Each cell is a square link to a
  * dated page, except today's cell which links to /moon-today-in-{city}.
  * Layout: month picker + nav, weekday header row, then the 7-col cell grid. */
-.moon-hub-calendar-card { padding: 18px 22px; }
+.moon-hub-calendar-card {
+    padding: 18px 22px;
+    /* When the prev/next/picker URLs include #moon-hub-cal fragment, the
+       browser scrolls this card into view. Reserve space at the top so the
+       sticky header doesn't cover the title after the jump. */
+    scroll-margin-top: 80px;
+}
+.moon-hub-calendar-card:focus { outline: none; }
+.moon-hub-calendar-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
 .moon-hub-cal-header {
     display: flex;
     align-items: center;

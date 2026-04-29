@@ -11162,6 +11162,9 @@ document.addEventListener('DOMContentLoaded', () => {
             _abs.searchParams.set('cal', `${y}-${m}`);
             _abs.searchParams.delete('cal-y');
             _abs.searchParams.delete('cal-m');
+            // Preserve / set #moon-hub-cal fragment so the destination page
+            // scrolls back to the calendar widget (not the page top).
+            _abs.hash = '#moon-hub-cal';
             window.location.href = _abs.toString();
         } catch (_) { _f.submit(); }
     };

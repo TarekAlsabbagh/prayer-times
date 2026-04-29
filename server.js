@@ -7782,6 +7782,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 for (let i = 0; i < _calFirstWday; i++) {
                     _calCellsHtml += '<li class="moon-hub-cal-cell moon-hub-cal-cell--empty" aria-hidden="true"></li>';
                 }
+                // UAT-Moon-Hub-Cal-PhaseNames: per-cell phase NAME (in addition
+                //   to the emoji). Look up via i18n key from MoonCalc.getPhaseName().
+                //   Short forms preferred for cell brevity (e.g. "بدر" not
+                //   "بدر (قمر مكتمل)") — i18n.js values used as-is per language.
+                const _i18nDictHc = (TRANSLATIONS_BY_LANG && TRANSLATIONS_BY_LANG[Lm]) || {};
+                const _i18nEnHc   = (TRANSLATIONS_BY_LANG && TRANSLATIONS_BY_LANG.en) || {};
+                const _phaseName = (key) => {
+                    if (!key) return '';
+                    const v = _i18nDictHc[key];
+                    if (typeof v === 'string') return v;
+                    const e = _i18nEnHc[key];
+                    return typeof e === 'string' ? e : '';
+                };
                 for (let day = 1; day <= _calLastDay; day++) {
                     const _cellD = new Date(_calY, _calMo - 1, day, 12, 0, 0);
                     const _cellIso = _isoOf(_cellD);
@@ -7803,10 +7816,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
                         : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
                     const _cellActive = _isToday ? ' moon-hub-cal-cell--today' : '';
+                    const _cellPhaseNameTxt = _phaseName(_cellPhase.key) || _cellPhase.name || _cellPhase.english || '';
                     _calCellsHtml += `<li class="moon-hub-cal-cell${_cellActive}"><a href="${_escHtml(_cellHref)}">`
                         + `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
                         + `<span class="moon-hub-cal-date">${_escHtml(_cellDateTxt)}</span>`
                         + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
+                        + `<span class="moon-hub-cal-phase-name">${_escHtml(_cellPhaseNameTxt)}</span>`
                         + `</a></li>`;
                 }
                 // Weekday header row

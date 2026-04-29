@@ -11082,14 +11082,13 @@ document.addEventListener('DOMContentLoaded', () => {
         heroEl.setAttribute('aria-label', 'فتح/إغلاق قسم البحث');
         heroEl.setAttribute('tabindex', '0');
 
-        // Close button — shown only while expanded; gives the visitor a
-        //   clear visual affordance to collapse the section back.
+        // Toggle button — always visible. Its CSS-drawn chevron rotates
+        //   with the collapsed state (▾ when collapsed, ▴ when expanded).
         const _closeBtn = closeBtnId ? document.getElementById(closeBtnId) : null;
 
         const _toggle = () => {
             const _nowCollapsed = heroEl.classList.toggle('loc-hero-collapsed');
             heroEl.setAttribute('aria-expanded', String(!_nowCollapsed));
-            if (_closeBtn) _closeBtn.hidden = _nowCollapsed;  // visible when expanded
         };
 
         heroEl.addEventListener('click', (e) => {
@@ -11110,15 +11109,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close-button click → always collapse (regardless of bubbling).
+        // Toggle-button click → flip collapsed state in either direction.
         //   stopPropagation prevents the parent click-listener from also firing
         //   (which would re-toggle and net-result in no change).
         if (_closeBtn) {
             _closeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (!heroEl.classList.contains('loc-hero-collapsed')) {
-                    _toggle();
-                }
+                _toggle();
             });
         }
     };

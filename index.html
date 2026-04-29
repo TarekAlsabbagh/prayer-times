@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=539" as="script">
-    <link rel="stylesheet" href="css/style.css?v=210">
+    <link rel="preload" href="js/app.js?v=540" as="script">
+    <link rel="stylesheet" href="css/style.css?v=211">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -248,10 +248,8 @@
 
                 <!-- ═══════ Location Hero — Persuasive Landing (mirrors qibla-hub-hero) ═══════ -->
                 <section class="location-hero section-card loc-hero-card" id="location-hero">
-                    <!-- Collapse button (visible only when expanded on city pages) -->
-                    <button type="button" class="loc-hero-close-btn" id="loc-hero-close-btn" aria-label="طيّ قسم البحث" data-i18n-aria-label="ui.collapse" hidden>
-                        <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
-                    </button>
+                    <!-- Collapse / expand toggle button (chevron rotates with state) -->
+                    <button type="button" class="loc-hero-close-btn" id="loc-hero-close-btn" aria-label="طيّ/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
                     <!-- Smart-redirect pill (hidden until a last-used location is cached) -->
                     <a id="loc-hero-smart-pill" class="loc-hero-smart-pill" href="#" hidden></a>
 
@@ -1268,10 +1266,8 @@
                      across both #page-qibla and #page-moon via dual-scope selectors).
                      IDs are moon-* for JS targeting; CLASSES are qibla-hub-* for styling. -->
                 <div class="section-card qibla-hub-hero-card hub-only" id="moon-hub-hero">
-                    <!-- Collapse button (visible only when expanded on moon city pages) -->
-                    <button type="button" class="loc-hero-close-btn" id="moon-hub-close-btn" aria-label="طيّ قسم البحث" data-i18n-aria-label="ui.collapse" hidden>
-                        <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
-                    </button>
+                    <!-- Collapse / expand toggle button (chevron rotates with state) -->
+                    <button type="button" class="loc-hero-close-btn" id="moon-hub-close-btn" aria-label="طيّ/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
                     <a id="moon-hub-smart-pill" class="qibla-hub-smart-pill" href="#" hidden></a>
                     <h1 id="moon-hub-h1" class="qibla-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.hub.title">حالة القمر اليوم</span></h1>
                     <p id="moon-hub-subtitle" class="qibla-hub-subtitle" data-i18n="moon.hub.subtitle">اعرف طور القمر، الإضاءة، عمر القمر، ومواعيد طلوعه وغروبه لأيّ مدينة.</p>
@@ -3228,7 +3224,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=539"></script>
+    <script defer src="js/app.js?v=540"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

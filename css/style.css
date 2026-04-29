@@ -11884,11 +11884,13 @@ html.time-left-page .sticky-next-bar {
     html.moon-today-city-page #moon-hub-hero { display: none !important; }
 }
 
-/* ── Collapse button (×) inside #location-hero & #moon-hub-hero ──────────
-   Hidden by default; revealed via JS only when the section is EXPANDED on
-   a city page (so the visitor has a clear "close / collapse" affordance).
-   Positioned at the top corner (RTL-aware via inset-inline-end). */
+/* ── Collapse/expand toggle button inside #location-hero & #moon-hub-hero ─
+   Hidden by default — shown ONLY on city pages where the collapse behavior
+   actually applies (homepage hub and moon-today hub leave it hidden). The
+   chevron is CSS-drawn, rotates with state: ▾ down when collapsed (click
+   to expand), ▴ up when expanded (click to collapse). RTL-aware. */
 .loc-hero-close-btn {
+    display: none;             /* default — invisible (homepage / hubs) */
     position: absolute;
     inset-inline-end: 14px;
     top: 14px;
@@ -11898,7 +11900,6 @@ html.time-left-page .sticky-next-bar {
     background: var(--bg, #ffffff);
     color: var(--text-secondary, #5a6a5a);
     border-radius: 50%;
-    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -11909,10 +11910,31 @@ html.time-left-page .sticky-next-bar {
                 box-shadow 0.18s ease;
     font: inherit;
 }
-.loc-hero-close-btn .icon {
-    width: 16px;
-    height: 16px;
+/* Show only on city pages where collapse is wired (desktop only) */
+@media (min-width: 769px) {
+    html.city-page #location-hero .loc-hero-close-btn,
+    html.moon-today-city-page #moon-hub-hero .loc-hero-close-btn {
+        display: inline-flex;
+    }
+}
+/* Chevron — drawn with two borders, rotated to taste */
+.loc-hero-close-btn::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-right: 2.5px solid currentColor;
+    border-bottom: 2.5px solid currentColor;
+    transform: rotate(45deg);             /* default = ▾ down (collapsed state) */
+    transition: transform 0.25s ease, margin 0.25s ease;
+    margin-bottom: 4px;                   /* visually center the chevron-down */
     pointer-events: none;
+}
+/* When the parent hero is EXPANDED → flip chevron to point up (▴) */
+#location-hero:not(.loc-hero-collapsed) .loc-hero-close-btn::before,
+#moon-hub-hero:not(.loc-hero-collapsed) .loc-hero-close-btn::before {
+    transform: rotate(-135deg);
+    margin-bottom: -4px;
+    margin-top: 4px;
 }
 .loc-hero-close-btn:hover {
     background: var(--brand, #1e5631);

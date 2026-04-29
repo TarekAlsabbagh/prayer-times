@@ -4439,6 +4439,14 @@ html[dir="ltr"] .moon-subtitle { text-align: left; }
     font-size: 1.05rem;
     opacity: 0.85;
     line-height: 1;
+    display: inline-block;
+}
+/* RTL: visually flip the arrow chars so "previous day" points to the
+   right (where it sits in the RTL layout) and "next day" points left.
+   The HTML keeps LTR-semantic chars (← / →) so LTR languages render
+   them correctly without override. */
+[dir="rtl"] .moon-date-link .moon-date-arrow {
+    transform: scaleX(-1);
 }
 .moon-date-link .moon-date-label {
     display: block;

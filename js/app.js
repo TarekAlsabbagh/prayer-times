@@ -14437,12 +14437,28 @@ function _prettifySlug(slug) {
 }
 
 // يرجع اسم المدينة بلغة الواجهة.
+// Strip admin-region prefixes from a city display name. Nominatim and some
+//   sessionStorage seeds return "محافظة مكة المكرمة" / "Mecca Governorate" /
+//   "Mannheim Region" — the visitor-facing label should be just the city.
+//   Used by _moonCityDisplayName so every code path returns a clean name.
+function _stripCityAdminPrefix(s) {
+    if (!s || typeof s !== 'string') return s;
+    return s
+        .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة|قضاء|بلدية|ناحية|مركز)\s+/, '')
+        .replace(/\s+(Governorate|Province|Region|Prefecture|Metropolis|Municipality|County|District)$/i, '')
+        .trim();
+}
+
 // الأولويّة:
 //   1) مفتاح i18n "city.<slug_normalized>" (للمدن المعروفة مع ترجمات يدويّة).
 //   2) currentCity (إن كان اسم المدينة الحاليّة يُطابق الـ slug) — يُعرِّب المدن غير
 //      المُدرَجة في i18n تلقائيًّا عبر reverse-geocoding أو DB السيرفر (مثل "طوكيو").
 //   3) fallback: تجميل الـ slug (e.g., "tokyo" → "Tokyo").
+//   Final step: every return value is stripped of admin-region prefixes
+//   ("محافظة"/"منطقة"/"Governorate"/...) via _stripCityAdminPrefix so the
+//   visitor sees the clean city name everywhere.
 function _moonCityDisplayName(slug) {
+    const _result = (function _moonCityDisplayNameInner() {
     if (!slug) return '';
     // 1) مفتاح i18n city.<slug>
     const key = 'city.' + slug.replace(/-/g, '_');
@@ -14564,6 +14580,9 @@ function _moonCityDisplayName(slug) {
     } catch (_e) { /* silent */ }
     // 7) fallback نهائيّ: _prettifySlug (يُرجع النسخة الإنجليزيّة فقط إذا لم يوجد شيء آخر)
     return _prettifySlug(slug);
+    })();
+    // Final visitor-facing cleanup: strip "محافظة"/"Governorate"/etc.
+    return _stripCityAdminPrefix(_result);
 }
 
 // خريطة المدينة → البلد (key 'country.<code>' في i18n)؛ تُستخدم في الفقرة التعريفيّة وH1

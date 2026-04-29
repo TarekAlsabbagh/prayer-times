@@ -242,9 +242,19 @@
 
             // علامة إن كان هذا اليوم حدثًا (بدر/محاق/تربيع)
             if (p.phaseEvent) {
+                // Clamp the icon Y so it never clips against the SVG top edge.
+                //   When illumination is high (~95%+) the dot sits very close
+                //   to PAD_T (≈18) and `cy - 16` puts the emoji at y≈2, which
+                //   gets clipped. If there's no room above the dot, place the
+                //   icon BELOW it instead.
+                const _iconOffset = isCenter ? 28 : 16;
+                const _aboveY = cy - _iconOffset;
+                const _belowY = cy + _iconOffset + 4;
+                const _evY = (_aboveY < PAD_T + (isCenter ? 16 : 13)) ? _belowY : _aboveY;
                 const evLbl = _createEl('text', {
-                    x: cx, y: cy - (isCenter ? 28 : 16),
+                    x: cx, y: _evY,
                     'text-anchor': 'middle',
+                    'dominant-baseline': 'middle',
                     'font-size': isCenter ? '16' : '13',
                     fill: 'currentColor'
                 });

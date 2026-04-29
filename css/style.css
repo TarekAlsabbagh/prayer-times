@@ -59,8 +59,12 @@ html.moon-today-hub-page #moon-events-section,
 html.moon-today-hub-page #moon-chart-section,
 html.moon-today-hub-page #moon-forecast,
 html.moon-today-hub-page #moon-faq-general,
+html.moon-today-hub-page #moon-general-faq,
 html.moon-today-hub-page .moon-faq-city-card,
 html.moon-today-hub-page .moon-evergreen { display: none !important; }
+/* UAT-Moon-Today-Polish: hide entire #moon-general-faq wrapper on
+   /moon-today (was showing only the H2 "أسئلة عامّة" with empty
+   body since #moon-faq-general inner div is hidden separately). */
 
 
 

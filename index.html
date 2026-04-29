@@ -35,7 +35,7 @@
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <link rel="preload" href="js/app.js?v=555" as="script">
-    <link rel="stylesheet" href="css/style.css?v=225">
+    <link rel="stylesheet" href="css/style.css?v=226">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1686,24 +1686,43 @@
                     </ul>
                 </div>
 
-                <!-- ═══════ UAT-Moon-Home: 4-Q hub FAQ (only on /moon-today) ═══════ -->
+                <!-- ═══════ UAT-Moon-Today-Polish: 8-Q hub FAQ (only on /moon-today) ═══════
+                     Locked to user-curated 8 questions matching the FAQPage JSON-LD
+                     exactly (no GSC mismatch warnings). Order is preserved across
+                     visible DOM and schema. -->
                 <section class="section-card moon-hub-faq hub-only" id="moon-hub-faq" aria-labelledby="moon-hub-faq-title">
                     <h2 id="moon-hub-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.hub.faq_title">أسئلة شائعة عن القمر</span></h2>
                     <details class="moon-faq-item" open>
-                        <summary data-i18n="moon.hub.faq.q1">ما هي أطوار القمر الثمانية؟</summary>
-                        <p data-i18n="moon.hub.faq.a1">دورة القمر تستغرق 29.5 يوماً وتمرّ بثمانية أطوار: المحاق، الهلال المتزايد، التربيع الأوّل، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص.</p>
+                        <summary data-i18n="moon.faq.dq1">ما هو طور القمر اليوم؟</summary>
+                        <p data-i18n="moon.faq.da1">يَمرّ القمر بثمانية أطوار خلال دورة 29.5 يوم: المحاق، الهلال المتزايد، التربيع الأوّل، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص. يَعرض الموقع الطور الحاليّ ونسبة الإضاءة لحظيّاً حسب موقعك.</p>
                     </details>
                     <details class="moon-faq-item">
-                        <summary data-i18n="moon.hub.faq.q2">كيف تُحسب نسبة إضاءة القمر؟</summary>
-                        <p data-i18n="moon.hub.faq.a2">نسبة الإضاءة تُحسب فلكياً من الزاوية بين الشمس والقمر والأرض (الـ phase angle). 0% تعني المحاق، 50% تعني التربيع، و100% تعني البدر — وفق خوارزميات Meeus الفلكية.</p>
+                        <summary data-i18n="moon.faq.dq_illum">كم نسبة إضاءة القمر اليوم؟</summary>
+                        <p data-i18n="moon.faq.da_illum">تُحسب نسبة إضاءة القمر فلكيّاً من الزاوية بين الشمس والقمر والأرض. تتراوح بين 0٪ (محاق) و100٪ (بدر مكتمل)، وتُعرض على الموقع لحظيّاً حسب موقعك.</p>
                     </details>
                     <details class="moon-faq-item">
-                        <summary data-i18n="moon.hub.faq.q3">لماذا تختلف مواعيد طلوع القمر بين المدن؟</summary>
-                        <p data-i18n="moon.hub.faq.a3">مطلع القمر ومغيبه يعتمدان على خط طول وعرض المدينة. لأنّ الأرض تدور كلّ 24 ساعة، فإنّ المدن الشرقية ترى القمر يطلع قبل المدن الغربية، والفرق قد يصل إلى 12 ساعة.</p>
+                        <summary data-i18n="moon.faq.dq5">كم عمر القمر اليوم؟</summary>
+                        <p data-i18n="moon.faq.da5">عمر القمر هو عدد الأيّام المنقضية منذ آخر محاق، ويتراوح بين 0 و29.5 يوم. يَعرض الموقع العمر الدقيق لحظيّاً مع تَحديد موقع القمر في دورته الحاليّة.</p>
                     </details>
                     <details class="moon-faq-item">
-                        <summary data-i18n="moon.hub.faq.q4">ما علاقة دورة القمر بالتقويم الهجري؟</summary>
-                        <p data-i18n="moon.hub.faq.a4">يَعتمد التقويم الهجريّ كلّياً على دورة القمر. كلّ شهر هجريّ يبدأ برؤية الهلال ويستمرّ 29 أو 30 يوماً، فمجموع السنة الهجرية 354 أو 355 يوماً — أقصر من السنة الشمسية بـ 11 يوماً.</p>
+                        <summary data-i18n="moon.faq.dq6">متى يشرق القمر اليوم؟</summary>
+                        <p data-i18n="moon.faq.da6">يَعتمد شروق القمر على خطّ الطول الجغرافيّ لموقعك. يَعرض الموقع وقت الشروق بالتوقيت المحلّيّ بمجرّد تَحديد الموقع.</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary data-i18n="moon.faq.dq7">متى يغرب القمر اليوم؟</summary>
+                        <p data-i18n="moon.faq.da7">يَعتمد غروب القمر على خطّ الطول الجغرافيّ وخطّ العرض لموقعك. يَعرض الموقع وقت الغروب بالتوقيت المحلّيّ.</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary data-i18n="moon.faq.dq2">متى يكون البدر القادم؟</summary>
+                        <p data-i18n="moon.faq.da2">يَتكرّر البدر كلّ 29.5 يوم. يَعرض الموقع التاريخ الميلاديّ والهجريّ للبدر القادم بدقّة حسابيّة عالية، مع نسبة إضاءة 100٪ ليلة اكتمال القمر.</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary data-i18n="moon.faq.dq_constellation">ما الفرق بين الكوكبة والبرج؟</summary>
+                        <p data-i18n="moon.faq.da_constellation">الكوكبة الفلكيّة (Constellation) هي رقعة من السماء تُحدّدها حدود رسميّة من الاتّحاد الفلكيّ الدوليّ (IAU)، وعددها 88 كوكبة منها 13 على دائرة البروج (تشمل الحوّاء). أمّا البرج (Zodiac sign) فهو تَقسيم تَنجيميّ يَفترض 12 جزءاً متساويًا (30° لكلّ جزء)، ولا يَعكس الموقع الفلكيّ الفعليّ للقمر. موقعنا يَستخدم الكوكبات الفلكيّة (IAU)، وليس الأبراج التَنجيميّة.</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary data-i18n="moon.hub.faq.q4">ما علاقة دورة القمر بالتقويم الهجريّ؟</summary>
+                        <p data-i18n="moon.hub.faq.a4">يَعتمد التقويم الهجريّ كلّيّاً على دورة القمر. كلّ شهر هجريّ يَبدأ برؤية الهلال ويَستمرّ 29 أو 30 يومًا، فمجموع السنة الهجريّة 354 أو 355 يومًا — أقصر من السنة الشمسيّة بـ 11 يومًا.</p>
                     </details>
                 </section>
 
@@ -3248,7 +3267,7 @@
     </div>
 
     <!-- ========= السكريبتات ========= -->
-    <script defer src="js/i18n.js?v=155"></script>
+    <script defer src="js/i18n.js?v=156"></script>
     <script defer src="js/prayer-times.js?v=48"></script>
     <script defer src="js/hijri-date.js?v=42"></script>
     <script defer src="js/qibla.js?v=44"></script>

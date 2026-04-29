@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=541" as="script">
-    <link rel="stylesheet" href="css/style.css?v=213">
+    <link rel="preload" href="js/app.js?v=542" as="script">
+    <link rel="stylesheet" href="css/style.css?v=214">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1317,11 +1317,11 @@
                 </div>
 
                 <!-- H1 دلاليّ — يُعاد كتابته JS-side حسب المدينة واللغة -->
-                <h1 class="page-h1" id="moon-page-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.h1">القمر اليوم</span></h1>
-
-                <!-- 🆕 Priority A: H2 تعريفيّ بارز مباشرةً تحت H1 (Hook + keyword-rich) -->
-                <h2 class="moon-subtitle" id="moon-subtitle" data-i18n="moon.subtitle_generic">تابع حالة القمر بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب</h2>
-
+                <!-- ═══ UAT-Moon-City answer card — wraps the city-page "answer first" content ═══
+                     On html.moon-today-city-page this section becomes a bounded hero card with
+                     breadcrumb + city-specific H1 + summary chips + Hijri-today bundled together,
+                     promoted to the top via flex order. On hub pages it stays a transparent passthrough. -->
+                <section class="moon-city-answer" id="moon-city-answer" aria-labelledby="moon-page-h1">
                 <!-- Breadcrumb navigation (4 levels max): Home › Moon Today › Moon Today in {City} › {Date}
                      bc-moon-hub-li يَظهر عند وجود مدينة (يحوّل المستوى 2 من "current" إلى رابط للهَب).
                      bc-moon نصّ ديناميّ — يصبح "القمر اليوم في {City}" عند توفّر مدينة. -->
@@ -1338,6 +1338,11 @@
                         <li class="bc-item bc-current bc-date" id="bc-date" aria-current="page" hidden></li>
                     </ol>
                 </nav>
+
+                <h1 class="page-h1" id="moon-page-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.h1">القمر اليوم</span></h1>
+
+                <!-- 🆕 Priority A: H2 تعريفيّ بارز مباشرةً تحت H1 (Hook + keyword-rich) -->
+                <h2 class="moon-subtitle" id="moon-subtitle" data-i18n="moon.subtitle_generic">تابع حالة القمر بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب</h2>
 
                 <!-- 🆕 Top Summary line — ملخّص سريع قابل للمسح بنظرة واحدة، يُملأ بـ JS -->
                 <div class="moon-summary-line" id="moon-summary-line" role="status" aria-live="polite">
@@ -1374,6 +1379,7 @@
                     <div class="moon-hijri-lunar" id="moon-hijri-lunar">—</div>
                     <div class="moon-hijri-notice" data-i18n="moon.hijri.notice">* قد يختلف التاريخ الهجريّ حسب الرؤية الشرعيّة في بلدك.</div>
                 </div>
+                </section><!-- /#moon-city-answer -->
 
                 <!-- Date navigation (يظهر فقط على moon-date-page عبر CSS) -->
                 <nav class="moon-date-nav" id="moon-date-nav" aria-label="Moon date navigation" hidden>
@@ -1394,7 +1400,7 @@
                 </nav>
 
                 <!-- القسم الرئيسيّ — الحالة الحاليّة -->
-                <div class="section-card">
+                <div class="section-card" id="moon-main-card">
                     <h2 id="moon-title-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.title">القمر اليوم</span></h2>
                     <div class="moon-location-note" id="moon-location-note" data-i18n="moon.location_note">الموقع: جاري التحديد…</div>
                     <div class="moon-display">
@@ -1637,7 +1643,7 @@
                 </div>
 
                 <!-- القمر في مدن أخرى — internal linking (🆕 Wave B.4: grid cards مع أعلام وأيقونات) -->
-                <div class="section-card">
+                <div class="section-card" id="moon-other-cities">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="moon.cities_title">القمر اليوم في مدن أخرى</span></h2>
                     <ul class="moon-cities-grid">
                         <li><a href="/moon-today-in-makkah"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
@@ -1704,7 +1710,7 @@
                 </div>
 
                 <!-- FAQ — General Astronomy / Islamic Section (static, SEO-friendly) -->
-                <div class="section-card">
+                <div class="section-card" id="moon-general-faq">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_general_title">أسئلة عامّة عن القمر</span></h2>
                     <div class="moon-faq moon-faq-general" id="moon-faq-general">
                         <!-- 🆕 Priority B.1: تصنيف الأسئلة إلى مجموعتين (معلومات لحظيّة + أسئلة فلكيّة) -->
@@ -3224,7 +3230,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=541"></script>
+    <script defer src="js/app.js?v=542"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

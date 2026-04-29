@@ -12006,6 +12006,137 @@ html.time-left-page .sticky-next-bar {
     html.moon-today-city-page #moon-hub-hero { display: none !important; }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   UAT-Moon-City — visitor-friendly redesign for /moon-today-in-{city}
+   ───────────────────────────────────────────────────────────────────────
+   Visitor lands on a city page wanting today's moon answer for THAT city.
+   Old layout led with a "search a city" hub hero (contradictory: visitor
+   is already on a city) and buried the actual moon SVG ~130 DOM lines
+   down. This block:
+     1. Turns #page-moon into a flex column on city pages.
+     2. Re-ranks direct children by visitor-priority via `order:`.
+     3. Visually unifies title/subtitle/summary/Hijri inside the new
+        #moon-city-answer wrapper card.
+     4. Demotes #moon-hub-hero to the bottom and relabels its prompt as
+        "looking for a different city?" so the search re-entry feels
+        like a footer affordance, not a top-of-page contradiction.
+   Hub page (html.moon-today-hub-page) is untouched — every rule is
+   gated on .moon-today-city-page only.
+   ═══════════════════════════════════════════════════════════════════════ */
+html.moon-today-city-page #page-moon {
+    display: flex;
+    flex-direction: column;
+}
+/* Order ranking — direct children of #page-moon, city pages only.
+   Lower number = higher in visual stack. Elements without a rule keep
+   default `order: 0` (above everything except the demoted hub-hero). */
+html.moon-today-city-page #page-moon > #moon-city-answer        { order: 1; }
+html.moon-today-city-page #page-moon > #moon-date-nav           { order: 2; }
+html.moon-today-city-page #page-moon > #moon-main-card          { order: 3; }
+html.moon-today-city-page #page-moon > #moon-upcoming-section   { order: 4; }
+html.moon-today-city-page #page-moon > #moon-chart-section      { order: 5; }
+html.moon-today-city-page #page-moon > #moon-forecast           { order: 6; }
+html.moon-today-city-page #page-moon > #moon-events-section     { order: 7; }
+html.moon-today-city-page #page-moon > .moon-faq-city-card      { order: 8; }
+html.moon-today-city-page #page-moon > #moon-other-cities       { order: 9; }
+html.moon-today-city-page #page-moon > #moon-general-faq        { order: 10; }
+html.moon-today-city-page #page-moon > .moon-evergreen          { order: 11; }
+html.moon-today-city-page #page-moon > #moon-hub-hero           { order: 12; }
+/* The sticky bar is absolute/fixed — order doesn't affect rendering, but
+   keep it as the last logical item so flex doesn't push other elements. */
+html.moon-today-city-page #page-moon > #moon-sticky-bar         { order: 13; }
+
+/* ── #moon-city-answer wrapper card (city pages only) ──
+   On hub pages this section is a transparent passthrough (no card style).
+   On city pages it becomes the unified answer hero: bordered card holding
+   breadcrumb + city H1 + city subtitle + summary chips + intro + Hijri-today. */
+html.moon-today-city-page #moon-city-answer {
+    background: var(--card-bg, #fff);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin: 12px 0 18px;
+    box-shadow: var(--shadow, 0 2px 8px rgba(0,0,0,0.06));
+    border: 1px solid var(--border, #e0e8e0);
+}
+/* Tighten spacing inside the answer card so the chips/summary don't feel
+   floating — they're now part of one cohesive hero. */
+html.moon-today-city-page #moon-city-answer > .moon-breadcrumb {
+    margin: 0 0 14px;
+    padding: 0;
+}
+html.moon-today-city-page #moon-city-answer > #moon-page-h1 {
+    margin: 0 0 6px;
+    font-size: 1.45rem;
+    line-height: 1.35;
+}
+html.moon-today-city-page #moon-city-answer > #moon-subtitle {
+    margin: 0 0 14px;
+    font-size: 1rem;
+    color: var(--text-light, #6b7b75);
+    font-weight: 500;
+}
+html.moon-today-city-page #moon-city-answer > #moon-summary-line {
+    margin: 0 0 14px;
+}
+html.moon-today-city-page #moon-city-answer > #moon-intro {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text, #1f3328);
+}
+html.moon-today-city-page #moon-city-answer > #moon-hijri-today {
+    margin: 0;
+}
+@media (max-width: 768px) {
+    html.moon-today-city-page #moon-city-answer {
+        padding: 16px 16px;
+        margin: 8px 0 14px;
+    }
+    html.moon-today-city-page #moon-city-answer > #moon-page-h1 {
+        font-size: 1.2rem;
+    }
+}
+
+/* ── #moon-hub-hero footer prompt — when demoted to the bottom of city
+   pages, prepend a small "looking for a different city?" label so the
+   search re-entry reads as a footer affordance, not a top contradiction.
+   Desktop only — mobile hides the section entirely (line 12006). */
+@media (min-width: 769px) {
+    html.moon-today-city-page #moon-hub-hero {
+        margin-top: 24px;
+    }
+    html.moon-today-city-page #moon-hub-hero::before {
+        content: "🔎 تبحث عن مدينة أخرى؟";
+        display: block;
+        font-size: 0.95rem;
+        color: var(--text-light, #6b7b75);
+        margin: 0 0 12px;
+        text-align: center;
+        font-weight: 700;
+    }
+    /* English — content for non-Arabic UI. Uses :lang() pseudo-class to
+       avoid hardcoding Arabic on EN/FR/etc. pages. Falls back to Arabic
+       above for languages without an explicit override below. */
+    html[lang="en"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Looking for a different city?"; }
+    html[lang="fr"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Vous cherchez une autre ville ?"; }
+    html[lang="tr"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Başka bir şehir mi arıyorsunuz?"; }
+    html[lang="ur"].moon-today-city-page #moon-hub-hero::before { content: "🔎 کسی اور شہر کی تلاش ہے؟"; }
+    html[lang="de"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Suchen Sie eine andere Stadt?"; }
+    html[lang="id"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Mencari kota lain?"; }
+    html[lang="es"].moon-today-city-page #moon-hub-hero::before { content: "🔎 ¿Buscas otra ciudad?"; }
+    html[lang="bn"].moon-today-city-page #moon-hub-hero::before { content: "🔎 অন্য শহর খুঁজছেন?"; }
+    html[lang="ms"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Mencari bandar lain?"; }
+}
+
+/* ── Mobile: shift heaviest tables (forecast) lower so they're not the
+   first thing thumb-scrolling visitors hit on small screens. Keeps
+   visual hierarchy: answer card → main card → chart → events → forecast.
+   Hub hero is already display:none on mobile (line 12006). */
+@media (max-width: 768px) {
+    html.moon-today-city-page #page-moon > #moon-forecast { order: 9; }
+    html.moon-today-city-page #page-moon > #moon-events-section { order: 6; }
+}
+
 /* ── Collapse/expand toggle button inside #location-hero & #moon-hub-hero ─
    Hidden by default — shown ONLY on city pages where the collapse behavior
    actually applies (homepage hub and moon-today hub leave it hidden). The

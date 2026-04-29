@@ -2642,7 +2642,9 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    /* UAT-Moon-City-fix: auto-fit minmax so 7 cells fit on wide screens
+       (>900px) but wrap to 4+3 on tablets (600-900px) instead of overflowing. */
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
     gap: 8px;
 }
 .moon-hub-cal-cell { margin: 0; }
@@ -3940,7 +3942,9 @@ body.has-moon-sticky #page-moon { padding-top: var(--moon-sticky-h, 50px); }
 }
 .moon-upcoming-timeline {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* UAT-Moon-City-fix: auto-fit so 4 cards fit on wide screens but wrap
+       to 2x2 on tablets/mobile rather than squishing/overflowing. */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 10px;
     margin-bottom: 12px;
 }

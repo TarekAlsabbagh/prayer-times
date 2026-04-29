@@ -12126,6 +12126,98 @@ html.moon-today-city-page #moon-hub-h1 {
     display: none !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   DARK-THEME SWEEP — qibla & moon hub elements that used var(--text-dark)
+   for text color (which stays dark green on dark surfaces, making titles
+   and chip labels nearly invisible). Each rule includes #page-qibla /
+   #page-moon scopes to match the source rule's specificity (1,1,1) so the
+   override actually applies. Uses the established dark-theme accent
+   (--primary-dark = #4dcb8c) and --text for body copy.
+   ═══════════════════════════════════════════════════════════════════════ */
+/* Smart pill — text + child spans must be readable; uses qhsp- children */
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill {
+    background: linear-gradient(135deg, rgba(77,203,140,0.10) 0%, rgba(77,203,140,0.18) 100%);
+    border-color: rgba(77,203,140,0.45);
+    color: var(--text, #cdd9e5);
+}
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill .qhsp-prefix,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill .qhsp-prefix,
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill .qhsp-cta,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill .qhsp-cta,
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill .mhsp-prefix,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill .mhsp-prefix,
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill .mhsp-cta,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill .mhsp-cta {
+    color: var(--text, #cdd9e5);
+}
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill .qhsp-city,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill .qhsp-city,
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill .mhsp-city,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill .mhsp-city {
+    color: var(--primary-dark, #4dcb8c);
+    font-weight: 700;
+}
+html[data-theme="dark"] #page-qibla .qibla-hub-smart-pill:hover,
+html[data-theme="dark"] #page-moon  .qibla-hub-smart-pill:hover {
+    background: linear-gradient(135deg, rgba(77,203,140,0.22) 0%, rgba(77,203,140,0.30) 100%);
+    border-color: var(--primary-dark, #4dcb8c);
+}
+
+/* Visited cities chips */
+html[data-theme="dark"] #page-qibla .qibla-hub-visited-grid .qhv-chip,
+html[data-theme="dark"] #page-moon  .qibla-hub-visited-grid .qhv-chip {
+    background: rgba(228,194,118,0.06);
+    border-color: rgba(228,194,118,0.32);
+    color: var(--text, #cdd9e5);
+}
+html[data-theme="dark"] #page-qibla .qibla-hub-visited-grid .qhv-chip:hover,
+html[data-theme="dark"] #page-moon  .qibla-hub-visited-grid .qhv-chip:hover {
+    background: rgba(228,194,118,0.14);
+    border-color: var(--accent, #e8c860);
+}
+
+/* Hub section titles (visited / howto / usecases) */
+html[data-theme="dark"] #page-qibla #qibla-hub-visited-title,
+html[data-theme="dark"] #page-qibla #qibla-hub-howto-title,
+html[data-theme="dark"] #page-qibla #qibla-hub-usecases-title {
+    color: var(--text, #cdd9e5);
+}
+
+/* How-to step cards */
+html[data-theme="dark"] #page-qibla .qibla-hub-howto-steps .qhhs-step,
+html[data-theme="dark"] #page-moon  .qibla-hub-howto-steps .qhhs-step {
+    background: rgba(77,203,140,0.06);
+    border-color: rgba(77,203,140,0.18);
+}
+html[data-theme="dark"] #page-qibla .qibla-hub-howto-steps .qhhs-text,
+html[data-theme="dark"] #page-moon  .qibla-hub-howto-steps .qhhs-text {
+    color: var(--text, #cdd9e5);
+}
+
+/* Use-cases items */
+html[data-theme="dark"] #page-qibla .qibla-hub-usecases .qhuc-item,
+html[data-theme="dark"] #page-moon  .qibla-hub-usecases .qhuc-item {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.10);
+}
+html[data-theme="dark"] #page-qibla .qibla-hub-usecases .qhuc-label,
+html[data-theme="dark"] #page-moon  .qibla-hub-usecases .qhuc-label {
+    color: var(--text, #cdd9e5);
+}
+
+/* Qibla FAQ items — both summary (question) and answer body need light text */
+html[data-theme="dark"] #page-qibla #qibla-faq .qibla-faq-item summary,
+html[data-theme="dark"] #page-qibla #qibla-faq-title {
+    color: var(--text, #cdd9e5);
+}
+html[data-theme="dark"] #page-qibla #qibla-faq .qibla-faq-answer {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] #page-qibla #qibla-faq .qibla-faq-item {
+    border-color: rgba(255,255,255,0.10);
+}
+
 /* ── Mobile: shift heaviest tables (forecast) lower so they're not the
    first thing thumb-scrolling visitors hit on small screens. Keeps
    visual hierarchy: answer card → main card → chart → events → forecast.

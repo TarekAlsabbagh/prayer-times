@@ -12100,13 +12100,15 @@ html.moon-today-city-page #moon-city-answer > #moon-hijri-today {
 /* ── #moon-hub-hero footer prompt — when demoted to the bottom of city
    pages, prepend a small "looking for a different city?" label so the
    search re-entry reads as a footer affordance, not a top contradiction.
-   Desktop only — mobile hides the section entirely (line 12006). */
+   Desktop only — mobile hides the section entirely (line 12006).
+   Label string is i18n-driven via data-other-cities-label attribute set
+   by JS (moon.other_cities_prompt key) — no hardcoded translations here. */
 @media (min-width: 769px) {
     html.moon-today-city-page #moon-hub-hero {
         margin-top: 24px;
     }
-    html.moon-today-city-page #moon-hub-hero::before {
-        content: "🔎 تبحث عن مدينة أخرى؟";
+    html.moon-today-city-page #moon-hub-hero[data-other-cities-label]::before {
+        content: attr(data-other-cities-label);
         display: block;
         font-size: 0.95rem;
         color: var(--text-light, #6b7b75);
@@ -12114,18 +12116,14 @@ html.moon-today-city-page #moon-city-answer > #moon-hijri-today {
         text-align: center;
         font-weight: 700;
     }
-    /* English — content for non-Arabic UI. Uses :lang() pseudo-class to
-       avoid hardcoding Arabic on EN/FR/etc. pages. Falls back to Arabic
-       above for languages without an explicit override below. */
-    html[lang="en"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Looking for a different city?"; }
-    html[lang="fr"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Vous cherchez une autre ville ?"; }
-    html[lang="tr"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Başka bir şehir mi arıyorsunuz?"; }
-    html[lang="ur"].moon-today-city-page #moon-hub-hero::before { content: "🔎 کسی اور شہر کی تلاش ہے؟"; }
-    html[lang="de"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Suchen Sie eine andere Stadt?"; }
-    html[lang="id"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Mencari kota lain?"; }
-    html[lang="es"].moon-today-city-page #moon-hub-hero::before { content: "🔎 ¿Buscas otra ciudad?"; }
-    html[lang="bn"].moon-today-city-page #moon-hub-hero::before { content: "🔎 অন্য শহর খুঁজছেন?"; }
-    html[lang="ms"].moon-today-city-page #moon-hub-hero::before { content: "🔎 Mencari bandar lain?"; }
+}
+
+/* UAT-Moon-City: ensure ONLY ONE H1 per page. The hub hero card contains
+   its own <h1 id="moon-hub-h1"> which is the page-level H1 on /moon-today.
+   On city pages, the answer card's #moon-page-h1 is the canonical H1, so
+   demote (visually hide) the hub-hero's H1 to keep the SEO H1 count = 1. */
+html.moon-today-city-page #moon-hub-h1 {
+    display: none !important;
 }
 
 /* ── Mobile: shift heaviest tables (forecast) lower so they're not the

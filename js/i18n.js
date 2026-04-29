@@ -735,6 +735,11 @@ const TRANSLATIONS = {
         'hijri_ny.link_hijri_today': 'التاريخ الهجريّ اليوم',
         // ═══ Round 10: قوالب العناوين الديناميكيّة + فقرة تعريفيّة + مقارنة + CTA + الكوكبة + نظرة الطور ═══
         'moon.h1_city_template': 'طور القمر اليوم في {city}، {country} — الإضاءة وعمر القمر',
+        // UAT-Moon-City: visitor-first short city H1 (city + date) — preferred
+        // by app.js over the longer h1_city_template; falls back if missing.
+        'moon.h1_city': 'حالة القمر اليوم في {city} — {date}',
+        'moon.subtitle_city': 'الطور · الإضاءة · مواعيد الشروق والغروب',
+        'moon.other_cities_prompt': '🔎 تبحث عن مدينة أخرى؟',
         'moon.h1_generic': 'طور القمر اليوم — الإضاءة والعمر والبدر القادم',
         'moon.title_city_template': 'حالة القمر اليوم بالتفصيل في {city}',
         // Priority A subtitle + phase cycle labels
@@ -2102,6 +2107,9 @@ const TRANSLATIONS = {
         'hijri_ny.link_hijri_today': 'Hijri Date Today',
         // ═══ Round 10: dynamic headings + intro paragraph + comparison + CTA + zodiac + phase insight ═══
         'moon.h1_city_template': 'Moon Phase Today in {city}, {country} — Illumination & Age',
+        'moon.h1_city': 'Moon phase today in {city} — {date}',
+        'moon.subtitle_city': 'Phase · illumination · moonrise & moonset',
+        'moon.other_cities_prompt': '🔎 Looking for a different city?',
         'moon.h1_generic': 'Moon Phase Today — Illumination, Age & Next Full Moon',
         'moon.title_city_template': 'Current Moon State in {city}',
         // Priority A subtitle + phase cycle labels
@@ -3041,6 +3049,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'Questions fréquentes sur la Lune',
         // ═══ Round 10: titres dynamiques + paragraphe d'intro + comparaison + CTA + zodiaque + aperçu de phase ═══
         'moon.h1_city_template': 'Phase de la Lune aujourd\u2019hui à {city}, {country} — Illumination et âge',
+        'moon.h1_city': 'Phase de la Lune aujourd’hui à {city} — {date}',
+        'moon.subtitle_city': 'Phase · illumination · lever et coucher',
+        'moon.other_cities_prompt': '🔎 Vous cherchez une autre ville ?',
         'moon.h1_generic': 'Phase de la Lune aujourd\u2019hui — Illumination, âge et prochaine pleine lune',
         'moon.title_city_template': 'État actuel de la Lune à {city}',
         // Priority A subtitle + phase cycle labels
@@ -4191,6 +4202,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'Ay Hakkında Sıkça Sorulan Sorular',
         // ═══ Round 10: dinamik başlıklar + giriş paragrafı + karşılaştırma + CTA + burç + evre özeti ═══
         'moon.h1_city_template': 'Bugün {city}, {country} için Ay Evresi — Aydınlanma ve Yaş',
+        'moon.h1_city': 'Bugün {city} için ay evresi — {date}',
+        'moon.subtitle_city': 'Evre · aydınlanma · doğuş ve batış',
+        'moon.other_cities_prompt': '🔎 Başka bir şehir mi arıyorsunuz?',
         'moon.h1_generic': 'Bugün Ay Evresi — Aydınlanma, Yaş ve Sonraki Dolunay',
         'moon.title_city_template': '{city} için Ayın Güncel Durumu',
         // Priority A subtitle + phase cycle labels
@@ -5341,6 +5355,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'چاند کے بارے میں اکثر پوچھے جانے والے سوالات',
         // ═══ Round 10: متحرک عنوانات + تعارفی پیراگراف + موازنہ + CTA + برج + مرحلہ جھلک ═══
         'moon.h1_city_template': 'آج {city}، {country} میں چاند کا مرحلہ — روشنی اور عمر',
+        'moon.h1_city': 'آج {city} میں چاند کی حالت — {date}',
+        'moon.subtitle_city': 'مرحلہ · روشنی · طلوع و غروب',
+        'moon.other_cities_prompt': '🔎 کسی اور شہر کی تلاش ہے؟',
         'moon.h1_generic': 'آج چاند کا مرحلہ — روشنی، عمر اور اگلا پورا چاند',
         'moon.title_city_template': '{city} میں چاند کی موجودہ حالت',
         // Priority A subtitle + phase cycle labels
@@ -6472,6 +6489,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'Häufig gestellte Fragen zum Mond',
         // ═══ Round 10: dynamische Überschriften + Einleitung + Vergleich + CTA + Tierkreiszeichen + Phasen-Einblick ═══
         'moon.h1_city_template': 'Mondphase heute in {city}, {country} — Beleuchtung und Alter',
+        'moon.h1_city': 'Mondphase heute in {city} — {date}',
+        'moon.subtitle_city': 'Phase · Beleuchtung · Auf- und Untergang',
+        'moon.other_cities_prompt': '🔎 Suchen Sie eine andere Stadt?',
         'moon.h1_generic': 'Mondphase heute — Beleuchtung, Alter und nächster Vollmond',
         'moon.title_city_template': 'Aktueller Mondzustand in {city}',
         // Priority A subtitle + phase cycle labels
@@ -7677,6 +7697,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'Pertanyaan yang Sering Diajukan tentang Bulan',
         // ═══ Round 10: judul dinamis + paragraf pembuka + perbandingan + CTA + rasi bintang + ringkasan fase ═══
         'moon.h1_city_template': 'Fase Bulan Hari Ini di {city}, {country} — Pencahayaan dan Usia',
+        'moon.h1_city': 'Fase bulan hari ini di {city} — {date}',
+        'moon.subtitle_city': 'Fase · pencahayaan · waktu terbit & terbenam',
+        'moon.other_cities_prompt': '🔎 Mencari kota lain?',
         'moon.h1_generic': 'Fase Bulan Hari Ini — Pencahayaan, Usia, dan Bulan Purnama Berikutnya',
         'moon.title_city_template': 'Kondisi Bulan Saat Ini di {city}',
         // Priority A subtitle + phase cycle labels
@@ -8882,6 +8905,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'Preguntas frecuentes sobre la Luna',
         // ═══ Round 10: títulos dinámicos + párrafo introductorio + comparación + CTA + constelación + resumen de fase ═══
         'moon.h1_city_template': 'Fase de la Luna hoy en {city}, {country} — Iluminación y edad',
+        'moon.h1_city': 'Fase de la Luna hoy en {city} — {date}',
+        'moon.subtitle_city': 'Fase · iluminación · salida y puesta',
+        'moon.other_cities_prompt': '🔎 ¿Buscas otra ciudad?',
         'moon.h1_generic': 'Fase de la Luna hoy — Iluminación, edad y próxima luna llena',
         'moon.title_city_template': 'Estado actual de la Luna en {city}',
         // Priority A subtitle + phase cycle labels
@@ -10087,6 +10113,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'চাঁদ সম্পর্কে প্রায়শই জিজ্ঞাসিত প্রশ্ন',
         // ═══ Round 10: ডাইনামিক শিরোনাম + ভূমিকা + তুলনা + CTA + রাশি + পর্যায় দৃষ্টিভঙ্গি ═══
         'moon.h1_city_template': 'আজ {city}, {country}-এ চাঁদের পর্যায় — আলোকসজ্জা ও বয়স',
+        'moon.h1_city': 'আজ {city}-এ চাঁদের পর্যায় — {date}',
+        'moon.subtitle_city': 'পর্যায় · আলোকসজ্জা · উদয় ও অস্ত',
+        'moon.other_cities_prompt': '🔎 অন্য শহর খুঁজছেন?',
         'moon.h1_generic': 'আজ চাঁদের পর্যায় — আলোকসজ্জা, বয়স এবং পরবর্তী পূর্ণিমা',
         'moon.title_city_template': '{city}-এ চাঁদের বর্তমান অবস্থা',
         // Priority A subtitle + phase cycle labels
@@ -11292,6 +11321,9 @@ const TRANSLATIONS = {
         'moon.faq_title': 'Soalan Lazim tentang Bulan',
         // ═══ Round 10: tajuk dinamik + perenggan pengenalan + perbandingan + CTA + buruj + pandangan fasa ═══
         'moon.h1_city_template': 'Fasa Bulan Hari Ini di {city}, {country} — Pencahayaan & Usia',
+        'moon.h1_city': 'Fasa bulan hari ini di {city} — {date}',
+        'moon.subtitle_city': 'Fasa · pencahayaan · terbit dan terbenam',
+        'moon.other_cities_prompt': '🔎 Mencari bandar lain?',
         'moon.h1_generic': 'Fasa Bulan Hari Ini — Pencahayaan, Usia, dan Bulan Purnama Berikutnya',
         'moon.title_city_template': 'Keadaan Bulan Semasa di {city}',
         // Priority A subtitle + phase cycle labels

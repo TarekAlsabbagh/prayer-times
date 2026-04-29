@@ -14947,12 +14947,37 @@ function updateMoonInfo() {
     if (_citySlug) {
         const _cityName = _moonCityDisplayName(_citySlug);
         const _countryName = _moonCityCountryName(_citySlug, _lng_);
-        // H1 — قالب غنيّ بالكلمات المفتاحيّة (طور/إضاءة/عمر) من i18n
-        if (_h1El) {
-            if (typeof t === 'function') {
-                const tplH1 = t('moon.h1_city_template', { city: _cityName, country: _countryName });
-                if (tplH1 && tplH1 !== 'moon.h1_city_template') {
-                    _h1El.textContent = tplH1;
+        // UAT-Moon-City: build a localized "DD Month YYYY" string from `today`
+        //   (the date being rendered — today or a past/future date for date-pages).
+        //   Used by the new moon.h1_city key: "حالة القمر اليوم في {city} — {date}".
+        let _dateStrH1 = '';
+        try {
+            const _intlLoc = (typeof _INTL_LOCALES !== 'undefined' && _INTL_LOCALES[_lng_]) || _lng_ || 'ar';
+            _dateStrH1 = new Intl.DateTimeFormat(_intlLoc, {
+                day: 'numeric', month: 'long', year: 'numeric'
+            }).format(today);
+        } catch (_e) {
+            // Fallback: language-aware month name + numeric day/year
+            try {
+                const _mIdx = today.getMonth();
+                const _mName = (typeof gregMonthFor === 'function')
+                    ? gregMonthFor(_lng_, _mIdx)
+                    : (HijriDate.gregorianMonths[_mIdx] || '');
+                _dateStrH1 = `${today.getDate()} ${_mName} ${today.getFullYear()}`;
+            } catch (_) { /* leave empty — i18n will still produce city only */ }
+        }
+        // H1 — UAT-Moon-City: prefer the new visitor-first key (city + date) over
+        //   the legacy keyword-stuffed template (city + country + extra phrases).
+        //   Both keys exist; the new one is cleaner for the visitor; the old one
+        //   stays as a graceful fallback for legacy translations.
+        if (_h1El && typeof t === 'function') {
+            const _newH1 = t('moon.h1_city', { city: _cityName, date: _dateStrH1 });
+            if (_newH1 && _newH1 !== 'moon.h1_city') {
+                _h1El.textContent = _newH1;
+            } else {
+                const _tplH1 = t('moon.h1_city_template', { city: _cityName, country: _countryName });
+                if (_tplH1 && _tplH1 !== 'moon.h1_city_template') {
+                    _h1El.textContent = _tplH1;
                 }
             }
         }
@@ -14966,8 +14991,31 @@ function updateMoonInfo() {
         _setH2('moon-title-h2', 'moon.title_city_template');
         _setH2('moon-forecast-h2', 'moon.forecast_title_city_template');
         _setH2('moon-faq-live-h2', 'moon.faq_live_title_city_template');
-        // 🆕 Priority A: subtitle تحت H1 — نسخة city-specific
-        _setH2('moon-subtitle', 'moon.subtitle_city_template');
+        // 🆕 Priority A: subtitle تحت H1 — UAT-Moon-City: prefer the new
+        //   short city-specific subtitle over the legacy long template.
+        if (typeof t === 'function') {
+            const _subEl = document.getElementById('moon-subtitle');
+            if (_subEl) {
+                const _newSub = t('moon.subtitle_city', { city: _cityName });
+                if (_newSub && _newSub !== 'moon.subtitle_city') {
+                    _subEl.textContent = _newSub;
+                } else {
+                    _setH2('moon-subtitle', 'moon.subtitle_city_template');
+                }
+            }
+        }
+        // UAT-Moon-City: set the demoted hub-hero's "different city?" prompt
+        //   via data-attr → CSS reads it through `content: attr(...)` so the
+        //   string stays i18n-driven (no hardcoded Arabic in stylesheets).
+        try {
+            const _hubHero = document.getElementById('moon-hub-hero');
+            if (_hubHero && typeof t === 'function') {
+                const _prompt = t('moon.other_cities_prompt');
+                if (_prompt && _prompt !== 'moon.other_cities_prompt') {
+                    _hubHero.setAttribute('data-other-cities-label', _prompt);
+                }
+            }
+        } catch (_) { /* silent */ }
         // ── Round 13 polish: على صفحة التاريخ المحدَّد نَستبدل «اليوم» بصياغة زمنيّة محايدة
         // حتّى لا تبدو الصفحة المؤرشفة/المستقبليّة كأنّها اليوم الحاليّ. نُعيد كتابة عناوين
         // الأقسام الثانويّة مباشرةً (بدل مفاتيح i18n التي تحوي «اليوم»).

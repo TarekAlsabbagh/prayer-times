@@ -4591,11 +4591,22 @@ function buildSeoForPath(urlPath) {
     // UAT-Q5f: include `.` in slug character class for loc-XX.X-YY.Y format.
     const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
-    // Round 16: hub match — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ. يُفحَص أخيراً لأنّ _MD أوّلاً.
-    const _MH = (!_MD) ? corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
-    m = _MT || _MD || _MH;
+    // UAT-Moon-Hub-Month: month page /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM
+    //   Year ≥ 1800 to avoid colliding with Hijri-day URLs (which have YYYY < 1800
+    //   in HYYY-HMM-HDD format and would match _MD instead anyway, but defensive).
+    const _MM = (!_MD) ? corePath.match(
+        /^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})$/
+    ) : null;
+    const _isMoonMonthMatch = !!(_MM && parseInt(_MM[4], 10) >= 1800);
+    // Round 16: hub match — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ. يُفحَص أخيراً لأنّ _MD/_MM أوّلاً.
+    const _MH = (!_MD && !_isMoonMonthMatch) ? corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
+    m = _MT || _MD || (_isMoonMonthMatch ? _MM : null) || _MH;
     // flag: هل الـ URL الحاليّ hub page (بلا تاريخ، تحت /moon-in-)؟
-    const _isMoonHubPage = !!_MH && !_MD && !_MT;
+    const _isMoonHubPage = !!_MH && !_MD && !_MT && !_isMoonMonthMatch;
+    // flag: هل الـ URL الحاليّ month page؟
+    const _isMoonMonthPage = _isMoonMonthMatch;
+    const _moonMonthYear  = _isMoonMonthMatch ? parseInt(_MM[4], 10) : null;
+    const _moonMonthMonth = _isMoonMonthMatch ? parseInt(_MM[5], 10) : null;
     if (m) {
         const citySlug = m[1];
         const _coordLat = m[2] != null ? parseFloat(m[2]) : null;
@@ -4869,24 +4880,58 @@ function buildSeoForPath(urlPath) {
                 hijriLabel: _hijriLabel,              // "3 ذو القعدة 1447" (بلا لاحقة)
                 hijriLabelWithSfx: _hijriLabelWithSfx, // "3 ذو القعدة 1447 هـ"
                 // ── Round 16: hub flag — يُميّز /moon-in-{city} عن /moon-today-in-{city} في SSR ──
-                isHub: _isMoonHubPage                 // true → صفحة hub للمدينة (بلا "اليوم")
+                //   UAT-Moon-Hub-Month: also true on month pages (which are
+                //   hub-like — same shell layout + Round-19 trimming + calendar widget;
+                //   only difference is the calendar shows the URL-selected month).
+                isHub: (_isMoonHubPage || _isMoonMonthPage),
+                // ── UAT-Moon-Hub-Month (NEW): month page flag + path date parts ──
+                isMonthPage: _isMoonMonthPage,        // true → /moon-in-{slug}/YYYY-MM
+                monthYear:  _moonMonthYear,           // 4-digit year from URL path
+                monthMonth: _moonMonthMonth           // 1-12 from URL path
             };
-            // Breadcrumb: أضف "القمر اليوم" قبل اسم المدينة
+            // Breadcrumb: "Moon" (renamed from "Moon Today" per UAT-Moon-Hub-Month —
+            //   second level is the moon hub, not specifically "today")
             const _moonLabel = {
-                ar: 'القمر اليوم', en: 'Moon Today', fr: "Lune aujourd'hui", tr: 'Bugün Ay',
-                ur: 'آج چاند', de: 'Mond heute', id: 'Bulan Hari Ini',
-                es: 'Luna hoy', bn: 'আজকের চাঁদ', ms: 'Bulan Hari Ini',
-            }[lang] || 'Moon Today';
+                ar: 'القمر', en: 'Moon', fr: 'Lune', tr: 'Ay',
+                ur: 'چاند', de: 'Mond', id: 'Bulan',
+                es: 'Luna', bn: 'চাঁদ', ms: 'Bulan',
+            }[lang] || 'Moon';
             breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today' });
-            // Round 16: city breadcrumb يشير إلى hub (/moon-in-{slug}) كوالد لصفحات التاريخ،
+            // Round 16: city breadcrumb يشير إلى hub (/moon-in-{slug}) كوالد لصفحات التاريخ/الشهر،
             // أو إلى صفحة اليوم (/moon-today-in-{slug}) كوالد للصفحة الحاليّة إن كانت هي صفحة اليوم.
             // - hub page: self (/moon-in-{slug})
             // - dated page: parent (/moon-in-{slug}) — hub أعلى هرم المدينة
+            // - month page (NEW): parent (/moon-in-{slug})
             // - today page: self (/moon-today-in-{slug})
-            const _cityBcHref = (_isMoonHubPage || (_moonDateIso && _moonDateInRange))
+            const _cityBcHref = (_isMoonHubPage || _isMoonMonthPage || (_moonDateIso && _moonDateInRange))
                 ? ('/moon-in-' + citySlug)
                 : ('/moon-today-in-' + citySlug);
             breadcrumbs.push({ name: cityDisplay, item: origin + (lang === 'ar' ? '' : '/' + lang) + _cityBcHref });
+            // ── UAT-Moon-Hub-Month: insert {MonthName Year} rung between city and day ──
+            //   on month pages: rung is the current page (no further levels).
+            //   on day pages: rung links to its parent month page /moon-in-{slug}/YYYY-MM.
+            if (_isMoonMonthPage || (_moonDateIso && _moonDateInRange && _moonDateObj)) {
+                const _gMonthFullByLang = {
+                    ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                    en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                    fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                    tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                    de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                    id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                    es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                    bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                    ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+                };
+                const _ml = _gMonthFullByLang[lang] || _gMonthFullByLang.en;
+                const _bY = _isMoonMonthPage ? _moonMonthYear  : _moonDateObj.getFullYear();
+                const _bM = _isMoonMonthPage ? _moonMonthMonth : (_moonDateObj.getMonth() + 1);
+                const _monthLabel = `${_ml[_bM - 1]} ${_bY}`;
+                const _monthHref  = origin + (lang === 'ar' ? '' : '/' + lang)
+                                  + '/moon-in-' + citySlug + '/'
+                                  + _bY + '-' + (_bM < 10 ? '0' + _bM : String(_bM));
+                breadcrumbs.push({ name: _monthLabel, item: _monthHref });
+            }
             if (_moonDateIso && _moonDateInRange && _primaryDateLabel) {
                 // نعرض التاريخ بنفس نوعيّة الرابط (هجريّ للرابط الهجريّ، ميلاديّ للرابط الميلاديّ)
                 breadcrumbs.push({ name: _primaryDateLabel, item: origin + p });
@@ -7601,19 +7646,27 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _calTomorrow  = _hubCalTomorrowLbl[Lm]  || _hubCalTomorrowLbl.en;
                 const _calDaysFn    = _hubCalDaysFmt[Lm]      || _hubCalDaysFmt.en;
 
-                // ═══ UAT-Moon-Hub-Cal: full-month calendar ═══════════════════════════
-                // Read ?cal=YYYY-MM (preferred) OR ?cal-y=YYYY&cal-m=MM (no-JS fallback).
-                // Default = current month. Clamp to ±5y window to avoid bad values.
+                // ═══ UAT-Moon-Hub-Cal / UAT-Moon-Hub-Month: full-month calendar ═════════
+                // Priority order for which month to display:
+                //   1. URL path /moon-in-{slug}/YYYY-MM → seo.moonCity.isMonthPage
+                //      (highest — explicit visitor intent in canonical URL).
+                //   2. ?cal=YYYY-MM query (legacy; 301-redirected at the route layer).
+                //   3. ?cal-y=YYYY&cal-m=MM no-JS form fallback.
+                //   4. Default → current month.
                 let _calQ = '';
-                try {
-                    const _qsP = new URLSearchParams(qs || '');
-                    _calQ = _qsP.get('cal') || '';
-                    if (!_calQ) {
-                        const _yQ = _qsP.get('cal-y');
-                        const _mQ = _qsP.get('cal-m');
-                        if (_yQ && _mQ) _calQ = `${_yQ}-${String(_mQ).padStart(2, '0')}`;
-                    }
-                } catch (_) {}
+                if (seo.moonCity && seo.moonCity.isMonthPage && seo.moonCity.monthYear && seo.moonCity.monthMonth) {
+                    _calQ = `${seo.moonCity.monthYear}-${String(seo.moonCity.monthMonth).padStart(2, '0')}`;
+                } else {
+                    try {
+                        const _qsP = new URLSearchParams(qs || '');
+                        _calQ = _qsP.get('cal') || '';
+                        if (!_calQ) {
+                            const _yQ = _qsP.get('cal-y');
+                            const _mQ = _qsP.get('cal-m');
+                            if (_yQ && _mQ) _calQ = `${_yQ}-${String(_mQ).padStart(2, '0')}`;
+                        }
+                    } catch (_) {}
+                }
                 const _calM = /^(\d{4})-(\d{1,2})$/.exec(_calQ);
                 const _calY = _calM
                     ? Math.max(_calTodayD.getFullYear() - 5, Math.min(_calTodayD.getFullYear() + 5, parseInt(_calM[1], 10)))
@@ -7718,14 +7771,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 for (let w = 0; w < 7; w++) {
                     _calWdHtml += `<li class="moon-hub-cal-wd">${_escHtml(_wdayLbls[w])}</li>`;
                 }
-                // Prev/next month nav. Append `#moon-hub-cal` fragment so the new
-                //   page scrolls the visitor straight back to the calendar widget
-                //   (otherwise the browser lands at the top of the page after nav).
+                // Prev/next month nav. UAT-Moon-Hub-Month: emit PATH-based URLs
+                //   /moon-in-{slug}/YYYY-MM (the canonical month-page URL) — NOT
+                //   the legacy `?cal=` query. The fragment `#moon-hub-cal` survives
+                //   the page reload so the visitor lands back on the calendar widget.
                 const _prevMo = (_calMo === 1) ? { y: _calY - 1, m: 12 } : { y: _calY, m: _calMo - 1 };
                 const _nextMo = (_calMo === 12) ? { y: _calY + 1, m: 1 } : { y: _calY, m: _calMo + 1 };
                 const _hubPath = _langPrefixHc + '/moon-in-' + seo.moonCity.slug;
-                const _prevHref = `${_hubPath}?cal=${_prevMo.y}-${_pad2Hc(_prevMo.m)}#moon-hub-cal`;
-                const _nextHref = `${_hubPath}?cal=${_nextMo.y}-${_pad2Hc(_nextMo.m)}#moon-hub-cal`;
+                const _prevHref = `${_hubPath}/${_prevMo.y}-${_pad2Hc(_prevMo.m)}#moon-hub-cal`;
+                const _nextHref = `${_hubPath}/${_nextMo.y}-${_pad2Hc(_nextMo.m)}#moon-hub-cal`;
                 // Year/Month picker form (no-JS fallback uses cal-y + cal-m;
                 // the JS handler in app.js auto-submits + folds them into cal=YYYY-MM)
                 let _yearOptsHtml = '';
@@ -9487,6 +9541,37 @@ const server = http.createServer(async (req, res) => {
 
     let urlPath = req.url.split('?')[0];
     const qs    = req.url.includes('?') ? req.url.split('?')[1] : '';
+
+    // ───── UAT-Moon-Hub-Month: 301 redirect for legacy ?cal=YYYY-MM ─────
+    //   The previous task used `?cal=YYYY-MM` (and `?cal-y=Y&cal-m=M` no-JS form
+    //   submission) on /moon-in-{slug} hub URLs. With path-based month pages now
+    //   live, redirect any inbound legacy URL to the canonical
+    //   /moon-in-{slug}/YYYY-MM path so external bookmarks / share links keep
+    //   working and we don't accumulate duplicate-content debt.
+    if (qs && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.\d]+-[-.\d]+)?$/.test(urlPath)) {
+        try {
+            const _qp = new URLSearchParams(qs);
+            let _calIso = _qp.get('cal') || '';
+            if (!_calIso && _qp.get('cal-y') && _qp.get('cal-m')) {
+                const _y = _qp.get('cal-y');
+                const _m = _qp.get('cal-m');
+                if (/^\d{4}$/.test(_y) && /^\d{1,2}$/.test(_m)) {
+                    _calIso = `${_y}-${String(_m).padStart(2, '0')}`;
+                }
+            }
+            if (/^\d{4}-\d{2}$/.test(_calIso)) {
+                const _parts = _calIso.split('-');
+                if (parseInt(_parts[0], 10) >= 1800) {
+                    res.writeHead(301, {
+                        'Location': `${urlPath}/${_calIso}#moon-hub-cal`,
+                        'Cache-Control': 'public, max-age=31536000'
+                    });
+                    res.end();
+                    return;
+                }
+            }
+        } catch (_) { /* malformed query — fall through to normal handling */ }
+    }
 
     // ===== Phase G — Curated 301 redirects (mecca → makkah, etc.) =====
     // يطابق /prayer-times-in-{old}, /qibla-in-{old}, /moon-today-in-{old} مع/بدون لغة prefix

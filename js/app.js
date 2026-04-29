@@ -11157,13 +11157,17 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const y = _ySel.value;
             const m = String(_mSel.value).padStart(2, '0');
+            // UAT-Moon-Hub-Month: build PATH-based URL /moon-in-{slug}/YYYY-MM
+            //   (the canonical month-page URL). Action attr is the hub base.
             const _action = _f.getAttribute('action') || window.location.pathname;
             const _abs = new URL(_action, window.location.origin);
-            _abs.searchParams.set('cal', `${y}-${m}`);
+            // Strip any existing /YYYY-MM(-DD) suffix and any cal-* query
+            //   so we always navigate fresh from the hub base.
+            _abs.pathname = _abs.pathname.replace(/\/(?:\d{4}-\d{2}(?:-\d{2})?)\/?$/, '');
+            _abs.pathname = _abs.pathname.replace(/\/$/, '') + `/${y}-${m}`;
+            _abs.searchParams.delete('cal');
             _abs.searchParams.delete('cal-y');
             _abs.searchParams.delete('cal-m');
-            // Preserve / set #moon-hub-cal fragment so the destination page
-            // scrolls back to the calendar widget (not the page top).
             _abs.hash = '#moon-hub-cal';
             window.location.href = _abs.toString();
         } catch (_) { _f.submit(); }

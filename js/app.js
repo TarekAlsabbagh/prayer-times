@@ -92,6 +92,54 @@ let currentLocalizedCountry = '';
     } catch (_) { /* fail-soft — keep Mecca defaults */ }
 })();
 
+// ============================================================
+// ===== UAT-Moon-Today-Polish: arPluralDays — global helper ==
+// Localized "N days" string respecting Arabic dual/plural categories.
+// Exposed on window so it's reusable across moon, Ramadan, Eid,
+// Hijri New Year countdowns, and prayer-times "X minutes/hours" labels.
+//
+// Categories per CLDR (and traditional Arabic grammar):
+//   0      → "لا أيّام" (zero — uncommon but handled)
+//   1      → "يومًا واحدًا" (singular)
+//   2      → "يومين" (dual)
+//   3-10   → "{n} أيّام" (few — sound plural)
+//   11+    → "{n} يومًا" (many — singular accusative for tamyiz)
+//
+// Non-Arabic falls back to a complete localized phrase so the same
+// helper drives all 10 languages without per-template branching.
+// ============================================================
+function arPluralDays(n, lang) {
+    n = parseInt(n, 10);
+    if (!isFinite(n) || n < 0) n = 0;
+    switch ((lang || '').toLowerCase()) {
+        case 'ar':
+            if (n === 0) return 'لا أيّام';
+            if (n === 1) return 'يومًا واحدًا';
+            if (n === 2) return 'يومين';
+            if (n >= 3 && n <= 10) return n + ' أيّام';
+            return n + ' يومًا';
+        case 'fr':
+            return n + (n === 1 ? ' jour' : ' jours');
+        case 'tr':
+            return n + ' gün';
+        case 'ur':
+            return n + ' دن';
+        case 'de':
+            return n + (n === 1 ? ' Tag' : ' Tage');
+        case 'id':
+        case 'ms':
+            return n + ' hari';
+        case 'es':
+            return n + (n === 1 ? ' día' : ' días');
+        case 'bn':
+            return n + ' দিন';
+        case 'en':
+        default:
+            return n + (n === 1 ? ' day' : ' days');
+    }
+}
+try { window.arPluralDays = arPluralDays; } catch (_) {}
+
 // ===== أسماء الدول بالإنجليزية (مفهرسة بكود ISO) =====
 const COUNTRY_EN_NAMES = {
     sa:'Saudi Arabia', eg:'Egypt', sy:'Syria', iq:'Iraq',
@@ -15724,7 +15772,9 @@ function updateMoonInfo() {
         _setText('moon-summary-icon', phase.icon || '🌙');
         _setText('moon-summary-phase', _phaseLabel || phase.name || '');
         _setText('moon-summary-illum', _fmtNum(illumination, 2) + '%');
-        _setText('moon-summary-age', _fmtNum(age, 1) + ' / 29.5');
+        // UAT-Moon-Today-Polish: drop the "/ 29.5" — the suffix span next to it
+        //   reads "يوم من أصل 29.5 يوم" so the cycle length is now in the label.
+        _setText('moon-summary-age', _fmtNum(age, 2));
 
         // BOND 7: Sticky Mini Bar — نفس البيانات لشريط ثابت يظهر عند التمرير
         _setText('moon-sticky-icon', phase.icon || '🌙');
@@ -15807,10 +15857,18 @@ function updateMoonInfo() {
                         ? HijriDate.getDaysInHijriMonth(_hToday.year, _hToday.month)
                         : 29;
                     const _remaining = Math.max(0, _daysInMonth - _hToday.day);
+                    // UAT-Moon-Today-Polish: pass {hYear} to template + use
+                    //   arPluralDays for the {remaining} substitution so AR
+                    //   gets correct dual/plural ("يومًا واحدًا" / "يومين" / etc.).
+                    const _hLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                    const _remLabel = (typeof arPluralDays === 'function')
+                        ? arPluralDays(_remaining, _hLang)
+                        : (_remaining + ' days');
                     const _lunarTxt = _tt('moon.hijri.lunar_day_template', {
                         day: _hToday.day,
                         month: _hMonthName,
-                        remaining: _remaining
+                        hYear: _hToday.year,
+                        remaining: _remLabel
                     });
                     if (_lunarTxt) _setText('moon-hijri-lunar', _lunarTxt);
                 } catch(_) {}
@@ -15848,10 +15906,17 @@ function updateMoonInfo() {
                     return d.getDate() + ' ' + m + ' ' + d.getFullYear();
                 };
 
-                // وسم الأيام المتبقّية
+                // وسم الأيام المتبقّية — UAT-Moon-Today-Polish: use arPluralDays
+                //   for proper dual/plural in Arabic (يومين / 5 أيّام / 15 يومًا).
                 const _daysLabel = (n) => {
                     if (n === 0) return _tt('moon.events.today') || 'Today';
                     if (n === 1) return _tt('moon.events.tomorrow') || 'Tomorrow';
+                    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                    if (typeof arPluralDays === 'function') {
+                        // Bypass the now-stale "{n} يومًا" template — arPluralDays
+                        //   returns the complete localized phrase (number + unit).
+                        return arPluralDays(n, _lng);
+                    }
                     return _tt('moon.events.days_template', { n: n }) || (n + ' days');
                 };
 
@@ -16114,12 +16179,23 @@ function updateMoonInfo() {
                 if (_pFill) _pFill.style.width = _safeProgress.toFixed(1) + '%';
                 if (_pDot) _pDot.style.insetInlineStart = _safeProgress.toFixed(1) + '%';
                 if (_pStatus && nextPhaseName) {
+                    // UAT-Moon-Today-Polish: use arPluralDays for "X days" so AR
+                    //   gets correct dual/plural (يومين / 5 أيّام / 15 يومًا) and
+                    //   non-AR gets a complete localized phrase (e.g. "5 days").
                     let statusKey = 'moon.mc_status_days';
+                    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
                     const statusParams = { nextPhaseIcon: nextPhaseIcon, nextPhaseName: nextPhaseName };
                     if (daysToNext != null) {
                         if (daysToNext === 0) statusKey = 'moon.mc_status_today';
                         else if (daysToNext === 1) statusKey = 'moon.mc_status_tomorrow';
-                        else statusParams.days = _fmtNum2(daysToNext, 0);
+                        else {
+                            // Both placeholder names supplied so any template variant works.
+                            const _label = (typeof arPluralDays === 'function')
+                                ? arPluralDays(daysToNext, _lng)
+                                : (daysToNext + ' days');
+                            statusParams.days = daysToNext;
+                            statusParams.daysLabel = _label;
+                        }
                     }
                     const sTpl = t(statusKey, statusParams);
                     if (sTpl && sTpl !== statusKey) _pStatus.textContent = sTpl;

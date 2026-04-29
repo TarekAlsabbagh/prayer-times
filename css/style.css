@@ -4131,12 +4131,92 @@ body.has-moon-sticky #page-moon { padding-top: var(--moon-sticky-h, 50px); }
     color: var(--text-secondary, rgba(0,0,0,0.45));
     opacity: 0.6;
 }
+/* UAT-Moon-Today-Polish: age suffix "of 29.5 days" — softer, secondary text. */
+.moon-summary-age-suffix {
+    color: var(--text-secondary, rgba(0,0,0,0.55));
+    font-size: 0.82rem;
+    opacity: 0.85;
+    margin-inline-start: 2px;
+}
+html[data-theme="dark"] .moon-summary-age-suffix {
+    color: rgba(255,255,255,0.62);
+}
 @media (max-width: 480px) {
     .moon-summary-line {
         border-radius: 14px;
         padding: 10px 12px;
         font-size: 0.9rem;
     }
+    .moon-summary-age-suffix { font-size: 0.75rem; }
+}
+
+/* ═══ UAT-Moon-Today-Polish: info tooltip on constellation card ═══
+   Shows on hover/focus — clarifies "Astronomical Constellation" is IAU,
+   not astrological zodiac sign. CSS-only show/hide via :hover/:focus-within. */
+.info-tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-inline-start: 6px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--primary, #2e7d32);
+    border-radius: 50%;
+    color: var(--primary, #2e7d32);
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: help;
+    vertical-align: middle;
+    transition: background 0.15s, color 0.15s;
+}
+.info-tooltip-trigger:hover,
+.info-tooltip-trigger:focus {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    outline: none;
+}
+.info-tooltip-content {
+    display: none;
+    position: absolute;
+    z-index: 30;
+    inset-inline-start: 0;
+    inset-block-start: calc(100% + 6px);
+    width: min(280px, calc(100vw - 32px));
+    padding: 10px 12px;
+    background: var(--card-bg, #fff);
+    color: var(--text, #2c3e50);
+    border: 1px solid rgba(46,125,50,0.30);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    text-align: start;
+    font-weight: 400;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    white-space: normal;
+}
+.moon-zodiac-card { position: relative; }
+.moon-zodiac-card .label { position: relative; }
+.moon-zodiac-card:hover .info-tooltip-content,
+.moon-zodiac-card:focus-within .info-tooltip-content,
+.info-tooltip-trigger:hover + .info-tooltip-content,
+.info-tooltip-trigger:focus + .info-tooltip-content {
+    display: block;
+}
+html[data-theme="dark"] .info-tooltip-content {
+    background: var(--card-bg, #1f2233);
+    color: var(--text, #cdd9e5);
+    border-color: rgba(129,199,132,0.35);
+}
+html[data-theme="dark"] .info-tooltip-trigger {
+    border-color: var(--primary-light, #66bb6a);
+    color: var(--primary-light, #66bb6a);
+}
+html[data-theme="dark"] .info-tooltip-trigger:hover,
+html[data-theme="dark"] .info-tooltip-trigger:focus {
+    background: var(--primary-light, #66bb6a);
+    color: #0c0d1a;
 }
 
 /* ═══ 🆕 Priority C: Upcoming Phase Forecast (4-phase timeline) ═══ */

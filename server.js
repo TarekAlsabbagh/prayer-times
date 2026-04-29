@@ -7667,6 +7667,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _calBtn  = _hubCalShowBtn[Lm] || _hubCalShowBtn.en;
                 // Title now reads "📆 تقويم القمر — أبريل 2026" (month + year, dynamic)
                 const _calTitle = `📆 ${_hubCalTitles[Lm] || _hubCalTitles.en} — ${_gMonthsFull[_calMo - 1]} ${_calY}`;
+                // Use _gMonthShortLang for the per-cell short month label (e.g. "29 أبر").
+                const _gMonthsShort = _gMonthShortLang[Lm] || _gMonthShortLang.en;
+                // Compute today's day-of-year-style offset (in days) for any cell so
+                // we can produce a relative label like "قبل 3 أيّام / اليوم / بعد X يوم".
+                const _msPerDay = 24 * 60 * 60 * 1000;
+                const _calTodayMs = _calTodayD.getTime();
                 // Build cells: leading empty cells, then real days
                 let _calCellsHtml = '';
                 for (let i = 0; i < _calFirstWday; i++) {
@@ -7681,12 +7687,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         && _calTodayD.getMonth() === _calMo - 1
                         && _calTodayD.getDate() === day
                     );
+                    // Relative offset in days from today (positive = future, negative = past)
+                    const _offset = Math.round((_cellD.getTime() - _calTodayMs) / _msPerDay);
+                    let _cellLabel;
+                    if (_offset === 0)        _cellLabel = _calToday;
+                    else if (_offset === -1)  _cellLabel = _calYesterday;
+                    else if (_offset === 1)   _cellLabel = _calTomorrow;
+                    else                      _cellLabel = _calDaysFn(_offset);
+                    const _cellDateTxt = day + ' ' + _gMonthsShort[_calMo - 1];
                     const _cellHref = _isToday
                         ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
                         : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
                     const _cellActive = _isToday ? ' moon-hub-cal-cell--today' : '';
                     _calCellsHtml += `<li class="moon-hub-cal-cell${_cellActive}"><a href="${_escHtml(_cellHref)}">`
-                        + `<span class="moon-hub-cal-day">${day}</span>`
+                        + `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
+                        + `<span class="moon-hub-cal-date">${_escHtml(_cellDateTxt)}</span>`
                         + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
                         + `</a></li>`;
                 }

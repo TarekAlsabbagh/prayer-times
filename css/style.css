@@ -2729,18 +2729,21 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     gap: 4px;
 }
 .moon-hub-cal-cell { margin: 0; }
+/* Cells restore the OLD 3-line content layout (relative label + date + emoji)
+   inside a 7-column calendar matrix. Cells are taller than a typical month
+   grid so all 3 pieces breathe; the grid still reads as a calendar because
+   it's strictly 7 columns with weekday headers above. */
 .moon-hub-cal-cell a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 2px;
-    aspect-ratio: 1 / 1;            /* square cells */
-    min-height: 56px;
-    padding: 6px 4px;
+    justify-content: center;
+    gap: 4px;
+    min-height: 92px;
+    padding: 10px 6px;
     background: rgba(46,125,50,0.05);
     border: 1px solid rgba(46,125,50,0.15);
-    border-radius: 8px;
+    border-radius: 10px;
     text-decoration: none;
     color: var(--text);
     font-size: 0.82rem;
@@ -2754,13 +2757,25 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     transform: translateY(-1px);
     text-decoration: none;
 }
-.moon-hub-cal-day {
-    font-weight: 700;
-    font-size: 0.92rem;
+.moon-hub-cal-rel {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    /* Truncate gracefully if the relative label is long ("بعد 25 يوم") */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.moon-hub-cal-date {
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0.85;
     line-height: 1;
 }
 .moon-hub-cal-phase {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     line-height: 1;
 }
 .moon-hub-cal-cell--today a {
@@ -2773,24 +2788,25 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
 .moon-hub-cal-cell--empty {
     background: transparent !important;
     pointer-events: none;
-    /* Keep aspect-ratio so empty cells still occupy the slot */
-    aspect-ratio: 1 / 1;
-    min-height: 56px;
+    min-height: 92px;
 }
-/* Mobile: tighter cells; phase emoji smaller; picker stacks under title */
+/* Mobile: tighter cells; phase emoji smaller; picker stacks under title.
+   3-line content stays — mobile relies on smaller font + tighter padding. */
 @media (max-width: 600px) {
     .moon-hub-calendar-card { padding: 14px 12px; }
     .moon-hub-cal-grid { gap: 3px; }
     .moon-hub-cal-wd-row { gap: 3px; }
     .moon-hub-cal-cell a {
-        min-height: 44px;
-        padding: 4px 2px;
+        min-height: 70px;
+        padding: 6px 3px;
         font-size: 0.7rem;
         border-radius: 6px;
+        gap: 2px;
     }
-    .moon-hub-cal-cell--empty { min-height: 44px; }
-    .moon-hub-cal-day { font-size: 0.78rem; }
-    .moon-hub-cal-phase { font-size: 1rem; }
+    .moon-hub-cal-cell--empty { min-height: 70px; }
+    .moon-hub-cal-rel { font-size: 0.6rem; }
+    .moon-hub-cal-date { font-size: 0.7rem; }
+    .moon-hub-cal-phase { font-size: 1.1rem; }
     .moon-hub-cal-wd { font-size: 0.62rem; padding: 2px 0; }
     .moon-hub-cal-header { gap: 8px; }
     .moon-hub-cal-header .moon-hub-cal-title { font-size: 1.0rem; }

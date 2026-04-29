@@ -5641,7 +5641,7 @@ function renderSeoHeadHtml(seo) {
  * الدالة الموحّدة لتقديم HTML مع حقن SEO كامل.
  * تستبدل جميع الكتل المكررة (readCachedFile → gzip → res.end).
  */
-function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
+function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     let html = htmlBuf.toString('utf8');
     const seo = buildSeoForPath(urlPath);
 
@@ -7538,16 +7538,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
         if (_isMoonHubPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
             try {
                 const _hubCalTitles = {
-                    ar: '📆 تقويم القمر الأسبوعيّ',
-                    en: '📆 Weekly Moon Calendar',
-                    fr: '📆 Calendrier lunaire hebdomadaire',
-                    tr: '📆 Haftalık Ay Takvimi',
-                    ur: '📆 ہفتہ وار چاند کیلنڈر',
-                    de: '📆 Wöchentlicher Mondkalender',
-                    id: '📆 Kalender Bulan Mingguan',
-                    es: '📆 Calendario lunar semanal',
-                    bn: '📆 সাপ্তাহিক চাঁদের ক্যালেন্ডার',
-                    ms: '📆 Kalendar Bulan Mingguan'
+                    ar: 'تقويم القمر',
+                    en: 'Moon Calendar',
+                    fr: 'Calendrier lunaire',
+                    tr: 'Ay Takvimi',
+                    ur: 'چاند کیلنڈر',
+                    de: 'Mondkalender',
+                    id: 'Kalender Bulan',
+                    es: 'Calendario lunar',
+                    bn: 'চাঁদের ক্যালেন্ডার',
+                    ms: 'Kalendar Bulan'
                 };
                 const _hubCalTodayLbl = {
                     ar: 'اليوم', en: 'Today', fr: "Aujourd'hui", tr: 'Bugün', ur: 'آج',
@@ -7592,37 +7592,134 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 };
                 const _pad2Hc = (n) => (n < 10 ? '0' + n : String(n));
                 const _isoOf = (d) => d.getFullYear() + '-' + _pad2Hc(d.getMonth() + 1) + '-' + _pad2Hc(d.getDate());
-                const _gMonths = _gMonthShortLang[Lm] || _gMonthShortLang.en;
-                const _calTitle = _hubCalTitles[Lm] || _hubCalTitles.en;
-                const _calToday = _hubCalTodayLbl[Lm] || _hubCalTodayLbl.en;
-                const _calYesterday = _hubCalYesterdayLbl[Lm] || _hubCalYesterdayLbl.en;
-                const _calTomorrow = _hubCalTomorrowLbl[Lm] || _hubCalTomorrowLbl.en;
-                const _calDaysFn = _hubCalDaysFmt[Lm] || _hubCalDaysFmt.en;
                 const _calTodayD = new Date(); _calTodayD.setHours(12, 0, 0, 0);
                 const _langPrefixHc = (Lm === 'ar' ? '' : '/' + Lm);
+
+                // ═══ UAT-Moon-Hub-Cal: full-month calendar ═══════════════════════════
+                // Read ?cal=YYYY-MM (preferred) OR ?cal-y=YYYY&cal-m=MM (no-JS fallback).
+                // Default = current month. Clamp to ±5y window to avoid bad values.
+                let _calQ = '';
+                try {
+                    const _qsP = new URLSearchParams(qs || '');
+                    _calQ = _qsP.get('cal') || '';
+                    if (!_calQ) {
+                        const _yQ = _qsP.get('cal-y');
+                        const _mQ = _qsP.get('cal-m');
+                        if (_yQ && _mQ) _calQ = `${_yQ}-${String(_mQ).padStart(2, '0')}`;
+                    }
+                } catch (_) {}
+                const _calM = /^(\d{4})-(\d{1,2})$/.exec(_calQ);
+                const _calY = _calM
+                    ? Math.max(_calTodayD.getFullYear() - 5, Math.min(_calTodayD.getFullYear() + 5, parseInt(_calM[1], 10)))
+                    : _calTodayD.getFullYear();
+                const _calMo = _calM
+                    ? Math.max(1, Math.min(12, parseInt(_calM[2], 10)))
+                    : (_calTodayD.getMonth() + 1);
+                const _calFirstD = new Date(_calY, _calMo - 1, 1, 12, 0, 0);
+                const _calLastDay = new Date(_calY, _calMo, 0).getDate();
+                const _calFirstWday = _calFirstD.getDay(); // 0=Sun..6=Sat
+
+                // Localized full month names (used in the title + picker options)
+                const _gMonthFullLang = {
+                    ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                    en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                    fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                    tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                    de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                    id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                    es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                    bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                    ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+                };
+                // Localized weekday short names (Sun..Sat per Date.getDay() index)
+                const _wdayShortLang = {
+                    ar: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+                    en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+                    fr: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+                    tr: ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'],
+                    ur: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+                    de: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                    id: ['Min','Sen','Sel','Rab','Kam','Jum','Sab'],
+                    es: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+                    bn: ['রবি','সোম','মঙ্গল','বুধ','বৃহঃ','শুক্র','শনি'],
+                    ms: ['Aha','Isn','Sel','Rab','Kha','Jum','Sab']
+                };
+                // Picker / nav labels
+                const _hubCalPrevLbl = {
+                    ar: '‹ الشهر السابق', en: '‹ Previous month', fr: '‹ Mois précédent', tr: '‹ Önceki ay',
+                    ur: '‹ پچھلا مہینہ', de: '‹ Vorheriger Monat', id: '‹ Bulan sebelumnya', es: '‹ Mes anterior',
+                    bn: '‹ আগের মাস', ms: '‹ Bulan sebelumnya'
+                };
+                const _hubCalNextLbl = {
+                    ar: 'الشهر التالي ›', en: 'Next month ›', fr: 'Mois suivant ›', tr: 'Sonraki ay ›',
+                    ur: 'اگلا مہینہ ›', de: 'Nächster Monat ›', id: 'Bulan berikutnya ›', es: 'Mes siguiente ›',
+                    bn: 'পরের মাস ›', ms: 'Bulan seterusnya ›'
+                };
+                const _hubCalShowBtn = {
+                    ar: 'عرض', en: 'Show', fr: 'Afficher', tr: 'Göster', ur: 'دکھائیں',
+                    de: 'Anzeigen', id: 'Tampilkan', es: 'Mostrar', bn: 'দেখান', ms: 'Tunjuk'
+                };
+                const _gMonthsFull = _gMonthFullLang[Lm] || _gMonthFullLang.en;
+                const _wdayLbls = _wdayShortLang[Lm] || _wdayShortLang.en;
+                const _calPrev = _hubCalPrevLbl[Lm] || _hubCalPrevLbl.en;
+                const _calNext = _hubCalNextLbl[Lm] || _hubCalNextLbl.en;
+                const _calBtn  = _hubCalShowBtn[Lm] || _hubCalShowBtn.en;
+                // Title now reads "📆 تقويم القمر — أبريل 2026" (month + year, dynamic)
+                const _calTitle = `📆 ${_hubCalTitles[Lm] || _hubCalTitles.en} — ${_gMonthsFull[_calMo - 1]} ${_calY}`;
+                // Build cells: leading empty cells, then real days
                 let _calCellsHtml = '';
-                for (let i = -3; i <= 3; i++) {
-                    const _cellD = new Date(_calTodayD);
-                    _cellD.setDate(_calTodayD.getDate() + i);
+                for (let i = 0; i < _calFirstWday; i++) {
+                    _calCellsHtml += '<li class="moon-hub-cal-cell moon-hub-cal-cell--empty" aria-hidden="true"></li>';
+                }
+                for (let day = 1; day <= _calLastDay; day++) {
+                    const _cellD = new Date(_calY, _calMo - 1, day, 12, 0, 0);
                     const _cellIso = _isoOf(_cellD);
                     const _cellPhase = MoonCalc.getPhaseName(_cellD) || { icon: '🌕' };
-                    const _cellDateTxt = _cellD.getDate() + ' ' + _gMonths[_cellD.getMonth()];
-                    let _cellLabel;
-                    if (i === 0) _cellLabel = _calToday;
-                    else if (i === -1) _cellLabel = _calYesterday;
-                    else if (i === 1) _cellLabel = _calTomorrow;
-                    else _cellLabel = _calDaysFn(i);
-                    // اليوم الحاليّ → hub (الصفحة الحاليّة، بلا self-ref href زائد) → نُبقي رابط صفحة اليوم (more useful)
-                    const _cellHref = (i === 0)
+                    const _isToday = (
+                        _calTodayD.getFullYear() === _calY
+                        && _calTodayD.getMonth() === _calMo - 1
+                        && _calTodayD.getDate() === day
+                    );
+                    const _cellHref = _isToday
                         ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
                         : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
-                    const _cellActive = (i === 0) ? ' moon-hub-cal-cell--today' : '';
+                    const _cellActive = _isToday ? ' moon-hub-cal-cell--today' : '';
                     _calCellsHtml += `<li class="moon-hub-cal-cell${_cellActive}"><a href="${_escHtml(_cellHref)}">`
-                        + `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
-                        + `<span class="moon-hub-cal-date">${_escHtml(_cellDateTxt)}</span>`
+                        + `<span class="moon-hub-cal-day">${day}</span>`
                         + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
                         + `</a></li>`;
                 }
+                // Weekday header row
+                let _calWdHtml = '';
+                for (let w = 0; w < 7; w++) {
+                    _calWdHtml += `<li class="moon-hub-cal-wd">${_escHtml(_wdayLbls[w])}</li>`;
+                }
+                // Prev/next month nav
+                const _prevMo = (_calMo === 1) ? { y: _calY - 1, m: 12 } : { y: _calY, m: _calMo - 1 };
+                const _nextMo = (_calMo === 12) ? { y: _calY + 1, m: 1 } : { y: _calY, m: _calMo + 1 };
+                const _hubPath = _langPrefixHc + '/moon-in-' + seo.moonCity.slug;
+                const _prevHref = `${_hubPath}?cal=${_prevMo.y}-${_pad2Hc(_prevMo.m)}`;
+                const _nextHref = `${_hubPath}?cal=${_nextMo.y}-${_pad2Hc(_nextMo.m)}`;
+                // Year/Month picker form (no-JS fallback uses cal-y + cal-m;
+                // the JS handler in app.js auto-submits + folds them into cal=YYYY-MM)
+                let _yearOptsHtml = '';
+                for (let y = _calTodayD.getFullYear() - 5; y <= _calTodayD.getFullYear() + 5; y++) {
+                    _yearOptsHtml += `<option value="${y}"${y === _calY ? ' selected' : ''}>${y}</option>`;
+                }
+                let _moOptsHtml = '';
+                for (let m = 1; m <= 12; m++) {
+                    _moOptsHtml += `<option value="${m}"${m === _calMo ? ' selected' : ''}>${_escHtml(_gMonthsFull[m - 1])}</option>`;
+                }
+                const _pickerHtml = `<form class="moon-hub-cal-picker" method="get" action="${_escHtml(_hubPath)}" role="search">`
+                    + `<select name="cal-y" aria-label="Year">${_yearOptsHtml}</select>`
+                    + `<select name="cal-m" aria-label="Month">${_moOptsHtml}</select>`
+                    + `<button type="submit">${_escHtml(_calBtn)}</button>`
+                    + `</form>`;
+                const _navHtml = `<nav class="moon-hub-cal-nav" aria-label="Month navigation">`
+                    + `<a class="moon-hub-cal-prev" href="${_escHtml(_prevHref)}">${_escHtml(_calPrev)}</a>`
+                    + `<a class="moon-hub-cal-next" href="${_escHtml(_nextHref)}">${_escHtml(_calNext)}</a>`
+                    + `</nav>`;
                 // ── Round 19: CTA رئيسيّ داخل الـ hub → /moon-in-{slug}/{today-iso} ──
                 //   نقطة دخول طبيعيّة لتفاصيل اليوم بعد ما يرى المستخدم الشبكة الأسبوعيّة.
                 //   الـ grid يغطّي ±3 أيّام، وهذا الـ CTA يفتح الصفحة المؤرَّخة الكاملة لليوم الحاليّ.
@@ -7643,7 +7740,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 const _hubDetailCtaHref = _langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _todayIsoForHub;
                 const _hubDetailCtaHtml = `<a class="moon-hub-detail-cta" href="${_escHtml(_hubDetailCtaHref)}">${_escHtml(_hubDetailCtaText)}</a>`;
                 const _hubCalHtml = `<div class="section-card moon-hub-calendar-card">`
-                    + `<h2 class="moon-hub-cal-title">${_escHtml(_calTitle)}</h2>`
+                    + `<div class="moon-hub-cal-header">`
+                    +   `<h2 class="moon-hub-cal-title">${_escHtml(_calTitle)}</h2>`
+                    +   _pickerHtml
+                    + `</div>`
+                    + _navHtml
+                    + `<ul class="moon-hub-cal-wd-row">${_calWdHtml}</ul>`
                     + `<ul class="moon-hub-cal-grid">${_calCellsHtml}</ul>`
                     + `</div>\n                ${_hubDetailCtaHtml}`;
                 // Round 19: حقن قبل قسم "الأطوار القادمة" (بدل قبل moon-forecast-cta الذي سيُحذف)
@@ -9745,7 +9847,7 @@ const server = http.createServer(async (req, res) => {
     if (urlPath === '/index.html') {
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveHtmlWithSeo(html, '/', res, _acceptEnc);
+            serveHtmlWithSeo(html, '/', res, _acceptEnc, qs);
         });
         return;
     }
@@ -9905,7 +10007,7 @@ const server = http.createServer(async (req, res) => {
         }
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
         });
         return;
     }
@@ -9976,7 +10078,7 @@ const server = http.createServer(async (req, res) => {
                     const _datedL = `${_langPref}/hijri-date/${_hL.year}-${_pL(_hL.month)}-${_pL(_hL.day)}`;
                     htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_datedL}"`);
                 }
-                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc);
+                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc, qs);
             });
             return;
         }
@@ -9986,7 +10088,7 @@ const server = http.createServer(async (req, res) => {
     if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?about-.+$/.test(urlPath)) {
         fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
         });
         return;
     }
@@ -10026,7 +10128,7 @@ const server = http.createServer(async (req, res) => {
             const htmlFile = isCountry ? 'prayer-times-cities.html' : 'index.html';
             readCachedFile(path.join(ROOT, htmlFile), (err, html) => {
                 if (err) { res.writeHead(404); res.end('Not Found'); return; }
-                serveHtmlWithSeo(html, urlPath, res, _acceptEnc);
+                serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
             });
             return;
         }
@@ -10208,7 +10310,7 @@ const server = http.createServer(async (req, res) => {
             if (!ext || ext === '.html') {
                 readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
                     if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-                    serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '');
+                    serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs);
                 });
             } else {
                 res.writeHead(404, {'Content-Type':'text/plain'});

@@ -2628,77 +2628,207 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     html[data-theme="dark"] .moon-forecast-table tr.fc-row-today:hover { background: rgba(76,175,80,0.22); }
 
 
-/* ═══ Round 17: Hub Weekly Moon Calendar (7 cells: −3 … +3 days) ═══
- * SSR-rendered on /moon-in-{city} hub pages only. Each cell links to a dated page,
- * except the "today" cell which links back to /moon-today-in-{city}.
- */
-.moon-hub-calendar-card .moon-hub-cal-title {
-    margin: 0 0 12px;
+/* ═══ UAT-Moon-Hub-Cal: full-month moon calendar (7 cols × 5-6 rows) ═══
+ * SSR-rendered on /moon-in-{city} hub pages. Each cell is a square link to a
+ * dated page, except today's cell which links to /moon-today-in-{city}.
+ * Layout: month picker + nav, weekday header row, then the 7-col cell grid. */
+.moon-hub-calendar-card { padding: 18px 22px; }
+.moon-hub-cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 14px;
+}
+.moon-hub-cal-header .moon-hub-cal-title {
+    margin: 0;
     font-size: 1.15rem;
     color: var(--text);
+    font-weight: 700;
 }
+.moon-hub-cal-picker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.moon-hub-cal-picker select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border, #d7e3d6);
+    background: var(--card-bg, #fff);
+    color: var(--text, #1f3328);
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+.moon-hub-cal-picker select:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+}
+.moon-hub-cal-picker button {
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.moon-hub-cal-picker button:hover { background: var(--primary-dark); }
+.moon-hub-cal-nav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 12px;
+    gap: 10px;
+}
+.moon-hub-cal-prev,
+.moon-hub-cal-next {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+}
+.moon-hub-cal-prev:hover,
+.moon-hub-cal-next:hover {
+    background: rgba(46,125,50,0.08);
+    border-color: rgba(46,125,50,0.20);
+    text-decoration: none;
+}
+/* Weekday header row — 7 small labels */
+.moon-hub-cal-wd-row {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 6px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+.moon-hub-cal-wd {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-light, #6b7b75);
+    padding: 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+/* Main cell grid — 7 fixed columns, square-ish cells */
 .moon-hub-cal-grid {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
-    /* UAT-Moon-City-fix: auto-fit minmax so 7 cells fit on wide screens
-       (>900px) but wrap to 4+3 on tablets (600-900px) instead of overflowing. */
-    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
 }
 .moon-hub-cal-cell { margin: 0; }
 .moon-hub-cal-cell a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
-    min-height: 92px;
-    padding: 10px 6px;
+    justify-content: space-between;
+    gap: 2px;
+    aspect-ratio: 1 / 1;            /* square cells */
+    min-height: 56px;
+    padding: 6px 4px;
     background: rgba(46,125,50,0.05);
     border: 1px solid rgba(46,125,50,0.15);
-    border-radius: 10px;
+    border-radius: 8px;
     text-decoration: none;
     color: var(--text);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     text-align: center;
-    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+    transition: background 0.15s ease, transform 0.12s ease, border-color 0.15s ease;
 }
 .moon-hub-cal-cell a:hover,
 .moon-hub-cal-cell a:focus {
-    background: rgba(46,125,50,0.12);
+    background: rgba(46,125,50,0.13);
     border-color: var(--primary);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     text-decoration: none;
 }
-.moon-hub-cal-rel {
-    font-weight: 600;
-    color: var(--primary);
-    font-size: 0.8rem;
+.moon-hub-cal-day {
+    font-weight: 700;
+    font-size: 0.92rem;
+    line-height: 1;
 }
-.moon-hub-cal-date { font-size: 0.82rem; opacity: 0.85; }
-.moon-hub-cal-phase { font-size: 1.6rem; line-height: 1; }
+.moon-hub-cal-phase {
+    font-size: 1.4rem;
+    line-height: 1;
+}
 .moon-hub-cal-cell--today a {
-    background: rgba(46,125,50,0.14);
+    background: rgba(46,125,50,0.20);
     border-color: var(--primary);
-    font-weight: 600;
+    border-width: 2px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(46,125,50,0.18);
 }
+.moon-hub-cal-cell--empty {
+    background: transparent !important;
+    pointer-events: none;
+    /* Keep aspect-ratio so empty cells still occupy the slot */
+    aspect-ratio: 1 / 1;
+    min-height: 56px;
+}
+/* Mobile: tighter cells; phase emoji smaller; picker stacks under title */
 @media (max-width: 600px) {
-    .moon-hub-cal-grid { grid-template-columns: repeat(4, 1fr); }
-    .moon-hub-cal-cell a { min-height: 80px; font-size: 0.78rem; }
-    .moon-hub-cal-phase { font-size: 1.4rem; }
+    .moon-hub-calendar-card { padding: 14px 12px; }
+    .moon-hub-cal-grid { gap: 3px; }
+    .moon-hub-cal-wd-row { gap: 3px; }
+    .moon-hub-cal-cell a {
+        min-height: 44px;
+        padding: 4px 2px;
+        font-size: 0.7rem;
+        border-radius: 6px;
+    }
+    .moon-hub-cal-cell--empty { min-height: 44px; }
+    .moon-hub-cal-day { font-size: 0.78rem; }
+    .moon-hub-cal-phase { font-size: 1rem; }
+    .moon-hub-cal-wd { font-size: 0.62rem; padding: 2px 0; }
+    .moon-hub-cal-header { gap: 8px; }
+    .moon-hub-cal-header .moon-hub-cal-title { font-size: 1.0rem; }
+    .moon-hub-cal-picker select { padding: 5px 8px; font-size: 0.85rem; }
+    .moon-hub-cal-nav { font-size: 0.85rem; }
 }
-
-    html[data-theme="dark"] .moon-hub-cal-cell a {
-        background: rgba(76,175,80,0.08);
-        border-color: rgba(76,175,80,0.22);
-    }
-    html[data-theme="dark"] .moon-hub-cal-cell a:hover, html[data-theme="dark"] .moon-hub-cal-cell a:focus { background: rgba(76,175,80,0.18); }
-    html[data-theme="dark"] .moon-hub-cal-cell--today a {
-        background: rgba(76,175,80,0.22);
-        border-color: rgba(76,175,80,0.5);
-    }
+/* Dark theme */
+html[data-theme="dark"] .moon-hub-cal-cell a {
+    background: rgba(77,203,140,0.06);
+    border-color: rgba(77,203,140,0.18);
+}
+html[data-theme="dark"] .moon-hub-cal-cell a:hover,
+html[data-theme="dark"] .moon-hub-cal-cell a:focus {
+    background: rgba(77,203,140,0.16);
+    border-color: var(--primary-dark);
+}
+html[data-theme="dark"] .moon-hub-cal-cell--today a {
+    background: rgba(77,203,140,0.22);
+    border-color: var(--primary-dark);
+}
+html[data-theme="dark"] .moon-hub-cal-prev,
+html[data-theme="dark"] .moon-hub-cal-next {
+    color: var(--primary-dark);
+}
+html[data-theme="dark"] .moon-hub-cal-prev:hover,
+html[data-theme="dark"] .moon-hub-cal-next:hover {
+    background: rgba(77,203,140,0.10);
+    border-color: rgba(77,203,140,0.28);
+}
+html[data-theme="dark"] .moon-hub-cal-picker select {
+    background: var(--surface-raised, rgba(255,255,255,0.04));
+    color: var(--text, #cdd9e5);
+    border-color: rgba(255,255,255,0.14);
+}
+html[data-theme="dark"] .moon-hub-cal-picker button {
+    background: var(--primary);
+    color: #fff;
+}
 
 
 /* ═══ Round 18-A: Today-page Hub CTA ═══

@@ -11143,6 +11143,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ── UAT-Moon-Hub-Cal: month-picker auto-submit on /moon-in-{city} hub ─────
+//   The SSR form has 2 selects (cal-y, cal-m) so it works without JS.
+//   With JS we (a) auto-submit on change and (b) fold the two params into
+//   a single clean ?cal=YYYY-MM URL before navigating.
+document.addEventListener('DOMContentLoaded', () => {
+    const _f = document.querySelector('.moon-hub-cal-picker');
+    if (!_f) return;
+    const _ySel = _f.querySelector('[name="cal-y"]');
+    const _mSel = _f.querySelector('[name="cal-m"]');
+    if (!_ySel || !_mSel) return;
+    const _navigate = () => {
+        try {
+            const y = _ySel.value;
+            const m = String(_mSel.value).padStart(2, '0');
+            const _action = _f.getAttribute('action') || window.location.pathname;
+            const _abs = new URL(_action, window.location.origin);
+            _abs.searchParams.set('cal', `${y}-${m}`);
+            _abs.searchParams.delete('cal-y');
+            _abs.searchParams.delete('cal-m');
+            window.location.href = _abs.toString();
+        } catch (_) { _f.submit(); }
+    };
+    _f.addEventListener('submit', (e) => { e.preventDefault(); _navigate(); });
+    _ySel.addEventListener('change', _navigate);
+    _mSel.addEventListener('change', _navigate);
+});
+
 // ========= العد التنازلي =========
 function startCountdown() {
     if (countdownInterval) clearInterval(countdownInterval);

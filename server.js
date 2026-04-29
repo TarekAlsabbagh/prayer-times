@@ -7594,6 +7594,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _isoOf = (d) => d.getFullYear() + '-' + _pad2Hc(d.getMonth() + 1) + '-' + _pad2Hc(d.getDate());
                 const _calTodayD = new Date(); _calTodayD.setHours(12, 0, 0, 0);
                 const _langPrefixHc = (Lm === 'ar' ? '' : '/' + Lm);
+                // Resolve the per-language relative-label helpers (used by the per-cell
+                // "اليوم / أمس / غدًا / قبل X أيّام" label).
+                const _calToday     = _hubCalTodayLbl[Lm]     || _hubCalTodayLbl.en;
+                const _calYesterday = _hubCalYesterdayLbl[Lm] || _hubCalYesterdayLbl.en;
+                const _calTomorrow  = _hubCalTomorrowLbl[Lm]  || _hubCalTomorrowLbl.en;
+                const _calDaysFn    = _hubCalDaysFmt[Lm]      || _hubCalDaysFmt.en;
 
                 // ═══ UAT-Moon-Hub-Cal: full-month calendar ═══════════════════════════
                 // Read ?cal=YYYY-MM (preferred) OR ?cal-y=YYYY&cal-m=MM (no-JS fallback).

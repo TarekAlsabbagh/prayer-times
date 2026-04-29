@@ -3010,8 +3010,17 @@ async function initApp() {
         // FIX: استبدال اسم المدينة في moon-hub-cta بالاسم الفعليّ الظاهر في الهيدر
         //   (يحلّ مشكلة "At Taif" بدل "الطائف" بدون الاعتماد على slug resolution)
         try {
+            // UAT-Q2b: strip "محافظة"/"Governorate"-style admin prefixes/suffixes.
+            const _stripAdminPrefix = (s) => {
+                if (!s || typeof s !== 'string') return s;
+                return s
+                    .replace(/^(?:محافظة|منطقة|مقاطعة|ولاية|إمارة|قضاء|بلدية|ناحية)\s+/u, '')
+                    .replace(/\s+(?:Governorate|Province|Region|District|County|Municipality|Prefecture)$/i, '')
+                    .trim();
+            };
             const _patchCityNameInCta = () => {
-                const _liveCityName = (document.getElementById('city-name')?.textContent || '').trim();
+                const _liveCityNameRaw = (document.getElementById('city-name')?.textContent || '').trim();
+                const _liveCityName = _stripAdminPrefix(_liveCityNameRaw);
                 if (!_liveCityName) return;
                 const _cta = document.querySelector('.moon-hub-cta');
                 if (!_cta) return;
@@ -7928,6 +7937,16 @@ function _wireMoonHubSmartPill() {
     const pillEl = document.getElementById('moon-hub-smart-pill');
     if (!pillEl) return;
     let _shown = false;
+    // UAT-Q2b: strip Arabic admin-division prefixes (محافظة/منطقة/...) and
+    //   English suffixes (Governorate/Province/Region) so the pill shows the
+    //   clean city name (e.g. "مكة المكرمة" not "محافظة مكة المكرمة").
+    const _cleanCityForPill = (s) => {
+        if (!s || typeof s !== 'string') return s;
+        return s
+            .replace(/^(?:محافظة|منطقة|مقاطعة|ولاية|إمارة|قضاء|بلدية|ناحية)\s+/u, '')
+            .replace(/\s+(?:Governorate|Province|Region|District|County|Municipality|Prefecture)$/i, '')
+            .trim();
+    };
     const _show = (lat, lng, name, en, cc) => {
         try {
             let slug = (typeof buildPrayerTimesSlug === 'function')
@@ -7938,7 +7957,7 @@ function _wireMoonHubSmartPill() {
             if (!slug) return false;
             const target = pageUrl(`/moon-today-in-${slug}`);
             const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-            const display = (lang === 'ar' ? (name || en) : (en || name));
+            const display = _cleanCityForPill(lang === 'ar' ? (name || en) : (en || name));
             const prefix = (typeof t === 'function' ? t('moon.hub.smart_pill_prefix') : '') || 'آخر موقع استخدمته:';
             const cta    = (typeof t === 'function' ? t('moon.hub.smart_pill_cta')    : '') || 'اعرف حالة القمر';
             pillEl.setAttribute('href', target);

@@ -2894,6 +2894,54 @@ html[data-theme="dark"] .moon-hub-cal-picker button {
         border-color: var(--primary-light);
     }
 
+/* ═══ UAT-Moon-Hub-CTA-Promote: pulsing variant ═══
+   When CTA is promoted to above-the-fold (right under H1+status card),
+   make it visually unmissable: filled bg, glow, and gentle pulse.
+   Stops pulsing on hover so the visitor isn't distracted while reading.
+   Note: #page-moon is `display: flex; flex-direction: column`, and uses
+   CSS `order` to rearrange children. moon-city-answer has order:1, so
+   we set order:1 on the CTA too — same order means DOM order wins, and
+   CTA is right after answer in DOM → renders right below it.            */
+.moon-hub-cta.moon-hub-cta-pulse {
+    order: 1;
+    background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(46,125,50,0.30), 0 0 0 0 rgba(67,160,71,0.55);
+    animation: moonHubCtaPulse 2.4s ease-in-out infinite;
+    will-change: transform, box-shadow;
+}
+.moon-hub-cta.moon-hub-cta-pulse:hover,
+.moon-hub-cta.moon-hub-cta-pulse:focus {
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 8px 22px rgba(46,125,50,0.45);
+    animation: none;       /* stop pulse so hover state is steady */
+    transform: translateY(-2px);
+}
+@keyframes moonHubCtaPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 14px rgba(46,125,50,0.30), 0 0 0 0 rgba(67,160,71,0.55);
+    }
+    50% {
+        transform: scale(1.015);
+        box-shadow: 0 6px 22px rgba(46,125,50,0.45), 0 0 0 12px rgba(67,160,71,0);
+    }
+}
+html[data-theme="dark"] .moon-hub-cta.moon-hub-cta-pulse {
+    background: linear-gradient(135deg, #2e7d32 0%, #66bb6a 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(102,187,106,0.35), 0 0 0 0 rgba(129,199,132,0.55);
+}
+html[data-theme="dark"] .moon-hub-cta.moon-hub-cta-pulse:hover,
+html[data-theme="dark"] .moon-hub-cta.moon-hub-cta-pulse:focus {
+    background: linear-gradient(135deg, #1b5e20 0%, #43a047 100%);
+}
+@media (prefers-reduced-motion: reduce) {
+    .moon-hub-cta.moon-hub-cta-pulse { animation: none; }
+}
 
 /* ═══ Round 19: Hub-page primary CTA — "استعرض تفاصيل اليوم" ═══
    يظهر داخل /moon-in-{city} بعد Calendar Grid، يقود إلى /moon-in-{city}/{today-iso}.

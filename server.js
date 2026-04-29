@@ -7996,11 +7996,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             };
             const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', cityName);
             const _hubCtaHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-in-' + seo.moonCity.slug;
-            const _hubCtaHtml = `<a class="moon-hub-cta" href="${_escHtml(_hubCtaHref)}">${_escHtml(_hubCtaText)}</a>`;
-            // حقن قبل قسم #moon-forecast (موضع moon-forecast-cta السابق بعد حذفه).
+            // UAT-Moon-Hub-CTA-Promote: bright pulse + above-the-fold placement
+            //   — promoted from buried-after-events to right under the H1/status
+            //   card so visitors discover the calendar-hub link immediately.
+            const _hubCtaHtml = `<a class="moon-hub-cta moon-hub-cta-pulse" href="${_escHtml(_hubCtaHref)}">${_escHtml(_hubCtaText)}</a>`;
+            // حقن مباشرة بعد إغلاق #moon-city-answer (تحت H1 + بطاقة الحالة).
             html = html.replace(
-                /(<div class="section-card" id="moon-forecast")/,
-                _hubCtaHtml + '\n                $1'
+                /(<\/section><!-- \/#moon-city-answer -->)/,
+                `$1\n                ${_hubCtaHtml}`
             );
         }
 

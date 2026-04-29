@@ -324,6 +324,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'يعمل في جميع الدول',
         'moon.bc_current': 'القمر اليوم',
+        'moon.bc_root': 'القمر',
         'moon.bc_moon_in_city': 'القمر اليوم في {city}',
         'moon.bc_moon_in_city_nodate': 'القمر في {city}',
         'moon.location_note': 'الموقع: جاري التحديد…',
@@ -1698,6 +1699,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Works in all countries',
         'moon.bc_current': 'Moon Today',
+        'moon.bc_root': 'Moon',
         'moon.bc_moon_in_city': 'Moon Today in {city}',
         'moon.bc_moon_in_city_nodate': 'Moon in {city}',
         'moon.location_note': 'Location: detecting…',
@@ -3038,6 +3040,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Fonctionne dans tous les pays',
         'moon.bc_current': 'La Lune aujourd\u2019hui',
+        'moon.bc_root': 'Lune',
         'moon.bc_moon_in_city': 'La Lune aujourd\u2019hui à {city}',
         'moon.bc_moon_in_city_nodate': 'La Lune à {city}',
         'moon.location_note': 'Emplacement : détection\u2026',
@@ -4193,6 +4196,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Tüm ülkelerde çalışır',
         'moon.bc_current': 'Bugün Ay',
+        'moon.bc_root': 'Ay',
         'moon.bc_moon_in_city': 'Bugün {city}\u2019de Ay',
         'moon.bc_moon_in_city_nodate': '{city}\u2019de Ay',
         'moon.location_note': 'Konum: algılanıyor\u2026',
@@ -5348,6 +5352,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'تمام ممالک میں کام کرتا ہے',
         'moon.bc_current': 'آج کا چاند',
+        'moon.bc_root': 'چاند',
         'moon.bc_moon_in_city': 'آج {city} میں چاند',
         'moon.bc_moon_in_city_nodate': '{city} میں چاند',
         'moon.location_note': 'مقام: معلوم کیا جا رہا ہے\u2026',
@@ -6484,6 +6489,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Funktioniert in allen Ländern',
         'moon.bc_current': 'Mond heute',
+        'moon.bc_root': 'Mond',
         'moon.bc_moon_in_city': 'Mond heute in {city}',
         'moon.bc_moon_in_city_nodate': 'Mond in {city}',
         'moon.location_note': 'Standort: Erkennung\u2026',
@@ -7694,6 +7700,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Berfungsi di semua negara',
         'moon.bc_current': 'Bulan Hari Ini',
+        'moon.bc_root': 'Bulan',
         'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.bc_moon_in_city_nodate': 'Bulan di {city}',
         'moon.location_note': 'Lokasi: mendeteksi\u2026',
@@ -8904,6 +8911,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Funciona en todos los países',
         'moon.bc_current': 'La Luna hoy',
+        'moon.bc_root': 'Luna',
         'moon.bc_moon_in_city': 'La Luna hoy en {city}',
         'moon.bc_moon_in_city_nodate': 'La Luna en {city}',
         'moon.location_note': 'Ubicación: detectando\u2026',
@@ -10114,6 +10122,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'সব দেশে কাজ করে',
         'moon.bc_current': 'আজকের চাঁদ',
+        'moon.bc_root': 'চাঁদ',
         'moon.bc_moon_in_city': 'আজকের চাঁদ {city}-এ',
         'moon.bc_moon_in_city_nodate': 'চাঁদ {city}-এ',
         'moon.location_note': 'অবস্থান: সনাক্ত করা হচ্ছে\u2026',
@@ -11324,6 +11333,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'Berfungsi di semua negara',
         'moon.bc_current': 'Bulan Hari Ini',
+        'moon.bc_root': 'Bulan',
         'moon.bc_moon_in_city': 'Bulan Hari Ini di {city}',
         'moon.bc_moon_in_city_nodate': 'Bulan di {city}',
         'moon.location_note': 'Lokasi: sedang dikesan\u2026',

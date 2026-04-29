@@ -14368,15 +14368,19 @@ const FAMOUS_MOON_CITIES = {
 };
 
 function _moonCitySlugFromPath() {
-    // Round 15 + Round 16: فصل الـ URLs — ثلاثة أشكال:
+    // Round 15 + Round 16 + UAT-Moon-Hub-Month: four URL shapes —
     //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم
     //   /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM-DD          → صفحة مؤرَّخة
+    //   /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM             → صفحة شهر (NEW)
     //   /moon-in-{slug}[-{lat}-{lng}]                      → صفحة hub (Round 16)
     // نُرجِع slug فقط — الإحداثيّات تُقرأ عبر _moonCoordsFromPath().
     const p = window.location.pathname;
     let m = p.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     if (m) return m[1];
     m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/);
+    if (m) return m[1];
+    // UAT-Moon-Hub-Month: month page /moon-in-{slug}/YYYY-MM
+    m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}$/);
     if (m) return m[1];
     // Round 16: hub — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ
     m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
@@ -16457,49 +16461,107 @@ function updateMoonInfo() {
         const _bcMoon       = document.getElementById('bc-moon');
         const _bcMoonHubLi  = document.getElementById('bc-moon-hub-li');
         const _bcMoonHubSep = document.getElementById('bc-moon-hub-sep');
+        const _bcMonthLi    = document.getElementById('bc-month-li');
+        const _bcMonthSep   = document.getElementById('bc-month-sep');
+        const _bcMonth      = document.getElementById('bc-month');
         const _bcDateSep    = document.getElementById('bc-date-sep');
         const _bcDate       = document.getElementById('bc-date');
 
-        // تطبيع: أخفِ عناصر التاريخ والـ hub أوّلًا (سنُعيد إظهار الـ hub
-        //   لاحقاً إذا كنّا على صفحة مدينة/تاريخ).
-        [_bcDateSep, _bcDate, _bcMoonHubLi, _bcMoonHubSep].forEach((el) => {
+        // تطبيع: أخفِ عناصر التاريخ + الـ month + الـ hub أوّلًا (سنُعيد إظهارها
+        //   لاحقاً إذا كنّا على صفحة مدينة/شهر/تاريخ).
+        [_bcDateSep, _bcDate, _bcMoonHubLi, _bcMoonHubSep, _bcMonthLi, _bcMonthSep].forEach((el) => {
             if (el) el.hidden = true;
         });
 
-        // مُساعِد: أظهر مستوى الـ hub "القمر اليوم" (يَربط /moon-today) — يُستخدَم
-        //   عند وجود مدينة في الـ breadcrumb (city أو date page) لإعطاء المستخدم
-        //   مساراً واضحاً: الرئيسيّة › القمر اليوم › القمر اليوم في {City}.
-        //   نُحدِّث الـ href بـ language prefix (مثلاً /en/moon-today عندما lang=en).
+        // UAT-Moon-Hub-Month: detect /moon-in-{slug}/YYYY-MM (month page) from URL.
+        const _moonMonthFromPath = () => {
+            try {
+                const _mm = window.location.pathname.match(
+                    /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/(\d{4})-(\d{2})$/
+                );
+                if (!_mm) return null;
+                const _y = parseInt(_mm[1], 10);
+                const _m = parseInt(_mm[2], 10);
+                if (_y >= 1800 && _m >= 1 && _m <= 12) return { y: _y, m: _m };
+            } catch (_) {}
+            return null;
+        };
+        const _isMonthUrl = !!_moonMonthFromPath();
+
+        // مُساعِد: أظهر مستوى الـ Moon (يَربط /moon-today الذي هو موقع الجذر للقمر)
+        //   — يُستخدَم عند وجود مدينة في الـ breadcrumb لإعطاء المستخدم مساراً
+        //   هرميّاً: الرئيسيّة › القمر › القمر في {City} [› {Month Year} [› {Day}]].
         const _showMoonHubLevel = function() {
             if (_bcMoonHubLi)  _bcMoonHubLi.hidden  = false;
             if (_bcMoonHubSep) _bcMoonHubSep.hidden = false;
             const _bcMoonHub = document.getElementById('bc-moon-hub');
             if (_bcMoonHub) _bcMoonHub.setAttribute('href', _langPrefixBC + '/moon-today');
         };
+        // UAT-Moon-Hub-Month: show the {Month Year} rung (level 4). Caller
+        //   passes year/month/isCurrent. When isCurrent=true the rung is the
+        //   current page (no link). Otherwise it links to /moon-in-{slug}/YYYY-MM.
+        const _showMonthLevel = function(year, monthNum, citySlug, isCurrent) {
+            if (!_bcMonthLi || !_bcMonthSep || !_bcMonth) return;
+            const _gMonthFullByLang = {
+                ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+            };
+            const _names = _gMonthFullByLang[_lngBC] || _gMonthFullByLang.en;
+            const _label = `${_names[monthNum - 1]} ${year}`;
+            _bcMonth.textContent = _label;
+            if (isCurrent) {
+                _bcMonth.removeAttribute('href');
+                _bcMonth.setAttribute('aria-current', 'page');
+                if (_bcMonthLi) _bcMonthLi.classList.add('bc-current');
+            } else {
+                const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
+                _bcMonth.setAttribute('href', _langPrefixBC + '/moon-in-' + citySlug + '/' + year + '-' + _pad2(monthNum));
+                _bcMonth.removeAttribute('aria-current');
+                if (_bcMonthLi) _bcMonthLi.classList.remove('bc-current');
+            }
+            _bcMonthLi.hidden = false;
+            _bcMonthSep.hidden = false;
+        };
 
         const _lngBC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         const _langPrefixBC = (_lngBC === 'ar') ? '' : ('/' + _lngBC);
 
-        // قالب "القمر اليوم في {city}" أو "القمر في {city}" — يستخدم مفتاح i18n أو fallback يدويّ حسب اللغة.
-        // skipToday=true → يحذف كلمة "اليوم" (للتواريخ غير تاريخ اليوم الحاليّ).
+        // قالب "القمر في {city}" — UAT-Moon-Hub-Month: prefer "Moon" (root)
+        //   over "Moon Today" since the breadcrumb tree includes month/day pages
+        //   that aren't specifically about today. skipToday is honored as a
+        //   fallback signal but on month/day pages we always use the root form.
         const _buildMoonCityText = function(cityName, skipToday) {
-            const _key = skipToday ? 'moon.bc_moon_in_city_nodate' : 'moon.bc_moon_in_city';
+            // On month or date pages, ALWAYS use the no-today template
+            //   (since the URL is explicitly about another month/date).
+            const _useRoot = skipToday || _isMonthUrl;
+            const _key = _useRoot ? 'moon.bc_moon_in_city_nodate' : 'moon.bc_moon_in_city';
             let _tpl = '';
             try { _tpl = (typeof t === 'function') ? t(_key) : ''; } catch(_){}
             if (_tpl && _tpl !== _key && _tpl.indexOf('{city}') !== -1) {
                 return _tpl.replace('{city}', cityName);
             }
-            // Fallback بلغة الواجهة
+            // Fallback بلغة الواجهة — use the new moon.bc_root for prefix
             let _bcCurrent = '';
-            if (skipToday) {
-                _bcCurrent = (_lngBC === 'ar' || _lngBC === 'ur') ? 'القمر' :
-                             (_lngBC === 'fr') ? 'La Lune' :
-                             (_lngBC === 'de') ? 'Mond' :
-                             (_lngBC === 'tr') ? 'Ay' :
-                             (_lngBC === 'es') ? 'La Luna' :
-                             (_lngBC === 'id' || _lngBC === 'ms') ? 'Bulan' :
-                             (_lngBC === 'bn') ? 'চাঁদ' :
-                             'Moon';
+            if (_useRoot) {
+                try { _bcCurrent = (typeof t === 'function') ? t('moon.bc_root') : ''; } catch(_){}
+                if (!_bcCurrent || _bcCurrent === 'moon.bc_root') {
+                    _bcCurrent = (_lngBC === 'ar' || _lngBC === 'ur') ? 'القمر' :
+                                 (_lngBC === 'fr') ? 'Lune' :
+                                 (_lngBC === 'de') ? 'Mond' :
+                                 (_lngBC === 'tr') ? 'Ay' :
+                                 (_lngBC === 'es') ? 'Luna' :
+                                 (_lngBC === 'id' || _lngBC === 'ms') ? 'Bulan' :
+                                 (_lngBC === 'bn') ? 'চাঁদ' :
+                                 'Moon';
+                }
             } else {
                 try { _bcCurrent = (typeof t === 'function') ? t('moon.bc_current') : ''; } catch(_){}
                 if (!_bcCurrent || _bcCurrent === 'moon.bc_current') _bcCurrent = 'Moon Today';
@@ -16547,21 +16609,43 @@ function updateMoonInfo() {
         if (_citySlug) {
             const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
             // عند صفحة تاريخ مختلف عن اليوم → نحذف كلمة "اليوم"
-            const _skipTodayBC = _isDatePage && !_isUrlDateToday();
+            const _skipTodayBC = (_isDatePage && !_isUrlDateToday()) || _isMonthUrl;
             const _moonCityText = _buildMoonCityText(_cityNameBC, _skipTodayBC);
 
-            // أظهِر مستوى الـ hub: "الرئيسيّة › القمر اليوم › القمر اليوم في {City}"
+            // أظهِر مستوى الـ Moon: "الرئيسيّة › القمر › القمر في {City}"
             _showMoonHubLevel();
-
-            if (_isDatePage) {
-                // المستوى 2: "القمر [اليوم] في {City}" كرابط لـ /moon-today-in-{slug} (قابل للضغط)
+            // UAT-Moon-Hub-Month: detect month-page URL (without day) and show
+            //   {Month Year} rung as the CURRENT page (no link).
+            const _monthFromUrl = _moonMonthFromPath();
+            if (_monthFromUrl) {
+                // Level 3 ({City}) becomes a LINK back to the city hub.
                 if (_bcMoon) {
                     _bcMoon.textContent = _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
-                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-today-in-' + _citySlug);
+                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-in-' + _citySlug);
                     _markAsLink(_bcMoon);
                 }
-                // المستوى 3: {Date} — current page (span أصلاً، غير قابل للضغط)
+                _showMonthLevel(_monthFromUrl.y, _monthFromUrl.m, _citySlug, /* isCurrent */ true);
+                return; // month is the deepest level on month pages
+            }
+
+            if (_isDatePage) {
+                // المستوى 3: "القمر في {City}" → link to /moon-in-{slug} (city hub).
+                //   UAT-Moon-Hub-Month: was /moon-today-in-{slug}; now city hub.
+                if (_bcMoon) {
+                    _bcMoon.textContent = _moonCityText;
+                    _bcMoon.removeAttribute('data-i18n');
+                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-in-' + _citySlug);
+                    _markAsLink(_bcMoon);
+                }
+                // UAT-Moon-Hub-Month: insert {Month Year} rung between city and day.
+                //   Links to the parent month page /moon-in-{slug}/YYYY-MM.
+                try {
+                    const _pageDateY = today.getFullYear();
+                    const _pageDateM = today.getMonth() + 1;
+                    _showMonthLevel(_pageDateY, _pageDateM, _citySlug, /* isCurrent */ false);
+                } catch (_) {}
+                // المستوى 5: {Date} — current page (span أصلاً، غير قابل للضغط)
                 //   Round 14 polish #4: إن كان URL هجريّاً نستخدم التسمية الهجريّة؛ وإلّا الميلاديّة.
                 if (_bcDateSep) _bcDateSep.hidden = false;
                 if (_bcDate) {

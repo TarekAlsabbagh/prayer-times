@@ -11073,7 +11073,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return;
     } catch (_) {}
 
-    const _setupCollapse = (heroEl, ignoreSelector) => {
+    const _setupCollapse = (heroEl, ignoreSelector, closeBtnId) => {
         if (!heroEl) return;
         // Default: collapsed
         heroEl.classList.add('loc-hero-collapsed');
@@ -11082,9 +11082,14 @@ document.addEventListener('DOMContentLoaded', () => {
         heroEl.setAttribute('aria-label', 'فتح/إغلاق قسم البحث');
         heroEl.setAttribute('tabindex', '0');
 
+        // Close button — shown only while expanded; gives the visitor a
+        //   clear visual affordance to collapse the section back.
+        const _closeBtn = closeBtnId ? document.getElementById(closeBtnId) : null;
+
         const _toggle = () => {
             const _nowCollapsed = heroEl.classList.toggle('loc-hero-collapsed');
             heroEl.setAttribute('aria-expanded', String(!_nowCollapsed));
+            if (_closeBtn) _closeBtn.hidden = _nowCollapsed;  // visible when expanded
         };
 
         heroEl.addEventListener('click', (e) => {
@@ -11104,20 +11109,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 _toggle();
             }
         });
+
+        // Close-button click → always collapse (regardless of bubbling).
+        //   stopPropagation prevents the parent click-listener from also firing
+        //   (which would re-toggle and net-result in no change).
+        if (_closeBtn) {
+            _closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!heroEl.classList.contains('loc-hero-collapsed')) {
+                    _toggle();
+                }
+            });
+        }
     };
 
     // /prayer-times-in-{city}: html.city-page → collapse #location-hero
     if (document.documentElement.classList.contains('city-page')) {
         _setupCollapse(
             document.getElementById('location-hero'),
-            'input, button, a, .lhpc-chip, .loc-hero-suggestions'
+            'input, button, a, .lhpc-chip, .loc-hero-suggestions',
+            'loc-hero-close-btn'
         );
     }
     // /moon-today-in-{city}: html.moon-today-city-page → collapse #moon-hub-hero
     if (document.documentElement.classList.contains('moon-today-city-page')) {
         _setupCollapse(
             document.getElementById('moon-hub-hero'),
-            'input, button, a, .qibla-hub-search-results, .qibla-hub-pop-cities'
+            'input, button, a, .qibla-hub-search-results, .qibla-hub-pop-cities',
+            'moon-hub-close-btn'
         );
     }
 });

@@ -7815,14 +7815,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     _calWdHtml += `<li class="moon-hub-cal-wd">${_escHtml(_wdayLbls[w])}</li>`;
                 }
                 // Prev/next month nav. UAT-Moon-Hub-Month: emit PATH-based URLs
-                //   /moon-in-{slug}/YYYY-MM (the canonical month-page URL) — NOT
-                //   the legacy `?cal=` query. The fragment `#moon-hub-cal` survives
-                //   the page reload so the visitor lands back on the calendar widget.
+                //   /moon-in-{slug}/YYYY-MM (the canonical month-page URL) — clean,
+                //   without the `#moon-hub-cal` fragment. JS auto-scrolls to the
+                //   calendar after page load when on a month URL (see app.js).
                 const _prevMo = (_calMo === 1) ? { y: _calY - 1, m: 12 } : { y: _calY, m: _calMo - 1 };
                 const _nextMo = (_calMo === 12) ? { y: _calY + 1, m: 1 } : { y: _calY, m: _calMo + 1 };
                 const _hubPath = _langPrefixHc + '/moon-in-' + seo.moonCity.slug;
-                const _prevHref = `${_hubPath}/${_prevMo.y}-${_pad2Hc(_prevMo.m)}#moon-hub-cal`;
-                const _nextHref = `${_hubPath}/${_nextMo.y}-${_pad2Hc(_nextMo.m)}#moon-hub-cal`;
+                const _prevHref = `${_hubPath}/${_prevMo.y}-${_pad2Hc(_prevMo.m)}`;
+                const _nextHref = `${_hubPath}/${_nextMo.y}-${_pad2Hc(_nextMo.m)}`;
                 // Year/Month picker form (no-JS fallback uses cal-y + cal-m;
                 // the JS handler in app.js auto-submits + folds them into cal=YYYY-MM)
                 let _yearOptsHtml = '';
@@ -7833,9 +7833,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 for (let m = 1; m <= 12; m++) {
                     _moOptsHtml += `<option value="${m}"${m === _calMo ? ' selected' : ''}>${_escHtml(_gMonthsFull[m - 1])}</option>`;
                 }
-                // Picker form action also gets the #moon-hub-cal fragment so a no-JS
-                //   submit (using cal-y/cal-m) lands on the calendar after navigation.
-                const _pickerActionHref = _hubPath + '#moon-hub-cal';
+                // Picker form action: clean hub path. The 301 redirect for
+                //   ?cal-y/?cal-m sends the visitor to the canonical /YYYY-MM
+                //   path WITHOUT the fragment; JS auto-scrolls to the calendar.
+                const _pickerActionHref = _hubPath;
                 const _pickerHtml = `<form class="moon-hub-cal-picker" method="get" action="${_escHtml(_pickerActionHref)}" role="search">`
                     + `<select name="cal-y" aria-label="Year">${_yearOptsHtml}</select>`
                     + `<select name="cal-m" aria-label="Month">${_moOptsHtml}</select>`
@@ -9606,7 +9607,7 @@ const server = http.createServer(async (req, res) => {
                 const _parts = _calIso.split('-');
                 if (parseInt(_parts[0], 10) >= 1800) {
                     res.writeHead(301, {
-                        'Location': `${urlPath}/${_calIso}#moon-hub-cal`,
+                        'Location': `${urlPath}/${_calIso}`,
                         'Cache-Control': 'public, max-age=31536000'
                     });
                     res.end();

@@ -11170,13 +11170,35 @@ document.addEventListener('DOMContentLoaded', () => {
             _abs.searchParams.delete('cal');
             _abs.searchParams.delete('cal-y');
             _abs.searchParams.delete('cal-m');
-            _abs.hash = '#moon-hub-cal';
+            // No fragment — clean URL. JS auto-scrolls to the calendar
+            //   on page load when the URL is a month URL (see scroller below).
+            _abs.hash = '';
             window.location.href = _abs.toString();
         } catch (_) { _f.submit(); }
     };
     _f.addEventListener('submit', (e) => { e.preventDefault(); _navigate(); });
     _ySel.addEventListener('change', _navigate);
     _mSel.addEventListener('change', _navigate);
+});
+
+// ── UAT-Moon-Hub-Month: auto-scroll to the calendar on month URLs ─────
+//   Replaces the old `#moon-hub-cal` URL fragment (which polluted the URL).
+//   On /moon-in-{slug}/YYYY-MM, after the page loads we smoothly scroll
+//   the calendar widget into view so the visitor lands where they expect
+//   when arriving via prev/next/picker — without ugly fragments in the URL.
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const _isMonthUrl = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
+        if (!_isMonthUrl) return;
+        // Wait a tick for the SSR-rendered calendar + any layout shifts to settle.
+        const _scrollToCal = () => {
+            const _el = document.getElementById('moon-hub-cal');
+            if (_el) _el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        };
+        // Two attempts: one immediately after DCL, one after layout-shifts settle.
+        setTimeout(_scrollToCal, 50);
+        setTimeout(_scrollToCal, 400);
+    } catch (_) { /* silent — best-effort scroll */ }
 });
 
 // ========= العد التنازلي =========

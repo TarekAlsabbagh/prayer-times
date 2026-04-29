@@ -4754,9 +4754,51 @@ function buildSeoForPath(urlPath) {
                 ? (_primaryDateLabel + ' ' + _equivFn(_secondaryDateLabel))
                 : _primaryDateLabel;
 
-            // Title/Description — ثلاث حالات: hub (Round 16) / صفحة تاريخ محدَّد / صفحة اليوم
+            // Title/Description — أربع حالات: hub (Round 16) / صفحة شهر (UAT-Moon-Hub-Month) / صفحة تاريخ محدَّد / صفحة اليوم
             let _moonTitle, _moonDesc;
-            if (_isMoonHubPage) {
+            // ── UAT-Moon-Hub-Month: month-page month-name table (10 langs) ──
+            const _gMonthFullByLangT = {
+                ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+            };
+            const _mLst = _gMonthFullByLangT[lang] || _gMonthFullByLangT.en;
+            const _mNameT = (_isMoonMonthPage && _moonMonthMonth) ? _mLst[_moonMonthMonth - 1] : '';
+            const _mYearT = _isMoonMonthPage ? _moonMonthYear : '';
+            if (_isMoonMonthPage) {
+                // ── UAT-Moon-Hub-Month: صفحة الشهر — مثل hub لكن مخصَّصة لشهر محدَّد ──
+                _moonTitle = {
+                    ar: `حالة القمر في ${cityDisplay} في ${_mNameT} ${_mYearT} — التقويم والطور والإضاءة`,
+                    en: `Moon in ${cityDisplay} in ${_mNameT} ${_mYearT} — Calendar, Phase & Illumination`,
+                    fr: `La Lune à ${cityDisplay} en ${_mNameT} ${_mYearT} — Calendrier, phase et illumination`,
+                    tr: `${cityDisplay}'da ${_mNameT} ${_mYearT} Ay — Takvim, Evre ve Aydınlanma`,
+                    ur: `${cityDisplay} میں ${_mNameT} ${_mYearT} میں چاند — تقویم، طور اور روشنی`,
+                    de: `Der Mond in ${cityDisplay} im ${_mNameT} ${_mYearT} — Kalender, Phase und Beleuchtung`,
+                    id: `Bulan di ${cityDisplay} pada ${_mNameT} ${_mYearT} — Kalender, Fase & Iluminasi`,
+                    es: `La Luna en ${cityDisplay} en ${_mNameT} ${_mYearT} — Calendario, fase e iluminación`,
+                    bn: `${cityDisplay}-এ ${_mNameT} ${_mYearT}-এ চাঁদ — ক্যালেন্ডার, দশা ও আলোকসজ্জা`,
+                    ms: `Bulan di ${cityDisplay} pada ${_mNameT} ${_mYearT} — Kalendar, Fasa & Pencahayaan`,
+                };
+                _moonDesc = {
+                    ar: `تقويم القمر في ${cityDisplay} لشهر ${_mNameT} ${_mYearT}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل.`,
+                    en: `Moon calendar in ${cityDisplay} for ${_mNameT} ${_mYearT}: daily phase, illumination, full moon and new moon dates, hilal visibility, and matching Hijri calendar.`,
+                    fr: `Calendrier lunaire à ${cityDisplay} pour ${_mNameT} ${_mYearT} : phase quotidienne, illumination, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien correspondant.`,
+                    tr: `${cityDisplay} için ${_mNameT} ${_mYearT} ay takvimi: günlük evre, aydınlanma, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve karşılık gelen hicri takvim.`,
+                    ur: `${cityDisplay} میں ${_mNameT} ${_mYearT} کے لیے چاند کی تقویم: روزانہ طور، روشنی، بدر اور نئے چاند کی تاریخیں، ہلال کی رؤیت اور متعلقہ ہجری تقویم۔`,
+                    de: `Mondkalender in ${cityDisplay} für ${_mNameT} ${_mYearT}: tägliche Phase, Beleuchtung, Vollmond- und Neumonddaten, Hilal-Sichtbarkeit und passender Hidschri-Kalender.`,
+                    id: `Kalender bulan di ${cityDisplay} untuk ${_mNameT} ${_mYearT}: fase harian, iluminasi, tanggal purnama dan bulan baru, rukyat hilal, dan kalender Hijriah yang sesuai.`,
+                    es: `Calendario lunar en ${cityDisplay} para ${_mNameT} ${_mYearT}: fase diaria, iluminación, fechas de luna llena y nueva, visibilidad del hilal y calendario hijri correspondiente.`,
+                    bn: `${cityDisplay}-এ ${_mNameT} ${_mYearT}-এর জন্য চাঁদের ক্যালেন্ডার: দৈনিক দশা, আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার তারিখ, হিলাল দৃশ্যমানতা এবং সংশ্লিষ্ট হিজরি ক্যালেন্ডার।`,
+                    ms: `Kalendar bulan di ${cityDisplay} untuk ${_mNameT} ${_mYearT}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah yang sepadan.`,
+                };
+            } else if (_isMoonHubPage) {
                 // ── Round 16: Hub للمدينة ── (evergreen، بلا "اليوم"، تجمع كلّ التواريخ كصفحة أمّ للمدينة)
                 _moonTitle = {
                     ar: `حالة القمر في ${cityDisplay} — الطور اليوم، والتواريخ القادمة، والتقويم الهجريّ`,
@@ -4838,7 +4880,8 @@ function buildSeoForPath(urlPath) {
             title = _moonTitle[lang] || _moonTitle.en;
             description = _moonDesc[lang] || _moonDesc.en;
             // Round 16: hub = 'website' (evergreen)، dated/today = 'article'
-            ogType = _isMoonHubPage ? 'website' : 'article';
+            // UAT-Moon-Hub-Month: month page = 'website' too (evergreen for that month)
+            ogType = (_isMoonHubPage || _isMoonMonthPage) ? 'website' : 'article';
             geo = { lat: cityGeo.lat, lng: cityGeo.lng };
             cityModified = _moonDateObj ? _moonDateObj.toISOString() : new Date().toISOString();
             // ── out-of-range: noindex + canonical يشير للصفحة بدون تاريخ ──
@@ -9983,7 +10026,10 @@ const server = http.createServer(async (req, res) => {
         // UAT-Q5f: include `.` in slug character class to accept loc-XX.X-YY.Y
         //   (coord-only slugs for non-Latin city names: Persian/Arabic/Asian).
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(urlPath) ||
+        // UAT-Moon-Hub-Month: \d{4}-\d{2}(?:-\d{2})? matches both:
+        //   /moon-in-{slug}/YYYY-MM     → month page (NEW)
+        //   /moon-in-{slug}/YYYY-MM-DD  → day page (existing)
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
@@ -10012,7 +10058,12 @@ const server = http.createServer(async (req, res) => {
         const _MTroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         const _MHroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         const _MDroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
-        const _moonCityMatch = _MTroute || _MDroute || _MHroute;
+        // UAT-Moon-Hub-Month: NEW month route /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM}
+        // (year ≥ 1800 to avoid colliding with Hijri-day URLs which have year < 1800)
+        const _MMrouteRaw = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})$/);
+        const _MMroute = (_MMrouteRaw && parseInt(_MMrouteRaw[5], 10) >= 1800) ? _MMrouteRaw : null;
+        // Match priority: today → day → month → hub (most-specific first).
+        const _moonCityMatch = _MTroute || _MDroute || _MMroute || _MHroute;
         if (_moonCityMatch) {
             const _moonLangPrefix = _moonCityMatch[1] || '';
             const _moonSlug = _moonCityMatch[2];
@@ -10021,8 +10072,12 @@ const server = http.createServer(async (req, res) => {
             const _dyRt = (_MDroute && _moonCityMatch[5]) ? _moonCityMatch[5] : null;
             const _dmRt = (_MDroute && _moonCityMatch[6]) ? _moonCityMatch[6] : null;
             const _ddRt = (_MDroute && _moonCityMatch[7]) ? _moonCityMatch[7] : null;
-            // نوع الصفحة: today / hub / dated
-            const _isHubRt = !!_MHroute && !_MDroute && !_MTroute;
+            // UAT-Moon-Hub-Month: month parts (only when _MMroute matched).
+            const _myRt = (_MMroute && !_MDroute && _moonCityMatch[5]) ? _moonCityMatch[5] : null;
+            const _mmRt = (_MMroute && !_MDroute && _moonCityMatch[6]) ? _moonCityMatch[6] : null;
+            // نوع الصفحة: today / hub / month / dated
+            const _isMonthRt = !!_MMroute && !_MDroute && !_MTroute;
+            const _isHubRt = !!_MHroute && !_MDroute && !_MTroute && !_isMonthRt;
             const _moonInDb = !!_resolveCityForMoon(_moonSlug);
             // UAT-Moon-3: when the slug isn't in DB but the coord-suffix
             // points within ≤2 km of a city we DO know under a different
@@ -10042,10 +10097,12 @@ const server = http.createServer(async (req, res) => {
             // 1) المدينة في DB + coord-suffix → 301 إلى الشكل القصير (يحترم فصل الـ URLs الجديد)
             //    Also fires when UAT-Moon-3 found a different DB slug for the same coords.
             if (_moonInDbResolved && _moonHasCoord) {
-                // today → /moon-today-in-{slug}، hub → /moon-in-{slug}، dated → /moon-in-{slug}/{date}
+                // today → /moon-today-in-{slug}، hub → /moon-in-{slug}، month → /moon-in-{slug}/{YYYY-MM}، dated → /moon-in-{slug}/{date}
                 let _canonicalPath;
                 if (_dyRt) {
                     _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonResolvedSlug + '/' + _dyRt + '-' + _dmRt + '-' + _ddRt;
+                } else if (_isMonthRt) {
+                    _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonResolvedSlug + '/' + _myRt + '-' + _mmRt;
                 } else if (_isHubRt) {
                     _canonicalPath = '/' + _moonLangPrefix + 'moon-in-' + _moonResolvedSlug;
                 } else {
@@ -10080,6 +10137,19 @@ const server = http.createServer(async (req, res) => {
                     // تاريخ غير صالح → 301 إلى صفحة المدينة لليوم بدل 404
                     const _todayPath = '/' + _moonLangPrefix + 'moon-today-in-' + _moonSlug;
                     res.writeHead(301, { 'Location': _todayPath });
+                    res.end();
+                    return;
+                }
+            }
+            // 3b) UAT-Moon-Hub-Month: validate month — month must be 01-12,
+            //    year must be sane (1800-2999). Otherwise 301 to hub.
+            if (_isMonthRt) {
+                const _my = parseInt(_myRt, 10);
+                const _mm = parseInt(_mmRt, 10);
+                const _monthOk = (_my >= 1800 && _my <= 2999 && _mm >= 1 && _mm <= 12);
+                if (!_monthOk) {
+                    const _hubPath = '/' + _moonLangPrefix + 'moon-in-' + _moonSlug;
+                    res.writeHead(301, { 'Location': _hubPath });
                     res.end();
                     return;
                 }

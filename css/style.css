@@ -1150,35 +1150,41 @@ html[data-theme="dark"] .qibla-hub-search-results {
     border-color: var(--border);
     box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
-/* Search-result items — dark theme: city name + country line both need
-   light text. Default rules use --text-dark which stays dark on the
-   dark card-bg, making the names nearly invisible. */
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-item,
+/* Search-result items — dark theme: include #page-qibla / #page-moon
+   in the selector to match the original rule's specificity. */
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-item,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-item,
 html[data-theme="dark"] .loc-hero-suggestions .qhsr-item,
 html[data-theme="dark"] .city-search-suggestions .qhsr-item {
     color: var(--text, #e6efe7);
     background: transparent;
     border-bottom-color: rgba(255, 255, 255, 0.06);
 }
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-name,
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-name,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-name,
 html[data-theme="dark"] .loc-hero-suggestions .qhsr-name,
 html[data-theme="dark"] .city-search-suggestions .qhsr-name {
     color: var(--text, #e6efe7);
     font-weight: 700;
 }
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-country,
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-country,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-country,
 html[data-theme="dark"] .loc-hero-suggestions .qhsr-country,
 html[data-theme="dark"] .city-search-suggestions .qhsr-country {
     color: rgba(230, 239, 231, 0.62);
 }
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-arrow,
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-arrow,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-arrow,
 html[data-theme="dark"] .loc-hero-suggestions .qhsr-arrow,
 html[data-theme="dark"] .city-search-suggestions .qhsr-arrow {
     color: #80d8a8;
 }
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-item:hover,
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-item:focus,
-html[data-theme="dark"] .qibla-hub-search-results .qhsr-item.focused {
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-item:hover,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-item:hover,
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-item:focus,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-item:focus,
+html[data-theme="dark"] #page-qibla .qibla-hub-search-results .qhsr-item.focused,
+html[data-theme="dark"] #page-moon  .qibla-hub-search-results .qhsr-item.focused {
     background: rgba(128, 216, 168, 0.10);
     outline-color: rgba(128, 216, 168, 0.30);
 }
@@ -1197,11 +1203,15 @@ html[data-theme="dark"] .cps-input:focus {
     box-shadow: 0 2px 12px rgba(42,163,107,0.25);
 }
 /* Search inputs — dark theme: text color, border, and placeholder must
-   all stay legible. The default rules use var(--text-dark) and a faint
-   green border that vanish on dark backgrounds. */
+   all stay legible. The default rules are scoped to `#page-qibla
+   .qibla-hub-search` (etc.) which gives them HIGHER specificity than
+   plain `html[data-theme="dark"] .qibla-hub-search` — the override was
+   silently losing. Match/exceed the specificity by including the same
+   page-scope IDs in the dark-theme overrides. */
 html[data-theme="dark"] .city-search-input,
 html[data-theme="dark"] .loc-hero-search,
-html[data-theme="dark"] .qibla-hub-search,
+html[data-theme="dark"] #page-qibla .qibla-hub-search,
+html[data-theme="dark"] #page-moon  .qibla-hub-search,
 html[data-theme="dark"] .cps-input {
     background: var(--surface-raised, rgba(255, 255, 255, 0.04));
     color: var(--text, #e6efe7);
@@ -1209,15 +1219,18 @@ html[data-theme="dark"] .cps-input {
 }
 html[data-theme="dark"] .city-search-input::placeholder,
 html[data-theme="dark"] .loc-hero-search::placeholder,
-html[data-theme="dark"] .qibla-hub-search::placeholder,
+html[data-theme="dark"] #page-qibla .qibla-hub-search::placeholder,
+html[data-theme="dark"] #page-moon  .qibla-hub-search::placeholder,
 html[data-theme="dark"] .cps-input::placeholder {
     color: rgba(230, 239, 231, 0.55);
 }
 html[data-theme="dark"] .city-search-input:focus,
 html[data-theme="dark"] .loc-hero-search:focus,
-html[data-theme="dark"] .qibla-hub-search:focus,
+html[data-theme="dark"] #page-qibla .qibla-hub-search:focus,
+html[data-theme="dark"] #page-moon  .qibla-hub-search:focus,
 html[data-theme="dark"] .cps-input:focus {
     border-color: #80d8a8;
+    color: var(--text, #e6efe7);
 }
 /* Sidebar nav */
 html[data-theme="dark"] .sidebar-nav a { color: var(--text); }

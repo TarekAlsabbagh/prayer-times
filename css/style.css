@@ -11377,8 +11377,12 @@ html.time-left-page .sticky-next-bar {
     font-weight: 700;
 }
 
-/* Dual CTA grid: primary + secondary, side by side on desktop */
-#page-qibla .qibla-dual-cta {
+/* Dual CTA grid: primary + secondary, side by side on desktop.
+   Dual-scoped to #page-qibla AND #page-moon — without #page-moon scope,
+   the moon-hub dual buttons fell back to inline-flex with mismatched
+   heights (the geo button was taller than the pick button). */
+#page-qibla .qibla-dual-cta,
+#page-moon .qibla-dual-cta {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
@@ -11387,12 +11391,16 @@ html.time-left-page .sticky-next-bar {
     margin: 0 auto;
 }
 #page-qibla .qibla-dual-cta > .qibla-hub-geo-btn,
-#page-qibla .qibla-dual-cta > .qibla-hub-pick-btn {
+#page-qibla .qibla-dual-cta > .qibla-hub-pick-btn,
+#page-moon  .qibla-dual-cta > .qibla-hub-geo-btn,
+#page-moon  .qibla-dual-cta > .qibla-hub-pick-btn {
     width: 100%;
     max-width: none;
+    height: 100%;       /* equalize heights inside the grid track */
 }
 @media (max-width: 640px) {
-    #page-qibla .qibla-dual-cta { grid-template-columns: 1fr; }
+    #page-qibla .qibla-dual-cta,
+    #page-moon  .qibla-dual-cta { grid-template-columns: 1fr; }
 }
 
 /* Microcopy under the primary CTA */

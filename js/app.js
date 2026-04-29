@@ -15052,7 +15052,10 @@ function updateMoonInfo() {
         _setH2('moon-faq-live-h2', 'moon.faq_live_title_city_template');
         // 🆕 Priority A: subtitle تحت H1 — UAT-Moon-City: prefer the new
         //   short city-specific subtitle over the legacy long template.
-        if (typeof t === 'function') {
+        // UAT-Moon-Hub-Month: skip this setter entirely on month pages —
+        //   the month override below takes precedence with a month-specific subtitle.
+        const _isMonthPathH1 = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
+        if (typeof t === 'function' && !_isMonthPathH1) {
             const _subEl = document.getElementById('moon-subtitle');
             if (_subEl) {
                 const _newSub = t('moon.subtitle_city', { city: _cityName });
@@ -15063,6 +15066,69 @@ function updateMoonInfo() {
                 }
             }
         }
+        // ── UAT-Moon-Hub-Month: override H1 + subtitle on month pages ──
+        //   /moon-in-{slug}/YYYY-MM should show "Moon in {City} in {Month} {Year}"
+        //   instead of "Moon today in {City} — {today's date}".
+        //   MUST run after the city subtitle setter above (which would overwrite us).
+        try {
+            const _mmH1 = window.location.pathname.match(
+                /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/(\d{4})-(\d{2})$/
+            );
+            if (_mmH1) {
+                const _mY = parseInt(_mmH1[1], 10);
+                const _mM = parseInt(_mmH1[2], 10);
+                if (_mY >= 1800 && _mM >= 1 && _mM <= 12) {
+                    const _gMonthFullByLangH1 = {
+                        ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                        en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                        fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                        tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                        ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                        de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                        id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                        es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                        bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                        ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+                    };
+                    const _ml = _gMonthFullByLangH1[_lng_] || _gMonthFullByLangH1.en;
+                    const _mName = _ml[_mM - 1];
+                    const _H1_MONTH = {
+                        ar: `حالة القمر في ${_cityName} في ${_mName} ${_mY}`,
+                        en: `Moon in ${_cityName} in ${_mName} ${_mY}`,
+                        fr: `La Lune à ${_cityName} en ${_mName} ${_mY}`,
+                        tr: `${_cityName}'da ${_mName} ${_mY} Ay`,
+                        ur: `${_cityName} میں ${_mName} ${_mY} میں چاند`,
+                        de: `Der Mond in ${_cityName} im ${_mName} ${_mY}`,
+                        id: `Bulan di ${_cityName} pada ${_mName} ${_mY}`,
+                        es: `La Luna en ${_cityName} en ${_mName} ${_mY}`,
+                        bn: `${_cityName}-এ ${_mName} ${_mY}-এ চাঁদ`,
+                        ms: `Bulan di ${_cityName} pada ${_mName} ${_mY}`
+                    };
+                    if (_h1El) {
+                        _h1El.textContent = _H1_MONTH[_lng_] || _H1_MONTH.en;
+                        // Remove data-i18n so i18n.js doesn't retranslate over us.
+                        _h1El.removeAttribute('data-i18n');
+                    }
+                    const _SUB_MONTH = {
+                        ar: `تقويم القمر لشهر ${_mName} ${_mY} — الطور اليوميّ والإضاءة وأطوار البدر والمحاق`,
+                        en: `Moon calendar for ${_mName} ${_mY} — daily phase, illumination, full moon and new moon`,
+                        fr: `Calendrier lunaire pour ${_mName} ${_mY} — phase quotidienne, illumination, pleine et nouvelle lune`,
+                        tr: `${_mName} ${_mY} için ay takvimi — günlük evre, aydınlanma, dolunay ve yeni ay`,
+                        ur: `${_mName} ${_mY} کے لیے چاند کی تقویم — روزانہ طور، روشنی، بدر اور نیا چاند`,
+                        de: `Mondkalender für ${_mName} ${_mY} — tägliche Phase, Beleuchtung, Voll- und Neumond`,
+                        id: `Kalender bulan untuk ${_mName} ${_mY} — fase harian, iluminasi, purnama dan bulan baru`,
+                        es: `Calendario lunar para ${_mName} ${_mY} — fase diaria, iluminación, luna llena y nueva`,
+                        bn: `${_mName} ${_mY}-এর চাঁদের ক্যালেন্ডার — দৈনিক দশা, আলোকসজ্জা, পূর্ণিমা ও অমাবস্যা`,
+                        ms: `Kalendar bulan untuk ${_mName} ${_mY} — fasa harian, pencahayaan, bulan purnama dan anak bulan`
+                    };
+                    const _subElM = document.getElementById('moon-subtitle');
+                    if (_subElM) {
+                        _subElM.textContent = _SUB_MONTH[_lng_] || _SUB_MONTH.en;
+                        _subElM.removeAttribute('data-i18n');
+                    }
+                }
+            }
+        } catch (_e) { /* silent — month-page detection is best-effort */ }
         // UAT-Moon-City: set the demoted hub-hero's "different city?" prompt
         //   via data-attr → CSS reads it through `content: attr(...)` so the
         //   string stays i18n-driven (no hardcoded Arabic in stylesheets).

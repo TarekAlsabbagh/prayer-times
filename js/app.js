@@ -2993,10 +2993,12 @@ async function initApp() {
     //   • /moon-today                                          (canonical)
     //   • /moon-today-in-{slug}[-{lat}-{lng}]                   (Round 12: coord-suffix)
     //   • /moon-in-{slug}[-{lat}-{lng}]                         (Round 16: hub)
+    //   • /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM}               (UAT-Moon-Hub-Month: month page)
     //   • /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}            (Round 15: dated)
     const _mpPath = window.location.pathname;
+    // UAT-Moon-Hub-Month: \d{4}-\d{2}(?:-\d{2})? matches both month + day URLs.
     const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(_mpPath)
-        || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?$/.test(_mpPath);
+        || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(_mpPath);
     if (_isMoonPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');

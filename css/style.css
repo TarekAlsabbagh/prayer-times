@@ -48,24 +48,6 @@ html.home-page .loc-hero-city { display: none !important; }
 html.moon-today-hub-page #page-prayer-times { display: none !important; }
 html.moon-today-hub-page #page-moon { display: block !important; }
 html.moon-today-hub-page .hub-only { display: block !important; }
-/* Round 16: /moon-in-{city} hub pages — without these, the SSR-injected
-   calendar card + CTA + upcoming + cities render before JS adds .active
-   to #page-moon, causing a FOUC where they look "cut off / behind". */
-html.moon-hub-page #page-prayer-times { display: none !important; }
-html.moon-hub-page #page-moon { display: block !important; }
-html.moon-hub-page .hub-only { display: block !important; }
-/* Round 15: /moon-in-{city}/{date} dated pages — same FOUC fix. */
-html.moon-date-page #page-prayer-times { display: none !important; }
-html.moon-date-page #page-moon { display: block !important; }
-/* Defensive: every section-card child of #page-moon must respect the
-   container width — prevents any wide grid from extending under the
-   fixed sidebar (which has higher z-index and would visually clip them). */
-#page-moon > .section-card,
-#page-moon > section.section-card {
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-x: clip;
-}
 /* Moon city pages also show #moon-hub-hero (collapsed via JS) so the user
    can search for a different city without leaving the moon-today section. */
 html.moon-today-city-page #moon-hub-hero { display: block !important; }

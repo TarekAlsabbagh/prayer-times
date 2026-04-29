@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=535" as="script">
-    <link rel="stylesheet" href="css/style.css?v=205">
+    <link rel="preload" href="js/app.js?v=536" as="script">
+    <link rel="stylesheet" href="css/style.css?v=206">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -256,6 +256,13 @@
 
                     <!-- Small current-city hint (preserved from Round 20) -->
                     <div class="loc-hero-city"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
+
+                    <!-- Collapsed-only CTA pill — clearly indicates the card is clickable to search another city -->
+                    <div class="loc-hero-collapse-hint" aria-hidden="true">
+                        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+                        <span data-i18n="cps.placeholder">ابحث عن مدينة أخرى...</span>
+                        <span class="lhch-chevron" aria-hidden="true">▾</span>
+                    </div>
 
                     <!-- Hero actions: search → dual CTA → microcopy → badges -->
                     <div class="loc-hero-hero-actions">
@@ -3201,7 +3208,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=535"></script>
+    <script defer src="js/app.js?v=536"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

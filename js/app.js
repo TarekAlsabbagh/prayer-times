@@ -8256,12 +8256,17 @@ function _wireMoonHubHero() {
     });
 }
 
-// Auto-wire moon-hub on /moon-today (the hub) once DOM is ready.
+// Auto-wire moon-hub on /moon-today (the hub) AND /moon-today-in-{city}
+//   (city pages, where we now also expose the collapsible search hero).
+//   Without the city-page branch, the search input rendered but typing
+//   produced no suggestions because the input handler was never attached.
 (function _autoWireMoonHub() {
     const _run = () => {
         try {
             const path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
-            if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(path)) {
+            // Match: /moon-today, /{lang}/moon-today, /moon-today-in-{slug},
+            //        /{lang}/moon-today-in-{slug}
+            if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-|\/?$)/.test(path)) {
                 _wireMoonHubSmartPill();
                 _wireMoonHubHero();
             }

@@ -7703,14 +7703,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc) {
                 ''
             );
             //   moon-highlights (next full + next new + visibility): redundant (upcoming يغطّي الأطوار).
-            //   FIX: pattern needs THREE consecutive </div> (not two) — moon-highlights has
-            //   3 items, each contains an inner moon-hl-body div, so `</div></div>` (body + item)
-            //   appears after the FIRST item too. Stopping there left orphan content of items 2+3
-            //   plus the moon-highlights closing </div> — which then prematurely closed
-            //   #moon-main-card and #page-moon, so calendar/CTA/upcoming/cities ended up at body level.
-            //   Three consecutive </div> only occur at the END (body + last-item + moon-highlights).
+            //   FIX (rev2): cannot rely on counting consecutive </div> — moon-hl-item-full ALSO
+            //   ends with `</div></div></div>` (sub close + body close + item close), so the
+            //   3-consecutive pattern matches there too and leaves items 2+3 orphaned.
+            //   Use a lookahead anchor on the next outer comment (`<!-- 🆕 Priority C`) which
+            //   only appears AFTER moon-highlights closes (at the upcoming-section boundary).
             html = html.replace(
-                /<!-- 🆕 Quick Highlights[\s\S]*?<div class="moon-highlights"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/,
+                /<!-- 🆕 Quick Highlights[\s\S]*?<\/div>(?=\s*<\/div>\s*<!-- 🆕 Priority C)/,
                 ''
             );
             // (19-F) حذف 4 بطاقات داخل moon-details → نُبقي 4 فقط (age, illumination, zodiac, moonrise).

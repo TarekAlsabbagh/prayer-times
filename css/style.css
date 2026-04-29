@@ -66,6 +66,17 @@ html.moon-today-hub-page .moon-evergreen { display: none !important; }
    /moon-today (was showing only the H2 "أسئلة عامّة" with empty
    body since #moon-faq-general inner div is hidden separately). */
 
+/* UAT-Moon-Today-City-Polish: hide the general FAQ on /moon-today-in-{city}
+   too — the page should be Today-focused, not encyclopedic. The full
+   general FAQ stays visible on /moon-in-{city} hub and date pages. */
+html.moon-today-city-page #moon-general-faq { display: none !important; }
+/* Same for the long evergreen "فهم أطوار القمر" — replace with the
+   short version in DOM (added below) and hide the long one. */
+html.moon-today-city-page .moon-evergreen-long { display: none !important; }
+/* The short version is ONLY for today-in-city; hide elsewhere. */
+.moon-evergreen-short { display: none; }
+html.moon-today-city-page .moon-evergreen-short { display: block !important; }
+
 
 
 
@@ -2443,10 +2454,19 @@ html[data-theme="dark"] .ns-item.is-selected {
 }
 
 .moon-details {
+    /* UAT-Moon-Today-City-Polish: 4-col on desktop (4+4 layout for 8 cards),
+       2-col on tablet, 1-col on mobile. Replaces the prior auto-fit grid
+       which produced uneven rows like "7+1". */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
     margin-top: 24px;
+}
+@media (max-width: 900px) {
+    .moon-details { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+@media (max-width: 480px) {
+    .moon-details { grid-template-columns: 1fr; gap: 8px; }
 }
 
 .moon-detail-card {
@@ -2933,6 +2953,46 @@ html[data-theme="dark"] .moon-hub-cal-picker button {
     box-shadow: 0 4px 14px rgba(46,125,50,0.30), 0 0 0 0 rgba(67,160,71,0.55);
     animation: moonHubCtaPulse 2.4s ease-in-out infinite;
     will-change: transform, box-shadow;
+}
+/* UAT-Moon-Today-City-Polish: card variant — title + description on
+   start side, button label on end side. Replaces the giant single-line
+   button. Pulse retained. */
+.moon-hub-cta.moon-hub-cta-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 18px;
+    text-align: start;
+}
+.moon-hub-cta-card .mhc-body { flex: 1; min-width: 0; }
+.moon-hub-cta-card .mhc-title {
+    font-size: 1.05rem; font-weight: 700; line-height: 1.3;
+    margin-bottom: 2px;
+}
+.moon-hub-cta-card .mhc-desc {
+    font-size: 0.85rem; font-weight: 400; opacity: 0.92;
+    line-height: 1.4;
+}
+.moon-hub-cta-card .mhc-button {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.moon-hub-cta-card:hover .mhc-button,
+.moon-hub-cta-card:focus .mhc-button {
+    background: rgba(255,255,255,0.28);
+}
+@media (max-width: 600px) {
+    .moon-hub-cta.moon-hub-cta-card {
+        flex-direction: column; align-items: stretch; text-align: center;
+        gap: 10px;
+    }
+    .moon-hub-cta-card .mhc-button { align-self: center; }
 }
 .moon-hub-cta.moon-hub-cta-pulse:hover,
 .moon-hub-cta.moon-hub-cta-pulse:focus {
@@ -12405,21 +12465,38 @@ html.moon-today-city-page #page-moon {
 /* Order ranking — direct children of #page-moon, city pages only.
    Lower number = higher in visual stack. Elements without a rule keep
    default `order: 0` (above everything except the demoted hub-hero). */
+/* UAT-Moon-Today-City-Polish: re-ordered per user's preferred today-focused
+   flow:
+     1. answer card (breadcrumb + H1 + summary + intro + Hijri)
+     2. prev/today/next date nav
+     3. CTA card (تقويم القمر في {city})
+     4. main details card
+     5. upcoming phases
+     6. 7-day illumination chart
+     7. 14-day table
+     8. city FAQ (6 Qs)
+     9. other cities
+    10. search (city re-entry)
+    11. short evergreen
+    12. (hidden) old evergreen + general-FAQ + Islamic events
+*/
 html.moon-today-city-page #page-moon > #moon-city-answer        { order: 1; }
 html.moon-today-city-page #page-moon > #moon-date-nav           { order: 2; }
-html.moon-today-city-page #page-moon > #moon-main-card          { order: 3; }
-html.moon-today-city-page #page-moon > #moon-upcoming-section   { order: 4; }
-html.moon-today-city-page #page-moon > #moon-chart-section      { order: 5; }
-html.moon-today-city-page #page-moon > #moon-forecast           { order: 6; }
-html.moon-today-city-page #page-moon > #moon-events-section     { order: 7; }
+html.moon-today-city-page #page-moon > .moon-hub-cta            { order: 3; }
+html.moon-today-city-page #page-moon > #moon-main-card          { order: 4; }
+html.moon-today-city-page #page-moon > #moon-upcoming-section   { order: 5; }
+html.moon-today-city-page #page-moon > #moon-chart-section      { order: 6; }
+html.moon-today-city-page #page-moon > #moon-forecast           { order: 7; }
 html.moon-today-city-page #page-moon > .moon-faq-city-card      { order: 8; }
 html.moon-today-city-page #page-moon > #moon-other-cities       { order: 9; }
-html.moon-today-city-page #page-moon > #moon-general-faq        { order: 10; }
-html.moon-today-city-page #page-moon > .moon-evergreen          { order: 11; }
-html.moon-today-city-page #page-moon > #moon-hub-hero           { order: 12; }
+html.moon-today-city-page #page-moon > #moon-hub-hero           { order: 10; }
+html.moon-today-city-page #page-moon > #moon-evergreen-short    { order: 11; }
+html.moon-today-city-page #page-moon > .moon-evergreen-long     { order: 12; }
+html.moon-today-city-page #page-moon > #moon-general-faq        { order: 13; }
+html.moon-today-city-page #page-moon > #moon-events-section     { order: 14; }
 /* The sticky bar is absolute/fixed — order doesn't affect rendering, but
    keep it as the last logical item so flex doesn't push other elements. */
-html.moon-today-city-page #page-moon > #moon-sticky-bar         { order: 13; }
+html.moon-today-city-page #page-moon > #moon-sticky-bar         { order: 99; }
 
 /* ── #moon-city-answer wrapper card (city pages only) ──
    On hub pages this section is a transparent passthrough (no card style).

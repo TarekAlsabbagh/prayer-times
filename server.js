@@ -7995,10 +7995,49 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             };
             const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', cityName);
             const _hubCtaHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-in-' + seo.moonCity.slug;
-            // UAT-Moon-Hub-CTA-Promote: bright pulse + above-the-fold placement
-            //   — promoted from buried-after-events to right under the H1/status
-            //   card so visitors discover the calendar-hub link immediately.
-            const _hubCtaHtml = `<a class="moon-hub-cta moon-hub-cta-pulse" href="${_escHtml(_hubCtaHref)}">${_escHtml(_hubCtaText)}</a>`;
+            // UAT-Moon-Today-City-Polish: refactor giant pulsing button into a
+            //   compact CARD with title + description + button label. Less
+            //   visually overwhelming, clearer affordance.
+            const _ctaCardI18n = {
+                ar: { title: `📅 تقويم القمر في ${cityName}`,
+                      desc:  `استعرض حالة القمر لأيّ تاريخ في ${cityName}.`,
+                      btn:   `افتح التقويم` },
+                en: { title: `📅 Moon Calendar for ${cityName}`,
+                      desc:  `Browse the moon for any date in ${cityName}.`,
+                      btn:   `Open Calendar` },
+                fr: { title: `📅 Calendrier de la Lune pour ${cityName}`,
+                      desc:  `Parcourez la Lune pour n'importe quelle date à ${cityName}.`,
+                      btn:   `Ouvrir le calendrier` },
+                tr: { title: `📅 ${cityName} Ay Takvimi`,
+                      desc:  `${cityName} için herhangi bir tarihte ayı keşfedin.`,
+                      btn:   `Takvimi Aç` },
+                ur: { title: `📅 ${cityName} کا چاند کا تقویم`,
+                      desc:  `${cityName} میں کسی بھی تاریخ کا چاند دیکھیں۔`,
+                      btn:   `تقویم کھولیں` },
+                de: { title: `📅 Mondkalender für ${cityName}`,
+                      desc:  `Stöbern Sie in jedem Datum für ${cityName}.`,
+                      btn:   `Kalender öffnen` },
+                id: { title: `📅 Kalender Bulan untuk ${cityName}`,
+                      desc:  `Jelajahi Bulan pada tanggal apa pun di ${cityName}.`,
+                      btn:   `Buka Kalender` },
+                es: { title: `📅 Calendario Lunar para ${cityName}`,
+                      desc:  `Explora la Luna en cualquier fecha en ${cityName}.`,
+                      btn:   `Abrir Calendario` },
+                bn: { title: `📅 ${cityName}-এর চাঁদের ক্যালেন্ডার`,
+                      desc:  `${cityName}-এ যেকোনো তারিখের চাঁদ দেখুন।`,
+                      btn:   `ক্যালেন্ডার খুলুন` },
+                ms: { title: `📅 Kalendar Bulan untuk ${cityName}`,
+                      desc:  `Terokai Bulan untuk mana-mana tarikh di ${cityName}.`,
+                      btn:   `Buka Kalendar` }
+            };
+            const _ctaC = _ctaCardI18n[Lm] || _ctaCardI18n.en;
+            const _hubCtaHtml = `<a class="moon-hub-cta moon-hub-cta-pulse moon-hub-cta-card" href="${_escHtml(_hubCtaHref)}">`
+                + `<div class="mhc-body">`
+                + `<div class="mhc-title">${_escHtml(_ctaC.title)}</div>`
+                + `<div class="mhc-desc">${_escHtml(_ctaC.desc)}</div>`
+                + `</div>`
+                + `<div class="mhc-button">${_escHtml(_ctaC.btn)} →</div>`
+                + `</a>`;
             // حقن مباشرة بعد إغلاق #moon-city-answer (تحت H1 + بطاقة الحالة).
             html = html.replace(
                 /(<\/section><!-- \/#moon-city-answer -->)/,

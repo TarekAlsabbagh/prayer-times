@@ -3098,6 +3098,24 @@ async function initApp() {
             }
         } catch (_e) {}
 
+        // UAT-Moon-Today-City-Polish: wire the "اقرأ المزيد" link in the
+        //   short evergreen section to point at /moon-in-{city} (the hub
+        //   where the long evergreen content lives).
+        try {
+            const _readMore = document.getElementById('moon-edu-readmore-link');
+            if (_readMore) {
+                const _slug = (typeof _moonCitySlugFromPath === 'function')
+                    ? _moonCitySlugFromPath()
+                    : '';
+                if (_slug) {
+                    const _path = window.location.pathname;
+                    const _langMatch = _path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
+                    const _prefix = _langMatch ? '/' + _langMatch[1] : '';
+                    _readMore.setAttribute('href', _prefix + '/moon-in-' + _slug);
+                }
+            }
+        } catch (_) { /* silent */ }
+
         // BOND 7: Sticky Mini Bar — show/hide on scroll past hero (~250px)
         try {
             const _stickyBar = document.getElementById('moon-sticky-bar');
@@ -15101,8 +15119,11 @@ function updateMoonInfo() {
         let _dateStrH1 = '';
         try {
             const _intlLoc = (typeof _INTL_LOCALES !== 'undefined' && _INTL_LOCALES[_lng_]) || _lng_ || 'ar';
+            // UAT-Moon-Today-City-Polish: include weekday so H1 reads
+            //   "حالة القمر اليوم في الرياض — الأربعاء، 29 أبريل 2026"
+            //   instead of "...الرياض — 29 أبريل 2026".
             _dateStrH1 = new Intl.DateTimeFormat(_intlLoc, {
-                day: 'numeric', month: 'long', year: 'numeric'
+                weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
             }).format(today);
         } catch (_e) {
             // Fallback: language-aware month name + numeric day/year
@@ -15708,6 +15729,16 @@ function updateMoonInfo() {
         _setAnswer('moon-dq6-q', 'moon.faq.tpl_dq6_q', { city: _cityDisplay });
         _setAnswer('moon-dq7-q', 'moon.faq.tpl_dq7_q', { city: _cityDisplay });
         _setAnswer('moon-dq8-q', 'moon.faq.tpl_dq8_q', { city: _cityDisplay });
+        // UAT-Moon-Today-City-Polish: 2 new city FAQ items (illumination + age)
+        _setAnswer('moon-dq_illum-q', 'moon.faq.tpl_dq_illum_q', { city: _cityDisplay });
+        _setAnswer('moon-dq_age-q',   'moon.faq.tpl_dq_age_q',   { city: _cityDisplay });
+        _setAnswer('moon-dq_illum-a', 'moon.faq.tpl_dq_illum',   {
+            city: _cityDisplay,
+            illum: _fmtNum(illumination, 2)
+        });
+        _setAnswer('moon-dq_age-a',   'moon.faq.tpl_dq_age',     {
+            age: _fmtNum(age, 2)
+        });
 
         _setAnswer('moon-dq1-a', 'moon.faq.tpl_dq1', {
             city: _cityDisplay,

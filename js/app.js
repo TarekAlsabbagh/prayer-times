@@ -16174,13 +16174,47 @@ function updateMoonInfo() {
             const _prevSubEl = document.getElementById('moon-date-prev-sub');
             const _nextSubEl = document.getElementById('moon-date-next-sub');
 
-            if (_prevEl) _prevEl.href = _moonDatePagePath(_citySlug, _prevDate);
-            if (_nextEl) _nextEl.href = _moonDatePagePath(_citySlug, _nextDate);
+            // UAT-Moon-Date: on Hijri-context URLs, build prev/next links using
+            //   Hijri ISO (HYYY-HMM-HDD) so the visitor stays inside the same
+            //   calendar context after clicking.
+            const _kindForNav = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+            const _useHijriUrl = !!(_kindForNav && _kindForNav.isHijri);
+            const _pad2N = (n) => (n < 10 ? '0' + n : String(n));
+            const _hijriPath = (slug, d) => {
+                try {
+                    if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
+                        const _hj = HijriDate.toHijri(d.getFullYear(), d.getMonth() + 1, d.getDate());
+                        const _iso = _hj.year + '-' + _pad2N(_hj.month) + '-' + _pad2N(_hj.day);
+                        const path = window.location.pathname;
+                        const langMatch = path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
+                        const prefix = langMatch ? '/' + langMatch[1] : '';
+                        return prefix + '/moon-in-' + slug + '/' + _iso;
+                    }
+                } catch (_) {}
+                return _moonDatePagePath(slug, d);
+            };
+            if (_prevEl) _prevEl.href = _useHijriUrl ? _hijriPath(_citySlug, _prevDate) : _moonDatePagePath(_citySlug, _prevDate);
+            if (_nextEl) _nextEl.href = _useHijriUrl ? _hijriPath(_citySlug, _nextDate) : _moonDatePagePath(_citySlug, _nextDate);
             if (_todayLinkEl) _todayLinkEl.href = _moonDatePagePath(_citySlug, null);
 
-            // نصوص فرعيّة: "19 أبريل" / "21 أبريل" بلغة المستخدم
+            // نصوص فرعيّة للأيّام السابق/التالي. UAT-Moon-Date: على صفحة هجريّة
+            //   نَعرض التواريخ بصيغة هجريّة قصيرة ("13 شوّال") بدلاً من الميلاديّة
+            //   لتطابق سياق الـ URL — وفقًا لقاعدة "كلّ التواريخ بنفس التقويم".
+            const _kindForNavSubs = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+            const _useHijriSubs   = !!(_kindForNavSubs && _kindForNavSubs.isHijri);
             const _fmtShort = (d) => {
                 const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                if (_useHijriSubs) {
+                    try {
+                        if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
+                            const _hj = HijriDate.toHijri(d.getFullYear(), d.getMonth() + 1, d.getDate());
+                            const _hMon = (typeof hijriMonthsFor === 'function')
+                                ? hijriMonthsFor(_lng)[_hj.month - 1]
+                                : (HijriDate.hijriMonths ? HijriDate.hijriMonths[_hj.month - 1] : String(_hj.month));
+                            return _hj.day + ' ' + _hMon;
+                        }
+                    } catch (_) { /* fall through to Gregorian */ }
+                }
                 let mon = '';
                 try { if (typeof t === 'function') mon = t('gmonth.' + (d.getMonth() + 1)); } catch(_){}
                 if (!mon || mon === 'gmonth.' + (d.getMonth() + 1)) {
@@ -16251,6 +16285,50 @@ function updateMoonInfo() {
     } catch (_nerr) {
         if (window.console && console.warn) console.warn('Moon date nav fill failed:', _nerr);
     }
+
+    // ── Calendar toggle button: switch between Gregorian and Hijri date URLs ──
+    //   Visible only on /moon-in-{slug}/{date} pages with a known city slug.
+    //   - On Gregorian-date URL → button: "عرض التواريخ بالهجريّ" → /moon-in-{slug}/{HYYY-HMM-HDD}
+    //   - On Hijri-date URL    → button: "عرض التواريخ بالميلاديّ" → /moon-in-{slug}/{YYYY-MM-DD}
+    try {
+        const _calToggleEl    = document.getElementById('moon-cal-toggle');
+        const _calToggleLabel = document.getElementById('moon-cal-toggle-label');
+        if (_calToggleEl && _isDatePage && _citySlug) {
+            const _kindCal = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+            if (_kindCal) {
+                const _pad2Cal = (n) => (n < 10 ? '0' + n : String(n));
+                const _lngCal  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _langPrefixCal = (_lngCal === 'ar') ? '' : ('/' + _lngCal);
+                let _otherIso, _labelKey;
+                if (_kindCal.isHijri) {
+                    // Currently Hijri → button switches to Gregorian
+                    if (_kindCal.gYear && _kindCal.gMonth && _kindCal.gDay) {
+                        _otherIso = _kindCal.gYear + '-' + _pad2Cal(_kindCal.gMonth) + '-' + _pad2Cal(_kindCal.gDay);
+                        _labelKey = 'moon.cal.show_gregorian';
+                    }
+                } else {
+                    // Currently Gregorian → button switches to Hijri
+                    if (_kindCal.hYear && _kindCal.hMonth && _kindCal.hDay) {
+                        _otherIso = _kindCal.hYear + '-' + _pad2Cal(_kindCal.hMonth) + '-' + _pad2Cal(_kindCal.hDay);
+                        _labelKey = 'moon.cal.show_hijri';
+                    }
+                }
+                if (_otherIso && _labelKey) {
+                    _calToggleEl.href = _langPrefixCal + '/moon-in-' + _citySlug + '/' + _otherIso;
+                    if (_calToggleLabel) {
+                        _calToggleLabel.setAttribute('data-i18n', _labelKey);
+                        if (typeof t === 'function') {
+                            const _lblTxt = t(_labelKey);
+                            if (_lblTxt && _lblTxt !== _labelKey) _calToggleLabel.textContent = _lblTxt;
+                        }
+                    }
+                    _calToggleEl.hidden = false;
+                }
+            }
+        } else if (_calToggleEl) {
+            _calToggleEl.hidden = true;
+        }
+    } catch (_calerr) { /* silent — toggle stays hidden */ }
 
     // ── إعادة كتابة H1 + intro لتتضمّن التاريخ على moon-date-page ──
     try {

@@ -740,6 +740,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'حالة القمر اليوم في {city} — {date}',
         'moon.subtitle_city': 'الطور · الإضاءة · مواعيد الشروق والغروب',
         'moon.other_cities_prompt': '🔎 تبحث عن مدينة أخرى؟',
+        'moon.cal.show_hijri': 'عرض التواريخ بالهجريّ',
+        'moon.cal.show_gregorian': 'عرض التواريخ بالميلاديّ',
         'moon.h1_generic': 'طور القمر اليوم — الإضاءة والعمر والبدر القادم',
         'moon.title_city_template': 'حالة القمر اليوم بالتفصيل في {city}',
         // Priority A subtitle + phase cycle labels
@@ -2110,6 +2112,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Moon phase today in {city} — {date}',
         'moon.subtitle_city': 'Phase · illumination · moonrise & moonset',
         'moon.other_cities_prompt': '🔎 Looking for a different city?',
+        'moon.cal.show_hijri': 'Show dates in Hijri',
+        'moon.cal.show_gregorian': 'Show dates in Gregorian',
         'moon.h1_generic': 'Moon Phase Today — Illumination, Age & Next Full Moon',
         'moon.title_city_template': 'Current Moon State in {city}',
         // Priority A subtitle + phase cycle labels
@@ -3052,6 +3056,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Phase de la Lune aujourd’hui à {city} — {date}',
         'moon.subtitle_city': 'Phase · illumination · lever et coucher',
         'moon.other_cities_prompt': '🔎 Vous cherchez une autre ville ?',
+        'moon.cal.show_hijri': 'Afficher les dates en hégirien',
+        'moon.cal.show_gregorian': 'Afficher les dates en grégorien',
         'moon.h1_generic': 'Phase de la Lune aujourd\u2019hui — Illumination, âge et prochaine pleine lune',
         'moon.title_city_template': 'État actuel de la Lune à {city}',
         // Priority A subtitle + phase cycle labels
@@ -4205,6 +4211,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Bugün {city} için ay evresi — {date}',
         'moon.subtitle_city': 'Evre · aydınlanma · doğuş ve batış',
         'moon.other_cities_prompt': '🔎 Başka bir şehir mi arıyorsunuz?',
+        'moon.cal.show_hijri': 'Tarihleri Hicri olarak göster',
+        'moon.cal.show_gregorian': 'Tarihleri Miladi olarak göster',
         'moon.h1_generic': 'Bugün Ay Evresi — Aydınlanma, Yaş ve Sonraki Dolunay',
         'moon.title_city_template': '{city} için Ayın Güncel Durumu',
         // Priority A subtitle + phase cycle labels
@@ -5358,6 +5366,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'آج {city} میں چاند کی حالت — {date}',
         'moon.subtitle_city': 'مرحلہ · روشنی · طلوع و غروب',
         'moon.other_cities_prompt': '🔎 کسی اور شہر کی تلاش ہے؟',
+        'moon.cal.show_hijri': 'تاریخیں ہجری میں دکھائیں',
+        'moon.cal.show_gregorian': 'تاریخیں عیسوی میں دکھائیں',
         'moon.h1_generic': 'آج چاند کا مرحلہ — روشنی، عمر اور اگلا پورا چاند',
         'moon.title_city_template': '{city} میں چاند کی موجودہ حالت',
         // Priority A subtitle + phase cycle labels
@@ -6492,6 +6502,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Mondphase heute in {city} — {date}',
         'moon.subtitle_city': 'Phase · Beleuchtung · Auf- und Untergang',
         'moon.other_cities_prompt': '🔎 Suchen Sie eine andere Stadt?',
+        'moon.cal.show_hijri': 'Daten im Hidschri-Kalender anzeigen',
+        'moon.cal.show_gregorian': 'Daten im gregorianischen Kalender anzeigen',
         'moon.h1_generic': 'Mondphase heute — Beleuchtung, Alter und nächster Vollmond',
         'moon.title_city_template': 'Aktueller Mondzustand in {city}',
         // Priority A subtitle + phase cycle labels
@@ -7700,6 +7712,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Fase bulan hari ini di {city} — {date}',
         'moon.subtitle_city': 'Fase · pencahayaan · waktu terbit & terbenam',
         'moon.other_cities_prompt': '🔎 Mencari kota lain?',
+        'moon.cal.show_hijri': 'Tampilkan tanggal Hijriah',
+        'moon.cal.show_gregorian': 'Tampilkan tanggal Masehi',
         'moon.h1_generic': 'Fase Bulan Hari Ini — Pencahayaan, Usia, dan Bulan Purnama Berikutnya',
         'moon.title_city_template': 'Kondisi Bulan Saat Ini di {city}',
         // Priority A subtitle + phase cycle labels
@@ -8908,6 +8922,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Fase de la Luna hoy en {city} — {date}',
         'moon.subtitle_city': 'Fase · iluminación · salida y puesta',
         'moon.other_cities_prompt': '🔎 ¿Buscas otra ciudad?',
+        'moon.cal.show_hijri': 'Mostrar fechas en hégira',
+        'moon.cal.show_gregorian': 'Mostrar fechas en gregoriano',
         'moon.h1_generic': 'Fase de la Luna hoy — Iluminación, edad y próxima luna llena',
         'moon.title_city_template': 'Estado actual de la Luna en {city}',
         // Priority A subtitle + phase cycle labels
@@ -10116,6 +10132,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'আজ {city}-এ চাঁদের পর্যায় — {date}',
         'moon.subtitle_city': 'পর্যায় · আলোকসজ্জা · উদয় ও অস্ত',
         'moon.other_cities_prompt': '🔎 অন্য শহর খুঁজছেন?',
+        'moon.cal.show_hijri': 'তারিখগুলো হিজরিতে দেখান',
+        'moon.cal.show_gregorian': 'তারিখগুলো খ্রিস্টীয়তে দেখান',
         'moon.h1_generic': 'আজ চাঁদের পর্যায় — আলোকসজ্জা, বয়স এবং পরবর্তী পূর্ণিমা',
         'moon.title_city_template': '{city}-এ চাঁদের বর্তমান অবস্থা',
         // Priority A subtitle + phase cycle labels
@@ -11324,6 +11342,8 @@ const TRANSLATIONS = {
         'moon.h1_city': 'Fasa bulan hari ini di {city} — {date}',
         'moon.subtitle_city': 'Fasa · pencahayaan · terbit dan terbenam',
         'moon.other_cities_prompt': '🔎 Mencari bandar lain?',
+        'moon.cal.show_hijri': 'Tunjuk tarikh Hijrah',
+        'moon.cal.show_gregorian': 'Tunjuk tarikh Masihi',
         'moon.h1_generic': 'Fasa Bulan Hari Ini — Pencahayaan, Usia, dan Bulan Purnama Berikutnya',
         'moon.title_city_template': 'Keadaan Bulan Semasa di {city}',
         // Priority A subtitle + phase cycle labels

@@ -612,7 +612,19 @@ function getDisplayCity() {
 // القاموس أولاً لأنّ أسماء الدول مستقرّة ونادراً ما تتغيّر — أسرع وأوثق من Nominatim.
 function getDisplayCountry() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    if (lang === 'ar') return currentCountry;
+    if (lang === 'ar') {
+        // Prefer the canonical/full Arabic country name from the country-code
+        //   lookup. Without this, lsb_detected (saved from Nominatim's Arabic
+        //   API) stores SHORT forms like 'السعودية' instead of the official
+        //   'المملكة العربية السعودية' — which would then leak into all pages
+        //   that read currentCountry (Zakat / Tasbih / Duas / Date-Conv …).
+        const _cc = (currentCountryCode || '').toLowerCase();
+        if (_cc && typeof _MOON_COUNTRY_NAMES !== 'undefined'
+            && _MOON_COUNTRY_NAMES.ar && _MOON_COUNTRY_NAMES.ar[_cc]) {
+            return _MOON_COUNTRY_NAMES.ar[_cc];
+        }
+        return currentCountry;
+    }
     if (lang === 'en') return currentEnglishCountry || COUNTRY_EN_NAMES[currentCountryCode] || currentCountry;
     const ctryMap = _LOCALIZED_COUNTRY_MAPS[lang];
     if (ctryMap && ctryMap[currentCountryCode]) return ctryMap[currentCountryCode];

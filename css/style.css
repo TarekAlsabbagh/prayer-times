@@ -1101,12 +1101,40 @@ html[data-theme="dark"] .location-suggestion-bar {
 html[data-theme="dark"] .lsb-city { color: var(--primary-light); }
 html[data-theme="dark"] .lsb-btn { background: var(--primary); color: #fff; }
 html[data-theme="dark"] .lsb-dismiss { color: var(--text-light); }
-/* Smart pills */
+/* Smart pills — dark theme: lift text + border to brand-light green for
+   clear contrast against the dark hero card (was using --primary = dark
+   green which disappeared into the bg). */
 html[data-theme="dark"] .qibla-hub-smart-pill,
 html[data-theme="dark"] .loc-hero-smart-pill {
-    background: rgba(42,163,107,0.15);
-    color: var(--text);
-    border-color: var(--primary);
+    background: rgba(128, 216, 168, 0.12);
+    color: #80d8a8;
+    border-color: #80d8a8;
+}
+html[data-theme="dark"] .qibla-hub-smart-pill .mhsp-prefix,
+html[data-theme="dark"] .qibla-hub-smart-pill .mhsp-cta,
+html[data-theme="dark"] .loc-hero-smart-pill .lhsp-prefix,
+html[data-theme="dark"] .loc-hero-smart-pill .lhsp-cta {
+    color: #80d8a8;
+}
+html[data-theme="dark"] .qibla-hub-smart-pill .mhsp-city,
+html[data-theme="dark"] .loc-hero-smart-pill .lhsp-city {
+    color: #fff;
+    font-weight: 700;
+}
+html[data-theme="dark"] .qibla-hub-smart-pill:hover,
+html[data-theme="dark"] .loc-hero-smart-pill:hover {
+    background: #80d8a8;
+    border-color: #80d8a8;
+    color: #0d2914;
+    box-shadow: 0 4px 14px rgba(128, 216, 168, 0.22);
+}
+html[data-theme="dark"] .qibla-hub-smart-pill:hover .mhsp-prefix,
+html[data-theme="dark"] .qibla-hub-smart-pill:hover .mhsp-city,
+html[data-theme="dark"] .qibla-hub-smart-pill:hover .mhsp-cta,
+html[data-theme="dark"] .loc-hero-smart-pill:hover .lhsp-prefix,
+html[data-theme="dark"] .loc-hero-smart-pill:hover .lhsp-city,
+html[data-theme="dark"] .loc-hero-smart-pill:hover .lhsp-cta {
+    color: #0d2914;
 }
 /* Lang menu / suggestion dropdowns */
 html[data-theme="dark"] .lang-menu {
@@ -1122,6 +1150,38 @@ html[data-theme="dark"] .qibla-hub-search-results {
     border-color: var(--border);
     box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
+/* Search-result items — dark theme: city name + country line both need
+   light text. Default rules use --text-dark which stays dark on the
+   dark card-bg, making the names nearly invisible. */
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-item,
+html[data-theme="dark"] .loc-hero-suggestions .qhsr-item,
+html[data-theme="dark"] .city-search-suggestions .qhsr-item {
+    color: var(--text, #e6efe7);
+    background: transparent;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-name,
+html[data-theme="dark"] .loc-hero-suggestions .qhsr-name,
+html[data-theme="dark"] .city-search-suggestions .qhsr-name {
+    color: var(--text, #e6efe7);
+    font-weight: 700;
+}
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-country,
+html[data-theme="dark"] .loc-hero-suggestions .qhsr-country,
+html[data-theme="dark"] .city-search-suggestions .qhsr-country {
+    color: rgba(230, 239, 231, 0.62);
+}
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-arrow,
+html[data-theme="dark"] .loc-hero-suggestions .qhsr-arrow,
+html[data-theme="dark"] .city-search-suggestions .qhsr-arrow {
+    color: #80d8a8;
+}
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-item:hover,
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-item:focus,
+html[data-theme="dark"] .qibla-hub-search-results .qhsr-item.focused {
+    background: rgba(128, 216, 168, 0.10);
+    outline-color: rgba(128, 216, 168, 0.30);
+}
 html[data-theme="dark"] .suggestion-item {
     background: var(--card-bg);
     color: var(--text);
@@ -1135,6 +1195,29 @@ html[data-theme="dark"] .qibla-hub-search:focus,
 html[data-theme="dark"] .cps-input:focus {
     background: var(--surface-raised);
     box-shadow: 0 2px 12px rgba(42,163,107,0.25);
+}
+/* Search inputs — dark theme: text color, border, and placeholder must
+   all stay legible. The default rules use var(--text-dark) and a faint
+   green border that vanish on dark backgrounds. */
+html[data-theme="dark"] .city-search-input,
+html[data-theme="dark"] .loc-hero-search,
+html[data-theme="dark"] .qibla-hub-search,
+html[data-theme="dark"] .cps-input {
+    background: var(--surface-raised, rgba(255, 255, 255, 0.04));
+    color: var(--text, #e6efe7);
+    border-color: rgba(128, 216, 168, 0.30);
+}
+html[data-theme="dark"] .city-search-input::placeholder,
+html[data-theme="dark"] .loc-hero-search::placeholder,
+html[data-theme="dark"] .qibla-hub-search::placeholder,
+html[data-theme="dark"] .cps-input::placeholder {
+    color: rgba(230, 239, 231, 0.55);
+}
+html[data-theme="dark"] .city-search-input:focus,
+html[data-theme="dark"] .loc-hero-search:focus,
+html[data-theme="dark"] .qibla-hub-search:focus,
+html[data-theme="dark"] .cps-input:focus {
+    border-color: #80d8a8;
 }
 /* Sidebar nav */
 html[data-theme="dark"] .sidebar-nav a { color: var(--text); }
@@ -7047,6 +7130,10 @@ html[data-theme="dark"] .tasbih-tab:not(.active):hover {
     right: 14px;
     max-width: 780px;
     margin: 0 auto;
+    /* --primary-dark is the SAME brand green used everywhere else as the
+       solid CTA bg in light mode. On dark mode the variable flips to a
+       light accent green which makes the white text wash out — overridden
+       below with --primary (saturated) so the consent reads cleanly. */
     background: var(--primary-dark);
     color: #fff;
     border-radius: 12px;
@@ -7083,6 +7170,17 @@ html[data-theme="dark"] .tasbih-tab:not(.active):hover {
 .cc-btn-secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.55); }
 .cc-btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 
+/* Dark-theme override: --primary-dark is bright/light green there which
+   washed out the white text. Use the saturated --primary so the dialog
+   keeps the same brand-green identity but with strong text contrast,
+   matching the rest of the unified theme. */
+html[data-theme="dark"] .cookie-consent {
+    background: var(--primary);
+    border: 1.5px solid var(--primary-light);
+}
+html[data-theme="dark"] .cookie-consent a {
+    color: var(--gold-light, var(--gold));
+}
 @media (max-width: 600px) {
     .cookie-consent { bottom: 8px; left: 8px; right: 8px; padding: 12px 14px; }
     .cookie-consent .cc-actions { width: 100%; justify-content: stretch; }
@@ -11875,8 +11973,19 @@ html.time-left-page .sticky-next-bar {
     html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed::after {
         display: none;
     }
+    /* Dark theme: lift text + border to brand-light green so the pill
+       reads cleanly on the dark hero card (was inheriting the dark green
+       brand color which disappeared into the bg). */
     html[data-theme="dark"].moon-today-city-page #moon-hub-hero.loc-hero-collapsed .moon-hub-collapse-hint {
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(128, 216, 168, 0.10);
+        border-color: #80d8a8;
+        color: #80d8a8;
+    }
+    html[data-theme="dark"].moon-today-city-page #moon-hub-hero.loc-hero-collapsed:hover .moon-hub-collapse-hint {
+        background: #80d8a8;
+        color: #0d2914;
+        border-color: #80d8a8;
+        box-shadow: 0 4px 10px rgba(128, 216, 168, 0.22);
     }
 }
 /* Mobile: hide #moon-hub-hero on moon city pages — same pattern as #location-hero */
@@ -12070,8 +12179,18 @@ html[data-theme="dark"] .loc-hero-close-btn:hover {
     html.city-page #location-hero.loc-hero-collapsed::after {
         display: none;
     }
-    /* Dark theme: lighter background tint */
+    /* Dark theme: lift text + border to brand-light green so the pill
+       reads cleanly on the dark hero card (was inheriting the dark green
+       brand color which disappeared into the bg). */
     html[data-theme="dark"].city-page #location-hero.loc-hero-collapsed .loc-hero-collapse-hint {
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(128, 216, 168, 0.10);
+        border-color: #80d8a8;
+        color: #80d8a8;
+    }
+    html[data-theme="dark"].city-page #location-hero.loc-hero-collapsed:hover .loc-hero-collapse-hint {
+        background: #80d8a8;
+        color: #0d2914;
+        border-color: #80d8a8;
+        box-shadow: 0 4px 10px rgba(128, 216, 168, 0.22);
     }
 }

@@ -11063,46 +11063,63 @@ document.addEventListener('DOMContentLoaded', () => {
 //   times below the fold. Now it starts collapsed (title + small city line
 //   only) and expands on click, revealing the full search + CTA. Mobile
 //   keeps its existing CSS `display: none` rule (UAT-2.5) and is skipped.
+//
+//   Same pattern is applied to #moon-hub-hero on /moon-today-in-{city}
+//   (html.moon-today-city-page) so the visitor can search for another
+//   city without leaving the moon-today flow.
 document.addEventListener('DOMContentLoaded', () => {
-    const _hero = document.getElementById('location-hero');
-    if (!_hero) return;
-    if (!document.documentElement.classList.contains('city-page')) return;
-    // Skip on mobile — section is already hidden via CSS.
+    // Skip everything on mobile — both heroes are hidden via CSS there.
     try {
         if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return;
     } catch (_) {}
 
-    // Default: collapsed
-    _hero.classList.add('loc-hero-collapsed');
-    _hero.setAttribute('role', 'button');
-    _hero.setAttribute('aria-expanded', 'false');
-    _hero.setAttribute('aria-label', 'فتح/إغلاق قسم البحث');
-    _hero.setAttribute('tabindex', '0');
+    const _setupCollapse = (heroEl, ignoreSelector) => {
+        if (!heroEl) return;
+        // Default: collapsed
+        heroEl.classList.add('loc-hero-collapsed');
+        heroEl.setAttribute('role', 'button');
+        heroEl.setAttribute('aria-expanded', 'false');
+        heroEl.setAttribute('aria-label', 'فتح/إغلاق قسم البحث');
+        heroEl.setAttribute('tabindex', '0');
 
-    const _toggle = () => {
-        const _nowCollapsed = _hero.classList.toggle('loc-hero-collapsed');
-        _hero.setAttribute('aria-expanded', String(!_nowCollapsed));
+        const _toggle = () => {
+            const _nowCollapsed = heroEl.classList.toggle('loc-hero-collapsed');
+            heroEl.setAttribute('aria-expanded', String(!_nowCollapsed));
+        };
+
+        heroEl.addEventListener('click', (e) => {
+            // While expanded, ignore clicks on real interactive children — they
+            //   should perform their own action (search, CTA buttons, links,
+            //   suggestion list). Only outer clicks toggle collapse.
+            if (!heroEl.classList.contains('loc-hero-collapsed')) {
+                if (e.target.closest(ignoreSelector)) return;
+            }
+            _toggle();
+        });
+
+        // Keyboard accessibility: Enter / Space when the section itself is focused.
+        heroEl.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target === heroEl) {
+                e.preventDefault();
+                _toggle();
+            }
+        });
     };
 
-    _hero.addEventListener('click', (e) => {
-        // While expanded, ignore clicks on actual interactive children — they
-        //   should perform their own action (search input, CTA buttons, popular
-        //   city links, suggestion list). Only outer clicks toggle collapse.
-        if (!_hero.classList.contains('loc-hero-collapsed')) {
-            if (e.target.closest('input, button, a, .lhpc-chip, .loc-hero-suggestions')) {
-                return;
-            }
-        }
-        _toggle();
-    });
-
-    // Keyboard accessibility: Enter / Space when the section itself is focused.
-    _hero.addEventListener('keydown', (e) => {
-        if ((e.key === 'Enter' || e.key === ' ') && e.target === _hero) {
-            e.preventDefault();
-            _toggle();
-        }
-    });
+    // /prayer-times-in-{city}: html.city-page → collapse #location-hero
+    if (document.documentElement.classList.contains('city-page')) {
+        _setupCollapse(
+            document.getElementById('location-hero'),
+            'input, button, a, .lhpc-chip, .loc-hero-suggestions'
+        );
+    }
+    // /moon-today-in-{city}: html.moon-today-city-page → collapse #moon-hub-hero
+    if (document.documentElement.classList.contains('moon-today-city-page')) {
+        _setupCollapse(
+            document.getElementById('moon-hub-hero'),
+            'input, button, a, .qibla-hub-search-results, .qibla-hub-pop-cities'
+        );
+    }
 });
 
 // ========= العد التنازلي =========

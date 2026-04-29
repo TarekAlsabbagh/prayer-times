@@ -48,6 +48,9 @@ html.home-page .loc-hero-city { display: none !important; }
 html.moon-today-hub-page #page-prayer-times { display: none !important; }
 html.moon-today-hub-page #page-moon { display: block !important; }
 html.moon-today-hub-page .hub-only { display: block !important; }
+/* Moon city pages also show #moon-hub-hero (collapsed via JS) so the user
+   can search for a different city without leaving the moon-today section. */
+html.moon-today-city-page #moon-hub-hero { display: block !important; }
 html.moon-today-hub-page #moon-page-h1,
 html.moon-today-hub-page #moon-subtitle,
 html.moon-today-hub-page #moon-intro,
@@ -11766,6 +11769,111 @@ html.time-left-page .sticky-next-bar {
     font-size: 0.92rem;
     font-weight: 600;
     color: var(--text-dark, #214936);
+}
+
+/* ── Collapsible #moon-hub-hero on moon city pages (desktop) ──────────────
+   Same UX pattern as #location-hero on /prayer-times-in-{city}: starts
+   collapsed, click to expand. Lets the visitor search a different city for
+   moon info without leaving the moon-today flow. */
+@media (min-width: 769px) {
+    html.moon-today-city-page #moon-hub-hero {
+        position: relative;
+        transition: padding 0.2s ease;
+    }
+    html.moon-today-city-page #moon-hub-hero::after {
+        content: '';
+        position: absolute;
+        inset-inline-end: 22px;
+        top: 22px;
+        width: 11px;
+        height: 11px;
+        border-right: 2.5px solid var(--brand, #1e5631);
+        border-bottom: 2.5px solid var(--brand, #1e5631);
+        transform: rotate(-135deg);
+        transition: transform 0.25s ease, top 0.25s ease;
+        pointer-events: none;
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed {
+        cursor: pointer;
+        padding: 14px 20px;
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed::after {
+        transform: rotate(45deg);
+        top: 18px;
+    }
+    /* Hide the bulk content when collapsed: subtitle + smart-pill + actions */
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed > .qibla-hub-subtitle,
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed > .qibla-hub-hero-actions,
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed > #moon-hub-smart-pill {
+        display: none !important;
+    }
+    /* Tighter title when collapsed */
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .qibla-hero-title {
+        font-size: 1.18rem;
+        margin: 0;
+        padding-inline-end: 36px;
+        line-height: 1.4;
+    }
+    /* Hover affordance */
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed:hover {
+        background-color: rgba(30, 86, 49, 0.04);
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed:focus-visible {
+        outline: 2px solid var(--brand, #1e5631);
+        outline-offset: 2px;
+    }
+}
+
+/* Collapsed-only CTA pill inside #moon-hub-hero — visible affordance */
+.moon-hub-collapse-hint {
+    display: none;  /* hidden by default; shown only when collapsed on moon city pages */
+}
+@media (min-width: 769px) {
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .moon-hub-collapse-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0 0;
+        padding: 8px 16px;
+        background: rgba(30, 86, 49, 0.08);
+        border: 1.5px solid var(--brand, #1e5631);
+        border-radius: 999px;
+        font-size: 0.92rem;
+        color: var(--brand, #1e5631);
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .moon-hub-collapse-hint .icon {
+        width: 16px;
+        height: 16px;
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .moon-hub-collapse-hint .mhch-chevron {
+        margin-inline-start: 4px;
+        font-size: 0.85rem;
+        opacity: 0.7;
+        transition: transform 0.2s;
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed:hover .moon-hub-collapse-hint {
+        background: var(--brand, #1e5631);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(30, 86, 49, 0.18);
+    }
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed:hover .moon-hub-collapse-hint .mhch-chevron {
+        transform: translateY(2px);
+        opacity: 1;
+    }
+    /* Hide the simple ::after chevron when the pill is shown */
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed::after {
+        display: none;
+    }
+    html[data-theme="dark"].moon-today-city-page #moon-hub-hero.loc-hero-collapsed .moon-hub-collapse-hint {
+        background: rgba(255, 255, 255, 0.06);
+    }
+}
+/* Mobile: hide #moon-hub-hero on moon city pages — same pattern as #location-hero */
+@media (max-width: 768px) {
+    html.moon-today-city-page #moon-hub-hero { display: none !important; }
 }
 
 /* ── Collapsible #location-hero on city pages (desktop) ───────────────────

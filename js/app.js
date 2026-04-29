@@ -11058,6 +11058,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ── Collapsible #location-hero on city pages ────────────────────────────
+//   On /prayer-times-in-{city} the hero used to push the actual prayer
+//   times below the fold. Now it starts collapsed (title + small city line
+//   only) and expands on click, revealing the full search + CTA. Mobile
+//   keeps its existing CSS `display: none` rule (UAT-2.5) and is skipped.
+document.addEventListener('DOMContentLoaded', () => {
+    const _hero = document.getElementById('location-hero');
+    if (!_hero) return;
+    if (!document.documentElement.classList.contains('city-page')) return;
+    // Skip on mobile — section is already hidden via CSS.
+    try {
+        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return;
+    } catch (_) {}
+
+    // Default: collapsed
+    _hero.classList.add('loc-hero-collapsed');
+    _hero.setAttribute('role', 'button');
+    _hero.setAttribute('aria-expanded', 'false');
+    _hero.setAttribute('aria-label', 'فتح/إغلاق قسم البحث');
+    _hero.setAttribute('tabindex', '0');
+
+    const _toggle = () => {
+        const _nowCollapsed = _hero.classList.toggle('loc-hero-collapsed');
+        _hero.setAttribute('aria-expanded', String(!_nowCollapsed));
+    };
+
+    _hero.addEventListener('click', (e) => {
+        // While expanded, ignore clicks on actual interactive children — they
+        //   should perform their own action (search input, CTA buttons, popular
+        //   city links, suggestion list). Only outer clicks toggle collapse.
+        if (!_hero.classList.contains('loc-hero-collapsed')) {
+            if (e.target.closest('input, button, a, .lhpc-chip, .loc-hero-suggestions')) {
+                return;
+            }
+        }
+        _toggle();
+    });
+
+    // Keyboard accessibility: Enter / Space when the section itself is focused.
+    _hero.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target === _hero) {
+            e.preventDefault();
+            _toggle();
+        }
+    });
+});
+
 // ========= العد التنازلي =========
 function startCountdown() {
     if (countdownInterval) clearInterval(countdownInterval);

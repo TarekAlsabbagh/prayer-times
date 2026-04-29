@@ -11673,3 +11673,70 @@ html.time-left-page .sticky-next-bar {
     font-weight: 600;
     color: var(--text-dark, #214936);
 }
+
+/* ── Collapsible #location-hero on city pages (desktop) ───────────────────
+   On city pages the hero (search + CTA + badges + popular cities) used to
+   take a full screenful before the actual prayer times. Now it's collapsed
+   by default — the visitor sees only the title + small city line, plus a
+   chevron that rotates on click. Click anywhere on the collapsed card to
+   expand; click the chevron (or the title) again to re-collapse.
+   Mobile (≤768px) keeps its existing `display: none` rule (UAT-2.5). */
+@media (min-width: 769px) {
+    html.city-page #location-hero {
+        position: relative;
+        transition: padding 0.2s ease;
+    }
+    /* Chevron toggle indicator */
+    html.city-page #location-hero::after {
+        content: '';
+        position: absolute;
+        inset-inline-end: 22px;
+        top: 22px;
+        width: 11px;
+        height: 11px;
+        border-right: 2.5px solid var(--brand, #1e5631);
+        border-bottom: 2.5px solid var(--brand, #1e5631);
+        transform: rotate(-135deg);  /* up arrow when expanded */
+        transition: transform 0.25s ease, top 0.25s ease;
+        pointer-events: none;
+    }
+    /* Collapsed state — chevron flips to point down */
+    html.city-page #location-hero.loc-hero-collapsed {
+        cursor: pointer;
+        padding: 14px 20px;
+    }
+    html.city-page #location-hero.loc-hero-collapsed::after {
+        transform: rotate(45deg);  /* down arrow when collapsed */
+        top: 18px;
+    }
+    /* Hide bulk content when collapsed */
+    html.city-page #location-hero.loc-hero-collapsed > .loc-hero-subtitle,
+    html.city-page #location-hero.loc-hero-collapsed > .loc-hero-hero-actions {
+        display: none !important;
+    }
+    /* Tighter title + city line when collapsed */
+    html.city-page #location-hero.loc-hero-collapsed .loc-hero-title {
+        font-size: 1.18rem;
+        margin: 0 0 4px;
+        padding-inline-end: 36px;
+        line-height: 1.4;
+    }
+    html.city-page #location-hero.loc-hero-collapsed .loc-hero-city {
+        margin-top: 0;
+        font-size: 0.92rem;
+        opacity: 0.85;
+    }
+    /* Hover affordance — collapsed card highlights on hover */
+    html.city-page #location-hero.loc-hero-collapsed:hover {
+        background-color: rgba(30, 86, 49, 0.04);
+    }
+    html[data-theme="dark"] html.city-page #location-hero.loc-hero-collapsed:hover,
+    html[data-theme="dark"].city-page #location-hero.loc-hero-collapsed:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+    }
+    /* Keyboard focus ring on collapsed card */
+    html.city-page #location-hero.loc-hero-collapsed:focus-visible {
+        outline: 2px solid var(--brand, #1e5631);
+        outline-offset: 2px;
+    }
+}

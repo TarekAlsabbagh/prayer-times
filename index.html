@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=556" as="script">
-    <link rel="stylesheet" href="css/style.css?v=227">
+    <link rel="preload" href="js/app.js?v=557" as="script">
+    <link rel="stylesheet" href="css/style.css?v=228">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1726,6 +1726,54 @@
                     </details>
                 </section>
 
+                <!-- UAT-Moon-City-Hub-Polish: 8-Q HUB FAQ (only on hub page).
+                     Placed BEFORE the city-specific FAQ block so Round-19 SSR
+                     strip ranges do not catch this block. JS fills text and city
+                     placeholder per-language. JSON-LD mirrors these 8 Qs. -->
+                <section class="section-card moon-city-hub-only" id="moon-city-hub-faq" aria-labelledby="moon-city-hub-faq-title">
+                    <h2 id="moon-city-hub-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span class="moon-city-hub-faq-title-text">—</span></h2>
+                    <details class="moon-faq-item" open>
+                        <summary class="moon-city-hub-faq-q1">—</summary>
+                        <p class="moon-city-hub-faq-a1">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q2">—</summary>
+                        <p class="moon-city-hub-faq-a2">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q3">—</summary>
+                        <p class="moon-city-hub-faq-a3">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q4">—</summary>
+                        <p class="moon-city-hub-faq-a4">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q5">—</summary>
+                        <p class="moon-city-hub-faq-a5">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q6">—</summary>
+                        <p class="moon-city-hub-faq-a6">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q7">—</summary>
+                        <p class="moon-city-hub-faq-a7">—</p>
+                    </details>
+                    <details class="moon-faq-item">
+                        <summary class="moon-city-hub-faq-q8">—</summary>
+                        <p class="moon-city-hub-faq-a8">—</p>
+                    </details>
+                </section>
+
+                <!-- ═══════ UAT-Moon-City-Hub-Polish: short educational section (only on /moon-in-{city}) ═══════ -->
+                <div class="section-card moon-city-hub-only" id="moon-city-hub-edu">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span class="moon-city-hub-edu-title">—</span></h2>
+                    <p class="moon-city-hub-edu-p1">—</p>
+                    <p class="moon-city-hub-edu-p2">—</p>
+                    <p class="moon-city-hub-edu-p3">—</p>
+                </div>
+
                 <!-- FAQ — City-specific (dynamic answers populated by app.js, accordion w/ first 2 open) -->
                 <div class="section-card moon-faq-city-card">
                     <h2 id="moon-faq-city-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_city_title">أسئلة شائعة عن القمر اليوم في مدينتك</span></h2>
@@ -3297,7 +3345,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=556"></script>
+    <script defer src="js/app.js?v=557"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -4899,6 +4899,16 @@ html.moon-hijri-context .fc-th-greg {
 html.moon-date-page .moon-date-nav { display: flex; }
 /* Round 16: Hub page — إخفاء شريط التنقّل بين الأيّام (prev/next date غير منطقيّ هنا) */
 html.moon-hub-page .moon-date-nav { display: none !important; }
+
+/* UAT-Moon-City-Hub-Polish: hub-only sections (FAQ + edu) — visible
+   ONLY on /moon-in-{city} (the city evergreen hub). Hidden everywhere
+   else, including /moon-today-in-{city} and /moon-today and date pages. */
+.moon-city-hub-only { display: none; }
+html.moon-hub-page .moon-city-hub-only { display: block !important; }
+/* Hide the existing #moon-general-faq + .moon-evergreen-short on hub
+   (they're targeted at moon-today-in-city — duplicates here). */
+html.moon-hub-page #moon-general-faq,
+html.moon-hub-page #moon-evergreen-short { display: none !important; }
 /* تمييز زرّ "اليوم" لمّا يكون active (الصفحة الحاليّة) */
 .moon-date-link.moon-date-today-active {
     background: var(--primary);

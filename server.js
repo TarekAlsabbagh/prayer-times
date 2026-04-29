@@ -5604,11 +5604,56 @@ function renderSeoHeadHtml(seo) {
                   a: 'Blue Moon: the second full moon in the same Gregorian month; occurs about every 2.7 years (it is not actually blue). Supermoon: a full moon coinciding with the Moon\'s closest point to Earth (perigee), making it appear ~14% larger and ~30% brighter than an average full moon.' }
             ],
         };
-        // UAT-Moon-Today-Polish: lock JSON-LD to first 8 questions only,
-        //   matching the visible FAQ count exactly (avoids GSC mismatch
-        //   warnings). AR list is already 8 hand-curated questions; other
-        //   langs slice to first 8 from their existing list.
-        const moonFaqs = (MOON_FAQ_I18N[seo.lang] || MOON_FAQ_I18N.en).slice(0, 8);
+        // UAT-Moon-City-Hub-Polish: on /moon-in-{city} (city evergreen hub)
+        //   the visible FAQ is a HUB-SPECIFIC 8-question set (calendar usage,
+        //   timezone, constellation vs zodiac, etc.). JSON-LD must mirror
+        //   exactly to avoid GSC mismatch warnings.
+        let moonFaqs;
+        const _isMoonHubFaq = !!(seo.moonCity && seo.moonCity.isHub && !seo.moonCity.date);
+        if (_isMoonHubFaq) {
+            const _hubCity = (seo.moonCity && seo.moonCity.name) || '';
+            const _MOON_HUB_FAQ_AR = [
+                { q: `ما هو طور القمر اليوم في ${_hubCity}؟`,
+                  a: `يَمرّ القمر بثمانية أطوار خلال دورة 29.5 يوم. هذه الصفحة تَعرض الطور الحاليّ ونسبة الإضاءة لحظيّاً حسب موقع ${_hubCity}، مع تقويم شهريّ كامل للأطوار القادمة.` },
+                { q: `متى يكون البدر القادم في ${_hubCity}؟`,
+                  a: `يَتكرّر البدر كلّ 29.5 يوم. تَعرض هذه الصفحة التاريخ الميلاديّ والهجريّ للبدر القادم بدقّة فلكيّة، مع نسبة إضاءة 100٪ ليلة اكتمال القمر.` },
+                { q: `متى يكون المحاق القادم في ${_hubCity}؟`,
+                  a: `المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪. تَعرض هذه الصفحة موعد المحاق القادم، وهو الذي يَبدأ به الشهر الهجريّ الجديد.` },
+                { q: `كيف أستخدم تقويم القمر في ${_hubCity}؟`,
+                  a: `اضغط على أيّ يوم في التقويم لفتح صفحة تَفاصيل ذلك اليوم في ${_hubCity}. استَخدم أزرار "الشهر السابق" / "الشهر التالي" لاستعراض شهور سابقة أو لاحقة. كلّ شهر له صفحة خاصّة بصياغة /moon-in-{city}/YYYY-MM.` },
+                { q: `لماذا تَختلف مواعيد شروق وغروب القمر في ${_hubCity} عن مدن أخرى؟`,
+                  a: `يَعتمد شروق وغروب القمر على خطّ الطول والعرض الجغرافيّ والمنطقة الزمنيّة. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة حسب التوقيت المحلّيّ لـ ${_hubCity}.` },
+                { q: 'ما علاقة القمر بالتقويم الهجريّ؟',
+                  a: 'التقويم الهجريّ قمريّ بالكامل: كلّ شهر يَبدأ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. مجموع السنة الهجريّة 354 أو 355 يومًا، أقصر من السنة الشمسيّة بـ 11 يومًا.' },
+                { q: 'ما الفرق بين الكوكبة الفلكيّة والبرج؟',
+                  a: 'الكوكبة الفلكيّة (Constellation) هي رقعة من السماء تُحدّدها حدود رسميّة من الاتّحاد الفلكيّ الدوليّ (IAU)، وعددها 88 منها 13 على دائرة البروج (تشمل الحوّاء). أمّا البرج التَنجيميّ (Zodiac sign) فهو تَقسيم متساوٍ افتراضيّ (12×30°) لا يَعكس الموقع الفلكيّ الفعليّ. موقعنا يَستخدم الكوكبات الفلكيّة (IAU).' },
+                { q: `هل تَعتمد بيانات القمر على التوقيت المحلّيّ لـ ${_hubCity}؟`,
+                  a: `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_hubCity}. الإحداثيّات الجغرافيّة لهذه المدينة تُؤثّر على الاتّجاه والارتفاع أيضًا.` }
+            ];
+            const _MOON_HUB_FAQ_EN = [
+                { q: `What is the moon phase today in ${_hubCity}?`,
+                  a: `The moon goes through 8 phases over a 29.5-day cycle. This page shows the current phase and illumination live for ${_hubCity}, plus a full monthly calendar of upcoming phases.` },
+                { q: `When is the next full moon in ${_hubCity}?`,
+                  a: `A full moon occurs every 29.5 days. This page shows the precise Gregorian and Hijri date of the next full moon at 100% illumination.` },
+                { q: `When is the next new moon in ${_hubCity}?`,
+                  a: `A new moon is the instant the Moon lies between Earth and Sun (0% illumination). This page shows when the next new moon happens — also the start of the new Hijri month.` },
+                { q: `How do I use the moon calendar in ${_hubCity}?`,
+                  a: `Click any day in the calendar to open that day's details for ${_hubCity}. Use prev/next month buttons to browse other months. Each month has its own page at /moon-in-{city}/YYYY-MM.` },
+                { q: `Why do moonrise and moonset times in ${_hubCity} differ from other cities?`,
+                  a: `Moonrise and moonset depend on longitude, latitude and timezone. The difference can reach 12 hours between east and west of the globe. This page's times are computed for ${_hubCity}'s local timezone.` },
+                { q: 'How is the Moon related to the Hijri calendar?',
+                  a: 'The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. The Hijri year is 354–355 days, ~11 days shorter than the solar year.' },
+                { q: 'What is the difference between an astronomical constellation and a zodiac sign?',
+                  a: 'An astronomical constellation is a region of sky with official IAU boundaries (88 total, 13 along the ecliptic including Ophiuchus). A zodiac sign is an astrological 30°-equal division that does NOT reflect the actual astronomical position. We use IAU constellations.' },
+                { q: `Are the moon data on this page in ${_hubCity}'s local time?`,
+                  a: `Yes. All moonrise/moonset and full/new moon times are computed in ${_hubCity}'s local timezone. The city's geographic coordinates also affect direction and altitude.` }
+            ];
+            moonFaqs = (seo.lang === 'ar') ? _MOON_HUB_FAQ_AR : _MOON_HUB_FAQ_EN;
+        } else {
+            // /moon-today and /moon-today-in-{city}: lock to first 8 of the
+            //   existing moon FAQ list (matches visible 8 on those pages).
+            moonFaqs = (MOON_FAQ_I18N[seo.lang] || MOON_FAQ_I18N.en).slice(0, 8);
+        }
         ssrGraph.push({
             "@type": "FAQPage",
             "@id": `${seo.canonical}#moon-faq`,
@@ -7609,17 +7654,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //   يَكشف Googlebot 7 روابط تاريخ فوريّاً لكلّ hub → discovery أسرع.
         if (_isMoonHubPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
             try {
+                // UAT-Moon-City-Hub-Polish: include "أطوار" + city in calendar H2 so it
+                //   reads "تقويم أطوار القمر في {city} — أبريل 2026" (was just
+                //   "تقويم القمر — أبريل 2026" — same on every city, not city-specific).
                 const _hubCalTitles = {
-                    ar: 'تقويم القمر',
-                    en: 'Moon Calendar',
-                    fr: 'Calendrier lunaire',
-                    tr: 'Ay Takvimi',
-                    ur: 'چاند کیلنڈر',
-                    de: 'Mondkalender',
-                    id: 'Kalender Bulan',
-                    es: 'Calendario lunar',
-                    bn: 'চাঁদের ক্যালেন্ডার',
-                    ms: 'Kalendar Bulan'
+                    ar: 'تقويم أطوار القمر في ' + cityName,
+                    en: 'Moon phase calendar for ' + cityName,
+                    fr: 'Calendrier des phases lunaires à ' + cityName,
+                    tr: cityName + ' Ay Evresi Takvimi',
+                    ur: cityName + ' میں چاند کے مراحل کا تقویم',
+                    de: 'Mondphasenkalender für ' + cityName,
+                    id: 'Kalender fase Bulan di ' + cityName,
+                    es: 'Calendario de fases lunares en ' + cityName,
+                    bn: cityName + '-এ চাঁদের দশার ক্যালেন্ডার',
+                    ms: 'Kalendar fasa Bulan di ' + cityName
                 };
                 const _hubCalTodayLbl = {
                     ar: 'اليوم', en: 'Today', fr: "Aujourd'hui", tr: 'Bugün', ur: 'آج',
@@ -7845,24 +7893,26 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     + `<a class="moon-hub-cal-prev" href="${_escHtml(_prevHref)}">${_escHtml(_calPrev)}</a>`
                     + `<a class="moon-hub-cal-next" href="${_escHtml(_nextHref)}">${_escHtml(_calNext)}</a>`
                     + `</nav>`;
-                // ── Round 19: CTA رئيسيّ داخل الـ hub → /moon-in-{slug}/{today-iso} ──
-                //   نقطة دخول طبيعيّة لتفاصيل اليوم بعد ما يرى المستخدم الشبكة الأسبوعيّة.
-                //   الـ grid يغطّي ±3 أيّام، وهذا الـ CTA يفتح الصفحة المؤرَّخة الكاملة لليوم الحاليّ.
+                // ── UAT-Moon-City-Hub-Polish: CTA hub → /moon-today-in-{slug} ──
+                //   The CTA was pointing at /moon-in-{slug}/{today-iso} (the
+                //   dated day page). Per user, redirect at the today snapshot
+                //   page (/moon-today-in-{city}) — that page is the dedicated
+                //   today-focused experience, while /moon-in-{city} is the
+                //   permanent calendar hub. Clear separation of roles.
                 const _hubDetailCtaTpl = {
-                    ar: '📅 استعرض تفاصيل اليوم',
-                    en: "📅 Explore today's details",
-                    fr: "📅 Explorer les détails d'aujourd'hui",
-                    tr: "📅 Bugünün ayrıntılarını keşfedin",
-                    ur: "📅 آج کی تفصیلات دیکھیں",
-                    de: "📅 Details von heute erkunden",
-                    id: "📅 Jelajahi detail hari ini",
-                    es: "📅 Explora los detalles de hoy",
-                    bn: "📅 আজকের বিস্তারিত দেখুন",
-                    ms: "📅 Terokai butiran hari ini"
+                    ar: `📅 عرض حالة القمر اليوم في ${cityName}`,
+                    en: `📅 View today's moon status in ${cityName}`,
+                    fr: `📅 Voir l'état de la Lune aujourd'hui à ${cityName}`,
+                    tr: `📅 ${cityName} için bugünün ay durumunu görüntüle`,
+                    ur: `📅 ${cityName} میں آج کے چاند کی حالت دیکھیں`,
+                    de: `📅 Mondstatus heute in ${cityName} ansehen`,
+                    id: `📅 Lihat status Bulan hari ini di ${cityName}`,
+                    es: `📅 Ver el estado de la Luna hoy en ${cityName}`,
+                    bn: `📅 ${cityName}-এ আজ চাঁদের অবস্থা দেখুন`,
+                    ms: `📅 Lihat status Bulan hari ini di ${cityName}`
                 };
                 const _hubDetailCtaText = _hubDetailCtaTpl[Lm] || _hubDetailCtaTpl.en;
-                const _todayIsoForHub = _isoOf(_calTodayD);
-                const _hubDetailCtaHref = _langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _todayIsoForHub;
+                const _hubDetailCtaHref = _langPrefixHc + '/moon-today-in-' + seo.moonCity.slug;
                 const _hubDetailCtaHtml = `<a class="moon-hub-detail-cta" href="${_escHtml(_hubDetailCtaHref)}">${_escHtml(_hubDetailCtaText)}</a>`;
                 // id="moon-hub-cal" lets prev/next/picker URLs use #moon-hub-cal
                 //   fragment to scroll the visitor straight back to the calendar
@@ -7952,10 +8002,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 );
                 html = html.replace(rx, '');
             };
-            _stripCardByValueId('moon-set');          // مغيب القمر
-            _stripCardByValueId('next-full-moon');    // البدر القادم
-            _stripCardByValueId('next-new-moon');     // المحاق القادم
-            _stripCardByValueId('moon-distance');     // المسافة
+            // UAT-Moon-City-Hub-Polish: keep all 8 cards on hub (was stripping
+            //   moon-set, next-full-moon, next-new-moon, moon-distance to leave
+            //   only 4). User asked for the full reference — hub IS the city's
+            //   permanent reference page, so all 8 stay visible.
+            // _stripCardByValueId('moon-set');
+            // _stripCardByValueId('next-full-moon');
+            // _stripCardByValueId('next-new-moon');
+            // _stripCardByValueId('moon-distance');
             // (19-G) moon-forecast-cta حُذف من index.html — لا حاجة للحذف هنا (no-op).
             // (19-H) استبدال moon-intro (فقرة طويلة multi-line) بسطر واحد توجيهيّ مختصر.
             const _hubIntroTpl = {

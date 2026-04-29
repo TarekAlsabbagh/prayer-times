@@ -34,7 +34,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=536" as="script">
+    <link rel="preload" href="js/app.js?v=537" as="script">
     <link rel="stylesheet" href="css/style.css?v=206">
 </head>
 <body>
@@ -1311,12 +1311,17 @@
                 <!-- 🆕 Priority A: H2 تعريفيّ بارز مباشرةً تحت H1 (Hook + keyword-rich) -->
                 <h2 class="moon-subtitle" id="moon-subtitle" data-i18n="moon.subtitle_generic">تابع حالة القمر بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب</h2>
 
-                <!-- Breadcrumb navigation (3 levels max): Home › Moon Today [in {City}] › {Date}
-                     نصّ bc-moon ديناميّ — يصبح "القمر اليوم في {City}" عند توفّر مدينة. -->
+                <!-- Breadcrumb navigation (4 levels max): Home › Moon Today › Moon Today in {City} › {Date}
+                     bc-moon-hub-li يَظهر عند وجود مدينة (يحوّل المستوى 2 من "current" إلى رابط للهَب).
+                     bc-moon نصّ ديناميّ — يصبح "القمر اليوم في {City}" عند توفّر مدينة. -->
                 <nav class="moon-breadcrumb" aria-label="breadcrumb">
                     <ol class="breadcrumb-list">
                         <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
                         <li class="bc-sep" aria-hidden="true">›</li>
+                        <!-- Level 2 (NEW): Moon-today HUB — visible ONLY on city/date pages, links to /moon-today -->
+                        <li class="bc-item" id="bc-moon-hub-li" hidden><a class="bc-link" id="bc-moon-hub" href="/moon-today" data-i18n="moon.bc_current">القمر اليوم</a></li>
+                        <li class="bc-sep" id="bc-moon-hub-sep" aria-hidden="true" hidden>›</li>
+                        <!-- Level 2/3: dynamic — "القمر اليوم" on hub, "القمر اليوم في {City}" on city pages -->
                         <li class="bc-item" id="bc-moon-li"><a class="bc-link bc-moon" id="bc-moon" href="/moon-today" data-i18n="moon.bc_current" aria-current="page">القمر اليوم</a></li>
                         <li class="bc-sep bc-date-sep" id="bc-date-sep" aria-hidden="true" hidden>›</li>
                         <li class="bc-item bc-current bc-date" id="bc-date" aria-current="page" hidden></li>
@@ -3208,7 +3213,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=7"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=536"></script>
+    <script defer src="js/app.js?v=537"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -16238,13 +16238,27 @@ function updateMoonInfo() {
     //   - مع city slug + تاريخ → Home › (link) القمر اليوم في {City} › (current) {Date}
     try {
         const _bcMoon       = document.getElementById('bc-moon');
+        const _bcMoonHubLi  = document.getElementById('bc-moon-hub-li');
+        const _bcMoonHubSep = document.getElementById('bc-moon-hub-sep');
         const _bcDateSep    = document.getElementById('bc-date-sep');
         const _bcDate       = document.getElementById('bc-date');
 
-        // تطبيع: أخفِ عناصر التاريخ أوّلًا
-        [_bcDateSep, _bcDate].forEach((el) => {
+        // تطبيع: أخفِ عناصر التاريخ والـ hub أوّلًا (سنُعيد إظهار الـ hub
+        //   لاحقاً إذا كنّا على صفحة مدينة/تاريخ).
+        [_bcDateSep, _bcDate, _bcMoonHubLi, _bcMoonHubSep].forEach((el) => {
             if (el) el.hidden = true;
         });
+
+        // مُساعِد: أظهر مستوى الـ hub "القمر اليوم" (يَربط /moon-today) — يُستخدَم
+        //   عند وجود مدينة في الـ breadcrumb (city أو date page) لإعطاء المستخدم
+        //   مساراً واضحاً: الرئيسيّة › القمر اليوم › القمر اليوم في {City}.
+        //   نُحدِّث الـ href بـ language prefix (مثلاً /en/moon-today عندما lang=en).
+        const _showMoonHubLevel = function() {
+            if (_bcMoonHubLi)  _bcMoonHubLi.hidden  = false;
+            if (_bcMoonHubSep) _bcMoonHubSep.hidden = false;
+            const _bcMoonHub = document.getElementById('bc-moon-hub');
+            if (_bcMoonHub) _bcMoonHub.setAttribute('href', _langPrefixBC + '/moon-today');
+        };
 
         const _lngBC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         const _langPrefixBC = (_lngBC === 'ar') ? '' : ('/' + _lngBC);
@@ -16319,6 +16333,9 @@ function updateMoonInfo() {
             const _skipTodayBC = _isDatePage && !_isUrlDateToday();
             const _moonCityText = _buildMoonCityText(_cityNameBC, _skipTodayBC);
 
+            // أظهِر مستوى الـ hub: "الرئيسيّة › القمر اليوم › القمر اليوم في {City}"
+            _showMoonHubLevel();
+
             if (_isDatePage) {
                 // المستوى 2: "القمر [اليوم] في {City}" كرابط لـ /moon-today-in-{slug} (قابل للضغط)
                 if (_bcMoon) {
@@ -16372,7 +16389,9 @@ function updateMoonInfo() {
             const _isRawCoords = /^-?\d+(?:\.\d+)?\s*°?\s*,\s*-?\d+(?:\.\d+)?\s*°?$/.test(_currentCityLabel);
 
             if (_currentCityLabel && !_isRawCoords) {
-                // المستوى 2: "القمر اليوم في {CurrentCity}" — current page (بلا href)
+                // أظهِر مستوى الـ hub أيضاً هنا (الـ URL لا يحوي slug لكن نَعرض اسم المدينة)
+                _showMoonHubLevel();
+                // المستوى 3: "القمر اليوم في {CurrentCity}" — current page (بلا href)
                 if (_bcMoon) {
                     _bcMoon.textContent = _buildMoonCityText(_currentCityLabel);
                     _bcMoon.removeAttribute('data-i18n');

@@ -1997,11 +1997,19 @@ function pageUrl(arabicPath) {
 }
 
 // ========= المسبحة الإلكترونية =========
-const TASBIH_SEQUENCE    = ['سبحان الله', 'الحمد لله', 'الله أكبر'];
-const TASBIH_SEQUENCE_EN = ['Subhan Allah', 'Alhamdulillah', 'Allahu Akbar'];
+// Phase D3.3b — sequence localized for 10 langs via i18n keys
+//   tasbih.subhanallah / tasbih.alhamdulillah / tasbih.allahu_akbar
+// AR phrases retained as ultimate JS fallback per item.
+const _TASBIH_FALLBACK_AR = ['سبحان الله', 'الحمد لله', 'الله أكبر'];
 function getTasbihSequence() {
-    return (typeof getCurrentLang === 'function' && getCurrentLang() === 'en')
-        ? TASBIH_SEQUENCE_EN : TASBIH_SEQUENCE;
+    const _t = (typeof t === 'function') ? t : null;
+    if (!_t) return _TASBIH_FALLBACK_AR.slice();
+    const out = [
+        _t('tasbih.subhanallah')   || _TASBIH_FALLBACK_AR[0],
+        _t('tasbih.alhamdulillah') || _TASBIH_FALLBACK_AR[1],
+        _t('tasbih.allahu_akbar')  || _TASBIH_FALLBACK_AR[2],
+    ];
+    return out;
 }
 const TASBIH_EACH = 33;
 let tasbihStep = 0;

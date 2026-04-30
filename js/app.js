@@ -16083,17 +16083,36 @@ function updateMoonInfo() {
             //   the hub as a true gateway to the city's moon/prayer/qibla tools.
             //   Visible only on hub via CSS (.moon-hub-related gate).
             try {
-                const _now = new Date();
+                // UAT-SEO-Phase-C pre-fix: use city's local timezone to compute
+                //   "today" so the hub-related current-month/next-month links
+                //   match the visitor's expectation when the city's day differs
+                //   from the browser's day (east-west 12hr offset can flip the
+                //   date). Falls back to browser-local Date if Intl fails.
                 const _padN = (n) => String(n).padStart(2, '0');
-                const _curMonthIso = _now.getFullYear() + '-' + _padN(_now.getMonth() + 1);
-                const _nextMonth = new Date(_now.getFullYear(), _now.getMonth() + 1, 1);
-                const _nextMonthIso = _nextMonth.getFullYear() + '-' + _padN(_nextMonth.getMonth() + 1);
+                const _cityTodayParts = (() => {
+                    try {
+                        if (_tz) {
+                            const _p = new Intl.DateTimeFormat('en-CA', {
+                                timeZone: _tz,
+                                year: 'numeric', month: '2-digit', day: '2-digit'
+                            }).formatToParts(new Date());
+                            const _g = (t) => parseInt((_p.find(x => x.type === t) || {}).value || '0', 10);
+                            return { y: _g('year'), m: _g('month'), d: _g('day') };
+                        }
+                    } catch (_) {}
+                    const _b = new Date();
+                    return { y: _b.getFullYear(), m: _b.getMonth() + 1, d: _b.getDate() };
+                })();
+                const _curMonthIso = _cityTodayParts.y + '-' + _padN(_cityTodayParts.m);
+                // m is 1-indexed; next month = m+1, but JS Date constructor wraps
+                const _nextDate = new Date(_cityTodayParts.y, _cityTodayParts.m, 1);
+                const _nextMonthIso = _nextDate.getFullYear() + '-' + _padN(_nextDate.getMonth() + 1);
                 const _gMonthsAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
                 const _gMonthsEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                const _curMonthName = (_lng_ === 'ar') ? _gMonthsAr[_now.getMonth()] : _gMonthsEn[_now.getMonth()];
-                const _nextMonthName = (_lng_ === 'ar') ? _gMonthsAr[_nextMonth.getMonth()] : _gMonthsEn[_nextMonth.getMonth()];
-                const _curYear = _now.getFullYear();
-                const _nextYear = _nextMonth.getFullYear();
+                const _curMonthName = (_lng_ === 'ar') ? _gMonthsAr[_cityTodayParts.m - 1] : _gMonthsEn[_cityTodayParts.m - 1];
+                const _nextMonthName = (_lng_ === 'ar') ? _gMonthsAr[_nextDate.getMonth()] : _gMonthsEn[_nextDate.getMonth()];
+                const _curYear = _cityTodayParts.y;
+                const _nextYear = _nextDate.getFullYear();
                 const _HUB_RELATED = (_lng_ === 'ar') ? {
                     title: `روابط مهمّة عن القمر في ${_cityName}`,
                     intro: `تَجمع هذه الصفحة كلّ ما يَخصّ القمر في ${_cityName} — حالة اليوم، تقويم الشهر الحاليّ والقادم، إضافةً إلى أدوات مرتبطة كمواقيت الصلاة واتّجاه القبلة.`,
@@ -16176,12 +16195,28 @@ function updateMoonInfo() {
             const _isTodayCityUrl = (_hasTdcClass || _urlMatchesTdc)
                 && !!_citySlug && !_isDatePage && !_isHubPage;
             if (_isTodayCityUrl) {
-                // Compute today's ISO dates (Gregorian for /moon-in-{city}/{YYYY-MM-DD}
-                // and /moon-in-{city}/{YYYY-MM}; Hijri for /hijri-date/{HIJRI-YYYY-MM-DD})
-                const _nowB4 = new Date();
+                // UAT-SEO-Phase-C pre-fix: compute "today" in the CITY's local
+                //   timezone, not the browser's. A user in NYC viewing
+                //   /moon-today-in-jakarta should see Jakarta's current day in
+                //   the cross-link hrefs, not NYC's. Up to ~12hr offset can
+                //   flip the date. Falls back to browser-local on any error.
                 const _padB4 = (n) => String(n).padStart(2, '0');
-                const _gregISO = _nowB4.getFullYear() + '-' + _padB4(_nowB4.getMonth() + 1) + '-' + _padB4(_nowB4.getDate());
-                const _gregMonthISO = _nowB4.getFullYear() + '-' + _padB4(_nowB4.getMonth() + 1);
+                const _cityTodayB4 = (() => {
+                    try {
+                        if (_tz) {
+                            const _p = new Intl.DateTimeFormat('en-CA', {
+                                timeZone: _tz,
+                                year: 'numeric', month: '2-digit', day: '2-digit'
+                            }).formatToParts(new Date());
+                            const _g = (t) => parseInt((_p.find(x => x.type === t) || {}).value || '0', 10);
+                            return { y: _g('year'), m: _g('month'), d: _g('day') };
+                        }
+                    } catch (_) {}
+                    const _b = new Date();
+                    return { y: _b.getFullYear(), m: _b.getMonth() + 1, d: _b.getDate() };
+                })();
+                const _gregISO = _cityTodayB4.y + '-' + _padB4(_cityTodayB4.m) + '-' + _padB4(_cityTodayB4.d);
+                const _gregMonthISO = _cityTodayB4.y + '-' + _padB4(_cityTodayB4.m);
                 let _hijriISO = '';
                 try {
                     if (typeof HijriDate !== 'undefined' && HijriDate.getToday) {
@@ -16200,7 +16235,7 @@ function updateMoonInfo() {
 
                 const _gMonthAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
                 const _gMonthEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                const _curMonthLbl = (_lng_ === 'ar') ? _gMonthAr[_nowB4.getMonth()] : _gMonthEn[_nowB4.getMonth()];
+                const _curMonthLbl = (_lng_ === 'ar') ? _gMonthAr[_cityTodayB4.m - 1] : _gMonthEn[_cityTodayB4.m - 1];
 
                 const _TDC_AR = {
                     title: `ملخّص قمر اليوم في ${_cityName}`,

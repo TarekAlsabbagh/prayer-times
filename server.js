@@ -4092,7 +4092,7 @@ function buildSeoForPath(urlPath) {
             },
             desc: {
                 ar: 'حالة القمر اليوم: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين موقعك والقمر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.',
-                en: 'Moon state today: current phase and illumination percentage, moon age in days, distance between your city and the Moon, moonrise and moonset times, next full moon and hilal visibility for the upcoming Hijri month.',
+                en: "Today's moon phase, illumination, age, moonrise and moonset times, distance to Earth, plus the next full moon and crescent visibility dates.",
                 fr: 'État de la Lune aujourd\u2019hui : phase actuelle et pourcentage d\u2019illumination, âge de la Lune en jours, distance entre votre ville et la Lune, heures de lever/coucher, prochaine pleine lune et visibilité du croissant (hilal) pour le prochain mois hégirien.',
                 tr: 'Ayın bugünkü durumu: şu anki evre ve aydınlanma yüzdesi, ayın gün olarak yaşı, şehriniz ile Ay arasındaki mesafe, ay doğuşu/batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.',
                 ur: 'آج چاند کی حالت: موجودہ طور اور روشنی کا فیصد، چاند کی عمر دنوں میں، آپ کے شہر اور چاند کے درمیان فاصلہ، مطلع اور مغیبِ چاند کے اوقات، اگلا بدر اور آنے والے ہجری مہینے کے لیے ہلال کی رؤیت۔',

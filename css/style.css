@@ -61,7 +61,16 @@ html.moon-today-hub-page #moon-forecast,
 html.moon-today-hub-page #moon-faq-general,
 html.moon-today-hub-page #moon-general-faq,
 html.moon-today-hub-page .moon-faq-city-card,
-html.moon-today-hub-page .moon-evergreen { display: none !important; }
+/* UAT-SEO-Phase-A (2026-04-30): SEOptimer flagged /moon-today as
+   "thin content" (522 words). Solution: show the LONG evergreen
+   article on hub. The long version (.moon-evergreen-long) covers
+   8 phases + city differences + Hijri importance — exactly the
+   topics SEOptimer wants. On city pages the short version stays
+   visible (existing rules at lines 88 + 91). On the moon-hub-page
+   and moon-date-page (city evergreen / day pages) keep BOTH
+   versions hidden (those URLs have their own tailored content). */
+html.moon-hub-page .moon-evergreen-long,
+html.moon-date-page .moon-evergreen-long { display: none !important; }
 /* UAT-Moon-Today-Polish: hide entire #moon-general-faq wrapper on
    /moon-today (was showing only the H2 "أسئلة عامّة" with empty
    body since #moon-faq-general inner div is hidden separately). */

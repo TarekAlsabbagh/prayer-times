@@ -15760,6 +15760,35 @@ function updateMoonInfo() {
                     }
                 });
             } catch (_) {}
+
+            // UAT-Moon-Day-Page-Polish: short SEO line right before the FAQ —
+            //   reinforces the page's date-specific identity for crawlers and
+            //   gives users a one-line context summary. Idempotent insert.
+            try {
+                const _SEO_LINE = {
+                    ar: 'توضّح هذه الصفحة حالة القمر في هذا التاريخ المحدّد حسب توقيت المدينة المحلّيّ، وقد تَختلف أوقات الشروق والغروب بين المدن.',
+                    en: "This page shows the Moon's state on this specific date in the city's local time. Moonrise and moonset times vary between cities.",
+                    fr: "Cette page indique l'état de la Lune à cette date précise selon l'heure locale de la ville. Le lever et le coucher de la Lune varient entre les villes.",
+                    tr: "Bu sayfa, Ay'ın bu belirli tarihteki durumunu şehrin yerel saatine göre gösterir. Ay'ın doğuş ve batış saatleri şehirler arasında değişir.",
+                    ur: 'یہ صفحہ اس مخصوص تاریخ پر چاند کی حالت شہر کے مقامی وقت کے مطابق دکھاتا ہے۔ چاند کے طلوع اور غروب کے اوقات شہروں کے درمیان مختلف ہو سکتے ہیں۔',
+                    de: 'Diese Seite zeigt den Mondzustand an diesem bestimmten Datum nach der Ortszeit der Stadt. Mondaufgang und -untergang variieren zwischen Städten.',
+                    id: 'Halaman ini menampilkan keadaan Bulan pada tanggal tertentu menurut waktu lokal kota. Waktu terbit dan terbenam Bulan berbeda antara kota.',
+                    es: 'Esta página muestra el estado de la Luna en esta fecha específica según la hora local de la ciudad. Las horas de salida y puesta de la Luna varían entre ciudades.',
+                    bn: 'এই পৃষ্ঠাটি নির্দিষ্ট তারিখে শহরের স্থানীয় সময় অনুযায়ী চাঁদের অবস্থা দেখায়। চাঁদের উদয় ও অস্তের সময় শহর ভেদে ভিন্ন হয়।',
+                    ms: 'Halaman ini memaparkan keadaan Bulan pada tarikh tertentu mengikut waktu tempatan bandar. Waktu terbit dan terbenam Bulan berbeza antara bandar.'
+                };
+                const _faqCard = document.querySelector('.moon-faq-city-card');
+                if (_faqCard) {
+                    let _seoP = document.getElementById('moon-date-seo-line');
+                    if (!_seoP) {
+                        _seoP = document.createElement('p');
+                        _seoP.id = 'moon-date-seo-line';
+                        _seoP.className = 'moon-date-seo-line';
+                        _faqCard.parentNode.insertBefore(_seoP, _faqCard);
+                    }
+                    _seoP.textContent = _SEO_LINE[_lng_] || _SEO_LINE.en;
+                }
+            } catch (_) {}
         }
         // ── Round 16: Hub page — H1 بلا «اليوم» + subtitle عامّ للمدينة ──
         // الصفحة evergreen؛ تمثّل المدينة كـ entity، لا يوم معيّن. العنوان هنا

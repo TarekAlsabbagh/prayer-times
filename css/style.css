@@ -2988,6 +2988,14 @@ html[data-theme="dark"] .moon-hub-cal-picker button {
     padding: 14px 18px;
     text-align: start;
 }
+/* UAT-fix: when the CTA contains plain text (no inner .mhc-body/.mhc-button
+   structure — e.g. on the day page), center-align it instead of pinning to
+   the inline-start. Surgical via :has() so the structured variant stays
+   start-aligned. */
+.moon-hub-cta.moon-hub-cta-card:not(:has(.mhc-body)) {
+    justify-content: center;
+    text-align: center;
+}
 .moon-hub-cta-card .mhc-body { flex: 1; min-width: 0; }
 .moon-hub-cta-card .mhc-title {
     font-size: 1.05rem; font-weight: 700; line-height: 1.3;
@@ -5108,6 +5116,35 @@ html.moon-hub-page #moon-evergreen-short { display: none !important; }
 html.moon-date-page #moon-events-section,
 html.moon-date-page #moon-general-faq,
 html.moon-date-page #moon-evergreen-short { display: none !important; }
+
+/* UAT-Moon-Day-Page-Polish: short SEO line injected by app.js right
+   before the city-specific FAQ. Gives crawlers a one-sentence context
+   summary that reinforces the page's date-specific identity, and gives
+   users a clear orientation cue. Subtle styling — looks like a callout,
+   not a section card. */
+.moon-date-seo-line {
+    margin: 18px 0;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(46,125,50,0.06), rgba(46,125,50,0.015));
+    border-inline-start: 3px solid var(--primary, #2e7d32);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text, #222);
+    font-style: italic;
+}
+html[data-theme="dark"] .moon-date-seo-line {
+    background: linear-gradient(135deg, rgba(129,199,132,0.08), rgba(129,199,132,0.02));
+    border-inline-start-color: var(--primary-light, #81c784);
+    color: var(--text, #eee);
+}
+@media (max-width: 600px) {
+    .moon-date-seo-line {
+        padding: 12px 14px;
+        font-size: 0.92rem;
+        margin: 14px 0;
+    }
+}
 /* تمييز زرّ "اليوم" لمّا يكون active (الصفحة الحاليّة) */
 .moon-date-link.moon-date-today-active {
     background: var(--primary);

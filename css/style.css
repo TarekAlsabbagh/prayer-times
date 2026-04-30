@@ -5097,6 +5097,17 @@ html[data-theme="dark"] .moon-city-hub-edu-links a::after {
    (they're targeted at moon-today-in-city — duplicates here). */
 html.moon-hub-page #moon-general-faq,
 html.moon-hub-page #moon-evergreen-short { display: none !important; }
+
+/* UAT-Moon-Day-Page-Polish (2026-04-30): on /moon-in-{city}/{YYYY-MM-DD},
+   the page must read as a date-specific record, not "today". Hide three
+   sections that are either time-relative-to-now (Islamic occasions
+   countdown is computed from new Date(), not the page date) or generic
+   evergreen content (general FAQ + long educational article). The
+   visible city-specific FAQ + intro paragraph remain and now carry
+   date-aware copy filled by app.js. */
+html.moon-date-page #moon-events-section,
+html.moon-date-page #moon-general-faq,
+html.moon-date-page #moon-evergreen-short { display: none !important; }
 /* تمييز زرّ "اليوم" لمّا يكون active (الصفحة الحاليّة) */
 .moon-date-link.moon-date-today-active {
     background: var(--primary);

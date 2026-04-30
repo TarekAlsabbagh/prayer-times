@@ -5610,6 +5610,11 @@ function renderSeoHeadHtml(seo) {
         //   exactly to avoid GSC mismatch warnings.
         let moonFaqs;
         const _isMoonMonthFaq = !!(seo.moonCity && seo.moonCity.isMonthPage);
+        // UAT-Moon-Day-Page-Polish: 4th FAQ branch for /moon-in-{city}/{YYYY-MM-DD}.
+        //   Distinct from hub (evergreen) and month (calendar) — these are
+        //   archived/future date pages with 6 date-aware Qs (matches visible
+        //   DOM exactly per app.js _DATE_FAQ override). No "today" wording.
+        const _isMoonDateFaq = !!(seo.moonCity && seo.moonCity.date && !_isMoonMonthFaq);
         const _isMoonHubFaq = !!(seo.moonCity && seo.moonCity.isHub && !seo.moonCity.date && !_isMoonMonthFaq);
         if (_isMoonMonthFaq) {
             // UAT-Moon-Month-Page-Polish: month page (/moon-in-{city}/YYYY-MM)
@@ -5659,6 +5664,46 @@ function renderSeoHeadHtml(seo) {
                   a: 'The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.' }
             ];
             moonFaqs = (seo.lang === 'ar') ? _MOON_MONTH_FAQ_AR : _MOON_MONTH_FAQ_EN;
+        } else if (_isMoonDateFaq) {
+            // UAT-Moon-Day-Page-Polish: 6-Q date-specific FAQ that mirrors the
+            //   visible DOM filled by app.js _DATE_FAQ_AR / _DATE_FAQ_EN.
+            //   Note: SSR doesn't have phase/illumination/age values (those are
+            //   computed client-side from the page date), so SSR answers stay
+            //   generic with the date interpolated. Crawlers see the date in
+            //   each Q + structured A; client-side JS later upgrades visible
+            //   DOM with computed values. No GSC mismatch — both reference
+            //   the same date and same astronomical event.
+            const _dCity = (seo.moonCity && seo.moonCity.name) || '';
+            const _dLbl  = seo.moonCity.dateLabel || '';
+            const _MOON_DATE_FAQ_AR = [
+                { q: `ما طور القمر في ${_dCity} يوم ${_dLbl}؟`,
+                  a: `طور القمر في ${_dCity} يوم ${_dLbl} مَحسوب فلكيًّا بدقّة عالية وفق منهجيّات Jean Meeus، ويَظهر في القسم الرئيسيّ من الصفحة مع نسبة الإضاءة وأيقونة الطور.` },
+                { q: `كم كانت نسبة إضاءة القمر في ${_dCity} في هذا التاريخ؟`,
+                  a: `نسبة إضاءة القمر في ${_dCity} يوم ${_dLbl} مَعروضة في كرت "نسبة الإضاءة" أعلى الصفحة، وهي محسوبة من الزاوية بين الشمس والقمر والأرض.` },
+                { q: `كم كان عمر القمر يوم ${_dLbl}؟`,
+                  a: `عمر القمر هو عدد الأيّام منذ آخر محاق ضمن دورة قمريّة طولها 29.5 يوم تقريبًا. القيمة الدقيقة لـ ${_dLbl} مَعروضة في كرت "عمر القمر" أعلى الصفحة.` },
+                { q: `متى أَشرق القمر في ${_dCity} في هذا اليوم؟`,
+                  a: `وقت شروق القمر في ${_dCity} يوم ${_dLbl} مَعروض في كرت "شروق القمر" بالتوقيت المحلّيّ للمدينة، محسوبًا من إحداثيّاتها الجغرافيّة.` },
+                { q: `متى غرَب القمر في ${_dCity} في هذا اليوم؟`,
+                  a: `وقت غروب القمر في ${_dCity} يوم ${_dLbl} مَعروض في كرت "غروب القمر" بالتوقيت المحلّيّ للمدينة. الفرق بين الشروق والغروب يَختلف حسب الطور.` },
+                { q: `متى كان البدر أو المحاق الأقرب لتاريخ ${_dLbl}؟`,
+                  a: `أقرب بدر/محاق للتاريخ ${_dLbl} مَعروض في قسم "الأطوار القمريّة القادمة" أعلاه، مع التاريخ الميلاديّ والهجريّ بدقّة فلكيّة.` }
+            ];
+            const _MOON_DATE_FAQ_EN = [
+                { q: `What was the moon phase in ${_dCity} on ${_dLbl}?`,
+                  a: `The moon phase in ${_dCity} on ${_dLbl} is computed astronomically using Jean Meeus' methods and shown in the main detail card with illumination percentage and phase icon.` },
+                { q: `What was the moon illumination in ${_dCity} on this date?`,
+                  a: `Moon illumination in ${_dCity} on ${_dLbl} is shown in the "Illumination" card at the top of the page, computed from the angle between the Sun, Moon, and Earth.` },
+                { q: `How old was the moon on ${_dLbl}?`,
+                  a: `Moon age is the number of days since the last new moon within a ~29.5-day lunar cycle. The exact value for ${_dLbl} is shown in the "Moon age" card at the top of the page.` },
+                { q: `When did the moon rise in ${_dCity} on this day?`,
+                  a: `Moonrise in ${_dCity} on ${_dLbl} is shown in the "Moonrise" card in the city's local time, computed from its geographic coordinates.` },
+                { q: `When did the moon set in ${_dCity} on this day?`,
+                  a: `Moonset in ${_dCity} on ${_dLbl} is shown in the "Moonset" card in the city's local time. The interval between rise and set varies by phase.` },
+                { q: `When was the closest full moon or new moon to ${_dLbl}?`,
+                  a: `The closest full/new moon to ${_dLbl} is shown in the "Upcoming moon phases" section above, with precise Gregorian and Hijri dates.` }
+            ];
+            moonFaqs = (seo.lang === 'ar') ? _MOON_DATE_FAQ_AR : _MOON_DATE_FAQ_EN;
         } else if (_isMoonHubFaq) {
             const _hubCity = (seo.moonCity && seo.moonCity.name) || '';
             const _MOON_HUB_FAQ_AR = [

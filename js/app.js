@@ -15434,21 +15434,33 @@ function updateMoonInfo() {
         if (_isDatePage) {
             // نصّ تعريفيّ للمدينة لتوليد العنوان (لأنّ أسماء المدن الشهيرة مترجَمة فعلاً)
             const _kindForH2 = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+            // UAT-Moon-Day-Page-Polish: build a unified _dateLabel that works for
+            //   BOTH Hijri-context URLs AND Gregorian URLs. Used in title, FAQ,
+            //   FAQ Q/A interpolation, etc. (was: Hijri-only, blank otherwise).
             const _dateForH2 = _kindForH2 && _kindForH2.isHijri && _kindForH2.hYear
                 ? _formatHijriLabelLang(_kindForH2.hYear, _kindForH2.hMonth, _kindForH2.hDay, _lng_)
                 : '';
+            let _dateLabel = _dateForH2;
+            if (!_dateLabel && _requestedDate instanceof Date && !isNaN(_requestedDate)) {
+                try {
+                    _dateLabel = _requestedDate.toLocaleDateString(
+                        (_lng_ === 'ar') ? 'ar' : (_lng_ === 'en' ? 'en' : _lng_),
+                        { day: 'numeric', month: 'long', year: 'numeric', numberingSystem: 'latn' }
+                    );
+                } catch (_) { _dateLabel = ''; }
+            }
             const _H2TPL = {
                 ar: {
-                    title: 'تفاصيل حالة القمر في ' + _cityName,
+                    title: 'تفاصيل حالة القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
                     cities: 'حالة القمر في مدن أخرى لنفس التاريخ',
-                    faq: 'أسئلة شائعة عن حالة القمر في ' + _cityName + (_dateForH2 ? ' يوم ' + _dateForH2 : ''),
-                    subtitle: 'تابع حالة القمر في ' + _cityName + ' بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب'
+                    faq: 'أسئلة شائعة عن حالة القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
+                    subtitle: 'تابع حالة القمر في ' + _cityName + (_dateLabel ? ' في هذا التاريخ' : '') + ' بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب'
                 },
                 en: {
-                    title: 'Moon details in ' + _cityName,
+                    title: 'Moon details in ' + _cityName + (_dateLabel ? ' on ' + _dateLabel : ''),
                     cities: 'Moon in other cities for the same date',
-                    faq: 'FAQ about the Moon in ' + _cityName + (_dateForH2 ? ' on ' + _dateForH2 : ''),
-                    subtitle: 'Track the Moon in ' + _cityName + ' with astronomical precision — phase, illumination, age, rise & set'
+                    faq: 'FAQ about the Moon in ' + _cityName + (_dateLabel ? ' on ' + _dateLabel : ''),
+                    subtitle: 'Track the Moon in ' + _cityName + (_dateLabel ? ' on this date' : '') + ' with astronomical precision — phase, illumination, age, rise & set'
                 },
                 fr: {
                     title: 'Détails de la Lune à ' + _cityName,
@@ -15572,6 +15584,182 @@ function updateMoonInfo() {
                     });
                 }
             } catch (_e) { /* silent */ }
+
+            // ─────────────────────────────────────────────────────────────
+            // UAT-Moon-Day-Page-Polish (2026-04-30): shift copy from "اليوم"
+            //   ("today") to "في هذا التاريخ" / "هذا اليوم" so the page reads
+            //   as a date-specific archived/future record, not a today
+            //   snapshot. 7 inline overrides matching user's 13-point list:
+            //
+            //   #1  Summary label "القمر اليوم:" → "القمر في هذا اليوم:"
+            //   #3  Evolution H2 "تطوّر القمر..." → "...مقارنة باليوم السابق"
+            //   #4  Evolution labels "الأمس"/"اليوم" → "اليوم السابق"/"هذا التاريخ"
+            //   #7  7-day chart H2 → "إضاءة القمر حول هذا التاريخ — 7 أيّام"
+            //   #8  14-day table H2 → "جدول القمر للأيّام التالية في {city}"
+            //   #9  6-Q FAQ → date-aware Qs/As (interpolating phase/illum/age/rise/set)
+            // ─────────────────────────────────────────────────────────────
+
+            // #1 — Summary label
+            try {
+                const _SUMMARY_PFX = {
+                    ar: 'القمر في هذا اليوم:',
+                    en: 'Moon on this day:',
+                    fr: 'La Lune ce jour:',
+                    tr: 'Bu gün Ay:',
+                    ur: 'اس دن چاند:',
+                    de: 'Mond an diesem Tag:',
+                    id: 'Bulan pada hari ini:',
+                    es: 'La Luna este día:',
+                    bn: 'এই দিনে চাঁদ:',
+                    ms: 'Bulan pada hari ini:'
+                };
+                const _sumLbl = document.querySelector('.moon-summary-label');
+                if (_sumLbl) {
+                    _sumLbl.textContent = _SUMMARY_PFX[_lng_] || _SUMMARY_PFX.en;
+                    _sumLbl.removeAttribute('data-i18n');
+                }
+            } catch (_) {}
+
+            // #3 — Evolution comparison H2 ("تطوّر القمر")
+            try {
+                const _EVO_TITLE = {
+                    ar: 'تطوّر القمر مقارنة باليوم السابق',
+                    en: 'Moon evolution compared to the previous day',
+                    fr: 'Évolution de la Lune par rapport au jour précédent',
+                    tr: 'Önceki güne göre Ay’ın değişimi',
+                    ur: 'گزشتہ دن کے مقابلے میں چاند کی تبدیلی',
+                    de: 'Mondentwicklung im Vergleich zum Vortag',
+                    id: 'Perkembangan Bulan dibanding hari sebelumnya',
+                    es: 'Evolución de la Luna respecto al día anterior',
+                    bn: 'আগের দিনের তুলনায় চাঁদের পরিবর্তন',
+                    ms: 'Perubahan Bulan berbanding hari sebelumnya'
+                };
+                const _evoT = document.querySelector('.mc-header-title[data-i18n="moon.mc_title"]');
+                if (_evoT) {
+                    _evoT.textContent = _EVO_TITLE[_lng_] || _EVO_TITLE.en;
+                    _evoT.removeAttribute('data-i18n');
+                }
+            } catch (_) {}
+
+            // #4 — Evolution labels ("الأمس"/"اليوم" → date-aware)
+            try {
+                const _MC_LBLS = {
+                    ar: { y: 'اليوم السابق', t: 'هذا التاريخ' },
+                    en: { y: 'Previous day', t: 'This date' },
+                    fr: { y: 'Jour précédent', t: 'Cette date' },
+                    tr: { y: 'Önceki gün', t: 'Bu tarih' },
+                    ur: { y: 'گزشتہ دن', t: 'یہ تاریخ' },
+                    de: { y: 'Vortag', t: 'Dieses Datum' },
+                    id: { y: 'Hari sebelumnya', t: 'Tanggal ini' },
+                    es: { y: 'Día anterior', t: 'Esta fecha' },
+                    bn: { y: 'আগের দিন', t: 'এই তারিখ' },
+                    ms: { y: 'Hari sebelumnya', t: 'Tarikh ini' }
+                };
+                const _l = _MC_LBLS[_lng_] || _MC_LBLS.en;
+                const _yLbl = document.querySelector('.mc-day-label[data-i18n="moon.mc_yesterday"]');
+                if (_yLbl) {
+                    _yLbl.textContent = _l.y;
+                    _yLbl.removeAttribute('data-i18n');
+                }
+                const _tLbl = document.querySelector('.mc-day-label[data-i18n="moon.mc_today"]');
+                if (_tLbl) {
+                    _tLbl.textContent = _l.t;
+                    _tLbl.removeAttribute('data-i18n');
+                }
+            } catch (_) {}
+
+            // #7 — 7-day chart H2 ("مخطّط إضاءة القمر — 7 أيّام")
+            try {
+                const _CHART_H2 = {
+                    ar: 'إضاءة القمر حول هذا التاريخ — 7 أيّام',
+                    en: 'Moon illumination around this date — 7 days',
+                    fr: 'Illumination de la Lune autour de cette date — 7 jours',
+                    tr: 'Bu tarih çevresinde Ay aydınlanması — 7 gün',
+                    ur: 'اس تاریخ کے گرد چاند کی روشنی — 7 دن',
+                    de: 'Mondhelligkeit rund um dieses Datum — 7 Tage',
+                    id: 'Iluminasi Bulan sekitar tanggal ini — 7 hari',
+                    es: 'Iluminación de la Luna alrededor de esta fecha — 7 días',
+                    bn: 'এই তারিখের আশপাশে চাঁদের আলোকসজ্জা — 7 দিন',
+                    ms: 'Pencahayaan Bulan di sekitar tarikh ini — 7 hari'
+                };
+                const _chartH2 = document.querySelector('#moon-chart-h2 [data-i18n="moon.chart_title"]');
+                if (_chartH2) {
+                    _chartH2.textContent = _CHART_H2[_lng_] || _CHART_H2.en;
+                    _chartH2.removeAttribute('data-i18n');
+                }
+            } catch (_) {}
+
+            // #8 — 14-day table H2 ("توقّعات القمر للأربعة عشر يومًا القادمة")
+            try {
+                const _TABLE_H2 = {
+                    ar: `جدول القمر للأيّام التالية في ${_cityName}`,
+                    en: `Moon schedule for the following days in ${_cityName}`,
+                    fr: `Calendrier de la Lune pour les jours suivants à ${_cityName}`,
+                    tr: `${_cityName} için sonraki günlerin Ay programı`,
+                    ur: `${_cityName} میں اگلے دنوں کے لیے چاند کا جدول`,
+                    de: `Mondplan für die folgenden Tage in ${_cityName}`,
+                    id: `Jadwal Bulan untuk hari-hari berikutnya di ${_cityName}`,
+                    es: `Calendario de la Luna para los días siguientes en ${_cityName}`,
+                    bn: `${_cityName}-এ পরবর্তী দিনগুলির চাঁদের সময়সূচি`,
+                    ms: `Jadual Bulan untuk hari-hari berikut di ${_cityName}`
+                };
+                const _fH2 = document.querySelector('#moon-forecast-h2 [data-i18n="moon.forecast_title"]');
+                if (_fH2) {
+                    _fH2.textContent = _TABLE_H2[_lng_] || _TABLE_H2.en;
+                    _fH2.removeAttribute('data-i18n');
+                }
+            } catch (_) {}
+
+            // #9 — 6-Q city-specific FAQ → date-aware Q+A
+            //   We have phase / illumination / age / moonTimes (rise+set) in scope
+            //   from MoonCalc above. Use past-tense in AR ("كان"/"بلغت") so the
+            //   page reads naturally for archived dates AND forward-projected
+            //   dates (acceptable in Arabic for predicted/known events).
+            try {
+                const _phaseLocalized = (phase && phase.key && typeof t === 'function') ? t(phase.key) : (phase ? phase.name : '');
+                const _phaseValid = (_phaseLocalized && _phaseLocalized !== (phase && phase.key)) ? _phaseLocalized : ((phase && phase.name) || '');
+                const _illumPct = (typeof illumination === 'number') ? illumination.toFixed(2).replace(/\.?0+$/, '') : '—';
+                const _ageDays = (typeof age === 'number') ? age.toFixed(2).replace(/\.?0+$/, '') : '—';
+                const _riseT = (moonTimes && moonTimes.rise) ? moonTimes.rise : '—';
+                const _setT = (moonTimes && moonTimes.set) ? moonTimes.set : '—';
+                const _DT = _dateLabel || '—';
+                const _DATE_FAQ_AR = [
+                    ['#moon-dq1-q', `ما طور القمر في ${_cityName} يوم ${_DT}؟`],
+                    ['#moon-dq1-a', `طور القمر في ${_cityName} يوم ${_DT} هو ${_phaseValid} بإضاءة ${_illumPct}٪، محسوبًا فلكيًّا بدقّة عالية وفق منهجيّات Jean Meeus.`],
+                    ['#moon-dq_illum-q', `كم كانت نسبة إضاءة القمر في ${_cityName} في هذا التاريخ؟`],
+                    ['#moon-dq_illum-a', `بلغت نسبة إضاءة القمر في ${_cityName} يوم ${_DT} نحو ${_illumPct}٪.`],
+                    ['#moon-dq_age-q', `كم كان عمر القمر يوم ${_DT}؟`],
+                    ['#moon-dq_age-a', `عمر القمر في هذا التاريخ ${_ageDays} يوم من أصل دورة 29.5 يوم.`],
+                    ['#moon-dq6-q', `متى أَشرق القمر في ${_cityName} في هذا اليوم؟`],
+                    ['#moon-dq6-a', `وقت شروق القمر في ${_cityName} يوم ${_DT} كان ${_riseT} بالتوقيت المحلّيّ للمدينة.`],
+                    ['#moon-dq7-q', `متى غرَب القمر في ${_cityName} في هذا اليوم؟`],
+                    ['#moon-dq7-a', `وقت غروب القمر في ${_cityName} يوم ${_DT} كان ${_setT} بالتوقيت المحلّيّ للمدينة.`],
+                    ['#moon-dq8-q', `متى كان البدر أو المحاق الأقرب لهذا التاريخ؟`],
+                    ['#moon-dq8-a', `أقرب بدر/محاق للتاريخ ${_DT} مَعروض في قسم «الأطوار القمريّة القادمة» أعلاه، مع التاريخ الميلاديّ والهجريّ بدقّة فلكيّة.`]
+                ];
+                const _DATE_FAQ_EN = [
+                    ['#moon-dq1-q', `What was the moon phase in ${_cityName} on ${_DT}?`],
+                    ['#moon-dq1-a', `On ${_DT}, the moon phase in ${_cityName} was ${_phaseValid} with ${_illumPct}% illumination — computed astronomically using Jean Meeus' methods.`],
+                    ['#moon-dq_illum-q', `What was the moon illumination in ${_cityName} on this date?`],
+                    ['#moon-dq_illum-a', `Moon illumination in ${_cityName} on ${_DT} was about ${_illumPct}%.`],
+                    ['#moon-dq_age-q', `How old was the moon on ${_DT}?`],
+                    ['#moon-dq_age-a', `The moon was ${_ageDays} days old on this date, out of a 29.5-day lunar cycle.`],
+                    ['#moon-dq6-q', `When did the moon rise in ${_cityName} on this day?`],
+                    ['#moon-dq6-a', `Moonrise in ${_cityName} on ${_DT} was at ${_riseT} local city time.`],
+                    ['#moon-dq7-q', `When did the moon set in ${_cityName} on this day?`],
+                    ['#moon-dq7-a', `Moonset in ${_cityName} on ${_DT} was at ${_setT} local city time.`],
+                    ['#moon-dq8-q', `When was the closest full moon or new moon to this date?`],
+                    ['#moon-dq8-a', `The closest full/new moon to ${_DT} is shown in the "Upcoming moon phases" section above, with precise Gregorian and Hijri dates.`]
+                ];
+                const _DATE_FAQ = (_lng_ === 'ar') ? _DATE_FAQ_AR : _DATE_FAQ_EN;
+                _DATE_FAQ.forEach(([sel, txt]) => {
+                    const el = document.querySelector(sel);
+                    if (el) {
+                        el.textContent = txt;
+                        el.removeAttribute('data-i18n');
+                    }
+                });
+            } catch (_) {}
         }
         // ── Round 16: Hub page — H1 بلا «اليوم» + subtitle عامّ للمدينة ──
         // الصفحة evergreen؛ تمثّل المدينة كـ entity، لا يوم معيّن. العنوان هنا

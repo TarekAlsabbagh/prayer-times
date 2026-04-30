@@ -2779,7 +2779,7 @@ const _HOME_STRIP_IDS = [
     'other-trending-cities',
     'home-quick-access',
     'moon-today-card',
-    'city-info', 'about-city',
+    'city-info',
     'weekly-schedule-section',
     // Footer sub-blocks (Wikipedia refs + social + share — user spec)
     'home-world-countries-block',
@@ -3980,21 +3980,20 @@ function buildSeoForPath(urlPath) {
     // صانع title صفحات المدن (10 لغات) — نسخة مختصرة: "مدينة + اليوم + تاريخ هجري"
     // cityLng اختياريّ: إن مُرِّر، يُحسب الهجري بتوقيت المدينة (مهمّ لـ Jakarta, NY…
     // ليلاً عند فارق يوم كامل عن توقيت السيرفر). بدونه: توقيت مكّة (الافتراضي).
-    const _buildCityDatedTitle = (cityDisplay, cityLng) => {
-        const { hD, hM, hY } = _hijriDayForLng(cityLng);
-        const hMonthLocLocal = (_HM_BY_LANG_CITY[lang] || _HM_BY_LANG_CITY.en)[hM - 1];
-        const h = `${hD} ${hMonthLocLocal} ${hY}${_hYearSfx}`;
+    // صانع title صفحات المدن (10 لغات) — Phase D2: ثابت بلا تاريخ هجريّ، بفاصل |
+    // cityLng يُحفَظ كمَعامل لأسباب التوافق فقط (التاريخ الهجريّ ينتقل إلى H1/intro/desc).
+    const _buildCityDatedTitle = (cityDisplay, _cityLng) => {
         switch (lang) {
-            case 'ar': return `مواقيت الصلاة في ${cityDisplay} اليوم - ${h}`;
-            case 'fr': return `Horaires de prière à ${cityDisplay} - ${h}`;
-            case 'tr': return `${cityDisplay} Namaz Vakitleri Bugün - ${h}`;
-            case 'ur': return `${cityDisplay} میں اوقاتِ نماز آج - ${h}`;
-            case 'de': return `Gebetszeiten in ${cityDisplay} heute - ${h}`;
-            case 'id': return `Jadwal Sholat di ${cityDisplay} hari ini - ${h}`;
-            case 'es': return `Horarios de Oración en ${cityDisplay} hoy - ${h}`;
-            case 'bn': return `${cityDisplay}-এ নামাজের সময় আজ - ${h}`;
-            case 'ms': return `Waktu Solat di ${cityDisplay} hari ini - ${h}`;
-            default:   return `Prayer Times in ${cityDisplay} Today - ${h}`;
+            case 'ar': return `مواقيت الصلاة في ${cityDisplay} | جدول اليوم واتجاه القبلة`;
+            case 'fr': return `Heures de prière à ${cityDisplay} | Horaires du jour et Qibla`;
+            case 'tr': return `${cityDisplay} Namaz Vakitleri | Günlük Program ve Kıble`;
+            case 'ur': return `${cityDisplay} میں اوقاتِ نماز | آج کا جدول اور سمتِ قبلہ`;
+            case 'de': return `Gebetszeiten in ${cityDisplay} | Tagesplan und Qibla`;
+            case 'id': return `Jadwal Sholat di ${cityDisplay} | Jadwal Hari Ini dan Kiblat`;
+            case 'es': return `Horarios de Oración en ${cityDisplay} | Horario de Hoy y Qibla`;
+            case 'bn': return `${cityDisplay}-এ নামাজের সময় | আজকের সূচী ও কিবলা`;
+            case 'ms': return `Waktu Solat di ${cityDisplay} | Jadual Hari Ini dan Kiblat`;
+            default:   return `Prayer Times in ${cityDisplay} | Today's Schedule and Qibla`;
         }
     };
 
@@ -4003,29 +4002,31 @@ function buildSeoForPath(urlPath) {
     //   Homepage targets the generic "مواقيت الصلاة اليوم" so it ranks for
     //   broad queries without competing with the city-specific page.
     //   (UAT-SEO-Cannibalization fix — 2026-04-28)
+// Phase D1: shorter homepage titles — drop redundant "prayer/Solat/Sholat/Namaz/oración" repetition
     const _HOME_TITLES = {
-        ar: 'مواقيت الصلاة اليوم | أوقات الصلاة والتاريخ الهجري واتجاه القبلة',
-        en: "Prayer Times Today | Daily Prayer Schedule, Hijri Calendar & Qibla Direction",
-        fr: "Heures de prière aujourd'hui | Horaires quotidiens, calendrier hégirien et direction de la Qibla",
-        tr: 'Bugünkü Namaz Vakitleri | Günlük Namaz Saatleri, Hicri Takvim ve Kıble Yönü',
-        ur: 'آج اوقاتِ نماز | روزانہ اوقاتِ نماز، ہجری کیلنڈر اور سمتِ قبلہ',
-        de: 'Heutige Gebetszeiten | Tägliche Gebetsplan, Hidschri-Kalender und Qibla-Richtung',
-        id: 'Jadwal Sholat Hari Ini | Waktu Sholat, Kalender Hijriyah dan Arah Kiblat',
-        es: 'Horarios de Oración Hoy | Horario diario, Calendario Hijri y Dirección de la Qibla',
-        bn: 'আজকের নামাজের সময় | দৈনিক নামাজের সময়সূচী, হিজরি ক্যালেন্ডার ও কিবলার দিক',
-        ms: 'Waktu Solat Hari Ini | Jadual Solat Harian, Kalendar Hijrah dan Arah Kiblat',
+        ar: 'مواقيت الصلاة اليوم | التاريخ الهجري واتجاه القبلة وحالة القمر',
+        en: "Prayer Times Today | Hijri Date, Qibla Direction & Moon Phase",
+        fr: "Heures de prière | Date hégirienne, Qibla et phase lunaire",
+        tr: 'Bugünkü Namaz Vakitleri | Hicri Tarih, Kıble Yönü ve Ay Evresi',
+        ur: 'آج اوقاتِ نماز | ہجری تاریخ، سمتِ قبلہ اور چاند کی حالت',
+        de: 'Heutige Gebetszeiten | Hidschri-Datum, Qibla & Mondphase',
+        id: 'Jadwal Sholat Hari Ini | Tanggal Hijriah, Arah Kiblat & Fase Bulan',
+        es: 'Horarios de Oración Hoy | Fecha Hijri, Qibla y Fase Lunar',
+        bn: 'আজকের নামাজের সময় | হিজরি তারিখ, কিবলা ও চাঁদের অবস্থা',
+        ms: 'Waktu Solat Hari Ini | Tarikh Hijrah, Arah Kiblat & Fasa Bulan',
     };
+// Phase D1: shorter homepage descs — trim to ~125–148 chars per language
     const _HOME_DESCS = {
-        ar: 'اعرف مواقيت الصلاة اليوم لأي مدينة حول العالم، مع أوقات الفجر والظهر والعصر والمغرب والعشاء، التاريخ الهجري، اتجاه القبلة، وحالة القمر.',
-        en: 'Find accurate prayer times today for any city worldwide — Fajr, Dhuhr, Asr, Maghrib, Isha — alongside the Hijri date, Qibla direction, and moon phase.',
-        fr: "Consultez les horaires de prière du jour pour toute ville dans le monde — Fajr, Dhuhr, Asr, Maghrib, Isha — avec la date hégirienne, la direction de la Qibla et la phase lunaire.",
-        tr: 'Dünyanın herhangi bir şehri için bugünkü namaz vakitlerini öğrenin — Fecir, Öğle, İkindi, Akşam, Yatsı — Hicri tarih, kıble yönü ve ay evresi ile birlikte.',
-        ur: 'دنیا کے کسی بھی شہر کے لیے آج کے اوقاتِ نماز جانیں — فجر، ظہر، عصر، مغرب، عشاء — ہجری تاریخ، سمتِ قبلہ اور چاند کی حالت کے ساتھ۔',
-        de: 'Finden Sie die heutigen Gebetszeiten für jede Stadt weltweit — Fajr, Dhuhr, Asr, Maghrib, Isha — mit Hidschri-Datum, Qibla-Richtung und Mondphase.',
-        id: 'Temukan jadwal sholat hari ini untuk setiap kota di dunia — Subuh, Zuhur, Asar, Magrib, Isya — beserta tanggal Hijriah, arah kiblat, dan fase bulan.',
-        es: 'Consulta los horarios de oración de hoy para cualquier ciudad del mundo — Fayr, Dhuhr, Asr, Magrib, Isha — junto con la fecha hijri, dirección de la Qibla y fase lunar.',
-        bn: 'বিশ্বের যেকোনো শহরের আজকের নামাজের সময় জানুন — ফজর, জোহর, আসর, মাগরিব, এশা — হিজরি তারিখ, কিবলার দিক ও চাঁদের অবস্থা সহ।',
-        ms: 'Ketahui waktu solat hari ini untuk mana-mana bandar di dunia — Subuh, Zohor, Asar, Maghrib, Isyak — bersama tarikh Hijrah, arah kiblat dan fasa bulan.',
+        ar: 'اعرف مواقيت الصلاة اليوم لأي مدينة حول العالم: الفجر والظهر والعصر والمغرب والعشاء، والتاريخ الهجري واتجاه القبلة.',
+        en: 'Find accurate prayer times for any city worldwide — Fajr, Dhuhr, Asr, Maghrib, Isha — with Hijri date, Qibla direction and moon phase.',
+        fr: "Horaires de prière exacts pour toute ville — Fajr, Dohr, Asr, Maghrib, Icha — avec la date hégirienne, la direction de la Qibla et la phase lunaire.",
+        tr: 'Tüm dünyada her şehir için doğru namaz vakitleri — Fecir, Öğle, İkindi, Akşam, Yatsı — hicri tarih, kıble yönü ve ay evresi ile birlikte.',
+        ur: 'دنیا کے کسی بھی شہر کے لیے درست اوقاتِ نماز — فجر، ظہر، عصر، مغرب، عشاء — ہجری تاریخ، سمتِ قبلہ اور چاند کی حالت کے ساتھ۔',
+        de: 'Genaue Gebetszeiten für jede Stadt weltweit — Fajr, Dhuhr, Asr, Maghrib, Isha — mit Hidschri-Datum, Qibla-Richtung und Mondphase.',
+        id: 'Jadwal sholat akurat untuk semua kota di dunia — Subuh, Zuhur, Asar, Magrib, Isya — dengan tanggal Hijriah, arah kiblat dan fase bulan.',
+        es: 'Horarios de oración exactos para cualquier ciudad del mundo — Fayr, Dohr, Asr, Magrib, Isha — con fecha Hijri, dirección de la Qibla y fase lunar.',
+        bn: 'বিশ্বের যেকোনো শহরের নির্ভুল নামাজের সময় — ফজর, জোহর, আসর, মাগরিব, এশা — হিজরি তারিখ, কিবলার দিক ও চাঁদের অবস্থা সহ।',
+        ms: 'Waktu solat tepat untuk mana-mana bandar di dunia — Subuh, Zohor, Asar, Maghrib, Isyak — dengan tarikh Hijrah, arah kiblat dan fasa bulan.',
     };
     let title       = _HOME_TITLES[lang] || _HOME_TITLES.en;
     let description = _HOME_DESCS[lang]  || _HOME_DESCS.en;
@@ -4050,23 +4051,24 @@ function buildSeoForPath(urlPath) {
     // ── Static tool pages ──
     const staticPages = {
         '/qibla': {
+            // Phase D1: replace em-dash with "|", extend short titles, normalize TR desc
             title: {
-                ar: 'اتجاه القبلة — بوصلة الكعبة المشرفة',
-                en: 'Qibla Direction — Online Compass to the Kaaba',
-                fr: 'Direction de la Qibla — Boussole vers La Mecque',
-                tr: 'Kıble Yönü — Kâbe\u2019ye Online Pusula',
-                ur: 'سمتِ قبلہ — خانہ کعبہ کی طرف قطب نما',
-                de: 'Qibla-Richtung — Online-Kompass zur Kaaba',
-                id: 'Arah Kiblat — Kompas Online ke Kakbah',
-                es: 'Dirección de la Qibla — Brújula a la Kaaba',
-                bn: 'কিবলার দিক — কাবা পর্যন্ত অনলাইন কম্পাস',
-                ms: 'Arah Kiblat — Kompas Dalam Talian ke Kaabah',
+                ar: 'اتجاه القبلة | بوصلة الكعبة المشرفة والمسافة',
+                en: 'Qibla Direction | Compass and Distance to the Kaaba',
+                fr: 'Direction de la Qibla | Boussole et distance à la Kaaba',
+                tr: 'Kıble Yönü | Kâbe\u2019ye Pusula ve Uzaklık Hesaplama',
+                ur: 'سمتِ قبلہ | خانہ کعبہ کی طرف قطب نما اور فاصلہ',
+                de: 'Qibla-Richtung | Kompass und Entfernung zur Kaaba',
+                id: 'Arah Kiblat | Kompas Online dan Jarak ke Kakbah',
+                es: 'Dirección de la Qibla | Brújula y distancia a la Kaaba',
+                bn: 'কিবলার দিক | কাবার দিকনির্দেশ ও দূরত্ব নির্ণয়',
+                ms: 'Arah Kiblat | Kompas Dalam Talian dan Jarak ke Kaabah',
             },
             desc: {
                 ar: 'احسب اتجاه القبلة بدقة من أي موقع مع المسافة إلى الكعبة المشرفة وبوصلة تفاعلية وأسئلة شائعة.',
                 en: 'Calculate the Qibla direction accurately from any location with the distance to the Kaaba, an interactive compass and a helpful FAQ.',
                 fr: 'Calculez la direction précise de la Qibla depuis n\u2019importe quel lieu : distance à la Kaaba, boussole interactive et FAQ utile.',
-                tr: 'Her konumdan kıble yönünü doğru hesaplayın: Kâbe\u2019ye uzaklık, etkileşimli pusula ve SSS.',
+                tr: 'Her konumdan kıble yönünü doğru hesaplayın: Kâbe\u2019ye uzaklık (km), etkileşimli pusula, anlık döndürme ve sıkça sorulan sorular.',
                 ur: 'کسی بھی مقام سے قبلہ کی درست سمت، کعبہ تک فاصلہ، انٹرایکٹو قطب نما اور عام سوالات کے ساتھ۔',
                 de: 'Berechnen Sie die Qibla-Richtung genau von jedem Ort aus: Entfernung zur Kaaba, interaktiver Kompass und hilfreiche FAQ.',
                 id: 'Hitung arah kiblat dengan akurat dari lokasi mana pun, lengkap dengan jarak ke Kakbah, kompas interaktif, dan FAQ.',
@@ -4079,16 +4081,17 @@ function buildSeoForPath(urlPath) {
         },
         '/moon-today': {
             title: {
-                ar: 'حالة القمر اليوم - طور القمر ونسبة الإضاءة والعمر',
-                en: 'Moon State Today - Phase, Illumination, Age & Distance',
-                fr: 'État de la Lune aujourd\u2019hui - Phase, Illumination, Âge et Distance',
-                tr: 'Ayın Bugünkü Durumu - Evre, Aydınlanma, Yaş ve Mesafe',
-                ur: 'آج چاند کی حالت - طور، روشنی، عمر اور فاصلہ',
-                de: 'Mondzustand heute - Phase, Beleuchtung, Alter und Entfernung',
-                id: 'Keadaan Bulan Hari Ini - Fase, Iluminasi, Usia & Jarak',
-                es: 'Estado de la Luna hoy - Fase, Iluminación, Edad y Distancia',
-                bn: 'আজ চাঁদের অবস্থা - দশা, আলোকন, বয়স ও দূরত্ব',
-                ms: 'Keadaan Bulan Hari Ini - Fasa, Pencahayaan, Usia & Jarak',
+                // Phase C5: Title نظيف بـ "|" بدل "-"، يعطي شكلًا أنيقًا في SERP
+                ar: 'حالة القمر اليوم | طور القمر والإضاءة والعمر والمسافة',
+                en: 'Moon State Today | Phase, Illumination, Age & Distance',
+                fr: 'État de la Lune aujourd\u2019hui | Phase, Illumination et Âge',
+                tr: 'Ayın Bugünkü Durumu | Evre, Aydınlanma, Yaş ve Mesafe',
+                ur: 'آج چاند کی حالت | طور، روشنی، عمر اور فاصلہ',
+                de: 'Mondzustand heute | Phase, Beleuchtung, Alter & Entfernung',
+                id: 'Keadaan Bulan Hari Ini | Fase, Iluminasi, Usia & Jarak',
+                es: 'Estado de la Luna hoy | Fase, Iluminación, Edad y Distancia',
+                bn: 'আজ চাঁদের অবস্থা | দশা, আলোকন, বয়স ও দূরত্ব',
+                ms: 'Keadaan Bulan Hari Ini | Fasa, Pencahayaan, Usia & Jarak',
             },
             desc: {
                 ar: 'حالة القمر اليوم: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين موقعك والقمر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.',
@@ -4106,71 +4109,115 @@ function buildSeoForPath(urlPath) {
             moonFaq: true,   // يُفعّل FAQPage schema لصفحة القمر
         },
         '/zakat-calculator': {
-            // UAT-Z1: redesigned as professional tool — title reflects calculator scope
-            title: [ 'Zakat Calculator | Calculate Zakat on Money, Gold and Investments',
-                     'حاسبة الزكاة | احسب زكاة المال والذهب والأسهم بسهولة' ],
-            desc:  [ 'Use the Zakat Calculator to estimate zakat on cash, savings, gold, silver, investments, and trade assets with nisab and 2.5% zakat calculation.',
-                     'استخدم حاسبة الزكاة لحساب زكاة المال والمدخرات والذهب والفضة والأسهم والعقارات المعدة للبيع، مع توضيح النصاب ونسبة الزكاة 2.5%.' ],
+            // UAT-Z1 + Phase D1: array→object structure; localized for all 10 langs
+            title: {
+                ar: 'حاسبة الزكاة | احسب زكاة المال والذهب والأسهم بسهولة',
+                en: 'Zakat Calculator | Money, Gold and Investments',
+                fr: 'Calculateur de Zakat | Argent, Or et Investissements',
+                tr: 'Zekât Hesaplayıcı | Para, Altın ve Yatırımlarda Zekât',
+                ur: 'زکوٰۃ کیلکولیٹر | نقد، سونے اور سرمایہ کاری پر زکوٰۃ',
+                de: 'Zakat-Rechner | Geld, Gold und Investitionen',
+                id: 'Kalkulator Zakat | Uang, Emas dan Investasi',
+                es: 'Calculadora de Zakat | Dinero, Oro e Inversiones',
+                bn: 'যাকাত ক্যালকুলেটর | অর্থ, সোনা ও বিনিয়োগের যাকাত',
+                ms: 'Kalkulator Zakat | Wang, Emas, Pelaburan dan Saham',
+            },
+            desc: {
+                ar: 'احسب زكاة المال والمدخرات والذهب والفضة والأسهم والاستثمارات والعقارات المعدّة للبيع وفق النصاب ونسبة 2.5%، مع توضيح طريقة الحساب.',
+                en: 'Use the Zakat Calculator to estimate zakat on cash, savings, gold, silver, investments, and trade assets with nisab and 2.5% zakat calculation.',
+                fr: 'Calculez la Zakat sur l\u2019argent, l\u2019épargne, l\u2019or, l\u2019argent et les investissements avec le nisab et le taux de 2,5%.',
+                tr: 'Zekât hesaplayıcı ile para, birikim, altın, gümüş, yatırım ve ticaret malları üzerinden zekâtınızı %2,5 ve nisaba göre hesaplayın.',
+                ur: 'زکوٰۃ کیلکولیٹر سے نقد، بچت، سونا، چاندی، سرمایہ کاری اور تجارتی اثاثوں پر زکوٰۃ نصاب اور 2.5% شرح کے مطابق شمار کریں۔',
+                de: 'Berechnen Sie mit dem Zakat-Rechner die Zakat auf Bargeld, Ersparnisse, Gold, Silber, Investitionen und Handelsgüter mit Nisab und 2,5%.',
+                id: 'Hitung zakat uang tunai, tabungan, emas, perak, investasi dan barang dagangan dengan nisab dan tarif 2,5% pakai kalkulator zakat ini.',
+                es: 'Calcula la Zakat sobre dinero, ahorros, oro, plata, inversiones y mercancías con el nisab y la tasa del 2,5% — guía completa.',
+                bn: 'যাকাত ক্যালকুলেটর দিয়ে নগদ, সঞ্চয়, সোনা, রুপা, বিনিয়োগ ও বাণিজ্য পণ্যের যাকাত নিসাব ও ২.৫% হারে হিসাব করুন।',
+                ms: 'Kira zakat wang tunai, simpanan, emas, perak, pelaburan dan barang dagangan dengan nisab dan kadar 2.5% guna kalkulator ini.',
+            },
             app: { category: 'FinanceApplication' },
             zakatFaq: true,    // UAT-Z1: enables FAQPage + HowTo schemas
         },
         '/duas': {
-            title: [ 'Duas & Athkar — Authentic Islamic Supplications', 'الأدعية والأذكار الصحيحة من الكتاب والسنة' ],
-            desc:  [ 'Authentic duas from Quran & Sunnah: morning & evening athkar, after-prayer remembrance, sleep, travel, distress and Friday duas with sources.',
-                     'أدعية وأذكار صحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة — مع التخريج.' ],
+            // Phase D1: array→object structure; localized for all 10 langs
+            title: {
+                ar: 'الأدعية والأذكار الصحيحة من الكتاب والسنة',
+                en: 'Duas & Athkar | Authentic Islamic Supplications',
+                fr: 'Douas et Athkar | Invocations authentiques de l\u2019islam',
+                tr: 'Dualar ve Zikirler | Kur\u2019an ve Sünnet\u2019ten Sahih Dualar',
+                ur: 'دعائیں اور اذکار | قرآن و سنت سے صحیح اسلامی دعائیں',
+                de: 'Duas & Athkar | Authentische Bittgebete aus Quran & Sunna',
+                id: 'Doa dan Zikir | Doa Sahih dari Al-Quran dan Sunnah',
+                es: 'Duas y Athkar | Súplicas Auténticas del Islam',
+                bn: 'দোয়া ও জিকির | কুরআন ও সুন্নাহ থেকে সহিহ দোয়া',
+                ms: 'Doa dan Zikir | Doa Sahih dari Al-Quran dan Sunnah',
+            },
+            desc: {
+                ar: 'أدعية وأذكار صحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة — مع التخريج.',
+                en: 'Authentic duas from Quran & Sunnah: morning & evening athkar, after-prayer remembrance, sleep, travel, distress and Friday duas with sources.',
+                fr: 'Douas authentiques du Coran et de la Sunna : athkar du matin et du soir, après la prière, sommeil, voyage, détresse et vendredi avec sources.',
+                tr: 'Kur\u2019an ve Sünnet\u2019ten sahih dualar ve zikirler: sabah-akşam zikirleri, namaz sonrası, uyku, yolculuk, sıkıntı ve Cuma duaları kaynaklarıyla.',
+                ur: 'قرآن و سنت سے صحیح دعائیں اور اذکار: صبح و شام کے اذکار، نماز کے بعد، سونے، سفر، پریشانی اور جمعہ کی دعائیں حوالہ جات کے ساتھ۔',
+                de: 'Authentische Duas aus Quran und Sunna: Morgen- und Abend-Athkar, nach dem Gebet, Schlaf, Reise, Not und Freitags-Duas mit Quellen.',
+                id: 'Doa sahih dari Al-Quran dan Sunnah: zikir pagi dan petang, setelah sholat, tidur, perjalanan, kesusahan dan doa Jumat dengan sumber.',
+                es: 'Duas auténticas del Corán y la Sunna: athkar de la mañana y la tarde, tras la oración, sueño, viaje, angustia y duas del viernes con fuentes.',
+                bn: 'কুরআন ও সুন্নাহ থেকে সহিহ দোয়া ও জিকির: সকাল-সন্ধ্যার জিকির, নামাজের পর, ঘুম, ভ্রমণ, কষ্ট ও জুমার দোয়া সূত্র সহকারে।',
+                ms: 'Doa sahih dari Al-Quran dan Sunnah: zikir pagi dan petang, selepas solat, tidur, perjalanan, kesusahan dan doa Jumaat berserta sumber.',
+            },
             ogType: 'article',
         },
         '/msbaha': {
+            // Phase D1: replace em-dash with "|", extend titles, trim ar/bn descs
             title: {
-                ar: 'المسبحة الإلكترونية — عدّاد الذكر اليومي',
-                en: 'Digital Tasbih Counter — Masbaha for Dhikr',
-                fr: 'Tasbih Numérique — Compteur de Dhikr',
-                tr: 'Dijital Tesbih — Zikir Sayacı',
-                ur: 'ڈیجیٹل تسبیح — روزانہ ذکر کا شمار',
-                de: 'Digitale Tasbih — Dhikr-Zähler',
-                id: 'Tasbih Digital — Penghitung Dzikir Harian',
-                es: 'Tasbih Digital — Contador de Dhikr',
-                bn: 'ডিজিটাল তাসবিহ — দৈনিক জিকির কাউন্টার',
-                ms: 'Tasbih Digital — Pengira Zikir Harian',
+                ar: 'المسبحة الإلكترونية | عدّاد الذكر اليومي مع حفظ العدّ',
+                en: 'Digital Tasbih Counter | Masbaha for Daily Dhikr Tracking',
+                fr: 'Tasbih Numérique | Compteur de Dhikr Quotidien en Ligne',
+                tr: 'Dijital Tesbih | Günlük Zikir Sayacı ve Hedef Takibi',
+                ur: 'ڈیجیٹل تسبیح | روزانہ ذکر کا شمار اور ہدف ٹریکنگ',
+                de: 'Digitale Tasbih | Dhikr-Zähler mit täglichem Ziel',
+                id: 'Tasbih Digital | Penghitung Dzikir dengan Target Harian',
+                es: 'Tasbih Digital | Contador de Dhikr con Meta Diaria',
+                bn: 'ডিজিটাল তাসবিহ | দৈনিক জিকির কাউন্টার ও লক্ষ্য নির্ধারণ',
+                ms: 'Tasbih Digital | Pengira Zikir dengan Sasaran Harian',
             },
             desc: {
-                ar: 'مسبحة إلكترونية مجانية تحفظ عدد الأذكار بين الجلسات. تابع تسبيحك اليومي: سبحان الله، الحمد لله، الله أكبر، أو حدّد ذكراً مخصّصاً وهدفاً.',
+                ar: 'مسبحة إلكترونية مجانية تحفظ العدّ بين الجلسات. سبّح: سبحان الله، الحمد لله، الله أكبر، أو حدّد ذكراً مخصّصاً وهدفاً يومياً.',
                 en: 'Free digital tasbih counter that saves your dhikr count between sessions. Track Subhanallah, Alhamdulillah, Allahu Akbar and custom dhikr targets.',
-                fr: 'Compteur de tasbih numérique gratuit qui sauvegarde votre compte de dhikr entre les sessions. Suivez Subhanallah, Alhamdulillah, Allahu Akbar et des cibles personnalisées.',
+                fr: 'Tasbih numérique gratuit qui garde le compteur entre les sessions. Comptez Subhanallah, Alhamdulillah, Allahu Akbar ou un dhikr personnalisé.',
                 tr: 'Oturumlar arasında zikir sayınızı kaydeden ücretsiz dijital tesbih sayacı. Subhanallah, Elhamdulillah, Allahu Ekber ve özel zikir hedeflerini takip edin.',
                 ur: 'مفت ڈیجیٹل تسبیح کاؤنٹر جو آپ کے ذکر کی گنتی محفوظ رکھتا ہے۔ سبحان اللہ، الحمد للہ، اللہ اکبر اور اپنے حسب ضرورت ذکر کا ہدف مقرر کریں۔',
                 de: 'Kostenloser digitaler Tasbih-Zähler, der Ihren Dhikr-Zählstand zwischen Sitzungen speichert. Zählen Sie Subhanallah, Alhamdulillah, Allahu Akbar und eigene Ziele.',
                 id: 'Tasbih digital gratis yang menyimpan hitungan dzikir antar sesi. Pantau Subhanallah, Alhamdulillah, Allahu Akbar dan target dzikir kustom.',
                 es: 'Contador de tasbih digital gratuito que guarda su conteo de dhikr entre sesiones. Registre Subhanallah, Alhamdulillah, Allahu Akbar y objetivos personalizados.',
-                bn: 'বিনামূল্যে ডিজিটাল তাসবিহ কাউন্টার যা সেশনের মধ্যে আপনার জিকিরের সংখ্যা সংরক্ষণ করে। সুবহানাল্লাহ, আলহামদুলিল্লাহ, আল্লাহু আকবার এবং কাস্টম জিকির ট্র্যাক করুন।',
+                bn: 'বিনামূল্যে ডিজিটাল তাসবিহ যা সেশনের মধ্যে জিকির সংরক্ষণ করে। সুবহানাল্লাহ, আলহামদুলিল্লাহ, আল্লাহু আকবার ও কাস্টম জিকির গণনা করুন।',
                 ms: 'Pengira tasbih digital percuma yang menyimpan kiraan zikir anda antara sesi. Jejaki Subhanallah, Alhamdulillah, Allahu Akbar dan sasaran zikir tersuai.',
             },
             app: { category: 'UtilitiesApplication' },
         },
         '/dateconverter': {
+            // Phase D1: extend short titles (TR/UR/BN/MS) with "| Online tool" suffix; trim de/bn descs
             title: {
-                ar: 'محوّل التاريخ الهجري إلى الميلادي وبالعكس',
-                en: 'Hijri to Gregorian Date Converter (Two-Way)',
-                fr: 'Convertisseur de Date Hégirienne ↔ Grégorienne',
-                tr: 'Hicri ↔ Miladi Tarih Dönüştürücü',
-                ur: 'ہجری ↔ میلادی تاریخ کنورٹر',
-                de: 'Hidschri ↔ Gregorianisch Datumsumrechner',
-                id: 'Konverter Tanggal Hijriyah ↔ Masehi',
-                es: 'Conversor de Fecha Hijri ↔ Gregoriana',
-                bn: 'হিজরি ↔ গ্রেগরিয়ান তারিখ রূপান্তরকারী',
-                ms: 'Penukar Tarikh Hijrah ↔ Gregorian',
+                ar: 'محوّل التاريخ الهجري والميلادي | تقويم أم القرى',
+                en: 'Hijri ↔ Gregorian Date Converter | Online Tool',
+                fr: 'Convertisseur Hégire ↔ Grégorien | Outil en ligne',
+                tr: 'Hicri ↔ Miladi Tarih Dönüştürücü | Online Hesaplayıcı',
+                ur: 'ہجری اور میلادی تاریخ کنورٹر | آن لائن کیلکولیٹر',
+                de: 'Hidschri ↔ Gregorianisch Umrechner | Online-Tool',
+                id: 'Konverter Tanggal Hijriyah ↔ Masehi | Alat Online',
+                es: 'Conversor de Fecha Hijri ↔ Gregoriana | Herramienta',
+                bn: 'হিজরি ↔ গ্রেগরিয়ান তারিখ রূপান্তর | অনলাইন ক্যালকুলেটর',
+                ms: 'Penukar Tarikh Hijrah ↔ Gregorian | Alat Dalam Talian',
             },
             desc: {
-                ar: 'حوِّل التاريخ بين الهجري والميلادي لأي سنة من 1 هـ حتى 1500 هـ. يعتمد على تقويم أم القرى ويُظهر اليوم من الأسبوع والأحداث التاريخية.',
+                ar: 'حوِّل بين الهجري والميلادي لأي سنة من 1 هـ حتى 1500 هـ، وفق تقويم أم القرى، مع اليوم من الأسبوع والأحداث التاريخية.',
                 en: 'Convert Hijri to Gregorian and vice versa for any year from 1 AH to 1500 AH. Based on Umm al-Qura calendar with weekday and historical event lookup.',
                 fr: 'Convertissez entre dates hégiriennes et grégoriennes de 1 AH à 1500 AH. Basé sur le calendrier Umm al-Qura avec jour de semaine et événements historiques.',
                 tr: '1 H\'den 1500 H\'ye kadar herhangi bir yıl için Hicri ile Miladi arasında tarih dönüştürün. Ümmü\'l-Kura takvimi esaslı; haftanın günü ve tarihi olaylar dahil.',
                 ur: '1 ہجری سے 1500 ہجری تک کسی بھی سال کے لیے ہجری اور میلادی تاریخ میں تبدیلی۔ ام القرى کیلنڈر پر مبنی، ہفتے کا دن اور تاریخی واقعات۔',
-                de: 'Konvertieren Sie Hidschri in Gregorianisch und umgekehrt für jedes Jahr von 1 AH bis 1500 AH. Basierend auf dem Umm al-Qura-Kalender mit Wochentag und historischen Ereignissen.',
+                de: 'Konvertieren Sie Hidschri und Gregorianisch (1–1500 AH) per Umm al-Qura-Kalender — mit Wochentag und historischen Ereignissen.',
                 id: 'Konversi tanggal Hijriyah ke Masehi dan sebaliknya untuk tahun 1 H hingga 1500 H. Berbasis kalender Umm al-Qura dengan hari dalam seminggu dan peristiwa sejarah.',
                 es: 'Convierte fechas Hijri a gregorianas y viceversa para cualquier año de 1 AH a 1500 AH. Basado en el calendario Umm al-Qura con día de la semana y eventos históricos.',
-                bn: '১ হিজরি থেকে ১৫০০ হিজরি পর্যন্ত যেকোনো বছরের জন্য হিজরি থেকে গ্রেগরিয়ান এবং বিপরীতে তারিখ রূপান্তর করুন। উম্মুল কুরা ক্যালেন্ডার-ভিত্তিক, সপ্তাহের দিন ও ঐতিহাসিক ঘটনা সহ।',
-                ms: 'Tukar tarikh Hijrah ke Gregorian dan sebaliknya untuk mana-mana tahun dari 1 H hingga 1500 H. Berdasarkan kalendar Umm al-Qura dengan hari minggu dan peristiwa bersejarah.',
+                bn: '১ থেকে ১৫০০ হিজরি পর্যন্ত হিজরি ও গ্রেগরিয়ান তারিখ রূপান্তর — উম্মুল কুরা ক্যালেন্ডার, সপ্তাহের দিন ও ঐতিহাসিক ঘটনা সহ।',
+                ms: 'Tukar tarikh Hijrah dan Gregorian dari 1 hingga 1500H dengan kalendar Umm al-Qura, hari minggu dan peristiwa sejarah.',
             },
             app: { category: 'UtilitiesApplication' },
         },
@@ -4481,17 +4528,18 @@ function buildSeoForPath(urlPath) {
         const cityDisplay = (typeof _resolveCityName === 'function')
             ? (_resolveCityName(citySlug, lang) || _slugToTitle(citySlug))
             : _slugToTitle(citySlug);
+        // Phase D2: extend short titles per language with separator + descriptor
         const _qTitles = {
-            ar: `اتجاه القبلة في ${cityDisplay}`,
-            en: `Qibla Direction in ${cityDisplay}`,
-            fr: `Direction de la Qibla à ${cityDisplay}`,
-            tr: `${cityDisplay} Kıble Yönü`,
-            ur: `${cityDisplay} سے سمتِ قبلہ`,
-            de: `Qibla-Richtung in ${cityDisplay}`,
-            id: `Arah Kiblat di ${cityDisplay}`,
-            es: `Dirección de la Qibla en ${cityDisplay}`,
-            bn: `${cityDisplay}-এ কিবলার দিক`,
-            ms: `Arah Kiblat di ${cityDisplay}`,
+            ar: `اتجاه القبلة في ${cityDisplay} | البوصلة والمسافة إلى الكعبة`,
+            en: `Qibla Direction in ${cityDisplay} | Compass and Distance`,
+            fr: `Direction de la Qibla à ${cityDisplay} | Boussole et distance`,
+            tr: `${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Uzaklık`,
+            ur: `${cityDisplay} سے سمتِ قبلہ | قطب نما اور فاصلہ`,
+            de: `Qibla-Richtung in ${cityDisplay} | Kompass und Entfernung`,
+            id: `Arah Kiblat di ${cityDisplay} | Kompas dan Jarak ke Kakbah`,
+            es: `Dirección de la Qibla en ${cityDisplay} | Brújula y distancia`,
+            bn: `${cityDisplay} থেকে কিবলার দিক | কম্পাস ও দূরত্ব`,
+            ms: `Arah Kiblat di ${cityDisplay} | Kompas dan Jarak ke Kaabah`,
         };
         const _qDescs = {
             ar: `اتجاه القبلة الدقيق من ${cityDisplay} إلى الكعبة المشرفة، مع الزاوية والمسافة وبوصلة تفاعلية.`,
@@ -4561,24 +4609,7 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
-    // ── About city pages: /about-{slug}-{lat}-{lng} ──
-    m = corePath.match(/^\/about-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
-    if (m) {
-        const citySlug = m[1];
-        const lat = parseFloat(m[2]);
-        const lng = parseFloat(m[3]);
-        const cityDisplay = _slugToTitle(citySlug);
-        const _aBase = useEnTxt ? `About ${cityDisplay}` : `عن مدينة ${cityDisplay}`;
-        const _aSuf  = useEnTxt ? ' — Location, Timezone & Prayer Times' : ' — الموقع، المنطقة الزمنية ومواقيت الصلاة';
-        title = (_aBase + _aSuf).length <= 60 ? _aBase + _aSuf : _aBase;
-        description = useEnTxt
-            ? `Discover ${cityDisplay}: geographic coordinates, timezone, population, Islamic prayer times, Qibla direction, today's Hijri date and key local facts.`
-            : `تعرّف على مدينة ${cityDisplay}: الإحداثيات الجغرافية، المنطقة الزمنية، السكان، مواقيت الصلاة، اتجاه القبلة، التاريخ الهجري وأهم الحقائق المحلية.`;
-        ogType = 'article';
-        geo = { lat, lng };
-        cityModified = new Date().toISOString();
-        breadcrumbs.push({ name: cityDisplay, item: canonical });
-    }
+    // ── About city pages: REMOVED in Phase D2.1 (now 410 Gone) ──
 
     // ── Moon city pages (Round 15 + Round 16): فصل الـ URLs — clean split ──
     //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم (today only)
@@ -4775,16 +4806,16 @@ function buildSeoForPath(urlPath) {
             if (_isMoonMonthPage) {
                 // ── UAT-Moon-Hub-Month: صفحة الشهر — مثل hub لكن مخصَّصة لشهر محدَّد ──
                 _moonTitle = {
-                    ar: `حالة القمر في ${cityDisplay} في ${_mNameT} ${_mYearT} — التقويم والطور والإضاءة`,
-                    en: `Moon in ${cityDisplay} in ${_mNameT} ${_mYearT} — Calendar, Phase & Illumination`,
-                    fr: `La Lune à ${cityDisplay} en ${_mNameT} ${_mYearT} — Calendrier, phase et illumination`,
-                    tr: `${cityDisplay}'da ${_mNameT} ${_mYearT} Ay — Takvim, Evre ve Aydınlanma`,
-                    ur: `${cityDisplay} میں ${_mNameT} ${_mYearT} میں چاند — تقویم، طور اور روشنی`,
-                    de: `Der Mond in ${cityDisplay} im ${_mNameT} ${_mYearT} — Kalender, Phase und Beleuchtung`,
-                    id: `Bulan di ${cityDisplay} pada ${_mNameT} ${_mYearT} — Kalender, Fase & Iluminasi`,
-                    es: `La Luna en ${cityDisplay} en ${_mNameT} ${_mYearT} — Calendario, fase e iluminación`,
-                    bn: `${cityDisplay}-এ ${_mNameT} ${_mYearT}-এ চাঁদ — ক্যালেন্ডার, দশা ও আলোকসজ্জা`,
-                    ms: `Bulan di ${cityDisplay} pada ${_mNameT} ${_mYearT} — Kalendar, Fasa & Pencahayaan`,
+                    ar: `تقويم القمر في ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    en: `Moon Calendar in ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    fr: `Calendrier lunaire à ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    tr: `${cityDisplay} Ay Takvimi | ${_mNameT} ${_mYearT}`,
+                    ur: `${cityDisplay} چاند کیلنڈر | ${_mNameT} ${_mYearT}`,
+                    de: `Mondkalender ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    id: `Kalender Bulan ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    es: `Calendario lunar en ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    bn: `${cityDisplay} চাঁদের ক্যালেন্ডার | ${_mNameT} ${_mYearT}`,
+                    ms: `Kalendar Bulan ${cityDisplay} | ${_mNameT} ${_mYearT}`,
                 };
                 _moonDesc = {
                     ar: `تقويم القمر في ${cityDisplay} لشهر ${_mNameT} ${_mYearT}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل.`,
@@ -4827,16 +4858,16 @@ function buildSeoForPath(urlPath) {
             } else if (_moonDateIso && _moonDateInRange) {
                 // ── عناوين خاصّة بصفحة التاريخ ── (التاريخ الأساسيّ + الموافق بين قوسين)
                 _moonTitle = {
-                    ar: `حالة القمر في ${cityDisplay} يوم ${_mainWithEquiv} — الطور والإضاءة والعمر`,
-                    en: `Moon in ${cityDisplay} on ${_mainWithEquiv} — Phase, Illumination & Age`,
-                    fr: `La Lune à ${cityDisplay} le ${_mainWithEquiv} — Phase, illumination et âge`,
-                    tr: `${cityDisplay} için ${_mainWithEquiv} tarihinde Ay — Evre, Aydınlanma ve Yaş`,
-                    ur: `${cityDisplay} میں ${_mainWithEquiv} کو چاند — مرحلہ، روشنی اور عمر`,
-                    de: `Der Mond in ${cityDisplay} am ${_mainWithEquiv} — Phase, Beleuchtung & Alter`,
-                    id: `Bulan di ${cityDisplay} pada ${_mainWithEquiv} — Fase, Iluminasi & Usia`,
-                    es: `La Luna en ${cityDisplay} el ${_mainWithEquiv} — Fase, iluminación y edad`,
-                    bn: `${cityDisplay}-এ ${_mainWithEquiv}-এ চাঁদ — দশা, আলোকসজ্জা ও বয়স`,
-                    ms: `Bulan di ${cityDisplay} pada ${_mainWithEquiv} — Fasa, Pencahayaan & Usia`,
+                    ar: `حالة القمر في ${cityDisplay} | ${_primaryDateLabel}`,
+                    en: `Moon in ${cityDisplay} | ${_primaryDateLabel}`,
+                    fr: `La Lune à ${cityDisplay} | ${_primaryDateLabel}`,
+                    tr: `${cityDisplay} Ay | ${_primaryDateLabel}`,
+                    ur: `${cityDisplay} میں چاند | ${_primaryDateLabel}`,
+                    de: `Mond in ${cityDisplay} | ${_primaryDateLabel}`,
+                    id: `Bulan di ${cityDisplay} | ${_primaryDateLabel}`,
+                    es: `Luna en ${cityDisplay} | ${_primaryDateLabel}`,
+                    bn: `${cityDisplay}-এ চাঁদ | ${_primaryDateLabel}`,
+                    ms: `Bulan di ${cityDisplay} | ${_primaryDateLabel}`,
                 };
                 _moonDesc = {
                     ar: `طور القمر في ${cityDisplay} يوم ${_mainWithEquiv}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,
@@ -4865,16 +4896,16 @@ function buildSeoForPath(urlPath) {
                     ms: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fasa & Pencahayaan`,
                 };
                 _moonDesc = {
-                    ar: `حالة القمر اليوم في ${cityDisplay}: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين ${cityDisplay} والقمر بالكيلومتر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.`,
-                    en: `Moon state today in ${cityDisplay}: current phase and illumination percentage, moon age in days, distance from ${cityDisplay} to the Moon in kilometers, moonrise and moonset times, next full moon and hilal visibility for the upcoming Hijri month.`,
-                    fr: `État de la Lune aujourd\u2019hui à ${cityDisplay} : phase actuelle et pourcentage d\u2019illumination, âge de la Lune en jours, distance entre ${cityDisplay} et la Lune en kilomètres, heures de lever/coucher, prochaine pleine lune et visibilité du croissant pour le prochain mois hégirien.`,
-                    tr: `${cityDisplay}'da bugün ayın durumu: mevcut evre ve aydınlanma yüzdesi, ayın gün olarak yaşı, ${cityDisplay} ile Ay arasındaki mesafe (km), ay doğuşu/batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.`,
-                    ur: `${cityDisplay} میں آج چاند کی حالت: موجودہ طور اور روشنی کا فیصد، چاند کی عمر دنوں میں، ${cityDisplay} اور چاند کے درمیان فاصلہ کلومیٹر میں، مطلع اور مغیبِ چاند کے اوقات، اگلا بدر اور آنے والے ہجری مہینے کے ہلال کی رؤیت۔`,
-                    de: `Mondzustand heute in ${cityDisplay}: aktuelle Phase und Beleuchtungsprozent, Mondalter in Tagen, Entfernung zwischen ${cityDisplay} und dem Mond in Kilometern, Mondaufgang und -untergang, nächster Vollmond und Hilal-Sichtbarkeit für den kommenden Hidschri-Monat.`,
-                    id: `Keadaan Bulan hari ini di ${cityDisplay}: fase dan persentase iluminasi saat ini, usia bulan dalam hari, jarak antara ${cityDisplay} dan Bulan dalam kilometer, waktu terbit dan terbenam bulan, purnama berikutnya dan rukyat hilal untuk bulan Hijriyah mendatang.`,
-                    es: `Estado de la Luna hoy en ${cityDisplay}: fase y porcentaje de iluminación actuales, edad de la Luna en días, distancia entre ${cityDisplay} y la Luna en kilómetros, horas de salida y puesta, próxima luna llena y visibilidad del hilal para el próximo mes Hijri.`,
-                    bn: `${cityDisplay}-এ আজ চাঁদের অবস্থা: বর্তমান দশা ও আলোকন শতাংশ, দিনের হিসেবে চাঁদের বয়স, ${cityDisplay} ও চাঁদের মধ্যকার দূরত্ব কিলোমিটারে, চাঁদের উদয় ও অস্ত সময়, পরবর্তী পূর্ণিমা এবং আসন্ন হিজরি মাসের হিলাল দৃশ্যমানতা।`,
-                    ms: `Keadaan Bulan hari ini di ${cityDisplay}: fasa dan peratus pencahayaan semasa, usia bulan dalam hari, jarak antara ${cityDisplay} dan Bulan dalam kilometer, waktu terbit dan terbenam bulan, bulan purnama seterusnya dan rukyah hilal untuk bulan Hijrah mendatang.`,
+                    ar: `حالة القمر اليوم في ${cityDisplay}: الطور الحالي ونسبة الإضاءة، عمر القمر، شروق وغروب القمر، البدر القادم، مع رابط تقويم القمر الشهريّ في ${cityDisplay}.`,
+                    en: `Today's moon in ${cityDisplay}: current phase, illumination, moon age, moonrise and moonset, next full moon, plus a link to the monthly moon calendar.`,
+                    fr: `Lune aujourd\u2019hui à ${cityDisplay} : phase, illumination, âge, lever et coucher, prochaine pleine lune, avec lien vers le calendrier lunaire mensuel.`,
+                    tr: `${cityDisplay} için bugün ay: mevcut evre, aydınlanma, yaş, doğuş ve batış, sonraki dolunay; aylık ay takvimine bağlantıyla.`,
+                    ur: `${cityDisplay} میں آج چاند: موجودہ طور، روشنی، عمر، طلوع و غروب، اگلا بدر، اور ماہانہ چاند کی تقویم کا لنک۔`,
+                    de: `Mond heute in ${cityDisplay}: aktuelle Phase, Beleuchtung, Alter, Auf- und Untergang, nächster Vollmond, mit Link zum monatlichen Mondkalender.`,
+                    id: `Bulan hari ini di ${cityDisplay}: fase, iluminasi, usia, terbit dan terbenam, purnama berikutnya, dengan tautan ke kalender bulan bulanan.`,
+                    es: `Luna hoy en ${cityDisplay}: fase actual, iluminación, edad, salida y puesta, próxima luna llena, con enlace al calendario lunar mensual.`,
+                    bn: `${cityDisplay}-এ আজ চাঁদ: বর্তমান দশা, আলোকন, বয়স, উদয় ও অস্ত, পরবর্তী পূর্ণিমা, মাসিক চাঁদের ক্যালেন্ডারের লিঙ্কসহ।`,
+                    ms: `Bulan hari ini di ${cityDisplay}: fasa, pencahayaan, usia, terbit dan terbenam, bulan purnama seterusnya, dengan pautan ke kalendar bulanan.`,
                 };
             }
             title = _moonTitle[lang] || _moonTitle.en;
@@ -5123,17 +5154,18 @@ function buildSeoForPath(urlPath) {
         const _mName  = (_HM_BY_LANG[lang] || _HM_BY_LANG.en)[monthNum - 1];
         const _hSfx   = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' }[lang] || ' AH';
         // قوالب العناوين والأوصاف — Answer Page: مختصرة جداً، التاريخ أولاً
+        // Phase D1: replace ":" with "|" for separator consistency
         const _HDAY_TITLE = {
-            ar: `التاريخ الهجري: ${day} ${_mName} ${year}${_hSfx}`,
-            en: `Hijri Date: ${day} ${_mName} ${year}${_hSfx}`,
-            fr: `Date hégirienne : ${day} ${_mName} ${year}${_hSfx}`,
-            tr: `Hicri Tarih: ${day} ${_mName} ${year}${_hSfx}`,
-            ur: `ہجری تاریخ: ${day} ${_mName} ${year}${_hSfx}`,
-            de: `Hidschri-Datum: ${day} ${_mName} ${year}${_hSfx}`,
-            id: `Tanggal Hijriah: ${day} ${_mName} ${year}${_hSfx}`,
-            es: `Fecha Hégira: ${day} ${_mName} ${year}${_hSfx}`,
-            bn: `হিজরি তারিখ: ${day} ${_mName} ${year}${_hSfx}`,
-            ms: `Tarikh Hijrah: ${day} ${_mName} ${year}${_hSfx}`,
+            ar: `التاريخ الهجري | ${day} ${_mName} ${year}${_hSfx}`,
+            en: `Hijri Date | ${day} ${_mName} ${year}${_hSfx}`,
+            fr: `Date hégirienne | ${day} ${_mName} ${year}${_hSfx}`,
+            tr: `Hicri Tarih | ${day} ${_mName} ${year}${_hSfx}`,
+            ur: `ہجری تاریخ | ${day} ${_mName} ${year}${_hSfx}`,
+            de: `Hidschri-Datum | ${day} ${_mName} ${year}${_hSfx}`,
+            id: `Tanggal Hijriah | ${day} ${_mName} ${year}${_hSfx}`,
+            es: `Fecha Hégira | ${day} ${_mName} ${year}${_hSfx}`,
+            bn: `হিজরি তারিখ | ${day} ${_mName} ${year}${_hSfx}`,
+            ms: `Tarikh Hijrah | ${day} ${_mName} ${year}${_hSfx}`,
         };
         const _HDAY_DESC = {
             ar: `تعرّف على التاريخ الهجري ${day} ${_mName} ${year}${_hSfx} والتاريخ الميلادي المقابل، مع روابط مفيدة للتقويم وتحويل التاريخ.`,
@@ -5175,23 +5207,30 @@ function buildSeoForPath(urlPath) {
         if (c && c.cc && c.cc !== '__') {
             // اسم الدولة بـلغة الواجهة (يدعم 6 لغات): ar/en/fr/tr/ur/de
             const cname = _countryNameForLang(c.cc, lang);
+            // Phase D2: cities-focused phrasing + add es/bn/ms (was missing → en fallback)
             const _COUNTRY_TITLE_TEMPLATES = {
-                ar: `مواقيت الصلاة في مدن ${cname}`,
-                en: `Prayer Times in Cities of ${cname}`,
-                fr: `Heures de prière dans les villes de ${cname}`,
-                tr: `${cname} Şehirlerinde Namaz Vakitleri`,
-                ur: `${cname} کے شہروں میں اوقاتِ نماز`,
-                de: `Gebetszeiten in den Städten von ${cname}`,
-                id: `Jadwal Sholat di Kota-Kota ${cname}`,
+                ar: `مواقيت الصلاة في مدن ${cname} | تصفّح المواقع`,
+                en: `Prayer Times Cities in ${cname} | Browse All Locations`,
+                fr: `Heures de prière en ${cname} | Toutes les villes`,
+                tr: `${cname} Namaz Vakitleri | Tüm Şehirler`,
+                ur: `${cname} میں اوقاتِ نماز | تمام شہر`,
+                de: `Gebetszeiten in ${cname} | Alle Städte`,
+                id: `Jadwal Sholat di ${cname} | Semua Kota`,
+                es: `Horarios de Oración en ${cname} | Todas las ciudades`,
+                bn: `${cname}-এ নামাজের সময় | সকল শহর`,
+                ms: `Waktu Solat di ${cname} | Semua Bandar`,
             };
             const _COUNTRY_DESC_TEMPLATES = {
-                ar: `تصفّح جميع مدن ${cname} لمعرفة مواقيت الصلاة الدقيقة (الفجر، الظهر، العصر، المغرب، العشاء)، اتجاه القبلة والتاريخ الهجري والجدول الأسبوعي.`,
-                en: `Browse every city in ${cname} for accurate Fajr, Dhuhr, Asr, Maghrib & Isha prayer times, Qibla direction and today's Hijri date with weekly schedule.`,
-                fr: `Parcourez toutes les villes de ${cname} pour des heures de prière précises (Fajr, Dhuhr, Asr, Maghrib, Isha), la direction de la Qibla, la date hégirienne du jour et le programme hebdomadaire.`,
-                tr: `${cname} şehirlerinde doğru namaz vakitleri (Fecir, Öğle, İkindi, Akşam, Yatsı), kıble yönü, bugünkü hicri tarih ve haftalık program için tüm şehirlere göz atın.`,
-                ur: `${cname} کے ہر شہر کے لیے درست اوقاتِ نماز (فجر، ظہر، عصر، مغرب، عشاء)، سمتِ قبلہ، آج کی ہجری تاریخ اور ہفتہ وار جدول دیکھیں۔`,
-                de: `Durchsuchen Sie alle Städte in ${cname} für genaue Gebetszeiten (Fajr, Dhuhr, Asr, Maghrib, Isha), Qibla-Richtung, das heutige Hidschri-Datum und den Wochenplan.`,
-                id: `Jelajahi setiap kota di ${cname} untuk mendapatkan jadwal sholat akurat (Subuh, Zuhur, Asar, Magrib, Isya), arah Kiblat, tanggal Hijriyah hari ini, dan jadwal mingguan.`,
+                ar: `تصفّح كل مدن ${cname}: مواقيت الصلاة (الفجر، الظهر، العصر، المغرب، العشاء)، اتجاه القبلة والتاريخ الهجري.`,
+                en: `Browse all cities in ${cname} for accurate prayer times, Qibla direction and the Hijri date with a weekly schedule.`,
+                fr: `Parcourez toutes les villes de ${cname} pour des heures de prière précises, la direction de la Qibla et la date hégirienne avec un programme hebdomadaire.`,
+                tr: `${cname} şehirlerinde doğru namaz vakitleri, kıble yönü ve hicri tarih için tüm şehirlere göz atın — haftalık program ile.`,
+                ur: `${cname} کے ہر شہر کے لیے درست اوقاتِ نماز، سمتِ قبلہ اور ہجری تاریخ ہفتہ وار جدول کے ساتھ دیکھیں۔`,
+                de: `Durchsuchen Sie alle Städte in ${cname} für genaue Gebetszeiten, Qibla-Richtung und Hidschri-Datum mit Wochenplan.`,
+                id: `Jelajahi setiap kota di ${cname}: jadwal sholat akurat, arah kiblat dan tanggal Hijriah dengan jadwal mingguan.`,
+                es: `Explora todas las ciudades de ${cname}: horarios exactos de oración, dirección de la Qibla y fecha Hijri con programa semanal.`,
+                bn: `${cname}-এর সকল শহরে নির্ভুল নামাজের সময়, কিবলার দিক ও হিজরি তারিখ — সাপ্তাহিক সূচী সহ।`,
+                ms: `Layari semua bandar di ${cname} untuk waktu solat tepat, arah kiblat dan tarikh Hijrah dengan jadual mingguan.`,
             };
             title = _COUNTRY_TITLE_TEMPLATES[lang] || _COUNTRY_TITLE_TEMPLATES.en;
             description = _COUNTRY_DESC_TEMPLATES[lang] || _COUNTRY_DESC_TEMPLATES.en;
@@ -5205,9 +5244,20 @@ function buildSeoForPath(urlPath) {
             // استنباط lng من الفهرس — إن لم توجد فسيفبك للافتراضي (مكّة)
             const cityLng = _getCityLngBySlug(slug);
             title = _buildCityDatedTitle(cityDisplay, cityLng);
-            description = useEnTxt
-                ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
-                : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;
+            // Phase D2: localized desc for all 10 languages (was: useEnTxt fallback to en for 8 langs)
+            const _CITY_DESCS = {
+                ar: `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`,
+                en: `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha — with Qibla direction, Hijri date and weekly schedule.`,
+                fr: `Horaires de prière exacts à ${cityDisplay} : Fajr, Dohr, Asr, Maghrib, Icha — avec direction de la Qibla, date hégirienne et programme hebdomadaire.`,
+                tr: `${cityDisplay} için doğru namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı — kıble yönü, hicri tarih ve haftalık program ile birlikte.`,
+                ur: `${cityDisplay} کے لیے درست اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء — سمتِ قبلہ، ہجری تاریخ اور ہفتہ وار جدول کے ساتھ۔`,
+                de: `Genaue Gebetszeiten für ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha — mit Qibla-Richtung, Hidschri-Datum und Wochenplan.`,
+                id: `Jadwal sholat akurat untuk ${cityDisplay}: Subuh, Zuhur, Asar, Magrib, Isya — dengan arah kiblat, tanggal Hijriah dan jadwal mingguan.`,
+                es: `Horarios de oración exactos para ${cityDisplay}: Fayr, Dohr, Asr, Magrib, Isha — con dirección de la Qibla, fecha Hijri y programa semanal.`,
+                bn: `${cityDisplay}-এর জন্য নির্ভুল নামাজের সময়: ফজর, জোহর, আসর, মাগরিব, এশা — কিবলার দিক, হিজরি তারিখ ও সাপ্তাহিক সূচী সহ।`,
+                ms: `Waktu solat tepat untuk ${cityDisplay}: Subuh, Zohor, Asar, Maghrib, Isyak — dengan arah kiblat, tarikh Hijrah dan jadual mingguan.`,
+            };
+            description = _CITY_DESCS[lang] || _CITY_DESCS.en;
             ogType = 'article';
             cityModified = new Date().toISOString();
             breadcrumbs.push({ name: cityDisplay, item: canonical });
@@ -5603,6 +5653,150 @@ function renderSeoHeadHtml(seo) {
                 { q: 'What are a "Blue Moon" and "Supermoon"?',
                   a: 'Blue Moon: the second full moon in the same Gregorian month; occurs about every 2.7 years (it is not actually blue). Supermoon: a full moon coinciding with the Moon\'s closest point to Earth (perigee), making it appear ~14% larger and ~30% brighter than an average full moon.' }
             ],
+            fr: [
+                { q: `Quelle est la phase de la Lune ce soir ?`,
+                  a: "La phase lunaire de ce soir parcourt un cycle d'environ 29,5 jours entre nouvelle lune, croissant et pleine lune. Cette page affiche la phase actuelle et le pourcentage d'illumination en temps réel" + (_cityName ? ` pour ${_cityName}.` : ' selon votre localisation.') },
+                { q: `Quand est la prochaine pleine lune ?`,
+                  a: `Une pleine lune se produit environ tous les 29,5 jours. Nous affichons les dates grégorienne et hégirienne précises de la prochaine pleine lune, lorsque la Lune atteint 100 % d'illumination.` },
+                { q: _cityName ? `À quelle heure la Lune se lève-t-elle ce soir à ${_cityName} ?` : `À quelle heure la Lune se lève-t-elle ce soir ?`,
+                  a: (_cityName ? `Le lever de la Lune à ${_cityName}` : "L'heure de lever de la Lune") + " dépend de la longitude de votre localisation. Nous calculons et affichons l'heure exacte de lever et de coucher de la Lune en heure locale." },
+                { q: `Comment l'illumination de la Lune est-elle calculée ?`,
+                  a: `L'illumination lunaire est la fraction de la surface de la Lune éclairée par le Soleil vue depuis la Terre. Elle varie de 0 % (nouvelle lune) à 100 % (pleine lune), calculée astronomiquement à partir de l'angle Soleil-Lune-Terre.` },
+                { q: `Quelle est la différence entre une nouvelle lune et un croissant ?`,
+                  a: `La nouvelle lune se produit lorsque la Lune se trouve entre la Terre et le Soleil (0 % d'illumination, invisible). Le croissant apparaît 1 à 2 jours après la nouvelle lune comme un premier arc fin et visible de lumière sur l'horizon occidental après le coucher du soleil.` },
+                { q: `Quand commence le prochain mois hégirien (islamique) ?`,
+                  a: `Le prochain mois hégirien commence avec l'observation du croissant après le coucher du soleil au 29e jour du mois en cours. Nous affichons la date prévue selon les calculs astronomiques ; la date réelle peut varier d'un jour selon la visibilité locale du croissant.` },
+                { q: `Quand est le prochain Ramadan ?`,
+                  a: `Le prochain Ramadan devrait commencer après l'observation du croissant de Ramadan au 29e jour de Cha‘ban. La date de début finale dépend de l'observation locale de la Lune dans chaque pays.` },
+                { q: `Quand est la prochaine Aïd al-Fitr ?`,
+                  a: `L'Aïd al-Fitr commence avec l'observation du croissant de Chawwâl au 29e jour de Ramadan. Elle est célébrée le 1er Chawwâl et dure 3 jours dans de nombreux pays musulmans.` }
+            ],
+            tr: [
+                { q: `Bu gece ayın evresi nedir?`,
+                  a: "Bu geceki ay evresi, yeni ay, hilal ve dolunay arasında yaklaşık 29,5 günlük bir kameri ay döngüsünden geçer. Bu sayfa mevcut evreyi ve aydınlanma yüzdesini gerçek zamanlı olarak" + (_cityName ? ` ${_cityName} için gösterir.` : " konumunuza göre gösterir.") },
+                { q: `Bir sonraki dolunay ne zaman?`,
+                  a: `Dolunay yaklaşık her 29,5 günde bir gerçekleşir. Bir sonraki dolunayın hassas miladi ve hicri tarihlerini, ayın %100 aydınlanmaya ulaştığı anı gösteriyoruz.` },
+                { q: _cityName ? `Bu gece ${_cityName} için Ay ne zaman doğar?` : `Bu gece Ay ne zaman doğar?`,
+                  a: (_cityName ? `${_cityName} için ay doğuşu` : "Ay doğuş saati") + " konumunuzun boylamına bağlıdır. Tam ay doğuşu ve batışını yerel saate göre hesaplayıp gösteriyoruz." },
+                { q: `Ay aydınlanması nasıl hesaplanır?`,
+                  a: `Ay aydınlanması, Dünya'dan görüldüğü şekliyle Ay yüzeyinin Güneş tarafından aydınlatılan kısmıdır. %0 (yeni ay) ile %100 (dolunay) arasında değişir ve Güneş-Ay-Dünya açısından astronomik olarak hesaplanır.` },
+                { q: `Yeni ay ile hilal arasındaki fark nedir?`,
+                  a: `Yeni ay, Ay'ın Dünya ile Güneş arasında bulunduğu andır (%0 aydınlanma, görünmez). Hilal, yeni aydan 1-2 gün sonra batı ufkunda gün batımından sonra görülen ilk ince ışık yayı olarak ortaya çıkar.` },
+                { q: `Bir sonraki hicri (İslami) ay ne zaman başlar?`,
+                  a: `Bir sonraki hicri ay, mevcut ayın 29. gününün gün batımından sonra hilalin görülmesiyle başlar. Astronomik hesaplara dayanarak beklenen tarihi gösteriyoruz; gerçek tarih yerel hilal görünürlüğüne bağlı olarak bir gün değişebilir.` },
+                { q: `Bir sonraki Ramazan ne zaman?`,
+                  a: `Bir sonraki Ramazan, Şaban'ın 29. gününde Ramazan hilalinin görülmesinden sonra başlamasının beklendiği tarihtir. Kesin başlangıç tarihi her ülkedeki yerel ay rüyetine bağlıdır.` },
+                { q: `Bir sonraki Ramazan Bayramı ne zaman?`,
+                  a: `Ramazan Bayramı, Ramazan'ın 29. gününde Şevval hilalinin görülmesiyle başlar. Şevval'in 1. gününde kutlanır ve birçok Müslüman ülkede 3 gün sürer.` }
+            ],
+            ur: [
+                { q: `آج رات چاند کا طور کیا ہے؟`,
+                  a: "آج رات چاند کا طور تقریباً 29.5 دن کے قمری ماہ کے دوران نئے چاند، ہلال اور بدر کے درمیان گزرتا ہے۔ یہ صفحہ موجودہ طور اور روشنی کا فیصد حقیقی وقت میں" + (_cityName ? ` ${_cityName} کے لیے دکھاتا ہے۔` : " آپ کے مقام کے مطابق دکھاتا ہے۔") },
+                { q: `اگلا بدر کب ہوگا؟`,
+                  a: `بدر تقریباً ہر 29.5 دن میں ہوتا ہے۔ ہم اگلے بدر کی درست عیسوی اور ہجری تاریخیں دکھاتے ہیں، جب چاند 100% روشنی تک پہنچ جاتا ہے۔` },
+                { q: _cityName ? `آج رات ${_cityName} میں چاند کب طلوع ہوگا؟` : `آج رات چاند کب طلوع ہوگا؟`,
+                  a: (_cityName ? `${_cityName} میں مطلعِ چاند` : "مطلعِ چاند کا وقت") + " آپ کے مقام کے خط طول پر منحصر ہے۔ ہم درست مطلع اور مغیبِ چاند کا حساب لگا کر مقامی وقت میں دکھاتے ہیں۔" },
+                { q: `چاند کی روشنی کا حساب کیسے لگایا جاتا ہے؟`,
+                  a: `چاند کی روشنی زمین سے دیکھے جانے والے چاند کی سطح کا وہ حصہ ہے جسے سورج روشن کرتا ہے۔ یہ 0% (نیا چاند) سے 100% (بدر) تک ہوتا ہے، اور سورج-چاند-زمین کے زاویے سے فلکیاتی طور پر شمار کیا جاتا ہے۔` },
+                { q: `نئے چاند اور ہلال کے درمیان کیا فرق ہے؟`,
+                  a: `نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے (0% روشن، نظر نہیں آتا)۔ ہلال نئے چاند کے 1-2 دن بعد مغرب کے بعد مغربی افق پر روشنی کے پہلے باریک قوس کے طور پر نمودار ہوتا ہے۔` },
+                { q: `اگلا ہجری (اسلامی) مہینہ کب شروع ہوگا؟`,
+                  a: `اگلا ہجری مہینہ موجودہ مہینے کی 29ویں تاریخ کو غروبِ آفتاب کے بعد ہلال نظر آنے سے شروع ہوتا ہے۔ ہم فلکیاتی حسابات کے مطابق متوقع تاریخ دکھاتے ہیں؛ اصل تاریخ مقامی رؤیتِ ہلال کے مطابق ایک دن مختلف ہو سکتی ہے۔` },
+                { q: `اگلا رمضان کب ہوگا؟`,
+                  a: `اگلا رمضان شعبان کی 29ویں تاریخ کو رمضان کا ہلال دیکھے جانے کے بعد شروع ہونے کی توقع ہے۔ آغاز کی حتمی تاریخ ہر ملک میں مقامی رؤیتِ ہلال پر منحصر ہے۔` },
+                { q: `اگلی عید الفطر کب ہوگی؟`,
+                  a: `عید الفطر رمضان کی 29ویں تاریخ کو شوال کا ہلال دیکھے جانے سے شروع ہوتی ہے۔ یہ شوال کی پہلی تاریخ کو منائی جاتی ہے اور بہت سے مسلم ممالک میں 3 دن تک رہتی ہے۔` }
+            ],
+            de: [
+                { q: `Welche Mondphase ist heute Nacht?`,
+                  a: "Die heutige Mondphase durchläuft einen etwa 29,5-tägigen Mondzyklus zwischen Neumond, Sichel und Vollmond. Diese Seite zeigt die aktuelle Phase und den Beleuchtungsprozentsatz in Echtzeit" + (_cityName ? ` für ${_cityName}.` : " basierend auf Ihrem Standort.") },
+                { q: `Wann ist der nächste Vollmond?`,
+                  a: `Ein Vollmond tritt etwa alle 29,5 Tage auf. Wir zeigen die genauen gregorianischen und Hidschri-Daten des nächsten Vollmonds, wenn der Mond 100 % Beleuchtung erreicht.` },
+                { q: _cityName ? `Wann geht der Mond heute Nacht in ${_cityName} auf?` : `Wann geht der Mond heute Nacht auf?`,
+                  a: (_cityName ? `Der Mondaufgang in ${_cityName}` : "Die Mondaufgangszeit") + " hängt von der geografischen Länge Ihres Standorts ab. Wir berechnen und zeigen den exakten Mondauf- und -untergang in Ortszeit." },
+                { q: `Wie wird die Mondbeleuchtung berechnet?`,
+                  a: `Die Mondbeleuchtung ist der Anteil der Mondoberfläche, der von der Sonne beleuchtet wird, von der Erde aus gesehen. Sie reicht von 0 % (Neumond) bis 100 % (Vollmond) und wird astronomisch aus dem Sonne-Mond-Erde-Winkel berechnet.` },
+                { q: `Was ist der Unterschied zwischen Neumond und Sichelmond?`,
+                  a: `Ein Neumond liegt zwischen Erde und Sonne (0 % beleuchtet, unsichtbar). Eine Sichel erscheint 1–2 Tage nach dem Neumond als erster dünner sichtbarer Lichtbogen am westlichen Horizont nach Sonnenuntergang.` },
+                { q: `Wann beginnt der nächste Hidschri-Monat (islamischer Monat)?`,
+                  a: `Der nächste Hidschri-Monat beginnt mit der Sichtung der Mondsichel nach Sonnenuntergang am 29. Tag des aktuellen Monats. Wir zeigen das anhand astronomischer Berechnungen erwartete Datum; das tatsächliche Datum kann je nach lokaler Sichtbarkeit der Sichel um einen Tag variieren.` },
+                { q: `Wann ist der nächste Ramadan?`,
+                  a: `Der nächste Ramadan beginnt voraussichtlich nach der Sichtung der Ramadan-Sichel am 29. Schaʿbān. Das endgültige Startdatum hängt von der lokalen Mondsichtung in jedem Land ab.` },
+                { q: `Wann ist das nächste Eid al-Fitr?`,
+                  a: `Eid al-Fitr beginnt mit der Sichtung der Schawwāl-Sichel am 29. Ramadan. Es wird am 1. Schawwāl gefeiert und dauert in vielen muslimischen Ländern 3 Tage.` }
+            ],
+            id: [
+                { q: `Apa fase bulan malam ini?`,
+                  a: "Fase bulan malam ini melewati siklus bulan sekitar 29,5 hari antara bulan baru, hilal dan purnama. Halaman ini menampilkan fase saat ini dan persentase iluminasi secara real-time" + (_cityName ? ` untuk ${_cityName}.` : " berdasarkan lokasi Anda.") },
+                { q: `Kapan bulan purnama berikutnya?`,
+                  a: `Bulan purnama terjadi sekitar setiap 29,5 hari. Kami menampilkan tanggal Masehi dan Hijriah yang tepat untuk bulan purnama berikutnya, saat Bulan mencapai iluminasi 100%.` },
+                { q: _cityName ? `Pukul berapa Bulan terbit malam ini di ${_cityName}?` : `Pukul berapa Bulan terbit malam ini?`,
+                  a: (_cityName ? `Terbit Bulan di ${_cityName}` : "Waktu terbit Bulan") + " tergantung pada bujur lokasi Anda. Kami menghitung dan menampilkan waktu terbit dan terbenam Bulan yang tepat dalam waktu setempat." },
+                { q: `Bagaimana iluminasi bulan dihitung?`,
+                  a: `Iluminasi bulan adalah fraksi permukaan Bulan yang disinari Matahari sebagaimana terlihat dari Bumi. Berkisar dari 0% (bulan baru) hingga 100% (purnama), dihitung secara astronomis dari sudut Matahari-Bulan-Bumi.` },
+                { q: `Apa bedanya bulan baru dengan hilal?`,
+                  a: `Bulan baru adalah saat Bulan berada antara Bumi dan Matahari (iluminasi 0%, tidak terlihat). Hilal muncul 1-2 hari setelah bulan baru sebagai busur cahaya tipis pertama yang terlihat di ufuk barat setelah matahari terbenam.` },
+                { q: `Kapan bulan Hijriah (Islam) berikutnya dimulai?`,
+                  a: `Bulan Hijriah berikutnya dimulai dengan rukyat hilal setelah matahari terbenam pada tanggal 29 bulan berjalan. Kami menampilkan tanggal yang diperkirakan berdasarkan perhitungan astronomis; tanggal sebenarnya dapat berbeda satu hari tergantung visibilitas hilal lokal.` },
+                { q: `Kapan Ramadan berikutnya?`,
+                  a: `Ramadan berikutnya diperkirakan dimulai setelah hilal Ramadan terlihat pada 29 Sya'ban. Tanggal mulai final tergantung pada rukyat hilal lokal di setiap negara.` },
+                { q: `Kapan Idul Fitri berikutnya?`,
+                  a: `Idul Fitri dimulai dengan rukyat hilal Syawal pada 29 Ramadan. Dirayakan pada 1 Syawal dan berlangsung 3 hari di banyak negara Muslim.` }
+            ],
+            es: [
+                { q: `¿Cuál es la fase lunar de esta noche?`,
+                  a: "La fase lunar de esta noche atraviesa un ciclo lunar de aproximadamente 29,5 días entre luna nueva, creciente y luna llena. Esta página muestra la fase actual y el porcentaje de iluminación en tiempo real" + (_cityName ? ` para ${_cityName}.` : " según su ubicación.") },
+                { q: `¿Cuándo es la próxima luna llena?`,
+                  a: `Una luna llena ocurre aproximadamente cada 29,5 días. Mostramos las fechas gregoriana e hijri precisas de la próxima luna llena, cuando la Luna alcanza el 100 % de iluminación.` },
+                { q: _cityName ? `¿A qué hora sale la Luna esta noche en ${_cityName}?` : `¿A qué hora sale la Luna esta noche?`,
+                  a: (_cityName ? `La salida de la Luna en ${_cityName}` : "La hora de salida de la Luna") + " depende de la longitud de su ubicación. Calculamos y mostramos la salida y puesta exactas de la Luna en hora local." },
+                { q: `¿Cómo se calcula la iluminación lunar?`,
+                  a: `La iluminación lunar es la fracción de la superficie de la Luna iluminada por el Sol vista desde la Tierra. Va del 0 % (luna nueva) al 100 % (luna llena), calculada astronómicamente a partir del ángulo Sol-Luna-Tierra.` },
+                { q: `¿Cuál es la diferencia entre luna nueva y creciente?`,
+                  a: `La luna nueva ocurre cuando la Luna se sitúa entre la Tierra y el Sol (0 % iluminada, invisible). El creciente aparece 1-2 días después como el primer arco fino visible de luz en el horizonte occidental tras la puesta del sol.` },
+                { q: `¿Cuándo comienza el próximo mes hijri (islámico)?`,
+                  a: `El próximo mes hijri comienza con la observación del creciente tras la puesta del sol del día 29 del mes actual. Mostramos la fecha esperada según cálculos astronómicos; la fecha real puede variar un día según la visibilidad local del creciente.` },
+                { q: `¿Cuándo es el próximo Ramadán?`,
+                  a: `El próximo Ramadán comenzará tras la observación del creciente de Ramadán el 29 de Sha'ban. La fecha final de inicio depende de la observación local de la Luna en cada país.` },
+                { q: `¿Cuándo es el próximo Eid al-Fitr?`,
+                  a: `El Eid al-Fitr comienza con la observación del creciente de Shawwal el 29 de Ramadán. Se celebra el 1 de Shawwal y dura 3 días en muchos países musulmanes.` }
+            ],
+            bn: [
+                { q: `আজ রাতে চাঁদের দশা কী?`,
+                  a: "আজ রাতে চাঁদের দশা প্রায় ২৯.৫ দিনের চান্দ্র মাসে অমাবস্যা, হিলাল ও পূর্ণিমার মধ্য দিয়ে চলে। এই পৃষ্ঠা বর্তমান দশা ও আলোকন শতাংশ রিয়েল-টাইমে" + (_cityName ? ` ${_cityName}-এর জন্য দেখায়।` : " আপনার অবস্থান অনুযায়ী দেখায়।") },
+                { q: `পরবর্তী পূর্ণিমা কখন?`,
+                  a: `পূর্ণিমা প্রায় প্রতি ২৯.৫ দিন পর পর ঘটে। আমরা পরবর্তী পূর্ণিমার সঠিক খ্রিস্টীয় ও হিজরি তারিখ দেখাই, যখন চাঁদ ১০০% আলোকনে পৌঁছায়।` },
+                { q: _cityName ? `আজ রাতে ${_cityName}-এ চাঁদ কখন উদয় হবে?` : `আজ রাতে চাঁদ কখন উদয় হবে?`,
+                  a: (_cityName ? `${_cityName}-এ চাঁদ উদয়` : "চাঁদ উদয়ের সময়") + " আপনার অবস্থানের দ্রাঘিমাংশের উপর নির্ভর করে। আমরা স্থানীয় সময়ে চাঁদের সঠিক উদয় ও অস্ত গণনা করে দেখাই।" },
+                { q: `চাঁদের আলোকন কীভাবে হিসাব করা হয়?`,
+                  a: `চাঁদের আলোকন হল পৃথিবী থেকে দেখা সূর্য দ্বারা আলোকিত চাঁদের পৃষ্ঠের অংশ। এটি ০% (অমাবস্যা) থেকে ১০০% (পূর্ণিমা) পর্যন্ত হয়, সূর্য-চাঁদ-পৃথিবী কোণ থেকে জ্যোতির্বিজ্ঞান অনুসারে গণনা করা হয়।` },
+                { q: `অমাবস্যা ও হিলালের মধ্যে পার্থক্য কী?`,
+                  a: `অমাবস্যা হল যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে (০% আলোকিত, অদৃশ্য)। হিলাল অমাবস্যার ১-২ দিন পর পশ্চিম দিগন্তে সূর্যাস্তের পর প্রথম পাতলা দৃশ্যমান আলোক চাপ হিসেবে আবির্ভূত হয়।` },
+                { q: `পরবর্তী হিজরি (ইসলামী) মাস কখন শুরু হবে?`,
+                  a: `পরবর্তী হিজরি মাস বর্তমান মাসের ২৯তম দিনের সূর্যাস্তের পর হিলাল দেখার মাধ্যমে শুরু হয়। আমরা জ্যোতির্বিজ্ঞান গণনা অনুযায়ী প্রত্যাশিত তারিখ দেখাই; প্রকৃত তারিখ স্থানীয় হিলাল দৃশ্যমানতা অনুসারে এক দিন ভিন্ন হতে পারে।` },
+                { q: `পরবর্তী রমজান কখন?`,
+                  a: `পরবর্তী রমজান শাবানের ২৯তম দিনে রমজানের হিলাল দেখার পর শুরু হবে বলে আশা করা হচ্ছে। চূড়ান্ত শুরুর তারিখ প্রতিটি দেশে স্থানীয় চাঁদ দেখার উপর নির্ভর করে।` },
+                { q: `পরবর্তী ঈদুল ফিতর কখন?`,
+                  a: `ঈদুল ফিতর রমজানের ২৯তম দিনে শাওয়ালের হিলাল দেখার মাধ্যমে শুরু হয়। এটি শাওয়ালের ১ তারিখে উদযাপিত হয় এবং অনেক মুসলিম দেশে ৩ দিন স্থায়ী হয়।` }
+            ],
+            ms: [
+                { q: `Apakah fasa bulan malam ini?`,
+                  a: "Fasa bulan malam ini melalui kitaran bulan kira-kira 29.5 hari antara anak bulan, hilal dan bulan purnama. Halaman ini memaparkan fasa semasa dan peratus pencahayaan secara masa nyata" + (_cityName ? ` untuk ${_cityName}.` : " berdasarkan lokasi anda.") },
+                { q: `Bilakah bulan purnama seterusnya?`,
+                  a: `Bulan purnama berlaku kira-kira setiap 29.5 hari. Kami memaparkan tarikh Masihi dan Hijrah tepat bagi bulan purnama seterusnya, ketika Bulan mencapai pencahayaan 100%.` },
+                { q: _cityName ? `Pukul berapa Bulan terbit malam ini di ${_cityName}?` : `Pukul berapa Bulan terbit malam ini?`,
+                  a: (_cityName ? `Terbit Bulan di ${_cityName}` : "Waktu terbit Bulan") + " bergantung pada bujur lokasi anda. Kami mengira dan memaparkan masa terbit dan terbenam Bulan yang tepat dalam waktu tempatan." },
+                { q: `Bagaimana pencahayaan bulan dikira?`,
+                  a: `Pencahayaan bulan ialah pecahan permukaan Bulan yang diterangi Matahari seperti dilihat dari Bumi. Ia berjulat dari 0% (anak bulan) hingga 100% (bulan purnama), dikira secara astronomi daripada sudut Matahari-Bulan-Bumi.` },
+                { q: `Apakah perbezaan antara anak bulan dan hilal?`,
+                  a: `Anak bulan adalah ketika Bulan berada antara Bumi dan Matahari (0% pencahayaan, tidak kelihatan). Hilal muncul 1-2 hari selepas anak bulan sebagai lengkok cahaya nipis pertama yang kelihatan di ufuk barat selepas matahari terbenam.` },
+                { q: `Bilakah bulan Hijrah (Islam) seterusnya bermula?`,
+                  a: `Bulan Hijrah seterusnya bermula dengan rukyah hilal selepas matahari terbenam pada 29 hari bulan semasa. Kami memaparkan tarikh yang dijangka berdasarkan pengiraan astronomi; tarikh sebenar mungkin berbeza sehari mengikut kelihatan hilal tempatan.` },
+                { q: `Bilakah Ramadan seterusnya?`,
+                  a: `Ramadan seterusnya dijangka bermula selepas rukyah hilal Ramadan pada 29 Syaaban. Tarikh mula akhir bergantung pada rukyah bulan tempatan di setiap negara.` },
+                { q: `Bilakah Aidilfitri seterusnya?`,
+                  a: `Aidilfitri bermula dengan rukyah hilal Syawal pada 29 Ramadan. Ia disambut pada 1 Syawal dan berlangsung selama 3 hari di banyak negara Muslim.` }
+            ],
         };
         // UAT-Moon-City-Hub-Polish: on /moon-in-{city} (city evergreen hub)
         //   the visible FAQ is a HUB-SPECIFIC 8-question set (calendar usage,
@@ -5624,10 +5818,23 @@ function renderSeoHeadHtml(seo) {
             const _mthCity = (seo.moonCity && seo.moonCity.name) || '';
             const _mthY    = seo.moonCity.monthYear;
             const _mthMo   = seo.moonCity.monthMonth;
-            const _mthNamesAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-            const _mthNamesEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            const _mthName = (seo.lang === 'ar' ? _mthNamesAr : _mthNamesEn)[_mthMo - 1];
-            const _MOON_MONTH_FAQ_AR = [
+            // Phase D3.1b: 10-lang month-name table (was: AR+EN only)
+            const _MTH_NAMES_BY_LANG = {
+                ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+            };
+            const _mthName = (_MTH_NAMES_BY_LANG[seo.lang] || _MTH_NAMES_BY_LANG.en)[_mthMo - 1];
+            // Phase D3.1b: 10-lang month FAQ (was: AR+EN only — 8 langs fell back to en)
+            const _MOON_MONTH_FAQ_BY_LANG = {
+                ar: [
                 { q: `ما هو تقويم القمر في ${_mthCity} لشهر ${_mthName} ${_mthY}؟`,
                   a: `يَعرض هذا التقويم أطوار القمر اليوميّة في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكلّ يوم.` },
                 { q: `ما هو طور القمر اليوم في ${_mthCity}؟`,
@@ -5644,8 +5851,8 @@ function renderSeoHeadHtml(seo) {
                   a: `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_mthCity}. الإحداثيّات الجغرافيّة لهذه المدينة تُؤثّر على الاتّجاه والارتفاع أيضًا.` },
                 { q: 'ما علاقة أطوار القمر بالتقويم الهجريّ؟',
                   a: 'التقويم الهجريّ قمريّ بالكامل: كلّ شهر يَبدأ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقّع بداية الشهر الهجريّ القادم.' }
-            ];
-            const _MOON_MONTH_FAQ_EN = [
+                ],
+                en: [
                 { q: `What is the moon calendar in ${_mthCity} for ${_mthName} ${_mthY}?`,
                   a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with illumination and rise/set times for each day.` },
                 { q: `What is the moon phase today in ${_mthCity}?`,
@@ -5662,8 +5869,153 @@ function renderSeoHeadHtml(seo) {
                   a: `Yes. All moonrise/moonset and full/new moon times are computed in ${_mthCity}'s local timezone. The city's geographic coordinates also affect direction and altitude.` },
                 { q: 'How are moon phases related to the Hijri calendar?',
                   a: 'The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.' }
-            ];
-            moonFaqs = (seo.lang === 'ar') ? _MOON_MONTH_FAQ_AR : _MOON_MONTH_FAQ_EN;
+                ],
+                fr: [
+                    { q: `Quel est le calendrier lunaire à ${_mthCity} pour ${_mthName} ${_mthY} ?`,
+                      a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec illumination et heures de lever/coucher pour chaque jour.` },
+                    { q: `Quelle est la phase de la Lune aujourd'hui à ${_mthCity} ?`,
+                      a: `Le site affiche la phase actuelle et l'illumination en direct pour ${_mthCity}, dans le contexte de ce calendrier mensuel.` },
+                    { q: `Quand est la pleine lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
+                      a: `La section "Prochaines phases lunaires" ci-dessus affiche la date précise de la pleine lune à ${_mthCity}. Pendant ${_mthName} ${_mthY}, la pleine lune atteint 100 % d'illumination la nuit indiquée.` },
+                    { q: `Quand est la nouvelle lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
+                      a: `La section "Prochaines phases lunaires" affiche la prochaine date de nouvelle lune — qui marque le début du nouveau mois hégirien. La nouvelle lune se produit lorsque la Lune est entre la Terre et le Soleil (0 % d'illumination).` },
+                    { q: `Comment lire le calendrier mensuel des phases lunaires ?`,
+                      a: `Chaque case représente un jour et affiche : la date, l'emoji de phase lunaire, le nom de la phase (nouvelle, croissant, quartier, gibbeuse, pleine), et le décalage relatif par rapport à aujourd'hui. Cliquez sur n'importe quel jour pour ouvrir sa page de détails.` },
+                    { q: `Pourquoi les heures de lever et coucher de la Lune diffèrent-elles entre villes ?`,
+                      a: `Le lever et le coucher de la Lune dépendent de la longitude, de la latitude et du fuseau horaire. La différence peut atteindre 12 heures entre l'est et l'ouest du globe. Les heures de cette page sont calculées pour le fuseau horaire local de ${_mthCity}.` },
+                    { q: `Ce calendrier est-il à l'heure locale de ${_mthCity} ?`,
+                      a: `Oui. Toutes les heures de lever/coucher de la Lune et de pleine/nouvelle lune sont calculées dans le fuseau horaire local de ${_mthCity}. Les coordonnées géographiques de la ville affectent également la direction et l'altitude.` },
+                    { q: `Comment les phases lunaires sont-elles liées au calendrier hégirien ?`,
+                      a: `Le calendrier hégirien est entièrement lunaire — chaque mois commence avec l'observation du croissant après la nouvelle lune et dure 29 ou 30 jours. Les dates de pleine et nouvelle lune dans ce calendrier aident à anticiper le début du prochain mois hégirien.` }
+                ],
+                tr: [
+                    { q: `${_mthCity} için ${_mthName} ${_mthY} ay takvimi nedir?`,
+                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma ve doğuş/batış saatleriyle gösterir.` },
+                    { q: `${_mthCity}'de bugün ay evresi nedir?`,
+                      a: `Site, bu aylık takvim bağlamında ${_mthCity} için güncel evreyi ve aydınlanmayı canlı olarak gösterir.` },
+                    { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de dolunay ne zaman?`,
+                      a: `Yukarıdaki "Yaklaşan ay evreleri" bölümü ${_mthCity}'de tam dolunay tarihini gösterir. ${_mthName} ${_mthY} sırasında dolunay belirtilen gece %100 aydınlanmaya ulaşır.` },
+                    { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de yeni ay ne zaman?`,
+                      a: `"Yaklaşan ay evreleri" bölümü bir sonraki yeni ay tarihini gösterir — bu yeni hicri ayın başlangıcını işaret eder. Yeni ay, Ay'ın Dünya ve Güneş arasında bulunduğu andır (%0 aydınlanma).` },
+                    { q: `Aylık ay evresi takvimini nasıl okurum?`,
+                      a: `Her hücre bir günü temsil eder ve şunları gösterir: tarih, ay evresi emojisi, evre adı (yeni, hilal, dördün, gibbous, dolunay) ve bugüne göre göreceli fark. Herhangi bir güne tıklayarak ayrıntı sayfasını açabilirsiniz.` },
+                    { q: `Ay doğuşu ve batışı saatleri şehirler arasında neden farklı?`,
+                      a: `Ay doğuşu ve batışı boylama, enleme ve saat dilimine bağlıdır. Fark, dünyanın doğusu ile batısı arasında 12 saate ulaşabilir. Bu sayfadaki saatler ${_mthCity}'in yerel saat dilimi için hesaplanmıştır.` },
+                    { q: `Bu takvim ${_mthCity}'in yerel saatinde mi?`,
+                      a: `Evet. Tüm ay doğuşu/batışı ve dolunay/yeni ay saatleri ${_mthCity}'in yerel saat diliminde hesaplanır. Şehrin coğrafi koordinatları da yön ve yüksekliği etkiler.` },
+                    { q: `Ay evreleri hicri takvim ile nasıl ilişkilidir?`,
+                      a: `Hicri takvim tamamen kameridir — her ay yeni aydan sonra hilal görülmesiyle başlar ve 29 veya 30 gün sürer. Bu takvimdeki dolunay ve yeni ay tarihleri, bir sonraki hicri ayın başlangıcını öngörmeye yardımcı olur.` }
+                ],
+                ur: [
+                    { q: `${_mthCity} میں ${_mthName} ${_mthY} کے لیے چاند کا کیلنڈر کیا ہے؟`,
+                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی اور مطلع/مغیب کے اوقات کے ساتھ دکھاتا ہے۔` },
+                    { q: `${_mthCity} میں آج چاند کا طور کیا ہے؟`,
+                      a: `یہ سائٹ اس ماہانہ کیلنڈر کے سیاق میں ${_mthCity} کے لیے موجودہ طور اور روشنی براہِ راست دکھاتی ہے۔` },
+                    { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں بدر کب ہوگا؟`,
+                      a: `اوپر "آنے والی چاند کی اطوار" سیکشن ${_mthCity} میں درست بدر کی تاریخ دکھاتا ہے۔ ${_mthName} ${_mthY} کے دوران بدر مقررہ رات کو 100% روشنی پر پہنچ جاتا ہے۔` },
+                    { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں نیا چاند کب ہوگا؟`,
+                      a: `"آنے والی چاند کی اطوار" سیکشن اگلی نئے چاند کی تاریخ دکھاتا ہے — جو نئے ہجری مہینے کا آغاز ہے۔ نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے (0% روشنی)۔` },
+                    { q: `ماہانہ چاند کی اطوار کا کیلنڈر کیسے پڑھیں؟`,
+                      a: `ہر خانہ ایک دن کی نمائندگی کرتا ہے اور دکھاتا ہے: تاریخ، چاند کی طور کا ایموجی، طور کا نام (نیا، ہلال، تربیع، اَحدب، بدر) اور آج سے نسبتی فرق۔ کسی بھی دن پر کلک کر کے اس کی تفصیلی صفحہ کھولیں۔` },
+                    { q: `چاند کی مطلع و مغیب کے اوقات شہروں کے درمیان کیوں مختلف ہیں؟`,
+                      a: `چاند کی مطلع و مغیب خط طول، خط عرض اور ٹائم زون پر منحصر ہیں۔ زمین کے مشرق اور مغرب کے درمیان فرق 12 گھنٹے تک پہنچ سکتا ہے۔ اس صفحے کے اوقات ${_mthCity} کے مقامی ٹائم زون کے لیے شمار کیے گئے ہیں۔` },
+                    { q: `کیا یہ کیلنڈر ${_mthCity} کے مقامی وقت میں ہے؟`,
+                      a: `جی ہاں۔ تمام مطلع/مغیبِ چاند اور بدر/نئے چاند کے اوقات ${_mthCity} کے مقامی ٹائم زون میں شمار کیے جاتے ہیں۔ شہر کی جغرافیائی محل وقوع بھی اتجاہ اور ارتفاع کو متاثر کرتی ہے۔` },
+                    { q: `چاند کی اطوار کا ہجری تقویم سے کیا تعلق ہے؟`,
+                      a: `ہجری تقویم مکمل طور پر قمری ہے — ہر مہینہ نئے چاند کے بعد ہلال کی رؤیت سے شروع ہوتا ہے اور 29 یا 30 دن تک رہتا ہے۔ اس کیلنڈر میں بدر اور نئے چاند کی تاریخیں اگلے ہجری مہینے کے آغاز کا اندازہ لگانے میں مدد کرتی ہیں۔` }
+                ],
+                de: [
+                    { q: `Was ist der Mondkalender in ${_mthCity} für ${_mthName} ${_mthY}?`,
+                      a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit Beleuchtung und Auf-/Untergangszeiten für jeden Tag.` },
+                    { q: `Welche Mondphase ist heute in ${_mthCity}?`,
+                      a: `Die Seite zeigt die aktuelle Phase und Beleuchtung live für ${_mthCity}, im Kontext dieses Monatskalenders.` },
+                    { q: `Wann ist der Vollmond in ${_mthCity} während ${_mthName} ${_mthY}?`,
+                      a: `Der Abschnitt "Kommende Mondphasen" oben zeigt das genaue Vollmonddatum in ${_mthCity}. Während ${_mthName} ${_mthY} erreicht der Vollmond in der angegebenen Nacht 100 % Beleuchtung.` },
+                    { q: `Wann ist der Neumond in ${_mthCity} während ${_mthName} ${_mthY}?`,
+                      a: `Der Abschnitt "Kommende Mondphasen" zeigt das nächste Neumonddatum — das den Beginn des neuen Hidschri-Monats markiert. Neumond ist, wenn der Mond zwischen Erde und Sonne liegt (0 % Beleuchtung).` },
+                    { q: `Wie lese ich den monatlichen Mondphasen-Kalender?`,
+                      a: `Jede Zelle stellt einen Tag dar und zeigt: das Datum, das Mondphasen-Emoji, den Phasennamen (Neumond, Sichel, Viertel, Gibbös, Vollmond) und den relativen Versatz von heute. Klicken Sie auf einen beliebigen Tag, um seine Detailseite zu öffnen.` },
+                    { q: `Warum unterscheiden sich Mondaufgangs- und -untergangszeiten zwischen Städten?`,
+                      a: `Mondaufgang und -untergang hängen von der geografischen Länge, Breite und Zeitzone ab. Der Unterschied kann zwischen Ost und West der Erde 12 Stunden erreichen. Die Zeiten auf dieser Seite werden für die lokale Zeitzone von ${_mthCity} berechnet.` },
+                    { q: `Ist dieser Kalender in der Ortszeit von ${_mthCity}?`,
+                      a: `Ja. Alle Mondaufgangs-/-untergangszeiten und Vollmond-/Neumondzeiten werden in der lokalen Zeitzone von ${_mthCity} berechnet. Die geografischen Koordinaten der Stadt beeinflussen auch Richtung und Höhe.` },
+                    { q: `Wie hängen Mondphasen mit dem Hidschri-Kalender zusammen?`,
+                      a: `Der Hidschri-Kalender ist vollständig mondbasiert — jeder Monat beginnt mit der Sichtung der Mondsichel nach dem Neumond und dauert 29 oder 30 Tage. Vollmond- und Neumonddaten in diesem Kalender helfen, den Beginn des nächsten Hidschri-Monats vorauszusehen.` }
+                ],
+                id: [
+                    { q: `Apa kalender bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
+                      a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan iluminasi dan waktu terbit/terbenam untuk setiap hari.` },
+                    { q: `Apa fase bulan hari ini di ${_mthCity}?`,
+                      a: `Situs menampilkan fase saat ini dan iluminasi secara langsung untuk ${_mthCity}, dalam konteks kalender bulanan ini.` },
+                    { q: `Kapan bulan purnama di ${_mthCity} selama ${_mthName} ${_mthY}?`,
+                      a: `Bagian "Fase bulan mendatang" di atas menampilkan tanggal purnama yang tepat di ${_mthCity}. Selama ${_mthName} ${_mthY}, bulan purnama mencapai iluminasi 100% pada malam yang ditentukan.` },
+                    { q: `Kapan bulan baru di ${_mthCity} selama ${_mthName} ${_mthY}?`,
+                      a: `Bagian "Fase bulan mendatang" menampilkan tanggal bulan baru berikutnya — yang menandai awal bulan Hijriah baru. Bulan baru adalah saat Bulan berada antara Bumi dan Matahari (iluminasi 0%).` },
+                    { q: `Bagaimana cara membaca kalender fase bulan bulanan?`,
+                      a: `Setiap sel mewakili satu hari dan menampilkan: tanggal, emoji fase bulan, nama fase (baru, hilal, kuartal, gibbus, purnama), dan offset relatif dari hari ini. Klik hari mana pun untuk membuka halaman detailnya.` },
+                    { q: `Mengapa waktu terbit dan terbenam Bulan berbeda antar kota?`,
+                      a: `Terbit dan terbenam Bulan tergantung pada bujur, lintang dan zona waktu. Perbedaannya dapat mencapai 12 jam antara timur dan barat dunia. Waktu di halaman ini dihitung untuk zona waktu lokal ${_mthCity}.` },
+                    { q: `Apakah kalender ini dalam waktu lokal ${_mthCity}?`,
+                      a: `Ya. Semua waktu terbit/terbenam Bulan dan purnama/bulan baru dihitung dalam zona waktu lokal ${_mthCity}. Koordinat geografis kota juga memengaruhi arah dan ketinggian.` },
+                    { q: `Bagaimana fase bulan terkait dengan kalender Hijriah?`,
+                      a: `Kalender Hijriah sepenuhnya berbasis bulan — setiap bulan dimulai dengan rukyat hilal setelah bulan baru dan berlangsung 29 atau 30 hari. Tanggal purnama dan bulan baru dalam kalender ini membantu mengantisipasi awal bulan Hijriah berikutnya.` }
+                ],
+                es: [
+                    { q: `¿Cuál es el calendario lunar en ${_mthCity} para ${_mthName} ${_mthY}?`,
+                      a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con iluminación y horarios de salida/puesta para cada día.` },
+                    { q: `¿Cuál es la fase lunar hoy en ${_mthCity}?`,
+                      a: `El sitio muestra la fase actual y la iluminación en vivo para ${_mthCity}, en el contexto de este calendario mensual.` },
+                    { q: `¿Cuándo es la luna llena en ${_mthCity} durante ${_mthName} ${_mthY}?`,
+                      a: `La sección "Próximas fases lunares" arriba muestra la fecha precisa de luna llena en ${_mthCity}. Durante ${_mthName} ${_mthY}, la luna llena alcanza el 100 % de iluminación la noche especificada.` },
+                    { q: `¿Cuándo es la luna nueva en ${_mthCity} durante ${_mthName} ${_mthY}?`,
+                      a: `La sección "Próximas fases lunares" muestra la próxima fecha de luna nueva — que marca el inicio del nuevo mes hijri. La luna nueva es cuando la Luna se sitúa entre la Tierra y el Sol (0 % de iluminación).` },
+                    { q: `¿Cómo leo el calendario mensual de fases lunares?`,
+                      a: `Cada celda representa un día y muestra: la fecha, el emoji de fase lunar, el nombre de la fase (nueva, creciente, cuarto, gibosa, llena) y el desfase relativo desde hoy. Haga clic en cualquier día para abrir su página de detalles.` },
+                    { q: `¿Por qué los horarios de salida y puesta de la Luna difieren entre ciudades?`,
+                      a: `La salida y puesta de la Luna dependen de la longitud, latitud y zona horaria. La diferencia puede alcanzar 12 horas entre el este y el oeste del globo. Los horarios de esta página se calculan para la zona horaria local de ${_mthCity}.` },
+                    { q: `¿Está este calendario en la hora local de ${_mthCity}?`,
+                      a: `Sí. Todos los horarios de salida/puesta de la Luna y de luna llena/nueva se calculan en la zona horaria local de ${_mthCity}. Las coordenadas geográficas de la ciudad también afectan la dirección y la altitud.` },
+                    { q: `¿Cómo se relacionan las fases lunares con el calendario hijri?`,
+                      a: `El calendario hijri es totalmente lunar — cada mes comienza con la observación del creciente tras la luna nueva y dura 29 o 30 días. Las fechas de luna llena y luna nueva en este calendario ayudan a anticipar el inicio del próximo mes hijri.` }
+                ],
+                bn: [
+                    { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`,
+                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকন ও উদয়/অস্তের সময় সহ দেখায়।` },
+                    { q: `${_mthCity}-এ আজ চাঁদের দশা কী?`,
+                      a: `এই সাইট এই মাসিক ক্যালেন্ডারের প্রসঙ্গে ${_mthCity}-এর জন্য বর্তমান দশা ও আলোকন সরাসরি দেখায়।` },
+                    { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ পূর্ণিমা কখন?`,
+                      a: `উপরের "আসন্ন চাঁদের দশা" বিভাগ ${_mthCity}-এ সঠিক পূর্ণিমার তারিখ দেখায়। ${_mthName} ${_mthY}-এর সময় পূর্ণিমা নির্দিষ্ট রাতে ১০০% আলোকনে পৌঁছায়।` },
+                    { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ অমাবস্যা কখন?`,
+                      a: `"আসন্ন চাঁদের দশা" বিভাগ পরবর্তী অমাবস্যার তারিখ দেখায় — যা নতুন হিজরি মাসের শুরু চিহ্নিত করে। অমাবস্যা হল যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে (০% আলোকন)।` },
+                    { q: `মাসিক চাঁদের দশার ক্যালেন্ডার কীভাবে পড়ব?`,
+                      a: `প্রতিটি সেল একটি দিন প্রতিনিধিত্ব করে এবং দেখায়: তারিখ, চাঁদের দশার ইমোজি, দশার নাম (অমাবস্যা, হিলাল, কোয়ার্টার, গিব্বাস, পূর্ণিমা) এবং আজ থেকে আপেক্ষিক ব্যবধান। যেকোনো দিনে ক্লিক করে তার বিবরণ পৃষ্ঠা খুলুন।` },
+                    { q: `চাঁদের উদয় ও অস্তের সময় শহরভেদে কেন আলাদা?`,
+                      a: `চাঁদের উদয় ও অস্ত দ্রাঘিমাংশ, অক্ষাংশ ও টাইমজোনের উপর নির্ভর করে। পার্থক্য বিশ্বের পূর্ব ও পশ্চিমের মধ্যে ১২ ঘণ্টা পর্যন্ত হতে পারে। এই পৃষ্ঠার সময়গুলি ${_mthCity}-এর স্থানীয় টাইমজোনের জন্য গণনা করা হয়।` },
+                    { q: `এই ক্যালেন্ডার কি ${_mthCity}-এর স্থানীয় সময়ে?`,
+                      a: `হ্যাঁ। সমস্ত চাঁদের উদয়/অস্ত এবং পূর্ণিমা/অমাবস্যার সময় ${_mthCity}-এর স্থানীয় টাইমজোনে গণনা করা হয়। শহরের ভৌগোলিক স্থানাঙ্কও দিকনির্দেশ এবং উচ্চতাকে প্রভাবিত করে।` },
+                    { q: `চাঁদের দশা হিজরি ক্যালেন্ডারের সাথে কীভাবে সম্পর্কিত?`,
+                      a: `হিজরি ক্যালেন্ডার সম্পূর্ণ চান্দ্র — প্রতিটি মাস অমাবস্যার পর হিলাল দেখার মাধ্যমে শুরু হয় এবং ২৯ বা ৩০ দিন স্থায়ী হয়। এই ক্যালেন্ডারে পূর্ণিমা ও অমাবস্যার তারিখগুলি পরবর্তী হিজরি মাসের শুরু অনুমান করতে সাহায্য করে।` }
+                ],
+                ms: [
+                    { q: `Apakah kalendar bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
+                      a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan pencahayaan dan masa terbit/terbenam untuk setiap hari.` },
+                    { q: `Apakah fasa bulan hari ini di ${_mthCity}?`,
+                      a: `Laman ini memaparkan fasa semasa dan pencahayaan secara langsung untuk ${_mthCity}, dalam konteks kalendar bulanan ini.` },
+                    { q: `Bilakah bulan purnama di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
+                      a: `Bahagian "Fasa bulan akan datang" di atas memaparkan tarikh tepat bulan purnama di ${_mthCity}. Sepanjang ${_mthName} ${_mthY}, bulan purnama mencapai pencahayaan 100% pada malam yang ditetapkan.` },
+                    { q: `Bilakah anak bulan di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
+                      a: `Bahagian "Fasa bulan akan datang" memaparkan tarikh anak bulan seterusnya — yang menandakan permulaan bulan Hijrah baharu. Anak bulan ialah saat Bulan berada antara Bumi dan Matahari (0% pencahayaan).` },
+                    { q: `Bagaimana saya membaca kalendar fasa bulan bulanan?`,
+                      a: `Setiap sel mewakili satu hari dan memaparkan: tarikh, emoji fasa bulan, nama fasa (anak bulan, hilal, suku, gibus, purnama) dan jurang relatif dari hari ini. Klik mana-mana hari untuk membuka halaman butirannya.` },
+                    { q: `Mengapa waktu terbit dan terbenam Bulan berbeza antara bandar?`,
+                      a: `Terbit dan terbenam Bulan bergantung pada bujur, lintang dan zon waktu. Perbezaannya boleh mencapai 12 jam antara timur dan barat dunia. Waktu pada halaman ini dikira untuk zon waktu tempatan ${_mthCity}.` },
+                    { q: `Adakah kalendar ini dalam waktu tempatan ${_mthCity}?`,
+                      a: `Ya. Semua waktu terbit/terbenam Bulan dan bulan purnama/anak bulan dikira dalam zon waktu tempatan ${_mthCity}. Koordinat geografi bandar juga mempengaruhi arah dan ketinggian.` },
+                    { q: `Bagaimana fasa bulan berkaitan dengan kalendar Hijrah?`,
+                      a: `Kalendar Hijrah adalah sepenuhnya berdasarkan bulan — setiap bulan bermula dengan rukyah hilal selepas anak bulan dan berlangsung 29 atau 30 hari. Tarikh bulan purnama dan anak bulan dalam kalendar ini membantu menjangka permulaan bulan Hijrah seterusnya.` }
+                ]
+            };
+            moonFaqs = _MOON_MONTH_FAQ_BY_LANG[seo.lang] || _MOON_MONTH_FAQ_BY_LANG.en;
         } else if (_isMoonDateFaq) {
             // UAT-Moon-Day-Page-Polish: 6-Q date-specific FAQ that mirrors the
             //   visible DOM filled by app.js _DATE_FAQ_AR / _DATE_FAQ_EN.
@@ -5675,7 +6027,9 @@ function renderSeoHeadHtml(seo) {
             //   the same date and same astronomical event.
             const _dCity = (seo.moonCity && seo.moonCity.name) || '';
             const _dLbl  = seo.moonCity.dateLabel || '';
-            const _MOON_DATE_FAQ_AR = [
+            // Phase D3.1b: 10-lang date FAQ (was: AR+EN only — 8 langs fell back to en)
+            const _MOON_DATE_FAQ_BY_LANG = {
+                ar: [
                 { q: `ما طور القمر في ${_dCity} يوم ${_dLbl}؟`,
                   a: `طور القمر في ${_dCity} يوم ${_dLbl} مَحسوب فلكيًّا بدقّة عالية وفق منهجيّات Jean Meeus، ويَظهر في القسم الرئيسيّ من الصفحة مع نسبة الإضاءة وأيقونة الطور.` },
                 { q: `كم كانت نسبة إضاءة القمر في ${_dCity} في هذا التاريخ؟`,
@@ -5688,8 +6042,8 @@ function renderSeoHeadHtml(seo) {
                   a: `وقت غروب القمر في ${_dCity} يوم ${_dLbl} مَعروض في كرت "غروب القمر" بالتوقيت المحلّيّ للمدينة. الفرق بين الشروق والغروب يَختلف حسب الطور.` },
                 { q: `متى كان البدر أو المحاق الأقرب لتاريخ ${_dLbl}؟`,
                   a: `أقرب بدر/محاق للتاريخ ${_dLbl} مَعروض في قسم "الأطوار القمريّة القادمة" أعلاه، مع التاريخ الميلاديّ والهجريّ بدقّة فلكيّة.` }
-            ];
-            const _MOON_DATE_FAQ_EN = [
+                ],
+                en: [
                 { q: `What was the moon phase in ${_dCity} on ${_dLbl}?`,
                   a: `The moon phase in ${_dCity} on ${_dLbl} is computed astronomically using Jean Meeus' methods and shown in the main detail card with illumination percentage and phase icon.` },
                 { q: `What was the moon illumination in ${_dCity} on this date?`,
@@ -5702,11 +6056,125 @@ function renderSeoHeadHtml(seo) {
                   a: `Moonset in ${_dCity} on ${_dLbl} is shown in the "Moonset" card in the city's local time. The interval between rise and set varies by phase.` },
                 { q: `When was the closest full moon or new moon to ${_dLbl}?`,
                   a: `The closest full/new moon to ${_dLbl} is shown in the "Upcoming moon phases" section above, with precise Gregorian and Hijri dates.` }
-            ];
-            moonFaqs = (seo.lang === 'ar') ? _MOON_DATE_FAQ_AR : _MOON_DATE_FAQ_EN;
+                ],
+                fr: [
+                    { q: `Quelle était la phase de la Lune à ${_dCity} le ${_dLbl} ?`,
+                      a: `La phase de la Lune à ${_dCity} le ${_dLbl} est calculée astronomiquement avec une grande précision selon les méthodes de Jean Meeus, et affichée dans la carte principale de la page avec le pourcentage d'illumination et l'icône de phase.` },
+                    { q: `Quelle était l'illumination de la Lune à ${_dCity} à cette date ?`,
+                      a: `L'illumination lunaire à ${_dCity} le ${_dLbl} est affichée dans la carte "Illumination" en haut de la page, calculée à partir de l'angle entre le Soleil, la Lune et la Terre.` },
+                    { q: `Quel âge avait la Lune le ${_dLbl} ?`,
+                      a: `L'âge de la Lune est le nombre de jours depuis la dernière nouvelle lune dans un cycle lunaire d'environ 29,5 jours. La valeur exacte pour ${_dLbl} est affichée dans la carte "Âge de la Lune" en haut de la page.` },
+                    { q: `À quelle heure la Lune s'est-elle levée à ${_dCity} ce jour-là ?`,
+                      a: `L'heure de lever de la Lune à ${_dCity} le ${_dLbl} est affichée dans la carte "Lever de la Lune" en heure locale de la ville, calculée à partir de ses coordonnées géographiques.` },
+                    { q: `À quelle heure la Lune s'est-elle couchée à ${_dCity} ce jour-là ?`,
+                      a: `L'heure de coucher de la Lune à ${_dCity} le ${_dLbl} est affichée dans la carte "Coucher de la Lune" en heure locale de la ville. L'intervalle entre lever et coucher varie selon la phase.` },
+                    { q: `Quelle était la pleine lune ou nouvelle lune la plus proche du ${_dLbl} ?`,
+                      a: `La pleine/nouvelle lune la plus proche du ${_dLbl} est affichée dans la section "Prochaines phases lunaires" ci-dessus, avec les dates grégorienne et hégirienne précises.` }
+                ],
+                tr: [
+                    { q: `${_dCity}'de ${_dLbl} tarihindeki ay evresi neydi?`,
+                      a: `${_dCity}'de ${_dLbl} tarihindeki ay evresi, Jean Meeus yöntemleriyle yüksek hassasiyetle astronomik olarak hesaplanır ve sayfanın ana kartında aydınlanma yüzdesi ve evre simgesiyle birlikte gösterilir.` },
+                    { q: `${_dCity}'de bu tarihte ay aydınlanması neydi?`,
+                      a: `${_dCity}'de ${_dLbl} tarihindeki ay aydınlanması, sayfanın üst kısmındaki "Aydınlanma" kartında gösterilir ve Güneş-Ay-Dünya açısından hesaplanır.` },
+                    { q: `${_dLbl} tarihinde ay kaç günlüktü?`,
+                      a: `Ay yaşı, ~29,5 günlük bir kameri ay döngüsünde son yeni aydan bu yana geçen gün sayısıdır. ${_dLbl} için tam değer sayfanın üst kısmındaki "Ay yaşı" kartında gösterilir.` },
+                    { q: `${_dCity}'de o gün Ay ne zaman doğdu?`,
+                      a: `${_dCity}'de ${_dLbl} tarihindeki ay doğuş saati, şehrin yerel saatine göre "Ay doğuşu" kartında gösterilir, coğrafi koordinatlarından hesaplanır.` },
+                    { q: `${_dCity}'de o gün Ay ne zaman battı?`,
+                      a: `${_dCity}'de ${_dLbl} tarihindeki ay batış saati, şehrin yerel saatine göre "Ay batışı" kartında gösterilir. Doğuş ile batış arasındaki aralık evreye göre değişir.` },
+                    { q: `${_dLbl} tarihine en yakın dolunay veya yeni ay ne zamandı?`,
+                      a: `${_dLbl}'e en yakın dolunay/yeni ay yukarıdaki "Yaklaşan ay evreleri" bölümünde, hassas miladi ve hicri tarihlerle gösterilir.` }
+                ],
+                ur: [
+                    { q: `${_dCity} میں ${_dLbl} کو چاند کا طور کیا تھا؟`,
+                      a: `${_dCity} میں ${_dLbl} کو چاند کا طور Jean Meeus کے طریقوں کے مطابق اعلیٰ درستگی کے ساتھ فلکیاتی طور پر شمار کیا جاتا ہے، اور صفحے کے مرکزی کارڈ میں روشنی کے فیصد اور طور کے آئیکن کے ساتھ دکھایا جاتا ہے۔` },
+                    { q: `${_dCity} میں اس تاریخ کو چاند کی روشنی کتنی تھی؟`,
+                      a: `${_dCity} میں ${_dLbl} کو چاند کی روشنی صفحے کے اوپر "روشنی" کارڈ میں دکھائی جاتی ہے، جو سورج-چاند-زمین کے زاویے سے شمار کی جاتی ہے۔` },
+                    { q: `${_dLbl} کو چاند کتنا پرانا تھا؟`,
+                      a: `چاند کی عمر تقریباً 29.5 دن کے قمری دور میں آخری نئے چاند سے گزرے دنوں کی تعداد ہے۔ ${_dLbl} کے لیے درست قدر صفحے کے اوپر "چاند کی عمر" کارڈ میں دکھائی جاتی ہے۔` },
+                    { q: `${_dCity} میں اس دن چاند کب طلوع ہوا؟`,
+                      a: `${_dCity} میں ${_dLbl} کا مطلعِ چاند شہر کے مقامی وقت میں "مطلعِ چاند" کارڈ میں دکھایا جاتا ہے، جو اس کے جغرافیائی کوآرڈینیٹس سے شمار کیا جاتا ہے۔` },
+                    { q: `${_dCity} میں اس دن چاند کب غروب ہوا؟`,
+                      a: `${_dCity} میں ${_dLbl} کا مغیبِ چاند شہر کے مقامی وقت میں "مغیبِ چاند" کارڈ میں دکھایا جاتا ہے۔ مطلع اور مغیب کے درمیان وقفہ طور کے مطابق مختلف ہوتا ہے۔` },
+                    { q: `${_dLbl} کے قریب ترین بدر یا نیا چاند کب تھا؟`,
+                      a: `${_dLbl} کے قریب ترین بدر/نیا چاند اوپر "آنے والی چاند کی اطوار" سیکشن میں درست عیسوی اور ہجری تاریخوں کے ساتھ دکھایا گیا ہے۔` }
+                ],
+                de: [
+                    { q: `Welche Mondphase hatte ${_dCity} am ${_dLbl}?`,
+                      a: `Die Mondphase in ${_dCity} am ${_dLbl} wird astronomisch mit hoher Präzision nach den Methoden von Jean Meeus berechnet und in der Hauptkarte der Seite mit Beleuchtungsprozent und Phasensymbol angezeigt.` },
+                    { q: `Wie hoch war die Mondbeleuchtung in ${_dCity} an diesem Datum?`,
+                      a: `Die Mondbeleuchtung in ${_dCity} am ${_dLbl} wird in der Karte "Beleuchtung" oben auf der Seite angezeigt, berechnet aus dem Winkel zwischen Sonne, Mond und Erde.` },
+                    { q: `Wie alt war der Mond am ${_dLbl}?`,
+                      a: `Das Mondalter ist die Anzahl der Tage seit dem letzten Neumond innerhalb eines ~29,5-tägigen Mondzyklus. Der genaue Wert für ${_dLbl} wird in der Karte "Mondalter" oben auf der Seite angezeigt.` },
+                    { q: `Wann ging der Mond in ${_dCity} an diesem Tag auf?`,
+                      a: `Der Mondaufgang in ${_dCity} am ${_dLbl} wird in der Karte "Mondaufgang" in der Ortszeit der Stadt angezeigt, berechnet aus ihren geografischen Koordinaten.` },
+                    { q: `Wann ging der Mond in ${_dCity} an diesem Tag unter?`,
+                      a: `Der Monduntergang in ${_dCity} am ${_dLbl} wird in der Karte "Monduntergang" in der Ortszeit der Stadt angezeigt. Das Intervall zwischen Auf- und Untergang variiert je nach Phase.` },
+                    { q: `Wann war der nächstgelegene Vollmond oder Neumond zum ${_dLbl}?`,
+                      a: `Der nächstgelegene Voll-/Neumond zum ${_dLbl} wird im obigen Abschnitt "Kommende Mondphasen" mit präzisen gregorianischen und Hidschri-Daten angezeigt.` }
+                ],
+                id: [
+                    { q: `Apa fase bulan di ${_dCity} pada ${_dLbl}?`,
+                      a: `Fase bulan di ${_dCity} pada ${_dLbl} dihitung secara astronomis dengan presisi tinggi menggunakan metode Jean Meeus, dan ditampilkan di kartu detail utama dengan persentase iluminasi dan ikon fase.` },
+                    { q: `Berapa iluminasi bulan di ${_dCity} pada tanggal ini?`,
+                      a: `Iluminasi bulan di ${_dCity} pada ${_dLbl} ditampilkan di kartu "Iluminasi" di bagian atas halaman, dihitung dari sudut antara Matahari, Bulan dan Bumi.` },
+                    { q: `Berapa umur bulan pada ${_dLbl}?`,
+                      a: `Umur bulan adalah jumlah hari sejak bulan baru terakhir dalam siklus bulan ~29,5 hari. Nilai yang tepat untuk ${_dLbl} ditampilkan di kartu "Umur bulan" di bagian atas halaman.` },
+                    { q: `Pukul berapa Bulan terbit di ${_dCity} pada hari itu?`,
+                      a: `Waktu terbit Bulan di ${_dCity} pada ${_dLbl} ditampilkan di kartu "Terbit Bulan" dalam waktu lokal kota, dihitung dari koordinat geografisnya.` },
+                    { q: `Pukul berapa Bulan terbenam di ${_dCity} pada hari itu?`,
+                      a: `Waktu terbenam Bulan di ${_dCity} pada ${_dLbl} ditampilkan di kartu "Terbenam Bulan" dalam waktu lokal kota. Interval antara terbit dan terbenam bervariasi berdasarkan fase.` },
+                    { q: `Kapan purnama atau bulan baru terdekat dengan ${_dLbl}?`,
+                      a: `Purnama/bulan baru terdekat dengan ${_dLbl} ditampilkan di bagian "Fase bulan mendatang" di atas, dengan tanggal Masehi dan Hijriah yang tepat.` }
+                ],
+                es: [
+                    { q: `¿Cuál fue la fase de la Luna en ${_dCity} el ${_dLbl}?`,
+                      a: `La fase de la Luna en ${_dCity} el ${_dLbl} se calcula astronómicamente con alta precisión utilizando los métodos de Jean Meeus y se muestra en la tarjeta de detalles principal con el porcentaje de iluminación y el icono de fase.` },
+                    { q: `¿Cuál fue la iluminación lunar en ${_dCity} en esa fecha?`,
+                      a: `La iluminación lunar en ${_dCity} el ${_dLbl} se muestra en la tarjeta "Iluminación" en la parte superior de la página, calculada a partir del ángulo entre el Sol, la Luna y la Tierra.` },
+                    { q: `¿Qué edad tenía la Luna el ${_dLbl}?`,
+                      a: `La edad de la Luna es el número de días desde la última luna nueva dentro de un ciclo lunar de ~29,5 días. El valor exacto para ${_dLbl} se muestra en la tarjeta "Edad de la Luna" en la parte superior de la página.` },
+                    { q: `¿A qué hora salió la Luna en ${_dCity} ese día?`,
+                      a: `La hora de salida de la Luna en ${_dCity} el ${_dLbl} se muestra en la tarjeta "Salida de la Luna" en la hora local de la ciudad, calculada a partir de sus coordenadas geográficas.` },
+                    { q: `¿A qué hora se puso la Luna en ${_dCity} ese día?`,
+                      a: `La hora de puesta de la Luna en ${_dCity} el ${_dLbl} se muestra en la tarjeta "Puesta de la Luna" en la hora local de la ciudad. El intervalo entre salida y puesta varía según la fase.` },
+                    { q: `¿Cuándo fue la luna llena o nueva más cercana al ${_dLbl}?`,
+                      a: `La luna llena/nueva más cercana al ${_dLbl} se muestra en la sección "Próximas fases lunares" arriba, con fechas gregoriana e hijri precisas.` }
+                ],
+                bn: [
+                    { q: `${_dCity}-এ ${_dLbl} তারিখে চাঁদের দশা কী ছিল?`,
+                      a: `${_dCity}-এ ${_dLbl} তারিখে চাঁদের দশা Jean Meeus-এর পদ্ধতি ব্যবহার করে উচ্চ নির্ভুলতার সাথে জ্যোতির্বিজ্ঞানগতভাবে গণনা করা হয় এবং পৃষ্ঠার প্রধান বিবরণ কার্ডে আলোকন শতাংশ ও দশার আইকন সহ দেখানো হয়।` },
+                    { q: `${_dCity}-এ এই তারিখে চাঁদের আলোকন কত ছিল?`,
+                      a: `${_dCity}-এ ${_dLbl} তারিখে চাঁদের আলোকন পৃষ্ঠার শীর্ষে "আলোকন" কার্ডে দেখানো হয়, যা সূর্য-চাঁদ-পৃথিবীর কোণ থেকে গণনা করা হয়।` },
+                    { q: `${_dLbl} তারিখে চাঁদের বয়স কত ছিল?`,
+                      a: `চাঁদের বয়স হল ~২৯.৫ দিনের চান্দ্র চক্রের মধ্যে শেষ অমাবস্যার পর থেকে দিনের সংখ্যা। ${_dLbl}-এর জন্য সঠিক মান পৃষ্ঠার শীর্ষে "চাঁদের বয়স" কার্ডে দেখানো হয়।` },
+                    { q: `${_dCity}-এ সেই দিন চাঁদ কখন উদয় হয়েছিল?`,
+                      a: `${_dCity}-এ ${_dLbl}-এর চাঁদের উদয়ের সময় শহরের স্থানীয় সময়ে "চাঁদ উদয়" কার্ডে দেখানো হয়, যা তার ভৌগোলিক স্থানাঙ্ক থেকে গণনা করা হয়।` },
+                    { q: `${_dCity}-এ সেই দিন চাঁদ কখন অস্ত গিয়েছিল?`,
+                      a: `${_dCity}-এ ${_dLbl}-এর চাঁদের অস্তের সময় শহরের স্থানীয় সময়ে "চাঁদ অস্ত" কার্ডে দেখানো হয়। উদয় ও অস্তের মধ্যবর্তী ব্যবধান দশা অনুসারে পরিবর্তিত হয়।` },
+                    { q: `${_dLbl}-এর সবচেয়ে কাছাকাছি পূর্ণিমা বা অমাবস্যা কখন ছিল?`,
+                      a: `${_dLbl}-এর সবচেয়ে কাছাকাছি পূর্ণিমা/অমাবস্যা উপরের "আসন্ন চাঁদের দশা" বিভাগে সঠিক খ্রিস্টীয় ও হিজরি তারিখ সহ দেখানো হয়েছে।` }
+                ],
+                ms: [
+                    { q: `Apakah fasa bulan di ${_dCity} pada ${_dLbl}?`,
+                      a: `Fasa bulan di ${_dCity} pada ${_dLbl} dikira secara astronomi dengan ketepatan tinggi menggunakan kaedah Jean Meeus, dan dipaparkan dalam kad butiran utama dengan peratus pencahayaan dan ikon fasa.` },
+                    { q: `Berapakah pencahayaan bulan di ${_dCity} pada tarikh ini?`,
+                      a: `Pencahayaan bulan di ${_dCity} pada ${_dLbl} dipaparkan dalam kad "Pencahayaan" di bahagian atas halaman, dikira daripada sudut antara Matahari, Bulan dan Bumi.` },
+                    { q: `Berapa umur bulan pada ${_dLbl}?`,
+                      a: `Umur bulan ialah bilangan hari sejak anak bulan terakhir dalam kitaran bulan ~29.5 hari. Nilai tepat untuk ${_dLbl} dipaparkan dalam kad "Umur bulan" di bahagian atas halaman.` },
+                    { q: `Pukul berapa Bulan terbit di ${_dCity} pada hari itu?`,
+                      a: `Waktu terbit Bulan di ${_dCity} pada ${_dLbl} dipaparkan dalam kad "Terbit Bulan" dalam waktu tempatan bandar, dikira daripada koordinat geografinya.` },
+                    { q: `Pukul berapa Bulan terbenam di ${_dCity} pada hari itu?`,
+                      a: `Waktu terbenam Bulan di ${_dCity} pada ${_dLbl} dipaparkan dalam kad "Terbenam Bulan" dalam waktu tempatan bandar. Selang antara terbit dan terbenam berbeza mengikut fasa.` },
+                    { q: `Bilakah bulan purnama atau anak bulan paling hampir dengan ${_dLbl}?`,
+                      a: `Bulan purnama/anak bulan paling hampir dengan ${_dLbl} dipaparkan dalam bahagian "Fasa bulan akan datang" di atas, dengan tarikh Masihi dan Hijrah yang tepat.` }
+                ]
+            };
+            moonFaqs = _MOON_DATE_FAQ_BY_LANG[seo.lang] || _MOON_DATE_FAQ_BY_LANG.en;
         } else if (_isMoonHubFaq) {
             const _hubCity = (seo.moonCity && seo.moonCity.name) || '';
-            const _MOON_HUB_FAQ_AR = [
+            const _MOON_HUB_FAQ_BY_LANG = {
+                ar: [
                 { q: `ما هو طور القمر اليوم في ${_hubCity}؟`,
                   a: `يَمرّ القمر بثمانية أطوار خلال دورة 29.5 يوم. هذه الصفحة تَعرض الطور الحاليّ ونسبة الإضاءة لحظيّاً حسب موقع ${_hubCity}، مع تقويم شهريّ كامل للأطوار القادمة.` },
                 { q: `متى يكون البدر القادم في ${_hubCity}؟`,
@@ -5723,8 +6191,8 @@ function renderSeoHeadHtml(seo) {
                   a: 'الكوكبة الفلكيّة (Constellation) هي رقعة من السماء تُحدّدها حدود رسميّة من الاتّحاد الفلكيّ الدوليّ (IAU)، وعددها 88 منها 13 على دائرة البروج (تشمل الحوّاء). أمّا البرج التَنجيميّ (Zodiac sign) فهو تَقسيم متساوٍ افتراضيّ (12×30°) لا يَعكس الموقع الفلكيّ الفعليّ. موقعنا يَستخدم الكوكبات الفلكيّة (IAU).' },
                 { q: `هل تَعتمد بيانات القمر على التوقيت المحلّيّ لـ ${_hubCity}؟`,
                   a: `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_hubCity}. الإحداثيّات الجغرافيّة لهذه المدينة تُؤثّر على الاتّجاه والارتفاع أيضًا.` }
-            ];
-            const _MOON_HUB_FAQ_EN = [
+                ],
+                en: [
                 { q: `What is the moon phase today in ${_hubCity}?`,
                   a: `The moon goes through 8 phases over a 29.5-day cycle. This page shows the current phase and illumination live for ${_hubCity}, plus a full monthly calendar of upcoming phases.` },
                 { q: `When is the next full moon in ${_hubCity}?`,
@@ -5741,8 +6209,153 @@ function renderSeoHeadHtml(seo) {
                   a: 'An astronomical constellation is a region of sky with official IAU boundaries (88 total, 13 along the ecliptic including Ophiuchus). A zodiac sign is an astrological 30°-equal division that does NOT reflect the actual astronomical position. We use IAU constellations.' },
                 { q: `Are the moon data on this page in ${_hubCity}'s local time?`,
                   a: `Yes. All moonrise/moonset and full/new moon times are computed in ${_hubCity}'s local timezone. The city's geographic coordinates also affect direction and altitude.` }
-            ];
-            moonFaqs = (seo.lang === 'ar') ? _MOON_HUB_FAQ_AR : _MOON_HUB_FAQ_EN;
+                ],
+                fr: [
+                    { q: `Quelle est la phase de la Lune aujourd'hui à ${_hubCity} ?`,
+                      a: `La Lune passe par 8 phases au cours d'un cycle de 29,5 jours. Cette page affiche la phase actuelle et l'illumination en direct pour ${_hubCity}, plus un calendrier mensuel complet des prochaines phases.` },
+                    { q: `Quand est la prochaine pleine lune à ${_hubCity} ?`,
+                      a: `Une pleine lune se produit tous les 29,5 jours. Cette page affiche la date grégorienne et hégirienne précise de la prochaine pleine lune à 100 % d'illumination.` },
+                    { q: `Quand est la prochaine nouvelle lune à ${_hubCity} ?`,
+                      a: `Une nouvelle lune est l'instant où la Lune se trouve entre la Terre et le Soleil (0 % d'illumination). Cette page indique quand a lieu la prochaine nouvelle lune — qui marque aussi le début du nouveau mois hégirien.` },
+                    { q: `Comment utiliser le calendrier lunaire à ${_hubCity} ?`,
+                      a: `Cliquez sur n'importe quel jour du calendrier pour ouvrir les détails de ce jour pour ${_hubCity}. Utilisez les boutons mois précédent/suivant pour parcourir d'autres mois. Chaque mois a sa propre page à /moon-in-{city}/YYYY-MM.` },
+                    { q: `Pourquoi les heures de lever et coucher de la Lune à ${_hubCity} diffèrent-elles d'autres villes ?`,
+                      a: `Le lever et le coucher de la Lune dépendent de la longitude, de la latitude et du fuseau horaire. La différence peut atteindre 12 heures entre l'est et l'ouest du globe. Les heures de cette page sont calculées pour le fuseau horaire local de ${_hubCity}.` },
+                    { q: `Quel est le rapport entre la Lune et le calendrier hégirien ?`,
+                      a: `Le calendrier hégirien est entièrement lunaire — chaque mois commence avec l'observation du croissant après la nouvelle lune et dure 29 ou 30 jours. L'année hégirienne compte 354–355 jours, soit ~11 jours de moins que l'année solaire.` },
+                    { q: `Quelle est la différence entre une constellation astronomique et un signe du zodiaque ?`,
+                      a: `Une constellation astronomique est une région du ciel avec des limites officielles de l'IAU (88 au total, 13 le long de l'écliptique y compris Ophiuchus). Un signe du zodiaque est une division astrologique égale de 30° qui ne reflète PAS la position astronomique réelle. Nous utilisons les constellations IAU.` },
+                    { q: `Les données lunaires de cette page sont-elles à l'heure locale de ${_hubCity} ?`,
+                      a: `Oui. Toutes les heures de lever/coucher de la Lune et de pleine/nouvelle lune sont calculées dans le fuseau horaire local de ${_hubCity}. Les coordonnées géographiques de la ville affectent également la direction et l'altitude.` }
+                ],
+                tr: [
+                    { q: `${_hubCity} için bugün ay evresi nedir?`,
+                      a: `Ay, 29,5 günlük bir döngüde 8 evreden geçer. Bu sayfa ${_hubCity} için güncel evreyi ve aydınlanmayı canlı olarak gösterir, ayrıca yaklaşan evrelerin tam aylık takvimini sunar.` },
+                    { q: `${_hubCity} için bir sonraki dolunay ne zaman?`,
+                      a: `Dolunay her 29,5 günde bir gerçekleşir. Bu sayfa, %100 aydınlanmadaki bir sonraki dolunayın hassas miladi ve hicri tarihini gösterir.` },
+                    { q: `${_hubCity} için bir sonraki yeni ay ne zaman?`,
+                      a: `Yeni ay, Ay'ın Dünya ile Güneş arasında bulunduğu andır (%0 aydınlanma). Bu sayfa, yeni hicri ayın başlangıcı olan bir sonraki yeni ayın ne zaman olacağını gösterir.` },
+                    { q: `${_hubCity} için ay takvimini nasıl kullanırım?`,
+                      a: `Takvimdeki herhangi bir güne tıklayarak ${_hubCity} için o günün ayrıntılarını açın. Diğer ayları gezmek için önceki/sonraki ay düğmelerini kullanın. Her ayın /moon-in-{city}/YYYY-MM adresinde kendi sayfası vardır.` },
+                    { q: `${_hubCity} için ay doğuşu ve batışı saatleri neden diğer şehirlerden farklı?`,
+                      a: `Ay doğuşu ve batışı boylama, enleme ve saat dilimine bağlıdır. Fark, dünyanın doğusu ile batısı arasında 12 saate ulaşabilir. Bu sayfanın saatleri ${_hubCity}'in yerel saat dilimi için hesaplanmıştır.` },
+                    { q: `Ay'ın hicri takvim ile ilişkisi nedir?`,
+                      a: `Hicri takvim tamamen kameridir — her ay yeni aydan sonra hilal görülmesiyle başlar ve 29 veya 30 gün sürer. Hicri yıl 354–355 gündür, güneş yılından ~11 gün daha kısadır.` },
+                    { q: `Astronomik takımyıldız ile burç arasındaki fark nedir?`,
+                      a: `Astronomik takımyıldız, IAU'nun resmi sınırları olan bir gökyüzü bölgesidir (toplam 88, ekliptik boyunca Ophiuchus dahil 13). Burç, gerçek astronomik konumu YANSITMAYAN, 30°-eşit astrolojik bölünmedir. Biz IAU takımyıldızlarını kullanıyoruz.` },
+                    { q: `Bu sayfadaki ay verileri ${_hubCity}'in yerel saatinde mi?`,
+                      a: `Evet. Tüm ay doğuşu/batışı ve dolunay/yeni ay saatleri ${_hubCity}'in yerel saat diliminde hesaplanır. Şehrin coğrafi koordinatları da yön ve yüksekliği etkiler.` }
+                ],
+                ur: [
+                    { q: `${_hubCity} میں آج چاند کا طور کیا ہے؟`,
+                      a: `چاند 29.5 دن کے دور میں 8 اطوار سے گزرتا ہے۔ یہ صفحہ ${_hubCity} کے لیے موجودہ طور اور روشنی براہِ راست دکھاتا ہے، اور آنے والے اطوار کی مکمل ماہانہ تقویم بھی۔` },
+                    { q: `${_hubCity} میں اگلا بدر کب ہوگا؟`,
+                      a: `بدر ہر 29.5 دن میں ہوتا ہے۔ یہ صفحہ 100% روشنی پر اگلے بدر کی درست عیسوی اور ہجری تاریخ دکھاتا ہے۔` },
+                    { q: `${_hubCity} میں اگلا نیا چاند کب ہوگا؟`,
+                      a: `نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے (0% روشنی)۔ یہ صفحہ اگلے نئے چاند کا وقت دکھاتا ہے — جو نئے ہجری مہینے کا آغاز بھی ہے۔` },
+                    { q: `${_hubCity} میں چاند کی تقویم کیسے استعمال کریں؟`,
+                      a: `تقویم میں کسی بھی دن پر کلک کریں تاکہ ${_hubCity} کے لیے اس دن کی تفصیلات کھل جائیں۔ دوسرے مہینے دیکھنے کے لیے پچھلا/اگلا ماہ کے بٹن استعمال کریں۔ ہر مہینے کا اپنا صفحہ /moon-in-{city}/YYYY-MM پر ہے۔` },
+                    { q: `${_hubCity} میں مطلع و مغیبِ چاند کے اوقات دوسرے شہروں سے کیوں مختلف ہیں؟`,
+                      a: `مطلع و مغیبِ چاند خطِ طول، خطِ عرض اور ٹائم زون پر منحصر ہیں۔ زمین کے مشرق اور مغرب کے درمیان فرق 12 گھنٹے تک پہنچ سکتا ہے۔ اس صفحے کے اوقات ${_hubCity} کے مقامی ٹائم زون کے لیے شمار کیے گئے ہیں۔` },
+                    { q: `چاند کا ہجری تقویم سے کیا تعلق ہے؟`,
+                      a: `ہجری تقویم مکمل طور پر قمری ہے — ہر مہینہ نئے چاند کے بعد ہلال کی رؤیت سے شروع ہوتا ہے اور 29 یا 30 دن رہتا ہے۔ ہجری سال 354–355 دن کا ہے، شمسی سال سے تقریباً 11 دن کم۔` },
+                    { q: `فلکیاتی کوکبہ اور برج کے درمیان کیا فرق ہے؟`,
+                      a: `فلکیاتی کوکبہ آسمان کا ایک علاقہ ہے جس کی IAU کی رسمی حدود ہیں (کل 88، دائرۃ البروج کے ساتھ Ophiuchus سمیت 13)۔ برج 30° مساوی نجومی تقسیم ہے جو حقیقی فلکیاتی پوزیشن کو ظاہر نہیں کرتا۔ ہم IAU کوکبات استعمال کرتے ہیں۔` },
+                    { q: `کیا اس صفحے کا چاند ڈیٹا ${_hubCity} کے مقامی وقت میں ہے؟`,
+                      a: `جی ہاں۔ تمام مطلع/مغیبِ چاند اور بدر/نئے چاند کے اوقات ${_hubCity} کے مقامی ٹائم زون میں شمار کیے جاتے ہیں۔ شہر کی جغرافیائی محلِ وقوع بھی اتجاہ اور ارتفاع کو متاثر کرتی ہے۔` }
+                ],
+                de: [
+                    { q: `Welche Mondphase ist heute in ${_hubCity}?`,
+                      a: `Der Mond durchläuft 8 Phasen in einem 29,5-tägigen Zyklus. Diese Seite zeigt die aktuelle Phase und Beleuchtung live für ${_hubCity}, plus einen vollständigen Monatskalender der kommenden Phasen.` },
+                    { q: `Wann ist der nächste Vollmond in ${_hubCity}?`,
+                      a: `Ein Vollmond tritt alle 29,5 Tage auf. Diese Seite zeigt das genaue gregorianische und Hidschri-Datum des nächsten Vollmonds bei 100 % Beleuchtung.` },
+                    { q: `Wann ist der nächste Neumond in ${_hubCity}?`,
+                      a: `Ein Neumond ist der Moment, in dem der Mond zwischen Erde und Sonne liegt (0 % Beleuchtung). Diese Seite zeigt, wann der nächste Neumond stattfindet — auch der Beginn des neuen Hidschri-Monats.` },
+                    { q: `Wie verwende ich den Mondkalender in ${_hubCity}?`,
+                      a: `Klicken Sie auf einen beliebigen Tag im Kalender, um die Details dieses Tages für ${_hubCity} zu öffnen. Verwenden Sie die Schaltflächen "Vorheriger/Nächster Monat", um andere Monate zu durchsuchen. Jeder Monat hat seine eigene Seite unter /moon-in-{city}/YYYY-MM.` },
+                    { q: `Warum unterscheiden sich Mondaufgangs- und -untergangszeiten in ${_hubCity} von anderen Städten?`,
+                      a: `Mondaufgang und -untergang hängen von der geografischen Länge, Breite und Zeitzone ab. Der Unterschied kann zwischen Ost und West der Erde 12 Stunden erreichen. Die Zeiten dieser Seite werden für die lokale Zeitzone von ${_hubCity} berechnet.` },
+                    { q: `Wie hängt der Mond mit dem Hidschri-Kalender zusammen?`,
+                      a: `Der Hidschri-Kalender ist vollständig mondbasiert — jeder Monat beginnt mit der Sichtung der Mondsichel nach dem Neumond und dauert 29 oder 30 Tage. Das Hidschri-Jahr hat 354–355 Tage, ~11 Tage weniger als das Sonnenjahr.` },
+                    { q: `Was ist der Unterschied zwischen einer astronomischen Konstellation und einem Tierkreiszeichen?`,
+                      a: `Eine astronomische Konstellation ist eine Himmelsregion mit offiziellen IAU-Grenzen (88 insgesamt, 13 entlang der Ekliptik einschließlich Ophiuchus). Ein Tierkreiszeichen ist eine astrologische 30°-gleiche Einteilung, die NICHT die tatsächliche astronomische Position widerspiegelt. Wir verwenden IAU-Konstellationen.` },
+                    { q: `Sind die Monddaten auf dieser Seite in der Ortszeit von ${_hubCity}?`,
+                      a: `Ja. Alle Mondaufgangs-/-untergangszeiten und Vollmond-/Neumondzeiten werden in der lokalen Zeitzone von ${_hubCity} berechnet. Die geografischen Koordinaten der Stadt beeinflussen auch Richtung und Höhe.` }
+                ],
+                id: [
+                    { q: `Apa fase bulan hari ini di ${_hubCity}?`,
+                      a: `Bulan melewati 8 fase dalam siklus 29,5 hari. Halaman ini menampilkan fase saat ini dan iluminasi secara langsung untuk ${_hubCity}, plus kalender bulanan lengkap fase-fase mendatang.` },
+                    { q: `Kapan bulan purnama berikutnya di ${_hubCity}?`,
+                      a: `Bulan purnama terjadi setiap 29,5 hari. Halaman ini menampilkan tanggal Masehi dan Hijriah yang tepat untuk bulan purnama berikutnya pada iluminasi 100%.` },
+                    { q: `Kapan bulan baru berikutnya di ${_hubCity}?`,
+                      a: `Bulan baru adalah saat Bulan berada antara Bumi dan Matahari (iluminasi 0%). Halaman ini menampilkan kapan bulan baru berikutnya terjadi — juga awal bulan Hijriah baru.` },
+                    { q: `Bagaimana cara menggunakan kalender bulan di ${_hubCity}?`,
+                      a: `Klik hari mana pun di kalender untuk membuka detail hari itu untuk ${_hubCity}. Gunakan tombol bulan sebelumnya/berikutnya untuk menjelajahi bulan lain. Setiap bulan memiliki halamannya sendiri di /moon-in-{city}/YYYY-MM.` },
+                    { q: `Mengapa waktu terbit dan terbenam Bulan di ${_hubCity} berbeda dari kota lain?`,
+                      a: `Terbit dan terbenam Bulan tergantung pada bujur, lintang, dan zona waktu. Perbedaannya dapat mencapai 12 jam antara timur dan barat dunia. Waktu di halaman ini dihitung untuk zona waktu lokal ${_hubCity}.` },
+                    { q: `Bagaimana Bulan terkait dengan kalender Hijriah?`,
+                      a: `Kalender Hijriah sepenuhnya berbasis bulan — setiap bulan dimulai dengan rukyat hilal setelah bulan baru dan berlangsung 29 atau 30 hari. Tahun Hijriah 354–355 hari, ~11 hari lebih pendek dari tahun matahari.` },
+                    { q: `Apa perbedaan antara konstelasi astronomi dan zodiak?`,
+                      a: `Konstelasi astronomi adalah wilayah langit dengan batas resmi IAU (total 88, 13 di sepanjang ekliptika termasuk Ophiuchus). Zodiak adalah pembagian astrologi 30°-sama yang TIDAK mencerminkan posisi astronomi sebenarnya. Kami menggunakan konstelasi IAU.` },
+                    { q: `Apakah data bulan di halaman ini dalam waktu lokal ${_hubCity}?`,
+                      a: `Ya. Semua waktu terbit/terbenam Bulan dan purnama/bulan baru dihitung dalam zona waktu lokal ${_hubCity}. Koordinat geografis kota juga memengaruhi arah dan ketinggian.` }
+                ],
+                es: [
+                    { q: `¿Cuál es la fase lunar hoy en ${_hubCity}?`,
+                      a: `La Luna pasa por 8 fases en un ciclo de 29,5 días. Esta página muestra la fase actual y la iluminación en vivo para ${_hubCity}, además de un calendario mensual completo de las próximas fases.` },
+                    { q: `¿Cuándo es la próxima luna llena en ${_hubCity}?`,
+                      a: `Una luna llena ocurre cada 29,5 días. Esta página muestra la fecha gregoriana e hijri precisa de la próxima luna llena al 100 % de iluminación.` },
+                    { q: `¿Cuándo es la próxima luna nueva en ${_hubCity}?`,
+                      a: `La luna nueva es el instante en que la Luna se sitúa entre la Tierra y el Sol (0 % de iluminación). Esta página muestra cuándo ocurre la próxima luna nueva — también el inicio del nuevo mes hijri.` },
+                    { q: `¿Cómo uso el calendario lunar en ${_hubCity}?`,
+                      a: `Haga clic en cualquier día del calendario para abrir los detalles de ese día para ${_hubCity}. Use los botones de mes anterior/siguiente para explorar otros meses. Cada mes tiene su propia página en /moon-in-{city}/YYYY-MM.` },
+                    { q: `¿Por qué los horarios de salida y puesta de la Luna en ${_hubCity} difieren de otras ciudades?`,
+                      a: `La salida y puesta de la Luna dependen de la longitud, latitud y zona horaria. La diferencia puede alcanzar 12 horas entre el este y el oeste del globo. Los horarios de esta página se calculan para la zona horaria local de ${_hubCity}.` },
+                    { q: `¿Cómo se relaciona la Luna con el calendario hijri?`,
+                      a: `El calendario hijri es totalmente lunar — cada mes comienza con la observación del creciente tras la luna nueva y dura 29 o 30 días. El año hijri tiene 354–355 días, ~11 días más corto que el año solar.` },
+                    { q: `¿Cuál es la diferencia entre una constelación astronómica y un signo del zodíaco?`,
+                      a: `Una constelación astronómica es una región del cielo con límites oficiales de la IAU (88 en total, 13 a lo largo de la eclíptica incluyendo Ofiuco). Un signo del zodíaco es una división astrológica de 30° iguales que NO refleja la posición astronómica real. Usamos constelaciones IAU.` },
+                    { q: `¿Los datos lunares de esta página están en hora local de ${_hubCity}?`,
+                      a: `Sí. Todos los horarios de salida/puesta de la Luna y de luna llena/nueva se calculan en la zona horaria local de ${_hubCity}. Las coordenadas geográficas de la ciudad también afectan la dirección y la altitud.` }
+                ],
+                bn: [
+                    { q: `${_hubCity}-এ আজ চাঁদের দশা কী?`,
+                      a: `চাঁদ ২৯.৫ দিনের চক্রে ৮টি দশার মধ্য দিয়ে যায়। এই পৃষ্ঠা ${_hubCity}-এর জন্য বর্তমান দশা ও আলোকন সরাসরি দেখায়, পাশাপাশি আসন্ন দশাগুলির পূর্ণ মাসিক ক্যালেন্ডার।` },
+                    { q: `${_hubCity}-এ পরবর্তী পূর্ণিমা কখন?`,
+                      a: `পূর্ণিমা প্রতি ২৯.৫ দিনে ঘটে। এই পৃষ্ঠা ১০০% আলোকনে পরবর্তী পূর্ণিমার সঠিক খ্রিস্টীয় ও হিজরি তারিখ দেখায়।` },
+                    { q: `${_hubCity}-এ পরবর্তী অমাবস্যা কখন?`,
+                      a: `অমাবস্যা হল সেই মুহূর্ত যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে (০% আলোকন)। এই পৃষ্ঠা পরবর্তী অমাবস্যা কখন ঘটবে তা দেখায় — যা নতুন হিজরি মাসের শুরুও।` },
+                    { q: `${_hubCity}-এ চাঁদের ক্যালেন্ডার কীভাবে ব্যবহার করব?`,
+                      a: `${_hubCity}-এর জন্য সেই দিনের বিবরণ খুলতে ক্যালেন্ডারের যেকোনো দিনে ক্লিক করুন। অন্য মাস দেখার জন্য পূর্ববর্তী/পরবর্তী মাসের বোতাম ব্যবহার করুন। প্রতিটি মাসের নিজস্ব পৃষ্ঠা /moon-in-{city}/YYYY-MM-এ আছে।` },
+                    { q: `${_hubCity}-এ চাঁদের উদয় ও অস্তের সময় অন্য শহর থেকে কেন আলাদা?`,
+                      a: `চাঁদের উদয় ও অস্ত দ্রাঘিমাংশ, অক্ষাংশ ও টাইমজোনের উপর নির্ভর করে। পার্থক্য বিশ্বের পূর্ব ও পশ্চিমের মধ্যে ১২ ঘণ্টা পর্যন্ত হতে পারে। এই পৃষ্ঠার সময়গুলি ${_hubCity}-এর স্থানীয় টাইমজোনের জন্য গণনা করা হয়।` },
+                    { q: `চাঁদ হিজরি ক্যালেন্ডারের সাথে কীভাবে সম্পর্কিত?`,
+                      a: `হিজরি ক্যালেন্ডার সম্পূর্ণ চান্দ্র — প্রতিটি মাস অমাবস্যার পরে হিলাল দেখার মাধ্যমে শুরু হয় এবং ২৯ বা ৩০ দিন স্থায়ী হয়। হিজরি বছর ৩৫৪–৩৫৫ দিন, সৌর বছরের চেয়ে ~১১ দিন কম।` },
+                    { q: `জ্যোতির্বিজ্ঞানিক নক্ষত্রমণ্ডল ও রাশিচক্রের মধ্যে পার্থক্য কী?`,
+                      a: `জ্যোতির্বিজ্ঞানিক নক্ষত্রমণ্ডল হল আকাশের একটি অঞ্চল যার অফিসিয়াল IAU সীমানা আছে (মোট ৮৮, ক্রান্তিবৃত্ত বরাবর Ophiuchus সহ ১৩টি)। রাশিচক্র হল একটি ৩০°-সমান জ্যোতিষ বিভাজন যা প্রকৃত জ্যোতির্বিজ্ঞানিক অবস্থান প্রতিফলিত করে না। আমরা IAU নক্ষত্রমণ্ডল ব্যবহার করি।` },
+                    { q: `এই পৃষ্ঠার চাঁদের ডেটা কি ${_hubCity}-এর স্থানীয় সময়ে?`,
+                      a: `হ্যাঁ। সমস্ত চাঁদের উদয়/অস্ত এবং পূর্ণিমা/অমাবস্যার সময় ${_hubCity}-এর স্থানীয় টাইমজোনে গণনা করা হয়। শহরের ভৌগোলিক স্থানাঙ্কও দিকনির্দেশ এবং উচ্চতাকে প্রভাবিত করে।` }
+                ],
+                ms: [
+                    { q: `Apakah fasa bulan hari ini di ${_hubCity}?`,
+                      a: `Bulan melalui 8 fasa dalam kitaran 29.5 hari. Halaman ini memaparkan fasa semasa dan pencahayaan secara langsung untuk ${_hubCity}, serta kalendar bulanan lengkap fasa-fasa akan datang.` },
+                    { q: `Bilakah bulan purnama seterusnya di ${_hubCity}?`,
+                      a: `Bulan purnama berlaku setiap 29.5 hari. Halaman ini memaparkan tarikh Masihi dan Hijrah tepat bagi bulan purnama seterusnya pada pencahayaan 100%.` },
+                    { q: `Bilakah anak bulan seterusnya di ${_hubCity}?`,
+                      a: `Anak bulan ialah saat Bulan berada antara Bumi dan Matahari (0% pencahayaan). Halaman ini memaparkan bila anak bulan seterusnya berlaku — juga permulaan bulan Hijrah baharu.` },
+                    { q: `Bagaimana saya menggunakan kalendar bulan di ${_hubCity}?`,
+                      a: `Klik mana-mana hari dalam kalendar untuk membuka butiran hari itu untuk ${_hubCity}. Gunakan butang bulan sebelum/selepas untuk melayari bulan-bulan lain. Setiap bulan mempunyai halaman tersendiri di /moon-in-{city}/YYYY-MM.` },
+                    { q: `Mengapa waktu terbit dan terbenam Bulan di ${_hubCity} berbeza daripada bandar lain?`,
+                      a: `Terbit dan terbenam Bulan bergantung pada bujur, lintang dan zon waktu. Perbezaannya boleh mencapai 12 jam antara timur dan barat dunia. Waktu pada halaman ini dikira untuk zon waktu tempatan ${_hubCity}.` },
+                    { q: `Bagaimana Bulan berkaitan dengan kalendar Hijrah?`,
+                      a: `Kalendar Hijrah adalah sepenuhnya berdasarkan bulan — setiap bulan bermula dengan rukyah hilal selepas anak bulan dan berlangsung 29 atau 30 hari. Tahun Hijrah ialah 354–355 hari, ~11 hari lebih pendek daripada tahun matahari.` },
+                    { q: `Apakah perbezaan antara buruj astronomi dan tanda zodiak?`,
+                      a: `Buruj astronomi ialah kawasan langit dengan sempadan rasmi IAU (88 kesemuanya, 13 sepanjang ekliptik termasuk Ophiuchus). Tanda zodiak ialah pembahagian astrologi 30°-sama yang TIDAK mencerminkan kedudukan astronomi sebenar. Kami menggunakan buruj IAU.` },
+                    { q: `Adakah data bulan di halaman ini dalam waktu tempatan ${_hubCity}?`,
+                      a: `Ya. Semua waktu terbit/terbenam Bulan dan bulan purnama/anak bulan dikira dalam zon waktu tempatan ${_hubCity}. Koordinat geografi bandar juga mempengaruhi arah dan ketinggian.` }
+                ],
+            };
+            moonFaqs = _MOON_HUB_FAQ_BY_LANG[seo.lang] || _MOON_HUB_FAQ_BY_LANG.en;
         } else {
             // /moon-today and /moon-today-in-{city}: lock to first 8 of the
             //   existing moon FAQ list (matches visible 8 on those pages).
@@ -8070,9 +8683,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 /<!-- FAQ — General Astronomy[\s\S]*?(?=<!-- Evergreen content)/,
                 ''
             );
-            // (19-D) حذف Evergreen → حتى نهاية page-moon (قبل تعليق صفحة الزكاة).
+            // (19-D) حذف Evergreen فقط → قبل بداية أقسام Phase-B (الفاصل ════).
+            //   Phase D3.1.3b fix: المخطّط القديم كان يحذف حتى تعليق "صفحة حاسبة الزكاة"
+            //   فيلتهم B1/B2/B3/B4 sections التي يجب أن تظهر على hub. الحلّ: انتهاء
+            //   الـ regex عند الفاصل ════ الذي يبدأ block الـ Phase-B.
             html = html.replace(
-                /<!-- Evergreen content[\s\S]*?(?=<!-- ===== صفحة حاسبة الزكاة)/,
+                /<!-- Evergreen content[\s\S]*?(?=<!-- ════)/,
                 ''
             );
             // (19-E) حذف blocks فرعيّة داخل section-card الـ "details":
@@ -9939,10 +10555,28 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
+    // ===== Phase D2.1: /about-{city}* → 410 Gone (kept: /about-us only) =====
+    // Excludes /about-us and language-prefixed about-us; everything else under
+    // /about- is permanently removed (city about pages were thin/duplicate).
+    {
+        // Phase D2.1 hotfix: include 'ar' so /ar/about-{city} also 410s; /ar/about-us still passes.
+        const _aboutPathRe = /^\/(?:(?:ar|en|fr|tr|ur|de|id|es|bn|ms)\/)?about-/;
+        const _aboutUsPathRe = /^\/(?:(?:ar|en|fr|tr|ur|de|id|es|bn|ms)\/)?about-us(?:\.html)?\/?$/;
+        if (_aboutPathRe.test(urlPath) && !_aboutUsPathRe.test(urlPath)) {
+            res.writeHead(410, {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'X-Robots-Tag': 'noindex'
+            });
+            res.end('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>410 Gone</title><meta name="robots" content="noindex"></head><body><h1>410 Gone</h1><p>This page has been permanently removed.</p></body></html>');
+            return;
+        }
+    }
+
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|about-[a-z0-9]|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
+        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
@@ -10183,7 +10817,6 @@ const server = http.createServer(async (req, res) => {
             for (const slug of chunk) {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.7', 'daily', today));
                 entries.push(...bilingualUrl('/qibla-in-' + slug, '0.6', 'monthly', today));
-                entries.push(...bilingualUrl('/about-' + slug, '0.5', 'monthly', today));
                 // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة countdown live
                 //     slug نظيف فقط (بدون lat/lng) لأنّ الـ URL الجديد لا يحوي إحداثيّات
                 if (!/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
@@ -10513,15 +11146,6 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
-    // ===== about-* pages (about-city.html) =====
-    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?about-.+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
-        });
-        return;
-    }
-
     // ===== صفحة كل دول العالم: /prayer-times-worldwide + /{lang}/prayer-times-worldwide =====
     // يجب أن تأتي قبل route الـ /{country-slug} لضمان عدم الوقوع في أي نمط عام
     if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-worldwide$/.test(urlPath)) {
@@ -10667,16 +11291,6 @@ const server = http.createServer(async (req, res) => {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
         req.on('end', () => handleCitiesAdd(cc.toLowerCase(), body.trim(), res));
-        return;
-    }
-
-    // صفحة عن المدينة: /about-{slug}
-    if (/^\/about-.+$/.test(urlPath)) {
-        fs.readFile(path.join(ROOT, 'about-city.html'), (err, html) => {
-            if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
-            res.end(html);
-        });
         return;
     }
 

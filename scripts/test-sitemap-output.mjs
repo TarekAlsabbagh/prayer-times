@@ -78,10 +78,9 @@ for (const { urls } of allUrls) {
                 if (slug.startsWith('loc-') && /\d/.test(slug)) coordOnly++;
                 if (oldSlugs.has(slug)) { oldSlugUsed++; failures.push(`  ✗ old slug "${slug}" leaked into sitemap (should redirect): ${u}`); }
                 if (!validSlugs.has(slug)) {
-                    // Country slugs like /prayer-times-in-saudi-arabia don't match curated; skip those
-                    // Detect country-list URLs by checking against the simple pattern (only with no extra)
-                    const seemsCity = !path.includes('/about-') ||
-                        validSlugs.has(slug) || /-/.test(slug);
+                    // Country slugs like /prayer-times-in-saudi-arabia don't match curated; skip those.
+                    // (Phase D2.1: /about-{city} URLs were removed entirely; the seemsCity guard that
+                    //  used to special-case them is no longer needed.)
                     // We only want the guarantee for prayer-times-in / qibla-in (city pages)
                     if (/\/(?:prayer-times-in|qibla-in|moon-today-in|moon-in)-/.test(path)) {
                         // Check curated set

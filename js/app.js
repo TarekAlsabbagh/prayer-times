@@ -15359,6 +15359,45 @@ function updateMoonInfo() {
                             if (el) el.textContent = text;
                         });
                     } catch (_) {}
+
+                    // UAT-Moon-Month-Page-Polish: fill 3 cross-links at end of edu
+                    //   section (the hub-block filler at line ~15728 doesn't run on
+                    //   month URLs because `_isHubPage` is false). Without this,
+                    //   the <a> elements stay as "—" placeholders.
+                    try {
+                        const _altCitySlug = (_citySlug === 'riyadh') ? 'makkah' : 'riyadh';
+                        const _altCityName = (typeof _moonCityDisplayName === 'function')
+                            ? _moonCityDisplayName(_altCitySlug)
+                            : (_altCitySlug === 'makkah'
+                                ? (_lng_ === 'ar' ? 'مكة المكرمة' : 'Makkah')
+                                : (_lng_ === 'ar' ? 'الرياض' : 'Riyadh'));
+                        const _langPrefixEdu = (_lng_ === 'ar') ? '' : ('/' + _lng_);
+                        const _eduLinkLabels = (_lng_ === 'ar') ? [
+                            `حالة القمر اليوم في ${_cityName}`,
+                            `تقويم القمر في ${_altCityName}`,
+                            'التاريخ الهجريّ اليوم'
+                        ] : [
+                            `Moon status today in ${_cityName}`,
+                            `Moon calendar in ${_altCityName}`,
+                            "Today's Hijri date"
+                        ];
+                        const _link1 = document.querySelector('.moon-city-hub-edu-link-today');
+                        const _link2 = document.querySelector('.moon-city-hub-edu-link-other');
+                        const _link3 = document.querySelector('.moon-city-hub-edu-link-hijri');
+                        if (_link1) {
+                            _link1.textContent = _eduLinkLabels[0];
+                            _link1.setAttribute('href', _langPrefixEdu + '/moon-today-in-' + _citySlug);
+                        }
+                        if (_link2) {
+                            _link2.textContent = _eduLinkLabels[1];
+                            _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _altCitySlug);
+                        }
+                        if (_link3) {
+                            _link3.textContent = _eduLinkLabels[2];
+                            // Don't override href — SSR already wrote the canonical
+                            // dated form (/hijri-date/YYYY-MM-DD).
+                        }
+                    } catch (_) {}
                     }; // close _runMonthOverrides
                     // Run twice: immediately AND deferred. Belt-and-suspenders: if
                     //   hub block runs synchronously after this, the deferred call

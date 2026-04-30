@@ -1391,7 +1391,7 @@ const LEGAL_PAGES = {
 <p>نسعى دائماً لتوفير أدق المواقيت، إلا أن:</p>
 <ul>
 <li>مواقيت الصلاة محسوبة باستخدام معادلات فلكية موثوقة، وقد تختلف بدقائق قليلة عن المواقيت الرسمية في بلدك.</li>
-<li>التقويم الهجري يعتمد على تقويم أم القرى (السعودية)، وقد يختلف يوماً واحداً عن رؤية بلدك.</li>
+<li>التقويم الهجري يعتمد على تقويم أم القرى (السعودية)، وقد يختلف يومًا واحداً عن رؤية بلدك.</li>
 <li>اتجاه القبلة محسوب جغرافياً بدقة، لكن دقة عرضه على البوصلة تعتمد على حساسات جهازك.</li>
 </ul>
 <p>المسؤولية النهائية عن إثبات أوقات الصلاة ورؤية الأهلّة تقع على المؤسسة الدينية في بلدك.</p>
@@ -2555,7 +2555,7 @@ function _hijriToGregorian(hYear, hMonth, hDay) {
     return _jdToGregorian(jd);
 }
 // الحاضر دائماً بتوقيت مكّة المكرّمة (Asia/Riyadh) — ضروريّ لئلّا يتأخّر
-// التاريخ الهجري/الميلادي يوماً كاملاً حين يكون TZ السيرفر UTC وفرق
+// التاريخ الهجري/الميلادي يومًا كاملاً حين يكون TZ السيرفر UTC وفرق
 // السعوديّة +3 لم يتخطَّ منتصف الليل بعد.
 // الدالّة تُعيد Date بقيم UTC مُماثِلة لجدار وقت السعوديّة → استعمل
 // getUTCFullYear/getUTCMonth/getUTCDate/getUTCDay فقط معها.
@@ -3967,7 +3967,7 @@ function buildSeoForPath(urlPath) {
 
     // حاسِب تاريخ هجري محلّيّ من خطّ طول المدينة (تقريب offset = round(lng/15)).
     // دقّة ±30 دقيقة على حدود المناطق الزمنيّة — كافٍ لعرض التاريخ (يوم واحد).
-    // حالات خاصّة (DST، ½-hour TZ كـ Iran/India) تُنحرف ≤ساعة وليس يوماً كاملاً.
+    // حالات خاصّة (DST، ½-hour TZ كـ Iran/India) تُنحرف ≤ساعة وليس يومًا كاملاً.
     const _hijriDayForLng = (lng) => {
         if (typeof lng !== 'number' || !isFinite(lng)) return { hD: _hNow.day, hM: _hNow.month, hY: _hNow.year };
         const offsetMs = Math.round(lng / 15) * 3600 * 1000;
@@ -5609,8 +5609,57 @@ function renderSeoHeadHtml(seo) {
         //   timezone, constellation vs zodiac, etc.). JSON-LD must mirror
         //   exactly to avoid GSC mismatch warnings.
         let moonFaqs;
-        const _isMoonHubFaq = !!(seo.moonCity && seo.moonCity.isHub && !seo.moonCity.date);
-        if (_isMoonHubFaq) {
+        const _isMoonMonthFaq = !!(seo.moonCity && seo.moonCity.isMonthPage);
+        const _isMoonHubFaq = !!(seo.moonCity && seo.moonCity.isHub && !seo.moonCity.date && !_isMoonMonthFaq);
+        if (_isMoonMonthFaq) {
+            // UAT-Moon-Month-Page-Polish: month page (/moon-in-{city}/YYYY-MM)
+            //   gets its own 8 Qs centered on the monthly calendar — different
+            //   from the hub FAQ (which is calendar-evergreen) and the today
+            //   FAQ (which is current-status). DOM mirrors these exactly.
+            const _mthCity = (seo.moonCity && seo.moonCity.name) || '';
+            const _mthY    = seo.moonCity.monthYear;
+            const _mthMo   = seo.moonCity.monthMonth;
+            const _mthNamesAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+            const _mthNamesEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const _mthName = (seo.lang === 'ar' ? _mthNamesAr : _mthNamesEn)[_mthMo - 1];
+            const _MOON_MONTH_FAQ_AR = [
+                { q: `ما هو تقويم القمر في ${_mthCity} لشهر ${_mthName} ${_mthY}؟`,
+                  a: `يَعرض هذا التقويم أطوار القمر اليوميّة في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكلّ يوم.` },
+                { q: `ما هو طور القمر اليوم في ${_mthCity}؟`,
+                  a: `يَعرض الموقع طور القمر الحاليّ ونسبة إضاءته لحظيّاً حسب موقع ${_mthCity}، ضمن سياق التقويم الشهريّ المعروض هنا.` },
+                { q: `متى يكون البدر في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
+                  a: `قسم "الأطوار القمريّة القادمة" في الصفحة يَعرض موعد البدر القادم في ${_mthCity} مع التاريخ الميلاديّ والهجريّ الدقيق. خلال شهر ${_mthName} ${_mthY}، البدر يَظهر بإضاءة 100٪ في الليلة المحدّدة.` },
+                { q: `متى يكون المحاق في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
+                  a: `قسم "الأطوار القمريّة القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجريّ الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.` },
+                { q: 'كيف أقرأ تقويم أطوار القمر الشهريّ؟',
+                  a: 'كلّ خانة في التقويم تُمثّل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنيّة من اليوم الحاليّ. اضغط على أيّ يوم لفتح صفحة تَفاصيل ذلك اليوم.' },
+                { q: 'لماذا تَختلف مواعيد شروق وغروب القمر بين المدن؟',
+                  a: `يَعتمد شروق وغروب القمر على خطّ الطول والعرض الجغرافيّ والمنطقة الزمنيّة. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة بالتوقيت المحلّيّ لـ ${_mthCity}.` },
+                { q: `هل يَعتمد هذا التقويم على توقيت ${_mthCity} المحلّيّ؟`,
+                  a: `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_mthCity}. الإحداثيّات الجغرافيّة لهذه المدينة تُؤثّر على الاتّجاه والارتفاع أيضًا.` },
+                { q: 'ما علاقة أطوار القمر بالتقويم الهجريّ؟',
+                  a: 'التقويم الهجريّ قمريّ بالكامل: كلّ شهر يَبدأ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقّع بداية الشهر الهجريّ القادم.' }
+            ];
+            const _MOON_MONTH_FAQ_EN = [
+                { q: `What is the moon calendar in ${_mthCity} for ${_mthName} ${_mthY}?`,
+                  a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with illumination and rise/set times for each day.` },
+                { q: `What is the moon phase today in ${_mthCity}?`,
+                  a: `The site shows the current phase and illumination live for ${_mthCity}, within the context of this monthly calendar.` },
+                { q: `When is the full moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
+                  a: `The "Upcoming moon phases" section above shows the precise full moon date in ${_mthCity}. During ${_mthName} ${_mthY}, the full moon reaches 100% illumination on the specified night.` },
+                { q: `When is the new moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
+                  a: `The "Upcoming moon phases" section shows the next new moon date — which marks the start of the new Hijri month. New moon is when the Moon lies between Earth and Sun (0% illumination).` },
+                { q: 'How do I read the monthly moon phase calendar?',
+                  a: 'Each cell represents one day and shows: the date, moon phase emoji, phase name (new, crescent, quarter, gibbous, full), and relative offset from today. Click any day to open that day\'s detail page.' },
+                { q: 'Why do moonrise and moonset times differ between cities?',
+                  a: `Moonrise and moonset depend on longitude, latitude and timezone. The difference can reach 12 hours between east and west of the globe. Times on this page are computed for ${_mthCity}'s local timezone.` },
+                { q: `Is this calendar in ${_mthCity}'s local time?`,
+                  a: `Yes. All moonrise/moonset and full/new moon times are computed in ${_mthCity}'s local timezone. The city's geographic coordinates also affect direction and altitude.` },
+                { q: 'How are moon phases related to the Hijri calendar?',
+                  a: 'The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.' }
+            ];
+            moonFaqs = (seo.lang === 'ar') ? _MOON_MONTH_FAQ_AR : _MOON_MONTH_FAQ_EN;
+        } else if (_isMoonHubFaq) {
             const _hubCity = (seo.moonCity && seo.moonCity.name) || '';
             const _MOON_HUB_FAQ_AR = [
                 { q: `ما هو طور القمر اليوم في ${_hubCity}؟`,
@@ -6587,7 +6636,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqQ2: 'ما الفرق بين طرق الحساب المختلفة؟',
                     faqA2: 'تختلف طرق الحساب (رابطة العالم الإسلامي، أم القرى، الهيئة المصرية، ISNA) بشكل رئيسي في زاوية الفجر والعشاء. مثلاً: رابطة العالم الإسلامي تعتمد 18° للفجر و 17° للعشاء، بينما أم القرى تعتمد 18.5° للفجر وساعتين ونصف بعد المغرب للعشاء في رمضان.',
                     faqQ3: 'ما هو التقويم الهجري؟',
-                    faqA3: 'التقويم الهجري هو تقويم قمري إسلامي يبدأ من هجرة النبي محمد ﷺ عام 622م. يتكوّن من 12 شهراً قمرياً (محرم، صفر، ربيع الأول، ربيع الآخر، جمادى الأولى، جمادى الآخرة، رجب، شعبان، رمضان، شوال، ذو القعدة، ذو الحجة) مجموع أيامه 354 أو 355 يوماً.',
+                    faqA3: 'التقويم الهجري هو تقويم قمري إسلامي يبدأ من هجرة النبي محمد ﷺ عام 622م. يتكوّن من 12 شهراً قمرياً (محرم، صفر، ربيع الأول، ربيع الآخر، جمادى الأولى، جمادى الآخرة، رجب، شعبان، رمضان، شوال، ذو القعدة، ذو الحجة) مجموع أيامه 354 أو 355 يومًا.',
                     faqQ4: 'كيف أحدّد اتجاه القبلة؟',
                     faqA4: 'اتجاه القبلة هو الاتجاه الذي يواجهه المسلم في صلاته نحو الكعبة المشرفة في مكة المكرمة. يُحسب بمعرفة إحداثيات موقعك (خط الطول والعرض) وإحداثيات الكعبة (21.422487° شمالاً، 39.826206° شرقاً) باستخدام حساب الزوايا الكروي (Great Circle).',
                     faqQ5: 'هل مواقيت الصلاة المعروضة دقيقة؟',

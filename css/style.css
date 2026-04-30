@@ -12930,6 +12930,15 @@ html.moon-today-city-page #page-moon > #moon-evergreen-short    { order: 11; }
 html.moon-today-city-page #page-moon > .moon-evergreen-long     { order: 12; }
 html.moon-today-city-page #page-moon > #moon-general-faq        { order: 13; }
 html.moon-today-city-page #page-moon > #moon-events-section     { order: 14; }
+/* UAT-SEO-Phase-B (2026-04-30): page-specific edu sections live at the
+   END of #page-moon. On today-city-page they must come AFTER all the
+   above (last data: 14). Order 50 puts them last among content, before
+   sticky-bar (99). Only #moon-today-city-edu is visible on this page;
+   the other three are hidden via their own CSS gates. */
+html.moon-today-city-page #page-moon > #moon-today-city-edu     { order: 50; }
+html.moon-today-city-page #page-moon > #moon-month-edu-hijri    { order: 50; }
+html.moon-today-city-page #page-moon > #moon-date-edu-hijri     { order: 50; }
+html.moon-today-city-page #page-moon > #moon-hub-related-links  { order: 50; }
 /* The sticky bar is absolute/fixed — order doesn't affect rendering, but
    keep it as the last logical item so flex doesn't push other elements. */
 html.moon-today-city-page #page-moon > #moon-sticky-bar         { order: 99; }

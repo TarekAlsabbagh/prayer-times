@@ -35,7 +35,7 @@
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <link rel="preload" href="js/app.js?v=573" as="script">
-    <link rel="stylesheet" href="css/style.css?v=239">
+    <link rel="stylesheet" href="css/style.css?v=240">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1780,42 +1780,6 @@
                     </ul>
                 </div>
 
-                <!-- UAT-SEO-Phase-B2: month-page deep educational section.
-                     Visible ONLY on /moon-in-{city}/{YYYY-MM} via CSS gate
-                     (html.moon-month-page). Filled by app.js inside the
-                     _runMonthOverrides() closure with month + city aware
-                     content covering: how to read the monthly calendar,
-                     key phases this month, Hijri context, and inter-city
-                     timing variation. Adds ~250 words → month page rises
-                     ~700 → ~950 (target 800-1200). -->
-                <div class="section-card moon-month-edu" id="moon-month-edu-hijri">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span class="moon-month-edu-title">—</span></h2>
-                    <p class="moon-month-edu-p1">—</p>
-                    <p class="moon-month-edu-p2">—</p>
-                    <p class="moon-month-edu-p3">—</p>
-                    <p class="moon-month-edu-p4">—</p>
-                </div>
-
-                <!-- UAT-SEO-Phase-B3: hub-page extended internal links section.
-                     Visible ONLY on /moon-in-{city} (hub) via CSS gate. Acts as
-                     "روابط مهمّة عن القمر في {city}" — surfaces 6 related-tools
-                     cards: today moon, current month, next month, prayer times,
-                     qibla, hijri date. Distinguishes the hub as a true gateway
-                     between city's moon/prayer/qibla pages. Filled by app.js
-                     in the if (_isHubPage) block. -->
-                <div class="section-card moon-hub-related" id="moon-hub-related-links">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span class="moon-hub-related-title">—</span></h2>
-                    <p class="moon-hub-related-intro">—</p>
-                    <ul class="moon-hub-related-grid" aria-label="related-tools">
-                        <li><a class="moon-hub-related-card moon-hub-related-1" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🌙</span><span class="moon-hub-related-label">—</span></a></li>
-                        <li><a class="moon-hub-related-card moon-hub-related-2" href="#"><span class="moon-hub-related-icon" aria-hidden="true">📅</span><span class="moon-hub-related-label">—</span></a></li>
-                        <li><a class="moon-hub-related-card moon-hub-related-3" href="#"><span class="moon-hub-related-icon" aria-hidden="true">⏭️</span><span class="moon-hub-related-label">—</span></a></li>
-                        <li><a class="moon-hub-related-card moon-hub-related-4" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🕌</span><span class="moon-hub-related-label">—</span></a></li>
-                        <li><a class="moon-hub-related-card moon-hub-related-5" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🧭</span><span class="moon-hub-related-label">—</span></a></li>
-                        <li><a class="moon-hub-related-card moon-hub-related-6" href="#"><span class="moon-hub-related-icon" aria-hidden="true">📆</span><span class="moon-hub-related-label">—</span></a></li>
-                    </ul>
-                </div>
-
                 <!-- FAQ — City-specific (dynamic answers populated by app.js, accordion w/ first 2 open) -->
                 <div class="section-card moon-faq-city-card">
                     <h2 id="moon-faq-city-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_city_title">أسئلة شائعة عن القمر اليوم في مدينتك</span></h2>
@@ -1856,41 +1820,6 @@
                             <p id="moon-dq8-a" data-i18n="moon.faq.tpl_dq8">—</p>
                         </details>
                     </div>
-                </div>
-
-                <!-- UAT-SEO-Phase-B4: today-in-city educational section.
-                     Visible ONLY on /moon-today-in-{city} via CSS gate
-                     (html.moon-today-city-page). Distinct voice from B1
-                     ("specific date"), B2 ("month"), B3 ("hub gateway") —
-                     this one is "now/today" themed and acts as a content
-                     bridge to deeper pages (city hub, current month,
-                     today's detail page, today's Hijri). 4 paragraphs +
-                     4 internal cross-links. Adds ~200 words → today-in-city
-                     rises from ~550 to ~750 (target 700-1000). -->
-                <div class="section-card moon-today-city-edu" id="moon-today-city-edu">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-tdc-edu-title">—</span></h2>
-                    <p class="moon-tdc-edu-p1">—</p>
-                    <p class="moon-tdc-edu-p2">—</p>
-                    <p class="moon-tdc-edu-p3">—</p>
-                    <p class="moon-tdc-edu-p4">—</p>
-                    <ul class="moon-tdc-edu-links" aria-label="related">
-                        <li><a class="moon-tdc-edu-link-1" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📅</span><span class="moon-tdc-edu-label">—</span></a></li>
-                        <li><a class="moon-tdc-edu-link-2" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🌙</span><span class="moon-tdc-edu-label">—</span></a></li>
-                        <li><a class="moon-tdc-edu-link-3" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📆</span><span class="moon-tdc-edu-label">—</span></a></li>
-                        <li><a class="moon-tdc-edu-link-4" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🗓️</span><span class="moon-tdc-edu-label">—</span></a></li>
-                    </ul>
-                </div>
-
-                <!-- UAT-SEO-Phase-B1: date-page educational section — Hijri context.
-                     Visible ONLY on /moon-in-{city}/{YYYY-MM-DD} via CSS gate
-                     (html.moon-date-page). Empty placeholders filled by app.js
-                     with date-aware copy that interpolates city + date. Adds
-                     ~120-150 words to the day page (target 600-900). -->
-                <div class="section-card moon-date-edu" id="moon-date-edu-hijri">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-date-edu-title">—</span></h2>
-                    <p class="moon-date-edu-p1">—</p>
-                    <p class="moon-date-edu-p2">—</p>
-                    <p class="moon-date-edu-p3">—</p>
                 </div>
 
                 <!-- FAQ — General Astronomy / Islamic Section (static, SEO-friendly) -->
@@ -2012,6 +1941,85 @@
                         <li data-i18n="moon.edu_islam_qadr">ليلة القدر: في العشر الأواخر من رمضان، غالباً ليلة 27.</li>
                     </ul>
                     <p data-i18n="moon.edu_islam_2">رؤية الهلال بالعين المجرّدة شرطٌ في كثير من الاجتهادات الفقهيّة لبداية الشهر الهجريّ. يُشترط أن يكون عمر الهلال 15 ساعة على الأقلّ وقت غروب الشمس، وأن يكون ارتفاعه عن الأفق كافياً لرؤيته.</p>
+                </div>
+
+                <!-- ════════════════════════════════════════════════════════════════════
+                     UAT-SEO-Phase-B (2026-04-30): page-specific educational sections.
+                     Each is gated to one URL type via CSS so only ONE shows per page.
+                     Placed at the END of #page-moon so they appear LAST visually,
+                     after all the existing data sections + FAQ + general evergreen.
+                     User feedback: "يجب ان يكون اخر قسم في الصفحة".
+                     ──────────────────────────────────────────────────────────────────── -->
+
+                <!-- UAT-SEO-Phase-B2: month-page deep educational section.
+                     Visible ONLY on /moon-in-{city}/{YYYY-MM} via CSS gate
+                     (html.moon-month-page). Filled by app.js inside the
+                     _runMonthOverrides() closure with month + city aware
+                     content covering: how to read the monthly calendar,
+                     key phases this month, Hijri context, and inter-city
+                     timing variation. Adds ~250 words → month page rises
+                     ~700 → ~950 (target 800-1200). -->
+                <div class="section-card moon-month-edu" id="moon-month-edu-hijri">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span class="moon-month-edu-title">—</span></h2>
+                    <p class="moon-month-edu-p1">—</p>
+                    <p class="moon-month-edu-p2">—</p>
+                    <p class="moon-month-edu-p3">—</p>
+                    <p class="moon-month-edu-p4">—</p>
+                </div>
+
+                <!-- UAT-SEO-Phase-B3: hub-page extended internal links section.
+                     Visible ONLY on /moon-in-{city} (hub) via CSS gate. Acts as
+                     "روابط مهمّة عن القمر في {city}" — surfaces 6 related-tools
+                     cards: today moon, current month, next month, prayer times,
+                     qibla, hijri date. Distinguishes the hub as a true gateway
+                     between city's moon/prayer/qibla pages. Filled by app.js
+                     in the if (_isHubPage) block. -->
+                <div class="section-card moon-hub-related" id="moon-hub-related-links">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span class="moon-hub-related-title">—</span></h2>
+                    <p class="moon-hub-related-intro">—</p>
+                    <ul class="moon-hub-related-grid" aria-label="related-tools">
+                        <li><a class="moon-hub-related-card moon-hub-related-1" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🌙</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-2" href="#"><span class="moon-hub-related-icon" aria-hidden="true">📅</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-3" href="#"><span class="moon-hub-related-icon" aria-hidden="true">⏭️</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-4" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🕌</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-5" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🧭</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-6" href="#"><span class="moon-hub-related-icon" aria-hidden="true">📆</span><span class="moon-hub-related-label">—</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- UAT-SEO-Phase-B4: today-in-city educational section.
+                     Visible ONLY on /moon-today-in-{city} via CSS gate
+                     (html.moon-today-city-page). Distinct voice from B1
+                     ("specific date"), B2 ("month"), B3 ("hub gateway") —
+                     this one is "now/today" themed and acts as a content
+                     bridge to deeper pages (city hub, current month,
+                     today's detail page, today's Hijri). 4 paragraphs +
+                     4 internal cross-links. Adds ~200 words → today-in-city
+                     rises from ~550 to ~750 (target 700-1000). -->
+                <div class="section-card moon-today-city-edu" id="moon-today-city-edu">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-tdc-edu-title">—</span></h2>
+                    <p class="moon-tdc-edu-p1">—</p>
+                    <p class="moon-tdc-edu-p2">—</p>
+                    <p class="moon-tdc-edu-p3">—</p>
+                    <p class="moon-tdc-edu-p4">—</p>
+                    <ul class="moon-tdc-edu-links" aria-label="related">
+                        <li><a class="moon-tdc-edu-link-1" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📅</span><span class="moon-tdc-edu-label">—</span></a></li>
+                        <li><a class="moon-tdc-edu-link-2" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🌙</span><span class="moon-tdc-edu-label">—</span></a></li>
+                        <li><a class="moon-tdc-edu-link-3" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📆</span><span class="moon-tdc-edu-label">—</span></a></li>
+                        <li><a class="moon-tdc-edu-link-4" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🗓️</span><span class="moon-tdc-edu-label">—</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- UAT-SEO-Phase-B1: date-page educational section — Hijri context.
+                     Visible ONLY on /moon-in-{city}/{YYYY-MM-DD} via CSS gate
+                     (html.moon-date-page). Empty placeholders filled by app.js
+                     with date-aware copy that interpolates city + date. Adds
+                     ~120-150 words to the day page (target 600-900). -->
+                <div class="section-card moon-date-edu" id="moon-date-edu-hijri">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-date-edu-title">—</span></h2>
+                    <p class="moon-date-edu-p1">—</p>
+                    <p class="moon-date-edu-p2">—</p>
+                    <p class="moon-date-edu-p3">—</p>
                 </div>
             </div>
 

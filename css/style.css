@@ -2662,6 +2662,10 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
        browser scrolls this card into view. Reserve space at the top so the
        sticky header doesn't cover the title after the jump. */
     scroll-margin-top: 80px;
+    /* UAT mobile fix: cells in a 7-col grid can force horizontal overflow
+       when content exceeds column width. min-width:0 on grid items lets
+       them shrink, and overflow-x:hidden contains any residual overflow. */
+    overflow-x: hidden;
 }
 .moon-hub-calendar-card:focus { outline: none; }
 .moon-hub-calendar-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
@@ -2760,7 +2764,8 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
 }
-.moon-hub-cal-cell { margin: 0; }
+.moon-hub-cal-cell { margin: 0; min-width: 0; }
+.moon-hub-cal-cell a { min-width: 0; }
 /* Cells restore the OLD 3-line content layout (relative label + date + emoji)
    inside a 7-column calendar matrix. Cells are taller than a typical month
    grid so all 3 pieces breathe; the grid still reads as a calendar because
@@ -2843,12 +2848,12 @@ html[data-theme="dark"] .moon-hub-cal-phase-name {
 /* Mobile: tighter cells; phase emoji smaller; picker stacks under title.
    3-line content stays — mobile relies on smaller font + tighter padding. */
 @media (max-width: 600px) {
-    .moon-hub-calendar-card { padding: 14px 12px; }
+    .moon-hub-calendar-card { padding: 14px 10px; box-sizing: border-box; }
     .moon-hub-cal-grid { gap: 3px; }
     .moon-hub-cal-wd-row { gap: 3px; }
     .moon-hub-cal-cell a {
         min-height: 70px;
-        padding: 6px 3px;
+        padding: 6px 2px;
         font-size: 0.7rem;
         border-radius: 6px;
         gap: 2px;
@@ -2861,8 +2866,26 @@ html[data-theme="dark"] .moon-hub-cal-phase-name {
     .moon-hub-cal-wd { font-size: 0.62rem; padding: 2px 0; }
     .moon-hub-cal-header { gap: 8px; }
     .moon-hub-cal-header .moon-hub-cal-title { font-size: 1.0rem; }
-    .moon-hub-cal-picker select { padding: 5px 8px; font-size: 0.85rem; }
-    .moon-hub-cal-nav { font-size: 0.85rem; }
+    .moon-hub-cal-picker { flex-wrap: wrap; gap: 4px; }
+    .moon-hub-cal-picker select { padding: 5px 6px; font-size: 0.82rem; }
+    .moon-hub-cal-picker button { padding: 5px 10px; font-size: 0.85rem; }
+    .moon-hub-cal-nav { font-size: 0.82rem; gap: 4px; }
+    .moon-hub-cal-prev, .moon-hub-cal-next { padding: 5px 8px; }
+}
+/* Very narrow phones (≤380px) — even tighter to keep 7 cols visible. */
+@media (max-width: 380px) {
+    .moon-hub-calendar-card { padding: 12px 8px; }
+    .moon-hub-cal-grid { gap: 2px; }
+    .moon-hub-cal-cell a {
+        min-height: 64px;
+        padding: 4px 1px;
+        gap: 1px;
+    }
+    .moon-hub-cal-rel { font-size: 0.55rem; }
+    .moon-hub-cal-date { font-size: 0.62rem; }
+    .moon-hub-cal-phase-name { font-size: 0.5rem; }
+    .moon-hub-cal-phase { font-size: 0.95rem; }
+    .moon-hub-cal-wd { font-size: 0.55rem; }
 }
 /* Dark theme */
 html[data-theme="dark"] .moon-hub-cal-cell a {

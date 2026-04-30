@@ -3873,9 +3873,15 @@ function buildSeoForPath(urlPath) {
     const lang = detectedLang;
     const isRtl = (lang === 'ar' || lang === 'ur');
     // URL variants لكل لغة
+    // Final-Cleanup-Patch: avoid trailing-slash duplicates for the language
+    // home pages. /fr/ etc. 301-redirect to /fr (canonical, no slash). Emit
+    // /fr in hreflang to match canonical and stop the self-referential
+    // fallback at line 5314 from firing (was producing duplicate hreflang).
+    // AR root (/) keeps its trailing slash since '/' IS the canonical root.
     const langUrl = (l) => {
         const prefix = (l === 'ar') ? '' : ('/' + l);
-        return origin + prefix + (corePath === '/' ? '/' : corePath);
+        if (corePath === '/') return origin + (l === 'ar' ? '/' : prefix);
+        return origin + prefix + corePath;
     };
     const arUrl = langUrl('ar');
     const enUrl = langUrl('en');
@@ -10699,7 +10705,13 @@ const server = http.createServer(async (req, res) => {
         const urls = {};
         for (const l of langs) {
             const prefix = (l === 'ar') ? '' : ('/' + l);
-            urls[l] = escapeXml(SITE_URL + prefix + relPath);
+            // Final-Cleanup-Patch: avoid trailing-slash duplicates for language
+            // home pages. /fr/ etc. 301-redirect to /fr (no slash) — emitting
+            // /fr in the sitemap matches canonical and saves a crawl-budget hop.
+            // Special case only when relPath === '/' and lang !== 'ar'
+            // (AR keeps '/' as the root).
+            const fullPath = (relPath === '/' && l !== 'ar') ? prefix : (prefix + relPath);
+            urls[l] = escapeXml(SITE_URL + fullPath);
         }
         const links = langs.map(l =>
             `    <xhtml:link rel="alternate" hreflang="${l}" href="${urls[l]}"/>`

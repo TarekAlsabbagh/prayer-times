@@ -5133,6 +5133,14 @@ html.moon-date-page #moon-evergreen-short { display: none !important; }
 .moon-date-edu { display: none; }
 html.moon-date-page .moon-date-edu { display: block !important; }
 
+/* UAT-SEO-Phase-B2 (2026-04-30): the month-page educational box
+   ("فهم تقويم القمر الشهريّ + الأهمّيّة الهجريّة") is hidden by
+   default and only shown on /moon-in-{city}/{YYYY-MM}. Adds ~250
+   words of month-aware copy filled by app.js inside
+   _runMonthOverrides() (interpolates city + month name + year). */
+.moon-month-edu { display: none; }
+html.moon-month-page .moon-month-edu { display: block !important; }
+
 /* UAT-Moon-Day-Page-Polish: short SEO line injected by app.js right
    before the city-specific FAQ. Gives crawlers a one-sentence context
    summary that reinforces the page's date-specific identity, and gives

@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=568" as="script">
-    <link rel="stylesheet" href="css/style.css?v=236">
+    <link rel="preload" href="js/app.js?v=569" as="script">
+    <link rel="stylesheet" href="css/style.css?v=237">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1780,6 +1780,22 @@
                     </ul>
                 </div>
 
+                <!-- UAT-SEO-Phase-B2: month-page deep educational section.
+                     Visible ONLY on /moon-in-{city}/{YYYY-MM} via CSS gate
+                     (html.moon-month-page). Filled by app.js inside the
+                     _runMonthOverrides() closure with month + city aware
+                     content covering: how to read the monthly calendar,
+                     key phases this month, Hijri context, and inter-city
+                     timing variation. Adds ~250 words → month page rises
+                     ~700 → ~950 (target 800-1200). -->
+                <div class="section-card moon-month-edu" id="moon-month-edu-hijri">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span class="moon-month-edu-title">—</span></h2>
+                    <p class="moon-month-edu-p1">—</p>
+                    <p class="moon-month-edu-p2">—</p>
+                    <p class="moon-month-edu-p3">—</p>
+                    <p class="moon-month-edu-p4">—</p>
+                </div>
+
                 <!-- FAQ — City-specific (dynamic answers populated by app.js, accordion w/ first 2 open) -->
                 <div class="section-card moon-faq-city-card">
                     <h2 id="moon-faq-city-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_city_title">أسئلة شائعة عن القمر اليوم في مدينتك</span></h2>
@@ -3370,7 +3386,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=568"></script>
+    <script defer src="js/app.js?v=569"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

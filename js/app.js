@@ -15406,6 +15406,37 @@ function updateMoonInfo() {
                             // dated form (/hijri-date/YYYY-MM-DD).
                         }
                     } catch (_) {}
+
+                    // UAT-SEO-Phase-B2 (2026-04-30): fill the month-page deep
+                    //   educational section "#moon-month-edu-hijri" — adds ~250
+                    //   words covering: how to read the calendar, key phases this
+                    //   month, Hijri context, inter-city timing variation. AR + EN
+                    //   explicit; other 8 langs follow EN as fallback.
+                    try {
+                        const _MONTH_EDU = (_lng_ === 'ar') ? {
+                            title: `فهم تقويم القمر في ${_cityName} لشهر ${_mName} ${_mY}`,
+                            p1: `تقويم القمر الشهريّ يَعرض الأطوار اليوميّة للقمر خلال شهر ${_mName} ${_mY} في ${_cityName}، من المحاق إلى البدر ثمّ العودة إلى المحاق. كلّ خانة في الجدول تُمثّل يومًا واحدًا وتُظهر التاريخ، إيموجي الطور، اسم الطور، ونسبة الإضاءة المئويّة المحسوبة بدقّة فلكيّة.`,
+                            p2: `أهمّ الأطوار خلال أيّ شهر هي البدر (إضاءة 100٪) والمحاق (إضاءة 0٪). قسم "الأطوار القمريّة القادمة" أعلى الصفحة يَعرض التاريخ الميلاديّ والهجريّ بدقّة لكلّ طور قادم خلال ${_mName} ${_mY} وما بعده، اعتمادًا على خوارزميّات Jean Meeus الفلكيّة.`,
+                            p3: `يَرتبط شهر ${_mName} ${_mY} بالتقويم الهجريّ ارتباطًا وثيقًا — إذ يَتداخل غالبًا مع شهر هجريّ كامل أو شهرَين. مَواعيد البدر والمحاق المعروضة في هذا التقويم تُساعد على تَقدير بداية الشهر الهجريّ القادم، رغم أنّ الإثبات الرسميّ يَخضع للرؤية الشرعيّة في كلّ بلد.`,
+                            p4: `كلّ مَواعيد شروق وغروب القمر، وأوقات البدر والمحاق المعروضة، محسوبة بالتوقيت المحلّيّ لـ${_cityName}. قد يَختلف الفرق بين شرق الأرض وغربها إلى 12 ساعة، لذلك تَختلف هذه المَواعيد بين ${_cityName} ومُدن أخرى مثل لندن أو نيويورك.`
+                        } : {
+                            title: `Understanding the moon calendar in ${_cityName} for ${_mName} ${_mY}`,
+                            p1: `The monthly moon calendar shows daily moon phases through ${_mName} ${_mY} in ${_cityName} — from new moon to full moon and back. Each cell represents one day and shows: the date, phase emoji, phase name, and the precisely-computed illumination percentage.`,
+                            p2: `The two key phases each month are the full moon (100% illumination) and new moon (0% illumination). The "Upcoming moon phases" section near the top of the page shows the precise Gregorian and Hijri dates of every upcoming phase during ${_mName} ${_mY} and beyond — computed using Jean Meeus' astronomical methods.`,
+                            p3: `${_mName} ${_mY} ties closely to the Hijri calendar — typically overlapping with one or two full Hijri months. The full-moon and new-moon dates in this calendar help estimate when the next Hijri month begins, though official confirmation depends on local moon-sighting jurisprudence in each country.`,
+                            p4: `All moonrise/moonset times, plus the full and new moon times shown, are computed in ${_cityName}'s local timezone. The east-west difference across the globe can reach 12 hours — so these times will differ between ${_cityName} and other cities like London or New York.`
+                        };
+                        const _mEduTitle = document.querySelector('#moon-month-edu-hijri .moon-month-edu-title');
+                        const _mEduP1 = document.querySelector('#moon-month-edu-hijri .moon-month-edu-p1');
+                        const _mEduP2 = document.querySelector('#moon-month-edu-hijri .moon-month-edu-p2');
+                        const _mEduP3 = document.querySelector('#moon-month-edu-hijri .moon-month-edu-p3');
+                        const _mEduP4 = document.querySelector('#moon-month-edu-hijri .moon-month-edu-p4');
+                        if (_mEduTitle) _mEduTitle.textContent = _MONTH_EDU.title;
+                        if (_mEduP1) _mEduP1.textContent = _MONTH_EDU.p1;
+                        if (_mEduP2) _mEduP2.textContent = _MONTH_EDU.p2;
+                        if (_mEduP3) _mEduP3.textContent = _MONTH_EDU.p3;
+                        if (_mEduP4) _mEduP4.textContent = _MONTH_EDU.p4;
+                    } catch (_) {}
                     }; // close _runMonthOverrides
                     // Run twice: immediately AND deferred. Belt-and-suspenders: if
                     //   hub block runs synchronously after this, the deferred call

@@ -16492,18 +16492,37 @@ function updateMoonInfo() {
                 const _setAll = (selector, value) => {
                     document.querySelectorAll(selector).forEach(el => { el.textContent = value; });
                 };
-                _events.forEach(ev => {
+
+                // UAT-events-sort (2026-04-30): Sort by closest-first so the most
+                //   imminent Islamic occasion is shown first. Pass 1 computes
+                //   days for each event; Pass 2 sorts ascending by days; Pass 3
+                //   applies CSS `order` to each card so the grid reflows with
+                //   the closest event leftmost (RTL: rightmost). DOM order is
+                //   not mutated — `order` is purely visual via flex/grid.
+                //   Applies uniformly to every #moon-events-section instance
+                //   on the page (selector covers ID + class variants).
+                const _eventsWithDays = _events.map(ev => {
                     const d = _nextEventDate(ev.hm, ev.hd);
                     const days = _daysBetween(d);
-                    const _daysVal = (days != null) ? _daysLabel(days) : '—';
-                    const _dateVal = _fmtEventDate(d);
-                    // updates ALL instances by ID OR class (for multi-page support)
+                    return { id: ev.id, date: d, days };
+                });
+                _eventsWithDays.sort((a, b) => {
+                    // null/missing days sink to the bottom
+                    if (a.days == null && b.days == null) return 0;
+                    if (a.days == null) return 1;
+                    if (b.days == null) return -1;
+                    return a.days - b.days;
+                });
+                _eventsWithDays.forEach((ev, idx) => {
+                    const _daysVal = (ev.days != null) ? _daysLabel(ev.days) : '—';
+                    const _dateVal = _fmtEventDate(ev.date);
                     _setAll('#moon-event-' + ev.id + '-days, .moon-event-' + ev.id + '-days', _daysVal);
                     _setAll('#moon-event-' + ev.id + '-date, .moon-event-' + ev.id + '-date', _dateVal);
-                    // تمييز إن كان قريباً (≤ 5 أيّام) — لكل البطاقات
                     try {
                         document.querySelectorAll('#moon-event-' + ev.id + ', .moon-event-' + ev.id + '-card').forEach(_card => {
-                            if (days != null && days >= 0 && days <= 5) {
+                            // Closest-first reorder via CSS order (works for grid + flex)
+                            _card.style.order = String(idx);
+                            if (ev.days != null && ev.days >= 0 && ev.days <= 5) {
                                 _card.classList.add('moon-event-soon');
                             } else {
                                 _card.classList.remove('moon-event-soon');

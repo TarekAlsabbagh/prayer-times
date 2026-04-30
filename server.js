@@ -4837,17 +4837,25 @@ function buildSeoForPath(urlPath) {
                 };
             } else if (_isMoonHubPage) {
                 // ── Round 16: Hub للمدينة ── (evergreen، بلا "اليوم"، تجمع كلّ التواريخ كصفحة أمّ للمدينة)
+                // Moon title templates cleanup (2026-05-01): trimmed all 10 langs to fit
+                // SEOptimer's 50–60 char window even for medium-long city names. The
+                // previous templates ran 60–71 chars for "الرياض" and 70–84 for
+                // "المدينة المنورة". The new format keeps the city name + 1–2 keywords
+                // ("Calendar", "Phases", "Hijri Dates") so the Hub remains visually
+                // distinct from /moon-today-in-{city} (Today templates further down).
+                // EN/ES/TR slightly expanded (vs. an earlier draft) to stay above ~45
+                // chars and avoid the inverse "title could be longer" warning.
                 _moonTitle = {
-                    ar: `حالة القمر في ${cityDisplay} — الطور اليوم، والتواريخ القادمة، والتقويم الهجريّ`,
-                    en: `Moon in ${cityDisplay} — Current Phase, Upcoming Dates & Hijri Calendar`,
-                    fr: `La Lune à ${cityDisplay} — Phase actuelle, dates à venir et calendrier hégirien`,
-                    tr: `${cityDisplay}'da Ay — Güncel Evre, Yaklaşan Tarihler ve Hicri Takvim`,
-                    ur: `${cityDisplay} میں چاند — موجودہ طور، آنے والی تاریخیں اور ہجری تقویم`,
-                    de: `Der Mond in ${cityDisplay} — Aktuelle Phase, kommende Daten & Hidschri-Kalender`,
-                    id: `Bulan di ${cityDisplay} — Fase Saat Ini, Tanggal Mendatang & Kalender Hijriah`,
-                    es: `La Luna en ${cityDisplay} — Fase actual, fechas próximas y calendario hijri`,
-                    bn: `${cityDisplay}-এ চাঁদ — বর্তমান দশা, আসন্ন তারিখ ও হিজরি ক্যালেন্ডার`,
-                    ms: `Bulan di ${cityDisplay} — Fasa Semasa, Tarikh Akan Datang & Kalendar Hijrah`,
+                    ar: `تقويم القمر في ${cityDisplay} ومراحل القمر`,
+                    en: `Moon Calendar in ${cityDisplay}: Phases & Hijri Dates`,
+                    fr: `Calendrier lunaire à ${cityDisplay} et phases de la Lune`,
+                    tr: `${cityDisplay} Ay Takvimi, Ay Evreleri ve Hicri Tarih`,
+                    ur: `${cityDisplay} میں چاند کی تقویم اور چاند کے مراحل`,
+                    de: `Mondkalender in ${cityDisplay} und Mondphasen`,
+                    id: `Kalender Bulan di ${cityDisplay} dan Fase Bulan`,
+                    es: `Calendario lunar en ${cityDisplay}, fases y fechas hijri`,
+                    bn: `${cityDisplay}-এ চাঁদের ক্যালেন্ডার ও চাঁদের দশা`,
+                    ms: `Kalendar Bulan di ${cityDisplay} dan Fasa Bulan`,
                 };
                 _moonDesc = {
                     ar: `كلّ ما تحتاجه عن القمر في ${cityDisplay}: الطور والإضاءة الآن، مواعيد البدر والمحاق، رؤية الهلال، والتقويم الهجريّ مع روابط لجميع التواريخ القادمة والماضية.`,
@@ -4888,18 +4896,24 @@ function buildSeoForPath(urlPath) {
                     ms: `Fasa Bulan di ${cityDisplay} pada ${_mainWithEquiv}: pencahayaan, usia, waktu terbit dan terbenam, serta buruj — dikira dengan algoritma astronomi tepat.`,
                 };
             } else {
-                // ── عناوين صفحة اليوم (القديمة) ──
+                // ── عناوين صفحة اليوم ──
+                // Moon title templates cleanup (2026-05-01): aligned with the Hub block
+                // above (Hub = Calendar, Today = current state). Each template now
+                // pairs the city + "today" + Hijri date — the unique angle of this
+                // page vs. the Hub. Stays under 60 chars even for "المدينة المنورة"
+                // (16 chars) in every language. EN/ES/TR include "Phase"/"fase"/
+                // "Evresi" so they don't drop below ~37 chars on short cities.
                 _moonTitle = {
-                    ar: `حالة القمر اليوم في ${cityDisplay} - طور القمر ونسبة الإضاءة`,
-                    en: `Moon State Today in ${cityDisplay} - Phase, Illumination & Distance`,
-                    fr: `État de la Lune aujourd\u2019hui à ${cityDisplay} - Phase et Illumination`,
-                    tr: `${cityDisplay}'da Bugün Ayın Durumu - Evre ve Aydınlanma`,
-                    ur: `${cityDisplay} میں آج چاند کی حالت - طور اور روشنی`,
-                    de: `Mondzustand heute in ${cityDisplay} - Phase und Beleuchtung`,
-                    id: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fase & Iluminasi`,
-                    es: `Estado de la Luna hoy en ${cityDisplay} - Fase e Iluminación`,
-                    bn: `${cityDisplay}-এ আজ চাঁদের অবস্থা - দশা ও আলোকন`,
-                    ms: `Keadaan Bulan Hari Ini di ${cityDisplay} - Fasa & Pencahayaan`,
+                    ar: `حالة القمر اليوم في ${cityDisplay} والتقويم الهجري`,
+                    en: `Moon Today in ${cityDisplay}: Phase & Hijri Date`,
+                    fr: `Lune aujourd\u2019hui à ${cityDisplay} et date hégirienne`,
+                    tr: `${cityDisplay}'da Bugün Ay Evresi ve Hicri Tarih`,
+                    ur: `${cityDisplay} میں آج چاند اور ہجری تاریخ`,
+                    de: `Mond heute in ${cityDisplay} & Hidschri-Datum`,
+                    id: `Bulan Hari Ini di ${cityDisplay} & Tanggal Hijriah`,
+                    es: `Luna hoy en ${cityDisplay}: fase y fecha hijri`,
+                    bn: `${cityDisplay}-এ আজকের চাঁদ ও হিজরি তারিখ`,
+                    ms: `Bulan Hari Ini di ${cityDisplay} & Tarikh Hijrah`,
                 };
                 _moonDesc = {
                     ar: `حالة القمر اليوم في ${cityDisplay}: الطور الحالي ونسبة الإضاءة، عمر القمر، شروق وغروب القمر، البدر القادم، مع رابط تقويم القمر الشهريّ في ${cityDisplay}.`,

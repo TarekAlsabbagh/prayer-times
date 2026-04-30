@@ -15789,6 +15789,38 @@ function updateMoonInfo() {
                     _seoP.textContent = _SEO_LINE[_lng_] || _SEO_LINE.en;
                 }
             } catch (_) {}
+
+            // UAT-SEO-Phase-B1 (2026-04-30): fill the date-page educational
+            //   section "التاريخ الهجريّ ورؤية الهلال". Adds ~150 words of
+            //   date-aware copy that interpolates city + date — raises the
+            //   day page from ~600 to ~750 visible words (target 600-900).
+            //   AR + EN explicit; other 8 langs follow EN as fallback (same
+            //   pattern as other Phase-A/B blocks).
+            try {
+                const _D = _dateLabel || '—';
+                const _Cd = _cityName;
+                const _DATE_EDU_AR = {
+                    title: `التاريخ الهجريّ ورؤية الهلال في ${_D}`,
+                    p1: `يَرتبط القمر بالتقويم الهجريّ ارتباطًا مباشرًا، إذ يَبدأ كلّ شهر هجريّ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. حالة القمر في ${_Cd} يوم ${_D} مَحسوبة بدقّة فلكيّة وفق منهجيّات Jean Meeus، وتُساعد على تَقدير موعد بداية الشهر الهجريّ القادم.`,
+                    p2: `قد تَختلف بدايات الأشهر الهجريّة بين البلدان بحسب الرؤية الشرعيّة المحلّيّة لكلّ دولة. هذه الصفحة تَعرض البيانات الفلكيّة الموضوعيّة للقمر في ${_Cd} يوم ${_D} — أمّا ثبوت الشهر فيَخضع للاجتهاد الفقهيّ في كلّ بلد.`,
+                    p3: `كلّ مَواعيد شروق وغروب القمر، ومواعيد البدر والمحاق المعروضة هنا، محسوبة بالتوقيت المحلّيّ لـ${_Cd}، مع اعتماد إحداثيّات المدينة الدقيقة. يَختلف وقت رؤية الهلال من مدينة إلى أخرى بحسب خطّ الطول وارتفاع الأفق.`
+                };
+                const _DATE_EDU_EN = {
+                    title: `Hijri date and crescent visibility on ${_D}`,
+                    p1: `The Moon is tied directly to the Hijri calendar — each Hijri month begins with the crescent sighting after the new moon and lasts 29 or 30 days. The Moon's state in ${_Cd} on ${_D} is computed astronomically using Jean Meeus' methods, and helps estimate when the next Hijri month begins.`,
+                    p2: `Hijri month starts may vary between countries based on local Islamic moon-sighting authority. This page shows the objective astronomical data for the Moon in ${_Cd} on ${_D} — the official confirmation of each month depends on local jurisprudence in each country.`,
+                    p3: `All moonrise/moonset and full/new moon times shown on this page are computed in ${_Cd}'s local timezone using the city's precise coordinates. Crescent visibility times also vary between cities based on longitude and horizon altitude.`
+                };
+                const _edu = (_lng_ === 'ar') ? _DATE_EDU_AR : _DATE_EDU_EN;
+                const _eduTitle = document.querySelector('#moon-date-edu-hijri .moon-date-edu-title');
+                const _eduP1 = document.querySelector('#moon-date-edu-hijri .moon-date-edu-p1');
+                const _eduP2 = document.querySelector('#moon-date-edu-hijri .moon-date-edu-p2');
+                const _eduP3 = document.querySelector('#moon-date-edu-hijri .moon-date-edu-p3');
+                if (_eduTitle) _eduTitle.textContent = _edu.title;
+                if (_eduP1) _eduP1.textContent = _edu.p1;
+                if (_eduP2) _eduP2.textContent = _edu.p2;
+                if (_eduP3) _eduP3.textContent = _edu.p3;
+            } catch (_) {}
         }
         // ── Round 16: Hub page — H1 بلا «اليوم» + subtitle عامّ للمدينة ──
         // الصفحة evergreen؛ تمثّل المدينة كـ entity، لا يوم معيّن. العنوان هنا

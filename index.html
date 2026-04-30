@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=567" as="script">
-    <link rel="stylesheet" href="css/style.css?v=235">
+    <link rel="preload" href="js/app.js?v=568" as="script">
+    <link rel="stylesheet" href="css/style.css?v=236">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1822,6 +1822,18 @@
                     </div>
                 </div>
 
+                <!-- UAT-SEO-Phase-B1: date-page educational section — Hijri context.
+                     Visible ONLY on /moon-in-{city}/{YYYY-MM-DD} via CSS gate
+                     (html.moon-date-page). Empty placeholders filled by app.js
+                     with date-aware copy that interpolates city + date. Adds
+                     ~120-150 words to the day page (target 600-900). -->
+                <div class="section-card moon-date-edu" id="moon-date-edu-hijri">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-date-edu-title">—</span></h2>
+                    <p class="moon-date-edu-p1">—</p>
+                    <p class="moon-date-edu-p2">—</p>
+                    <p class="moon-date-edu-p3">—</p>
+                </div>
+
                 <!-- FAQ — General Astronomy / Islamic Section (static, SEO-friendly) -->
                 <div class="section-card" id="moon-general-faq">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_general_title">أسئلة عامّة عن القمر</span></h2>
@@ -3358,7 +3370,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=567"></script>
+    <script defer src="js/app.js?v=568"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

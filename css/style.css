@@ -5126,6 +5126,13 @@ html.moon-date-page #moon-events-section,
 html.moon-date-page #moon-general-faq,
 html.moon-date-page #moon-evergreen-short { display: none !important; }
 
+/* UAT-SEO-Phase-B1 (2026-04-30): the date-page educational box
+   ("التاريخ الهجريّ ورؤية الهلال") is hidden by default and only
+   shown on /moon-in-{city}/{YYYY-MM-DD}. Adds ~150 words of
+   date-aware copy filled by app.js (interpolates city + date). */
+.moon-date-edu { display: none; }
+html.moon-date-page .moon-date-edu { display: block !important; }
+
 /* UAT-Moon-Day-Page-Polish: short SEO line injected by app.js right
    before the city-specific FAQ. Gives crawlers a one-sentence context
    summary that reinforces the page's date-specific identity, and gives

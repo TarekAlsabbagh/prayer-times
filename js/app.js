@@ -15122,8 +15122,13 @@ function updateMoonInfo() {
             // UAT-Moon-Today-City-Polish: include weekday so H1 reads
             //   "حالة القمر اليوم في الرياض — الأربعاء، 29 أبريل 2026"
             //   instead of "...الرياض — 29 أبريل 2026".
+            // FIX (mobile): force Latin (0-9) digits so AR locale doesn't render
+            //   day/year as Arabic-Indic (٠-٩) on mobile devices that fall back
+            //   to default Arabic numerals. The visible H1 stays in Arabic but
+            //   numbers stay Latin (matches website convention used elsewhere).
             _dateStrH1 = new Intl.DateTimeFormat(_intlLoc, {
-                weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+                numberingSystem: 'latn'
             }).format(today);
         } catch (_e) {
             // Fallback: language-aware month name + numeric day/year

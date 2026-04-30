@@ -35,7 +35,7 @@
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <link rel="preload" href="js/app.js?v=565" as="script">
-    <link rel="stylesheet" href="css/style.css?v=233">
+    <link rel="stylesheet" href="css/style.css?v=234">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1792,7 +1792,10 @@
                             <p id="moon-dq1-a" data-i18n="moon.faq.tpl_dq1">—</p>
                         </details>
                         <!-- Q2: illumination (NEW) -->
-                        <details class="moon-faq-item" open>
+                        <!-- UAT-FAQ-UX: only the FIRST item should be open by default;
+                             closing this one keeps the section tighter and lets users
+                             scan question titles before expanding. -->
+                        <details class="moon-faq-item">
                             <summary id="moon-dq_illum-q" data-i18n="moon.faq.tpl_dq_illum_q">كم نسبة إضاءة القمر اليوم في مدينتك؟</summary>
                             <p id="moon-dq_illum-a" data-i18n="moon.faq.tpl_dq_illum">—</p>
                         </details>

@@ -5479,11 +5479,25 @@ html[dir="ltr"] .moon-faq-group-heading { text-align: left; }
     transform: translateY(-50%) rotate(180deg);
 }
 .moon-faq-item p {
-    padding: 0 16px 14px;
+    /* UAT-FAQ-UX (2026-04-30): keep answers compact. min-height:auto is
+       defensive against any inherited min-height from container styling.
+       padding-top:4px gives a small breath after summary without forcing
+       extra vertical space when the answer is short. line-height:1.65
+       (was 1.7) reads naturally for Arabic and trims ~3px per line. */
+    padding: 4px 16px 12px;
     margin: 0;
+    min-height: auto;
     color: var(--text);
-    line-height: 1.7;
+    line-height: 1.65;
     font-size: 0.95rem;
+}
+.moon-faq-item[open] p {
+    /* Re-assert min-height:auto when open — guards against any future JS
+       that animates open/close via height transitions and might leave a
+       lingering min-height. Applies to ALL moon FAQ pages uniformly:
+         /moon-today, /moon-today-in-{city}, /moon-in-{city},
+         /moon-in-{city}/{YYYY-MM}, /moon-in-{city}/{YYYY-MM-DD}. */
+    min-height: auto;
 }
 /* قسم «الآن»: إجابات ديناميكيّة بأرقام وتواريخ حقيقيّة */
 .moon-faq-live .moon-faq-item {

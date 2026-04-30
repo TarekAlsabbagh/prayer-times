@@ -6466,12 +6466,19 @@ function updateBreadcrumb() {
                 || currentLocalizedCountry || currentEnglishCountry || currentCountry || countrySlug);
     // UR/TR/FR/DE/ID/BN/ES/MS: نستعمل getDisplayCity() لتطبيق قاموس CITY_NAMES_* المحلّي
     // قبل الرجوع للاسم الإنجليزي — يضمن ترجمة عواصم الدول-المدن (Monaco → موناکو للأوردو).
-    const cityLabel = (lang === 'ar')
+    const cityLabelRaw = (lang === 'ar')
         ? (currentCity               || currentEnglishName    || currentEnglishDisplayName)
         : (lang === 'en')
             ? (currentEnglishDisplayName || currentEnglishName    || currentCity)
             : ((typeof getDisplayCity === 'function' && getDisplayCity())
                 || currentLocalizedName || currentEnglishDisplayName || currentEnglishName || currentCity);
+    // UAT-fix: strip admin-division prefixes ("محافظة"/"Governorate"/etc.)
+    //   so the breadcrumb shows "مواقيت الصلاة في مكة المكرمة" instead of
+    //   "مواقيت الصلاة في محافظة مكة المكرمة" when Nominatim/sessionStorage
+    //   includes the admin prefix.
+    const cityLabel = (typeof _stripCityAdminPrefix === 'function')
+        ? _stripCityAdminPrefix(cityLabelRaw)
+        : cityLabelRaw;
 
     // "مواقيت الصلاة في {name}" — نفس القالب يُطبَّق على الدولة والمدينة
     // (نمرّر متغيّر placeholder اسمه 'city' لأن مفتاح i18n يستخدمه — لكن القيمة قد تكون اسم دولة)
@@ -10794,16 +10801,17 @@ function initRamadanBadge() {
  */
 function getCurrentCityLabel() {
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    if (_ln === 'ar') return (typeof currentCity !== 'undefined' && currentCity) ? currentCity : '';
+    const _strip = (s) => (typeof _stripCityAdminPrefix === 'function') ? _stripCityAdminPrefix(s) : s;
+    if (_ln === 'ar') return (typeof currentCity !== 'undefined' && currentCity) ? _strip(currentCity) : '';
     // للّغات الأخرى: جرّب localized name أوّلاً ثم map ثم English
-    if (typeof currentLocalizedName !== 'undefined' && currentLocalizedName) return currentLocalizedName;
+    if (typeof currentLocalizedName !== 'undefined' && currentLocalizedName) return _strip(currentLocalizedName);
     try {
         const cityMap = (typeof _LOCALIZED_CITY_MAPS !== 'undefined') ? _LOCALIZED_CITY_MAPS[_ln] : null;
         const enName = (typeof currentEnglishName !== 'undefined') ? currentEnglishName : '';
-        if (cityMap && enName && cityMap[enName]) return cityMap[enName];
-        return enName || (typeof currentCity !== 'undefined' ? currentCity : '');
+        if (cityMap && enName && cityMap[enName]) return _strip(cityMap[enName]);
+        return _strip(enName || (typeof currentCity !== 'undefined' ? currentCity : ''));
     } catch (_e) {
-        return (typeof currentCity !== 'undefined') ? currentCity : '';
+        return (typeof currentCity !== 'undefined') ? _strip(currentCity) : '';
     }
 }
 

@@ -192,8 +192,21 @@
             }
         } catch(e) {}
 
-        // No consent yet → show banner (slight delay so i18n.js loads)
-        setTimeout(buildBanner, 600);
+        // Phase E2-B-fixup (2026-05-01): no consent yet → show banner.
+        // Lighthouse Mobile flagged this as a long task (~91 ms) firing
+        // at 4,618 ms — landed in the post-LCP busy window and bumped
+        // Total Blocking Time. Switched to requestIdleCallback so the
+        // banner DOM is built only when the main thread is idle.
+        // Fallback timeout extended to 1500 ms (was 600) so Safari and
+        // older browsers without rIC also avoid the same busy frame.
+        var scheduleBannerBuild = function () {
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(buildBanner, { timeout: 2000 });
+            } else {
+                window.setTimeout(buildBanner, 1500);
+            }
+        };
+        scheduleBannerBuild();
     }
 
     if (document.readyState === 'loading') {

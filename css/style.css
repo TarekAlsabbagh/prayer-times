@@ -1823,11 +1823,20 @@ button, input, select { font-family: inherit; }
 }
 .prayer-progress-fill {
     height: 100%;
-    /* Phase E1-c: width driven by CSS var, JS sets el.style.setProperty('--fill', X+'%') */
-    width: var(--fill, 0%);
+    /* Phase E2-B-fixup (2026-05-01): width animation → composited transform.
+       JS writes --fill-ratio (0..1) instead of --fill (0%..100%). Same
+       rationale as .mc-progress-fill: scaleX() avoids forced layout on
+       Mobile during the per-second progress refresh. */
+    width: 100%;
+    transform: scaleX(var(--fill-ratio, 0));
+    transform-origin: left center;
     border-radius: 999px;
     background: linear-gradient(90deg, var(--primary, #2e7d32), var(--gold, #ffd700));
-    transition: width 1s linear;
+    transition: transform 1s linear;
+    will-change: transform;
+}
+html[dir="rtl"] .prayer-progress-fill {
+    transform-origin: right center;
 }
 .prayer-card.current .prayer-progress { display: block; }
 @media (prefers-reduced-motion: reduce) {
@@ -4771,12 +4780,25 @@ html[dir="ltr"] .moon-subtitle { text-align: left; }
 }
 .moon-comparison .mc-progress-fill {
     height: 100%;
-    /* Phase E1-c: width via CSS var, JS uses setProperty('--fill', x+'%') */
-    width: var(--fill, 0%);
+    /* Phase E2-B-fixup (2026-05-01): swap layout-property animation for a
+       composited transform. Lighthouse Mobile flagged the previous
+       `width: var(--fill, 0%); transition: width` as a non-composited
+       animation (forced Style + Layout + Paint per frame). New scheme:
+       physical width is fixed at 100% of the track; visual length is
+       controlled by transform: scaleX(--fill-ratio) where --fill-ratio
+       is a 0..1 number written by JS. transform animations stay on the
+       compositor thread → 0 layout cost, smooth on Mobile. */
+    width: 100%;
+    transform: scaleX(var(--fill-ratio, 0));
+    transform-origin: left center;
     background: linear-gradient(90deg, var(--primary), var(--primary-dark));
     border-radius: 999px;
-    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
     box-shadow: 0 0 8px rgba(46,125,50,0.35);
+    will-change: transform;
+}
+html[dir="rtl"] .moon-comparison .mc-progress-fill {
+    transform-origin: right center;
 }
 .moon-comparison[data-direction="waning"] .mc-progress-fill {
     background: linear-gradient(90deg, #ffb74d, #f57c00);

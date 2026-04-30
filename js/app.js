@@ -10671,9 +10671,11 @@ function updatePrayerProgress() {
     const pct = Math.max(0, Math.min(100, (elapsed / total) * 100));
 
     const fill = document.querySelector(`.prayer-card[data-prayer="${curr.key}"] .prayer-progress-fill`);
-    // Phase E1-c: write to CSS var instead of inline style.width to keep
-    // styling out of the markup (SEOptimer "Remove Inline Styles" finding).
-    if (fill) fill.style.setProperty('--fill', pct.toFixed(1) + '%');
+    // Phase E2-B-fixup (2026-05-01): switched from --fill (% string) to
+    // --fill-ratio (0..1 number) so the CSS rule animates transform: scaleX()
+    // instead of width. Composited animation = no Style/Layout cost on
+    // Mobile, and the per-second refresh (~1Hz) stays smooth on low-end CPUs.
+    if (fill) fill.style.setProperty('--fill-ratio', (pct / 100).toFixed(4));
 }
 
 // 🆕 Round 3.1 — Auto-scroll إلى .prayer-card.active/.current (city-page فقط، مرّة واحدة)
@@ -17886,8 +17888,11 @@ function updateMoonInfo() {
                 const _safeProgress = (typeof progressPct === 'number' && isFinite(progressPct)) ? progressPct : 0;
                 if (_pCur) _pCur.textContent = (phase.icon || '') + ' ' + (_phaseLabel2 || phase.name || '');
                 if (_pNext && nextPhaseName) _pNext.textContent = (nextPhaseIcon || '') + ' ' + nextPhaseName;
-                // Phase E1-c: write to CSS vars instead of inline width/inset-inline-start
-                if (_pFill) _pFill.style.setProperty('--fill', _safeProgress.toFixed(1) + '%');
+                // Phase E2-B-fixup (2026-05-01): write --fill-ratio (0..1) so
+                // the CSS uses transform: scaleX() instead of width animation.
+                // Composited animation → 0 forced layout. --offset for the dot
+                // is unchanged (kept on inset-inline-start per E2-B-fixup spec).
+                if (_pFill) _pFill.style.setProperty('--fill-ratio', (Math.max(0, Math.min(100, _safeProgress)) / 100).toFixed(4));
                 if (_pDot)  _pDot.style.setProperty('--offset', _safeProgress.toFixed(1) + '%');
                 // Phase E2-5 (a11y): keep ARIA progressbar value in sync with the visual fill
                 const _pTrack = document.getElementById('mc-progress-track');

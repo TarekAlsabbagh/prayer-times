@@ -20929,21 +20929,33 @@ function initDuas() {
     if (!container) return;
     container.innerHTML = '';
 
-    DuasDB.categories.forEach(cat => {
+    // Phase D3.3c — pick localized category name + count label (AzkarDB)
+    const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _pickCatName = (cat) => {
+        if (cat.name && typeof cat.name === 'object') {
+            return cat.name[_lang] || cat.name.en || cat.name.ar || cat.id;
+        }
+        return cat.name; // legacy string fallback
+    };
+    const _countLabel = (n) => (typeof t === 'function')
+        ? t('azkar.count_label', { count: n })
+        : (n + ' ذكر');
+
+    AzkarDB.categories.forEach(cat => {
         const div = document.createElement('div');
         div.className = 'dua-category';
         div.onclick = () => showDuaCategory(cat.id);
         div.innerHTML = `
             <span class="icon">${cat.icon}</span>
-            <div class="name">${cat.name}</div>
-            <div class="count">${cat.duas.length} ذكر</div>
+            <div class="name">${_pickCatName(cat)}</div>
+            <div class="count">${_countLabel(cat.duas.length)}</div>
         `;
         container.appendChild(div);
     });
 }
 
 function showDuaCategory(categoryId) {
-    const category = DuasDB.categories.find(c => c.id === categoryId);
+    const category = AzkarDB.categories.find(c => c.id === categoryId);
     if (!category) return;
 
     // تحديث النشط
@@ -20952,7 +20964,12 @@ function showDuaCategory(categoryId) {
 
     const listSection = document.getElementById('dua-list-section');
     listSection.style.display = 'block';
-    document.getElementById('dua-list-title').textContent = category.icon + ' ' + category.name;
+    // Phase D3.3c — localized name in detail title
+    const _langB = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _catName = (category.name && typeof category.name === 'object')
+        ? (category.name[_langB] || category.name.en || category.name.ar || category.id)
+        : category.name;
+    document.getElementById('dua-list-title').textContent = category.icon + ' ' + _catName;
 
     const list = document.getElementById('dua-list');
     list.innerHTML = '';

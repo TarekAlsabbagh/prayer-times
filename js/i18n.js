@@ -1078,6 +1078,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'سبحان الله',
         'tasbih.alhamdulillah': 'الحمد لله',
         'tasbih.allahu_akbar': 'الله أكبر',
+        'azkar.count_label': '{count} ذكر',
         // بوب آب الأذان
         'adhan_popup.prefix': 'يحين الآن موعد أذان',
         'adhan_popup.location': 'بالتوقيت المحلي لـ',
@@ -2463,6 +2464,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Subhanallah',
         'tasbih.alhamdulillah': 'Alhamdulillah',
         'tasbih.allahu_akbar': 'Allahu Akbar',
+        'azkar.count_label': '{count} azkar',
         // Adhan popup
         'adhan_popup.prefix': 'It is now time for',
         'adhan_popup.location': 'local time in',
@@ -3650,6 +3652,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Subhanallah',
         'tasbih.alhamdulillah': 'Alhamdulillah',
         'tasbih.allahu_akbar': 'Allahu Akbar',
+        'azkar.count_label': '{count} azkar',
         'adhan_popup.prefix': 'C\'est l\'heure de',
         'adhan_popup.location': 'heure locale à',
         'adhan_popup.close': 'Fermer',
@@ -4848,6 +4851,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Sübhanallah',
         'tasbih.alhamdulillah': 'Elhamdülillah',
         'tasbih.allahu_akbar': 'Allahu Ekber',
+        'azkar.count_label': '{count} zikir',
         'adhan_popup.prefix': 'Vakti geldi',
         'adhan_popup.location': 'yerel saatiyle',
         'adhan_popup.close': 'Kapat',
@@ -6059,6 +6063,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'سبحان اللہ',
         'tasbih.alhamdulillah': 'الحمد للہ',
         'tasbih.allahu_akbar': 'اللہ اکبر',
+        'azkar.count_label': '{count} اذکار',
         'adhan_popup.prefix': 'اب وقت ہے',
         'adhan_popup.location': 'مقامی وقت بمطابق',
         'adhan_popup.close': 'بند کریں',
@@ -7244,6 +7249,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Subhanallah',
         'tasbih.alhamdulillah': 'Alhamdulillah',
         'tasbih.allahu_akbar': 'Allahu Akbar',
+        'azkar.count_label': '{count} Azkar',
         // Adhan popup
         'adhan_popup.prefix': 'Es ist jetzt Zeit für',
         'adhan_popup.location': 'Ortszeit in',
@@ -8497,6 +8503,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Subhanallah',
         'tasbih.alhamdulillah': 'Alhamdulillah',
         'tasbih.allahu_akbar': 'Allahu Akbar',
+        'azkar.count_label': '{count} azkar',
         // Adhan popup
         'adhan_popup.prefix': 'Saatnya sholat',
         'adhan_popup.location': 'Waktu setempat di',
@@ -9750,6 +9757,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Subhanallah',
         'tasbih.alhamdulillah': 'Alhamdulillah',
         'tasbih.allahu_akbar': 'Allahu Akbar',
+        'azkar.count_label': '{count} azkar',
         // Adhan popup
         'adhan_popup.prefix': 'Es hora de la oración',
         'adhan_popup.location': 'Hora local en',
@@ -11003,6 +11011,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'সুবহানাল্লাহ',
         'tasbih.alhamdulillah': 'আলহামদুলিল্লাহ',
         'tasbih.allahu_akbar': 'আল্লাহু আকবার',
+        'azkar.count_label': '{count} আজকার',
         // Adhan popup
         'adhan_popup.prefix': 'নামাজের সময় হয়েছে',
         'adhan_popup.location': 'স্থানীয় সময়',
@@ -12256,6 +12265,7 @@ const TRANSLATIONS = {
         'tasbih.subhanallah': 'Subhanallah',
         'tasbih.alhamdulillah': 'Alhamdulillah',
         'tasbih.allahu_akbar': 'Allahu Akbar',
+        'azkar.count_label': '{count} azkar',
         // Adhan popup
         'adhan_popup.prefix': 'Masuk waktu solat',
         'adhan_popup.location': 'Waktu tempatan di',

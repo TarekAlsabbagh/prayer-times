@@ -2,11 +2,22 @@
  * قاعدة بيانات الأدعية والأذكار
  */
 
-const DuasDB = {
+const AzkarDB = {
     categories: [
         {
             id: 'morning',
-            name: 'أذكار الصباح',
+            name: {
+                ar: 'أذكار الصباح',
+                en: 'Morning Azkar',
+                fr: 'Azkar du matin',
+                tr: 'Sabah zikirleri',
+                ur: 'صبح کے اذکار',
+                de: 'Morgen-Azkar',
+                id: 'Azkar pagi',
+                es: 'Azkar de la mañana',
+                bn: 'সকালের আজকার',
+                ms: 'Azkar pagi',
+            },
             icon: '🌅',
             duas: [
                 { text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَـهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', reference: 'أبو داود', repeat: 1 },
@@ -23,7 +34,18 @@ const DuasDB = {
         },
         {
             id: 'evening',
-            name: 'أذكار المساء',
+            name: {
+                ar: 'أذكار المساء',
+                en: 'Evening Azkar',
+                fr: 'Azkar du soir',
+                tr: 'Akşam zikirleri',
+                ur: 'شام کے اذکار',
+                de: 'Abend-Azkar',
+                id: 'Azkar petang',
+                es: 'Azkar de la tarde',
+                bn: 'সন্ধ্যার আজকার',
+                ms: 'Azkar petang',
+            },
             icon: '🌙',
             duas: [
                 { text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَـهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ', reference: 'أبو داود', repeat: 1 },
@@ -37,7 +59,18 @@ const DuasDB = {
         },
         {
             id: 'after-prayer',
-            name: 'أذكار بعد الصلاة',
+            name: {
+                ar: 'أذكار بعد الصلاة',
+                en: 'Post-prayer Azkar',
+                fr: 'Azkar après la prière',
+                tr: 'Namaz sonrası zikirler',
+                ur: 'نماز کے بعد کے اذکار',
+                de: 'Azkar nach dem Gebet',
+                id: 'Azkar setelah sholat',
+                es: 'Azkar después de la oración',
+                bn: 'নামাজের পরের আজকার',
+                ms: 'Azkar selepas solat',
+            },
             icon: '🕌',
             duas: [
                 { text: 'أَسْتَغْفِرُ اللهَ', reference: 'مسلم', repeat: 3 },
@@ -51,7 +84,18 @@ const DuasDB = {
         },
         {
             id: 'sleep',
-            name: 'أذكار النوم',
+            name: {
+                ar: 'أذكار النوم',
+                en: 'Sleep Azkar',
+                fr: 'Azkar avant le sommeil',
+                tr: 'Uyku zikirleri',
+                ur: 'سوتے وقت کے اذکار',
+                de: 'Schlaf-Azkar',
+                id: 'Azkar tidur',
+                es: 'Azkar antes de dormir',
+                bn: 'ঘুমের আজকার',
+                ms: 'Azkar tidur',
+            },
             icon: '😴',
             duas: [
                 { text: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا', reference: 'البخاري', repeat: 1 },
@@ -64,7 +108,18 @@ const DuasDB = {
         },
         {
             id: 'wakeup',
-            name: 'أذكار الاستيقاظ',
+            name: {
+                ar: 'أذكار الاستيقاظ',
+                en: 'Waking Azkar',
+                fr: 'Azkar du réveil',
+                tr: 'Uyanış zikirleri',
+                ur: 'جاگنے کے اذکار',
+                de: 'Azkar beim Aufwachen',
+                id: 'Azkar bangun tidur',
+                es: 'Azkar al despertar',
+                bn: 'জাগরণের আজকার',
+                ms: 'Azkar bangun tidur',
+            },
             icon: '⛅',
             duas: [
                 { text: 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَمَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ', reference: 'البخاري', repeat: 1 },
@@ -73,7 +128,18 @@ const DuasDB = {
         },
         {
             id: 'quran',
-            name: 'أدعية من القرآن',
+            name: {
+                ar: 'أدعية من القرآن',
+                en: 'Du’as from the Qur’an',
+                fr: 'Invocations du Coran',
+                tr: 'Kur’an’dan dualar',
+                ur: 'قرآنی دعائیں',
+                de: 'Bittgebete aus dem Quran',
+                id: 'Doa dari Al-Quran',
+                es: 'Súplicas del Corán',
+                bn: 'কুরআনের দোয়া',
+                ms: 'Doa daripada Al-Quran',
+            },
             icon: '📖',
             duas: [
                 { text: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', reference: 'سورة البقرة: 201', repeat: 1 },
@@ -86,7 +152,18 @@ const DuasDB = {
         },
         {
             id: 'general',
-            name: 'أدعية عامة',
+            name: {
+                ar: 'أدعية عامة',
+                en: 'General Du’as',
+                fr: 'Invocations générales',
+                tr: 'Genel dualar',
+                ur: 'عام دعائیں',
+                de: 'Allgemeine Bittgebete',
+                id: 'Doa umum',
+                es: 'Súplicas generales',
+                bn: 'সাধারণ দোয়া',
+                ms: 'Doa am',
+            },
             icon: '🤲',
             duas: [
                 { text: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ', reference: 'البخاري', repeat: 1 },
@@ -98,7 +175,18 @@ const DuasDB = {
         },
         {
             id: 'travel',
-            name: 'أدعية السفر',
+            name: {
+                ar: 'أدعية السفر',
+                en: 'Travel Du’as',
+                fr: 'Invocations du voyage',
+                tr: 'Yolculuk duaları',
+                ur: 'سفر کی دعائیں',
+                de: 'Reise-Bittgebete',
+                id: 'Doa perjalanan',
+                es: 'Súplicas del viaje',
+                bn: 'ভ্রমণের দোয়া',
+                ms: 'Doa perjalanan',
+            },
             icon: '✈️',
             duas: [
                 { text: 'اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ', reference: 'مسلم', repeat: 1 },
@@ -108,3 +196,6 @@ const DuasDB = {
         }
     ]
 };
+
+// Phase D3.3c — backward-compat alias (legacy name)
+const DuasDB = AzkarDB;

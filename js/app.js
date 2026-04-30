@@ -10672,7 +10672,9 @@ function updatePrayerProgress() {
     const pct = Math.max(0, Math.min(100, (elapsed / total) * 100));
 
     const fill = document.querySelector(`.prayer-card[data-prayer="${curr.key}"] .prayer-progress-fill`);
-    if (fill) fill.style.width = pct.toFixed(1) + '%';
+    // Phase E1-c: write to CSS var instead of inline style.width to keep
+    // styling out of the markup (SEOptimer "Remove Inline Styles" finding).
+    if (fill) fill.style.setProperty('--fill', pct.toFixed(1) + '%');
 }
 
 // 🆕 Round 3.1 — Auto-scroll إلى .prayer-card.active/.current (city-page فقط، مرّة واحدة)
@@ -17885,8 +17887,9 @@ function updateMoonInfo() {
                 const _safeProgress = (typeof progressPct === 'number' && isFinite(progressPct)) ? progressPct : 0;
                 if (_pCur) _pCur.textContent = (phase.icon || '') + ' ' + (_phaseLabel2 || phase.name || '');
                 if (_pNext && nextPhaseName) _pNext.textContent = (nextPhaseIcon || '') + ' ' + nextPhaseName;
-                if (_pFill) _pFill.style.width = _safeProgress.toFixed(1) + '%';
-                if (_pDot) _pDot.style.insetInlineStart = _safeProgress.toFixed(1) + '%';
+                // Phase E1-c: write to CSS vars instead of inline width/inset-inline-start
+                if (_pFill) _pFill.style.setProperty('--fill', _safeProgress.toFixed(1) + '%');
+                if (_pDot)  _pDot.style.setProperty('--offset', _safeProgress.toFixed(1) + '%');
                 if (_pStatus && nextPhaseName) {
                     // UAT-Moon-Today-Polish: use arPluralDays for "X days" so AR
                     //   gets correct dual/plural (يومين / 5 أيّام / 15 يومًا) and

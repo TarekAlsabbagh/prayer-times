@@ -1823,7 +1823,8 @@ button, input, select { font-family: inherit; }
 }
 .prayer-progress-fill {
     height: 100%;
-    width: 0%;
+    /* Phase E1-c: width driven by CSS var, JS sets el.style.setProperty('--fill', X+'%') */
+    width: var(--fill, 0%);
     border-radius: 999px;
     background: linear-gradient(90deg, var(--primary, #2e7d32), var(--gold, #ffd700));
     transition: width 1s linear;
@@ -4153,6 +4154,17 @@ html[data-theme="dark"] .cd-faq-toggle:hover {
 }
 /* ═════════════════ /صفحات العدّ التنازليّ ═════════════════ */
 
+/* Phase E1-c: replace inline `style="..."` attributes with class+var pattern.
+   - .svg-sprite-host: was `<svg style="display:none">` for the icon library.
+   - .progress-fill: was `<div style="width:0%">` for prayer-time bars and the
+     moon progress dot. JS sets `el.style.setProperty('--fill', x + '%')` and
+     `el.style.setProperty('--offset', x + '%')` instead of writing to
+     element.style.width directly. Reduces inline-style usage to satisfy
+     SEOptimer and keeps style decoupled from markup. */
+.svg-sprite-host { display: none; }
+.progress-fill { width: var(--fill, 0%); }
+.moon-progress-dot { inset-inline-start: var(--offset, 0%); }
+
 /* ═══ Sticky Mini Bar (BOND 7): يظهر عند التمرير، يعرض الطور والإضاءة ═══ */
 .moon-sticky-bar {
     position: fixed;
@@ -4178,9 +4190,15 @@ html[data-theme="dark"] .cd-faq-toggle:hover {
     color: var(--text);
 }
 .moon-sticky-bar.is-visible { transform: translateY(0); }
-/* عند ظهور moon-sticky-bar نُفسح مكاناً له داخل #page-moon ليُظهر بدلاً من تغطية المحتوى */
-#page-moon { transition: padding-top 0.25s ease; }
-body.has-moon-sticky #page-moon { padding-top: var(--moon-sticky-h, 50px); }
+/* Phase E1-a (CLS fix): the previous design added padding-top to #page-moon when
+   the sticky bar revealed (body.has-moon-sticky). That layout reflow contributed
+   ~0.24 to CLS on /moon-today. Per-user spec, the bar now overlays content as a
+   true sticky bar (position: fixed + transform). No padding reservation, so no
+   layout shift when it appears. The body.has-moon-sticky toggle in JS becomes a
+   no-op which is harmless to keep (defensive for any future style hook).
+   Original rules that caused CLS — kept commented for archive:
+     #page-moon { transition: padding-top 0.25s ease; }
+     body.has-moon-sticky #page-moon { padding-top: var(--moon-sticky-h, 50px); } */
 .moon-sticky-icon { font-size: 1.4rem; }
 .moon-sticky-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .moon-sticky-text strong { color: var(--primary); font-weight: 700; margin-inline-end: 6px; }
@@ -4753,6 +4771,8 @@ html[dir="ltr"] .moon-subtitle { text-align: left; }
 }
 .moon-comparison .mc-progress-fill {
     height: 100%;
+    /* Phase E1-c: width via CSS var, JS uses setProperty('--fill', x+'%') */
+    width: var(--fill, 0%);
     background: linear-gradient(90deg, var(--primary), var(--primary-dark));
     border-radius: 999px;
     transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
@@ -4765,6 +4785,8 @@ html[dir="ltr"] .moon-subtitle { text-align: left; }
 .moon-comparison .mc-progress-dot {
     position: absolute;
     top: 50%;
+    /* Phase E1-c: position via CSS var, JS uses setProperty('--offset', x+'%') */
+    inset-inline-start: var(--offset, 0%);
     transform: translate(50%, -50%);
     font-size: 1.1rem;
     line-height: 1;

@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=588" as="script">
-    <link rel="stylesheet" href="css/style.css?v=240">
+    <link rel="preload" href="js/app.js?v=589" as="script">
+    <link rel="stylesheet" href="css/style.css?v=241">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -44,7 +44,7 @@
          Currently consumed by /zakat-calculator (#page-zakat). Future
          pages (qibla/moon/sidebar nav) will migrate gradually.
          ═══════════════════════════════════════════════════════════ -->
-    <svg id="zk-svg-sprite" style="display:none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <svg id="zk-svg-sprite" class="svg-sprite-host" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></symbol>
         <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
         <symbol id="i-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
@@ -197,7 +197,7 @@
                     </button>
                     <div class="lang-switcher">
                         <button class="lang-switcher-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu(this)">
-                            <img class="lang-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="20" height="15" loading="lazy" decoding="async">
+                            <img class="lang-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="20" height="15" loading="lazy" decoding="async">
                             <span class="lang-code">AR</span>
                             <span class="lang-caret" aria-hidden="true">▾</span>
                             <span class="visually-hidden" data-i18n="header.change_language">تغيير اللغة</span>
@@ -450,37 +450,37 @@
                         <span class="prayer-icon">🌄</span>
                         <div class="prayer-name" data-i18n="prayer.fajr">الفجر</div>
                         <div class="prayer-time" id="time-fajr">--:--</div>
-                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="sunrise">
                         <span class="prayer-icon">🌅</span>
                         <div class="prayer-name" data-i18n="prayer.sunrise">الشروق</div>
                         <div class="prayer-time" id="time-sunrise">--:--</div>
-                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="dhuhr">
                         <span class="prayer-icon">☀️</span>
                         <div class="prayer-name" data-i18n="prayer.dhuhr">الظهر</div>
                         <div class="prayer-time" id="time-dhuhr">--:--</div>
-                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="asr">
                         <span class="prayer-icon">🌤️</span>
                         <div class="prayer-name" data-i18n="prayer.asr">العصر</div>
                         <div class="prayer-time" id="time-asr">--:--</div>
-                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="maghrib">
                         <span class="prayer-icon">🌇</span>
                         <div class="prayer-name" data-i18n="prayer.maghrib">المغرب</div>
                         <div class="prayer-time" id="time-maghrib">--:--</div>
-                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill"></div></div>
                     </div>
                     <div class="prayer-card" data-prayer="isha">
                         <span class="prayer-icon">🌃</span>
                         <div class="prayer-name" data-i18n="prayer.isha">العشاء</div>
                         <div class="prayer-time" id="time-isha">--:--</div>
-                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill" style="width:0%"></div></div>
+                        <div class="prayer-progress" aria-hidden="true"><div class="prayer-progress-fill"></div></div>
                     </div>
                 </div>
 
@@ -1521,8 +1521,8 @@
                                 <span class="mc-progress-next" id="mc-progress-next">--</span>
                             </div>
                             <div class="mc-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                <div class="mc-progress-fill" id="mc-progress-fill" style="width: 0%"></div>
-                                <span class="mc-progress-dot" id="mc-progress-dot" style="inset-inline-start: 0%">🌙</span>
+                                <div class="mc-progress-fill" id="mc-progress-fill"></div>
+                                <span class="mc-progress-dot" id="mc-progress-dot">🌙</span>
                             </div>
                             <div class="mc-progress-status" id="mc-progress-status">--</div>
                         </div>
@@ -1671,18 +1671,18 @@
                 <div class="section-card" id="moon-other-cities">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="moon.cities_title">القمر اليوم في مدن أخرى</span></h2>
                     <ul class="moon-cities-grid">
-                        <li><a href="/moon-today-in-makkah"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
-                        <li><a href="/moon-today-in-medina"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
-                        <li><a href="/moon-today-in-riyadh"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
-                        <li><a href="/moon-today-in-cairo"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
-                        <li><a href="/moon-today-in-dubai"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
-                        <li><a href="/moon-today-in-istanbul"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
-                        <li><a href="/moon-today-in-jakarta"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
-                        <li><a href="/moon-today-in-karachi"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
-                        <li><a href="/moon-today-in-london"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
-                        <li><a href="/moon-today-in-paris"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
-                        <li><a href="/moon-today-in-new-york"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
-                        <li><a href="/moon-today-in-kuala-lumpur"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
+                        <li><a href="/moon-today-in-makkah"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
+                        <li><a href="/moon-today-in-medina"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
+                        <li><a href="/moon-today-in-riyadh"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
+                        <li><a href="/moon-today-in-cairo"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="Egypt flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
+                        <li><a href="/moon-today-in-dubai"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="United Arab Emirates flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
+                        <li><a href="/moon-today-in-istanbul"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="Turkey flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
+                        <li><a href="/moon-today-in-jakarta"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="Indonesia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
+                        <li><a href="/moon-today-in-karachi"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="Pakistan flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
+                        <li><a href="/moon-today-in-london"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="United Kingdom flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
+                        <li><a href="/moon-today-in-paris"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
+                        <li><a href="/moon-today-in-new-york"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="United States flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
+                        <li><a href="/moon-today-in-kuala-lumpur"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="Malaysia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
                     </ul>
                 </div>
 
@@ -3437,7 +3437,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=588"></script>
+    <script defer src="js/app.js?v=589"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

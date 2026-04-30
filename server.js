@@ -10487,6 +10487,35 @@ const server = http.createServer(async (req, res) => {
     }
     if (urlPath === '/') urlPath = '/index.html';
 
+    // ===== Phase E1-b (2026-05-01): legacy-alias redirects FIRST =====
+    //   Order matters: these match `/{path}/?$` (with optional trailing slash)
+    //   so they absorb the trailing-slash strip in a single 301 hop. Putting
+    //   them BEFORE the generic trailing-slash handler below saves a hop on
+    //   `/moon/` → `/moon-today` (was 2 hops via `/moon`) and `/zakat/` →
+    //   `/zakat-calculator`. Targets the SEOptimer "Avoid multiple page
+    //   redirects" finding (0.63s mobile saving).
+
+    // /moon (+ language prefixes) → /moon-today
+    {
+        const _oldMoonMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/?$/);
+        if (_oldMoonMatch) {
+            const _prefix = _oldMoonMatch[1] || '';
+            res.writeHead(301, { 'Location': `/${_prefix}moon-today`, 'Cache-Control': 'public, max-age=31536000' });
+            res.end();
+            return;
+        }
+    }
+    // /zakat (+ language prefixes) → /zakat-calculator
+    {
+        const _oldZakatMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat\/?$/);
+        if (_oldZakatMatch) {
+            const _prefix = _oldZakatMatch[1] || '';
+            res.writeHead(301, { 'Location': `/${_prefix}zakat-calculator`, 'Cache-Control': 'public, max-age=31536000' });
+            res.end();
+            return;
+        }
+    }
+
     // ===== UAT-SEO-Phase-C3 (2026-04-30): unify trailing-slash policy =====
     //   All non-root paths → no trailing slash. Prevents duplicate-content URLs
     //   like /moon-today AND /moon-today/ both serving 200 with self-canonicals.
@@ -10539,27 +10568,8 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
-    // ===== SEO: 301 redirect من /zakat (+ بادئات اللغات) → /zakat-calculator =====
-    {
-        const _oldZakatMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat\/?$/);
-        if (_oldZakatMatch) {
-            const _prefix = _oldZakatMatch[1] || '';
-            res.writeHead(301, { 'Location': `/${_prefix}zakat-calculator`, 'Cache-Control': 'public, max-age=31536000' });
-            res.end();
-            return;
-        }
-    }
-
-    // ===== SEO: 301 redirect من /moon (+ بادئات اللغات) → /moon-today =====
-    {
-        const _oldMoonMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/?$/);
-        if (_oldMoonMatch) {
-            const _prefix = _oldMoonMatch[1] || '';
-            res.writeHead(301, { 'Location': `/${_prefix}moon-today`, 'Cache-Control': 'public, max-age=31536000' });
-            res.end();
-            return;
-        }
-    }
+    // (Phase E1-b: /zakat and /moon legacy aliases moved BEFORE the trailing-
+    //  slash strip above to save one redirect hop. See lines ~10490–10520.)
 
     // ===== Phase D2.1: /about-{city}* → 410 Gone (kept: /about-us only) =====
     // Excludes /about-us and language-prefixed about-us; everything else under

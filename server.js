@@ -4137,31 +4137,31 @@ function buildSeoForPath(urlPath) {
             app: { category: 'FinanceApplication' },
             zakatFaq: true,    // UAT-Z1: enables FAQPage + HowTo schemas
         },
-        '/duas': {
-            // Phase D1: array→object structure; localized for all 10 langs
+        '/azkar': {
+            // Phase D3.3-0: rename /duas → /azkar; SEO-rebrand to AZKAR / الأذكار
             title: {
-                ar: 'الأدعية والأذكار الصحيحة من الكتاب والسنة',
-                en: 'Duas & Athkar | Authentic Islamic Supplications',
-                fr: 'Douas et Athkar | Invocations authentiques de l\u2019islam',
-                tr: 'Dualar ve Zikirler | Kur\u2019an ve Sünnet\u2019ten Sahih Dualar',
-                ur: 'دعائیں اور اذکار | قرآن و سنت سے صحیح اسلامی دعائیں',
-                de: 'Duas & Athkar | Authentische Bittgebete aus Quran & Sunna',
-                id: 'Doa dan Zikir | Doa Sahih dari Al-Quran dan Sunnah',
-                es: 'Duas y Athkar | Súplicas Auténticas del Islam',
-                bn: 'দোয়া ও জিকির | কুরআন ও সুন্নাহ থেকে সহিহ দোয়া',
-                ms: 'Doa dan Zikir | Doa Sahih dari Al-Quran dan Sunnah',
+                ar: 'الأذكار | أذكار الصباح والمساء وأدعية صحيحة من القرآن والسنة',
+                en: 'Azkar | Authentic Daily Islamic Supplications & Adhkar',
+                fr: 'Azkar | Invocations authentiques du quotidien (Adhkar)',
+                tr: 'Azkar | Kur\u2019an ve Sünnet\u2019ten Sahih Günlük Zikirler',
+                ur: 'اذکار | صبح و شام کے اذکار اور قرآن و سنت سے صحیح دعائیں',
+                de: 'Azkar | Authentische tägliche Bittgebete (Adhkar) aus Quran & Sunna',
+                id: 'Azkar | Zikir Harian Sahih dari Al-Quran dan Sunnah',
+                es: 'Azkar | Súplicas Diarias Auténticas (Adhkar) del Islam',
+                bn: 'আযকার | কুরআন ও সুন্নাহ থেকে সহিহ দৈনিক জিকির',
+                ms: 'Azkar | Zikir Harian Sahih dari Al-Quran dan Sunnah',
             },
             desc: {
-                ar: 'أدعية وأذكار صحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة — مع التخريج.',
-                en: 'Authentic duas from Quran & Sunnah: morning & evening athkar, after-prayer remembrance, sleep, travel, distress and Friday duas with sources.',
-                fr: 'Douas authentiques du Coran et de la Sunna : athkar du matin et du soir, après la prière, sommeil, voyage, détresse et vendredi avec sources.',
-                tr: 'Kur\u2019an ve Sünnet\u2019ten sahih dualar ve zikirler: sabah-akşam zikirleri, namaz sonrası, uyku, yolculuk, sıkıntı ve Cuma duaları kaynaklarıyla.',
-                ur: 'قرآن و سنت سے صحیح دعائیں اور اذکار: صبح و شام کے اذکار، نماز کے بعد، سونے، سفر، پریشانی اور جمعہ کی دعائیں حوالہ جات کے ساتھ۔',
-                de: 'Authentische Duas aus Quran und Sunna: Morgen- und Abend-Athkar, nach dem Gebet, Schlaf, Reise, Not und Freitags-Duas mit Quellen.',
-                id: 'Doa sahih dari Al-Quran dan Sunnah: zikir pagi dan petang, setelah sholat, tidur, perjalanan, kesusahan dan doa Jumat dengan sumber.',
-                es: 'Duas auténticas del Corán y la Sunna: athkar de la mañana y la tarde, tras la oración, sueño, viaje, angustia y duas del viernes con fuentes.',
-                bn: 'কুরআন ও সুন্নাহ থেকে সহিহ দোয়া ও জিকির: সকাল-সন্ধ্যার জিকির, নামাজের পর, ঘুম, ভ্রমণ, কষ্ট ও জুমার দোয়া সূত্র সহকারে।',
-                ms: 'Doa sahih dari Al-Quran dan Sunnah: zikir pagi dan petang, selepas solat, tidur, perjalanan, kesusahan dan doa Jumaat berserta sumber.',
+                ar: 'الأذكار الصحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة — مع التخريج.',
+                en: 'Azkar — authentic daily adhkar from Quran & Sunnah: morning & evening, after-prayer remembrance, sleep, travel, distress and Friday supplications with sources.',
+                fr: 'Azkar — adhkar authentiques du Coran et de la Sunna : matin et soir, après la prière, sommeil, voyage, détresse et invocations du vendredi avec sources.',
+                tr: 'Azkar — Kur\u2019an ve Sünnet\u2019ten sahih günlük zikirler: sabah-akşam, namaz sonrası, uyku, yolculuk, sıkıntı ve Cuma duaları kaynaklarıyla.',
+                ur: 'اذکار — قرآن و سنت سے صحیح روزمرّہ اذکار: صبح و شام، نماز کے بعد، سونے، سفر، پریشانی اور جمعہ کی دعائیں حوالہ جات کے ساتھ۔',
+                de: 'Azkar — authentische tägliche Adhkar aus Quran und Sunna: morgens und abends, nach dem Gebet, Schlaf, Reise, Not und Freitags-Bittgebete mit Quellen.',
+                id: 'Azkar — zikir harian sahih dari Al-Quran dan Sunnah: pagi dan petang, setelah sholat, tidur, perjalanan, kesusahan dan doa Jumat dengan sumber.',
+                es: 'Azkar — adhkar diarios auténticos del Corán y la Sunna: mañana y tarde, tras la oración, sueño, viaje, angustia e invocaciones del viernes con fuentes.',
+                bn: 'আযকার — কুরআন ও সুন্নাহ থেকে সহিহ দৈনিক জিকির: সকাল-সন্ধ্যা, নামাজের পর, ঘুম, ভ্রমণ, কষ্ট ও জুমার দোয়া সূত্র সহকারে।',
+                ms: 'Azkar — zikir harian sahih dari Al-Quran dan Sunnah: pagi dan petang, selepas solat, tidur, perjalanan, kesusahan dan doa Jumaat berserta sumber.',
             },
             ogType: 'article',
         },
@@ -10744,7 +10744,7 @@ const server = http.createServer(async (req, res) => {
                 ['/qibla', '0.9', 'monthly'],
                 ['/moon-today', '0.8', 'daily'],
                 ['/zakat-calculator', '0.8', 'monthly'],
-                ['/duas', '0.8', 'monthly'],
+                ['/azkar', '0.8', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
                 // 🆕 Round 11: /today-hijri-date ليست في sitemap — SEO يعتمد على /hijri-date/YYYY-MM-DD.
@@ -10887,6 +10887,22 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    // ===== Phase D3.3-0: 301 /duas → /azkar (legacy alias) =====
+    // /duas, /{lang}/duas, /duas.html, /{lang}/duas.html → /azkar (or /{lang}/azkar)
+    {
+        const _duasMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?duas(?:\.html)?\/?$/);
+        if (_duasMatch) {
+            const _l = _duasMatch[1] || '';
+            const _newUrl = (_l ? '/' + _l : '') + '/azkar';
+            res.writeHead(301, {
+                'Location': _newUrl,
+                'Cache-Control': 'public, max-age=31536000'
+            });
+            res.end();
+            return;
+        }
+    }
+
     // ===== HTML pages served from index.html (SSR SEO injection) =====
     // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
     const _LANG_PREFIX_RE = '(?:en|fr|tr|ur|de|id|es|bn|ms)';
@@ -10906,7 +10922,7 @@ const server = http.createServer(async (req, res) => {
         //   /moon-in-{slug}/YYYY-MM-DD  → day page (existing)
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(urlPath) ||
@@ -11192,7 +11208,7 @@ const server = http.createServer(async (req, res) => {
     // يُفحَص أن الـ slug يطابق دولة قبل الـ redirect (غير دول → يستكمل للـ routes التالية).
     {
         const _oldCountryMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?([a-z][a-z0-9-]+)$/);
-        const _oldReserved = new Set(['qibla','moon','zakat-calculator','duas','msbaha',
+        const _oldReserved = new Set(['qibla','moon','zakat-calculator','azkar','duas','msbaha',
             'dateconverter','today-hijri-date','privacy','terms','contact','about-us',
             'prayer-times-worldwide','index']);
         if (_oldCountryMatch && !_oldReserved.has(_oldCountryMatch[2])) {

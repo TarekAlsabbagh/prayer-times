@@ -3027,9 +3027,9 @@ async function initApp() {
         try { _enhanceConverterSteppers(); } catch (_) {}
     }
 
-    // تفعيل صفحة الأدعية عند URL /duas
-    const _isDuasPage = /\/(?:(?:en|ar)\/)?duas$/.test(window.location.pathname);
-    if (_isDuasPage) {
+    // Phase D3.3-0: تفعيل صفحة الأذكار عند URL /azkar (sec ID و data-page يَبقَيان "duas" داخليّاً)
+    const _isAzkarPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(window.location.pathname);
+    if (_isAzkarPage) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-duas')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -4579,11 +4579,11 @@ function initNavigation() {
                 }
             }
 
-            // UAT-Q5h: عند الضغط على الأدعية → انتقل لصفحة /duas (لم يَكن لها handler)
+            // UAT-Q5h: عند الضغط على الأذكار → انتقل لصفحة /azkar (D3.3-0)
             if (pageId === 'duas' && window.location.protocol !== 'file:') {
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(window.location.pathname)) {
                     _saveCityCtxFor('duas');
-                    window.location.href = pageUrl('/duas');
+                    window.location.href = pageUrl('/azkar');
                     return;
                 }
             }
@@ -8612,7 +8612,7 @@ function injectHomepageSchema() {
             { "@type": "SiteNavigationElement", "name": "اتجاه القبلة",       "url": `${origin}/qibla`                         },
             { "@type": "SiteNavigationElement", "name": "القمر اليوم",         "url": `${origin}/moon-today`                    },
             { "@type": "SiteNavigationElement", "name": "حاسبة الزكاة",       "url": `${origin}/zakat-calculator`              },
-            { "@type": "SiteNavigationElement", "name": "الأدعية والأذكار",   "url": `${origin}/duas`                          },
+            { "@type": "SiteNavigationElement", "name": "الأذكار",            "url": `${origin}/azkar`                         },
             { "@type": "SiteNavigationElement", "name": "المسبحة الإلكترونية","url": `${origin}/msbaha`                        },
             { "@type": "SiteNavigationElement", "name": "التاريخ الهجري اليوم","url": `${origin}${hijriDated}`                  },
             { "@type": "SiteNavigationElement", "name": "التقويم الهجري",     "url": `${origin}/hijri-calendar/${hijriYear}`   },

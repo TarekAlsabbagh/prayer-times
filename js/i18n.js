@@ -14,7 +14,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'التاريخ الهجري',
         'nav.date_converter': 'تحويل التاريخ',
         'nav.hijri_calendar': 'التقويم الهجري',
-        'nav.duas': 'الأدعية والأذكار',
+        'nav.duas': 'الأذكار',
         'nav.tasbih': 'المسبحة الإلكترونية',
         // الهيدر
         'header.locating': 'جاري تحديد الموقع...',
@@ -1064,7 +1064,7 @@ const TRANSLATIONS = {
         'calendar.next': 'التالي ←',
         'calendar.select_year': 'اختر السنة:',
         // الأدعية
-        'duas.title': 'الأدعية والأذكار',
+        'duas.title': 'الأذكار',
         // المسبحة
         'tasbih.title': 'المسبحة الإلكترونية',
         'tasbih.auto': 'التسبيح التلقائي',
@@ -1404,7 +1404,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Hijri Date',
         'nav.date_converter': 'Date Converter',
         'nav.hijri_calendar': 'Hijri Calendar',
-        'nav.duas': 'Duas & Adhkar',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Digital Tasbih',
         // Header
         'header.locating': 'Detecting location...',
@@ -2446,7 +2446,7 @@ const TRANSLATIONS = {
         'calendar.next': 'Next →',
         'calendar.select_year': 'Select Year:',
         // Duas
-        'duas.title': 'Duas & Adhkar',
+        'duas.title': 'Azkar',
         // Tasbih
         'tasbih.title': 'Digital Tasbih',
         'tasbih.auto': 'Auto Tasbih',
@@ -2785,7 +2785,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Date Hégirienne',
         'nav.date_converter': 'Convertisseur de Date',
         'nav.hijri_calendar': 'Calendrier Hégirien',
-        'nav.duas': 'Douas et Adhkar',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Tasbih Numérique',
         'header.locating': 'Détection de la position...',
         'header.search_placeholder': '🔍 Rechercher une ville...',
@@ -3590,7 +3590,7 @@ const TRANSLATIONS = {
         'calendar.prev': 'Préc.',
         'calendar.next': 'Suiv. →',
         'calendar.select_year': 'Choisir l\'année :',
-        'duas.title': 'Douas et Adhkar',
+        'duas.title': 'Azkar',
         'tasbih.title': 'Tasbih numérique',
         'tasbih.auto': 'Tasbih automatique',
         'tasbih.free': 'Compteur libre',
@@ -3936,7 +3936,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Hicri Tarih',
         'nav.date_converter': 'Tarih Dönüştürücü',
         'nav.hijri_calendar': 'Hicri Takvim',
-        'nav.duas': 'Dualar ve Zikirler',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Dijital Tespih',
         'header.locating': 'Konum tespit ediliyor...',
         'header.search_placeholder': '🔍 Şehir ara...',
@@ -4744,7 +4744,7 @@ const TRANSLATIONS = {
         'calendar.prev': 'Önceki',
         'calendar.next': 'Sonraki →',
         'calendar.select_year': 'Yıl seçin:',
-        'duas.title': 'Dualar ve Zikirler',
+        'duas.title': 'Azkar',
         'tasbih.title': 'Dijital Tespih',
         'tasbih.auto': 'Otomatik Tespih',
         'tasbih.free': 'Serbest Sayaç',
@@ -5090,7 +5090,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'ہجری تاریخ',
         'nav.date_converter': 'تاریخ کنورٹر',
         'nav.hijri_calendar': 'ہجری کیلنڈر',
-        'nav.duas': 'دعائیں و اذکار',
+        'nav.duas': 'اذکار',
         'nav.tasbih': 'ڈیجیٹل تسبیح',
         'header.locating': 'مقام کا تعین کیا جا رہا ہے...',
         'header.search_placeholder': '🔍 شہر تلاش کریں...',
@@ -5911,7 +5911,7 @@ const TRANSLATIONS = {
         'calendar.prev': 'سابقہ',
         'calendar.next': 'اگلا ←',
         'calendar.select_year': 'سال منتخب کریں:',
-        'duas.title': 'دعائیں و اذکار',
+        'duas.title': 'اذکار',
         'tasbih.title': 'ڈیجیٹل تسبیح',
         'tasbih.auto': 'خودکار تسبیح',
         'tasbih.free': 'آزاد شمار',
@@ -6213,7 +6213,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Hidschri-Datum',
         'nav.date_converter': 'Datumsumrechner',
         'nav.hijri_calendar': 'Hidschri-Kalender',
-        'nav.duas': 'Bittgebete & Adhkar',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Digitale Tasbih',
         // Header
         'header.locating': 'Standort wird ermittelt...',
@@ -7051,7 +7051,7 @@ const TRANSLATIONS = {
         'calendar.next': 'Weiter →',
         'calendar.select_year': 'Jahr auswählen:',
         // Duas
-        'duas.title': 'Bittgebete & Adhkar',
+        'duas.title': 'Azkar',
         // Tasbih
         'tasbih.title': 'Digitale Tasbih',
         'tasbih.auto': 'Automatische Tasbih',
@@ -7422,7 +7422,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Tanggal Hijriah',
         'nav.date_converter': 'Konversi Tanggal',
         'nav.hijri_calendar': 'Kalender Hijriah',
-        'nav.duas': 'Doa & Zikir',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Tasbih Digital',
         // Header
         'header.locating': 'Menentukan lokasi...',
@@ -8260,7 +8260,7 @@ const TRANSLATIONS = {
         'calendar.next': 'Berikutnya →',
         'calendar.select_year': 'Pilih tahun:',
         // Duas
-        'duas.title': 'Doa & Zikir',
+        'duas.title': 'Azkar',
         // Tasbih
         'tasbih.title': 'Tasbih Digital',
         'tasbih.auto': 'Tasbih Otomatis',
@@ -8631,7 +8631,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Fecha Hijri',
         'nav.date_converter': 'Conversor de Fechas',
         'nav.hijri_calendar': 'Calendario Hijri',
-        'nav.duas': 'Duas y Dhikr',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Tasbih Digital',
         // Header
         'header.locating': 'Determinando ubicación...',
@@ -9469,7 +9469,7 @@ const TRANSLATIONS = {
         'calendar.next': 'Siguiente →',
         'calendar.select_year': 'Seleccionar año:',
         // Duas
-        'duas.title': 'Duas y Dhikr',
+        'duas.title': 'Azkar',
         // Tasbih
         'tasbih.title': 'Tasbih Digital',
         'tasbih.auto': 'Tasbih Automático',
@@ -9840,7 +9840,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'হিজরি তারিখ',
         'nav.date_converter': 'তারিখ রূপান্তরকারী',
         'nav.hijri_calendar': 'হিজরি ক্যালেন্ডার',
-        'nav.duas': 'দুআ ও জিকির',
+        'nav.duas': 'আযকার',
         'nav.tasbih': 'ডিজিটাল তাসবিহ',
         // Header
         'header.locating': 'অবস্থান নির্ধারণ করা হচ্ছে...',
@@ -10678,7 +10678,7 @@ const TRANSLATIONS = {
         'calendar.next': 'পরবর্তী →',
         'calendar.select_year': 'বছর নির্বাচন করুন:',
         // Duas
-        'duas.title': 'দুআ ও জিকির',
+        'duas.title': 'আযকার',
         // Tasbih
         'tasbih.title': 'ডিজিটাল তাসবিহ',
         'tasbih.auto': 'স্বয়ংক্রিয় তাসবিহ',
@@ -11049,7 +11049,7 @@ const TRANSLATIONS = {
         'nav.hijri_today': 'Tarikh Hijrah',
         'nav.date_converter': 'Penukar Tarikh',
         'nav.hijri_calendar': 'Kalendar Hijrah',
-        'nav.duas': 'Doa & Zikir',
+        'nav.duas': 'Azkar',
         'nav.tasbih': 'Tasbih Digital',
         // Header
         'header.locating': 'Menentukan lokasi...',
@@ -11887,7 +11887,7 @@ const TRANSLATIONS = {
         'calendar.next': 'Seterusnya →',
         'calendar.select_year': 'Pilih tahun:',
         // Duas
-        'duas.title': 'Doa & Zikir',
+        'duas.title': 'Azkar',
         // Tasbih
         'tasbih.title': 'Tasbih Digital',
         'tasbih.auto': 'Tasbih Automatik',

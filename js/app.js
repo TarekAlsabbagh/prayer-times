@@ -2076,9 +2076,16 @@ function tasbihNextStep() {
 }
 
 function tasbihUpdateAutoUI() {
+    // UAT-SEO-Phase-C2 (2026-04-30): null-guard the tasbih-count read.
+    //   Was throwing "Cannot read properties of null (reading 'textContent')"
+    //   on every non-tasbih page (moon, prayer, etc.) when initApp called
+    //   initTasbih → tasbihUpdateAutoUI unconditionally. Early-return.
+    const _countEl = document.getElementById('tasbih-count');
+    if (!_countEl) return;
     const seq = getTasbihSequence();
-    document.getElementById('tasbih-count').textContent = tasbihCount;
-    document.getElementById('tasbih-current-dhikr').textContent = seq[tasbihStep];
+    _countEl.textContent = tasbihCount;
+    const _curEl = document.getElementById('tasbih-current-dhikr');
+    if (_curEl) _curEl.textContent = seq[tasbihStep];
     seq.forEach((name, i) => {
         const el = document.getElementById('step-' + i);
         if (!el) return;
@@ -2705,10 +2712,43 @@ async function initApp() {
     try { _hydrateCurrentCityFromUrlOrStorage(); } catch (_) {}
 
     // تعيين السنة في الفوتر
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    const _footerYearEl = document.getElementById('footer-year');
+    if (_footerYearEl) _footerYearEl.textContent = new Date().getFullYear();
 
     // تحديد نوع الصفحة (مدينة / رئيسية) مبكراً
     applyPageType();
+
+    // UAT-SEO-Phase-C2 (2026-04-30): page-type flag for deferring non-essential
+    //   inits on moon pages. Moon pages don't need duas/tasbih/zakat/date-converter
+    //   /adhan/schedule-picker UI to be ready before LCP — they only need the moon
+    //   widgets. Defer those modules to requestIdleCallback (or setTimeout fallback)
+    //   so the moon content paints first, then the heavy SPA-shell modules
+    //   initialize in the background. SPA navigation to those pages still works
+    //   because the deferred init completes within ~1.5s of load.
+    const _onMoonPg = (() => {
+        const _cl = document.documentElement.classList;
+        return _cl.contains('moon-today-hub-page')
+            || _cl.contains('moon-today-city-page')
+            || _cl.contains('moon-hub-page')
+            || _cl.contains('moon-month-page')
+            || _cl.contains('moon-date-page');
+    })();
+    const _deferOnMoon = (fn) => {
+        if (!_onMoonPg) {
+            try { fn(); } catch (_e) { try { console.warn('[init]', _e); } catch(_){} }
+            return;
+        }
+        const _safeRun = () => {
+            try { fn(); } catch (_e) { try { console.warn('[init/deferred]', _e); } catch(_){} }
+        };
+        try {
+            if (typeof requestIdleCallback === 'function') {
+                requestIdleCallback(_safeRun, { timeout: 2500 });
+            } else {
+                setTimeout(_safeRun, 1500);
+            }
+        } catch (_) { _safeRun(); }
+    };
 
     // إعادة عرض اقتراح المدينة المحفوظة (إن وُجد)
     checkSavedLocationSuggestion();
@@ -2723,26 +2763,26 @@ async function initApp() {
     // تهيئة التنقل
     initNavigation();
 
-    // تهيئة محول التاريخ
-    initDateConverter();
+    // تهيئة محول التاريخ — deferred on moon pages (only needed on /dateconverter)
+    _deferOnMoon(initDateConverter);
 
     // تهيئة التقويم
     const today = HijriDate.getToday();
     calendarYear = today.year;
     calendarMonth = today.month;
 
-    // تهيئة الأذان الصوتي
-    initAdhanSettings();
+    // تهيئة الأذان الصوتي — deferred on moon pages (only needed on prayer pages)
+    _deferOnMoon(initAdhanSettings);
 
-    // تهيئة الأدعية
-    initDuas();
-    initTasbih();
+    // تهيئة الأدعية و التَسبيح — deferred on moon pages (only needed on /duas, /msbaha)
+    _deferOnMoon(initDuas);
+    _deferOnMoon(initTasbih);
 
-    // UAT-Z1: تهيئة حاسبة الزكاة (state machine + tabs + persistence)
-    initZakatCalculator();
+    // UAT-Z1: تهيئة حاسبة الزكاة — deferred on moon pages (only needed on /zakat-calculator)
+    _deferOnMoon(initZakatCalculator);
 
-    // تهيئة منتقي التاريخ في الجدول
-    initScheduleDatePicker();
+    // تهيئة منتقي التاريخ في الجدول — deferred on moon pages (only needed on prayer pages)
+    _deferOnMoon(initScheduleDatePicker);
 
     // عرض مكة المكرمة فوراً (البيانات الافتراضية جاهزة)
     let loadedFromURL = false;
@@ -20087,7 +20127,12 @@ function initZakatCalculator() {
 
 // ========= الأدعية والأذكار =========
 function initDuas() {
+    // UAT-SEO-Phase-C2 (2026-04-30): null-guard — was throwing
+    //   "Cannot set properties of null (reading 'innerHTML')" on every
+    //   page that doesn't have #dua-categories (moon, prayer, qibla,
+    //   etc.). Early-return cleanly when the duas DOM isn't present.
     const container = document.getElementById('dua-categories');
+    if (!container) return;
     container.innerHTML = '';
 
     DuasDB.categories.forEach(cat => {

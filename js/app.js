@@ -16165,9 +16165,16 @@ function updateMoonInfo() {
         //   snapshot to deeper pages (city hub, current month, today's detail
         //   page with full Gregorian/Hijri date, today's Hijri-date page).
         //   AR + EN explicit; other 8 langs follow EN.
+        //   Belt-and-suspenders: gate on html.moon-today-city-page class
+        //   OR URL regex (CSS gate uses the same class so they should agree),
+        //   AND re-run via setTimeout(0)+(100) to defeat any DOM-readiness
+        //   race condition during the first updateMoonInfo() pass.
+        const _runTodayCityEdu = () => {
         try {
-            const _isTodayCityUrl = !!_citySlug && !_isDatePage && !_isHubPage
-                && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-/.test(window.location.pathname);
+            const _hasTdcClass = document.documentElement.classList.contains('moon-today-city-page');
+            const _urlMatchesTdc = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-/.test(window.location.pathname);
+            const _isTodayCityUrl = (_hasTdcClass || _urlMatchesTdc)
+                && !!_citySlug && !_isDatePage && !_isHubPage;
             if (_isTodayCityUrl) {
                 // Compute today's ISO dates (Gregorian for /moon-in-{city}/{YYYY-MM-DD}
                 // and /moon-in-{city}/{YYYY-MM}; Hijri for /hijri-date/{HIJRI-YYYY-MM-DD})
@@ -16247,6 +16254,13 @@ function updateMoonInfo() {
                 }
             }
         } catch (_) { /* silent */ }
+        }; // close _runTodayCityEdu
+        // Run thrice: immediately + 0ms + 100ms — defeats any race condition
+        // where the section is in DOM but i18n.js hasn't finalized translations
+        // or _cityName resolution is async (geocode fallback).
+        _runTodayCityEdu();
+        try { setTimeout(_runTodayCityEdu, 0); } catch (_) {}
+        try { setTimeout(_runTodayCityEdu, 100); } catch (_) {}
 
         if (_locEl) {
             const _locTemplates = {

@@ -6328,13 +6328,19 @@ function updateCityDisplay() {
     const isEn = (_lng === 'en');
     const sep  = (_lng === 'ar' || _lng === 'ur') ? '، ' : ', ';
 
-    document.getElementById('city-name').textContent = dispCity;
+    // UAT-Moon-City-Hub-Polish: strip admin-division prefixes ("محافظة"/
+    //   "Governorate"/"Region"/...) so the header shows clean city names.
+    //   Nominatim and stale sessionStorage entries can include these prefixes.
+    const _cleanCity = (typeof _stripCityAdminPrefix === 'function')
+        ? _stripCityAdminPrefix(dispCity)
+        : dispCity;
+    document.getElementById('city-name').textContent = _cleanCity;
     document.getElementById('country-name').textContent = dispCountry;
 
     // Round 20: Location Hero city label (ركن البحث الأساسيّ في الأعلى)
     const _locHeroLbl = document.getElementById('loc-hero-city-label');
     if (_locHeroLbl) {
-        _locHeroLbl.textContent = dispCountry ? `${dispCity}${sep}${dispCountry}` : dispCity;
+        _locHeroLbl.textContent = dispCountry ? `${_cleanCity}${sep}${dispCountry}` : _cleanCity;
     }
 
     // مسار التنقل (Breadcrumb)

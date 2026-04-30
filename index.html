@@ -14,7 +14,23 @@
     <meta name="description" content="مواقيت الصلاة، اتجاه القبلة، التقويم الهجري، حاسبة الزكاة، الأدعية والأذكار">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-    <link rel="manifest" href="/manifest.webmanifest">
+    <!-- Phase E2-2 (2026-05-01): manifest deferred to AFTER `load` event.
+         Lighthouse network-dependency-tree showed /manifest.webmanifest in
+         the critical path of /moon-today (1.15 KiB, 1,816 ms). Injecting it
+         via JS after window.load removes it from the initial render's
+         critical chain. PWA install prompt still works because Chrome
+         re-scans for the manifest dynamically.
+         Original: <link rel="manifest" href="/manifest.webmanifest"> -->
+    <script>
+        window.addEventListener('load', function () {
+            try {
+                var l = document.createElement('link');
+                l.rel = 'manifest';
+                l.href = '/manifest.webmanifest';
+                document.head.appendChild(l);
+            } catch (e) { /* silent */ }
+        });
+    </script>
     <!-- Theme + PWA meta — يحسّن Mobile Lighthouse + تجربة Add-to-Home-Screen -->
     <meta name="theme-color" content="#1e5631">
     <meta name="color-scheme" content="light">
@@ -28,14 +44,27 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-    <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
-    <!-- Preconnect لمصادر التشغيل المباشر (adhan audio) — يوفّر ~100-300ms على أول تشغيل -->
-    <link rel="preconnect" href="https://cdn.islamic.network" crossorigin>
+    <!-- Phase E2-1 (2026-05-01): two preconnects removed per Lighthouse
+         "Unused preconnect" warning + "More than 4 preconnect connections"
+         best-practice. They were preconnecting origins that aren't used
+         on the critical path of /moon-today (and most other pages):
+           • api.open-meteo.com — used by /qibla weather lookup ONLY when
+             the user lands on the qibla page; not needed up-front. The
+             handful of milliseconds saved aren't worth wasting a
+             connection slot on the LCP critical path.
+           • cdn.islamic.network — used for adhan audio, lazy-loaded only
+             when the user clicks play; not blocking initial render.
+         Keeping the preconnects active for fonts.googleapis.com,
+         fonts.gstatic.com, and flagcdn.com — those ARE used during
+         initial render. Plus dns-prefetch for nominatim (lower-cost
+         hint, kept). -->
+    <!-- (api.open-meteo.com preconnect removed) -->
+    <!-- (cdn.islamic.network preconnect removed) -->
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=589" as="script">
-    <link rel="stylesheet" href="css/style.css?v=241">
+    <link rel="preload" href="js/app.js?v=590" as="script">
+    <link rel="stylesheet" href="css/style.css?v=242">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1269,7 +1298,11 @@
                     <!-- Collapse / expand toggle button (chevron rotates with state) -->
                     <button type="button" class="loc-hero-close-btn" id="moon-hub-close-btn" aria-label="طيّ/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
                     <a id="moon-hub-smart-pill" class="qibla-hub-smart-pill" href="#" hidden></a>
-                    <h1 id="moon-hub-h1" class="qibla-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.hub.title">حالة القمر اليوم</span></h1>
+                    <!-- Phase E2-3: own class for the moon H1 (was reusing .qibla-hero-title from the
+                         shared SPA template). The CSS rule below ([css/style.css:11715]) now matches
+                         both .qibla-hero-title and .moon-hero-title with shared typography. Decoupling
+                         the class also makes future moon-specific tweaks safe without affecting qibla. -->
+                    <h1 id="moon-hub-h1" class="moon-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.hub.title">حالة القمر اليوم</span></h1>
                     <p id="moon-hub-subtitle" class="qibla-hub-subtitle" data-i18n="moon.hub.subtitle">اعرف طور القمر، الإضاءة، عمر القمر، ومواعيد طلوعه وغروبه لأيّ مدينة.</p>
 
                     <!-- Collapsed-only CTA pill — visible on moon city pages when collapsed -->
@@ -1520,7 +1553,8 @@
                                 <span class="mc-progress-arrow" aria-hidden="true">→</span>
                                 <span class="mc-progress-next" id="mc-progress-next">--</span>
                             </div>
-                            <div class="mc-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <!-- Phase E2-5: progressbar accessible name + aria-valuenow for Lighthouse a11y (was anonymous progressbar). JS at app.js:17890 updates aria-valuenow. -->
+                            <div class="mc-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Moon phase progress" id="mc-progress-track">
                                 <div class="mc-progress-fill" id="mc-progress-fill"></div>
                                 <span class="mc-progress-dot" id="mc-progress-dot">🌙</span>
                             </div>
@@ -3437,7 +3471,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=589"></script>
+    <script defer src="js/app.js?v=590"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

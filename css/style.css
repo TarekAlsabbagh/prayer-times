@@ -11712,7 +11712,11 @@ html.time-left-page .sticky-next-bar {
     box-shadow: 0 10px 30px rgba(0,0,0,0.04);
     border-radius: 20px;
 }
-.qibla-hero-title {
+/* Phase E2-3: shared typography rule for both qibla and moon hero H1.
+   Originally only .qibla-hero-title; added .moon-hero-title so the moon
+   page no longer borrows a qibla-* class (cleaner SPA template). */
+.qibla-hero-title,
+.moon-hero-title {
     font-size: clamp(1.6rem, 4.4vw, 2.3rem);
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -12819,8 +12823,9 @@ html.time-left-page .sticky-next-bar {
     html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed > #moon-hub-smart-pill {
         display: none !important;
     }
-    /* Tighter title when collapsed */
-    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .qibla-hero-title {
+    /* Tighter title when collapsed (Phase E2-3: target both legacy and new class) */
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .qibla-hero-title,
+    html.moon-today-city-page #moon-hub-hero.loc-hero-collapsed .moon-hero-title {
         font-size: 1.18rem;
         margin: 0;
         padding-inline-end: 36px;

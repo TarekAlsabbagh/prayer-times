@@ -3171,19 +3171,18 @@ async function initApp() {
             if (_stickyBar) {
                 _stickyBar.hidden = false;
                 let _ticking = false;
-                // قياس ارتفاع الشريط مرّة واحدة عند التهيئة → CSS var --moon-sticky-h
-                const _measureBar = () => {
-                    try {
-                        const _h = Math.round(_stickyBar.getBoundingClientRect().height) || 50;
-                        document.documentElement.style.setProperty('--moon-sticky-h', _h + 'px');
-                    } catch (_) {}
-                };
-                // قياس فوريّ + تأخير قصير لاحتساب الخطوط
-                _measureBar();
-                setTimeout(_measureBar, 200);
-                if (window.ResizeObserver) {
-                    try { new ResizeObserver(_measureBar).observe(_stickyBar); } catch (_) {}
-                }
+                // Phase E2-4 (2026-05-01): removed `_measureBar` (was reading
+                // getBoundingClientRect() synchronously then writing
+                // --moon-sticky-h CSS variable). After E1-a removed the
+                // `body.has-moon-sticky #page-moon { padding-top: var(--moon-sticky-h) }`
+                // rule, that CSS variable is no longer consumed anywhere
+                // (verified: zero active uses across css/style.css, js/app.js,
+                // js/i18n.js, js/moon.js, js/moon-chart.js). The measurement
+                // calls were producing forced reflow without any visual
+                // benefit — Lighthouse flagged ~103 ms total. Removing the
+                // function eliminates that reflow plus the ResizeObserver
+                // overhead. The bar's height comes from CSS (padding +
+                // line-height) and is no longer needed in JS.
 
                 const _onScroll = () => {
                     if (_ticking) return;
@@ -17890,6 +17889,9 @@ function updateMoonInfo() {
                 // Phase E1-c: write to CSS vars instead of inline width/inset-inline-start
                 if (_pFill) _pFill.style.setProperty('--fill', _safeProgress.toFixed(1) + '%');
                 if (_pDot)  _pDot.style.setProperty('--offset', _safeProgress.toFixed(1) + '%');
+                // Phase E2-5 (a11y): keep ARIA progressbar value in sync with the visual fill
+                const _pTrack = document.getElementById('mc-progress-track');
+                if (_pTrack) _pTrack.setAttribute('aria-valuenow', _safeProgress.toFixed(0));
                 if (_pStatus && nextPhaseName) {
                     // UAT-Moon-Today-Polish: use arPluralDays for "X days" so AR
                     //   gets correct dual/plural (يومين / 5 أيّام / 15 يومًا) and

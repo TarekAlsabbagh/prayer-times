@@ -9865,6 +9865,49 @@ const server = http.createServer(async (req, res) => {
     }
     if (urlPath === '/') urlPath = '/index.html';
 
+    // ===== UAT-SEO-Phase-C3 (2026-04-30): unify trailing-slash policy =====
+    //   All non-root paths → no trailing slash. Prevents duplicate-content URLs
+    //   like /moon-today AND /moon-today/ both serving 200 with self-canonicals.
+    //   One-hop 301. Excluded: '/' itself (root, already handled above), and
+    //   any path that ends in a file extension (.png, .css, .js, etc — these
+    //   shouldn't have trailing slash anyway, but the guard is defensive).
+    if (urlPath.length > 1 && urlPath.endsWith('/') && !/\.[a-z0-9]+\/$/i.test(urlPath)) {
+        const _noSlash = urlPath.replace(/\/+$/, '') || '/';
+        res.writeHead(301, {
+            'Location': _noSlash + (qs ? '?' + qs : ''),
+            'Cache-Control': 'public, max-age=31536000'
+        });
+        res.end();
+        return;
+    }
+
+    // ===== UAT-SEO-Phase-C3 (2026-04-30): legacy /today-hijri-date → 301 dated =====
+    //   Site policy: no user-facing link should ever lead to /today-hijri-date.
+    //   Direct visits (bookmarks, old indexed URLs) get a 1-hop 301 to the
+    //   canonical dated form: /hijri-date/{HIJRI-YYYY-MM-DD}. Prevents Google
+    //   from indexing /today-hijri-date as a separate URL alongside the dated
+    //   page (was using only canonical override → server.js:4339 — which works
+    //   but creates duplicate URLs in Google's crawl queue). 1-hour cache so
+    //   the redirect updates daily as the Hijri date shifts.
+    {
+        const _legacyHijri = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/);
+        if (_legacyHijri) {
+            const _prefix = _legacyHijri[1] || '';
+            const _h = (typeof _hijriNow === 'function') ? _hijriNow() : null;
+            if (_h && _h.year && _h.month && _h.day) {
+                const _pad2 = (n) => String(n).padStart(2, '0');
+                const _dated = `/${_prefix}hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
+                res.writeHead(301, {
+                    'Location': _dated + (qs ? '?' + qs : ''),
+                    'Cache-Control': 'public, max-age=3600'
+                });
+                res.end();
+                return;
+            }
+            // If _hijriNow fails for any reason, fall through to canonical-only behavior
+        }
+    }
+
     // ===== SEO: Redirect روابط الدول القديمة /prayer-times-cities-{slug} → /{slug} (301) =====
     {
         const _legacyCountry = urlPath.match(/^(\/(?:en\/)?)prayer-times-cities-([a-z0-9-]+?)(?:\.html)?$/);

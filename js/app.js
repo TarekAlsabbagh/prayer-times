@@ -16264,6 +16264,7 @@ function updateMoonInfo() {
             illum: _fmtNum(illumination, 2)
         });
         _setAnswer('moon-dq_age-a',   'moon.faq.tpl_dq_age',     {
+            city: _cityDisplay,
             age: _fmtNum(age, 2)
         });
 

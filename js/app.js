@@ -8572,21 +8572,33 @@ function injectHomepageSchema() {
     const siteName    = 'مواقيت الصلاة';
     const siteDesc    = 'منصة إسلامية تعرض مواقيت الصلاة، التاريخ الهجري، تحويل التاريخ، اتجاه القبلة، القمر اليوم، وحاسبة الزكاة.';
 
+    // Phase D3.4 — localize SiteNavigationElement names + lang-prefix URLs
+    const _lang        = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _langPath    = (_lang === 'ar') ? '' : ('/' + _lang);
+    const _pageUrlBase = _langPath + '/';
+    const _navName     = (key, fallback) => {
+        if (typeof t === 'function') {
+            const v = t(key);
+            if (v && v !== key) return v;
+        }
+        return fallback;
+    };
+
     const schema = {
         "@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "WebSite",
                 "@id": `${origin}/#website`,
-                "url": `${origin}/`,
+                "url": `${origin}${_pageUrlBase}`,
                 "name": siteName,
                 "alternateName": "مواقيت الصلاة والتاريخ الهجري",
-                "inLanguage": "ar",
+                "inLanguage": _lang,
                 "potentialAction": {
                     "@type": "SearchAction",
                     "target": {
                         "@type": "EntryPoint",
-                        "urlTemplate": `${origin}/?q={search_term_string}`
+                        "urlTemplate": `${origin}${_pageUrlBase}?q={search_term_string}`
                     },
                     "query-input": "required name=search_term_string"
                 }
@@ -8599,32 +8611,32 @@ function injectHomepageSchema() {
             },
             {
                 "@type": "WebPage",
-                "@id": `${origin}/#webpage`,
-                "url": `${origin}/`,
+                "@id": `${origin}${_pageUrlBase}#webpage`,
+                "url": `${origin}${_pageUrlBase}`,
                 "name": `${siteName} والتاريخ الهجري`,
                 "headline": `${siteName} والتاريخ الهجري`,
                 "description": siteDesc,
-                "inLanguage": "ar",
+                "inLanguage": _lang,
                 "isPartOf": { "@id": `${origin}/#website` },
                 "about": [
-                    { "@type": "Thing", "name": "مواقيت الصلاة" },
-                    { "@type": "Thing", "name": "التاريخ الهجري" },
-                    { "@type": "Thing", "name": "تحويل التاريخ" },
-                    { "@type": "Thing", "name": "اتجاه القبلة" },
-                    { "@type": "Thing", "name": "القمر اليوم" },
-                    { "@type": "Thing", "name": "حاسبة الزكاة" }
+                    { "@type": "Thing", "name": _navName('nav.prayer_times',   "مواقيت الصلاة") },
+                    { "@type": "Thing", "name": _navName('nav.hijri_today',    "التاريخ الهجري") },
+                    { "@type": "Thing", "name": _navName('nav.date_converter', "تحويل التاريخ") },
+                    { "@type": "Thing", "name": _navName('nav.qibla',          "اتجاه القبلة") },
+                    { "@type": "Thing", "name": _navName('nav.moon',           "القمر اليوم") },
+                    { "@type": "Thing", "name": _navName('nav.zakat',          "حاسبة الزكاة") }
                 ],
                 "publisher": { "@id": `${origin}/#organization` }
             },
-            { "@type": "SiteNavigationElement", "name": "مواقيت الصلاة",      "url": `${origin}/`                              },
-            { "@type": "SiteNavigationElement", "name": "اتجاه القبلة",       "url": `${origin}/qibla`                         },
-            { "@type": "SiteNavigationElement", "name": "القمر اليوم",         "url": `${origin}/moon-today`                    },
-            { "@type": "SiteNavigationElement", "name": "حاسبة الزكاة",       "url": `${origin}/zakat-calculator`              },
-            { "@type": "SiteNavigationElement", "name": "الأذكار",            "url": `${origin}/azkar`                         },
-            { "@type": "SiteNavigationElement", "name": "المسبحة الإلكترونية","url": `${origin}/msbaha`                        },
-            { "@type": "SiteNavigationElement", "name": "التاريخ الهجري اليوم","url": `${origin}${hijriDated}`                  },
-            { "@type": "SiteNavigationElement", "name": "التقويم الهجري",     "url": `${origin}/hijri-calendar/${hijriYear}`   },
-            { "@type": "SiteNavigationElement", "name": "تحويل التاريخ",      "url": `${origin}/dateconverter`                 }
+            { "@type": "SiteNavigationElement", "name": _navName('nav.prayer_times',   "مواقيت الصلاة"),       "url": `${origin}${_pageUrlBase}`                                          },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.qibla',          "اتجاه القبلة"),        "url": `${origin}${_langPath}/qibla`                                       },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.moon',           "القمر اليوم"),         "url": `${origin}${_langPath}/moon-today`                                  },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.zakat',          "حاسبة الزكاة"),        "url": `${origin}${_langPath}/zakat-calculator`                            },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.duas',           "الأذكار"),             "url": `${origin}${_langPath}/azkar`                                       },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.tasbih',         "المسبحة الإلكترونية"), "url": `${origin}${_langPath}/msbaha`                                      },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_today',    "التاريخ الهجري"),      "url": `${origin}${_langPath}${hijriDated}`                              },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_calendar', "التقويم الهجري"),      "url": `${origin}${_langPath}/hijri-calendar/${hijriYear}`               },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.date_converter', "تحويل التاريخ"),       "url": `${origin}${_langPath}/dateconverter`                              }
         ]
     };
 

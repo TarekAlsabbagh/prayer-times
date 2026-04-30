@@ -1,8 +1,9 @@
 # Prayer Times & Hijri Calendar
 
 > Accurate daily Islamic prayer times (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha),
-  Hijri calendar, Qibla direction, Zakat calculator, duas, and digital tasbih
-  for cities worldwide. Supports Arabic, English, French, Turkish, Urdu.
+  Hijri calendar, Qibla direction, Zakat calculator, azkar (adhkar), and digital tasbih
+  for cities worldwide. Supports Arabic, English, French, Turkish, Urdu,
+  German, Indonesian, Spanish, Bengali, and Malay.
 
 ## Main pages
 - [Home (Arabic)](https://prayer-times-d4w8.onrender.com/)
@@ -10,6 +11,11 @@
 - [Home (French)](https://prayer-times-d4w8.onrender.com/fr/)
 - [Home (Turkish)](https://prayer-times-d4w8.onrender.com/tr/)
 - [Home (Urdu)](https://prayer-times-d4w8.onrender.com/ur/)
+- [Home (German)](https://prayer-times-d4w8.onrender.com/de/)
+- [Home (Indonesian)](https://prayer-times-d4w8.onrender.com/id/)
+- [Home (Spanish)](https://prayer-times-d4w8.onrender.com/es/)
+- [Home (Bengali)](https://prayer-times-d4w8.onrender.com/bn/)
+- [Home (Malay)](https://prayer-times-d4w8.onrender.com/ms/)
 - [Sitemap](https://prayer-times-d4w8.onrender.com/sitemap.xml)
 
 ## Features
@@ -17,7 +23,7 @@
 - Hijri to Gregorian (and Gregorian to Hijri) date converter
 - Qibla direction calculator with interactive compass
 - Zakat (Islamic alms) calculator
-- Collection of authentic duas and adhkar from Quran & Sunnah
+- Collection of authentic azkar (adhkar) and du'as from Quran & Sunnah
 - Digital tasbih counter with session persistence
 - Moon phase tracking
-- Multi-language: ar, en, fr, tr, ur
+- Multi-language: ar, en, fr, tr, ur, de, id, es, bn, ms

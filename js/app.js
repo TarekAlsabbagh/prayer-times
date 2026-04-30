@@ -2782,7 +2782,7 @@ async function initApp() {
     // تهيئة الأذان الصوتي — deferred on moon pages (only needed on prayer pages)
     _deferOnMoon(initAdhanSettings);
 
-    // تهيئة الأدعية و التَسبيح — deferred on moon pages (only needed on /duas, /msbaha)
+    // تهيئة الأذكار و التَسبيح — deferred on moon pages (only needed on /azkar, /msbaha)
     _deferOnMoon(initDuas);
     _deferOnMoon(initTasbih);
 
@@ -2835,7 +2835,7 @@ async function initApp() {
             //   على الصفحات غير-المدنيّة (لا تحوي slug مدينة)، إن لم يوجد
             //   last_city_context (مثلاً: المستخدم وصل مباشرةً عبر URL أو فُتح
             //   تبويب جديد)، استَعمل lsb_detected الذي يَستمرّ في localStorage
-            //   حتّى 7 أيّام. هذا يضمن أنّ /zakat-calculator و/duas و/msbaha
+            //   حتّى 7 أيّام. هذا يضمن أنّ /zakat-calculator و/azkar و/msbaha
             //   و/today-hijri-date و/hijri-calendar و/dateconverter تَعرض موقع
             //   المستخدم الحاليّ بدلاً من Mecca defaults.
             if (!_hydratedFromContext) {

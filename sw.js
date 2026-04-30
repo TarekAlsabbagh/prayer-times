@@ -13,7 +13,7 @@ const PRECACHE_URLS = [
     '/js/qibla.js?v=44',
     '/js/moon.js?v=52',
     '/js/moon-chart.js?v=7',
-    '/js/duas.js?v=42',
+    '/js/duas.js?v=43',
     '/js/app.js?v=475',
 ];
 

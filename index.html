@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=558" as="script">
-    <link rel="stylesheet" href="css/style.css?v=229">
+    <link rel="preload" href="js/app.js?v=559" as="script">
+    <link rel="stylesheet" href="css/style.css?v=230">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1772,6 +1772,12 @@
                     <p class="moon-city-hub-edu-p1">—</p>
                     <p class="moon-city-hub-edu-p2">—</p>
                     <p class="moon-city-hub-edu-p3">—</p>
+                    <!-- Internal cross-links (filled by JS with city-aware hrefs + labels) -->
+                    <ul class="moon-city-hub-edu-links" aria-label="related">
+                        <li><a class="moon-city-hub-edu-link-today" href="#">—</a></li>
+                        <li><a class="moon-city-hub-edu-link-other" href="/moon-in-riyadh">—</a></li>
+                        <li><a class="moon-city-hub-edu-link-hijri" href="/today-hijri-date">—</a></li>
+                    </ul>
                 </div>
 
                 <!-- FAQ — City-specific (dynamic answers populated by app.js, accordion w/ first 2 open) -->
@@ -3345,7 +3351,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=558"></script>
+    <script defer src="js/app.js?v=559"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

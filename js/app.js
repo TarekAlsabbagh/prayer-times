@@ -14734,7 +14734,12 @@ function _moonCityDisplayName(slug) {
 
 // خريطة المدينة → البلد (key 'country.<code>' في i18n)؛ تُستخدم في الفقرة التعريفيّة وH1
 const _MOON_CITY_COUNTRY_KEYS = {
-    'mecca': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
+    // UAT-Moon-City-Hub-Polish: include canonical slug forms used after the
+    //   /moon-in-mecca → /moon-in-makkah and /moon-in-medina → /moon-in-madinah
+    //   301 redirects. Without these aliases, country lookup returns empty
+    //   on the canonical URL and H1 drops the country name.
+    'mecca': 'sa', 'makkah': 'sa', 'medina': 'sa', 'madinah': 'sa',
+    'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
     'khobar': 'sa', 'taif': 'sa', 'tabuk': 'sa', 'buraidah': 'sa', 'buraydah': 'sa',
     'abha': 'sa', 'yanbu': 'sa', 'hail': 'sa', 'najran': 'sa', 'jizan': 'sa',
     'qatif': 'sa', 'jubail': 'sa', 'hofuf': 'sa',
@@ -15572,6 +15577,45 @@ function updateMoonInfo() {
                     const el = document.querySelector(sel);
                     if (el) el.textContent = text;
                 });
+                // UAT-Moon-City-Hub-Polish: 3 internal cross-links at end of edu section
+                //   • "حالة القمر اليوم في {city}" → /moon-today-in-{slug}
+                //   • "تقويم القمر في {alt-city}"  → /moon-in-{alt-slug}  (sample sister)
+                //   • "التاريخ الهجري اليوم"        → /today-hijri-date
+                // Sister-city: pick a popular AR city different from current. Default
+                //   "riyadh"; if current IS riyadh, pick "makkah" instead.
+                const _altCitySlug = (_citySlug === 'riyadh') ? 'makkah' : 'riyadh';
+                const _altCityName = (typeof _moonCityDisplayName === 'function')
+                    ? _moonCityDisplayName(_altCitySlug)
+                    : (_altCitySlug === 'makkah' ? (_lng_ === 'ar' ? 'مكة المكرمة' : 'Makkah') : (_lng_ === 'ar' ? 'الرياض' : 'Riyadh'));
+                const _langPrefixEdu = (_lng_ === 'ar') ? '' : ('/' + _lng_);
+                const _eduLinkLabels = {
+                    ar: [
+                        `حالة القمر اليوم في ${_C}`,
+                        `تقويم القمر في ${_altCityName}`,
+                        'التاريخ الهجريّ اليوم'
+                    ],
+                    en: [
+                        `Moon status today in ${_C}`,
+                        `Moon calendar in ${_altCityName}`,
+                        "Today's Hijri date"
+                    ]
+                };
+                const _eduLinks = _eduLinkLabels[_lng_] || _eduLinkLabels.en;
+                const _link1 = document.querySelector('.moon-city-hub-edu-link-today');
+                const _link2 = document.querySelector('.moon-city-hub-edu-link-other');
+                const _link3 = document.querySelector('.moon-city-hub-edu-link-hijri');
+                if (_link1) {
+                    _link1.textContent = _eduLinks[0];
+                    _link1.setAttribute('href', _langPrefixEdu + '/moon-today-in-' + _citySlug);
+                }
+                if (_link2) {
+                    _link2.textContent = _eduLinks[1];
+                    _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _altCitySlug);
+                }
+                if (_link3) {
+                    _link3.textContent = _eduLinks[2];
+                    _link3.setAttribute('href', _langPrefixEdu + '/today-hijri-date');
+                }
             } catch (_) { /* silent */ }
             // إخفاء شريط التنقّل بين الأيّام على صفحة hub (لا يوجد «prev/next date»)
             try {

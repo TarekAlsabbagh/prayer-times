@@ -7681,11 +7681,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     ar: 'غدًا', en: 'Tomorrow', fr: 'Demain', tr: 'Yarın', ur: 'کل (آنے والا)',
                     de: 'Morgen', id: 'Besok', es: 'Mañana', bn: 'আগামীকাল', ms: 'Esok'
                 };
-                // Arabic dual form: يومين لـ n=2، أيّام لـ n≥3
+                // UAT-Moon-City-Hub-Polish: full Arabic plural ruleset
+                //   1 → "يوم" (singular, no number prefix — cleaner Arabic)
+                //   2 → "يومين" (dual)
+                //   3-10 → "{n} أيّام" (sound plural)
+                //   11+ → "{n} يومًا" (singular accusative for tamyiz)
+                // Was: only n=2 special-cased; "قبل 29 أيّام" rendered grammatically wrong.
                 const _hubCalDaysFmt = {
                     ar: (n) => {
                         const _abs = Math.abs(n);
-                        const _unit = (_abs === 2) ? 'يومين' : `${_abs} أيّام`;
+                        let _unit;
+                        if (_abs === 1)               _unit = 'يوم';
+                        else if (_abs === 2)          _unit = 'يومين';
+                        else if (_abs >= 3 && _abs <= 10) _unit = `${_abs} أيّام`;
+                        else                          _unit = `${_abs} يومًا`;
                         return n > 0 ? `بعد ${_unit}` : `قبل ${_unit}`;
                     },
                     en: (n) => (n > 0 ? `In ${n} days` : `${Math.abs(n)} days ago`),

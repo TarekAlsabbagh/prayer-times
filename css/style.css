@@ -4928,6 +4928,43 @@ html.moon-hub-page .moon-date-nav { display: none !important; }
    else, including /moon-today-in-{city} and /moon-today and date pages. */
 .moon-city-hub-only { display: none; }
 html.moon-hub-page .moon-city-hub-only { display: block !important; }
+
+/* Internal cross-links list inside the edu section — small, restrained, RTL-friendly. */
+.moon-city-hub-edu-links {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    border-top: 1px solid rgba(46,125,50,0.15);
+    padding-top: 12px;
+}
+.moon-city-hub-edu-links li { margin: 0; }
+.moon-city-hub-edu-links a {
+    color: var(--primary, #2e7d32);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border-bottom: 1px dashed transparent;
+    transition: border-color 0.15s;
+}
+.moon-city-hub-edu-links a::before {
+    content: "← ";
+    opacity: 0.6;
+    margin-inline-end: 2px;
+}
+.moon-city-hub-edu-links a:hover,
+.moon-city-hub-edu-links a:focus {
+    border-bottom-color: var(--primary, #2e7d32);
+    text-decoration: none;
+}
+html[data-theme="dark"] .moon-city-hub-edu-links {
+    border-top-color: rgba(129,199,132,0.25);
+}
+html[data-theme="dark"] .moon-city-hub-edu-links a {
+    color: var(--primary-light, #66bb6a);
+}
 /* Hide the existing #moon-general-faq + .moon-evergreen-short on hub
    (they're targeted at moon-today-in-city — duplicates here). */
 html.moon-hub-page #moon-general-faq,

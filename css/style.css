@@ -5141,6 +5141,85 @@ html.moon-date-page .moon-date-edu { display: block !important; }
 .moon-month-edu { display: none; }
 html.moon-month-page .moon-month-edu { display: block !important; }
 
+/* UAT-SEO-Phase-B3 (2026-04-30): the hub-page extended-links section
+   ("روابط مهمّة عن القمر في {city}") is hidden by default and only
+   shown on /moon-in-{city} (the city evergreen hub) — NOT on month
+   or date pages, which are gated separately. The card grid surfaces
+   6 cross-links between today/month/next-month/prayer/qibla/hijri
+   pages, making the hub a true gateway to the city's lunar tools. */
+.moon-hub-related { display: none; }
+html.moon-hub-page:not(.moon-month-page):not(.moon-date-page) .moon-hub-related { display: block !important; }
+.moon-hub-related-grid {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+.moon-hub-related-grid li { margin: 0; }
+.moon-hub-related-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(46,125,50,0.07), rgba(46,125,50,0.02));
+    border: 1.5px solid rgba(46,125,50,0.20);
+    border-radius: 12px;
+    color: var(--primary, #2e7d32);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: transform 0.22s ease, box-shadow 0.22s ease,
+                border-color 0.22s ease, background 0.22s ease;
+}
+.moon-hub-related-card:hover,
+.moon-hub-related-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--primary, #2e7d32);
+    background: linear-gradient(135deg, rgba(46,125,50,0.14), rgba(46,125,50,0.04));
+    box-shadow: 0 8px 18px rgba(46,125,50,0.20);
+    text-decoration: none;
+    outline: none;
+}
+.moon-hub-related-card .moon-hub-related-icon {
+    flex: 0 0 auto;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(46,125,50,0.12);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 1.2rem;
+}
+.moon-hub-related-card:hover .moon-hub-related-icon {
+    background: rgba(46,125,50,0.22);
+}
+.moon-hub-related-intro {
+    margin: 6px 0 0;
+    color: var(--text-light, #666);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+html[data-theme="dark"] .moon-hub-related-card {
+    background: linear-gradient(135deg, rgba(129,199,132,0.10), rgba(129,199,132,0.02));
+    border-color: rgba(129,199,132,0.28);
+    color: var(--primary-light, #81c784);
+}
+html[data-theme="dark"] .moon-hub-related-card:hover,
+html[data-theme="dark"] .moon-hub-related-card:focus-visible {
+    border-color: var(--primary-light, #81c784);
+    background: linear-gradient(135deg, rgba(129,199,132,0.18), rgba(129,199,132,0.05));
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .moon-hub-related-card .moon-hub-related-icon {
+    background: rgba(129,199,132,0.20);
+}
+@media (max-width: 600px) {
+    .moon-hub-related-grid { grid-template-columns: 1fr; gap: 10px; }
+    .moon-hub-related-card { padding: 12px 14px; }
+}
+
 /* UAT-Moon-Day-Page-Polish: short SEO line injected by app.js right
    before the city-specific FAQ. Gives crawlers a one-sentence context
    summary that reinforces the page's date-specific identity, and gives

@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=569" as="script">
-    <link rel="stylesheet" href="css/style.css?v=237">
+    <link rel="preload" href="js/app.js?v=570" as="script">
+    <link rel="stylesheet" href="css/style.css?v=238">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1796,6 +1796,26 @@
                     <p class="moon-month-edu-p4">—</p>
                 </div>
 
+                <!-- UAT-SEO-Phase-B3: hub-page extended internal links section.
+                     Visible ONLY on /moon-in-{city} (hub) via CSS gate. Acts as
+                     "روابط مهمّة عن القمر في {city}" — surfaces 6 related-tools
+                     cards: today moon, current month, next month, prayer times,
+                     qibla, hijri date. Distinguishes the hub as a true gateway
+                     between city's moon/prayer/qibla pages. Filled by app.js
+                     in the if (_isHubPage) block. -->
+                <div class="section-card moon-hub-related" id="moon-hub-related-links">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span class="moon-hub-related-title">—</span></h2>
+                    <p class="moon-hub-related-intro">—</p>
+                    <ul class="moon-hub-related-grid" aria-label="related-tools">
+                        <li><a class="moon-hub-related-card moon-hub-related-1" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🌙</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-2" href="#"><span class="moon-hub-related-icon" aria-hidden="true">📅</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-3" href="#"><span class="moon-hub-related-icon" aria-hidden="true">⏭️</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-4" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🕌</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-5" href="#"><span class="moon-hub-related-icon" aria-hidden="true">🧭</span><span class="moon-hub-related-label">—</span></a></li>
+                        <li><a class="moon-hub-related-card moon-hub-related-6" href="#"><span class="moon-hub-related-icon" aria-hidden="true">📆</span><span class="moon-hub-related-label">—</span></a></li>
+                    </ul>
+                </div>
+
                 <!-- FAQ — City-specific (dynamic answers populated by app.js, accordion w/ first 2 open) -->
                 <div class="section-card moon-faq-city-card">
                     <h2 id="moon-faq-city-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_city_title">أسئلة شائعة عن القمر اليوم في مدينتك</span></h2>
@@ -3386,7 +3406,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=569"></script>
+    <script defer src="js/app.js?v=570"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

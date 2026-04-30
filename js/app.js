@@ -16068,6 +16068,69 @@ function updateMoonInfo() {
                     _link3.setAttribute('href', _langPrefixEdu + '/today-hijri-date');
                 }
             } catch (_) { /* silent */ }
+
+            // UAT-SEO-Phase-B3 (2026-04-30): hub-page extended internal links —
+            //   "روابط مهمّة عن القمر في {city}". 6 cards spanning today, current
+            //   month, next month, prayer-times, qibla, hijri-date. Distinguishes
+            //   the hub as a true gateway to the city's moon/prayer/qibla tools.
+            //   Visible only on hub via CSS (.moon-hub-related gate).
+            try {
+                const _now = new Date();
+                const _padN = (n) => String(n).padStart(2, '0');
+                const _curMonthIso = _now.getFullYear() + '-' + _padN(_now.getMonth() + 1);
+                const _nextMonth = new Date(_now.getFullYear(), _now.getMonth() + 1, 1);
+                const _nextMonthIso = _nextMonth.getFullYear() + '-' + _padN(_nextMonth.getMonth() + 1);
+                const _gMonthsAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+                const _gMonthsEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                const _curMonthName = (_lng_ === 'ar') ? _gMonthsAr[_now.getMonth()] : _gMonthsEn[_now.getMonth()];
+                const _nextMonthName = (_lng_ === 'ar') ? _gMonthsAr[_nextMonth.getMonth()] : _gMonthsEn[_nextMonth.getMonth()];
+                const _curYear = _now.getFullYear();
+                const _nextYear = _nextMonth.getFullYear();
+                const _HUB_RELATED = (_lng_ === 'ar') ? {
+                    title: `روابط مهمّة عن القمر في ${_cityName}`,
+                    intro: `تَجمع هذه الصفحة كلّ ما يَخصّ القمر في ${_cityName} — حالة اليوم، تقويم الشهر الحاليّ والقادم، إضافةً إلى أدوات مرتبطة كمواقيت الصلاة واتّجاه القبلة.`,
+                    labels: [
+                        `حالة القمر اليوم في ${_cityName}`,
+                        `تقويم القمر لشهر ${_curMonthName} ${_curYear}`,
+                        `تقويم القمر لشهر ${_nextMonthName} ${_nextYear}`,
+                        `مواقيت الصلاة في ${_cityName}`,
+                        `اتّجاه القبلة من ${_cityName}`,
+                        `التاريخ الهجريّ اليوم`
+                    ]
+                } : {
+                    title: `Important moon-related links in ${_cityName}`,
+                    intro: `This page brings together everything about the Moon in ${_cityName} — today's status, the current and next months' calendars, plus related tools like prayer times and qibla direction.`,
+                    labels: [
+                        `Moon status today in ${_cityName}`,
+                        `Moon calendar for ${_curMonthName} ${_curYear}`,
+                        `Moon calendar for ${_nextMonthName} ${_nextYear}`,
+                        `Prayer times in ${_cityName}`,
+                        `Qibla direction from ${_cityName}`,
+                        `Today's Hijri date`
+                    ]
+                };
+                const _hrefs = [
+                    _langPrefixEdu + '/moon-today-in-' + _citySlug,
+                    _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _curMonthIso,
+                    _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _nextMonthIso,
+                    _langPrefixEdu + '/prayer-times-in-' + _citySlug,
+                    _langPrefixEdu + '/qibla-in-' + _citySlug,
+                    _langPrefixEdu + '/today-hijri-date'
+                ];
+                const _hubRelTitle = document.querySelector('.moon-hub-related-title');
+                const _hubRelIntro = document.querySelector('.moon-hub-related-intro');
+                if (_hubRelTitle) _hubRelTitle.textContent = _HUB_RELATED.title;
+                if (_hubRelIntro) _hubRelIntro.textContent = _HUB_RELATED.intro;
+                for (let i = 1; i <= 6; i++) {
+                    const _card = document.querySelector('.moon-hub-related-' + i);
+                    if (_card) {
+                        const _lbl = _card.querySelector('.moon-hub-related-label');
+                        if (_lbl) _lbl.textContent = _HUB_RELATED.labels[i - 1];
+                        _card.setAttribute('href', _hrefs[i - 1]);
+                    }
+                }
+            } catch (_) { /* silent */ }
+
             // إخفاء شريط التنقّل بين الأيّام على صفحة hub (لا يوجد «prev/next date»)
             try {
                 const _navElHub = document.getElementById('moon-date-nav');

@@ -15335,10 +15335,16 @@ function updateMoonInfo() {
                             ['.moon-city-hub-faq-a7', `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_Cm}. الإحداثيّات الجغرافيّة لهذه المدينة تُؤثّر على الاتّجاه والارتفاع أيضًا.`],
                             ['.moon-city-hub-faq-q8', `ما علاقة أطوار القمر بالتقويم الهجريّ؟`],
                             ['.moon-city-hub-faq-a8', `التقويم الهجريّ قمريّ بالكامل: كلّ شهر يَبدأ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقّع بداية الشهر الهجريّ القادم.`],
-                            ['.moon-city-hub-edu-title', `فهم تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}`],
-                            ['.moon-city-hub-edu-p1', `يَعرض تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY} تَغيّر أطوار القمر يومًا بعد يوم، من الهلال والأحدب إلى البدر والمحاق، مع توضيح نسبة الإضاءة لكلّ يوم.`],
-                            ['.moon-city-hub-edu-p2', `تَختلف مواعيد شروق وغروب القمر حسب المدينة والمنطقة الزمنيّة، لذلك تُعرض بيانات هذه الصفحة حسب التوقيت المحلّيّ لـ ${_Cm}.`],
-                            ['.moon-city-hub-edu-p3', `يَرتبط القمر بالتقويم الهجريّ، إذ تَبدأ الأشهر الهجريّة برؤية الهلال، وقد يَختلف ثبوت بداية الشهر يومًا واحدًا حسب الرؤية الشرعيّة في بلدك.`]
+                            // UAT-SEO-Phase-B2-minor (2026-04-30): trimmed to short
+                            //   teasers — the deep content (city differences,
+                            //   Hijri context, calendar reading) lives in the
+                            //   dedicated #moon-month-edu-hijri section below.
+                            //   p1 = brief intro, p2 = how-to instruction,
+                            //   p3 = bridge pointer to deeper section.
+                            ['.moon-city-hub-edu-title', `حول تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}`],
+                            ['.moon-city-hub-edu-p1', `هذا التقويم يَعرض أطوار القمر اليوميّة في ${_Cm} خلال شهر ${_mName} ${_mY}، مع نسبة الإضاءة لكلّ يوم.`],
+                            ['.moon-city-hub-edu-p2', `اضغط على أيّ يوم في الجدول أعلاه لفتح صفحة تَفاصيل ذلك اليوم في ${_Cm}.`],
+                            ['.moon-city-hub-edu-p3', `للمزيد عن قراءة التقويم وأهمّ الأطوار وعلاقة الشهر بالتقويم الهجريّ، اقرأ القسم التَفصيليّ أدناه.`]
                         ] : [
                             ['.moon-city-hub-faq-title-text', `FAQ about the moon calendar in ${_Cm} — ${_mName} ${_mY}`],
                             ['.moon-city-hub-faq-q1', `What is the moon calendar in ${_Cm} for ${_mName} ${_mY}?`],
@@ -15357,10 +15363,12 @@ function updateMoonInfo() {
                             ['.moon-city-hub-faq-a7', `Yes. All moonrise/moonset and full/new moon times are computed in ${_Cm}'s local timezone. The city's geographic coordinates also affect direction and altitude.`],
                             ['.moon-city-hub-faq-q8', `How are moon phases related to the Hijri calendar?`],
                             ['.moon-city-hub-faq-a8', `The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.`],
-                            ['.moon-city-hub-edu-title', `Understanding the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
-                            ['.moon-city-hub-edu-p1', `The moon calendar in ${_Cm} for ${_mName} ${_mY} shows how moon phases change day by day, from crescent and gibbous to full and new moon, with illumination percentage for each day.`],
-                            ['.moon-city-hub-edu-p2', `Moonrise and moonset times differ by city and timezone — so this page's data is shown in ${_Cm}'s local time.`],
-                            ['.moon-city-hub-edu-p3', `The moon is tied to the Hijri calendar — Hijri months begin with the crescent sighting, and the start of each month may vary by one day depending on local moon sighting.`]
+                            // UAT-SEO-Phase-B2-minor: trimmed teasers; deep
+                            //   content lives in #moon-month-edu-hijri below.
+                            ['.moon-city-hub-edu-title', `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
+                            ['.moon-city-hub-edu-p1', `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
+                            ['.moon-city-hub-edu-p2', `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            ['.moon-city-hub-edu-p3', `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ];
                         _monthFaq.forEach(([sel, text]) => {
                             const el = document.querySelector(sel);
@@ -16109,13 +16117,25 @@ function updateMoonInfo() {
                         `Today's Hijri date`
                     ]
                 };
+                // UAT-SEO-Phase-B3.1 hotfix: use canonical dated form
+                //   /hijri-date/{HIJRI-YYYY-MM-DD} instead of legacy
+                //   /today-hijri-date redirect. Site policy is "no user-facing
+                //   link should lead to /today-hijri-date" (see app.js:2630
+                //   auto-rewriter). Compute today's Hijri date directly.
+                let _hijriTodayPath = '/today-hijri-date';
+                try {
+                    if (typeof HijriDate !== 'undefined' && HijriDate.getToday) {
+                        const _hT = HijriDate.getToday();
+                        _hijriTodayPath = '/hijri-date/' + _hT.year + '-' + _padN(_hT.month) + '-' + _padN(_hT.day);
+                    }
+                } catch (_) { /* keep legacy path; auto-rewriter will fix it */ }
                 const _hrefs = [
                     _langPrefixEdu + '/moon-today-in-' + _citySlug,
                     _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _curMonthIso,
                     _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _nextMonthIso,
                     _langPrefixEdu + '/prayer-times-in-' + _citySlug,
                     _langPrefixEdu + '/qibla-in-' + _citySlug,
-                    _langPrefixEdu + '/today-hijri-date'
+                    _langPrefixEdu + _hijriTodayPath
                 ];
                 const _hubRelTitle = document.querySelector('.moon-hub-related-title');
                 const _hubRelIntro = document.querySelector('.moon-hub-related-intro');

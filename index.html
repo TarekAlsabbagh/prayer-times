@@ -34,8 +34,8 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=571" as="script">
-    <link rel="stylesheet" href="css/style.css?v=238">
+    <link rel="preload" href="js/app.js?v=572" as="script">
+    <link rel="stylesheet" href="css/style.css?v=239">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════
@@ -1858,6 +1858,29 @@
                     </div>
                 </div>
 
+                <!-- UAT-SEO-Phase-B4: today-in-city educational section.
+                     Visible ONLY on /moon-today-in-{city} via CSS gate
+                     (html.moon-today-city-page). Distinct voice from B1
+                     ("specific date"), B2 ("month"), B3 ("hub gateway") —
+                     this one is "now/today" themed and acts as a content
+                     bridge to deeper pages (city hub, current month,
+                     today's detail page, today's Hijri). 4 paragraphs +
+                     4 internal cross-links. Adds ~200 words → today-in-city
+                     rises from ~550 to ~750 (target 700-1000). -->
+                <div class="section-card moon-today-city-edu" id="moon-today-city-edu">
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-tdc-edu-title">—</span></h2>
+                    <p class="moon-tdc-edu-p1">—</p>
+                    <p class="moon-tdc-edu-p2">—</p>
+                    <p class="moon-tdc-edu-p3">—</p>
+                    <p class="moon-tdc-edu-p4">—</p>
+                    <ul class="moon-tdc-edu-links" aria-label="related">
+                        <li><a class="moon-tdc-edu-link-1" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📅</span><span class="moon-tdc-edu-label">—</span></a></li>
+                        <li><a class="moon-tdc-edu-link-2" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🌙</span><span class="moon-tdc-edu-label">—</span></a></li>
+                        <li><a class="moon-tdc-edu-link-3" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📆</span><span class="moon-tdc-edu-label">—</span></a></li>
+                        <li><a class="moon-tdc-edu-link-4" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🗓️</span><span class="moon-tdc-edu-label">—</span></a></li>
+                    </ul>
+                </div>
+
                 <!-- UAT-SEO-Phase-B1: date-page educational section — Hijri context.
                      Visible ONLY on /moon-in-{city}/{YYYY-MM-DD} via CSS gate
                      (html.moon-date-page). Empty placeholders filled by app.js
@@ -3406,7 +3429,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=42"></script>
-    <script defer src="js/app.js?v=571"></script>
+    <script defer src="js/app.js?v=572"></script>
     <script defer src="js/footer-cookie.js?v=5"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

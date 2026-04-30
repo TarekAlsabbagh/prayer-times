@@ -5141,6 +5141,79 @@ html.moon-date-page .moon-date-edu { display: block !important; }
 .moon-month-edu { display: none; }
 html.moon-month-page .moon-month-edu { display: block !important; }
 
+/* UAT-SEO-Phase-B4 (2026-04-30): today-in-city educational section
+   ("ملخّص قمر اليوم في {city} + علاقة الهجريّ + مَواعيد محلّيّة").
+   Visible ONLY on /moon-today-in-{city} via the moon-today-city-page
+   class (added by the boot script in index.html). Adds ~200 words +
+   4 internal cross-link cards (city hub, current month, today's
+   detail page, today's Hijri date). */
+.moon-today-city-edu { display: none; }
+html.moon-today-city-page .moon-today-city-edu { display: block !important; }
+.moon-tdc-edu-links {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+}
+.moon-tdc-edu-links li { margin: 0; }
+.moon-tdc-edu-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, rgba(46,125,50,0.06), rgba(46,125,50,0.02));
+    border: 1.5px solid rgba(46,125,50,0.20);
+    border-radius: 10px;
+    color: var(--primary, #2e7d32);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.93rem;
+    line-height: 1.4;
+    transition: transform 0.22s ease, box-shadow 0.22s ease,
+                border-color 0.22s ease, background 0.22s ease;
+}
+.moon-tdc-edu-links a:hover,
+.moon-tdc-edu-links a:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--primary, #2e7d32);
+    background: linear-gradient(135deg, rgba(46,125,50,0.12), rgba(46,125,50,0.04));
+    box-shadow: 0 6px 14px rgba(46,125,50,0.18);
+    text-decoration: none;
+    outline: none;
+}
+.moon-tdc-edu-links .moon-tdc-edu-icon {
+    flex: 0 0 auto;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(46,125,50,0.12);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 1.05rem;
+}
+.moon-tdc-edu-links a:hover .moon-tdc-edu-icon {
+    background: rgba(46,125,50,0.20);
+}
+html[data-theme="dark"] .moon-tdc-edu-links a {
+    background: linear-gradient(135deg, rgba(129,199,132,0.10), rgba(129,199,132,0.02));
+    border-color: rgba(129,199,132,0.28);
+    color: var(--primary-light, #81c784);
+}
+html[data-theme="dark"] .moon-tdc-edu-links a:hover,
+html[data-theme="dark"] .moon-tdc-edu-links a:focus-visible {
+    border-color: var(--primary-light, #81c784);
+    background: linear-gradient(135deg, rgba(129,199,132,0.18), rgba(129,199,132,0.05));
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+}
+html[data-theme="dark"] .moon-tdc-edu-links .moon-tdc-edu-icon {
+    background: rgba(129,199,132,0.20);
+}
+@media (max-width: 600px) {
+    .moon-tdc-edu-links { grid-template-columns: 1fr; gap: 8px; }
+    .moon-tdc-edu-links a { padding: 11px 12px; font-size: 0.9rem; }
+}
+
 /* UAT-SEO-Phase-B3 (2026-04-30): the hub-page extended-links section
    ("روابط مهمّة عن القمر في {city}") is hidden by default and only
    shown on /moon-in-{city} (the city evergreen hub) — NOT on month

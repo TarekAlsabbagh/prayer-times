@@ -16158,6 +16158,96 @@ function updateMoonInfo() {
             } catch (_e) { /* silent */ }
 
         }
+
+        // UAT-SEO-Phase-B4 (2026-04-30): today-in-city educational section.
+        //   Fires only on /moon-today-in-{city} (NOT date, NOT hub, NOT month).
+        //   Distinct "now/today" voice — bridges the visitor from the today
+        //   snapshot to deeper pages (city hub, current month, today's detail
+        //   page with full Gregorian/Hijri date, today's Hijri-date page).
+        //   AR + EN explicit; other 8 langs follow EN.
+        try {
+            const _isTodayCityUrl = !!_citySlug && !_isDatePage && !_isHubPage
+                && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-/.test(window.location.pathname);
+            if (_isTodayCityUrl) {
+                // Compute today's ISO dates (Gregorian for /moon-in-{city}/{YYYY-MM-DD}
+                // and /moon-in-{city}/{YYYY-MM}; Hijri for /hijri-date/{HIJRI-YYYY-MM-DD})
+                const _nowB4 = new Date();
+                const _padB4 = (n) => String(n).padStart(2, '0');
+                const _gregISO = _nowB4.getFullYear() + '-' + _padB4(_nowB4.getMonth() + 1) + '-' + _padB4(_nowB4.getDate());
+                const _gregMonthISO = _nowB4.getFullYear() + '-' + _padB4(_nowB4.getMonth() + 1);
+                let _hijriISO = '';
+                try {
+                    if (typeof HijriDate !== 'undefined' && HijriDate.getToday) {
+                        const _hT = HijriDate.getToday();
+                        _hijriISO = _hT.year + '-' + _padB4(_hT.month) + '-' + _padB4(_hT.day);
+                    }
+                } catch (_) {}
+                const _langPrefixB4 = (_lng_ === 'ar') ? '' : ('/' + _lng_);
+
+                // Resolve current values for interpolation. The phase / illumination
+                // / age vars are in scope from MoonCalc earlier in this function.
+                const _phaseLocB4 = (phase && phase.key && typeof t === 'function') ? t(phase.key) : (phase ? phase.name : '');
+                const _phaseValB4 = (_phaseLocB4 && _phaseLocB4 !== (phase && phase.key)) ? _phaseLocB4 : ((phase && phase.name) || '');
+                const _illumB4 = (typeof illumination === 'number') ? illumination.toFixed(2).replace(/\.?0+$/, '') : '—';
+                const _ageB4 = (typeof age === 'number') ? age.toFixed(2).replace(/\.?0+$/, '') : '—';
+
+                const _gMonthAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+                const _gMonthEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                const _curMonthLbl = (_lng_ === 'ar') ? _gMonthAr[_nowB4.getMonth()] : _gMonthEn[_nowB4.getMonth()];
+
+                const _TDC_AR = {
+                    title: `ملخّص قمر اليوم في ${_cityName}`,
+                    p1: `في ${_cityName} اليوم، يَكون القمر في طور ${_phaseValB4} بإضاءة ${_illumB4}٪ وعمر ${_ageB4} يوم من الدورة القمريّة الحاليّة. هذه القيم لحظيّة، محسوبة فلكيّاً وفق منهجيّات Jean Meeus حسب إحداثيّات ${_cityName} وتوقيتها المحلّيّ، وتَتَجدَّد تلقائيّاً.`,
+                    p2: `تَختلف مَواعيد شروق وغروب القمر بين المدن بحسب خطّ الطول والمنطقة الزمنيّة. الأرقام المعروضة هنا خاصّة بـ ${_cityName} فقط — قد تَختلف عن مدن أخرى مثل القاهرة أو لندن أو نيويورك.`,
+                    p3: `حالة القمر اليوم في ${_cityName} تَرتبط بالتقويم الهجريّ، إذ تُساعد على تَوقّع موعد رؤية الهلال للشهر الهجريّ القادم. هذه بيانات فلكيّة موضوعيّة — أمّا ثبوت بدء الشهر الهجريّ فيَخضع للرؤية الشرعيّة في كلّ بلد.`,
+                    p4: `للمتابعة بعد حالة اليوم، يُمكنك تَصفّح تقويم القمر الكامل في ${_cityName}، أو الاطّلاع على تقويم شهر ${_curMonthLbl}، أو فتح صفحة تَفاصيل قمر اليوم بالتاريخ الميلاديّ الكامل، أو مُراجعة التاريخ الهجريّ اليوم.`,
+                    links: [
+                        `تقويم القمر في ${_cityName}`,
+                        `تقويم القمر لشهر ${_curMonthLbl}`,
+                        `تَفاصيل قمر اليوم بالتاريخ`,
+                        `التاريخ الهجريّ اليوم`
+                    ]
+                };
+                const _TDC_EN = {
+                    title: `Today's moon snapshot in ${_cityName}`,
+                    p1: `In ${_cityName} today, the Moon is in ${_phaseValB4} phase with ${_illumB4}% illumination and ${_ageB4} days of age in the current lunar cycle. These values are live — computed astronomically using Jean Meeus' methods for ${_cityName}'s coordinates and local timezone, and refresh automatically.`,
+                    p2: `Moonrise and moonset times vary between cities based on longitude and timezone. The figures shown here are specific to ${_cityName} — they will differ from other cities like Cairo, London, or New York.`,
+                    p3: `The Moon's state today in ${_cityName} is tied to the Hijri calendar — it helps anticipate when the crescent of the next Hijri month will be visible. These are objective astronomical data; official confirmation of each Hijri month depends on local jurisprudence in each country.`,
+                    p4: `To go beyond today's snapshot, you can browse the full moon calendar for ${_cityName}, view this month's calendar for ${_curMonthLbl}, open today's detailed page with full Gregorian/Hijri dates, or check today's Hijri date page.`,
+                    links: [
+                        `Moon calendar in ${_cityName}`,
+                        `Moon calendar for ${_curMonthLbl}`,
+                        `Today's moon details by date`,
+                        `Today's Hijri date`
+                    ]
+                };
+                const _tdc = (_lng_ === 'ar') ? _TDC_AR : _TDC_EN;
+                const _hrefsB4 = [
+                    _langPrefixB4 + '/moon-in-' + _citySlug,
+                    _langPrefixB4 + '/moon-in-' + _citySlug + '/' + _gregMonthISO,
+                    _langPrefixB4 + '/moon-in-' + _citySlug + '/' + _gregISO,
+                    _hijriISO ? (_langPrefixB4 + '/hijri-date/' + _hijriISO) : (_langPrefixB4 + '/today-hijri-date')
+                ];
+                const _setTdc = (sel, txt) => {
+                    const el = document.querySelector(sel);
+                    if (el) el.textContent = txt;
+                };
+                _setTdc('#moon-today-city-edu .moon-tdc-edu-title', _tdc.title);
+                _setTdc('#moon-today-city-edu .moon-tdc-edu-p1', _tdc.p1);
+                _setTdc('#moon-today-city-edu .moon-tdc-edu-p2', _tdc.p2);
+                _setTdc('#moon-today-city-edu .moon-tdc-edu-p3', _tdc.p3);
+                _setTdc('#moon-today-city-edu .moon-tdc-edu-p4', _tdc.p4);
+                for (let i = 1; i <= 4; i++) {
+                    const _a = document.querySelector('#moon-today-city-edu .moon-tdc-edu-link-' + i);
+                    if (_a) {
+                        const _lblEl = _a.querySelector('.moon-tdc-edu-label');
+                        if (_lblEl) _lblEl.textContent = _tdc.links[i - 1];
+                        _a.setAttribute('href', _hrefsB4[i - 1]);
+                    }
+                }
+            }
+        } catch (_) { /* silent */ }
+
         if (_locEl) {
             const _locTemplates = {
                 ar: `الموقع: ${_cityName}`,

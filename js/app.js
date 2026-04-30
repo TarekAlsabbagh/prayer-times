@@ -6496,7 +6496,37 @@ function updateBreadcrumb() {
 
     // ── نصوص العرض (عبر i18n مع fallback) ──
     const _t = (typeof t === 'function') ? t : (k) => k;
-    const homeLabel        = _t('breadcrumb.home') || (isAr ? 'الرئيسية' : 'Home');
+
+    // ── D3.2a/D3.2b — جدول 10 لغات لـ Breadcrumb labels (يحلّ محلّ fallback ar/en الثنائيّ) ──
+    //   هذه الـ defaults تُستخدم فقط إذا فشل t() (نظريّاً غير ممكن — المفاتيح موجودة لـ 10 لغات
+    //   في js/i18n.js). الهدف: ضمان أنّ أيّ فشل عابر لطبقة i18n لا يُسرّب EN في breadcrumb.
+    const _HOME_LABEL_BY_LANG = {
+        ar: 'الرئيسية',
+        en: 'Home',
+        fr: 'Accueil',
+        tr: 'Ana Sayfa',
+        ur: 'صفحۂ اوّل',
+        de: 'Startseite',
+        id: 'Beranda',
+        es: 'Inicio',
+        bn: 'হোম',
+        ms: 'Laman Utama'
+    };
+    const _PT_IN_CITY_BY_LANG = {
+        ar: (city) => `مواقيت الصلاة في ${city}`,
+        en: (city) => `Prayer Times in ${city}`,
+        fr: (city) => `Heures de prière à ${city}`,
+        tr: (city) => `${city} Namaz Vakitleri`,
+        ur: (city) => `${city} میں اوقاتِ نماز`,
+        de: (city) => `Gebetszeiten in ${city}`,
+        id: (city) => `Jadwal Sholat di ${city}`,
+        es: (city) => `Horarios de Oración en ${city}`,
+        bn: (city) => `${city}-এ নামাজের সময়`,
+        ms: (city) => `Waktu Solat di ${city}`
+    };
+    const _ptLabel = _PT_IN_CITY_BY_LANG[lang] || _PT_IN_CITY_BY_LANG.en;
+
+    const homeLabel        = _t('breadcrumb.home') || _HOME_LABEL_BY_LANG[lang] || _HOME_LABEL_BY_LANG.en;
     // AR: عربي — EN: إنجليزي — UR/TR/FR/DE/ID/BN/ES/MS: getDisplayCountry() يفحص _LOCALIZED_COUNTRY_MAPS أوّلاً
     const countryLabel = (lang === 'ar')
         ? (currentCountry        || currentEnglishCountry || countrySlug)
@@ -6522,10 +6552,8 @@ function updateBreadcrumb() {
 
     // "مواقيت الصلاة في {name}" — نفس القالب يُطبَّق على الدولة والمدينة
     // (نمرّر متغيّر placeholder اسمه 'city' لأن مفتاح i18n يستخدمه — لكن القيمة قد تكون اسم دولة)
-    const countryFinal = _t('prayer_times_in', { city: countryLabel })
-        || (isAr ? `مواقيت الصلاة في ${countryLabel}` : `Prayer Times in ${countryLabel}`);
-    const finalLabel = _t('prayer_times_in', { city: cityLabel })
-        || (isAr ? `مواقيت الصلاة في ${cityLabel}` : `Prayer Times in ${cityLabel}`);
+    const countryFinal = _t('prayer_times_in', { city: countryLabel }) || _ptLabel(countryLabel);
+    const finalLabel   = _t('prayer_times_in', { city: cityLabel })   || _ptLabel(cityLabel);
 
     // ── روابط (فقط للعنصرين الأوّلَيْن — العنصر الأخير current بلا href) ──
     // نُولِّد الرابط على نمط /prayer-times-in-{slug} مباشرةً لتفادي 301 hop وتحسين SEO.

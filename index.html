@@ -1630,7 +1630,14 @@
                      `أطوار القمر خلال {month} {year}` (or per-lang equivalent) on
                      /moon-today only; static fallback text below covers any case
                      where the SSR replacement is skipped. -->
-                <h2 id="moon-current-month-h2" class="hub-only moon-current-month-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="moon.current_month_h2">أطوار القمر خلال هذا الشهر</span></h2>
+                <!-- Phase E2-keywords-fix (2026-05-01): removed `.hub-only` from this H2.
+                     SEOptimer was treating it as hidden content (the class defaults to
+                     display:none, with an html.moon-today-hub-page override). Removing
+                     the gating class makes the H2 visible on all moon pages where
+                     #page-moon shows (/moon-today + /moon-in-{city} + /moon-today-in-{city})
+                     — the text "Moon Phases This Month" is generic and useful on those
+                     too, so no harm. The CSS override is no longer needed for this H2. -->
+                <h2 id="moon-current-month-h2" class="moon-current-month-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="moon.current_month_h2">أطوار القمر خلال هذا الشهر</span></h2>
 
                 <!-- 🆕 Priority C: الأطوار القمريّة القادمة (Killer Feature) — التواريخ الدقيقة للأطوار الأربعة التالية -->
                 <section class="section-card moon-upcoming-section" id="moon-upcoming-section" aria-labelledby="moon-upcoming-h2">

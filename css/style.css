@@ -13434,3 +13434,41 @@ html[data-theme="dark"] .loc-hero-close-btn:hover {
     .nav-loading-icon { animation: none; }
     .nav-loading-spinner { animation-duration: 1.6s; }
 }
+
+/* ═══ Phase E4-usability (2026-05-02): CLS reservations for JS-hydrated
+   elements inside #page-moon. Lighthouse identified #page-moon as the
+   source of 98% of the 0.164 CLS score on /moon-today.
+
+   Live measurement (mobile 518px viewport, before vs after hydration):
+     • #moon-upcoming-timeline: 0px → 318px  (+318px — THE culprit)
+     • #moon-comparison:        348px → 352px  (+4px — negligible)
+     • .mc-progress-wrap:       72px stable   (no shift)
+     • #moon-sticky-bar:        55px stable   (fixed-positioned)
+
+   #moon-upcoming-timeline is empty in SSR HTML and gets 4 phase cards
+   injected by js/app.js after astronomy data computes. The 318px growth
+   pushes ALL subsequent content (E2-content sections, FAQ, footer) down,
+   producing the 0.161 layout shift.
+
+   Reservation strategy:
+     • #moon-upcoming-timeline: 320px (mobile) / 240px (desktop, 2-col grid)
+     • #moon-comparison: 350px safety reservation (matches actual ±5px)
+     • Other elements: no reservation needed (stable from SSR)
+
+   Does NOT touch SEO content, Title, Meta, H1, server.js, or JS.
+   Pure CSS. Reversible by deleting this block. */
+
+#moon-upcoming-timeline {
+    min-height: 320px;
+}
+
+#moon-comparison {
+    min-height: 350px;
+}
+
+@media (min-width: 768px) {
+    /* Desktop: timeline grid switches to 2-column or 4-column → shorter */
+    #moon-upcoming-timeline { min-height: 240px; }
+    /* Comparison stays similar on desktop */
+    #moon-comparison { min-height: 320px; }
+}

@@ -6914,6 +6914,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     if (_isMoonCityPageSsr) {
         html = _stripPagePrayerTimesOnly(html);
     }
+    // ── Phase E4-city-b (2026-05-02): SSR active-class for #page-moon
+    //    on ALL moon pages (Hub + city + month + date). Eliminates the
+    //    residual 0.171 CLS on div#page-moon.page.active which Lighthouse
+    //    kept flagging after E4-city. Root cause: SSR shipped #page-moon
+    //    without `active`, JS added it post-paint → CSS cascade applied
+    //    `.page.active { padding: 24px ... }` causing a tiny but measurable
+    //    layout shift even after E4-b parity rules. Pre-injecting `active`
+    //    in SSR makes the cascade fire from first paint — no class mutation
+    //    to observe, no shift to record. Single string replace, idempotent
+    //    (no-op if the active class is already present, e.g., on re-renders
+    //    or if a future change ships the active class statically).
+    if (_isMoonTodayHub || _isMoonCityPageSsr) {
+        html = html.replace(
+            '<div class="page" id="page-moon">',
+            '<div class="page active" id="page-moon">'
+        );
+    }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);
         // Phase I — حقن روابط داخليّة canonical في #related-links-section

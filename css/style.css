@@ -13566,3 +13566,40 @@ a.fc-hijri-link {
    (gold #d4a017 on dark green-tinted bg ≈ rgb(35,48,46)) — PASSING WCAG AA.
    Adding our own dark override here would either be inert (without !important)
    or fight an intentional design choice. Light mode was the only failure. */
+
+/* ═══ Phase E4-c2 (2026-05-02): Contrast tuning for #moon-distance value.
+   Lighthouse A11y on /moon-today-in-{city} flagged the distance number
+   for insufficient contrast.
+
+   Live measurement (light mode, mobile):
+     • Default: var(--accent, #d4af37) gold on rgb(240,242,245) page bg
+     • Element: 19.2px @ 700 weight (large text → WCAG threshold 3.0)
+     • Ratio: 2.12 ❌ FAIL (needs ≥3.0 for large bold text)
+
+   Note: only #moon-distance was failing. Other detail-card values
+   (#moon-illumination-pct, #moon-age, #moon-rise, #moon-set) all pass
+   at ratio 9.79 because they use --text not --accent.
+
+   Fix: switch the distance number from gold to dark green #1a4a1a
+   (matches E4-c choice + .moon-distance-card has its own theme).
+   Reaches ratio ~14 on light bg — well above WCAG AAA.
+
+   Dark mode: existing rule for .moon-distance-card .value uses
+   var(--accent) which resolves to #e8c860 in dark — that on dark page bg
+   ≈ rgb(34,39,46) gives ratio ~10 ✅ already PASSING. Not overridden.
+
+   Does NOT touch: SEO content, Title, Meta, H1, JS, server.js,
+   --accent variable, or any other gold-themed elements site-wide. */
+#moon-distance.value {
+    color: #1a4a1a;
+}
+
+/* Dark mode override — required because the new #moon-distance.value
+   selector (specificity 110) outranks the existing
+   `html[data-theme="dark"] .moon-distance-card .value` rule (specificity 31).
+   Without this override, the dark-green light-mode color leaks into dark
+   mode, dropping ratio to 1.36 (FAIL). Restoring var(--accent) (which
+   resolves to #e8c860 in dark) gives ratio ~9.1 on rgb(38,44,54) — PASS. */
+html[data-theme="dark"] #moon-distance.value {
+    color: var(--accent);
+}

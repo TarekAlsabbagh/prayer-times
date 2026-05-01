@@ -13374,3 +13374,63 @@ html[data-theme="dark"] .loc-hero-close-btn:hover {
         box-shadow: 0 4px 10px rgba(128, 216, 168, 0.22);
     }
 }
+
+/* ═══ E3-a (2026-05-01): Navigation transition overlay ═══
+   Shown immediately when the user clicks an internal nav link that triggers
+   window.location.href = ... navigation. Masks the OLD page during SSR latency
+   (Render free-tier cold start ~2-5s) so the user sees a clear "loading"
+   indicator instead of perceiving the old page as a "flash". Per-page text +
+   icon set in JS via _showNavLoadingOverlay(kind). The overlay auto-disappears
+   when the new document loads (DOM is replaced); BFCache restore is handled
+   by a pageshow listener that re-hides the [hidden] attribute.
+   Background uses --bg so dark/light themes both look correct (no white flash). */
+.nav-loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg, #f0f2f5);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Pointer events ON: blocks accidental clicks during navigation. */
+}
+.nav-loading-overlay[hidden] { display: none; }
+.nav-loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: var(--text, #1f2328);
+    text-align: center;
+    padding: 24px;
+    max-width: 360px;
+}
+.nav-loading-icon {
+    font-size: 48px;
+    line-height: 1;
+    animation: nav-loading-pulse 1.4s ease-in-out infinite;
+}
+.nav-loading-text {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+.nav-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border, rgba(0,0,0,0.1));
+    border-top-color: var(--primary, #2c5f5d);
+    border-radius: 50%;
+    animation: nav-loading-spin 0.8s linear infinite;
+}
+@keyframes nav-loading-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.05); }
+}
+@keyframes nav-loading-spin {
+    to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .nav-loading-icon { animation: none; }
+    .nav-loading-spinner { animation-duration: 1.6s; }
+}

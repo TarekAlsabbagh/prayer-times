@@ -4296,6 +4296,7 @@ function initNavigation() {
                         if (!_re.test(window.location.pathname)) {
                             // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي
                             _saveCityCtxFor('hijri-today');
+                            _showNavLoadingOverlay('hijri');
                             window.location.href = pageUrl(_datedPath);
                         }
                         return;
@@ -4304,6 +4305,7 @@ function initNavigation() {
                 // fallback لو مكتبة الهجري غير مُحمّلة
                 if (!/\/(?:en\/)?today-hijri-date$/.test(window.location.pathname)) {
                     _saveCityCtxFor('hijri-today');
+                    _showNavLoadingOverlay('hijri');
                     window.location.href = pageUrl('/today-hijri-date');
                 }
                 return;
@@ -4314,6 +4316,7 @@ function initNavigation() {
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname)) {
                     // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي
                     _saveCityCtxFor('date-converter');
+                    _showNavLoadingOverlay('date-converter');
                     window.location.href = pageUrl('/dateconverter');
                 }
                 return;
@@ -4324,6 +4327,7 @@ function initNavigation() {
                 if (!/\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(window.location.pathname)) {
                     // UAT-Q5h: save city context before navigating to generic tool
                     _saveCityCtxFor('zakat');
+                    _showNavLoadingOverlay('zakat');
                     window.location.href = pageUrl('/zakat-calculator');
                 }
                 return;
@@ -4342,6 +4346,7 @@ function initNavigation() {
                 //   through to the existing city-slug logic below.
                 const _moonIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
                 if (_moonIsHome) {
+                    _showNavLoadingOverlay('moon');
                     window.location.href = pageUrl('/moon-today');
                     return;
                 }
@@ -4379,6 +4384,7 @@ function initNavigation() {
                     // famous cities (mecca/riyadh/…), proximity-snap a fine-
                     // grained Nominatim name (e.g. "Tumayr") to its parent
                     // famous city, coord-suffix only for true long-tail.
+                    _showNavLoadingOverlay('moon');
                     window.location.href = (typeof _buildMoonCityUrl === 'function')
                         ? _buildMoonCityUrl(currentEnglishName, currentLat, currentLng, _moonSlug)
                         : pageUrl(`/moon-today-in-${_moonSlug}`);
@@ -4391,6 +4397,7 @@ function initNavigation() {
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar$/.test(window.location.pathname)) {
                     // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي (مع last_city_context)
                     _saveCityCtxFor('hijri-calendar');
+                    _showNavLoadingOverlay('hijri');
                     window.location.href = pageUrl('/hijri-calendar');
                 }
                 return;
@@ -4471,6 +4478,7 @@ function initNavigation() {
                         country: currentCountry, englishName: currentEnglishName, countryCode: _pcCC, timezone: currentTimezone,
                         _v: 2
                     }));
+                    _showNavLoadingOverlay('prayer-times');
                     window.location.href = pageUrl(`/prayer-times-in-${_slug}`);
                     return;
                 }
@@ -4483,6 +4491,7 @@ function initNavigation() {
                 if (window.location.protocol !== 'file:') {
                     const _qiblaIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
                     if (_qiblaIsHome) {
+                        _showNavLoadingOverlay('qibla');
                         window.location.href = pageUrl('/qibla');
                         return;
                     }
@@ -4581,6 +4590,7 @@ function initNavigation() {
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(window.location.pathname)) {
                     // UAT-Q5h: save city context before navigating
                     _saveCityCtxFor('tasbih');
+                    _showNavLoadingOverlay('tasbih');
                     window.location.href = pageUrl('/msbaha');
                     return;
                 }
@@ -4590,6 +4600,7 @@ function initNavigation() {
             if (pageId === 'duas' && window.location.protocol !== 'file:') {
                 if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(window.location.pathname)) {
                     _saveCityCtxFor('duas');
+                    _showNavLoadingOverlay('duas');
                     window.location.href = pageUrl('/azkar');
                     return;
                 }
@@ -5829,6 +5840,7 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
     if (window.location.protocol === 'file:') {
         window.location.hash = `prayer-times-in-${slug}`;
     } else {
+        _showNavLoadingOverlay('prayer-times');
         window.location.href = pageUrl(`/prayer-times-in-${slug}`);
     }
 }
@@ -8009,6 +8021,7 @@ function navigateToMoonToday(lat, lng, city, country, englishName = '', countryC
     if (window.location.protocol === 'file:') {
         window.location.hash = `moon-today-in-${slug}`;
     } else {
+        _showNavLoadingOverlay('moon');
         window.location.href = pageUrl(`/moon-today-in-${slug}`);
     }
 }
@@ -9261,6 +9274,150 @@ function checkSavedLocationSuggestion() {
  * city-prayer-page  →  /prayer-times-in-{city}
  * home-page         →  / أو /en/
  */
+// ═══ E3-a (2026-05-01): Navigation Loading Overlay ═══
+// Per E3 diagnostic: /moon-today does NOT actually flash homepage content.
+// The perceived flash is full-navigation latency on Render free-tier — the
+// browser stays visually on the OLD page until the new SSR doc arrives.
+// Fix: show an immediate full-screen overlay BEFORE setting
+// window.location.href, so the user sees a clear "loading" state instead.
+//
+// Per-page text in 10 langs. Generic fallback if kind is unknown. Auto-
+// hidden on BFCache restore via the pageshow listener below.
+const _NAV_LOADING_MSGS = {
+    moon: {
+        ar: 'جاري تحميل حالة القمر اليوم...',  en: "Loading today's moon page...",
+        fr: "Chargement de la lune aujourd'hui...", tr: 'Bugünün ay sayfası yükleniyor...',
+        ur: 'آج کا چاند لوڈ ہو رہا ہے...',     de: 'Mond heute wird geladen...',
+        id: 'Memuat halaman bulan hari ini...', es: 'Cargando luna de hoy...',
+        bn: 'আজকের চাঁদ লোড হচ্ছে...',           ms: 'Memuat halaman bulan hari ini...',
+    },
+    qibla: {
+        ar: 'جاري تحميل اتّجاه القبلة...',     en: 'Loading qibla direction...',
+        fr: 'Chargement de la direction de la Qibla...', tr: 'Kıble yönü yükleniyor...',
+        ur: 'قبلہ کی سمت لوڈ ہو رہی ہے...',    de: 'Qibla-Richtung wird geladen...',
+        id: 'Memuat arah kiblat...',           es: 'Cargando dirección de la Qibla...',
+        bn: 'কিবলার দিক লোড হচ্ছে...',          ms: 'Memuat arah kiblat...',
+    },
+    'prayer-times': {
+        ar: 'جاري تحميل مواقيت الصلاة...',     en: 'Loading prayer times...',
+        fr: 'Chargement des heures de prière...', tr: 'Namaz vakitleri yükleniyor...',
+        ur: 'نماز کے اوقات لوڈ ہو رہے ہیں...', de: 'Gebetszeiten werden geladen...',
+        id: 'Memuat waktu salat...',           es: 'Cargando horarios de oración...',
+        bn: 'নামাজের সময় লোড হচ্ছে...',         ms: 'Memuat waktu solat...',
+    },
+    zakat: {
+        ar: 'جاري تحميل حاسبة الزكاة...',      en: 'Loading zakat calculator...',
+        fr: 'Chargement du calculateur de Zakat...', tr: 'Zekat hesaplayıcı yükleniyor...',
+        ur: 'زکات کیلکولیٹر لوڈ ہو رہا ہے...', de: 'Zakat-Rechner wird geladen...',
+        id: 'Memuat kalkulator zakat...',      es: 'Cargando calculadora de Zakat...',
+        bn: 'যাকাত ক্যালকুলেটর লোড হচ্ছে...',    ms: 'Memuat kalkulator zakat...',
+    },
+    duas: {
+        ar: 'جاري تحميل الأذكار...',           en: 'Loading azkar...',
+        fr: 'Chargement des azkar...',         tr: 'Azkar yükleniyor...',
+        ur: 'اذکار لوڈ ہو رہے ہیں...',          de: 'Azkar werden geladen...',
+        id: 'Memuat zikir...',                 es: 'Cargando azkar...',
+        bn: 'আযকার লোড হচ্ছে...',                ms: 'Memuat zikir...',
+    },
+    tasbih: {
+        ar: 'جاري تحميل المسبحة...',           en: 'Loading tasbih...',
+        fr: 'Chargement du tasbih...',          tr: 'Tesbih yükleniyor...',
+        ur: 'تسبیح لوڈ ہو رہی ہے...',           de: 'Tasbih wird geladen...',
+        id: 'Memuat tasbih...',                es: 'Cargando tasbih...',
+        bn: 'তসবিহ লোড হচ্ছে...',                ms: 'Memuat tasbih...',
+    },
+    hijri: {
+        ar: 'جاري تحميل التقويم الهجري...',    en: 'Loading Hijri calendar...',
+        fr: 'Chargement du calendrier hégirien...', tr: 'Hicri takvim yükleniyor...',
+        ur: 'ہجری کیلنڈر لوڈ ہو رہا ہے...',     de: 'Hidschri-Kalender wird geladen...',
+        id: 'Memuat kalender Hijriah...',      es: 'Cargando calendario hijri...',
+        bn: 'হিজরি ক্যালেন্ডার লোড হচ্ছে...',     ms: 'Memuat kalendar Hijrah...',
+    },
+    'date-converter': {
+        ar: 'جاري تحميل محوّل التاريخ...',     en: 'Loading date converter...',
+        fr: 'Chargement du convertisseur de date...', tr: 'Tarih dönüştürücü yükleniyor...',
+        ur: 'تاریخ کنورٹر لوڈ ہو رہا ہے...',   de: 'Datumsumrechner wird geladen...',
+        id: 'Memuat konverter tanggal...',     es: 'Cargando conversor de fecha...',
+        bn: 'তারিখ রূপান্তরকারী লোড হচ্ছে...',   ms: 'Memuat penukar tarikh...',
+    },
+    generic: {
+        ar: 'جاري التحميل...',                  en: 'Loading...',
+        fr: 'Chargement...',                   tr: 'Yükleniyor...',
+        ur: 'لوڈ ہو رہا ہے...',                de: 'Wird geladen...',
+        id: 'Memuat...',                       es: 'Cargando...',
+        bn: 'লোড হচ্ছে...',                     ms: 'Memuat...',
+    },
+};
+const _NAV_LOADING_ICONS = {
+    moon: '🌙', qibla: '🧭', 'prayer-times': '🕌', zakat: '💰',
+    duas: '📿', tasbih: '📿', hijri: '📅', 'date-converter': '🔄',
+    generic: '⏳',
+};
+function _showNavLoadingOverlay(kind) {
+    try {
+        const ov = document.getElementById('nav-loading-overlay');
+        if (!ov) return;
+        const _kind = kind && _NAV_LOADING_MSGS[kind] ? kind : 'generic';
+        const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _msg = _NAV_LOADING_MSGS[_kind][_lang] || _NAV_LOADING_MSGS[_kind].en || _NAV_LOADING_MSGS.generic.en;
+        const _icon = _NAV_LOADING_ICONS[_kind] || _NAV_LOADING_ICONS.generic;
+        const _txtEl = document.getElementById('nav-loading-text');
+        const _iconEl = document.getElementById('nav-loading-icon');
+        if (_txtEl)  _txtEl.textContent = _msg;
+        if (_iconEl) _iconEl.textContent = _icon;
+        ov.removeAttribute('hidden');
+        // Force reflow so the overlay paints BEFORE the navigation kicks in.
+        // Without this, the browser may schedule the navigation before
+        // the overlay paints — defeating the entire purpose.
+        void ov.offsetHeight;
+    } catch (_e) { /* silent */ }
+}
+// Detect page kind from a URL path (used by the delegated click handler
+// for native <a href> links that don't go through the data-page= path).
+function _detectNavKindFromUrl(pathname) {
+    const p = String(pathname || '').replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/, '') || '/';
+    if (p === '/' || p === '' || p === '/index.html')  return 'prayer-times';
+    if (/^\/moon-today/.test(p) || /^\/moon-in-/.test(p))     return 'moon';
+    if (/^\/qibla/.test(p))                                   return 'qibla';
+    if (/^\/prayer-times-in-/.test(p))                        return 'prayer-times';
+    if (/^\/time-left-until-prayer-in-/.test(p))              return 'prayer-times';
+    if (/^\/next-prayer-time-in-/.test(p))                    return 'prayer-times';
+    if (/^\/zakat-calculator/.test(p))                        return 'zakat';
+    if (/^\/azkar/.test(p) || /^\/duas/.test(p))              return 'duas';
+    if (/^\/msbaha/.test(p) || /^\/tasbih/.test(p))           return 'tasbih';
+    if (/^\/hijri-calendar/.test(p) || /^\/hijri-/.test(p))   return 'hijri';
+    if (/^\/today-hijri-date/.test(p))                        return 'hijri';
+    if (/^\/dateconverter/.test(p))                           return 'date-converter';
+    return 'generic';
+}
+// Delegated capture-phase click handler — covers ALL native <a href>
+// links across the site without per-link instrumentation. Only fires for
+// plain left-clicks to internal pages (skips Ctrl/Cmd/Shift/Alt = open in
+// new tab, target=_blank, javascript:, mailto:, tel:, hash-only, downloads,
+// and same-pathname clicks).
+document.addEventListener('click', function(_e) {
+    if (_e.button !== 0 || _e.ctrlKey || _e.metaKey || _e.shiftKey || _e.altKey) return;
+    if (_e.defaultPrevented) return;
+    const _a = _e.target && _e.target.closest && _e.target.closest('a[href]');
+    if (!_a) return;
+    if (_a.target && _a.target !== '_self') return;
+    if (_a.hasAttribute('download')) return;
+    const _hrefAttr = _a.getAttribute('href');
+    if (!_hrefAttr || _hrefAttr === '#' || _hrefAttr.startsWith('#')
+        || _hrefAttr.startsWith('javascript:') || _hrefAttr.startsWith('mailto:')
+        || _hrefAttr.startsWith('tel:')) return;
+    let _u;
+    try { _u = new URL(_a.href, location.href); } catch (_err) { return; }
+    if (_u.origin !== location.origin) return;
+    if (_u.pathname === location.pathname && _u.search === location.search) return;
+    _showNavLoadingOverlay(_detectNavKindFromUrl(_u.pathname));
+}, true);  // capture phase: runs BEFORE any element-level handler
+// BFCache restore — Safari/Firefox can restore the page from cache with
+// the overlay still visible. Re-hide it on pageshow.
+window.addEventListener('pageshow', function() {
+    const _ov = document.getElementById('nav-loading-overlay');
+    if (_ov) _ov.setAttribute('hidden', '');
+});
 function applyPageType() {
     const path = window.location.pathname;
     if (/\/(?:en\/)?prayer-times-in-/.test(path)) {
@@ -10041,6 +10198,7 @@ function openAllCitiesPage() {
     sessionStorage.setItem('allCitiesCountry', JSON.stringify({
         code, name: currentCountry, slug, citySlug
     }));
+    _showNavLoadingOverlay('generic');
     window.location.href = pageUrl(`/${slug}`);
 }
 
@@ -11714,6 +11872,7 @@ function goHome() {
         return;
     }
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    _showNavLoadingOverlay('prayer-times');
     window.location.href = (_ln === 'ar') ? '/' : ('/' + _ln + '/');
 }
 
@@ -20511,6 +20670,7 @@ function goToHijriYear(year) {
     if (!y || isNaN(y)) return;
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const prefix = (lang && lang !== 'ar') ? ('/' + lang) : '';
+    _showNavLoadingOverlay('hijri');
     window.location.href = `${prefix}/hijri-calendar/${y}`;
 }
 

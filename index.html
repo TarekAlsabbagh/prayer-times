@@ -63,10 +63,24 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=591" as="script">
-    <link rel="stylesheet" href="css/style.css?v=243">
+    <link rel="preload" href="js/app.js?v=592" as="script">
+    <link rel="stylesheet" href="css/style.css?v=244">
 </head>
 <body>
+    <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
+         Shown immediately when the user clicks an internal nav link or a JS handler
+         calls _showNavLoadingOverlay(kind) before window.location.href = ...
+         Masks the OLD page during SSR latency (Render free-tier cold start, ~2-5s)
+         so the user sees a clear "loading" indicator instead of perceiving the old
+         page as a "flash". Per-page text + icon set in JS. Hidden by default. -->
+    <div id="nav-loading-overlay" class="nav-loading-overlay" hidden role="dialog" aria-live="polite" aria-label="Loading">
+        <div class="nav-loading-content">
+            <div class="nav-loading-icon" id="nav-loading-icon" aria-hidden="true">⏳</div>
+            <div class="nav-loading-text" id="nav-loading-text">Loading...</div>
+            <div class="nav-loading-spinner" aria-hidden="true"></div>
+        </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════════════════════
          UAT-Z1.1: Inline SVG icon sprite — Lucide-style 24x24 stroke
          icons. Used via: <svg class="icon"><use href="#i-NAME"/></svg>
@@ -3489,7 +3503,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=591"></script>
+    <script defer src="js/app.js?v=592"></script>
     <script defer src="js/footer-cookie.js?v=6"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

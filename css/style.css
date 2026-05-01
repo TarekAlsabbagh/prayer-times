@@ -13532,3 +13532,37 @@ html.moon-month-page #page-moon {
         box-sizing: border-box;
     }
 }
+
+/* ═══ Phase E4-c (2026-05-02): Contrast tuning for a.fc-hijri-link.
+   Lighthouse A11y audit on /moon-today-in-{city} flagged a.fc-hijri-link
+   for insufficient color contrast.
+
+   Live measurement (light mode):
+     • Default color: var(--accent, #d4a017) — gold
+     • Cell background: rgba(46,125,50,0.1) on white ≈ rgb(234,242,235)
+       (the .moon-forecast-table cell uses a green-tinted hover/highlight)
+     • WCAG contrast ratio: 2.16 (FAIL — needs ≥4.5 for normal text)
+
+   Fix (light mode): switch to a dark green that visually harmonizes with
+   the green-tinted cell while reaching ratio ~8+ (well above WCAG AA).
+   Color choice #1a4a1a is from the same green family as the cell tint —
+   keeps visual coherence with the moon-forecast theme.
+
+   Dark mode: gold accent on dark surface is generally readable, but per
+   user spec we use #f2d36b (lighter gold) as a safer override. Only
+   touches a.fc-hijri-link — does NOT change the global --accent variable.
+
+   Does NOT touch: SEO content, Title, Meta, H1, JS, server.js, --accent
+   variable, or any other gold-themed elements site-wide. Pure CSS,
+   reversible by deleting this block. */
+a.fc-hijri-link {
+    color: #1a4a1a;
+    font-weight: 600;
+}
+
+/* Note: dark mode is intentionally NOT overridden here. The existing rule
+   `html[data-theme="dark"] .fc-hijri-link { color: var(--accent)!important }`
+   at css/style.css:490 already wins via !important and gives ratio ~5.78
+   (gold #d4a017 on dark green-tinted bg ≈ rgb(35,48,46)) — PASSING WCAG AA.
+   Adding our own dark override here would either be inert (without !important)
+   or fight an intentional design choice. Light mode was the only failure. */

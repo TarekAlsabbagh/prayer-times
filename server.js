@@ -4087,17 +4087,24 @@ function buildSeoForPath(urlPath) {
         },
         '/moon-today': {
             title: {
-                // Phase C5: Title نظيف بـ "|" بدل "-"، يعطي شكلًا أنيقًا في SERP
-                ar: 'حالة القمر اليوم | طور القمر والإضاءة والعمر والمسافة',
-                en: 'Moon State Today | Phase, Illumination, Age & Distance',
-                fr: 'État de la Lune aujourd\u2019hui | Phase, Illumination et Âge',
-                tr: 'Ayın Bugünkü Durumu | Evre, Aydınlanma, Yaş ve Mesafe',
-                ur: 'آج چاند کی حالت | طور، روشنی، عمر اور فاصلہ',
-                de: 'Mondzustand heute | Phase, Beleuchtung, Alter & Entfernung',
-                id: 'Keadaan Bulan Hari Ini | Fase, Iluminasi, Usia & Jarak',
-                es: 'Estado de la Luna hoy | Fase, Iluminación, Edad y Distancia',
-                bn: 'আজ চাঁদের অবস্থা | দশা, আলোকন, বয়স ও দূরত্ব',
-                ms: 'Keadaan Bulan Hari Ini | Fasa, Pencahayaan, Usia & Jarak',
+                // Phase E2-keywords-Hub (2026-05-01): extend each title to include
+                // "مراحل القمر" + "التقويم الهجري" (and parallel terms in 9 other
+                // langs). Goal — flip SEOptimer's Keyword Consistency from ✗ to ✓
+                // for these two terms, same way the city-page Today block (Phase
+                // E2-keywords-ext) flipped /moon-today-in-{city} green. Each line
+                // sits in the 50–60 SEOptimer sweet spot. Deliberately omits the
+                // month name (E2-keywords-diag hard rule: no monthly title rotation)
+                // and the default city name (Hub is generic, not city-specific).
+                ar: 'حالة القمر اليوم: الطور الحالي ومراحل القمر والتقويم الهجري',
+                en: 'Moon Today: Current Phase, Moon Phases & Hijri Calendar',
+                fr: 'Lune aujourd\u2019hui : phases lunaires et calendrier hégirien',
+                tr: 'Bugün Ay: Mevcut Evre, Ay Evreleri ve Hicri Takvim',
+                ur: 'آج چاند کی حالت: موجودہ طور، چاند کے مراحل اور ہجری تقویم',
+                de: 'Mond heute: aktuelle Phase, Mondphasen & Hidschri-Kalender',
+                id: 'Bulan Hari Ini: Fase Saat Ini, Fase Bulan & Kalender Hijriah',
+                es: 'Luna hoy: fase actual, fases lunares y calendario hijri',
+                bn: 'আজ চাঁদ: বর্তমান দশা, চাঁদের দশা ও হিজরি ক্যালেন্ডার',
+                ms: 'Bulan Hari Ini: Fasa Semasa, Fasa Bulan & Kalendar Hijrah',
             },
             desc: {
                 ar: 'حالة القمر اليوم: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين موقعك والقمر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.',

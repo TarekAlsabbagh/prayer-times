@@ -2845,6 +2845,18 @@ function _stripHtmlForMoonHub(html) {
     return html;
 }
 
+// ── Phase E4-city (2026-05-02): lightweight strip used by ALL moon city
+//    pages (today/hub/month/date) to remove ONLY #page-prayer-times — the
+//    full prayer-times shell with its class="active" — which would otherwise
+//    flash visible at first paint before JS routes to #page-moon. That flash
+//    was Lighthouse's catastrophic CLS culprit (0.939) on city pages. Unlike
+//    _stripHtmlForMoonHub above (which strips many moon sections too because
+//    /moon-today is a generic gateway), this strip touches NOTHING ELSE so
+//    the moon sections needed by city pages stay intact.
+function _stripPagePrayerTimesOnly(html) {
+    return _stripElement(html, { type: 'id', value: 'page-prayer-times' });
+}
+
 // ===== Phase I — H1 deduplication per route =====
 // SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
 // CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
@@ -6559,6 +6571,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   NOT for /time-left-* or /next-prayer-time-* (those are pruned).
     // UAT-Moon-Home: detect moon-today hub upfront for both gating and strip
     const _isMoonTodayHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath);
+    // Phase E4-city (2026-05-02): detect ALL moon city pages so we can strip
+    //   the leftover #page-prayer-times shell from SSR (was causing 0.939 CLS).
+    //   Matches /moon-today-in-{slug}[-lat-lng], /moon-in-{slug}[-lat-lng],
+    //   /moon-in-{slug}/{YYYY-MM}, and /moon-in-{slug}/{YYYY-MM-DD}.
+    const _isMoonCityPageSsr = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?|moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?)$/.test(urlPath);
     if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome && !_isMoonTodayHub) {
         // (UAT-Home-Simplify + UAT-Moon-Home) Skip when the prayer-cards block
         //   will be stripped immediately after (homepage + moon hub).
@@ -6888,6 +6905,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 (m) => m + _depthHtml
             );
         } catch (_e) { /* silent — depth injection failed, page still serves */ }
+    }
+    // ── Phase E4-city (2026-05-02): strip leftover #page-prayer-times shell
+    //    on ALL moon city pages so they don't flash prayer-times content
+    //    before JS routes to #page-moon. Was Lighthouse's 0.939 CLS culprit.
+    //    Lightweight strip — does NOT remove moon sections (those are needed
+    //    on city pages, populated by the existing seo.moonCity SSR block).
+    if (_isMoonCityPageSsr) {
+        html = _stripPagePrayerTimesOnly(html);
     }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);

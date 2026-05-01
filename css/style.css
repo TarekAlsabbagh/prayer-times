@@ -13472,3 +13472,63 @@ html[data-theme="dark"] .loc-hero-close-btn:hover {
     /* Comparison stays similar on desktop */
     #moon-comparison { min-height: 320px; }
 }
+
+/* ═══ Phase E4-b (2026-05-02): pre-apply .page.active layout properties on
+   ALL SSR-rendered moon pages so #page-moon has identical box model BEFORE
+   and AFTER JS adds the ".active" class.
+
+   Diagnosis (mobile 518px viewport, BEFORE this fix):
+     • SSR HTML: <div class="page" id="page-moon">  (no .active)
+     • DCL paddingTop/Bottom = 0px, box-sizing = content-box, offsetHeight = 5517px
+     • JS adds .active → cascade fires:
+         .page.active { display: block; padding: 24px; }
+         @media (max-width: 768px) .page.active { padding: 12px; max-width: 100%; box-sizing: border-box; }
+     • AFTER .active: padding 12px, box-sizing border-box, offsetHeight = 5648px
+     • Net shift: +131px (24px from padding + 107px from box-sizing inner-width recalc)
+     • Lighthouse identified div#page-moon.page.active as 0.161 of total 0.164 CLS
+
+   Fix: pre-apply the SAME padding/box-sizing/max-width via the page-class
+   selectors that SSR injects on <html>. This way #page-moon already has the
+   final layout at first paint — adding .active later becomes a no-op.
+
+   Applied to ALL 5 moon-page classes (verified all are emitted by SSR or
+   set by JS routing):
+     • moon-today-hub-page    → /moon-today
+     • moon-today-city-page   → /moon-today-in-{city}
+     • moon-hub-page          → /moon-in-{city}
+     • moon-date-page         → /moon-in-{city}/{YYYY-MM-DD}
+     • moon-month-page        → /moon-in-{city}/{YYYY-MM}
+
+   Does NOT touch JS, server.js, SEO content, Title, Meta, H1. Pure CSS. */
+
+/* (A) display: block — was only set for moon-today-hub-page (line 49). The
+   other 4 moon classes lacked it, so #page-moon was display:none until JS
+   added .active. That's a HUGE shift (entire page from 0 → ~6000px height).
+   Mirror line 49's `!important` for parity with the existing rule. */
+html.moon-today-city-page #page-moon,
+html.moon-hub-page #page-moon,
+html.moon-date-page #page-moon,
+html.moon-month-page #page-moon {
+    display: block !important;
+}
+
+/* (B) Padding parity with .page.active so adding the class later is layout-neutral. */
+html.moon-today-hub-page #page-moon,
+html.moon-today-city-page #page-moon,
+html.moon-hub-page #page-moon,
+html.moon-date-page #page-moon,
+html.moon-month-page #page-moon {
+    padding: 24px;
+}
+
+@media (max-width: 768px) {
+    html.moon-today-hub-page #page-moon,
+    html.moon-today-city-page #page-moon,
+    html.moon-hub-page #page-moon,
+    html.moon-date-page #page-moon,
+    html.moon-month-page #page-moon {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}

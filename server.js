@@ -6591,6 +6591,54 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             }
             return '<html' + a + ' class="moon-today-hub-page">';
         });
+        // ── Phase E2-keywords (2026-05-01): inject current-month heading ──
+        // SEOptimer flagged "مايو" / "مايو 2026" as appearing frequently in
+        // /moon-today body without showing in any heading. This block fills
+        // the static placeholder #moon-current-month-h2 with a per-lang
+        // sentence containing the localized month name + year. The text
+        // changes monthly (date-driven); on /moon-today only.
+        try {
+            const _curDate = new Date();
+            const _curMonthIdx = _curDate.getMonth();   // 0-11
+            const _curYear = _curDate.getFullYear();
+            const _moonH2Months = {
+                ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+            };
+            const _mList = _moonH2Months[seo.lang] || _moonH2Months.en;
+            const _mName = _mList[_curMonthIdx];
+            const _moonH2Templates = {
+                ar: `أطوار القمر خلال ${_mName} ${_curYear}`,
+                en: `Moon Phases in ${_mName} ${_curYear}`,
+                fr: `Phases de la Lune en ${_mName} ${_curYear}`,
+                tr: `${_mName} ${_curYear} Ay Evreleri`,
+                ur: `${_mName} ${_curYear} میں چاند کے مراحل`,
+                de: `Mondphasen im ${_mName} ${_curYear}`,
+                id: `Fase Bulan ${_mName} ${_curYear}`,
+                es: `Fases de la Luna en ${_mName} de ${_curYear}`,
+                bn: `${_mName} ${_curYear}-এ চাঁদের দশা`,
+                ms: `Fasa Bulan ${_mName} ${_curYear}`,
+            };
+            const _moonH2Text = _moonH2Templates[seo.lang] || _moonH2Templates.en;
+            // IMPORTANT: drop the `data-i18n` attribute when we inject the
+            // dynamic text. _translateI18nAttrs() runs LATER in the pipeline
+            // and would overwrite our dynamic month/year string with the
+            // generic "Moon Phases This Month" i18n value otherwise. (AR
+            // is unaffected because _translateI18nAttrs skips lang === 'ar'
+            // by design.) Removing data-i18n means our SSR text is final.
+            html = html.replace(
+                /<span data-i18n="moon\.current_month_h2">[^<]*<\/span>/,
+                `<span>${_escHtml(_moonH2Text)}</span>`
+            );
+        } catch (_e) { /* silent — static AR fallback already in place */ }
     }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);

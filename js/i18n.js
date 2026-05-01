@@ -765,6 +765,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'بدر',
         // Priority C: الأطوار القادمة (Upcoming Forecast)
         'moon.upcoming.title': '🔮 الأطوار القمريّة القادمة',
+        'moon.current_month_h2': 'أطوار القمر خلال هذا الشهر',
         'moon.upcoming.title_city': '🔮 الأطوار القمريّة القادمة في {city}',
         'moon.upcoming.subtitle': 'التواريخ الدقيقة لأطوار القمر الأربعة التالية — محسوبة بدقّة فلكيّة',
         'moon.upcoming.notice': '* الأوقات محسوبة بتوقيت موقعك باستخدام خوارزميّات Meeus الفلكيّة.',
@@ -2152,6 +2153,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Full',
         // Priority C: Upcoming Phases Forecast
         'moon.upcoming.title': '🔮 Upcoming Moon Phases',
+        'moon.current_month_h2': 'Moon Phases This Month',
         'moon.upcoming.title_city': '🔮 Upcoming Moon Phases in {city}',
         'moon.upcoming.subtitle': 'Precise dates of the next four moon phases — calculated with astronomical accuracy',
         'moon.upcoming.notice': '* Times are computed in your local timezone using Meeus astronomical algorithms.',
@@ -3101,6 +3103,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Pleine',
         // Priority C: Prochaines phases lunaires
         'moon.upcoming.title': '\ud83d\udd2e Prochaines phases de la Lune',
+        'moon.current_month_h2': 'Phases de la Lune ce mois-ci',
         'moon.upcoming.title_city': '\ud83d\udd2e Prochaines phases de la Lune \u00e0 {city}',
         'moon.upcoming.subtitle': 'Dates pr\u00e9cises des quatre prochaines phases de la Lune \u2014 calcul\u00e9es avec pr\u00e9cision astronomique',
         'moon.upcoming.notice': '* Les heures sont calcul\u00e9es dans votre fuseau horaire local en utilisant les algorithmes astronomiques de Meeus.',
@@ -4369,6 +4372,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Dolunay',
         // Priority C: Yakla\u015fan Ay evreleri
         'moon.upcoming.title': '\ud83d\udd2e Yakla\u015fan Ay Evreleri',
+        'moon.current_month_h2': 'Bu Ay Ay Evreleri',
         'moon.upcoming.title_city': '\ud83d\udd2e {city} \u0130\u00e7in Yakla\u015fan Ay Evreleri',
         'moon.upcoming.subtitle': 'Sonraki d\u00f6rt Ay evresinin kesin tarihleri \u2014 astronomik hassasiyetle hesaplanm\u0131\u015ft\u0131r',
         'moon.upcoming.notice': '* Saatler, Meeus astronomik algoritmalar\u0131 kullan\u0131larak yerel saat diliminizde hesaplan\u0131r.',
@@ -5637,6 +5641,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'بدر',
         // Priority C: آنے والے چاند کے مراحل
         'moon.upcoming.title': '🔮 آنے والے چاند کے مراحل',
+        'moon.current_month_h2': 'اس مہینے چاند کے مراحل',
         'moon.upcoming.title_city': '🔮 {city} میں آنے والے چاند کے مراحل',
         'moon.upcoming.subtitle': 'چاند کے اگلے چار مراحل کی درست تاریخیں — فلکیاتی درستگی سے حساب کی گئی',
         'moon.upcoming.notice': '* اوقات آپ کے مقامی ٹائم زون میں Meeus کے فلکیاتی الگورتھم کے ساتھ حساب کیے گئے ہیں۔',
@@ -6899,6 +6904,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Vollmond',
         // Priority C: Kommende Mondphasen
         'moon.upcoming.title': '\ud83d\udd2e Kommende Mondphasen',
+        'moon.current_month_h2': 'Mondphasen in diesem Monat',
         'moon.upcoming.title_city': '\ud83d\udd2e Kommende Mondphasen in {city}',
         'moon.upcoming.subtitle': 'Pr\u00e4zise Termine der n\u00e4chsten vier Mondphasen \u2014 mit astronomischer Genauigkeit berechnet',
         'moon.upcoming.notice': '* Die Zeiten werden mit den astronomischen Meeus-Algorithmen in Ihrer lokalen Zeitzone berechnet.',
@@ -8222,6 +8228,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Purnama',
         // Priority C: Fase Bulan Mendatang
         'moon.upcoming.title': '\ud83d\udd2e Fase Bulan Mendatang',
+        'moon.current_month_h2': 'Fase Bulan Bulan Ini',
         'moon.upcoming.title_city': '\ud83d\udd2e Fase Bulan Mendatang di {city}',
         'moon.upcoming.subtitle': 'Tanggal tepat dari empat fase Bulan berikutnya \u2014 dihitung dengan presisi astronomi',
         'moon.upcoming.notice': '* Waktu dihitung dalam zona waktu lokal Anda menggunakan algoritma astronomi Meeus.',
@@ -9545,6 +9552,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Llena',
         // Priority C: Pr\u00f3ximas fases lunares
         'moon.upcoming.title': '\ud83d\udd2e Pr\u00f3ximas fases de la Luna',
+        'moon.current_month_h2': 'Fases de la Luna este mes',
         'moon.upcoming.title_city': '\ud83d\udd2e Pr\u00f3ximas fases de la Luna en {city}',
         'moon.upcoming.subtitle': 'Fechas precisas de las cuatro pr\u00f3ximas fases de la Luna \u2014 calculadas con precisi\u00f3n astron\u00f3mica',
         'moon.upcoming.notice': '* Las horas se calculan en tu zona horaria local con los algoritmos astron\u00f3micos de Meeus.',
@@ -10868,6 +10876,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'পূর্ণিমা',
         // Priority C: আসন্ন চাঁদের পর্যায়
         'moon.upcoming.title': '🔮 আসন্ন চাঁদের পর্যায়সমূহ',
+        'moon.current_month_h2': 'এই মাসের চাঁদের দশা',
         'moon.upcoming.title_city': '🔮 {city}-এ আসন্ন চাঁদের পর্যায়সমূহ',
         'moon.upcoming.subtitle': 'চাঁদের পরবর্তী চারটি পর্যায়ের সঠিক তারিখ — জ্যোতির্বিদ্যা নির্ভুলতায় গণনা করা',
         'moon.upcoming.notice': '* সময়গুলি আপনার স্থানীয় টাইম জোনে Meeus জ্যোতির্বিদ্যা অ্যালগরিদম ব্যবহার করে গণনা করা হয়েছে।',
@@ -12191,6 +12200,7 @@ const TRANSLATIONS = {
         'moon.cycle.full': 'Purnama',
         // Priority C: Fasa Bulan Akan Datang
         'moon.upcoming.title': '\ud83d\udd2e Fasa Bulan Akan Datang',
+        'moon.current_month_h2': 'Fasa Bulan Bulan Ini',
         'moon.upcoming.title_city': '\ud83d\udd2e Fasa Bulan Akan Datang di {city}',
         'moon.upcoming.subtitle': 'Tarikh tepat bagi empat fasa Bulan seterusnya \u2014 dikira dengan ketepatan astronomi',
         'moon.upcoming.notice': '* Masa dikira dalam zon masa tempatan anda menggunakan algoritma astronomi Meeus.',

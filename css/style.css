@@ -13603,3 +13603,52 @@ a.fc-hijri-link {
 html[data-theme="dark"] #moon-distance.value {
     color: var(--accent);
 }
+
+/* ═══ Phase E4-city-c (2026-05-02): two fixes for /moon-today-in-{city}
+   and other moon city pages.
+
+   PART 1 — CLS reservation for #moon-forecast (PRIMARY FIX).
+   Live measurement (mobile 518px viewport):
+     • #moon-forecast at DCL: 146px (header only, table rows empty)
+     • #moon-forecast after JS hydration: 1162px (14-day rows injected)
+     • Net growth: +1016px — accounts for ~83% of the 0.171 residual CLS
+       on /moon-today-in-{city} that E4-city-b could not eliminate.
+
+   The 14-day forecast table is populated by js/app.js (similar pattern
+   to #moon-upcoming-timeline reserved in E4). Reserving final height
+   stops the downward push of all subsequent content.
+
+   Mobile: 1180px (~final height + 18px buffer for font variance).
+   Desktop (≥768px): 700px (table is wider so fewer line wraps).
+
+   PART 2 — completion of #moon-distance-sub contrast.
+   Live measurement: rgb(95,107,120) on rgb(240,242,245) → ratio 4.85,
+   which technically passes WCAG AA (≥4.5) but only by 0.35 margin.
+   Lighthouse uses slightly different blending and may still flag it.
+   Match E4-c2: dark green #1a4a1a → ratio ~7+ (comfortable margin).
+
+   Dark mode: preserve existing color (var(--text-light) renders fine on
+   dark page bg). Override needed because new ID-class selector outranks
+   any existing rule.
+
+   Does NOT touch: SEO content, Title, Meta, H1, JS, server.js,
+   --accent variable, or any other styling. Pure CSS append. */
+
+#moon-forecast {
+    min-height: 1180px;
+}
+
+@media (min-width: 768px) {
+    #moon-forecast {
+        min-height: 700px;
+    }
+}
+
+#moon-distance-sub.value-sub {
+    color: #1a4a1a;
+    font-weight: 500;
+}
+
+html[data-theme="dark"] #moon-distance-sub.value-sub {
+    color: var(--text-light);
+}

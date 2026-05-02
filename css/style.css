@@ -13652,3 +13652,56 @@ html[data-theme="dark"] #moon-distance.value {
 html[data-theme="dark"] #moon-distance-sub.value-sub {
     color: var(--text-light);
 }
+
+/* ═══ Phase E4-city-d (2026-05-02): reserve heights for the two remaining
+   shifting elements on moon city pages — #moon-city-answer (+88px) and
+   #moon-main-card (+99px). Together their tiny growth created a 207px
+   ripple that pushed ~10 sibling elements down, contributing the bulk
+   of the residual 0.171 CLS after E4-city-c.
+
+   Live measurement (per viewport):
+     Mobile (518px):  city-answer = 655px, main-card = 1728px
+     Desktop (1280px): city-answer = 496px, main-card = 1361px
+
+   Mobile reservations include small buffer (5/2px) for font variance.
+   Desktop reservations are ~25% smaller — using the mobile value would
+   create ~370px of dead whitespace on wider viewports.
+
+   Scoped to the 4 moon city page classes (NOT moon-today-hub-page) since
+   the Hub uses a different SSR content profile and does not exhibit the
+   same shift pattern.
+
+   Does NOT touch: SEO content, Title, Meta, H1, JS, server.js,
+   --accent variable, or any other prior phase work. Pure CSS. */
+
+html.moon-today-city-page #moon-city-answer,
+html.moon-hub-page #moon-city-answer,
+html.moon-month-page #moon-city-answer,
+html.moon-date-page #moon-city-answer {
+    min-height: 660px;  /* mobile: measured 655 + 5px buffer */
+}
+
+html.moon-today-city-page #moon-main-card,
+html.moon-hub-page #moon-main-card,
+html.moon-month-page #moon-main-card,
+html.moon-date-page #moon-main-card {
+    min-height: 1810px;  /* mobile: 1804 on real nav + 6px buffer
+                            (srcdoc test underestimated by ~76px due to
+                            JS-injected dynamic content not running in srcdoc) */
+}
+
+@media (min-width: 768px) {
+    /* Desktop layout is wider → fewer line wraps → shorter content. */
+    html.moon-today-city-page #moon-city-answer,
+    html.moon-hub-page #moon-city-answer,
+    html.moon-month-page #moon-city-answer,
+    html.moon-date-page #moon-city-answer {
+        min-height: 500px;  /* desktop: measured 496 + 4px buffer */
+    }
+    html.moon-today-city-page #moon-main-card,
+    html.moon-hub-page #moon-main-card,
+    html.moon-month-page #moon-main-card,
+    html.moon-date-page #moon-main-card {
+        min-height: 1370px;  /* desktop: measured 1361 + 9px buffer */
+    }
+}

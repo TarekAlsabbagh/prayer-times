@@ -6931,6 +6931,34 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<div class="page active" id="page-moon">'
         );
     }
+    // ── Phase E4-final-B (2026-05-02): pre-fill the Hijri-date placeholders
+    //    inside #moon-city-answer using seo.moonCity data already computed
+    //    above (no extra astronomy work). Eliminates the text reflow when JS
+    //    later replaces "—" with the long Hijri/Gregorian label (e.g.,
+    //    "15 ذو القعدة 1447 هـ" — 19 chars vs the 1-char placeholder, which
+    //    on mobile would wrap to a new line and grow the parent height).
+    //    Touches text content of EXISTING spans only — no structure added.
+    //    JS continues to set the same textContent on hydration → identical
+    //    value → no layout shift. Silent try/catch fallback keeps page
+    //    serving even if the regex anchors ever drift.
+    if (_isMoonCityPageSsr && seo.moonCity) {
+        try {
+            const _hijriSfx = seo.moonCity.hijriLabelWithSfx || seo.moonCity.hijriLabel || '';
+            const _gregLbl  = seo.moonCity.dateLabel || '';
+            if (_hijriSfx) {
+                html = html.replace(
+                    /<div class="moon-hijri-date" id="moon-hijri-date">[^<]*<\/div>/,
+                    `<div class="moon-hijri-date" id="moon-hijri-date">${_escHtml(_hijriSfx)}</div>`
+                );
+            }
+            if (_gregLbl) {
+                html = html.replace(
+                    /<div class="moon-hijri-greg" id="moon-hijri-greg">[^<]*<\/div>/,
+                    `<div class="moon-hijri-greg" id="moon-hijri-greg">${_escHtml(_gregLbl)}</div>`
+                );
+            }
+        } catch (_e) { /* silent — Hijri date SSR fill optional; JS will still populate */ }
+    }
     if (_isCityPageSsr) {
         html = _stripHtmlForCity(html);
         // Phase I — حقن روابط داخليّة canonical في #related-links-section

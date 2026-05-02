@@ -13634,13 +13634,19 @@ html[data-theme="dark"] #moon-distance.value {
    Does NOT touch: SEO content, Title, Meta, H1, JS, server.js,
    --accent variable, or any other styling. Pure CSS append. */
 
+/* Phase E4-city-c (2026-05-02), revised by E4-final (2026-05-02):
+   Initial measurement (srcdoc) was 1162px → reservation 1180px. But real
+   navigation populates the table with city-specific Arabic content that
+   reaches 1549px on mobile (~370px taller than srcdoc estimate).
+   Bumped to 1560px to fully absorb the JS-injected forecast rows. */
 #moon-forecast {
-    min-height: 1180px;
+    min-height: 1560px;
 }
 
 @media (min-width: 768px) {
+    /* Desktop fewer line-wraps; raised from 700px → 900px for safety. */
     #moon-forecast {
-        min-height: 700px;
+        min-height: 900px;
     }
 }
 
@@ -13704,4 +13710,46 @@ html.moon-date-page #moon-main-card {
     html.moon-date-page #moon-main-card {
         min-height: 1370px;  /* desktop: measured 1361 + 9px buffer */
     }
+}
+
+/* ═══ Phase E4-final-A (2026-05-02): pre-reserve heights for the 3 header
+   date elements that are populated by JS on every page load (not just
+   moon pages). Live measurement showed each grows from 0px → 20-23px
+   when JS calls .textContent on first hydration:
+     #country-name:        0 → 20px (city country, e.g., "Saudi Arabia")
+     #sidebar-hijri-date:  0 → 23px (e.g., "15 ذو القعدة 1447 هـ")
+     #sidebar-greg-date:   0 → 21px (e.g., "السبت 16 مايو 2026")
+
+   Single 24px reservation (matches the 23px maximum + 1px buffer)
+   eliminates 3 small but persistent CLS contributions on EVERY route.
+
+   Note: applies globally (not scoped to moon pages) because these are
+   header elements that hydrate on every route. The 24px is the natural
+   line-height for the existing font-size — no visual whitespace added
+   beyond what already renders post-hydration. Pure CSS reservation,
+   reversible by deleting this block. */
+#country-name,
+#sidebar-greg-date,
+#sidebar-hijri-date {
+    min-height: 24px;
+}
+
+/* Companion to Phase E4-final-B (server.js): on date-specific moon city
+   pages, SSR fills these with the final Hijri/Gregorian label (long text).
+   On Today/Hub pages, seo.moonCity.dateLabel is empty so SSR keeps the
+   "—" placeholder; this min-height reservation prevents the small text-
+   reflow shift when JS later fills them on hydration (~22px each = 3
+   small CLS contributions otherwise). All 3 are single-line text, so
+   24px matches the natural line-height with 1px buffer. */
+#moon-hijri-date,
+#moon-hijri-greg {
+    min-height: 24px;
+}
+
+/* moon-hijri-lunar holds a multi-line sentence (e.g., "نحن اليوم في 15 ذو
+   القعدة 1447 هـ، ويتبقّى نحو 15 يومًا على اكتمال الشهر القمري.") that
+   wraps to 2-3 lines on mobile (~65px). The 24px reservation above only
+   covered single-line elements; lunar needs a full multi-line reservation. */
+#moon-hijri-lunar {
+    min-height: 70px;
 }

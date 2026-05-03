@@ -2756,6 +2756,19 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     border-color: rgba(46,125,50,0.20);
     text-decoration: none;
 }
+/* Phase M6 (2026-05-03): legend explaining +/- semantics shown in calendar
+   cells. Single occurrence per page (replaces the per-cell natural-language
+   relative-time text that polluted Keyword Distribution). Small caption tone. */
+.moon-hub-cal-legend {
+    margin: 4px 0 10px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--text-light, #6b7280);
+    background: rgba(46,125,50,0.05);
+    border-inline-start: 3px solid rgba(46,125,50,0.35);
+    border-radius: 6px;
+}
 /* Weekday header row — 7 small labels */
 .moon-hub-cal-wd-row {
     list-style: none;

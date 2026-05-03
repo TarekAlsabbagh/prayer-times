@@ -1,0 +1,209 @@
+// Phase E5-a2 — Critical CSS Hybrid extraction.
+//
+// After E5-a externalized the 280 KiB style.css, Lighthouse Mobile still
+// reported FCP 4.4s / LCP 5.1s / Speed Index 7-22s because the external
+// stylesheet is now the render-blocking critical path: browser cannot
+// paint anything until /css/style.css?v=244 downloads + parses.
+//
+// Fix: build a tiny critical.css (~15-20 KiB) that contains JUST the
+// rules needed to paint above-the-fold content correctly on moon city
+// pages. Inline it at the top of <head>. Browser paints from the
+// critical CSS immediately, then the external style.css loads in
+// parallel and overrides/completes everything else.
+//
+// Strategy: extract by SELECTOR WHITELIST from existing style.css
+// (instead of writing critical.css by hand which is error-prone). The
+// whitelist matches selectors I know are above-the-fold based on the
+// E2/E4 work done in this session.
+//
+// Hybrid pattern:
+//   <head>
+//     <style id="critical-css">/* extracted ~15 KiB */</style>
+//     <link rel="stylesheet" href="/css/style.css?v=244">  ← cached, full
+//   </head>
+
+import { readFileSync, writeFileSync } from 'node:fs';
+
+const SRC = 'C:\\Users\\Tarek\\Downloads\\TIME PRAYER\\css\\style.css';
+const OUT = 'C:\\Users\\Tarek\\Downloads\\TIME PRAYER\\css\\critical.css';
+
+const css = readFileSync(SRC, 'utf8');
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CRITICAL SELECTOR WHITELIST
+// Patterns are tested case-insensitively against the SELECTOR PART of each
+// CSS rule. If ANY pattern matches the rule's selector, the rule is included.
+// ─────────────────────────────────────────────────────────────────────────────
+const CRITICAL_PATTERNS = [
+    // CSS variables (root + dark theme) — required for any var() to resolve
+    /^:root$/,
+    /^html\[data-theme="dark"\]$/,
+    /^html\[data-theme="dark"\]\s+body$/,
+
+    // Universal reset + base only
+    /^\*$/,
+    /^\*::before$/,
+    /^\*::after$/,
+    /^html$/,
+    /^body$/,
+
+    // Page visibility (every route gate at top of style.css — TINY rules)
+    /^\.page$/,
+    /^\.page\.active$/,
+    /^html\.qibla-page-loading\s/,
+    /^html\.msbaha-page\s/,
+    /^html\.date-converter-page\s/,
+    /^html\.hijri-(year|month|today|day)-page\s/,
+    /^html\.home-page\s/,
+    /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
+    /^html\.countdown-page\s/,
+    /^\.hub-only$/,
+    /^\.u-hidden$/,
+
+    // Header dates (Phase E4-final-A min-height)
+    /^#country-name$/,
+    /^#sidebar-greg-date$/,
+    /^#sidebar-hijri-date$/,
+
+    // E4 reservations + parity (critical — must apply on first paint to prevent CLS)
+    /^#moon-upcoming-timeline$/,
+    /^#moon-comparison$/,
+    /^#moon-forecast$/,
+    /^#moon-city-answer$/,
+    /^#moon-main-card$/,
+    /^#moon-hijri-date$/,
+    /^#moon-hijri-greg$/,
+    /^#moon-hijri-lunar$/,
+    /^#moon-distance\.value$/,
+    /^#moon-distance-sub\.value-sub$/,
+    /^a\.fc-hijri-link$/,
+
+    // Theme transition guard
+    /^\.theme-no-transition\s/,
+];
+
+// Helper: test if a selector matches any critical pattern
+function isCritical(selector) {
+    // Normalize: trim, lowercase for matching
+    const sel = selector.trim();
+    for (const p of CRITICAL_PATTERNS) {
+        if (p.test(sel)) return true;
+    }
+    return false;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CSS PARSER (simple but enough for our minified-or-formatted style.css):
+// Walks rules at the top level and inside @media. For each rule, splits
+// the selector list, checks if ANY part matches a critical pattern, and
+// if so, emits the entire rule unmodified.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function extractCritical(input) {
+    const out = [];
+    let i = 0;
+    const len = input.length;
+
+    while (i < len) {
+        // Skip whitespace + line comments
+        while (i < len && /\s/.test(input[i])) i++;
+        if (i >= len) break;
+
+        // Block comment? Skip silently.
+        if (input.slice(i, i + 2) === '/*') {
+            const endC = input.indexOf('*/', i + 2);
+            if (endC < 0) break;
+            i = endC + 2;
+            continue;
+        }
+
+        // @media (or @supports / @keyframes — handle generically)
+        if (input[i] === '@') {
+            const atStart = i;
+            // Find the matching '{'
+            const braceOpen = input.indexOf('{', i);
+            if (braceOpen < 0) break;
+            const atRule = input.slice(atStart, braceOpen).trim();
+            // Find matching closing brace (track nesting)
+            let depth = 1;
+            let j = braceOpen + 1;
+            while (j < len && depth > 0) {
+                if (input[j] === '{') depth++;
+                else if (input[j] === '}') depth--;
+                if (depth > 0) j++;
+            }
+            if (depth !== 0) break;
+            const blockBody = input.slice(braceOpen + 1, j);
+
+            // For @media: recursively extract critical rules from body
+            if (/^@media\b/.test(atRule)) {
+                const innerCritical = extractCritical(blockBody);
+                if (innerCritical.trim()) {
+                    out.push(`${atRule}{${innerCritical}}`);
+                }
+            }
+            // Skip @keyframes / @font-face / @supports — they're not critical
+            // for first paint. The external style.css will load them shortly.
+            // Else skip (e.g., @import, @charset etc. — leave to external CSS).
+            i = j + 1;
+            continue;
+        }
+
+        // Normal rule: read selector list until '{'
+        const braceOpen = input.indexOf('{', i);
+        if (braceOpen < 0) break;
+        const selectorList = input.slice(i, braceOpen).trim();
+        // Find matching closing '}' (no nesting expected in normal rules)
+        let depth = 1;
+        let j = braceOpen + 1;
+        while (j < len && depth > 0) {
+            if (input[j] === '{') depth++;
+            else if (input[j] === '}') depth--;
+            if (depth > 0) j++;
+        }
+        if (depth !== 0) break;
+        const ruleBody = input.slice(braceOpen + 1, j);
+
+        // Check if ANY selector in the comma-separated list matches a critical pattern
+        const selectors = selectorList.split(',').map(s => s.trim());
+        const anyCritical = selectors.some(isCritical);
+
+        if (anyCritical) {
+            // Filter selectors to only the critical ones (drop non-critical to keep size small)
+            const keptSelectors = selectors.filter(isCritical);
+            out.push(`${keptSelectors.join(',')}{${ruleBody}}`);
+        }
+        i = j + 1;
+    }
+
+    return out.join('\n');
+}
+
+const critical = extractCritical(css);
+const sizeKiB = Math.round(critical.length / 1024 * 10) / 10;
+
+// Wrap with header comment
+const HEADER = `/* ═══════════════════════════════════════════════════════════════════════════
+   Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
+   ═══════════════════════════════════════════════════════════════════════════
+   Extracted on: ${new Date().toISOString()}
+   Source: css/style.css (full ${Math.round(css.length / 1024)} KiB)
+   Critical: ${sizeKiB} KiB
+
+   This file is INLINED into <head> by server.js. The full style.css continues
+   to load externally as a cached request — overrides any critical rule and
+   covers all non-critical (below-the-fold) styling.
+
+   To regenerate after editing style.css:
+     node scripts/_phase_e5_a2_critical_css.mjs
+
+   The extraction whitelist is in the script. To add a selector to critical,
+   add a regex pattern there and re-run.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+`;
+
+writeFileSync(OUT, HEADER + critical);
+console.log(`✅ Critical CSS extracted: ${sizeKiB} KiB → ${OUT}`);
+console.log(`   Source: ${Math.round(css.length / 1024)} KiB`);
+console.log(`   Reduction: ${Math.round((1 - critical.length / css.length) * 100)}%`);

@@ -7013,13 +7013,30 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     const seoBlock = renderSeoHeadHtml(seo);
     html = html.replace('</head>', `${seoBlock}\n</head>`);
 
-    // 4.5) Inline CSS → يُزيل render-blocking request (توفير ~400ms على LCP)
-    if (_inlineCssText) {
-        html = html.replace(
-            /<link\s+rel="stylesheet"\s+href="css\/style\.css\?v=\d+"\s*\/?>/i,
-            `<style>${_inlineCssText}</style>`
-        );
-    }
+    // 4.5) Phase E5-a (2026-05-02): CSS Externalization — DISABLED inlining.
+    //   The previous strategy inlined the entire 280 KiB minified style.css
+    //   into a <style> block to remove the render-blocking external request.
+    //   That worked when the CSS was small, but the file grew to 280 KiB
+    //   (after E2/E3/E4 phases), and inlining it pushed the LCP element
+    //   (#moon-intro at byte ~351K) far enough into the HTML stream that
+    //   Lighthouse Mobile reported LCP 5.3s + Speed Index 19.4s.
+    //
+    //   E5-a fix: stop inlining. Let the browser load css/style.css as a
+    //   normal cached external stylesheet. The version query (?v=N) plus the
+    //   `isVersioned` Cache-Control rule below (line ~11732) gives it
+    //   `public, max-age=31536000, immutable` — first visit pays one extra
+    //   request, repeat visits cost 0. HTML drops from 515 KiB → ~235 KiB
+    //   and #moon-intro arrives at byte ~71K instead of ~351K.
+    //
+    //   To re-enable inlining (e.g., if CSS shrinks back below ~30 KiB),
+    //   uncomment the block below. Variable `_inlineCssText` is still
+    //   populated by _preloadStatic() so the inline path remains available.
+    // if (_inlineCssText) {
+    //     html = html.replace(
+    //         /<link\s+rel="stylesheet"\s+href="css\/style\.css\?v=\d+"\s*\/?>/i,
+    //         `<style>${_inlineCssText}</style>`
+    //     );
+    // }
 
     // 4.6) 🆕 Round 2.1 (H): حقن build hash على asset URLs للـJS (style.css مُضمَّن)
     //      النمط: app.js?v=330 → app.js?v=330&b=6900d60

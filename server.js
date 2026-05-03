@@ -9252,7 +9252,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 };
                 const _m1MonthName = _escHtml((_m1MonthsByLang[_m1Lang] || _m1MonthsByLang.en)[_m1MonthIdx]);
 
-                // Section 1 — Monthly title H2 (covers month name + year + city + tag-line)
+                // Section 1 — Monthly title H2. Covers month name + year + city
+                //   + phase-name suffix (Hilal/Gibbous/Full Moon — added by Phase M4).
                 const _m1Sec1H2 = {
                     ar: 'تقويم القمر في',
                     en: 'Moon Calendar in',
@@ -9301,11 +9302,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     + '<p>' + _escHtml(_m1Pick(_m1Sec1P)) + '</p>'
                     + '</section>';
 
-                // Phase M4 (2026-05-03): rewrote Section 2 H2 to surface "متزايد + متناقص
-                // + تقويم القمر" (waxing/waning + moon calendar) keywords. New H2 uses
-                // {city} marker for clean per-lang interpolation regardless of city
-                // position (start vs end), replacing the previous ternary chain.
-                // Section 2 — Phases waxing/waning (covers متزايد + متناقص + تقويم القمر).
+                // Section 2 — Phases waxing/waning H2. Covers متزايد + متناقص +
+                //   تقويم القمر. Uses {city} marker for clean per-lang interpolation
+                //   regardless of city position (start for TR/UR/BN, end for others).
+                //   Phase M4 (2026-05-03) replaced the previous ternary-chain builder.
                 const _m1Sec2H2 = {
                     ar: 'الأطوار المتزايدة والمتناقصة لتقويم القمر في {city}',
                     en: 'Waxing and Waning Phases of the Moon Calendar in {city}',

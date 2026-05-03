@@ -15833,69 +15833,30 @@ function updateMoonInfo() {
                         });
                     } catch (_) {}
 
-                    // UAT-Moon-Month-Page-Polish: fill 3 cross-links at end of edu
-                    //   section (the hub-block filler at line ~15728 doesn't run on
-                    //   month URLs because `_isHubPage` is false). Without this,
-                    //   the <a> elements stay as "—" placeholders.
+                    // Phase M5 (2026-05-03): fill 3 cross-links at end of Month-page edu
+                    //   section. The hub-block filler (line ~16834) doesn't run on month
+                    //   URLs because `_isHubPage` is false. Mirrors the M2/M3 Hub fix:
+                    //     • _link1 → /moon-today-in-{slug}    (same-city, today's status)
+                    //     • _link2 → /moon-in-{slug}           (same-city, parent Hub —
+                    //                visitor can browse to a different month from there)
+                    //     • _link3 → /hijri-date/YYYY-MM-DD   (SSR-canonical, not overridden)
+                    //   Was (pre-M5): _link2 was a cross-city sister link to
+                    //   /moon-in-{altSlug} ("تقويم القمر في الرياض" on Makkah's month
+                    //   page — bad SEO/UX/topical-relevance). Cross-city navigation
+                    //   stays in the dedicated #moon-other-cities section only.
                     try {
-                        const _altCitySlug = (_citySlug === 'riyadh') ? 'makkah' : 'riyadh';
-                        const _altCityName = (typeof _moonCityDisplayName === 'function')
-                            ? _moonCityDisplayName(_altCitySlug)
-                            : (_altCitySlug === 'makkah'
-                                ? (_lng_ === 'ar' ? 'مكة المكرمة' : 'Makkah')
-                                : (_lng_ === 'ar' ? 'الرياض' : 'Riyadh'));
                         const _langPrefixEdu = (_lng_ === 'ar') ? '' : ('/' + _lng_);
                         const _EDU_LINKS_BY_LANG = {
-                            ar: [
-                                `حالة القمر اليوم في ${_cityName}`,
-                                `تقويم القمر في ${_altCityName}`,
-                                'التاريخ الهجريّ اليوم'
-                            ],
-                            en: [
-                                `Moon status today in ${_cityName}`,
-                                `Moon calendar in ${_altCityName}`,
-                                "Today's Hijri date"
-                            ],
-                            fr: [
-                                `État de la Lune aujourd'hui à ${_cityName}`,
-                                `Calendrier lunaire à ${_altCityName}`,
-                                'Date hégirienne du jour'
-                            ],
-                            tr: [
-                                `${_cityName}'de bugünkü ay durumu`,
-                                `${_altCityName} ay takvimi`,
-                                'Bugünün hicri tarihi'
-                            ],
-                            ur: [
-                                `${_cityName} میں آج چاند کی حالت`,
-                                `${_altCityName} کا چاند کیلنڈر`,
-                                'آج کی ہجری تاریخ'
-                            ],
-                            de: [
-                                `Mondzustand heute in ${_cityName}`,
-                                `Mondkalender in ${_altCityName}`,
-                                'Heutiges Hidschri-Datum'
-                            ],
-                            id: [
-                                `Status Bulan hari ini di ${_cityName}`,
-                                `Kalender bulan di ${_altCityName}`,
-                                'Tanggal Hijriah hari ini'
-                            ],
-                            es: [
-                                `Estado de la Luna hoy en ${_cityName}`,
-                                `Calendario lunar en ${_altCityName}`,
-                                'Fecha hijri de hoy'
-                            ],
-                            bn: [
-                                `${_cityName}-এ আজ চাঁদের অবস্থা`,
-                                `${_altCityName}-এ চাঁদের ক্যালেন্ডার`,
-                                'আজকের হিজরি তারিখ'
-                            ],
-                            ms: [
-                                `Status Bulan hari ini di ${_cityName}`,
-                                `Kalendar bulan di ${_altCityName}`,
-                                'Tarikh Hijrah hari ini'
-                            ]
+                            ar: [`حالة القمر اليوم في ${_cityName}`, `تقويم القمر في ${_cityName}`, 'التاريخ الهجريّ اليوم'],
+                            en: [`Moon status today in ${_cityName}`, `Moon calendar in ${_cityName}`, "Today's Hijri date"],
+                            fr: [`État de la Lune aujourd'hui à ${_cityName}`, `Calendrier lunaire à ${_cityName}`, 'Date hégirienne du jour'],
+                            tr: [`${_cityName}'de bugünkü ay durumu`, `${_cityName} ay takvimi`, 'Bugünün hicri tarihi'],
+                            ur: [`${_cityName} میں آج چاند کی حالت`, `${_cityName} کا چاند کیلنڈر`, 'آج کی ہجری تاریخ'],
+                            de: [`Mondzustand heute in ${_cityName}`, `Mondkalender in ${_cityName}`, 'Heutiges Hidschri-Datum'],
+                            id: [`Status Bulan hari ini di ${_cityName}`, `Kalender bulan di ${_cityName}`, 'Tanggal Hijriah hari ini'],
+                            es: [`Estado de la Luna hoy en ${_cityName}`, `Calendario lunar en ${_cityName}`, 'Fecha hijri de hoy'],
+                            bn: [`${_cityName}-এ আজ চাঁদের অবস্থা`, `${_cityName}-এ চাঁদের ক্যালেন্ডার`, 'আজকের হিজরি তারিখ'],
+                            ms: [`Status Bulan hari ini di ${_cityName}`, `Kalendar bulan di ${_cityName}`, 'Tarikh Hijrah hari ini']
                         };
                         const _eduLinkLabels = _EDU_LINKS_BY_LANG[_lng_] || _EDU_LINKS_BY_LANG.en;
                         const _link1 = document.querySelector('.moon-city-hub-edu-link-today');
@@ -15907,7 +15868,7 @@ function updateMoonInfo() {
                         }
                         if (_link2) {
                             _link2.textContent = _eduLinkLabels[1];
-                            _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _altCitySlug);
+                            _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _citySlug);
                         }
                         if (_link3) {
                             _link3.textContent = _eduLinkLabels[2];

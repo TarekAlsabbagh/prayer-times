@@ -63,7 +63,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=594" as="script">
+    <link rel="preload" href="js/app.js?v=595" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1847,7 +1847,7 @@
                     <!-- Internal cross-links (filled by JS with city-aware hrefs + labels) -->
                     <ul class="moon-city-hub-edu-links" aria-label="related">
                         <li><a class="moon-city-hub-edu-link-today" href="#">—</a></li>
-                        <li><a class="moon-city-hub-edu-link-other" href="/moon-in-riyadh">—</a></li>
+                        <li><a class="moon-city-hub-edu-link-other" href="#">—</a></li>
                         <li><a class="moon-city-hub-edu-link-hijri" href="/today-hijri-date">—</a></li>
                     </ul>
                 </div>
@@ -3515,7 +3515,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=594"></script>
+    <script defer src="js/app.js?v=595"></script>
     <script defer src="js/footer-cookie.js?v=6"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -16613,7 +16613,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `الكوكبة الفلكيّة (Constellation) هي رقعة من السماء تُحدّدها حدود رسميّة من الاتّحاد الفلكيّ الدوليّ (IAU)، وعددها 88 منها 13 على دائرة البروج (تشمل الحوّاء). أمّا البرج التَنجيميّ (Zodiac sign) فهو تَقسيم متساوٍ افتراضيّ (12×30°). موقعنا يَستخدم الكوكبات الفلكيّة (IAU).`],
                         ['.moon-city-hub-faq-q8', `هل تَعتمد بيانات القمر على التوقيت المحلّيّ لـ ${_C}؟`],
                         ['.moon-city-hub-faq-a8', `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_C}. الإحداثيّات الجغرافيّة تُؤثّر على الاتّجاه والارتفاع أيضًا.`],
-                        ['.moon-city-hub-edu-title', `فهم تقويم القمر في ${_C}`],
+                        ['.moon-city-hub-edu-title', `تقويم القمر في ${_C}`],  // Phase M2 (2026-05-03): drop 'فهم' prefix per user request
                         ['.moon-city-hub-edu-p1', `يَعرض تقويم القمر في ${_C} تَغيّر أطوار القمر خلال الشهر، من المحاق إلى الهلال المتزايد، ثمّ التربيع الأوّل، الأحدب المتزايد، البدر، ثمّ الأطوار المتناقصة حتّى يَعود القمر إلى المحاق.`],
                         ['.moon-city-hub-edu-p2', `تَختلف مواعيد شروق وغروب القمر حسب المدينة بسبب اختلاف خطّ الطول والمنطقة الزمنيّة، لذلك تُعرض بيانات ${_C} بحسب توقيتها المحلّيّ.`],
                         ['.moon-city-hub-edu-p3', `يَرتبط القمر أيضًا بالتقويم الهجريّ، إذ تَبدأ الأشهر الهجريّة برؤية الهلال، وقد يَختلف ثبوت بداية الشهر من بلد إلى آخر حسب الرؤية الشرعيّة.`]
@@ -16636,7 +16636,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `An astronomical constellation is a region of sky with official IAU boundaries (88 total, 13 along the ecliptic including Ophiuchus). A zodiac sign is an astrological 30°-equal division that does NOT reflect the actual astronomical position. We use IAU constellations.`],
                         ['.moon-city-hub-faq-q8', `Are the moon data on this page in ${_C}'s local time?`],
                         ['.moon-city-hub-faq-a8', `Yes. All moonrise/moonset and full/new moon times are computed in ${_C}'s local timezone. The city's geographic coordinates also affect direction and altitude.`],
-                        ['.moon-city-hub-edu-title', `Understanding the moon calendar in ${_C}`],
+                        ['.moon-city-hub-edu-title', `Moon calendar in ${_C}`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `The moon calendar in ${_C} shows how the moon phases change through the month — from new moon to waxing crescent, first quarter, waxing gibbous, full moon, then the waning phases back to new moon.`],
                         ['.moon-city-hub-edu-p2', `Moonrise and moonset times differ from city to city due to longitude and timezone. ${_C}'s data is shown in its own local time.`],
                         ['.moon-city-hub-edu-p3', `The moon is also tied to the Hijri calendar — Hijri months begin with the crescent sighting, and the start of each month may vary by country based on local moon sighting.`]
@@ -16659,7 +16659,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `Une constellation astronomique est une région du ciel avec des limites officielles de l'IAU (88 au total, 13 le long de l'écliptique y compris Ophiuchus). Un signe du zodiaque est une division astrologique égale de 30° qui ne reflète PAS la position astronomique réelle. Nous utilisons les constellations IAU.`],
                         ['.moon-city-hub-faq-q8', `Les données lunaires de cette page sont-elles à l'heure locale de ${_C} ?`],
                         ['.moon-city-hub-faq-a8', `Oui. Toutes les heures de lever/coucher de la Lune et de pleine/nouvelle lune sont calculées dans le fuseau horaire local de ${_C}. Les coordonnées géographiques de la ville affectent également la direction et l'altitude.`],
-                        ['.moon-city-hub-edu-title', `Comprendre le calendrier lunaire à ${_C}`],
+                        ['.moon-city-hub-edu-title', `Calendrier lunaire à ${_C}`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `Le calendrier lunaire à ${_C} montre comment les phases lunaires changent au cours du mois — de la nouvelle lune au premier croissant, premier quartier, gibbeuse croissante, pleine lune, puis les phases décroissantes jusqu'au retour à la nouvelle lune.`],
                         ['.moon-city-hub-edu-p2', `Les heures de lever et coucher de la Lune diffèrent d'une ville à l'autre en raison de la longitude et du fuseau horaire. Les données de ${_C} sont affichées dans son propre fuseau horaire local.`],
                         ['.moon-city-hub-edu-p3', `La Lune est également liée au calendrier hégirien — les mois hégiriens commencent avec l'observation du croissant, et le début de chaque mois peut varier selon les pays en fonction de l'observation locale de la Lune.`]
@@ -16682,7 +16682,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `Astronomik takımyıldız, IAU'nun resmi sınırları olan bir gökyüzü bölgesidir (toplam 88, ekliptik boyunca Ophiuchus dahil 13). Burç, gerçek astronomik konumu YANSITMAYAN, 30°-eşit astrolojik bölünmedir. Biz IAU takımyıldızlarını kullanıyoruz.`],
                         ['.moon-city-hub-faq-q8', `Bu sayfadaki ay verileri ${_C}'in yerel saatinde mi?`],
                         ['.moon-city-hub-faq-a8', `Evet. Tüm ay doğuşu/batışı ve dolunay/yeni ay saatleri ${_C}'in yerel saat diliminde hesaplanır. Şehrin coğrafi koordinatları da yön ve yüksekliği etkiler.`],
-                        ['.moon-city-hub-edu-title', `${_C} ay takvimini anlama`],
+                        ['.moon-city-hub-edu-title', `${_C} ay takvimi`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `${_C} ay takvimi, ay evrelerinin ay boyunca nasıl değiştiğini gösterir — yeni aydan büyüyen hilale, ilk dördüne, büyüyen gibbusa, dolunaya ve ardından küçülen evrelerle yeni aya geri döner.`],
                         ['.moon-city-hub-edu-p2', `Ay doğuş ve batış saatleri, boylama ve saat dilimine bağlı olarak şehirden şehre farklılık gösterir. ${_C} verileri kendi yerel saat diliminde gösterilir.`],
                         ['.moon-city-hub-edu-p3', `Ay ayrıca hicri takvime bağlıdır — hicri aylar hilalin görülmesiyle başlar ve her ayın başlangıcı yerel ay rüyetine bağlı olarak ülkelere göre değişebilir.`]
@@ -16705,7 +16705,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `فلکیاتی کوکبہ آسمان کا ایک علاقہ ہے جس کی IAU کی رسمی حدود ہیں (کل 88، دائرۃ البروج کے ساتھ Ophiuchus سمیت 13)۔ برج 30° مساوی نجومی تقسیم ہے جو حقیقی فلکیاتی پوزیشن کو ظاہر نہیں کرتا۔ ہم IAU کوکبات استعمال کرتے ہیں۔`],
                         ['.moon-city-hub-faq-q8', `کیا اس صفحے کا چاند ڈیٹا ${_C} کے مقامی وقت میں ہے؟`],
                         ['.moon-city-hub-faq-a8', `جی ہاں۔ تمام مطلع/مغیبِ چاند اور بدر/نئے چاند کے اوقات ${_C} کے مقامی ٹائم زون میں شمار کیے جاتے ہیں۔ شہر کی جغرافیائی محلِ وقوع بھی اتجاہ اور ارتفاع کو متاثر کرتی ہے۔`],
-                        ['.moon-city-hub-edu-title', `${_C} میں چاند کے کیلنڈر کو سمجھنا`],
+                        ['.moon-city-hub-edu-title', `${_C} میں چاند کا کیلنڈر`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `${_C} میں چاند کا کیلنڈر دکھاتا ہے کہ چاند کی اطوار مہینے کے دوران کیسے بدلتی ہیں — نئے چاند سے بڑھتے ہلال، پہلی ربع، بڑھتے گدلے، بدر، پھر گھٹتی اطوار سے واپس نئے چاند تک۔`],
                         ['.moon-city-hub-edu-p2', `چاند کی مطلع و مغیب کے اوقات خط طول اور ٹائم زون کی وجہ سے شہر سے شہر مختلف ہوتے ہیں۔ ${_C} کا ڈیٹا اس کے اپنے مقامی ٹائم زون میں دکھایا جاتا ہے۔`],
                         ['.moon-city-hub-edu-p3', `چاند کا تعلق ہجری تقویم سے بھی ہے — ہجری مہینے ہلال کی رؤیت سے شروع ہوتے ہیں، اور ہر مہینے کا آغاز مقامی رؤیتِ ہلال کے مطابق ملک سے ملک مختلف ہو سکتا ہے۔`]
@@ -16728,7 +16728,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `Eine astronomische Konstellation ist eine Himmelsregion mit offiziellen IAU-Grenzen (88 insgesamt, 13 entlang der Ekliptik einschließlich Ophiuchus). Ein Tierkreiszeichen ist eine astrologische 30°-gleiche Einteilung, die NICHT die tatsächliche astronomische Position widerspiegelt. Wir verwenden IAU-Konstellationen.`],
                         ['.moon-city-hub-faq-q8', `Sind die Monddaten auf dieser Seite in der Ortszeit von ${_C}?`],
                         ['.moon-city-hub-faq-a8', `Ja. Alle Mondaufgangs-/-untergangszeiten und Vollmond-/Neumondzeiten werden in der lokalen Zeitzone von ${_C} berechnet. Die geografischen Koordinaten der Stadt beeinflussen auch Richtung und Höhe.`],
-                        ['.moon-city-hub-edu-title', `Den Mondkalender in ${_C} verstehen`],
+                        ['.moon-city-hub-edu-title', `Mondkalender in ${_C}`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `Der Mondkalender in ${_C} zeigt, wie sich die Mondphasen im Laufe des Monats ändern — vom Neumond zur zunehmenden Sichel, ersten Viertel, zunehmenden Halbmond, Vollmond und dann durch die abnehmenden Phasen zurück zum Neumond.`],
                         ['.moon-city-hub-edu-p2', `Mondaufgangs- und -untergangszeiten unterscheiden sich von Stadt zu Stadt aufgrund der geografischen Länge und Zeitzone. Die Daten von ${_C} werden in seiner eigenen lokalen Zeitzone angezeigt.`],
                         ['.moon-city-hub-edu-p3', `Der Mond ist auch mit dem Hidschri-Kalender verbunden — Hidschri-Monate beginnen mit der Sichtung der Mondsichel, und der Beginn jedes Monats kann je nach lokaler Mondsichtung pro Land variieren.`]
@@ -16751,7 +16751,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `Konstelasi astronomi adalah wilayah langit dengan batas resmi IAU (total 88, 13 di sepanjang ekliptika termasuk Ophiuchus). Zodiak adalah pembagian astrologi 30°-sama yang TIDAK mencerminkan posisi astronomi sebenarnya. Kami menggunakan konstelasi IAU.`],
                         ['.moon-city-hub-faq-q8', `Apakah data bulan di halaman ini dalam waktu lokal ${_C}?`],
                         ['.moon-city-hub-faq-a8', `Ya. Semua waktu terbit/terbenam Bulan dan purnama/bulan baru dihitung dalam zona waktu lokal ${_C}. Koordinat geografis kota juga memengaruhi arah dan ketinggian.`],
-                        ['.moon-city-hub-edu-title', `Memahami kalender bulan di ${_C}`],
+                        ['.moon-city-hub-edu-title', `Kalender bulan di ${_C}`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `Kalender bulan di ${_C} menunjukkan bagaimana fase bulan berubah selama sebulan — dari bulan baru ke hilal yang membesar, kuartal pertama, gibbus membesar, purnama, kemudian fase mengecil kembali ke bulan baru.`],
                         ['.moon-city-hub-edu-p2', `Waktu terbit dan terbenam Bulan berbeda dari kota ke kota karena bujur dan zona waktu. Data ${_C} ditampilkan dalam zona waktu lokalnya sendiri.`],
                         ['.moon-city-hub-edu-p3', `Bulan juga terkait dengan kalender Hijriah — bulan Hijriah dimulai dengan rukyat hilal, dan awal setiap bulan dapat bervariasi antar negara berdasarkan rukyat lokal.`]
@@ -16774,7 +16774,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `Una constelación astronómica es una región del cielo con límites oficiales de la IAU (88 en total, 13 a lo largo de la eclíptica incluyendo Ofiuco). Un signo del zodíaco es una división astrológica de 30° iguales que NO refleja la posición astronómica real. Usamos constelaciones IAU.`],
                         ['.moon-city-hub-faq-q8', `¿Los datos lunares de esta página están en hora local de ${_C}?`],
                         ['.moon-city-hub-faq-a8', `Sí. Todos los horarios de salida/puesta de la Luna y de luna llena/nueva se calculan en la zona horaria local de ${_C}. Las coordenadas geográficas de la ciudad también afectan la dirección y la altitud.`],
-                        ['.moon-city-hub-edu-title', `Comprender el calendario lunar en ${_C}`],
+                        ['.moon-city-hub-edu-title', `Calendario lunar en ${_C}`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `El calendario lunar en ${_C} muestra cómo cambian las fases lunares durante el mes — de la luna nueva al creciente, cuarto creciente, gibosa creciente, luna llena, y luego las fases menguantes hasta volver a la luna nueva.`],
                         ['.moon-city-hub-edu-p2', `Los horarios de salida y puesta de la Luna difieren de ciudad en ciudad debido a la longitud y la zona horaria. Los datos de ${_C} se muestran en su propia zona horaria local.`],
                         ['.moon-city-hub-edu-p3', `La Luna también está vinculada al calendario hijri — los meses hijri comienzan con la observación del creciente, y el inicio de cada mes puede variar según los países según la observación local de la Luna.`]
@@ -16797,7 +16797,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `জ্যোতির্বিজ্ঞানিক নক্ষত্রমণ্ডল হল আকাশের একটি অঞ্চল যার অফিসিয়াল IAU সীমানা আছে (মোট ৮৮, ক্রান্তিবৃত্ত বরাবর Ophiuchus সহ ১৩টি)। রাশিচক্র হল একটি ৩০°-সমান জ্যোতিষ বিভাজন যা প্রকৃত জ্যোতির্বিজ্ঞানিক অবস্থান প্রতিফলিত করে না। আমরা IAU নক্ষত্রমণ্ডল ব্যবহার করি।`],
                         ['.moon-city-hub-faq-q8', `এই পৃষ্ঠার চাঁদের ডেটা কি ${_C}-এর স্থানীয় সময়ে?`],
                         ['.moon-city-hub-faq-a8', `হ্যাঁ। সমস্ত চাঁদের উদয়/অস্ত এবং পূর্ণিমা/অমাবস্যার সময় ${_C}-এর স্থানীয় টাইমজোনে গণনা করা হয়। শহরের ভৌগোলিক স্থানাঙ্কও দিকনির্দেশ এবং উচ্চতাকে প্রভাবিত করে।`],
-                        ['.moon-city-hub-edu-title', `${_C}-এ চাঁদের ক্যালেন্ডার বোঝা`],
+                        ['.moon-city-hub-edu-title', `${_C}-এ চাঁদের ক্যালেন্ডার`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `${_C}-এ চাঁদের ক্যালেন্ডার দেখায় কীভাবে চাঁদের দশা মাসের সময় পরিবর্তিত হয় — অমাবস্যা থেকে বর্ধনশীল হিলাল, প্রথম পক্ষ, বর্ধনশীল গিব্বাস, পূর্ণিমা, তারপর ক্ষীয়মাণ দশাগুলির মাধ্যমে আবার অমাবস্যা পর্যন্ত।`],
                         ['.moon-city-hub-edu-p2', `চাঁদের উদয় ও অস্তের সময় দ্রাঘিমাংশ ও টাইমজোনের কারণে শহরভেদে আলাদা হয়। ${_C}-এর ডেটা তার নিজস্ব স্থানীয় টাইমজোনে দেখানো হয়।`],
                         ['.moon-city-hub-edu-p3', `চাঁদ হিজরি ক্যালেন্ডারের সাথেও যুক্ত — হিজরি মাসগুলি হিলাল দেখার মাধ্যমে শুরু হয়, এবং স্থানীয় চাঁদ দেখার ভিত্তিতে দেশভেদে প্রতিটি মাসের শুরু পরিবর্তিত হতে পারে।`]
@@ -16820,7 +16820,7 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-a7', `Buruj astronomi ialah kawasan langit dengan sempadan rasmi IAU (88 kesemuanya, 13 sepanjang ekliptik termasuk Ophiuchus). Tanda zodiak ialah pembahagian astrologi 30°-sama yang TIDAK mencerminkan kedudukan astronomi sebenar. Kami menggunakan buruj IAU.`],
                         ['.moon-city-hub-faq-q8', `Adakah data bulan di halaman ini dalam waktu tempatan ${_C}?`],
                         ['.moon-city-hub-faq-a8', `Ya. Semua waktu terbit/terbenam Bulan dan bulan purnama/anak bulan dikira dalam zon waktu tempatan ${_C}. Koordinat geografi bandar juga mempengaruhi arah dan ketinggian.`],
-                        ['.moon-city-hub-edu-title', `Memahami kalendar bulan di ${_C}`],
+                        ['.moon-city-hub-edu-title', `Kalendar bulan di ${_C}`],  // Phase M2
                         ['.moon-city-hub-edu-p1', `Kalendar bulan di ${_C} menunjukkan bagaimana fasa bulan berubah sepanjang bulan — dari anak bulan ke hilal membesar, suku pertama, gibus membesar, bulan purnama, kemudian fasa mengecil kembali ke anak bulan.`],
                         ['.moon-city-hub-edu-p2', `Waktu terbit dan terbenam Bulan berbeza dari bandar ke bandar disebabkan bujur dan zon waktu. Data ${_C} dipaparkan dalam zon waktu tempatannya sendiri.`],
                         ['.moon-city-hub-edu-p3', `Bulan juga berkait dengan kalendar Hijrah — bulan Hijrah bermula dengan rukyah hilal, dan permulaan setiap bulan boleh berbeza antara negara berdasarkan rukyah tempatan.`]
@@ -16831,28 +16831,54 @@ function updateMoonInfo() {
                     const el = document.querySelector(sel);
                     if (el) el.textContent = text;
                 });
-                // UAT-Moon-City-Hub-Polish: 3 internal cross-links at end of edu section
-                //   • "حالة القمر اليوم في {city}" → /moon-today-in-{slug}
-                //   • "تقويم القمر في {alt-city}"  → /moon-in-{alt-slug}  (sample sister)
-                //   • "التاريخ الهجري اليوم"        → /today-hijri-date
-                // Sister-city: pick a popular AR city different from current. Default
-                //   "riyadh"; if current IS riyadh, pick "makkah" instead.
-                const _altCitySlug = (_citySlug === 'riyadh') ? 'makkah' : 'riyadh';
-                const _altCityName = (typeof _moonCityDisplayName === 'function')
-                    ? _moonCityDisplayName(_altCitySlug)
-                    : (_altCitySlug === 'makkah' ? (_lng_ === 'ar' ? 'مكة المكرمة' : 'Makkah') : (_lng_ === 'ar' ? 'الرياض' : 'Riyadh'));
+                // Phase M3 (2026-05-03): refined _link2 (was Phase M2 — generic /moon-today,
+                //   user prefers same-city current-month link).
+                //   • _link1: "حالة القمر اليوم في {city}" → /moon-today-in-{slug}             (same-city)
+                //   • _link2: "تقويم القمر لشهر {month} {year}" → /moon-in-{slug}/{YYYY-MM}    (same-city, current month)
+                //   • _link3: "التاريخ الهجري اليوم"          → /today-hijri-date                (generic)
                 const _langPrefixEdu = (_lng_ === 'ar') ? '' : ('/' + _lng_);
+                // Compute current month (browser-local — fine for an educational box).
+                const _eduNow = new Date();
+                const _eduMonthIdx0 = _eduNow.getMonth();           // 0-11
+                const _eduYear = _eduNow.getFullYear();
+                const _eduMonthIso = _eduYear + '-' + String(_eduMonthIdx0 + 1).padStart(2, '0');
+                const _EDU_MONTHS_BY_LANG = {
+                    ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                    en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                    fr: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                    tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                    de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                    id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                    es: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                    ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+                };
+                const _eduMonthName = (_EDU_MONTHS_BY_LANG[_lng_] || _EDU_MONTHS_BY_LANG.en)[_eduMonthIdx0];
+                const _eduMonthLabelByLang = {
+                    ar: `تقويم القمر لشهر ${_eduMonthName} ${_eduYear}`,
+                    en: `Moon calendar for ${_eduMonthName} ${_eduYear}`,
+                    fr: `Calendrier lunaire pour ${_eduMonthName} ${_eduYear}`,
+                    tr: `${_eduMonthName} ${_eduYear} ay takvimi`,
+                    ur: `${_eduMonthName} ${_eduYear} کا چاند کیلنڈر`,
+                    de: `Mondkalender für ${_eduMonthName} ${_eduYear}`,
+                    id: `Kalender Bulan untuk ${_eduMonthName} ${_eduYear}`,
+                    es: `Calendario lunar para ${_eduMonthName} ${_eduYear}`,
+                    bn: `${_eduMonthName} ${_eduYear} এর চাঁদের ক্যালেন্ডার`,
+                    ms: `Kalendar Bulan untuk ${_eduMonthName} ${_eduYear}`
+                };
+                const _eduMonthLabel = _eduMonthLabelByLang[_lng_] || _eduMonthLabelByLang.en;
                 const _eduLinkLabels = {
-                    ar: [
-                        `حالة القمر اليوم في ${_C}`,
-                        `تقويم القمر في ${_altCityName}`,
-                        'التاريخ الهجريّ اليوم'
-                    ],
-                    en: [
-                        `Moon status today in ${_C}`,
-                        `Moon calendar in ${_altCityName}`,
-                        "Today's Hijri date"
-                    ]
+                    ar: [`حالة القمر اليوم في ${_C}`, _eduMonthLabel, 'التاريخ الهجريّ اليوم'],
+                    en: [`Moon status today in ${_C}`, _eduMonthLabel, "Today's Hijri date"],
+                    fr: [`État de la Lune aujourd'hui à ${_C}`, _eduMonthLabel, "Date hégirienne d'aujourd'hui"],
+                    tr: [`${_C}'de bugünkü ay durumu`, _eduMonthLabel, 'Bugünün hicri tarihi'],
+                    ur: [`${_C} میں آج چاند کی حالت`, _eduMonthLabel, 'آج کی ہجری تاریخ'],
+                    de: [`Mondstatus heute in ${_C}`, _eduMonthLabel, 'Heutiges Hidschri-Datum'],
+                    id: [`Status Bulan hari ini di ${_C}`, _eduMonthLabel, 'Tanggal Hijriah hari ini'],
+                    es: [`Estado de la Luna hoy en ${_C}`, _eduMonthLabel, 'Fecha hégira de hoy'],
+                    bn: [`${_C}-এ আজকের চাঁদের অবস্থা`, _eduMonthLabel, 'আজকের হিজরি তারিখ'],
+                    ms: [`Status Bulan hari ini di ${_C}`, _eduMonthLabel, 'Tarikh Hijrah hari ini']
                 };
                 const _eduLinks = _eduLinkLabels[_lng_] || _eduLinkLabels.en;
                 const _link1 = document.querySelector('.moon-city-hub-edu-link-today');
@@ -16864,7 +16890,7 @@ function updateMoonInfo() {
                 }
                 if (_link2) {
                     _link2.textContent = _eduLinks[1];
-                    _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _altCitySlug);
+                    _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _eduMonthIso);
                 }
                 if (_link3) {
                     _link3.textContent = _eduLinks[2];

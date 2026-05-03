@@ -5015,8 +5015,11 @@ html.moon-hub-page .moon-city-hub-only { display: block !important; }
     position: relative;
 }
 /* Section heading above the cards — pure CSS, language-aware via :lang */
+/* Phase M3 (2026-05-03): renamed from "روابط ذات صلة" → "أدوات مرتبطة" so
+   Section 1 (utility shortcuts) doesn't semantically overlap with Section 2's
+   H2 "روابط مهمّة عن القمر في {city}" (the main related-links gallery). */
 .moon-city-hub-edu-links::before {
-    content: "🔗 روابط ذات صلة";
+    content: "🔗 أدوات مرتبطة";
     position: absolute;
     top: -12px;
     inset-inline-start: 12px;
@@ -5027,15 +5030,15 @@ html.moon-hub-page .moon-city-hub-only { display: block !important; }
     color: var(--primary, #2e7d32);
     letter-spacing: 0.2px;
 }
-html[lang="en"] .moon-city-hub-edu-links::before { content: "🔗 Related links"; }
-html[lang="fr"] .moon-city-hub-edu-links::before { content: "🔗 Liens associés"; }
-html[lang="tr"] .moon-city-hub-edu-links::before { content: "🔗 İlgili bağlantılar"; }
-html[lang="ur"] .moon-city-hub-edu-links::before { content: "🔗 متعلقہ روابط"; }
-html[lang="de"] .moon-city-hub-edu-links::before { content: "🔗 Verwandte Links"; }
-html[lang="id"] .moon-city-hub-edu-links::before { content: "🔗 Tautan terkait"; }
-html[lang="es"] .moon-city-hub-edu-links::before { content: "🔗 Enlaces relacionados"; }
-html[lang="bn"] .moon-city-hub-edu-links::before { content: "🔗 সম্পর্কিত লিঙ্ক"; }
-html[lang="ms"] .moon-city-hub-edu-links::before { content: "🔗 Pautan berkaitan"; }
+html[lang="en"] .moon-city-hub-edu-links::before { content: "🔗 Related tools"; }
+html[lang="fr"] .moon-city-hub-edu-links::before { content: "🔗 Outils associés"; }
+html[lang="tr"] .moon-city-hub-edu-links::before { content: "🔗 İlgili araçlar"; }
+html[lang="ur"] .moon-city-hub-edu-links::before { content: "🔗 متعلقہ ٹولز"; }
+html[lang="de"] .moon-city-hub-edu-links::before { content: "🔗 Verwandte Tools"; }
+html[lang="id"] .moon-city-hub-edu-links::before { content: "🔗 Alat terkait"; }
+html[lang="es"] .moon-city-hub-edu-links::before { content: "🔗 Herramientas relacionadas"; }
+html[lang="bn"] .moon-city-hub-edu-links::before { content: "🔗 সম্পর্কিত সরঞ্জাম"; }
+html[lang="ms"] .moon-city-hub-edu-links::before { content: "🔗 Alat berkaitan"; }
 
 .moon-city-hub-edu-links li {
     margin: 0;

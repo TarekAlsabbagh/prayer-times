@@ -938,6 +938,13 @@ const _preloadPaths = [
     'css/critical.css',
     'js/app.js', 'js/i18n.js', 'js/footer-cookie.js',
     'js/duas.js', 'js/hijri-date.js', 'js/prayer-times.js', 'js/moon.js', 'js/qibla.js',
+    // Phase E6-a (2026-05-03): per-language i18n bundles. Browser loads ONLY
+    // i18n-core.js + the user's lang (+ en fallback for non-AR/EN). Original
+    // js/i18n.js (above) stays for Node-side require() in SSR — DO NOT remove.
+    'js/i18n-core.js',
+    'js/i18n/ar.js', 'js/i18n/en.js', 'js/i18n/fr.js', 'js/i18n/tr.js',
+    'js/i18n/ur.js', 'js/i18n/de.js', 'js/i18n/id.js', 'js/i18n/es.js',
+    'js/i18n/bn.js', 'js/i18n/ms.js',
     'index.html', 'prayer-times-cities.html', 'legal.html', 'countries.html',
     'sw.js',
 ];
@@ -7064,6 +7071,36 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //         `<style>${_inlineCssText}</style>`
     //     );
     // }
+
+    // 4.55) Phase E6-a (2026-05-03): replace monolithic <script defer src="js/i18n.js">
+    //   with per-language bundles. Detection from URL prefix (server already
+    //   processed urlPath above). Loads i18n-core.js + the user's lang. For
+    //   non-AR/EN langs, also loads en.js as fallback (so missing keys still
+    //   resolve via the existing t() fallback chain).
+    //
+    //   Pattern (in <head>, replacing the single old line):
+    //     <script defer src="js/i18n-core.js?v=N"></script>
+    //     <script defer src="js/i18n/{lang}.js?v=N"></script>
+    //     <script defer src="js/i18n/en.js?v=N"></script>  ← only if lang ≠ ar AND ≠ en
+    //
+    //   AR pages skip the EN fallback because AR has the most complete dict
+    //   and is the default (acceptable to show key if missing). EN is its own
+    //   fallback root so it doesn't need a second copy.
+    {
+        const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
+        const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
+        const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
+        const _i18nVersion = '169'; // matches the version in index.html for cache invalidation
+        let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
+                               `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
+        if (_needsEnFallback) {
+            _i18nReplacement += `\n    <script defer src="js/i18n/en.js?v=${_i18nVersion}"></script>`;
+        }
+        html = html.replace(
+            /<script\s+defer\s+src="js\/i18n\.js\?v=\d+"\s*><\/script>/,
+            _i18nReplacement
+        );
+    }
 
     // 4.6) 🆕 Round 2.1 (H): حقن build hash على asset URLs للـJS (style.css مُضمَّن)
     //      النمط: app.js?v=330 → app.js?v=330&b=6900d60

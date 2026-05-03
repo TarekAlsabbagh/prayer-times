@@ -4913,17 +4913,22 @@ function buildSeoForPath(urlPath) {
                 };
             } else if (_moonDateIso && _moonDateInRange) {
                 // ── عناوين خاصّة بصفحة التاريخ ── (التاريخ الأساسيّ + الموافق بين قوسين)
+                // Phase MD1 (2026-05-03): extended Title from "...{city} | {date}" (~41
+                // chars) to "...{city} {prep} {date} {single-day phase suffix}" (~50-55
+                // chars) so SEOptimer's "Title too short" warning flips green. Suffix
+                // wording is single-day specific ("وطور القمر" / "and Lunar Details" /
+                // etc.) — NOT plural "phases" (which belongs to Month page MM1).
                 _moonTitle = {
-                    ar: `حالة القمر في ${cityDisplay} | ${_primaryDateLabel}`,
-                    en: `Moon in ${cityDisplay} | ${_primaryDateLabel}`,
-                    fr: `La Lune à ${cityDisplay} | ${_primaryDateLabel}`,
-                    tr: `${cityDisplay} Ay | ${_primaryDateLabel}`,
-                    ur: `${cityDisplay} میں چاند | ${_primaryDateLabel}`,
-                    de: `Mond in ${cityDisplay} | ${_primaryDateLabel}`,
-                    id: `Bulan di ${cityDisplay} | ${_primaryDateLabel}`,
-                    es: `Luna en ${cityDisplay} | ${_primaryDateLabel}`,
-                    bn: `${cityDisplay}-এ চাঁদ | ${_primaryDateLabel}`,
-                    ms: `Bulan di ${cityDisplay} | ${_primaryDateLabel}`,
+                    ar: `حالة القمر في ${cityDisplay} يوم ${_primaryDateLabel} وطور القمر`,
+                    en: `Moon Phase in ${cityDisplay} on ${_primaryDateLabel} and Lunar Details`,
+                    fr: `Phase de la Lune à ${cityDisplay} le ${_primaryDateLabel} et détails lunaires`,
+                    tr: `${cityDisplay} Ay Evresi: ${_primaryDateLabel} ve Ay Detayları`,
+                    ur: `${cityDisplay} میں چاند کا طور: ${_primaryDateLabel} اور تفصیلات`,
+                    de: `Mondphase in ${cityDisplay} am ${_primaryDateLabel} und Monddetails`,
+                    id: `Fase Bulan di ${cityDisplay} pada ${_primaryDateLabel} dan Detail Bulan`,
+                    es: `Fase de la Luna en ${cityDisplay} el ${_primaryDateLabel} y detalles lunares`,
+                    bn: `${cityDisplay}-এ ${_primaryDateLabel} তারিখে চাঁদের দশা ও বিবরণ`,
+                    ms: `Fasa Bulan di ${cityDisplay} pada ${_primaryDateLabel} dan Butiran Bulan`,
                 };
                 _moonDesc = {
                     ar: `طور القمر في ${cityDisplay} يوم ${_mainWithEquiv}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,

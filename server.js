@@ -8859,12 +8859,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     ar: 'غدًا', en: 'Tomorrow', fr: 'Demain', tr: 'Yarın', ur: 'کل (آنے والا)',
                     de: 'Morgen', id: 'Besok', es: 'Mañana', bn: 'আগামীকাল', ms: 'Esok'
                 };
-                // UAT-Moon-City-Hub-Polish: full Arabic plural ruleset
-                //   1 → "يوم" (singular, no number prefix — cleaner Arabic)
+                // Arabic plural ruleset for relative-day labels:
+                //   1 → "يوم" (singular)
                 //   2 → "يومين" (dual)
                 //   3-10 → "{n} أيّام" (sound plural)
                 //   11+ → "{n} يومًا" (singular accusative for tamyiz)
-                // Was: only n=2 special-cased; "قبل 29 أيّام" rendered grammatically wrong.
+                // Phase M5-b (2026-05-03): future cells use "خلال {n}" instead of
+                // "بعد {n}" to reduce SEOptimer Keyword Consistency noise (the word
+                // "بعد" was repeated ~14× per Hub page across calendar future cells +
+                // upcoming-phases summaries). "قبل {n}" for past UNCHANGED — there's
+                // no equivalent reduction path for past cells.
                 const _hubCalDaysFmt = {
                     ar: (n) => {
                         const _abs = Math.abs(n);
@@ -8873,7 +8877,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         else if (_abs === 2)          _unit = 'يومين';
                         else if (_abs >= 3 && _abs <= 10) _unit = `${_abs} أيّام`;
                         else                          _unit = `${_abs} يومًا`;
-                        return n > 0 ? `بعد ${_unit}` : `قبل ${_unit}`;
+                        return n > 0 ? `خلال ${_unit}` : `قبل ${_unit}`;
                     },
                     en: (n) => (n > 0 ? `In ${n} days` : `${Math.abs(n)} days ago`),
                     fr: (n) => (n > 0 ? `Dans ${n} jours` : `Il y a ${Math.abs(n)} jours`),
@@ -9278,20 +9282,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: 'এই ক্যালেন্ডার বর্তমান গ্রেগরিয়ান মাসের জন্য দৈনিক চাঁদের দশা এবং পূর্ণিমা ও অমাবস্যার তারিখ প্রদর্শন করে। আপনি দিন দিন চাঁদের অগ্রগতি ট্র্যাক করতে এবং অমাবস্যা থেকে বৃদ্ধিমান অর্ধচন্দ্র, প্রথম পাদ, বৃদ্ধিমান গিবাস, পূর্ণিমা, তারপর হ্রাসমান গিবাস, শেষ পাদ এবং হ্রাসমান অর্ধচন্দ্র পর্যন্ত সম্পূর্ণ মাসিক পর্যায় দেখতে পারেন। ক্যালেন্ডার প্রতিদিনের জন্য আলোকন শতাংশ এবং চাঁদের বয়সও দেখায়।',
                     ms: 'Kalendar ini memaparkan fasa Bulan harian dan tarikh bulan purnama serta anak bulan untuk bulan Masehi semasa. Anda boleh menjejaki perkembangan Bulan hari demi hari dan melihat peringkat bulanan lengkap dari anak bulan ke sabit membesar, suku pertama, gibbous membesar, purnama, kemudian gibbous mengecil, suku terakhir, dan sabit mengecil. Kalendar juga memaparkan peratus pencahayaan dan usia Bulan untuk setiap hari.',
                 };
-                // Phase M4 (2026-05-03): suffix the H2 with phase names so SEOptimer's
-                // Keyword Consistency check sees "هلال/أحدب/بدر" inside a heading
-                // (currently they live only in the body paragraph).
+                // Phase M4 (2026-05-03) + M5-b (2026-05-03): suffix the H2 with phase
+                // names so SEOptimer's Keyword Consistency check sees the phase keywords
+                // inside a heading (M4 added هلال/أحدب/بدر; M5-b adds متناقص = waning,
+                // the last frequently-flagged phase term still missing from any H2).
                 const _m1Sec1H2Suffix = {
-                    ar: ': الهلال والأحدب والبدر',
-                    en: ': Crescent, Gibbous, and Full Moon',
-                    fr: ' : croissant, gibbeuse et pleine Lune',
-                    tr: ': Hilal, Şişkin Ay ve Dolunay',
-                    ur: '، ہلال، گبس اور بدر',
-                    de: ': Sichel, Halbmond und Vollmond',
-                    id: ': Sabit, Gibbous, dan Purnama',
-                    es: ': Creciente, Gibosa y Llena',
-                    bn: ': অর্ধচন্দ্র, গিবাস ও পূর্ণিমা',
-                    ms: ': Sabit, Gibbous, dan Purnama'
+                    ar: ': الهلال والأحدب والبدر والمتناقص',
+                    en: ': Crescent, Gibbous, Full Moon, and Waning',
+                    fr: ' : croissant, gibbeuse, pleine Lune et décroissante',
+                    tr: ': Hilal, Şişkin Ay, Dolunay ve Küçülen',
+                    ur: '، ہلال، گبس، بدر اور گھٹتا',
+                    de: ': Sichel, Halbmond, Vollmond und abnehmend',
+                    id: ': Sabit, Gibbous, Purnama, dan Menyusut',
+                    es: ': Creciente, Gibosa, Llena y Menguante',
+                    bn: ': অর্ধচন্দ্র, গিবাস, পূর্ণিমা ও হ্রাসমান',
+                    ms: ': Sabit, Gibbous, Purnama, dan Mengecil'
                 };
                 const _m1Sec1Html = '<section class="section-card moon-seo-info moon-seo-month-title">'
                     + '<h2>' + _escHtml(_m1Pick(_m1Sec1H2)) + ' ' + _m1City + ' '

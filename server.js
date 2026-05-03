@@ -6502,12 +6502,27 @@ function renderSeoHeadHtml(seo) {
         parts.push(`<script id="ssr-graph-schema" type="application/ld+json">${JSON.stringify(graphSchema)}</script>`);
     }
 
-    // Expose the server's authoritative city-name table to the client so the
-    // Qibla page (and any other client renderer) can render localized city
-    // names without guessing via Title-cased slugs. Mirrors _resolveCityName
-    // behaviour for POPULAR_CITY_NAMES keys. Long-tail cities fall back to
-    // LOCAL_CITIES (client-side) or to the slug.
-    parts.push(`<script id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(POPULAR_CITY_NAMES)};</script>`);
+    // Phase MM2 (2026-05-03): SLIM inject — was a full 10-lang × 80-city dump
+    // that leaked English city names ("Mecca", "Makkah", "Riyadh"...) into
+    // the AR page HTML, where SEOptimer counts them as cross-lang text noise.
+    // Now we inject ONLY {ar, [pageLang]} per city — AR is always included
+    // because js/app.js line ~12451 calls _resolveCityNameClient(slug, 'ar', ...)
+    // explicitly (for FAMOUS_MOON_CITIES nearest-city resolver), regardless
+    // of page lang. The fallback chain in _resolveCityNameClient remains
+    // backward-compatible: pop[s][lang] resolves; pop[s].en may be undefined
+    // on non-EN pages but LOCAL_CITIES + slug fallback covers it.
+    const _ssrLangPCN = seo.lang || 'en';
+    const _slimPCN = {};
+    for (const _slug in POPULAR_CITY_NAMES) {
+        const _city = POPULAR_CITY_NAMES[_slug];
+        if (!_city) continue;
+        const _slim = { ar: _city.ar };
+        if (_ssrLangPCN !== 'ar') {
+            _slim[_ssrLangPCN] = _city[_ssrLangPCN] || _city.en;
+        }
+        _slimPCN[_slug] = _slim;
+    }
+    parts.push(`<script id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(_slimPCN)};</script>`);
 
     // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the
     // resolved city (lat/lng + 10-lang name table + English DB name) so the client

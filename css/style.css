@@ -13687,13 +13687,24 @@ html.moon-date-page #moon-city-answer {
     min-height: 660px;  /* mobile: measured 655 + 5px buffer */
 }
 
+/* Phase E4-city-e (2026-05-03): split 4-selector shared rule into 2 groups.
+   Today-city + Date have 8 children → real content 2290+px mobile, 1419px
+   desktop. Hub + Month have 6 children only (no moon-comparison or phase-
+   insight) → real content 1538px mobile, 753px desktop. Sharing one min-
+   height padded Hub/Month with ~272px (mobile) / ~617px (desktop) white
+   space. Recalibrated values measured live in preview server, AR lang. */
 html.moon-today-city-page #moon-main-card,
-html.moon-hub-page #moon-main-card,
-html.moon-month-page #moon-main-card,
 html.moon-date-page #moon-main-card {
-    min-height: 1810px;  /* mobile: 1804 on real nav + 6px buffer
-                            (srcdoc test underestimated by ~76px due to
-                            JS-injected dynamic content not running in srcdoc) */
+    min-height: 1810px;  /* mobile (UNCHANGED): today-city/date real content
+                            ~2290+px > min-height; kept as safety floor for
+                            partial-load CLS resistance */
+}
+
+html.moon-hub-page #moon-main-card,
+html.moon-month-page #moon-main-card {
+    min-height: 1555px;  /* Phase E4-city-e: mobile real content 1538 + 17 buffer
+                            (was 1810 — saves ~255px white space below the card
+                            on Hub + Month pages, 6-children layout) */
 }
 
 @media (min-width: 768px) {
@@ -13704,11 +13715,18 @@ html.moon-date-page #moon-main-card {
     html.moon-date-page #moon-city-answer {
         min-height: 500px;  /* desktop: measured 496 + 4px buffer */
     }
+    /* Phase E4-city-e (2026-05-03): desktop split — same rationale as mobile */
     html.moon-today-city-page #moon-main-card,
-    html.moon-hub-page #moon-main-card,
-    html.moon-month-page #moon-main-card,
     html.moon-date-page #moon-main-card {
-        min-height: 1370px;  /* desktop: measured 1361 + 9px buffer */
+        min-height: 1370px;  /* desktop (UNCHANGED): today-city/date real
+                                content 1419px > min-height; safety floor */
+    }
+
+    html.moon-hub-page #moon-main-card,
+    html.moon-month-page #moon-main-card {
+        min-height: 770px;  /* Phase E4-city-e: desktop real content 753 + 17
+                               buffer (was 1370 — saves ~600px white space
+                               below the card on Hub + Month pages) */
     }
 }
 

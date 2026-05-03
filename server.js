@@ -4844,17 +4844,23 @@ function buildSeoForPath(urlPath) {
             const _mYearT = _isMoonMonthPage ? _moonMonthYear : '';
             if (_isMoonMonthPage) {
                 // ── UAT-Moon-Hub-Month: صفحة الشهر — مثل hub لكن مخصَّصة لشهر محدَّد ──
+                // Phase MM1 (2026-05-03): extended Title from "...{city} | {month} {year}"
+                // (~39 chars) to "...{city} for {month} {year} and Moon Phases" (~50-55
+                // chars) so SEOptimer's "Title too short" warning flips green. Prior
+                // format was a pipe-separated tag-line; new format is a natural-language
+                // sentence that explicitly mentions "moon phases" / "مراحل القمر" — a
+                // legitimate keyword for this page (not stuffing).
                 _moonTitle = {
-                    ar: `تقويم القمر في ${cityDisplay} | ${_mNameT} ${_mYearT}`,
-                    en: `Moon Calendar in ${cityDisplay} | ${_mNameT} ${_mYearT}`,
-                    fr: `Calendrier lunaire à ${cityDisplay} | ${_mNameT} ${_mYearT}`,
-                    tr: `${cityDisplay} Ay Takvimi | ${_mNameT} ${_mYearT}`,
-                    ur: `${cityDisplay} چاند کیلنڈر | ${_mNameT} ${_mYearT}`,
-                    de: `Mondkalender ${cityDisplay} | ${_mNameT} ${_mYearT}`,
-                    id: `Kalender Bulan ${cityDisplay} | ${_mNameT} ${_mYearT}`,
-                    es: `Calendario lunar en ${cityDisplay} | ${_mNameT} ${_mYearT}`,
-                    bn: `${cityDisplay} চাঁদের ক্যালেন্ডার | ${_mNameT} ${_mYearT}`,
-                    ms: `Kalendar Bulan ${cityDisplay} | ${_mNameT} ${_mYearT}`,
+                    ar: `تقويم القمر في ${cityDisplay} لشهر ${_mNameT} ${_mYearT} ومراحل القمر`,
+                    en: `Moon Calendar in ${cityDisplay} for ${_mNameT} ${_mYearT} and Moon Phases`,
+                    fr: `Calendrier lunaire à ${cityDisplay} pour ${_mNameT} ${_mYearT} et phases lunaires`,
+                    tr: `${cityDisplay} Ay Takvimi: ${_mNameT} ${_mYearT} ve Ay Evreleri`,
+                    ur: `${cityDisplay} چاند کیلنڈر: ${_mNameT} ${_mYearT} اور چاند کے مراحل`,
+                    de: `Mondkalender in ${cityDisplay} für ${_mNameT} ${_mYearT} und Mondphasen`,
+                    id: `Kalender Bulan ${cityDisplay} untuk ${_mNameT} ${_mYearT} dan Fase Bulan`,
+                    es: `Calendario lunar en ${cityDisplay} para ${_mNameT} ${_mYearT} y fases de la Luna`,
+                    bn: `${cityDisplay}-এ ${_mNameT} ${_mYearT} এর চাঁদের ক্যালেন্ডার ও দশা`,
+                    ms: `Kalendar Bulan ${cityDisplay} untuk ${_mNameT} ${_mYearT} dan Fasa Bulan`,
                 };
                 _moonDesc = {
                     ar: `تقويم القمر في ${cityDisplay} لشهر ${_mNameT} ${_mYearT}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل.`,

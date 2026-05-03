@@ -64,6 +64,12 @@
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <link rel="preload" href="js/app.js?v=592" as="script">
+    <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
+         high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
+         line below. Helps FCP/LCP marginally on slow Render free-tier responses
+         where the HTML body is large and the stylesheet ref is later in the doc.
+         No FOUC risk because we keep the regular stylesheet link (synchronous). -->
+    <link rel="preload" href="css/style.css?v=244" as="style">
     <link rel="stylesheet" href="css/style.css?v=244">
 </head>
 <body>

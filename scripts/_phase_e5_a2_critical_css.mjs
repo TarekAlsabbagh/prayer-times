@@ -60,6 +60,23 @@ const CRITICAL_PATTERNS = [
     /^\.hub-only$/,
     /^\.u-hidden$/,
 
+    // E5-a3: Above-the-fold layout primitives (added to fix sidebar pushing
+    // content 1953px down + body styling + section-card shell rendering)
+    /^\.app-layout$/,
+    /^\.sidebar$/,
+    /^\.sidebar\.open$/,
+    /^\.sidebar-overlay$/,
+    /^\.sidebar-overlay\.open$/,
+    /^\.sidebar-header$/,
+    /^\.sidebar-logo$/,
+    /^\.menu-toggle$/,
+    /^\.header-actions$/,
+    /^\.lang-switcher$/,
+    /^\.location-info$/,
+    /^\.section-card$/,
+    /^main$/,
+    /^\.main-content$/,
+
     // Header dates (Phase E4-final-A min-height)
     /^#country-name$/,
     /^#sidebar-greg-date$/,

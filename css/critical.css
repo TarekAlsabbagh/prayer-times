@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-03T05:21:50.393Z
+   Extracted on: 2026-05-03T05:38:18.272Z
    Source: css/style.css (full 444 KiB)
-   Critical: 15.9 KiB
+   Critical: 18.6 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -118,6 +118,66 @@ html{
     overflow-x: hidden;
     max-width: 100vw;
 }
+.app-layout{
+    display: flex;
+    min-height: 100vh;
+    max-width: 100vw;
+    overflow-x: clip;
+}
+.sidebar{
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: #fff;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1100; /* أعلى من .top-header (1000) لمنع تداخل الـ sticky header مع الشريط الجانبيّ */
+    transition: transform var(--transition);
+}
+.sidebar-header{
+    padding: 24px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.sidebar-logo{
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: inline-block;
+}
+.main-content{
+    flex: 1;
+    margin-right: var(--sidebar-width);
+    padding: 0;
+    min-height: 100vh;
+    min-width: 0;
+    overflow-x: clip;
+    display: flex;
+    flex-direction: column;
+}
+.location-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header-actions{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.lang-switcher{
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.section-card{
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+}
 html.countdown-page #page-ramadan-countdown,html.countdown-page #page-eid-al-fitr-countdown,html.countdown-page #page-eid-al-adha-countdown,html.countdown-page #page-hijri-new-year-countdown{ display: none; }
 html.countdown-page .page:not([id$="-countdown"]){ display: none !important; }
 html.moon-date-page .moon-date-nav{ display: flex; }
@@ -128,10 +188,60 @@ html.moon-date-page #moon-events-section,html.moon-date-page #moon-general-faq,h
 html.moon-date-page .moon-date-edu{ display: block !important; }
 html.moon-month-page .moon-month-edu{ display: block !important; }
 html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
+.menu-toggle{
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1200; /* أعلى من .top-header (1000) و .sidebar (1100) ليبقى ظاهرًا قابلًا للضغط دائمًا */
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-overlay{
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1050; /* أعلى من .top-header (1000) ليُعتم الهيدر السّتيكي عند فتح القائمة، وأقل من .sidebar (1100) */
+}
 .page{ display: none; }
 .page.active{ display: block; padding: 24px; }
-@media (max-width: 768px){.page.active{ padding: 12px; max-width: 100%; box-sizing: border-box; }}
+@media (max-width: 768px){.sidebar{ transform: translateX(100%); }
+.sidebar.open{ transform: translateX(0); }
+.sidebar-overlay.open{ display: block; }
+.menu-toggle{ display: flex; }
+.main-content{ margin-right: 0; padding: 0; overflow-x: clip; max-width: 100vw; }
+.location-info{
+        padding-right: 56px;
+        min-width: 0;
+        overflow: hidden;
+    }
+.header-actions{
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        justify-content: flex-start;
+        min-width: 0;
+        max-width: 100%;
+    }
+.page.active{ padding: 12px; max-width: 100%; box-sizing: border-box; }}
+@media (max-width: 480px){.location-info{ padding-right: 50px; }}
 .u-hidden{ display: none; }
+@media (max-width: 768px){.section-card{
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    }}
 @media (max-width: 768px){html.home-page #page-h1{ display: none !important; }}
 @media (min-width: 769px){html.moon-today-city-page #moon-hub-hero{
         position: relative;

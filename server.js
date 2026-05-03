@@ -9277,25 +9277,46 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: 'এই ক্যালেন্ডার বর্তমান গ্রেগরিয়ান মাসের জন্য দৈনিক চাঁদের দশা এবং পূর্ণিমা ও অমাবস্যার তারিখ প্রদর্শন করে। আপনি দিন দিন চাঁদের অগ্রগতি ট্র্যাক করতে এবং অমাবস্যা থেকে বৃদ্ধিমান অর্ধচন্দ্র, প্রথম পাদ, বৃদ্ধিমান গিবাস, পূর্ণিমা, তারপর হ্রাসমান গিবাস, শেষ পাদ এবং হ্রাসমান অর্ধচন্দ্র পর্যন্ত সম্পূর্ণ মাসিক পর্যায় দেখতে পারেন। ক্যালেন্ডার প্রতিদিনের জন্য আলোকন শতাংশ এবং চাঁদের বয়সও দেখায়।',
                     ms: 'Kalendar ini memaparkan fasa Bulan harian dan tarikh bulan purnama serta anak bulan untuk bulan Masehi semasa. Anda boleh menjejaki perkembangan Bulan hari demi hari dan melihat peringkat bulanan lengkap dari anak bulan ke sabit membesar, suku pertama, gibbous membesar, purnama, kemudian gibbous mengecil, suku terakhir, dan sabit mengecil. Kalendar juga memaparkan peratus pencahayaan dan usia Bulan untuk setiap hari.',
                 };
+                // Phase M4 (2026-05-03): suffix the H2 with phase names so SEOptimer's
+                // Keyword Consistency check sees "هلال/أحدب/بدر" inside a heading
+                // (currently they live only in the body paragraph).
+                const _m1Sec1H2Suffix = {
+                    ar: ': الهلال والأحدب والبدر',
+                    en: ': Crescent, Gibbous, and Full Moon',
+                    fr: ' : croissant, gibbeuse et pleine Lune',
+                    tr: ': Hilal, Şişkin Ay ve Dolunay',
+                    ur: '، ہلال، گبس اور بدر',
+                    de: ': Sichel, Halbmond und Vollmond',
+                    id: ': Sabit, Gibbous, dan Purnama',
+                    es: ': Creciente, Gibosa y Llena',
+                    bn: ': অর্ধচন্দ্র, গিবাস ও পূর্ণিমা',
+                    ms: ': Sabit, Gibbous, dan Purnama'
+                };
                 const _m1Sec1Html = '<section class="section-card moon-seo-info moon-seo-month-title">'
                     + '<h2>' + _escHtml(_m1Pick(_m1Sec1H2)) + ' ' + _m1City + ' '
                     + (_m1Lang === 'ar' ? 'خلال ' : (_m1Lang === 'tr' ? '— ' : '— '))
-                    + _m1MonthName + ' ' + _m1Year + '</h2>'
+                    + _m1MonthName + ' ' + _m1Year
+                    + _escHtml(_m1Sec1H2Suffix[_m1Lang] || _m1Sec1H2Suffix.en)
+                    + '</h2>'
                     + '<p>' + _escHtml(_m1Pick(_m1Sec1P)) + '</p>'
                     + '</section>';
 
-                // Section 2 — Monthly phases explainer (covers هلال/تربيع/أحدب/بدر/متناقص/متزايد)
+                // Phase M4 (2026-05-03): rewrote Section 2 H2 to surface "متزايد + متناقص
+                // + تقويم القمر" (waxing/waning + moon calendar) keywords. New H2 uses
+                // {city} marker for clean per-lang interpolation regardless of city
+                // position (start vs end), replacing the previous ternary chain.
+                // Section 2 — Phases waxing/waning (covers متزايد + متناقص + تقويم القمر).
                 const _m1Sec2H2 = {
-                    ar: 'كيف تتغير مراحل القمر في',
-                    en: 'How Moon Phases Change in',
-                    fr: 'Comment les phases de la Lune changent à',
-                    tr: '\'da Ay Evreleri Nasıl Değişir',
-                    ur: 'میں چاند کے مراحل کیسے بدلتے ہیں',
-                    de: 'Wie sich die Mondphasen ändern in',
-                    id: 'Bagaimana Fase Bulan Berubah di',
-                    es: 'Cómo cambian las fases de la Luna en',
-                    bn: '-এ চাঁদের দশা কীভাবে পরিবর্তন হয়',
-                    ms: 'Bagaimana Fasa Bulan Berubah di',
+                    ar: 'الأطوار المتزايدة والمتناقصة لتقويم القمر في {city}',
+                    en: 'Waxing and Waning Phases of the Moon Calendar in {city}',
+                    fr: 'Phases croissantes et décroissantes du calendrier lunaire à {city}',
+                    tr: '{city}\'da Ay Takviminin Büyüyen ve Küçülen Evreleri',
+                    ur: '{city} میں چاند کے کیلنڈر کے بڑھتے اور گھٹتے مراحل',
+                    de: 'Zunehmende und abnehmende Mondphasen im Mondkalender in {city}',
+                    id: 'Fase Membesar dan Menyusut dalam Kalender Bulan di {city}',
+                    es: 'Fases crecientes y menguantes del calendario lunar en {city}',
+                    bn: '{city}-এ চাঁদের ক্যালেন্ডারে বৃদ্ধিমান ও হ্রাসমান দশা',
+                    ms: 'Fasa Membesar dan Mengecil dalam Kalendar Bulan di {city}',
                 };
                 const _m1Sec2P = {
                     ar: 'تتغير مراحل القمر بشكل تدريجي خلال الشهر القمري الذي يبلغ متوسطه 29.5 يوماً. يبدأ القمر من المحاق غير المرئي، ثم يظهر كهلال متزايد رفيع، يتطور إلى التربيع الأول، فالأحدب المتزايد، حتى يصل إلى البدر المكتمل في منتصف الشهر تقريباً. بعد البدر يبدأ التناقص: الأحدب المتناقص، التربيع الأخير، الهلال المتناقص، ثم العودة إلى المحاق. قد تختلف أوقات ظهور هذه الأطوار في مدينتك بحسب المنطقة الزمنية وموقع القمر فلكياً.',
@@ -9309,12 +9330,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: 'চাঁদের দশা গড়ে ২৯.৫ দিনের চান্দ্র মাস জুড়ে ধীরে ধীরে পরিবর্তিত হয়। চাঁদ একটি অদৃশ্য অমাবস্যা হিসেবে শুরু হয়, তারপর একটি পাতলা বৃদ্ধিমান অর্ধচন্দ্র হিসেবে প্রদর্শিত হয়, প্রথম পাদে বৃদ্ধি পায়, তারপর বৃদ্ধিমান গিবাস, মাসের মাঝামাঝি পূর্ণিমায় পৌঁছায়। পূর্ণিমার পরে এটি হ্রাস পায়: হ্রাসমান গিবাস, শেষ পাদ, হ্রাসমান অর্ধচন্দ্র, তারপর আবার অমাবস্যায়। আপনার শহরে এই দশাগুলির সঠিক সময় টাইম জোন এবং চাঁদের জ্যোতির্বিদ্যা অবস্থানের উপর নির্ভর করে পরিবর্তিত হয়।',
                     ms: 'Fasa Bulan berubah secara beransur-ansur sepanjang bulan lunar yang berpurata 29.5 hari. Bulan bermula sebagai anak bulan yang tidak kelihatan, kemudian muncul sebagai sabit nipis membesar, tumbuh ke suku pertama, kemudian gibbous membesar, mencapai bulan purnama sekitar pertengahan bulan. Selepas purnama, ia mengecil: gibbous mengecil, suku terakhir, sabit mengecil, kemudian kembali ke anak bulan. Masa tepat fasa-fasa ini di bandar anda berbeza-beza mengikut zon waktu dan kedudukan astronomi Bulan.',
                 };
-                // Build H2 with city interpolation per-lang sentence shape
-                const _m1Sec2H2Built = (_m1Lang === 'ar' || _m1Lang === 'ur')
-                    ? (_escHtml(_m1Pick(_m1Sec2H2)) + ' ' + _m1City + ' خلال الشهر؟')
-                    : (_m1Lang === 'tr' ? (_m1City + _escHtml(_m1Pick(_m1Sec2H2)) + '?')
-                    : (_m1Lang === 'bn') ? (_m1City + _escHtml(_m1Pick(_m1Sec2H2)) + ' এই মাসে?')
-                    : (_escHtml(_m1Pick(_m1Sec2H2)) + ' ' + _m1City + (_m1Lang === 'fr' ? ' ce mois ?' : ' this month?')));
+                // Phase M4 (2026-05-03): cleaner builder using {city} marker. _m1City is
+                // already escaped (line above), so we split the template on {city}, escape
+                // each text part, and concatenate around the pre-escaped city. Handles
+                // city-at-start (TR/UR/BN), city-at-end (AR/EN/FR/DE/ID/ES/MS), and
+                // city-in-middle if ever needed.
+                const _m1Sec2H2Tpl = _m1Pick(_m1Sec2H2);
+                const _m1Sec2H2Parts = _m1Sec2H2Tpl.split('{city}');
+                const _m1Sec2H2Built = _escHtml(_m1Sec2H2Parts[0] || '') + _m1City + _escHtml(_m1Sec2H2Parts[1] || '');
                 const _m1Sec2Html = '<section class="section-card moon-seo-info moon-seo-phases">'
                     + '<h2>' + _m1Sec2H2Built + '</h2>'
                     + '<p>' + _escHtml(_m1Pick(_m1Sec2P)) + '</p>'

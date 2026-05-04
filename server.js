@@ -9826,10 +9826,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: `একটি নতুন হোটেল বা অফিসে ভ্রমণ বা থাকার সময়, ইন্টারনেট সংযোগ এবং অবস্থান স্থিতিশীল হওয়ার পরে একবার পৃষ্ঠাটি খুলে তারপর দ্রুত ফিরে আসার জন্য লিঙ্কটি সংরক্ষণ করা সর্বোত্তম। একই পৃষ্ঠায় কিবলার কোণ, মক্কার দূরত্ব, এবং শহরের নাম থাকা কেবল কম্পাস সূচকের উপর নির্ভর করার পরিবর্তে ফলাফল বুঝতে সাহায্য করে। যদি একটি ডিভাইস এবং অন্যটির মধ্যে সামান্য ভিন্ন রিডিং দেখা যায়, তবে কারণটি সাধারণত ওরিয়েন্টেশন সেন্সর বা কাছাকাছি ধাতু, কিবলার দিকনির্দেশনা গণনা নিজে থেকে নয়।`,
                     ms: `Apabila bermusafir atau menginap di hotel atau pejabat baru, adalah lebih baik untuk membuka halaman sekali selepas sambungan internet dan lokasi stabil, kemudian simpan pautan untuk kembali kepadanya dengan cepat. Memiliki sudut kiblat, jarak ke Makkah, dan nama bandar pada halaman yang sama membantu anda memahami hasilnya berbanding bergantung pada penunjuk kompas sahaja. Jika bacaan yang sedikit berbeza muncul antara satu peranti dan peranti lain, puncanya biasanya adalah sensor orientasi atau logam berdekatan, bukan pengiraan arah kiblat itu sendiri.`
                 };
+                // Phase Q-A7 (2026-05-03): wrap the 2 paragraphs in .qibla-seo-note-body
+                // for 2-col grid layout on desktop (1-col on mobile).
                 const _qaNoteHtml = '<div class="qibla-seo-note">'
                     + '<h3>' + _escHtml(_qaPick(_qaNoteH3)) + '</h3>'
+                    + '<div class="qibla-seo-note-body">'
                     + '<p>' + _escHtml(_qaPick(_qaNoteP1)) + '</p>'
                     + '<p>' + _escHtml(_qaPick(_qaNoteP2)) + '</p>'
+                    + '</div>'
                     + '</div>';
 
                 // Wrapper with header (kicker + H2 + intro) + grid (4 cards) + Q-A6 note block
@@ -9849,12 +9853,28 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 // Phase Q-A4: _qaSec4Html removed — content moved into _qaCard4Html above (H3 + 4 paragraphs).
                 const _qaSec4Html = '';
 
-                // Inject all 4 sections immediately before #qibla-other-cities
+                // Phase Q-A7 (2026-05-03): re-anchor SSR injection. Was matching the
+                // INNER chips div which split the parent's H2 from chips. Now matches
+                // the H2 itself + parent wrapper — injects the SEO section BEFORE
+                // the entire "other cities" block, so the H2 "مدن أخرى" appears
+                // ABOVE its own chips, NOT above the SEO cards.
                 const _qaAllSections = _qaSec1Html + _qaSec2Html + _qaSec3Html + _qaSec4Html;
-                html = html.replace(
-                    /<div id="qibla-other-cities"/,
-                    _qaAllSections + '<div id="qibla-other-cities"'
-                );
+                // Match the parent section-card containing qibla-other-cities-title H2.
+                // Pattern targets the EXACT class combo + H2 anchor below to ensure
+                // 1-and-only-1 match on the qibla city page.
+                const _qaCityChipsAnchor = /<div class="section-card qibla-city-only">\s*<h2 id="qibla-other-cities-title"/;
+                if (_qaCityChipsAnchor.test(html)) {
+                    html = html.replace(
+                        _qaCityChipsAnchor,
+                        _qaAllSections + '<div class="section-card qibla-city-only">\n                    <h2 id="qibla-other-cities-title"'
+                    );
+                } else {
+                    // Fallback to the old anchor (if HTML structure changed)
+                    html = html.replace(
+                        /<div id="qibla-other-cities"/,
+                        _qaAllSections + '<div id="qibla-other-cities"'
+                    );
+                }
             } catch (_e) { /* silent — Q-A SSR injection optional, page still serves */ }
         }
 

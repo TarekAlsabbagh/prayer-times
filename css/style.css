@@ -2989,6 +2989,98 @@ html[lang="ur"] .qibla-seo-note::before {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase Q-A7 (2026-05-03): Visual polish + section refinement.
+   Targets the qibla-seo-info-wrap (Q-A4), qibla-seo-card-howto (Q-A5),
+   qibla-seo-note (Q-A6), and the FAQ + chips sections. NO text or SEO
+   change — purely CSS layout/typography refinement.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Card balance: ensure equal heights when content varies (distance card was
+   empty-bottom previously). align-items: stretch is the grid default but
+   making it explicit + height: 100% on cards ensures perfect alignment. */
+.qibla-seo-info-grid {
+    align-items: stretch;
+}
+.qibla-seo-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.qibla-seo-card > h3 {
+    flex: 0 0 auto;
+}
+.qibla-seo-card > p {
+    flex: 1 1 auto;
+}
+
+/* Howto card compact tips: smaller padding/badge/separator so 4 tips don't
+   feel as heavy as before. Replaces the heavier Q-A5 tip styling. */
+.qibla-seo-card-howto p {
+    padding-inline-start: 32px;
+    padding-block: 10px;
+    margin: 0;
+    line-height: 1.78;
+}
+.qibla-seo-card-howto p::before {
+    width: 22px;
+    height: 22px;
+    font-size: 0.78rem;
+    top: 11px;
+}
+.qibla-seo-card-howto p + p {
+    padding-top: 12px;
+    border-top: 1px dashed rgba(11, 122, 75, 0.14);
+}
+.qibla-seo-card-howto p + p::before {
+    top: 13px;
+}
+
+/* Note block refinement: 2-col body on desktop, narrower padding, smaller h3.
+   Doesn't feel like a separate "content section" anymore — more like a
+   contextual aside. */
+.qibla-seo-note {
+    padding: 22px 26px;
+}
+.qibla-seo-note h3 {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+}
+.qibla-seo-note-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.qibla-seo-note-body p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.85;
+}
+@media (max-width: 768px) {
+    .qibla-seo-note-body {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .qibla-seo-note h3 {
+        font-size: 1rem;
+    }
+}
+
+/* City chips section + FAQ + Related links: subtle white-card polish so they
+   feel consistent with the green-themed cards above. Replaces any default
+   grey/heavy backgrounds. */
+.qibla-other-cities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+@media (max-width: 768px) {
+    .qibla-other-cities-grid {
+        gap: 8px;
+    }
+}
+
 /* Phase M6 (2026-05-03): legend explaining +/- semantics shown in calendar
    cells. Single occurrence per page (replaces the per-cell natural-language
    relative-time text that polluted Keyword Distribution). Small caption tone. */

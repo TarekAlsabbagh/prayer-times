@@ -9541,7 +9541,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _hav = Math.sin(_dPhi/2)**2 + Math.cos(_phi1) * Math.cos(_phi2) * Math.sin(_dLambda/2)**2;
                 const _distance = Math.round(6371 * 2 * Math.atan2(Math.sqrt(_hav), Math.sqrt(1 - _hav)));
                 const _bearingStr = _escHtml(String(_bearing));
-                const _distanceStr = _escHtml(_distance.toLocaleString(_qaLang === 'ar' ? 'ar-EG' : 'en-US'));
+                // Phase Q-A4-b applied (2026-05-03): always use Western numerals for the
+                // distance — matches the bearing badge ("244°", always Western via plain
+                // String(_bearing)) and matches all 9 non-AR langs. Was previously using
+                // 'ar-EG' locale for AR which produced Arabic-Indic numerals ("١٬٢٨٧")
+                // — inconsistent with bearing and with other langs.
+                const _distanceStr = _escHtml(_distance.toLocaleString('en-US'));
 
                 // ── Section 1: overview ──
                 const _qaSec1H2 = {

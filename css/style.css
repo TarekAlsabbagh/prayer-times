@@ -3088,25 +3088,14 @@ html[lang="ur"] .qibla-seo-note::before {
    duplicates. NO text/SEO change — purely CSS visibility + layout.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* (1) Hide the big "مواقيت الصلاة" CTA card between compass and SEO content.
-   Same link exists in Related links at page bottom — zero info loss,
-   removes a major visual interruption to the qibla flow. */
-.qibla-main-cta-card {
-    display: none !important;
-}
+/* Phase Q-A8-fix (2026-05-03): REMOVED the display:none rules from Q-A8.
+   The 3 elements (.qibla-main-cta-card, .qibla-info-grid, .qibla-footer-seo)
+   are now stripped from SSR HTML output entirely on /qibla-in-{city} pages
+   (server.js gated by seo.qiblaRef.slug) — they no longer exist in the DOM.
+   See server.js qibla SSR block.
 
-/* (2) Hide the 4 info cards (City/Angle/Lat/Lng). Same data is in:
-   - Compass (city name + angle visually)
-   - Q-A4 stat badges (bearing °, distance km) — explicit numbers
-   - Q-A4 SEO cards (full explanation per metric)
-   No info loss; removes redundant technical strip. */
-.qibla-info-grid {
-    display: none !important;
-}
-
-/* (3) Make the howto card span full width of the grid (it has 4 paragraphs
-   and was towering over the 3 short cards beside it). Now sits as a clean
-   wide card BELOW the 3 short cards on desktop. */
+   The layout polish (3-col grid + howto full-width) is KEPT below since
+   it's purely structural. */
 @media (min-width: 769px) {
     .qibla-seo-info-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3114,13 +3103,6 @@ html[lang="ur"] .qibla-seo-note::before {
     .qibla-seo-card-howto {
         grid-column: 1 / -1;
     }
-}
-
-/* (4) Hide the long footer-seo paragraph (duplicates all data: city + angle
-   + distance + cardinal direction + prayer-times-link text). Related links
-   list itself stays visible. */
-.qibla-footer-seo {
-    display: none !important;
 }
 
 /* (5) Style the related links container as a clean CTA card with a per-lang

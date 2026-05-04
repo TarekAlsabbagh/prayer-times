@@ -9150,9 +9150,9 @@ function updateCitySEO(city, englishName, country, lat, lng) {
 
     // qibla-in-*
     if (/\/qibla-in-/.test(path)) {
-        // Phase Q-A10 (2026-05-04): dynamic length guard. Mirrors server.js Q-A10
-        // logic — when full title > 60 chars (long city names like "المدينة المنورة"),
-        // fall back to the SHORT version (drops the "وتحديد القبلة بدقة" tail).
+        // Phase Q-A10-b (2026-05-04): balanced length guard with 3 candidates.
+        // Mirrors server.js Q-A10-b — adds MEDIUM tier so long cities like
+        // "المدينة المنورة" land in 50-60 instead of falling to short (~46).
         // Keeps SSR ↔ DOM in sync (Q-A2 invariant).
         const _fullTitlesByLang = ({
             ar: `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة وتحديد القبلة بدقة`,
@@ -9166,6 +9166,18 @@ function updateCitySEO(city, englishName, country, lat, lng) {
             bn: `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস ও সঠিক কিবলা নির্ণয়`,
             ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Penentu Kiblat Tepat`,
         })[lang];
+        const _mediumTitlesByLang = ({
+            ar: `اتجاه القبلة في ${cityDisplay} بدقة | بوصلة الكعبة`,
+            en: `Qibla Direction in ${cityDisplay} | Accurate Kaaba Compass`,
+            fr: `Direction de la Qibla à ${cityDisplay} | Boussole Kaaba précise`,
+            tr: `${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Konum`,
+            ur: `${cityDisplay} میں سمتِ قبلہ بدقت | کعبہ کا قطب نما`,
+            de: `Qibla-Richtung in ${cityDisplay} | Präziser Kaaba-Kompass`,
+            id: `Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Lokasi Akurat`,
+            es: `Dirección de la Qibla en ${cityDisplay} | Brújula Kaaba precisa`,
+            bn: `${cityDisplay}-এ সঠিক কিবলার দিক | কাবা কম্পাস`,
+            ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Lokasi Tepat`,
+        })[lang];
         const _shortTitlesByLang = ({
             ar: `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة`,
             en: `Qibla Direction in ${cityDisplay} | Kaaba Compass`,
@@ -9178,7 +9190,15 @@ function updateCitySEO(city, englishName, country, lat, lng) {
             bn: `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস`,
             ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah`,
         })[lang];
-        const _chosenTitle = ([..._fullTitlesByLang].length <= 60) ? _fullTitlesByLang : _shortTitlesByLang;
+        const _qFLen = [..._fullTitlesByLang].length;
+        const _qMLen = [..._mediumTitlesByLang].length;
+        const _qSLen = [..._shortTitlesByLang].length;
+        let _chosenTitle;
+        if (_qFLen >= 50 && _qFLen <= 60) _chosenTitle = _fullTitlesByLang;
+        else if (_qMLen >= 50 && _qMLen <= 60) _chosenTitle = _mediumTitlesByLang;
+        else if (_qFLen > 60 && _qMLen > 60) _chosenTitle = _shortTitlesByLang;
+        else if (_qSLen < 50) _chosenTitle = _mediumTitlesByLang;
+        else _chosenTitle = (_qFLen <= 60) ? _fullTitlesByLang : _shortTitlesByLang;
         const titles = [_chosenTitle, _chosenTitle];
         const desc = ({
             ar: `اعرف اتجاه القبلة في ${cityDisplay} بدقة باستخدام بوصلة الكعبة وخريطة تفاعلية تعتمد على موقعك، مع زاوية القبلة والمسافة إلى مكة المكرمة.`,

@@ -4597,10 +4597,28 @@ function buildSeoForPath(urlPath) {
             bn: `${cityDisplay}-এ কিবলার দিক সঠিকভাবে জানুন কাবা কম্পাস ও আপনার অবস্থান অনুযায়ী ইন্টারঅ্যাকটিভ মানচিত্রের সাহায্যে, কিবলার কোণ ও মক্কার দূরত্বসহ।`,
             ms: `Cari arah kiblat di ${cityDisplay} dengan tepat menggunakan kompas Kaabah dan peta interaktif berdasarkan lokasi anda, lengkap dengan sudut kiblat dan jarak ke Makkah.`,
         };
-        // Phase Q-A10 (2026-05-04): dynamic length guard for cities with long
-        // names like "المدينة المنورة" (67 chars) or "kuala-lumpur". When the
-        // full title exceeds 60 chars, use the SHORT version (drops the
-        // "وتحديد القبلة بدقة" / "and Accurate Qibla Finder" tail).
+        // Phase Q-A10-b (2026-05-04): balanced length guard with 3 candidates.
+        // Q-A10 used full/short only — long cities like "المدينة المنورة" went
+        // straight to short (~46 chars, below 50 sweet spot). Now we add a
+        // MEDIUM candidate (insert "بدقة" near city, drop verbose tail) so
+        // long-city case lands in 50-60 instead of falling to short.
+        // Algorithm: pick the longest title with [..len] ≤ 60. Implicitly:
+        //   • Full ∈ [50,60]            → Full
+        //   • Full > 60, Medium ∈ [50,60] → Medium
+        //   • Full > 60, Medium > 60     → Short
+        //   • Short < 50                → Medium (rule 5: prefer longest valid)
+        const _qTitlesMedium = {
+            ar: `اتجاه القبلة في ${cityDisplay} بدقة | بوصلة الكعبة`,
+            en: `Qibla Direction in ${cityDisplay} | Accurate Kaaba Compass`,
+            fr: `Direction de la Qibla à ${cityDisplay} | Boussole Kaaba précise`,
+            tr: `${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Konum`,
+            ur: `${cityDisplay} میں سمتِ قبلہ بدقت | کعبہ کا قطب نما`,
+            de: `Qibla-Richtung in ${cityDisplay} | Präziser Kaaba-Kompass`,
+            id: `Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Lokasi Akurat`,
+            es: `Dirección de la Qibla en ${cityDisplay} | Brújula Kaaba precisa`,
+            bn: `${cityDisplay}-এ সঠিক কিবলার দিক | কাবা কম্পাস`,
+            ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Lokasi Tepat`,
+        };
         const _qTitlesShort = {
             ar: `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة`,
             en: `Qibla Direction in ${cityDisplay} | Kaaba Compass`,
@@ -4614,9 +4632,17 @@ function buildSeoForPath(urlPath) {
             ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah`,
         };
         const _qFullTitle = _qTitles[lang] || _qTitles.en;
+        const _qMediumTitle = _qTitlesMedium[lang] || _qTitlesMedium.en;
         const _qShortTitle = _qTitlesShort[lang] || _qTitlesShort.en;
         // Use [...str].length to count actual visible chars (handles emoji/surrogate pairs).
-        title = ([..._qFullTitle].length <= 60) ? _qFullTitle : _qShortTitle;
+        const _qFLen = [..._qFullTitle].length;
+        const _qMLen = [..._qMediumTitle].length;
+        const _qSLen = [..._qShortTitle].length;
+        if (_qFLen >= 50 && _qFLen <= 60) title = _qFullTitle;
+        else if (_qMLen >= 50 && _qMLen <= 60) title = _qMediumTitle;
+        else if (_qFLen > 60 && _qMLen > 60) title = _qShortTitle;
+        else if (_qSLen < 50) title = _qMediumTitle;
+        else title = _qFLen <= 60 ? _qFullTitle : _qShortTitle;
         description = _qDescs[lang] || _qDescs.en;
         ogType = 'website';
         geo = { lat, lng };
@@ -9437,7 +9463,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             } catch (_e) { /* silent — M1 SSR injection optional, page still serves */ }
         }
 
-
+
 
 
 

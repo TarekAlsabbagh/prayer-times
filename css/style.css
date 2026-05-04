@@ -14209,3 +14209,17 @@ html.moon-month-page #moon-main-card {
 #moon-hijri-lunar {
     min-height: 70px;
 }
+
+
+/* ── Phase Q-Hub-A (2026-05-04): Qibla Hub guide card section ── */
+.qibla-hub-guide-card-wrap { padding: 18px 16px; }
+.qibla-hub-guide-h2 { margin: 0 0 8px; font-size: 1.25rem; line-height: 1.35; }
+.qibla-hub-guide-lead { margin: 0 0 16px; color: var(--text-light); line-height: 1.7; font-size: 0.97rem; }
+.qibla-hub-guide-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .qibla-hub-guide-grid { grid-template-columns: 1fr 1fr; gap: 14px; } }
+.qibla-hub-guide-card { background: var(--card-soft, rgba(0,0,0,0.03)); border: 1px solid var(--border, rgba(0,0,0,0.08)); border-radius: 12px; padding: 14px 14px 12px; }
+html[data-theme="dark"] .qibla-hub-guide-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+.qibla-hub-guide-h3 { margin: 0 0 6px; font-size: 1.02rem; line-height: 1.4; color: var(--text); }
+.qibla-hub-guide-body { margin: 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }
+/* Qibla Hub gateway: hide hub-only sections on city pages, hide city-only on hub */
+html.qibla-hub-page .qibla-city-only { display: none !important; }

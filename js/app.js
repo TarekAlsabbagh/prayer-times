@@ -8917,12 +8917,57 @@ function updatePageSEO() {
     }
 
     // ── أداة القبلة العامة ──
-    if (/^\/(?:en\/)?qibla$/.test(path)) {
+    // Phase Q-Hub-A + Q-Hub-A10-b (2026-05-04): mirror server.js SSR for /qibla
+    // Hub. Title uses 3-tier {full, medium, short} per lang, picked via the
+    // balanced length-guard algorithm (Q-A10-b). Meta extended to 130-160.
+    // Regex now covers all 10 langs (was: ar/en only).
+    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(path)) {
+        const _qHubTitles = ({
+            ar: { full: 'اتجاه القبلة الآن | بوصلة الكعبة وتحديد القبلة بدقة', medium: 'اتجاه القبلة | بوصلة الكعبة وتحديد القبلة بدقة', short: 'اتجاه القبلة | بوصلة الكعبة بدقة' },
+            en: { full: 'Qibla Direction Now | Accurate Kaaba Compass and Finder', medium: 'Qibla Direction | Accurate Kaaba Compass and Finder', short: 'Qibla Direction | Accurate Kaaba Compass' },
+            fr: { full: 'Direction de la Qibla maintenant | Boussole Kaaba précise', medium: 'Direction de la Qibla | Boussole Kaaba précise et fiable', short: 'Direction de la Qibla | Boussole Kaaba précise' },
+            tr: { full: 'Kıble Yönü Şimdi | Kâbe Pusulası ve Hassas Konum Bulma', medium: 'Kıble Yönü | Kâbe Pusulası ve Hassas Konum Bulma', short: 'Kıble Yönü | Kâbe Pusulası ve Konum' },
+            ur: { full: 'ابھی سمتِ قبلہ معلوم کریں | کعبہ کا قطب نما درست تعین', medium: 'سمتِ قبلہ معلوم کریں | کعبہ کا قطب نما درست تعین', short: 'سمتِ قبلہ | کعبہ کا قطب نما درست تعین' },
+            de: { full: 'Qibla-Richtung jetzt | präziser Kaaba-Kompass und Finder', medium: 'Qibla-Richtung | präziser Kaaba-Kompass und Finder', short: 'Qibla-Richtung | präziser Kaaba-Kompass' },
+            id: { full: 'Arah Kiblat Sekarang | Kompas Kakbah dan Penentu Akurat', medium: 'Arah Kiblat | Kompas Kakbah dan Penentu Akurat', short: 'Arah Kiblat | Kompas Kakbah Akurat' },
+            es: { full: 'Dirección de la Qibla ahora | Brújula Kaaba precisa', medium: 'Dirección de la Qibla | Brújula Kaaba precisa y exacta', short: 'Dirección de la Qibla | Brújula Kaaba precisa' },
+            bn: { full: 'এখনই কিবলার দিক | সঠিক কাবা কম্পাস ও কিবলা নির্ণয়', medium: 'কিবলার দিক | সঠিক কাবা কম্পাস ও কিবলা নির্ণয়', short: 'কিবলার দিক | সঠিক কাবা কম্পাস' },
+            ms: { full: 'Arah Kiblat Sekarang | Kompas Kaabah dan Penentu Tepat', medium: 'Arah Kiblat | Kompas Kaabah dan Penentu Tepat', short: 'Arah Kiblat | Kompas Kaabah Tepat' },
+        })[lang] || ({
+            full: 'Qibla Direction Now | Accurate Kaaba Compass and Finder',
+            medium: 'Qibla Direction | Accurate Kaaba Compass and Finder',
+            short: 'Qibla Direction | Accurate Kaaba Compass',
+        });
+        // Q-A10-b balanced length guard (mirrors server.js _pickTier).
+        const _qHF = [..._qHubTitles.full].length;
+        const _qHM = [..._qHubTitles.medium].length;
+        const _qHS = [..._qHubTitles.short].length;
+        let _qHubTitle;
+        if (_qHF >= 50 && _qHF <= 60) _qHubTitle = _qHubTitles.full;
+        else if (_qHM >= 50 && _qHM <= 60) _qHubTitle = _qHubTitles.medium;
+        else if (_qHF > 60 && _qHM > 60) _qHubTitle = _qHubTitles.short;
+        else if (_qHS < 50) _qHubTitle = _qHubTitles.medium;
+        else _qHubTitle = (_qHF <= 60) ? _qHubTitles.full : _qHubTitles.short;
+        const _qHubDescs = ({
+            ar: 'اعرف اتجاه القبلة من موقعك بدقة باستخدام بوصلة الكعبة وخريطة تفاعلية، أو اختر مدينتك يدوياً لتحديد القبلة نحو مكة المكرمة.',
+            en: 'Find the Qibla direction from your location with a Kaaba compass and interactive map, or pick your city manually to locate the Qibla toward Mecca.',
+            fr: 'Trouvez la Qibla depuis votre position avec une boussole de la Kaaba et une carte interactive, ou choisissez votre ville manuellement vers La Mecque.',
+            tr: 'Konumunuzdan kıble yönünü Kâbe pusulası ve etkileşimli harita ile hassas bulun veya şehrinizi manuel seçerek kıbleyi Mekke yönünde belirleyin.',
+            ur: 'اپنے مقام سے قبلہ کی درست سمت کعبہ کے قطب نما اور انٹرایکٹو نقشے سے معلوم کریں، یا مکہ مکرمہ کی طرف سمت جاننے کے لیے اپنا شہر منتخب کریں۔',
+            de: 'Finden Sie die Qibla-Richtung von Ihrem Standort mit einem Kaaba-Kompass und interaktiver Karte, oder wählen Sie Ihre Stadt manuell zur Mekka-Peilung.',
+            id: 'Temukan arah kiblat dari lokasi Anda dengan kompas Kakbah dan peta interaktif, atau pilih kota Anda secara manual untuk menentukan arah ke Mekkah.',
+            es: 'Encuentre la Qibla desde su ubicación con una brújula de la Kaaba y un mapa interactivo, o elija su ciudad manualmente para apuntar hacia La Meca.',
+            bn: 'আপনার অবস্থান থেকে কাবা কম্পাস ও ইন্টারঅ্যাকটিভ মানচিত্র দিয়ে সঠিক কিবলার দিক জানুন, অথবা মক্কার দিকে কিবলা নির্ণয়ে নিজের শহর বেছে নিন।',
+            ms: 'Cari arah kiblat dari lokasi anda dengan kompas Kaabah dan peta interaktif, atau pilih bandar anda secara manual untuk menentukan kiblat ke Makkah.',
+        });
+        const _qHubName = ({
+            ar: 'اتجاه القبلة', en: 'Qibla Direction', fr: 'Direction de la Qibla',
+            tr: 'Kıble Yönü', ur: 'سمتِ قبلہ', de: 'Qibla-Richtung',
+            id: 'Arah Kiblat', es: 'Dirección de la Qibla', bn: 'কিবলার দিক', ms: 'Arah Kiblat',
+        })[lang] || 'Qibla Direction';
         setSEOMeta({
-            title: isEn ? 'Qibla Direction Finder — Online Compass to Mecca' : 'اتجاه القبلة — بوصلة الكعبة المشرفة في مكة',
-            description: isEn
-                ? 'Find the accurate Qibla direction from your location using GPS. Interactive compass and map to locate the Kaaba in Mecca.'
-                : 'تحديد اتجاه القبلة الدقيق من موقعك عبر GPS. بوصلة وخريطة تفاعلية لمعرفة اتجاه الكعبة المشرفة في مكة.',
+            title: _qHubTitle,
+            description: _qHubDescs[lang] || _qHubDescs.en,
             ogType: 'website',
             schemaId: 'page-seo-schema',
             schemaGraph: {
@@ -8930,7 +8975,7 @@ function updatePageSEO() {
                 "@type": "WebApplication",
                 "@id": urls.canonical + '#app',
                 "url": urls.canonical,
-                "name": isEn ? 'Qibla Direction Finder' : 'اتجاه القبلة',
+                "name": _qHubName,
                 "applicationCategory": "UtilityApplication",
                 "operatingSystem": "Any",
                 "inLanguage": lang,
@@ -13044,7 +13089,7 @@ const _QIBLA_UI = {
 // ============================================================================
 const _QIBLA_HUB_UI = {
     ar: {
-        title: '🧭 اعرف اتجاه القبلة بدقّة من أيّ مكان في العالم',
+        title: 'اعرف اتجاه القبلة بدقة من أي مكان في العالم',
         subtitle: 'باستخدام بوصلة ذكيّة تعتمد على موقعك الجغرافيّ أو اختيار مدينتك',
         hero_badges: ['يعمل في جميع الدول', 'دقّة فلكيّة عالية'],
         smart_pill_prefix: 'آخر موقع استخدمته',
@@ -13094,7 +13139,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'الرئيسيّة', bc_qibla: 'اتجاه القبلة'
     },
     en: {
-        title: '🧭 Find the exact Qibla direction from anywhere in the world',
+        title: 'Find the Qibla Direction Accurately from Anywhere in the World',
         subtitle: 'Use a smart compass powered by your geolocation — or pick your city manually',
         hero_badges: ['Works in every country', 'High astronomical precision'],
         smart_pill_prefix: 'Last location you used',
@@ -13144,7 +13189,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'Home', bc_qibla: 'Qibla Direction'
     },
     fr: {
-        title: '🧭 Trouvez la direction exacte de la Qibla depuis n\'importe où',
+        title: 'Trouvez la direction de la Qibla avec précision partout dans le monde',
         subtitle: 'Boussole intelligente basée sur votre géolocalisation ou sur le choix de votre ville',
         hero_badges: ['Fonctionne dans tous les pays', 'Haute précision astronomique'],
         smart_pill_prefix: 'Dernière position utilisée',
@@ -13194,7 +13239,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'Accueil', bc_qibla: 'Direction de la Qibla'
     },
     tr: {
-        title: '🧭 Dünyanın her yerinden Kıble yönünü hassasiyetle bulun',
+        title: 'Dünyanın Her Yerinden Kıble Yönünü Hassas Olarak Bulun',
         subtitle: 'Coğrafi konumunuza veya şehrinizi seçmenize dayalı akıllı pusula',
         hero_badges: ['Her ülkede çalışır', 'Yüksek astronomik doğruluk'],
         smart_pill_prefix: 'Son kullandığınız konum',
@@ -13244,7 +13289,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'Ana Sayfa', bc_qibla: 'Kıble Yönü'
     },
     ur: {
-        title: '🧭 دنیا کے کسی بھی مقام سے قبلہ کی درست سمت جانیں',
+        title: 'دنیا میں کہیں سے بھی قبلہ کی درست سمت معلوم کریں',
         subtitle: 'آپ کی جغرافیائی لوکیشن یا منتخب شہر پر مبنی ذہین کمپاس',
         hero_badges: ['ہر ملک میں کام کرتا ہے', 'اعلیٰ فلکیاتی درستگی'],
         smart_pill_prefix: 'آخری استعمال شدہ مقام',
@@ -13294,7 +13339,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'ہوم', bc_qibla: 'قبلہ کی سمت'
     },
     de: {
-        title: '🧭 Finden Sie die exakte Qibla-Richtung von überall auf der Welt',
+        title: 'Qibla-Richtung präzise von überall auf der Welt finden',
         subtitle: 'Intelligenter Kompass – basierend auf Ihrem Standort oder Ihrer gewählten Stadt',
         hero_badges: ['Funktioniert in jedem Land', 'Hohe astronomische Präzision'],
         smart_pill_prefix: 'Zuletzt genutzter Standort',
@@ -13344,7 +13389,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'Startseite', bc_qibla: 'Qibla-Richtung'
     },
     id: {
-        title: '🧭 Temukan arah kiblat yang tepat dari mana saja di dunia',
+        title: 'Cari Arah Kiblat dengan Akurat dari Mana Saja di Dunia',
         subtitle: 'Kompas cerdas berbasis geolokasi Anda atau pilihan kota Anda',
         hero_badges: ['Berfungsi di setiap negara', 'Presisi astronomi tinggi'],
         smart_pill_prefix: 'Lokasi terakhir yang digunakan',
@@ -13394,7 +13439,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'Beranda', bc_qibla: 'Arah Kiblat'
     },
     es: {
-        title: '🧭 Encuentra la dirección exacta de la Qibla desde cualquier lugar del mundo',
+        title: 'Encuentre la dirección de la Qibla con precisión desde cualquier lugar',
         subtitle: 'Brújula inteligente basada en tu geolocalización o en la ciudad que elijas',
         hero_badges: ['Funciona en todos los países', 'Alta precisión astronómica'],
         smart_pill_prefix: 'Última ubicación usada',
@@ -13444,7 +13489,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'Inicio', bc_qibla: 'Dirección de la Qibla'
     },
     bn: {
-        title: '🧭 বিশ্বের যেকোনো স্থান থেকে কিবলার সঠিক দিক জানুন',
+        title: 'বিশ্বের যেকোনো স্থান থেকে সঠিক কিবলার দিক জানুন',
         subtitle: 'আপনার ভৌগোলিক অবস্থান বা নির্বাচিত শহরের উপর নির্ভর করে স্মার্ট কম্পাস',
         hero_badges: ['প্রতিটি দেশে কাজ করে', 'উচ্চ জ্যোতির্বিদ্যার নির্ভুলতা'],
         smart_pill_prefix: 'সর্বশেষ ব্যবহৃত অবস্থান',
@@ -13494,7 +13539,7 @@ const _QIBLA_HUB_UI = {
         bc_home: 'হোম', bc_qibla: 'কিবলার দিক'
     },
     ms: {
-        title: '🧭 Cari arah kiblat yang tepat dari mana-mana tempat di dunia',
+        title: 'Cari Arah Kiblat dengan Tepat dari Mana-mana Sahaja di Dunia',
         subtitle: 'Kompas pintar berdasarkan geolokasi anda atau bandar pilihan anda',
         hero_badges: ['Berfungsi di setiap negara', 'Ketepatan astronomi yang tinggi'],
         smart_pill_prefix: 'Lokasi terakhir digunakan',

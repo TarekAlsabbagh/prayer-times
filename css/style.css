@@ -14223,3 +14223,17 @@ html[data-theme="dark"] .qibla-hub-guide-card { background: rgba(255,255,255,0.0
 .qibla-hub-guide-body { margin: 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }
 /* Qibla Hub gateway: hide hub-only sections on city pages, hide city-only on hub */
 html.qibla-hub-page .qibla-city-only { display: none !important; }
+
+/* ── Phase Q-Hub-B (2026-05-04): Qibla Hub authority section ── */
+.qibla-hub-authority { padding: 18px 16px; }
+.qibla-hub-authority-header { margin-bottom: 14px; }
+.qibla-seo-kicker { display: inline-block; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent, #1a4a1a); margin-bottom: 6px; opacity: 0.85; }
+.qibla-hub-authority-h2 { margin: 0 0 8px; font-size: 1.25rem; line-height: 1.35; color: var(--text); }
+.qibla-hub-authority-lead { margin: 0 0 4px; color: var(--text-light); line-height: 1.7; font-size: 0.97rem; }
+.qibla-hub-authority-grid { display: grid; gap: 12px; grid-template-columns: 1fr; margin-top: 14px; }
+@media (min-width: 720px) { .qibla-hub-authority-grid { grid-template-columns: 1fr 1fr; gap: 14px; } }
+.qibla-hub-authority-card { background: var(--card-soft, rgba(0,0,0,0.03)); border: 1px solid var(--border, rgba(0,0,0,0.08)); border-radius: 12px; padding: 14px 14px 12px; margin: 0; }
+html[data-theme="dark"] .qibla-hub-authority-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+.qibla-hub-authority-h3 { margin: 0 0 6px; font-size: 1.02rem; line-height: 1.4; color: var(--text); }
+.qibla-hub-authority-body { margin: 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }
+.qibla-hub-authority-close { margin: 16px 0 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }

@@ -8949,7 +8949,7 @@ function updatePageSEO() {
         else if (_qHS < 50) _qHubTitle = _qHubTitles.medium;
         else _qHubTitle = (_qHF <= 60) ? _qHubTitles.full : _qHubTitles.short;
         const _qHubDescs = ({
-            ar: 'اعرف اتجاه القبلة من موقعك بدقة باستخدام بوصلة الكعبة وخريطة تفاعلية، أو اختر مدينتك يدوياً لتحديد القبلة نحو مكة المكرمة.',
+            ar: 'اعرف اتجاه القبلة من موقعي بدقة باستخدام بوصلة القبلة وخريطة تفاعلية، مع زاوية القبلة نحو مكة المكرمة أو اختيار المدينة يدوياً.',
             en: 'Find the Qibla direction from your location with a Kaaba compass and interactive map, or pick your city manually to locate the Qibla toward Mecca.',
             fr: 'Trouvez la Qibla depuis votre position avec une boussole de la Kaaba et une carte interactive, ou choisissez votre ville manuellement vers La Mecque.',
             tr: 'Konumunuzdan kıble yönünü Kâbe pusulası ve etkileşimli harita ile hassas bulun veya şehrinizi manuel seçerek kıbleyi Mekke yönünde belirleyin.',

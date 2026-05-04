@@ -2938,6 +2938,57 @@ html[lang="ur"] .qibla-seo-card::before {
     }
 }
 
+/* Phase Q-A6 (2026-05-03): "Notes" block at the bottom of qibla-seo-info-wrap.
+   Full-width inside the wrapper (NOT in the 2-col grid) — gives a distinct
+   "important note" feel. Soft amber/yellow accent stripe distinguishes it
+   from the green cards (different visual class). H3 (no new H2). */
+.qibla-seo-note {
+    margin-top: 20px;
+    padding: 22px 22px 20px;
+    background: linear-gradient(180deg, #fffaf0 0%, #fff7e6 100%);
+    border: 1px solid rgba(217, 119, 6, 0.20);
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(120, 80, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+.qibla-seo-note::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 22px;
+    width: 4px;
+    height: 44px;
+    border-radius: 0 999px 999px 0;
+    background: #d97706;
+}
+html[dir="rtl"] .qibla-seo-note::before,
+html[lang="ar"] .qibla-seo-note::before,
+html[lang="ur"] .qibla-seo-note::before {
+    border-radius: 999px 0 0 999px;
+}
+.qibla-seo-note h3 {
+    margin: 0 0 14px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #92400e;
+    font-weight: 700;
+}
+.qibla-seo-note p {
+    margin: 0 0 12px;
+    font-size: 0.94rem;
+    line-height: 1.85;
+    color: #5b4530;
+}
+.qibla-seo-note p:last-child {
+    margin-bottom: 0;
+}
+@media (max-width: 768px) {
+    .qibla-seo-note {
+        padding: 18px 16px 16px;
+    }
+}
+
 /* Phase M6 (2026-05-03): legend explaining +/- semantics shown in calendar
    cells. Single occurrence per page (replaces the per-cell natural-language
    relative-time text that polluted Keyword Distribution). Small caption tone. */

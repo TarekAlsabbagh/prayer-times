@@ -2756,6 +2756,134 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     border-color: rgba(46,125,50,0.20);
     text-decoration: none;
 }
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase Q-A4 (2026-05-03): Qibla SEO content visual redesign.
+   Restructures the 4 SSR sections injected by Q-A/Q-A2/Q-A3 (server.js
+   line ~9505) from full-width section-cards to a 2-column grid with
+   header + stat badges. NO change to text content (preserves SEO).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.qibla-seo-info-wrap {
+    max-width: 1180px;
+    margin: 32px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+.qibla-seo-header {
+    text-align: start;
+    margin-bottom: 22px;
+    padding: 0 4px;
+}
+.qibla-seo-kicker {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary, #0b7a4b);
+    background: rgba(11, 122, 75, 0.10);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+.qibla-seo-header h2 {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 0 0 8px;
+    color: var(--text, #222);
+    font-weight: 800;
+}
+.qibla-seo-intro {
+    margin: 0;
+    color: var(--text-light, #555);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 800px;
+}
+.qibla-seo-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+@media (max-width: 768px) {
+    .qibla-seo-info-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .qibla-seo-info-wrap {
+        margin: 22px auto;
+        padding: 0 12px;
+    }
+    .qibla-seo-header h2 {
+        font-size: 1.25rem;
+    }
+}
+.qibla-seo-card {
+    position: relative;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+    border: 1px solid rgba(11, 122, 75, 0.12);
+    border-radius: 18px;
+    padding: 22px 22px 20px;
+    box-shadow: 0 6px 20px rgba(20, 60, 40, 0.05);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.qibla-seo-card:hover {
+    box-shadow: 0 10px 28px rgba(20, 60, 40, 0.10);
+    transform: translateY(-2px);
+}
+.qibla-seo-card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 22px;
+    width: 4px;
+    height: 44px;
+    border-radius: 0 999px 999px 0;
+    background: var(--primary, #0b7a4b);
+}
+html[dir="rtl"] .qibla-seo-card::before,
+html[lang="ar"] .qibla-seo-card::before,
+html[lang="ur"] .qibla-seo-card::before {
+    border-radius: 999px 0 0 999px;
+}
+.qibla-seo-card h3 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--primary, #075c38);
+    font-weight: 700;
+}
+.qibla-seo-card p {
+    margin: 0 0 10px;
+    font-size: 0.94rem;
+    line-height: 1.85;
+    color: var(--text, #34443c);
+}
+.qibla-seo-card p:last-child {
+    margin-bottom: 0;
+}
+.qibla-seo-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(11, 122, 75, 0.10);
+    color: var(--primary, #075c38);
+    border: 1px solid rgba(11, 122, 75, 0.18);
+}
+.qibla-seo-stat span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.85;
+}
+.qibla-seo-stat strong {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
 /* Phase M6 (2026-05-03): legend explaining +/- semantics shown in calendar
    cells. Single occurrence per page (replaces the per-cell natural-language
    relative-time text that polluted Keyword Distribution). Small caption tone. */

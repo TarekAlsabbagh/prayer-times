@@ -9568,11 +9568,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: `এই গাইড আপনাকে ${seo.qiblaRef.cityName}-এ কিবলার দিক সঠিকভাবে খুঁজে পেতে সাহায্য করে, আপনার অবস্থান এবং মক্কায় কাবার মধ্যে কোণ গণনা করে। ফলাফল শহরের ভৌগোলিক স্থানাঙ্ক বা ব্রাউজারকে অবস্থান সনাক্ত করতে অনুমতি দিলে আপনার প্রকৃত অবস্থানের উপর নির্ভর করে। একটি ইন্টারঅ্যাকটিভ মানচিত্র এবং ডিজিটাল কম্পাস বেশিরভাগ আধুনিক ডিভাইসে কাজ করে, যা ঘরে, অফিসে বা ভ্রমণের সময় কিবলা খুঁজে পাওয়া দ্রুত এবং সহজ করে তোলে।`,
                     ms: `Panduan ini membantu anda mencari arah kiblat di ${seo.qiblaRef.cityName} dengan tepat dengan mengira sudut antara lokasi anda dan Kaabah di Makkah. Hasilnya bergantung pada koordinat geografi bandar atau lokasi sebenar anda apabila anda membenarkan pelayar mengesannya. Peta interaktif dan kompas digital berfungsi pada kebanyakan peranti moden, menjadikan pencarian kiblat cepat dan mudah sama ada di rumah, pejabat, atau ketika dalam perjalanan.`
                 };
-                const _qaSec1Html = '<section class="section-card qibla-seo-info qibla-seo-overview">'
-                    + '<h2>' + _escHtml(_qaPick(_qaSec1H2)) + '</h2>'
-                    + '<p>' + _escHtml(_qaPick(_qaSec1P)) + '</p>'
-                    + '</section>';
-
                 // ── Section 2: bearing ──
                 const _qaSec2H2 = {
                     ar: `زاوية القبلة من ${seo.qiblaRef.cityName}`,
@@ -9598,10 +9593,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: `${seo.qiblaRef.cityName} থেকে কিবলার কোণ আনুমানিক ${_bearing}° সত্য উত্তর থেকে। এই কোণটি গ্রেট সার্কেল সূত্র ব্যবহার করে গণনা করা হয়, যা আপনার অবস্থান এবং কাবার মধ্যে পৃথিবীর গোলাকার পৃষ্ঠের সবচেয়ে ছোট পথ দেয়। ফোন কম্পাসে দেখানো রিডিং চৌম্বকীয় বিচ্যুতির কারণে সত্য উত্তর থেকে সামান্য ভিন্ন হতে পারে, তাই সবচেয়ে সঠিক ফলাফলের জন্য কম্পাস রিডিং মানচিত্রের দিকনির্দেশের সাথে তুলনা করার পরামর্শ দেওয়া হয়। সিস্টেম সমস্ত গণনার জন্য কাবার সরকারি স্থানাঙ্ক (২১.৪২২৫° উত্তর, ৩৯.৮২৬২° পূর্ব) একটি নির্দিষ্ট লক্ষ্য হিসাবে ব্যবহার করে।`,
                     ms: `Sudut kiblat dari ${seo.qiblaRef.cityName} adalah lebih kurang ${_bearing}° dari utara sebenar. Sudut ini dikira menggunakan formula Bulatan Besar yang memberi laluan terpendek pada permukaan sfera Bumi antara lokasi anda dan Kaabah. Bacaan pada kompas telefon mungkin berbeza sedikit kerana penyimpangan magnet berbanding utara sebenar, jadi disyorkan untuk membandingkan bacaan kompas dengan arah peta untuk hasil paling tepat. Sistem menggunakan koordinat rasmi Kaabah (21.4225° U, 39.8262° T) sebagai sasaran tetap untuk semua pengiraan.`
                 };
-                const _qaSec2Html = '<section class="section-card qibla-seo-info qibla-seo-bearing">'
-                    + '<h2>' + _escHtml(_qaPick(_qaSec2H2)) + '</h2>'
-                    + '<p>' + _escHtml(_qaPick(_qaSec2P)) + '</p>'
-                    + '</section>';
+                // Phase Q-A4: _qaSec2Html removed — content moved into _qaCard2Html above (stat badge + H3).
+                const _qaSec2Html = '';
 
                 // ── Section 3: distance ──
                 const _qaSec3H2 = {
@@ -9628,10 +9621,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: `${seo.qiblaRef.cityName} থেকে মক্কার দূরত্ব আনুমানিক ${_distanceStr} কিলোমিটার, হ্যাভারসাইন সূত্র ব্যবহার করে পৃথিবীর গোলাকার পৃষ্ঠে গণনা করা হয়। এই দূরত্ব পৃথিবীর পৃষ্ঠ জুড়ে দুটি স্থানাঙ্কের মধ্যে সবচেয়ে ছোট সরলরেখা প্রতিনিধিত্ব করে, এবং প্রকৃত সড়ক দূরত্ব থেকে ভিন্ন যা পাহাড় বা সমুদ্রের কারণে অনেক দীর্ঘ হতে পারে। একটি শহর মক্কা থেকে যত দূরে, ডিজিটাল কম্পাস সঠিকভাবে ব্যবহার করা তত গুরুত্বপূর্ণ, কারণ ছোট কোণের পার্থক্য দীর্ঘ দূরত্বে বড় বিচ্যুতিতে অনুবাদ হয়।`,
                     ms: `Jarak dari ${seo.qiblaRef.cityName} ke Makkah adalah lebih kurang ${_distanceStr} kilometer, dikira menggunakan formula Haversine pada permukaan sfera Bumi. Jarak ini mewakili garisan lurus terpendek antara dua koordinat merentasi permukaan Bumi, dan berbeza daripada jarak jalan sebenar yang mungkin jauh lebih panjang kerana gunung atau laut. Semakin jauh sebuah bandar dari Makkah, semakin penting untuk menggunakan kompas digital dengan tepat, kerana perbezaan sudut kecil diterjemahkan menjadi penyimpangan besar pada jarak jauh.`
                 };
-                const _qaSec3Html = '<section class="section-card qibla-seo-info qibla-seo-distance">'
-                    + '<h2>' + _escHtml(_qaPick(_qaSec3H2)) + '</h2>'
-                    + '<p>' + _escHtml(_qaPick(_qaSec3P)) + '</p>'
-                    + '</section>';
+                // Phase Q-A4: _qaSec3Html removed — content moved into _qaCard3Html above (stat badge + H3).
+                const _qaSec3Html = '';
 
                 // ── Section 4: how-to ──
                 const _qaSec4H2 = {
@@ -9700,13 +9691,109 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: `আপনি ${seo.qiblaRef.cityName} বা মক্কার মতো প্রায়ই ভ্রমণ করা শহরগুলির জন্য কিবলা দিকনির্দেশনা পৃষ্ঠাটি বুকমার্ক করতে পারেন এবং প্রয়োজন হলে দ্রুত ফিরে যেতে পারেন। কম্পাসের পাশে কিবলার কোণ এবং মক্কার দূরত্ব থাকা ফলাফলটি বোঝা সহজ করে তোলে, কারণ আপনি শুধুমাত্র সূচকের উপর নির্ভর করেন না — আপনি সেই ডেটাও দেখেন যা ব্যাখ্যা করে কেন এই দিকটি সঠিক।`,
                     ms: `Anda juga boleh menanda buku halaman arah kiblat untuk bandar yang anda lawati dengan kerap, seperti ${seo.qiblaRef.cityName} atau Makkah, dan kembali kepadanya dengan cepat apabila diperlukan. Mempunyai sudut kiblat dan jarak ke Makkah di sebelah kompas menjadikan hasil lebih mudah difahami, kerana anda tidak bergantung pada penunjuk sahaja — anda juga melihat data yang menerangkan mengapa arah ini betul.`
                 };
-                const _qaSec4Html = '<section class="section-card qibla-seo-info qibla-seo-howto">'
-                    + '<h2>' + _escHtml(_qaPick(_qaSec4H2)) + '</h2>'
+                // Phase Q-A4 (2026-05-03): visual redesign — wrapper + grid + cards.
+                // Was 4 separate full-width sections with H2 each. Now a single wrapper
+                // with ONE H2 + 4 cards in a 2-column grid (1-col on mobile), each
+                // card uses H3. Bearing + Distance cards include stat badges. Same
+                // text content as Q-A/Q-A2/Q-A3 (no SEO regression).
+                const _qaWrapH2 = {
+                    ar: `معلومات تساعدك على تحديد القبلة في ${seo.qiblaRef.cityName} بدقة`,
+                    en: `Information to help you find the Qibla in ${seo.qiblaRef.cityName} accurately`,
+                    fr: `Informations pour vous aider à trouver la Qibla à ${seo.qiblaRef.cityName} avec précision`,
+                    tr: `${seo.qiblaRef.cityName} şehrinde kıbleyi hassas şekilde bulmanıza yardımcı bilgiler`,
+                    ur: `${seo.qiblaRef.cityName} میں قبلہ کو درست طور پر تلاش کرنے میں مدد کرنے والی معلومات`,
+                    de: `Informationen, die Ihnen helfen, die Qibla in ${seo.qiblaRef.cityName} genau zu finden`,
+                    id: `Informasi yang membantu Anda menemukan kiblat di ${seo.qiblaRef.cityName} dengan akurat`,
+                    es: `Información para ayudarle a encontrar la Qibla en ${seo.qiblaRef.cityName} con precisión`,
+                    bn: `${seo.qiblaRef.cityName}-এ কিবলা সঠিকভাবে খুঁজে পেতে সহায়ক তথ্য`,
+                    ms: `Maklumat untuk membantu anda mencari kiblat di ${seo.qiblaRef.cityName} dengan tepat`
+                };
+                const _qaKicker = {
+                    ar: 'دليل اتجاه القبلة',
+                    en: 'Qibla Direction Guide',
+                    fr: 'Guide de direction de la Qibla',
+                    tr: 'Kıble Yönü Kılavuzu',
+                    ur: 'سمتِ قبلہ گائیڈ',
+                    de: 'Qibla-Richtungsanleitung',
+                    id: 'Panduan Arah Kiblat',
+                    es: 'Guía de dirección de la Qibla',
+                    bn: 'কিবলা দিকনির্দেশনা গাইড',
+                    ms: 'Panduan Arah Kiblat'
+                };
+                const _qaWrapIntro = {
+                    ar: `تعرّف على زاوية القبلة، المسافة إلى مكة المكرمة، وطريقة استخدام البوصلة والخريطة للحصول على نتيجة أوضح في ${seo.qiblaRef.cityName}.`,
+                    en: `Learn the Qibla bearing, distance to Mecca, and how to use the compass and map to get a clearer result in ${seo.qiblaRef.cityName}.`,
+                    fr: `Découvrez l'azimut de la Qibla, la distance à La Mecque et comment utiliser la boussole et la carte pour un résultat plus clair à ${seo.qiblaRef.cityName}.`,
+                    tr: `${seo.qiblaRef.cityName} şehrinde daha net bir sonuç elde etmek için kıble açısını, Mekke'ye olan mesafeyi ve pusula ile haritayı nasıl kullanacağınızı öğrenin.`,
+                    ur: `${seo.qiblaRef.cityName} میں واضح نتیجہ حاصل کرنے کے لیے قبلہ کا زاویہ، مکہ تک فاصلہ، اور قطب نما اور نقشے کا استعمال جانیں۔`,
+                    de: `Erfahren Sie die Qibla-Peilung, die Entfernung nach Mekka und wie Sie Kompass und Karte verwenden, um ein klareres Ergebnis in ${seo.qiblaRef.cityName} zu erhalten.`,
+                    id: `Pelajari sudut kiblat, jarak ke Mekkah, dan cara menggunakan kompas dan peta untuk mendapatkan hasil yang lebih jelas di ${seo.qiblaRef.cityName}.`,
+                    es: `Aprenda el rumbo de la Qibla, la distancia a La Meca y cómo usar la brújula y el mapa para obtener un resultado más claro en ${seo.qiblaRef.cityName}.`,
+                    bn: `${seo.qiblaRef.cityName}-এ আরো স্পষ্ট ফলাফল পেতে কিবলার কোণ, মক্কার দূরত্ব, এবং কম্পাস ও মানচিত্র ব্যবহারের উপায় জানুন।`,
+                    ms: `Ketahui sudut kiblat, jarak ke Makkah, dan cara menggunakan kompas dan peta untuk mendapatkan hasil yang lebih jelas di ${seo.qiblaRef.cityName}.`
+                };
+                const _qaBadgeBearingLabel = {
+                    ar: 'زاوية القبلة', en: 'Qibla bearing', fr: 'Azimut Qibla',
+                    tr: 'Kıble açısı', ur: 'قبلہ زاویہ', de: 'Qibla-Peilung',
+                    id: 'Sudut kiblat', es: 'Rumbo Qibla', bn: 'কিবলা কোণ', ms: 'Sudut kiblat'
+                };
+                const _qaBadgeDistanceLabel = {
+                    ar: 'المسافة إلى مكة', en: 'Distance to Mecca', fr: 'Distance à La Mecque',
+                    tr: 'Mekke\'ye uzaklık', ur: 'مکہ تک فاصلہ', de: 'Entfernung nach Mekka',
+                    id: 'Jarak ke Mekkah', es: 'Distancia a La Meca', bn: 'মক্কার দূরত্ব', ms: 'Jarak ke Makkah'
+                };
+                const _qaUnitKm = {
+                    ar: 'كم', en: 'km', fr: 'km', tr: 'km', ur: 'کلومیٹر',
+                    de: 'km', id: 'km', es: 'km', bn: 'কিমি', ms: 'km'
+                };
+
+                // Card 1: overview (no badge)
+                const _qaCard1Html = '<article class="qibla-seo-card qibla-seo-card-overview">'
+                    + '<h3>' + _escHtml(_qaPick(_qaSec1H2)) + '</h3>'
+                    + '<p>' + _escHtml(_qaPick(_qaSec1P)) + '</p>'
+                    + '</article>';
+                // Card 2: bearing (with stat badge)
+                const _qaCard2H3Built = (() => {
+                    const _tpl = _qaPick(_qaSec2H2);
+                    const _parts = _tpl.split('{city}');
+                    return _escHtml(_parts[0] || _tpl) + (_parts.length > 1 ? (_qaCity + _escHtml(_parts[1] || '')) : '');
+                })();
+                const _qaCard2Html = '<article class="qibla-seo-card qibla-seo-card-bearing">'
+                    + '<div class="qibla-seo-stat"><span>' + _escHtml(_qaPick(_qaBadgeBearingLabel)) + '</span>'
+                    + '<strong>' + _bearingStr + '°</strong></div>'
+                    + '<h3>' + _escHtml(_qaPick(_qaSec2H2)) + '</h3>'
+                    + '<p>' + _escHtml(_qaPick(_qaSec2P)) + '</p>'
+                    + '</article>';
+                // Card 3: distance (with stat badge)
+                const _qaCard3Html = '<article class="qibla-seo-card qibla-seo-card-distance">'
+                    + '<div class="qibla-seo-stat"><span>' + _escHtml(_qaPick(_qaBadgeDistanceLabel)) + '</span>'
+                    + '<strong>' + _distanceStr + ' ' + _escHtml(_qaPick(_qaUnitKm)) + '</strong></div>'
+                    + '<h3>' + _escHtml(_qaPick(_qaSec3H2)) + '</h3>'
+                    + '<p>' + _escHtml(_qaPick(_qaSec3P)) + '</p>'
+                    + '</article>';
+                // Card 4: how-to (4 paragraphs from Q-A/Q-A2/Q-A3)
+                const _qaCard4Html = '<article class="qibla-seo-card qibla-seo-card-howto">'
+                    + '<h3>' + _escHtml(_qaPick(_qaSec4H2)) + '</h3>'
                     + '<p>' + _escHtml(_qaPick(_qaSec4P)) + '</p>'
                     + '<p>' + _escHtml(_qaPick(_qaSec4P2)) + '</p>'
                     + '<p>' + _escHtml(_qaPick(_qaSec4P3)) + '</p>'
                     + '<p>' + _escHtml(_qaPick(_qaSec4P4)) + '</p>'
+                    + '</article>';
+                // Wrapper with header (kicker + H2 + intro) + grid (4 cards)
+                const _qaSec1Html = '<section class="qibla-seo-info-wrap" id="qibla-seo-info-wrap">'
+                    + '<header class="qibla-seo-header">'
+                    + '<span class="qibla-seo-kicker">' + _escHtml(_qaPick(_qaKicker)) + '</span>'
+                    + '<h2>' + _escHtml(_qaPick(_qaWrapH2)) + '</h2>'
+                    + '<p class="qibla-seo-intro">' + _escHtml(_qaPick(_qaWrapIntro)) + '</p>'
+                    + '</header>'
+                    + '<div class="qibla-seo-info-grid">'
+                    + _qaCard1Html + _qaCard2Html + _qaCard3Html + _qaCard4Html
+                    + '</div>'
                     + '</section>';
+
+                // Phase Q-A4 fix-order applied: wrapper now built AFTER all section dicts.
+                // Phase Q-A4: _qaSec4Html removed — content moved into _qaCard4Html above (H3 + 4 paragraphs).
+                const _qaSec4Html = '';
 
                 // Inject all 4 sections immediately before #qibla-other-cities
                 const _qaAllSections = _qaSec1Html + _qaSec2Html + _qaSec3Html + _qaSec4Html;

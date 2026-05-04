@@ -9150,29 +9150,34 @@ function updateCitySEO(city, englishName, country, lat, lng) {
 
     // qibla-in-*
     if (/\/qibla-in-/.test(path)) {
+        // Phase Q-A2 (2026-05-03): client Title + Meta now MIRROR SSR Q-A format
+        // exactly so SEOptimer (which may read DOM post-JS) sees the same Title
+        // it sees in SSR. Drops the previous [withCountry, withoutCountry] array
+        // pattern — single string per lang. Country suffix removed because the
+        // SSR Title is already in the 50-60 sweet spot without it.
         const titles = ({
-            ar: [`اتجاه القبلة في ${cityDisplay}${countrySuffix}`, `اتجاه القبلة في ${cityDisplay}`],
-            en: [`Qibla Direction in ${cityDisplay}${countrySuffix}`, `Qibla Direction in ${cityDisplay}`],
-            fr: [`Direction de la Qibla à ${cityDisplay}${countrySuffix}`, `Direction de la Qibla à ${cityDisplay}`],
-            tr: [`${cityDisplay}${countrySuffix} Kıble Yönü`, `${cityDisplay} Kıble Yönü`],
-            ur: [`${cityDisplay}${countrySuffix} میں قبلہ کی سمت`, `${cityDisplay} میں قبلہ کی سمت`],
-            de: [`Qibla-Richtung in ${cityDisplay}${countrySuffix}`, `Qibla-Richtung in ${cityDisplay}`],
-            id: [`Arah Kiblat di ${cityDisplay}${countrySuffix}`, `Arah Kiblat di ${cityDisplay}`],
-            es: [`Dirección de la Qibla en ${cityDisplay}${countrySuffix}`, `Dirección de la Qibla en ${cityDisplay}`],
-            bn: [`${cityDisplay}${countrySuffix}-এ কিবলার দিক`, `${cityDisplay}-এ কিবলার দিক`],
-            ms: [`Arah Kiblat di ${cityDisplay}${countrySuffix}`, `Arah Kiblat di ${cityDisplay}`],
+            ar: [`اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة وتحديد القبلة بدقة`, `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة وتحديد القبلة بدقة`],
+            en: [`Qibla Direction in ${cityDisplay} | Kaaba Compass and Accurate Qibla Finder`, `Qibla Direction in ${cityDisplay} | Kaaba Compass and Accurate Qibla Finder`],
+            fr: [`Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba et localisation précise`, `Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba et localisation précise`],
+            tr: [`${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Hassas Konum`, `${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Hassas Konum`],
+            ur: [`${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما اور درست تعین`, `${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما اور درست تعین`],
+            de: [`Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass und präzise Ortung`, `Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass und präzise Ortung`],
+            id: [`Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Penentu Kiblat Akurat`, `Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Penentu Kiblat Akurat`],
+            es: [`Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba y localizador preciso`, `Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba y localizador preciso`],
+            bn: [`${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস ও সঠিক কিবলা নির্ণয়`, `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস ও সঠিক কিবলা নির্ণয়`],
+            ms: [`Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Penentu Kiblat Tepat`, `Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Penentu Kiblat Tepat`],
         })[lang];
         const desc = ({
-            ar: `اتجاه القبلة الدقيق من ${cityDisplay}${countrySuffix} إلى الكعبة المشرفة في مكة، مع درجة الانحراف وبوصلة وخريطة تفاعلية.`,
-            en: `Accurate Qibla direction from ${cityDisplay}${countrySuffix} to the Kaaba in Mecca, with exact bearing, compass and map view.`,
-            fr: `Direction précise de la Qibla depuis ${cityDisplay}${countrySuffix} vers la Kaaba à La Mecque, avec angle exact, boussole et vue sur carte.`,
-            tr: `${cityDisplay}${countrySuffix} konumundan Mekke'deki Kâbe'ye doğru kesin Kıble yönü, tam açı, pusula ve harita görünümü.`,
-            ur: `${cityDisplay}${countrySuffix} سے مکہ میں کعبہ شریف کی درست قبلہ سمت، درست زاویہ، کمپاس اور نقشہ ویو کے ساتھ۔`,
-            de: `Genaue Qibla-Richtung von ${cityDisplay}${countrySuffix} zur Kaaba in Mekka, mit exaktem Winkel, Kompass und Kartenansicht.`,
-            id: `Arah Kiblat yang akurat dari ${cityDisplay}${countrySuffix} ke Ka'bah di Mekkah, dengan sudut tepat, kompas, dan tampilan peta.`,
-            es: `Dirección precisa de la Qibla desde ${cityDisplay}${countrySuffix} hacia la Kaaba en La Meca, con ángulo exacto, brújula y vista de mapa.`,
-            bn: `${cityDisplay}${countrySuffix} থেকে মক্কার কাবার দিকে সঠিক কিবলার দিক, সুনির্দিষ্ট কোণ, কম্পাস এবং মানচিত্র দৃশ্যসহ।`,
-            ms: `Arah Kiblat tepat dari ${cityDisplay}${countrySuffix} ke Kaabah di Makkah, dengan sudut tepat, kompas dan pandangan peta.`,
+            ar: `اعرف اتجاه القبلة في ${cityDisplay} بدقة باستخدام بوصلة الكعبة وخريطة تفاعلية تعتمد على موقعك، مع زاوية القبلة والمسافة إلى مكة المكرمة.`,
+            en: `Find the Qibla direction in ${cityDisplay} accurately using a Kaaba compass and interactive map based on your location, with the Qibla bearing and distance to Mecca.`,
+            fr: `Trouvez la direction de la Qibla à ${cityDisplay} avec précision grâce à une boussole de la Kaaba et une carte interactive basée sur votre position, avec l'azimut et la distance à La Mecque.`,
+            tr: `${cityDisplay} için kıble yönünü Kâbe pusulası ve konumunuza dayalı etkileşimli harita ile hassas şekilde bulun; kıble açısı ve Mekke'ye uzaklık dahildir.`,
+            ur: `${cityDisplay} میں قبلہ کی درست سمت معلوم کریں، کعبہ کے قطب نما اور آپ کے مقام پر مبنی انٹرایکٹو نقشے کے ساتھ، قبلہ زاویہ اور مکہ تک فاصلے سمیت۔`,
+            de: `Finden Sie die Qibla-Richtung in ${cityDisplay} präzise mit einem Kaaba-Kompass und einer interaktiven Karte basierend auf Ihrem Standort, mit Qibla-Peilung und Entfernung nach Mekka.`,
+            id: `Temukan arah kiblat di ${cityDisplay} dengan akurat menggunakan kompas Kakbah dan peta interaktif berdasarkan lokasi Anda, lengkap dengan sudut kiblat dan jarak ke Mekkah.`,
+            es: `Encuentre la dirección de la Qibla en ${cityDisplay} con precisión usando una brújula de la Kaaba y un mapa interactivo basado en su ubicación, con el rumbo y la distancia a La Meca.`,
+            bn: `${cityDisplay}-এ কিবলার দিক সঠিকভাবে জানুন কাবা কম্পাস ও আপনার অবস্থান অনুযায়ী ইন্টারঅ্যাকটিভ মানচিত্রের সাহায্যে, কিবলার কোণ ও মক্কার দূরত্বসহ।`,
+            ms: `Cari arah kiblat di ${cityDisplay} dengan tepat menggunakan kompas Kaabah dan peta interaktif berdasarkan lokasi anda, lengkap dengan sudut kiblat dan jarak ke Makkah.`,
         })[lang];
         const wpName = ({
             ar: `اتجاه القبلة في ${cityDisplay}`,

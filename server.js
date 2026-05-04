@@ -4597,7 +4597,26 @@ function buildSeoForPath(urlPath) {
             bn: `${cityDisplay}-এ কিবলার দিক সঠিকভাবে জানুন কাবা কম্পাস ও আপনার অবস্থান অনুযায়ী ইন্টারঅ্যাকটিভ মানচিত্রের সাহায্যে, কিবলার কোণ ও মক্কার দূরত্বসহ।`,
             ms: `Cari arah kiblat di ${cityDisplay} dengan tepat menggunakan kompas Kaabah dan peta interaktif berdasarkan lokasi anda, lengkap dengan sudut kiblat dan jarak ke Makkah.`,
         };
-        title = _qTitles[lang] || _qTitles.en;
+        // Phase Q-A10 (2026-05-04): dynamic length guard for cities with long
+        // names like "المدينة المنورة" (67 chars) or "kuala-lumpur". When the
+        // full title exceeds 60 chars, use the SHORT version (drops the
+        // "وتحديد القبلة بدقة" / "and Accurate Qibla Finder" tail).
+        const _qTitlesShort = {
+            ar: `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة`,
+            en: `Qibla Direction in ${cityDisplay} | Kaaba Compass`,
+            fr: `Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba`,
+            tr: `${cityDisplay} Kıble Yönü | Kâbe Pusulası`,
+            ur: `${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما`,
+            de: `Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass`,
+            id: `Arah Kiblat di ${cityDisplay} | Kompas Kakbah`,
+            es: `Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba`,
+            bn: `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস`,
+            ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah`,
+        };
+        const _qFullTitle = _qTitles[lang] || _qTitles.en;
+        const _qShortTitle = _qTitlesShort[lang] || _qTitlesShort.en;
+        // Use [...str].length to count actual visible chars (handles emoji/surrogate pairs).
+        title = ([..._qFullTitle].length <= 60) ? _qFullTitle : _qShortTitle;
         description = _qDescs[lang] || _qDescs.en;
         ogType = 'website';
         geo = { lat, lng };

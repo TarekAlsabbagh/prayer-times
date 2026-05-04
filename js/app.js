@@ -9150,23 +9150,36 @@ function updateCitySEO(city, englishName, country, lat, lng) {
 
     // qibla-in-*
     if (/\/qibla-in-/.test(path)) {
-        // Phase Q-A2 (2026-05-03): client Title + Meta now MIRROR SSR Q-A format
-        // exactly so SEOptimer (which may read DOM post-JS) sees the same Title
-        // it sees in SSR. Drops the previous [withCountry, withoutCountry] array
-        // pattern — single string per lang. Country suffix removed because the
-        // SSR Title is already in the 50-60 sweet spot without it.
-        const titles = ({
-            ar: [`اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة وتحديد القبلة بدقة`, `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة وتحديد القبلة بدقة`],
-            en: [`Qibla Direction in ${cityDisplay} | Kaaba Compass and Accurate Qibla Finder`, `Qibla Direction in ${cityDisplay} | Kaaba Compass and Accurate Qibla Finder`],
-            fr: [`Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba et localisation précise`, `Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba et localisation précise`],
-            tr: [`${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Hassas Konum`, `${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Hassas Konum`],
-            ur: [`${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما اور درست تعین`, `${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما اور درست تعین`],
-            de: [`Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass und präzise Ortung`, `Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass und präzise Ortung`],
-            id: [`Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Penentu Kiblat Akurat`, `Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Penentu Kiblat Akurat`],
-            es: [`Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba y localizador preciso`, `Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba y localizador preciso`],
-            bn: [`${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস ও সঠিক কিবলা নির্ণয়`, `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস ও সঠিক কিবলা নির্ণয়`],
-            ms: [`Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Penentu Kiblat Tepat`, `Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Penentu Kiblat Tepat`],
+        // Phase Q-A10 (2026-05-04): dynamic length guard. Mirrors server.js Q-A10
+        // logic — when full title > 60 chars (long city names like "المدينة المنورة"),
+        // fall back to the SHORT version (drops the "وتحديد القبلة بدقة" tail).
+        // Keeps SSR ↔ DOM in sync (Q-A2 invariant).
+        const _fullTitlesByLang = ({
+            ar: `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة وتحديد القبلة بدقة`,
+            en: `Qibla Direction in ${cityDisplay} | Kaaba Compass and Accurate Qibla Finder`,
+            fr: `Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba et localisation précise`,
+            tr: `${cityDisplay} Kıble Yönü | Kâbe Pusulası ve Hassas Konum`,
+            ur: `${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما اور درست تعین`,
+            de: `Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass und präzise Ortung`,
+            id: `Arah Kiblat di ${cityDisplay} | Kompas Kakbah dan Penentu Kiblat Akurat`,
+            es: `Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba y localizador preciso`,
+            bn: `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস ও সঠিক কিবলা নির্ণয়`,
+            ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah dan Penentu Kiblat Tepat`,
         })[lang];
+        const _shortTitlesByLang = ({
+            ar: `اتجاه القبلة في ${cityDisplay} | بوصلة الكعبة`,
+            en: `Qibla Direction in ${cityDisplay} | Kaaba Compass`,
+            fr: `Direction de la Qibla à ${cityDisplay} | Boussole de la Kaaba`,
+            tr: `${cityDisplay} Kıble Yönü | Kâbe Pusulası`,
+            ur: `${cityDisplay} میں سمتِ قبلہ | کعبہ کا قطب نما`,
+            de: `Qibla-Richtung in ${cityDisplay} | Kaaba-Kompass`,
+            id: `Arah Kiblat di ${cityDisplay} | Kompas Kakbah`,
+            es: `Dirección de la Qibla en ${cityDisplay} | Brújula de la Kaaba`,
+            bn: `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস`,
+            ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah`,
+        })[lang];
+        const _chosenTitle = ([..._fullTitlesByLang].length <= 60) ? _fullTitlesByLang : _shortTitlesByLang;
+        const titles = [_chosenTitle, _chosenTitle];
         const desc = ({
             ar: `اعرف اتجاه القبلة في ${cityDisplay} بدقة باستخدام بوصلة الكعبة وخريطة تفاعلية تعتمد على موقعك، مع زاوية القبلة والمسافة إلى مكة المكرمة.`,
             en: `Find the Qibla direction in ${cityDisplay} accurately using a Kaaba compass and interactive map based on your location, with the Qibla bearing and distance to Mecca.`,

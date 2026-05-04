@@ -86,6 +86,69 @@
             <div class="nav-loading-spinner" aria-hidden="true"></div>
         </div>
     </div>
+    <!-- ═══ Phase Q-A11 (2026-05-04): initial-load overlay for /qibla-in-{city} ═══
+         User feedback: blank/incomplete content for 1-2s while JS hydrates the compass.
+         Shows the existing nav-loading-overlay IMMEDIATELY on initial load, then
+         auto-hides via 3 defensive triggers (window.load OR compass populated OR
+         1500ms timeout). Pure inline JS — no app.js dependency. -->
+    <script>
+    (function(){
+        if (!/\/(?:[a-z]{2}\/)?qibla-in-/.test(location.pathname)) return;
+        var ov = document.getElementById('nav-loading-overlay');
+        if (!ov) return;
+        var iconEl = document.getElementById('nav-loading-icon');
+        var textEl = document.getElementById('nav-loading-text');
+        // Per-lang overlay text
+        var lang = (location.pathname.match(/^\/([a-z]{2})\//) || [])[1] || 'ar';
+        var TXT = {
+            ar: '🧭 جارٍ تحميل اتجاه القبلة...',
+            en: '🧭 Loading Qibla direction...',
+            fr: '🧭 Chargement de la direction de la Qibla...',
+            tr: '🧭 Kıble yönü yükleniyor...',
+            ur: '🧭 سمتِ قبلہ لوڈ ہو رہی ہے...',
+            de: '🧭 Qibla-Richtung wird geladen...',
+            id: '🧭 Memuat arah kiblat...',
+            es: '🧭 Cargando dirección de la Qibla...',
+            bn: '🧭 কিবলার দিক লোড হচ্ছে...',
+            ms: '🧭 Memuatkan arah kiblat...'
+        };
+        var msg = TXT[lang] || TXT.en;
+        var iconChar = msg.charAt(0); // 🧭
+        var textRest = msg.substring(2); // skip emoji + space
+        if (iconEl) iconEl.textContent = iconChar;
+        if (textEl) textEl.textContent = textRest;
+        ov.removeAttribute('hidden');
+        // Hide function
+        var hidden = false;
+        function hideOverlay() {
+            if (hidden) return;
+            hidden = true;
+            ov.setAttribute('hidden', '');
+        }
+        // Trigger 1: window.load (all resources done)
+        window.addEventListener('load', function(){ setTimeout(hideOverlay, 200); });
+        // Trigger 2: compass populated (qibla.js sets aria-label or moves arrow)
+        try {
+            var mo = new MutationObserver(function(mutations){
+                for (var i = 0; i < mutations.length; i++) {
+                    var t = mutations[i].target;
+                    if (t && (t.id === 'qibla-arrow' || (t.id && t.id.indexOf('qibla') === 0 && t.style && t.style.transform))) {
+                        hideOverlay();
+                        mo.disconnect();
+                        return;
+                    }
+                }
+            });
+            // Observe the page-qibla container for any attribute/style change after init
+            window.addEventListener('DOMContentLoaded', function(){
+                var pq = document.getElementById('page-qibla');
+                if (pq) mo.observe(pq, { attributes: true, subtree: true, attributeFilter: ['style', 'aria-label'] });
+            });
+        } catch(_e) {}
+        // Trigger 3: hard timeout safety net (page never stuck)
+        setTimeout(hideOverlay, 1500);
+    })();
+    </script>
 
     <!-- ═══════════════════════════════════════════════════════════
          UAT-Z1.1: Inline SVG icon sprite — Lucide-style 24x24 stroke

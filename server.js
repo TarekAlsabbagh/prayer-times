@@ -6797,147 +6797,493 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             /<h1 id="qibla-hero-title"[^>]*>[\s\S]*?<\/h1>/,
             `<h1 id="qibla-hero-title" class="qibla-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-compass"/></svg> <span>${_escHtml(_qHubH1)}</span></h1>`
         );
-        // Phase Q-Hub-C (2026-05-04): merged unified guide section.
-        // Replaces Q-Hub-A guide + Q-Hub-B authority + closing into ONE
-        // visually-compact section with 5 distinct H3 cards (no topic
-        // duplication), each keyword-rich. 2-col grid desktop / 1-col mobile.
-        // Inserted just BEFORE the FAQ section card in #page-qibla.
+        // Phase Q-Hub-C2 (2026-05-04): redistribute compressed guide section.
+        // 4 compact "bullet" cards in a grid + 1 wide explanatory card +
+        // 1 tips card. No long paragraphs in the narrow cards. Replaces the
+        // earlier 5×long-body design from Q-Hub-C.
         const _qHubGuide = {
             ar: {
+                kicker: 'دليل بوصلة القبلة',
                 h2: 'دليل شامل لاستخدام بوصلة القبلة',
-                lead: 'يوضّح هذا الدليل طريقة تحديد اتجاه القبلة من موقعك أو من المدينة التي تختارها يدوياً، وكيفية فهم زاوية القبلة واستخدام بوصلة القبلة مع الخريطة معاً للوصول إلى مكة المكرمة بدقة. كل قسم يركّز على نقطة مختلفة لتسهيل الفهم والاستخدام اليومي على الهاتف أو على الكمبيوتر، سواء كنت في البيت أو في السفر، ودون الحاجة لتثبيت أي تطبيق إضافي على جهازك.',
-                cards: [
-                    { icon: '🧭', h3: 'كيف تعمل بوصلة القبلة؟', body: 'تعتمد بوصلة القبلة على إحداثيات موقعك الجغرافي (خط العرض وخط الطول) لحساب الاتجاه نحو الكعبة المشرفة في مكة المكرمة. تُحوَّل هذه الإحداثيات إلى زاوية اتجاه تُقاس بالدرجات انطلاقاً من الشمال الجغرافي في عقارب الساعة، ثم تظهر النتيجة على شكل سهم أو مؤشر يساعدك على معرفة الاتجاه الصحيح. يعتمد الحساب على صيغة Great-Circle الفلكية وهي الطريقة الأدق لقياس أقصر مسافة هندسية بين نقطتين على سطح الكرة الأرضية. لذلك فإن دقة بوصلة القبلة لا تتأثر بالساعة أو اليوم، بل بدقة الموقع الذي تنطلق منه، وهذا ما يجعل الاعتماد على إحداثيات GPS الحديثة الخيار الأنسب لمعظم الحالات. وعلى العكس من البوصلة المغناطيسية التقليدية التي تشير إلى الشمال المغناطيسي، تُحوّل صفحة بوصلة القبلة الزاوية تلقائياً إلى الشمال الجغرافي، فلا حاجة لتعديل يدوي بسبب اختلاف بسيط بين الشمالين.' },
-                    { icon: '📍', h3: 'تحديد القبلة من موقعي', body: 'عند الضغط على زر تحديد اتجاه القبلة من موقعي، يستخدم المتصفح موقعك الحالي بعد السماح له بالوصول إلى بيانات الموقع عبر GPS. كلما كانت إشارة GPS أدق، أصبحت زاوية القبلة أوضح وأقرب إلى القيمة الحقيقية، لذلك يُفضّل استخدام هذه الطريقة في مكان مفتوح أو قريب من نافذة، خصوصاً إذا كنت داخل مبنى كبير. عند توفر هذه الشروط يصبح اتجاه القبلة من موقعي قريباً جداً من الزاوية الفعلية لمكة المكرمة، دون الحاجة إلى إدخال أي بيانات يدوياً، وهي أسرع طريقة للحصول على نتيجة موثوقة. تأكد كذلك من أن إعدادات الموقع في المتصفح والجهاز مفعّلة، وأن الجهاز يستطيع رؤية أقمار GPS بشكل جيد لأن الحساس يحتاج رؤية واضحة للسماء حتى يعطي إحداثيات صحيحة.' },
-                    { icon: '🌍', h3: 'اختيار المدينة يدوياً', body: 'إذا لم ترغب في مشاركة موقعك، أو لم تكن خدمة GPS متاحة على جهازك، يمكنك ببساطة كتابة اسم المدينة في حقل البحث في أعلى الصفحة واختيارها من القائمة. تتضمن قائمة المدن آلاف الأسماء حول العالم بأسماء عربية وإنجليزية، ويعتمد حساب اتجاه القبلة على الإحداثيات الرسمية للمدينة المختارة. اختيار المدينة يدوياً مفيد للمسافرين الذين يرغبون بالاطلاع على زاوية القبلة في وجهتهم القادمة قبل الوصول، ويعطي نتيجة دقيقة طالما أنك ضمن حدود المدينة المختارة أو في منطقة قريبة منها. تستطيع كذلك حفظ المدن التي تستخدمها بشكل متكرر للوصول السريع إليها لاحقاً، وهذا يفيد بشكل خاص الحجاج والمعتمرين الذين يتنقلون بين عدة مدن في رحلة واحدة.' },
-                    { icon: '🗺️', h3: 'استخدام البوصلة مع الخريطة', body: 'تساعدك بوصلة القبلة على توجيه الهاتف نحو الاتجاه الصحيح باستخدام الحساس المغناطيسي الداخلي، بينما توضّح الخريطة خط الاتجاه العام نحو مكة المكرمة بطريقة هندسية بحتة. إذا لاحظت اختلافاً بين قراءة البوصلة وموقع الكعبة على الخريطة، ابتعد عن المعادن والأجهزة الكهربائية الكبيرة وأبواب الحديد ثم أعد المحاولة، لأنها تخلط الحساس المغناطيسي وتجعل قراءة بوصلة القبلة غير ثابتة. الخريطة لا تتأثر بهذه العوامل، لذلك يُعتمد عليها أكثر عند الشك، مع التذكر أن الجمع بين البوصلة والخريطة هو الحل الأمثل. يُمكن أيضاً تدوير الهاتف على شكل رقم 8 عدة مرات لمعايرة الحساس قبل القراءة، وهي خطوة بسيطة تُحسّن دقة بوصلة القبلة بشكل ملحوظ في الهواتف الحديثة.' },
-                    { icon: '📐', h3: 'فهم زاوية القبلة نحو مكة المكرمة', body: 'زاوية القبلة هي الدرجة التي توضّح اتجاه الكعبة بالنسبة إلى الشمال الجغرافي. تختلف هذه الزاوية من بلد إلى آخر ومن مدينة إلى أخرى لأن الحساب يعتمد على موقعك على سطح الأرض الكروية. تُقاس الزاوية بالدرجات في عقارب الساعة من الشمال الجغرافي، فالقيمة 0° تعني شمالاً و90° شرقاً و180° جنوباً و270° غرباً. مثلاً في الرياض تكون القبلة جنوب-غرب تقريباً، وفي إسطنبول جنوب-شرق، وفي القاهرة شرق، وفي جاكرتا غرب، وفي الدار البيضاء شمال-شرق. معرفة قيمة زاوية القبلة لموقعك تساعدك على تحديد القبلة بسرعة باستخدام أي بوصلة عادية حين تغيب بوصلة القبلة الإلكترونية، كما تساعد في تثبيت سجادة الصلاة في البيت أو الفندق بحيث يصبح اتجاه القبلة جاهزاً دائماً دون الحاجة لإعادة الحساب في كل صلاة. ومن المفيد أيضاً أن تعرف أن زاوية القبلة في معظم المدن العربية الكبرى تتراوح بين 90° و270° لأن مكة المكرمة تقع وسط شبه الجزيرة العربية، بينما تتجاوز 270° في المدن البعيدة شمالاً مثل أوروبا الغربية، وتقترب من 90° في جنوب شرق آسيا. هذا التنوع الطبيعي يعكس أن اتجاه القبلة ليس قيمة ثابتة عالمياً بل يتغير حسب موقع كل مدينة على الكرة الأرضية.' },
+                lead: 'يوضّح هذا الدليل طريقة تحديد اتجاه القبلة من موقعك أو من المدينة التي تختارها يدوياً، وكيفية فهم زاوية القبلة واستخدام بوصلة القبلة مع الخريطة معاً نحو مكة المكرمة. كل قسم مختصر ومركّز على نقطة مختلفة لتسهيل المتابعة سواء على الهاتف أو على الكمبيوتر، ودون الحاجة لتثبيت أي تطبيق إضافي.',
+                shortCards: [
+                    { icon: '🧭', h3: 'كيف تعمل بوصلة القبلة؟', bullets: [
+                        'تحسب البوصلة الاتجاه من إحداثيات موقعك الجغرافية نحو الكعبة المشرفة في مكة المكرمة.',
+                        'النتيجة زاوية بالدرجات تُقاس من الشمال الجغرافي في عقارب الساعة وتظهر كسهم مؤشّر.',
+                        'يعتمد الحساب على صيغة Great-Circle الفلكية لأقصر مسافة هندسية بين النقطتين على سطح الأرض.',
+                    ] },
+                    { icon: '📍', h3: 'تحديد القبلة من موقعي', bullets: [
+                        'يستخدم المتصفح موقعك الحالي بعد السماح بالوصول إلى بيانات GPS الخاصة بالجهاز.',
+                        'كلما كانت إشارة GPS أدق، أصبحت زاوية القبلة من موقعي أوضح وأقرب للقيمة الحقيقية.',
+                        'يفضّل تفعيل الموقع في مكان مفتوح أو قرب نافذة لتحسين دقة GPS وتقليل الخطأ المحتمل.',
+                    ] },
+                    { icon: '🌍', h3: 'اختيار المدينة يدوياً', bullets: [
+                        'اكتب اسم المدينة في حقل البحث واختر من القائمة بأسماء عربية أو إنجليزية أو محلية.',
+                        'يعتمد حساب اتجاه القبلة على الإحداثيات الرسمية للمدينة المختارة من قاعدة بيانات شاملة.',
+                        'مفيد قبل السفر للاطلاع على زاوية القبلة في الوجهة القادمة وللحجاج والمعتمرين مسبقاً.',
+                    ] },
+                    { icon: '🗺️', h3: 'استخدام البوصلة مع الخريطة', bullets: [
+                        'بوصلة القبلة توجّه الهاتف عبر الحساس المغناطيسي الداخلي للجهاز بطريقة لحظية.',
+                        'الخريطة تعرض خط الاتجاه نحو مكة المكرمة بطريقة هندسية بحتة لا تتأثر بالمعادن.',
+                        'الجمع بين بوصلة القبلة والخريطة يعطي الثقة الأعلى بالاتجاه الصحيح في كل الظروف.',
+                    ] },
                 ],
-                close: 'الجمع بين تحديد القبلة من موقعي وبوصلة القبلة والخريطة هو الأسلوب الأنسب لمعظم المستخدمين. اتجاه القبلة لا يتغير بتغير الوقت أو اليوم لأن مكة المكرمة موقع ثابت على الأرض، لكنه يتغير بتغير موقعك أنت؛ لذلك إذا انتقلت من بلد إلى آخر، أو حتى من مدينة إلى أخرى داخل البلد نفسه، قد تختلف زاوية القبلة الجديدة بشكل ملحوظ عن السابقة. عند الشك في صحة الاتجاه يمكنك مقارنة قراءة بوصلة القبلة على الهاتف مع موقع الكعبة المشرفة على الخريطة، فإذا تطابقت القراءتان فالاتجاه صحيح، وإذا اختلفتا فالأرجح أن هناك تشويشاً مغناطيسياً يستلزم الاعتماد على الخريطة أكثر من البوصلة في تلك اللحظة. تذكّر أن دقة بوصلة القبلة تتحسن مع الاستخدام كلما أعدت معايرة الحساس بشكل دوري، وأن استخدام الخريطة كمرجع ثاني يضمن لك ثقة أكبر بالاتجاه أينما كنت. هذا الأسلوب المتكامل بين تحديد القبلة من موقعي والبوصلة والخريطة هو ما نوصي به للوصول إلى أعلى دقة في معرفة اتجاه القبلة نحو مكة المكرمة، سواء كنت في البيت أو في السفر أو حتى في رحلة عمرة أو حج.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'فهم زاوية القبلة نحو مكة المكرمة',
+                    paragraphs: [
+                        'زاوية القبلة هي الدرجة التي توضّح اتجاه الكعبة بالنسبة إلى الشمال الجغرافي، وتختلف هذه الزاوية من بلد إلى آخر ومن مدينة إلى أخرى لأن الحساب يعتمد على موقعك على سطح الأرض الكروية. تُقاس بالدرجات في عقارب الساعة من الشمال الجغرافي، فالقيمة 0° تعني شمالاً و90° شرقاً و180° جنوباً و270° غرباً، وأي قيمة بين هذه القيم تعني اتجاهاً مائلاً بين الجهات الأربع. مثلاً في الرياض تكون القبلة جنوب-غرب تقريباً عند 240° تقريباً، وفي إسطنبول جنوب-شرق عند 150° تقريباً، وفي القاهرة شرق عند 135° تقريباً، وفي جاكرتا غرب عند 295° تقريباً، وفي الدار البيضاء شمال-شرق عند 90° تقريباً. هذه الأرقام دلالية فقط وقد تختلف بضع درجات حسب الإحداثيات الدقيقة لكل موقع داخل المدينة.',
+                        'اتجاه القبلة لا يتغير بتغير الوقت أو اليوم لأن مكة المكرمة موقع ثابت على الأرض، لكنه يتغير بتغير موقعك أنت تغيراً واضحاً. عند الانتقال بين البلدان أو حتى بين مدن البلد نفسه قد تختلف زاوية القبلة الجديدة بشكل ملحوظ عن السابقة، وكلما ابتعد الموقع عن مكة المكرمة كان اختلاف الزاوية بين المدن المتجاورة أصغر. تتجاوز الزاوية 270° في معظم المدن البعيدة شمالاً مثل أوروبا الغربية وكندا، وتقترب من 90° في جنوب شرق آسيا مثل ماليزيا وإندونيسيا، بينما تتراوح بين هاتين القيمتين في أغلب المدن العربية الكبرى لأن مكة المكرمة تقع وسط شبه الجزيرة العربية. هذا التنوع الطبيعي يعكس أن اتجاه القبلة ليس قيمة عالمية واحدة بل تُحسب لكل موقع على حدة بناءً على إحداثياته الفعلية.',
+                        'معرفة قيمة زاوية القبلة لموقعك تساعدك على تحديد الاتجاه بسرعة باستخدام أي بوصلة عادية حين تغيب بوصلة القبلة الإلكترونية، كما تساعد في تثبيت سجادة الصلاة في البيت أو الفندق بحيث يصبح اتجاه القبلة جاهزاً دائماً دون الحاجة لإعادة الحساب في كل صلاة. هذه القاعدة مفيدة بشكل خاص في الأماكن المغلقة التي يصعب فيها الحصول على إشارة GPS قوية، مثل الطوابق السفلية أو المباني الكبيرة المغطاة بالحديد. كذلك يستفيد منها الحجاج والمعتمرون لأنها تتيح لهم متابعة اتجاه القبلة من غرف الفنادق دون الاضطرار إلى مشاركة موقعهم في كل مرة. كل ذلك دون الحاجة لتطبيق إضافي أو إعدادات معقدة في الجهاز.',
+                        'عند الشك في صحة الاتجاه يمكنك مقارنة قراءة بوصلة القبلة على الهاتف مع موقع الكعبة المشرفة على الخريطة، وإذا اختلفت القراءتان فالأرجح أن هناك تشويشاً مغناطيسياً يستلزم الاعتماد على الخريطة أكثر من البوصلة في تلك اللحظة. هذا التشويش قد يأتي من أبواب الحديد أو الأجهزة الكبيرة أو حتى الكابلات الكهربائية القريبة، وقد يستمر إلى أن تبتعد عن مصدر التشويش ببضعة أمتار. الجمع بين تحديد القبلة من موقعي وبوصلة القبلة والخريطة هو الأسلوب الأنسب لمعظم المستخدمين، ويضمن لك معرفة اتجاه القبلة نحو مكة المكرمة بدقة كافية للصلاة والذكر، سواء كنت في البيت أو في السفر أو حتى في رحلة عمل قصيرة في مدينة لا تعرف اتجاهاتها بعد.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'نصائح لدقة أفضل',
+                    tips: [
+                        'استخدم تحديد الموقع في مكان مفتوح أو قرب نافذة لإشارة GPS أقوى وزاوية قبلة أدق وأكثر استقراراً.',
+                        'ابتعد عن المعادن الكبيرة والأجهزة الكهربائية لأنها تُربك الحساس المغناطيسي للبوصلة وتجعل القراءة متذبذبة.',
+                        'قارن قراءة بوصلة القبلة بموقع الكعبة على الخريطة عند الشك في صحة الاتجاه وكرّر القياس بعد ابتعادك عن مصدر التشويش.',
+                        'اختر المدينة يدوياً إذا لم يعمل GPS أو فضّلت عدم مشاركة موقعك مع المتصفح، فالنتيجة تبقى دقيقة ضمن حدود تلك المدينة.',
+                    ],
+                },
+                closing: 'كل ما سبق متاح في صفحة بوصلة القبلة هذه دون الحاجة لتثبيت تطبيق إضافي على هاتفك أو جهاز الكمبيوتر. سواء اخترت تحديد القبلة من موقعي أو اخترت المدينة يدوياً، الحساب يُجرى لحظياً باستخدام صيغة Great-Circle الفلكية، وتظهر زاوية القبلة على شكل سهم مؤشّر في الأعلى، مع المسافة إلى مكة المكرمة وإحداثيات الموقع. هذه المعلومات الثلاث مجتمعة تكفي لمعرفة اتجاه القبلة بدقة في البيت وفي السفر وفي أي مكان آخر تحتاج فيه إلى الصلاة بسرعة وبثقة عالية بصحة الاتجاه. الصفحة تعمل في جميع الدول وعلى جميع الهواتف الحديثة، وتتعامل تلقائياً مع اختلاف زاوية القبلة بين المدن، ولا تحتاج إلى أي إعدادات يدوية بعد السماح بالوصول إلى موقعك أو اختيار مدينتك من القائمة المتاحة في حقل البحث في الأعلى.',
             },
             en: {
+                kicker: 'Qibla compass guide',
                 h2: 'Complete Guide to Using the Qibla Compass',
-                lead: 'This guide explains how to find the Qibla direction from your location or from a city you pick manually, how to interpret the Qibla angle, and how to use the Qibla compass together with the map to reach Mecca accurately.',
-                cards: [
-                    { icon: '🧭', h3: 'How does the Qibla compass work?', body: 'The Qibla compass uses your geographic coordinates (latitude and longitude) to compute the bearing toward the Kaaba in Mecca. These coordinates are converted into a direction angle measured in degrees clockwise from geographic north, and the result is shown as an arrow that helps you identify the correct direction. The computation relies on the astronomical Great-Circle formula, which is the most accurate way to measure the shortest geometric path between two points on the surface of Earth. The accuracy of the Qibla compass therefore does not depend on the time of day, but on the precision of the location it starts from, which is why modern GPS coordinates remain the best fit for most cases.' },
-                    { icon: '📍', h3: 'Finding the Qibla from my location', body: 'When you tap "Find the Qibla from my location", the browser uses your current position after you grant access to GPS data. The more accurate the GPS signal, the clearer the Qibla angle becomes and the closer the value lands to reality, so it is best to use this method in an open area or near a window, especially inside large buildings. With these conditions in place, the Qibla direction from your location ends up very close to the actual bearing toward Mecca, with no need to enter any data manually, and is the fastest way to obtain a trustworthy result.' },
-                    { icon: '🌍', h3: 'Picking a city manually', body: 'If you would rather not share your location, or geolocation is unavailable on your device, you can simply type a city name in the search field at the top of the page and pick it from the list. The list includes thousands of cities worldwide, and the Qibla calculation is based on the official coordinates of the selected city. Picking a city manually is useful for travelers who want to check the Qibla angle at their next destination before arrival, and the result remains accurate as long as you are within the boundaries of the chosen city or a nearby area.' },
-                    { icon: '🗺️', h3: 'Using the compass with the map', body: 'The Qibla compass helps you point your phone toward the correct direction using the device’s internal magnetic sensor, while the map shows the great-circle line toward Mecca in a purely geometric way. If you see a mismatch between the compass reading and the position of the Kaaba on the map, step away from large metal objects, electronic appliances and iron doors and try again, because these items disturb the magnetic sensor and make the Qibla compass reading unstable. The map is not affected by such factors, so when in doubt the map is more reliable, and the best workflow is to combine compass and map together.' },
-                    { icon: '📐', h3: 'Understanding the Qibla angle toward Mecca', body: 'The Qibla angle is the degree value that indicates the direction of the Kaaba relative to geographic north. This angle differs between countries and between cities, because the computation depends on your position on the spherical surface of Earth. It is measured in degrees clockwise from geographic north — 0° means north, 90° east, 180° south, 270° west. For example, the Qibla is roughly southwest from Riyadh, southeast from Istanbul, east from Cairo, and west from Jakarta. Knowing the Qibla angle for your location lets you find the direction quickly with any ordinary compass when an electronic Qibla compass is not available.' },
+                lead: 'This guide explains how to find the Qibla direction from your location or from a city you pick manually, how to read the Qibla angle, and how to use the Qibla compass with the map together toward Mecca.',
+                shortCards: [
+                    { icon: '🧭', h3: 'How does the Qibla compass work?', bullets: [
+                        'The compass computes the bearing from your geographic coordinates toward the Kaaba in Mecca.',
+                        'The result is an angle in degrees measured clockwise from geographic north.',
+                        'Calculation uses the astronomical Great-Circle formula for the shortest geometric path.',
+                    ] },
+                    { icon: '📍', h3: 'Finding the Qibla from my location', bullets: [
+                        'The browser uses your current position once you grant GPS access.',
+                        'A more accurate GPS signal yields a clearer Qibla angle close to the real one.',
+                        'Best in an open area or near a window for stronger GPS reception.',
+                    ] },
+                    { icon: '🌍', h3: 'Picking a city manually', bullets: [
+                        'Type a city name in the search field and choose it from the list (English or Arabic).',
+                        'The Qibla calculation uses the official coordinates of the selected city.',
+                        'Useful before traveling to know the Qibla angle at your next destination in advance.',
+                    ] },
+                    { icon: '🗺️', h3: 'Using the compass with the map', bullets: [
+                        'The Qibla compass orients the phone via the internal magnetic sensor.',
+                        'The map shows the great-circle line toward Mecca in a purely geometric way.',
+                        'Combining the Qibla compass with the map gives the highest confidence in the bearing.',
+                    ] },
                 ],
-                close: 'Combining "Qibla from my location" with the Qibla compass and the map is the most reliable workflow for most users. The Qibla direction does not change with the time of day because Mecca is a fixed point on Earth, but it does change with your own position; so when you move from country to country, or even between cities inside the same country, the new Qibla angle may differ noticeably from the previous one. When in doubt about the bearing, you can compare the Qibla compass reading on the phone against the location of the Kaaba on the map: if both agree the direction is sound, and if they disagree magnetic interference is the likely cause and the map should be trusted more than the compass at that moment.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Understanding the Qibla Angle toward Mecca',
+                    paragraphs: [
+                        'The Qibla angle is the degree value that indicates the direction of the Kaaba relative to geographic north. The angle differs between countries and between cities because the computation depends on your position on the spherical surface of Earth. It is measured in degrees clockwise from geographic north — 0° means north, 90° east, 180° south, 270° west. For example, the Qibla is roughly southwest from Riyadh, southeast from Istanbul, east from Cairo, west from Jakarta, and northeast from Casablanca.',
+                        'The Qibla direction does not change with the time of day because Mecca is a fixed point on Earth, but it does change with your own position. Moving between countries — or even between cities inside the same country — can shift the new Qibla angle noticeably. The angle exceeds 270° in most cities far to the north such as Western Europe, and approaches 90° in Southeast Asia, while staying between those values in most major Arab cities because Mecca lies in the middle of the Arabian Peninsula. This natural variation reflects that the Qibla is not a single global value; it is computed per location.',
+                        'Knowing the Qibla angle for your location lets you find the bearing quickly with any ordinary compass when an electronic Qibla compass is unavailable, and lets you fix a prayer mat at home or in a hotel so the Qibla direction is always ready without recomputing for every prayer. When in doubt about the bearing, compare the Qibla compass reading on the phone against the position of the Kaaba on the map; if they disagree, magnetic interference is the likely cause and the map should be trusted more than the compass at that moment.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Tips for Better Accuracy',
+                    tips: [
+                        'Use geolocation in an open area or near a window for a stronger GPS signal and a sharper Qibla angle.',
+                        'Stay away from large metal objects and electronic appliances; they disturb the compass magnetic sensor.',
+                        'Compare the Qibla compass reading with the Kaaba position on the map when you doubt the bearing.',
+                        'Pick the city manually if GPS is unavailable or you prefer not to share your location with the browser.',
+                    ],
+                },
             },
             fr: {
+                kicker: 'Guide de la boussole de la Qibla',
                 h2: 'Guide complet pour utiliser la boussole de la Qibla',
-                lead: 'Ce guide explique comment trouver la direction de la Qibla depuis votre position ou depuis une ville choisie manuellement, comment interpréter l\u2019angle de la Qibla, et comment utiliser la boussole de la Qibla avec la carte pour atteindre La Mecque avec précision.',
-                cards: [
-                    { icon: '🧭', h3: 'Comment fonctionne la boussole de la Qibla ?', body: 'La boussole de la Qibla utilise vos coordonnées géographiques (latitude et longitude) pour calculer la direction vers la Kaaba à La Mecque. Ces coordonnées sont converties en un angle exprimé en degrés depuis le nord géographique dans le sens des aiguilles d\u2019une montre, et le résultat est affiché sous forme de flèche qui vous aide à identifier la bonne direction. Le calcul repose sur la formule astronomique du grand cercle, la méthode la plus précise pour mesurer le chemin géométrique le plus court entre deux points à la surface de la Terre. La précision de la boussole de la Qibla ne dépend donc pas de l\u2019heure mais de la précision de la position de départ, ce qui rend les coordonnées GPS modernes les plus adaptées dans la plupart des cas.' },
-                    { icon: '📍', h3: 'Trouver la Qibla depuis ma position', body: 'Lorsque vous appuyez sur « Trouver la Qibla depuis ma position », le navigateur utilise votre position actuelle après que vous l\u2019autorisez à accéder aux données GPS. Plus le signal GPS est précis, plus l\u2019angle de la Qibla est clair et proche de la valeur réelle ; il est donc préférable d\u2019utiliser cette méthode en zone ouverte ou près d\u2019une fenêtre, surtout à l\u2019intérieur de grands bâtiments. Avec ces conditions, la direction de la Qibla depuis votre position devient très proche du cap réel vers La Mecque, sans saisie manuelle de données, et c\u2019est la méthode la plus rapide pour un résultat fiable.' },
-                    { icon: '🌍', h3: 'Choisir une ville manuellement', body: 'Si vous préférez ne pas partager votre position, ou si la géolocalisation n\u2019est pas disponible sur votre appareil, vous pouvez simplement taper un nom de ville dans le champ de recherche en haut de la page et le choisir dans la liste. La liste contient des milliers de villes dans le monde, et le calcul de la Qibla repose sur les coordonnées officielles de la ville sélectionnée. Le choix manuel d\u2019une ville est utile aux voyageurs qui veulent vérifier l\u2019angle de la Qibla à leur prochaine destination avant l\u2019arrivée, et le résultat reste précis tant que vous êtes dans les limites de la ville choisie.' },
-                    { icon: '🗺️', h3: 'Utiliser la boussole avec la carte', body: 'La boussole de la Qibla vous aide à orienter le téléphone dans la bonne direction grâce au capteur magnétique interne, tandis que la carte affiche la ligne du grand cercle vers La Mecque de manière purement géométrique. En cas d\u2019écart entre la boussole et la position de la Kaaba sur la carte, éloignez-vous des grands objets métalliques, des appareils électroniques et des portes en fer puis recommencez, car ces éléments perturbent le capteur magnétique et rendent la lecture de la boussole de la Qibla instable. La carte n\u2019est pas concernée par ces facteurs, donc en cas de doute la carte est plus fiable, et la meilleure approche reste de combiner les deux.' },
-                    { icon: '📐', h3: 'Comprendre l\u2019angle de la Qibla vers La Mecque', body: 'L\u2019angle de la Qibla est la valeur en degrés qui indique la direction de la Kaaba par rapport au nord géographique. Cet angle change d\u2019un pays à l\u2019autre et d\u2019une ville à l\u2019autre, car le calcul dépend de votre position à la surface sphérique de la Terre. Il est mesuré en degrés dans le sens horaire depuis le nord : 0° nord, 90° est, 180° sud, 270° ouest. Par exemple, la Qibla est environ sud-ouest depuis Riyad, sud-est depuis Istanbul, est depuis Le Caire et ouest depuis Jakarta. Connaître l\u2019angle de la Qibla pour votre position permet de trouver le cap rapidement avec une boussole ordinaire si la boussole électronique n\u2019est pas disponible.' },
+                lead: 'Ce guide explique comment trouver la direction de la Qibla depuis votre position ou depuis une ville choisie manuellement, comment lire l\u2019angle de la Qibla, et comment utiliser la boussole de la Qibla avec la carte vers La Mecque.',
+                shortCards: [
+                    { icon: '🧭', h3: 'Comment fonctionne la boussole de la Qibla ?', bullets: [
+                        'La boussole calcule le cap à partir de vos coordonnées géographiques vers la Kaaba à La Mecque.',
+                        'Le résultat est un angle en degrés mesuré dans le sens horaire depuis le nord géographique.',
+                        'Le calcul repose sur la formule astronomique du grand cercle pour le chemin le plus court.',
+                    ] },
+                    { icon: '📍', h3: 'Trouver la Qibla depuis ma position', bullets: [
+                        'Le navigateur utilise votre position actuelle après l\u2019autorisation GPS.',
+                        'Un signal GPS plus précis donne un angle de Qibla plus clair, proche de la valeur réelle.',
+                        'À privilégier en zone ouverte ou près d\u2019une fenêtre pour une réception GPS plus forte.',
+                    ] },
+                    { icon: '🌍', h3: 'Choisir une ville manuellement', bullets: [
+                        'Tapez le nom d\u2019une ville dans la recherche et choisissez-la dans la liste (français/arabe).',
+                        'Le calcul de la Qibla utilise les coordonnées officielles de la ville sélectionnée.',
+                        'Utile avant un voyage pour connaître l\u2019angle de la Qibla à la prochaine destination.',
+                    ] },
+                    { icon: '🗺️', h3: 'Utiliser la boussole avec la carte', bullets: [
+                        'La boussole de la Qibla oriente le téléphone via le capteur magnétique interne.',
+                        'La carte montre la ligne du grand cercle vers La Mecque de manière purement géométrique.',
+                        'Combiner la boussole de la Qibla et la carte offre la meilleure confiance dans le cap.',
+                    ] },
                 ],
-                close: 'Combiner « Qibla depuis ma position » avec la boussole de la Qibla et la carte est le flux le plus fiable pour la plupart des utilisateurs. La direction de la Qibla ne change pas avec l\u2019heure car La Mecque est un point fixe sur Terre, mais elle change avec votre propre position ; ainsi, lorsque vous passez d\u2019un pays à un autre, ou même entre villes d\u2019un même pays, le nouvel angle peut différer nettement. En cas de doute, comparez la boussole de la Qibla avec la position de la Kaaba sur la carte : si les deux concordent le cap est juste, sinon les interférences magnétiques sont probables et la carte est plus fiable que la boussole à cet instant.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Comprendre l\u2019angle de la Qibla vers La Mecque',
+                    paragraphs: [
+                        'L\u2019angle de la Qibla est la valeur en degrés qui indique la direction de la Kaaba par rapport au nord géographique. L\u2019angle change selon les pays et les villes, car le calcul dépend de votre position à la surface sphérique de la Terre. Il est mesuré en degrés dans le sens horaire depuis le nord — 0° nord, 90° est, 180° sud, 270° ouest. Par exemple, la Qibla est environ sud-ouest depuis Riyad, sud-est depuis Istanbul, est depuis Le Caire, ouest depuis Jakarta et nord-est depuis Casablanca.',
+                        'La direction de la Qibla ne change pas avec l\u2019heure car La Mecque est un point fixe sur Terre, mais elle change avec votre propre position. En passant d\u2019un pays à un autre — ou même entre villes d\u2019un même pays — l\u2019angle peut différer nettement. Il dépasse 270° dans la plupart des villes très au nord comme en Europe de l\u2019Ouest, et avoisine 90° en Asie du Sud-Est, tout en restant entre ces valeurs dans la plupart des grandes villes arabes car La Mecque se trouve au milieu de la péninsule arabique. Cette variation reflète que la Qibla n\u2019est pas une valeur unique : elle est calculée par lieu.',
+                        'Connaître l\u2019angle de la Qibla pour votre position permet de trouver rapidement le cap avec une boussole ordinaire si la boussole électronique n\u2019est pas disponible, et de fixer un tapis de prière à la maison ou à l\u2019hôtel pour que la direction soit prête sans recalcul. En cas de doute, comparez la boussole de la Qibla avec la position de la Kaaba sur la carte : en cas d\u2019écart, des interférences magnétiques sont probables et la carte est plus fiable que la boussole à cet instant.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Astuces pour plus de précision',
+                    tips: [
+                        'Utilisez la géolocalisation en zone ouverte ou près d\u2019une fenêtre pour un signal GPS plus fort.',
+                        'Éloignez-vous des grands objets métalliques et appareils électroniques qui perturbent le capteur magnétique.',
+                        'Comparez la lecture de la boussole de la Qibla avec la position de la Kaaba sur la carte en cas de doute.',
+                        'Choisissez la ville manuellement si le GPS ne fonctionne pas ou si vous préférez ne pas partager votre position.',
+                    ],
+                },
             },
             tr: {
+                kicker: 'Kıble pusulası rehberi',
                 h2: 'Kıble Pusulasını Kullanmak için Eksiksiz Kılavuz',
-                lead: 'Bu kılavuz, kıble yönünü konumunuzdan veya elle seçtiğiniz bir şehirden nasıl bulacağınızı, kıble açısını nasıl yorumlayacağınızı ve Mekke\u2019ye doğru kıble pusulasını harita ile birlikte hassas biçimde nasıl kullanacağınızı açıklar.',
-                cards: [
-                    { icon: '🧭', h3: 'Kıble pusulası nasıl çalışır?', body: 'Kıble pusulası, coğrafi koordinatlarınızı (enlem ve boylam) kullanarak Mekke\u2019deki Kâbe\u2019ye yönü hesaplar. Bu koordinatlar coğrafi kuzeyden saat yönünde derecelerle ölçülen bir yön açısına dönüştürülür ve sonuç, doğru yönü belirlemenize yardımcı bir okla gösterilir. Hesap, yeryüzündeki iki nokta arasındaki en kısa geometrik yolu ölçen en doğru yöntem olan astronomik Great-Circle formülüne dayanır. Bu nedenle kıble pusulasının doğruluğu günün saatine değil, başlangıç konumunun doğruluğuna bağlıdır; bu da modern GPS koordinatlarını çoğu durumda en uygun seçenek yapar.' },
-                    { icon: '📍', h3: 'Konumumdan kıble yönünü bulma', body: '\u201CKıbleyi konumumdan bul\u201D\u2019a bastığınızda, tarayıcı GPS verilerine erişim izni verdikten sonra mevcut konumunuzu kullanır. GPS sinyali ne kadar doğruysa, kıble açısı o kadar net ve gerçeğe yakın olur; bu yüzden bu yöntemi açık alanda veya pencere yakınında, özellikle büyük binaların içindeyken kullanmak daha iyidir. Bu koşullar sağlandığında konumunuzdan kıble yönü, Mekke\u2019ye gerçek yöne çok yakın olur ve elle veri girmeden güvenilir sonuç almak için en hızlı yoldur.' },
-                    { icon: '🌍', h3: 'Şehri elle seçme', body: 'Konumunuzu paylaşmak istemiyorsanız veya cihazınızda konum servisi yoksa, sayfanın üst kısmındaki arama alanına bir şehir adı yazıp listeden seçebilirsiniz. Listede dünyanın dört bir yanından binlerce şehir bulunur ve kıble hesabı seçilen şehrin resmi koordinatlarına göre yapılır. Şehri elle seçmek, varış noktasındaki kıble açısını önceden öğrenmek isteyen yolcular için yararlıdır; seçilen şehrin sınırları içinde veya yakın bölgede olduğunuz sürece sonuç doğruluğunu korur.' },
-                    { icon: '🗺️', h3: 'Pusulayı harita ile birlikte kullanma', body: 'Kıble pusulası, telefonunuzu cihazın iç manyetik sensörü aracılığıyla doğru yöne çevirmenize yardımcı olur; harita ise Mekke\u2019ye giden büyük daire çizgisini saf geometrik biçimde gösterir. Pusula okuması ile haritadaki Kâbe konumu arasında fark görürseniz, büyük metal eşyalardan, elektronik cihazlardan ve demir kapılardan uzaklaşıp tekrar deneyin; bu nesneler manyetik sensörü etkileyerek kıble pusulasının okumasını dengesizleştirir. Harita bu etkilenmeden uzaktır, bu yüzden şüphe halinde haritaya daha çok güvenilir; en iyisi pusula ile haritayı birlikte kullanmaktır.' },
-                    { icon: '📐', h3: 'Mekke yönündeki kıble açısını anlama', body: 'Kıble açısı, Kâbe\u2019nin coğrafi kuzeye göre yönünü gösteren derece değeridir. Bu açı, hesabın yeryüzünün küresel yüzeyindeki konumunuza bağlı olması nedeniyle ülkeden ülkeye ve şehirden şehre değişir. Coğrafi kuzeyden saat yönünde derecelerle ölçülür: 0° kuzey, 90° doğu, 180° güney, 270° batı. Örneğin, kıble Riyad\u2019dan yaklaşık güneybatı, İstanbul\u2019dan güneydoğu, Kahire\u2019den doğu ve Cakarta\u2019dan batıdadır. Konumunuza ait kıble açısını bilmek, elektronik kıble pusulası yoksa sıradan bir pusula ile yönü hızlıca bulmanızı sağlar.' },
+                lead: 'Bu kılavuz, kıble yönünü konumunuzdan veya elle seçtiğiniz bir şehirden nasıl bulacağınızı, kıble açısını nasıl okuyacağınızı ve kıble pusulasını harita ile birlikte Mekke yönünde nasıl kullanacağınızı açıklar.',
+                shortCards: [
+                    { icon: '🧭', h3: 'Kıble pusulası nasıl çalışır?', bullets: [
+                        'Pusula, coğrafi koordinatlarınızdan Mekke\u2019deki Kâbe\u2019ye yönü hesaplar.',
+                        'Sonuç, coğrafi kuzeyden saat yönünde derece olarak ölçülen bir açıdır.',
+                        'Hesap, en kısa geometrik yol için astronomik Great-Circle formülünü kullanır.',
+                    ] },
+                    { icon: '📍', h3: 'Konumumdan kıble yönünü bulma', bullets: [
+                        'Tarayıcı, GPS izni verdikten sonra mevcut konumunuzu kullanır.',
+                        'Daha doğru GPS sinyali, daha net ve gerçek değere yakın kıble açısı verir.',
+                        'Açık alanda veya pencere yakınında daha güçlü GPS alımı sağlar.',
+                    ] },
+                    { icon: '🌍', h3: 'Şehri elle seçme', bullets: [
+                        'Arama alanına şehir adı yazıp listeden seçin (Türkçe, İngilizce veya Arapça).',
+                        'Kıble hesabı seçilen şehrin resmi koordinatlarına göre yapılır.',
+                        'Yolculuk öncesi bir sonraki varış noktasının kıble açısını öğrenmek için kullanışlıdır.',
+                    ] },
+                    { icon: '🗺️', h3: 'Pusulayı harita ile kullanma', bullets: [
+                        'Kıble pusulası telefonu iç manyetik sensör üzerinden yönlendirir.',
+                        'Harita, Mekke yönüne giden büyük daire çizgisini saf geometrik biçimde gösterir.',
+                        'Kıble pusulası ile haritanın birleşimi yön konusunda en yüksek güveni verir.',
+                    ] },
                 ],
-                close: 'Konumumdan kıbleyi, kıble pusulasını ve haritayı birlikte kullanmak çoğu kullanıcı için en güvenilir yoldur. Kıble yönü gün saatine göre değişmez çünkü Mekke yeryüzünde sabittir, ama kendi konumunuza göre değişir; ülkeden ülkeye, hatta aynı ülkede şehirden şehre geçtiğinizde yeni açı belirgin biçimde farklı olabilir. Yön konusunda emin olmadığınızda, kıble pusulası okumasını harita üzerindeki Kâbe konumu ile karşılaştırın: ikisi uyuşuyorsa yön doğrudur, uyuşmuyorsa manyetik karışma muhtemeldir ve o anda haritaya pusuladan daha çok güvenmek doğru olur.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Mekke yönündeki kıble açısını anlamak',
+                    paragraphs: [
+                        'Kıble açısı, Kâbe\u2019nin coğrafi kuzeye göre yönünü gösteren derece değeridir. Hesap yeryüzünün küresel yüzeyindeki konumunuza bağlı olduğu için açı ülkeden ülkeye, şehirden şehre değişir. Coğrafi kuzeyden saat yönünde derecelerle ölçülür: 0° kuzey, 90° doğu, 180° güney, 270° batı. Örneğin kıble Riyad\u2019dan yaklaşık güneybatı, İstanbul\u2019dan güneydoğu, Kahire\u2019den doğu, Cakarta\u2019dan batı ve Kazablanka\u2019dan kuzeydoğu yönündedir.',
+                        'Kıble yönü gün saatine göre değişmez çünkü Mekke yeryüzünde sabittir, ama kendi konumunuza göre değişir. Ülkeler arasında veya aynı ülkenin şehirleri arasında geçişte yeni açı belirgin biçimde farklı olabilir. Açı, Batı Avrupa gibi kuzeydeki şehirlerde 270°\u2019yi aşar, Güneydoğu Asya\u2019da 90°\u2019ye yaklaşır, çoğu büyük Arap şehrinde ise bu iki değer arasında kalır çünkü Mekke Arap Yarımadası\u2019nın ortasındadır. Bu doğal çeşitlilik, kıblenin tek bir küresel değer olmadığını ve her konum için ayrı hesaplandığını gösterir.',
+                        'Konumunuza ait kıble açısını bilmek, elektronik kıble pusulası yokken sıradan bir pusulayla yönü hızlıca bulmanızı sağlar; evde veya otelde namazgâhınızı sabitleyerek her namaz için yeniden hesap yapmanıza gerek bırakmaz. Yön konusunda emin olmadığınızda kıble pusulası okumasını harita üzerindeki Kâbe konumu ile karşılaştırın; uyuşmazsa manyetik karışma muhtemeldir ve o anda haritaya pusuladan daha çok güvenmek doğru olur.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Daha iyi doğruluk için ipuçları',
+                    tips: [
+                        'Konum servisini açık alanda veya pencere yakınında kullanın; GPS sinyali güçlenir, kıble açısı netleşir.',
+                        'Büyük metal eşyalardan ve elektronik cihazlardan uzak durun; pusulanın manyetik sensörünü etkilerler.',
+                        'Yön konusunda şüphe duyduğunuzda kıble pusulası okumasını haritadaki Kâbe konumu ile karşılaştırın.',
+                        'GPS çalışmıyorsa veya konumunuzu paylaşmak istemiyorsanız şehri elle seçin.',
+                    ],
+                },
             },
             ur: {
+                kicker: 'قبلہ کے قطب نما کا رہنما',
                 h2: 'قبلہ کے قطب نما کے استعمال کا مکمل رہنما',
-                lead: 'یہ رہنما بتاتا ہے کہ آپ اپنے مقام سے یا منتخب کردہ شہر سے قبلہ کی سمت کیسے معلوم کریں، قبلہ کی زاویہ کیسے سمجھیں، اور مکہ مکرمہ تک پہنچنے کے لیے قبلہ کے قطب نما کو نقشے کے ساتھ کیسے درست طور پر استعمال کریں۔',
-                cards: [
-                    { icon: '🧭', h3: 'قبلہ کا قطب نما کیسے کام کرتا ہے؟', body: 'قبلہ کا قطب نما آپ کے جغرافیائی نقاط (طول و عرض البلد) استعمال کرکے مکہ مکرمہ میں کعبہ کی طرف سمت کا حساب لگاتا ہے۔ ان نقاط کو جغرافیائی شمال سے گھڑی کے رخ پر درجات میں ماپی گئی سمتی زاویہ میں تبدیل کیا جاتا ہے، اور نتیجہ ایک تیر کی شکل میں دکھایا جاتا ہے جو آپ کو صحیح سمت بتاتا ہے۔ حساب Great-Circle فلکی فارمولے پر مبنی ہے جو زمین کی سطح پر دو نقاط کے درمیان مختصر ترین ہندسی راستہ ناپنے کا سب سے درست طریقہ ہے۔ اسی لیے قبلہ کے قطب نما کی درستگی دن کے وقت پر نہیں بلکہ شروعاتی مقام کی درستگی پر منحصر ہے، اور جدید GPS نقاط زیادہ تر حالات میں موزوں ترین انتخاب ہیں۔' },
-                    { icon: '📍', h3: 'اپنے مقام سے قبلہ کی سمت', body: 'جب آپ \u201Cاپنے مقام سے قبلہ معلوم کریں\u201D دباتے ہیں، براؤزر آپ کی موجودہ پوزیشن GPS ڈیٹا تک رسائی کی اجازت کے بعد استعمال کرتا ہے۔ GPS سگنل جتنا درست ہوگا، قبلہ کی زاویہ اتنی ہی واضح اور حقیقی قدر کے قریب ہوگی، اس لیے بہتر ہے کہ یہ طریقہ کھلی جگہ یا کھڑکی کے قریب استعمال کیا جائے، خاص طور پر بڑے عمارتوں کے اندر۔ ان شرائط پر آپ کے مقام سے قبلہ کی سمت مکہ مکرمہ کی اصل سمت کے بہت قریب ہو جاتی ہے، بغیر کسی دستی ڈیٹا کے، اور یہ معتبر نتیجہ حاصل کرنے کا تیز ترین طریقہ ہے۔' },
-                    { icon: '🌍', h3: 'دستی طور پر شہر کا انتخاب', body: 'اگر آپ مقام شیئر نہیں کرنا چاہتے، یا آپ کے آلے پر مقام کی سہولت دستیاب نہیں، تو صفحے کے اوپری تلاش خانے میں شہر کا نام لکھ کر فہرست سے منتخب کر سکتے ہیں۔ فہرست میں دنیا بھر کے ہزاروں شہر شامل ہیں، اور قبلہ کا حساب منتخب شہر کے سرکاری نقاط پر مبنی ہے۔ شہر کا دستی انتخاب ان مسافروں کے لیے مفید ہے جو اپنی اگلی منزل کی قبلہ زاویہ پہلے سے جاننا چاہتے ہیں، اور نتیجہ اس وقت تک درست رہتا ہے جب تک آپ منتخب شہر کی حدود یا نزدیکی علاقے میں ہیں۔' },
-                    { icon: '🗺️', h3: 'قطب نما کو نقشے کے ساتھ استعمال', body: 'قبلہ کا قطب نما آپ کے فون کو داخلی مقناطیسی سینسر کی مدد سے درست سمت میں رکھنے میں مدد دیتا ہے، جبکہ نقشہ خالص ہندسی طریقے سے مکہ مکرمہ کی طرف Great-Circle لائن دکھاتا ہے۔ اگر قطب نما کی قراءت اور نقشے پر کعبہ کی پوزیشن میں فرق نظر آئے، بڑے دھاتی اشیاء، الیکٹرانک آلات اور لوہے کے دروازوں سے دور ہو جائیں اور دوبارہ کوشش کریں، کیونکہ یہ سینسر کو متاثر کرکے قبلہ کے قطب نما کی قراءت کو غیر مستحکم بنا دیتے ہیں۔ نقشہ ایسے عوامل سے متاثر نہیں ہوتا، اس لیے شک کی صورت میں نقشہ زیادہ بھروسہ مند ہے، اور بہترین طریقہ دونوں کا مجموعہ ہے۔' },
-                    { icon: '📐', h3: 'مکہ مکرمہ کی طرف قبلہ کی زاویہ', body: 'قبلہ کی زاویہ وہ درجہ ہے جو کعبہ کی سمت کو جغرافیائی شمال کے مقابلے میں ظاہر کرتا ہے۔ یہ زاویہ ملک سے ملک اور شہر سے شہر مختلف ہوتی ہے کیونکہ حساب زمین کی کروی سطح پر آپ کے مقام پر منحصر ہے۔ یہ جغرافیائی شمال سے گھڑی کے رخ پر درجات میں ماپی جاتی ہے: 0° شمال، 90° مشرق، 180° جنوب، 270° مغرب۔ مثال کے طور پر، ریاض سے قبلہ تقریباً جنوب-مغرب، استنبول سے جنوب-مشرق، قاہرہ سے مشرق اور جکارتہ سے مغرب میں ہے۔ اپنے مقام کی قبلہ زاویہ جاننا آپ کو الیکٹرانک قطب نما نہ ہونے پر کسی بھی عام قطب نما سے سمت تیزی سے معلوم کرنے میں مدد دیتا ہے۔' },
+                lead: 'یہ رہنما بتاتا ہے کہ آپ اپنے مقام سے یا منتخب کردہ شہر سے قبلہ کی سمت کیسے معلوم کریں، قبلہ کی زاویہ کیسے پڑھیں، اور مکہ مکرمہ کی طرف قبلہ کے قطب نما کو نقشے کے ساتھ کیسے استعمال کریں۔',
+                shortCards: [
+                    { icon: '🧭', h3: 'قبلہ کا قطب نما کیسے کام کرتا ہے؟', bullets: [
+                        'قطب نما آپ کے جغرافیائی نقاط سے مکہ مکرمہ میں کعبہ کی طرف سمت کا حساب لگاتا ہے۔',
+                        'نتیجہ ایک زاویہ ہے جو جغرافیائی شمال سے گھڑی کے رخ پر درجات میں ماپا جاتا ہے۔',
+                        'حساب مختصر ترین ہندسی راستہ کے لیے Great-Circle فلکی فارمولہ استعمال کرتا ہے۔',
+                    ] },
+                    { icon: '📍', h3: 'اپنے مقام سے قبلہ معلوم کرنا', bullets: [
+                        'GPS کی اجازت دینے کے بعد براؤزر آپ کا موجودہ مقام استعمال کرتا ہے۔',
+                        'GPS سگنل جتنا درست ہوگا، قبلہ کی زاویہ اتنی ہی واضح اور حقیقی قدر کے قریب ہوگی۔',
+                        'کھلی جگہ یا کھڑکی کے قریب GPS سگنل بہتر ہوتا ہے۔',
+                    ] },
+                    { icon: '🌍', h3: 'دستی طور پر شہر کا انتخاب', bullets: [
+                        'تلاش کے خانے میں شہر کا نام لکھیں اور فہرست سے منتخب کریں (اردو، انگریزی، عربی)۔',
+                        'قبلہ کا حساب منتخب شہر کے سرکاری نقاط پر مبنی ہوتا ہے۔',
+                        'سفر سے پہلے اگلی منزل کی قبلہ زاویہ پہلے سے جاننے کے لیے مفید ہے۔',
+                    ] },
+                    { icon: '🗺️', h3: 'قطب نما کو نقشے کے ساتھ', bullets: [
+                        'قبلہ کا قطب نما فون کو داخلی مقناطیسی سینسر کی مدد سے سمت دیتا ہے۔',
+                        'نقشہ خالص ہندسی طریقے سے مکہ مکرمہ کی طرف Great-Circle لائن دکھاتا ہے۔',
+                        'قبلہ کا قطب نما اور نقشے کا مجموعہ سب سے اعلیٰ بھروسہ دیتا ہے۔',
+                    ] },
                 ],
-                close: '\u201Cمیرے مقام سے قبلہ\u201D، قبلہ کے قطب نما اور نقشے کا مجموعہ زیادہ تر صارفین کے لیے سب سے قابل اعتماد طریقہ ہے۔ قبلہ کی سمت دن کے وقت سے نہیں بدلتی کیونکہ مکہ مکرمہ زمین پر ایک مستقل مقام ہے، لیکن آپ کے اپنے مقام کے بدلنے سے بدلتی ہے؛ ایک ملک سے دوسرے ملک، یا ایک ہی ملک کے دو شہروں کے درمیان جانے پر نئی زاویہ نمایاں طور پر مختلف ہو سکتی ہے۔ شک کی صورت میں قبلہ کے قطب نما کی قراءت کا نقشے پر کعبہ کے مقام سے موازنہ کریں: اگر دونوں ملیں تو سمت درست ہے، ورنہ مقناطیسی مداخلت ممکن ہے اور اس وقت نقشے پر بھروسہ کرنا قطب نما سے بہتر ہے۔',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'مکہ مکرمہ کی طرف قبلہ کی زاویہ کو سمجھنا',
+                    paragraphs: [
+                        'قبلہ کی زاویہ وہ درجہ ہے جو کعبہ کی سمت کو جغرافیائی شمال کے مقابلے میں ظاہر کرتا ہے۔ یہ زاویہ ملک سے ملک اور شہر سے شہر مختلف ہوتی ہے کیونکہ حساب زمین کی کروی سطح پر آپ کے مقام پر منحصر ہے۔ یہ جغرافیائی شمال سے گھڑی کے رخ پر درجات میں ماپی جاتی ہے: 0° شمال، 90° مشرق، 180° جنوب، 270° مغرب۔ مثال کے طور پر، ریاض سے قبلہ تقریباً جنوب-مغرب، استنبول سے جنوب-مشرق، قاہرہ سے مشرق، جکارتہ سے مغرب اور کاسابلانکا سے شمال-مشرق میں ہے۔',
+                        'قبلہ کی سمت دن کے وقت سے نہیں بدلتی کیونکہ مکہ مکرمہ زمین پر ایک مستقل مقام ہے، لیکن آپ کے اپنے مقام کے بدلنے سے بدلتی ہے۔ ایک ملک سے دوسرے ملک یا ایک ہی ملک کے دو شہروں کے درمیان جانے پر نئی زاویہ نمایاں طور پر مختلف ہو سکتی ہے۔ یہ زاویہ مغربی یورپ جیسے دور شمالی شہروں میں 270° سے زیادہ ہوتی ہے، جنوب مشرقی ایشیا میں 90° کے قریب آتی ہے، اور بیشتر بڑے عرب شہروں میں ان دونوں قدروں کے درمیان رہتی ہے کیونکہ مکہ مکرمہ جزیرہ نما عرب کے درمیان واقع ہے۔ یہ تنوع ظاہر کرتا ہے کہ قبلہ کی سمت ایک عالمی قدر نہیں بلکہ ہر مقام کے لیے الگ سے نکلتی ہے۔',
+                        'اپنے مقام کی قبلہ زاویہ جاننا الیکٹرانک قبلہ کے قطب نما کے بغیر کسی بھی عام قطب نما سے سمت تیزی سے معلوم کرنے میں مدد دیتا ہے، اور گھر یا ہوٹل میں نمازگاہ کو مستقل کرنے میں مفید ہے تاکہ ہر نماز پر دوبارہ حساب نہ کرنا پڑے۔ شک کی صورت میں قبلہ کے قطب نما کی قراءت کا نقشے پر کعبہ کے مقام سے موازنہ کریں؛ اگر فرق ہو تو مقناطیسی مداخلت ممکن ہے اور اس وقت قطب نما سے زیادہ نقشے پر بھروسہ کریں۔',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'بہتر دقت کے لیے نکات',
+                    tips: [
+                        'مقام کا تعین کھلی جگہ یا کھڑکی کے قریب کریں؛ GPS سگنل قوی ہوتا ہے اور قبلہ زاویہ واضح۔',
+                        'بڑی دھاتی اشیاء اور الیکٹرانک آلات سے دور رہیں کیونکہ یہ قطب نما کے مقناطیسی سینسر کو متاثر کرتی ہیں۔',
+                        'سمت پر شک ہو تو قبلہ کے قطب نما کی قراءت کا نقشے پر کعبہ کے مقام سے موازنہ کریں۔',
+                        'اگر GPS کام نہیں کرتا یا آپ مقام شیئر نہیں کرنا چاہتے تو دستی طور پر شہر منتخب کریں۔',
+                    ],
+                },
             },
             de: {
+                kicker: 'Qibla-Kompass-Leitfaden',
                 h2: 'Vollständiger Leitfaden zum Qibla-Kompass',
-                lead: 'Dieser Leitfaden erklärt, wie Sie die Qibla-Richtung von Ihrem Standort oder von einer manuell gewählten Stadt aus bestimmen, wie Sie den Qibla-Winkel deuten und wie Sie den Qibla-Kompass zusammen mit der Karte präzise nach Mekka einsetzen.',
-                cards: [
-                    { icon: '🧭', h3: 'Wie funktioniert der Qibla-Kompass?', body: 'Der Qibla-Kompass nutzt Ihre geographischen Koordinaten (Breite und Länge), um die Peilung zur Kaaba in Mekka zu berechnen. Diese Koordinaten werden in einen Richtungswinkel umgewandelt, der in Grad im Uhrzeigersinn vom geographischen Norden gemessen wird, und das Ergebnis erscheint als Pfeil, der Ihnen die richtige Richtung zeigt. Die Berechnung beruht auf der astronomischen Großkreis-Formel, der genauesten Methode, um den kürzesten geometrischen Weg zwischen zwei Punkten auf der Erdoberfläche zu messen. Die Genauigkeit des Qibla-Kompasses hängt also nicht von der Tageszeit ab, sondern von der Genauigkeit des Ausgangsorts; moderne GPS-Koordinaten sind daher in den meisten Fällen die beste Wahl.' },
-                    { icon: '📍', h3: 'Qibla-Richtung von meinem Standort', body: 'Wenn Sie auf „Qibla von meinem Standort“ tippen, nutzt der Browser Ihre aktuelle Position, sobald Sie den Zugriff auf GPS-Daten erlauben. Je genauer das GPS-Signal, desto klarer wird der Qibla-Winkel und desto näher liegt der Wert am tatsächlichen, daher ist diese Methode in offenem Gelände oder am Fenster am besten, besonders innerhalb großer Gebäude. Unter diesen Bedingungen kommt die Qibla-Richtung von Ihrem Standort der echten Peilung nach Mekka sehr nahe — ohne manuelle Eingabe — und ist der schnellste Weg zu einem zuverlässigen Ergebnis.' },
-                    { icon: '🌍', h3: 'Stadt manuell wählen', body: 'Wenn Sie Ihren Standort nicht teilen möchten oder die Geolokalisierung auf Ihrem Gerät nicht verfügbar ist, geben Sie einfach einen Stadtnamen in das Suchfeld am Seitenanfang ein und wählen Sie ihn aus der Liste. Die Liste umfasst tausende Städte weltweit, und die Qibla-Berechnung basiert auf den offiziellen Koordinaten der gewählten Stadt. Eine manuelle Stadtauswahl ist nützlich für Reisende, die den Qibla-Winkel ihres nächsten Ziels vor der Ankunft kennen wollen; das Ergebnis bleibt genau, solange Sie sich innerhalb der Stadtgrenzen oder einem nahen Bereich aufhalten.' },
-                    { icon: '🗺️', h3: 'Kompass mit der Karte nutzen', body: 'Der Qibla-Kompass hilft Ihnen, das Telefon mithilfe des internen Magnetsensors in die richtige Richtung zu drehen, während die Karte die Großkreis-Linie nach Mekka rein geometrisch zeigt. Sehen Sie eine Abweichung zwischen Kompasswert und Kaaba-Position auf der Karte, entfernen Sie sich von großen Metallgegenständen, Elektronik und Eisentüren und probieren Sie es erneut, denn diese Objekte stören den Magnetsensor und machen die Anzeige des Qibla-Kompasses instabil. Die Karte ist davon nicht betroffen, im Zweifel ist sie zuverlässiger; der beste Ansatz ist die Kombination aus Kompass und Karte.' },
-                    { icon: '📐', h3: 'Den Qibla-Winkel nach Mekka verstehen', body: 'Der Qibla-Winkel ist der Gradwert, der die Richtung der Kaaba relativ zum geographischen Norden angibt. Dieser Winkel unterscheidet sich von Land zu Land und von Stadt zu Stadt, weil die Berechnung von Ihrer Position auf der kugelförmigen Erdoberfläche abhängt. Er wird in Grad im Uhrzeigersinn vom Norden gemessen: 0° Nord, 90° Ost, 180° Süd, 270° West. So liegt die Qibla aus Riad etwa Südwest, aus Istanbul Südost, aus Kairo Ost und aus Jakarta West. Den Qibla-Winkel für Ihren Standort zu kennen, hilft, die Richtung mit jedem gewöhnlichen Kompass schnell zu finden, falls kein elektronischer Qibla-Kompass verfügbar ist.' },
+                lead: 'Dieser Leitfaden erklärt, wie Sie die Qibla-Richtung von Ihrem Standort oder einer manuell gewählten Stadt finden, wie Sie den Qibla-Winkel lesen und wie Sie den Qibla-Kompass mit der Karte zusammen nach Mekka nutzen.',
+                shortCards: [
+                    { icon: '🧭', h3: 'Wie funktioniert der Qibla-Kompass?', bullets: [
+                        'Der Kompass berechnet die Peilung aus Ihren Koordinaten zur Kaaba in Mekka.',
+                        'Das Ergebnis ist ein Winkel in Grad im Uhrzeigersinn vom geographischen Norden.',
+                        'Berechnung mit der astronomischen Großkreis-Formel für den kürzesten geometrischen Weg.',
+                    ] },
+                    { icon: '📍', h3: 'Qibla von meinem Standort', bullets: [
+                        'Der Browser nutzt Ihre aktuelle Position nach GPS-Erlaubnis.',
+                        'Ein genaueres GPS-Signal liefert einen klareren, realitätsnahen Qibla-Winkel.',
+                        'Am besten in offenem Gelände oder am Fenster für einen stärkeren GPS-Empfang.',
+                    ] },
+                    { icon: '🌍', h3: 'Stadt manuell wählen', bullets: [
+                        'Stadtnamen ins Suchfeld eingeben und aus der Liste wählen (Deutsch, Englisch oder Arabisch).',
+                        'Die Qibla-Berechnung nutzt die offiziellen Koordinaten der gewählten Stadt.',
+                        'Praktisch vor einer Reise, um den Qibla-Winkel am nächsten Ziel im Voraus zu kennen.',
+                    ] },
+                    { icon: '🗺️', h3: 'Kompass mit der Karte', bullets: [
+                        'Der Qibla-Kompass orientiert das Telefon über den internen Magnetsensor.',
+                        'Die Karte zeigt die Großkreislinie nach Mekka rein geometrisch.',
+                        'Die Kombination aus Qibla-Kompass und Karte liefert die höchste Sicherheit der Peilung.',
+                    ] },
                 ],
-                close: 'Die Kombination aus „Qibla von meinem Standort“, dem Qibla-Kompass und der Karte ist der zuverlässigste Workflow für die meisten Nutzer. Die Qibla-Richtung ändert sich nicht mit der Tageszeit, da Mekka ein fester Punkt auf der Erde ist, aber sie ändert sich mit Ihrer eigenen Position; wechseln Sie das Land, oder auch nur die Stadt innerhalb desselben Landes, kann der neue Winkel deutlich anders sein. Bei Zweifeln vergleichen Sie die Anzeige des Qibla-Kompasses mit der Kaaba-Position auf der Karte: stimmen beide überein, ist die Peilung in Ordnung, andernfalls liegt vermutlich magnetische Störung vor und die Karte sollte in diesem Moment vor dem Kompass den Vorzug erhalten.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Den Qibla-Winkel nach Mekka verstehen',
+                    paragraphs: [
+                        'Der Qibla-Winkel ist der Gradwert, der die Richtung der Kaaba relativ zum geographischen Norden angibt. Der Winkel unterscheidet sich von Land zu Land und von Stadt zu Stadt, da die Berechnung von Ihrer Position auf der kugelförmigen Erdoberfläche abhängt. Er wird in Grad im Uhrzeigersinn vom Norden gemessen: 0° Nord, 90° Ost, 180° Süd, 270° West. Aus Riad ist die Qibla etwa Südwest, aus Istanbul Südost, aus Kairo Ost, aus Jakarta West und aus Casablanca Nordost.',
+                        'Die Qibla-Richtung ändert sich nicht mit der Tageszeit, da Mekka ein fester Punkt auf der Erde ist, aber sie ändert sich mit Ihrer Position. Wechseln zwischen Ländern oder zwischen Städten desselben Landes kann den Winkel deutlich verschieben. In nördlichen Städten wie Westeuropa liegt er oft über 270°, in Südostasien nahe 90°, in den meisten großen arabischen Städten dazwischen, da Mekka in der Mitte der Arabischen Halbinsel liegt. Diese Vielfalt zeigt, dass die Qibla kein einheitlicher globaler Wert ist; sie wird pro Standort berechnet.',
+                        'Den Qibla-Winkel für Ihren Standort zu kennen, hilft, die Richtung mit jedem gewöhnlichen Kompass schnell zu finden, falls kein elektronischer Qibla-Kompass verfügbar ist, und erlaubt, einen Gebetsteppich zu Hause oder im Hotel so auszurichten, dass die Richtung ohne erneute Berechnung bei jedem Gebet bereit ist. Bei Zweifeln vergleichen Sie die Anzeige des Qibla-Kompasses mit der Kaaba-Position auf der Karte; weichen sie ab, ist magnetische Störung wahrscheinlich, und der Karte sollte in diesem Moment der Vorzug gegeben werden.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Tipps für mehr Genauigkeit',
+                    tips: [
+                        'Geolokalisierung in offenem Gelände oder am Fenster nutzen; GPS-Signal stärker, Qibla-Winkel schärfer.',
+                        'Halten Sie sich von großen Metallobjekten und Elektronik fern; sie stören den Magnetsensor.',
+                        'Vergleichen Sie die Anzeige des Qibla-Kompasses mit der Kaaba auf der Karte bei Zweifel.',
+                        'Wählen Sie die Stadt manuell, falls GPS nicht geht oder Sie den Standort nicht teilen möchten.',
+                    ],
+                },
             },
             id: {
+                kicker: 'Panduan kompas kiblat',
                 h2: 'Panduan Lengkap Menggunakan Kompas Kiblat',
-                lead: 'Panduan ini menjelaskan cara menemukan arah kiblat dari lokasi Anda atau dari kota yang Anda pilih secara manual, cara membaca sudut kiblat, dan cara menggunakan kompas kiblat bersama peta untuk mencapai Mekkah dengan akurat.',
-                cards: [
-                    { icon: '🧭', h3: 'Bagaimana kompas kiblat bekerja?', body: 'Kompas kiblat menggunakan koordinat geografis Anda (lintang dan bujur) untuk menghitung arah ke Kakbah di Mekkah. Koordinat tersebut diubah menjadi sudut arah yang diukur dalam derajat searah jarum jam dari utara geografis, dan hasilnya ditampilkan sebagai panah yang membantu Anda menentukan arah yang benar. Perhitungan menggunakan rumus astronomi Great-Circle, metode paling akurat untuk mengukur lintasan geometris terpendek antara dua titik di permukaan Bumi. Karena itu akurasi kompas kiblat tidak bergantung pada waktu, melainkan pada ketelitian lokasi awal; koordinat GPS modern menjadi pilihan paling sesuai pada sebagian besar kasus.' },
-                    { icon: '📍', h3: 'Mencari kiblat dari lokasi saya', body: 'Saat Anda menekan "Cari kiblat dari lokasi saya", peramban menggunakan posisi Anda saat ini setelah Anda memberi izin akses GPS. Semakin akurat sinyal GPS, semakin jelas sudut kiblat dan semakin dekat ke nilai sebenarnya, sehingga lebih baik menggunakan metode ini di tempat terbuka atau dekat jendela, terutama di dalam gedung besar. Dengan kondisi tersebut, arah kiblat dari lokasi Anda menjadi sangat dekat dengan arah sebenarnya ke Mekkah, tanpa perlu memasukkan data secara manual, dan ini cara tercepat memperoleh hasil yang andal.' },
-                    { icon: '🌍', h3: 'Memilih kota secara manual', body: 'Jika Anda tidak ingin membagikan lokasi atau geolokasi tidak tersedia di perangkat Anda, cukup ketik nama kota di kolom pencarian di bagian atas halaman dan pilih dari daftar. Daftar tersebut mencakup ribuan kota di seluruh dunia, dan perhitungan kiblat didasarkan pada koordinat resmi kota yang dipilih. Memilih kota secara manual berguna bagi pelancong yang ingin mengetahui sudut kiblat di tujuan berikutnya sebelum tiba; hasilnya tetap akurat selama Anda berada dalam batas kota tersebut atau di sekitarnya.' },
-                    { icon: '🗺️', h3: 'Menggunakan kompas dengan peta', body: 'Kompas kiblat membantu Anda mengarahkan ponsel ke arah yang benar melalui sensor magnetik internal, sedangkan peta menunjukkan garis lingkaran besar ke Mekkah secara murni geometris. Jika ada perbedaan antara bacaan kompas dan posisi Kakbah di peta, jauhkan diri dari benda logam besar, peralatan elektronik, dan pintu besi, lalu coba lagi karena benda-benda tersebut mengganggu sensor magnetik dan membuat bacaan kompas kiblat tidak stabil. Peta tidak terpengaruh oleh hal itu, jadi saat ragu peta lebih dapat dipercaya, dan pendekatan terbaik adalah menggabungkan kompas dengan peta.' },
-                    { icon: '📐', h3: 'Memahami sudut kiblat ke Mekkah', body: 'Sudut kiblat adalah nilai derajat yang menunjukkan arah Kakbah relatif terhadap utara geografis. Sudut ini berbeda antar negara dan antar kota karena perhitungan bergantung pada posisi Anda di permukaan Bumi yang berbentuk bola. Diukur dalam derajat searah jarum jam dari utara: 0° utara, 90° timur, 180° selatan, 270° barat. Misalnya, kiblat kira-kira barat daya dari Riyadh, tenggara dari Istanbul, timur dari Kairo, dan barat dari Jakarta. Mengetahui sudut kiblat untuk lokasi Anda memudahkan menemukan arah dengan kompas biasa apabila kompas kiblat elektronik tidak tersedia.' },
+                lead: 'Panduan ini menjelaskan cara menemukan arah kiblat dari lokasi Anda atau dari kota yang Anda pilih secara manual, cara membaca sudut kiblat, dan cara menggunakan kompas kiblat bersama peta menuju Mekkah.',
+                shortCards: [
+                    { icon: '🧭', h3: 'Bagaimana kompas kiblat bekerja?', bullets: [
+                        'Kompas menghitung arah dari koordinat geografis Anda menuju Kakbah di Mekkah.',
+                        'Hasilnya adalah sudut dalam derajat searah jarum jam dari utara geografis.',
+                        'Perhitungan memakai rumus astronomi Great-Circle untuk lintasan geometris terpendek.',
+                    ] },
+                    { icon: '📍', h3: 'Cari kiblat dari lokasi saya', bullets: [
+                        'Peramban memakai posisi Anda saat ini setelah izin GPS.',
+                        'Sinyal GPS yang lebih akurat memberi sudut kiblat yang lebih jelas dan dekat ke nyatanya.',
+                        'Lebih baik di area terbuka atau dekat jendela agar penerimaan GPS lebih kuat.',
+                    ] },
+                    { icon: '🌍', h3: 'Memilih kota secara manual', bullets: [
+                        'Ketik nama kota di kotak pencarian dan pilih dari daftar (Indonesia/Inggris/Arab).',
+                        'Perhitungan kiblat memakai koordinat resmi kota yang dipilih.',
+                        'Berguna sebelum bepergian untuk mengetahui sudut kiblat di tujuan berikutnya.',
+                    ] },
+                    { icon: '🗺️', h3: 'Kompas dengan peta', bullets: [
+                        'Kompas kiblat mengarahkan ponsel melalui sensor magnetik internal.',
+                        'Peta menampilkan garis lingkaran besar ke Mekkah secara murni geometris.',
+                        'Menggabungkan kompas kiblat dengan peta memberi tingkat keyakinan tertinggi.',
+                    ] },
                 ],
-                close: 'Menggabungkan "kiblat dari lokasi saya" dengan kompas kiblat dan peta adalah alur kerja paling andal bagi sebagian besar pengguna. Arah kiblat tidak berubah seiring waktu karena Mekkah adalah titik tetap di Bumi, tetapi berubah seiring posisi Anda; ketika Anda berpindah negara, atau bahkan antar kota dalam negara yang sama, sudut baru bisa berbeda secara mencolok. Saat ragu, bandingkan bacaan kompas kiblat dengan letak Kakbah di peta: jika sepakat berarti arah benar, jika tidak gangguan magnetik kemungkinan besar penyebabnya, dan saat itu peta lebih dapat dipercaya daripada kompas.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Memahami sudut kiblat ke Mekkah',
+                    paragraphs: [
+                        'Sudut kiblat adalah nilai derajat yang menunjukkan arah Kakbah relatif terhadap utara geografis. Sudut ini berbeda antar negara dan antar kota karena perhitungan bergantung pada posisi Anda di permukaan bola Bumi. Diukur dalam derajat searah jarum jam dari utara: 0° utara, 90° timur, 180° selatan, 270° barat. Misalnya, kiblat dari Riyadh kira-kira barat daya, dari Istanbul tenggara, dari Kairo timur, dari Jakarta barat, dan dari Casablanca timur laut.',
+                        'Arah kiblat tidak berubah seiring waktu karena Mekkah titik tetap di Bumi, tetapi berubah seiring posisi Anda. Berpindah antar negara atau antar kota dalam satu negara dapat menggeser sudut secara mencolok. Sudut melebihi 270° di kota-kota jauh di utara seperti Eropa Barat, mendekati 90° di Asia Tenggara, dan tetap di antara dua nilai tersebut di kebanyakan kota besar Arab karena Mekkah berada di tengah Semenanjung Arab. Variasi ini menunjukkan kiblat bukan satu nilai global; ia dihitung per lokasi.',
+                        'Mengetahui sudut kiblat untuk lokasi Anda memungkinkan menemukan arah cepat dengan kompas biasa apabila kompas kiblat elektronik tidak tersedia, dan memungkinkan menetapkan sajadah di rumah atau hotel agar arah selalu siap tanpa menghitung ulang setiap salat. Saat ragu, bandingkan bacaan kompas kiblat dengan letak Kakbah di peta; jika tidak sepakat, kemungkinan ada gangguan magnetik, dan peta lebih dapat dipercaya pada saat itu.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Tips untuk akurasi yang lebih baik',
+                    tips: [
+                        'Gunakan geolokasi di tempat terbuka atau dekat jendela; sinyal GPS lebih kuat, sudut kiblat lebih tajam.',
+                        'Jauhi benda logam besar dan peralatan elektronik karena mengganggu sensor magnetik kompas.',
+                        'Bandingkan bacaan kompas kiblat dengan letak Kakbah di peta saat meragukan arah.',
+                        'Pilih kota secara manual jika GPS tidak tersedia atau Anda tidak ingin berbagi lokasi.',
+                    ],
+                },
             },
             es: {
+                kicker: 'Guía de la brújula de la Qibla',
                 h2: 'Guía completa para usar la brújula de la Qibla',
-                lead: 'Esta guía explica cómo encontrar la dirección de la Qibla desde su ubicación o desde una ciudad elegida manualmente, cómo interpretar el ángulo de la Qibla y cómo usar la brújula de la Qibla junto con el mapa para llegar con precisión hacia La Meca.',
-                cards: [
-                    { icon: '🧭', h3: '¿Cómo funciona la brújula de la Qibla?', body: 'La brújula de la Qibla utiliza sus coordenadas geográficas (latitud y longitud) para calcular el rumbo hacia la Kaaba en La Meca. Estas coordenadas se convierten en un ángulo medido en grados en sentido horario desde el norte geográfico, y el resultado se muestra como una flecha que le ayuda a identificar la dirección correcta. El cálculo se basa en la fórmula astronómica del círculo máximo, el método más preciso para medir la trayectoria geométrica más corta entre dos puntos sobre la superficie de la Tierra. Por eso la precisión de la brújula de la Qibla no depende de la hora, sino de la precisión del punto de partida, y por eso las coordenadas GPS modernas son la mejor opción en la mayoría de los casos.' },
-                    { icon: '📍', h3: 'Encontrar la Qibla desde mi ubicación', body: 'Cuando pulsa "Encontrar la Qibla desde mi ubicación", el navegador utiliza su posición actual tras concederle acceso a los datos del GPS. Cuanto más precisa sea la señal GPS, más claro será el ángulo de la Qibla y más cerca quedará del valor real, por eso conviene usar esta opción al aire libre o cerca de una ventana, especialmente dentro de edificios grandes. En esas condiciones, la dirección de la Qibla desde su ubicación queda muy cerca del rumbo verdadero hacia La Meca, sin necesidad de introducir datos manualmente, y es la forma más rápida de obtener un resultado fiable.' },
-                    { icon: '🌍', h3: 'Elegir una ciudad manualmente', body: 'Si prefiere no compartir su ubicación o la geolocalización no está disponible en su dispositivo, simplemente escriba un nombre de ciudad en el campo de búsqueda en la parte superior de la página y elíjalo de la lista. La lista incluye miles de ciudades en todo el mundo, y el cálculo de la Qibla se basa en las coordenadas oficiales de la ciudad seleccionada. Elegir una ciudad manualmente es útil para viajeros que quieren conocer el ángulo de la Qibla en su próximo destino antes de llegar; el resultado se mantiene preciso mientras esté dentro de los límites de la ciudad elegida.' },
-                    { icon: '🗺️', h3: 'Usar la brújula con el mapa', body: 'La brújula de la Qibla le ayuda a apuntar el teléfono en la dirección correcta usando el sensor magnético interno, mientras que el mapa muestra la línea de círculo máximo hacia La Meca de forma puramente geométrica. Si nota una diferencia entre la lectura de la brújula y la posición de la Kaaba en el mapa, aléjese de objetos metálicos grandes, aparatos electrónicos y puertas de hierro y vuelva a intentarlo, porque interfieren con el sensor magnético y hacen inestable la lectura de la brújula de la Qibla. El mapa no se ve afectado, así que en caso de duda el mapa es más fiable y la mejor estrategia es combinar ambos.' },
-                    { icon: '📐', h3: 'Entender el ángulo de la Qibla hacia La Meca', body: 'El ángulo de la Qibla es el valor en grados que indica la dirección de la Kaaba respecto al norte geográfico. Este ángulo varía entre países y entre ciudades porque el cálculo depende de su posición en la superficie esférica de la Tierra. Se mide en grados en sentido horario desde el norte: 0° norte, 90° este, 180° sur, 270° oeste. Por ejemplo, la Qibla es más o menos suroeste desde Riad, sureste desde Estambul, este desde El Cairo y oeste desde Yakarta. Conocer el ángulo de la Qibla para su ubicación permite encontrar el rumbo rápidamente con una brújula corriente cuando no haya brújula electrónica.' },
+                lead: 'Esta guía explica cómo encontrar la dirección de la Qibla desde su ubicación o desde una ciudad elegida manualmente, cómo leer el ángulo de la Qibla y cómo usar la brújula con el mapa hacia La Meca.',
+                shortCards: [
+                    { icon: '🧭', h3: '¿Cómo funciona la brújula de la Qibla?', bullets: [
+                        'La brújula calcula el rumbo desde sus coordenadas geográficas hacia la Kaaba en La Meca.',
+                        'El resultado es un ángulo en grados en sentido horario desde el norte geográfico.',
+                        'El cálculo usa la fórmula astronómica del círculo máximo para el camino más corto.',
+                    ] },
+                    { icon: '📍', h3: 'Encontrar la Qibla desde mi ubicación', bullets: [
+                        'El navegador utiliza su posición actual tras conceder permiso GPS.',
+                        'Una señal GPS más precisa da un ángulo de Qibla más claro y cercano al real.',
+                        'Mejor en zona abierta o cerca de una ventana para un GPS más fuerte.',
+                    ] },
+                    { icon: '🌍', h3: 'Elegir una ciudad manualmente', bullets: [
+                        'Escriba el nombre de la ciudad en la búsqueda y elíjala (español, inglés o árabe).',
+                        'El cálculo usa las coordenadas oficiales de la ciudad seleccionada.',
+                        'Útil antes de viajar para conocer el ángulo de la Qibla del próximo destino.',
+                    ] },
+                    { icon: '🗺️', h3: 'Brújula con el mapa', bullets: [
+                        'La brújula de la Qibla orienta el teléfono mediante el sensor magnético interno.',
+                        'El mapa muestra la línea de círculo máximo hacia La Meca de forma geométrica.',
+                        'Combinar la brújula de la Qibla con el mapa da la mayor confianza en el rumbo.',
+                    ] },
                 ],
-                close: 'Combinar "Qibla desde mi ubicación" con la brújula de la Qibla y el mapa es el flujo más fiable para la mayoría de los usuarios. La dirección de la Qibla no cambia con la hora del día porque La Meca es un punto fijo en la Tierra, pero sí cambia con su propia posición; al pasar de un país a otro, o incluso entre ciudades del mismo país, el nuevo ángulo puede ser notablemente distinto. Ante la duda, compare la lectura de la brújula de la Qibla con la ubicación de la Kaaba en el mapa: si ambas coinciden el rumbo es correcto, si no probablemente haya interferencia magnética y conviene confiar en el mapa más que en la brújula en ese momento.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Entender el ángulo de la Qibla hacia La Meca',
+                    paragraphs: [
+                        'El ángulo de la Qibla es el valor en grados que indica la dirección de la Kaaba respecto al norte geográfico. El ángulo cambia entre países y entre ciudades porque el cálculo depende de su posición en la superficie esférica de la Tierra. Se mide en grados en sentido horario desde el norte: 0° norte, 90° este, 180° sur, 270° oeste. Por ejemplo, la Qibla es más o menos suroeste desde Riad, sureste desde Estambul, este desde El Cairo, oeste desde Yakarta y noreste desde Casablanca.',
+                        'La dirección de la Qibla no cambia con la hora porque La Meca es un punto fijo en la Tierra, pero sí cambia con su propia posición. Pasar de país a país, o entre ciudades del mismo país, puede desplazar el ángulo notablemente. El ángulo supera 270° en muchas ciudades del norte como en Europa Occidental, se acerca a 90° en el Sudeste Asiático y permanece entre estos valores en la mayoría de grandes ciudades árabes porque La Meca está en el centro de la Península Arábiga. Esta variación natural muestra que la Qibla no es un valor único global; se calcula por ubicación.',
+                        'Conocer el ángulo de la Qibla para su ubicación permite encontrar el rumbo rápido con cualquier brújula común si no hay brújula electrónica, y fijar una alfombra de oración en casa o en el hotel para que la dirección esté siempre lista sin recalcular en cada oración. Ante la duda, compare la lectura de la brújula de la Qibla con la posición de la Kaaba en el mapa; si no concuerdan, hay posible interferencia magnética y conviene confiar más en el mapa que en la brújula en ese momento.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Consejos para mayor precisión',
+                    tips: [
+                        'Use geolocalización en zona abierta o cerca de una ventana; señal GPS más fuerte y ángulo de Qibla más nítido.',
+                        'Aléjese de objetos metálicos grandes y aparatos electrónicos; alteran el sensor magnético de la brújula.',
+                        'Compare la lectura de la brújula de la Qibla con la Kaaba en el mapa cuando dude del rumbo.',
+                        'Elija la ciudad manualmente si el GPS no funciona o prefiere no compartir su ubicación.',
+                    ],
+                },
             },
             bn: {
+                kicker: 'কিবলা কম্পাস নির্দেশিকা',
                 h2: 'কিবলা কম্পাস ব্যবহারের সম্পূর্ণ নির্দেশিকা',
-                lead: 'এই নির্দেশিকা ব্যাখ্যা করে কীভাবে আপনি নিজের অবস্থান থেকে বা ম্যানুয়ালি বেছে নেওয়া শহর থেকে কিবলার দিক জানবেন, কিবলার কোণ কীভাবে বুঝবেন এবং মক্কার দিকে যেতে কিবলা কম্পাসকে মানচিত্রের সাথে কীভাবে সঠিকভাবে ব্যবহার করবেন।',
-                cards: [
-                    { icon: '🧭', h3: 'কিবলা কম্পাস কীভাবে কাজ করে?', body: 'কিবলা কম্পাস আপনার ভৌগোলিক স্থানাঙ্ক (অক্ষাংশ ও দ্রাঘিমাংশ) ব্যবহার করে মক্কার কাবার দিকে দিক হিসাব করে। এই স্থানাঙ্কগুলোকে ভৌগোলিক উত্তর থেকে ঘড়ির কাঁটার দিকে ডিগ্রিতে মাপা একটি দিকনির্দেশী কোণে রূপান্তর করা হয়, এবং ফলাফল একটি তীরের আকারে দেখানো হয় যা সঠিক দিক চিনতে সাহায্য করে। গণনা Great-Circle জ্যোতির্বৈজ্ঞানিক সূত্রের উপর ভিত্তি করে—পৃথিবীর পৃষ্ঠে দুটি বিন্দুর মধ্যে সংক্ষিপ্ততম জ্যামিতিক পথ মাপার সবচেয়ে নির্ভুল উপায়। তাই কিবলা কম্পাসের নির্ভুলতা দিনের সময়ের উপর নয়, বরং প্রারম্ভিক অবস্থানের নির্ভুলতার উপর নির্ভর করে; অধিকাংশ ক্ষেত্রে আধুনিক GPS স্থানাঙ্ক সবচেয়ে উপযুক্ত।' },
-                    { icon: '📍', h3: 'আমার অবস্থান থেকে কিবলা', body: '"আমার অবস্থান থেকে কিবলা" চাপলে ব্রাউজার GPS ডেটায় প্রবেশের অনুমতি দেওয়ার পর আপনার বর্তমান অবস্থান ব্যবহার করে। GPS সংকেত যত নির্ভুল, কিবলার কোণ তত স্পষ্ট ও বাস্তব মানের কাছাকাছি; তাই এই পদ্ধতি খোলা জায়গায় বা জানালার কাছে, বিশেষত বড় ভবনের ভেতরে, ব্যবহার করাই উত্তম। এই শর্তগুলো পূরণ হলে আপনার অবস্থান থেকে কিবলার দিক মক্কার প্রকৃত দিকের খুব কাছে যায়, ম্যানুয়াল ডেটা ছাড়াই, এবং এটি বিশ্বস্ত ফল পাওয়ার দ্রুততম উপায়।' },
-                    { icon: '🌍', h3: 'ম্যানুয়ালি শহর বেছে নেওয়া', body: 'যদি আপনি অবস্থান শেয়ার না করতে চান বা আপনার ডিভাইসে জিওলোকেশন না থাকে, পৃষ্ঠার শীর্ষে অনুসন্ধান বাক্সে শহরের নাম লিখুন এবং তালিকা থেকে নির্বাচন করুন। তালিকায় বিশ্বের হাজার হাজার শহর রয়েছে, এবং কিবলার গণনা নির্বাচিত শহরের সরকারি স্থানাঙ্কের উপর ভিত্তি করে। ম্যানুয়ালি শহর নির্বাচন ভ্রমণকারীদের জন্য উপযোগী যারা পরবর্তী গন্তব্যে পৌঁছানোর আগেই কিবলার কোণ জানতে চান; নির্বাচিত শহরের সীমানার মধ্যে থাকলে ফলাফল নির্ভুল থাকে।' },
-                    { icon: '🗺️', h3: 'কম্পাস ও মানচিত্র একসাথে', body: 'কিবলা কম্পাস ফোনের অভ্যন্তরীণ চৌম্বক সেন্সরের সাহায্যে আপনাকে সঠিক দিকে ফোন ঘোরাতে সাহায্য করে, আর মানচিত্র মক্কার দিকে বৃহৎ বৃত্ত রেখা সম্পূর্ণ জ্যামিতিকভাবে দেখায়। যদি কম্পাসের পাঠ ও মানচিত্রে কাবার অবস্থানের মধ্যে পার্থক্য দেখেন, বড় ধাতব বস্তু, ইলেকট্রনিক যন্ত্র এবং লোহার দরজা থেকে দূরে গিয়ে আবার চেষ্টা করুন, কারণ এগুলো চৌম্বক সেন্সরে প্রভাব ফেলে এবং কিবলা কম্পাসের পাঠ অস্থির করে। মানচিত্র এগুলোতে প্রভাবিত হয় না, তাই সন্দেহ হলে মানচিত্র বেশি বিশ্বস্ত; সর্বোত্তম পদ্ধতি হলো দুটোই একসাথে ব্যবহার।' },
-                    { icon: '📐', h3: 'মক্কার দিকে কিবলার কোণ বোঝা', body: 'কিবলার কোণ হলো ডিগ্রি মান যা ভৌগোলিক উত্তরের সাপেক্ষে কাবার দিক নির্দেশ করে। দেশ ও শহরভেদে এই কোণ বদলায় কারণ গণনা পৃথিবীর গোলকাকার পৃষ্ঠে আপনার অবস্থানের উপর নির্ভর করে। এটি ভৌগোলিক উত্তর থেকে ঘড়ির কাঁটার দিকে ডিগ্রিতে মাপা হয়: 0° উত্তর, 90° পূর্ব, 180° দক্ষিণ, 270° পশ্চিম। উদাহরণস্বরূপ, রিয়াদ থেকে কিবলা মোটামুটি দক্ষিণ-পশ্চিম, ইস্তাম্বুল থেকে দক্ষিণ-পূর্ব, কায়রো থেকে পূর্ব এবং জাকার্তা থেকে পশ্চিম। আপনার অবস্থানের জন্য কিবলার কোণ জানা থাকলে ইলেকট্রনিক কম্পাস না থাকলেও সাধারণ কম্পাসে দ্রুত দিক খুঁজে নেওয়া যায়।' },
+                lead: 'এই নির্দেশিকা ব্যাখ্যা করে কীভাবে আপনি নিজের অবস্থান থেকে বা ম্যানুয়ালি বেছে নেওয়া শহর থেকে কিবলার দিক জানবেন, কিবলার কোণ কীভাবে পড়বেন এবং মক্কার দিকে কিবলা কম্পাসকে মানচিত্রের সাথে কীভাবে ব্যবহার করবেন।',
+                shortCards: [
+                    { icon: '🧭', h3: 'কিবলা কম্পাস কীভাবে কাজ করে?', bullets: [
+                        'কম্পাস আপনার ভৌগোলিক স্থানাঙ্ক থেকে মক্কার কাবার দিকে দিক হিসাব করে।',
+                        'ফলাফল ভৌগোলিক উত্তর থেকে ঘড়ির কাঁটার দিকে ডিগ্রিতে মাপা একটি কোণ।',
+                        'গণনা সংক্ষিপ্ততম জ্যামিতিক পথের জন্য Great-Circle জ্যোতির্বৈজ্ঞানিক সূত্র ব্যবহার করে।',
+                    ] },
+                    { icon: '📍', h3: 'আমার অবস্থান থেকে কিবলা', bullets: [
+                        'GPS অনুমতি দেওয়ার পর ব্রাউজার আপনার বর্তমান অবস্থান ব্যবহার করে।',
+                        'আরও সঠিক GPS সংকেত দেয় আরও স্পষ্ট ও বাস্তব মানের কাছাকাছি কিবলার কোণ।',
+                        'খোলা জায়গায় বা জানালার কাছে GPS সংকেত বেশি ভাল আসে।',
+                    ] },
+                    { icon: '🌍', h3: 'ম্যানুয়ালি শহর বেছে নেওয়া', bullets: [
+                        'অনুসন্ধান বাক্সে শহরের নাম লিখে তালিকা থেকে বেছে নিন (বাংলা/ইংরেজি/আরবি)।',
+                        'কিবলার গণনা নির্বাচিত শহরের সরকারি স্থানাঙ্কের ভিত্তিতে।',
+                        'ভ্রমণের আগে পরবর্তী গন্তব্যের কিবলার কোণ আগে থেকে জানতে উপযোগী।',
+                    ] },
+                    { icon: '🗺️', h3: 'কম্পাস ও মানচিত্র একসাথে', bullets: [
+                        'কিবলা কম্পাস অভ্যন্তরীণ চৌম্বক সেন্সর দিয়ে ফোনকে দিক দেয়।',
+                        'মানচিত্র মক্কার দিকে বৃহৎ বৃত্ত রেখা সম্পূর্ণ জ্যামিতিকভাবে দেখায়।',
+                        'কিবলা কম্পাস ও মানচিত্রের সমন্বয় দিকনির্ণয়ে সর্বাধিক আস্থা দেয়।',
+                    ] },
                 ],
-                close: '"আমার অবস্থান থেকে কিবলা", কিবলা কম্পাস ও মানচিত্রের সমন্বয়ই অধিকাংশ ব্যবহারকারীর জন্য সবচেয়ে নির্ভরযোগ্য পদ্ধতি। কিবলার দিক দিনের সময়ের সাথে বদলায় না কারণ মক্কা পৃথিবীর একটি স্থির বিন্দু, তবে আপনার নিজের অবস্থানের সাথে বদলায়; এক দেশ থেকে আরেক দেশে, এমনকি একই দেশের একটি শহর থেকে অন্য শহরে গেলে নতুন কোণ লক্ষণীয়ভাবে আলাদা হতে পারে। সন্দেহ হলে কিবলা কম্পাসের পাঠ মানচিত্রে কাবার অবস্থানের সাথে মিলিয়ে দেখুন: মিললে দিক সঠিক, না মিললে চৌম্বক বিঘ্ন সম্ভাব্য, এবং তখন কম্পাসের চেয়ে মানচিত্রের উপর নির্ভর করাই ভালো।',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'মক্কার দিকে কিবলার কোণ বোঝা',
+                    paragraphs: [
+                        'কিবলার কোণ হলো ডিগ্রি মান যা ভৌগোলিক উত্তরের সাপেক্ষে কাবার দিক নির্দেশ করে। দেশ ও শহরভেদে এই কোণ বদলায় কারণ গণনা পৃথিবীর গোলকাকার পৃষ্ঠে আপনার অবস্থানের উপর নির্ভর করে। এটি ভৌগোলিক উত্তর থেকে ঘড়ির কাঁটার দিকে ডিগ্রিতে মাপা হয়: 0° উত্তর, 90° পূর্ব, 180° দক্ষিণ, 270° পশ্চিম। উদাহরণস্বরূপ, রিয়াদ থেকে কিবলা মোটামুটি দক্ষিণ-পশ্চিম, ইস্তাম্বুল থেকে দক্ষিণ-পূর্ব, কায়রো থেকে পূর্ব, জাকার্তা থেকে পশ্চিম এবং কাসাব্লাঙ্কা থেকে উত্তর-পূর্ব।',
+                        'কিবলার দিক দিনের সময়ের সাথে বদলায় না কারণ মক্কা পৃথিবীর একটি স্থির বিন্দু, তবে আপনার নিজের অবস্থানের সাথে বদলায়। দেশ থেকে দেশে বা একই দেশের শহরগুলোর মধ্যে গেলে কোণ লক্ষণীয়ভাবে বদলে যেতে পারে। কোণ পশ্চিম ইউরোপের মতো দূরে উত্তরের শহরে 270° ছাড়িয়ে যায়, দক্ষিণ পূর্ব এশিয়ায় 90°-এর কাছাকাছি আসে, এবং বেশিরভাগ বড় আরব শহরে এই দুটি মানের মাঝে থাকে কারণ মক্কা আরব উপদ্বীপের মাঝখানে। এই বৈচিত্র্য দেখায় যে কিবলা একটি বৈশ্বিক একক মান নয়; প্রতিটি অবস্থানের জন্য আলাদা গণনা হয়।',
+                        'আপনার অবস্থানের জন্য কিবলার কোণ জানা থাকলে ইলেকট্রনিক কম্পাস না থাকলেও সাধারণ কম্পাসে দ্রুত দিক খুঁজে পাওয়া যায়, এবং বাড়ি বা হোটেলে নামাজের জায়নামাজ এমনভাবে স্থির করা যায় যাতে প্রতিটি নামাজে আবার গণনা করতে না হয়। সন্দেহ হলে কিবলা কম্পাসের পাঠ মানচিত্রে কাবার অবস্থানের সাথে মিলিয়ে দেখুন; না মিললে চৌম্বক বিঘ্ন সম্ভাব্য, এবং তখন কম্পাসের চেয়ে মানচিত্রের উপর নির্ভর করাই ভালো।',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'উন্নত নির্ভুলতার জন্য টিপস',
+                    tips: [
+                        'খোলা জায়গায় বা জানালার কাছে অবস্থান নিন; GPS সংকেত শক্তিশালী, কিবলার কোণ পরিষ্কার।',
+                        'বড় ধাতব বস্তু ও ইলেকট্রনিক যন্ত্র থেকে দূরে থাকুন, কারণ এগুলো কম্পাসের চৌম্বক সেন্সরে প্রভাব ফেলে।',
+                        'দিক নিয়ে সন্দেহ হলে কিবলা কম্পাসের পাঠ মানচিত্রে কাবার অবস্থানের সাথে মিলিয়ে দেখুন।',
+                        'GPS কাজ না করলে বা অবস্থান শেয়ার করতে না চাইলে ম্যানুয়ালি শহর বেছে নিন।',
+                    ],
+                },
             },
             ms: {
+                kicker: 'Panduan kompas kiblat',
                 h2: 'Panduan Lengkap Menggunakan Kompas Kiblat',
-                lead: 'Panduan ini menerangkan cara mencari arah kiblat dari lokasi anda atau dari bandar yang anda pilih secara manual, cara memahami sudut kiblat, dan cara menggunakan kompas kiblat bersama peta untuk sampai ke Makkah dengan tepat.',
-                cards: [
-                    { icon: '🧭', h3: 'Bagaimana kompas kiblat berfungsi?', body: 'Kompas kiblat menggunakan koordinat geografi anda (latitud dan longitud) untuk mengira arah ke Kaabah di Makkah. Koordinat ini ditukar kepada sudut arah yang diukur dalam darjah ikut arah jam dari utara geografi, dan hasilnya dipaparkan sebagai anak panah yang membantu anda mengenal pasti arah yang betul. Pengiraan menggunakan formula astronomi Great-Circle, kaedah paling tepat untuk mengukur laluan geometri terpendek antara dua titik di permukaan Bumi. Oleh itu ketepatan kompas kiblat tidak bergantung kepada masa, tetapi pada ketepatan lokasi mula; koordinat GPS moden adalah pilihan terbaik dalam kebanyakan keadaan.' },
-                    { icon: '📍', h3: 'Mencari kiblat dari lokasi saya', body: 'Apabila anda menekan "Cari kiblat dari lokasi saya", pelayar menggunakan kedudukan semasa anda selepas anda memberi kebenaran akses GPS. Semakin tepat isyarat GPS, semakin jelas sudut kiblat dan semakin hampir kepada nilai sebenar, jadi kaedah ini lebih baik di kawasan terbuka atau dekat tingkap, terutama di dalam bangunan besar. Dengan keadaan ini, arah kiblat dari lokasi anda menjadi sangat hampir kepada arah sebenar ke Makkah, tanpa perlu memasukkan data secara manual, dan ini cara paling pantas untuk mendapat hasil yang dipercayai.' },
-                    { icon: '🌍', h3: 'Memilih bandar secara manual', body: 'Jika anda lebih suka tidak berkongsi lokasi atau geolokasi tidak tersedia pada peranti anda, taipkan nama bandar dalam medan carian di bahagian atas halaman dan pilih daripada senarai. Senarai ini meliputi ribuan bandar di seluruh dunia, dan pengiraan kiblat berasaskan koordinat rasmi bandar yang dipilih. Memilih bandar secara manual berguna kepada pelancong yang ingin mengetahui sudut kiblat di destinasi seterusnya sebelum tiba; hasilnya kekal tepat selagi anda berada dalam sempadan bandar yang dipilih atau kawasan berdekatan.' },
-                    { icon: '🗺️', h3: 'Menggunakan kompas dengan peta', body: 'Kompas kiblat membantu anda menghalakan telefon ke arah yang betul menggunakan sensor magnet dalaman, manakala peta menunjukkan garis bulatan besar ke Makkah secara semata-mata geometri. Jika ada perbezaan antara bacaan kompas dengan kedudukan Kaabah pada peta, jauhkan diri daripada objek logam besar, peralatan elektronik dan pintu besi lalu cuba sekali lagi, kerana ia mengganggu sensor magnet dan menjadikan bacaan kompas kiblat tidak stabil. Peta tidak terjejas oleh faktor ini, jadi ketika ragu peta lebih boleh dipercayai, dan pendekatan terbaik ialah menggabungkan kompas dengan peta.' },
-                    { icon: '📐', h3: 'Memahami sudut kiblat ke Makkah', body: 'Sudut kiblat ialah nilai darjah yang menunjukkan arah Kaabah relatif kepada utara geografi. Sudut ini berbeza antara negara dan antara bandar kerana pengiraan bergantung kepada kedudukan anda di permukaan Bumi yang berbentuk sfera. Ia diukur dalam darjah ikut arah jam dari utara: 0° utara, 90° timur, 180° selatan, 270° barat. Contohnya, kiblat kira-kira barat daya dari Riyadh, tenggara dari Istanbul, timur dari Kaherah dan barat dari Jakarta. Mengetahui sudut kiblat untuk lokasi anda membolehkan anda mencari arah dengan cepat menggunakan mana-mana kompas biasa apabila kompas kiblat elektronik tidak tersedia.' },
+                lead: 'Panduan ini menerangkan cara mencari arah kiblat dari lokasi anda atau dari bandar yang anda pilih secara manual, cara membaca sudut kiblat dan cara menggunakan kompas kiblat bersama peta ke arah Makkah.',
+                shortCards: [
+                    { icon: '🧭', h3: 'Bagaimana kompas kiblat berfungsi?', bullets: [
+                        'Kompas mengira arah daripada koordinat geografi anda ke Kaabah di Makkah.',
+                        'Hasilnya sudut dalam darjah ikut arah jam dari utara geografi.',
+                        'Pengiraan menggunakan formula astronomi Great-Circle untuk laluan terpendek.',
+                    ] },
+                    { icon: '📍', h3: 'Cari kiblat dari lokasi saya', bullets: [
+                        'Pelayar menggunakan kedudukan semasa anda selepas keizinan GPS.',
+                        'Isyarat GPS lebih tepat memberikan sudut kiblat lebih jelas dan dekat dengan nyata.',
+                        'Lebih baik di kawasan terbuka atau dekat tingkap untuk isyarat GPS lebih kuat.',
+                    ] },
+                    { icon: '🌍', h3: 'Pilih bandar secara manual', bullets: [
+                        'Taipkan nama bandar dalam carian dan pilih dari senarai (Melayu/Inggeris/Arab).',
+                        'Pengiraan kiblat menggunakan koordinat rasmi bandar yang dipilih.',
+                        'Berguna sebelum perjalanan untuk mengetahui sudut kiblat di destinasi seterusnya.',
+                    ] },
+                    { icon: '🗺️', h3: 'Kompas dengan peta', bullets: [
+                        'Kompas kiblat menghala telefon melalui sensor magnet dalaman.',
+                        'Peta menunjukkan garis bulatan besar ke Makkah secara semata-mata geometri.',
+                        'Menggabungkan kompas kiblat dengan peta memberikan keyakinan tertinggi terhadap arah.',
+                    ] },
                 ],
-                close: 'Menggabungkan "kiblat dari lokasi saya" dengan kompas kiblat dan peta ialah aliran kerja paling dipercayai bagi kebanyakan pengguna. Arah kiblat tidak berubah mengikut masa kerana Makkah ialah titik tetap di Bumi, tetapi ia berubah mengikut kedudukan anda; apabila anda berpindah negara, atau antara bandar dalam negara yang sama, sudut baharu mungkin berbeza dengan ketara. Apabila ragu, bandingkan bacaan kompas kiblat dengan kedudukan Kaabah pada peta: jika bersetuju arah itu betul, jika tidak gangguan magnet kemungkinan puncanya, dan pada saat itu peta lebih boleh dipercayai daripada kompas.',
+                wideCard: {
+                    icon: '📐',
+                    h3: 'Memahami sudut kiblat ke Makkah',
+                    paragraphs: [
+                        'Sudut kiblat ialah nilai darjah yang menunjukkan arah Kaabah relatif kepada utara geografi. Sudut ini berbeza antara negara dan antara bandar kerana pengiraan bergantung kepada kedudukan anda di permukaan Bumi yang berbentuk sfera. Ia diukur dalam darjah ikut arah jam dari utara: 0° utara, 90° timur, 180° selatan, 270° barat. Contohnya, kiblat dari Riyadh kira-kira barat daya, dari Istanbul tenggara, dari Kaherah timur, dari Jakarta barat dan dari Casablanca timur laut.',
+                        'Arah kiblat tidak berubah mengikut masa kerana Makkah ialah titik tetap di Bumi, tetapi ia berubah mengikut kedudukan anda. Berpindah antara negara, atau antara bandar dalam negara yang sama, boleh menggeser sudut dengan ketara. Sudut melebihi 270° di kebanyakan bandar jauh ke utara seperti Eropah Barat, menghampiri 90° di Asia Tenggara, dan kekal antara dua nilai itu di kebanyakan bandar besar Arab kerana Makkah terletak di tengah Semenanjung Arab. Variasi ini menunjukkan kiblat bukan satu nilai global; ia dikira per lokasi.',
+                        'Mengetahui sudut kiblat untuk lokasi anda membolehkan anda mencari arah dengan cepat menggunakan mana-mana kompas biasa apabila kompas kiblat elektronik tidak tersedia, dan membolehkan anda menetapkan sejadah di rumah atau hotel supaya arah sentiasa siap tanpa pengiraan semula bagi setiap solat. Apabila ragu, bandingkan bacaan kompas kiblat dengan kedudukan Kaabah pada peta; jika tidak bersetuju, gangguan magnet kemungkinan puncanya, dan peta lebih boleh dipercayai daripada kompas pada saat itu.',
+                    ],
+                },
+                tipsCard: {
+                    icon: '💡',
+                    h3: 'Petua untuk ketepatan lebih baik',
+                    tips: [
+                        'Gunakan geolokasi di kawasan terbuka atau dekat tingkap; isyarat GPS lebih kuat, sudut kiblat lebih tajam.',
+                        'Jauhkan diri daripada objek logam besar dan peralatan elektronik kerana ia mengganggu sensor magnet kompas.',
+                        'Bandingkan bacaan kompas kiblat dengan kedudukan Kaabah pada peta apabila ragu tentang arah.',
+                        'Pilih bandar secara manual jika GPS tidak berfungsi atau anda tidak mahu berkongsi lokasi.',
+                    ],
+                },
             },
         };
         try {
             const _g = _qHubGuide[seo.lang] || _qHubGuide.en;
-            const _cardsHtml = _g.cards.map((c, idx) => {
-                const fullWidth = (idx === _g.cards.length - 1) ? ' qibla-hub-master-card--wide' : '';
-                return `<article class="qibla-hub-master-card${fullWidth}"><div class="qibla-hub-master-icon" aria-hidden="true">${c.icon}</div><div class="qibla-hub-master-text"><h3 class="qibla-hub-master-h3">${_escHtml(c.h3)}</h3><p class="qibla-hub-master-body">${_escHtml(c.body)}</p></div></article>`;
+            const _shortCardsHtml = _g.shortCards.map(c => {
+                const items = c.bullets.map(b => `<li>${_escHtml(b)}</li>`).join('');
+                return `<article class="qhc2-short-card"><div class="qhc2-icon" aria-hidden="true">${c.icon}</div><h3 class="qhc2-h3">${_escHtml(c.h3)}</h3><ul class="qhc2-bullets">${items}</ul></article>`;
             }).join('');
-            const _sectionHtml = `<div class="section-card qibla-hub-only qibla-hub-master"><div class="qibla-hub-master-header"><h2 class="qibla-hub-master-h2">${_escHtml(_g.h2)}</h2><p class="qibla-hub-master-lead">${_escHtml(_g.lead)}</p></div><div class="qibla-hub-master-grid">${_cardsHtml}</div><p class="qibla-hub-master-close">${_escHtml(_g.close)}</p></div>`;
-            // Anchor: insert just BEFORE the FAQ section card. Use the unique
-            // <h2 id="qibla-faq-title"> as the anchor.
+            const _w = _g.wideCard;
+            const _wideParagraphs = _w.paragraphs.map(p => `<p class="qhc2-wide-body">${_escHtml(p)}</p>`).join('');
+            const _wideHtml = `<article class="qhc2-wide-card"><div class="qhc2-wide-head"><div class="qhc2-icon qhc2-icon--wide" aria-hidden="true">${_w.icon}</div><h3 class="qhc2-h3 qhc2-h3--wide">${_escHtml(_w.h3)}</h3></div>${_wideParagraphs}</article>`;
+            const _t = _g.tipsCard;
+            const _tipsItems = _t.tips.map(tip => `<li>${_escHtml(tip)}</li>`).join('');
+            const _tipsHtml = `<article class="qhc2-tips-card"><div class="qhc2-tips-head"><div class="qhc2-icon qhc2-icon--tips" aria-hidden="true">${_t.icon}</div><h3 class="qhc2-h3 qhc2-h3--tips">${_escHtml(_t.h3)}</h3></div><ul class="qhc2-tips-list">${_tipsItems}</ul></article>`;
+            const _closingHtml = _g.closing ? `<p class="qhc2-closing">${_escHtml(_g.closing)}</p>` : '';
+            const _sectionHtml = `<div class="section-card qibla-hub-only qhc2-section"><header class="qhc2-header"><span class="qhc2-kicker">${_escHtml(_g.kicker)}</span><h2 class="qhc2-h2">${_escHtml(_g.h2)}</h2><p class="qhc2-lead">${_escHtml(_g.lead)}</p></header><div class="qhc2-grid">${_shortCardsHtml}</div>${_wideHtml}${_tipsHtml}${_closingHtml}</div>`;
             html = html.replace(
                 /(<!-- Section 8: FAQ \(both modes, different content\) -->\s*<div class="section-card">\s*<h2 id="qibla-faq-title")/,
                 _sectionHtml + '$1'
             );
-        } catch (_e) { /* silent — Q-Hub-C unified guide section optional */ }
+        } catch (_e) { /* silent — Q-Hub-C2 unified guide section optional */ }
     }
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections
     //     + entire #page-prayer-times shell. Inject html.moon-today-hub-page so

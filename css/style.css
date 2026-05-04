@@ -14211,56 +14211,114 @@ html.moon-month-page #moon-main-card {
 }
 
 
-/* ── Phase Q-Hub-C (2026-05-04): merged unified Qibla Hub guide section. ── */
-/* Replaces the dual guide+authority blocks with a single visually-compact   */
-/* container (max 1180px), 2-col grid desktop / 1-col mobile, icon prefix.   */
-/* Qibla Hub gateway: hide hub-only sections on city pages, hide city-only on hub */
+
+
+
+/* ── Phase Q-Hub-C2 (2026-05-04): compressed Qibla Hub guide. ── */
+/* Header + 4 compact bullet-cards (2x2 grid) + 1 wide explanatory   */
+/* card + 1 tips card. Replaces the 5×long-paragraph Q-Hub-C layout. */
 html.qibla-hub-page .qibla-city-only { display: none !important; }
 
-.qibla-hub-master {
-    max-width: 1180px;
-    margin-inline: auto;
-    padding: 22px 18px 24px;
-}
-.qibla-hub-master-header { margin-bottom: 16px; text-align: start; }
-.qibla-hub-master-h2 { margin: 0 0 8px; font-size: 1.32rem; line-height: 1.35; color: var(--text); font-weight: 700; }
-.qibla-hub-master-lead { margin: 0; color: var(--text-light); line-height: 1.75; font-size: 0.98rem; }
-.qibla-hub-master-grid {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: 1fr;
-    margin-top: 18px;
-}
-@media (min-width: 720px) { .qibla-hub-master-grid { grid-template-columns: 1fr 1fr; gap: 16px; } }
-.qibla-hub-master-card {
+.qhc2-section { max-width: 1180px; margin-inline: auto; padding: 22px 18px 26px; }
+.qhc2-header { margin-bottom: 18px; }
+.qhc2-kicker { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent, #1a4a1a); margin-bottom: 6px; opacity: 0.9; }
+html[data-theme="dark"] .qhc2-kicker { color: #7fc77f; }
+.qhc2-h2 { margin: 0 0 10px; font-size: 1.35rem; line-height: 1.35; color: var(--text); font-weight: 700; }
+.qhc2-lead { margin: 0; color: var(--text-light); line-height: 1.75; font-size: 0.98rem; }
+
+.qhc2-grid { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 18px; }
+@media (min-width: 720px) { .qhc2-grid { grid-template-columns: 1fr 1fr; gap: 16px; } }
+@media (min-width: 1100px) { .qhc2-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+
+.qhc2-short-card {
     background: linear-gradient(180deg, rgba(26,74,26,0.04) 0%, rgba(26,74,26,0.015) 100%);
     border: 1px solid rgba(26,74,26,0.12);
-    border-radius: 20px;
-    padding: 18px 18px 16px;
+    border-radius: 18px;
+    padding: 16px 16px 14px;
     margin: 0;
-    box-shadow: 0 1px 2px rgba(26,74,26,0.04), 0 4px 12px rgba(26,74,26,0.04);
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 1px 2px rgba(26,74,26,0.04), 0 4px 10px rgba(26,74,26,0.04);
+    display: flex; flex-direction: column; gap: 8px;
 }
-.qibla-hub-master-card:hover { box-shadow: 0 1px 2px rgba(26,74,26,0.08), 0 8px 20px rgba(26,74,26,0.08); transform: translateY(-1px); }
-@media (min-width: 720px) { .qibla-hub-master-card--wide { grid-column: 1 / -1; } }
-html[data-theme="dark"] .qibla-hub-master-card {
+html[data-theme="dark"] .qhc2-short-card {
     background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
     border-color: rgba(255,255,255,0.10);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.2);
 }
-.qibla-hub-master-icon {
-    flex: 0 0 auto;
-    width: 44px; height: 44px;
+.qhc2-icon {
+    width: 40px; height: 40px;
     display: inline-flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; line-height: 1;
+    font-size: 1.25rem; line-height: 1;
     background: rgba(26,74,26,0.10);
-    border-radius: 12px;
+    border-radius: 10px;
+    flex: 0 0 auto;
 }
-html[data-theme="dark"] .qibla-hub-master-icon { background: rgba(255,255,255,0.06); }
-.qibla-hub-master-text { flex: 1 1 auto; min-width: 0; }
-.qibla-hub-master-h3 { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.4; color: var(--text); font-weight: 600; }
-.qibla-hub-master-body { margin: 0; font-size: 0.95rem; line-height: 1.78; color: var(--text-light); }
-.qibla-hub-master-close { max-width: 1180px; margin: 22px auto 0; font-size: 0.95rem; line-height: 1.78; color: var(--text-light); padding-inline: 4px; }
+html[data-theme="dark"] .qhc2-icon { background: rgba(255,255,255,0.08); }
+.qhc2-h3 { margin: 0; font-size: 1.0rem; line-height: 1.4; color: var(--text); font-weight: 600; }
+.qhc2-bullets { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.qhc2-bullets li {
+    position: relative;
+    padding-inline-start: 18px;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text-light);
+}
+.qhc2-bullets li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 4px;
+    top: 0.65em;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent, #1a4a1a);
+    opacity: 0.7;
+}
+html[data-theme="dark"] .qhc2-bullets li::before { background: #7fc77f; opacity: 0.8; }
+
+.qhc2-wide-card {
+    margin-top: 18px;
+    padding: 22px 22px 18px;
+    background: linear-gradient(180deg, rgba(26,74,26,0.05) 0%, rgba(26,74,26,0.02) 100%);
+    border: 1px solid rgba(26,74,26,0.14);
+    border-radius: 22px;
+    box-shadow: 0 2px 6px rgba(26,74,26,0.05), 0 8px 18px rgba(26,74,26,0.05);
+}
+html[data-theme="dark"] .qhc2-wide-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%);
+    border-color: rgba(255,255,255,0.10);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 8px 18px rgba(0,0,0,0.25);
+}
+.qhc2-wide-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+.qhc2-icon--wide { width: 44px; height: 44px; font-size: 1.4rem; border-radius: 12px; }
+.qhc2-h3--wide { font-size: 1.15rem; line-height: 1.35; }
+.qhc2-wide-body { margin: 8px 0 0; font-size: 0.95rem; line-height: 1.85; color: var(--text-light); }
+
+.qhc2-tips-card {
+    margin-top: 14px;
+    padding: 18px 20px 16px;
+    background: rgba(26,74,26,0.025);
+    border: 1px dashed rgba(26,74,26,0.18);
+    border-radius: 16px;
+}
+html[data-theme="dark"] .qhc2-tips-card { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.12); }
+.qhc2-tips-head { display: flex; gap: 12px; align-items: center; margin-bottom: 6px; }
+.qhc2-icon--tips { width: 36px; height: 36px; font-size: 1.1rem; border-radius: 9px; background: rgba(255,176,0,0.18); }
+html[data-theme="dark"] .qhc2-icon--tips { background: rgba(255,196,80,0.18); }
+.qhc2-h3--tips { font-size: 1.02rem; line-height: 1.4; }
+.qhc2-tips-list { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.qhc2-tips-list li {
+    position: relative;
+    padding-inline-start: 22px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-light);
+}
+.qhc2-tips-list li::before {
+    content: '✓';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    color: var(--accent, #1a4a1a);
+    font-weight: 700;
+}
+html[data-theme="dark"] .qhc2-tips-list li::before { color: #7fc77f; }
+.qhc2-closing { margin: 14px 4px 0; font-size: 0.92rem; line-height: 1.78; color: var(--text-light); padding-inline: 4px; opacity: 0.92; }

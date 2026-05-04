@@ -9876,30 +9876,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     );
                 }
             } catch (_e) { /* silent — Q-A SSR injection optional, page still serves */ }
-
-            // Phase Q-A8-fix (2026-05-03): SSR strip duplicate elements on qibla city
-            // pages instead of CSS-hiding them (Q-A8 used display:none which is
-            // semantically wrong for SEO + dirty DOM). All 3 elements are duplicates:
-            //   • .qibla-main-cta-card → "مواقيت الصلاة" link is in Related-pills at bottom
-            //   • .qibla-info-grid     → city/angle/lat/lng all shown in compass + Q-A4 badges
-            //   • .qibla-footer-seo    → long duplicate of all data (angle + distance + ...)
-            try {
-                // (1) Strip the big CTA card (section-card with class qibla-main-cta-card)
-                html = html.replace(
-                    /<div class="section-card qibla-main-cta-card qibla-city-only">[\s\S]*?<p id="qibla-main-cta-note"[^>]*><\/p>\s*<\/div>/,
-                    ''
-                );
-                // (2) Strip the info-grid section-card (city/angle/lat/lng)
-                html = html.replace(
-                    /<div class="section-card qibla-city-only">\s*<div id="qibla-info-grid"[\s\S]*?<\/div>\s*<\/div>/,
-                    ''
-                );
-                // (3) Strip the long footer-seo paragraph
-                html = html.replace(
-                    /<p id="qibla-footer-seo"[^>]*><\/p>/,
-                    ''
-                );
-            } catch (_e) { /* silent — Q-A8-fix strip optional, page still serves */ }
         }
 
     // 5h) SSR لصفحة القمر العامّة /moon-today (بدون مدينة) — H1 و intro بلا placeholders

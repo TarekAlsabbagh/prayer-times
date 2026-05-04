@@ -3081,6 +3081,103 @@ html[lang="ur"] .qibla-seo-note::before {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase Q-A8 (2026-05-03): Qibla city page deduplication + UX cleanup.
+   The same data was appearing in 4-5 places (city name + angle + distance +
+   prayer-times CTA). Now: keep one canonical place per piece + hide the
+   duplicates. NO text/SEO change — purely CSS visibility + layout.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* (1) Hide the big "مواقيت الصلاة" CTA card between compass and SEO content.
+   Same link exists in Related links at page bottom — zero info loss,
+   removes a major visual interruption to the qibla flow. */
+.qibla-main-cta-card {
+    display: none !important;
+}
+
+/* (2) Hide the 4 info cards (City/Angle/Lat/Lng). Same data is in:
+   - Compass (city name + angle visually)
+   - Q-A4 stat badges (bearing °, distance km) — explicit numbers
+   - Q-A4 SEO cards (full explanation per metric)
+   No info loss; removes redundant technical strip. */
+.qibla-info-grid {
+    display: none !important;
+}
+
+/* (3) Make the howto card span full width of the grid (it has 4 paragraphs
+   and was towering over the 3 short cards beside it). Now sits as a clean
+   wide card BELOW the 3 short cards on desktop. */
+@media (min-width: 769px) {
+    .qibla-seo-info-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .qibla-seo-card-howto {
+        grid-column: 1 / -1;
+    }
+}
+
+/* (4) Hide the long footer-seo paragraph (duplicates all data: city + angle
+   + distance + cardinal direction + prayer-times-link text). Related links
+   list itself stays visible. */
+.qibla-footer-seo {
+    display: none !important;
+}
+
+/* (5) Style the related links container as a clean CTA card with a per-lang
+   "خدمات مرتبطة بـ {city}" pseudo-title. Uses :lang() — no HTML change. */
+.qibla-related-pills {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+.qibla-related-pills::before {
+    content: "🔗 خدمات مرتبطة";
+    display: block;
+    flex: 1 1 100%;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary, #075c38);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+}
+html[lang="en"] .qibla-related-pills::before { content: "🔗 Related services"; }
+html[lang="fr"] .qibla-related-pills::before { content: "🔗 Services associés"; }
+html[lang="tr"] .qibla-related-pills::before { content: "🔗 İlgili hizmetler"; }
+html[lang="ur"] .qibla-related-pills::before { content: "🔗 متعلقہ خدمات"; }
+html[lang="de"] .qibla-related-pills::before { content: "🔗 Verwandte Dienste"; }
+html[lang="id"] .qibla-related-pills::before { content: "🔗 Layanan terkait"; }
+html[lang="es"] .qibla-related-pills::before { content: "🔗 Servicios relacionados"; }
+html[lang="bn"] .qibla-related-pills::before { content: "🔗 সম্পর্কিত পরিষেবা"; }
+html[lang="ms"] .qibla-related-pills::before { content: "🔗 Perkhidmatan berkaitan"; }
+.qibla-related-pills li {
+    margin: 0;
+}
+.qibla-related-pills a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #f7fbf8 0%, #f0faf5 100%);
+    border: 1px solid rgba(11, 122, 75, 0.20);
+    color: var(--primary, #075c38);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.qibla-related-pills a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(11, 122, 75, 0.18);
+    background: linear-gradient(180deg, #ecf7f1 0%, #e3f4ec 100%);
+    color: var(--primary, #075c38);
+}
+
 /* Phase M6 (2026-05-03): legend explaining +/- semantics shown in calendar
    cells. Single occurrence per page (replaces the per-cell natural-language
    relative-time text that polluted Keyword Distribution). Small caption tone. */

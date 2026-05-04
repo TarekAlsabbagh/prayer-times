@@ -14211,29 +14211,56 @@ html.moon-month-page #moon-main-card {
 }
 
 
-/* ── Phase Q-Hub-A (2026-05-04): Qibla Hub guide card section ── */
-.qibla-hub-guide-card-wrap { padding: 18px 16px; }
-.qibla-hub-guide-h2 { margin: 0 0 8px; font-size: 1.25rem; line-height: 1.35; }
-.qibla-hub-guide-lead { margin: 0 0 16px; color: var(--text-light); line-height: 1.7; font-size: 0.97rem; }
-.qibla-hub-guide-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
-@media (min-width: 720px) { .qibla-hub-guide-grid { grid-template-columns: 1fr 1fr; gap: 14px; } }
-.qibla-hub-guide-card { background: var(--card-soft, rgba(0,0,0,0.03)); border: 1px solid var(--border, rgba(0,0,0,0.08)); border-radius: 12px; padding: 14px 14px 12px; }
-html[data-theme="dark"] .qibla-hub-guide-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
-.qibla-hub-guide-h3 { margin: 0 0 6px; font-size: 1.02rem; line-height: 1.4; color: var(--text); }
-.qibla-hub-guide-body { margin: 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }
+/* ── Phase Q-Hub-C (2026-05-04): merged unified Qibla Hub guide section. ── */
+/* Replaces the dual guide+authority blocks with a single visually-compact   */
+/* container (max 1180px), 2-col grid desktop / 1-col mobile, icon prefix.   */
 /* Qibla Hub gateway: hide hub-only sections on city pages, hide city-only on hub */
 html.qibla-hub-page .qibla-city-only { display: none !important; }
 
-/* ── Phase Q-Hub-B (2026-05-04): Qibla Hub authority section ── */
-.qibla-hub-authority { padding: 18px 16px; }
-.qibla-hub-authority-header { margin-bottom: 14px; }
-.qibla-seo-kicker { display: inline-block; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent, #1a4a1a); margin-bottom: 6px; opacity: 0.85; }
-.qibla-hub-authority-h2 { margin: 0 0 8px; font-size: 1.25rem; line-height: 1.35; color: var(--text); }
-.qibla-hub-authority-lead { margin: 0 0 4px; color: var(--text-light); line-height: 1.7; font-size: 0.97rem; }
-.qibla-hub-authority-grid { display: grid; gap: 12px; grid-template-columns: 1fr; margin-top: 14px; }
-@media (min-width: 720px) { .qibla-hub-authority-grid { grid-template-columns: 1fr 1fr; gap: 14px; } }
-.qibla-hub-authority-card { background: var(--card-soft, rgba(0,0,0,0.03)); border: 1px solid var(--border, rgba(0,0,0,0.08)); border-radius: 12px; padding: 14px 14px 12px; margin: 0; }
-html[data-theme="dark"] .qibla-hub-authority-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
-.qibla-hub-authority-h3 { margin: 0 0 6px; font-size: 1.02rem; line-height: 1.4; color: var(--text); }
-.qibla-hub-authority-body { margin: 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }
-.qibla-hub-authority-close { margin: 16px 0 0; font-size: 0.94rem; line-height: 1.75; color: var(--text-light); }
+.qibla-hub-master {
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 22px 18px 24px;
+}
+.qibla-hub-master-header { margin-bottom: 16px; text-align: start; }
+.qibla-hub-master-h2 { margin: 0 0 8px; font-size: 1.32rem; line-height: 1.35; color: var(--text); font-weight: 700; }
+.qibla-hub-master-lead { margin: 0; color: var(--text-light); line-height: 1.75; font-size: 0.98rem; }
+.qibla-hub-master-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+}
+@media (min-width: 720px) { .qibla-hub-master-grid { grid-template-columns: 1fr 1fr; gap: 16px; } }
+.qibla-hub-master-card {
+    background: linear-gradient(180deg, rgba(26,74,26,0.04) 0%, rgba(26,74,26,0.015) 100%);
+    border: 1px solid rgba(26,74,26,0.12);
+    border-radius: 20px;
+    padding: 18px 18px 16px;
+    margin: 0;
+    box-shadow: 0 1px 2px rgba(26,74,26,0.04), 0 4px 12px rgba(26,74,26,0.04);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.qibla-hub-master-card:hover { box-shadow: 0 1px 2px rgba(26,74,26,0.08), 0 8px 20px rgba(26,74,26,0.08); transform: translateY(-1px); }
+@media (min-width: 720px) { .qibla-hub-master-card--wide { grid-column: 1 / -1; } }
+html[data-theme="dark"] .qibla-hub-master-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+    border-color: rgba(255,255,255,0.10);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.2);
+}
+.qibla-hub-master-icon {
+    flex: 0 0 auto;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; line-height: 1;
+    background: rgba(26,74,26,0.10);
+    border-radius: 12px;
+}
+html[data-theme="dark"] .qibla-hub-master-icon { background: rgba(255,255,255,0.06); }
+.qibla-hub-master-text { flex: 1 1 auto; min-width: 0; }
+.qibla-hub-master-h3 { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.4; color: var(--text); font-weight: 600; }
+.qibla-hub-master-body { margin: 0; font-size: 0.95rem; line-height: 1.78; color: var(--text-light); }
+.qibla-hub-master-close { max-width: 1180px; margin: 22px auto 0; font-size: 0.95rem; line-height: 1.78; color: var(--text-light); padding-inline: 4px; }

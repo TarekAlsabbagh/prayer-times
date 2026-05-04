@@ -100,24 +100,23 @@
         var textEl = document.getElementById('nav-loading-text');
         // Per-lang overlay text
         var lang = (location.pathname.match(/^\/([a-z]{2})\//) || [])[1] || 'ar';
-        // Phase Q-A11-fix (2026-05-04): icon + text kept SEPARATE (not in one
-        // string) — `charAt(0)` was returning only half of the 🧭 surrogate pair,
-        // rendering as a question-mark replacement char in the icon slot.
-        var ICON = '🧭'; // 🧭 explicitly via UTF-16 surrogate pair (browser-safe)
         var TXT = {
-            ar: 'جارٍ تحميل اتجاه القبلة...',
-            en: 'Loading Qibla direction...',
-            fr: 'Chargement de la direction de la Qibla...',
-            tr: 'Kıble yönü yükleniyor...',
-            ur: 'سمتِ قبلہ لوڈ ہو رہی ہے...',
-            de: 'Qibla-Richtung wird geladen...',
-            id: 'Memuat arah kiblat...',
-            es: 'Cargando dirección de la Qibla...',
-            bn: 'কিবলার দিক লোড হচ্ছে...',
-            ms: 'Memuatkan arah kiblat...'
+            ar: '🧭 جارٍ تحميل اتجاه القبلة...',
+            en: '🧭 Loading Qibla direction...',
+            fr: '🧭 Chargement de la direction de la Qibla...',
+            tr: '🧭 Kıble yönü yükleniyor...',
+            ur: '🧭 سمتِ قبلہ لوڈ ہو رہی ہے...',
+            de: '🧭 Qibla-Richtung wird geladen...',
+            id: '🧭 Memuat arah kiblat...',
+            es: '🧭 Cargando dirección de la Qibla...',
+            bn: '🧭 কিবলার দিক লোড হচ্ছে...',
+            ms: '🧭 Memuatkan arah kiblat...'
         };
-        if (iconEl) iconEl.textContent = ICON;
-        if (textEl) textEl.textContent = TXT[lang] || TXT.en;
+        var msg = TXT[lang] || TXT.en;
+        var iconChar = msg.charAt(0); // 🧭
+        var textRest = msg.substring(2); // skip emoji + space
+        if (iconEl) iconEl.textContent = iconChar;
+        if (textEl) textEl.textContent = textRest;
         ov.removeAttribute('hidden');
         // Hide function
         var hidden = false;

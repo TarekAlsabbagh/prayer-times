@@ -113,8 +113,13 @@
             ms: '🧭 Memuatkan arah kiblat...'
         };
         var msg = TXT[lang] || TXT.en;
-        var iconChar = msg.charAt(0); // 🧭
-        var textRest = msg.substring(2); // skip emoji + space
+        // Phase Q-A11-fix v3 (2026-05-04): the 🧭 emoji (U+1F9ED) is a UTF-16
+        // surrogate pair — msg.charAt(0) returns only the high-surrogate half,
+        // which renders as a broken "?" glyph. Use String.fromCodePoint with
+        // codePointAt(0) to get the FULL emoji character. textRest skips
+        // 2 UTF-16 code units (= 1 surrogate pair) + 1 space = 3 chars.
+        var iconChar = String.fromCodePoint(msg.codePointAt(0));
+        var textRest = msg.substring(3); // skip surrogate pair (2) + space (1)
         if (iconEl) iconEl.textContent = iconChar;
         if (textEl) textEl.textContent = textRest;
         ov.removeAttribute('hidden');

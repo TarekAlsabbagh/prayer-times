@@ -13971,6 +13971,30 @@ html.moon-month-page #page-moon {
     }
 }
 
+/* ═══ Phase Q-Hub-K2 (2026-05-05): apply same E4-b parity fix to #page-qibla.
+   Diagnosis (Lighthouse mobile, post Q-Hub-K):
+     • SSR: <div class="page" id="page-qibla">  (no .active)
+     • DCL paddingTop/Bottom = 0px, box-sizing = content-box
+     • JS adds .active later → cascade fires:
+         .page.active { display: block; padding: 24px; }
+         @media (max-width: 768px) .page.active { padding: 12px; max-width: 100%; box-sizing: border-box; }
+     • Net shift: +24px (padding) + box-sizing recalc on the entire 7000+ px tall #page-qibla
+     • This pushes the footer down by exactly the gap we saw (~50px) → 0.21 CLS
+
+   Fix: pre-apply same layout via html.qibla-hub-page selector so JS .active
+   becomes a layout no-op. Mirrors moon E4-b pattern exactly. */
+html.qibla-hub-page #page-qibla {
+    display: block !important;
+    padding: 24px;
+}
+@media (max-width: 768px) {
+    html.qibla-hub-page #page-qibla {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
 /* ═══ Phase E4-c (2026-05-02): Contrast tuning for a.fc-hijri-link.
    Lighthouse A11y audit on /moon-today-in-{city} flagged a.fc-hijri-link
    for insufficient color contrast.

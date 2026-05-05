@@ -14702,44 +14702,56 @@ html.hijri-year-page #page-hijri-year {
     }
 }
 
-/* Breadcrumb (3 items: home › calendar › year). */
+/* HCal-A3 (2026-05-05): tighten reservations to actual measured fills.
+   After HCal-A2 dropped CLS to 0.066 avg / 0.099 max, the max ran too
+   close to the 0.1 boundary. Top remaining shifts:
+     - 0.056 + 0.013 on #page-hijri-year — page collapsing because
+       reservations were ~80-160px BIGGER than actual fills (collapse
+       happens after JS finishes filling, when actual content settles
+       below min-height that doesn't constrain it visually).
+     - 0.018 on .calendar-year-picker (year-select) — small in-hero
+       shift; needs its own reservation.
+
+   Tightening: drop each reservation closer to its measured filled
+   height, plus add a year-picker-container reservation. */
+
+/* Breadcrumb (3 items). Mobile actual ~70-95px depending on lang wrap. */
 #page-hijri-year #hyear-breadcrumbs {
-    min-height: 64px;
+    min-height: 56px;
 }
 @media (max-width: 768px) {
     #page-hijri-year #hyear-breadcrumbs {
-        min-height: 110px;
+        min-height: 95px;
     }
 }
 
-/* Info grid: 4 cards. Mobile = 2-col grid (2 rows). */
+/* Info grid: 4 cards in 2-col grid (mobile). Actual ~240-260px. */
 #page-hijri-year #hyear-info-grid {
-    min-height: 180px;
+    min-height: 160px;
 }
 @media (max-width: 768px) {
     #page-hijri-year #hyear-info-grid {
-        min-height: 320px;
+        min-height: 260px;
     }
 }
 
-/* Months table — 12 rows. Largest single growth source on the page.
-   Each row ~45px desktop / ~50-55px mobile (text wraps in Arabic dates). */
+/* Months table — 12 rows. Mobile actual ~600px (12 × ~50px). */
 #page-hijri-year #hyear-table-body {
     min-height: 540px;
 }
 @media (max-width: 768px) {
     #page-hijri-year #hyear-table-body {
-        min-height: 660px;
+        min-height: 620px;
     }
 }
 
-/* CTA — 3 primary action buttons. */
+/* CTA — 3 primary action buttons. Mobile actual ~120-130px stacked. */
 #page-hijri-year #hyear-cta {
     min-height: 56px;
 }
 @media (max-width: 768px) {
     #page-hijri-year #hyear-cta {
-        min-height: 150px;
+        min-height: 130px;
     }
 }
 
@@ -14747,24 +14759,32 @@ html.hijri-year-page #page-hijri-year {
 #page-hijri-year #hyear-years-current { min-height: 30px; }
 #page-hijri-year #hyear-years-grid    { min-height: 56px; }
 @media (max-width: 768px) {
-    #page-hijri-year #hyear-years-current { min-height: 60px; }
-    #page-hijri-year #hyear-years-grid    { min-height: 100px; }
+    #page-hijri-year #hyear-years-current { min-height: 56px; }
+    #page-hijri-year #hyear-years-grid    { min-height: 90px; }
 }
 
-/* FAQ — same structure as hijri-today FAQ (3 Q/A blocks). */
+/* FAQ — 3 Q/A blocks. Mobile actual ~370-380px. */
 #page-hijri-year #hyear-faq {
-    min-height: 320px;
+    min-height: 300px;
 }
 @media (max-width: 768px) {
     #page-hijri-year #hyear-faq {
-        min-height: 420px;
+        min-height: 380px;
     }
 }
 
 /* SEO text paragraph + footer SEO. */
-#page-hijri-year #hyear-seo-text   { min-height: 100px; }
+#page-hijri-year #hyear-seo-text   { min-height: 90px; }
 #page-hijri-year #hyear-footer-seo { min-height: 48px; }
 @media (max-width: 768px) {
-    #page-hijri-year #hyear-seo-text   { min-height: 200px; }
-    #page-hijri-year #hyear-footer-seo { min-height: 80px; }
+    #page-hijri-year #hyear-seo-text   { min-height: 150px; }
+    #page-hijri-year #hyear-footer-seo { min-height: 60px; }
+}
+
+/* HCal-A3 — Year picker container (label + select inside hero card).
+   Pre-JS the select has 0 options + minimal width; post-JS it has 41
+   options and grows to fit selected option width. The container shifts
+   ~18px in width/baseline. Reserve a fixed height on the container. */
+#page-hijri-year .calendar-year-picker.hpage-year-picker {
+    min-height: 50px;
 }

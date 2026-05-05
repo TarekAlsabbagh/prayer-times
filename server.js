@@ -6805,7 +6805,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             ar: {
                 kicker: 'دليل بوصلة القبلة',
                 h2: 'دليل شامل لاستخدام بوصلة القبلة',
-                lead: 'يوضّح هذا الدليل طريقة تحديد اتجاه القبلة من موقعك أو من المدينة التي تختارها يدوياً، وكيفية فهم زاوية القبلة واستخدام بوصلة القبلة مع الخريطة معاً نحو مكة المكرمة. كل قسم مختصر ومركّز على نقطة مختلفة لتسهيل المتابعة سواء على الهاتف أو على الكمبيوتر، ودون الحاجة لتثبيت أي تطبيق إضافي.',
+                lead: 'يوضّح هذا الدليل طريقة تحديد اتجاه القبلة من موقعك أو من المدينة التي تختارها يدوياً، وكيفية فهم زاوية القبلة واستخدام بوصلة القبلة مع الخريطة معاً نحو مكة المكرمة. كل قسم مختصر ومركّز على نقطة مختلفة لتسهيل المتابعة سواء على الهاتف أو على الكمبيوتر، ودون الحاجة لتثبيت أي تطبيق إضافي على الجهاز، فالنتيجة تظهر مباشرة من المتصفح وبخطوات قليلة جداً.',
                 shortCards: [
                     { icon: '🧭', h3: 'كيف تعمل بوصلة القبلة؟', bullets: [
                         'تحسب البوصلة الاتجاه من إحداثيات موقعك الجغرافية نحو الكعبة المشرفة في مكة المكرمة.',
@@ -6831,12 +6831,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 wideCard: {
                     icon: '📐',
                     h3: 'فهم زاوية القبلة نحو مكة المكرمة',
-                    paragraphs: [
-                        'زاوية القبلة هي الدرجة التي توضّح اتجاه الكعبة بالنسبة إلى الشمال الجغرافي، وتختلف هذه الزاوية من بلد إلى آخر ومن مدينة إلى أخرى لأن الحساب يعتمد على موقعك على سطح الأرض الكروية. تُقاس بالدرجات في عقارب الساعة من الشمال الجغرافي، فالقيمة 0° تعني شمالاً و90° شرقاً و180° جنوباً و270° غرباً، وأي قيمة بين هذه القيم تعني اتجاهاً مائلاً بين الجهات الأربع. مثلاً في الرياض تكون القبلة جنوب-غرب تقريباً عند 240° تقريباً، وفي إسطنبول جنوب-شرق عند 150° تقريباً، وفي القاهرة شرق عند 135° تقريباً، وفي جاكرتا غرب عند 295° تقريباً، وفي الدار البيضاء شمال-شرق عند 90° تقريباً. هذه الأرقام دلالية فقط وقد تختلف بضع درجات حسب الإحداثيات الدقيقة لكل موقع داخل المدينة.',
-                        'اتجاه القبلة لا يتغير بتغير الوقت أو اليوم لأن مكة المكرمة موقع ثابت على الأرض، لكنه يتغير بتغير موقعك أنت تغيراً واضحاً. عند الانتقال بين البلدان أو حتى بين مدن البلد نفسه قد تختلف زاوية القبلة الجديدة بشكل ملحوظ عن السابقة، وكلما ابتعد الموقع عن مكة المكرمة كان اختلاف الزاوية بين المدن المتجاورة أصغر. تتجاوز الزاوية 270° في معظم المدن البعيدة شمالاً مثل أوروبا الغربية وكندا، وتقترب من 90° في جنوب شرق آسيا مثل ماليزيا وإندونيسيا، بينما تتراوح بين هاتين القيمتين في أغلب المدن العربية الكبرى لأن مكة المكرمة تقع وسط شبه الجزيرة العربية. هذا التنوع الطبيعي يعكس أن اتجاه القبلة ليس قيمة عالمية واحدة بل تُحسب لكل موقع على حدة بناءً على إحداثياته الفعلية.',
-                        'معرفة قيمة زاوية القبلة لموقعك تساعدك على تحديد الاتجاه بسرعة باستخدام أي بوصلة عادية حين تغيب بوصلة القبلة الإلكترونية، كما تساعد في تثبيت سجادة الصلاة في البيت أو الفندق بحيث يصبح اتجاه القبلة جاهزاً دائماً دون الحاجة لإعادة الحساب في كل صلاة. هذه القاعدة مفيدة بشكل خاص في الأماكن المغلقة التي يصعب فيها الحصول على إشارة GPS قوية، مثل الطوابق السفلية أو المباني الكبيرة المغطاة بالحديد. كذلك يستفيد منها الحجاج والمعتمرون لأنها تتيح لهم متابعة اتجاه القبلة من غرف الفنادق دون الاضطرار إلى مشاركة موقعهم في كل مرة. كل ذلك دون الحاجة لتطبيق إضافي أو إعدادات معقدة في الجهاز.',
-                        'عند الشك في صحة الاتجاه يمكنك مقارنة قراءة بوصلة القبلة على الهاتف مع موقع الكعبة المشرفة على الخريطة، وإذا اختلفت القراءتان فالأرجح أن هناك تشويشاً مغناطيسياً يستلزم الاعتماد على الخريطة أكثر من البوصلة في تلك اللحظة. هذا التشويش قد يأتي من أبواب الحديد أو الأجهزة الكبيرة أو حتى الكابلات الكهربائية القريبة، وقد يستمر إلى أن تبتعد عن مصدر التشويش ببضعة أمتار. الجمع بين تحديد القبلة من موقعي وبوصلة القبلة والخريطة هو الأسلوب الأنسب لمعظم المستخدمين، ويضمن لك معرفة اتجاه القبلة نحو مكة المكرمة بدقة كافية للصلاة والذكر، سواء كنت في البيت أو في السفر أو حتى في رحلة عمل قصيرة في مدينة لا تعرف اتجاهاتها بعد.',
+                    intro: 'زاوية القبلة هي الدرجة التي توضّح اتجاه الكعبة بالنسبة إلى الشمال الجغرافي، وتختلف من بلد إلى آخر ومن مدينة إلى أخرى لأن الحساب يعتمد على موقعك على سطح الأرض الكروية وعلى البعد عن مكة المكرمة. مثلاً في الرياض تكون القبلة جنوب-غرب عند 240° تقريباً، وفي إسطنبول جنوب-شرق عند 150°، وفي القاهرة شرق عند 135°، وفي جاكرتا غرب عند 295°، وفي الدار البيضاء شمال-شرق عند 90° تقريباً، وفي لندن وباريس قريبة من 120°، وفي نيويورك ومونتريال تقترب من 60°. تتجاوز الزاوية 270° في معظم المدن البعيدة شمالاً مثل أوروبا الغربية وكندا، وتقترب من 90° في جنوب شرق آسيا مثل ماليزيا وإندونيسيا، بينما تتراوح بين هاتين القيمتين في أغلب المدن العربية الكبرى لأن مكة المكرمة تقع وسط شبه الجزيرة العربية، وكلما ابتعد الموقع عن مكة كان الفارق بين زاوية القبلة في المدن المتجاورة أصغر.',
+                    miniFacts: [
+                        'تُقاس زاوية القبلة بالدرجات في عقارب الساعة من الشمال الجغرافي، فالقيمة 0° تعني شمالاً و90° شرقاً و180° جنوباً و270° غرباً، وأي قيمة بينها تعني اتجاهاً مائلاً بين الجهات.',
+                        'تختلف زاوية القبلة حسب الموقع والمدينة لأن الحساب يعتمد على إحداثياتك الفعلية على سطح الأرض الكروية وعلى المسافة الهندسية إلى مكة المكرمة.',
+                        'اتجاه القبلة لا يتغير بسبب الوقت أو اليوم أو الموسم لأن مكة المكرمة موقع ثابت على الأرض، بل يتغير فقط بتغير المكان الذي تنطلق منه أو تنتقل إليه.',
                     ],
+                    closing: 'معرفة قيمة زاوية القبلة لموقعك تساعدك على تحديد الاتجاه بسرعة بأي بوصلة عادية حين تغيب بوصلة القبلة الإلكترونية، كما تتيح تثبيت سجادة الصلاة في البيت أو الفندق دون إعادة الحساب في كل صلاة. هذه القاعدة مفيدة بشكل خاص للحجاج والمعتمرين عند تنقّلهم بين الفنادق، ولأي مسافر يقضي أياماً قليلة في مدينة جديدة لا يعرف بعد اتجاهات شوارعها. عند الشك في صحة الاتجاه يمكنك مقارنة قراءة بوصلة القبلة على الهاتف مع موقع الكعبة المشرفة على الخريطة، وإذا اختلفت القراءتان فالأرجح أن هناك تشويشاً مغناطيسياً يستلزم الاعتماد على الخريطة أكثر من البوصلة في تلك اللحظة، وقد يأتي التشويش من أبواب الحديد أو الأجهزة الكبيرة القريبة أو حتى من معلّقات معدنية بسيطة على الجدار. الجمع بين تحديد القبلة من موقعي وبوصلة القبلة والخريطة هو الأسلوب الأنسب لمعظم المستخدمين، ويغني عن أي تطبيق إضافي ويعمل في كل أنحاء العالم بنفس الدقة وبدون أي إعدادات يدوية معقدة.',
                 },
                 tipsCard: {
                     icon: '💡',
@@ -6848,7 +6849,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'اختر المدينة يدوياً إذا لم يعمل GPS أو فضّلت عدم مشاركة موقعك مع المتصفح، فالنتيجة تبقى دقيقة ضمن حدود تلك المدينة.',
                     ],
                 },
-                closing: 'كل ما سبق متاح في صفحة بوصلة القبلة هذه دون الحاجة لتثبيت تطبيق إضافي على هاتفك أو جهاز الكمبيوتر. سواء اخترت تحديد القبلة من موقعي أو اخترت المدينة يدوياً، الحساب يُجرى لحظياً باستخدام صيغة Great-Circle الفلكية، وتظهر زاوية القبلة على شكل سهم مؤشّر في الأعلى، مع المسافة إلى مكة المكرمة وإحداثيات الموقع. هذه المعلومات الثلاث مجتمعة تكفي لمعرفة اتجاه القبلة بدقة في البيت وفي السفر وفي أي مكان آخر تحتاج فيه إلى الصلاة بسرعة وبثقة عالية بصحة الاتجاه. الصفحة تعمل في جميع الدول وعلى جميع الهواتف الحديثة، وتتعامل تلقائياً مع اختلاف زاوية القبلة بين المدن، ولا تحتاج إلى أي إعدادات يدوية بعد السماح بالوصول إلى موقعك أو اختيار مدينتك من القائمة المتاحة في حقل البحث في الأعلى.',
+                summary: {
+                    title: 'ملخص سريع لاتجاه القبلة',
+                    body: 'كل ما سبق متاح في صفحة بوصلة القبلة هذه دون الحاجة لتثبيت تطبيق إضافي على هاتفك أو جهاز الكمبيوتر. سواء اخترت تحديد القبلة من موقعي أو اخترت المدينة يدوياً، يُجرى الحساب لحظياً باستخدام صيغة Great-Circle الفلكية، وتظهر زاوية القبلة على شكل سهم مؤشّر في الأعلى، مع المسافة إلى مكة المكرمة وإحداثيات الموقع. هذه المعلومات الثلاث مجتمعة تكفي لمعرفة اتجاه القبلة بدقة في البيت وفي السفر وفي أي مكان آخر تحتاج فيه إلى الصلاة بسرعة وبثقة عالية بصحة الاتجاه. الصفحة تعمل في جميع الدول وعلى جميع الهواتف الحديثة، وتتعامل تلقائياً مع اختلاف زاوية القبلة بين المدن، ولا تحتاج إلى أي إعدادات يدوية بعد السماح بالوصول إلى موقعك أو اختيار مدينتك من القائمة المتاحة في حقل البحث في أعلى الصفحة، وتُحدَّث القيم تلقائياً عند تغيير الموقع أو إعادة فتح الصفحة من جهاز جديد. كل ما تحتاجه هو متصفح حديث واتصال بالإنترنت، والصفحة قابلة للحفظ كاختصار على الهاتف للوصول السريع، وتعمل أيضاً عند الانتقال بين أوضاع GPS واختيار المدينة دون الحاجة لإعادة تحميل الصفحة، مما يجعل اتجاه القبلة جاهزاً في كل الأوقات وبأقل عدد ممكن من الخطوات الإضافية على المستخدم.',
+                },
             },
             en: {
                 kicker: 'Qibla compass guide',
@@ -6879,11 +6883,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 wideCard: {
                     icon: '📐',
                     h3: 'Understanding the Qibla Angle toward Mecca',
-                    paragraphs: [
-                        'The Qibla angle is the degree value that indicates the direction of the Kaaba relative to geographic north. The angle differs between countries and between cities because the computation depends on your position on the spherical surface of Earth. It is measured in degrees clockwise from geographic north — 0° means north, 90° east, 180° south, 270° west. For example, the Qibla is roughly southwest from Riyadh, southeast from Istanbul, east from Cairo, west from Jakarta, and northeast from Casablanca.',
-                        'The Qibla direction does not change with the time of day because Mecca is a fixed point on Earth, but it does change with your own position. Moving between countries — or even between cities inside the same country — can shift the new Qibla angle noticeably. The angle exceeds 270° in most cities far to the north such as Western Europe, and approaches 90° in Southeast Asia, while staying between those values in most major Arab cities because Mecca lies in the middle of the Arabian Peninsula. This natural variation reflects that the Qibla is not a single global value; it is computed per location.',
-                        'Knowing the Qibla angle for your location lets you find the bearing quickly with any ordinary compass when an electronic Qibla compass is unavailable, and lets you fix a prayer mat at home or in a hotel so the Qibla direction is always ready without recomputing for every prayer. When in doubt about the bearing, compare the Qibla compass reading on the phone against the position of the Kaaba on the map; if they disagree, magnetic interference is the likely cause and the map should be trusted more than the compass at that moment.',
+                    intro: 'The Qibla angle is the degree value that indicates the direction of the Kaaba relative to geographic north. It differs between countries and cities because the computation depends on your position on the spherical surface of Earth. For example, the Qibla is roughly southwest from Riyadh, southeast from Istanbul, east from Cairo, west from Jakarta, and northeast from Casablanca; it exceeds 270° in most cities far to the north such as Western Europe, and approaches 90° in Southeast Asia.',
+                    miniFacts: [
+                        'Measured clockwise from geographic north — 0° means north, 90° east, 180° south, 270° west.',
+                        'Differs by location and city because the calculation depends on your actual coordinates on a spherical Earth.',
+                        'Does not change with the time of day because Mecca is a fixed point — only your own location changes it.',
                     ],
+                    closing: 'Knowing the Qibla angle for your location lets you find the bearing quickly with any ordinary compass when the electronic Qibla compass is unavailable, and lets you fix a prayer mat at home or in a hotel so the direction is always ready without recomputing for every prayer. When in doubt, compare the Qibla compass reading on the phone against the position of the Kaaba on the map; if they disagree, magnetic interference is likely and the map should be trusted more than the compass at that moment.',
                 },
                 tipsCard: {
                     icon: '💡',
@@ -6894,6 +6900,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Compare the Qibla compass reading with the Kaaba position on the map when you doubt the bearing.',
                         'Pick the city manually if GPS is unavailable or you prefer not to share your location with the browser.',
                     ],
+                },
+                summary: {
+                    title: 'Quick Summary',
+                    body: 'Combining "Qibla from my location" with the Qibla compass and the map is the most reliable workflow for most users. The Qibla direction does not change with the time of day because Mecca is a fixed point on Earth, but it does change with your own position; moving from country to country, or even between cities inside the same country, may shift the new Qibla angle noticeably from the previous one. When in doubt about the bearing, compare the Qibla compass reading on the phone against the location of the Kaaba on the map: if both agree the direction is sound, and if they disagree magnetic interference is the likely cause and the map should be trusted more than the compass at that moment.',
                 },
             },
             fr: {
@@ -6941,6 +6951,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Choisissez la ville manuellement si le GPS ne fonctionne pas ou si vous préférez ne pas partager votre position.',
                     ],
                 },
+                summary: {
+                    title: 'Résumé rapide',
+                    body: 'Combiner « Qibla depuis ma position » avec la boussole de la Qibla et la carte est le flux le plus fiable pour la plupart des utilisateurs. La direction de la Qibla ne change pas avec l\u2019heure du jour car La Mecque est un point fixe sur Terre, mais elle change avec votre propre position ; en passant d\u2019un pays à un autre, ou même entre villes d\u2019un même pays, le nouvel angle peut différer nettement. En cas de doute, comparez la boussole de la Qibla avec la Kaaba sur la carte : si les deux concordent, le cap est juste, sinon les interférences magnétiques sont probables et la carte est plus fiable à cet instant.',
+                },
             },
             tr: {
                 kicker: 'Kıble pusulası rehberi',
@@ -6986,6 +7000,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Yön konusunda şüphe duyduğunuzda kıble pusulası okumasını haritadaki Kâbe konumu ile karşılaştırın.',
                         'GPS çalışmıyorsa veya konumunuzu paylaşmak istemiyorsanız şehri elle seçin.',
                     ],
+                },
+                summary: {
+                    title: 'Hızlı özet',
+                    body: 'Konumumdan kıbleyi, kıble pusulasını ve haritayı birlikte kullanmak çoğu kullanıcı için en güvenilir yoldur. Kıble yönü gün saatine göre değişmez çünkü Mekke yeryüzünde sabittir, ama kendi konumunuza göre değişir; ülkeden ülkeye, hatta aynı ülkede şehirden şehre geçtiğinizde yeni açı belirgin biçimde farklı olabilir. Yön konusunda emin olmadığınızda, kıble pusulası okumasını harita üzerindeki Kâbe konumu ile karşılaştırın: ikisi uyuşuyorsa yön doğrudur, uyuşmuyorsa manyetik karışma muhtemeldir ve o anda haritaya pusuladan daha çok güvenmek doğru olur.',
                 },
             },
             ur: {
@@ -7033,6 +7051,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'اگر GPS کام نہیں کرتا یا آپ مقام شیئر نہیں کرنا چاہتے تو دستی طور پر شہر منتخب کریں۔',
                     ],
                 },
+                summary: {
+                    title: 'فوری خلاصہ',
+                    body: '\u201Cمیرے مقام سے قبلہ\u201D، قبلہ کے قطب نما اور نقشے کا مجموعہ زیادہ تر صارفین کے لیے سب سے قابل اعتماد طریقہ ہے۔ قبلہ کی سمت دن کے وقت سے نہیں بدلتی کیونکہ مکہ مکرمہ زمین پر ایک مستقل مقام ہے، لیکن آپ کے اپنے مقام کے بدلنے سے بدلتی ہے؛ ایک ملک سے دوسرے ملک، یا ایک ہی ملک کے دو شہروں کے درمیان جانے پر نئی زاویہ نمایاں طور پر مختلف ہو سکتی ہے۔ شک کی صورت میں قبلہ کے قطب نما کی قراءت کا نقشے پر کعبہ کے مقام سے موازنہ کریں: اگر دونوں ملیں تو سمت درست ہے، ورنہ مقناطیسی مداخلت ممکن ہے اور اس وقت نقشے پر بھروسہ کرنا قطب نما سے بہتر ہے۔',
+                },
             },
             de: {
                 kicker: 'Qibla-Kompass-Leitfaden',
@@ -7078,6 +7100,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Vergleichen Sie die Anzeige des Qibla-Kompasses mit der Kaaba auf der Karte bei Zweifel.',
                         'Wählen Sie die Stadt manuell, falls GPS nicht geht oder Sie den Standort nicht teilen möchten.',
                     ],
+                },
+                summary: {
+                    title: 'Schnelle Zusammenfassung',
+                    body: 'Die Kombination aus „Qibla von meinem Standort", dem Qibla-Kompass und der Karte ist der zuverlässigste Workflow für die meisten Nutzer. Die Qibla-Richtung ändert sich nicht mit der Tageszeit, da Mekka ein fester Punkt auf der Erde ist, aber sie ändert sich mit Ihrer eigenen Position; wechseln Sie das Land, oder auch nur die Stadt innerhalb desselben Landes, kann der neue Winkel deutlich anders sein. Bei Zweifeln vergleichen Sie die Anzeige des Qibla-Kompasses mit der Kaaba-Position auf der Karte: stimmen beide überein, ist die Peilung in Ordnung, andernfalls liegt vermutlich magnetische Störung vor und die Karte sollte in diesem Moment vor dem Kompass den Vorzug erhalten.',
                 },
             },
             id: {
@@ -7125,6 +7151,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Pilih kota secara manual jika GPS tidak tersedia atau Anda tidak ingin berbagi lokasi.',
                     ],
                 },
+                summary: {
+                    title: 'Ringkasan Cepat',
+                    body: 'Menggabungkan "kiblat dari lokasi saya" dengan kompas kiblat dan peta adalah alur kerja paling andal bagi sebagian besar pengguna. Arah kiblat tidak berubah seiring waktu karena Mekkah adalah titik tetap di Bumi, tetapi berubah seiring posisi Anda; ketika Anda berpindah negara, atau bahkan antar kota dalam negara yang sama, sudut baru bisa berbeda secara mencolok. Saat ragu, bandingkan bacaan kompas kiblat dengan letak Kakbah di peta: jika sepakat berarti arah benar, jika tidak gangguan magnetik kemungkinan besar penyebabnya, dan saat itu peta lebih dapat dipercaya daripada kompas.',
+                },
             },
             es: {
                 kicker: 'Guía de la brújula de la Qibla',
@@ -7170,6 +7200,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Compare la lectura de la brújula de la Qibla con la Kaaba en el mapa cuando dude del rumbo.',
                         'Elija la ciudad manualmente si el GPS no funciona o prefiere no compartir su ubicación.',
                     ],
+                },
+                summary: {
+                    title: 'Resumen rápido',
+                    body: 'Combinar "Qibla desde mi ubicación" con la brújula de la Qibla y el mapa es el flujo más fiable para la mayoría de los usuarios. La dirección de la Qibla no cambia con la hora del día porque La Meca es un punto fijo en la Tierra, pero sí cambia con su propia posición; al pasar de un país a otro, o incluso entre ciudades del mismo país, el nuevo ángulo puede ser notablemente distinto. Ante la duda, compare la lectura de la brújula de la Qibla con la posición de la Kaaba en el mapa: si ambas coinciden el rumbo es correcto, si no probablemente haya interferencia magnética y conviene confiar en el mapa más que en la brújula en ese momento.',
                 },
             },
             bn: {
@@ -7217,6 +7251,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'GPS কাজ না করলে বা অবস্থান শেয়ার করতে না চাইলে ম্যানুয়ালি শহর বেছে নিন।',
                     ],
                 },
+                summary: {
+                    title: 'দ্রুত সারাংশ',
+                    body: '"আমার অবস্থান থেকে কিবলা", কিবলা কম্পাস ও মানচিত্রের সমন্বয়ই অধিকাংশ ব্যবহারকারীর জন্য সবচেয়ে নির্ভরযোগ্য পদ্ধতি। কিবলার দিক দিনের সময়ের সাথে বদলায় না কারণ মক্কা পৃথিবীর একটি স্থির বিন্দু, তবে আপনার নিজের অবস্থানের সাথে বদলায়; এক দেশ থেকে আরেক দেশে, এমনকি একই দেশের একটি শহর থেকে অন্য শহরে গেলে নতুন কোণ লক্ষণীয়ভাবে আলাদা হতে পারে। সন্দেহ হলে কিবলা কম্পাসের পাঠ মানচিত্রে কাবার অবস্থানের সাথে মিলিয়ে দেখুন: মিললে দিক সঠিক, না মিললে চৌম্বক বিঘ্ন সম্ভাব্য, এবং তখন কম্পাসের চেয়ে মানচিত্রের উপর নির্ভর করাই ভালো।',
+                },
             },
             ms: {
                 kicker: 'Panduan kompas kiblat',
@@ -7263,6 +7301,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         'Pilih bandar secara manual jika GPS tidak berfungsi atau anda tidak mahu berkongsi lokasi.',
                     ],
                 },
+                summary: {
+                    title: 'Ringkasan Pantas',
+                    body: 'Menggabungkan "kiblat dari lokasi saya" dengan kompas kiblat dan peta ialah aliran kerja paling dipercayai bagi kebanyakan pengguna. Arah kiblat tidak berubah mengikut masa kerana Makkah ialah titik tetap di Bumi, tetapi ia berubah mengikut kedudukan anda; apabila anda berpindah negara, atau antara bandar dalam negara yang sama, sudut baharu mungkin berbeza dengan ketara. Apabila ragu, bandingkan bacaan kompas kiblat dengan kedudukan Kaabah pada peta: jika bersetuju arah itu betul, jika tidak gangguan magnet kemungkinan puncanya, dan pada saat itu peta lebih boleh dipercayai daripada kompas.',
+                },
             },
         };
         try {
@@ -7272,13 +7314,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 return `<article class="qhc2-short-card"><div class="qhc2-icon" aria-hidden="true">${c.icon}</div><h3 class="qhc2-h3">${_escHtml(c.h3)}</h3><ul class="qhc2-bullets">${items}</ul></article>`;
             }).join('');
             const _w = _g.wideCard;
-            const _wideParagraphs = _w.paragraphs.map(p => `<p class="qhc2-wide-body">${_escHtml(p)}</p>`).join('');
-            const _wideHtml = `<article class="qhc2-wide-card"><div class="qhc2-wide-head"><div class="qhc2-icon qhc2-icon--wide" aria-hidden="true">${_w.icon}</div><h3 class="qhc2-h3 qhc2-h3--wide">${_escHtml(_w.h3)}</h3></div>${_wideParagraphs}</article>`;
+            // Phase Q-Hub-D (2026-05-05): wide card now uses intro+miniFacts+closing
+            // for visual lightness. Falls back to legacy paragraphs[] if data is old.
+            let _wideBodyHtml;
+            if (_w.intro || _w.miniFacts || _w.closing) {
+                const _intro = _w.intro ? `<p class="qhc2-wide-body qhc2-wide-intro">${_escHtml(_w.intro)}</p>` : '';
+                const _miniFactsHtml = (_w.miniFacts && _w.miniFacts.length)
+                    ? `<ul class="qhc2-mini-facts">${_w.miniFacts.map(f => `<li>${_escHtml(f)}</li>`).join('')}</ul>`
+                    : '';
+                const _wClose = _w.closing ? `<p class="qhc2-wide-body qhc2-wide-closing">${_escHtml(_w.closing)}</p>` : '';
+                _wideBodyHtml = _intro + _miniFactsHtml + _wClose;
+            } else {
+                _wideBodyHtml = (_w.paragraphs || []).map(p => `<p class="qhc2-wide-body">${_escHtml(p)}</p>`).join('');
+            }
+            const _wideHtml = `<article class="qhc2-wide-card"><div class="qhc2-wide-head"><div class="qhc2-icon qhc2-icon--wide" aria-hidden="true">${_w.icon}</div><h3 class="qhc2-h3 qhc2-h3--wide">${_escHtml(_w.h3)}</h3></div>${_wideBodyHtml}</article>`;
             const _t = _g.tipsCard;
             const _tipsItems = _t.tips.map(tip => `<li>${_escHtml(tip)}</li>`).join('');
             const _tipsHtml = `<article class="qhc2-tips-card"><div class="qhc2-tips-head"><div class="qhc2-icon qhc2-icon--tips" aria-hidden="true">${_t.icon}</div><h3 class="qhc2-h3 qhc2-h3--tips">${_escHtml(_t.h3)}</h3></div><ul class="qhc2-tips-list">${_tipsItems}</ul></article>`;
-            const _closingHtml = _g.closing ? `<p class="qhc2-closing">${_escHtml(_g.closing)}</p>` : '';
-            const _sectionHtml = `<div class="section-card qibla-hub-only qhc2-section"><header class="qhc2-header"><span class="qhc2-kicker">${_escHtml(_g.kicker)}</span><h2 class="qhc2-h2">${_escHtml(_g.h2)}</h2><p class="qhc2-lead">${_escHtml(_g.lead)}</p></header><div class="qhc2-grid">${_shortCardsHtml}</div>${_wideHtml}${_tipsHtml}${_closingHtml}</div>`;
+            // Phase Q-Hub-D (2026-05-05): closing string → "ملخص سريع" box with title.
+            // Backward-compat: bare `closing` string still rendered as plain paragraph.
+            let _summaryHtml = '';
+            if (_g.summary && _g.summary.body) {
+                _summaryHtml = `<aside class="qhc2-summary-box"><div class="qhc2-summary-title">${_escHtml(_g.summary.title || '')}</div><p class="qhc2-summary-body">${_escHtml(_g.summary.body)}</p></aside>`;
+            } else if (_g.closing) {
+                _summaryHtml = `<p class="qhc2-closing">${_escHtml(_g.closing)}</p>`;
+            }
+            const _sectionHtml = `<div class="section-card qibla-hub-only qhc2-section"><header class="qhc2-header"><span class="qhc2-kicker">${_escHtml(_g.kicker)}</span><h2 class="qhc2-h2">${_escHtml(_g.h2)}</h2><p class="qhc2-lead">${_escHtml(_g.lead)}</p></header><div class="qhc2-grid">${_shortCardsHtml}</div>${_wideHtml}${_tipsHtml}${_summaryHtml}</div>`;
             html = html.replace(
                 /(<!-- Section 8: FAQ \(both modes, different content\) -->\s*<div class="section-card">\s*<h2 id="qibla-faq-title")/,
                 _sectionHtml + '$1'

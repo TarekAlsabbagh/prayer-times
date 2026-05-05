@@ -14114,8 +14114,17 @@ function _loadQiblaHubPage(ctx) {
     const visitedGrid  = document.getElementById('qibla-hub-visited-grid');
     const visited = _readQiblaVisited();
     if (visitedCard && visitedGrid) {
+        // Phase Q-Hub-K (2026-05-05): SSR-rendered card always visible.
+        // - Has data: REPLACE placeholder with city chips. Skip if SSR
+        //   title is already in place (data-qhh-ssr) to preserve LCP-area
+        //   stability — the title is identical to ui.visited_title.
+        // - Empty: leave the SSR placeholder in place. Don't toggle
+        //   hidden/display (those caused the residual 0.21 footer CLS
+        //   shift on Lighthouse Run 3 before this fix).
         if (visited.length > 0) {
-            if (visitedTitle) visitedTitle.textContent = ui.visited_title;
+            if (visitedTitle && visitedTitle.getAttribute('data-qhh-ssr') !== '1') {
+                visitedTitle.textContent = ui.visited_title;
+            }
             visitedGrid.innerHTML = visited.map(v => {
                 const display = _resolveCityNameClient(v.slug, lang, v.englishName || v.slug);
                 const href = _buildQiblaCityUrl(v.englishName || v.slug, v.lat, v.lng, v.slug);
@@ -14124,11 +14133,9 @@ function _loadQiblaHubPage(ctx) {
                      + `<span class="qhv-name">${display}</span>`
                      + `<span class="qhv-arrow" aria-hidden="true">→</span></a>`;
             }).join('');
-            visitedCard.hidden = false;
-        } else {
-            visitedGrid.innerHTML = '';
-            visitedCard.hidden = true;
+            visitedGrid.removeAttribute('data-qhh-placeholder');
         }
+        // Else: keep the SSR placeholder. No DOM mutation = no CLS.
     }
 
     // ── 8. How-to: 3 guided steps (replaces tiered popular-cities grid on hub) ──

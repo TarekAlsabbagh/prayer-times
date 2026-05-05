@@ -14436,6 +14436,26 @@ html[data-theme="dark"] .qhe-link-icon { background: rgba(255,255,255,0.06); }
    Buffer of +2px avoids exact-match breakage if a chip wraps a line. */
 html.qibla-hub-page #qibla-hub-howto-card { min-height: 295px; }
 html.qibla-hub-page #qibla-hub-usecases-card { min-height: 200px; }
+/* Phase Q-Hub-K (2026-05-05): visited-card always-visible reservation. */
+html.qibla-hub-page #qibla-hub-visited-card {
+    min-height: 170px;
+    display: block !important;  /* defeat any [hidden] residual */
+}
+html.qibla-hub-page .qhv-placeholder {
+    margin: 8px 0 0;
+    padding: 14px 16px;
+    color: var(--text-light);
+    background: rgba(26,74,26,0.04);
+    border: 1px dashed rgba(26,74,26,0.18);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+}
+html[data-theme="dark"] html.qibla-hub-page .qhv-placeholder {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(127,199,127,0.22);
+}
 /* Phase Q-Hub-J extension (2026-05-05): FAQ inner div is empty in SSR
    and JS fills it with 4 <details> items (~230px desktop / 278px mobile).
    Reserving the inner div height prevents the section-card height jump
@@ -14446,4 +14466,5 @@ html.qibla-hub-page #qibla-faq { min-height: 232px; }
     html.qibla-hub-page #qibla-hub-howto-card { min-height: 410px; }
     html.qibla-hub-page #qibla-hub-usecases-card { min-height: 280px; }
     html.qibla-hub-page #qibla-faq { min-height: 280px; }
+    html.qibla-hub-page #qibla-hub-visited-card { min-height: 220px; }
 }

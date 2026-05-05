@@ -6811,6 +6811,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             ms: { sub: 'Gunakan kompas pintar berdasarkan lokasi anda atau pilih bandar anda secara manual', b1: 'Berfungsi di setiap negara', b2: 'Ketepatan astronomi tinggi', geo: '📍 Tunjukkan kiblat dari lokasi saya', micro: 'Lokasi anda akan dikesan secara automatik dalam beberapa saat', pick: '🌍 Pilih bandar anda secara manual', srch: 'Cari bandar anda (mis. Riyadh, Kaherah, Istanbul)' },
         };
         const _qhh = _qHubHeroSSR[seo.lang] || _qHubHeroSSR.en;
+        // Phase Q-Hub-K (2026-05-05): visited-card SSR placeholder. JS used to
+        // toggle this card via the hidden attribute, causing a 0→170-250px
+        // height jump that propagated CLS down to the footer (the residual
+        // 0.21 shift seen on Lighthouse Run 3 after Q-Hub-J landed).
+        // Now SSR renders the card fully visible with a per-lang placeholder
+        // grid item; JS replaces the grid contents when LRU has data and
+        // leaves the placeholder when empty.
+        const _qHubVisitedSSR = {
+            ar: { title: '🕓 آخر المدن التي زرتها', placeholder: 'ابدأ باختيار مدينة لمعرفة اتجاه القبلة بدقة' },
+            en: { title: '🕓 Recently visited cities', placeholder: 'Start by picking a city to find the Qibla direction' },
+            fr: { title: '🕓 Villes récemment visitées', placeholder: 'Commencez par choisir une ville pour trouver la Qibla' },
+            tr: { title: '🕓 Son ziyaret edilen şehirler', placeholder: 'Kıble yönünü bulmak için bir şehir seçerek başlayın' },
+            ur: { title: '🕓 حال ہی میں دیکھے گئے شہر', placeholder: 'اپنا قبلہ معلوم کرنے کے لیے شہر منتخب کریں' },
+            de: { title: '🕓 Zuletzt besuchte Städte', placeholder: 'Wählen Sie eine Stadt, um die Qibla zu finden' },
+            id: { title: '🕓 Kota yang baru dikunjungi', placeholder: 'Mulai dengan memilih kota untuk menemukan arah kiblat' },
+            es: { title: '🕓 Ciudades visitadas recientemente', placeholder: 'Comience eligiendo una ciudad para encontrar la Qibla' },
+            bn: { title: '🕓 সম্প্রতি পরিদর্শিত শহর', placeholder: 'কিবলার দিক জানতে একটি শহর বেছে নিয়ে শুরু করুন' },
+            ms: { title: '🕓 Bandar terkini yang dilawati', placeholder: 'Mulakan dengan memilih bandar untuk mencari arah kiblat' },
+        };
+        const _qhv = _qHubVisitedSSR[seo.lang] || _qHubVisitedSSR.en;
+        // Replace the entire visited-card div (with hidden attr) with an
+        // SSR-filled visible version carrying data-qhh-ssr="1".
+        html = html.replace(
+            /<div class="section-card qibla-hub-only" id="qibla-hub-visited-card" hidden>\s*<h2 id="qibla-hub-visited-title"[^>]*><\/h2>\s*<div id="qibla-hub-visited-grid"[^>]*><\/div>\s*<\/div>/,
+            `<div class="section-card qibla-hub-only" id="qibla-hub-visited-card" data-qhh-ssr="1"><h2 id="qibla-hub-visited-title" class="qibla-hub-visited-title" data-qhh-ssr="1">${_escHtml(_qhv.title)}</h2><div id="qibla-hub-visited-grid" class="qibla-hub-visited-grid" data-qhh-placeholder="1"><p class="qhv-placeholder">${_escHtml(_qhv.placeholder)}</p></div></div>`
+        );
         // Subtitle
         html = html.replace(
             /<p id="qibla-hub-subtitle"[^>]*><\/p>/,

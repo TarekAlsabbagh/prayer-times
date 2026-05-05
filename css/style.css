@@ -14788,3 +14788,111 @@ html.hijri-year-page #page-hijri-year {
 #page-hijri-year .calendar-year-picker.hpage-year-picker {
     min-height: 50px;
 }
+
+/* ═══ Phase Countdown-A (2026-05-05): CLS fix for the 4 countdown pages.
+   Scope: /ramadan-countdown, /eid-al-fitr-countdown, /eid-al-adha-countdown,
+   /hijri-new-year-countdown.
+
+   All 4 pages share the SAME structural pattern (different prefix IDs but
+   identical class names): countdown-hero, countdown-years, countdown-faq,
+   countdown-links, countdown-info, countdown-notice. So a single CSS block
+   targeting the shared classes covers all 4 pages.
+
+   Lighthouse mobile baseline shifts (run on each route):
+     - /ramadan-countdown:        CLS=0.313, hero shift=0.302 (h=793)
+     - /eid-al-fitr-countdown:    CLS=0.309, hero shift=0.301 (h=803)
+     - /eid-al-adha-countdown:    CLS=0.591 (page shifts twice as much)
+     - /hijri-new-year-countdown: CLS=0.309, hero shift=0.301 (h=827)
+
+   Top sources of CLS on every page:
+     1. .countdown-hero growing from ~500-600px (SSR placeholder "--" timer
+        + empty .cd-h1-seo / .cd-seo-line / .cd-personal-bar.hidden +
+        partial .countdown-meta with "—") to ~793-827px (post-JS filled).
+     2. .page padding parity (.page.active adds 24px desktop / 12px+box-sizing
+        mobile after JS hydration) — same root cause as HDay/HCal.
+     3. .countdown-years <tbody> growing from 1 placeholder loading row to
+        ~10 filled future-year rows (~500-550px on mobile).
+     4. .countdown-faq-list growing from empty <div> to filled Q/A blocks.
+
+   Fix mirrors HDay-A / HCal-A2 / Q-Hub-K2 — pure CSS, no JS / SSR / Title /
+   Meta / H1 change. Padding parity uses html.countdown-page.countdown-{event}
+   selector (the existing visibility rule pattern at style.css:3806-3809).
+   Children reservations target shared .countdown-page descendant classes
+   (or page IDs) so they survive future class-removal refactors.
+
+   Note: app.js does NOT currently call classList.remove('countdown-page'),
+   but using class-independent child selectors is good defense. */
+
+/* Padding parity — pre-apply .page.active layout on the visible countdown
+   page so JS .active becomes a layout no-op. Uses the same selector that
+   grants visibility (html.countdown-page.countdown-{event} #page-{event}). */
+html.countdown-page.countdown-ramadan #page-ramadan-countdown,
+html.countdown-page.countdown-eid-al-fitr #page-eid-al-fitr-countdown,
+html.countdown-page.countdown-eid-al-adha #page-eid-al-adha-countdown,
+html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
+    padding: 24px;
+}
+@media (max-width: 768px) {
+    html.countdown-page.countdown-ramadan #page-ramadan-countdown,
+    html.countdown-page.countdown-eid-al-fitr #page-eid-al-fitr-countdown,
+    html.countdown-page.countdown-eid-al-adha #page-eid-al-adha-countdown,
+    html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Hero card reservation — biggest single shifter. Mobile measured 793-827px
+   in Lighthouse on filled state; reserve 830px for safety. Desktop hero is
+   shorter (~500-550px) since intro / cta-hint / personal-bar don't wrap.
+   Targets the section-card.countdown-hero by descendant of the page IDs
+   (avoids matching the html.countdown-page ancestor chain explicitly so it
+   stays robust if classes get refactored). */
+#page-ramadan-countdown .countdown-hero,
+#page-eid-al-fitr-countdown .countdown-hero,
+#page-eid-al-adha-countdown .countdown-hero,
+#page-hijri-new-year-countdown .countdown-hero {
+    min-height: 580px;
+}
+@media (max-width: 768px) {
+    #page-ramadan-countdown .countdown-hero,
+    #page-eid-al-fitr-countdown .countdown-hero,
+    #page-eid-al-adha-countdown .countdown-hero,
+    #page-hijri-new-year-countdown .countdown-hero {
+        min-height: 830px;
+    }
+}
+
+/* Years table tbody — empty placeholder loading row in SSR, JS fills with
+   ~10 future-year rows. Mobile ~50px per row × 10 = ~500px. */
+#page-ramadan-countdown .countdown-years tbody,
+#page-eid-al-fitr-countdown .countdown-years tbody,
+#page-eid-al-adha-countdown .countdown-years tbody,
+#page-hijri-new-year-countdown .countdown-years tbody {
+    min-height: 460px;
+}
+@media (max-width: 768px) {
+    #page-ramadan-countdown .countdown-years tbody,
+    #page-eid-al-fitr-countdown .countdown-years tbody,
+    #page-eid-al-adha-countdown .countdown-years tbody,
+    #page-hijri-new-year-countdown .countdown-years tbody {
+        min-height: 540px;
+    }
+}
+
+/* FAQ list — empty <div id="*-faq-list"> in SSR, JS fills with Q/A blocks. */
+#page-ramadan-countdown .countdown-faq-list,
+#page-eid-al-fitr-countdown .countdown-faq-list,
+#page-eid-al-adha-countdown .countdown-faq-list,
+#page-hijri-new-year-countdown .countdown-faq-list {
+    min-height: 200px;
+}
+@media (max-width: 768px) {
+    #page-ramadan-countdown .countdown-faq-list,
+    #page-eid-al-fitr-countdown .countdown-faq-list,
+    #page-eid-al-adha-countdown .countdown-faq-list,
+    #page-hijri-new-year-countdown .countdown-faq-list {
+        min-height: 280px;
+    }
+}

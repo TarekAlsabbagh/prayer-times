@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-05T13:31:38.736Z
-   Source: css/style.css (full 484 KiB)
-   Critical: 23.7 KiB
+   Extracted on: 2026-05-05T13:49:05.822Z
+   Source: css/style.css (full 489 KiB)
+   Critical: 26 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -179,6 +179,7 @@ html{
     box-shadow: var(--shadow);
 }
 html.countdown-page #page-ramadan-countdown,html.countdown-page #page-eid-al-fitr-countdown,html.countdown-page #page-eid-al-adha-countdown,html.countdown-page #page-hijri-new-year-countdown{ display: none; }
+html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-page.countdown-eid-al-fitr #page-eid-al-fitr-countdown,html.countdown-page.countdown-eid-al-adha #page-eid-al-adha-countdown,html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown{ display: block; }
 html.countdown-page .page:not([id$="-countdown"]){ display: none !important; }
 html.moon-date-page .moon-date-nav{ display: flex; }
 html.moon-hub-page .moon-date-nav{ display: none !important; }
@@ -592,3 +593,29 @@ html.hijri-year-page #page-hijri-year{
 #page-hijri-year .calendar-year-picker.hpage-year-picker{
     min-height: 50px;
 }
+html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-page.countdown-eid-al-fitr #page-eid-al-fitr-countdown,html.countdown-page.countdown-eid-al-adha #page-eid-al-adha-countdown,html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown{
+    padding: 24px;
+}
+@media (max-width: 768px){html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-page.countdown-eid-al-fitr #page-eid-al-fitr-countdown,html.countdown-page.countdown-eid-al-adha #page-eid-al-adha-countdown,html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown{
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }}
+#page-ramadan-countdown .countdown-hero,#page-eid-al-fitr-countdown .countdown-hero,#page-eid-al-adha-countdown .countdown-hero,#page-hijri-new-year-countdown .countdown-hero{
+    min-height: 580px;
+}
+@media (max-width: 768px){#page-ramadan-countdown .countdown-hero,#page-eid-al-fitr-countdown .countdown-hero,#page-eid-al-adha-countdown .countdown-hero,#page-hijri-new-year-countdown .countdown-hero{
+        min-height: 830px;
+    }}
+#page-ramadan-countdown .countdown-years tbody,#page-eid-al-fitr-countdown .countdown-years tbody,#page-eid-al-adha-countdown .countdown-years tbody,#page-hijri-new-year-countdown .countdown-years tbody{
+    min-height: 460px;
+}
+@media (max-width: 768px){#page-ramadan-countdown .countdown-years tbody,#page-eid-al-fitr-countdown .countdown-years tbody,#page-eid-al-adha-countdown .countdown-years tbody,#page-hijri-new-year-countdown .countdown-years tbody{
+        min-height: 540px;
+    }}
+#page-ramadan-countdown .countdown-faq-list,#page-eid-al-fitr-countdown .countdown-faq-list,#page-eid-al-adha-countdown .countdown-faq-list,#page-hijri-new-year-countdown .countdown-faq-list{
+    min-height: 200px;
+}
+@media (max-width: 768px){#page-ramadan-countdown .countdown-faq-list,#page-eid-al-fitr-countdown .countdown-faq-list,#page-eid-al-adha-countdown .countdown-faq-list,#page-hijri-new-year-countdown .countdown-faq-list{
+        min-height: 280px;
+    }}

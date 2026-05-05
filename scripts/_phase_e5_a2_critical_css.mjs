@@ -61,6 +61,12 @@ const CRITICAL_PATTERNS = [
     // after activation, which would un-apply html-class-based reservations
     // and cause collapse-shift). The #page-hijri-* selector persists.
     /^#page-hijri-(year|month|today|day)(\s|$)/,
+
+    // Countdown-A (2026-05-05): same robustness rationale for countdown pages.
+    // Selectors target page IDs directly so child reservations don't depend
+    // on html.countdown-page being present.
+    /^#page-(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown(\s|$)/,
+    /^html\.countdown-page\.countdown-(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)\s/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

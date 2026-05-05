@@ -14418,3 +14418,25 @@ html[data-theme="dark"] .qhe-link-icon { background: rgba(255,255,255,0.06); }
     margin: 0;
     /* Rely on existing .moon-event-card styles from earlier phases. */
 }
+
+/* ── Phase Q-Hub-J (2026-05-05): CLS fix via min-height reservation ── */
+/* Lighthouse on Render reported CLS jumping between 0.056 and 0.284 across
+   3 consecutive runs, with the layout-shifts audit identifying:
+     • #qibla-hub-howto-card  (335px shift)
+     • #qibla-hub-usecases-card (~200px shift)
+     • #page-qibla & footer (downstream pushes)
+   These cards are SSR-rendered EMPTY (only the wrapper) and JS fills them
+   after hydration, growing each card from ~50px to 200-410px. The layout
+   jumps are random per run depending on JS execution timing, hence the
+   wild Performance variance (62 / 76 / 89).
+   Fix: reserve final-paint-time space via min-height. Measurements taken
+   on actual hydrated DOM:
+     howto-card    desktop=293px / mobile=408px → reserve 295/410
+     usecases-card desktop=198px / mobile=279px → reserve 200/280
+   Buffer of +2px avoids exact-match breakage if a chip wraps a line. */
+html.qibla-hub-page #qibla-hub-howto-card { min-height: 295px; }
+html.qibla-hub-page #qibla-hub-usecases-card { min-height: 200px; }
+@media (max-width: 768px) {
+    html.qibla-hub-page #qibla-hub-howto-card { min-height: 410px; }
+    html.qibla-hub-page #qibla-hub-usecases-card { min-height: 280px; }
+}

@@ -6793,6 +6793,54 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             ms: 'Cari Arah Kiblat dengan Tepat dari Mana-mana Sahaja di Dunia',
         };
         const _qHubH1 = _qHubH1ByLang[seo.lang] || _qHubH1ByLang.en;
+        // Phase Q-Hub-H (2026-05-05): hero static SSR island. Fill subtitle,
+        // hero-badges, geo-button label, microcopy, pick-city button, and
+        // search placeholder so JS hydration finds them already populated and
+        // skips the textContent/innerHTML overwrite (configured in app.js).
+        // Eliminates layout reflow from JS, fixing the 7.5s LCP render delay.
+        const _qHubHeroSSR = {
+            ar: { sub: 'باستخدام بوصلة ذكيّة تعتمد على موقعك الجغرافيّ أو اختيار مدينتك', b1: 'يعمل في جميع الدول', b2: 'دقّة فلكيّة عالية', geo: '📍 اعرف اتجاه القبلة من موقعي', micro: 'سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ', pick: '🌍 اختر مدينتك يدويّاً', srch: 'ابحث عن مدينتك (مثال: الرياض، القاهرة، Istanbul)' },
+            en: { sub: 'Use a smart compass powered by your geolocation — or pick your city manually', b1: 'Works in every country', b2: 'High astronomical precision', geo: '📍 Show Qibla from my location', micro: 'Your location will be detected automatically in seconds', pick: '🌍 Pick your city manually', srch: 'Search for your city (e.g. Riyadh, Cairo, Istanbul)' },
+            fr: { sub: 'Utilisez une boussole intelligente basée sur votre position — ou choisissez votre ville manuellement', b1: 'Fonctionne dans tous les pays', b2: 'Haute précision astronomique', geo: '📍 Trouver la Qibla depuis ma position', micro: 'Votre position sera détectée automatiquement en quelques secondes', pick: '🌍 Choisir votre ville manuellement', srch: 'Recherchez votre ville (ex. Riyad, Le Caire, Istanbul)' },
+            tr: { sub: 'Konumunuza dayalı akıllı bir pusula kullanın veya şehrinizi manuel seçin', b1: 'Her ülkede çalışır', b2: 'Yüksek astronomik hassasiyet', geo: '📍 Konumumdan kıbleyi bul', micro: 'Konumunuz birkaç saniye içinde otomatik tespit edilecek', pick: '🌍 Şehrinizi manuel seçin', srch: 'Şehrinizi arayın (ör. Riyad, Kahire, İstanbul)' },
+            ur: { sub: 'اپنے مقام پر مبنی ذہین قطب نما استعمال کریں یا اپنا شہر دستی منتخب کریں', b1: 'ہر ملک میں کام کرتا ہے', b2: 'اعلیٰ فلکی درستگی', geo: '📍 میرے مقام سے قبلہ دکھائیں', micro: 'آپ کا مقام چند سیکنڈ میں خود بخود معلوم ہو جائے گا', pick: '🌍 اپنا شہر دستی منتخب کریں', srch: 'اپنے شہر کا نام تلاش کریں (مثال: ریاض، قاہرہ، استنبول)' },
+            de: { sub: 'Nutzen Sie einen intelligenten Kompass basierend auf Ihrem Standort oder wählen Sie Ihre Stadt manuell', b1: 'Funktioniert in jedem Land', b2: 'Hohe astronomische Genauigkeit', geo: '📍 Qibla von meinem Standort anzeigen', micro: 'Ihr Standort wird in Sekunden automatisch erkannt', pick: '🌍 Stadt manuell wählen', srch: 'Suchen Sie Ihre Stadt (z. B. Riad, Kairo, Istanbul)' },
+            id: { sub: 'Gunakan kompas pintar berdasarkan lokasi Anda atau pilih kota Anda secara manual', b1: 'Bekerja di setiap negara', b2: 'Akurasi astronomi tinggi', geo: '📍 Tampilkan kiblat dari lokasi saya', micro: 'Lokasi Anda akan terdeteksi otomatis dalam hitungan detik', pick: '🌍 Pilih kota Anda secara manual', srch: 'Cari kota Anda (mis. Riyadh, Kairo, Istanbul)' },
+            es: { sub: 'Use una brújula inteligente basada en su ubicación o elija su ciudad manualmente', b1: 'Funciona en todos los países', b2: 'Alta precisión astronómica', geo: '📍 Mostrar la Qibla desde mi ubicación', micro: 'Su ubicación se detectará automáticamente en segundos', pick: '🌍 Elegir su ciudad manualmente', srch: 'Busque su ciudad (p. ej. Riad, El Cairo, Estambul)' },
+            bn: { sub: 'আপনার অবস্থান ভিত্তিক স্মার্ট কম্পাস ব্যবহার করুন বা আপনার শহর ম্যানুয়ালি বেছে নিন', b1: 'প্রতিটি দেশে কাজ করে', b2: 'উচ্চ জ্যোতির্বৈজ্ঞানিক নির্ভুলতা', geo: '📍 আমার অবস্থান থেকে কিবলা দেখান', micro: 'আপনার অবস্থান সেকেন্ডের মধ্যে স্বয়ংক্রিয়ভাবে শনাক্ত হবে', pick: '🌍 ম্যানুয়ালি আপনার শহর বেছে নিন', srch: 'আপনার শহর অনুসন্ধান করুন (যেমন রিয়াদ, কায়রো, ইস্তাম্বুল)' },
+            ms: { sub: 'Gunakan kompas pintar berdasarkan lokasi anda atau pilih bandar anda secara manual', b1: 'Berfungsi di setiap negara', b2: 'Ketepatan astronomi tinggi', geo: '📍 Tunjukkan kiblat dari lokasi saya', micro: 'Lokasi anda akan dikesan secara automatik dalam beberapa saat', pick: '🌍 Pilih bandar anda secara manual', srch: 'Cari bandar anda (mis. Riyadh, Kaherah, Istanbul)' },
+        };
+        const _qhh = _qHubHeroSSR[seo.lang] || _qHubHeroSSR.en;
+        // Subtitle
+        html = html.replace(
+            /<p id="qibla-hub-subtitle"[^>]*><\/p>/,
+            `<p id="qibla-hub-subtitle" class="qibla-hub-subtitle qibla-hub-only" data-qhh-ssr="1">${_escHtml(_qhh.sub)}</p>`
+        );
+        // Badges (ul filled with 2 li chips)
+        html = html.replace(
+            /<ul id="qibla-hub-hero-badges"[^>]*><\/ul>/,
+            `<ul id="qibla-hub-hero-badges" class="qibla-hub-hero-badges" data-qhh-ssr="1"><li class="qhhb-chip"><span class="qhhb-tick" aria-hidden="true">\u2714</span>${_escHtml(_qhh.b1)}</li><li class="qhhb-chip"><span class="qhhb-tick" aria-hidden="true">\u2714</span>${_escHtml(_qhh.b2)}</li></ul>`
+        );
+        // Geo-button label
+        html = html.replace(
+            /(<button type="button" id="qibla-hub-geo-btn"[^>]*>\s*<span class="qhb-spinner"[^>]*><\/span>\s*)<span class="qhb-label"><\/span>/,
+            `$1<span class="qhb-label" data-qhh-ssr="1">${_escHtml(_qhh.geo)}</span>`
+        );
+        // Microcopy
+        html = html.replace(
+            /<p id="qibla-hub-geo-microcopy"[^>]*><\/p>/,
+            `<p id="qibla-hub-geo-microcopy" class="qibla-hub-geo-microcopy" data-qhh-ssr="1">${_escHtml(_qhh.micro)}</p>`
+        );
+        // Pick-city button
+        html = html.replace(
+            /<button type="button" id="qibla-hub-pick-btn"[^>]*><\/button>/,
+            `<button type="button" id="qibla-hub-pick-btn" class="qibla-hub-pick-btn" data-qhh-ssr="1">${_escHtml(_qhh.pick)}</button>`
+        );
+        // Search placeholder
+        html = html.replace(
+            /<input type="search" id="qibla-hub-search"([^>]*?)\/?>/,
+            `<input type="search" id="qibla-hub-search"$1 placeholder="${_escHtml(_qhh.srch)}" data-qhh-ssr="1" />`
+        );
         html = html.replace(
             /<h1 id="qibla-hero-title"[^>]*>[\s\S]*?<\/h1>/,
             // Phase Q-Hub-G (2026-05-05): SSR H1 is plain text only — no SVG.

@@ -13712,19 +13712,21 @@ function _loadQiblaHubPage(ctx) {
     const h1El  = document.getElementById('qibla-hero-title');
     const subEl = document.getElementById('qibla-hub-subtitle');
     const badgesEl = document.getElementById('qibla-hub-hero-badges');
-    if (h1El) {
-        // Phase Q-Hub-G (2026-05-05): if SSR text matches JS title, skip the
-        // textContent assignment entirely so the H1 paints once at SSR time.
-        // This eliminates the post-hydration re-paint that Lighthouse was
-        // recording as 13s "Element render delay" on the LCP H1.
+    // Phase Q-Hub-H (2026-05-05): hero static SSR island. Each above-the-
+    // fold element pre-filled by server.js carries data-qhh-ssr="1". When
+    // present, skip the JS overwrite entirely so the hero paints once at
+    // SSR time and never re-flows post-hydration. This was the root cause
+    // of the 7.5s LCP "Element render delay" on /qibla.
+    const _qhhSkip = (el) => el && el.getAttribute('data-qhh-ssr') === '1';
+    if (h1El && !_qhhSkip(h1El)) {
         const _curText = (h1El.textContent || '').trim();
         const _newText = String(ui.title || '').trim();
         if (_curText !== _newText) {
             h1El.textContent = ui.title;
         }
     }
-    if (subEl) subEl.textContent = ui.subtitle;
-    if (badgesEl) {
+    if (subEl && !_qhhSkip(subEl)) subEl.textContent = ui.subtitle;
+    if (badgesEl && !_qhhSkip(badgesEl)) {
         const chips = Array.isArray(ui.hero_badges) ? ui.hero_badges : [];
         badgesEl.innerHTML = chips.map(c =>
             `<li class="qhhb-chip"><span class="qhhb-tick" aria-hidden="true">✔</span>${c}</li>`
@@ -13737,11 +13739,12 @@ function _loadQiblaHubPage(ctx) {
     const geoMicro  = document.getElementById('qibla-hub-geo-microcopy');
     const pickBtn   = document.getElementById('qibla-hub-pick-btn');
     const geoLabel  = geoBtn ? geoBtn.querySelector('.qhb-label') : null;
-    if (geoLabel)  geoLabel.textContent  = ui.geo_btn;
-    if (geoMicro)  geoMicro.textContent  = ui.cta_microcopy || '';
+    // Phase Q-Hub-H — same SSR-skip guard for hero buttons & microcopy.
+    if (geoLabel && !_qhhSkip(geoLabel))  geoLabel.textContent  = ui.geo_btn;
+    if (geoMicro && !_qhhSkip(geoMicro))  geoMicro.textContent  = ui.cta_microcopy || '';
     if (geoStatus) { geoStatus.textContent = ''; geoStatus.classList.remove('is-error'); }
     if (geoBtn)    { geoBtn.classList.remove('is-loading'); geoBtn.disabled = false; }
-    if (pickBtn)   pickBtn.textContent = ui.cta_pick_city;
+    if (pickBtn && !_qhhSkip(pickBtn))   pickBtn.textContent = ui.cta_pick_city;
 
     if (geoBtn && !geoBtn.dataset.wired) {
         geoBtn.dataset.wired = '1';

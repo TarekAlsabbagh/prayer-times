@@ -14587,16 +14587,18 @@ html.hijri-day-page   #hday-faq {
    No JS / SSR / SEO change. Same pattern as HDay-A. */
 
 /* Breadcrumb reservation — the largest residual driver for the hero shift.
-   Empty SSR <nav> takes ~0px; filled (4-5 link <ol>) takes ~50px desktop /
-   70-95px mobile (text wraps in some langs). */
+   Empty SSR <nav> takes ~0px; filled (4-5 link <ol>) takes ~60px desktop /
+   84-95px mobile (text wraps in some langs).
+   HDay-A3 (2026-05-05): bumped mobile 80→110 + desktop 50→64 after Lighthouse
+   showed residual 0.067 hero shift (hero position slid down ~25px). */
 html.hijri-today-page #htoday-breadcrumbs,
 html.hijri-day-page   #hday-breadcrumbs {
-    min-height: 50px;
+    min-height: 64px;
 }
 @media (max-width: 768px) {
     html.hijri-today-page #htoday-breadcrumbs,
     html.hijri-day-page   #hday-breadcrumbs {
-        min-height: 80px;
+        min-height: 110px;
     }
 }
 
@@ -14616,15 +14618,30 @@ html.hijri-day-page #hday-related     { min-height: 56px; }
 html.hijri-day-page #hday-footer-seo  { min-height: 48px; }
 
 @media (max-width: 768px) {
-    html.hijri-today-page #hijri-today-hierarchy   { min-height: 100px; }
-    html.hijri-today-page #hijri-today-cta         { min-height: 130px; }
-    html.hijri-today-page #hijri-today-nav         { min-height: 88px; }
-    html.hijri-today-page #hijri-today-extra-links { min-height: 130px; }
-    html.hijri-today-page #hijri-today-footer-seo  { min-height: 60px; }
+    html.hijri-today-page #hijri-today-hierarchy   { min-height: 140px; }
+    html.hijri-today-page #hijri-today-cta         { min-height: 150px; }
+    html.hijri-today-page #hijri-today-nav         { min-height: 108px; }
+    html.hijri-today-page #hijri-today-extra-links { min-height: 150px; }
+    html.hijri-today-page #hijri-today-footer-seo  { min-height: 80px; }
 
-    html.hijri-day-page #hday-hierarchy   { min-height: 100px; }
-    html.hijri-day-page #hday-cta         { min-height: 130px; }
-    html.hijri-day-page #hday-nav         { min-height: 88px; }
-    html.hijri-day-page #hday-related     { min-height: 130px; }
-    html.hijri-day-page #hday-footer-seo  { min-height: 60px; }
+    html.hijri-day-page #hday-hierarchy   { min-height: 140px; }
+    html.hijri-day-page #hday-cta         { min-height: 150px; }
+    html.hijri-day-page #hday-nav         { min-height: 108px; }
+    html.hijri-day-page #hday-related     { min-height: 150px; }
+    html.hijri-day-page #hday-footer-seo  { min-height: 80px; }
+}
+
+/* HDay-A3 (2026-05-05): also bump info-grid + faq mobile reservations.
+   Lighthouse residual showed +38px section-card height growth — info-grid
+   and faq fill larger than the HDay-A reservations on mobile due to text
+   wrap (Arabic AH-suffix labels) and 6-card grid stacking. */
+@media (max-width: 768px) {
+    html.hijri-today-page #hijri-today-info-grid,
+    html.hijri-day-page   #hday-info-grid {
+        min-height: 540px;
+    }
+    html.hijri-today-page #hijri-today-faq,
+    html.hijri-day-page   #hday-faq {
+        min-height: 420px;
+    }
 }

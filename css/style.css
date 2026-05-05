@@ -14436,7 +14436,14 @@ html[data-theme="dark"] .qhe-link-icon { background: rgba(255,255,255,0.06); }
    Buffer of +2px avoids exact-match breakage if a chip wraps a line. */
 html.qibla-hub-page #qibla-hub-howto-card { min-height: 295px; }
 html.qibla-hub-page #qibla-hub-usecases-card { min-height: 200px; }
+/* Phase Q-Hub-J extension (2026-05-05): FAQ inner div is empty in SSR
+   and JS fills it with 4 <details> items (~230px desktop / 278px mobile).
+   Reserving the inner div height prevents the section-card height jump
+   that pushes #page-qibla, qhe-section, and footer downward — the
+   remaining 0.21 CLS chunk after the howto/usecases reservations. */
+html.qibla-hub-page #qibla-faq { min-height: 232px; }
 @media (max-width: 768px) {
     html.qibla-hub-page #qibla-hub-howto-card { min-height: 410px; }
     html.qibla-hub-page #qibla-hub-usecases-card { min-height: 280px; }
+    html.qibla-hub-page #qibla-faq { min-height: 280px; }
 }

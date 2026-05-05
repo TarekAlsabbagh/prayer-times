@@ -14645,3 +14645,117 @@ html.hijri-day-page #hday-footer-seo  { min-height: 48px; }
         min-height: 420px;
     }
 }
+
+/* ═══ Phase HCal-A (2026-05-05): Hijri calendar year CLS fix.
+   Same proven pattern as HDay-A applied to /hijri-calendar/{year}.
+   Diagnosis (Lighthouse mobile baseline run on /hijri-calendar/1447):
+     • CLS = 0.889 (worst run), 2nd-highest in the site CLS audit.
+     • Top shifts:
+         - 0.860 on .hpage-hero-start (hero card with title + intro +
+           year picker; empty in SSR ~100-120px → filled ~280px).
+         - 0.057 + 0.017 on #page-hijri-year (padding parity issue:
+           pre-JS no padding, JS adds .active → +24px desktop / +12px
+           mobile, plus box-sizing recalc).
+         - 0.011 sticky-next-bar (residual; tracked separately).
+
+   Fix mirrors HDay-A / Q-Hub-K2:
+     1. Pre-apply page padding via html.hijri-year-page selector so JS
+        .active becomes a layout no-op for #page-hijri-year.
+     2. Reserve min-height on the hero card (.hpage-hero-start).
+     3. Reserve min-height on every other SSR-empty container:
+        breadcrumb, info-grid, months-table-body, cta, years-grid,
+        faq, seo-text, footer-seo.
+
+   The months table is the largest container (12 rows × ~45-50px each)
+   and needs the heaviest reservation to absorb its growth.
+   No JS / SSR / Title / Meta / H1 / SEO change. CSS-only. */
+
+html.hijri-year-page #page-hijri-year {
+    display: block !important;
+    padding: 24px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #page-hijri-year {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Hero card .hpage-hero-start contains H2 + intro <p> + year picker.
+   Mobile measured 280px in Lighthouse (top:191, bottom:471). */
+html.hijri-year-page #page-hijri-year .hpage-hero-start {
+    min-height: 220px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #page-hijri-year .hpage-hero-start {
+        min-height: 290px;
+    }
+}
+
+/* Breadcrumb (3 items: home › calendar › year) — same pattern as HDay-A2/A3. */
+html.hijri-year-page #hyear-breadcrumbs {
+    min-height: 64px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-breadcrumbs {
+        min-height: 110px;
+    }
+}
+
+/* Info grid: 4 cards. Mobile = 2-col grid (2 rows). */
+html.hijri-year-page #hyear-info-grid {
+    min-height: 180px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-info-grid {
+        min-height: 320px;
+    }
+}
+
+/* Months table — 12 rows. Largest single growth source on the page.
+   Each row ~45px desktop / ~50-55px mobile (text wraps in Arabic dates). */
+html.hijri-year-page #hyear-table-body {
+    min-height: 540px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-table-body {
+        min-height: 660px;
+    }
+}
+
+/* CTA — 3 primary action buttons. */
+html.hijri-year-page #hyear-cta {
+    min-height: 56px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-cta {
+        min-height: 150px;
+    }
+}
+
+/* Years navigation block: <p> current-year label + 5-year grid. */
+html.hijri-year-page #hyear-years-current { min-height: 30px; }
+html.hijri-year-page #hyear-years-grid    { min-height: 56px; }
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-years-current { min-height: 60px; }
+    html.hijri-year-page #hyear-years-grid    { min-height: 100px; }
+}
+
+/* FAQ — same structure as hijri-today FAQ (3 Q/A blocks). */
+html.hijri-year-page #hyear-faq {
+    min-height: 320px;
+}
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-faq {
+        min-height: 420px;
+    }
+}
+
+/* SEO text paragraph + footer SEO. */
+html.hijri-year-page #hyear-seo-text   { min-height: 100px; }
+html.hijri-year-page #hyear-footer-seo { min-height: 48px; }
+@media (max-width: 768px) {
+    html.hijri-year-page #hyear-seo-text   { min-height: 200px; }
+    html.hijri-year-page #hyear-footer-seo { min-height: 80px; }
+}

@@ -477,3 +477,29 @@ html.moon-hub-page #moon-main-card,html.moon-month-page #moon-main-card{
 #moon-hijri-lunar{
     min-height: 70px;
 }
+
+/* ═══ Phase Q-Hub-G (2026-05-05): force-paint Qibla Hub LCP H1 ═══ */
+/* Lighthouse reported H1#qibla-hero-title as the LCP element with a       */
+/* 13s "Element render delay". Cause: H1 was being re-set by app.js via    */
+/* textContent after JS hydration (now fixed in app.js). These rules also  */
+/* defensively kill any opacity/transform/animation/blur on the hero so    */
+/* the SSR text + SVG icon paint immediately on first paint. Only applies  */
+/* on /qibla Hub (html.qibla-hub-page), so /qibla-in-{city} stays unchanged.*/
+html.qibla-hub-page #qibla-hero-title,
+html.qibla-hub-page .qibla-hero-title {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    visibility: visible !important;
+    filter: none !important;
+}
+html.qibla-hub-page #qibla-hub-hero,
+html.qibla-hub-page .qibla-hub-hero,
+html.qibla-hub-page .qibla-hub-hero-card {
+    min-height: 360px;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    filter: none !important;
+}

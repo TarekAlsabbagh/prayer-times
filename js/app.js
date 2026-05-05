@@ -13702,10 +13702,27 @@ function _loadQiblaHubPage(ctx) {
     }
 
     // ── 3. Hero — H1 + subtitle + trust chips ──
+    // Phase Q-Hub-G (2026-05-05): preserve SSR-injected H1 (compass SVG +
+    // <span>full Hub title</span>). The previous `h1El.textContent = ui.title`
+    // wiped the SSR SVG icon and forced a re-paint AFTER hydration, causing
+    // Lighthouse to record a 13s "Element render delay" for the LCP H1.
+    // Now we update ONLY the inner <span> if the SSR text is missing or
+    // mismatched; if SSR already filled the span (Q-Hub-A injection), we
+    // skip the JS update entirely so the H1 paints once at SSR time.
     const h1El  = document.getElementById('qibla-hero-title');
     const subEl = document.getElementById('qibla-hub-subtitle');
     const badgesEl = document.getElementById('qibla-hub-hero-badges');
-    if (h1El)  h1El.textContent  = ui.title;
+    if (h1El) {
+        // Phase Q-Hub-G (2026-05-05): if SSR text matches JS title, skip the
+        // textContent assignment entirely so the H1 paints once at SSR time.
+        // This eliminates the post-hydration re-paint that Lighthouse was
+        // recording as 13s "Element render delay" on the LCP H1.
+        const _curText = (h1El.textContent || '').trim();
+        const _newText = String(ui.title || '').trim();
+        if (_curText !== _newText) {
+            h1El.textContent = ui.title;
+        }
+    }
     if (subEl) subEl.textContent = ui.subtitle;
     if (badgesEl) {
         const chips = Array.isArray(ui.hero_badges) ? ui.hero_badges : [];
@@ -14389,9 +14406,16 @@ function loadQiblaPage(ctx) {
         if (bcOl) bcOl.outerHTML = _buildQiblaBreadcrumbOl(cityName, mode === 'hub', lang);
 
         // ── 4. H1 + one-line summary ──
+        // Phase Q-Hub-G (2026-05-05): on /qibla Hub, the SSR-injected H1 is
+        // the LONG Q-Hub-A phrase ("اعرف اتجاه القبلة بدقة من أي مكان في
+        // العالم") and acts as the LCP element. Overwriting it here with the
+        // SHORT ui.h1() phrase forces a re-paint after JS hydration and was
+        // making Lighthouse record a 13s "Element render delay" on the LCP.
+        // Skip the H1 update on Hub mode → SSR text stays. City mode keeps
+        // dynamic per-city H1 updates.
         const h1El = document.getElementById('qibla-hero-title');
         const sumEl = document.getElementById('qibla-summary-line');
-        if (h1El) h1El.innerHTML = ui.h1(cityName, mode === 'hub'); // UAT-ICON-5: SVG markup
+        if (h1El && mode !== 'hub') h1El.innerHTML = ui.h1(cityName, false); // UAT-ICON-5: SVG markup
         if (sumEl) sumEl.textContent = ui.summary(angleDisplay, cardinalLabel, distanceKm, _distLocale);
 
         // ── 5. Compass init (unchanged) ──

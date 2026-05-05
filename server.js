@@ -6795,7 +6795,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _qHubH1 = _qHubH1ByLang[seo.lang] || _qHubH1ByLang.en;
         html = html.replace(
             /<h1 id="qibla-hero-title"[^>]*>[\s\S]*?<\/h1>/,
-            `<h1 id="qibla-hero-title" class="qibla-hero-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-compass"/></svg> <span>${_escHtml(_qHubH1)}</span></h1>`
+            // Phase Q-Hub-G (2026-05-05): SSR H1 is plain text only — no SVG.
+            // Reason: JS hydration was overwriting `h1.textContent`, wiping
+            // the SVG icon and forcing a re-paint that Lighthouse logged as
+            // a 13s "Element render delay" on the LCP H1. Plain-text SSR
+            // means JS-side textContent comparison succeeds → zero re-paint.
+            `<h1 id="qibla-hero-title" class="qibla-hero-title">${_escHtml(_qHubH1)}</h1>`
         );
         // Phase Q-Hub-C2 (2026-05-04): redistribute compressed guide section.
         // 4 compact "bullet" cards in a grid + 1 wide explanatory card +

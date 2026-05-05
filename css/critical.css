@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-05T11:50:42.988Z
-   Source: css/style.css (full 475 KiB)
-   Critical: 20.3 KiB
+   Extracted on: 2026-05-05T12:10:33.897Z
+   Source: css/style.css (full 478 KiB)
+   Critical: 21.7 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -504,3 +504,29 @@ html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
 html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
         min-height: 360px;
     }}
+html.hijri-today-page #htoday-breadcrumbs,html.hijri-day-page   #hday-breadcrumbs{
+    min-height: 50px;
+}
+@media (max-width: 768px){html.hijri-today-page #htoday-breadcrumbs,html.hijri-day-page   #hday-breadcrumbs{
+        min-height: 80px;
+    }}
+html.hijri-today-page #hijri-today-hierarchy{ min-height: 64px; }
+html.hijri-today-page #hijri-today-cta{ min-height: 56px; }
+html.hijri-today-page #hijri-today-nav{ min-height: 88px; }
+html.hijri-today-page #hijri-today-extra-links{ min-height: 56px; }
+html.hijri-today-page #hijri-today-footer-seo{ min-height: 48px; }
+html.hijri-day-page #hday-hierarchy{ min-height: 64px; }
+html.hijri-day-page #hday-cta{ min-height: 56px; }
+html.hijri-day-page #hday-nav{ min-height: 88px; }
+html.hijri-day-page #hday-related{ min-height: 56px; }
+html.hijri-day-page #hday-footer-seo{ min-height: 48px; }
+@media (max-width: 768px){html.hijri-today-page #hijri-today-hierarchy{ min-height: 100px; }
+html.hijri-today-page #hijri-today-cta{ min-height: 130px; }
+html.hijri-today-page #hijri-today-nav{ min-height: 88px; }
+html.hijri-today-page #hijri-today-extra-links{ min-height: 130px; }
+html.hijri-today-page #hijri-today-footer-seo{ min-height: 60px; }
+html.hijri-day-page #hday-hierarchy{ min-height: 100px; }
+html.hijri-day-page #hday-cta{ min-height: 130px; }
+html.hijri-day-page #hday-nav{ min-height: 88px; }
+html.hijri-day-page #hday-related{ min-height: 130px; }
+html.hijri-day-page #hday-footer-seo{ min-height: 60px; }}

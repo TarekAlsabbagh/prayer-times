@@ -14571,3 +14571,60 @@ html.hijri-day-page   #hday-faq {
         min-height: 360px;
     }
 }
+
+/* ═══ Phase HDay-A2 (2026-05-05): residual reservations.
+   After HDay-A landed (CLS 0.908 → 0.252), Lighthouse still shows:
+     • 0.179 on .hpage-hero.ht-hero — caused NOT by hero growth (height
+       reserved) but by the EMPTY breadcrumb above it growing ~70-95px
+       once JS runs _buildHijriBreadcrumbOl([...]). The hero itself stays
+       at 376px (matches reservation), but its TOP coordinate slides down.
+     • 0.057 + 0.011 on #page-hijri-day — residual page-level shift
+       caused by remaining empty containers (cta, nav, hierarchy, related
+       links, footer-seo) growing post-JS and pushing total height.
+
+   Fix: reserve every remaining SSR-empty container. Sizes derived from
+   the natural filled height after measuring on /hijri-date/1447-11-18.
+   No JS / SSR / SEO change. Same pattern as HDay-A. */
+
+/* Breadcrumb reservation — the largest residual driver for the hero shift.
+   Empty SSR <nav> takes ~0px; filled (4-5 link <ol>) takes ~50px desktop /
+   70-95px mobile (text wraps in some langs). */
+html.hijri-today-page #htoday-breadcrumbs,
+html.hijri-day-page   #hday-breadcrumbs {
+    min-height: 50px;
+}
+@media (max-width: 768px) {
+    html.hijri-today-page #htoday-breadcrumbs,
+    html.hijri-day-page   #hday-breadcrumbs {
+        min-height: 80px;
+    }
+}
+
+/* Remaining hijri-today containers (route /today-hijri-date — kept for
+   completeness even though route 301-redirects). */
+html.hijri-today-page #hijri-today-hierarchy   { min-height: 64px; }
+html.hijri-today-page #hijri-today-cta         { min-height: 56px; }
+html.hijri-today-page #hijri-today-nav         { min-height: 88px; }
+html.hijri-today-page #hijri-today-extra-links { min-height: 56px; }
+html.hijri-today-page #hijri-today-footer-seo  { min-height: 48px; }
+
+/* Remaining hday containers (route /hijri-date/YYYY-MM-DD — actual landing). */
+html.hijri-day-page #hday-hierarchy   { min-height: 64px; }
+html.hijri-day-page #hday-cta         { min-height: 56px; }
+html.hijri-day-page #hday-nav         { min-height: 88px; }
+html.hijri-day-page #hday-related     { min-height: 56px; }
+html.hijri-day-page #hday-footer-seo  { min-height: 48px; }
+
+@media (max-width: 768px) {
+    html.hijri-today-page #hijri-today-hierarchy   { min-height: 100px; }
+    html.hijri-today-page #hijri-today-cta         { min-height: 130px; }
+    html.hijri-today-page #hijri-today-nav         { min-height: 88px; }
+    html.hijri-today-page #hijri-today-extra-links { min-height: 130px; }
+    html.hijri-today-page #hijri-today-footer-seo  { min-height: 60px; }
+
+    html.hijri-day-page #hday-hierarchy   { min-height: 100px; }
+    html.hijri-day-page #hday-cta         { min-height: 130px; }
+    html.hijri-day-page #hday-nav         { min-height: 88px; }
+    html.hijri-day-page #hday-related     { min-height: 130px; }
+    html.hijri-day-page #hday-footer-seo  { min-height: 60px; }
+}

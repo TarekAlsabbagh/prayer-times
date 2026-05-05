@@ -2886,6 +2886,24 @@ function _stripHtmlForQiblaHub(htmlIn) {
     for (const id of _QIBLA_HUB_STRIP_IDS) {
         out = _stripElement(out, { type: 'id', value: id });
     }
+    // Phase Q-Hub-I (2026-05-05): route-gate unnecessary JS bundles. Q-Hub
+    // (/qibla) doesn't need prayer-times, hijri-date, moon, moon-chart, or
+    // duas scripts above-the-fold — they only run when those pages activate.
+    // Strip the <script> tags so the browser doesn't download/parse them
+    // (~91 KB total). This was the actual root cause of the 14.8s Speed
+    // Index and 3.5s LCP — too many deferred scripts queued for parse.
+    // qibla.js (2.6KB) and footer-cookie.js (15KB) stay.
+    const _QHUB_I_DROP_SCRIPTS = [
+        'js/prayer-times.js',
+        'js/hijri-date.js',
+        'js/moon.js',
+        'js/moon-chart.js',
+        'js/duas.js',
+    ];
+    for (const src of _QHUB_I_DROP_SCRIPTS) {
+        const re = new RegExp('<script[^>]+src="' + src.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + '[^"]*"[^>]*></script>\\s*', 'g');
+        out = out.replace(re, '');
+    }
     return out;
 }
 

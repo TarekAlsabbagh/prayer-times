@@ -14682,80 +14682,89 @@ html.hijri-year-page #page-hijri-year {
     }
 }
 
+/* HCal-A2 (2026-05-05): Children reservations target #page-hijri-year
+   directly (NOT html.hijri-year-page) so they SURVIVE the JS sequence
+   `document.documentElement.classList.remove('hijri-year-page')` at
+   app.js:3011. With the html class gone, html.hijri-year-page #X rules
+   stop matching and reservations COLLAPSE — the post-collapse shifts
+   were the residual 0.197 hero shift after HCal-A. The #page-hijri-year
+   selector keeps reservations active permanently (the hidden state with
+   display:none from .page doesn't render, so no visual cost). */
+
 /* Hero card .hpage-hero-start contains H2 + intro <p> + year picker.
    Mobile measured 280px in Lighthouse (top:191, bottom:471). */
-html.hijri-year-page #page-hijri-year .hpage-hero-start {
+#page-hijri-year .hpage-hero-start {
     min-height: 220px;
 }
 @media (max-width: 768px) {
-    html.hijri-year-page #page-hijri-year .hpage-hero-start {
+    #page-hijri-year .hpage-hero-start {
         min-height: 290px;
     }
 }
 
-/* Breadcrumb (3 items: home › calendar › year) — same pattern as HDay-A2/A3. */
-html.hijri-year-page #hyear-breadcrumbs {
+/* Breadcrumb (3 items: home › calendar › year). */
+#page-hijri-year #hyear-breadcrumbs {
     min-height: 64px;
 }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-breadcrumbs {
+    #page-hijri-year #hyear-breadcrumbs {
         min-height: 110px;
     }
 }
 
 /* Info grid: 4 cards. Mobile = 2-col grid (2 rows). */
-html.hijri-year-page #hyear-info-grid {
+#page-hijri-year #hyear-info-grid {
     min-height: 180px;
 }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-info-grid {
+    #page-hijri-year #hyear-info-grid {
         min-height: 320px;
     }
 }
 
 /* Months table — 12 rows. Largest single growth source on the page.
    Each row ~45px desktop / ~50-55px mobile (text wraps in Arabic dates). */
-html.hijri-year-page #hyear-table-body {
+#page-hijri-year #hyear-table-body {
     min-height: 540px;
 }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-table-body {
+    #page-hijri-year #hyear-table-body {
         min-height: 660px;
     }
 }
 
 /* CTA — 3 primary action buttons. */
-html.hijri-year-page #hyear-cta {
+#page-hijri-year #hyear-cta {
     min-height: 56px;
 }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-cta {
+    #page-hijri-year #hyear-cta {
         min-height: 150px;
     }
 }
 
 /* Years navigation block: <p> current-year label + 5-year grid. */
-html.hijri-year-page #hyear-years-current { min-height: 30px; }
-html.hijri-year-page #hyear-years-grid    { min-height: 56px; }
+#page-hijri-year #hyear-years-current { min-height: 30px; }
+#page-hijri-year #hyear-years-grid    { min-height: 56px; }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-years-current { min-height: 60px; }
-    html.hijri-year-page #hyear-years-grid    { min-height: 100px; }
+    #page-hijri-year #hyear-years-current { min-height: 60px; }
+    #page-hijri-year #hyear-years-grid    { min-height: 100px; }
 }
 
 /* FAQ — same structure as hijri-today FAQ (3 Q/A blocks). */
-html.hijri-year-page #hyear-faq {
+#page-hijri-year #hyear-faq {
     min-height: 320px;
 }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-faq {
+    #page-hijri-year #hyear-faq {
         min-height: 420px;
     }
 }
 
 /* SEO text paragraph + footer SEO. */
-html.hijri-year-page #hyear-seo-text   { min-height: 100px; }
-html.hijri-year-page #hyear-footer-seo { min-height: 48px; }
+#page-hijri-year #hyear-seo-text   { min-height: 100px; }
+#page-hijri-year #hyear-footer-seo { min-height: 48px; }
 @media (max-width: 768px) {
-    html.hijri-year-page #hyear-seo-text   { min-height: 200px; }
-    html.hijri-year-page #hyear-footer-seo { min-height: 80px; }
+    #page-hijri-year #hyear-seo-text   { min-height: 200px; }
+    #page-hijri-year #hyear-footer-seo { min-height: 80px; }
 }

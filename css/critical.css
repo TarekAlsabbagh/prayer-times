@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-05T13:12:35.239Z
-   Source: css/style.css (full 482 KiB)
-   Critical: 23.7 KiB
+   Extracted on: 2026-05-05T13:23:38.467Z
+   Source: css/style.css (full 483 KiB)
+   Critical: 23.6 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -545,47 +545,47 @@ html.hijri-year-page #page-hijri-year{
         max-width: 100%;
         box-sizing: border-box;
     }}
-html.hijri-year-page #page-hijri-year .hpage-hero-start{
+#page-hijri-year .hpage-hero-start{
     min-height: 220px;
 }
-@media (max-width: 768px){html.hijri-year-page #page-hijri-year .hpage-hero-start{
+@media (max-width: 768px){#page-hijri-year .hpage-hero-start{
         min-height: 290px;
     }}
-html.hijri-year-page #hyear-breadcrumbs{
+#page-hijri-year #hyear-breadcrumbs{
     min-height: 64px;
 }
-@media (max-width: 768px){html.hijri-year-page #hyear-breadcrumbs{
+@media (max-width: 768px){#page-hijri-year #hyear-breadcrumbs{
         min-height: 110px;
     }}
-html.hijri-year-page #hyear-info-grid{
+#page-hijri-year #hyear-info-grid{
     min-height: 180px;
 }
-@media (max-width: 768px){html.hijri-year-page #hyear-info-grid{
+@media (max-width: 768px){#page-hijri-year #hyear-info-grid{
         min-height: 320px;
     }}
-html.hijri-year-page #hyear-table-body{
+#page-hijri-year #hyear-table-body{
     min-height: 540px;
 }
-@media (max-width: 768px){html.hijri-year-page #hyear-table-body{
+@media (max-width: 768px){#page-hijri-year #hyear-table-body{
         min-height: 660px;
     }}
-html.hijri-year-page #hyear-cta{
+#page-hijri-year #hyear-cta{
     min-height: 56px;
 }
-@media (max-width: 768px){html.hijri-year-page #hyear-cta{
+@media (max-width: 768px){#page-hijri-year #hyear-cta{
         min-height: 150px;
     }}
-html.hijri-year-page #hyear-years-current{ min-height: 30px; }
-html.hijri-year-page #hyear-years-grid{ min-height: 56px; }
-@media (max-width: 768px){html.hijri-year-page #hyear-years-current{ min-height: 60px; }
-html.hijri-year-page #hyear-years-grid{ min-height: 100px; }}
-html.hijri-year-page #hyear-faq{
+#page-hijri-year #hyear-years-current{ min-height: 30px; }
+#page-hijri-year #hyear-years-grid{ min-height: 56px; }
+@media (max-width: 768px){#page-hijri-year #hyear-years-current{ min-height: 60px; }
+#page-hijri-year #hyear-years-grid{ min-height: 100px; }}
+#page-hijri-year #hyear-faq{
     min-height: 320px;
 }
-@media (max-width: 768px){html.hijri-year-page #hyear-faq{
+@media (max-width: 768px){#page-hijri-year #hyear-faq{
         min-height: 420px;
     }}
-html.hijri-year-page #hyear-seo-text{ min-height: 100px; }
-html.hijri-year-page #hyear-footer-seo{ min-height: 48px; }
-@media (max-width: 768px){html.hijri-year-page #hyear-seo-text{ min-height: 200px; }
-html.hijri-year-page #hyear-footer-seo{ min-height: 80px; }}
+#page-hijri-year #hyear-seo-text{ min-height: 100px; }
+#page-hijri-year #hyear-footer-seo{ min-height: 48px; }
+@media (max-width: 768px){#page-hijri-year #hyear-seo-text{ min-height: 200px; }
+#page-hijri-year #hyear-footer-seo{ min-height: 80px; }}

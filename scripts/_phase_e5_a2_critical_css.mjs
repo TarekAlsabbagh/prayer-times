@@ -54,6 +54,13 @@ const CRITICAL_PATTERNS = [
     /^html\.msbaha-page\s/,
     /^html\.date-converter-page\s/,
     /^html\.hijri-(year|month|today|day)-page\s/,
+
+    // HCal-A2 (2026-05-05): #page-hijri-{year|month|today|day}-scoped
+    // reservations that survive the JS html-class-removal sequence
+    // (app.js:2987/2999/3011 etc remove the html.hijri-*-page class
+    // after activation, which would un-apply html-class-based reservations
+    // and cause collapse-shift). The #page-hijri-* selector persists.
+    /^#page-hijri-(year|month|today|day)(\s|$)/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

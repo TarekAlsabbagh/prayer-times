@@ -14492,3 +14492,82 @@ html.qibla-hub-page #qibla-faq { min-height: 232px; }
     html.qibla-hub-page #qibla-faq { min-height: 280px; }
     html.qibla-hub-page #qibla-hub-visited-card { min-height: 220px; }
 }
+
+/* ═══ Phase HDay-A (2026-05-05): apply parity fix to hijri-today / hijri-day pages.
+   Diagnosis (Lighthouse mobile audit run on /today-hijri-date which 301-redirects
+   to /hijri-date/YYYY-MM-DD; the audit measured the redirect target):
+     • SSR: <div class="page" id="page-hijri-day">  (no .active, no padding)
+     • DCL paddingTop/Bottom = 0px
+     • JS adds .active later → cascade fires:
+         .page.active { display: block; padding: 24px; }
+         @media (max-width: 768px) .page.active { padding: 12px; max-width: 100%; box-sizing: border-box; }
+     • Measured shifts:
+         - 0.859  on .hpage-hero.ht-hero (rect h=376px) — empty hero card growing
+                   from ~150px (placeholder "--" stack) to filled hero (day-num
+                   ~80px + month ~40px + year ~40px + greg ~24px + desc ~50px
+                   ≈ 234–270px + H1 60–110px ≈ 296–380px).
+         - 0.057  on #page-hijri-day — page padding/layout parity shift.
+         - 0.037  on #page-hijri-day — second padding/box-sizing reflow.
+         - ~0.012 sticky-next-bar (left for a later phase — tiny).
+       Total CLS ≈ 0.908 (run worst).
+
+   Fix mirrors moon E4-b / qibla Q-Hub-K2:
+     1. Pre-apply page padding via html.{route}-page selectors so JS .active
+        becomes a layout no-op for #page-hijri-today and #page-hijri-day.
+     2. Reserve min-height on .hpage-hero.ht-hero so empty-to-filled growth
+        does not push the rest of the page down.
+     3. Reserve min-height on info-grid + faq (large secondary shift sources).
+   No JS / SSR change required — the JS still runs the same fillers; the
+   CSS just guarantees pre-paint geometry matches post-hydration geometry. */
+
+html.hijri-today-page #page-hijri-today,
+html.hijri-day-page   #page-hijri-day {
+    display: block !important;
+    padding: 24px;
+}
+@media (max-width: 768px) {
+    html.hijri-today-page #page-hijri-today,
+    html.hijri-day-page   #page-hijri-day {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Hero card reservation. Same .hpage-hero.ht-hero class is shared between
+   #page-hijri-today and #page-hijri-day, so the same pair of scoped selectors
+   covers both routes. Mobile reservation is the larger value (376px measured
+   + 4px buffer); desktop hero is shorter (1 stack line vs. wrapped on mobile). */
+html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
+html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
+    min-height: 280px;
+}
+@media (max-width: 768px) {
+    html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
+    html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
+        min-height: 380px;
+    }
+}
+
+/* Below-hero secondary reservations. The info-grid (6 cards) and FAQ (3 Q/A
+   blocks) are SSR-empty and grow notably after JS hydration. Reserving them
+   absorbs the residual cumulative CLS from secondary shifts (the audit only
+   surfaces top-5; smaller shifts on these containers add to the total). */
+html.hijri-today-page #hijri-today-info-grid,
+html.hijri-day-page   #hday-info-grid {
+    min-height: 280px;
+}
+html.hijri-today-page #hijri-today-faq,
+html.hijri-day-page   #hday-faq {
+    min-height: 320px;
+}
+@media (max-width: 768px) {
+    html.hijri-today-page #hijri-today-info-grid,
+    html.hijri-day-page   #hday-info-grid {
+        min-height: 480px;
+    }
+    html.hijri-today-page #hijri-today-faq,
+    html.hijri-day-page   #hday-faq {
+        min-height: 360px;
+    }
+}

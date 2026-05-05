@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-04T10:34:52.014Z
-   Source: css/style.css (full 458 KiB)
-   Critical: 19.2 KiB
+   Extracted on: 2026-05-05T11:50:42.988Z
+   Source: css/style.css (full 475 KiB)
+   Critical: 20.3 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -477,36 +477,30 @@ html.moon-hub-page #moon-main-card,html.moon-month-page #moon-main-card{
 #moon-hijri-lunar{
     min-height: 70px;
 }
-
-/* ═══ Phase Q-Hub-G (2026-05-05): force-paint Qibla Hub LCP H1 ═══ */
-/* Lighthouse reported H1#qibla-hero-title as the LCP element with a       */
-/* 13s "Element render delay". Cause: H1 was being re-set by app.js via    */
-/* textContent after JS hydration (now fixed in app.js). These rules also  */
-/* defensively kill any opacity/transform/animation/blur on the hero so    */
-/* the SSR text + SVG icon paint immediately on first paint. Only applies  */
-/* on /qibla Hub (html.qibla-hub-page), so /qibla-in-{city} stays unchanged.*/
-html.qibla-hub-page #qibla-hero-title,
-html.qibla-hub-page .qibla-hero-title {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-    visibility: visible !important;
-    filter: none !important;
+html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day{
+    display: block !important;
+    padding: 24px;
 }
-html.qibla-hub-page #qibla-hub-hero,
-html.qibla-hub-page .qibla-hub-hero,
-html.qibla-hub-page .qibla-hub-hero-card {
-    /* Phase Q-Hub-J ext (2026-05-05): bumped 360→500px. The smart pill
-       (#qibla-hub-smart-pill) is hidden in SSR but JS reveals it when
-       sessionStorage has last_city_context. Pill is ~50px tall + margin,
-       so when it appears, hero grows from 439px to ~490px and pushes the
-       footer down by that amount. The 0.21 footer-shift score we saw on
-       runs 2/3 came from this non-deterministic pill toggle. Reserving
-       500px leaves space for both states. */
-    min-height: 500px;
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    filter: none !important;
+@media (max-width: 768px){html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day{
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }}
+html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero{
+    min-height: 280px;
 }
+@media (max-width: 768px){html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero{
+        min-height: 380px;
+    }}
+html.hijri-today-page #hijri-today-info-grid,html.hijri-day-page   #hday-info-grid{
+    min-height: 280px;
+}
+html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
+    min-height: 320px;
+}
+@media (max-width: 768px){html.hijri-today-page #hijri-today-info-grid,html.hijri-day-page   #hday-info-grid{
+        min-height: 480px;
+    }
+html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
+        min-height: 360px;
+    }}

@@ -14405,3 +14405,15 @@ html[data-theme="dark"] .qhe-link-icon { background: rgba(255,255,255,0.06); }
 .qhe-link-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
 .qhe-link-label { font-size: 0.93rem; font-weight: 600; color: var(--text); line-height: 1.3; }
 .qhe-link-desc { font-size: 0.79rem; color: var(--text-light); line-height: 1.4; }
+
+/* ── Phase Q-Hub-E2 (2026-05-05): countdown group inside qhe-section ── */
+.qhe-group--countdown { margin-top: 18px; }
+.qhe-countdown-grid {
+    display: grid; gap: 10px; grid-template-columns: 1fr;
+}
+@media (min-width: 600px) { .qhe-countdown-grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+@media (min-width: 980px) { .qhe-countdown-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
+.qhe-countdown-grid .moon-event-card {
+    margin: 0;
+    /* Rely on existing .moon-event-card styles from earlier phases. */
+}

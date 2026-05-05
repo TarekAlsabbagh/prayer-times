@@ -497,7 +497,14 @@ html.qibla-hub-page .qibla-hero-title {
 html.qibla-hub-page #qibla-hub-hero,
 html.qibla-hub-page .qibla-hub-hero,
 html.qibla-hub-page .qibla-hub-hero-card {
-    min-height: 360px;
+    /* Phase Q-Hub-J ext (2026-05-05): bumped 360→500px. The smart pill
+       (#qibla-hub-smart-pill) is hidden in SSR but JS reveals it when
+       sessionStorage has last_city_context. Pill is ~50px tall + margin,
+       so when it appears, hero grows from 439px to ~490px and pushes the
+       footer down by that amount. The 0.21 footer-shift score we saw on
+       runs 2/3 came from this non-deterministic pill toggle. Reserving
+       500px leaves space for both states. */
+    min-height: 500px;
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;

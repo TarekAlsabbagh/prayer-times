@@ -14896,3 +14896,87 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
         min-height: 280px;
     }
 }
+
+/* ═══ Phase Countdown-A2 (2026-05-05): Inner-hero element reservations.
+   After Countdown-A landed Lighthouse showed a NEW residual shift that
+   the outer hero reservation didn't catch:
+     - 0.213 on .countdown-timer (h=75) — the timer shifts vertically
+       because elements ABOVE it inside the hero gain height post-JS.
+
+   Root cause: existing CSS at style.css:4233 + 4290 has
+       .cd-h1-seo:empty { display: none; }
+       .cd-seo-line:empty { display: none; }
+   Both elements are EMPTY in SSR → display: none → 0 height.
+   When JS calls _setText() / _h1SeoEl.textContent = ..., they fill,
+   .empty stops matching, and they materialize → 50-80px each.
+   Plus .cd-personal-bar uses [hidden] → display:none initially, JS
+   removes [hidden] → element becomes visible → 60-80px.
+
+   Total inner-hero growth = ~150-200px which pushes the timer + meta
+   downward. Outer hero reservation (830px) absorbs the BOUNDARY but
+   doesn't prevent INTERNAL shifts.
+
+   Fix: override the :empty + [hidden] hiding rules ONLY on countdown
+   pages, replacing display: none with display + min-height + (when
+   needed) visibility: hidden so they always occupy their final layout
+   slot. Once JS fills them, visibility flips to visible automatically. */
+
+#page-ramadan-countdown .cd-h1-seo:empty,
+#page-eid-al-fitr-countdown .cd-h1-seo:empty,
+#page-eid-al-adha-countdown .cd-h1-seo:empty,
+#page-hijri-new-year-countdown .cd-h1-seo:empty {
+    display: flex;
+    min-height: 50px;
+}
+@media (max-width: 768px) {
+    #page-ramadan-countdown .cd-h1-seo:empty,
+    #page-eid-al-fitr-countdown .cd-h1-seo:empty,
+    #page-eid-al-adha-countdown .cd-h1-seo:empty,
+    #page-hijri-new-year-countdown .cd-h1-seo:empty {
+        min-height: 70px;
+    }
+}
+
+#page-ramadan-countdown .cd-seo-line:empty,
+#page-eid-al-fitr-countdown .cd-seo-line:empty,
+#page-eid-al-adha-countdown .cd-seo-line:empty,
+#page-hijri-new-year-countdown .cd-seo-line:empty {
+    display: block;
+    min-height: 50px;
+    /* keep the bg-tinted pill visible as a placeholder (or hide via
+       visibility if the empty pill looks odd; opting to keep so user
+       sees an immediate preview of the SEO line area). */
+}
+@media (max-width: 768px) {
+    #page-ramadan-countdown .cd-seo-line:empty,
+    #page-eid-al-fitr-countdown .cd-seo-line:empty,
+    #page-eid-al-adha-countdown .cd-seo-line:empty,
+    #page-hijri-new-year-countdown .cd-seo-line:empty {
+        min-height: 60px;
+    }
+}
+
+/* Personal bar starts with [hidden] attribute (display: none from browser
+   default). JS later removes [hidden] which lets the .cd-personal-bar
+   class's display: flex take over. Override [hidden] to keep display +
+   reserve space, but use visibility: hidden so the empty placeholder is
+   not visible. When JS removes [hidden] (after filling text), visibility
+   defaults back to visible.
+   Note: visibility:hidden still occupies layout, so the post-JS reveal
+   is just a paint change, not a layout change. */
+#page-ramadan-countdown .cd-personal-bar[hidden],
+#page-eid-al-fitr-countdown .cd-personal-bar[hidden],
+#page-eid-al-adha-countdown .cd-personal-bar[hidden],
+#page-hijri-new-year-countdown .cd-personal-bar[hidden] {
+    display: flex !important;
+    min-height: 60px;
+    visibility: hidden;
+}
+@media (max-width: 768px) {
+    #page-ramadan-countdown .cd-personal-bar[hidden],
+    #page-eid-al-fitr-countdown .cd-personal-bar[hidden],
+    #page-eid-al-adha-countdown .cd-personal-bar[hidden],
+    #page-hijri-new-year-countdown .cd-personal-bar[hidden] {
+        min-height: 80px;
+    }
+}

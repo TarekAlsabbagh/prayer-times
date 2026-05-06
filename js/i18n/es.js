@@ -241,7 +241,7 @@ window.TRANSLATIONS['es'] = {
 
         'faq.home.q2': '¿Cuál es la diferencia entre los métodos (Umm al-Qura, ISNA, MWL)?',
 
-        'faq.home.a2': 'Los métodos difieren en el ángulo solar usado para Fayr e Isha. Umm al-Qura conviene a La Meca y el Golfo, ISNA a Norteamérica, MWL al resto del mundo.',
+        'faq.home.a2': 'Los métodos difieren en el ángulo solar usado para Fayr e Isha. Umm al-Qura conviene a la Península Arábiga, ISNA a Norteamérica, MWL al resto del mundo.',
         'mit.moon': 'Luna Hoy',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Ver Programa Mensual',

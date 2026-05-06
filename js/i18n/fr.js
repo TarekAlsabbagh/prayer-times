@@ -221,7 +221,7 @@ window.TRANSLATIONS['fr'] = {
 
         'faq.home.q2': 'Quelle est la différence entre les méthodes (Oumm al-Qura, ISNA, MWL) ?',
 
-        'faq.home.a2': 'Les méthodes diffèrent par l\'angle solaire utilisé pour le Fajr et le Icha. Oumm al-Qura convient à La Mecque et au Golfe, ISNA à l\'Amérique du Nord, MWL au reste du monde.',
+        'faq.home.a2': 'Les méthodes diffèrent par l\'angle solaire utilisé pour le Fajr et le Icha. Oumm al-Qura convient à la Péninsule Arabique, ISNA à l\'Amérique du Nord, MWL au reste du monde.',
         'mit.moon': 'Lune aujourd\u2019hui',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Voir le programme mensuel',

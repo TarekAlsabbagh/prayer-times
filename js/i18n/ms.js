@@ -241,7 +241,7 @@ window.TRANSLATIONS['ms'] = {
 
         'faq.home.q2': 'Apakah perbezaan antara kaedah (Ummul Qura, ISNA, MWL)?',
 
-        'faq.home.a2': 'Kaedah berbeza pada sudut matahari untuk Subuh dan Isyak. Ummul Qura sesuai untuk Makkah dan Teluk, ISNA untuk Amerika Utara, MWL untuk seluruh dunia.',
+        'faq.home.a2': 'Kaedah berbeza pada sudut matahari untuk Subuh dan Isyak. Ummul Qura sesuai untuk Semenanjung Arab, ISNA untuk Amerika Utara, MWL untuk seluruh dunia.',
         'mit.moon': 'Bulan Hari Ini',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Lihat Jadual Bulanan',

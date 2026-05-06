@@ -241,7 +241,7 @@ window.TRANSLATIONS['en'] = {
 
         'faq.home.q2': 'What\'s the difference between calculation methods (Umm al-Qura, ISNA, MWL)?',
 
-        'faq.home.a2': 'Methods differ in the sun-angle used to compute Fajr and Isha. Umm al-Qura suits Mecca and the Gulf, ISNA fits North America, MWL works well worldwide.',
+        'faq.home.a2': 'Methods differ in the sun-angle used to compute Fajr and Isha. Umm al-Qura suits the Arabian Peninsula, ISNA fits North America, MWL works well worldwide.',
         'mit.moon': 'Moon Today',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'View Monthly Schedule',

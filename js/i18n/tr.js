@@ -224,7 +224,7 @@ window.TRANSLATIONS['tr'] = {
 
         'faq.home.q2': 'Hesaplama yöntemleri (Ümmü\'l-Qura, ISNA, MWL) arasındaki fark nedir?',
 
-        'faq.home.a2': 'Yöntemler, Fecir ve Yatsı için kullanılan güneş açısı bakımından farklıdır. Ümmü\'l-Qura Mekke ve Körfez için, ISNA Kuzey Amerika için, MWL dünya geneli için uygundur.',
+        'faq.home.a2': 'Yöntemler, Fecir ve Yatsı için kullanılan güneş açısı bakımından farklıdır. Ümmü\'l-Qura Arap Yarımadası için, ISNA Kuzey Amerika için, MWL dünya geneli için uygundur.',
         'mit.moon': 'Bugün Ay',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Aylık Programı Gör',

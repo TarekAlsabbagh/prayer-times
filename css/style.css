@@ -15094,41 +15094,43 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
     }
 }
 
-/* ═══ Phase Moon-A (2026-05-06): /moon-in-{city} CLS fix.
-   Scope: ALL moon-in-{city} pages.
+/* ═══ Phase Moon-A (2026-05-06): /moon-in-{city} CLS investigation.
+   Reverted to no-op after experimentation showed reservations EXPOSE the
+   shift more reliably across runs instead of fixing it.
 
-   Lighthouse mobile baseline (3 runs):
+   Lighthouse mobile baseline on /moon-in-jeddah-21.5-39.2 (3 runs):
      Run 1: CLS=0.058  Run 2: CLS=0.130  Run 3: CLS=0.058
-     The variance comes from .moon-hijri-today appearing to shift its
-     position 0.121 in worst run. Initial attempt reserved
-     .moon-hijri-today directly at 220 mobile / 150 desktop — that
-     made things WORSE (all 3 runs hit 0.121-0.130 instead of 2/3 good).
+     2/3 runs already under 0.1 (very close to acceptable).
 
-   Diagnosis after the failed first attempt: the visible shift is on
-   .moon-hijri-today but the CAUSE is .moon-summary-line above it.
-   .moon-summary-line contains 3 chips with placeholder strong tags
-   showing "—":
-     #moon-summary-phase  (—)
-     #moon-summary-illum  (—)
-     #moon-summary-age    (—)
-   On hydration JS fills these with "Crescent" / "12%" / "5" etc.
-   The chip widths grow → the line can wrap from 1 row to 2 rows on
-   narrow viewports → ~30px height growth → moon-hijri-today below
-   shifts down ~30px. Combined with breadcrumb/h1 sub-line wrap on
-   some city names, the total shift score reaches 0.121.
+   Attempted v1: reserve .moon-hijri-today at 220 mobile / 150 desktop.
+   Result: ALL 3 runs hit 0.121-0.130 (worse).
 
-   Better fix: reserve .moon-summary-line itself so its height stays
-   constant whether the chips are 1 or 2 lines. Pre-JS placeholders +
-   labels already establish the line; reserving 2-line height pre-JS
-   means filled state (1 or 2 lines) fits within reservation.
+   Attempted v2: reserve .moon-summary-line at 88 mobile / 48 desktop
+   (the element ABOVE moon-hijri-today, hypothesized to grow when JS
+   fills the 3 chip placeholders).
+   Result: ALL 3 runs hit 0.121-0.130 (also worse).
 
-   Selector: #page-moon scope (not html.moon-hub-page) per HCal-A2. */
+   Diagnosis: the 0.121 shift on moon-hijri-today is consistent —
+   happens on every page load. The PRE-FIX variance was Lighthouse's
+   5-second measurement window sometimes ending BEFORE the shift event
+   happened (depending on device timing). My reservations added enough
+   layout work to slow the page slightly, ensuring the shift was
+   ALWAYS captured within the window.
 
-#page-moon .moon-summary-line {
-    min-height: 88px;
-}
-@media (min-width: 769px) {
-    #page-moon .moon-summary-line {
-        min-height: 48px;
-    }
-}
+   The actual shift cause is layered:
+     - The breadcrumb / city-h1 / subtitle / summary-line area collectively
+       grows ~30px when JS replaces SSR generic text with city-specific
+       text (e.g., "القمر اليوم" → "القمر في جدة" — line wraps).
+     - .moon-hijri-today below shifts down ~30px → score 0.121.
+   Reserving any single element above doesn't help because each only
+   contributes 5-10px individually; the shift is a SUM.
+
+   Decision: leave style.css unchanged (this comment block only).
+   The page already has Phase E4-final-A reservations on the 3 inner
+   moon-hijri fields (style.css:471-479) which carry most of the load.
+   Worst-case CLS=0.130 is in "Needs Improvement" range, not "Poor".
+
+   For a future Moon-A-followup phase: the proper fix would be SSR-fill
+   of moon-page-h1 / moon-subtitle / moon-summary chips with city-specific
+   text (mirrors the prayer-times pattern at server.js:8417+). Out of
+   scope for this CSS-only phase. */

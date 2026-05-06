@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T13:08:36.224Z
+   Extracted on: 2026-05-06T13:15:37.534Z
    Source: css/style.css (full 505 KiB)
-   Critical: 29.9 KiB
+   Critical: 31 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -237,7 +237,39 @@ html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
     }
 .page.active{ padding: 12px; max-width: 100%; box-sizing: border-box; }}
 @media (max-width: 480px){.location-info{ padding-right: 50px; }}
+.cookie-consent{
+    position: fixed;
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
+    max-width: 780px;
+    margin: 0 auto;
+    /* --primary-dark is the SAME brand green used everywhere else as the
+       solid CTA bg in light mode. On dark mode the variable flips to a
+       light accent green which makes the white text wash out — overridden
+       below with --primary (saturated) so the consent reads cleanly. */
+    background: var(--primary-dark);
+    color: #fff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    animation: cc-slide-up 0.35s ease-out;
+}
+@media (max-width: 600px){.cookie-consent{ bottom: 8px; left: 8px; right: 8px; padding: 12px 14px; }}
 .u-hidden{ display: none; }
+.loc-hero-search-wrap{
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0;
+}
 #page-prayer-times .loc-hero-geo-btn{
     display: inline-flex !important;
     align-items: center;
@@ -720,4 +752,13 @@ html.date-converter-page #page-date-converter{
     }}
 .header-actions{
     min-height: 44px;  /* Cairo natural; Tahoma renders 36px → padded with 8px */
+}
+.cookie-consent{
+    min-height: 122px;
+}
+@media (max-width: 480px){.cookie-consent{
+        min-height: 138px;  /* On narrow phones text wraps to one more line */
+    }}
+.loc-hero-search-wrap{
+    min-height: 62px;
 }

@@ -91,6 +91,13 @@ const CRITICAL_PATTERNS = [
     // prevents the growth → no shift attributable to the bottom
     // sections.
     /^#location-hero$/,
+    // Home-CLS-Fix v3-c: lock .loc-hero-search-wrap (input wrapper inside
+    // hero) — search input grows by 10px on Cairo load (placeholder text
+    // line-height differs). Without inlining, the rule lands AFTER the
+    // first paint window Lighthouse measures CLS in.
+    /^\.loc-hero-search-wrap$/,
+    // Home-CLS-Fix v3-b: cookie-consent banner also grows on font swap.
+    /^\.cookie-consent$/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

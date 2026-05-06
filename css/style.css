@@ -15094,6 +15094,41 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
     }
 }
 
+/* ═══ Phase DateConv-A (2026-05-06): /dateconverter CLS fix.
+   Lighthouse mobile baseline (3 runs):
+     Run 1: CLS=0.104  Run 2: CLS=0.104  Run 3: CLS=0.103
+     Tightly clustered around 0.104 — just over the 0.1 threshold.
+     Top shifts:
+       0.069 on .section-card (h=998 top=134)  ← the converter card itself
+       0.056 + 0.034 on #page-date-converter (h=1036 top=122)
+       residual sticky-next-bar tiny
+
+   Diagnosis: <div class="page" id="page-date-converter"> ships in SSR
+   WITHOUT the .active class (index.html:2802). The inline class-adder
+   adds html.date-converter-page which makes the page visible (via
+   critical.css:23 `html.date-converter-page #page-date-converter
+   { display: block !important; }`) but does NOT pre-apply the
+   .page.active { padding: 24px } cascade. JS later adds .active to
+   the page → padding goes 0 → 24px desktop / 0 → 12px+box-sizing
+   mobile → entire 1036px-tall page rect grows by the padding amount
+   → 0.090 page shift + 0.069 card shift = 0.159.
+
+   This is the EXACT pattern fixed in Q-Hub-K2 / HDay-A / HCal-A.
+   Applying the same proven fix: extend the existing visibility rule
+   to also pre-apply padding so JS .active becomes a layout no-op.
+   No JS / SSR / Title / Meta / H1 change. */
+
+html.date-converter-page #page-date-converter {
+    padding: 24px;
+}
+@media (max-width: 768px) {
+    html.date-converter-page #page-date-converter {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
 /* ═══ Phase Moon-A (2026-05-06): /moon-in-{city} CLS investigation.
    Reverted to no-op after experimentation showed reservations EXPOSE the
    shift more reliably across runs instead of fixing it.

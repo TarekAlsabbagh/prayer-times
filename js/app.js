@@ -8883,30 +8883,38 @@ function updatePageSEO() {
         const _gMBn    = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][_gMIdx];
         const _gMMs    = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'][_gMIdx];
 
+        // Phase Home-Global (2026-05-06): GENERIC homepage titles + descs.
+        // The previous strings hard-coded "Mecca/Madinah/مكة" into the client-
+        // side document.title rewrite, which OVERRODE the clean SSR title and
+        // made the homepage look like a city page in the browser tab and in
+        // Google's search results. Now these mirror server.js _HOME_TITLES /
+        // _HOME_DESCS (city-free) and only add the dynamic Hijri month/year
+        // suffix for freshness without naming any city.
         const HOME_TITLES = {
-            ar: `مواقيت الصلاة في مكة المكرمة اليوم | ${_hMAr} ${_hY} هـ`,
-            en: `Today's Prayer Times in Mecca & Medina | ${_hMEn} ${_hY}`,
-            fr: `Heures de prière à La Mecque & Médine | ${_hMEn} ${_hY}`,
-            tr: `Namaz Vakitleri: Mekke, Medine, Dünya | ${_hMEn} ${_hY}`,
-            ur: `اوقاتِ نماز: مکہ، مدینہ اور دنیا | ${_hMEn} ${_hY}`,
-            de: `Gebetszeiten — Mekka, Medina & Welt | ${_hMEn} ${_hY}`,
-            id: `Jadwal Sholat: Makkah, Madinah & Dunia | ${_hMEn} ${_hY}`,
-            es: `Horarios de Oración — La Meca, Medina | ${_hMEn} ${_hY}`,
-            bn: `নামাজের সময়সূচী: মক্কা, মদিনা ও বিশ্ব | ${_hMEn} ${_hY}`,
-            ms: `Waktu Solat: Makkah, Madinah & Dunia | ${_hMEn} ${_hY}`,
+            ar: `مواقيت الصلاة اليوم | ${_hMAr} ${_hY} هـ`,
+            en: `Today's Prayer Times | ${_hMEn} ${_hY}`,
+            fr: `Heures de prière | ${_hMEn} ${_hY}`,
+            tr: `Bugünkü Namaz Vakitleri | ${_hMEn} ${_hY}`,
+            ur: `آج اوقاتِ نماز | ${_hMEn} ${_hY}`,
+            de: `Heutige Gebetszeiten | ${_hMEn} ${_hY}`,
+            id: `Jadwal Sholat Hari Ini | ${_hMEn} ${_hY}`,
+            es: `Horarios de Oración Hoy | ${_hMEn} ${_hY}`,
+            bn: `আজকের নামাজের সময় | ${_hMEn} ${_hY}`,
+            ms: `Waktu Solat Hari Ini | ${_hMEn} ${_hY}`,
         };
         // Round 7h: إضافة الشهر الميلاديّ المحلَّى — phrase "أبريل 2026" في seoptimer
+        // Phase Home-Global: dropped "Mecca, Medina" geo-anchors from descs.
         const HOME_DESCS = {
-            ar: `مواقيت الصلاة في مكة المكرمة والمدينة اليوم ${_gMAr} ${_gY}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
-            en: `Prayer times today in Mecca, Medina ${_gMEn} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMEn} ${_hY} AH, Qibla, Zakat.`,
-            fr: `Heures de prière aujourd'hui à La Mecque, Médine ${_gMFr} ${_gY} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            tr: `Bugün Mekke, Medine namaz vakitleri ${_gMTr} ${_gY}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMEn} ${_hY}, kıble, zekât.`,
-            ur: `آج مکہ مکرمہ، مدینہ اور دنیا میں اوقاتِ نماز ${_gMUr} ${_gY}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
-            de: `Heutige Gebetszeiten in Mekka, Medina ${_gMDe} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            id: `Jadwal sholat hari ini di Makkah, Madinah ${_gMId} ${_gY}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMEn} ${_hY}, kiblat, zakat.`,
-            es: `Horarios de oración hoy en La Meca, Medina ${_gMEs} ${_gY}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            bn: `আজকের নামাজের সময় মক্কা, মদিনা ও বিশ্বের শহরগুলিতে ${_gMBn} ${_gY}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMEn} ${_hY}, কিবলা, যাকাত, দোয়া।`,
-            ms: `Waktu solat hari ini di Makkah, Madinah ${_gMMs} ${_gY}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMEn} ${_hY}, Kiblat, Zakat.`,
+            ar: `مواقيت الصلاة اليوم ${_gMAr} ${_gY}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
+            en: `Prayer times today ${_gMEn} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMEn} ${_hY} AH, Qibla, Zakat.`,
+            fr: `Heures de prière aujourd'hui ${_gMFr} ${_gY} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            tr: `Bugün namaz vakitleri ${_gMTr} ${_gY}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMEn} ${_hY}, kıble, zekât.`,
+            ur: `آج اوقاتِ نماز ${_gMUr} ${_gY}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
+            de: `Heutige Gebetszeiten ${_gMDe} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            id: `Jadwal sholat hari ini ${_gMId} ${_gY}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMEn} ${_hY}, kiblat, zakat.`,
+            es: `Horarios de oración hoy ${_gMEs} ${_gY}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            bn: `আজকের নামাজের সময় ${_gMBn} ${_gY}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMEn} ${_hY}, কিবলা, যাকাত, দোয়া।`,
+            ms: `Waktu solat hari ini ${_gMMs} ${_gY}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMEn} ${_hY}, Kiblat, Zakat.`,
         };
         setSEOMeta({
             title: HOME_TITLES[homeLang] || HOME_TITLES.ar,

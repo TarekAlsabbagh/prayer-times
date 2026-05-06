@@ -15042,3 +15042,36 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
         min-height: 170px;
     }
 }
+
+/* PT-A2 (2026-05-05): Outer .next-prayer-banner reservation.
+   The [hidden] overrides above only handle ~70px of the shift, but
+   variance was high (3 runs measured 0.212/0.372/0.138). The remaining
+   shifts came from cumulative inner toggles + the 0.05-0.06 page-level
+   shifts caused by elements BELOW the banner (schedule body, country
+   cities grid, etc.) growing post-JS.
+
+   Outer banner reservation locks the banner's overall rect so internal
+   toggles don't propagate up the layout tree to siblings below.
+   Mobile worst-case: ~50 (current-prayer) + 96 + 170 + 96 (3 blocks
+   stacked) = 412px. Desktop worst-case: ~50 + 170 (single row) ≈ 220.
+   Add small buffer. */
+#page-prayer-times .next-prayer-banner {
+    min-height: 220px;
+}
+@media (max-width: 768px) {
+    #page-prayer-times .next-prayer-banner {
+        min-height: 420px;
+    }
+}
+
+/* Reserve the weekly schedule tbody — empty in SSR, JS fills with 3
+   visible rows (compact mode via .weekly-limit-3 caps to 3) of
+   day/prayer-times. Each row ~46px desktop / ~52px mobile. */
+#page-prayer-times #schedule-body {
+    min-height: 138px;
+}
+@media (max-width: 768px) {
+    #page-prayer-times #schedule-body {
+        min-height: 156px;
+    }
+}

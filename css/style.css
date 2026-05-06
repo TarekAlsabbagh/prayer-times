@@ -15043,30 +15043,15 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
     }
 }
 
-/* PT-A2 (2026-05-05): Outer .next-prayer-banner reservation.
-   The [hidden] overrides above only handle ~70px of the shift, but
-   variance was high (3 runs measured 0.212/0.372/0.138). The remaining
-   shifts came from cumulative inner toggles + the 0.05-0.06 page-level
-   shifts caused by elements BELOW the banner (schedule body, country
-   cities grid, etc.) growing post-JS.
-
-   Outer banner reservation locks the banner's overall rect so internal
-   toggles don't propagate up the layout tree to siblings below.
-   Mobile worst-case: ~50 (current-prayer) + 96 + 170 + 96 (3 blocks
-   stacked) = 412px. Desktop worst-case: ~50 + 170 (single row) ≈ 220.
-   Add small buffer. */
-#page-prayer-times .next-prayer-banner {
-    min-height: 220px;
-}
-@media (max-width: 768px) {
-    #page-prayer-times .next-prayer-banner {
-        min-height: 420px;
-    }
-}
-
-/* Reserve the weekly schedule tbody — empty in SSR, JS fills with 3
-   visible rows (compact mode via .weekly-limit-3 caps to 3) of
-   day/prayer-times. Each row ~46px desktop / ~52px mobile. */
+/* PT-A3 (2026-05-05): the outer-banner reservation in PT-A2 was found to
+   OVER-RESERVE — pre-JS banner forced to 420 mobile, post-JS settled to
+   ~354 natural height = a 66px collapse shift that worsened CLS.
+   Reverted; instead add a more surgical fix:
+     - Reserve #schedule-body (largest known empty-then-filled below banner).
+     - The [hidden] overrides above already cover banner sub-toggles.
+   The remaining baseline 0.138 shift on the banner appears to be a
+   timing-dependent reflow that pure CSS reservation can't eliminate
+   without an SSR fill — out of scope for this CSS-only phase. */
 #page-prayer-times #schedule-body {
     min-height: 138px;
 }

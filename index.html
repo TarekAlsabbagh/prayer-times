@@ -69,8 +69,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=295" as="style">
-    <link rel="stylesheet" href="css/style.css?v=295">
+    <link rel="preload" href="css/style.css?v=296" as="style">
+    <link rel="stylesheet" href="css/style.css?v=296">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -867,6 +867,13 @@
                         <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
                     </div>
                 </div>
+
+                <!-- Phase Home-Content (2026-05-06): SSR injection anchor for
+                     educational content on / (homepage only). server.js replaces
+                     this comment with 4 H2 sections (~360 AR words / ~400 EN
+                     words) when _isHomepage. NO city names anywhere — page
+                     identity stays Global. Out on city pages / hub pages. -->
+                <!-- HOME-CONTENT-INJECT -->
 
                 <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX | Round 21: collapse افتراضيّاً) -->
                 <section class="section-card arab-countries-section countries-limited" id="arab-countries-section" aria-labelledby="arab-countries-title" data-full="false">

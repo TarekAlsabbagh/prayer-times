@@ -15277,5 +15277,17 @@ html.date-converter-page #page-date-converter {
     min-height: 62px;
 }
 
+/* Phase Home-CLS-Fix v3-d (hero subtitle + title): lock the H1 + the
+   subtitle paragraph inside #location-hero. These are above the
+   search-wrap in DOM order; if either wraps to a different number of
+   lines on Cairo load, it pushes the search-wrap (and everything below
+   it) down. */
+#loc-hero-title {
+    min-height: 51px;
+}
+#loc-hero-subtitle {
+    min-height: 49px;
+}
+
 /* ═══ Out of scope
    scope for this CSS-only phase. */

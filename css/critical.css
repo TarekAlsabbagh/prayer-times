@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T13:15:37.534Z
+   Extracted on: 2026-05-06T13:21:40.816Z
    Source: css/style.css (full 505 KiB)
-   Critical: 31 KiB
+   Critical: 31.1 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -761,4 +761,10 @@ html.date-converter-page #page-date-converter{
     }}
 .loc-hero-search-wrap{
     min-height: 62px;
+}
+#loc-hero-title{
+    min-height: 51px;
+}
+#loc-hero-subtitle{
+    min-height: 49px;
 }

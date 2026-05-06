@@ -96,6 +96,9 @@ const CRITICAL_PATTERNS = [
     // line-height differs). Without inlining, the rule lands AFTER the
     // first paint window Lighthouse measures CLS in.
     /^\.loc-hero-search-wrap$/,
+    // Home-CLS-Fix v3-d: hero title + subtitle inside #location-hero.
+    /^#loc-hero-title$/,
+    /^#loc-hero-subtitle$/,
     // Home-CLS-Fix v3-b: cookie-consent banner also grows on font swap.
     /^\.cookie-consent$/,
     /^html\.home-page\s/,

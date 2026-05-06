@@ -15251,5 +15251,20 @@ html.date-converter-page #page-date-converter {
     min-height: 44px;  /* Cairo natural; Tahoma renders 36px → padded with 8px */
 }
 
+/* Phase Home-CLS-Fix v3 (cookie banner): the fixed-position cookie consent
+   banner is anchored to bottom: 14px and grows by 9px when Cairo loads
+   (text wraps differently). Lighthouse attributes that shift to the
+   banner since its top moves from 702 → 693. Reserving min-height: 122px
+   locks the banner at the larger size from first paint, regardless of
+   font load state. */
+.cookie-consent {
+    min-height: 122px;
+}
+@media (max-width: 480px) {
+    .cookie-consent {
+        min-height: 138px;  /* On narrow phones text wraps to one more line */
+    }
+}
+
 /* ═══ Out of scope
    scope for this CSS-only phase. */

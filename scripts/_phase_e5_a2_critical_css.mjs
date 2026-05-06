@@ -101,11 +101,6 @@ const CRITICAL_PATTERNS = [
     /^#loc-hero-subtitle$/,
     // Home-CLS-Fix v3-b: cookie-consent banner also grows on font swap.
     /^\.cookie-consent$/,
-    // Home-Content (2026-05-06): SSR-injected educational sections — must
-    // have min-height reservation in critical CSS to prevent CLS at first
-    // paint (the section is ~1450px tall on mobile / ~950px on desktop).
-    /^#home-edu-section$/,
-    /^#home-edu-section\s/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

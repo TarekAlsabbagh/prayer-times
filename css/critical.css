@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T13:46:51.372Z
-   Source: css/style.css (full 506 KiB)
-   Critical: 31.8 KiB
+   Extracted on: 2026-05-06T13:21:40.816Z
+   Source: css/style.css (full 505 KiB)
+   Critical: 31.1 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -768,31 +768,3 @@ html.date-converter-page #page-date-converter{
 #loc-hero-subtitle{
     min-height: 49px;
 }
-#home-edu-section{
-    min-height: 1450px;
-}
-#home-edu-section h2{
-    font-size: 1.15rem;
-    line-height: 1.4;
-    margin: 18px 0 10px;
-    color: var(--primary-dark);
-    font-weight: 700;
-}
-#home-edu-section h2:first-of-type{
-    margin-top: 4px;
-}
-#home-edu-section p{
-    font-size: 0.96rem;
-    line-height: 1.75;
-    color: var(--text);
-    margin: 0 0 8px;
-}
-@media (min-width: 769px){#home-edu-section{
-        min-height: 950px;  /* Desktop: wider lines → fewer wraps → shorter section */
-    }
-#home-edu-section h2{
-        font-size: 1.25rem;
-    }
-#home-edu-section p{
-        font-size: 1rem;
-    }}

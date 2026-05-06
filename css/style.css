@@ -15289,41 +15289,5 @@ html.date-converter-page #page-date-converter {
     min-height: 49px;
 }
 
-/* Phase Home-Content (2026-05-06): SSR-injected educational sections on
-   homepage. 4 H2 + 4 paragraphs (~330 visible words) to lift word count
-   above SEOptimer's thin-content threshold. Generic Global content (no
-   city names) — sits between #country-cities-section and
-   #arab-countries-section. Reservation prevents CLS when sections load. */
-#home-edu-section {
-    min-height: 1450px;
-}
-#home-edu-section h2 {
-    font-size: 1.15rem;
-    line-height: 1.4;
-    margin: 18px 0 10px;
-    color: var(--primary-dark);
-    font-weight: 700;
-}
-#home-edu-section h2:first-of-type {
-    margin-top: 4px;
-}
-#home-edu-section p {
-    font-size: 0.96rem;
-    line-height: 1.75;
-    color: var(--text);
-    margin: 0 0 8px;
-}
-@media (min-width: 769px) {
-    #home-edu-section {
-        min-height: 950px;  /* Desktop: wider lines → fewer wraps → shorter section */
-    }
-    #home-edu-section h2 {
-        font-size: 1.25rem;
-    }
-    #home-edu-section p {
-        font-size: 1rem;
-    }
-}
-
 /* ═══ Out of scope
    scope for this CSS-only phase. */

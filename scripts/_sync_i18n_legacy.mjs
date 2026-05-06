@@ -16,6 +16,8 @@ const LANGS = ['ar','en','fr','tr','ur','de','id','es','bn','ms'];
 const KEYS = [
   'faq.home.q1', 'faq.home.a1', 'faq.home.q2', 'faq.home.a2',
   'footer.popular_cities_intro',
+  'footer.link_hijri_today', 'footer.link_hijri_year',
+  'footer.link_date_converter', 'footer.link_tasbih',
   'footer.svc_hijri_today_desc', 'footer.svc_hijri_year_desc',
   'footer.svc_date_converter_desc', 'footer.svc_tasbih_desc'
 ];

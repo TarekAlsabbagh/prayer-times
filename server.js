@@ -5105,7 +5105,16 @@ function buildSeoForPath(urlPath) {
             }
             // ── coord-only page (Round 12): noindex لتجنّب spam فهرسة لكلّ إحداثيّ
             // النطاقات صالحة فعليّاً فقط للمستخدم النهائيّ عبر الضغط داخل الموقع.
-            if (_isCoordOnlyMoon) {
+            // Phase HC-8 (2026-05-06): scope to coord-suffix URLs ONLY. The
+            // previous unconditional check tagged ALL non-DB-resolved moon
+            // cities (e.g. /moon-today-in-kamikawa — a real Japanese town
+            // present in the qibla/prayer-times DBs but not yet in the moon
+            // DB) with noindex, breaking their SEO. Slug-only fallback URLs
+            // are fine to index — they render reasonable content with the
+            // slug as title and let the client refresh times from a real
+            // geocode. Only coord-suffix URLs (e.g. /moon-today-in-X-21.4-39.8)
+            // remain noindex'd, since those are infinitely-many synthetic URLs.
+            if (_isCoordOnlyMoon && _hasCoordSuffix) {
                 robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
                 // canonical → نفس الـ URL (هي الشكل الوحيد المتاح لهذه المدينة)
                 canonical = origin + p;

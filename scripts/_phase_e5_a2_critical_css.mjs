@@ -91,6 +91,7 @@ const CRITICAL_PATTERNS = [
     // prevents the growth → no shift attributable to the bottom
     // sections.
     /^#location-hero$/,
+    /^#location-hero:not\(\.loc-hero-collapsed\)$/,
     // Home-CLS-Fix v3-c: lock .loc-hero-search-wrap (input wrapper inside
     // hero) — search input grows by 10px on Cairo load (placeholder text
     // line-height differs). Without inlining, the rule lands AFTER the

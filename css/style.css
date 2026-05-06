@@ -15229,13 +15229,22 @@ html.date-converter-page #page-date-converter {
 
    Body-only on home (page-prayer-times only — every other route has its
    own hero shells). The #location-hero is generic enough that we use
-   the bare ID selector. */
+   the bare ID selector.
 
-#location-hero {
+   Phase HC-6 (2026-05-06): scope the reservation with :not(.loc-hero-collapsed).
+   On city pages (/prayer-times-in-{city}, /qibla-in-{city}, etc.) the
+   hero starts collapsed — only the title + city pill + "search another
+   city" hint are visible. Internal full-hero elements (search, dual-CTA,
+   microcopy, badges, popular-cities chips) are hidden by CSS in the
+   collapsed state. Natural collapsed height is ~180-220px. Without the
+   :not(...) guard, min-height: 685 forced 463+px of empty space below
+   the city-page hero. */
+
+#location-hero:not(.loc-hero-collapsed) {
     min-height: 685px;
 }
 @media (min-width: 769px) {
-    #location-hero {
+    #location-hero:not(.loc-hero-collapsed) {
         min-height: 540px;  /* Desktop: hero is 2-col grid → shorter */
     }
 }

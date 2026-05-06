@@ -8775,6 +8775,27 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<div class="banner-date-greg" id="banner-greg-date">${_escHtml(gregDate)}</div>`
             );
         } catch(e) { /* toLocaleDateString fallback — تبقى "--" */ }
+
+        // ═══ Phase PT-A-SSR-followup (2026-05-06): SSR-fill #banner-hijri-date.
+        //     Eliminates the "--" → "5 ذو القعدة 1447 هـ" placeholder→fill shift
+        //     that contributed to the residual banner CLS. Uses _hijriNow()
+        //     which is Mecca-timezone (Asia/Riyadh) — for users in other
+        //     timezones JS will refine ±1 day later, but the text length and
+        //     layout stay stable so no shift.
+        try {
+            const _hSsr = (typeof _hijriNow === 'function') ? _hijriNow() : null;
+            if (_hSsr && _hSsr.year && _hSsr.month && _hSsr.day) {
+                const _hMArSsr = (_HIJRI_MONTHS[_hSsr.month] || {}).ar || '';
+                const _hMEnSsr = (_HIJRI_MONTHS[_hSsr.month] || {}).en || '';
+                const _hijriTextSsr = (L === 'ar')
+                    ? `${_hSsr.day} ${_hMArSsr} ${_hSsr.year} هـ`
+                    : `${_hSsr.day} ${_hMEnSsr} ${_hSsr.year} AH`;
+                html = html.replace(
+                    '<div class="banner-date-hijri" id="banner-hijri-date">--</div>',
+                    `<div class="banner-date-hijri" id="banner-hijri-date">${_escHtml(_hijriTextSsr)}</div>`
+                );
+            }
+        } catch (_e) { /* silent — placeholder stays "--" if computation fails */ }
     } else {
         // 5b) SSR للصفحة الرئيسية (و URLs أخرى غير city): فقرات SEO حقيقية بدل الفارغة
         //     يُزيل "Content thin" warning ويضيف keywords في HTML الأوّلي.

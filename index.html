@@ -63,14 +63,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=597" as="script">
+    <link rel="preload" href="js/app.js?v=598" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=279" as="style">
-    <link rel="stylesheet" href="css/style.css?v=279">
+    <link rel="preload" href="css/style.css?v=280" as="style">
+    <link rel="stylesheet" href="css/style.css?v=280">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -559,6 +559,15 @@
                             <div class="banner-date-greg" id="banner-greg-date">--</div>
                         </div>
                     </div>
+                    <!-- PT-A-JS-followup (2026-05-06): user-triggered "Jump to current prayer".
+                         Replaces the previous 500ms auto-scroll that was disabled because it
+                         caused programmatic CLS on Lighthouse runs. Now the user clicks this
+                         CTA → jumpToActivePrayer() runs scrollIntoView, and Lighthouse
+                         excludes shifts within 500ms of user input from CLS. -->
+                    <button type="button" class="cha-cta cha-cta--banner" onclick="jumpToActivePrayer()" aria-label="انتقل إلى الصلاة القادمة" data-i18n-aria-label="cha.cta_jump">
+                        <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
+                        <span data-i18n="cha.cta_jump">انتقل إلى الصلاة القادمة</span>
+                    </button>
                 </div>
 
                 <!-- بطاقات الصلوات -->
@@ -3583,7 +3592,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=597"></script>
+    <script defer src="js/app.js?v=598"></script>
     <script defer src="js/footer-cookie.js?v=6"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -10920,40 +10920,23 @@ function updatePrayerProgress() {
 }
 
 // 🆕 Round 3.1 — Auto-scroll إلى .prayer-card.active/.current (city-page فقط، مرّة واحدة)
+//
+// PT-A-JS-followup (2026-05-06) — Disabled.
+// The 500ms-delayed smooth-scroll caused programmatic CLS during Lighthouse
+// measurement (page rect appeared to move as the viewport shifted, registering
+// as a sequence of layout-shift events that aggregated into a 0.20+ page
+// shift score on /prayer-times-in-{city}). The function is now a no-op; the
+// "jump to current prayer" UX is preserved as a USER-TRIGGERED button inside
+// .next-prayer-banner that calls jumpToActivePrayer() — Lighthouse excludes
+// shifts within 500ms of user input from CLS.
+//
+// Function kept (returns immediately) instead of removed so the call site
+// at line ~6783 doesn't throw if anyone re-introduces a call path.
 let _autoScrollDone = false;
 
-// إذا المستخدم بدأ scroll قبل ما نطلق الـauto-scroll، نُلغي العمليّة فوراً
-(function _armAutoScrollGuard() {
-    try {
-        window.addEventListener('scroll', () => {
-            try { sessionStorage.setItem('tp_no_autoscroll', '1'); } catch (_e) {}
-        }, { once: true, passive: true });
-    } catch (_e) {}
-})();
-
 function autoScrollToActivePrayer() {
-    if (_autoScrollDone) return;
-    if (!document.documentElement.classList.contains('city-page')) return;
-    if (window.scrollY > 10) return;
-    if (window.location.hash) return;
-    try {
-        if (sessionStorage.getItem('tp_no_autoscroll')) return;
-    } catch (_e) {}
-    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const target = document.querySelector('.prayer-card.current')
-                || document.querySelector('.prayer-card.active');
-    if (!target) return;
-    _autoScrollDone = true;
-    setTimeout(() => {
-        // فحص ثاني قبل الـscroll فعلياً — user قد يكون تفاعل بين now + 500ms
-        try { if (sessionStorage.getItem('tp_no_autoscroll')) return; } catch (_e) {}
-        try {
-            target.scrollIntoView({
-                behavior: reducedMotion ? 'auto' : 'smooth',
-                block: 'center'
-            });
-        } catch (_e) {}
-    }, 500);
+    // PT-A-JS-followup: programmatic auto-scroll disabled. See comment block above.
+    return;
 }
 
 // 🆕 Round 3.1 — Smart CTA: القفز إلى البطاقة القادمة مع offset للـheader + sticky bar

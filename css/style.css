@@ -11247,6 +11247,41 @@ html.city-page .city-page-search {
     .cha-cta:hover { transform: none; }
 }
 
+/* PT-A-JS-followup (2026-05-06): .cha-cta--banner — modifier for the
+   "Jump to current prayer" button placed at the bottom of .next-prayer-banner.
+   The banner has a green gradient background, so the button uses an inverted
+   palette (white pill on green parent) for high contrast. Centered with
+   margin so it sits below the 3 banner-blocks/banner-row.
+   Width is auto (intrinsic) so the SSR rendering is stable — no layout-shift
+   when text is later replaced via i18n (the data-i18n="cha.cta_jump" key is
+   already set in all 10 languages). */
+.next-prayer-banner .cha-cta.cha-cta--banner {
+    align-self: center;
+    margin: 0 auto 14px;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    font-size: 0.92rem;
+    padding: 9px 18px;
+}
+.next-prayer-banner .cha-cta.cha-cta--banner:hover {
+    background: rgba(255, 255, 255, 0.24);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+}
+.next-prayer-banner .cha-cta.cha-cta--banner .icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+@media (max-width: 768px) {
+    .next-prayer-banner .cha-cta.cha-cta--banner {
+        margin: 0 auto 12px;
+        font-size: 0.88rem;
+        padding: 8px 16px;
+    }
+}
+
 /* 🆕 Round 3.1 — Notification Prompt toast */
 .notif-prompt {
     position: fixed;

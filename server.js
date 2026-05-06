@@ -8209,10 +8209,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   and is the default (acceptable to show key if missing). EN is its own
     //   fallback root so it doesn't need a second copy.
     {
-        const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
+        // Phase HC-5 (2026-05-06): match BOTH '/en' and '/en/...' (trailing
+        // slash optional). The previous regex required a trailing slash, so
+        // requests to '/en' (without slash) fell through to the AR bundle —
+        // even though the SSR rendered EN content. JS hydration then
+        // overwrote SSR text with AR (TRANSLATIONS.en empty, fallback to
+        // TRANSLATIONS.ar). User-visible bug: clicking EN from / navigated
+        // to /en, page loaded with EN text, JS hydration flipped to AR.
+        const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '170'; // matches the version in index.html for cache invalidation
+        const _i18nVersion = '171'; // Phase HC-5 (2026-05-06): bumped to invalidate cached setLanguage with the lang-switch loop bug
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

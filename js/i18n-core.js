@@ -119,7 +119,21 @@ function setLanguage(lang) {
     if (window.location.protocol !== 'file:') {
         localStorage.setItem('app_lang', lang);
         const prefix = (lang === 'ar') ? '' : ('/' + lang);
-        const newPath = prefix + (basePath === '/' ? '/' : basePath);
+        // Phase HC-5 (2026-05-06): the previous formula
+        //     prefix + (basePath === '/' ? '/' : basePath)
+        // produced '/en/' (with trailing slash) for the homepage in non-AR
+        // languages, but the server canonicalizes to '/en' (no slash) via
+        // 301. Result: clicking a non-AR lang from / triggered an infinite
+        // redirect loop — setLanguage navigates to '/en/', server 301s
+        // back to '/en', DOMContentLoaded re-fires setLanguage('en') which
+        // navigates to '/en/' again. User saw the page stuck on AR (the
+        // initial paint before the loop took over).
+        // Fix: drop the trailing slash on the homepage for non-AR langs.
+        // For AR (no prefix), keep '/'. For non-root paths, the prefix
+        // already concatenates correctly with basePath (e.g. '/en/about').
+        const newPath = (basePath === '/')
+            ? (prefix || '/')
+            : (prefix + basePath);
         if (newPath !== curPath) {
             window.location.href = newPath + window.location.search;
             return;

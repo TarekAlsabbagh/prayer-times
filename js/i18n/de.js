@@ -999,7 +999,12 @@ window.TRANSLATIONS['de'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Gebetszeiten in arabischen Ländern',
         'footer.popular_cities': 'Gebetszeiten in beliebten Städten',
+        'footer.popular_cities_intro': 'Schnellzugriffe auf Gebetszeiten in den meistgesuchten Städten.',
         'footer.services_title': 'Weitere islamische Dienste',
+        'footer.svc_hijri_today_desc': 'Sehen Sie das heutige Hidschri-Datum sofort.',
+        'footer.svc_hijri_year_desc': 'Durchsuchen Sie die Monate des Hidschri-Jahres.',
+        'footer.svc_date_converter_desc': 'Wandeln Sie zwischen Gregorianisch und Hidschri um.',
+        'footer.svc_tasbih_desc': 'Adhkar einfach zählen.',
         'footer.world_countries': 'Gebetszeiten in den wichtigsten Ländern der Welt',
         'footer.refs_title': 'Externe Quellen',
         'footer.share_title': 'Diese Seite teilen',

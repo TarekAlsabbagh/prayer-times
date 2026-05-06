@@ -964,7 +964,12 @@ window.TRANSLATIONS['tr'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Arap Ülkelerinde Namaz Vakitleri',
         'footer.popular_cities': 'Popüler Şehirlerde Namaz Vakitleri',
+        'footer.popular_cities_intro': 'En çok aranan şehirlerdeki namaz vakitlerine hızlı bağlantılar.',
         'footer.services_title': 'Diğer İslami Hizmetler',
+        'footer.svc_hijri_today_desc': 'Bugünün Hicri tarihini hemen öğrenin.',
+        'footer.svc_hijri_year_desc': 'Hicri yılın aylarını inceleyin.',
+        'footer.svc_date_converter_desc': 'Miladi ile Hicri arasında dönüştürün.',
+        'footer.svc_tasbih_desc': 'Zikirleri kolayca sayın.',
         'footer.world_countries': 'Önemli Dünya Ülkelerinde Namaz Vakitleri',
         'footer.refs_title': 'Dış Kaynaklar',
         'footer.share_title': 'Bu siteyi paylaş',

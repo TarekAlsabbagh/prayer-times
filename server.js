@@ -9239,123 +9239,123 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             const _homeWhyI18n = {
                 ar: {
                     h2: 'لماذا تستخدم موقع مواقيت الصلاة؟',
-                    intro: 'تجربة يومية بسيطة تجمع مواقيت الصلاة والأدوات الإسلامية في مكان واحد، مع وصول سريع من أي جهاز.',
+                    intro: 'تجربة يومية بسيطة تجمع مواقيت الصلاة والأدوات الإسلامية في مكان واحد.',
                     c1t: 'مواقيت دقيقة يوميًا',
-                    c1d: 'اعرف أوقات الفجر والظهر والعصر والمغرب والعشاء بناءً على الموقع الجغرافي وطريقة الحساب المناسبة.',
+                    c1d: 'اعرف أوقات الصلوات اليومية حسب موقعك وطريقة الحساب المختارة.',
                     c2t: 'أدوات إسلامية مترابطة',
-                    c2d: 'انتقل بسهولة بين مواقيت الصلاة، اتجاه القبلة، التاريخ الهجري، حالة القمر، وتحويل التاريخ.',
+                    c2d: 'انتقل بين القبلة، التاريخ الهجري، القمر، وتحويل التاريخ بسهولة.',
                     c3t: 'تغطية عالمية',
-                    c3d: 'ابحث عن مدينتك أو استعرض الدول للوصول السريع إلى مواقيت الصلاة في مختلف أنحاء العالم.',
+                    c3d: 'ابحث عن مدينتك أو استعرض الدول للوصول السريع للمواقيت.',
                     c4t: 'تجربة سريعة وواضحة',
-                    c4d: 'واجهة خفيفة تساعدك على الوصول إلى المعلومة المطلوبة بسرعة، سواء من الهاتف أو سطح المكتب.'
+                    c4d: 'واجهة خفيفة ومباشرة تعمل بسلاسة على الهاتف وسطح المكتب.'
                 },
                 en: {
                     h2: 'Why use this Prayer Times site?',
-                    intro: 'A simple daily experience that brings prayer times and Islamic tools together, with quick access from any device.',
+                    intro: 'A simple daily experience that brings prayer times and Islamic tools together.',
                     c1t: 'Accurate daily times',
-                    c1d: 'Know Fajr, Dhuhr, Asr, Maghrib, and Isha based on your location and a suitable calculation method.',
+                    c1d: 'See daily prayer times based on your location and a suitable calculation method.',
                     c2t: 'Connected Islamic tools',
-                    c2d: 'Move easily between prayer times, Qibla direction, the Hijri date, moon phase, and date conversion.',
+                    c2d: 'Switch easily between Qibla, the Hijri date, the moon, and date conversion.',
                     c3t: 'Worldwide coverage',
-                    c3d: 'Search for your city or browse countries for quick access to prayer times around the world.',
+                    c3d: 'Search for your city or browse countries for fast access to prayer times.',
                     c4t: 'Fast, clear experience',
-                    c4d: 'A light interface that helps you reach the information you need quickly, on phone or desktop.'
+                    c4d: 'A light, direct interface that runs smoothly on phone and desktop.'
                 },
                 fr: {
                     h2: 'Pourquoi utiliser ce site d’heures de prière ?',
-                    intro: 'Une expérience quotidienne simple qui rassemble les heures de prière et les outils islamiques au même endroit, accessibles rapidement sur tout appareil.',
+                    intro: 'Une expérience quotidienne simple qui réunit les heures de prière et les outils islamiques.',
                     c1t: 'Heures précises chaque jour',
-                    c1d: 'Connaissez le Fajr, Dhuhr, Asr, Maghrib et Isha selon votre emplacement et la méthode de calcul adaptée.',
+                    c1d: 'Voyez les heures de prière selon votre position et la méthode choisie.',
                     c2t: 'Outils islamiques liés',
-                    c2d: 'Passez facilement entre les heures de prière, la direction de la Qibla, la date hégirienne, la phase de lune et la conversion de date.',
+                    c2d: 'Passez entre la Qibla, la date hégirienne, la lune et la conversion de date.',
                     c3t: 'Couverture mondiale',
-                    c3d: 'Recherchez votre ville ou parcourez les pays pour accéder rapidement aux heures de prière dans le monde.',
+                    c3d: 'Cherchez votre ville ou parcourez les pays pour un accès rapide.',
                     c4t: 'Expérience rapide et claire',
-                    c4d: 'Une interface légère qui vous aide à trouver l’information rapidement, sur mobile ou ordinateur.'
+                    c4d: 'Une interface légère et directe, fluide sur mobile et ordinateur.'
                 },
                 tr: {
                     h2: 'Bu Namaz Vakitleri sitesini neden kullanmalısınız?',
-                    intro: 'Namaz vakitlerini ve İslami araçları tek yerde toplayan, her cihazdan hızlı erişilen sade bir günlük deneyim.',
+                    intro: 'Namaz vakitlerini ve İslami araçları tek yerde toplayan sade bir günlük deneyim.',
                     c1t: 'Her gün doğru vakitler',
-                    c1d: 'Konumunuza ve uygun hesaplama yöntemine göre İmsak, Öğle, İkindi, Akşam ve Yatsı vakitlerini öğrenin.',
+                    c1d: 'Konumunuza ve seçtiğiniz hesaplama yöntemine göre günlük vakitleri görün.',
                     c2t: 'Bağlantılı İslami araçlar',
-                    c2d: 'Namaz vakitleri, Kıble yönü, Hicri tarih, ay evresi ve tarih dönüşümü arasında kolayca gezinin.',
+                    c2d: 'Kıble, Hicri tarih, ay evresi ve tarih dönüşümü arasında kolayca geçin.',
                     c3t: 'Dünya çapında kapsam',
-                    c3d: 'Şehrinizi arayın veya ülkeleri inceleyerek dünyadaki namaz vakitlerine hızla ulaşın.',
+                    c3d: 'Şehrinizi arayın veya ülkelere göz atarak hızla ulaşın.',
                     c4t: 'Hızlı ve net deneyim',
-                    c4d: 'Telefon ya da masaüstünde aradığınız bilgiye hızla ulaşmanıza yardımcı olan hafif bir arayüz.'
+                    c4d: 'Telefon ve masaüstünde sorunsuz çalışan hafif ve doğrudan bir arayüz.'
                 },
                 ur: {
                     h2: 'یہ نماز اوقات سائٹ کیوں استعمال کریں؟',
-                    intro: 'ایک سادہ روزانہ تجربہ جو نماز کے اوقات اور اسلامی آلات کو ایک جگہ پیش کرتا ہے، ہر ڈیوائس سے فوری رسائی کے ساتھ۔',
+                    intro: 'ایک سادہ روزانہ تجربہ جو نماز کے اوقات اور اسلامی آلات کو ایک جگہ پیش کرتا ہے۔',
                     c1t: 'روزانہ درست اوقات',
-                    c1d: 'اپنے محل وقوع اور موزوں طریقہ حساب کے مطابق فجر، ظہر، عصر، مغرب اور عشاء کے اوقات جانیں۔',
+                    c1d: 'اپنے محل وقوع اور منتخب طریقہ حساب کے مطابق روزانہ کے اوقات دیکھیں۔',
                     c2t: 'باہم منسلک اسلامی آلات',
-                    c2d: 'نماز کے اوقات، قبلہ کی سمت، ہجری تاریخ، چاند کا مرحلہ اور تاریخ کی تبدیلی کے درمیان آسانی سے منتقل ہوں۔',
+                    c2d: 'قبلہ، ہجری تاریخ، چاند اور تاریخ کی تبدیلی کے درمیان آسانی سے منتقل ہوں۔',
                     c3t: 'عالمی احاطہ',
-                    c3d: 'اپنا شہر تلاش کریں یا ممالک کا جائزہ لیں تاکہ دنیا بھر کے نماز کے اوقات تک تیزی سے رسائی ہو۔',
+                    c3d: 'اپنا شہر تلاش کریں یا ممالک کا جائزہ لیں تیز رسائی کے لیے۔',
                     c4t: 'تیز اور واضح تجربہ',
-                    c4d: 'ایک ہلکا انٹرفیس جو فون یا ڈیسک ٹاپ پر مطلوبہ معلومات تک تیزی سے پہنچنے میں مدد کرتا ہے۔'
+                    c4d: 'ایک ہلکا اور سیدھا انٹرفیس جو فون اور ڈیسک ٹاپ پر روانی سے چلتا ہے۔'
                 },
                 de: {
                     h2: 'Warum diese Gebetszeiten-Website nutzen?',
-                    intro: 'Eine einfache tägliche Erfahrung, die Gebetszeiten und islamische Werkzeuge an einem Ort vereint und auf jedem Gerät schnell verfügbar ist.',
+                    intro: 'Ein einfaches tägliches Erlebnis, das Gebetszeiten und islamische Werkzeuge vereint.',
                     c1t: 'Präzise tägliche Zeiten',
-                    c1d: 'Erfahren Sie Fadschr, Dhuhr, Asr, Maghrib und Ischa basierend auf Ihrem Standort und einer passenden Berechnungsmethode.',
+                    c1d: 'Sehen Sie tägliche Gebetszeiten nach Standort und gewählter Berechnungsmethode.',
                     c2t: 'Verknüpfte islamische Werkzeuge',
-                    c2d: 'Wechseln Sie einfach zwischen Gebetszeiten, Qibla-Richtung, Hidschri-Datum, Mondphase und Datumsumrechnung.',
+                    c2d: 'Wechseln Sie zwischen Qibla, Hidschri-Datum, Mond und Datumsumrechnung.',
                     c3t: 'Weltweite Abdeckung',
-                    c3d: 'Suchen Sie Ihre Stadt oder durchsuchen Sie Länder, um schnell auf Gebetszeiten weltweit zuzugreifen.',
+                    c3d: 'Suchen Sie Ihre Stadt oder durchsuchen Sie Länder für schnellen Zugang.',
                     c4t: 'Schnelle, klare Nutzung',
-                    c4d: 'Eine leichte Oberfläche, die Ihnen hilft, gewünschte Informationen schnell zu finden — am Handy oder Desktop.'
+                    c4d: 'Eine leichte, direkte Oberfläche — flüssig auf Handy und Desktop.'
                 },
                 id: {
                     h2: 'Mengapa menggunakan situs Jadwal Salat ini?',
-                    intro: 'Pengalaman harian sederhana yang menyatukan jadwal salat dan alat Islami di satu tempat, dengan akses cepat dari perangkat apa pun.',
+                    intro: 'Pengalaman harian sederhana yang menyatukan jadwal salat dan alat Islami.',
                     c1t: 'Waktu harian yang akurat',
-                    c1d: 'Ketahui Subuh, Zuhur, Asar, Magrib, dan Isya berdasarkan lokasi Anda dan metode perhitungan yang sesuai.',
+                    c1d: 'Lihat jadwal salat harian sesuai lokasi dan metode perhitungan pilihan.',
                     c2t: 'Alat Islami yang terhubung',
-                    c2d: 'Beralih dengan mudah antara jadwal salat, arah kiblat, tanggal Hijriyah, fase bulan, dan konversi tanggal.',
+                    c2d: 'Beralih antara Kiblat, tanggal Hijriyah, bulan, dan konversi tanggal.',
                     c3t: 'Cakupan global',
-                    c3d: 'Cari kota Anda atau jelajahi negara untuk akses cepat ke jadwal salat di seluruh dunia.',
+                    c3d: 'Cari kota Anda atau jelajahi negara untuk akses cepat.',
                     c4t: 'Pengalaman cepat dan jelas',
-                    c4d: 'Antarmuka ringan yang membantu Anda menjangkau informasi yang dibutuhkan dengan cepat di ponsel atau desktop.'
+                    c4d: 'Antarmuka ringan dan langsung — lancar di ponsel dan desktop.'
                 },
                 es: {
                     h2: '¿Por qué usar este sitio de Horarios de Oración?',
-                    intro: 'Una experiencia diaria sencilla que reúne los horarios de oración y las herramientas islámicas en un solo lugar, con acceso rápido desde cualquier dispositivo.',
+                    intro: 'Una experiencia diaria sencilla que reúne los horarios de oración y las herramientas islámicas.',
                     c1t: 'Horarios diarios precisos',
-                    c1d: 'Conoce Fajr, Dhuhr, Asr, Maghrib e Isha según tu ubicación y un método de cálculo adecuado.',
+                    c1d: 'Consulta los horarios diarios según tu ubicación y el método de cálculo elegido.',
                     c2t: 'Herramientas islámicas conectadas',
-                    c2d: 'Pasa fácilmente entre los horarios de oración, la dirección de la Qibla, la fecha hégira, la fase lunar y la conversión de fechas.',
+                    c2d: 'Pasa entre la Qibla, la fecha hégira, la luna y la conversión de fechas.',
                     c3t: 'Cobertura mundial',
-                    c3d: 'Busca tu ciudad o explora países para acceder rápidamente a los horarios de oración en todo el mundo.',
+                    c3d: 'Busca tu ciudad o explora países para un acceso rápido.',
                     c4t: 'Experiencia rápida y clara',
-                    c4d: 'Una interfaz ligera que te ayuda a llegar rápido a la información que buscas, en móvil o escritorio.'
+                    c4d: 'Una interfaz ligera y directa, fluida en móvil y escritorio.'
                 },
                 bn: {
                     h2: 'কেন এই নামাজের সময় সাইট ব্যবহার করবেন?',
-                    intro: 'একটি সহজ দৈনন্দিন অভিজ্ঞতা যা নামাজের সময় এবং ইসলামিক টুলগুলোকে এক জায়গায় নিয়ে আসে, যেকোনো ডিভাইস থেকে দ্রুত প্রবেশযোগ্য।',
+                    intro: 'একটি সহজ দৈনন্দিন অভিজ্ঞতা যা নামাজের সময় এবং ইসলামিক টুল একত্রে আনে।',
                     c1t: 'প্রতিদিনের সঠিক সময়',
-                    c1d: 'আপনার অবস্থান এবং উপযুক্ত হিসাব পদ্ধতির ভিত্তিতে ফজর, যোহর, আসর, মাগরিব ও ইশার সময় জানুন।',
+                    c1d: 'আপনার অবস্থান এবং নির্বাচিত হিসাব পদ্ধতির ভিত্তিতে দৈনিক সময় দেখুন।',
                     c2t: 'সংযুক্ত ইসলামিক টুল',
-                    c2d: 'নামাজের সময়, কিবলার দিক, হিজরি তারিখ, চাঁদের অবস্থা ও তারিখ রূপান্তরের মধ্যে সহজে চলাচল করুন।',
+                    c2d: 'কিবলা, হিজরি তারিখ, চাঁদ এবং তারিখ রূপান্তরের মধ্যে সহজে চলাচল করুন।',
                     c3t: 'বিশ্বব্যাপী আওতা',
-                    c3d: 'আপনার শহর খুঁজুন বা বিশ্বের নামাজের সময় দ্রুত পেতে দেশসমূহ ব্রাউজ করুন।',
+                    c3d: 'দ্রুত প্রবেশের জন্য আপনার শহর খুঁজুন বা দেশসমূহ ব্রাউজ করুন।',
                     c4t: 'দ্রুত ও স্পষ্ট অভিজ্ঞতা',
-                    c4d: 'একটি হালকা ইন্টারফেস যা মোবাইল বা ডেস্কটপে আপনার প্রয়োজনীয় তথ্যে দ্রুত পৌঁছাতে সাহায্য করে।'
+                    c4d: 'একটি হালকা ও সরাসরি ইন্টারফেস — মোবাইল ও ডেস্কটপে মসৃণ।'
                 },
                 ms: {
                     h2: 'Mengapa menggunakan laman Waktu Solat ini?',
-                    intro: 'Pengalaman harian yang ringkas, menggabungkan waktu solat dan alat Islam di satu tempat, dengan akses pantas dari mana-mana peranti.',
+                    intro: 'Pengalaman harian ringkas yang menggabungkan waktu solat dan alat Islam.',
                     c1t: 'Waktu harian tepat',
-                    c1d: 'Ketahui Subuh, Zuhur, Asar, Maghrib, dan Isyak berdasarkan lokasi anda dan kaedah pengiraan yang sesuai.',
+                    c1d: 'Lihat waktu solat harian mengikut lokasi dan kaedah pengiraan pilihan.',
                     c2t: 'Alat Islam yang berkait',
-                    c2d: 'Berpindah dengan mudah antara waktu solat, arah kiblat, tarikh Hijri, fasa bulan dan penukaran tarikh.',
+                    c2d: 'Berpindah antara Kiblat, tarikh Hijri, bulan dan penukaran tarikh.',
                     c3t: 'Liputan seluruh dunia',
-                    c3d: 'Cari bandar anda atau lihat negara untuk akses pantas ke waktu solat di seluruh dunia.',
+                    c3d: 'Cari bandar anda atau lihat negara untuk akses pantas.',
                     c4t: 'Pengalaman pantas dan jelas',
-                    c4d: 'Antara muka ringan yang membantu anda mendapatkan maklumat dengan pantas pada telefon atau komputer.'
+                    c4d: 'Antara muka ringan dan terus — lancar pada telefon dan komputer.'
                 }
             };
             const _w = _homeWhyI18n[seo.lang] || _homeWhyI18n.ar;

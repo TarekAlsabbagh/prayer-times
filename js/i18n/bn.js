@@ -999,7 +999,12 @@ window.TRANSLATIONS['bn'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'আরব দেশগুলোতে নামাজের সময়',
         'footer.popular_cities': 'জনপ্রিয় শহরগুলোতে নামাজের সময়',
+        'footer.popular_cities_intro': 'সবচেয়ে বেশি অনুসন্ধান করা শহরগুলোর নামাজের সময়ে দ্রুত প্রবেশের লিঙ্ক।',
         'footer.services_title': 'অন্যান্য ইসলামিক সেবা',
+        'footer.svc_hijri_today_desc': 'আজকের হিজরি তারিখ সরাসরি জানুন।',
+        'footer.svc_hijri_year_desc': 'হিজরি বছরের মাসগুলো ব্রাউজ করুন।',
+        'footer.svc_date_converter_desc': 'গ্রেগরীয় ও হিজরির মধ্যে রূপান্তর করুন।',
+        'footer.svc_tasbih_desc': 'সহজে আযকার গণনা করুন।',
         'footer.world_countries': 'বিশ্বের প্রধান দেশগুলোতে নামাজের সময়',
         'footer.refs_title': 'বাহ্যিক রেফারেন্স',
         'footer.share_title': 'এই সাইট শেয়ার করুন',

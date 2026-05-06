@@ -999,7 +999,12 @@ window.TRANSLATIONS['ms'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Waktu Solat di Negara-Negara Arab',
         'footer.popular_cities': 'Waktu Solat di Bandar-Bandar Popular',
+        'footer.popular_cities_intro': 'Pautan pantas ke waktu solat di bandar-bandar yang paling banyak dicari.',
         'footer.services_title': 'Perkhidmatan Islam Lain',
+        'footer.svc_hijri_today_desc': 'Lihat tarikh Hijri hari ini terus.',
+        'footer.svc_hijri_year_desc': 'Lihat bulan-bulan tahun Hijri.',
+        'footer.svc_date_converter_desc': 'Tukar antara Masihi dan Hijri.',
+        'footer.svc_tasbih_desc': 'Kira zikir dengan mudah.',
         'footer.world_countries': 'Waktu Solat di Negara-Negara Utama Dunia',
         'footer.refs_title': 'Rujukan Luar',
         'footer.share_title': 'Kongsi laman ini',

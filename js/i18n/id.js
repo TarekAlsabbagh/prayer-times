@@ -999,7 +999,12 @@ window.TRANSLATIONS['id'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Jadwal Sholat di Negara-Negara Arab',
         'footer.popular_cities': 'Jadwal Sholat di Kota-Kota Populer',
+        'footer.popular_cities_intro': 'Tautan cepat ke jadwal sholat di kota-kota yang paling banyak dicari.',
         'footer.services_title': 'Layanan Islami Lainnya',
+        'footer.svc_hijri_today_desc': 'Lihat tanggal Hijriyah hari ini secara langsung.',
+        'footer.svc_hijri_year_desc': 'Telusuri bulan-bulan tahun Hijriyah.',
+        'footer.svc_date_converter_desc': 'Konversi antara Masehi dan Hijriyah.',
+        'footer.svc_tasbih_desc': 'Hitung dzikir dengan mudah.',
         'footer.world_countries': 'Jadwal Sholat di Negara-Negara Utama Dunia',
         'footer.refs_title': 'Referensi Eksternal',
         'footer.share_title': 'Bagikan situs ini',

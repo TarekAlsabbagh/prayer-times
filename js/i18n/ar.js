@@ -1237,7 +1237,12 @@ window.TRANSLATIONS['ar'] = {
 
         'footer.world_countries': 'مواقيت الصلاة في أبرز دول العالم',
         'footer.popular_cities': 'مواقيت الصلاة في أبرز المدن',
+        'footer.popular_cities_intro': 'روابط سريعة للوصول إلى مواقيت الصلاة في أكثر المدن بحثًا.',
         'footer.services_title': 'خدمات إسلامية أخرى',
+        'footer.svc_hijri_today_desc': 'اعرف تاريخ اليوم الهجري مباشرة.',
+        'footer.svc_hijri_year_desc': 'استعرض أشهر السنة الهجرية.',
+        'footer.svc_date_converter_desc': 'حوّل بين الميلادي والهجري.',
+        'footer.svc_tasbih_desc': 'عدّ الأذكار بسهولة.',
         'footer.refs_title': 'مصادر ومراجع خارجية',
         'footer.share_title': 'شارك الموقع',
         'footer.test_audio': 'تجربة الصوت',

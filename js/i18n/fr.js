@@ -961,7 +961,12 @@ window.TRANSLATIONS['fr'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Heures de prière dans les pays arabes',
         'footer.popular_cities': 'Heures de prière dans les villes populaires',
+        'footer.popular_cities_intro': 'Liens rapides vers les heures de prière dans les villes les plus recherchées.',
         'footer.services_title': 'Autres services islamiques',
+        'footer.svc_hijri_today_desc': 'Consultez la date hégirienne du jour.',
+        'footer.svc_hijri_year_desc': 'Parcourez les mois de l\'année hégirienne.',
+        'footer.svc_date_converter_desc': 'Convertissez entre grégorien et hégirien.',
+        'footer.svc_tasbih_desc': 'Comptez les adhkars facilement.',
         'footer.world_countries': 'Heures de prière dans les principaux pays du monde',
         'footer.refs_title': 'Références externes',
         'footer.share_title': 'Partager ce site',

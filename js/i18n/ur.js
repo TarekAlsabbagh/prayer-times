@@ -977,7 +977,12 @@ window.TRANSLATIONS['ur'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'عرب ممالک میں اوقاتِ نماز',
         'footer.popular_cities': 'مشہور شہروں میں اوقاتِ نماز',
+        'footer.popular_cities_intro': 'سب سے زیادہ تلاش کیے گئے شہروں میں اوقاتِ نماز کے لیے فوری روابط۔',
         'footer.services_title': 'دیگر اسلامی خدمات',
+        'footer.svc_hijri_today_desc': 'آج کی ہجری تاریخ فوراً جانیں۔',
+        'footer.svc_hijri_year_desc': 'ہجری سال کے مہینوں کا جائزہ لیں۔',
+        'footer.svc_date_converter_desc': 'میلادی اور ہجری کے درمیان تبدیل کریں۔',
+        'footer.svc_tasbih_desc': 'اذکار آسانی سے گنیں۔',
         'footer.world_countries': 'دنیا کے بڑے ممالک میں اوقاتِ نماز',
         'footer.refs_title': 'بیرونی حوالہ جات',
         'footer.share_title': 'سائٹ شیئر کریں',

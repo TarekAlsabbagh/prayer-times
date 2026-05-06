@@ -1229,7 +1229,12 @@ window.TRANSLATIONS['en'] = {
 
         'footer.world_countries': 'Prayer Times in Major World Countries',
         'footer.popular_cities': 'Prayer Times in Popular Cities',
+        'footer.popular_cities_intro': 'Quick links to prayer times in the most-searched cities.',
         'footer.services_title': 'Other Islamic Services',
+        'footer.svc_hijri_today_desc': 'See today\'s Hijri date instantly.',
+        'footer.svc_hijri_year_desc': 'Browse the months of the Hijri year.',
+        'footer.svc_date_converter_desc': 'Convert between Gregorian and Hijri.',
+        'footer.svc_tasbih_desc': 'Count adhkar with ease.',
         'footer.refs_title': 'External References & Sources',
         'footer.share_title': 'Share This Site',
         'footer.test_audio': 'Test Audio',

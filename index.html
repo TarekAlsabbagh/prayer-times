@@ -69,8 +69,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=296" as="style">
-    <link rel="stylesheet" href="css/style.css?v=296">
+    <link rel="preload" href="css/style.css?v=297" as="style">
+    <link rel="stylesheet" href="css/style.css?v=297">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -1201,6 +1201,8 @@
                 <!-- روابط داخلية + خارجية + مشاركة — ثابتة في HTML (SEO-friendly) -->
                 <section class="section-card home-footer-links" id="home-footer-links" aria-labelledby="home-footer-links-title">
                     <h2 id="home-footer-links-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="footer.popular_cities">مواقيت الصلاة في أبرز المدن</span></h2>
+                    <!-- Phase HC-2.3 (2026-05-06): short intro description below H2 -->
+                    <p class="home-popular-cities-intro" data-i18n="footer.popular_cities_intro">روابط سريعة للوصول إلى مواقيت الصلاة في أكثر المدن بحثًا.</p>
                     <nav class="popular-cities-grid" aria-label="المدن الشائعة" data-i18n-aria-label="nav.popular_cities">
                         <a href="/prayer-times-in-makkah">مواقيت الصلاة في <strong>مكة المكرمة</strong></a>
                         <a href="/prayer-times-in-medina">مواقيت الصلاة في <strong>المدينة المنورة</strong></a>
@@ -1216,12 +1218,39 @@
                         <a href="/prayer-times-in-jerusalem">مواقيت الصلاة في <strong>القدس</strong></a>
                     </nav>
 
+                    <!-- Phase HC-2.4 (2026-05-06): "خدمات إسلامية أخرى" converted from
+                         small chip-buttons to clickable cards with icon + title +
+                         short description. Same hrefs preserved for SEO. -->
                     <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="footer.services_title">خدمات إسلامية أخرى</span></div>
-                    <nav class="home-services-links" aria-label="الخدمات الإسلامية" data-i18n-aria-label="home.services_title">
-                        <a href="/today-hijri-date" data-i18n="footer.link_hijri_today">التاريخ الهجري اليوم</a>
-                        <a href="/hijri-calendar/1447" data-i18n="footer.link_hijri_year">التقويم الهجري 1447</a>
-                        <a href="/dateconverter" data-i18n="footer.link_date_converter">تحويل التاريخ</a>
-                        <a href="/msbaha" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</a>
+                    <nav class="home-services-cards" aria-label="الخدمات الإسلامية" data-i18n-aria-label="home.services_title">
+                        <a class="home-service-card" href="/today-hijri-date">
+                            <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="home-service-body">
+                                <span class="home-service-title" data-i18n="footer.link_hijri_today">التاريخ الهجري اليوم</span>
+                                <span class="home-service-desc" data-i18n="footer.svc_hijri_today_desc">اعرف تاريخ اليوم الهجري مباشرة.</span>
+                            </div>
+                        </a>
+                        <a class="home-service-card" href="/hijri-calendar/1447">
+                            <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-calendar-grid"/></svg>
+                            <div class="home-service-body">
+                                <span class="home-service-title" data-i18n="footer.link_hijri_year">التقويم الهجري 1447</span>
+                                <span class="home-service-desc" data-i18n="footer.svc_hijri_year_desc">استعرض أشهر السنة الهجرية.</span>
+                            </div>
+                        </a>
+                        <a class="home-service-card" href="/dateconverter">
+                            <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-refresh-cw"/></svg>
+                            <div class="home-service-body">
+                                <span class="home-service-title" data-i18n="footer.link_date_converter">تحويل التاريخ</span>
+                                <span class="home-service-desc" data-i18n="footer.svc_date_converter_desc">حوّل بين الميلادي والهجري.</span>
+                            </div>
+                        </a>
+                        <a class="home-service-card" href="/msbaha">
+                            <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-rosary"/></svg>
+                            <div class="home-service-body">
+                                <span class="home-service-title" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</span>
+                                <span class="home-service-desc" data-i18n="footer.svc_tasbih_desc">عدّ الأذكار بسهولة.</span>
+                            </div>
+                        </a>
                     </nav>
 
                     <!-- UAT-Home-Simplify: Wikipedia refs wrapped for SSR strip on / -->

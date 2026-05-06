@@ -999,7 +999,12 @@ window.TRANSLATIONS['es'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Horarios de Oración en Países Árabes',
         'footer.popular_cities': 'Horarios de Oración en Ciudades Populares',
+        'footer.popular_cities_intro': 'Enlaces rápidos a los horarios de oración en las ciudades más buscadas.',
         'footer.services_title': 'Otros Servicios Islámicos',
+        'footer.svc_hijri_today_desc': 'Conoce la fecha hégira de hoy al instante.',
+        'footer.svc_hijri_year_desc': 'Explora los meses del año hégira.',
+        'footer.svc_date_converter_desc': 'Convierte entre gregoriano e hégira.',
+        'footer.svc_tasbih_desc': 'Cuenta los adhkar con facilidad.',
         'footer.world_countries': 'Horarios de Oración en los Principales Países del Mundo',
         'footer.refs_title': 'Referencias Externas',
         'footer.share_title': 'Compartir este sitio',

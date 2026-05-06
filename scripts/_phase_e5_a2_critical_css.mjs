@@ -85,6 +85,12 @@ const CRITICAL_PATTERNS = [
     // (user-reported CLS culprits at 0.550 + 0.061).
     /^#arab-countries-section$/,
     /^#home-footer-links$/,
+    // Home-CLS-Fix v3: also lock #location-hero to absorb font-swap
+    // delta — when Cairo loads on cold cache, location-hero grows by
+    // ~10px, which pushes the sections below it down. Reservation
+    // prevents the growth → no shift attributable to the bottom
+    // sections.
+    /^#location-hero$/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

@@ -15209,5 +15209,47 @@ html.date-converter-page #page-date-converter {
     }
 }
 
+/* ═══ Phase Home-CLS-Fix v3 (2026-05-06): Lock #location-hero height to
+   absorb the Cairo font-swap delta on cold cache.
+
+   Diagnostic measurement (412×823, Render production):
+     #location-hero natural with Cairo:   677px
+     #location-hero natural with Tahoma:  667px
+     Delta: +10px when Cairo loads (h1 line metrics)
+
+   When Cairo loads after first paint (cold cache), #location-hero grows
+   by 10px, which pushes EVERY section below it (mini-tools, FAQ,
+   #arab-countries-section, #home-footer-links) down by 10px. Lighthouse
+   attributes those downward shifts to the bottom sections as their
+   bounding rect's top changes — even though the sections' OWN heights
+   are already locked by v2 reservations.
+
+   v3 Fix: reserve #location-hero at >= Cairo natural so it CAN'T grow
+   when the swap happens. 685px gives 8px buffer over the measured 677.
+
+   Body-only on home (page-prayer-times only — every other route has its
+   own hero shells). The #location-hero is generic enough that we use
+   the bare ID selector. */
+
+#location-hero {
+    min-height: 685px;
+}
+@media (min-width: 769px) {
+    #location-hero {
+        min-height: 540px;  /* Desktop: hero is 2-col grid → shorter */
+    }
+}
+
+/* Phase Home-CLS-Fix v3 (header strip): lock .header-actions height to
+   absorb the 8px Cairo font-swap delta. Cairo loads → action labels
+   inside .header-actions wrap differently (8px taller). With reservation,
+   the header strip stays put → #page-prayer-times.top doesn't shift down,
+   so the sections below also don't shift. Combined with #location-hero
+   reservation above, brings the total Cairo-vs-Tahoma top_diff for
+   #arab-countries-section + #home-footer-links from 18px to ~0px. */
+.header-actions {
+    min-height: 44px;  /* Cairo natural; Tahoma renders 36px → padded with 8px */
+}
+
 /* ═══ Out of scope
    scope for this CSS-only phase. */

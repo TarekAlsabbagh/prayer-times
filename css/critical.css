@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T12:18:39.611Z
-   Source: css/style.css (full 502 KiB)
-   Critical: 29.6 KiB
+   Extracted on: 2026-05-06T12:51:03.548Z
+   Source: css/style.css (full 504 KiB)
+   Critical: 29.9 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -712,3 +712,12 @@ html.date-converter-page #page-date-converter{
 @media (max-width: 768px){#home-footer-links{
         min-height: 850px;
     }}
+#location-hero{
+    min-height: 685px;
+}
+@media (min-width: 769px){#location-hero{
+        min-height: 540px;  /* Desktop: hero is 2-col grid → shorter */
+    }}
+.header-actions{
+    min-height: 44px;  /* Cairo natural; Tahoma renders 36px → padded with 8px */
+}

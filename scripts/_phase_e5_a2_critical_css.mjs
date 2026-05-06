@@ -79,6 +79,12 @@ const CRITICAL_PATTERNS = [
     // Tight pattern to avoid pulling 16KB of unrelated moon styling
     // into critical.css.
     /^#page-moon\s+\.moon-summary-line$/,
+
+    // Home-CLS-Fix (2026-05-06): homepage bottom-section reservations to
+    // stabilize layout for arab-countries-section + home-footer-links
+    // (user-reported CLS culprits at 0.550 + 0.061).
+    /^#arab-countries-section$/,
+    /^#home-footer-links$/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

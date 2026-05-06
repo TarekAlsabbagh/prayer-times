@@ -15168,4 +15168,44 @@ html.date-converter-page #page-date-converter {
    For a future Moon-A-followup phase: the proper fix would be SSR-fill
    of moon-page-h1 / moon-subtitle / moon-summary chips with city-specific
    text (mirrors the prayer-times pattern at server.js:8417+). Out of
+   scope. */
+
+/* ═══ Phase Home-CLS-Fix (2026-05-06): Stabilize homepage layout.
+   User reported (Lighthouse run from browser): CLS = 0.550 on
+   #arab-countries-section + 0.061 on #home-footer-links + Perf = 77.
+   These are bottom-of-page navigation sections with i18n-hydrated
+   country names + lazy-loaded flag images. Their natural height is
+   stable post-hydration but the section TOPS shift downward when
+   ANY element above grows during hydration (banner / mini-tools /
+   FAQ filling). Reserving a min-height on each section locks the
+   section box so the rest of the page below them stays anchored.
+
+   Sizes are derived from the natural filled state on the live homepage:
+     #arab-countries-section: 12 Arab country tiles in 2-col mobile grid
+       (6 rows × ~52px) + h2 + buttons + padding ≈ 500px on mobile,
+       4-col desktop grid (3 rows × ~52px) + h2 + buttons ≈ 320px.
+     #home-footer-links: 12 popular cities + h2 + 4 services + h3 +
+       share + copyright ≈ 600px mobile / 360px desktop.
+
+   Pure CSS reservations — no JS / SSR / content change. */
+
+#arab-countries-section {
+    min-height: 320px;
+}
+@media (max-width: 768px) {
+    #arab-countries-section {
+        min-height: 500px;
+    }
+}
+
+#home-footer-links {
+    min-height: 360px;
+}
+@media (max-width: 768px) {
+    #home-footer-links {
+        min-height: 600px;
+    }
+}
+
+/* ═══ Out of scope
    scope for this CSS-only phase. */

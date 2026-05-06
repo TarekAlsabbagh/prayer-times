@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T08:54:49.291Z
-   Source: css/style.css (full 501 KiB)
-   Critical: 29.3 KiB
+   Extracted on: 2026-05-06T11:56:53.598Z
+   Source: css/style.css (full 502 KiB)
+   Critical: 29.6 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -699,4 +699,16 @@ html.date-converter-page #page-date-converter{
         padding: 12px;
         max-width: 100%;
         box-sizing: border-box;
+    }}
+#arab-countries-section{
+    min-height: 320px;
+}
+@media (max-width: 768px){#arab-countries-section{
+        min-height: 500px;
+    }}
+#home-footer-links{
+    min-height: 360px;
+}
+@media (max-width: 768px){#home-footer-links{
+        min-height: 600px;
     }}

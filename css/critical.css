@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T06:38:38.990Z
-   Source: css/style.css (full 494 KiB)
-   Critical: 28.6 KiB
+   Extracted on: 2026-05-06T06:53:56.505Z
+   Source: css/style.css (full 497 KiB)
+   Critical: 29.1 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -672,4 +672,23 @@ html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-pag
 }
 @media (max-width: 768px){#page-ramadan-countdown .cd-personal-bar[hidden],#page-eid-al-fitr-countdown .cd-personal-bar[hidden],#page-eid-al-adha-countdown .cd-personal-bar[hidden],#page-hijri-new-year-countdown .cd-personal-bar[hidden]{
         min-height: 80px;
+    }}
+#page-prayer-times .banner-current-prayer[hidden]{
+    display: flex !important;
+    visibility: hidden;
+    min-height: 40px;
+}
+#page-prayer-times .banner-then-prayer[hidden]{
+    display: flex !important;
+    visibility: hidden;
+    min-height: 32px;
+}
+@media (max-width: 768px){#page-prayer-times .banner-block.banner-block-prayer{
+        min-height: 170px;
+    }}
+#page-prayer-times #country-cities-grid{
+    min-height: 220px;
+}
+@media (max-width: 768px){#page-prayer-times #country-cities-grid{
+        min-height: 440px;
     }}

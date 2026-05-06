@@ -15020,13 +15020,76 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
    converted to user-triggered button. See app.js:10934 (autoScroll
    stub) and index.html .cha-cta--banner button.
 
-   The CSS portion of this phase is just a button modifier; no
-   min-height reservations are added (per user instruction:
-   "لا تطبق min-height reservations جديدة الآن").
-
    Note: #page-prayer-times has class="page active" ALREADY in SSR
    (index.html:344), so NO padding parity rule is needed — this page
-   is qualitatively different from HDay/HCal/Countdown. The remaining
-   residual shifts (banner [hidden] reveals, page height growth from
-   nearby-grid/schedule/country-cities filling) are out of scope for
-   this CSS-only phase per the user constraint. */
+   is qualitatively different from HDay/HCal/Countdown. */
+
+/* ═══ Phase PT-A-JS-followup-3 (2026-05-06): Targeted reservations.
+   After PT-A-JS-followup disabled the auto-scroll, Lighthouse 3x
+   measured CLS still 0.36–0.60. The dominant remaining shifts are:
+
+   1. .next-prayer-banner internals (~0.14 banner shift):
+        - .banner-current-prayer[hidden] reveals on prayer time
+          → adds ~50px ABOVE banner-row.
+        - .banner-then-prayer[hidden] reveals on most loads
+          → adds ~30-40px INSIDE banner-block-prayer.
+      Existing CSS at style.css:6867 + 6895 collapses both with
+      [hidden] { display: none } so they take 0 height when hidden.
+
+   2. #page-prayer-times height grows ~100px during JS hydration
+      (~0.22 page shift in worst run):
+        - #country-cities-grid empty → fills with ~16 city cards.
+        - Other below-fold containers populate.
+
+   Fix per the user's instruction set (PT-A-JS-followup-3):
+     A) Banner [hidden] overrides — replace display:none with
+        display:flex + visibility:hidden + min-height matching the
+        natural revealed height. JS sets element.hidden=false → the
+        [hidden] attr removed → override stops applying → visibility
+        flips to visible automatically. Layout slot reserved all along.
+     B) #schedule-body — schedule-table-wrap already has min-height
+        298px (style.css:7172). No additional reservation needed.
+     C) #country-cities-grid — reserve a moderate height so the
+        grid fill doesn't shift sibling cards below.
+     D) (skipped) nearby-section already has cls-ready pattern;
+        summary/footer blocks not flagged in Lighthouse worst-shifts.
+
+   All selectors use #page-prayer-times scope (not html.city-page)
+   so they survive any future class-removal refactor. */
+
+/* A) Banner [hidden] reservations. Sized to match the natural revealed
+   height (no over-reservation that would cause collapse-shift). */
+#page-prayer-times .banner-current-prayer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+    min-height: 40px;
+}
+#page-prayer-times .banner-then-prayer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+    min-height: 32px;
+}
+/* Bump .banner-block-prayer mobile min-height from style.css:7594's
+   132 to 170 to absorb the always-reserved then-prayer space (~38px). */
+@media (max-width: 768px) {
+    #page-prayer-times .banner-block.banner-block-prayer {
+        min-height: 170px;
+    }
+}
+
+/* C) #country-cities-grid reservation.
+   Empty grid in SSR → JS calls renderCountryCities() (app.js:10190)
+   which fills up to 16 city <a class="city-card"> nodes. Mobile width
+   ~356px / minmax(160px) = 2 columns × 8 rows × ~46px each (city-card
+   padding 12 + text 22) + 7×10px gaps = ~438px. Desktop width ~928 /
+   160 = 5 cols × ~4 rows × 46 + gaps = ~214px. Reserve those values
+   directly on the grid — same magnitude as the actual filled state,
+   so no over- or under-reservation. */
+#page-prayer-times #country-cities-grid {
+    min-height: 220px;
+}
+@media (max-width: 768px) {
+    #page-prayer-times #country-cities-grid {
+        min-height: 440px;
+    }
+}

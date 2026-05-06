@@ -73,11 +73,12 @@ const CRITICAL_PATTERNS = [
     // Whitelist pattern kept in case a future PT-A-followup needs it.
     /^#page-prayer-times(\s|$)/,
 
-    // Moon-A (2026-05-06): just the .moon-hijri-today reservation
-    // (#page-moon-scoped, robust against html-class-removal). Tighter
-    // pattern than `^#page-moon(\s|$)` — we don't want to pull all
-    // 16KB of moon-page styling into critical.css.
-    /^#page-moon\s+\.moon-hijri-today$/,
+    // Moon-A (2026-05-06): #page-moon-scoped reservation for the
+    // .moon-summary-line (the actual source of the 0.121 shift —
+    // chips wrap from 1 to 2 lines when JS fills "—" placeholders).
+    // Tight pattern to avoid pulling 16KB of unrelated moon styling
+    // into critical.css.
+    /^#page-moon\s+\.moon-summary-line$/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

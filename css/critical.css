@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T08:22:58.763Z
+   Extracted on: 2026-05-06T08:31:51.788Z
    Source: css/style.css (full 499 KiB)
    Critical: 29.2 KiB
 
@@ -692,9 +692,9 @@ html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-pag
 @media (max-width: 768px){#page-prayer-times #country-cities-grid{
         min-height: 440px;
     }}
-#page-moon .moon-hijri-today{
-    min-height: 220px;
+#page-moon .moon-summary-line{
+    min-height: 88px;
 }
-@media (min-width: 769px){#page-moon .moon-hijri-today{
-        min-height: 150px;
+@media (min-width: 769px){#page-moon .moon-summary-line{
+        min-height: 48px;
     }}

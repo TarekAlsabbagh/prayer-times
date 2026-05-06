@@ -215,13 +215,13 @@ window.TRANSLATIONS['fr'] = {
 
         'mit.date_converter': 'Convertisseur de date',
 
-        'faq.home.q1': 'Comment les horaires de prière sont-ils calculés ?',
+        'faq.home.q1': 'Comment les heures de prière sont-elles calculées ?',
 
-        'faq.home.a1': 'Les horaires sont basés sur la position géographique, l\'angle du soleil et la méthode de calcul choisie. Sélectionnez votre ville dans la recherche pour des horaires précis.',
+        'faq.home.a1': 'Les heures sont calculées à partir de votre emplacement géographique, de l\'angle du soleil, du fuseau horaire et de la méthode de calcul choisie pour chaque prière.',
 
-        'faq.home.q2': 'Quelle est la différence entre les méthodes (Oumm al-Qura, ISNA, MWL) ?',
+        'faq.home.q2': 'Pourquoi les heures de prière diffèrent-elles d’un endroit à un autre ?',
 
-        'faq.home.a2': 'Les méthodes diffèrent par l\'angle solaire utilisé pour le Fajr et le Icha. Oumm al-Qura convient à la Péninsule Arabique, ISNA à l\'Amérique du Nord, MWL au reste du monde.',
+        'faq.home.a2': 'Les heures changent selon la latitude et la longitude, les moments du lever et du coucher du soleil, et la durée du jour et de la nuit qui varient selon le lieu et la saison.',
         'mit.moon': 'Lune aujourd\u2019hui',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Voir le programme mensuel',

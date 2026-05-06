@@ -235,13 +235,13 @@ window.TRANSLATIONS['de'] = {
 
         'mit.date_converter': 'Datumsumrechner',
 
-        'faq.home.q1': 'Wie werden Gebetszeiten berechnet?',
+        'faq.home.q1': 'Wie werden die Gebetszeiten berechnet?',
 
-        'faq.home.a1': 'Die Zeiten basieren auf dem geografischen Standort, dem Sonnenwinkel und der gewählten Berechnungsmethode. Wählen Sie Ihre Stadt oben in der Suche für genaue Zeiten.',
+        'faq.home.a1': 'Die Zeiten werden anhand des geografischen Standorts, des Sonnenwinkels, der Zeitzone und der für jedes Gebet gewählten Berechnungsmethode bestimmt.',
 
-        'faq.home.q2': 'Was ist der Unterschied zwischen den Methoden (Umm al-Qura, ISNA, MWL)?',
+        'faq.home.q2': 'Warum unterscheiden sich die Gebetszeiten von Ort zu Ort?',
 
-        'faq.home.a2': 'Die Methoden unterscheiden sich im Sonnenwinkel, der für Fajr und Isha verwendet wird. Umm al-Qura passt zur Arabischen Halbinsel, ISNA zu Nordamerika, MWL ist weltweit geeignet.',
+        'faq.home.a2': 'Die Zeiten unterscheiden sich aufgrund von Breiten- und Längengrad, Sonnenauf- und -untergang sowie der Tag- und Nachtlänge, die je nach Ort und Jahreszeit variieren.',
         'mit.moon': 'Mond heute',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Monatsplan anzeigen',

@@ -237,11 +237,11 @@ window.TRANSLATIONS['es'] = {
 
         'faq.home.q1': '¿Cómo se calculan los horarios de oración?',
 
-        'faq.home.a1': 'Los horarios se basan en la ubicación geográfica, el ángulo del sol y el método de cálculo elegido. Elija su ciudad en la búsqueda arriba para ver horarios precisos.',
+        'faq.home.a1': 'Los horarios se calculan a partir de la ubicación geográfica, el ángulo del sol, la zona horaria y el método de cálculo elegido para cada oración.',
 
-        'faq.home.q2': '¿Cuál es la diferencia entre los métodos (Umm al-Qura, ISNA, MWL)?',
+        'faq.home.q2': '¿Por qué los horarios de oración varían según el lugar?',
 
-        'faq.home.a2': 'Los métodos difieren en el ángulo solar usado para Fayr e Isha. Umm al-Qura conviene a la Península Arábiga, ISNA a Norteamérica, MWL al resto del mundo.',
+        'faq.home.a2': 'Los horarios cambian por la latitud y la longitud, el momento del amanecer y el atardecer, y la duración del día y la noche que varían con la ubicación y la estación.',
         'mit.moon': 'Luna Hoy',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Ver Programa Mensual',

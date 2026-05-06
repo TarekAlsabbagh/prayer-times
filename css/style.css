@@ -15289,5 +15289,94 @@ html.date-converter-page #page-date-converter {
     min-height: 49px;
 }
 
+/* ═══ Phase Home-Cards (2026-05-06): "Why use this site" 4-card section.
+   Lightweight visual section between #country-cities-section and
+   #arab-countries-section. SSR-injected from server.js by replacing the
+   <!-- HOME-WHY-INJECT --> anchor (homepage only). 4 cards on desktop
+   (≥769px), 2 on tablet (480-768), 1 on small phones (<480). Each card
+   has icon + h3 + short paragraph. NO city names anywhere. */
+.home-why-section { }
+.home-why-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+    color: var(--primary-dark);
+}
+html[data-theme="dark"] .home-why-section h2 { color: var(--primary-light); }
+.home-why-intro {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-light);
+    margin: 0 0 18px;
+}
+.home-why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+.home-why-card {
+    background: var(--surface-sunken, #fafbfc);
+    border: 1px solid var(--border-light, #ecf0ec);
+    border-radius: 12px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.home-why-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+html[data-theme="dark"] .home-why-card {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+.home-why-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--primary);
+    flex-shrink: 0;
+    stroke-width: 2;
+}
+.home-why-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text);
+    line-height: 1.3;
+}
+.home-why-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    margin: 0;
+}
+@media (max-width: 768px) {
+    .home-why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .home-why-section h2 { font-size: 1.18rem; }
+    .home-why-card { padding: 14px 12px; }
+    .home-why-card-title { font-size: 0.95rem; }
+    .home-why-card-desc { font-size: 0.85rem; }
+}
+@media (max-width: 480px) {
+    .home-why-grid { grid-template-columns: 1fr; gap: 8px; }
+    .home-why-card { flex-direction: row; align-items: flex-start; gap: 12px; }
+    .home-why-icon { width: 24px; height: 24px; }
+    .home-why-card-body { flex: 1; min-width: 0; }
+}
+/* CLS reservation — section is below-the-fold but Cairo font swap can
+   still grow card heights on cold cache. Worst-case heights:
+     desktop (4-col, ~280px wide each): ~165px tall card
+     tablet (2-col): ~180px
+     mobile (1-col, row layout): ~88px per card × 4 + h2/intro ~ 470px */
+.home-why-section { min-height: 290px; }
+@media (max-width: 768px) { .home-why-section { min-height: 480px; } }
+@media (max-width: 480px) { .home-why-section { min-height: 530px; } }
+
 /* ═══ Out of scope
    scope for this CSS-only phase. */

@@ -220,11 +220,11 @@ window.TRANSLATIONS['tr'] = {
 
         'faq.home.q1': 'Namaz vakitleri nasıl hesaplanır?',
 
-        'faq.home.a1': 'Vakitler coğrafi konuma, güneşin açısına ve seçilen hesaplama yöntemine göre hesaplanır. Doğru vakitler için yukarıdaki aramadan şehrinizi seçin.',
+        'faq.home.a1': 'Vakitler; coğrafi konum, güneş açısı, saat dilimi ve her vakit için seçilen hesaplama yöntemine göre hesaplanır.',
 
-        'faq.home.q2': 'Hesaplama yöntemleri (Ümmü\'l-Qura, ISNA, MWL) arasındaki fark nedir?',
+        'faq.home.q2': 'Namaz vakitleri neden yerden yere değişir?',
 
-        'faq.home.a2': 'Yöntemler, Fecir ve Yatsı için kullanılan güneş açısı bakımından farklıdır. Ümmü\'l-Qura Arap Yarımadası için, ISNA Kuzey Amerika için, MWL dünya geneli için uygundur.',
+        'faq.home.a2': 'Vakitler; enlem ve boylam, güneşin doğuş ve batış zamanları ve konuma ile mevsime göre değişen gece-gündüz uzunluğu nedeniyle farklılaşır.',
         'mit.moon': 'Bugün Ay',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Aylık Programı Gör',

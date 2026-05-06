@@ -101,6 +101,14 @@ const CRITICAL_PATTERNS = [
     /^#loc-hero-subtitle$/,
     // Home-CLS-Fix v3-b: cookie-consent banner also grows on font swap.
     /^\.cookie-consent$/,
+    // Home-Cards (2026-05-06): "Why use this site" 4-card section. All
+    // selectors at the section level + cards + grid + responsive variants.
+    /^\.home-why-section/,
+    /^\.home-why-grid/,
+    /^\.home-why-card/,
+    /^\.home-why-icon$/,
+    /^\.home-why-intro$/,
+    /^html\[data-theme="dark"\]\s+\.home-why/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

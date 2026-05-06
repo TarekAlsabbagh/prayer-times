@@ -237,11 +237,11 @@ window.TRANSLATIONS['en'] = {
 
         'faq.home.q1': 'How are prayer times calculated?',
 
-        'faq.home.a1': 'Prayer times are based on geographic location, the angle of the sun, and the chosen calculation method. Pick your city from the search above to see accurate times.',
+        'faq.home.a1': 'Times are calculated using your geographic location, the sun\'s angle, the time zone, and the calculation method chosen for each prayer.',
 
-        'faq.home.q2': 'What\'s the difference between calculation methods (Umm al-Qura, ISNA, MWL)?',
+        'faq.home.q2': 'Why do prayer times differ between places?',
 
-        'faq.home.a2': 'Methods differ in the sun-angle used to compute Fajr and Isha. Umm al-Qura suits the Arabian Peninsula, ISNA fits North America, MWL works well worldwide.',
+        'faq.home.a2': 'Times differ because of latitude and longitude, sunrise and sunset moments, and night/day length that change with the location and season.',
         'mit.moon': 'Moon Today',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'View Monthly Schedule',

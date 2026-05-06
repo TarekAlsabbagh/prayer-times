@@ -237,11 +237,11 @@ window.TRANSLATIONS['ms'] = {
 
         'faq.home.q1': 'Bagaimana waktu solat dikira?',
 
-        'faq.home.a1': 'Waktu adalah berdasarkan kedudukan geografi, sudut matahari dan kaedah pengiraan yang dipilih. Pilih bandar anda dari carian di atas untuk waktu yang tepat.',
+        'faq.home.a1': 'Waktu dikira berdasarkan lokasi geografi, sudut matahari, zon waktu, dan kaedah pengiraan yang dipilih untuk setiap solat.',
 
-        'faq.home.q2': 'Apakah perbezaan antara kaedah (Ummul Qura, ISNA, MWL)?',
+        'faq.home.q2': 'Mengapakah waktu solat berbeza antara satu tempat dengan tempat lain?',
 
-        'faq.home.a2': 'Kaedah berbeza pada sudut matahari untuk Subuh dan Isyak. Ummul Qura sesuai untuk Semenanjung Arab, ISNA untuk Amerika Utara, MWL untuk seluruh dunia.',
+        'faq.home.a2': 'Waktu berbeza disebabkan latitud dan longitud, masa matahari terbit dan terbenam, serta panjang siang dan malam yang berubah mengikut lokasi dan musim.',
         'mit.moon': 'Bulan Hari Ini',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Lihat Jadual Bulanan',

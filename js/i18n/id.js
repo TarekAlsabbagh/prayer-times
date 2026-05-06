@@ -237,11 +237,11 @@ window.TRANSLATIONS['id'] = {
 
         'faq.home.q1': 'Bagaimana jadwal sholat dihitung?',
 
-        'faq.home.a1': 'Jadwal didasarkan pada lokasi geografis, sudut matahari, dan metode perhitungan yang dipilih. Pilih kota Anda dari pencarian di atas untuk melihat waktu yang akurat.',
+        'faq.home.a1': 'Waktu dihitung berdasarkan lokasi geografis, sudut matahari, zona waktu, dan metode perhitungan yang dipilih untuk setiap sholat.',
 
-        'faq.home.q2': 'Apa perbedaan antara metode (Umm al-Qura, ISNA, MWL)?',
+        'faq.home.q2': 'Mengapa jadwal sholat berbeda antara satu tempat dan tempat lainnya?',
 
-        'faq.home.a2': 'Metode berbeda pada sudut matahari untuk Subuh dan Isya. Umm al-Qura cocok untuk Semenanjung Arab, ISNA untuk Amerika Utara, MWL untuk seluruh dunia.',
+        'faq.home.a2': 'Waktu berbeda karena perbedaan lintang dan bujur, waktu matahari terbit dan terbenam, serta panjang siang dan malam yang berubah sesuai lokasi dan musim.',
         'mit.moon': 'Bulan Hari Ini',
         // ═══ Phase 2 — Weekly show monthly ═══
         'weekly.show_monthly': 'Lihat Jadwal Bulanan',

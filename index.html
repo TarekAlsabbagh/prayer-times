@@ -69,8 +69,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=295" as="style">
-    <link rel="stylesheet" href="css/style.css?v=295">
+    <link rel="preload" href="css/style.css?v=296" as="style">
+    <link rel="stylesheet" href="css/style.css?v=296">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -867,6 +867,13 @@
                         <button class="more-cities-btn" id="more-cities-btn" onclick="openAllCitiesPage()"></button>
                     </div>
                 </div>
+
+                <!-- Phase Home-Cards (2026-05-06): SSR injection anchor for the
+                     'Why use this site' 4-card visual section. server.js injects
+                     a section.section-card.home-why-section here ONLY on the
+                     homepage (_isHomepage flag). Cards are short + visual + NO
+                     city names. Page identity stays Global. -->
+                <!-- HOME-WHY-INJECT -->
 
                 <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX | Round 21: collapse افتراضيّاً) -->
                 <section class="section-card arab-countries-section countries-limited" id="arab-countries-section" aria-labelledby="arab-countries-title" data-full="false">

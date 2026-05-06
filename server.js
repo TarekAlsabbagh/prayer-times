@@ -5678,66 +5678,80 @@ function renderSeoHeadHtml(seo) {
 
     // FAQPage — للصفحة الرئيسية فقط (rich results)
     if (seo.isHome) {
+        // Phase Home-Cards (2026-05-06): FAQPage JSON-LD aligned with the new
+        // visible FAQ in the i18n dict at server.js:8889+. SAME 6 questions,
+        // SAME answers — no city names, kept generic. When the visible FAQ is
+        // updated, this dict MUST be updated in lockstep.
         const FAQ_I18N = {
             ar: [
-                { q: 'كيف تُحسَب مواقيت الصلاة في هذا الموقع؟',
-                  a: 'يعتمد الموقع على طرق حساب فلكية معترف بها دولياً مثل رابطة العالم الإسلامي، أم القرى، الهيئة المصرية العامة للمساحة، وجامعة العلوم الإسلامية في كراتشي. يمكنك اختيار الطريقة المناسبة لمنطقتك من الإعدادات.' },
-                { q: 'هل مواقيت الصلاة دقيقة؟',
-                  a: 'نعم، تُحسَب المواقيت لحظياً بناءً على الإحداثيات الجغرافية (خط العرض والطول) والتوقيت المحلي والطريقة الحسابية المختارة، وتُطابق المواقع الرسمية للمدن الرئيسية.' },
-                { q: 'كيف أعرف اتجاه القبلة من موقعي؟',
-                  a: 'استخدم صفحة "اتجاه القبلة" — بعد السماح بالوصول لموقعك، ستُحدَّد درجة اتجاه الكعبة المشرفة من مكانك الحالي على بوصلة تفاعلية وخريطة.' },
-                { q: 'هل يدعم الموقع التقويم الهجري وتحويل التواريخ؟',
-                  a: 'نعم، يعتمد الموقع تقويم أم القرى الرسمي ويدعم تحويل التاريخ من الهجري إلى الميلادي والعكس من سنة 1 هـ إلى 1500 هـ.' },
-                { q: 'هل الموقع مجاني بالكامل؟',
-                  a: 'نعم، جميع الميزات مجانية: مواقيت الصلاة، القبلة، حاسبة الزكاة، الأدعية والأذكار، المسبحة الإلكترونية، والتقويم الهجري — بدون إعلانات تدخّلية ولا تسجيل.' }
+                { q: 'كيف تُحسب مواقيت الصلاة؟',
+                  a: 'تُحسب المواقيت اعتمادًا على الموقع الجغرافي، زاوية الشمس، المنطقة الزمنية، وطريقة الحساب المختارة لكلّ صلاة.' },
+                { q: 'لماذا تختلف مواقيت الصلاة من مكان لآخر؟',
+                  a: 'تختلف المواقيت بسبب اختلاف خطّ العرض والطول، وقت الشروق والغروب، وطول الليل والنهار بحسب الموقع والفصل.' },
+                { q: 'ما الفرق بين طرق حساب مواقيت الصلاة؟',
+                  a: 'تختلف الطرق في الزوايا المعتمدة لحساب الفجر والعشاء، لذلك قد تظهر فروقات بسيطة بين طريقة وأخرى.' },
+                { q: 'ما المقصود باختيار المذهب في وقت العصر؟',
+                  a: 'يؤثّر اختيار المذهب على حساب وقت العصر، حيث تختلف بعض المعايير الفقهية في تحديد بداية وقت العصر.' },
+                { q: 'هل يمكن تحديد مواقيت الصلاة من موقعي تلقائيًّا؟',
+                  a: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقّة أعلى، مع إمكانية اختيار المدينة يدويًّا عند الحاجة.' },
+                { q: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
+                  a: 'تتوفّر أدوات مثل اتّجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.' }
             ],
             en: [
-                { q: 'How are prayer times calculated on this site?',
-                  a: 'We use internationally recognized calculation methods: Muslim World League, Umm al-Qura, Egyptian General Authority of Survey, University of Islamic Sciences Karachi, and more. You can pick the method matching your region from Settings.' },
-                { q: 'Are the prayer times accurate?',
-                  a: 'Yes. Times are computed in real-time from your geographic coordinates (lat/lng), local timezone, and the selected calculation method — matching official sources for major cities.' },
-                { q: 'How can I find the Qibla direction from my location?',
-                  a: 'Open the "Qibla" page — after allowing location access, we calculate the exact bearing to the Holy Kaaba and display it on an interactive compass and map.' },
-                { q: 'Does the site support the Hijri calendar and date conversion?',
-                  a: "Yes. We use the official Umm al-Qura calendar and support converting dates between Hijri and Gregorian for years 1–1500 AH." },
-                { q: 'Is the site completely free?',
-                  a: 'Yes. All features — prayer times, Qibla, Zakat calculator, duas & adhkar, digital tasbih, Hijri calendar — are free, with no intrusive ads and no signup required.' }
+                { q: 'How are prayer times calculated?',
+                  a: 'Times are calculated using your geographic location, the sun\'s angle, the time zone, and the calculation method chosen for each prayer.' },
+                { q: 'Why do prayer times differ between places?',
+                  a: 'Times differ because of latitude and longitude, sunrise and sunset moments, and night/day length that change with the location and season.' },
+                { q: "What's the difference between prayer time calculation methods?",
+                  a: 'Methods differ in the angles used for Fajr and Isha, so small differences may appear between one method and another.' },
+                { q: 'What does choosing the school of jurisprudence for Asr mean?',
+                  a: 'The juristic school affects how Asr is computed, since some scholarly criteria differ in defining the start of Asr.' },
+                { q: 'Can prayer times be set automatically from my location?',
+                  a: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.' },
+                { q: 'What Islamic tools are available alongside prayer times?',
+                  a: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.' }
             ],
             fr: [
                 { q: 'Comment les heures de prière sont-elles calculées ?',
-                  a: "Nous utilisons des méthodes de calcul reconnues : Ligue Islamique Mondiale, Umm al-Qura, Autorité Égyptienne de Topographie, Université des Sciences Islamiques de Karachi, etc. Choisissez la méthode adaptée à votre région dans les paramètres." },
-                { q: 'Les heures de prière sont-elles précises ?',
-                  a: "Oui. Les heures sont calculées en temps réel à partir de vos coordonnées géographiques, du fuseau horaire local et de la méthode choisie — conformes aux sources officielles des grandes villes." },
-                { q: 'Comment trouver la direction de la Qibla depuis ma position ?',
-                  a: "Ouvrez la page « Qibla » — après autorisation de localisation, nous calculons le cap exact vers la Sainte Kaaba et l'affichons sur une boussole interactive." },
-                { q: 'Le site prend-il en charge le calendrier hégirien ?',
-                  a: "Oui. Nous utilisons le calendrier officiel Umm al-Qura et permettons la conversion entre dates hégiriennes et grégoriennes de l'an 1 à 1500 AH." },
-                { q: 'Le site est-il entièrement gratuit ?',
-                  a: "Oui. Toutes les fonctionnalités sont gratuites, sans publicités intrusives ni inscription requise." }
+                  a: "Les heures sont calculées à partir de votre emplacement géographique, de l'angle du soleil, du fuseau horaire et de la méthode de calcul choisie pour chaque prière." },
+                { q: 'Pourquoi les heures de prière diffèrent-elles d’un endroit à un autre ?',
+                  a: "Les heures changent selon la latitude et la longitude, les moments du lever et du coucher du soleil, et la durée du jour et de la nuit qui varient selon le lieu et la saison." },
+                { q: 'Quelle est la différence entre les méthodes de calcul des heures de prière ?',
+                  a: "Les méthodes diffèrent par les angles utilisés pour le Fajr et l'Isha, ce qui peut entraîner de petites différences entre une méthode et une autre." },
+                { q: 'Que signifie choisir l’école juridique pour le Asr ?',
+                  a: "Le choix de l'école juridique influe sur le calcul du Asr, car certains critères diffèrent dans la définition du début de cette prière." },
+                { q: 'Les heures de prière peuvent-elles être réglées automatiquement depuis ma position ?',
+                  a: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.' },
+                { q: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
+                  a: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.' }
             ],
             tr: [
-                { q: 'Namaz vakitleri bu sitede nasıl hesaplanıyor?',
-                  a: "Uluslararası kabul görmüş hesaplama yöntemleri kullanıyoruz: Müslüman Dünya Birliği, Ümmü'l-Kura, Mısır Genel Topografya Kurumu, Karaçi İslami İlimler Üniversitesi. Bölgenize uygun yöntemi Ayarlar'dan seçebilirsiniz." },
-                { q: 'Namaz vakitleri doğru mu?',
-                  a: 'Evet. Vakitler, coğrafi koordinatlarınız, yerel saat diliminiz ve seçtiğiniz hesaplama yöntemine göre anlık olarak hesaplanır ve büyük şehirler için resmi kaynaklarla eşleşir.' },
-                { q: 'Konumumdan kıble yönünü nasıl bulabilirim?',
-                  a: '"Kıble" sayfasını açın — konum izni verdikten sonra Kâbe-i Muazzama\'ya doğru tam yön açısını hesaplıyor ve etkileşimli pusulada gösteriyoruz.' },
-                { q: 'Site hicri takvimi ve tarih dönüştürmeyi destekliyor mu?',
-                  a: "Evet. Resmi Ümmü'l-Kura takvimini kullanıyor ve 1–1500 hicri yılları arası Hicri↔Miladi tarih dönüştürmeyi destekliyoruz." },
-                { q: 'Site tamamen ücretsiz mi?',
-                  a: 'Evet. Tüm özellikler — namaz vakitleri, kıble, zekât hesaplayıcı, dualar, tesbih, hicri takvim — rahatsız edici reklamlar ve üyelik gerektirmeden ücretsizdir.' }
+                { q: 'Namaz vakitleri nasıl hesaplanır?',
+                  a: 'Vakitler; coğrafi konum, güneş açısı, saat dilimi ve her vakit için seçilen hesaplama yöntemine göre hesaplanır.' },
+                { q: 'Namaz vakitleri neden yerden yere değişir?',
+                  a: 'Vakitler; enlem ve boylam, güneşin doğuş ve batış zamanları ve konuma ile mevsime göre değişen gece-gündüz uzunluğu nedeniyle farklılaşır.' },
+                { q: 'Namaz vakitleri hesaplama yöntemleri arasındaki fark nedir?',
+                  a: 'Yöntemler, Fecir ve Yatsı için kullanılan açılarda farklıdır; bu nedenle yöntemler arasında küçük farklar görülebilir.' },
+                { q: 'İkindi vakti için mezhep seçimi ne anlama gelir?',
+                  a: 'Mezhep seçimi İkindi’nin hesaplanmasını etkiler; bazı fıkhi ölçütler İkindi’nin başlangıç zamanını farklı tanımlar.' },
+                { q: 'Namaz vakitleri konumumdan otomatik olarak ayarlanabilir mi?',
+                  a: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.' },
+                { q: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
+                  a: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.' }
             ],
             ur: [
-                { q: 'اس سائٹ پر اوقاتِ نماز کیسے حساب کیے جاتے ہیں؟',
-                  a: 'ہم بین الاقوامی طور پر تسلیم شدہ طریقے استعمال کرتے ہیں: مسلم ورلڈ لیگ، ام القریٰ، مصری جنرل اتھارٹی آف سروے، جامعہ علومِ اسلامیہ کراچی۔ آپ اپنے علاقے کے لیے مناسب طریقہ سیٹنگز سے منتخب کر سکتے ہیں۔' },
-                { q: 'کیا اوقاتِ نماز درست ہیں؟',
-                  a: 'جی ہاں۔ اوقات آپ کے جغرافیائی کوآرڈینیٹس، مقامی ٹائم زون اور منتخب طریقے کی بنیاد پر ریئل ٹائم میں حساب کیے جاتے ہیں اور بڑے شہروں کے سرکاری ذرائع سے مطابقت رکھتے ہیں۔' },
-                { q: 'میں اپنے مقام سے قبلہ کی سمت کیسے معلوم کروں؟',
-                  a: '"قبلہ" صفحہ کھولیں — مقام کی اجازت دینے کے بعد ہم آپ کی جگہ سے کعبہ مشرفہ کی طرف درست زاویہ حساب کرتے ہیں اور انٹرایکٹو کمپاس پر دکھاتے ہیں۔' },
-                { q: 'کیا سائٹ ہجری کیلنڈر اور تاریخ کنورٹ کرنے کو سپورٹ کرتی ہے؟',
-                  a: 'جی ہاں۔ ہم سرکاری ام القریٰ کیلنڈر استعمال کرتے ہیں اور 1 تا 1500 ہجری سال کے لیے ہجری↔عیسوی تاریخ کنورژن سپورٹ کرتے ہیں۔' },
-                { q: 'کیا سائٹ مکمل طور پر مفت ہے؟',
-                  a: 'جی ہاں۔ تمام خصوصیات — اوقاتِ نماز، قبلہ، زکاۃ کیلکولیٹر، دعائیں، تسبیح، ہجری کیلنڈر — بلا کسی مداخلت کار اشتہار یا سائن اپ کے مفت ہیں۔' }
+                { q: 'اوقاتِ نماز کیسے شمار ہوتے ہیں؟',
+                  a: 'اوقات کا تعین جغرافیائی مقام، سورج کے زاویے، ٹائم زون اور ہر نماز کے لیے منتخب طریقۂ حساب کی بنیاد پر ہوتا ہے۔' },
+                { q: 'نماز کے اوقات جگہ بدلنے سے کیوں مختلف ہوتے ہیں؟',
+                  a: 'اوقات خط عرض و خط طول، طلوع و غروبِ آفتاب، اور دن و رات کی لمبائی کی وجہ سے بدلتے ہیں جو مقام اور موسم کے ساتھ مختلف ہوتی ہیں۔' },
+                { q: 'نماز کے اوقات کے حساب کے طریقوں میں کیا فرق ہے؟',
+                  a: 'طریقے فجر اور عشاء کے لیے استعمال ہونے والے زاویوں میں مختلف ہوتے ہیں، اس لیے ایک طریقے اور دوسرے کے درمیان معمولی فرق ظاہر ہو سکتا ہے۔' },
+                { q: 'عصر کے وقت میں مذہب کے انتخاب کا کیا مطلب ہے؟',
+                  a: 'مذہب کا انتخاب عصر کے حساب پر اثر ڈالتا ہے کیونکہ کچھ فقہی معیار عصر کے آغاز کی تعریف میں مختلف ہیں۔' },
+                { q: 'کیا میرے مقام سے نماز کے اوقات خودکار طریقے سے طے ہو سکتے ہیں؟',
+                  a: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔' },
+                { q: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
+                  a: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔' }
             ],
         };
         const faqs = FAQ_I18N[seo.lang] || FAQ_I18N.ar;
@@ -8887,17 +8901,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'يدعم الموقع عدّة طرق حساب معتمَدة عالمياً: رابطة العالم الإسلامي، هيئة أم القرى بمكة المكرمة، الهيئة المصرية العامة للمساحة، الجمعية الإسلامية لأمريكا الشمالية (ISNA)، إضافةً إلى خيارات مذاهب الفقه (الشافعي/الحنفي) لحساب وقت صلاة العصر.',
                     aboutP3: 'إلى جانب مواقيت الصلاة اليوم، يقدّم الموقع أدوات إسلامية متكاملة: التقويم الهجري بأشهره الاثني عشر (محرم، صفر، ربيع الأول، ربيع الآخر، جمادى الأولى، جمادى الآخرة، رجب، شعبان، رمضان، شوال، ذو القعدة، ذو الحجة)، تحويل التاريخ بين الهجري والميلادي، اتجاه القبلة نحو الكعبة المشرفة، حاسبة الزكاة، والأدعية والأذكار الصحيحة من الكتاب والسنة.',
                     faqQ1: 'كيف تُحسب مواقيت الصلاة؟',
-                    faqA1: 'تُحسب مواقيت الصلاة الخمس (الفجر، الظهر، العصر، المغرب، العشاء) بناءً على موقع الشمس بالنسبة لخط الأفق في موقعك الجغرافي. يُحدَّد وقت الفجر والعشاء بزاوية الشمس تحت الأفق (تتراوح بين 15° و 19° حسب طريقة الحساب).',
-                    faqQ2: 'ما الفرق بين طرق الحساب المختلفة؟',
-                    faqA2: 'تختلف طرق الحساب (رابطة العالم الإسلامي، أم القرى، الهيئة المصرية، ISNA) بشكل رئيسي في زاوية الفجر والعشاء. مثلاً: رابطة العالم الإسلامي تعتمد 18° للفجر و 17° للعشاء، بينما أم القرى تعتمد 18.5° للفجر وساعتين ونصف بعد المغرب للعشاء في رمضان.',
-                    faqQ3: 'ما هو التقويم الهجري؟',
-                    faqA3: 'التقويم الهجري هو تقويم قمري إسلامي يبدأ من هجرة النبي محمد ﷺ عام 622م. يتكوّن من 12 شهراً قمرياً (محرم، صفر، ربيع الأول، ربيع الآخر، جمادى الأولى، جمادى الآخرة، رجب، شعبان، رمضان، شوال، ذو القعدة، ذو الحجة) مجموع أيامه 354 أو 355 يومًا.',
-                    faqQ4: 'كيف أحدّد اتجاه القبلة؟',
-                    faqA4: 'اتجاه القبلة هو الاتجاه الذي يواجهه المسلم في صلاته نحو الكعبة المشرفة. يُحسب بمعرفة إحداثيات موقعك (خط الطول والعرض) وإحداثيات الكعبة (21.422487° شمالاً، 39.826206° شرقاً) باستخدام حساب الزوايا الكروي (Great Circle).',
-                    faqQ5: 'هل مواقيت الصلاة المعروضة دقيقة؟',
-                    faqA5: 'نعم، المواقيت تُحسب بخوارزميات فلكية دقيقة معتمدة على موقع الشمس الحقيقي في السماء. قد تختلف بدقيقتين أو ثلاث عن مواقيت الهيئات الرسمية في بعض الدول بسبب اختلاف طريقة الحساب — لذا نُتيح اختيار طريقة الحساب المفضّلة لديك من الإعدادات.',
-                    faqQ6: 'ما هي ساعات الصيام في رمضان؟',
-                    faqA6: 'ساعات الصيام هي الفترة من طلوع الفجر الصادق حتى غروب الشمس (أذان المغرب). تختلف من منطقة لأخرى حسب خط العرض والفصل السنوي. مثلاً: المناطق الاستوائية ~14-15 ساعة، المناطق المعتدلة ~15-17 ساعة، شمال أوروبا قد تصل إلى 19 ساعة.',
+                    faqA1: 'تُحسب المواقيت اعتمادًا على الموقع الجغرافي، زاوية الشمس، المنطقة الزمنية، وطريقة الحساب المختارة لكلّ صلاة.',
+                    faqQ2: 'لماذا تختلف مواقيت الصلاة من مكان لآخر؟',
+                    faqA2: 'تختلف المواقيت بسبب اختلاف خطّ العرض والطول، وقت الشروق والغروب، وطول الليل والنهار بحسب الموقع والفصل.',
+                    faqQ3: 'ما الفرق بين طرق حساب مواقيت الصلاة؟',
+                    faqA3: 'تختلف الطرق في الزوايا المعتمدة لحساب الفجر والعشاء، لذلك قد تظهر فروقات بسيطة بين طريقة وأخرى.',
+                    faqQ4: 'ما المقصود باختيار المذهب في وقت العصر؟',
+                    faqA4: 'يؤثّر اختيار المذهب على حساب وقت العصر، حيث تختلف بعض المعايير الفقهية في تحديد بداية وقت العصر.',
+                    faqQ5: 'هل يمكن تحديد مواقيت الصلاة من موقعي تلقائيًّا؟',
+                    faqA5: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقّة أعلى، مع إمكانية اختيار المدينة يدويًّا عند الحاجة.',
+                    faqQ6: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
+                    faqA6: 'تتوفّر أدوات مثل اتّجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.',
                 },
                 en: {
                     worldCities: 'Cities Worldwide', upcomingPrayer: 'Upcoming Prayer',
@@ -8909,17 +8923,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'The site supports globally recognized calculation methods: Muslim World League, Umm al-Qura (Mecca), Egyptian General Authority of Survey, Islamic Society of North America (ISNA), plus Shafi/Hanafi juristic options for Asr prayer calculation.',
                     aboutP3: 'Beyond today\'s prayer times, the site offers integrated Islamic tools: the Hijri calendar with its twelve months (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha\'ban, Ramadan, Shawwal, Dhu al-Qi\'dah, Dhu al-Hijjah), Hijri-Gregorian date converter, Qibla direction to the Kaaba, Zakat calculator, and authentic duas and adhkar from the Quran and Sunnah.',
                     faqQ1: 'How are prayer times calculated?',
-                    faqA1: 'The five prayer times (Fajr, Dhuhr, Asr, Maghrib, Isha) are calculated based on the sun\'s position relative to your horizon. Fajr and Isha times are determined by the sun\'s angle below the horizon (between 15° and 19° depending on the calculation method).',
-                    faqQ2: 'What is the difference between calculation methods?',
-                    faqA2: 'Calculation methods (Muslim World League, Umm al-Qura, Egyptian Authority, ISNA) differ primarily in Fajr and Isha angles. For example: MWL uses 18° for Fajr and 17° for Isha, while Umm al-Qura uses 18.5° for Fajr and 90 minutes after Maghrib for Isha (120 minutes in Ramadan).',
-                    faqQ3: 'What is the Hijri calendar?',
-                    faqA3: 'The Hijri calendar is a lunar Islamic calendar that began with Prophet Muhammad\'s migration (Hijra) in 622 AD. It consists of 12 lunar months (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha\'ban, Ramadan, Shawwal, Dhu al-Qi\'dah, Dhu al-Hijjah) totaling 354 or 355 days.',
-                    faqQ4: 'How is Qibla direction determined?',
-                    faqA4: 'Qibla is the direction Muslims face during prayer, toward the Holy Kaaba. It is calculated from your location coordinates (latitude and longitude) and the Kaaba coordinates (21.422487°N, 39.826206°E) using Great Circle bearing calculation.',
-                    faqQ5: 'Are the displayed prayer times accurate?',
-                    faqA5: 'Yes, times are calculated using precise astronomical algorithms based on the real position of the sun. They may differ by 2-3 minutes from official national bodies due to calculation method differences — so we offer the option to choose your preferred method in Settings.',
-                    faqQ6: 'What are fasting hours in Ramadan?',
-                    faqA6: 'Fasting hours span from true dawn (Fajr) to sunset (Maghrib). Duration varies by latitude and season. For example: equatorial regions ~14-15 hours, mid-latitudes ~15-17 hours, and northern latitudes can reach 19 hours.',
+                    faqA1: 'Times are calculated using your geographic location, the sun\'s angle, the time zone, and the calculation method chosen for each prayer.',
+                    faqQ2: 'Why do prayer times differ between places?',
+                    faqA2: 'Times differ because of latitude and longitude, sunrise and sunset moments, and night/day length that change with the location and season.',
+                    faqQ3: 'What\'s the difference between prayer time calculation methods?',
+                    faqA3: 'Methods differ in the angles used for Fajr and Isha, so small differences may appear between one method and another.',
+                    faqQ4: 'What does choosing the school of jurisprudence for Asr mean?',
+                    faqA4: 'The juristic school affects how Asr is computed, since some scholarly criteria differ in defining the start of Asr.',
+                    faqQ5: 'Can prayer times be set automatically from my location?',
+                    faqA5: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.',
+                    faqQ6: 'What Islamic tools are available alongside prayer times?',
+                    faqA6: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.',
                 },
                 fr: {
                     worldCities: 'Villes du Monde', upcomingPrayer: 'Prochaine prière',
@@ -8931,17 +8945,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: "Le site prend en charge les méthodes de calcul reconnues mondialement : Ligue Islamique Mondiale, Umm al-Qura (La Mecque), Autorité Égyptienne, ISNA, avec options juristiques Shafi/Hanafi pour Asr.",
                     aboutP3: "Au-delà des heures de prière, le site offre des outils islamiques intégrés : calendrier hégirien (Muharram, Safar, Rabi' al-Awwal, Rabi' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha'ban, Ramadan, Shawwal, Dhu al-Qi'dah, Dhu al-Hijjah), convertisseur de date, direction de la Qibla vers la Kaaba, calculateur de Zakat, et douas et adhkar authentiques.",
                     faqQ1: 'Comment les heures de prière sont-elles calculées ?',
-                    faqA1: "Les cinq heures de prière (Fajr, Dhuhr, Asr, Maghrib, Isha) sont calculées en fonction de la position du soleil par rapport à votre horizon. Fajr et Isha dépendent de l'angle du soleil sous l'horizon (entre 15° et 19° selon la méthode).",
-                    faqQ2: 'Quelle est la différence entre les méthodes de calcul ?',
-                    faqA2: 'Les méthodes (Ligue Islamique Mondiale, Umm al-Qura, Égyptienne, ISNA) diffèrent principalement par les angles de Fajr et Isha. Ex : MWL utilise 18° Fajr / 17° Isha ; Umm al-Qura utilise 18,5° Fajr et 90 min après Maghrib pour Isha (120 min en Ramadan).',
-                    faqQ3: 'Quel est le calendrier hégirien ?',
-                    faqA3: "Le calendrier hégirien est un calendrier lunaire islamique qui a débuté avec l'Hégire du Prophète Muhammad en 622 ap. J.-C. Il comprend 12 mois lunaires totalisant 354 ou 355 jours.",
-                    faqQ4: 'Comment détermine-t-on la direction de la Qibla ?',
-                    faqA4: "La Qibla est la direction de la Sainte Kaaba. Elle est calculée à partir de vos coordonnées (latitude/longitude) et des coordonnées de la Kaaba (21,422487°N, 39,826206°E) par la méthode du Grand Cercle.",
-                    faqQ5: 'Les heures affichées sont-elles précises ?',
-                    faqA5: "Oui, les heures sont calculées par des algorithmes astronomiques précis basés sur la position réelle du soleil. Elles peuvent varier de 2-3 minutes par rapport aux autorités officielles selon la méthode.",
-                    faqQ6: 'Quelles sont les heures de jeûne en Ramadan ?',
-                    faqA6: "Les heures de jeûne s'étendent de l'aube vraie (Fajr) au coucher (Maghrib). Cela varie selon la latitude et la saison : régions équatoriales ~14-15 h, latitudes moyennes ~15-17 h, latitudes nordiques jusqu'à 19 h.",
+                    faqA1: "Les heures sont calculées à partir de votre emplacement géographique, de l'angle du soleil, du fuseau horaire et de la méthode de calcul choisie pour chaque prière.",
+                    faqQ2: 'Pourquoi les heures de prière diffèrent-elles d’un endroit à un autre ?',
+                    faqA2: "Les heures changent selon la latitude et la longitude, les moments du lever et du coucher du soleil, et la durée du jour et de la nuit qui varient selon le lieu et la saison.",
+                    faqQ3: 'Quelle est la différence entre les méthodes de calcul des heures de prière ?',
+                    faqA3: "Les méthodes diffèrent par les angles utilisés pour le Fajr et l'Isha, ce qui peut entraîner de petites différences entre une méthode et une autre.",
+                    faqQ4: 'Que signifie choisir l’école juridique pour le Asr ?',
+                    faqA4: "Le choix de l'école juridique influe sur le calcul du Asr, car certains critères diffèrent dans la définition du début de cette prière.",
+                    faqQ5: 'Les heures de prière peuvent-elles être réglées automatiquement depuis ma position ?',
+                    faqA5: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.',
+                    faqQ6: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
+                    faqA6: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.',
                 },
                 tr: {
                     worldCities: 'Dünya Şehirleri', upcomingPrayer: 'Sonraki Namaz',
@@ -8953,17 +8967,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: "Site, dünya çapında tanınan hesaplama yöntemlerini destekler: Müslüman Dünya Birliği, Ümmü'l-Kura (Mekke), Mısır Otoritesi, ISNA; ayrıca İkindi için Şafi/Hanefi seçenekleri.",
                     aboutP3: "Namaz vakitlerinin yanı sıra site, Hicri takvim (Muharrem, Safer, Rabiülevvel, Rabiülahir, Cemaziyelevvel, Cemaziyelahir, Recep, Şaban, Ramazan, Şevval, Zilkade, Zilhicce), tarih dönüştürücü, Kâbe yönünde kıble, zekât hesaplayıcı ve sahih dualar sunar.",
                     faqQ1: 'Namaz vakitleri nasıl hesaplanır?',
-                    faqA1: "Beş vakit namaz (Fecir, Öğle, İkindi, Akşam, Yatsı) güneşin ufka göre konumuna göre hesaplanır. Fecir ve Yatsı, güneşin ufkun altındaki açısıyla belirlenir (yönteme göre 15°-19° arası).",
-                    faqQ2: 'Hesaplama yöntemleri arasındaki fark nedir?',
-                    faqA2: "Yöntemler (MWL, Ümmü'l-Kura, Mısır, ISNA) esas olarak Fecir ve Yatsı açılarında farklıdır. Örneğin MWL Fecir için 18°, Yatsı için 17° kullanır.",
-                    faqQ3: 'Hicri takvim nedir?',
-                    faqA3: "Hicri takvim, Hz. Muhammed'in 622'deki hicretiyle başlayan ay takvimidir. 12 aydan oluşur, toplam 354 veya 355 gündür.",
-                    faqQ4: 'Kıble yönü nasıl belirlenir?',
-                    faqA4: "Kıble, Kâbe-i Muazzama yönüdür. Koordinatlarınız ve Kâbe koordinatları (21,422487°K, 39,826206°D) kullanılarak Büyük Daire yöntemiyle hesaplanır.",
-                    faqQ5: 'Gösterilen namaz vakitleri doğru mu?',
-                    faqA5: 'Evet, vakitler güneşin gerçek konumuna dayalı hassas astronomik algoritmalarla hesaplanır. Yöntem farklılıklarından dolayı resmi kurumlarla 2-3 dakika fark olabilir.',
-                    faqQ6: 'Ramazan oruç süreleri nedir?',
-                    faqA6: 'Oruç süresi gerçek şafaktan (Fecir) güneş batımına (Akşam) kadardır. Süre enleme ve mevsime göre değişir: ekvatoral bölgeler ~14-15 saat, orta enlemler ~15-17 saat, kuzey enlemleri 19 saate kadar.',
+                    faqA1: 'Vakitler; coğrafi konum, güneş açısı, saat dilimi ve her vakit için seçilen hesaplama yöntemine göre hesaplanır.',
+                    faqQ2: 'Namaz vakitleri neden yerden yere değişir?',
+                    faqA2: 'Vakitler; enlem ve boylam, güneşin doğuş ve batış zamanları ve konuma ile mevsime göre değişen gece-gündüz uzunluğu nedeniyle farklılaşır.',
+                    faqQ3: 'Namaz vakitleri hesaplama yöntemleri arasındaki fark nedir?',
+                    faqA3: 'Yöntemler, Fecir ve Yatsı için kullanılan açılarda farklıdır; bu nedenle yöntemler arasında küçük farklar görülebilir.',
+                    faqQ4: 'İkindi vakti için mezhep seçimi ne anlama gelir?',
+                    faqA4: 'Mezhep seçimi İkindi’nin hesaplanmasını etkiler; bazı fıkhi ölçütler İkindi’nin başlangıç zamanını farklı tanımlar.',
+                    faqQ5: 'Namaz vakitleri konumumdan otomatik olarak ayarlanabilir mi?',
+                    faqA5: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.',
+                    faqQ6: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
+                    faqA6: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.',
                 },
                 ur: {
                     worldCities: 'دنیا کے شہر', upcomingPrayer: 'اگلی نماز',
@@ -8975,17 +8989,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'سائٹ عالمی سطح پر تسلیم شدہ حساب کے طریقوں کی حمایت کرتی ہے: مسلم ورلڈ لیگ، ام القریٰ (مکہ)، مصری اتھارٹی، ISNA؛ علاوہ ازیں عصر کے لیے شافعی/حنفی اختیارات۔',
                     aboutP3: 'اوقاتِ نماز کے علاوہ، سائٹ مربوط اسلامی ٹولز پیش کرتی ہے: ہجری کیلنڈر (محرم، صفر، ربیع الاول، ربیع الآخر، جمادی الاولیٰ، جمادی الآخرہ، رجب، شعبان، رمضان، شوال، ذوالقعدہ، ذوالحجہ)، تاریخ کنورٹر، کعبہ کی طرف قبلہ، زکاۃ کیلکولیٹر، اور صحیح دعائیں اور اذکار۔',
                     faqQ1: 'اوقاتِ نماز کیسے شمار ہوتے ہیں؟',
-                    faqA1: 'پانچوں اوقاتِ نماز (فجر، ظہر، عصر، مغرب، عشاء) سورج کی آپ کے افق کے نسبت پوزیشن پر شمار ہوتے ہیں۔ فجر اور عشاء افق کے نیچے سورج کے زاویے سے طے ہوتے ہیں (15°-19° کے درمیان)۔',
-                    faqQ2: 'حساب کے طریقوں میں کیا فرق ہے؟',
-                    faqA2: 'طریقے (مسلم ورلڈ لیگ، ام القریٰ، مصری، ISNA) بنیادی طور پر فجر اور عشاء کے زاویوں میں مختلف ہیں۔',
-                    faqQ3: 'ہجری کیلنڈر کیا ہے؟',
-                    faqA3: 'ہجری کیلنڈر ایک قمری اسلامی کیلنڈر ہے جو 622 عیسوی میں نبی محمد ﷺ کی ہجرت سے شروع ہوا۔ 12 قمری مہینوں پر مشتمل ہے، کل 354 یا 355 دن۔',
-                    faqQ4: 'قبلہ کی سمت کیسے طے ہوتی ہے؟',
-                    faqA4: 'قبلہ کعبہ مشرفہ کی طرف رخ ہے۔ آپ کے کوآرڈینیٹس اور کعبہ کے کوآرڈینیٹس (21.422487°N، 39.826206°E) سے عظیم دائرہ طریقے سے شمار ہوتا ہے۔',
-                    faqQ5: 'دکھائے گئے اوقاتِ نماز درست ہیں؟',
-                    faqA5: 'جی ہاں، اوقات سورج کی حقیقی پوزیشن پر مبنی درست فلکیاتی الگورتھمز سے شمار ہوتے ہیں۔ طریقہ کار کے فرق کی وجہ سے 2-3 منٹ کا فرق ہو سکتا ہے۔',
-                    faqQ6: 'رمضان میں روزے کے اوقات کیا ہیں؟',
-                    faqA6: 'روزے کا دورانیہ حقیقی فجر سے مغرب تک ہوتا ہے۔ دورانیہ خط استوا اور موسم پر منحصر ہے: استوائی علاقے ~14-15 گھنٹے، معتدل علاقے ~15-17 گھنٹے، شمالی علاقے 19 گھنٹے تک۔',
+                    faqA1: 'اوقات کا تعین جغرافیائی مقام، سورج کے زاویے، ٹائم زون اور ہر نماز کے لیے منتخب طریقۂ حساب کی بنیاد پر ہوتا ہے۔',
+                    faqQ2: 'نماز کے اوقات جگہ بدلنے سے کیوں مختلف ہوتے ہیں؟',
+                    faqA2: 'اوقات خط عرض و خط طول، طلوع و غروبِ آفتاب، اور دن و رات کی لمبائی کی وجہ سے بدلتے ہیں جو مقام اور موسم کے ساتھ مختلف ہوتی ہیں۔',
+                    faqQ3: 'نماز کے اوقات کے حساب کے طریقوں میں کیا فرق ہے؟',
+                    faqA3: 'طریقے فجر اور عشاء کے لیے استعمال ہونے والے زاویوں میں مختلف ہوتے ہیں، اس لیے ایک طریقے اور دوسرے کے درمیان معمولی فرق ظاہر ہو سکتا ہے۔',
+                    faqQ4: 'عصر کے وقت میں مذہب کے انتخاب کا کیا مطلب ہے؟',
+                    faqA4: 'مذہب کا انتخاب عصر کے حساب پر اثر ڈالتا ہے کیونکہ کچھ فقہی معیار عصر کے آغاز کی تعریف میں مختلف ہیں۔',
+                    faqQ5: 'کیا میرے مقام سے نماز کے اوقات خودکار طریقے سے طے ہو سکتے ہیں؟',
+                    faqA5: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔',
+                    faqQ6: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
+                    faqA6: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔',
                 },
                 de: {
                     worldCities: 'Städte weltweit', upcomingPrayer: 'Nächstes Gebet',
@@ -8997,17 +9011,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: "Die Seite unterstützt weltweit anerkannte Berechnungsmethoden: Muslimische Weltliga, Umm al-Qura (Mekka), Ägyptische Generalbehörde für Vermessung, Islamische Gesellschaft Nordamerikas (ISNA), sowie schafiitische/hanafitische Rechtsschul-Optionen für die Berechnung des Asr-Gebets.",
                     aboutP3: "Neben den Gebetszeiten bietet die Seite integrierte islamische Werkzeuge: Den Hidschri-Kalender mit seinen zwölf Monaten (Muharram, Safar, Rabi' al-Awwal, Rabi' al-Thani, Dschumada al-Ula, Dschumada al-Thani, Radschab, Schaban, Ramadan, Schawwal, Dhul-Qa'da, Dhul-Hidscha), Datumsumrechnung zwischen Hidschri und Gregorianisch, Qibla-Richtung zur Kaaba, Zakat-Rechner sowie authentische Duas und Adhkar aus Koran und Sunna.",
                     faqQ1: 'Wie werden die Gebetszeiten berechnet?',
-                    faqA1: 'Die fünf Gebetszeiten (Fajr, Dhuhr, Asr, Maghrib, Isha) werden anhand der Position der Sonne relativ zu Ihrem Horizont berechnet. Fajr und Isha werden durch den Winkel der Sonne unter dem Horizont bestimmt (je nach Methode zwischen 15° und 19°).',
-                    faqQ2: 'Was ist der Unterschied zwischen den Berechnungsmethoden?',
-                    faqA2: "Die Methoden (Muslimische Weltliga, Umm al-Qura, Ägyptische Behörde, ISNA) unterscheiden sich hauptsächlich in den Fajr- und Isha-Winkeln. Beispiel: MWL verwendet 18° für Fajr und 17° für Isha, während Umm al-Qura 18,5° für Fajr und 90 Minuten nach Maghrib für Isha verwendet (120 Minuten im Ramadan).",
-                    faqQ3: 'Was ist der Hidschri-Kalender?',
-                    faqA3: "Der Hidschri-Kalender ist ein islamischer Mondkalender, der mit der Auswanderung (Hidschra) des Propheten Mohammed im Jahr 622 n. Chr. begann. Er besteht aus 12 Mondmonaten (Muharram, Safar, Rabi' al-Awwal, Rabi' al-Thani, Dschumada al-Ula, Dschumada al-Thani, Radschab, Schaban, Ramadan, Schawwal, Dhul-Qa'da, Dhul-Hidscha) und umfasst insgesamt 354 oder 355 Tage.",
-                    faqQ4: 'Wie wird die Qibla-Richtung bestimmt?',
-                    faqA4: 'Die Qibla ist die Richtung, in die Muslime während des Gebets zur Heiligen Kaaba blicken. Sie wird aus Ihren Standortkoordinaten (Breiten- und Längengrad) und den Koordinaten der Kaaba (21,422487°N, 39,826206°O) mittels Großkreisberechnung ermittelt.',
-                    faqQ5: 'Sind die angezeigten Gebetszeiten genau?',
-                    faqA5: 'Ja, die Zeiten werden mit präzisen astronomischen Algorithmen berechnet, die auf der tatsächlichen Position der Sonne basieren. Sie können aufgrund unterschiedlicher Berechnungsmethoden um 2-3 Minuten von offiziellen nationalen Stellen abweichen — daher bieten wir die Möglichkeit, Ihre bevorzugte Methode in den Einstellungen zu wählen.',
-                    faqQ6: 'Wie lang sind die Fastenzeiten im Ramadan?',
-                    faqA6: 'Die Fastenzeiten reichen vom wahren Morgengrauen (Fajr) bis zum Sonnenuntergang (Maghrib). Die Dauer variiert nach Breitengrad und Jahreszeit. Beispiel: äquatoriale Regionen ~14-15 Stunden, mittlere Breitengrade ~15-17 Stunden, nördliche Breitengrade bis zu 19 Stunden.',
+                    faqA1: 'Die Zeiten werden anhand des geografischen Standorts, des Sonnenwinkels, der Zeitzone und der für jedes Gebet gewählten Berechnungsmethode bestimmt.',
+                    faqQ2: 'Warum unterscheiden sich die Gebetszeiten von Ort zu Ort?',
+                    faqA2: 'Die Zeiten unterscheiden sich aufgrund von Breiten- und Längengrad, Sonnenauf- und -untergang sowie der Tag- und Nachtlänge, die je nach Ort und Jahreszeit variieren.',
+                    faqQ3: 'Worin unterscheiden sich die Berechnungsmethoden für die Gebetszeiten?',
+                    faqA3: 'Die Methoden unterscheiden sich in den Winkeln, die für Fajr und Isha verwendet werden, sodass kleine Unterschiede zwischen den Methoden auftreten können.',
+                    faqQ4: 'Was bedeutet die Wahl der Rechtsschule für Asr?',
+                    faqA4: 'Die Wahl der Rechtsschule beeinflusst die Berechnung von Asr, da einige Kriterien den Beginn von Asr unterschiedlich definieren.',
+                    faqQ5: 'Können die Gebetszeiten automatisch von meinem Standort gesetzt werden?',
+                    faqA5: 'Ja, Ihr geografischer Standort kann für höhere Genauigkeit verwendet werden, mit der Möglichkeit, bei Bedarf eine Stadt manuell auszuwählen.',
+                    faqQ6: 'Welche islamischen Werkzeuge gibt es neben den Gebetszeiten?',
+                    faqA6: 'Werkzeuge wie Qibla-Richtung, Hidschri-Datum, Hidschri-Kalender, Mondphase und Datumsumrechnung stehen zur Verfügung.',
                 },
                 id: {
                     worldCities: 'Kota-Kota Dunia', upcomingPrayer: 'Sholat Berikutnya',
@@ -9019,17 +9033,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'Situs ini mendukung metode perhitungan yang diakui secara global: Liga Dunia Muslim, Umm al-Qura (Mekkah), Otoritas Umum Mesir, Islamic Society of North America (ISNA), ditambah opsi mazhab Syafi\'i/Hanafi untuk perhitungan waktu sholat Asar.',
                     aboutP3: 'Selain jadwal sholat hari ini, situs ini menawarkan perangkat Islam terpadu: kalender Hijriyah dengan dua belas bulannya (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sya\'ban, Ramadan, Syawal, Dzulkaidah, Dzulhijah), konverter tanggal Hijriyah-Masehi, arah Kiblat menuju Ka\'bah, kalkulator Zakat, serta doa dan dzikir otentik dari Al-Qur\'an dan Sunnah.',
                     faqQ1: 'Bagaimana jadwal sholat dihitung?',
-                    faqA1: 'Lima waktu sholat (Subuh, Zuhur, Asar, Magrib, Isya) dihitung berdasarkan posisi matahari terhadap cakrawala Anda. Waktu Subuh dan Isya ditentukan oleh sudut matahari di bawah cakrawala (antara 15° dan 19° tergantung pada metode perhitungan).',
-                    faqQ2: 'Apa perbedaan antara metode perhitungan?',
-                    faqA2: 'Metode perhitungan (Liga Dunia Muslim, Umm al-Qura, Otoritas Mesir, ISNA) berbeda terutama pada sudut Subuh dan Isya. Contoh: MWL menggunakan 18° untuk Subuh dan 17° untuk Isya, sementara Umm al-Qura menggunakan 18,5° untuk Subuh dan 90 menit setelah Magrib untuk Isya (120 menit di bulan Ramadan).',
-                    faqQ3: 'Apa itu kalender Hijriyah?',
-                    faqA3: 'Kalender Hijriyah adalah kalender lunar Islam yang dimulai dengan hijrahnya Nabi Muhammad ﷺ pada tahun 622 M. Kalender ini terdiri dari 12 bulan lunar (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sya\'ban, Ramadan, Syawal, Dzulkaidah, Dzulhijah) dengan total 354 atau 355 hari.',
-                    faqQ4: 'Bagaimana arah Kiblat ditentukan?',
-                    faqA4: 'Kiblat adalah arah yang dihadap umat Muslim saat sholat, menuju Ka\'bah Al-Musyarrafah. Arah Kiblat dihitung dari koordinat lokasi Anda (lintang dan bujur) dan koordinat Ka\'bah (21,422487°LU, 39,826206°BT) menggunakan perhitungan Great Circle bearing.',
-                    faqQ5: 'Apakah jadwal sholat yang ditampilkan akurat?',
-                    faqA5: 'Ya, waktu dihitung menggunakan algoritma astronomi yang presisi berdasarkan posisi matahari yang sebenarnya. Waktu mungkin berbeda 2-3 menit dari otoritas resmi nasional karena perbedaan metode perhitungan — karena itu kami menyediakan pilihan metode perhitungan di Pengaturan.',
-                    faqQ6: 'Berapa lama jam puasa di bulan Ramadan?',
-                    faqA6: 'Jam puasa dimulai dari fajar sejati (Subuh) hingga matahari terbenam (Magrib). Durasinya bervariasi menurut lintang dan musim. Contoh: wilayah ekuator ~14-15 jam, lintang menengah ~15-17 jam, lintang utara bisa mencapai 19 jam.',
+                    faqA1: 'Waktu dihitung berdasarkan lokasi geografis, sudut matahari, zona waktu, dan metode perhitungan yang dipilih untuk setiap sholat.',
+                    faqQ2: 'Mengapa jadwal sholat berbeda antara satu tempat dan tempat lainnya?',
+                    faqA2: 'Waktu berbeda karena perbedaan lintang dan bujur, waktu matahari terbit dan terbenam, serta panjang siang dan malam yang berubah sesuai lokasi dan musim.',
+                    faqQ3: 'Apa perbedaan antara metode perhitungan jadwal sholat?',
+                    faqA3: 'Metode berbeda dalam sudut yang digunakan untuk Subuh dan Isya, sehingga dapat muncul perbedaan kecil antara satu metode dan metode lainnya.',
+                    faqQ4: 'Apa maksud memilih mazhab untuk waktu Asar?',
+                    faqA4: 'Pilihan mazhab memengaruhi perhitungan waktu Asar, karena beberapa kriteria fikih berbeda dalam menentukan awal waktu Asar.',
+                    faqQ5: 'Apakah jadwal sholat dapat ditentukan otomatis dari lokasi saya?',
+                    faqA5: 'Ya, lokasi geografis dapat digunakan untuk akurasi yang lebih tinggi, dengan pilihan untuk memilih kota secara manual jika diperlukan.',
+                    faqQ6: 'Alat Islami apa saja yang tersedia bersama jadwal sholat?',
+                    faqA6: 'Tersedia alat seperti arah Kiblat, tanggal Hijriyah, kalender Hijriyah, fase bulan, dan konversi tanggal.',
                 },
                 es: {
                     worldCities: 'Ciudades del Mundo', upcomingPrayer: 'Próxima Oración',
@@ -9041,17 +9055,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'El sitio admite métodos de cálculo reconocidos mundialmente: Liga Mundial Musulmana, Umm al-Qura (La Meca), Autoridad General Egipcia, Islamic Society of North America (ISNA), además de las opciones jurídicas Shafi\'i/Hanafi para el cálculo del Asr.',
                     aboutP3: 'Además de los horarios de oración de hoy, el sitio ofrece herramientas islámicas integradas: el calendario Hijri con sus doce meses (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Yumada al-Awwal, Yumada al-Thani, Rayab, Sha\'ban, Ramadán, Shawwal, Dhu al-Qi\'dah, Dhu al-Hiyyah), conversor de fechas Hijri-Gregoriano, dirección de la Qibla hacia la Kaaba, calculadora de Zakat y duas y adhkar auténticos del Corán y la Sunna.',
                     faqQ1: '¿Cómo se calculan los horarios de oración?',
-                    faqA1: 'Las cinco oraciones (Fayr, Dhuhr, Asr, Magrib, Isha) se calculan según la posición del sol respecto a tu horizonte. Los horarios de Fayr e Isha se determinan por el ángulo del sol bajo el horizonte (entre 15° y 19° según el método de cálculo).',
-                    faqQ2: '¿Cuál es la diferencia entre los métodos de cálculo?',
-                    faqA2: 'Los métodos (Liga Mundial Musulmana, Umm al-Qura, Autoridad Egipcia, ISNA) difieren principalmente en los ángulos de Fayr e Isha. Por ejemplo: MWL usa 18° para Fayr y 17° para Isha, mientras que Umm al-Qura usa 18,5° para Fayr y 90 minutos después del Magrib para Isha (120 minutos en Ramadán).',
-                    faqQ3: '¿Qué es el calendario Hijri?',
-                    faqA3: 'El calendario Hijri es un calendario lunar islámico que comenzó con la Hégira del Profeta Muhammad ﷺ en el año 622 d.C. Consta de 12 meses lunares (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Yumada al-Awwal, Yumada al-Thani, Rayab, Sha\'ban, Ramadán, Shawwal, Dhu al-Qi\'dah, Dhu al-Hiyyah) con un total de 354 o 355 días.',
-                    faqQ4: '¿Cómo se determina la dirección de la Qibla?',
-                    faqA4: 'La Qibla es la dirección hacia la Sagrada Kaaba que los musulmanes encaran durante la oración. Se calcula a partir de tus coordenadas (latitud y longitud) y las de la Kaaba (21,422487°N, 39,826206°E) mediante el cálculo del rumbo de gran círculo.',
-                    faqQ5: '¿Son precisos los horarios de oración mostrados?',
-                    faqA5: 'Sí, los horarios se calculan con algoritmos astronómicos precisos basados en la posición real del sol. Pueden variar 2-3 minutos respecto a las autoridades oficiales nacionales debido a diferencias en el método de cálculo — por eso ofrecemos la opción de elegir tu método preferido en los Ajustes.',
-                    faqQ6: '¿Cuántas son las horas de ayuno en Ramadán?',
-                    faqA6: 'Las horas de ayuno van desde el amanecer verdadero (Fayr) hasta la puesta del sol (Magrib). La duración varía según la latitud y la estación. Por ejemplo: regiones ecuatoriales ~14-15 horas, latitudes medias ~15-17 horas, latitudes nórdicas pueden llegar a 19 horas.',
+                    faqA1: 'Los horarios se calculan a partir de la ubicación geográfica, el ángulo del sol, la zona horaria y el método de cálculo elegido para cada oración.',
+                    faqQ2: '¿Por qué los horarios de oración varían según el lugar?',
+                    faqA2: 'Los horarios cambian por la latitud y la longitud, el momento del amanecer y el atardecer, y la duración del día y la noche que varían con la ubicación y la estación.',
+                    faqQ3: '¿Cuál es la diferencia entre los métodos de cálculo de los horarios de oración?',
+                    faqA3: 'Los métodos difieren en los ángulos usados para Fayr e Isha, por lo que pueden aparecer pequeñas diferencias entre un método y otro.',
+                    faqQ4: '¿Qué significa elegir la escuela jurídica para Asr?',
+                    faqA4: 'La elección de la escuela jurídica afecta el cálculo de Asr, ya que algunos criterios difieren al definir el inicio de Asr.',
+                    faqQ5: '¿Pueden los horarios de oración ajustarse automáticamente desde mi ubicación?',
+                    faqA5: 'Sí, tu ubicación geográfica puede usarse para mayor precisión, con la opción de elegir manualmente una ciudad cuando lo necesites.',
+                    faqQ6: '¿Qué herramientas islámicas hay disponibles junto a los horarios de oración?',
+                    faqA6: 'Hay herramientas como dirección de la Qibla, fecha hégira, calendario hégira, fase lunar y conversión de fechas.',
                 },
                 bn: {
                     worldCities: 'বিশ্বের শহরসমূহ', upcomingPrayer: 'পরবর্তী নামাজ',
@@ -9063,17 +9077,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'এই সাইটটি বিশ্বব্যাপী স্বীকৃত গণনা পদ্ধতি সমর্থন করে: মুসলিম ওয়ার্ল্ড লীগ, উম্মুল কুরা (মক্কা), মিশরের সাধারণ কর্তৃপক্ষ, Islamic Society of North America (ISNA), এবং আসরের সময় গণনার জন্য শাফেয়ী/হানাফি মাজহাব বিকল্প।',
                     aboutP3: 'আজকের নামাজের সময় ছাড়াও, সাইটটি সমন্বিত ইসলামী সরঞ্জাম অফার করে: বারো মাসের হিজরি ক্যালেন্ডার (মহররম, সফর, রবিউল আউয়াল, রবিউস সানি, জমাদিউল আউয়াল, জমাদিউস সানি, রজব, শাবান, রমজান, শাওয়াল, জিলকদ, জিলহজ), হিজরি-গ্রেগরিয়ান তারিখ রূপান্তরকারী, কাবার দিকে কিবলার দিক, যাকাত ক্যালকুলেটর এবং কুরআন ও সুন্নাহ থেকে সহীহ দোয়া ও জিকির।',
                     faqQ1: 'নামাজের সময়সূচী কীভাবে গণনা করা হয়?',
-                    faqA1: 'পাঁচ ওয়াক্ত নামাজ (ফজর, জোহর, আসর, মাগরিব, এশা) আপনার দিগন্তের সাপেক্ষে সূর্যের অবস্থানের ভিত্তিতে গণনা করা হয়। ফজর ও এশার সময় দিগন্তের নিচে সূর্যের কোণ দ্বারা নির্ধারিত হয় (গণনা পদ্ধতি অনুযায়ী ১৫° থেকে ১৯° এর মধ্যে)।',
-                    faqQ2: 'বিভিন্ন গণনা পদ্ধতির মধ্যে পার্থক্য কী?',
-                    faqA2: 'গণনা পদ্ধতি (মুসলিম ওয়ার্ল্ড লীগ, উম্মুল কুরা, মিশরীয় কর্তৃপক্ষ, ISNA) প্রধানত ফজর ও এশার কোণে পার্থক্য রাখে। উদাহরণস্বরূপ: MWL ফজরের জন্য ১৮° এবং এশার জন্য ১৭° ব্যবহার করে, যেখানে উম্মুল কুরা ফজরের জন্য ১৮.৫° এবং এশার জন্য মাগরিবের ৯০ মিনিট পরে (রমজানে ১২০ মিনিট) ব্যবহার করে।',
-                    faqQ3: 'হিজরি ক্যালেন্ডার কী?',
-                    faqA3: 'হিজরি ক্যালেন্ডার একটি চান্দ্র ইসলামিক ক্যালেন্ডার যা ৬২২ খ্রিস্টাব্দে নবী মুহাম্মদ ﷺ-এর হিজরত থেকে শুরু হয়েছিল। এটি ১২টি চান্দ্র মাস নিয়ে গঠিত (মহররম, সফর, রবিউল আউয়াল, রবিউস সানি, জমাদিউল আউয়াল, জমাদিউস সানি, রজব, শাবান, রমজান, শাওয়াল, জিলকদ, জিলহজ) মোট ৩৫৪ বা ৩৫৫ দিন।',
-                    faqQ4: 'কিবলার দিক কীভাবে নির্ধারণ করা হয়?',
-                    faqA4: 'কিবলা হলো সেই দিক যেদিকে মুসলিমরা নামাজের সময় মুখ ফেরায়, পবিত্র কাবার দিকে। এটি আপনার অবস্থানের স্থানাঙ্ক (অক্ষাংশ ও দ্রাঘিমাংশ) এবং কাবার স্থানাঙ্ক (২১.৪২২৪৮৭°N, ৩৯.৮২৬২০৬°E) থেকে Great Circle bearing গণনা ব্যবহার করে নির্ণয় করা হয়।',
-                    faqQ5: 'প্রদর্শিত নামাজের সময়সূচী কি সঠিক?',
-                    faqA5: 'হ্যাঁ, সময় সূর্যের প্রকৃত অবস্থানের ভিত্তিতে সুনির্দিষ্ট জ্যোতির্বিদ্যা অ্যালগরিদম ব্যবহার করে গণনা করা হয়। গণনা পদ্ধতির পার্থক্যের কারণে আনুষ্ঠানিক জাতীয় কর্তৃপক্ষের থেকে ২-৩ মিনিট ভিন্ন হতে পারে — তাই আমরা সেটিংসে আপনার পছন্দের পদ্ধতি নির্বাচন করার বিকল্প প্রদান করি।',
-                    faqQ6: 'রমজানে রোজার সময় কত ঘণ্টা?',
-                    faqA6: 'রোজার সময় প্রকৃত ফজর থেকে সূর্যাস্ত (মাগরিব) পর্যন্ত। সময়কাল অক্ষাংশ এবং ঋতুর উপর নির্ভর করে। উদাহরণস্বরূপ: নিরক্ষীয় অঞ্চল ~১৪-১৫ ঘণ্টা, মধ্য অক্ষাংশ ~১৫-১৭ ঘণ্টা, উত্তর অক্ষাংশে ১৯ ঘণ্টা পর্যন্ত হতে পারে।',
+                    faqA1: 'সময় গণনা করা হয় ভৌগোলিক অবস্থান, সূর্যের কোণ, সময় অঞ্চল এবং প্রতিটি নামাজের জন্য নির্বাচিত গণনা পদ্ধতির ভিত্তিতে।',
+                    faqQ2: 'নামাজের সময় এক জায়গা থেকে অন্য জায়গায় কেন আলাদা হয়?',
+                    faqA2: 'অক্ষাংশ ও দ্রাঘিমাংশ, সূর্যোদয় ও সূর্যাস্তের সময়, এবং অবস্থান ও ঋতু অনুযায়ী রাত-দিনের দৈর্ঘ্যের পার্থক্যের কারণে সময় ভিন্ন হয়।',
+                    faqQ3: 'নামাজের সময় গণনার পদ্ধতিগুলোর মধ্যে পার্থক্য কী?',
+                    faqA3: 'পদ্ধতিগুলো ফজর ও এশার জন্য ব্যবহৃত কোণে আলাদা, তাই এক পদ্ধতি ও অন্যটির মধ্যে ছোটখাটো পার্থক্য দেখা দিতে পারে।',
+                    faqQ4: 'আসরের সময়ের জন্য মাযহাব বেছে নেওয়ার অর্থ কী?',
+                    faqA4: 'মাযহাব নির্বাচন আসরের গণনাকে প্রভাবিত করে, কারণ কিছু ফিকহি মানদণ্ড আসরের শুরু নির্ধারণে ভিন্ন।',
+                    faqQ5: 'আমার অবস্থান থেকে কি নামাজের সময় স্বয়ংক্রিয়ভাবে নির্ধারণ করা যায়?',
+                    faqA5: 'হ্যাঁ, ভৌগোলিক অবস্থান উচ্চতর নির্ভুলতার জন্য ব্যবহার করা যায়, এবং প্রয়োজন হলে শহর ম্যানুয়ালি নির্বাচন করা যায়।',
+                    faqQ6: 'নামাজের সময়ের পাশাপাশি কোন ইসলামিক টুলগুলো পাওয়া যায়?',
+                    faqA6: 'কিবলার দিক, হিজরি তারিখ, হিজরি ক্যালেন্ডার, চাঁদের অবস্থা এবং তারিখ রূপান্তরের মতো টুল উপলব্ধ।',
                 },
                 ms: {
                     worldCities: 'Bandar Dunia', upcomingPrayer: 'Solat Seterusnya',
@@ -9085,17 +9099,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     aboutP2: 'Laman ini menyokong kaedah pengiraan yang diiktiraf di peringkat global: Liga Dunia Muslim, Umm al-Qura (Makkah), Pihak Berkuasa Am Mesir, Islamic Society of North America (ISNA), serta pilihan mazhab Syafie/Hanafi untuk pengiraan waktu Asar.',
                     aboutP3: 'Selain waktu solat hari ini, laman ini menawarkan alatan Islam bersepadu: Kalendar Hijrah dengan dua belas bulannya (Muharram, Safar, Rabiulawal, Rabiulakhir, Jamadilawal, Jamadilakhir, Rejab, Syaaban, Ramadan, Syawal, Zulkaedah, Zulhijah), penukar tarikh Hijrah-Masihi, arah Kiblat ke Kaabah, kalkulator Zakat, serta doa dan zikir sahih daripada Al-Quran dan Sunnah.',
                     faqQ1: 'Bagaimana waktu solat dikira?',
-                    faqA1: 'Lima waktu solat (Subuh, Zohor, Asar, Maghrib, Isyak) dikira berdasarkan kedudukan matahari berbanding ufuk anda. Waktu Subuh dan Isyak ditentukan oleh sudut matahari di bawah ufuk (antara 15° dan 19° bergantung kepada kaedah pengiraan).',
-                    faqQ2: 'Apakah perbezaan antara kaedah pengiraan?',
-                    faqA2: 'Kaedah pengiraan (Liga Dunia Muslim, Umm al-Qura, Pihak Berkuasa Mesir, ISNA) berbeza terutamanya pada sudut Subuh dan Isyak. Contoh: MWL menggunakan 18° untuk Subuh dan 17° untuk Isyak, manakala Umm al-Qura menggunakan 18.5° untuk Subuh dan 90 minit selepas Maghrib untuk Isyak (120 minit pada bulan Ramadan).',
-                    faqQ3: 'Apakah kalendar Hijrah?',
-                    faqA3: 'Kalendar Hijrah ialah kalendar lunar Islam yang bermula dengan penghijrahan Nabi Muhammad ﷺ pada 622 Masihi. Ia terdiri daripada 12 bulan lunar (Muharram, Safar, Rabiulawal, Rabiulakhir, Jamadilawal, Jamadilakhir, Rejab, Syaaban, Ramadan, Syawal, Zulkaedah, Zulhijah) dengan jumlah 354 atau 355 hari.',
-                    faqQ4: 'Bagaimana arah Kiblat ditentukan?',
-                    faqA4: 'Kiblat ialah arah yang dihadap oleh umat Islam semasa solat, menuju ke Kaabah Al-Musyarrafah. Arah Kiblat dikira daripada koordinat lokasi anda (latitud dan longitud) dan koordinat Kaabah (21.422487°U, 39.826206°T) menggunakan pengiraan Great Circle bearing.',
-                    faqQ5: 'Adakah waktu solat yang dipaparkan tepat?',
-                    faqA5: 'Ya, waktu dikira menggunakan algoritma astronomi yang tepat berdasarkan kedudukan sebenar matahari. Ia mungkin berbeza 2-3 minit daripada pihak berkuasa rasmi negara disebabkan perbezaan kaedah pengiraan — kerana itu kami menyediakan pilihan untuk memilih kaedah pilihan anda dalam Tetapan.',
-                    faqQ6: 'Berapa lama waktu berpuasa dalam bulan Ramadan?',
-                    faqA6: 'Waktu berpuasa adalah dari subuh sebenar (Subuh) hingga matahari terbenam (Maghrib). Tempohnya berbeza mengikut latitud dan musim. Contoh: kawasan khatulistiwa ~14-15 jam, latitud sederhana ~15-17 jam, latitud utara boleh mencapai 19 jam.',
+                    faqA1: 'Waktu dikira berdasarkan lokasi geografi, sudut matahari, zon waktu, dan kaedah pengiraan yang dipilih untuk setiap solat.',
+                    faqQ2: 'Mengapakah waktu solat berbeza antara satu tempat dengan tempat lain?',
+                    faqA2: 'Waktu berbeza disebabkan latitud dan longitud, masa matahari terbit dan terbenam, serta panjang siang dan malam yang berubah mengikut lokasi dan musim.',
+                    faqQ3: 'Apakah perbezaan antara kaedah pengiraan waktu solat?',
+                    faqA3: 'Kaedah-kaedah berbeza dalam sudut yang digunakan untuk Subuh dan Isyak, sehingga perbezaan kecil mungkin muncul antara satu kaedah dengan kaedah lain.',
+                    faqQ4: 'Apakah maksud memilih mazhab untuk waktu Asar?',
+                    faqA4: 'Pilihan mazhab mempengaruhi pengiraan waktu Asar, kerana sebahagian piawaian fiqh berbeza dalam menentukan permulaan Asar.',
+                    faqQ5: 'Bolehkah waktu solat ditentukan secara automatik daripada lokasi saya?',
+                    faqA5: 'Ya, lokasi geografi anda boleh digunakan untuk ketepatan yang lebih tinggi, dengan pilihan untuk memilih bandar secara manual apabila diperlukan.',
+                    faqQ6: 'Apakah alat Islam yang tersedia bersama waktu solat?',
+                    faqA6: 'Alat seperti arah Kiblat, tarikh Hijrah, kalendar Hijrah, fasa bulan, dan penukaran tarikh tersedia.',
                 },
             }[Lh] || {};
 
@@ -9206,7 +9220,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // نستبدل الكتلتين الفارغتين الأصليّتين (faq-q1 و faq-q2) بـ 6 أسئلة/أجوبة معلوماتيّة
             // مع الحفاظ على IDs الأصلية في أول سؤالين لتوافق JS
             html = html.replace(
-                /<!-- س1 -->[\s\S]*?<div class="faq-divider"><\/div>\s*<!-- س2 -->[\s\S]*?<p id="faq-a2"><\/p>\s*<\/div>\s*<\/div>/,
+                /<!-- س1 -->[\s\S]*?<div class="faq-divider"><\/div>\s*<!-- س2 -->[\s\S]*?<p id="faq-a2"[^>]*><\/p>\s*<\/div>\s*<\/div>/,
                 `<!-- SSR FAQ (Round 7f: LLM readability — IDs محفوظة للـ JS override) -->${_faqHtml}`
             );
 
@@ -9214,6 +9228,165 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             //   2026-04-28). The user wants `/` to be a Gateway, not a long
             //   SEO-text page. The i18n.aboutTitle/aboutP1-P3 strings remain
             //   in the locale dict above for a future dedicated /about page.
+
+            // ════════════════════════════════════════════════════════════════
+            // Phase Home-Cards (2026-05-06): "Why use this site" 4-card section
+            // Replaces the long-text Home-Content phase (reverted 7d0aa2a). Cards
+            // are short + visual + NO city names. Inserted between
+            // #country-cities-section and #arab-countries-section via the
+            // <!-- HOME-WHY-INJECT --> anchor in index.html.
+            // ════════════════════════════════════════════════════════════════
+            const _homeWhyI18n = {
+                ar: {
+                    h2: 'لماذا تستخدم موقع مواقيت الصلاة؟',
+                    intro: 'تجربة يومية بسيطة تجمع مواقيت الصلاة والأدوات الإسلامية في مكان واحد، مع وصول سريع من أي جهاز.',
+                    c1t: 'مواقيت دقيقة يوميًا',
+                    c1d: 'اعرف أوقات الفجر والظهر والعصر والمغرب والعشاء بناءً على الموقع الجغرافي وطريقة الحساب المناسبة.',
+                    c2t: 'أدوات إسلامية مترابطة',
+                    c2d: 'انتقل بسهولة بين مواقيت الصلاة، اتجاه القبلة، التاريخ الهجري، حالة القمر، وتحويل التاريخ.',
+                    c3t: 'تغطية عالمية',
+                    c3d: 'ابحث عن مدينتك أو استعرض الدول للوصول السريع إلى مواقيت الصلاة في مختلف أنحاء العالم.',
+                    c4t: 'تجربة سريعة وواضحة',
+                    c4d: 'واجهة خفيفة تساعدك على الوصول إلى المعلومة المطلوبة بسرعة، سواء من الهاتف أو سطح المكتب.'
+                },
+                en: {
+                    h2: 'Why use this Prayer Times site?',
+                    intro: 'A simple daily experience that brings prayer times and Islamic tools together, with quick access from any device.',
+                    c1t: 'Accurate daily times',
+                    c1d: 'Know Fajr, Dhuhr, Asr, Maghrib, and Isha based on your location and a suitable calculation method.',
+                    c2t: 'Connected Islamic tools',
+                    c2d: 'Move easily between prayer times, Qibla direction, the Hijri date, moon phase, and date conversion.',
+                    c3t: 'Worldwide coverage',
+                    c3d: 'Search for your city or browse countries for quick access to prayer times around the world.',
+                    c4t: 'Fast, clear experience',
+                    c4d: 'A light interface that helps you reach the information you need quickly, on phone or desktop.'
+                },
+                fr: {
+                    h2: 'Pourquoi utiliser ce site d’heures de prière ?',
+                    intro: 'Une expérience quotidienne simple qui rassemble les heures de prière et les outils islamiques au même endroit, accessibles rapidement sur tout appareil.',
+                    c1t: 'Heures précises chaque jour',
+                    c1d: 'Connaissez le Fajr, Dhuhr, Asr, Maghrib et Isha selon votre emplacement et la méthode de calcul adaptée.',
+                    c2t: 'Outils islamiques liés',
+                    c2d: 'Passez facilement entre les heures de prière, la direction de la Qibla, la date hégirienne, la phase de lune et la conversion de date.',
+                    c3t: 'Couverture mondiale',
+                    c3d: 'Recherchez votre ville ou parcourez les pays pour accéder rapidement aux heures de prière dans le monde.',
+                    c4t: 'Expérience rapide et claire',
+                    c4d: 'Une interface légère qui vous aide à trouver l’information rapidement, sur mobile ou ordinateur.'
+                },
+                tr: {
+                    h2: 'Bu Namaz Vakitleri sitesini neden kullanmalısınız?',
+                    intro: 'Namaz vakitlerini ve İslami araçları tek yerde toplayan, her cihazdan hızlı erişilen sade bir günlük deneyim.',
+                    c1t: 'Her gün doğru vakitler',
+                    c1d: 'Konumunuza ve uygun hesaplama yöntemine göre İmsak, Öğle, İkindi, Akşam ve Yatsı vakitlerini öğrenin.',
+                    c2t: 'Bağlantılı İslami araçlar',
+                    c2d: 'Namaz vakitleri, Kıble yönü, Hicri tarih, ay evresi ve tarih dönüşümü arasında kolayca gezinin.',
+                    c3t: 'Dünya çapında kapsam',
+                    c3d: 'Şehrinizi arayın veya ülkeleri inceleyerek dünyadaki namaz vakitlerine hızla ulaşın.',
+                    c4t: 'Hızlı ve net deneyim',
+                    c4d: 'Telefon ya da masaüstünde aradığınız bilgiye hızla ulaşmanıza yardımcı olan hafif bir arayüz.'
+                },
+                ur: {
+                    h2: 'یہ نماز اوقات سائٹ کیوں استعمال کریں؟',
+                    intro: 'ایک سادہ روزانہ تجربہ جو نماز کے اوقات اور اسلامی آلات کو ایک جگہ پیش کرتا ہے، ہر ڈیوائس سے فوری رسائی کے ساتھ۔',
+                    c1t: 'روزانہ درست اوقات',
+                    c1d: 'اپنے محل وقوع اور موزوں طریقہ حساب کے مطابق فجر، ظہر، عصر، مغرب اور عشاء کے اوقات جانیں۔',
+                    c2t: 'باہم منسلک اسلامی آلات',
+                    c2d: 'نماز کے اوقات، قبلہ کی سمت، ہجری تاریخ، چاند کا مرحلہ اور تاریخ کی تبدیلی کے درمیان آسانی سے منتقل ہوں۔',
+                    c3t: 'عالمی احاطہ',
+                    c3d: 'اپنا شہر تلاش کریں یا ممالک کا جائزہ لیں تاکہ دنیا بھر کے نماز کے اوقات تک تیزی سے رسائی ہو۔',
+                    c4t: 'تیز اور واضح تجربہ',
+                    c4d: 'ایک ہلکا انٹرفیس جو فون یا ڈیسک ٹاپ پر مطلوبہ معلومات تک تیزی سے پہنچنے میں مدد کرتا ہے۔'
+                },
+                de: {
+                    h2: 'Warum diese Gebetszeiten-Website nutzen?',
+                    intro: 'Eine einfache tägliche Erfahrung, die Gebetszeiten und islamische Werkzeuge an einem Ort vereint und auf jedem Gerät schnell verfügbar ist.',
+                    c1t: 'Präzise tägliche Zeiten',
+                    c1d: 'Erfahren Sie Fadschr, Dhuhr, Asr, Maghrib und Ischa basierend auf Ihrem Standort und einer passenden Berechnungsmethode.',
+                    c2t: 'Verknüpfte islamische Werkzeuge',
+                    c2d: 'Wechseln Sie einfach zwischen Gebetszeiten, Qibla-Richtung, Hidschri-Datum, Mondphase und Datumsumrechnung.',
+                    c3t: 'Weltweite Abdeckung',
+                    c3d: 'Suchen Sie Ihre Stadt oder durchsuchen Sie Länder, um schnell auf Gebetszeiten weltweit zuzugreifen.',
+                    c4t: 'Schnelle, klare Nutzung',
+                    c4d: 'Eine leichte Oberfläche, die Ihnen hilft, gewünschte Informationen schnell zu finden — am Handy oder Desktop.'
+                },
+                id: {
+                    h2: 'Mengapa menggunakan situs Jadwal Salat ini?',
+                    intro: 'Pengalaman harian sederhana yang menyatukan jadwal salat dan alat Islami di satu tempat, dengan akses cepat dari perangkat apa pun.',
+                    c1t: 'Waktu harian yang akurat',
+                    c1d: 'Ketahui Subuh, Zuhur, Asar, Magrib, dan Isya berdasarkan lokasi Anda dan metode perhitungan yang sesuai.',
+                    c2t: 'Alat Islami yang terhubung',
+                    c2d: 'Beralih dengan mudah antara jadwal salat, arah kiblat, tanggal Hijriyah, fase bulan, dan konversi tanggal.',
+                    c3t: 'Cakupan global',
+                    c3d: 'Cari kota Anda atau jelajahi negara untuk akses cepat ke jadwal salat di seluruh dunia.',
+                    c4t: 'Pengalaman cepat dan jelas',
+                    c4d: 'Antarmuka ringan yang membantu Anda menjangkau informasi yang dibutuhkan dengan cepat di ponsel atau desktop.'
+                },
+                es: {
+                    h2: '¿Por qué usar este sitio de Horarios de Oración?',
+                    intro: 'Una experiencia diaria sencilla que reúne los horarios de oración y las herramientas islámicas en un solo lugar, con acceso rápido desde cualquier dispositivo.',
+                    c1t: 'Horarios diarios precisos',
+                    c1d: 'Conoce Fajr, Dhuhr, Asr, Maghrib e Isha según tu ubicación y un método de cálculo adecuado.',
+                    c2t: 'Herramientas islámicas conectadas',
+                    c2d: 'Pasa fácilmente entre los horarios de oración, la dirección de la Qibla, la fecha hégira, la fase lunar y la conversión de fechas.',
+                    c3t: 'Cobertura mundial',
+                    c3d: 'Busca tu ciudad o explora países para acceder rápidamente a los horarios de oración en todo el mundo.',
+                    c4t: 'Experiencia rápida y clara',
+                    c4d: 'Una interfaz ligera que te ayuda a llegar rápido a la información que buscas, en móvil o escritorio.'
+                },
+                bn: {
+                    h2: 'কেন এই নামাজের সময় সাইট ব্যবহার করবেন?',
+                    intro: 'একটি সহজ দৈনন্দিন অভিজ্ঞতা যা নামাজের সময় এবং ইসলামিক টুলগুলোকে এক জায়গায় নিয়ে আসে, যেকোনো ডিভাইস থেকে দ্রুত প্রবেশযোগ্য।',
+                    c1t: 'প্রতিদিনের সঠিক সময়',
+                    c1d: 'আপনার অবস্থান এবং উপযুক্ত হিসাব পদ্ধতির ভিত্তিতে ফজর, যোহর, আসর, মাগরিব ও ইশার সময় জানুন।',
+                    c2t: 'সংযুক্ত ইসলামিক টুল',
+                    c2d: 'নামাজের সময়, কিবলার দিক, হিজরি তারিখ, চাঁদের অবস্থা ও তারিখ রূপান্তরের মধ্যে সহজে চলাচল করুন।',
+                    c3t: 'বিশ্বব্যাপী আওতা',
+                    c3d: 'আপনার শহর খুঁজুন বা বিশ্বের নামাজের সময় দ্রুত পেতে দেশসমূহ ব্রাউজ করুন।',
+                    c4t: 'দ্রুত ও স্পষ্ট অভিজ্ঞতা',
+                    c4d: 'একটি হালকা ইন্টারফেস যা মোবাইল বা ডেস্কটপে আপনার প্রয়োজনীয় তথ্যে দ্রুত পৌঁছাতে সাহায্য করে।'
+                },
+                ms: {
+                    h2: 'Mengapa menggunakan laman Waktu Solat ini?',
+                    intro: 'Pengalaman harian yang ringkas, menggabungkan waktu solat dan alat Islam di satu tempat, dengan akses pantas dari mana-mana peranti.',
+                    c1t: 'Waktu harian tepat',
+                    c1d: 'Ketahui Subuh, Zuhur, Asar, Maghrib, dan Isyak berdasarkan lokasi anda dan kaedah pengiraan yang sesuai.',
+                    c2t: 'Alat Islam yang berkait',
+                    c2d: 'Berpindah dengan mudah antara waktu solat, arah kiblat, tarikh Hijri, fasa bulan dan penukaran tarikh.',
+                    c3t: 'Liputan seluruh dunia',
+                    c3d: 'Cari bandar anda atau lihat negara untuk akses pantas ke waktu solat di seluruh dunia.',
+                    c4t: 'Pengalaman pantas dan jelas',
+                    c4d: 'Antara muka ringan yang membantu anda mendapatkan maklumat dengan pantas pada telefon atau komputer.'
+                }
+            };
+            const _w = _homeWhyI18n[seo.lang] || _homeWhyI18n.ar;
+            const _whyHtml =
+                `<section class="section-card home-why-section" aria-labelledby="home-why-title">
+                    <h2 id="home-why-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> ${_escHtml(_w.h2)}</h2>
+                    <p class="home-why-intro">${_escHtml(_w.intro)}</p>
+                    <div class="home-why-grid">
+                        <div class="home-why-card">
+                            <svg class="icon home-why-icon" aria-hidden="true"><use href="#i-clock"/></svg>
+                            <h3 class="home-why-card-title">${_escHtml(_w.c1t)}</h3>
+                            <p class="home-why-card-desc">${_escHtml(_w.c1d)}</p>
+                        </div>
+                        <div class="home-why-card">
+                            <svg class="icon home-why-icon" aria-hidden="true"><use href="#i-mosque"/></svg>
+                            <h3 class="home-why-card-title">${_escHtml(_w.c2t)}</h3>
+                            <p class="home-why-card-desc">${_escHtml(_w.c2d)}</p>
+                        </div>
+                        <div class="home-why-card">
+                            <svg class="icon home-why-icon" aria-hidden="true"><use href="#i-globe"/></svg>
+                            <h3 class="home-why-card-title">${_escHtml(_w.c3t)}</h3>
+                            <p class="home-why-card-desc">${_escHtml(_w.c3d)}</p>
+                        </div>
+                        <div class="home-why-card">
+                            <svg class="icon home-why-icon" aria-hidden="true"><use href="#i-eye"/></svg>
+                            <h3 class="home-why-card-title">${_escHtml(_w.c4t)}</h3>
+                            <p class="home-why-card-desc">${_escHtml(_w.c4d)}</p>
+                        </div>
+                    </div>
+                </section>`;
+            html = html.replace(/<!--\s*HOME-WHY-INJECT\s*-->/, _whyHtml);
         }
     }
 

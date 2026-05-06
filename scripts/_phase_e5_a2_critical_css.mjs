@@ -68,8 +68,9 @@ const CRITICAL_PATTERNS = [
     /^#page-(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown(\s|$)/,
     /^html\.countdown-page\.countdown-(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)\s/,
 
-    // PT-A (2026-05-05): #page-prayer-times-scoped reservations for the
-    // banner [hidden] reveals. Same robustness rationale.
+    // PT-A (2026-05-05): #page-prayer-times-scoped reservations.
+    // Phase reverted as no-op — see style.css PT-A comment block.
+    // Whitelist pattern kept in case a future PT-A-followup needs it.
     /^#page-prayer-times(\s|$)/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,

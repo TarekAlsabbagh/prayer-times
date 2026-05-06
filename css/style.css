@@ -14981,82 +14981,42 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
     }
 }
 
-/* ═══ Phase PT-A (2026-05-05): /prayer-times-in-{city} CLS fix.
-   Scope: ALL prayer-times city pages (anything matching the
-   /prayer-times-in-{slug} URL pattern, which gets html.city-page from the
-   inline class-adder in index.html). Verification baseline ran on
-   /prayer-times-in-makkah-21.4-39.8 (the longest-form representative).
+/* ═══ Phase PT-A (2026-05-05): /prayer-times-in-{city} CLS investigation.
+   Reverted to no-op after experimentation showed CSS reservations can't
+   reliably bring CLS under 0.1 on this page. The 3 phases (PT-A, PT-A2,
+   PT-A3) attempted the standard pattern from HDay/HCal/Countdown:
+     - [hidden] overrides on banner-current-prayer + banner-then-prayer
+     - banner-block-prayer mobile min-height bump
+     - #schedule-body min-height
+     - outer .next-prayer-banner reservation (PT-A2)
 
-   Lighthouse mobile baseline:
-     CLS = 0.138, Perf = 67, LCP = 5.5s
-     Top shifts:
-       - 0.138 on .next-prayer-banner (h=846 union of pre+post rects)
-       - 0.056 + 0.012 on #page-prayer-times (page height shifts as
-         #banner-current-prayer + #banner-then-prayer reveal post-JS)
-       - 0.011 sticky-next-bar (residual; tracked separately)
+   Each iteration measured LIGHTHOUSE 3x on Render and saw CLS variance
+   0.16–0.40 — substantially worse than the 0.138 baseline single-run
+   reading. Diagnostic: the dominant shift is NOT the elements I was
+   reserving. It is a programmatic auto-scroll triggered by app.js:
+     line 10947  target.scrollIntoView({ behavior:'smooth', block:'center' })
+   This auto-scrolls the page to the .prayer-card.current/active card
+   ~500ms after hydration. During the smooth-scroll animation Lighthouse
+   captures a sequence of layout-shift events that read as a single big
+   "page shift" (the page rect appears to move because viewport shifts
+   relative to document). Score on the page element climbed from 0.056
+   (single window) to 0.247 (worst-case window) once my reservations made
+   the page taller, magnifying the impact_fraction × distance_fraction
+   product.
 
-   Important: #page-prayer-times has class="page active" ALREADY in SSR
-   (index.html:344), so the .page.active padding cascade is applied on
-   first paint. NO padding parity rule needed — that's the QUALITATIVELY
-   different starting point versus HDay/HCal/Countdown which all had to
-   pre-apply padding via html.{route}-page.
+   Conclusion: the page-prayer-times CLS issue is dominated by the
+   auto-scroll, not by SSR-empty placeholders. Pure CSS reservations
+   cannot mask a programmatic scroll's shift events. Fix would require
+   either:
+     (a) JS change to skip / defer / make-instant the autoscroll (out of
+         scope for this phase per the user's "لا تلمس JS" constraint), OR
+     (b) An SSR fill of placeholders that brings the page to its natural
+         height pre-JS so the autoscroll happens against a stable layout
+         (out of scope — would need server.js changes).
 
-   Root cause: two banner-internal elements that start with HTML [hidden]
-   attribute and reveal post-JS:
-     1. #banner-current-prayer  (revealed when current time IS a prayer
-        time — adds ~50px ABOVE the banner-row).
-     2. #banner-then-prayer     (revealed always — shows next-after-next
-        prayer; lives INSIDE banner-block-prayer, adds ~30-40px to that
-        block, which then stretches the whole banner-row vertically).
-   Plus existing .banner-current-prayer[hidden] { display: none } and
-   .banner-then-prayer[hidden] { display: none } at style.css:6867 + 6895
-   collapse them entirely while hidden.
+   Decision: leave style.css unchanged (this comment block only) and
+   document the finding for a future PT-A-followup phase.
 
-   Fix: override [hidden] only on #page-prayer-times scope, replacing
-   display:none with display + visibility:hidden + min-height. When JS
-   sets element.hidden = false (app.js:10601 + 10623), the [hidden] attr
-   is removed, the override stops applying, and visibility flips to
-   visible automatically. Element keeps its reserved layout space all
-   along — no shift.
-
-   Also bump .banner-block-prayer mobile min-height (currently 132 at
-   style.css:7594) to 170px to accommodate the then-prayer reservation.
-   This avoids the in-block growth shift on mobile. */
-
-#page-prayer-times .banner-current-prayer[hidden] {
-    display: flex !important;
-    visibility: hidden;
-    min-height: 40px;
-}
-
-#page-prayer-times .banner-then-prayer[hidden] {
-    display: flex !important;
-    visibility: hidden;
-    min-height: 32px;
-}
-
-/* Bump banner-block-prayer mobile reservation from 132 → 170 to absorb
-   the always-reserved then-prayer space (~38px) that we just added. */
-@media (max-width: 768px) {
-    #page-prayer-times .banner-block.banner-block-prayer {
-        min-height: 170px;
-    }
-}
-
-/* PT-A3 (2026-05-05): the outer-banner reservation in PT-A2 was found to
-   OVER-RESERVE — pre-JS banner forced to 420 mobile, post-JS settled to
-   ~354 natural height = a 66px collapse shift that worsened CLS.
-   Reverted; instead add a more surgical fix:
-     - Reserve #schedule-body (largest known empty-then-filled below banner).
-     - The [hidden] overrides above already cover banner sub-toggles.
-   The remaining baseline 0.138 shift on the banner appears to be a
-   timing-dependent reflow that pure CSS reservation can't eliminate
-   without an SSR fill — out of scope for this CSS-only phase. */
-#page-prayer-times #schedule-body {
-    min-height: 138px;
-}
-@media (max-width: 768px) {
-    #page-prayer-times #schedule-body {
-        min-height: 156px;
-    }
-}
+   Note: #page-prayer-times has class="page active" ALREADY in SSR
+   (index.html:344), so NO padding parity is needed — that's why this
+   page is qualitatively different from HDay/HCal/Countdown. */

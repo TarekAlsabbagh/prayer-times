@@ -15312,10 +15312,15 @@ html[data-theme="dark"] .home-why-section h2 { color: var(--primary-light); }
     color: var(--text-light);
     margin: 0 0 18px;
 }
+/* Phase HC-3 (2026-05-06): switched from 4-col to 2×2 grid on desktop.
+   User feedback: 4-col made each card too narrow → text columns hard to
+   read. 2×2 keeps cards wider and more comfortable, even on very wide
+   desktops. Tablet stays 2-col, mobile drops to 1-col with horizontal
+   card layout (icon-left, content-right) for compact rows. */
 .home-why-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
 }
 .home-why-card {
     background: var(--surface-sunken, #fafbfc);
@@ -15356,14 +15361,24 @@ html[data-theme="dark"] .home-why-card {
     color: var(--text-light);
     margin: 0;
 }
-/* Phase HC-2.1 (2026-05-06): unify mobile layout to 1-col with horizontal
-   card layout (icon-left, content-right). User feedback: 2-col on mobile
-   produced narrow text columns that look like long/cramped paragraphs.
-   1-col with horizontal card is wider per card, fits short text on 2-3
-   lines, and reads cleanly. The full mobile range (≤768) uses this. */
+/* Phase HC-3 (2026-05-06): tablet (641-768px) keeps 2-col grid with
+   vertical card layout (icon-top, title, desc). The card padding tightens
+   slightly for the narrower viewport, but the visual design language
+   stays the same as desktop. */
 @media (max-width: 768px) {
+    .home-why-section h2 { font-size: 1.2rem; }
+    .home-why-card { padding: 14px 13px; }
+    .home-why-card-title { font-size: 0.98rem; }
+    .home-why-card-desc { font-size: 0.88rem; line-height: 1.55; }
+}
+
+/* Phase HC-3 (2026-05-06): mobile (≤640px) switches to 1-col with
+   horizontal card layout (icon-left, content-right). Each card becomes
+   a short row (~80px tall) which makes the 4 cards scan quickly without
+   feeling like a tall stack. */
+@media (max-width: 640px) {
     .home-why-grid { grid-template-columns: 1fr; gap: 10px; }
-    .home-why-section h2 { font-size: 1.18rem; }
+    .home-why-section h2 { font-size: 1.15rem; }
     .home-why-card {
         padding: 12px 14px;
         flex-direction: row;
@@ -15371,24 +15386,19 @@ html[data-theme="dark"] .home-why-card {
         gap: 12px;
     }
     .home-why-icon { width: 26px; height: 26px; flex-shrink: 0; margin-top: 2px; }
-    .home-why-card-title { font-size: 0.98rem; }
-    .home-why-card-desc { font-size: 0.88rem; line-height: 1.5; }
+    .home-why-card-title { font-size: 0.96rem; }
+    .home-why-card-desc { font-size: 0.86rem; line-height: 1.5; }
     .home-why-card > h3, .home-why-card > p { flex: 1; min-width: 0; }
 }
-@media (max-width: 480px) {
-    .home-why-section h2 { font-size: 1.1rem; }
-    .home-why-card { padding: 11px 12px; gap: 10px; }
-    .home-why-icon { width: 24px; height: 24px; }
-    .home-why-card-title { font-size: 0.94rem; }
-    .home-why-card-desc { font-size: 0.84rem; }
-}
-/* CLS reservation — heights tightened for the 1-col mobile layout. With
-   horizontal cards the card is much shorter (~80px each) so total
-   section height = 4×80 + h2/intro = ~410px on mobile. Slightly more
-   buffer for narrow phones (where cards are taller from text wrap). */
-.home-why-section { min-height: 290px; }
-@media (max-width: 768px) { .home-why-section { min-height: 410px; } }
-@media (max-width: 480px) { .home-why-section { min-height: 450px; } }
+
+/* CLS reservations:
+   Desktop/Tablet (2×2 vertical cards):
+     2 rows × ~190px (icon+title+desc with line-height 1.65) + h2/intro
+     ~ 460px. Reserve 470 for safety.
+   Mobile (1-col horizontal):
+     4 cards × ~80px + h2/intro ≈ 410px. Reserve 420 for safety. */
+.home-why-section { min-height: 470px; }
+@media (max-width: 640px) { .home-why-section { min-height: 420px; } }
 
 /* ═══ Phase HC-2.3 (2026-05-06): popular-cities intro description.
    A short paragraph between the H2 and the city links nav, giving

@@ -11645,16 +11645,16 @@ function startCountdown() {
         const useLatin = (_lng !== 'ar');
         const period = useLatin ? (hh >= 12 ? 'PM' : 'AM') : (hh >= 12 ? 'م' : 'ص');
         const h12 = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
-        // Phase HC-7 (2026-05-06): the previous logic put ص/م BEFORE the
-        // digits for AR ("ص 04:11:24") on the assumption that direction:rtl
-        // on the element would visually flip it to "04:11:24 ص". But the
-        // element has direction:ltr (style.css:6953 .banner-big-time), so
-        // the text rendered exactly as written — period on the LEFT, time
-        // on the RIGHT, reading "PM 11:01:12" instead of "11:01:12 PM".
-        // Fix: always put the period AFTER the digits in the logical text,
-        // matching every other prayer-time / banner-time element on the
-        // page. Visual on LTR element: "11:01:12 م" (time left, period right).
-        const _timeStr = `${pad(h12)}:${pad(mm)}:${pad(ss)} ${period}`;
+        // Phase HC-7b (2026-05-06): user wants VISUAL placement to match
+        // banner-greg-date (digits on the RIGHT, ص/م on the LEFT). The
+        // .banner-big-time element has direction:ltr so the logical string
+        // order maps directly to visual left-to-right placement. To put
+        // "م" visually on the LEFT, "م" must come FIRST in the string.
+        // For Latin (en/fr/etc.), keep the natural "11:01:12 PM" order
+        // (PM follows the time, English convention).
+        const _timeStr = useLatin
+            ? `${pad(h12)}:${pad(mm)}:${pad(ss)} ${period}`
+            : `${period} ${pad(h12)}:${pad(mm)}:${pad(ss)}`;
         // 🆕 null-guards: البانر مقصوص على صفحة time-left (DOM pruner)
         const _ctEl = document.getElementById('current-time');
         if (_ctEl) _ctEl.textContent = _timeStr;

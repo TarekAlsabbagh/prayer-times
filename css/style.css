@@ -15170,7 +15170,7 @@ html.date-converter-page #page-date-converter {
    text (mirrors the prayer-times pattern at server.js:8417+). Out of
    scope. */
 
-/* ═══ Phase Home-CLS-Fix (2026-05-06): Stabilize homepage layout.
+/* ═══ Phase Home-CLS-Fix (2026-05-06, revised v2): Stabilize homepage layout.
    User reported (Lighthouse run from browser): CLS = 0.550 on
    #arab-countries-section + 0.061 on #home-footer-links + Perf = 77.
    These are bottom-of-page navigation sections with i18n-hydrated
@@ -15180,12 +15180,14 @@ html.date-converter-page #page-date-converter {
    FAQ filling). Reserving a min-height on each section locks the
    section box so the rest of the page below them stays anchored.
 
-   Sizes are derived from the natural filled state on the live homepage:
-     #arab-countries-section: 12 Arab country tiles in 2-col mobile grid
-       (6 rows × ~52px) + h2 + buttons + padding ≈ 500px on mobile,
-       4-col desktop grid (3 rows × ~52px) + h2 + buttons ≈ 320px.
-     #home-footer-links: 12 popular cities + h2 + 4 services + h3 +
-       share + copyright ≈ 600px mobile / 360px desktop.
+   v1 used reservations smaller than the natural filled state, so the
+   sections still GREW post-hydration and the CLS shifts persisted.
+   v2 sizes are measured live at 412×823 (Lighthouse Mobile viewport)
+   and at 1280×800 (Desktop):
+     #arab-countries-section: natural 545px mobile / 315px desktop.
+       Reserve 550 / 320 (≥ natural so no late growth).
+     #home-footer-links:      natural 847px mobile / 308px desktop.
+       Reserve 850 / 360 (≥ natural so no late growth).
 
    Pure CSS reservations — no JS / SSR / content change. */
 
@@ -15194,7 +15196,7 @@ html.date-converter-page #page-date-converter {
 }
 @media (max-width: 768px) {
     #arab-countries-section {
-        min-height: 500px;
+        min-height: 550px;
     }
 }
 
@@ -15203,7 +15205,7 @@ html.date-converter-page #page-date-converter {
 }
 @media (max-width: 768px) {
     #home-footer-links {
-        min-height: 600px;
+        min-height: 850px;
     }
 }
 

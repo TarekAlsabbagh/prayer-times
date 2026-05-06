@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T06:53:56.505Z
-   Source: css/style.css (full 497 KiB)
-   Critical: 29.1 KiB
+   Extracted on: 2026-05-06T08:22:58.763Z
+   Source: css/style.css (full 499 KiB)
+   Critical: 29.2 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -691,4 +691,10 @@ html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-pag
 }
 @media (max-width: 768px){#page-prayer-times #country-cities-grid{
         min-height: 440px;
+    }}
+#page-moon .moon-hijri-today{
+    min-height: 220px;
+}
+@media (min-width: 769px){#page-moon .moon-hijri-today{
+        min-height: 150px;
     }}

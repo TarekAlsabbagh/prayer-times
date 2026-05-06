@@ -15093,3 +15093,43 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
         min-height: 440px;
     }
 }
+
+/* ═══ Phase Moon-A (2026-05-06): /moon-in-{city} CLS fix.
+   Scope: ALL moon-in-{city} pages (and date/month variants that use the same
+   #page-moon partition with html.moon-hub-page or html.moon-date-page).
+   Verification ran on /moon-in-jeddah-21.5-39.2.
+
+   Lighthouse mobile baseline (3 runs):
+     Run 1: CLS=0.058  Run 2: CLS=0.130  Run 3: CLS=0.058
+     2 of 3 runs already under 0.1 — only Run 2 (the "bad" run) hits 0.130.
+     Worst-run top shift:
+       0.121 on .moon-hijri-today (h=218 top=590)
+       0.058 on #page-moon (page growth ~70px)
+       residual moon-sticky-bar tiny
+
+   Existing Phase E4-final-A reservations (style.css:471 / critical.css):
+     #moon-hijri-date,#moon-hijri-greg { min-height: 24px; }
+     #moon-hijri-lunar               { min-height: 70px; }
+   These reserve the 3 INNER fields, but the .moon-hijri-today CONTAINER
+   itself isn't reserved. On narrow mobile (≤412px) widths, the date/greg
+   text can wrap to 2 lines depending on lang, growing each child by
+   ~24-30px. Across 3 fields × occasional wrap, the container can grow
+   60-100px, causing the 0.121 shift on Run 2.
+
+   Fix: reserve the .moon-hijri-today container itself with a min-height
+   matching the natural max-filled height (218 measured + small buffer).
+   Pre-JS the container is 218px (placeholder "—" × 3 + reservation),
+   post-JS still 218px (filled text wraps fit within reservation). Same
+   pattern as HDay/HCal/Countdown reservations.
+
+   Selector uses #page-moon scope (not html.moon-hub-page) so it
+   survives the JS-class-removal pattern from the HCal-A2 lesson. */
+
+#page-moon .moon-hijri-today {
+    min-height: 220px;
+}
+@media (min-width: 769px) {
+    #page-moon .moon-hijri-today {
+        min-height: 150px;
+    }
+}

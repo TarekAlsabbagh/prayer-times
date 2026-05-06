@@ -67,6 +67,10 @@ const CRITICAL_PATTERNS = [
     // on html.countdown-page being present.
     /^#page-(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown(\s|$)/,
     /^html\.countdown-page\.countdown-(ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)\s/,
+
+    // PT-A (2026-05-05): #page-prayer-times-scoped reservations for the
+    // banner [hidden] reveals. Same robustness rationale.
+    /^#page-prayer-times(\s|$)/,
     /^html\.home-page\s/,
     /^html\.moon-(today-hub|today-city|hub|date|month)-page\s/,
     /^html\.countdown-page\s/,

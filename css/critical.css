@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-05T14:01:44.587Z
-   Source: css/style.css (full 492 KiB)
-   Critical: 27.7 KiB
+   Extracted on: 2026-05-06T05:34:01.695Z
+   Source: css/style.css (full 495 KiB)
+   Critical: 28.9 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -238,6 +238,35 @@ html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
 .page.active{ padding: 12px; max-width: 100%; box-sizing: border-box; }}
 @media (max-width: 480px){.location-info{ padding-right: 50px; }}
 .u-hidden{ display: none; }
+#page-prayer-times .loc-hero-geo-btn{
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 1.12rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0d7c55 0%, #0a9963 100%) !important;
+    color: #fff !important;
+    border: 0 !important;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(13,124,85,0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+    font-family: inherit;
+    text-align: center;
+    line-height: 1.3;
+}
+@media (max-width: 480px){#page-prayer-times .loc-hero-geo-btn{
+        padding: 12px 16px;
+        font-size: 1rem;
+        min-height: 52px;
+    }}
 @media (max-width: 768px){.section-card{
         padding: 16px;
         margin-bottom: 14px;
@@ -643,4 +672,17 @@ html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-pag
 }
 @media (max-width: 768px){#page-ramadan-countdown .cd-personal-bar[hidden],#page-eid-al-fitr-countdown .cd-personal-bar[hidden],#page-eid-al-adha-countdown .cd-personal-bar[hidden],#page-hijri-new-year-countdown .cd-personal-bar[hidden]{
         min-height: 80px;
+    }}
+#page-prayer-times .banner-current-prayer[hidden]{
+    display: flex !important;
+    visibility: hidden;
+    min-height: 40px;
+}
+#page-prayer-times .banner-then-prayer[hidden]{
+    display: flex !important;
+    visibility: hidden;
+    min-height: 32px;
+}
+@media (max-width: 768px){#page-prayer-times .banner-block.banner-block-prayer{
+        min-height: 170px;
     }}

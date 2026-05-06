@@ -14980,3 +14980,65 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
         min-height: 80px;
     }
 }
+
+/* ═══ Phase PT-A (2026-05-05): /prayer-times-in-{city} CLS fix.
+   Scope: ALL prayer-times city pages (anything matching the
+   /prayer-times-in-{slug} URL pattern, which gets html.city-page from the
+   inline class-adder in index.html). Verification baseline ran on
+   /prayer-times-in-makkah-21.4-39.8 (the longest-form representative).
+
+   Lighthouse mobile baseline:
+     CLS = 0.138, Perf = 67, LCP = 5.5s
+     Top shifts:
+       - 0.138 on .next-prayer-banner (h=846 union of pre+post rects)
+       - 0.056 + 0.012 on #page-prayer-times (page height shifts as
+         #banner-current-prayer + #banner-then-prayer reveal post-JS)
+       - 0.011 sticky-next-bar (residual; tracked separately)
+
+   Important: #page-prayer-times has class="page active" ALREADY in SSR
+   (index.html:344), so the .page.active padding cascade is applied on
+   first paint. NO padding parity rule needed — that's the QUALITATIVELY
+   different starting point versus HDay/HCal/Countdown which all had to
+   pre-apply padding via html.{route}-page.
+
+   Root cause: two banner-internal elements that start with HTML [hidden]
+   attribute and reveal post-JS:
+     1. #banner-current-prayer  (revealed when current time IS a prayer
+        time — adds ~50px ABOVE the banner-row).
+     2. #banner-then-prayer     (revealed always — shows next-after-next
+        prayer; lives INSIDE banner-block-prayer, adds ~30-40px to that
+        block, which then stretches the whole banner-row vertically).
+   Plus existing .banner-current-prayer[hidden] { display: none } and
+   .banner-then-prayer[hidden] { display: none } at style.css:6867 + 6895
+   collapse them entirely while hidden.
+
+   Fix: override [hidden] only on #page-prayer-times scope, replacing
+   display:none with display + visibility:hidden + min-height. When JS
+   sets element.hidden = false (app.js:10601 + 10623), the [hidden] attr
+   is removed, the override stops applying, and visibility flips to
+   visible automatically. Element keeps its reserved layout space all
+   along — no shift.
+
+   Also bump .banner-block-prayer mobile min-height (currently 132 at
+   style.css:7594) to 170px to accommodate the then-prayer reservation.
+   This avoids the in-block growth shift on mobile. */
+
+#page-prayer-times .banner-current-prayer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+    min-height: 40px;
+}
+
+#page-prayer-times .banner-then-prayer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+    min-height: 32px;
+}
+
+/* Bump banner-block-prayer mobile reservation from 132 → 170 to absorb
+   the always-reserved then-prayer space (~38px) that we just added. */
+@media (max-width: 768px) {
+    #page-prayer-times .banner-block.banner-block-prayer {
+        min-height: 170px;
+    }
+}

@@ -8866,10 +8866,12 @@ function updatePageSEO() {
         // Round 7e: محاذاة نصوص SSR (buildSeoForPath في server.js) — keywords ديناميكية
         // تشمل: اليوم، مكة المكرمة، الشهر الهجري الحالي، الشهر الميلادي، أسماء الصلوات الـ5.
         const _hToday  = (typeof HijriDate !== 'undefined' && HijriDate.getToday) ? HijriDate.getToday() : null;
+        const _hD      = _hToday ? _hToday.day                              : '';
         const _hMAr    = _hToday ? HijriDate.hijriMonths[_hToday.month - 1] : '';
         const _hMEn    = _hToday ? HIJRI_MONTHS_EN[_hToday.month - 1]       : '';
         const _hY      = _hToday ? _hToday.year : '';
         const _gNow    = new Date();
+        const _gD      = _gNow.getDate();
         const _gMIdx   = _gNow.getMonth();
         const _gY      = _gNow.getFullYear();
         const _gMAr    = G_MONTHS_AR[_gMIdx];
@@ -8884,37 +8886,37 @@ function updatePageSEO() {
         const _gMMs    = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'][_gMIdx];
 
         // Phase Home-Global (2026-05-06): GENERIC homepage titles + descs.
-        // The previous strings hard-coded "Mecca/Madinah/مكة" into the client-
-        // side document.title rewrite, which OVERRODE the clean SSR title and
-        // made the homepage look like a city page in the browser tab and in
-        // Google's search results. Now these mirror server.js _HOME_TITLES /
-        // _HOME_DESCS (city-free) and only add the dynamic Hijri month/year
-        // suffix for freshness without naming any city.
+        // Hard-coded "Mecca/Madinah/مكة" was removed from client-side
+        // document.title rewrite to keep the homepage city-free.
+        // Phase Home-Global+day (2026-05-06): include today's Hijri day
+        // (e.g. "19 ذو القعدة 1447 هـ") for daily-fresh titles. Updates each
+        // day automatically — fits prayer-times-as-daily-page pattern.
         const HOME_TITLES = {
-            ar: `مواقيت الصلاة اليوم | ${_hMAr} ${_hY} هـ`,
-            en: `Today's Prayer Times | ${_hMEn} ${_hY}`,
-            fr: `Heures de prière | ${_hMEn} ${_hY}`,
-            tr: `Bugünkü Namaz Vakitleri | ${_hMEn} ${_hY}`,
-            ur: `آج اوقاتِ نماز | ${_hMEn} ${_hY}`,
-            de: `Heutige Gebetszeiten | ${_hMEn} ${_hY}`,
-            id: `Jadwal Sholat Hari Ini | ${_hMEn} ${_hY}`,
-            es: `Horarios de Oración Hoy | ${_hMEn} ${_hY}`,
-            bn: `আজকের নামাজের সময় | ${_hMEn} ${_hY}`,
-            ms: `Waktu Solat Hari Ini | ${_hMEn} ${_hY}`,
+            ar: `مواقيت الصلاة اليوم | ${_hD} ${_hMAr} ${_hY} هـ`,
+            en: `Today's Prayer Times | ${_hD} ${_hMEn} ${_hY}`,
+            fr: `Heures de prière | ${_hD} ${_hMEn} ${_hY}`,
+            tr: `Bugünkü Namaz Vakitleri | ${_hD} ${_hMEn} ${_hY}`,
+            ur: `آج اوقاتِ نماز | ${_hD} ${_hMEn} ${_hY}`,
+            de: `Heutige Gebetszeiten | ${_hD} ${_hMEn} ${_hY}`,
+            id: `Jadwal Sholat Hari Ini | ${_hD} ${_hMEn} ${_hY}`,
+            es: `Horarios de Oración Hoy | ${_hD} ${_hMEn} ${_hY}`,
+            bn: `আজকের নামাজের সময় | ${_hD} ${_hMEn} ${_hY}`,
+            ms: `Waktu Solat Hari Ini | ${_hD} ${_hMEn} ${_hY}`,
         };
         // Round 7h: إضافة الشهر الميلاديّ المحلَّى — phrase "أبريل 2026" في seoptimer
         // Phase Home-Global: dropped "Mecca, Medina" geo-anchors from descs.
+        // Phase Home-Global+day: add Gregorian + Hijri DAY for daily freshness.
         const HOME_DESCS = {
-            ar: `مواقيت الصلاة اليوم ${_gMAr} ${_gY}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
-            en: `Prayer times today ${_gMEn} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hMEn} ${_hY} AH, Qibla, Zakat.`,
-            fr: `Heures de prière aujourd'hui ${_gMFr} ${_gY} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            tr: `Bugün namaz vakitleri ${_gMTr} ${_gY}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hMEn} ${_hY}, kıble, zekât.`,
-            ur: `آج اوقاتِ نماز ${_gMUr} ${_gY}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
-            de: `Heutige Gebetszeiten ${_gMDe} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            id: `Jadwal sholat hari ini ${_gMId} ${_gY}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hMEn} ${_hY}, kiblat, zakat.`,
-            es: `Horarios de oración hoy ${_gMEs} ${_gY}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            bn: `আজকের নামাজের সময় ${_gMBn} ${_gY}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hMEn} ${_hY}, কিবলা, যাকাত, দোয়া।`,
-            ms: `Waktu solat hari ini ${_gMMs} ${_gY}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hMEn} ${_hY}, Kiblat, Zakat.`,
+            ar: `مواقيت الصلاة اليوم ${_gD} ${_gMAr} ${_gY}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hD} ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
+            en: `Prayer times today ${_gD} ${_gMEn} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hD} ${_hMEn} ${_hY} AH, Qibla, Zakat.`,
+            fr: `Heures de prière aujourd'hui ${_gD} ${_gMFr} ${_gY} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hD} ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            tr: `Bugün namaz vakitleri ${_gD} ${_gMTr} ${_gY}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hD} ${_hMEn} ${_hY}, kıble, zekât.`,
+            ur: `آج اوقاتِ نماز ${_gD} ${_gMUr} ${_gY}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hD} ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
+            de: `Heutige Gebetszeiten ${_gD} ${_gMDe} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hD} ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            id: `Jadwal sholat hari ini ${_gD} ${_gMId} ${_gY}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hD} ${_hMEn} ${_hY}, kiblat, zakat.`,
+            es: `Horarios de oración hoy ${_gD} ${_gMEs} ${_gY}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hD} ${_hMEn} ${_hY}, Qibla, Zakat.`,
+            bn: `আজকের নামাজের সময় ${_gD} ${_gMBn} ${_gY}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hD} ${_hMEn} ${_hY}, কিবলা, যাকাত, দোয়া।`,
+            ms: `Waktu solat hari ini ${_gD} ${_gMMs} ${_gY}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hD} ${_hMEn} ${_hY}, Kiblat, Zakat.`,
         };
         setSEOMeta({
             title: HOME_TITLES[homeLang] || HOME_TITLES.ar,

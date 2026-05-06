@@ -15266,5 +15266,16 @@ html.date-converter-page #page-date-converter {
     }
 }
 
+/* Phase Home-CLS-Fix v3-c (search input): .loc-hero-search-wrap grows
+   from 52px (Tahoma) to 62px (Cairo) when the font loads — Cairo's
+   intrinsic line-height for the placeholder text inside the input is
+   bigger than CSS line-height. Reservation locks the wrapper at the
+   Cairo natural height (62px) so the input stays put across font swap.
+   Eliminates the last remaining CLS culprit (#loc-hero-dual-cta and
+   everything below was shifting down by 10px because of this wrapper). */
+.loc-hero-search-wrap {
+    min-height: 62px;
+}
+
 /* ═══ Out of scope
    scope for this CSS-only phase. */

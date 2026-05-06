@@ -15016,39 +15016,17 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
     }
 }
 
-/* ═══ Phase PT-A-JS-followup-2 (2026-05-06): Re-introduce [hidden] reveals
-   reservations now that the autoscroll has been disabled (in
-   PT-A-JS-followup, app.js:10934). The autoscroll was the dominant
-   shift source masking the smaller [hidden]-reveal shifts; with it gone
-   we can see the residual ~0.13 banner shift caused by:
-     - .banner-current-prayer[hidden] → display:none → reveal post-JS
-     - .banner-then-prayer[hidden]    → display:none → reveal post-JS
-   Existing rules at style.css:6867 + 6895 collapse them entirely while
-   hidden. We override with display:flex + visibility:hidden + min-height
-   so the layout slot is reserved pre-JS. When JS sets element.hidden=false
-   the [hidden] attr is removed, our override stops applying, the visibility
-   defaults back to visible — element keeps its layout slot all along.
+/* ═══ Phase PT-A-JS-followup (2026-05-06): JS-only fix — auto-scroll
+   converted to user-triggered button. See app.js:10934 (autoScroll
+   stub) and index.html .cha-cta--banner button.
+
+   The CSS portion of this phase is just a button modifier; no
+   min-height reservations are added (per user instruction:
+   "لا تطبق min-height reservations جديدة الآن").
 
    Note: #page-prayer-times has class="page active" ALREADY in SSR
-   (index.html:344), so NO padding parity rule needed — qualitatively
-   different from HDay/HCal/Countdown. */
-
-#page-prayer-times .banner-current-prayer[hidden] {
-    display: flex !important;
-    visibility: hidden;
-    min-height: 40px;
-}
-
-#page-prayer-times .banner-then-prayer[hidden] {
-    display: flex !important;
-    visibility: hidden;
-    min-height: 32px;
-}
-
-/* Bump .banner-block-prayer mobile min-height from style.css:7594's 132
-   to 170 to absorb the always-reserved then-prayer space (~38px). */
-@media (max-width: 768px) {
-    #page-prayer-times .banner-block.banner-block-prayer {
-        min-height: 170px;
-    }
-}
+   (index.html:344), so NO padding parity rule is needed — this page
+   is qualitatively different from HDay/HCal/Countdown. The remaining
+   residual shifts (banner [hidden] reveals, page height growth from
+   nearby-grid/schedule/country-cities filling) are out of scope for
+   this CSS-only phase per the user constraint. */

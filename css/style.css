@@ -6950,7 +6950,14 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     font-size: 3rem;
     font-weight: 900;
     color: var(--gold-light);
-    direction: ltr;
+    /* Phase HC-11b (2026-05-07): removed `direction: ltr` so the element
+       inherits the page direction (RTL on Arabic). With the unified
+       "TIME PERIOD" format ("10:11:27 ص") matching <td> + .prayer-time,
+       RTL rendering puts the digits on the RIGHT and ص/م on the LEFT
+       — matching every other prayer-time element on the page when
+       viewed in an Arabic reading context. The original direction:ltr
+       was a defensive choice but made the banner clock the only element
+       that read backwards (digits LEFT, period RIGHT) on RTL pages. */
     letter-spacing: 2px;
     line-height: 1;
 }

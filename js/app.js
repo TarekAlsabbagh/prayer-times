@@ -11654,16 +11654,15 @@ function startCountdown() {
         const useLatin = (_lng !== 'ar');
         const period = useLatin ? (hh >= 12 ? 'PM' : 'AM') : (hh >= 12 ? 'م' : 'ص');
         const h12 = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
-        // Phase HC-7b (2026-05-06): user wants VISUAL placement to match
-        // banner-greg-date (digits on the RIGHT, ص/م on the LEFT). The
-        // .banner-big-time element has direction:ltr so the logical string
-        // order maps directly to visual left-to-right placement. To put
-        // "م" visually on the LEFT, "م" must come FIRST in the string.
-        // For Latin (en/fr/etc.), keep the natural "11:01:12 PM" order
-        // (PM follows the time, English convention).
-        const _timeStr = useLatin
-            ? `${pad(h12)}:${pad(mm)}:${pad(ss)} ${period}`
-            : `${period} ${pad(h12)}:${pad(mm)}:${pad(ss)}`;
+        // Phase HC-11 (2026-05-07): unify with the rest of the page —
+        // every other prayer-time element uses "TIME PERIOD" format
+        // (digits first, letter after) per prayer-times.js:129
+        // (e.g. <td>04:26 ص</td>, .prayer-time "04:19 ص",
+        // .banner-then-prayer-time "12:18 م"). User asked #current-time
+        // to match. Element has direction:ltr (style.css:6953) so logical
+        // string order maps directly to LTR visual placement: digits
+        // on the LEFT, period on the RIGHT.
+        const _timeStr = `${pad(h12)}:${pad(mm)}:${pad(ss)} ${period}`;
         // 🆕 null-guards: البانر مقصوص على صفحة time-left (DOM pruner)
         const _ctEl = document.getElementById('current-time');
         if (_ctEl) _ctEl.textContent = _timeStr;

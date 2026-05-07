@@ -19271,6 +19271,32 @@ function updateHijriToday() {
     const country   = getDisplayCountry();
     const gregToday = `${now.getDate()} ${T.gM[now.getMonth()]} ${now.getFullYear()}`;
 
+    // HD-4 (2026-05-07): /today-hijri-date is a Hub. The SSR-injected HD-1
+    //   block already provides the Tools / Guide / FAQ sections. Hide the
+    //   four duplicate cards so the visual order is just:
+    //     Hero → Info Cards → Prev/Next → Tools → Guide → FAQ → Footer SEO
+    //   Cards hidden:
+    //     - #hijri-today-hierarchy-card  (Day → Month → Year navigation —
+    //                                     redundant; Tools card covers same)
+    //     - #hijri-today-cta-card        (3 buttons: converter / moon /
+    //                                     prayer — duplicates Tools card)
+    //     - #hijri-today-faq-card        (3 dynamic Qs — duplicates the 5-Q
+    //                                     SSR FAQ from HD-1)
+    //     - #hijri-today-extra-card      (4 secondary links — duplicates
+    //                                     Tools card)
+    //   On dated /hijri-date/{YYYY-MM-DD} pages this function still runs
+    //   (initApp calls it unconditionally) but the wrapper #page-hijri-today
+    //   is not active there, so the writes are invisible. The hide block
+    //   below is gated on the Hub URL and runs once per page-load.
+    const _hd4HubUrl = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(window.location.pathname);
+    if (_hd4HubUrl) {
+        ['hijri-today-hierarchy-card', 'hijri-today-cta-card',
+         'hijri-today-faq-card', 'hijri-today-extra-card'].forEach(id => {
+            const card = document.getElementById(id);
+            if (card) card.hidden = true;
+        });
+    }
+
     // ── 0. Breadcrumb ─────────────────────────────────────────────
     const htBcEl = document.getElementById('htoday-breadcrumbs');
     if (htBcEl) {

@@ -63,14 +63,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=606" as="script">
+    <link rel="preload" href="js/app.js?v=607" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=306" as="style">
-    <link rel="stylesheet" href="css/style.css?v=306">
+    <link rel="preload" href="css/style.css?v=307" as="style">
+    <link rel="stylesheet" href="css/style.css?v=307">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -2629,53 +2629,63 @@
                     <p id="hijri-today-desc" class="hpage-hero-intro--narrow"></p>
                 </div>
 
-                <!-- 1b. Hierarchy Navigation (Today → Month → Year) — prominent, right under the Hero for SEO + UX -->
-                <div class="section-card">
+                <!-- 1b. Hierarchy Navigation — HD-4 hides on Hub URL (Tools section below
+                     covers the same destinations more cleanly). Card kept so dated pages
+                     that share this wrapper still get hierarchy links. -->
+                <div class="section-card" id="hijri-today-hierarchy-card">
                     <div id="hijri-today-hierarchy" class="u-flex-center"></div>
                 </div>
 
                 <!-- 2. Quick Info Cards (6 facts: day/hijri/greg/month/year/leap) -->
-                <div class="section-card">
+                <div class="section-card" id="hijri-today-info-card">
                     <div class="info-grid" id="hijri-today-info-grid"></div>
                 </div>
 
-                <!-- 3. CTA Distribution — 🆕 Round 9: 3 focused entry points (converter + moon + prayer) -->
-                <div class="section-card">
+                <!-- 3. CTA Distribution — HD-4 hides on Hub (HD-1 Tools section below replaces
+                     this with a single, non-duplicated tools row). -->
+                <div class="section-card" id="hijri-today-cta-card">
                     <div id="hijri-today-cta" class="u-flex-center"></div>
                 </div>
 
-                <!-- 4. Prev / Next Day Navigation — 🆕 Round 9: moved up to be near hero for quick exploration -->
-                <div class="section-card">
+                <!-- 4. Prev / Next Day Navigation — HD-4 (2026-05-07): heading
+                     anchor HD4-NAV-HEADING is replaced server-side per-lang
+                     ("التنقل بين الأيام الهجرية" / "Navigate Hijri Days" / …). -->
+                <div class="section-card" id="hijri-today-nav-card">
+                    <!-- HD4-NAV-HEADING -->
                     <div id="hijri-today-nav" class="u-flex-btns"></div>
                 </div>
 
-                <!-- 5. FAQ — focused on "today" intent (3 Qs) -->
-                <div class="section-card">
+                <!-- HD-4 (2026-05-07): HD-1-CONTENT anchor moved here (was after
+                     Footer SEO) so the visual order on /today-hijri-date is:
+                       Hero → Info Cards → Prev/Next → Tools → Guide → FAQ → Footer SEO
+                     The OLD "5. FAQ", "6. Related Links" sections still exist
+                     below but their parent .section-card is hidden by JS on the
+                     Hub URL (updateHijriToday detects /today-hijri-date and sets
+                     hidden=true on the duplicate cards). -->
+                <!-- HD-1-CONTENT -->
+
+                <!-- 5. FAQ — focused on "today" intent (3 Qs) — HD-4 hides this
+                     parent card on /today-hijri-date Hub (kept for dated pages
+                     that share the wrapper). -->
+                <div class="section-card" id="hijri-today-faq-card">
                     <h2 id="hijri-today-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="hijri_today.faq_title">أسئلة عن التاريخ الهجري اليوم</span></h2>
                     <div id="hijri-today-faq"></div>
                 </div>
 
-                <!-- 6. Related Links (4 secondary navs: year cal, month cal, converter, moon-today) -->
-                <div class="section-card">
+                <!-- 6. Related Links — HD-4 hides on Hub (replaced by HD-1 Tools above). -->
+                <div class="section-card" id="hijri-today-extra-card">
                     <h2 id="hijri-today-extra-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="hijri_today.extra_title">روابط إضافية</span></h2>
                     <div id="hijri-today-extra-links" class="u-flex-wrap"></div>
                 </div>
 
-                <!-- 7. Footer SEO — 🆕 Round 9: shortened to 2 sentences -->
-                <div class="section-card">
+                <!-- 7. Footer SEO — small SEO paragraph at the very end. -->
+                <div class="section-card" id="hijri-today-footer-card">
                     <p id="hijri-today-footer-seo" class="hpage-footer-seo"></p>
                 </div>
 
                 <!-- 🗑️ REMOVED in Round 9 (intent separation):
-                     — OTD "أبرز أحداث هذا اليوم" section (moved out; different intent = historical events)
+                     — OTD "أبرز أحداث هذا اليوم" section (moved out)
                      — Mini Calendar 3-row table (redundant with Prev/Next) -->
-
-                <!-- HD-1 (2026-05-07): SSR injection anchor for the new Hub
-                     content (Tools nav + 3 H2 educational sections + 5-Q FAQ).
-                     Server replaces this comment with per-lang content when
-                     the URL is /today-hijri-date. Empty when JS-only navigates
-                     into #page-hijri-today via SPA. -->
-                <!-- HD-1-CONTENT -->
 
             </div>
 
@@ -3663,7 +3673,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=606"></script>
+    <script defer src="js/app.js?v=607"></script>
     <script defer src="js/footer-cookie.js?v=6"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

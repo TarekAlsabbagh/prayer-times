@@ -15547,3 +15547,133 @@ html[data-theme="dark"] .home-service-card {
 
 /* ═══ Out of scope
    scope for this CSS-only phase. */
+
+/* ════════════════════════════════════════════════════════════════════════════
+   HD-4 (2026-05-07): /today-hijri-date Hub layout.
+   - .hd4-nav-heading: heading for the Prev/Next day navigation card.
+   - .hd1-tools-section + .hd1-tools-grid + .hd1-tool-card: ONE Tools card with
+     4 tile-style links (icon + name + short description). Replaces the
+     previous wrap-of-text-links and the duplicate CTA / Related-Links cards
+     that JS used to render.
+   - .hd1-guide + .hd1-guide-grid + .hd1-guide-item: ONE Guide card containing
+     3 sub-blocks ("What" / "Why" / "How it helps"). 3-col on desktop, stacked
+     on mobile. Replaces the previous 3 separate huge edu cards.
+   - .hd1-section-title: shared heading style for HD-1 / HD-4 sections.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.hd4-nav-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary, #1e5631);
+}
+
+.hd1-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary, #1e5631);
+}
+
+/* Tools — 4 tile cards */
+.hd1-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+.hd1-tool-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg, #f7faf8);
+    border: 1px solid var(--border, #d6e3dc);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    color: inherit;
+}
+.hd1-tool-card:hover,
+.hd1-tool-card:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(30, 86, 49, 0.10);
+    border-color: var(--primary, #1e5631);
+    outline: none;
+}
+.hd1-tool-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+    flex: 0 0 auto;
+}
+.hd1-tool-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.hd1-tool-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--primary, #1e5631);
+    line-height: 1.3;
+}
+.hd1-tool-desc {
+    font-size: 0.85rem;
+    color: var(--text-light, #5a6f66);
+    line-height: 1.45;
+}
+
+/* Guide — single card with 3 sub-blocks */
+.hd1-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+.hd1-guide-item {
+    padding: 14px 16px;
+    background: var(--bg, #f7faf8);
+    border: 1px solid var(--border, #d6e3dc);
+    border-radius: 10px;
+}
+.hd1-guide-item h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark, #14422a);
+    line-height: 1.35;
+}
+.hd1-guide-item p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text, #2a3b34);
+}
+
+/* FAQ — already styled by .faq-item / .faq-question / .faq-answer; the
+   .hd1-faq wrapper inherits .section-card. Add tighter spacing for HD-4. */
+.hd1-faq .faq-item { padding: 12px 0; }
+.hd1-faq .faq-question {
+    font-weight: 700;
+    color: var(--primary-dark, #14422a);
+    margin-bottom: 6px;
+}
+.hd1-faq .faq-answer p { margin: 0; line-height: 1.7; color: var(--text, #2a3b34); }
+.hd1-faq .faq-divider {
+    height: 1px;
+    background: var(--border, #d6e3dc);
+    margin: 8px 0;
+    opacity: 0.7;
+}
+
+/* Mobile breakpoint: collapse the 4-col tools grid → 2 cols, then 1 col;
+   collapse the 3-col guide grid → 1 col. */
+@media (max-width: 1024px) {
+    .hd1-tools-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+    .hd1-tools-grid { grid-template-columns: 1fr; }
+    .hd1-guide-grid { grid-template-columns: 1fr; gap: 12px; }
+    .hd1-section-title { font-size: 1.1rem; }
+    .hd4-nav-heading { font-size: 1rem; }
+}

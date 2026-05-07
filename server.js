@@ -2610,7 +2610,13 @@ function _escHtml(s) {
 const _HD1_BY_LANG = {
     ar: {
         heroSub: 'اعرف تاريخ اليوم الهجري والميلادي، مع إمكانية تحويل التاريخ واستعراض التقويم الهجري بسهولة.',
-        toolsTitle: 'أدوات مرتبطة',
+        navTitle: 'التنقل بين الأيام الهجرية',
+        toolsTitle: 'أدوات مرتبطة بالتاريخ الهجري',
+        tool_dateconv_desc: 'تحويل أي تاريخ بين الميلادي والهجري بسهولة.',
+        tool_calendar_desc: 'استعرض التقويم الهجري الكامل بشهور السنة.',
+        tool_prayertimes_desc: 'مواقيت الصلاة الخمس بدقة حسب الموقع.',
+        tool_moon_desc: 'الطور الحالي للقمر مع نسبة الإضاءة وعمره.',
+        guideTitle: 'دليل مختصر عن التاريخ الهجري',
         tool_dateconv: 'تحويل التاريخ',
         tool_calendar: 'التقويم الهجري',
         tool_prayertimes: 'مواقيت الصلاة اليوم',
@@ -2637,7 +2643,13 @@ const _HD1_BY_LANG = {
     },
     en: {
         heroSub: "Know today's Hijri and Gregorian date, with quick access to the date converter and the full Hijri calendar.",
-        toolsTitle: 'Related Tools',
+        navTitle: 'Navigate Hijri Days',
+        toolsTitle: 'Related Hijri Tools',
+        tool_dateconv_desc: 'Convert any date between Gregorian and Hijri easily.',
+        tool_calendar_desc: 'Browse the full Hijri calendar across all months.',
+        tool_prayertimes_desc: 'Accurate five daily prayer times by location.',
+        tool_moon_desc: 'Current moon phase with illumination and age.',
+        guideTitle: 'A Short Guide to the Hijri Date',
         tool_dateconv: 'Date Converter',
         tool_calendar: 'Hijri Calendar',
         tool_prayertimes: 'Prayer Times Today',
@@ -2664,7 +2676,13 @@ const _HD1_BY_LANG = {
     },
     fr: {
         heroSub: "Connaissez la date hégirienne et grégorienne d'aujourd'hui, avec un accès rapide au convertisseur et au calendrier hégirien complet.",
-        toolsTitle: 'Outils associés',
+        navTitle: 'Naviguer entre les jours hégiriens',
+        toolsTitle: 'Outils liés à la date hégirienne',
+        tool_dateconv_desc: 'Convertissez facilement entre les calendriers grégorien et hégirien.',
+        tool_calendar_desc: 'Parcourez le calendrier hégirien complet sur tous les mois.',
+        tool_prayertimes_desc: 'Heures précises des cinq prières quotidiennes selon votre lieu.',
+        tool_moon_desc: 'Phase actuelle de la lune avec illumination et âge.',
+        guideTitle: 'Bref guide sur la date hégirienne',
         tool_dateconv: 'Convertisseur de date',
         tool_calendar: 'Calendrier hégirien',
         tool_prayertimes: 'Heures de prière aujourd\'hui',
@@ -2691,7 +2709,13 @@ const _HD1_BY_LANG = {
     },
     tr: {
         heroSub: 'Bugünün Hicri ve Miladi tarihini öğrenin; tarih dönüştürücü ve tam Hicri takvime tek tıkla erişin.',
-        toolsTitle: 'İlgili araçlar',
+        navTitle: 'Hicri Günler Arası Gezinme',
+        toolsTitle: 'Hicri tarihe ilişkin araçlar',
+        tool_dateconv_desc: 'Miladi ile Hicri arasında herhangi bir tarihi kolayca dönüştürün.',
+        tool_calendar_desc: 'Yılın tüm ayları boyunca tam Hicri takvime göz atın.',
+        tool_prayertimes_desc: 'Konuma göre beş vakit namaz için doğru zamanlar.',
+        tool_moon_desc: 'Ayın güncel evresi, aydınlanma oranı ve yaşı ile.',
+        guideTitle: 'Hicri Tarihe Kısa Bir Rehber',
         tool_dateconv: 'Tarih dönüştürücü',
         tool_calendar: 'Hicri takvim',
         tool_prayertimes: 'Bugünün namaz vakitleri',
@@ -2718,7 +2742,13 @@ const _HD1_BY_LANG = {
     },
     ur: {
         heroSub: 'آج کی ہجری اور عیسوی تاریخ جانیں، ساتھ ہی تاریخ کنورٹر اور مکمل ہجری کیلنڈر تک فوری رسائی پائیں۔',
-        toolsTitle: 'متعلقہ آلات',
+        navTitle: 'ہجری دنوں کے درمیان نیویگیشن',
+        toolsTitle: 'ہجری تاریخ سے متعلق آلات',
+        tool_dateconv_desc: 'کسی بھی تاریخ کو عیسوی اور ہجری کے درمیان آسانی سے تبدیل کریں۔',
+        tool_calendar_desc: 'سال کے تمام مہینوں کے ساتھ مکمل ہجری کیلنڈر دیکھیں۔',
+        tool_prayertimes_desc: 'مقام کے مطابق پانچوں نمازوں کے درست اوقات۔',
+        tool_moon_desc: 'چاند کا موجودہ مرحلہ روشنی کے تناسب اور عمر کے ساتھ۔',
+        guideTitle: 'ہجری تاریخ کے بارے میں ایک مختصر گائیڈ',
         tool_dateconv: 'تاریخ کنورٹر',
         tool_calendar: 'ہجری کیلنڈر',
         tool_prayertimes: 'آج کے اوقاتِ نماز',
@@ -2745,7 +2775,13 @@ const _HD1_BY_LANG = {
     },
     de: {
         heroSub: 'Erfahren Sie das heutige Hidschri- und gregorianische Datum, mit schnellem Zugriff auf Datumskonverter und vollen Hidschri-Kalender.',
-        toolsTitle: 'Verwandte Werkzeuge',
+        navTitle: 'Zwischen Hidschri-Tagen navigieren',
+        toolsTitle: 'Werkzeuge zum Hidschri-Datum',
+        tool_dateconv_desc: 'Beliebige Daten einfach zwischen Gregorianisch und Hidschri umrechnen.',
+        tool_calendar_desc: 'Den vollständigen Hidschri-Kalender über alle Monate hinweg durchsuchen.',
+        tool_prayertimes_desc: 'Genauer Beginn der fünf täglichen Gebete je nach Standort.',
+        tool_moon_desc: 'Aktuelle Mondphase mit Beleuchtung und Mondalter.',
+        guideTitle: 'Ein kurzer Leitfaden zum Hidschri-Datum',
         tool_dateconv: 'Datumskonverter',
         tool_calendar: 'Hidschri-Kalender',
         tool_prayertimes: 'Heutige Gebetszeiten',
@@ -2772,7 +2808,13 @@ const _HD1_BY_LANG = {
     },
     id: {
         heroSub: 'Ketahui tanggal Hijriah dan Masehi hari ini, lengkap dengan akses cepat ke konverter tanggal dan kalender Hijriah penuh.',
-        toolsTitle: 'Alat terkait',
+        navTitle: 'Navigasi Antar Hari Hijriah',
+        toolsTitle: 'Alat terkait tanggal Hijriah',
+        tool_dateconv_desc: 'Konversi tanggal Masehi dan Hijriah dengan mudah.',
+        tool_calendar_desc: 'Telusuri kalender Hijriah lengkap untuk seluruh bulan.',
+        tool_prayertimes_desc: 'Jadwal sholat lima waktu yang akurat sesuai lokasi.',
+        tool_moon_desc: 'Fase bulan saat ini dengan iluminasi dan usia.',
+        guideTitle: 'Panduan Singkat tentang Tanggal Hijriah',
         tool_dateconv: 'Konverter tanggal',
         tool_calendar: 'Kalender Hijriah',
         tool_prayertimes: 'Jadwal sholat hari ini',
@@ -2799,7 +2841,13 @@ const _HD1_BY_LANG = {
     },
     es: {
         heroSub: 'Conoce la fecha hégira y gregoriana de hoy, con acceso rápido al conversor y al calendario hégira completo.',
-        toolsTitle: 'Herramientas relacionadas',
+        navTitle: 'Navegación entre días Hégira',
+        toolsTitle: 'Herramientas relacionadas con la fecha Hégira',
+        tool_dateconv_desc: 'Convierte cualquier fecha entre gregoriano y hégira fácilmente.',
+        tool_calendar_desc: 'Explora el calendario hégira completo a lo largo de todos los meses.',
+        tool_prayertimes_desc: 'Horarios precisos de las cinco oraciones según la ubicación.',
+        tool_moon_desc: 'Fase actual de la luna con iluminación y edad.',
+        guideTitle: 'Una breve guía sobre la fecha Hégira',
         tool_dateconv: 'Conversor de fechas',
         tool_calendar: 'Calendario hégira',
         tool_prayertimes: 'Horarios de oración hoy',
@@ -2826,7 +2874,13 @@ const _HD1_BY_LANG = {
     },
     bn: {
         heroSub: 'আজকের হিজরি ও গ্রেগরিয়ান তারিখ জানুন, সাথে তারিখ রূপান্তরকারী ও সম্পূর্ণ হিজরি ক্যালেন্ডারে দ্রুত প্রবেশের সুযোগ।',
-        toolsTitle: 'সম্পর্কিত সরঞ্জাম',
+        navTitle: 'হিজরি দিনের মধ্যে নেভিগেশন',
+        toolsTitle: 'হিজরি তারিখ সম্পর্কিত সরঞ্জাম',
+        tool_dateconv_desc: 'গ্রেগরিয়ান ও হিজরির মধ্যে যেকোনো তারিখ সহজে রূপান্তর করুন।',
+        tool_calendar_desc: 'বছরের সব মাসের পূর্ণ হিজরি ক্যালেন্ডার দেখুন।',
+        tool_prayertimes_desc: 'অবস্থান অনুযায়ী পাঁচ ওয়াক্ত নামাজের নির্ভুল সময়।',
+        tool_moon_desc: 'চাঁদের বর্তমান পর্যায়, আলোকন ও বয়স সহ।',
+        guideTitle: 'হিজরি তারিখ সম্পর্কে একটি সংক্ষিপ্ত নির্দেশিকা',
         tool_dateconv: 'তারিখ রূপান্তরকারী',
         tool_calendar: 'হিজরি ক্যালেন্ডার',
         tool_prayertimes: 'আজকের নামাজের সময়',
@@ -2853,7 +2907,13 @@ const _HD1_BY_LANG = {
     },
     ms: {
         heroSub: 'Ketahui tarikh Hijrah dan Gregorian hari ini, dengan capaian pantas ke penukar tarikh dan kalendar Hijrah penuh.',
-        toolsTitle: 'Alat berkaitan',
+        navTitle: 'Navigasi Antara Hari Hijrah',
+        toolsTitle: 'Alat berkaitan tarikh Hijrah',
+        tool_dateconv_desc: 'Tukar mana-mana tarikh antara Gregorian dan Hijrah dengan mudah.',
+        tool_calendar_desc: 'Layari kalendar Hijrah penuh merentasi semua bulan.',
+        tool_prayertimes_desc: 'Waktu lima solat harian yang tepat mengikut lokasi.',
+        tool_moon_desc: 'Fasa bulan semasa dengan pencahayaan dan usia.',
+        guideTitle: 'Panduan Ringkas tentang Tarikh Hijrah',
         tool_dateconv: 'Penukar tarikh',
         tool_calendar: 'Kalendar Hijrah',
         tool_prayertimes: 'Waktu solat hari ini',
@@ -8129,34 +8189,74 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<p id="hijri-today-desc" class="hpage-hero-intro--narrow"></p>',
             `<p id="hijri-today-desc" class="hpage-hero-intro--narrow">${_escHtml(_hd.heroSub)}</p>`
         );
-        // Build per-lang Hub content block and replace the <!-- HD-1-CONTENT --> anchor.
+        // HD-4 (2026-05-07): Replace the Prev/Next heading anchor with a
+        //   per-lang title ("التنقل بين الأيام الهجرية" / "Navigate Hijri Days" / …).
+        html = html.replace(
+            '<!-- HD4-NAV-HEADING -->',
+            `<h2 class="hd4-nav-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-arrows-left-right"/></svg> ${_escHtml(_hd.navTitle)}</h2>`
+        );
+        // HD-4 (2026-05-07): rebuilt content block with the user's preferred
+        //   structure: ONE Tools card (icon + title + short desc per tool),
+        //   ONE Guide card containing 3 sub-blocks (3-col on desktop, stacked
+        //   on mobile), and ONE FAQ card. Replaces the old 5-section layout
+        //   (Tools → 3 separate edu cards → FAQ) so the page reads as a
+        //   single coherent Hub instead of stacked panels.
         const _faqHtml = _hd.faq.map(f => `
                     <div class="faq-item">
                         <div class="faq-question">${_escHtml(f.q)}</div>
                         <div class="faq-answer"><p>${_escHtml(f.a)}</p></div>
                     </div>`).join('\n                    <div class="faq-divider"></div>');
         const _hubBlock = `
-                <!-- HD-1 Hub content (SSR — per-lang, no JS dependency) -->
+                <!-- HD-1 Hub content (SSR — per-lang, no JS dependency) — restructured by HD-4 -->
                 <section class="section-card hd1-tools-section" aria-labelledby="hd1-tools-title">
                     <h2 id="hd1-tools-title" class="hd1-section-title">${_escHtml(_hd.toolsTitle)}</h2>
-                    <nav class="hd1-tools-nav u-flex-wrap" aria-label="${_escHtml(_hd.toolsTitle)}">
-                        <a class="hd1-tool-link" href="${_langPrefHd1}/dateconverter">${_escHtml(_hd.tool_dateconv)}</a>
-                        <a class="hd1-tool-link" href="${_langPrefHd1}/hijri-calendar">${_escHtml(_hd.tool_calendar)}</a>
-                        <a class="hd1-tool-link" href="${_langPrefHd1}/">${_escHtml(_hd.tool_prayertimes)}</a>
-                        <a class="hd1-tool-link" href="${_langPrefHd1}/moon-today">${_escHtml(_hd.tool_moon)}</a>
-                    </nav>
+                    <div class="hd1-tools-grid">
+                        <a class="hd1-tool-card" href="${_langPrefHd1}/dateconverter">
+                            <span class="hd1-tool-icon" aria-hidden="true">🔄</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name">${_escHtml(_hd.tool_dateconv)}</span>
+                                <span class="hd1-tool-desc">${_escHtml(_hd.tool_dateconv_desc)}</span>
+                            </span>
+                        </a>
+                        <a class="hd1-tool-card" href="${_langPrefHd1}/hijri-calendar">
+                            <span class="hd1-tool-icon" aria-hidden="true">📆</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name">${_escHtml(_hd.tool_calendar)}</span>
+                                <span class="hd1-tool-desc">${_escHtml(_hd.tool_calendar_desc)}</span>
+                            </span>
+                        </a>
+                        <a class="hd1-tool-card" href="${_langPrefHd1}/">
+                            <span class="hd1-tool-icon" aria-hidden="true">🕌</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name">${_escHtml(_hd.tool_prayertimes)}</span>
+                                <span class="hd1-tool-desc">${_escHtml(_hd.tool_prayertimes_desc)}</span>
+                            </span>
+                        </a>
+                        <a class="hd1-tool-card" href="${_langPrefHd1}/moon-today">
+                            <span class="hd1-tool-icon" aria-hidden="true">🌙</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name">${_escHtml(_hd.tool_moon)}</span>
+                                <span class="hd1-tool-desc">${_escHtml(_hd.tool_moon_desc)}</span>
+                            </span>
+                        </a>
+                    </div>
                 </section>
-                <section class="section-card hd1-edu hd1-edu-what" aria-labelledby="hd1-h2-what">
-                    <h2 id="hd1-h2-what" class="hd1-section-title">${_escHtml(_hd.h2_what)}</h2>
-                    <p class="hd1-edu-p">${_escHtml(_hd.p_what)}</p>
-                </section>
-                <section class="section-card hd1-edu hd1-edu-why" aria-labelledby="hd1-h2-why">
-                    <h2 id="hd1-h2-why" class="hd1-section-title">${_escHtml(_hd.h2_why)}</h2>
-                    <p class="hd1-edu-p">${_escHtml(_hd.p_why)}</p>
-                </section>
-                <section class="section-card hd1-edu hd1-edu-help" aria-labelledby="hd1-h2-help">
-                    <h2 id="hd1-h2-help" class="hd1-section-title">${_escHtml(_hd.h2_help)}</h2>
-                    <p class="hd1-edu-p">${_escHtml(_hd.p_help)}</p>
+                <section class="section-card hd1-guide" aria-labelledby="hd1-guide-title">
+                    <h2 id="hd1-guide-title" class="hd1-section-title">${_escHtml(_hd.guideTitle)}</h2>
+                    <div class="hd1-guide-grid">
+                        <article class="hd1-guide-item hd1-edu-what">
+                            <h3>${_escHtml(_hd.h2_what)}</h3>
+                            <p>${_escHtml(_hd.p_what)}</p>
+                        </article>
+                        <article class="hd1-guide-item hd1-edu-why">
+                            <h3>${_escHtml(_hd.h2_why)}</h3>
+                            <p>${_escHtml(_hd.p_why)}</p>
+                        </article>
+                        <article class="hd1-guide-item hd1-edu-help">
+                            <h3>${_escHtml(_hd.h2_help)}</h3>
+                            <p>${_escHtml(_hd.p_help)}</p>
+                        </article>
+                    </div>
                 </section>
                 <section class="section-card hd1-faq" id="hd1-faq" aria-labelledby="hd1-faq-title">
                     <h2 id="hd1-faq-title" class="hd1-section-title">${_escHtml(_hd.faqTitle)}</h2>${_faqHtml}

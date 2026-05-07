@@ -1867,7 +1867,10 @@ html[dir="rtl"] .prayer-progress-fill {
     font-size: 1.4rem;
     font-weight: 800;
     color: var(--text);
-    direction: ltr;
+    /* HC-11c (2026-05-07): direction:ltr removed so the AM/PM letter sits on
+       the LEFT and digits on the RIGHT under RTL pages — matches the legacy
+       <td> prayer-table cells and the HC-11b fix already applied to
+       .banner-big-time. */
 }
 
 /* ========= العد التنازلي ========= */
@@ -6894,7 +6897,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 }
 .banner-then-prayer[hidden] { display: none; }
 .banner-then-prayer b { color: var(--gold-light, #ffd75e); font-weight: 700; }
-.banner-then-prayer .btp-time { direction: ltr; opacity: .85; font-size: .88rem; }
+.banner-then-prayer .btp-time { opacity: .85; font-size: .88rem; } /* HC-11c (2026-05-07): direction:ltr removed for RTL letter-LEFT/digits-RIGHT consistency */
 
 .banner-block {
     flex: 1 1 280px;

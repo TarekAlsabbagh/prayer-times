@@ -19304,9 +19304,22 @@ function updateHijriToday() {
     const gregEl = document.getElementById('hijri-today-greg');
     if (gregEl) gregEl.textContent = T.greg(dayName, gregToday);
 
+    // HD-1b (2026-05-07): on /today-hijri-date the page is a Global Hub —
+    //   no country/city context. SSR pre-fills #hijri-today-desc with a
+    //   generic per-lang sentence (server.js:_HD1_BY_LANG[lang].heroSub).
+    //   Skip the JS overwrite that would inject "${country}" into the text
+    //   and reintroduce a country mention. On dated pages /hijri-date/{date}
+    //   a different wrapper is used (#page-hijri-day) so this code path
+    //   is irrelevant there visually.
+    //   URL-based check (NOT classList) because js/app.js:2968 removes the
+    //   `hijri-today-page` class once SPA routing activates #page-hijri-today.
     const descEl = document.getElementById('hijri-today-desc');
     if (descEl) {
-        descEl.textContent = T.desc(country);
+        const _isTodayHubHd1b = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(window.location.pathname);
+        if (!_isTodayHubHd1b) {
+            descEl.textContent = T.desc(country);
+        }
+        // Hub: leave the SSR-injected generic heroSub untouched.
     }
 
     // ── 2. Quick Info Cards ───────────────────────────────────────

@@ -19428,13 +19428,19 @@ function updateHijriToday() {
         }
         const prevMN = T.hM[prevM-1];
         const nextMN = T.hM[nextM-1];
+        // HD-5 (2026-05-08): RTL-aware arrows. In Arabic/Urdu, "previous" =
+        //   going back = pointing right (→); "next" = going forward = pointing
+        //   left (←). LTR (en/fr/de/es/id/ms/bn) keeps the original ←/→ layout.
+        const _rtl = (lang === 'ar' || lang === 'ur');
+        const _arPrev = _rtl ? '→' : '←';
+        const _arNext = _rtl ? '←' : '→';
         navEl.innerHTML = `
             <a href="${hijriDayUrl(prevY, prevM, prevD)}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">← ${T.prev}</span>
+                <span style="font-size:0.75rem;color:var(--text-light);">${_arPrev} ${T.prev}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevD} ${prevMN} ${prevY}${T.hSfx}</span>
             </a>
             <a href="${hijriDayUrl(nextY, nextM, nextD)}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${T.next} →</span>
+                <span style="font-size:0.75rem;color:var(--text-light);">${T.next} ${_arNext}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextD} ${nextMN} ${nextY}${T.hSfx}</span>
             </a>`;
     }
@@ -19747,13 +19753,17 @@ function loadHijriDayPage() {
         const nextUrl  = hijriDayUrl(nextY2, nextM2, nextD2);
         const prevFullName = `${prevD2} ${prevName} ${prevY2}${hSfx}`;
         const nextFullName = `${nextD2} ${nextName} ${nextY2}${hSfx}`;
+        // HD-5 (2026-05-08): RTL-aware arrows (see updateHijriToday for rationale).
+        const _rtlD = (lang === 'ar' || lang === 'ur');
+        const _arPrevD = _rtlD ? '→' : '←';
+        const _arNextD = _rtlD ? '←' : '→';
         navEl.innerHTML = `
             <a href="${prevUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">← ${ui.prev}</span>
+                <span style="font-size:0.75rem;color:var(--text-light);">${_arPrevD} ${ui.prev}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevFullName}</span>
             </a>
             <a href="${nextUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${ui.next} →</span>
+                <span style="font-size:0.75rem;color:var(--text-light);">${ui.next} ${_arNextD}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextFullName}</span>
             </a>`;
     }
@@ -20504,13 +20514,17 @@ function loadHijriMonthPage() {
         const nextName = hijriNames[nextM-1];
         const prevUrl  = hijriMonthUrl(prevY, prevM);
         const nextUrl  = hijriMonthUrl(nextY, nextM);
+        // HD-5 (2026-05-08): RTL-aware arrows (see updateHijriToday for rationale).
+        const _rtlM = (lang === 'ar' || lang === 'ur');
+        const _arPrevM = _rtlM ? '→' : '←';
+        const _arNextM = _rtlM ? '←' : '→';
         navEl.innerHTML = `
             <a href="${prevUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">← ${ui.prev_label}</span>
+                <span style="font-size:0.75rem;color:var(--text-light);">${_arPrevM} ${ui.prev_label}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevName} ${prevY}${hSfx}</span>
             </a>
             <a href="${nextUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${ui.next_label} →</span>
+                <span style="font-size:0.75rem;color:var(--text-light);">${ui.next_label} ${_arNextM}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextName} ${nextY}${hSfx}</span>
             </a>`;
     }

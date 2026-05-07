@@ -63,7 +63,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=607" as="script">
+    <link rel="preload" href="js/app.js?v=608" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -2683,6 +2683,50 @@
                     <p id="hijri-today-footer-seo" class="hpage-footer-seo"></p>
                 </div>
 
+                <!-- HD-5 (2026-05-08): Islamic events countdown — clone of
+                     #moon-events-section. Uses CLASS-based selectors only
+                     (no IDs that conflict with the original on /moon-today),
+                     so the existing populator in updateMoonInfo() at
+                     js/app.js:17889 fills both instances via the
+                     `#... , .moon-event-{id}-days` combined selector. -->
+                <section class="section-card moon-events-section moon-events-section-clone hd5-events" aria-label="الأحداث الإسلامية القادمة">
+                    <h2 class="moon-events-title hd5-events-title" data-i18n="moon.events.title">العدّ التنازليّ للمناسبات الإسلاميّة</h2>
+                    <div class="moon-events-countdown moon-events-countdown-clone">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">--</div>
+                                <div class="moon-event-date moon-event-ramadan-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">--</div>
+                                <div class="moon-event-date moon-event-fitr-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">--</div>
+                                <div class="moon-event-date moon-event-adha-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">📅</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجريّة</div>
+                                <div class="moon-event-days moon-event-newyear-days">--</div>
+                                <div class="moon-event-date moon-event-newyear-date">--</div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
                 <!-- 🗑️ REMOVED in Round 9 (intent separation):
                      — OTD "أبرز أحداث هذا اليوم" section (moved out)
                      — Mini Calendar 3-row table (redundant with Prev/Next) -->
@@ -2810,6 +2854,46 @@
                 <div class="section-card">
                     <p id="hyear-footer-seo" class="hpage-footer-seo"></p>
                 </div>
+
+                <!-- HD-5 (2026-05-08): Islamic events countdown clone — see
+                     #page-hijri-today for the master comment. -->
+                <section class="section-card moon-events-section moon-events-section-clone hd5-events" aria-label="الأحداث الإسلامية القادمة">
+                    <h2 class="moon-events-title hd5-events-title" data-i18n="moon.events.title">العدّ التنازليّ للمناسبات الإسلاميّة</h2>
+                    <div class="moon-events-countdown moon-events-countdown-clone">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">--</div>
+                                <div class="moon-event-date moon-event-ramadan-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">--</div>
+                                <div class="moon-event-date moon-event-fitr-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">--</div>
+                                <div class="moon-event-date moon-event-adha-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">📅</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجريّة</div>
+                                <div class="moon-event-days moon-event-newyear-days">--</div>
+                                <div class="moon-event-date moon-event-newyear-date">--</div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
             </div>
 
             <!-- ===== صفحة التقويم الهجري الشهري ===== -->
@@ -2865,6 +2949,46 @@
                 <div class="section-card">
                     <p id="hmonth-footer-seo" class="hpage-footer-seo-note"></p>
                 </div>
+
+                <!-- HD-5 (2026-05-08): Islamic events countdown clone — see
+                     #page-hijri-today for the master comment. -->
+                <section class="section-card moon-events-section moon-events-section-clone hd5-events" aria-label="الأحداث الإسلامية القادمة">
+                    <h2 class="moon-events-title hd5-events-title" data-i18n="moon.events.title">العدّ التنازليّ للمناسبات الإسلاميّة</h2>
+                    <div class="moon-events-countdown moon-events-countdown-clone">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">--</div>
+                                <div class="moon-event-date moon-event-ramadan-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">--</div>
+                                <div class="moon-event-date moon-event-fitr-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">--</div>
+                                <div class="moon-event-date moon-event-adha-date">--</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">📅</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجريّة</div>
+                                <div class="moon-event-days moon-event-newyear-days">--</div>
+                                <div class="moon-event-date moon-event-newyear-date">--</div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
             </div>
 
             <!-- ===== صفحة تحويل التاريخ ===== -->
@@ -3673,7 +3797,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=607"></script>
+    <script defer src="js/app.js?v=608"></script>
     <script defer src="js/footer-cookie.js?v=6"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

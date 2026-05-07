@@ -19537,7 +19537,11 @@ function loadHijriDayPage() {
     const _todayMN = hijriNames[_todayH.month - 1];
     const todayH  = `${_todayH.day} ${_todayMN} ${_todayH.year}${hSfx}`;
     // Are we rendering today's date? (Distinguishes H1 between "Today's Hijri Date: X" vs "Hijri Date: X")
-    const isToday = (_todayH.year === year && _todayH.month === month && _todayH.day === day);
+    // HD-3 (2026-05-07): converted to `let` so the strict-generic override below
+    //   can force `false`. Date-specific pages (/hijri-date/{YYYY-MM-DD}) must
+    //   stay generic regardless of whether the date happens to be today.
+    let isToday = (_todayH.year === year && _todayH.month === month && _todayH.day === day);
+    const _isToday_natural = isToday;   // preserved for any place that wants to know it WITHOUT the HD-3 override (none currently)
     const ctx = { day, monthName, year, dayName, hDate, gDate, country, countryLabel, todayH, isLeap, hSfx, gSfx, isToday,
                   monthNum: month, totalDays, totalYearDays };
 
@@ -19557,7 +19561,26 @@ function loadHijriDayPage() {
                 .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
         }
     } catch (_) {}
-    const isGeoToday = isToday && !!locDisplay && !!locSlug;
+    let isGeoToday = isToday && !!locDisplay && !!locSlug;
+
+    // ════════════════════════════════════════════════════════════════════════
+    // HD-3 (2026-05-07): /hijri-date/{YYYY-MM-DD} — Generic Date-Specific Page
+    // The user explicitly decided these URLs are date Hubs, NOT city pages.
+    // Force isGeoToday=false AND isToday=false so every downstream branch
+    // takes the generic, no-city, no-country path:
+    //   - H1 → _H1_PLAIN (per-lang, no city)
+    //   - Breadcrumb → no city hop
+    //   - FAQ → nt.faq (no country interpolation)
+    //   - Footer SEO → nt.footer (no country)
+    //   - Related links → ex.relPrayer / ex.relMoon (generic labels)
+    //   - WebPage JSON-LD → headline only, no spatialCoverage
+    //   - BreadcrumbList JSON-LD → no city item
+    //   - document.title (via setSEOMeta below) → HD-3 generic Title
+    // No exceptions — even when the URL date IS today, the page stays generic.
+    // ════════════════════════════════════════════════════════════════════════
+    isToday = false;
+    isGeoToday = false;
+    ctx.isToday = false;
 
     // ── 1. Breadcrumbs ─────────────────────────────────────────────
     const bcEl = document.getElementById('hday-breadcrumbs');
@@ -19750,11 +19773,12 @@ function loadHijriDayPage() {
         const _cityDisplay = locDisplay
             || ((typeof getDisplayCity === 'function') ? (getDisplayCity() || '') : '')
             || ((lang === 'ar') ? (currentCity || currentEnglishName || '') : (currentEnglishName || currentCity || ''));
-        const _cityKnown = _citySlug2 && _cityDisplay;
-        const _prayerLabel = _cityKnown
-            ? (isToday ? geo.relPrayer(_cityDisplay) : nt.relPrayerCity(_cityDisplay))
-            : ex.relPrayer;
-        const _moonLabel = (isToday && _cityKnown) ? geo.relMoon(_cityDisplay) : ex.relMoon;
+        // HD-3 (2026-05-07): force generic related-link labels — never name
+        //   a city/country in the labels even when one is in sessionStorage.
+        //   The labels are still useful navigation; they just stay neutral.
+        const _cityKnown = false;
+        const _prayerLabel = ex.relPrayer;
+        const _moonLabel   = ex.relMoon;
         // UAT-Q5d: clean moon URL (no coord-suffix). Coords go via sessionStorage.
         let _moonRelHref = `${prefix}/moon-today`;
         if (isToday && _cityKnown) {
@@ -19820,7 +19844,24 @@ function loadHijriDayPage() {
     const _monthUrl  = _origin + hijriMonthUrl(year, month);
     const _siteName  = ui.site;
     const _headline  = ui.headline(ctx);
-    const _desc      = ui.desc(ctx);
+    // HD-3 (2026-05-07): ui.desc(ctx) uses c.country — replaced with the
+    //   generic HD-3 description (per-lang, no country) so WebPage JSON-LD
+    //   stays consistent with the visible Title/Meta. The dictionary is
+    //   the same shape used at the setSEOMeta call below; defined here
+    //   inline so it's visible in the JSON-LD construction context.
+    const _HD3_DESC_LD = {
+        ar: `اعرف التاريخ الميلادي المقابل ليوم ${hDate}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
+        en: `Find the Gregorian equivalent of ${hDate}, with information about the Hijri month, date conversion and the Hijri calendar.`,
+        fr: `Trouvez la date grégorienne équivalente du ${hDate}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
+        tr: `${hDate} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
+        ur: `${hDate} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
+        de: `Finden Sie die gregorianische Entsprechung des ${hDate}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
+        id: `Temukan padanan Masehi tanggal ${hDate}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
+        es: `Encuentra la fecha gregoriana equivalente al ${hDate}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
+        bn: `${hDate} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
+        ms: `Cari padanan Gregorian tarikh ${hDate}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
+    };
+    const _desc      = _HD3_DESC_LD[lang] || _HD3_DESC_LD.en;
     const _homeUrl   = _origin + ((lang === 'ar') ? '/' : ('/' + lang + '/'));
 
     // Mirror the visible FAQ: substitute city for country when city known, then swap first pair
@@ -19885,9 +19926,39 @@ function loadHijriDayPage() {
     hdaySchemaScript.textContent = JSON.stringify(hdaySchema);
     document.head.appendChild(hdaySchemaScript);
 
-    // ── 10. SEO Meta — Answer Page → ogType:'website' (not 'article'), geo-aware title when city known ──
-    const _seoTitle = isGeoToday ? geo.seoTitle(locDisplay, hDate) : _headline;
-    setSEOMeta({ title: _seoTitle, description: _desc, ogType: 'website' });
+    // ── 10. SEO Meta — HD-3 generic, mirrors SSR _HDAY_TITLE/_HDAY_DESC ──
+    //   These strings MUST match server.js:5642+ byte-for-byte after _escHtml
+    //   so SSR Title/Meta and JS-overwritten Title/Meta are identical (no
+    //   flicker, no SEOptimer mismatch). User's spec: date first, then "|
+    //   Gregorian Date Equivalent". Meta leads with the Gregorian-equivalent
+    //   intent. NO city/country in any of the 10 langs.
+    const _HD3_TITLE = {
+        ar: `التاريخ الهجري ${hDate} | التاريخ الميلادي المقابل`,
+        en: `Hijri Date ${hDate} | Gregorian Date Equivalent`,
+        fr: `Date hégirienne ${hDate} | Date grégorienne équivalente`,
+        tr: `Hicri Tarih ${hDate} | Miladi Karşılığı`,
+        ur: `ہجری تاریخ ${hDate} | عیسوی تاریخ کی مماثل`,
+        de: `Hidschri-Datum ${hDate} | Gregorianische Entsprechung`,
+        id: `Tanggal Hijriah ${hDate} | Padanan Masehi`,
+        es: `Fecha Hégira ${hDate} | Fecha Gregoriana Equivalente`,
+        bn: `হিজরি তারিখ ${hDate} | গ্রেগরিয়ান সমতুল্য`,
+        ms: `Tarikh Hijrah ${hDate} | Padanan Gregorian`,
+    };
+    const _HD3_DESC = {
+        ar: `اعرف التاريخ الميلادي المقابل ليوم ${hDate}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
+        en: `Find the Gregorian equivalent of ${hDate}, with information about the Hijri month, date conversion and the Hijri calendar.`,
+        fr: `Trouvez la date grégorienne équivalente du ${hDate}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
+        tr: `${hDate} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
+        ur: `${hDate} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
+        de: `Finden Sie die gregorianische Entsprechung des ${hDate}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
+        id: `Temukan padanan Masehi tanggal ${hDate}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
+        es: `Encuentra la fecha gregoriana equivalente al ${hDate}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
+        bn: `${hDate} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
+        ms: `Cari padanan Gregorian tarikh ${hDate}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
+    };
+    const _seoTitle = _HD3_TITLE[lang] || _HD3_TITLE.en;
+    const _seoDesc  = _HD3_DESC[lang]  || _HD3_DESC.en;
+    setSEOMeta({ title: _seoTitle, description: _seoDesc, ogType: 'website' });
 }
 
 // ========= صفحة التقويم الهجري السنوي /hijri-calendar أو /hijri-calendar/1447 =========

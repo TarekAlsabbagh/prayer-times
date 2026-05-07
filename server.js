@@ -5638,31 +5638,35 @@ function buildSeoForPath(urlPath) {
         };
         const _mName  = (_HM_BY_LANG[lang] || _HM_BY_LANG.en)[monthNum - 1];
         const _hSfx   = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' }[lang] || ' AH';
-        // قوالب العناوين والأوصاف — Answer Page: مختصرة جداً، التاريخ أولاً
-        // Phase D1: replace ":" with "|" for separator consistency
+        // HD-3 (2026-05-07): SSR Title/Meta tightened to user's exact spec.
+        //   Goal: /hijri-date/{YYYY-MM-DD} pages stay strictly date-specific
+        //   and generic — never look like a city page. Title puts the dated
+        //   form first, then "| Gregorian Date Equivalent". Meta leads with
+        //   the Gregorian-equivalent intent. NO city/country in any of the
+        //   10 langs.
         const _HDAY_TITLE = {
-            ar: `التاريخ الهجري | ${day} ${_mName} ${year}${_hSfx}`,
-            en: `Hijri Date | ${day} ${_mName} ${year}${_hSfx}`,
-            fr: `Date hégirienne | ${day} ${_mName} ${year}${_hSfx}`,
-            tr: `Hicri Tarih | ${day} ${_mName} ${year}${_hSfx}`,
-            ur: `ہجری تاریخ | ${day} ${_mName} ${year}${_hSfx}`,
-            de: `Hidschri-Datum | ${day} ${_mName} ${year}${_hSfx}`,
-            id: `Tanggal Hijriah | ${day} ${_mName} ${year}${_hSfx}`,
-            es: `Fecha Hégira | ${day} ${_mName} ${year}${_hSfx}`,
-            bn: `হিজরি তারিখ | ${day} ${_mName} ${year}${_hSfx}`,
-            ms: `Tarikh Hijrah | ${day} ${_mName} ${year}${_hSfx}`,
+            ar: `التاريخ الهجري ${day} ${_mName} ${year}${_hSfx} | التاريخ الميلادي المقابل`,
+            en: `Hijri Date ${day} ${_mName} ${year}${_hSfx} | Gregorian Date Equivalent`,
+            fr: `Date hégirienne ${day} ${_mName} ${year}${_hSfx} | Date grégorienne équivalente`,
+            tr: `Hicri Tarih ${day} ${_mName} ${year}${_hSfx} | Miladi Karşılığı`,
+            ur: `ہجری تاریخ ${day} ${_mName} ${year}${_hSfx} | عیسوی تاریخ کی مماثل`,
+            de: `Hidschri-Datum ${day} ${_mName} ${year}${_hSfx} | Gregorianische Entsprechung`,
+            id: `Tanggal Hijriah ${day} ${_mName} ${year}${_hSfx} | Padanan Masehi`,
+            es: `Fecha Hégira ${day} ${_mName} ${year}${_hSfx} | Fecha Gregoriana Equivalente`,
+            bn: `হিজরি তারিখ ${day} ${_mName} ${year}${_hSfx} | গ্রেগরিয়ান সমতুল্য`,
+            ms: `Tarikh Hijrah ${day} ${_mName} ${year}${_hSfx} | Padanan Gregorian`,
         };
         const _HDAY_DESC = {
-            ar: `تعرّف على التاريخ الهجري ${day} ${_mName} ${year}${_hSfx} والتاريخ الميلادي المقابل، مع روابط مفيدة للتقويم وتحويل التاريخ.`,
-            en: `Hijri date ${day} ${_mName} ${year}${_hSfx} with its Gregorian equivalent, plus quick links to the calendar and date converter.`,
-            fr: `Date hégirienne ${day} ${_mName} ${year}${_hSfx} et son équivalent grégorien, avec des liens utiles vers le calendrier et le convertisseur.`,
-            tr: `${day} ${_mName} ${year}${_hSfx} hicri tarihi ve miladi karşılığı; takvim ve tarih dönüştürücüye hızlı bağlantılar.`,
-            ur: `ہجری تاریخ ${day} ${_mName} ${year}${_hSfx} اور اس کی عیسوی مساوی، کیلنڈر اور تاریخ کنورٹر کے مفید لنکس کے ساتھ۔`,
-            de: `Hidschri-Datum ${day} ${_mName} ${year}${_hSfx} mit gregorianischer Entsprechung sowie schnellen Links zum Kalender und Datumsumrechner.`,
-            id: `Tanggal Hijriah ${day} ${_mName} ${year}${_hSfx} beserta padanan Masehi, dengan tautan ke kalender dan konverter tanggal.`,
-            es: `Fecha Hégira ${day} ${_mName} ${year}${_hSfx} con su equivalente gregoriano y enlaces al calendario y al conversor de fechas.`,
-            bn: `হিজরি তারিখ ${day} ${_mName} ${year}${_hSfx} এবং এর খ্রিস্টীয় সমতুল্য, ক্যালেন্ডার ও তারিখ রূপান্তরকারীর দ্রুত লিঙ্কসহ।`,
-            ms: `Tarikh Hijrah ${day} ${_mName} ${year}${_hSfx} dan padanan Masihi, dengan pautan pantas ke kalendar dan penukar tarikh.`,
+            ar: `اعرف التاريخ الميلادي المقابل ليوم ${day} ${_mName} ${year}${_hSfx}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
+            en: `Find the Gregorian equivalent of ${day} ${_mName} ${year}${_hSfx}, with information about the Hijri month, date conversion and the Hijri calendar.`,
+            fr: `Trouvez la date grégorienne équivalente du ${day} ${_mName} ${year}${_hSfx}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
+            tr: `${day} ${_mName} ${year}${_hSfx} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
+            ur: `${day} ${_mName} ${year}${_hSfx} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
+            de: `Finden Sie die gregorianische Entsprechung des ${day} ${_mName} ${year}${_hSfx}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
+            id: `Temukan padanan Masehi tanggal ${day} ${_mName} ${year}${_hSfx}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
+            es: `Encuentra la fecha gregoriana equivalente al ${day} ${_mName} ${year}${_hSfx}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
+            bn: `${day} ${_mName} ${year}${_hSfx} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
+            ms: `Cari padanan Gregorian tarikh ${day} ${_mName} ${year}${_hSfx}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
         };
         const _HDAY_CAL_LABEL = {
             ar: 'التقويم الهجري', en: 'Hijri Calendar', fr: 'Calendrier hégirien', tr: 'Hicri Takvim',

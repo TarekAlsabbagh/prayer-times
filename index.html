@@ -1017,7 +1017,9 @@
                 <section class="section-card home-quick-access" id="home-quick-access" aria-labelledby="home-services-title">
                     <h2 id="home-services-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="home.services_title">الخدمات الإسلامية</span></h2>
                     <div class="qa-grid">
-                        <a class="qa-card" href="#" onclick="navToPage('hijri-today');return false;"
+                        <!-- HD-2 (2026-05-07): real href for crawlers + screen-readers + middle-click.
+                             onclick keeps SPA navigation; falls back to native nav if JS off. -->
+                        <a class="qa-card" href="{LANG_PREFIX}/today-hijri-date" onclick="navToPage('hijri-today');return false;"
                            data-i18n-title="home.hijri_today"
                            title="التاريخ الهجري اليوم">
                             <svg class="icon qa-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
@@ -2745,6 +2747,11 @@
                         <label for="hyear-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
                         <select id="hyear-year-select" class="year-select" onchange="goToHijriYear(this.value)"></select>
                     </div>
+                    <!-- HD-2 (2026-05-07): CTA → /today-hijri-date Hub. Always visible on
+                         the year page so users can jump from any year to today's date. -->
+                    <p class="hyear-today-cta">
+                        <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
+                    </p>
                 </div>
                 <!-- Info Cards -->
                 <div class="section-card">
@@ -2802,6 +2809,11 @@
                 <div class="section-card hpage-hero">
                     <h2 id="hmonth-title" class="hpage-hero-title" data-i18n="hmonth.title">تقويم الشهر الهجري</h2>
                     <p id="hmonth-subtitle" class="hpage-hero-mini-sub"></p>
+                    <!-- HD-2 (2026-05-07): CTA → /today-hijri-date Hub. Lets users jump
+                         from any historical month back to today's Hijri date. -->
+                    <p class="hmonth-today-cta">
+                        <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
+                    </p>
                 </div>
                 <div class="section-card">
                     <h2 id="hmonth-info-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-clipboard"/></svg> <span data-i18n="hmonth.info_title">معلومات الشهر الهجري</span></h2>
@@ -2923,6 +2935,12 @@
                             <div class="result-date" id="conv-solar-result">--</div>
                         </div>
                     </div>
+                    <!-- HD-2 (2026-05-07): helper CTA → /today-hijri-date Hub. Sits at the
+                         bottom of the converter card so users who want today's date (not
+                         a specific past/future date) can jump straight to the Hub. -->
+                    <p class="conv-today-cta">
+                        <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
+                    </p>
                 </div>
 
             </div>
@@ -2931,6 +2949,12 @@
             <div class="page" id="page-hijri-calendar">
                 <div class="section-card">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-grid"/></svg> <span data-i18n="calendar.title">التقويم الهجري</span></h2>
+                    <!-- HD-2 (2026-05-07): visible CTA → /today-hijri-date Hub. data-i18n
+                         pulls the localized "Today's Hijri Date" label from the existing
+                         hijri_today.title key (10 langs already translated). -->
+                    <p class="hcal-today-cta">
+                        <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
+                    </p>
                     <div class="calendar-year-picker">
                         <label for="calendar-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
                         <select id="calendar-year-select" class="year-select" onchange="goToHijriYear(this.value)"></select>

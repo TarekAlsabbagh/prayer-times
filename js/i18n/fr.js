@@ -961,6 +961,9 @@ window.TRANSLATIONS['fr'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Heures de prière dans les pays arabes',
         'footer.popular_cities': 'Heures de prière dans les villes populaires',
+        'home.arab_countries_intro': 'Parcourez des liens rapides vers les heures de prière dans plusieurs pays arabes, avec la possibilité d\'ouvrir la page de chaque pays pour ses villes et options.',
+        'home.popular_cities_intro_long': 'Des liens concis pour accéder directement aux pages des villes les plus recherchées, tandis que la page d\'accueil reste une porte d\'entrée générique vers le site.',
+        'home.services_intro': 'Ces services regroupent des outils quotidiens utiles comme la date hégirienne, le calendrier, la conversion de date et le tasbih numérique.',
         'footer.popular_cities_intro': 'Liens rapides vers les heures de prière dans les villes les plus recherchées.',
         'footer.services_title': 'Autres services islamiques',
         'footer.link_hijri_today': 'Date hégirienne du jour',

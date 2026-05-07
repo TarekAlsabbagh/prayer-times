@@ -999,6 +999,9 @@ window.TRANSLATIONS['es'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Horarios de Oración en Países Árabes',
         'footer.popular_cities': 'Horarios de Oración en Ciudades Populares',
+        'home.arab_countries_intro': 'Explora enlaces rápidos a los horarios de oración en varios países árabes, con la opción de abrir la página de cada país para sus ciudades y opciones.',
+        'home.popular_cities_intro_long': 'Enlaces concisos para acceder directamente a las páginas de las ciudades más buscadas, mientras la página de inicio sigue siendo una puerta general al sitio.',
+        'home.services_intro': 'Estos servicios reúnen herramientas diarias de apoyo como la fecha hégira, el calendario, la conversión de fechas y el tasbih digital.',
         'footer.popular_cities_intro': 'Enlaces rápidos a los horarios de oración en las ciudades más buscadas.',
         'footer.services_title': 'Otros Servicios Islámicos',
         'footer.link_hijri_today': 'Fecha Hégira de Hoy',

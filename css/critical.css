@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-06T19:58:51.596Z
-   Source: css/style.css (full 512 KiB)
-   Critical: 35.7 KiB
+   Extracted on: 2026-05-07T05:44:30.276Z
+   Source: css/style.css (full 513 KiB)
+   Critical: 35.8 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -863,6 +863,15 @@ html[data-theme="dark"] .home-why-card{
     line-height: 1.6;
     color: var(--text-light);
     margin: 0 0 14px;
+}
+.home-section-intro{
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    margin: 0 0 14px;
+}
+.home-section-intro-services{
+    margin: 6px 0 14px;
 }
 .home-services-cards{
     display: grid;

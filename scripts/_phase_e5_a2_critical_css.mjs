@@ -112,6 +112,7 @@ const CRITICAL_PATTERNS = [
     /^html\[data-theme="dark"\]\s+\.home-why/,
     // Phase HC-2.3+2.4: popular-cities intro + 4-card services.
     /^\.home-popular-cities-intro$/,
+    /^\.home-section-intro/,
     /^\.home-services-cards$/,
     /^\.home-service-card/,
     /^\.home-service-icon$/,

@@ -19,7 +19,11 @@ const KEYS = [
   'footer.link_hijri_today', 'footer.link_hijri_year',
   'footer.link_date_converter', 'footer.link_tasbih',
   'footer.svc_hijri_today_desc', 'footer.svc_hijri_year_desc',
-  'footer.svc_date_converter_desc', 'footer.svc_tasbih_desc'
+  'footer.svc_date_converter_desc', 'footer.svc_tasbih_desc',
+  // Phase HC-9 (2026-05-06): added with the 3 short intros + FAQ Q7.
+  'home.arab_countries_intro',
+  'home.popular_cities_intro_long',
+  'home.services_intro'
 ];
 
 function escRe(s) {

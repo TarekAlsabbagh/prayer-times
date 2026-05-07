@@ -999,6 +999,9 @@ window.TRANSLATIONS['id'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Jadwal Sholat di Negara-Negara Arab',
         'footer.popular_cities': 'Jadwal Sholat di Kota-Kota Populer',
+        'home.arab_countries_intro': 'Telusuri tautan cepat ke jadwal sholat di beberapa negara Arab, dengan opsi membuka halaman setiap negara untuk kota dan pilihan terkait.',
+        'home.popular_cities_intro_long': 'Tautan ringkas untuk akses langsung ke halaman kota yang paling banyak dicari, sementara halaman utama tetap menjadi gerbang umum ke situs.',
+        'home.services_intro': 'Layanan ini menggabungkan alat pendukung harian seperti tanggal Hijriyah, kalender, konversi tanggal, dan tasbih digital.',
         'footer.popular_cities_intro': 'Tautan cepat ke jadwal sholat di kota-kota yang paling banyak dicari.',
         'footer.services_title': 'Layanan Islami Lainnya',
         'footer.link_hijri_today': 'Tanggal Hijriyah Hari Ini',

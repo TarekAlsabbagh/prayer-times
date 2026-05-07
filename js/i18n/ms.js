@@ -999,6 +999,9 @@ window.TRANSLATIONS['ms'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Waktu Solat di Negara-Negara Arab',
         'footer.popular_cities': 'Waktu Solat di Bandar-Bandar Popular',
+        'home.arab_countries_intro': 'Lihat pautan pantas ke waktu solat di beberapa negara Arab, dengan pilihan untuk membuka halaman setiap negara bagi bandar dan pilihan berkaitan.',
+        'home.popular_cities_intro_long': 'Pautan ringkas untuk akses terus ke halaman bandar yang paling banyak dicari, sementara halaman utama kekal sebagai pintu masuk umum ke laman web.',
+        'home.services_intro': 'Perkhidmatan ini menggabungkan alat sokongan harian seperti tarikh Hijri, kalendar, penukaran tarikh, dan tasbih digital.',
         'footer.popular_cities_intro': 'Pautan pantas ke waktu solat di bandar-bandar yang paling banyak dicari.',
         'footer.services_title': 'Perkhidmatan Islam Lain',
         'footer.link_hijri_today': 'Tarikh Hijri Hari Ini',

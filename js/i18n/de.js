@@ -999,6 +999,9 @@ window.TRANSLATIONS['de'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Gebetszeiten in arabischen Ländern',
         'footer.popular_cities': 'Gebetszeiten in beliebten Städten',
+        'home.arab_countries_intro': 'Durchstöbern Sie Schnellzugriffe auf Gebetszeiten in mehreren arabischen Ländern, und öffnen Sie die Länderseite für Städte und zugehörige Optionen.',
+        'home.popular_cities_intro_long': 'Kompakte Links für den direkten Zugriff auf die meistgesuchten Städteseiten, während die Startseite das allgemeine Tor zum Rest der Seite bleibt.',
+        'home.services_intro': 'Diese Dienste bündeln tägliche Hilfswerkzeuge wie das Hidschri-Datum, den Kalender, die Datumsumrechnung und die digitale Tasbih.',
         'footer.popular_cities_intro': 'Schnellzugriffe auf Gebetszeiten in den meistgesuchten Städten.',
         'footer.services_title': 'Weitere islamische Dienste',
         'footer.link_hijri_today': 'Heutiges Hidschri-Datum',

@@ -964,6 +964,9 @@ window.TRANSLATIONS['tr'] = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Arap Ülkelerinde Namaz Vakitleri',
         'footer.popular_cities': 'Popüler Şehirlerde Namaz Vakitleri',
+        'home.arab_countries_intro': 'Birkaç Arap ülkesindeki namaz vakitlerine hızlı bağlantıları inceleyin; her ülkenin sayfasına gidip şehirlere ve ilgili seçeneklere ulaşabilirsiniz.',
+        'home.popular_cities_intro_long': 'En çok aranan şehir sayfalarına doğrudan erişim için kısa bağlantılar; ana sayfa ise sitenin genel bir kapısı olarak kalır.',
+        'home.services_intro': 'Bu hizmetler; Hicri tarih, takvim, tarih dönüşümü ve dijital tesbih gibi günlük destek araçlarını bir araya getirir.',
         'footer.popular_cities_intro': 'En çok aranan şehirlerdeki namaz vakitlerine hızlı bağlantılar.',
         'footer.services_title': 'Diğer İslami Hizmetler',
         'footer.link_hijri_today': 'Bugünkü Hicri Tarih',

@@ -63,14 +63,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=602" as="script">
+    <link rel="preload" href="js/app.js?v=603" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=301" as="style">
-    <link rel="stylesheet" href="css/style.css?v=301">
+    <link rel="preload" href="css/style.css?v=302" as="style">
+    <link rel="stylesheet" href="css/style.css?v=302">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -878,6 +878,8 @@
                 <!-- الدول العربية — روابط مباشرة إلى صفحات مدن كل دولة (SEO + UX | Round 21: collapse افتراضيّاً) -->
                 <section class="section-card arab-countries-section countries-limited" id="arab-countries-section" aria-labelledby="arab-countries-title" data-full="false">
                     <h2 id="arab-countries-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="footer.arab_countries">مواقيت الصلاة في الدول العربية</span></h2>
+                    <!-- Phase HC-9.2 (2026-05-06): short intro under H2 -->
+                    <p class="home-section-intro" data-i18n="home.arab_countries_intro">استعرض روابط سريعة لمواقيت الصلاة في عدد من الدول العربية، مع إمكانية الانتقال إلى صفحة كل دولة للوصول إلى المدن والخيارات المرتبطة بها.</p>
                     <nav class="arab-countries-grid" aria-label="الدول العربية" data-i18n-aria-label="arab.countries_label">
                         <a href="/prayer-times-in-saudi-arabia" class="country-tile" data-cc="sa"><img src="https://flagcdn.com/w40/sa.png" alt="علم السعودية" data-i18n-alt="flag.sa" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sa">السعودية</span></a>
                         <a href="/prayer-times-in-egypt" class="country-tile" data-cc="eg"><img src="https://flagcdn.com/w40/eg.png" alt="علم مصر" data-i18n-alt="flag.eg" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.eg">مصر</span></a>
@@ -1222,6 +1224,8 @@
                          small chip-buttons to clickable cards with icon + title +
                          short description. Same hrefs preserved for SEO. -->
                     <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="footer.services_title">خدمات إسلامية أخرى</span></div>
+                    <!-- Phase HC-9.3 (2026-05-06): short intro under "Other Islamic Services" -->
+                    <p class="home-section-intro home-section-intro-services" data-i18n="home.services_intro">تجمع هذه الخدمات أدوات يومية مساندة مثل التاريخ الهجري والتقويم وتحويل التاريخ والمسبحة الإلكترونية لتسهيل الاستخدام اليومي.</p>
                     <nav class="home-services-cards" aria-label="الخدمات الإسلامية" data-i18n-aria-label="home.services_title">
                         <a class="home-service-card" href="/today-hijri-date">
                             <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
@@ -3628,7 +3632,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=602"></script>
+    <script defer src="js/app.js?v=603"></script>
     <script defer src="js/footer-cookie.js?v=6"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

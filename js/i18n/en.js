@@ -1229,6 +1229,9 @@ window.TRANSLATIONS['en'] = {
 
         'footer.world_countries': 'Prayer Times in Major World Countries',
         'footer.popular_cities': 'Prayer Times in Popular Cities',
+        'home.arab_countries_intro': 'Browse quick links to prayer times across several Arab countries, with the option to open each country\'s page for cities and related options.',
+        'home.popular_cities_intro_long': 'Concise links for direct access to the most-searched city pages, while the homepage remains a generic gateway to the rest of the site.',
+        'home.services_intro': 'These services bring together daily support tools like the Hijri date, the calendar, date conversion, and the digital tasbih to ease everyday use.',
         'footer.popular_cities_intro': 'Quick links to prayer times in the most-searched cities.',
         'footer.services_title': 'Other Islamic Services',
         'footer.link_hijri_today': 'Today\'s Hijri Date',

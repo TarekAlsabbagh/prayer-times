@@ -1223,6 +1223,9 @@ const TRANSLATIONS = {
 
         'footer.world_countries': 'مواقيت الصلاة في أبرز دول العالم',
         'footer.popular_cities': 'مواقيت الصلاة في أبرز المدن',
+        'home.services_intro': 'تجمع هذه الخدمات أدوات يومية مساندة مثل التاريخ الهجري والتقويم وتحويل التاريخ والمسبحة الإلكترونية لتسهيل الاستخدام اليومي.',
+        'home.popular_cities_intro_long': 'روابط مختصرة تساعدك على الوصول مباشرة إلى صفحات المدن الأكثر بحثًا، مع بقاء الصفحة الرئيسية بوابة عامة للموقع.',
+        'home.arab_countries_intro': 'استعرض روابط سريعة لمواقيت الصلاة في عدد من الدول العربية، مع إمكانية الانتقال إلى صفحة كل دولة للوصول إلى المدن والخيارات المرتبطة بها.',
         'footer.link_tasbih': 'المسبحة الإلكترونية',
         'footer.link_date_converter': 'تحويل التاريخ',
         'footer.link_hijri_year': 'التقويم الهجري 1447',
@@ -2619,6 +2622,9 @@ const TRANSLATIONS = {
 
         'footer.world_countries': 'Prayer Times in Major World Countries',
         'footer.popular_cities': 'Prayer Times in Popular Cities',
+        'home.services_intro': 'These services bring together daily support tools like the Hijri date, the calendar, date conversion, and the digital tasbih to ease everyday use.',
+        'home.popular_cities_intro_long': 'Concise links for direct access to the most-searched city pages, while the homepage remains a generic gateway to the rest of the site.',
+        'home.arab_countries_intro': 'Browse quick links to prayer times across several Arab countries, with the option to open each country\'s page for cities and related options.',
         'footer.link_hijri_today': 'Today\'s Hijri Date',
         'footer.link_tasbih': 'Digital Tasbih',
         'footer.link_date_converter': 'Date Converter',
@@ -3748,6 +3754,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Heures de prière dans les pays arabes',
         'footer.popular_cities': 'Heures de prière dans les villes populaires',
+        'home.services_intro': 'Ces services regroupent des outils quotidiens utiles comme la date hégirienne, le calendrier, la conversion de date et le tasbih numérique.',
+        'home.popular_cities_intro_long': 'Des liens concis pour accéder directement aux pages des villes les plus recherchées, tandis que la page d\'accueil reste une porte d\'entrée générique vers le site.',
+        'home.arab_countries_intro': 'Parcourez des liens rapides vers les heures de prière dans plusieurs pays arabes, avec la possibilité d\'ouvrir la page de chaque pays pour ses villes et options.',
         'footer.link_tasbih': 'Tasbih numérique',
         'footer.link_date_converter': 'Convertisseur de date',
         'footer.link_hijri_year': 'Calendrier hégirien 1447',
@@ -5026,6 +5035,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Arap Ülkelerinde Namaz Vakitleri',
         'footer.popular_cities': 'Popüler Şehirlerde Namaz Vakitleri',
+        'home.services_intro': 'Bu hizmetler; Hicri tarih, takvim, tarih dönüşümü ve dijital tesbih gibi günlük destek araçlarını bir araya getirir.',
+        'home.popular_cities_intro_long': 'En çok aranan şehir sayfalarına doğrudan erişim için kısa bağlantılar; ana sayfa ise sitenin genel bir kapısı olarak kalır.',
+        'home.arab_countries_intro': 'Birkaç Arap ülkesindeki namaz vakitlerine hızlı bağlantıları inceleyin; her ülkenin sayfasına gidip şehirlere ve ilgili seçeneklere ulaşabilirsiniz.',
         'footer.link_tasbih': 'Dijital Tesbih',
         'footer.link_date_converter': 'Tarih Dönüştürücü',
         'footer.link_hijri_year': 'Hicri Takvim 1447',
@@ -6317,6 +6329,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'عرب ممالک میں اوقاتِ نماز',
         'footer.popular_cities': 'مشہور شہروں میں اوقاتِ نماز',
+        'home.services_intro': 'یہ خدمات روزانہ کے معاون آلات کو ایک جگہ لاتی ہیں جیسے ہجری تاریخ، کیلنڈر، تاریخ کی تبدیلی، اور ڈیجیٹل تسبیح۔',
+        'home.popular_cities_intro_long': 'سب سے زیادہ تلاش کیے گئے شہر کے صفحات تک براہِ راست رسائی کے لیے مختصر روابط، جبکہ مرکزی صفحہ سائٹ کا عمومی دروازہ رہتا ہے۔',
+        'home.arab_countries_intro': 'متعدد عرب ممالک میں اوقاتِ نماز کے لیے فوری روابط دیکھیں، اور ہر ملک کے صفحے پر جا کر شہر اور متعلقہ آپشنز تک رسائی حاصل کریں۔',
         'footer.link_tasbih': 'ڈیجیٹل تسبیح',
         'footer.link_date_converter': 'تاریخ کنورٹر',
         'footer.link_hijri_year': 'ہجری کیلنڈر 1447',
@@ -7584,6 +7599,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Gebetszeiten in arabischen Ländern',
         'footer.popular_cities': 'Gebetszeiten in beliebten Städten',
+        'home.services_intro': 'Diese Dienste bündeln tägliche Hilfswerkzeuge wie das Hidschri-Datum, den Kalender, die Datumsumrechnung und die digitale Tasbih.',
+        'home.popular_cities_intro_long': 'Kompakte Links für den direkten Zugriff auf die meistgesuchten Städteseiten, während die Startseite das allgemeine Tor zum Rest der Seite bleibt.',
+        'home.arab_countries_intro': 'Durchstöbern Sie Schnellzugriffe auf Gebetszeiten in mehreren arabischen Ländern, und öffnen Sie die Länderseite für Städte und zugehörige Optionen.',
         'footer.link_tasbih': 'Digitale Tasbih',
         'footer.link_date_converter': 'Datumsumrechnung',
         'footer.link_hijri_year': 'Hidschri-Kalender 1447',
@@ -8917,6 +8935,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Jadwal Sholat di Negara-Negara Arab',
         'footer.popular_cities': 'Jadwal Sholat di Kota-Kota Populer',
+        'home.services_intro': 'Layanan ini menggabungkan alat pendukung harian seperti tanggal Hijriyah, kalender, konversi tanggal, dan tasbih digital.',
+        'home.popular_cities_intro_long': 'Tautan ringkas untuk akses langsung ke halaman kota yang paling banyak dicari, sementara halaman utama tetap menjadi gerbang umum ke situs.',
+        'home.arab_countries_intro': 'Telusuri tautan cepat ke jadwal sholat di beberapa negara Arab, dengan opsi membuka halaman setiap negara untuk kota dan pilihan terkait.',
         'footer.link_tasbih': 'Tasbih Digital',
         'footer.link_date_converter': 'Konverter Tanggal',
         'footer.link_hijri_year': 'Kalender Hijriyah 1447',
@@ -10250,6 +10271,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Horarios de Oración en Países Árabes',
         'footer.popular_cities': 'Horarios de Oración en Ciudades Populares',
+        'home.services_intro': 'Estos servicios reúnen herramientas diarias de apoyo como la fecha hégira, el calendario, la conversión de fechas y el tasbih digital.',
+        'home.popular_cities_intro_long': 'Enlaces concisos para acceder directamente a las páginas de las ciudades más buscadas, mientras la página de inicio sigue siendo una puerta general al sitio.',
+        'home.arab_countries_intro': 'Explora enlaces rápidos a los horarios de oración en varios países árabes, con la opción de abrir la página de cada país para sus ciudades y opciones.',
         'footer.link_tasbih': 'Tasbih Digital',
         'footer.link_date_converter': 'Conversor de Fecha',
         'footer.link_hijri_year': 'Calendario Hégira 1447',
@@ -11583,6 +11607,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'আরব দেশগুলোতে নামাজের সময়',
         'footer.popular_cities': 'জনপ্রিয় শহরগুলোতে নামাজের সময়',
+        'home.services_intro': 'এই সেবাগুলো দৈনন্দিন সহায়ক টুল একত্রিত করে যেমন হিজরি তারিখ, ক্যালেন্ডার, তারিখ রূপান্তর এবং ডিজিটাল তাসবিহ।',
+        'home.popular_cities_intro_long': 'সবচেয়ে বেশি অনুসন্ধান করা শহরের পৃষ্ঠায় সরাসরি প্রবেশের জন্য সংক্ষিপ্ত লিঙ্ক, যেখানে হোমপেজ সাইটের সাধারণ গেটওয়ে হিসেবে থাকে।',
+        'home.arab_countries_intro': 'বিভিন্ন আরব দেশে নামাজের সময়ে দ্রুত প্রবেশের লিঙ্ক ব্রাউজ করুন, এবং প্রতিটি দেশের পৃষ্ঠা খুলে শহর ও সংশ্লিষ্ট অপশনে যান।',
         'footer.link_tasbih': 'ডিজিটাল তাসবিহ',
         'footer.link_date_converter': 'তারিখ রূপান্তরকারী',
         'footer.link_hijri_year': 'হিজরি ক্যালেন্ডার ১৪৪৭',
@@ -12916,6 +12943,9 @@ const TRANSLATIONS = {
         // ─── D3.4 — Shared UI cleanup (HIGH + MEDIUM) ───
         'footer.arab_countries': 'Waktu Solat di Negara-Negara Arab',
         'footer.popular_cities': 'Waktu Solat di Bandar-Bandar Popular',
+        'home.services_intro': 'Perkhidmatan ini menggabungkan alat sokongan harian seperti tarikh Hijri, kalendar, penukaran tarikh, dan tasbih digital.',
+        'home.popular_cities_intro_long': 'Pautan ringkas untuk akses terus ke halaman bandar yang paling banyak dicari, sementara halaman utama kekal sebagai pintu masuk umum ke laman web.',
+        'home.arab_countries_intro': 'Lihat pautan pantas ke waktu solat di beberapa negara Arab, dengan pilihan untuk membuka halaman setiap negara bagi bandar dan pilihan berkaitan.',
         'footer.link_tasbih': 'Tasbih Digital',
         'footer.link_date_converter': 'Penukar Tarikh',
         'footer.link_hijri_year': 'Kalendar Hijri 1447',

@@ -5704,7 +5704,9 @@ function renderSeoHeadHtml(seo) {
                 { q: 'هل يمكن تحديد مواقيت الصلاة من موقعي تلقائيًّا؟',
                   a: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقّة أعلى، مع إمكانية اختيار المدينة يدويًّا عند الحاجة.' },
                 { q: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
-                  a: 'تتوفّر أدوات مثل اتّجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.' }
+                  a: 'تتوفّر أدوات مثل اتّجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.' },
+                { q: 'هل تتغيّر مواقيت الصلاة يوميًّا؟',
+                  a: 'نعم، تتغيّر المواقيت يوميًّا بدرجات بسيطة نتيجة تغيّر موقع الشمس وطول النهار والليل خلال السنة.' }
             ],
             en: [
                 { q: 'How are prayer times calculated?',
@@ -5718,7 +5720,9 @@ function renderSeoHeadHtml(seo) {
                 { q: 'Can prayer times be set automatically from my location?',
                   a: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.' },
                 { q: 'What Islamic tools are available alongside prayer times?',
-                  a: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.' }
+                  a: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.' },
+                { q: 'Do prayer times change daily?',
+                  a: 'Yes, prayer times shift slightly each day as the sun\'s position and the length of day and night change over the year.' }
             ],
             fr: [
                 { q: 'Comment les heures de prière sont-elles calculées ?',
@@ -5732,7 +5736,9 @@ function renderSeoHeadHtml(seo) {
                 { q: 'Les heures de prière peuvent-elles être réglées automatiquement depuis ma position ?',
                   a: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.' },
                 { q: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
-                  a: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.' }
+                  a: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.' },
+                { q: 'Les heures de prière changent-elles chaque jour ?',
+                  a: 'Oui, les heures changent légèrement chaque jour selon la position du soleil et la durée du jour et de la nuit au fil de l\'année.' }
             ],
             tr: [
                 { q: 'Namaz vakitleri nasıl hesaplanır?',
@@ -5746,7 +5752,9 @@ function renderSeoHeadHtml(seo) {
                 { q: 'Namaz vakitleri konumumdan otomatik olarak ayarlanabilir mi?',
                   a: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.' },
                 { q: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
-                  a: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.' }
+                  a: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.' },
+                { q: 'Namaz vakitleri her gün değişir mi?',
+                  a: 'Evet, vakitler her gün hafifçe değişir; güneşin konumu ve gün-gece uzunluğu yıl boyunca değiştiği için.' }
             ],
             ur: [
                 { q: 'اوقاتِ نماز کیسے شمار ہوتے ہیں؟',
@@ -5760,7 +5768,9 @@ function renderSeoHeadHtml(seo) {
                 { q: 'کیا میرے مقام سے نماز کے اوقات خودکار طریقے سے طے ہو سکتے ہیں؟',
                   a: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔' },
                 { q: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
-                  a: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔' }
+                  a: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔' },
+                { q: 'کیا نماز کے اوقات روزانہ تبدیل ہوتے ہیں؟',
+                  a: 'جی ہاں، اوقات روزانہ معمولی طور پر تبدیل ہوتے ہیں کیونکہ سورج کی پوزیشن اور دن و رات کی لمبائی سال بھر بدلتی رہتی ہے۔' }
             ],
         };
         const faqs = FAQ_I18N[seo.lang] || FAQ_I18N.ar;
@@ -8928,6 +8938,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقّة أعلى، مع إمكانية اختيار المدينة يدويًّا عند الحاجة.',
                     faqQ6: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
                     faqA6: 'تتوفّر أدوات مثل اتّجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.',
+                    faqQ7: 'هل تتغيّر مواقيت الصلاة يوميًّا؟',
+                    faqA7: 'نعم، تتغيّر المواقيت يوميًّا بدرجات بسيطة نتيجة تغيّر موقع الشمس وطول النهار والليل خلال السنة.',
                 },
                 en: {
                     worldCities: 'Cities Worldwide', upcomingPrayer: 'Upcoming Prayer',
@@ -8950,6 +8962,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.',
                     faqQ6: 'What Islamic tools are available alongside prayer times?',
                     faqA6: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.',
+                    faqQ7: 'Do prayer times change daily?',
+                    faqA7: 'Yes, prayer times shift slightly each day as the sun\'s position and the length of day and night change over the year.',
                 },
                 fr: {
                     worldCities: 'Villes du Monde', upcomingPrayer: 'Prochaine prière',
@@ -8972,6 +8986,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.',
                     faqQ6: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
                     faqA6: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.',
+                    faqQ7: 'Les heures de prière changent-elles chaque jour ?',
+                    faqA7: 'Oui, les heures changent légèrement chaque jour selon la position du soleil et la durée du jour et de la nuit au fil de l\'année.',
                 },
                 tr: {
                     worldCities: 'Dünya Şehirleri', upcomingPrayer: 'Sonraki Namaz',
@@ -8994,6 +9010,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.',
                     faqQ6: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
                     faqA6: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.',
+                    faqQ7: 'Namaz vakitleri her gün değişir mi?',
+                    faqA7: 'Evet, vakitler her gün hafifçe değişir; güneşin konumu ve gün-gece uzunluğu yıl boyunca değiştiği için.',
                 },
                 ur: {
                     worldCities: 'دنیا کے شہر', upcomingPrayer: 'اگلی نماز',
@@ -9016,6 +9034,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔',
                     faqQ6: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
                     faqA6: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔',
+                    faqQ7: 'کیا نماز کے اوقات روزانہ تبدیل ہوتے ہیں؟',
+                    faqA7: 'جی ہاں، اوقات روزانہ معمولی طور پر تبدیل ہوتے ہیں کیونکہ سورج کی پوزیشن اور دن و رات کی لمبائی سال بھر بدلتی رہتی ہے۔',
                 },
                 de: {
                     worldCities: 'Städte weltweit', upcomingPrayer: 'Nächstes Gebet',
@@ -9038,6 +9058,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Ja, Ihr geografischer Standort kann für höhere Genauigkeit verwendet werden, mit der Möglichkeit, bei Bedarf eine Stadt manuell auszuwählen.',
                     faqQ6: 'Welche islamischen Werkzeuge gibt es neben den Gebetszeiten?',
                     faqA6: 'Werkzeuge wie Qibla-Richtung, Hidschri-Datum, Hidschri-Kalender, Mondphase und Datumsumrechnung stehen zur Verfügung.',
+                    faqQ7: 'Ändern sich die Gebetszeiten täglich?',
+                    faqA7: 'Ja, die Zeiten ändern sich täglich geringfügig, da sich die Sonnenposition sowie Tag- und Nachtlänge im Jahresverlauf verschieben.',
                 },
                 id: {
                     worldCities: 'Kota-Kota Dunia', upcomingPrayer: 'Sholat Berikutnya',
@@ -9060,6 +9082,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Ya, lokasi geografis dapat digunakan untuk akurasi yang lebih tinggi, dengan pilihan untuk memilih kota secara manual jika diperlukan.',
                     faqQ6: 'Alat Islami apa saja yang tersedia bersama jadwal sholat?',
                     faqA6: 'Tersedia alat seperti arah Kiblat, tanggal Hijriyah, kalender Hijriyah, fase bulan, dan konversi tanggal.',
+                    faqQ7: 'Apakah jadwal sholat berubah setiap hari?',
+                    faqA7: 'Ya, waktu berubah sedikit setiap hari karena posisi matahari serta panjang siang dan malam berubah sepanjang tahun.',
                 },
                 es: {
                     worldCities: 'Ciudades del Mundo', upcomingPrayer: 'Próxima Oración',
@@ -9082,6 +9106,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Sí, tu ubicación geográfica puede usarse para mayor precisión, con la opción de elegir manualmente una ciudad cuando lo necesites.',
                     faqQ6: '¿Qué herramientas islámicas hay disponibles junto a los horarios de oración?',
                     faqA6: 'Hay herramientas como dirección de la Qibla, fecha hégira, calendario hégira, fase lunar y conversión de fechas.',
+                    faqQ7: '¿Cambian los horarios de oración cada día?',
+                    faqA7: 'Sí, los horarios cambian ligeramente cada día porque la posición del sol y la duración del día y la noche varían a lo largo del año.',
                 },
                 bn: {
                     worldCities: 'বিশ্বের শহরসমূহ', upcomingPrayer: 'পরবর্তী নামাজ',
@@ -9104,6 +9130,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'হ্যাঁ, ভৌগোলিক অবস্থান উচ্চতর নির্ভুলতার জন্য ব্যবহার করা যায়, এবং প্রয়োজন হলে শহর ম্যানুয়ালি নির্বাচন করা যায়।',
                     faqQ6: 'নামাজের সময়ের পাশাপাশি কোন ইসলামিক টুলগুলো পাওয়া যায়?',
                     faqA6: 'কিবলার দিক, হিজরি তারিখ, হিজরি ক্যালেন্ডার, চাঁদের অবস্থা এবং তারিখ রূপান্তরের মতো টুল উপলব্ধ।',
+                    faqQ7: 'নামাজের সময় কি প্রতিদিন পরিবর্তিত হয়?',
+                    faqA7: 'হ্যাঁ, প্রতিদিন সময় সামান্য পরিবর্তিত হয় কারণ সূর্যের অবস্থান এবং দিন-রাতের দৈর্ঘ্য বছরজুড়ে পরিবর্তিত হয়।',
                 },
                 ms: {
                     worldCities: 'Bandar Dunia', upcomingPrayer: 'Solat Seterusnya',
@@ -9126,6 +9154,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     faqA5: 'Ya, lokasi geografi anda boleh digunakan untuk ketepatan yang lebih tinggi, dengan pilihan untuk memilih bandar secara manual apabila diperlukan.',
                     faqQ6: 'Apakah alat Islam yang tersedia bersama waktu solat?',
                     faqA6: 'Alat seperti arah Kiblat, tarikh Hijrah, kalendar Hijrah, fasa bulan, dan penukaran tarikh tersedia.',
+                    faqQ7: 'Adakah waktu solat berubah setiap hari?',
+                    faqA7: 'Ya, waktu berubah sedikit setiap hari kerana kedudukan matahari serta panjang siang dan malam berubah sepanjang tahun.',
                 },
             }[Lh] || {};
 
@@ -9232,6 +9262,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     <div class="faq-item">
                         <div class="faq-question">${_escHtml(i18n.faqQ6)}</div>
                         <div class="faq-answer"><p>${_escHtml(i18n.faqA6)}</p></div>
+                    </div>
+                    <div class="faq-divider"></div>
+                    <div class="faq-item">
+                        <div class="faq-question">${_escHtml(i18n.faqQ7)}</div>
+                        <div class="faq-answer"><p>${_escHtml(i18n.faqA7)}</p></div>
                     </div>` : '';
             // نستبدل الكتلتين الفارغتين الأصليّتين (faq-q1 و faq-q2) بـ 6 أسئلة/أجوبة معلوماتيّة
             // مع الحفاظ على IDs الأصلية في أول سؤالين لتوافق JS

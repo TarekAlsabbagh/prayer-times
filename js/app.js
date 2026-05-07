@@ -8891,17 +8891,20 @@ function updatePageSEO() {
         // Phase Home-Global+day (2026-05-06): include today's Hijri day
         // (e.g. "19 ذو القعدة 1447 هـ") for daily-fresh titles. Updates each
         // day automatically — fits prayer-times-as-daily-page pattern.
+        // Phase HC-9.1 (2026-05-06): SEOptimer reported the Title as "too short"
+        // at 42 chars. Per-lang extension to 50-60 chars by appending "and the
+        // Hijri Date" (or local equivalent). Still GENERIC — no city anywhere.
         const HOME_TITLES = {
-            ar: `مواقيت الصلاة اليوم | ${_hD} ${_hMAr} ${_hY} هـ`,
-            en: `Today's Prayer Times | ${_hD} ${_hMEn} ${_hY}`,
-            fr: `Heures de prière | ${_hD} ${_hMEn} ${_hY}`,
-            tr: `Bugünkü Namaz Vakitleri | ${_hD} ${_hMEn} ${_hY}`,
-            ur: `آج اوقاتِ نماز | ${_hD} ${_hMEn} ${_hY}`,
-            de: `Heutige Gebetszeiten | ${_hD} ${_hMEn} ${_hY}`,
-            id: `Jadwal Sholat Hari Ini | ${_hD} ${_hMEn} ${_hY}`,
-            es: `Horarios de Oración Hoy | ${_hD} ${_hMEn} ${_hY}`,
-            bn: `আজকের নামাজের সময় | ${_hD} ${_hMEn} ${_hY}`,
-            ms: `Waktu Solat Hari Ini | ${_hD} ${_hMEn} ${_hY}`,
+            ar: `مواقيت الصلاة اليوم والتاريخ الهجري | ${_hD} ${_hMAr} ${_hY} هـ`,
+            en: `Prayer Times Today and Hijri Date | ${_hD} ${_hMEn} ${_hY}`,
+            fr: `Heures de prière et date hégirienne | ${_hD} ${_hMEn} ${_hY}`,
+            tr: `Namaz Vakitleri ve Hicri Tarih | ${_hD} ${_hMEn} ${_hY}`,
+            ur: `آج اوقاتِ نماز اور ہجری تاریخ | ${_hD} ${_hMEn} ${_hY}`,
+            de: `Gebetszeiten und Hidschri-Datum | ${_hD} ${_hMEn} ${_hY}`,
+            id: `Jadwal Sholat dan Tanggal Hijriyah | ${_hD} ${_hMEn} ${_hY}`,
+            es: `Horarios de Oración y Fecha Hégira | ${_hD} ${_hMEn} ${_hY}`,
+            bn: `নামাজের সময় ও হিজরি তারিখ | ${_hD} ${_hMEn} ${_hY}`,
+            ms: `Waktu Solat dan Tarikh Hijri | ${_hD} ${_hMEn} ${_hY}`,
         };
         // Round 7h: إضافة الشهر الميلاديّ المحلَّى — phrase "أبريل 2026" في seoptimer
         // Phase Home-Global: dropped "Mecca, Medina" geo-anchors from descs.

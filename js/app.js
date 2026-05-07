@@ -9174,17 +9174,23 @@ function updateCitySEO(city, englishName, country, lat, lng) {
 
     // prayer-times-in-*
     if (/\/prayer-times-in-/.test(path)) {
+        // Phase HC-10.1 (2026-05-06): inject "today" (today/اليوم/Hari Ini/etc.)
+        // before the country suffix so the title rises from 49 chars to 57+
+        // chars on cities like Riyadh — pulls into SEOptimer's 50-60 sweet
+        // spot while staying GENERIC (only words: city + today + country).
+        // The short fallback (no country) also gets "today" so it remains
+        // descriptive when a country is missing or the long form > 60.
         const titles = ({
-            ar: [`مواقيت الصلاة في ${cityDisplay}${countrySuffix}`, `مواقيت الصلاة في ${cityDisplay}`],
-            en: [`Prayer Times in ${cityDisplay}${countrySuffix}`, `Prayer Times in ${cityDisplay}`],
-            fr: [`Heures de prière à ${cityDisplay}${countrySuffix}`, `Heures de prière à ${cityDisplay}`],
-            tr: [`${cityDisplay}${countrySuffix} Namaz Vakitleri`, `${cityDisplay} Namaz Vakitleri`],
-            ur: [`${cityDisplay}${countrySuffix} میں اوقاتِ نماز`, `${cityDisplay} میں اوقاتِ نماز`],
-            de: [`Gebetszeiten in ${cityDisplay}${countrySuffix}`, `Gebetszeiten in ${cityDisplay}`],
-            id: [`Jadwal Sholat di ${cityDisplay}${countrySuffix}`, `Jadwal Sholat di ${cityDisplay}`],
-            es: [`Horarios de Oración en ${cityDisplay}${countrySuffix}`, `Horarios de Oración en ${cityDisplay}`],
-            bn: [`${cityDisplay}${countrySuffix}-এ নামাজের সময়`, `${cityDisplay}-এ নামাজের সময়`],
-            ms: [`Waktu Solat di ${cityDisplay}${countrySuffix}`, `Waktu Solat di ${cityDisplay}`],
+            ar: [`مواقيت الصلاة في ${cityDisplay} اليوم${countrySuffix}`, `مواقيت الصلاة في ${cityDisplay} اليوم`],
+            en: [`Prayer Times in ${cityDisplay} Today${countrySuffix}`, `Prayer Times in ${cityDisplay} Today`],
+            fr: [`Heures de prière à ${cityDisplay} aujourd'hui${countrySuffix}`, `Heures de prière à ${cityDisplay} aujourd'hui`],
+            tr: [`${cityDisplay}${countrySuffix} Bugünkü Namaz Vakitleri`, `${cityDisplay} Bugünkü Namaz Vakitleri`],
+            ur: [`${cityDisplay}${countrySuffix} میں آج اوقاتِ نماز`, `${cityDisplay} میں آج اوقاتِ نماز`],
+            de: [`Gebetszeiten in ${cityDisplay} heute${countrySuffix}`, `Gebetszeiten in ${cityDisplay} heute`],
+            id: [`Jadwal Sholat di ${cityDisplay} Hari Ini${countrySuffix}`, `Jadwal Sholat di ${cityDisplay} Hari Ini`],
+            es: [`Horarios de Oración en ${cityDisplay} hoy${countrySuffix}`, `Horarios de Oración en ${cityDisplay} hoy`],
+            bn: [`${cityDisplay}${countrySuffix}-এ আজকের নামাজের সময়`, `${cityDisplay}-এ আজকের নামাজের সময়`],
+            ms: [`Waktu Solat di ${cityDisplay} Hari Ini${countrySuffix}`, `Waktu Solat di ${cityDisplay} Hari Ini`],
         })[lang];
         const desc = ({
             ar: `مواقيت الصلاة الدقيقة في ${cityDisplay}${countrySuffix}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`,

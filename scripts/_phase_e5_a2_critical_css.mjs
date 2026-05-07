@@ -75,6 +75,13 @@ const CRITICAL_PATTERNS = [
     // HC-10.2 (2026-05-06): banner-block reservations need to land BEFORE
     // first paint so the banner doesn't jump when JS hydrates city data.
     /^#page-prayer-times\s+\.banner-block/,
+    // HC-10.4 (2026-05-06): elements above the banner that need height
+    // reservations to prevent the banner from being pushed down when JS
+    // hydrates city data.
+    /^html\.city-page\s+\.top-header$/,
+    /^html\.city-page\s+#city-breadcrumb$/,
+    /^html\.city-page\s+#page-h1$/,
+    /^html\.city-page\s+\.location-info$/,
 
     // Moon-A (2026-05-06): #page-moon-scoped reservation for the
     // .moon-summary-line (the actual source of the 0.121 shift —

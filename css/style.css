@@ -15094,6 +15094,20 @@ html.countdown-page.countdown-hijri-new-year #page-hijri-new-year-countdown {
     }
 }
 
+/* Phase HC-10.4 (2026-05-06): elements ABOVE .next-prayer-banner that
+   could grow during JS hydration → push the banner down → 0.2 CLS shift
+   attributed to the banner moving. Each one gets a min-height matching
+   its natural rendered size on mobile so the layout above the banner
+   stays put across SSR → JS hydration → city data fill. */
+html.city-page .top-header { min-height: 122px; }
+html.city-page #city-breadcrumb { min-height: 66px; }
+html.city-page #page-h1 { min-height: 25px; }
+html.city-page .location-info { min-height: 51px; }
+@media (max-width: 480px) {
+    html.city-page .top-header { min-height: 130px; }
+    html.city-page #city-breadcrumb { min-height: 90px; }
+}
+
 /* C) #country-cities-grid reservation.
    Empty grid in SSR → JS calls renderCountryCities() (app.js:10190)
    which fills up to 16 city <a class="city-card"> nodes. Mobile width

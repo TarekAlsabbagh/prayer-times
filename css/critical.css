@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-07T06:21:47.514Z
-   Source: css/style.css (full 513 KiB)
-   Critical: 36.1 KiB
+   Extracted on: 2026-05-07T06:43:27.844Z
+   Source: css/style.css (full 514 KiB)
+   Critical: 36.5 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -248,6 +248,10 @@ html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
     }
 .page.active{ padding: 12px; max-width: 100%; box-sizing: border-box; }}
 @media (max-width: 480px){.location-info{ padding-right: 50px; }}
+html.city-page #city-breadcrumb{
+    display: block;
+    margin: 0 0 14px;
+}
 .cookie-consent{
     position: fixed;
     bottom: 14px;
@@ -735,6 +739,12 @@ html.countdown-page.countdown-ramadan #page-ramadan-countdown,html.countdown-pag
 #page-prayer-times .banner-block.banner-block-prayer{
         min-height: 280px;
     }}
+html.city-page .top-header{ min-height: 122px; }
+html.city-page #city-breadcrumb{ min-height: 66px; }
+html.city-page #page-h1{ min-height: 25px; }
+html.city-page .location-info{ min-height: 51px; }
+@media (max-width: 480px){html.city-page .top-header{ min-height: 130px; }
+html.city-page #city-breadcrumb{ min-height: 90px; }}
 #page-prayer-times #country-cities-grid{
     min-height: 220px;
 }

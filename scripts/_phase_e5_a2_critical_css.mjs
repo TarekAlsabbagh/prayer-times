@@ -72,6 +72,9 @@ const CRITICAL_PATTERNS = [
     // Phase reverted as no-op — see style.css PT-A comment block.
     // Whitelist pattern kept in case a future PT-A-followup needs it.
     /^#page-prayer-times(\s|$)/,
+    // HC-10.2 (2026-05-06): banner-block reservations need to land BEFORE
+    // first paint so the banner doesn't jump when JS hydrates city data.
+    /^#page-prayer-times\s+\.banner-block/,
 
     // Moon-A (2026-05-06): #page-moon-scoped reservation for the
     // .moon-summary-line (the actual source of the 0.121 shift —

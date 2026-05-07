@@ -15624,29 +15624,32 @@ html[data-theme="dark"] .home-service-card {
     line-height: 1.45;
 }
 
-/* Guide — single card with 3 sub-blocks */
+/* Guide — single card with 3 sub-blocks STACKED (HD-4b 2026-05-08).
+   Was 3-col grid on desktop; user feedback: cramped columns hurt
+   readability. Now each box spans the full width and the paragraph
+   flows naturally over ~3 lines on a typical desktop width. */
 .hd1-guide-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 .hd1-guide-item {
-    padding: 14px 16px;
+    padding: 14px 18px;
     background: var(--bg, #f7faf8);
     border: 1px solid var(--border, #d6e3dc);
     border-radius: 10px;
 }
 .hd1-guide-item h3 {
-    margin: 0 0 8px;
-    font-size: 1rem;
+    margin: 0 0 6px;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--primary-dark, #14422a);
     line-height: 1.35;
 }
 .hd1-guide-item p {
     margin: 0;
-    font-size: 0.92rem;
-    line-height: 1.65;
+    font-size: 0.95rem;
+    line-height: 1.7;
     color: var(--text, #2a3b34);
 }
 
@@ -15673,7 +15676,10 @@ html[data-theme="dark"] .home-service-card {
 }
 @media (max-width: 760px) {
     .hd1-tools-grid { grid-template-columns: 1fr; }
-    .hd1-guide-grid { grid-template-columns: 1fr; gap: 12px; }
+    .hd1-guide-grid { gap: 12px; }
+    .hd1-guide-item { padding: 12px 14px; }
+    .hd1-guide-item h3 { font-size: 0.98rem; }
+    .hd1-guide-item p { font-size: 0.9rem; line-height: 1.65; }
     .hd1-section-title { font-size: 1.1rem; }
     .hd4-nav-heading { font-size: 1rem; }
 }

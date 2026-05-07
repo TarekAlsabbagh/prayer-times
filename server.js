@@ -6748,6 +6748,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //     الحذف الفعليّ يُنظِّف DOM (~6-10KB) ويُلغي H1 race + intent duplication أمام SEO.
     const _isCityPageSsr = !!(seo && !seo.timeLeftPage && !seo.nextPrayerPage
         && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9.-]+$/.test(urlPath));
+    // Phase HC-10.3 (2026-05-06): inject `html.city-page` SSR-side so
+    // CSS rules like `html.city-page .location-hero { display:none }`
+    // (style.css:10844) apply at first paint. Without this, the hero
+    // briefly rendered (~200px collapsed) before JS added the class →
+    // 0.2 CLS shift on .next-prayer-banner as it moved up. Mirrors the
+    // home-page / qibla-hub-page / moon-today-hub-page injections.
+    if (_isCityPageSsr) {
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} city-page"`) + '>';
+            }
+            return '<html' + a + ' class="city-page">';
+        });
+    }
     // ── 1d-PRE) SSR-Prayer-Times: pre-compute the 5 daily prayer times and
     //   inject them into the HTML before serving. Kills the "--:--" SEO
     //   problem where Googlebot sees empty placeholders and never waits for

@@ -2642,29 +2642,10 @@ async function initFromURL() {
 }
 
 // ========= التهيئة =========
-// —— إعادة كتابة روابط /today-hijri-date → /hijri-date/YYYY-MM-DD (canonical) ——
-// قاعدة ذهبيّة: no user-facing link يجب أن يقود إلى /today-hijri-date؛ الـ canonical هو
-// الصفحة المؤرّخة. يتمّ هذا قبل DOMContentLoaded عبر MutationObserver البسيط لإلتقاط
-// أيّ إضافات لاحقة (holiday sidebars، countries.html، legal.html).
-(function rewriteTodayHijriLinks() {
-    if (typeof HijriDate === 'undefined' || !HijriDate.getToday) return;
-    const _h = HijriDate.getToday();
-    const _pad2 = (n) => String(n).padStart(2, '0');
-    const _datedPath = `/hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
-    const _rewrite = (root) => {
-        const nodes = (root || document).querySelectorAll('a[href*="/today-hijri-date"]');
-        nodes.forEach((a) => {
-            const href = a.getAttribute('href') || '';
-            const m = href.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/today-hijri-date(?:[?#].*)?$/);
-            if (m) a.setAttribute('href', (m[1] || '') + _datedPath);
-        });
-    };
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => _rewrite(document));
-    } else {
-        _rewrite(document);
-    }
-})();
+// HD-1 (2026-05-07): the previous IIFE that rewrote `/today-hijri-date` links
+//   to `/hijri-date/{today}` has been REMOVED. The Hub at /today-hijri-date
+//   is now a real indexable page (Phase HD-1, server.js:5790 FAQPage +
+//   server.js:7785+ SSR content). User-facing links go directly to it.
 
 // R37r — reorder: move #home-quick-access to sit immediately after
 // #nearby-section on both home and city pages (per user request).
@@ -4283,27 +4264,13 @@ function initNavigation() {
                 } catch (_) {}
             };
 
-            // التاريخ الهجري → /hijri-date/YYYY-MM-DD (canonical، لا يمرّ بـ /today-hijri-date)
+            // HD-1 (2026-05-07): "Today's Hijri Date" navigation now goes
+            //   straight to the Hub at /today-hijri-date (a real indexable
+            //   page) instead of bouncing through /hijri-date/{today}.
+            //   Removed: the HijriDate.getToday()-based dated-path build, the
+            //   `_re` test, and the fallback branch that did the same thing.
             if (pageId === 'hijri-today' && window.location.protocol !== 'file:') {
-                try {
-                    const _h = (typeof HijriDate !== 'undefined' && HijriDate.getToday)
-                        ? HijriDate.getToday()
-                        : null;
-                    if (_h) {
-                        const _pad2 = (n) => String(n).padStart(2, '0');
-                        const _datedPath = `/hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
-                        const _re = /\/(?:en|fr|tr|ur|de|id|es|bn|ms)?\/?hijri-date\/\d{4}-\d{2}-\d{2}$/;
-                        if (!_re.test(window.location.pathname)) {
-                            // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي
-                            _saveCityCtxFor('hijri-today');
-                            _showNavLoadingOverlay('hijri');
-                            window.location.href = pageUrl(_datedPath);
-                        }
-                        return;
-                    }
-                } catch (_e) { /* fallthrough */ }
-                // fallback لو مكتبة الهجري غير مُحمّلة
-                if (!/\/(?:en\/)?today-hijri-date$/.test(window.location.pathname)) {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(window.location.pathname)) {
                     _saveCityCtxFor('hijri-today');
                     _showNavLoadingOverlay('hijri');
                     window.location.href = pageUrl('/today-hijri-date');

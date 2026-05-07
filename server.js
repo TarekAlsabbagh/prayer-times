@@ -2592,6 +2592,301 @@ function _escHtml(s) {
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// HD-1 (2026-05-07): /today-hijri-date Hub content dictionary — 10 langs.
+//
+// Strict per-lang content. NO fallback chain. Used by:
+//   1. JSON-LD FAQPage block at server.js:5790 (reads `.faq[i].q` + `.faq[i].a`)
+//   2. Visible HTML SSR injection at server.js:7785-area (`_isTodayHijriDateHub`)
+// Both consumers MUST emit the same Q/A text byte-for-byte after _escHtml so
+// Google's structured-data tester doesn't flag a mismatch warning.
+//
+// HARD RULES:
+//   - No city name (Mecca / Medina / Riyadh / Cairo / Istanbul / etc.) in any
+//     string in any language.
+//   - Each lang has its own dedicated content (no AR fallback, no EN fallback).
+//   - Educational content stays generic and global.
+// ════════════════════════════════════════════════════════════════════════════
+const _HD1_BY_LANG = {
+    ar: {
+        heroSub: 'اعرف تاريخ اليوم الهجري والميلادي، مع إمكانية تحويل التاريخ واستعراض التقويم الهجري بسهولة.',
+        toolsTitle: 'أدوات مرتبطة',
+        tool_dateconv: 'تحويل التاريخ',
+        tool_calendar: 'التقويم الهجري',
+        tool_prayertimes: 'مواقيت الصلاة اليوم',
+        tool_moon: 'حالة القمر اليوم',
+        h2_what: 'ما هو التاريخ الهجري؟',
+        p_what: 'التاريخ الهجري هو التقويم القمري الإسلامي الذي بدأ عام 622 ميلاديًا مع هجرة النبي محمد ﷺ. يعتمد على دورة القمر، فالشهر يبدأ مع رؤية الهلال ويستمر 29 أو 30 يومًا، وفيه 12 شهرًا تبدأ بمحرَّم وتنتهي بذي الحجة. مجموع أيام السنة الهجرية 354 أو 355 يومًا، أقصر بنحو 10–11 يومًا من السنة الميلادية.',
+        h2_why: 'لماذا يختلف التاريخ الهجري أحيانًا؟',
+        p_why: 'قد يختلف التاريخ الهجري بين دولة وأخرى بمقدار يوم واحد. السبب هو اختلاف منهج تحديد بداية الشهر: بعض الدول تعتمد الرؤية الفلكية الفعلية بالعين المجرَّدة، وأخرى تعتمد الحساب الفلكي المسبق كتقويم أم القرى. هذه الصفحة تعرض التاريخ بحسب أم القرى — المرجع الأكثر استخدامًا — وقد يختلف يومًا واحدًا حسب الرؤية المحلية في بلدك.',
+        h2_help: 'كيف يساعدك التاريخ الهجري اليوم؟',
+        p_help: 'معرفة التاريخ الهجري تساعدك في تخطيط العبادات والمناسبات: صيام رمضان، أيام الحج، عيد الفطر وعيد الأضحى، عاشوراء، يوم عرفة، الأيام البيض، صيام الإثنين والخميس. كما تستعرض من هذه الصفحة التقويم الهجري كاملاً، وتحوِّل أي تاريخ ميلادي إلى هجري، وتعرف موعد المناسبات الإسلامية القادمة بدقة.',
+        faqTitle: 'أسئلة متكرّرة عن التاريخ الهجري',
+        faq: [
+            { q: 'ما هو التاريخ الهجري اليوم؟',
+              a: 'التاريخ الهجري اليوم هو اليوم الحالي في التقويم القمري الإسلامي، يُحسب بناءً على دورة القمر التي تستغرق 29 أو 30 يومًا في الشهر. تعتمد الصفحة تقويم أم القرى الذي يُستخدم رسميًّا في كثير من البلدان الإسلامية.' },
+            { q: 'هل يمكن أن يختلف التاريخ الهجري بين الدول؟',
+              a: 'نعم، قد يختلف التاريخ الهجري بين الدول بيوم واحد بسبب اختلاف رؤية الهلال محلّيًّا. بعض الدول تعتمد الرؤية الشرعية الفعلية، وأخرى تعتمد الحساب الفلكي كأم القرى. الفرق نادرًا ما يتجاوز يومًا واحدًا.' },
+            { q: 'ما الفرق بين التاريخ الهجري والميلادي؟',
+              a: 'التاريخ الهجري قمري — يعتمد على دورة القمر — والسنة الهجرية 354 أو 355 يومًا. أما الميلادي فهو شمسي — يعتمد على دورة الأرض حول الشمس — وسنته 365 أو 366 يومًا. لذلك يتقدّم التاريخ الهجري نحو 10–11 يومًا كل سنة ميلادية.' },
+            { q: 'هل يمكن تحويل التاريخ الميلادي إلى هجري؟',
+              a: 'نعم، يمكنك تحويل أي تاريخ ميلادي إلى هجري والعكس باستخدام أداة تحويل التاريخ. الحساب يعتمد على تقويم أم القرى ويدعم الفترة من 1 هـ إلى 1500 هـ.' },
+            { q: 'هل التاريخ الهجري مرتبط بمواقيت الصلاة؟',
+              a: 'التاريخ الهجري يُساعد في تحديد بدايات شهور رمضان والحج والأعياد، وكذلك أيام صيام السنة (الإثنين والخميس، الأيام البيض، عاشوراء، عرفة). لكنّ مواقيت الصلاة اليومية تعتمد على موضع الشمس لا على التاريخ الهجري.' }
+        ]
+    },
+    en: {
+        heroSub: "Know today's Hijri and Gregorian date, with quick access to the date converter and the full Hijri calendar.",
+        toolsTitle: 'Related Tools',
+        tool_dateconv: 'Date Converter',
+        tool_calendar: 'Hijri Calendar',
+        tool_prayertimes: 'Prayer Times Today',
+        tool_moon: 'Moon Phase Today',
+        h2_what: 'What is the Hijri date?',
+        p_what: "The Hijri date is the Islamic lunar calendar that began in 622 CE with the Prophet Muhammad's ﷺ migration. It is based on the moon's cycle: each month starts with the crescent sighting and lasts 29 or 30 days, with 12 months from Muharram to Dhul-Hijjah. A Hijri year totals 354 or 355 days — about 10–11 days shorter than a Gregorian year.",
+        h2_why: 'Why does the Hijri date sometimes differ?',
+        p_why: 'The Hijri date can differ by one day between countries. The reason is the method used to mark the start of a month: some countries follow the actual naked-eye crescent sighting, while others follow astronomical calculation such as the Umm al-Qura calendar. This page displays the date per Umm al-Qura — the most widely referenced calendar — which may differ by one day from your local sighting.',
+        h2_help: 'How does today\'s Hijri date help you?',
+        p_help: "Knowing the Hijri date helps you plan worship and occasions: fasting Ramadan, the days of Hajj, Eid al-Fitr and Eid al-Adha, Ashura, the Day of Arafah, the White Days, and Monday-Thursday Sunnah fasting. From this page you can also browse the full Hijri calendar, convert any Gregorian date to Hijri, and check upcoming Islamic events accurately.",
+        faqTitle: 'Frequently Asked Questions about the Hijri Date',
+        faq: [
+            { q: "What is today's Hijri date?",
+              a: "Today's Hijri date is the current day on the Islamic lunar calendar, calculated from the lunar cycle of 29 or 30 days per month. This page uses the Umm al-Qura calendar, which is the official reference in many Muslim countries." },
+            { q: 'Can the Hijri date differ between countries?',
+              a: 'Yes, the Hijri date can differ by one day between countries due to local moon-sighting practices. Some countries follow actual crescent sighting, while others follow astronomical calculation such as Umm al-Qura. The difference rarely exceeds one day.' },
+            { q: 'What is the difference between the Hijri and Gregorian calendars?',
+              a: "The Hijri calendar is lunar — based on the moon's cycle — and a Hijri year is 354 or 355 days. The Gregorian calendar is solar — based on Earth's orbit around the sun — and lasts 365 or 366 days. As a result, the Hijri date moves about 10–11 days earlier each Gregorian year." },
+            { q: 'Can I convert a Gregorian date to a Hijri date?',
+              a: 'Yes, you can convert any Gregorian date to Hijri and vice versa using the date converter. The calculation uses the Umm al-Qura calendar and supports the range from 1 AH to 1500 AH.' },
+            { q: 'Is the Hijri date connected to prayer times?',
+              a: "The Hijri date helps determine the start of Ramadan, Hajj, and the Eids, as well as Sunnah fasting days (Mondays and Thursdays, the White Days, Ashura, and Arafah). However, daily prayer times depend on the sun's position, not on the Hijri date." }
+        ]
+    },
+    fr: {
+        heroSub: "Connaissez la date hégirienne et grégorienne d'aujourd'hui, avec un accès rapide au convertisseur et au calendrier hégirien complet.",
+        toolsTitle: 'Outils associés',
+        tool_dateconv: 'Convertisseur de date',
+        tool_calendar: 'Calendrier hégirien',
+        tool_prayertimes: 'Heures de prière aujourd\'hui',
+        tool_moon: 'Phase de la lune aujourd\'hui',
+        h2_what: 'Qu\'est-ce que la date hégirienne ?',
+        p_what: "La date hégirienne correspond au calendrier lunaire islamique qui a commencé en 622 EC avec l'hégire du prophète Mahomet ﷺ. Il repose sur le cycle de la lune : chaque mois débute avec l'observation du croissant et dure 29 ou 30 jours, avec 12 mois de Mouharram à Dhou al-Hijja. Une année hégirienne compte 354 ou 355 jours, environ 10 à 11 jours de moins qu'une année grégorienne.",
+        h2_why: 'Pourquoi la date hégirienne diffère-t-elle parfois ?',
+        p_why: "La date hégirienne peut varier d'un jour entre pays. La raison est la méthode de détermination du début du mois : certains pays suivent l'observation effective du croissant à l'œil nu, d'autres suivent un calcul astronomique comme le calendrier Umm al-Qura. Cette page affiche la date selon Umm al-Qura — la référence la plus utilisée — qui peut différer d'un jour de l'observation locale dans votre pays.",
+        h2_help: "Comment la date hégirienne d'aujourd'hui vous aide-t-elle ?",
+        p_help: "Connaître la date hégirienne vous aide à planifier les actes d'adoration et les célébrations : jeûne du Ramadan, jours du Hajj, Aïd al-Fitr et Aïd al-Adha, Achoura, jour de Arafah, jours blancs, et jeûne sunnah du lundi et du jeudi. Depuis cette page, vous pouvez aussi consulter le calendrier hégirien complet, convertir n'importe quelle date grégorienne en hégirienne, et connaître précisément la date des prochains événements islamiques.",
+        faqTitle: 'Questions fréquentes sur la date hégirienne',
+        faq: [
+            { q: "Quelle est la date hégirienne d'aujourd'hui ?",
+              a: "La date hégirienne d'aujourd'hui correspond au jour courant du calendrier lunaire islamique, calculé à partir du cycle lunaire de 29 ou 30 jours par mois. Cette page utilise le calendrier Umm al-Qura, référence officielle dans plusieurs pays musulmans." },
+            { q: "La date hégirienne peut-elle varier d'un pays à l'autre ?",
+              a: "Oui, la date hégirienne peut varier d'un jour entre pays selon les pratiques locales d'observation du croissant. Certains pays suivent l'observation effective, d'autres le calcul astronomique comme Umm al-Qura. L'écart dépasse rarement un jour." },
+            { q: 'Quelle est la différence entre les calendriers hégirien et grégorien ?',
+              a: "Le calendrier hégirien est lunaire — basé sur le cycle de la lune — et une année hégirienne dure 354 ou 355 jours. Le calendrier grégorien est solaire — basé sur l'orbite de la Terre autour du soleil — et compte 365 ou 366 jours. Ainsi, la date hégirienne avance d'environ 10 à 11 jours chaque année grégorienne." },
+            { q: 'Puis-je convertir une date grégorienne en date hégirienne ?',
+              a: "Oui, vous pouvez convertir n'importe quelle date grégorienne en hégirienne et inversement avec le convertisseur. Le calcul s'appuie sur le calendrier Umm al-Qura et couvre la période de 1 AH à 1500 AH." },
+            { q: 'La date hégirienne est-elle liée aux heures de prière ?',
+              a: "La date hégirienne aide à déterminer le début du Ramadan, du Hajj et des fêtes, ainsi que les jours de jeûne sunnah (lundis et jeudis, jours blancs, Achoura, Arafah). Toutefois, les heures de prière quotidiennes dépendent de la position du soleil, pas de la date hégirienne." }
+        ]
+    },
+    tr: {
+        heroSub: 'Bugünün Hicri ve Miladi tarihini öğrenin; tarih dönüştürücü ve tam Hicri takvime tek tıkla erişin.',
+        toolsTitle: 'İlgili araçlar',
+        tool_dateconv: 'Tarih dönüştürücü',
+        tool_calendar: 'Hicri takvim',
+        tool_prayertimes: 'Bugünün namaz vakitleri',
+        tool_moon: 'Bugünün ay evresi',
+        h2_what: 'Hicri tarih nedir?',
+        p_what: 'Hicri tarih, Hz. Muhammed\'in ﷺ hicretiyle MS 622\'de başlayan İslami ay takvimidir. Ay döngüsüne dayanır: her ay hilalin görülmesiyle başlar ve 29 ya da 30 gün sürer; Muharrem\'den Zilhicce\'ye kadar 12 aydır. Bir Hicri yıl toplam 354 veya 355 gündür, Miladi yıldan yaklaşık 10–11 gün daha kısadır.',
+        h2_why: 'Hicri tarih neden bazen farklılık gösterir?',
+        p_why: 'Hicri tarih ülkeden ülkeye bir gün değişebilir. Sebebi, ay başının belirlenme yöntemidir: bazı ülkeler çıplak gözle hilal rüyetini, bazıları ise Ümmü\'l-Kura takvimi gibi astronomik hesaplamayı esas alır. Bu sayfa Ümmü\'l-Kura\'ya — en yaygın kullanılan referansa — göre tarihi gösterir; bu durum yerel rüyetinizden bir gün farklı olabilir.',
+        h2_help: 'Bugünün Hicri tarihi size nasıl yardımcı olur?',
+        p_help: 'Hicri tarihi bilmek ibadetleri ve mübarek günleri planlamanıza yardım eder: Ramazan orucu, Hac günleri, Ramazan ve Kurban Bayramı, Aşure, Arefe günü, Eyyam-ı Bid ve Pazartesi-Perşembe Sünnet oruçları. Bu sayfadan ayrıca tam Hicri takvime göz atabilir, herhangi bir Miladi tarihi Hicriye çevirebilir ve yaklaşan İslami etkinlikleri kesin olarak öğrenebilirsiniz.',
+        faqTitle: 'Hicri tarih hakkında sık sorulan sorular',
+        faq: [
+            { q: 'Bugünün Hicri tarihi nedir?',
+              a: 'Bugünün Hicri tarihi, İslami ay takvimindeki o günün karşılığıdır; her ay 29 veya 30 günlük kameri döngüye göre hesaplanır. Bu sayfa, birçok İslam ülkesinde resmi olarak kullanılan Ümmü\'l-Kura takvimini esas alır.' },
+            { q: 'Hicri tarih ülkeden ülkeye değişebilir mi?',
+              a: 'Evet, hilalin yerel olarak görülmesindeki farklar nedeniyle Hicri tarih ülkeler arasında bir gün değişebilir. Bazı ülkeler fiili rüyet-i hilali, bazıları ise Ümmü\'l-Kura gibi astronomik hesabı esas alır. Fark nadiren bir günü aşar.' },
+            { q: 'Hicri ve Miladi takvimler arasındaki fark nedir?',
+              a: 'Hicri takvim ay döngüsüne dayalıdır ve bir Hicri yıl 354 veya 355 gündür. Miladi takvim ise güneş döngüsüne dayalıdır ve 365 veya 366 gün sürer. Bu nedenle Hicri tarih her Miladi yılda yaklaşık 10–11 gün öne kayar.' },
+            { q: 'Miladi tarihi Hicri tarihe çevirebilir miyim?',
+              a: 'Evet, tarih dönüştürücü ile herhangi bir Miladi tarihi Hicriye veya Hicri tarihi Miladiye çevirebilirsiniz. Hesaplama Ümmü\'l-Kura takvimine dayanır ve 1 H ile 1500 H arasını destekler.' },
+            { q: 'Hicri tarih namaz vakitleriyle ilişkili mi?',
+              a: 'Hicri tarih Ramazan\'ın, Hac mevsiminin ve Bayramların başlangıcını ve Sünnet oruçlarını (Pazartesi-Perşembe, Eyyam-ı Bid, Aşure, Arefe) belirlemeye yardımcıdır. Ancak günlük namaz vakitleri Hicri tarihe değil, güneşin konumuna bağlıdır.' }
+        ]
+    },
+    ur: {
+        heroSub: 'آج کی ہجری اور عیسوی تاریخ جانیں، ساتھ ہی تاریخ کنورٹر اور مکمل ہجری کیلنڈر تک فوری رسائی پائیں۔',
+        toolsTitle: 'متعلقہ آلات',
+        tool_dateconv: 'تاریخ کنورٹر',
+        tool_calendar: 'ہجری کیلنڈر',
+        tool_prayertimes: 'آج کے اوقاتِ نماز',
+        tool_moon: 'آج چاند کا مرحلہ',
+        h2_what: 'ہجری تاریخ کیا ہے؟',
+        p_what: 'ہجری تاریخ اسلامی قمری کیلنڈر ہے جو 622 عیسوی میں نبی کریم ﷺ کی ہجرت سے شروع ہوا۔ یہ چاند کے چکر پر مبنی ہے: ہر مہینہ ہلال کی رؤیت سے شروع ہوتا ہے اور 29 یا 30 دن چلتا ہے، اور اس میں 12 مہینے ہیں جو محرم سے ذی الحجہ تک ہیں۔ ایک ہجری سال کل 354 یا 355 دن کا ہوتا ہے، عیسوی سال سے تقریباً 10–11 دن کم۔',
+        h2_why: 'ہجری تاریخ کبھی کبھی مختلف کیوں ہوتی ہے؟',
+        p_why: 'ہجری تاریخ ممالک کے درمیان ایک دن مختلف ہو سکتی ہے۔ وجہ مہینے کے آغاز کے تعین کا طریقہ ہے: بعض ممالک کھلی آنکھ سے ہلال کی فعلی رؤیت پر چلتے ہیں، اور دیگر اُمّ القریٰ جیسی فلکی حسابی روش پر۔ یہ صفحہ تاریخ کو اُمّ القریٰ — سب سے زیادہ استعمال ہونے والے حوالے — کے مطابق دکھاتا ہے، جو آپ کے ملک میں مقامی رؤیت سے ایک دن مختلف ہو سکتی ہے۔',
+        h2_help: 'آج کی ہجری تاریخ آپ کی کیسے مدد کرتی ہے؟',
+        p_help: 'ہجری تاریخ جاننا عبادات اور مواقع کی منصوبہ بندی میں مدد دیتا ہے: روزہ رمضان، ایّامِ حج، عید الفطر اور عید الاضحیٰ، عاشورا، یوم عرفہ، ایّام البیض، اور سوموار-جمعرات کے سُنّت روزے۔ اس صفحے سے آپ مکمل ہجری کیلنڈر بھی دیکھ سکتے ہیں، کسی بھی عیسوی تاریخ کو ہجری میں تبدیل کر سکتے ہیں، اور آنے والے اسلامی مواقع کی درست تاریخیں جان سکتے ہیں۔',
+        faqTitle: 'ہجری تاریخ کے بارے میں اکثر پوچھے جانے والے سوالات',
+        faq: [
+            { q: 'آج کی ہجری تاریخ کیا ہے؟',
+              a: 'آج کی ہجری تاریخ اسلامی قمری کیلنڈر کا موجودہ دن ہے، جو ہر مہینے 29 یا 30 دن کے قمری چکر سے شمار ہوتا ہے۔ یہ صفحہ اُمّ القریٰ کیلنڈر استعمال کرتا ہے، جو متعدد اسلامی ممالک میں سرکاری حوالہ ہے۔' },
+            { q: 'کیا ہجری تاریخ ممالک کے درمیان مختلف ہو سکتی ہے؟',
+              a: 'ہاں، مقامی رؤیتِ ہلال کی وجہ سے ہجری تاریخ مختلف ممالک میں ایک دن مختلف ہو سکتی ہے۔ کچھ ممالک اصل رؤیت پر چلتے ہیں جبکہ دیگر اُمّ القریٰ جیسی فلکی حسابی روش پر۔ فرق شاذ و نادر ہی ایک دن سے زیادہ ہوتا ہے۔' },
+            { q: 'ہجری اور عیسوی کیلنڈر میں کیا فرق ہے؟',
+              a: 'ہجری کیلنڈر قمری ہے — چاند کے چکر پر مبنی — اور ہجری سال 354 یا 355 دن کا ہوتا ہے۔ عیسوی کیلنڈر شمسی ہے — زمین کے سورج کے گرد مدار پر مبنی — اور 365 یا 366 دن کا۔ نتیجتاً ہجری تاریخ ہر عیسوی سال میں تقریباً 10–11 دن آگے بڑھ جاتی ہے۔' },
+            { q: 'کیا میں عیسوی تاریخ کو ہجری میں تبدیل کر سکتا ہوں؟',
+              a: 'ہاں، تاریخ کنورٹر کے ذریعے کسی بھی عیسوی تاریخ کو ہجری اور ہجری کو عیسوی میں تبدیل کیا جا سکتا ہے۔ حساب اُمّ القریٰ کیلنڈر پر مبنی ہے اور 1 ہجری سے 1500 ہجری تک کا دور احاطہ کرتا ہے۔' },
+            { q: 'کیا ہجری تاریخ نماز کے اوقات سے جُڑی ہے؟',
+              a: 'ہجری تاریخ رمضان، حج اور عیدوں کے ساتھ ساتھ سُنّت روزوں (سوموار-جمعرات، ایّام البیض، عاشورہ، عرفہ) کا تعین کرنے میں مدد دیتی ہے۔ تاہم روزانہ کے اوقاتِ نماز سورج کی پوزیشن پر منحصر ہیں، نہ کہ ہجری تاریخ پر۔' }
+        ]
+    },
+    de: {
+        heroSub: 'Erfahren Sie das heutige Hidschri- und gregorianische Datum, mit schnellem Zugriff auf Datumskonverter und vollen Hidschri-Kalender.',
+        toolsTitle: 'Verwandte Werkzeuge',
+        tool_dateconv: 'Datumskonverter',
+        tool_calendar: 'Hidschri-Kalender',
+        tool_prayertimes: 'Heutige Gebetszeiten',
+        tool_moon: 'Heutige Mondphase',
+        h2_what: 'Was ist das Hidschri-Datum?',
+        p_what: 'Das Hidschri-Datum ist der islamische Mondkalender, der 622 n. Chr. mit der Hidschra des Propheten Mohammed ﷺ begann. Er basiert auf dem Mondzyklus: Jeder Monat beginnt mit der Sichtung des Halbmonds und dauert 29 oder 30 Tage; es gibt 12 Monate von Muharram bis Dhul-Hidschra. Ein Hidschri-Jahr hat insgesamt 354 oder 355 Tage, etwa 10–11 Tage kürzer als ein gregorianisches Jahr.',
+        h2_why: 'Warum unterscheidet sich das Hidschri-Datum manchmal?',
+        p_why: 'Das Hidschri-Datum kann sich zwischen Ländern um einen Tag unterscheiden. Der Grund liegt in der Methode zur Bestimmung des Monatsbeginns: Einige Länder folgen der tatsächlichen Sichtung mit bloßem Auge, andere der astronomischen Berechnung wie dem Umm al-Qura-Kalender. Diese Seite zeigt das Datum gemäß Umm al-Qura — der am häufigsten verwendeten Referenz — und kann in Ihrem Land um einen Tag von der lokalen Sichtung abweichen.',
+        h2_help: 'Wie hilft Ihnen das heutige Hidschri-Datum?',
+        p_help: 'Die Kenntnis des Hidschri-Datums hilft bei der Planung von Gottesdienst und besonderen Tagen: Fasten im Ramadan, die Tage der Hadsch, Eid al-Fitr und Eid al-Adha, Aschura, der Tag von Arafa, die Weißen Tage und das Sunnah-Fasten am Montag und Donnerstag. Über diese Seite können Sie auch den vollständigen Hidschri-Kalender durchsuchen, beliebige gregorianische Daten in Hidschri umrechnen und das Datum bevorstehender islamischer Ereignisse genau ermitteln.',
+        faqTitle: 'Häufig gestellte Fragen zum Hidschri-Datum',
+        faq: [
+            { q: 'Was ist das heutige Hidschri-Datum?',
+              a: 'Das heutige Hidschri-Datum ist der aktuelle Tag im islamischen Mondkalender, berechnet aus dem Mondzyklus von 29 oder 30 Tagen pro Monat. Diese Seite verwendet den Umm al-Qura-Kalender, der in vielen islamischen Ländern offiziell verwendet wird.' },
+            { q: 'Kann das Hidschri-Datum zwischen Ländern unterschiedlich sein?',
+              a: 'Ja, das Hidschri-Datum kann sich zwischen Ländern um einen Tag unterscheiden, je nach lokaler Mondsichtung. Einige Länder folgen der tatsächlichen Sichtung, andere der astronomischen Berechnung wie Umm al-Qura. Der Unterschied beträgt selten mehr als einen Tag.' },
+            { q: 'Was ist der Unterschied zwischen dem Hidschri- und dem gregorianischen Kalender?',
+              a: 'Der Hidschri-Kalender ist ein Mondkalender — basierend auf dem Mondzyklus — und ein Hidschri-Jahr hat 354 oder 355 Tage. Der gregorianische Kalender ist ein Sonnenkalender — basierend auf dem Erdumlauf um die Sonne — und dauert 365 oder 366 Tage. Daher verschiebt sich das Hidschri-Datum etwa 10–11 Tage pro gregorianischem Jahr.' },
+            { q: 'Kann ich ein gregorianisches Datum in ein Hidschri-Datum umwandeln?',
+              a: 'Ja, mit dem Datumskonverter können Sie jedes gregorianische Datum in Hidschri umrechnen und umgekehrt. Die Berechnung basiert auf dem Umm al-Qura-Kalender und unterstützt den Bereich von 1 AH bis 1500 AH.' },
+            { q: 'Ist das Hidschri-Datum mit den Gebetszeiten verbunden?',
+              a: 'Das Hidschri-Datum hilft bei der Bestimmung des Beginns von Ramadan, Hadsch und den Festen sowie der freiwilligen Fastentage (Montag und Donnerstag, Weiße Tage, Aschura, Arafa). Die täglichen Gebetszeiten hingegen hängen von der Sonnenposition ab, nicht vom Hidschri-Datum.' }
+        ]
+    },
+    id: {
+        heroSub: 'Ketahui tanggal Hijriah dan Masehi hari ini, lengkap dengan akses cepat ke konverter tanggal dan kalender Hijriah penuh.',
+        toolsTitle: 'Alat terkait',
+        tool_dateconv: 'Konverter tanggal',
+        tool_calendar: 'Kalender Hijriah',
+        tool_prayertimes: 'Jadwal sholat hari ini',
+        tool_moon: 'Fase bulan hari ini',
+        h2_what: 'Apa itu tanggal Hijriah?',
+        p_what: 'Tanggal Hijriah adalah kalender lunar Islam yang dimulai pada 622 M dengan hijrah Nabi Muhammad ﷺ. Kalender ini didasarkan pada siklus bulan: setiap bulan dimulai dengan rukyat hilal dan berlangsung 29 atau 30 hari, dengan 12 bulan dari Muharram hingga Dzulhijah. Satu tahun Hijriah berjumlah 354 atau 355 hari, sekitar 10–11 hari lebih pendek dari tahun Masehi.',
+        h2_why: 'Mengapa tanggal Hijriah kadang-kadang berbeda?',
+        p_why: 'Tanggal Hijriah dapat berbeda satu hari antar negara. Alasannya adalah metode penentuan awal bulan: sebagian negara mengikuti rukyat hilal dengan mata telanjang, sebagian lagi mengikuti perhitungan astronomi seperti kalender Umm al-Qura. Halaman ini menampilkan tanggal menurut Umm al-Qura — referensi yang paling banyak digunakan — yang mungkin berbeda satu hari dari rukyat lokal di negara Anda.',
+        h2_help: 'Bagaimana tanggal Hijriah hari ini membantu Anda?',
+        p_help: 'Mengetahui tanggal Hijriah membantu Anda merencanakan ibadah dan momen penting: puasa Ramadan, hari-hari Haji, Idulfitri dan Iduladha, Asyura, hari Arafah, Ayyamul Bidh, serta puasa Sunnah Senin-Kamis. Dari halaman ini Anda juga bisa menjelajahi kalender Hijriah lengkap, mengonversi tanggal Masehi ke Hijriah, dan mengetahui dengan tepat jadwal peristiwa Islam mendatang.',
+        faqTitle: 'Pertanyaan yang sering diajukan tentang tanggal Hijriah',
+        faq: [
+            { q: 'Apa tanggal Hijriah hari ini?',
+              a: 'Tanggal Hijriah hari ini adalah hari saat ini dalam kalender lunar Islam, dihitung berdasarkan siklus bulan 29 atau 30 hari per bulan. Halaman ini menggunakan kalender Umm al-Qura, rujukan resmi di banyak negara Muslim.' },
+            { q: 'Apakah tanggal Hijriah bisa berbeda antar negara?',
+              a: 'Ya, tanggal Hijriah dapat berbeda satu hari antar negara karena perbedaan rukyat hilal lokal. Sebagian negara mengikuti rukyat aktual, sebagian lagi perhitungan astronomis seperti Umm al-Qura. Perbedaannya jarang melebihi satu hari.' },
+            { q: 'Apa perbedaan antara kalender Hijriah dan Masehi?',
+              a: 'Kalender Hijriah bersifat lunar — berdasarkan siklus bulan — dan tahun Hijriah berdurasi 354 atau 355 hari. Kalender Masehi bersifat solar — berdasarkan orbit Bumi mengelilingi Matahari — dan berlangsung 365 atau 366 hari. Akibatnya, tanggal Hijriah maju sekitar 10–11 hari setiap tahun Masehi.' },
+            { q: 'Bisakah saya mengonversi tanggal Masehi ke Hijriah?',
+              a: 'Ya, Anda dapat mengonversi tanggal Masehi ke Hijriah dan sebaliknya dengan konverter tanggal. Perhitungan menggunakan kalender Umm al-Qura dan mencakup rentang 1 H hingga 1500 H.' },
+            { q: 'Apakah tanggal Hijriah terkait dengan jadwal sholat?',
+              a: 'Tanggal Hijriah membantu menentukan awal Ramadan, Haji, dan hari raya, serta hari puasa Sunnah (Senin-Kamis, Ayyamul Bidh, Asyura, Arafah). Namun jadwal sholat harian bergantung pada posisi matahari, bukan pada tanggal Hijriah.' }
+        ]
+    },
+    es: {
+        heroSub: 'Conoce la fecha hégira y gregoriana de hoy, con acceso rápido al conversor y al calendario hégira completo.',
+        toolsTitle: 'Herramientas relacionadas',
+        tool_dateconv: 'Conversor de fechas',
+        tool_calendar: 'Calendario hégira',
+        tool_prayertimes: 'Horarios de oración hoy',
+        tool_moon: 'Fase lunar hoy',
+        h2_what: '¿Qué es la fecha hégira?',
+        p_what: 'La fecha hégira corresponde al calendario lunar islámico que comenzó en 622 d.C. con la hégira del profeta Mahoma ﷺ. Se basa en el ciclo de la luna: cada mes comienza con el avistamiento del creciente y dura 29 o 30 días, con 12 meses desde Muharram hasta Dhul-Hiyya. Un año hégira suma 354 o 355 días, unos 10–11 días menos que un año gregoriano.',
+        h2_why: '¿Por qué la fecha hégira a veces difiere?',
+        p_why: 'La fecha hégira puede variar un día entre países. La razón es el método para determinar el inicio del mes: algunos países siguen la observación efectiva del creciente a simple vista, mientras que otros siguen el cálculo astronómico como el calendario Umm al-Qura. Esta página muestra la fecha según Umm al-Qura — la referencia más usada — y puede diferir en un día de la observación local en tu país.',
+        h2_help: '¿Cómo te ayuda la fecha hégira de hoy?',
+        p_help: 'Conocer la fecha hégira te ayuda a planificar actos de adoración y celebraciones: ayuno de Ramadán, días del Hajj, Eid al-Fitr y Eid al-Adha, Achura, día de Arafah, Días Blancos y ayuno Sunnah de lunes y jueves. Desde esta página también puedes explorar el calendario hégira completo, convertir cualquier fecha gregoriana a hégira y conocer con precisión la fecha de los próximos eventos islámicos.',
+        faqTitle: 'Preguntas frecuentes sobre la fecha hégira',
+        faq: [
+            { q: '¿Cuál es la fecha hégira de hoy?',
+              a: 'La fecha hégira de hoy es el día actual del calendario lunar islámico, calculado a partir del ciclo lunar de 29 o 30 días por mes. Esta página utiliza el calendario Umm al-Qura, referencia oficial en muchos países musulmanes.' },
+            { q: '¿Puede variar la fecha hégira entre países?',
+              a: 'Sí, la fecha hégira puede diferir un día entre países debido a la observación local del creciente lunar. Algunos países siguen la observación efectiva, otros el cálculo astronómico como Umm al-Qura. La diferencia rara vez supera un día.' },
+            { q: '¿Cuál es la diferencia entre los calendarios hégira y gregoriano?',
+              a: 'El calendario hégira es lunar — basado en el ciclo de la luna — y un año hégira tiene 354 o 355 días. El calendario gregoriano es solar — basado en la órbita de la Tierra alrededor del sol — y dura 365 o 366 días. Por ello, la fecha hégira se adelanta unos 10–11 días por año gregoriano.' },
+            { q: '¿Puedo convertir una fecha gregoriana a hégira?',
+              a: 'Sí, puedes convertir cualquier fecha gregoriana a hégira y viceversa con el conversor de fechas. El cálculo se basa en el calendario Umm al-Qura y cubre el rango de 1 AH a 1500 AH.' },
+            { q: '¿La fecha hégira está relacionada con los horarios de oración?',
+              a: 'La fecha hégira ayuda a determinar el inicio de Ramadán, el Hajj y las fiestas, así como los días de ayuno Sunnah (lunes y jueves, Días Blancos, Achura, Arafah). Sin embargo, los horarios de oración diarios dependen de la posición del sol, no de la fecha hégira.' }
+        ]
+    },
+    bn: {
+        heroSub: 'আজকের হিজরি ও গ্রেগরিয়ান তারিখ জানুন, সাথে তারিখ রূপান্তরকারী ও সম্পূর্ণ হিজরি ক্যালেন্ডারে দ্রুত প্রবেশের সুযোগ।',
+        toolsTitle: 'সম্পর্কিত সরঞ্জাম',
+        tool_dateconv: 'তারিখ রূপান্তরকারী',
+        tool_calendar: 'হিজরি ক্যালেন্ডার',
+        tool_prayertimes: 'আজকের নামাজের সময়',
+        tool_moon: 'আজ চাঁদের পর্যায়',
+        h2_what: 'হিজরি তারিখ কী?',
+        p_what: 'হিজরি তারিখ হলো ইসলামিক চান্দ্র ক্যালেন্ডার, যা ৬২২ খ্রিস্টাব্দে নবী মুহাম্মদ ﷺ-এর হিজরতের সঙ্গে শুরু হয়। এটি চাঁদের চক্রের ওপর ভিত্তি করে গঠিত: প্রতিটি মাস হিলাল দেখার মাধ্যমে শুরু হয় এবং ২৯ বা ৩০ দিন স্থায়ী হয়, এবং মুহাররম থেকে যিলহজ পর্যন্ত ১২টি মাস রয়েছে। একটি হিজরি বছর মোট ৩৫৪ বা ৩৫৫ দিনের, যা গ্রেগরিয়ান বছরের চেয়ে প্রায় ১০–১১ দিন কম।',
+        h2_why: 'হিজরি তারিখ কেন কখনো কখনো ভিন্ন হয়?',
+        p_why: 'হিজরি তারিখ দেশভেদে একদিন আলাদা হতে পারে। কারণটি হলো মাসের শুরু নির্ধারণের পদ্ধতি: কিছু দেশ খালি চোখে চাঁদ দেখা অনুসরণ করে, আবার অন্যরা উম্মুল কুরা ক্যালেন্ডারের মতো জ্যোতির্বৈজ্ঞানিক হিসাব। এই পেজ উম্মুল কুরা — সর্বাধিক ব্যবহৃত রেফারেন্স — অনুসারে তারিখ প্রদর্শন করে, যা আপনার দেশে স্থানীয় চাঁদ দেখার সঙ্গে একদিনের পার্থক্য থাকতে পারে।',
+        h2_help: 'আজকের হিজরি তারিখ আপনাকে কীভাবে সাহায্য করে?',
+        p_help: 'হিজরি তারিখ জানা ইবাদত ও উপলক্ষ পরিকল্পনায় সহায়ক: রমজানের রোজা, হজের দিনগুলি, ঈদুল ফিতর ও ঈদুল আজহা, আশুরা, আরাফার দিন, আইয়ামে বিদ এবং সোম-বৃহস্পতির সুন্নাহ রোজা। এই পেজ থেকে আপনি সম্পূর্ণ হিজরি ক্যালেন্ডারও দেখতে পারেন, যেকোনো গ্রেগরিয়ান তারিখকে হিজরিতে রূপান্তর করতে পারেন এবং আসন্ন ইসলামিক ঘটনাগুলির সঠিক তারিখ জানতে পারেন।',
+        faqTitle: 'হিজরি তারিখ সম্পর্কে প্রায়শই জিজ্ঞাসিত প্রশ্ন',
+        faq: [
+            { q: 'আজকের হিজরি তারিখ কী?',
+              a: 'আজকের হিজরি তারিখ হলো ইসলামিক চান্দ্র ক্যালেন্ডারের বর্তমান দিন, যা প্রতি মাসে ২৯ বা ৩০ দিনের চান্দ্র চক্র অনুসারে নির্ণয় করা হয়। এই পেজ উম্মুল কুরা ক্যালেন্ডার ব্যবহার করে, যা বহু মুসলিম দেশে অফিসিয়াল রেফারেন্স।' },
+            { q: 'হিজরি তারিখ কি দেশভেদে আলাদা হতে পারে?',
+              a: 'হ্যাঁ, স্থানীয় চাঁদ দেখার পার্থক্যের কারণে হিজরি তারিখ একদিন এদিক-ওদিক হতে পারে। কিছু দেশ প্রকৃত চাঁদ দেখা অনুসরণ করে, আবার কিছু দেশ উম্মুল কুরা-র মতো জ্যোতির্বৈজ্ঞানিক হিসাব। পার্থক্য সাধারণত এক দিনের বেশি হয় না।' },
+            { q: 'হিজরি ও গ্রেগরিয়ান ক্যালেন্ডারের মধ্যে পার্থক্য কী?',
+              a: 'হিজরি ক্যালেন্ডার চান্দ্র — চাঁদের চক্রভিত্তিক — এবং একটি হিজরি বছর ৩৫৪ বা ৩৫৫ দিন। গ্রেগরিয়ান ক্যালেন্ডার সৌর — পৃথিবীর সূর্যের চারপাশে কক্ষপথভিত্তিক — এবং ৩৬৫ বা ৩৬৬ দিনের। ফলে হিজরি তারিখ প্রতি গ্রেগরিয়ান বছরে প্রায় ১০–১১ দিন এগিয়ে যায়।' },
+            { q: 'গ্রেগরিয়ান তারিখ কি হিজরিতে রূপান্তর করা যায়?',
+              a: 'হ্যাঁ, তারিখ রূপান্তরকারী দিয়ে যেকোনো গ্রেগরিয়ান তারিখকে হিজরিতে এবং বিপরীতে রূপান্তর করা যায়। হিসাবটি উম্মুল কুরা ক্যালেন্ডার ভিত্তিক এবং ১ হিজরি থেকে ১৫০০ হিজরি পর্যন্ত বিস্তৃত।' },
+            { q: 'হিজরি তারিখ কি নামাজের সময়ের সাথে যুক্ত?',
+              a: 'হিজরি তারিখ রমজান, হজ ও ঈদসমূহের সূচনা নির্ধারণে এবং সুন্নাহ রোজা (সোম-বৃহস্পতি, আইয়ামে বিদ, আশুরা, আরাফা) নির্ধারণে সাহায্য করে। তবে দৈনিক নামাজের সময় হিজরি তারিখের ওপর নয়, সূর্যের অবস্থানের ওপর নির্ভর করে।' }
+        ]
+    },
+    ms: {
+        heroSub: 'Ketahui tarikh Hijrah dan Gregorian hari ini, dengan capaian pantas ke penukar tarikh dan kalendar Hijrah penuh.',
+        toolsTitle: 'Alat berkaitan',
+        tool_dateconv: 'Penukar tarikh',
+        tool_calendar: 'Kalendar Hijrah',
+        tool_prayertimes: 'Waktu solat hari ini',
+        tool_moon: 'Fasa bulan hari ini',
+        h2_what: 'Apakah tarikh Hijrah?',
+        p_what: 'Tarikh Hijrah ialah kalendar Hijrah Islam yang bermula pada 622 M dengan hijrah Nabi Muhammad ﷺ. Ia berasaskan kitaran bulan: setiap bulan bermula dengan rukyah hilal dan berlangsung 29 atau 30 hari, dengan 12 bulan dari Muharram hingga Zulhijah. Satu tahun Hijrah berjumlah 354 atau 355 hari, kira-kira 10–11 hari lebih pendek daripada tahun Gregorian.',
+        h2_why: 'Mengapa tarikh Hijrah kadang-kadang berbeza?',
+        p_why: 'Tarikh Hijrah boleh berbeza sehari antara negara. Sebabnya ialah kaedah menentukan permulaan bulan: sesetengah negara mengikut rukyah sebenar dengan mata kasar, manakala yang lain mengikut pengiraan astronomi seperti kalendar Umm al-Qura. Halaman ini memaparkan tarikh mengikut Umm al-Qura — rujukan paling banyak digunakan — yang mungkin berbeza sehari daripada rukyah tempatan di negara anda.',
+        h2_help: 'Bagaimana tarikh Hijrah hari ini membantu anda?',
+        p_help: 'Mengetahui tarikh Hijrah membantu anda merancang ibadah dan acara: puasa Ramadan, hari-hari Haji, Hari Raya Aidilfitri dan Aidiladha, Asyura, hari Arafah, Hari-hari Putih, serta puasa Sunnah Isnin-Khamis. Dari halaman ini anda juga boleh menyemak kalendar Hijrah penuh, menukar mana-mana tarikh Gregorian kepada Hijrah, dan mengetahui dengan tepat tarikh peristiwa Islam yang akan datang.',
+        faqTitle: 'Soalan lazim tentang tarikh Hijrah',
+        faq: [
+            { q: 'Apakah tarikh Hijrah hari ini?',
+              a: 'Tarikh Hijrah hari ini ialah hari semasa dalam kalendar Hijrah Islam, dikira berdasarkan kitaran bulan 29 atau 30 hari sebulan. Halaman ini menggunakan kalendar Umm al-Qura, rujukan rasmi di banyak negara Islam.' },
+            { q: 'Adakah tarikh Hijrah boleh berbeza antara negara?',
+              a: 'Ya, tarikh Hijrah boleh berbeza sehari antara negara kerana perbezaan rukyah hilal tempatan. Ada negara mengikut rukyah sebenar, ada pula yang mengikut pengiraan astronomi seperti Umm al-Qura. Perbezaannya jarang melebihi satu hari.' },
+            { q: 'Apakah perbezaan antara kalendar Hijrah dan Gregorian?',
+              a: 'Kalendar Hijrah berasaskan bulan — kitaran bulan — dan tahun Hijrah ialah 354 atau 355 hari. Kalendar Gregorian berasaskan matahari — orbit Bumi mengelilingi matahari — dan tempohnya 365 atau 366 hari. Oleh itu, tarikh Hijrah maju kira-kira 10–11 hari setiap tahun Gregorian.' },
+            { q: 'Bolehkah saya tukar tarikh Gregorian kepada Hijrah?',
+              a: 'Ya, anda boleh menukar mana-mana tarikh Gregorian kepada Hijrah dan sebaliknya menggunakan penukar tarikh. Pengiraan menggunakan kalendar Umm al-Qura dan meliputi tempoh 1 H hingga 1500 H.' },
+            { q: 'Adakah tarikh Hijrah berkaitan dengan waktu solat?',
+              a: 'Tarikh Hijrah membantu menentukan permulaan Ramadan, Haji, dan Hari Raya, serta hari puasa Sunnah (Isnin-Khamis, Hari-hari Putih, Asyura, Arafah). Namun waktu solat harian bergantung kepada kedudukan matahari, bukan tarikh Hijrah.' }
+        ]
+    }
+};
+const _FAQ_HD1_BY_LANG = (() => {
+    const out = {};
+    for (const lang of ['ar','en','fr','tr','ur','de','id','es','bn','ms']) {
+        out[lang] = _HD1_BY_LANG[lang].faq;
+    }
+    return out;
+})();
+
 // ===== 🆕 Level 3+: HTML stripper =====
 // يحذف عنصرًا كاملاً من HTML عبر مطابقة وسم الفتح ثمّ عدّ الوسوم المتداخلة حتى الإغلاق المتوازن.
 // lookup: { type: 'id'|'class', value: string }
@@ -3845,13 +4140,12 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
             `<nav class="home-services-links" aria-label="${_escHtml(_f.svcAria)}">`
         );
 
-        // Services links text — footer: اليوم يذهب مباشرة إلى الصفحة المؤرّخة (canonical)
-        const _pC_h = _hijriNow();
-        const _pC_pad = (n) => String(n).padStart(2, '0');
-        const _pC_dated = `/hijri-date/${_pC_h.year}-${_pC_pad(_pC_h.month)}-${_pC_pad(_pC_h.day)}`;
+        // HD-1 (2026-05-07): footer link_hijri_today now points at the Hub page,
+        // not at the dated form. Generic `/today-hijri-date` hrefs are no longer
+        // rewritten to /hijri-date/{today} — the Hub is now a first-class URL.
         html = html
             .replace(/<a href="[^"]*\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
-                `<a href="${_langPrefix}${_pC_dated}" data-i18n="footer.link_hijri_today">${_escHtml(_f.l_hijri_today)}</a>`)
+                `<a href="${_langPrefix}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(_f.l_hijri_today)}</a>`)
             .replace(/<a href="[^"]*\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(_f.l_hijri_year)}</a>`)
             .replace(/<a href="[^"]*\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
@@ -3859,10 +4153,13 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
             .replace(/<a href="[^"]*\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/msbaha" data-i18n="footer.link_tasbih">${_escHtml(_f.l_tasbih)}</a>`);
 
-        // countries navbar + qa-card: استبدال أي href=/today-hijri-date → الصفحة المؤرّخة
+        // HD-1 (2026-05-07): the old catch-all rewrites of /today-hijri-date →
+        // /hijri-date/{today} (countries navbar + qa-card) have been removed.
+        // Generic links to /today-hijri-date now go directly to the Hub page.
+        // Per-language prefix is preserved by the index.html-time replacement
+        // of {LANG_PREFIX} placeholders at server.js:3877+.
         html = html
-            .replace(/href="\/today-hijri-date"/g, `href="${_langPrefix}${_pC_dated}"`)
-            .replace(/href="\{LANG_PREFIX\}\/today-hijri-date"/g, `href="${_langPrefix}${_pC_dated}"`);
+            .replace(/href="\{LANG_PREFIX\}\/today-hijri-date"/g, `href="${_langPrefix}/today-hijri-date"`);
 
         // Share buttons text
         html = html
@@ -4090,6 +4387,7 @@ function buildSeoForPath(urlPath) {
     let cityModified = null;     // dateModified for city pages
     let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
     let zakatFaq = false;        // UAT-Z1: يُفعّل FAQPage + HowTo schemas لصفحة الزكاة
+    let isTodayHijriDateHub = false;  // HD-1: يُفعّل FAQPage + SSR content لصفحة /today-hijri-date
     let moonCity = null;         // Round 9: بيانات مدينة لصفحة /moon-today-in-{slug}
     // (UAT-SEO-Cannibalization) The 8 per-lang description overrides above
     //   used to re-introduce "Mecca/Medina" mentions on the homepage. Removed
@@ -4293,31 +4591,37 @@ function buildSeoForPath(urlPath) {
             app: { category: 'UtilitiesApplication' },
         },
         '/today-hijri-date': {
+            // HD-1 (2026-05-07): titles/descs tightened to match the new Hub
+            // page positioning. AR seed comes from the user's spec; other 9
+            // langs follow the same "today's Hijri Date | Islamic & Gregorian
+            // Date Now" pattern. All under 60 chars (SEOptimer sweet spot).
             title: {
-                ar: 'التاريخ الهجري اليوم',
-                en: "Today's Hijri Date",
-                fr: "Date Hijri d'aujourd'hui",
-                tr: "Bugünün Hicri Tarihi",
-                ur: 'آج کی ہجری تاریخ',
-                de: 'Heutiges Hidschri-Datum',
-                id: 'Tanggal Hijriyah Hari Ini',
-                es: 'Fecha Hijri de Hoy',
-                bn: 'আজকের হিজরি তারিখ',
-                ms: 'Tarikh Hijrah Hari Ini',
+                ar: 'التاريخ الهجري اليوم | التاريخ الإسلامي والميلادي الآن',
+                en: "Today's Hijri Date | Islamic & Gregorian Date Now",
+                fr: "Date hégirienne aujourd'hui | Date islamique et grégorienne",
+                tr: "Bugünün Hicri Tarihi | İslami ve Miladi Tarih Şimdi",
+                ur: 'آج کی ہجری تاریخ | اسلامی اور عیسوی تاریخ ابھی',
+                de: 'Heutiges Hidschri-Datum | Islamisches & Gregorianisches Datum',
+                id: 'Tanggal Hijriah Hari Ini | Tanggal Islam & Masehi Sekarang',
+                es: 'Fecha Hégira de Hoy | Fecha Islámica y Gregoriana Ahora',
+                bn: 'আজকের হিজরি তারিখ | ইসলামিক ও গ্রেগরিয়ান তারিখ এখন',
+                ms: 'Tarikh Hijrah Hari Ini | Tarikh Islam & Gregorian Sekarang',
             },
             desc: {
-                ar: 'التاريخ الهجري اليوم مع مقابله الميلادي — محدَّث يومياً وفقاً لتقويم أم القرى.',
-                en: "Find today's accurate Hijri (Islamic) date and its Gregorian equivalent — updated daily from Umm al-Qura calendar.",
-                fr: "Trouvez la date hégirienne (islamique) exacte d'aujourd'hui et son équivalent grégorien — mise à jour quotidienne selon le calendrier Umm al-Qura.",
-                tr: "Bugünün doğru Hicri (İslami) tarihini ve Miladi karşılığını bulun — Ümmü'l-Kura takvimine göre günlük güncellenir.",
-                ur: 'آج کی درست ہجری (اسلامی) تاریخ اور اس کی میلادی مماثلت تلاش کریں — ام القرى کیلنڈر کے مطابق روزانہ اپ ڈیٹ۔',
-                de: 'Finden Sie das heutige exakte Hidschri-Datum (islamisches Datum) und sein gregorianisches Äquivalent — täglich gemäß dem Umm al-Qura-Kalender aktualisiert.',
-                id: 'Temukan tanggal Hijriyah (Islam) hari ini yang akurat dan padanan Masehinya — diperbarui setiap hari dari kalender Umm al-Qura.',
-                es: "Encuentra la fecha Hijri (islámica) exacta de hoy y su equivalente gregoriana — actualizada diariamente según el calendario Umm al-Qura.",
-                bn: 'আজকের নির্ভুল হিজরি (ইসলামিক) তারিখ এবং এর গ্রেগরিয়ান সমতুল্য খুঁজুন — উম্মুল কুরা ক্যালেন্ডার অনুযায়ী প্রতিদিন আপডেট।',
-                ms: 'Cari tarikh Hijrah (Islam) hari ini yang tepat dan padanannya dalam kalendar Gregorian — dikemas kini setiap hari mengikut kalendar Umm al-Qura.',
+                ar: 'اعرف التاريخ الهجري اليوم والتاريخ الميلادي المقابل، مع أدوات تحويل التاريخ والتقويم الهجري وحالة القمر والمناسبات الإسلامية.',
+                en: "Know today's Hijri date and its Gregorian equivalent, with date conversion tools, the Hijri calendar, the moon phase, and Islamic events all in one place.",
+                fr: "Connaissez la date hégirienne d'aujourd'hui et son équivalent grégorien, avec les outils de conversion, le calendrier hégirien, la phase de la lune et les événements islamiques.",
+                tr: "Bugünün Hicri tarihini ve Miladi karşılığını öğrenin; tarih dönüştürme, Hicri takvim, ay evresi ve İslami etkinlikler bir arada.",
+                ur: 'آج کی ہجری تاریخ اور اس کی میلادی مماثل جانیں، ساتھ ہی تاریخ تبدیلی، ہجری کیلنڈر، چاند کا مرحلہ اور اسلامی واقعات۔',
+                de: "Erfahren Sie das heutige Hidschri-Datum und sein gregorianisches Äquivalent, mit Datumsumrechnung, Hidschri-Kalender, Mondphase und islamischen Ereignissen.",
+                id: "Ketahui tanggal Hijriah hari ini dan padanan Masehinya, dengan konverter tanggal, kalender Hijriah, fase bulan, dan peristiwa Islam dalam satu tempat.",
+                es: "Conoce la fecha Hégira de hoy y su equivalente gregoriana, con herramientas de conversión, calendario Hégira, fase lunar y eventos islámicos.",
+                bn: 'আজকের হিজরি তারিখ ও এর গ্রেগরিয়ান সমতুল্য জানুন; সাথে তারিখ রূপান্তর, হিজরি ক্যালেন্ডার, চাঁদের পর্যায় ও ইসলামিক ঘটনা।',
+                ms: 'Ketahui tarikh Hijrah hari ini dan padanannya dalam Gregorian, dengan penukar tarikh, kalendar Hijrah, fasa bulan dan peristiwa Islam.',
             },
             ogType: 'article',
+            app: { category: 'UtilitiesApplication' },
+            isTodayHijriHub: true,
         },
         '/privacy': {
             title: {
@@ -4471,27 +4775,18 @@ function buildSeoForPath(urlPath) {
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
         if (sp.moonFaq) moonFaq = true;
         if (sp.zakatFaq) zakatFaq = true;
+        if (sp.isTodayHijriHub) isTodayHijriDateHub = true;
         breadcrumbs.push({ name: title, item: canonical });
     }
 
-    // ===== Round 11: /today-hijri-date canonical → /hijri-date/YYYY-MM-DD =====
-    //   الصفحة UX dynamic. الـ canonical الرسميّة هي الصفحة الثابتة لليوم الحاليّ.
-    //   هذا يمنع duplicate content ويوجّه Google إلى صفحة الـ SEO.
-    //   نستبدل أيضاً عنصر الـ breadcrumb الأخير ليُطابق الـ canonical الجديد.
-    // flag: عندما نُغيّر canonical قصداً (لا بسبب خلل build)،
-    // نخبر renderSeoHeadHtml ألّا يُضيف hreflang fallback إضافيّ (يمنع duplicate).
+    // ===== HD-1 (2026-05-07): canonical override REMOVED =====
+    //   /today-hijri-date is now a self-canonical Hub page. The Round-11
+    //   override that pointed it to /hijri-date/{today} was removed; canonical
+    //   keeps its natural value (origin + p) set above at line 3942. The
+    //   _canonicalOverride flag is preserved for future per-page overrides
+    //   (currently always false; consumed at server.js:5504 to gate the
+    //   self-canonical hreflang fallback).
     let _canonicalOverride = false;
-    if (corePath === '/today-hijri-date') {
-        const _pad2Today = n => String(n).padStart(2, '0');
-        const _hToday = _hijriNow();
-        const _langPrefix = (lang === 'ar') ? '' : ('/' + lang);
-        canonical = origin + _langPrefix + `/hijri-date/${_hToday.year}-${_pad2Today(_hToday.month)}-${_pad2Today(_hToday.day)}`;
-        _canonicalOverride = true;
-        // حدِّث آخر breadcrumb (title push من static pages) ليُشير للـ canonical الجديد
-        if (breadcrumbs.length > 0) {
-            breadcrumbs[breadcrumbs.length - 1].item = canonical;
-        }
-    }
 
     // للصفحات الديناميكية: استخدم النص الإنجليزي لـ EN/FR/TR/UR (احتياط) والعربي لـ AR فقط
     const useEnTxt = (lang !== 'ar');
@@ -5466,6 +5761,7 @@ function buildSeoForPath(urlPath) {
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, cityModified, origin,
         moonFaq, moonCity, zakatFaq, robotsOverride,
+        isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
         nextPrayerPage
@@ -5774,6 +6070,27 @@ function renderSeoHeadHtml(seo) {
             ],
         };
         const faqs = FAQ_I18N[seo.lang] || FAQ_I18N.ar;
+        ssrGraph.push({
+            "@type": "FAQPage",
+            "@id": `${seo.canonical}#faq`,
+            "inLanguage": seo.lang,
+            "mainEntity": faqs.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": { "@type": "Answer", "text": f.a }
+            }))
+        });
+    }
+
+    // HD-1 (2026-05-07): FAQPage schema for /today-hijri-date Hub. The 5 Q&As
+    //   here are the SAME text as the visible FAQ injected by the
+    //   `_isTodayHijriDateHub` block at server.js:7785+. The shared dictionary
+    //   `_FAQ_HD1` lives in that block; we re-create it here because the JSON-LD
+    //   pipeline runs earlier in the request than the HTML-injection pipeline.
+    //   To avoid drift, BOTH blocks must be edited together when changing copy.
+    if (seo.isTodayHijriDateHub) {
+        const FAQ_HD1 = _FAQ_HD1_BY_LANG;   // defined as a module-scope constant — see helper just below
+        const faqs = FAQ_HD1[seo.lang] || FAQ_HD1.ar;
         ssrGraph.push({
             "@type": "FAQPage",
             "@id": `${seo.canonical}#faq`,
@@ -6775,6 +7092,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // prayer shell from SSR, (b) inject html.qibla-hub-page so #page-qibla is
     // visible immediately, and (c) inject the educational section + override H1.
     const _isQiblaHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath);
+    // HD-1 (2026-05-07): /today-hijri-date Hub detection. Same shape as
+    //   _isQiblaHub. Used to (a) inject html.hijri-today-page SSR-side so
+    //   #page-hijri-today is visible at first paint, (b) replace the
+    //   <!-- HD-1-CONTENT --> anchor with per-lang Hub content (4-tool nav,
+    //   3 H2 sections, 5-Q FAQ).
+    const _isTodayHijriDateHubPath = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath);
     // Phase E4-city (2026-05-02): detect ALL moon city pages so we can strip
     //   the leftover #page-prayer-times shell from SSR (was causing 0.939 CLS).
     //   Matches /moon-today-in-{slug}[-lat-lng], /moon-in-{slug}[-lat-lng],
@@ -7778,6 +8101,65 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             );
         } catch (_e) { /* silent — Q-Hub-E2 related tools section optional */ }
     }
+
+    // ════════════════════════════════════════════════════════════════════════
+    // HD-1 (2026-05-07): /today-hijri-date Hub gateway. Inject the html class
+    //   so existing CSS rules (style.css ~line 2 — `html.hijri-today-page
+    //   #page-prayer-times { display:none }`) apply at first paint, then
+    //   replace the <!-- HD-1-CONTENT --> anchor inside #page-hijri-today
+    //   with per-lang Hub content (Hero subtitle, 4-tool nav, 3 H2 educational
+    //   sections, 5-Q FAQ — strict per-lang, no fallback).
+    // ════════════════════════════════════════════════════════════════════════
+    if (_isTodayHijriDateHubPath) {
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} hijri-today-page"`) + '>';
+            }
+            return '<html' + a + ' class="hijri-today-page">';
+        });
+        const _hd = _HD1_BY_LANG[seo.lang] || _HD1_BY_LANG.ar;
+        const _langPrefHd1 = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
+        // SSR-fill the existing hero intro paragraph (currently empty placeholder).
+        html = html.replace(
+            '<p id="hijri-today-desc" class="hpage-hero-intro--narrow"></p>',
+            `<p id="hijri-today-desc" class="hpage-hero-intro--narrow">${_escHtml(_hd.heroSub)}</p>`
+        );
+        // Build per-lang Hub content block and replace the <!-- HD-1-CONTENT --> anchor.
+        const _faqHtml = _hd.faq.map(f => `
+                    <div class="faq-item">
+                        <div class="faq-question">${_escHtml(f.q)}</div>
+                        <div class="faq-answer"><p>${_escHtml(f.a)}</p></div>
+                    </div>`).join('\n                    <div class="faq-divider"></div>');
+        const _hubBlock = `
+                <!-- HD-1 Hub content (SSR — per-lang, no JS dependency) -->
+                <section class="section-card hd1-tools-section" aria-labelledby="hd1-tools-title">
+                    <h2 id="hd1-tools-title" class="hd1-section-title">${_escHtml(_hd.toolsTitle)}</h2>
+                    <nav class="hd1-tools-nav u-flex-wrap" aria-label="${_escHtml(_hd.toolsTitle)}">
+                        <a class="hd1-tool-link" href="${_langPrefHd1}/dateconverter">${_escHtml(_hd.tool_dateconv)}</a>
+                        <a class="hd1-tool-link" href="${_langPrefHd1}/hijri-calendar">${_escHtml(_hd.tool_calendar)}</a>
+                        <a class="hd1-tool-link" href="${_langPrefHd1}/">${_escHtml(_hd.tool_prayertimes)}</a>
+                        <a class="hd1-tool-link" href="${_langPrefHd1}/moon-today">${_escHtml(_hd.tool_moon)}</a>
+                    </nav>
+                </section>
+                <section class="section-card hd1-edu hd1-edu-what" aria-labelledby="hd1-h2-what">
+                    <h2 id="hd1-h2-what" class="hd1-section-title">${_escHtml(_hd.h2_what)}</h2>
+                    <p class="hd1-edu-p">${_escHtml(_hd.p_what)}</p>
+                </section>
+                <section class="section-card hd1-edu hd1-edu-why" aria-labelledby="hd1-h2-why">
+                    <h2 id="hd1-h2-why" class="hd1-section-title">${_escHtml(_hd.h2_why)}</h2>
+                    <p class="hd1-edu-p">${_escHtml(_hd.p_why)}</p>
+                </section>
+                <section class="section-card hd1-edu hd1-edu-help" aria-labelledby="hd1-h2-help">
+                    <h2 id="hd1-h2-help" class="hd1-section-title">${_escHtml(_hd.h2_help)}</h2>
+                    <p class="hd1-edu-p">${_escHtml(_hd.p_help)}</p>
+                </section>
+                <section class="section-card hd1-faq" id="hd1-faq" aria-labelledby="hd1-faq-title">
+                    <h2 id="hd1-faq-title" class="hd1-section-title">${_escHtml(_hd.faqTitle)}</h2>${_faqHtml}
+                </section>`;
+        html = html.replace('<!-- HD-1-CONTENT -->', _hubBlock);
+    }
+
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections
     //     + entire #page-prayer-times shell. Inject html.moon-today-hub-page so
     //     CSS reveals the new #moon-hub-hero / #moon-hub-faq immediately.
@@ -9570,13 +9952,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<span data-i18n="footer.follow_yt">${_escHtml(f.followYT)}</span>`)
             .replace(/<span data-i18n="footer\.follow_li">[^<]*<\/span>/,
                 `<span data-i18n="footer.follow_li">${_escHtml(f.followLI)}</span>`)
+            // HD-1 (2026-05-07): footer link goes to the Hub /today-hijri-date,
+            // not to the dated form. The label is still translated per-lang.
             .replace(/<a href="\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
-                (() => {
-                    const _hH = _hijriNow();
-                    const _pH = (n) => String(n).padStart(2, '0');
-                    const _dated = `/hijri-date/${_hH.year}-${_pH(_hH.month)}-${_pH(_hH.day)}`;
-                    return `<a href="${Lf==='ar'?'':'/'+Lf}${_dated}" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`;
-                })())
+                `<a href="${Lf==='ar'?'':'/'+Lf}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
             .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(f.l_hijri_year)}</a>`)
             .replace(/<a href="\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
@@ -12918,32 +13297,15 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== UAT-SEO-Phase-C3 (2026-04-30): legacy /today-hijri-date → 301 dated =====
-    //   Site policy: no user-facing link should ever lead to /today-hijri-date.
-    //   Direct visits (bookmarks, old indexed URLs) get a 1-hop 301 to the
-    //   canonical dated form: /hijri-date/{HIJRI-YYYY-MM-DD}. Prevents Google
-    //   from indexing /today-hijri-date as a separate URL alongside the dated
-    //   page (was using only canonical override → server.js:4339 — which works
-    //   but creates duplicate URLs in Google's crawl queue). 1-hour cache so
-    //   the redirect updates daily as the Hijri date shifts.
-    {
-        const _legacyHijri = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/);
-        if (_legacyHijri) {
-            const _prefix = _legacyHijri[1] || '';
-            const _h = (typeof _hijriNow === 'function') ? _hijriNow() : null;
-            if (_h && _h.year && _h.month && _h.day) {
-                const _pad2 = (n) => String(n).padStart(2, '0');
-                const _dated = `/${_prefix}hijri-date/${_h.year}-${_pad2(_h.month)}-${_pad2(_h.day)}`;
-                res.writeHead(301, {
-                    'Location': _dated + (qs ? '?' + qs : ''),
-                    'Cache-Control': 'public, max-age=3600'
-                });
-                res.end();
-                return;
-            }
-            // If _hijriNow fails for any reason, fall through to canonical-only behavior
-        }
-    }
+    // ===== HD-1 (2026-05-07): legacy 301 redirect REMOVED =====
+    //   The previous policy (UAT-SEO-Phase-C3) bounced every /today-hijri-date
+    //   request to /hijri-date/{HIJRI-YYYY-MM-DD}. Reversed in HD-1: this URL
+    //   is now a first-class indexable Hub page. See:
+    //     - staticPages entry at server.js:4295 (title/desc/app/isTodayHijriHub)
+    //     - sitemap entry at server.js:13158
+    //     - FAQPage JSON-LD at server.js:5790 (gated on seo.isTodayHijriDateHub)
+    //     - SSR content injection at the end of buildSeoForPath block.
+    //   The dated form /hijri-date/{YYYY-MM-DD} remains at lines 5325–5386.
 
     // ===== SEO: Redirect روابط الدول القديمة /prayer-times-cities-{slug} → /{slug} (301) =====
     {
@@ -13155,8 +13517,10 @@ const server = http.createServer(async (req, res) => {
                 ['/azkar', '0.8', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
-                // 🆕 Round 11: /today-hijri-date ليست في sitemap — SEO يعتمد على /hijri-date/YYYY-MM-DD.
-                // الصفحة UX dynamic وتحوي canonical → الصفحة الثابتة لليوم.
+                // HD-1 (2026-05-07): /today-hijri-date is now a first-class indexable
+                // Hub page (was an alias bouncing to /hijri-date/{today}). 'daily'
+                // changefreq because the visible Hijri date refreshes daily.
+                ['/today-hijri-date', '0.85', 'daily'],
                 ['/prayer-times-worldwide', '0.9', 'weekly'],
                 ['/about-us', '0.6', 'monthly'],
                 ['/contact', '0.5', 'monthly'],
@@ -13556,13 +13920,12 @@ const server = http.createServer(async (req, res) => {
                 // Set lang/dir attributes
                 const dir = isRtl ? 'rtl' : 'ltr';
                 htmlStr = htmlStr.replace('<html lang="ar" dir="rtl">', `<html lang="${urlLang}" dir="${dir}">`);
-                // إعادة كتابة navbar /today-hijri-date → الصفحة المؤرّخة (canonical)
+                // HD-1 (2026-05-07): legal-page navbar rewrite of /today-hijri-date
+                // → /hijri-date/{today} REMOVED. The Hub page is now a real URL,
+                // so generic links go directly to it. Per-lang prefix only:
                 {
-                    const _hL = _hijriNow();
-                    const _pL = (n) => String(n).padStart(2, '0');
                     const _langPref = (urlLang === 'ar') ? '' : ('/' + urlLang);
-                    const _datedL = `${_langPref}/hijri-date/${_hL.year}-${_pL(_hL.month)}-${_pL(_hL.day)}`;
-                    htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_datedL}"`);
+                    htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_langPref}/today-hijri-date"`);
                 }
                 serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc, qs);
             });

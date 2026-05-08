@@ -8700,6 +8700,44 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     '<p id="hijri-today-greg" class="hpage-hero-subtitle">--</p>',
                     `<p id="hijri-today-greg" class="hpage-hero-subtitle">${_escHtml(_gregHead)}</p>`
                 );
+                // HD-14 (2026-05-08): pre-fill breadcrumb. JS fills it after
+                //   hydration, growing the empty <nav> from ~0 to ~32px height
+                //   → all section-cards below shift down → CLS event.
+                const _BC_LABELS = {
+                    ar: { home:'الرئيسية', cal:'التقويم الهجري' },
+                    en: { home:'Home', cal:'Hijri Calendar' },
+                    fr: { home:'Accueil', cal:'Calendrier hégirien' },
+                    tr: { home:'Ana Sayfa', cal:'Hicri Takvim' },
+                    ur: { home:'ہوم', cal:'ہجری کیلنڈر' },
+                    de: { home:'Startseite', cal:'Hidschri-Kalender' },
+                    id: { home:'Beranda', cal:'Kalender Hijriah' },
+                    es: { home:'Inicio', cal:'Calendario Hégira' },
+                    bn: { home:'হোম', cal:'হিজরি ক্যালেন্ডার' },
+                    ms: { home:'Utama', cal:'Kalendar Hijrah' },
+                };
+                const _bc = _BC_LABELS[_lng] || _BC_LABELS.en;
+                const _pad2 = (n) => String(n).padStart(2, '0');
+                const _langPrefBC = (_lng === 'ar') ? '' : ('/' + _lng);
+                const _homeUrl = (_lng === 'ar') ? '/' : (_langPrefBC + '/');
+                const _calHubUrl = `${_langPrefBC}/hijri-calendar`;
+                const _yearUrl = `${_langPrefBC}/hijri-calendar/${_h.year}`;
+                const _monthUrl = `${_langPrefBC}/hijri-calendar/${_h.year}-${_pad2(_h.month)}`;
+                const _bcItems = [
+                    { href: _homeUrl,   text: _bc.home },
+                    { href: _calHubUrl, text: _bc.cal },
+                    { href: _yearUrl,   text: `${_h.year}${_hSfx}` },
+                    { href: _monthUrl,  text: `${_mn} ${_h.year}${_hSfx}` },
+                    { current: true,    text: `${_h.day} ${_mn} ${_h.year}${_hSfx}` },
+                ];
+                const _bcHtml = `<ol class="breadcrumb-list">${_bcItems.map((it,i) => {
+                    const sep = i > 0 ? '<li class="bc-sep" aria-hidden="true">›</li>' : '';
+                    if (it.current) return sep + `<li class="bc-item bc-current" aria-current="page">${_escHtml(it.text)}</li>`;
+                    return sep + `<li class="bc-item"><a class="bc-link" href="${_escHtml(it.href)}">${_escHtml(it.text)}</a></li>`;
+                }).join('')}</ol>`;
+                html = html.replace(
+                    /(<nav class="city-breadcrumb hijri-breadcrumb" id="htoday-breadcrumbs"[^>]*>)<\/nav>/,
+                    `$1${_bcHtml}</nav>`
+                );
             }
         } catch (_hd13Err) { /* silent — JS fallback fills as before */ }
         // HD-4 (2026-05-07): Replace the Prev/Next heading anchor with a

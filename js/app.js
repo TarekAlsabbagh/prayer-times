@@ -19339,6 +19339,14 @@ function updateHijriToday() {
     const country   = getDisplayCountry();
     const gregToday = `${now.getDate()} ${T.gM[now.getMonth()]} ${now.getFullYear()}`;
 
+    // HD-13c/HD-14 (2026-05-08): SSR-fill marker — `data-hd12-ssr="1"` on
+    //   the info-grid signals that server.js has pre-rendered the Hub
+    //   (info cards + hero + breadcrumb). When set, the JS overwrites
+    //   are skipped to avoid Mobile CLS from layout recalcs even when
+    //   text values match byte-for-byte.
+    const _ssrHeroFilled = !!(document.getElementById('hijri-today-info-grid') &&
+                              document.getElementById('hijri-today-info-grid').dataset.hd12Ssr);
+
     // HD-4 (2026-05-07): /today-hijri-date is a Hub. The SSR-injected HD-1
     //   block already provides the Tools / Guide / FAQ sections. Hide the
     //   four duplicate cards so the visual order is just:
@@ -19366,8 +19374,11 @@ function updateHijriToday() {
     }
 
     // ── 0. Breadcrumb ─────────────────────────────────────────────
+    // HD-14 (2026-05-08): skip if SSR already filled (data-hd12-ssr on
+    //   info-grid is the universal Hub-SSR marker). Otherwise filling
+    //   adds ~32px height → shifts all section-cards below by ~32px.
     const htBcEl = document.getElementById('htoday-breadcrumbs');
-    if (htBcEl) {
+    if (htBcEl && !_ssrHeroFilled) {
         const yearUrl   = `${prefix}/hijri-calendar/${hijri.year}`;
         const monthUrl0 = hijriMonthUrl(hijri.year, hijri.month);
         const homeUrl   = (lang === 'ar') ? '/' : (prefix + '/');
@@ -19384,14 +19395,8 @@ function updateHijriToday() {
     }
 
     // ── 1. Hero — 🆕 Round 9: H2 full sentence (SEO) + big-number visual stack ────
-    // HD-13c (2026-05-08): if SSR pre-filled the hero (data-hd12-ssr="1" on
-    //   info-grid is the marker for the same Hub URL where HD-13 also pre-fills
-    //   the H1 / day-num / month / year / greg), skip the textContent writes
-    //   here. The JS values are already byte-identical to SSR, but the writes
-    //   still trigger a layout-recalc on Mobile that Lighthouse attributes to
-    //   the info-card position (compounds with the Cairo font-swap shift).
-    const _ssrHeroFilled = !!(document.getElementById('hijri-today-info-grid') &&
-                              document.getElementById('hijri-today-info-grid').dataset.hd12Ssr);
+    // HD-13c (2026-05-08): if SSR pre-filled the hero (see _ssrHeroFilled
+    //   declared above), skip the textContent writes here.
     const fullEl = document.getElementById('hijri-today-full');
     if (fullEl && !_ssrHeroFilled) fullEl.textContent = T.hero(dayName, hijri.day, monthName, hijri.year);
 

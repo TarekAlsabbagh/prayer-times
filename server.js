@@ -8327,11 +8327,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //   on mobile), and ONE FAQ card. Replaces the old 5-section layout
         //   (Tools → 3 separate edu cards → FAQ) so the page reads as a
         //   single coherent Hub instead of stacked panels.
-        const _faqHtml = _hd.faq.map(f => `
-                    <div class="faq-item">
-                        <div class="faq-question">${_escHtml(f.q)}</div>
+        // HD-9 (2026-05-08): FAQ as a native <details>/<summary> accordion.
+        //   First item ships with `open` so the user immediately sees one
+        //   expanded answer; the rest stay closed until clicked. SEO-safe:
+        //   <details> keeps all answer text in the DOM (Googlebot + SEOptimer
+        //   crawl it) regardless of the open state. The previous div-based
+        //   layout was fully expanded → very long visual block; user wanted
+        //   it tightened without losing content for the audit crawl.
+        const _faqHtml = _hd.faq.map((f, i) => `
+                    <details class="faq-item hd1-faq-item"${i === 0 ? ' open' : ''}>
+                        <summary class="faq-question">${_escHtml(f.q)}</summary>
                         <div class="faq-answer"><p>${_escHtml(f.a)}</p></div>
-                    </div>`).join('\n                    <div class="faq-divider"></div>');
+                    </details>`).join('');
         const _hubBlock = `
                 <!-- HD-1 Hub content (SSR — per-lang, no JS dependency) — restructured by HD-4, expanded by HD-8 -->
                 <section class="section-card hd1-tools-section" aria-labelledby="hd1-tools-title">

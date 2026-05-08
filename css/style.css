@@ -15635,14 +15635,16 @@ html[data-theme="dark"] .home-service-card {
     line-height: 1.45;
 }
 
-/* Guide — single card with 3 sub-blocks STACKED (HD-4b 2026-05-08).
-   Was 3-col grid on desktop; user feedback: cramped columns hurt
-   readability. Now each box spans the full width and the paragraph
-   flows naturally over ~3 lines on a typical desktop width. */
+/* Guide — single card with 3 sub-blocks. HD-9 (2026-05-08) reverts
+   HD-4b's stacked-only layout back to a 3-column grid on desktop.
+   The previous columns felt cramped because each item lacked padding
+   breathing room — now we use generous gaps + larger inner padding
+   so 3 cols read comfortably without truncation. Mobile still
+   collapses to 1 col via the @media block below. */
 .hd1-guide-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
 }
 .hd1-guide-item {
     padding: 14px 18px;
@@ -15664,30 +15666,63 @@ html[data-theme="dark"] .home-service-card {
     color: var(--text, #2a3b34);
 }
 
-/* FAQ — already styled by .faq-item / .faq-question / .faq-answer; the
-   .hd1-faq wrapper inherits .section-card. Add tighter spacing for HD-4. */
-.hd1-faq .faq-item { padding: 12px 0; }
-.hd1-faq .faq-question {
+/* HD-9 (2026-05-08): FAQ accordion — <details>/<summary> native expand.
+   Tighter spacing than the old fully-expanded layout, with a small chevron
+   indicator and smooth padding transitions on open. SEO-safe: all answer
+   text remains in the DOM regardless of the open state. */
+.hd1-faq .hd1-faq-item {
+    border-bottom: 1px solid var(--border, #d6e3dc);
+}
+.hd1-faq .hd1-faq-item:last-child { border-bottom: 0; }
+.hd1-faq .hd1-faq-item > .faq-question {
+    cursor: pointer;
     font-weight: 700;
     color: var(--primary-dark, #14422a);
-    margin-bottom: 6px;
+    padding: 12px 0;
+    list-style: none;
+    position: relative;
+    padding-inline-end: 28px;
+    user-select: none;
 }
-.hd1-faq .faq-answer p { margin: 0; line-height: 1.7; color: var(--text, #2a3b34); }
-.hd1-faq .faq-divider {
-    height: 1px;
-    background: var(--border, #d6e3dc);
-    margin: 8px 0;
-    opacity: 0.7;
+.hd1-faq .hd1-faq-item > .faq-question::-webkit-details-marker { display: none; }
+.hd1-faq .hd1-faq-item > .faq-question::after {
+    content: '⌄';
+    position: absolute;
+    inset-inline-end: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.18s ease;
+    color: var(--primary, #1e5631);
+    font-weight: 900;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.hd1-faq .hd1-faq-item[open] > .faq-question::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+.hd1-faq .hd1-faq-item > .faq-answer {
+    padding: 0 0 12px;
+}
+.hd1-faq .hd1-faq-item > .faq-answer p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--text, #2a3b34);
+}
+.hd1-faq .hd1-faq-item > .faq-question:focus-visible {
+    outline: 2px solid var(--primary, #1e5631);
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
 /* Mobile breakpoint: collapse the 4-col tools grid → 2 cols, then 1 col;
    collapse the 3-col guide grid → 1 col. */
 @media (max-width: 1024px) {
     .hd1-tools-grid { grid-template-columns: repeat(2, 1fr); }
+    .hd1-guide-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 760px) {
     .hd1-tools-grid { grid-template-columns: 1fr; }
-    .hd1-guide-grid { gap: 12px; }
+    .hd1-guide-grid { grid-template-columns: 1fr; gap: 12px; }
     .hd1-guide-item { padding: 12px 14px; }
     .hd1-guide-item h3 { font-size: 0.98rem; }
     .hd1-guide-item p { font-size: 0.9rem; line-height: 1.65; }

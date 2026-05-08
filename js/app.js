@@ -18948,7 +18948,10 @@ const HT_I18N = {
         extraConv:'🔄 تحويل التاريخ',
         extraMoon:'🌙 حالة القمر اليوم',
         extraTimeLeft:'⏳ كم باقي على الصلاة اليوم',
-        footer:c=>`يعرض هذا القسم التاريخ الهجري اليوم بدقة حسب تقويم أم القرى في ${c}، مع التاريخ الميلادي المقابل. استخدم الروابط أعلاه للوصول السريع إلى التقويم الهجري الكامل وأداة تحويل التاريخ وحالة القمر اليوم.`,
+        // HD-9 (2026-05-08): Generic footer text — no country interpolation.
+        //   /today-hijri-date is a Global Hub; the previous template injected
+        //   "${country}" which made the page look country-specific.
+        footer:_c=>`يعرض هذا القسم التاريخ الهجري اليوم وفق الحساب المعتمد في الصفحة، مع التاريخ الميلادي المقابل. استخدم الروابط للوصول السريع إلى التقويم الهجري الكامل، وأداة تحويل التاريخ، وحالة القمر اليوم.`,
     },
     en: {
         hSfx:' AH',
@@ -18988,7 +18991,8 @@ const HT_I18N = {
         extraConv:'🔄 Date Converter',
         extraMoon:'🌙 Moon Status Today',
         extraTimeLeft:'⏳ Time Left Until Next Prayer',
-        footer:c=>`This page shows today's Hijri date accurately according to the Umm al-Qura calendar in ${c}, along with its Gregorian equivalent. Use the links above for quick access to the full Hijri calendar, the date converter, and today's moon status.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`This section shows today's Hijri date based on the calendar reference used on the page, with the matching Gregorian date. Use the links to quickly reach the full Hijri calendar, the date converter, and today's moon status.`,
     },
     fr: {
         hSfx:' AH',
@@ -19028,7 +19032,8 @@ const HT_I18N = {
         extraConv:'🔄 Convertisseur de dates',
         extraMoon:'🌙 État de la Lune aujourd\'hui',
         extraTimeLeft:'⏳ Temps restant jusqu\'à la prière',
-        footer:c=>`Cette page affiche la date hégirienne d'aujourd'hui avec précision selon le calendrier Oumm al-Qura en ${c}, ainsi que son équivalent grégorien. Utilisez les liens ci-dessus pour accéder rapidement au calendrier hégirien complet, au convertisseur de dates et à l'état de la Lune.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`Cette section affiche la date hégirienne d'aujourd'hui selon la référence de calcul utilisée sur la page, avec la date grégorienne correspondante. Utilisez les liens pour accéder rapidement au calendrier hégirien complet, au convertisseur de dates et à l'état de la Lune.`,
     },
     tr: {
         hSfx:' H',
@@ -19068,7 +19073,8 @@ const HT_I18N = {
         extraConv:'🔄 Tarih Dönüştürücü',
         extraMoon:'🌙 Bugün Ay Durumu',
         extraTimeLeft:'⏳ Bir Sonraki Namaza Kalan Süre',
-        footer:c=>`Bu sayfa, ${c} için bugünün Hicri tarihini Ümmü'l-Kurra takvimine göre tam olarak ve Miladi karşılığıyla birlikte gösterir. Tam Hicri takvime, tarih dönüştürücüye ve bugünkü ay durumuna hızlı erişim için yukarıdaki bağlantıları kullanın.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`Bu bölüm, sayfada kullanılan hesap referansına göre bugünün Hicri tarihini ve karşılık gelen Miladi tarihi gösterir. Tam Hicri takvime, tarih dönüştürücüye ve bugünkü ay durumuna hızlı erişim için bağlantıları kullanın.`,
     },
     ur: {
         hSfx:' ہجری',
@@ -19108,7 +19114,8 @@ const HT_I18N = {
         extraConv:'🔄 تاریخ کنورٹر',
         extraMoon:'🌙 آج چاند کی حالت',
         extraTimeLeft:'⏳ اگلی نماز تک باقی وقت',
-        footer:c=>`یہ صفحہ ${c} میں ام القریٰ کیلنڈر کے مطابق آج کی ہجری تاریخ کو درست طور پر دکھاتا ہے، اس کے عیسوی مساوی کے ساتھ۔ مکمل ہجری کیلنڈر، تاریخ کنورٹر، اور آج کے چاند کی حالت تک فوری رسائی کے لیے اوپر دیے گئے روابط استعمال کریں۔`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`یہ سیکشن صفحے میں استعمال ہونے والے حسابی حوالے کے مطابق آج کی ہجری تاریخ اور اس کی متعلقہ عیسوی تاریخ دکھاتا ہے۔ مکمل ہجری کیلنڈر، تاریخ کنورٹر، اور آج کے چاند کی حالت تک فوری رسائی کے لیے روابط استعمال کریں۔`,
     },
     de: {
         hSfx:' AH',
@@ -19148,7 +19155,8 @@ const HT_I18N = {
         extraConv:'🔄 Datumsumrechner',
         extraMoon:'🌙 Heutiger Mondstatus',
         extraTimeLeft:'⏳ Verbleibende Zeit bis zum nächsten Gebet',
-        footer:c=>`Diese Seite zeigt das heutige Hidschri-Datum in ${c} präzise nach dem Umm-al-Qura-Kalender zusammen mit dem entsprechenden gregorianischen Datum. Nutzen Sie die Links oben für schnellen Zugriff auf den vollständigen Hidschri-Kalender, den Datumsumrechner und den heutigen Mondstatus.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`Dieser Abschnitt zeigt das heutige Hidschri-Datum gemäß der auf der Seite verwendeten Berechnungsreferenz zusammen mit dem entsprechenden gregorianischen Datum. Nutzen Sie die Links für schnellen Zugriff auf den vollständigen Hidschri-Kalender, den Datumsumrechner und den heutigen Mondstatus.`,
     },
     id: {
         hSfx:' H',
@@ -19188,7 +19196,8 @@ const HT_I18N = {
         extraConv:'🔄 Konverter Tanggal',
         extraMoon:'🌙 Status Bulan Hari Ini',
         extraTimeLeft:'⏳ Waktu Tersisa Hingga Shalat Berikutnya',
-        footer:c=>`Halaman ini menampilkan tanggal Hijriah hari ini di ${c} secara akurat menurut kalender Umm al-Qura bersama dengan tanggal Masehi yang sesuai. Gunakan tautan di atas untuk akses cepat ke kalender Hijriah lengkap, konverter tanggal, dan status bulan hari ini.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`Bagian ini menampilkan tanggal Hijriah hari ini berdasarkan referensi perhitungan yang digunakan pada halaman, beserta tanggal Masehi yang sesuai. Gunakan tautan untuk akses cepat ke kalender Hijriah lengkap, konverter tanggal, dan status bulan hari ini.`,
     },
     es: {
         hSfx:' AH',
@@ -19228,7 +19237,8 @@ const HT_I18N = {
         extraConv:'🔄 Conversor de Fechas',
         extraMoon:'🌙 Estado de la Luna Hoy',
         extraTimeLeft:'⏳ Tiempo Restante Hasta la Próxima Oración',
-        footer:c=>`Esta página muestra la fecha Hégira de hoy en ${c} con precisión según el calendario Umm al-Qura junto con la fecha gregoriana correspondiente. Utiliza los enlaces de arriba para acceder rápidamente al calendario Hégira completo, al conversor de fechas y al estado de la luna hoy.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`Esta sección muestra la fecha Hégira de hoy según la referencia de cálculo utilizada en la página, junto con la fecha gregoriana correspondiente. Utiliza los enlaces para acceder rápidamente al calendario Hégira completo, al conversor de fechas y al estado de la luna hoy.`,
     },
     bn: {
         hSfx:' হিজরি',
@@ -19268,7 +19278,8 @@ const HT_I18N = {
         extraConv:'🔄 তারিখ রূপান্তরকারী',
         extraMoon:'🌙 আজকের চাঁদের অবস্থা',
         extraTimeLeft:'⏳ পরবর্তী নামাজ পর্যন্ত বাকি সময়',
-        footer:c=>`এই পৃষ্ঠাটি ${c}-এ উম্মুল কুরা ক্যালেন্ডার অনুযায়ী আজকের হিজরি তারিখ সঠিকভাবে প্রদর্শন করে এবং সংশ্লিষ্ট খ্রিস্টীয় তারিখও দেখায়। উপরের লিঙ্কগুলি ব্যবহার করে সম্পূর্ণ হিজরি ক্যালেন্ডার, তারিখ রূপান্তরকারী এবং আজকের চাঁদের অবস্থায় দ্রুত অ্যাক্সেস পান।`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`এই অংশটি পৃষ্ঠায় ব্যবহৃত হিসাবের রেফারেন্স অনুযায়ী আজকের হিজরি তারিখ এবং সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখায়। সম্পূর্ণ হিজরি ক্যালেন্ডার, তারিখ রূপান্তরকারী এবং আজকের চাঁদের অবস্থায় দ্রুত প্রবেশের জন্য লিঙ্কগুলি ব্যবহার করুন।`,
     },
     ms: {
         hSfx:' H',
@@ -19308,7 +19319,8 @@ const HT_I18N = {
         extraConv:'🔄 Penukar Tarikh',
         extraMoon:'🌙 Status Bulan Hari Ini',
         extraTimeLeft:'⏳ Masa Berbaki Sehingga Solat Seterusnya',
-        footer:c=>`Halaman ini memaparkan tarikh Hijrah hari ini di ${c} dengan tepat mengikut kalendar Umm al-Qura bersama-sama dengan tarikh Masihi yang sepadan. Gunakan pautan di atas untuk akses pantas ke kalendar Hijrah penuh, penukar tarikh, dan status bulan hari ini.`,
+        // HD-9 (2026-05-08): Generic — no country interpolation.
+        footer:_c=>`Bahagian ini memaparkan tarikh Hijrah hari ini berdasarkan rujukan pengiraan yang digunakan pada halaman, bersama tarikh Masihi yang berkenaan. Gunakan pautan untuk akses pantas ke kalendar Hijrah penuh, penukar tarikh dan status bulan hari ini.`,
     },
 };
 

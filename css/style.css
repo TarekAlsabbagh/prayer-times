@@ -15683,3 +15683,45 @@ html[data-theme="dark"] .home-service-card {
     .hd1-section-title { font-size: 1.1rem; }
     .hd4-nav-heading { font-size: 1rem; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Phase HD-6 (2026-05-08): pre-apply .page.active styles on city pages.
+
+   Same proven pattern as Phase E4-b (moon pages, line 13959+) and
+   Phase DateConv-A (/dateconverter, line 15162+).
+
+   Diagnosis (Lighthouse desktop, /prayer-times-in-riyadh, BEFORE this fix):
+     CLS = 0.241
+       Shift #1 = 0.165  on  div.next-prayer-banner   (banner)
+       Shift #2 = 0.071  on  div#prayer-cards          (cards)
+       Total of these two = 0.236 ≈ all of CLS
+
+     Root cause:
+       SSR ships <html class="city-page"> + <div class="page" id="page-prayer-times">
+       (no .active). Without an html.city-page rule pre-applying the .active
+       cascade, the page wrapper is display:none until JS adds .active —
+       at which point .page.active { display: block; padding: 24px; } fires
+       and the entire page below the header reveals + grows by padding +
+       (on mobile) box-sizing recalc. Banner sits at the top of that
+       wrapper, so it shifts the most.
+
+   Fix: pre-apply .page.active layout via the html.city-page selector.
+   Identical to the moon-page fix at line 13991+. NO JS / SSR / Title /
+   Meta / SEO changes — pure CSS, idempotent.
+
+   Specificity check:
+     html.city-page #page-prayer-times = (0,1,1,1)
+     .page.active                       = (0,0,2,0)
+     Our rule wins (1 ID beats 2 classes). No !important needed.
+   ════════════════════════════════════════════════════════════════════════════ */
+html.city-page #page-prayer-times {
+    display: block;
+    padding: 24px;
+}
+@media (max-width: 768px) {
+    html.city-page #page-prayer-times {
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}

@@ -15695,6 +15695,49 @@ html[data-theme="dark"] .home-service-card {
     color: var(--text, #2a3b34);
 }
 
+/* HD-11 (2026-05-08): "Everyday uses of the Hijri date" — 2×2 grid of
+   light cards on desktop, 1-col stacked on mobile. Each card has a
+   compact heading + 45-60 word body. Together with the existing Tools,
+   Guide, FAQ, and Accuracy sections this brings total page word count
+   above SEOptimer's "Thin Content" threshold (>1000) without disrupting
+   the visual rhythm of the page. */
+.hd1-usages-intro {
+    margin: 0 0 16px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-light, #5a6f66);
+}
+.hd1-usages-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.hd1-usage-card {
+    padding: 14px 18px;
+    background: var(--bg, #f7faf8);
+    border: 1px solid var(--border, #d6e3dc);
+    border-radius: 10px;
+}
+.hd1-usage-card h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark, #14422a);
+    line-height: 1.35;
+}
+.hd1-usage-card p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text, #2a3b34);
+}
+@media (max-width: 760px) {
+    .hd1-usages-grid { grid-template-columns: 1fr; gap: 12px; }
+    .hd1-usage-card { padding: 12px 14px; }
+    .hd1-usage-card h3 { font-size: 0.98rem; }
+    .hd1-usage-card p { font-size: 0.9rem; line-height: 1.65; }
+}
+
 /* HD-9 (2026-05-08): FAQ accordion — <details>/<summary> native expand.
    Tighter spacing than the old fully-expanded layout, with a small chevron
    indicator and smooth padding transitions on open. SEO-safe: all answer

@@ -8455,6 +8455,126 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<p id="hijri-today-desc" class="hpage-hero-intro--narrow"></p>',
             `<p id="hijri-today-desc" class="hpage-hero-intro--narrow">${_escHtml(_hd.heroSub)}</p>`
         );
+
+        // ════════════════════════════════════════════════════════════════════
+        // HD-12 (2026-05-08): SSR-render the 6 info cards directly so CLS
+        //   doesn't fire when JS hydrates them client-side.
+        //   Previously, #hijri-today-info-grid shipped empty and JS used
+        //   innerHTML to inject 6 .info-card children — bumping the parent
+        //   from ~0 to 237/378px after first paint (Lighthouse CLS 0.205+).
+        //   Now SSR pre-populates the grid with the same DOM JS would build.
+        //   updateHijriToday() at js/app.js:19420 skips the rebuild when it
+        //   sees the grid already has 6 children. Result: zero shift.
+        // ════════════════════════════════════════════════════════════════════
+        try {
+            const _HD12_INFO = {
+                ar: {
+                    days: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+                    gM: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                    hM: ['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الثانية','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                    labels: ['اليوم','التاريخ الهجري','التاريخ الميلادي','الشهر','السنة','سنة كبيسة'],
+                    hSfx: ' هـ', gSfx: ' م',
+                    leapYes: 'نعم (355 يوماً)', leapNo: 'لا (354 يوماً)',
+                },
+                en: {
+                    days: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                    gM: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                    hM: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                    labels: ['Day','Hijri Date','Gregorian Date','Month','Year','Leap Year'],
+                    hSfx: ' AH', gSfx: ' CE',
+                    leapYes: 'Yes (355 days)', leapNo: 'No (354 days)',
+                },
+                fr: {
+                    days: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                    gM: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                    hM: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Awwal','Joumada al-Thani','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                    labels: ['Jour','Date hégirienne','Date grégorienne','Mois','Année','Année bissextile'],
+                    hSfx: ' AH', gSfx: '',
+                    leapYes: 'Oui (355 jours)', leapNo: 'Non (354 jours)',
+                },
+                tr: {
+                    days: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+                    gM: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                    hM: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                    labels: ['Gün','Hicri Tarih','Miladi Tarih','Ay','Yıl','Artık Yıl'],
+                    hSfx: ' H', gSfx: ' M',
+                    leapYes: 'Evet (355 gün)', leapNo: 'Hayır (354 gün)',
+                },
+                ur: {
+                    days: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+                    gM: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                    hM: ['محرم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذی قعدہ','ذی الحجہ'],
+                    labels: ['دن','ہجری تاریخ','عیسوی تاریخ','مہینہ','سال','لیپ سال'],
+                    hSfx: ' ہجری', gSfx: ' عیسوی',
+                    leapYes: 'ہاں (355 دن)', leapNo: 'نہیں (354 دن)',
+                },
+                de: {
+                    days: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                    gM: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                    hM: ['Muharram','Safar','Rabi al-Awwal','Rabi ath-Thani','Jumada al-Ula','Jumada al-Akhirah','Rajab','Shaban','Ramadan','Schawwal','Dhu al-Qida','Dhu al-Hijja'],
+                    labels: ['Tag','Hidschri-Datum','Gregorianisches Datum','Monat','Jahr','Schaltjahr'],
+                    hSfx: ' AH', gSfx: ' n. Chr.',
+                    leapYes: 'Ja (355 Tage)', leapNo: 'Nein (354 Tage)',
+                },
+                id: {
+                    days: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+                    gM: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                    hM: ['Muharram','Safar',"Rabi'ul Awwal","Rabi'ul Akhir",'Jumadil Awwal','Jumadil Akhir','Rajab',"Sya'ban",'Ramadan','Syawal','Dzulkaidah','Dzulhijjah'],
+                    labels: ['Hari','Tanggal Hijriah','Tanggal Masehi','Bulan','Tahun','Tahun Kabisat'],
+                    hSfx: ' H', gSfx: ' M',
+                    leapYes: 'Ya (355 hari)', leapNo: 'Tidak (354 hari)',
+                },
+                es: {
+                    days: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                    gM: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    hM: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaban','Ramadán','Shawwal','Dhu al-Qidah','Dhu al-Hiyyah'],
+                    labels: ['Día','Fecha Hégira','Fecha Gregoriana','Mes','Año','Año Bisiesto'],
+                    hSfx: ' AH', gSfx: ' d.C.',
+                    leapYes: 'Sí (355 días)', leapNo: 'No (354 días)',
+                },
+                bn: {
+                    days: ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
+                    gM: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                    hM: ['মহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জুমাদাল উলা','জুমাদাল উখরা','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                    labels: ['দিন','হিজরি তারিখ','খ্রিস্টীয় তারিখ','মাস','বছর','অধিবর্ষ'],
+                    hSfx: ' হিজরি', gSfx: ' খ্রিস্টাব্দ',
+                    leapYes: 'হ্যাঁ (৩৫৫ দিন)', leapNo: 'না (৩৫৪ দিন)',
+                },
+                ms: {
+                    days: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'],
+                    gM: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+                    hM: ['Muharram','Safar',"Rabi'ul Awwal","Rabi'ul Akhir",'Jumadil Awwal','Jumadil Akhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijjah'],
+                    labels: ['Hari','Tarikh Hijrah','Tarikh Masihi','Bulan','Tahun','Tahun Lompat'],
+                    hSfx: ' H', gSfx: ' M',
+                    leapYes: 'Ya (355 hari)', leapNo: 'Tidak (354 hari)',
+                },
+            };
+            const _info = _HD12_INFO[seo.lang] || _HD12_INFO.en;
+            const _hNow = _hijriNow();
+            const _gMecca = _nowMeccaDate();
+            if (_hNow && _gMecca) {
+                const _dayName = _info.days[_gMecca.getUTCDay()];
+                const _gregStr = `${_gMecca.getUTCDate()} ${_info.gM[_gMecca.getUTCMonth()]} ${_gMecca.getUTCFullYear()}`;
+                const _monthName = _info.hM[_hNow.month - 1];
+                // Hijri leap year: ((11*y + 14) % 30) < 11 — standard tabular formula.
+                const _isLeap = ((11 * _hNow.year + 14) % 30) < 11;
+                const _cards = [
+                    { icon: '📅', label: _info.labels[0], value: _dayName },
+                    { icon: '🗓', label: _info.labels[1], value: `${_hNow.day} ${_monthName} ${_hNow.year}${_info.hSfx}` },
+                    { icon: '📆', label: _info.labels[2], value: `${_gregStr}${_info.gSfx}` },
+                    { icon: '🌙', label: _info.labels[3], value: _monthName },
+                    { icon: '✔️', label: _info.labels[4], value: `${_hNow.year}${_info.hSfx}` },
+                    { icon: '✅', label: _info.labels[5], value: _isLeap ? _info.leapYes : _info.leapNo },
+                ];
+                const _cardsHtml = _cards.map(c =>
+                    `<div class="info-card"><div class="info-card-label">${_escHtml(c.icon)} ${_escHtml(c.label)}</div><div class="info-card-value">${_escHtml(c.value)}</div></div>`
+                ).join('');
+                html = html.replace(
+                    '<div class="info-grid" id="hijri-today-info-grid"></div>',
+                    `<div class="info-grid" id="hijri-today-info-grid" data-hd12-ssr="1">${_cardsHtml}</div>`
+                );
+            }
+        } catch (_hd12Err) { /* silent — JS will populate as fallback */ }
         // HD-4 (2026-05-07): Replace the Prev/Next heading anchor with a
         //   per-lang title ("التنقل بين الأيام الهجرية" / "Navigate Hijri Days" / …).
         html = html.replace(

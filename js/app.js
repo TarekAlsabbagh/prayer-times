@@ -19417,8 +19417,13 @@ function updateHijriToday() {
     }
 
     // ── 2. Quick Info Cards ───────────────────────────────────────
+    // HD-12 (2026-05-08): if SSR pre-populated the grid (data-hd12-ssr=1
+    //   on /today-hijri-date Hub), skip the innerHTML rebuild — that
+    //   was the root cause of the 0.205 layout shift on Lighthouse.
+    //   Otherwise (legacy path on dated pages or SSR fallback failure),
+    //   build the cards as before.
     const infoGrid = document.getElementById('hijri-today-info-grid');
-    if (infoGrid) {
+    if (infoGrid && !infoGrid.dataset.hd12Ssr) {
         const leapLabel = isLeap ? T.leapYes : T.leapNo;
         const cards = [
             ['📅', T.infoLabels[0], dayName],

@@ -8575,6 +8575,133 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 );
             }
         } catch (_hd12Err) { /* silent — JS will populate as fallback */ }
+
+        // ════════════════════════════════════════════════════════════════════
+        // HD-13 (2026-05-08): Strip the 4 cards that HD-4 hides via JS
+        //   (`card.hidden = true` in updateHijriToday). Hiding them after
+        //   hydration caused 3 sequential layout shifts on Lighthouse Mobile
+        //   (CLS 0.45 — even with HD-12's SSR cards in place, the earlier
+        //   cards collapsing pushed the info-card UP three times).
+        //   Stripping them server-side means the layout is final from first
+        //   paint. The duplicate Tools/FAQ/Related-Links sections live in
+        //   HD-1's SSR injection below this point — none of these stripped
+        //   cards are needed on the Hub URL.
+        // ════════════════════════════════════════════════════════════════════
+        ['hijri-today-hierarchy-card', 'hijri-today-cta-card',
+         'hijri-today-faq-card', 'hijri-today-extra-card'].forEach(id => {
+            html = _stripElement(html, { type: 'id', value: id });
+        });
+
+        // HD-13 (2026-05-08): Pre-fill the hero stack (#hijri-today-full H1,
+        //   day-num, month, year, greg subtitle) using the same SSR-side
+        //   data computed for HD-12. Otherwise the H1 ships as static
+        //   "التاريخ الهجري اليوم" and JS replaces it with the longer
+        //   "التاريخ الهجري اليوم: السبت 22 ذو القعدة 1447 هـ" — the height
+        //   delta moves the info-card down, contributing to CLS.
+        try {
+            const _info = (typeof _HD12_INFO !== 'undefined' && _HD12_INFO[seo.lang]) ? _HD12_INFO[seo.lang] : null;
+            const _h = _hijriNow();
+            const _g = _nowMeccaDate();
+            // _HD12_INFO is scoped inside the try block above; rebuild minimal lookup here.
+            const _DAYS_BY_LANG = {
+                ar: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+                en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                fr: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                tr: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+                ur: ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+                de: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                id: ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+                es: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                bn: ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
+                ms: ['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'],
+            };
+            const _GM_BY_LANG = {
+                ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+                en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                fr: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+                ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+                de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+                es: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+                ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+            };
+            const _HM_BY_LANG = {
+                ar: ['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الثانية','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Awwal','Joumada al-Thani','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                ur: ['محرم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذی قعدہ','ذی الحجہ'],
+                de: ['Muharram','Safar','Rabi al-Awwal','Rabi ath-Thani','Jumada al-Ula','Jumada al-Akhirah','Rajab','Shaban','Ramadan','Schawwal','Dhu al-Qida','Dhu al-Hijja'],
+                id: ['Muharram','Safar',"Rabi'ul Awwal","Rabi'ul Akhir",'Jumadil Awwal','Jumadil Akhir','Rajab',"Sya'ban",'Ramadan','Syawal','Dzulkaidah','Dzulhijjah'],
+                es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaban','Ramadán','Shawwal','Dhu al-Qidah','Dhu al-Hiyyah'],
+                bn: ['মহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জুমাদাল উলা','জুমাদাল উখরা','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                ms: ['Muharram','Safar',"Rabi'ul Awwal","Rabi'ul Akhir",'Jumadil Awwal','Jumadil Akhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijjah'],
+            };
+            const _HSFX_BY_LANG = { ar:' هـ', en:' AH', fr:' AH', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' AH', bn:' হিজরি', ms:' H' };
+            const _GSFX_BY_LANG = { ar:' م', en:' CE', fr:'', tr:' M', ur:' عیسوی', de:' n. Chr.', id:' M', es:' d.C.', bn:' খ্রিস্টাব্দ', ms:' M' };
+            const _HERO_HEAD_BY_LANG = {
+                ar: (dn, d, m, y, hSfx) => `التاريخ الهجري اليوم: ${dn} ${d} ${m} ${y}${hSfx}`,
+                en: (dn, d, m, y, hSfx) => `Today's Hijri Date: ${dn}, ${d} ${m} ${y}${hSfx}`,
+                fr: (dn, d, m, y, hSfx) => `Date hégirienne aujourd'hui : ${dn}, ${d} ${m} ${y}${hSfx}`,
+                tr: (dn, d, m, y, hSfx) => `Bugünün Hicri Tarihi: ${dn}, ${d} ${m} ${y}${hSfx}`,
+                ur: (dn, d, m, y, hSfx) => `آج کی ہجری تاریخ: ${dn}، ${d} ${m} ${y}${hSfx}`,
+                de: (dn, d, m, y, hSfx) => `Heutiges Hidschri-Datum: ${dn}, ${d} ${m} ${y}${hSfx}`,
+                id: (dn, d, m, y, hSfx) => `Tanggal Hijriah Hari Ini: ${dn}, ${d} ${m} ${y}${hSfx}`,
+                es: (dn, d, m, y, hSfx) => `Fecha Hégira de Hoy: ${dn}, ${d} ${m} ${y}${hSfx}`,
+                bn: (dn, d, m, y, hSfx) => `আজকের হিজরি তারিখ: ${dn}, ${d} ${m} ${y}${hSfx}`,
+                ms: (dn, d, m, y, hSfx) => `Tarikh Hijrah Hari Ini: ${dn}, ${d} ${m} ${y}${hSfx}`,
+            };
+            const _GREG_HEAD_BY_LANG = {
+                ar: (dn, g) => `الموافق: ${dn} ${g} م – حسب تقويم أم القرى`,
+                en: (dn, g) => `Corresponding to: ${dn}, ${g} CE – according to the Umm al-Qura calendar`,
+                fr: (dn, g) => `Correspond à : ${dn}, ${g} – selon le calendrier Umm al-Qura`,
+                tr: (dn, g) => `Karşılığı: ${dn}, ${g} M – Ümmülkura takvimine göre`,
+                ur: (dn, g) => `موافق: ${dn}، ${g} عیسوی – ام القری کیلنڈر کے مطابق`,
+                de: (dn, g) => `Entspricht: ${dn}, ${g} – gemäß dem Umm-al-Qura-Kalender`,
+                id: (dn, g) => `Bertepatan dengan: ${dn}, ${g} M – menurut kalender Umm al-Qura`,
+                es: (dn, g) => `Corresponde a: ${dn}, ${g} d.C. – según el calendario Umm al-Qura`,
+                bn: (dn, g) => `সমতুল্য: ${dn}, ${g} – উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী`,
+                ms: (dn, g) => `Bersamaan dengan: ${dn}, ${g} M – mengikut kalendar Umm al-Qura`,
+            };
+            const _lng = seo.lang;
+            const _days = _DAYS_BY_LANG[_lng] || _DAYS_BY_LANG.en;
+            const _gM = _GM_BY_LANG[_lng] || _GM_BY_LANG.en;
+            const _hM = _HM_BY_LANG[_lng] || _HM_BY_LANG.en;
+            const _hSfx = _HSFX_BY_LANG[_lng] || ' AH';
+            if (_h && _g) {
+                const _dn = _days[_g.getUTCDay()];
+                const _mn = _hM[_h.month - 1];
+                const _gStr = `${_g.getUTCDate()} ${_gM[_g.getUTCMonth()]} ${_g.getUTCFullYear()}`;
+                const _heroHead = (_HERO_HEAD_BY_LANG[_lng] || _HERO_HEAD_BY_LANG.en)(_dn, _h.day, _mn, _h.year, _hSfx);
+                const _gregHead = (_GREG_HEAD_BY_LANG[_lng] || _GREG_HEAD_BY_LANG.en)(_dn, _gStr);
+                // H1: replace ENTIRE element to drop data-i18n (which would
+                // trigger a re-translation on hydration) and seed final text.
+                html = html.replace(
+                    /<h1 id="hijri-today-full"[^>]*>[^<]*<\/h1>/,
+                    `<h1 id="hijri-today-full" class="hpage-hero-title--lg">${_escHtml(_heroHead)}</h1>`
+                );
+                // Visual stack
+                html = html.replace(
+                    '<div class="ht-day-num"  id="hijri-today-day-num">--</div>',
+                    `<div class="ht-day-num"  id="hijri-today-day-num">${_escHtml(String(_h.day))}</div>`
+                );
+                html = html.replace(
+                    '<div class="ht-month"    id="hijri-today-month">--</div>',
+                    `<div class="ht-month"    id="hijri-today-month">${_escHtml(_mn)}</div>`
+                );
+                html = html.replace(
+                    '<div class="ht-year"     id="hijri-today-year">--</div>',
+                    `<div class="ht-year"     id="hijri-today-year">${_escHtml(String(_h.year) + _hSfx)}</div>`
+                );
+                // Gregorian subtitle
+                html = html.replace(
+                    '<p id="hijri-today-greg" class="hpage-hero-subtitle">--</p>',
+                    `<p id="hijri-today-greg" class="hpage-hero-subtitle">${_escHtml(_gregHead)}</p>`
+                );
+            }
+        } catch (_hd13Err) { /* silent — JS fallback fills as before */ }
         // HD-4 (2026-05-07): Replace the Prev/Next heading anchor with a
         //   per-lang title ("التنقل بين الأيام الهجرية" / "Navigate Hijri Days" / …).
         html = html.replace(

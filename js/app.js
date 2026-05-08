@@ -3335,25 +3335,29 @@ async function initApp() {
             }
         } catch (_) {}
 
-        // ── H1 ديناميكيّ: "كم باقي على رمضان 1448 في طوكيو؟" ──
+        // ── H1 ديناميكيّ — HD-7 (2026-05-08): Global Islamic Occasion Page.
+        //   Countdown pages (Ramadan / Eid al-Fitr / Eid al-Adha / Hijri NY)
+        //   are global Islamic occasions, NOT city pages. The previous H1
+        //   template appended "in {city}" which contradicted the page
+        //   identity (the URL itself has no city slug). Remove the city
+        //   reference; keep the dynamic Hijri year suffix per lang.
         try {
             const _h1El = document.querySelector('#' + cfg.pageId + ' .countdown-h1');
             if (_h1El) {
                 const _evN = _tt(_kp + '.event_name') || cfg.id;
-                const _city0 = currentCity || (_lang === 'ar' ? 'مكة المكرمة' : 'Mecca');
                 const _emojiMap = { ramadan: '🕋', 'eid-al-fitr': '🌙', 'eid-al-adha': '🐑', 'hijri-new-year': '📅' };
                 const _emoji = _emojiMap[cfg.id] || '📅';
                 const _h1Tpl = {
-                    ar: `${_emoji} كم باقي على ${_evN} ${_eventHYear} في ${_city0}؟`,
-                    en: `${_emoji} How long until ${_evN} ${_eventHYear} in ${_city0}?`,
-                    fr: `${_emoji} Combien de jours jusqu'à ${_evN} ${_eventHYear} à ${_city0} ?`,
-                    tr: `${_emoji} ${_city0}'de ${_evN} ${_eventHYear}'a ne kadar kaldı?`,
-                    ur: `${_emoji} ${_city0} میں ${_evN} ${_eventHYear} میں کتنے دن باقی؟`,
-                    de: `${_emoji} Wie lange bis ${_evN} ${_eventHYear} in ${_city0}?`,
-                    id: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} di ${_city0}?`,
-                    es: `${_emoji} ¿Cuántos días faltan para ${_evN} ${_eventHYear} en ${_city0}?`,
-                    bn: `${_emoji} ${_city0}-এ ${_evN} ${_eventHYear} পর্যন্ত কতদিন?`,
-                    ms: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} di ${_city0}?`
+                    ar: `${_emoji} كم باقي على ${_evN} ${_eventHYear} هـ؟`,
+                    en: `${_emoji} How long until ${_evN} ${_eventHYear} AH?`,
+                    fr: `${_emoji} Combien de jours jusqu'à ${_evN} ${_eventHYear} AH ?`,
+                    tr: `${_emoji} ${_evN} ${_eventHYear} AH'a ne kadar kaldı?`,
+                    ur: `${_emoji} ${_evN} ${_eventHYear} ھ میں کتنے دن باقی؟`,
+                    de: `${_emoji} Wie lange bis ${_evN} ${_eventHYear} AH?`,
+                    id: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} H?`,
+                    es: `${_emoji} ¿Cuántos días faltan para ${_evN} ${_eventHYear} AH?`,
+                    bn: `${_emoji} ${_evN} ${_eventHYear} হিজরি পর্যন্ত কতদিন?`,
+                    ms: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} H?`
                 };
                 _h1El.textContent = _h1Tpl[_lang] || _h1Tpl.en;
             }
@@ -3411,23 +3415,28 @@ async function initApp() {
                     }
                 } catch (_) {}
             }
-            const _city = currentCity || (_lang === 'ar' ? 'مكة المكرمة' : 'Mecca');
+            // HD-7 (2026-05-08): Global Islamic Occasion — line 1 used to read
+            //   "في {city}:" which made the page look city-specific. Replaced
+            //   with a generic "counter follows your device timezone" note so
+            //   the counter still feels personalized but doesn't claim a city
+            //   identity. A second note ("official announcement may differ by
+            //   country") lives below the FAQ via the i18n notice_body key.
             const _evName = _tt(_kp + '.event_name') || cfg.id;
             if (_personalBar && _personalText) {
-                // سطران: عنوان مدينة + جملة كاملة
-                //   📍 في مكة المكرمة:
+                // سطران: ملاحظة منطقة زمنيّة + جملة العدّاد
+                //   ⏱ العدّاد بتوقيت جهازك:
                 //   يتبقّى 287 يوماً على بداية رمضان
                 const _line1Tpl = {
-                    ar: `في ${_city}:`,
-                    en: `In ${_city}:`,
-                    fr: `À ${_city} :`,
-                    tr: `${_city}'de:`,
-                    ur: `${_city} میں:`,
-                    de: `In ${_city}:`,
-                    id: `Di ${_city}:`,
-                    es: `En ${_city}:`,
-                    bn: `${_city}-এ:`,
-                    ms: `Di ${_city}:`
+                    ar: 'العدّاد بتوقيت جهازك المحلّيّ:',
+                    en: 'Counter set to your device timezone:',
+                    fr: 'Compteur réglé sur le fuseau horaire de votre appareil :',
+                    tr: 'Sayaç cihazınızın saat dilimine ayarlı:',
+                    ur: 'کاؤنٹر آپ کے ڈیوائس کے ٹائم زون پر:',
+                    de: 'Zähler auf Ihre Gerätezeit eingestellt:',
+                    id: 'Penghitung disetel ke zona waktu perangkat Anda:',
+                    es: 'Contador ajustado a la zona horaria de tu dispositivo:',
+                    bn: 'কাউন্টার আপনার ডিভাইসের টাইম জোন অনুযায়ী:',
+                    ms: 'Pengira ditetapkan kepada zon waktu peranti anda:'
                 };
                 const _evNameFull = _evWithPrefix(_evName);
                 const _line2Tpl = {

@@ -7512,6 +7512,25 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     text-align: center;
 }
 
+/* HD-10 (2026-05-08): CLS reservation for #hijri-today-info-card on
+   /today-hijri-date Hub. The card is SSR-empty and gets 6 .info-card
+   children injected by updateHijriToday() after JS hydration. Without
+   min-height, the card transitions from ~0 to 237/378px, contributing
+   ~0.22 to CLS (Lighthouse). The values below match the measured
+   populated heights at desktop (4-col, 2-row), tablet (3-col, 2-row),
+   and mobile (2-col, 3-row) viewports. .info-card child reservation
+   prevents inner micro-shifts when text wraps differently between
+   "13 يومًا" vs "ذو القعدة 1447 هـ". */
+#hijri-today-info-card { min-height: 240px; }
+#hijri-today-info-card .info-card { min-height: 96px; }
+@media (max-width: 1024px) {
+    #hijri-today-info-card { min-height: 280px; }
+}
+@media (max-width: 768px) {
+    #hijri-today-info-card { min-height: 380px; }
+    #hijri-today-info-card .info-card { min-height: 110px; }
+}
+
 .info-card .info-label { font-size: 0.85rem; color: var(--text-light); }
 .info-card .info-value { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-top: 4px; }
 
@@ -15663,6 +15682,16 @@ html[data-theme="dark"] .home-service-card {
     margin: 0;
     font-size: 0.95rem;
     line-height: 1.7;
+    color: var(--text, #2a3b34);
+}
+
+/* HD-10 (2026-05-08): "Notes on accuracy" section paragraph — soft
+   gray-green background to differentiate from the main content cards.
+   The section is below the FAQ accordion. */
+.hd1-accuracy-body {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.75;
     color: var(--text, #2a3b34);
 }
 

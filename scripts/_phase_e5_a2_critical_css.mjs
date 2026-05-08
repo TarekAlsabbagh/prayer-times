@@ -62,6 +62,17 @@ const CRITICAL_PATTERNS = [
     // and cause collapse-shift). The #page-hijri-* selector persists.
     /^#page-hijri-(year|month|today|day)(\s|$)/,
 
+    // HD-10 (2026-05-08): /today-hijri-date Info Cards CLS reservation.
+    // The #hijri-today-info-card SSR ships an EMPTY <div class="info-grid">;
+    // updateHijriToday() injects 6 .info-card children after JS hydration,
+    // bumping the parent height from ~0 to 237 (desktop) / 378 (mobile).
+    // Lighthouse measured 0.217 layout shift score — the page's main CLS
+    // culprit. min-height rules here must apply BEFORE first paint, so
+    // they go in critical CSS (inlined in <head>), not in style.css which
+    // loads later async.
+    /^#hijri-today-info-card$/,
+    /^#hijri-today-info-card\s+\.info-card$/,
+
     // Countdown-A (2026-05-05): same robustness rationale for countdown pages.
     // Selectors target page IDs directly so child reservations don't depend
     // on html.countdown-page being present.

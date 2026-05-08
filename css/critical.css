@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-08T22:07:53.537Z
-   Source: css/style.css (full 522 KiB)
-   Critical: 36.5 KiB
+   Extracted on: 2026-05-08T22:17:23.562Z
+   Source: css/style.css (full 524 KiB)
+   Critical: 36.8 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -228,6 +228,11 @@ html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
 }
 .page{ display: none; }
 .page.active{ display: block; padding: 24px; }
+#hijri-today-info-card{ min-height: 240px; }
+#hijri-today-info-card .info-card{ min-height: 96px; }
+@media (max-width: 1024px){#hijri-today-info-card{ min-height: 280px; }}
+@media (max-width: 768px){#hijri-today-info-card{ min-height: 380px; }
+#hijri-today-info-card .info-card{ min-height: 110px; }}
 @media (max-width: 768px){.sidebar{ transform: translateX(100%); }
 .sidebar.open{ transform: translateX(0); }
 .sidebar-overlay.open{ display: block; }

@@ -19384,19 +19384,27 @@ function updateHijriToday() {
     }
 
     // ── 1. Hero — 🆕 Round 9: H2 full sentence (SEO) + big-number visual stack ────
+    // HD-13c (2026-05-08): if SSR pre-filled the hero (data-hd12-ssr="1" on
+    //   info-grid is the marker for the same Hub URL where HD-13 also pre-fills
+    //   the H1 / day-num / month / year / greg), skip the textContent writes
+    //   here. The JS values are already byte-identical to SSR, but the writes
+    //   still trigger a layout-recalc on Mobile that Lighthouse attributes to
+    //   the info-card position (compounds with the Cairo font-swap shift).
+    const _ssrHeroFilled = !!(document.getElementById('hijri-today-info-grid') &&
+                              document.getElementById('hijri-today-info-grid').dataset.hd12Ssr);
     const fullEl = document.getElementById('hijri-today-full');
-    if (fullEl) fullEl.textContent = T.hero(dayName, hijri.day, monthName, hijri.year);
+    if (fullEl && !_ssrHeroFilled) fullEl.textContent = T.hero(dayName, hijri.day, monthName, hijri.year);
 
     // Visual stack (aria-hidden — duplicates H2 info semantically)
     const dayNumEl = document.getElementById('hijri-today-day-num');
-    if (dayNumEl) dayNumEl.textContent = hijri.day;
+    if (dayNumEl && !_ssrHeroFilled) dayNumEl.textContent = hijri.day;
     const monthEl  = document.getElementById('hijri-today-month');
-    if (monthEl)  monthEl.textContent  = monthName;
+    if (monthEl && !_ssrHeroFilled)  monthEl.textContent  = monthName;
     const yearEl   = document.getElementById('hijri-today-year');
-    if (yearEl)   yearEl.textContent   = `${hijri.year}${T.hSfx}`;
+    if (yearEl && !_ssrHeroFilled)   yearEl.textContent   = `${hijri.year}${T.hSfx}`;
 
     const gregEl = document.getElementById('hijri-today-greg');
-    if (gregEl) gregEl.textContent = T.greg(dayName, gregToday);
+    if (gregEl && !_ssrHeroFilled) gregEl.textContent = T.greg(dayName, gregToday);
 
     // HD-1b (2026-05-07): on /today-hijri-date the page is a Global Hub —
     //   no country/city context. SSR pre-fills #hijri-today-desc with a

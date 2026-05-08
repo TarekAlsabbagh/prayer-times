@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-08T23:40:10.498Z
+   Extracted on: 2026-05-08T23:45:34.893Z
    Source: css/style.css (full 528 KiB)
    Critical: 37.3 KiB
 
@@ -581,10 +581,10 @@ html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day{
         box-sizing: border-box;
     }}
 html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero{
-    min-height: 320px;
+    min-height: 280px;
 }
 @media (max-width: 768px){html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero{
-        min-height: 440px;
+        min-height: 380px;
     }}
 html.hijri-today-page #hijri-today-info-grid,html.hijri-day-page   #hday-info-grid{
     min-height: 280px;

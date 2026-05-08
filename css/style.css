@@ -14669,12 +14669,12 @@ html.hijri-day-page   #page-hijri-day {
    + 4px buffer); desktop hero is shorter (1 stack line vs. wrapped on mobile). */
 html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
 html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
-    min-height: 320px;
+    min-height: 280px;
 }
 @media (max-width: 768px) {
     html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
     html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
-        min-height: 440px;
+        min-height: 380px;
     }
 }
 

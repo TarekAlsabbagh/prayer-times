@@ -14080,9 +14080,9 @@ html.qibla-hub-page #page-qibla {
 @font-face {
     font-family: 'Cairo Fallback';
     src: local('Tahoma'), local('Arial');
-    size-adjust: 95%;
-    ascent-override: 105%;
-    descent-override: 30%;
+    size-adjust: 100%;
+    ascent-override: 110%;
+    descent-override: 35%;
     line-gap-override: 0%;
 }
 body {

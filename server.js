@@ -2610,6 +2610,18 @@ function _escHtml(s) {
 const _HD1_BY_LANG = {
     ar: {
         heroSub: 'اعرف تاريخ اليوم الهجري والميلادي، مع إمكانية تحويل التاريخ واستعراض التقويم الهجري بسهولة.',
+        ugTitle: 'دليل استخدام التاريخ الهجري اليوم',
+        ugIntro: 'يساعدك هذا الدليل على فهم طريقة قراءة التاريخ الهجري اليوم، ومقارنته بالتاريخ الميلادي، واستخدامه في متابعة الشهور الإسلامية والمناسبات الدينية.',
+        ug1_t: 'كيف تقرأ التاريخ الهجري اليوم؟',
+        ug1_b: 'يتكون التاريخ الهجري من ثلاثة عناصر أساسية: اليوم، والشهر الهجري، والسنة الهجرية. أسماء الشهور الهجرية اثنا عشر شهرًا مرتبة بشكل ثابت من محرّم إلى ذي الحجة، ويبدأ كل شهر مع رؤية الهلال أو وفقًا للحساب الفلكي المعتمد. تعرض الصفحة التاريخ الهجري لليوم الحالي بصيغة واضحة تشمل اليوم والشهر والسنة، إلى جانب التاريخ الميلادي المقابل لتسهيل المقارنة اليومية. يمكنك متابعة هذه القراءة كل صباح لتعرف موقع اليوم في الشهر الهجري وكم يبقى على نهايته.',
+        ug2_t: 'لماذا نعرض التاريخ الهجري والميلادي معًا؟',
+        ug2_b: 'السنة الهجرية تعتمد على دورة القمر وتتألف من 354 أو 355 يومًا، بينما السنة الميلادية شمسية وتتألف من 365 أو 366 يومًا. هذا الفرق يجعل الشهور الهجرية تتقدّم عبر فصول السنة الميلادية بمقدار عشرة إلى أحد عشر يومًا كل عام. عرض التاريخين جنبًا إلى جنب على الصفحة يساعد المستخدم على فهم أن اليوم الميلادي يقابل تاريخًا هجريًا محددًا، ويسهّل التخطيط لكل ما يرتبط بأحد التقويمين دون الحاجة إلى الانتقال بين أكثر من مرجع.',
+        ug3_t: 'متى تحتاج إلى تحويل التاريخ؟',
+        ug3_b: 'تظهر الحاجة إلى تحويل التاريخ في حالات يومية كثيرة. عند ترتيب موعد رسمي أو شخصي مرتبط بمناسبة دينية، يساعد التحويل على إيجاد التاريخ الميلادي المقابل بسهولة. كذلك عند مراجعة وثائق رسمية مكتوبة بالتاريخ الهجري، أو عند السفر بين بلدان تستخدم تقويمًا مختلفًا، أو عند التخطيط للعبادات الموسمية مثل الصيام والحج، تصبح أداة تحويل التاريخ ضرورية. يمكنك من هذه الصفحة الانتقال مباشرة إلى أداة التحويل لاستعراض أي تاريخ بسرعة دون انقطاع في تجربة الاستخدام.',
+        ug4_t: 'ما علاقة التاريخ الهجري بالمناسبات الإسلامية؟',
+        ug4_b: 'ترتبط معظم المناسبات الإسلامية الكبرى بالتقويم الهجري. شهر رمضان المبارك بصيامه ولياليه، وعيد الفطر في أول شوال، وموسم الحج في ذي الحجة وعيد الأضحى، وعاشوراء في محرّم، والأيام البيض في كل شهر هجري — كلها مرتبطة بالتاريخ الهجري وليس الميلادي. بمعرفة التاريخ الهجري اليوم، يمكن للمستخدم متابعة الأيام المتبقية على هذه المناسبات والتحضير لها مبكرًا، سواء بصيام نوافل، أو إخراج الزكاة، أو ترتيب أمور الحج والعمرة.',
+        ug5_t: 'لماذا قد يختلف التاريخ الهجري أحيانًا؟',
+        ug5_b: 'قد يظهر فارق يوم واحد أحيانًا بين التاريخ الهجري في موقع وآخر. السبب يعود إلى اختلاف منهجية تحديد بداية الشهر الهجري: بعض الجهات تعتمد الرؤية الفعلية لهلال الشهر الجديد بالعين المجرّدة، وبعضها يستند إلى الحساب الفلكي المسبق، وقد يتأخر إعلان رؤية الهلال أو يتقدّم وفق ظروف الرصد. هذا الفارق نادرًا ما يتجاوز يومًا واحدًا، ويتعلق فقط ببداية الشهر، ولا يؤثر على ترتيب الأيام داخل الشهر نفسه.',
         accuracyTitle: 'ملاحظات حول دقة التاريخ الهجري',
         accuracyBody: 'يعتمد عرض التاريخ الهجري في هذه الصفحة على الحساب الفلكي والتقويم المعتمد داخل الموقع، مع إظهار التاريخ الميلادي المقابل لتسهيل المقارنة اليومية. وقد تختلف بداية بعض الشهور الهجرية بين بلد وآخر بحسب رؤية الهلال أو الإعلان الرسمي، لذلك يُفضّل دائمًا مراجعة الجهة الرسمية في بلدك عند ارتباط التاريخ بمناسبة دينية أو عبادة موسمية.',
         usagesTitle: 'استخدامات التاريخ الهجري في الحياة اليومية',
@@ -2663,6 +2675,18 @@ const _HD1_BY_LANG = {
     },
     en: {
         heroSub: "Know today's Hijri and Gregorian date, with quick access to the date converter and the full Hijri calendar.",
+        ugTitle: "Guide to Using Today's Hijri Date",
+        ugIntro: "This guide helps you understand how to read today's Hijri date, compare it with the Gregorian date, and use it to follow the Islamic months and religious occasions.",
+        ug1_t: "How to read today's Hijri date?",
+        ug1_b: "The Hijri date is made of three core parts: the day, the Hijri month, and the Hijri year. The twelve Hijri months are arranged in fixed order from Muharram to Dhu al-Hijjah, and each one starts with the crescent sighting or via the adopted astronomical calculation. This page shows the Hijri date for the current day clearly with the day, month, and year, alongside the matching Gregorian date for easy daily comparison. You can check this each morning to know where the day falls within the Hijri month and how many days remain until its end.",
+        ug2_t: "Why do we show the Hijri and Gregorian dates together?",
+        ug2_b: "The Hijri year follows the lunar cycle and lasts 354 or 355 days, while the Gregorian year is solar and lasts 365 or 366 days. That difference means the Hijri months shift across the Gregorian seasons by about ten to eleven days each year. Showing both dates side by side on the page helps you see exactly which Hijri date matches today's Gregorian date, and lets you plan anything tied to either calendar without having to switch between multiple references.",
+        ug3_t: "When do you need to convert dates?",
+        ug3_b: "The need to convert dates comes up in many everyday situations. When you schedule an official or personal appointment tied to a religious occasion, conversion makes it easy to find the matching Gregorian date. The same applies when reviewing official documents written in Hijri, when traveling between countries that use different calendars, or when planning seasonal worship such as fasting and Hajj. From this page you can jump straight to the date converter to look up any date quickly without breaking the flow of your task.",
+        ug4_t: "How does the Hijri date relate to Islamic occasions?",
+        ug4_b: "Most major Islamic occasions are tied to the Hijri calendar. The blessed month of Ramadan with its fasting and nights, Eid al-Fitr on the first of Shawwal, the Hajj season in Dhu al-Hijjah and Eid al-Adha, Ashura in Muharram, and the White Days in every Hijri month — all are anchored to the Hijri date, not the Gregorian one. By knowing today's Hijri date, you can track the remaining days until each of these occasions and prepare in advance, whether through voluntary fasting, paying Zakat, or arranging Hajj and Umrah travel.",
+        ug5_t: "Why can the Hijri date sometimes differ?",
+        ug5_b: "A one-day difference may sometimes appear between the Hijri date in one place and another. The reason is that authorities use different methods to mark the start of the Hijri month: some rely on the actual naked-eye crescent sighting, while others use a pre-computed astronomical calculation. The crescent announcement may also be delayed or advanced depending on observation conditions. This gap rarely exceeds one day, only affects the start of the month, and does not change the order of days within the month itself.",
         accuracyTitle: 'Notes on Hijri date accuracy',
         accuracyBody: "This page displays the Hijri date based on the astronomical calculation and reference calendar adopted on the site, alongside the matching Gregorian date for easy daily comparison. The start of some Hijri months may differ between countries depending on local moon sighting or the official announcement, so it is always advisable to check the official authority in your country when the date is tied to a religious occasion or seasonal worship.",
         usagesTitle: 'Everyday uses of the Hijri date',
@@ -2716,6 +2740,18 @@ const _HD1_BY_LANG = {
     },
     fr: {
         heroSub: "Connaissez la date hégirienne et grégorienne d'aujourd'hui, avec un accès rapide au convertisseur et au calendrier hégirien complet.",
+        ugTitle: "Guide d'utilisation de la date hégirienne d'aujourd'hui",
+        ugIntro: "Ce guide vous aide à comprendre comment lire la date hégirienne d'aujourd'hui, à la comparer avec la date grégorienne et à l'utiliser pour suivre les mois islamiques et les occasions religieuses.",
+        ug1_t: "Comment lire la date hégirienne d'aujourd'hui ?",
+        ug1_b: "La date hégirienne se compose de trois éléments essentiels : le jour, le mois hégirien et l'année hégirienne. Les douze mois hégiriens se succèdent dans un ordre fixe, de Mouharram à Dhou al-Hijja, et chacun commence avec l'observation du croissant ou selon le calcul astronomique adopté. Cette page affiche la date hégirienne du jour de manière claire (jour, mois, année) avec la date grégorienne correspondante pour faciliter la comparaison quotidienne. Vous pouvez la consulter chaque matin pour savoir où se situe le jour dans le mois hégirien et combien de jours restent avant sa fin.",
+        ug2_t: "Pourquoi affichons-nous la date hégirienne et la date grégorienne ensemble ?",
+        ug2_b: "L'année hégirienne suit le cycle lunaire et compte 354 ou 355 jours, tandis que l'année grégorienne est solaire et compte 365 ou 366 jours. Cette différence fait avancer les mois hégiriens à travers les saisons grégoriennes d'environ dix à onze jours chaque année. L'affichage des deux dates côte à côte sur la page vous permet de voir précisément quelle date hégirienne correspond à la date grégorienne du jour, et facilite la planification de tout ce qui est lié à l'un des calendriers sans devoir passer d'une référence à l'autre.",
+        ug3_t: "Quand avez-vous besoin de convertir une date ?",
+        ug3_b: "La conversion de date devient utile dans de nombreuses situations quotidiennes. Lorsque vous planifiez un rendez-vous officiel ou personnel lié à une occasion religieuse, la conversion permet de trouver facilement la date grégorienne correspondante. Il en va de même pour la consultation de documents officiels rédigés en hégirien, les voyages entre pays utilisant des calendriers différents, ou la préparation des actes d'adoration saisonniers comme le jeûne et le Hajj. Depuis cette page, vous pouvez accéder directement au convertisseur pour vérifier n'importe quelle date sans interrompre votre tâche.",
+        ug4_t: "Quel est le lien entre la date hégirienne et les occasions islamiques ?",
+        ug4_b: "La plupart des grandes occasions islamiques sont liées au calendrier hégirien. Le mois béni du Ramadan avec son jeûne et ses nuits, l'Aïd al-Fitr le premier de Chawwal, la saison du Hajj en Dhou al-Hijja et l'Aïd al-Adha, Achoura en Mouharram et les jours blancs dans chaque mois hégirien — toutes ces dates sont arrimées au calendrier hégirien et non au grégorien. En connaissant la date hégirienne du jour, vous pouvez suivre les jours restants avant chacune de ces occasions et vous y préparer à l'avance par un jeûne surérogatoire, le versement de la Zakat ou l'organisation du Hajj et de la Omra.",
+        ug5_t: "Pourquoi la date hégirienne peut-elle parfois différer ?",
+        ug5_b: "Un écart d'un jour peut parfois apparaître entre la date hégirienne d'un endroit et celle d'un autre. La raison est que les autorités utilisent des méthodes différentes pour marquer le début du mois hégirien : certaines s'appuient sur l'observation visuelle du croissant à l'œil nu, d'autres utilisent un calcul astronomique préalable. L'annonce du croissant peut aussi être retardée ou avancée selon les conditions d'observation. Cet écart dépasse rarement un jour, ne concerne que le début du mois et ne modifie pas l'ordre des jours à l'intérieur de celui-ci.",
         accuracyTitle: 'Notes sur la précision de la date hégirienne',
         accuracyBody: "Cette page affiche la date hégirienne en s'appuyant sur le calcul astronomique et le calendrier de référence adopté par le site, à côté de la date grégorienne correspondante pour faciliter la comparaison quotidienne. Le début de certains mois hégiriens peut différer d'un pays à l'autre selon l'observation locale du croissant ou l'annonce officielle ; il est donc toujours préférable de consulter l'autorité officielle de votre pays lorsque la date est liée à une occasion religieuse ou à une pratique cultuelle saisonnière.",
         usagesTitle: 'Usages quotidiens de la date hégirienne',
@@ -2769,6 +2805,18 @@ const _HD1_BY_LANG = {
     },
     tr: {
         heroSub: 'Bugünün Hicri ve Miladi tarihini öğrenin; tarih dönüştürücü ve tam Hicri takvime tek tıkla erişin.',
+        ugTitle: 'Bugünün Hicri Tarihini Kullanma Rehberi',
+        ugIntro: 'Bu rehber; bugünün Hicri tarihini nasıl okuyacağınızı, Miladi tarihle nasıl karşılaştıracağınızı ve İslami ayları ile dini günleri takip etmek için nasıl kullanacağınızı anlamanıza yardımcı olur.',
+        ug1_t: 'Bugünün Hicri tarihi nasıl okunur?',
+        ug1_b: 'Hicri tarih üç temel parçadan oluşur: gün, Hicri ay ve Hicri yıl. On iki Hicri ay, Muharrem\'den Zilhicce\'ye kadar sabit bir sıra ile dizilmiştir ve her biri hilalin görülmesiyle ya da benimsenen astronomik hesaba göre başlar. Bu sayfa, geçerli günün Hicri tarihini gün/ay/yıl olarak net bir biçimde, karşısında günlük karşılaştırmayı kolaylaştıran Miladi tarihle birlikte gösterir. Her sabah bu okumayı kontrol ederek günün Hicri ay içindeki yerini ve sonuna kaç gün kaldığını öğrenebilirsiniz.',
+        ug2_t: 'Hicri ve Miladi tarihleri neden birlikte gösteriyoruz?',
+        ug2_b: 'Hicri yıl ay döngüsünü izler ve 354 veya 355 gündür; Miladi yıl ise güneş döngüsünü izler ve 365 veya 366 gündür. Bu fark Hicri ayların Miladi mevsimler boyunca her yıl yaklaşık on ila on bir gün öne kaymasına yol açar. İki tarihin yan yana gösterilmesi, bugünün Miladi tarihinin hangi Hicri tarihe denk geldiğini tam olarak görmenizi sağlar ve iki takvimden birine bağlı her şeyi farklı kaynaklara geçmek zorunda kalmadan planlamanızı kolaylaştırır.',
+        ug3_t: 'Tarih dönüşümüne ne zaman ihtiyaç duyarsınız?',
+        ug3_b: 'Tarih dönüşümü pek çok günlük durumda gereklidir. Dini bir güne bağlı resmi veya kişisel bir randevu ayarlarken, dönüşüm karşılık gelen Miladi tarihi kolayca bulmanıza yardımcı olur. Aynı şey Hicri tarihle yazılmış resmi belgeleri incelerken, farklı takvim kullanan ülkeler arasında seyahat ederken ya da oruç ve Hac gibi mevsimsel ibadetleri planlarken de geçerlidir. Bu sayfadan tarih dönüştürücüye doğrudan geçip herhangi bir tarihi hızla kontrol edebilir, çalışmanızı kesintiye uğratmadan devam edebilirsiniz.',
+        ug4_t: 'Hicri tarih ile İslami günler arasındaki bağ nedir?',
+        ug4_b: 'Önemli İslami günlerin çoğu Hicri takvime bağlıdır. Mübarek Ramazan ayı orucu ve geceleriyle, Şevval\'in birinci günü Ramazan Bayramı, Zilhicce\'deki Hac mevsimi ve Kurban Bayramı, Muharrem\'deki Aşure ve her Hicri aydaki Eyyam-ı Bid — tümü Miladi takvime değil Hicri tarihe bağlıdır. Bugünün Hicri tarihini bilerek bu günlere kalan süreleri takip edebilir; nafile oruç tutmak, zekât vermek ya da Hac ve Umre yolculuğunu düzenlemek gibi hazırlıklarınızı önceden yapabilirsiniz.',
+        ug5_t: 'Hicri tarih neden bazen farklı olabilir?',
+        ug5_b: 'Hicri tarihte bir yer ile diğeri arasında bazen bir günlük fark görülebilir. Bunun nedeni Hicri ayın başlangıcını belirleme yöntemlerinin farklılığıdır: bazı kurumlar fiili çıplak göz rüyetine dayanırken, bazıları önceden yapılan astronomik hesabı kullanır. Hilal ilanı gözlem koşullarına göre gecikebilir veya öne alınabilir. Bu fark nadiren bir günü aşar, yalnızca ayın başlangıcını etkiler ve ay içindeki günlerin sırasını değiştirmez.',
         accuracyTitle: 'Hicri tarih doğruluğu hakkında notlar',
         accuracyBody: 'Bu sayfa, sitede benimsenen astronomik hesaba ve referans takvimine dayalı olarak Hicri tarihi gösterir; günlük karşılaştırmayı kolaylaştırmak için Miladi karşılığı da yer alır. Bazı Hicri ayların başlangıcı, yerel hilal rüyetine veya resmi açıklamaya göre ülkeden ülkeye farklılık gösterebilir; bu nedenle tarih dini bir gün veya mevsimsel ibadetle bağlantılıysa, kendi ülkenizdeki resmi makamı kontrol etmeniz her zaman tavsiye edilir.',
         usagesTitle: 'Hicri tarihin günlük hayattaki kullanımları',
@@ -2822,6 +2870,18 @@ const _HD1_BY_LANG = {
     },
     ur: {
         heroSub: 'آج کی ہجری اور عیسوی تاریخ جانیں، ساتھ ہی تاریخ کنورٹر اور مکمل ہجری کیلنڈر تک فوری رسائی پائیں۔',
+        ugTitle: 'آج کی ہجری تاریخ کے استعمال کا گائیڈ',
+        ugIntro: 'یہ گائیڈ آپ کو آج کی ہجری تاریخ پڑھنے، اسے عیسوی تاریخ سے موازنہ کرنے، اور اسے اسلامی مہینوں اور دینی مواقع کی پیروی میں استعمال کرنے کا طریقہ سمجھنے میں مدد دیتا ہے۔',
+        ug1_t: 'آج کی ہجری تاریخ کیسے پڑھیں؟',
+        ug1_b: 'ہجری تاریخ تین بنیادی اجزاء پر مشتمل ہے: دن، ہجری مہینہ، اور ہجری سال۔ بارہ ہجری مہینے محرم سے ذی الحجہ تک ایک متعین ترتیب میں ہیں، اور ہر مہینہ ہلال کی رؤیت یا منظور شدہ فلکی حساب کے مطابق شروع ہوتا ہے۔ یہ صفحہ موجودہ دن کی ہجری تاریخ کو دن، مہینہ اور سال کی صورت میں واضح طور پر دکھاتا ہے، اور ساتھ ہی روزانہ موازنے کی سہولت کے لیے متعلقہ عیسوی تاریخ بھی فراہم کرتا ہے۔ آپ ہر صبح اس قراءت کو دیکھ کر دن کی ہجری مہینے میں جگہ اور مہینے کے اختتام تک باقی دنوں کا پتا چلا سکتے ہیں۔',
+        ug2_t: 'ہجری اور عیسوی تاریخ کو ایک ساتھ کیوں دکھاتے ہیں؟',
+        ug2_b: 'ہجری سال چاند کے چکر پر مبنی ہے اور 354 یا 355 دن کا ہوتا ہے، جبکہ عیسوی سال شمسی ہے اور 365 یا 366 دن کا۔ یہ فرق ہجری مہینوں کو عیسوی موسموں میں ہر سال تقریباً دس سے گیارہ دن آگے بڑھاتا ہے۔ صفحے پر دونوں تاریخوں کا ساتھ ساتھ ظاہر ہونا آپ کو آج کی عیسوی تاریخ کا متعلقہ ہجری دن دیکھنے میں مدد دیتا ہے، اور دونوں میں سے کسی بھی تقویم سے جڑی منصوبہ بندی کو متعدد ذرائع کے درمیان منتقل ہوئے بغیر ممکن بناتا ہے۔',
+        ug3_t: 'تاریخ کی تبدیلی کب ضروری ہوتی ہے؟',
+        ug3_b: 'تاریخ کی تبدیلی روزمرہ کے بہت سے مواقع پر درکار ہوتی ہے۔ کسی دینی موقع سے جڑی سرکاری یا ذاتی ملاقات طے کرتے وقت، تبدیلی متعلقہ عیسوی تاریخ کو آسانی سے تلاش کرنے میں مدد دیتی ہے۔ یہی بات ہجری تاریخ پر مبنی سرکاری دستاویزات کے جائزے کے دوران، مختلف تقویم استعمال کرنے والے ممالک کے درمیان سفر کے دوران، یا روزہ اور حج جیسی موسمی عبادتوں کی منصوبہ بندی کے دوران درست ہے۔ آپ اس صفحے سے سیدھا تاریخ کنورٹر پر جا کر کسی بھی تاریخ کو فوری دیکھ سکتے ہیں۔',
+        ug4_t: 'ہجری تاریخ کا اسلامی مواقع سے کیا تعلق ہے؟',
+        ug4_b: 'بیشتر بڑے اسلامی مواقع ہجری کیلنڈر سے جُڑے ہیں۔ بابرکت رمضان اپنی روزوں اور راتوں سمیت، یکم شوال کو عید الفطر، ذی الحجہ میں حج کا موسم اور عید الاضحی، محرم میں عاشورہ، اور ہر ہجری مہینے کے ایّام البیض — یہ سب ہجری تاریخ پر منحصر ہیں نہ کہ عیسوی پر۔ آج کی ہجری تاریخ جان کر آپ ان مواقع تک باقی دن گن سکتے ہیں اور پہلے سے تیاری کر سکتے ہیں، خواہ نفلی روزوں کے ذریعے ہو، زکاۃ ادا کرکے، یا حج و عمرہ کا انتظام کرکے۔',
+        ug5_t: 'ہجری تاریخ کبھی کبھی کیوں مختلف ہو سکتی ہے؟',
+        ug5_b: 'کبھی کبھی ہجری تاریخ میں دو مقامات کے درمیان ایک دن کا فرق ظاہر ہوتا ہے۔ وجہ یہ ہے کہ مختلف ادارے ہجری مہینے کے آغاز کا تعین مختلف طریقوں سے کرتے ہیں: کچھ کھلی آنکھ سے ہلال کی فعلی رؤیت پر چلتے ہیں، جبکہ دیگر پہلے سے کیا گیا فلکی حساب استعمال کرتے ہیں۔ ہلال کا اعلان رؤیت کے حالات کے مطابق آگے یا پیچھے ہو سکتا ہے۔ یہ فرق شاذ و نادر ہی ایک دن سے زیادہ ہوتا ہے، صرف مہینے کے آغاز کو متاثر کرتا ہے، اور مہینے کے اندر دنوں کی ترتیب کو نہیں بدلتا۔',
         accuracyTitle: 'ہجری تاریخ کی درستگی سے متعلق نوٹس',
         accuracyBody: 'یہ صفحہ ہجری تاریخ کو سائٹ پر اپنائے گئے فلکی حساب اور حوالہ کیلنڈر کی بنیاد پر دکھاتا ہے، ساتھ ہی روزانہ موازنے کی سہولت کے لیے متعلقہ عیسوی تاریخ بھی فراہم کرتا ہے۔ کچھ ہجری مہینوں کا آغاز ملک کے حساب سے مقامی رؤیتِ ہلال یا سرکاری اعلان کے مطابق مختلف ہو سکتا ہے، لہٰذا اگر تاریخ کسی دینی موقع یا موسمی عبادت سے متعلق ہو تو ہمیشہ اپنے ملک کے سرکاری ادارے سے تصدیق کرنا مناسب ہوتا ہے۔',
         usagesTitle: 'روزمرہ زندگی میں ہجری تاریخ کے استعمال',
@@ -2875,6 +2935,18 @@ const _HD1_BY_LANG = {
     },
     de: {
         heroSub: 'Erfahren Sie das heutige Hidschri- und gregorianische Datum, mit schnellem Zugriff auf Datumskonverter und vollen Hidschri-Kalender.',
+        ugTitle: 'Leitfaden zur Nutzung des heutigen Hidschri-Datums',
+        ugIntro: 'Dieser Leitfaden hilft Ihnen, das heutige Hidschri-Datum richtig zu lesen, mit dem gregorianischen Datum zu vergleichen und für die Verfolgung islamischer Monate und religiöser Anlässe zu nutzen.',
+        ug1_t: 'Wie liest man das heutige Hidschri-Datum?',
+        ug1_b: 'Das Hidschri-Datum besteht aus drei Hauptbestandteilen: dem Tag, dem Hidschri-Monat und dem Hidschri-Jahr. Die zwölf Hidschri-Monate sind in fester Reihenfolge von Muharram bis Dhū l-Hidscha angeordnet, und jeder beginnt mit der Sichtung des Halbmonds oder gemäß der angewandten astronomischen Berechnung. Diese Seite zeigt das Hidschri-Datum des aktuellen Tages klar mit Tag, Monat und Jahr sowie das passende gregorianische Datum für einen einfachen täglichen Vergleich. Sie können dies jeden Morgen prüfen, um zu wissen, wo der Tag innerhalb des Hidschri-Monats liegt und wie viele Tage bis zum Monatsende verbleiben.',
+        ug2_t: 'Warum zeigen wir Hidschri- und gregorianisches Datum gemeinsam?',
+        ug2_b: 'Das Hidschri-Jahr folgt dem Mondzyklus und dauert 354 oder 355 Tage, während das gregorianische Jahr ein Sonnenjahr von 365 oder 366 Tagen ist. Dieser Unterschied lässt die Hidschri-Monate jedes Jahr um etwa zehn bis elf Tage durch die gregorianischen Jahreszeiten wandern. Wenn beide Daten auf der Seite nebeneinander angezeigt werden, sehen Sie genau, welches Hidschri-Datum dem heutigen gregorianischen Datum entspricht, und können alles, was an einen der Kalender gebunden ist, planen, ohne zwischen mehreren Quellen zu wechseln.',
+        ug3_t: 'Wann benötigen Sie eine Datumsumrechnung?',
+        ug3_b: 'Eine Datumsumrechnung ist in vielen alltäglichen Situationen sinnvoll. Beim Planen eines offiziellen oder persönlichen Termins, der mit einem religiösen Anlass verknüpft ist, hilft die Umrechnung, das passende gregorianische Datum schnell zu finden. Dasselbe gilt beim Lesen amtlicher Dokumente in Hidschri-Form, beim Reisen zwischen Ländern mit unterschiedlichen Kalendern oder beim Vorbereiten saisonaler Andachten wie Fasten und Hadsch. Von dieser Seite aus gelangen Sie direkt zum Datumskonverter, um jedes Datum schnell nachzuschlagen, ohne den Arbeitsfluss zu unterbrechen.',
+        ug4_t: 'Wie hängt das Hidschri-Datum mit islamischen Anlässen zusammen?',
+        ug4_b: 'Die meisten großen islamischen Anlässe sind an den Hidschri-Kalender gebunden. Der gesegnete Monat Ramadan mit seinem Fasten und seinen Nächten, Eid al-Fitr am ersten Schawwal, die Hadsch-Saison im Dhū l-Hidscha und Eid al-Adha, Aschura im Muharram sowie die Weißen Tage in jedem Hidschri-Monat — all dies hängt am Hidschri-Datum, nicht am gregorianischen. Mit dem heutigen Hidschri-Datum können Sie die verbleibenden Tage bis zu jedem Anlass verfolgen und sich rechtzeitig vorbereiten, sei es durch freiwilliges Fasten, das Entrichten der Zakat oder das Planen von Hadsch und Umra.',
+        ug5_t: 'Warum kann das Hidschri-Datum manchmal abweichen?',
+        ug5_b: 'Manchmal tritt zwischen einem Ort und einem anderen ein Tag Unterschied im Hidschri-Datum auf. Der Grund liegt darin, dass Stellen den Beginn des Hidschri-Monats unterschiedlich bestimmen: einige stützen sich auf die tatsächliche Sichtung des Halbmonds mit bloßem Auge, andere auf eine vorab berechnete astronomische Methode. Die Halbmondansage kann je nach Beobachtungsbedingungen verzögert oder vorverlegt werden. Diese Abweichung beträgt selten mehr als einen Tag, betrifft nur den Monatsbeginn und ändert nicht die Reihenfolge der Tage innerhalb des Monats.',
         accuracyTitle: 'Hinweise zur Genauigkeit des Hidschri-Datums',
         accuracyBody: 'Diese Seite zeigt das Hidschri-Datum auf Basis der astronomischen Berechnung und des auf der Website verwendeten Referenzkalenders an, zusammen mit dem entsprechenden gregorianischen Datum für einen einfachen täglichen Vergleich. Der Beginn einiger Hidschri-Monate kann je nach lokaler Mondsichtung oder offizieller Ankündigung von Land zu Land unterschiedlich sein; es ist daher immer ratsam, die offizielle Stelle in Ihrem Land zu prüfen, wenn das Datum mit einem religiösen Anlass oder einer saisonalen Andacht verknüpft ist.',
         usagesTitle: 'Alltägliche Nutzung des Hidschri-Datums',
@@ -2928,6 +3000,18 @@ const _HD1_BY_LANG = {
     },
     id: {
         heroSub: 'Ketahui tanggal Hijriah dan Masehi hari ini, lengkap dengan akses cepat ke konverter tanggal dan kalender Hijriah penuh.',
+        ugTitle: 'Panduan Penggunaan Tanggal Hijriah Hari Ini',
+        ugIntro: 'Panduan ini membantu Anda memahami cara membaca tanggal Hijriah hari ini, membandingkannya dengan tanggal Masehi, dan menggunakannya untuk mengikuti bulan-bulan Islam serta peristiwa keagamaan.',
+        ug1_t: 'Bagaimana cara membaca tanggal Hijriah hari ini?',
+        ug1_b: 'Tanggal Hijriah terdiri dari tiga bagian utama: hari, bulan Hijriah, dan tahun Hijriah. Dua belas bulan Hijriah disusun dalam urutan tetap dari Muharram hingga Dzulhijjah, dan masing-masing dimulai dengan rukyat hilal atau berdasarkan perhitungan astronomis yang diadopsi. Halaman ini menampilkan tanggal Hijriah hari ini dengan jelas dalam format hari, bulan, dan tahun, beserta tanggal Masehi yang sesuai untuk memudahkan perbandingan harian. Anda dapat memeriksanya setiap pagi untuk mengetahui posisi hari di dalam bulan Hijriah dan berapa hari lagi tersisa hingga bulan berakhir.',
+        ug2_t: 'Mengapa kami menampilkan tanggal Hijriah dan Masehi bersama?',
+        ug2_b: 'Tahun Hijriah mengikuti siklus bulan dan berdurasi 354 atau 355 hari, sedangkan tahun Masehi adalah tahun matahari yang berdurasi 365 atau 366 hari. Selisih ini membuat bulan-bulan Islam bergeser melintasi musim Masehi sekitar sepuluh hingga sebelas hari setiap tahun. Menampilkan kedua tanggal berdampingan di halaman membantu Anda melihat tanggal Hijriah mana yang cocok dengan tanggal Masehi hari ini, dan memudahkan perencanaan apa pun yang terkait dengan salah satu kalender tanpa harus berpindah antar referensi.',
+        ug3_t: 'Kapan Anda perlu mengonversi tanggal?',
+        ug3_b: 'Konversi tanggal dibutuhkan dalam banyak situasi sehari-hari. Saat menjadwalkan janji resmi atau pribadi yang terkait peristiwa keagamaan, konversi memudahkan Anda menemukan tanggal Masehi yang sesuai. Hal yang sama berlaku saat memeriksa dokumen resmi yang ditulis dalam Hijriah, saat bepergian antara negara yang menggunakan kalender berbeda, atau saat merencanakan ibadah musiman seperti puasa dan Haji. Dari halaman ini Anda dapat langsung menuju konverter tanggal untuk memeriksa tanggal apa pun dengan cepat tanpa mengganggu alur pekerjaan.',
+        ug4_t: 'Bagaimana hubungan tanggal Hijriah dengan peristiwa Islam?',
+        ug4_b: 'Sebagian besar peristiwa Islam besar terkait dengan kalender Hijriah. Bulan Ramadan yang penuh berkah dengan puasa dan malam-malamnya, Idulfitri pada tanggal 1 Syawal, musim Haji di Dzulhijjah dan Iduladha, Asyura di Muharram, serta Ayyamul Bidh di setiap bulan Hijriah — semuanya berdasar pada tanggal Hijriah, bukan Masehi. Dengan mengetahui tanggal Hijriah hari ini, Anda dapat mengikuti hari-hari yang tersisa hingga setiap peristiwa dan bersiap lebih awal, baik melalui puasa sunnah, menunaikan zakat, maupun mengatur perjalanan Haji dan Umrah.',
+        ug5_t: 'Mengapa tanggal Hijriah kadang berbeda?',
+        ug5_b: 'Selisih satu hari kadang muncul antara tanggal Hijriah di satu tempat dengan tempat lain. Penyebabnya adalah otoritas yang berbeda menggunakan metode berbeda untuk menentukan awal bulan Hijriah: ada yang berpegang pada rukyat hilal dengan mata telanjang, ada yang menggunakan perhitungan astronomis sebelumnya. Pengumuman hilal juga bisa tertunda atau dipercepat tergantung kondisi pengamatan. Selisih ini jarang melebihi satu hari, hanya memengaruhi awal bulan, dan tidak mengubah urutan hari di dalam bulan tersebut.',
         accuracyTitle: 'Catatan tentang akurasi tanggal Hijriah',
         accuracyBody: 'Halaman ini menampilkan tanggal Hijriah berdasarkan perhitungan astronomis dan kalender rujukan yang digunakan situs ini, bersama dengan tanggal Masehi yang sesuai untuk memudahkan perbandingan harian. Awal beberapa bulan Hijriah dapat berbeda antar negara tergantung rukyat hilal lokal atau pengumuman resmi, sehingga sangat dianjurkan untuk merujuk otoritas resmi di negara Anda jika tanggal terkait dengan peristiwa keagamaan atau ibadah musiman.',
         usagesTitle: 'Penggunaan tanggal Hijriah dalam kehidupan sehari-hari',
@@ -2981,6 +3065,18 @@ const _HD1_BY_LANG = {
     },
     es: {
         heroSub: 'Conoce la fecha hégira y gregoriana de hoy, con acceso rápido al conversor y al calendario hégira completo.',
+        ugTitle: 'Guía para usar la fecha hégira de hoy',
+        ugIntro: 'Esta guía te ayuda a entender cómo leer la fecha hégira de hoy, compararla con la fecha gregoriana y utilizarla para seguir los meses islámicos y las ocasiones religiosas.',
+        ug1_t: '¿Cómo leer la fecha hégira de hoy?',
+        ug1_b: 'La fecha hégira se compone de tres elementos básicos: el día, el mes hégira y el año hégira. Los doce meses hégira siguen un orden fijo desde Muharram hasta Du al-Hiyya, y cada uno comienza con la observación del creciente o según el cálculo astronómico adoptado. Esta página muestra la fecha hégira del día actual de forma clara, con día, mes y año, junto a la fecha gregoriana correspondiente para facilitar la comparación diaria. Puedes consultarla cada mañana para saber dónde se sitúa el día dentro del mes hégira y cuántos días restan hasta su fin.',
+        ug2_t: '¿Por qué mostramos la fecha hégira y la gregoriana juntas?',
+        ug2_b: 'El año hégira sigue el ciclo lunar y dura 354 o 355 días, mientras que el año gregoriano es solar y dura 365 o 366 días. Esa diferencia hace que los meses hégira se desplacen por las estaciones gregorianas alrededor de diez u once días cada año. Mostrar ambas fechas juntas en la página te permite ver con precisión qué fecha hégira corresponde a la fecha gregoriana de hoy, y planificar todo lo que esté ligado a uno de los calendarios sin saltar entre múltiples referencias.',
+        ug3_t: '¿Cuándo necesitas convertir fechas?',
+        ug3_b: 'La conversión de fechas resulta útil en muchas situaciones cotidianas. Al programar una cita oficial o personal vinculada a una ocasión religiosa, la conversión facilita encontrar la fecha gregoriana correspondiente. Lo mismo aplica al revisar documentos oficiales escritos en hégira, al viajar entre países que usan calendarios distintos o al planificar prácticas estacionales como el ayuno y el Hajj. Desde esta página puedes ir directamente al conversor de fechas para consultar cualquier fecha con rapidez sin interrumpir tu tarea.',
+        ug4_t: '¿Qué relación tiene la fecha hégira con las ocasiones islámicas?',
+        ug4_b: 'La mayoría de las grandes ocasiones islámicas están vinculadas al calendario hégira. El bendito mes de Ramadán con su ayuno y sus noches, Eid al-Fitr el primero de Shawwal, la temporada del Hajj en Du al-Hiyya y Eid al-Adha, Achura en Muharram y los Días Blancos en cada mes hégira — todas se anclan a la fecha hégira y no a la gregoriana. Conocer la fecha hégira de hoy te permite seguir los días que faltan para cada ocasión y prepararte con antelación, ya sea con ayuno voluntario, pago de la Zakat o la organización del Hajj y la Umrah.',
+        ug5_t: '¿Por qué la fecha hégira puede diferir a veces?',
+        ug5_b: 'A veces aparece una diferencia de un día en la fecha hégira entre un lugar y otro. La razón es que las autoridades usan métodos distintos para marcar el inicio del mes hégira: algunas se apoyan en la observación efectiva del creciente a simple vista, otras emplean un cálculo astronómico previo. El anuncio del creciente también puede retrasarse o adelantarse según las condiciones de observación. Esta diferencia rara vez supera un día, solo afecta al inicio del mes y no altera el orden de los días dentro del mes mismo.',
         accuracyTitle: 'Notas sobre la precisión de la fecha hégira',
         accuracyBody: 'Esta página muestra la fecha hégira basada en el cálculo astronómico y el calendario de referencia adoptado por el sitio, junto con la fecha gregoriana correspondiente para facilitar la comparación diaria. El inicio de algunos meses hégira puede diferir entre países según la observación local del creciente o el anuncio oficial, por lo que siempre es recomendable consultar la autoridad oficial en tu país cuando la fecha esté vinculada a una ocasión religiosa o a una práctica de adoración estacional.',
         usagesTitle: 'Usos cotidianos de la fecha hégira',
@@ -3034,6 +3130,18 @@ const _HD1_BY_LANG = {
     },
     bn: {
         heroSub: 'আজকের হিজরি ও গ্রেগরিয়ান তারিখ জানুন, সাথে তারিখ রূপান্তরকারী ও সম্পূর্ণ হিজরি ক্যালেন্ডারে দ্রুত প্রবেশের সুযোগ।',
+        ugTitle: 'আজকের হিজরি তারিখ ব্যবহারের নির্দেশিকা',
+        ugIntro: 'এই নির্দেশিকা আপনাকে আজকের হিজরি তারিখ পড়ার পদ্ধতি বুঝতে, গ্রেগরিয়ান তারিখের সাথে তুলনা করতে, এবং ইসলামিক মাস ও ধর্মীয় উপলক্ষ্য অনুসরণে এটি ব্যবহার করতে সাহায্য করবে।',
+        ug1_t: 'আজকের হিজরি তারিখ কিভাবে পড়বেন?',
+        ug1_b: 'হিজরি তারিখ তিনটি মূল অংশে বিভক্ত: দিন, হিজরি মাস, এবং হিজরি বছর। বারোটি হিজরি মাস মুহররম থেকে জিলহজ পর্যন্ত একটি নির্দিষ্ট ক্রমে সাজানো এবং প্রতিটি মাস হিলাল দেখার মাধ্যমে অথবা গৃহীত জ্যোতির্বৈজ্ঞানিক হিসাব অনুযায়ী শুরু হয়। এই পেজ বর্তমান দিনের হিজরি তারিখ দিন, মাস ও বছর সহ স্পষ্টভাবে প্রদর্শন করে, পাশাপাশি দৈনিক তুলনার সুবিধার্থে সংশ্লিষ্ট গ্রেগরিয়ান তারিখও থাকে। আপনি প্রতিদিন সকালে এটি দেখে দিনটি হিজরি মাসের কোথায় অবস্থান করছে এবং মাস শেষ হতে কত দিন বাকি, তা জানতে পারেন।',
+        ug2_t: 'আমরা কেন হিজরি ও গ্রেগরিয়ান তারিখ একসাথে দেখাই?',
+        ug2_b: 'হিজরি বছর চাঁদের চক্র অনুসরণ করে এবং ৩৫৪ বা ৩৫৫ দিন স্থায়ী হয়, যেখানে গ্রেগরিয়ান বছর সৌর এবং ৩৬৫ বা ৩৬৬ দিনের। এই পার্থক্য ইসলামিক মাসগুলোকে প্রতি বছর প্রায় দশ থেকে এগারো দিন গ্রেগরিয়ান ঋতুর মধ্যে এগিয়ে নিয়ে যায়। পেজে দুটি তারিখ পাশাপাশি দেখানো আপনাকে আজকের গ্রেগরিয়ান তারিখের সংশ্লিষ্ট হিজরি দিন দেখতে সাহায্য করে, এবং দুটি ক্যালেন্ডারের যেকোনো একটির সাথে যুক্ত পরিকল্পনাগুলো একাধিক উৎসের মধ্যে স্যুইচ না করেই সহজ করে তোলে।',
+        ug3_t: 'কখন তারিখ রূপান্তরের প্রয়োজন হয়?',
+        ug3_b: 'তারিখ রূপান্তর দৈনন্দিন অনেক পরিস্থিতিতে দরকার হয়। কোনো ধর্মীয় উপলক্ষ্যের সাথে যুক্ত সরকারি বা ব্যক্তিগত অ্যাপয়েন্টমেন্ট নির্ধারণ করার সময়, রূপান্তর সংশ্লিষ্ট গ্রেগরিয়ান তারিখ সহজে খুঁজে পেতে সাহায্য করে। একই কথা প্রযোজ্য হিজরিতে লেখা সরকারি দলিল পর্যালোচনার সময়, ভিন্ন ক্যালেন্ডার ব্যবহারকারী দেশগুলির মধ্যে ভ্রমণের সময়, অথবা রোজা ও হজের মতো মৌসুমি ইবাদতের পরিকল্পনার সময়। এই পেজ থেকে আপনি সরাসরি তারিখ রূপান্তরকারীতে গিয়ে যেকোনো তারিখ দ্রুত দেখতে পারেন।',
+        ug4_t: 'হিজরি তারিখের সাথে ইসলামিক উপলক্ষ্যের সম্পর্ক কী?',
+        ug4_b: 'বেশিরভাগ বড় ইসলামিক উপলক্ষ্য হিজরি ক্যালেন্ডারের সাথে সম্পর্কিত। বরকতময় রমজান মাস তার রোজা ও রাতগুলো নিয়ে, ১ শাওয়ালে ঈদুল ফিতর, জিলহজে হজের মৌসুম ও ঈদুল আজহা, মুহররমে আশুরা, এবং প্রতিটি হিজরি মাসে আইয়ামে বিদ — সবগুলোই হিজরি তারিখে আবদ্ধ, গ্রেগরিয়ানে নয়। আজকের হিজরি তারিখ জেনে আপনি প্রতিটি উপলক্ষ্যের জন্য বাকি দিন ট্র্যাক করতে এবং আগে থেকে প্রস্তুতি নিতে পারেন, যেমন নফল রোজা, যাকাত প্রদান, অথবা হজ ও উমরাহ ভ্রমণের ব্যবস্থা।',
+        ug5_t: 'হিজরি তারিখ কখনো কখনো কেন আলাদা হতে পারে?',
+        ug5_b: 'কখনো কখনো এক জায়গা ও অন্য জায়গার মধ্যে হিজরি তারিখে এক দিনের পার্থক্য দেখা যেতে পারে। কারণ হলো বিভিন্ন কর্তৃপক্ষ হিজরি মাসের শুরু চিহ্নিত করার জন্য বিভিন্ন পদ্ধতি ব্যবহার করে: কেউ চাঁদ দেখার প্রকৃত পর্যবেক্ষণে নির্ভর করে, আবার কেউ আগে থেকে গণনা করা জ্যোতির্বৈজ্ঞানিক হিসাব ব্যবহার করে। চাঁদের ঘোষণা পর্যবেক্ষণের পরিস্থিতি অনুযায়ী বিলম্বিত বা ত্বরান্বিত হতে পারে। এই পার্থক্য সাধারণত এক দিনের বেশি হয় না, শুধু মাসের শুরুকে প্রভাবিত করে এবং মাসের ভিতরের দিনের ক্রম পরিবর্তন করে না।',
         accuracyTitle: 'হিজরি তারিখের নির্ভুলতা সম্পর্কিত নোট',
         accuracyBody: 'এই পেজ সাইটে গৃহীত জ্যোতির্বৈজ্ঞানিক হিসাব ও রেফারেন্স ক্যালেন্ডারের ভিত্তিতে হিজরি তারিখ প্রদর্শন করে, সাথে দৈনিক তুলনার সুবিধার্থে সংশ্লিষ্ট গ্রেগরিয়ান তারিখও থাকে। কিছু হিজরি মাসের শুরু স্থানীয় চাঁদ দেখা বা সরকারি ঘোষণার ভিত্তিতে দেশভেদে ভিন্ন হতে পারে; তাই তারিখ যদি কোনো ধর্মীয় উপলক্ষ্য বা মৌসুমি ইবাদতের সাথে জড়িত হয়, তাহলে সর্বদা আপনার দেশের সরকারি কর্তৃপক্ষ যাচাই করার পরামর্শ দেওয়া হয়।',
         usagesTitle: 'দৈনন্দিন জীবনে হিজরি তারিখের ব্যবহার',
@@ -3087,6 +3195,18 @@ const _HD1_BY_LANG = {
     },
     ms: {
         heroSub: 'Ketahui tarikh Hijrah dan Gregorian hari ini, dengan capaian pantas ke penukar tarikh dan kalendar Hijrah penuh.',
+        ugTitle: 'Panduan Penggunaan Tarikh Hijrah Hari Ini',
+        ugIntro: 'Panduan ini membantu anda memahami cara membaca tarikh Hijrah hari ini, membandingkannya dengan tarikh Gregorian, dan menggunakannya untuk mengikuti bulan-bulan Islam serta peristiwa keagamaan.',
+        ug1_t: 'Bagaimana membaca tarikh Hijrah hari ini?',
+        ug1_b: 'Tarikh Hijrah terdiri daripada tiga bahagian utama: hari, bulan Hijrah, dan tahun Hijrah. Dua belas bulan Hijrah disusun dalam susunan tetap dari Muharram hingga Zulhijjah, dan setiap satu bermula dengan rukyah hilal atau mengikut pengiraan astronomi yang diterima pakai. Halaman ini memaparkan tarikh Hijrah hari semasa dengan jelas dalam format hari, bulan, dan tahun, di samping tarikh Gregorian yang sepadan untuk memudahkan perbandingan harian. Anda boleh menyemaknya setiap pagi untuk mengetahui kedudukan hari dalam bulan Hijrah dan berapa hari lagi sehingga ia berakhir.',
+        ug2_t: 'Mengapa kami memaparkan tarikh Hijrah dan Gregorian bersama?',
+        ug2_b: 'Tahun Hijrah berasaskan kitaran bulan dan berlangsung 354 atau 355 hari, manakala tahun Gregorian berasaskan matahari dan berlangsung 365 atau 366 hari. Perbezaan ini menyebabkan bulan-bulan Islam beralih melintasi musim Gregorian sekitar sepuluh hingga sebelas hari setiap tahun. Memaparkan kedua-dua tarikh bersebelahan di halaman membolehkan anda melihat dengan tepat tarikh Hijrah yang berpadanan dengan tarikh Gregorian hari ini, dan memudahkan perancangan apa-apa yang berkaitan dengan mana-mana satu kalendar tanpa perlu beralih antara pelbagai rujukan.',
+        ug3_t: 'Bilakah anda perlu menukar tarikh?',
+        ug3_b: 'Penukaran tarikh diperlukan dalam pelbagai situasi harian. Apabila menjadualkan temu janji rasmi atau peribadi yang berkaitan dengan peristiwa keagamaan, penukaran memudahkan anda mencari tarikh Gregorian yang sepadan. Hal yang sama terpakai apabila menyemak dokumen rasmi yang ditulis dalam Hijrah, ketika perjalanan antara negara yang menggunakan kalendar berbeza, atau ketika merancang ibadah bermusim seperti puasa dan Haji. Dari halaman ini anda boleh terus ke penukar tarikh untuk menyemak mana-mana tarikh dengan pantas tanpa mengganggu aliran kerja anda.',
+        ug4_t: 'Apakah hubungan tarikh Hijrah dengan peristiwa Islam?',
+        ug4_b: 'Kebanyakan peristiwa Islam yang besar dikaitkan dengan kalendar Hijrah. Bulan Ramadan yang berkat dengan puasa dan malam-malamnya, Hari Raya Aidilfitri pada 1 Syawal, musim Haji di Zulhijjah dan Aidiladha, Asyura pada Muharram, dan Hari-hari Putih dalam setiap bulan Hijrah — semuanya berpaut pada tarikh Hijrah dan bukan Gregorian. Dengan mengetahui tarikh Hijrah hari ini, anda boleh mengikuti hari-hari yang tinggal sebelum setiap peristiwa dan bersedia lebih awal, sama ada melalui puasa sunat, membayar zakat, atau mengatur perjalanan Haji dan Umrah.',
+        ug5_t: 'Mengapa tarikh Hijrah kadangkala boleh berbeza?',
+        ug5_b: 'Kadangkala muncul perbezaan satu hari dalam tarikh Hijrah antara satu tempat dengan tempat lain. Sebabnya pihak berkuasa berbeza menggunakan kaedah berbeza untuk menentukan permulaan bulan Hijrah: ada yang bergantung pada rukyah hilal sebenar dengan mata kasar, manakala ada yang menggunakan pengiraan astronomi yang dibuat lebih awal. Pengumuman hilal juga boleh ditangguh atau dipercepatkan bergantung pada keadaan pemerhatian. Perbezaan ini jarang melebihi satu hari, hanya menjejaskan permulaan bulan, dan tidak mengubah susunan hari di dalam bulan itu.',
         accuracyTitle: 'Nota mengenai ketepatan tarikh Hijrah',
         accuracyBody: 'Halaman ini memaparkan tarikh Hijrah berdasarkan pengiraan astronomi dan kalendar rujukan yang digunakan di laman ini, bersama tarikh Gregorian yang sepadan untuk memudahkan perbandingan harian. Permulaan sebahagian bulan Hijrah mungkin berbeza antara negara mengikut rukyah hilal tempatan atau pengumuman rasmi, jadi adalah dinasihatkan untuk sentiasa merujuk pihak berkuasa rasmi di negara anda apabila tarikh berkaitan dengan peristiwa keagamaan atau ibadah bermusim.',
         usagesTitle: 'Penggunaan tarikh Hijrah dalam kehidupan harian',
@@ -8837,6 +8957,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         <article class="hd1-usage-card">
                             <h3>${_escHtml(_hd.usage4_t || '')}</h3>
                             <p>${_escHtml(_hd.usage4_b || '')}</p>
+                        </article>
+                    </div>
+                </section>
+                <section class="section-card hd1-usage-guide" aria-labelledby="hd1-ug-title">
+                    <h2 id="hd1-ug-title" class="hd1-section-title">${_escHtml(_hd.ugTitle || '')}</h2>
+                    <p class="hd1-section-intro">${_escHtml(_hd.ugIntro || '')}</p>
+                    <div class="hd1-usage-grid">
+                        <article class="hd1-usage-block">
+                            <h3>${_escHtml(_hd.ug1_t || '')}</h3>
+                            <p>${_escHtml(_hd.ug1_b || '')}</p>
+                        </article>
+                        <article class="hd1-usage-block">
+                            <h3>${_escHtml(_hd.ug2_t || '')}</h3>
+                            <p>${_escHtml(_hd.ug2_b || '')}</p>
+                        </article>
+                        <article class="hd1-usage-block">
+                            <h3>${_escHtml(_hd.ug3_t || '')}</h3>
+                            <p>${_escHtml(_hd.ug3_b || '')}</p>
+                        </article>
+                        <article class="hd1-usage-block">
+                            <h3>${_escHtml(_hd.ug4_t || '')}</h3>
+                            <p>${_escHtml(_hd.ug4_b || '')}</p>
+                        </article>
+                        <article class="hd1-usage-block hd1-usage-block-full">
+                            <h3>${_escHtml(_hd.ug5_t || '')}</h3>
+                            <p>${_escHtml(_hd.ug5_b || '')}</p>
                         </article>
                     </div>
                 </section>

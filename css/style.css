@@ -15750,6 +15750,45 @@ html[data-theme="dark"] .home-service-card {
     color: var(--text, #2a3b34);
 }
 
+/* HD-16 (2026-05-08): "Guide to Using Today's Hijri Date" — single
+   visible card with 5 H3 + paragraph blocks. 2-col grid on desktop
+   (5th block spans full width via .hd1-usage-block-full), 1-col
+   stacked on mobile. SSR-rendered, no accordion, no display:none.
+   Lifts SEOptimer Word Count well past 1200 across all 10 langs. */
+.hd1-usage-guide .hd1-section-intro { margin: 0 0 18px; }
+.hd1-usage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 18px;
+}
+.hd1-usage-block {
+    padding: 14px 18px;
+    background: var(--bg, #f7faf8);
+    border: 1px solid var(--border, #d6e3dc);
+    border-radius: 10px;
+}
+.hd1-usage-block-full { grid-column: 1 / -1; }
+.hd1-usage-block h3 {
+    margin: 0 0 8px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--primary-dark, #14422a);
+    line-height: 1.4;
+}
+.hd1-usage-block p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--text, #2a3b34);
+}
+@media (max-width: 760px) {
+    .hd1-usage-grid { grid-template-columns: 1fr; gap: 12px; }
+    .hd1-usage-block { padding: 12px 14px; }
+    .hd1-usage-block h3 { font-size: 0.98rem; }
+    .hd1-usage-block p { font-size: 0.9rem; line-height: 1.7; }
+    .hd1-usage-block-full { grid-column: auto; }
+}
+
 /* HD-10 (2026-05-08): "Notes on accuracy" section paragraph — soft
    gray-green background to differentiate from the main content cards.
    The section is below the FAQ accordion. */

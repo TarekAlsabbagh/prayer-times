@@ -14080,9 +14080,9 @@ html.qibla-hub-page #page-qibla {
 @font-face {
     font-family: 'Cairo Fallback';
     src: local('Tahoma'), local('Arial');
-    size-adjust: 100%;
-    ascent-override: 110%;
-    descent-override: 35%;
+    size-adjust: 95%;
+    ascent-override: 105%;
+    descent-override: 30%;
     line-gap-override: 0%;
 }
 body {
@@ -14669,12 +14669,12 @@ html.hijri-day-page   #page-hijri-day {
    + 4px buffer); desktop hero is shorter (1 stack line vs. wrapped on mobile). */
 html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
 html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
-    min-height: 280px;
+    min-height: 320px;
 }
 @media (max-width: 768px) {
     html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
     html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
-        min-height: 380px;
+        min-height: 440px;
     }
 }
 

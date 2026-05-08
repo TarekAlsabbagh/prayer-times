@@ -9096,29 +9096,33 @@ function updatePageSEO() {
             const _hSfx = _HD8_HSFX[lang] || 'AH';
             hijriStr = `${_t.day} ${_hMNm} ${_t.year} ${_hSfx}`;
         } catch(e) { hijriStr = ''; }
+        // HD-8b (2026-05-08): shorter Title + tightened Meta (mirrors SSR
+        //   override at server.js byte-for-byte to avoid flicker / SEOptimer
+        //   mismatch). Title now starts with the keyword, then the dynamic
+        //   Hijri date, then a compact "and Gregorian" tail.
         const _HD8_TITLE = {
-            ar: `التاريخ الهجري اليوم | التاريخ الإسلامي والميلادي ${hijriStr}`,
-            en: `Hijri Date Today | Islamic and Gregorian Date ${hijriStr}`,
-            fr: `Date hégirienne aujourd'hui | Date islamique et grégorienne ${hijriStr}`,
-            tr: `Bugünün Hicri Tarihi | İslami ve Miladi Tarih ${hijriStr}`,
-            ur: `آج کی ہجری تاریخ | اسلامی اور عیسوی تاریخ ${hijriStr}`,
-            de: `Heutiges Hidschri-Datum | Islamisches und Gregorianisches Datum ${hijriStr}`,
-            id: `Tanggal Hijriah Hari Ini | Tanggal Islam dan Masehi ${hijriStr}`,
-            es: `Fecha Hégira de Hoy | Fecha Islámica y Gregoriana ${hijriStr}`,
-            bn: `আজকের হিজরি তারিখ | ইসলামিক ও গ্রেগরিয়ান তারিখ ${hijriStr}`,
-            ms: `Tarikh Hijrah Hari Ini | Tarikh Islam dan Gregorian ${hijriStr}`,
+            ar: `التاريخ الهجري اليوم | ${hijriStr} والميلادي`,
+            en: `Hijri Date Today | ${hijriStr} and Gregorian`,
+            fr: `Date hégirienne aujourd'hui | ${hijriStr} et grégorienne`,
+            tr: `Bugünün Hicri Tarihi | ${hijriStr} ve Miladi`,
+            ur: `آج کی ہجری تاریخ | ${hijriStr} اور عیسوی`,
+            de: `Heutiges Hidschri-Datum | ${hijriStr} und Gregorianisch`,
+            id: `Tanggal Hijriah Hari Ini | ${hijriStr} dan Masehi`,
+            es: `Fecha Hégira de Hoy | ${hijriStr} y Gregoriana`,
+            bn: `আজকের হিজরি তারিখ | ${hijriStr} এবং গ্রেগরিয়ান`,
+            ms: `Tarikh Hijrah Hari Ini | ${hijriStr} dan Gregorian`,
         };
         const _HD8_DESC = {
-            ar: `اعرف التاريخ الهجري اليوم ${hijriStr} والتاريخ الميلادي المقابل، مع أدوات تحويل التاريخ والتقويم الهجري وحالة القمر والمناسبات الإسلامية.`,
-            en: `Check today's Hijri date ${hijriStr} with the matching Gregorian date, plus the Hijri calendar, date converter, moon phase, and Islamic events tools.`,
+            ar: `اعرف التاريخ الهجري اليوم ${hijriStr} والتاريخ الميلادي المقابل له، مع أدوات تحويل التاريخ والتقويم الهجري وحالة القمر والمناسبات الإسلامية.`,
+            en: `Check today's Hijri date ${hijriStr} and its matching Gregorian date, with the Hijri calendar, date converter, moon phase, and Islamic events tools.`,
             fr: `Découvrez la date hégirienne d'aujourd'hui ${hijriStr} et son équivalent grégorien, avec le calendrier hégirien, le convertisseur, la phase de la lune et les événements islamiques.`,
-            tr: `Bugünün Hicri tarihini öğrenin: ${hijriStr} ve Miladi karşılığı; Hicri takvim, tarih dönüştürücü, ay evresi ve İslami etkinlikler bir arada.`,
-            ur: `آج کی ہجری تاریخ ${hijriStr} اور اس کی میلادی مماثل جانیں، ساتھ ہی ہجری کیلنڈر، تاریخ کنورٹر، چاند کا مرحلہ اور اسلامی واقعات۔`,
-            de: `Heutiges Hidschri-Datum ${hijriStr} mit gregorianischer Entsprechung, plus Hidschri-Kalender, Datumskonverter, Mondphase und islamische Ereignisse.`,
-            id: `Tanggal Hijriah hari ini ${hijriStr} dengan padanan Masehi, lengkap dengan kalender Hijriah, konverter tanggal, fase bulan, dan peristiwa Islam.`,
-            es: `Conoce la fecha Hégira de hoy ${hijriStr} y su equivalente gregoriana, con calendario Hégira, conversor de fechas, fase lunar y eventos islámicos.`,
-            bn: `আজকের হিজরি তারিখ ${hijriStr} ও এর গ্রেগরিয়ান সমতুল্য জানুন; সাথে হিজরি ক্যালেন্ডার, তারিখ রূপান্তর, চাঁদের পর্যায় ও ইসলামিক ঘটনা।`,
-            ms: `Ketahui tarikh Hijrah hari ini ${hijriStr} dan padanannya dalam Gregorian, dengan kalendar Hijrah, penukar tarikh, fasa bulan dan peristiwa Islam.`,
+            tr: `Bugünün Hicri tarihini öğrenin: ${hijriStr} ve buna karşılık gelen Miladi tarih; Hicri takvim, tarih dönüştürücü, ay evresi ve İslami etkinlikler bir arada.`,
+            ur: `آج کی ہجری تاریخ ${hijriStr} اور اس کی متعلقہ میلادی تاریخ جانیں، ساتھ ہی ہجری کیلنڈر، تاریخ کنورٹر، چاند کا مرحلہ اور اسلامی واقعات۔`,
+            de: `Heutiges Hidschri-Datum ${hijriStr} und das passende gregorianische Datum, mit Hidschri-Kalender, Datumskonverter, Mondphase und islamischen Ereignissen.`,
+            id: `Ketahui tanggal Hijriah hari ini ${hijriStr} dan tanggal Masehi yang bersesuaian, lengkap dengan kalender Hijriah, konverter tanggal, fase bulan, dan peristiwa Islam.`,
+            es: `Conoce la fecha Hégira de hoy ${hijriStr} y la fecha gregoriana correspondiente, con calendario Hégira, conversor de fechas, fase lunar y eventos islámicos.`,
+            bn: `আজকের হিজরি তারিখ ${hijriStr} ও এর সংশ্লিষ্ট গ্রেগরিয়ান তারিখ জানুন; সাথে হিজরি ক্যালেন্ডার, তারিখ রূপান্তর, চাঁদের পর্যায় ও ইসলামিক ঘটনা।`,
+            ms: `Ketahui tarikh Hijrah hari ini ${hijriStr} dan tarikh Gregorian yang berkenaan, dengan kalendar Hijrah, penukar tarikh, fasa bulan dan peristiwa Islam.`,
         };
         const _HD8_NAME = {
             ar: 'التاريخ الهجري اليوم', en: 'Hijri Date Today', fr: "Date hégirienne aujourd'hui",

@@ -14059,6 +14059,36 @@ html.qibla-hub-page #page-qibla {
     }
 }
 
+/* ═══ Phase HD-15 (2026-05-08): font-metric override for the system fallback
+   so Cairo's late swap doesn't reflow text and shift layout.
+
+   Diagnosis: Lighthouse Mobile run 3 (font cached/uncached) consistently
+   showed 2 layout shifts on #hijri-today-info-card. The ONLY remaining
+   cause after HD-12/13/14 SSR pre-fills is that Cairo's character widths
+   differ from the system-ui fallback, so the Hero text wraps differently
+   between fallback paint and Cairo paint → Hero card grows by ~25-30px
+   → info-card pushed down → shift recorded.
+
+   Fix: define an `Adjusted Cairo Fallback` @font-face with size-adjust +
+   ascent/descent overrides chosen to match Cairo's metrics. Use it
+   between Cairo and system-ui in the body font-family stack. When Cairo
+   eventually swaps in (on cold connections), the visual delta is now
+   minimal → no shift large enough to register.
+
+   Values tuned for Cairo wght@400. Approximate but good enough.
+   No JS / no SSR change. CSS-only. */
+@font-face {
+    font-family: 'Cairo Fallback';
+    src: local('Tahoma'), local('Arial');
+    size-adjust: 100%;
+    ascent-override: 110%;
+    descent-override: 35%;
+    line-gap-override: 0%;
+}
+body {
+    font-family: Cairo, 'Cairo Fallback', 'Segoe UI', Tahoma, sans-serif !important;
+}
+
 /* ═══ Phase HD-13b (2026-05-08): apply same E4-b/Q-Hub-K2 parity fix to
    #page-hijri-today (also -year, -month, -day) so adding .active later
    becomes a no-op.

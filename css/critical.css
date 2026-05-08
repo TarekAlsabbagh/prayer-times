@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-08T23:05:15.530Z
-   Source: css/style.css (full 526 KiB)
-   Critical: 37.2 KiB
+   Extracted on: 2026-05-08T23:28:05.931Z
+   Source: css/style.css (full 528 KiB)
+   Critical: 37.3 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -508,6 +508,9 @@ html.moon-today-hub-page #page-moon,html.moon-today-city-page #page-moon,html.mo
         max-width: 100%;
         box-sizing: border-box;
     }}
+body{
+    font-family: Cairo, 'Cairo Fallback', 'Segoe UI', Tahoma, sans-serif !important;
+}
 html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day,html.hijri-year-page  #page-hijri-year,html.hijri-month-page #page-hijri-month{
     display: block !important;
     padding: 24px;

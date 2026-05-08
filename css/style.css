@@ -15581,6 +15581,17 @@ html[data-theme="dark"] .home-service-card {
     color: var(--primary, #1e5631);
 }
 
+/* HD-8 (2026-05-08): short intro paragraph under each HD-1 section
+   header (Tools / Guide). Lifts page word count past SEOptimer's
+   "Thin Content" threshold without bloating the design. */
+.hd1-section-intro {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-light, #5a6f66);
+}
+.hd1-section-intro:empty { display: none; }
+
 /* Tools — 4 tile cards */
 .hd1-tools-grid {
     display: grid;

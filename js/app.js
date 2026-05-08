@@ -9071,21 +9071,64 @@ function updatePageSEO() {
     }
 
     // ── التاريخ الهجري اليوم ──
-    if (/^\/(?:en\/)?today-hijri-date$/.test(path)) {
-        let hijriStr;
+    // HD-8 (2026-05-08): all-10-langs Title/Meta with the live Hijri date
+    //   embedded. Mirrors the SSR override at server.js:isTodayHijriHub
+    //   block byte-for-byte so client hydration doesn't shorten the Title
+    //   (was 43 chars, now ~64; SEOptimer flagged "Title too short").
+    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(path)) {
+        const _HD8_HM = {
+            ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+            en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+            fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+            tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+            ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+            de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+            id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+            es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+            bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+            ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
+        };
+        const _HD8_HSFX = { ar:'هـ', en:'AH', fr:'AH', tr:'AH', ur:'ھ', de:'AH', id:'H', es:'AH', bn:'হিজরি', ms:'H' };
+        let hijriStr = '';
         try {
-            const t = HijriDate.getToday();
-            const monthsAr = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
-            const monthsEn = ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'];
-            hijriStr = isEn
-                ? `${t.day} ${monthsEn[t.month - 1]} ${t.year} AH`
-                : `${t.day} ${monthsAr[t.month - 1]} ${t.year} هـ`;
+            const _t = HijriDate.getToday();
+            const _hMNm = (_HD8_HM[lang] || _HD8_HM.en)[_t.month - 1];
+            const _hSfx = _HD8_HSFX[lang] || 'AH';
+            hijriStr = `${_t.day} ${_hMNm} ${_t.year} ${_hSfx}`;
         } catch(e) { hijriStr = ''; }
+        const _HD8_TITLE = {
+            ar: `التاريخ الهجري اليوم | التاريخ الإسلامي والميلادي ${hijriStr}`,
+            en: `Hijri Date Today | Islamic and Gregorian Date ${hijriStr}`,
+            fr: `Date hégirienne aujourd'hui | Date islamique et grégorienne ${hijriStr}`,
+            tr: `Bugünün Hicri Tarihi | İslami ve Miladi Tarih ${hijriStr}`,
+            ur: `آج کی ہجری تاریخ | اسلامی اور عیسوی تاریخ ${hijriStr}`,
+            de: `Heutiges Hidschri-Datum | Islamisches und Gregorianisches Datum ${hijriStr}`,
+            id: `Tanggal Hijriah Hari Ini | Tanggal Islam dan Masehi ${hijriStr}`,
+            es: `Fecha Hégira de Hoy | Fecha Islámica y Gregoriana ${hijriStr}`,
+            bn: `আজকের হিজরি তারিখ | ইসলামিক ও গ্রেগরিয়ান তারিখ ${hijriStr}`,
+            ms: `Tarikh Hijrah Hari Ini | Tarikh Islam dan Gregorian ${hijriStr}`,
+        };
+        const _HD8_DESC = {
+            ar: `اعرف التاريخ الهجري اليوم ${hijriStr} والتاريخ الميلادي المقابل، مع أدوات تحويل التاريخ والتقويم الهجري وحالة القمر والمناسبات الإسلامية.`,
+            en: `Check today's Hijri date ${hijriStr} with the matching Gregorian date, plus the Hijri calendar, date converter, moon phase, and Islamic events tools.`,
+            fr: `Découvrez la date hégirienne d'aujourd'hui ${hijriStr} et son équivalent grégorien, avec le calendrier hégirien, le convertisseur, la phase de la lune et les événements islamiques.`,
+            tr: `Bugünün Hicri tarihini öğrenin: ${hijriStr} ve Miladi karşılığı; Hicri takvim, tarih dönüştürücü, ay evresi ve İslami etkinlikler bir arada.`,
+            ur: `آج کی ہجری تاریخ ${hijriStr} اور اس کی میلادی مماثل جانیں، ساتھ ہی ہجری کیلنڈر، تاریخ کنورٹر، چاند کا مرحلہ اور اسلامی واقعات۔`,
+            de: `Heutiges Hidschri-Datum ${hijriStr} mit gregorianischer Entsprechung, plus Hidschri-Kalender, Datumskonverter, Mondphase und islamische Ereignisse.`,
+            id: `Tanggal Hijriah hari ini ${hijriStr} dengan padanan Masehi, lengkap dengan kalender Hijriah, konverter tanggal, fase bulan, dan peristiwa Islam.`,
+            es: `Conoce la fecha Hégira de hoy ${hijriStr} y su equivalente gregoriana, con calendario Hégira, conversor de fechas, fase lunar y eventos islámicos.`,
+            bn: `আজকের হিজরি তারিখ ${hijriStr} ও এর গ্রেগরিয়ান সমতুল্য জানুন; সাথে হিজরি ক্যালেন্ডার, তারিখ রূপান্তর, চাঁদের পর্যায় ও ইসলামিক ঘটনা।`,
+            ms: `Ketahui tarikh Hijrah hari ini ${hijriStr} dan padanannya dalam Gregorian, dengan kalendar Hijrah, penukar tarikh, fasa bulan dan peristiwa Islam.`,
+        };
+        const _HD8_NAME = {
+            ar: 'التاريخ الهجري اليوم', en: 'Hijri Date Today', fr: "Date hégirienne aujourd'hui",
+            tr: 'Bugünün Hicri Tarihi', ur: 'آج کی ہجری تاریخ', de: 'Heutiges Hidschri-Datum',
+            id: 'Tanggal Hijriah Hari Ini', es: 'Fecha Hégira de Hoy',
+            bn: 'আজকের হিজরি তারিখ', ms: 'Tarikh Hijrah Hari Ini'
+        };
         setSEOMeta({
-            title: isEn ? `Today's Hijri Date${hijriStr ? ' — ' + hijriStr : ''}` : `التاريخ الهجري اليوم${hijriStr ? ' — ' + hijriStr : ''}`,
-            description: isEn
-                ? `Today's Hijri (Islamic) date: ${hijriStr}. Find the accurate Islamic date and its Gregorian equivalent.`
-                : `التاريخ الهجري اليوم: ${hijriStr}. عرض التاريخ الإسلامي ومقابله الميلادي بدقة.`,
+            title: _HD8_TITLE[lang] || _HD8_TITLE.en,
+            description: _HD8_DESC[lang] || _HD8_DESC.en,
             ogType: 'article',
             schemaId: 'page-seo-schema',
             schemaGraph: {
@@ -9093,7 +9136,7 @@ function updatePageSEO() {
                 "@type": "WebPage",
                 "@id": urls.canonical + '#webpage',
                 "url": urls.canonical,
-                "name": isEn ? "Today's Hijri Date" : 'التاريخ الهجري اليوم',
+                "name": _HD8_NAME[lang] || _HD8_NAME.en,
                 "description": hijriStr,
                 "inLanguage": lang
             }

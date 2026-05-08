@@ -2612,6 +2612,8 @@ const _HD1_BY_LANG = {
         heroSub: 'اعرف تاريخ اليوم الهجري والميلادي، مع إمكانية تحويل التاريخ واستعراض التقويم الهجري بسهولة.',
         navTitle: 'التنقل بين الأيام الهجرية',
         toolsTitle: 'أدوات مرتبطة بالتاريخ الهجري',
+        toolsIntro: 'تساعدك هذه الأدوات على الانتقال بين التاريخ الهجري، التقويم الكامل، تحويل التاريخ، حالة القمر، ومواقيت الصلاة، بحيث يمكنك متابعة اليوم الإسلامي من مكان واحد دون الحاجة إلى البحث في صفحات متعددة.',
+        guideIntro: 'يجمع هذا الدليل أهم المعلومات التي يحتاجها المستخدم لفهم طريقة عمل التقويم الهجري، سبب اختلافه أحيانًا بين الدول، وكيف يمكن استخدامه في متابعة المناسبات الإسلامية والعبادات اليومية.',
         tool_dateconv_desc: 'تحويل أي تاريخ بين الميلادي والهجري بسهولة.',
         tool_calendar_desc: 'استعرض التقويم الهجري الكامل بشهور السنة.',
         tool_prayertimes_desc: 'مواقيت الصلاة الخمس بدقة حسب الموقع.',
@@ -2638,13 +2640,19 @@ const _HD1_BY_LANG = {
             { q: 'هل يمكن تحويل التاريخ الميلادي إلى هجري؟',
               a: 'نعم، يمكنك تحويل أي تاريخ ميلادي إلى هجري والعكس باستخدام أداة تحويل التاريخ. الحساب يعتمد على تقويم أم القرى ويدعم الفترة من 1 هـ إلى 1500 هـ.' },
             { q: 'هل التاريخ الهجري مرتبط بمواقيت الصلاة؟',
-              a: 'التاريخ الهجري يُساعد في تحديد بدايات شهور رمضان والحج والأعياد، وكذلك أيام صيام السنة (الإثنين والخميس، الأيام البيض، عاشوراء، عرفة). لكنّ مواقيت الصلاة اليومية تعتمد على موضع الشمس لا على التاريخ الهجري.' }
+              a: 'التاريخ الهجري يُساعد في تحديد بدايات شهور رمضان والحج والأعياد، وكذلك أيام صيام السنة (الإثنين والخميس، الأيام البيض، عاشوراء، عرفة). لكنّ مواقيت الصلاة اليومية تعتمد على موضع الشمس لا على التاريخ الهجري.' },
+            { q: 'هل يعتمد التاريخ الهجري على رؤية الهلال؟',
+              a: 'نعم، تعتمد بداية الأشهر الهجرية في كثير من الدول على رؤية الهلال، بينما تستخدم بعض الأدوات الحساب الفلكي لتقدير التاريخ. لذلك قد يظهر فرق يوم واحد أحيانًا بين بلد وآخر.' },
+            { q: 'ما فائدة معرفة التاريخ الهجري اليوم؟',
+              a: 'يساعدك التاريخ الهجري اليوم على متابعة الشهور الإسلامية والمناسبات الدينية، مثل رمضان والحج والأعياد، إلى جانب معرفة التاريخ الميلادي المقابل بسهولة.' }
         ]
     },
     en: {
         heroSub: "Know today's Hijri and Gregorian date, with quick access to the date converter and the full Hijri calendar.",
         navTitle: 'Navigate Hijri Days',
         toolsTitle: 'Related Hijri Tools',
+        toolsIntro: 'These tools help you move between the Hijri date, the full calendar, date conversion, moon phase, and prayer times — so you can follow the Islamic day from one place without searching across multiple pages.',
+        guideIntro: 'This guide gathers the key facts you need to understand how the Hijri calendar works, why it sometimes differs between countries, and how to use it to track Islamic occasions and daily worship.',
         tool_dateconv_desc: 'Convert any date between Gregorian and Hijri easily.',
         tool_calendar_desc: 'Browse the full Hijri calendar across all months.',
         tool_prayertimes_desc: 'Accurate five daily prayer times by location.',
@@ -2671,13 +2679,19 @@ const _HD1_BY_LANG = {
             { q: 'Can I convert a Gregorian date to a Hijri date?',
               a: 'Yes, you can convert any Gregorian date to Hijri and vice versa using the date converter. The calculation uses the Umm al-Qura calendar and supports the range from 1 AH to 1500 AH.' },
             { q: 'Is the Hijri date connected to prayer times?',
-              a: "The Hijri date helps determine the start of Ramadan, Hajj, and the Eids, as well as Sunnah fasting days (Mondays and Thursdays, the White Days, Ashura, and Arafah). However, daily prayer times depend on the sun's position, not on the Hijri date." }
+              a: "The Hijri date helps determine the start of Ramadan, Hajj, and the Eids, as well as Sunnah fasting days (Mondays and Thursdays, the White Days, Ashura, and Arafah). However, daily prayer times depend on the sun's position, not on the Hijri date." },
+            { q: 'Does the Hijri date depend on moon sighting?',
+              a: 'Yes, the start of Hijri months in many countries depends on local moon sighting, while some tools use astronomical calculation to estimate the date. That is why a one-day difference sometimes appears between countries.' },
+            { q: "Why is it useful to know today's Hijri date?",
+              a: "Today's Hijri date helps you follow the Islamic months and religious occasions like Ramadan, Hajj, and the Eids, while also letting you know the matching Gregorian date easily." }
         ]
     },
     fr: {
         heroSub: "Connaissez la date hégirienne et grégorienne d'aujourd'hui, avec un accès rapide au convertisseur et au calendrier hégirien complet.",
         navTitle: 'Naviguer entre les jours hégiriens',
         toolsTitle: 'Outils liés à la date hégirienne',
+        toolsIntro: 'Ces outils vous permettent de naviguer entre la date hégirienne, le calendrier complet, la conversion de date, la phase de la lune et les heures de prière, afin de suivre la journée islamique depuis un seul endroit sans chercher dans plusieurs pages.',
+        guideIntro: "Ce guide rassemble les informations essentielles pour comprendre le fonctionnement du calendrier hégirien, pourquoi il varie parfois entre pays, et comment l'utiliser pour suivre les occasions islamiques et la pratique quotidienne.",
         tool_dateconv_desc: 'Convertissez facilement entre les calendriers grégorien et hégirien.',
         tool_calendar_desc: 'Parcourez le calendrier hégirien complet sur tous les mois.',
         tool_prayertimes_desc: 'Heures précises des cinq prières quotidiennes selon votre lieu.',
@@ -2704,13 +2718,19 @@ const _HD1_BY_LANG = {
             { q: 'Puis-je convertir une date grégorienne en date hégirienne ?',
               a: "Oui, vous pouvez convertir n'importe quelle date grégorienne en hégirienne et inversement avec le convertisseur. Le calcul s'appuie sur le calendrier Umm al-Qura et couvre la période de 1 AH à 1500 AH." },
             { q: 'La date hégirienne est-elle liée aux heures de prière ?',
-              a: "La date hégirienne aide à déterminer le début du Ramadan, du Hajj et des fêtes, ainsi que les jours de jeûne sunnah (lundis et jeudis, jours blancs, Achoura, Arafah). Toutefois, les heures de prière quotidiennes dépendent de la position du soleil, pas de la date hégirienne." }
+              a: "La date hégirienne aide à déterminer le début du Ramadan, du Hajj et des fêtes, ainsi que les jours de jeûne sunnah (lundis et jeudis, jours blancs, Achoura, Arafah). Toutefois, les heures de prière quotidiennes dépendent de la position du soleil, pas de la date hégirienne." },
+            { q: "La date hégirienne dépend-elle de l'observation du croissant ?",
+              a: "Oui, le début des mois hégiriens dépend dans de nombreux pays de l'observation locale du croissant, tandis que certains outils utilisent le calcul astronomique pour estimer la date. C'est pourquoi un écart d'un jour apparaît parfois entre les pays." },
+            { q: "À quoi sert de connaître la date hégirienne d'aujourd'hui ?",
+              a: "La date hégirienne d'aujourd'hui vous aide à suivre les mois islamiques et les occasions religieuses comme le Ramadan, le Hajj et les Aïds, tout en connaissant facilement la date grégorienne correspondante." }
         ]
     },
     tr: {
         heroSub: 'Bugünün Hicri ve Miladi tarihini öğrenin; tarih dönüştürücü ve tam Hicri takvime tek tıkla erişin.',
         navTitle: 'Hicri Günler Arası Gezinme',
         toolsTitle: 'Hicri tarihe ilişkin araçlar',
+        toolsIntro: 'Bu araçlar Hicri tarih, tam takvim, tarih dönüştürme, ay evresi ve namaz vakitleri arasında geçiş yapmanıza yardımcı olur; böylece İslami günü tek bir yerden, birden fazla sayfaya bakmadan takip edebilirsiniz.',
+        guideIntro: 'Bu rehber, Hicri takvimin nasıl çalıştığını, ülkeler arasında neden bazen farklılık gösterdiğini ve İslami olayları ile günlük ibadetleri takip etmek için nasıl kullanılabileceğini anlamak için gereken temel bilgileri bir araya getirir.',
         tool_dateconv_desc: 'Miladi ile Hicri arasında herhangi bir tarihi kolayca dönüştürün.',
         tool_calendar_desc: 'Yılın tüm ayları boyunca tam Hicri takvime göz atın.',
         tool_prayertimes_desc: 'Konuma göre beş vakit namaz için doğru zamanlar.',
@@ -2737,13 +2757,19 @@ const _HD1_BY_LANG = {
             { q: 'Miladi tarihi Hicri tarihe çevirebilir miyim?',
               a: 'Evet, tarih dönüştürücü ile herhangi bir Miladi tarihi Hicriye veya Hicri tarihi Miladiye çevirebilirsiniz. Hesaplama Ümmü\'l-Kura takvimine dayanır ve 1 H ile 1500 H arasını destekler.' },
             { q: 'Hicri tarih namaz vakitleriyle ilişkili mi?',
-              a: 'Hicri tarih Ramazan\'ın, Hac mevsiminin ve Bayramların başlangıcını ve Sünnet oruçlarını (Pazartesi-Perşembe, Eyyam-ı Bid, Aşure, Arefe) belirlemeye yardımcıdır. Ancak günlük namaz vakitleri Hicri tarihe değil, güneşin konumuna bağlıdır.' }
+              a: 'Hicri tarih Ramazan\'ın, Hac mevsiminin ve Bayramların başlangıcını ve Sünnet oruçlarını (Pazartesi-Perşembe, Eyyam-ı Bid, Aşure, Arefe) belirlemeye yardımcıdır. Ancak günlük namaz vakitleri Hicri tarihe değil, güneşin konumuna bağlıdır.' },
+            { q: 'Hicri tarih hilal rüyetine bağlı mı?',
+              a: 'Evet, birçok ülkede Hicri ayların başlangıcı yerel hilal rüyetine bağlıdır; bazı araçlar ise tarihi tahmin etmek için astronomik hesabı kullanır. Bu nedenle ülkeler arasında bazen bir gün fark görülür.' },
+            { q: 'Bugünün Hicri tarihini bilmenin faydası nedir?',
+              a: 'Bugünün Hicri tarihi; Ramazan, Hac ve Bayramlar gibi İslami ay ve dini günleri takip etmenize yardımcı olur ve Miladi karşılığını da kolayca öğrenmenizi sağlar.' }
         ]
     },
     ur: {
         heroSub: 'آج کی ہجری اور عیسوی تاریخ جانیں، ساتھ ہی تاریخ کنورٹر اور مکمل ہجری کیلنڈر تک فوری رسائی پائیں۔',
         navTitle: 'ہجری دنوں کے درمیان نیویگیشن',
         toolsTitle: 'ہجری تاریخ سے متعلق آلات',
+        toolsIntro: 'یہ آلات آپ کو ہجری تاریخ، مکمل کیلنڈر، تاریخ تبدیلی، چاند کا مرحلہ اور اوقاتِ نماز کے درمیان منتقل ہونے میں مدد دیتے ہیں، تاکہ آپ متعدد صفحات تلاش کیے بغیر اسلامی دن کو ایک ہی جگہ سے دیکھ سکیں۔',
+        guideIntro: 'یہ گائیڈ صارف کے لیے درکار اہم معلومات کو یکجا کرتا ہے: ہجری کیلنڈر کیسے کام کرتا ہے، یہ ممالک کے درمیان کبھی کبھی مختلف کیوں ہوتا ہے، اور اسے اسلامی مواقع اور روزانہ کی عبادات کے لیے کیسے استعمال کیا جا سکتا ہے۔',
         tool_dateconv_desc: 'کسی بھی تاریخ کو عیسوی اور ہجری کے درمیان آسانی سے تبدیل کریں۔',
         tool_calendar_desc: 'سال کے تمام مہینوں کے ساتھ مکمل ہجری کیلنڈر دیکھیں۔',
         tool_prayertimes_desc: 'مقام کے مطابق پانچوں نمازوں کے درست اوقات۔',
@@ -2770,13 +2796,19 @@ const _HD1_BY_LANG = {
             { q: 'کیا میں عیسوی تاریخ کو ہجری میں تبدیل کر سکتا ہوں؟',
               a: 'ہاں، تاریخ کنورٹر کے ذریعے کسی بھی عیسوی تاریخ کو ہجری اور ہجری کو عیسوی میں تبدیل کیا جا سکتا ہے۔ حساب اُمّ القریٰ کیلنڈر پر مبنی ہے اور 1 ہجری سے 1500 ہجری تک کا دور احاطہ کرتا ہے۔' },
             { q: 'کیا ہجری تاریخ نماز کے اوقات سے جُڑی ہے؟',
-              a: 'ہجری تاریخ رمضان، حج اور عیدوں کے ساتھ ساتھ سُنّت روزوں (سوموار-جمعرات، ایّام البیض، عاشورہ، عرفہ) کا تعین کرنے میں مدد دیتی ہے۔ تاہم روزانہ کے اوقاتِ نماز سورج کی پوزیشن پر منحصر ہیں، نہ کہ ہجری تاریخ پر۔' }
+              a: 'ہجری تاریخ رمضان، حج اور عیدوں کے ساتھ ساتھ سُنّت روزوں (سوموار-جمعرات، ایّام البیض، عاشورہ، عرفہ) کا تعین کرنے میں مدد دیتی ہے۔ تاہم روزانہ کے اوقاتِ نماز سورج کی پوزیشن پر منحصر ہیں، نہ کہ ہجری تاریخ پر۔' },
+            { q: 'کیا ہجری تاریخ ہلال کی رؤیت پر منحصر ہے؟',
+              a: 'ہاں، بہت سے ممالک میں ہجری مہینوں کا آغاز مقامی ہلال کی رؤیت پر منحصر ہوتا ہے، جبکہ کچھ ٹولز تاریخ کا اندازہ لگانے کے لیے فلکی حساب استعمال کرتے ہیں۔ اسی لیے بعض اوقات ممالک کے درمیان ایک دن کا فرق ظاہر ہوتا ہے۔' },
+            { q: 'آج کی ہجری تاریخ جاننا کیوں مفید ہے؟',
+              a: 'آج کی ہجری تاریخ آپ کو رمضان، حج اور عیدوں جیسے اسلامی مہینوں اور دینی مواقع کی پیروی میں مدد دیتی ہے، ساتھ ہی متعلقہ عیسوی تاریخ آسانی سے جاننے میں۔' }
         ]
     },
     de: {
         heroSub: 'Erfahren Sie das heutige Hidschri- und gregorianische Datum, mit schnellem Zugriff auf Datumskonverter und vollen Hidschri-Kalender.',
         navTitle: 'Zwischen Hidschri-Tagen navigieren',
         toolsTitle: 'Werkzeuge zum Hidschri-Datum',
+        toolsIntro: 'Diese Werkzeuge helfen Ihnen, zwischen Hidschri-Datum, vollständigem Kalender, Datumsumrechnung, Mondphase und Gebetszeiten zu wechseln, damit Sie den islamischen Tag von einem Ort aus verfolgen können, ohne mehrere Seiten zu durchsuchen.',
+        guideIntro: 'Dieser Leitfaden bündelt die wichtigsten Informationen, die Sie benötigen, um die Funktionsweise des Hidschri-Kalenders zu verstehen, warum er manchmal zwischen Ländern abweicht und wie Sie ihn für islamische Anlässe und tägliche Andacht verwenden können.',
         tool_dateconv_desc: 'Beliebige Daten einfach zwischen Gregorianisch und Hidschri umrechnen.',
         tool_calendar_desc: 'Den vollständigen Hidschri-Kalender über alle Monate hinweg durchsuchen.',
         tool_prayertimes_desc: 'Genauer Beginn der fünf täglichen Gebete je nach Standort.',
@@ -2803,13 +2835,19 @@ const _HD1_BY_LANG = {
             { q: 'Kann ich ein gregorianisches Datum in ein Hidschri-Datum umwandeln?',
               a: 'Ja, mit dem Datumskonverter können Sie jedes gregorianische Datum in Hidschri umrechnen und umgekehrt. Die Berechnung basiert auf dem Umm al-Qura-Kalender und unterstützt den Bereich von 1 AH bis 1500 AH.' },
             { q: 'Ist das Hidschri-Datum mit den Gebetszeiten verbunden?',
-              a: 'Das Hidschri-Datum hilft bei der Bestimmung des Beginns von Ramadan, Hadsch und den Festen sowie der freiwilligen Fastentage (Montag und Donnerstag, Weiße Tage, Aschura, Arafa). Die täglichen Gebetszeiten hingegen hängen von der Sonnenposition ab, nicht vom Hidschri-Datum.' }
+              a: 'Das Hidschri-Datum hilft bei der Bestimmung des Beginns von Ramadan, Hadsch und den Festen sowie der freiwilligen Fastentage (Montag und Donnerstag, Weiße Tage, Aschura, Arafa). Die täglichen Gebetszeiten hingegen hängen von der Sonnenposition ab, nicht vom Hidschri-Datum.' },
+            { q: 'Hängt das Hidschri-Datum von der Mondsichtung ab?',
+              a: 'Ja, der Beginn der Hidschri-Monate hängt in vielen Ländern von der lokalen Mondsichtung ab, während einige Werkzeuge das Datum mit astronomischer Berechnung schätzen. Daher tritt manchmal ein Tag Unterschied zwischen Ländern auf.' },
+            { q: 'Wozu nützt es, das heutige Hidschri-Datum zu kennen?',
+              a: 'Das heutige Hidschri-Datum hilft Ihnen, die islamischen Monate und religiösen Anlässe wie Ramadan, Hadsch und die Eid-Feste zu verfolgen und gleichzeitig das passende gregorianische Datum leicht zu kennen.' }
         ]
     },
     id: {
         heroSub: 'Ketahui tanggal Hijriah dan Masehi hari ini, lengkap dengan akses cepat ke konverter tanggal dan kalender Hijriah penuh.',
         navTitle: 'Navigasi Antar Hari Hijriah',
         toolsTitle: 'Alat terkait tanggal Hijriah',
+        toolsIntro: 'Alat ini membantu Anda berpindah antara tanggal Hijriah, kalender lengkap, konversi tanggal, fase bulan, dan jadwal sholat, sehingga Anda dapat mengikuti hari Islam dari satu tempat tanpa mencari di beberapa halaman.',
+        guideIntro: 'Panduan ini menggabungkan informasi penting yang dibutuhkan pengguna untuk memahami cara kerja kalender Hijriah, mengapa terkadang berbeda antar negara, dan bagaimana memanfaatkannya untuk peristiwa Islam dan ibadah harian.',
         tool_dateconv_desc: 'Konversi tanggal Masehi dan Hijriah dengan mudah.',
         tool_calendar_desc: 'Telusuri kalender Hijriah lengkap untuk seluruh bulan.',
         tool_prayertimes_desc: 'Jadwal sholat lima waktu yang akurat sesuai lokasi.',
@@ -2836,13 +2874,19 @@ const _HD1_BY_LANG = {
             { q: 'Bisakah saya mengonversi tanggal Masehi ke Hijriah?',
               a: 'Ya, Anda dapat mengonversi tanggal Masehi ke Hijriah dan sebaliknya dengan konverter tanggal. Perhitungan menggunakan kalender Umm al-Qura dan mencakup rentang 1 H hingga 1500 H.' },
             { q: 'Apakah tanggal Hijriah terkait dengan jadwal sholat?',
-              a: 'Tanggal Hijriah membantu menentukan awal Ramadan, Haji, dan hari raya, serta hari puasa Sunnah (Senin-Kamis, Ayyamul Bidh, Asyura, Arafah). Namun jadwal sholat harian bergantung pada posisi matahari, bukan pada tanggal Hijriah.' }
+              a: 'Tanggal Hijriah membantu menentukan awal Ramadan, Haji, dan hari raya, serta hari puasa Sunnah (Senin-Kamis, Ayyamul Bidh, Asyura, Arafah). Namun jadwal sholat harian bergantung pada posisi matahari, bukan pada tanggal Hijriah.' },
+            { q: 'Apakah tanggal Hijriah bergantung pada rukyat hilal?',
+              a: 'Ya, awal bulan Hijriah di banyak negara bergantung pada rukyat hilal lokal, sementara beberapa alat menggunakan perhitungan astronomis untuk memperkirakan tanggal. Karena itu, kadang muncul perbedaan satu hari antar negara.' },
+            { q: 'Apa manfaatnya mengetahui tanggal Hijriah hari ini?',
+              a: 'Tanggal Hijriah hari ini membantu Anda mengikuti bulan Islam dan peristiwa keagamaan seperti Ramadan, Haji, dan hari raya, sekaligus mengetahui padanan Masehinya dengan mudah.' }
         ]
     },
     es: {
         heroSub: 'Conoce la fecha hégira y gregoriana de hoy, con acceso rápido al conversor y al calendario hégira completo.',
         navTitle: 'Navegación entre días Hégira',
         toolsTitle: 'Herramientas relacionadas con la fecha Hégira',
+        toolsIntro: 'Estas herramientas te ayudan a moverte entre la fecha hégira, el calendario completo, la conversión de fechas, la fase lunar y los horarios de oración, para que puedas seguir el día islámico desde un solo lugar sin buscar en varias páginas.',
+        guideIntro: 'Esta guía reúne la información esencial para entender cómo funciona el calendario hégira, por qué a veces difiere entre países y cómo utilizarlo para las ocasiones islámicas y la práctica diaria.',
         tool_dateconv_desc: 'Convierte cualquier fecha entre gregoriano y hégira fácilmente.',
         tool_calendar_desc: 'Explora el calendario hégira completo a lo largo de todos los meses.',
         tool_prayertimes_desc: 'Horarios precisos de las cinco oraciones según la ubicación.',
@@ -2869,13 +2913,19 @@ const _HD1_BY_LANG = {
             { q: '¿Puedo convertir una fecha gregoriana a hégira?',
               a: 'Sí, puedes convertir cualquier fecha gregoriana a hégira y viceversa con el conversor de fechas. El cálculo se basa en el calendario Umm al-Qura y cubre el rango de 1 AH a 1500 AH.' },
             { q: '¿La fecha hégira está relacionada con los horarios de oración?',
-              a: 'La fecha hégira ayuda a determinar el inicio de Ramadán, el Hajj y las fiestas, así como los días de ayuno Sunnah (lunes y jueves, Días Blancos, Achura, Arafah). Sin embargo, los horarios de oración diarios dependen de la posición del sol, no de la fecha hégira.' }
+              a: 'La fecha hégira ayuda a determinar el inicio de Ramadán, el Hajj y las fiestas, así como los días de ayuno Sunnah (lunes y jueves, Días Blancos, Achura, Arafah). Sin embargo, los horarios de oración diarios dependen de la posición del sol, no de la fecha hégira.' },
+            { q: '¿La fecha hégira depende de la observación de la luna?',
+              a: 'Sí, el inicio de los meses hégira en muchos países depende de la observación local del creciente, mientras que algunas herramientas usan el cálculo astronómico para estimar la fecha. Por eso a veces aparece una diferencia de un día entre países.' },
+            { q: '¿De qué sirve conocer la fecha hégira de hoy?',
+              a: 'La fecha hégira de hoy te ayuda a seguir los meses islámicos y las ocasiones religiosas como Ramadán, el Hajj y los Eids, además de conocer fácilmente la fecha gregoriana equivalente.' }
         ]
     },
     bn: {
         heroSub: 'আজকের হিজরি ও গ্রেগরিয়ান তারিখ জানুন, সাথে তারিখ রূপান্তরকারী ও সম্পূর্ণ হিজরি ক্যালেন্ডারে দ্রুত প্রবেশের সুযোগ।',
         navTitle: 'হিজরি দিনের মধ্যে নেভিগেশন',
         toolsTitle: 'হিজরি তারিখ সম্পর্কিত সরঞ্জাম',
+        toolsIntro: 'এই সরঞ্জামগুলো আপনাকে হিজরি তারিখ, পূর্ণ ক্যালেন্ডার, তারিখ রূপান্তর, চাঁদের পর্যায় এবং নামাজের সময়ের মধ্যে চলাচলে সাহায্য করে, যাতে আপনি একাধিক পৃষ্ঠা না খুঁজে এক জায়গা থেকেই ইসলামিক দিন অনুসরণ করতে পারেন।',
+        guideIntro: 'এই নির্দেশিকা ব্যবহারকারীর জন্য প্রয়োজনীয় গুরুত্বপূর্ণ তথ্যগুলি একত্র করে: হিজরি ক্যালেন্ডার কিভাবে কাজ করে, কেন তা মাঝে মাঝে দেশভেদে আলাদা হয়, এবং কীভাবে এটি ইসলামিক অনুষ্ঠান ও দৈনন্দিন ইবাদতে ব্যবহার করা যায়।',
         tool_dateconv_desc: 'গ্রেগরিয়ান ও হিজরির মধ্যে যেকোনো তারিখ সহজে রূপান্তর করুন।',
         tool_calendar_desc: 'বছরের সব মাসের পূর্ণ হিজরি ক্যালেন্ডার দেখুন।',
         tool_prayertimes_desc: 'অবস্থান অনুযায়ী পাঁচ ওয়াক্ত নামাজের নির্ভুল সময়।',
@@ -2902,13 +2952,19 @@ const _HD1_BY_LANG = {
             { q: 'গ্রেগরিয়ান তারিখ কি হিজরিতে রূপান্তর করা যায়?',
               a: 'হ্যাঁ, তারিখ রূপান্তরকারী দিয়ে যেকোনো গ্রেগরিয়ান তারিখকে হিজরিতে এবং বিপরীতে রূপান্তর করা যায়। হিসাবটি উম্মুল কুরা ক্যালেন্ডার ভিত্তিক এবং ১ হিজরি থেকে ১৫০০ হিজরি পর্যন্ত বিস্তৃত।' },
             { q: 'হিজরি তারিখ কি নামাজের সময়ের সাথে যুক্ত?',
-              a: 'হিজরি তারিখ রমজান, হজ ও ঈদসমূহের সূচনা নির্ধারণে এবং সুন্নাহ রোজা (সোম-বৃহস্পতি, আইয়ামে বিদ, আশুরা, আরাফা) নির্ধারণে সাহায্য করে। তবে দৈনিক নামাজের সময় হিজরি তারিখের ওপর নয়, সূর্যের অবস্থানের ওপর নির্ভর করে।' }
+              a: 'হিজরি তারিখ রমজান, হজ ও ঈদসমূহের সূচনা নির্ধারণে এবং সুন্নাহ রোজা (সোম-বৃহস্পতি, আইয়ামে বিদ, আশুরা, আরাফা) নির্ধারণে সাহায্য করে। তবে দৈনিক নামাজের সময় হিজরি তারিখের ওপর নয়, সূর্যের অবস্থানের ওপর নির্ভর করে।' },
+            { q: 'হিজরি তারিখ কি চাঁদ দেখার ওপর নির্ভর করে?',
+              a: 'হ্যাঁ, অনেক দেশে হিজরি মাসের শুরু স্থানীয় চাঁদ দেখার উপর নির্ভর করে, আবার কিছু সরঞ্জাম তারিখ অনুমান করতে জ্যোতির্বিদ্যাগত হিসাব ব্যবহার করে। এ কারণে মাঝে মাঝে দেশভেদে এক দিনের পার্থক্য দেখা যায়।' },
+            { q: 'আজকের হিজরি তারিখ জানার সুবিধা কী?',
+              a: 'আজকের হিজরি তারিখ আপনাকে রমজান, হজ ও ঈদের মতো ইসলামিক মাস ও ধর্মীয় উপলক্ষ্য অনুসরণ করতে সাহায্য করে, এবং সহজে সমতুল্য গ্রেগরিয়ান তারিখও জানতে দেয়।' }
         ]
     },
     ms: {
         heroSub: 'Ketahui tarikh Hijrah dan Gregorian hari ini, dengan capaian pantas ke penukar tarikh dan kalendar Hijrah penuh.',
         navTitle: 'Navigasi Antara Hari Hijrah',
         toolsTitle: 'Alat berkaitan tarikh Hijrah',
+        toolsIntro: 'Alat-alat ini membantu anda beralih antara tarikh Hijrah, kalendar penuh, penukaran tarikh, fasa bulan, dan waktu solat, supaya anda boleh mengikuti hari Islam dari satu tempat tanpa mencari di pelbagai halaman.',
+        guideIntro: 'Panduan ini menyatukan maklumat penting yang diperlukan pengguna untuk memahami cara kalendar Hijrah berfungsi, mengapa ia kadang-kadang berbeza antara negara, dan bagaimana ia digunakan untuk peristiwa Islam dan ibadah harian.',
         tool_dateconv_desc: 'Tukar mana-mana tarikh antara Gregorian dan Hijrah dengan mudah.',
         tool_calendar_desc: 'Layari kalendar Hijrah penuh merentasi semua bulan.',
         tool_prayertimes_desc: 'Waktu lima solat harian yang tepat mengikut lokasi.',
@@ -2935,7 +2991,11 @@ const _HD1_BY_LANG = {
             { q: 'Bolehkah saya tukar tarikh Gregorian kepada Hijrah?',
               a: 'Ya, anda boleh menukar mana-mana tarikh Gregorian kepada Hijrah dan sebaliknya menggunakan penukar tarikh. Pengiraan menggunakan kalendar Umm al-Qura dan meliputi tempoh 1 H hingga 1500 H.' },
             { q: 'Adakah tarikh Hijrah berkaitan dengan waktu solat?',
-              a: 'Tarikh Hijrah membantu menentukan permulaan Ramadan, Haji, dan Hari Raya, serta hari puasa Sunnah (Isnin-Khamis, Hari-hari Putih, Asyura, Arafah). Namun waktu solat harian bergantung kepada kedudukan matahari, bukan tarikh Hijrah.' }
+              a: 'Tarikh Hijrah membantu menentukan permulaan Ramadan, Haji, dan Hari Raya, serta hari puasa Sunnah (Isnin-Khamis, Hari-hari Putih, Asyura, Arafah). Namun waktu solat harian bergantung kepada kedudukan matahari, bukan tarikh Hijrah.' },
+            { q: 'Adakah tarikh Hijrah bergantung pada rukyah hilal?',
+              a: 'Ya, permulaan bulan Hijrah di banyak negara bergantung pada rukyah hilal tempatan, manakala sebahagian alat menggunakan pengiraan astronomi untuk menganggar tarikh. Itulah sebabnya perbezaan satu hari kadang-kadang muncul antara negara.' },
+            { q: 'Apakah faedah mengetahui tarikh Hijrah hari ini?',
+              a: 'Tarikh Hijrah hari ini membantu anda mengikuti bulan-bulan Islam dan peristiwa keagamaan seperti Ramadan, Haji dan Hari Raya, di samping mudah mengetahui padanan Gregorian-nya.' }
         ]
     }
 };
@@ -4836,6 +4896,61 @@ function buildSeoForPath(urlPath) {
         if (sp.moonFaq) moonFaq = true;
         if (sp.zakatFaq) zakatFaq = true;
         if (sp.isTodayHijriHub) isTodayHijriDateHub = true;
+        // HD-8 (2026-05-08): /today-hijri-date Title and Meta extended with
+        //   the live Hijri date so SEOptimer's "Title length 43 / Meta length
+        //   87" warnings clear (target 50–65 / 120–160). The dynamic hDate
+        //   is computed from _hijriNow() (Mecca tz) and matches the JS-side
+        //   override at js/app.js:9085. Static `title` / `description`
+        //   computed above stay as fallbacks if _hijriNow() fails.
+        if (sp.isTodayHijriHub) {
+            try {
+                const _hd8H = _hijriNow();
+                if (_hd8H && _hd8H.year && _hd8H.month && _hd8H.day) {
+                    const _HD8_HM = {
+                        ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                        en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                        fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                        tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                        ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                        de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                        id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                        es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                        bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                        ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
+                    };
+                    const _HD8_HSFX = { ar:'هـ', en:'AH', fr:'AH', tr:'AH', ur:'ھ', de:'AH', id:'H', es:'AH', bn:'হিজরি', ms:'H' };
+                    const _hMNm = (_HD8_HM[lang] || _HD8_HM.en)[_hd8H.month - 1];
+                    const _hSfx = _HD8_HSFX[lang] || 'AH';
+                    const _hDate = `${_hd8H.day} ${_hMNm} ${_hd8H.year} ${_hSfx}`;
+                    const _HD8_TITLE = {
+                        ar: `التاريخ الهجري اليوم | التاريخ الإسلامي والميلادي ${_hDate}`,
+                        en: `Hijri Date Today | Islamic and Gregorian Date ${_hDate}`,
+                        fr: `Date hégirienne aujourd'hui | Date islamique et grégorienne ${_hDate}`,
+                        tr: `Bugünün Hicri Tarihi | İslami ve Miladi Tarih ${_hDate}`,
+                        ur: `آج کی ہجری تاریخ | اسلامی اور عیسوی تاریخ ${_hDate}`,
+                        de: `Heutiges Hidschri-Datum | Islamisches und Gregorianisches Datum ${_hDate}`,
+                        id: `Tanggal Hijriah Hari Ini | Tanggal Islam dan Masehi ${_hDate}`,
+                        es: `Fecha Hégira de Hoy | Fecha Islámica y Gregoriana ${_hDate}`,
+                        bn: `আজকের হিজরি তারিখ | ইসলামিক ও গ্রেগরিয়ান তারিখ ${_hDate}`,
+                        ms: `Tarikh Hijrah Hari Ini | Tarikh Islam dan Gregorian ${_hDate}`,
+                    };
+                    const _HD8_DESC = {
+                        ar: `اعرف التاريخ الهجري اليوم ${_hDate} والتاريخ الميلادي المقابل، مع أدوات تحويل التاريخ والتقويم الهجري وحالة القمر والمناسبات الإسلامية.`,
+                        en: `Check today's Hijri date ${_hDate} with the matching Gregorian date, plus the Hijri calendar, date converter, moon phase, and Islamic events tools.`,
+                        fr: `Découvrez la date hégirienne d'aujourd'hui ${_hDate} et son équivalent grégorien, avec le calendrier hégirien, le convertisseur, la phase de la lune et les événements islamiques.`,
+                        tr: `Bugünün Hicri tarihini öğrenin: ${_hDate} ve Miladi karşılığı; Hicri takvim, tarih dönüştürücü, ay evresi ve İslami etkinlikler bir arada.`,
+                        ur: `آج کی ہجری تاریخ ${_hDate} اور اس کی میلادی مماثل جانیں، ساتھ ہی ہجری کیلنڈر، تاریخ کنورٹر، چاند کا مرحلہ اور اسلامی واقعات۔`,
+                        de: `Heutiges Hidschri-Datum ${_hDate} mit gregorianischer Entsprechung, plus Hidschri-Kalender, Datumskonverter, Mondphase und islamische Ereignisse.`,
+                        id: `Tanggal Hijriah hari ini ${_hDate} dengan padanan Masehi, lengkap dengan kalender Hijriah, konverter tanggal, fase bulan, dan peristiwa Islam.`,
+                        es: `Conoce la fecha Hégira de hoy ${_hDate} y su equivalente gregoriana, con calendario Hégira, conversor de fechas, fase lunar y eventos islámicos.`,
+                        bn: `আজকের হিজরি তারিখ ${_hDate} ও এর গ্রেগরিয়ান সমতুল্য জানুন; সাথে হিজরি ক্যালেন্ডার, তারিখ রূপান্তর, চাঁদের পর্যায় ও ইসলামিক ঘটনা।`,
+                        ms: `Ketahui tarikh Hijrah hari ini ${_hDate} dan padanannya dalam Gregorian, dengan kalendar Hijrah, penukar tarikh, fasa bulan dan peristiwa Islam.`,
+                    };
+                    title = _HD8_TITLE[lang] || _HD8_TITLE.en;
+                    description = _HD8_DESC[lang] || _HD8_DESC.en;
+                }
+            } catch (_hd8Err) { /* silent — keep static fallback */ }
+        }
         breadcrumbs.push({ name: title, item: canonical });
     }
 
@@ -8207,9 +8322,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         <div class="faq-answer"><p>${_escHtml(f.a)}</p></div>
                     </div>`).join('\n                    <div class="faq-divider"></div>');
         const _hubBlock = `
-                <!-- HD-1 Hub content (SSR — per-lang, no JS dependency) — restructured by HD-4 -->
+                <!-- HD-1 Hub content (SSR — per-lang, no JS dependency) — restructured by HD-4, expanded by HD-8 -->
                 <section class="section-card hd1-tools-section" aria-labelledby="hd1-tools-title">
                     <h2 id="hd1-tools-title" class="hd1-section-title">${_escHtml(_hd.toolsTitle)}</h2>
+                    <p class="hd1-section-intro">${_escHtml(_hd.toolsIntro || '')}</p>
                     <div class="hd1-tools-grid">
                         <a class="hd1-tool-card" href="${_langPrefHd1}/dateconverter">
                             <span class="hd1-tool-icon" aria-hidden="true">🔄</span>
@@ -8243,6 +8359,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 </section>
                 <section class="section-card hd1-guide" aria-labelledby="hd1-guide-title">
                     <h2 id="hd1-guide-title" class="hd1-section-title">${_escHtml(_hd.guideTitle)}</h2>
+                    <p class="hd1-section-intro">${_escHtml(_hd.guideIntro || '')}</p>
                     <div class="hd1-guide-grid">
                         <article class="hd1-guide-item hd1-edu-what">
                             <h3>${_escHtml(_hd.h2_what)}</h3>

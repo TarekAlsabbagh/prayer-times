@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-08T22:29:51.387Z
-   Source: css/style.css (full 525 KiB)
-   Critical: 36.8 KiB
+   Extracted on: 2026-05-08T23:05:15.530Z
+   Source: css/style.css (full 526 KiB)
+   Critical: 37.2 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -504,6 +504,15 @@ html.moon-today-hub-page #page-moon,html.moon-today-city-page #page-moon,html.mo
     padding: 24px;
 }
 @media (max-width: 768px){html.moon-today-hub-page #page-moon,html.moon-today-city-page #page-moon,html.moon-hub-page #page-moon,html.moon-date-page #page-moon,html.moon-month-page #page-moon{
+        padding: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }}
+html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day,html.hijri-year-page  #page-hijri-year,html.hijri-month-page #page-hijri-month{
+    display: block !important;
+    padding: 24px;
+}
+@media (max-width: 768px){html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day,html.hijri-year-page  #page-hijri-year,html.hijri-month-page #page-hijri-month{
         padding: 12px;
         max-width: 100%;
         box-sizing: border-box;

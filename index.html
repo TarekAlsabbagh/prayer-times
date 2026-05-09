@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=326" as="style">
-    <link rel="stylesheet" href="css/style.css?v=326">
+    <link rel="preload" href="css/style.css?v=327" as="style">
+    <link rel="stylesheet" href="css/style.css?v=327">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -2818,6 +2818,13 @@
                 <div class="section-card">
                     <div class="info-grid" id="hyear-info-grid"></div>
                 </div>
+                <!-- HCAL-2 (2026-05-09): 12-month chip browser SSR anchor.
+                     server.js _isHijriYearHub branch fills with a 12-link
+                     chip section in the active language. Each month links
+                     to /hijri-calendar/{YYYY}-{MM}. Current month gets a
+                     "current" CSS class for highlighting. All SSR-rendered
+                     so no JS hydration → no CLS contribution. -->
+                <!-- HCAL-2-MONTHS-CHIPS -->
                 <!-- Months Table — with "today in year" banner above it -->
                 <div class="section-card">
                     <h2 id="hyear-table-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-grid"/></svg> <span data-i18n="hyear.table_title">جميع أشهر التقويم الهجري</span></h2>

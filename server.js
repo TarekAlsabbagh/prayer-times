@@ -9326,6 +9326,75 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     </div>
                 </section>`;
         html = html.replace('<!-- HCAL-1-CONTENT -->', _hgBlock);
+
+        // HCAL-2 step 1 (2026-05-09): 12-month chip browser. SSR-rendered
+        // so JS doesn't grow it post-load (zero CLS contribution). Per-lang
+        // month names + each month linked to /hijri-calendar/{YYYY-MM}.
+        // Current month (Mecca tz) gets a `current` class so CSS can
+        // highlight it without modifying any layout dimensions.
+        const _HCAL_MONTHS = {
+            ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+            en: ['Muharram','Safar','Rabi’ al-Awwal','Rabi’ al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Sha’ban','Ramadan','Shawwal','Dhul-Qa’dah','Dhul-Hijjah'],
+            fr: ['Mouharram','Safar','Rabi’ al-Awwal','Rabi’ al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Cha’ban','Ramadan','Chawwal','Dhou al-Qa’da','Dhou al-Hijja'],
+            tr: ['Muharrem','Safer','Rebî’ülevvel','Rebî’ülâhir','Cemâziyelevvel','Cemâziyelâhir','Receb','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+            ur: ['محرم','صفر','ربیع الاول','ربیع الآخر','جمادی الاولی','جمادی الآخر','رجب','شعبان','رمضان','شوال','ذی القعدہ','ذی الحجہ'],
+            de: ['Muharram','Safar','Rabi’ al-Awwal','Rabi’ al-Thani','Dschumada al-Awwal','Dschumada al-Thani','Radschab','Schaban','Ramadan','Schawwal','Dhul-Qaida','Dhul-Hidscha'],
+            id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Sya’ban','Ramadan','Syawal','Zulkaidah','Zulhijjah'],
+            es: ['Muharram','Safar','Rabi’ al-Awwal','Rabi’ al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Sha’ban','Ramadán','Shawwal','Dhul-Qa’da','Dhul-Hiyya'],
+            bn: ['মুহাররম','সফর','রবিউল আউয়াল','রবিউস সানি','জুমাদাল উলা','জুমাদাল আখিরা','রজব','শাবান','রমজান','শাওয়াল','যিলকদ','যিলহজ্জ'],
+            ms: ['Muharram','Safar','Rabi’ul Awwal','Rabi’ul Akhir','Jumadil Awal','Jumadil Akhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijjah'],
+        };
+        const _HCAL_CHIPS_TITLE = {
+            ar: `تصفح أشهر سنة ${_yLbl}`,
+            en: `Browse months of ${_yLbl}`,
+            fr: `Parcourir les mois de ${_yLbl}`,
+            tr: `${_yLbl} aylarına göz at`,
+            ur: `${_yLbl} کے مہینے دیکھیں`,
+            de: `Monate von ${_yLbl} durchsuchen`,
+            id: `Jelajahi bulan-bulan ${_yLbl}`,
+            es: `Explorar los meses de ${_yLbl}`,
+            bn: `${_yLbl} সনের মাস ব্রাউজ করুন`,
+            ms: `Layari bulan-bulan ${_yLbl}`,
+        };
+        const _HCAL_CHIPS_INTRO = {
+            ar: 'اختر شهرًا هجريًا لعرض تقويمه الكامل بالأيام والتواريخ الميلادية المقابلة.',
+            en: 'Pick a Hijri month to view its full calendar with days and matching Gregorian dates.',
+            fr: 'Choisissez un mois hégirien pour voir son calendrier complet avec les jours et les dates grégoriennes.',
+            tr: 'Tam takvimini günleri ve karşılık gelen miladi tarihlerle görmek için bir Hicri ay seçin.',
+            ur: 'مکمل کیلنڈر دنوں اور متعلقہ عیسوی تاریخوں کے ساتھ دیکھنے کے لیے ہجری مہینہ منتخب کریں۔',
+            de: 'Wählen Sie einen Hidschri-Monat, um seinen vollständigen Kalender mit Tagen und den entsprechenden gregorianischen Daten zu sehen.',
+            id: 'Pilih bulan Hijriah untuk melihat kalender lengkapnya dengan hari-hari dan tanggal Masehi yang sesuai.',
+            es: 'Elige un mes hégira para ver su calendario completo con los días y las fechas gregorianas correspondientes.',
+            bn: 'দিনগুলো ও সংশ্লিষ্ট খ্রিস্টীয় তারিখ সহ সম্পূর্ণ ক্যালেন্ডার দেখতে একটি হিজরি মাস বেছে নিন।',
+            ms: 'Pilih bulan Hijrah untuk melihat kalendar penuhnya dengan hari-hari dan tarikh Masihi padanan.',
+        };
+        const _months = _HCAL_MONTHS[seo.lang] || _HCAL_MONTHS.en;
+        // Current Hijri month (Mecca tz) — for the `current` highlight class
+        let _curMonth = 0;
+        try { const _h = _hijriNow(); if (_h && _h.month) _curMonth = _h.month; } catch(_) {}
+        const _curYear = parseInt(_hcalYear, 10);
+        const _todayY = (function() { try { return _hijriNow().year; } catch(_) { return 0; } })();
+        // Compute langPrefix locally from seo.lang ('' for AR, '/{lang}' otherwise).
+        const _hcalLangPrefix = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
+        const _chipsHtml = _months.map((mn, i) => {
+            const monthNum = i + 1;
+            const mm = String(monthNum).padStart(2, '0');
+            const href = `${_hcalLangPrefix}/hijri-calendar/${_hcalYear}-${mm}`;
+            const isCurrent = (_curYear === _todayY && monthNum === _curMonth);
+            return `<a class="hcal2-month-chip${isCurrent ? ' current' : ''}" href="${href}">
+                            <span class="hcal2-chip-num" aria-hidden="true">${monthNum}</span>
+                            <span class="hcal2-chip-name">${_escHtml(mn)}</span>
+                        </a>`;
+        }).join('');
+        const _chipsBlock = `
+                <section class="section-card hcal2-months-chips" aria-labelledby="hcal2-chips-title">
+                    <h2 id="hcal2-chips-title" class="hpage-section-title">${_escHtml(_HCAL_CHIPS_TITLE[seo.lang] || _HCAL_CHIPS_TITLE.en)}</h2>
+                    <p class="hcal2-chips-intro">${_escHtml(_HCAL_CHIPS_INTRO[seo.lang] || _HCAL_CHIPS_INTRO.en)}</p>
+                    <nav class="hcal2-chips-grid" aria-label="${_escHtml(_HCAL_CHIPS_TITLE[seo.lang] || _HCAL_CHIPS_TITLE.en)}">
+                        ${_chipsHtml}
+                    </nav>
+                </section>`;
+        html = html.replace('<!-- HCAL-2-MONTHS-CHIPS -->', _chipsBlock);
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections

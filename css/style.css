@@ -16921,3 +16921,326 @@ html[data-theme="dark"] #page-hijri-year > .section-card:has(> #hyear-footer-seo
     background: var(--bg-elevated, #373e47);
     border-color: var(--border, #444c56);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HCAL-2 step 1 (2026-05-09): UX Redesign for /hijri-calendar
+   CSS-ONLY additions on top of HCAL-1. Goals:
+   - Hero 2-col on desktop with year-picker as control panel
+   - 12-month chip browser (SSR-rendered, see server.js .hcal2-months-chips)
+   - Tools (#hyear-cta) as Quick Actions
+   - About section transformed to Notice/Info panel
+   - Footer SEO box decoration
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hero 2-col layout (desktop only) ── */
+@media (min-width: 769px) {
+    #page-hijri-year .hpage-hero-start {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+    #page-hijri-year .hpage-hero-start > #hyear-title {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    #page-hijri-year .hpage-hero-start > #hyear-intro {
+        grid-column: 1;
+        grid-row: 2;
+        margin-bottom: 0;
+    }
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        justify-self: stretch;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 18px 22px;
+        background: linear-gradient(135deg, #f7faf8 0%, #fafdfb 100%);
+        border: 1px solid rgba(26, 107, 60, 0.18);
+        border-radius: 14px;
+        gap: 12px;
+    }
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-align: center;
+    }
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker .year-select {
+        font-size: 1.4rem;
+        font-weight: 800;
+        text-align: center;
+        padding: 8px 12px;
+        background: #ffffff;
+        border: 1px solid rgba(26, 107, 60, 0.20);
+        border-radius: 10px;
+        color: var(--primary-dark, #0d4a28);
+    }
+    #page-hijri-year .hpage-hero-start > .hyear-today-cta {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        margin: 4px 0 0;
+    }
+    #page-hijri-year .hpage-hero-start > .hyear-today-cta .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: var(--primary, #1a6b3c);
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: background .15s, transform .15s, box-shadow .15s;
+    }
+    #page-hijri-year .hpage-hero-start > .hyear-today-cta .btn:hover {
+        background: var(--primary-dark, #0d4a28);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(26, 107, 60, 0.20);
+    }
+}
+html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker .year-select {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 2. 12-month chip browser (.hcal2-months-chips) ── */
+.hcal2-months-chips {
+    background: #ffffff;
+}
+.hcal2-months-chips .hcal2-chips-intro {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 14px;
+    max-width: 980px;
+}
+.hcal2-months-chips .hcal2-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+@media (max-width: 1024px) {
+    .hcal2-months-chips .hcal2-chips-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+    .hcal2-months-chips .hcal2-chips-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+}
+.hcal2-months-chips .hcal2-month-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f7faf8;
+    border: 1px solid rgba(26, 107, 60, 0.12);
+    border-radius: 10px;
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+    min-height: 44px;
+}
+.hcal2-months-chips .hcal2-chip-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 107, 60, 0.12);
+    border-radius: 50%;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary, #1a6b3c);
+}
+.hcal2-months-chips .hcal2-chip-name {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.3;
+}
+@media (min-width: 769px) {
+    .hcal2-months-chips .hcal2-month-chip:hover {
+        background: #f7fbf8;
+        border-color: rgba(26, 107, 60, 0.32);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(26, 107, 60, 0.10);
+    }
+    .hcal2-months-chips .hcal2-month-chip:hover .hcal2-chip-num {
+        background: rgba(26, 107, 60, 0.20);
+    }
+}
+.hcal2-months-chips .hcal2-month-chip.current {
+    background: rgba(26, 107, 60, 0.10);
+    border-color: rgba(26, 107, 60, 0.40);
+    color: var(--primary-dark, #0d4a28);
+    font-weight: 700;
+}
+.hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-num {
+    background: var(--primary, #1a6b3c);
+    color: #fff;
+}
+.hcal2-months-chips .hcal2-month-chip.current::after {
+    content: "•";
+    margin-inline-start: auto;
+    color: var(--primary, #1a6b3c);
+    font-size: 1.4rem;
+    line-height: 0.5;
+}
+html[data-theme="dark"] .hcal2-months-chips {
+    background: var(--card-bg, #2d333b);
+}
+html[data-theme="dark"] .hcal2-months-chips .hcal2-month-chip {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .hcal2-months-chips .hcal2-chip-num {
+    background: rgba(77, 203, 140, 0.16);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .hcal2-months-chips .hcal2-month-chip.current {
+    background: rgba(77, 203, 140, 0.16);
+    border-color: rgba(77, 203, 140, 0.48);
+}
+html[data-theme="dark"] .hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-num {
+    background: var(--primary-light, #4ab87a);
+    color: var(--bg, #22272e);
+}
+
+/* ── 3. Tools / Quick Actions (#hyear-cta) ── */
+#page-hijri-year #hyear-cta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+}
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-cta { grid-template-columns: 1fr; gap: 10px; }
+}
+#page-hijri-year #hyear-cta > a,
+#page-hijri-year #hyear-cta > button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 60, 0.14);
+    border-radius: 12px;
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+    transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+    text-align: start;
+    line-height: 1.35;
+    cursor: pointer;
+}
+@media (min-width: 769px) {
+    #page-hijri-year #hyear-cta > a:hover,
+    #page-hijri-year #hyear-cta > button:hover {
+        background: #f7fbf8;
+        border-color: rgba(0, 96, 60, 0.32);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 96, 60, 0.08);
+    }
+}
+html[data-theme="dark"] #page-hijri-year #hyear-cta > a,
+html[data-theme="dark"] #page-hijri-year #hyear-cta > button {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 4. About → Notice/Info panel — soften "عن التقويم الهجري" section ── */
+#page-hijri-year > .section-card:has(> #hyear-seo-text) {
+    background: #fffdf3;
+    border: 1px solid rgba(212, 160, 23, 0.18);
+    border-inline-start: 4px solid var(--gold, #c8a84e);
+}
+#page-hijri-year > .section-card:has(> #hyear-seo-text) > #hyear-seo-title {
+    color: #7a5a0d;
+}
+#page-hijri-year > .section-card:has(> #hyear-seo-text) > #hyear-seo-text {
+    color: var(--text, #2c3e50);
+}
+html[data-theme="dark"] #page-hijri-year > .section-card:has(> #hyear-seo-text) {
+    background: rgba(212, 181, 97, 0.08);
+    border-color: rgba(212, 181, 97, 0.30);
+    border-inline-start-color: var(--gold, #d4b561);
+}
+html[data-theme="dark"] #page-hijri-year > .section-card:has(> #hyear-seo-text) > #hyear-seo-title {
+    color: var(--gold-light, #e0c570);
+}
+
+/* ── 5. Years navigation chip improvements ── */
+#page-hijri-year #hyear-years-current {
+    font-size: 0.92rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+#page-hijri-year .hpage-years-more {
+    margin-top: 12px;
+}
+#page-hijri-year .hpage-years-more a {
+    display: inline-block;
+    color: var(--primary, #1a6b3c);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.40);
+    padding-bottom: 1px;
+    transition: color .15s, border-color .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hpage-years-more a:hover {
+        color: var(--primary-dark, #0d4a28);
+        border-bottom-color: var(--primary-dark, #0d4a28);
+    }
+}
+html[data-theme="dark"] #page-hijri-year .hpage-years-more a {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(77, 203, 140, 0.40);
+}
+
+/* ── 6. CTA "today's hijri date" button on hero (mobile fallback) ── */
+@media (max-width: 768px) {
+    #page-hijri-year .hyear-today-cta .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: var(--primary, #1a6b3c);
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+    }
+}
+
+/* ── 7. Today-in-year banner (#hyear-today-in-year) — soft notice ── */
+#page-hijri-year #hyear-today-in-year:not([hidden]) {
+    background: rgba(26, 107, 60, 0.06);
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    color: var(--primary-dark, #0d4a28);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-today-in-year:not([hidden]) {
+    background: rgba(77, 203, 140, 0.10);
+    border-color: rgba(77, 203, 140, 0.30);
+    color: var(--primary-light, #4ab87a);
+}

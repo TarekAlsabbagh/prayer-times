@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-09T11:10:09.706Z
-   Source: css/style.css (full 559 KiB)
-   Critical: 44.3 KiB
+   Extracted on: 2026-05-09T11:31:25.280Z
+   Source: css/style.css (full 570 KiB)
+   Critical: 49.1 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -1227,4 +1227,157 @@ html[data-theme="dark"] .home-service-card{
     border: 1px solid #ecf0ec;
     box-shadow: none;
     padding: 14px 16px;
+}
+@media (min-width: 769px){#page-hijri-year .hpage-hero-start{
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+#page-hijri-year .hpage-hero-start > #hyear-title{
+        grid-column: 1;
+        grid-row: 1;
+    }
+#page-hijri-year .hpage-hero-start > #hyear-intro{
+        grid-column: 1;
+        grid-row: 2;
+        margin-bottom: 0;
+    }
+#page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker{
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        justify-self: stretch;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 18px 22px;
+        background: linear-gradient(135deg, #f7faf8 0%, #fafdfb 100%);
+        border: 1px solid rgba(26, 107, 60, 0.18);
+        border-radius: 14px;
+        gap: 12px;
+    }
+#page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker label{
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-align: center;
+    }
+#page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker .year-select{
+        font-size: 1.4rem;
+        font-weight: 800;
+        text-align: center;
+        padding: 8px 12px;
+        background: #ffffff;
+        border: 1px solid rgba(26, 107, 60, 0.20);
+        border-radius: 10px;
+        color: var(--primary-dark, #0d4a28);
+    }
+#page-hijri-year .hpage-hero-start > .hyear-today-cta{
+        grid-column: 1 / -1;
+        grid-row: 3;
+        margin: 4px 0 0;
+    }
+#page-hijri-year .hpage-hero-start > .hyear-today-cta .btn{
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: var(--primary, #1a6b3c);
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: background .15s, transform .15s, box-shadow .15s;
+    }
+#page-hijri-year .hpage-hero-start > .hyear-today-cta .btn:hover{
+        background: var(--primary-dark, #0d4a28);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(26, 107, 60, 0.20);
+    }}
+#page-hijri-year #hyear-cta{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+}
+@media (max-width: 768px){#page-hijri-year #hyear-cta{ grid-template-columns: 1fr; gap: 10px; }}
+#page-hijri-year #hyear-cta > a,#page-hijri-year #hyear-cta > button{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 60, 0.14);
+    border-radius: 12px;
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+    transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+    text-align: start;
+    line-height: 1.35;
+    cursor: pointer;
+}
+@media (min-width: 769px){#page-hijri-year #hyear-cta > a:hover,#page-hijri-year #hyear-cta > button:hover{
+        background: #f7fbf8;
+        border-color: rgba(0, 96, 60, 0.32);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 96, 60, 0.08);
+    }}
+#page-hijri-year > .section-card:has(> #hyear-seo-text){
+    background: #fffdf3;
+    border: 1px solid rgba(212, 160, 23, 0.18);
+    border-inline-start: 4px solid var(--gold, #c8a84e);
+}
+#page-hijri-year > .section-card:has(> #hyear-seo-text) > #hyear-seo-title{
+    color: #7a5a0d;
+}
+#page-hijri-year > .section-card:has(> #hyear-seo-text) > #hyear-seo-text{
+    color: var(--text, #2c3e50);
+}
+#page-hijri-year #hyear-years-current{
+    font-size: 0.92rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+#page-hijri-year .hpage-years-more{
+    margin-top: 12px;
+}
+#page-hijri-year .hpage-years-more a{
+    display: inline-block;
+    color: var(--primary, #1a6b3c);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.40);
+    padding-bottom: 1px;
+    transition: color .15s, border-color .15s;
+}
+@media (min-width: 769px){#page-hijri-year .hpage-years-more a:hover{
+        color: var(--primary-dark, #0d4a28);
+        border-bottom-color: var(--primary-dark, #0d4a28);
+    }}
+@media (max-width: 768px){#page-hijri-year .hyear-today-cta .btn{
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: var(--primary, #1a6b3c);
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+    }}
+#page-hijri-year #hyear-today-in-year:not([hidden]){
+    background: rgba(26, 107, 60, 0.06);
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    color: var(--primary-dark, #0d4a28);
 }

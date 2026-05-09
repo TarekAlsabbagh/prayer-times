@@ -1408,8 +1408,31 @@ html[data-theme="dark"] .theme-toggle-btn .ttb-icon-moon { display: none; }
 /* ========= إعادة تعيين ========= */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* HD-17 (2026-05-09): global system multilingual font stack — replaces
+   Cairo + Noto Sans Bengali Google Fonts with locally available system
+   fonts. Goal: eliminate the ~0.10 mobile CLS contribution from Cairo's
+   late font swap, while keeping multilingual support for AR / UR / BN
+   via Noto family fallbacks that are bundled on most modern devices.
+   Single global stack — no headings/body split, no per-language font.
+   See HD-17 plan in conversation. Loaded via :root --font-main so all
+   children inherit consistently. */
+:root {
+    --font-main:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans Arabic",
+        "Noto Naskh Arabic",
+        "Noto Sans Bengali",
+        "Noto Sans",
+        Tahoma,
+        Arial,
+        sans-serif;
+}
+
 body {
-    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    font-family: var(--font-main);
     background: var(--bg);
     color: var(--text);
     line-height: 1.7;
@@ -1418,11 +1441,15 @@ body {
     max-width: 100vw;
 }
 
-/* Bengali typography — Noto Sans Bengali لعرض الحروف البنغالية بوضوح */
+/* HD-17: Bengali no longer needs a separate stack — Noto Sans Bengali
+   is in the global stack above. Rule kept for safety in case the OS
+   doesn't have the global Noto fallback. */
 html[lang="bn"],
 html[lang="bn"] body {
-    font-family: 'Noto Sans Bengali', 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    font-family: var(--font-main);
 }
+
+button, input, select, textarea { font-family: var(--font-main); }
 
 html {
     overflow-x: hidden;
@@ -14077,17 +14104,10 @@ html.qibla-hub-page #page-qibla {
 
    Values tuned for Cairo wght@400. Approximate but good enough.
    No JS / no SSR change. CSS-only. */
-@font-face {
-    font-family: 'Cairo Fallback';
-    src: local('Tahoma'), local('Arial');
-    size-adjust: 100%;
-    ascent-override: 110%;
-    descent-override: 35%;
-    line-gap-override: 0%;
-}
-body {
-    font-family: Cairo, 'Cairo Fallback', 'Segoe UI', Tahoma, sans-serif !important;
-}
+/* HD-17 (2026-05-09): HD-15's Cairo Fallback @font-face removed —
+   we no longer load Cairo at all, so the metric-override fallback
+   is no longer needed. body{font-family:!important} also removed
+   so the global :root --font-main rule wins. */
 
 /* ═══ Phase HD-13b (2026-05-08): apply same E4-b/Q-Hub-K2 parity fix to
    #page-hijri-today (also -year, -month, -day) so adding .active later

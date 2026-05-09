@@ -39,10 +39,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="مواقيت الصلاة">
     <meta name="format-detection" content="telephone=no">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- HD-17 (2026-05-09): Google Fonts (Cairo + Noto Sans Bengali) removed
+         in this experimental phase. The global font stack in css/style.css
+         now uses system-ui + Noto Sans Arabic / Naskh Arabic / Bengali
+         system fallbacks. If HD-17 audit succeeds, leave removed; otherwise
+         restore the preload + stylesheet links exactly as before:
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+            <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
+    -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <!-- Phase E2-1 (2026-05-01): two preconnects removed per Lighthouse
          "Unused preconnect" warning + "More than 4 preconnect connections"
@@ -69,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=319" as="style">
-    <link rel="stylesheet" href="css/style.css?v=319">
+    <link rel="preload" href="css/style.css?v=320" as="style">
+    <link rel="stylesheet" href="css/style.css?v=320">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══

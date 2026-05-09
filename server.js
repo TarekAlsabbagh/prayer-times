@@ -3345,7 +3345,14 @@ const _TL_STRIP_IDS = [
     'location-suggestion-bar',
     'page-h1',
     'city-breadcrumb',
-    'prayer-cards'
+    'prayer-cards',
+    // TL-SEO-1 (2026-05-10): the legacy city-calc-settings <details> was
+    // appearing on TL pages as a broken white sliver below the countdown
+    // (the new TL layout doesn't style it and html.city-page CSS doesn't
+    // apply on time-left routes). The calc-method is referenced inside
+    // the new SEO content cards instead. Same fix shipped on NPT in
+    // commit dc9132f (NPT-3).
+    'city-calc-settings'
 ];
 const _TL_STRIP_CLASSES = [
     'next-prayer-banner',
@@ -5437,32 +5444,114 @@ function buildSeoForPath(urlPath) {
         const _tlCityDisplay = (typeof _resolveCityName === 'function')
             ? (_resolveCityName(_tlSlug, lang) || _slugToTitle(_tlSlug))
             : _slugToTitle(_tlSlug);
-        const _TL_TITLE = {
-            ar: `كم باقي على الصلاة القادمة في ${_tlCityDisplay}؟ — جدول اليوم`,
-            en: `Time Left Until Next Prayer in ${_tlCityDisplay} — Today's Schedule`,
-            fr: `Temps restant avant la prochaine prière à ${_tlCityDisplay}`,
-            tr: `${_tlCityDisplay} için bir sonraki namaza kalan süre`,
-            ur: `${_tlCityDisplay} میں اگلی نماز تک کتنا وقت باقی ہے؟`,
-            de: `Verbleibende Zeit bis zum nächsten Gebet in ${_tlCityDisplay}`,
-            id: `Waktu Tersisa Menjelang Sholat di ${_tlCityDisplay}`,
-            es: `Tiempo restante para la próxima oración en ${_tlCityDisplay}`,
-            bn: `${_tlCityDisplay}-এ পরবর্তী নামাজ পর্যন্ত কত সময় বাকি?`,
-            ms: `Masa Tinggal Sebelum Solat Seterusnya di ${_tlCityDisplay}`,
+        // TL-SEO-1 (2026-05-10): length-aware Title fallback per lang.
+        // Long city names (e.g. "المدينة المنورة" — 15 cp) push the long
+        // form past 60 cp. We follow the user's spec: pick the longest
+        // candidate that fits ≤ 60 cp. We skip the "long" form (which
+        // would need the dynamic next-prayer name — unavailable SSR-side
+        // and would invalidate caching by-the-minute) and use a 2-tier
+        // medium → short ladder. Same algorithm shape as NPT-SEO-2.
+        const _TL_TITLE_FORMS = {
+            ar: c => ({
+                medium: `كم باقي على الصلاة في ${c} | العد التنازلي`,
+                short:  `الوقت المتبقي للصلاة في ${c}`,
+            }),
+            en: c => ({
+                medium: `Time Left Until Prayer in ${c} | Live Countdown`,
+                short:  `Time Remaining for Prayer in ${c}`,
+            }),
+            fr: c => ({
+                medium: `Temps restant avant la prière à ${c} | Compte à rebours`,
+                short:  `Temps restant pour la prière à ${c}`,
+            }),
+            tr: c => ({
+                medium: `${c} için sonraki namaza kalan süre | Geri sayım`,
+                short:  `${c} için namaza kalan süre`,
+            }),
+            ur: c => ({
+                medium: `${c} میں اگلی نماز تک باقی وقت | لائیو ٹائمر`,
+                short:  `${c} میں نماز تک باقی وقت`,
+            }),
+            de: c => ({
+                medium: `Verbleibende Zeit bis zum Gebet in ${c} | Countdown`,
+                short:  `Verbleibende Zeit für das Gebet in ${c}`,
+            }),
+            id: c => ({
+                medium: `Sisa waktu menuju sholat di ${c} | Hitung mundur`,
+                short:  `Sisa waktu sholat di ${c}`,
+            }),
+            es: c => ({
+                medium: `Tiempo restante para la oración en ${c} | Cuenta regresiva`,
+                short:  `Tiempo restante para la oración en ${c}`,
+            }),
+            bn: c => ({
+                medium: `${c}-এ পরবর্তী নামাজ পর্যন্ত বাকি সময় | কাউন্টডাউন`,
+                short:  `${c}-এ নামাজের জন্য বাকি সময়`,
+            }),
+            ms: c => ({
+                medium: `Masa berbaki sebelum solat di ${c} | Kira detik`,
+                short:  `Masa berbaki untuk solat di ${c}`,
+            }),
         };
-        const _TL_DESC = {
-            ar: `العدّ التنازليّ الحيّ للصلاة القادمة في ${_tlCityDisplay}، مع اسم الصلاة، الوقت الحاليّ، والجدول اليوميّ الكامل (الفجر، الظهر، العصر، المغرب، العشاء).`,
-            en: `Live countdown to the next prayer in ${_tlCityDisplay} with prayer name, current time, and today's full schedule (Fajr, Dhuhr, Asr, Maghrib, Isha).`,
-            fr: `Compte à rebours en direct jusqu'à la prochaine prière à ${_tlCityDisplay}, avec le nom de la prière, l'heure actuelle et le programme du jour.`,
-            tr: `${_tlCityDisplay} için bir sonraki namaza canlı geri sayım — namaz adı, mevcut saat ve günün tam programı.`,
-            ur: `${_tlCityDisplay} میں اگلی نماز تک براہِ راست ٹائمر — نماز کا نام، موجودہ وقت، اور آج کا مکمل شیڈول۔`,
-            de: `Live-Countdown bis zum nächsten Gebet in ${_tlCityDisplay} mit Gebetsname, aktueller Uhrzeit und dem vollständigen Tagesplan.`,
-            id: `Hitung mundur langsung menuju sholat berikutnya di ${_tlCityDisplay} dengan nama sholat, waktu sekarang, dan jadwal lengkap hari ini.`,
-            es: `Cuenta regresiva en vivo hasta la próxima oración en ${_tlCityDisplay}, con el nombre de la oración, la hora actual y el horario completo de hoy.`,
-            bn: `${_tlCityDisplay}-এ পরবর্তী নামাজ পর্যন্ত লাইভ কাউন্টডাউন — নামাজের নাম, বর্তমান সময়, এবং আজকের সম্পূর্ণ সময়সূচি।`,
-            ms: `Kira undur langsung sehingga solat seterusnya di ${_tlCityDisplay} dengan nama solat, waktu semasa, dan jadual penuh hari ini.`,
+        const _pickTlTitle = (formsFn, c) => {
+            const f = formsFn(c);
+            const len = s => Array.from(s).length;
+            if (len(f.medium) <= 60) return f.medium;
+            return f.short;
         };
-        title = _TL_TITLE[lang] || _TL_TITLE.en;
-        description = _TL_DESC[lang] || _TL_DESC.en;
+        // TL-SEO-1 (2026-05-10): length-aware Meta description (long → short
+        // fallback). Long form ~150 cp; falls back to short ~120 cp when the
+        // city name pushes the long form past 160 cp.
+        const _TL_DESC_FORMS = {
+            ar: c => ({
+                long:  `اعرف كم باقي على الصلاة القادمة في ${c} الآن من خلال عداد مباشر يوضح الوقت المتبقي للأذان القادم حسب التوقيت المحلي للمدينة.`,
+                short: `اعرف الوقت المتبقي للصلاة في ${c} الآن، مع عداد مباشر للأذان القادم حسب التوقيت المحلي للمدينة.`,
+            }),
+            en: c => ({
+                long:  `See how long is left until the next prayer in ${c} right now with a live countdown showing the time remaining until the next adhan based on the city's local time.`,
+                short: `See the time remaining for the next prayer in ${c} now, with a live countdown for the upcoming adhan based on the city's local time.`,
+            }),
+            fr: c => ({
+                long:  `Découvrez combien de temps reste avant la prochaine prière à ${c} grâce à un compte à rebours en direct selon l'heure locale de la ville.`,
+                short: `Découvrez le temps restant pour la prière à ${c} avec un compte à rebours en direct selon l'heure locale de la ville.`,
+            }),
+            tr: c => ({
+                long:  `${c} için bir sonraki namaza ne kadar kaldığını canlı geri sayımla, şehrin yerel saatine göre bir sonraki ezana kalan süreyi öğrenin.`,
+                short: `${c} için namaza kalan süreyi canlı geri sayımla ve şehrin yerel saatine göre öğrenin.`,
+            }),
+            ur: c => ({
+                long:  `${c} میں اگلی نماز تک کتنا وقت باقی ہے، ایک براہِ راست ٹائمر کے ذریعے شہر کے مقامی وقت کے مطابق اگلی اذان تک بقیہ وقت دیکھیں۔`,
+                short: `${c} میں نماز تک باقی وقت ابھی دیکھیں، شہر کے مقامی وقت کے مطابق براہِ راست ٹائمر کے ساتھ۔`,
+            }),
+            de: c => ({
+                long:  `Sehen Sie, wie viel Zeit bis zum nächsten Gebet in ${c} verbleibt — mit einem Live-Countdown, der die verbleibende Zeit bis zum Adhan nach Ortszeit zeigt.`,
+                short: `Sehen Sie die verbleibende Zeit bis zum nächsten Gebet in ${c} mit einem Live-Countdown nach der Ortszeit der Stadt.`,
+            }),
+            id: c => ({
+                long:  `Lihat berapa lama lagi hingga sholat berikutnya di ${c} dengan hitung mundur langsung yang menampilkan sisa waktu hingga adzan menurut waktu setempat.`,
+                short: `Lihat sisa waktu sholat di ${c} sekarang dengan hitung mundur langsung menurut waktu setempat kota.`,
+            }),
+            es: c => ({
+                long:  `Vea cuánto falta para la próxima oración en ${c} con una cuenta regresiva en vivo que muestra el tiempo restante hasta el próximo adhan según la hora local.`,
+                short: `Vea el tiempo restante para la próxima oración en ${c} con una cuenta regresiva en vivo según la hora local de la ciudad.`,
+            }),
+            bn: c => ({
+                long:  `${c}-এ পরবর্তী নামাজ পর্যন্ত কত সময় বাকি তা লাইভ কাউন্টডাউনে দেখুন, যা শহরের স্থানীয় সময় অনুযায়ী পরবর্তী আযান পর্যন্ত বাকি সময় প্রদর্শন করে।`,
+                short: `${c}-এ পরবর্তী নামাজের জন্য বাকি সময় লাইভ কাউন্টডাউনে এখনই দেখুন, শহরের স্থানীয় সময় অনুযায়ী।`,
+            }),
+            ms: c => ({
+                long:  `Lihat berapa lama lagi sehingga solat seterusnya di ${c} dengan kira undur langsung yang memaparkan masa berbaki sehingga azan mengikut waktu tempatan bandar.`,
+                short: `Lihat masa berbaki untuk solat seterusnya di ${c} dengan kira undur langsung mengikut waktu tempatan bandar.`,
+            }),
+        };
+        const _pickTlDesc = (formsFn, c) => {
+            const f = formsFn(c);
+            const len = s => Array.from(s).length;
+            if (len(f.long) <= 160) return f.long;
+            return f.short;
+        };
+        title = _pickTlTitle(_TL_TITLE_FORMS[lang] || _TL_TITLE_FORMS.en, _tlCityDisplay);
+        description = _pickTlDesc(_TL_DESC_FORMS[lang] || _TL_DESC_FORMS.en, _tlCityDisplay);
         ogType = 'article';
         cityModified = new Date().toISOString();
         breadcrumbs.push({ name: _tlCityDisplay, item: canonical });
@@ -7729,6 +7818,388 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //           صفحة time-left — توفير ~60-80KB من الحمولة الأولى + LCP أسرع.
         //           نحذف العناصر بالمعرّف أو الصنف مع مطابقة متوازنة لوسم الفتح/الإغلاق.
         html = _stripHtmlForTimeLeft(html);
+
+        // ── TL-SEO-1 (2026-05-10) — SSR-visible content for /time-left-* ──
+        // The page's killer feature is the live countdown in #tl-hero. We KEEP
+        // that hero unchanged. Below it we inject 6 content cards + a 4-item
+        // practical guide + a 5-item countdown-specific FAQ + 4 related links
+        // — all per-lang, ~1000-1100 words. Topics are intentionally distinct
+        // from /next-prayer-time-in-{city} (which focuses on schedule
+        // awareness, not the countdown mechanics).
+        const _tlCity = (seo && seo.timeLeftPage && seo.timeLeftPage.cityName) || _tlCityDisplay;
+        const _tlSlugForLinks = (seo && seo.timeLeftPage && seo.timeLeftPage.slug) || _tlSlug;
+        const _TL_LABELS = {
+            ar: { faqSub: 'إجابات مختصرة حول عداد الصلاة ووقت الأذان القادم.', guideSub: 'نصائح تساعدك على قراءة الوقت المتبقي وفهم تغير الصلاة المعروضة خلال اليوم.', relPrayer: c => `مواقيت الصلاة في ${c}`, relNpt: c => `الصلاة القادمة في ${c}`, relQibla: c => `اتجاه القبلة في ${c}`, relMoon: c => `حالة القمر في ${c}` },
+            en: { faqSub: 'Short answers about the prayer countdown and the next adhan time.', guideSub: 'Tips to help you read the remaining time and understand how the displayed prayer changes during the day.', relPrayer: c => `Prayer times in ${c}`, relNpt: c => `Next prayer in ${c}`, relQibla: c => `Qibla direction in ${c}`, relMoon: c => `Moon status in ${c}` },
+            fr: { faqSub: 'Réponses brèves sur le compte à rebours et l\'heure du prochain adhan.', guideSub: 'Conseils pour lire le temps restant et comprendre comment la prière affichée change au fil de la journée.', relPrayer: c => `Heures de prière à ${c}`, relNpt: c => `Prochaine prière à ${c}`, relQibla: c => `Direction de la Qibla à ${c}`, relMoon: c => `État de la lune à ${c}` },
+            tr: { faqSub: 'Namaz geri sayımı ve sonraki ezan vakti hakkında kısa cevaplar.', guideSub: 'Kalan süreyi okumanıza ve gün boyunca gösterilen namazın nasıl değiştiğini anlamanıza yardımcı olacak ipuçları.', relPrayer: c => `${c} namaz vakitleri`, relNpt: c => `${c} sonraki namaz`, relQibla: c => `${c} kıble yönü`, relMoon: c => `${c} ay durumu` },
+            ur: { faqSub: 'نماز کی الٹی گنتی اور اگلی اذان کے وقت کے بارے میں مختصر جوابات۔', guideSub: 'باقی وقت کو پڑھنے اور دن کے دوران دکھائی جانے والی نماز کی تبدیلی کو سمجھنے میں مددگار نکات۔', relPrayer: c => `${c} میں اوقاتِ نماز`, relNpt: c => `${c} میں اگلی نماز`, relQibla: c => `${c} میں سمتِ قبلہ`, relMoon: c => `${c} میں چاند کی حالت` },
+            de: { faqSub: 'Kurze Antworten zum Gebets-Countdown und zur nächsten Adhan-Zeit.', guideSub: 'Tipps, die Ihnen helfen, die verbleibende Zeit zu lesen und zu verstehen, wie sich das angezeigte Gebet im Tagesverlauf ändert.', relPrayer: c => `Gebetszeiten in ${c}`, relNpt: c => `Nächstes Gebet in ${c}`, relQibla: c => `Qibla-Richtung in ${c}`, relMoon: c => `Mondzustand in ${c}` },
+            id: { faqSub: 'Jawaban singkat tentang hitung mundur sholat dan waktu adzan berikutnya.', guideSub: 'Tips untuk membantu Anda membaca sisa waktu dan memahami bagaimana sholat yang ditampilkan berubah sepanjang hari.', relPrayer: c => `Jadwal sholat di ${c}`, relNpt: c => `Sholat berikutnya di ${c}`, relQibla: c => `Arah kiblat di ${c}`, relMoon: c => `Status bulan di ${c}` },
+            es: { faqSub: 'Respuestas breves sobre la cuenta regresiva y la hora del próximo adhan.', guideSub: 'Consejos para leer el tiempo restante y entender cómo cambia la oración mostrada durante el día.', relPrayer: c => `Horarios de oración en ${c}`, relNpt: c => `Próxima oración en ${c}`, relQibla: c => `Dirección de la Qibla en ${c}`, relMoon: c => `Estado de la luna en ${c}` },
+            bn: { faqSub: 'নামাজের কাউন্টডাউন এবং পরবর্তী আযানের সময় সম্পর্কে সংক্ষিপ্ত উত্তর।', guideSub: 'বাকি সময় পড়তে এবং দিনের মধ্যে প্রদর্শিত নামাজ কীভাবে পরিবর্তিত হয় তা বুঝতে সহায়ক টিপস।', relPrayer: c => `${c}-এ নামাজের সময়`, relNpt: c => `${c}-এ পরবর্তী নামাজ`, relQibla: c => `${c}-এ কিবলার দিক`, relMoon: c => `${c}-এ চাঁদের অবস্থা` },
+            ms: { faqSub: 'Jawapan ringkas tentang kira detik solat dan waktu azan seterusnya.', guideSub: 'Petua untuk membantu anda membaca masa berbaki dan memahami bagaimana solat yang dipaparkan berubah sepanjang hari.', relPrayer: c => `Waktu solat di ${c}`, relNpt: c => `Solat seterusnya di ${c}`, relQibla: c => `Arah kiblat di ${c}`, relMoon: c => `Status bulan di ${c}` },
+        };
+        const _tlLang = (seo && seo.lang) || 'ar';
+        const _tlL = _TL_LABELS[_tlLang] || _TL_LABELS.en;
+        // Six content cards covering the *countdown-specific* angles only.
+        const _TL_SEO = {
+            ar: {
+                h2_1: c => `كيف يتم حساب الوقت المتبقي للصلاة في ${c}؟`,
+                p_1:  c => `يتم حساب الوقت المتبقي للصلاة من خلال مقارنة الوقت الحالي بموعد الأذان القادم في ${c}. فإذا كانت الصلاة القادمة هي الفجر مثلاً، يعرض العداد الفرق بين الساعة الحالية ووقت هذه الصلاة. وبعد دخول وقت الصلاة، ينتقل العداد تلقائياً إلى الصلاة التالية حسب ترتيب مواقيت اليوم.`,
+                h2_2: () => 'ماذا يحدث عندما يصل العداد إلى الصفر؟',
+                p_2:  () => 'عند وصول العد التنازلي إلى الصفر يكون وقت الصلاة قد دخل حسب التوقيت المحلي للمدينة. بعد ذلك يتم تحديث الصلاة المعروضة والانتقال إلى الصلاة التالية، مثل الانتقال من الفجر إلى الظهر أو من المغرب إلى العشاء. بهذه الطريقة تبقى الصفحة مرتبطة بالوقت الحالي طوال اليوم.',
+                h2_3: () => 'الفرق بين الوقت المتبقي ومواقيت الصلاة الكاملة',
+                p_3:  () => 'صفحة الوقت المتبقي تركّز على سؤال سريع: كم بقي على الأذان القادم؟ أما صفحة مواقيت الصلاة الكاملة فتعرض جدول اليوم كاملاً، بما في ذلك الفجر والشروق والظهر والعصر والمغرب والعشاء. لذلك يمكن استخدام هذه الصفحة للمتابعة السريعة، والانتقال إلى جدول المواقيت عند الحاجة إلى تفاصيل اليوم كاملاً.',
+                h2_4: () => 'لماذا قد يختلف الوقت المتبقي بين موقع وآخر؟',
+                p_4:  () => 'قد يظهر اختلاف بسيط في الوقت المتبقي بين المواقع بسبب اختلاف طريقة الحساب، أو إعدادات وقت العصر، أو زاوية الفجر والعشاء، أو الإحداثيات المستخدمة للمدينة. لذلك من المهم أن تكون المدينة صحيحة وأن تكون طريقة الحساب المختارة مناسبة للموقع أو الجهة التي يعتمدها المستخدم.',
+                h2_5: () => 'كيف تقرأ عداد الصلاة بشكل صحيح؟',
+                p_5:  () => 'يعرض العداد الوقت المتبقي عادة بالساعات والدقائق والثواني. فإذا ظهر الرقم 04:08:26 فهذا يعني أن المتبقي على الصلاة القادمة أربع ساعات وثماني دقائق وست وعشرون ثانية تقريباً. ومع مرور الوقت ينقص العداد تلقائياً حتى يدخل وقت الصلاة، ثم يبدأ العد للصلاة التالية.',
+                h2_6: () => 'استخدام الصفحة أثناء اليوم',
+                p_6:  () => 'تساعد هذه الصفحة المستخدم الذي يريد معرفة أقرب موعد صلاة بسرعة دون قراءة جدول طويل. يمكن الرجوع إليها أثناء العمل أو الدراسة أو قبل الخروج من المنزل لمعرفة الوقت المتبقي للأذان القادم. كما تساعد روابط الصلوات أسفل العداد على فهم ترتيب الصلوات المتبقية خلال اليوم.',
+                guideTitle: c => `دليل سريع لاستخدام عداد الصلاة في ${c}`,
+                guide: [
+                    { h: 'تأكد من اسم الصلاة المعروضة', p: 'قبل الاعتماد على العداد، تأكد من اسم الصلاة الظاهر بجانب الوقت. فقد يكون العداد محسوباً على الفجر أو الظهر أو العصر أو المغرب أو العشاء حسب وقت زيارتك للصفحة.' },
+                    { h: 'راجع وقت الأذان بجانب العداد', p: 'وجود وقت الأذان بجانب العد التنازلي يساعدك على التأكد من النتيجة. فإذا كان العداد يعرض أربع ساعات مثلاً، يمكنك مقارنة ذلك بوقت الصلاة المعروض للتأكد من أن القراءة منطقية.' },
+                    { h: 'استخدم زر المواقيت عند الحاجة', p: 'إذا أردت مراجعة كل أوقات اليوم، استخدم زر عرض جميع مواقيت الصلاة. صفحة العداد مناسبة للسؤال السريع، أما صفحة المواقيت فهي أفضل للتخطيط الكامل لليوم.' },
+                    { h: 'انتبه للتغير بعد منتصف الليل', p: 'بعد انتهاء وقت العشاء قد يبدأ العداد في حساب الوقت المتبقي لصلاة الفجر في اليوم التالي. هذا سلوك طبيعي لأن الصفحة تعتمد على أقرب أذان قادم حسب التوقيت المحلي.' },
+                ],
+                faqTitle: c => `أسئلة شائعة حول الوقت المتبقي للصلاة في ${c}`,
+                faq: [
+                    { q: c => `كم باقي على الصلاة في ${c} الآن؟`, a: c => `يعرض العداد الوقت المتبقي للصلاة القادمة حسب الوقت الحالي ومواقيت الصلاة اليومية في ${c}.` },
+                    { q: () => 'هل يتم تحديث العداد تلقائياً؟', a: () => 'نعم، يتم تحديث العد التنازلي تلقائياً حتى دخول وقت الصلاة، ثم ينتقل إلى الصلاة التالية حسب ترتيب اليوم.' },
+                    { q: () => 'هل الوقت المتبقي يعتمد على موقعي الحالي؟', a: c => `يعتمد الوقت المتبقي على المدينة المختارة في الصفحة. إذا كانت الصفحة خاصة بـ${c}، فسيتم حساب الوقت بناءً على توقيت ومواقيت هذه المدينة.` },
+                    { q: () => 'لماذا يختلف العداد عن موقع آخر؟', a: () => 'قد يختلف العداد قليلاً بسبب اختلاف طريقة الحساب أو الإحداثيات أو إعدادات وقت العصر والفجر والعشاء.' },
+                    { q: () => 'ماذا أفعل إذا وصل العداد إلى الصفر؟', a: () => 'عند وصول العداد إلى الصفر يكون وقت الصلاة قد دخل، وبعدها يجب أن تنتقل الصفحة إلى حساب الوقت المتبقي للصلاة التالية.' },
+                ],
+            },
+            en: {
+                h2_1: c => `How is the remaining time for prayer in ${c} calculated?`,
+                p_1:  c => `The remaining time for prayer is calculated by comparing the current time to the next adhan time in ${c}. So if the next prayer is Fajr, for example, the countdown shows the difference between the current hour and that prayer\'s time. Once the prayer time begins, the countdown automatically moves to the following prayer in the day\'s order.`,
+                h2_2: () => 'What happens when the countdown reaches zero?',
+                p_2:  () => 'When the countdown reaches zero, the prayer time has begun according to the city\'s local time. The displayed prayer is then updated and the page moves to the next prayer — for example from Fajr to Dhuhr, or from Maghrib to Isha. This way the page stays aligned with the current time throughout the day.',
+                h2_3: () => 'The difference between remaining time and full prayer schedule',
+                p_3:  () => 'The remaining-time page focuses on a quick question: how long is left until the next adhan? The full prayer-times page shows the day\'s complete schedule — Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha. Use this page for quick monitoring, and switch to the full schedule when you need every time of the day in detail.',
+                h2_4: () => 'Why may the remaining time differ between sites?',
+                p_4:  () => 'A small difference in the remaining time between sites can appear because of the calculation method, the Asr juristic setting, the Fajr/Isha twilight angle, or the coordinates used for the city. So it matters that the city is correct and the chosen calculation method matches the source the user trusts.',
+                h2_5: () => 'How to read the prayer countdown correctly',
+                p_5:  () => 'The countdown usually shows the remaining time in hours, minutes, and seconds. So if it shows 04:08:26, it means there are roughly four hours, eight minutes, and twenty-six seconds left until the next prayer. As time passes the countdown decreases automatically until the prayer time begins, and then it starts counting toward the following prayer.',
+                h2_6: () => 'Using the page during the day',
+                p_6:  () => 'This page helps users who want to know the closest prayer time quickly without reading a long schedule. You can come back to it during work, study, or before leaving home to know the remaining time until the next adhan. The prayer links below the countdown also help you understand the order of remaining prayers in the day.',
+                guideTitle: c => `Quick guide to using the prayer countdown in ${c}`,
+                guide: [
+                    { h: 'Check the displayed prayer name first', p: 'Before relying on the countdown, check the prayer name shown next to the time. Depending on when you visit the page, the countdown may be calculated against Fajr, Dhuhr, Asr, Maghrib, or Isha.' },
+                    { h: 'Cross-check the adhan time next to the countdown', p: 'Having the adhan time alongside the countdown helps you sanity-check the result. If the countdown shows four hours, you can compare that with the displayed prayer time to confirm the reading makes sense.' },
+                    { h: 'Use the prayer-times button when needed', p: 'If you want to review every time of the day, use the button that shows the full prayer schedule. The countdown page is good for the quick question; the schedule page is better for full daily planning.' },
+                    { h: 'Watch for the change after midnight', p: 'After Isha ends, the countdown may start counting down to the next day\'s Fajr. This behavior is normal because the page relies on the closest upcoming adhan according to the city\'s local time.' },
+                ],
+                faqTitle: c => `FAQ about the remaining time for prayer in ${c}`,
+                faq: [
+                    { q: c => `How long is left for prayer in ${c} right now?`, a: c => `The countdown shows the remaining time for the next prayer based on the current local time and the daily prayer schedule in ${c}.` },
+                    { q: () => 'Is the countdown updated automatically?', a: () => 'Yes — the countdown updates automatically until the prayer time begins, then it moves to the next prayer according to the day\'s order.' },
+                    { q: () => 'Does the remaining time depend on my current location?', a: c => `The remaining time depends on the city selected on the page. If the page is dedicated to ${c}, the time is calculated based on that city\'s timezone and prayer schedule.` },
+                    { q: () => 'Why does the countdown differ from another site?', a: () => 'The countdown may differ slightly due to the calculation method, the coordinates used, or the Asr/Fajr/Isha angle settings.' },
+                    { q: () => 'What should I do when the countdown reaches zero?', a: () => 'When the countdown reaches zero, the prayer time has begun, and after that the page should move to calculating the remaining time for the next prayer.' },
+                ],
+            },
+            fr: {
+                h2_1: c => `Comment le temps restant pour la prière à ${c} est-il calculé ?`,
+                p_1:  c => `Le temps restant est calculé en comparant l\'heure actuelle à l\'heure du prochain adhan à ${c}. Si la prochaine prière est par exemple Fajr, le compte à rebours affiche la différence entre l\'heure actuelle et celle de cette prière. Une fois la prière commencée, le compte à rebours passe automatiquement à la prière suivante dans l\'ordre du jour.`,
+                h2_2: () => 'Que se passe-t-il quand le compte à rebours atteint zéro ?',
+                p_2:  () => 'Quand le compte à rebours atteint zéro, l\'heure de la prière a commencé selon l\'heure locale de la ville. La prière affichée est alors mise à jour et la page passe à la prière suivante — par exemple de Fajr à Dhuhr, ou de Maghreb à Isha. Ainsi la page reste alignée sur l\'heure actuelle tout au long de la journée.',
+                h2_3: () => 'Différence entre temps restant et programme complet des prières',
+                p_3:  () => 'La page du temps restant se concentre sur une question rapide : combien de temps reste-t-il avant le prochain adhan ? La page du programme complet affiche tous les horaires de la journée — Fajr, Lever, Dhuhr, Asr, Maghreb, Isha. Utilisez cette page pour un suivi rapide et passez au programme complet pour consulter chaque heure du jour en détail.',
+                h2_4: () => 'Pourquoi le temps restant peut-il différer entre sites ?',
+                p_4:  () => 'Une petite différence peut apparaître selon la méthode de calcul, le réglage juridique d\'Asr, l\'angle crépusculaire Fajr/Isha ou les coordonnées utilisées pour la ville. Il est donc important que la ville soit correcte et que la méthode de calcul corresponde à la source de confiance.',
+                h2_5: () => 'Comment lire correctement le compte à rebours',
+                p_5:  () => 'Le compte à rebours affiche en général le temps restant en heures, minutes et secondes. S\'il affiche 04:08:26, cela signifie qu\'il reste environ quatre heures, huit minutes et vingt-six secondes avant la prochaine prière. À mesure que le temps passe, il diminue automatiquement jusqu\'au début de la prière, puis il commence à compter pour la prière suivante.',
+                h2_6: () => 'Utiliser la page pendant la journée',
+                p_6:  () => 'Cette page aide ceux qui veulent connaître rapidement la prière la plus proche sans lire un long programme. Vous pouvez y revenir au travail, en cours, ou avant de quitter la maison pour connaître le temps restant avant le prochain adhan. Les liens de prières sous le compte à rebours aident aussi à comprendre l\'ordre des prières restantes du jour.',
+                guideTitle: c => `Guide rapide pour utiliser le compte à rebours de prière à ${c}`,
+                guide: [
+                    { h: 'Vérifiez d\'abord le nom de la prière affichée', p: 'Avant de vous fier au compte à rebours, vérifiez le nom de la prière à côté de l\'heure. Selon votre visite, le décompte peut être calculé sur Fajr, Dhuhr, Asr, Maghreb ou Isha.' },
+                    { h: 'Recoupez avec l\'heure d\'adhan à côté du décompte', p: 'Voir l\'heure d\'adhan près du compte à rebours aide à vérifier le résultat. Si le décompte indique quatre heures, comparez avec l\'heure de prière affichée pour confirmer que la lecture est cohérente.' },
+                    { h: 'Utilisez le bouton du programme quand nécessaire', p: 'Pour passer en revue toutes les heures du jour, utilisez le bouton qui ouvre le programme complet. La page du décompte est idéale pour la question rapide ; le programme complet est mieux pour planifier la journée.' },
+                    { h: 'Attention au changement après minuit', p: 'Après la fin de l\'Isha, le compte peut commencer à se rapprocher du Fajr du jour suivant. Ce comportement est normal car la page se base sur le prochain adhan le plus proche selon l\'heure locale.' },
+                ],
+                faqTitle: c => `FAQ sur le temps restant pour la prière à ${c}`,
+                faq: [
+                    { q: c => `Combien de temps reste-t-il pour la prière à ${c} maintenant ?`, a: c => `Le compte à rebours indique le temps restant pour la prochaine prière selon l\'heure locale et le programme quotidien à ${c}.` },
+                    { q: () => 'Le compte à rebours est-il mis à jour automatiquement ?', a: () => 'Oui — il se met à jour automatiquement jusqu\'à l\'arrivée de l\'heure de prière, puis il passe à la prière suivante selon l\'ordre du jour.' },
+                    { q: () => 'Le temps restant dépend-il de ma position actuelle ?', a: c => `Le temps restant dépend de la ville sélectionnée sur la page. Si la page est dédiée à ${c}, le calcul s\'appuie sur le fuseau et le programme de cette ville.` },
+                    { q: () => 'Pourquoi le décompte diffère-t-il d\'un autre site ?', a: () => 'Le décompte peut différer légèrement selon la méthode de calcul, les coordonnées ou les réglages des angles Fajr/Isha/Asr.' },
+                    { q: () => 'Que faire quand le décompte atteint zéro ?', a: () => 'Quand le décompte atteint zéro, l\'heure de la prière a commencé, puis la page doit passer au calcul du temps restant pour la prière suivante.' },
+                ],
+            },
+            tr: {
+                h2_1: c => `${c} için namaza kalan süre nasıl hesaplanır?`,
+                p_1:  c => `Kalan süre, mevcut saati ${c} için bir sonraki ezan vaktiyle karşılaştırarak hesaplanır. Sonraki namaz örneğin Sabah ise, geri sayım mevcut saat ile bu namazın vakti arasındaki farkı gösterir. Namaz vakti girdiğinde geri sayım otomatik olarak günün sırasına göre bir sonraki namaza geçer.`,
+                h2_2: () => 'Geri sayım sıfıra ulaştığında ne olur?',
+                p_2:  () => 'Geri sayım sıfıra ulaştığında, şehrin yerel saatine göre namaz vakti girmiş olur. Görüntülenen namaz güncellenir ve sayfa bir sonraki namaza geçer — örneğin Sabah\'tan Öğle\'ye veya Akşam\'dan Yatsı\'ya. Böylece sayfa gün boyu mevcut saatle uyumlu kalır.',
+                h2_3: () => 'Kalan süre ile tam namaz programı arasındaki fark',
+                p_3:  () => 'Kalan süre sayfası hızlı bir soruya odaklanır: bir sonraki ezana ne kadar kaldı? Tam namaz vakitleri sayfası ise günün tüm programını gösterir — Sabah, Güneş, Öğle, İkindi, Akşam ve Yatsı. Hızlı takip için bu sayfayı, gün ayrıntısı için tam programı kullanabilirsiniz.',
+                h2_4: () => 'Kalan süre neden siteler arasında farklı olabilir?',
+                p_4:  () => 'Hesaplama yöntemi, İkindi mezhep ayarı, Sabah/Yatsı senfaye açısı veya şehir için kullanılan koordinatlar nedeniyle siteler arası küçük farklar görülebilir. Bu yüzden şehrin doğru olması ve seçilen yöntemin güvendiğiniz kaynağa uygun olması önemlidir.',
+                h2_5: () => 'Namaz geri sayımını doğru okumak',
+                p_5:  () => 'Geri sayım genellikle kalan süreyi saat, dakika ve saniye olarak gösterir. 04:08:26 yazıyorsa, sonraki namaza yaklaşık dört saat, sekiz dakika ve yirmi altı saniye kaldı demektir. Zaman geçtikçe sayım otomatik olarak azalır; namaz vakti girdiğinde bir sonraki namaz için saymaya başlar.',
+                h2_6: () => 'Sayfayı gün içinde kullanmak',
+                p_6:  () => 'Bu sayfa, uzun bir programı okumadan en yakın namaz vaktini hızlıca öğrenmek isteyenlere yardımcı olur. İş, eğitim veya evden çıkmadan önce bir sonraki ezana ne kadar kaldığını görmek için kullanılabilir. Geri sayımın altındaki namaz bağlantıları gün içinde kalan namazların sırasını da anlamanıza yardımcı olur.',
+                guideTitle: c => `${c} için namaz geri sayımını kullanmak için hızlı rehber`,
+                guide: [
+                    { h: 'Önce gösterilen namaz adını kontrol edin', p: 'Geri sayıma güvenmeden önce vaktin yanındaki namaz adını kontrol edin. Sayfayı ne zaman ziyaret ettiğinize bağlı olarak geri sayım Sabah, Öğle, İkindi, Akşam veya Yatsı için olabilir.' },
+                    { h: 'Geri sayımın yanındaki ezan vaktiyle çapraz kontrol', p: 'Geri sayımın yanında ezan vaktinin bulunması sonucu doğrulamanıza yardımcı olur. Geri sayım dört saat gösteriyorsa, namaz vaktiyle karşılaştırarak sonucun mantıklı olduğunu doğrulayın.' },
+                    { h: 'Gerekirse namaz vakitleri düğmesini kullanın', p: 'Günün tüm vakitlerini incelemek istiyorsanız tam programı açan düğmeyi kullanın. Geri sayım sayfası hızlı soru için, tam program ise tüm günün planlanması için daha iyidir.' },
+                    { h: 'Gece yarısından sonraki değişime dikkat', p: 'Yatsı bittikten sonra geri sayım ertesi günün Sabah\'ına saymaya başlayabilir. Bu davranış normaldir; çünkü sayfa şehrin yerel saatine göre en yakın gelecek ezana dayanır.' },
+                ],
+                faqTitle: c => `${c} için namaza kalan süre hakkında SSS`,
+                faq: [
+                    { q: c => `${c} için şu an namaza ne kadar kaldı?`, a: c => `Geri sayım, ${c} için mevcut yerel saate ve günlük namaz programına göre bir sonraki namaza kalan süreyi gösterir.` },
+                    { q: () => 'Geri sayım otomatik olarak güncellenir mi?', a: () => 'Evet — geri sayım, namaz vakti girene kadar otomatik olarak güncellenir; sonra günün sırasına göre bir sonraki namaza geçer.' },
+                    { q: () => 'Kalan süre mevcut konumuma mı bağlıdır?', a: c => `Kalan süre, sayfada seçilen şehre bağlıdır. Sayfa ${c}\'a özel ise süre o şehrin saat dilimi ve namaz programına göre hesaplanır.` },
+                    { q: () => 'Geri sayım neden başka bir siteden farklı?', a: () => 'Hesaplama yöntemi, kullanılan koordinatlar veya Sabah/Yatsı/İkindi ayarları nedeniyle geri sayım biraz değişebilir.' },
+                    { q: () => 'Geri sayım sıfıra ulaştığında ne yapmalıyım?', a: () => 'Geri sayım sıfıra ulaştığında namaz vakti girmiştir; ardından sayfa bir sonraki namaza kalan süreyi hesaplamaya geçmelidir.' },
+                ],
+            },
+            ur: {
+                h2_1: c => `${c} میں نماز کے لیے باقی وقت کیسے شمار ہوتا ہے؟`,
+                p_1:  c => `باقی وقت موجودہ وقت کا ${c} میں اگلی اذان کے وقت سے موازنہ کرکے شمار کیا جاتا ہے۔ مثلاً اگر اگلی نماز فجر ہے تو الٹی گنتی موجودہ وقت اور اس نماز کے وقت کا فرق دکھاتی ہے۔ نماز کا وقت داخل ہونے پر الٹی گنتی خود بخود دن کی ترتیب کے مطابق اگلی نماز پر منتقل ہو جاتی ہے۔`,
+                h2_2: () => 'جب الٹی گنتی صفر تک پہنچے تو کیا ہوتا ہے؟',
+                p_2:  () => 'جب الٹی گنتی صفر تک پہنچتی ہے تو شہر کے مقامی وقت کے مطابق نماز کا وقت داخل ہو چکا ہوتا ہے۔ پھر دکھائی جانے والی نماز اپ ڈیٹ ہوتی ہے اور صفحہ اگلی نماز پر منتقل ہو جاتا ہے، جیسے فجر سے ظہر یا مغرب سے عشاء۔ اس طرح صفحہ سارا دن موجودہ وقت سے مطابقت رکھتا ہے۔',
+                h2_3: () => 'باقی وقت اور مکمل نماز شیڈول کے درمیان فرق',
+                p_3:  () => 'باقی وقت کا صفحہ ایک تیز سوال پر مرکوز ہے: اگلی اذان تک کتنا وقت ہے؟ مکمل نماز اوقات کا صفحہ پورا دن کا شیڈول دکھاتا ہے — فجر، طلوع آفتاب، ظہر، عصر، مغرب اور عشاء۔ تیز نگرانی کے لیے یہ صفحہ، اور دن کی تفصیل کے لیے مکمل شیڈول استعمال کریں۔',
+                h2_4: () => 'سائٹ سے سائٹ باقی وقت کیوں مختلف ہو سکتا ہے؟',
+                p_4:  () => 'حساب کے طریقے، عصر کے فقہی اختیار، فجر/عشاء کے گودھولی زاویے، یا شہر کے لیے استعمال ہونے والے کوآرڈینیٹس کی وجہ سے سائٹس کے درمیان معمولی فرق آ سکتا ہے۔ اس لیے ضروری ہے کہ شہر درست ہو اور منتخب طریقہ صارف کے قابلِ اعتماد ذریعے سے ملے۔',
+                h2_5: () => 'نماز کی الٹی گنتی کو درست طریقے سے کیسے پڑھیں',
+                p_5:  () => 'الٹی گنتی عام طور پر باقی وقت کو گھنٹے، منٹ اور سیکنڈ میں دکھاتی ہے۔ اگر یہ 04:08:26 ظاہر کرے تو اس کا مطلب ہے کہ اگلی نماز تک تقریباً چار گھنٹے، آٹھ منٹ اور چھبیس سیکنڈ باقی ہیں۔ وقت گزرنے کے ساتھ گنتی خود بخود کم ہوتی ہے یہاں تک کہ نماز کا وقت داخل ہوتا ہے، پھر یہ اگلی نماز کے لیے گننا شروع کرتی ہے۔',
+                h2_6: () => 'دن کے دوران صفحے کا استعمال',
+                p_6:  () => 'یہ صفحہ ان صارفین کی مدد کرتا ہے جو طویل شیڈول پڑھے بغیر قریب ترین نماز کا وقت جلدی جاننا چاہتے ہیں۔ کام، تعلیم، یا گھر سے نکلنے سے پہلے اگلی اذان تک باقی وقت دیکھنے کے لیے اس پر واپس آ سکتے ہیں۔ الٹی گنتی کے نیچے نمازوں کے لنکس آپ کو دن میں باقی نمازوں کی ترتیب سمجھنے میں بھی مدد دیتے ہیں۔',
+                guideTitle: c => `${c} میں نماز کی الٹی گنتی استعمال کرنے کے لیے فوری رہنما`,
+                guide: [
+                    { h: 'پہلے دکھائی جانے والی نماز کے نام کی تصدیق کریں', p: 'الٹی گنتی پر بھروسہ کرنے سے پہلے وقت کے ساتھ دکھائے گئے نماز کا نام چیک کریں۔ آپ کے دورے کے وقت کے مطابق گنتی فجر، ظہر، عصر، مغرب یا عشاء کے لیے ہو سکتی ہے۔' },
+                    { h: 'گنتی کے ساتھ اذان کے وقت کا کراس چیک کریں', p: 'الٹی گنتی کے ساتھ اذان کا وقت ہونا نتیجے کی تصدیق میں مدد دیتا ہے۔ اگر گنتی چار گھنٹے دکھاتی ہے، تو دکھائے گئے نماز کے وقت سے موازنہ کر کے یقینی بنائیں کہ پڑھائی منطقی ہے۔' },
+                    { h: 'ضرورت پر اوقاتِ نماز کا بٹن استعمال کریں', p: 'اگر آپ دن کے تمام اوقات کا جائزہ لینا چاہتے ہیں تو مکمل نماز شیڈول کھولنے والا بٹن استعمال کریں۔ گنتی کا صفحہ تیز سوال کے لیے مناسب ہے، جبکہ شیڈول کا صفحہ پورے دن کی منصوبہ بندی کے لیے بہتر ہے۔' },
+                    { h: 'آدھی رات کے بعد تبدیلی پر دھیان دیں', p: 'عشاء ختم ہونے کے بعد گنتی اگلے دن کی فجر کی طرف گننا شروع کر سکتی ہے۔ یہ رویہ معمول کا ہے کیونکہ صفحہ شہر کے مقامی وقت کے مطابق قریب ترین آنے والی اذان پر منحصر ہے۔' },
+                ],
+                faqTitle: c => `${c} میں نماز کے باقی وقت کے بارے میں عام سوالات`,
+                faq: [
+                    { q: c => `ابھی ${c} میں نماز کے لیے کتنا وقت باقی ہے؟`, a: c => `الٹی گنتی موجودہ مقامی وقت اور ${c} میں روزانہ کے نماز شیڈول کے مطابق اگلی نماز کے لیے باقی وقت دکھاتی ہے۔` },
+                    { q: () => 'کیا الٹی گنتی خود بخود اپ ڈیٹ ہوتی ہے؟', a: () => 'جی ہاں — الٹی گنتی نماز کا وقت داخل ہونے تک خود بخود اپ ڈیٹ ہوتی ہے، پھر دن کی ترتیب کے مطابق اگلی نماز پر منتقل ہو جاتی ہے۔' },
+                    { q: () => 'کیا باقی وقت میرے موجودہ مقام پر منحصر ہے؟', a: c => `باقی وقت صفحے پر منتخب شہر پر منحصر ہے۔ اگر صفحہ ${c} کے لیے مخصوص ہے، تو وقت اس شہر کے ٹائم زون اور نماز شیڈول کی بنیاد پر شمار ہوتا ہے۔` },
+                    { q: () => 'گنتی کسی اور سائٹ سے کیوں مختلف ہوتی ہے؟', a: () => 'حساب کے طریقے، استعمال شدہ کوآرڈینیٹس، یا فجر/عشاء/عصر زاویے کی ترتیبات کی وجہ سے گنتی تھوڑی مختلف ہو سکتی ہے۔' },
+                    { q: () => 'اگر گنتی صفر تک پہنچ جائے تو کیا کروں؟', a: () => 'جب گنتی صفر تک پہنچتی ہے تو نماز کا وقت داخل ہو چکا ہوتا ہے، اور اس کے بعد صفحے کو اگلی نماز کے لیے باقی وقت کا شمار شروع کر دینا چاہیے۔' },
+                ],
+            },
+            de: {
+                h2_1: c => `Wie wird die verbleibende Gebetszeit in ${c} berechnet?`,
+                p_1:  c => `Die verbleibende Zeit wird durch Vergleich der aktuellen Uhrzeit mit der Zeit des nächsten Adhans in ${c} berechnet. Ist das nächste Gebet z. B. Fadschr, zeigt der Countdown den Unterschied zwischen der aktuellen Uhrzeit und der Gebetszeit. Sobald die Gebetszeit beginnt, wechselt der Countdown automatisch zum nächsten Gebet in der Tagesreihenfolge.`,
+                h2_2: () => 'Was passiert, wenn der Countdown null erreicht?',
+                p_2:  () => 'Wenn der Countdown null erreicht, hat die Gebetszeit nach Ortszeit der Stadt begonnen. Das angezeigte Gebet wird aktualisiert und die Seite wechselt zum nächsten Gebet — etwa von Fadschr zu Zuhr oder von Maghrib zu Ischa. So bleibt die Seite den ganzen Tag mit der aktuellen Zeit im Einklang.',
+                h2_3: () => 'Unterschied zwischen verbleibender Zeit und vollständigem Gebetsplan',
+                p_3:  () => 'Die Seite mit der verbleibenden Zeit konzentriert sich auf eine schnelle Frage: wie lange bis zum nächsten Adhan? Die Seite mit dem vollständigen Plan zeigt das Tagesprogramm — Fadschr, Sonnenaufgang, Zuhr, Asr, Maghrib und Ischa. Nutzen Sie diese Seite zur schnellen Verfolgung, den Plan zur Detailprüfung des Tages.',
+                h2_4: () => 'Warum kann die verbleibende Zeit zwischen Sites abweichen?',
+                p_4:  () => 'Kleine Unterschiede können wegen der Berechnungsmethode, des Asr-Mazhabs, des Fadschr/Ischa-Dämmerungswinkels oder der verwendeten Koordinaten der Stadt entstehen. Daher ist wichtig, dass die Stadt korrekt ist und die gewählte Methode zur vertrauenswürdigen Quelle passt.',
+                h2_5: () => 'Den Gebets-Countdown korrekt lesen',
+                p_5:  () => 'Der Countdown zeigt die verbleibende Zeit meist in Stunden, Minuten und Sekunden. Steht 04:08:26, bleiben etwa vier Stunden, acht Minuten und sechsundzwanzig Sekunden bis zum nächsten Gebet. Mit fortschreitender Zeit nimmt der Countdown automatisch ab, bis die Gebetszeit beginnt — danach zählt er für das nächste Gebet.',
+                h2_6: () => 'Die Seite während des Tages nutzen',
+                p_6:  () => 'Diese Seite hilft Nutzern, die schnell die nächste Gebetszeit wissen wollen, ohne einen langen Plan zu lesen. Sie können sie bei der Arbeit, im Studium oder vor dem Verlassen des Hauses aufrufen, um die verbleibende Zeit bis zum nächsten Adhan zu sehen. Die Gebetslinks unter dem Countdown helfen auch, die Reihenfolge der verbleibenden Gebete des Tages zu verstehen.',
+                guideTitle: c => `Schnelle Anleitung zum Gebets-Countdown in ${c}`,
+                guide: [
+                    { h: 'Prüfen Sie zuerst den angezeigten Gebetsnamen', p: 'Bevor Sie sich auf den Countdown verlassen, prüfen Sie den Gebetsnamen neben der Uhrzeit. Je nachdem, wann Sie die Seite besuchen, kann der Countdown auf Fadschr, Zuhr, Asr, Maghrib oder Ischa berechnet sein.' },
+                    { h: 'Adhan-Zeit neben dem Countdown gegenprüfen', p: 'Die Adhan-Zeit neben dem Countdown hilft, das Ergebnis zu validieren. Zeigt der Countdown vier Stunden, vergleichen Sie ihn mit der angezeigten Gebetszeit, um zu bestätigen, dass die Lesung plausibel ist.' },
+                    { h: 'Verwenden Sie bei Bedarf den Gebetsplan-Button', p: 'Möchten Sie alle Tageszeiten überprüfen, nutzen Sie den Button für den vollständigen Plan. Die Countdown-Seite eignet sich für die schnelle Frage, der Plan ist besser zur Tagesplanung.' },
+                    { h: 'Achten Sie auf die Änderung nach Mitternacht', p: 'Nach Ischa kann der Countdown beginnen, zum Fadschr des nächsten Tages herunterzuzählen. Dieses Verhalten ist normal, da die Seite auf den nächstgelegenen Adhan nach Ortszeit der Stadt setzt.' },
+                ],
+                faqTitle: c => `FAQ zur verbleibenden Gebetszeit in ${c}`,
+                faq: [
+                    { q: c => `Wie viel Zeit bleibt jetzt für das Gebet in ${c}?`, a: c => `Der Countdown zeigt die verbleibende Zeit für das nächste Gebet basierend auf der aktuellen Ortszeit und dem täglichen Gebetsplan in ${c}.` },
+                    { q: () => 'Wird der Countdown automatisch aktualisiert?', a: () => 'Ja — der Countdown aktualisiert sich automatisch, bis die Gebetszeit beginnt; danach wechselt er zum nächsten Gebet in der Tagesreihenfolge.' },
+                    { q: () => 'Hängt die verbleibende Zeit von meinem aktuellen Standort ab?', a: c => `Die verbleibende Zeit hängt von der auf der Seite gewählten Stadt ab. Ist die Seite ${c} gewidmet, wird die Zeit nach der Zeitzone und dem Gebetsplan dieser Stadt berechnet.` },
+                    { q: () => 'Warum unterscheidet sich der Countdown von einer anderen Site?', a: () => 'Der Countdown kann je nach Berechnungsmethode, verwendeten Koordinaten oder Fadschr/Ischa/Asr-Einstellungen leicht abweichen.' },
+                    { q: () => 'Was tue ich, wenn der Countdown null erreicht?', a: () => 'Wenn der Countdown null erreicht, hat die Gebetszeit begonnen; danach sollte die Seite zur Berechnung der verbleibenden Zeit für das nächste Gebet wechseln.' },
+                ],
+            },
+            id: {
+                h2_1: c => `Bagaimana sisa waktu sholat di ${c} dihitung?`,
+                p_1:  c => `Sisa waktu dihitung dengan membandingkan waktu sekarang dengan waktu adzan berikutnya di ${c}. Jika sholat berikutnya misalnya Subuh, hitung mundur menampilkan selisih antara jam saat ini dengan waktu sholat tersebut. Setelah waktu sholat masuk, hitung mundur secara otomatis berpindah ke sholat berikutnya sesuai urutan hari.`,
+                h2_2: () => 'Apa yang terjadi saat hitung mundur mencapai nol?',
+                p_2:  () => 'Saat hitung mundur mencapai nol, waktu sholat telah masuk menurut waktu setempat kota. Sholat yang ditampilkan diperbarui dan halaman beralih ke sholat berikutnya — misalnya dari Subuh ke Dzuhur, atau dari Maghrib ke Isya. Dengan begitu halaman tetap selaras dengan waktu sekarang sepanjang hari.',
+                h2_3: () => 'Perbedaan antara sisa waktu dan jadwal sholat lengkap',
+                p_3:  () => 'Halaman sisa waktu fokus pada satu pertanyaan cepat: berapa lama lagi hingga adzan berikutnya? Halaman jadwal sholat lengkap menampilkan jadwal hari — Subuh, Terbit, Dzuhur, Ashar, Maghrib, dan Isya. Gunakan halaman ini untuk pemantauan cepat, dan beralih ke jadwal lengkap saat butuh detail seluruh hari.',
+                h2_4: () => 'Mengapa sisa waktu dapat berbeda antar situs?',
+                p_4:  () => 'Perbedaan kecil bisa muncul karena metode perhitungan, pengaturan mazhab Ashar, sudut senja Subuh/Isya, atau koordinat yang dipakai untuk kota. Karena itu penting agar kota benar dan metode perhitungan sesuai dengan sumber yang Anda percaya.',
+                h2_5: () => 'Cara membaca hitung mundur sholat dengan benar',
+                p_5:  () => 'Hitung mundur biasanya menampilkan sisa waktu dalam jam, menit, dan detik. Jika menampilkan 04:08:26, berarti tersisa kira-kira empat jam, delapan menit, dan dua puluh enam detik hingga sholat berikutnya. Seiring waktu berjalan, angka berkurang otomatis hingga waktu sholat masuk, lalu mulai menghitung untuk sholat berikutnya.',
+                h2_6: () => 'Menggunakan halaman sepanjang hari',
+                p_6:  () => 'Halaman ini membantu pengguna yang ingin mengetahui waktu sholat terdekat dengan cepat tanpa membaca jadwal panjang. Anda bisa kembali saat bekerja, belajar, atau sebelum keluar rumah untuk mengetahui sisa waktu hingga adzan berikutnya. Tautan sholat di bawah hitung mundur juga membantu memahami urutan sholat yang tersisa hari ini.',
+                guideTitle: c => `Panduan singkat menggunakan hitung mundur sholat di ${c}`,
+                guide: [
+                    { h: 'Periksa nama sholat yang ditampilkan terlebih dahulu', p: 'Sebelum mengandalkan hitung mundur, periksa nama sholat di samping waktunya. Bergantung kapan Anda mengunjungi halaman, hitung mundur bisa untuk Subuh, Dzuhur, Ashar, Maghrib, atau Isya.' },
+                    { h: 'Cek silang waktu adzan di samping hitung mundur', p: 'Adanya waktu adzan di samping hitung mundur membantu memastikan hasilnya. Jika hitung mundur menunjukkan empat jam, bandingkan dengan waktu sholat yang ditampilkan untuk memastikan pembacaan masuk akal.' },
+                    { h: 'Gunakan tombol jadwal sholat saat dibutuhkan', p: 'Jika ingin meninjau seluruh waktu hari, gunakan tombol yang membuka jadwal sholat lengkap. Halaman hitung mundur baik untuk pertanyaan cepat; jadwal lengkap lebih baik untuk perencanaan harian.' },
+                    { h: 'Perhatikan perubahan setelah tengah malam', p: 'Setelah Isya berakhir, hitung mundur dapat mulai menghitung menuju Subuh keesokan hari. Perilaku ini normal karena halaman bergantung pada adzan terdekat berikutnya menurut waktu setempat.' },
+                ],
+                faqTitle: c => `FAQ tentang sisa waktu sholat di ${c}`,
+                faq: [
+                    { q: c => `Berapa lama lagi sholat di ${c} sekarang?`, a: c => `Hitung mundur menampilkan sisa waktu untuk sholat berikutnya berdasarkan waktu lokal saat ini dan jadwal sholat harian di ${c}.` },
+                    { q: () => 'Apakah hitung mundur diperbarui otomatis?', a: () => 'Ya — hitung mundur diperbarui otomatis hingga waktu sholat masuk, lalu beralih ke sholat berikutnya sesuai urutan hari.' },
+                    { q: () => 'Apakah sisa waktu bergantung pada lokasi saya?', a: c => `Sisa waktu bergantung pada kota yang dipilih di halaman. Jika halaman dikhususkan untuk ${c}, perhitungan didasarkan pada zona waktu dan jadwal kota tersebut.` },
+                    { q: () => 'Mengapa hitung mundur berbeda dari situs lain?', a: () => 'Hitung mundur dapat sedikit berbeda karena metode perhitungan, koordinat yang digunakan, atau pengaturan sudut Subuh/Isya/Ashar.' },
+                    { q: () => 'Apa yang harus saya lakukan saat hitung mundur mencapai nol?', a: () => 'Saat hitung mundur mencapai nol, waktu sholat telah masuk; setelah itu halaman seharusnya beralih menghitung sisa waktu untuk sholat berikutnya.' },
+                ],
+            },
+            es: {
+                h2_1: c => `¿Cómo se calcula el tiempo restante para la oración en ${c}?`,
+                p_1:  c => `El tiempo restante se calcula comparando la hora actual con la hora del próximo adhan en ${c}. Si la próxima oración es Fajr, por ejemplo, la cuenta regresiva muestra la diferencia entre la hora actual y la hora de esa oración. Una vez comenzada la oración, la cuenta regresiva pasa automáticamente a la siguiente oración en el orden del día.`,
+                h2_2: () => '¿Qué ocurre cuando la cuenta regresiva llega a cero?',
+                p_2:  () => 'Cuando la cuenta regresiva llega a cero, la hora de la oración ha comenzado según la hora local de la ciudad. La oración mostrada se actualiza y la página pasa a la próxima oración — por ejemplo de Fajr a Dhuhr, o de Maghrib a Isha. Así la página se mantiene alineada con la hora actual durante todo el día.',
+                h2_3: () => 'Diferencia entre el tiempo restante y el horario completo',
+                p_3:  () => 'La página del tiempo restante se centra en una pregunta rápida: ¿cuánto falta para el próximo adhan? La página del horario completo muestra todo el día — Fajr, Amanecer, Dhuhr, Asr, Maghrib e Isha. Use esta página para un seguimiento rápido y cambie al horario completo cuando necesite el detalle del día.',
+                h2_4: () => '¿Por qué el tiempo restante puede diferir entre sitios?',
+                p_4:  () => 'Pueden aparecer pequeñas diferencias debido al método de cálculo, el ajuste de Asr, el ángulo crepuscular de Fajr/Isha o las coordenadas usadas para la ciudad. Por eso es importante que la ciudad sea correcta y el método elegido coincida con la fuente de confianza.',
+                h2_5: () => 'Cómo leer correctamente la cuenta regresiva',
+                p_5:  () => 'La cuenta regresiva muestra normalmente el tiempo restante en horas, minutos y segundos. Si muestra 04:08:26, significa que faltan aproximadamente cuatro horas, ocho minutos y veintiséis segundos para la próxima oración. A medida que pasa el tiempo, disminuye automáticamente hasta que comienza la oración, y luego empieza a contar para la siguiente.',
+                h2_6: () => 'Usar la página durante el día',
+                p_6:  () => 'Esta página ayuda a quienes quieren conocer rápidamente la próxima oración sin leer un horario largo. Puede volver a ella en el trabajo, en estudios o antes de salir de casa para ver el tiempo restante hasta el próximo adhan. Los enlaces de oración debajo de la cuenta regresiva también ayudan a entender el orden de las oraciones restantes del día.',
+                guideTitle: c => `Guía rápida para usar la cuenta regresiva de oración en ${c}`,
+                guide: [
+                    { h: 'Verifique primero el nombre de la oración mostrada', p: 'Antes de fiarse de la cuenta regresiva, compruebe el nombre de la oración junto a la hora. Según la hora de su visita, la cuenta puede calcularse sobre Fajr, Dhuhr, Asr, Maghrib o Isha.' },
+                    { h: 'Coteje la hora del adhan junto a la cuenta', p: 'Tener la hora del adhan junto a la cuenta regresiva ayuda a validar el resultado. Si la cuenta muestra cuatro horas, compárela con la hora de la oración mostrada para confirmar que la lectura tiene sentido.' },
+                    { h: 'Use el botón del horario cuando lo necesite', p: 'Si quiere revisar todas las horas del día, use el botón que abre el horario completo. La página de la cuenta regresiva sirve para la pregunta rápida; el horario es mejor para planificar todo el día.' },
+                    { h: 'Atento al cambio después de medianoche', p: 'Tras Isha, la cuenta puede empezar a descontar hasta el Fajr del día siguiente. Este comportamiento es normal porque la página depende del próximo adhan más cercano según la hora local.' },
+                ],
+                faqTitle: c => `Preguntas frecuentes sobre el tiempo restante de oración en ${c}`,
+                faq: [
+                    { q: c => `¿Cuánto queda para la oración en ${c} ahora?`, a: c => `La cuenta regresiva muestra el tiempo restante para la próxima oración según la hora local actual y el horario diario en ${c}.` },
+                    { q: () => '¿La cuenta regresiva se actualiza automáticamente?', a: () => 'Sí — se actualiza automáticamente hasta que comienza la oración; luego pasa a la siguiente oración del día.' },
+                    { q: () => '¿El tiempo restante depende de mi ubicación actual?', a: c => `El tiempo restante depende de la ciudad seleccionada en la página. Si la página está dedicada a ${c}, el cálculo se basa en su zona horaria y horario.` },
+                    { q: () => '¿Por qué la cuenta regresiva difiere de otra web?', a: () => 'La cuenta regresiva puede variar ligeramente por el método de cálculo, las coordenadas usadas o los ajustes de los ángulos Fajr/Isha/Asr.' },
+                    { q: () => '¿Qué hago cuando la cuenta regresiva llega a cero?', a: () => 'Cuando la cuenta llega a cero, la oración ha comenzado, y después la página debería pasar a calcular el tiempo restante para la siguiente oración.' },
+                ],
+            },
+            bn: {
+                h2_1: c => `${c}-এ নামাজের জন্য বাকি সময় কীভাবে গণনা করা হয়?`,
+                p_1:  c => `বাকি সময় বর্তমান সময়কে ${c}-এ পরবর্তী আযানের সময়ের সাথে তুলনা করে গণনা করা হয়। যদি পরবর্তী নামাজ ফজর হয়, কাউন্টডাউন বর্তমান ঘন্টা ও সেই নামাজের সময়ের পার্থক্য দেখায়। নামাজের সময় শুরু হলে কাউন্টডাউন স্বয়ংক্রিয়ভাবে দিনের ক্রম অনুসারে পরবর্তী নামাজে চলে যায়।`,
+                h2_2: () => 'কাউন্টডাউন শূন্যে পৌঁছালে কী হয়?',
+                p_2:  () => 'কাউন্টডাউন শূন্যে পৌঁছালে শহরের স্থানীয় সময় অনুসারে নামাজের সময় শুরু হয়ে যায়। প্রদর্শিত নামাজ আপডেট হয় এবং পৃষ্ঠা পরবর্তী নামাজে চলে যায় — যেমন ফজর থেকে যোহর, বা মাগরিব থেকে ইশা। এভাবে পৃষ্ঠাটি সারাদিন বর্তমান সময়ের সাথে সামঞ্জস্য রাখে।',
+                h2_3: () => 'বাকি সময় এবং সম্পূর্ণ নামাজ সময়সূচির পার্থক্য',
+                p_3:  () => 'বাকি সময়ের পৃষ্ঠাটি একটি দ্রুত প্রশ্নে কেন্দ্রীভূত: পরবর্তী আযান পর্যন্ত কত সময় বাকি? সম্পূর্ণ নামাজের সময়সূচি পৃষ্ঠা দিনের পুরো প্রোগ্রাম দেখায় — ফজর, সূর্যোদয়, যোহর, আসর, মাগরিব এবং ইশা। দ্রুত পর্যবেক্ষণের জন্য এই পৃষ্ঠা ব্যবহার করুন এবং দিনের বিস্তারিত প্রয়োজন হলে সম্পূর্ণ সময়সূচিতে যান।',
+                h2_4: () => 'বাকি সময় কেন বিভিন্ন সাইটে আলাদা হতে পারে?',
+                p_4:  () => 'হিসাবের পদ্ধতি, আসরের মাযহাব সেটিং, ফজর/ইশার গোধূলি কোণ, বা শহরের জন্য ব্যবহৃত স্থানাঙ্কের পার্থক্যের কারণে সাইটগুলোর মধ্যে সামান্য পার্থক্য আসতে পারে। তাই শহর সঠিক হওয়া এবং নির্বাচিত পদ্ধতি ব্যবহারকারীর বিশ্বস্ত উৎসের সাথে মেলা গুরুত্বপূর্ণ।',
+                h2_5: () => 'নামাজের কাউন্টডাউন সঠিকভাবে কীভাবে পড়বেন',
+                p_5:  () => 'কাউন্টডাউন সাধারণত বাকি সময়কে ঘন্টা, মিনিট এবং সেকেন্ডে দেখায়। যদি 04:08:26 দেখায়, এর অর্থ পরবর্তী নামাজ পর্যন্ত প্রায় চার ঘন্টা, আট মিনিট এবং ছাব্বিশ সেকেন্ড বাকি। সময় গড়ালে কাউন্টডাউন স্বয়ংক্রিয়ভাবে কমে আসে যতক্ষণ না নামাজের সময় শুরু হয়, তারপর পরবর্তী নামাজের জন্য গণনা শুরু করে।',
+                h2_6: () => 'দিনের মধ্যে পৃষ্ঠাটি ব্যবহার',
+                p_6:  () => 'এই পৃষ্ঠাটি ব্যবহারকারীদের সাহায্য করে যারা দীর্ঘ সময়সূচি না পড়ে নিকটতম নামাজের সময় দ্রুত জানতে চান। আপনি কাজ, পড়াশোনা বা বাড়ি থেকে বের হওয়ার আগে পরবর্তী আযান পর্যন্ত বাকি সময় দেখতে এতে ফিরে আসতে পারেন। কাউন্টডাউনের নিচে নামাজের লিঙ্কগুলো দিনের অবশিষ্ট নামাজের ক্রম বুঝতেও সহায়তা করে।',
+                guideTitle: c => `${c}-এ নামাজের কাউন্টডাউন ব্যবহারের দ্রুত নির্দেশিকা`,
+                guide: [
+                    { h: 'প্রথমে প্রদর্শিত নামাজের নাম যাচাই করুন', p: 'কাউন্টডাউনের উপর নির্ভর করার আগে সময়ের পাশে দেখানো নামাজের নাম দেখুন। আপনি কখন পৃষ্ঠা পরিদর্শন করছেন তার উপর নির্ভর করে কাউন্টডাউন ফজর, যোহর, আসর, মাগরিব বা ইশার জন্য হতে পারে।' },
+                    { h: 'কাউন্টডাউনের পাশে আযানের সময় ক্রস-চেক করুন', p: 'কাউন্টডাউনের পাশে আযানের সময় থাকা ফলাফল যাচাইয়ে সহায়তা করে। কাউন্টডাউন চার ঘন্টা দেখালে, প্রদর্শিত নামাজের সময়ের সাথে তুলনা করে নিশ্চিত হোন যে পাঠ যৌক্তিক।' },
+                    { h: 'প্রয়োজনে নামাজের সময়সূচি বোতাম ব্যবহার করুন', p: 'যদি আপনি দিনের সমস্ত সময় পর্যালোচনা করতে চান, সম্পূর্ণ নামাজ সময়সূচি খোলার বোতাম ব্যবহার করুন। কাউন্টডাউন পৃষ্ঠা দ্রুত প্রশ্নের জন্য ভাল; সময়সূচি পৃষ্ঠা সম্পূর্ণ দিনের পরিকল্পনার জন্য ভাল।' },
+                    { h: 'মধ্যরাতের পর পরিবর্তনে লক্ষ্য রাখুন', p: 'ইশা শেষ হওয়ার পর কাউন্টডাউন পরের দিনের ফজরের দিকে গণনা শুরু করতে পারে। এই আচরণ স্বাভাবিক কারণ পৃষ্ঠাটি শহরের স্থানীয় সময় অনুসারে নিকটতম আসন্ন আযানের উপর নির্ভর করে।' },
+                ],
+                faqTitle: c => `${c}-এ নামাজের জন্য বাকি সময় সম্পর্কে সাধারণ প্রশ্ন`,
+                faq: [
+                    { q: c => `${c}-এ এখন নামাজের জন্য কত সময় বাকি?`, a: c => `কাউন্টডাউন বর্তমান স্থানীয় সময় এবং ${c}-এ দৈনিক নামাজ সময়সূচির ভিত্তিতে পরবর্তী নামাজের জন্য বাকি সময় দেখায়।` },
+                    { q: () => 'কাউন্টডাউন কি স্বয়ংক্রিয়ভাবে আপডেট হয়?', a: () => 'হ্যাঁ — কাউন্টডাউন স্বয়ংক্রিয়ভাবে আপডেট হয় যতক্ষণ না নামাজের সময় শুরু হয়, তারপর দিনের ক্রম অনুসারে পরবর্তী নামাজে স্থানান্তরিত হয়।' },
+                    { q: () => 'বাকি সময় কি আমার বর্তমান অবস্থানের উপর নির্ভর করে?', a: c => `বাকি সময় পৃষ্ঠায় নির্বাচিত শহরের উপর নির্ভর করে। যদি পৃষ্ঠা ${c}-এর জন্য নির্দিষ্ট হয়, সময় সেই শহরের টাইমজোন এবং সময়সূচির ভিত্তিতে গণনা করা হয়।` },
+                    { q: () => 'কাউন্টডাউন কেন অন্য সাইট থেকে আলাদা?', a: () => 'হিসাবের পদ্ধতি, ব্যবহৃত স্থানাঙ্ক, বা ফজর/ইশা/আসর কোণ সেটিংসের কারণে কাউন্টডাউন কিছুটা আলাদা হতে পারে।' },
+                    { q: () => 'কাউন্টডাউন শূন্যে পৌঁছালে আমি কী করব?', a: () => 'কাউন্টডাউন শূন্যে পৌঁছালে নামাজের সময় শুরু হয়ে যায়, এবং তারপর পৃষ্ঠাটি পরবর্তী নামাজের জন্য বাকি সময়ের গণনায় চলে যাওয়া উচিত।' },
+                ],
+            },
+            ms: {
+                h2_1: c => `Bagaimana masa berbaki untuk solat di ${c} dikira?`,
+                p_1:  c => `Masa berbaki dikira dengan membandingkan waktu sekarang dengan waktu azan seterusnya di ${c}. Jika solat seterusnya contohnya Subuh, kira detik memaparkan perbezaan antara waktu sekarang dengan waktu solat tersebut. Setelah waktu solat masuk, kira detik beralih secara automatik ke solat seterusnya mengikut susunan hari.`,
+                h2_2: () => 'Apa yang berlaku apabila kira detik mencapai sifar?',
+                p_2:  () => 'Apabila kira detik mencapai sifar, waktu solat telah masuk mengikut waktu tempatan bandar. Solat yang dipaparkan dikemas kini dan halaman beralih ke solat seterusnya — contohnya dari Subuh ke Zohor atau dari Maghrib ke Isyak. Dengan cara ini halaman kekal selari dengan waktu sekarang sepanjang hari.',
+                h2_3: () => 'Perbezaan antara masa berbaki dan jadual solat penuh',
+                p_3:  () => 'Halaman masa berbaki tertumpu pada satu soalan pantas: berapa lama lagi sehingga azan seterusnya? Halaman jadual solat penuh memaparkan keseluruhan jadual hari — Subuh, Syuruk, Zohor, Asar, Maghrib dan Isyak. Gunakan halaman ini untuk pemantauan pantas dan beralih ke jadual penuh apabila perlukan butiran sepanjang hari.',
+                h2_4: () => 'Mengapa masa berbaki mungkin berbeza antara tapak?',
+                p_4:  () => 'Perbezaan kecil boleh muncul kerana kaedah pengiraan, tetapan mazhab Asar, sudut senja Subuh/Isyak atau koordinat yang digunakan untuk bandar. Oleh itu penting bandar adalah betul dan kaedah yang dipilih sepadan dengan sumber yang anda percayai.',
+                h2_5: () => 'Cara membaca kira detik solat dengan betul',
+                p_5:  () => 'Kira detik biasanya memaparkan masa berbaki dalam jam, minit dan saat. Jika ia memaparkan 04:08:26, ini bermaksud kira-kira empat jam, lapan minit dan dua puluh enam saat baki sehingga solat seterusnya. Apabila masa berlalu, kira detik berkurang secara automatik sehingga waktu solat masuk, kemudian mula mengira untuk solat seterusnya.',
+                h2_6: () => 'Menggunakan halaman sepanjang hari',
+                p_6:  () => 'Halaman ini membantu pengguna yang ingin mengetahui waktu solat terdekat dengan pantas tanpa membaca jadual yang panjang. Anda boleh kembali kepadanya semasa kerja, belajar atau sebelum keluar rumah untuk melihat masa berbaki sehingga azan seterusnya. Pautan solat di bawah kira detik juga membantu anda memahami susunan solat yang berbaki pada hari ini.',
+                guideTitle: c => `Panduan pantas menggunakan kira detik solat di ${c}`,
+                guide: [
+                    { h: 'Sahkan dahulu nama solat yang dipaparkan', p: 'Sebelum bergantung pada kira detik, semak nama solat di sebelah waktu. Bergantung kepada bila anda melawat halaman, kira detik mungkin dikira untuk Subuh, Zohor, Asar, Maghrib atau Isyak.' },
+                    { h: 'Semak silang waktu azan di sebelah kira detik', p: 'Adanya waktu azan di sebelah kira detik membantu mengesahkan keputusan. Jika kira detik menunjukkan empat jam, bandingkan dengan waktu solat yang dipaparkan untuk memastikan bacaan masuk akal.' },
+                    { h: 'Gunakan butang waktu solat apabila perlu', p: 'Jika anda mahu menyemak semua waktu hari, gunakan butang yang membuka jadual solat penuh. Halaman kira detik sesuai untuk soalan pantas; jadual penuh lebih baik untuk perancangan harian.' },
+                    { h: 'Perhatikan perubahan selepas tengah malam', p: 'Selepas Isyak berakhir, kira detik mungkin mula mengira undur ke Subuh hari berikutnya. Tingkah laku ini normal kerana halaman bergantung pada azan terdekat akan datang mengikut waktu tempatan.' },
+                ],
+                faqTitle: c => `Soalan lazim tentang masa berbaki untuk solat di ${c}`,
+                faq: [
+                    { q: c => `Berapa lama lagi solat di ${c} sekarang?`, a: c => `Kira detik memaparkan masa berbaki untuk solat seterusnya berdasarkan waktu tempatan semasa dan jadual solat harian di ${c}.` },
+                    { q: () => 'Adakah kira detik dikemas kini secara automatik?', a: () => 'Ya — kira detik dikemas kini secara automatik sehingga waktu solat masuk, kemudian beralih ke solat seterusnya mengikut susunan hari.' },
+                    { q: () => 'Adakah masa berbaki bergantung pada lokasi semasa saya?', a: c => `Masa berbaki bergantung pada bandar yang dipilih pada halaman. Jika halaman dikhususkan untuk ${c}, masa dikira berdasarkan zon waktu dan jadual bandar tersebut.` },
+                    { q: () => 'Mengapa kira detik berbeza daripada tapak lain?', a: () => 'Kira detik mungkin berbeza sedikit disebabkan kaedah pengiraan, koordinat yang digunakan, atau tetapan sudut Subuh/Isyak/Asar.' },
+                    { q: () => 'Apa yang patut saya lakukan apabila kira detik mencapai sifar?', a: () => 'Apabila kira detik mencapai sifar, waktu solat telah masuk; selepas itu halaman sepatutnya beralih ke pengiraan masa berbaki untuk solat seterusnya.' },
+                ],
+            },
+        };
+        const _ts = _TL_SEO[_tlLang] || _TL_SEO.en;
+        // Build the related-links nav
+        const _tlLp = (_tlLang === 'ar') ? '' : ('/' + _tlLang);
+        const _tlPrayerHref = `${_tlLp}/prayer-times-in-${_tlSlugForLinks}`;
+        const _tlNptHref    = `${_tlLp}/next-prayer-time-in-${_tlSlugForLinks}`;
+        const _tlQiblaHref  = `${_tlLp}/qibla-in-${_tlSlugForLinks}`;
+        const _tlMoonHref   = `${_tlLp}/moon-in-${_tlSlugForLinks}`;
+        const _tlSeoBlock = `
+                <section class="time-left-content-grid" aria-label="${_escHtml(_ts.h2_1(_tlCity))}">
+                    <article class="time-left-content-card">
+                        <h2>${_escHtml(_ts.h2_1(_tlCity))}</h2>
+                        <p>${_escHtml(_ts.p_1(_tlCity))}</p>
+                    </article>
+                    <article class="time-left-content-card">
+                        <h2>${_escHtml(_ts.h2_2(_tlCity))}</h2>
+                        <p>${_escHtml(_ts.p_2(_tlCity))}</p>
+                    </article>
+                    <article class="time-left-content-card">
+                        <h2>${_escHtml(_ts.h2_3(_tlCity))}</h2>
+                        <p>${_escHtml(_ts.p_3(_tlCity))}</p>
+                    </article>
+                    <article class="time-left-content-card">
+                        <h2>${_escHtml(_ts.h2_4(_tlCity))}</h2>
+                        <p>${_escHtml(_ts.p_4(_tlCity))}</p>
+                    </article>
+                    <article class="time-left-content-card">
+                        <h2>${_escHtml(_ts.h2_5(_tlCity))}</h2>
+                        <p>${_escHtml(_ts.p_5(_tlCity))}</p>
+                    </article>
+                    <article class="time-left-content-card">
+                        <h2>${_escHtml(_ts.h2_6(_tlCity))}</h2>
+                        <p>${_escHtml(_ts.p_6(_tlCity))}</p>
+                    </article>
+                </section>
+                <section class="time-left-section-card time-left-guide">
+                    <div class="time-left-section-head">
+                        <h2>${_escHtml(_ts.guideTitle(_tlCity))}</h2>
+                        <p>${_escHtml(_tlL.guideSub)}</p>
+                    </div>
+                    <div class="time-left-guide-grid">
+                        ${_ts.guide.map(g => `<article>
+                            <h3>${_escHtml(g.h)}</h3>
+                            <p>${_escHtml(g.p)}</p>
+                        </article>`).join('\n                        ')}
+                    </div>
+                </section>
+                <section class="time-left-section-card time-left-faq-card">
+                    <div class="time-left-section-head">
+                        <h2>${_escHtml(_ts.faqTitle(_tlCity))}</h2>
+                        <p>${_escHtml(_tlL.faqSub)}</p>
+                    </div>
+                    <div class="time-left-faq-list">
+                        ${_ts.faq.map(f => `<article class="time-left-faq-item">
+                            <h3>${_escHtml(f.q(_tlCity))}</h3>
+                            <p>${_escHtml(f.a(_tlCity))}</p>
+                        </article>`).join('\n                        ')}
+                    </div>
+                </section>
+                <nav class="time-left-related-links" aria-label="related links">
+                    <a href="${_tlPrayerHref}">${_escHtml(_tlL.relPrayer(_tlCity))}</a>
+                    <a href="${_tlNptHref}">${_escHtml(_tlL.relNpt(_tlCity))}</a>
+                    <a href="${_tlQiblaHref}">${_escHtml(_tlL.relQibla(_tlCity))}</a>
+                    <a href="${_tlMoonHref}">${_escHtml(_tlL.relMoon(_tlCity))}</a>
+                </nav>`;
+        html = html.replace('<!-- TL-SEO-CONTENT -->', _tlSeoBlock);
     }
     // 1c) 🆕 Round 4 (Minimal): حقن class="next-prayer-time-page" في <html> لصفحة NPT
     //     CSS يستخدم html.next-prayer-time-page لإظهار .npt-hero وإخفاء .city-hero-answer + .tl-hero

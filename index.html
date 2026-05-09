@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=340" as="style">
-    <link rel="stylesheet" href="css/style.css?v=340">
+    <link rel="preload" href="css/style.css?v=341" as="style">
+    <link rel="stylesheet" href="css/style.css?v=341">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -485,6 +485,14 @@
                     <!-- 🆕 Tiny SEO paragraph (2 lines max) -->
                     <p class="tl-seo" id="tl-seo"></p>
                 </section>
+
+                <!-- TL-SEO-1 (2026-05-10): SSR-rendered long-form SEO content
+                     section. server.js _isTimeLeftSsr branch fills with
+                     6 content cards + 4-item practical guide + 5-item FAQ
+                     + related-links nav (~1000 words, 10 langs). Anchor
+                     sits below the countdown so the user sees the timer
+                     first, SEO content reads after. -->
+                <!-- TL-SEO-CONTENT -->
 
                 <!-- 🆕 Level 3: Sticky Mini Timer — يظهر عند scroll بعد الـ hero -->
                 <div class="tl-sticky" id="tl-sticky" aria-hidden="true">

@@ -18415,3 +18415,161 @@ html[data-theme="dark"] .next-practical-item h3 {
 html[data-theme="dark"] .next-practical-item p {
     color: var(--text-secondary, #cbd5cf);
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   TL-SEO-1 (2026-05-10)
+   /time-left-until-prayer-in-{city} long-form SEO content sections.
+   Sit BELOW the existing #tl-hero countdown card (which we keep intact).
+   Class namespace .time-left-* is separate from .next-* so the two pages
+   don't share styling and stay independently tunable.
+   ──────────────────────────────────────────────────────────────────────── */
+.time-left-content-grid {
+    max-width: 920px;
+    margin: 22px auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+.time-left-content-card,
+.time-left-section-card {
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.time-left-content-card h2 {
+    margin: 0 0 10px;
+    color: #063f25;
+    font-size: 21px;
+    line-height: 1.5;
+}
+.time-left-content-card p {
+    margin: 0;
+    color: #334139;
+    font-size: 15.5px;
+    line-height: 2;
+}
+.time-left-section-card {
+    max-width: 920px;
+    margin: 22px auto 0;
+}
+.time-left-section-head {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.time-left-section-head h2 {
+    margin: 0;
+    color: #063f25;
+    font-size: 24px;
+    line-height: 1.4;
+}
+.time-left-section-head p {
+    margin: 8px 0 0;
+    color: #66756c;
+    font-size: 15px;
+}
+.time-left-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.time-left-guide-grid article,
+.time-left-faq-item {
+    background: #f8fbf8;
+    border: 1px solid #e4eee7;
+    border-radius: 18px;
+    padding: 18px;
+}
+.time-left-guide-grid h3,
+.time-left-faq-item h3 {
+    margin: 0 0 8px;
+    color: #063f25;
+    font-size: 17px;
+    line-height: 1.5;
+}
+.time-left-guide-grid p,
+.time-left-faq-item p {
+    margin: 0;
+    color: #39483f;
+    font-size: 15px;
+    line-height: 1.9;
+}
+.time-left-faq-list {
+    display: grid;
+    gap: 12px;
+    max-width: 780px;
+    margin: 0 auto;
+}
+.time-left-related-links {
+    max-width: 920px;
+    margin: 22px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+.time-left-related-links a {
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.12);
+    color: #075d35;
+    border-radius: 999px;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.time-left-related-links a:hover {
+    background: #f0f8f3;
+    border-color: rgba(12, 94, 54, 0.25);
+}
+@media (max-width: 768px) {
+    .time-left-content-grid,
+    .time-left-guide-grid {
+        grid-template-columns: 1fr;
+    }
+    .time-left-content-card,
+    .time-left-section-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+}
+/* Dark-mode parity */
+html[data-theme="dark"] .time-left-content-card,
+html[data-theme="dark"] .time-left-section-card {
+    background: var(--card-bg, #1a1f1c);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+html[data-theme="dark"] .time-left-content-card h2,
+html[data-theme="dark"] .time-left-section-head h2 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .time-left-content-card p {
+    color: var(--text-primary, #e2e8e2);
+}
+html[data-theme="dark"] .time-left-section-head p {
+    color: var(--text-secondary, #cbd5cf);
+}
+html[data-theme="dark"] .time-left-guide-grid article,
+html[data-theme="dark"] .time-left-faq-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="dark"] .time-left-guide-grid h3,
+html[data-theme="dark"] .time-left-faq-item h3 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .time-left-guide-grid p,
+html[data-theme="dark"] .time-left-faq-item p {
+    color: var(--text-secondary, #cbd5cf);
+}
+html[data-theme="dark"] .time-left-related-links a {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.10);
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .time-left-related-links a:hover {
+    background: rgba(255, 255, 255, 0.08);
+}

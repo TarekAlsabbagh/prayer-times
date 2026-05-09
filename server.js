@@ -3640,6 +3640,82 @@ function _stripHtmlForHijriYearOnly(html) {
     return out;
 }
 
+// HCAL-1-fix (2026-05-09): heading neutralisation alternative to strip.
+// Walks each .page wrapper EXCEPT activeWrapperId and converts <h1> / <h2>
+// inside it to a non-heading tag (<div>). Class/id/attributes preserved so
+// CSS class-based selectors continue to apply. Crawlers / SEOptimer see
+// far fewer headings without any layout change (wrappers stay display:none
+// per the .page rule in critical CSS).
+//
+// We use depth-counted balanced traversal (same algorithm as _stripElement)
+// to find each .page wrapper's range, then run a scoped replacement inside.
+function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
+    // Scan from start; for each match of class="page" id="page-X", get the
+    // range of the wrapper, and if id !== activeWrapperId, demote h1/h2
+    // inside that range.
+    const wrapperRe = /<(\w+)\b[^>]*?\sclass="page"[^>]*?\sid="(page-[a-z-]+)"[^>]*?>/g;
+    let m;
+    let outChunks = [];
+    let lastIdx = 0;
+    while ((m = wrapperRe.exec(html)) !== null) {
+        const tagName = m[1].toLowerCase();
+        const wrapperId = m[2];
+        const wrapperStart = m.index;
+        const afterOpen = wrapperStart + m[0].length;
+        // Find balanced close
+        const openTagRe  = new RegExp('<' + tagName + '\\b', 'ig');
+        const closeTagRe = new RegExp('</' + tagName + '\\s*>', 'ig');
+        let depth = 1, i = afterOpen;
+        while (depth > 0 && i < html.length) {
+            openTagRe.lastIndex  = i;
+            closeTagRe.lastIndex = i;
+            const nextOpen  = openTagRe.exec(html);
+            const nextClose = closeTagRe.exec(html);
+            if (!nextClose) { i = html.length; break; }
+            if (nextOpen && nextOpen.index < nextClose.index) {
+                depth++;
+                i = nextOpen.index + nextOpen[0].length;
+            } else {
+                depth--;
+                i = nextClose.index + nextClose[0].length;
+            }
+        }
+        const wrapperEnd = i;
+        // Append text before this wrapper unchanged
+        outChunks.push(html.slice(lastIdx, wrapperStart));
+        // Append wrapper open tag unchanged
+        outChunks.push(m[0]);
+        // Inner range: [afterOpen, wrapperEnd - len(closing tag))
+        // We don't need to find exact close offset; just include closing
+        // tag pattern. Simpler: take inner = html.slice(afterOpen, wrapperEnd)
+        // and split off the trailing </tag> if present.
+        let inner = html.slice(afterOpen, wrapperEnd);
+        const trailingClose = '</' + tagName + '>';
+        let close = '';
+        if (inner.endsWith(trailingClose)) {
+            close = trailingClose;
+            inner = inner.slice(0, -trailingClose.length);
+        }
+        if (wrapperId !== activeWrapperId) {
+            // Demote h1/h2 inside inactive wrapper. Preserve attributes via
+            // capture group. The inactive wrapper is display:none anyway, so
+            // visual impact is zero. Class-based CSS keeps applying because
+            // the new <div> retains the same class attribute.
+            inner = inner
+                .replace(/<h1\b/gi, '<div')
+                .replace(/<\/h1>/gi, '</div>')
+                .replace(/<h2\b/gi, '<div')
+                .replace(/<\/h2>/gi, '</div>');
+        }
+        outChunks.push(inner);
+        outChunks.push(close);
+        lastIdx = wrapperEnd;
+        wrapperRe.lastIndex = wrapperEnd;
+    }
+    outChunks.push(html.slice(lastIdx));
+    return outChunks.join('');
+}
+
 // ===== Phase I — H1 deduplication per route =====
 // SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
 // CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
@@ -9085,16 +9161,41 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace('<!-- HD-1-CONTENT -->', _hubBlock);
     }
 
-    // 1f-pre) HCAL-1 (2026-05-09): /hijri-calendar Hub — strip every inactive
-    //     page wrapper so SEOptimer reports H1=1 + minimal H2s instead of
-    //     13 H1 / 85 H2. Each variant keeps only its own active page wrapper
-    //     plus the shared shell (header, sidebar, footer, scripts).
+    // 1f-pre) HCAL-1-fix (2026-05-09): /hijri-calendar Hub strip REMOVED.
+    //     Earlier this branch invoked _stripHtmlForHijriYearOnly() which
+    //     deleted every inactive .page wrapper from the SSR HTML. That
+    //     succeeded at H1=1 / H2=6 / Word=1300+ goals BUT triggered a
+    //     catastrophic CLS regression: Mobile 0.011 → 0.236, Desktop
+    //     0.001 → 1.000. Lighthouse blamed `footer.footer` and `html`
+    //     respectively. The cause: stripping changed how the parent
+    //     <main> stacks children, and JS hydration of #page-hijri-year's
+    //     empty containers (info-grid, table-body, years-grid, faq,
+    //     seo-text, footer-seo) then grew the active page significantly,
+    //     pushing the footer down by hundreds of pixels.
+    //
+    //     The proper fix needs either (a) full SSR-fill of every empty
+    //     #hyear-* container so JS hydration is a no-op, or (b) leave
+    //     inactive pages in DOM (display:none = 0 layout impact) and
+    //     only neutralise their headings. We take (b) below — keep the
+    //     wrappers in DOM, demote their H2 elements to a non-heading
+    //     tag so SEOptimer reports a small H2 count without any layout
+    //     side-effect.
+    //
+    //     The strip helpers _stripHtmlForHijriYearOnly /
+    //     _stripHtmlForHijriMonthHub are kept defined but not invoked.
+    //     Future redesign (HCAL-2) may revisit using strip + full
+    //     SSR-fill if needed.
     const _isHijriYearHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath);
     const _isHijriMonthHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(urlPath);
-    if (_isHijriYearHub) {
-        html = _stripHtmlForHijriYearOnly(html);
-    } else if (_isHijriMonthHub) {
-        html = _stripHtmlForHijriMonthHub(html);
+    if (_isHijriYearHub || _isHijriMonthHub) {
+        // Heading-only neutralisation: convert <h2 to <div data-was="h2"
+        // INSIDE inactive page wrappers. Those wrappers have display:none
+        // applied via critical CSS (.page { display:none } + override on
+        // active page only), so converting tags has zero visual / layout
+        // effect. SEOptimer reads raw HTML and counts headings — it sees
+        // only the 6 H2 inside #page-hijri-year (or month).
+        const _activeWrapperId = _isHijriMonthHub ? 'page-hijri-month' : 'page-hijri-year';
+        html = _demoteHeadingsInInactivePageWrappers(html, _activeWrapperId);
     }
 
     // HCAL-1 (2026-05-09): SSR Usage Guide content injection on year-hub.

@@ -17690,3 +17690,117 @@ html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker
         font-size: 1.45rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NPT-DARK-FIX (2026-05-09): comprehensive dark-mode parity for the
+   /next-prayer-time-in-{city} hero card (.npt-hero / .npt-hero-inner +
+   children). Earlier the npt-hero parent had ONE rule at line 452 setting
+   `background: var(--card-bg)` — but .npt-hero-inner overrode with a
+   white→light-green gradient, and ~10 children used hardcoded hex colors
+   (#1c4a2a / #333 / #666 / #555 / #fafafa / #ececec) that don't switch
+   to dark.
+
+   Result on dark theme: the npt-hero card stayed visually LIGHT (white
+   gradient background, dark text) while the rest of the page was dark —
+   inconsistent + hard to read. User feedback: "الالوان غير متناسقة
+   ومظبوطة مع الوضع الداكن".
+
+   This block uses CSS variables (--card-bg, --bg-elevated, --text,
+   --text-light, --primary, --primary-light, --border, etc.) so the same
+   rules cascade correctly to whatever theme is active. CSS-only — no DOM,
+   no JS, no SEO change.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+html[data-theme="dark"] .npt-hero-inner {
+    background: linear-gradient(180deg, var(--card-bg, #2d333b) 0%, var(--bg-elevated, #373e47) 100%);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.30);
+}
+html[data-theme="dark"] .npt-h1 {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .npt-h1-city {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .npt-h1-today {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] .npt-next-card {
+    background: linear-gradient(135deg, rgba(77, 203, 140, 0.10), rgba(232, 200, 96, 0.08));
+    border-color: rgba(77, 203, 140, 0.22);
+}
+html[data-theme="dark"] .npt-next-label {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] .npt-next-name {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .npt-next-time {
+    color: var(--text, #cdd9e5);
+}
+html[data-theme="dark"] .npt-upcoming {
+    background: var(--bg-elevated, #373e47);
+}
+html[data-theme="dark"] .npt-upcoming-title {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] .npt-upcoming-list li {
+    border-bottom-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .npt-upcoming-list .npt-up-name {
+    color: var(--text, #cdd9e5);
+}
+html[data-theme="dark"] .npt-upcoming-list .npt-up-time {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .npt-cta {
+    background: linear-gradient(135deg, var(--primary-light, #4ab87a), var(--primary, #2d9059));
+    color: var(--bg, #22272e);
+    box-shadow: 0 4px 14px rgba(77, 203, 140, 0.20);
+}
+html[data-theme="dark"] .npt-cta:hover {
+    box-shadow: 0 6px 18px rgba(77, 203, 140, 0.32);
+}
+html[data-theme="dark"] .npt-secondary {
+    color: var(--text-light, #a8b3c1);
+    border-bottom-color: rgba(77, 203, 140, 0.40);
+}
+html[data-theme="dark"] .npt-secondary:hover {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── Same fixes for the parallel /time-left-until-prayer-in-{city}
+   hero (.tl-hero / .tl-hero-inner + children). Same hardcoded-hex
+   problem; same comprehensive dark-mode override. */
+html[data-theme="dark"] .tl-hero-inner {
+    background: linear-gradient(180deg, var(--card-bg, #2d333b) 0%, var(--bg-elevated, #373e47) 100%);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.30);
+}
+html[data-theme="dark"] .tl-h1,
+html[data-theme="dark"] .tl-h1-city {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .tl-h1-today {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] .tl-countdown-card {
+    background: linear-gradient(135deg, rgba(77, 203, 140, 0.10), rgba(232, 200, 96, 0.08));
+    border-color: rgba(77, 203, 140, 0.22);
+}
+html[data-theme="dark"] .tl-countdown,
+html[data-theme="dark"] .tl-countdown-num {
+    color: var(--accent, #e8c860);
+}
+html[data-theme="dark"] .tl-prayer-name {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .tl-meta {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] .tl-cta {
+    background: linear-gradient(135deg, var(--primary-light, #4ab87a), var(--primary, #2d9059));
+    color: var(--bg, #22272e);
+    box-shadow: 0 4px 14px rgba(77, 203, 140, 0.20);
+}
+html[data-theme="dark"] .tl-cta:hover {
+    box-shadow: 0 6px 18px rgba(77, 203, 140, 0.32);
+}

@@ -12537,6 +12537,168 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
 
 // ===== /og-image.svg — dynamic OG image endpoint (1200x630) =====
 // Returns SVG as OG image. Accepts ?t=<title>&l=<ar|en>.
+// ═══════════════════════════════════════════════════════════════════════════
+// HTTP-404 — proper not-found page with HTTP 404 status (no soft-404 redirect)
+// ═══════════════════════════════════════════════════════════════════════════
+//   SEO scanners flag a hard problem when an unknown URL returns 200 OK with
+//   a SPA-style fallback index.html — Google then indexes the URL as
+//   "Soft 404" and may de-rank the whole domain. Fix: any URL that does NOT
+//   match a real route returns HTTP 404 with a dedicated, helpful 404 page.
+//
+//   The 404 page:
+//   - Detects language from URL prefix (/en, /fr, etc. → fallback ar)
+//   - Renders 10-lang title + headline + brief explanation
+//   - Renders 4 helpful links (home, prayer times, qibla, today-hijri-date)
+//   - Has <meta name="robots" content="noindex,follow"> so crawlers don't
+//     index the 404 page itself but DO follow the helpful links
+//   - Inlines minimal CSS — no external assets needed (also works if static
+//     resolver is broken)
+//   - Sets canonical to SITE_URL home (404 has no canonical of its own)
+//
+//   Called from the catch-all at the end of the request handler (urlPath has
+//   no extension and no file matched). For asset 404s (.css/.js/.png missing)
+//   the existing res.writeHead(404, 'text/plain') path stays as-is.
+function send404Page(urlPath, res, acceptEnc) {
+    const m = (urlPath || '').match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
+    const lang = m ? m[1] : 'ar';
+    const isRtl = (lang === 'ar' || lang === 'ur');
+    const langPrefix = lang === 'ar' ? '' : ('/' + lang);
+
+    const T = {
+        ar: {
+            title:'الصفحة غير موجودة | 404',
+            h1:'404 — الصفحة غير موجودة',
+            sub:'الرابط الذي طلبته غير صحيح أو لم يعد متوفراً.',
+            help:'إليك بعض الروابط المفيدة:',
+            home:'الصفحة الرئيسية', prayer:'مواقيت الصلاة', qibla:'القبلة', hijri:'التاريخ الهجري'
+        },
+        en: {
+            title:'Page Not Found | 404',
+            h1:'404 — Page Not Found',
+            sub:'The URL you requested is invalid or no longer available.',
+            help:'Here are some useful links:',
+            home:'Home', prayer:'Prayer Times', qibla:'Qibla', hijri:'Today\'s Hijri Date'
+        },
+        fr: {
+            title:'Page introuvable | 404',
+            h1:'404 — Page introuvable',
+            sub:'L\'URL demandée est invalide ou n\'est plus disponible.',
+            help:'Voici quelques liens utiles :',
+            home:'Accueil', prayer:'Heures de prière', qibla:'Qibla', hijri:'Date hijri d\'aujourd\'hui'
+        },
+        tr: {
+            title:'Sayfa Bulunamadı | 404',
+            h1:'404 — Sayfa Bulunamadı',
+            sub:'İstediğiniz bağlantı geçersiz veya artık mevcut değil.',
+            help:'İşte bazı yararlı bağlantılar:',
+            home:'Ana Sayfa', prayer:'Namaz Vakitleri', qibla:'Kıble', hijri:'Bugünün Hicri Tarihi'
+        },
+        ur: {
+            title:'صفحہ موجود نہیں | 404',
+            h1:'404 — صفحہ موجود نہیں',
+            sub:'آپ نے جو URL طلب کیا وہ غلط ہے یا اب دستیاب نہیں۔',
+            help:'یہاں چند مفید روابط ہیں:',
+            home:'صفحہ اول', prayer:'نماز کے اوقات', qibla:'قبلہ', hijri:'آج کی ہجری تاریخ'
+        },
+        de: {
+            title:'Seite nicht gefunden | 404',
+            h1:'404 — Seite nicht gefunden',
+            sub:'Die angeforderte URL ist ungültig oder nicht mehr verfügbar.',
+            help:'Hier sind einige nützliche Links:',
+            home:'Startseite', prayer:'Gebetszeiten', qibla:'Qibla', hijri:'Heutiges Hidschri-Datum'
+        },
+        id: {
+            title:'Halaman Tidak Ditemukan | 404',
+            h1:'404 — Halaman Tidak Ditemukan',
+            sub:'URL yang Anda minta tidak valid atau tidak tersedia lagi.',
+            help:'Berikut beberapa tautan yang berguna:',
+            home:'Beranda', prayer:'Waktu Salat', qibla:'Kiblat', hijri:'Tanggal Hijriah Hari Ini'
+        },
+        es: {
+            title:'Página no encontrada | 404',
+            h1:'404 — Página no encontrada',
+            sub:'La URL solicitada es inválida o ya no está disponible.',
+            help:'Aquí tienes algunos enlaces útiles:',
+            home:'Inicio', prayer:'Horarios de oración', qibla:'Qibla', hijri:'Fecha hijri de hoy'
+        },
+        bn: {
+            title:'পৃষ্ঠাটি পাওয়া যায়নি | 404',
+            h1:'404 — পৃষ্ঠাটি পাওয়া যায়নি',
+            sub:'আপনি যে URL অনুরোধ করেছেন তা অবৈধ বা আর উপলব্ধ নেই।',
+            help:'এখানে কিছু দরকারী লিঙ্ক রয়েছে:',
+            home:'হোম', prayer:'নামাজের সময়', qibla:'কিবলা', hijri:'আজকের হিজরি তারিখ'
+        },
+        ms: {
+            title:'Halaman Tidak Dijumpai | 404',
+            h1:'404 — Halaman Tidak Dijumpai',
+            sub:'URL yang anda minta tidak sah atau tidak lagi tersedia.',
+            help:'Berikut adalah beberapa pautan berguna:',
+            home:'Laman Utama', prayer:'Waktu Solat', qibla:'Kiblat', hijri:'Tarikh Hijrah Hari Ini'
+        }
+    };
+    const t = T[lang] || T.ar;
+    const home   = (lang === 'ar') ? '/' : (langPrefix + '/');
+    const prayer = (lang === 'ar') ? '/prayer-times-worldwide' : (langPrefix + '/prayer-times-worldwide');
+    const qibla  = langPrefix + '/qibla';
+    const hijri  = langPrefix + '/today-hijri-date';
+
+    const html = `<!DOCTYPE html>
+<html lang="${lang}" dir="${isRtl ? 'rtl' : 'ltr'}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<title>${_escHtml(t.title)}</title>
+<link rel="canonical" href="${SITE_URL}${home}">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Arabic","Noto Sans Bengali","Noto Sans",Tahoma,Arial,sans-serif;background:#f0f2f5;color:#2c3e50;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;line-height:1.6}
+.card{background:#fff;border-radius:14px;padding:36px 28px;max-width:520px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center}
+.code{font-size:5rem;font-weight:900;color:#1a6b3c;line-height:1;margin-bottom:8px;letter-spacing:-3px}
+h1{font-size:1.4rem;font-weight:700;margin-bottom:14px;color:#0d4a28}
+p{font-size:1rem;color:#5f6b78;margin-bottom:18px}
+.help{font-size:.95rem;color:#2c3e50;font-weight:600;margin:24px 0 14px}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.links a{display:block;padding:12px 14px;background:#f5f7f5;border:1px solid #ecf0ec;border-radius:10px;color:#1a6b3c;text-decoration:none;font-weight:600;transition:background .15s,transform .15s}
+.links a:hover{background:#1a6b3c;color:#fff;transform:translateY(-1px)}
+@media (max-width:480px){.links{grid-template-columns:1fr}.code{font-size:4rem}}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="code" aria-hidden="true">404</div>
+  <h1>${_escHtml(t.h1)}</h1>
+  <p>${_escHtml(t.sub)}</p>
+  <div class="help">${_escHtml(t.help)}</div>
+  <nav class="links" aria-label="${_escHtml(t.help)}">
+    <a href="${home}">${_escHtml(t.home)}</a>
+    <a href="${prayer}">${_escHtml(t.prayer)}</a>
+    <a href="${qibla}">${_escHtml(t.qibla)}</a>
+    <a href="${hijri}">${_escHtml(t.hijri)}</a>
+  </nav>
+</main>
+</body>
+</html>`;
+
+    const buf = Buffer.from(html, 'utf8');
+    const headers = {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Vary': 'Accept-Encoding',
+        'X-Robots-Tag': 'noindex,follow',
+    };
+    if (acceptEnc && acceptEnc.includes('gzip')) {
+        zlib.gzip(buf, (e, zbuf) => {
+            if (e) { res.writeHead(404, headers); res.end(buf); return; }
+            res.writeHead(404, { ...headers, 'Content-Encoding': 'gzip' });
+            res.end(zbuf);
+        });
+    } else {
+        res.writeHead(404, headers);
+        res.end(buf);
+    }
+}
+
 function handleOgImage(qs, res) {
     const params = new URLSearchParams(qs);
     const title = (params.get('t') || 'مواقيت الصلاة').slice(0, 110);
@@ -14974,10 +15136,15 @@ const server = http.createServer(async (req, res) => {
     fs.readFile(filePath, (err, data) => {
         if (err) {
             if (!ext || ext === '.html') {
-                readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
-                    if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-                    serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs);
-                });
+                // HTTP-404 (2026-05-09): previously this branch served
+                // index.html with HTTP 200 as a SPA-style fallback. SEO
+                // scanners (Google, SEOptimer) flag that as a "soft 404"
+                // and de-rank the domain. Now we serve a dedicated 404
+                // page (10-lang, with helpful nav links) and the correct
+                // HTTP 404 status. Real SSR routes (homepage, prayer-
+                // times-in-X, today-hijri-date, etc.) are handled BEFORE
+                // this catch-all and still return 200.
+                send404Page(urlPath, res, req.headers['accept-encoding'] || '');
             } else {
                 res.writeHead(404, {'Content-Type':'text/plain'});
                 res.end('Not Found');

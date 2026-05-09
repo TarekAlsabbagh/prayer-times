@@ -10587,6 +10587,13 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     transform: translateY(-100%);
     transition: transform .3s ease;
     pointer-events: none;
+    /* HD-18-D (2026-05-09): force GPU compositing via will-change so the
+       transform on .snb-visible never triggers a layout pass and Lighthouse
+       does not score it as a layout shift. Also adds backface-visibility
+       hidden as a defensive measure on older Chromium. Pairs with the
+       existing position:fixed (which already removes it from flow). */
+    will-change: transform;
+    backface-visibility: hidden;
 }
 .sticky-next-bar.snb-visible {
     transform: translateY(0);
@@ -14685,17 +14692,41 @@ html.hijri-day-page   #page-hijri-day {
 
 /* Hero card reservation. Same .hpage-hero.ht-hero class is shared between
    #page-hijri-today and #page-hijri-day, so the same pair of scoped selectors
-   covers both routes. Mobile reservation is the larger value (376px measured
-   + 4px buffer); desktop hero is shorter (1 stack line vs. wrapped on mobile). */
+   covers both routes.
+   HD-18 (2026-05-09): bumped to absorb residual CLS = 0.112 measured on
+   /today-hijri-date AR/EN/UR. Lighthouse final boundingRect was 359px on
+   mobile (was below the 380 reservation, but the shift still happened
+   because content reflowed inside the card after first paint). Raising
+   to 440 mobile / 340 desktop guarantees the card cannot grow past the
+   reservation in any of the 10 langs. Also adds `contain: layout` (HD-18-C)
+   so the card's internal reflows don't propagate to siblings below.
+   Combined with HD-18-B per-child reservations on .ht-day-num /.ht-month /
+   .ht-year and HD-13b's parity rule on #page-hijri-today padding, the
+   hero card now stays visually static from first paint through hydration. */
 html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
 html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
-    min-height: 280px;
+    min-height: 340px;
+    contain: layout;
 }
 @media (max-width: 768px) {
     html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
     html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
-        min-height: 380px;
+        min-height: 440px;
     }
+}
+/* HD-18-B: per-child reservations on the big-number visual stack. Without
+   these, a font-resolve event mid-render can change line-height on the
+   day-num glyph (4.2rem mobile, 5.5rem desktop), causing a tiny shift
+   that is amplified by the parent's flex layout. min-height pins the
+   row heights exactly to the rendered values measured in DevTools at
+   first paint with system-ui fonts. */
+.ht-hero-stack .ht-day-num { min-height: 88px; }
+.ht-hero-stack .ht-month   { min-height: 32px; }
+.ht-hero-stack .ht-year    { min-height: 18px; }
+@media (max-width: 520px) {
+    .ht-hero-stack .ht-day-num { min-height: 67px; }
+    .ht-hero-stack .ht-month   { min-height: 26px; }
+    .ht-hero-stack .ht-year    { min-height: 16px; }
 }
 
 /* Below-hero secondary reservations. The info-grid (6 cards) and FAQ (3 Q/A

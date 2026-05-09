@@ -73,6 +73,17 @@ const CRITICAL_PATTERNS = [
     /^#hijri-today-info-card$/,
     /^#hijri-today-info-card\s+\.info-card$/,
 
+    // HD-18-B (2026-05-09): per-child reservations on the hero visual stack
+    // (.ht-day-num / .ht-month / .ht-year). The big day number on
+    // /today-hijri-date is 4.2rem mobile / 5.5rem desktop — a font-resolve
+    // event mid-render can change line-height by 1-2px each, which the parent
+    // flex layout amplifies into a visible shift. min-height pins the row
+    // heights at first paint, so the stack cannot reflow.
+    /^\.ht-hero-stack\s+\.ht-(day-num|month|year)$/,
+    // HD-18-D: sticky-next-bar will-change/backface — must apply before any
+    // .snb-visible class flip, so it lives in critical CSS.
+    /^\.sticky-next-bar$/,
+
     // Countdown-A (2026-05-05): same robustness rationale for countdown pages.
     // Selectors target page IDs directly so child reservations don't depend
     // on html.countdown-page being present.

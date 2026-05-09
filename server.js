@@ -9399,6 +9399,43 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     </nav>
                 </section>`;
         html = html.replace('<!-- HCAL-2-MONTHS-CHIPS -->', _chipsBlock);
+
+        // HCAL-2c (2026-05-09): SSR-fill the Year Control Panel — panel title,
+        // label, prev/next year hrefs + button labels in active lang.
+        const _HCAL_PANEL = {
+            ar: { title: 'اختيار السنة الهجرية', label: 'السنة المعروضة', prev: '← السنة السابقة', next: 'السنة التالية →' },
+            en: { title: 'Choose Hijri Year', label: 'Currently displayed', prev: '← Previous year', next: 'Next year →' },
+            fr: { title: 'Choisir l\'année hégirienne', label: 'Année affichée', prev: '← Année précédente', next: 'Année suivante →' },
+            tr: { title: 'Hicri yıl seçin', label: 'Görüntülenen yıl', prev: '← Önceki yıl', next: 'Sonraki yıl →' },
+            ur: { title: 'ہجری سال منتخب کریں', label: 'دکھایا گیا سال', prev: '← پچھلا سال', next: 'اگلا سال →' },
+            de: { title: 'Hidschri-Jahr wählen', label: 'Angezeigtes Jahr', prev: '← Vorheriges Jahr', next: 'Nächstes Jahr →' },
+            id: { title: 'Pilih tahun Hijriah', label: 'Tahun yang ditampilkan', prev: '← Tahun sebelumnya', next: 'Tahun berikutnya →' },
+            es: { title: 'Elegir año Hégira', label: 'Año mostrado', prev: '← Año anterior', next: 'Año siguiente →' },
+            bn: { title: 'হিজরি সাল নির্বাচন করুন', label: 'প্রদর্শিত বছর', prev: '← আগের বছর', next: 'পরের বছর →' },
+            ms: { title: 'Pilih tahun Hijrah', label: 'Tahun yang dipaparkan', prev: '← Tahun sebelumnya', next: 'Tahun seterusnya →' },
+        };
+        const _hp = _HCAL_PANEL[seo.lang] || _HCAL_PANEL.en;
+        const _yearInt = parseInt(_hcalYear, 10);
+        const _prevHref = `${_hcalLangPrefix}/hijri-calendar/${_yearInt - 1}`;
+        const _nextHref = `${_hcalLangPrefix}/hijri-calendar/${_yearInt + 1}`;
+        // Replace panel title + label text
+        html = html.replace(
+            /<div id="hyear-panel-title" class="hyear-panel-title">[^<]*<\/div>/,
+            `<div id="hyear-panel-title" class="hyear-panel-title">${_escHtml(_hp.title)}</div>`
+        );
+        html = html.replace(
+            /<label for="hyear-year-select" id="hyear-panel-label" class="hyear-panel-label">[^<]*<\/label>/,
+            `<label for="hyear-year-select" id="hyear-panel-label" class="hyear-panel-label">${_escHtml(_hp.label)}</label>`
+        );
+        // Fill prev/next hrefs + labels
+        html = html.replace(
+            /<a id="hyear-prev-link"[^>]*>[^<]*<\/a>/,
+            `<a id="hyear-prev-link" class="hyear-year-nav-btn" href="${_prevHref}" rel="prev">${_escHtml(_hp.prev)}</a>`
+        );
+        html = html.replace(
+            /<a id="hyear-next-link"[^>]*>[^<]*<\/a>/,
+            `<a id="hyear-next-link" class="hyear-year-nav-btn" href="${_nextHref}" rel="next">${_escHtml(_hp.next)}</a>`
+        );
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections

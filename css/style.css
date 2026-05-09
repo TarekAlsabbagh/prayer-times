@@ -14874,17 +14874,17 @@ html.hijri-year-page #page-hijri-year {
    display:none from .page doesn't render, so no visual cost). */
 
 /* Hero card .hpage-hero-start contains H1 + intro <p> + Year Control
-   Panel (vertical with label + select + CTA inside).
-   HCAL-2b-fix-v3 (2026-05-09): mobile bumped 290 → 392 because the
-   panel switched from inline-pill to full vertical block (matches
-   desktop visually). Desktop kept 220 → 270 since the panel is now
-   guaranteed to render at this height across all langs. */
+   Panel (vertical with title/label/select/prev-next/CTA inside).
+   HCAL-2c (2026-05-09): bumped to match new natural T4 after panel
+   gained panel-title + prev/next-row + CTA-inside (4 extra rows).
+     desktop: 270 → 324 (+54)
+     mobile : 392 → 500 (+108) */
 #page-hijri-year .hpage-hero-start {
-    min-height: 270px;
+    min-height: 324px;
 }
 @media (max-width: 768px) {
     #page-hijri-year .hpage-hero-start {
-        min-height: 392px;
+        min-height: 500px;
     }
 }
 
@@ -14911,13 +14911,13 @@ html.hijri-year-page #page-hijri-year {
     }
 }
 
-/* Info grid: 4 cards. HCAL-2b-fix-v2 (2026-05-09): unified mobile/desktop
-   typography means each card is ~121px tall on both viewports. Desktop
-   shows 1 row; mobile shows 2 rows. Reservations match measured T4:
-     desktop: 1 × 121 + buffer = 124
-     mobile : 2 × 121 + gap 12 + container padding/extra = 280 measured */
+/* Info grid: 4 cards. HCAL-2c (2026-05-09): value font bumped to 1.7rem
+   desktop / 1.45rem mobile. Card grew accordingly:
+     desktop: 124 → 158 (+34)
+     mobile : 280 → unchanged (font already at 1.45rem on mobile,
+              card height stays ~121, grid 2 rows = 280) */
 #page-hijri-year #hyear-info-grid {
-    min-height: 124px;
+    min-height: 158px;
 }
 @media (max-width: 768px) {
     #page-hijri-year #hyear-info-grid {
@@ -17524,4 +17524,169 @@ html[data-theme="dark"] #page-hijri-year .hpage-months-table tbody tr.current-mo
    default to start-alignment within the #page-hijri-year subtree ── */
 #page-hijri-year > .section-card {
     text-align: start;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HCAL-2c (2026-05-09): Hero Year Control Panel — cohesive single card
+
+   User feedback: "زر التاريخ الهجري اليوم منفصل وبعيد أسفل اليسار، اللوحة
+   اليسرى تبدو فارغة، لا يوجد ترابط بصري بين اختيار السنة والزر".
+
+   Fix: keep ALL year-related controls inside ONE panel:
+     panel-title / panel-label / select / prev-next row / today-CTA.
+
+   Plus stats cards value font bumped from 1.45rem → 1.7rem desktop /
+   1.45rem mobile per user spec ("Desktop 26-30px, Mobile 22-24px").
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Panel as a cohesive card */
+#page-hijri-year .calendar-year-picker.hpage-year-picker {
+    /* base panel — same on mobile + desktop */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 18px 20px;
+    background: #f8fbf9;
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 14px;
+    margin: 0;
+}
+
+/* Panel title — UI heading (NOT a document heading H1/H2 — it's a div
+   so SEOptimer doesn't count it as an H2). */
+#page-hijri-year .hyear-panel-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    margin: 0 0 4px;
+    text-align: start;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.20);
+}
+
+/* Sub-label "السنة المعروضة" */
+#page-hijri-year .hyear-panel-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-light, #6b7b75);
+    text-align: start;
+    margin: 0;
+}
+
+/* Select — visually prominent but not oversized */
+#page-hijri-year .calendar-year-picker.hpage-year-picker .year-select {
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.20);
+    color: var(--primary-dark, #0d4a28);
+    font-weight: 800;
+    font-size: 1.25rem;
+    text-align: start;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0;
+}
+
+/* Prev/Next year nav row */
+#page-hijri-year .hyear-year-nav-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 0;
+}
+#page-hijri-year .hyear-year-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 8px;
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.86rem;
+    text-align: center;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hyear-year-nav-btn:hover {
+        background: rgba(26, 107, 60, 0.06);
+        border-color: rgba(26, 107, 60, 0.32);
+        transform: translateY(-1px);
+    }
+}
+
+/* CTA inside the panel — soft secondary button. Reset earlier external
+   CTA spacing (margin-top: 12 from previous phase) since now it lives
+   inside the panel via DOM. */
+#page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+#page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 11px 16px;
+    background: rgba(26, 107, 60, 0.08);
+    color: var(--primary-dark, #0d4a28);
+    border: 1px solid rgba(26, 107, 60, 0.22);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-align: center;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta .btn:hover {
+        background: rgba(26, 107, 60, 0.16);
+        border-color: rgba(26, 107, 60, 0.32);
+        transform: translateY(-1px);
+    }
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] #page-hijri-year .hyear-panel-title {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(77, 203, 140, 0.30);
+}
+html[data-theme="dark"] #page-hijri-year .hyear-panel-label {
+    color: var(--text-light, #a8b3c1);
+}
+html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker .year-select {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year .hyear-year-nav-btn {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta .btn {
+    background: rgba(77, 203, 140, 0.12);
+    color: var(--primary-light, #4ab87a);
+    border-color: rgba(77, 203, 140, 0.30);
+}
+
+/* ── Stats Cards: bigger value font (HCAL-2c spec) ──
+   Desktop 26-30px (1.65-1.85rem) / Mobile 22-24px (1.4-1.5rem) */
+#page-hijri-year #hyear-info-grid .info-card .info-card-value {
+    font-size: 1.7rem;
+}
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-info-grid .info-card .info-card-value {
+        font-size: 1.45rem;
+    }
 }

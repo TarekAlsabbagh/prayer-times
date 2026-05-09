@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-09T13:08:07.622Z
-   Source: css/style.css (full 582 KiB)
-   Critical: 52.8 KiB
+   Extracted on: 2026-05-09T16:12:37.997Z
+   Source: css/style.css (full 587 KiB)
+   Critical: 55.9 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -663,10 +663,10 @@ html.hijri-year-page #page-hijri-year{
         box-sizing: border-box;
     }}
 #page-hijri-year .hpage-hero-start{
-    min-height: 270px;
+    min-height: 324px;
 }
 @media (max-width: 768px){#page-hijri-year .hpage-hero-start{
-        min-height: 392px;
+        min-height: 500px;
     }}
 #page-hijri-year #hyear-breadcrumbs{
     min-height: 56px;
@@ -675,7 +675,7 @@ html.hijri-year-page #page-hijri-year{
         min-height: 95px;
     }}
 #page-hijri-year #hyear-info-grid{
-    min-height: 124px;
+    min-height: 158px;
 }
 @media (max-width: 768px){#page-hijri-year #hyear-info-grid{
         min-height: 280px;
@@ -1484,3 +1484,103 @@ html[data-theme="dark"] .home-service-card{
 #page-hijri-year > .section-card{
     text-align: start;
 }
+#page-hijri-year .calendar-year-picker.hpage-year-picker{
+    /* base panel — same on mobile + desktop */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 18px 20px;
+    background: #f8fbf9;
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 14px;
+    margin: 0;
+}
+#page-hijri-year .hyear-panel-title{
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    margin: 0 0 4px;
+    text-align: start;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.20);
+}
+#page-hijri-year .hyear-panel-label{
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-light, #6b7b75);
+    text-align: start;
+    margin: 0;
+}
+#page-hijri-year .calendar-year-picker.hpage-year-picker .year-select{
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.20);
+    color: var(--primary-dark, #0d4a28);
+    font-weight: 800;
+    font-size: 1.25rem;
+    text-align: start;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0;
+}
+#page-hijri-year .hyear-year-nav-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 0;
+}
+#page-hijri-year .hyear-year-nav-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 8px;
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.86rem;
+    text-align: center;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+@media (min-width: 769px){#page-hijri-year .hyear-year-nav-btn:hover{
+        background: rgba(26, 107, 60, 0.06);
+        border-color: rgba(26, 107, 60, 0.32);
+        transform: translateY(-1px);
+    }}
+#page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+#page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta .btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 11px 16px;
+    background: rgba(26, 107, 60, 0.08);
+    color: var(--primary-dark, #0d4a28);
+    border: 1px solid rgba(26, 107, 60, 0.22);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-align: center;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+@media (min-width: 769px){#page-hijri-year .calendar-year-picker.hpage-year-picker .hyear-today-cta .btn:hover{
+        background: rgba(26, 107, 60, 0.16);
+        border-color: rgba(26, 107, 60, 0.32);
+        transform: translateY(-1px);
+    }}
+#page-hijri-year #hyear-info-grid .info-card .info-card-value{
+    font-size: 1.7rem;
+}
+@media (max-width: 768px){#page-hijri-year #hyear-info-grid .info-card .info-card-value{
+        font-size: 1.45rem;
+    }}

@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=333" as="style">
-    <link rel="stylesheet" href="css/style.css?v=333">
+    <link rel="preload" href="css/style.css?v=334" as="style">
+    <link rel="stylesheet" href="css/style.css?v=334">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -2804,15 +2804,25 @@
                 <div class="section-card hpage-hero-start">
                     <h1 id="hyear-title" class="hpage-hero-title--lg" data-i18n="hyear.title">تقويم السنة الهجرية</h1>
                     <p id="hyear-intro" class="hpage-hero-intro hpage-hero-intro--start"></p>
+                    <!-- HCAL-2c (2026-05-09): Year Control Panel — single
+                         cohesive card grouping ALL year-related controls:
+                         panel title + label + select + prev/next + CTA.
+                         server.js _isHijriYearHub branch SSR-fills the
+                         per-lang text (panel_title / panel_label / year_prev
+                         / year_next) and the prev/next hrefs based on the
+                         current year context. -->
                     <div class="calendar-year-picker hpage-year-picker">
-                        <label for="hyear-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
+                        <div id="hyear-panel-title" class="hyear-panel-title">اختيار السنة الهجرية</div>
+                        <label for="hyear-year-select" id="hyear-panel-label" class="hyear-panel-label">السنة المعروضة</label>
                         <select id="hyear-year-select" class="year-select" onchange="goToHijriYear(this.value)"></select>
+                        <div class="hyear-year-nav-row">
+                            <a id="hyear-prev-link" class="hyear-year-nav-btn" href="#" rel="prev">السنة السابقة</a>
+                            <a id="hyear-next-link" class="hyear-year-nav-btn" href="#" rel="next">السنة التالية</a>
+                        </div>
+                        <p class="hyear-today-cta">
+                            <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
+                        </p>
                     </div>
-                    <!-- HD-2 (2026-05-07): CTA → /today-hijri-date Hub. Always visible on
-                         the year page so users can jump from any year to today's date. -->
-                    <p class="hyear-today-cta">
-                        <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
-                    </p>
                 </div>
                 <!-- Info Cards -->
                 <div class="section-card">

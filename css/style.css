@@ -18366,3 +18366,52 @@ html.next-prayer-time-page main.main-content {
     .next-current-prayer .next-prayer-name { font-size: 1.6rem; }
     .next-current-prayer .next-prayer-time { font-size: 1.15rem; }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   NPT-CONTENT-EXPAND-2 (2026-05-09)
+   Practical Guide section — 4 short non-overlapping tip cards inserted
+   between .next-content-grid and .next-faq-card. Adds substantive word
+   count without semantic duplication of existing h2_1..h2_6.
+   ──────────────────────────────────────────────────────────────────────── */
+.next-practical-guide {
+    margin-top: 20px;
+}
+.next-practical-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.next-practical-item {
+    background: #f8fbf8;
+    border: 1px solid #e4eee7;
+    border-radius: 18px;
+    padding: 20px;
+}
+.next-practical-item h3 {
+    margin: 0 0 8px;
+    color: #063f25;
+    font-size: 18px;
+    line-height: 1.5;
+}
+.next-practical-item p {
+    margin: 0;
+    color: #39483f;
+    font-size: 15px;
+    line-height: 1.95;
+}
+@media (max-width: 768px) {
+    .next-practical-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Dark-mode parity (matches .next-content-card dark theme) */
+html[data-theme="dark"] .next-practical-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="dark"] .next-practical-item h3 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .next-practical-item p {
+    color: var(--text-secondary, #cbd5cf);
+}

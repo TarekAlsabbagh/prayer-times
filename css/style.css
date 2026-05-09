@@ -17276,3 +17276,220 @@ html[data-theme="dark"] #page-hijri-year #hyear-today-in-year:not([hidden]) {
     border-color: rgba(77, 203, 140, 0.30);
     color: var(--primary-light, #4ab87a);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HCAL-2b (2026-05-09): Alignment unification + Year Summary Cards
+   polish for /hijri-calendar.
+
+   CSS-ONLY (one minor JS change to split .info-card-icon + .info-card-body).
+   No DOM/text/SEO/JSON-LD/routing change. CLS impact verified via puppeteer
+   T1/T4 measurement before commit (stats card height grows from ~80→~120,
+   reservation updated accordingly).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Unified RTL/LTR alignment — every section title + intro on
+   #page-hijri-year follows the document direction (start = right in RTL,
+   left in LTR). Center-alignment stays only on intentionally centered
+   numerical surfaces (countdown days, etc.). ── */
+#page-hijri-year h2,
+#page-hijri-year h3,
+#page-hijri-year #hyear-intro,
+#page-hijri-year .hcal1-guide-intro,
+#page-hijri-year .hcal2-chips-intro,
+#page-hijri-year #hyear-seo-text,
+#page-hijri-year #hyear-footer-seo,
+#page-hijri-year .hpage-years-current,
+#page-hijri-year .hpage-years-more,
+#page-hijri-year #hyear-table-title,
+#page-hijri-year #hyear-today-in-year {
+    text-align: start;
+}
+/* Some legacy classes use 'text-center' or .u-flex-center → unset on hijri-year */
+#page-hijri-year .u-flex-center {
+    justify-content: stretch;
+}
+
+/* ── 2. Year Summary Cards (4 cards) — strong typography hierarchy.
+   Override HCAL-1's compact 4-col with a more prominent layout: icon
+   badge on the inline-start side, body (label + big value) on the
+   other side. Card height ~120px desktop. Mobile keeps 2-col. ── */
+#page-hijri-year #hyear-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (max-width: 1024px) {
+    #page-hijri-year #hyear-info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+}
+@media (max-width: 480px) {
+    #page-hijri-year #hyear-info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+#page-hijri-year #hyear-info-grid .info-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #f8fbf9;
+    border: 1px solid rgba(0, 96, 60, 0.14);
+    border-radius: 14px;
+    min-height: 110px;
+    text-align: start;
+    transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+#page-hijri-year #hyear-info-grid .info-card .info-card-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 107, 60, 0.10);
+    border-radius: 50%;
+    font-size: 1.35rem;
+    line-height: 1;
+}
+#page-hijri-year #hyear-info-grid .info-card .info-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+#page-hijri-year #hyear-info-grid .info-card .info-card-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light, #6b7b75);
+    line-height: 1.3;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#page-hijri-year #hyear-info-grid .info-card .info-card-value {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    margin: 0;
+}
+@media (max-width: 1024px) {
+    #page-hijri-year #hyear-info-grid .info-card .info-card-value { font-size: 1.4rem; }
+    #page-hijri-year #hyear-info-grid .info-card .info-card-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+}
+@media (max-width: 480px) {
+    #page-hijri-year #hyear-info-grid .info-card { padding: 12px 14px; gap: 10px; }
+    #page-hijri-year #hyear-info-grid .info-card .info-card-value { font-size: 1.25rem; }
+    #page-hijri-year #hyear-info-grid .info-card .info-card-label { font-size: 0.78rem; }
+}
+@media (min-width: 769px) {
+    #page-hijri-year #hyear-info-grid .info-card:hover {
+        border-color: rgba(0, 96, 60, 0.28);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(0, 96, 60, 0.08);
+    }
+    #page-hijri-year #hyear-info-grid .info-card:hover .info-card-icon {
+        background: rgba(26, 107, 60, 0.18);
+    }
+}
+html[data-theme="dark"] #page-hijri-year #hyear-info-grid .info-card {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-info-grid .info-card .info-card-icon {
+    background: rgba(77, 203, 140, 0.16);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-info-grid .info-card .info-card-value {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 3. Hero balance — keep CTA inside the year-picker panel rather than
+   a third row spanning both columns. The CTA was previously placed in
+   `grid-row: 3` which created a visual gap below the panel. Move it
+   into the panel itself by overriding the grid-row to be the same as
+   the panel column with align-self end. ── */
+@media (min-width: 769px) {
+    #page-hijri-year .hpage-hero-start > .hyear-today-cta {
+        /* Override step 1's full-width row layout: place CTA inside the
+           year-picker panel column. Same column as the panel, sits below
+           the select. */
+        grid-column: 2;
+        grid-row: auto;
+        margin: 6px 0 0;
+        align-self: stretch;
+    }
+    #page-hijri-year .hpage-hero-start > .hyear-today-cta .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: rgba(26, 107, 60, 0.08);
+        color: var(--primary-dark, #0d4a28);
+        border: 1px solid rgba(26, 107, 60, 0.18);
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: background .15s, border-color .15s;
+    }
+    #page-hijri-year .hpage-hero-start > .hyear-today-cta .btn:hover {
+        background: rgba(26, 107, 60, 0.16);
+        border-color: rgba(26, 107, 60, 0.30);
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* ── 4. 12-month chips — uniform chip heights, tighter spacing ── */
+.hcal2-months-chips .hcal2-month-chip {
+    min-height: 48px;
+    padding: 12px 14px;
+}
+.hcal2-months-chips .hcal2-chip-num {
+    width: 26px;
+    height: 26px;
+    font-size: 0.8rem;
+}
+/* Soften current-month highlight per user spec ("بخلفية أخضر فاتح + badge أخضر غامق") */
+.hcal2-months-chips .hcal2-month-chip.current {
+    background: rgba(26, 107, 60, 0.08);
+    border-color: rgba(26, 107, 60, 0.32);
+}
+.hcal2-months-chips .hcal2-month-chip.current::after {
+    content: none; /* drop the bullet — not needed since badge already signals current */
+}
+
+/* ── 5. Months table — soften current-row highlight (user spec) ── */
+#page-hijri-year .hpage-months-table tbody tr.current-month td {
+    background: rgba(26, 107, 60, 0.06);
+    font-weight: 600;
+    color: var(--primary-dark, #0d4a28);
+}
+#page-hijri-year .hpage-months-table tbody tr.current-month td:first-child {
+    border-inline-start: 3px solid var(--primary, #1a6b3c);
+}
+html[data-theme="dark"] #page-hijri-year .hpage-months-table tbody tr.current-month td {
+    background: rgba(77, 203, 140, 0.10);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year .hpage-months-table tbody tr.current-month td:first-child {
+    border-inline-start-color: var(--primary-light, #4ab87a);
+}
+
+/* ── 6. Quick Actions (#hyear-cta) — start-aligned content (RTL: right) ── */
+#page-hijri-year #hyear-cta > a,
+#page-hijri-year #hyear-cta > button {
+    text-align: start;
+    justify-content: flex-start;
+}
+
+/* ── 7. Years navigation — chip layout aligned to start ── */
+#page-hijri-year #hyear-years-grid {
+    justify-content: flex-start;
+}
+
+/* ── 8. Section card alignment — make sure section-card content blocks
+   default to start-alignment within the #page-hijri-year subtree ── */
+#page-hijri-year > .section-card {
+    text-align: start;
+}

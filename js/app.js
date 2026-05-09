@@ -20158,6 +20158,13 @@ function loadHijriYearPage() {
     }
 
     // ── 3. Info Cards ─────────────────────────────────────────────
+    // HCAL-2b (2026-05-09): icon split from label into .info-card-icon
+    // span so CSS can style it as a 36-42px badge while value text becomes
+    // the dominant element of the card. Markup change is minor (one extra
+    // span + body wrapper) — backward-compatible CSS targets the new
+    // selectors without affecting other pages that use the same class
+    // names but different parent (#hijri-today-info-grid scopes its own
+    // info-card styling).
     const infoGrid = document.getElementById('hyear-info-grid');
     if (infoGrid) {
         const leapLabel = isLeap ? ui.leap_yes(totalYearDays) : ui.leap_no(totalYearDays);
@@ -20168,7 +20175,13 @@ function loadHijriYearPage() {
             ['🌙', ui.card_labels[3], ui.months_val],
         ];
         infoGrid.innerHTML = cards.map(([icon, label, value]) =>
-            `<div class="info-card"><div class="info-card-label">${icon} ${label}</div><div class="info-card-value">${value}</div></div>`
+            `<div class="info-card">
+                <span class="info-card-icon" aria-hidden="true">${icon}</span>
+                <div class="info-card-body">
+                    <div class="info-card-label">${label}</div>
+                    <div class="info-card-value">${value}</div>
+                </div>
+            </div>`
         ).join('');
     }
 

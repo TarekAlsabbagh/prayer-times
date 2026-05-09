@@ -7548,13 +7548,16 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
    and mobile (2-col, 3-row) viewports. .info-card child reservation
    prevents inner micro-shifts when text wraps differently between
    "13 يومًا" vs "ذو القعدة 1447 هـ". */
-#hijri-today-info-card { min-height: 240px; }
+/* HD-18-v2 (2026-05-09): values updated to T4 puppeteer measurements
+   (256px desktop, 398px mobile). The previous values (240/280/380) were
+   over-sized by ~16-18px → caused a small post-hydration shrink-shift. */
+#hijri-today-info-card { min-height: 256px; }
 #hijri-today-info-card .info-card { min-height: 96px; }
 @media (max-width: 1024px) {
-    #hijri-today-info-card { min-height: 280px; }
+    #hijri-today-info-card { min-height: 296px; }
 }
 @media (max-width: 768px) {
-    #hijri-today-info-card { min-height: 380px; }
+    #hijri-today-info-card { min-height: 398px; }
     #hijri-today-info-card .info-card { min-height: 110px; }
 }
 
@@ -14683,116 +14686,130 @@ html.hijri-day-page   #page-hijri-day {
     }
 }
 
-/* Hero card reservation. Same .hpage-hero.ht-hero class is shared between
-   #page-hijri-today and #page-hijri-day, so the same pair of scoped selectors
-   covers both routes. Mobile reservation is the larger value (376px measured
-   + 4px buffer); desktop hero is shorter (1 stack line vs. wrapped on mobile). */
-html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
-html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
+/* ═══ Phase HD-18-v2 (2026-05-09): Re-anchor + right-size reservations.
+   Root cause discovered via puppeteer (T1 vs T4 height measurements):
+   js/app.js removes the `html.hijri-today-page` class from <html> after
+   SPA routing activates the page. ALL min-height rules anchored on that
+   class then UN-APPLY. The reservations were also OVER-SIZED relative to
+   the natural T4 height — when the class drops, every reservation collapses,
+   pulling siblings UP. That collapse caused the 0.10–0.12 mobile CLS on
+   /today-hijri-date AR/EN/UR (Lighthouse blamed the hero, but the actual
+   driver was the breadcrumb shrinking 110→66px).
+
+   Two changes per rule:
+   1. Re-anchor on the ID-only selector (#htoday-breadcrumbs, etc.) so the
+      reservation does NOT depend on the html class staying present.
+   2. Use the T4 NATURAL height (puppeteer-measured) so the reservation
+      MATCHES the rendered content — no shrink, no expand, no shift.
+
+   /hijri-date/{date} (hijri-day-page) keeps its existing class-anchored
+   rules untouched — that route was not in the audit and we have no
+   measurements yet. If a similar issue surfaces there, apply the same
+   re-anchor pattern using the same measurement methodology.
+
+   Dead-code removed: #hijri-today-faq, #hijri-today-hierarchy,
+   #hijri-today-cta, #hijri-today-extra-links rules are dropped because
+   HD-13 strips those elements from SSR HTML; the rules had no effect.
+
+   Hero card reservation (re-anchored to #page-hijri-today, not html class).
+   T4 mobile measured 359px on AR (and 386px on EN/UR — keep the larger
+   value to satisfy all 10 langs without over-reservation). T4 desktop = 323px. */
+#page-hijri-today .hpage-hero.ht-hero {
+    min-height: 323px;
+}
+@media (max-width: 768px) {
+    #page-hijri-today .hpage-hero.ht-hero {
+        min-height: 386px;
+    }
+}
+/* hijri-day-page wrapper — keep existing class-anchored selectors for now
+   (no audit data yet). They behave identically when class IS present, which
+   is the entire SSR phase Lighthouse measures. */
+html.hijri-day-page #page-hijri-day .hpage-hero.ht-hero {
     min-height: 280px;
 }
 @media (max-width: 768px) {
-    html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,
-    html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero {
+    html.hijri-day-page #page-hijri-day .hpage-hero.ht-hero {
         min-height: 380px;
     }
 }
 
-/* Below-hero secondary reservations. The info-grid (6 cards) and FAQ (3 Q/A
-   blocks) are SSR-empty and grow notably after JS hydration. Reserving them
-   absorbs the residual cumulative CLS from secondary shifts (the audit only
-   surfaces top-5; smaller shifts on these containers add to the total). */
-html.hijri-today-page #hijri-today-info-grid,
-html.hijri-day-page   #hday-info-grid {
-    min-height: 280px;
-}
-html.hijri-today-page #hijri-today-faq,
-html.hijri-day-page   #hday-faq {
-    min-height: 320px;
+/* Breadcrumb reservation — the actual root-cause shifter on mobile.
+   T4 measured: 66px mobile, 48px desktop (across AR/EN/UR — same 5-item
+   ol with separators wraps to identical pixel heights). Set min-height
+   exactly to T4 so the natural content fills it precisely. */
+#htoday-breadcrumbs {
+    min-height: 48px;
 }
 @media (max-width: 768px) {
-    html.hijri-today-page #hijri-today-info-grid,
-    html.hijri-day-page   #hday-info-grid {
-        min-height: 480px;
-    }
-    html.hijri-today-page #hijri-today-faq,
-    html.hijri-day-page   #hday-faq {
-        min-height: 360px;
+    #htoday-breadcrumbs {
+        min-height: 66px;
     }
 }
-
-/* ═══ Phase HDay-A2 (2026-05-05): residual reservations.
-   After HDay-A landed (CLS 0.908 → 0.252), Lighthouse still shows:
-     • 0.179 on .hpage-hero.ht-hero — caused NOT by hero growth (height
-       reserved) but by the EMPTY breadcrumb above it growing ~70-95px
-       once JS runs _buildHijriBreadcrumbOl([...]). The hero itself stays
-       at 376px (matches reservation), but its TOP coordinate slides down.
-     • 0.057 + 0.011 on #page-hijri-day — residual page-level shift
-       caused by remaining empty containers (cta, nav, hierarchy, related
-       links, footer-seo) growing post-JS and pushing total height.
-
-   Fix: reserve every remaining SSR-empty container. Sizes derived from
-   the natural filled height after measuring on /hijri-date/1447-11-18.
-   No JS / SSR / SEO change. Same pattern as HDay-A. */
-
-/* Breadcrumb reservation — the largest residual driver for the hero shift.
-   Empty SSR <nav> takes ~0px; filled (4-5 link <ol>) takes ~60px desktop /
-   84-95px mobile (text wraps in some langs).
-   HDay-A3 (2026-05-05): bumped mobile 80→110 + desktop 50→64 after Lighthouse
-   showed residual 0.067 hero shift (hero position slid down ~25px). */
-html.hijri-today-page #htoday-breadcrumbs,
-html.hijri-day-page   #hday-breadcrumbs {
+html.hijri-day-page #hday-breadcrumbs {
     min-height: 64px;
 }
 @media (max-width: 768px) {
-    html.hijri-today-page #htoday-breadcrumbs,
-    html.hijri-day-page   #hday-breadcrumbs {
+    html.hijri-day-page #hday-breadcrumbs {
         min-height: 110px;
     }
 }
 
-/* Remaining hijri-today containers (route /today-hijri-date — kept for
-   completeness even though route 301-redirects). */
-html.hijri-today-page #hijri-today-hierarchy   { min-height: 64px; }
-html.hijri-today-page #hijri-today-cta         { min-height: 56px; }
-html.hijri-today-page #hijri-today-nav         { min-height: 88px; }
-html.hijri-today-page #hijri-today-extra-links { min-height: 56px; }
-html.hijri-today-page #hijri-today-footer-seo  { min-height: 48px; }
+/* Info-grid (6 facts) — T4 measured: 366px mobile, 208px desktop. */
+#hijri-today-info-grid {
+    min-height: 208px;
+}
+@media (max-width: 768px) {
+    #hijri-today-info-grid {
+        min-height: 366px;
+    }
+}
 
-/* Remaining hday containers (route /hijri-date/YYYY-MM-DD — actual landing). */
+/* Footer-SEO — this one GROWS post-JS (not shrinks). T4 = 134px mobile, 53px
+   desktop. Reserve the LARGER value so the growth is absorbed by min-height
+   and no shift occurs. (For elements that grow, reserve T4. For elements
+   that shrink, reserve T4. In both cases T4 is the "stable" target.) */
+#hijri-today-footer-seo {
+    min-height: 53px;
+}
+@media (max-width: 768px) {
+    #hijri-today-footer-seo {
+        min-height: 134px;
+    }
+}
+
+/* Nav (4 prev/next chips) — T4 = 80px desktop, 106px mobile. */
+#hijri-today-nav {
+    min-height: 80px;
+}
+@media (max-width: 768px) {
+    #hijri-today-nav {
+        min-height: 106px;
+    }
+}
+
+/* hijri-day-page — existing class-anchored values kept (no audit data).
+   The risk is the same (class removal collapses these), but addressing it
+   is out of scope for HD-18-v2 which is /today-hijri-date specific. */
+html.hijri-day-page #hday-info-grid { min-height: 280px; }
+html.hijri-day-page #hday-faq       { min-height: 320px; }
+@media (max-width: 768px) {
+    html.hijri-day-page #hday-info-grid { min-height: 480px; }
+    html.hijri-day-page #hday-faq       { min-height: 360px; }
+}
 html.hijri-day-page #hday-hierarchy   { min-height: 64px; }
 html.hijri-day-page #hday-cta         { min-height: 56px; }
 html.hijri-day-page #hday-nav         { min-height: 88px; }
 html.hijri-day-page #hday-related     { min-height: 56px; }
 html.hijri-day-page #hday-footer-seo  { min-height: 48px; }
-
 @media (max-width: 768px) {
-    html.hijri-today-page #hijri-today-hierarchy   { min-height: 140px; }
-    html.hijri-today-page #hijri-today-cta         { min-height: 150px; }
-    html.hijri-today-page #hijri-today-nav         { min-height: 108px; }
-    html.hijri-today-page #hijri-today-extra-links { min-height: 150px; }
-    html.hijri-today-page #hijri-today-footer-seo  { min-height: 80px; }
-
     html.hijri-day-page #hday-hierarchy   { min-height: 140px; }
     html.hijri-day-page #hday-cta         { min-height: 150px; }
     html.hijri-day-page #hday-nav         { min-height: 108px; }
     html.hijri-day-page #hday-related     { min-height: 150px; }
     html.hijri-day-page #hday-footer-seo  { min-height: 80px; }
-}
-
-/* HDay-A3 (2026-05-05): also bump info-grid + faq mobile reservations.
-   Lighthouse residual showed +38px section-card height growth — info-grid
-   and faq fill larger than the HDay-A reservations on mobile due to text
-   wrap (Arabic AH-suffix labels) and 6-card grid stacking. */
-@media (max-width: 768px) {
-    html.hijri-today-page #hijri-today-info-grid,
-    html.hijri-day-page   #hday-info-grid {
-        min-height: 540px;
-    }
-    html.hijri-today-page #hijri-today-faq,
-    html.hijri-day-page   #hday-faq {
-        min-height: 420px;
-    }
+    html.hijri-day-page #hday-info-grid   { min-height: 540px; }
+    html.hijri-day-page #hday-faq         { min-height: 420px; }
 }
 
 /* ═══ Phase HCal-A (2026-05-05): Hijri calendar year CLS fix.

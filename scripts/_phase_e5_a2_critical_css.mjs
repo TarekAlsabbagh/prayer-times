@@ -184,6 +184,16 @@ const CRITICAL_PATTERNS = [
 
     // Theme transition guard
     /^\.theme-no-transition\s/,
+
+    // HD-18-v2 (2026-05-09): re-anchored hijri-today reservations (ID-only,
+    // not html.hijri-today-page-anchored). These MUST land in critical CSS
+    // so they apply BEFORE first paint AND survive the JS class removal.
+    // Without inlining, the rules land async via style.css after FCP.
+    /^#htoday-breadcrumbs$/,
+    /^#hijri-today-info-grid$/,
+    /^#hijri-today-footer-seo$/,
+    /^#hijri-today-nav$/,
+    /^#page-hijri-today\s+\.hpage-hero\.ht-hero$/,
 ];
 
 // Helper: test if a selector matches any critical pattern

@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-09T09:13:48.476Z
+   Extracted on: 2026-05-09T09:48:17.336Z
    Source: css/style.css (full 530 KiB)
-   Critical: 37.5 KiB
+   Critical: 37 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -242,10 +242,10 @@ html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
 }
 .page{ display: none; }
 .page.active{ display: block; padding: 24px; }
-#hijri-today-info-card{ min-height: 240px; }
+#hijri-today-info-card{ min-height: 256px; }
 #hijri-today-info-card .info-card{ min-height: 96px; }
-@media (max-width: 1024px){#hijri-today-info-card{ min-height: 280px; }}
-@media (max-width: 768px){#hijri-today-info-card{ min-height: 380px; }
+@media (max-width: 1024px){#hijri-today-info-card{ min-height: 296px; }}
+@media (max-width: 768px){#hijri-today-info-card{ min-height: 398px; }
 #hijri-today-info-card .info-card{ min-height: 110px; }}
 @media (max-width: 768px){.sidebar{ transform: translateX(100%); }
 .sidebar.open{ transform: translateX(0); }
@@ -591,56 +591,64 @@ html.hijri-today-page #page-hijri-today,html.hijri-day-page   #page-hijri-day{
         max-width: 100%;
         box-sizing: border-box;
     }}
-html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero{
+#page-hijri-today .hpage-hero.ht-hero{
+    min-height: 323px;
+}
+@media (max-width: 768px){#page-hijri-today .hpage-hero.ht-hero{
+        min-height: 386px;
+    }}
+html.hijri-day-page #page-hijri-day .hpage-hero.ht-hero{
     min-height: 280px;
 }
-@media (max-width: 768px){html.hijri-today-page #page-hijri-today .hpage-hero.ht-hero,html.hijri-day-page   #page-hijri-day   .hpage-hero.ht-hero{
+@media (max-width: 768px){html.hijri-day-page #page-hijri-day .hpage-hero.ht-hero{
         min-height: 380px;
     }}
-html.hijri-today-page #hijri-today-info-grid,html.hijri-day-page   #hday-info-grid{
-    min-height: 280px;
+#htoday-breadcrumbs{
+    min-height: 48px;
 }
-html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
-    min-height: 320px;
-}
-@media (max-width: 768px){html.hijri-today-page #hijri-today-info-grid,html.hijri-day-page   #hday-info-grid{
-        min-height: 480px;
-    }
-html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
-        min-height: 360px;
+@media (max-width: 768px){#htoday-breadcrumbs{
+        min-height: 66px;
     }}
-html.hijri-today-page #htoday-breadcrumbs,html.hijri-day-page   #hday-breadcrumbs{
+html.hijri-day-page #hday-breadcrumbs{
     min-height: 64px;
 }
-@media (max-width: 768px){html.hijri-today-page #htoday-breadcrumbs,html.hijri-day-page   #hday-breadcrumbs{
+@media (max-width: 768px){html.hijri-day-page #hday-breadcrumbs{
         min-height: 110px;
     }}
-html.hijri-today-page #hijri-today-hierarchy{ min-height: 64px; }
-html.hijri-today-page #hijri-today-cta{ min-height: 56px; }
-html.hijri-today-page #hijri-today-nav{ min-height: 88px; }
-html.hijri-today-page #hijri-today-extra-links{ min-height: 56px; }
-html.hijri-today-page #hijri-today-footer-seo{ min-height: 48px; }
+#hijri-today-info-grid{
+    min-height: 208px;
+}
+@media (max-width: 768px){#hijri-today-info-grid{
+        min-height: 366px;
+    }}
+#hijri-today-footer-seo{
+    min-height: 53px;
+}
+@media (max-width: 768px){#hijri-today-footer-seo{
+        min-height: 134px;
+    }}
+#hijri-today-nav{
+    min-height: 80px;
+}
+@media (max-width: 768px){#hijri-today-nav{
+        min-height: 106px;
+    }}
+html.hijri-day-page #hday-info-grid{ min-height: 280px; }
+html.hijri-day-page #hday-faq{ min-height: 320px; }
+@media (max-width: 768px){html.hijri-day-page #hday-info-grid{ min-height: 480px; }
+html.hijri-day-page #hday-faq{ min-height: 360px; }}
 html.hijri-day-page #hday-hierarchy{ min-height: 64px; }
 html.hijri-day-page #hday-cta{ min-height: 56px; }
 html.hijri-day-page #hday-nav{ min-height: 88px; }
 html.hijri-day-page #hday-related{ min-height: 56px; }
 html.hijri-day-page #hday-footer-seo{ min-height: 48px; }
-@media (max-width: 768px){html.hijri-today-page #hijri-today-hierarchy{ min-height: 140px; }
-html.hijri-today-page #hijri-today-cta{ min-height: 150px; }
-html.hijri-today-page #hijri-today-nav{ min-height: 108px; }
-html.hijri-today-page #hijri-today-extra-links{ min-height: 150px; }
-html.hijri-today-page #hijri-today-footer-seo{ min-height: 80px; }
-html.hijri-day-page #hday-hierarchy{ min-height: 140px; }
+@media (max-width: 768px){html.hijri-day-page #hday-hierarchy{ min-height: 140px; }
 html.hijri-day-page #hday-cta{ min-height: 150px; }
 html.hijri-day-page #hday-nav{ min-height: 108px; }
 html.hijri-day-page #hday-related{ min-height: 150px; }
-html.hijri-day-page #hday-footer-seo{ min-height: 80px; }}
-@media (max-width: 768px){html.hijri-today-page #hijri-today-info-grid,html.hijri-day-page   #hday-info-grid{
-        min-height: 540px;
-    }
-html.hijri-today-page #hijri-today-faq,html.hijri-day-page   #hday-faq{
-        min-height: 420px;
-    }}
+html.hijri-day-page #hday-footer-seo{ min-height: 80px; }
+html.hijri-day-page #hday-info-grid{ min-height: 540px; }
+html.hijri-day-page #hday-faq{ min-height: 420px; }}
 html.hijri-year-page #page-hijri-year{
     display: block !important;
     padding: 24px;

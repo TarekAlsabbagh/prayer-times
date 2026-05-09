@@ -3397,7 +3397,13 @@ const _NPT_STRIP_IDS = [
     'location-suggestion-bar',
     'page-h1',
     'city-breadcrumb',
-    'prayer-cards'
+    'prayer-cards',
+    // NPT-3 (2026-05-09): the city-calc-settings <details> was leaking
+    // onto NPT as a broken sliver below the new layout (title right /
+    // chevron left with empty body since the new CSS doesn't target the
+    // legacy structure). Strip — calc method already shown in
+    // .next-info-grid as a static label.
+    'city-calc-settings'
 ];
 const _NPT_STRIP_CLASSES = [
     'next-prayer-banner',
@@ -7697,6 +7703,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 p_3: 'إلى جانب عرض الصلاة القادمة، تعرض الصفحة مواعيد الصلوات التالية خلال اليوم حتى يتمكن المستخدم من التخطيط ليومه، سواء كان في المنزل أو العمل أو أثناء التنقل.',
                 h2_4: 'لماذا قد تختلف مواقيت الصلاة قليلاً؟',
                 p_4: 'قد تختلف مواقيت الصلاة بين مصدر وآخر بسبب طريقة الحساب المستخدمة، وزاوية الفجر والعشاء، وطريقة التعامل مع وقت العصر، إضافة إلى الموقع الجغرافي داخل المدينة. لذلك من الأفضل اختيار طريقة الحساب المناسبة من إعدادات الموقع عند الحاجة.',
+                h2_5: 'متابعة الصلاة القادمة بدون فتح جدول كامل',
+                p_5: 'صُممت صفحة الصلاة القادمة لتكون مختصرة وسريعة، فهي تعرض للمستخدم أقرب صلاة مباشرة دون الحاجة إلى البحث داخل جدول طويل. لذلك يمكن الاعتماد عليها عند الرغبة في معرفة موعد الأذان التالي فقط، مع بقاء خيار الانتقال إلى صفحة مواقيت الصلاة الكاملة متاحاً لمن يريد مراجعة جميع أوقات اليوم بالتفصيل.',
+                h2_6: `مواقيت الصلاة حسب التوقيت المحلي لـ${_cityForSeo}`,
+                p_6: `تعتمد أوقات الصلاة المعروضة في هذه الصفحة على التوقيت المحلي لمدينة ${_cityForSeo}، لذلك فإن ترتيب الصلاة القادمة يتغير بحسب وقت زيارة المستخدم للصفحة. عند اقتراب موعد الأذان، تساعد هذه الصفحة في معرفة الصلاة التالية والصلوات التي تأتي بعدها، مع مراعاة طريقة الحساب المختارة في إعدادات الموقع.`,
                 faq_title: `أسئلة شائعة حول الصلاة القادمة في ${_cityForSeo}`,
                 q1: `ما هي الصلاة القادمة في ${_cityForSeo} الآن؟`,
                 a1: `يتم تحديد الصلاة القادمة بناءً على الوقت الحالي في ${_cityForSeo} ومواقيت الصلاة اليومية المعروضة في الصفحة.`,
@@ -7704,6 +7714,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'نعم، تعرض الصفحة عداداً يوضح الوقت المتبقي حتى الصلاة القادمة بشكل مباشر.',
                 q3: 'هل تختلف الصلاة القادمة بعد منتصف الليل؟',
                 a3: 'نعم، بعد انتهاء صلاة العشاء والانتقال إلى اليوم التالي تصبح صلاة الفجر هي الصلاة القادمة غالباً، حسب توقيت المدينة.',
+                q4: 'هل صفحة الصلاة القادمة تغني عن جدول مواقيت الصلاة؟',
+                a4: 'صفحة الصلاة القادمة مناسبة لمعرفة أقرب صلاة بسرعة، أما جدول مواقيت الصلاة الكامل فهو أفضل عند الحاجة إلى مراجعة جميع مواعيد اليوم من الفجر حتى العشاء.',
+                q5: 'هل تختلف الصلاة القادمة حسب طريقة الحساب؟',
+                a5: 'قد يختلف وقت بعض الصلوات قليلاً حسب طريقة الحساب المختارة، خصوصاً وقت الفجر والعشاء، لذلك يمكن تعديل طريقة الحساب من إعدادات الموقع عند الحاجة.',
             },
             en: {
                 h2_1: `How is the next prayer in ${_cityForSeo} determined?`,
@@ -7714,6 +7728,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 p_3: 'Alongside the next prayer, the page lists the following prayers throughout the day so users can plan ahead, whether at home, at work, or on the move.',
                 h2_4: 'Why do prayer times sometimes differ slightly?',
                 p_4: 'Prayer times can differ between sources because of the calculation method, the Fajr/Isha twilight angle, the Asr juristic method, and the exact geographic location within the city. Choose the appropriate calculation method from settings when needed.',
+                h2_5: 'Tracking the next prayer without opening the full schedule',
+                p_5: 'The Next Prayer page is designed to be short and fast, showing the closest prayer directly without searching through a long table. So you can rely on it when you only want to know the next adhan time, while keeping the option to jump to the full prayer-times page available for anyone who wants to review every time of the day in detail.',
+                h2_6: `Prayer times based on ${_cityForSeo}'s local time`,
+                p_6: `The prayer times shown on this page rely on the local time of ${_cityForSeo}, so the order of the next prayer changes depending on when you visit the page. As the adhan approaches, this page helps you know the next prayer and the prayers that follow it, taking into account the calculation method selected in the site settings.`,
                 faq_title: `FAQ about the next prayer in ${_cityForSeo}`,
                 q1: `What is the next prayer in ${_cityForSeo} right now?`,
                 a1: `The next prayer is computed from the current local time in ${_cityForSeo} and the daily prayer schedule shown on this page.`,
@@ -7721,6 +7739,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Yes — a live countdown shows the exact time remaining until the next prayer.',
                 q3: 'Does the next prayer change after midnight?',
                 a3: 'Yes. Once Isha is over and the day rolls over, the next prayer typically becomes Fajr of the next day, based on the local schedule.',
+                q4: 'Does this page replace the full prayer-times schedule?',
+                a4: 'The Next Prayer page is suitable for quickly knowing the closest prayer, while the full prayer-times schedule is better when you need to review every time of the day from Fajr to Isha.',
+                q5: 'Does the next prayer change with the calculation method?',
+                a5: 'Some prayer times can shift slightly depending on the selected calculation method, especially Fajr and Isha. You can adjust the calculation method from the site settings when needed.',
             },
             fr: {
                 h2_1: `Comment la prochaine prière à ${_cityForSeo} est-elle déterminée ?`,
@@ -7738,6 +7760,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Oui, un compte à rebours en direct indique le temps exact restant.',
                 q3: 'La prochaine prière change-t-elle après minuit ?',
                 a3: 'Oui. Après l\'Isha et le passage au jour suivant, la prochaine prière devient généralement le Fajr du jour suivant.',
+                h2_5: 'Suivre la prochaine prière sans ouvrir l\'horaire complet',
+                p_5: 'La page Prochaine Prière est conçue pour être courte et rapide, affichant directement la prière la plus proche sans chercher dans un long tableau. Vous pouvez vous y fier lorsque vous voulez juste connaître l\'heure du prochain adhan, tout en gardant la possibilité d\'accéder à la page complète des heures de prière pour quiconque veut examiner en détail chaque moment de la journée.',
+                h2_6: `Heures de prière selon l'heure locale de ${_cityForSeo}`,
+                p_6: `Les heures de prière affichées sur cette page reposent sur l'heure locale de ${_cityForSeo}, donc l'ordre de la prochaine prière change selon le moment de votre visite. Lorsque l'adhan approche, cette page vous aide à connaître la prochaine prière et celles qui suivent, en tenant compte de la méthode de calcul sélectionnée dans les paramètres.`,
+                q4: 'Cette page remplace-t-elle le programme complet des prières ?',
+                a4: 'La page Prochaine Prière convient pour connaître rapidement la prière la plus proche, tandis que le programme complet est meilleur lorsque vous devez examiner toutes les heures de la journée, du Fajr à l\'Isha.',
+                q5: 'La prochaine prière change-t-elle selon la méthode de calcul ?',
+                a5: 'Certaines heures de prière peuvent légèrement varier selon la méthode de calcul choisie, surtout Fajr et Isha. Vous pouvez ajuster la méthode dans les paramètres du site si nécessaire.',
             },
             tr: {
                 h2_1: `${_cityForSeo} için sonraki namaz nasıl belirlenir?`,
@@ -7755,6 +7785,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Evet, canlı bir geri sayım kalan kesin süreyi gösterir.',
                 q3: 'Gece yarısından sonra sonraki namaz değişir mi?',
                 a3: 'Evet. Yatsı bittiğinde ve gün dönünce sonraki namaz genellikle ertesi günün Sabah namazı olur.',
+                h2_5: 'Tam programı açmadan sonraki namazı takip etmek',
+                p_5: 'Sonraki Namaz sayfası kısa ve hızlı olacak şekilde tasarlanmıştır; uzun bir tabloyu aramadan en yakın namazı doğrudan gösterir. Yalnızca sonraki ezan vaktini bilmek istediğinizde ona güvenebilirsiniz; günün tüm vakitlerini ayrıntılı incelemek isteyenler için tam namaz vakitleri sayfasına geçme seçeneği de açık kalır.',
+                h2_6: `${_cityForSeo} yerel saatine göre namaz vakitleri`,
+                p_6: `Bu sayfada gösterilen namaz vakitleri ${_cityForSeo} yerel saatine dayanır; bu nedenle sonraki namazın sırası ziyaret zamanınıza göre değişir. Ezan yaklaştığında bu sayfa sonraki namazı ve onu takip eden namazları, site ayarlarında seçilen hesaplama yöntemini dikkate alarak öğrenmenize yardımcı olur.`,
+                q4: 'Bu sayfa tam namaz vakitleri programının yerine geçer mi?',
+                a4: 'Sonraki Namaz sayfası en yakın namazı hızlıca öğrenmek için uygundur; tam namaz vakitleri programı ise Sabah\'tan Yatsı\'ya kadar günün tüm vakitlerini incelemek için daha iyidir.',
+                q5: 'Sonraki namaz hesaplama yöntemine göre değişir mi?',
+                a5: 'Bazı namaz vakitleri seçilen hesaplama yöntemine göre biraz kayabilir, özellikle Sabah ve Yatsı. Gerekirse site ayarlarından hesaplama yöntemini ayarlayabilirsiniz.',
             },
             ur: {
                 h2_1: `${_cityForSeo} میں اگلی نماز کیسے متعین کی جاتی ہے؟`,
@@ -7772,6 +7810,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'جی ہاں، ایک براہ راست الٹی گنتی درست بقیہ وقت ظاہر کرتی ہے۔',
                 q3: 'کیا آدھی رات کے بعد اگلی نماز بدل جاتی ہے؟',
                 a3: 'جی ہاں۔ عشاء ختم ہونے اور اگلے دن میں منتقل ہونے کے بعد اگلی نماز عام طور پر اگلے دن کی فجر بن جاتی ہے۔',
+                h2_5: 'مکمل شیڈول کھولے بغیر اگلی نماز کا تعاقب',
+                p_5: 'اگلی نماز کا صفحہ مختصر اور تیز ہونے کے لیے ڈیزائن کیا گیا ہے، یہ طویل جدول میں تلاش کیے بغیر سب سے قریبی نماز براہ راست دکھاتا ہے۔ اس لیے جب آپ صرف اگلی اذان کا وقت جاننا چاہیں تو اس پر بھروسہ کر سکتے ہیں، جبکہ جو لوگ دن کے تمام اوقات کی تفصیل دیکھنا چاہتے ہیں ان کے لیے مکمل نماز اوقات کے صفحے پر جانے کا اختیار دستیاب رہتا ہے۔',
+                h2_6: `${_cityForSeo} کے مقامی وقت کے مطابق نماز کے اوقات`,
+                p_6: `اس صفحے پر دکھائے گئے نماز کے اوقات ${_cityForSeo} کے مقامی وقت پر منحصر ہیں، اس لیے اگلی نماز کی ترتیب صارف کے صفحے پر آنے کے وقت کے مطابق بدلتی ہے۔ اذان کے قریب آنے پر، یہ صفحہ سائٹ کی ترتیبات میں منتخب کردہ حساب کے طریقے کو مدنظر رکھتے ہوئے اگلی نماز اور اس کے بعد آنے والی نمازوں کو جاننے میں مدد کرتا ہے۔`,
+                q4: 'کیا اگلی نماز کا صفحہ نماز اوقات کے مکمل جدول کا متبادل ہے؟',
+                a4: 'اگلی نماز کا صفحہ سب سے قریبی نماز کو تیزی سے جاننے کے لیے مناسب ہے، جبکہ نماز اوقات کا مکمل جدول فجر سے عشاء تک دن کے تمام اوقات کا جائزہ لینے کے لیے بہتر ہے۔',
+                q5: 'کیا اگلی نماز حساب کے طریقے سے بدلتی ہے؟',
+                a5: 'کچھ نمازوں کا وقت منتخب کردہ حساب کے طریقے کے مطابق تھوڑا بدل سکتا ہے، خاص طور پر فجر اور عشاء، اس لیے ضرورت ہو تو سائٹ کی ترتیبات سے حساب کا طریقہ تبدیل کر سکتے ہیں۔',
             },
             de: {
                 h2_1: `Wie wird das nächste Gebet in ${_cityForSeo} bestimmt?`,
@@ -7789,6 +7835,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Ja — ein Live-Countdown zeigt die genaue verbleibende Zeit.',
                 q3: 'Ändert sich das nächste Gebet nach Mitternacht?',
                 a3: 'Ja. Nach Ischa und dem Tageswechsel wird das nächste Gebet normalerweise das Fadschr des nächsten Tages.',
+                h2_5: 'Das nächste Gebet verfolgen, ohne den vollen Plan zu öffnen',
+                p_5: 'Die Seite "Nächstes Gebet" ist kurz und schnell ausgelegt und zeigt das nächste Gebet direkt, ohne in einer langen Tabelle zu suchen. So können Sie sich darauf verlassen, wenn Sie nur die nächste Adhan-Zeit wissen möchten, während die Möglichkeit, zur vollständigen Gebetszeitenseite zu wechseln, für alle erhalten bleibt, die jede Zeit des Tages im Detail prüfen möchten.',
+                h2_6: `Gebetszeiten nach der Ortszeit von ${_cityForSeo}`,
+                p_6: `Die auf dieser Seite angezeigten Gebetszeiten basieren auf der Ortszeit von ${_cityForSeo}, daher ändert sich die Reihenfolge des nächsten Gebets je nach Besuchszeit. Wenn der Adhan näher rückt, hilft Ihnen diese Seite, das nächste Gebet und die darauf folgenden Gebete unter Berücksichtigung der in den Site-Einstellungen gewählten Berechnungsmethode zu erfahren.`,
+                q4: 'Ersetzt diese Seite den vollständigen Gebetsplan?',
+                a4: 'Die Seite "Nächstes Gebet" eignet sich, um schnell das nächste Gebet zu erfahren; der vollständige Gebetsplan ist besser, wenn Sie alle Zeiten des Tages von Fadschr bis Ischa überprüfen möchten.',
+                q5: 'Ändert sich das nächste Gebet je nach Berechnungsmethode?',
+                a5: 'Einige Gebetszeiten können je nach gewählter Berechnungsmethode leicht abweichen, besonders Fadschr und Ischa. Sie können die Methode bei Bedarf in den Site-Einstellungen anpassen.',
             },
             id: {
                 h2_1: `Bagaimana sholat berikutnya di ${_cityForSeo} ditentukan?`,
@@ -7806,6 +7860,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Ya — hitung mundur langsung menampilkan sisa waktu yang tepat.',
                 q3: 'Apakah sholat berikutnya berubah setelah tengah malam?',
                 a3: 'Ya. Setelah Isya berakhir dan hari berganti, sholat berikutnya biasanya menjadi Subuh keesokan harinya.',
+                h2_5: 'Memantau sholat berikutnya tanpa membuka jadwal lengkap',
+                p_5: 'Halaman Sholat Berikutnya dirancang ringkas dan cepat, langsung menampilkan sholat terdekat tanpa perlu mencari di tabel panjang. Anda dapat mengandalkannya saat hanya ingin tahu waktu adzan berikutnya, sementara opsi untuk membuka halaman jadwal sholat lengkap tetap tersedia bagi siapa pun yang ingin meninjau setiap waktu hari secara rinci.',
+                h2_6: `Waktu sholat berdasarkan waktu setempat ${_cityForSeo}`,
+                p_6: `Waktu sholat yang ditampilkan pada halaman ini bergantung pada waktu setempat ${_cityForSeo}, sehingga urutan sholat berikutnya berubah tergantung waktu kunjungan Anda. Saat adzan mendekat, halaman ini membantu Anda mengetahui sholat berikutnya dan sholat-sholat selanjutnya, dengan mempertimbangkan metode perhitungan yang dipilih di pengaturan situs.`,
+                q4: 'Apakah halaman ini menggantikan jadwal sholat lengkap?',
+                a4: 'Halaman Sholat Berikutnya cocok untuk mengetahui sholat terdekat dengan cepat, sedangkan jadwal sholat lengkap lebih baik bila Anda perlu meninjau semua waktu hari dari Subuh hingga Isya.',
+                q5: 'Apakah sholat berikutnya berubah dengan metode perhitungan?',
+                a5: 'Beberapa waktu sholat bisa sedikit bergeser tergantung metode perhitungan yang dipilih, terutama Subuh dan Isya. Anda dapat menyesuaikan metode dari pengaturan situs jika diperlukan.',
             },
             es: {
                 h2_1: `¿Cómo se determina la próxima oración en ${_cityForSeo}?`,
@@ -7823,6 +7885,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Sí — una cuenta regresiva en vivo muestra el tiempo exacto restante.',
                 q3: '¿Cambia la próxima oración después de medianoche?',
                 a3: 'Sí. Una vez terminada Isha y al pasar al siguiente día, la próxima oración suele convertirse en Fajr del día siguiente.',
+                h2_5: 'Seguir la próxima oración sin abrir el horario completo',
+                p_5: 'La página de Próxima Oración está diseñada para ser breve y rápida, mostrando directamente la oración más cercana sin buscar en una tabla extensa. Puedes confiar en ella cuando solo quieras saber la hora del próximo adhan, mientras que la opción de ir a la página completa de horarios queda disponible para quien desee revisar cada hora del día en detalle.',
+                h2_6: `Horarios de oración según la hora local de ${_cityForSeo}`,
+                p_6: `Los horarios de oración mostrados en esta página dependen de la hora local de ${_cityForSeo}, por lo que el orden de la próxima oración cambia según el momento de tu visita. Al acercarse el adhan, esta página te ayuda a conocer la próxima oración y las siguientes, considerando el método de cálculo seleccionado en los ajustes del sitio.`,
+                q4: '¿Esta página reemplaza el horario completo de oraciones?',
+                a4: 'La página de Próxima Oración es adecuada para conocer rápidamente la oración más cercana, mientras que el horario completo es mejor cuando necesitas revisar todas las horas del día, de Fajr a Isha.',
+                q5: '¿La próxima oración cambia con el método de cálculo?',
+                a5: 'Algunas horas pueden variar ligeramente según el método de cálculo elegido, especialmente Fajr e Isha. Puedes ajustar el método desde los ajustes del sitio si es necesario.',
             },
             bn: {
                 h2_1: `${_cityForSeo}-এ পরবর্তী নামাজ কীভাবে নির্ধারিত হয়?`,
@@ -7840,6 +7910,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'হ্যাঁ — একটি লাইভ কাউন্টডাউন সঠিক বাকি সময় দেখায়।',
                 q3: 'মধ্যরাতের পর কি পরবর্তী নামাজ পরিবর্তন হয়?',
                 a3: 'হ্যাঁ। ইশা শেষ হওয়ার পর এবং দিন পরিবর্তিত হলে পরবর্তী নামাজ সাধারণত পরের দিনের ফজর হয়ে যায়।',
+                h2_5: 'সম্পূর্ণ সময়সূচি না খুলে পরবর্তী নামাজ অনুসরণ',
+                p_5: 'পরবর্তী নামাজ পৃষ্ঠাটি সংক্ষিপ্ত ও দ্রুত হিসেবে ডিজাইন করা হয়েছে; এটি দীর্ঘ টেবিলে অনুসন্ধান ছাড়াই সরাসরি সবচেয়ে কাছের নামাজ দেখায়। তাই আপনি কেবল পরবর্তী আযানের সময় জানতে চাইলে এর উপর নির্ভর করতে পারেন, একই সাথে দিনের প্রতিটি সময় বিশদে দেখতে চাইলে সম্পূর্ণ নামাজের সময়সূচি পৃষ্ঠায় যাওয়ার বিকল্প উপলব্ধ থাকে।',
+                h2_6: `${_cityForSeo}-এর স্থানীয় সময় অনুযায়ী নামাজের সময়`,
+                p_6: `এই পৃষ্ঠায় প্রদর্শিত নামাজের সময় ${_cityForSeo}-এর স্থানীয় সময়ের উপর নির্ভর করে, তাই পরবর্তী নামাজের ক্রম ব্যবহারকারীর পরিদর্শনের সময় অনুসারে পরিবর্তিত হয়। আযান কাছে আসার সময়, এই পৃষ্ঠা সাইট সেটিংসে নির্বাচিত হিসাবের পদ্ধতি বিবেচনা করে পরবর্তী নামাজ এবং তার পরের নামাজগুলো জানতে সাহায্য করে।`,
+                q4: 'এই পৃষ্ঠা কি সম্পূর্ণ নামাজের সময়সূচি প্রতিস্থাপন করে?',
+                a4: 'পরবর্তী নামাজ পৃষ্ঠা দ্রুত সবচেয়ে কাছের নামাজ জানার জন্য উপযুক্ত, যেখানে সম্পূর্ণ নামাজের সময়সূচি ফজর থেকে ইশা পর্যন্ত দিনের সমস্ত সময় পর্যালোচনার জন্য উত্তম।',
+                q5: 'হিসাবের পদ্ধতির সাথে কি পরবর্তী নামাজ পরিবর্তিত হয়?',
+                a5: 'কিছু নামাজের সময় নির্বাচিত হিসাবের পদ্ধতির উপর নির্ভর করে সামান্য পরিবর্তিত হতে পারে, বিশেষ করে ফজর ও ইশা। প্রয়োজনে সাইট সেটিংস থেকে পদ্ধতি সমন্বয় করতে পারেন।',
             },
             ms: {
                 h2_1: `Bagaimana solat seterusnya di ${_cityForSeo} ditentukan?`,
@@ -7857,6 +7935,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 a2: 'Ya — kira detik langsung menunjukkan masa berbaki yang tepat.',
                 q3: 'Adakah solat seterusnya berubah selepas tengah malam?',
                 a3: 'Ya. Setelah Isyak berakhir dan hari bertukar, solat seterusnya biasanya menjadi Subuh hari berikutnya.',
+                h2_5: 'Mengikuti solat seterusnya tanpa membuka jadual penuh',
+                p_5: 'Halaman Solat Seterusnya direka untuk ringkas dan pantas, memaparkan solat terdekat secara langsung tanpa perlu mencari dalam jadual yang panjang. Jadi anda boleh bergantung padanya apabila hanya mahu tahu waktu azan seterusnya, sambil pilihan untuk pergi ke halaman jadual solat penuh kekal tersedia bagi sesiapa yang mahu menyemak setiap waktu hari secara terperinci.',
+                h2_6: `Waktu solat mengikut waktu tempatan ${_cityForSeo}`,
+                p_6: `Waktu solat yang dipaparkan pada halaman ini bergantung pada waktu tempatan ${_cityForSeo}, jadi urutan solat seterusnya berubah mengikut masa lawatan anda. Apabila azan menghampiri, halaman ini membantu anda mengetahui solat seterusnya dan solat-solat berikutnya, dengan mengambil kira kaedah pengiraan yang dipilih dalam tetapan tapak.`,
+                q4: 'Adakah halaman ini menggantikan jadual solat penuh?',
+                a4: 'Halaman Solat Seterusnya sesuai untuk mengetahui solat terdekat dengan cepat, manakala jadual solat penuh lebih baik apabila anda perlu menyemak semua waktu hari dari Subuh hingga Isyak.',
+                q5: 'Adakah solat seterusnya berubah dengan kaedah pengiraan?',
+                a5: 'Beberapa waktu solat boleh berubah sedikit bergantung pada kaedah pengiraan yang dipilih, terutama Subuh dan Isyak. Anda boleh laraskan kaedah dari tetapan tapak jika perlu.',
             },
         };
         const _ns = _NPT_SEO[seo.lang] || _NPT_SEO.en;
@@ -7968,6 +8054,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         <h2>${_escHtml(_ns.h2_4)}</h2>
                         <p>${_escHtml(_ns.p_4)}</p>
                     </article>
+                    <article class="next-content-card">
+                        <h2>${_escHtml(_ns.h2_5)}</h2>
+                        <p>${_escHtml(_ns.p_5)}</p>
+                    </article>
+                    <article class="next-content-card">
+                        <h2>${_escHtml(_ns.h2_6)}</h2>
+                        <p>${_escHtml(_ns.p_6)}</p>
+                    </article>
                 </section>
                 <section class="next-section-card next-faq-card">
                     <div class="next-section-head">
@@ -7986,6 +8080,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         <article class="next-faq-item">
                             <h3>${_escHtml(_ns.q3)}</h3>
                             <p>${_escHtml(_ns.a3)}</p>
+                        </article>
+                        <article class="next-faq-item">
+                            <h3>${_escHtml(_ns.q4)}</h3>
+                            <p>${_escHtml(_ns.a4)}</p>
+                        </article>
+                        <article class="next-faq-item">
+                            <h3>${_escHtml(_ns.q5)}</h3>
+                            <p>${_escHtml(_ns.a5)}</p>
                         </article>
                     </div>
                 </section>

@@ -18284,3 +18284,85 @@ html[data-theme="dark"] .next-related-links a {
    replaced; ensure no leftover gradient/padding fights the new layout. */
 .next-hero-card.npt-hero { display: none; }
 html.next-prayer-time-page .next-hero-card.npt-hero { display: block; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NPT-3 (2026-05-09): refinement pass per user feedback. Tightens spacing
+   and typography on /next-prayer-time-in-{city} so the page feels like
+   a tool, not a long article.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Reduce top gap between header and hero card */
+html.next-prayer-time-page main.main-content {
+    padding-top: 28px !important;
+}
+@media (min-width: 1024px) {
+    html.next-prayer-time-page main.main-content {
+        padding-top: 36px !important;
+    }
+}
+
+/* 2. Smaller hero card padding/shadow */
+.next-hero-card {
+    margin-top: 0 !important;
+    padding: 30px 28px !important;
+    border-radius: 26px;
+    box-shadow: 0 14px 38px rgba(15, 44, 28, 0.07);
+}
+.next-hero-card .npt-h1.next-hero-title {
+    font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+    margin: 0 0 10px;
+}
+.next-hero-subtitle {
+    margin: 0 auto 20px;
+}
+
+/* 3. Smaller current-prayer card */
+.next-current-prayer {
+    padding: 22px 20px !important;
+    max-width: 390px;
+}
+.next-current-prayer .next-prayer-name {
+    font-size: 1.85rem;
+}
+.next-current-prayer .next-prayer-time {
+    font-size: 1.3rem;
+}
+
+/* 4. Tighter gap between hero and info-grid */
+.next-info-grid {
+    margin-top: 14px !important;
+}
+
+/* 5. FAQ list narrower + lighter padding */
+.next-faq-card {
+    padding: 26px !important;
+}
+.next-faq-card .next-faq-list {
+    max-width: 780px;
+    margin: 0 auto;
+}
+.next-faq-card .next-faq-item {
+    padding: 14px 18px;
+}
+
+/* 6. Unified content width across all NPT sections */
+.next-prayer-wrap,
+.next-hero-card,
+.next-info-grid,
+.next-section-card,
+.next-content-grid,
+.next-related-links {
+    max-width: 920px;
+}
+
+/* 7. Mobile spacing parity */
+@media (max-width: 768px) {
+    html.next-prayer-time-page main.main-content {
+        padding-top: 18px !important;
+    }
+    .next-hero-card {
+        padding: 24px 20px !important;
+    }
+    .next-current-prayer .next-prayer-name { font-size: 1.6rem; }
+    .next-current-prayer .next-prayer-time { font-size: 1.15rem; }
+}

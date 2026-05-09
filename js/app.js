@@ -1303,7 +1303,7 @@ const _HYEAR_UI = {
           intro: c => `يعرض هذا التقويم الهجري لعام ${c.year}${c.hSfx} جميع الأشهر الهجرية مع التواريخ الميلادية المقابلة، ويتيح الانتقال السريع إلى تقويم أي شهر هجري أو إلى أداة تحويل التاريخ.`,
           table_title: c => `📊 جميع أشهر السنة الهجرية ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 تصفح أشهر السنة الهجرية ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 اليوم الهجري اليوم: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx, href) => `📌 التاريخ الهجري اليوم: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
           years_title: '📆 تصفّح السنوات الهجرية',
           years_current: ()=>'سنوات قريبة:',
           years_active_suffix: '',
@@ -20281,14 +20281,17 @@ function loadHijriYearPage() {
     if (yearsTitleEl   && ui.years_title)   yearsTitleEl.textContent = ui.years_title;
     if (yearsCurrentEl && ui.years_current) yearsCurrentEl.innerHTML = ui.years_current(year, hSfx);
     if (yearsGridEl) {
+        // HCAL-2b-fix-v4 (2026-05-09): chips no longer use inline styles —
+        // class-based so CSS in style.css can apply (HCAL-2 step 1 chip
+        // styling at #page-hijri-year #hyear-years-grid a). The previous
+        // inline styles overrode the chip styling and produced empty
+        // section-card space below.
         const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1);
         yearsGridEl.innerHTML = yearsWindow.map((y) => {
             const isActive = (y === year);
-            const bg       = isActive ? 'var(--primary)' : 'var(--bg)';
-            const fg       = isActive ? '#fff'           : 'var(--primary)';
-            const wt       = isActive ? 'font-weight:700;' : '';
-            const suffix   = (isActive && ui.years_active_suffix) ? ui.years_active_suffix : '';
-            return `<a href="${prefix}/hijri-calendar/${y}" style="display:inline-block;padding:8px 16px;background:${bg};color:${fg};border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);${wt}">${y}${hSfx}${suffix}</a>`;
+            const cls = isActive ? 'class="current" aria-current="page"' : '';
+            const suffix = (isActive && ui.years_active_suffix) ? ui.years_active_suffix : '';
+            return `<a href="${prefix}/hijri-calendar/${y}" ${cls}>${y}${hSfx}${suffix}</a>`;
         }).join('');
     }
     if (yearsAllLinkEl && ui.years_all_link) {
@@ -20588,14 +20591,17 @@ function loadHijriMonthPage() {
     if (yearsTitleEl   && ui.years_title)   yearsTitleEl.textContent = ui.years_title;
     if (yearsCurrentEl && ui.years_current) yearsCurrentEl.innerHTML = ui.years_current(year, hSfx);
     if (yearsGridEl) {
+        // HCAL-2b-fix-v4 (2026-05-09): chips no longer use inline styles —
+        // class-based so CSS in style.css can apply (HCAL-2 step 1 chip
+        // styling at #page-hijri-year #hyear-years-grid a). The previous
+        // inline styles overrode the chip styling and produced empty
+        // section-card space below.
         const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1);
         yearsGridEl.innerHTML = yearsWindow.map((y) => {
             const isActive = (y === year);
-            const bg       = isActive ? 'var(--primary)' : 'var(--bg)';
-            const fg       = isActive ? '#fff'           : 'var(--primary)';
-            const wt       = isActive ? 'font-weight:700;' : '';
-            const suffix   = (isActive && ui.years_active_suffix) ? ui.years_active_suffix : '';
-            return `<a href="${prefix}/hijri-calendar/${y}" style="display:inline-block;padding:8px 16px;background:${bg};color:${fg};border-radius:8px;text-decoration:none;font-size:0.9rem;border:1px solid var(--border);${wt}">${y}${hSfx}${suffix}</a>`;
+            const cls = isActive ? 'class="current" aria-current="page"' : '';
+            const suffix = (isActive && ui.years_active_suffix) ? ui.years_active_suffix : '';
+            return `<a href="${prefix}/hijri-calendar/${y}" ${cls}>${y}${hSfx}${suffix}</a>`;
         }).join('');
     }
     if (yearsAllLinkEl && ui.years_all_link) {

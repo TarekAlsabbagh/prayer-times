@@ -15144,7 +15144,13 @@ const server = http.createServer(async (req, res) => {
         // ومدينة (index.html). لا نُدرجه هنا لئلا نفرض index.html على جميع الحالات.
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath) ||
         // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة time-left (index.html + SSR overrides)
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath);
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
+        // NPT-FIX (2026-05-09): /next-prayer-time-in-{slug} — Schedule
+        // Awareness page (Round 4 Minimal). Was missing from _isIndexHtmlRoute
+        // → fell to the post-HD-EN-SEO-1 hard-404 catch-all → user got 404
+        // on every /next-prayer-time-in-{city} URL. Now treated like
+        // /time-left-until-prayer-in-{slug}: index.html + SSR overrides.
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-time-in-[a-z][a-z0-9-]+$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
         // Round 9 + Round 12 + Round 15 + Round 16: فحص slug لصفحات القمر.

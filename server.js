@@ -3564,6 +3564,82 @@ function _stripHtmlForQiblaHub(htmlIn) {
     return out;
 }
 
+// ===== HCAL-1 (2026-05-09): Hijri-calendar Year-page hub strip =====
+// /hijri-calendar (year) and /hijri-calendar/{YYYY-MM} pages used to
+// inherit the entire SPA shell SSR HTML — meaning all 13 inactive page
+// wrappers (#page-prayer-times, #page-qibla, #page-moon, #page-zakat,
+// #page-tasbih, #page-azkar, #page-hijri-today, #page-hijri-day,
+// #page-date-converter, 4 countdown pages, etc.) were sent in the body
+// even though only #page-hijri-year (or #page-hijri-month) is active.
+//
+// SEOptimer flagged this as:
+//   - 13 H1 tags (one per inactive page wrapper)
+//   - 85 H2 tags (lots of section headings inside inactive wrappers)
+//
+// Same proven strip pattern as _stripHtmlForMoonHub but scoped to the
+// Hijri-calendar Hub: keep only #page-hijri-year (or month) + the
+// shared shell (header/sidebar/footer/scripts).
+const _HCAL_HUB_STRIP_IDS = [
+    // The big homepage shell. Contains #location-hero (loc-hero-title h1),
+    // #page-h1, schedule, country grid, FAQ, footer-links, etc. — none of
+    // these belong on /hijri-calendar.
+    'page-prayer-times',
+    // Standalone pre-shell heroes for time-left / next-prayer routes
+    'tl-hero',
+    'tl-sticky',
+    'npt-hero',
+    'npt-sticky',
+    // Other tool pages
+    'page-qibla',
+    'page-moon',
+    'page-zakat',
+    'page-tasbih',
+    'page-azkar',
+    'page-date-converter',
+    // Legacy hijri-calendar wrapper (different from #page-hijri-year, has
+    // its own static H2 + monthly calendar grid). Not the active wrapper
+    // on /hijri-calendar (year) routes — strip.
+    'page-hijri-calendar',
+    'page-duas',
+    'page-all-cities',
+    // Hijri sibling pages (today + dated day) — kept on /today-hijri-date
+    // and /hijri-date/{date}, stripped on /hijri-calendar
+    'page-hijri-today',
+    'page-hijri-day',
+    // Countdown pages
+    'page-eid-al-adha-countdown',
+    'page-eid-al-fitr-countdown',
+    'page-hijri-new-year-countdown',
+    'page-ramadan-countdown',
+    // Sticky next-prayer bar — references #moon-today / prayer flow,
+    // belongs on prayer-times routes only
+    'sticky-next-bar',
+];
+function _stripHtmlForHijriYearHub(html) {
+    let out = html;
+    for (const id of _HCAL_HUB_STRIP_IDS) {
+        out = _stripElement(out, { type: 'id', value: id });
+    }
+    return out;
+}
+// Variant for /hijri-calendar/{YYYY}-{MM} — keep #page-hijri-month, strip
+// #page-hijri-year (since it's an alternate sibling), strip all the rest.
+function _stripHtmlForHijriMonthHub(html) {
+    let out = html;
+    const ids = [..._HCAL_HUB_STRIP_IDS, 'page-hijri-year'];
+    for (const id of ids) {
+        out = _stripElement(out, { type: 'id', value: id });
+    }
+    return out;
+}
+// Variant for /hijri-calendar (year) — strip #page-hijri-month too since
+// it's an alternate sibling not relevant on the year overview.
+function _stripHtmlForHijriYearOnly(html) {
+    let out = _stripHtmlForHijriYearHub(html);
+    out = _stripElement(out, { type: 'id', value: 'page-hijri-month' });
+    return out;
+}
+
 // ===== Phase I — H1 deduplication per route =====
 // SPA shell shares index.html across all routes. كل route له H1 خاصّ به.
 // CSS يُخفي البقيّة، لكنّ Google يقرأ HTML ويرى ~9 H1 في كلّ صفحة.
@@ -3587,6 +3663,14 @@ function _getActiveH1Marker(urlPath) {
     if (/^\/eid-al-fitr-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_fitr.h1' };
     if (/^\/eid-al-adha-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_adha.h1' };
     if (/^\/hijri-new-year-countdown$/.test(path))   return { kind: 'i18n', value: 'hijri_ny.h1' };
+    // HCAL-1 (2026-05-09): /hijri-calendar (year) and /hijri-calendar/{YYYY}
+    // pages — active H1 is #hyear-title (promoted from h2 in index.html).
+    if (/^\/hijri-calendar(?:\/\d{4})?$/.test(path)) return { kind: 'id',   value: 'hyear-title' };
+    // /hijri-calendar/{YYYY}-{MM} — active H1 is #hmonth-title (also h2 in
+    // index.html — same H1=1 issue applies). Adding for completeness so
+    // SEOptimer reports H1=1 on month pages too. The h2→h1 promotion for
+    // #hmonth-title is done in index.html alongside #hyear-title.
+    if (/^\/hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(path)) return { kind: 'id', value: 'hmonth-title' };
     if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
     return null;   // route غير معروف — لا تعديل
 }
@@ -5953,29 +6037,34 @@ function buildSeoForPath(urlPath) {
         // إن لم تُحدَّد السنة في المسار → استخدم السنة الهجرية الحالية
         const year = m[1] || String(_hijriNow().year);
         // قوالب متعدّدة اللغات
+        // HCAL-1 (2026-05-09): extended Title (was 27 chars in AR — too short
+        // for SEOptimer) to ~50-60 char range with the dominant keywords:
+        // التقويم الهجري + الأشهر + التواريخ الميلادية (or per-lang equivalent).
+        // No city, no "أم القرى" in the Title — kept generic. Meta extended
+        // similarly. AR final: "التقويم الهجري 1447 هـ | الأشهر الهجرية والتواريخ الميلادية"
         const _HY_TITLE = {
-            ar: `التقويم الهجري لعام ${year} هـ`,
-            en: `Hijri Calendar ${year} AH`,
-            fr: `Calendrier hégirien ${year} H`,
-            tr: `Hicri Takvim ${year} H`,
-            ur: `ہجری کیلنڈر ${year} ہجری`,
-            de: `Hidschri-Kalender ${year} AH`,
-            id: `Kalender Hijriah ${year} H`,
-            es: `Calendario Hégira ${year} H`,
-            bn: `হিজরি ক্যালেন্ডার ${year} হিজরি`,
-            ms: `Kalendar Hijrah ${year} H`,
+            ar: `التقويم الهجري ${year} هـ | الأشهر الهجرية والتواريخ الميلادية`,
+            en: `Hijri Calendar ${year} AH | Islamic Months & Gregorian Dates`,
+            fr: `Calendrier hégirien ${year} H | Mois islamiques et dates grégoriennes`,
+            tr: `Hicri Takvim ${year} H | İslami aylar ve miladi tarihler`,
+            ur: `ہجری کیلنڈر ${year} ہجری | اسلامی مہینے اور عیسوی تاریخیں`,
+            de: `Hidschri-Kalender ${year} AH | Islamische Monate & gregorianische Daten`,
+            id: `Kalender Hijriah ${year} H | Bulan Islam & tanggal Masehi`,
+            es: `Calendario Hégira ${year} H | Meses islámicos y fechas gregorianas`,
+            bn: `হিজরি ক্যালেন্ডার ${year} হিজরি | ইসলামি মাস ও খ্রিস্টীয় তারিখ`,
+            ms: `Kalendar Hijrah ${year} H | Bulan Islam & tarikh Masihi`,
         };
         const _HY_DESC = {
-            ar: `التقويم الهجري الكامل لعام ${year} هـ مع جميع الأشهر الإثني عشر والأيام وتواريخها الميلادية من تقويم أم القرى.`,
-            en: `Full Hijri calendar for year ${year} AH with all 12 months, days and their Gregorian dates from the Umm al-Qura calendar.`,
-            fr: `Calendrier hégirien complet de l'année ${year} H avec les 12 mois, leurs jours et leurs dates grégoriennes selon le calendrier Umm al-Qura.`,
-            tr: `${year} H yılının tam hicri takvimi — 12 ay, tüm günler ve Ümmülkura takvimine göre miladi karşılıkları.`,
-            ur: `${year} ہجری کا مکمل ہجری کیلنڈر — تمام 12 مہینے، ان کے دن اور ام القری کیلنڈر کے مطابق عیسوی تاریخیں۔`,
-            de: `Vollständiger Hidschri-Kalender für das Jahr ${year} AH mit allen 12 Monaten, Tagen und ihren gregorianischen Daten aus dem Umm-al-Qura-Kalender.`,
-            id: `Kalender Hijriah lengkap tahun ${year} H dengan semua 12 bulan, hari, dan tanggal Masehi-nya dari kalender Umm al-Qura.`,
-            es: `Calendario Hégira completo del año ${year} H con los 12 meses, sus días y fechas gregorianas según el calendario Umm al-Qura.`,
-            bn: `${year} হিজরির সম্পূর্ণ হিজরি ক্যালেন্ডার — সব ১২টি মাস, তাদের দিন এবং উম্ম আল-কুরা ক্যালেন্ডার অনুসারে খ্রিস্টীয় তারিখ।`,
-            ms: `Kalendar Hijrah lengkap bagi tahun ${year} H dengan kesemua 12 bulan, hari-harinya dan tarikh Masihi mengikut kalendar Umm al-Qura.`,
+            ar: `استعرض التقويم الهجري لعام ${year} هـ مع جميع الأشهر الهجرية، وعدد أيام كل شهر، والتواريخ الميلادية المقابلة، وروابط تحويل التاريخ والتقويم الشهري.`,
+            en: `Browse the Hijri calendar for ${year} AH with all Islamic months, days per month, matching Gregorian dates, and links to date conversion and monthly calendar tools.`,
+            fr: `Parcourez le calendrier hégirien de l'année ${year} H avec tous les mois islamiques, le nombre de jours, les dates grégoriennes correspondantes et les outils de conversion.`,
+            tr: `${year} H yılı için Hicri takvimi inceleyin — tüm İslami aylar, ay başına gün sayısı, karşılık gelen miladi tarihler ve aylık takvim araçları.`,
+            ur: `${year} ہجری کا ہجری کیلنڈر دیکھیں — تمام اسلامی مہینے، ہر مہینے کے دن، عیسوی تاریخیں اور تاریخ تبدیلی کے اوزار۔`,
+            de: `Sehen Sie den Hidschri-Kalender für das Jahr ${year} AH — alle islamischen Monate, Tage pro Monat, gregorianische Daten und Werkzeuge zur Datumsumrechnung.`,
+            id: `Lihat kalender Hijriah tahun ${year} H — semua bulan Islam, jumlah hari per bulan, tanggal Masehi yang sesuai, dan alat konversi tanggal.`,
+            es: `Consulta el calendario hégira del año ${year} H — todos los meses islámicos, días por mes, fechas gregorianas correspondientes y herramientas de conversión.`,
+            bn: `${year} হিজরির হিজরি ক্যালেন্ডার দেখুন — সব ইসলামি মাস, প্রতি মাসের দিন, খ্রিস্টীয় তারিখ এবং তারিখ রূপান্তর সরঞ্জাম।`,
+            ms: `Lihat kalendar Hijrah tahun ${year} H — semua bulan Islam, hari setiap bulan, tarikh Masihi padanan dan alat penukaran tarikh.`,
         };
         const _HY_CAL_LABEL = {
             ar: 'التقويم الهجري', en: 'Hijri Calendar', fr: 'Calendrier hégirien', tr: 'Hicri Takvim',
@@ -8994,6 +9083,148 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     <p class="hd1-accuracy-body">${_escHtml(_hd.accuracyBody || '')}</p>
                 </section>`;
         html = html.replace('<!-- HD-1-CONTENT -->', _hubBlock);
+    }
+
+    // 1f-pre) HCAL-1 (2026-05-09): /hijri-calendar Hub — strip every inactive
+    //     page wrapper so SEOptimer reports H1=1 + minimal H2s instead of
+    //     13 H1 / 85 H2. Each variant keeps only its own active page wrapper
+    //     plus the shared shell (header, sidebar, footer, scripts).
+    const _isHijriYearHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath);
+    const _isHijriMonthHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(urlPath);
+    if (_isHijriYearHub) {
+        html = _stripHtmlForHijriYearOnly(html);
+    } else if (_isHijriMonthHub) {
+        html = _stripHtmlForHijriMonthHub(html);
+    }
+
+    // HCAL-1 (2026-05-09): SSR Usage Guide content injection on year-hub.
+    // Adds ~350-400 words of educational content (4 blocks × H3+P) so the
+    // page passes SEOptimer's "Amount of Content" threshold without any
+    // accordion / hidden text. 10-lang dict — strict per-lang lookup.
+    if (_isHijriYearHub) {
+        const _hcalYearMatch = urlPath.match(/\/hijri-calendar\/(\d{4})$/);
+        const _hcalYear = _hcalYearMatch ? _hcalYearMatch[1] : String(_hijriNow().year);
+        const _hSfxByLang = {
+            ar: 'هـ', en: 'AH', fr: 'H', tr: 'H', ur: 'ہجری',
+            de: 'AH', id: 'H', es: 'H', bn: 'হিজরি', ms: 'H',
+        };
+        const _yLbl = `${_hcalYear} ${_hSfxByLang[seo.lang] || _hSfxByLang.en}`;
+        const _HCAL_GUIDE = {
+            ar: {
+                title: `دليل استخدام التقويم الهجري لعام ${_yLbl}`,
+                intro: `يساعدك هذا الدليل على قراءة أشهر السنة الهجرية ${_yLbl}، وفهم علاقتها بالتواريخ الميلادية، واستخدام التقويم في متابعة المناسبات الإسلامية والتنقل بين الأشهر والسنوات.`,
+                blocks: [
+                    { h: 'كيف تقرأ جدول الأشهر الهجرية؟', p: `يعرض جدول التقويم الهجري أشهر سنة ${_yLbl} بالترتيب، مع بداية كل شهر ونهايته بالتاريخ الميلادي وعدد أيامه. يساعدك ذلك على معرفة موقع كل شهر داخل السنة، والانتقال بسهولة إلى التقويم الشهري إذا أردت تفاصيل الأيام داخل الشهر.` },
+                    { h: 'لماذا تختلف بداية الشهر الهجري أحيانًا؟', p: 'تعتمد الأشهر الهجرية على دورة القمر، لذلك قد تختلف بداية بعض الشهور بحسب رؤية الهلال أو طريقة الحساب المعتمدة. لهذا قد يظهر فرق يوم واحد أحيانًا بين التقويمات المختلفة، خصوصًا عند بداية رمضان أو شوال أو ذي الحجة.' },
+                    { h: 'كيف تستفيد من التواريخ الميلادية المقابلة؟', p: 'عرض التاريخ الميلادي بجانب الشهر الهجري يساعدك على التخطيط للمواعيد اليومية والعملية، لأن كثيرًا من الجداول الرسمية تعتمد التقويم الميلادي. لذلك يمكنك معرفة الفترة الميلادية التي يقع فيها كل شهر هجري دون الحاجة إلى تحويل يدوي.' },
+                    { h: 'ما فائدة التقويم السنوي؟', p: 'يفيد التقويم السنوي في متابعة المناسبات الإسلامية، والتنقل بين الشهور، ومعرفة الأشهر الكبيسة أو الناقصة، ومراجعة ترتيب السنة كاملة في صفحة واحدة. كما يساعدك على الوصول السريع إلى التقويم الشهري وتحويل التاريخ عند الحاجة.' },
+                ],
+            },
+            en: {
+                title: `Guide to using the Hijri calendar for ${_yLbl}`,
+                intro: `This guide helps you read the months of the Hijri year ${_yLbl}, understand their relation to Gregorian dates, and use the calendar to track Islamic occasions and navigate between months and years.`,
+                blocks: [
+                    { h: 'How to read the Hijri months table?', p: `The Hijri calendar table shows the months of ${_yLbl} in order, with each month's start and end Gregorian dates and its day count. This helps you locate each month within the year and quickly jump into the monthly calendar for day-level details.` },
+                    { h: 'Why does the start of a Hijri month sometimes differ?', p: 'Hijri months follow the lunar cycle, so the start of a month may vary depending on moon sighting or the calculation method used. A one-day difference may appear between calendars, especially at the start of Ramadan, Shawwal, or Dhul-Hijjah.' },
+                    { h: 'How do you use the matching Gregorian dates?', p: 'Showing the Gregorian date next to the Hijri month helps you plan everyday and work appointments, since many official schedules use the Gregorian calendar. You can know the Gregorian period each Hijri month falls into without manual conversion.' },
+                    { h: 'What is the value of the yearly calendar?', p: 'The yearly calendar helps you track Islamic occasions, navigate between months, identify leap or short months, and review the entire year on a single page. It also gives quick access to the monthly calendar and the date converter when needed.' },
+                ],
+            },
+            fr: {
+                title: `Guide d'utilisation du calendrier hégirien pour ${_yLbl}`,
+                intro: `Ce guide vous aide à lire les mois de l'année hégirienne ${_yLbl}, à comprendre leur lien avec les dates grégoriennes, et à utiliser le calendrier pour suivre les occasions islamiques et naviguer entre mois et années.`,
+                blocks: [
+                    { h: 'Comment lire le tableau des mois hégiriens ?', p: `Le tableau du calendrier hégirien affiche les mois de ${_yLbl} dans l'ordre, avec la date grégorienne de début et de fin de chaque mois et son nombre de jours. Cela vous aide à situer chaque mois et à passer rapidement au calendrier mensuel pour les détails.` },
+                    { h: 'Pourquoi le début d\'un mois hégirien diffère-t-il parfois ?', p: 'Les mois hégiriens suivent le cycle lunaire, le début d\'un mois peut donc varier selon l\'observation du croissant ou la méthode de calcul utilisée. Une différence d\'un jour peut apparaître entre les calendriers, surtout au début de Ramadan, Shawwal ou Dhul-Hijjah.' },
+                    { h: 'Comment utiliser les dates grégoriennes correspondantes ?', p: 'Afficher la date grégorienne à côté du mois hégirien vous aide à planifier les rendez-vous quotidiens et professionnels, car de nombreux calendriers officiels utilisent le grégorien. Vous pouvez connaître la période grégorienne couverte par chaque mois hégirien sans conversion manuelle.' },
+                    { h: 'Quel est l\'intérêt du calendrier annuel ?', p: 'Le calendrier annuel vous aide à suivre les occasions islamiques, naviguer entre les mois, identifier les mois bissextiles ou courts et consulter l\'année entière sur une page. Il offre aussi un accès rapide au calendrier mensuel et au convertisseur de dates.' },
+                ],
+            },
+            tr: {
+                title: `${_yLbl} için Hicri takvim kullanım kılavuzu`,
+                intro: `Bu kılavuz, Hicri yıl ${_yLbl} aylarını okumanıza, miladi tarihlerle ilişkisini anlamanıza ve takvimi İslami olayları izlemek ile aylar ve yıllar arasında gezinmek için kullanmanıza yardımcı olur.`,
+                blocks: [
+                    { h: 'Hicri aylar tablosu nasıl okunur?', p: `Hicri takvim tablosu, ${_yLbl} aylarını sırayla gösterir; her ayın başlangıç-bitiş miladi tarihleri ve gün sayısı yer alır. Bu, her ayın yıl içindeki konumunu görmenize ve gün düzeyinde ayrıntılar için aylık takvime hızla geçmenize yardımcı olur.` },
+                    { h: 'Hicri ay başlangıcı neden bazen farklı olur?', p: 'Hicri aylar ay döngüsünü izler, bu yüzden bir ayın başlangıcı, hilal gözlemine veya kullanılan hesap yöntemine göre değişebilir. Takvimler arasında özellikle Ramazan, Şevval veya Zilhicce başında bir gün fark görülebilir.' },
+                    { h: 'Karşılık gelen miladi tarihler nasıl kullanılır?', p: 'Hicri ayın yanında miladi tarihin gösterilmesi günlük ve iş randevularını planlamanıza yardımcı olur, çünkü resmi takvimlerin çoğu miladidir. Her Hicri ayın denk geldiği miladi dönemi elle çevirmeden öğrenebilirsiniz.' },
+                    { h: 'Yıllık takvimin faydası nedir?', p: 'Yıllık takvim İslami olayları izlemenize, aylar arasında geçiş yapmanıza, artık veya kısa ayları tanımanıza ve yılın tamamını tek sayfada gözden geçirmenize yardımcı olur. Ayrıca aylık takvime ve tarih dönüştürücüye hızlı erişim sağlar.' },
+                ],
+            },
+            ur: {
+                title: `${_yLbl} ہجری کیلنڈر استعمال کرنے کا رہنما`,
+                intro: `یہ رہنما آپ کو ہجری سال ${_yLbl} کے مہینے پڑھنے، ان کا عیسوی تاریخوں سے تعلق سمجھنے، اور کیلنڈر کو اسلامی مواقع اور مہینوں و سالوں کے درمیان نقل و حرکت کے لیے استعمال کرنے میں مدد دیتا ہے۔`,
+                blocks: [
+                    { h: 'ہجری مہینوں کا جدول کیسے پڑھیں؟', p: `ہجری کیلنڈر جدول ${_yLbl} کے مہینے ترتیب سے دکھاتا ہے، ہر مہینے کی ابتدا اور اختتام عیسوی تاریخ اور دن کی تعداد کے ساتھ۔ یہ آپ کو سال میں ہر مہینے کا مقام دیکھنے اور دن کی تفصیلات کے لیے ماہانہ کیلنڈر پر تیزی سے جانے میں مدد دیتا ہے۔` },
+                    { h: 'ہجری مہینے کا آغاز کبھی مختلف کیوں ہوتا ہے؟', p: 'ہجری مہینے قمری چکر کی پیروی کرتے ہیں، اس لیے مہینے کا آغاز ہلال کی رویت یا حساب کے طریقے کے مطابق مختلف ہو سکتا ہے۔ خاص طور پر رمضان، شوال یا ذوالحجہ کے آغاز پر تقاویم کے درمیان ایک دن کا فرق ظاہر ہو سکتا ہے۔' },
+                    { h: 'متعلقہ عیسوی تاریخوں سے کیسے فائدہ اٹھائیں؟', p: 'ہجری مہینے کے ساتھ عیسوی تاریخ دکھائی جاتی ہے جو آپ کو روزانہ اور پیشہ ورانہ ملاقاتوں کی منصوبہ بندی میں مدد دیتی ہے، کیونکہ بہت سے سرکاری شیڈول عیسوی کیلنڈر استعمال کرتے ہیں۔ آپ ہاتھ سے تبدیلی کے بغیر ہر ہجری مہینے کا عیسوی دور جان سکتے ہیں۔' },
+                    { h: 'سالانہ کیلنڈر کا کیا فائدہ ہے؟', p: 'سالانہ کیلنڈر اسلامی مواقع کی پیروی، مہینوں کے درمیان تشریف لے جانے، کبیسہ یا چھوٹے مہینوں کی شناخت، اور پورا سال ایک صفحے پر دیکھنے میں مدد دیتا ہے۔ یہ ضرورت کے وقت ماہانہ کیلنڈر اور تاریخ کنورٹر تک تیز رسائی بھی فراہم کرتا ہے۔' },
+                ],
+            },
+            de: {
+                title: `Anleitung zur Nutzung des Hidschri-Kalenders für ${_yLbl}`,
+                intro: `Diese Anleitung hilft Ihnen, die Monate des Hidschri-Jahres ${_yLbl} zu lesen, ihren Bezug zu gregorianischen Daten zu verstehen und den Kalender zu nutzen, um islamische Anlässe zu verfolgen und zwischen Monaten und Jahren zu navigieren.`,
+                blocks: [
+                    { h: 'Wie liest man die Tabelle der Hidschri-Monate?', p: `Die Tabelle des Hidschri-Kalenders zeigt die Monate von ${_yLbl} der Reihe nach, mit den gregorianischen Anfangs- und Enddaten jedes Monats sowie der Anzahl seiner Tage. So sehen Sie die Position jedes Monats im Jahr und können schnell zum Monatskalender für Details springen.` },
+                    { h: 'Warum unterscheidet sich der Beginn eines Hidschri-Monats manchmal?', p: 'Hidschri-Monate folgen dem Mondzyklus, daher kann der Beginn eines Monats je nach Mondsichtung oder verwendeter Berechnungsmethode variieren. Eine eintägige Differenz kann zwischen Kalendern auftreten, besonders zu Beginn von Ramadan, Schawwal oder Dhul-Hidscha.' },
+                    { h: 'Wie nutzt man die entsprechenden gregorianischen Daten?', p: 'Das gregorianische Datum neben dem Hidschri-Monat hilft Ihnen, alltägliche und berufliche Termine zu planen, da viele offizielle Kalender gregorianisch sind. Sie können den gregorianischen Zeitraum jedes Hidschri-Monats ohne manuelle Umrechnung erkennen.' },
+                    { h: 'Was bringt der Jahreskalender?', p: 'Der Jahreskalender hilft Ihnen, islamische Anlässe zu verfolgen, zwischen Monaten zu navigieren, Schalt- oder kurze Monate zu erkennen und das gesamte Jahr auf einer Seite zu überblicken. Er bietet auch schnellen Zugriff auf den Monatskalender und den Datumsumrechner.' },
+                ],
+            },
+            id: {
+                title: `Panduan menggunakan kalender Hijriah untuk ${_yLbl}`,
+                intro: `Panduan ini membantu Anda membaca bulan-bulan tahun Hijriah ${_yLbl}, memahami hubungannya dengan tanggal Masehi, dan menggunakan kalender untuk mengikuti peristiwa Islam serta berpindah antar bulan dan tahun.`,
+                blocks: [
+                    { h: 'Cara membaca tabel bulan Hijriah?', p: `Tabel kalender Hijriah menampilkan bulan-bulan ${_yLbl} secara berurutan, dengan tanggal Masehi awal-akhir setiap bulan dan jumlah harinya. Ini membantu Anda melihat posisi setiap bulan dalam setahun dan beralih cepat ke kalender bulanan untuk detail harian.` },
+                    { h: 'Mengapa awal bulan Hijriah kadang berbeda?', p: 'Bulan Hijriah mengikuti siklus bulan, jadi awal bulan dapat berbeda tergantung pada rukyat hilal atau metode hisab. Perbedaan satu hari dapat muncul antar kalender, terutama pada awal Ramadan, Syawal, atau Zulhijjah.' },
+                    { h: 'Bagaimana memanfaatkan tanggal Masehi yang sesuai?', p: 'Menampilkan tanggal Masehi di samping bulan Hijriah membantu Anda merencanakan janji harian dan kerja, karena banyak jadwal resmi memakai Masehi. Anda dapat mengetahui periode Masehi setiap bulan Hijriah tanpa konversi manual.' },
+                    { h: 'Apa manfaat kalender tahunan?', p: 'Kalender tahunan membantu mengikuti peristiwa Islam, berpindah antar bulan, mengenali bulan kabisat atau pendek, dan meninjau seluruh tahun di satu halaman. Ia juga memberi akses cepat ke kalender bulanan dan konverter tanggal.' },
+                ],
+            },
+            es: {
+                title: `Guía de uso del calendario hégira para ${_yLbl}`,
+                intro: `Esta guía te ayuda a leer los meses del año hégira ${_yLbl}, comprender su relación con las fechas gregorianas y usar el calendario para seguir las ocasiones islámicas y navegar entre meses y años.`,
+                blocks: [
+                    { h: '¿Cómo leer la tabla de meses hégira?', p: `La tabla del calendario hégira muestra los meses de ${_yLbl} en orden, con las fechas gregorianas de inicio y fin de cada mes y el número de días. Te ayuda a ver la posición de cada mes en el año y a saltar al calendario mensual para los detalles diarios.` },
+                    { h: '¿Por qué el inicio de un mes hégira difiere a veces?', p: 'Los meses hégira siguen el ciclo lunar, por lo que el inicio puede variar según la observación de la luna o el método de cálculo. Puede aparecer una diferencia de un día entre calendarios, sobre todo al inicio de Ramadán, Shawwal o Dhul-Hiya.' },
+                    { h: '¿Cómo usar las fechas gregorianas correspondientes?', p: 'Mostrar la fecha gregoriana junto al mes hégira te ayuda a planear citas diarias y laborales, ya que muchos calendarios oficiales son gregorianos. Puedes saber el período gregoriano de cada mes hégira sin conversión manual.' },
+                    { h: '¿Para qué sirve el calendario anual?', p: 'El calendario anual ayuda a seguir las ocasiones islámicas, navegar entre meses, identificar meses bisiestos o cortos y revisar todo el año en una página. También da acceso rápido al calendario mensual y al conversor de fechas.' },
+                ],
+            },
+            bn: {
+                title: `${_yLbl} হিজরি ক্যালেন্ডার ব্যবহারের নির্দেশিকা`,
+                intro: `এই নির্দেশিকা আপনাকে হিজরি বছর ${_yLbl}-এর মাসগুলো পড়তে, খ্রিস্টীয় তারিখের সাথে এর সম্পর্ক বুঝতে এবং ইসলামি অনুষ্ঠান অনুসরণ ও মাস-বছরের মধ্যে চলাচলে ক্যালেন্ডার ব্যবহার করতে সাহায্য করে।`,
+                blocks: [
+                    { h: 'হিজরি মাসের সারণি কীভাবে পড়বেন?', p: `হিজরি ক্যালেন্ডার সারণি ${_yLbl}-এর মাসগুলো ক্রমানুসারে দেখায়, প্রতিটি মাসের শুরু-শেষ খ্রিস্টীয় তারিখ ও দিনের সংখ্যা সহ। এটি বছরে প্রতিটি মাসের অবস্থান দেখতে এবং দিন-স্তরের বিবরণের জন্য মাসিক ক্যালেন্ডারে দ্রুত যেতে সাহায্য করে।` },
+                    { h: 'হিজরি মাসের শুরু কেন কখনো ভিন্ন হয়?', p: 'হিজরি মাস চান্দ্র চক্র অনুসরণ করে, তাই মাসের শুরু চাঁদ দেখা বা ব্যবহৃত গণনা পদ্ধতির উপর নির্ভর করে ভিন্ন হতে পারে। ক্যালেন্ডারগুলোর মধ্যে এক দিনের পার্থক্য দেখা যেতে পারে, বিশেষত রমজান, শাওয়াল বা যিলহজ্জের শুরুতে।' },
+                    { h: 'অনুরূপ খ্রিস্টীয় তারিখ কীভাবে ব্যবহার করবেন?', p: 'হিজরি মাসের পাশে খ্রিস্টীয় তারিখ দেখানো আপনাকে দৈনিক ও কর্মস্থানের অ্যাপয়েন্টমেন্ট পরিকল্পনা করতে সাহায্য করে, কারণ বেশিরভাগ সরকারি সূচি খ্রিস্টীয় ক্যালেন্ডার ব্যবহার করে। ম্যানুয়াল রূপান্তর ছাড়াই প্রতিটি হিজরি মাসের খ্রিস্টীয় সময়কাল জানতে পারেন।' },
+                    { h: 'বার্ষিক ক্যালেন্ডারের উপকার কী?', p: 'বার্ষিক ক্যালেন্ডার ইসলামি অনুষ্ঠান অনুসরণ, মাসের মধ্যে চলাচল, অধিবর্ষ বা ছোট মাস চেনা এবং একটি পৃষ্ঠায় পুরো বছর পর্যালোচনায় সাহায্য করে। প্রয়োজনে এটি মাসিক ক্যালেন্ডার ও তারিখ রূপান্তরকারীতেও দ্রুত প্রবেশ দেয়।' },
+                ],
+            },
+            ms: {
+                title: `Panduan menggunakan kalendar Hijrah untuk ${_yLbl}`,
+                intro: `Panduan ini membantu anda membaca bulan-bulan tahun Hijrah ${_yLbl}, memahami hubungannya dengan tarikh Masihi, dan menggunakan kalendar untuk mengikuti peristiwa Islam serta bergerak antara bulan dan tahun.`,
+                blocks: [
+                    { h: 'Cara membaca jadual bulan Hijrah?', p: `Jadual kalendar Hijrah memaparkan bulan-bulan ${_yLbl} secara berurutan, dengan tarikh Masihi mula-akhir setiap bulan dan bilangan harinya. Ini membantu anda melihat kedudukan setiap bulan dalam setahun dan beralih cepat ke kalendar bulanan untuk perincian harian.` },
+                    { h: 'Mengapa permulaan bulan Hijrah kadang-kadang berbeza?', p: 'Bulan Hijrah mengikut kitaran bulan, jadi permulaan bulan boleh berbeza mengikut pemerhatian hilal atau kaedah pengiraan. Perbezaan satu hari boleh muncul antara kalendar, terutama pada permulaan Ramadan, Syawal, atau Zulhijjah.' },
+                    { h: 'Bagaimana memanfaatkan tarikh Masihi yang sepadan?', p: 'Memaparkan tarikh Masihi di sebelah bulan Hijrah membantu anda merancang janji harian dan kerja, kerana banyak jadual rasmi menggunakan Masihi. Anda boleh mengetahui tempoh Masihi setiap bulan Hijrah tanpa penukaran manual.' },
+                    { h: 'Apakah faedah kalendar tahunan?', p: 'Kalendar tahunan membantu mengikuti peristiwa Islam, bergerak antara bulan, mengenal pasti bulan lompat atau pendek, dan menyemak keseluruhan tahun pada satu halaman. Ia juga memberi akses pantas ke kalendar bulanan dan penukar tarikh.' },
+                ],
+            },
+        };
+        const _hg = _HCAL_GUIDE[seo.lang] || _HCAL_GUIDE.en;
+        const _hgBlocksHtml = _hg.blocks.map(b => `
+                    <article class="hcal1-guide-block">
+                        <h3>${_escHtml(b.h)}</h3>
+                        <p>${_escHtml(b.p)}</p>
+                    </article>`).join('');
+        const _hgBlock = `
+                <section class="section-card hcal1-guide" aria-labelledby="hcal1-guide-title">
+                    <h2 id="hcal1-guide-title" class="hpage-section-title">${_escHtml(_hg.title)}</h2>
+                    <p class="hcal1-guide-intro">${_escHtml(_hg.intro)}</p>
+                    <div class="hcal1-guide-grid">${_hgBlocksHtml}
+                    </div>
+                </section>`;
+        html = html.replace('<!-- HCAL-1-CONTENT -->', _hgBlock);
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections

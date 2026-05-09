@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=325" as="style">
-    <link rel="stylesheet" href="css/style.css?v=325">
+    <link rel="preload" href="css/style.css?v=326" as="style">
+    <link rel="stylesheet" href="css/style.css?v=326">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -2802,7 +2802,7 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hyear-breadcrumbs" aria-label="breadcrumb"></nav>
                 <div class="section-card hpage-hero-start">
-                    <h2 id="hyear-title" class="hpage-hero-title--lg" data-i18n="hyear.title">تقويم السنة الهجرية</h2>
+                    <h1 id="hyear-title" class="hpage-hero-title--lg" data-i18n="hyear.title">تقويم السنة الهجرية</h1>
                     <p id="hyear-intro" class="hpage-hero-intro hpage-hero-intro--start"></p>
                     <div class="calendar-year-picker hpage-year-picker">
                         <label for="hyear-year-select" data-i18n="calendar.select_year">اختر السنة:</label>
@@ -2847,6 +2847,12 @@
                     <div id="hyear-years-grid" class="u-flex-wrap-top"></div>
                     <p class="hpage-years-more"><a id="hyear-years-all" href="/hijri-calendar"></a></p>
                 </div>
+                <!-- HCAL-1 (2026-05-09): SSR Usage Guide injection anchor.
+                     server.js _isHijriYearHub branch fills with a 4-block
+                     guide section in the active language. Adds ~350-400
+                     words of educational content + raises Word Count past
+                     SEOptimer's "thin content" threshold. -->
+                <!-- HCAL-1-CONTENT -->
                 <!-- FAQ -->
                 <div class="section-card">
                     <h2 id="hyear-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="hyear.faq_title">أسئلة عن السنة الهجرية</span></h2>
@@ -2908,7 +2914,7 @@
                 <!-- Breadcrumb standalone -->
                 <nav class="city-breadcrumb hijri-breadcrumb" id="hmonth-breadcrumbs" aria-label="breadcrumb"></nav>
                 <div class="section-card hpage-hero">
-                    <h2 id="hmonth-title" class="hpage-hero-title" data-i18n="hmonth.title">تقويم الشهر الهجري</h2>
+                    <h1 id="hmonth-title" class="hpage-hero-title" data-i18n="hmonth.title">تقويم الشهر الهجري</h1>
                     <p id="hmonth-subtitle" class="hpage-hero-mini-sub"></p>
                     <!-- HD-2 (2026-05-07): CTA → /today-hijri-date Hub. Lets users jump
                          from any historical month back to today's Hijri date. -->

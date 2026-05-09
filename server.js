@@ -7860,24 +7860,141 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             },
         };
         const _ns = _NPT_SEO[seo.lang] || _NPT_SEO.en;
+
+        // NPT-2 (2026-05-09): per-lang labels for the new richer layout.
+        const _NPT_LABELS = {
+            ar: { subtitle: c => `تعرف على موعد الصلاة التالية والوقت المتبقي لها حسب التوقيت المحلي لمدينة ${c}.`, note: c => `يتم تحديث الصلاة القادمة تلقائياً حسب وقت ${c}.`, city: 'المدينة', country: 'الدولة', timezone: 'التوقيت المحلي', calc: 'طريقة الحساب', calcVal: 'حسب إعدادات الموقع', upcomingTitle: c => `الصلوات التالية في ${c}`, upcomingSub: 'تعرف على أقرب مواعيد الصلاة بعد الصلاة القادمة اليوم.', faqSub: 'إجابات مختصرة عن أكثر الأسئلة المتعلقة بموعد الصلاة التالية.', relPrayer: c => `مواقيت الصلاة في ${c}`, relQibla: c => `اتجاه القبلة في ${c}`, relMoon: c => `حالة القمر في ${c}`, relHijri: 'التاريخ الهجري اليوم' },
+            en: { subtitle: c => `Learn the time of the next prayer and the time remaining according to ${c}'s local time.`, note: c => `The next prayer updates automatically based on ${c}'s local time.`, city: 'City', country: 'Country', timezone: 'Local timezone', calc: 'Calculation method', calcVal: 'Site settings', upcomingTitle: c => `Upcoming prayers in ${c}`, upcomingSub: 'See the closest prayer times after the next prayer today.', faqSub: 'Short answers to the most common questions about the next prayer.', relPrayer: c => `Prayer times in ${c}`, relQibla: c => `Qibla direction in ${c}`, relMoon: c => `Moon status in ${c}`, relHijri: 'Today\'s Hijri date' },
+            fr: { subtitle: c => `Découvrez l'heure de la prochaine prière et le temps restant selon l'heure locale de ${c}.`, note: c => `La prochaine prière est mise à jour automatiquement selon l'heure locale de ${c}.`, city: 'Ville', country: 'Pays', timezone: 'Fuseau horaire', calc: 'Méthode de calcul', calcVal: 'Paramètres du site', upcomingTitle: c => `Prochaines prières à ${c}`, upcomingSub: 'Voyez les prochaines heures de prière après la prochaine prière du jour.', faqSub: 'Réponses brèves aux questions fréquentes sur la prochaine prière.', relPrayer: c => `Heures de prière à ${c}`, relQibla: c => `Direction de la Qibla à ${c}`, relMoon: c => `État de la lune à ${c}`, relHijri: 'Date hégirienne d\'aujourd\'hui' },
+            tr: { subtitle: c => `${c} yerel saatine göre sonraki namazın vaktini ve kalan süresini öğrenin.`, note: c => `Sonraki namaz, ${c} yerel saatine göre otomatik olarak güncellenir.`, city: 'Şehir', country: 'Ülke', timezone: 'Yerel saat dilimi', calc: 'Hesaplama yöntemi', calcVal: 'Site ayarları', upcomingTitle: c => `${c} sonraki namazlar`, upcomingSub: 'Bugün sonraki namazdan sonraki en yakın namaz vakitlerini görün.', faqSub: 'Sonraki namaz hakkında en yaygın soruların kısa cevapları.', relPrayer: c => `${c} namaz vakitleri`, relQibla: c => `${c} kıble yönü`, relMoon: c => `${c} ay durumu`, relHijri: 'Bugünün hicri tarihi' },
+            ur: { subtitle: c => `${c} کے مقامی وقت کے مطابق اگلی نماز کا وقت اور بقیہ وقت جانیں۔`, note: c => `اگلی نماز ${c} کے مقامی وقت کے مطابق خود بخود اپ ڈیٹ ہوتی ہے۔`, city: 'شہر', country: 'ملک', timezone: 'مقامی ٹائم زون', calc: 'حساب کا طریقہ', calcVal: 'سائٹ کی ترتیبات', upcomingTitle: c => `${c} میں آنے والی نمازیں`, upcomingSub: 'آج کی اگلی نماز کے بعد قریبی نماز کے اوقات دیکھیں۔', faqSub: 'اگلی نماز کے بارے میں سب سے عام سوالات کے مختصر جوابات۔', relPrayer: c => `${c} میں نماز کے اوقات`, relQibla: c => `${c} میں قبلہ کی سمت`, relMoon: c => `${c} میں چاند کی حالت`, relHijri: 'آج کی ہجری تاریخ' },
+            de: { subtitle: c => `Erfahren Sie die Zeit des nächsten Gebets und die verbleibende Zeit nach Ortszeit von ${c}.`, note: c => `Das nächste Gebet wird automatisch nach Ortszeit von ${c} aktualisiert.`, city: 'Stadt', country: 'Land', timezone: 'Zeitzone', calc: 'Berechnungsmethode', calcVal: 'Site-Einstellungen', upcomingTitle: c => `Nächste Gebete in ${c}`, upcomingSub: 'Sehen Sie die nächsten Gebetszeiten nach dem nächsten Gebet heute.', faqSub: 'Kurze Antworten auf die häufigsten Fragen zum nächsten Gebet.', relPrayer: c => `Gebetszeiten in ${c}`, relQibla: c => `Qibla-Richtung in ${c}`, relMoon: c => `Mondzustand in ${c}`, relHijri: 'Heutiges Hidschri-Datum' },
+            id: { subtitle: c => `Ketahui waktu sholat berikutnya dan sisa waktunya menurut waktu setempat ${c}.`, note: c => `Sholat berikutnya diperbarui otomatis menurut waktu setempat ${c}.`, city: 'Kota', country: 'Negara', timezone: 'Zona waktu', calc: 'Metode perhitungan', calcVal: 'Pengaturan situs', upcomingTitle: c => `Sholat berikutnya di ${c}`, upcomingSub: 'Lihat waktu sholat terdekat setelah sholat berikutnya hari ini.', faqSub: 'Jawaban singkat untuk pertanyaan paling umum tentang sholat berikutnya.', relPrayer: c => `Jadwal sholat di ${c}`, relQibla: c => `Arah kiblat di ${c}`, relMoon: c => `Status bulan di ${c}`, relHijri: 'Tanggal Hijriah hari ini' },
+            es: { subtitle: c => `Conoce la hora de la próxima oración y el tiempo restante según la hora local de ${c}.`, note: c => `La próxima oración se actualiza automáticamente según la hora local de ${c}.`, city: 'Ciudad', country: 'País', timezone: 'Zona horaria', calc: 'Método de cálculo', calcVal: 'Ajustes del sitio', upcomingTitle: c => `Próximas oraciones en ${c}`, upcomingSub: 'Vea los horarios más cercanos después de la próxima oración hoy.', faqSub: 'Respuestas breves a las preguntas más comunes sobre la próxima oración.', relPrayer: c => `Horarios de oración en ${c}`, relQibla: c => `Dirección de la Qibla en ${c}`, relMoon: c => `Estado de la luna en ${c}`, relHijri: 'Fecha hégira de hoy' },
+            bn: { subtitle: c => `${c}-এর স্থানীয় সময় অনুসারে পরবর্তী নামাজের সময় এবং অবশিষ্ট সময় জানুন।`, note: c => `পরবর্তী নামাজ ${c}-এর স্থানীয় সময় অনুসারে স্বয়ংক্রিয়ভাবে আপডেট হয়।`, city: 'শহর', country: 'দেশ', timezone: 'স্থানীয় টাইমজোন', calc: 'হিসাবের পদ্ধতি', calcVal: 'সাইট সেটিংস', upcomingTitle: c => `${c}-এ পরবর্তী নামাজসমূহ`, upcomingSub: 'আজকের পরবর্তী নামাজের পরে সবচেয়ে কাছের নামাজের সময় দেখুন।', faqSub: 'পরবর্তী নামাজ সম্পর্কে সবচেয়ে সাধারণ প্রশ্নের সংক্ষিপ্ত উত্তর।', relPrayer: c => `${c}-এ নামাজের সময়`, relQibla: c => `${c}-এ কিবলার দিক`, relMoon: c => `${c}-এ চাঁদের অবস্থা`, relHijri: 'আজকের হিজরি তারিখ' },
+            ms: { subtitle: c => `Ketahui waktu solat seterusnya dan masa berbaki mengikut waktu tempatan ${c}.`, note: c => `Solat seterusnya dikemas kini secara automatik mengikut waktu tempatan ${c}.`, city: 'Bandar', country: 'Negara', timezone: 'Zon waktu', calc: 'Kaedah pengiraan', calcVal: 'Tetapan tapak', upcomingTitle: c => `Solat seterusnya di ${c}`, upcomingSub: 'Lihat waktu solat terdekat selepas solat seterusnya hari ini.', faqSub: 'Jawapan ringkas untuk soalan paling lazim tentang solat seterusnya.', relPrayer: c => `Waktu solat di ${c}`, relQibla: c => `Arah kiblat di ${c}`, relMoon: c => `Status bulan di ${c}`, relHijri: 'Tarikh Hijrah hari ini' },
+        };
+        const _nl = _NPT_LABELS[seo.lang] || _NPT_LABELS.en;
+
+        // City info via _resolveCityForMoon — gives lat/lng/cc; fall back to display name only.
+        const _slug = (seo.nextPrayerPage && seo.nextPrayerPage.slug) || '';
+        const _cityInfo = (typeof _resolveCityForMoon === 'function')
+            ? _resolveCityForMoon(_slug) : null;
+        const _ccLower = (_cityInfo && _cityInfo.cc) ? String(_cityInfo.cc).toLowerCase() : '';
+        const _COUNTRY_BY_LANG = {
+            ar: COUNTRY_NAMES_AR || {}, en: COUNTRY_NAMES_EN || {},
+            fr: (typeof _COUNTRY_NAMES_FR !== 'undefined') ? _COUNTRY_NAMES_FR : {},
+            tr: (typeof _COUNTRY_NAMES_TR !== 'undefined') ? _COUNTRY_NAMES_TR : {},
+            ur: (typeof _COUNTRY_NAMES_UR !== 'undefined') ? _COUNTRY_NAMES_UR : {},
+        };
+        const _ctryDict = _COUNTRY_BY_LANG[seo.lang] || COUNTRY_NAMES_EN || {};
+        const _ctryName = (_ccLower && _ctryDict[_ccLower]) || (_ccLower && (COUNTRY_NAMES_EN || {})[_ccLower]) || '—';
+        const _tzGuess = _ccLower
+            ? ({ sa: 'Asia/Riyadh', ae: 'Asia/Dubai', eg: 'Africa/Cairo', tr: 'Europe/Istanbul',
+                 jo: 'Asia/Amman', sy: 'Asia/Damascus', iq: 'Asia/Baghdad', kw: 'Asia/Kuwait',
+                 qa: 'Asia/Qatar', bh: 'Asia/Bahrain', om: 'Asia/Muscat', ye: 'Asia/Aden',
+                 lb: 'Asia/Beirut', ps: 'Asia/Gaza', dz: 'Africa/Algiers', ma: 'Africa/Casablanca',
+                 tn: 'Africa/Tunis', ly: 'Africa/Tripoli', sd: 'Africa/Khartoum', so: 'Africa/Mogadishu',
+                 pk: 'Asia/Karachi', in: 'Asia/Kolkata', bd: 'Asia/Dhaka', af: 'Asia/Kabul',
+                 ir: 'Asia/Tehran', my: 'Asia/Kuala_Lumpur', id: 'Asia/Jakarta', sg: 'Asia/Singapore',
+                 us: 'America/New_York', ca: 'America/Toronto', mx: 'America/Mexico_City',
+                 fr: 'Europe/Paris', de: 'Europe/Berlin', gb: 'Europe/London', es: 'Europe/Madrid',
+                 it: 'Europe/Rome', nl: 'Europe/Amsterdam', ru: 'Europe/Moscow', au: 'Australia/Sydney' }[_ccLower] || '—')
+            : '—';
+
+        // Compute lang prefix locally (NPT block runs before HCAL one).
+        const _langPfx = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
+        const _ctaHref = `${_langPfx}/prayer-times-in-${_slug}`;
+        const _secHref = `${_langPfx}/time-left-until-prayer-in-${_slug}`;
+        const _qiblaHref = `${_langPfx}/qibla-in-${_slug}`;
+        const _moonHref = `${_langPfx}/moon-in-${_slug}`;
+        const _hijriHref = `${_langPfx}/today-hijri-date`;
+
+        // Inject hero subtitle + note (SSR-fill the new placeholders inside #npt-hero)
+        html = html.replace(
+            /<p class="next-hero-subtitle" id="npt-hero-subtitle"[^>]*><\/p>/,
+            `<p class="next-hero-subtitle" id="npt-hero-subtitle">${_escHtml(_nl.subtitle(_cityForSeo))}</p>`
+        );
+        html = html.replace(
+            /<p class="next-note" id="npt-hero-note"[^>]*><\/p>/,
+            `<p class="next-note" id="npt-hero-note">${_escHtml(_nl.note(_cityForSeo))}</p>`
+        );
+
         const _nptSeoBlock = `
-                <section class="seo-content next-prayer-seo" aria-labelledby="npt-seo-h2-1">
-                    <h2 id="npt-seo-h2-1">${_escHtml(_ns.h2_1)}</h2>
-                    <p>${_escHtml(_ns.p_1)}</p>
-                    <h2>${_escHtml(_ns.h2_2)}</h2>
-                    <p>${_escHtml(_ns.p_2)}</p>
-                    <h2>${_escHtml(_ns.h2_3)}</h2>
-                    <p>${_escHtml(_ns.p_3)}</p>
-                    <h2>${_escHtml(_ns.h2_4)}</h2>
-                    <p>${_escHtml(_ns.p_4)}</p>
-                    <h2>${_escHtml(_ns.faq_title)}</h2>
-                    <h3>${_escHtml(_ns.q1)}</h3>
-                    <p>${_escHtml(_ns.a1)}</p>
-                    <h3>${_escHtml(_ns.q2)}</h3>
-                    <p>${_escHtml(_ns.a2)}</p>
-                    <h3>${_escHtml(_ns.q3)}</h3>
-                    <p>${_escHtml(_ns.a3)}</p>
-                </section>`;
+                <div class="next-info-grid" aria-label="${_escHtml(_nl.city)} ${_escHtml(_cityForSeo)}">
+                    <div class="next-info-item">
+                        <span>${_escHtml(_nl.city)}</span>
+                        <strong>${_escHtml(_cityForSeo)}</strong>
+                    </div>
+                    <div class="next-info-item">
+                        <span>${_escHtml(_nl.country)}</span>
+                        <strong>${_escHtml(_ctryName)}</strong>
+                    </div>
+                    <div class="next-info-item">
+                        <span>${_escHtml(_nl.timezone)}</span>
+                        <strong>${_escHtml(_tzGuess)}</strong>
+                    </div>
+                    <div class="next-info-item">
+                        <span>${_escHtml(_nl.calc)}</span>
+                        <strong>${_escHtml(_nl.calcVal)}</strong>
+                    </div>
+                </div>
+                <section class="next-section-card next-prayers-card">
+                    <div class="next-section-head">
+                        <h2>${_escHtml(_nl.upcomingTitle(_cityForSeo))}</h2>
+                        <p>${_escHtml(_nl.upcomingSub)}</p>
+                    </div>
+                    <ul class="next-prayers-list" id="npt-upcoming-list" data-i18n-aria-label="npt.after"></ul>
+                    <a class="next-main-cta" id="npt-cta" href="${_ctaHref}" data-wired="1">
+                        <span class="npt-cta-text" id="npt-cta-text" data-i18n="npt.cta_all">${_escHtml(_ns.h2_3 ? '' : '')}</span>
+                    </a>
+                    <a class="next-secondary-link" id="npt-secondary" href="${_secHref}" data-wired="1" data-i18n="npt.how_long"></a>
+                    <p class="next-mini-seo" id="npt-seo"></p>
+                </section>
+                <section class="next-content-grid" aria-label="${_escHtml(_ns.h2_1)}">
+                    <article class="next-content-card">
+                        <h2>${_escHtml(_ns.h2_1)}</h2>
+                        <p>${_escHtml(_ns.p_1)}</p>
+                    </article>
+                    <article class="next-content-card">
+                        <h2>${_escHtml(_ns.h2_2)}</h2>
+                        <p>${_escHtml(_ns.p_2)}</p>
+                    </article>
+                    <article class="next-content-card">
+                        <h2>${_escHtml(_ns.h2_3)}</h2>
+                        <p>${_escHtml(_ns.p_3)}</p>
+                    </article>
+                    <article class="next-content-card">
+                        <h2>${_escHtml(_ns.h2_4)}</h2>
+                        <p>${_escHtml(_ns.p_4)}</p>
+                    </article>
+                </section>
+                <section class="next-section-card next-faq-card">
+                    <div class="next-section-head">
+                        <h2>${_escHtml(_ns.faq_title)}</h2>
+                        <p>${_escHtml(_nl.faqSub)}</p>
+                    </div>
+                    <div class="next-faq-list">
+                        <article class="next-faq-item">
+                            <h3>${_escHtml(_ns.q1)}</h3>
+                            <p>${_escHtml(_ns.a1)}</p>
+                        </article>
+                        <article class="next-faq-item">
+                            <h3>${_escHtml(_ns.q2)}</h3>
+                            <p>${_escHtml(_ns.a2)}</p>
+                        </article>
+                        <article class="next-faq-item">
+                            <h3>${_escHtml(_ns.q3)}</h3>
+                            <p>${_escHtml(_ns.a3)}</p>
+                        </article>
+                    </div>
+                </section>
+                <nav class="next-related-links" aria-label="related links">
+                    <a href="${_ctaHref}">${_escHtml(_nl.relPrayer(_cityForSeo))}</a>
+                    <a href="${_qiblaHref}">${_escHtml(_nl.relQibla(_cityForSeo))}</a>
+                    <a href="${_moonHref}">${_escHtml(_nl.relMoon(_cityForSeo))}</a>
+                    <a href="${_hijriHref}">${_escHtml(_nl.relHijri)}</a>
+                </nav>`;
         html = html.replace('<!-- NPT-SEO-1-CONTENT -->', _nptSeoBlock);
     }
     // 1d) 🆕 Round 6 (City Audit): city page (not TL, not NPT) → strip dead-weight heroes.

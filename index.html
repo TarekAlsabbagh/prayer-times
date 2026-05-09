@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=336" as="style">
-    <link rel="stylesheet" href="css/style.css?v=336">
+    <link rel="preload" href="css/style.css?v=337" as="style">
+    <link rel="stylesheet" href="css/style.css?v=337">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -496,35 +496,28 @@
 
                 <!-- 🆕 Next-Prayer-Time Hero (Round 4 Minimal) — يظهر فقط في /next-prayer-time-in-{slug} عبر html.next-prayer-time-page CSS -->
                 <!-- R-3: H1 بإضافة «اليوم» — R-1: label «اليوم» — R-2: 3 صلوات دائماً -->
-                <section class="section-card npt-hero u-hidden" id="npt-hero" aria-labelledby="npt-h1">
-                    <div class="npt-hero-inner">
-                        <h1 id="npt-h1" class="npt-h1">
-                            <span data-i18n="npt.h1_prefix">الصلاة القادمة في</span>
-                            <span class="npt-h1-city" id="npt-h1-city">—</span>
-                            <span class="npt-h1-today" data-i18n="npt.h1_today">اليوم</span>
-                        </h1>
-                        <div class="npt-next-card">
-                            <div class="npt-next-label" data-i18n="npt.next_is">الصلاة القادمة اليوم:</div>
-                            <div class="npt-next-name" id="npt-next-name">—</div>
-                            <div class="npt-next-time" id="npt-next-time">—</div>
-                        </div>
-                        <div class="npt-upcoming" aria-label="Upcoming prayers">
-                            <div class="npt-upcoming-title" data-i18n="npt.after">بعدها:</div>
-                            <ul class="npt-upcoming-list" id="npt-upcoming-list"></ul>
-                        </div>
-
-                        <!-- 🆕 CTA رئيسيّ — نصّ فيه {loc} يُستبدَل بـ JS -->
-                        <a class="npt-cta" id="npt-cta" href="#">
-                            <span class="npt-cta-text" id="npt-cta-text" data-i18n="npt.cta_all">عرض جميع مواقيت الصلاة في {loc}</span>
-                            <span class="npt-cta-arrow" aria-hidden="true">→</span>
-                        </a>
-
-                        <!-- 🆕 رابط ثانويّ صغير إلى time-left — نصّ {prayer} + {city} يُستبدلان بـ JS -->
-                        <a class="npt-secondary" id="npt-secondary" href="#" data-i18n="npt.how_long">كم باقي على صلاة {prayer} في {city}؟</a>
-
-                        <!-- 🆕 فقرة SEO قصيرة (سطر أو سطران) — تُمَلَأ بـ JS لكلّ لغة -->
-                        <p class="npt-seo" id="npt-seo"></p>
+                <!-- NPT-2 (2026-05-09): redesigned hero — compact "tool" card.
+                     Keeps existing #npt-* IDs that JS fills (npt-h1-city,
+                     npt-next-name, npt-next-time, npt-upcoming-list, npt-cta,
+                     npt-cta-text, npt-secondary, npt-seo) so app.js fillers
+                     still work without changes. Visual classes renamed to
+                     .next-hero-card / .next-current-prayer / etc. per the
+                     new design. The .npt-hero outer keeps its u-hidden
+                     class which the html.next-prayer-time-page CSS reveals. -->
+                <section class="next-hero-card npt-hero u-hidden" id="npt-hero" aria-labelledby="npt-h1">
+                    <span class="next-hero-eyebrow" data-i18n="npt.eyebrow">مواقيت الصلاة اليوم</span>
+                    <h1 id="npt-h1" class="npt-h1 next-hero-title">
+                        <span data-i18n="npt.h1_prefix">الصلاة القادمة في</span>
+                        <span class="npt-h1-city" id="npt-h1-city">—</span>
+                        <span class="npt-h1-today" data-i18n="npt.h1_today">اليوم</span>
+                    </h1>
+                    <p class="next-hero-subtitle" id="npt-hero-subtitle"></p>
+                    <div class="next-current-prayer">
+                        <span class="next-label" data-i18n="npt.next_is">الصلاة القادمة اليوم:</span>
+                        <strong class="next-prayer-name" id="npt-next-name">—</strong>
+                        <span class="next-prayer-time" id="npt-next-time">—</span>
                     </div>
+                    <p class="next-note" id="npt-hero-note"></p>
                 </section>
 
                 <!-- NPT-SEO-1 (2026-05-09): SSR-rendered long-form SEO content

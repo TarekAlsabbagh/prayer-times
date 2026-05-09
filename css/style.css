@@ -17863,3 +17863,424 @@ html[data-theme="dark"] .seo-content.next-prayer-seo h3 {
 html[data-theme="dark"] .seo-content.next-prayer-seo p {
     color: var(--text, #cdd9e5);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NPT-2 (2026-05-09): redesigned /next-prayer-time-in-{city} layout.
+   Compact tool-card hero + info-grid + upcoming-prayers card + content grid
+   + FAQ card + related links. Replaces the older flat .npt-hero-inner +
+   long .next-prayer-seo article pattern.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Page-level background — applies via the existing
+   html.next-prayer-time-page class (set in server.js). */
+html.next-prayer-time-page #page-prayer-times,
+html.next-prayer-time-page main.main-content {
+    background: linear-gradient(180deg, #f6f8f6 0%, #eef3ef 100%);
+}
+html[data-theme="dark"].next-prayer-time-page #page-prayer-times,
+html[data-theme="dark"].next-prayer-time-page main.main-content {
+    background: var(--bg, #22272e);
+}
+
+/* Hero — compact tool card */
+.next-hero-card {
+    max-width: 920px;
+    margin: 28px auto 0;
+    padding: 36px 32px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(15, 44, 28, 0.08);
+}
+.next-hero-eyebrow {
+    display: inline-flex;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: #eef8f1;
+    color: #0c6338;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+.next-hero-card .npt-h1.next-hero-title {
+    margin: 0;
+    color: #063f25;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.25;
+    font-weight: 800;
+}
+.next-hero-subtitle {
+    max-width: 620px;
+    margin: 14px auto 24px;
+    color: var(--text-light, #5f6f66);
+    font-size: 1rem;
+    line-height: 1.85;
+}
+.next-current-prayer {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 22px 22px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #f2fbf4 0%, #fffbea 100%);
+    border: 1px solid rgba(12, 94, 54, 0.16);
+}
+.next-current-prayer .next-label {
+    display: block;
+    color: var(--text-light, #637267);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.next-current-prayer .next-prayer-name {
+    display: block;
+    color: #075d35;
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 900;
+}
+.next-current-prayer .next-prayer-time {
+    display: block;
+    color: var(--text, #1b2b22);
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+}
+.next-note {
+    margin: 18px 0 0;
+    color: var(--text-light, #6e7a72);
+    font-size: 0.86rem;
+}
+
+/* Dark-mode hero card */
+html[data-theme="dark"] .next-hero-card {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.30);
+}
+html[data-theme="dark"] .next-hero-eyebrow {
+    background: rgba(77, 203, 140, 0.16);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .next-hero-card .npt-h1.next-hero-title {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .next-current-prayer {
+    background: linear-gradient(135deg, rgba(77, 203, 140, 0.10), rgba(232, 200, 96, 0.08));
+    border-color: rgba(77, 203, 140, 0.22);
+}
+html[data-theme="dark"] .next-current-prayer .next-prayer-name {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .next-current-prayer .next-prayer-time {
+    color: var(--text, #cdd9e5);
+}
+
+/* Quick info grid */
+.next-info-grid {
+    max-width: 920px;
+    margin: 18px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+.next-info-item {
+    background: var(--card-bg, rgba(255, 255, 255, 0.82));
+    border: 1px solid rgba(12, 94, 54, 0.08);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+}
+.next-info-item span {
+    display: block;
+    color: var(--text-light, #748077);
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+.next-info-item strong {
+    display: block;
+    color: var(--primary-dark, #063f25);
+    font-size: 0.95rem;
+    font-weight: 700;
+    overflow-wrap: break-word;
+}
+html[data-theme="dark"] .next-info-item {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .next-info-item strong {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* Section card (.next-prayers-card + .next-faq-card share these) */
+.next-section-card {
+    max-width: 920px;
+    margin: 20px auto 0;
+    padding: 28px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(15, 44, 28, 0.055);
+}
+.next-section-card .next-section-head {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.next-section-card .next-section-head h2 {
+    margin: 0;
+    color: var(--primary-dark, #063f25);
+    font-size: 1.3rem;
+    line-height: 1.4;
+    font-weight: 800;
+}
+.next-section-card .next-section-head p {
+    margin: 6px 0 0;
+    color: var(--text-light, #66756c);
+    font-size: 0.92rem;
+}
+html[data-theme="dark"] .next-section-card {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.25);
+}
+html[data-theme="dark"] .next-section-card .next-section-head h2 {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* Upcoming prayers list */
+.next-prayers-list {
+    list-style: none;
+    max-width: 520px;
+    margin: 0 auto 20px;
+    padding: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+}
+.next-prayers-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 18px;
+    background: var(--card-bg, #ffffff);
+    border-bottom: 1px solid rgba(12, 94, 54, 0.08);
+}
+.next-prayers-list li:last-child { border-bottom: 0; }
+.next-prayers-list li .npt-up-name {
+    color: var(--text, #1f2d25);
+    font-weight: 700;
+}
+.next-prayers-list li .npt-up-time {
+    color: var(--primary-dark, #075d35);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+html[data-theme="dark"] .next-prayers-list { border-color: var(--border, #444c56); }
+html[data-theme="dark"] .next-prayers-list li {
+    background: var(--bg-elevated, #373e47);
+    border-bottom-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .next-prayers-list li .npt-up-name { color: var(--text, #cdd9e5); }
+html[data-theme="dark"] .next-prayers-list li .npt-up-time { color: var(--primary-light, #4ab87a); }
+
+/* Main CTA inside prayers card */
+a.next-main-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 14px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary, #0b5d35), #1c4a2a);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.96rem;
+    box-shadow: 0 8px 20px rgba(11, 93, 53, 0.20);
+    transition: transform .15s, box-shadow .15s;
+}
+@media (min-width: 769px) {
+    a.next-main-cta:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 24px rgba(11, 93, 53, 0.32);
+    }
+}
+html[data-theme="dark"] a.next-main-cta {
+    background: linear-gradient(135deg, var(--primary-light, #4ab87a), var(--primary, #2d9059));
+    color: var(--bg, #22272e);
+}
+
+/* Secondary text link below the CTA */
+a.next-secondary-link {
+    display: block;
+    margin: 6px auto 0;
+    text-align: center;
+    color: var(--text-light, #66756c);
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(12, 94, 54, 0.30);
+    width: fit-content;
+    padding-bottom: 1px;
+}
+a.next-secondary-link:hover { color: var(--primary, #0b5d35); }
+html[data-theme="dark"] a.next-secondary-link {
+    color: var(--text-light, #a8b3c1);
+    border-bottom-color: rgba(77, 203, 140, 0.35);
+}
+html[data-theme="dark"] a.next-secondary-link:hover { color: var(--primary-light, #4ab87a); }
+
+/* Mini SEO paragraph (JS-filled) */
+.next-mini-seo {
+    margin: 14px auto 0;
+    max-width: 520px;
+    color: var(--text-light, #6e7a72);
+    font-size: 0.86rem;
+    text-align: center;
+    line-height: 1.7;
+}
+html[data-theme="dark"] .next-mini-seo { color: var(--text-light, #a8b3c1); }
+
+/* Content grid (2-col cards with H2 + P) */
+.next-content-grid {
+    max-width: 920px;
+    margin: 20px auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+.next-content-card {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 20px;
+    padding: 22px 24px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.next-content-card h2 {
+    margin: 0 0 10px;
+    color: var(--primary-dark, #063f25);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    font-weight: 800;
+}
+.next-content-card p {
+    margin: 0;
+    color: var(--text, #334139);
+    font-size: 0.95rem;
+    line-height: 1.85;
+}
+html[data-theme="dark"] .next-content-card {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+}
+html[data-theme="dark"] .next-content-card h2 { color: var(--primary-light, #4ab87a); }
+html[data-theme="dark"] .next-content-card p { color: var(--text, #cdd9e5); }
+
+/* FAQ list inside .next-faq-card */
+.next-faq-list {
+    display: grid;
+    gap: 10px;
+}
+.next-faq-item {
+    background: #f8fbf8;
+    border: 1px solid rgba(12, 94, 54, 0.08);
+    border-radius: 16px;
+    padding: 16px 18px;
+}
+.next-faq-item h3 {
+    margin: 0 0 6px;
+    color: var(--primary-dark, #063f25);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 700;
+}
+.next-faq-item p {
+    margin: 0;
+    color: var(--text, #39483f);
+    font-size: 0.92rem;
+    line-height: 1.85;
+}
+html[data-theme="dark"] .next-faq-item {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .next-faq-item h3 { color: var(--primary-light, #4ab87a); }
+html[data-theme="dark"] .next-faq-item p { color: var(--text, #cdd9e5); }
+
+/* Related internal links — chips */
+.next-related-links {
+    max-width: 920px;
+    margin: 22px auto 36px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+.next-related-links a {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(12, 94, 54, 0.12);
+    color: var(--primary-dark, #075d35);
+    border-radius: 999px;
+    padding: 9px 16px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.86rem;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+@media (min-width: 769px) {
+    .next-related-links a:hover {
+        background: rgba(12, 94, 54, 0.06);
+        border-color: rgba(12, 94, 54, 0.30);
+        transform: translateY(-1px);
+    }
+}
+html[data-theme="dark"] .next-related-links a {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+
+/* Responsive — mobile + small mobile */
+@media (max-width: 768px) {
+    .next-hero-card {
+        margin: 18px 12px 0;
+        padding: 26px 20px;
+        border-radius: 20px;
+    }
+    .next-info-grid {
+        margin: 14px 12px 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .next-section-card {
+        margin: 16px 12px 0;
+        padding: 22px 20px;
+        border-radius: 20px;
+    }
+    .next-content-grid {
+        margin: 16px 12px 0;
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .next-content-card {
+        padding: 20px 18px;
+        border-radius: 18px;
+    }
+    .next-related-links {
+        margin: 18px 12px 28px;
+    }
+    .next-current-prayer {
+        padding: 18px 16px;
+    }
+    .next-current-prayer .next-prayer-name { font-size: 1.7rem; }
+    .next-current-prayer .next-prayer-time { font-size: 1.2rem; }
+    a.next-main-cta { width: 100%; }
+}
+
+/* Override the older .npt-hero / .npt-hero-inner styling that we
+   replaced; ensure no leftover gradient/padding fights the new layout. */
+.next-hero-card.npt-hero { display: none; }
+html.next-prayer-time-page .next-hero-card.npt-hero { display: block; }

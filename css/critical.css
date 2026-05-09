@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-09T09:48:17.336Z
-   Source: css/style.css (full 530 KiB)
-   Critical: 37 KiB
+   Extracted on: 2026-05-09T10:23:46.567Z
+   Source: css/style.css (full 545 KiB)
+   Critical: 38 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -990,3 +990,26 @@ html[data-theme="dark"] .home-service-card{
 .home-service-icon{ margin-top: 2px; }
 .home-service-title{ font-size: 0.95rem; }
 .home-service-desc{ font-size: 0.84rem; }}
+#hijri-today-info-card .info-card{
+    background: #f7faf8;
+    border: 1px solid rgba(26, 107, 60, 0.12);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+#page-hijri-today > .section-card{ margin-bottom: 18px; }
+@media (max-width: 768px){#page-hijri-today > .section-card{ margin-bottom: 12px; }}
+#page-hijri-today .hd1-section-intro,#page-hijri-today .hd1-usages-intro,#page-hijri-today .hd1-accuracy-body,#page-hijri-today .hpage-footer-seo,#page-hijri-today .hd1-guide-item p,#page-hijri-today .hd1-usage-card p,#page-hijri-today .hd1-usage-block p{
+    max-width: 980px;
+}
+#page-hijri-today .hd1-section-title{
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    margin-bottom: 10px;
+    line-height: 1.35;
+}
+@media (max-width: 768px){#page-hijri-today .hd1-section-title{ font-size: 1.08rem; }}

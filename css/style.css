@@ -15984,3 +15984,502 @@ html.city-page #page-prayer-times {
         box-sizing: border-box;
     }
 }
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HD-19 (2026-05-09): Visual polish for /today-hijri-date
+
+   Strict scope: CSS-ONLY visual treatments. No DOM, no text, no SEO,
+   no JSON-LD, no min-height changes that could regress HD-18-v2's CLS
+   (currently 0.011 mobile / 0.001 desktop). Every rule below targets
+   color, border, background, icon visual, padding INSIDE the existing
+   reservation, or hover state — never the element's outer height.
+
+   Why scoping is safe even though js/app.js removes the html.hijri-today-page
+   class: HD-19 visual rules are scoped via #page-hijri-today (ID) or via
+   class selectors that exist on the element itself (.hd1-tools-section,
+   .hd1-faq, etc.) — NEVER via html.hijri-today-page. Class removal
+   therefore does not affect HD-19 styles. Reservation rules added in
+   HD-18-v2 are also ID-only, so the entire visual + layout state survives
+   class removal cleanly.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* — 1. Info-cards (#hijri-today-info-card) — compact, warmer green tint */
+#hijri-today-info-card .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (max-width: 1024px) {
+    #hijri-today-info-card .info-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+}
+@media (max-width: 768px) {
+    #hijri-today-info-card .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+#hijri-today-info-card .info-card {
+    background: #f7faf8;
+    border: 1px solid rgba(26, 107, 60, 0.12);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+#hijri-today-info-card .info-card .info-card-label {
+    font-size: 0.82rem;
+    color: var(--text-light, #6b7b75);
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+#hijri-today-info-card .info-card .info-card-value {
+    font-size: 1.05rem;
+    color: var(--primary-dark, #0d4a28);
+    font-weight: 700;
+    line-height: 1.35;
+}
+@media (min-width: 769px) {
+    #hijri-today-info-card .info-card:hover {
+        border-color: rgba(26, 107, 60, 0.30);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(26, 107, 60, 0.08);
+    }
+}
+html[data-theme="dark"] #hijri-today-info-card .info-card {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] #hijri-today-info-card .info-card .info-card-value {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* — 2. Tools section (.hd1-tools-section) — Quick Actions feel */
+.hd1-tools-section .hd1-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (max-width: 1024px) {
+    .hd1-tools-section .hd1-tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+@media (max-width: 520px) {
+    .hd1-tools-section .hd1-tools-grid { grid-template-columns: 1fr; }
+}
+.hd1-tools-section .hd1-tool-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 60, 0.14);
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+}
+.hd1-tools-section .hd1-tool-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 96, 60, 0.08);
+    border-radius: 50%;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+.hd1-tools-section .hd1-tool-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.hd1-tools-section .hd1-tool-name {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+    line-height: 1.3;
+}
+.hd1-tools-section .hd1-tool-desc {
+    font-size: 0.84rem;
+    color: var(--text-light, #6b7b75);
+    line-height: 1.45;
+}
+@media (min-width: 769px) {
+    .hd1-tools-section .hd1-tool-card:hover {
+        background: #f7fbf8;
+        border-color: rgba(0, 96, 60, 0.32);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 96, 60, 0.08);
+    }
+    .hd1-tools-section .hd1-tool-card:hover .hd1-tool-icon {
+        background: rgba(0, 96, 60, 0.14);
+    }
+}
+html[data-theme="dark"] .hd1-tools-section .hd1-tool-card {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .hd1-tools-section .hd1-tool-icon {
+    background: rgba(77, 203, 140, 0.12);
+}
+html[data-theme="dark"] .hd1-tools-section .hd1-tool-name {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* — 3. Guide section (.hd1-guide) — knowledge panel */
+section.section-card.hd1-guide {
+    background: #ffffff;
+}
+.hd1-guide .hd1-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+@media (max-width: 900px) {
+    .hd1-guide .hd1-guide-grid { grid-template-columns: 1fr; gap: 12px; }
+}
+.hd1-guide .hd1-guide-item {
+    background: #fafdfb;
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-inline-start: 4px solid var(--primary, #1a6b3c);
+    border-radius: 10px;
+    padding: 14px 16px;
+    position: relative;
+}
+.hd1-guide .hd1-guide-item h3 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+    margin: 0 0 8px;
+    line-height: 1.35;
+}
+.hd1-guide .hd1-guide-item p {
+    font-size: 0.92rem;
+    color: var(--text, #2c3e50);
+    line-height: 1.7;
+    margin: 0;
+}
+html[data-theme="dark"] section.section-card.hd1-guide {
+    background: var(--card-bg, #2d333b);
+}
+html[data-theme="dark"] .hd1-guide .hd1-guide-item {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+    border-inline-start-color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .hd1-guide .hd1-guide-item h3 {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* — 4. Usages (.hd1-usages) + Usage-guide (.hd1-usage-guide) — use cases grid */
+section.section-card.hd1-usages,
+section.section-card.hd1-usage-guide {
+    background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+}
+.hd1-usages .hd1-usages-grid,
+.hd1-usage-guide .hd1-usage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+@media (max-width: 768px) {
+    .hd1-usages .hd1-usages-grid,
+    .hd1-usage-guide .hd1-usage-grid { grid-template-columns: 1fr; gap: 12px; }
+}
+.hd1-usages .hd1-usage-card,
+.hd1-usage-guide .hd1-usage-block {
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-top: 3px solid var(--primary, #1a6b3c);
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+.hd1-usages .hd1-usage-card h3,
+.hd1-usage-guide .hd1-usage-block h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+    margin: 0 0 8px;
+    line-height: 1.35;
+}
+.hd1-usages .hd1-usage-card p,
+.hd1-usage-guide .hd1-usage-block p {
+    font-size: 0.92rem;
+    color: var(--text, #2c3e50);
+    line-height: 1.7;
+    margin: 0;
+}
+.hd1-usage-guide .hd1-usage-block-full {
+    grid-column: 1 / -1;
+}
+html[data-theme="dark"] section.section-card.hd1-usages,
+html[data-theme="dark"] section.section-card.hd1-usage-guide {
+    background: var(--card-bg, #2d333b);
+}
+html[data-theme="dark"] .hd1-usages .hd1-usage-card,
+html[data-theme="dark"] .hd1-usage-guide .hd1-usage-block {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+    border-top-color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .hd1-usages .hd1-usage-card h3,
+html[data-theme="dark"] .hd1-usage-guide .hd1-usage-block h3 {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* — 5. FAQ (.hd1-faq) — cleaner row, soft green tint when open */
+.hd1-faq .hd1-faq-item {
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color .15s, background .15s;
+}
+.hd1-faq .hd1-faq-item[open] {
+    background: #f7fbf8;
+    border-color: rgba(26, 107, 60, 0.22);
+}
+.hd1-faq .hd1-faq-item summary.faq-question {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 16px;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--primary-dark, #0d4a28);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    line-height: 1.4;
+}
+.hd1-faq .hd1-faq-item summary.faq-question::-webkit-details-marker { display: none; }
+.hd1-faq .hd1-faq-item summary.faq-question::after {
+    content: "+";
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(0, 96, 60, 0.08);
+    color: var(--primary, #1a6b3c);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform .2s, background-color .15s;
+}
+.hd1-faq .hd1-faq-item[open] summary.faq-question::after {
+    content: "−";
+    transform: rotate(180deg);
+    background-color: rgba(0, 96, 60, 0.16);
+}
+.hd1-faq .hd1-faq-item .faq-answer {
+    padding: 0 16px 14px;
+}
+.hd1-faq .hd1-faq-item .faq-answer p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text, #2c3e50);
+    margin: 0;
+}
+html[data-theme="dark"] .hd1-faq .hd1-faq-item {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .hd1-faq .hd1-faq-item[open] {
+    background: rgba(77, 203, 140, 0.06);
+    border-color: rgba(77, 203, 140, 0.30);
+}
+html[data-theme="dark"] .hd1-faq .hd1-faq-item summary.faq-question {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .hd1-faq .hd1-faq-item summary.faq-question::after {
+    background: rgba(77, 203, 140, 0.12);
+    color: var(--primary-light, #4ab87a);
+}
+
+/* — 6. Accuracy notes (.hd1-accuracy) — alert/info panel */
+section.section-card.hd1-accuracy {
+    background: #fffdf3;
+    border: 1px solid rgba(212, 160, 23, 0.18);
+    border-inline-start: 4px solid var(--gold, #c8a84e);
+    position: relative;
+}
+section.section-card.hd1-accuracy .hd1-section-title {
+    color: #7a5a0d;
+    font-size: 1.02rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+section.section-card.hd1-accuracy .hd1-section-title::before {
+    content: "i";
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(212, 160, 23, 0.16);
+    color: #7a5a0d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 800;
+    font-style: italic;
+    font-family: Georgia, serif;
+}
+section.section-card.hd1-accuracy .hd1-accuracy-body {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text, #2c3e50);
+    margin: 0;
+}
+html[data-theme="dark"] section.section-card.hd1-accuracy {
+    background: rgba(212, 181, 97, 0.08);
+    border-color: rgba(212, 181, 97, 0.30);
+    border-inline-start-color: var(--gold, #d4b561);
+}
+html[data-theme="dark"] section.section-card.hd1-accuracy .hd1-section-title {
+    color: var(--gold-light, #e0c570);
+}
+html[data-theme="dark"] section.section-card.hd1-accuracy .hd1-section-title::before {
+    background: rgba(212, 181, 97, 0.20);
+    color: var(--gold-light, #e0c570);
+}
+
+/* — 7. Footer SEO box (#hijri-today-footer-card) — soft, less prominent */
+#hijri-today-footer-card {
+    background: #fafbfa;
+    border: 1px solid #ecf0ec;
+    box-shadow: none;
+    padding: 16px 18px;
+}
+#hijri-today-footer-card .hpage-footer-seo {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-light, #6b7b75);
+    margin: 0;
+}
+html[data-theme="dark"] #hijri-today-footer-card {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+
+/* — 8. Events countdown (.hd5-events) — uniform card heights */
+.hd5-events.moon-events-section {
+    background: #ffffff;
+}
+.hd5-events .moon-events-countdown {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (max-width: 900px) {
+    .hd5-events .moon-events-countdown { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+    .hd5-events .moon-events-countdown { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+.hd5-events .moon-event-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #f7faf8;
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-radius: 10px;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+.hd5-events .moon-event-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 96, 60, 0.08);
+    border-radius: 50%;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+.hd5-events svg.moon-event-icon { padding: 6px; }
+.hd5-events .moon-event-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.hd5-events .moon-event-label {
+    font-size: 0.82rem;
+    color: var(--text-light, #6b7b75);
+    font-weight: 500;
+    line-height: 1.3;
+}
+.hd5-events .moon-event-days {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+.hd5-events .moon-event-date {
+    font-size: 0.78rem;
+    color: var(--text-light, #6b7b75);
+    line-height: 1.3;
+}
+@media (min-width: 769px) {
+    .hd5-events .moon-event-card:hover {
+        border-color: rgba(26, 107, 60, 0.28);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(26, 107, 60, 0.08);
+    }
+}
+html[data-theme="dark"] .hd5-events.moon-events-section {
+    background: var(--card-bg, #2d333b);
+}
+html[data-theme="dark"] .hd5-events .moon-event-card {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] .hd5-events .moon-event-icon {
+    background: rgba(77, 203, 140, 0.12);
+}
+html[data-theme="dark"] .hd5-events .moon-event-days {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* — 9. Section spacing + max-width text comfort (HD-19 page-scoped) */
+#page-hijri-today > .section-card { margin-bottom: 18px; }
+@media (max-width: 768px) {
+    #page-hijri-today > .section-card { margin-bottom: 12px; }
+}
+#page-hijri-today .hd1-section-intro,
+#page-hijri-today .hd1-usages-intro,
+#page-hijri-today .hd1-accuracy-body,
+#page-hijri-today .hpage-footer-seo,
+#page-hijri-today .hd1-guide-item p,
+#page-hijri-today .hd1-usage-card p,
+#page-hijri-today .hd1-usage-block p {
+    max-width: 980px;
+}
+#page-hijri-today .hd1-section-title {
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    margin-bottom: 10px;
+    line-height: 1.35;
+}
+@media (max-width: 768px) {
+    #page-hijri-today .hd1-section-title { font-size: 1.08rem; }
+}
+html[data-theme="dark"] #page-hijri-today .hd1-section-title {
+    color: var(--primary-light, #4ab87a);
+}

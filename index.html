@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=335" as="style">
-    <link rel="stylesheet" href="css/style.css?v=335">
+    <link rel="preload" href="css/style.css?v=336" as="style">
+    <link rel="stylesheet" href="css/style.css?v=336">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -526,6 +526,13 @@
                         <p class="npt-seo" id="npt-seo"></p>
                     </div>
                 </section>
+
+                <!-- NPT-SEO-1 (2026-05-09): SSR-rendered long-form SEO content
+                     section. server.js _isNptSsr branch fills with 4 H2 +
+                     3 FAQ Q-A blocks per lang (~500-600 words). Anchor goes
+                     here so the heavy content is BELOW the prayer cards
+                     (user reads countdown first, SEO content reads after). -->
+                <!-- NPT-SEO-1-CONTENT -->
 
                 <h1 class="page-h1" id="page-h1">مواقيت الصلاة والتاريخ الهجري</h1>
 

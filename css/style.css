@@ -14873,14 +14873,18 @@ html.hijri-year-page #page-hijri-year {
    selector keeps reservations active permanently (the hidden state with
    display:none from .page doesn't render, so no visual cost). */
 
-/* Hero card .hpage-hero-start contains H2 + intro <p> + year picker.
-   Mobile measured 280px in Lighthouse (top:191, bottom:471). */
+/* Hero card .hpage-hero-start contains H1 + intro <p> + Year Control
+   Panel (vertical with label + select + CTA inside).
+   HCAL-2b-fix-v3 (2026-05-09): mobile bumped 290 → 392 because the
+   panel switched from inline-pill to full vertical block (matches
+   desktop visually). Desktop kept 220 → 270 since the panel is now
+   guaranteed to render at this height across all langs. */
 #page-hijri-year .hpage-hero-start {
-    min-height: 220px;
+    min-height: 270px;
 }
 @media (max-width: 768px) {
     #page-hijri-year .hpage-hero-start {
-        min-height: 290px;
+        min-height: 392px;
     }
 }
 
@@ -16601,30 +16605,86 @@ html[data-theme="dark"] #page-hijri-today .hd1-section-title {
     margin: 0 0 14px;
     max-width: 980px;
 }
+/* HCAL-2b-fix-v3 (2026-05-09): unify the Year Control Panel styling on
+   ALL viewports (not just desktop). Earlier mobile got the inline-pill
+   style and desktop got the panel — created visible mismatch. Now both
+   use the same vertical panel with gradient background, label centered,
+   big select 1.4rem, soft border. Only the grid placement differs by
+   viewport (single column on mobile / 2-col grid cell on desktop). */
 #page-hijri-year .calendar-year-picker.hpage-year-picker {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 14px;
-    background: #f7faf8;
-    border: 1px solid rgba(26, 107, 60, 0.14);
-    border-radius: 999px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, #f7faf8 0%, #fafdfb 100%);
+    border: 1px solid rgba(26, 107, 60, 0.18);
+    border-radius: 14px;
     margin: 0;
 }
 #page-hijri-year .calendar-year-picker.hpage-year-picker label {
-    font-size: 0.92rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 700;
     color: var(--primary-dark, #0d4a28);
     margin: 0;
+    text-align: center;
 }
 #page-hijri-year .calendar-year-picker.hpage-year-picker .year-select {
-    background: transparent;
-    border: 0;
+    background: #ffffff;
+    border: 1px solid rgba(26, 107, 60, 0.20);
     color: var(--primary-dark, #0d4a28);
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+}
+html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker label {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker .year-select {
+    background: var(--card-bg, #2d333b);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+
+/* "Today's Hijri Date" CTA inside the panel — same look on all viewports.
+   Soft secondary button matching the panel theme. */
+#page-hijri-year .hyear-today-cta {
+    margin: 0;
+    text-align: center;
+}
+#page-hijri-year .hyear-today-cta .btn {
+    display: inline-block;
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 18px;
+    background: rgba(26, 107, 60, 0.08);
+    color: var(--primary-dark, #0d4a28);
+    border: 1px solid rgba(26, 107, 60, 0.20);
+    border-radius: 10px;
     font-weight: 700;
     font-size: 0.95rem;
-    cursor: pointer;
-    padding: 4px 6px;
+    text-decoration: none;
+    text-align: center;
+    transition: background .15s, border-color .15s, transform .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hyear-today-cta .btn:hover {
+        background: rgba(26, 107, 60, 0.16);
+        border-color: rgba(26, 107, 60, 0.32);
+        transform: translateY(-1px);
+    }
+}
+html[data-theme="dark"] #page-hijri-year .hyear-today-cta .btn {
+    background: rgba(77, 203, 140, 0.12);
+    color: var(--primary-light, #4ab87a);
+    border-color: rgba(77, 203, 140, 0.30);
 }
 
 /* — Section titles use #page-hijri-year scope */
@@ -16985,67 +17045,20 @@ html[data-theme="dark"] #page-hijri-year > .section-card:has(> #hyear-footer-seo
         grid-row: 2;
         margin-bottom: 0;
     }
+    /* Desktop grid placement only — base panel styles live on the
+       generic .calendar-year-picker.hpage-year-picker rule above so
+       mobile + desktop share identical typography/border/background. */
     #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
         grid-column: 2;
         grid-row: 1 / span 2;
         align-self: center;
         justify-self: stretch;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 18px 22px;
-        background: linear-gradient(135deg, #f7faf8 0%, #fafdfb 100%);
-        border: 1px solid rgba(26, 107, 60, 0.18);
-        border-radius: 14px;
-        gap: 12px;
-    }
-    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker label {
-        font-size: 0.95rem;
-        font-weight: 700;
-        text-align: center;
-    }
-    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker .year-select {
-        font-size: 1.4rem;
-        font-weight: 800;
-        text-align: center;
-        padding: 8px 12px;
-        background: #ffffff;
-        border: 1px solid rgba(26, 107, 60, 0.20);
-        border-radius: 10px;
-        color: var(--primary-dark, #0d4a28);
     }
     #page-hijri-year .hpage-hero-start > .hyear-today-cta {
-        grid-column: 1 / -1;
-        grid-row: 3;
-        margin: 4px 0 0;
+        grid-column: 2;
+        grid-row: auto;
+        margin: 0;
     }
-    #page-hijri-year .hpage-hero-start > .hyear-today-cta .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 18px;
-        background: var(--primary, #1a6b3c);
-        color: #fff;
-        border: 0;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        text-decoration: none;
-        transition: background .15s, transform .15s, box-shadow .15s;
-    }
-    #page-hijri-year .hpage-hero-start > .hyear-today-cta .btn:hover {
-        background: var(--primary-dark, #0d4a28);
-        transform: translateY(-1px);
-        box-shadow: 0 3px 10px rgba(26, 107, 60, 0.20);
-    }
-}
-html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
-    background: var(--bg-elevated, #373e47);
-    border-color: var(--border, #444c56);
-}
-html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker .year-select {
-    background: var(--card-bg, #2d333b);
-    border-color: var(--border, #444c56);
-    color: var(--primary-light, #4ab87a);
 }
 
 /* ── 2. 12-month chip browser (.hcal2-months-chips) ── */

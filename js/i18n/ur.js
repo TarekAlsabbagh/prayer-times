@@ -1000,7 +1000,7 @@ window.TRANSLATIONS['ur'] = {
         'cookie.accept_all': 'سب قبول کریں',
         'cookie.reject': 'مسترد کریں',
         'cookie.manage': 'ترجیحات کا نظم',
-        'cookie.learn_more': 'مزید جانیں',
+        'cookie.learn_more': 'پرائیویسی پالیسی',
         'cookie.modal_title': 'کوکیز کی ترجیحات',
         'cookie.modal_intro': 'منتخب کریں کن زمروں کی اجازت دیتے ہیں۔ آپ یہ کبھی بھی تبدیل کر سکتے ہیں۔',
         'cookie.cat_necessary': 'ضروری (ہمیشہ فعال)',

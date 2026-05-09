@@ -984,7 +984,7 @@ window.TRANSLATIONS['fr'] = {
         'cookie.accept_all': 'Tout accepter',
         'cookie.reject': 'Refuser',
         'cookie.manage': 'Gérer les préférences',
-        'cookie.learn_more': 'En savoir plus',
+        'cookie.learn_more': 'Politique de confidentialité',
         'cookie.modal_title': 'Préférences des cookies',
         'cookie.modal_intro': 'Choisissez les catégories que vous autorisez. Vous pouvez modifier cela à tout moment.',
         'cookie.cat_necessary': 'Nécessaires (toujours actifs)',

@@ -1022,7 +1022,7 @@ window.TRANSLATIONS['bn'] = {
         'cookie.accept_all': 'সব গ্রহণ করুন',
         'cookie.reject': 'প্রত্যাখ্যান',
         'cookie.manage': 'সেটিংস পরিচালনা',
-        'cookie.learn_more': 'আরও জানুন',
+        'cookie.learn_more': 'গোপনীয়তা নীতি',
         'cookie.modal_title': 'কুকি সেটিংস',
         'cookie.modal_intro': 'আপনি যেসব বিভাগ অনুমতি দেন তা বেছে নিন। যে কোনো সময় পরিবর্তন করতে পারেন।',
         'cookie.cat_necessary': 'আবশ্যক (সর্বদা সক্রিয়)',

@@ -1022,7 +1022,7 @@ window.TRANSLATIONS['es'] = {
         'cookie.accept_all': 'Aceptar Todo',
         'cookie.reject': 'Rechazar',
         'cookie.manage': 'Gestionar Configuración',
-        'cookie.learn_more': 'Más información',
+        'cookie.learn_more': 'Política de privacidad',
         'cookie.modal_title': 'Configuración de Cookies',
         'cookie.modal_intro': 'Elige las categorías que permites. Puedes cambiarlas en cualquier momento.',
         'cookie.cat_necessary': 'Necesarias (siempre activas)',

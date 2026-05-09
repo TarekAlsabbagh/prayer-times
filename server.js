@@ -9471,7 +9471,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '171'; // Phase HC-5 (2026-05-06): bumped to invalidate cached setLanguage with the lang-switch loop bug
+        const _i18nVersion = '172'; // HD-EN-SEO-1 (2026-05-09): bumped after changing cookie.learn_more from "Learn more" to "Privacy policy" in 10 langs to fix Lighthouse link-text SEO=92 → 100 on /en/today-hijri-date
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

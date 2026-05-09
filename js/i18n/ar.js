@@ -1112,7 +1112,7 @@ window.TRANSLATIONS['ar'] = {
         'cookie.accept_all': 'قبول الكل',
         'cookie.reject': 'رفض',
         'cookie.manage': 'إدارة التفضيلات',
-        'cookie.learn_more': 'اعرف المزيد',
+        'cookie.learn_more': 'سياسة الخصوصية',
         'cookie.modal_title': 'إعدادات ملفات تعريف الارتباط',
         'cookie.modal_intro': 'اختر فئات الملفات التي تسمح باستخدامها. يمكنك تغيير هذا في أي وقت.',
         'cookie.cat_necessary': 'ضرورية (دائماً مفعّلة)',

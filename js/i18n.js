@@ -2497,7 +2497,7 @@ const TRANSLATIONS = {
         'cookie.accept_all': 'Accept all',
         'cookie.reject': 'Reject',
         'cookie.manage': 'Manage preferences',
-        'cookie.learn_more': 'Learn more',
+        'cookie.learn_more': 'Privacy policy',
         'cookie.modal_title': 'Cookie preferences',
         'cookie.modal_intro': 'Choose which categories you allow. You can change this anytime.',
         'cookie.cat_necessary': 'Necessary (always on)',

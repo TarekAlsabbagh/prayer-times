@@ -66,7 +66,7 @@
         const acceptAll = tt('cookie.accept_all', { ar:'قبول الكل', en:'Accept all', fr:'Tout accepter', tr:'Tümünü kabul et', ur:'سب قبول کریں' });
         const reject    = tt('cookie.reject',     { ar:'رفض', en:'Reject', fr:'Refuser', tr:'Reddet', ur:'مسترد کریں' });
         const manage    = tt('cookie.manage',     { ar:'إدارة التفضيلات', en:'Manage preferences', fr:'Gérer les préférences', tr:'Tercihleri yönet', ur:'ترجیحات کا نظم' });
-        const learn     = tt('cookie.learn_more', { ar:'اعرف المزيد', en:'Learn more', fr:'En savoir plus', tr:'Daha fazla', ur:'مزید جانیں' });
+        const learn     = tt('cookie.learn_more', { ar:'سياسة الخصوصية', en:'Privacy policy', fr:'Politique de confidentialité', tr:'Gizlilik politikası', ur:'پرائیویسی پالیسی' });
         // SEO/A11y: aria-label وصفي بدل النصّ الفقير "Learn more"
         const learnAria = tt('cookie.learn_more_aria', {
             ar: 'اقرأ سياسة الخصوصية لمعرفة كيف نتعامل مع بياناتك',

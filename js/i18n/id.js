@@ -1022,7 +1022,7 @@ window.TRANSLATIONS['id'] = {
         'cookie.accept_all': 'Terima Semua',
         'cookie.reject': 'Tolak',
         'cookie.manage': 'Kelola Pengaturan',
-        'cookie.learn_more': 'Pelajari lebih lanjut',
+        'cookie.learn_more': 'Kebijakan privasi',
         'cookie.modal_title': 'Pengaturan Cookie',
         'cookie.modal_intro': 'Pilih kategori yang Anda izinkan. Anda dapat mengubahnya kapan saja.',
         'cookie.cat_necessary': 'Diperlukan (selalu aktif)',

@@ -987,7 +987,7 @@ window.TRANSLATIONS['tr'] = {
         'cookie.accept_all': 'Tümünü kabul et',
         'cookie.reject': 'Reddet',
         'cookie.manage': 'Tercihleri yönet',
-        'cookie.learn_more': 'Daha fazla',
+        'cookie.learn_more': 'Gizlilik politikası',
         'cookie.modal_title': 'Çerez tercihleri',
         'cookie.modal_intro': 'İzin verdiğiniz kategorileri seçin. Bunu istediğiniz zaman değiştirebilirsiniz.',
         'cookie.cat_necessary': 'Gerekli (her zaman açık)',

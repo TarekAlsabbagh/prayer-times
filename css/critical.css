@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-09T13:00:23.493Z
-   Source: css/style.css (full 581 KiB)
-   Critical: 53.1 KiB
+   Extracted on: 2026-05-09T13:08:07.622Z
+   Source: css/style.css (full 582 KiB)
+   Critical: 52.8 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -1067,14 +1067,18 @@ html[data-theme="dark"] .home-service-card{
     border-radius: 10px;
 }
 #page-hijri-year .hyear-today-cta{
-    margin: 0;
+    margin: 12px 0 0;
+    padding: 0;
     text-align: center;
 }
 #page-hijri-year .hyear-today-cta .btn{
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     max-width: 320px;
-    padding: 10px 18px;
+    margin: 0 auto;
+    padding: 12px 18px;
     background: rgba(26, 107, 60, 0.08);
     color: var(--primary-dark, #0d4a28);
     border: 1px solid rgba(26, 107, 60, 0.20);
@@ -1345,19 +1349,6 @@ html[data-theme="dark"] .home-service-card{
 @media (min-width: 769px){#page-hijri-year .hpage-years-more a:hover{
         color: var(--primary-dark, #0d4a28);
         border-bottom-color: var(--primary-dark, #0d4a28);
-    }}
-@media (max-width: 768px){#page-hijri-year .hyear-today-cta .btn{
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 18px;
-        background: var(--primary, #1a6b3c);
-        color: #fff;
-        border: 0;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        text-decoration: none;
     }}
 #page-hijri-year #hyear-today-in-year:not([hidden]){
     background: rgba(26, 107, 60, 0.06);

@@ -3653,7 +3653,11 @@ function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
     // Scan from start; for each match of class="page" id="page-X", get the
     // range of the wrapper, and if id !== activeWrapperId, demote h1/h2
     // inside that range.
-    const wrapperRe = /<(\w+)\b[^>]*?\sclass="page"[^>]*?\sid="(page-[a-z-]+)"[^>]*?>/g;
+    // HCAL-SEO-1 (2026-05-09): regex relaxed to match `class="page"` AND
+    // `class="page active"` (#page-prayer-times has the active class in
+    // baseline SSR before SPA routing; previously regex missed it and
+    // its h2s leaked through as countable headings).
+    const wrapperRe = /<(\w+)\b[^>]*?\sclass="page(?:\s[^"]*)?"[^>]*?\sid="(page-[a-z-]+)"[^>]*?>/g;
     let m;
     let outChunks = [];
     let lastIdx = 0;

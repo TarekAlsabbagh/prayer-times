@@ -7550,11 +7550,17 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
    "13 يومًا" vs "ذو القعدة 1447 هـ". */
 /* HD-18-v2 (2026-05-09): values updated to T4 puppeteer measurements
    (256px desktop, 398px mobile). The previous values (240/280/380) were
-   over-sized by ~16-18px → caused a small post-hydration shrink-shift. */
-#hijri-today-info-card { min-height: 256px; }
-#hijri-today-info-card .info-card { min-height: 96px; }
+   over-sized by ~16-18px → caused a small post-hydration shrink-shift.
+   HD-19-b (2026-05-09): desktop dropped to 132px after switching to
+   6-col single-row layout (down from 256, T4 measured 131). Tablet
+   and mobile keep their 2-row 3-col / 2-col grids and min-heights.
+   The .info-card per-card min-height drops to 60px desktop to match
+   single-row narrower cards. */
+#hijri-today-info-card { min-height: 132px; }
+#hijri-today-info-card .info-card { min-height: 60px; }
 @media (max-width: 1024px) {
     #hijri-today-info-card { min-height: 296px; }
+    #hijri-today-info-card .info-card { min-height: 96px; }
 }
 @media (max-width: 768px) {
     #hijri-today-info-card { min-height: 398px; }
@@ -14755,9 +14761,19 @@ html.hijri-day-page #hday-breadcrumbs {
     }
 }
 
-/* Info-grid (6 facts) — T4 measured: 366px mobile, 208px desktop. */
+/* Info-grid (6 facts) — T4 measured: 366px mobile, 208px tablet, 80px desktop.
+   HD-19-b (2026-05-09): desktop dropped to 80px after switching to 6-col
+   single-row layout. Tablet (max-width 1024) stays 208px (3-col 2-row),
+   mobile (max-width 768) stays 366px (2-col 3-row). The min-height value
+   matches the rendered T4 so the grid track height pins exactly to natural
+   content — no shrink, no expand, no shift. */
 #hijri-today-info-grid {
-    min-height: 208px;
+    min-height: 80px;
+}
+@media (max-width: 1024px) {
+    #hijri-today-info-grid {
+        min-height: 208px;
+    }
 }
 @media (max-width: 768px) {
     #hijri-today-info-grid {
@@ -16002,11 +16018,16 @@ html.city-page #page-prayer-times {
    class removal cleanly.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* — 1. Info-cards (#hijri-today-info-card) — compact, warmer green tint */
+/* — 1. Info-cards (#hijri-today-info-card) — compact, warmer green tint
+   HD-19-b (2026-05-09): on desktop go to 6-col single-row layout to shave
+   ~140px of height. Tablet stays 3-col, mobile stays 2-col. Cards become
+   horizontal mini-tiles (icon-label inline + value below). The min-height
+   on the card+grid is updated below in the HD-19-b min-height block to
+   match the new natural T4. */
 #hijri-today-info-card .info-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
 }
 @media (max-width: 1024px) {
     #hijri-today-info-card .info-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -16018,24 +16039,33 @@ html.city-page #page-prayer-times {
     background: #f7faf8;
     border: 1px solid rgba(26, 107, 60, 0.12);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     transition: border-color .15s, transform .15s, box-shadow .15s;
+    min-width: 0;
 }
 #hijri-today-info-card .info-card .info-card-label {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     color: var(--text-light, #6b7b75);
     font-weight: 500;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #hijri-today-info-card .info-card .info-card-value {
-    font-size: 1.05rem;
+    font-size: 0.98rem;
     color: var(--primary-dark, #0d4a28);
     font-weight: 700;
     line-height: 1.35;
+}
+@media (max-width: 1024px) {
+    #hijri-today-info-card .info-card { padding: 12px 14px; }
+    #hijri-today-info-card .info-card .info-card-label { font-size: 0.82rem; margin-bottom: 4px; white-space: normal; }
+    #hijri-today-info-card .info-card .info-card-value { font-size: 1.05rem; }
 }
 @media (min-width: 769px) {
     #hijri-today-info-card .info-card:hover {
@@ -16188,11 +16218,17 @@ section.section-card.hd1-usage-guide {
     .hd1-usages .hd1-usages-grid,
     .hd1-usage-guide .hd1-usage-grid { grid-template-columns: 1fr; gap: 12px; }
 }
+/* HD-19-b (2026-05-09): differentiate from Guide section.
+   Guide cards have a strong green left-accent border (4px). Usages
+   cards now go LIGHTER: no top accent border, just a soft border on
+   all sides, plus a small green dot bullet next to the h3. This makes
+   Usages read as "bulleted list of mini-articles" while Guide reads
+   as "knowledge cards with strong accent". Visual hierarchy is clearer
+   without changing any layout dimensions. */
 .hd1-usages .hd1-usage-card,
 .hd1-usage-guide .hd1-usage-block {
     background: #ffffff;
-    border: 1px solid rgba(26, 107, 60, 0.10);
-    border-top: 3px solid var(--primary, #1a6b3c);
+    border: 1px solid rgba(26, 107, 60, 0.08);
     border-radius: 10px;
     padding: 14px 16px;
 }
@@ -16203,6 +16239,19 @@ section.section-card.hd1-usage-guide {
     color: var(--primary-dark, #0d4a28);
     margin: 0 0 8px;
     line-height: 1.35;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hd1-usages .hd1-usage-card h3::before,
+.hd1-usage-guide .hd1-usage-block h3::before {
+    content: "";
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary, #1a6b3c);
+    opacity: 0.55;
 }
 .hd1-usages .hd1-usage-card p,
 .hd1-usage-guide .hd1-usage-block p {
@@ -16222,11 +16271,14 @@ html[data-theme="dark"] .hd1-usages .hd1-usage-card,
 html[data-theme="dark"] .hd1-usage-guide .hd1-usage-block {
     background: var(--bg-elevated, #373e47);
     border-color: var(--border, #444c56);
-    border-top-color: var(--primary-light, #4ab87a);
 }
 html[data-theme="dark"] .hd1-usages .hd1-usage-card h3,
 html[data-theme="dark"] .hd1-usage-guide .hd1-usage-block h3 {
     color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] .hd1-usages .hd1-usage-card h3::before,
+html[data-theme="dark"] .hd1-usage-guide .hd1-usage-block h3::before {
+    background: var(--primary-light, #4ab87a);
 }
 
 /* — 5. FAQ (.hd1-faq) — cleaner row, soft green tint when open */
@@ -16352,22 +16404,52 @@ html[data-theme="dark"] section.section-card.hd1-accuracy .hd1-section-title::be
     color: var(--gold-light, #e0c570);
 }
 
-/* — 7. Footer SEO box (#hijri-today-footer-card) — soft, less prominent */
+/* — 7. Footer SEO box (#hijri-today-footer-card) — soft, less prominent
+   HD-19-b (2026-05-09): added a small green-tinted icon decoration via
+   ::before on the section card so the box reads as "info note" rather
+   than a stray paragraph. No DOM change, no text change — pure CSS
+   pseudo-element. The icon ("🔗" link glyph) sits at the top-start
+   corner via flex layout. Box now also uses border-inline-start accent
+   that mirrors the .hd1-accuracy notice — same notice family. */
 #hijri-today-footer-card {
     background: #fafbfa;
     border: 1px solid #ecf0ec;
+    border-inline-start: 3px solid rgba(26, 107, 60, 0.35);
     box-shadow: none;
-    padding: 16px 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+#hijri-today-footer-card::before {
+    content: "🔗";
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 107, 60, 0.08);
+    border-radius: 50%;
+    font-size: 0.95rem;
+    line-height: 1;
+    margin-top: 1px;
 }
 #hijri-today-footer-card .hpage-footer-seo {
     font-size: 0.88rem;
     line-height: 1.65;
     color: var(--text-light, #6b7b75);
     margin: 0;
+    flex: 1;
+    min-width: 0;
 }
 html[data-theme="dark"] #hijri-today-footer-card {
     background: var(--bg-elevated, #373e47);
     border-color: var(--border, #444c56);
+    border-inline-start-color: rgba(77, 203, 140, 0.45);
+}
+html[data-theme="dark"] #hijri-today-footer-card::before {
+    background: rgba(77, 203, 140, 0.12);
 }
 
 /* — 8. Events countdown (.hd5-events) — uniform card heights */

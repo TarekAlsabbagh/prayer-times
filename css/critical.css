@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Phase E5-a2 — Critical CSS Hybrid (auto-extracted from style.css)
    ═══════════════════════════════════════════════════════════════════════════
-   Extracted on: 2026-05-09T10:23:46.567Z
-   Source: css/style.css (full 545 KiB)
-   Critical: 38 KiB
+   Extracted on: 2026-05-09T10:43:52.029Z
+   Source: css/style.css (full 549 KiB)
+   Critical: 38.2 KiB
 
    This file is INLINED into <head> by server.js. The full style.css continues
    to load externally as a cached request — overrides any critical rule and
@@ -242,9 +242,10 @@ html.moon-today-city-page .moon-today-city-edu{ display: block !important; }
 }
 .page{ display: none; }
 .page.active{ display: block; padding: 24px; }
-#hijri-today-info-card{ min-height: 256px; }
-#hijri-today-info-card .info-card{ min-height: 96px; }
-@media (max-width: 1024px){#hijri-today-info-card{ min-height: 296px; }}
+#hijri-today-info-card{ min-height: 132px; }
+#hijri-today-info-card .info-card{ min-height: 60px; }
+@media (max-width: 1024px){#hijri-today-info-card{ min-height: 296px; }
+#hijri-today-info-card .info-card{ min-height: 96px; }}
 @media (max-width: 768px){#hijri-today-info-card{ min-height: 398px; }
 #hijri-today-info-card .info-card{ min-height: 110px; }}
 @media (max-width: 768px){.sidebar{ transform: translateX(100%); }
@@ -616,8 +617,11 @@ html.hijri-day-page #hday-breadcrumbs{
         min-height: 110px;
     }}
 #hijri-today-info-grid{
-    min-height: 208px;
+    min-height: 80px;
 }
+@media (max-width: 1024px){#hijri-today-info-grid{
+        min-height: 208px;
+    }}
 @media (max-width: 768px){#hijri-today-info-grid{
         min-height: 366px;
     }}
@@ -994,12 +998,14 @@ html[data-theme="dark"] .home-service-card{
     background: #f7faf8;
     border: 1px solid rgba(26, 107, 60, 0.12);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     transition: border-color .15s, transform .15s, box-shadow .15s;
+    min-width: 0;
 }
+@media (max-width: 1024px){#hijri-today-info-card .info-card{ padding: 12px 14px; }}
 #page-hijri-today > .section-card{ margin-bottom: 18px; }
 @media (max-width: 768px){#page-hijri-today > .section-card{ margin-bottom: 12px; }}
 #page-hijri-today .hd1-section-intro,#page-hijri-today .hd1-usages-intro,#page-hijri-today .hd1-accuracy-body,#page-hijri-today .hpage-footer-seo,#page-hijri-today .hd1-guide-item p,#page-hijri-today .hd1-usage-card p,#page-hijri-today .hd1-usage-block p{

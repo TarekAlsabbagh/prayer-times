@@ -15586,6 +15586,25 @@ const server = http.createServer(async (req, res) => {
                 // HTTP 404 status. Real SSR routes (homepage, prayer-
                 // times-in-X, today-hijri-date, etc.) are handled BEFORE
                 // this catch-all and still return 200.
+                //
+                // CTDN-FIX (2026-05-09): countdown pages (/ramadan-countdown,
+                // /eid-al-fitr-countdown, /eid-al-adha-countdown,
+                // /hijri-new-year-countdown — and lang-prefixed variants)
+                // are SPA pages without explicit staticPages entries; they
+                // were relying on the OLD index.html SPA fallback. After
+                // HD-EN-SEO-1 turned the catch-all into a hard 404, those
+                // pages broke. Whitelist them here: serve index.html via
+                // serveHtmlWithSeo (HTTP 200) so the SPA can route to the
+                // correct #page-*-countdown wrapper. /azkar (legacy) and
+                // /msbaha aliases also handled via SPA fallback.
+                const _spaWhitelist = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:ramadan-countdown|eid-al-fitr-countdown|eid-al-adha-countdown|hijri-new-year-countdown)\/?$/;
+                if (_spaWhitelist.test(urlPath)) {
+                    readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
+                        if (err2) { res.writeHead(404); res.end('Not Found'); return; }
+                        serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs);
+                    });
+                    return;
+                }
                 send404Page(urlPath, res, req.headers['accept-encoding'] || '');
             } else {
                 res.writeHead(404, {'Content-Type':'text/plain'});

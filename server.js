@@ -5482,19 +5482,77 @@ function buildSeoForPath(urlPath) {
             : _slugToTitle(_nptSlug);
         // NPT-SEO-1 (2026-05-09): tightened Title from 78ch → ~50-58ch and
         // extended Meta from 98ch → ~140-160ch per SEOptimer feedback.
-        // Removed " | Prayer Times" suffix (was eating chars without value).
-        const _NPT_TITLE = {
-            ar: `الصلاة القادمة في ${_nptCityDisplay} اليوم | الوقت المتبقي للصلاة`,
-            en: `Next Prayer Time in ${_nptCityDisplay} Today | Time Remaining`,
-            fr: `Prochaine prière à ${_nptCityDisplay} aujourd'hui | Temps restant`,
-            tr: `${_nptCityDisplay} bugün sonraki namaz | Kalan süre`,
-            ur: `آج ${_nptCityDisplay} میں اگلی نماز | بقیہ وقت`,
-            de: `Nächstes Gebet in ${_nptCityDisplay} heute | Verbleibende Zeit`,
-            id: `Sholat Berikutnya di ${_nptCityDisplay} Hari Ini | Sisa Waktu`,
-            es: `Próxima oración en ${_nptCityDisplay} hoy | Tiempo restante`,
-            bn: `আজ ${_nptCityDisplay}-এ পরবর্তী নামাজ | অবশিষ্ট সময়`,
-            ms: `Solat Seterusnya di ${_nptCityDisplay} Hari Ini | Masa Berbaki`,
+        // NPT-SEO-2 (2026-05-09): length-aware Title fallback. Long city
+        // names like "المدينة المنورة" (15ch) push the long form to 62ch
+        // (over the 60ch SEOptimer threshold). Now we generate 3 candidates
+        // per lang (long / medium / short) and pick the longest one that
+        // still fits ≤ 60 chars. Same pattern proven on /qibla and
+        // /qibla-in-{city} (Q-A10-b balanced length-guard).
+        const _NPT_TITLE_FORMS = {
+            ar: c => ({
+                long:   `الصلاة القادمة في ${c} اليوم | الوقت المتبقي للصلاة`,
+                medium: `الصلاة القادمة في ${c} اليوم | موعد الأذان`,
+                short:  `الصلاة القادمة في ${c} | موعد الأذان`,
+            }),
+            en: c => ({
+                long:   `Next Prayer Time in ${c} Today | Time Remaining`,
+                medium: `Next Prayer Time in ${c} | Time Remaining`,
+                short:  `Next Prayer in ${c} | Adhan Time`,
+            }),
+            fr: c => ({
+                long:   `Prochaine prière à ${c} aujourd'hui | Temps restant`,
+                medium: `Prochaine prière à ${c} | Temps restant`,
+                short:  `Prochaine prière à ${c} | Adhan`,
+            }),
+            tr: c => ({
+                long:   `${c} bugün sonraki namaz | Kalan süre`,
+                medium: `${c} sonraki namaz | Kalan süre`,
+                short:  `${c} sonraki namaz | Ezan`,
+            }),
+            ur: c => ({
+                long:   `آج ${c} میں اگلی نماز | بقیہ وقت`,
+                medium: `${c} میں اگلی نماز | اذان کا وقت`,
+                short:  `${c} میں اگلی نماز | اذان`,
+            }),
+            de: c => ({
+                long:   `Nächstes Gebet in ${c} heute | Verbleibende Zeit`,
+                medium: `Nächstes Gebet in ${c} | Verbleibende Zeit`,
+                short:  `Nächstes Gebet in ${c} | Adhan-Zeit`,
+            }),
+            id: c => ({
+                long:   `Sholat Berikutnya di ${c} Hari Ini | Sisa Waktu`,
+                medium: `Sholat Berikutnya di ${c} | Sisa Waktu`,
+                short:  `Sholat Berikutnya di ${c} | Adzan`,
+            }),
+            es: c => ({
+                long:   `Próxima oración en ${c} hoy | Tiempo restante`,
+                medium: `Próxima oración en ${c} | Tiempo restante`,
+                short:  `Próxima oración en ${c} | Adhan`,
+            }),
+            bn: c => ({
+                long:   `আজ ${c}-এ পরবর্তী নামাজ | অবশিষ্ট সময়`,
+                medium: `${c}-এ পরবর্তী নামাজ | অবশিষ্ট সময়`,
+                short:  `${c}-এ পরবর্তী নামাজ | আযান`,
+            }),
+            ms: c => ({
+                long:   `Solat Seterusnya di ${c} Hari Ini | Masa Berbaki`,
+                medium: `Solat Seterusnya di ${c} | Masa Berbaki`,
+                short:  `Solat Seterusnya di ${c} | Azan`,
+            }),
         };
+        function _pickNptTitle(forms, c) {
+            const f = forms(c);
+            // Use full code-point length (Array.from handles surrogate pairs
+            // and combining marks correctly for Arabic/Bengali/Urdu).
+            const len = (s) => Array.from(s).length;
+            if (len(f.long)   <= 60) return f.long;
+            if (len(f.medium) <= 60) return f.medium;
+            return f.short;
+        }
+        const _NPT_TITLE = {};
+        for (const _lk of Object.keys(_NPT_TITLE_FORMS)) {
+            _NPT_TITLE[_lk] = _pickNptTitle(_NPT_TITLE_FORMS[_lk], _nptCityDisplay);
+        }
         const _NPT_DESC = {
             ar: `اعرف الصلاة القادمة في ${_nptCityDisplay} اليوم مع الوقت المتبقي لها، وموعد الأذان بدقة، إضافة إلى جدول الصلوات التالية حسب التوقيت المحلي لمدينة ${_nptCityDisplay}.`,
             en: `Find the next prayer time in ${_nptCityDisplay} today with the time remaining, exact adhan time, and the schedule of upcoming prayers according to ${_nptCityDisplay}'s local time.`,

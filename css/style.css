@@ -6894,7 +6894,17 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     font-weight: 600;
     color: #fff;
 }
-.banner-current-prayer[hidden] { display: none; }
+/* PT-CLS-1 (2026-05-10): previously `display: none` when hidden →
+   pill's ~44px height collapsed → JS reveal at hydration grew the
+   banner → 0.175 CLS on .next-prayer-banner. Now we KEEP the flex
+   layout and hide visually only, so the pill always reserves its
+   final height regardless of whether the current-prayer state is
+   known yet. JS still toggles the `hidden` attribute the same way
+   — it just doesn't move pixels anymore. */
+.banner-current-prayer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+}
 .bcp-dot {
     width: 10px; height: 10px; border-radius: 50%;
     background: var(--gold-light, #ffd75e);
@@ -6922,7 +6932,14 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     justify-content: center;
     flex-wrap: wrap;
 }
-.banner-then-prayer[hidden] { display: none; }
+/* PT-CLS-1 (2026-05-10): same fix as .banner-current-prayer above —
+   reserve the ~25px "ثمّ {prayer} {time}" sub-line height instead of
+   collapsing it via display:none. JS toggle still works; layout
+   doesn't shift. */
+.banner-then-prayer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+}
 .banner-then-prayer b { color: var(--gold-light, #ffd75e); font-weight: 700; }
 .banner-then-prayer .btp-time { opacity: .85; font-size: .88rem; } /* HC-11c (2026-05-07): direction:ltr removed for RTL letter-LEFT/digits-RIGHT consistency */
 

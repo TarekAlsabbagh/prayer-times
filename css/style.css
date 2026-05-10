@@ -18756,3 +18756,55 @@ html[data-theme="dark"] .next-prayer-guide-grid p,
 html[data-theme="dark"] .next-prayer-compare-grid p {
     color: var(--text-secondary, #cbd5cf);
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   PT-CITY-CONTENT-1 (2026-05-10)
+   Three SSR-injected SEO educational sections on /prayer-times-in-{city}.
+   Sit right after #prayer-schedule-section. Pure prose — no chips, no
+   links, no JS. Lifts SEOptimer Word Count from ~834 → ~1300 by adding
+   genuine content SEOptimer counts as text.
+   ──────────────────────────────────────────────────────────────────────── */
+.city-seo-guide {
+    max-width: 980px;
+    margin: 18px auto 0;
+    padding: 26px 28px;
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 22px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.city-seo-guide h2 {
+    margin: 0 0 12px;
+    color: #063f25;
+    font-size: 23px;
+    line-height: 1.5;
+}
+.city-seo-guide p {
+    margin: 0 0 12px;
+    color: #334139;
+    font-size: 15.5px;
+    line-height: 2;
+}
+.city-seo-guide p:last-child {
+    margin-bottom: 0;
+}
+@media (max-width: 768px) {
+    .city-seo-guide {
+        padding: 22px 20px;
+        border-radius: 18px;
+    }
+    .city-seo-guide h2 { font-size: 20px; }
+    .city-seo-guide p  { font-size: 15px; line-height: 1.9; }
+}
+/* Dark-mode parity (mirrors .next-prayer-section-card / .time-left-section-card) */
+html[data-theme="dark"] .city-seo-guide {
+    background: var(--card-bg, #1a1f1c);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+html[data-theme="dark"] .city-seo-guide h2 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .city-seo-guide p {
+    color: var(--text-primary, #e2e8e2);
+}

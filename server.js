@@ -9580,6 +9580,150 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             }
             return '<html' + a + ' class="city-page">';
         });
+
+        // PT-CITY-CONTENT-1 (2026-05-10): inject 3 SSR educational sections
+        // into the <!-- CITY-SEO-GUIDE --> anchor (placed in index.html
+        // right after #prayer-schedule-section). Lifts SEOptimer Word Count
+        // from 834 → ~1300 with genuine prose, NOT more chips/links.
+        try {
+            const _citySlugMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+            const _citySlugForGuide = _citySlugMatch ? _citySlugMatch[1] : null;
+            const _cityNameForGuide = (_citySlugForGuide && typeof _resolveCityName === 'function')
+                ? (_resolveCityName(_citySlugForGuide, seo.lang) || _slugToTitle(_citySlugForGuide))
+                : null;
+            if (_citySlugForGuide && _cityNameForGuide) {
+                const _CITY_SEO_GUIDE = {
+                    ar: c => ({
+                        s1Title: `كيفية قراءة جدول مواقيت الصلاة في ${c}`,
+                        s1P1: `يعرض جدول مواقيت الصلاة في ${c} أوقات الصلوات اليومية بحسب التوقيت المحلي للمدينة، ويشمل الفجر والشروق والظهر والعصر والمغرب والعشاء. يساعد هذا الجدول المستخدم على معرفة أوقات الصلاة خلال اليوم أو خلال الأسبوع، وملاحظة التغير البسيط في بعض المواقيت من يوم إلى آخر، خصوصاً وقت الفجر والشروق والمغرب.`,
+                        s1P2: `عند قراءة الجدول، ابدأ من عمود اليوم والتاريخ، ثم راجع وقت الصلاة المطلوبة في الصف نفسه. إذا كنت تريد معرفة موعد صلاة اليوم فقط، يمكنك الاعتماد على الصف المميز لليوم الحالي. أما إذا كنت تخطط للأيام القادمة، فيمكنك استخدام الجدول الأسبوعي لمتابعة تغير المواعيد تدريجياً حسب التاريخ الميلادي والهجري.`,
+                        s2Title: `ما الذي يؤثر على مواقيت الصلاة في ${c}؟`,
+                        s2P1: `تعتمد مواقيت الصلاة على موقع المدينة الجغرافي، وخط الطول ودائرة العرض، وطريقة الحساب المستخدمة لتحديد وقت الفجر والعشاء، إضافة إلى طريقة حساب وقت العصر. لذلك قد تختلف النتائج قليلاً بين موقع وآخر أو بين طريقة حساب وأخرى، خصوصاً في الصلوات المرتبطة بزوايا الشمس مثل الفجر والعشاء.`,
+                        s2P2: `في صفحة مواقيت الصلاة في ${c} يتم عرض المواعيد بحسب إعدادات الحساب المختارة في الموقع، مع إمكانية تغيير طريقة الحساب عند الحاجة. هذا يساعد المستخدم على اختيار الطريقة الأقرب لما يعتمد عليه في بلده أو مدينته، مع الحفاظ على عرض واضح لمواقيت الصلاة اليومية والجدول الأسبوعي.`,
+                        s3Title: `متى تحتاج إلى جدول مواقيت الصلاة الكامل؟`,
+                        s3P1: `يكون جدول مواقيت الصلاة الكامل مفيداً عندما تريد مراجعة جميع أوقات اليوم دفعة واحدة، مثل معرفة وقت الفجر قبل النوم، أو وقت الظهر أثناء العمل، أو وقت المغرب قبل الإفطار، أو وقت العشاء في نهاية اليوم. كما يفيد الجدول عند التخطيط للأسبوع، لأن بعض الأوقات تتغير تدريجياً من يوم إلى آخر.`,
+                        s3P2: `أما إذا كنت تريد معرفة الصلاة القادمة فقط، فيمكنك استخدام رابط الصلاة القادمة في ${c}. وإذا كنت تريد معرفة المدة المتبقية حتى الأذان، فيمكنك استخدام صفحة الوقت المتبقي للصلاة. بهذه الطريقة تغطي الصفحة الحالية الجدول الكامل، بينما تخدم الصفحات المساعدة نوايا بحث أسرع وأكثر تحديداً.`,
+                    }),
+                    en: c => ({
+                        s1Title: `How to read the prayer-times schedule for ${c}`,
+                        s1P1: `The prayer-times schedule for ${c} lists the daily prayer times based on the city's local time, covering Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha. This schedule helps users know the prayer times across the day or the week, and notice the small drift in some times from one day to the next — especially Fajr, Sunrise, and Maghrib.`,
+                        s1P2: `To read the table, start with the date column for the day you care about, then follow the row across to the prayer you need. If you only want today's times, the highlighted current-day row is enough. If you're planning ahead, the weekly schedule lets you track how the times move gradually with both the Gregorian and Hijri date.`,
+                        s2Title: `What affects prayer times in ${c}?`,
+                        s2P1: `Prayer times depend on the city's geographic location — its longitude and latitude — the calculation method used for Fajr and Isha, and the Asr juristic method. So results can differ slightly between sources or between calculation methods, particularly for the sun-angle-based prayers like Fajr and Isha.`,
+                        s2P2: `On the prayer-times page for ${c}, the times are rendered using the calculation settings selected in the site, with the option to change the method when needed. This helps users pick the method closest to the one trusted in their country or city, while keeping a clean display of both the daily prayer times and the weekly schedule.`,
+                        s3Title: `When do you need the full prayer-times schedule?`,
+                        s3P1: `The full prayer-times schedule is most useful when you want all of the day's times at a glance — Fajr before sleeping, Dhuhr during work, Maghrib before iftar, or Isha at the end of the day. It also helps when planning the week, because some times drift gradually from one day to the next.`,
+                        s3P2: `If you only want the next prayer, use the dedicated next-prayer page for ${c}. If you want the countdown until the adhan, use the time-left page. That way this page covers the full schedule, while the helper pages serve quicker, more specific search intents.`,
+                    }),
+                    fr: c => ({
+                        s1Title: `Comment lire le tableau des heures de prière à ${c}`,
+                        s1P1: `Le tableau des heures de prière à ${c} présente les horaires quotidiens selon l'heure locale de la ville et couvre Fajr, le Lever, Dhuhr, Asr, Maghreb et Isha. Il aide à connaître les horaires sur la journée ou la semaine, et à remarquer les petits glissements de certains horaires d'un jour à l'autre — notamment Fajr, le Lever et Maghreb.`,
+                        s1P2: `Pour lire le tableau, commencez par la colonne du jour et de la date, puis suivez la ligne jusqu'à la prière voulue. Si seuls les horaires d'aujourd'hui vous intéressent, la ligne mise en évidence du jour courant suffit. Si vous planifiez à l'avance, le tableau hebdomadaire permet de suivre l'évolution progressive selon la date grégorienne et hégirienne.`,
+                        s2Title: `Qu'est-ce qui influence les horaires de prière à ${c} ?`,
+                        s2P1: `Les horaires dépendent de la position géographique de la ville — longitude et latitude — de la méthode de calcul utilisée pour Fajr et Isha, et de la méthode juridique pour Asr. Les résultats peuvent donc varier légèrement d'une source à l'autre, surtout pour les prières basées sur l'angle solaire comme Fajr et Isha.`,
+                        s2P2: `Sur la page des heures de prière à ${c}, les horaires sont affichés selon les réglages de calcul choisis sur le site, avec la possibilité de modifier la méthode si nécessaire. Cela permet à l'utilisateur de choisir la méthode la plus proche de celle adoptée dans son pays ou sa ville, tout en gardant un affichage clair des horaires quotidiens et du programme hebdomadaire.`,
+                        s3Title: `Quand a-t-on besoin du tableau complet des heures de prière ?`,
+                        s3P1: `Le tableau complet est le plus utile quand vous voulez voir tous les horaires d'un coup d'œil — Fajr avant de dormir, Dhuhr pendant le travail, Maghreb avant l'iftar, ou Isha en fin de journée. Il aide aussi à organiser la semaine, car certains horaires glissent progressivement d'un jour à l'autre.`,
+                        s3P2: `Si vous ne voulez que la prochaine prière, utilisez la page dédiée à la prochaine prière pour ${c}. Si vous voulez le compte à rebours jusqu'à l'adhan, utilisez la page du temps restant. Cette page couvre ainsi le programme complet, tandis que les pages auxiliaires répondent à des intentions plus rapides et plus précises.`,
+                    }),
+                    tr: c => ({
+                        s1Title: `${c} namaz vakitleri tablosu nasıl okunur`,
+                        s1P1: `${c} için namaz vakitleri tablosu, günlük namaz vakitlerini şehrin yerel saatine göre listeler ve Sabah, Güneş, Öğle, İkindi, Akşam ve Yatsı'yı kapsar. Bu tablo, kullanıcının gün veya hafta boyunca namaz vakitlerini bilmesine ve bazı vakitlerin günden güne küçük kaymalarını — özellikle Sabah, Güneş ve Akşam — fark etmesine yardımcı olur.`,
+                        s1P2: `Tabloyu okurken önce ilgilendiğiniz günün tarih sütunuyla başlayın, sonra ihtiyacınız olan namaza kadar satırı takip edin. Yalnızca bugünün vakitlerini istiyorsanız, vurgulanan günün satırı yeterlidir. Önceden planlıyorsanız, haftalık tablo hem Miladi hem Hicri tarihe göre vakitlerin nasıl kaydığını izlemenizi sağlar.`,
+                        s2Title: `${c} namaz vakitlerini ne etkiler?`,
+                        s2P1: `Namaz vakitleri şehrin coğrafi konumuna — boylam ve enlemine — Sabah ve Yatsı için kullanılan hesaplama yöntemine ve İkindi mezhep yöntemine bağlıdır. Bu nedenle sonuçlar kaynaklar veya hesaplama yöntemleri arasında biraz farklılaşabilir, özellikle Sabah ve Yatsı gibi güneş açısı tabanlı namazlarda.`,
+                        s2P2: `${c} namaz vakitleri sayfasında vakitler, sitede seçilen hesaplama ayarlarına göre gösterilir; gerektiğinde yöntem değiştirilebilir. Bu, kullanıcının ülkesinde veya şehrinde güvendiği yönteme en yakın olanı seçmesine yardımcı olurken günlük namaz vakitlerinin ve haftalık programın net bir şekilde gösterilmesini korur.`,
+                        s3Title: `Tam namaz vakitleri tablosuna ne zaman ihtiyacınız var?`,
+                        s3P1: `Tam tablo, günün tüm vakitlerini bir bakışta görmek istediğinizde en faydalıdır — uyumadan önce Sabah, iş saatlerinde Öğle, iftar öncesi Akşam veya günün sonunda Yatsı. Haftayı planlarken de yardımcı olur çünkü bazı vakitler günden güne kademeli olarak kayar.`,
+                        s3P2: `Yalnızca sonraki namazı istiyorsanız ${c} için sonraki namaz sayfasını kullanın. Ezana kalan geri sayım istiyorsanız kalan süre sayfasını kullanın. Böylece bu sayfa tam programı kapsar, yardımcı sayfalar ise daha hızlı ve daha belirli arama niyetlerini karşılar.`,
+                    }),
+                    ur: c => ({
+                        s1Title: `${c} میں نماز کے اوقات کا جدول کیسے پڑھیں`,
+                        s1P1: `${c} میں نماز کے اوقات کا جدول روزانہ نماز کے اوقات کو شہر کے مقامی وقت کے مطابق دکھاتا ہے، جس میں فجر، طلوع، ظہر، عصر، مغرب اور عشاء شامل ہیں۔ یہ جدول صارف کو دن یا ہفتے کے دوران نماز کے اوقات جاننے اور بعض اوقات میں ایک دن سے دوسرے دن تک ہونے والی معمولی تبدیلی — خاص طور پر فجر، طلوع اور مغرب — کو نوٹ کرنے میں مدد دیتا ہے۔`,
+                        s1P2: `جدول پڑھنے کے لیے، پہلے دن اور تاریخ والے کالم سے شروع کریں، پھر اسی قطار میں مطلوبہ نماز کا وقت دیکھیں۔ اگر صرف آج کے اوقات چاہئیں تو موجودہ دن کی نمایاں قطار کافی ہے۔ اگر مستقبل کی منصوبہ بندی کر رہے ہیں تو ہفتہ وار جدول گریگوریین اور ہجری دونوں تاریخوں کے مطابق اوقات کی بتدریج تبدیلی کو ٹریک کرنے دیتا ہے۔`,
+                        s2Title: `${c} میں نماز کے اوقات پر کیا اثر ڈالتا ہے؟`,
+                        s2P1: `نماز کے اوقات شہر کے جغرافیائی محل وقوع — اس کے طول البلد اور عرض البلد — فجر اور عشاء کے لیے استعمال ہونے والے حساب کے طریقے، اور عصر کے فقہی طریقے پر منحصر ہیں۔ اس لیے نتائج مختلف ذرائع یا حساب کے طریقوں کے درمیان تھوڑے مختلف ہو سکتے ہیں، خاص طور پر فجر اور عشاء جیسی شمسی زاویے پر مبنی نمازوں میں۔`,
+                        s2P2: `${c} کے نماز کے اوقات کے صفحے پر اوقات سائٹ میں منتخب کردہ حساب کی ترتیبات کے مطابق دکھائے جاتے ہیں، ضرورت پر طریقہ تبدیل کرنے کے اختیار کے ساتھ۔ یہ صارف کو اپنے ملک یا شہر میں قابل اعتماد طریقے کے قریب ترین کا انتخاب کرنے میں مدد دیتا ہے، روزانہ نماز کے اوقات اور ہفتہ وار جدول کا واضح پیش کش برقرار رکھتے ہوئے۔`,
+                        s3Title: `مکمل نماز کے اوقات کے جدول کی کب ضرورت ہوتی ہے؟`,
+                        s3P1: `مکمل جدول اس وقت سب سے زیادہ مفید ہے جب آپ دن کے تمام اوقات ایک نظر میں دیکھنا چاہتے ہیں — سونے سے پہلے فجر، کام کے دوران ظہر، افطار سے پہلے مغرب، یا دن کے اختتام پر عشاء۔ یہ ہفتے کی منصوبہ بندی میں بھی مدد دیتا ہے، کیونکہ کچھ اوقات ایک دن سے دوسرے دن تک بتدریج کھسکتے ہیں۔`,
+                        s3P2: `اگر آپ صرف اگلی نماز چاہتے ہیں، تو ${c} کے لیے اگلی نماز کا صفحہ استعمال کریں۔ اگر آپ اذان تک الٹی گنتی چاہتے ہیں، تو باقی وقت کا صفحہ استعمال کریں۔ اس طرح یہ صفحہ مکمل جدول کا احاطہ کرتا ہے، جبکہ معاون صفحات تیز تر اور زیادہ مخصوص تلاش کی نیتوں کو پورا کرتے ہیں۔`,
+                    }),
+                    de: c => ({
+                        s1Title: `So lesen Sie den Gebetszeitenplan für ${c}`,
+                        s1P1: `Der Gebetszeitenplan für ${c} listet die täglichen Gebetszeiten nach der Ortszeit der Stadt auf und umfasst Fadschr, Sonnenaufgang, Zuhr, Asr, Maghrib und Ischa. Der Plan hilft Nutzern, die Gebetszeiten über den Tag oder die Woche zu kennen und die kleinen Verschiebungen einiger Zeiten von Tag zu Tag zu bemerken — besonders Fadschr, Sonnenaufgang und Maghrib.`,
+                        s1P2: `Beginnen Sie beim Lesen mit der Datumsspalte des gesuchten Tages und folgen Sie der Zeile bis zum gewünschten Gebet. Möchten Sie nur die heutigen Zeiten, genügt die hervorgehobene Zeile des aktuellen Tages. Planen Sie voraus, lässt der Wochenplan die schrittweise Verschiebung sowohl nach gregorianischem als auch nach Hidschri-Datum verfolgen.`,
+                        s2Title: `Was beeinflusst die Gebetszeiten in ${c}?`,
+                        s2P1: `Die Gebetszeiten hängen von der geografischen Lage der Stadt — Längen- und Breitengrad — von der für Fadschr und Ischa verwendeten Berechnungsmethode sowie von der Asr-Mazhab-Methode ab. Ergebnisse können daher zwischen Quellen oder Methoden leicht abweichen, vor allem bei den auf Sonnenwinkeln basierenden Gebeten wie Fadschr und Ischa.`,
+                        s2P2: `Auf der Gebetszeitenseite für ${c} werden die Zeiten gemäß den auf der Site gewählten Berechnungseinstellungen dargestellt, mit der Möglichkeit, die Methode bei Bedarf zu ändern. So kann der Nutzer die Methode wählen, die der in seinem Land oder seiner Stadt verbreiteten am nächsten kommt, bei klarer Darstellung der Tages- und Wochenzeiten.`,
+                        s3Title: `Wann brauchen Sie den vollständigen Gebetszeitenplan?`,
+                        s3P1: `Der vollständige Plan ist am nützlichsten, wenn Sie alle Tageszeiten auf einen Blick wollen — Fadschr vor dem Schlafen, Zuhr während der Arbeit, Maghrib vor dem Iftar oder Ischa am Ende des Tages. Auch bei Wochenplanung hilft er, da einige Zeiten von Tag zu Tag schrittweise driften.`,
+                        s3P2: `Wenn Sie nur das nächste Gebet wollen, nutzen Sie die Seite "Nächstes Gebet" für ${c}. Wenn Sie den Countdown bis zum Adhan wollen, nutzen Sie die Seite "Verbleibende Zeit". So deckt diese Seite den vollständigen Plan ab, während die Hilfsseiten schnellere, spezifischere Suchabsichten bedienen.`,
+                    }),
+                    id: c => ({
+                        s1Title: `Cara membaca tabel jadwal sholat di ${c}`,
+                        s1P1: `Tabel jadwal sholat di ${c} mencantumkan waktu sholat harian berdasarkan waktu setempat kota dan mencakup Subuh, Terbit, Dzuhur, Ashar, Maghrib, dan Isya. Tabel ini membantu pengguna mengetahui waktu sholat sepanjang hari atau pekan, serta memperhatikan pergeseran kecil pada sebagian waktu dari hari ke hari — terutama Subuh, Terbit, dan Maghrib.`,
+                        s1P2: `Untuk membaca tabel, mulailah dari kolom tanggal hari yang Anda inginkan, lalu ikuti baris hingga ke sholat yang dibutuhkan. Jika hanya ingin waktu hari ini, baris hari ini yang ditandai sudah cukup. Jika ingin merencanakan ke depan, jadwal mingguan memungkinkan Anda memantau pergeseran bertahap berdasarkan tanggal Masehi dan Hijriah.`,
+                        s2Title: `Apa yang memengaruhi waktu sholat di ${c}?`,
+                        s2P1: `Waktu sholat bergantung pada lokasi geografis kota — bujur dan lintangnya — metode perhitungan yang digunakan untuk Subuh dan Isya, serta metode mazhab Ashar. Karena itu hasilnya bisa sedikit berbeda antar sumber atau antar metode, terutama untuk sholat yang berbasis sudut matahari seperti Subuh dan Isya.`,
+                        s2P2: `Pada halaman jadwal sholat di ${c}, waktu ditampilkan sesuai pengaturan perhitungan yang dipilih di situs, dengan opsi mengubah metode bila diperlukan. Ini membantu pengguna memilih metode yang paling dekat dengan yang diakui di negara atau kotanya, sambil menjaga tampilan jadwal harian dan mingguan tetap jelas.`,
+                        s3Title: `Kapan Anda butuh jadwal sholat lengkap?`,
+                        s3P1: `Jadwal lengkap paling bermanfaat ketika Anda ingin semua waktu hari sekaligus — Subuh sebelum tidur, Dzuhur saat bekerja, Maghrib sebelum buka puasa, atau Isya di akhir hari. Tabel ini juga membantu saat merencanakan pekan, karena sebagian waktu bergeser bertahap dari hari ke hari.`,
+                        s3P2: `Jika hanya ingin sholat berikutnya, gunakan halaman sholat berikutnya untuk ${c}. Jika ingin hitung mundur menuju adzan, gunakan halaman sisa waktu sholat. Dengan demikian halaman ini mencakup jadwal lengkap, sementara halaman pendukung melayani niat pencarian yang lebih cepat dan spesifik.`,
+                    }),
+                    es: c => ({
+                        s1Title: `Cómo leer el cuadro de horarios de oración en ${c}`,
+                        s1P1: `El cuadro de horarios de oración en ${c} muestra los horarios diarios según la hora local de la ciudad y abarca Fajr, Amanecer, Dhuhr, Asr, Maghrib e Isha. Este cuadro ayuda al usuario a conocer los horarios a lo largo del día o la semana y a notar el pequeño desplazamiento en algunos horarios de un día a otro, especialmente Fajr, Amanecer y Maghrib.`,
+                        s1P2: `Para leer el cuadro, comience por la columna del día y la fecha, y siga la fila hasta la oración que necesita. Si solo quiere los horarios de hoy, basta con la fila destacada del día actual. Si planifica con antelación, el cuadro semanal le permite seguir el desplazamiento gradual según la fecha gregoriana e hégira.`,
+                        s2Title: `¿Qué afecta los horarios de oración en ${c}?`,
+                        s2P1: `Los horarios dependen de la ubicación geográfica de la ciudad — su longitud y latitud — del método de cálculo usado para Fajr e Isha, y del método jurídico de Asr. Por eso los resultados pueden variar ligeramente entre fuentes o entre métodos, sobre todo en las oraciones basadas en el ángulo solar como Fajr e Isha.`,
+                        s2P2: `En la página de horarios de oración para ${c}, los horarios se muestran según los ajustes de cálculo seleccionados en el sitio, con la opción de cambiar el método cuando sea necesario. Esto ayuda al usuario a elegir el método más cercano al adoptado en su país o ciudad, manteniendo una visualización clara de los horarios diarios y semanales.`,
+                        s3Title: `¿Cuándo necesita el cuadro completo de horarios de oración?`,
+                        s3P1: `El cuadro completo es más útil cuando quiere ver todos los horarios del día de un vistazo: Fajr antes de dormir, Dhuhr durante el trabajo, Maghrib antes del iftar o Isha al final del día. También ayuda al planificar la semana, ya que algunos horarios se desplazan gradualmente de un día a otro.`,
+                        s3P2: `Si solo quiere la próxima oración, use la página de la próxima oración para ${c}. Si quiere la cuenta regresiva hasta el adhan, use la página del tiempo restante. Así, esta página cubre el cuadro completo, mientras las páginas auxiliares atienden intenciones de búsqueda más rápidas y específicas.`,
+                    }),
+                    bn: c => ({
+                        s1Title: `${c}-এ নামাজের সময়সূচি কীভাবে পড়বেন`,
+                        s1P1: `${c}-এর নামাজের সময়সূচি শহরের স্থানীয় সময় অনুসারে দৈনিক নামাজের সময় তালিকাভুক্ত করে এবং ফজর, সূর্যোদয়, যোহর, আসর, মাগরিব ও ইশা অন্তর্ভুক্ত করে। এই সময়সূচি ব্যবহারকারীকে দিন বা সপ্তাহজুড়ে নামাজের সময় জানতে এবং কিছু সময়ের দিন-প্রতি-দিন ছোট পরিবর্তন — বিশেষত ফজর, সূর্যোদয় ও মাগরিব — লক্ষ্য করতে সাহায্য করে।`,
+                        s1P2: `সারণি পড়তে, যে দিনটি আপনার দরকার তার তারিখের কলাম থেকে শুরু করুন, তারপর প্রয়োজনীয় নামাজ পর্যন্ত একই সারিতে অনুসরণ করুন। যদি কেবল আজকের সময়গুলি চান, তবে হাইলাইট করা বর্তমান দিনের সারিই যথেষ্ট। যদি অগ্রিম পরিকল্পনা করেন, সাপ্তাহিক সময়সূচি আপনাকে গ্রেগরিয়ান ও হিজরি উভয় তারিখ অনুসারে সময়ের ক্রমিক পরিবর্তন ট্র্যাক করতে দেয়।`,
+                        s2Title: `${c}-এ নামাজের সময়ে কী প্রভাব ফেলে?`,
+                        s2P1: `নামাজের সময় শহরের ভৌগোলিক অবস্থান — দ্রাঘিমা ও অক্ষাংশ — ফজর ও ইশার জন্য ব্যবহৃত হিসাবের পদ্ধতি, এবং আসরের মাযহাব পদ্ধতির উপর নির্ভর করে। তাই উৎস বা হিসাবের পদ্ধতির মধ্যে ফলাফল কিছুটা আলাদা হতে পারে, বিশেষত ফজর ও ইশার মতো সূর্যকোণ ভিত্তিক নামাজে।`,
+                        s2P2: `${c}-এর নামাজের সময় পৃষ্ঠায়, সাইটে নির্বাচিত হিসাবের সেটিংস অনুযায়ী সময় প্রদর্শিত হয়, প্রয়োজনে পদ্ধতি পরিবর্তনের সুবিধাসহ। এটি ব্যবহারকারীকে তার দেশ বা শহরে বিশ্বস্ত পদ্ধতির সবচেয়ে কাছের পদ্ধতি বেছে নিতে সাহায্য করে, এবং দৈনিক নামাজের সময় ও সাপ্তাহিক সময়সূচি স্পষ্টভাবে দেখানো বজায় রাখে।`,
+                        s3Title: `সম্পূর্ণ নামাজের সময়সূচির কখন প্রয়োজন হয়?`,
+                        s3P1: `সম্পূর্ণ সময়সূচি সবচেয়ে দরকারী যখন আপনি দিনের সমস্ত সময় এক নজরে দেখতে চান — ঘুমানোর আগে ফজর, কাজের সময় যোহর, ইফতারের আগে মাগরিব, বা দিনের শেষে ইশা। সপ্তাহের পরিকল্পনার সময়ও এটি সহায়ক, কারণ কিছু সময় দিন-প্রতি-দিন ক্রমান্বয়ে পরিবর্তিত হয়।`,
+                        s3P2: `যদি আপনি কেবল পরবর্তী নামাজ চান, তবে ${c}-এর জন্য পরবর্তী নামাজ পৃষ্ঠাটি ব্যবহার করুন। যদি আযান পর্যন্ত কাউন্টডাউন চান, তবে বাকি সময়ের পৃষ্ঠাটি ব্যবহার করুন। এভাবে এই পৃষ্ঠাটি সম্পূর্ণ সময়সূচি কভার করে, যেখানে সহায়ক পৃষ্ঠাগুলি দ্রুত ও আরও নির্দিষ্ট অনুসন্ধানের উদ্দেশ্য পূরণ করে।`,
+                    }),
+                    ms: c => ({
+                        s1Title: `Cara membaca jadual waktu solat di ${c}`,
+                        s1P1: `Jadual waktu solat di ${c} menyenaraikan waktu solat harian berdasarkan waktu tempatan bandar dan merangkumi Subuh, Syuruk, Zohor, Asar, Maghrib dan Isyak. Jadual ini membantu pengguna mengetahui waktu solat sepanjang hari atau minggu, dan menyedari pergeseran kecil pada sesetengah waktu dari hari ke hari — terutamanya Subuh, Syuruk dan Maghrib.`,
+                        s1P2: `Untuk membaca jadual, mulakan dengan lajur hari dan tarikh yang anda mahukan, kemudian ikut baris yang sama hingga ke solat yang diperlukan. Jika hanya mahu waktu hari ini, baris hari semasa yang diserlahkan sudah memadai. Jika merancang ke hadapan, jadual mingguan membolehkan anda memantau peralihan beransur-ansur mengikut tarikh Gregorian dan Hijrah.`,
+                        s2Title: `Apa yang mempengaruhi waktu solat di ${c}?`,
+                        s2P1: `Waktu solat bergantung pada kedudukan geografi bandar — longitud dan latitudnya — kaedah pengiraan yang digunakan untuk Subuh dan Isyak, serta kaedah mazhab Asar. Oleh itu hasilnya mungkin sedikit berbeza antara sumber atau kaedah, terutamanya untuk solat berasaskan sudut matahari seperti Subuh dan Isyak.`,
+                        s2P2: `Pada halaman waktu solat untuk ${c}, waktu dipaparkan mengikut tetapan pengiraan yang dipilih di tapak, dengan pilihan untuk menukar kaedah jika perlu. Ini membantu pengguna memilih kaedah yang paling hampir dengan yang diiktiraf di negara atau bandarnya, sambil mengekalkan paparan jelas waktu solat harian dan jadual mingguan.`,
+                        s3Title: `Bilakah anda perlukan jadual waktu solat penuh?`,
+                        s3P1: `Jadual penuh paling berguna apabila anda mahu semua waktu hari sekali gus — Subuh sebelum tidur, Zohor semasa kerja, Maghrib sebelum berbuka, atau Isyak di hujung hari. Ia juga membantu semasa merancang minggu, kerana sesetengah waktu beralih beransur-ansur dari hari ke hari.`,
+                        s3P2: `Jika anda hanya mahu solat seterusnya, gunakan halaman solat seterusnya untuk ${c}. Jika mahu kira detik sehingga azan, gunakan halaman masa berbaki. Dengan cara ini halaman ini meliputi jadual penuh, manakala halaman bantuan memenuhi niat carian yang lebih pantas dan lebih khusus.`,
+                    }),
+                };
+                const _csg = (_CITY_SEO_GUIDE[seo.lang] || _CITY_SEO_GUIDE.en)(_cityNameForGuide);
+                const _citySeoGuideHtml = `
+                <section class="city-seo-guide section-card">
+                    <h2>${_escHtml(_csg.s1Title)}</h2>
+                    <p>${_escHtml(_csg.s1P1)}</p>
+                    <p>${_escHtml(_csg.s1P2)}</p>
+                </section>
+                <section class="city-seo-guide section-card">
+                    <h2>${_escHtml(_csg.s2Title)}</h2>
+                    <p>${_escHtml(_csg.s2P1)}</p>
+                    <p>${_escHtml(_csg.s2P2)}</p>
+                </section>
+                <section class="city-seo-guide section-card">
+                    <h2>${_escHtml(_csg.s3Title)}</h2>
+                    <p>${_escHtml(_csg.s3P1)}</p>
+                    <p>${_escHtml(_csg.s3P2)}</p>
+                </section>`;
+                html = html.replace('<!-- CITY-SEO-GUIDE -->', _citySeoGuideHtml);
+            }
+        } catch (_e) { /* SEO guide is optional — skip on resolver error */ }
     }
     // ── 1d-PRE) SSR-Prayer-Times: pre-compute the 5 daily prayer times and
     //   inject them into the HTML before serving. Kills the "--:--" SEO

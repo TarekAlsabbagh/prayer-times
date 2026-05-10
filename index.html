@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=348" as="style">
-    <link rel="stylesheet" href="css/style.css?v=348">
+    <link rel="preload" href="css/style.css?v=349" as="style">
+    <link rel="stylesheet" href="css/style.css?v=349">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -843,6 +843,16 @@
                     <!-- ترقيم الصفحات (البحث اليدوي فقط) -->
                     <div id="schedule-pagination" class="u-hidden"></div>
                 </div>
+
+                <!-- PT-CITY-CONTENT-1 (2026-05-10): 3 SSR-injected SEO educational
+                     sections on /prayer-times-in-{city}. Server fills 10 langs
+                     of city-specific prose (~480 words per page) to lift
+                     SEOptimer Word Count from 834 → ~1300. SSR-visible, no
+                     accordion, no display:none, no JS dependency. Inserted
+                     here so the content lives right after the weekly schedule
+                     (close to its referent) and before the city/country
+                     link grids (which SEOptimer doesn't count as content). -->
+                <!-- CITY-SEO-GUIDE -->
 
                 <!-- 🔥 الأكثر بحثاً اليوم — chips (Round 20 | Round 21: SEO title+aria+heading) -->
                 <section class="section-card most-searched-chips" id="most-searched-chips" aria-labelledby="msc-title">

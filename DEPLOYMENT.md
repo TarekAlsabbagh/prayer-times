@@ -51,7 +51,7 @@ SITE_URL=https://YOUR-DOMAIN.com node scripts/predeploy-check.mjs
 - `/qibla-in-makkah`
 - `/moon-today-in-riyadh`
 - `/time-left-until-prayer-in-cairo`
-- `/next-prayer-time-in-london`
+- `/next-prayer-in-london`
 
 **Redirects (يجب أن ترجع 301):**
 - `/prayer-times-in-mecca` → `/prayer-times-in-makkah`

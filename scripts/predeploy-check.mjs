@@ -116,7 +116,7 @@ const samplePages = [
     '/qibla-in-makkah',
     '/moon-today-in-riyadh',
     '/time-left-until-prayer-in-cairo',
-    '/next-prayer-time-in-london',
+    '/next-prayer-in-london',
 ];
 for (const p of samplePages) {
     const r = await fetch(`${BASE}${p}`);

@@ -3837,7 +3837,7 @@ function _getActiveH1Marker(urlPath) {
     // Phase Q-Hub-A (2026-05-04): /qibla Hub also uses #qibla-hero-title as the active H1.
     if (/^\/qibla$/.test(path))                       return { kind: 'id',   value: 'qibla-hero-title' };
     if (/^\/time-left-until-prayer-in-/.test(path))  return { kind: 'id',   value: 'tl-h1' };
-    if (/^\/next-prayer-time-in-/.test(path))        return { kind: 'id',   value: 'npt-h1' };
+    if (/^\/next-prayer-in-/.test(path))        return { kind: 'id',   value: 'npt-h1' };
     if (/^\/today-hijri-date$/.test(path))           return { kind: 'id',   value: 'hijri-today-full' };
     if (/^\/hijri-date\//.test(path))                return { kind: 'id',   value: 'hday-title' };
     if (/^\/(?:moon-today|moon-in)-/.test(path))     return { kind: 'id',   value: 'moon-page-h1' };
@@ -5666,12 +5666,12 @@ function buildSeoForPath(urlPath) {
         timeLeftPage = { slug: _tlSlug, cityName: _tlCityDisplay };
     }
 
-    // ── 🆕 Round 4 (Minimal): Next-Prayer-Time pages: /next-prayer-time-in-{slug} ──
+    // ── 🆕 Round 4 (Minimal): Next-Prayer-Time pages: /next-prayer-in-{slug} ──
     //     Schedule Awareness (ليس countdown) — يعرض الصلاة القادمة + 3 صلوات تالية.
     //     هويّة مختلفة تماماً عن time-left لتجنّب duplicate content.
     //     R-4: Title CTR boost — "(Exact Time & Next Prayers)" / "(الوقت الدقيق + الصلوات التالية)"
     let nextPrayerPage = null;
-    const _nptMatch = corePath.match(/^\/next-prayer-time-in-([a-z][a-z0-9-]+)$/);
+    const _nptMatch = corePath.match(/^\/next-prayer-in-([a-z][a-z0-9-]+)$/);
     if (_nptMatch) {
         const _nptSlug = _nptMatch[1];
         const _nptCityDisplay = (typeof _resolveCityName === 'function')
@@ -7932,7 +7932,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // that hero unchanged. Below it we inject 6 content cards + a 4-item
         // practical guide + a 5-item countdown-specific FAQ + 4 related links
         // — all per-lang, ~1000-1100 words. Topics are intentionally distinct
-        // from /next-prayer-time-in-{city} (which focuses on schedule
+        // from /next-prayer-in-{city} (which focuses on schedule
         // awareness, not the countdown mechanics).
         const _tlCity = (seo && seo.timeLeftPage && seo.timeLeftPage.cityName) || _tlCityDisplay;
         const _tlSlugForLinks = (seo && seo.timeLeftPage && seo.timeLeftPage.slug) || _tlSlug;
@@ -8427,7 +8427,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // Build the related-links nav
         const _tlLp = (_tlLang === 'ar') ? '' : ('/' + _tlLang);
         const _tlPrayerHref = `${_tlLp}/prayer-times-in-${_tlSlugForLinks}`;
-        const _tlNptHref    = `${_tlLp}/next-prayer-time-in-${_tlSlugForLinks}`;
+        const _tlNptHref    = `${_tlLp}/next-prayer-in-${_tlSlugForLinks}`;
         const _tlQiblaHref  = `${_tlLp}/qibla-in-${_tlSlugForLinks}`;
         const _tlMoonHref   = `${_tlLp}/moon-in-${_tlSlugForLinks}`;
         const _tlSeoBlock = `
@@ -11201,7 +11201,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_qHref}"`)
                 .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_mHref}"`)
                 .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-prayer-in-${_slug}"`)
-                .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-time-in-${_slug}"`)
+                .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-in-${_slug}"`)
                 // UAT-2.6: compact tools strip after #prayer-cards (mit-* — qibla/moon/hijri-today)
                 .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_qHref}"`)
                 .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_mHref}"`)
@@ -11328,7 +11328,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     const _timeLeftMatchSsr = _urlPathNoLang.match(/^\/time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
     const _isTimeLeftSsr = !!(_timeLeftMatchSsr && seo && seo.timeLeftPage);
     // 🆕 Round 4 (Minimal): صفحة NPT تُشارك نفس SSR city-page logic — H1 مخصّص + hide غيره عبر CSS
-    const _nptMatchSsr = _urlPathNoLang.match(/^\/next-prayer-time-in-([a-z][a-z0-9-]+)$/);
+    const _nptMatchSsr = _urlPathNoLang.match(/^\/next-prayer-in-([a-z][a-z0-9-]+)$/);
     const _isNptSsr = !!(_nptMatchSsr && seo && seo.nextPrayerPage);
     let cityMatchSsr = _urlPathNoLang.match(/^\/prayer-times-in-([a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     if (!cityMatchSsr && _isTimeLeftSsr) {
@@ -16033,7 +16033,7 @@ const server = http.createServer(async (req, res) => {
     // ===== Phase G — Curated 301 redirects (mecca → makkah, etc.) =====
     // يطابق /prayer-times-in-{old}, /qibla-in-{old}, /moon-today-in-{old} مع/بدون لغة prefix
     if (Object.keys(CURATED_REDIRECTS).length > 0) {
-        const _redirMatch = urlPath.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9-]+)$/);
+        const _redirMatch = urlPath.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-in)-([a-z][a-z0-9-]+)$/);
         if (_redirMatch) {
             const _langPart = _redirMatch[1] || '';   // '/en' أو ''
             const _kind = _redirMatch[2];
@@ -16421,8 +16421,8 @@ const server = http.createServer(async (req, res) => {
                 //     slug نظيف فقط (بدون lat/lng) لأنّ الـ URL الجديد لا يحوي إحداثيّات
                 if (!/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
                     entries.push(...bilingualUrl('/time-left-until-prayer-in-' + slug, '0.5', 'hourly', today));
-                    // 🆕 Round 4 (Minimal): /next-prayer-time-in-{slug} — Schedule Awareness page
-                    entries.push(...bilingualUrl('/next-prayer-time-in-' + slug, '0.75', 'hourly', today));
+                    // 🆕 Round 4 (Minimal): /next-prayer-in-{slug} — Schedule Awareness page
+                    entries.push(...bilingualUrl('/next-prayer-in-' + slug, '0.75', 'hourly', today));
                 }
                 // Round 9: /moon-today-in-{slug-بدون-إحداثيّات} — فقط للمدن الشهيرة
                 // (FAMOUS_CITY_OVERRIDES)؛ البقيّة تُحلّ عبر _getCitySlugIndex() بشكل ديناميكيّ
@@ -16533,12 +16533,12 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath) ||
         // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة time-left (index.html + SSR overrides)
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
-        // NPT-FIX (2026-05-09): /next-prayer-time-in-{slug} — Schedule
+        // NPT-FIX (2026-05-09): /next-prayer-in-{slug} — Schedule
         // Awareness page (Round 4 Minimal). Was missing from _isIndexHtmlRoute
         // → fell to the post-HD-EN-SEO-1 hard-404 catch-all → user got 404
-        // on every /next-prayer-time-in-{city} URL. Now treated like
+        // on every /next-prayer-in-{city} URL. Now treated like
         // /time-left-until-prayer-in-{slug}: index.html + SSR overrides.
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-time-in-[a-z][a-z0-9-]+$/.test(urlPath);
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {
         // Round 9 + Round 12 + Round 15 + Round 16: فحص slug لصفحات القمر.

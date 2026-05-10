@@ -65,7 +65,7 @@ ok(`Collected ${totalUrls} <loc> entries across ${allUrls.length} sub-sitemap(s)
 // ── 3) Validate every URL ─────────────────────────────────────────────
 console.log(`\n▌ C) URL canonical-purity checks`);
 let badQuery = 0, coordOnly = 0, oldSlugUsed = 0, unknownSlug = 0;
-const cityUrlRe = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-time-in)-([a-z][a-z0-9-]+?)(?:\/\d{4}-\d{2}-\d{2})?$/;
+const cityUrlRe = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-in)-([a-z][a-z0-9-]+?)(?:\/\d{4}-\d{2}-\d{2})?$/;
 
 for (const { urls } of allUrls) {
     for (const u of urls) {

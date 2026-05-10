@@ -57,7 +57,7 @@ function extractJsonLd(html) {
     return [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1].trim());
 }
 function extractCityHrefs(html) {
-    return [...html.matchAll(/href=["']([^"']*\/(?:prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-time-in)-[a-z][a-z0-9-]+(?:[/?#][^"']*)?)["']/gi)].map(m => m[1]);
+    return [...html.matchAll(/href=["']([^"']*\/(?:prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-in)-[a-z][a-z0-9-]+(?:[/?#][^"']*)?)["']/gi)].map(m => m[1]);
 }
 
 const expectedLangs = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms', 'x-default'];
@@ -170,7 +170,7 @@ for (const slug of SAMPLE) {
     // ── 7) Internal links to all related city-page types ──
     const cityHrefs = extractCityHrefs(html);
     const baseSlug = finalPath.match(/^\/(?:[a-z]{2}\/)?prayer-times-in-([a-z][a-z0-9-]+)/)?.[1];
-    const wantedTypes = ['/qibla-in-', '/moon-today-in-', '/time-left-until-prayer-in-', '/next-prayer-time-in-'];
+    const wantedTypes = ['/qibla-in-', '/moon-today-in-', '/time-left-until-prayer-in-', '/next-prayer-in-'];
     let missingTypes = [];
     for (const t of wantedTypes) {
         const hasAnyOfType = cityHrefs.some(h => h.includes(t));

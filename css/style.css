@@ -12018,7 +12018,7 @@ html:not(.time-left-page) .tl-sticky { display: none !important; }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   🆕 Round 4 (Minimal): Next-Prayer-Time Page — /next-prayer-time-in-{slug}
+   🆕 Round 4 (Minimal): Next-Prayer-Time Page — /next-prayer-in-{slug}
    Schedule Awareness — يعرض الصلاة القادمة + 3 صلوات تالية (ليس countdown).
    R-1: «اليوم» في label   |   R-2: 3 صلوات دائماً   |   R-3: H1 «اليوم»
    ───────────────────────────────────────────────────────────────────── */
@@ -17740,7 +17740,7 @@ html[data-theme="dark"] #page-hijri-year .calendar-year-picker.hpage-year-picker
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NPT-DARK-FIX (2026-05-09): comprehensive dark-mode parity for the
-   /next-prayer-time-in-{city} hero card (.npt-hero / .npt-hero-inner +
+   /next-prayer-in-{city} hero card (.npt-hero / .npt-hero-inner +
    children). Earlier the npt-hero parent had ONE rule at line 452 setting
    `background: var(--card-bg)` — but .npt-hero-inner overrode with a
    white→light-green gradient, and ~10 children used hardcoded hex colors
@@ -17854,7 +17854,7 @@ html[data-theme="dark"] .tl-cta:hover {
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NPT-SEO-1 (2026-05-09): SSR-rendered SEO content section on
-   /next-prayer-time-in-{city}. Sits BELOW #npt-hero. Word-count rich
+   /next-prayer-in-{city}. Sits BELOW #npt-hero. Word-count rich
    (~500 words) but visually subordinate to the prayer-cards above.
    ═══════════════════════════════════════════════════════════════════════════ */
 .seo-content.next-prayer-seo {
@@ -17912,7 +17912,7 @@ html[data-theme="dark"] .seo-content.next-prayer-seo p {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   NPT-2 (2026-05-09): redesigned /next-prayer-time-in-{city} layout.
+   NPT-2 (2026-05-09): redesigned /next-prayer-in-{city} layout.
    Compact tool-card hero + info-grid + upcoming-prayers card + content grid
    + FAQ card + related links. Replaces the older flat .npt-hero-inner +
    long .next-prayer-seo article pattern.
@@ -18334,7 +18334,7 @@ html.next-prayer-time-page .next-hero-card.npt-hero { display: block; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NPT-3 (2026-05-09): refinement pass per user feedback. Tightens spacing
-   and typography on /next-prayer-time-in-{city} so the page feels like
+   and typography on /next-prayer-in-{city} so the page feels like
    a tool, not a long article.
    ═══════════════════════════════════════════════════════════════════════════ */
 

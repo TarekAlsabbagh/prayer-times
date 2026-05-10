@@ -15310,6 +15310,23 @@ html.city-page .location-info { min-height: 51px; }
     }
 }
 
+/* PERF-LCP-1b (2026-05-10): on wide desktops (≥1024px) the auto-fill
+   grid yields ~7-8 columns, packing 16 cards into 2 rows ≈ 100px tall.
+   The 220px min-height reservation above then leaves ~120px of empty
+   white space below the grid (visible on /prayer-times-in-{city}).
+   Lock to 4 columns × 4 rows so the rendered height matches the
+   reservation perfectly — zero CLS, zero empty space. Also cap the
+   grid width to 1100px and center it so cards don't stretch into
+   uncomfortably wide blocks on full-HD monitors. */
+@media (min-width: 1024px) {
+    #page-prayer-times .country-cities-grid,
+    #page-prayer-times #country-cities-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        max-width: 1100px;
+        margin-inline: auto;
+    }
+}
+
 /* ═══ Phase DateConv-A (2026-05-06): /dateconverter CLS fix.
    Lighthouse mobile baseline (3 runs):
      Run 1: CLS=0.104  Run 2: CLS=0.104  Run 3: CLS=0.103

@@ -6398,22 +6398,105 @@ function buildSeoForPath(urlPath) {
                 };
             } else if (_moonDateIso && _moonDateInRange) {
                 // ── عناوين خاصّة بصفحة التاريخ ── (التاريخ الأساسيّ + الموافق بين قوسين)
-                // Phase MD1 (2026-05-03): extended Title from "...{city} | {date}" (~41
-                // chars) to "...{city} {prep} {date} {single-day phase suffix}" (~50-55
-                // chars) so SEOptimer's "Title too short" warning flips green. Suffix
-                // wording is single-day specific ("وطور القمر" / "and Lunar Details" /
-                // etc.) — NOT plural "phases" (which belongs to Month page MM1).
+                // MOON-DAY-SEO-1 (2026-05-10): length-aware Title ladder per
+                // user spec. The previous fixed Title pattern produced 48-cp
+                // Titles for short city names (Riyadh → "...يوم 11 مايو 2026
+                // وطور القمر" = 48 cp, below SEOptimer's [50, 60] sweet spot).
+                //
+                // Per-lang 4-candidate ladder:
+                //   1. long:     "حالة القمر في {city} يوم {date} | طور القمر والإضاءة"
+                //   2. medium:   "حالة القمر في {city} يوم {date} | طور القمر"
+                //   3. short:    "طور القمر في {city} يوم {date}"
+                //   4. fallback: "حالة القمر في {city} يوم {date}"
+                // Algorithm: first ∈ [50, 60] → else longest ≤ 60 → else fallback.
+                // Same shape as TL-SEO-3 / NPT-SEO-2 / PT-CITY-SEO-1.
+                const _MOON_DAY_TITLE_FORMS = {
+                    ar: (c, d) => ({
+                        long:     `حالة القمر في ${c} يوم ${d} | طور القمر والإضاءة`,
+                        medium:   `حالة القمر في ${c} يوم ${d} | طور القمر`,
+                        short:    `طور القمر في ${c} يوم ${d}`,
+                        fallback: `حالة القمر في ${c} يوم ${d}`,
+                    }),
+                    en: (c, d) => ({
+                        long:     `Moon Phase in ${c} on ${d} | Illumination and Lunar Details`,
+                        medium:   `Moon Phase in ${c} on ${d} | Phase and Illumination`,
+                        short:    `Moon phase in ${c} on ${d}`,
+                        fallback: `Moon in ${c} on ${d}`,
+                    }),
+                    fr: (c, d) => ({
+                        long:     `Phase de la Lune à ${c} le ${d} | Illumination et détails`,
+                        medium:   `Phase de la Lune à ${c} le ${d} | Phase et illumination`,
+                        short:    `Phase de la Lune à ${c} le ${d}`,
+                        fallback: `Lune à ${c} le ${d}`,
+                    }),
+                    tr: (c, d) => ({
+                        long:     `${c} Ay Evresi: ${d} | Aydınlanma ve Detaylar`,
+                        medium:   `${c} Ay Evresi: ${d} | Aydınlanma`,
+                        short:    `${c} ay evresi: ${d}`,
+                        fallback: `${c} ay durumu: ${d}`,
+                    }),
+                    ur: (c, d) => ({
+                        long:     `${c} میں چاند کا طور: ${d} | روشنی اور تفصیلات`,
+                        medium:   `${c} میں چاند کا طور: ${d} | روشنی`,
+                        short:    `${c} میں چاند کا طور: ${d}`,
+                        fallback: `${c} میں چاند: ${d}`,
+                    }),
+                    de: (c, d) => ({
+                        long:     `Mondphase in ${c} am ${d} | Beleuchtung und Details`,
+                        medium:   `Mondphase in ${c} am ${d} | Beleuchtung`,
+                        short:    `Mondphase in ${c} am ${d}`,
+                        fallback: `Mond in ${c} am ${d}`,
+                    }),
+                    id: (c, d) => ({
+                        long:     `Fase Bulan di ${c} pada ${d} | Iluminasi dan Detail`,
+                        medium:   `Fase Bulan di ${c} pada ${d} | Iluminasi`,
+                        short:    `Fase Bulan di ${c} pada ${d}`,
+                        fallback: `Bulan di ${c} pada ${d}`,
+                    }),
+                    es: (c, d) => ({
+                        long:     `Fase de la Luna en ${c} el ${d} | Iluminación y detalles`,
+                        medium:   `Fase de la Luna en ${c} el ${d} | Iluminación`,
+                        short:    `Fase de la Luna en ${c} el ${d}`,
+                        fallback: `Luna en ${c} el ${d}`,
+                    }),
+                    bn: (c, d) => ({
+                        long:     `${c}-এ ${d} তারিখে চাঁদের দশা | আলোকসজ্জা ও বিবরণ`,
+                        medium:   `${c}-এ ${d} তারিখে চাঁদের দশা | আলোকসজ্জা`,
+                        short:    `${c}-এ ${d} তারিখে চাঁদের দশা`,
+                        fallback: `${c}-এ ${d} তারিখে চাঁদ`,
+                    }),
+                    ms: (c, d) => ({
+                        long:     `Fasa Bulan di ${c} pada ${d} | Pencahayaan dan Butiran`,
+                        medium:   `Fasa Bulan di ${c} pada ${d} | Pencahayaan`,
+                        short:    `Fasa Bulan di ${c} pada ${d}`,
+                        fallback: `Bulan di ${c} pada ${d}`,
+                    }),
+                };
+                const _pickMoonDayTitle = (lng, c, d) => {
+                    const f = (_MOON_DAY_TITLE_FORMS[lng] || _MOON_DAY_TITLE_FORMS.en)(c, d);
+                    const len = s => Array.from(s).length;
+                    // 1) First candidate in [50, 60] (priority order: long → medium → short → fallback).
+                    const order = [f.long, f.medium, f.short, f.fallback];
+                    for (const t of order) {
+                        if (len(t) >= 50 && len(t) <= 60) return t;
+                    }
+                    // 2) Longest candidate ≤ 60.
+                    const ok = order.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+                    if (ok.length) return ok[0];
+                    // 3) Fallback escape hatch (very long city names).
+                    return f.fallback;
+                };
                 _moonTitle = {
-                    ar: `حالة القمر في ${cityDisplay} يوم ${_primaryDateLabel} وطور القمر`,
-                    en: `Moon Phase in ${cityDisplay} on ${_primaryDateLabel} and Lunar Details`,
-                    fr: `Phase de la Lune à ${cityDisplay} le ${_primaryDateLabel} et détails lunaires`,
-                    tr: `${cityDisplay} Ay Evresi: ${_primaryDateLabel} ve Ay Detayları`,
-                    ur: `${cityDisplay} میں چاند کا طور: ${_primaryDateLabel} اور تفصیلات`,
-                    de: `Mondphase in ${cityDisplay} am ${_primaryDateLabel} und Monddetails`,
-                    id: `Fase Bulan di ${cityDisplay} pada ${_primaryDateLabel} dan Detail Bulan`,
-                    es: `Fase de la Luna en ${cityDisplay} el ${_primaryDateLabel} y detalles lunares`,
-                    bn: `${cityDisplay}-এ ${_primaryDateLabel} তারিখে চাঁদের দশা ও বিবরণ`,
-                    ms: `Fasa Bulan di ${cityDisplay} pada ${_primaryDateLabel} dan Butiran Bulan`,
+                    ar: _pickMoonDayTitle('ar', cityDisplay, _primaryDateLabel),
+                    en: _pickMoonDayTitle('en', cityDisplay, _primaryDateLabel),
+                    fr: _pickMoonDayTitle('fr', cityDisplay, _primaryDateLabel),
+                    tr: _pickMoonDayTitle('tr', cityDisplay, _primaryDateLabel),
+                    ur: _pickMoonDayTitle('ur', cityDisplay, _primaryDateLabel),
+                    de: _pickMoonDayTitle('de', cityDisplay, _primaryDateLabel),
+                    id: _pickMoonDayTitle('id', cityDisplay, _primaryDateLabel),
+                    es: _pickMoonDayTitle('es', cityDisplay, _primaryDateLabel),
+                    bn: _pickMoonDayTitle('bn', cityDisplay, _primaryDateLabel),
+                    ms: _pickMoonDayTitle('ms', cityDisplay, _primaryDateLabel),
                 };
                 _moonDesc = {
                     ar: `طور القمر في ${cityDisplay} يوم ${_mainWithEquiv}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,

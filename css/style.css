@@ -18766,7 +18766,14 @@ html[data-theme="dark"] .next-prayer-compare-grid p {
    ──────────────────────────────────────────────────────────────────────── */
 .city-seo-guide {
     max-width: 980px;
-    margin: 18px auto 0;
+    /* PT-CITY-CONTENT-1-fix (2026-05-10): was `margin: 18px auto 0` which
+       set margin-bottom: 0 and killed the gap between the last city-seo-guide
+       and the next sibling (#most-searched-chips). The 3 guide sections
+       stack with 18px top-margin each (which collapses cleanly between
+       siblings), but the bottom edge of the last one needs its own gap.
+       Now: 18px above + 18px below (margin-collapsing handles the
+       between-guides spacing). */
+    margin: 18px auto;
     padding: 26px 28px;
     background: #ffffff;
     border: 1px solid rgba(12, 94, 54, 0.10);

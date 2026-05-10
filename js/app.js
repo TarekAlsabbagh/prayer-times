@@ -11835,17 +11835,14 @@ function startCountdown() {
                     _tlPTime.textContent = currentPrayerTimes[next.key];
                 }
 
-                // 🔥 Dynamic document.title — live countdown (CTR boost)
-                const _tlDocCity = (_tlCity && _tlCity.textContent && _tlCity.textContent !== '—')
-                    ? _tlCity.textContent
-                    : '';
-                if (_tlDocCity && _countdownStr) {
-                    const _tlT = (typeof t === 'function') ? t('tl.title_live') : '{cd} | {prayer} in {city}';
-                    document.title = String(_tlT || '{cd} | {prayer} in {city}')
-                        .replace('{cd}', _countdownStr)
-                        .replace('{prayer}', _prayerLabel)
-                        .replace('{city}', _tlDocCity);
-                }
+                // TL-SEO-2 (2026-05-10): the live countdown was being prepended
+                // to document.title every second (e.g. "03:59:57 | كم باقي على
+                // الظهر في مكة المكرمة"). SEOptimer reads the live DOM Title and
+                // flagged the countdown digits as junk, breaking the [50–60 cp]
+                // sweet spot rule. We now KEEP the SSR-rendered Title intact —
+                // it's already length-aware and SEO-friendly per server.js
+                // _TL_TITLE_FORMS. The countdown stays visible inside #tl-countdown
+                // (the big hero number) where it belongs as UX, not metadata.
 
                 // City name + CTA href (once)
                 const _tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);

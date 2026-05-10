@@ -18573,3 +18573,42 @@ html[data-theme="dark"] .time-left-related-links a {
 html[data-theme="dark"] .time-left-related-links a:hover {
     background: rgba(255, 255, 255, 0.08);
 }
+
+/* TL-SEO-2 (2026-05-10) — day-flow list style for the new
+   "كيف يتغير العداد خلال اليوم؟" section. Stacked label+body
+   rows that visually separate from .time-left-guide-grid by
+   using the bold strong-tag heading + inline span body. */
+.time-left-flow-list {
+    display: grid;
+    gap: 12px;
+    max-width: 780px;
+    margin: 0 auto;
+}
+.time-left-flow-item {
+    background: #f8fbf8;
+    border: 1px solid #e4eee7;
+    border-radius: 18px;
+    padding: 16px 18px;
+}
+.time-left-flow-item strong {
+    display: block;
+    color: #063f25;
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+.time-left-flow-item span {
+    display: block;
+    color: #39483f;
+    font-size: 15px;
+    line-height: 1.9;
+}
+html[data-theme="dark"] .time-left-flow-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="dark"] .time-left-flow-item strong {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .time-left-flow-item span {
+    color: var(--text-secondary, #cbd5cf);
+}

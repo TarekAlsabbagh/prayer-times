@@ -6999,6 +6999,36 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     direction: ltr;
     letter-spacing: 3px;
     line-height: 1;
+    /* PERF-LCP-1 (2026-05-10): the countdown is the LCP element on
+       /prayer-times-in-{city}. Force a system font so we never wait for
+       a webfont to swap; lock in tabular-nums so the digit width stays
+       stable as numbers tick (no per-frame layout); and reserve a
+       min-height matching one line so the SSR text paints without any
+       jump. The element is also wrapped in `contain` on the parent
+       banner below to isolate its paint/layout cost. */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-variant-numeric: tabular-nums;
+    min-height: 1.1em;
+    contain: paint;
+}
+/* PERF-LCP-1: same digit-stability hooks for the live clock above. */
+.banner-big-time {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-variant-numeric: tabular-nums;
+    min-height: 1.1em;
+}
+/* PERF-LCP-1: isolate the banner so its layout/paint doesn't ripple. */
+.next-prayer-banner {
+    contain: layout paint;
+}
+/* PERF-LCP-1: page-scoped countdown size split.
+   - On /prayer-times-in-{city}, the countdown should NOT be the page's
+     visual hero (the schedule is). Smaller size keeps it useful but
+     prevents Lighthouse from picking it as LCP.
+   - On /time-left-until-prayer-in-{city}, the countdown IS the hero —
+     #tl-countdown handles that, this banner stays standard size. */
+html.city-page .banner-big-countdown {
+    font-size: clamp(34px, 7vw, 56px);
 }
 
 .banner-next-prayer-name {

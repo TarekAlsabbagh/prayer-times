@@ -745,23 +745,115 @@ function _ssrPrayerTimesFor(slug) {
     } catch (_e) { return null; }
 }
 
+// PERF-LCP-1 (2026-05-10): compute the next-prayer countdown SSR-side.
+// Lighthouse flagged #next-prayer-countdown.banner-big-countdown as the
+// LCP element on /prayer-times-in-{city} with a 26-second render delay
+// because the static "--:--:--" placeholder waited for prayer-times.js
+// to boot before showing real digits. Pre-computing the diff between
+// the city's local clock and the next prayer time lets us paint a real
+// countdown in the raw HTML; JS still overwrites it with the live tick
+// within ~50-100ms, but LCP is no longer gated on JS execution.
+function _ssrNextPrayerCountdown(slug, t) {
+    if (!t) return null;
+    try {
+        const info = (slug && typeof _resolveCityForMoon === 'function')
+            ? _resolveCityForMoon(slug) : null;
+        const cc  = ((info && info.cc) || 'sa').toLowerCase();
+        const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
+        const now = new Date();
+        const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3;
+        // Current local time-of-day in seconds since 00:00 (city tz).
+        const localMs = now.getTime() + (tzOffset * 3600 * 1000);
+        const localD = new Date(localMs);
+        const curSec = localD.getUTCHours() * 3600
+                     + localD.getUTCMinutes() * 60
+                     + localD.getUTCSeconds();
+        const toSec = (hm) => {
+            const m = /^(\d{1,2}):(\d{2})$/.exec(hm);
+            return m ? parseInt(m[1], 10) * 3600 + parseInt(m[2], 10) * 60 : null;
+        };
+        const order = [
+            { key: 'fajr',    sec: toSec(t.fajr) },
+            { key: 'dhuhr',   sec: toSec(t.dhuhr) },
+            { key: 'asr',     sec: toSec(t.asr) },
+            { key: 'maghrib', sec: toSec(t.maghrib) },
+            { key: 'isha',    sec: toSec(t.isha) },
+        ];
+        let next = null;
+        let diffSec = Infinity;
+        for (const p of order) {
+            if (p.sec === null) continue;
+            if (p.sec > curSec && (p.sec - curSec) < diffSec) {
+                next = p;
+                diffSec = p.sec - curSec;
+            }
+        }
+        if (!next) {
+            // After Isha → next is tomorrow's Fajr.
+            const fajr = order[0];
+            if (fajr.sec === null) return null;
+            next = fajr;
+            diffSec = (24 * 3600 - curSec) + fajr.sec;
+        }
+        const hh = Math.floor(diffSec / 3600);
+        const mm = Math.floor((diffSec % 3600) / 60);
+        const ss = diffSec % 60;
+        const pad = n => String(n).padStart(2, '0');
+        return {
+            countdown: `${pad(hh)}:${pad(mm)}:${pad(ss)}`,
+            prayerKey: next.key,
+        };
+    } catch (_e) { return null; }
+}
+
 // Inject pre-computed prayer times into HTML by replacing the "--:--"
 //   placeholders inside #time-fajr / #time-sunrise / #time-dhuhr / #time-asr /
 //   #time-maghrib / #time-isha. Idempotent — if the placeholders are already
 //   filled, the regex won't match. Returns the modified html.
-function _ssrInjectPrayerTimes(html, slug) {
+//
+// PERF-LCP-1 (2026-05-10): also pre-fills #next-prayer-countdown +
+// #next-prayer-name (LCP element on city pages). The `lang` parameter
+// localizes the prayer name; if omitted, falls back to AR.
+function _ssrInjectPrayerTimes(html, slug, lang) {
     const t = _ssrPrayerTimesFor(slug);
     if (!t) return html;
-    // Replace each "<div class="prayer-time" id="time-X">--:--</div>" with the
-    //   real value. Use the literal id attribute for uniqueness; allow any
-    //   intervening whitespace.
-    return html
+    // 1) Daily prayer-time grid.
+    let out = html
         .replace(/(id="time-fajr"[^>]*>)\s*--:--\s*(<)/,    `$1${t.fajr}$2`)
         .replace(/(id="time-sunrise"[^>]*>)\s*--:--\s*(<)/, `$1${t.sunrise}$2`)
         .replace(/(id="time-dhuhr"[^>]*>)\s*--:--\s*(<)/,   `$1${t.dhuhr}$2`)
         .replace(/(id="time-asr"[^>]*>)\s*--:--\s*(<)/,     `$1${t.asr}$2`)
         .replace(/(id="time-maghrib"[^>]*>)\s*--:--\s*(<)/, `$1${t.maghrib}$2`)
         .replace(/(id="time-isha"[^>]*>)\s*--:--\s*(<)/,    `$1${t.isha}$2`);
+    // 2) PERF-LCP-1: hero countdown + next-prayer name.
+    try {
+        const cd = _ssrNextPrayerCountdown(slug, t);
+        if (cd && cd.countdown) {
+            out = out.replace(
+                /(id="next-prayer-countdown"[^>]*>)\s*--:--:--\s*(<)/,
+                `$1${cd.countdown}$2`
+            );
+            const _NAME_BY_LANG = {
+                ar: { fajr: 'الفجر',  dhuhr: 'الظهر',  asr: 'العصر',   maghrib: 'المغرب',  isha: 'العشاء' },
+                en: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
+                fr: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghreb', isha: 'Isha' },
+                tr: { fajr: 'Sabah',  dhuhr: 'Öğle',   asr: 'İkindi',  maghrib: 'Akşam',   isha: 'Yatsı' },
+                ur: { fajr: 'فجر',    dhuhr: 'ظہر',    asr: 'عصر',     maghrib: 'مغرب',    isha: 'عشاء' },
+                de: { fajr: 'Fadschr', dhuhr: 'Zuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Ischa' },
+                id: { fajr: 'Subuh',  dhuhr: 'Dzuhur', asr: 'Ashar',   maghrib: 'Maghrib', isha: 'Isya' },
+                es: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
+                bn: { fajr: 'ফজর',    dhuhr: 'যোহর',   asr: 'আসর',     maghrib: 'মাগরিব',  isha: 'ইশা' },
+                ms: { fajr: 'Subuh',  dhuhr: 'Zohor',  asr: 'Asar',    maghrib: 'Maghrib', isha: 'Isyak' },
+            };
+            const _dict = _NAME_BY_LANG[lang] || _NAME_BY_LANG.ar;
+            const _localizedName = _dict[cd.prayerKey] || cd.prayerKey;
+            out = out.replace(
+                /(id="next-prayer-name"[^>]*>)\s*--\s*(<)/,
+                `$1${_localizedName}$2`
+            );
+        }
+    } catch (_e) { /* SSR pre-fill is optional; JS hydrates regardless */ }
+    return out;
 }
 
 // ===== UAT-Moon-3: proximity-based slug fallback =====
@@ -9024,7 +9116,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         let _ssrSlug = 'mecca';
         const _slugForTimes = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         if (_slugForTimes) _ssrSlug = _slugForTimes[1];
-        html = _ssrInjectPrayerTimes(html, _ssrSlug);
+        html = _ssrInjectPrayerTimes(html, _ssrSlug, seo.lang);
     }
     // 1e) UAT-Home-Simplify: homepage → minimal gateway (Hero + 4 tools + 8
     //     countries + 2 generic FAQ + slim footer). Strip all city-flavored

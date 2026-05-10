@@ -5536,75 +5536,127 @@ function buildSeoForPath(urlPath) {
         const _tlCityDisplay = (typeof _resolveCityName === 'function')
             ? (_resolveCityName(_tlSlug, lang) || _slugToTitle(_tlSlug))
             : _slugToTitle(_tlSlug);
-        // TL-SEO-2 (2026-05-10): updated Title ladder per user spec.
-        //   • medium: "كم باقي على الصلاة في {city} اليوم | وقت الأذان"
-        //   • short:  "الوقت المتبقي للصلاة في {city} اليوم"
-        //   • final:  "كم باقي على الصلاة في {city}"
-        // Algorithm: longest candidate that fits ≤ 60 cp wins, with a
-        // [≥ 50, ≤ 60] preference window. We skip the "long" form (which
-        // would need the dynamic next-prayer name — unavailable SSR-side)
-        // and rely on medium → short → final. Mecca lands on medium (~56 cp),
-        // Madinah lands on medium (~56 cp), Riyadh lands on short.
+        // TL-SEO-3 (2026-05-10): expanded 4-candidate Title ladder so short
+        // city names like "بني وليد" don't fall below 50 cp. Per user spec:
+        //   1. withPrayer: "كم باقي على صلاة {prayer} في {city} اليوم"
+        //   2. countdown:  "كم باقي على الصلاة في {city} اليوم | العد التنازلي"
+        //   3. adhan:      "كم باقي على الصلاة في {city} اليوم | وقت الأذان"
+        //   4. timeLeft:   "الوقت المتبقي للصلاة في {city} اليوم"
+        //   5. final:      "كم باقي على الصلاة في {city}"  (only for very long names)
+        // Algorithm: prefer the FIRST candidate (in the 1→4 priority order
+        // above) that lands in [50, 60] cp. If none, pick the LONGEST
+        // candidate ≤ 60 cp. Else final fallback.
+        // The withPrayer form uses the dynamic next-prayer name computed
+        // SSR-side via _ssrNextPrayerCountdown(slug, t) — same machinery
+        // used by PERF-LCP-1 to pre-fill the countdown digits.
+        const _PRAYER_NAME_BY_LANG_TL = {
+            ar: { fajr: 'الفجر',  dhuhr: 'الظهر',  asr: 'العصر',   maghrib: 'المغرب',  isha: 'العشاء' },
+            en: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
+            fr: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghreb', isha: 'Isha' },
+            tr: { fajr: 'Sabah',  dhuhr: 'Öğle',   asr: 'İkindi',  maghrib: 'Akşam',   isha: 'Yatsı' },
+            ur: { fajr: 'فجر',    dhuhr: 'ظہر',    asr: 'عصر',     maghrib: 'مغرب',    isha: 'عشاء' },
+            de: { fajr: 'Fadschr', dhuhr: 'Zuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Ischa' },
+            id: { fajr: 'Subuh',  dhuhr: 'Dzuhur', asr: 'Ashar',   maghrib: 'Maghrib', isha: 'Isya' },
+            es: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
+            bn: { fajr: 'ফজর',    dhuhr: 'যোহর',   asr: 'আসর',     maghrib: 'মাগরিব',  isha: 'ইশা' },
+            ms: { fajr: 'Subuh',  dhuhr: 'Zohor',  asr: 'Asar',    maghrib: 'Maghrib', isha: 'Isyak' },
+        };
+        let _tlPrayerName = null;
+        try {
+            const _tlT = (typeof _ssrPrayerTimesFor === 'function')
+                ? _ssrPrayerTimesFor(_tlSlug) : null;
+            const _tlN = (_tlT && typeof _ssrNextPrayerCountdown === 'function')
+                ? _ssrNextPrayerCountdown(_tlSlug, _tlT) : null;
+            if (_tlN && _tlN.prayerKey) {
+                _tlPrayerName = (_PRAYER_NAME_BY_LANG_TL[lang] || _PRAYER_NAME_BY_LANG_TL.ar)[_tlN.prayerKey] || null;
+            }
+        } catch (_e) { /* prayer-name optional; fall through to non-prayer candidates */ }
+
         const _TL_TITLE_FORMS = {
-            ar: c => ({
-                medium: `كم باقي على الصلاة في ${c} اليوم | وقت الأذان`,
-                short:  `الوقت المتبقي للصلاة في ${c} اليوم`,
-                final:  `كم باقي على الصلاة في ${c}`,
+            ar: (c, p) => ({
+                withPrayer: p ? `كم باقي على صلاة ${p} في ${c} اليوم` : null,
+                countdown:  `كم باقي على الصلاة في ${c} اليوم | العد التنازلي`,
+                adhan:      `كم باقي على الصلاة في ${c} اليوم | وقت الأذان`,
+                timeLeft:   `الوقت المتبقي للصلاة في ${c} اليوم`,
+                final:      `كم باقي على الصلاة في ${c}`,
             }),
-            en: c => ({
-                medium: `Time Left Until Prayer in ${c} Today | Adhan Time`,
-                short:  `Time Remaining for Prayer in ${c} Today`,
-                final:  `Time left until prayer in ${c}`,
+            en: (c, p) => ({
+                withPrayer: p ? `Time Left Until ${p} in ${c} Today` : null,
+                countdown:  `Time Left Until Prayer in ${c} Today | Live Countdown`,
+                adhan:      `Time Left Until Prayer in ${c} Today | Adhan Time`,
+                timeLeft:   `Time Remaining for Prayer in ${c} Today`,
+                final:      `Time left until prayer in ${c}`,
             }),
-            fr: c => ({
-                medium: `Temps restant avant la prière à ${c} aujourd'hui | Adhan`,
-                short:  `Temps restant pour la prière à ${c} aujourd'hui`,
-                final:  `Temps restant pour la prière à ${c}`,
+            fr: (c, p) => ({
+                withPrayer: p ? `Temps restant avant ${p} à ${c} aujourd'hui` : null,
+                countdown:  `Temps restant avant la prière à ${c} aujourd'hui | Compte à rebours`,
+                adhan:      `Temps restant avant la prière à ${c} aujourd'hui | Adhan`,
+                timeLeft:   `Temps restant pour la prière à ${c} aujourd'hui`,
+                final:      `Temps restant pour la prière à ${c}`,
             }),
-            tr: c => ({
-                medium: `${c} için bugün namaza kalan süre | Ezan vakti`,
-                short:  `${c} için bugün namaza kalan süre`,
-                final:  `${c} için namaza kalan süre`,
+            tr: (c, p) => ({
+                withPrayer: p ? `${c} için bugün ${p} namazına kalan süre` : null,
+                countdown:  `${c} için bugün namaza kalan süre | Geri sayım`,
+                adhan:      `${c} için bugün namaza kalan süre | Ezan vakti`,
+                timeLeft:   `${c} için bugün namaza kalan süre`,
+                final:      `${c} için namaza kalan süre`,
             }),
-            ur: c => ({
-                medium: `${c} میں آج نماز تک باقی وقت | اذان کا وقت`,
-                short:  `${c} میں آج نماز تک باقی وقت`,
-                final:  `${c} میں نماز تک باقی وقت`,
+            ur: (c, p) => ({
+                withPrayer: p ? `${c} میں آج ${p} تک باقی وقت` : null,
+                countdown:  `${c} میں آج نماز تک باقی وقت | الٹی گنتی`,
+                adhan:      `${c} میں آج نماز تک باقی وقت | اذان کا وقت`,
+                timeLeft:   `${c} میں آج نماز تک باقی وقت`,
+                final:      `${c} میں نماز تک باقی وقت`,
             }),
-            de: c => ({
-                medium: `Verbleibende Zeit bis zum Gebet in ${c} heute | Adhan`,
-                short:  `Verbleibende Zeit für das Gebet in ${c} heute`,
-                final:  `Verbleibende Zeit für das Gebet in ${c}`,
+            de: (c, p) => ({
+                withPrayer: p ? `Verbleibende Zeit bis ${p} in ${c} heute` : null,
+                countdown:  `Verbleibende Zeit bis zum Gebet in ${c} heute | Countdown`,
+                adhan:      `Verbleibende Zeit bis zum Gebet in ${c} heute | Adhan`,
+                timeLeft:   `Verbleibende Zeit für das Gebet in ${c} heute`,
+                final:      `Verbleibende Zeit für das Gebet in ${c}`,
             }),
-            id: c => ({
-                medium: `Sisa waktu menuju sholat di ${c} hari ini | Adzan`,
-                short:  `Sisa waktu sholat di ${c} hari ini`,
-                final:  `Sisa waktu sholat di ${c}`,
+            id: (c, p) => ({
+                withPrayer: p ? `Sisa waktu menuju ${p} di ${c} hari ini` : null,
+                countdown:  `Sisa waktu menuju sholat di ${c} hari ini | Hitung Mundur`,
+                adhan:      `Sisa waktu menuju sholat di ${c} hari ini | Adzan`,
+                timeLeft:   `Sisa waktu sholat di ${c} hari ini`,
+                final:      `Sisa waktu sholat di ${c}`,
             }),
-            es: c => ({
-                medium: `Tiempo restante para la oración en ${c} hoy | Adhan`,
-                short:  `Tiempo restante para la oración en ${c} hoy`,
-                final:  `Tiempo restante para la oración en ${c}`,
+            es: (c, p) => ({
+                withPrayer: p ? `Tiempo restante para ${p} en ${c} hoy` : null,
+                countdown:  `Tiempo restante para la oración en ${c} hoy | Cuenta Regresiva`,
+                adhan:      `Tiempo restante para la oración en ${c} hoy | Adhan`,
+                timeLeft:   `Tiempo restante para la oración en ${c} hoy`,
+                final:      `Tiempo restante para la oración en ${c}`,
             }),
-            bn: c => ({
-                medium: `${c}-এ আজ নামাজ পর্যন্ত বাকি সময় | আযানের সময়`,
-                short:  `${c}-এ আজ নামাজের জন্য বাকি সময়`,
-                final:  `${c}-এ নামাজের জন্য বাকি সময়`,
+            bn: (c, p) => ({
+                withPrayer: p ? `${c}-এ আজ ${p} পর্যন্ত বাকি সময়` : null,
+                countdown:  `${c}-এ আজ নামাজ পর্যন্ত বাকি সময় | কাউন্টডাউন`,
+                adhan:      `${c}-এ আজ নামাজ পর্যন্ত বাকি সময় | আযানের সময়`,
+                timeLeft:   `${c}-এ আজ নামাজের জন্য বাকি সময়`,
+                final:      `${c}-এ নামাজের জন্য বাকি সময়`,
             }),
-            ms: c => ({
-                medium: `Masa berbaki sebelum solat di ${c} hari ini | Azan`,
-                short:  `Masa berbaki untuk solat di ${c} hari ini`,
-                final:  `Masa berbaki untuk solat di ${c}`,
+            ms: (c, p) => ({
+                withPrayer: p ? `Masa berbaki sebelum ${p} di ${c} hari ini` : null,
+                countdown:  `Masa berbaki sebelum solat di ${c} hari ini | Kira Detik`,
+                adhan:      `Masa berbaki sebelum solat di ${c} hari ini | Azan`,
+                timeLeft:   `Masa berbaki untuk solat di ${c} hari ini`,
+                final:      `Masa berbaki untuk solat di ${c}`,
             }),
         };
-        const _pickTlTitle = (formsFn, c) => {
-            const f = formsFn(c);
+        const _pickTlTitle = (formsFn, c, prayerName) => {
+            const f = formsFn(c, prayerName);
             const len = s => Array.from(s).length;
-            // Prefer longest in [50, 60]; else longest ≤ 60; else final fallback.
-            if (len(f.medium) >= 50 && len(f.medium) <= 60) return f.medium;
-            if (len(f.short)  >= 50 && len(f.short)  <= 60) return f.short;
-            if (len(f.medium) <= 60) return f.medium;
-            if (len(f.short)  <= 60) return f.short;
+            // Priority order (truthy + ≤ 60 only): withPrayer → countdown → adhan → timeLeft.
+            const tiered = [f.withPrayer, f.countdown, f.adhan, f.timeLeft].filter(Boolean);
+            // 1) First candidate landing in [50, 60].
+            for (const t of tiered) {
+                if (len(t) >= 50 && len(t) <= 60) return t;
+            }
+            // 2) Longest candidate ≤ 60.
+            const ok = tiered.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+            if (ok.length) return ok[0];
+            // 3) Final fallback for very long city names.
             return f.final;
         };
         // TL-SEO-1 (2026-05-10): length-aware Meta description (long → short
@@ -5658,7 +5710,7 @@ function buildSeoForPath(urlPath) {
             if (len(f.long) <= 160) return f.long;
             return f.short;
         };
-        title = _pickTlTitle(_TL_TITLE_FORMS[lang] || _TL_TITLE_FORMS.en, _tlCityDisplay);
+        title = _pickTlTitle(_TL_TITLE_FORMS[lang] || _TL_TITLE_FORMS.en, _tlCityDisplay, _tlPrayerName);
         description = _pickTlDesc(_TL_DESC_FORMS[lang] || _TL_DESC_FORMS.en, _tlCityDisplay);
         ogType = 'article';
         cityModified = new Date().toISOString();

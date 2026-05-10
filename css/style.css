@@ -18659,3 +18659,100 @@ html[data-theme="dark"] .time-left-flow-item strong {
 html[data-theme="dark"] .time-left-flow-item span {
     color: var(--text-secondary, #cbd5cf);
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   NPT-CONTENT-EXPAND-3 (2026-05-10)
+   Two new SSR sections on /next-prayer-in-{city}:
+     • .next-prayer-compare-grid — "Next Prayer page vs. Time-Left page"
+       (4-card comparison, drives internal linking)
+     • .next-prayer-guide-grid — "When is the Next Prayer page useful?"
+       (4 use-case cards)
+   Class namespace .next-prayer-* is separate from .next-* so the two
+   styling scopes stay independently tunable.
+   ──────────────────────────────────────────────────────────────────────── */
+.next-prayer-section-card {
+    max-width: 920px;
+    margin: 22px auto 0;
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.next-prayer-section-head {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.next-prayer-section-head h2 {
+    margin: 0;
+    color: #063f25;
+    font-size: 24px;
+    line-height: 1.4;
+}
+.next-prayer-section-head p {
+    margin: 8px 0 0;
+    color: #66756c;
+    font-size: 15px;
+}
+.next-prayer-guide-grid,
+.next-prayer-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.next-prayer-guide-grid article,
+.next-prayer-compare-grid article {
+    background: #f8fbf8;
+    border: 1px solid #e4eee7;
+    border-radius: 18px;
+    padding: 18px;
+}
+.next-prayer-guide-grid h3,
+.next-prayer-compare-grid h3 {
+    margin: 0 0 8px;
+    color: #063f25;
+    font-size: 17px;
+    line-height: 1.5;
+}
+.next-prayer-guide-grid p,
+.next-prayer-compare-grid p {
+    margin: 0;
+    color: #39483f;
+    font-size: 15px;
+    line-height: 1.9;
+}
+@media (max-width: 768px) {
+    .next-prayer-guide-grid,
+    .next-prayer-compare-grid {
+        grid-template-columns: 1fr;
+    }
+    .next-prayer-section-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+}
+/* Dark-mode parity (mirrors .time-left-* and .next-practical-* dark rules) */
+html[data-theme="dark"] .next-prayer-section-card {
+    background: var(--card-bg, #1a1f1c);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+html[data-theme="dark"] .next-prayer-section-head h2 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .next-prayer-section-head p {
+    color: var(--text-secondary, #cbd5cf);
+}
+html[data-theme="dark"] .next-prayer-guide-grid article,
+html[data-theme="dark"] .next-prayer-compare-grid article {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="dark"] .next-prayer-guide-grid h3,
+html[data-theme="dark"] .next-prayer-compare-grid h3 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .next-prayer-guide-grid p,
+html[data-theme="dark"] .next-prayer-compare-grid p {
+    color: var(--text-secondary, #cbd5cf);
+}

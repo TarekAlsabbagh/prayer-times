@@ -18841,3 +18841,55 @@ html[data-theme="dark"] .city-seo-guide h2 {
 html[data-theme="dark"] .city-seo-guide p {
     color: var(--text-primary, #e2e8e2);
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   MOON-HUB-SEO-4 (2026-05-11)
+   Four SSR educational sections on /moon-in-{city} Hub. Sit just before
+   #moon-hub-faq. Mirrors .city-seo-guide visual treatment. Lifts Word
+   Count from ~887 → ~1300 with intent-aligned prose (no "اليوم", no
+   month/date specifics).
+   ──────────────────────────────────────────────────────────────────────── */
+.moon-hub-seo-card {
+    max-width: 920px;
+    margin: 20px auto 0;
+    padding: 26px 28px;
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 24px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.moon-hub-seo-card h2 {
+    margin: 0 0 12px;
+    color: #063f25;
+    font-size: 23px;
+    line-height: 1.5;
+}
+.moon-hub-seo-card p {
+    margin: 0 0 12px;
+    color: #334139;
+    font-size: 15.5px;
+    line-height: 2;
+}
+.moon-hub-seo-card p:last-child {
+    margin-bottom: 0;
+}
+@media (max-width: 768px) {
+    .moon-hub-seo-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .moon-hub-seo-card h2 { font-size: 20px; }
+    .moon-hub-seo-card p  { font-size: 15px; line-height: 1.9; }
+}
+/* Dark-mode parity (matches .city-seo-guide / .next-prayer-section-card / etc.) */
+html[data-theme="dark"] .moon-hub-seo-card {
+    background: var(--card-bg, #1a1f1c);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+html[data-theme="dark"] .moon-hub-seo-card h2 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .moon-hub-seo-card p {
+    color: var(--text-primary, #e2e8e2);
+}

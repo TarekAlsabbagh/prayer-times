@@ -6360,41 +6360,170 @@ function buildSeoForPath(urlPath) {
                     ms: `Kalendar bulan di ${cityDisplay} untuk ${_mNameT} ${_mYearT}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah yang sepadan.`,
                 };
             } else if (_isMoonHubPage) {
-                // ── Round 16: Hub للمدينة ── (evergreen، بلا "اليوم"، تجمع كلّ التواريخ كصفحة أمّ للمدينة)
-                // Moon title templates cleanup (2026-05-01): trimmed all 10 langs to fit
-                // SEOptimer's 50–60 char window even for medium-long city names. The
-                // previous templates ran 60–71 chars for "الرياض" and 70–84 for
-                // "المدينة المنورة". The new format keeps the city name + 1–2 keywords
-                // ("Calendar", "Phases", "Hijri Dates") so the Hub remains visually
-                // distinct from /moon-today-in-{city} (Today templates further down).
-                // EN/ES/TR slightly expanded (vs. an earlier draft) to stay above ~45
-                // chars and avoid the inverse "title could be longer" warning.
-                // Phase M1 (2026-05-03): extended Title for /moon-in-{city} Hub.
-                // Adds "الأطوار الشهرية" / "Monthly Lunar Stages" / etc. to flip
-                // SEOptimer's "Title too short" warning — all 10 sit in 50-60 range.
+                // ── /moon-in-{city} Hub — MOON-HUB-SEO-1 (2026-05-10) ──
+                // SEOptimer flagged Keyword Consistency: the previous Title
+                // ("تقويم القمر في {city} ومراحل القمر والأطوار الشهرية" — 50 cp
+                // for Riyadh) leaned hard on "تقويم/مراحل/أطوار" and barely
+                // surfaced the user's intent keywords (حالة القمر / اليوم /
+                // طور القمر). The Meta was a 165+ cp keyword-list.
+                //
+                // Per user spec, new 3-tier Title ladder per lang (no dynamic
+                // phase — keeps Title stable + cache-friendly):
+                //   1. long:     "حالة القمر في {city} اليوم | طور القمر وتقويم القمر"
+                //   2. medium:   "القمر اليوم في {city} | طور القمر والإضاءة"
+                //   3. short:    "حالة القمر اليوم في {city}"
+                //   4. fallback: "حالة القمر في {city}"  (very long city escape hatch)
+                // Algorithm: first ∈ [50, 60] → else longest ≤ 60 → else fallback.
+                // Meta: long-form natural prose (~145 cp) → short-form (~125 cp)
+                // when the city name pushes long over 160. Same shape as the
+                // PT-CITY-SEO-1 / TL-SEO-3 / NPT-SEO-2 pattern.
+                const _MOON_HUB_TITLE_FORMS = {
+                    ar: c => ({
+                        long:     `حالة القمر في ${c} اليوم | طور القمر وتقويم القمر`,
+                        medium:   `القمر اليوم في ${c} | طور القمر والإضاءة`,
+                        short:    `حالة القمر اليوم في ${c}`,
+                        fallback: `حالة القمر في ${c}`,
+                    }),
+                    en: c => ({
+                        long:     `Moon in ${c} Today | Moon Phase and Lunar Calendar`,
+                        medium:   `Moon Phase Today in ${c} | Illumination and Phases`,
+                        short:    `Moon today in ${c}`,
+                        fallback: `Moon in ${c}`,
+                    }),
+                    fr: c => ({
+                        long:     `Lune à ${c} aujourd'hui | Phase de la Lune et calendrier`,
+                        medium:   `Phase de la Lune aujourd'hui à ${c} | Illumination`,
+                        short:    `Lune aujourd'hui à ${c}`,
+                        fallback: `Lune à ${c}`,
+                    }),
+                    tr: c => ({
+                        long:     `${c} Ay Durumu Bugün | Ay Evresi ve Ay Takvimi`,
+                        medium:   `Ay Evresi Bugün ${c} | Aydınlanma ve Evreler`,
+                        short:    `${c} ay durumu bugün`,
+                        fallback: `${c} ay durumu`,
+                    }),
+                    ur: c => ({
+                        long:     `${c} میں آج چاند | چاند کا طور اور چاند کی تقویم`,
+                        medium:   `${c} میں آج چاند کا طور | روشنی اور مراحل`,
+                        short:    `${c} میں آج چاند`,
+                        fallback: `${c} میں چاند`,
+                    }),
+                    de: c => ({
+                        long:     `Mond in ${c} heute | Mondphase und Mondkalender`,
+                        medium:   `Mondphase heute in ${c} | Beleuchtung und Phasen`,
+                        short:    `Mond heute in ${c}`,
+                        fallback: `Mond in ${c}`,
+                    }),
+                    id: c => ({
+                        long:     `Bulan di ${c} Hari Ini | Fase Bulan dan Kalender`,
+                        medium:   `Fase Bulan Hari Ini di ${c} | Iluminasi dan Tahap`,
+                        short:    `Bulan hari ini di ${c}`,
+                        fallback: `Bulan di ${c}`,
+                    }),
+                    es: c => ({
+                        long:     `Luna en ${c} Hoy | Fase Lunar y Calendario`,
+                        medium:   `Fase Lunar Hoy en ${c} | Iluminación y Etapas`,
+                        short:    `Luna hoy en ${c}`,
+                        fallback: `Luna en ${c}`,
+                    }),
+                    bn: c => ({
+                        long:     `${c}-এ চাঁদ আজ | চাঁদের দশা ও চাঁদের পঞ্জিকা`,
+                        medium:   `আজ ${c}-এ চাঁদের দশা | আলোকসজ্জা ও পর্যায়`,
+                        short:    `${c}-এ আজ চাঁদ`,
+                        fallback: `${c}-এ চাঁদ`,
+                    }),
+                    ms: c => ({
+                        long:     `Bulan di ${c} Hari Ini | Fasa Bulan dan Kalendar`,
+                        medium:   `Fasa Bulan Hari Ini di ${c} | Pencahayaan`,
+                        short:    `Bulan hari ini di ${c}`,
+                        fallback: `Bulan di ${c}`,
+                    }),
+                };
+                const _pickMoonHubTitle = (lng, c) => {
+                    const f = (_MOON_HUB_TITLE_FORMS[lng] || _MOON_HUB_TITLE_FORMS.en)(c);
+                    const len = s => Array.from(s).length;
+                    const order = [f.long, f.medium, f.short, f.fallback];
+                    for (const t of order) {
+                        if (len(t) >= 50 && len(t) <= 60) return t;
+                    }
+                    const ok = order.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+                    if (ok.length) return ok[0];
+                    return f.fallback;
+                };
                 _moonTitle = {
-                    ar: `تقويم القمر في ${cityDisplay} ومراحل القمر والأطوار الشهرية`,
-                    en: `Moon Calendar in ${cityDisplay}: Phases & Monthly Lunar Stages`,
-                    fr: `Calendrier lunaire à ${cityDisplay} : phases et stades mensuels`,
-                    tr: `${cityDisplay} Ay Takvimi: Ay Evreleri ve Aylık Aşamalar`,
-                    ur: `${cityDisplay} میں چاند کی تقویم: مراحل اور ماہانہ اطوار`,
-                    de: `Mondkalender in ${cityDisplay}: Phasen und monatliche Stadien`,
-                    id: `Kalender Bulan di ${cityDisplay}: Fase dan Tahap Bulanan`,
-                    es: `Calendario lunar en ${cityDisplay}: fases y etapas mensuales`,
-                    bn: `${cityDisplay}-এ চাঁদের ক্যালেন্ডার: দশা ও মাসিক পর্যায়`,
-                    ms: `Kalendar Bulan ${cityDisplay}: Fasa dan Peringkat Bulanan`,
+                    ar: _pickMoonHubTitle('ar', cityDisplay),
+                    en: _pickMoonHubTitle('en', cityDisplay),
+                    fr: _pickMoonHubTitle('fr', cityDisplay),
+                    tr: _pickMoonHubTitle('tr', cityDisplay),
+                    ur: _pickMoonHubTitle('ur', cityDisplay),
+                    de: _pickMoonHubTitle('de', cityDisplay),
+                    id: _pickMoonHubTitle('id', cityDisplay),
+                    es: _pickMoonHubTitle('es', cityDisplay),
+                    bn: _pickMoonHubTitle('bn', cityDisplay),
+                    ms: _pickMoonHubTitle('ms', cityDisplay),
+                };
+                // Meta description (length-aware long → short ladder per lang).
+                // Long form ~140-150 cp; falls back to ~120-130 short form when
+                // city name pushes the long form past 160.
+                const _MOON_HUB_DESC_FORMS = {
+                    ar: c => ({
+                        long:  `اعرف حالة القمر اليوم في ${c}، طور القمر الحالي ونسبة الإضاءة وعمر القمر، مع تقويم القمر والأيام القريبة وروابط للأطوار اليومية والشهرية.`,
+                        short: `حالة القمر اليوم في ${c}: طور القمر ونسبة الإضاءة وعمر القمر، مع تقويم القمر وروابط الأيام القريبة.`,
+                    }),
+                    en: c => ({
+                        long:  `See the Moon today in ${c}: current phase, illumination, and moon age — along with the lunar calendar, nearby dates, and links to daily and monthly phases.`,
+                        short: `Moon today in ${c}: phase, illumination, and age, with the lunar calendar and links to nearby dates.`,
+                    }),
+                    fr: c => ({
+                        long:  `Découvrez la Lune aujourd'hui à ${c} : phase actuelle, illumination et âge, ainsi que le calendrier lunaire, les dates proches et les liens vers les phases du jour et du mois.`,
+                        short: `La Lune aujourd'hui à ${c} : phase, illumination et âge, avec le calendrier lunaire et les dates proches.`,
+                    }),
+                    tr: c => ({
+                        long:  `${c} için bugünkü Ay durumunu öğrenin: güncel evre, aydınlanma ve Ay yaşı; ayrıca Ay takvimi, yakın tarihler ve günlük/aylık evrelere bağlantılar.`,
+                        short: `${c} için bugün Ay: evre, aydınlanma ve yaş, Ay takvimi ve yakın tarihlere bağlantılarla.`,
+                    }),
+                    ur: c => ({
+                        long:  `${c} میں آج چاند کی حالت جانیں: موجودہ طور، روشنی اور چاند کی عمر، ساتھ ہی چاند کی تقویم، قریبی تاریخیں اور روزانہ و ماہانہ مراحل کے روابط۔`,
+                        short: `${c} میں آج چاند: طور، روشنی اور عمر، چاند کی تقویم اور قریبی تاریخوں کے روابط کے ساتھ۔`,
+                    }),
+                    de: c => ({
+                        long:  `Sehen Sie den Mond heute in ${c}: aktuelle Phase, Beleuchtung und Mondalter — mit Mondkalender, nahen Daten und Links zu täglichen und monatlichen Phasen.`,
+                        short: `Mond heute in ${c}: Phase, Beleuchtung und Alter, mit Mondkalender und Links zu nahen Daten.`,
+                    }),
+                    id: c => ({
+                        long:  `Lihat Bulan hari ini di ${c}: fase saat ini, iluminasi, dan usia Bulan — beserta kalender Bulan, tanggal terdekat, dan tautan ke fase harian dan bulanan.`,
+                        short: `Bulan hari ini di ${c}: fase, iluminasi, dan usia, dengan kalender Bulan dan tautan tanggal terdekat.`,
+                    }),
+                    es: c => ({
+                        long:  `Conoce la Luna hoy en ${c}: fase actual, iluminación y edad lunar — junto con el calendario lunar, las fechas cercanas y enlaces a las fases diarias y mensuales.`,
+                        short: `La Luna hoy en ${c}: fase, iluminación y edad, con el calendario lunar y enlaces a fechas cercanas.`,
+                    }),
+                    bn: c => ({
+                        long:  `${c}-এ আজকের চাঁদের অবস্থা জানুন: বর্তমান দশা, আলোকসজ্জা ও চাঁদের বয়স, সাথে চাঁদের পঞ্জিকা, নিকটতম তারিখ ও দৈনিক/মাসিক দশার লিঙ্ক।`,
+                        short: `${c}-এ আজ চাঁদ: দশা, আলোকসজ্জা ও বয়স, চাঁদের পঞ্জিকা ও নিকটতম তারিখের লিঙ্কসহ।`,
+                    }),
+                    ms: c => ({
+                        long:  `Lihat Bulan hari ini di ${c}: fasa semasa, pencahayaan dan usia Bulan — beserta kalendar Bulan, tarikh berhampiran, dan pautan ke fasa harian dan bulanan.`,
+                        short: `Bulan hari ini di ${c}: fasa, pencahayaan dan usia, dengan kalendar Bulan dan pautan ke tarikh berhampiran.`,
+                    }),
+                };
+                const _pickMoonHubDesc = (lng, c) => {
+                    const f = (_MOON_HUB_DESC_FORMS[lng] || _MOON_HUB_DESC_FORMS.en)(c);
+                    const len = s => Array.from(s).length;
+                    if (len(f.long) >= 120 && len(f.long) <= 160) return f.long;
+                    return f.short;
                 };
                 _moonDesc = {
-                    ar: `كلّ ما تحتاجه عن القمر في ${cityDisplay}: الطور والإضاءة الآن، مواعيد البدر والمحاق، رؤية الهلال، والتقويم الهجريّ مع روابط لجميع التواريخ القادمة والماضية.`,
-                    en: `Everything about the Moon in ${cityDisplay}: current phase and illumination, full moon and new moon dates, hilal visibility, and Hijri calendar — with links to all upcoming and past dates.`,
-                    fr: `Tout sur la Lune à ${cityDisplay} : phase et illumination actuelles, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien — avec liens vers toutes les dates à venir et passées.`,
-                    tr: `${cityDisplay}'da Ay hakkında her şey: güncel evre ve aydınlanma, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve hicri takvim — gelecek ve geçmiş tüm tarihlere bağlantılarla.`,
-                    ur: `${cityDisplay} میں چاند کے بارے میں سب کچھ: موجودہ طور اور روشنی، بدر اور نئے چاند کی تاریخیں، ہلال کی رؤیت اور ہجری تقویم — تمام آنے والی اور گزشتہ تاریخوں کے روابط کے ساتھ۔`,
-                    de: `Alles über den Mond in ${cityDisplay}: aktuelle Phase und Beleuchtung, Vollmond- und Neumonddaten, Hilal-Sichtbarkeit und Hidschri-Kalender — mit Links zu allen kommenden und vergangenen Daten.`,
-                    id: `Segala tentang Bulan di ${cityDisplay}: fase dan iluminasi saat ini, tanggal purnama dan bulan baru, rukyat hilal, dan kalender Hijriah — dengan tautan ke semua tanggal mendatang dan lampau.`,
-                    es: `Todo sobre la Luna en ${cityDisplay}: fase e iluminación actuales, fechas de luna llena y nueva, visibilidad del hilal y calendario hijri — con enlaces a todas las fechas próximas y pasadas.`,
-                    bn: `${cityDisplay}-এ চাঁদ সম্পর্কে সবকিছু: বর্তমান দশা ও আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার তারিখ, হিলাল দৃশ্যমানতা এবং হিজরি ক্যালেন্ডার — সমস্ত আসন্ন ও অতীত তারিখের লিঙ্কসহ।`,
-                    ms: `Semua tentang Bulan di ${cityDisplay}: fasa dan pencahayaan semasa, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah — dengan pautan ke semua tarikh akan datang dan lalu.`,
+                    ar: _pickMoonHubDesc('ar', cityDisplay),
+                    en: _pickMoonHubDesc('en', cityDisplay),
+                    fr: _pickMoonHubDesc('fr', cityDisplay),
+                    tr: _pickMoonHubDesc('tr', cityDisplay),
+                    ur: _pickMoonHubDesc('ur', cityDisplay),
+                    de: _pickMoonHubDesc('de', cityDisplay),
+                    id: _pickMoonHubDesc('id', cityDisplay),
+                    es: _pickMoonHubDesc('es', cityDisplay),
+                    bn: _pickMoonHubDesc('bn', cityDisplay),
+                    ms: _pickMoonHubDesc('ms', cityDisplay),
                 };
             } else if (_moonDateIso && _moonDateInRange) {
                 // ── عناوين خاصّة بصفحة التاريخ ── (التاريخ الأساسيّ + الموافق بين قوسين)
@@ -13773,20 +13902,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `🌙 ${cityName}-এ ${_primaryDateLabelSsr}-এ চাঁদ`,
             ms: `🌙 Bulan di ${cityName} pada ${_primaryDateLabelSsr}`
         }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : _isMoonHubPageSsr ? ({
-            // Round 19: H1 الـ hub ينظَّف ويُختصر ليعكس هدف الصفحة (توجيه + استكشاف)
-            //   قديم: "حالة القمر في {city}, {country} — الطور والإضاءة والتقويم" (ثقيل/مكرَّر)
-            //   جديد: "تقويم القمر في {city}" — قصير، واضح، موازٍ لنصّ bc-moon (Round 18-B).
-            ar: `🌙 تقويم القمر في ${cityName}`,
-            en: `🌙 Moon Calendar in ${cityName}`,
-            fr: `🌙 Calendrier de la Lune à ${cityName}`,
-            tr: `🌙 ${cityName} Ay Takvimi`,
-            ur: `🌙 ${cityName} کا چاند کا تقویم`,
-            de: `🌙 Mondkalender für ${cityName}`,
-            id: `🌙 Kalender Bulan di ${cityName}`,
-            es: `🌙 Calendario Lunar en ${cityName}`,
-            bn: `🌙 ${cityName}-এর চাঁদের পঞ্জিকা`,
-            ms: `🌙 Kalendar Bulan di ${cityName}`
-        }[Lm] || `🌙 Moon Calendar in ${cityName}`) : ({
+            // MOON-HUB-SEO-1 (2026-05-10): H1 retargeted from "calendar"-only
+            // framing to today-focused framing, per user's keyword-consistency
+            // spec. The Title + Meta surface "حالة القمر اليوم/Today" intent
+            // strongly; the H1 now matches that intent verbatim. The "calendar"
+            // keyword still appears in the Title (long form) and the on-page
+            // H2 sections (تقويم القمر / Lunar Calendar), so we don't lose it.
+            ar: `🌙 حالة القمر اليوم في ${cityName}`,
+            en: `🌙 Moon Today in ${cityName}`,
+            fr: `🌙 La Lune aujourd'hui à ${cityName}`,
+            tr: `🌙 ${cityName} Bugün Ay Durumu`,
+            ur: `🌙 آج ${cityName} میں چاند کی حالت`,
+            de: `🌙 Der Mond heute in ${cityName}`,
+            id: `🌙 Bulan Hari Ini di ${cityName}`,
+            es: `🌙 La Luna Hoy en ${cityName}`,
+            bn: `🌙 আজ ${cityName}-এ চাঁদ`,
+            ms: `🌙 Bulan Hari Ini di ${cityName}`
+        }[Lm] || `🌙 Moon Today in ${cityName}`) : ({
             ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
             en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
             fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,

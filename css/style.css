@@ -18338,15 +18338,15 @@ html.next-prayer-time-page .next-hero-card.npt-hero { display: block; }
    a tool, not a long article.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* 1. Reduce top gap between header and hero card */
-html.next-prayer-time-page main.main-content {
-    padding-top: 28px !important;
-}
-@media (min-width: 1024px) {
-    html.next-prayer-time-page main.main-content {
-        padding-top: 36px !important;
-    }
-}
+/* 1. NPT-FIX (2026-05-10): the previous rule put `padding-top: 28-36px`
+   on `main.main-content` to "reduce top gap between header and hero
+   card". Misfire — `.top-header` is `position: sticky; top: 0` and is
+   ALSO the first child of `.main-content`, so the padding rendered as
+   a 36px gap ABOVE the sticky header on first paint, not below it.
+   Every other page on the site uses the global default `padding: 0`.
+   Removing the rule brings NPT in line. The space between top-header
+   and hero-card is naturally provided by .top-header's box-shadow +
+   border-bottom — no extra padding needed. */
 
 /* 2. Smaller hero card padding/shadow */
 .next-hero-card {
@@ -18404,9 +18404,9 @@ html.next-prayer-time-page main.main-content {
 
 /* 7. Mobile spacing parity */
 @media (max-width: 768px) {
-    html.next-prayer-time-page main.main-content {
-        padding-top: 18px !important;
-    }
+    /* NPT-FIX (2026-05-10): removed the mobile `padding-top: 18px !important`
+       that mirrored the desktop bug above. Same fix — top-header is sticky
+       and was getting an empty 18px band above it on first paint. */
     .next-hero-card {
         padding: 24px 20px !important;
     }

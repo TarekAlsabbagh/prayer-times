@@ -14621,9 +14621,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //    that SEOptimer flagged on /moon-in-riyadh: مايو, مايو 2026, أحدب,
         //    متناقص, هلال, متزايد, بعد, يومًا. Same SSR pattern as
         //    E2-keywords-Hub-final but with month-name interpolation per lang.
-        //    Pre-flight: ONLY runs when seo.moonCity.isHub === true AND
-        //    seo.moonCity.isMonthPage === false (so month pages are excluded).
-        if (seo.moonCity && seo.moonCity.isHub && !seo.moonCity.isMonthPage) {
+        //
+        // MOON-HUB-SEO-2 (2026-05-10): the gate was flipped from
+        // `isHub && !isMonthPage` (Hub only) to `isMonthPage` (Month only).
+        // Reason: after MOON-HUB-SEO-1 retargeted the Hub Title/Meta/H1 to
+        // the "today" intent, SEOptimer's Keyword Consistency warning came
+        // back — but now for the OPPOSITE reason: these M1 sections were
+        // pumping ~50+ instances of "مايو/متناقص/هلال/أيام/أطوار" into the
+        // Hub page, drowning out the new "حالة القمر اليوم" intent. The
+        // monthly/phase prose belongs naturally on the Month page
+        // (`/moon-in-{city}/{YYYY-MM}`), where the page's Title + breadcrumb
+        // are already month-scoped. Hub stays lean and on-intent.
+        if (seo.moonCity && seo.moonCity.isMonthPage) {
             try {
                 const _m1Lang = seo.lang || 'ar';
                 const _m1Pick = (m) => m[_m1Lang] || m.en;

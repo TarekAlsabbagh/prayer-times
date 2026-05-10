@@ -14440,9 +14440,29 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //   • NO "اليوم/today/heute/hoy/aujourd'hui/Hari Ini/bugün/آج/আজ"
         //   • NO month name or year (those belong on Month page)
         //   • NO specific date (those belong on Date page)
-        //   • Placed just before #moon-hub-faq so calendar stays visually first
-        //     and the educational content reads above the FAQ.
-        if (_isMoonHubPageSsr) {
+        // MOON-HUB-SEO-5 (2026-05-11): MOVED placement higher in the page.
+        //   The previous anchor was just before #moon-hub-faq, which placed
+        //   the educational copy AFTER the calendar grid, upcoming-section,
+        //   and cities cards — too low for SEO tools that weight content
+        //   nearer the top of the active page. New anchor is the same anchor
+        //   the calendar uses (`<section class="section-card moon-upcoming-section"`).
+        //   Because this block executes BEFORE the calendar block (which
+        //   prepends its own HTML to the same anchor), the resulting DOM
+        //   order becomes:
+        //     Hero / moon-main-card / 4 cards (static)
+        //       → MOON-HUB-SEO-4 educational sections          ← new spot
+        //       → Calendar Grid (existing inject)
+        //       → moon-upcoming-section (static)
+        //       → cities cards / FAQ.
+        //
+        //   MOON-HUB-SEO-5b (2026-05-11): the original MOON-HUB-SEO-4
+        //   commit was gated on `_isMoonHubPageSsr` alone, which is true
+        //   for BOTH `/moon-in-{city}` (true Hub) AND `/moon-in-{city}/YYYY-MM`
+        //   (Month). The 4 educational sections were accidentally leaking
+        //   into Month pages (verified by curl on production b2d15bd). The
+        //   gate is tightened to `!isMonthPage` so the sections appear on
+        //   the Hub only — matching M1's gate at server.js:9231 exactly.
+        if (_isMoonHubPageSsr && !(seo.moonCity && seo.moonCity.isMonthPage)) {
             try {
                 const _hubGuideLang = seo.lang || 'ar';
                 const _hubGuideCity = _escHtml(cityName || '');
@@ -14595,12 +14615,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
 <section class="moon-hub-seo-card"><h2>${_escHtml(_hg.s3Title)}</h2><p>${_escHtml(_hg.s3P1)}</p><p>${_escHtml(_hg.s3P2)}</p></section>
 <section class="moon-hub-seo-card"><h2>${_escHtml(_hg.s4Title)}</h2><p>${_escHtml(_hg.s4P1)}</p><p>${_escHtml(_hg.s4P2)}</p></section>
 `;
-                // Insert just before <section class="section-card moon-hub-faq hub-only" id="moon-hub-faq">
-                // so the calendar stays visually first and the educational content reads
-                // above the FAQ.
+                // MOON-HUB-SEO-5 (2026-05-11): inject just before
+                // <section class="section-card moon-upcoming-section"> — the
+                // SAME anchor the calendar uses. Since this block runs
+                // BEFORE the calendar block in source order, the two
+                // injections stack and produce:
+                //   SEO sections → Calendar Grid → upcoming-section.
+                // This puts the educational copy right after the hero/data
+                // cards and BEFORE the calendar/tables, which carries more
+                // weight for SEO crawlers that discount content placed
+                // after large link-heavy tables.
                 html = html.replace(
-                    /<section class="section-card moon-hub-faq hub-only" id="moon-hub-faq"/,
-                    _moonHubGuideHtml + '<section class="section-card moon-hub-faq hub-only" id="moon-hub-faq"'
+                    /<section class="section-card moon-upcoming-section"/,
+                    _moonHubGuideHtml + '<section class="section-card moon-upcoming-section"'
                 );
             } catch (_e) { /* silent — Hub guide injection optional */ }
         }

@@ -9921,6 +9921,24 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             return '<html' + a + ' class="city-page">';
         });
 
+        // PT-CLS-3 (2026-05-11): pre-collapse #location-hero from SSR.
+        // js/app.js:11542 unconditionally adds `.loc-hero-collapsed` on
+        // DOMContentLoaded for desktop city pages, which collapses the
+        // hero from ~320px (expanded default) to ~80px (collapsed). The
+        // resulting ~240px upward shift pushed `.next-prayer-banner` up
+        // → Lighthouse measured 0.172 CLS on the banner even after
+        // PT-CLS-2's full banner SSR fill (because the banner was the
+        // largest visible element when the hero collapsed, but the
+        // SHIFT itself originated above it). Pre-collapsing from SSR
+        // means JS's classList.add('loc-hero-collapsed') is a no-op for
+        // layout, and the click/keyboard listeners attach fine. The
+        // mobile (≤768px) case is already display:none via CSS, so
+        // this rule has no effect there.
+        html = html.replace(
+            /<section class="location-hero section-card loc-hero-card" id="location-hero">/,
+            '<section class="location-hero section-card loc-hero-card loc-hero-collapsed" id="location-hero" role="button" aria-expanded="false" tabindex="0" aria-label="فتح/إغلاق قسم البحث">'
+        );
+
         // PT-CITY-CONTENT-1 (2026-05-10): inject 3 SSR educational sections
         // into the <!-- CITY-SEO-GUIDE --> anchor (placed in index.html
         // right after #prayer-schedule-section). Lifts SEOptimer Word Count

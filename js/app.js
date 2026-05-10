@@ -9197,39 +9197,155 @@ function updateCitySEO(city, englishName, country, lat, lng) {
 
     // prayer-times-in-*
     if (/\/prayer-times-in-/.test(path)) {
-        // Phase HC-10.1 (2026-05-06): inject "today" (today/اليوم/Hari Ini/etc.)
-        // before the country suffix so the title rises from 49 chars to 57+
-        // chars on cities like Riyadh — pulls into SEOptimer's 50-60 sweet
-        // spot while staying GENERIC (only words: city + today + country).
-        // The short fallback (no country) also gets "today" so it remains
-        // descriptive when a country is missing or the long form > 60.
-        const titles = ({
-            ar: [`مواقيت الصلاة في ${cityDisplay} اليوم${countrySuffix}`, `مواقيت الصلاة في ${cityDisplay} اليوم`],
-            en: [`Prayer Times in ${cityDisplay} Today${countrySuffix}`, `Prayer Times in ${cityDisplay} Today`],
-            fr: [`Heures de prière à ${cityDisplay} aujourd'hui${countrySuffix}`, `Heures de prière à ${cityDisplay} aujourd'hui`],
-            tr: [`${cityDisplay}${countrySuffix} Bugünkü Namaz Vakitleri`, `${cityDisplay} Bugünkü Namaz Vakitleri`],
-            ur: [`${cityDisplay}${countrySuffix} میں آج اوقاتِ نماز`, `${cityDisplay} میں آج اوقاتِ نماز`],
-            de: [`Gebetszeiten in ${cityDisplay} heute${countrySuffix}`, `Gebetszeiten in ${cityDisplay} heute`],
-            id: [`Jadwal Sholat di ${cityDisplay} Hari Ini${countrySuffix}`, `Jadwal Sholat di ${cityDisplay} Hari Ini`],
-            es: [`Horarios de Oración en ${cityDisplay} hoy${countrySuffix}`, `Horarios de Oración en ${cityDisplay} hoy`],
-            bn: [`${cityDisplay}${countrySuffix}-এ আজকের নামাজের সময়`, `${cityDisplay}-এ আজকের নামাজের সময়`],
-            ms: [`Waktu Solat di ${cityDisplay} Hari Ini${countrySuffix}`, `Waktu Solat di ${cityDisplay} Hari Ini`],
-        })[lang];
-        const desc = ({
-            ar: `مواقيت الصلاة الدقيقة في ${cityDisplay}${countrySuffix}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`,
-            en: `Accurate Islamic prayer times for ${cityDisplay}${countrySuffix}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`,
-            fr: `Heures de prière islamique précises pour ${cityDisplay}${countrySuffix} : Fajr, Dhuhr, Asr, Maghrib, Isha, direction de la Qibla, date hégirienne et programme hebdomadaire.`,
-            tr: `${cityDisplay}${countrySuffix} için doğru İslami namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı, Kıble yönü, bugünün Hicri tarihi ve haftalık program.`,
-            ur: `${cityDisplay}${countrySuffix} کے لیے درست اسلامی اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء، قبلہ کی سمت، آج کی ہجری تاریخ اور ہفتہ وار شیڈول۔`,
-            de: `Genaue islamische Gebetszeiten für ${cityDisplay}${countrySuffix}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla-Richtung, heutiges Hidschri-Datum und Wochenplan.`,
-            id: `Jadwal sholat Islam yang akurat untuk ${cityDisplay}${countrySuffix}: Subuh, Zuhur, Asar, Magrib, Isya, arah Kiblat, tanggal Hijriyah hari ini dan jadwal mingguan.`,
-            es: `Horarios de oración islámica precisos para ${cityDisplay}${countrySuffix}: Fayr, Dhuhr, Asr, Magrib, Isha, dirección de la Qibla, fecha Hijri de hoy y horario semanal.`,
-            bn: `${cityDisplay}${countrySuffix}-এর জন্য সঠিক ইসলামিক নামাজের সময়: ফজর, জোহর, আসর, মাগরিব, এশা, কিবলার দিক, আজকের হিজরি তারিখ ও সাপ্তাহিক সময়সূচী।`,
-            ms: `Waktu solat Islam tepat untuk ${cityDisplay}${countrySuffix}: Subuh, Zohor, Asar, Maghrib, Isyak, arah Kiblat, tarikh Hijrah hari ini dan jadual mingguan.`,
-        })[lang];
+        // PT-CITY-SEO-1-mirror (2026-05-11): the prior 2-tier (full/short)
+        // pickTitle on the client kept generating "مواقيت الصلاة في {city}
+        // اليوم" (38 cp on Madinah, below SEOptimer's 50-60 sweet spot)
+        // because the long-with-country form went over 60 cp and fell to
+        // the short. SEOptimer reads the JS-hydrated document.title, so
+        // server.js's PT-CITY-SEO-1 ladder was being silently overwritten
+        // by this code. The fix mirrors the server's 4-candidate ladder
+        // verbatim so SSR ↔ JS produce identical titles. Country derived
+        // from the country-suffix already prepared above (when available).
+        const ctryName = (countrySuffix || '').replace(/^[،,]\s*/, '').trim();
+        const _CITY_TITLE_FORMS = {
+            ar: (c, ctry) => ({
+                long:        `مواقيت الصلاة في ${c} اليوم | أوقات الأذان اليومية`,
+                medium:      `مواقيت الصلاة في ${c} اليوم | أوقات الأذان`,
+                withCountry: ctry ? `مواقيت الصلاة في ${c} ${ctry} اليوم` : null,
+                short:       `مواقيت الصلاة في ${c} اليوم`,
+            }),
+            en: (c, ctry) => ({
+                long:        `Prayer Times in ${c} Today | Daily Adhan Schedule`,
+                medium:      `Prayer Times in ${c} Today | Daily Adhan Times`,
+                withCountry: ctry ? `Prayer Times in ${c}, ${ctry} Today` : null,
+                short:       `Prayer Times in ${c} Today`,
+            }),
+            fr: (c, ctry) => ({
+                long:        `Heures de prière à ${c} aujourd'hui | Horaires Adhan quotidiens`,
+                medium:      `Heures de prière à ${c} aujourd'hui | Horaires d'Adhan`,
+                withCountry: ctry ? `Heures de prière à ${c}, ${ctry} aujourd'hui` : null,
+                short:       `Heures de prière à ${c} aujourd'hui`,
+            }),
+            tr: (c, ctry) => ({
+                long:        `${c} Namaz Vakitleri Bugün | Günlük Ezan Programı`,
+                medium:      `${c} Namaz Vakitleri Bugün | Günlük Ezan Saatleri`,
+                withCountry: ctry ? `${c}, ${ctry} Namaz Vakitleri Bugün` : null,
+                short:       `${c} Namaz Vakitleri Bugün`,
+            }),
+            ur: (c, ctry) => ({
+                long:        `${c} میں آج اوقاتِ نماز | روزانہ اذان کا شیڈول`,
+                medium:      `${c} میں آج اوقاتِ نماز | روزانہ اذان کا وقت`,
+                withCountry: ctry ? `${c}، ${ctry} میں آج اوقاتِ نماز` : null,
+                short:       `${c} میں آج اوقاتِ نماز`,
+            }),
+            de: (c, ctry) => ({
+                long:        `Gebetszeiten in ${c} heute | Täglicher Adhan-Plan`,
+                medium:      `Gebetszeiten in ${c} heute | Täglicher Adhan`,
+                withCountry: ctry ? `Gebetszeiten in ${c}, ${ctry} heute` : null,
+                short:       `Gebetszeiten in ${c} heute`,
+            }),
+            id: (c, ctry) => ({
+                long:        `Jadwal Sholat di ${c} Hari Ini | Jadwal Adzan Harian`,
+                medium:      `Jadwal Sholat di ${c} Hari Ini | Waktu Adzan`,
+                withCountry: ctry ? `Jadwal Sholat di ${c}, ${ctry} Hari Ini` : null,
+                short:       `Jadwal Sholat di ${c} Hari Ini`,
+            }),
+            es: (c, ctry) => ({
+                long:        `Horarios de Oración en ${c} Hoy | Horario Diario de Adhan`,
+                medium:      `Horarios de Oración en ${c} Hoy | Horario de Adhan`,
+                withCountry: ctry ? `Horarios de Oración en ${c}, ${ctry} Hoy` : null,
+                short:       `Horarios de Oración en ${c} Hoy`,
+            }),
+            bn: (c, ctry) => ({
+                long:        `${c}-এ আজকের নামাজের সময় | দৈনিক আযানের সময়সূচি`,
+                medium:      `${c}-এ আজকের নামাজের সময় | দৈনিক আযানের সময়`,
+                withCountry: ctry ? `${c}, ${ctry}-এ আজকের নামাজের সময়` : null,
+                short:       `${c}-এ আজকের নামাজের সময়`,
+            }),
+            ms: (c, ctry) => ({
+                long:        `Waktu Solat di ${c} Hari Ini | Jadual Azan Harian`,
+                medium:      `Waktu Solat di ${c} Hari Ini | Waktu Azan`,
+                withCountry: ctry ? `Waktu Solat di ${c}, ${ctry} Hari Ini` : null,
+                short:       `Waktu Solat di ${c} Hari Ini`,
+            }),
+        };
+        const _pickCityTitle = (formsFn, c, ctry) => {
+            const f = formsFn(c, ctry);
+            const len = s => Array.from(s).length;
+            // First candidate landing in [50, 60] cp (priority: long → medium → withCountry).
+            const tiered = [f.long, f.medium, f.withCountry].filter(Boolean);
+            for (const t of tiered) {
+                if (len(t) >= 50 && len(t) <= 60) return t;
+            }
+            // Longest candidate ≤ 60 cp across all 4 forms.
+            const all = [f.long, f.medium, f.withCountry, f.short].filter(Boolean);
+            const ok  = all.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+            if (ok.length) return ok[0];
+            // Short fallback for very long city names.
+            return f.short;
+        };
+        const titleFinal = _pickCityTitle(
+            _CITY_TITLE_FORMS[lang] || _CITY_TITLE_FORMS.en,
+            cityDisplay,
+            ctryName
+        );
+        // PT-CITY-SEO-1-mirror Meta: 2-tier (long ~150 cp → withCountry ~125 cp).
+        const _CITY_DESC_FORMS = {
+            ar: (c, ctry) => ({
+                long:        `تعرف على مواقيت الصلاة في ${c} اليوم، شامل الفجر والشروق والظهر والعصر والمغرب والعشاء، مع اتجاه القبلة والتاريخ الهجري حسب التوقيت المحلي.`,
+                withCountry: `مواقيت الصلاة في ${c}${ctry ? '، ' + ctry : ''}: الفجر والشروق والظهر والعصر والمغرب والعشاء، مع اتجاه القبلة والتاريخ الهجري.`,
+            }),
+            en: (c, ctry) => ({
+                long:        `See today's prayer times in ${c}, including Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, along with the Qibla direction and the Hijri date based on local time.`,
+                withCountry: `Prayer times in ${c}${ctry ? ', ' + ctry : ''}: Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, with Qibla direction and the Hijri date.`,
+            }),
+            fr: (c, ctry) => ({
+                long:        `Consultez les heures de prière à ${c} aujourd'hui, incluant Fajr, Lever, Dhuhr, Asr, Maghreb et Isha, avec la direction de la Qibla et la date hégirienne selon l'heure locale.`,
+                withCountry: `Heures de prière à ${c}${ctry ? ', ' + ctry : ''} : Fajr, Lever, Dhuhr, Asr, Maghreb et Isha, avec la Qibla et la date hégirienne.`,
+            }),
+            tr: (c, ctry) => ({
+                long:        `${c} için bugünkü namaz vakitlerini öğrenin: Sabah, Güneş, Öğle, İkindi, Akşam ve Yatsı; ayrıca kıble yönü ve hicri tarih, yerel saate göre.`,
+                withCountry: `${c}${ctry ? ', ' + ctry : ''} namaz vakitleri: Sabah, Güneş, Öğle, İkindi, Akşam ve Yatsı; kıble yönü ve hicri tarih ile.`,
+            }),
+            ur: (c, ctry) => ({
+                long:        `${c} میں آج کے اوقاتِ نماز جانیں، فجر، طلوع، ظہر، عصر، مغرب اور عشاء سمیت، سمتِ قبلہ اور ہجری تاریخ مقامی وقت کے مطابق۔`,
+                withCountry: `${c}${ctry ? '، ' + ctry : ''} میں اوقاتِ نماز: فجر، طلوع، ظہر، عصر، مغرب اور عشاء، سمتِ قبلہ اور ہجری تاریخ کے ساتھ۔`,
+            }),
+            de: (c, ctry) => ({
+                long:        `Sehen Sie die heutigen Gebetszeiten in ${c}, inklusive Fadschr, Sonnenaufgang, Zuhr, Asr, Maghrib und Ischa, mit Qibla-Richtung und Hidschri-Datum nach Ortszeit.`,
+                withCountry: `Gebetszeiten in ${c}${ctry ? ', ' + ctry : ''}: Fadschr, Sonnenaufgang, Zuhr, Asr, Maghrib und Ischa, mit Qibla und Hidschri-Datum.`,
+            }),
+            id: (c, ctry) => ({
+                long:        `Lihat jadwal sholat hari ini di ${c}, termasuk Subuh, Terbit, Dzuhur, Ashar, Maghrib, dan Isya, beserta arah kiblat dan tanggal Hijriah menurut waktu setempat.`,
+                withCountry: `Jadwal sholat di ${c}${ctry ? ', ' + ctry : ''}: Subuh, Terbit, Dzuhur, Ashar, Maghrib, dan Isya, dengan arah kiblat dan tanggal Hijriah.`,
+            }),
+            es: (c, ctry) => ({
+                long:        `Consulta los horarios de oración hoy en ${c}, incluidos Fajr, Amanecer, Dhuhr, Asr, Maghrib e Isha, con la dirección de la Qibla y la fecha hégira según la hora local.`,
+                withCountry: `Horarios de oración en ${c}${ctry ? ', ' + ctry : ''}: Fajr, Amanecer, Dhuhr, Asr, Maghrib e Isha, con Qibla y fecha hégira.`,
+            }),
+            bn: (c, ctry) => ({
+                long:        `${c}-এ আজকের নামাজের সময় দেখুন, ফজর, সূর্যোদয়, যোহর, আসর, মাগরিব ও ইশা সহ, এবং কিবলার দিক ও হিজরি তারিখ স্থানীয় সময় অনুযায়ী।`,
+                withCountry: `${c}${ctry ? ', ' + ctry : ''}-এ নামাজের সময়: ফজর, সূর্যোদয়, যোহর, আসর, মাগরিব ও ইশা, কিবলা ও হিজরি তারিখ সহ।`,
+            }),
+            ms: (c, ctry) => ({
+                long:        `Lihat waktu solat hari ini di ${c}, termasuk Subuh, Syuruk, Zohor, Asar, Maghrib dan Isyak, dengan arah kiblat dan tarikh Hijrah mengikut waktu tempatan.`,
+                withCountry: `Waktu solat di ${c}${ctry ? ', ' + ctry : ''}: Subuh, Syuruk, Zohor, Asar, Maghrib dan Isyak, dengan kiblat dan tarikh Hijrah.`,
+            }),
+        };
+        const _pickCityDesc = (formsFn, c, ctry) => {
+            const f = formsFn(c, ctry);
+            const len = s => Array.from(s).length;
+            if (len(f.long) >= 120 && len(f.long) <= 160) return f.long;
+            return f.withCountry;
+        };
+        const descFinal = _pickCityDesc(
+            _CITY_DESC_FORMS[lang] || _CITY_DESC_FORMS.en,
+            cityDisplay,
+            ctryName
+        );
         setSEOMeta({
-            title: pickTitle(titles[0], titles[1]),
-            description: desc,
+            title: titleFinal,
+            description: descFinal,
             ogType: 'article'
         });
         return;

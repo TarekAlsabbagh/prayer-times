@@ -4977,22 +4977,179 @@ function buildSeoForPath(urlPath) {
 
     // صانع title صفحات المدن (10 لغات) — نسخة مختصرة: "مدينة + اليوم + تاريخ هجري"
     // cityLng اختياريّ: إن مُرِّر، يُحسب الهجري بتوقيت المدينة (مهمّ لـ Jakarta, NY…
-    // ليلاً عند فارق يوم كامل عن توقيت السيرفر). بدونه: توقيت مكّة (الافتراضي).
-    // صانع title صفحات المدن (10 لغات) — Phase D2: ثابت بلا تاريخ هجريّ، بفاصل |
-    // cityLng يُحفَظ كمَعامل لأسباب التوافق فقط (التاريخ الهجريّ ينتقل إلى H1/intro/desc).
-    const _buildCityDatedTitle = (cityDisplay, _cityLng) => {
-        switch (lang) {
-            case 'ar': return `مواقيت الصلاة في ${cityDisplay} | جدول اليوم واتجاه القبلة`;
-            case 'fr': return `Heures de prière à ${cityDisplay} | Horaires du jour et Qibla`;
-            case 'tr': return `${cityDisplay} Namaz Vakitleri | Günlük Program ve Kıble`;
-            case 'ur': return `${cityDisplay} میں اوقاتِ نماز | آج کا جدول اور سمتِ قبلہ`;
-            case 'de': return `Gebetszeiten in ${cityDisplay} | Tagesplan und Qibla`;
-            case 'id': return `Jadwal Sholat di ${cityDisplay} | Jadwal Hari Ini dan Kiblat`;
-            case 'es': return `Horarios de Oración en ${cityDisplay} | Horario de Hoy y Qibla`;
-            case 'bn': return `${cityDisplay}-এ নামাজের সময় | আজকের সূচী ও কিবলা`;
-            case 'ms': return `Waktu Solat di ${cityDisplay} | Jadual Hari Ini dan Kiblat`;
-            default:   return `Prayer Times in ${cityDisplay} | Today's Schedule and Qibla`;
+    // PT-CITY-SEO-1 (2026-05-10): length-aware Title ladder for /prayer-times-in-{city}.
+    // The previous fixed Title pattern ("مواقيت الصلاة في {city} | جدول اليوم
+    // واتجاه القبلة") produced 38-cp Titles for short city names like Madinah's
+    // H1 reference (well below the 50-cp SEOptimer sweet spot). Per user spec
+    // we now build 4 candidates in priority order:
+    //   1. long:        "مواقيت الصلاة في {city} اليوم | أوقات الأذان اليومية"
+    //   2. medium:      "مواقيت الصلاة في {city} اليوم | أوقات الأذان"
+    //   3. withCountry: "مواقيت الصلاة في {city} {country} اليوم"
+    //   4. short:       "مواقيت الصلاة في {city} اليوم"
+    // Algorithm: first candidate in [50, 60] wins. Otherwise longest ≤ 60.
+    // 10 langs covered. withCountry is null when the city's cc can't be
+    // resolved — in practice all popular slugs resolve so withCountry is
+    // available; it falls back gracefully if not.
+    const _CITY_TITLE_FORMS = {
+        ar: (c, ctry) => ({
+            long:        `مواقيت الصلاة في ${c} اليوم | أوقات الأذان اليومية`,
+            medium:      `مواقيت الصلاة في ${c} اليوم | أوقات الأذان`,
+            withCountry: ctry ? `مواقيت الصلاة في ${c} ${ctry} اليوم` : null,
+            short:       `مواقيت الصلاة في ${c} اليوم`,
+        }),
+        en: (c, ctry) => ({
+            long:        `Prayer Times in ${c} Today | Daily Adhan Schedule`,
+            medium:      `Prayer Times in ${c} Today | Daily Adhan Times`,
+            withCountry: ctry ? `Prayer Times in ${c}, ${ctry} Today` : null,
+            short:       `Prayer Times in ${c} Today`,
+        }),
+        fr: (c, ctry) => ({
+            long:        `Heures de prière à ${c} aujourd'hui | Horaires Adhan quotidiens`,
+            medium:      `Heures de prière à ${c} aujourd'hui | Horaires d'Adhan`,
+            withCountry: ctry ? `Heures de prière à ${c}, ${ctry} aujourd'hui` : null,
+            short:       `Heures de prière à ${c} aujourd'hui`,
+        }),
+        tr: (c, ctry) => ({
+            long:        `${c} Namaz Vakitleri Bugün | Günlük Ezan Programı`,
+            medium:      `${c} Namaz Vakitleri Bugün | Günlük Ezan Saatleri`,
+            withCountry: ctry ? `${c}, ${ctry} Namaz Vakitleri Bugün` : null,
+            short:       `${c} Namaz Vakitleri Bugün`,
+        }),
+        ur: (c, ctry) => ({
+            long:        `${c} میں آج اوقاتِ نماز | روزانہ اذان کا شیڈول`,
+            medium:      `${c} میں آج اوقاتِ نماز | روزانہ اذان کا وقت`,
+            withCountry: ctry ? `${c}، ${ctry} میں آج اوقاتِ نماز` : null,
+            short:       `${c} میں آج اوقاتِ نماز`,
+        }),
+        de: (c, ctry) => ({
+            long:        `Gebetszeiten in ${c} heute | Täglicher Adhan-Plan`,
+            medium:      `Gebetszeiten in ${c} heute | Täglicher Adhan`,
+            withCountry: ctry ? `Gebetszeiten in ${c}, ${ctry} heute` : null,
+            short:       `Gebetszeiten in ${c} heute`,
+        }),
+        id: (c, ctry) => ({
+            long:        `Jadwal Sholat di ${c} Hari Ini | Jadwal Adzan Harian`,
+            medium:      `Jadwal Sholat di ${c} Hari Ini | Waktu Adzan`,
+            withCountry: ctry ? `Jadwal Sholat di ${c}, ${ctry} Hari Ini` : null,
+            short:       `Jadwal Sholat di ${c} Hari Ini`,
+        }),
+        es: (c, ctry) => ({
+            long:        `Horarios de Oración en ${c} Hoy | Horario Diario de Adhan`,
+            medium:      `Horarios de Oración en ${c} Hoy | Horario de Adhan`,
+            withCountry: ctry ? `Horarios de Oración en ${c}, ${ctry} Hoy` : null,
+            short:       `Horarios de Oración en ${c} Hoy`,
+        }),
+        bn: (c, ctry) => ({
+            long:        `${c}-এ আজকের নামাজের সময় | দৈনিক আযানের সময়সূচি`,
+            medium:      `${c}-এ আজকের নামাজের সময় | দৈনিক আযানের সময়`,
+            withCountry: ctry ? `${c}, ${ctry}-এ আজকের নামাজের সময়` : null,
+            short:       `${c}-এ আজকের নামাজের সময়`,
+        }),
+        ms: (c, ctry) => ({
+            long:        `Waktu Solat di ${c} Hari Ini | Jadual Azan Harian`,
+            medium:      `Waktu Solat di ${c} Hari Ini | Waktu Azan`,
+            withCountry: ctry ? `Waktu Solat di ${c}, ${ctry} Hari Ini` : null,
+            short:       `Waktu Solat di ${c} Hari Ini`,
+        }),
+    };
+    const _pickCityTitle = (formsFn, c, ctry) => {
+        const f = formsFn(c, ctry);
+        const len = s => Array.from(s).length;
+        // 1) First candidate landing in [50, 60] (priority order: long → medium → withCountry).
+        const tiered = [f.long, f.medium, f.withCountry].filter(Boolean);
+        for (const t of tiered) {
+            if (len(t) >= 50 && len(t) <= 60) return t;
         }
+        // 2) Longest candidate ≤ 60 across all 4 forms.
+        const all = [f.long, f.medium, f.withCountry, f.short].filter(Boolean);
+        const ok  = all.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+        if (ok.length) return ok[0];
+        // 3) Short fallback for very long city names.
+        return f.short;
+    };
+    // Country-name lookup by lang for the withCountry candidate.
+    const _CITY_COUNTRY_NAMES = {
+        ar: COUNTRY_NAMES_AR, en: COUNTRY_NAMES_EN,
+        fr: _COUNTRY_NAMES_FR, tr: _COUNTRY_NAMES_TR, ur: _COUNTRY_NAMES_UR,
+        de: _COUNTRY_NAMES_DE, id: _COUNTRY_NAMES_ID, es: _COUNTRY_NAMES_ES,
+        bn: _COUNTRY_NAMES_BN, ms: _COUNTRY_NAMES_MS,
+    };
+    // citySlug → country name (lang-aware). Returns '' if cc can't be resolved.
+    const _resolveCountryNameForCity = (slug) => {
+        if (!slug) return '';
+        try {
+            const info = (typeof _resolveCityForMoon === 'function')
+                ? _resolveCityForMoon(slug) : null;
+            const cc = info && info.cc && String(info.cc).toLowerCase();
+            if (!cc) return '';
+            const dict = _CITY_COUNTRY_NAMES[lang] || _CITY_COUNTRY_NAMES.en;
+            return (dict && dict[cc]) || (_CITY_COUNTRY_NAMES.en && _CITY_COUNTRY_NAMES.en[cc]) || '';
+        } catch (_e) { return ''; }
+    };
+
+    // PT-CITY-SEO-1: length-aware Meta description for /prayer-times-in-{city}.
+    // Replaces the previous keyword-list-style desc with a natural paragraph.
+    // 2-tier ladder: long (~155 cp) preferred; falls back to compact form
+    // (~125 cp with country) when the city name pushes long over 160 cp.
+    const _CITY_DESC_FORMS = {
+        ar: (c, ctry) => ({
+            long:        `تعرف على مواقيت الصلاة في ${c} اليوم، شامل الفجر والشروق والظهر والعصر والمغرب والعشاء، مع اتجاه القبلة والتاريخ الهجري حسب التوقيت المحلي.`,
+            withCountry: `مواقيت الصلاة في ${c}${ctry ? '، ' + ctry : ''}: الفجر والشروق والظهر والعصر والمغرب والعشاء، مع اتجاه القبلة والتاريخ الهجري.`,
+        }),
+        en: (c, ctry) => ({
+            long:        `See today's prayer times in ${c}, including Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, along with the Qibla direction and the Hijri date based on local time.`,
+            withCountry: `Prayer times in ${c}${ctry ? ', ' + ctry : ''}: Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, with Qibla direction and the Hijri date.`,
+        }),
+        fr: (c, ctry) => ({
+            long:        `Consultez les heures de prière à ${c} aujourd'hui, incluant Fajr, Lever, Dhuhr, Asr, Maghreb et Isha, avec la direction de la Qibla et la date hégirienne selon l'heure locale.`,
+            withCountry: `Heures de prière à ${c}${ctry ? ', ' + ctry : ''} : Fajr, Lever, Dhuhr, Asr, Maghreb et Isha, avec la Qibla et la date hégirienne.`,
+        }),
+        tr: (c, ctry) => ({
+            long:        `${c} için bugünkü namaz vakitlerini öğrenin: Sabah, Güneş, Öğle, İkindi, Akşam ve Yatsı; ayrıca kıble yönü ve hicri tarih, yerel saate göre.`,
+            withCountry: `${c}${ctry ? ', ' + ctry : ''} namaz vakitleri: Sabah, Güneş, Öğle, İkindi, Akşam ve Yatsı; kıble yönü ve hicri tarih ile.`,
+        }),
+        ur: (c, ctry) => ({
+            long:        `${c} میں آج کے اوقاتِ نماز جانیں، فجر، طلوع، ظہر، عصر، مغرب اور عشاء سمیت، سمتِ قبلہ اور ہجری تاریخ مقامی وقت کے مطابق۔`,
+            withCountry: `${c}${ctry ? '، ' + ctry : ''} میں اوقاتِ نماز: فجر، طلوع، ظہر، عصر، مغرب اور عشاء، سمتِ قبلہ اور ہجری تاریخ کے ساتھ۔`,
+        }),
+        de: (c, ctry) => ({
+            long:        `Sehen Sie die heutigen Gebetszeiten in ${c}, inklusive Fadschr, Sonnenaufgang, Zuhr, Asr, Maghrib und Ischa, mit Qibla-Richtung und Hidschri-Datum nach Ortszeit.`,
+            withCountry: `Gebetszeiten in ${c}${ctry ? ', ' + ctry : ''}: Fadschr, Sonnenaufgang, Zuhr, Asr, Maghrib und Ischa, mit Qibla und Hidschri-Datum.`,
+        }),
+        id: (c, ctry) => ({
+            long:        `Lihat jadwal sholat hari ini di ${c}, termasuk Subuh, Terbit, Dzuhur, Ashar, Maghrib, dan Isya, beserta arah kiblat dan tanggal Hijriah menurut waktu setempat.`,
+            withCountry: `Jadwal sholat di ${c}${ctry ? ', ' + ctry : ''}: Subuh, Terbit, Dzuhur, Ashar, Maghrib, dan Isya, dengan arah kiblat dan tanggal Hijriah.`,
+        }),
+        es: (c, ctry) => ({
+            long:        `Consulta los horarios de oración hoy en ${c}, incluidos Fajr, Amanecer, Dhuhr, Asr, Maghrib e Isha, con la dirección de la Qibla y la fecha hégira según la hora local.`,
+            withCountry: `Horarios de oración en ${c}${ctry ? ', ' + ctry : ''}: Fajr, Amanecer, Dhuhr, Asr, Maghrib e Isha, con Qibla y fecha hégira.`,
+        }),
+        bn: (c, ctry) => ({
+            long:        `${c}-এ আজকের নামাজের সময় দেখুন, ফজর, সূর্যোদয়, যোহর, আসর, মাগরিব ও ইশা সহ, এবং কিবলার দিক ও হিজরি তারিখ স্থানীয় সময় অনুযায়ী।`,
+            withCountry: `${c}${ctry ? ', ' + ctry : ''}-এ নামাজের সময়: ফজর, সূর্যোদয়, যোহর, আসর, মাগরিব ও ইশা, কিবলা ও হিজরি তারিখ সহ।`,
+        }),
+        ms: (c, ctry) => ({
+            long:        `Lihat waktu solat hari ini di ${c}, termasuk Subuh, Syuruk, Zohor, Asar, Maghrib dan Isyak, dengan arah kiblat dan tarikh Hijrah mengikut waktu tempatan.`,
+            withCountry: `Waktu solat di ${c}${ctry ? ', ' + ctry : ''}: Subuh, Syuruk, Zohor, Asar, Maghrib dan Isyak, dengan kiblat dan tarikh Hijrah.`,
+        }),
+    };
+    const _pickCityDesc = (formsFn, c, ctry) => {
+        const f = formsFn(c, ctry);
+        const len = s => Array.from(s).length;
+        if (len(f.long) >= 120 && len(f.long) <= 160) return f.long;
+        return f.withCountry;
+    };
+
+    // Back-compat shim — old call sites pass (cityDisplay, lng) without slug.
+    // For Title quality we want country lookup, so we accept an optional
+    // 3rd arg (slug). When omitted, country is empty and withCountry is null.
+    const _buildCityDatedTitle = (cityDisplay, _cityLng, citySlug) => {
+        const country = _resolveCountryNameForCity(citySlug);
+        return _pickCityTitle(_CITY_TITLE_FORMS[lang] || _CITY_TITLE_FORMS.en, cityDisplay, country);
+    };
+    const _buildCityDatedDesc = (cityDisplay, citySlug) => {
+        const country = _resolveCountryNameForCity(citySlug);
+        return _pickCityDesc(_CITY_DESC_FORMS[lang] || _CITY_DESC_FORMS.en, cityDisplay, country);
     };
 
     // Homepage title/description — GENERIC (no Mecca cannibalization).
@@ -5516,10 +5673,8 @@ function buildSeoForPath(urlPath) {
         const cityDisplay = _resolveCityName(citySlug, lang);
         // Round 8: Title مُثرى بالتاريخ الهجري بتوقيت المدينة المحلّيّ — 10 لغات
         // "مواقيت الصلاة في {city} اليوم - {h} {hijri-month} {YYYY}هـ"
-        title = _buildCityDatedTitle(cityDisplay, lng);
-        description = useEnTxt
-            ? `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha, Qibla direction, today's Hijri date and weekly schedule.`
-            : `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`;
+        title = _buildCityDatedTitle(cityDisplay, lng, citySlug);
+        description = _buildCityDatedDesc(cityDisplay, citySlug);
         ogType = 'article';
         geo = { lat, lng };
         cityModified = new Date().toISOString();
@@ -6663,21 +6818,12 @@ function buildSeoForPath(urlPath) {
             const cityDisplay = _resolveCityName(slug, lang);
             // استنباط lng من الفهرس — إن لم توجد فسيفبك للافتراضي (مكّة)
             const cityLng = _getCityLngBySlug(slug);
-            title = _buildCityDatedTitle(cityDisplay, cityLng);
-            // Phase D2: localized desc for all 10 languages (was: useEnTxt fallback to en for 8 langs)
-            const _CITY_DESCS = {
-                ar: `مواقيت الصلاة الدقيقة في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء، اتجاه القبلة، التاريخ الهجري والجدول الأسبوعي.`,
-                en: `Accurate Islamic prayer times for ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha — with Qibla direction, Hijri date and weekly schedule.`,
-                fr: `Horaires de prière exacts à ${cityDisplay} : Fajr, Dohr, Asr, Maghrib, Icha — avec direction de la Qibla, date hégirienne et programme hebdomadaire.`,
-                tr: `${cityDisplay} için doğru namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı — kıble yönü, hicri tarih ve haftalık program ile birlikte.`,
-                ur: `${cityDisplay} کے لیے درست اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء — سمتِ قبلہ، ہجری تاریخ اور ہفتہ وار جدول کے ساتھ۔`,
-                de: `Genaue Gebetszeiten für ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha — mit Qibla-Richtung, Hidschri-Datum und Wochenplan.`,
-                id: `Jadwal sholat akurat untuk ${cityDisplay}: Subuh, Zuhur, Asar, Magrib, Isya — dengan arah kiblat, tanggal Hijriah dan jadwal mingguan.`,
-                es: `Horarios de oración exactos para ${cityDisplay}: Fayr, Dohr, Asr, Magrib, Isha — con dirección de la Qibla, fecha Hijri y programa semanal.`,
-                bn: `${cityDisplay}-এর জন্য নির্ভুল নামাজের সময়: ফজর, জোহর, আসর, মাগরিব, এশা — কিবলার দিক, হিজরি তারিখ ও সাপ্তাহিক সূচী সহ।`,
-                ms: `Waktu solat tepat untuk ${cityDisplay}: Subuh, Zohor, Asar, Maghrib, Isyak — dengan arah kiblat, tarikh Hijrah dan jadual mingguan.`,
-            };
-            description = _CITY_DESCS[lang] || _CITY_DESCS.en;
+            // PT-CITY-SEO-1 (2026-05-10): use the length-aware Title/Meta
+            // helpers (defined above) — picks the candidate that lands in
+            // [50, 60] cp for Title and [120, 160] cp for Meta. Replaces the
+            // previous fixed Title pattern + inline keyword-list desc dict.
+            title = _buildCityDatedTitle(cityDisplay, cityLng, slug);
+            description = _buildCityDatedDesc(cityDisplay, slug);
             ogType = 'article';
             cityModified = new Date().toISOString();
             breadcrumbs.push({ name: cityDisplay, item: canonical });

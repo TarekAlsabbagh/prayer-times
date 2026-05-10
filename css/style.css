@@ -10947,6 +10947,15 @@ html.city-page #related-links-section li:has(#rl-moon),
 html.city-page #related-links-section li:has(#rl-hijri) {
     display: none !important;
 }
+/* PT-RLS-FIX (2026-05-10): UAT-2.6 above leaves the "معلومات" tier with
+   ZERO visible items on city pages — both rl-hijri and rl-moon are
+   hidden — so the orphaned `<h4>معلومات</h4>` label rendered as an
+   empty section. Hide the entire .rls-tier-info wrapper to remove the
+   visual gap + stray label. The "الآن" tier still has 2 visible items
+   (time-left + next-prayer) after qibla hide. */
+html.city-page #related-links-section .rls-tier-info {
+    display: none !important;
+}
 
 /* ── UAT-2.7: Inline <details> calculation settings (city pages only) ─────
    Replaces the modal-only settings UX with a native <details>/<summary>

@@ -825,34 +825,162 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
         .replace(/(id="time-asr"[^>]*>)\s*--:--\s*(<)/,     `$1${t.asr}$2`)
         .replace(/(id="time-maghrib"[^>]*>)\s*--:--\s*(<)/, `$1${t.maghrib}$2`)
         .replace(/(id="time-isha"[^>]*>)\s*--:--\s*(<)/,    `$1${t.isha}$2`);
-    // 2) PERF-LCP-1: hero countdown + next-prayer name.
+    // 2) PT-CLS-2 (2026-05-10): full banner SSR fill — removes the
+    //    0.137 CLS on .next-prayer-banner that remained after PERF-LCP-1.
+    //    PERF-LCP-1 fixed only the LCP countdown; the banner kept shifting
+    //    because text placeholders ("--") expanded into real values
+    //    (city name, hijri/greg dates, current/next/then prayer names,
+    //    local time) at hydration, growing the height of the 3 banner
+    //    columns. We now compute ALL of that SSR-side and inject before
+    //    first paint, so JS hydration is a no-op for layout.
     try {
-        const cd = _ssrNextPrayerCountdown(slug, t);
-        if (cd && cd.countdown) {
+        const info = (slug && typeof _resolveCityForMoon === 'function')
+            ? _resolveCityForMoon(slug) : null;
+        const cc = ((info && info.cc) || 'sa').toLowerCase();
+        const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
+        const now = new Date();
+        const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3;
+        const localMs = now.getTime() + (tzOffset * 3600 * 1000);
+        const localD = new Date(localMs);
+        const pad = n => String(n).padStart(2, '0');
+        const hh = localD.getUTCHours();
+        const mm = localD.getUTCMinutes();
+        const ss = localD.getUTCSeconds();
+        const curSec = hh * 3600 + mm * 60 + ss;
+        const currentTime = `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+        // Slot ordering (no sunrise — banner uses prayer slots only)
+        const toSec = (hm) => {
+            const m = /^(\d{1,2}):(\d{2})$/.exec(hm);
+            return m ? parseInt(m[1], 10) * 3600 + parseInt(m[2], 10) * 60 : null;
+        };
+        const slots = [
+            { key: 'fajr',    sec: toSec(t.fajr) },
+            { key: 'dhuhr',   sec: toSec(t.dhuhr) },
+            { key: 'asr',     sec: toSec(t.asr) },
+            { key: 'maghrib', sec: toSec(t.maghrib) },
+            { key: 'isha',    sec: toSec(t.isha) },
+        ];
+        // Find current = most-recent slot whose time has passed.
+        // Find next    = first slot in the future.
+        let currentIdx = -1, nextIdx = -1;
+        for (let i = 0; i < slots.length; i++) {
+            if (slots[i].sec === null) continue;
+            if (slots[i].sec <= curSec) currentIdx = i;
+            else { nextIdx = i; break; }
+        }
+        // After Isha (or before Fajr next-day): next = fajr tomorrow.
+        if (nextIdx === -1) nextIdx = 0;
+        const currentKey = currentIdx >= 0 ? slots[currentIdx].key : null;
+        const nextKey    = slots[nextIdx].key;
+        const thenIdx    = (nextIdx + 1) % slots.length;
+        const thenKey    = slots[thenIdx].key;
+        // Countdown to next prayer
+        let diffSec;
+        if (slots[nextIdx].sec > curSec) diffSec = slots[nextIdx].sec - curSec;
+        else diffSec = (24 * 3600 - curSec) + (slots[nextIdx].sec || 0);
+        const dh = Math.floor(diffSec / 3600);
+        const dm = Math.floor((diffSec % 3600) / 60);
+        const ds = diffSec % 60;
+        const countdown = `${pad(dh)}:${pad(dm)}:${pad(ds)}`;
+        // Localized prayer-name lookup
+        const _NAME_BY_LANG = {
+            ar: { fajr: 'الفجر',  dhuhr: 'الظهر',  asr: 'العصر',   maghrib: 'المغرب',  isha: 'العشاء' },
+            en: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
+            fr: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghreb', isha: 'Isha' },
+            tr: { fajr: 'Sabah',  dhuhr: 'Öğle',   asr: 'İkindi',  maghrib: 'Akşam',   isha: 'Yatsı' },
+            ur: { fajr: 'فجر',    dhuhr: 'ظہر',    asr: 'عصر',     maghrib: 'مغرب',    isha: 'عشاء' },
+            de: { fajr: 'Fadschr', dhuhr: 'Zuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Ischa' },
+            id: { fajr: 'Subuh',  dhuhr: 'Dzuhur', asr: 'Ashar',   maghrib: 'Maghrib', isha: 'Isya' },
+            es: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
+            bn: { fajr: 'ফজর',    dhuhr: 'যোহর',   asr: 'আসর',     maghrib: 'মাগরিব',  isha: 'ইশা' },
+            ms: { fajr: 'Subuh',  dhuhr: 'Zohor',  asr: 'Asar',    maghrib: 'Maghrib', isha: 'Isyak' },
+        };
+        const _dict = _NAME_BY_LANG[lang] || _NAME_BY_LANG.ar;
+        const nextName    = _dict[nextKey];
+        const currentName = currentKey ? _dict[currentKey] : null;
+        const thenName    = _dict[thenKey];
+        // Hijri + Gregorian date strings (Mecca tz, sufficient resolution
+        // for AR/EN/etc.; ±1-day edge cases are still under 1px shift).
+        const hijri = (typeof _hijriNow === 'function') ? _hijriNow() : null;
+        const hMonthAr = hijri ? ((_HIJRI_MONTHS[hijri.month] || {}).ar || '') : '';
+        const hMonthEn = hijri ? ((_HIJRI_MONTHS[hijri.month] || {}).en || '') : '';
+        const isRTL = (lang === 'ar' || lang === 'ur');
+        const hijriStr = !hijri ? '' : (isRTL
+            ? `${hijri.day} ${hMonthAr} ${hijri.year} هـ`
+            : `${hijri.day} ${hMonthEn} ${hijri.year} AH`);
+        const gMonths = _GREG_MONTHS[lang] || _GREG_MONTHS.en;
+        const gMonthLabel = gMonths[localD.getUTCMonth()];
+        const gregStr = `${localD.getUTCDate()} ${gMonthLabel} ${localD.getUTCFullYear()}`;
+        // City display name (best-effort; falls back to slug-title)
+        const cityName = (slug && typeof _resolveCityName === 'function')
+            ? (_resolveCityName(slug, lang) || (typeof _slugToTitle === 'function' ? _slugToTitle(slug) : slug))
+            : (typeof _slugToTitle === 'function' ? _slugToTitle(slug || '') : (slug || ''));
+        // ── Replace all banner placeholders ──
+        // 2a) Countdown (LCP element — was PERF-LCP-1)
+        out = out.replace(
+            /(id="next-prayer-countdown"[^>]*>)\s*--:--:--\s*(<)/,
+            `$1${countdown}$2`
+        );
+        // 2b) Next-prayer name (was PERF-LCP-1)
+        out = out.replace(
+            /(id="next-prayer-name"[^>]*>)\s*--\s*(<)/,
+            `$1${_escHtml(nextName)}$2`
+        );
+        // 2c) Current local time (display matches JS clock; tabular-nums prevents width jump)
+        out = out.replace(
+            /(id="current-time"[^>]*>)\s*--:--:--\s*(<)/,
+            `$1${currentTime}$2`
+        );
+        // 2d) City name in "الوقت الحالي في {city}" label
+        if (cityName) {
             out = out.replace(
-                /(id="next-prayer-countdown"[^>]*>)\s*--:--:--\s*(<)/,
-                `$1${cd.countdown}$2`
-            );
-            const _NAME_BY_LANG = {
-                ar: { fajr: 'الفجر',  dhuhr: 'الظهر',  asr: 'العصر',   maghrib: 'المغرب',  isha: 'العشاء' },
-                en: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
-                fr: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghreb', isha: 'Isha' },
-                tr: { fajr: 'Sabah',  dhuhr: 'Öğle',   asr: 'İkindi',  maghrib: 'Akşam',   isha: 'Yatsı' },
-                ur: { fajr: 'فجر',    dhuhr: 'ظہر',    asr: 'عصر',     maghrib: 'مغرب',    isha: 'عشاء' },
-                de: { fajr: 'Fadschr', dhuhr: 'Zuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Ischa' },
-                id: { fajr: 'Subuh',  dhuhr: 'Dzuhur', asr: 'Ashar',   maghrib: 'Maghrib', isha: 'Isya' },
-                es: { fajr: 'Fajr',   dhuhr: 'Dhuhr',  asr: 'Asr',     maghrib: 'Maghrib', isha: 'Isha' },
-                bn: { fajr: 'ফজর',    dhuhr: 'যোহর',   asr: 'আসর',     maghrib: 'মাগরিব',  isha: 'ইশা' },
-                ms: { fajr: 'Subuh',  dhuhr: 'Zohor',  asr: 'Asar',    maghrib: 'Maghrib', isha: 'Isyak' },
-            };
-            const _dict = _NAME_BY_LANG[lang] || _NAME_BY_LANG.ar;
-            const _localizedName = _dict[cd.prayerKey] || cd.prayerKey;
-            out = out.replace(
-                /(id="next-prayer-name"[^>]*>)\s*--\s*(<)/,
-                `$1${_localizedName}$2`
+                /(id="banner-city-name"[^>]*>)\s*--\s*(<)/,
+                `$1${_escHtml(cityName)}$2`
             );
         }
-    } catch (_e) { /* SSR pre-fill is optional; JS hydrates regardless */ }
+        // 2e) Hijri + Gregorian dates (right column — biggest CLS source: 2-line wrap when "--" → real text)
+        if (hijriStr) {
+            out = out.replace(
+                /(id="banner-hijri-date"[^>]*>)\s*--\s*(<)/,
+                `$1${_escHtml(hijriStr)}$2`
+            );
+        }
+        if (gregStr) {
+            out = out.replace(
+                /(id="banner-greg-date"[^>]*>)\s*--\s*(<)/,
+                `$1${_escHtml(gregStr)}$2`
+            );
+        }
+        // 2f) Current-prayer pill: SSR-fill name AND unhide if we know it.
+        //     If currentKey is null (before Fajr), keep hidden (visibility:hidden
+        //     reservation from PT-CLS-1 still applies — no layout shift).
+        if (currentName) {
+            out = out.replace(
+                /(id="banner-current-prayer-name"[^>]*>)\s*--\s*(<)/,
+                `$1${_escHtml(currentName)}$2`
+            );
+            // Remove the `hidden` attribute so the pill is visible at first paint.
+            out = out.replace(
+                /(<div class="banner-current-prayer" id="banner-current-prayer")\s+hidden\b/,
+                '$1'
+            );
+        }
+        // 2g) Then-prayer pill: name + time + unhide.
+        if (thenName && t[thenKey]) {
+            out = out.replace(
+                /(id="banner-then-prayer-name"[^>]*>)\s*--\s*(<)/,
+                `$1${_escHtml(thenName)}$2`
+            );
+            out = out.replace(
+                /(id="banner-then-prayer-time"[^>]*>)\s*--\s*(<)/,
+                `$1${_escHtml(t[thenKey])}$2`
+            );
+            out = out.replace(
+                /(<div class="banner-then-prayer" id="banner-then-prayer")\s+hidden\b/,
+                '$1'
+            );
+        }
+    } catch (_e) { /* SSR banner fill is optional; JS hydrates regardless */ }
     return out;
 }
 

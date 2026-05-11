@@ -3960,7 +3960,20 @@ function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
 // Map: route → identifier للـ H1 النشط (id أو data-i18n)
 function _getActiveH1Marker(urlPath) {
     const path = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
-    if (/^\/prayer-times-in-/.test(path))            return { kind: 'id',   value: 'page-h1' };
+    if (/^\/prayer-times-in-/.test(path)) {
+        // PT-COUNTRY-SEO-1 (2026-05-11): distinguish country listing from
+        // city page. Country pages use the prayer-times-cities.html
+        // template which has <h1 id="loc-hero-title"> (not #page-h1).
+        // City pages use index.html with <h1 id="page-h1">.
+        const m = /^\/prayer-times-in-([a-z][a-z0-9-]+)$/.exec(path);
+        if (m && typeof _countryFromSlug === 'function') {
+            const c = _countryFromSlug(m[1]);
+            if (c && c.cc && c.cc !== '__') {
+                return { kind: 'id', value: 'loc-hero-title' };
+            }
+        }
+        return { kind: 'id',   value: 'page-h1' };
+    }
     if (/^\/qibla-in-/.test(path))                   return { kind: 'id',   value: 'qibla-hero-title' };
     // Phase Q-Hub-A (2026-05-04): /qibla Hub also uses #qibla-hero-title as the active H1.
     if (/^\/qibla$/.test(path))                       return { kind: 'id',   value: 'qibla-hero-title' };
@@ -7428,35 +7441,191 @@ function buildSeoForPath(urlPath) {
         if (c && c.cc && c.cc !== '__') {
             // اسم الدولة بـلغة الواجهة (يدعم 6 لغات): ar/en/fr/tr/ur/de
             const cname = _countryNameForLang(c.cc, lang);
-            // Phase D2: cities-focused phrasing + add es/bn/ms (was missing → en fallback)
-            const _COUNTRY_TITLE_TEMPLATES = {
-                ar: `مواقيت الصلاة في مدن ${cname} | تصفّح المواقع`,
-                en: `Prayer Times Cities in ${cname} | Browse All Locations`,
-                fr: `Heures de prière en ${cname} | Toutes les villes`,
-                tr: `${cname} Namaz Vakitleri | Tüm Şehirler`,
-                ur: `${cname} میں اوقاتِ نماز | تمام شہر`,
-                de: `Gebetszeiten in ${cname} | Alle Städte`,
-                id: `Jadwal Sholat di ${cname} | Semua Kota`,
-                es: `Horarios de Oración en ${cname} | Todas las ciudades`,
-                bn: `${cname}-এ নামাজের সময় | সকল শহর`,
-                ms: `Waktu Solat di ${cname} | Semua Bandar`,
+            // PT-COUNTRY-SEO-1 (2026-05-11): length-aware Title + Meta
+            // ladders for /prayer-times-in-{country-slug}. Replaces the
+            // previous fixed templates that produced Title=61cp and
+            // Meta=121cp on /prayer-times-in-saudi-arabia (Title was
+            // tight, Meta was below the 120cp floor for short country
+            // names like "Iraq"/"Egypt"). Picker tries 5 templates × 2
+            // names (full + short), prefers [50, 60], accepts [50, 65],
+            // else longest ≤ 65.
+            //
+            // Short-name map (Arabic) covers the few countries whose full
+            // standard AR name is too long (Saudi Arabia, UAE, etc.). For
+            // most countries the full name IS short enough, so the same
+            // string is used for both.
+            const _COUNTRY_SHORT_NAMES = {
+                ar: { sa:'السعودية', ae:'الإمارات', xk:'كوسوفو', ba:'البوسنة', cd:'الكونغو', cf:'إفريقيا الوسطى', dr:'الدومينيكان', do:'الدومينيكان', kp:'كوريا الشمالية', kr:'كوريا الجنوبية', ps:'فلسطين' },
+                en: { sa:'Saudi Arabia', ae:'UAE', xk:'Kosovo', ba:'Bosnia', cd:'DR Congo', cf:'CAR', do:'Dominican Rep', kp:'North Korea', kr:'South Korea' },
+                fr: { sa:'Arabie Saoudite', ae:'Émirats', xk:'Kosovo', ba:'Bosnie', cd:'RD Congo', cf:'RCA', do:'République dominicaine', kp:'Corée du Nord', kr:'Corée du Sud' },
+                tr: { sa:'Suudi Arabistan', ae:'BAE', xk:'Kosova', ba:'Bosna', cd:'DR Kongo', cf:'OAC', do:'Dominik Cumhuriyeti', kp:'Kuzey Kore', kr:'Güney Kore' },
+                ur: { sa:'سعودی عرب', ae:'متحدہ امارات', xk:'کوسوو', ba:'بوسنیا', cd:'جمہوری کانگو', cf:'وسطی افریقہ', do:'ڈومینیکن', kp:'شمالی کوریا', kr:'جنوبی کوریا' },
+                de: { sa:'Saudi-Arabien', ae:'VAE', xk:'Kosovo', ba:'Bosnien', cd:'DR Kongo', cf:'ZAR', do:'Dominikanische Rep.', kp:'Nordkorea', kr:'Südkorea' },
+                id: { sa:'Arab Saudi', ae:'UEA', xk:'Kosovo', ba:'Bosnia', cd:'RD Kongo', cf:'Afrika Tengah', do:'Republik Dominika', kp:'Korea Utara', kr:'Korea Selatan' },
+                es: { sa:'Arabia Saudita', ae:'EAU', xk:'Kosovo', ba:'Bosnia', cd:'RD Congo', cf:'RCA', do:'Rep. Dominicana', kp:'Corea del Norte', kr:'Corea del Sur' },
+                bn: { sa:'সৌদি আরব', ae:'আমিরাত', xk:'কসোভো', ba:'বসনিয়া', cd:'গণতান্ত্রিক কঙ্গো', cf:'মধ্য আফ্রিকা', do:'ডোমিনিকান', kp:'উত্তর কোরিয়া', kr:'দক্ষিণ কোরিয়া' },
+                ms: { sa:'Arab Saudi', ae:'UAE', xk:'Kosovo', ba:'Bosnia', cd:'DR Kongo', cf:'CAR', do:'Republik Dominika', kp:'Korea Utara', kr:'Korea Selatan' },
             };
-            const _COUNTRY_DESC_TEMPLATES = {
-                ar: `تصفّح كل مدن ${cname}: مواقيت الصلاة (الفجر، الظهر، العصر، المغرب، العشاء)، اتجاه القبلة والتاريخ الهجري.`,
-                en: `Browse all cities in ${cname} for accurate prayer times, Qibla direction and the Hijri date with a weekly schedule.`,
-                fr: `Parcourez toutes les villes de ${cname} pour des heures de prière précises, la direction de la Qibla et la date hégirienne avec un programme hebdomadaire.`,
-                tr: `${cname} şehirlerinde doğru namaz vakitleri, kıble yönü ve hicri tarih için tüm şehirlere göz atın — haftalık program ile.`,
-                ur: `${cname} کے ہر شہر کے لیے درست اوقاتِ نماز، سمتِ قبلہ اور ہجری تاریخ ہفتہ وار جدول کے ساتھ دیکھیں۔`,
-                de: `Durchsuchen Sie alle Städte in ${cname} für genaue Gebetszeiten, Qibla-Richtung und Hidschri-Datum mit Wochenplan.`,
-                id: `Jelajahi setiap kota di ${cname}: jadwal sholat akurat, arah kiblat dan tanggal Hijriah dengan jadwal mingguan.`,
-                es: `Explora todas las ciudades de ${cname}: horarios exactos de oración, dirección de la Qibla y fecha Hijri con programa semanal.`,
-                bn: `${cname}-এর সকল শহরে নির্ভুল নামাজের সময়, কিবলার দিক ও হিজরি তারিখ — সাপ্তাহিক সূচী সহ।`,
-                ms: `Layari semua bandar di ${cname} untuk waktu solat tepat, arah kiblat dan tarikh Hijrah dengan jadual mingguan.`,
+            const _cnShortMap = _COUNTRY_SHORT_NAMES[lang] || _COUNTRY_SHORT_NAMES.en;
+            const _cnShort = _cnShortMap[c.cc] || cname;        // fallback to full
+
+            // Title candidates (per user spec, 5 variants).
+            const _COUNTRY_TITLE_TPLS = {
+                ar: cn => [
+                    `مواقيت الصلاة في ${cn} اليوم | أوقات الأذان بجميع المدن`,
+                    `مواقيت الصلاة في ${cn} اليوم | أوقات الأذان`,
+                    `مواقيت الصلاة في ${cn} | أوقات الأذان بجميع المدن`,
+                    `مواقيت الصلاة في ${cn} اليوم`,
+                    `مواقيت الصلاة في ${cn}`,
+                ],
+                en: cn => [
+                    `Prayer Times in ${cn} Today | Adhan Schedule for All Cities`,
+                    `Prayer Times in ${cn} Today | Daily Adhan Schedule`,
+                    `Prayer Times in ${cn} | Adhan Schedule for All Cities`,
+                    `Prayer Times in ${cn} Today`,
+                    `Prayer Times in ${cn}`,
+                ],
+                fr: cn => [
+                    `Heures de prière en ${cn} aujourd'hui | Adhan toutes villes`,
+                    `Heures de prière en ${cn} aujourd'hui | Horaires Adhan`,
+                    `Heures de prière en ${cn} | Adhan pour toutes les villes`,
+                    `Heures de prière en ${cn} aujourd'hui`,
+                    `Heures de prière en ${cn}`,
+                ],
+                tr: cn => [
+                    `${cn} Namaz Vakitleri Bugün | Tüm Şehirler için Ezan`,
+                    `${cn} Namaz Vakitleri Bugün | Günlük Ezan Programı`,
+                    `${cn} Namaz Vakitleri | Tüm Şehirler için Ezan Programı`,
+                    `${cn} Namaz Vakitleri Bugün`,
+                    `${cn} Namaz Vakitleri`,
+                ],
+                ur: cn => [
+                    `${cn} میں آج اوقاتِ نماز | تمام شہروں کا اذان شیڈول`,
+                    `${cn} میں آج اوقاتِ نماز | روزانہ اذان شیڈول`,
+                    `${cn} میں اوقاتِ نماز | تمام شہروں کا اذان شیڈول`,
+                    `${cn} میں آج اوقاتِ نماز`,
+                    `${cn} میں اوقاتِ نماز`,
+                ],
+                de: cn => [
+                    `Gebetszeiten in ${cn} heute | Adhan für alle Städte`,
+                    `Gebetszeiten in ${cn} heute | Täglicher Adhan`,
+                    `Gebetszeiten in ${cn} | Adhan-Plan für alle Städte`,
+                    `Gebetszeiten in ${cn} heute`,
+                    `Gebetszeiten in ${cn}`,
+                ],
+                id: cn => [
+                    `Jadwal Sholat di ${cn} Hari Ini | Adzan Semua Kota`,
+                    `Jadwal Sholat di ${cn} Hari Ini | Adzan Harian`,
+                    `Jadwal Sholat di ${cn} | Adzan untuk Semua Kota`,
+                    `Jadwal Sholat di ${cn} Hari Ini`,
+                    `Jadwal Sholat di ${cn}`,
+                ],
+                es: cn => [
+                    `Horarios de Oración en ${cn} Hoy | Adhan en Todas las Ciudades`,
+                    `Horarios de Oración en ${cn} Hoy | Adhan Diario`,
+                    `Horarios de Oración en ${cn} | Adhan para Todas las Ciudades`,
+                    `Horarios de Oración en ${cn} Hoy`,
+                    `Horarios de Oración en ${cn}`,
+                ],
+                bn: cn => [
+                    `${cn}-এ আজ নামাজের সময় | সকল শহরের আজান সূচি`,
+                    `${cn}-এ আজ নামাজের সময় | দৈনিক আজান সূচি`,
+                    `${cn}-এ নামাজের সময় | সকল শহরের আজান`,
+                    `${cn}-এ আজ নামাজের সময়`,
+                    `${cn}-এ নামাজের সময়`,
+                ],
+                ms: cn => [
+                    `Waktu Solat di ${cn} Hari Ini | Azan untuk Semua Bandar`,
+                    `Waktu Solat di ${cn} Hari Ini | Jadual Azan Harian`,
+                    `Waktu Solat di ${cn} | Azan untuk Semua Bandar`,
+                    `Waktu Solat di ${cn} Hari Ini`,
+                    `Waktu Solat di ${cn}`,
+                ],
             };
-            title = _COUNTRY_TITLE_TEMPLATES[lang] || _COUNTRY_TITLE_TEMPLATES.en;
-            description = _COUNTRY_DESC_TEMPLATES[lang] || _COUNTRY_DESC_TEMPLATES.en;
+            const _pickCountryTitle = () => {
+                const tplFn = _COUNTRY_TITLE_TPLS[lang] || _COUNTRY_TITLE_TPLS.en;
+                const len = s => Array.from(s).length;
+                const tryList = (n) => tplFn(n);
+                const allFull = tryList(cname);
+                const allShort = (_cnShort !== cname) ? tryList(_cnShort) : [];
+                const all = [...allFull, ...allShort];
+                // 1) ∈ [50, 60]
+                for (const t of all) { if (len(t) >= 50 && len(t) <= 60) return t; }
+                // 2) ∈ [50, 65]
+                for (const t of all) { if (len(t) >= 50 && len(t) <= 65) return t; }
+                // 3) longest ≤ 65 (avoid OVER)
+                const under = all.filter(t => len(t) <= 65).sort((a, b) => len(b) - len(a));
+                if (under.length) return under[0];
+                // 4) fallback: shortest candidate (still contains "مواقيت الصلاة"/etc + cname)
+                return all.sort((a, b) => len(a) - len(b))[0];
+            };
+
+            // Meta candidates (long → medium → short).
+            const _COUNTRY_DESC_TPLS = {
+                ar: cn => [
+                    `تصفح مواقيت الصلاة في ${cn} اليوم لجميع المدن، مع أوقات الفجر والظهر والعصر والمغرب والعشاء، واتجاه القبلة والتاريخ الهجري بدقة.`,
+                    `مواقيت الصلاة في ${cn} اليوم مع أوقات الفجر والظهر والعصر والمغرب والعشاء، واتجاه القبلة والتاريخ الهجري للمدن.`,
+                    `مواقيت الصلاة في ${cn} اليوم لجميع المدن، مع أوقات الأذان، اتجاه القبلة، والتاريخ الهجري بدقة.`,
+                ],
+                en: cn => [
+                    `Browse prayer times in ${cn} today across all cities, with Fajr, Dhuhr, Asr, Maghrib and Isha times, plus Qibla direction and Hijri date — all calculated precisely.`,
+                    `Prayer times in ${cn} today with Fajr, Dhuhr, Asr, Maghrib and Isha times, plus Qibla direction and the Hijri date for every city.`,
+                    `Prayer times in ${cn} today for all cities, with Adhan times, Qibla direction and the Hijri date — calculated accurately.`,
+                ],
+                fr: cn => [
+                    `Consultez les heures de prière en ${cn} aujourd'hui pour toutes les villes, avec Fajr, Dhuhr, Asr, Maghrib et Isha, la direction de la Qibla et la date hégirienne calculées avec précision.`,
+                    `Heures de prière en ${cn} aujourd'hui avec Fajr, Dhuhr, Asr, Maghrib et Isha, la direction de la Qibla et la date hégirienne pour chaque ville.`,
+                    `Heures de prière en ${cn} aujourd'hui pour toutes les villes, avec les horaires d'Adhan, la direction de la Qibla et la date hégirienne.`,
+                ],
+                tr: cn => [
+                    `${cn} için tüm şehirlerde bugünkü namaz vakitlerine göz atın: İmsak, Öğle, İkindi, Akşam, Yatsı ile kıble yönü ve hicri tarih hassas şekilde hesaplanır.`,
+                    `${cn} için bugünkü namaz vakitleri — İmsak, Öğle, İkindi, Akşam, Yatsı, kıble yönü ve hicri tarih, her şehir için ayrı ayrı.`,
+                    `${cn} için bugünkü namaz vakitleri ve tüm şehirlerin ezan saatleri, kıble yönü ve hicri tarih ile birlikte.`,
+                ],
+                ur: cn => [
+                    `${cn} میں آج تمام شہروں کے لیے اوقاتِ نماز دیکھیں: فجر، ظہر، عصر، مغرب اور عشاء کے اوقات، سمتِ قبلہ اور ہجری تاریخ درست حساب کے ساتھ۔`,
+                    `${cn} میں آج اوقاتِ نماز — فجر، ظہر، عصر، مغرب، عشاء، سمتِ قبلہ اور ہجری تاریخ ہر شہر کے لیے۔`,
+                    `${cn} میں آج تمام شہروں کے لیے اوقاتِ نماز، اذان کے اوقات، سمتِ قبلہ اور ہجری تاریخ کے ساتھ۔`,
+                ],
+                de: cn => [
+                    `Heutige Gebetszeiten in ${cn} für alle Städte ansehen — mit Fajr, Dhuhr, Asr, Maghrib und Isha sowie Qibla-Richtung und Hidschri-Datum, präzise berechnet.`,
+                    `Gebetszeiten in ${cn} heute mit Fajr, Dhuhr, Asr, Maghrib und Isha, Qibla-Richtung und Hidschri-Datum für jede Stadt.`,
+                    `Heutige Gebetszeiten in ${cn} für alle Städte mit Adhan-Zeiten, Qibla-Richtung und Hidschri-Datum.`,
+                ],
+                id: cn => [
+                    `Jelajahi jadwal sholat di ${cn} hari ini untuk semua kota, dengan waktu Subuh, Zuhur, Asar, Magrib, dan Isya, arah kiblat dan tanggal Hijriah yang akurat.`,
+                    `Jadwal sholat di ${cn} hari ini dengan waktu Subuh, Zuhur, Asar, Magrib, Isya, arah kiblat dan tanggal Hijriah untuk setiap kota.`,
+                    `Jadwal sholat di ${cn} hari ini untuk semua kota, dengan waktu adzan, arah kiblat dan tanggal Hijriah secara akurat.`,
+                ],
+                es: cn => [
+                    `Consulta los horarios de oración en ${cn} hoy para todas las ciudades, con Fayr, Dhuhr, Asr, Maghrib e Isha, dirección de la Qibla y fecha Hégira calculados con precisión.`,
+                    `Horarios de oración en ${cn} hoy con Fayr, Dhuhr, Asr, Maghrib e Isha, dirección de la Qibla y fecha Hégira para cada ciudad.`,
+                    `Horarios de oración en ${cn} hoy para todas las ciudades, con horas de adhan, dirección de la Qibla y fecha Hégira.`,
+                ],
+                bn: cn => [
+                    `${cn}-এ আজ সকল শহরের নামাজের সময় দেখুন — ফজর, জোহর, আসর, মাগরিব ও এশার সময়, কিবলার দিক ও হিজরি তারিখ নির্ভুলভাবে।`,
+                    `${cn}-এ আজ নামাজের সময় — ফজর, জোহর, আসর, মাগরিব, এশা, কিবলার দিক ও হিজরি তারিখ প্রতিটি শহরের জন্য।`,
+                    `${cn}-এ আজ সকল শহরের নামাজের সময়, আজানের সময়, কিবলার দিক ও হিজরি তারিখ সঠিকভাবে।`,
+                ],
+                ms: cn => [
+                    `Layari waktu solat di ${cn} hari ini untuk semua bandar — dengan Subuh, Zohor, Asar, Maghrib dan Isyak, arah kiblat dan tarikh Hijrah yang dikira dengan tepat.`,
+                    `Waktu solat di ${cn} hari ini dengan Subuh, Zohor, Asar, Maghrib, Isyak, arah kiblat dan tarikh Hijrah untuk setiap bandar.`,
+                    `Waktu solat di ${cn} hari ini untuk semua bandar, dengan waktu azan, arah kiblat dan tarikh Hijrah secara tepat.`,
+                ],
+            };
+            const _pickCountryDesc = () => {
+                const tplFn = _COUNTRY_DESC_TPLS[lang] || _COUNTRY_DESC_TPLS.en;
+                const len = s => Array.from(s).length;
+                const cands = tplFn(cname);
+                for (const t of cands) { if (len(t) >= 120 && len(t) <= 160) return t; }
+                for (const t of cands) { if (len(t) <= 160) return t; }
+                return cands[cands.length - 1];
+            };
+
+            title = _pickCountryTitle();
+            description = _pickCountryDesc();
             breadcrumbs.push({ name: cname, item: canonical });
-            countryListing = { code: c.cc, name: cname };
+            countryListing = { code: c.cc, name: cname, shortName: _cnShort };
         } else {
             // Round 8: slug لا يُطابق دولة → معاملته كمدينة (مثل /prayer-times-in-monaco-city)
             // نُولّد نفس title بتوقيت المدينة المحلّيّ إن وُجدَت في cities-*.json (10 لغات)
@@ -13078,25 +13247,40 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     }
 
     if (seo.countryListing) {
-        // ── صفحة قائمة مدن دولة ── (6 لغات) — تمنع city-style SSR على URLs مثل /prayer-times-in-germany
+        // ── صفحة قائمة مدن دولة ── (10 لغات) — تمنع city-style SSR على URLs مثل /prayer-times-in-germany
         const cn = seo.countryListing.name;
+        const _cnShort = seo.countryListing.shortName || cn;
         const L = seo.lang;
-        // SSR للعنوان الرئيسي لـ prayer-times-cities.html (id="page-title" — مكتوب بالعربية في القالب)
+        // PT-COUNTRY-SEO-1 (2026-05-11): H1 text now matches the page
+        // intent ("Prayer Times in {country} Today") and is injected
+        // into the actual H1 element <h1 id="loc-hero-title"> in
+        // prayer-times-cities.html (line 339). The previous code
+        // looked for <h1 id="page-title"> which doesn't exist in the
+        // template (page-title is a <span>). The data-i18n is dropped
+        // so JS hydration doesn't restore the static placeholder.
         const _countryH1 = {
-            ar: `مواقيت الصلاة في مدن ${cn}`,
-            en: `Prayer Times in Cities of ${cn}`,
-            fr: `Heures de prière dans les villes de ${cn}`,
-            tr: `${cn} Şehirlerinde Namaz Vakitleri`,
-            ur: `${cn} کے شہروں میں اوقاتِ نماز`,
-            de: `Gebetszeiten in den Städten von ${cn}`,
-            id: `Jadwal Sholat di Kota-Kota ${cn}`,
-            es: `Horarios de Oración en Ciudades de ${cn}`,
-            bn: `${cn}-এর শহরগুলোতে নামাজের সময়`,
-            ms: `Waktu Solat di Bandar-Bandar ${cn}`,
-        }[L] || `Prayer Times in Cities of ${cn}`;
+            ar: `مواقيت الصلاة في ${_cnShort} اليوم`,
+            en: `Prayer Times in ${_cnShort} Today`,
+            fr: `Heures de prière en ${_cnShort} aujourd'hui`,
+            tr: `${_cnShort} Namaz Vakitleri Bugün`,
+            ur: `${_cnShort} میں آج اوقاتِ نماز`,
+            de: `Gebetszeiten in ${_cnShort} heute`,
+            id: `Jadwal Sholat di ${_cnShort} Hari Ini`,
+            es: `Horarios de Oración en ${_cnShort} Hoy`,
+            bn: `${_cnShort}-এ আজ নামাজের সময়`,
+            ms: `Waktu Solat di ${_cnShort} Hari Ini`,
+        }[L] || `Prayer Times in ${_cnShort} Today`;
+        // Inject H1 text into the real H1 element (id="loc-hero-title").
         html = html.replace(
-            /<h1([^>]*)id="page-title"([^>]*)>[^<]*<\/h1>/,
-            `<h1$1id="page-title"$2>${_escHtml(_countryH1)}</h1>`
+            /<h1 id="loc-hero-title"[^>]*data-i18n="cities_page\.hero_title"[^>]*>[^<]*<\/h1>/,
+            `<h1 id="loc-hero-title" class="loc-hero-title">${_escHtml(_countryH1)}</h1>`
+        );
+        // Legacy: <span id="page-title"> in the top breadcrumb header —
+        // also set to the H1 text so the header reads the same on
+        // crawlers. (Was previously targeting <h1> which didn't exist.)
+        html = html.replace(
+            /<span class="city-name" id="page-title"[^>]*>[^<]*<\/span>/,
+            `<span class="city-name" id="page-title" style="margin:0;font:inherit;font-weight:700;">${_escHtml(_countryH1)}</span>`
         );
         // SSR لـ breadcrumb الأخير (id="cbc-country") — اسم الدولة المترجَم بدل "--"
         html = html.replace(
@@ -13163,6 +13347,123 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<div class="banner-date-greg" id="banner-greg-date">${_escHtml(gregDate)}</div>`
             );
         } catch(e) { /* noop */ }
+
+        // PT-COUNTRY-SEO-1 (2026-05-11): inject SSR educational content
+        // (4 sections, ~700 AR words / ~500 EN words). Lifts Word Count
+        // from 253 → 900+, adds 4 H2 + 2 H3 to the heading structure.
+        // Per-country calculation method label drives the "طريقة الحساب
+        // المعتمدة" H3 content (Umm Al-Qura for SA, Egyptian Authority
+        // for EG, Diyanet for TR, etc.).
+        try {
+            const _CC_TO_METHOD = {
+                sa: 'Makkah', eg: 'Egyptian', pk: 'Karachi', ir: 'Tehran',
+                tr: 'Diyanet', my: 'JAKIM', id: 'Kemenag', kw: 'Kuwait',
+                qa: 'Qatar', ae: 'Dubai', sg: 'Singapore', fr: 'UOIF',
+                gb: 'ISNA', us: 'ISNA', ca: 'ISNA', ru: 'Russia',
+            };
+            const _METHOD_LABEL_BY_LANG = {
+                ar: { Makkah:'أم القرى (مكة المكرمة)', Egyptian:'الهيئة المصرية العامة للمساحة', Karachi:'جامعة كراتشي', Tehran:'معهد طهران للجيوفيزياء', Diyanet:'الديانة التركية', JAKIM:'JAKIM ماليزيا', Kemenag:'وزارة الشؤون الدينية الإندونيسية', Kuwait:'الكويت', Qatar:'قطر', Dubai:'دبي', Singapore:'سنغافورة', UOIF:'الاتحاد الفرنسي للتنظيمات الإسلامية', ISNA:'الجمعية الإسلامية لأمريكا الشمالية', Russia:'روسيا', MWL:'رابطة العالم الإسلامي' },
+                en: { Makkah:'Umm Al-Qura (Makkah)', Egyptian:'Egyptian General Authority', Karachi:'University of Karachi', Tehran:'Tehran Institute of Geophysics', Diyanet:'Turkey – Diyanet', JAKIM:'Malaysia – JAKIM', Kemenag:'Indonesia – Kemenag', Kuwait:'Kuwait', Qatar:'Qatar', Dubai:'Dubai', Singapore:'Singapore', UOIF:'France – UOIF', ISNA:'ISNA (North America)', Russia:'Russia', MWL:'Muslim World League' },
+                fr: { Makkah:'Umm Al-Qura (La Mecque)', Egyptian:'Autorité égyptienne', Karachi:'Université de Karachi', Tehran:'Institut de Téhéran', Diyanet:'Turquie – Diyanet', JAKIM:'Malaisie – JAKIM', Kemenag:'Indonésie – Kemenag', Kuwait:'Koweït', Qatar:'Qatar', Dubai:'Dubaï', Singapore:'Singapour', UOIF:'France – UOIF', ISNA:'ISNA (Amérique du Nord)', Russia:'Russie', MWL:'Ligue islamique mondiale' },
+                tr: { Makkah:'Ümmü’l-Kura (Mekke)', Egyptian:'Mısır Otoritesi', Karachi:'Karaçi Üniversitesi', Tehran:'Tahran Enstitüsü', Diyanet:'Türkiye – Diyanet', JAKIM:'Malezya – JAKIM', Kemenag:'Endonezya – Kemenag', Kuwait:'Kuveyt', Qatar:'Katar', Dubai:'Dubai', Singapore:'Singapur', UOIF:'Fransa – UOIF', ISNA:'Kuzey Amerika – ISNA', Russia:'Rusya', MWL:'İslam Dünyası Birliği' },
+                ur: { Makkah:'ام القری (مکہ)', Egyptian:'مصری اتھارٹی', Karachi:'جامعہ کراچی', Tehran:'تہران انسٹیٹیوٹ', Diyanet:'ترکی – دیانت', JAKIM:'ملائیشیا – JAKIM', Kemenag:'انڈونیشیا – Kemenag', Kuwait:'کویت', Qatar:'قطر', Dubai:'دبئی', Singapore:'سنگاپور', UOIF:'فرانس – UOIF', ISNA:'ISNA (شمالی امریکہ)', Russia:'روس', MWL:'رابطۂ عالم اسلامی' },
+                de: { Makkah:'Umm Al-Qura (Mekka)', Egyptian:'Ägyptische Behörde', Karachi:'Universität Karatschi', Tehran:'Teheran-Institut', Diyanet:'Türkei – Diyanet', JAKIM:'Malaysia – JAKIM', Kemenag:'Indonesien – Kemenag', Kuwait:'Kuwait', Qatar:'Katar', Dubai:'Dubai', Singapore:'Singapur', UOIF:'Frankreich – UOIF', ISNA:'ISNA (Nordamerika)', Russia:'Russland', MWL:'Islamische Weltliga' },
+                id: { Makkah:'Umm Al-Qura (Makkah)', Egyptian:'Otoritas Mesir', Karachi:'Universitas Karachi', Tehran:'Institut Tehran', Diyanet:'Turki – Diyanet', JAKIM:'Malaysia – JAKIM', Kemenag:'Indonesia – Kemenag', Kuwait:'Kuwait', Qatar:'Qatar', Dubai:'Dubai', Singapore:'Singapura', UOIF:'Prancis – UOIF', ISNA:'ISNA (Amerika Utara)', Russia:'Rusia', MWL:'Liga Muslim Dunia' },
+                es: { Makkah:'Umm Al-Qura (La Meca)', Egyptian:'Autoridad Egipcia', Karachi:'Universidad de Karachi', Tehran:'Instituto de Teherán', Diyanet:'Turquía – Diyanet', JAKIM:'Malasia – JAKIM', Kemenag:'Indonesia – Kemenag', Kuwait:'Kuwait', Qatar:'Catar', Dubai:'Dubái', Singapore:'Singapur', UOIF:'Francia – UOIF', ISNA:'ISNA (Norteamérica)', Russia:'Rusia', MWL:'Liga Mundial Islámica' },
+                bn: { Makkah:'উম্মুল কুরা (মক্কা)', Egyptian:'মিশর কর্তৃপক্ষ', Karachi:'করাচি বিশ্ববিদ্যালয়', Tehran:'তেহরান ইনস্টিটিউট', Diyanet:'তুরস্ক – দিয়ানেট', JAKIM:'মালয়েশিয়া – JAKIM', Kemenag:'ইন্দোনেশিয়া – কেমেনাগ', Kuwait:'কুয়েত', Qatar:'কাতার', Dubai:'দুবাই', Singapore:'সিঙ্গাপুর', UOIF:'ফ্রান্স – UOIF', ISNA:'ISNA (উত্তর আমেরিকা)', Russia:'রাশিয়া', MWL:'মুসলিম ওয়ার্ল্ড লীগ' },
+                ms: { Makkah:'Umm Al-Qura (Makkah)', Egyptian:'Pihak Berkuasa Mesir', Karachi:'Universiti Karachi', Tehran:'Institut Tehran', Diyanet:'Turki – Diyanet', JAKIM:'Malaysia – JAKIM', Kemenag:'Indonesia – Kemenag', Kuwait:'Kuwait', Qatar:'Qatar', Dubai:'Dubai', Singapore:'Singapura', UOIF:'Perancis – UOIF', ISNA:'ISNA (Amerika Utara)', Russia:'Rusia', MWL:'Liga Dunia Islam' },
+            };
+            const _methodKey = _CC_TO_METHOD[seo.countryListing.code] || 'MWL';
+            const _methodLabel = (_METHOD_LABEL_BY_LANG[L] || _METHOD_LABEL_BY_LANG.en)[_methodKey] || 'MWL';
+            const _ptLangPfx = (L === 'ar') ? '' : ('/' + L);
+
+            const _PT_COUNTRY_SEO = {
+                ar: (cn, m) => ({
+                    h2_today: `أوقات الصلاة اليوم في مدن ${cn}`,
+                    h2_today_p1: `يُقدّم هذا القسم مواقيت الصلوات الخمس اليومية — الفجر، الظهر، العصر، المغرب، والعشاء — لمختلف المدن في ${cn}. ولأن كل مدينة لها إحداثيّاتها الجغرافيّة الخاصّة وموقعها من خط الزوال، فإن الأوقات تختلف بشكل طفيف بين مدينة وأخرى داخل البلد الواحد. هذا الموقع يَعرض جداول مواقيت الصلاة بدقّة فلكيّة يوميّاً، مع تحديث تلقائيّ حسب التاريخ الميلادي والهجريّ.`,
+                    h2_today_p2: `تظهر مواقيت الصلاة في المدن الكبرى بشكل سريع عند اختيار المدينة من قائمة المدن المتاحة في ${cn}. ويمكنك كذلك تصفّح جدول مواقيت الصلاة الأسبوعيّ أو الشهريّ لتخطيط الأنشطة اليوميّة مسبقاً، كما يُعرض اتجاه القبلة من كلّ مدينة، والتاريخ الهجريّ المُحدَّث يوميّاً، والمعلومات الفلكيّة المتعلّقة بطور القمر وحالته الحاليّة.`,
+                    h2_pick: `اختر المدينة لمعرفة مواقيت الصلاة`,
+                    h2_pick_p1: `لاختيار مدينتك في ${cn}، استخدم شريط البحث أعلى الصفحة، أو تصفّح قائمة المدن المتوفّرة. الموقع يدعم عرض مواقيت الصلاة في عشرات المدن داخل ${cn}، بدءاً من العواصم الكبرى وانتهاءً بالبلدات الأصغر حجماً. كل بطاقة مدينة تأخذك مباشرة إلى صفحة مخصّصة بمواقيت الصلاة لتلك المدينة، مع جدول يوميّ وأسبوعيّ متكامل.`,
+                    h2_pick_p2: `إذا لم تجد مدينتك في القائمة، يمكنك البحث عنها بالاسم بشريط البحث. يحتفظ الموقع بقاعدة بيانات تشمل أهمّ المدن في كافّة المناطق، ويُكمل النتائج بإحداثيّات الموقع الجغرافيّ لمدينتك إن كانت متاحة. كل هذه المعلومات تُعرض دون الحاجة إلى تسجيل أو حساب مستخدم، وبالكامل مجّاناً.`,
+                    h2_calc: `كيف يتمّ حساب مواقيت الصلاة في ${cn}؟`,
+                    h2_calc_p1: `تُحسب مواقيت الصلاة في ${cn} باعتماد المعادلات الفلكيّة الموحَّدة دولياً، التي تأخذ بعين الاعتبار خط العرض والطول، وارتفاع الشمس عن الأفق، وزاوية الشروق والغروب. الأوقات تُعدَّل تلقائياً عند تغيّر التوقيت المحلّيّ أو التوقيت الصيفيّ إن وُجد، لضمان أعلى دقّة ممكنة لمستخدمي الموقع داخل ${cn}.`,
+                    h3_method: `طريقة الحساب المعتمدة`,
+                    h3_method_p1: `طريقة الحساب المعتمدة في ${cn} هي ${m}. هذه الطريقة معترف بها رسمياً، وتُستخدم في تحديد أوقات الفجر والعشاء على أساس زوايا فلكيّة ثابتة. يمكن لزائر الموقع التحقّق من أنّ النتائج المعروضة هنا تتطابق مع التقاويم الرسميّة في ${cn}، خصوصاً في الأيام التي تتغيّر فيها أوقات الشروق والغروب بشكل واضح، كما في فصلَي الربيع والخريف.`,
+                    h3_diff: `اختلاف التوقيت بين المدن`,
+                    h3_diff_p1: `يَختلف توقيت الصلاة بين مدن ${cn} بسبب اختلاف خط الطول والعرض والارتفاع الجغرافيّ. مثلاً، قد تَفصل بين شروق الفجر في الطرف الشرقيّ والطرف الغربيّ للبلد عدّة دقائق. ولذلك يَنصح الموقع باختيار المدينة الأقرب جغرافياً للحصول على أعلى دقّة. وفي حال كانت المدينة الفعليّة بعيدة عن المدن المتاحة، يمكن استخدام إحداثيّات GPS مباشرة عبر شريط البحث.`,
+                    h2_services: `خدمات إسلاميّة مرتبطة بـ ${cn}`,
+                    h2_services_p1: `بالإضافة إلى مواقيت الصلاة، يُقدّم الموقع خدمات إسلاميّة شاملة لكل مستخدم في ${cn}. يمكن استخدام أداة اتّجاه القبلة الدقيقة من أيّ مدينة، باستخدام إحداثيّاتها الجغرافيّة مع الكعبة المشرّفة. كما توفّر الصفحة معلومات يوميّة عن حالة القمر وطوره الحاليّ، والتاريخ الهجريّ المُحدّث، والتقويم الهجريّ السنويّ.`,
+                    h2_services_p2: `كذلك يمكنك الانتقال إلى التقويم الهجريّ الشهريّ من خلال روابط مخصّصة، أو تحويل التاريخ بين الهجريّ والميلاديّ عبر أداة التحويل، أو حساب الزكاة عبر الأداة المدمجة. هذه الخدمات تعمل في كلّ دول العالم، ولكنّها تُحسب تلقائياً بناءً على المدينة أو الموقع المختار في ${cn}، لضمان دقّة النتائج وسلامة الاتجاه.`,
+                    link_qibla: `اتّجاه القبلة`,
+                    link_moon: `حالة القمر اليوم`,
+                    link_hijri: `التقويم الهجريّ`,
+                    link_dateconv: `تحويل التاريخ`,
+                    link_zakat: `حاسبة الزكاة`,
+                }),
+                en: (cn, m) => ({
+                    h2_today: `Today's Prayer Times in Cities of ${cn}`,
+                    h2_today_p1: `This page shows the five daily prayer times — Fajr, Dhuhr, Asr, Maghrib and Isha — for cities across ${cn}. Because every city has its own coordinates and position relative to the meridian, prayer times vary slightly from one city to another inside the same country. The site computes the schedule with astronomical precision every day and updates it automatically against both the Gregorian and Hijri calendars.`,
+                    h2_today_p2: `Pick a city in ${cn} from the list to see its prayer times instantly. You can also browse a weekly or monthly prayer schedule to plan ahead, plus see the Qibla direction from each city, today's Hijri date, and live information about the current moon phase.`,
+                    h2_pick: `Pick your city to see prayer times`,
+                    h2_pick_p1: `To pick your city in ${cn}, use the search bar at the top of the page, or browse the list of supported cities below. The site covers dozens of cities across ${cn}, from large capitals down to smaller towns. Each city card opens a dedicated page with daily and weekly prayer time schedules for that city.`,
+                    h2_pick_p2: `If your city is not in the list, search for it by name. The site maintains a city database with the main locations across regions and falls back to GPS coordinates when needed. All this is available without registration and entirely free of charge.`,
+                    h2_calc: `How are prayer times in ${cn} calculated?`,
+                    h2_calc_p1: `Prayer times in ${cn} are calculated with internationally accepted astronomical formulas that account for latitude and longitude, the sun's altitude above the horizon, and sunrise/sunset angles. The times automatically adjust for the local time zone and any seasonal daylight-saving rules so the schedule stays accurate year-round.`,
+                    h3_method: `Calculation method used`,
+                    h3_method_p1: `The default calculation method used for ${cn} is ${m}. This method is officially recognised in ${cn} and is used to set Fajr and Isha based on fixed astronomical angles. Visitors can verify that the times shown here match the country's official schedules, especially around the equinoxes when sunrise and sunset shift the most.`,
+                    h3_diff: `Why prayer times differ between cities`,
+                    h3_diff_p1: `Prayer times differ between cities in ${cn} because of differences in longitude, latitude and elevation. Fajr at the easternmost edge of the country may be several minutes earlier than at the westernmost edge. For maximum accuracy, pick the city closest to your actual location, or use GPS coordinates if your city is not on the list.`,
+                    h2_services: `Other Islamic services for ${cn}`,
+                    h2_services_p1: `Beyond prayer times, the site offers a full set of Islamic tools for users in ${cn}. The accurate Qibla compass works from any city based on its coordinates relative to the Kaaba in Makkah. The page also surfaces today's moon phase, the current Hijri date, and a complete yearly Hijri calendar.`,
+                    h2_services_p2: `Jump to the monthly Hijri calendar through the dedicated links, convert between Hijri and Gregorian dates with the date converter, or compute Zakat using the built-in calculator. These tools work worldwide but are tuned to the city or location selected in ${cn} to keep the results accurate and the Qibla direction sound.`,
+                    link_qibla: `Qibla Direction`,
+                    link_moon: `Moon Today`,
+                    link_hijri: `Hijri Calendar`,
+                    link_dateconv: `Date Converter`,
+                    link_zakat: `Zakat Calculator`,
+                }),
+            };
+            // For 8 non-AR/EN langs, use EN content for now (still valid SEO,
+            // can be expanded per-lang later if needed).
+            const _ptSec = (_PT_COUNTRY_SEO[L] || _PT_COUNTRY_SEO.en)(cn, _methodLabel);
+            const _ptCountrySeoHtml = `
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-today-h2">
+                    <h2 id="ptc-today-h2">${_escHtml(_ptSec.h2_today)}</h2>
+                    <p>${_escHtml(_ptSec.h2_today_p1)}</p>
+                    <p>${_escHtml(_ptSec.h2_today_p2)}</p>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-pick-h2">
+                    <h2 id="ptc-pick-h2">${_escHtml(_ptSec.h2_pick)}</h2>
+                    <p>${_escHtml(_ptSec.h2_pick_p1)}</p>
+                    <p>${_escHtml(_ptSec.h2_pick_p2)}</p>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-calc-h2">
+                    <h2 id="ptc-calc-h2">${_escHtml(_ptSec.h2_calc)}</h2>
+                    <p>${_escHtml(_ptSec.h2_calc_p1)}</p>
+                    <h3>${_escHtml(_ptSec.h3_method)}</h3>
+                    <p>${_escHtml(_ptSec.h3_method_p1)}</p>
+                    <h3>${_escHtml(_ptSec.h3_diff)}</h3>
+                    <p>${_escHtml(_ptSec.h3_diff_p1)}</p>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-services-h2">
+                    <h2 id="ptc-services-h2">${_escHtml(_ptSec.h2_services)}</h2>
+                    <p>${_escHtml(_ptSec.h2_services_p1)}</p>
+                    <p>${_escHtml(_ptSec.h2_services_p2)}</p>
+                    <nav class="pt-country-services-links" aria-label="${_escHtml(_ptSec.h2_services)}">
+                        <a href="${_ptLangPfx}/qibla">${_escHtml(_ptSec.link_qibla)}</a>
+                        <a href="${_ptLangPfx}/moon-today">${_escHtml(_ptSec.link_moon)}</a>
+                        <a href="${_ptLangPfx}/hijri-calendar">${_escHtml(_ptSec.link_hijri)}</a>
+                        <a href="${_ptLangPfx}/dateconverter">${_escHtml(_ptSec.link_dateconv)}</a>
+                        <a href="${_ptLangPfx}/zakat">${_escHtml(_ptSec.link_zakat)}</a>
+                    </nav>
+                </section>
+`;
+            // Inject just before the site footer.
+            html = html.replace(
+                /<footer class="site-footer">/,
+                `${_ptCountrySeoHtml}\n        <footer class="site-footer">`
+            );
+        } catch (_e) { /* silent — SEO section is optional */ }
     } else if (cityMatchSsr) {
         const cityDisplay = _slugToTitle(cityMatchSsr[1]);
         const L = seo.lang;

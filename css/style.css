@@ -19045,3 +19045,85 @@ html[data-theme="dark"] .moon-hub-cal-cta:hover {
     box-shadow: 0 8px 20px rgba(74, 222, 128, 0.45);
     color: #0c1a13;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PT-COUNTRY-SEO-1 (2026-05-11): SSR educational sections on
+   /prayer-times-in-{country-slug} (country pages, served from
+   prayer-times-cities.html). 4 sections + 2 H3 + a services nav,
+   ~700 AR words total. Same visual language as MOON-HUB-SEO-4.
+   ═══════════════════════════════════════════════════════════════════ */
+.pt-country-seo-section {
+    max-width: 920px;
+    margin: 20px auto 0;
+    padding: 26px 28px;
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 24px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.pt-country-seo-section h2 {
+    margin: 0 0 12px;
+    color: #063f25;
+    font-size: 22px;
+    line-height: 1.5;
+}
+.pt-country-seo-section h3 {
+    margin: 14px 0 8px;
+    color: #075d35;
+    font-size: 18px;
+    line-height: 1.5;
+}
+.pt-country-seo-section p {
+    margin: 0 0 12px;
+    color: #334139;
+    font-size: 15.5px;
+    line-height: 1.95;
+}
+.pt-country-services-links {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.pt-country-services-links a {
+    background: #f5fbf6;
+    border: 1px solid rgba(12, 94, 54, 0.18);
+    color: #075d35;
+    border-radius: 999px;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+}
+.pt-country-services-links a:hover {
+    background: #075d35;
+    color: #ffffff;
+    border-color: #075d35;
+}
+@media (max-width: 768px) {
+    .pt-country-seo-section { padding: 20px; border-radius: 20px; }
+    .pt-country-seo-section h2 { font-size: 20px; }
+    .pt-country-seo-section h3 { font-size: 17px; }
+}
+html[data-theme="dark"] .pt-country-seo-section {
+    background: var(--card-bg, #1a2820);
+    border-color: rgba(74, 222, 128, 0.18);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.30);
+}
+html[data-theme="dark"] .pt-country-seo-section h2,
+html[data-theme="dark"] .pt-country-seo-section h3 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .pt-country-seo-section p {
+    color: var(--text-primary, #e2e8e2);
+}
+html[data-theme="dark"] .pt-country-services-links a {
+    background: rgba(74, 222, 128, 0.08);
+    border-color: rgba(74, 222, 128, 0.22);
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .pt-country-services-links a:hover {
+    background: var(--accent, #4ade80);
+    color: #0c1a13;
+    border-color: var(--accent, #4ade80);
+}

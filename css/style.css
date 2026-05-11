@@ -19193,3 +19193,33 @@ html.country-listing-page .top-header .city-search-wrapper {
         row-gap: 8px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PT-COUNTRY-SEO-1e (2026-05-11): safe horizontal margin on country
+   pages. After making `.pt-country-seo-section` full-width, ALL cards
+   on /prayer-times-in-{country} ran edge-to-edge with no breathing
+   room (user screenshot showed cards touching the viewport edges).
+   This rule adds a side gutter to every direct child of .main-content
+   on country pages EXCEPT the .top-header (which is sticky and keeps
+   its own internal padding).
+   ═══════════════════════════════════════════════════════════════════ */
+html.country-listing-page .main-content > .country-breadcrumb,
+html.country-listing-page .main-content > .location-hero,
+html.country-listing-page .main-content > .cities-main-card,
+html.country-listing-page .main-content > .pagination,
+html.country-listing-page .main-content > .pt-country-seo-section,
+html.country-listing-page .main-content > .site-footer {
+    margin-left: 16px;
+    margin-right: 16px;
+}
+@media (max-width: 768px) {
+    html.country-listing-page .main-content > .country-breadcrumb,
+    html.country-listing-page .main-content > .location-hero,
+    html.country-listing-page .main-content > .cities-main-card,
+    html.country-listing-page .main-content > .pagination,
+    html.country-listing-page .main-content > .pt-country-seo-section,
+    html.country-listing-page .main-content > .site-footer {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+}

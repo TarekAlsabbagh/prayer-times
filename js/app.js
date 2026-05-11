@@ -20161,38 +20161,142 @@ function loadHijriDayPage() {
     hdaySchemaScript.textContent = JSON.stringify(hdaySchema);
     document.head.appendChild(hdaySchemaScript);
 
-    // ── 10. SEO Meta — HD-3 generic, mirrors SSR _HDAY_TITLE/_HDAY_DESC ──
-    //   These strings MUST match server.js:5642+ byte-for-byte after _escHtml
-    //   so SSR Title/Meta and JS-overwritten Title/Meta are identical (no
-    //   flicker, no SEOptimer mismatch). User's spec: date first, then "|
-    //   Gregorian Date Equivalent". Meta leads with the Gregorian-equivalent
-    //   intent. NO city/country in any of the 10 langs.
-    const _HD3_TITLE = {
-        ar: `التاريخ الهجري ${hDate} | التاريخ الميلادي المقابل`,
-        en: `Hijri Date ${hDate} | Gregorian Date Equivalent`,
-        fr: `Date hégirienne ${hDate} | Date grégorienne équivalente`,
-        tr: `Hicri Tarih ${hDate} | Miladi Karşılığı`,
-        ur: `ہجری تاریخ ${hDate} | عیسوی تاریخ کی مماثل`,
-        de: `Hidschri-Datum ${hDate} | Gregorianische Entsprechung`,
-        id: `Tanggal Hijriah ${hDate} | Padanan Masehi`,
-        es: `Fecha Hégira ${hDate} | Fecha Gregoriana Equivalente`,
-        bn: `হিজরি তারিখ ${hDate} | গ্রেগরিয়ান সমতুল্য`,
-        ms: `Tarikh Hijrah ${hDate} | Padanan Gregorian`,
+    // ── 10. SEO Meta — HD-DAY-SEO-1 mirror (2026-05-11) ──
+    //   Previously this block used HD-3 fixed templates that produced
+    //   62 cp Titles on long-month dates (e.g. "ذو القعدة"/"جمادى الأولى")
+    //   and 115 cp Metas (below 120 floor). User reported SSR was correct
+    //   (56 cp / 131 cp) but JS hydration was overwriting it back to the
+    //   broken values — exact same mirror bug as PT-CITY-SEO-1.
+    //
+    //   Mirrored from server.js HD-DAY-SEO-1 byte-for-byte:
+    //     Title ladder: longer → medium → short → fallback. First ∈ [50, 60]
+    //                   → longest ≤ 60 → fallback.
+    //     Meta ladder:  long → short. Long when len ∈ [120, 160] → else short.
+    //   `hDate` here equals server.js `_datedAr` (e.g. "26 ذو القعدة 1447 هـ").
+    const _HD_TITLE_FORMS = {
+        ar: () => ({
+            longer:   `التاريخ الهجري ${hDate} | ما يوافقه ميلادياً`,
+            medium:   `التاريخ الهجري ${hDate} | التاريخ الميلادي المقابل`,
+            short:    `${hDate} | التاريخ الميلادي المقابل`,
+            fallback: `التاريخ الهجري ${hDate}`,
+        }),
+        en: () => ({
+            longer:   `Hijri Date ${hDate} | Gregorian Equivalent and Conversion`,
+            medium:   `Hijri Date ${hDate} | Gregorian Date Equivalent`,
+            short:    `${hDate} | Gregorian Date Equivalent`,
+            fallback: `Hijri Date ${hDate}`,
+        }),
+        fr: () => ({
+            longer:   `Date hégirienne ${hDate} | Date grégorienne équivalente`,
+            medium:   `Date hégirienne ${hDate} | Équivalent grégorien`,
+            short:    `${hDate} | Équivalent grégorien et conversion`,
+            fallback: `Date hégirienne ${hDate}`,
+        }),
+        tr: () => ({
+            longer:   `Hicri Tarih ${hDate} | Miladi Karşılığı ve Dönüşüm`,
+            medium:   `Hicri Tarih ${hDate} | Miladi Karşılığı`,
+            short:    `${hDate} | Miladi Karşılığı ve Tarih Dönüşümü`,
+            fallback: `Hicri Tarih ${hDate}`,
+        }),
+        ur: () => ({
+            longer:   `ہجری تاریخ ${hDate} | عیسوی مماثل تاریخ اور تبدیلی`,
+            medium:   `ہجری تاریخ ${hDate} | عیسوی تاریخ کی مماثل`,
+            short:    `${hDate} | عیسوی تاریخ کی مماثل اور تبدیلی`,
+            fallback: `ہجری تاریخ ${hDate}`,
+        }),
+        de: () => ({
+            longer:   `Hidschri-Datum ${hDate} | Gregorianische Entsprechung`,
+            medium:   `Hidschri-Datum ${hDate} | Gregorianisch`,
+            short:    `${hDate} | Gregorianisches Äquivalent und Umrechnung`,
+            fallback: `Hidschri-Datum ${hDate}`,
+        }),
+        id: () => ({
+            longer:   `Tanggal Hijriah ${hDate} | Padanan Masehi dan Konversi`,
+            medium:   `Tanggal Hijriah ${hDate} | Padanan Masehi`,
+            short:    `${hDate} | Padanan Masehi dan Konversi Tanggal`,
+            fallback: `Tanggal Hijriah ${hDate}`,
+        }),
+        es: () => ({
+            longer:   `Fecha Hégira ${hDate} | Fecha Gregoriana Equivalente`,
+            medium:   `Fecha Hégira ${hDate} | Equivalente Gregoriana`,
+            short:    `${hDate} | Fecha Gregoriana Equivalente y Conversión`,
+            fallback: `Fecha Hégira ${hDate}`,
+        }),
+        bn: () => ({
+            longer:   `হিজরি তারিখ ${hDate} | গ্রেগরিয়ান সমতুল্য ও রূপান্তর`,
+            medium:   `হিজরি তারিখ ${hDate} | গ্রেগরিয়ান সমতুল্য`,
+            short:    `${hDate} | গ্রেগরিয়ান সমতুল্য এবং তারিখ রূপান্তর`,
+            fallback: `হিজরি তারিখ ${hDate}`,
+        }),
+        ms: () => ({
+            longer:   `Tarikh Hijrah ${hDate} | Padanan Gregorian dan Penukaran`,
+            medium:   `Tarikh Hijrah ${hDate} | Padanan Gregorian`,
+            short:    `${hDate} | Padanan Gregorian dan Penukaran Tarikh`,
+            fallback: `Tarikh Hijrah ${hDate}`,
+        }),
     };
-    const _HD3_DESC = {
-        ar: `اعرف التاريخ الميلادي المقابل ليوم ${hDate}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
-        en: `Find the Gregorian equivalent of ${hDate}, with information about the Hijri month, date conversion and the Hijri calendar.`,
-        fr: `Trouvez la date grégorienne équivalente du ${hDate}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
-        tr: `${hDate} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
-        ur: `${hDate} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
-        de: `Finden Sie die gregorianische Entsprechung des ${hDate}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
-        id: `Temukan padanan Masehi tanggal ${hDate}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
-        es: `Encuentra la fecha gregoriana equivalente al ${hDate}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
-        bn: `${hDate} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
-        ms: `Cari padanan Gregorian tarikh ${hDate}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
+    const _pickHdTitle = (lng) => {
+        const f = (_HD_TITLE_FORMS[lng] || _HD_TITLE_FORMS.en)();
+        const len = s => Array.from(s).length;
+        const order = [f.longer, f.medium, f.short, f.fallback];
+        for (const t of order) {
+            if (len(t) >= 50 && len(t) <= 60) return t;
+        }
+        const ok = order.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+        if (ok.length) return ok[0];
+        return f.fallback;
     };
-    const _seoTitle = _HD3_TITLE[lang] || _HD3_TITLE.en;
-    const _seoDesc  = _HD3_DESC[lang]  || _HD3_DESC.en;
+    const _HD_DESC_FORMS = {
+        ar: () => ({
+            long:  `اعرف التاريخ الميلادي المقابل ليوم ${hDate}، مع اسم اليوم ومعلومات عن الشهر الهجري وتحويل التاريخ بين الهجري والميلادي.`,
+            short: `اعرف التاريخ الميلادي المقابل ليوم ${hDate}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
+        }),
+        en: () => ({
+            long:  `Find the Gregorian equivalent of ${hDate}, with the day name, Hijri month details, date conversion between the Hijri and Gregorian calendars, and nearby dates.`,
+            short: `Find the Gregorian equivalent of ${hDate}, with information about the Hijri month, date conversion and the Hijri calendar.`,
+        }),
+        fr: () => ({
+            long:  `Trouvez la date grégorienne équivalente du ${hDate}, avec le nom du jour, des informations sur le mois hégirien et la conversion entre calendriers hégirien et grégorien.`,
+            short: `Trouvez la date grégorienne équivalente du ${hDate}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
+        }),
+        tr: () => ({
+            long:  `${hDate} tarihinin Miladi karşılığını, gün adını, Hicri ay bilgisini ve Hicri-Miladi takvimler arasında tarih dönüştürmeyi öğrenin.`,
+            short: `${hDate} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
+        }),
+        ur: () => ({
+            long:  `${hDate} کی عیسوی مماثل تاریخ، دن کا نام، ہجری مہینے کی معلومات اور ہجری و عیسوی تقویم کے درمیان تاریخ کی تبدیلی جانیں۔`,
+            short: `${hDate} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
+        }),
+        de: () => ({
+            long:  `Finden Sie die gregorianische Entsprechung des ${hDate}, mit dem Wochentag, Informationen zum Hidschri-Monat und der Umrechnung zwischen Hidschri und Gregorianisch.`,
+            short: `Finden Sie die gregorianische Entsprechung des ${hDate}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
+        }),
+        id: () => ({
+            long:  `Temukan padanan Masehi tanggal ${hDate}, lengkap dengan nama hari, informasi bulan Hijriah, serta konversi tanggal antara kalender Hijriah dan Masehi.`,
+            short: `Temukan padanan Masehi tanggal ${hDate}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
+        }),
+        es: () => ({
+            long:  `Encuentra la fecha gregoriana equivalente al ${hDate}, con el nombre del día, información sobre el mes Hégira y la conversión entre los calendarios Hégira y gregoriano.`,
+            short: `Encuentra la fecha gregoriana equivalente al ${hDate}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
+        }),
+        bn: () => ({
+            long:  `${hDate} এর গ্রেগরিয়ান সমতুল্য তারিখ, দিনের নাম, হিজরি মাসের তথ্য ও হিজরি-গ্রেগরিয়ান ক্যালেন্ডারের মধ্যে রূপান্তর জানুন।`,
+            short: `${hDate} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
+        }),
+        ms: () => ({
+            long:  `Cari padanan Gregorian tarikh ${hDate}, lengkap dengan nama hari, maklumat bulan Hijrah dan penukaran tarikh antara kalendar Hijrah dan Gregorian.`,
+            short: `Cari padanan Gregorian tarikh ${hDate}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
+        }),
+    };
+    const _pickHdDesc = (lng) => {
+        const f = (_HD_DESC_FORMS[lng] || _HD_DESC_FORMS.en)();
+        const len = s => Array.from(s).length;
+        if (len(f.long) >= 120 && len(f.long) <= 160) return f.long;
+        if (len(f.long) <= 160) return f.long;
+        return f.short;
+    };
+    const _seoTitle = _pickHdTitle(lang);
+    const _seoDesc  = _pickHdDesc(lang);
     setSEOMeta({ title: _seoTitle, description: _seoDesc, ogType: 'website' });
 }
 

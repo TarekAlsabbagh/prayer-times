@@ -1116,6 +1116,61 @@ function _resolveCityName(slug, lang) {
     return _slugToTitle(slug);
 }
 
+// PT-CITY-CLEAN-1 (2026-05-11): POI-slug detector.
+//
+// When a visitor lands on /moon-in-{slug} / /moon-today-in-{slug} /
+// /prayer-times-in-{slug} / /qibla-in-{slug} with a slug that came
+// from a raw Nominatim/OSM display_name (e.g. "hotel-city-holl",
+// "hôtel-city-hall", "airport-terminal-1"), the server used to render
+// a full SEO page for it — Title/Meta/H1 with the POI fragments,
+// breadcrumbs, related cities, etc. SEOptimer then flagged words
+// like "hôtel", "city", "holl" as top page keywords because they
+// were in the visible H1/H2/Title.
+//
+// This helper detects slugs that look like POIs (hotel, mall, road,
+// airport, etc.) so we can apply `noindex,follow` and skip the rich
+// SEO content. Slugs that resolve to a real curated city (POPULAR_CITY_NAMES
+// or _getCitySlugIndex) are NEVER treated as POI — they're trusted as
+// valid even if the city name happens to contain a generic word.
+//
+// Returns: { poi: bool, term: string|null }
+function _isPoiLikeSlug(slug, resolvedName) {
+    if (!slug || typeof slug !== 'string') return { poi: false, term: null };
+    const _s = slug.toLowerCase();
+    // If the slug is in our curated DB, trust it.
+    try {
+        if (POPULAR_CITY_NAMES[_s]) return { poi: false, term: null };
+        const idx = _getCitySlugIndex();
+        if (idx[_s]) return { poi: false, term: null };
+    } catch (_e) { /* fall through to term check */ }
+    // POI / non-city terms — full word, hyphen-separated. Each entry
+    // is a fragment of the slug that strongly suggests a POI / building
+    // / amenity (NOT a city/town/region). Matched as a word boundary
+    // inside the slug so e.g. "hotel" matches "hotel-city-holl" but
+    // NOT a city named "Hotelville" (no such real city anyway).
+    const BAD_TERMS = [
+        'hotel', 'hôtel', 'motel', 'hostel', 'resort', 'inn', 'lodge',
+        'hall', 'holl', 'tower', 'building', 'mall', 'plaza', 'centre', 'center',
+        'mosque', 'masjid', 'church', 'temple', 'cathedral',
+        'street', 'road', 'avenue', 'boulevard', 'lane',
+        'shop', 'store', 'market', 'bazaar', 'supermarket',
+        'restaurant', 'cafe', 'café', 'bakery',
+        'office', 'company', 'corporation', 'enterprise',
+        'school', 'university', 'college', 'institute',
+        'hospital', 'clinic', 'pharmacy',
+        'airport', 'station', 'terminal', 'platform',
+        'museum', 'theatre', 'theater', 'cinema',
+        'stadium', 'arena', 'park', 'garden',
+        'beach', 'pier', 'harbour', 'harbor', 'port',
+        'attraction', 'landmark', 'monument',
+    ];
+    const parts = _s.split('-').filter(Boolean);
+    for (const term of BAD_TERMS) {
+        if (parts.includes(term)) return { poi: true, term };
+    }
+    return { poi: false, term: null };
+}
+
 // كاش في الذاكرة لطلبات Nominatim (يمنع تكرار الطلبات ويتجنب rate limit)
 // LRU محدود (10K مدخل) لمنع النمو اللانهائي تحت حمل كبير
 const _GEOCACHE_MAX = 10000;
@@ -5029,6 +5084,31 @@ function buildSeoForPath(urlPath) {
     let canonical = origin + p;
     // robots override: null = default index,follow; otherwise استخدم هذه القيمة
     let robotsOverride = null;
+    // PT-CITY-CLEAN-1 (2026-05-11): apply noindex to POI-like city slugs
+    // (hotel/mall/road/airport/etc.) BEFORE any handler runs. Catches:
+    //   /moon-in-{poi-slug}            /moon-today-in-{poi-slug}
+    //   /moon-in-{poi-slug}/{date}     /prayer-times-in-{poi-slug}
+    //   /qibla-in-{poi-slug}           /time-left-until-prayer-in-{poi-slug}
+    //   /next-prayer-in-{poi-slug}     /about-{poi-slug}
+    // Curated slugs (POPULAR_CITY_NAMES, _getCitySlugIndex) are trusted
+    // and never treated as POI even if they contain a generic word.
+    try {
+        const _cityRouteMatch = corePath.match(/^\/(?:moon-today-in-|moon-in-|prayer-times-in-|qibla-in-|time-left-until-prayer-in-|next-prayer-in-|about-)([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/.+)?$/);
+        if (_cityRouteMatch) {
+            const _routeSlug = _cityRouteMatch[1];
+            // Don't apply to country listing pages — those resolve via _countryFromSlug.
+            const _maybeCountry = (typeof _countryFromSlug === 'function')
+                ? _countryFromSlug(_routeSlug)
+                : null;
+            if (!(_maybeCountry && _maybeCountry.cc && _maybeCountry.cc !== '__')) {
+                const _poiCheck = _isPoiLikeSlug(_routeSlug);
+                if (_poiCheck.poi) {
+                    robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+                }
+            }
+        }
+    } catch (_e) { /* silent — POI check is opportunistic */ }
+
     const SITE_NAMES = {
         ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
         tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز', de: 'Gebetszeiten',
@@ -10379,7 +10459,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // 1d) 🆕 Round 6 (City Audit): city page (not TL, not NPT) → strip dead-weight heroes.
     //     صفحة /prayer-times-in-{city} كانت تُرسِل #tl-hero + #tl-sticky + #npt-hero مخفيّة بـ CSS.
     //     الحذف الفعليّ يُنظِّف DOM (~6-10KB) ويُلغي H1 race + intent duplication أمام SEO.
+    // PT-COUNTRY-SEO-1b (2026-05-11): the regex `/prayer-times-in-{slug}` matches
+    // BOTH city pages and country listing pages. The previous code added
+    // `class="city-page"` to country pages too, which triggered JS's
+    // `_setupCollapse` for #location-hero — hiding the cities search box
+    // on /prayer-times-in-saudi-arabia and other country pages. Country
+    // pages need their search box VISIBLE so visitors can find cities.
+    // Excluded via `!seo.countryListing` (set in the SEO function above
+    // when the slug resolves to a known country).
     const _isCityPageSsr = !!(seo && !seo.timeLeftPage && !seo.nextPrayerPage
+        && !seo.countryListing
         && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9.-]+$/.test(urlPath));
     // Phase HC-10.3 (2026-05-06): inject `html.city-page` SSR-side so
     // CSS rules like `html.city-page .location-hero { display:none }`

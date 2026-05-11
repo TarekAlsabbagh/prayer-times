@@ -18893,3 +18893,109 @@ html[data-theme="dark"] .moon-hub-seo-card h2 {
 html[data-theme="dark"] .moon-hub-seo-card p {
     color: var(--text-primary, #e2e8e2);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   HD-DAY-SEO-1 (2026-05-11): /hijri-date/{YYYY-MM-DD} SSR sections.
+   Per-date Hijri-day pages render 4 educational sections + a FAQ +
+   related-links chips. Same visual language as MOON-HUB-SEO-4 cards
+   and similar to .moon-hub-seo-card styling. Light/dark theme aware.
+   ═══════════════════════════════════════════════════════════════════ */
+.hijri-date-seo-card,
+.hijri-date-faq {
+    max-width: 920px;
+    margin: 20px auto 0;
+    padding: 26px 28px;
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 24px;
+    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+}
+.hijri-date-seo-card h2,
+.hijri-date-faq h2 {
+    margin: 0 0 12px;
+    color: #063f25;
+    font-size: 23px;
+    line-height: 1.5;
+}
+.hijri-date-seo-card p,
+.hijri-date-faq-item p {
+    margin: 0 0 12px;
+    color: #334139;
+    font-size: 15.5px;
+    line-height: 2;
+}
+.hijri-date-faq-item {
+    background: #f8fbf8;
+    border: 1px solid #e4eee7;
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 12px;
+}
+.hijri-date-faq-item h3 {
+    margin: 0 0 8px;
+    color: #063f25;
+    font-size: 17px;
+    line-height: 1.5;
+}
+.hijri-date-related-links {
+    max-width: 920px;
+    margin: 22px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+.hijri-date-related-links a {
+    background: #ffffff;
+    border: 1px solid rgba(12, 94, 54, 0.12);
+    color: #075d35;
+    border-radius: 999px;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+}
+.hijri-date-related-links a:hover {
+    background: #075d35;
+    color: #ffffff;
+}
+@media (max-width: 768px) {
+    .hijri-date-seo-card,
+    .hijri-date-faq {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .hijri-date-seo-card h2,
+    .hijri-date-faq h2 {
+        font-size: 20px;
+    }
+}
+/* Dark theme */
+html[data-theme="dark"] .hijri-date-seo-card,
+html[data-theme="dark"] .hijri-date-faq {
+    background: var(--card-bg, #1a2820);
+    border-color: rgba(74, 222, 128, 0.18);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.30);
+}
+html[data-theme="dark"] .hijri-date-seo-card h2,
+html[data-theme="dark"] .hijri-date-faq h2,
+html[data-theme="dark"] .hijri-date-faq-item h3 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .hijri-date-seo-card p,
+html[data-theme="dark"] .hijri-date-faq-item p {
+    color: var(--text-primary, #e2e8e2);
+}
+html[data-theme="dark"] .hijri-date-faq-item {
+    background: rgba(74, 222, 128, 0.05);
+    border-color: rgba(74, 222, 128, 0.15);
+}
+html[data-theme="dark"] .hijri-date-related-links a {
+    background: var(--card-bg, #1a2820);
+    border-color: rgba(74, 222, 128, 0.22);
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .hijri-date-related-links a:hover {
+    background: var(--accent, #4ade80);
+    color: #0c1a13;
+}

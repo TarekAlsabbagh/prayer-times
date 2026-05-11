@@ -7259,37 +7259,154 @@ function buildSeoForPath(urlPath) {
         //   form first, then "| Gregorian Date Equivalent". Meta leads with
         //   the Gregorian-equivalent intent. NO city/country in any of the
         //   10 langs.
-        const _HDAY_TITLE = {
-            ar: `التاريخ الهجري ${day} ${_mName} ${year}${_hSfx} | التاريخ الميلادي المقابل`,
-            en: `Hijri Date ${day} ${_mName} ${year}${_hSfx} | Gregorian Date Equivalent`,
-            fr: `Date hégirienne ${day} ${_mName} ${year}${_hSfx} | Date grégorienne équivalente`,
-            tr: `Hicri Tarih ${day} ${_mName} ${year}${_hSfx} | Miladi Karşılığı`,
-            ur: `ہجری تاریخ ${day} ${_mName} ${year}${_hSfx} | عیسوی تاریخ کی مماثل`,
-            de: `Hidschri-Datum ${day} ${_mName} ${year}${_hSfx} | Gregorianische Entsprechung`,
-            id: `Tanggal Hijriah ${day} ${_mName} ${year}${_hSfx} | Padanan Masehi`,
-            es: `Fecha Hégira ${day} ${_mName} ${year}${_hSfx} | Fecha Gregoriana Equivalente`,
-            bn: `হিজরি তারিখ ${day} ${_mName} ${year}${_hSfx} | গ্রেগরিয়ান সমতুল্য`,
-            ms: `Tarikh Hijrah ${day} ${_mName} ${year}${_hSfx} | Padanan Gregorian`,
+        //
+        // HD-DAY-SEO-1 (2026-05-11): the previous fixed Title pattern
+        // produced 62-64 cp for long Hijri month names (ذو القعدة /
+        // جمادى الأولى / ربيع الآخر), OVER the 60 cp ceiling SEOptimer
+        // flags. Meta was 115 cp for short month names, BELOW the 120
+        // floor. Both replaced with length-aware ladders:
+        //
+        //   Title ladder (4 candidates per lang):
+        //     longer  → adds "ما يوافقه ميلادياً" tail (50-58 cp on AR)
+        //     medium  → original "| التاريخ الميلادي المقابل" tail
+        //     short   → bare dated form "{day} {month} {year} هـ | {tail}"
+        //     fallback→ "التاريخ الهجري {dated}"
+        //   Picker: first ∈ [50, 60] → longest ≤ 60 → fallback.
+        //
+        //   Meta ladder (long → short fallback):
+        //     long  → with "اسم اليوم ومعلومات عن الشهر الهجري وتحويل..." (~125-133 cp)
+        //     short → original tightened wording (~109-117 cp)
+        //   Picker: long when ≤ 160 → else short.
+        const _datedAr   = `${day} ${_mName} ${year}${_hSfx}`;
+        const _HDAY_TITLE_FORMS = {
+            ar: () => ({
+                longer:   `التاريخ الهجري ${_datedAr} | ما يوافقه ميلادياً`,
+                medium:   `التاريخ الهجري ${_datedAr} | التاريخ الميلادي المقابل`,
+                short:    `${_datedAr} | التاريخ الميلادي المقابل`,
+                fallback: `التاريخ الهجري ${_datedAr}`,
+            }),
+            en: () => ({
+                longer:   `Hijri Date ${_datedAr} | Gregorian Equivalent and Conversion`,
+                medium:   `Hijri Date ${_datedAr} | Gregorian Date Equivalent`,
+                short:    `${_datedAr} | Gregorian Date Equivalent`,
+                fallback: `Hijri Date ${_datedAr}`,
+            }),
+            fr: () => ({
+                longer:   `Date hégirienne ${_datedAr} | Date grégorienne équivalente`,
+                medium:   `Date hégirienne ${_datedAr} | Équivalent grégorien`,
+                short:    `${_datedAr} | Équivalent grégorien et conversion`,
+                fallback: `Date hégirienne ${_datedAr}`,
+            }),
+            tr: () => ({
+                longer:   `Hicri Tarih ${_datedAr} | Miladi Karşılığı ve Dönüşüm`,
+                medium:   `Hicri Tarih ${_datedAr} | Miladi Karşılığı`,
+                short:    `${_datedAr} | Miladi Karşılığı ve Tarih Dönüşümü`,
+                fallback: `Hicri Tarih ${_datedAr}`,
+            }),
+            ur: () => ({
+                longer:   `ہجری تاریخ ${_datedAr} | عیسوی مماثل تاریخ اور تبدیلی`,
+                medium:   `ہجری تاریخ ${_datedAr} | عیسوی تاریخ کی مماثل`,
+                short:    `${_datedAr} | عیسوی تاریخ کی مماثل اور تبدیلی`,
+                fallback: `ہجری تاریخ ${_datedAr}`,
+            }),
+            de: () => ({
+                longer:   `Hidschri-Datum ${_datedAr} | Gregorianische Entsprechung`,
+                medium:   `Hidschri-Datum ${_datedAr} | Gregorianisch`,
+                short:    `${_datedAr} | Gregorianisches Äquivalent und Umrechnung`,
+                fallback: `Hidschri-Datum ${_datedAr}`,
+            }),
+            id: () => ({
+                longer:   `Tanggal Hijriah ${_datedAr} | Padanan Masehi dan Konversi`,
+                medium:   `Tanggal Hijriah ${_datedAr} | Padanan Masehi`,
+                short:    `${_datedAr} | Padanan Masehi dan Konversi Tanggal`,
+                fallback: `Tanggal Hijriah ${_datedAr}`,
+            }),
+            es: () => ({
+                longer:   `Fecha Hégira ${_datedAr} | Fecha Gregoriana Equivalente`,
+                medium:   `Fecha Hégira ${_datedAr} | Equivalente Gregoriana`,
+                short:    `${_datedAr} | Fecha Gregoriana Equivalente y Conversión`,
+                fallback: `Fecha Hégira ${_datedAr}`,
+            }),
+            bn: () => ({
+                longer:   `হিজরি তারিখ ${_datedAr} | গ্রেগরিয়ান সমতুল্য ও রূপান্তর`,
+                medium:   `হিজরি তারিখ ${_datedAr} | গ্রেগরিয়ান সমতুল্য`,
+                short:    `${_datedAr} | গ্রেগরিয়ান সমতুল্য এবং তারিখ রূপান্তর`,
+                fallback: `হিজরি তারিখ ${_datedAr}`,
+            }),
+            ms: () => ({
+                longer:   `Tarikh Hijrah ${_datedAr} | Padanan Gregorian dan Penukaran`,
+                medium:   `Tarikh Hijrah ${_datedAr} | Padanan Gregorian`,
+                short:    `${_datedAr} | Padanan Gregorian dan Penukaran Tarikh`,
+                fallback: `Tarikh Hijrah ${_datedAr}`,
+            }),
         };
-        const _HDAY_DESC = {
-            ar: `اعرف التاريخ الميلادي المقابل ليوم ${day} ${_mName} ${year}${_hSfx}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
-            en: `Find the Gregorian equivalent of ${day} ${_mName} ${year}${_hSfx}, with information about the Hijri month, date conversion and the Hijri calendar.`,
-            fr: `Trouvez la date grégorienne équivalente du ${day} ${_mName} ${year}${_hSfx}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
-            tr: `${day} ${_mName} ${year}${_hSfx} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
-            ur: `${day} ${_mName} ${year}${_hSfx} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
-            de: `Finden Sie die gregorianische Entsprechung des ${day} ${_mName} ${year}${_hSfx}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
-            id: `Temukan padanan Masehi tanggal ${day} ${_mName} ${year}${_hSfx}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
-            es: `Encuentra la fecha gregoriana equivalente al ${day} ${_mName} ${year}${_hSfx}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
-            bn: `${day} ${_mName} ${year}${_hSfx} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
-            ms: `Cari padanan Gregorian tarikh ${day} ${_mName} ${year}${_hSfx}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
+        const _pickHdayTitle = (lng) => {
+            const f = (_HDAY_TITLE_FORMS[lng] || _HDAY_TITLE_FORMS.en)();
+            const len = s => Array.from(s).length;
+            const order = [f.longer, f.medium, f.short, f.fallback];
+            for (const t of order) {
+                if (len(t) >= 50 && len(t) <= 60) return t;
+            }
+            const ok = order.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
+            if (ok.length) return ok[0];
+            return f.fallback;
+        };
+        const _HDAY_DESC_FORMS = {
+            ar: () => ({
+                long:  `اعرف التاريخ الميلادي المقابل ليوم ${_datedAr}، مع اسم اليوم ومعلومات عن الشهر الهجري وتحويل التاريخ بين الهجري والميلادي.`,
+                short: `اعرف التاريخ الميلادي المقابل ليوم ${_datedAr}، مع معلومات عن الشهر الهجري وتحويل التاريخ والتقويم الهجري.`,
+            }),
+            en: () => ({
+                long:  `Find the Gregorian equivalent of ${_datedAr}, with the day name, Hijri month details, date conversion between the Hijri and Gregorian calendars, and nearby dates.`,
+                short: `Find the Gregorian equivalent of ${_datedAr}, with information about the Hijri month, date conversion and the Hijri calendar.`,
+            }),
+            fr: () => ({
+                long:  `Trouvez la date grégorienne équivalente du ${_datedAr}, avec le nom du jour, des informations sur le mois hégirien et la conversion entre calendriers hégirien et grégorien.`,
+                short: `Trouvez la date grégorienne équivalente du ${_datedAr}, avec des informations sur le mois hégirien, la conversion de date et le calendrier hégirien.`,
+            }),
+            tr: () => ({
+                long:  `${_datedAr} tarihinin Miladi karşılığını, gün adını, Hicri ay bilgisini ve Hicri-Miladi takvimler arasında tarih dönüştürmeyi öğrenin.`,
+                short: `${_datedAr} tarihinin Miladi karşılığını öğrenin; Hicri ay bilgisi, tarih dönüştürme ve Hicri takvim ile birlikte.`,
+            }),
+            ur: () => ({
+                long:  `${_datedAr} کی عیسوی مماثل تاریخ، دن کا نام، ہجری مہینے کی معلومات اور ہجری و عیسوی تقویم کے درمیان تاریخ کی تبدیلی جانیں۔`,
+                short: `${_datedAr} کی عیسوی مماثل تاریخ جانیں، ہجری مہینے کی معلومات، تاریخ کی تبدیلی اور ہجری کیلنڈر کے ساتھ۔`,
+            }),
+            de: () => ({
+                long:  `Finden Sie die gregorianische Entsprechung des ${_datedAr}, mit dem Wochentag, Informationen zum Hidschri-Monat und der Umrechnung zwischen Hidschri und Gregorianisch.`,
+                short: `Finden Sie die gregorianische Entsprechung des ${_datedAr}, mit Informationen zum Hidschri-Monat, zur Datumsumrechnung und zum Hidschri-Kalender.`,
+            }),
+            id: () => ({
+                long:  `Temukan padanan Masehi tanggal ${_datedAr}, lengkap dengan nama hari, informasi bulan Hijriah, serta konversi tanggal antara kalender Hijriah dan Masehi.`,
+                short: `Temukan padanan Masehi tanggal ${_datedAr}, dengan informasi tentang bulan Hijriah, konversi tanggal, dan kalender Hijriah.`,
+            }),
+            es: () => ({
+                long:  `Encuentra la fecha gregoriana equivalente al ${_datedAr}, con el nombre del día, información sobre el mes Hégira y la conversión entre los calendarios Hégira y gregoriano.`,
+                short: `Encuentra la fecha gregoriana equivalente al ${_datedAr}, con información sobre el mes Hégira, conversión de fechas y el calendario Hégira.`,
+            }),
+            bn: () => ({
+                long:  `${_datedAr} এর গ্রেগরিয়ান সমতুল্য তারিখ, দিনের নাম, হিজরি মাসের তথ্য ও হিজরি-গ্রেগরিয়ান ক্যালেন্ডারের মধ্যে রূপান্তর জানুন।`,
+                short: `${_datedAr} এর গ্রেগরিয়ান সমতুল্য তারিখ জানুন, সাথে হিজরি মাস, তারিখ রূপান্তর ও হিজরি ক্যালেন্ডার সংক্রান্ত তথ্য।`,
+            }),
+            ms: () => ({
+                long:  `Cari padanan Gregorian tarikh ${_datedAr}, lengkap dengan nama hari, maklumat bulan Hijrah dan penukaran tarikh antara kalendar Hijrah dan Gregorian.`,
+                short: `Cari padanan Gregorian tarikh ${_datedAr}, dengan maklumat tentang bulan Hijrah, penukaran tarikh dan kalendar Hijrah.`,
+            }),
+        };
+        const _pickHdayDesc = (lng) => {
+            const f = (_HDAY_DESC_FORMS[lng] || _HDAY_DESC_FORMS.en)();
+            const len = s => Array.from(s).length;
+            if (len(f.long) >= 120 && len(f.long) <= 160) return f.long;
+            if (len(f.long) <= 160) return f.long;
+            return f.short;
         };
         const _HDAY_CAL_LABEL = {
             ar: 'التقويم الهجري', en: 'Hijri Calendar', fr: 'Calendrier hégirien', tr: 'Hicri Takvim',
             ur: 'ہجری کیلنڈر', de: 'Hidschri-Kalender', id: 'Kalender Hijriah', es: 'Calendario Hégira',
             bn: 'হিজরি ক্যালেন্ডার', ms: 'Kalendar Hijrah'
         };
-        title = _HDAY_TITLE[lang] || _HDAY_TITLE.en;
-        description = _HDAY_DESC[lang] || _HDAY_DESC.en;
+        title = _pickHdayTitle(lang);
+        description = _pickHdayDesc(lang);
         ogType = 'website'; // Answer Page — not an article
         const _calL = _HDAY_CAL_LABEL[lang] || _HDAY_CAL_LABEL.en;
         breadcrumbs.push({ name: _calL, item: origin + langPrefix + `/hijri-calendar` });
@@ -12009,6 +12126,350 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             /<a id="hyear-next-link"[^>]*>[^<]*<\/a>/,
             `<a id="hyear-next-link" class="hyear-year-nav-btn" href="${_nextHref}" rel="next">${_escHtml(_hp.next)}</a>`
         );
+    }
+
+    // HD-DAY-SEO-1 (2026-05-11): SSR content injection on /hijri-date/{YYYY-MM-DD}.
+    //   Per user spec, the bare Hijri-day page (352 words) failed
+    //   SEOptimer's "Amount of Content" gate. Adds:
+    //     • H1 replacement (date-specific instead of generic "تفاصيل اليوم الهجري")
+    //     • 4 SSR educational sections (~700 words/lang) BEFORE the FAQ
+    //     • Hijri-date-specific SSR FAQ section (4 Q&A items)
+    //     • Related-links chip row (year hub + month hub)
+    //   Strict per-lang lookup — no fallback. Each of ar/en/fr/tr/ur/de/id/es/bn/ms
+    //   has its own dedicated dictionary.
+    const _isHijriDayPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(urlPath);
+    if (_isHijriDayPage) {
+        // Add `hijri-day-page` class to <html> so the existing critical CSS
+        // rule `html.hijri-day-page #page-hijri-day { display: block }`
+        // activates the right page wrapper for crawlers (without waiting
+        // for JS to set it). The class is appended to any existing class
+        // attribute, or a new class attribute is created.
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} hijri-day-page"`) + '>';
+            }
+            return '<html' + a + ' class="hijri-day-page">';
+        });
+        const _hdMatch = urlPath.match(/\/hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
+        if (_hdMatch) {
+            const _hdYear = _hdMatch[1];
+            const _hdMonth = parseInt(_hdMatch[2], 10);
+            const _hdDay = String(parseInt(_hdMatch[3], 10));
+            // Per-lang Hijri month names + suffix.
+            const _HD_MONTHS = {
+                ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
+            };
+            const _HD_SFX = { ar:'هـ', en:'AH', fr:'H', tr:'H', ur:'ہجری', de:'AH', id:'H', es:'H', bn:'হিজরি', ms:'H' };
+            const _HD_H1_PHRASE = {
+                ar: d => `${d} وما يوافقه ميلادياً`,
+                en: d => `${d} and its Gregorian equivalent`,
+                fr: d => `${d} et son équivalent grégorien`,
+                tr: d => `${d} ve Miladi karşılığı`,
+                ur: d => `${d} اور اس کی عیسوی مماثل تاریخ`,
+                de: d => `${d} und seine gregorianische Entsprechung`,
+                id: d => `${d} dan padanan Masehinya`,
+                es: d => `${d} y su equivalente gregoriano`,
+                bn: d => `${d} এবং এর গ্রেগরিয়ান সমতুল্য`,
+                ms: d => `${d} dan padanan Gregoriannya`,
+            };
+            const _hdLng    = seo.lang || 'ar';
+            const _hdMNm    = (_HD_MONTHS[_hdLng] || _HD_MONTHS.en)[_hdMonth - 1];
+            const _hdSfx    = _HD_SFX[_hdLng] || _HD_SFX.en;
+            const _hdDated  = `${_hdDay} ${_hdMNm} ${_hdYear} ${_hdSfx}`;          // "25 ذو القعدة 1447 هـ"
+            const _hdH1Txt  = (_HD_H1_PHRASE[_hdLng] || _HD_H1_PHRASE.en)(_hdDated); // "25 ذو القعدة 1447 هـ وما يوافقه ميلادياً"
+
+            // ---- 1) Replace static H1 with date-specific phrase (drop data-i18n so JS won't overwrite) ----
+            html = html.replace(
+                /<h1 id="hday-title" class="hpage-hero-title--lg" data-i18n="hday\.title">[^<]*<\/h1>/,
+                `<h1 id="hday-title" class="hpage-hero-title--lg">${_escHtml(_hdH1Txt)}</h1>`
+            );
+
+            // ---- 2) Build 4 SSR educational sections (per-lang dict) ----
+            const _HD_SECTIONS = {
+                ar: d => [
+                    { h: `ماذا يعني تاريخ ${d}؟`,
+                      p1: `يعرض هذا القسم تفاصيل التاريخ الهجري ${d}، مع التاريخ الميلادي المقابل له حسب نظام التحويل المستخدم في الموقع. يساعد ذلك المستخدم على معرفة موضع هذا اليوم داخل الشهر الهجري، وفهم ارتباطه بالتقويم الميلادي، خصوصاً عند الحاجة إلى مقارنة المواعيد بين التقويمين أو توثيق تاريخ معيّن بصيغتين مختلفتين، سواء كان ذلك من أجل العمل أو الدراسة أو متابعة شؤون حياتية يومية.`,
+                      p2: `يعتمد التقويم الهجري على الأشهر القمرية، لذلك قد يختلف بداية الشهر الهجري بين بلد وآخر حسب الرؤية أو طريقة الحساب. ولهذا تعرض الصفحة التاريخ بطريقة واضحة تساعد على قراءة اليوم والشهر والسنة الهجرية، مع الإشارة إلى التاريخ الميلادي المقابل لسهولة الاستخدام في الأعمال اليومية أو المواعيد الرسمية أو التخطيط الشخصي. كما تعرض الصفحة روابط مباشرة إلى تقويم الشهر الهجري وتقويم السنة، حتى يستطيع الزائر التنقّل بسرعة من اليوم الواحد إلى نطاق زمني أوسع.` },
+                    { h: `كيف يتم تحويل ${d} إلى التاريخ الميلادي؟`,
+                      p1: `يتم تحويل التاريخ الهجري إلى ميلادي من خلال مقارنة اليوم الهجري داخل الشهر القمري بما يقابله في التقويم الميلادي. وبما أن السنة الهجرية أقصر من السنة الميلادية بحوالي إحدى عشرة يوماً تقريباً، فإن الأشهر الهجرية تنتقل بين فصول السنة الميلادية مع مرور الوقت. لذلك لا يبقى الشهر الهجري في نفس الفترة الميلادية كل عام، وقد يأتي مرة في الصيف ومرة أخرى في الشتاء بعد سنوات متعاقبة.`,
+                      p2: `عند تحويل ${d}، تعرض الصفحة التاريخ الميلادي المقابل بناءً على البيانات المحسوبة في الموقع. ويمكن استخدام هذه النتيجة لمعرفة اليوم المقابل، أو لمقارنة موعد هجري بجدول ميلادي، أو للانتقال إلى تواريخ قريبة داخل نفس الشهر الهجري أو الشهر الميلادي. ويُفضّل اعتماد طريقة حساب موحّدة عند التحويل، لأن استخدام نُظم مختلفة قد يُنتج فرقاً بسيطاً بين النتائج، خصوصاً عند بداية الشهر القمري.` },
+                    { h: `الفرق بين التاريخ الهجري والتاريخ الميلادي`,
+                      p1: `يعتمد التاريخ الهجري على دورة القمر، وتتكوّن السنة الهجرية من اثني عشر شهراً قمرياً، يتراوح طول كل شهر بين 29 و30 يوماً تقريباً. أما التاريخ الميلادي فيعتمد على السنة الشمسية التي تتألف من 365 أو 366 يوماً. لذلك يوجد فرق في طول السنة بين التقويمين، مما يجعل التواريخ الهجرية تتحرك تدريجياً داخل التقويم الميلادي من عام إلى آخر، وقد يقابل تاريخ هجري معيّن أكثر من يوم ميلاديّ بحسب أسلوب التحويل المستخدم.`,
+                      p2: `لهذا السبب يحتاج كثير من المستخدمين إلى تحويل التاريخ بين الهجري والميلادي عند متابعة المناسبات أو ترتيب المواعيد أو قراءة الوثائق التي تعتمد أحد التقويمين. صفحة التاريخ الهجري المحدد تساعد على عرض التاريخين معاً، بحيث يستطيع المستخدم معرفة اليوم الهجري والتاريخ الميلادي المقابل دون الحاجة إلى البحث في تقويم كامل، مع إمكانية الانتقال إلى تواريخ مجاورة سابقة أو لاحقة بضغطة واحدة.` },
+                    { h: `متى تحتاج إلى صفحة تاريخ هجري محدد؟`,
+                      p1: `تكون صفحة التاريخ الهجري المحدد مفيدة عندما تريد معرفة تاريخ يوم بعينه، وليس فقط تصفح تقويم شهر كامل. فقد يحتاج المستخدم إلى معرفة ما يوافق تاريخاً هجرياً في التقويم الميلادي، أو التأكد من تاريخ مناسبة شخصية أو دينية، أو مراجعة يوم داخل شهر هجري معين، أو حتى مطابقة تاريخ مذكور في وثيقة قديمة أو رسالة رسمية مع ما يقابله في التقويم الحديث.`,
+                      p2: `كما تفيد هذه الصفحة عند مشاركة رابط مباشر لتاريخ محدد، لأن الرابط يحتوي على السنة والشهر واليوم الهجري بوضوح. ويمكن بعدها الانتقال إلى صفحات التقويم الهجري الشهرية أو السنوية إذا كان الهدف هو رؤية نطاق أوسع من التواريخ بدلاً من يوم واحد فقط. هذا الفصل بين الصفحة اليومية والصفحات الشهرية والسنوية يجعل تجربة التصفّح أكثر تنظيماً، ويساعد محركات البحث على فهم نية كل رابط ومحتواه بدقة.` },
+                    { h: `كيف تنتقل من ${d} إلى تواريخ قريبة؟`,
+                      p1: `يوفّر الموقع روابط للانتقال بين الأيام الهجرية المتقاربة، حيث يمكنك الانتقال إلى اليوم السابق أو التالي مباشرة بضغطة واحدة. هذا الأسلوب مفيد عند مراجعة سلسلة أيام داخل الشهر الهجري، أو عند تتبّع مرحلة معيّنة مثل بدايات الأشهر، أو منتصفها، أو أواخرها. ويقدّم التصفّح المتسلسل تجربة مرتبة لمن يبحث عن أكثر من يوم واحد دون الحاجة إلى فتح التقويم كلّه دفعة واحدة.`,
+                      p2: `يمكنك أيضاً الانتقال إلى تقويم الشهر الهجري لرؤية الأيام كاملة داخل الشهر، أو الذهاب إلى تقويم السنة الهجرية لمتابعة ترتيب الأشهر طوال السنة. كل هذه الروابط مصمَّمة لتسهيل التنقّل بين المستويات المختلفة من التقويم الهجري، بدءاً من اليوم الواحد، مروراً بالشهر، وانتهاءً بالسنة الكاملة، حتى تختار المستوى الزمني الذي يناسب احتياجك في الحال.` },
+                    { h: `نصائح لاستخدام التاريخ الهجري في الحياة اليومية`,
+                      p1: `يُستخدم التاريخ الهجري في توثيق المناسبات الدينية، وفي بعض الدول لأغراض رسمية مثل العقود أو الإجازات أو الجداول المدرسية. ولهذا تساعد صفحة التاريخ الهجري المحدد على معرفة اليوم الذي يقابل التاريخ المطلوب، سواء كان لإثبات مناسبة، أو لتنظيم جدول، أو لمعرفة الفترة الميلادية التي تقع فيها أيام مهمة مثل بداية رمضان أو عيد الفطر أو عيد الأضحى.`,
+                      p2: `يساعد التحويل أيضاً في توحيد طريقة فهم التواريخ بين الأطراف المختلفة. فالشخص الذي يستخدم التقويم الميلادي يحتاج إلى الصيغة المقابلة من التاريخ الهجري والعكس، ولذلك يُفضَّل دائماً وجود مرجع موثوق وسهل الوصول لتحويل التواريخ. صفحة اليوم الهجري المحدد تقدم هذه المعلومة بشكل مباشر وسريع، دون الحاجة إلى جداول ورقية أو حسابات يدوية معقّدة.` },
+                ],
+                en: d => [
+                    { h: `What does the date ${d} represent?`,
+                      p1: `This section shows the details of the Hijri date ${d} together with its matching Gregorian date based on the conversion used on the site. That helps the visitor see where this day sits inside the Hijri month and how it relates to the Gregorian calendar, which is useful when comparing appointments between the two systems or recording a date in both forms.`,
+                      p2: `The Hijri calendar follows the lunar months, so the start of a Hijri month can vary from one country to another depending on moon sighting or the calculation method. The page therefore presents the day, month, and year of the Hijri date clearly, with the matching Gregorian date for everyday work, official appointments, or personal planning.` },
+                    { h: `How is ${d} converted to a Gregorian date?`,
+                      p1: `Converting a Hijri date to a Gregorian one compares the Hijri day inside its lunar month against the matching day in the Gregorian calendar. Because the Hijri year is shorter than the Gregorian year, Hijri months gradually move through the Gregorian seasons over time. The same Hijri month therefore does not always sit in the same Gregorian period each year.`,
+                      p2: `When converting ${d}, the page shows the matching Gregorian date based on the data computed on the site. The result lets you find the matching day, compare a Hijri appointment with a Gregorian schedule, or jump to nearby dates inside the same Hijri or Gregorian month.` },
+                    { h: `The difference between Hijri and Gregorian dates`,
+                      p1: `The Hijri calendar follows the lunar cycle and the Hijri year contains twelve lunar months. The Gregorian calendar follows the solar year. There is therefore a difference in year length between the two systems, which makes Hijri dates drift gradually through the Gregorian calendar from one year to the next.`,
+                      p2: `For this reason many users need to convert dates between Hijri and Gregorian to track occasions, schedule appointments, or read documents. A specific Hijri-date page displays both dates together, so users can read the Hijri day and the matching Gregorian date without browsing an entire calendar.` },
+                    { h: `When do you need a specific Hijri-date page?`,
+                      p1: `A specific Hijri-date page is useful when you want a particular day, not just a full monthly calendar. You might need the Gregorian equivalent of a Hijri date, verify the date of an occasion, or check a day inside a given Hijri month.`,
+                      p2: `It is also useful when sharing a direct link to a specific date, since the URL clearly contains the Hijri year, month, and day. From there you can move on to the monthly or yearly Hijri calendar pages if you need a broader range of dates instead of a single day.` },
+                ],
+                fr: d => [
+                    { h: `Que représente la date ${d} ?`,
+                      p1: `Cette section affiche les détails de la date hégirienne ${d} ainsi que la date grégorienne correspondante selon la conversion utilisée sur le site. Cela aide le visiteur à situer ce jour dans le mois hégirien et à comprendre sa relation avec le calendrier grégorien, ce qui est utile pour comparer des rendez-vous entre les deux systèmes ou consigner une date dans les deux formats.`,
+                      p2: `Le calendrier hégirien suit les mois lunaires ; le début d'un mois hégirien peut donc varier d'un pays à l'autre selon l'observation du croissant ou la méthode de calcul. La page présente clairement le jour, le mois et l'année hégiriens, avec la date grégorienne correspondante pour le travail quotidien, les rendez-vous officiels ou la planification personnelle.` },
+                    { h: `Comment ${d} est-il converti en date grégorienne ?`,
+                      p1: `La conversion d'une date hégirienne en date grégorienne compare le jour hégirien à l'intérieur de son mois lunaire au jour correspondant du calendrier grégorien. L'année hégirienne étant plus courte que l'année grégorienne, les mois hégiriens se déplacent progressivement à travers les saisons grégoriennes au fil du temps. Un même mois hégirien ne se situe donc pas toujours dans la même période grégorienne d'une année à l'autre.`,
+                      p2: `Lors de la conversion de ${d}, la page affiche la date grégorienne correspondante selon les données calculées sur le site. Le résultat permet de connaître le jour équivalent, de comparer un rendez-vous hégirien à un calendrier grégorien ou de passer à des dates proches dans le même mois hégirien ou grégorien.` },
+                    { h: `La différence entre dates hégirienne et grégorienne`,
+                      p1: `Le calendrier hégirien suit le cycle lunaire et l'année hégirienne comporte douze mois lunaires. Le calendrier grégorien suit l'année solaire. Il y a donc une différence de longueur d'année entre les deux systèmes, ce qui fait dériver les dates hégiriennes à travers le calendrier grégorien d'une année à l'autre.`,
+                      p2: `Pour cette raison, beaucoup d'utilisateurs ont besoin de convertir des dates entre hégirien et grégorien pour suivre des occasions, organiser des rendez-vous ou lire des documents. Une page de date hégirienne spécifique affiche les deux dates ensemble, sans avoir à parcourir un calendrier entier.` },
+                    { h: `Quand a-t-on besoin d'une page de date hégirienne spécifique ?`,
+                      p1: `Une page de date hégirienne spécifique est utile quand on cherche un jour particulier et pas seulement un calendrier mensuel. On peut avoir besoin de l'équivalent grégorien d'une date hégirienne, vérifier la date d'une occasion ou consulter un jour dans un mois hégirien donné.`,
+                      p2: `Elle est aussi utile pour partager un lien direct vers une date précise, car l'URL contient clairement l'année, le mois et le jour hégiriens. Ensuite, on peut passer aux pages mensuelles ou annuelles du calendrier hégirien si l'on veut une plage de dates plus large qu'un seul jour.` },
+                ],
+                tr: d => [
+                    { h: `${d} tarihinin anlamı nedir?`,
+                      p1: `Bu bölüm, Hicri tarih ${d} ile sitedeki dönüşüme dayalı eşleşen Miladi tarihini gösterir. Ziyaretçi, bu günün Hicri ay içindeki konumunu ve Miladi takvim ile ilişkisini görebilir; bu, iki sistem arasında randevu karşılaştırırken veya bir tarihi her iki formatta kayıt altına alırken faydalıdır.`,
+                      p2: `Hicri takvim ay döngüsünü izler; bu yüzden Hicri ayın başlangıcı ülkeye veya kullanılan hesap yöntemine göre değişebilir. Sayfa, Hicri tarihin gün, ay ve yılını net biçimde gösterir; günlük iş, resmi randevular veya kişisel planlama için Miladi karşılığını da sunar.` },
+                    { h: `${d} Miladi tarihe nasıl dönüştürülür?`,
+                      p1: `Hicri bir tarihin Miladiye dönüştürülmesi, Hicri günü ay döngüsü içinde Miladi takvimdeki karşılık gelen güne karşılaştırır. Hicri yıl, Miladi yıldan daha kısa olduğu için Hicri aylar zamanla Miladi mevsimlerin içinde kayar. Aynı Hicri ay her yıl aynı Miladi döneme denk gelmez.`,
+                      p2: `${d} dönüştürülürken sayfa, sitede hesaplanan verilere göre eşleşen Miladi tarihi gösterir. Sonuç, eşleşen günü bulmak, bir Hicri randevuyu Miladi programla karşılaştırmak veya aynı Hicri/Miladi ay içindeki yakın tarihlere geçmek için kullanılabilir.` },
+                    { h: `Hicri ve Miladi tarihler arasındaki fark`,
+                      p1: `Hicri takvim ay döngüsünü izler ve Hicri yıl on iki ay döngüsünden oluşur. Miladi takvim Güneş yılını izler. Bu nedenle iki sistem arasında yıl uzunluğunda fark vardır; Hicri tarihler yıl yıl Miladi takvim içinde kayar.`,
+                      p2: `Bu yüzden birçok kullanıcı, anma günlerini takip etmek, randevu düzenlemek veya belgeleri okumak için Hicri ile Miladi arasında tarih dönüştürmeye ihtiyaç duyar. Belirli Hicri tarih sayfası iki tarihi birlikte gösterir; tüm takvimde gezinmeden Hicri günü ve karşılık gelen Miladi tarihi görebilirsiniz.` },
+                    { h: `Belirli bir Hicri tarih sayfasına ne zaman ihtiyaç duyarsınız?`,
+                      p1: `Belirli bir Hicri tarih sayfası, sadece aylık takvime göz atmak yerine tek bir günü incelemek istediğinizde faydalıdır. Bir Hicri tarihin Miladi karşılığını öğrenmek, bir anma gününü doğrulamak veya belirli bir Hicri ay içindeki bir günü incelemek isteyebilirsiniz.`,
+                      p2: `Bu sayfa, belirli bir tarih için doğrudan bağlantı paylaşırken de yararlıdır; çünkü URL, Hicri yıl, ay ve günü açıkça içerir. Daha geniş bir tarih aralığı isterseniz aylık veya yıllık Hicri takvim sayfalarına geçebilirsiniz.` },
+                ],
+                ur: d => [
+                    { h: `${d} کا کیا مطلب ہے؟`,
+                      p1: `یہ سیکشن ہجری تاریخ ${d} کی تفصیلات اور سائٹ پر استعمال ہونے والے نظام کے مطابق متعلقہ عیسوی تاریخ دکھاتا ہے۔ یہ صارف کو اس دن کی ہجری مہینے میں جگہ اور عیسوی کیلنڈر سے تعلق سمجھنے میں مدد دیتا ہے، خاص طور پر جب دونوں نظاموں کے درمیان ملاقاتیں موازنہ کرنا ہو یا کسی تاریخ کو دونوں صورتوں میں محفوظ کرنا ہو۔`,
+                      p2: `ہجری کیلنڈر قمری مہینوں پر مبنی ہے، اس لیے ہجری مہینے کا آغاز ملک یا حساب کے طریقے کے مطابق مختلف ہو سکتا ہے۔ صفحہ ہجری تاریخ کا دن، مہینہ اور سال واضح طور پر دکھاتا ہے، عیسوی متعلقہ تاریخ کے ساتھ، روزانہ کاموں، سرکاری ملاقاتوں یا ذاتی منصوبہ بندی کے لیے۔` },
+                    { h: `${d} کو عیسوی تاریخ میں کیسے تبدیل کیا جاتا ہے؟`,
+                      p1: `ہجری تاریخ کو عیسوی میں تبدیل کرنا ہجری دن کو اس کے قمری مہینے کے اندر عیسوی کیلنڈر کے متعلقہ دن سے موازنہ کرتا ہے۔ چونکہ ہجری سال عیسوی سال سے چھوٹا ہے، ہجری مہینے وقت کے ساتھ عیسوی موسموں میں منتقل ہوتے رہتے ہیں۔ ایک ہی ہجری مہینہ ہر سال ایک ہی عیسوی دور میں نہیں رہتا۔`,
+                      p2: `${d} کو تبدیل کرتے وقت، صفحہ سائٹ پر حساب کی گئی ڈیٹا کی بنیاد پر متعلقہ عیسوی تاریخ دکھاتا ہے۔ نتیجہ متعلقہ دن جاننے، ہجری ملاقات کو عیسوی شیڈول سے موازنہ کرنے، یا اسی ہجری یا عیسوی مہینے کے اندر قریبی تاریخوں پر منتقل ہونے کے لیے استعمال کیا جا سکتا ہے۔` },
+                    { h: `ہجری اور عیسوی تاریخ کے درمیان فرق`,
+                      p1: `ہجری کیلنڈر قمری چکر پر مبنی ہے اور ہجری سال بارہ قمری مہینوں پر مشتمل ہے۔ عیسوی کیلنڈر شمسی سال پر مبنی ہے۔ اس لیے دونوں نظاموں کے درمیان سال کی لمبائی میں فرق ہوتا ہے، جو ہجری تاریخوں کو سال بہ سال عیسوی کیلنڈر میں آہستہ آہستہ منتقل کرتا ہے۔`,
+                      p2: `اس وجہ سے بہت سے صارفین کو مواقع کا پیچھا کرنے، ملاقاتوں کو ترتیب دینے یا دستاویزات پڑھنے کے لیے ہجری اور عیسوی کے درمیان تاریخ تبدیل کرنے کی ضرورت ہوتی ہے۔ مخصوص ہجری تاریخ صفحہ دونوں تاریخیں ایک ساتھ دکھاتا ہے، تاکہ صارف مکمل کیلنڈر تلاش کیے بغیر ہجری دن اور متعلقہ عیسوی تاریخ جان سکے۔` },
+                    { h: `مخصوص ہجری تاریخ صفحے کی ضرورت کب ہوتی ہے؟`,
+                      p1: `مخصوص ہجری تاریخ صفحہ اس وقت مفید ہوتا ہے جب آپ کسی خاص دن کو دیکھنا چاہتے ہیں، نہ کہ صرف مکمل ماہانہ کیلنڈر۔ آپ کو ہجری تاریخ کی عیسوی مماثل، کسی مناسبت کی تاریخ کی تصدیق، یا کسی مخصوص ہجری مہینے کے اندر دن کا جائزہ لینے کی ضرورت ہو سکتی ہے۔`,
+                      p2: `یہ صفحہ مخصوص تاریخ کے لیے براہِ راست لنک شیئر کرتے وقت بھی مفید ہے، کیونکہ URL میں ہجری سال، مہینہ اور دن واضح طور پر شامل ہوتے ہیں۔ پھر آپ ماہانہ یا سالانہ ہجری کیلنڈر صفحات پر منتقل ہو سکتے ہیں اگر مقصد ایک دن سے زیادہ تاریخوں کی حد ہو۔` },
+                ],
+                de: d => [
+                    { h: `Was bedeutet das Datum ${d}?`,
+                      p1: `Dieser Abschnitt zeigt die Details des Hidschri-Datums ${d} und das entsprechende gregorianische Datum gemäß der auf der Seite verwendeten Umrechnung. Das hilft dem Besucher, die Position des Tages im Hidschri-Monat zu erkennen und die Beziehung zum gregorianischen Kalender zu verstehen, was beim Vergleichen von Terminen zwischen den Systemen oder beim Festhalten eines Datums in beiden Formaten nützlich ist.`,
+                      p2: `Der Hidschri-Kalender folgt den Mondmonaten; der Beginn eines Hidschri-Monats kann daher je nach Land und Berechnungsmethode variieren. Die Seite stellt Tag, Monat und Jahr des Hidschri-Datums klar dar, mit dem entsprechenden gregorianischen Datum für den Alltag, offizielle Termine oder die persönliche Planung.` },
+                    { h: `Wie wird ${d} in ein gregorianisches Datum umgerechnet?`,
+                      p1: `Die Umrechnung eines Hidschri-Datums in ein gregorianisches vergleicht den Hidschri-Tag innerhalb seines Mondmonats mit dem entsprechenden Tag im gregorianischen Kalender. Da das Hidschri-Jahr kürzer als das gregorianische Jahr ist, wandern die Hidschri-Monate mit der Zeit durch die gregorianischen Jahreszeiten. Derselbe Hidschri-Monat liegt also nicht jedes Jahr in derselben gregorianischen Periode.`,
+                      p2: `Beim Umrechnen von ${d} zeigt die Seite das entsprechende gregorianische Datum auf Basis der berechneten Daten. Das Ergebnis lässt Sie den passenden Tag finden, einen Hidschri-Termin mit einem gregorianischen Zeitplan vergleichen oder zu nahen Daten im selben Hidschri- oder gregorianischen Monat wechseln.` },
+                    { h: `Der Unterschied zwischen Hidschri- und gregorianischen Daten`,
+                      p1: `Der Hidschri-Kalender folgt dem Mondzyklus und das Hidschri-Jahr besteht aus zwölf Mondmonaten. Der gregorianische Kalender folgt dem Sonnenjahr. Es besteht daher ein Unterschied in der Jahreslänge zwischen den beiden Systemen, der die Hidschri-Daten von Jahr zu Jahr allmählich durch den gregorianischen Kalender driften lässt.`,
+                      p2: `Aus diesem Grund müssen viele Nutzer Daten zwischen Hidschri und Gregorianisch umrechnen, um Anlässe zu verfolgen, Termine zu organisieren oder Dokumente zu lesen. Eine spezifische Hidschri-Datumsseite zeigt beide Daten zusammen, sodass man den Hidschri-Tag und das passende gregorianische Datum sehen kann, ohne einen kompletten Kalender zu durchsuchen.` },
+                    { h: `Wann benötigen Sie eine spezifische Hidschri-Datumsseite?`,
+                      p1: `Eine spezifische Hidschri-Datumsseite ist nützlich, wenn Sie einen bestimmten Tag wollen und nicht nur einen ganzen Monatskalender. Sie möchten vielleicht das gregorianische Äquivalent eines Hidschri-Datums kennen, das Datum eines Anlasses bestätigen oder einen Tag in einem bestimmten Hidschri-Monat überprüfen.`,
+                      p2: `Sie ist auch nützlich, wenn Sie einen direkten Link zu einem bestimmten Datum teilen, da die URL Hidschri-Jahr, -Monat und -Tag klar enthält. Anschließend können Sie zu den Monats- oder Jahres-Hidschri-Kalenderseiten wechseln, falls Sie einen größeren Datumsbereich als einen einzigen Tag benötigen.` },
+                ],
+                id: d => [
+                    { h: `Apa arti tanggal ${d}?`,
+                      p1: `Bagian ini menampilkan detail tanggal Hijriah ${d} dengan tanggal Masehi yang sesuai berdasarkan konversi yang digunakan di situs. Hal ini membantu pengunjung melihat posisi hari ini di dalam bulan Hijriah dan kaitannya dengan kalender Masehi, terutama saat membandingkan janji antara dua sistem atau mencatat tanggal dalam dua format.`,
+                      p2: `Kalender Hijriah mengikuti bulan-bulan lunar, jadi awal bulan Hijriah dapat berbeda antar negara tergantung pada rukyat hilal atau metode hisab. Halaman menampilkan hari, bulan, dan tahun Hijriah dengan jelas, dengan tanggal Masehi yang sesuai untuk pekerjaan harian, janji resmi, atau perencanaan pribadi.` },
+                    { h: `Bagaimana ${d} dikonversi ke tanggal Masehi?`,
+                      p1: `Konversi tanggal Hijriah ke Masehi membandingkan hari Hijriah dalam bulan lunarnya dengan hari yang sesuai di kalender Masehi. Karena tahun Hijriah lebih pendek dari tahun Masehi, bulan-bulan Hijriah bergeser perlahan melalui musim Masehi dari waktu ke waktu. Bulan Hijriah yang sama tidak selalu berada di periode Masehi yang sama setiap tahun.`,
+                      p2: `Saat mengonversi ${d}, halaman menampilkan tanggal Masehi yang sesuai berdasarkan data yang dihitung di situs. Hasilnya memungkinkan Anda menemukan hari yang cocok, membandingkan janji Hijriah dengan jadwal Masehi, atau berpindah ke tanggal terdekat di bulan Hijriah atau Masehi yang sama.` },
+                    { h: `Perbedaan antara tanggal Hijriah dan Masehi`,
+                      p1: `Kalender Hijriah mengikuti siklus bulan dan tahun Hijriah terdiri dari dua belas bulan lunar. Kalender Masehi mengikuti tahun matahari. Karenanya ada perbedaan panjang tahun antara kedua sistem, yang membuat tanggal Hijriah bergeser perlahan melalui kalender Masehi dari tahun ke tahun.`,
+                      p2: `Karena itulah banyak pengguna perlu mengonversi tanggal antara Hijriah dan Masehi untuk mengikuti peringatan, menjadwalkan janji, atau membaca dokumen. Halaman tanggal Hijriah spesifik menampilkan kedua tanggal sekaligus, sehingga pengguna dapat melihat hari Hijriah dan tanggal Masehi yang sesuai tanpa menelusuri seluruh kalender.` },
+                    { h: `Kapan Anda memerlukan halaman tanggal Hijriah spesifik?`,
+                      p1: `Halaman tanggal Hijriah spesifik berguna saat Anda menginginkan satu hari tertentu, bukan hanya kalender bulanan. Anda mungkin memerlukan padanan Masehi dari tanggal Hijriah, memverifikasi tanggal sebuah peristiwa, atau memeriksa hari di dalam bulan Hijriah tertentu.`,
+                      p2: `Halaman ini juga berguna saat berbagi tautan langsung ke tanggal tertentu, karena URL berisi tahun, bulan, dan hari Hijriah secara jelas. Setelah itu Anda dapat berpindah ke halaman kalender Hijriah bulanan atau tahunan jika ingin rentang tanggal yang lebih luas daripada satu hari.` },
+                ],
+                es: d => [
+                    { h: `¿Qué representa la fecha ${d}?`,
+                      p1: `Esta sección muestra los detalles de la fecha hégira ${d} junto con la fecha gregoriana correspondiente según la conversión utilizada en el sitio. Esto ayuda al visitante a ver la posición de este día dentro del mes hégira y su relación con el calendario gregoriano, especialmente al comparar citas entre los dos sistemas o registrar una fecha en ambos formatos.`,
+                      p2: `El calendario hégira sigue los meses lunares, por lo que el inicio de un mes hégira puede variar de un país a otro según la observación de la luna o el método de cálculo. La página presenta el día, el mes y el año hégira de forma clara, con la fecha gregoriana correspondiente para el trabajo diario, las citas oficiales o la planificación personal.` },
+                    { h: `¿Cómo se convierte ${d} a una fecha gregoriana?`,
+                      p1: `Convertir una fecha hégira a gregoriana compara el día hégira dentro de su mes lunar con el día correspondiente del calendario gregoriano. Como el año hégira es más corto que el año gregoriano, los meses hégira se mueven gradualmente por las estaciones gregorianas con el tiempo. El mismo mes hégira no siempre cae en el mismo período gregoriano cada año.`,
+                      p2: `Al convertir ${d}, la página muestra la fecha gregoriana correspondiente según los datos calculados en el sitio. El resultado permite encontrar el día equivalente, comparar una cita hégira con un calendario gregoriano o saltar a fechas cercanas dentro del mismo mes hégira o gregoriano.` },
+                    { h: `La diferencia entre las fechas hégira y gregoriana`,
+                      p1: `El calendario hégira sigue el ciclo lunar y el año hégira tiene doce meses lunares. El calendario gregoriano sigue el año solar. Por eso existe una diferencia de longitud de año entre los dos sistemas, que hace que las fechas hégira se desplacen gradualmente por el calendario gregoriano de un año a otro.`,
+                      p2: `Por esta razón muchos usuarios necesitan convertir fechas entre hégira y gregoriano para seguir ocasiones, programar citas o leer documentos. Una página de fecha hégira específica muestra ambas fechas juntas, para que los usuarios puedan leer el día hégira y la fecha gregoriana correspondiente sin recorrer un calendario completo.` },
+                    { h: `¿Cuándo se necesita una página de fecha hégira específica?`,
+                      p1: `Una página de fecha hégira específica es útil cuando se busca un día concreto y no solo un calendario mensual. Se puede necesitar el equivalente gregoriano de una fecha hégira, verificar la fecha de una ocasión o revisar un día dentro de un mes hégira concreto.`,
+                      p2: `También es útil al compartir un enlace directo a una fecha específica, ya que la URL contiene claramente el año, el mes y el día hégira. Desde ahí se puede pasar a las páginas de calendario hégira mensuales o anuales si se quiere un rango de fechas más amplio que un solo día.` },
+                ],
+                bn: d => [
+                    { h: `${d} এর অর্থ কী?`,
+                      p1: `এই অংশে হিজরি তারিখ ${d} এর বিবরণ এবং সাইটে ব্যবহৃত রূপান্তর অনুযায়ী এর সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখানো হয়। এটি দর্শককে এই দিনটির হিজরি মাসের অবস্থান এবং গ্রেগরিয়ান ক্যালেন্ডারের সাথে সম্পর্ক বুঝতে সাহায্য করে, বিশেষত যখন দুই সিস্টেমের মধ্যে অ্যাপয়েন্টমেন্ট তুলনা করা হয় বা একটি তারিখ উভয় ফর্ম্যাটে রেকর্ড করা হয়।`,
+                      p2: `হিজরি ক্যালেন্ডার চান্দ্র মাস অনুসরণ করে, তাই হিজরি মাসের শুরু চাঁদ দেখা বা গণনার পদ্ধতির উপর নির্ভর করে দেশভেদে ভিন্ন হতে পারে। পৃষ্ঠাটি হিজরি তারিখের দিন, মাস ও বছর স্পষ্টভাবে উপস্থাপন করে, দৈনন্দিন কাজ, অফিসিয়াল অ্যাপয়েন্টমেন্ট বা ব্যক্তিগত পরিকল্পনার জন্য গ্রেগরিয়ান সমতুল্য তারিখসহ।` },
+                    { h: `${d} কীভাবে গ্রেগরিয়ান তারিখে রূপান্তর করা হয়?`,
+                      p1: `হিজরি তারিখ গ্রেগরিয়ানে রূপান্তর হিজরি দিনটিকে চান্দ্র মাসের ভেতরে গ্রেগরিয়ান ক্যালেন্ডারের সংশ্লিষ্ট দিনের সাথে তুলনা করে। যেহেতু হিজরি বছর গ্রেগরিয়ান বছরের চেয়ে ছোট, হিজরি মাসগুলি সময়ের সাথে গ্রেগরিয়ান ঋতুর মধ্যে ধীরে ধীরে সরে যায়। একই হিজরি মাস প্রতি বছর একই গ্রেগরিয়ান সময়কালে থাকে না।`,
+                      p2: `${d} রূপান্তর করার সময়, পৃষ্ঠাটি সাইটে গণনা করা ডেটার ভিত্তিতে সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখায়। ফলাফলটি মিল খুঁজে পেতে, একটি হিজরি অ্যাপয়েন্টমেন্টকে গ্রেগরিয়ান সূচির সাথে তুলনা করতে, বা একই হিজরি বা গ্রেগরিয়ান মাসের নিকটতম তারিখগুলিতে যেতে ব্যবহৃত হতে পারে।` },
+                    { h: `হিজরি ও গ্রেগরিয়ান তারিখের পার্থক্য`,
+                      p1: `হিজরি ক্যালেন্ডার চান্দ্র চক্র অনুসরণ করে এবং হিজরি বছর বারোটি চান্দ্র মাস নিয়ে গঠিত। গ্রেগরিয়ান ক্যালেন্ডার সৌর বছর অনুসরণ করে। দুই সিস্টেমের মধ্যে বছরের দৈর্ঘ্যে পার্থক্য রয়েছে, যা হিজরি তারিখগুলিকে বছর থেকে বছর গ্রেগরিয়ান ক্যালেন্ডারে ধীরে ধীরে স্থানান্তরিত করে।`,
+                      p2: `এই কারণে অনেক ব্যবহারকারীকে অনুষ্ঠান অনুসরণ, অ্যাপয়েন্টমেন্ট সাজানো বা নথি পড়ার জন্য হিজরি ও গ্রেগরিয়ানের মধ্যে তারিখ রূপান্তর করতে হয়। নির্দিষ্ট হিজরি তারিখ পৃষ্ঠা উভয় তারিখ একসাথে দেখায়, যাতে ব্যবহারকারী সম্পূর্ণ ক্যালেন্ডার ব্রাউজ না করেই হিজরি দিন এবং গ্রেগরিয়ান সমতুল্য জানতে পারেন।` },
+                    { h: `কখন নির্দিষ্ট হিজরি তারিখ পৃষ্ঠা প্রয়োজন?`,
+                      p1: `নির্দিষ্ট হিজরি তারিখ পৃষ্ঠা তখনই উপযোগী যখন আপনি একটি নির্দিষ্ট দিন চান, শুধু সম্পূর্ণ মাসিক ক্যালেন্ডার নয়। আপনাকে একটি হিজরি তারিখের গ্রেগরিয়ান সমতুল্য জানতে, কোনো ঘটনার তারিখ যাচাই করতে, বা নির্দিষ্ট হিজরি মাসের ভিতরে কোনো দিন পরীক্ষা করতে হতে পারে।`,
+                      p2: `নির্দিষ্ট তারিখের সরাসরি লিঙ্ক শেয়ার করার সময়ও এই পৃষ্ঠা উপযোগী, কারণ URL-এ হিজরি বছর, মাস ও দিন স্পষ্টভাবে থাকে। সেখান থেকে আপনি একদিনের চেয়ে বৃহত্তর তারিখের পরিসীমা চাইলে মাসিক বা বার্ষিক হিজরি ক্যালেন্ডার পৃষ্ঠায় যেতে পারেন।` },
+                ],
+                ms: d => [
+                    { h: `Apakah maksud tarikh ${d}?`,
+                      p1: `Bahagian ini memaparkan butiran tarikh Hijrah ${d} bersama tarikh Gregorian yang berkaitan berdasarkan penukaran yang digunakan di laman ini. Ini membantu pelawat melihat kedudukan hari ini dalam bulan Hijrah dan hubungannya dengan kalendar Gregorian, terutamanya ketika membandingkan janji temu antara dua sistem atau merekod tarikh dalam dua format.`,
+                      p2: `Kalendar Hijrah mengikut bulan-bulan lunar, jadi permulaan bulan Hijrah boleh berbeza antara negara bergantung pada rukyah hilal atau kaedah hisab. Halaman memaparkan hari, bulan dan tahun Hijrah dengan jelas, beserta tarikh Gregorian yang berkaitan untuk kerja harian, janji rasmi atau perancangan peribadi.` },
+                    { h: `Bagaimana ${d} ditukarkan kepada tarikh Gregorian?`,
+                      p1: `Penukaran tarikh Hijrah kepada Gregorian membandingkan hari Hijrah dalam bulan lunarnya dengan hari yang berkaitan dalam kalendar Gregorian. Oleh kerana tahun Hijrah lebih pendek daripada tahun Gregorian, bulan Hijrah secara beransur-ansur berpindah antara musim Gregorian dari masa ke masa. Bulan Hijrah yang sama tidak selalu berada dalam tempoh Gregorian yang sama setiap tahun.`,
+                      p2: `Apabila menukarkan ${d}, halaman memaparkan tarikh Gregorian berkaitan berdasarkan data yang dikira di laman ini. Hasilnya membolehkan anda mencari hari yang sepadan, membandingkan janji Hijrah dengan jadual Gregorian, atau beralih ke tarikh berdekatan dalam bulan Hijrah atau Gregorian yang sama.` },
+                    { h: `Perbezaan antara tarikh Hijrah dan Gregorian`,
+                      p1: `Kalendar Hijrah mengikut kitaran bulan dan tahun Hijrah terdiri daripada dua belas bulan lunar. Kalendar Gregorian mengikut tahun suria. Oleh itu terdapat perbezaan panjang tahun antara dua sistem, yang menyebabkan tarikh Hijrah beralih secara beransur-ansur melalui kalendar Gregorian dari tahun ke tahun.`,
+                      p2: `Atas sebab itu ramai pengguna perlu menukar tarikh antara Hijrah dan Gregorian untuk mengikuti peristiwa, menjadualkan janji atau membaca dokumen. Halaman tarikh Hijrah tertentu memaparkan kedua-dua tarikh sekali, supaya pengguna boleh melihat hari Hijrah dan tarikh Gregorian berkaitan tanpa menyemak imbas seluruh kalendar.` },
+                    { h: `Bilakah anda memerlukan halaman tarikh Hijrah tertentu?`,
+                      p1: `Halaman tarikh Hijrah tertentu berguna apabila anda mahukan satu hari khusus, bukan sekadar kalendar bulanan penuh. Anda mungkin memerlukan padanan Gregorian bagi tarikh Hijrah, mengesahkan tarikh sesuatu peristiwa, atau menyemak hari dalam bulan Hijrah tertentu.`,
+                      p2: `Halaman ini juga berguna apabila berkongsi pautan terus ke tarikh tertentu, kerana URL jelas mengandungi tahun, bulan dan hari Hijrah. Selepas itu anda boleh berpindah ke halaman kalendar Hijrah bulanan atau tahunan jika anda mahukan julat tarikh yang lebih luas daripada satu hari sahaja.` },
+                ],
+            };
+            const _HD_FAQ = {
+                ar: d => [
+                    { q: `ما التاريخ الميلادي المقابل لـ ${d}؟`, a: 'تعرض الصفحة التاريخ الميلادي المقابل لهذا التاريخ الهجري حسب بيانات التحويل المعتمدة في الموقع، مع إمكانية الانتقال إلى تواريخ مجاورة لمراجعة الأيام السابقة أو اللاحقة بسهولة.' },
+                    { q: 'هل قد يختلف التاريخ الهجري بين الدول؟', a: 'نعم، قد تختلف بداية بعض الأشهر الهجرية بين الدول بسبب اختلاف الرؤية أو طريقة الحساب، لذلك يمكن أن يظهر فرق بسيط في بعض الحالات، خاصة عند بداية رمضان وشوال وذي الحجة.' },
+                    { q: 'هل يمكن الانتقال إلى الشهر الهجري الكامل؟', a: 'نعم، يمكن استخدام روابط التقويم الهجري للانتقال إلى الشهر الكامل ومراجعة الأيام القريبة من هذا التاريخ، أو الانتقال إلى تقويم السنة الكاملة إذا كان الهدف رؤية ترتيب الأشهر طوال العام.' },
+                    { q: 'ما فائدة تحويل التاريخ الهجري إلى ميلادي؟', a: 'يساعد التحويل على مقارنة المواعيد بين التقويمين، واستخدام التاريخ في التخطيط الشخصي أو العملي أو قراءة الوثائق التي تعتمد أحد النظامين، كما يفيد في توثيق تاريخ مناسبة دينية أو رسمية بصيغتين متوازيتين.' },
+                    { q: 'كيف تُحسب الأيام داخل الشهر الهجري؟', a: 'يبدأ الشهر الهجري بعد رؤية الهلال أو حسب الحساب الفلكي، ويستمر بين 29 و30 يوماً حتى ظهور هلال الشهر التالي. لذلك قد يتغيّر طول الشهر من سنة إلى أخرى ولا يبقى ثابتاً كما في التقويم الميلادي.' },
+                    { q: 'هل يمكنني مشاركة رابط هذا التاريخ بسهولة؟', a: 'نعم، يحتوي رابط الصفحة على السنة والشهر واليوم الهجري بشكل واضح، ويمكن مشاركته مباشرة لمن يريد الاطلاع على التاريخ نفسه دون الحاجة إلى البحث في التقويم. وستفتح الصفحة على نفس التاريخ تلقائياً عند زيارتها.' },
+                ],
+                en: d => [
+                    { q: `What is the Gregorian equivalent of ${d}?`, a: 'The page shows the matching Gregorian date for this Hijri date based on the conversion data used on the site.' },
+                    { q: 'Can the Hijri date differ between countries?', a: 'Yes, the start of some Hijri months may differ between countries because of moon sighting or the calculation method; a small one-day difference can therefore appear in some cases.' },
+                    { q: 'Can I move on to the full Hijri month?', a: 'Yes, the Hijri-calendar links let you jump to the full month and review the days nearby this date.' },
+                    { q: 'Why is it useful to convert a Hijri date to Gregorian?', a: 'The conversion helps you compare appointments between the two calendars and use the date for personal or work planning, or to read documents that rely on either system.' },
+                ],
+                fr: d => [
+                    { q: `Quel est l'équivalent grégorien de ${d} ?`, a: 'La page affiche la date grégorienne correspondante à cette date hégirienne, selon les données de conversion utilisées sur le site.' },
+                    { q: "La date hégirienne peut-elle varier d'un pays à l'autre ?", a: "Oui, le début de certains mois hégiriens peut varier d'un pays à l'autre en raison de l'observation du croissant ou de la méthode de calcul ; une petite différence d'un jour peut donc apparaître dans certains cas." },
+                    { q: 'Puis-je accéder au mois hégirien complet ?', a: "Oui, les liens du calendrier hégirien permettent d'accéder au mois complet et de consulter les jours proches de cette date." },
+                    { q: 'Quel est l\'intérêt de convertir une date hégirienne en grégorien ?', a: "La conversion aide à comparer des rendez-vous entre les deux calendriers et à utiliser la date pour la planification personnelle ou professionnelle, ou pour lire des documents fondés sur l'un des systèmes." },
+                ],
+                tr: d => [
+                    { q: `${d} tarihinin Miladi karşılığı nedir?`, a: 'Sayfa, sitedeki dönüşüm verilerine göre bu Hicri tarihin Miladi karşılığını gösterir.' },
+                    { q: 'Hicri tarih ülkeden ülkeye değişebilir mi?', a: 'Evet, bazı Hicri ayların başlangıcı ay gözlemine veya hesap yöntemine bağlı olarak ülkeler arasında farklılık gösterebilir; bu nedenle bazı durumlarda küçük bir bir günlük fark ortaya çıkabilir.' },
+                    { q: 'Tam Hicri aya geçebilir miyim?', a: 'Evet, Hicri takvim bağlantıları size bu tarihe yakın günleri ve tam ay görünümünü sunar.' },
+                    { q: 'Hicri tarihi Miladiye dönüştürmenin faydası nedir?', a: 'Dönüştürme, iki takvim arasındaki randevuları karşılaştırmaya, kişisel veya iş planlamasına ve iki sistemden birine dayanan belgeleri okumaya yardımcı olur.' },
+                ],
+                ur: d => [
+                    { q: `${d} کی عیسوی مماثل تاریخ کیا ہے؟`, a: 'صفحہ سائٹ پر استعمال ہونے والے تبدیلی ڈیٹا کی بنیاد پر اس ہجری تاریخ کی متعلقہ عیسوی تاریخ دکھاتا ہے۔' },
+                    { q: 'کیا ہجری تاریخ ممالک کے درمیان مختلف ہو سکتی ہے؟', a: 'جی ہاں، کچھ ہجری مہینوں کا آغاز ہلال کی رویت یا حساب کے طریقے کی وجہ سے ممالک کے درمیان مختلف ہو سکتا ہے، اس لیے بعض اوقات ایک دن کا چھوٹا فرق ظاہر ہو سکتا ہے۔' },
+                    { q: 'کیا میں مکمل ہجری مہینے پر جا سکتا ہوں؟', a: 'جی ہاں، ہجری کیلنڈر کے روابط آپ کو پورے مہینے پر جانے اور اس تاریخ کے قریبی دنوں کا جائزہ لینے کی اجازت دیتے ہیں۔' },
+                    { q: 'ہجری تاریخ کو عیسوی میں تبدیل کرنا کیوں مفید ہے؟', a: 'تبدیلی دو کیلنڈروں کے درمیان ملاقاتوں کا موازنہ کرنے، ذاتی یا کاروباری منصوبہ بندی کے لیے تاریخ استعمال کرنے، یا کسی ایک نظام پر مبنی دستاویزات پڑھنے میں مدد دیتی ہے۔' },
+                ],
+                de: d => [
+                    { q: `Was ist die gregorianische Entsprechung von ${d}?`, a: 'Die Seite zeigt das entsprechende gregorianische Datum dieses Hidschri-Datums auf Basis der auf der Seite verwendeten Umrechnungsdaten.' },
+                    { q: 'Kann das Hidschri-Datum zwischen Ländern variieren?', a: 'Ja, der Beginn einiger Hidschri-Monate kann zwischen Ländern variieren — aufgrund der Mondsichtung oder der Berechnungsmethode. Daher kann in manchen Fällen ein kleiner Unterschied von einem Tag auftreten.' },
+                    { q: 'Kann ich zum vollen Hidschri-Monat wechseln?', a: 'Ja, die Hidschri-Kalender-Links lassen Sie zum vollen Monat springen und die Tage in der Nähe dieses Datums überprüfen.' },
+                    { q: 'Warum ist es nützlich, ein Hidschri-Datum ins Gregorianische umzurechnen?', a: 'Die Umrechnung hilft beim Vergleich von Terminen zwischen den beiden Kalendern und beim Einsatz des Datums für persönliche oder berufliche Planung sowie für das Lesen von Dokumenten, die einem der Systeme folgen.' },
+                ],
+                id: d => [
+                    { q: `Apa padanan Masehi untuk ${d}?`, a: 'Halaman menampilkan tanggal Masehi yang sesuai untuk tanggal Hijriah ini berdasarkan data konversi yang digunakan di situs.' },
+                    { q: 'Apakah tanggal Hijriah dapat berbeda antar negara?', a: 'Ya, awal beberapa bulan Hijriah dapat berbeda antar negara karena rukyat hilal atau metode hisab; perbedaan kecil satu hari karenanya dapat muncul dalam beberapa kasus.' },
+                    { q: 'Apakah saya bisa berpindah ke bulan Hijriah lengkap?', a: 'Ya, tautan kalender Hijriah membawa Anda ke bulan lengkap untuk meninjau hari-hari di sekitar tanggal ini.' },
+                    { q: 'Mengapa konversi tanggal Hijriah ke Masehi berguna?', a: 'Konversi membantu membandingkan janji antara kedua kalender dan menggunakan tanggal untuk perencanaan pribadi atau pekerjaan, atau membaca dokumen yang bersandar pada salah satu sistem.' },
+                ],
+                es: d => [
+                    { q: `¿Cuál es el equivalente gregoriano de ${d}?`, a: 'La página muestra la fecha gregoriana correspondiente a esta fecha hégira según los datos de conversión utilizados en el sitio.' },
+                    { q: '¿Puede variar la fecha hégira entre países?', a: 'Sí, el inicio de algunos meses hégira puede variar entre países por la observación de la luna o el método de cálculo, por lo que en algunos casos puede aparecer una pequeña diferencia de un día.' },
+                    { q: '¿Puedo pasar al mes hégira completo?', a: 'Sí, los enlaces del calendario hégira permiten saltar al mes completo y revisar los días cercanos a esta fecha.' },
+                    { q: '¿Para qué sirve convertir una fecha hégira a gregoriana?', a: 'La conversión ayuda a comparar citas entre los dos calendarios y usar la fecha para la planificación personal o laboral, o para leer documentos basados en uno de los sistemas.' },
+                ],
+                bn: d => [
+                    { q: `${d} এর গ্রেগরিয়ান সমতুল্য কী?`, a: 'পৃষ্ঠাটি সাইটে ব্যবহৃত রূপান্তর ডেটার ভিত্তিতে এই হিজরি তারিখের জন্য সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখায়।' },
+                    { q: 'হিজরি তারিখ কি দেশভেদে ভিন্ন হতে পারে?', a: 'হ্যাঁ, কিছু হিজরি মাসের শুরু চাঁদ দেখা বা গণনার পদ্ধতির কারণে দেশভেদে ভিন্ন হতে পারে; তাই কিছু ক্ষেত্রে এক দিনের ছোট পার্থক্য দেখা দিতে পারে।' },
+                    { q: 'আমি কি পুরো হিজরি মাসে যেতে পারি?', a: 'হ্যাঁ, হিজরি ক্যালেন্ডার লিঙ্কগুলি আপনাকে পুরো মাসে যেতে এবং এই তারিখের নিকটতম দিনগুলি পর্যালোচনা করতে দেয়।' },
+                    { q: 'হিজরি তারিখকে গ্রেগরিয়ানে রূপান্তর করা কেন উপযোগী?', a: 'রূপান্তর দুটি ক্যালেন্ডারের মধ্যে অ্যাপয়েন্টমেন্ট তুলনা করতে, ব্যক্তিগত বা কাজের পরিকল্পনার জন্য তারিখ ব্যবহার করতে, বা যেকোনো একটি সিস্টেমের ভিত্তিতে নথি পড়তে সাহায্য করে।' },
+                ],
+                ms: d => [
+                    { q: `Apakah padanan Gregorian untuk ${d}?`, a: 'Halaman memaparkan tarikh Gregorian yang berkaitan untuk tarikh Hijrah ini berdasarkan data penukaran yang digunakan di laman ini.' },
+                    { q: 'Adakah tarikh Hijrah boleh berbeza antara negara?', a: 'Ya, permulaan sesetengah bulan Hijrah boleh berbeza antara negara kerana rukyah hilal atau kaedah hisab; perbezaan kecil satu hari boleh muncul dalam sesetengah kes.' },
+                    { q: 'Bolehkah saya beralih ke bulan Hijrah penuh?', a: 'Ya, pautan kalendar Hijrah membolehkan anda beralih ke bulan penuh dan menyemak hari berhampiran tarikh ini.' },
+                    { q: 'Mengapa penukaran tarikh Hijrah ke Gregorian berguna?', a: 'Penukaran membantu membandingkan janji antara dua kalendar dan menggunakan tarikh untuk perancangan peribadi atau kerja, atau membaca dokumen yang berasaskan salah satu sistem.' },
+                ],
+            };
+            const _HD_LBL_FAQ_TITLE = {
+                ar: d => `أسئلة شائعة حول تاريخ ${d}`,
+                en: d => `Frequently asked questions about ${d}`,
+                fr: d => `Questions fréquentes sur la date ${d}`,
+                tr: d => `${d} tarihi hakkında sıkça sorulan sorular`,
+                ur: d => `${d} کے بارے میں اکثر پوچھے گئے سوالات`,
+                de: d => `Häufige Fragen zum Datum ${d}`,
+                id: d => `Pertanyaan umum tentang tanggal ${d}`,
+                es: d => `Preguntas frecuentes sobre la fecha ${d}`,
+                bn: d => `${d} সম্পর্কে সাধারণ প্রশ্ন`,
+                ms: d => `Soalan lazim tentang tarikh ${d}`,
+            };
+            const _HD_LBL_LINKS = {
+                ar: { year: 'التقويم الهجري', month: 'تقويم الشهر الهجري' },
+                en: { year: 'Hijri Year Calendar', month: 'Hijri Month Calendar' },
+                fr: { year: 'Calendrier hégirien annuel', month: 'Calendrier hégirien mensuel' },
+                tr: { year: 'Hicri Yıl Takvimi', month: 'Hicri Ay Takvimi' },
+                ur: { year: 'سالانہ ہجری کیلنڈر', month: 'ماہانہ ہجری کیلنڈر' },
+                de: { year: 'Hidschri-Jahreskalender', month: 'Hidschri-Monatskalender' },
+                id: { year: 'Kalender Hijriah Tahunan', month: 'Kalender Hijriah Bulanan' },
+                es: { year: 'Calendario Hégira anual', month: 'Calendario Hégira mensual' },
+                bn: { year: 'বার্ষিক হিজরি ক্যালেন্ডার', month: 'মাসিক হিজরি ক্যালেন্ডার' },
+                ms: { year: 'Kalendar Hijrah Tahunan', month: 'Kalendar Hijrah Bulanan' },
+            };
+            const _hdSecs = (_HD_SECTIONS[_hdLng] || _HD_SECTIONS.en)(_hdDated);
+            const _hdFaq  = (_HD_FAQ[_hdLng] || _HD_FAQ.en)(_hdDated);
+            const _hdFaqTitle = (_HD_LBL_FAQ_TITLE[_hdLng] || _HD_LBL_FAQ_TITLE.en)(_hdDated);
+            const _hdLinks = _HD_LBL_LINKS[_hdLng] || _HD_LBL_LINKS.en;
+            const _hdLangPfx = (_hdLng === 'ar') ? '' : ('/' + _hdLng);
+            const _hdMonthPath = `${_hdLangPfx}/hijri-calendar/${_hdYear}-${String(_hdMonth).padStart(2, '0')}`;
+            const _hdYearPath  = `${_hdLangPfx}/hijri-calendar/${_hdYear}`;
+
+            const _hdSectionsHtml = _hdSecs.map(s => `
+                <section class="section-card hijri-date-seo-card">
+                    <h2>${_escHtml(s.h)}</h2>
+                    <p>${_escHtml(s.p1)}</p>
+                    <p>${_escHtml(s.p2)}</p>
+                </section>`).join('');
+
+            const _hdFaqHtml = `
+                <section class="section-card hijri-date-faq" aria-labelledby="hijri-date-faq-title">
+                    <h2 id="hijri-date-faq-title">${_escHtml(_hdFaqTitle)}</h2>
+                    ${_hdFaq.map(qa => `
+                    <article class="hijri-date-faq-item">
+                        <h3>${_escHtml(qa.q)}</h3>
+                        <p>${_escHtml(qa.a)}</p>
+                    </article>`).join('')}
+                </section>`;
+
+            const _hdLinksHtml = `
+                <nav class="hijri-date-related-links" aria-label="${_escHtml(_hdLinks.year)}">
+                    <a href="${_escHtml(_hdYearPath)}">${_escHtml(_hdLinks.year)} ${_escHtml(_hdYear)} ${_escHtml(_hdSfx)}</a>
+                    <a href="${_escHtml(_hdMonthPath)}">${_escHtml(_hdLinks.month)} — ${_escHtml(_hdMNm)} ${_escHtml(_hdYear)}</a>
+                </nav>`;
+
+            // ---- 3) Inject sections + FAQ + links BEFORE the existing FAQ section ----
+            //         Anchor: `<h2 id="hday-faq-title">` in the static template.
+            //         We wrap that anchor with the new block prefix.
+            html = html.replace(
+                /(<div class="section-card">\s*<h2 id="hday-faq-title")/,
+                `${_hdSectionsHtml}${_hdFaqHtml}${_hdLinksHtml}\n                $1`
+            );
+        }
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections

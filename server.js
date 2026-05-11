@@ -3834,6 +3834,95 @@ function _stripPagePrayerTimesOnly(html) {
     return _stripElement(html, { type: 'id', value: 'page-prayer-times' });
 }
 
+// ── PT-DOM-CLEAN-1 (2026-05-11): general-purpose .page-wrapper pruner ──
+//
+// User reported that SEO routes (/moon-in-{city}, /hijri-date/{date},
+// etc.) were sending the FULL multi-page index.html with all 17 .page
+// wrappers — most of them inactive (display:none) but still present in
+// raw HTML. SEOptimer reads ALL DOM text, so words like "حاسبة الزكاة",
+// "المسبحة الإلكترونية", "كم باقي على رمضان" were polluting the
+// keyword distribution on moon/qibla/hijri-date pages even though the
+// user never sees them.
+//
+// Fix: at SSR time, REMOVE all inactive .page wrappers and keep only
+// the active one for the current route. The JS pattern
+// `querySelectorAll('.page').forEach(p => p.classList.remove('active'))`
+// still works (operates on the single remaining wrapper) and the
+// `getElementById('page-XXX')?.classList.add('active')` pattern is
+// already optional-chained, so null returns for stripped pages are
+// silently ignored.
+//
+// Sidebar navigation works without dependency on inactive wrappers
+// — clicking a sidebar link triggers a full page navigation
+// (`<a href="/zakat">`), the server then renders /zakat with
+// page-zakat as the active wrapper.
+
+// All known page-wrapper IDs in index.html. Keep in sync with the
+// SSR template if new wrappers are added.
+const _ALL_PAGE_IDS = [
+    'page-prayer-times',
+    'page-qibla',
+    'page-moon',
+    'page-zakat',
+    'page-hijri-today',
+    'page-hijri-day',
+    'page-hijri-year',
+    'page-hijri-month',
+    'page-date-converter',
+    'page-hijri-calendar',
+    'page-duas',
+    'page-tasbih',
+    'page-ramadan-countdown',
+    'page-eid-al-fitr-countdown',
+    'page-eid-al-adha-countdown',
+    'page-hijri-new-year-countdown',
+    'page-all-cities',
+];
+
+// Map URL path → active page-wrapper id (the one to KEEP).
+// Returns null when the route should not prune (e.g. home, or routes
+// not covered by this pruner — they keep all wrappers as before).
+function _getActivePageId(urlPath) {
+    const path = String(urlPath || '').replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
+    // Moon family — all use #page-moon
+    if (/^\/moon-today$/.test(path))                 return 'page-moon';
+    if (/^\/moon-today-in-/.test(path))              return 'page-moon';
+    if (/^\/moon-in-/.test(path))                    return 'page-moon';
+    // Hijri family
+    if (/^\/today-hijri-date$/.test(path))           return 'page-hijri-today';
+    if (/^\/hijri-date\//.test(path))                return 'page-hijri-day';
+    if (/^\/hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(path)) return 'page-hijri-month';
+    if (/^\/hijri-calendar(?:\/\d{4})?$/.test(path)) return 'page-hijri-year';
+    // Qibla family
+    if (/^\/qibla(?:-in-|$)/.test(path))             return 'page-qibla';
+    // Other single-tool pages
+    if (/^\/zakat(?:-calculator)?$/.test(path))      return 'page-zakat';
+    if (/^\/dateconverter$/.test(path))              return 'page-date-converter';
+    if (/^\/duas$/.test(path))                       return 'page-duas';
+    if (/^\/azkar(?:\/|$)/.test(path))               return 'page-duas';
+    if (/^\/msbaha$/.test(path))                     return 'page-tasbih';
+    if (/^\/ramadan-countdown$/.test(path))          return 'page-ramadan-countdown';
+    if (/^\/eid-al-fitr-countdown$/.test(path))      return 'page-eid-al-fitr-countdown';
+    if (/^\/eid-al-adha-countdown$/.test(path))      return 'page-eid-al-adha-countdown';
+    if (/^\/hijri-new-year-countdown$/.test(path))   return 'page-hijri-new-year-countdown';
+    // Default — including homepage `/` and city prayer-times pages — keep
+    // all wrappers (these routes already work fine with the multi-page
+    // shell and tools-section CTAs link visitors to other pages).
+    return null;
+}
+
+// Strip all .page wrappers except `keepId`. Caller should have already
+// verified that `keepId` exists in the html (this function only
+// strips; missing wrappers are no-op).
+function _pruneInactivePageWrappers(html, keepId) {
+    if (!keepId) return html;
+    for (const id of _ALL_PAGE_IDS) {
+        if (id === keepId) continue;
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    return html;
+}
+
 // ── Phase Q-Hub-A (2026-05-04): Qibla Hub gateway strip ──
 // SEOptimer was indexing #page-prayer-times content (مواقيت الصلاة, التاريخ
 // الهجري) as if it were /qibla content, polluting Keyword Consistency.
@@ -13123,6 +13212,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     }
     // 1f) Phase I — تحويل H1 غير النشط إلى H2 (يحوّل SPA shell إلى صفحة بـ H1 وحيد)
     html = _downgradeInactiveH1s(html, urlPath);
+    // 1g) PT-DOM-CLEAN-1 (2026-05-11): strip inactive .page wrappers on
+    //     SEO-critical routes (moon / hijri-date / qibla / single-tool
+    //     pages). Before this, the SSR HTML sent ALL 17 .page wrappers
+    //     including zakat / tasbih / countdown / hijri-calendar etc.,
+    //     even though only one is visible. SEOptimer was reading the
+    //     full DOM and reporting keywords like "حاسبة الزكاة",
+    //     "المسبحة الإلكترونية", "كم باقي على رمضان" on moon pages,
+    //     polluting Keyword Consistency.
+    //     For prayer-times city pages, homepage, and any unmapped
+    //     route, `_getActivePageId` returns null and pruning is a
+    //     no-op (existing multi-page shell is preserved).
+    try {
+        const _activePageId = _getActivePageId(urlPath);
+        if (_activePageId) {
+            html = _pruneInactivePageWrappers(html, _activePageId);
+        }
+    } catch (_e) { /* silent — prune is opportunistic */ }
     // 2) base href لحل المسارات النسبية تحت /en/... أو /hijri-calendar/...
     if (!html.includes('<base ')) {
         html = html.replace('<head>', '<head>\n    <base href="/">');

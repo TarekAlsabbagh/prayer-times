@@ -19127,3 +19127,67 @@ html[data-theme="dark"] .pt-country-services-links a:hover {
     color: #0c1a13;
     border-color: var(--accent, #4ade80);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PT-COUNTRY-SEO-1c (2026-05-11): top-header layout fixes for
+   /prayer-times-in-{country-slug} (country listing pages). The
+   default flex layout collapsed the city-name text into a vertical
+   stack on tablet sizes because (a) the header has multiple buttons
+   + a 240-360px search input competing for horizontal space, and
+   (b) the city-name had no white-space or max-width constraints.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* (1) Country listing — keep location-info on a single horizontal line
+       with ellipsis fallback; allow it to shrink (min-width: 0). */
+html.country-listing-page .top-header {
+    flex-wrap: wrap;
+    row-gap: 8px;
+}
+html.country-listing-page .top-header .location-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+}
+html.country-listing-page .top-header .location-info > div {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+html.country-listing-page .top-header .location-info .city-name {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    line-height: 1.4;
+}
+html.country-listing-page .top-header .location-info .country {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* (2) Country listing — hide the duplicate small header search box
+       (the hero below already has a more prominent search input;
+       the duplicate competes for horizontal space and was the main
+       cause of the broken wrapping on tablet). */
+html.country-listing-page .top-header .city-search-wrapper {
+    display: none;
+}
+
+/* (3) Country listing — on tablet (768-1100px), wrap header actions
+       onto a second row so the city-name has the full first row. */
+@media (min-width: 769px) and (max-width: 1100px) {
+    html.country-listing-page .top-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    html.country-listing-page .top-header .location-info {
+        justify-content: flex-start;
+    }
+    html.country-listing-page .top-header .header-actions {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+}

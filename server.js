@@ -13340,6 +13340,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const cn = seo.countryListing.name;
         const _cnShort = seo.countryListing.shortName || cn;
         const L = seo.lang;
+        // PT-COUNTRY-SEO-1c (2026-05-11): mark <html> with `country-listing-page`
+        // class so CSS rules can scope responsive layout fixes to this
+        // template only. Different from `city-page` (which triggers
+        // collapse behaviour we explicitly don't want here).
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} country-listing-page"`) + '>';
+            }
+            return '<html' + a + ' class="country-listing-page">';
+        });
         // PT-COUNTRY-SEO-1 (2026-05-11): H1 text now matches the page
         // intent ("Prayer Times in {country} Today") and is injected
         // into the actual H1 element <h1 id="loc-hero-title"> in

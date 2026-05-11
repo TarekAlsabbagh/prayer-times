@@ -19053,12 +19053,14 @@ html[data-theme="dark"] .moon-hub-cal-cta:hover {
    ~700 AR words total. Same visual language as MOON-HUB-SEO-4.
    ═══════════════════════════════════════════════════════════════════ */
 .pt-country-seo-section {
-    max-width: 920px;
-    margin: 20px auto 0;
+    /* PT-COUNTRY-SEO-1d (2026-05-11): full-width to match `.cities-main-card`
+       and the rest of the page. Was max-width:920px centered, which made
+       these cards look "cut" and narrower than the cities grid above. */
+    margin: 20px 0 0;
     padding: 26px 28px;
-    background: #ffffff;
+    background: var(--card-bg, #ffffff);
     border: 1px solid rgba(12, 94, 54, 0.10);
-    border-radius: 24px;
+    border-radius: var(--radius, 16px);
     box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
 }
 .pt-country-seo-section h2 {

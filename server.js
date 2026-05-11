@@ -14979,6 +14979,34 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 /<span data-i18n="moon\.h1">القمر اليوم<\/span>/,
                 `<span>${_escHtml(_hubH1Text)}</span>`
             );
+            // MOON-HUB-SEO-7 (2026-05-11): strip residual "اليوم" surfaces
+            // that survive on /moon-in-{city} Hub. Each strip drops the
+            // data-i18n attribute so JS hydration doesn't overwrite back
+            // to the default. AR-only (the JS-translated values for other
+            // langs don't include the Arabic "اليوم").
+            if (seo.lang === 'ar' && !(seo.moonCity && seo.moonCity.isMonthPage)) {
+                html = html
+                    // (a) Hijri label "التاريخ الهجريّ اليوم" → "التاريخ الهجريّ"
+                    .replace(
+                        /<div class="moon-hijri-label" data-i18n="moon\.hijri\.today_label">التاريخ الهجريّ اليوم<\/div>/,
+                        '<div class="moon-hijri-label">التاريخ الهجريّ</div>'
+                    )
+                    // (b) date-nav: "اليوم السابق" → "السابق"
+                    .replace(
+                        /<span class="moon-date-label" data-i18n="moon\.prev_day">اليوم السابق<\/span>/,
+                        '<span class="moon-date-label">السابق</span>'
+                    )
+                    // (c) date-nav: return_today "اليوم" → "الحالي"
+                    .replace(
+                        /<span class="moon-date-label" data-i18n="moon\.return_today">اليوم<\/span>/,
+                        '<span class="moon-date-label">الحالي</span>'
+                    )
+                    // (d) date-nav: "اليوم التالي" → "التالي"
+                    .replace(
+                        /<span class="moon-date-label" data-i18n="moon\.next_day">اليوم التالي<\/span>/,
+                        '<span class="moon-date-label">التالي</span>'
+                    );
+            }
         }
 
         // MOON-HUB-SEO-4 (2026-05-11): inject 4 SSR educational sections on
@@ -15487,12 +15515,51 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     + `<ul class="moon-hub-cal-wd-row">${_calWdHtml}</ul>`
                     + `<ul class="moon-hub-cal-grid">${_calCellsHtml}</ul>`
                     + `</div>\n                ${_hubDetailCtaHtml}`;
-                // Round 19: حقن قبل قسم "الأطوار القادمة" (بدل قبل moon-forecast-cta الذي سيُحذف)
-                //   النتيجة: [Hero] → [Summary] → [Moon visual + 4 cards] → [Calendar Grid] → [CTA] → [Upcoming] → [Cities]
-                html = html.replace(
-                    /(<section class="section-card moon-upcoming-section")/,
-                    _hubCalHtml + '\n                $1'
-                );
+                // MOON-HUB-SEO-7 (2026-05-11): on the true HUB (`/moon-in-{city}`)
+                // we DO NOT render the full 31-day calendar grid. The grid
+                // was the dominant source of SEOptimer's Keyword Consistency
+                // flags (month name "مايو" repeated in cells, month-picker
+                // option list, calendar H2 title "تقويم ... — مايو 2026").
+                // Hub gets a COMPACT CTA card with one clear link to the
+                // monthly calendar page. The full grid keeps rendering on
+                // the Month page (`/moon-in-{city}/{YYYY-MM}`) where it IS
+                // the page's purpose.
+                const _isMonthPage = !!(seo.moonCity && seo.moonCity.isMonthPage);
+                if (_isMonthPage) {
+                    // Round 19: Month page → full calendar grid before upcoming.
+                    html = html.replace(
+                        /(<section class="section-card moon-upcoming-section")/,
+                        _hubCalHtml + '\n                $1'
+                    );
+                } else {
+                    // Hub page → compact CTA card. No 31-day grid, no
+                    // picker, no per-cell date+phase repetition. The H2
+                    // includes the city name but NO month name, so the
+                    // text stays generic permanent-hub copy.
+                    const _MOON_HUB_CAL_CTA = {
+                        ar: { title: `تقويم أطوار القمر في ${cityName}`, intro: `استعرض ترتيب أطوار القمر خلال الشهر مع التواريخ الميلادية المقابلة في صفحة التقويم الشهري الكاملة.`, cta: `عرض تقويم أطوار القمر الشهري` },
+                        en: { title: `Moon phases calendar for ${cityName}`, intro: `See the full sequence of moon phases for the month with their Gregorian dates on the dedicated monthly calendar page.`, cta: `View the monthly moon phases calendar` },
+                        fr: { title: `Calendrier des phases lunaires à ${cityName}`, intro: `Découvrez la séquence complète des phases lunaires du mois avec leurs dates grégoriennes sur la page du calendrier mensuel.`, cta: `Voir le calendrier lunaire mensuel` },
+                        tr: { title: `${cityName} Ay Evresi Takvimi`, intro: `Aylık takvim sayfasında ayın tam evre sırasını ve eşleşen miladi tarihleri görüntüleyin.`, cta: `Aylık ay takvimini görüntüle` },
+                        ur: { title: `${cityName} میں چاند کے مراحل کا تقویم`, intro: `ماہانہ تقویم صفحے پر چاند کے تمام مراحل اور ان کی متعلقہ عیسوی تاریخیں دیکھیں۔`, cta: `ماہانہ چاند کی تقویم دیکھیں` },
+                        de: { title: `Mondphasenkalender für ${cityName}`, intro: `Sehen Sie die vollständige Abfolge der Mondphasen des Monats mit den gregorianischen Daten auf der Monatskalenderseite.`, cta: `Monatlichen Mondphasenkalender ansehen` },
+                        id: { title: `Kalender fase Bulan di ${cityName}`, intro: `Lihat urutan lengkap fase Bulan untuk bulan ini dengan tanggal Masehi pada halaman kalender bulanan.`, cta: `Lihat kalender fase Bulan bulanan` },
+                        es: { title: `Calendario de fases lunares en ${cityName}`, intro: `Consulta la secuencia completa de las fases de la Luna del mes con sus fechas gregorianas en la página del calendario mensual.`, cta: `Ver calendario lunar mensual` },
+                        bn: { title: `${cityName}-এ চাঁদের দশার ক্যালেন্ডার`, intro: `মাসিক ক্যালেন্ডার পৃষ্ঠায় মাসের চাঁদের সম্পূর্ণ দশাক্রম ও সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখুন।`, cta: `মাসিক চাঁদের ক্যালেন্ডার দেখুন` },
+                        ms: { title: `Kalendar fasa Bulan di ${cityName}`, intro: `Lihat urutan penuh fasa Bulan untuk bulan ini beserta tarikh Gregorian yang berkaitan di halaman kalendar bulanan.`, cta: `Lihat kalendar fasa Bulan bulanan` },
+                    };
+                    const _ctaCfg = _MOON_HUB_CAL_CTA[Lm] || _MOON_HUB_CAL_CTA.en;
+                    const _hubCalCompactHref = `${_langPrefixHc}/moon-in-${seo.moonCity.slug}/${_calY}-${String(_calMo).padStart(2, '0')}`;
+                    const _hubCalCompactHtml = `<div class="section-card moon-hub-calendar-card moon-hub-cal-compact" id="moon-hub-cal" tabindex="-1">`
+                        + `<h2 class="moon-hub-cal-title">${_escHtml(_ctaCfg.title)}</h2>`
+                        + `<p class="moon-hub-cal-compact-intro">${_escHtml(_ctaCfg.intro)}</p>`
+                        + `<a class="moon-hub-cal-cta" href="${_escHtml(_hubCalCompactHref)}">${_escHtml(_ctaCfg.cta)}</a>`
+                        + `</div>\n                ${_hubDetailCtaHtml}`;
+                    html = html.replace(
+                        /(<section class="section-card moon-upcoming-section")/,
+                        _hubCalCompactHtml + '\n                $1'
+                    );
+                }
             } catch (_eCal) { /* silent — fall back to no calendar */ }
         }
 

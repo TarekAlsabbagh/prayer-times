@@ -18999,3 +18999,49 @@ html[data-theme="dark"] .hijri-date-related-links a:hover {
     background: var(--accent, #4ade80);
     color: #0c1a13;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOON-HUB-SEO-7 (2026-05-11): compact CTA card replaces the 31-day
+   grid on the true /moon-in-{city} Hub. The full grid stays on the
+   Month page (/moon-in-{city}/{YYYY-MM}). Card keeps the section-card
+   visual; the inner CTA gets a prominent button-style treatment.
+   ═══════════════════════════════════════════════════════════════════ */
+.moon-hub-cal-compact {
+    text-align: center;
+}
+.moon-hub-cal-compact-intro {
+    margin: 8px 0 18px;
+    color: #334139;
+    font-size: 15.5px;
+    line-height: 1.8;
+}
+.moon-hub-cal-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a6b3c 0%, #2d8f54 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(26, 107, 60, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.moon-hub-cal-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(26, 107, 60, 0.35);
+    color: #ffffff;
+}
+html[data-theme="dark"] .moon-hub-cal-compact-intro {
+    color: var(--text-primary, #e2e8e2);
+}
+html[data-theme="dark"] .moon-hub-cal-cta {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    color: #0c1a13;
+    box-shadow: 0 6px 16px rgba(74, 222, 128, 0.30);
+}
+html[data-theme="dark"] .moon-hub-cal-cta:hover {
+    box-shadow: 0 8px 20px rgba(74, 222, 128, 0.45);
+    color: #0c1a13;
+}

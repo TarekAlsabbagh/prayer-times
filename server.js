@@ -3905,9 +3905,21 @@ function _getActivePageId(urlPath) {
     if (/^\/eid-al-fitr-countdown$/.test(path))      return 'page-eid-al-fitr-countdown';
     if (/^\/eid-al-adha-countdown$/.test(path))      return 'page-eid-al-adha-countdown';
     if (/^\/hijri-new-year-countdown$/.test(path))   return 'page-hijri-new-year-countdown';
-    // Default — including homepage `/` and city prayer-times pages — keep
-    // all wrappers (these routes already work fine with the multi-page
-    // shell and tools-section CTAs link visitors to other pages).
+    // PT-DOM-CLEAN-2 (2026-05-11): generalize pruning to prayer-times-family
+    // + homepage. All four routes share the same active wrapper
+    // (#page-prayer-times). The existing per-route section strippers
+    // (_stripHtmlForCity / _stripHtmlForTimeLeft / _stripHtmlForNextPrayer)
+    // continue to handle content INSIDE #page-prayer-times — the prune
+    // step here just removes the OTHER 16 inactive .page wrappers.
+    // Country pages (/prayer-times-in-{country-slug}) are served from a
+    // different template (prayer-times-cities.html) that has NO .page
+    // wrappers, so they bypass this entire mechanism naturally.
+    if (/^\/time-left-until-prayer-in-/.test(path))  return 'page-prayer-times';
+    if (/^\/next-prayer-in-/.test(path))             return 'page-prayer-times';
+    if (/^\/prayer-times-in-/.test(path))            return 'page-prayer-times';
+    if (/^\/?$/.test(path))                          return 'page-prayer-times';
+    // Default — any unmapped route keeps all wrappers (no SEO ladder
+    // attached and no known noise problem).
     return null;
 }
 

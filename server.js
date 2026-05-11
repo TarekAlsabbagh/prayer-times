@@ -6507,62 +6507,82 @@ function buildSeoForPath(urlPath) {
                 //   3. short:    "حالة القمر في {city}"
                 //   4. fallback: "القمر في {city}"  (very long city escape hatch)
                 // Algorithm: first ∈ [50, 60] → else longest ≤ 60 → else fallback.
+                //
+                // MOON-HUB-SEO-6 (2026-05-11): extended ladder with a `longer`
+                // candidate per lang so short city names (الرياض 45 cp / جدة 42
+                // cp / لندن 43 cp) stop landing below SEOptimer's 50-60 sweet
+                // spot. The `longer` form adds one more concept ("الإضاءة" /
+                // "Illumination" / "Beleuchtung" / etc.), gaining ~5-8 cp.
+                // For very long city names (مكة المكرمة 11 cp, المدينة المنورة
+                // 15 cp) the `longer` form overflows 60 — picker falls back
+                // to `long` (which is in-range for those). Title intent stays
+                // permanent-city-hub: NO "اليوم", NO month name, NO date.
                 const _MOON_HUB_TITLE_FORMS = {
                     ar: c => ({
+                        longer:   `حالة القمر في ${c} | طور القمر، الإضاءة وتقويم الأطوار`,
                         long:     `حالة القمر في ${c} | طور القمر وتقويم القمر`,
                         medium:   `القمر في ${c} | الطور والإضاءة والتقويم`,
                         short:    `حالة القمر في ${c}`,
                         fallback: `القمر في ${c}`,
                     }),
                     en: c => ({
+                        longer:   `Moon in ${c} | Moon Phase, Illumination and Lunar Calendar`,
                         long:     `Moon in ${c} | Moon Phase and Lunar Calendar`,
                         medium:   `Moon in ${c} | Phase, Illumination and Calendar`,
                         short:    `Moon in ${c} | Phase and Illumination`,
                         fallback: `Moon in ${c}`,
                     }),
                     fr: c => ({
+                        longer:   `Lune à ${c} | Phase, illumination et calendrier des phases lunaires`,
                         long:     `Lune à ${c} | Phase de la Lune et calendrier lunaire`,
                         medium:   `Lune à ${c} | Phase, illumination et calendrier`,
                         short:    `Lune à ${c} | Phase et illumination`,
                         fallback: `Lune à ${c}`,
                     }),
                     tr: c => ({
+                        longer:   `${c} Ay Durumu | Ay Evresi, Aydınlanma ve Ay Takvimi`,
                         long:     `${c} Ay Durumu | Ay Evresi ve Ay Takvimi`,
                         medium:   `${c} Ay Durumu | Evre, Aydınlanma ve Takvim`,
                         short:    `${c} Ay Durumu | Evre ve Aydınlanma`,
                         fallback: `${c} Ay Durumu`,
                     }),
                     ur: c => ({
+                        longer:   `${c} میں چاند کی حالت | طور، روشنی اور چاند کی تقویم`,
                         long:     `${c} میں چاند | چاند کا طور اور چاند کی تقویم`,
                         medium:   `${c} میں چاند | طور، روشنی اور تقویم`,
                         short:    `${c} میں چاند کا طور اور تقویم`,
                         fallback: `${c} میں چاند`,
                     }),
                     de: c => ({
+                        longer:   `Mond in ${c} | Mondphase, Beleuchtung und Mondkalender`,
                         long:     `Mond in ${c} | Mondphase und Mondkalender`,
                         medium:   `Mond in ${c} | Phase, Beleuchtung und Kalender`,
                         short:    `Mond in ${c} | Phase und Beleuchtung`,
                         fallback: `Mond in ${c}`,
                     }),
                     id: c => ({
+                        longer:   `Bulan di ${c} | Fase Bulan, Iluminasi dan Kalender Bulan`,
                         long:     `Bulan di ${c} | Fase Bulan dan Kalender Bulan`,
                         medium:   `Bulan di ${c} | Fase, Iluminasi dan Kalender`,
                         short:    `Bulan di ${c} | Fase dan Iluminasi`,
                         fallback: `Bulan di ${c}`,
                     }),
                     es: c => ({
+                        longer:   `Luna en ${c} | Fase Lunar, Iluminación y Calendario Lunar`,
                         long:     `Luna en ${c} | Fase Lunar y Calendario Lunar`,
                         medium:   `Luna en ${c} | Fase, Iluminación y Calendario`,
                         short:    `Luna en ${c} | Fase e Iluminación`,
                         fallback: `Luna en ${c}`,
                     }),
                     bn: c => ({
+                        longer:   `${c}-এ চাঁদ | চাঁদের দশা, আলোকসজ্জা ও চাঁদের পঞ্জিকা`,
                         long:     `${c}-এ চাঁদ | চাঁদের দশা ও চাঁদের পঞ্জিকা`,
                         medium:   `${c}-এ চাঁদ | দশা, আলোকসজ্জা ও পঞ্জিকা`,
                         short:    `${c}-এ চাঁদের দশা ও পঞ্জিকা`,
                         fallback: `${c}-এ চাঁদ`,
                     }),
                     ms: c => ({
+                        longer:   `Bulan di ${c} | Fasa Bulan, Pencahayaan dan Kalendar Bulan`,
                         long:     `Bulan di ${c} | Fasa Bulan dan Kalendar Bulan`,
                         medium:   `Bulan di ${c} | Fasa, Pencahayaan dan Kalendar`,
                         short:    `Bulan di ${c} | Fasa dan Pencahayaan`,
@@ -6572,7 +6592,7 @@ function buildSeoForPath(urlPath) {
                 const _pickMoonHubTitle = (lng, c) => {
                     const f = (_MOON_HUB_TITLE_FORMS[lng] || _MOON_HUB_TITLE_FORMS.en)(c);
                     const len = s => Array.from(s).length;
-                    const order = [f.long, f.medium, f.short, f.fallback];
+                    const order = [f.longer, f.long, f.medium, f.short, f.fallback];
                     for (const t of order) {
                         if (len(t) >= 50 && len(t) <= 60) return t;
                     }
@@ -14434,32 +14454,70 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         '<span>القمر في مدن أخرى</span>'
                     )
                     // Generic FAQ accordion summaries (5 questions)
+                    // MOON-HUB-SEO-6 (2026-05-11): the previous regex used
+                    // ASCII `\?` but the static HTML contains the Arabic
+                    // question mark `؟` (U+061F) — none of these 5 replaces
+                    // ever matched. Fixed by using `؟` literally.
                     .replace(
-                        /<summary data-i18n="moon\.faq\.dq1">ما هو طور القمر اليوم\?<\/summary>/,
+                        /<summary data-i18n="moon\.faq\.dq1">ما هو طور القمر اليوم؟<\/summary>/,
                         '<summary>ما هو طور القمر؟</summary>'
                     )
                     .replace(
-                        /<summary data-i18n="moon\.faq\.dq_illum">كم نسبة إضاءة القمر اليوم\?<\/summary>/,
+                        /<summary data-i18n="moon\.faq\.dq_illum">كم نسبة إضاءة القمر اليوم؟<\/summary>/,
                         '<summary>كم نسبة إضاءة القمر؟</summary>'
                     )
                     .replace(
-                        /<summary data-i18n="moon\.faq\.dq5">كم عمر القمر اليوم\?<\/summary>/,
+                        /<summary data-i18n="moon\.faq\.dq5">كم عمر القمر اليوم؟<\/summary>/,
                         '<summary>كم عمر القمر؟</summary>'
                     )
                     .replace(
-                        /<summary data-i18n="moon\.faq\.dq6">متى يشرق القمر اليوم\?<\/summary>/,
+                        /<summary data-i18n="moon\.faq\.dq6">متى يشرق القمر اليوم؟<\/summary>/,
                         '<summary>متى يشرق القمر؟</summary>'
                     )
                     .replace(
-                        /<summary data-i18n="moon\.faq\.dq7">متى يغرب القمر اليوم\?<\/summary>/,
+                        /<summary data-i18n="moon\.faq\.dq7">متى يغرب القمر اليوم؟<\/summary>/,
                         '<summary>متى يغرب القمر؟</summary>'
                     )
                     // Hero search placeholder span (between the input visual & a11y label)
                     .replace(
                         /<span data-i18n="moon\.hub\.search_placeholder">ابحث عن مدينة لمعرفة حالة القمر اليوم…<\/span>/g,
                         '<span>ابحث عن مدينة لمعرفة حالة القمر…</span>'
+                    )
+                    // MOON-HUB-SEO-6 (2026-05-11): also strip the
+                    // placeholder="..." attribute on the input itself —
+                    // SEOptimer counts attribute text in some heuristics,
+                    // and this was the second source of "اليوم" on Hub
+                    // beyond the (already-stripped) <span> twin.
+                    .replace(
+                        /placeholder="ابحث عن مدينة لمعرفة حالة القمر اليوم…"/g,
+                        'placeholder="ابحث عن مدينة لمعرفة حالة القمر…"'
                     );
             }
+            // MOON-HUB-SEO-6 (2026-05-11): replace static H1 "القمر اليوم" with a
+            // city-specific Hub H1 — for ALL 10 langs (the static SSR text in
+            // index.html line 1547 is literally the Arabic "القمر اليوم", and
+            // SEOptimer reads SSR text before JS hydrates the i18n value).
+            // Per user spec: Title/Meta/H1/H2 must NOT contain "اليوم" on the
+            // /moon-in-{city} Hub. data-i18n is dropped so JS hydration won't
+            // overwrite the city-specific H1.
+            const _MOON_HUB_H1_BY_LANG = {
+                ar: c => `حالة القمر في ${c}`,
+                en: c => `Moon in ${c}`,
+                fr: c => `La Lune à ${c}`,
+                tr: c => `${c} Ay Durumu`,
+                ur: c => `${c} میں چاند کی حالت`,
+                de: c => `Mond in ${c}`,
+                id: c => `Bulan di ${c}`,
+                es: c => `Luna en ${c}`,
+                bn: c => `${c}-এ চাঁদের অবস্থা`,
+                ms: c => `Bulan di ${c}`,
+            };
+            const _hubH1Builder = _MOON_HUB_H1_BY_LANG[seo.lang] || _MOON_HUB_H1_BY_LANG.en;
+            const _hubH1Text = _hubH1Builder(cityName || '');
+            html = html.replace(
+                /<span data-i18n="moon\.h1">القمر اليوم<\/span>/,
+                `<span>${_escHtml(_hubH1Text)}</span>`
+            );
         }
 
         // MOON-HUB-SEO-4 (2026-05-11): inject 4 SSR educational sections on
@@ -14501,7 +14559,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         s1P2: `عند النظر إلى حالة القمر، يمكن البدء باسم الطور الحالي، ثم مراجعة نسبة الإضاءة لمعرفة مقدار الجزء المضيء من قرص القمر. بعد ذلك يساعد عمر القمر على فهم موقعه داخل الدورة القمرية، وهل هو في بداية الشهر القمري أو منتصفه أو مراحله الأخيرة. هذه المعلومات تجعل الصفحة مناسبة للمتابعة السريعة، ولمن يريد رابطاً مركزياً لحالة القمر في المدينة دون الدخول مباشرة إلى صفحة شهر أو تاريخ محدد.`,
                         s2Title: `الفرق بين صفحة القمر في ${c} وصفحات القمر الأخرى`,
                         s2P1: `صفحة القمر في ${c} تعمل كصفحة رئيسية لحالة القمر في المدينة، وتجمع بين معلومات الطور الحالي وروابط التقويم والأيام القريبة. أما صفحة القمر العامة فهي تعرض حالة القمر دون التركيز على مدينة بعينها، بينما تعرض صفحات التاريخ المحدد بيانات القمر في يوم معيّن، وتعرض صفحات الشهر تقويماً أوسع لمراحل القمر خلال شهر كامل.`,
-                        s2P2: `هذا الفصل بين الصفحات يساعد المستخدم ومحركات البحث على فهم وظيفة كل رابط. فإذا كان الهدف معرفة حالة القمر المرتبطة بمدينة محددة، فصفحة المدينة هي الأنسب. وإذا كان الهدف مراجعة مراحل القمر خلال شهر كامل، فصفحة التقويم الشهري تكون أوضح. أما عند البحث عن تاريخ محدد، فصفحة التاريخ تعرض بيانات أكثر ارتباطاً بذلك اليوم المعين دون خلطها مع صفحة Hub العامة.`,
+                        s2P2: `هذا الفصل بين الصفحات يساعد المستخدم ومحركات البحث على فهم وظيفة كل رابط. فإذا كان الهدف معرفة حالة القمر المرتبطة بمدينة محددة، فصفحة المدينة هي الأنسب. وإذا كان الهدف مراجعة مراحل القمر خلال شهر كامل، فصفحة التقويم الشهري تكون أوضح. أما عند البحث عن تاريخ محدد، فصفحة التاريخ تعرض بيانات أكثر ارتباطاً بذلك التاريخ المحدد دون خلطها مع صفحة Hub العامة.`,
                         s3Title: `ما العوامل التي تظهر في بيانات القمر؟`,
                         s3P1: `تعتمد بيانات القمر المعروضة في الصفحة على مجموعة من العناصر الفلكية المبسطة للمستخدم. من أهم هذه العناصر طور القمر، وهو الاسم الذي يصف شكل القمر في مرحلته الحالية، مثل الهلال أو التربيع أو البدر أو الأحدب. كما تظهر نسبة الإضاءة التي توضّح مقدار الجزء المضيء من سطح القمر كما يُرى من الأرض.`,
                         s3P2: `يظهر أيضاً عمر القمر، وهو مؤشر يساعد على معرفة موقعه داخل الدورة القمرية. وكلما تقدم عمر القمر، انتقل تدريجياً بين الأطوار المختلفة حتى يكتمل البدر ثم يبدأ بالتناقص. وقد تتأثر طريقة عرض بعض التفاصيل بالتوقيت المحلي للمدينة، لذلك تفيد صفحة ${c} في إعطاء سياق مكاني واضح بدلاً من عرض معلومات عامة فقط.`,
@@ -14869,12 +14927,25 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
                         : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
                     const _cellActive = _isToday ? ' moon-hub-cal-cell--today' : '';
+                    // MOON-HUB-SEO-6 (2026-05-11): drop the `.moon-hub-cal-phase-name`
+                    // span from each cell on the HUB ONLY. The visible label
+                    // ("هلال متناقص" / "بدر" / etc.) repeated 7-10 cells in a
+                    // row during long phase stretches, polluting SEOptimer's
+                    // Keyword Consistency on the Hub (the page is a generic
+                    // city hub, not a phase-of-the-day page).
+                    //
+                    // KEEP the phase-name on `/moon-in-{city}/{YYYY-MM}`
+                    // Month pages — the full month calendar IS the page's
+                    // purpose there and the phase label is high-value UX.
                     const _cellPhaseNameTxt = _phaseName(_cellPhase.key) || _cellPhase.name || _cellPhase.english || '';
+                    const _cellIsMonthPage = !!(seo.moonCity && seo.moonCity.isMonthPage);
                     _calCellsHtml += `<li class="moon-hub-cal-cell${_cellActive}"><a href="${_escHtml(_cellHref)}">`
                         + `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
                         + `<span class="moon-hub-cal-date">${_escHtml(_cellDateTxt)}</span>`
                         + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
-                        + `<span class="moon-hub-cal-phase-name">${_escHtml(_cellPhaseNameTxt)}</span>`
+                        + (_cellIsMonthPage
+                            ? `<span class="moon-hub-cal-phase-name">${_escHtml(_cellPhaseNameTxt)}</span>`
+                            : '')
                         + `</a></li>`;
                 }
                 // Weekday header row

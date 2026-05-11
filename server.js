@@ -1081,7 +1081,129 @@ function _getCityLngBySlug(slug) {
 // تُستعمل كـ fallback إذا لم يُوجد الـ slug الكامل في POPULAR_CITY_NAMES أو فهرس المدن.
 const _ARAB_ARTICLE_PREFIX_RE = /^(at|al|el|ad|an|ar|as|ash|ath|az|ed)-/;
 
+// PT-AR-CITY-NAME-1 (2026-05-11): server-side mirror of the JS
+// `_AR_CITY_NAME_OVERRIDES` safety net. Same use-case: ensure no
+// English slug ever leaks into Arabic SSR visible text for famous
+// world cities. Tier-0 check runs BEFORE the DB lookups so we never
+// fall through to `_slugToTitle(slug)` which would return the
+// English Title-Case slug. Mirrors the JS dict byte-for-byte to keep
+// SSR and JS hydration in lockstep.
+const _AR_CITY_NAME_OVERRIDES_SSR = {
+    // ===== المدن العربية =====
+    'riyadh': 'الرياض', 'jeddah': 'جدة', 'makkah': 'مكة المكرمة',
+    'mecca': 'مكة المكرمة', 'medina': 'المدينة المنورة', 'madinah': 'المدينة المنورة',
+    'dammam': 'الدمام', 'khobar': 'الخبر', 'taif': 'الطائف', 'tabuk': 'تبوك',
+    'buraidah': 'بريدة', 'buraydah': 'بريدة', 'abha': 'أبها', 'yanbu': 'ينبع',
+    'hail': 'حائل', 'najran': 'نجران', 'jizan': 'جازان', 'qatif': 'القطيف',
+    'jubail': 'الجبيل', 'hofuf': 'الهفوف',
+    'cairo': 'القاهرة', 'alexandria': 'الإسكندرية', 'giza': 'الجيزة',
+    'mansoura': 'المنصورة', 'tanta': 'طنطا', 'aswan': 'أسوان', 'luxor': 'الأقصر',
+    'port-said': 'بورسعيد', 'suez': 'السويس', 'ismailia': 'الإسماعيلية',
+    'dubai': 'دبي', 'abu-dhabi': 'أبوظبي', 'sharjah': 'الشارقة', 'ajman': 'عجمان',
+    'al-ain': 'العين', 'fujairah': 'الفجيرة', 'ras-al-khaimah': 'رأس الخيمة',
+    'doha': 'الدوحة', 'kuwait': 'الكويت', 'kuwait-city': 'مدينة الكويت',
+    'manama': 'المنامة', 'muscat': 'مسقط',
+    'amman': 'عمّان', 'zarqa': 'الزرقاء', 'irbid': 'إربد',
+    'baghdad': 'بغداد', 'basra': 'البصرة', 'mosul': 'الموصل', 'erbil': 'أربيل',
+    'najaf': 'النجف', 'karbala': 'كربلاء',
+    'beirut': 'بيروت', 'tripoli-lb': 'طرابلس (لبنان)',
+    'damascus': 'دمشق', 'aleppo': 'حلب', 'homs': 'حمص', 'latakia': 'اللاذقية',
+    'sanaa': 'صنعاء', 'aden': 'عدن', 'taiz': 'تعز',
+    'tunis': 'تونس', 'sfax': 'صفاقس', 'sousse': 'سوسة',
+    'algiers': 'الجزائر العاصمة', 'oran': 'وهران', 'constantine': 'قسنطينة',
+    'rabat': 'الرباط', 'casablanca': 'الدار البيضاء', 'marrakesh': 'مراكش',
+    'marrakech': 'مراكش', 'fez': 'فاس', 'tangier': 'طنجة',
+    'khartoum': 'الخرطوم', 'omdurman': 'أم درمان',
+    'tripoli': 'طرابلس', 'benghazi': 'بنغازي',
+    'nouakchott': 'نواكشوط', 'djibouti': 'جيبوتي', 'mogadishu': 'مقديشو',
+    'jerusalem': 'القدس', 'gaza': 'غزة', 'ramallah': 'رام الله',
+    'hebron': 'الخليل', 'nablus': 'نابلس', 'bethlehem': 'بيت لحم',
+    // ===== تركيا =====
+    'istanbul': 'إسطنبول', 'ankara': 'أنقرة', 'izmir': 'إزمير',
+    'bursa': 'بورصة', 'antalya': 'أنطاليا', 'konya': 'قونيا',
+    'gaziantep': 'غازي عنتاب', 'adana': 'أضنة',
+    // ===== إيران =====
+    'tehran': 'طهران', 'mashhad': 'مشهد', 'isfahan': 'أصفهان',
+    'tabriz': 'تبريز', 'shiraz': 'شيراز', 'qom': 'قم',
+    // ===== باكستان =====
+    'karachi': 'كراتشي', 'lahore': 'لاهور', 'islamabad': 'إسلام آباد',
+    'rawalpindi': 'روالبندي', 'faisalabad': 'فيصل آباد', 'peshawar': 'بيشاور',
+    'multan': 'ملتان', 'quetta': 'كويتا',
+    // ===== الهند =====
+    'mumbai': 'مومباي', 'delhi': 'دلهي', 'new-delhi': 'نيودلهي',
+    'bangalore': 'بنغالور', 'kolkata': 'كلكتا', 'chennai': 'تشيناي',
+    'hyderabad': 'حيدر آباد', 'ahmedabad': 'أحمد آباد',
+    // ===== بنغلاديش =====
+    'dhaka': 'دكا', 'chittagong': 'شيتاغونغ',
+    // ===== إندونيسيا/ماليزيا =====
+    'jakarta': 'جاكرتا', 'surabaya': 'سورابايا', 'bandung': 'باندونغ',
+    'medan': 'ميدان', 'kuala-lumpur': 'كوالالمبور', 'penang': 'بينانغ',
+    'johor-bahru': 'جوهور باهرو', 'shah-alam': 'شاه عالم',
+    // ===== أوروبا =====
+    'london': 'لندن', 'birmingham': 'برمنغهام', 'manchester': 'مانشستر',
+    'liverpool': 'ليفربول', 'edinburgh': 'إدنبرة', 'glasgow': 'غلاسكو',
+    'paris': 'باريس', 'marseille': 'مرسيليا', 'lyon': 'ليون',
+    'toulouse': 'تولوز', 'nice': 'نيس', 'bordeaux': 'بوردو',
+    'berlin': 'برلين', 'hamburg': 'هامبورغ', 'munich': 'ميونخ',
+    'cologne': 'كولونيا', 'frankfurt': 'فرانكفورت', 'stuttgart': 'شتوتغارت',
+    'madrid': 'مدريد', 'barcelona': 'برشلونة', 'valencia': 'فالنسيا',
+    'seville': 'إشبيلية', 'malaga': 'ملقا',
+    'rome': 'روما', 'milan': 'ميلانو', 'naples': 'نابولي', 'turin': 'تورينو',
+    'amsterdam': 'أمستردام', 'rotterdam': 'روتردام', 'brussels': 'بروكسل',
+    'antwerp': 'أنتويرب', 'vienna': 'فيينا', 'zurich': 'زيورخ', 'geneva': 'جنيف',
+    'stockholm': 'ستوكهولم', 'oslo': 'أوسلو', 'copenhagen': 'كوبنهاغن',
+    'helsinki': 'هلسنكي', 'warsaw': 'وارسو', 'prague': 'براغ', 'budapest': 'بودابست',
+    'athens': 'أثينا', 'thessaloniki': 'تسالونيكي',
+    'sarajevo': 'سراييفو', 'mostar': 'موستار', 'tirana': 'تيرانا',
+    'skopje': 'سكوبيه', 'pristina': 'بريشتينا',
+    'moscow': 'موسكو', 'saint-petersburg': 'سانت بطرسبرغ', 'kazan': 'قازان',
+    'kyiv': 'كييف', 'minsk': 'مينسك',
+    // ===== أمريكا الشمالية =====
+    'new-york': 'نيويورك', 'los-angeles': 'لوس أنجلوس', 'chicago': 'شيكاغو',
+    'houston': 'هيوستن', 'phoenix': 'فينيكس', 'philadelphia': 'فيلادلفيا',
+    'san-antonio': 'سان أنطونيو', 'san-diego': 'سان دييغو', 'dallas': 'دالاس',
+    'detroit': 'ديترويت', 'boston': 'بوسطن', 'seattle': 'سياتل',
+    'washington': 'واشنطن', 'miami': 'ميامي', 'atlanta': 'أتلانتا',
+    'toronto': 'تورنتو', 'montreal': 'مونتريال', 'vancouver': 'فانكوفر',
+    'ottawa': 'أوتاوا', 'calgary': 'كالغاري', 'edmonton': 'إدمونتون',
+    'mexico-city': 'مكسيكو سيتي',
+    // ===== أمريكا الجنوبية =====
+    'sao-paulo': 'ساو باولو', 'rio-de-janeiro': 'ريو دي جانيرو',
+    'buenos-aires': 'بوينس آيرس', 'lima': 'ليما', 'bogota': 'بوغوتا',
+    // ===== آسيا =====
+    'tokyo': 'طوكيو', 'osaka': 'أوساكا', 'kyoto': 'كيوتو', 'yokohama': 'يوكوهاما',
+    'seoul': 'سيول', 'busan': 'بوسان', 'incheon': 'إنشيون',
+    'beijing': 'بكين', 'shanghai': 'شانغهاي', 'guangzhou': 'قوانغتشو',
+    'shenzhen': 'شنتشن', 'hong-kong': 'هونغ كونغ', 'taipei': 'تايبيه',
+    'bangkok': 'بانكوك', 'manila': 'مانيلا', 'singapore': 'سنغافورة',
+    'singapore-city': 'سنغافورة', 'ho-chi-minh-city': 'هو تشي منه',
+    'hanoi': 'هانوي',
+    // ===== أوقيانوسيا =====
+    'sydney': 'سيدني', 'melbourne': 'ملبورن', 'brisbane': 'بريزبن',
+    'perth': 'بيرث', 'auckland': 'أوكلاند', 'wellington': 'ولينغتون',
+    // ===== إفريقيا =====
+    'lagos': 'لاغوس', 'abuja': 'أبوجا', 'kano': 'كانو',
+    'nairobi': 'نيروبي', 'mombasa': 'مومباسا', 'dar-es-salaam': 'دار السلام',
+    'addis-ababa': 'أديس أبابا', 'kampala': 'كمبالا',
+    'cape-town': 'كيب تاون', 'johannesburg': 'جوهانسبرغ', 'durban': 'ديربان',
+    'dakar': 'داكار', 'accra': 'أكرا',
+    // ===== أفغانستان وآسيا الوسطى =====
+    'kabul': 'كابول', 'kandahar': 'قندهار', 'herat': 'هرات',
+    'tashkent': 'طشقند', 'almaty': 'ألماتي', 'astana': 'أستانة',
+    'baku': 'باكو', 'yerevan': 'يريفان', 'tbilisi': 'تبليسي',
+};
+
 function _resolveCityName(slug, lang) {
+    // PT-AR-CITY-NAME-1 tier 0: AR override safety net. Runs BEFORE
+    // any DB lookup so famous world cities never fall through to
+    // `_slugToTitle(slug)` (which returns English Title-Case) on
+    // Arabic pages. Non-AR langs skip this tier entirely.
+    if (lang === 'ar') {
+        const _slugLc = String(slug).toLowerCase();
+        if (_AR_CITY_NAME_OVERRIDES_SSR[_slugLc]) {
+            return _AR_CITY_NAME_OVERRIDES_SSR[_slugLc];
+        }
+    }
     const _try = (s) => {
         const pop = POPULAR_CITY_NAMES[s];
         if (pop) return pop[lang] || pop.en || _slugToTitle(s);

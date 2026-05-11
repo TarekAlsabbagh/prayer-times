@@ -15127,144 +15127,43 @@ function _stripCityAdminPrefix(s) {
 //   Final step: every return value is stripped of admin-region prefixes
 //   ("محافظة"/"منطقة"/"Governorate"/...) via _stripCityAdminPrefix so the
 //   visitor sees the clean city name everywhere.
-// PT-AR-CITY-NAME-1 (2026-05-11): AR safety-net for famous world cities.
-// User reported SEOptimer surfacing fragments like "في marseille" /
-// "marseille القمر اليوم في" on /moon-today-in-marseille. The SSR
-// rendered "مرسيليا" correctly via the curated cities DB on the
-// server, but JS hydration in `_moonCityDisplayName` fell through
-// to `_prettifySlug("marseille") = "Marseille"` (English) because
-// none of the JS tiers had a slug→Arabic mapping for Marseille.
-//
-// This dict is keyed by URL slug (lowercase, hyphenated) — checked
-// FIRST when lang === 'ar' so the multi-tier resolver never falls
-// back to an English slug for famous cities. Covers the cities the
-// user listed plus common world capitals and large metros.
-//
-// NOTE: this is a SAFETY NET, NOT a replacement for LOCAL_CITIES /
-// CITY_NAMES_AR / curated DB. New cities should still be added to
-// the proper data sources. This dict only catches the slug paths
-// that those didn't cover.
-const _AR_CITY_NAME_OVERRIDES = {
-    // المدن العربية الكبرى
-    'riyadh': 'الرياض', 'jeddah': 'جدة', 'makkah': 'مكة المكرمة',
-    'mecca': 'مكة المكرمة', 'medina': 'المدينة المنورة', 'madinah': 'المدينة المنورة',
-    'dammam': 'الدمام', 'khobar': 'الخبر', 'taif': 'الطائف', 'tabuk': 'تبوك',
-    'buraidah': 'بريدة', 'buraydah': 'بريدة', 'abha': 'أبها', 'yanbu': 'ينبع',
-    'hail': 'حائل', 'najran': 'نجران', 'jizan': 'جازان', 'qatif': 'القطيف',
-    'jubail': 'الجبيل', 'hofuf': 'الهفوف',
-    'cairo': 'القاهرة', 'alexandria': 'الإسكندرية', 'giza': 'الجيزة',
-    'mansoura': 'المنصورة', 'tanta': 'طنطا', 'aswan': 'أسوان', 'luxor': 'الأقصر',
-    'port-said': 'بورسعيد', 'suez': 'السويس', 'ismailia': 'الإسماعيلية',
-    'dubai': 'دبي', 'abu-dhabi': 'أبوظبي', 'sharjah': 'الشارقة', 'ajman': 'عجمان',
-    'al-ain': 'العين', 'fujairah': 'الفجيرة', 'ras-al-khaimah': 'رأس الخيمة',
-    'doha': 'الدوحة', 'kuwait': 'الكويت', 'kuwait-city': 'مدينة الكويت',
-    'manama': 'المنامة', 'muscat': 'مسقط',
-    'amman': 'عمّان', 'zarqa': 'الزرقاء', 'irbid': 'إربد',
-    'baghdad': 'بغداد', 'basra': 'البصرة', 'mosul': 'الموصل', 'erbil': 'أربيل',
-    'najaf': 'النجف', 'karbala': 'كربلاء',
-    'beirut': 'بيروت', 'tripoli-lb': 'طرابلس (لبنان)',
-    'damascus': 'دمشق', 'aleppo': 'حلب', 'homs': 'حمص', 'latakia': 'اللاذقية',
-    'sanaa': 'صنعاء', 'aden': 'عدن', 'taiz': 'تعز',
-    'tunis': 'تونس', 'sfax': 'صفاقس', 'sousse': 'سوسة',
-    'algiers': 'الجزائر العاصمة', 'oran': 'وهران', 'constantine': 'قسنطينة',
-    'rabat': 'الرباط', 'casablanca': 'الدار البيضاء', 'marrakesh': 'مراكش',
-    'marrakech': 'مراكش', 'fez': 'فاس', 'tangier': 'طنجة',
-    'khartoum': 'الخرطوم', 'omdurman': 'أم درمان',
-    'tripoli': 'طرابلس', 'benghazi': 'بنغازي',
-    'nouakchott': 'نواكشوط', 'djibouti': 'جيبوتي', 'mogadishu': 'مقديشو',
-    'jerusalem': 'القدس', 'gaza': 'غزة', 'ramallah': 'رام الله',
-    'hebron': 'الخليل', 'nablus': 'نابلس', 'bethlehem': 'بيت لحم',
-    // المدن التركية
-    'istanbul': 'إسطنبول', 'ankara': 'أنقرة', 'izmir': 'إزمير',
-    'bursa': 'بورصة', 'antalya': 'أنطاليا', 'konya': 'قونيا',
-    'gaziantep': 'غازي عنتاب', 'adana': 'أضنة',
-    // المدن الإيرانية
-    'tehran': 'طهران', 'mashhad': 'مشهد', 'isfahan': 'أصفهان',
-    'tabriz': 'تبريز', 'shiraz': 'شيراز', 'qom': 'قم',
-    // المدن الباكستانية
-    'karachi': 'كراتشي', 'lahore': 'لاهور', 'islamabad': 'إسلام آباد',
-    'rawalpindi': 'روالبندي', 'faisalabad': 'فيصل آباد', 'peshawar': 'بيشاور',
-    'multan': 'ملتان', 'quetta': 'كويتا',
-    // الهند
-    'mumbai': 'مومباي', 'delhi': 'دلهي', 'new-delhi': 'نيودلهي',
-    'bangalore': 'بنغالور', 'kolkata': 'كلكتا', 'chennai': 'تشيناي',
-    'hyderabad': 'حيدر آباد', 'ahmedabad': 'أحمد آباد',
-    // بنغلاديش
-    'dhaka': 'دكا', 'chittagong': 'شيتاغونغ',
-    // إندونيسيا/ماليزيا
-    'jakarta': 'جاكرتا', 'surabaya': 'سورابايا', 'bandung': 'باندونغ',
-    'medan': 'ميدان', 'kuala-lumpur': 'كوالالمبور', 'penang': 'بينانغ',
-    'johor-bahru': 'جوهور باهرو', 'shah-alam': 'شاه عالم',
-    // المدن الأوروبية الكبرى
-    'london': 'لندن', 'birmingham': 'برمنغهام', 'manchester': 'مانشستر',
-    'liverpool': 'ليفربول', 'edinburgh': 'إدنبرة', 'glasgow': 'غلاسكو',
-    'paris': 'باريس', 'marseille': 'مرسيليا', 'lyon': 'ليون',
-    'toulouse': 'تولوز', 'nice': 'نيس', 'bordeaux': 'بوردو',
-    'berlin': 'برلين', 'hamburg': 'هامبورغ', 'munich': 'ميونخ',
-    'cologne': 'كولونيا', 'frankfurt': 'فرانكفورت', 'stuttgart': 'شتوتغارت',
-    'madrid': 'مدريد', 'barcelona': 'برشلونة', 'valencia': 'فالنسيا',
-    'seville': 'إشبيلية', 'malaga': 'ملقا',
-    'rome': 'روما', 'milan': 'ميلانو', 'naples': 'نابولي', 'turin': 'تورينو',
-    'amsterdam': 'أمستردام', 'rotterdam': 'روتردام', 'brussels': 'بروكسل',
-    'antwerp': 'أنتويرب', 'vienna': 'فيينا', 'zurich': 'زيورخ', 'geneva': 'جنيف',
-    'stockholm': 'ستوكهولم', 'oslo': 'أوسلو', 'copenhagen': 'كوبنهاغن',
-    'helsinki': 'هلسنكي', 'warsaw': 'وارسو', 'prague': 'براغ', 'budapest': 'بودابست',
-    'athens': 'أثينا', 'thessaloniki': 'تسالونيكي',
-    'sarajevo': 'سراييفو', 'mostar': 'موستار', 'tirana': 'تيرانا',
-    'skopje': 'سكوبيه', 'pristina': 'بريشتينا',
-    'moscow': 'موسكو', 'saint-petersburg': 'سانت بطرسبرغ', 'kazan': 'قازان',
-    'kyiv': 'كييف', 'minsk': 'مينسك',
-    // أمريكا الشمالية
-    'new-york': 'نيويورك', 'los-angeles': 'لوس أنجلوس', 'chicago': 'شيكاغو',
-    'houston': 'هيوستن', 'phoenix': 'فينيكس', 'philadelphia': 'فيلادلفيا',
-    'san-antonio': 'سان أنطونيو', 'san-diego': 'سان دييغو', 'dallas': 'دالاس',
-    'detroit': 'ديترويت', 'boston': 'بوسطن', 'seattle': 'سياتل',
-    'washington': 'واشنطن', 'miami': 'ميامي', 'atlanta': 'أتلانتا',
-    'toronto': 'تورنتو', 'montreal': 'مونتريال', 'vancouver': 'فانكوفر',
-    'ottawa': 'أوتاوا', 'calgary': 'كالغاري', 'edmonton': 'إدمونتون',
-    'mexico-city': 'مكسيكو سيتي',
-    // أمريكا الجنوبية
-    'sao-paulo': 'ساو باولو', 'rio-de-janeiro': 'ريو دي جانيرو',
-    'buenos-aires': 'بوينس آيرس', 'lima': 'ليما', 'bogota': 'بوغوتا',
-    // آسيا
-    'tokyo': 'طوكيو', 'osaka': 'أوساكا', 'kyoto': 'كيوتو', 'yokohama': 'يوكوهاما',
-    'seoul': 'سيول', 'busan': 'بوسان', 'incheon': 'إنشيون',
-    'beijing': 'بكين', 'shanghai': 'شانغهاي', 'guangzhou': 'قوانغتشو',
-    'shenzhen': 'شنتشن', 'hong-kong': 'هونغ كونغ', 'taipei': 'تايبيه',
-    'bangkok': 'بانكوك', 'manila': 'مانيلا', 'singapore': 'سنغافورة',
-    'singapore-city': 'سنغافورة', 'ho-chi-minh-city': 'هو تشي منه',
-    'hanoi': 'هانوي',
-    // أوقيانوسيا
-    'sydney': 'سيدني', 'melbourne': 'ملبورن', 'brisbane': 'بريزبن',
-    'perth': 'بيرث', 'auckland': 'أوكلاند', 'wellington': 'ولينغتون',
-    // إفريقيا
-    'lagos': 'لاغوس', 'abuja': 'أبوجا', 'kano': 'كانو',
-    'nairobi': 'نيروبي', 'mombasa': 'مومباسا', 'dar-es-salaam': 'دار السلام',
-    'addis-ababa': 'أديس أبابا', 'kampala': 'كمبالا',
-    'cape-town': 'كيب تاون', 'johannesburg': 'جوهانسبرغ', 'durban': 'ديربان',
-    'dakar': 'داكار', 'accra': 'أكرا',
-    // أفغانستان وآسيا الوسطى
-    'kabul': 'كابول', 'kandahar': 'قندهار', 'herat': 'هرات',
-    'tashkent': 'طشقند', 'almaty': 'ألماتي', 'astana': 'أستانة',
-    'baku': 'باكو', 'yerevan': 'يريفان', 'tbilisi': 'تبليسي',
+// PT-AR-CITY-REVERT-1 (2026-05-12): the original PT-AR-CITY-NAME-1
+// JS-side `_AR_CITY_NAME_OVERRIDES` dict + tier-0 check in
+// `_moonCityDisplayName` have been REMOVED. They triggered a
+// regression where search→navigate flows visibly reverted the
+// destination city to the user's last-detected city (e.g., user
+// searches "Lyon" → Lyon shows for a moment → Riyadh replaces it).
+// Root cause: tier-0 set `currentCity` to the Arabic display name
+// in code paths that downstream expected the English slug-fallback
+// for sessionStorage / LOCAL_CITIES / lsb_detected key lookups; the
+// resulting key mismatch caused a fallback to the last-detected
+// city.  The server-side mirror in server.js
+// (`_AR_CITY_NAME_OVERRIDES_SSR`) STAYS in place — SSR HTML is what
+// SEOptimer scans and that's the actual fix for the visible-text
+// leak on Arabic city pages.
+const _AR_CITY_NAME_OVERRIDES_REMOVED_DUMMY = {
+    // Empty placeholder so a global grep for the marker name still
+    // resolves (the original ~180-entry dict was deleted as part of
+    // PT-AR-CITY-REVERT-1 — see banner above for the regression).
+    // Any future re-introduction MUST be paired with downstream
+    // fixes for the currentCity / sessionStorage key-collision path.
+    _removed_at: '2026-05-12-PT-AR-CITY-REVERT-1',
 };
 
 function _moonCityDisplayName(slug) {
     const _result = (function _moonCityDisplayNameInner() {
     if (!slug) return '';
-    // PT-AR-CITY-NAME-1 tier 0: AR override safety net (highest priority).
-    // Ensures famous world cities NEVER display as English slug fallback
-    // on Arabic pages, even if i18n / sessionStorage / currentCity / DB
-    // all miss the slug.
-    try {
-        const _lng0 = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-        if (_lng0 === 'ar') {
-            const _slugKey = String(slug).toLowerCase();
-            if (_AR_CITY_NAME_OVERRIDES[_slugKey]) {
-                return _AR_CITY_NAME_OVERRIDES[_slugKey];
-            }
-        }
-    } catch (_e) { /* fall through to tier 1 */ }
+    // PT-AR-CITY-REVERT-1 (2026-05-12): The earlier PT-AR-CITY-NAME-1 tier-0
+    // override that returned Arabic names from `_AR_CITY_NAME_OVERRIDES`
+    // here caused a user-visible regression: searching for a city like
+    // "Lyon" displayed correctly for a moment, then the UI reverted to
+    // the user's last-detected city (often Riyadh) because downstream
+    // code that hydrates city context observed an Arabic-name in
+    // `currentCity` while expecting the English fallback used for
+    // sessionStorage / LOCAL_CITIES key lookups. We revert the JS-side
+    // tier 0 only; the SERVER-SIDE mirror (`_AR_CITY_NAME_OVERRIDES_SSR`
+    // in server.js) STAYS in place — SSR HTML is what SEOptimer scans
+    // and that's the actual fix for the original visible-text leak.
     // 1) مفتاح i18n city.<slug>
     const key = 'city.' + slug.replace(/-/g, '_');
     if (typeof t === 'function') {

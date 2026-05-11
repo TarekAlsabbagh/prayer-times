@@ -6784,82 +6784,110 @@ function buildSeoForPath(urlPath) {
                 // "E3" (E3 reserved for the unrelated hydration/flash issue).
                 // MOON-TODAY-CITY-SEO-1 (2026-05-11): replaced the fixed
                 // Title pattern (64 cp on Madinah, over the 60 cp ceiling)
-                // with a 4-candidate length-aware ladder per lang. The page
-                // IS the today snapshot for a city, so "اليوم/today/heute/
-                // hoy/aujourd'hui/Hari Ini/bugün/آج/আজ" stays — only the
-                // length gets fixed. Same algorithm shape as MOON-DAY-SEO-1
-                // / TL-SEO-3 / PT-CITY-SEO-1.
-                //   1. long:     "حالة القمر اليوم في {city} | طور القمر والإضاءة"
-                //   2. medium:   "حالة القمر اليوم في {city} | طور القمر"
-                //   3. short:    "القمر اليوم في {city} | الطور والإضاءة"
-                //   4. fallback: "حالة القمر اليوم في {city}"
+                // with a 4-candidate length-aware ladder per lang.
+                // MOON-TODAY-CITY-SEO-2 (2026-05-11): extended ladder with
+                // one richer candidate (`longer`) so short cities like
+                // الرياض/جدة/لندن stop landing at 47/44/45 cp (below the
+                // SEOptimer 50-60 sweet spot). The new candidate appends
+                // ", والعمر" / "and Age" / "und Alter" / etc, picking up
+                // ~6-8 cp. Picker order: longer → long → mediumWide → medium
+                // → short → fallback. The page IS the today snapshot for
+                // a city, so "اليوم/today/heute/hoy/aujourd'hui/Hari Ini/
+                // bugün/آج/আজ" stays — only the length gets fixed.
+                //
+                // JS mirror: NOT needed. js/app.js grep confirms no
+                // setSEOMeta or document.title overwrite on /moon-today-in-*
+                // path (only path-routing references). updateCitySEO only
+                // handles prayer-times-in / qibla-in / about-* branches.
+                // SSR is the sole source of truth for this route's <title>.
+                //
                 // Algorithm: first ∈ [50, 60] → longest ≤ 60 → fallback.
                 const _MOON_TODAY_CITY_TITLE_FORMS = {
                     ar: c => ({
-                        long:     `حالة القمر اليوم في ${c} | طور القمر والإضاءة`,
-                        medium:   `حالة القمر اليوم في ${c} | طور القمر`,
-                        short:    `القمر اليوم في ${c} | الطور والإضاءة`,
-                        fallback: `حالة القمر اليوم في ${c}`,
+                        longer:     `حالة القمر اليوم في ${c} | طور القمر والإضاءة والعمر`,
+                        long:       `حالة القمر اليوم في ${c} | طور القمر والإضاءة`,
+                        mediumWide: `القمر اليوم في ${c} | الطور والإضاءة وعمر القمر`,
+                        medium:     `حالة القمر اليوم في ${c} | طور القمر`,
+                        short:      `القمر اليوم في ${c} | الطور والإضاءة`,
+                        fallback:   `حالة القمر اليوم في ${c}`,
                     }),
                     en: c => ({
-                        long:     `Moon Today in ${c} | Moon Phase and Illumination`,
-                        medium:   `Moon Today in ${c} | Moon Phase`,
-                        short:    `Moon Today in ${c} | Phase and Illumination`,
-                        fallback: `Moon Today in ${c}`,
+                        longer:     `Moon Today in ${c} | Phase, Illumination and Age`,
+                        long:       `Moon Today in ${c} | Moon Phase and Illumination`,
+                        mediumWide: `Moon Today in ${c} | Moon Phase, Illumination & Age`,
+                        medium:     `Moon Today in ${c} | Moon Phase`,
+                        short:      `Moon Today in ${c} | Phase and Illumination`,
+                        fallback:   `Moon Today in ${c}`,
                     }),
                     fr: c => ({
-                        long:     `Lune aujourd'hui à ${c} | Phase et illumination`,
-                        medium:   `Lune aujourd'hui à ${c} | Phase de la Lune`,
-                        short:    `Lune aujourd'hui à ${c} | Phase et éclairage`,
-                        fallback: `Lune aujourd'hui à ${c}`,
+                        longer:     `Lune aujourd'hui à ${c} | Phase, illumination et âge`,
+                        long:       `Lune aujourd'hui à ${c} | Phase et illumination`,
+                        mediumWide: `Lune aujourd'hui à ${c} | Phase de la Lune et âge`,
+                        medium:     `Lune aujourd'hui à ${c} | Phase de la Lune`,
+                        short:      `Lune aujourd'hui à ${c} | Phase et éclairage`,
+                        fallback:   `Lune aujourd'hui à ${c}`,
                     }),
                     tr: c => ({
-                        long:     `${c} Bugün Ay Durumu | Ay Evresi ve Aydınlanma`,
-                        medium:   `${c} Bugün Ay Durumu | Ay Evresi`,
-                        short:    `${c} Bugün Ay | Evre ve Aydınlanma`,
-                        fallback: `${c} Bugün Ay Durumu`,
+                        longer:     `${c} Bugün Ay Durumu | Ay Evresi, Aydınlanma ve Yaş`,
+                        long:       `${c} Bugün Ay Durumu | Ay Evresi ve Aydınlanma`,
+                        mediumWide: `${c} Bugün Ay Durumu | Evre, Aydınlanma, Yaş`,
+                        medium:     `${c} Bugün Ay Durumu | Ay Evresi`,
+                        short:      `${c} Bugün Ay | Evre ve Aydınlanma`,
+                        fallback:   `${c} Bugün Ay Durumu`,
                     }),
                     ur: c => ({
-                        long:     `${c} میں آج چاند کی حالت | طور اور روشنی`,
-                        medium:   `${c} میں آج چاند کی حالت | چاند کا طور`,
-                        short:    `${c} میں آج چاند | طور اور روشنی`,
-                        fallback: `${c} میں آج چاند کی حالت`,
+                        longer:     `${c} میں آج چاند کی حالت | طور، روشنی اور چاند کا عمر`,
+                        long:       `${c} میں آج چاند کی حالت | طور اور روشنی`,
+                        mediumWide: `${c} میں آج چاند | طور، روشنی اور عمر`,
+                        medium:     `${c} میں آج چاند کی حالت | چاند کا طور`,
+                        short:      `${c} میں آج چاند | طور اور روشنی`,
+                        fallback:   `${c} میں آج چاند کی حالت`,
                     }),
                     de: c => ({
-                        long:     `Mond heute in ${c} | Mondphase und Beleuchtung`,
-                        medium:   `Mond heute in ${c} | Mondphase`,
-                        short:    `Mond heute in ${c} | Phase und Beleuchtung`,
-                        fallback: `Mond heute in ${c}`,
+                        longer:     `Mond heute in ${c} | Phase, Beleuchtung und Alter`,
+                        long:       `Mond heute in ${c} | Mondphase und Beleuchtung`,
+                        mediumWide: `Mond heute in ${c} | Mondphase, Beleuchtung & Alter`,
+                        medium:     `Mond heute in ${c} | Mondphase`,
+                        short:      `Mond heute in ${c} | Phase und Beleuchtung`,
+                        fallback:   `Mond heute in ${c}`,
                     }),
                     id: c => ({
-                        long:     `Bulan Hari Ini di ${c} | Fase Bulan dan Iluminasi`,
-                        medium:   `Bulan Hari Ini di ${c} | Fase Bulan`,
-                        short:    `Bulan Hari Ini di ${c} | Fase dan Iluminasi`,
-                        fallback: `Bulan Hari Ini di ${c}`,
+                        longer:     `Bulan Hari Ini di ${c} | Fase, Iluminasi dan Usia`,
+                        long:       `Bulan Hari Ini di ${c} | Fase Bulan dan Iluminasi`,
+                        mediumWide: `Bulan Hari Ini di ${c} | Fase Bulan, Iluminasi, Usia`,
+                        medium:     `Bulan Hari Ini di ${c} | Fase Bulan`,
+                        short:      `Bulan Hari Ini di ${c} | Fase dan Iluminasi`,
+                        fallback:   `Bulan Hari Ini di ${c}`,
                     }),
                     es: c => ({
-                        long:     `Luna Hoy en ${c} | Fase Lunar e Iluminación`,
-                        medium:   `Luna Hoy en ${c} | Fase Lunar`,
-                        short:    `Luna Hoy en ${c} | Fase e Iluminación`,
-                        fallback: `Luna Hoy en ${c}`,
+                        longer:     `Luna Hoy en ${c} | Fase, Iluminación y Edad de la Luna`,
+                        long:       `Luna Hoy en ${c} | Fase Lunar e Iluminación`,
+                        mediumWide: `Luna Hoy en ${c} | Fase Lunar, Iluminación y Edad`,
+                        medium:     `Luna Hoy en ${c} | Fase Lunar`,
+                        short:      `Luna Hoy en ${c} | Fase e Iluminación`,
+                        fallback:   `Luna Hoy en ${c}`,
                     }),
                     bn: c => ({
-                        long:     `${c}-এ আজকের চাঁদ | চাঁদের দশা ও আলোকসজ্জা`,
-                        medium:   `${c}-এ আজকের চাঁদ | চাঁদের দশা`,
-                        short:    `আজ ${c}-এ চাঁদ | দশা ও আলোকসজ্জা`,
-                        fallback: `${c}-এ আজকের চাঁদ`,
+                        longer:     `${c}-এ আজকের চাঁদ | চাঁদের দশা, আলোকসজ্জা ও চাঁদের বয়স`,
+                        long:       `${c}-এ আজকের চাঁদ | চাঁদের দশা ও আলোকসজ্জা`,
+                        mediumWide: `আজ ${c}-এ চাঁদ | দশা, আলোকসজ্জা ও বয়স`,
+                        medium:     `${c}-এ আজকের চাঁদ | চাঁদের দশা`,
+                        short:      `আজ ${c}-এ চাঁদ | দশা ও আলোকসজ্জা`,
+                        fallback:   `${c}-এ আজকের চাঁদ`,
                     }),
                     ms: c => ({
-                        long:     `Bulan Hari Ini di ${c} | Fasa Bulan dan Pencahayaan`,
-                        medium:   `Bulan Hari Ini di ${c} | Fasa Bulan`,
-                        short:    `Bulan Hari Ini di ${c} | Fasa dan Pencahayaan`,
-                        fallback: `Bulan Hari Ini di ${c}`,
+                        longer:     `Bulan Hari Ini di ${c} | Fasa, Pencahayaan dan Usia`,
+                        long:       `Bulan Hari Ini di ${c} | Fasa Bulan dan Pencahayaan`,
+                        mediumWide: `Bulan Hari Ini di ${c} | Fasa Bulan, Pencahayaan, Usia`,
+                        medium:     `Bulan Hari Ini di ${c} | Fasa Bulan`,
+                        short:      `Bulan Hari Ini di ${c} | Fasa dan Pencahayaan`,
+                        fallback:   `Bulan Hari Ini di ${c}`,
                     }),
                 };
                 const _pickMoonTodayCityTitle = (lng, c) => {
                     const f = (_MOON_TODAY_CITY_TITLE_FORMS[lng] || _MOON_TODAY_CITY_TITLE_FORMS.en)(c);
                     const len = s => Array.from(s).length;
-                    const order = [f.long, f.medium, f.short, f.fallback];
+                    const order = [f.longer, f.long, f.mediumWide, f.medium, f.short, f.fallback];
                     for (const t of order) {
                         if (len(t) >= 50 && len(t) <= 60) return t;
                     }

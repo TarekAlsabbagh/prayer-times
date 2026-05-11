@@ -15009,6 +15009,114 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             }
         }
 
+        // MOON-TODAY-CITY-SEO-3 (2026-05-11): parallel SSR fixes for
+        // /moon-today-in-{city} (the today snapshot for a city). Per user
+        // spec, "اليوم" IS allowed in Title/Meta/H1/main-H2/intro but
+        // should NOT repeat in every card, button, or compact label.
+        // SEOptimer's Keyword Consistency on this page was inflated by:
+        //   • 17× "القمر اليوم" — across labels, cards, FAQ, and search
+        //   • 28× "اليوم"        — many of those plus date-nav buttons
+        // SEOptimer also flagged "مايو 2026" / "هلال متناقص" — those
+        // were already minimal (1 each); the actual issue is repetition
+        // of "اليوم" in compact UI surfaces that don't need it.
+        //
+        // Detection: URL pattern matches /moon-today-in-{slug}[-{lat}-{lng}]
+        // (no trailing /date — those are Date pages, not Today-in-city).
+        const _isMoonTodayInCity = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath);
+        if (_isMoonTodayInCity) {
+            // (1) Add `moon-today-city-page` class to <html> so the
+            //     existing critical-CSS rule `html.moon-today-city-page
+            //     #page-moon { display: block }` activates the right
+            //     wrapper for crawlers — without waiting for JS.
+            html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+                const a = attrs || '';
+                if (/\bclass="/.test(a)) {
+                    return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} moon-today-city-page"`) + '>';
+                }
+                return '<html' + a + ' class="moon-today-city-page">';
+            });
+
+            // (2) Replace static H1 "القمر اليوم" with city-specific
+            //     H1 — for ALL 10 langs. Keeps "اليوم" (this IS the
+            //     today page) but adds the city name.
+            const _MOON_TODAY_CITY_H1 = {
+                ar: c => `حالة القمر اليوم في ${c}`,
+                en: c => `Moon Today in ${c}`,
+                fr: c => `Lune aujourd'hui à ${c}`,
+                tr: c => `${c} Bugün Ay Durumu`,
+                ur: c => `${c} میں آج چاند کی حالت`,
+                de: c => `Mond heute in ${c}`,
+                id: c => `Bulan Hari Ini di ${c}`,
+                es: c => `Luna Hoy en ${c}`,
+                bn: c => `${c}-এ আজকের চাঁদ`,
+                ms: c => `Bulan Hari Ini di ${c}`,
+            };
+            const _todayH1Builder = _MOON_TODAY_CITY_H1[seo.lang] || _MOON_TODAY_CITY_H1.en;
+            const _todayH1Text = _todayH1Builder((seo.moonCity && seo.moonCity.name) || cityName || '');
+            html = html.replace(
+                /<span data-i18n="moon\.h1">القمر اليوم<\/span>/,
+                `<span>${_escHtml(_todayH1Text)}</span>`
+            );
+
+            // (3) AR-only strips for residual "اليوم" repetitions in
+            //     compact UI surfaces. Keeps "اليوم" in: H1, the hero
+            //     H2 (moon.hub.title), moon-intro paragraph, FAQ
+            //     summaries, faq_city_title. Strips it from:
+            //       • search-placeholder (span + attr — irrelevant noise)
+            //       • moon.summary.phase compact label
+            //       • moon.title secondary H2 (duplicate of H1)
+            //       • moon.cities_title H2 (other cities link group)
+            //       • moon.hijri.today_label (sidebar label)
+            //       • 3 date-nav button labels (date-page nav, hidden
+            //         on today-in-city per CSS but still in raw HTML)
+            if (seo.lang === 'ar') {
+                html = html
+                    // search placeholder span
+                    .replace(
+                        /<span data-i18n="moon\.hub\.search_placeholder">ابحث عن مدينة لمعرفة حالة القمر اليوم…<\/span>/g,
+                        '<span>ابحث عن مدينة لمعرفة حالة القمر…</span>'
+                    )
+                    // search placeholder attr
+                    .replace(
+                        /placeholder="ابحث عن مدينة لمعرفة حالة القمر اليوم…"/g,
+                        'placeholder="ابحث عن مدينة لمعرفة حالة القمر…"'
+                    )
+                    // summary.phase compact label
+                    .replace(
+                        /<span class="moon-summary-label" data-i18n="moon\.summary\.phase">القمر اليوم:<\/span>/,
+                        '<span class="moon-summary-label">الحالة الحالية:</span>'
+                    )
+                    // moon.title secondary H2 (duplicate of H1)
+                    .replace(
+                        /<span data-i18n="moon\.title">القمر اليوم<\/span>/,
+                        '<span>الحالة الحالية</span>'
+                    )
+                    // moon.cities_title H2 (other cities)
+                    .replace(
+                        /<span data-i18n="moon\.cities_title">القمر اليوم في مدن أخرى<\/span>/,
+                        '<span>القمر في مدن أخرى</span>'
+                    )
+                    // Hijri sidebar label
+                    .replace(
+                        /<div class="moon-hijri-label" data-i18n="moon\.hijri\.today_label">التاريخ الهجريّ اليوم<\/div>/,
+                        '<div class="moon-hijri-label">التاريخ الهجريّ</div>'
+                    )
+                    // date-nav buttons
+                    .replace(
+                        /<span class="moon-date-label" data-i18n="moon\.prev_day">اليوم السابق<\/span>/,
+                        '<span class="moon-date-label">السابق</span>'
+                    )
+                    .replace(
+                        /<span class="moon-date-label" data-i18n="moon\.return_today">اليوم<\/span>/,
+                        '<span class="moon-date-label">الحالي</span>'
+                    )
+                    .replace(
+                        /<span class="moon-date-label" data-i18n="moon\.next_day">اليوم التالي<\/span>/,
+                        '<span class="moon-date-label">التالي</span>'
+                    );
+            }
+        }
+
         // MOON-HUB-SEO-4 (2026-05-11): inject 4 SSR educational sections on
         // /moon-in-{city} Hub to lift Word Count from ~887 to ~1300 after
         // MOON-HUB-SEO-3 stripped the "اليوم" copy. Strict per-user spec:

@@ -15,7 +15,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" href="/favicon.svg" sizes="any">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-    <link rel="stylesheet" href="css/style.css?v=360">
+    <link rel="stylesheet" href="css/style.css?v=361">
     <style>
         /* ===== شريط البحث ===== */
         .cities-search-card {
@@ -962,27 +962,40 @@ function getCountryDisplay() {
 function updatePageHeader() {
     const lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const cn = getCountryDisplay();
+    // PT-COUNTRY-SEO-1f (2026-05-11): respect SSR-set Title/H1 from
+    // server.js PT-COUNTRY-SEO-1 ladder. The previous code used short
+    // fixed templates like "مواقيت الصلاة في مدن {cn}" (26 cp on France)
+    // which overwrote the SSR ladder back to bad lengths. Now we READ
+    // the SSR values and only overwrite when nothing is set (file://
+    // preview). Same mirror-bug pattern as PT-CITY-SEO-1 / HD-DAY-SEO-1.
     const _titleFallbacks = {
-        ar: `مواقيت الصلاة في مدن ${cn}`,
-        en: `Prayer Times in Cities of ${cn}`,
-        fr: `Heures de prière dans les villes de ${cn}`,
-        tr: `${cn} Şehirlerinde Namaz Vakitleri`,
-        ur: `${cn} کے شہروں میں اوقاتِ نماز`,
-        de: `Gebetszeiten in den Städten von ${cn}`,
-        id: `Jadwal Sholat di Kota-Kota ${cn}`,
-        es: `Horarios de Oración en Ciudades de ${cn}`,
-        bn: `${cn}-এর শহরগুলোতে নামাজের সময়`,
-        ms: `Waktu Solat di Bandar-Bandar ${cn}`,
+        ar: `مواقيت الصلاة في ${cn} اليوم`,
+        en: `Prayer Times in ${cn} Today`,
+        fr: `Heures de prière en ${cn} aujourd'hui`,
+        tr: `${cn} Namaz Vakitleri Bugün`,
+        ur: `${cn} میں آج اوقاتِ نماز`,
+        de: `Gebetszeiten in ${cn} heute`,
+        id: `Jadwal Sholat di ${cn} Hari Ini`,
+        es: `Horarios de Oración en ${cn} Hoy`,
+        bn: `${cn}-এ আজ নামাজের সময়`,
+        ms: `Waktu Solat di ${cn} Hari Ini`,
     };
-    const fullTitle = (typeof t === 'function')
-        ? t('home.cities_section_title', { country: cn })
-        : (_titleFallbacks[lng] || _titleFallbacks.en);
-    document.getElementById('page-title').textContent = fullTitle;
+    const _fallbackH1 = _titleFallbacks[lng] || _titleFallbacks.en;
+    // Detect SSR-set Title/H1 — SSR Title is 50-65 cp; if shorter, it's
+    // likely a hard-coded template that needs overriding.
+    const _ssrTitle = (document.title || '').trim();
+    const _ssrTitleOk = _ssrTitle && Array.from(_ssrTitle).length >= 35;
+    const _heroH1El = document.getElementById('loc-hero-title');
+    const _ssrH1 = _heroH1El ? (_heroH1El.textContent || '').trim() : '';
+    const _ssrH1Ok = _ssrH1 && Array.from(_ssrH1).length >= 18;
+    // Fill page-title span (small header) with the H1 text — short form.
+    const _headerText = _ssrH1Ok ? _ssrH1 : _fallbackH1;
+    document.getElementById('page-title').textContent = _headerText;
     document.getElementById('page-subtitle').textContent = cn;
-    document.title = fullTitle;
-    // Also update the persuasive-landing hero H1 to match the country-specific title
-    const _heroH1 = document.getElementById('loc-hero-title');
-    if (_heroH1) _heroH1.textContent = fullTitle;
+    // Only overwrite document.title if SSR didn't set a proper one.
+    if (!_ssrTitleOk) document.title = _fallbackH1;
+    // Only overwrite H1 if SSR didn't set a proper one.
+    if (_heroH1El && !_ssrH1Ok) _heroH1El.textContent = _fallbackH1;
     updateCountryBreadcrumb();
     updateCountryListingSEO(lng, cn);
 }
@@ -1020,32 +1033,45 @@ function updateCountryListingSEO(lngOrIsEn, countryName) {
         if (!el) { el = document.createElement('link'); el.setAttribute('rel', rel); if (hreflang) el.setAttribute('hreflang', hreflang); document.head.appendChild(el); }
         el.setAttribute('href', href);
     };
+    // PT-COUNTRY-SEO-1f (2026-05-11): respect SSR-set Meta description
+    // from server.js PT-COUNTRY-SEO-1 ladder. The previous fixed
+    // templates (e.g. "تصفّح جميع مدن {cn}..." = 89 cp on France) were
+    // overwriting the SSR ladder. Now we read SSR meta and reuse it.
+    // Fallbacks here are length-aware: long form first, short fallback.
     const _titles = {
-        ar: `مواقيت الصلاة في مدن ${countryName}`,
-        en: `Prayer Times in Cities of ${countryName}`,
-        fr: `Heures de prière dans les villes de ${countryName}`,
-        tr: `${countryName} Şehirlerinde Namaz Vakitleri`,
-        ur: `${countryName} کے شہروں میں اوقاتِ نماز`,
-        de: `Gebetszeiten in den Städten von ${countryName}`,
-        id: `Jadwal Sholat di Kota-Kota ${countryName}`,
-        es: `Horarios de Oración en Ciudades de ${countryName}`,
-        bn: `${countryName}-এর শহরগুলোতে নামাজের সময়`,
-        ms: `Waktu Solat di Bandar-Bandar ${countryName}`,
+        ar: `مواقيت الصلاة في ${countryName} اليوم | جميع المدن`,
+        en: `Prayer Times in ${countryName} Today | Daily Adhan Schedule`,
+        fr: `Heures de prière en ${countryName} aujourd'hui | Toutes les villes`,
+        tr: `${countryName} Namaz Vakitleri Bugün | Günlük Ezan Programı`,
+        ur: `${countryName} میں آج اوقاتِ نماز | روزانہ اذان شیڈول`,
+        de: `Gebetszeiten in ${countryName} heute | Täglicher Adhan`,
+        id: `Jadwal Sholat di ${countryName} Hari Ini | Adzan Harian`,
+        es: `Horarios de Oración en ${countryName} Hoy | Adhan Diario`,
+        bn: `${countryName}-এ আজ নামাজের সময় | দৈনিক আজান সূচি`,
+        ms: `Waktu Solat di ${countryName} Hari Ini | Jadual Azan Harian`,
     };
     const _descs = {
-        ar: `تصفّح جميع مدن ${countryName} لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.`,
-        en: `Browse all cities in ${countryName} to see accurate Islamic prayer times, Qibla direction and Hijri date for each location.`,
-        fr: `Parcourez toutes les villes de ${countryName} pour des heures de prière précises, la direction de la Qibla et la date hégirienne pour chaque lieu.`,
-        tr: `${countryName} şehirlerinde doğru namaz vakitleri, kıble yönü ve hicri tarih için tüm şehirlere göz atın.`,
-        ur: `${countryName} کے تمام شہروں کے لیے درست اوقاتِ نماز، سمتِ قبلہ اور ہجری تاریخ دیکھنے کے لیے براؤز کریں۔`,
-        de: `Durchsuchen Sie alle Städte in ${countryName} für genaue islamische Gebetszeiten, Qibla-Richtung und das Hidschri-Datum für jeden Ort.`,
-        id: `Jelajahi semua kota di ${countryName} untuk melihat jadwal sholat Islam yang akurat, arah Kiblat, dan tanggal Hijriyah untuk setiap lokasi.`,
-        es: `Explore todas las ciudades de ${countryName} para ver horarios precisos de oración islámica, dirección de la Qibla y fecha Hijri para cada ubicación.`,
-        bn: `${countryName}-এর সকল শহর ব্রাউজ করুন যেন প্রতিটি অবস্থানের জন্য সঠিক ইসলামিক নামাজের সময়, কিবলার দিক ও হিজরি তারিখ দেখতে পারেন।`,
-        ms: `Layari semua bandar di ${countryName} untuk melihat waktu solat Islam tepat, arah Kiblat dan tarikh Hijrah bagi setiap lokasi.`,
+        ar: `تصفح مواقيت الصلاة في ${countryName} اليوم لجميع المدن، مع أوقات الفجر والظهر والعصر والمغرب والعشاء، واتجاه القبلة والتاريخ الهجري بدقة.`,
+        en: `Browse prayer times in ${countryName} today across all cities, with Fajr, Dhuhr, Asr, Maghrib and Isha times, plus Qibla direction and Hijri date — all calculated precisely.`,
+        fr: `Consultez les heures de prière en ${countryName} aujourd'hui pour toutes les villes, avec Fajr, Dhuhr, Asr, Maghrib et Isha, la direction de la Qibla et la date hégirienne calculées avec précision.`,
+        tr: `${countryName} için tüm şehirlerde bugünkü namaz vakitlerine göz atın: İmsak, Öğle, İkindi, Akşam, Yatsı ile kıble yönü ve hicri tarih hassas şekilde hesaplanır.`,
+        ur: `${countryName} میں آج تمام شہروں کے لیے اوقاتِ نماز دیکھیں: فجر، ظہر، عصر، مغرب اور عشاء کے اوقات، سمتِ قبلہ اور ہجری تاریخ درست حساب کے ساتھ۔`,
+        de: `Heutige Gebetszeiten in ${countryName} für alle Städte ansehen — mit Fajr, Dhuhr, Asr, Maghrib und Isha sowie Qibla-Richtung und Hidschri-Datum, präzise berechnet.`,
+        id: `Jelajahi jadwal sholat di ${countryName} hari ini untuk semua kota, dengan waktu Subuh, Zuhur, Asar, Magrib, dan Isya, arah kiblat dan tanggal Hijriah yang akurat.`,
+        es: `Consulta los horarios de oración en ${countryName} hoy para todas las ciudades, con Fayr, Dhuhr, Asr, Maghrib e Isha, dirección de la Qibla y fecha Hégira calculados con precisión.`,
+        bn: `${countryName}-এ আজ সকল শহরের নামাজের সময় দেখুন — ফজর, জোহর, আসর, মাগরিব ও এশার সময়, কিবলার দিক ও হিজরি তারিখ নির্ভুলভাবে।`,
+        ms: `Layari waktu solat di ${countryName} hari ini untuk semua bandar — dengan Subuh, Zohor, Asar, Maghrib dan Isyak, arah kiblat dan tarikh Hijrah yang dikira dengan tepat.`,
     };
-    const title = _titles[curLang] || _titles.en;
-    const desc  = _descs[curLang]  || _descs.en;
+    // Detect SSR-set Title/Meta and reuse them when set (server.js
+    // ladder produces length-tuned values). Fallback to local dict only
+    // if SSR didn't set them (e.g. file:// preview).
+    const _ssrTitleM = (document.title || '').trim();
+    const _ssrMetaEl = document.head.querySelector('meta[name="description"]');
+    const _ssrMeta = _ssrMetaEl ? (_ssrMetaEl.getAttribute('content') || '').trim() : '';
+    const _titleFb = _titles[curLang] || _titles.en;
+    const _descFb  = _descs[curLang]  || _descs.en;
+    const title = (_ssrTitleM && Array.from(_ssrTitleM).length >= 35) ? _ssrTitleM : _titleFb;
+    const desc  = (_ssrMeta   && Array.from(_ssrMeta).length   >= 90) ? _ssrMeta   : _descFb;
     upsertMeta('description', 'name', desc);
     upsertMeta('robots', 'name', 'index, follow');
     upsertLink('canonical', canonical);

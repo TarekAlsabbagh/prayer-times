@@ -13499,6 +13499,24 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     link_hijri: `التقويم الهجريّ`,
                     link_dateconv: `تحويل التاريخ`,
                     link_zakat: `حاسبة الزكاة`,
+                    // PT-COUNTRY-SEO-1g (2026-05-11): 3 additional sections
+                    // + FAQ to push word count from 611 → 1200+.
+                    h2_use: `كيف تستخدم صفحة مواقيت الصلاة في ${cn}؟`,
+                    h2_use_p1: `تساعدك صفحة مواقيت الصلاة في ${cn} على الوصول إلى أوقات الصلاة في مدن الدولة من مكان واحد. بدلاً من البحث عن كل مدينة بشكل منفصل، يمكنك اختيار المدينة المطلوبة ثم الانتقال إلى صفحة تعرض أوقات الفجر والشروق والظهر والعصر والمغرب والعشاء حسب التوقيت المحلي لتلك المدينة، مع جدول أسبوعي وشهري عند الحاجة.`,
+                    h2_use_p2: `هذه الصفحة مناسبة لمن يريد تصفّح المدن أولاً أو الوصول بسرعة إلى مدينة محدّدة داخل ${cn}. وبما أن مواقيت الصلاة تختلف من مدينة إلى أخرى، فإن اختيار المدينة الصحيحة يساعد على عرض وقت أذان أدقّ يناسب الموقع المطلوب. ويمكن أيضاً استخدام تحديد الموقع التلقائيّ للحصول على المدينة الأقرب إن لم تكن معروفة مسبقاً.`,
+                    h2_diff: `الفرق بين صفحة الدولة وصفحة المدينة`,
+                    h2_diff_p1: `صفحة الدولة تعرض قائمة المدن وتعمل كبوّابة للوصول إلى مواقيت الصلاة في كل مدينة. أما صفحة المدينة فهي تعرض جدولاً تفصيلياً لأوقات الصلاة في تلك المدينة، إضافة إلى الصلاة القادمة والوقت الحاليّ والجدول الأسبوعيّ وروابط اتّجاه القبلة وحالة القمر والتاريخ الهجريّ المحلّيّ.`,
+                    h2_diff_p2: `إذا كنت تعرف المدينة التي تريدها، يمكنك الدخول مباشرة إلى صفحة المدينة عبر شريط البحث أو من قائمة المدن. أما إذا كنت تريد تصفّح مدن ${cn} أو اختيار مدينة من القائمة، فصفحة الدولة هي نقطة البداية الأنسب. كل صفحة من الصفحتين موجَّهة لنيّة مختلفة، مما يساعد محرّكات البحث على فهم وظيفة كلّ رابط بدقّة.`,
+                    h2_what: `ما المعلومات التي تظهر في صفحات المدن؟`,
+                    h2_what_p1: `عند فتح صفحة مدينة من مدن ${cn} تظهر مواقيت الصلاة اليوميّة بشكل مفصّل، وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء. كما يمكن أن تظهر الصلاة القادمة والوقت المتبقّي لها، والتاريخ الهجريّ والميلاديّ، واتّجاه القبلة حسب موقع المدينة، وحالة القمر الحاليّة وطوره ضمن الدورة القمريّة.`,
+                    h2_what_p2: `وجود هذه المعلومات في صفحة المدينة يجعلها أكثر دقّة من صفحة الدولة، لأنّ الحساب يعتمد على إحداثيّات المدينة نفسها بدل المعدّل العامّ للدولة. لذلك من الأفضل استخدام صفحة الدولة للعثور على المدينة، ثم استخدام صفحة المدينة لمتابعة المواقيت اليوميّة أو الأسبوعيّة بتفصيل أكبر وفقاً للتوقيت المحلّيّ الدقيق.`,
+                    faq_title: `أسئلة شائعة حول مواقيت الصلاة في ${cn}`,
+                    faq_q1: `هل مواقيت الصلاة موحَّدة في جميع مدن ${cn}؟`,
+                    faq_a1: `لا، تختلف مواقيت الصلاة بين المدن حسب الموقع الجغرافيّ لكل مدينة، لذلك يجب اختيار المدينة المطلوبة للحصول على وقت أذان أدقّ. الاختلاف قد يكون عدّة دقائق بين الطرف الشرقيّ والغربيّ للدولة.`,
+                    faq_q2: `كيف أختار مدينة لمعرفة مواقيت الصلاة؟`,
+                    faq_a2: `يمكنك اختيار المدينة من قائمة المدن في صفحة الدولة، ثم الانتقال إلى صفحة المدينة التي تعرض أوقات الصلاة اليوميّة والجدول الأسبوعيّ، أو استخدام شريط البحث للوصول إلى المدينة مباشرة دون تصفّح القائمة.`,
+                    faq_q3: `هل تعرض صفحات المدن أوقات الفجر والمغرب والعشاء؟`,
+                    faq_a3: `نعم، صفحات المدن تعرض أوقات الفجر والشروق والظهر والعصر والمغرب والعشاء حسب التوقيت المحلّيّ وطريقة الحساب المختارة، مع إمكانية مراجعة وتغيير طريقة الحساب من إعدادات الصفحة عند الحاجة.`,
                 }),
                 en: (cn, m) => ({
                     h2_today: `Today's Prayer Times in Cities of ${cn}`,
@@ -13521,6 +13539,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     link_hijri: `Hijri Calendar`,
                     link_dateconv: `Date Converter`,
                     link_zakat: `Zakat Calculator`,
+                    // PT-COUNTRY-SEO-1g — extra sections + FAQ
+                    h2_use: `How to use the prayer times page for ${cn}`,
+                    h2_use_p1: `The prayer times page for ${cn} helps you reach the prayer schedule for cities across the country from a single entry point. Instead of searching for each city separately, pick the city you need and the site opens a dedicated page with Fajr, sunrise, Dhuhr, Asr, Maghrib and Isha for that city's local time, plus weekly and monthly views when you need them.`,
+                    h2_use_p2: `This page is for visitors who want to browse cities first or quickly land on a specific city in ${cn}. Because prayer times shift between cities, picking the right city gives the most accurate Adhan time for your location. You can also use automatic geolocation to land on the nearest supported city if you do not know it in advance.`,
+                    h2_diff: `Country page vs. city page — what is the difference?`,
+                    h2_diff_p1: `The country page lists cities and acts as a gateway to each city's prayer schedule. A city page shows a detailed daily schedule for that city, plus the next prayer, remaining time, weekly view, and links to Qibla direction, today's moon phase and the local Hijri date.`,
+                    h2_diff_p2: `If you already know your city, you can open the city page directly from the search bar or the cities list. If you want to browse the cities of ${cn} or pick one from a list, this country page is the right starting point. Each page targets a distinct intent, which helps search engines understand what each URL is about.`,
+                    h2_what: `What information do city pages show?`,
+                    h2_what_p1: `Opening a city page in ${cn} shows the day's five prayer times in detail — Fajr, sunrise, Dhuhr, Asr, Maghrib and Isha — along with the next prayer and remaining time, the Hijri and Gregorian dates, the Qibla direction from that city, and the current moon phase with its position in the lunar cycle.`,
+                    h2_what_p2: `City pages are more accurate than the country page because calculations use that city's actual coordinates instead of a country average. Use this country page to find the city, then use the city page to follow the daily or weekly schedule with the precise local times that match where you are.`,
+                    faq_title: `Frequently asked questions about prayer times in ${cn}`,
+                    faq_q1: `Are prayer times the same across all cities in ${cn}?`,
+                    faq_a1: `No, prayer times differ between cities depending on each city's geographic position, so picking the right city gives the most accurate Adhan time. The difference can be a few minutes between the east and west sides of the country.`,
+                    faq_q2: `How do I pick a city to see its prayer times?`,
+                    faq_a2: `Pick a city from the list on this page and open its dedicated prayer-times page with the daily and weekly schedule, or use the search bar to jump straight to the city without scrolling the full list.`,
+                    faq_q3: `Do city pages show Fajr, Maghrib and Isha times?`,
+                    faq_a3: `Yes, city pages show Fajr, sunrise, Dhuhr, Asr, Maghrib and Isha based on the local time and the selected calculation method, and you can review or change the calculation method from the page settings if needed.`,
                 }),
             };
             // For 8 non-AR/EN langs, use EN content for now (still valid SEO,
@@ -13556,6 +13591,36 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         <a href="${_ptLangPfx}/dateconverter">${_escHtml(_ptSec.link_dateconv)}</a>
                         <a href="${_ptLangPfx}/zakat">${_escHtml(_ptSec.link_zakat)}</a>
                     </nav>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-use-h2">
+                    <h2 id="ptc-use-h2">${_escHtml(_ptSec.h2_use)}</h2>
+                    <p>${_escHtml(_ptSec.h2_use_p1)}</p>
+                    <p>${_escHtml(_ptSec.h2_use_p2)}</p>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-diff-h2">
+                    <h2 id="ptc-diff-h2">${_escHtml(_ptSec.h2_diff)}</h2>
+                    <p>${_escHtml(_ptSec.h2_diff_p1)}</p>
+                    <p>${_escHtml(_ptSec.h2_diff_p2)}</p>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-what-h2">
+                    <h2 id="ptc-what-h2">${_escHtml(_ptSec.h2_what)}</h2>
+                    <p>${_escHtml(_ptSec.h2_what_p1)}</p>
+                    <p>${_escHtml(_ptSec.h2_what_p2)}</p>
+                </section>
+                <section class="pt-country-seo-section section-card" aria-labelledby="ptc-faq-h2">
+                    <h2 id="ptc-faq-h2">${_escHtml(_ptSec.faq_title)}</h2>
+                    <article class="pt-country-faq-item">
+                        <h3>${_escHtml(_ptSec.faq_q1)}</h3>
+                        <p>${_escHtml(_ptSec.faq_a1)}</p>
+                    </article>
+                    <article class="pt-country-faq-item">
+                        <h3>${_escHtml(_ptSec.faq_q2)}</h3>
+                        <p>${_escHtml(_ptSec.faq_a2)}</p>
+                    </article>
+                    <article class="pt-country-faq-item">
+                        <h3>${_escHtml(_ptSec.faq_q3)}</h3>
+                        <p>${_escHtml(_ptSec.faq_a3)}</p>
+                    </article>
                 </section>
 `;
             // Inject just before the site footer.

@@ -19223,3 +19223,34 @@ html.country-listing-page .main-content > .site-footer {
         margin-right: 12px;
     }
 }
+
+/* PT-COUNTRY-SEO-1g (2026-05-11): FAQ items inside .pt-country-seo-section */
+.pt-country-faq-item {
+    background: rgba(12, 94, 54, 0.04);
+    border: 1px solid rgba(12, 94, 54, 0.10);
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 12px;
+}
+.pt-country-faq-item h3 {
+    margin: 0 0 8px;
+    color: #063f25;
+    font-size: 17px;
+    line-height: 1.5;
+}
+.pt-country-faq-item p {
+    margin: 0;
+    color: #334139;
+    font-size: 15px;
+    line-height: 1.95;
+}
+html[data-theme="dark"] .pt-country-faq-item {
+    background: rgba(74, 222, 128, 0.05);
+    border-color: rgba(74, 222, 128, 0.15);
+}
+html[data-theme="dark"] .pt-country-faq-item h3 {
+    color: var(--accent, #4ade80);
+}
+html[data-theme="dark"] .pt-country-faq-item p {
+    color: var(--text-primary, #e2e8e2);
+}

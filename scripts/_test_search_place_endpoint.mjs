@@ -102,6 +102,51 @@ check('zzz query → results=[]', Array.isArray(empty.results) && empty.results.
 const empty2 = await search('', 'ar');
 check('empty query → results=[]', Array.isArray(empty2.results) && empty2.results.length === 0);
 
+// 3b. LANG-1 — full 10-language schema verification for a curated place.
+//      Riyadh has explicit `names` for all 10 langs in curated-places.json;
+//      assert the API returns the right displayName + countryName per lang.
+console.log('\n── LANG-1: curated Riyadh in all 10 langs ──');
+const riyadhExpected = {
+    ar: { display: 'الرياض',     country: 'المملكة العربية السعودية' },
+    en: { display: 'Riyadh',     country: 'Saudi Arabia' },
+    fr: { display: 'Riyad',      country: 'Arabie saoudite' },
+    de: { display: 'Riad',       country: 'Saudi-Arabien' },
+    tr: { display: 'Riyad',      country: 'Suudi Arabistan' },
+    ur: { display: 'ریاض',       country: 'سعودی عرب' },
+    id: { display: 'Riyadh',     country: 'Arab Saudi' },
+    es: { display: 'Riad',       country: 'Arabia Saudí' },
+    bn: { display: 'রিয়াদ',     country: 'সৌদি আরব' },
+    ms: { display: 'Riyadh',     country: 'Arab Saudi' },
+};
+for (const lang of Object.keys(riyadhExpected)) {
+    const exp = riyadhExpected[lang];
+    const r = await get('/api/search-place?q=Riyadh&lang=' + lang);
+    const top = (JSON.parse(r.body).results || [])[0];
+    const okDisplay = top && top.displayName === exp.display;
+    const okCountry = top && top.countryName === exp.country;
+    const ok = okDisplay && okCountry;
+    if (ok) pass++; else fail++;
+    console.log(`${ok ? '✓' : '✗'} Riyadh lang=${lang} → display="${top?.displayName}" country="${top?.countryName}"${ok ? '' : '   exp: display="' + exp.display + '" country="' + exp.country + '"'}`);
+}
+
+// 3c. LANG-1 — external result must have countryName localized via
+//      Intl.DisplayNames even when Nominatim doesn't provide name:lang
+//      for the city.
+console.log('\n── LANG-1: external اللطامنة countryName in 10 langs ──');
+const latamnehCountryExpected = {
+    ar: 'سوريا', en: 'Syria', fr: 'Syrie', de: 'Syrien',
+    tr: 'Suriye', ur: 'شام', id: 'Suriah', es: 'Siria',
+    bn: 'সিরিয়া', ms: 'Syria',
+};
+for (const lang of Object.keys(latamnehCountryExpected)) {
+    const exp = latamnehCountryExpected[lang];
+    const r = await get('/api/search-place?q=' + encodeURIComponent('اللطامنة') + '&lang=' + lang);
+    const top = (JSON.parse(r.body).results || [])[0];
+    const ok = top && top.countryName === exp;
+    if (ok) pass++; else fail++;
+    console.log(`${ok ? '✓' : '✗'} اللطامنة lang=${lang} → country="${top?.countryName}"${ok ? '' : '   expected "' + exp + '"'}`);
+}
+
 // 4. Per-language localization
 console.log('\n── Per-language displayName ──');
 const langCases = [

@@ -97,6 +97,87 @@ function _normSearchText(s) {
     return out;
 }
 
+// GLOBAL-PLACE-SEARCH-LANG-1 (2026-05-12): the 10 UI languages this
+// site supports. Every search result MUST be localizable to each one
+// via either curated data or runtime resolution. `Intl.DisplayNames`
+// generates accurate country names for all 10 (verified) so we don't
+// have to hand-curate a 200-country × 10-lang static dict.
+const _SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
+
+// Cached `Intl.DisplayNames` instances per lang — avoid recreating on
+// every request (Intl.DisplayNames construction is non-trivial).
+const _COUNTRY_DN_CACHE = {};
+function _getCountryName(cc, lang) {
+    if (!cc || typeof cc !== 'string') return '';
+    const upper = cc.toUpperCase();
+    const code = String(lang || 'en').toLowerCase();
+    const langKey = _SUPPORTED_LANGS.includes(code) ? code : 'en';
+    try {
+        if (!_COUNTRY_DN_CACHE[langKey]) {
+            _COUNTRY_DN_CACHE[langKey] = new Intl.DisplayNames([langKey], { type: 'region' });
+        }
+        return _COUNTRY_DN_CACHE[langKey].of(upper) || '';
+    } catch (_) { return ''; }
+}
+
+// Pick the best `displayName` for a place + UI lang, applying the full
+// per-spec fallback chain. The `place` shape is the curated/discovered
+// schema: `names: { ar, en, fr, …, ms }`. AR-specific extra: refuse
+// Latin if any Arabic alternative exists.
+//
+// Order:
+//   1. names[lang]                            (curated/discovered)
+//   2. namedetailsByLang[lang]                (external — Nominatim per-lang)
+//   3. aliases[lang][0]                       (curated alias)
+//   4. AR-only: any names.* that's Arabic-script (refuse leaking Latin)
+//   5. names.en                                (English fallback)
+//   6. fallbackRawName                         (raw OSM name as last resort)
+function _pickLocalizedDisplay(place, lang, namedetailsByLang, fallbackRawName) {
+    const code = String(lang || 'ar').toLowerCase();
+    const names = (place && place.names) || {};
+    const aliases = (place && place.aliases) || {};
+    const nd = namedetailsByLang || {};
+
+    // 1. curated/discovered names[lang]
+    if (typeof names[code] === 'string' && names[code].trim()) return names[code].trim();
+    // 2. external namedetails[name:lang]
+    if (typeof nd[code] === 'string' && nd[code].trim()) return nd[code].trim();
+    // 3. first alias in this lang
+    if (Array.isArray(aliases[code]) && aliases[code].length > 0
+        && typeof aliases[code][0] === 'string' && aliases[code][0].trim()) {
+        return aliases[code][0].trim();
+    }
+    // 4. AR-only safety: pick ANY Arabic-script name before falling to Latin
+    if (code === 'ar') {
+        for (const k of _SUPPORTED_LANGS) {
+            const v = names[k];
+            if (typeof v === 'string' && /[؀-ۿ]/.test(v)) return v.trim();
+        }
+        if (fallbackRawName && /[؀-ۿ]/.test(String(fallbackRawName))) {
+            return String(fallbackRawName).trim();
+        }
+    }
+    // 5. English fallback
+    if (typeof names.en === 'string' && names.en.trim()) return names.en.trim();
+    // 6. Raw OSM name (last resort — may be Latin even for AR)
+    if (fallbackRawName) return String(fallbackRawName).trim();
+    return '';
+}
+
+// Build a `names` object from a Nominatim result for all 10 langs that
+// have a `namedetails[name:{lang}]` tag. Missing langs stay undefined
+// so callers know to fall back. (External enrichment for missing langs
+// is deferred to Phase D — Wikidata/GeoNames sync.)
+function _extractNamedetailsByLang(nd) {
+    const out = {};
+    if (!nd || typeof nd !== 'object') return out;
+    for (const lang of _SUPPORTED_LANGS) {
+        const k = 'name:' + lang;
+        if (typeof nd[k] === 'string' && nd[k].trim()) out[lang] = nd[k].trim();
+    }
+    return out;
+}
+
 // Phase-A search. Pure local lookup against `_CURATED_PLACES`. Returns
 // at most 10 results in the unified contract shape, validated.
 function _searchCuratedPlaces(query, lang) {
@@ -143,13 +224,24 @@ function _searchCuratedPlaces(query, lang) {
         // Weight by priority
         const prio = Number.isFinite(p.priority) ? p.priority : 50;
         const finalScore = score + prio * 0.3;
-        // Build the result in the unified contract shape
+        // Build the result in the unified contract shape.
+        // LANG-1: use the per-spec fallback chain for displayName and
+        // Intl.DisplayNames for countryName so all 10 langs work.
         const code = String(lang || 'ar').toLowerCase();
-        const displayName = (p.names && (p.names[code] || p.names.en || p.names.ar)) || p.slug;
-        const countryName = (p.admin && (
-            (code === 'ar' && p.admin.countryAr) ||
-            p.admin.countryEn || p.admin.countryAr
-        )) || '';
+        const displayName = _pickLocalizedDisplay(p, code, null, p.slug);
+        // Prefer admin.country.{lang} from curated data if explicitly
+        // provided (covers special cases like "المملكة العربية السعودية"
+        // vs Intl's shorter "السعودية"); otherwise use Intl runtime.
+        let countryName = '';
+        if (p.admin && p.admin.country && typeof p.admin.country === 'object'
+            && typeof p.admin.country[code] === 'string') {
+            countryName = p.admin.country[code];
+        } else if (p.admin && code === 'ar' && typeof p.admin.countryAr === 'string') {
+            countryName = p.admin.countryAr;  // back-compat for old shape
+        } else if (p.admin && code === 'en' && typeof p.admin.countryEn === 'string') {
+            countryName = p.admin.countryEn;
+        }
+        if (!countryName) countryName = _getCountryName(p.countryCode, code);
         scored.push({
             slug: p.slug,
             type: p.type || 'city',
@@ -305,17 +397,39 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     const slug = _generateUniqueSlug(enName, cc, takenSlugs);
     if (!slug) return null;
 
-    // Display name in UI lang. Prefer namedetails[name:lang], then
-    // address.{city|town|village} (which Nominatim returns translated
-    // when accept-language matches), then localized name from places.
-    let displayName = _stripAdminSuffix((nd[`name:${code}`] || '').trim());
-    if (!displayName) displayName = _stripAdminSuffix((addr.city || '').trim());
-    if (!displayName) displayName = _stripAdminSuffix((addr.town || '').trim());
-    if (!displayName) displayName = _stripAdminSuffix((addr.village || '').trim());
-    if (!displayName) displayName = _stripAdminSuffix((p.name || '').trim());
+    // LANG-1 (2026-05-12): build a full `names` map across all 10
+    // supported langs from Nominatim's `namedetails` (when available)
+    // PLUS the raw `addr.city/town/village` which Nominatim translates
+    // per `accept-language`. Missing langs stay undefined; the
+    // localized-display picker handles fallbacks.
+    const namedetailsByLang = _extractNamedetailsByLang(nd);
+    // Seed the requested lang from addr.* (Nominatim's accept-language
+    // translation) if namedetails didn't already provide it.
+    if (!namedetailsByLang[code]) {
+        const addrName = _stripAdminSuffix(
+            (addr.city || addr.town || addr.village || addr.municipality || '').trim()
+        );
+        if (addrName) namedetailsByLang[code] = addrName;
+    }
+    // Strip admin suffixes from every entry in namedetailsByLang
+    for (const k of Object.keys(namedetailsByLang)) {
+        namedetailsByLang[k] = _stripAdminSuffix(namedetailsByLang[k]);
+    }
+
+    // Final displayName via the spec-compliant fallback chain.
+    // Pass `nd`-derived names as `place.names`, and the raw OSM name
+    // as the last-resort fallback.
+    const synthPlace = { names: namedetailsByLang, aliases: {} };
+    let displayName = _pickLocalizedDisplay(
+        synthPlace, code, null, _stripAdminSuffix(p.name || enName)
+    );
     if (!displayName) displayName = enName;
 
-    const countryName = String(addr.country || '').trim();
+    // Country name: try Nominatim's accept-language translation first
+    // (most reliable for the requested lang), then Intl.DisplayNames
+    // for runtime localization to any of the 10 supported langs.
+    let countryName = String(addr.country || '').trim();
+    if (!countryName) countryName = _getCountryName(cc, code);
     if (!countryName) return null;
 
     // Importance from Nominatim ranges 0..1 — scale to 0..100.
@@ -332,7 +446,12 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
         lat, lng,
         timezone: tz,
         source: 'nominatim',
-        confidence
+        confidence,
+        // LANG-1: full per-lang names map. Useful for Phase-C
+        // persistence (we'll store this in discovered_places so future
+        // searches in OTHER langs find the city without re-querying
+        // Nominatim).
+        names: namedetailsByLang
     };
 }
 

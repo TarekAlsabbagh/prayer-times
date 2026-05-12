@@ -20747,6 +20747,12 @@ const server = http.createServer(async (req, res) => {
                 urlConfigured: !!_SUPABASE_URL,
                 keyConfigured: !!_SUPABASE_KEY,
                 urlHost: hostShown,
+                // Show the stored URL value so the user can see if our
+                // normalization stripped a trailing path or not (the
+                // Supabase project ref is public info anyway).
+                urlStored: _SUPABASE_URL,
+                urlRaw: _SUPABASE_URL_RAW,
+                urlNormalizationDidStrip: _SUPABASE_URL !== _SUPABASE_URL_RAW.replace(/\/+$/, ''),
                 urlSuffixOK: _SUPABASE_URL.endsWith('.supabase.co')
                              || _SUPABASE_URL.endsWith('.supabase.in')
                              || _SUPABASE_URL.endsWith('.supabase.net'),

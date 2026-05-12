@@ -162,6 +162,247 @@ function _searchCuratedPlaces(query, lang) {
     return scored.slice(0, 10).map(({ _sort, ...rest }) => rest);
 }
 
+// ═══ GLOBAL-PLACE-SEARCH-TEST-PAGE-B (2026-05-12): external fallback ═══
+// When `_searchCuratedPlaces` returns 0 results, fall back to Nominatim
+// FROM THE SERVER (the browser never sees external calls). Hits go
+// through a 1-hour in-memory cache to avoid repeat queries. Strict
+// filter: only accept place types that can host a prayer-times page
+// (city / town / village / governorate / state_district / etc.) — no
+// roads / shops / hotels / amenities. Every result is hardened against
+// the prayer-times contract (slug + lat + lng + timezone + country
+// code + names dict) before being returned.
+//
+// Scope (Phase B): consumed ONLY by /api/search-place which serves
+// the /search-test page. The real homepage search box stays on its
+// current pipeline (fetchCitySuggestions in js/app.js).
+
+const _EXTERNAL_ALLOWED_TYPES = new Set([
+    'city', 'town', 'village', 'hamlet', 'locality', 'municipality',
+    'suburb', 'subdistrict', 'district', 'county', 'state_district',
+    'province', 'state', 'region', 'governorate', 'administrative'
+]);
+const _EXTERNAL_BLOCKED_TYPES = new Set([
+    'road', 'street', 'highway', 'building', 'shop', 'hotel',
+    'restaurant', 'tourism', 'amenity', 'commercial', 'office',
+    'house', 'postcode', 'fuel', 'pharmacy', 'neighbourhood',
+    'quarter', 'residential', 'cafe', 'bar', 'pub', 'bank', 'mall',
+    'aeroway', 'railway', 'waterway', 'landuse', 'natural', 'peak',
+    'mountain', 'park', 'forest', 'beach', 'island', 'isolated_dwelling',
+    'farm', 'plot', 'country'
+]);
+
+// Acceptance test for a raw Nominatim result. Must pass to surface.
+function _isAcceptableExternalPlace(p) {
+    if (!p || typeof p !== 'object') return false;
+    const addr = String(p.addresstype || '').toLowerCase();
+    const type = String(p.type || '').toLowerCase();
+    const cls  = String(p.class || '').toLowerCase();
+    // Reject explicitly blocked types in any field
+    if (_EXTERNAL_BLOCKED_TYPES.has(addr)) return false;
+    if (_EXTERNAL_BLOCKED_TYPES.has(type)) return false;
+    if (_EXTERNAL_BLOCKED_TYPES.has(cls))  return false;
+    // Allow by addresstype (Nominatim's most-reliable place classifier)
+    if (_EXTERNAL_ALLOWED_TYPES.has(addr)) return true;
+    // boundary + administrative is a valid place (governorate / district)
+    if (cls === 'boundary' && type === 'administrative') return true;
+    // place class with an allowed sub-type
+    if (cls === 'place' && _EXTERNAL_ALLOWED_TYPES.has(type)) return true;
+    return false;
+}
+
+// Resolve a unified "type" string from a Nominatim result.
+function _resolveExternalType(p) {
+    const addr = String(p.addresstype || '').toLowerCase();
+    if (_EXTERNAL_ALLOWED_TYPES.has(addr)) return addr;
+    const type = String(p.type || '').toLowerCase();
+    if (_EXTERNAL_ALLOWED_TYPES.has(type)) return type;
+    return 'city';  // fallback for boundary/administrative
+}
+
+// Slugify: NFD-fold diacritics, lowercase, alphanumeric-only with
+// hyphens. Same shape as our curated slugs so they're interchangeable.
+function _slugifyPlace(name) {
+    if (!name) return '';
+    return String(name)
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+}
+
+// Build a UNIQUE slug. If the base collides with another result in the
+// same batch OR with a curated place, append the country code (and a
+// numeric suffix if still colliding).
+function _generateUniqueSlug(englishName, countryCode, taken) {
+    let base = _slugifyPlace(englishName);
+    if (!base) return null;
+    if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(base)) return null;
+    if (!taken.has(base)) { taken.add(base); return base; }
+    const withCc = (base + '-' + (countryCode || 'xx')).slice(0, 80);
+    if (!taken.has(withCc) && /^[a-z0-9][a-z0-9-]{0,79}$/.test(withCc)) {
+        taken.add(withCc);
+        return withCc;
+    }
+    // Last resort: numeric suffix
+    for (let i = 2; i <= 9; i++) {
+        const v = (base + '-' + i).slice(0, 80);
+        if (!taken.has(v)) { taken.add(v); return v; }
+    }
+    return null;
+}
+
+// Map a Nominatim result to the prayer-times-ready contract. Returns
+// null if any required field can't be derived.
+function _normalizeExternalPlace(p, lang, takenSlugs) {
+    if (!_isAcceptableExternalPlace(p)) return null;
+    const addr = p.address || {};
+    const nd   = p.namedetails || {};
+    const code = String(lang || 'ar').toLowerCase();
+
+    // Coordinates — required.
+    const lat = Number(p.lat);
+    const lng = Number(p.lon != null ? p.lon : p.lng);
+    if (!isFinite(lat) || lat < -90 || lat > 90)  return null;
+    if (!isFinite(lng) || lng < -180 || lng > 180) return null;
+
+    // Country code — required, must be 2-letter ISO.
+    const cc = String(addr.country_code || '').toLowerCase();
+    if (!/^[a-z]{2}$/.test(cc)) return null;
+
+    // Timezone — required. Phase-B fallback: cc → primary tz via the
+    // existing `_CC_TO_PRIMARY_TZ` map. Phase-C will upgrade this to
+    // a true lat/lng → tz lookup (geo-tz library or equivalent). If
+    // the country isn't in the map, drop the result — we never surface
+    // a city we can't compute prayer times for.
+    const tz = _CC_TO_PRIMARY_TZ[cc];
+    if (!tz) return null;
+
+    // English / canonical name — required to build a slug.
+    const _stripAdminSuffix = (s) => String(s || '')
+        .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
+        .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
+        .trim();
+    const enRaw = (nd['name:en'] || addr.city || addr.town || addr.village ||
+                   addr.municipality || p.name || '').trim();
+    const enName = _stripAdminSuffix(enRaw);
+    if (!enName) return null;
+
+    // Slug — required, unique within this batch.
+    const slug = _generateUniqueSlug(enName, cc, takenSlugs);
+    if (!slug) return null;
+
+    // Display name in UI lang. Prefer namedetails[name:lang], then
+    // address.{city|town|village} (which Nominatim returns translated
+    // when accept-language matches), then localized name from places.
+    let displayName = _stripAdminSuffix((nd[`name:${code}`] || '').trim());
+    if (!displayName) displayName = _stripAdminSuffix((addr.city || '').trim());
+    if (!displayName) displayName = _stripAdminSuffix((addr.town || '').trim());
+    if (!displayName) displayName = _stripAdminSuffix((addr.village || '').trim());
+    if (!displayName) displayName = _stripAdminSuffix((p.name || '').trim());
+    if (!displayName) displayName = enName;
+
+    const countryName = String(addr.country || '').trim();
+    if (!countryName) return null;
+
+    // Importance from Nominatim ranges 0..1 — scale to 0..100.
+    const imp = Number(p.importance);
+    const confidence = isFinite(imp) ? Math.max(0, Math.min(100, Math.round(imp * 100))) : 50;
+
+    return {
+        slug,
+        type: _resolveExternalType(p),
+        displayName,
+        secondaryName: enName,
+        countryName,
+        countryCode: cc,
+        lat, lng,
+        timezone: tz,
+        source: 'nominatim',
+        confidence
+    };
+}
+
+// In-memory cache. 1-hour TTL. Keyed by `${lang}:${normalizedQuery}`.
+// Phase-C will replace this with an external store (Redis / Postgres).
+const _externalSearchCache = new Map();
+const _EXTERNAL_CACHE_TTL = 60 * 60 * 1000;
+const _EXTERNAL_CACHE_MAX = 1000;
+
+async function _searchExternalPlaces(query, lang) {
+    const q = String(query || '').trim();
+    if (q.length < 2 || q.length > 80) return [];
+    const langCode = ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(lang) ? lang : 'ar';
+    const cacheKey = `${langCode}:${q.toLowerCase()}`;
+    // Cache lookup
+    const cached = _externalSearchCache.get(cacheKey);
+    if (cached && Date.now() - cached.ts < _EXTERNAL_CACHE_TTL) {
+        return cached.results;
+    }
+    // Hit Nominatim
+    let raw = [];
+    try {
+        const url = 'https://nominatim.openstreetmap.org/search'
+            + '?format=jsonv2'
+            + '&addressdetails=1'
+            + '&namedetails=1'
+            + '&limit=10'
+            + '&accept-language=' + encodeURIComponent(langCode)
+            + '&q=' + encodeURIComponent(q);
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 8000);
+        const resp = await fetch(url, {
+            signal: ctrl.signal,
+            headers: {
+                'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
+                'Accept': 'application/json'
+            }
+        });
+        clearTimeout(timer);
+        if (resp.ok) {
+            const data = await resp.json();
+            if (Array.isArray(data)) raw = data;
+        }
+    } catch (_e) { /* network/timeout/abort → empty list */ }
+    // Filter + normalize + dedup-slug
+    const taken = new Set();
+    // Pre-fill `taken` with curated slugs so external can't shadow them
+    for (const p of _CURATED_PLACES) {
+        if (p && typeof p.slug === 'string') taken.add(p.slug);
+    }
+    const results = [];
+    for (const p of raw) {
+        const norm = _normalizeExternalPlace(p, langCode, taken);
+        if (norm) results.push(norm);
+    }
+    // Sort by confidence desc, type-rank, then name length
+    const typeRank = (t) => ({
+        city: 0, town: 1, municipality: 2, borough: 2,
+        governorate: 3, province: 3, state: 3, state_district: 3,
+        county: 4, district: 4, subdistrict: 4, suburb: 4, administrative: 5,
+        village: 6, hamlet: 7, locality: 8, region: 9
+    }[t] != null ? ({
+        city: 0, town: 1, municipality: 2, borough: 2,
+        governorate: 3, province: 3, state: 3, state_district: 3,
+        county: 4, district: 4, subdistrict: 4, suburb: 4, administrative: 5,
+        village: 6, hamlet: 7, locality: 8, region: 9
+    }[t]) : 10);
+    results.sort((a, b) => {
+        const r = typeRank(a.type) - typeRank(b.type);
+        if (r !== 0) return r;
+        return (b.confidence || 0) - (a.confidence || 0);
+    });
+    const final = results.slice(0, 10);
+    // Cache (cap size)
+    _externalSearchCache.set(cacheKey, { ts: Date.now(), results: final });
+    if (_externalSearchCache.size > _EXTERNAL_CACHE_MAX) {
+        // Drop the oldest entry (Map preserves insertion order)
+        const firstKey = _externalSearchCache.keys().next().value;
+        _externalSearchCache.delete(firstKey);
+    }
+    return final;
+}
+
 // ===== المصدر الموحد للدومين =====
 // في الإنتاج: SITE_URL=https://example.com node server.js
 // محلياً: يُستخدم http://localhost:PORT تلقائياً
@@ -19802,22 +20043,43 @@ const server = http.createServer(async (req, res) => {
         return;
     }
     if (urlPath === '/api/search-place' && req.method === 'GET') {
-        try {
-            const _qs2 = new URLSearchParams(qs);
-            const q   = String(_qs2.get('q') || '').trim();
-            const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
-            const lang = ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(langRaw) ? langRaw : 'ar';
-            const results = _searchCuratedPlaces(q, lang);
-            res.writeHead(200, {
-                'Content-Type': 'application/json; charset=utf-8',
-                'Cache-Control': 'no-store',
-                'Access-Control-Allow-Origin': '*'
-            });
-            res.end(JSON.stringify({ results }));
-        } catch (_e) {
-            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify({ results: [], error: 'internal' }));
-        }
+        (async () => {
+            try {
+                const _qs2 = new URLSearchParams(qs);
+                const q   = String(_qs2.get('q') || '').trim();
+                const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
+                const lang = ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(langRaw) ? langRaw : 'ar';
+                // PHASE A: curated first (always synchronous, instant).
+                let results = _searchCuratedPlaces(q, lang);
+                let source = 'curated';
+                // PHASE B: when curated returns 0, fall back to external
+                // (server-side Nominatim with strict validation). The
+                // browser NEVER sees Nominatim — it only calls
+                // /api/search-place. External results carry full prayer-
+                // times contract (slug + lat + lng + timezone + cc).
+                if (results.length === 0 && q.length >= 2) {
+                    try {
+                        const external = await _searchExternalPlaces(q, lang);
+                        if (Array.isArray(external) && external.length > 0) {
+                            results = external;
+                            source = 'external';
+                        }
+                    } catch (_) { /* fall through with empty */ }
+                }
+                res.writeHead(200, {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Cache-Control': 'no-store',
+                    'Access-Control-Allow-Origin': '*',
+                    'X-Search-Source': source
+                });
+                res.end(JSON.stringify({ results }));
+            } catch (_e) {
+                try {
+                    res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end(JSON.stringify({ results: [], error: 'internal' }));
+                } catch (_) {}
+            }
+        })();
         return;
     }
 

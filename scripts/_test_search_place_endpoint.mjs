@@ -122,6 +122,59 @@ for (const [q, lang, expect] of langCases) {
     check(`"${q}" lang=${lang} → "${expect}"`, ok, top ? `(got "${top.displayName}")` : '(no result)');
 }
 
+// 5. PHASE B — external fallback for queries NOT in curated.
+// These should hit Nominatim from the server and come back with full
+// prayer-times-ready contract (lat/lng/timezone/countryCode/slug).
+// Browser code (none here) must never call Nominatim directly.
+console.log('\n── PHASE B: external fallback (server-side Nominatim) ──');
+const externalCases = [
+    // [query, expectCC, expectTZ-contains]   (timezone string check is partial because phase-B uses cc-based fallback)
+    ['اللطامنة',     'sy', 'Asia/Damascus'],
+    ['الأتارب',       'sy', 'Asia/Damascus'],
+    ['السفيرة',       'sy', 'Asia/Damascus'],
+    ['موبتي',         'ml', 'Africa/Bamako'],
+    ['Le Pontet',     'fr', 'Europe/Paris'],
+    ['Granada',       'es', 'Europe/Madrid'],
+    ['Toledo',        'es', 'Europe/Madrid'],
+];
+for (const [query, expectCC, expectTZ] of externalCases) {
+    const path = '/api/search-place?q=' + encodeURIComponent(query) + '&lang=ar';
+    const r = await get(path);
+    const data = (() => { try { return JSON.parse(r.body); } catch (_) { return { results: [] }; } })();
+    const top = (data.results || [])[0];
+    if (!top) {
+        fail++;
+        console.log(`✗ "${query}" → no external results`);
+        continue;
+    }
+    const ready = isPrayerTimesReady(top);
+    const okCC  = top.countryCode === expectCC;
+    const okTZ  = top.timezone === expectTZ;
+    const ok = ready && okCC && okTZ;
+    if (ok) pass++; else fail++;
+    console.log(`${ok ? '✓' : '✗'} "${query}" → "${top.displayName}" (cc=${top.countryCode}, tz=${top.timezone}, slug=${top.slug})${ok ? '' : ` ready=${ready} okCC=${okCC} okTZ=${okTZ}`}`);
+}
+
+// 6. X-Search-Source header must reflect curated vs external
+console.log('\n── X-Search-Source header sanity ──');
+const r1 = await get('/api/search-place?q=Riyadh&lang=en');
+check('Riyadh → X-Search-Source: curated', String(r1.headers['x-search-source'] || '') === 'curated');
+const r2 = await get('/api/search-place?q=' + encodeURIComponent('اللطامنة') + '&lang=ar');
+check('اللطامنة → X-Search-Source: external', String(r2.headers['x-search-source'] || '') === 'external');
+
+// 7. POI filtering — random POI-only query should return [] (no shop/road leak)
+console.log('\n── POI filtering ──');
+const poiCheck = await get('/api/search-place?q=' + encodeURIComponent('zzzzz_not_a_real_place_xyz') + '&lang=en');
+const poiData = (() => { try { return JSON.parse(poiCheck.body); } catch (_) { return { results: [] }; } })();
+check('garbage query returns []', Array.isArray(poiData.results) && poiData.results.length === 0);
+
+// 8. Cache hit on repeat query (second call should be instant — verified by simple consistency)
+console.log('\n── Cache consistency on repeat ──');
+const r3a = await get('/api/search-place?q=' + encodeURIComponent('اللطامنة') + '&lang=ar');
+const r3b = await get('/api/search-place?q=' + encodeURIComponent('اللطامنة') + '&lang=ar');
+const j3a = JSON.parse(r3a.body), j3b = JSON.parse(r3b.body);
+check('repeat returns same results (cached)', JSON.stringify(j3a) === JSON.stringify(j3b));
+
 console.log('');
 console.log(`Result: ${pass} pass / ${fail} fail`);
 if (fail > 0) process.exit(1);

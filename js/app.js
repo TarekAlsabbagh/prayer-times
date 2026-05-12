@@ -5497,6 +5497,36 @@ async function _translateSearchQuery(query, fromLang, toLang) {
     } catch (_) { return null; }
 }
 
+// ═══ GLOBAL-HOME-SEARCH-2 (2026-05-12): Arabic query variants ═══════════════
+// Generate up to 4 spelling variants of an Arabic place-name query so a
+// contextual retry can find OSM entries that don't match the user's exact
+// input. Common gaps:
+//   • OSM stores name with ة, user types ه (or vice versa).
+//   • OSM stores name with ال definite-article prefix, user drops it
+//     (الأتارب ↔ اتارب). Or vice versa.
+// Returns an array of distinct variants (first entry = original).
+function _arabicQueryVariants(q) {
+    const orig = String(q || '').trim();
+    if (!orig) return [];
+    const seen = new Set([orig]);
+    const out = [orig];
+    const push = (v) => {
+        const t = String(v || '').trim();
+        if (t && !seen.has(t)) { seen.add(t); out.push(t); }
+    };
+    // Swap ة ↔ ه (both directions — user might type either form)
+    if (orig.includes('ة')) push(orig.replace(/ة/g, 'ه'));
+    if (orig.includes('ه')) push(orig.replace(/ه(?=\s|$)/g, 'ة'));
+    // Strip leading ال (definite article) — works for الأتارب → أتارب
+    if (/^ال/.test(orig)) push(orig.replace(/^ال/, ''));
+    // Combo: ال-stripped + ة↔ه swap
+    if (/^ال/.test(orig) && orig.includes('ة')) {
+        push(orig.replace(/^ال/, '').replace(/ة/g, 'ه'));
+    }
+    // Cap at 4 variants to control rate-limit cost
+    return out.slice(0, 4);
+}
+
 // ═══ PT-SEARCH-AR-6 (2026-05-12): per-language display-name overrides ═══
 // Some famous cities have NO `name:ar` (or other language tag) in OSM,
 // so Nominatim falls back to the local Latin name even when we send
@@ -5664,11 +5694,16 @@ function _getLocalizedPlaceName(place, lang, originalQuery) {
 const SMART_ALLOWED_TYPES = new Set([
     'city', 'town', 'village', 'municipality',
     'province', 'governorate', 'state', 'county', 'district',
-    'administrative', 'borough', 'hamlet', 'locality', 'region'
+    'administrative', 'borough', 'hamlet', 'locality', 'region',
+    // GLOBAL-HOME-SEARCH-2 (2026-05-12): include 'suburb' (sub-municipality
+    // areas like "Beverly Hills", many Egyptian/Lebanese real "ضواحٍ") and
+    // 'subdistrict' (Syrian/Lebanese ناحية mركز — real administrative
+    // areas with their own coordinates that DESERVE a prayer-times page).
+    'suburb', 'subdistrict', 'state_district'
 ]);
 // أنواع ممنوعة (تُرفض دائمًا — Nominatim class/type/addresstype)
 const SMART_BLOCKED_TYPES = new Set([
-    'country', 'road', 'street', 'highway', 'suburb',
+    'country', 'road', 'street', 'highway',
     'neighbourhood', 'quarter', 'building', 'shop', 'amenity',
     'tourism', 'landmark', 'address', 'postcode',
     'office', 'leisure', 'historic', 'craft', 'man_made',
@@ -5999,6 +6034,42 @@ function fetchCitySuggestions(query) {
             // Clear the "Searching globally…" placeholder — the render
             // loop below repopulates suggestionsEl from scratch.
             try { suggestionsEl.innerHTML = ''; } catch (_) {}
+        }
+
+        // ═══ GLOBAL-HOME-SEARCH-2 (2026-05-12): contextual retry ═════════
+        // If STILL no valid results AND the query is Arabic, try a small
+        // set of spelling variants (ة↔ه swap, ال-prefix strip). Each
+        // variant fires one Nominatim call in parallel. Smart-filter +
+        // dedup applied to the merged result set. Strict cap: at most 3
+        // additional variants (cap inside `_arabicQueryVariants`).
+        if (results.length === 0 && localResults.length === 0
+            && _hasArabicChars(query) && _isHomepageForSearch()) {
+            const variants = _arabicQueryVariants(query).slice(1); // exclude original
+            if (variants.length > 0) {
+                try {
+                    const variantUrls = variants.map(v =>
+                        nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(v)}`));
+                    const variantResults = await Promise.all(
+                        variantUrls.map(u => fetch(u).then(r => r.json()).catch(() => []))
+                    );
+                    const dedup3 = new Set();
+                    const all3 = [];
+                    for (const arr of variantResults) {
+                        if (!Array.isArray(arr)) continue;
+                        for (const p of arr) {
+                            if (!p || dedup3.has(p.place_id)) continue;
+                            dedup3.add(p.place_id);
+                            all3.push(p);
+                        }
+                    }
+                    const filtered3 = all3.filter(_smartFilter);
+                    filtered3.sort((a, b) => {
+                        const tr = typeRank(a) - typeRank(b);
+                        return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
+                    });
+                    results = filtered3.slice(0, 6);
+                } catch (_) { /* network/parse error → results stays [] */ }
+            }
         }
 
         // إعادة بناء القائمة: المحلية أولاً ثم نتائج Nominatim الجديدة

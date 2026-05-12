@@ -5791,6 +5791,18 @@ function fetchCitySuggestions(query) {
                 document.getElementById('city-search-input').value = displayCity;
                 suggestionsEl.classList.remove('open');
                 currentEnglishDisplayName = enCityMain;
+                // PT-SEARCH-AR-3 (2026-05-12): persist this Nominatim pick
+                // so the NEXT search for the same city hits the local cache.
+                // Mirrors the same hook in fetchCityOnlineBroader, qibla-hub,
+                // and moon-hub. Validation + dedup happens inside.
+                try {
+                    _addDiscoveredCity({
+                        ar: arCityMain, en: enCityMain, cc: countryCode,
+                        country, countryEn: country,
+                        lat: placeLat, lng: placeLng,
+                        type: placeType, priority: 40
+                    });
+                } catch (_) { /* silent */ }
                 await selectCity(placeLat, placeLng, arCityMain, country, enCityMain, countryCode);
             });
             suggestionsEl.appendChild(div);
@@ -11137,10 +11149,33 @@ function openAllCitiesPage() {
 }
 
 function filterAllCities() {
-    const q = (document.getElementById('all-cities-search')?.value || '').trim().toLowerCase();
-    allCitiesFiltered = q
-        ? allCitiesData.filter(c => c.nameAr.includes(q) || c.nameEn.toLowerCase().includes(q))
-        : [...allCitiesData];
+    // PT-SEARCH-AR-3 (2026-05-12): use the same Arabic-aware matcher that
+    // powers the homepage / hubs / city-page search. Previously this used
+    // raw `nameAr.includes(q)` which misses "حفرالباطن" (no-space) vs
+    // "حفر الباطن" (stored with space), "بقيق" vs "ابقيق" (alif variations),
+    // and Latin diacritics ("Sao Paulo" vs "São Paulo"). Now:
+    //   • normalizeText folds: ا/أ/إ/آ → ا, ى → ي, ة → ه, removes diacritics,
+    //     collapses dashes/underscores → spaces.
+    //   • compact form (no whitespace) catches "حفرالباطن" ↔ "حفر الباطن".
+    //   • partial-prefix matching gives "حفر" → matches "حفر الباطن".
+    const rawQ = (document.getElementById('all-cities-search')?.value || '').trim();
+    if (!rawQ) {
+        allCitiesFiltered = [...allCitiesData];
+        allCitiesPage = 1;
+        renderAllCitiesGrid();
+        return;
+    }
+    const qNorm = (typeof normalizeText === 'function') ? normalizeText(rawQ) : rawQ.toLowerCase();
+    const qCompact = qNorm.replace(/\s+/g, '');
+    allCitiesFiltered = allCitiesData.filter(c => {
+        const arN = (typeof normalizeText === 'function') ? normalizeText(c.nameAr || '') : String(c.nameAr || '').toLowerCase();
+        const enN = (typeof normalizeText === 'function') ? normalizeText(c.nameEn || '') : String(c.nameEn || '').toLowerCase();
+        if (arN.includes(qNorm) || enN.includes(qNorm)) return true;
+        // compact tier — "حفرالباطن" matches "حفر الباطن"
+        const arC = arN.replace(/\s+/g, '');
+        const enC = enN.replace(/\s+/g, '');
+        return arC.includes(qCompact) || enC.includes(qCompact);
+    });
     allCitiesPage = 1;
     renderAllCitiesGrid();
 }

@@ -1535,6 +1535,32 @@ const _AR_CITY_PART_OVERRIDES = {
     'savoie': 'سافوا', 'ain': 'آن', 'jura': 'جورا',
     'doubs': 'دوب', 'vosges': 'فوج', 'meurthe': 'مورت',
     'gard': 'غار', 'var': 'فار', 'vaucluse': 'فوكلوز',
+    // PT-CITY-AR-GENERAL-1 (2026-05-12): broaden the French town/village
+    // name parts so any compound slug we haven't curated yet still
+    // produces clean Arabic — never leaves a Latin tail like "لو
+    // pontet" inside an Arabic title. New parts cover common town
+    // suffixes, regional naming conventions, and water/terrain words.
+    'pontet': 'بونت', 'pont': 'بونت',
+    'chateau': 'شاتو', 'château': 'شاتو',
+    'bois': 'بوا', 'mont': 'مونت', 'monte': 'مونتي',
+    'villeneuve': 'فيلنوف', 'palais': 'بالي',
+    'champs': 'شامب', 'champ': 'شامب',
+    'sables': 'سابل', 'sable': 'سابل',
+    'roche': 'روش', 'roches': 'روش',
+    'fontaine': 'فونتين', 'fontaines': 'فونتين',
+    'fleury': 'فلوري', 'tour': 'تور', 'tours': 'تور',
+    'beau': 'بو', 'beaux': 'بو', 'belle': 'بيل', 'belles': 'بيل',
+    'noir': 'نوار', 'noire': 'نوار', 'blanc': 'بلانك', 'blanche': 'بلانش',
+    'rouge': 'روج', 'vert': 'فير', 'verte': 'فيرت',
+    'roi': 'روا', 'reine': 'رين', 'duc': 'دوك',
+    'isle': 'إيل', 'rive': 'ريف', 'rives': 'ريف',
+    'aqueduc': 'أكدوك', 'havre': 'هافر',
+    'aigues': 'إيغ', 'eaux': 'أو',
+    // Italian common parts
+    'monte-': 'مونتي', 'porto': 'بورتو',
+    // Spanish common parts
+    'palma': 'بالما', 'palmas': 'بالماس',
+    'cabo': 'كابو', 'mar': 'مار',
 };
 
 // Best-effort Arabic transliteration of a multi-word slug. Returns

@@ -318,6 +318,106 @@ const r3b = await get('/api/search-place?q=' + encodeURIComponent('اللطام�
 const j3a = JSON.parse(r3a.body), j3b = JSON.parse(r3b.body);
 check('repeat returns same results (cached)', JSON.stringify(j3a) === JSON.stringify(j3b));
 
+// 9. GLOBAL-PLACE-SEARCH-L10N-PIPELINE (2026-05-12) — quality tag per result
+console.log('\n── L10N-PIPELINE: nameQuality tagging ──');
+async function topOf(query, lang) {
+    const r = await search(query, lang);
+    return (r.results && r.results[0]) || null;
+}
+
+// Curated: explicit names[lang]
+let lq;
+lq = await topOf('Riyadh', 'ar');
+check(`Riyadh AR → quality=curated   (got "${lq && lq.nameQuality}")`,
+    lq && lq.nameQuality === 'curated');
+lq = await topOf('Mecca', 'ar');
+check(`Mecca AR → quality=curated   (got "${lq && lq.nameQuality}")`,
+    lq && lq.nameQuality === 'curated');
+
+// Official: from Nominatim namedetails name:ar
+lq = await topOf('Granada', 'ar');
+check(`Granada AR → quality=official (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
+    lq && lq.nameQuality === 'official' && /[؀-ۿ]/.test(lq.displayName));
+lq = await topOf('Vancouver', 'ar');
+check(`Vancouver AR → quality=official (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
+    lq && lq.nameQuality === 'official' && /[؀-ۿ]/.test(lq.displayName));
+
+// Transliterated: Nominatim has no name:ar — pipeline transliterates
+lq = await topOf('Le Pontet', 'ar');
+check(`Le Pontet AR → quality=transliterated (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
+    lq && lq.nameQuality === 'transliterated' && /[؀-ۿ]/.test(lq.displayName));
+
+// AR transliteration table — direct expectations (sanity)
+async function expectTranslit(query, expectedSubstr) {
+    const lq = await topOf(query, 'ar');
+    const got = lq && lq.displayName ? lq.displayName : '';
+    const ok = lq && got.includes(expectedSubstr) && /[؀-ۿ]/.test(got);
+    check(`AR translit "${query}" should contain "${expectedSubstr}"  (got "${got}")`, ok);
+}
+// (these may also resolve from namedetails; if so the test still passes
+//  because the substring is present)
+await expectTranslit('Vancouver', 'فان');
+await expectTranslit('Vladivostok', 'فلادي');
+
+// Curated EN — must be "curated", not fallback_raw
+lq = await topOf('Riyadh', 'en');
+check(`Riyadh EN → quality=curated   (got "${lq && lq.nameQuality}")`,
+    lq && lq.nameQuality === 'curated');
+
+// Latin-lang fallthrough for an external place where Nominatim has no name:de
+// Le Pontet has no name:de — DE result should be fallback_raw, NOT mistakenly flagged
+lq = await topOf('Le Pontet', 'de');
+check(`Le Pontet DE → quality is fallback_* (got "${lq && lq.nameQuality}")`,
+    lq && (lq.nameQuality === 'fallback_en' || lq.nameQuality === 'fallback_raw'));
+
+// AR should NEVER surface a Latin-script displayName — final guard
+const arQueries = ['Riyadh','Mecca','Granada','Toledo','Vancouver','Le Pontet','Vladivostok'];
+for (const q of arQueries) {
+    const lq = await topOf(q, 'ar');
+    const got = lq && lq.displayName ? lq.displayName : '';
+    const isArabic = /[؀-ۿ]/.test(got);
+    check(`AR query "${q}" → displayName has Arabic chars  (got "${got}", quality=${lq && lq.nameQuality})`,
+        isArabic);
+}
+
+// L10N-PIPELINE: validator accepts/rejects nameQuality field correctly
+console.log('\n── L10N-PIPELINE: validator nameQuality acceptance ──');
+const validBase = {
+    slug: 'test-l10n-place',
+    type: 'city',
+    countryCode: 'fr',
+    lat: 45.5,
+    lng: 2.5,
+    timezone: 'Europe/Paris',
+    names: { ar: 'تست', en: 'Test Place' },
+    aliases: {},
+    admin: {},
+    source: 'nominatim'
+};
+const validQ = await post('/api/place-selected', Object.assign({}, validBase, {
+    nameQuality: { ar: 'transliterated', en: 'official' }
+}));
+check('valid payload + valid nameQuality → 200', validQ.status === 200);
+
+const badQual1 = await post('/api/place-selected', Object.assign({}, validBase, {
+    nameQuality: { ar: 'INVENTED_TIER' }   // not in _NAME_QUALITY_RANK
+}));
+check('invalid nameQuality tier ("INVENTED_TIER") → 400', badQual1.status === 400);
+
+const badQual2 = await post('/api/place-selected', Object.assign({}, validBase, {
+    nameQuality: 'not-an-object'
+}));
+check('nameQuality must be an object (string rejected) → 400', badQual2.status === 400);
+
+const badQual3 = await post('/api/place-selected', Object.assign({}, validBase, {
+    nameQuality: ['transliterated']        // array rejected
+}));
+check('nameQuality must be an object (array rejected) → 400', badQual3.status === 400);
+
+// Missing nameQuality is allowed (it's optional)
+const noQual = await post('/api/place-selected', validBase);
+check('missing nameQuality is allowed → 200', noQual.status === 200);
+
 console.log('');
 console.log(`Result: ${pass} pass / ${fail} fail`);
 if (fail > 0) process.exit(1);

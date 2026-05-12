@@ -120,48 +120,170 @@ function _getCountryName(cc, lang) {
     } catch (_) { return ''; }
 }
 
+// ═══ GLOBAL-PLACE-SEARCH-L10N-PIPELINE (2026-05-12) ═══
+// Approximate Latin → Arabic transliteration. Used as a fallback tier
+// in `_pickLocalizedDisplayQ` when Nominatim has NO `name:ar` namedetail
+// for a place and we'd otherwise leak Latin into the Arabic UI.
+// NOT perfect transliteration — known limitations:
+//   * vowels are dropped/duplicated approximately ("Pontet" → "بونتت")
+//   * letter "c" is contextual (c+e/i → س, else → ك)
+//   * proper Arabic morphology / ta-marbuta / hamza placement NOT applied
+// The output is marked `quality: 'transliterated'` so downstream
+// (Phase D admin review) can promote curated Arabic names later.
+const _AR_TRANSLIT_BIGRAMS = {
+    'ph': 'ف', 'sh': 'ش', 'ch': 'ش', 'th': 'ث', 'kh': 'خ',
+    'gh': 'غ', 'dh': 'ذ', 'oo': 'و', 'ee': 'ي', 'ou': 'و',
+    'eu': 'و', 'ai': 'اي', 'ei': 'اي', 'oi': 'وا', 'au': 'و',
+    'ck': 'ك'
+};
+const _AR_TRANSLIT_LETTERS = {
+    'a': 'ا', 'b': 'ب', 'd': 'د', 'e': '', 'f': 'ف', 'g': 'ج',
+    'h': 'ه', 'i': 'ي', 'j': 'ج', 'k': 'ك', 'l': 'ل', 'm': 'م',
+    'n': 'ن', 'o': 'و', 'p': 'ب', 'q': 'ق', 'r': 'ر', 's': 'س',
+    't': 'ت', 'u': 'و', 'v': 'ف', 'w': 'و', 'x': 'كس', 'y': 'ي',
+    'z': 'ز'
+};
+// Common French/Italian/Spanish word-particles to handle BEFORE
+// char-by-char. Conservative — avoids accidental rewrites.
+const _AR_TRANSLIT_PARTICLES = [
+    [/\bsaint\s/g, 'سان '],   [/\bsainte\s/g, 'سانت '],
+    [/\bsan\s/g, 'سان '],     [/\bsanta\s/g, 'سانتا '],
+    [/\bsanto\s/g, 'سانتو '], [/\bsão\s/g, 'ساو '],
+    [/\bles\s/g, 'لو '],       [/\ble\s/g, 'لو '],
+    [/\bla\s/g, 'لا '],         [/\bvon\s/g, 'فون '],
+    [/\bnew\s/g, 'نيو '],      [/\bvilla\s/g, 'فيلا '],
+    [/\bville\s/g, 'فيل '],     [/\bsur\s/g, 'سور '],
+    [/\bsous\s/g, 'سو '],       [/\bport\s/g, 'بور '],
+    [/\bel\s/g, 'إل '],         [/\bal-/g, 'ال'],
+    [/\bel-/g, 'ال'],            [/\bde\s/g, 'دو '],
+    [/\bdu\s/g, 'دو '],          [/\bdes\s/g, 'دي '],
+    [/\bda\s/g, 'دا '],           [/\bdi\s/g, 'دي '],
+    [/\bdo\s/g, 'دو ']
+];
+
+function _transliterateLatinToArabic(s) {
+    if (!s || typeof s !== 'string') return '';
+    // Normalize: lowercase, strip diacritics, collapse separators
+    let t = s.toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[-'']/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    if (!t) return '';
+    // Apply word particles first
+    for (const [re, rep] of _AR_TRANSLIT_PARTICLES) t = t.replace(re, rep);
+    // Char-by-char with bigram lookahead
+    let out = '';
+    let i = 0;
+    while (i < t.length) {
+        const ch = t[i];
+        const nx = t[i + 1];
+        // Already-Arabic char passes through
+        if (/[؀-ۿ]/.test(ch)) { out += ch; i++; continue; }
+        // Whitespace passes through
+        if (/\s/.test(ch)) { out += ' '; i++; continue; }
+        // Bigram lookup
+        const bg = ch + (nx || '');
+        if (_AR_TRANSLIT_BIGRAMS[bg]) { out += _AR_TRANSLIT_BIGRAMS[bg]; i += 2; continue; }
+        // Contextual c: before e/i/y → س, else → ك
+        if (ch === 'c') {
+            if (nx === 'e' || nx === 'i' || nx === 'y') { out += 'س'; i++; }
+            else { out += 'ك'; i++; }
+            continue;
+        }
+        // Single letter
+        if (_AR_TRANSLIT_LETTERS[ch] !== undefined) {
+            out += _AR_TRANSLIT_LETTERS[ch]; i++; continue;
+        }
+        // Drop unknown (punctuation, digits, etc.)
+        i++;
+    }
+    // Collapse multi-space + strip leading-space + remove leftover Latin
+    return out.replace(/[a-z]/gi, '').replace(/\s+/g, ' ').trim();
+}
+
 // Pick the best `displayName` for a place + UI lang, applying the full
-// per-spec fallback chain. The `place` shape is the curated/discovered
-// schema: `names: { ar, en, fr, …, ms }`. AR-specific extra: refuse
-// Latin if any Arabic alternative exists.
+// per-spec L10N-PIPELINE. Returns `{ value, quality }` where quality
+// is one of:
+//   'curated'        — names[lang] from curated/discovered store
+//   'official'       — namedetails name:lang from Nominatim
+//   'alias'          — aliases[lang][0] from curated
+//   'alias_lang'     — AR-only: an Arabic-script name from another lang slot
+//   'transliterated' — AR-only: approximate Latin→Arabic transliteration
+//   'fallback_en'    — names.en
+//   'fallback_raw'   — raw OSM name (Latin)
+//   'empty'          — nothing produced
 //
-// Order:
-//   1. names[lang]                            (curated/discovered)
-//   2. namedetailsByLang[lang]                (external — Nominatim per-lang)
-//   3. aliases[lang][0]                       (curated alias)
-//   4. AR-only: any names.* that's Arabic-script (refuse leaking Latin)
-//   5. names.en                                (English fallback)
-//   6. fallbackRawName                         (raw OSM name as last resort)
-function _pickLocalizedDisplay(place, lang, namedetailsByLang, fallbackRawName) {
+// AR is the only lang that gets the alias_lang + transliterated tiers,
+// because Latin inside Arabic UI looks bad. Other Latin-script langs
+// (en/fr/de/es/id/ms/tr/vi) just fall through to fallback_en/raw.
+function _pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName) {
     const code = String(lang || 'ar').toLowerCase();
     const names = (place && place.names) || {};
     const aliases = (place && place.aliases) || {};
     const nd = namedetailsByLang || {};
 
     // 1. curated/discovered names[lang]
-    if (typeof names[code] === 'string' && names[code].trim()) return names[code].trim();
-    // 2. external namedetails[name:lang]
-    if (typeof nd[code] === 'string' && nd[code].trim()) return nd[code].trim();
+    if (typeof names[code] === 'string' && names[code].trim()) {
+        return { value: names[code].trim(), quality: 'curated' };
+    }
+    // 2. external namedetails name:lang
+    if (typeof nd[code] === 'string' && nd[code].trim()) {
+        return { value: nd[code].trim(), quality: 'official' };
+    }
     // 3. first alias in this lang
     if (Array.isArray(aliases[code]) && aliases[code].length > 0
         && typeof aliases[code][0] === 'string' && aliases[code][0].trim()) {
-        return aliases[code][0].trim();
+        return { value: aliases[code][0].trim(), quality: 'alias' };
     }
-    // 4. AR-only safety: pick ANY Arabic-script name before falling to Latin
+    // 4. AR-only — refuse Latin if any Arabic-script alternative exists
+    //    Scans BOTH curated names AND Nominatim namedetails.
     if (code === 'ar') {
         for (const k of _SUPPORTED_LANGS) {
             const v = names[k];
-            if (typeof v === 'string' && /[؀-ۿ]/.test(v)) return v.trim();
+            if (typeof v === 'string' && /[؀-ۿ]/.test(v)) {
+                return { value: v.trim(), quality: 'alias_lang' };
+            }
+            const vd = nd[k];
+            if (typeof vd === 'string' && /[؀-ۿ]/.test(vd)) {
+                return { value: vd.trim(), quality: 'alias_lang' };
+            }
         }
         if (fallbackRawName && /[؀-ۿ]/.test(String(fallbackRawName))) {
-            return String(fallbackRawName).trim();
+            return { value: String(fallbackRawName).trim(), quality: 'alias_lang' };
+        }
+        // 5. AR-only transliteration from the best Latin source available
+        const latinSrc = (typeof names.en === 'string' && names.en.trim())
+            ? names.en.trim()
+            : (typeof nd.en === 'string' && nd.en.trim())
+                ? nd.en.trim()
+                : (fallbackRawName ? String(fallbackRawName).trim() : '');
+        if (latinSrc) {
+            const translit = _transliterateLatinToArabic(latinSrc);
+            // Only accept if it produced a non-trivial Arabic string
+            if (translit && /[؀-ۿ]/.test(translit) && translit.length >= 2) {
+                return { value: translit, quality: 'transliterated' };
+            }
         }
     }
-    // 5. English fallback
-    if (typeof names.en === 'string' && names.en.trim()) return names.en.trim();
-    // 6. Raw OSM name (last resort — may be Latin even for AR)
-    if (fallbackRawName) return String(fallbackRawName).trim();
-    return '';
+    // 6. English fallback
+    if (typeof names.en === 'string' && names.en.trim()) {
+        return { value: names.en.trim(), quality: 'fallback_en' };
+    }
+    if (typeof nd.en === 'string' && nd.en.trim()) {
+        return { value: nd.en.trim(), quality: 'fallback_en' };
+    }
+    // 7. Raw OSM name — last resort. May leak Latin even for AR.
+    if (fallbackRawName) {
+        return { value: String(fallbackRawName).trim(), quality: 'fallback_raw' };
+    }
+    return { value: '', quality: 'empty' };
+}
+
+// Back-compat shim — returns just the string. New code should call
+// `_pickLocalizedDisplayQ` to also get the `quality` tag.
+function _pickLocalizedDisplay(place, lang, namedetailsByLang, fallbackRawName) {
+    return _pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName).value;
 }
 
 // Build a `names` object from a Nominatim result for all 10 langs that
@@ -227,8 +349,12 @@ function _searchCuratedPlaces(query, lang) {
         // Build the result in the unified contract shape.
         // LANG-1: use the per-spec fallback chain for displayName and
         // Intl.DisplayNames for countryName so all 10 langs work.
+        // L10N-PIPELINE: surface nameQuality so the API exposes how
+        // the name was resolved (curated > namedetails > transliteration).
         const code = String(lang || 'ar').toLowerCase();
-        const displayName = _pickLocalizedDisplay(p, code, null, p.slug);
+        const picked = _pickLocalizedDisplayQ(p, code, null, p.slug);
+        const displayName = picked.value;
+        const nameQuality = picked.quality;
         // Prefer admin.country.{lang} from curated data if explicitly
         // provided (covers special cases like "المملكة العربية السعودية"
         // vs Intl's shorter "السعودية"); otherwise use Intl runtime.
@@ -254,6 +380,7 @@ function _searchCuratedPlaces(query, lang) {
             timezone: p.timezone,
             source: p.source || 'curated',
             confidence: Math.round(finalScore),
+            nameQuality,
             _sort: finalScore
         });
     }
@@ -398,32 +525,31 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     if (!slug) return null;
 
     // LANG-1 (2026-05-12): build a full `names` map across all 10
-    // supported langs from Nominatim's `namedetails` (when available)
-    // PLUS the raw `addr.city/town/village` which Nominatim translates
-    // per `accept-language`. Missing langs stay undefined; the
-    // localized-display picker handles fallbacks.
+    // supported langs from Nominatim's `namedetails` (when available).
+    // L10N-PIPELINE (2026-05-12): we DO NOT seed namedetailsByLang[code]
+    // from addr.* anymore — addr.* always comes back English now (we
+    // cache the raw at accept-language=en), so seeding it for AR would
+    // leak Latin and mis-flag it as quality:'official'. Missing langs
+    // stay undefined; the Q-picker's transliteration tier handles AR.
     const namedetailsByLang = _extractNamedetailsByLang(nd);
-    // Seed the requested lang from addr.* (Nominatim's accept-language
-    // translation) if namedetails didn't already provide it.
-    if (!namedetailsByLang[code]) {
-        const addrName = _stripAdminSuffix(
-            (addr.city || addr.town || addr.village || addr.municipality || '').trim()
-        );
-        if (addrName) namedetailsByLang[code] = addrName;
-    }
-    // Strip admin suffixes from every entry in namedetailsByLang
+    // Strip admin suffixes from every entry
     for (const k of Object.keys(namedetailsByLang)) {
         namedetailsByLang[k] = _stripAdminSuffix(namedetailsByLang[k]);
     }
 
     // Final displayName via the spec-compliant fallback chain.
-    // Pass `nd`-derived names as `place.names`, and the raw OSM name
-    // as the last-resort fallback.
-    const synthPlace = { names: namedetailsByLang, aliases: {} };
-    let displayName = _pickLocalizedDisplay(
-        synthPlace, code, null, _stripAdminSuffix(p.name || enName)
+    // L10N-PIPELINE: pass namedetailsByLang via the 3rd param (`nd`),
+    // NOT bundled into `place.names`, so step 2 ('official') wins
+    // instead of step 1 ('curated') being mis-tagged. The Q-picker's
+    // transliteration tier uses `nd.en` (if available) or `fallbackRawName`
+    // as the Latin source for AR transliteration.
+    const synthPlace = { names: {}, aliases: {} };
+    const picked = _pickLocalizedDisplayQ(
+        synthPlace, code, namedetailsByLang, _stripAdminSuffix(p.name || enName)
     );
-    if (!displayName) displayName = enName;
+    let displayName = picked.value;
+    let nameQuality = picked.quality;
+    if (!displayName) { displayName = enName; nameQuality = 'fallback_en'; }
 
     // Country name: prefer Intl.DisplayNames localized to the REQUEST
     // language (runtime, no Nominatim round-trip needed). Fall back to
@@ -455,7 +581,11 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
         // persistence (we'll store this in discovered_places so future
         // searches in OTHER langs find the city without re-querying
         // Nominatim).
-        names: namedetailsByLang
+        names: namedetailsByLang,
+        // L10N-PIPELINE: how `displayName` was produced. Persisted
+        // in `discovered_places.name_quality` so Phase D admin review
+        // can promote 'transliterated' → 'official' over time.
+        nameQuality
     };
 }
 
@@ -596,7 +726,12 @@ function _mapDiscoveredRow(row, lang) {
         aliases: row.aliases || {},
         admin:   row.admin   || {}
     };
-    const displayName = _pickLocalizedDisplay(synthPlace, code, null, row.slug);
+    // L10N-PIPELINE: discovered rows go through the same full pipeline.
+    // Pre-stored name_quality (Phase D) will override this; for now we
+    // recompute on read.
+    const picked = _pickLocalizedDisplayQ(synthPlace, code, null, row.slug);
+    const displayName = picked.value;
+    const nameQuality = picked.quality;
     if (!displayName) return null;
     let countryName = '';
     if (row.admin && row.admin.country && typeof row.admin.country === 'object'
@@ -618,7 +753,9 @@ function _mapDiscoveredRow(row, lang) {
         source: 'discovered',
         // Slightly higher confidence than fresh external (it's been picked
         // by at least one user → real prayer-times destination).
-        confidence: 70 + Math.min(20, Number(row.selected_count) || 0)
+        confidence: 70 + Math.min(20, Number(row.selected_count) || 0),
+        // L10N-PIPELINE: live-computed quality from the stored names map.
+        nameQuality
     };
 }
 
@@ -670,6 +807,16 @@ function _isValidDiscoveredInput(p) {
     // At least one language name must be non-empty
     const hasName = Object.values(p.names).some(v => typeof v === 'string' && v.trim());
     if (!hasName) return false;
+    // L10N-PIPELINE: nameQuality is optional. If present, it MUST be an
+    // object whose values are recognised tier strings. Reject otherwise
+    // so we never persist garbage in the name_quality jsonb column.
+    if (p.nameQuality !== undefined && p.nameQuality !== null) {
+        if (typeof p.nameQuality !== 'object' || Array.isArray(p.nameQuality)) return false;
+        for (const v of Object.values(p.nameQuality)) {
+            if (typeof v !== 'string') return false;
+            if (!(v in _NAME_QUALITY_RANK)) return false;
+        }
+    }
     return true;
 }
 
@@ -693,9 +840,13 @@ async function _upsertDiscoveredPlace(place) {
     if (Array.isArray(existing) && existing.length > 0) {
         const row = existing[0];
         // Merge names + aliases (don't drop existing langs)
-        const mergedNames   = Object.assign({}, row.names   || {}, place.names   || {});
-        const mergedAliases = _mergeAliases(row.aliases || {}, place.aliases || {});
-        const mergedAdmin   = Object.assign({}, row.admin || {}, place.admin   || {});
+        const mergedNames    = Object.assign({}, row.names   || {}, place.names   || {});
+        const mergedAliases  = _mergeAliases(row.aliases || {}, place.aliases || {});
+        const mergedAdmin    = Object.assign({}, row.admin || {}, place.admin   || {});
+        // L10N-PIPELINE: name_quality — prefer existing 'curated'/'official'/'reviewed'
+        // over incoming 'transliterated'/'fallback_*'. Only overwrite if incoming
+        // tier is BETTER. Phase D admin review writes 'reviewed' which is sticky.
+        const mergedQuality  = _mergeNameQuality(row.name_quality || {}, place.nameQuality || {});
         const patched = await _supabaseFetch(
             '/rest/v1/discovered_places?id=eq.' + encodeURIComponent(row.id),
             {
@@ -705,6 +856,7 @@ async function _upsertDiscoveredPlace(place) {
                     names:           mergedNames,
                     aliases:         mergedAliases,
                     admin:           mergedAdmin,
+                    name_quality:    mergedQuality,
                     selected_count:  (row.selected_count || 0) + 1,
                     last_used_at:    new Date().toISOString()
                 })
@@ -725,11 +877,12 @@ async function _upsertDiscoveredPlace(place) {
                 lat:            place.lat,
                 lng:            place.lng,
                 timezone:       place.timezone,
-                names:          place.names    || {},
-                aliases:        place.aliases  || {},
-                admin:          place.admin    || {},
-                source:         place.source   || 'nominatim',
-                source_id:      place.sourceId || null,
+                names:          place.names       || {},
+                aliases:        place.aliases     || {},
+                admin:          place.admin       || {},
+                name_quality:   place.nameQuality || {},
+                source:         place.source      || 'nominatim',
+                source_id:      place.sourceId    || null,
                 verified:       false,
                 selected_count: 1,
                 last_used_at:   new Date().toISOString()
@@ -737,6 +890,33 @@ async function _upsertDiscoveredPlace(place) {
         }
     );
     return { action: 'inserted', row: Array.isArray(inserted) ? inserted[0] : null };
+}
+
+// L10N-PIPELINE: rank table for name_quality merging. Higher = better.
+// Phase D admin review will write 'reviewed' which is sticky (highest).
+const _NAME_QUALITY_RANK = {
+    'reviewed':      100,
+    'curated':        90,
+    'official':       80,
+    'alias':          60,
+    'alias_lang':     55,
+    'fallback_en':    30,
+    'transliterated': 20,
+    'fallback_raw':   10,
+    'empty':           0
+};
+function _mergeNameQuality(existing, incoming) {
+    const out = Object.assign({}, existing || {});
+    for (const lang of _SUPPORTED_LANGS) {
+        const ex = (existing && typeof existing[lang] === 'string') ? existing[lang] : null;
+        const inc = (incoming && typeof incoming[lang] === 'string') ? incoming[lang] : null;
+        if (!inc) continue;
+        if (!ex) { out[lang] = inc; continue; }
+        const exRank = _NAME_QUALITY_RANK[ex] || 0;
+        const incRank = _NAME_QUALITY_RANK[inc] || 0;
+        if (incRank > exRank) out[lang] = inc;
+    }
+    return out;
 }
 
 // Merge two per-lang alias maps so we don't drop entries from either side.

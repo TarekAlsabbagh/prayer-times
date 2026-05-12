@@ -349,7 +349,14 @@
                         admin: {
                             country: r.countryName ? { [LANG]: r.countryName } : {}
                         },
-                        source: r.source
+                        source: r.source,
+                        // L10N-PIPELINE: pass the quality of the active
+                        // display name back to the server so it persists
+                        // alongside the name. Phase D admin review can
+                        // promote 'transliterated' → 'reviewed'.
+                        nameQuality: r.nameQuality
+                            ? { [LANG]: r.nameQuality }
+                            : {}
                     };
                     fetch('/api/place-selected', {
                         method: 'POST',

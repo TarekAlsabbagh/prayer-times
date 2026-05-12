@@ -25,6 +25,13 @@ create table if not exists discovered_places (
     names        jsonb not null default '{}'::jsonb,
     -- Per-language aliases (arrays): { ar: [...], en: [...], ... }
     aliases      jsonb not null default '{}'::jsonb,
+    -- L10N-PIPELINE: per-language quality tag. Tracks HOW each name was
+    -- produced so Phase D admin review can prioritise transliterated /
+    -- fallback entries for proofreading. Values:
+    --   'curated' | 'official' | 'alias' | 'alias_lang' |
+    --   'transliterated' | 'fallback_en' | 'fallback_raw' | 'reviewed'
+    -- Example: { ar: 'transliterated', en: 'official', fr: 'official' }
+    name_quality jsonb not null default '{}'::jsonb,
     -- Optional admin metadata (region, country names per lang, etc.)
     admin        jsonb not null default '{}'::jsonb,
 

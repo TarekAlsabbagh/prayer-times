@@ -6001,16 +6001,27 @@ function buildSeoForPath(urlPath) {
         const _tlCityDisplay = (typeof _resolveCityName === 'function')
             ? (_resolveCityName(_tlSlug, lang) || _slugToTitle(_tlSlug))
             : _slugToTitle(_tlSlug);
-        // TL-SEO-3 (2026-05-10): expanded 4-candidate Title ladder so short
-        // city names like "بني وليد" don't fall below 50 cp. Per user spec:
+        // TL-SEO-3 (2026-05-10) + TL-TITLE-LADDER-2 (2026-05-12):
+        // 6-candidate Title ladder for the TL route. Adds two longer forms
+        // so medium-length cities like "طرابزون" (7 cp) no longer fall to
+        // 48 cp ("| العد التنازلي") — they now hit `titleLong`'s 53 cp
+        // "| عداد الصلاة القادم" form that lands in SEOptimer's [50, 60]
+        // sweet spot.
+        //
+        // Priority order (each tried in turn; first to land in [50,60]
+        // wins):
         //   1. withPrayer: "كم باقي على صلاة {prayer} في {city} اليوم"
-        //   2. countdown:  "كم باقي على الصلاة في {city} اليوم | العد التنازلي"
-        //   3. adhan:      "كم باقي على الصلاة في {city} اليوم | وقت الأذان"
-        //   4. timeLeft:   "الوقت المتبقي للصلاة في {city} اليوم"
-        //   5. final:      "كم باقي على الصلاة في {city}"  (only for very long names)
-        // Algorithm: prefer the FIRST candidate (in the 1→4 priority order
-        // above) that lands in [50, 60] cp. If none, pick the LONGEST
-        // candidate ≤ 60 cp. Else final fallback.
+        //      — dynamic, uses SSR-computed next prayer when available.
+        //   2. titleLong:  "كم باقي على الصلاة في {city} اليوم | عداد الصلاة القادم"
+        //      — NEW, ~+5 cp over countdown; covers most 5-12 cp cities.
+        //   3. countdown:  "كم باقي على الصلاة في {city} اليوم | العد التنازلي"
+        //      — existing medium form; covers ~12-15 cp cities.
+        //   4. adhan:      "كم باقي على الصلاة في {city} اليوم | وقت الأذان"
+        //   5. titleAlt:   "الوقت المتبقي للصلاة في {city} اليوم | عداد مباشر"
+        //      — NEW alternative phrasing for variety + edge coverage.
+        //   6. timeLeft:   "الوقت المتبقي للصلاة في {city} اليوم"
+        //   7. final:      "كم باقي على الصلاة في {city}"  (very long names)
+        // If none of 1-6 lands in [50,60], pick the LONGEST ≤ 60.
         // The withPrayer form uses the dynamic next-prayer name computed
         // SSR-side via _ssrNextPrayerCountdown(slug, t) — same machinery
         // used by PERF-LCP-1 to pre-fill the countdown digits.
@@ -6040,71 +6051,91 @@ function buildSeoForPath(urlPath) {
         const _TL_TITLE_FORMS = {
             ar: (c, p) => ({
                 withPrayer: p ? `كم باقي على صلاة ${p} في ${c} اليوم` : null,
+                titleLong:  `كم باقي على الصلاة في ${c} اليوم | عداد الصلاة القادم`,
                 countdown:  `كم باقي على الصلاة في ${c} اليوم | العد التنازلي`,
                 adhan:      `كم باقي على الصلاة في ${c} اليوم | وقت الأذان`,
+                titleAlt:   `الوقت المتبقي للصلاة في ${c} اليوم | عداد مباشر`,
                 timeLeft:   `الوقت المتبقي للصلاة في ${c} اليوم`,
                 final:      `كم باقي على الصلاة في ${c}`,
             }),
             en: (c, p) => ({
                 withPrayer: p ? `Time Left Until ${p} in ${c} Today` : null,
+                titleLong:  `Time Left Until Prayer in ${c} Today | Live Adhan Countdown`,
                 countdown:  `Time Left Until Prayer in ${c} Today | Live Countdown`,
                 adhan:      `Time Left Until Prayer in ${c} Today | Adhan Time`,
+                titleAlt:   `Time Remaining for Prayer in ${c} Today | Live Timer`,
                 timeLeft:   `Time Remaining for Prayer in ${c} Today`,
                 final:      `Time left until prayer in ${c}`,
             }),
             fr: (c, p) => ({
                 withPrayer: p ? `Temps restant avant ${p} à ${c} aujourd'hui` : null,
+                titleLong:  `Temps restant avant la prière à ${c} aujourd'hui | Compte à rebours Adhan`,
                 countdown:  `Temps restant avant la prière à ${c} aujourd'hui | Compte à rebours`,
                 adhan:      `Temps restant avant la prière à ${c} aujourd'hui | Adhan`,
+                titleAlt:   `Temps restant pour la prière à ${c} aujourd'hui | Minuteur en direct`,
                 timeLeft:   `Temps restant pour la prière à ${c} aujourd'hui`,
                 final:      `Temps restant pour la prière à ${c}`,
             }),
             tr: (c, p) => ({
                 withPrayer: p ? `${c} için bugün ${p} namazına kalan süre` : null,
+                titleLong:  `${c} için bugün namaza kalan süre | Canlı ezan geri sayımı`,
                 countdown:  `${c} için bugün namaza kalan süre | Geri sayım`,
                 adhan:      `${c} için bugün namaza kalan süre | Ezan vakti`,
+                titleAlt:   `${c} için kalan namaz vakti | Canlı sayaç`,
                 timeLeft:   `${c} için bugün namaza kalan süre`,
                 final:      `${c} için namaza kalan süre`,
             }),
             ur: (c, p) => ({
                 withPrayer: p ? `${c} میں آج ${p} تک باقی وقت` : null,
+                titleLong:  `${c} میں آج نماز تک باقی وقت | براہِ راست اذان ٹائمر`,
                 countdown:  `${c} میں آج نماز تک باقی وقت | الٹی گنتی`,
                 adhan:      `${c} میں آج نماز تک باقی وقت | اذان کا وقت`,
+                titleAlt:   `${c} میں اگلی نماز تک باقی وقت | لائیو ٹائمر`,
                 timeLeft:   `${c} میں آج نماز تک باقی وقت`,
                 final:      `${c} میں نماز تک باقی وقت`,
             }),
             de: (c, p) => ({
                 withPrayer: p ? `Verbleibende Zeit bis ${p} in ${c} heute` : null,
+                titleLong:  `Verbleibende Zeit bis zum Gebet in ${c} heute | Live-Adhan-Countdown`,
                 countdown:  `Verbleibende Zeit bis zum Gebet in ${c} heute | Countdown`,
                 adhan:      `Verbleibende Zeit bis zum Gebet in ${c} heute | Adhan`,
+                titleAlt:   `Verbleibende Zeit für das Gebet in ${c} heute | Live-Timer`,
                 timeLeft:   `Verbleibende Zeit für das Gebet in ${c} heute`,
                 final:      `Verbleibende Zeit für das Gebet in ${c}`,
             }),
             id: (c, p) => ({
                 withPrayer: p ? `Sisa waktu menuju ${p} di ${c} hari ini` : null,
+                titleLong:  `Sisa waktu menuju sholat di ${c} hari ini | Hitung Mundur Adzan`,
                 countdown:  `Sisa waktu menuju sholat di ${c} hari ini | Hitung Mundur`,
                 adhan:      `Sisa waktu menuju sholat di ${c} hari ini | Adzan`,
+                titleAlt:   `Sisa waktu sholat berikutnya di ${c} | Timer Langsung`,
                 timeLeft:   `Sisa waktu sholat di ${c} hari ini`,
                 final:      `Sisa waktu sholat di ${c}`,
             }),
             es: (c, p) => ({
                 withPrayer: p ? `Tiempo restante para ${p} en ${c} hoy` : null,
+                titleLong:  `Tiempo restante para la oración en ${c} hoy | Cuenta Regresiva Adhan`,
                 countdown:  `Tiempo restante para la oración en ${c} hoy | Cuenta Regresiva`,
                 adhan:      `Tiempo restante para la oración en ${c} hoy | Adhan`,
+                titleAlt:   `Tiempo restante para la próxima oración en ${c} | Temporizador`,
                 timeLeft:   `Tiempo restante para la oración en ${c} hoy`,
                 final:      `Tiempo restante para la oración en ${c}`,
             }),
             bn: (c, p) => ({
                 withPrayer: p ? `${c}-এ আজ ${p} পর্যন্ত বাকি সময়` : null,
+                titleLong:  `${c}-এ আজ নামাজ পর্যন্ত বাকি সময় | লাইভ আযান কাউন্টডাউন`,
                 countdown:  `${c}-এ আজ নামাজ পর্যন্ত বাকি সময় | কাউন্টডাউন`,
                 adhan:      `${c}-এ আজ নামাজ পর্যন্ত বাকি সময় | আযানের সময়`,
+                titleAlt:   `${c}-এ পরবর্তী নামাজের জন্য বাকি সময় | লাইভ টাইমার`,
                 timeLeft:   `${c}-এ আজ নামাজের জন্য বাকি সময়`,
                 final:      `${c}-এ নামাজের জন্য বাকি সময়`,
             }),
             ms: (c, p) => ({
                 withPrayer: p ? `Masa berbaki sebelum ${p} di ${c} hari ini` : null,
+                titleLong:  `Masa berbaki sebelum solat di ${c} hari ini | Kira Detik Azan`,
                 countdown:  `Masa berbaki sebelum solat di ${c} hari ini | Kira Detik`,
                 adhan:      `Masa berbaki sebelum solat di ${c} hari ini | Azan`,
+                titleAlt:   `Masa berbaki untuk solat seterusnya di ${c} | Pemasa Langsung`,
                 timeLeft:   `Masa berbaki untuk solat di ${c} hari ini`,
                 final:      `Masa berbaki untuk solat di ${c}`,
             }),
@@ -6112,8 +6143,19 @@ function buildSeoForPath(urlPath) {
         const _pickTlTitle = (formsFn, c, prayerName) => {
             const f = formsFn(c, prayerName);
             const len = s => Array.from(s).length;
-            // Priority order (truthy + ≤ 60 only): withPrayer → countdown → adhan → timeLeft.
-            const tiered = [f.withPrayer, f.countdown, f.adhan, f.timeLeft].filter(Boolean);
+            // TL-TITLE-LADDER-2: priority order extended with titleLong +
+            // titleAlt so medium-length cities (5-15 cp) hit the [50,60]
+            // sweet spot. Order: withPrayer → titleLong → countdown →
+            // adhan → titleAlt → timeLeft. First candidate landing in
+            // [50,60] wins.
+            const tiered = [
+                f.withPrayer,
+                f.titleLong,
+                f.countdown,
+                f.adhan,
+                f.titleAlt,
+                f.timeLeft,
+            ].filter(Boolean);
             // 1) First candidate landing in [50, 60].
             for (const t of tiered) {
                 if (len(t) >= 50 && len(t) <= 60) return t;

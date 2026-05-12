@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- GLOBAL-PLACE-SEARCH-TEST-PAGE-A: noindex so this test page is
+         NEVER crawled or indexed. Excluded from sitemap.xml as well. -->
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="canonical" href="/search-test">
+    <title>Search Test (noindex) — /api/search-place Phase A</title>
+    <link rel="stylesheet" href="/css/style.css?v=178">
+    <style>
+        /* Standalone-page-only overrides — keep visual parity with the
+           homepage city-page-search section but center it on a clean page. */
+        body { margin: 0; padding: 24px; background: var(--bg, #f5f5f5); font-family: system-ui, -apple-system, sans-serif; }
+        .search-test-wrap { max-width: 720px; margin: 32px auto; }
+        .search-test-wrap h1 { font-size: 1.4rem; margin: 0 0 4px; color: var(--text, #222); }
+        .search-test-wrap .subtitle { color: var(--text-light, #888); font-size: 0.9rem; margin: 0 0 20px; }
+        .search-test-wrap .badge { display: inline-block; padding: 3px 10px; background: #ffeaa7; color: #5d4400; border-radius: 12px; font-size: 0.75rem; margin-bottom: 12px; }
+        /* The .cps-input + .cps-suggestions classes are already styled
+           in css/style.css — we reuse them verbatim for visual parity. */
+        .search-test-wrap .cps-inner { position: relative; }
+    </style>
+</head>
+<body>
+    <div class="search-test-wrap">
+        <span class="badge">noindex · Phase A · curated only</span>
+        <h1>صفحة اختبار محرك البحث الجديد</h1>
+        <p class="subtitle">
+            مربع البحث أدناه يستخدم <code>/api/search-place</code> الجديد —
+            البحث في قاعدة بيانات معتمدة فقط (لا Nominatim، لا ترجمة، لا تخزين).
+        </p>
+
+        <section class="city-page-search" role="search">
+            <div class="cps-inner">
+                <svg class="icon cps-icon" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+                    <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                    <line x1="21" x2="16.65" y1="21" y2="16.65" stroke="currentColor" stroke-width="2"></line>
+                </svg>
+                <input type="search" id="search-test-input" class="cps-input"
+                       placeholder="ابحث عن مدينة..."
+                       autocomplete="off"
+                       aria-label="ابحث عن مدينة">
+                <div class="cps-suggestions" id="search-test-suggestions" role="listbox"></div>
+            </div>
+        </section>
+
+        <p style="margin-top: 24px; font-size: 0.85rem; color: #888;">
+            جرّب: <code>الرياض</code> · <code>مكة</code> · <code>الخفجي</code> ·
+            <code>بقيق</code> · <code>Paris</code> · <code>Cairo</code> ·
+            <code>Istanbul</code> · <code>Montreal</code>
+        </p>
+        <details style="margin-top:16px;font-size:0.85rem;">
+            <summary style="cursor:pointer;color:#666">عن صفحة الاختبار</summary>
+            <p>
+                هذه صفحة مستقلة تماماً عن الصفحة الرئيسية.
+                مربع البحث هنا يستدعي <code>/api/search-place?q=...&amp;lang=...</code>
+                ويعرض النتائج من <code>db/places/curated-places.json</code> فقط.
+                لا Nominatim، لا MyMemory، لا تخزين localStorage.
+                الهدف: اختبار المحرك الجديد بدون التأثير على البحث الفعلي في الصفحة الرئيسية.
+            </p>
+            <p>
+                كل نتيجة تحتوي على lat/lng/timezone/countryCode/slug — وهي الحقول
+                الضرورية لحساب مواقيت الصلاة بدقة. النتائج التي لا تحتوي عليها
+                لا تُعرض.
+            </p>
+        </details>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+        const input = document.getElementById('search-test-input');
+        const suggEl = document.getElementById('search-test-suggestions');
+        if (!input || !suggEl) return;
+
+        let debounce = null;
+        let currentResults = [];
+
+        function pickLang() {
+            // /search-test is served regardless of URL prefix, so default to ar
+            // and allow ?lang=xx override.
+            const params = new URLSearchParams(window.location.search);
+            const l = String(params.get('lang') || 'ar').toLowerCase();
+            return ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(l) ? l : 'ar';
+        }
+        const LANG = pickLang();
+        const IS_AR = (LANG === 'ar');
+
+        function renderResults(results) {
+            currentResults = results || [];
+            if (!currentResults.length) {
+                suggEl.innerHTML = '<div class="search-loading" style="padding:12px;text-align:center;color:#888;">' + (IS_AR ? 'لا توجد نتائج' : 'No results') + '</div>';
+                suggEl.classList.add('open');
+                return;
+            }
+            suggEl.innerHTML = '';
+            currentResults.forEach((r, idx) => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.setAttribute('role', 'option');
+                div.setAttribute('data-idx', idx);
+                const flagUrl = r.countryCode ? `https://flagcdn.com/28x21/${r.countryCode}.png` : '';
+                const flag = flagUrl
+                    ? `<img src="${flagUrl}" class="sugg-flag" alt="${r.countryCode}" onerror="this.style.display='none'">`
+                    : '<span style="font-size:1.2rem">🌍</span>';
+                div.innerHTML = flag +
+                    '<div><div class="sugg-name">' + escapeHtml(r.displayName || r.slug) + '</div>' +
+                    '<div class="sugg-country">' + escapeHtml(r.countryName || '') + '</div></div>';
+                div.addEventListener('click', () => onPick(r));
+                suggEl.appendChild(div);
+            });
+            suggEl.classList.add('open');
+        }
+
+        function escapeHtml(s) {
+            return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+        }
+
+        function onPick(r) {
+            if (!r || !r.slug || !isFinite(r.lat) || !isFinite(r.lng) || !r.timezone || !r.countryCode) {
+                console.warn('Refused to navigate — result missing required fields', r);
+                return;
+            }
+            // Build the prayer-times URL — slug only; the prayer-times
+            // page handles lat/lng + timezone resolution.
+            const url = '/prayer-times-in-' + encodeURIComponent(r.slug);
+            window.location.href = url;
+        }
+
+        async function doSearch(q) {
+            q = String(q || '').trim();
+            if (q.length < 1) {
+                suggEl.innerHTML = '';
+                suggEl.classList.remove('open');
+                return;
+            }
+            suggEl.innerHTML = '<div class="search-loading" style="padding:12px;text-align:center;color:#888;">' + (IS_AR ? 'جاري البحث...' : 'Searching...') + '</div>';
+            suggEl.classList.add('open');
+            try {
+                const r = await fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + LANG);
+                if (!r.ok) { renderResults([]); return; }
+                const data = await r.json();
+                renderResults(Array.isArray(data.results) ? data.results : []);
+            } catch (_e) {
+                renderResults([]);
+            }
+        }
+
+        input.addEventListener('input', function() {
+            clearTimeout(debounce);
+            debounce = setTimeout(() => doSearch(input.value), 120);
+        });
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentResults && currentResults[0]) onPick(currentResults[0]);
+            } else if (e.key === 'Escape') {
+                suggEl.classList.remove('open');
+            }
+        });
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.city-page-search')) suggEl.classList.remove('open');
+        });
+
+        // Console hint for debug
+        try { console.log('[search-test] ready · lang=' + LANG + ' · endpoint=/api/search-place'); } catch (_) {}
+    })();
+    </script>
+</body>
+</html>

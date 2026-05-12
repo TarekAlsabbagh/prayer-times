@@ -39,42 +39,127 @@ const PORT    = process.env.PORT || 8080;
 const ROOT    = __dirname;
 const DB_DIR  = path.join(ROOT, 'db');   // قاعدة البيانات الدائمة
 
-// PT-SEARCH-AR-2 (2026-05-12): discovered-cities persistence helpers.
-// `db/discovered-cities.json` holds user-picked Nominatim results so a
-// later search hits them locally. On Render free-tier this file is
-// ephemeral across redeploys — the user should periodically promote
-// well-attested entries into the CURATED LOCAL_CITIES list in app.js.
-const _DISCOVERED_PATH = path.join(DB_DIR, 'discovered-cities.json');
-function _loadDiscoveredCitiesFile() {
-    try {
-        if (!fs.existsSync(_DISCOVERED_PATH)) return [];
-        const raw = fs.readFileSync(_DISCOVERED_PATH, 'utf8');
-        const arr = JSON.parse(raw);
-        return Array.isArray(arr) ? arr : [];
-    } catch (_) { return []; }
-}
-function _saveDiscoveredCitiesFile(list) {
-    try {
-        if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
-        fs.writeFileSync(_DISCOVERED_PATH, JSON.stringify(list, null, 2), 'utf8');
-        return true;
-    } catch (_) { return false; }
-}
-// Strict validator — rejects random `test city`-style noise. Required:
-//   ar, en (non-empty), cc (2-letter), slug ([a-z0-9-], up to 80 chars),
-//   lat/lng (numeric + in-range). Optional: country, countryEn, type,
-//   priority — but if `type` is set it must be in the allowed list.
-function _isValidServerDiscoveredCity(c) {
-    if (!c || typeof c !== 'object') return false;
-    if (typeof c.ar !== 'string' || c.ar.trim().length === 0 || c.ar.length > 100) return false;
-    if (typeof c.en !== 'string' || c.en.trim().length === 0 || c.en.length > 100) return false;
-    if (typeof c.cc !== 'string' || !/^[a-z]{2}$/.test(c.cc)) return false;
-    if (typeof c.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(c.slug)) return false;
-    const lat = Number(c.lat), lng = Number(c.lng);
+// GLOBAL-PLACE-SEARCH-TEST-PAGE-A (2026-05-12): curated places dataset
+// Loaded once at startup. Used by /api/search-place (the new isolated
+// search engine that powers /search-test only — NOT the real homepage
+// search box). Phase A scope: this dict is the ONLY source.
+let _CURATED_PLACES = [];
+try {
+    const _p = path.join(DB_DIR, 'places', 'curated-places.json');
+    if (fs.existsSync(_p)) {
+        const _raw = fs.readFileSync(_p, 'utf8');
+        const _arr = JSON.parse(_raw);
+        if (Array.isArray(_arr)) _CURATED_PLACES = _arr.filter(_isPrayerTimesReady);
+    }
+} catch (_) { /* silent — empty dataset = empty results, not a crash */ }
+
+// Every prayer-times page needs lat + lng + timezone to compute. Drop
+// any curated entry that's missing the contract — never surface a
+// click target that can't render.
+function _isPrayerTimesReady(p) {
+    if (!p || typeof p !== 'object') return false;
+    if (typeof p.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(p.slug)) return false;
+    if (typeof p.countryCode !== 'string' || !/^[a-z]{2}$/.test(p.countryCode)) return false;
+    const lat = Number(p.lat), lng = Number(p.lng);
     if (!isFinite(lat) || lat < -90 || lat > 90) return false;
     if (!isFinite(lng) || lng < -180 || lng > 180) return false;
-    if (c.type && !['city','town','village','municipality','administrative','state','province','region','county','district','borough','hamlet','locality','governorate'].includes(c.type)) return false;
+    if (typeof p.timezone !== 'string' || !p.timezone) return false;
+    if (!p.names || typeof p.names !== 'object') return false;
     return true;
+}
+
+// Small Arabic+Latin normalization (mirrors the client `_normArabic` /
+// `normalizeText` semantics enough to match the same way the client
+// would). NFD-fold Latin diacritics, lowercase, Arabic alif/ta-marbuta
+// folding, dashes/underscores → spaces.
+function _normSearchText(s) {
+    if (!s) return '';
+    let out = String(s).toLowerCase();
+    // Arabic folding
+    out = out
+        .replace(/[أإآٱا]/g, 'ا')  // أإآٱ ا → ا
+        .replace(/ى/g, 'ي')  // ى → ي
+        .replace(/ؤ/g, 'و')  // ؤ → و
+        .replace(/ئ/g, 'ي')  // ئ → ي
+        .replace(/ة/g, 'ه')  // ة → ه
+        .replace(/[ً-ٰٟ]/g, '');  // diacritics
+    // Latin diacritics
+    out = out.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    // collapse separators
+    out = out.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+    return out;
+}
+
+// Phase-A search. Pure local lookup against `_CURATED_PLACES`. Returns
+// at most 10 results in the unified contract shape, validated.
+function _searchCuratedPlaces(query, lang) {
+    if (!query || typeof query !== 'string') return [];
+    const qNorm = _normSearchText(query);
+    if (!qNorm) return [];
+    const qCompact = qNorm.replace(/\s+/g, '');
+    if (qCompact.length < 1) return [];
+    const scored = [];
+    for (const p of _CURATED_PLACES) {
+        if (!_isPrayerTimesReady(p)) continue;
+        // Gather candidate strings across all langs + aliases + slug + country
+        const candidates = [];
+        try {
+            if (p.names && typeof p.names === 'object') {
+                for (const k of Object.keys(p.names)) {
+                    if (typeof p.names[k] === 'string') candidates.push(p.names[k]);
+                }
+            }
+            if (p.aliases && typeof p.aliases === 'object') {
+                for (const k of Object.keys(p.aliases)) {
+                    const arr = p.aliases[k];
+                    if (Array.isArray(arr)) for (const v of arr) if (typeof v === 'string') candidates.push(v);
+                }
+            }
+            if (typeof p.slug === 'string') candidates.push(p.slug.replace(/-/g, ' '));
+            if (p.admin) {
+                if (typeof p.admin.countryAr === 'string') candidates.push(p.admin.countryAr);
+                if (typeof p.admin.countryEn === 'string') candidates.push(p.admin.countryEn);
+            }
+        } catch (_) {}
+        const normalized = candidates.map(_normSearchText).filter(Boolean);
+        const normCompact = normalized.map(s => s.replace(/\s+/g, ''));
+        // Match-tier scoring
+        let score = 0;
+        if (normalized.some(s => s === qNorm))                                   score = 100;
+        else if (normCompact.some(s => s === qCompact))                          score = 95;
+        else if (normalized.some(s => s.startsWith(qNorm)))                      score = 80;
+        else if (normCompact.some(s => s.startsWith(qCompact)))                  score = 75;
+        else if (normalized.some(s => (' ' + s).includes(' ' + qNorm)))          score = 60;
+        else if (normalized.some(s => s.includes(qNorm)))                        score = 40;
+        else if (normCompact.some(s => s.includes(qCompact)))                    score = 38;
+        if (score === 0) continue;
+        // Weight by priority
+        const prio = Number.isFinite(p.priority) ? p.priority : 50;
+        const finalScore = score + prio * 0.3;
+        // Build the result in the unified contract shape
+        const code = String(lang || 'ar').toLowerCase();
+        const displayName = (p.names && (p.names[code] || p.names.en || p.names.ar)) || p.slug;
+        const countryName = (p.admin && (
+            (code === 'ar' && p.admin.countryAr) ||
+            p.admin.countryEn || p.admin.countryAr
+        )) || '';
+        scored.push({
+            slug: p.slug,
+            type: p.type || 'city',
+            displayName,
+            secondaryName: (p.names && p.names.en) || p.slug,
+            countryName,
+            countryCode: p.countryCode,
+            lat: p.lat,
+            lng: p.lng,
+            timezone: p.timezone,
+            source: p.source || 'curated',
+            confidence: Math.round(finalScore),
+            _sort: finalScore
+        });
+    }
+    scored.sort((a, b) => b._sort - a._sort);
+    return scored.slice(0, 10).map(({ _sort, ...rest }) => rest);
 }
 
 // ===== المصدر الموحد للدومين =====
@@ -19696,81 +19781,43 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // PT-SEARCH-AR-2 (2026-05-12): Discovered-cities endpoints.
-    // When a user picks a Nominatim result on the client, the client POSTs
-    // the normalized city object here. We append it to db/discovered-cities.json
-    // (deduped by `cc-slug`) so OTHER users on the same deploy see the city
-    // in their local-first search. The file lives on Render's writable
-    // filesystem — which is EPHEMERAL on free tier (cleared on redeploy).
-    // For permanent storage, periodically promote interesting entries from
-    // this file into the curated LOCAL_CITIES list in js/app.js.
-    if (urlPath === '/api/discovered-cities' && req.method === 'GET') {
-        res.writeHead(200, {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Cache-Control': 'public, max-age=60',
-            'Access-Control-Allow-Origin': '*'
+    // GLOBAL-PLACE-SEARCH-TEST-PAGE-A (2026-05-12): isolated test page
+    // and Phase-A search endpoint. The page is served noindex (the
+    // HTML has a <meta name="robots" content="noindex,nofollow">) and
+    // is NOT in sitemap.xml. The endpoint reads ONLY from
+    // db/places/curated-places.json — no external APIs, no discovered
+    // storage, no translation. Every result includes the full prayer-
+    // times-ready contract: slug + lat + lng + timezone + countryCode.
+    if (urlPath === '/search-test' && req.method === 'GET') {
+        const _pagePath = path.join(ROOT, 'db', 'places', 'search-test.html');
+        fs.readFile(_pagePath, (err, html) => {
+            if (err) { res.writeHead(404, {'Content-Type':'text/plain'}); res.end('search-test page not found'); return; }
+            res.writeHead(200, {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Cache-Control': 'no-cache, must-revalidate',
+                'X-Robots-Tag': 'noindex, nofollow'
+            });
+            res.end(html);
         });
-        res.end(JSON.stringify(_loadDiscoveredCitiesFile()));
         return;
     }
-    if (urlPath === '/api/discover-city' && (req.method === 'POST' || req.method === 'OPTIONS')) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
-        let body = '';
-        let bodyBytes = 0;
-        let killed = false;
-        req.on('data', chunk => {
-            if (killed) return;
-            bodyBytes += chunk.length;
-            // hard cap 4 KB to prevent abuse
-            if (bodyBytes > 4096) {
-                killed = true;
-                res.writeHead(413, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end('{"ok":false,"error":"too_large"}');
-                req.destroy();
-                return;
-            }
-            body += chunk.toString('utf8');
-        });
-        req.on('end', () => {
-            if (killed) return;
-            try {
-                const c = JSON.parse(body || '{}');
-                if (!_isValidServerDiscoveredCity(c)) {
-                    res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                    res.end('{"ok":false,"error":"invalid"}');
-                    return;
-                }
-                // Also reject if the slug+cc already exists in CURATED data
-                // (LOCAL_CITIES / LOCAL_PROVINCES), since the client checks
-                // this too — defensive. We don't have direct access to those
-                // lists from server side (they live in js/app.js), so we
-                // only dedup against discovered-cities.json itself.
-                const list = _loadDiscoveredCitiesFile();
-                const key = `${c.cc}-${c.slug}`.toLowerCase();
-                if (list.some(x => `${(x.cc || '').toLowerCase()}-${(x.slug || '').toLowerCase()}` === key)) {
-                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-                    res.end('{"ok":true,"already":true}');
-                    return;
-                }
-                list.push({ ...c, source: 'nominatim', ts: Date.now() });
-                // cap to prevent unbounded growth
-                if (list.length > 5000) list.splice(0, list.length - 5000);
-                const saved = _saveDiscoveredCitiesFile(list);
-                if (!saved) {
-                    res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-                    res.end('{"ok":false,"error":"persist_failed"}');
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end('{"ok":true,"added":true}');
-            } catch (_e) {
-                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end('{"ok":false,"error":"parse"}');
-            }
-        });
+    if (urlPath === '/api/search-place' && req.method === 'GET') {
+        try {
+            const _qs2 = new URLSearchParams(qs);
+            const q   = String(_qs2.get('q') || '').trim();
+            const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
+            const lang = ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(langRaw) ? langRaw : 'ar';
+            const results = _searchCuratedPlaces(q, lang);
+            res.writeHead(200, {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Cache-Control': 'no-store',
+                'Access-Control-Allow-Origin': '*'
+            });
+            res.end(JSON.stringify({ results }));
+        } catch (_e) {
+            res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ results: [], error: 'internal' }));
+        }
         return;
     }
 

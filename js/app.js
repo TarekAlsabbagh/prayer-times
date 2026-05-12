@@ -4811,7 +4811,7 @@ const LOCAL_CITIES = [
     {ar:'تبوك',en:'Tabuk',lat:28.3998,lng:36.5715,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
     {ar:'أبها',en:'Abha',lat:18.2164,lng:42.5053,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
     {ar:'القصيم',en:'Qassim',lat:26.3260,lng:43.9750,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Al Qassim','Buraidah','Buraydah']},
-    {ar:'الأحساء',en:'Al-Ahsa',lat:25.3833,lng:49.5861,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Al Ahsa','Hofuf','Al Hofuf']},
+    {ar:'الأحساء',en:'Al-Ahsa',lat:25.3833,lng:49.5861,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasAr:['الهفوف','الاحساء','المبرز','الأحسا','الاحسا'],aliasEn:['Al Ahsa','Hofuf','Al Hofuf','Al Mubarraz','Mubarraz','Al-Hofuf']},
     {ar:'حائل',en:'Hail',lat:27.5114,lng:41.7208,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Ha\'il','Hayil']},
     {ar:'نجران',en:'Najran',lat:17.4925,lng:44.1277,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
     {ar:'جازان',en:'Jazan',lat:16.8892,lng:42.5511,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
@@ -5427,6 +5427,76 @@ function normalizeText(s) {
         .trim();
 }
 
+// ═══ GLOBAL-HOME-SEARCH-1 (2026-05-12): translation fallback helpers ═══
+// Some cities are stored in OSM with a traditional Arabic name but the
+// user types the modern phonetic one (e.g. OSM stores `name:ar=البندقية`
+// while the user types `فينيسيا` for Venice). Nominatim doesn't connect
+// them, so the search returns zero VALID city-type results. As a final
+// fallback BEFORE showing "no results", translate the query to English
+// via MyMemory and re-query Nominatim. Translation is cached in
+// localStorage (30-day TTL, 500-entry cap) so the same query never
+// translates twice on the same browser.
+//
+// PHASE 1 GATE: this only runs on the homepage. The translation branch
+// in `fetchCitySuggestions` checks `_isHomepageForSearch()` before
+// firing, so city pages / hub pages keep current behavior unchanged.
+const _SEARCH_TRANSLATE_KEY  = 'tp_search_translate_v1';
+const _SEARCH_TRANSLATE_TTL  = 30 * 24 * 60 * 60 * 1000;
+const _SEARCH_TRANSLATE_MAX  = 500;
+const _hasNonLatinChars = (s) => /[^ -]/.test(String(s || ''));
+const _hasArabicChars   = (s) => /[؀-ۿ]/.test(String(s || ''));
+
+function _isHomepageForSearch() {
+    try {
+        const p = window.location.pathname;
+        // / · /index.html · /en/ · /fr/ · /tr/ · /ur/ · /de/ · /id/ ·
+        // /es/ · /bn/ · /ms/ · with optional /index.html suffix.
+        return /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(p);
+    } catch (_) { return false; }
+}
+
+async function _translateSearchQuery(query, fromLang, toLang) {
+    const q = String(query || '').trim();
+    if (!q || q.length > 80) return null;
+    const pair = `${fromLang}|${toLang}`;
+    const cacheKey = `${pair}:${q}`;
+    // 1) localStorage cache
+    try {
+        const raw = localStorage.getItem(_SEARCH_TRANSLATE_KEY);
+        const cache = raw ? JSON.parse(raw) : {};
+        const hit = cache[cacheKey];
+        if (hit && Date.now() - hit.ts < _SEARCH_TRANSLATE_TTL) {
+            return hit.t || null;
+        }
+    } catch (_) {}
+    // 2) MyMemory call (CSP `connect-src` already allows it)
+    try {
+        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${pair}`;
+        const r = await fetch(url);
+        if (!r.ok) return null;
+        const data = await r.json();
+        const translated = data && data.responseData && data.responseData.translatedText;
+        if (!translated || typeof translated !== 'string') return null;
+        // Reject if MyMemory just echoed the input (translation failed silently)
+        if (translated.trim().toLowerCase() === q.toLowerCase()) return null;
+        // 3) Save to cache (cap to _SEARCH_TRANSLATE_MAX entries)
+        try {
+            const raw = localStorage.getItem(_SEARCH_TRANSLATE_KEY);
+            const cache = raw ? JSON.parse(raw) : {};
+            cache[cacheKey] = { t: translated, ts: Date.now() };
+            const keys = Object.keys(cache);
+            if (keys.length > _SEARCH_TRANSLATE_MAX) {
+                keys.sort((a, b) => (cache[a].ts || 0) - (cache[b].ts || 0));
+                while (keys.length > _SEARCH_TRANSLATE_MAX - 100) {
+                    delete cache[keys.shift()];
+                }
+            }
+            localStorage.setItem(_SEARCH_TRANSLATE_KEY, JSON.stringify(cache));
+        } catch (_) {}
+        return translated;
+    } catch (_) { return null; }
+}
+
 // أنواع مسموحة (تظهر في النتائج)
 const SMART_ALLOWED_TYPES = new Set([
     'city', 'town', 'village', 'municipality',
@@ -5652,7 +5722,7 @@ function fetchCitySuggestions(query) {
         fetch(urlQ).then(r => r.json()).catch(() => []),
         fetch(urlCity).then(r => r.json()).catch(() => [])
     ])
-    .then(([resQ, resCity]) => {
+    .then(async ([resQ, resCity]) => {
         if (!Array.isArray(resQ)) resQ = [];
         if (!Array.isArray(resCity)) resCity = [];
 
@@ -5723,6 +5793,50 @@ function fetchCitySuggestions(query) {
             return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
         });
         results = results.slice(0, 6);
+
+        // ═══ GLOBAL-HOME-SEARCH-1 (2026-05-12): translation fallback ═══
+        // If both local search AND first Nominatim pass returned 0
+        // city-type results, AND the query has non-Latin chars (user
+        // typed in their own script), AND we are on the HOMEPAGE
+        // (PHASE 1 GATE), translate the query to English and re-query
+        // Nominatim. This recovers cities whose OSM `name:ar` differs
+        // from the user's phonetic spelling — e.g. فينيسيا → "Venice"
+        // → Venezia, Italy. Smart-filter applies again so we never
+        // surface roads/shops/amenities.
+        if (results.length === 0 && localResults.length === 0
+            && _hasNonLatinChars(query) && _isHomepageForSearch()) {
+            // UX: replace "Searching..." with a globe-flagged note so
+            // the user sees the search is still active during the
+            // ~1-2s MyMemory + Nominatim roundtrip.
+            try {
+                const _xlateLbl = (typeof t === 'function' ? t('search.translating') : null)
+                    || (isEnSugg ? '🌐 Searching globally…' : '🌐 جاري البحث عالمياً...');
+                suggestionsEl.innerHTML = `<div class="search-loading">${_xlateLbl}</div>`;
+            } catch (_) {}
+            const fromLang = _hasArabicChars(query) ? 'ar' : 'auto';
+            const enQuery = await _translateSearchQuery(query, fromLang, 'en');
+            if (enQuery && enQuery.toLowerCase() !== query.toLowerCase()) {
+                try {
+                    const url2 = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(enQuery)}`);
+                    const data2 = await fetch(url2).then(r => r.json()).catch(() => []);
+                    const dedup2 = new Set();
+                    const all2 = (Array.isArray(data2) ? data2 : []).filter(p => {
+                        if (!p || dedup2.has(p.place_id)) return false;
+                        dedup2.add(p.place_id);
+                        return true;
+                    });
+                    const filtered2 = all2.filter(_smartFilter);
+                    filtered2.sort((a, b) => {
+                        const tr = typeRank(a) - typeRank(b);
+                        return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
+                    });
+                    results = filtered2.slice(0, 6);
+                } catch (_) { /* network/parse error → results stays [] */ }
+            }
+            // Clear the "Searching globally…" placeholder — the render
+            // loop below repopulates suggestionsEl from scratch.
+            try { suggestionsEl.innerHTML = ''; } catch (_) {}
+        }
 
         // إعادة بناء القائمة: المحلية أولاً ثم نتائج Nominatim الجديدة
         suggestionsEl.innerHTML = '';
@@ -5811,6 +5925,21 @@ function fetchCitySuggestions(query) {
         // إذا لم توجد أي نتائج أضف زر البحث الخارجي
         if (localResults.length === 0 && results.length === 0) {
             showOnlineSearchBtn();
+            // GLOBAL-HOME-SEARCH-1: explicit "try a clearer name or add
+            // the country" hint so the user knows the search HAS run.
+            // Previously the silent "no results" felt like the search
+            // failed; the hint makes it clear we just didn't find a
+            // match and suggests a corrective action.
+            try {
+                const _hintLbl = (typeof t === 'function' ? t('search.try_country') : null)
+                    || (isEnSugg ? 'Tip: try the English name or add the country.'
+                                 : 'جرّب كتابة الاسم بشكل أوضح أو أضف اسم الدولة.');
+                const _hintDiv = document.createElement('div');
+                _hintDiv.className = 'search-hint';
+                _hintDiv.style.cssText = 'padding:8px 12px;font-size:0.85em;color:var(--text-light,#888);text-align:center;';
+                _hintDiv.textContent = _hintLbl;
+                suggestionsEl.appendChild(_hintDiv);
+            } catch (_) {}
         } else if (results.length === 0 && localResults.length > 0) {
             // نتائج محلية فقط — لا حاجة لزر خارجي إلا إذا أراد المستخدم المزيد
         } else {

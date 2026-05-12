@@ -5248,6 +5248,135 @@ const LOCAL_PROVINCES = [
     {ar:'الشمالية',en:'Northern State Sudan',lat:18.5500,lng:31.8500,cc:'sd',country:'السودان',countryEn:'Sudan',type:'state',priority:55,aliasAr:['الشمالية (السودان)'],aliasEn:['Ash Shamaliyah','Dongola']},
 ];
 
+// ═══ PT-SEARCH-AR-2 (2026-05-12): Discovered-cities cache ═══════════════════
+// مدن اختارها المستخدم من نتائج Nominatim. تُحفَظ محلياً في localStorage حتى
+// يجدها البحث المحلي في المرّات القادمة (instant، بدون شبكة)، وتُرسَل أيضاً
+// إلى /api/discover-city للسيرفر ليخدمها لمستخدمين آخرين على نفس الـ deploy.
+// لا نُضيف query عشوائي — فقط ما اختاره المستخدم من results validate-ed.
+let DISCOVERED_CITIES = [];
+const _DISCOVERED_KEY = 'tp_discovered_cities_v1';
+const _DISCOVERED_MAX = 500;
+const _DISCOVERED_ALLOWED_TYPES = new Set([
+    'city','town','village','municipality','administrative',
+    'state','province','region','county','district','borough','hamlet','locality','governorate'
+]);
+
+function _isValidDiscoveredCity(c) {
+    if (!c || typeof c !== 'object') return false;
+    if (typeof c.ar !== 'string' || c.ar.trim().length === 0) return false;
+    if (typeof c.en !== 'string' || c.en.trim().length === 0) return false;
+    if (typeof c.cc !== 'string' || !/^[a-z]{2}$/.test(c.cc)) return false;
+    if (typeof c.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(c.slug)) return false;
+    const lat = Number(c.lat), lng = Number(c.lng);
+    if (!isFinite(lat) || lat < -90 || lat > 90) return false;
+    if (!isFinite(lng) || lng < -180 || lng > 180) return false;
+    if (c.type && !_DISCOVERED_ALLOWED_TYPES.has(c.type)) return false;
+    return true;
+}
+
+function _existsInAnyLocalIndex(slug, cc) {
+    const k = `${(cc || '').toLowerCase()}-${(slug || '').toLowerCase()}`;
+    const _has = (list) => Array.isArray(list) && list.some(c => {
+        if (!c) return false;
+        const s = c.slug || (typeof makeSlug === 'function' && c.en
+            ? makeSlug(c.en, c.lat, c.lng) : '');
+        return `${(c.cc || '').toLowerCase()}-${String(s).toLowerCase()}` === k;
+    });
+    return _has(LOCAL_CITIES)
+        || (typeof LOCAL_PROVINCES !== 'undefined' && _has(LOCAL_PROVINCES))
+        || _has(DISCOVERED_CITIES);
+}
+
+function _loadDiscoveredCities() {
+    try {
+        const raw = localStorage.getItem(_DISCOVERED_KEY);
+        if (!raw) return [];
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr)) return [];
+        return arr.filter(_isValidDiscoveredCity).slice(-_DISCOVERED_MAX);
+    } catch (_) { return []; }
+}
+
+function _saveDiscoveredCitiesLocal() {
+    try {
+        localStorage.setItem(_DISCOVERED_KEY,
+            JSON.stringify(DISCOVERED_CITIES.slice(-_DISCOVERED_MAX)));
+    } catch (_) { /* quota — silent */ }
+}
+
+// Normalize a Nominatim-shaped or LOCAL_CITIES-shaped object into the
+// canonical discovered-city shape. Returns null on insufficient data
+// so caller can fall through cleanly.
+function _normalizeDiscoveredCity(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const en = String(raw.en || raw.englishName || '').trim();
+    const ar = String(raw.ar || raw.name || raw.arCity || '').trim();
+    const cc = String(raw.cc || raw.countryCode || '').trim().toLowerCase();
+    const lat = Number(raw.lat);
+    const lng = Number(raw.lng);
+    if (!en || !/^[a-z]{2}$/.test(cc) || !isFinite(lat) || !isFinite(lng)) return null;
+    // canonical slug from English name + coords (existing makeSlug helper)
+    const slug = (typeof makeSlug === 'function') ? makeSlug(en, lat, lng) : '';
+    if (!slug || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(slug)) return null;
+    return {
+        ar: ar || en,
+        en,
+        cc,
+        country: String(raw.country || '').trim(),
+        countryEn: String(raw.countryEn || '').trim(),
+        lat,
+        lng,
+        slug,
+        type: String(raw.type || 'city'),
+        priority: Number.isFinite(+raw.priority) ? +raw.priority : 40,
+        source: 'nominatim',
+        ts: Date.now()
+    };
+}
+
+// Public: register a city the user just clicked. Idempotent + deduped.
+// Returns true if it was newly added, false if rejected or already known.
+function _addDiscoveredCity(raw) {
+    const c = _normalizeDiscoveredCity(raw);
+    if (!c) return false;
+    if (!_isValidDiscoveredCity(c)) return false;
+    if (_existsInAnyLocalIndex(c.slug, c.cc)) return false;
+    DISCOVERED_CITIES.push(c);
+    _saveDiscoveredCitiesLocal();
+    // Fire-and-forget cross-user persistence. Server validates again.
+    try {
+        if (typeof fetch === 'function') {
+            fetch('/api/discover-city', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(c)
+            }).catch(() => {});
+        }
+    } catch (_) {}
+    return true;
+}
+
+// Init: hydrate from localStorage immediately (synchronous), then enrich
+// with server-side discovered cities asynchronously.
+try { DISCOVERED_CITIES = _loadDiscoveredCities(); } catch (_) {}
+try {
+    if (typeof fetch === 'function') {
+        fetch('/api/discovered-cities')
+            .then(r => r.ok ? r.json() : [])
+            .then(arr => {
+                if (!Array.isArray(arr)) return;
+                let added = 0;
+                for (const c of arr) {
+                    if (!_isValidDiscoveredCity(c)) continue;
+                    if (_existsInAnyLocalIndex(c.slug, c.cc)) continue;
+                    DISCOVERED_CITIES.push(c);
+                    added++;
+                }
+                if (added > 0) _saveDiscoveredCitiesLocal();
+            }).catch(() => {});
+    }
+} catch (_) {}
+
 // ═══ المدن-المحافظات/العواصم الخاصّة (city-states & special metropolises) ═══
 // Nominatim يُصنّف هذه كـstate/province/region رغم أنّها فعليّاً مدن (مثل Tokyo, HK, Singapore).
 // الاسم هنا = name:en من Nominatim — يُستخدم لاستثنائها من whitelist rejection.
@@ -5407,8 +5536,15 @@ function searchSmartCities(query, sources) {
     // "حفرالباطن" match a city stored as "حفر الباطن" (and vice versa).
     const qCompact = qNorm.replace(/\s+/g, '');
 
-    // افتراضيّاً: ندمج المدن + المحافظات في مصدر واحد
-    const list = Array.isArray(sources) ? sources : LOCAL_CITIES.concat(typeof LOCAL_PROVINCES !== 'undefined' ? LOCAL_PROVINCES : []);
+    // افتراضيّاً: ندمج المدن + المحافظات + المكتشَفة في مصدر واحد
+    // PT-SEARCH-AR-2: include DISCOVERED_CITIES so a user-clicked Nominatim
+    // result reappears as a LOCAL result on the next search (instant, no
+    // network). Order: curated cities first → curated provinces → discovered
+    // (lowest priority by default = 40, so they rank below curated when
+    // scores tie).
+    const list = Array.isArray(sources) ? sources
+        : LOCAL_CITIES.concat(typeof LOCAL_PROVINCES !== 'undefined' ? LOCAL_PROVINCES : [])
+                      .concat(typeof DISCOVERED_CITIES !== 'undefined' ? DISCOVERED_CITIES : []);
     const seen = new Map(); // key → bestScored entry
 
     for (const raw of list) {
@@ -5824,6 +5960,18 @@ function fetchCityOnlineBroader(query) {
                     document.getElementById('city-search-input').value = displayCity;
                     suggestionsEl.classList.remove('open');
                     currentEnglishDisplayName = englishName;
+                    // PT-SEARCH-AR-2: persist this Nominatim pick so future
+                    // searches find it locally + benefit other users on the
+                    // same deploy. _addDiscoveredCity validates + dedupes;
+                    // failure to save does NOT block the navigation.
+                    try {
+                        _addDiscoveredCity({
+                            ar: arCityMain, en: englishName, cc,
+                            country, countryEn: country, // server may not return countryEn for AR queries
+                            lat: placeLat, lng: placeLng,
+                            type: placeType, priority: 40
+                        });
+                    } catch (_) { /* silent */ }
                     await selectCity(placeLat, placeLng, arCityMain, country, englishName, cc);
                 });
                 suggestionsEl.appendChild(div);
@@ -8630,6 +8778,11 @@ function _wireMoonHubHero() {
 
     // Suggestion-pick → navigate to /moon-today-in-{slug}
     const _mhsNavigate = (city) => {
+        // PT-SEARCH-AR-2: persist Nominatim picks (city._online flag) so
+        // they reappear as LOCAL results on the next search.
+        try {
+            if (city && city._online) _addDiscoveredCity(city);
+        } catch (_) { /* silent */ }
         try {
             navigateToMoonToday(city.lat, city.lng,
                 (lang === 'ar' ? city.ar : city.en),
@@ -14539,6 +14692,11 @@ function _loadQiblaHubPage(ctx) {
                 const canonical = _canonicalQiblaSlug(city.en, city.lat, city.lng);
                 const storeSlug = canonical || ((typeof makeSlug === 'function')
                     ? makeSlug(city.en, city.lat, city.lng) : '');
+                // PT-SEARCH-AR-2: persist Nominatim picks (city._online flag)
+                // so the next search finds them locally.
+                try {
+                    if (city && city._online) _addDiscoveredCity(city);
+                } catch (_) { /* silent */ }
                 _pushQiblaVisited({
                     englishName: city.en,
                     lat: city.lat,

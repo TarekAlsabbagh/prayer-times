@@ -39,6 +39,44 @@ const PORT    = process.env.PORT || 8080;
 const ROOT    = __dirname;
 const DB_DIR  = path.join(ROOT, 'db');   // قاعدة البيانات الدائمة
 
+// PT-SEARCH-AR-2 (2026-05-12): discovered-cities persistence helpers.
+// `db/discovered-cities.json` holds user-picked Nominatim results so a
+// later search hits them locally. On Render free-tier this file is
+// ephemeral across redeploys — the user should periodically promote
+// well-attested entries into the CURATED LOCAL_CITIES list in app.js.
+const _DISCOVERED_PATH = path.join(DB_DIR, 'discovered-cities.json');
+function _loadDiscoveredCitiesFile() {
+    try {
+        if (!fs.existsSync(_DISCOVERED_PATH)) return [];
+        const raw = fs.readFileSync(_DISCOVERED_PATH, 'utf8');
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+    } catch (_) { return []; }
+}
+function _saveDiscoveredCitiesFile(list) {
+    try {
+        if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+        fs.writeFileSync(_DISCOVERED_PATH, JSON.stringify(list, null, 2), 'utf8');
+        return true;
+    } catch (_) { return false; }
+}
+// Strict validator — rejects random `test city`-style noise. Required:
+//   ar, en (non-empty), cc (2-letter), slug ([a-z0-9-], up to 80 chars),
+//   lat/lng (numeric + in-range). Optional: country, countryEn, type,
+//   priority — but if `type` is set it must be in the allowed list.
+function _isValidServerDiscoveredCity(c) {
+    if (!c || typeof c !== 'object') return false;
+    if (typeof c.ar !== 'string' || c.ar.trim().length === 0 || c.ar.length > 100) return false;
+    if (typeof c.en !== 'string' || c.en.trim().length === 0 || c.en.length > 100) return false;
+    if (typeof c.cc !== 'string' || !/^[a-z]{2}$/.test(c.cc)) return false;
+    if (typeof c.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(c.slug)) return false;
+    const lat = Number(c.lat), lng = Number(c.lng);
+    if (!isFinite(lat) || lat < -90 || lat > 90) return false;
+    if (!isFinite(lng) || lng < -180 || lng > 180) return false;
+    if (c.type && !['city','town','village','municipality','administrative','state','province','region','county','district','borough','hamlet','locality','governorate'].includes(c.type)) return false;
+    return true;
+}
+
 // ===== المصدر الموحد للدومين =====
 // في الإنتاج: SITE_URL=https://example.com node server.js
 // محلياً: يُستخدم http://localhost:PORT تلقائياً
@@ -19648,6 +19686,84 @@ const server = http.createServer(async (req, res) => {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
         req.on('end', () => handleCitiesAdd(cc.toLowerCase(), body.trim(), res));
+        return;
+    }
+
+    // PT-SEARCH-AR-2 (2026-05-12): Discovered-cities endpoints.
+    // When a user picks a Nominatim result on the client, the client POSTs
+    // the normalized city object here. We append it to db/discovered-cities.json
+    // (deduped by `cc-slug`) so OTHER users on the same deploy see the city
+    // in their local-first search. The file lives on Render's writable
+    // filesystem — which is EPHEMERAL on free tier (cleared on redeploy).
+    // For permanent storage, periodically promote interesting entries from
+    // this file into the curated LOCAL_CITIES list in js/app.js.
+    if (urlPath === '/api/discovered-cities' && req.method === 'GET') {
+        res.writeHead(200, {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Cache-Control': 'public, max-age=60',
+            'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify(_loadDiscoveredCitiesFile()));
+        return;
+    }
+    if (urlPath === '/api/discover-city' && (req.method === 'POST' || req.method === 'OPTIONS')) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+        let body = '';
+        let bodyBytes = 0;
+        let killed = false;
+        req.on('data', chunk => {
+            if (killed) return;
+            bodyBytes += chunk.length;
+            // hard cap 4 KB to prevent abuse
+            if (bodyBytes > 4096) {
+                killed = true;
+                res.writeHead(413, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"ok":false,"error":"too_large"}');
+                req.destroy();
+                return;
+            }
+            body += chunk.toString('utf8');
+        });
+        req.on('end', () => {
+            if (killed) return;
+            try {
+                const c = JSON.parse(body || '{}');
+                if (!_isValidServerDiscoveredCity(c)) {
+                    res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end('{"ok":false,"error":"invalid"}');
+                    return;
+                }
+                // Also reject if the slug+cc already exists in CURATED data
+                // (LOCAL_CITIES / LOCAL_PROVINCES), since the client checks
+                // this too — defensive. We don't have direct access to those
+                // lists from server side (they live in js/app.js), so we
+                // only dedup against discovered-cities.json itself.
+                const list = _loadDiscoveredCitiesFile();
+                const key = `${c.cc}-${c.slug}`.toLowerCase();
+                if (list.some(x => `${(x.cc || '').toLowerCase()}-${(x.slug || '').toLowerCase()}` === key)) {
+                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end('{"ok":true,"already":true}');
+                    return;
+                }
+                list.push({ ...c, source: 'nominatim', ts: Date.now() });
+                // cap to prevent unbounded growth
+                if (list.length > 5000) list.splice(0, list.length - 5000);
+                const saved = _saveDiscoveredCitiesFile(list);
+                if (!saved) {
+                    res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end('{"ok":false,"error":"persist_failed"}');
+                    return;
+                }
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"ok":true,"added":true}');
+            } catch (_e) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"ok":false,"error":"parse"}');
+            }
+        });
         return;
     }
 

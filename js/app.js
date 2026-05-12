@@ -5832,12 +5832,23 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 }
 
 // اختيار طريقة الحساب تلقائياً — يعتمد على كود الدولة ISO (ثابت دائماً بغض النظر عن اللغة)
-// PT-METHOD-2 (2026-05-12): SIMPLIFIED country → method mapping per user
-// decision. MUST stay in sync with `_SSR_METHOD_BY_CC` in server.js.
+// PT-METHOD-3 (2026-05-12): country → method mapping per user's
+// revised policy. MUST stay in sync with `_SSR_METHOD_BY_CC` in
+// server.js.
 //
 // Policy:
-//   - Egypt (cc === 'eg')   →  'Egypt'   (Egyptian General Authority)
-//   - All other countries   →  'Makkah'  (Umm Al-Qura — universal default)
+//   - Egypt → Egypt (Egyptian General Authority)
+//   - Gulf + Arab world (except Egypt) → Makkah (Umm Al-Qura).
+//     Even though Kuwait / Qatar / UAE have dedicated dropdown
+//     options, the user wants Arab-world default to be Umm Al-Qura.
+//   - France → France (UOIF)                                — preserved
+//   - USA / Canada / Latin America → ISNA                   — preserved
+//   - Turkey → Turkey (Diyanet)
+//   - Iran → Tehran
+//   - Russia → Russia
+//   - South Asia (PK/IN/BD/AF) → Karachi
+//   - SE Asia (MY/ID/SG/BN) → Singapore
+//   - Everywhere else → Makkah (universal fallback)
 //
 // Available <select> keys (from index.html + js/prayer-times.js):
 //   Makkah  MWL  ISNA  Egypt  Karachi  Tehran  Jafari  Gulf
@@ -5847,9 +5858,37 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 // the country default — set only when the dropdown change event fires
 // (programmatic `.value = …` doesn't trigger change).
 const _AUTO_METHOD_BY_CC = {
+    // Egypt — the only Arab country with a dedicated method
     'eg': 'Egypt',
-    // All other countries fall through to the Makkah default in
-    // autoSelectMethod below.
+    // Countries with their OWN dedicated methods (preserved)
+    'fr': 'France',                                // explicitly preserved
+    'tr': 'Turkey',
+    'ir': 'Tehran',
+    'ru': 'Russia',
+    // South Asia → Karachi
+    'pk': 'Karachi', 'in': 'Karachi', 'bd': 'Karachi', 'af': 'Karachi',
+    // SE Asia → Singapore
+    'my': 'Singapore', 'id': 'Singapore', 'sg': 'Singapore', 'bn': 'Singapore',
+    // North America → ISNA (explicitly preserved per user)
+    'us': 'ISNA', 'ca': 'ISNA', 'mx': 'ISNA',
+    // Latin America → ISNA
+    'br': 'ISNA', 'ar': 'ISNA', 'co': 'ISNA', 've': 'ISNA',
+    'cl': 'ISNA', 'pe': 'ISNA', 'ec': 'ISNA', 'bo': 'ISNA', 'py': 'ISNA',
+    'uy': 'ISNA', 'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
+    'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
+    'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
+    'sr': 'ISNA', 'gf': 'ISNA',
+    // Gulf + Arab world (except Egypt) → Makkah (explicit for clarity)
+    'sa': 'Makkah', 'kw': 'Makkah', 'qa': 'Makkah',
+    'ae': 'Makkah', 'bh': 'Makkah', 'om': 'Makkah', 'ye': 'Makkah',
+    'iq': 'Makkah', 'jo': 'Makkah', 'lb': 'Makkah', 'ps': 'Makkah',
+    'sy': 'Makkah',
+    'ly': 'Makkah', 'sd': 'Makkah', 'ss': 'Makkah',
+    'dz': 'Makkah', 'ma': 'Makkah', 'tn': 'Makkah', 'mr': 'Makkah',
+    'so': 'Makkah', 'dj': 'Makkah', 'km': 'Makkah',
+    // Everywhere else (Europe non-FR/RU, sub-Saharan Africa, East Asia,
+    // Oceania, Central Asia, etc.) falls through to the 'Makkah' default
+    // in autoSelectMethod below.
 };
 
 // All valid method keys (from the <select> in index.html). Used to
@@ -5881,16 +5920,34 @@ function autoSelectMethod(countryCode, countryName) {
         return;
     }
 
-    // Priority 2: country-based default (PT-METHOD-2 — Egypt only).
+    // Priority 2: country-based default (PT-METHOD-3 map).
     const code = (countryCode || '').toLowerCase().trim();
     let method = _AUTO_METHOD_BY_CC[code];
 
     // Priority 2.5: country-name fallback for legacy callers that have
-    // names but not codes. Only Egypt deviates from Makkah.
+    // names but not codes. Covers countries with dedicated methods —
+    // every Arab name resolves to Makkah via the priority-3 default.
     if (!method && countryName) {
-        if (countryName === 'Egypt' || countryName === 'مصر') {
-            method = 'Egypt';
-        }
+        const nameMap = {
+            'Egypt': 'Egypt', 'مصر': 'Egypt',
+            'France': 'France', 'فرنسا': 'France',
+            'Turkey': 'Turkey', 'تركيا': 'Turkey',
+            'Iran': 'Tehran', 'إيران': 'Tehran',
+            'Russia': 'Russia', 'روسيا': 'Russia',
+            'Pakistan': 'Karachi', 'باكستان': 'Karachi',
+            'India': 'Karachi', 'الهند': 'Karachi',
+            'Bangladesh': 'Karachi', 'بنغلاديش': 'Karachi',
+            'Afghanistan': 'Karachi', 'أفغانستان': 'Karachi',
+            'Indonesia': 'Singapore', 'إندونيسيا': 'Singapore',
+            'Malaysia': 'Singapore', 'ماليزيا': 'Singapore',
+            'Singapore': 'Singapore', 'سنغافورة': 'Singapore',
+            'Brunei': 'Singapore', 'بروناي': 'Singapore',
+            'United States': 'ISNA', 'USA': 'ISNA', 'الولايات المتحدة': 'ISNA',
+            'Canada': 'ISNA', 'كندا': 'ISNA',
+            'Mexico': 'ISNA', 'المكسيك': 'ISNA',
+            'Brazil': 'ISNA', 'البرازيل': 'ISNA',
+        };
+        method = nameMap[countryName];
     }
 
     // Priority 3: universal fallback — Makkah (Umm Al-Qura).

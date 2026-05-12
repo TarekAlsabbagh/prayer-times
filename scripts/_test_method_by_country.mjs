@@ -15,10 +15,16 @@ import fs from 'node:fs';
 const fetchUrl = (u) => new Promise((res, rej) =>
     http.get(u, r => { let b = ''; r.on('data', d => b += d); r.on('end', () => res(b)); }).on('error', rej));
 
-// Expected country → method per PT-METHOD-2 spec (simplified).
+// Expected country → method per PT-METHOD-3 spec.
 //   - Egypt → 'Egypt'
-//   - everywhere else → 'Makkah'
+//   - Gulf/Arab world (except Egypt) → 'Makkah'
+//   - France → 'France', USA/Canada → 'ISNA', Turkey → 'Turkey',
+//     Iran → 'Tehran', Russia → 'Russia',
+//     PK/IN/BD/AF → 'Karachi', MY/ID/SG/BN → 'Singapore'
+//   - Everywhere else (non-Arab Europe / sub-Saharan Africa / East Asia /
+//     Oceania) → 'Makkah'
 const EXPECTED = {
+    // Saudi Arabia + Gulf → Makkah
     'riyadh':         'Makkah',
     'makkah':         'Makkah',
     'jeddah':         'Makkah',
@@ -26,29 +32,39 @@ const EXPECTED = {
     'doha':           'Makkah',
     'dubai':          'Makkah',
     'abu-dhabi':      'Makkah',
-    'cairo':          'Egypt',       // ← only exception
-    'alexandria':     'Egypt',       // ← only exception
-    'istanbul':       'Makkah',
-    'tehran':         'Makkah',
-    'paris':          'Makkah',
-    'marseille':      'Makkah',
-    'lyon':           'Makkah',
-    'le-pontet':      'Makkah',
-    'provence-alpes-cote-d-azur': 'Makkah',
+    // Egypt only → Egypt
+    'cairo':          'Egypt',
+    'alexandria':     'Egypt',
+    // Maghreb (Arab) → Makkah
+    'algiers':        'Makkah',
+    'casablanca':     'Makkah',
+    'tunis':          'Makkah',
+    // Levant (Arab) → Makkah
+    'baghdad':        'Makkah',
+    'beirut':         'Makkah',
+    // Dedicated-method countries — preserved
+    'istanbul':       'Turkey',
+    'tehran':         'Tehran',
+    'paris':          'France',
+    'marseille':      'France',
+    'lyon':           'France',
+    'le-pontet':      'France',
+    'provence-alpes-cote-d-azur': 'France',
+    'moscow':         'Russia',
+    'karachi':        'Karachi',
+    'lahore':         'Karachi',
+    'mumbai':         'Karachi',
+    'dhaka':          'Karachi',
+    'jakarta':        'Singapore',
+    'kuala-lumpur':   'Singapore',
+    'new-york':       'ISNA',
+    'chicago':        'ISNA',
+    'toronto':        'ISNA',
+    // Non-Arab Europe (no dedicated method) → Makkah
     'london':         'Makkah',
     'berlin':         'Makkah',
     'madrid':         'Makkah',
     'rome':           'Makkah',
-    'algiers':        'Makkah',
-    'casablanca':     'Makkah',
-    'karachi':        'Makkah',
-    'mumbai':         'Makkah',
-    'dhaka':          'Makkah',
-    'jakarta':        'Makkah',
-    'kuala-lumpur':   'Makkah',
-    'new-york':       'Makkah',
-    'toronto':        'Makkah',
-    'moscow':         'Makkah',
 };
 
 // Extract the SSR _SSR_METHOD_BY_CC map by parsing server.js. We only
@@ -90,11 +106,19 @@ console.log('══════════════════════�
 console.log(' (1) SSR ↔ JS map alignment (every cell pair must match)');
 console.log('═══════════════════════════════════════════════════════════════════════');
 let alignFails = 0;
-// PT-METHOD-2: only `eg` is in the map. Everything else uses the
-// 'Makkah' fallback in the resolver, so the maps themselves should
-// contain ONLY the 'eg' entry. The fallback is verified separately.
+// PT-METHOD-3: dedicated-method countries explicitly mapped; Gulf/Arab
+// countries explicitly mapped to 'Makkah' for clarity; everything else
+// falls through to 'Makkah' via the resolver.
 const checkPairs = [
     ['eg', 'Egypt'],
+    ['fr', 'France'],
+    ['tr', 'Turkey'], ['ir', 'Tehran'], ['ru', 'Russia'],
+    ['pk', 'Karachi'], ['in', 'Karachi'],
+    ['my', 'Singapore'], ['id', 'Singapore'],
+    ['us', 'ISNA'], ['ca', 'ISNA'],
+    ['sa', 'Makkah'], ['kw', 'Makkah'], ['qa', 'Makkah'],
+    ['ae', 'Makkah'], ['iq', 'Makkah'], ['jo', 'Makkah'],
+    ['dz', 'Makkah'], ['ma', 'Makkah'], ['tn', 'Makkah'],
 ];
 console.log('cc   | SSR map        | JS map         | Expected');
 console.log('-----|----------------|----------------|----------');
@@ -131,14 +155,29 @@ for (const [slug, want] of Object.entries(EXPECTED)) {
     // via the country-name → cc lookup that PT-CITY-INFO-1 produced.
     // For brevity, just print what was resolved + check that NO 'Makkah'
     // appears in non-Saudi/Yemen rows.
-    // PT-METHOD-2: every country should resolve to Makkah EXCEPT
-    // Egypt (which uses 'Egypt'). The expected method is determined
-    // purely by the country name — if 'مصر' is in the country card,
-    // the method must be 'Egypt'; otherwise it must be 'Makkah'.
-    const expectedFromCountry = (country === 'مصر') ? 'Egypt' : 'Makkah';
+    // PT-METHOD-3: lookup the expected method based on country name.
+    // Empty cell = expectation matches per the test definition;
+    // mismatch = test fail.
+    const EXPECTED_BY_COUNTRY = {
+        'مصر': 'Egypt',
+        'فرنسا': 'France',
+        'تركيا': 'Turkey',
+        'إيران': 'Tehran',
+        'روسيا': 'Russia',
+        'باكستان': 'Karachi',
+        'الهند': 'Karachi',
+        'بنغلاديش': 'Karachi',
+        'أفغانستان': 'Karachi',
+        'إندونيسيا': 'Singapore',
+        'ماليزيا': 'Singapore',
+        'الولايات المتحدة': 'ISNA',
+        'كندا': 'ISNA',
+        'المكسيك': 'ISNA',
+    };
+    const expectedFromCountry = EXPECTED_BY_COUNTRY[country] || 'Makkah';
     const pass = (want === expectedFromCountry);
     if (!pass) perSlugFails++;
-    console.log(`${slug.padEnd(30)} | ${country.padEnd(11)} | ${want.padEnd(8)} | ${expectedFromCountry.padEnd(12)} | ${pass ? '✓' : '✗'}`);
+    console.log(`${slug.padEnd(30)} | ${country.padEnd(18).slice(0,18)} | ${want.padEnd(8)} | ${expectedFromCountry.padEnd(12)} | ${pass ? '✓' : '✗'}`);
 }
 console.log('');
 
@@ -160,9 +199,20 @@ const dom = new JSDOM(`
 const win = dom.window;
 const sel = win.document.getElementById('calc-method');
 
-// Inline a minimal version of the resolver (PT-METHOD-2 simplified).
-const _AUTO_METHOD_BY_CC = { eg: 'Egypt' };
-const _VALID = new Set(['Makkah','MWL','ISNA','France','Egypt']);
+// Inline a minimal version of the resolver (PT-METHOD-3).
+const _AUTO_METHOD_BY_CC = {
+    eg: 'Egypt',
+    fr: 'France', tr: 'Turkey', ir: 'Tehran', ru: 'Russia',
+    pk: 'Karachi', in: 'Karachi', bd: 'Karachi', af: 'Karachi',
+    my: 'Singapore', id: 'Singapore', sg: 'Singapore', bn: 'Singapore',
+    us: 'ISNA', ca: 'ISNA', mx: 'ISNA',
+    sa: 'Makkah', kw: 'Makkah', qa: 'Makkah',
+    ae: 'Makkah', bh: 'Makkah', om: 'Makkah', ye: 'Makkah',
+    iq: 'Makkah', jo: 'Makkah', lb: 'Makkah', ps: 'Makkah', sy: 'Makkah',
+    ly: 'Makkah', sd: 'Makkah', ss: 'Makkah',
+    dz: 'Makkah', ma: 'Makkah', tn: 'Makkah', mr: 'Makkah',
+};
+const _VALID = new Set(['Makkah','MWL','ISNA','France','Egypt','Turkey','Tehran','Russia','Karachi','Singapore']);
 function _userExplicit() {
     try {
         const v = win.localStorage.getItem('calc_method_user');
@@ -177,34 +227,45 @@ function autoSelectMethod(cc) {
     sel.value = method;
 }
 
-// Scenario A: no localStorage → cc='fr' → Makkah (universal default).
+// Scenario A: cc='fr' → France (preserved dedicated method).
 win.localStorage.removeItem('calc_method_user');
 autoSelectMethod('fr');
-console.log(`A) cc='fr', no userPick    → sel.value=${sel.value}    expected=Makkah    ${sel.value==='Makkah'?'✓':'✗'}`);
+console.log(`A) cc='fr', no userPick   → sel.value=${sel.value}    expected=France    ${sel.value==='France'?'✓':'✗'}`);
 
-// Scenario B: localStorage explicit 'MWL' + cc='fr' → method stays MWL (user wins).
+// Scenario B: cc='fr' + userPick='MWL' → MWL (user wins).
 win.localStorage.setItem('calc_method_user', 'MWL');
 autoSelectMethod('fr');
 console.log(`B) cc='fr', userPick='MWL' → sel.value=${sel.value}       expected=MWL       ${sel.value==='MWL'?'✓':'✗'}`);
 
-// Scenario C: localStorage explicit 'France' + cc='fr' → method stays France.
-win.localStorage.setItem('calc_method_user', 'France');
-autoSelectMethod('fr');
-console.log(`C) cc='fr', userPick='France' → sel.value=${sel.value}     expected=France    ${sel.value==='France'?'✓':'✗'}`);
-
-// Scenario D: localStorage garbage → rejected, fall back to country default.
+// Scenario C: garbage in localStorage → rejected, country default.
 win.localStorage.setItem('calc_method_user', 'umm_al_qura');
 autoSelectMethod('fr');
-console.log(`D) cc='fr', userPick=garbage → sel.value=${sel.value}    expected=Makkah  (garbage rejected)  ${sel.value==='Makkah'?'✓':'✗'}`);
+console.log(`C) cc='fr', userPick=garbage → sel.value=${sel.value}    expected=France  (garbage rejected)  ${sel.value==='France'?'✓':'✗'}`);
 
-// Scenario E: cc='eg' → Egypt.
+// Scenario D: cc='eg' → Egypt.
 win.localStorage.removeItem('calc_method_user');
 autoSelectMethod('eg');
-console.log(`E) cc='eg', no userPick    → sel.value=${sel.value}     expected=Egypt     ${sel.value==='Egypt'?'✓':'✗'}`);
+console.log(`D) cc='eg', no userPick   → sel.value=${sel.value}     expected=Egypt     ${sel.value==='Egypt'?'✓':'✗'}`);
 
-// Scenario F: cc='xx' (unknown) → Makkah fallback.
+// Scenario E: cc='sa' → Makkah.
+autoSelectMethod('sa');
+console.log(`E) cc='sa', no userPick   → sel.value=${sel.value}    expected=Makkah    ${sel.value==='Makkah'?'✓':'✗'}`);
+
+// Scenario F: cc='kw' (Gulf) → Makkah (per user policy, NOT Kuwait).
+autoSelectMethod('kw');
+console.log(`F) cc='kw', no userPick   → sel.value=${sel.value}    expected=Makkah    ${sel.value==='Makkah'?'✓':'✗'}`);
+
+// Scenario G: cc='us' → ISNA.
+autoSelectMethod('us');
+console.log(`G) cc='us', no userPick   → sel.value=${sel.value}      expected=ISNA      ${sel.value==='ISNA'?'✓':'✗'}`);
+
+// Scenario H: cc='gb' (UK, no dedicated method) → Makkah.
+autoSelectMethod('gb');
+console.log(`H) cc='gb', no userPick   → sel.value=${sel.value}    expected=Makkah    ${sel.value==='Makkah'?'✓':'✗'}`);
+
+// Scenario I: cc='xx' (unknown) → Makkah.
 autoSelectMethod('xx');
-console.log(`F) cc='xx', no userPick    → sel.value=${sel.value}    expected=Makkah    ${sel.value==='Makkah'?'✓':'✗'}`);
+console.log(`I) cc='xx', no userPick   → sel.value=${sel.value}    expected=Makkah    ${sel.value==='Makkah'?'✓':'✗'}`);
 
 console.log('');
 console.log(`Result: SSR-JS map align ${alignFails===0?'✓':'✗'}, per-slug ${perSlugFails===0?'✓':'✗'}`);

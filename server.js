@@ -845,23 +845,59 @@ function _resolveCcForSlug(slug) {
 // updates are seamless. Keys to inject:
 //   #time-fajr / #time-sunrise / #time-dhuhr / #time-asr / #time-maghrib / #time-isha
 //
-// PT-METHOD-2 (2026-05-12): SIMPLIFIED — per user decision, drop all the
-// per-country tuning that PT-METHOD-1 introduced. The new policy is just
-// two rules:
-//   - Egypt (cc === 'eg') → Egypt (Egyptian General Authority)
-//   - Everything else      → Makkah  (Umm Al-Qura — universal default)
+// PT-METHOD-3 (2026-05-12): Restored per-country mapping with the
+// user's revised policy:
+//   - Gulf + Arab countries (except Egypt) → Makkah (Umm Al-Qura).
+//     Even though Kuwait / Qatar / UAE have dedicated dropdown
+//     options, the user wants Arab-world default to be Umm Al-Qura.
+//   - Egypt → Egypt (Egyptian General Authority).
+//   - Countries with their OWN dedicated method KEEP it:
+//       France → France (UOIF)              — explicitly preserved
+//       USA / Canada / Mexico / Latin AM → ISNA — explicitly preserved
+//       Turkey → Turkey (Diyanet)
+//       Iran → Tehran
+//       Russia → Russia
+//       South Asia (PK/IN/BD/AF) → Karachi
+//       SE Asia (MY/ID/SG/BN) → Singapore
+//   - Everything else (Europe non-FR/RU, sub-Saharan Africa,
+//     Far East, Oceania, etc.) → Makkah  (changed from MWL in
+//     PT-METHOD-1 per user's "default Umm Al-Qura" instruction)
 //
-// User-explicit choice in `localStorage['calc_method_user']` overrides
-// the country default on the client; SSR can't read browser storage so
-// it always emits the country default.
-//
-// MIRRORED in js/app.js → `_AUTO_METHOD_BY_CC` / `autoSelectMethod` —
-// keep server.js and js/app.js in sync.
+// User-explicit choice in `localStorage['calc_method_user']` STILL
+// overrides the country default on the client (READ-only path —
+// Lyon→Riyadh-safe). MIRRORED in js/app.js → `_AUTO_METHOD_BY_CC`.
 const _SSR_METHOD_BY_CC = {
-    // Egypt — Egyptian General Authority method
+    // Egypt — the only Arab country with a dedicated method
     eg: 'Egypt',
-    // All other countries fall through to the Makkah default below
-    // (no per-country entries needed — the fallback handles them).
+    // Countries with their OWN dedicated methods (preserved)
+    fr: 'France',                                  // explicitly preserved
+    tr: 'Turkey',
+    ir: 'Tehran',
+    ru: 'Russia',
+    // South Asia → Karachi
+    pk: 'Karachi', in: 'Karachi', bd: 'Karachi', af: 'Karachi',
+    // SE Asia → Singapore
+    my: 'Singapore', id: 'Singapore', sg: 'Singapore', bn: 'Singapore',
+    // North America → ISNA (explicitly preserved per user)
+    us: 'ISNA', ca: 'ISNA', mx: 'ISNA',
+    // Latin America → ISNA (most Muslim communities follow ISNA)
+    br: 'ISNA', ar: 'ISNA', co: 'ISNA', ve: 'ISNA', cl: 'ISNA',
+    pe: 'ISNA', ec: 'ISNA', bo: 'ISNA', py: 'ISNA', uy: 'ISNA',
+    gt: 'ISNA', cu: 'ISNA', hn: 'ISNA', ni: 'ISNA', sv: 'ISNA',
+    cr: 'ISNA', pa: 'ISNA', do: 'ISNA', ht: 'ISNA',
+    jm: 'ISNA', tt: 'ISNA', bb: 'ISNA', bz: 'ISNA',
+    gy: 'ISNA', sr: 'ISNA', gf: 'ISNA',
+    // Gulf + Arab world (except Egypt) → Makkah
+    //   (explicit entries — fallback also is Makkah but listing for clarity)
+    sa: 'Makkah', kw: 'Makkah', qa: 'Makkah',
+    ae: 'Makkah', bh: 'Makkah', om: 'Makkah', ye: 'Makkah',
+    iq: 'Makkah', jo: 'Makkah', lb: 'Makkah', ps: 'Makkah', sy: 'Makkah',
+    ly: 'Makkah', sd: 'Makkah', ss: 'Makkah',
+    dz: 'Makkah', ma: 'Makkah', tn: 'Makkah', mr: 'Makkah',
+    so: 'Makkah', dj: 'Makkah', km: 'Makkah',
+    // Everything else (Europe non-FR/RU, sub-Saharan Africa, East Asia,
+    // Oceania, Central Asia, etc.) falls through to 'Makkah' via the
+    // fallback in `_ssrPrayerTimesFor`.
 };
 
 // Compute the IANA-timezone offset (in hours, fractional) for a given Date.
@@ -900,8 +936,10 @@ function _ssrPrayerTimesFor(slug) {
         const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3; // sa default
-        // PT-METHOD-2: per user policy, default is Makkah (Umm Al-Qura)
-        // for every country except Egypt (which uses the Egyptian method).
+        // PT-METHOD-3: country-mapped method, fall back to Makkah
+        // (Umm Al-Qura) for any country not explicitly listed. Countries
+        // with their own dedicated methods (France/USA/Turkey/Iran/Russia/
+        // Karachi-zone/Singapore-zone/Egypt) are preserved.
         const method = _SSR_METHOD_BY_CC[cc] || 'Makkah';
         PrayerTimesSrv.setMethod(method);
         PrayerTimesSrv.setTimeFormat('24h'); // SSR always emits 24h; client formats per-lang

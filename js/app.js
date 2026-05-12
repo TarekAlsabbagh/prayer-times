@@ -5818,6 +5818,21 @@ function fetchCitySuggestions(query) {
         }
 
         suggestionsEl.classList.add('open');
+
+        // PT-SEARCH-AR-4 (2026-05-12): if the user pressed Enter on a
+        // still-loading dropdown for THIS query, auto-click the first
+        // suggestion now that it's rendered. Net effect: typing a city
+        // not in LOCAL_CITIES + pressing Enter immediately navigates to
+        // the right city page without waiting for the user to spot the
+        // dropdown and click. We compare against `query` so a stale
+        // pending Enter from a different (earlier) query doesn't fire.
+        try {
+            if (window.__pendingSearchEnter === query) {
+                window.__pendingSearchEnter = null;
+                const _firstSug = suggestionsEl.querySelector('.suggestion-item');
+                if (_firstSug) setTimeout(() => { try { _firstSug.click(); } catch (_) {} }, 0);
+            }
+        } catch (_) { /* silent */ }
     })
     .catch(() => {
         // في حالة الخطأ: نُبقي على النتائج المحلية إن وجدت
@@ -5827,12 +5842,42 @@ function fetchCitySuggestions(query) {
                 : (isEnSugg ? 'Error, check your connection' : 'حدث خطأ، تحقق من الاتصال');
             suggestionsEl.innerHTML = `<div class="search-loading">${_errMsg}</div>`;
         }
+        // Clear any pending Enter so we don't auto-click stale state
+        // on a later unrelated search.
+        try {
+            if (window.__pendingSearchEnter === query) window.__pendingSearchEnter = null;
+        } catch (_) {}
     });
 }
 
 function onSearchKeyDown(e) {
     const suggestions = document.querySelectorAll('.suggestion-item');
-    if (!suggestions.length) return;
+    if (!suggestions.length) {
+        // PT-SEARCH-AR-4 (2026-05-12): Enter on an EMPTY/loading dropdown
+        // used to be a silent no-op — when the user typed a city that
+        // isn't in LOCAL_CITIES (Holguin, الخفجي, نابولي, …) and pressed
+        // Enter before the ~1-3s Nominatim fetch returned, NOTHING
+        // happened. The Nominatim pipeline was actually working — the
+        // user just couldn't get to the result. Now we:
+        //   1. Force an IMMEDIATE Nominatim fetch (skip 120ms debounce).
+        //   2. Stash `window.__pendingSearchEnter = query` so when the
+        //      fetch resolves and renders results, fetchCitySuggestions
+        //      auto-clicks the first suggestion — Enter behaves as
+        //      "go to result" even across an async network roundtrip.
+        if (e.key === 'Enter') {
+            const input = document.getElementById('city-search-input');
+            const q = input ? String(input.value || '').trim() : '';
+            if (q.length >= 2) {
+                e.preventDefault();
+                try { window.__pendingSearchEnter = q; } catch (_) {}
+                try { clearTimeout(searchDebounceTimer); } catch (_) {}
+                try { if (typeof fetchCitySuggestions === 'function') fetchCitySuggestions(q); } catch (_) {}
+            }
+        } else if (e.key === 'Escape') {
+            document.getElementById('city-suggestions')?.classList.remove('open');
+        }
+        return;
+    }
 
     if (e.key === 'ArrowDown') {
         e.preventDefault();
@@ -8981,10 +9026,22 @@ function _wireMoonHubHero() {
             });
             searchList.innerHTML = merged;
             _mhsBindClicks();
+
+            // PT-SEARCH-AR-4: if user pressed Enter while we were loading,
+            // auto-click the first newly-rendered result. Mirrors the same
+            // hook in fetchCitySuggestions.
+            try {
+                if (window.__pendingMoonHubEnter === q) {
+                    window.__pendingMoonHubEnter = null;
+                    const _first = searchList.querySelector('.qhsr-item');
+                    if (_first) setTimeout(() => { try { _first.click(); } catch (_) {} }, 0);
+                }
+            } catch (_) {}
         })
         .catch(() => {
             const loadingRow = searchList.querySelector('.qhsr-loading');
             if (loadingRow) loadingRow.remove();
+            try { if (window.__pendingMoonHubEnter === q) window.__pendingMoonHubEnter = null; } catch (_) {}
         });
     };
 
@@ -8997,7 +9054,20 @@ function _wireMoonHubHero() {
     searchEl.addEventListener('keydown', function (e) {
         const items = searchList ? searchList.querySelectorAll('.qhsr-item') : [];
         if (!items.length) {
-            if (e.key === 'Escape' && searchList) searchList.classList.remove('is-open');
+            // PT-SEARCH-AR-4: Enter on empty/loading dropdown → force
+            // immediate fetch + stash pending-Enter intent so the first
+            // result auto-clicks when it arrives.
+            if (e.key === 'Enter') {
+                const q = String(searchEl.value || '').trim();
+                if (q.length >= 2) {
+                    e.preventDefault();
+                    try { window.__pendingMoonHubEnter = q; } catch (_) {}
+                    try { clearTimeout(_mhsDebounce); } catch (_) {}
+                    try { renderSuggestions(q); } catch (_) {}
+                }
+            } else if (e.key === 'Escape' && searchList) {
+                searchList.classList.remove('is-open');
+            }
             return;
         }
         if (e.key === 'ArrowDown') {
@@ -14945,11 +15015,22 @@ function _loadQiblaHubPage(ctx) {
                     });
                     searchList.innerHTML = merged;
                     _qhsBindClicks();
+
+                    // PT-SEARCH-AR-4: if user pressed Enter while we were
+                    // loading, auto-click the first newly-rendered result.
+                    try {
+                        if (window.__pendingQiblaHubEnter === q) {
+                            window.__pendingQiblaHubEnter = null;
+                            const _first = searchList.querySelector('.qhsr-item');
+                            if (_first) setTimeout(() => { try { _first.click(); } catch (_) {} }, 0);
+                        }
+                    } catch (_) {}
                 })
                 .catch(() => {
                     // Network error — drop the loading row, keep local
                     const loadingRow = searchList.querySelector('.qhsr-loading');
                     if (loadingRow) loadingRow.remove();
+                    try { if (window.__pendingQiblaHubEnter === q) window.__pendingQiblaHubEnter = null; } catch (_) {}
                 });
             };
 
@@ -14963,7 +15044,19 @@ function _loadQiblaHubPage(ctx) {
             searchEl.addEventListener('keydown', function (e) {
                 const items = searchList ? searchList.querySelectorAll('.qhsr-item') : [];
                 if (!items.length) {
-                    if (e.key === 'Escape' && searchList) searchList.classList.remove('is-open');
+                    // PT-SEARCH-AR-4: Enter on empty/loading dropdown →
+                    // force immediate fetch + stash pending-Enter intent.
+                    if (e.key === 'Enter') {
+                        const q = String(searchEl.value || '').trim();
+                        if (q.length >= 2) {
+                            e.preventDefault();
+                            try { window.__pendingQiblaHubEnter = q; } catch (_) {}
+                            try { clearTimeout(_qhsDebounce); } catch (_) {}
+                            try { renderSuggestions(q); } catch (_) {}
+                        }
+                    } else if (e.key === 'Escape' && searchList) {
+                        searchList.classList.remove('is-open');
+                    }
                     return;
                 }
                 if (e.key === 'ArrowDown') {

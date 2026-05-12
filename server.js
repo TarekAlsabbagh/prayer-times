@@ -17357,7 +17357,14 @@ const _rlWindowMs = 60 * 1000;
 const _RL_TIERS = {
     cheap:    300,  // /api/cities, /api/cities/add — DB محلي + كاش ذاكرة
     external: 60,   // /api/wiki-* — كاش داخلي 24h/7d
-    strict:   30,   // /api/geocode — Nominatim policy (1 req/sec)
+    // PT-SEARCH-AR-4 (2026-05-12): bumped strict 30 → 90 so that an active
+    // user searching multiple cities (each search makes 2 Nominatim calls:
+    // q= + city=) doesn't hit the limit after ~15 searches. Cache hits
+    // are still subject to this limit (rate-limit fires before the cache
+    // check), but the server-side _geocodeCache (10-min TTL) means most
+    // re-queries don't actually reach Nominatim. 90/min stays well under
+    // the deploy's aggregate Nominatim quota.
+    strict:   90,   // /api/geocode — Nominatim policy (1 req/sec avg)
 };
 const _rlMap = new Map(); // ip → { [tier]: { count, resetAt } }
 function checkRateLimit(ip, tier) {

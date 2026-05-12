@@ -9824,7 +9824,12 @@ function updatePageSEO() {
     const lang = urls.lang;
     const isEn = urls.isEn;
 
-    // ── الصفحة الرئيسية (6 لغات: ar, en, fr, tr, ur, de) ──
+    // ── الصفحة الرئيسية (كل اللغات العشر) ──
+    // PT-HOME-TITLE-FIX-1 (2026-05-12): cover all 10 supported UI langs.
+    // Previously only 6 (ar/en/fr/tr/ur/de) were listed — the missing
+    // 4 (id/es/bn/ms) silently fell through to "no match" and kept the
+    // SSR title intact by accident. We now match all 10 explicitly so
+    // the EARLY-RETURN below applies uniformly.
     const HOME_PATHS = {
         '/': 'ar',
         '/en/': 'en', '/en': 'en',
@@ -9832,72 +9837,31 @@ function updatePageSEO() {
         '/tr/': 'tr', '/tr': 'tr',
         '/ur/': 'ur', '/ur': 'ur',
         '/de/': 'de', '/de': 'de',
+        '/id/': 'id', '/id': 'id',
+        '/es/': 'es', '/es': 'es',
+        '/bn/': 'bn', '/bn': 'bn',
+        '/ms/': 'ms', '/ms': 'ms',
     };
     const homeLang = HOME_PATHS[path];
     if (homeLang) {
-        // Round 7e: محاذاة نصوص SSR (buildSeoForPath في server.js) — keywords ديناميكية
-        // تشمل: اليوم، مكة المكرمة، الشهر الهجري الحالي، الشهر الميلادي، أسماء الصلوات الـ5.
-        const _hToday  = (typeof HijriDate !== 'undefined' && HijriDate.getToday) ? HijriDate.getToday() : null;
-        const _hD      = _hToday ? _hToday.day                              : '';
-        const _hMAr    = _hToday ? HijriDate.hijriMonths[_hToday.month - 1] : '';
-        const _hMEn    = _hToday ? HIJRI_MONTHS_EN[_hToday.month - 1]       : '';
-        const _hY      = _hToday ? _hToday.year : '';
-        const _gNow    = new Date();
-        const _gD      = _gNow.getDate();
-        const _gMIdx   = _gNow.getMonth();
-        const _gY      = _gNow.getFullYear();
-        const _gMAr    = G_MONTHS_AR[_gMIdx];
-        const _gMEn    = G_MONTHS_EN[_gMIdx];
-        const _gMFr    = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'][_gMIdx];
-        const _gMTr    = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'][_gMIdx];
-        const _gMUr    = ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'][_gMIdx];
-        const _gMDe    = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'][_gMIdx];
-        const _gMId    = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][_gMIdx];
-        const _gMEs    = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][_gMIdx];
-        const _gMBn    = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][_gMIdx];
-        const _gMMs    = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'][_gMIdx];
-
-        // Phase Home-Global (2026-05-06): GENERIC homepage titles + descs.
-        // Hard-coded "Mecca/Madinah/مكة" was removed from client-side
-        // document.title rewrite to keep the homepage city-free.
-        // Phase Home-Global+day (2026-05-06): include today's Hijri day
-        // (e.g. "19 ذو القعدة 1447 هـ") for daily-fresh titles. Updates each
-        // day automatically — fits prayer-times-as-daily-page pattern.
-        // Phase HC-9.1 (2026-05-06): SEOptimer reported the Title as "too short"
-        // at 42 chars. Per-lang extension to 50-60 chars by appending "and the
-        // Hijri Date" (or local equivalent). Still GENERIC — no city anywhere.
-        const HOME_TITLES = {
-            ar: `مواقيت الصلاة اليوم والتاريخ الهجري | ${_hD} ${_hMAr} ${_hY} هـ`,
-            en: `Prayer Times Today and Hijri Date | ${_hD} ${_hMEn} ${_hY}`,
-            fr: `Heures de prière et date hégirienne | ${_hD} ${_hMEn} ${_hY}`,
-            tr: `Namaz Vakitleri ve Hicri Tarih | ${_hD} ${_hMEn} ${_hY}`,
-            ur: `آج اوقاتِ نماز اور ہجری تاریخ | ${_hD} ${_hMEn} ${_hY}`,
-            de: `Gebetszeiten und Hidschri-Datum | ${_hD} ${_hMEn} ${_hY}`,
-            id: `Jadwal Sholat dan Tanggal Hijriyah | ${_hD} ${_hMEn} ${_hY}`,
-            es: `Horarios de Oración y Fecha Hégira | ${_hD} ${_hMEn} ${_hY}`,
-            bn: `নামাজের সময় ও হিজরি তারিখ | ${_hD} ${_hMEn} ${_hY}`,
-            ms: `Waktu Solat dan Tarikh Hijri | ${_hD} ${_hMEn} ${_hY}`,
-        };
-        // Round 7h: إضافة الشهر الميلاديّ المحلَّى — phrase "أبريل 2026" في seoptimer
-        // Phase Home-Global: dropped "Mecca, Medina" geo-anchors from descs.
-        // Phase Home-Global+day: add Gregorian + Hijri DAY for daily freshness.
-        const HOME_DESCS = {
-            ar: `مواقيت الصلاة اليوم ${_gD} ${_gMAr} ${_gY}: الفجر، الظهر، العصر، المغرب، العشاء. التاريخ الهجري ${_hD} ${_hMAr} ${_hY} هـ، القبلة والزكاة.`,
-            en: `Prayer times today ${_gD} ${_gMEn} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hijri ${_hD} ${_hMEn} ${_hY} AH, Qibla, Zakat.`,
-            fr: `Heures de prière aujourd'hui ${_gD} ${_gMFr} ${_gY} : Fajr, Dhuhr, Asr, Maghrib, Isha. Hégire ${_hD} ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            tr: `Bugün namaz vakitleri ${_gD} ${_gMTr} ${_gY}: Fecir, Öğle, İkindi, Akşam, Yatsı. Hicri ${_hD} ${_hMEn} ${_hY}, kıble, zekât.`,
-            ur: `آج اوقاتِ نماز ${_gD} ${_gMUr} ${_gY}: فجر، ظہر، عصر، مغرب، عشاء۔ ہجری کیلنڈر ${_hD} ${_hMEn} ${_hY}، قبلہ، زکاۃ، دعائیں۔`,
-            de: `Heutige Gebetszeiten ${_gD} ${_gMDe} ${_gY}: Fajr, Dhuhr, Asr, Maghrib, Isha. Hidschri ${_hD} ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            id: `Jadwal sholat hari ini ${_gD} ${_gMId} ${_gY}: Subuh, Zuhur, Asar, Magrib, Isya. Hijriah ${_hD} ${_hMEn} ${_hY}, kiblat, zakat.`,
-            es: `Horarios de oración hoy ${_gD} ${_gMEs} ${_gY}: Fayr, Dhuhr, Asr, Magrib, Isha. Hijri ${_hD} ${_hMEn} ${_hY}, Qibla, Zakat.`,
-            bn: `আজকের নামাজের সময় ${_gD} ${_gMBn} ${_gY}: ফজর, জোহর, আসর, মাগরিব, এশা। হিজরি ক্যালেন্ডার ${_hD} ${_hMEn} ${_hY}, কিবলা, যাকাত, দোয়া।`,
-            ms: `Waktu solat hari ini ${_gD} ${_gMMs} ${_gY}: Subuh, Zohor, Asar, Maghrib, Isyak. Hijrah ${_hD} ${_hMEn} ${_hY}, Kiblat, Zakat.`,
-        };
-        setSEOMeta({
-            title: HOME_TITLES[homeLang] || HOME_TITLES.ar,
-            description: HOME_DESCS[homeLang] || HOME_DESCS.ar,
-            ogType: 'website'
-        });
+        // PT-HOME-TITLE-FIX-1 (2026-05-12): the SSR `_HOME_TITLES` map
+        // in server.js:5831 already emits the correct, curated Title
+        // (with `|` separator, no date stuffing) for every one of the
+        // 10 supported langs. The JS-side rewrite below was producing
+        // a DIFFERENT template (date-stuffed, "and the Hijri date"
+        // connector that displaced the `|` separator) and overwriting
+        // the SSR Title on hydrate. Net effect: a visible Title flicker
+        // and a worse SEOptimer signature.
+        //
+        // Per the user's preferred fix ("الحل الأبسط: إذا كنا على الصفحة
+        // الرئيسية، لا تعد كتابة title/meta من JS"), we now SKIP the
+        // homepage rewrite entirely. The SSR Title / Description / OG /
+        // hreflang / canonical were all set by `serveHtmlWithSeo` and
+        // stay correct without JS interference.
+        //
+        // SCOPE — only the homepage rewrite is suppressed; the rest of
+        // updatePageSEO (city pages, hijri pages, qibla hub, moon hub,
+        // zakat, dateconverter, etc.) remains unchanged.
         return;
     }
 

@@ -5832,69 +5832,117 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 }
 
 // اختيار طريقة الحساب تلقائياً — يعتمد على كود الدولة ISO (ثابت دائماً بغض النظر عن اللغة)
+// PT-METHOD-1 (2026-05-12): country → method mapping. MUST stay in sync
+// with `_SSR_METHOD_BY_CC` in server.js. Available keys (from the
+// <select id="calc-method"> in index.html and js/prayer-times.js):
+//   Makkah  MWL  ISNA  Egypt  Karachi  Tehran  Jafari  Gulf
+//   Kuwait  Qatar  Singapore  Turkey  France  Russia
+//
+// Priority resolution (see `autoSelectMethod` below):
+//   1. localStorage['calc_method_user']   ← USER explicit choice (highest)
+//   2. _AUTO_METHOD_BY_CC[countryCode]    ← country-based default
+//   3. 'MWL'                              ← universal fallback (NOT Makkah)
+const _AUTO_METHOD_BY_CC = {
+    // Saudi Arabia — only country that uses Umm Al-Qura by default
+    'sa': 'Makkah',
+    // Specific Gulf states with dedicated methods
+    'kw': 'Kuwait', 'qa': 'Qatar',
+    // Other Gulf — Gulf 90-minute Isha
+    'ae': 'Gulf', 'bh': 'Gulf', 'om': 'Gulf',
+    'ye': 'Makkah',
+    // Egyptian General Authority
+    'eg': 'Egypt', 'ly': 'Egypt', 'sd': 'Egypt', 'ss': 'Egypt',
+    // Iran — Tehran
+    'ir': 'Tehran',
+    // Turkey — Diyanet
+    'tr': 'Turkey',
+    // France — UOIF                                ← THE PRIMARY FIX
+    'fr': 'France',
+    // Russia
+    'ru': 'Russia',
+    // South Asia — Karachi
+    'pk': 'Karachi', 'in': 'Karachi', 'bd': 'Karachi', 'af': 'Karachi',
+    // SE Asia — Singapore method
+    'my': 'Singapore', 'id': 'Singapore', 'sg': 'Singapore', 'bn': 'Singapore',
+    // North America — ISNA
+    'us': 'ISNA', 'ca': 'ISNA', 'mx': 'ISNA',
+    // Latin America — most Muslim communities use ISNA
+    'br': 'ISNA', 'ar': 'ISNA', 'co': 'ISNA', 've': 'ISNA',
+    'cl': 'ISNA', 'pe': 'ISNA', 'ec': 'ISNA', 'bo': 'ISNA', 'py': 'ISNA',
+    'uy': 'ISNA', 'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
+    'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
+    'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
+    'sr': 'ISNA', 'gf': 'ISNA',
+    // Levant — MWL (previously Makkah, which was wrong)
+    'iq': 'MWL', 'jo': 'MWL', 'lb': 'MWL', 'ps': 'MWL', 'sy': 'MWL',
+    // Maghreb / North Africa (non-Egypt)
+    'dz': 'MWL', 'ma': 'MWL', 'tn': 'MWL', 'mr': 'MWL',
+    // Western Europe (non-FR/RU) — MWL (was Makkah, wrong)
+    'gb': 'MWL', 'de': 'MWL', 'nl': 'MWL', 'be': 'MWL', 'es': 'MWL',
+    'it': 'MWL', 'ch': 'MWL', 'at': 'MWL', 'pt': 'MWL', 'gr': 'MWL',
+    'ie': 'MWL', 'lu': 'MWL', 'mt': 'MWL', 'cy': 'MWL',
+    // Eastern Europe
+    'pl': 'MWL', 'cz': 'MWL', 'sk': 'MWL', 'hu': 'MWL', 'ro': 'MWL',
+    'bg': 'MWL', 'hr': 'MWL', 'ba': 'MWL', 'rs': 'MWL', 'mk': 'MWL',
+    'al': 'MWL', 'xk': 'MWL', 'ua': 'MWL', 'by': 'MWL', 'md': 'MWL',
+    // Nordics + Baltics
+    'no': 'MWL', 'se': 'MWL', 'fi': 'MWL', 'dk': 'MWL', 'is': 'MWL',
+    'ee': 'MWL', 'lv': 'MWL', 'lt': 'MWL',
+    // Central Asia + Caucasus
+    'kz': 'MWL', 'uz': 'MWL', 'tm': 'MWL', 'tj': 'MWL', 'kg': 'MWL',
+    'az': 'MWL', 'am': 'MWL', 'ge': 'MWL',
+    // Sub-Saharan Africa
+    'so': 'MWL', 'et': 'MWL', 'ng': 'MWL', 'sn': 'MWL', 'ml': 'MWL',
+    'ne': 'MWL', 'td': 'MWL', 'gh': 'MWL', 'tz': 'MWL', 'ke': 'MWL',
+    'mz': 'MWL', 'gn': 'MWL', 'bf': 'MWL', 'ci': 'MWL', 'cm': 'MWL',
+    'gm': 'MWL', 'sl': 'MWL', 'tg': 'MWL', 'bj': 'MWL', 'ug': 'MWL',
+    'za': 'MWL', 'dj': 'MWL', 'km': 'MWL',
+    // Other Asia
+    'ph': 'MWL', 'th': 'MWL', 'mm': 'MWL', 'cn': 'MWL', 'jp': 'MWL',
+    'kr': 'MWL', 'tw': 'MWL', 'hk': 'MWL',
+    // Oceania
+    'au': 'MWL', 'nz': 'MWL',
+};
+
+// All valid method keys (from the <select> in index.html). Used to
+// validate localStorage values before applying — protects against stale
+// or invalid records like 'umm_al_qura' / 'turkey_diyanet'.
+const _VALID_METHOD_KEYS = new Set([
+    'Makkah', 'MWL', 'ISNA', 'Egypt', 'Karachi', 'Tehran', 'Jafari',
+    'Gulf', 'Kuwait', 'Qatar', 'Singapore', 'Turkey', 'France', 'Russia',
+]);
+
+// Read the user-explicit method choice from localStorage.
+// Returns a valid key or '' (so callers fall through to country default).
+function _userExplicitMethod() {
+    try {
+        const v = localStorage.getItem('calc_method_user');
+        if (v && _VALID_METHOD_KEYS.has(v)) return v;
+    } catch (_) {}
+    return '';
+}
+
 function autoSelectMethod(countryCode, countryName) {
-    // خريطة كود ISO → طريقة الحساب
-    const codeMap = {
-        // الخليج والجزيرة العربية
-        'sa': 'Makkah', 'ae': 'Makkah', 'bh': 'Makkah', 'om': 'Makkah', 'ye': 'Makkah',
-        'kw': 'Kuwait',
-        'qa': 'Qatar',
-        // المشرق العربي
-        'sy': 'Makkah', 'iq': 'MWL', 'jo': 'MWL', 'lb': 'MWL', 'ps': 'MWL',
-        // شمال أفريقيا
-        'eg': 'Egypt', 'ly': 'Egypt', 'sd': 'Egypt', 'ss': 'Egypt',
-        'dz': 'MWL', 'ma': 'MWL', 'tn': 'MWL', 'mr': 'MWL',
-        // أفريقيا جنوب الصحراء
-        'so': 'MWL', 'et': 'MWL', 'ng': 'MWL', 'sn': 'MWL', 'ml': 'MWL',
-        'ne': 'MWL', 'td': 'MWL', 'gh': 'MWL', 'tz': 'MWL', 'ke': 'MWL',
-        'mz': 'MWL', 'gn': 'MWL', 'bf': 'MWL', 'ci': 'MWL', 'cm': 'MWL',
-        'gm': 'MWL', 'sl': 'MWL', 'tg': 'MWL', 'bj': 'MWL', 'ug': 'MWL',
-        // آسيا الوسطى والجنوبية
-        'pk': 'Karachi', 'in': 'Karachi', 'bd': 'Karachi', 'af': 'Karachi',
-        'kz': 'MWL', 'uz': 'MWL', 'tm': 'MWL', 'tj': 'MWL', 'kg': 'MWL',
-        // الشرق الأوسط
-        'ir': 'Tehran',
-        'tr': 'Turkey',
-        'az': 'MWL',
-        // جنوب شرق آسيا
-        'my': 'Singapore', 'id': 'Singapore', 'sg': 'Singapore',
-        'bn': 'MWL', 'ph': 'MWL', 'th': 'MWL', 'mm': 'MWL',
-        // أمريكا الشمالية
-        'us': 'ISNA', 'ca': 'ISNA',
-        // أمريكا اللاتينية — تستخدم طريقة أمريكا الشمالية (ISNA)
-        'mx': 'ISNA', 'br': 'ISNA', 'ar': 'ISNA', 'co': 'ISNA', 've': 'ISNA',
-        'cl': 'ISNA', 'pe': 'ISNA', 'ec': 'ISNA', 'bo': 'ISNA', 'py': 'ISNA',
-        'uy': 'ISNA', 'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
-        'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
-        'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
-        'sr': 'ISNA', 'gf': 'ISNA',
-        // أوروبا — دول عالية الخط الجغرافي (فوق 55°) تستخدم MWL
-        // لأن طريقة مكة (90 دقيقة ثابتة) غير مناسبة للعروض العالية
-        'no': 'MWL', 'se': 'MWL', 'fi': 'MWL', 'dk': 'MWL', 'is': 'MWL',
-        'ee': 'MWL', 'lv': 'MWL', 'lt': 'MWL',
-        // بقية أوروبا — أم القرى
-        'fr': 'Makkah', 'be': 'Makkah', 'lu': 'Makkah',
-        'ru': 'Makkah',
-        'gb': 'Makkah', 'de': 'Makkah', 'nl': 'Makkah', 'es': 'Makkah', 'it': 'Makkah',
-        'ch': 'Makkah',
-        'at': 'Makkah', 'pt': 'Makkah', 'gr': 'Makkah', 'pl': 'Makkah', 'cz': 'Makkah',
-        'sk': 'Makkah', 'hu': 'Makkah', 'ro': 'Makkah', 'bg': 'Makkah', 'hr': 'Makkah',
-        'ba': 'Makkah', 'rs': 'Makkah', 'mk': 'Makkah', 'al': 'Makkah', 'xk': 'Makkah',
-        'ua': 'Makkah', 'by': 'Makkah', 'md': 'Makkah', 'mt': 'Makkah', 'cy': 'Makkah',
-        'ie': 'Makkah',
-        // أوقيانوسيا
-        'au': 'MWL', 'nz': 'MWL',
-    };
+    // Priority 1: user's explicit choice (set ONLY by the dropdown change
+    // event below — programmatic `.value = …` doesn't fire change so it's
+    // never auto-recorded as explicit).
+    const userPick = _userExplicitMethod();
+    if (userPick) {
+        const sel = document.getElementById('calc-method');
+        if (sel && sel.value !== userPick) sel.value = userPick;
+        return;
+    }
 
-    // أولاً: ابحث عبر كود الدولة (الأكثر موثوقية)
+    // Priority 2: country-based default.
     const code = (countryCode || '').toLowerCase().trim();
-    let method = codeMap[code];
+    let method = _AUTO_METHOD_BY_CC[code];
 
-    // ثانياً: إذا لم يُوجد الكود، ابحث عبر الاسم (احتياطي)
+    // Priority 2.5: country-name fallback for legacy callers that have
+    // names but not codes. Covers the most common entries.
     if (!method && countryName) {
         const nameMap = {
             'Saudi Arabia': 'Makkah', 'المملكة العربية السعودية': 'Makkah',
-            'UAE': 'Makkah', 'United Arab Emirates': 'Makkah', 'الإمارات': 'Makkah',
+            'UAE': 'Gulf', 'United Arab Emirates': 'Gulf', 'الإمارات': 'Gulf',
             'Kuwait': 'Kuwait', 'الكويت': 'Kuwait',
             'Qatar': 'Qatar', 'قطر': 'Qatar',
             'Egypt': 'Egypt', 'مصر': 'Egypt',
@@ -5906,23 +5954,43 @@ function autoSelectMethod(countryCode, countryName) {
             'Indonesia': 'Singapore', 'إندونيسيا': 'Singapore',
             'United States': 'ISNA', 'USA': 'ISNA', 'الولايات المتحدة': 'ISNA',
             'Canada': 'ISNA', 'كندا': 'ISNA',
-            'France': 'Makkah', 'فرنسا': 'Makkah',
-            'Russia': 'Makkah', 'روسيا': 'Makkah',
-            'United Kingdom': 'Makkah', 'UK': 'Makkah', 'Britain': 'Makkah', 'المملكة المتحدة': 'Makkah',
-            'Germany': 'Makkah', 'ألمانيا': 'Makkah',
-            'Spain': 'Makkah', 'إسبانيا': 'Makkah',
-            'Italy': 'Makkah', 'إيطاليا': 'Makkah',
-            'Netherlands': 'Makkah', 'هولندا': 'Makkah',
-            'Belgium': 'Makkah', 'بلجيكا': 'Makkah',
+            'France': 'France', 'فرنسا': 'France',                 // ← THE FIX
+            'Russia': 'Russia', 'روسيا': 'Russia',
+            // Everything else falls through to MWL via the priority-3 default
         };
         method = nameMap[countryName];
     }
 
-    if (method) {
-        const sel = document.getElementById('calc-method');
-        if (sel && sel.value !== method) sel.value = method;
-    }
+    // Priority 3: universal fallback. MWL — NOT Makkah.
+    if (!method) method = 'MWL';
+
+    const sel = document.getElementById('calc-method');
+    if (sel && sel.value !== method) sel.value = method;
 }
+
+// PT-METHOD-1: wire the dropdown change event so user-explicit picks
+// persist across reloads and page navigations. Programmatic `.value = …`
+// in autoSelectMethod does NOT fire change, so this listener ONLY records
+// real user interaction.
+document.addEventListener('DOMContentLoaded', function _wireCalcMethodPersistence() {
+    const sel = document.getElementById('calc-method');
+    if (!sel) return;
+    sel.addEventListener('change', function _onMethodChange() {
+        try {
+            const v = sel.value;
+            if (v && _VALID_METHOD_KEYS.has(v)) {
+                localStorage.setItem('calc_method_user', v);
+            }
+        } catch (_) { /* localStorage may throw in private mode — ignore */ }
+    });
+    // On page load: if user previously chose explicitly, restore that
+    // value into the dropdown BEFORE autoSelectMethod runs (it'll see
+    // userPick and short-circuit, preserving the choice).
+    try {
+        const v = _userExplicitMethod();
+        if (v && sel.value !== v) sel.value = v;
+    } catch (_) {}
+});
 
 // جلب اسم المدينة/الدولة مترجَم إلى اللغة الحالية (ur/tr/fr فقط — ar/en مغطّاة بمسارات أخرى)
 // يُحدِّث currentLocalizedName/currentLocalizedCountry ثم يُعيد رسم الواجهة

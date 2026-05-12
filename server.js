@@ -844,20 +844,83 @@ function _resolveCcForSlug(slug) {
 // using js/prayer-times.js — same algorithm the browser runs, so client-side
 // updates are seamless. Keys to inject:
 //   #time-fajr / #time-sunrise / #time-dhuhr / #time-asr / #time-maghrib / #time-isha
-// Method picked from countryCode (mirrors client autoSelectMethod() subset).
+//
+// PT-METHOD-1 (2026-05-12): country → method mapping rebuild. Previous map
+// used `Makkah` (Umm Al-Qura) as a default for many non-Saudi countries
+// (France/UK/Germany/Spain/Italy/NL/RU/…) which is wrong — Umm Al-Qura is
+// the official method for Saudi Arabia only. New defaults:
+//   - Saudi Arabia → Makkah (Umm Al-Qura)               [only SA]
+//   - Kuwait / Qatar → their own methods
+//   - UAE / Bahrain / Oman → Gulf
+//   - Egypt / Libya / Sudan / S. Sudan → Egypt
+//   - Iran → Tehran
+//   - Turkey → Turkey (Diyanet)
+//   - France → France (UOIF)                             ← THE PRIMARY FIX
+//   - Russia → Russia
+//   - South Asia (PK/IN/BD/AF) → Karachi
+//   - SE Asia (MY/ID/SG/BN) → Singapore
+//   - North + Latin America → ISNA
+//   - Everywhere else → MWL  (Muslim World League — widely-accepted default)
+//
+// MIRRORED in js/app.js → `autoSelectMethod.codeMap` — keep the two maps in
+// sync. Client-side respects user-explicit choice via localStorage
+// (`calc_method_user`), which is set ONLY when the dropdown change event
+// fires (programmatic `.value = …` from autoSelectMethod does NOT trigger
+// change, so it never gets recorded as an explicit user choice).
 const _SSR_METHOD_BY_CC = {
-    sa:'Makkah', ae:'Makkah', bh:'Makkah', om:'Makkah', ye:'Makkah',
-    kw:'Kuwait', qa:'Qatar',
-    sy:'Makkah', iq:'MWL', jo:'MWL', lb:'MWL', ps:'MWL',
-    eg:'Egypt', ly:'Egypt', sd:'Egypt', ss:'Egypt',
-    dz:'MWL', ma:'MWL', tn:'MWL', mr:'MWL',
-    pk:'Karachi', in:'Karachi', bd:'Karachi', af:'Karachi',
-    ir:'Tehran', tr:'Turkey',
-    my:'Singapore', id:'Singapore', sg:'Singapore',
-    us:'ISNA', ca:'ISNA', mx:'ISNA', br:'ISNA',
-    no:'MWL', se:'MWL', fi:'MWL', dk:'MWL', is:'MWL',
-    fr:'Makkah', de:'Makkah', gb:'Makkah', es:'Makkah', it:'Makkah',
-    nl:'Makkah', ru:'Makkah', au:'MWL', nz:'MWL',
+    // Saudi Arabia — the only country that uses Umm Al-Qura by default
+    sa: 'Makkah',
+    // Specific Gulf states with their own dedicated methods
+    kw: 'Kuwait', qa: 'Qatar',
+    // Other Gulf — Gulf 90-minute Isha method
+    ae: 'Gulf', bh: 'Gulf', om: 'Gulf',
+    ye: 'Makkah',
+    // Egyptian General Authority method
+    eg: 'Egypt', ly: 'Egypt', sd: 'Egypt', ss: 'Egypt',
+    // Iran
+    ir: 'Tehran',
+    // Turkey — Diyanet
+    tr: 'Turkey',
+    // France — UOIF (Union des organisations islamiques de France)
+    fr: 'France',
+    // Russia — Spiritual Boards
+    ru: 'Russia',
+    // South Asia — University of Islamic Sciences, Karachi
+    pk: 'Karachi', in: 'Karachi', bd: 'Karachi', af: 'Karachi',
+    // SE Asia — Singapore method
+    my: 'Singapore', id: 'Singapore', sg: 'Singapore', bn: 'Singapore',
+    // North America — Islamic Society of North America
+    us: 'ISNA', ca: 'ISNA', mx: 'ISNA',
+    // Latin America — most Muslim communities use ISNA
+    br: 'ISNA', ar: 'ISNA', co: 'ISNA', ve: 'ISNA', cl: 'ISNA', pe: 'ISNA',
+    ec: 'ISNA', bo: 'ISNA', py: 'ISNA', uy: 'ISNA', gt: 'ISNA',
+    // Levant — MWL is the standard (previously Makkah, which was wrong)
+    iq: 'MWL', jo: 'MWL', lb: 'MWL', ps: 'MWL', sy: 'MWL',
+    // Maghreb / North Africa (non-Egypt) — MWL
+    dz: 'MWL', ma: 'MWL', tn: 'MWL', mr: 'MWL',
+    // Western Europe (non-FR/RU) — MWL  (was Makkah everywhere, wrong)
+    gb: 'MWL', de: 'MWL', nl: 'MWL', be: 'MWL', es: 'MWL', it: 'MWL',
+    ch: 'MWL', at: 'MWL', pt: 'MWL', gr: 'MWL', ie: 'MWL', lu: 'MWL',
+    // Eastern Europe — MWL
+    pl: 'MWL', cz: 'MWL', sk: 'MWL', hu: 'MWL', ro: 'MWL', bg: 'MWL',
+    hr: 'MWL', ba: 'MWL', rs: 'MWL', mk: 'MWL', al: 'MWL', xk: 'MWL',
+    ua: 'MWL', by: 'MWL', md: 'MWL', mt: 'MWL', cy: 'MWL',
+    // Nordics
+    no: 'MWL', se: 'MWL', fi: 'MWL', dk: 'MWL', is: 'MWL',
+    ee: 'MWL', lv: 'MWL', lt: 'MWL',
+    // Central Asia
+    kz: 'MWL', uz: 'MWL', tm: 'MWL', tj: 'MWL', kg: 'MWL', az: 'MWL',
+    // Oceania
+    au: 'MWL', nz: 'MWL',
+    // Sub-Saharan Africa & rest → MWL
+    so: 'MWL', et: 'MWL', ng: 'MWL', sn: 'MWL', ml: 'MWL',
+    ne: 'MWL', td: 'MWL', gh: 'MWL', tz: 'MWL', ke: 'MWL',
+    mz: 'MWL', gn: 'MWL', bf: 'MWL', ci: 'MWL', cm: 'MWL',
+    gm: 'MWL', sl: 'MWL', tg: 'MWL', bj: 'MWL', ug: 'MWL',
+    za: 'MWL', dj: 'MWL', km: 'MWL',
+    // Other Asia
+    ph: 'MWL', th: 'MWL', mm: 'MWL', cn: 'MWL', jp: 'MWL', kr: 'MWL',
+    tw: 'MWL', hk: 'MWL',
 };
 
 // Compute the IANA-timezone offset (in hours, fractional) for a given Date.
@@ -896,8 +959,10 @@ function _ssrPrayerTimesFor(slug) {
         const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3; // sa default
-        // Configure PrayerTimes for this city's method (Makkah default).
-        const method = _SSR_METHOD_BY_CC[cc] || 'Makkah';
+        // PT-METHOD-1: pick country method, fall back to MWL — NOT Makkah —
+        // since Umm Al-Qura is the official method for Saudi Arabia only.
+        // MWL (Muslim World League) is the widely-accepted universal default.
+        const method = _SSR_METHOD_BY_CC[cc] || 'MWL';
         PrayerTimesSrv.setMethod(method);
         PrayerTimesSrv.setTimeFormat('24h'); // SSR always emits 24h; client formats per-lang
         const t = PrayerTimesSrv.getTimes(now, lat, lng, tzOffset);

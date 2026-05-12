@@ -5832,76 +5832,24 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 }
 
 // اختيار طريقة الحساب تلقائياً — يعتمد على كود الدولة ISO (ثابت دائماً بغض النظر عن اللغة)
-// PT-METHOD-1 (2026-05-12): country → method mapping. MUST stay in sync
-// with `_SSR_METHOD_BY_CC` in server.js. Available keys (from the
-// <select id="calc-method"> in index.html and js/prayer-times.js):
+// PT-METHOD-2 (2026-05-12): SIMPLIFIED country → method mapping per user
+// decision. MUST stay in sync with `_SSR_METHOD_BY_CC` in server.js.
+//
+// Policy:
+//   - Egypt (cc === 'eg')   →  'Egypt'   (Egyptian General Authority)
+//   - All other countries   →  'Makkah'  (Umm Al-Qura — universal default)
+//
+// Available <select> keys (from index.html + js/prayer-times.js):
 //   Makkah  MWL  ISNA  Egypt  Karachi  Tehran  Jafari  Gulf
 //   Kuwait  Qatar  Singapore  Turkey  France  Russia
 //
-// Priority resolution (see `autoSelectMethod` below):
-//   1. localStorage['calc_method_user']   ← USER explicit choice (highest)
-//   2. _AUTO_METHOD_BY_CC[countryCode]    ← country-based default
-//   3. 'MWL'                              ← universal fallback (NOT Makkah)
+// User-explicit choice in localStorage['calc_method_user'] OVERRIDES
+// the country default — set only when the dropdown change event fires
+// (programmatic `.value = …` doesn't trigger change).
 const _AUTO_METHOD_BY_CC = {
-    // Saudi Arabia — only country that uses Umm Al-Qura by default
-    'sa': 'Makkah',
-    // Specific Gulf states with dedicated methods
-    'kw': 'Kuwait', 'qa': 'Qatar',
-    // Other Gulf — Gulf 90-minute Isha
-    'ae': 'Gulf', 'bh': 'Gulf', 'om': 'Gulf',
-    'ye': 'Makkah',
-    // Egyptian General Authority
-    'eg': 'Egypt', 'ly': 'Egypt', 'sd': 'Egypt', 'ss': 'Egypt',
-    // Iran — Tehran
-    'ir': 'Tehran',
-    // Turkey — Diyanet
-    'tr': 'Turkey',
-    // France — UOIF                                ← THE PRIMARY FIX
-    'fr': 'France',
-    // Russia
-    'ru': 'Russia',
-    // South Asia — Karachi
-    'pk': 'Karachi', 'in': 'Karachi', 'bd': 'Karachi', 'af': 'Karachi',
-    // SE Asia — Singapore method
-    'my': 'Singapore', 'id': 'Singapore', 'sg': 'Singapore', 'bn': 'Singapore',
-    // North America — ISNA
-    'us': 'ISNA', 'ca': 'ISNA', 'mx': 'ISNA',
-    // Latin America — most Muslim communities use ISNA
-    'br': 'ISNA', 'ar': 'ISNA', 'co': 'ISNA', 've': 'ISNA',
-    'cl': 'ISNA', 'pe': 'ISNA', 'ec': 'ISNA', 'bo': 'ISNA', 'py': 'ISNA',
-    'uy': 'ISNA', 'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
-    'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
-    'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
-    'sr': 'ISNA', 'gf': 'ISNA',
-    // Levant — MWL (previously Makkah, which was wrong)
-    'iq': 'MWL', 'jo': 'MWL', 'lb': 'MWL', 'ps': 'MWL', 'sy': 'MWL',
-    // Maghreb / North Africa (non-Egypt)
-    'dz': 'MWL', 'ma': 'MWL', 'tn': 'MWL', 'mr': 'MWL',
-    // Western Europe (non-FR/RU) — MWL (was Makkah, wrong)
-    'gb': 'MWL', 'de': 'MWL', 'nl': 'MWL', 'be': 'MWL', 'es': 'MWL',
-    'it': 'MWL', 'ch': 'MWL', 'at': 'MWL', 'pt': 'MWL', 'gr': 'MWL',
-    'ie': 'MWL', 'lu': 'MWL', 'mt': 'MWL', 'cy': 'MWL',
-    // Eastern Europe
-    'pl': 'MWL', 'cz': 'MWL', 'sk': 'MWL', 'hu': 'MWL', 'ro': 'MWL',
-    'bg': 'MWL', 'hr': 'MWL', 'ba': 'MWL', 'rs': 'MWL', 'mk': 'MWL',
-    'al': 'MWL', 'xk': 'MWL', 'ua': 'MWL', 'by': 'MWL', 'md': 'MWL',
-    // Nordics + Baltics
-    'no': 'MWL', 'se': 'MWL', 'fi': 'MWL', 'dk': 'MWL', 'is': 'MWL',
-    'ee': 'MWL', 'lv': 'MWL', 'lt': 'MWL',
-    // Central Asia + Caucasus
-    'kz': 'MWL', 'uz': 'MWL', 'tm': 'MWL', 'tj': 'MWL', 'kg': 'MWL',
-    'az': 'MWL', 'am': 'MWL', 'ge': 'MWL',
-    // Sub-Saharan Africa
-    'so': 'MWL', 'et': 'MWL', 'ng': 'MWL', 'sn': 'MWL', 'ml': 'MWL',
-    'ne': 'MWL', 'td': 'MWL', 'gh': 'MWL', 'tz': 'MWL', 'ke': 'MWL',
-    'mz': 'MWL', 'gn': 'MWL', 'bf': 'MWL', 'ci': 'MWL', 'cm': 'MWL',
-    'gm': 'MWL', 'sl': 'MWL', 'tg': 'MWL', 'bj': 'MWL', 'ug': 'MWL',
-    'za': 'MWL', 'dj': 'MWL', 'km': 'MWL',
-    // Other Asia
-    'ph': 'MWL', 'th': 'MWL', 'mm': 'MWL', 'cn': 'MWL', 'jp': 'MWL',
-    'kr': 'MWL', 'tw': 'MWL', 'hk': 'MWL',
-    // Oceania
-    'au': 'MWL', 'nz': 'MWL',
+    'eg': 'Egypt',
+    // All other countries fall through to the Makkah default in
+    // autoSelectMethod below.
 };
 
 // All valid method keys (from the <select> in index.html). Used to
@@ -5933,36 +5881,20 @@ function autoSelectMethod(countryCode, countryName) {
         return;
     }
 
-    // Priority 2: country-based default.
+    // Priority 2: country-based default (PT-METHOD-2 — Egypt only).
     const code = (countryCode || '').toLowerCase().trim();
     let method = _AUTO_METHOD_BY_CC[code];
 
     // Priority 2.5: country-name fallback for legacy callers that have
-    // names but not codes. Covers the most common entries.
+    // names but not codes. Only Egypt deviates from Makkah.
     if (!method && countryName) {
-        const nameMap = {
-            'Saudi Arabia': 'Makkah', 'المملكة العربية السعودية': 'Makkah',
-            'UAE': 'Gulf', 'United Arab Emirates': 'Gulf', 'الإمارات': 'Gulf',
-            'Kuwait': 'Kuwait', 'الكويت': 'Kuwait',
-            'Qatar': 'Qatar', 'قطر': 'Qatar',
-            'Egypt': 'Egypt', 'مصر': 'Egypt',
-            'Pakistan': 'Karachi', 'باكستان': 'Karachi',
-            'India': 'Karachi', 'الهند': 'Karachi',
-            'Iran': 'Tehran', 'إيران': 'Tehran',
-            'Turkey': 'Turkey', 'تركيا': 'Turkey',
-            'Malaysia': 'Singapore', 'ماليزيا': 'Singapore',
-            'Indonesia': 'Singapore', 'إندونيسيا': 'Singapore',
-            'United States': 'ISNA', 'USA': 'ISNA', 'الولايات المتحدة': 'ISNA',
-            'Canada': 'ISNA', 'كندا': 'ISNA',
-            'France': 'France', 'فرنسا': 'France',                 // ← THE FIX
-            'Russia': 'Russia', 'روسيا': 'Russia',
-            // Everything else falls through to MWL via the priority-3 default
-        };
-        method = nameMap[countryName];
+        if (countryName === 'Egypt' || countryName === 'مصر') {
+            method = 'Egypt';
+        }
     }
 
-    // Priority 3: universal fallback. MWL — NOT Makkah.
-    if (!method) method = 'MWL';
+    // Priority 3: universal fallback — Makkah (Umm Al-Qura).
+    if (!method) method = 'Makkah';
 
     const sel = document.getElementById('calc-method');
     if (sel && sel.value !== method) sel.value = method;

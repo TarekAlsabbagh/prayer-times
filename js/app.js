@@ -4817,6 +4817,29 @@ const LOCAL_CITIES = [
     {ar:'جازان',en:'Jazan',lat:16.8892,lng:42.5511,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
     {ar:'الباحة',en:'Al Baha',lat:20.0129,lng:41.4677,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
     {ar:'الجوف',en:'Al Jouf',lat:29.9697,lng:38.9435,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia'},
+    // PT-SEARCH-AR-1 (2026-05-12): مدن سعودية إضافية كانت موجودة في
+    // CITIES_DB لكن مفقودة من قائمة البحث (LOCAL_CITIES). هذه المدن
+    // معروفة ويُبحث عنها كثيراً، ووجودها هنا يلغي "لا توجد نتائج".
+    {ar:'بقيق',en:'Abqaiq',lat:25.9340,lng:49.6678,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasAr:['ابقيق'],aliasEn:['Buqayq','Bukayriyah']},
+    {ar:'حفر الباطن',en:'Hafar Al-Batin',lat:28.4328,lng:45.9708,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:70,countryEn:'Saudi Arabia',aliasAr:['حفرالباطن','حفر باطن'],aliasEn:['Hafar Al Batin','Hafar al-Batin','Hafr Al Batin','Hafr Al-Batin','Hafar']},
+    {ar:'الخبر',en:'Khobar',lat:26.2172,lng:50.1971,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:75,countryEn:'Saudi Arabia',aliasEn:['Al Khobar','Al-Khobar','Khubar']},
+    {ar:'الجبيل',en:'Jubail',lat:27.0046,lng:49.6586,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:70,countryEn:'Saudi Arabia',aliasEn:['Al Jubail','Al-Jubail']},
+    {ar:'الظهران',en:'Dhahran',lat:26.2828,lng:50.1548,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:70,countryEn:'Saudi Arabia',aliasEn:['Az Zahran','Zahran']},
+    {ar:'القطيف',en:'Qatif',lat:26.5565,lng:50.0114,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:65,countryEn:'Saudi Arabia',aliasEn:['Al Qatif','Al-Qatif']},
+    {ar:'خميس مشيط',en:'Khamis Mushait',lat:18.3000,lng:42.7333,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:70,countryEn:'Saudi Arabia',aliasEn:['Khamis Mushayt','Khamis']},
+    {ar:'بريدة',en:'Buraydah',lat:26.3260,lng:43.9750,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:75,countryEn:'Saudi Arabia',aliasAr:['بريده'],aliasEn:['Buraidah','Buraida']},
+    {ar:'عرعر',en:'Arar',lat:30.9753,lng:41.0381,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Ar Ar']},
+    {ar:'سكاكا',en:'Sakaka',lat:29.9697,lng:40.2066,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Sakakah']},
+    {ar:'رفحاء',en:'Rafha',lat:29.6261,lng:43.4974,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasAr:['رفحا'],aliasEn:['Rafhaa','Rafhah']},
+    {ar:'القريات',en:'Qurayyat',lat:31.3310,lng:37.3438,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasEn:['Al Qurayyat','Al-Qurayyat']},
+    {ar:'بيشة',en:'Bisha',lat:19.9840,lng:42.6042,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasEn:['Bishah']},
+    {ar:'صبيا',en:'Sabya',lat:17.1531,lng:42.6271,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasEn:['Sabia','Sabyaa']},
+    {ar:'محايل عسير',en:'Muhayil Asir',lat:18.5500,lng:42.0500,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasAr:['محايل'],aliasEn:['Muhayil','Mahayel','Muhayl Asir']},
+    {ar:'رابغ',en:'Rabigh',lat:22.7995,lng:39.0342,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasEn:['Rabegh']},
+    {ar:'الرس',en:'Al-Rass',lat:25.8707,lng:43.4904,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:55,countryEn:'Saudi Arabia',aliasEn:['Al Rass','Ar Rass','Rass']},
+    {ar:'عنيزة',en:'Unaizah',lat:26.0836,lng:43.9939,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:60,countryEn:'Saudi Arabia',aliasEn:['Onaizah','Unayzah','Unaiza']},
+    {ar:'ينبع',en:'Yanbu',lat:24.0894,lng:38.0618,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:65,countryEn:'Saudi Arabia',aliasAr:['ينبع البحر'],aliasEn:["Yanbu' al Bahr",'Yenbo']},
+    {ar:'الخرج',en:'Al Kharj',lat:24.1554,lng:47.3120,cc:'sa',country:'المملكة العربية السعودية',type:'city',priority:65,countryEn:'Saudi Arabia',aliasEn:['Kharj','El Kharj']},
     // الإمارات
     {ar:'دبي',en:'Dubai',lat:25.2048,lng:55.2708,cc:'ae',country:'الإمارات العربية المتحدة',type:'city',priority:80,countryEn:'United Arab Emirates'},
     {ar:'أبوظبي',en:'Abu Dhabi',lat:24.4539,lng:54.3773,cc:'ae',country:'الإمارات العربية المتحدة',type:'city',priority:100,countryEn:'United Arab Emirates'},
@@ -5267,6 +5290,10 @@ function normalizeText(s) {
         .normalize('NFD')
         .replace(/[̀-ͯ]/g, '')                // علامات لاتينيّة (Tromsø → tromso)
         .replace(/[^a-z0-9؀-ۿ\s-]/g, ' ')     // إبقاء العربي/اللاتيني/المسافات/الشرطة
+        // PT-SEARCH-AR-1 (2026-05-12): dashes/underscores → spaces so
+        // "حفر-الباطن" and "hafar-al-batin" both fold to space-separated
+        // tokens — matches a user typing the slug verbatim.
+        .replace(/[-_]+/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
 }
@@ -5376,6 +5403,9 @@ function searchLocalCities(query) {
 function searchSmartCities(query, sources) {
     const qNorm = normalizeText(query);
     if (!qNorm || qNorm.length < 1) return [];
+    // PT-SEARCH-AR-1: compact (whitespace-stripped) form lets queries like
+    // "حفرالباطن" match a city stored as "حفر الباطن" (and vice versa).
+    const qCompact = qNorm.replace(/\s+/g, '');
 
     // افتراضيّاً: ندمج المدن + المحافظات في مصدر واحد
     const list = Array.isArray(sources) ? sources : LOCAL_CITIES.concat(typeof LOCAL_PROVINCES !== 'undefined' ? LOCAL_PROVINCES : []);
@@ -5388,6 +5418,8 @@ function searchSmartCities(query, sources) {
 
         const ar = normalizeText(raw.ar || '');
         const en = normalizeText(raw.en || '');
+        const arCompact = ar.replace(/\s+/g, '');
+        const enCompact = en.replace(/\s+/g, '');
         const countryAr = normalizeText(raw.country || raw.countryAr || '');
         const countryEn = normalizeText(raw.countryEn || '');
         // أسماء بديلة (مثل Makkah/Mecca, Madinah/Medina) — تُطابَق بأقلّ score
@@ -5396,16 +5428,28 @@ function searchSmartCities(query, sources) {
             .concat(raw.aliasAr ? (Array.isArray(raw.aliasAr) ? raw.aliasAr : [raw.aliasAr]) : [])
             .map(a => normalizeText(a))
             .filter(Boolean);
+        const aliasesCompact = aliases.map(a => a.replace(/\s+/g, ''));
 
         // المطابقة: نص كامل، بداية، أو ضمن "اسم بلد"
+        // PT-SEARCH-AR-1: each tier now also checks the compact (no-space)
+        // form so e.g. typing "حفرالباطن" hits the city stored as
+        // "حفر الباطن". Scores for compact tiers are 5 below their
+        // canonical counterpart — exact-with-spaces always wins over
+        // exact-without-spaces, but both rank above prefix matches.
         let score = 0;
-        if (ar === qNorm || en === qNorm)                              score = 100; // تطابق كامل
-        else if (aliases.some(a => a === qNorm))                       score = 90;  // alias تطابق كامل
-        else if (ar.startsWith(qNorm) || en.startsWith(qNorm))         score = 80;  // بداية
-        else if (aliases.some(a => a.startsWith(qNorm)))               score = 70;  // alias بداية
+        if (ar === qNorm || en === qNorm)                                              score = 100; // تطابق كامل
+        else if (arCompact === qCompact || enCompact === qCompact)                     score = 95;  // تطابق كامل (compact)
+        else if (aliases.some(a => a === qNorm))                                       score = 90;  // alias تطابق كامل
+        else if (aliasesCompact.some(a => a === qCompact))                             score = 88;  // alias تطابق كامل (compact)
+        else if (ar.startsWith(qNorm) || en.startsWith(qNorm))                         score = 80;  // بداية
+        else if (arCompact.startsWith(qCompact) || enCompact.startsWith(qCompact))     score = 75;  // بداية (compact)
+        else if (aliases.some(a => a.startsWith(qNorm)))                               score = 70;  // alias بداية
+        else if (aliasesCompact.some(a => a.startsWith(qCompact)))                     score = 68;  // alias بداية (compact)
         else if ((' ' + ar).includes(' ' + qNorm) || (' ' + en).includes(' ' + qNorm)) score = 60; // بداية كلمة
-        else if (ar.includes(qNorm) || en.includes(qNorm))             score = 40;  // ضمن
-        else if (aliases.some(a => a.includes(qNorm)))                 score = 35;  // alias ضمن
+        else if (ar.includes(qNorm) || en.includes(qNorm))                             score = 40;  // ضمن
+        else if (arCompact.includes(qCompact) || enCompact.includes(qCompact))         score = 38;  // ضمن (compact)
+        else if (aliases.some(a => a.includes(qNorm)))                                 score = 35;  // alias ضمن
+        else if (aliasesCompact.some(a => a.includes(qCompact)))                       score = 33;  // alias ضمن (compact)
         else if (`${ar} ${countryAr}`.includes(qNorm) || `${en} ${countryEn}`.includes(qNorm)) score = 20; // اسم+بلد
         if (score === 0) continue;
 
@@ -5653,6 +5697,15 @@ function onSearchKeyDown(e) {
     } else if (e.key === 'Enter' && searchFocusedIndex >= 0) {
         e.preventDefault();
         suggestions[searchFocusedIndex]?.click();
+    } else if (e.key === 'Enter') {
+        // PT-SEARCH-AR-1 (2026-05-12): Enter without arrow-navigating → click
+        // the FIRST suggestion. Closes the gap "I typed an exact match,
+        // pressed Enter, nothing happened" — typing بقيق or حفر الباطن now
+        // navigates straight to the city page without requiring a mouse click
+        // or arrow-down. Also lets the on-screen search BUTTON do the same:
+        // it dispatches an Enter keypress which lands here.
+        e.preventDefault();
+        suggestions[0]?.click();
     } else if (e.key === 'Escape') {
         document.getElementById('city-suggestions').classList.remove('open');
         closeSettingsModal(); // إغلاق Modal الإعدادات إن كانت مفتوحة

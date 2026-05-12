@@ -2417,6 +2417,19 @@ function navigateToQibla(lat, lng, city, country, englishName = '', countryCode 
     if (window.location.protocol === 'file:') {
         window.location.hash = `qibla-in-${slug}`;
     } else {
+        // QIBLA-NAV-FIX-1 (2026-05-12): show the loading overlay BEFORE
+        // setting window.location.href so the user gets immediate visual
+        // feedback during the Render free-tier navigation latency (1-3s).
+        // Other tab navigators (moon / prayer-times / zakat / hijri / …)
+        // already do this; the qibla city path was the only one missing
+        // an overlay, which caused the "frozen page" perception the user
+        // reported in QIBLA-NAV-DIAG-1. Pure visual fix — no routing,
+        // history, or state changes.
+        try {
+            if (typeof _showNavLoadingOverlay === 'function') {
+                _showNavLoadingOverlay('qibla');
+            }
+        } catch (_) {}
         // Clean URL (/qibla-in-{slug}) for known cities; long-tail fallback keeps coords.
         window.location.href = (typeof _buildQiblaCityUrl === 'function')
             ? _buildQiblaCityUrl(englishName || city, lat, lng, slug)
@@ -4579,6 +4592,17 @@ function initNavigation() {
                         const _enName = (typeof _prettifySlug === 'function')
                             ? _prettifySlug(_ctx.slug)
                             : _ctx.slug.replace(/-/g, ' ');
+                        // QIBLA-NAV-FIX-1 (2026-05-12): show the loading
+                        // overlay BEFORE this same-tab navigation. Matches
+                        // moon / prayer-times / zakat / hijri tabs which
+                        // already display it. Without this the user sees
+                        // the old prayer-times page for the entire 1-3s
+                        // Render cold-start window — perceived freeze.
+                        try {
+                            if (typeof _showNavLoadingOverlay === 'function') {
+                                _showNavLoadingOverlay('qibla');
+                            }
+                        } catch (_) {}
                         window.location.href = (typeof _buildQiblaCityUrl === 'function')
                             ? _buildQiblaCityUrl(_enName, _ctx.lat, _ctx.lng, _ctx.slug)
                             : pageUrl(`/qibla-in-${_ctx.slug}`);  // UAT-Q5e: clean fallback (coords seeded in sessionStorage above)

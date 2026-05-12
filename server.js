@@ -564,6 +564,152 @@ const FAMOUS_CITY_OVERRIDES = {
     perth:         { lat: -31.9505, lng: 115.8605, cc: 'au' },
 };
 
+// PT-CITY-INFO-1 (2026-05-12): slug → country-code fallback for
+// cities/regions not in FAMOUS_CITY_OVERRIDES or the curated city DB.
+// When a user lands on a long-slug route like /next-prayer-in-le-pontet
+// without a sessionStorage seed (Googlebot, shared link, etc.), the
+// country/timezone cards used to display "—" because `_resolveCityForMoon`
+// returned null. This map gives the resolver a usable `cc` so country
+// name + IANA timezone derive correctly via `_CC_TO_PRIMARY_TZ`.
+//
+// Coverage prioritizes slugs that already appear in
+// `_AR_CITY_OVERRIDES_SAFE` (the user-facing display-name dict) so
+// every slug we know how to write in Arabic also knows its country.
+// Single source of truth — keep the two dicts in sync.
+const _SLUG_COUNTRY_FALLBACK = {
+    // ===== فرنسا — مدن، مناطق، أقضية =====
+    'paris': 'fr', 'marseille': 'fr', 'lyon': 'fr', 'toulouse': 'fr',
+    'nice': 'fr', 'nantes': 'fr', 'strasbourg': 'fr', 'montpellier': 'fr',
+    'bordeaux': 'fr', 'lille': 'fr', 'rennes': 'fr', 'reims': 'fr',
+    'le-havre': 'fr', 'saint-etienne': 'fr', 'toulon': 'fr', 'grenoble': 'fr',
+    'dijon': 'fr', 'angers': 'fr', 'nimes': 'fr', 'nîmes': 'fr',
+    'villeurbanne': 'fr', 'le-mans': 'fr', 'aix-en-provence': 'fr',
+    'brest': 'fr', 'limoges': 'fr', 'tours': 'fr', 'amiens': 'fr',
+    'perpignan': 'fr', 'metz': 'fr', 'besancon': 'fr', 'besançon': 'fr',
+    'orleans': 'fr', 'orléans': 'fr', 'mulhouse': 'fr', 'caen': 'fr',
+    'boulogne-billancourt': 'fr', 'rouen': 'fr', 'nancy': 'fr',
+    'argenteuil': 'fr', 'montreuil': 'fr', 'roubaix': 'fr', 'tourcoing': 'fr',
+    'avignon': 'fr', 'poitiers': 'fr', 'nanterre': 'fr', 'creteil': 'fr',
+    'créteil': 'fr', 'versailles': 'fr', 'pau': 'fr', 'la-rochelle': 'fr',
+    'antibes': 'fr', 'cannes': 'fr', 'saint-malo': 'fr', 'saint-tropez': 'fr',
+    'colmar': 'fr', 'troyes': 'fr', 'valence': 'fr', 'beziers': 'fr',
+    'biarritz': 'fr', 'lourdes': 'fr', 'fontainebleau': 'fr',
+    'port-de-bouc': 'fr', 'le-pontet': 'fr',
+    // French regions / departments / administrative areas
+    'provence-alpes-cote-d-azur': 'fr', 'provence-alpes-cote-dazur': 'fr',
+    'auvergne-rhone-alpes': 'fr', 'auvergne-rhône-alpes': 'fr',
+    'nouvelle-aquitaine': 'fr', 'occitanie': 'fr', 'normandie': 'fr',
+    'bretagne': 'fr', 'centre-val-de-loire': 'fr', 'corse': 'fr',
+    'grand-est': 'fr', 'hauts-de-france': 'fr', 'pays-de-la-loire': 'fr',
+    'ile-de-france': 'fr', 'île-de-france': 'fr',
+    'bourgogne-franche-comte': 'fr', 'alpes-maritimes': 'fr',
+    'alpes-de-haute-provence': 'fr', 'hautes-alpes': 'fr',
+    'bouches-du-rhone': 'fr', 'bouches-du-rhône': 'fr',
+    'haut-rhin': 'fr', 'bas-rhin': 'fr', 'vaucluse': 'fr',
+    'gironde': 'fr', 'herault': 'fr', 'hérault': 'fr',
+    'cote-d-azur': 'fr', 'cote-dazur': 'fr',
+    // ===== المملكة المتحدة =====
+    'leeds': 'gb', 'liverpool': 'gb', 'edinburgh': 'gb', 'glasgow': 'gb',
+    'sheffield': 'gb', 'bradford': 'gb', 'cardiff': 'gb', 'belfast': 'gb',
+    'leicester': 'gb', 'coventry': 'gb', 'nottingham': 'gb', 'newcastle': 'gb',
+    'brighton': 'gb', 'bristol': 'gb', 'oxford': 'gb', 'cambridge': 'gb',
+    'southampton': 'gb', 'portsmouth': 'gb',
+    // ===== ألمانيا =====
+    'stuttgart': 'de', 'dusseldorf': 'de', 'düsseldorf': 'de',
+    'dortmund': 'de', 'essen': 'de', 'leipzig': 'de', 'bremen': 'de',
+    'dresden': 'de', 'hanover': 'de', 'hannover': 'de', 'nuremberg': 'de',
+    'nürnberg': 'de',
+    // ===== إسبانيا =====
+    'valencia': 'es', 'seville': 'es', 'sevilla': 'es', 'malaga': 'es',
+    'málaga': 'es', 'bilbao': 'es', 'zaragoza': 'es', 'murcia': 'es',
+    'palma': 'es', 'las-palmas': 'es',
+    // ===== إيطاليا =====
+    'naples': 'it', 'turin': 'it', 'florence': 'it', 'venice': 'it',
+    'bologna': 'it', 'palermo': 'it', 'genoa': 'it', 'verona': 'it',
+    // ===== هولندا/بلجيكا =====
+    'rotterdam': 'nl', 'the-hague': 'nl', 'utrecht': 'nl', 'eindhoven': 'nl',
+    'antwerp': 'be', 'ghent': 'be', 'liege': 'be', 'liège': 'be',
+    'bruges': 'be', 'brugge': 'be',
+    // ===== سويسرا / النمسا =====
+    'zurich': 'ch', 'zürich': 'ch', 'geneva': 'ch', 'basel': 'ch',
+    'bern': 'ch', 'lausanne': 'ch',
+    'salzburg': 'at', 'graz': 'at', 'innsbruck': 'at',
+    // ===== الشمال + أوروبا الشرقيّة =====
+    'helsinki': 'fi', 'warsaw': 'pl', 'krakow': 'pl', 'kraków': 'pl',
+    'prague': 'cz', 'budapest': 'hu', 'bucharest': 'ro', 'sofia': 'bg',
+    'athens': 'gr', 'thessaloniki': 'gr',
+    'sarajevo': 'ba', 'mostar': 'ba', 'tirana': 'al', 'pristina': 'xk',
+    'skopje': 'mk', 'belgrade': 'rs', 'zagreb': 'hr',
+    'kazan': 'ru', 'saint-petersburg': 'ru', 'st-petersburg': 'ru',
+    'kyiv': 'ua', 'kiev': 'ua', 'minsk': 'by',
+    // ===== أمريكا الشمالية (متمم لـ FAMOUS_CITY_OVERRIDES) =====
+    'phoenix': 'us', 'philadelphia': 'us', 'san-antonio': 'us', 'san-diego': 'us',
+    'san-francisco': 'us', 'boston': 'us', 'seattle': 'us', 'washington': 'us',
+    'miami': 'us', 'atlanta': 'us', 'minneapolis': 'us', 'denver': 'us',
+    'mexico-city': 'mx', 'guadalajara': 'mx', 'monterrey': 'mx',
+    'edmonton': 'ca', 'winnipeg': 'ca', 'quebec': 'ca', 'québec': 'ca',
+    'halifax': 'ca',
+    // ===== أمريكا الجنوبية =====
+    'sao-paulo': 'br', 'são-paulo': 'br', 'rio-de-janeiro': 'br',
+    'brasilia': 'br', 'salvador': 'br', 'fortaleza': 'br',
+    'buenos-aires': 'ar', 'lima': 'pe', 'bogota': 'co', 'bogotá': 'co',
+    'caracas': 've', 'santiago': 'cl', 'quito': 'ec',
+    // ===== آسيا (متمم) =====
+    'osaka': 'jp', 'kyoto': 'jp', 'yokohama': 'jp', 'nagoya': 'jp',
+    'sapporo': 'jp', 'fukuoka': 'jp', 'kobe': 'jp',
+    'busan': 'kr', 'incheon': 'kr', 'daegu': 'kr',
+    'beijing': 'cn', 'shanghai': 'cn', 'guangzhou': 'cn', 'shenzhen': 'cn',
+    'chengdu': 'cn', 'tianjin': 'cn', 'chongqing': 'cn',
+    'hong-kong': 'hk', 'taipei': 'tw', 'kaohsiung': 'tw',
+    'bangkok': 'th', 'chiang-mai': 'th', 'pattaya': 'th',
+    'ho-chi-minh-city': 'vn', 'hanoi': 'vn', 'da-nang': 'vn',
+    'phnom-penh': 'kh', 'siem-reap': 'kh',
+    'yangon': 'mm', 'mandalay': 'mm',
+    'colombo': 'lk', 'kandy': 'lk',
+    'kathmandu': 'np',
+    'mumbai': 'in', 'delhi': 'in', 'new-delhi': 'in', 'bangalore': 'in',
+    'bengaluru': 'in', 'kolkata': 'in', 'chennai': 'in', 'hyderabad': 'in',
+    'ahmedabad': 'in', 'pune': 'in', 'lucknow': 'in', 'jaipur': 'in',
+    'kanpur': 'in', 'nagpur': 'in', 'srinagar': 'in',
+    // ===== المغرب + شمال أفريقيا (متمم) =====
+    'fes': 'ma', 'fez': 'ma', 'fès': 'ma', 'tangier': 'ma', 'tanger': 'ma',
+    'agadir': 'ma', 'meknes': 'ma', 'meknès': 'ma',
+    'sfax': 'tn', 'sousse': 'tn', 'kairouan': 'tn',
+    'oran': 'dz', 'constantine': 'dz', 'annaba': 'dz',
+    'benghazi': 'ly', 'misrata': 'ly',
+    'aswan': 'eg', 'luxor': 'eg', 'port-said': 'eg', 'suez': 'eg',
+    'ismailia': 'eg', 'mansoura': 'eg', 'tanta': 'eg',
+    // ===== شبه الجزيرة العربيّة (متمم) =====
+    'taif': 'sa', 'tabuk': 'sa', 'buraidah': 'sa', 'buraydah': 'sa',
+    'abha': 'sa', 'yanbu': 'sa', 'hail': 'sa', 'najran': 'sa',
+    'jizan': 'sa', 'jazan': 'sa', 'qatif': 'sa', 'khobar': 'sa',
+    'al-khobar': 'sa', 'jubail': 'sa', 'hofuf': 'sa',
+    'ajman': 'ae', 'fujairah': 'ae', 'ras-al-khaimah': 'ae', 'al-ain': 'ae',
+    'umm-al-quwain': 'ae',
+    'aden': 'ye', 'taiz': 'ye',
+    'aleppo-syria': 'sy', 'homs': 'sy', 'latakia': 'sy',
+    'najaf': 'iq', 'karbala': 'iq', 'erbil': 'iq', 'sulaymaniyah': 'iq',
+    'irbid': 'jo', 'zarqa': 'jo',
+    // ===== إندونيسيا/ماليزيا (متمم) =====
+    'denpasar': 'id', 'bali': 'id', 'yogyakarta': 'id', 'semarang': 'id',
+    'palembang': 'id', 'makassar': 'id',
+    'shah-alam': 'my', 'johor-bahru': 'my', 'ipoh': 'my', 'malacca': 'my',
+    // ===== أفريقيا (متمم) =====
+    'cape-town': 'za', 'johannesburg': 'za', 'durban': 'za', 'pretoria': 'za',
+    'mombasa': 'ke', 'kisumu': 'ke',
+    'dar-es-salaam': 'tz', 'mwanza': 'tz', 'arusha': 'tz',
+    'addis-ababa': 'et',
+    'kampala': 'ug', 'kigali': 'rw',
+    'accra': 'gh', 'kumasi': 'gh',
+    'dakar': 'sn', 'thies': 'sn',
+    'abidjan': 'ci', 'yamoussoukro': 'ci',
+    'douala': 'cm', 'yaounde': 'cm', 'yaoundé': 'cm',
+    'omdurman': 'sd',
+    // ===== أوقيانوسيا =====
+    'brisbane': 'au', 'adelaide': 'au', 'gold-coast': 'au', 'canberra': 'au',
+    'auckland': 'nz', 'wellington': 'nz', 'christchurch': 'nz',
+};
+
 // ===== Round 11: خريطة رمز الدولة → المنطقة الزمنيّة الرئيسيّة (IANA) =====
 // تُستخدم لحساب توقيت المدينة الصحيح على صفحة القمر عندما لا تكون المدينة
 // ضمن FAMOUS_CITY_OVERRIDES (أي قادمة من cities-xx.json مباشرة).
@@ -669,6 +815,27 @@ function _resolveCityForMoon(slug) {
         }
     }
     return null;
+}
+
+// PT-CITY-INFO-1 (2026-05-12): explicit slug → country-code helper.
+// Distinct from `_resolveCityForMoon` because two existing callers
+// use `!!_resolveCityForMoon(...)` as a "in our coord DB?" boolean
+// (e.g. for nearby-slug 301 redirects on moon city pages). A slug
+// known only by country (e.g. `le-pontet` → fr) must NOT trigger
+// those code paths — the coord-based redirect would 404. So this
+// helper returns the cc without polluting the coord resolver.
+//
+// Order:
+//   1. _resolveCityForMoon (FAMOUS / DB / redirect — has lat+lng+cc)
+//   2. _SLUG_COUNTRY_FALLBACK (curated slug → cc fallback)
+//   3. null (caller falls back to "—")
+function _resolveCcForSlug(slug) {
+    if (!slug) return '';
+    const info = _resolveCityForMoon(slug);
+    if (info && info.cc) return String(info.cc).toLowerCase();
+    const s = String(slug).toLowerCase();
+    if (_SLUG_COUNTRY_FALLBACK[s]) return _SLUG_COUNTRY_FALLBACK[s];
+    return '';
 }
 
 // ===== SSR-Prayer-Times: pre-compute prayer times for SEO-critical pages =====
@@ -1182,6 +1349,7 @@ const _AR_CITY_OVERRIDES_SAFE = {
     'la-rochelle':                'لا روشيل',
     'le-havre':                   'لو هافر',
     'le-mans':                    'لو مان',
+    'le-pontet':                  'لو بونت',
     'saint-etienne':              'سانت إتيان',
     'saint-tropez':               'سان تروبيه',
     'saint-malo':                 'سان مالو',
@@ -9995,7 +10163,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _slug = (seo.nextPrayerPage && seo.nextPrayerPage.slug) || '';
         const _cityInfo = (typeof _resolveCityForMoon === 'function')
             ? _resolveCityForMoon(_slug) : null;
-        const _ccLower = (_cityInfo && _cityInfo.cc) ? String(_cityInfo.cc).toLowerCase() : '';
+        // PT-CITY-INFO-1 (2026-05-12): when the slug isn't in the coord
+        // DB, fall back to the slug → country-code map so the country
+        // and timezone cards show real values instead of "—".
+        const _ccLower = (_cityInfo && _cityInfo.cc)
+            ? String(_cityInfo.cc).toLowerCase()
+            : (typeof _resolveCcForSlug === 'function' ? _resolveCcForSlug(_slug) : '');
         const _COUNTRY_BY_LANG = {
             ar: COUNTRY_NAMES_AR || {}, en: COUNTRY_NAMES_EN || {},
             fr: (typeof _COUNTRY_NAMES_FR !== 'undefined') ? _COUNTRY_NAMES_FR : {},

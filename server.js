@@ -175,13 +175,30 @@ function _transliterateLatinToArabic(s) {
     // Char-by-char with bigram lookahead
     let out = '';
     let i = 0;
+    let wordStart = 0;  // index of current word start in `t`
     while (i < t.length) {
         const ch = t[i];
         const nx = t[i + 1];
         // Already-Arabic char passes through
         if (/[؀-ۿ]/.test(ch)) { out += ch; i++; continue; }
-        // Whitespace passes through
-        if (/\s/.test(ch)) { out += ' '; i++; continue; }
+        // Whitespace passes through; reset word boundary
+        if (/\s/.test(ch)) { out += ' '; i++; wordStart = i; continue; }
+        // L10N-PIPELINE (2026-05-13): French silent `-et` ending.
+        // When we hit `e` followed by `t` at the END of a word AND the
+        // word is long enough (>= 4 source chars total), skip BOTH —
+        // the trailing `t` is silent in French place names (Pontet,
+        // Calvet, Robinet …). Guard rail: min 2 chars BEFORE the `e`
+        // so we never mangle short words like "set" / "let" / "wet".
+        // Examples:
+        //   pontet → "بونت"   (NOT "بونتت")
+        //   calvet → "كالف"
+        //   set    → "ست"     (rule skipped; word too short)
+        if (ch === 'e' && nx === 't'
+            && (t[i + 2] === undefined || /\s/.test(t[i + 2]))
+            && (i - wordStart) >= 2) {
+            i += 2;
+            continue;
+        }
         // Bigram lookup
         const bg = ch + (nx || '');
         if (_AR_TRANSLIT_BIGRAMS[bg]) { out += _AR_TRANSLIT_BIGRAMS[bg]; i += 2; continue; }

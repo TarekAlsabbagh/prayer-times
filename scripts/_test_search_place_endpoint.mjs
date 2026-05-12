@@ -346,6 +346,10 @@ check(`Vancouver AR → quality=official (got "${lq && lq.nameQuality}", display
 lq = await topOf('Le Pontet', 'ar');
 check(`Le Pontet AR → quality=transliterated (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
     lq && lq.nameQuality === 'transliterated' && /[؀-ۿ]/.test(lq.displayName));
+// French silent -et ending: must NOT produce doubled ت at the end.
+// "Pontet" should become "بونت" (one ت), not "بونتت" (two).
+check(`Le Pontet AR → "لو بونت" (silent -et collapsed; got "${lq && lq.displayName}")`,
+    lq && lq.displayName === 'لو بونت');
 
 // AR transliteration table — direct expectations (sanity)
 async function expectTranslit(query, expectedSubstr) {

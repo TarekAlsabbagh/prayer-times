@@ -6257,6 +6257,91 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
 // Kept as `_syncTlCityNameInDom` (backwards-compat alias) since some
 // call-sites still reference the old name; both names point at the
 // same function.
+
+// PT-LINK-CITY-NAME-1 (2026-05-12): unified city-name resolver for
+// link labels / FAQ text / any in-page Arabic surface that previously
+// fell back to currentEnglishName. Single source of truth:
+//
+//   1. <meta name="ssr-city-name"> content — server's full resolver
+//      result (POPULAR_CITY_NAMES → curated DB → AR safety-net +
+//      part-fallback → _slugToTitle). Updated in-place by
+//      _syncCityNameInDom() after warm-visit hydration so it always
+//      matches what's visible in <title> / H1 / FAQ / JSON-LD.
+//   2. _moonCityDisplayName(slug) — JS multi-tier resolver (i18n key,
+//      sessionStorage seed, currentCity match, etc.).
+//   3. currentCity — only when it's clean (no Latin tokens on AR pages).
+//   4. _slugToTitleClient(slug) — final English Title-Case fallback.
+//
+// The Latin-script guard (`/[a-zA-Z]/.test`) protects Arabic pages
+// from mid-string English leaks like "لو pontet" or
+// "بروفانس alpes كوت d آزور". When a candidate fails the guard, the
+// resolver tries the next tier rather than returning a mixed string.
+function _getLocalizedCityDisplayName(slug, lang) {
+    const _isArLang = (lang === 'ar');
+    const _hasLatin = (s) => /[a-zA-Z]/.test(String(s || ''));
+
+    // Tier 1: SSR meta — server's authoritative resolver output.
+    try {
+        const meta = document.querySelector('meta[name="ssr-city-name"]');
+        const ssr = meta && (meta.getAttribute('content') || '').trim();
+        if (ssr) {
+            if (_isArLang && _hasLatin(ssr)) {
+                // Fall through; AR page shouldn't show Latin tokens.
+            } else {
+                return ssr;
+            }
+        }
+    } catch (_) {}
+
+    // Tier 2: _moonCityDisplayName (multi-tier JS resolver).
+    try {
+        if (slug && typeof _moonCityDisplayName === 'function') {
+            const r = _moonCityDisplayName(slug);
+            if (r) {
+                if (_isArLang && _hasLatin(r)) {
+                    // Fall through.
+                } else {
+                    return r;
+                }
+            }
+        }
+    } catch (_) {}
+
+    // Tier 3: currentCity (only when clean for the current lang).
+    try {
+        if (typeof currentCity === 'string' && currentCity) {
+            if (_isArLang && _hasLatin(currentCity)) {
+                // Fall through.
+            } else {
+                return currentCity;
+            }
+        }
+    } catch (_) {}
+
+    // Tier 4: currentLocalizedName for non-AR/EN langs.
+    if (!_isArLang) {
+        try {
+            if (typeof currentLocalizedName === 'string' && currentLocalizedName) {
+                return currentLocalizedName;
+            }
+            if (typeof currentEnglishDisplayName === 'string' && currentEnglishDisplayName) {
+                return currentEnglishDisplayName;
+            }
+            if (typeof currentEnglishName === 'string' && currentEnglishName) {
+                return currentEnglishName;
+            }
+        } catch (_) {}
+    }
+
+    // Tier 5: English Title-Case from the slug (last resort).
+    if (slug) {
+        return String(slug).split('-').filter(Boolean)
+            .map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    }
+    // Absolute last resort: whatever currentCity holds, even if Latin.
+    try { return currentCity || ''; } catch (_) { return ''; }
+}
+
 function _syncCityNameInDom() {
     // Source SSR name from the unified `<meta name="ssr-city-name">`
     // (injected by server.js CITY-NAME-SYNC-1 for ALL city routes).
@@ -7747,11 +7832,16 @@ function applyPhase2CityPage(times, nextPrayerName, nextPrayerTime) {
         const citySlug = _getCitySlugFromPath();
         const countrySlug = _getCurrentCountrySlug();
 
-        // أسماء محلّية
-        const cityNameLoc = (lang === 'ar')
-            ? (currentCity || currentEnglishDisplayName || currentEnglishName || '')
-            : ((typeof getDisplayCity === 'function' && getDisplayCity())
-                || currentLocalizedName || currentEnglishDisplayName || currentEnglishName || currentCity || '');
+        // PT-LINK-CITY-NAME-1 (2026-05-12): build the localized city
+        // name for link labels / FAQ text through a single helper so
+        // related-link cards ("كم باقي على الصلاة في …", "الصلاة
+        // القادمة في …", "اتجاه القبلة في …", etc.) NEVER pick up an
+        // English fallback like `currentEnglishName` or "Le Pontet".
+        // The helper reads the SSR `<meta name="ssr-city-name">` first
+        // (the server's authoritative resolver result that already
+        // went through the exact-match dict + part-fallback), then
+        // falls back to `currentCity` only when it's clean Arabic.
+        const cityNameLoc = _getLocalizedCityDisplayName(citySlug, lang);
         // 🔧 Round 2 fix: استخدام getDisplayCountry() للتحقّق من _LOCALIZED_COUNTRY_MAPS أوّلاً
         // (يُصلح مشكلة ظهور "Saudi Arabia" بدل "সৌদি আরব" في البنغاليّة وغيرها من اللغات)
         const countryNameLoc = (lang === 'ar')

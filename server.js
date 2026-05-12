@@ -1081,6 +1081,177 @@ function _getCityLngBySlug(slug) {
 // تُستعمل كـ fallback إذا لم يُوجد الـ slug الكامل في POPULAR_CITY_NAMES أو فهرس المدن.
 const _ARAB_ARTICLE_PREFIX_RE = /^(at|al|el|ad|an|ar|as|ash|ath|az|ed)-/;
 
+// PT-CITY-AR-SAFE-1 (2026-05-12): SSR-only safety-net for Arabic city
+// display names. Triggers ONLY when ALL of these miss:
+//   - POPULAR_CITY_NAMES
+//   - city slug DB index
+//   - Arab-article-prefix retry
+//   - CURATED_REDIRECTS reverse lookup
+//
+// Without this net, `_resolveCityName('port-de-bouc', 'ar')` would
+// fall through to `_slugToTitle('port-de-bouc') === "Port De Bouc"`
+// and inject the English form into Arabic SSR (Title, Meta, H1, H2,
+// cards, FAQ, JSON-LD).
+//
+// SCOPE: server-side ONLY. JS-side `_moonCityDisplayName` is NOT
+// touched here — the earlier PT-AR-CITY-NAME-1 attempt to mirror
+// this on the client broke `currentCity` propagation and caused the
+// Lyon→Riyadh regression. This file lives in SSR text generation
+// only; no `currentCity` global, no key-collision risk.
+const _AR_CITY_OVERRIDES_SAFE = {
+    // ===== المدن العربية =====
+    'riyadh': 'الرياض', 'jeddah': 'جدة', 'makkah': 'مكة المكرمة',
+    'mecca': 'مكة المكرمة', 'medina': 'المدينة المنورة', 'madinah': 'المدينة المنورة',
+    'dammam': 'الدمام', 'khobar': 'الخبر', 'taif': 'الطائف', 'tabuk': 'تبوك',
+    'buraidah': 'بريدة', 'buraydah': 'بريدة', 'abha': 'أبها', 'yanbu': 'ينبع',
+    'hail': 'حائل', 'najran': 'نجران', 'jizan': 'جازان', 'qatif': 'القطيف',
+    'jubail': 'الجبيل', 'hofuf': 'الهفوف',
+    'cairo': 'القاهرة', 'alexandria': 'الإسكندرية', 'giza': 'الجيزة',
+    'mansoura': 'المنصورة', 'tanta': 'طنطا', 'aswan': 'أسوان', 'luxor': 'الأقصر',
+    'port-said': 'بورسعيد', 'suez': 'السويس', 'ismailia': 'الإسماعيلية',
+    'dubai': 'دبي', 'abu-dhabi': 'أبوظبي', 'sharjah': 'الشارقة', 'ajman': 'عجمان',
+    'al-ain': 'العين', 'fujairah': 'الفجيرة', 'ras-al-khaimah': 'رأس الخيمة',
+    'doha': 'الدوحة', 'kuwait': 'الكويت', 'kuwait-city': 'مدينة الكويت',
+    'manama': 'المنامة', 'muscat': 'مسقط',
+    'amman': 'عمّان', 'zarqa': 'الزرقاء', 'irbid': 'إربد',
+    'baghdad': 'بغداد', 'basra': 'البصرة', 'mosul': 'الموصل', 'erbil': 'أربيل',
+    'najaf': 'النجف', 'karbala': 'كربلاء',
+    'beirut': 'بيروت', 'tripoli-lb': 'طرابلس (لبنان)',
+    'damascus': 'دمشق', 'aleppo': 'حلب', 'homs': 'حمص', 'latakia': 'اللاذقية',
+    'sanaa': 'صنعاء', 'aden': 'عدن', 'taiz': 'تعز',
+    'tunis': 'تونس', 'sfax': 'صفاقس', 'sousse': 'سوسة',
+    'algiers': 'الجزائر العاصمة', 'oran': 'وهران', 'constantine': 'قسنطينة',
+    'rabat': 'الرباط', 'casablanca': 'الدار البيضاء', 'marrakesh': 'مراكش',
+    'marrakech': 'مراكش', 'fez': 'فاس', 'tangier': 'طنجة',
+    'khartoum': 'الخرطوم', 'omdurman': 'أم درمان',
+    'tripoli': 'طرابلس', 'benghazi': 'بنغازي',
+    'nouakchott': 'نواكشوط', 'djibouti': 'جيبوتي', 'mogadishu': 'مقديشو',
+    'jerusalem': 'القدس', 'gaza': 'غزة', 'ramallah': 'رام الله',
+    'hebron': 'الخليل', 'nablus': 'نابلس', 'bethlehem': 'بيت لحم',
+    // ===== تركيا =====
+    'istanbul': 'إسطنبول', 'ankara': 'أنقرة', 'izmir': 'إزمير',
+    'bursa': 'بورصة', 'antalya': 'أنطاليا', 'konya': 'قونيا',
+    'gaziantep': 'غازي عنتاب', 'adana': 'أضنة',
+    // ===== إيران =====
+    'tehran': 'طهران', 'mashhad': 'مشهد', 'isfahan': 'أصفهان',
+    'tabriz': 'تبريز', 'shiraz': 'شيراز', 'qom': 'قم',
+    // ===== باكستان =====
+    'karachi': 'كراتشي', 'lahore': 'لاهور', 'islamabad': 'إسلام آباد',
+    'rawalpindi': 'روالبندي', 'faisalabad': 'فيصل آباد', 'peshawar': 'بيشاور',
+    'multan': 'ملتان', 'quetta': 'كويتا',
+    // ===== الهند =====
+    'mumbai': 'مومباي', 'delhi': 'دلهي', 'new-delhi': 'نيودلهي',
+    'bangalore': 'بنغالور', 'kolkata': 'كلكتا', 'chennai': 'تشيناي',
+    'hyderabad': 'حيدر آباد', 'ahmedabad': 'أحمد آباد',
+    // ===== بنغلاديش =====
+    'dhaka': 'دكا', 'chittagong': 'شيتاغونغ',
+    // ===== إندونيسيا/ماليزيا =====
+    'jakarta': 'جاكرتا', 'surabaya': 'سورابايا', 'bandung': 'باندونغ',
+    'medan': 'ميدان', 'kuala-lumpur': 'كوالالمبور', 'penang': 'بينانغ',
+    'johor-bahru': 'جوهور باهرو', 'shah-alam': 'شاه عالم',
+    // ===== أوروبا =====
+    'london': 'لندن', 'birmingham': 'برمنغهام', 'manchester': 'مانشستر',
+    'liverpool': 'ليفربول', 'edinburgh': 'إدنبرة', 'glasgow': 'غلاسكو',
+    'paris': 'باريس', 'marseille': 'مرسيليا', 'lyon': 'ليون',
+    'toulouse': 'تولوز', 'nice': 'نيس', 'bordeaux': 'بوردو',
+    'port-de-bouc': 'بور دو بوك',
+    'berlin': 'برلين', 'hamburg': 'هامبورغ', 'munich': 'ميونخ',
+    'cologne': 'كولونيا', 'frankfurt': 'فرانكفورت', 'stuttgart': 'شتوتغارت',
+    'madrid': 'مدريد', 'barcelona': 'برشلونة', 'valencia': 'فالنسيا',
+    'seville': 'إشبيلية', 'malaga': 'ملقا',
+    'rome': 'روما', 'milan': 'ميلانو', 'naples': 'نابولي', 'turin': 'تورينو',
+    'amsterdam': 'أمستردام', 'rotterdam': 'روتردام', 'brussels': 'بروكسل',
+    'antwerp': 'أنتويرب', 'vienna': 'فيينا', 'zurich': 'زيورخ', 'geneva': 'جنيف',
+    'stockholm': 'ستوكهولم', 'oslo': 'أوسلو', 'copenhagen': 'كوبنهاغن',
+    'helsinki': 'هلسنكي', 'warsaw': 'وارسو', 'prague': 'براغ', 'budapest': 'بودابست',
+    'athens': 'أثينا', 'thessaloniki': 'تسالونيكي',
+    'sarajevo': 'سراييفو', 'mostar': 'موستار', 'tirana': 'تيرانا',
+    'skopje': 'سكوبيه', 'pristina': 'بريشتينا',
+    'moscow': 'موسكو', 'saint-petersburg': 'سانت بطرسبرغ', 'kazan': 'قازان',
+    'kyiv': 'كييف', 'minsk': 'مينسك',
+    // ===== أمريكا الشمالية =====
+    'new-york': 'نيويورك', 'los-angeles': 'لوس أنجلوس', 'chicago': 'شيكاغو',
+    'houston': 'هيوستن', 'phoenix': 'فينيكس', 'philadelphia': 'فيلادلفيا',
+    'san-antonio': 'سان أنطونيو', 'san-diego': 'سان دييغو', 'dallas': 'دالاس',
+    'detroit': 'ديترويت', 'boston': 'بوسطن', 'seattle': 'سياتل',
+    'washington': 'واشنطن', 'miami': 'ميامي', 'atlanta': 'أتلانتا',
+    'toronto': 'تورنتو', 'montreal': 'مونتريال', 'vancouver': 'فانكوفر',
+    'ottawa': 'أوتاوا', 'calgary': 'كالغاري', 'edmonton': 'إدمونتون',
+    'mexico-city': 'مكسيكو سيتي',
+    // ===== أمريكا الجنوبية =====
+    'sao-paulo': 'ساو باولو', 'rio-de-janeiro': 'ريو دي جانيرو',
+    'buenos-aires': 'بوينس آيرس', 'lima': 'ليما', 'bogota': 'بوغوتا',
+    // ===== آسيا =====
+    'tokyo': 'طوكيو', 'osaka': 'أوساكا', 'kyoto': 'كيوتو', 'yokohama': 'يوكوهاما',
+    'seoul': 'سيول', 'busan': 'بوسان', 'incheon': 'إنشيون',
+    'beijing': 'بكين', 'shanghai': 'شانغهاي', 'guangzhou': 'قوانغتشو',
+    'shenzhen': 'شنتشن', 'hong-kong': 'هونغ كونغ', 'taipei': 'تايبيه',
+    'bangkok': 'بانكوك', 'manila': 'مانيلا', 'singapore': 'سنغافورة',
+    'singapore-city': 'سنغافورة', 'ho-chi-minh-city': 'هو تشي منه',
+    'hanoi': 'هانوي',
+    // ===== أوقيانوسيا =====
+    'sydney': 'سيدني', 'melbourne': 'ملبورن', 'brisbane': 'بريزبن',
+    'perth': 'بيرث', 'auckland': 'أوكلاند', 'wellington': 'ولينغتون',
+    // ===== إفريقيا =====
+    'lagos': 'لاغوس', 'abuja': 'أبوجا', 'kano': 'كانو',
+    'nairobi': 'نيروبي', 'mombasa': 'مومباسا', 'dar-es-salaam': 'دار السلام',
+    'addis-ababa': 'أديس أبابا', 'kampala': 'كمبالا',
+    'cape-town': 'كيب تاون', 'johannesburg': 'جوهانسبرغ', 'durban': 'ديربان',
+    'dakar': 'داكار', 'accra': 'أكرا',
+    // ===== أفغانستان وآسيا الوسطى =====
+    'kabul': 'كابول', 'kandahar': 'قندهار', 'herat': 'هرات',
+    'tashkent': 'طشقند', 'almaty': 'ألماتي', 'astana': 'أستانة',
+    'baku': 'باكو', 'yerevan': 'يريفان', 'tbilisi': 'تبليسي',
+};
+
+// PT-CITY-AR-SAFE-1: part-by-part Arabic transliteration for slugs
+// not in `_AR_CITY_OVERRIDES_SAFE`. Joined with spaces. Unknown parts
+// stay as-is — better than the full English Title-Case fallback that
+// would otherwise show "Port De Bouc" in Arabic content.
+const _AR_CITY_PART_OVERRIDES = {
+    // articles & connectors (French / Spanish / Portuguese / Italian / Catalan)
+    'de': 'دو', 'du': 'دو', 'la': 'لا', 'le': 'لو', 'les': 'لي',
+    'el': 'إل', 'al': 'الـ', 'an': 'أن',
+    'di': 'دي', 'da': 'دا', 'do': 'دو', 'dos': 'دوس', 'das': 'داس',
+    'del': 'ديل', 'los': 'لوس', 'las': 'لاس',
+    'sur': 'سور', 'sous': 'سو', 'sobre': 'سوبر',
+    'and': 'و',
+    // common multi-word city parts
+    'port': 'بور', 'fort': 'فورت', 'cape': 'كيب',
+    'mount': 'ماونت', 'lake': 'بحيرة', 'bay': 'خليج',
+    'saint': 'سان', 'sainte': 'سانت', 'san': 'سان', 'santo': 'سانتو',
+    'santa': 'سانتا', 'sao': 'ساو', 'são': 'ساو',
+    'new': 'نيو', 'old': 'أولد',
+    'city': 'سيتي', 'town': 'تاون', 'village': 'قرية',
+    'north': 'نورث', 'south': 'ساوث', 'east': 'إيست', 'west': 'ويست',
+    'upper': 'أبر', 'lower': 'لوور',
+    'great': 'غريت', 'little': 'ليتل',
+    // common French/Spanish/Portuguese/Italian endings used as separators
+    'bouc': 'بوك', 'mer': 'مير', 'seine': 'سين', 'loire': 'لوار',
+    'rhône': 'رون', 'rhone': 'رون', 'provence': 'بروفانس',
+    'côte': 'كوت', 'cote': 'كوت', 'azur': 'أزور',
+};
+
+// Best-effort Arabic transliteration of a multi-word slug. Returns
+// the Arabic-joined string when at least one part maps; returns null
+// otherwise so callers can fall through to English Title-Case.
+function _arabicizeCitySlug(slug) {
+    if (!slug || typeof slug !== 'string') return null;
+    const parts = String(slug).toLowerCase().split('-').filter(Boolean);
+    if (parts.length === 0) return null;
+    let anyMapped = false;
+    const out = parts.map(p => {
+        const m = _AR_CITY_PART_OVERRIDES[p];
+        if (m) { anyMapped = true; return m; }
+        return p;
+    });
+    // Require at least one part to map; otherwise the result would
+    // still be pure English (e.g. "tropez" → "tropez") and we'd be
+    // better off letting _slugToTitle handle it (page reader sees
+    // "Tropez" instead of "tropez", which Arabic readers also tolerate).
+    return anyMapped ? out.join(' ') : null;
+}
+
 function _resolveCityName(slug, lang) {
     const _try = (s) => {
         const pop = POPULAR_CITY_NAMES[s];
@@ -1112,6 +1283,17 @@ function _resolveCityName(slug, lang) {
             resolved = _try(oldSlug);
             if (resolved) return resolved;
         }
+    }
+    // PT-CITY-AR-SAFE-1: AR safety net — runs ONLY for Arabic lang
+    // AFTER all primary DB lookups have failed. Prevents English
+    // Title-Case ("Port De Bouc") from leaking into Arabic SSR text.
+    if (lang === 'ar') {
+        const _slugLc = String(slug).toLowerCase();
+        if (_AR_CITY_OVERRIDES_SAFE[_slugLc]) {
+            return _AR_CITY_OVERRIDES_SAFE[_slugLc];
+        }
+        const _arabicized = _arabicizeCitySlug(_slugLc);
+        if (_arabicized) return _arabicized;
     }
     return _slugToTitle(slug);
 }
@@ -13195,24 +13377,29 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             my:'JAKIM', id:'Kemenag', ru:'Russia', kw:'Kuwait', qa:'Qatar',
             ae:'Dubai', sg:'Singapore', fr:'UOIF', gb:'ISNA', us:'ISNA', ca:'ISNA'
         };
+        // PT-CITY-AR-SAFE-1: use localized city display (cityDisplayLoc)
+        // instead of raw English Title-Case (cityDisplay). For Arabic
+        // pages this is now backed by `_AR_CITY_OVERRIDES_SAFE` +
+        // `_arabicizeCitySlug` so we never inject "Port De Bouc" into
+        // Arabic seo-line text.
         const line1 = {
-            ar: `مواقيت الصلاة في ${cityDisplay} — الجدول اليومي.`,
-            en: `Prayer times in ${cityDisplay} — today's schedule.`,
-            fr: `Heures de prière à ${cityDisplay} — horaire du jour.`,
-            tr: `${cityDisplay} için namaz vakitleri — bugünkü program.`,
-            ur: `${cityDisplay} میں اوقاتِ نماز — آج کا جدول۔`,
-            de: `Gebetszeiten in ${cityDisplay} — der heutige Plan.`,
-            id: `Jadwal sholat di ${cityDisplay} — jadwal hari ini.`,
-        }[L] || `Prayer times in ${cityDisplay}.`;
+            ar: `مواقيت الصلاة في ${cityDisplayLoc} — الجدول اليومي.`,
+            en: `Prayer times in ${cityDisplayLoc} — today's schedule.`,
+            fr: `Heures de prière à ${cityDisplayLoc} — horaire du jour.`,
+            tr: `${cityDisplayLoc} için namaz vakitleri — bugünkü program.`,
+            ur: `${cityDisplayLoc} میں اوقاتِ نماز — آج کا جدول۔`,
+            de: `Gebetszeiten in ${cityDisplayLoc} — der heutige Plan.`,
+            id: `Jadwal sholat di ${cityDisplayLoc} — jadwal hari ini.`,
+        }[L] || `Prayer times in ${cityDisplayLoc}.`;
         const line2 = {
-            ar: `أوقات الصلاة اليوم في ${cityDisplay}: الفجر، الظهر، العصر، المغرب، العشاء.`,
-            en: `Today's prayer times in ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha.`,
-            fr: `Heures de prière aujourd'hui à ${cityDisplay} : Fajr, Dhuhr, Asr, Maghrib, Isha.`,
-            tr: `Bugün ${cityDisplay} için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı.`,
-            ur: `آج ${cityDisplay} میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔`,
-            de: `Heutige Gebetszeiten in ${cityDisplay}: Fajr, Dhuhr, Asr, Maghrib, Isha.`,
-            id: `Jadwal sholat hari ini di ${cityDisplay}: Subuh, Zuhur, Asar, Magrib, Isya.`,
-        }[L] || `Today's prayer times in ${cityDisplay}.`;
+            ar: `أوقات الصلاة اليوم في ${cityDisplayLoc}: الفجر، الظهر، العصر، المغرب، العشاء.`,
+            en: `Today's prayer times in ${cityDisplayLoc}: Fajr, Dhuhr, Asr, Maghrib, Isha.`,
+            fr: `Heures de prière aujourd'hui à ${cityDisplayLoc} : Fajr, Dhuhr, Asr, Maghrib, Isha.`,
+            tr: `Bugün ${cityDisplayLoc} için namaz vakitleri: Fecir, Öğle, İkindi, Akşam, Yatsı.`,
+            ur: `آج ${cityDisplayLoc} میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء۔`,
+            de: `Heutige Gebetszeiten in ${cityDisplayLoc}: Fajr, Dhuhr, Asr, Maghrib, Isha.`,
+            id: `Jadwal sholat hari ini di ${cityDisplayLoc}: Subuh, Zuhur, Asar, Magrib, Isya.`,
+        }[L] || `Today's prayer times in ${cityDisplayLoc}.`;
         html = html.replace(
             '<p class="seo-line" id="seo-line-1"></p>',
             `<p class="seo-line" id="seo-line-1">${_escHtml(line1)}</p>`

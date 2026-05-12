@@ -681,8 +681,23 @@ async function _searchExternalPlaces(query, lang) {
 //
 // We call Supabase's PostgREST API directly via `fetch` — no extra npm
 // dependency. Service-role key bypasses RLS (it's server-only, never in JS).
-const _SUPABASE_URL = String(process.env.SUPABASE_URL || '').replace(/\/+$/, '');
-const _SUPABASE_KEY = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '');
+// PHASE-C-DIAG (2026-05-13): be forgiving of common SUPABASE_URL mistakes.
+// Users often paste the URL with `/rest/v1` appended (copying from the
+// PostgREST docs URL pattern) which double-prefixes every call → PGRST125.
+// We strip any path component so only `scheme://host` remains.
+const _SUPABASE_URL_RAW = String(process.env.SUPABASE_URL || '').trim();
+let _SUPABASE_URL = _SUPABASE_URL_RAW.replace(/\/+$/, '');
+try {
+    if (_SUPABASE_URL_RAW) {
+        const _u = new URL(_SUPABASE_URL_RAW);
+        const _normalized = _u.protocol + '//' + _u.host;
+        if (_normalized !== _SUPABASE_URL) {
+            console.warn(`[supabase] SUPABASE_URL had a path component ("${_u.pathname}") — auto-normalizing to ${_normalized}. For best results set the env var to just <scheme>://<host>.`);
+            _SUPABASE_URL = _normalized;
+        }
+    }
+} catch (_) { /* invalid URL — leave _SUPABASE_URL as the raw value so probe shows the error */ }
+const _SUPABASE_KEY = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
 const _SUPABASE_ENABLED = !!(_SUPABASE_URL && _SUPABASE_KEY);
 
 if (!_SUPABASE_ENABLED) {

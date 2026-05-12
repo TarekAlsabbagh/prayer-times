@@ -5497,6 +5497,169 @@ async function _translateSearchQuery(query, fromLang, toLang) {
     } catch (_) { return null; }
 }
 
+// ═══ PT-SEARCH-AR-6 (2026-05-12): per-language display-name overrides ═══
+// Some famous cities have NO `name:ar` (or other language tag) in OSM,
+// so Nominatim falls back to the local Latin name even when we send
+// `accept-language=ar`. Confirmed via diagnostic:
+//   Venice  → name:ar=undefined → Nominatim returns "Venezia"
+//   Pisa    → name:ar=undefined → Nominatim returns "Pisa"
+//   Athens  → name:ar=undefined → Nominatim returns "Athens"
+// Most cities ARE properly tagged (Milan/Naples/Rome/Florence/Mopti/
+// Dublin all have name:ar) and don't need an override. This dict
+// targets ONLY the gaps. Keys are slug-form of EITHER the OSM local
+// name (venezia) OR English name (venice) — `_getLocalizedPlaceName`
+// tries both keys against the dict, so any Nominatim variant hits.
+// Values cover all 10 supported UI languages: ar, en, fr, de, tr, id,
+// es, bn, ms, ur.
+const SEARCH_CITY_NAME_OVERRIDES = {
+    'venice': {
+        ar:'البندقية', en:'Venice', fr:'Venise', de:'Venedig',
+        tr:'Venedik', id:'Venesia', es:'Venecia', bn:'ভেনিস',
+        ms:'Venice', ur:'وینس'
+    },
+    'venezia': {
+        ar:'البندقية', en:'Venice', fr:'Venise', de:'Venedig',
+        tr:'Venedik', id:'Venesia', es:'Venecia', bn:'ভেনিস',
+        ms:'Venice', ur:'وینس'
+    },
+    'pisa': {
+        ar:'بيزا', en:'Pisa', fr:'Pise', de:'Pisa',
+        tr:'Piza', id:'Pisa', es:'Pisa', bn:'পিসা',
+        ms:'Pisa', ur:'پیسا'
+    },
+    'athens': {
+        ar:'أثينا', en:'Athens', fr:'Athènes', de:'Athen',
+        tr:'Atina', id:'Athena', es:'Atenas', bn:'অ্যাথেন্স',
+        ms:'Athena', ur:'ایتھنز'
+    },
+    'athina': {
+        ar:'أثينا', en:'Athens', fr:'Athènes', de:'Athen',
+        tr:'Atina', id:'Athena', es:'Atenas', bn:'অ্যাথেন্স',
+        ms:'Athena', ur:'ایتھنز'
+    },
+    // Belt-and-braces entries for cities that DO have name:ar but
+    // also frequently surface under non-AR variants in translated
+    // queries (Venezia → Venice). Cheap to keep them in sync.
+    'florence': {
+        ar:'فلورنسا', en:'Florence', fr:'Florence', de:'Florenz',
+        tr:'Floransa', id:'Firenze', es:'Florencia', bn:'ফ্লোরেন্স',
+        ms:'Florence', ur:'فلورنس'
+    },
+    'firenze': {
+        ar:'فلورنسا', en:'Florence', fr:'Florence', de:'Florenz',
+        tr:'Floransa', id:'Firenze', es:'Florencia', bn:'ফ্লোরেন্স',
+        ms:'Florence', ur:'فلورنس'
+    },
+    'naples': {
+        ar:'نابولي', en:'Naples', fr:'Naples', de:'Neapel',
+        tr:'Napoli', id:'Napoli', es:'Nápoles', bn:'নেপলস',
+        ms:'Napoli', ur:'نیپلز'
+    },
+    'napoli': {
+        ar:'نابولي', en:'Naples', fr:'Naples', de:'Neapel',
+        tr:'Napoli', id:'Napoli', es:'Nápoles', bn:'নেপলস',
+        ms:'Napoli', ur:'نیپلز'
+    },
+    'milan': {
+        ar:'ميلان', en:'Milan', fr:'Milan', de:'Mailand',
+        tr:'Milano', id:'Milan', es:'Milán', bn:'মিলান',
+        ms:'Milan', ur:'میلان'
+    },
+    'milano': {
+        ar:'ميلان', en:'Milan', fr:'Milan', de:'Mailand',
+        tr:'Milano', id:'Milan', es:'Milán', bn:'মিলান',
+        ms:'Milan', ur:'میلان'
+    },
+    'rome': {
+        ar:'روما', en:'Rome', fr:'Rome', de:'Rom',
+        tr:'Roma', id:'Roma', es:'Roma', bn:'রোম',
+        ms:'Rom', ur:'روم'
+    },
+    'roma': {
+        ar:'روما', en:'Rome', fr:'Rome', de:'Rom',
+        tr:'Roma', id:'Roma', es:'Roma', bn:'রোম',
+        ms:'Rom', ur:'روم'
+    },
+    'dublin': {
+        ar:'دبلن', en:'Dublin', fr:'Dublin', de:'Dublin',
+        tr:'Dublin', id:'Dublin', es:'Dublín', bn:'ডাবলিন',
+        ms:'Dublin', ur:'ڈبلن'
+    },
+    'mopti': {
+        ar:'موبتي', en:'Mopti', fr:'Mopti', de:'Mopti',
+        tr:'Mopti', id:'Mopti', es:'Mopti', bn:'মোপতি',
+        ms:'Mopti', ur:'موپتی'
+    },
+    'san-francisco': {
+        ar:'سان فرانسيسكو', en:'San Francisco', fr:'San Francisco',
+        de:'San Francisco', tr:'San Francisco', id:'San Francisco',
+        es:'San Francisco', bn:'সান ফ্রান্সিসকো', ms:'San Francisco',
+        ur:'سان فرانسسکو'
+    }
+};
+
+function _overrideSlugKey(s) {
+    if (!s) return '';
+    return String(s)
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+// _getLocalizedPlaceName(place, lang, originalQuery)
+//   Returns the search-result display name in the requested UI lang.
+//   Priority chain:
+//     1. namedetails[`name:${lang}`]  (Nominatim's per-language tag)
+//     2. SEARCH_CITY_NAME_OVERRIDES[slug(name:en)]?[lang]
+//     3. SEARCH_CITY_NAME_OVERRIDES[slug(place.name)]?[lang]
+//     4. AR-only: addr.city / addr.town / place.name IF they contain
+//        Arabic chars (skips Italian "Venezia" leaking into AR UI)
+//     5. AR-only: originalQuery IF Arabic-script (preserves user input)
+//     6. AR-only: namedetails['name:en'] (English fallback BEFORE Latin local name)
+//     7. addr.city / addr.town / addr.village / place.name (anything non-empty)
+function _getLocalizedPlaceName(place, lang, originalQuery) {
+    const code = String(lang || 'ar').toLowerCase();
+    const nd = place.namedetails || {};
+    const addr = place.address || {};
+    const _strip = (s) => String(s || '')
+        .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
+        .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
+        .trim();
+
+    // 1. Direct namedetails tag
+    const ndLang = (nd[`name:${code}`] || '').trim();
+    if (ndLang) return _strip(ndLang);
+
+    // 2-3. Curated overrides — try EN-name slug, then local-name slug
+    const enKey = _overrideSlugKey(nd['name:en'] || '');
+    if (enKey && SEARCH_CITY_NAME_OVERRIDES[enKey] && SEARCH_CITY_NAME_OVERRIDES[enKey][code]) {
+        return SEARCH_CITY_NAME_OVERRIDES[enKey][code];
+    }
+    const localKey = _overrideSlugKey(place.name || '');
+    if (localKey && SEARCH_CITY_NAME_OVERRIDES[localKey] && SEARCH_CITY_NAME_OVERRIDES[localKey][code]) {
+        return SEARCH_CITY_NAME_OVERRIDES[localKey][code];
+    }
+
+    // 4-6. AR-specific fallback — refuse Latin if any Arabic exists
+    if (code === 'ar') {
+        if (addr.city && _hasArabicChars(addr.city))    return _strip(addr.city);
+        if (addr.town && _hasArabicChars(addr.town))    return _strip(addr.town);
+        if (addr.village && _hasArabicChars(addr.village)) return _strip(addr.village);
+        if (place.name && _hasArabicChars(place.name))  return _strip(place.name);
+        if (originalQuery && _hasArabicChars(originalQuery) && !/[A-Za-z]/.test(originalQuery)) {
+            return _strip(originalQuery);
+        }
+        // English better than Italian/local for an AR user
+        const en = (nd['name:en'] || '').trim();
+        if (en) return _strip(en);
+    }
+
+    // 7. Generic fallback: best non-empty value from address/name
+    const best = addr.city || addr.town || addr.village || addr.municipality || place.name || '';
+    return _strip(best);
+}
+
 // أنواع مسموحة (تظهر في النتائج)
 const SMART_ALLOWED_TYPES = new Set([
     'city', 'town', 'village', 'municipality',
@@ -5891,7 +6054,22 @@ function fetchCitySuggestions(query) {
             if (tooClose) return;
             seenKeys.add(candidateKey);
 
-            const displayCity = isEnSugg ? enCityMain : arCityMain;
+            // ═══ PT-SEARCH-AR-6 (2026-05-12): localize per UI language ═══
+            // On the homepage, run the result name through
+            // `_getLocalizedPlaceName` so Venice shows as "البندقية" (AR),
+            // "Venedig" (DE), "Venedik" (TR), etc. — not the Italian
+            // "Venezia" that OSM falls back to when name:ar is missing.
+            // Also compute proper AR/EN names for `_addDiscoveredCity`
+            // storage and downstream `selectCity` so the city page sees
+            // the right name. City-page search keeps existing behavior
+            // (phase-1 gate).
+            const _useLoc = _isHomepageForSearch();
+            const _arLocName = _useLoc ? _getLocalizedPlaceName(place, 'ar', query) : arCityMain;
+            const _enLocName = _useLoc ? _getLocalizedPlaceName(place, 'en', query) : enCityMain;
+            const _curLocName = _useLoc ? _getLocalizedPlaceName(place, currentLang, query)
+                                        : (isEnSugg ? enCityMain : arCityMain);
+            // Discard if localization produced an empty string somehow
+            const displayCity = _curLocName || (isEnSugg ? enCityMain : arCityMain);
             const typeLbl = _smartTypeLabel(placeType);
             const subText = typeLbl ? `${country} · ${typeLbl}` : country;
             const flagImg = countryCode
@@ -5904,20 +6082,21 @@ function fetchCitySuggestions(query) {
             div.addEventListener('click', async () => {
                 document.getElementById('city-search-input').value = displayCity;
                 suggestionsEl.classList.remove('open');
-                currentEnglishDisplayName = enCityMain;
-                // PT-SEARCH-AR-3 (2026-05-12): persist this Nominatim pick
-                // so the NEXT search for the same city hits the local cache.
-                // Mirrors the same hook in fetchCityOnlineBroader, qibla-hub,
-                // and moon-hub. Validation + dedup happens inside.
+                currentEnglishDisplayName = _enLocName;
+                // PT-SEARCH-AR-3: persist this Nominatim pick so the NEXT
+                // search for the same city hits the local cache.
+                // PT-SEARCH-AR-6: store the LOCALIZED ar/en names so the
+                // city page's header / Title / breadcrumb don't show the
+                // Italian "Venezia" on an AR page.
                 try {
                     _addDiscoveredCity({
-                        ar: arCityMain, en: enCityMain, cc: countryCode,
+                        ar: _arLocName, en: _enLocName, cc: countryCode,
                         country, countryEn: country,
                         lat: placeLat, lng: placeLng,
                         type: placeType, priority: 40
                     });
                 } catch (_) { /* silent */ }
-                await selectCity(placeLat, placeLng, arCityMain, country, enCityMain, countryCode);
+                await selectCity(placeLat, placeLng, _arLocName, country, _enLocName, countryCode);
             });
             suggestionsEl.appendChild(div);
         });
@@ -6134,7 +6313,15 @@ function fetchCityOnlineBroader(query) {
                 if (seenKeys.has(candidateKey)) return;
                 seenKeys.add(candidateKey);
 
-                const displayCity = isEn ? (englishName || place.name) : arCityMain;
+                // PT-SEARCH-AR-6: localize via the per-language helper
+                // when on the homepage so Venice shows as "البندقية" on
+                // AR pages, "Venedig" on DE pages, etc. Phase-1 gate.
+                const _useLoc2 = _isHomepageForSearch();
+                const _arLoc2 = _useLoc2 ? _getLocalizedPlaceName(place, 'ar', query) : arCityMain;
+                const _enLoc2 = _useLoc2 ? _getLocalizedPlaceName(place, 'en', query) : englishName;
+                const _curLoc2 = _useLoc2 ? _getLocalizedPlaceName(place, currentLang, query)
+                                          : (isEn ? (englishName || place.name) : arCityMain);
+                const displayCity = _curLoc2 || (isEn ? (englishName || place.name) : arCityMain);
                 const typeLbl = _smartTypeLabel(placeType);
                 const subText = typeLbl ? `${country} · ${typeLbl}` : country;
                 const flagImg = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
@@ -6145,20 +6332,18 @@ function fetchCityOnlineBroader(query) {
                 div.addEventListener('click', async () => {
                     document.getElementById('city-search-input').value = displayCity;
                     suggestionsEl.classList.remove('open');
-                    currentEnglishDisplayName = englishName;
-                    // PT-SEARCH-AR-2: persist this Nominatim pick so future
-                    // searches find it locally + benefit other users on the
-                    // same deploy. _addDiscoveredCity validates + dedupes;
-                    // failure to save does NOT block the navigation.
+                    currentEnglishDisplayName = _enLoc2;
+                    // PT-SEARCH-AR-2 + AR-6: persist with LOCALIZED ar/en
+                    // names so downstream pages don't display Latin on AR.
                     try {
                         _addDiscoveredCity({
-                            ar: arCityMain, en: englishName, cc,
-                            country, countryEn: country, // server may not return countryEn for AR queries
+                            ar: _arLoc2, en: _enLoc2, cc,
+                            country, countryEn: country,
                             lat: placeLat, lng: placeLng,
                             type: placeType, priority: 40
                         });
                     } catch (_) { /* silent */ }
-                    await selectCity(placeLat, placeLng, arCityMain, country, englishName, cc);
+                    await selectCity(placeLat, placeLng, _arLoc2, country, _enLoc2, cc);
                 });
                 suggestionsEl.appendChild(div);
             });

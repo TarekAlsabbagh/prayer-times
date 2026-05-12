@@ -52,7 +52,9 @@ const pageRes = await get('/search-test');
 check('/search-test HTTP 200', pageRes.status === 200, `(got ${pageRes.status})`);
 check('/search-test has noindex meta', /<meta name="robots" content="noindex/i.test(pageRes.body));
 check('/search-test has search-test-input', /id="search-test-input"/.test(pageRes.body));
-check('/search-test reuses cps-input class', /class="cps-input"/.test(pageRes.body));
+check('/search-test has visible input element', /<input[^>]*id="search-test-input"/.test(pageRes.body));
+check('/search-test has search-test-suggestions dropdown', /id="search-test-suggestions"/.test(pageRes.body));
+check('/search-test does NOT depend on html.city-page', !/class="city-page-search"/.test(pageRes.body));
 check('/search-test has X-Robots-Tag header', /noindex/i.test(pageRes.headers['x-robots-tag'] || ''));
 
 // 2. Endpoint smoke tests

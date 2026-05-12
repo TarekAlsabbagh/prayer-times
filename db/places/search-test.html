@@ -8,18 +8,188 @@
     <meta name="robots" content="noindex,nofollow">
     <link rel="canonical" href="/search-test">
     <title>Search Test (noindex) — /api/search-place Phase A</title>
-    <link rel="stylesheet" href="/css/style.css?v=178">
     <style>
-        /* Standalone-page-only overrides — keep visual parity with the
-           homepage city-page-search section but center it on a clean page. */
-        body { margin: 0; padding: 24px; background: var(--bg, #f5f5f5); font-family: system-ui, -apple-system, sans-serif; }
-        .search-test-wrap { max-width: 720px; margin: 32px auto; }
-        .search-test-wrap h1 { font-size: 1.4rem; margin: 0 0 4px; color: var(--text, #222); }
-        .search-test-wrap .subtitle { color: var(--text-light, #888); font-size: 0.9rem; margin: 0 0 20px; }
-        .search-test-wrap .badge { display: inline-block; padding: 3px 10px; background: #ffeaa7; color: #5d4400; border-radius: 12px; font-size: 0.75rem; margin-bottom: 12px; }
-        /* The .cps-input + .cps-suggestions classes are already styled
-           in css/style.css — we reuse them verbatim for visual parity. */
-        .search-test-wrap .cps-inner { position: relative; }
+        /* Self-contained styles — no dependency on css/style.css so the
+           search box renders the same regardless of which `html.*` class
+           or page state is active. Visual parity with the homepage
+           compact city search achieved by mirroring the values from
+           style.css `.city-page-search` rules (~line 11147). */
+        :root {
+            --st-bg: #f7f7f8;
+            --st-card: #ffffff;
+            --st-text: #1f2937;
+            --st-text-light: #6b7280;
+            --st-border: #e5e7eb;
+            --st-accent: #1e5631;
+            --st-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --st-shadow-focus: 0 0 0 3px rgba(30, 86, 49, 0.18);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --st-bg: #1a1d21;
+                --st-card: #23272d;
+                --st-text: #e5e7eb;
+                --st-text-light: #9ca3af;
+                --st-border: #374151;
+                --st-accent: #4ade80;
+                --st-shadow: 0 1px 3px rgba(0,0,0,0.3);
+                --st-shadow-focus: 0 0 0 3px rgba(74, 222, 128, 0.25);
+            }
+        }
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: var(--st-bg);
+            color: var(--st-text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Cairo", "Tajawal", system-ui, sans-serif;
+            min-height: 100vh;
+        }
+        .search-test-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 48px 20px;
+        }
+        .search-test-wrap h1 {
+            font-size: 1.5rem;
+            margin: 0 0 6px;
+            color: var(--st-text);
+            font-weight: 700;
+        }
+        .search-test-wrap .subtitle {
+            color: var(--st-text-light);
+            font-size: 0.9rem;
+            margin: 0 0 24px;
+            line-height: 1.6;
+        }
+        .search-test-wrap .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+        @media (prefers-color-scheme: dark) {
+            .search-test-wrap .badge {
+                background: #422006;
+                color: #fde68a;
+            }
+        }
+        .search-test-wrap code {
+            background: var(--st-card);
+            border: 1px solid var(--st-border);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: var(--st-text);
+        }
+
+        /* === Search box — mirrors .city-page-search visual === */
+        .search-test-box {
+            position: relative;
+            margin: 24px 0 18px;
+        }
+        .search-test-inner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: var(--st-card);
+            border: 1px solid var(--st-border);
+            border-radius: 14px;
+            box-shadow: var(--st-shadow);
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .search-test-inner:focus-within {
+            border-color: var(--st-accent);
+            box-shadow: var(--st-shadow-focus);
+        }
+        .search-test-icon {
+            flex: 0 0 22px;
+            width: 22px;
+            height: 22px;
+            color: var(--st-text-light);
+        }
+        .search-test-input {
+            flex: 1 1 auto;
+            min-width: 0;
+            border: none;
+            background: transparent;
+            outline: none;
+            font: inherit;
+            font-size: 1rem;
+            color: var(--st-text);
+            padding: 6px 0;
+            min-height: 24px;
+        }
+        .search-test-input::placeholder {
+            color: var(--st-text-light);
+        }
+        .search-test-suggestions {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: var(--st-card);
+            border: 1px solid var(--st-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            max-height: 360px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .search-test-suggestions[hidden] { display: none; }
+        .search-test-result {
+            display: block;
+            width: 100%;
+            text-align: inherit;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            color: var(--st-text);
+            font: inherit;
+            border-bottom: 1px solid var(--st-border);
+        }
+        .search-test-result:last-child { border-bottom: none; }
+        .search-test-result:hover,
+        .search-test-result:focus {
+            background: rgba(30, 86, 49, 0.08);
+            outline: none;
+        }
+        @media (prefers-color-scheme: dark) {
+            .search-test-result:hover,
+            .search-test-result:focus {
+                background: rgba(74, 222, 128, 0.12);
+            }
+        }
+        .search-test-result strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .search-test-result span {
+            display: block;
+            font-size: 0.83rem;
+            color: var(--st-text-light);
+        }
+        .search-test-empty,
+        .search-test-loading {
+            padding: 14px 16px;
+            text-align: center;
+            color: var(--st-text-light);
+            font-size: 0.92rem;
+        }
+        details summary {
+            cursor: pointer;
+            color: var(--st-text-light);
+            user-select: none;
+        }
+        details[open] summary { margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -31,35 +201,47 @@
             البحث في قاعدة بيانات معتمدة فقط (لا Nominatim، لا ترجمة، لا تخزين).
         </p>
 
-        <section class="city-page-search" role="search">
-            <div class="cps-inner">
-                <svg class="icon cps-icon" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
-                    <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
-                    <line x1="21" x2="16.65" y1="21" y2="16.65" stroke="currentColor" stroke-width="2"></line>
+        <div class="search-test-box">
+            <div class="search-test-inner">
+                <svg class="search-test-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="search" id="search-test-input" class="cps-input"
-                       placeholder="ابحث عن مدينة..."
-                       autocomplete="off"
-                       aria-label="ابحث عن مدينة">
-                <div class="cps-suggestions" id="search-test-suggestions" role="listbox"></div>
+                <input
+                    id="search-test-input"
+                    class="search-test-input"
+                    type="search"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="ابحث عن مدينة أو منطقة..."
+                    aria-label="ابحث عن مدينة أو منطقة"
+                />
             </div>
-        </section>
+            <div
+                id="search-test-suggestions"
+                class="search-test-suggestions"
+                role="listbox"
+                hidden
+            ></div>
+        </div>
 
-        <p style="margin-top: 24px; font-size: 0.85rem; color: #888;">
-            جرّب: <code>الرياض</code> · <code>مكة</code> · <code>الخفجي</code> ·
-            <code>بقيق</code> · <code>Paris</code> · <code>Cairo</code> ·
-            <code>Istanbul</code> · <code>Montreal</code>
+        <p style="margin-top: 12px; font-size: 0.85rem; color: var(--st-text-light);">
+            جرّب:
+            <code>الرياض</code> · <code>مكة</code> · <code>الخفجي</code> ·
+            <code>بقيق</code> · <code>حفر الباطن</code> · <code>Paris</code> ·
+            <code>London</code> · <code>Cairo</code> · <code>Istanbul</code> ·
+            <code>Montreal</code>
         </p>
-        <details style="margin-top:16px;font-size:0.85rem;">
-            <summary style="cursor:pointer;color:#666">عن صفحة الاختبار</summary>
-            <p>
+
+        <details style="margin-top: 20px; font-size: 0.85rem; color: var(--st-text-light);">
+            <summary>عن صفحة الاختبار</summary>
+            <p style="margin: 8px 0 0; line-height: 1.7;">
                 هذه صفحة مستقلة تماماً عن الصفحة الرئيسية.
                 مربع البحث هنا يستدعي <code>/api/search-place?q=...&amp;lang=...</code>
                 ويعرض النتائج من <code>db/places/curated-places.json</code> فقط.
                 لا Nominatim، لا MyMemory، لا تخزين localStorage.
-                الهدف: اختبار المحرك الجديد بدون التأثير على البحث الفعلي في الصفحة الرئيسية.
             </p>
-            <p>
+            <p style="margin: 8px 0 0; line-height: 1.7;">
                 كل نتيجة تحتوي على lat/lng/timezone/countryCode/slug — وهي الحقول
                 الضرورية لحساب مواقيت الصلاة بدقة. النتائج التي لا تحتوي عليها
                 لا تُعرض.
@@ -70,16 +252,17 @@
     <script>
     (function() {
         'use strict';
-        const input = document.getElementById('search-test-input');
-        const suggEl = document.getElementById('search-test-suggestions');
-        if (!input || !suggEl) return;
+        const input  = document.getElementById('search-test-input');
+        const box    = document.getElementById('search-test-suggestions');
+        if (!input || !box) {
+            try { console.warn('[search-test] required DOM nodes missing'); } catch (_) {}
+            return;
+        }
 
-        let debounce = null;
-        let currentResults = [];
+        let debounce  = null;
+        let lastResults = [];
 
         function pickLang() {
-            // /search-test is served regardless of URL prefix, so default to ar
-            // and allow ?lang=xx override.
             const params = new URLSearchParams(window.location.search);
             const l = String(params.get('lang') || 'ar').toLowerCase();
             return ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(l) ? l : 'ar';
@@ -87,83 +270,103 @@
         const LANG = pickLang();
         const IS_AR = (LANG === 'ar');
 
-        function renderResults(results) {
-            currentResults = results || [];
-            if (!currentResults.length) {
-                suggEl.innerHTML = '<div class="search-loading" style="padding:12px;text-align:center;color:#888;">' + (IS_AR ? 'لا توجد نتائج' : 'No results') + '</div>';
-                suggEl.classList.add('open');
-                return;
-            }
-            suggEl.innerHTML = '';
-            currentResults.forEach((r, idx) => {
-                const div = document.createElement('div');
-                div.className = 'suggestion-item';
-                div.setAttribute('role', 'option');
-                div.setAttribute('data-idx', idx);
-                const flagUrl = r.countryCode ? `https://flagcdn.com/28x21/${r.countryCode}.png` : '';
-                const flag = flagUrl
-                    ? `<img src="${flagUrl}" class="sugg-flag" alt="${r.countryCode}" onerror="this.style.display='none'">`
-                    : '<span style="font-size:1.2rem">🌍</span>';
-                div.innerHTML = flag +
-                    '<div><div class="sugg-name">' + escapeHtml(r.displayName || r.slug) + '</div>' +
-                    '<div class="sugg-country">' + escapeHtml(r.countryName || '') + '</div></div>';
-                div.addEventListener('click', () => onPick(r));
-                suggEl.appendChild(div);
-            });
-            suggEl.classList.add('open');
+        function escapeHtml(s) {
+            return String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+                { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+            ));
         }
 
-        function escapeHtml(s) {
-            return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+        function showEmpty(message) {
+            box.innerHTML = '<div class="search-test-empty">' + escapeHtml(message) + '</div>';
+            box.hidden = false;
+        }
+        function showLoading() {
+            box.innerHTML = '<div class="search-test-loading">' + (IS_AR ? 'جاري البحث...' : 'Searching...') + '</div>';
+            box.hidden = false;
+        }
+        function hideBox() {
+            box.hidden = true;
+            box.innerHTML = '';
+        }
+
+        function isPrayerTimesReady(r) {
+            if (!r || typeof r !== 'object') return false;
+            if (!r.slug || !r.countryCode || !r.timezone) return false;
+            const lat = Number(r.lat), lng = Number(r.lng);
+            if (!isFinite(lat) || lat < -90 || lat > 90) return false;
+            if (!isFinite(lng) || lng < -180 || lng > 180) return false;
+            return true;
+        }
+
+        function renderResults(results) {
+            lastResults = Array.isArray(results) ? results.filter(isPrayerTimesReady) : [];
+            if (!lastResults.length) {
+                showEmpty(IS_AR ? 'لا توجد نتائج' : 'No results');
+                return;
+            }
+            box.innerHTML = lastResults.map((r, i) => (
+                '<button class="search-test-result" type="button" role="option" data-idx="' + i + '">' +
+                '<strong>' + escapeHtml(r.displayName || r.slug) + '</strong>' +
+                '<span>' + escapeHtml(r.countryName || '') + '</span>' +
+                '</button>'
+            )).join('');
+            box.hidden = false;
+            Array.from(box.querySelectorAll('.search-test-result')).forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.getAttribute('data-idx'), 10);
+                    onPick(lastResults[idx]);
+                });
+            });
         }
 
         function onPick(r) {
-            if (!r || !r.slug || !isFinite(r.lat) || !isFinite(r.lng) || !r.timezone || !r.countryCode) {
-                console.warn('Refused to navigate — result missing required fields', r);
+            if (!isPrayerTimesReady(r)) {
+                try { console.warn('[search-test] result not prayer-times-ready', r); } catch (_) {}
                 return;
             }
-            // Build the prayer-times URL — slug only; the prayer-times
-            // page handles lat/lng + timezone resolution.
-            const url = '/prayer-times-in-' + encodeURIComponent(r.slug);
-            window.location.href = url;
+            // Navigate to prayer-times page using slug (existing route)
+            window.location.href = '/prayer-times-in-' + encodeURIComponent(r.slug);
         }
 
         async function doSearch(q) {
             q = String(q || '').trim();
-            if (q.length < 1) {
-                suggEl.innerHTML = '';
-                suggEl.classList.remove('open');
+            if (!q) {
+                hideBox();
                 return;
             }
-            suggEl.innerHTML = '<div class="search-loading" style="padding:12px;text-align:center;color:#888;">' + (IS_AR ? 'جاري البحث...' : 'Searching...') + '</div>';
-            suggEl.classList.add('open');
+            showLoading();
             try {
-                const r = await fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + LANG);
-                if (!r.ok) { renderResults([]); return; }
-                const data = await r.json();
-                renderResults(Array.isArray(data.results) ? data.results : []);
+                const res = await fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + LANG, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!res.ok) {
+                    showEmpty(IS_AR ? 'حدث خطأ' : 'Error');
+                    return;
+                }
+                const data = await res.json();
+                renderResults(data && Array.isArray(data.results) ? data.results : []);
             } catch (_e) {
-                renderResults([]);
+                showEmpty(IS_AR ? 'تعذّر الاتصال' : 'Network error');
             }
         }
 
         input.addEventListener('input', function() {
             clearTimeout(debounce);
-            debounce = setTimeout(() => doSearch(input.value), 120);
+            debounce = setTimeout(() => doSearch(input.value), 150);
         });
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                if (currentResults && currentResults[0]) onPick(currentResults[0]);
+                if (lastResults && lastResults[0]) onPick(lastResults[0]);
             } else if (e.key === 'Escape') {
-                suggEl.classList.remove('open');
+                hideBox();
+                input.blur();
             }
         });
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.city-page-search')) suggEl.classList.remove('open');
+            if (!e.target.closest('.search-test-box')) hideBox();
         });
 
-        // Console hint for debug
         try { console.log('[search-test] ready · lang=' + LANG + ' · endpoint=/api/search-place'); } catch (_) {}
     })();
     </script>

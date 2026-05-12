@@ -10060,9 +10060,91 @@ document.addEventListener('click', function(_e) {
 }, true);  // capture phase: runs BEFORE any element-level handler
 // BFCache restore — Safari/Firefox can restore the page from cache with
 // the overlay still visible. Re-hide it on pageshow.
-window.addEventListener('pageshow', function() {
+window.addEventListener('pageshow', function(e) {
     const _ov = document.getElementById('nav-loading-overlay');
     if (_ov) _ov.setAttribute('hidden', '');
+    // QIBLA-BACK-FIX-2 (2026-05-12): defense-in-depth normalization
+    // of .page.active state at pageshow time. Reason:
+    //   QIBLA-BACK-FIX-1 added a `window._navigatingAway` flag to
+    //   block the race-condition activation. But two cases can
+    //   still produce a polluted BFCache snapshot:
+    //     (1) the user's BFCache may contain an OLD frozen state
+    //         from a visit BEFORE the fix shipped (v ≤ 636).
+    //         Browsers don't invalidate BFCache on JS update.
+    //     (2) any future activation path that bypasses the 13
+    //         guarded blocks in initApp.
+    //   Both surface here as "BFCache-restored DOM doesn't match
+    //   the URL". This handler self-heals by re-deriving the
+    //   correct `.page.active` from `window.location.pathname`
+    //   and resetting the DOM if it's wrong. Net effect:
+    //   /moon-today-in-X always shows page-moon, /qibla-in-X
+    //   always shows page-qibla, etc. — regardless of what BFCache
+    //   restored.
+    try {
+        const _path = window.location.pathname;
+        // URL → expected page-id (mirrors the 13 initApp blocks).
+        let _expectedId = null;
+        if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla(?:-in-[a-z]|$)/.test(_path)) {
+            _expectedId = 'page-qibla';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today|moon-in-)/.test(_path)) {
+            _expectedId = 'page-moon';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(_path)) {
+            _expectedId = 'page-tasbih';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_path)) {
+            _expectedId = 'page-duas';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(_path)) {
+            _expectedId = 'page-hijri-today';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(_path)) {
+            _expectedId = 'page-hijri-day';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(_path)) {
+            _expectedId = 'page-hijri-month';
+        } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(_path)) {
+            _expectedId = 'page-hijri-year';
+        } else if (/\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(_path)) {
+            _expectedId = 'page-zakat';
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(_path)) {
+            _expectedId = 'page-date-converter';
+        } else {
+            // Default: homepage `/`, `/prayer-times-in-{slug}`,
+            // `/time-left-until-prayer-in-{slug}`, `/next-prayer-in-{slug}`,
+            // `/prayer-times-in-{country}`, etc. all use #page-prayer-times.
+            _expectedId = 'page-prayer-times';
+        }
+        if (_expectedId) {
+            // Snapshot current active pages.
+            const _activeEls = document.querySelectorAll('.page.active');
+            const _activeIds = Array.from(_activeEls).map(p => p.id);
+            const _isCorrect = (_activeIds.length === 1 && _activeIds[0] === _expectedId);
+            if (!_isCorrect) {
+                // Normalize: strip all `.page.active`, then set the
+                // URL-correct one. Mirrors the initApp activation
+                // shape (without firing loadXxxPage() — the page-
+                // specific JS will re-run on pageshow via its own
+                // logic if needed; we only fix the .active toggle).
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                const _el = document.getElementById(_expectedId);
+                if (_el) _el.classList.add('active');
+                // Sync sidebar-nav .active so the UI doesn't show a
+                // wrong tab highlight after the BFCache restore.
+                const _navKey = (_expectedId === 'page-prayer-times') ? 'prayer-times'
+                              : (_expectedId === 'page-qibla')        ? 'qibla'
+                              : (_expectedId === 'page-moon')         ? 'moon'
+                              : (_expectedId === 'page-tasbih')       ? 'tasbih'
+                              : (_expectedId === 'page-duas')         ? 'duas'
+                              : (_expectedId === 'page-hijri-today')  ? 'hijri-today'
+                              : (_expectedId === 'page-hijri-day')    ? 'hijri-today'
+                              : (_expectedId === 'page-hijri-year')   ? 'hijri-calendar'
+                              : (_expectedId === 'page-hijri-month')  ? 'hijri-calendar'
+                              : (_expectedId === 'page-zakat')        ? 'zakat'
+                              : (_expectedId === 'page-date-converter') ? 'date-converter'
+                              : null;
+                if (_navKey) {
+                    document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                    document.querySelector(`.sidebar-nav a[data-page="${_navKey}"]`)?.classList.add('active');
+                }
+            }
+        }
+    } catch (_) { /* silent — best-effort self-heal */ }
 });
 function applyPageType() {
     const path = window.location.pathname;

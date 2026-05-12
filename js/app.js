@@ -638,7 +638,29 @@ function _isDisplayScriptAcceptable(s, lang) {
 }
 function getDisplayCity() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    if (lang === 'ar') return currentCity;
+    if (lang === 'ar') {
+        // PT-LANG-GUARD-2 (2026-05-12): reject Latin `currentCity` on
+        // Arabic pages and fall back to the safe localized resolver
+        // (which reads the SSR `<meta name="ssr-city-name">` first).
+        // This stops Latin names like "Le Pontet" (when Nominatim's
+        // name:ar was missing) from leaking into the visible UI on
+        // /next-prayer-in-… and /time-left-until-prayer-in-… pages
+        // that consume getDisplayCity() for hero / CTA / SEO text.
+        if (typeof currentCity === 'string' && currentCity
+            && !/[A-Za-z]/.test(currentCity)) {
+            return currentCity;
+        }
+        try {
+            if (typeof _getLocalizedCityDisplayName === 'function') {
+                const r = _getLocalizedCityDisplayName('', 'ar');
+                if (r && !/[A-Za-z]/.test(r)) return r;
+            }
+        } catch (_) {}
+        // Absolute last resort — should be unreachable when SSR meta is
+        // present; if we land here, return the (possibly Latin) value
+        // so the page at least shows SOMETHING.
+        return currentCity || '';
+    }
     if (lang === 'en') return currentEnglishDisplayName || currentEnglishName || currentCity;
     // Nominatim أعاد اسماً مترجَماً حقيقياً (ليس endonym إنجليزي) وبخطّ متوافق → استخدمه
     if (currentLocalizedName
@@ -11609,7 +11631,24 @@ function initRamadanBadge() {
 function getCurrentCityLabel() {
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _strip = (s) => (typeof _stripCityAdminPrefix === 'function') ? _stripCityAdminPrefix(s) : s;
-    if (_ln === 'ar') return (typeof currentCity !== 'undefined' && currentCity) ? _strip(currentCity) : '';
+    if (_ln === 'ar') {
+        // PT-LANG-GUARD-2 (2026-05-12): same Latin-guard as
+        // getDisplayCity() — reject Latin `currentCity` and fall back
+        // to the safe localized resolver. NPT H1 (`npt-h1-city`),
+        // prayer-card aria-labels and other AR surfaces consume this
+        // helper and must NEVER show "Le Pontet" instead of "لو بونت".
+        if (typeof currentCity === 'string' && currentCity
+            && !/[A-Za-z]/.test(currentCity)) {
+            return _strip(currentCity);
+        }
+        try {
+            if (typeof _getLocalizedCityDisplayName === 'function') {
+                const r = _getLocalizedCityDisplayName('', 'ar');
+                if (r && !/[A-Za-z]/.test(r)) return _strip(r);
+            }
+        } catch (_) {}
+        return (typeof currentCity !== 'undefined' && currentCity) ? _strip(currentCity) : '';
+    }
     // للّغات الأخرى: جرّب localized name أوّلاً ثم map ثم English
     if (typeof currentLocalizedName !== 'undefined' && currentLocalizedName) return _strip(currentLocalizedName);
     try {

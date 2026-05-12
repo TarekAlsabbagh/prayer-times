@@ -18361,9 +18361,7 @@ function getTierForPath(urlPath) {
     // never reach an external service. /api/place-selected is also cheap
     // (one Supabase upsert per click). They share the cheap tier.
     if (urlPath === '/api/search-place' || urlPath === '/api/place-selected'
-        || urlPath === '/api/supabase-status'
-        || urlPath === '/api/supabase-debug-row'
-        || urlPath === '/api/supabase-debug-write') return 'cheap';
+        || urlPath === '/api/supabase-status') return 'cheap';
     return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
 }
 // تنظيف دوري — يزيل IPs التي جميع buckets-ها منتهية (منع نمو غير محدود)
@@ -20762,20 +20760,18 @@ const server = http.createServer(async (req, res) => {
             // it's still good practice).
             let hostShown = '';
             try { hostShown = new URL(_SUPABASE_URL).host; } catch (_) { hostShown = '(invalid url)'; }
+            // PHASE-C-DIAG-CLEANUP (2026-05-13): trimmed to non-sensitive
+            // boolean flags + the raw response counts + actionable hint.
+            // We no longer echo the URL value or the raw env var so the
+            // endpoint is safe to leave open on production. Probes show
+            // ok+status only (no pgError body, no sample row).
             const out = {
                 enabled: _SUPABASE_ENABLED,
                 urlConfigured: !!_SUPABASE_URL,
                 keyConfigured: !!_SUPABASE_KEY,
-                urlHost: hostShown,
-                // Show the stored URL value so the user can see if our
-                // normalization stripped a trailing path or not (the
-                // Supabase project ref is public info anyway).
-                urlStored: _SUPABASE_URL,
-                urlRaw: _SUPABASE_URL_RAW,
-                urlNormalizationDidStrip: _SUPABASE_URL !== _SUPABASE_URL_RAW.replace(/\/+$/, ''),
-                urlSuffixOK: _SUPABASE_URL.endsWith('.supabase.co')
-                             || _SUPABASE_URL.endsWith('.supabase.in')
-                             || _SUPABASE_URL.endsWith('.supabase.net'),
+                urlHostSuffixOK: hostShown.endsWith('.supabase.co')
+                              || hostShown.endsWith('.supabase.in')
+                              || hostShown.endsWith('.supabase.net'),
                 probes: [],
                 tableExists: false,
                 rowCount: null,
@@ -20789,59 +20785,40 @@ const server = http.createServer(async (req, res) => {
             }
             // Probe 1: base PostgREST endpoint — confirms apikey + base URL
             const p1 = await _supabaseFetch('/rest/v1/', { method: 'GET' });
-            out.probes.push({
-                name: 'base_rest',
-                path: '/rest/v1/',
-                ok: p1.ok, status: p1.status,
-                error: p1.error,
-                pgError: p1.pgError
-            });
+            out.probes.push({ name: 'base_rest', ok: p1.ok, status: p1.status });
             // Probe 2: table existence — no select, just limit=1
             const p2 = await _supabaseFetch('/rest/v1/discovered_places?limit=1', { method: 'GET' });
-            out.probes.push({
-                name: 'table_select',
-                path: '/rest/v1/discovered_places?limit=1',
-                ok: p2.ok, status: p2.status,
-                error: p2.error,
-                pgError: p2.pgError,
-                sample: (p2.ok && Array.isArray(p2.data)) ? p2.data.slice(0, 1) : null
-            });
+            out.probes.push({ name: 'table_select', ok: p2.ok, status: p2.status });
             // Probe 3: count via Prefer:count=exact + Range header
             const p3 = await _supabaseFetch('/rest/v1/discovered_places?limit=0', {
                 method: 'GET',
                 headers: { 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' }
             });
-            out.probes.push({
-                name: 'count_header',
-                path: '/rest/v1/discovered_places?limit=0',
-                ok: p3.ok, status: p3.status,
-                contentRange: p3.contentRange || null,
-                rowCount: p3.rowCount !== undefined ? p3.rowCount : null,
-                error: p3.error,
-                pgError: p3.pgError
-            });
-            // Roll-up
+            out.probes.push({ name: 'count_header', ok: p3.ok, status: p3.status });
+            // Roll-up — derive useful flags from probes WITHOUT echoing the
+            // raw PostgREST error bodies (which could leak schema details).
             if (p2.ok) {
                 out.tableExists = true;
                 if (p3.rowCount !== null && p3.rowCount !== undefined) out.rowCount = p3.rowCount;
             }
-            // Diagnostic hint based on the actual errors we got
-            if (!out.urlSuffixOK) {
-                out.hint = 'SUPABASE_URL does not look like a Supabase project URL. Expected something like https://<ref>.supabase.co';
+            // Diagnostic hint — derived from status codes + pgError codes
+            // (we read pgError internally but don't expose it).
+            if (!out.urlHostSuffixOK) {
+                out.hint = 'SUPABASE_URL does not look like a Supabase project URL. Expected something like https://<ref>.supabase.co (host only, no path).';
             } else if (p1.status === 0 || p2.status === 0) {
-                out.hint = 'Supabase project unreachable (network or DNS failed). Verify the URL is correct and the project is NOT paused (free-tier projects pause after 7 days of inactivity — open the project in Supabase dashboard to wake it).';
+                out.hint = 'Supabase project unreachable (network or DNS failed). Verify the URL is correct and the project is NOT paused (free-tier projects pause after 7 days of inactivity — open the Supabase dashboard to wake it).';
             } else if (p1.status === 401 || p2.status === 401) {
                 out.hint = 'Authentication failed (401). The SUPABASE_SERVICE_ROLE_KEY is wrong or you used the anon key instead of service_role. Re-copy from Project Settings → API → service_role.';
             } else if (p2.status === 404 && p2.pgError && p2.pgError.code === '42P01') {
                 out.hint = 'Table discovered_places does not exist. Run db/places/migrations/001_discovered_places.sql in Supabase SQL Editor.';
             } else if (p2.status === 404 && p2.pgError && p2.pgError.code === 'PGRST125') {
-                out.hint = 'PostgREST PGRST125 = invalid path. Likely causes: (a) table not in `public` schema, OR (b) Data API has Restricted Schemas excluding public — go Supabase → Project Settings → API → Schema → ensure `public` is selected/exposed.';
+                out.hint = 'PostgREST PGRST125 = invalid path. Likely causes: (a) table not in `public` schema, OR (b) Data API has Restricted Schemas excluding public — Supabase → Project Settings → API → Schema → ensure `public` is exposed.';
             } else if (p2.status === 404 && p2.pgError && p2.pgError.code === 'PGRST205') {
                 out.hint = 'PostgREST PGRST205 = relation not found. Run db/places/migrations/001_discovered_places.sql in Supabase SQL Editor.';
             } else if (p2.ok) {
-                out.hint = 'All good. discovered_places exists and is queryable. If rows still missing, click a non-curated result on /search-test to trigger a write.';
+                out.hint = 'All good. discovered_places exists and is queryable.';
             } else {
-                out.hint = 'Unexpected error. See `probes` array — share with developer.';
+                out.hint = 'Unexpected upstream error. Check Render logs for [supabase] warnings.';
             }
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             res.end(JSON.stringify(out, null, 2));
@@ -20854,139 +20831,12 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // PHASE-C-DIAG (2026-05-13): debug endpoint that fetches a single
-    // discovered_places row and exposes the raw fields + char codes of
-    // names.ar. Lets us pinpoint whether Arabic text is corrupted at
-    // STORAGE time (DB has "?????") vs RETRIEVAL time (DB has Arabic
-    // but our response loses it). Query: ?slug=X[&cc=YY]
-    if (urlPath === '/api/supabase-debug-row' && req.method === 'GET') {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Cache-Control', 'no-store');
-        (async () => {
-            if (!_SUPABASE_ENABLED) {
-                res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end('{"error":"supabase_disabled"}');
-                return;
-            }
-            const u = new URL('http://x' + req.url);
-            const slug = String(u.searchParams.get('slug') || '').toLowerCase();
-            const cc = String(u.searchParams.get('cc') || '').toLowerCase();
-            if (!slug) {
-                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end('{"error":"slug_required"}');
-                return;
-            }
-            let qPath = '/rest/v1/discovered_places?slug=eq.' + encodeURIComponent(slug);
-            if (cc) qPath += '&country_code=eq.' + encodeURIComponent(cc);
-            qPath += '&limit=1';
-            const resp = await _supabaseFetch(qPath, { method: 'GET' });
-            const out = {
-                ok: resp.ok,
-                status: resp.status,
-                error: resp.error,
-                row: null,
-                charCodes: {},
-                searchBlob: null
-            };
-            if (resp.ok && Array.isArray(resp.data) && resp.data.length > 0) {
-                const row = resp.data[0];
-                out.row = row;
-                // Show codepoints for each lang's name. If we see U+003F
-                // (?) instead of real Arabic codepoints (U+0600-U+06FF),
-                // the data was already corrupted before being stored.
-                if (row.names && typeof row.names === 'object') {
-                    for (const lang of Object.keys(row.names)) {
-                        const v = String(row.names[lang] || '');
-                        out.charCodes[lang] = {
-                            value: v,
-                            length: v.length,
-                            codepoints: Array.from(v).map(c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')),
-                            hasArabic: /[؀-ۿ]/.test(v),
-                            hasOnlyQuestionMarks: /^[\?\s]+$/.test(v)
-                        };
-                    }
-                }
-                out.searchBlob = row.search_blob || null;
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify(out, null, 2));
-        })().catch((e) => {
-            try {
-                res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify({ error: 'internal', message: String((e && e.message) || e) }));
-            } catch (_) {}
-        });
-        return;
-    }
-
-    // PHASE-C-DIAG (2026-05-13): test endpoint that writes a row with
-    // KNOWN-GOOD Arabic from the server's own source code (no network
-    // marshalling involved). If the row reads back with question marks,
-    // the corruption is in Supabase storage or pipeline. If it reads
-    // back correctly, the corruption was in the original POST body.
-    if (urlPath === '/api/supabase-debug-write' && req.method === 'POST') {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Cache-Control', 'no-store');
-        (async () => {
-            if (!_SUPABASE_ENABLED) {
-                res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end('{"error":"supabase_disabled"}');
-                return;
-            }
-            // Hardcoded Arabic — codepoints embedded in source (UTF-8).
-            // If THIS gets stored as "?????", the issue is downstream
-            // (Supabase column collation / PostgREST encoding).
-            const testPlace = {
-                slug: 'utf8-debug-' + Date.now().toString(36),
-                type: 'city',
-                countryCode: 'sy',
-                lat: 35.32,
-                lng: 36.62,
-                timezone: 'Asia/Damascus',
-                names: {
-                    ar: 'اللطامنة',           // U+0627 U+0644 U+0644 U+0637 ...
-                    en: 'Al-Latamna',
-                    fr: 'Al-Latamna'
-                },
-                aliases: { ar: ['لطامنة'] },
-                admin: { country: { ar: 'سوريا', en: 'Syria' } },
-                source: 'debug-test',
-                nameQuality: { ar: 'official', en: 'fallback_en' }
-            };
-            const r = await _upsertDiscoveredPlace(testPlace);
-            // Immediately read back what we just wrote
-            const readResp = await _supabaseFetch(
-                '/rest/v1/discovered_places?slug=eq.' + encodeURIComponent(testPlace.slug)
-                + '&country_code=eq.' + encodeURIComponent('sy') + '&limit=1',
-                { method: 'GET' }
-            );
-            const out = {
-                writeResult: r,
-                readBack: (readResp.ok && Array.isArray(readResp.data)) ? readResp.data[0] : null,
-                writeBytes: {
-                    ar: Array.from('اللطامنة').map(c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'))
-                }
-            };
-            if (out.readBack && out.readBack.names) {
-                out.readBackChars = {};
-                for (const lang of Object.keys(out.readBack.names)) {
-                    const v = String(out.readBack.names[lang] || '');
-                    out.readBackChars[lang] = {
-                        value: v,
-                        codepoints: Array.from(v).map(c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'))
-                    };
-                }
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify(out, null, 2));
-        })().catch((e) => {
-            try {
-                res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify({ error: 'internal', message: String((e && e.message) || e) }));
-            } catch (_) {}
-        });
-        return;
-    }
+    // PHASE-C-DIAG-CLEANUP (2026-05-13): /api/supabase-debug-row and
+    // /api/supabase-debug-write were temporary diagnostic endpoints
+    // used while shipping Phase C. They were REMOVED before final
+    // production lock — debug-write performed unauthenticated upserts
+    // into discovered_places and must not be exposed publicly. Any
+    // future requests to those paths fall through to the default 404.
 
     // PHASE C — user-click persistence endpoint. The /search-test page
     // POSTs the picked result here BEFORE navigating. We validate the

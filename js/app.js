@@ -2973,8 +2973,18 @@ async function initApp() {
     try { startCountdown(); } catch (_e) { try { console.warn('[initApp] startCountdown:', _e); } catch(_){} }
 
     // تفعيل قسم القبلة تلقائياً إذا كان المسار /qibla-in-*
+    // QIBLA-BACK-FIX-1 (2026-05-12): all page-activation blocks below
+    // check `!window._navigatingAway` so they don't pollute the DOM
+    // of the CURRENT page after the click handler has already queued
+    // a navigation. The flag is set by `_showNavLoadingOverlay()` and
+    // by navigation helpers BEFORE `window.location.href = …`. Without
+    // these guards, an awaited initApp resuming AFTER the URL update
+    // reads the NEW pathname but writes to the OLD DOM (the page
+    // that's about to be BFCached), creating a polluted state that
+    // BFCache faithfully replays on Back — the root cause of
+    // QIBLA-BACK-DOM-LEAK-1.
     const _isQiblaPage = /\/(?:en\/)?qibla-in-/.test(window.location.pathname);
-    if (_isQiblaPage) {
+    if (_isQiblaPage && !window._navigatingAway) {
         const _qiblaLink = document.querySelector(`.sidebar-nav a[data-page="qibla"]`);
         if (_qiblaLink) _qiblaLink.click();
         // تحديث العناصر الديناميكية بعد تفعيل القسم (مثل زر العودة)
@@ -2985,7 +2995,7 @@ async function initApp() {
 
     // تفعيل صفحة المسبحة عند URL /msbaha
     const _isMsbahaPage = /\/(?:en\/)?msbaha$/.test(window.location.pathname);
-    if (_isMsbahaPage) {
+    if (_isMsbahaPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-tasbih')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3005,7 +3015,7 @@ async function initApp() {
 
     // تفعيل صفحة التاريخ الهجري عند URL /today-hijri-date
     const _isHijriPage = /\/(?:en\/)?today-hijri-date$/.test(window.location.pathname);
-    if (_isHijriPage) {
+    if (_isHijriPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-today')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3016,7 +3026,7 @@ async function initApp() {
 
     // تفعيل صفحة اليوم الهجري الفردي عند URL /hijri-date/YYYY-MM-DD
     const _isHijriDayPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(window.location.pathname);
-    if (_isHijriDayPage) {
+    if (_isHijriDayPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-day')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3028,7 +3038,7 @@ async function initApp() {
 
     // تفعيل صفحة التقويم الهجري السنوي عند URL /hijri-calendar أو /hijri-calendar/1447
     const _isHijriYearPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(window.location.pathname);
-    if (_isHijriYearPage) {
+    if (_isHijriYearPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-year')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3040,7 +3050,7 @@ async function initApp() {
 
     // تفعيل صفحة التقويم الهجري الشهري عند URL /hijri-calendar/YYYY-MM
     const _isHijriMonthPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(window.location.pathname);
-    if (_isHijriMonthPage) {
+    if (_isHijriMonthPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-month')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3052,7 +3062,7 @@ async function initApp() {
 
     // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
     const _isDateConverterPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname);
-    if (_isDateConverterPage) {
+    if (_isDateConverterPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-date-converter')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3063,7 +3073,7 @@ async function initApp() {
 
     // Phase D3.3-0: تفعيل صفحة الأذكار عند URL /azkar (sec ID و data-page يَبقَيان "duas" داخليّاً)
     const _isAzkarPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(window.location.pathname);
-    if (_isAzkarPage) {
+    if (_isAzkarPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-duas')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3076,7 +3086,7 @@ async function initApp() {
     const _qiblaPath = window.location.pathname;
     const _isQiblaHubPage  = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(_qiblaPath);
     const _isQiblaCityPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(_qiblaPath);
-    if (_isQiblaHubPage || _isQiblaCityPage) {
+    if ((_isQiblaHubPage || _isQiblaCityPage) && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-qibla')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3104,7 +3114,7 @@ async function initApp() {
 
     // تفعيل صفحة حاسبة الزكاة عند URL /zakat-calculator
     const _isZakatPage = /\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(window.location.pathname);
-    if (_isZakatPage) {
+    if (_isZakatPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-zakat')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3121,7 +3131,7 @@ async function initApp() {
     // UAT-Moon-Hub-Month: \d{4}-\d{2}(?:-\d{2})? matches both month + day URLs.
     const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(_mpPath)
         || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(_mpPath);
-    if (_isMoonPage) {
+    if (_isMoonPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -3240,7 +3250,7 @@ async function initApp() {
     };
     const _cdPathMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?([a-z-]+-countdown)$/);
     const _cdPageKey = _cdPathMatch && _CD_PAGES[_cdPathMatch[1]] ? _cdPathMatch[1] : null;
-    if (_cdPageKey) {
+    if (_cdPageKey && !window._navigatingAway) {
         const _cdCfg = _CD_PAGES[_cdPageKey];
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(_cdCfg.pageId)?.classList.add('active');
@@ -6786,6 +6796,10 @@ function updateCityDisplay() {
                 englishName: currentEnglishName, countryCode: currentCountryCode, timezone: currentTimezone,
                 _v: 2
             }));
+            // QIBLA-BACK-FIX-1: set navigation flag before changing href so
+            // any pending awaited initApp won't pollute the OLD DOM with a
+            // new-URL page-activation.
+            try { window._navigatingAway = true; } catch (_) {}
             window.location.href = qiblaBackBtn.href;
         };
         if (qiblaBackLabel) {
@@ -9975,6 +9989,17 @@ const _NAV_LOADING_ICONS = {
     generic: '⏳',
 };
 function _showNavLoadingOverlay(kind) {
+    // QIBLA-BACK-FIX-1 (2026-05-12): set the navigation flag as the
+    // FIRST thing in this helper. Every nav path that shows the
+    // loading overlay (which is ~all sidebar tab handlers + several
+    // helpers) now also marks the page as "navigating away". The
+    // page-activation blocks in `initApp` check this flag and skip
+    // their work — preventing race conditions where an awaited
+    // initApp resumes AFTER `window.location.href = …` has updated
+    // the URL and falsely activates the destination page on the
+    // OLD page's DOM, which then BFCache freezes and replays on
+    // Back (root cause of QIBLA-BACK-DOM-LEAK-1).
+    try { window._navigatingAway = true; } catch (_) {}
     try {
         const ov = document.getElementById('nav-loading-overlay');
         if (!ov) return;

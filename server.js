@@ -18343,7 +18343,10 @@ function getTierForPath(urlPath) {
     // `cheap` (300/min) — same as /api/cities — since 99% of its calls
     // never reach an external service. /api/place-selected is also cheap
     // (one Supabase upsert per click). They share the cheap tier.
-    if (urlPath === '/api/search-place' || urlPath === '/api/place-selected' || urlPath === '/api/supabase-status') return 'cheap';
+    if (urlPath === '/api/search-place' || urlPath === '/api/place-selected'
+        || urlPath === '/api/supabase-status'
+        || urlPath === '/api/supabase-debug-row'
+        || urlPath === '/api/supabase-debug-write') return 'cheap';
     return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
 }
 // تنظيف دوري — يزيل IPs التي جميع buckets-ها منتهية (منع نمو غير محدود)
@@ -20822,6 +20825,140 @@ const server = http.createServer(async (req, res) => {
                 out.hint = 'All good. discovered_places exists and is queryable. If rows still missing, click a non-curated result on /search-test to trigger a write.';
             } else {
                 out.hint = 'Unexpected error. See `probes` array — share with developer.';
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify(out, null, 2));
+        })().catch((e) => {
+            try {
+                res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({ error: 'internal', message: String((e && e.message) || e) }));
+            } catch (_) {}
+        });
+        return;
+    }
+
+    // PHASE-C-DIAG (2026-05-13): debug endpoint that fetches a single
+    // discovered_places row and exposes the raw fields + char codes of
+    // names.ar. Lets us pinpoint whether Arabic text is corrupted at
+    // STORAGE time (DB has "?????") vs RETRIEVAL time (DB has Arabic
+    // but our response loses it). Query: ?slug=X[&cc=YY]
+    if (urlPath === '/api/supabase-debug-row' && req.method === 'GET') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Cache-Control', 'no-store');
+        (async () => {
+            if (!_SUPABASE_ENABLED) {
+                res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"error":"supabase_disabled"}');
+                return;
+            }
+            const u = new URL('http://x' + req.url);
+            const slug = String(u.searchParams.get('slug') || '').toLowerCase();
+            const cc = String(u.searchParams.get('cc') || '').toLowerCase();
+            if (!slug) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"error":"slug_required"}');
+                return;
+            }
+            let qPath = '/rest/v1/discovered_places?slug=eq.' + encodeURIComponent(slug);
+            if (cc) qPath += '&country_code=eq.' + encodeURIComponent(cc);
+            qPath += '&limit=1';
+            const resp = await _supabaseFetch(qPath, { method: 'GET' });
+            const out = {
+                ok: resp.ok,
+                status: resp.status,
+                error: resp.error,
+                row: null,
+                charCodes: {},
+                searchBlob: null
+            };
+            if (resp.ok && Array.isArray(resp.data) && resp.data.length > 0) {
+                const row = resp.data[0];
+                out.row = row;
+                // Show codepoints for each lang's name. If we see U+003F
+                // (?) instead of real Arabic codepoints (U+0600-U+06FF),
+                // the data was already corrupted before being stored.
+                if (row.names && typeof row.names === 'object') {
+                    for (const lang of Object.keys(row.names)) {
+                        const v = String(row.names[lang] || '');
+                        out.charCodes[lang] = {
+                            value: v,
+                            length: v.length,
+                            codepoints: Array.from(v).map(c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')),
+                            hasArabic: /[؀-ۿ]/.test(v),
+                            hasOnlyQuestionMarks: /^[\?\s]+$/.test(v)
+                        };
+                    }
+                }
+                out.searchBlob = row.search_blob || null;
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify(out, null, 2));
+        })().catch((e) => {
+            try {
+                res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({ error: 'internal', message: String((e && e.message) || e) }));
+            } catch (_) {}
+        });
+        return;
+    }
+
+    // PHASE-C-DIAG (2026-05-13): test endpoint that writes a row with
+    // KNOWN-GOOD Arabic from the server's own source code (no network
+    // marshalling involved). If the row reads back with question marks,
+    // the corruption is in Supabase storage or pipeline. If it reads
+    // back correctly, the corruption was in the original POST body.
+    if (urlPath === '/api/supabase-debug-write' && req.method === 'POST') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Cache-Control', 'no-store');
+        (async () => {
+            if (!_SUPABASE_ENABLED) {
+                res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"error":"supabase_disabled"}');
+                return;
+            }
+            // Hardcoded Arabic — codepoints embedded in source (UTF-8).
+            // If THIS gets stored as "?????", the issue is downstream
+            // (Supabase column collation / PostgREST encoding).
+            const testPlace = {
+                slug: 'utf8-debug-' + Date.now().toString(36),
+                type: 'city',
+                countryCode: 'sy',
+                lat: 35.32,
+                lng: 36.62,
+                timezone: 'Asia/Damascus',
+                names: {
+                    ar: 'اللطامنة',           // U+0627 U+0644 U+0644 U+0637 ...
+                    en: 'Al-Latamna',
+                    fr: 'Al-Latamna'
+                },
+                aliases: { ar: ['لطامنة'] },
+                admin: { country: { ar: 'سوريا', en: 'Syria' } },
+                source: 'debug-test',
+                nameQuality: { ar: 'official', en: 'fallback_en' }
+            };
+            const r = await _upsertDiscoveredPlace(testPlace);
+            // Immediately read back what we just wrote
+            const readResp = await _supabaseFetch(
+                '/rest/v1/discovered_places?slug=eq.' + encodeURIComponent(testPlace.slug)
+                + '&country_code=eq.' + encodeURIComponent('sy') + '&limit=1',
+                { method: 'GET' }
+            );
+            const out = {
+                writeResult: r,
+                readBack: (readResp.ok && Array.isArray(readResp.data)) ? readResp.data[0] : null,
+                writeBytes: {
+                    ar: Array.from('اللطامنة').map(c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'))
+                }
+            };
+            if (out.readBack && out.readBack.names) {
+                out.readBackChars = {};
+                for (const lang of Object.keys(out.readBack.names)) {
+                    const v = String(out.readBack.names[lang] || '');
+                    out.readBackChars[lang] = {
+                        value: v,
+                        codepoints: Array.from(v).map(c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0'))
+                    };
+                }
             }
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             res.end(JSON.stringify(out, null, 2));

@@ -737,11 +737,20 @@ async function _supabaseFetch(pathAndQuery, opts) {
         try { console.warn(`[supabase] ${(opts && opts.method) || 'GET'} ${pathAndQuery} → HTTP ${status}: ${errSummary}`); } catch (_) {}
         return { ok: false, status, data: null, error: errSummary || ('http_' + status), pgError: parsed || null };
     }
+    // PHASE-C-DIAG: also surface Content-Range from PostgREST count
+    // queries so /api/supabase-status can show the row count.
+    const contentRange = r.headers.get('content-range') || '';
+    let rowCount;
+    if (contentRange) {
+        // Format: "0-9/247" or "*/247" or "0-9/*" (unknown total)
+        const m = contentRange.match(/\/(\d+)$/);
+        if (m) rowCount = parseInt(m[1], 10);
+    }
     // Successful 2xx — body may be empty (204) or JSON array/object.
     if (!ct.includes('json') || !bodyText) {
-        return { ok: true, status, data: [], error: null };
+        return { ok: true, status, data: [], error: null, contentRange, rowCount };
     }
-    return { ok: true, status, data: parsed, error: null };
+    return { ok: true, status, data: parsed, error: null, contentRange, rowCount };
 }
 
 // Map a Postgres row → unified /api/search-place result shape. Reuses
@@ -861,10 +870,12 @@ async function _upsertDiscoveredPlace(place) {
     if (!_SUPABASE_ENABLED) return { action: 'rejected', reason: 'supabase_disabled' };
     if (!_isValidDiscoveredInput(place)) return { action: 'rejected', reason: 'invalid' };
     const cc = String(place.countryCode).toLowerCase();
-    // 1. Look up by (slug, country_code)
+    // 1. Look up by (slug, country_code). NOTE: no `select=*` — PostgREST
+    // returns all columns by default, and explicit `select=*` has caused
+    // PGRST125 ("invalid path") on some Supabase configurations.
     const existingResp = await _supabaseFetch(
-        '/rest/v1/discovered_places?select=*'
-        + '&slug=eq.'         + encodeURIComponent(place.slug)
+        '/rest/v1/discovered_places'
+        + '?slug=eq.'         + encodeURIComponent(place.slug)
         + '&country_code=eq.' + encodeURIComponent(cc)
         + '&limit=1',
         { method: 'GET' }
@@ -20699,45 +20710,97 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // PHASE-C-DIAG (2026-05-12): self-service diagnostic endpoint so
+    // PHASE-C-DIAG (2026-05-13): self-service diagnostic endpoint so
     // users can verify Supabase env vars + table existence without
-    // tailing Render logs. Returns:
-    //   { enabled, urlConfigured, keyConfigured, reachable, status,
-    //     tableExists, rowCount, error }
-    // Never exposes the service-role key in the response.
+    // tailing Render logs. Runs MULTIPLE probes against the user's
+    // Supabase project + exposes the computed URL host so they can
+    // spot misconfigurations (wrong project URL, paused project,
+    // table in non-public schema, etc.). Never exposes the
+    // service-role key — only the URL host.
     if (urlPath === '/api/supabase-status' && req.method === 'GET') {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Cache-Control', 'no-store');
         (async () => {
+            // Mask the URL: show host only so user can confirm it
+            // matches their Supabase project ref without exposing it
+            // (the project ref is technically public info anyway, but
+            // it's still good practice).
+            let hostShown = '';
+            try { hostShown = new URL(_SUPABASE_URL).host; } catch (_) { hostShown = '(invalid url)'; }
             const out = {
                 enabled: _SUPABASE_ENABLED,
                 urlConfigured: !!_SUPABASE_URL,
                 keyConfigured: !!_SUPABASE_KEY,
-                reachable: false,
-                status: 0,
+                urlHost: hostShown,
+                urlSuffixOK: _SUPABASE_URL.endsWith('.supabase.co')
+                             || _SUPABASE_URL.endsWith('.supabase.in')
+                             || _SUPABASE_URL.endsWith('.supabase.net'),
+                probes: [],
                 tableExists: false,
                 rowCount: null,
-                error: null
+                hint: null
             };
-            if (_SUPABASE_ENABLED) {
-                const probe = await _supabaseFetch(
-                    '/rest/v1/discovered_places?select=count&limit=1',
-                    { method: 'GET', headers: { 'Prefer': 'count=exact' } }
-                );
-                out.reachable = probe.status > 0;
-                out.status = probe.status;
-                if (probe.ok) {
-                    out.tableExists = true;
-                    if (Array.isArray(probe.data) && probe.data[0] && typeof probe.data[0].count === 'number') {
-                        out.rowCount = probe.data[0].count;
-                    }
-                } else {
-                    out.error = probe.error;
-                    if (probe.pgError && probe.pgError.code === '42P01') {
-                        // PostgreSQL "relation does not exist" — migrations not run
-                        out.tableExists = false;
-                    }
-                }
+            if (!_SUPABASE_ENABLED) {
+                out.hint = 'Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY env vars on Render → Environment, then redeploy.';
+                res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify(out, null, 2));
+                return;
+            }
+            // Probe 1: base PostgREST endpoint — confirms apikey + base URL
+            const p1 = await _supabaseFetch('/rest/v1/', { method: 'GET' });
+            out.probes.push({
+                name: 'base_rest',
+                path: '/rest/v1/',
+                ok: p1.ok, status: p1.status,
+                error: p1.error,
+                pgError: p1.pgError
+            });
+            // Probe 2: table existence — no select, just limit=1
+            const p2 = await _supabaseFetch('/rest/v1/discovered_places?limit=1', { method: 'GET' });
+            out.probes.push({
+                name: 'table_select',
+                path: '/rest/v1/discovered_places?limit=1',
+                ok: p2.ok, status: p2.status,
+                error: p2.error,
+                pgError: p2.pgError,
+                sample: (p2.ok && Array.isArray(p2.data)) ? p2.data.slice(0, 1) : null
+            });
+            // Probe 3: count via Prefer:count=exact + Range header
+            const p3 = await _supabaseFetch('/rest/v1/discovered_places?limit=0', {
+                method: 'GET',
+                headers: { 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' }
+            });
+            out.probes.push({
+                name: 'count_header',
+                path: '/rest/v1/discovered_places?limit=0',
+                ok: p3.ok, status: p3.status,
+                contentRange: p3.contentRange || null,
+                rowCount: p3.rowCount !== undefined ? p3.rowCount : null,
+                error: p3.error,
+                pgError: p3.pgError
+            });
+            // Roll-up
+            if (p2.ok) {
+                out.tableExists = true;
+                if (p3.rowCount !== null && p3.rowCount !== undefined) out.rowCount = p3.rowCount;
+            }
+            // Diagnostic hint based on the actual errors we got
+            if (!out.urlSuffixOK) {
+                out.hint = 'SUPABASE_URL does not look like a Supabase project URL. Expected something like https://<ref>.supabase.co';
+            } else if (p1.status === 0 || p2.status === 0) {
+                out.hint = 'Supabase project unreachable (network or DNS failed). Verify the URL is correct and the project is NOT paused (free-tier projects pause after 7 days of inactivity — open the project in Supabase dashboard to wake it).';
+            } else if (p1.status === 401 || p2.status === 401) {
+                out.hint = 'Authentication failed (401). The SUPABASE_SERVICE_ROLE_KEY is wrong or you used the anon key instead of service_role. Re-copy from Project Settings → API → service_role.';
+            } else if (p2.status === 404 && p2.pgError && p2.pgError.code === '42P01') {
+                out.hint = 'Table discovered_places does not exist. Run db/places/migrations/001_discovered_places.sql in Supabase SQL Editor.';
+            } else if (p2.status === 404 && p2.pgError && p2.pgError.code === 'PGRST125') {
+                out.hint = 'PostgREST PGRST125 = invalid path. Likely causes: (a) table not in `public` schema, OR (b) Data API has Restricted Schemas excluding public — go Supabase → Project Settings → API → Schema → ensure `public` is selected/exposed.';
+            } else if (p2.status === 404 && p2.pgError && p2.pgError.code === 'PGRST205') {
+                out.hint = 'PostgREST PGRST205 = relation not found. Run db/places/migrations/001_discovered_places.sql in Supabase SQL Editor.';
+            } else if (p2.ok) {
+                out.hint = 'All good. discovered_places exists and is queryable. If rows still missing, click a non-curated result on /search-test to trigger a write.';
+            } else {
+                out.hint = 'Unexpected error. See `probes` array — share with developer.';
             }
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             res.end(JSON.stringify(out, null, 2));

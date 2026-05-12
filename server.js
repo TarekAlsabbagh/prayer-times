@@ -6,6 +6,13 @@ const zlib  = require('zlib');
 const { execSync } = require('child_process');
 const Terser   = require('terser');
 const CleanCSS = require('clean-css');
+// GLOBAL-PLACE-SEARCH-B2-TIMEZONE (2026-05-12): lat/lng → IANA tz.
+// Used by /api/search-place external fallback so multi-tz countries
+// (US/CA/RU/AU) get the CORRECT regional timezone, not just the
+// country's primary. Synchronous, ~16KB, zero transitive deps. Falls
+// through to `_CC_TO_PRIMARY_TZ` only if the lat/lng lookup errors.
+let _tzLookup = null;
+try { _tzLookup = require('tz-lookup'); } catch (_) { /* lib missing → use country fallback */ }
 // MoonCalc للـ SSR: حقن أرقام حقيقيّة (إضاءة/عمر/طور) في فقرة /moon-today-in-{slug}
 // TRANSLATIONS للـ SSR: لترجمة أسماء الأطوار والأبراج قبل الإرسال (بدون Googlebot-JS)
 const MoonCalc   = require('./js/moon.js');
@@ -270,12 +277,18 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     const cc = String(addr.country_code || '').toLowerCase();
     if (!/^[a-z]{2}$/.test(cc)) return null;
 
-    // Timezone — required. Phase-B fallback: cc → primary tz via the
-    // existing `_CC_TO_PRIMARY_TZ` map. Phase-C will upgrade this to
-    // a true lat/lng → tz lookup (geo-tz library or equivalent). If
-    // the country isn't in the map, drop the result — we never surface
-    // a city we can't compute prayer times for.
-    const tz = _CC_TO_PRIMARY_TZ[cc];
+    // Timezone — required. PHASE B2 (2026-05-12): derive from lat/lng
+    // via `tz-lookup` first so multi-timezone countries (US/CA/RU/AU)
+    // resolve to the CORRECT regional zone (Montreal → America/Toronto
+    // ≠ Vancouver → America/Vancouver). Fall back to country-code map
+    // only if the lib is unavailable or throws (extreme lat/lng,
+    // unmapped ocean, etc.). Drop the result if BOTH paths fail —
+    // we never surface a city that can't compute prayer times.
+    let tz = null;
+    if (_tzLookup) {
+        try { tz = _tzLookup(lat, lng) || null; } catch (_) { tz = null; }
+    }
+    if (!tz) tz = _CC_TO_PRIMARY_TZ[cc] || null;
     if (!tz) return null;
 
     // English / canonical name — required to build a slug.

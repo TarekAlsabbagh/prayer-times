@@ -155,6 +155,31 @@ for (const [query, expectCC, expectTZ] of externalCases) {
     console.log(`${ok ? '✓' : '✗'} "${query}" → "${top.displayName}" (cc=${top.countryCode}, tz=${top.timezone}, slug=${top.slug})${ok ? '' : ` ready=${ready} okCC=${okCC} okTZ=${okTZ}`}`);
 }
 
+// 5b. PHASE B2 — multi-timezone countries must resolve to the CORRECT
+//      regional IANA timezone via tz-lookup (lat/lng → tz), NOT just
+//      the country's primary. Hardest cases: US (multiple), Russia
+//      (11 zones), Canada, Australia.
+console.log('\n── PHASE B2: lat/lng → IANA timezone (multi-tz countries) ──');
+const tzCases = [
+    ['Montreal',    'America/Toronto'],
+    ['Vancouver',   'America/Vancouver'],
+    ['New York',    'America/New_York'],
+    ['Los Angeles', 'America/Los_Angeles'],
+    ['Chicago',     'America/Chicago'],
+    ['Moscow',      'Europe/Moscow'],
+    ['Vladivostok', 'Asia/Vladivostok'],
+    ['Sydney',      'Australia/Sydney'],
+    ['Perth',       'Australia/Perth'],
+];
+for (const [query, expectTZ] of tzCases) {
+    const r = await get('/api/search-place?q=' + encodeURIComponent(query) + '&lang=en');
+    const data = (() => { try { return JSON.parse(r.body); } catch (_) { return { results: [] }; } })();
+    const top = (data.results || [])[0];
+    const ok = top && top.timezone === expectTZ;
+    if (ok) pass++; else fail++;
+    console.log(`${ok ? '✓' : '✗'} "${query}" → ${top ? top.timezone : '(no result)'}${ok ? '' : '   expected ' + expectTZ}`);
+}
+
 // 6. X-Search-Source header must reflect curated vs external
 console.log('\n── X-Search-Source header sanity ──');
 const r1 = await get('/api/search-place?q=Riyadh&lang=en');

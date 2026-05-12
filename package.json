@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "clean-css": "^5.3.3",
-    "terser": "^5.36.0"
+    "terser": "^5.36.0",
+    "tz-lookup": "^6.1.25"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
   }
 }

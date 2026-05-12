@@ -1967,6 +1967,49 @@ function nomUrl(url) {
         .replace('https://nominatim.openstreetmap.org/search?',  '/api/geocode?type=search&');
 }
 
+// ═══ GLOBAL-HOME-SEARCH-ROBUST-1 (2026-05-12): proxy + direct fallback ═══
+// Our server-side proxy `/api/geocode` can fail open (return `[]`) when:
+//   • Nominatim rate-limits the Render server's shared IP
+//   • The circuit breaker (5 failures → 60s open) is open
+//   • The 24-hour _geocodeCache has a poisoned empty entry
+// In those cases we'd show "no results" for cities that ACTUALLY exist
+// in OSM (verified live: prod returned `[]` for الرياض / الخفجي / مكة /
+// اللطامنة even though Nominatim has them).
+// Fix: when the proxy returns an empty array, fall back to direct
+// Nominatim from the browser. CSP `connect-src` already allows
+// `https://nominatim.openstreetmap.org`, and Nominatim sends
+// `Access-Control-Allow-Origin: *` for browser CORS. The user's
+// browser IP is per-user, so it doesn't share Render's rate-limit.
+//
+// `proxyUrl` MUST be the `nomUrl(...)` output (i.e. /api/geocode?...).
+// Returns a plain array (empty on total failure).
+async function _nomFetchWithFallback(proxyUrl) {
+    let proxyArr = [];
+    try {
+        const r = await fetch(proxyUrl);
+        if (r && r.ok) {
+            const data = await r.json();
+            if (Array.isArray(data)) proxyArr = data;
+        }
+    } catch (_) {}
+    if (proxyArr.length > 0) return proxyArr;
+    // Proxy empty (or error) — try direct Nominatim
+    try {
+        // Rebuild the direct URL by stripping the /api/geocode?type=search&
+        // prefix. Works for both same-origin and absolute proxy URLs.
+        const m = String(proxyUrl).match(/\/api\/geocode\?type=(search|reverse)&(.*)$/);
+        if (!m) return proxyArr;
+        const directUrl = `https://nominatim.openstreetmap.org/${m[1]}?${m[2]}`;
+        const r2 = await fetch(directUrl);
+        if (r2 && r2.ok) {
+            const data2 = await r2.json();
+            if (Array.isArray(data2)) return data2;
+            if (data2 && typeof data2 === 'object') return [data2];  // reverse-geocode object
+        }
+    } catch (_) {}
+    return proxyArr;
+}
+
 // ─────────────────────────────────────────────────────────────
 // كاش localStorage للـ API (nominatim + open-meteo)
 // يقلل الطلبات الخارجية عند زيارة نفس الموقع مرتين.
@@ -5916,9 +5959,11 @@ function fetchCitySuggestions(query) {
     const urlQ    = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(query)}`);
     const urlCity = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(query)}`);
 
+    // GLOBAL-HOME-SEARCH-ROBUST-1: use the proxy+direct-fallback helper
+    // so a broken proxy doesn't silently turn into "no results".
     Promise.all([
-        fetch(urlQ).then(r => r.json()).catch(() => []),
-        fetch(urlCity).then(r => r.json()).catch(() => [])
+        _nomFetchWithFallback(urlQ),
+        _nomFetchWithFallback(urlCity)
     ])
     .then(async ([resQ, resCity]) => {
         if (!Array.isArray(resQ)) resQ = [];
@@ -6016,7 +6061,8 @@ function fetchCitySuggestions(query) {
             if (enQuery && enQuery.toLowerCase() !== query.toLowerCase()) {
                 try {
                     const url2 = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(enQuery)}`);
-                    const data2 = await fetch(url2).then(r => r.json()).catch(() => []);
+                    // ROBUST-1: proxy → direct fallback (same as primary calls)
+                    const data2 = await _nomFetchWithFallback(url2);
                     const dedup2 = new Set();
                     const all2 = (Array.isArray(data2) ? data2 : []).filter(p => {
                         if (!p || dedup2.has(p.place_id)) return false;
@@ -6049,8 +6095,9 @@ function fetchCitySuggestions(query) {
                 try {
                     const variantUrls = variants.map(v =>
                         nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(v)}`));
+                    // ROBUST-1: proxy → direct fallback for each variant
                     const variantResults = await Promise.all(
-                        variantUrls.map(u => fetch(u).then(r => r.json()).catch(() => []))
+                        variantUrls.map(u => _nomFetchWithFallback(u))
                     );
                     const dedup3 = new Set();
                     const all3 = [];

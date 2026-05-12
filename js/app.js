@@ -6168,22 +6168,33 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     try { _syncTlCityNameInDom(); } catch (_e) { /* silent */ }
 }
 
-// TL-CITY-SYNC-1: replace the SSR-rendered city name inside the TL
-// SEO wrapper with the hydrated `currentCity`. The wrapper exposes the
-// SSR value via `data-ssr-city-name`. Also fixes <title> and meta
-// description so all three sources agree (Header = Content = Title).
-// Idempotent — once the SSR name matches `currentCity`, subsequent
-// calls no-op.
-function _syncTlCityNameInDom() {
-    // Gate: only run on /time-left-until-prayer-in-* pages.
-    try {
-        if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-/
-            .test(window.location.pathname)) return;
-    } catch (_) { return; }
-
-    const wrapper = document.querySelector('.tl-seo-wrapper');
-    if (!wrapper) return;
-    const ssrName = (wrapper.getAttribute('data-ssr-city-name') || '').trim();
+// CITY-NAME-SYNC-1 (2026-05-12, generalizes TL-CITY-SYNC-1): replace
+// the SSR-rendered city name across the WHOLE page with the hydrated
+// `currentCity` (the same source the header uses). Covers ALL SEO
+// city routes — /prayer-times-in-, /time-left-until-prayer-in-,
+// /next-prayer-in-, /qibla-in-, /moon-in-, /moon-today-in-. The
+// server now injects `<meta name="ssr-city-name">` on these routes
+// so the swap target is centralized.
+//
+// Why this is needed: when `makeSlug()` transliterates an Arabic
+// city name char-by-char (because Nominatim returned only `name:ar`),
+// the URL slug becomes `a-ks-a-wn-brwfans` and SSR `_resolveCityName`
+// has no way to reverse it → falls through to `_slugToTitle` →
+// "A Ks A Wn Brwfans" leaks into Title / H1 / FAQ / Meta / JSON-LD
+// while the header reads the original Arabic name from sessionStorage.
+//
+// CRITICAL: this function only READS `currentCity` — never writes.
+// So it cannot reintroduce the Lyon→Riyadh regression.
+//
+// Kept as `_syncTlCityNameInDom` (backwards-compat alias) since some
+// call-sites still reference the old name; both names point at the
+// same function.
+function _syncCityNameInDom() {
+    // Source SSR name from the unified `<meta name="ssr-city-name">`
+    // (injected by server.js CITY-NAME-SYNC-1 for ALL city routes).
+    const meta = document.querySelector('meta[name="ssr-city-name"]');
+    if (!meta) return;
+    const ssrName = (meta.getAttribute('content') || '').trim();
     if (!ssrName) return;
 
     // Pick the best-known display name for the city. Priority:
@@ -6207,7 +6218,7 @@ function _syncTlCityNameInDom() {
     if (!goodName) {
         try {
             const _slugMatch = window.location.pathname.match(
-                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-([a-z][a-z0-9-]+)$/
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugMatch && typeof _moonCityDisplayName === 'function') {
                 const _resolved = _moonCityDisplayName(_slugMatch[1]);
@@ -6219,22 +6230,13 @@ function _syncTlCityNameInDom() {
 
     // Walk all visible text nodes in <body> + replace each occurrence
     // of ssrName. Text nodes only — never touches attributes, URLs,
-    // <script> bodies (which can't contain visible city-name text in
-    // our SSR output anyway). This catches:
-    //   - .tl-seo-wrapper FAQ / cards / guide / use-cases / flow
-    //   - #page-title (the SSR H1 above the hero)
-    //   - .tl-h1 / .tl-hero text
-    //   - Breadcrumb #bc-city / .bc-current
-    //   - Banner / city-info section labels
+    // or <script> bodies. This catches H1, H2, FAQ, cards, breadcrumb,
+    // banner, sidebar — anywhere the SSR injected the city name.
     try {
         const walker = document.createTreeWalker(
             document.body, NodeFilter.SHOW_TEXT,
             {
                 acceptNode: (n) => {
-                    // Skip text inside <script>/<style>/<noscript> — they're
-                    // not visible content, and a global string replace there
-                    // could break code. (NodeFilter.SHOW_TEXT already excludes
-                    // attribute nodes.)
                     const pt = n.parentNode && n.parentNode.nodeName;
                     if (pt === 'SCRIPT' || pt === 'STYLE' || pt === 'NOSCRIPT') {
                         return NodeFilter.FILTER_REJECT;
@@ -6252,44 +6254,33 @@ function _syncTlCityNameInDom() {
         }
     } catch (_) { /* silent */ }
 
-    // Fix aria-label on the SEO content grid (the only attribute in the
-    // wrapper that embedded the city name).
+    // Fix aria-label everywhere it embedded the SSR city name. This is
+    // a generalized scan — beyond just `.time-left-content-grid`, the
+    // city-page may have aria-labels on the prayer-schedule section
+    // and the city-info card.
     try {
-        const ariaSection = wrapper.querySelector('.time-left-content-grid');
-        if (ariaSection) {
-            const _aria = ariaSection.getAttribute('aria-label') || '';
+        document.querySelectorAll('[aria-label]').forEach(el => {
+            const _aria = el.getAttribute('aria-label') || '';
             if (_aria && _aria.indexOf(ssrName) !== -1) {
-                ariaSection.setAttribute(
+                el.setAttribute(
                     'aria-label', _aria.split(ssrName).join(goodName)
                 );
             }
-        }
+        });
     } catch (_) {}
 
-    // Fix document.title (SSR-set title used the same SSR name).
+    // Fix <title> (SSR-set title used the same SSR name).
     try {
         if (document.title && document.title.indexOf(ssrName) !== -1) {
             document.title = document.title.split(ssrName).join(goodName);
         }
     } catch (_) {}
 
-    // Fix meta description (also SSR-set).
+    // Fix all <meta> tags whose content embedded the SSR city name —
+    // description, OG title/description/image:alt, Twitter title/desc,
+    // plus the ssr-city-name meta itself (to mark idempotency).
     try {
-        const descMeta = document.querySelector('meta[name="description"]');
-        if (descMeta) {
-            const desc = descMeta.getAttribute('content') || '';
-            if (desc.indexOf(ssrName) !== -1) {
-                descMeta.setAttribute(
-                    'content', desc.split(ssrName).join(goodName)
-                );
-            }
-        }
-        // OG / Twitter description mirrors — same SSR name was injected.
-        document.querySelectorAll(
-            'meta[property="og:title"], meta[property="og:description"], ' +
-            'meta[property="og:image:alt"], meta[name="twitter:title"], ' +
-            'meta[name="twitter:description"]'
-        ).forEach(m => {
+        document.querySelectorAll('meta').forEach(m => {
             const v = m.getAttribute('content') || '';
             if (v && v.indexOf(ssrName) !== -1) {
                 m.setAttribute('content', v.split(ssrName).join(goodName));
@@ -6310,10 +6301,10 @@ function _syncTlCityNameInDom() {
             }
         });
     } catch (_) {}
-
-    // Mark wrapper so we don't repeat work on subsequent calls.
-    try { wrapper.setAttribute('data-ssr-city-name', goodName); } catch (_) {}
 }
+
+// Backwards-compat alias for TL-CITY-SYNC-1 call sites.
+function _syncTlCityNameInDom() { return _syncCityNameInDom(); }
 
 // ========= قسم "عن المدينة" من ويكيبيديا — حُذف بالكامل بناءً على طلب المستخدم =========
 // stubs محتفظ بها لتجنّب أخطاء مراجع خارجيّة

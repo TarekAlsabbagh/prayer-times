@@ -691,8 +691,16 @@ if (!_SUPABASE_ENABLED) {
     } catch (_) {}
 }
 
+// Internal call to Supabase PostgREST. Returns a structured result
+// `{ok, status, data, error}` so callers can distinguish "table empty"
+// from "auth failed" / "table missing" / "network error".
+// PHASE-C-DIAG (2026-05-12): previously this swallowed every error
+// and returned null, which caused /api/place-selected to falsely
+// report persisted:true when Supabase wasn't actually accepting writes.
 async function _supabaseFetch(pathAndQuery, opts) {
-    if (!_SUPABASE_ENABLED) return null;
+    if (!_SUPABASE_ENABLED) {
+        return { ok: false, status: 0, data: null, error: 'supabase_disabled' };
+    }
     const url = _SUPABASE_URL + pathAndQuery;
     const headers = Object.assign({
         'apikey': _SUPABASE_KEY,
@@ -700,17 +708,40 @@ async function _supabaseFetch(pathAndQuery, opts) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     }, (opts && opts.headers) || {});
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 5000);
+    let r;
     try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 5000);
-        const r = await fetch(url, Object.assign({}, opts, { headers, signal: ctrl.signal }));
+        r = await fetch(url, Object.assign({}, opts, { headers, signal: ctrl.signal }));
+    } catch (e) {
         clearTimeout(timer);
-        if (!r.ok) return null;
-        // Some PATCH/POST with Prefer: return=minimal returns 201/204 + empty body
-        const ct = String(r.headers.get('content-type') || '');
-        if (!ct.includes('json')) return [];
-        return await r.json();
-    } catch (_) { return null; }
+        const msg = (e && e.name === 'AbortError') ? 'timeout' : (e && e.message) || 'network';
+        try { console.warn(`[supabase] ${(opts && opts.method) || 'GET'} ${pathAndQuery} → network error: ${msg}`); } catch (_) {}
+        return { ok: false, status: 0, data: null, error: msg };
+    }
+    clearTimeout(timer);
+    const status = r.status;
+    const ct = String(r.headers.get('content-type') || '');
+    let bodyText = '';
+    try { bodyText = await r.text(); } catch (_) { bodyText = ''; }
+    let parsed = null;
+    if (ct.includes('json') && bodyText) {
+        try { parsed = JSON.parse(bodyText); } catch (_) { parsed = null; }
+    }
+    if (!r.ok) {
+        // Log the actual PostgREST error so it shows up in Render logs.
+        // PostgREST returns JSON like {"code":"42P01","message":"relation … does not exist","hint":null,"details":null}
+        const errSummary = parsed && parsed.message
+            ? `${parsed.code || ''} ${parsed.message}`.trim()
+            : bodyText.slice(0, 200);
+        try { console.warn(`[supabase] ${(opts && opts.method) || 'GET'} ${pathAndQuery} → HTTP ${status}: ${errSummary}`); } catch (_) {}
+        return { ok: false, status, data: null, error: errSummary || ('http_' + status), pgError: parsed || null };
+    }
+    // Successful 2xx — body may be empty (204) or JSON array/object.
+    if (!ct.includes('json') || !bodyText) {
+        return { ok: true, status, data: [], error: null };
+    }
+    return { ok: true, status, data: parsed, error: null };
 }
 
 // Map a Postgres row → unified /api/search-place result shape. Reuses
@@ -765,11 +796,12 @@ async function _searchDiscoveredPlaces(query, lang) {
     if (q.length < 1 || q.length > 80) return [];
     // Call the search_discovered_places RPC. Returns rows ranked by
     // selected_count desc, search_count desc, last_used_at desc.
-    const data = await _supabaseFetch('/rest/v1/rpc/search_discovered_places', {
+    const resp = await _supabaseFetch('/rest/v1/rpc/search_discovered_places', {
         method: 'POST',
         body: JSON.stringify({ q, lim: 10 })
     });
-    if (!Array.isArray(data)) return [];
+    if (!resp.ok || !Array.isArray(resp.data)) return [];
+    const data = resp.data;
     const mapped = data.map(row => _mapDiscoveredRow(row, lang)).filter(Boolean);
     // Fire-and-forget search_count increment (doesn't block the response).
     // We bump search_count for the TOP match if any, so popular cities
@@ -830,13 +862,24 @@ async function _upsertDiscoveredPlace(place) {
     if (!_isValidDiscoveredInput(place)) return { action: 'rejected', reason: 'invalid' };
     const cc = String(place.countryCode).toLowerCase();
     // 1. Look up by (slug, country_code)
-    const existing = await _supabaseFetch(
+    const existingResp = await _supabaseFetch(
         '/rest/v1/discovered_places?select=*'
         + '&slug=eq.'         + encodeURIComponent(place.slug)
         + '&country_code=eq.' + encodeURIComponent(cc)
         + '&limit=1',
         { method: 'GET' }
     );
+    // PHASE-C-DIAG: differentiate "table empty" from "lookup failed".
+    // If the GET fails (e.g. table missing, auth wrong) we MUST NOT
+    // fall through to insert — the insert will fail with the same error.
+    if (!existingResp.ok) {
+        return {
+            action: 'failed', step: 'lookup',
+            reason: existingResp.error, status: existingResp.status,
+            pgError: existingResp.pgError || null
+        };
+    }
+    const existing = existingResp.data;
     if (Array.isArray(existing) && existing.length > 0) {
         const row = existing[0];
         // Merge names + aliases (don't drop existing langs)
@@ -847,7 +890,7 @@ async function _upsertDiscoveredPlace(place) {
         // over incoming 'transliterated'/'fallback_*'. Only overwrite if incoming
         // tier is BETTER. Phase D admin review writes 'reviewed' which is sticky.
         const mergedQuality  = _mergeNameQuality(row.name_quality || {}, place.nameQuality || {});
-        const patched = await _supabaseFetch(
+        const patchedResp = await _supabaseFetch(
             '/rest/v1/discovered_places?id=eq.' + encodeURIComponent(row.id),
             {
                 method: 'PATCH',
@@ -862,10 +905,20 @@ async function _upsertDiscoveredPlace(place) {
                 })
             }
         );
-        return { action: 'updated', row: Array.isArray(patched) ? patched[0] : row };
+        if (!patchedResp.ok) {
+            return {
+                action: 'failed', step: 'patch',
+                reason: patchedResp.error, status: patchedResp.status,
+                pgError: patchedResp.pgError || null
+            };
+        }
+        return {
+            action: 'updated',
+            row: Array.isArray(patchedResp.data) ? patchedResp.data[0] : row
+        };
     }
     // 2. Insert new row
-    const inserted = await _supabaseFetch(
+    const insertResp = await _supabaseFetch(
         '/rest/v1/discovered_places',
         {
             method: 'POST',
@@ -889,7 +942,17 @@ async function _upsertDiscoveredPlace(place) {
             })
         }
     );
-    return { action: 'inserted', row: Array.isArray(inserted) ? inserted[0] : null };
+    if (!insertResp.ok) {
+        return {
+            action: 'failed', step: 'insert',
+            reason: insertResp.error, status: insertResp.status,
+            pgError: insertResp.pgError || null
+        };
+    }
+    return {
+        action: 'inserted',
+        row: Array.isArray(insertResp.data) ? insertResp.data[0] : null
+    };
 }
 
 // L10N-PIPELINE: rank table for name_quality merging. Higher = better.
@@ -18254,7 +18317,7 @@ function getTierForPath(urlPath) {
     // `cheap` (300/min) — same as /api/cities — since 99% of its calls
     // never reach an external service. /api/place-selected is also cheap
     // (one Supabase upsert per click). They share the cheap tier.
-    if (urlPath === '/api/search-place' || urlPath === '/api/place-selected') return 'cheap';
+    if (urlPath === '/api/search-place' || urlPath === '/api/place-selected' || urlPath === '/api/supabase-status') return 'cheap';
     return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
 }
 // تنظيف دوري — يزيل IPs التي جميع buckets-ها منتهية (منع نمو غير محدود)
@@ -20636,6 +20699,57 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    // PHASE-C-DIAG (2026-05-12): self-service diagnostic endpoint so
+    // users can verify Supabase env vars + table existence without
+    // tailing Render logs. Returns:
+    //   { enabled, urlConfigured, keyConfigured, reachable, status,
+    //     tableExists, rowCount, error }
+    // Never exposes the service-role key in the response.
+    if (urlPath === '/api/supabase-status' && req.method === 'GET') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Cache-Control', 'no-store');
+        (async () => {
+            const out = {
+                enabled: _SUPABASE_ENABLED,
+                urlConfigured: !!_SUPABASE_URL,
+                keyConfigured: !!_SUPABASE_KEY,
+                reachable: false,
+                status: 0,
+                tableExists: false,
+                rowCount: null,
+                error: null
+            };
+            if (_SUPABASE_ENABLED) {
+                const probe = await _supabaseFetch(
+                    '/rest/v1/discovered_places?select=count&limit=1',
+                    { method: 'GET', headers: { 'Prefer': 'count=exact' } }
+                );
+                out.reachable = probe.status > 0;
+                out.status = probe.status;
+                if (probe.ok) {
+                    out.tableExists = true;
+                    if (Array.isArray(probe.data) && probe.data[0] && typeof probe.data[0].count === 'number') {
+                        out.rowCount = probe.data[0].count;
+                    }
+                } else {
+                    out.error = probe.error;
+                    if (probe.pgError && probe.pgError.code === '42P01') {
+                        // PostgreSQL "relation does not exist" — migrations not run
+                        out.tableExists = false;
+                    }
+                }
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify(out, null, 2));
+        })().catch((e) => {
+            try {
+                res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({ error: 'internal', message: String((e && e.message) || e) }));
+            } catch (_) {}
+        });
+        return;
+    }
+
     // PHASE C — user-click persistence endpoint. The /search-test page
     // POSTs the picked result here BEFORE navigating. We validate the
     // payload against the prayer-times contract, dedup by (slug, cc),
@@ -20685,6 +20799,21 @@ const server = http.createServer(async (req, res) => {
                     if (!r || r.action === 'rejected') {
                         res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
                         res.end(JSON.stringify({ ok: false, error: 'rejected', reason: (r && r.reason) || 'unknown' }));
+                        return;
+                    }
+                    // PHASE-C-DIAG: surface upstream Supabase failures
+                    // instead of returning persisted:true falsely.
+                    if (r.action === 'failed') {
+                        res.writeHead(502, { 'Content-Type': 'application/json; charset=utf-8' });
+                        res.end(JSON.stringify({
+                            ok: false,
+                            persisted: false,
+                            error: 'supabase_failed',
+                            step:   r.step,
+                            status: r.status,
+                            reason: r.reason,
+                            pgError: r.pgError
+                        }));
                         return;
                     }
                     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });

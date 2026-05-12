@@ -13004,17 +13004,11 @@ async function fetchNearbyPlaces(lat, lng) {
     section.style.display = 'block';
     section.classList.add('cls-ready');
 
-    // ترجمة الأسماء الإنجليزية إلى العربية عبر MyMemory (مجاني)
-    async function translateName(name) {
-        if (/[\u0600-\u06FF]/.test(name)) return name; // عربي بالفعل
-        try {
-            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(name)}&langpair=en|ar`;
-            const d = await fetch(url).then(r => r.json());
-            const t = d.responseData?.translatedText;
-            if (t && /[\u0600-\u06FF]/.test(t)) return t;
-        } catch(e) {}
-        return name;
-    }
+    // GLOBAL-PLACE-SEARCH-L10N-PIPELINE (2026-05-12): MyMemory removed.
+    // Nominatim already returns name:ar via namedetails for most populated
+    // places. Edge cases stay as-is rather than calling MyMemory directly
+    // from the browser (cross-origin + flaky + violates pipeline rules).
+    function translateName(name) { return name; }
 
     // --- Nominatim (سريع وموثوق، يعيد أسماء عربية) ---
     async function nominatimNearby() {

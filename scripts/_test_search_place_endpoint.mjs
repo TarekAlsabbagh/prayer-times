@@ -238,6 +238,79 @@ const poiCheck = await get('/api/search-place?q=' + encodeURIComponent('zzzzz_no
 const poiData = (() => { try { return JSON.parse(poiCheck.body); } catch (_) { return { results: [] }; } })();
 check('garbage query returns []', Array.isArray(poiData.results) && poiData.results.length === 0);
 
+// 7c. PHASE C — /api/place-selected validator + graceful degradation.
+//     Without SUPABASE env vars (test env), the endpoint must:
+//       - REJECT invalid payloads with 400
+//       - REJECT POI types (restaurant, road, shop, …)
+//       - ACCEPT valid payloads with 200 + persisted:false
+console.log('\n── PHASE C: /api/place-selected validator (no Supabase env) ──');
+
+function post(path, body) {
+    return new Promise((resolve) => {
+        const data = JSON.stringify(body);
+        const req = http.request({
+            host: 'localhost', port: 8080, path,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
+        }, r => {
+            let buf = '';
+            r.on('data', c => buf += c);
+            r.on('end', () => resolve({ status: r.statusCode, body: buf }));
+        });
+        req.on('error', () => resolve({ status: 0, body: '' }));
+        req.write(data);
+        req.end();
+    });
+}
+
+const validPlace = {
+    slug: 'test-city-xyz', type: 'city', countryCode: 'sa',
+    lat: 24.7, lng: 46.6, timezone: 'Asia/Riyadh',
+    names: { en: 'Test City', ar: 'مدينة اختبار' }
+};
+
+let r;
+r = await post('/api/place-selected', { foo: 'bar' });
+check('invalid payload {foo:bar} → 400', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, type: 'restaurant' });
+check('POI (type=restaurant) → rejected', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, type: 'road' });
+check('POI (type=road) → rejected', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, type: 'shop' });
+check('POI (type=shop) → rejected', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, countryCode: 'FRA' });
+check('invalid cc (FRA) → 400', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, lat: 200 });
+check('invalid lat (200) → 400', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, slug: 'TEST_CITY!' });
+check('invalid slug (uppercase/underscore) → 400', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, names: {} });
+check('empty names → 400', r.status === 400);
+
+r = await post('/api/place-selected', { ...validPlace, timezone: '' });
+check('missing timezone → 400', r.status === 400);
+
+r = await post('/api/place-selected', validPlace);
+const valid = (() => { try { return JSON.parse(r.body); } catch (_) { return null; } })();
+check('valid payload → 200 + persisted:false (no Supabase env)',
+    r.status === 200 && valid && valid.ok === true && valid.persisted === false);
+
+console.log('\n── Pipeline ordering (curated > discovered > external) ──');
+// Without Supabase, discovered tier is skipped — order is curated → external.
+const pr1 = await get('/api/search-place?q=Riyadh&lang=en');
+check('Riyadh (in curated) → X-Search-Source: curated',
+    String(pr1.headers['x-search-source'] || '') === 'curated');
+const pr2 = await get('/api/search-place?q=' + encodeURIComponent('اللطامنة') + '&lang=ar');
+check('اللطامنة (not curated) → X-Search-Source: external (no Supabase)',
+    String(pr2.headers['x-search-source'] || '') === 'external');
+
 // 8. Cache hit on repeat query (second call should be instant — verified by simple consistency)
 console.log('\n── Cache consistency on repeat ──');
 const r3a = await get('/api/search-place?q=' + encodeURIComponent('اللطامنة') + '&lang=ar');

@@ -324,6 +324,41 @@
                 try { console.warn('[search-test] result not prayer-times-ready', r); } catch (_) {}
                 return;
             }
+            // PHASE C: fire-and-forget persistence for external results.
+            // Curated results are already in the JSON, so we skip them.
+            // Discovered results already exist — POST still updates
+            // selected_count / last_used_at via the upsert path.
+            try {
+                if (r.source && r.source !== 'curated') {
+                    const payload = {
+                        slug: r.slug,
+                        type: r.type || 'city',
+                        countryCode: r.countryCode,
+                        lat: r.lat, lng: r.lng,
+                        timezone: r.timezone,
+                        // Best-effort `names` map: spread what the endpoint
+                        // returned (external responses include `names` with
+                        // every lang Nominatim provided) + the displayName
+                        // for the active UI lang as a guaranteed entry.
+                        names: Object.assign({},
+                            (r.names && typeof r.names === 'object') ? r.names : {},
+                            r.displayName ? { [LANG]: r.displayName } : {},
+                            r.secondaryName ? { en: r.secondaryName } : {}
+                        ),
+                        aliases: {},
+                        admin: {
+                            country: r.countryName ? { [LANG]: r.countryName } : {}
+                        },
+                        source: r.source
+                    };
+                    fetch('/api/place-selected', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                        keepalive: true   // keep the request alive across navigation
+                    }).catch(() => {});
+                }
+            } catch (_) { /* persistence is best-effort */ }
             // Navigate to prayer-times page using slug (existing route)
             window.location.href = '/prayer-times-in-' + encodeURIComponent(r.slug);
         }

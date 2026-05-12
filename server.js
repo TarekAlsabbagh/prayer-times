@@ -425,11 +425,15 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     );
     if (!displayName) displayName = enName;
 
-    // Country name: try Nominatim's accept-language translation first
-    // (most reliable for the requested lang), then Intl.DisplayNames
-    // for runtime localization to any of the 10 supported langs.
-    let countryName = String(addr.country || '').trim();
-    if (!countryName) countryName = _getCountryName(cc, code);
+    // Country name: prefer Intl.DisplayNames localized to the REQUEST
+    // language (runtime, no Nominatim round-trip needed). Fall back to
+    // whatever Nominatim returned (English, since we cached with
+    // accept-language=en) if Intl can't resolve the code.
+    // LANG-1 (2026-05-12): we localize per request, NOT from the cached
+    // English `addr.country`, so 10 lang variants of the same query
+    // surface 10 properly-translated country names.
+    let countryName = _getCountryName(cc, code);
+    if (!countryName) countryName = String(addr.country || '').trim();
     if (!countryName) return null;
 
     // Importance from Nominatim ranges 0..1 — scale to 0..100.
@@ -464,75 +468,293 @@ const _EXTERNAL_CACHE_MAX = 1000;
 async function _searchExternalPlaces(query, lang) {
     const q = String(query || '').trim();
     if (q.length < 2 || q.length > 80) return [];
-    const langCode = ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(lang) ? lang : 'ar';
-    const cacheKey = `${langCode}:${q.toLowerCase()}`;
-    // Cache lookup
+    const langCode = _SUPPORTED_LANGS.includes(lang) ? lang : 'ar';
+    // LANG-1 (2026-05-12): cache is lang-AGNOSTIC. We hit Nominatim with
+    // accept-language=en for a canonical raw response, and re-localize
+    // per request from namedetails. Cuts external calls by 10× when the
+    // same query comes in across multiple langs (e.g. test suite).
+    const cacheKey = q.toLowerCase();
     const cached = _externalSearchCache.get(cacheKey);
+    let raw;
     if (cached && Date.now() - cached.ts < _EXTERNAL_CACHE_TTL) {
-        return cached.results;
-    }
-    // Hit Nominatim
-    let raw = [];
-    try {
-        const url = 'https://nominatim.openstreetmap.org/search'
-            + '?format=jsonv2'
-            + '&addressdetails=1'
-            + '&namedetails=1'
-            + '&limit=10'
-            + '&accept-language=' + encodeURIComponent(langCode)
-            + '&q=' + encodeURIComponent(q);
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 8000);
-        const resp = await fetch(url, {
-            signal: ctrl.signal,
-            headers: {
-                'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
-                'Accept': 'application/json'
+        raw = cached.raw;
+    } else {
+        raw = [];
+        try {
+            const url = 'https://nominatim.openstreetmap.org/search'
+                + '?format=jsonv2'
+                + '&addressdetails=1'
+                + '&namedetails=1'
+                + '&limit=10'
+                + '&accept-language=en'  // canonical; namedetails carries every lang
+                + '&q=' + encodeURIComponent(q);
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 8000);
+            const resp = await fetch(url, {
+                signal: ctrl.signal,
+                headers: {
+                    'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
+                    'Accept': 'application/json'
+                }
+            });
+            clearTimeout(timer);
+            if (resp.ok) {
+                const data = await resp.json();
+                if (Array.isArray(data)) raw = data;
             }
-        });
-        clearTimeout(timer);
-        if (resp.ok) {
-            const data = await resp.json();
-            if (Array.isArray(data)) raw = data;
+        } catch (_e) { /* network/timeout/abort → empty raw */ }
+        // Cache the RAW response (lang-agnostic) so the next localized
+        // call to the same query doesn't re-hit Nominatim.
+        _externalSearchCache.set(cacheKey, { ts: Date.now(), raw });
+        if (_externalSearchCache.size > _EXTERNAL_CACHE_MAX) {
+            const firstKey = _externalSearchCache.keys().next().value;
+            _externalSearchCache.delete(firstKey);
         }
-    } catch (_e) { /* network/timeout/abort → empty list */ }
-    // Filter + normalize + dedup-slug
+    }
+    // Localize the cached raw results per the requested lang. This is
+    // pure CPU work (no network).
     const taken = new Set();
-    // Pre-fill `taken` with curated slugs so external can't shadow them
     for (const p of _CURATED_PLACES) {
         if (p && typeof p.slug === 'string') taken.add(p.slug);
     }
     const results = [];
-    for (const p of raw) {
+    for (const p of (raw || [])) {
         const norm = _normalizeExternalPlace(p, langCode, taken);
         if (norm) results.push(norm);
     }
-    // Sort by confidence desc, type-rank, then name length
-    const typeRank = (t) => ({
-        city: 0, town: 1, municipality: 2, borough: 2,
-        governorate: 3, province: 3, state: 3, state_district: 3,
-        county: 4, district: 4, subdistrict: 4, suburb: 4, administrative: 5,
-        village: 6, hamlet: 7, locality: 8, region: 9
-    }[t] != null ? ({
-        city: 0, town: 1, municipality: 2, borough: 2,
-        governorate: 3, province: 3, state: 3, state_district: 3,
-        county: 4, district: 4, subdistrict: 4, suburb: 4, administrative: 5,
-        village: 6, hamlet: 7, locality: 8, region: 9
-    }[t]) : 10);
+    // Sort by type-rank then confidence
+    const typeRank = (t) => {
+        const m = {
+            city: 0, town: 1, municipality: 2, borough: 2,
+            governorate: 3, province: 3, state: 3, state_district: 3,
+            county: 4, district: 4, subdistrict: 4, suburb: 4, administrative: 5,
+            village: 6, hamlet: 7, locality: 8, region: 9
+        };
+        return m[t] != null ? m[t] : 10;
+    };
     results.sort((a, b) => {
         const r = typeRank(a.type) - typeRank(b.type);
         if (r !== 0) return r;
         return (b.confidence || 0) - (a.confidence || 0);
     });
-    const final = results.slice(0, 10);
-    // Cache (cap size)
-    _externalSearchCache.set(cacheKey, { ts: Date.now(), results: final });
-    if (_externalSearchCache.size > _EXTERNAL_CACHE_MAX) {
-        // Drop the oldest entry (Map preserves insertion order)
-        const firstKey = _externalSearchCache.keys().next().value;
-        _externalSearchCache.delete(firstKey);
+    return results.slice(0, 10);
+}
+
+// ═══ GLOBAL-PLACE-SEARCH-PHASE-C (2026-05-12): Supabase/Postgres ═════════════
+// discovered_places: places persisted ONLY after a user explicitly picks an
+// external (Nominatim) result in /search-test. The persisted record carries
+// the full 10-language `names` map (LANG-1 contract) so future searches in
+// any UI lang find the city locally without re-querying Nominatim. The
+// table is gated behind SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY env vars;
+// when either is missing the server logs a one-line warning at startup and
+// falls back to curated + external only (the site keeps working).
+//
+// We call Supabase's PostgREST API directly via `fetch` — no extra npm
+// dependency. Service-role key bypasses RLS (it's server-only, never in JS).
+const _SUPABASE_URL = String(process.env.SUPABASE_URL || '').replace(/\/+$/, '');
+const _SUPABASE_KEY = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '');
+const _SUPABASE_ENABLED = !!(_SUPABASE_URL && _SUPABASE_KEY);
+
+if (!_SUPABASE_ENABLED) {
+    try {
+        console.warn('[discovered_places] SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY missing — Phase-C discovered layer DISABLED. /api/search-place will use curated + external only.');
+    } catch (_) {}
+}
+
+async function _supabaseFetch(pathAndQuery, opts) {
+    if (!_SUPABASE_ENABLED) return null;
+    const url = _SUPABASE_URL + pathAndQuery;
+    const headers = Object.assign({
+        'apikey': _SUPABASE_KEY,
+        'Authorization': 'Bearer ' + _SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }, (opts && opts.headers) || {});
+    try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 5000);
+        const r = await fetch(url, Object.assign({}, opts, { headers, signal: ctrl.signal }));
+        clearTimeout(timer);
+        if (!r.ok) return null;
+        // Some PATCH/POST with Prefer: return=minimal returns 201/204 + empty body
+        const ct = String(r.headers.get('content-type') || '');
+        if (!ct.includes('json')) return [];
+        return await r.json();
+    } catch (_) { return null; }
+}
+
+// Map a Postgres row → unified /api/search-place result shape. Reuses
+// the same `_pickLocalizedDisplay` + `_getCountryName` helpers as curated
+// and external, so the response shape is identical regardless of source.
+function _mapDiscoveredRow(row, lang) {
+    if (!row || !row.slug) return null;
+    if (!isFinite(row.lat) || !isFinite(row.lng)) return null;
+    if (!row.timezone || !row.country_code) return null;
+    const code = String(lang || 'ar').toLowerCase();
+    const synthPlace = {
+        names:   row.names   || {},
+        aliases: row.aliases || {},
+        admin:   row.admin   || {}
+    };
+    const displayName = _pickLocalizedDisplay(synthPlace, code, null, row.slug);
+    if (!displayName) return null;
+    let countryName = '';
+    if (row.admin && row.admin.country && typeof row.admin.country === 'object'
+        && typeof row.admin.country[code] === 'string') {
+        countryName = row.admin.country[code];
     }
-    return final;
+    if (!countryName) countryName = _getCountryName(row.country_code, code);
+    if (!countryName) return null;
+    return {
+        slug: row.slug,
+        type: row.type || 'city',
+        displayName,
+        secondaryName: (synthPlace.names.en || row.slug),
+        countryName,
+        countryCode: row.country_code,
+        lat: row.lat,
+        lng: row.lng,
+        timezone: row.timezone,
+        source: 'discovered',
+        // Slightly higher confidence than fresh external (it's been picked
+        // by at least one user → real prayer-times destination).
+        confidence: 70 + Math.min(20, Number(row.selected_count) || 0)
+    };
+}
+
+async function _searchDiscoveredPlaces(query, lang) {
+    if (!_SUPABASE_ENABLED) return [];
+    const q = String(query || '').trim();
+    if (q.length < 1 || q.length > 80) return [];
+    // Call the search_discovered_places RPC. Returns rows ranked by
+    // selected_count desc, search_count desc, last_used_at desc.
+    const data = await _supabaseFetch('/rest/v1/rpc/search_discovered_places', {
+        method: 'POST',
+        body: JSON.stringify({ q, lim: 10 })
+    });
+    if (!Array.isArray(data)) return [];
+    const mapped = data.map(row => _mapDiscoveredRow(row, lang)).filter(Boolean);
+    // Fire-and-forget search_count increment (doesn't block the response).
+    // We bump search_count for the TOP match if any, so popular cities
+    // organically rise. Phase-D will use this for promotion candidates.
+    if (mapped.length > 0 && data[0] && data[0].id) {
+        const id = data[0].id;
+        _supabaseFetch(
+            '/rest/v1/discovered_places?id=eq.' + encodeURIComponent(id),
+            {
+                method: 'PATCH',
+                headers: { 'Prefer': 'return=minimal' },
+                body: JSON.stringify({ search_count: (data[0].search_count || 0) + 1 })
+            }
+        ).catch(() => {});
+    }
+    return mapped;
+}
+
+// Validator for incoming /api/place-selected payload. Independent of
+// Supabase (test-friendly). Mirrors the prayer-times contract: every
+// field needed to actually compute prayer times.
+function _isValidDiscoveredInput(p) {
+    if (!p || typeof p !== 'object') return false;
+    if (typeof p.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(p.slug)) return false;
+    const cc = String(p.countryCode || '').toLowerCase();
+    if (!/^[a-z]{2}$/.test(cc)) return false;
+    const lat = Number(p.lat), lng = Number(p.lng);
+    if (!isFinite(lat) || lat < -90 || lat > 90) return false;
+    if (!isFinite(lng) || lng < -180 || lng > 180) return false;
+    if (typeof p.timezone !== 'string' || !p.timezone) return false;
+    if (typeof p.type !== 'string' || !p.type) return false;
+    // REJECT POI types — never persist a shop / road / etc.
+    if (_EXTERNAL_BLOCKED_TYPES && _EXTERNAL_BLOCKED_TYPES.has(p.type)) return false;
+    if (!p.names || typeof p.names !== 'object') return false;
+    // At least one language name must be non-empty
+    const hasName = Object.values(p.names).some(v => typeof v === 'string' && v.trim());
+    if (!hasName) return false;
+    return true;
+}
+
+// Upsert a discovered place. Returns { action: 'inserted'|'updated'|'rejected', row }.
+// Dedup strategy: (slug, country_code) unique → existing row gets
+// selected_count++ + names/aliases merged with new data. Race-safe via
+// the unique index — concurrent inserts of the same (slug, cc) cause
+// ONE to win, the other gets a 23505 conflict which we treat as "found".
+async function _upsertDiscoveredPlace(place) {
+    if (!_SUPABASE_ENABLED) return { action: 'rejected', reason: 'supabase_disabled' };
+    if (!_isValidDiscoveredInput(place)) return { action: 'rejected', reason: 'invalid' };
+    const cc = String(place.countryCode).toLowerCase();
+    // 1. Look up by (slug, country_code)
+    const existing = await _supabaseFetch(
+        '/rest/v1/discovered_places?select=*'
+        + '&slug=eq.'         + encodeURIComponent(place.slug)
+        + '&country_code=eq.' + encodeURIComponent(cc)
+        + '&limit=1',
+        { method: 'GET' }
+    );
+    if (Array.isArray(existing) && existing.length > 0) {
+        const row = existing[0];
+        // Merge names + aliases (don't drop existing langs)
+        const mergedNames   = Object.assign({}, row.names   || {}, place.names   || {});
+        const mergedAliases = _mergeAliases(row.aliases || {}, place.aliases || {});
+        const mergedAdmin   = Object.assign({}, row.admin || {}, place.admin   || {});
+        const patched = await _supabaseFetch(
+            '/rest/v1/discovered_places?id=eq.' + encodeURIComponent(row.id),
+            {
+                method: 'PATCH',
+                headers: { 'Prefer': 'return=representation' },
+                body: JSON.stringify({
+                    names:           mergedNames,
+                    aliases:         mergedAliases,
+                    admin:           mergedAdmin,
+                    selected_count:  (row.selected_count || 0) + 1,
+                    last_used_at:    new Date().toISOString()
+                })
+            }
+        );
+        return { action: 'updated', row: Array.isArray(patched) ? patched[0] : row };
+    }
+    // 2. Insert new row
+    const inserted = await _supabaseFetch(
+        '/rest/v1/discovered_places',
+        {
+            method: 'POST',
+            headers: { 'Prefer': 'return=representation' },
+            body: JSON.stringify({
+                slug:           place.slug,
+                type:           place.type,
+                country_code:   cc,
+                lat:            place.lat,
+                lng:            place.lng,
+                timezone:       place.timezone,
+                names:          place.names    || {},
+                aliases:        place.aliases  || {},
+                admin:          place.admin    || {},
+                source:         place.source   || 'nominatim',
+                source_id:      place.sourceId || null,
+                verified:       false,
+                selected_count: 1,
+                last_used_at:   new Date().toISOString()
+            })
+        }
+    );
+    return { action: 'inserted', row: Array.isArray(inserted) ? inserted[0] : null };
+}
+
+// Merge two per-lang alias maps so we don't drop entries from either side.
+function _mergeAliases(a, b) {
+    const out = {};
+    const keys = new Set([...Object.keys(a || {}), ...Object.keys(b || {})]);
+    for (const k of keys) {
+        const fromA = Array.isArray(a[k]) ? a[k] : [];
+        const fromB = Array.isArray(b[k]) ? b[k] : [];
+        const seen = new Set();
+        const merged = [];
+        for (const v of [...fromA, ...fromB]) {
+            const s = String(v || '').trim();
+            if (s && !seen.has(s)) { seen.add(s); merged.push(s); }
+        }
+        if (merged.length > 0) out[k] = merged;
+    }
+    return out;
 }
 
 // ===== المصدر الموحد للدومين =====
@@ -17845,6 +18067,14 @@ function getTierForPath(urlPath) {
     if (urlPath === '/api/cities' || urlPath === '/api/cities/add') return 'cheap';
     if (urlPath.startsWith('/api/wiki-')) return 'external';
     if (urlPath === '/api/geocode') return 'strict';
+    // PHASE C (2026-05-12): /api/search-place is MOSTLY in-memory curated
+    // lookup + occasional internal Supabase RPC. External Nominatim is
+    // gated behind its OWN internal cache + tier-strict throttle inside
+    // `_searchExternalPlaces`. The endpoint itself can safely run at
+    // `cheap` (300/min) — same as /api/cities — since 99% of its calls
+    // never reach an external service. /api/place-selected is also cheap
+    // (one Supabase upsert per click). They share the cheap tier.
+    if (urlPath === '/api/search-place' || urlPath === '/api/place-selected') return 'cheap';
     return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
 }
 // تنظيف دوري — يزيل IPs التي جميع buckets-ها منتهية (منع نمو غير محدود)
@@ -20180,15 +20410,26 @@ const server = http.createServer(async (req, res) => {
                 const _qs2 = new URLSearchParams(qs);
                 const q   = String(_qs2.get('q') || '').trim();
                 const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
-                const lang = ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(langRaw) ? langRaw : 'ar';
-                // PHASE A: curated first (always synchronous, instant).
+                const lang = _SUPPORTED_LANGS.includes(langRaw) ? langRaw : 'ar';
+                // PHASE A — curated first (always synchronous, instant).
                 let results = _searchCuratedPlaces(q, lang);
                 let source = 'curated';
-                // PHASE B: when curated returns 0, fall back to external
-                // (server-side Nominatim with strict validation). The
-                // browser NEVER sees Nominatim — it only calls
-                // /api/search-place. External results carry full prayer-
-                // times contract (slug + lat + lng + timezone + cc).
+                // PHASE C — when curated returns 0, try the discovered_places
+                // store in Supabase. Already-clicked external cities live
+                // here and resolve faster than re-querying Nominatim. Gated
+                // on SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY env vars.
+                if (results.length === 0 && q.length >= 1 && _SUPABASE_ENABLED) {
+                    try {
+                        const discovered = await _searchDiscoveredPlaces(q, lang);
+                        if (Array.isArray(discovered) && discovered.length > 0) {
+                            results = discovered;
+                            source = 'discovered';
+                        }
+                    } catch (_) { /* fall through */ }
+                }
+                // PHASE B — when curated AND discovered are both empty,
+                // fall back to external (server-side Nominatim with strict
+                // validation). The browser NEVER sees Nominatim.
                 if (results.length === 0 && q.length >= 2) {
                     try {
                         const external = await _searchExternalPlaces(q, lang);
@@ -20212,6 +20453,75 @@ const server = http.createServer(async (req, res) => {
                 } catch (_) {}
             }
         })();
+        return;
+    }
+
+    // PHASE C — user-click persistence endpoint. The /search-test page
+    // POSTs the picked result here BEFORE navigating. We validate the
+    // payload against the prayer-times contract, dedup by (slug, cc),
+    // and upsert into Supabase `discovered_places`. POI / road / shop /
+    // amenity types are rejected even if the validator is bypassed
+    // upstream (defense in depth). Never persists a query alone — only
+    // a fully-validated place object that the user explicitly clicked.
+    if (urlPath === '/api/place-selected' && (req.method === 'POST' || req.method === 'OPTIONS')) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+        let body = '';
+        let bytes = 0;
+        let killed = false;
+        req.on('data', chunk => {
+            if (killed) return;
+            bytes += chunk.length;
+            if (bytes > 8 * 1024) {
+                killed = true;
+                res.writeHead(413, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end('{"ok":false,"error":"too_large"}');
+                req.destroy();
+                return;
+            }
+            body += chunk.toString('utf8');
+        });
+        req.on('end', () => {
+            if (killed) return;
+            (async () => {
+                try {
+                    const place = JSON.parse(body || '{}');
+                    if (!_isValidDiscoveredInput(place)) {
+                        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                        res.end('{"ok":false,"error":"invalid"}');
+                        return;
+                    }
+                    if (!_SUPABASE_ENABLED) {
+                        // Acknowledge the click but don't persist (env not set).
+                        // /search-test still works — the next visit just won't
+                        // find this place from discovered (will hit external again).
+                        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                        res.end('{"ok":true,"persisted":false,"reason":"supabase_disabled"}');
+                        return;
+                    }
+                    const r = await _upsertDiscoveredPlace(place);
+                    if (!r || r.action === 'rejected') {
+                        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                        res.end(JSON.stringify({ ok: false, error: 'rejected', reason: (r && r.reason) || 'unknown' }));
+                        return;
+                    }
+                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end(JSON.stringify({
+                        ok: true,
+                        persisted: true,
+                        action: r.action,
+                        slug: r.row && r.row.slug || place.slug
+                    }));
+                } catch (_e) {
+                    try {
+                        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                        res.end('{"ok":false,"error":"parse"}');
+                    } catch (_) {}
+                }
+            })();
+        });
         return;
     }
 

@@ -19,8 +19,12 @@
       "ms": "Riyadh"
     },
     "aliases": {
-      "ar": ["رياض"],
-      "en": ["Riyadh"]
+      "ar": [
+        "رياض"
+      ],
+      "en": [
+        "Riyadh"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -51,8 +55,14 @@
       "ms": "Mekah"
     },
     "aliases": {
-      "ar": ["مكة", "مكه"],
-      "en": ["Makkah", "Mecca"]
+      "ar": [
+        "مكة",
+        "مكه"
+      ],
+      "en": [
+        "Makkah",
+        "Mecca"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -83,8 +93,14 @@
       "ms": "Madinah"
     },
     "aliases": {
-      "ar": ["المدينة", "مدينة"],
-      "en": ["Madinah", "Al Madinah"]
+      "ar": [
+        "المدينة",
+        "مدينة"
+      ],
+      "en": [
+        "Madinah",
+        "Al Madinah"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -115,8 +131,12 @@
       "ms": "Jeddah"
     },
     "aliases": {
-      "ar": ["جده"],
-      "en": ["Jiddah"]
+      "ar": [
+        "جده"
+      ],
+      "en": [
+        "Jiddah"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -131,7 +151,7 @@
     "slug": "khafji",
     "type": "city",
     "countryCode": "sa",
-    "lat": 28.4390,
+    "lat": 28.439,
     "lng": 48.4913,
     "timezone": "Asia/Riyadh",
     "names": {
@@ -147,8 +167,13 @@
       "ms": "Khafji"
     },
     "aliases": {
-      "ar": ["خفجي"],
-      "en": ["Al Khafji", "Al-Khafji"]
+      "ar": [
+        "خفجي"
+      ],
+      "en": [
+        "Al Khafji",
+        "Al-Khafji"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -179,8 +204,14 @@
       "ms": "Hafar Al-Batin"
     },
     "aliases": {
-      "ar": ["حفرالباطن", "حفر باطن"],
-      "en": ["Hafar Al Batin", "Hafr Al Batin"]
+      "ar": [
+        "حفرالباطن",
+        "حفر باطن"
+      ],
+      "en": [
+        "Hafar Al Batin",
+        "Hafr Al Batin"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -195,7 +226,7 @@
     "slug": "abqaiq",
     "type": "city",
     "countryCode": "sa",
-    "lat": 25.9340,
+    "lat": 25.934,
     "lng": 49.6678,
     "timezone": "Asia/Riyadh",
     "names": {
@@ -211,8 +242,12 @@
       "ms": "Abqaiq"
     },
     "aliases": {
-      "ar": ["ابقيق"],
-      "en": ["Buqayq"]
+      "ar": [
+        "ابقيق"
+      ],
+      "en": [
+        "Buqayq"
+      ]
     },
     "admin": {
       "countryAr": "المملكة العربية السعودية",
@@ -243,8 +278,13 @@
       "ms": "Kaherah"
     },
     "aliases": {
-      "ar": ["قاهرة"],
-      "en": ["Al Qahirah", "El Qahira"]
+      "ar": [
+        "قاهرة"
+      ],
+      "en": [
+        "Al Qahirah",
+        "El Qahira"
+      ]
     },
     "admin": {
       "countryAr": "مصر",
@@ -274,8 +314,13 @@
       "ms": "Istanbul"
     },
     "aliases": {
-      "ar": ["اسطنبول", "استانبول"],
-      "en": ["Constantinople"]
+      "ar": [
+        "اسطنبول",
+        "استانبول"
+      ],
+      "en": [
+        "Constantinople"
+      ]
     },
     "admin": {
       "countryAr": "تركيا",
@@ -368,7 +413,9 @@
     },
     "aliases": {
       "ar": [],
-      "en": ["Montréal"]
+      "en": [
+        "Montréal"
+      ]
     },
     "admin": {
       "countryAr": "كندا",
@@ -384,7 +431,7 @@
     "type": "city",
     "countryCode": "us",
     "lat": 40.7128,
-    "lng": -74.0060,
+    "lng": -74.006,
     "timezone": "America/New_York",
     "names": {
       "ar": "نيويورك",
@@ -400,7 +447,10 @@
     },
     "aliases": {
       "ar": [],
-      "en": ["NYC", "New York City"]
+      "en": [
+        "NYC",
+        "New York City"
+      ]
     },
     "admin": {
       "countryAr": "الولايات المتحدة",
@@ -431,8 +481,12 @@
       "ms": "Beijing"
     },
     "aliases": {
-      "ar": ["بكينة"],
-      "en": ["Peking"]
+      "ar": [
+        "بكينة"
+      ],
+      "en": [
+        "Peking"
+      ]
     },
     "admin": {
       "countryAr": "الصين",
@@ -492,7 +546,10 @@
       "ms": "Guangzhou"
     },
     "aliases": {
-      "en": ["Canton", "Guangzhou City"]
+      "en": [
+        "Canton",
+        "Guangzhou City"
+      ]
     },
     "admin": {
       "countryAr": "الصين",
@@ -552,7 +609,10 @@
       "ms": "Xi'an"
     },
     "aliases": {
-      "en": ["Xian", "Sian"]
+      "en": [
+        "Xian",
+        "Sian"
+      ]
     },
     "admin": {
       "countryAr": "الصين",
@@ -612,7 +672,9 @@
       "ms": "Nanjing"
     },
     "aliases": {
-      "en": ["Nanking"]
+      "en": [
+        "Nanking"
+      ]
     },
     "admin": {
       "countryAr": "الصين",
@@ -702,7 +764,9 @@
       "ms": "Chongqing"
     },
     "aliases": {
-      "en": ["Chungking"]
+      "en": [
+        "Chungking"
+      ]
     },
     "admin": {
       "countryAr": "الصين",
@@ -732,7 +796,9 @@
       "ms": "Tokyo"
     },
     "aliases": {
-      "en": ["Tōkyō"]
+      "en": [
+        "Tōkyō"
+      ]
     },
     "admin": {
       "countryAr": "اليابان",
@@ -762,7 +828,9 @@
       "ms": "Osaka"
     },
     "aliases": {
-      "en": ["Ōsaka"]
+      "en": [
+        "Ōsaka"
+      ]
     },
     "admin": {
       "countryAr": "اليابان",
@@ -792,7 +860,9 @@
       "ms": "Kyoto"
     },
     "aliases": {
-      "en": ["Kyōto"]
+      "en": [
+        "Kyōto"
+      ]
     },
     "admin": {
       "countryAr": "اليابان",
@@ -807,7 +877,7 @@
     "type": "city",
     "countryCode": "jp",
     "lat": 35.4437,
-    "lng": 139.6380,
+    "lng": 139.638,
     "timezone": "Asia/Tokyo",
     "names": {
       "ar": "يوكوهاما",
@@ -912,7 +982,9 @@
       "ms": "Kobe"
     },
     "aliases": {
-      "en": ["Kōbe"]
+      "en": [
+        "Kōbe"
+      ]
     },
     "admin": {
       "countryAr": "اليابان",
@@ -1009,6 +1081,669 @@
       "countryEn": "Japan"
     },
     "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "venice",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 45.4408,
+    "lng": 12.3155,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "البندقية",
+      "en": "Venice",
+      "fr": "Venise",
+      "de": "Venedig",
+      "tr": "Venedik",
+      "ur": "وینس",
+      "id": "Venesia",
+      "es": "Venecia",
+      "bn": "ভেনিস",
+      "ms": "Venice"
+    },
+    "aliases": {
+      "en": [
+        "Venezia"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "florence",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 43.7696,
+    "lng": 11.2558,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "فلورنسا",
+      "en": "Florence",
+      "fr": "Florence",
+      "de": "Florenz",
+      "tr": "Floransa",
+      "ur": "فلورنس",
+      "id": "Florence",
+      "es": "Florencia",
+      "bn": "ফ্লোরেন্স",
+      "ms": "Florence"
+    },
+    "aliases": {
+      "en": [
+        "Firenze"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "rome",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 41.9028,
+    "lng": 12.4964,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "روما",
+      "en": "Rome",
+      "fr": "Rome",
+      "de": "Rom",
+      "tr": "Roma",
+      "ur": "روم",
+      "id": "Roma",
+      "es": "Roma",
+      "bn": "রোম",
+      "ms": "Rome"
+    },
+    "aliases": {
+      "en": [
+        "Roma"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "naples",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 40.8518,
+    "lng": 14.2681,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "نابولي",
+      "en": "Naples",
+      "fr": "Naples",
+      "de": "Neapel",
+      "tr": "Napoli",
+      "ur": "نیپلز",
+      "id": "Napoli",
+      "es": "Nápoles",
+      "bn": "নাপলস",
+      "ms": "Naples"
+    },
+    "aliases": {
+      "en": [
+        "Napoli"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "milan",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 45.4642,
+    "lng": 9.19,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ميلانو",
+      "en": "Milan",
+      "fr": "Milan",
+      "de": "Mailand",
+      "tr": "Milano",
+      "ur": "میلان",
+      "id": "Milan",
+      "es": "Milán",
+      "bn": "মিলান",
+      "ms": "Milan"
+    },
+    "aliases": {
+      "en": [
+        "Milano"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "turin",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 45.0703,
+    "lng": 7.6869,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "تورينو",
+      "en": "Turin",
+      "fr": "Turin",
+      "de": "Turin",
+      "tr": "Torino",
+      "ur": "ٹورن",
+      "id": "Torino",
+      "es": "Turín",
+      "bn": "তুরিন",
+      "ms": "Turin"
+    },
+    "aliases": {
+      "en": [
+        "Torino"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "genoa",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 44.4056,
+    "lng": 8.9463,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "جنوة",
+      "en": "Genoa",
+      "fr": "Gênes",
+      "de": "Genua",
+      "tr": "Cenova",
+      "ur": "جنوآ",
+      "id": "Genoa",
+      "es": "Génova",
+      "bn": "জেনোয়া",
+      "ms": "Genoa"
+    },
+    "aliases": {
+      "en": [
+        "Genova"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bologna",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 44.4949,
+    "lng": 11.3426,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بولونيا",
+      "en": "Bologna",
+      "fr": "Bologne",
+      "de": "Bologna",
+      "tr": "Bolonya",
+      "ur": "بولونیا",
+      "id": "Bologna",
+      "es": "Bolonia",
+      "bn": "বোলোনিয়া",
+      "ms": "Bologna"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "pisa",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 43.7228,
+    "lng": 10.4017,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بيزا",
+      "en": "Pisa",
+      "fr": "Pise",
+      "de": "Pisa",
+      "tr": "Piza",
+      "ur": "پیزا",
+      "id": "Pisa",
+      "es": "Pisa",
+      "bn": "পিসা",
+      "ms": "Pisa"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy"
+    },
+    "priority": 75,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "madrid",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 40.4168,
+    "lng": -3.7038,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "مدريد",
+      "en": "Madrid",
+      "fr": "Madrid",
+      "de": "Madrid",
+      "tr": "Madrid",
+      "ur": "میڈرڈ",
+      "id": "Madrid",
+      "es": "Madrid",
+      "bn": "মাদ্রিদ",
+      "ms": "Madrid"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "barcelona",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 41.3851,
+    "lng": 2.1734,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "برشلونة",
+      "en": "Barcelona",
+      "fr": "Barcelone",
+      "de": "Barcelona",
+      "tr": "Barselona",
+      "ur": "بارسلونا",
+      "id": "Barcelona",
+      "es": "Barcelona",
+      "bn": "বার্সেলোনা",
+      "ms": "Barcelona"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "cordoba",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 37.8882,
+    "lng": -4.7794,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "قرطبة",
+      "en": "Córdoba",
+      "fr": "Cordoue",
+      "de": "Córdoba",
+      "tr": "Kurtuba",
+      "ur": "قرطبہ",
+      "id": "Córdoba",
+      "es": "Córdoba",
+      "bn": "কর্ডোবা",
+      "ms": "Cordoba"
+    },
+    "aliases": {
+      "en": [
+        "Cordoba"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "seville",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 37.3891,
+    "lng": -5.9845,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "إشبيلية",
+      "en": "Seville",
+      "fr": "Séville",
+      "de": "Sevilla",
+      "tr": "Sevilla",
+      "ur": "اشبیلیہ",
+      "id": "Sevilla",
+      "es": "Sevilla",
+      "bn": "সেভিল",
+      "ms": "Seville"
+    },
+    "aliases": {
+      "en": [
+        "Sevilla"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "granada-es",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 37.1773,
+    "lng": -3.5986,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "غرناطة",
+      "en": "Granada",
+      "fr": "Grenade",
+      "de": "Granada",
+      "tr": "Granada",
+      "ur": "غرناطہ",
+      "id": "Granada",
+      "es": "Granada",
+      "bn": "গ্রানাডা",
+      "ms": "Granada"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "malaga",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 36.7213,
+    "lng": -4.4214,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "مالقة",
+      "en": "Málaga",
+      "fr": "Malaga",
+      "de": "Málaga",
+      "tr": "Malaga",
+      "ur": "مالاگا",
+      "id": "Málaga",
+      "es": "Málaga",
+      "bn": "মালাগা",
+      "ms": "Malaga"
+    },
+    "aliases": {
+      "en": [
+        "Malaga"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "zaragoza",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 41.6488,
+    "lng": -0.8891,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "سرقسطة",
+      "en": "Zaragoza",
+      "fr": "Saragosse",
+      "de": "Saragossa",
+      "tr": "Zaragoza",
+      "ur": "زراگوزا",
+      "id": "Zaragoza",
+      "es": "Zaragoza",
+      "bn": "জারাগোজা",
+      "ms": "Zaragoza"
+    },
+    "aliases": {
+      "en": [
+        "Saragossa"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "valencia",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 39.4699,
+    "lng": -0.3763,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "فالنسيا",
+      "en": "Valencia",
+      "fr": "Valence",
+      "de": "Valencia",
+      "tr": "Valencia",
+      "ur": "ویلنسیا",
+      "id": "Valencia",
+      "es": "Valencia",
+      "bn": "ভ্যালেন্সিয়া",
+      "ms": "Valencia"
+    },
+    "aliases": {
+      "ar": [
+        "بلنسية"
+      ],
+      "en": []
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "lisbon",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 38.7223,
+    "lng": -9.1393,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "لشبونة",
+      "en": "Lisbon",
+      "fr": "Lisbonne",
+      "de": "Lissabon",
+      "tr": "Lizbon",
+      "ur": "لزبن",
+      "id": "Lisboa",
+      "es": "Lisboa",
+      "bn": "লিসবন",
+      "ms": "Lisbon"
+    },
+    "aliases": {
+      "en": [
+        "Lisboa"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "porto",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 41.1579,
+    "lng": -8.6291,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "بورتو",
+      "en": "Porto",
+      "fr": "Porto",
+      "de": "Porto",
+      "tr": "Porto",
+      "ur": "پورتو",
+      "id": "Porto",
+      "es": "Oporto",
+      "bn": "পোর্তো",
+      "ms": "Porto"
+    },
+    "aliases": {
+      "en": [
+        "Oporto"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sao-paulo",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -23.5505,
+    "lng": -46.6333,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "ساو باولو",
+      "en": "São Paulo",
+      "fr": "São Paulo",
+      "de": "São Paulo",
+      "tr": "São Paulo",
+      "ur": "ساؤ پاؤلو",
+      "id": "São Paulo",
+      "es": "São Paulo",
+      "bn": "সাও পাওলো",
+      "ms": "São Paulo"
+    },
+    "aliases": {
+      "en": [
+        "Sao Paulo"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "rio-de-janeiro",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -22.9068,
+    "lng": -43.1729,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "ريو دي جانيرو",
+      "en": "Rio de Janeiro",
+      "fr": "Rio de Janeiro",
+      "de": "Rio de Janeiro",
+      "tr": "Rio de Janeiro",
+      "ur": "ریو ڈی جنیرو",
+      "id": "Rio de Janeiro",
+      "es": "Río de Janeiro",
+      "bn": "রিও ডি জেনিরো",
+      "ms": "Rio de Janeiro"
+    },
+    "aliases": {
+      "en": [
+        "Rio"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil"
+    },
+    "priority": 85,
     "source": "curated",
     "verified": true
   }

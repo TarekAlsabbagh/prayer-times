@@ -31,6 +31,7 @@
 
 const turkish = require('./transliterate-tr');
 const cjk     = require('./transliterate-cjk');
+const romance = require('./romance-overrides');
 
 // ── 10 UI languages this site supports ─────────────────────────────────────
 const SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
@@ -144,17 +145,21 @@ function extractNamedetailsByLang(nd) {
 //   2. *AR-only CJK override (curated dict for CN/JP)* → 'override'
 //      ↳ countryCode === 'cn'|'jp'. Sits ABOVE namedetails because the
 //      curated dict has cleaner canonical names than Nominatim's
-//      `name:ar` for several cities (e.g. Shenzhen → "شنجن (الصين)" raw
-//      from Nominatim vs "شينزن" canonical).
+//      `name:ar` for several cities (Shenzhen, Guangzhou, etc.).
 //   3. namedetailsByLang[lang]              → 'official'
 //   4. aliases[lang][0]                     → 'alias'
 //   5. *AR-only: any Arabic-script name in another lang slot* → 'alias_lang'
-//   6. *AR-only: Turkish country-specific transliteration* → 'transliterated'
+//   6. *AR-only Romance override (IT/ES/PT/BR dict)* → 'override'
+//      ↳ countryCode === 'it'|'es'|'pt'|'br'. Sits AFTER Nominatim
+//      because for Romance countries Nominatim's name:ar is usually
+//      correct — the dict catches cases where it's missing or weak
+//      (small/historic cities).
+//   7. *AR-only: Turkish country-specific transliteration* → 'transliterated'
 //      ↳ countryCode === 'tr' OR source has [ŞşÇçĞğİıÖöÜö]
-//   7. *AR-only: generic Latin→Arabic transliteration* → 'transliterated'
-//   8. names.en or namedetails.en           → 'fallback_en'
-//   9. fallbackRawName                      → 'fallback_raw'
-//  10. (nothing produced)                   → 'empty'
+//   8. *AR-only: generic Latin→Arabic transliteration* → 'transliterated'
+//   9. names.en or namedetails.en           → 'fallback_en'
+//  10. fallbackRawName                      → 'fallback_raw'
+//  11. (nothing produced)                   → 'empty'
 function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, countryCode) {
     const code = String(lang || 'ar').toLowerCase();
     const names   = (place && place.names)   || {};
@@ -202,7 +207,19 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             return { value: String(fallbackRawName).trim(), quality: 'alias_lang' };
         }
 
-        // 6. AR-only — Turkish country-specific transliteration.
+        // 6. AR-only — Romance override (IT/ES/PT/BR canonical names).
+        //    Sits AFTER Nominatim because Nominatim's name:ar for
+        //    Romance countries is usually accurate. The dict acts as
+        //    a fallback when Nominatim's value is missing/weak.
+        const ccLowerRom = String(countryCode || '').toLowerCase();
+        if (['it','es','pt','br'].includes(ccLowerRom)) {
+            const romHit = romance.lookupRomanceArabic(
+                ccLowerRom, nd.en, names.en, nd.it, nd.es, nd.pt, fallbackRawName
+            );
+            if (romHit) return { value: romHit, quality: 'override' };
+        }
+
+        // 7. AR-only — Turkish country-specific transliteration.
         //    Turkish: prefer nd.tr / names.tr (preserves cedilla, breve,
         //    dotless-i etc.). Fall back to English/raw if no Turkish source.
         const ccLowerTr = String(countryCode || '').toLowerCase();
@@ -260,5 +277,6 @@ module.exports = {
     // Re-export country-specific helpers so server.js / tests can reach
     // them via the single entry point if they need to.
     turkish,
-    cjk
+    cjk,
+    romance
 };

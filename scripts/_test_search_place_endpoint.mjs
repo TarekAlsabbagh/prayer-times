@@ -339,10 +339,12 @@ lq = await topOf('Mecca', 'ar');
 check(`Mecca AR → quality=curated   (got "${lq && lq.nameQuality}")`,
     lq && lq.nameQuality === 'curated');
 
-// Official: from Nominatim namedetails name:ar
+// Official: from Nominatim namedetails name:ar.
+// Granada moved to curated in IT-ES-PT-1 (still produces غرناطة).
 lq = await topOf('Granada', 'ar');
-check(`Granada AR → quality=official (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
-    lq && lq.nameQuality === 'official' && /[؀-ۿ]/.test(lq.displayName));
+check(`Granada AR → "غرناطة" (got "${lq && lq.displayName}", q=${lq && lq.nameQuality})`,
+    lq && lq.displayName === 'غرناطة'
+    && (lq.nameQuality === 'curated' || lq.nameQuality === 'official'));
 lq = await topOf('Vancouver', 'ar');
 check(`Vancouver AR → quality=official (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
     lq && lq.nameQuality === 'official' && /[؀-ۿ]/.test(lq.displayName));
@@ -477,7 +479,7 @@ const regressions = [
     ['Vancouver',     'فانكوفر',     'official'],
     ['San Francisco', 'سان فرانسيسكو','official'],
     ['Vladivostok',   'فلاديفوستوك', 'official'],
-    ['Granada',       'غرناطة',      'official'],
+    ['Granada',       'غرناطة',      'curated'],   // moved to curated in IT-ES-PT-1
     ['Riyadh',        'الرياض',      'curated'],
     ['Mecca',         'مكة المكرمة', 'curated']
 ];
@@ -547,6 +549,65 @@ for (const [q, expected] of cjkCases) {
     // still passes as long as displayName is Arabic-only.)
     const ok = r && /[؀-ۿ]/.test(r.displayName) && !/[a-zA-Z]/.test(r.displayName);
     check(`Canton AR → Arabic-only display (got "${r && r.displayName}")`, ok);
+}
+
+// GLOBAL-PLACE-SEARCH-L10N-IT-ES-PT-1 (2026-05-13) — Romance overrides
+// =====================================================================
+// Italian, Spanish, Portuguese, Brazilian cities with established Arabic
+// names (Venezia → البندقية, Córdoba → قرطبة, Lisboa → لشبونة, etc.).
+// All listed cities are seeded into curated-places.json so tier 1 wins
+// — no Nominatim dependency. The romance-overrides module catches
+// non-curated CN/JP/IT/ES/PT/BR cities Nominatim returns.
+console.log('\n── L10N-IT-ES-PT-1: Romance canonical overrides ──');
+
+const romanceCases = [
+    // Italy
+    ['Venezia',        'البندقية'],
+    ['Venice',         'البندقية'],
+    ['Firenze',        'فلورنسا'],
+    ['Florence',       'فلورنسا'],
+    ['Roma',           'روما'],
+    ['Napoli',         'نابولي'],
+    ['Milano',         'ميلانو'],
+    ['Torino',         'تورينو'],
+    ['Genova',         'جنوة'],
+    ['Bologna',        'بولونيا'],
+    ['Pisa',           'بيزا'],
+    // Spain
+    ['Córdoba',        'قرطبة'],
+    ['Cordoba',        'قرطبة'],
+    ['Sevilla',        'إشبيلية'],
+    ['Seville',        'إشبيلية'],
+    ['Málaga',         'مالقة'],
+    ['Malaga',         'مالقة'],
+    ['Zaragoza',       'سرقسطة'],
+    ['Madrid',         'مدريد'],
+    ['Barcelona',      'برشلونة'],
+    ['Valencia',       'فالنسيا'],
+    // Portugal
+    ['Lisboa',         'لشبونة'],
+    ['Lisbon',         'لشبونة'],
+    ['Porto',          'بورتو'],
+    // Brazil
+    ['São Paulo',      'ساو باولو'],
+    ['Sao Paulo',      'ساو باولو'],
+    ['Rio de Janeiro', 'ريو دي جانيرو']
+];
+for (const [q, expected] of romanceCases) {
+    const r = await topOfQ(q, 'ar');
+    // Curated tier wins for all listed cities. Accept 'override' /
+    // 'official' as fallbacks in case the entry is ever removed.
+    const ok = r && r.displayName === expected
+        && (r.nameQuality === 'curated' || r.nameQuality === 'override' || r.nameQuality === 'official');
+    check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
+}
+
+// Granada is in both the original Phase B (Nominatim returns غرناطة)
+// AND the new ES curated. Either way it must still return غرناطة.
+{
+    const r = await topOfQ('Granada', 'ar');
+    check(`Granada AR → "غرناطة" (post-IT-ES-PT-1 regression) (got "${r && r.displayName}")`,
+        r && r.displayName === 'غرناطة');
 }
 
 console.log('');

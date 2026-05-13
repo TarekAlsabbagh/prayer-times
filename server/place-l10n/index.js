@@ -30,6 +30,7 @@
 'use strict';
 
 const turkish = require('./transliterate-tr');
+const cjk     = require('./transliterate-cjk');
 
 // ── 10 UI languages this site supports ─────────────────────────────────────
 const SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
@@ -140,15 +141,20 @@ function extractNamedetailsByLang(nd) {
 // ── Pick the best `displayName` for a place + UI lang ─────────────────────
 // Tier order (AR-only tiers in italics):
 //   1. names[lang]                          → 'curated'
-//   2. namedetailsByLang[lang]              → 'official'
-//   3. aliases[lang][0]                     → 'alias'
-//   4. *any Arabic-script name in another lang slot* → 'alias_lang'
-//   5. *country-specific transliteration*   → 'transliterated'
-//      ↳ Turkish: countryCode === 'tr' OR source has [ŞşÇçĞğİıÖöÜö]
-//   6. *generic Latin→Arabic transliteration* → 'transliterated'
-//   7. names.en or namedetails.en           → 'fallback_en'
-//   8. fallbackRawName                      → 'fallback_raw'
-//   9. (nothing produced)                   → 'empty'
+//   2. *AR-only CJK override (curated dict for CN/JP)* → 'override'
+//      ↳ countryCode === 'cn'|'jp'. Sits ABOVE namedetails because the
+//      curated dict has cleaner canonical names than Nominatim's
+//      `name:ar` for several cities (e.g. Shenzhen → "شنجن (الصين)" raw
+//      from Nominatim vs "شينزن" canonical).
+//   3. namedetailsByLang[lang]              → 'official'
+//   4. aliases[lang][0]                     → 'alias'
+//   5. *AR-only: any Arabic-script name in another lang slot* → 'alias_lang'
+//   6. *AR-only: Turkish country-specific transliteration* → 'transliterated'
+//      ↳ countryCode === 'tr' OR source has [ŞşÇçĞğİıÖöÜö]
+//   7. *AR-only: generic Latin→Arabic transliteration* → 'transliterated'
+//   8. names.en or namedetails.en           → 'fallback_en'
+//   9. fallbackRawName                      → 'fallback_raw'
+//  10. (nothing produced)                   → 'empty'
 function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, countryCode) {
     const code = String(lang || 'ar').toLowerCase();
     const names   = (place && place.names)   || {};
@@ -159,7 +165,19 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
     if (typeof names[code] === 'string' && names[code].trim()) {
         return { value: names[code].trim(), quality: 'curated' };
     }
-    // 2. external namedetails name:lang
+    // 2. AR-only CJK override (cn/jp canonical dict) — beats Nominatim
+    //    name:ar because some Nominatim entries include disambiguation
+    //    suffixes like "(الصين)" or use non-canonical spellings.
+    if (code === 'ar') {
+        const ccLower = String(countryCode || '').toLowerCase();
+        if (ccLower === 'cn' || ccLower === 'jp') {
+            const cjkHit = cjk.lookupCJKArabic(
+                ccLower, nd.en, names.en, nd.zh, names.zh, nd.ja, names.ja, fallbackRawName
+            );
+            if (cjkHit) return { value: cjkHit, quality: 'override' };
+        }
+    }
+    // 3. external namedetails name:lang
     if (typeof nd[code] === 'string' && nd[code].trim()) {
         return { value: nd[code].trim(), quality: 'official' };
     }
@@ -184,16 +202,16 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             return { value: String(fallbackRawName).trim(), quality: 'alias_lang' };
         }
 
-        // 5. AR-only — country-specific transliteration.
+        // 6. AR-only — Turkish country-specific transliteration.
         //    Turkish: prefer nd.tr / names.tr (preserves cedilla, breve,
         //    dotless-i etc.). Fall back to English/raw if no Turkish source.
-        const ccLower = String(countryCode || '').toLowerCase();
+        const ccLowerTr = String(countryCode || '').toLowerCase();
         const trSrc = (typeof nd.tr   === 'string' && nd.tr.trim())   ? nd.tr.trim()
                     : (typeof names.tr === 'string' && names.tr.trim()) ? names.tr.trim()
                     : (typeof nd.en   === 'string' && nd.en.trim())   ? nd.en.trim()
                     : (typeof names.en === 'string' && names.en.trim()) ? names.en.trim()
                     : (fallbackRawName ? String(fallbackRawName).trim() : '');
-        const looksTurkish = ccLower === 'tr' || turkish.isTurkishScript(trSrc);
+        const looksTurkish = ccLowerTr === 'tr' || turkish.isTurkishScript(trSrc);
         if (looksTurkish && trSrc) {
             const tr = turkish.transliterateTurkishToArabic(trSrc);
             if (tr && /[؀-ۿ]/.test(tr) && tr.length >= 2) {
@@ -239,7 +257,8 @@ module.exports = {
     pickLocalizedDisplayQ,
     extractNamedetailsByLang,
     transliterateLatinToArabic,
-    // Re-export Turkish helper so server.js / tests can reach it via the
-    // single entry point if they need to.
-    turkish
+    // Re-export country-specific helpers so server.js / tests can reach
+    // them via the single entry point if they need to.
+    turkish,
+    cjk
 };

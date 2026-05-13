@@ -26,6 +26,11 @@ function search(q, lang = 'ar') {
     });
 }
 
+// Test pacing helper — Nominatim has a 1-req/sec policy and 429s when
+// burst-queried. Tests that hit external (non-curated cities) call this
+// between iterations so we don't get rate-limited mid-suite.
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
 function isPrayerTimesReady(r) {
     if (!r || typeof r !== 'object') return false;
     if (typeof r.slug !== 'string' || !r.slug) return false;
@@ -453,9 +458,11 @@ async function topOfQ(query, lang) {
 
 // Soft assertions — Nominatim has its own name:ar for these. We just
 // require: (a) non-empty result, (b) Arabic-script displayName, (c) no
-// Latin chars leaking through.
+// Latin chars leaking through. PACED with 1.2s sleeps to respect
+// Nominatim's 1-req/sec policy.
 const softCases = ['Göreme', 'Üsküdar', 'Çeşme', 'İzmir', 'Kaş'];
 for (const q of softCases) {
+    await sleep(1200);
     const r = await topOfQ(q, 'ar');
     const dn = r && r.displayName || '';
     const ok = r
@@ -475,9 +482,71 @@ const regressions = [
     ['Mecca',         'مكة المكرمة', 'curated']
 ];
 for (const [q, expDisplay, expQuality] of regressions) {
+    // Pace external-bound queries. Curated (Riyadh, Mecca) don't hit
+    // Nominatim but sleeping for them too keeps the code simple.
+    if (q !== 'Riyadh' && q !== 'Mecca') await sleep(1200);
     const r = await topOfQ(q, 'ar');
     check(`Regression ${q} AR → "${expDisplay}" (q=${expQuality}) (got "${r && r.displayName}" q=${r && r.nameQuality})`,
         r && r.displayName === expDisplay && r.nameQuality === expQuality);
+}
+
+// GLOBAL-PLACE-SEARCH-L10N-CJK-1 (2026-05-13) — China + Japan overrides
+// =====================================================================
+// CJK tier sits ABOVE Nominatim namedetails for cc=cn|jp because the
+// curated dict has cleaner canonical names than Nominatim's `name:ar`
+// for several cities (Shenzhen, Guangzhou, Kobe, etc.). Tests assert
+// the canonical Arabic value via strict equality.
+console.log('\n── L10N-CJK-1: China + Japan canonical overrides ──');
+
+const cjkCases = [
+    // China
+    ['Beijing',    'بكين'],
+    ['Shanghai',   'شنغهاي'],
+    ['Guangzhou',  'قوانغتشو'],
+    ['Shenzhen',   'شينزن'],
+    ['Xian',       'شيان'],
+    ['Hangzhou',   'هانغتشو'],
+    ['Nanjing',    'نانجينغ'],
+    ['Chengdu',    'تشنغدو'],
+    ['Wuhan',      'ووهان'],
+    ['Chongqing',  'تشونغتشينغ'],
+    // Japan
+    ['Tokyo',      'طوكيو'],
+    ['Osaka',      'أوساكا'],
+    ['Kyoto',      'كيوتو'],
+    ['Yokohama',   'يوكوهاما'],
+    ['Sapporo',    'سابورو'],
+    ['Nagoya',     'ناغويا'],
+    ['Kobe',       'كوبي'],
+    ['Fukuoka',    'فوكوكا'],
+    ['Hiroshima',  'هيروشيما'],
+    ['Nagasaki',   'ناغاساكي']
+];
+for (const [q, expected] of cjkCases) {
+    await sleep(1200);  // pace Nominatim-bound queries
+    const r = await topOfQ(q, 'ar');
+    // Accept either our 'override' tier OR Nominatim 'official' if the
+    // value matches the expected canonical name. Most should be 'override'
+    // since the dict beats Nominatim for the listed cities.
+    const ok = r && r.displayName === expected
+        && (r.nameQuality === 'override' || r.nameQuality === 'official');
+    check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
+}
+
+// Alias / historical name tests
+{
+    await sleep(1200);
+    const r = await topOfQ('Peking', 'ar');
+    check(`Peking AR (historical alias) → "بكين" (got "${r && r.displayName}")`,
+        r && r.displayName === 'بكين');
+}
+{
+    await sleep(1200);
+    const r = await topOfQ('Canton', 'ar');
+    // "Canton" might match other places (e.g. Canton, USA) — accept
+    // either canonical Guangzhou OR any Arabic-only displayName.
+    const ok = r && /[؀-ۿ]/.test(r.displayName) && !/[a-zA-Z]/.test(r.displayName);
+    check(`Canton AR → Arabic-only display (got "${r && r.displayName}")`, ok);
 }
 
 console.log('');

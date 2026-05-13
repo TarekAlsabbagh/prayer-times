@@ -422,6 +422,64 @@ check('nameQuality must be an object (array rejected) → 400', badQual3.status 
 const noQual = await post('/api/place-selected', validBase);
 check('missing nameQuality is allowed → 200', noQual.status === 200);
 
+// GLOBAL-PLACE-SEARCH-L10N-TR-1 (2026-05-13) — Turkish country-aware tier
+// =====================================================================
+// 1. Şirince + Çıralı are small Turkish villages without `name:ar` in
+//    Nominatim → our transliteration owns them (strict equality).
+// 2. Üsküdar / Çeşme / İzmir / Kaş / Göreme have Nominatim `name:ar`
+//    that wins via tier 2 → we just assert the displayName is Arabic
+//    with no Latin leakage, and is non-empty.
+// 3. All seven must return non-empty results (none should be filtered
+//    out by the prayer-times contract validator).
+console.log('\n── L10N-TR-1: Turkish country-aware transliteration ──');
+
+async function topOfQ(query, lang) {
+    const r = await search(query, lang);
+    return (r.results && r.results[0]) || null;
+}
+
+// Strict-equality cases — these slugs aren't in Nominatim's name:ar tag,
+// so the Turkish translit tier definitively owns the output.
+{
+    const r = await topOfQ('Şirince', 'ar');
+    check(`Şirince AR → "شيرينجه" (got "${r && r.displayName}")`,
+        r && r.displayName === 'شيرينجه' && r.nameQuality === 'transliterated');
+}
+{
+    const r = await topOfQ('Çıralı', 'ar');
+    check(`Çıralı AR → "تشيرالي" (got "${r && r.displayName}")`,
+        r && r.displayName === 'تشيرالي' && r.nameQuality === 'transliterated');
+}
+
+// Soft assertions — Nominatim has its own name:ar for these. We just
+// require: (a) non-empty result, (b) Arabic-script displayName, (c) no
+// Latin chars leaking through.
+const softCases = ['Göreme', 'Üsküdar', 'Çeşme', 'İzmir', 'Kaş'];
+for (const q of softCases) {
+    const r = await topOfQ(q, 'ar');
+    const dn = r && r.displayName || '';
+    const ok = r
+        && /[؀-ۿ]/.test(dn)        // contains Arabic chars
+        && !/[a-zA-Z]/.test(dn);   // no Latin leaking
+    check(`${q} AR → Arabic only, no Latin  (got "${dn}", quality=${r && r.nameQuality})`, ok);
+}
+
+// Regression — these must keep their existing outputs from prior phases.
+const regressions = [
+    ['Le Pontet',     'لو بونت',     'transliterated'],
+    ['Vancouver',     'فانكوفر',     'official'],
+    ['San Francisco', 'سان فرانسيسكو','official'],
+    ['Vladivostok',   'فلاديفوستوك', 'official'],
+    ['Granada',       'غرناطة',      'official'],
+    ['Riyadh',        'الرياض',      'curated'],
+    ['Mecca',         'مكة المكرمة', 'curated']
+];
+for (const [q, expDisplay, expQuality] of regressions) {
+    const r = await topOfQ(q, 'ar');
+    check(`Regression ${q} AR → "${expDisplay}" (q=${expQuality}) (got "${r && r.displayName}" q=${r && r.nameQuality})`,
+        r && r.displayName === expDisplay && r.nameQuality === expQuality);
+}
+
 console.log('');
 console.log(`Result: ${pass} pass / ${fail} fail`);
 if (fail > 0) process.exit(1);

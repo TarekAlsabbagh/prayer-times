@@ -97,12 +97,21 @@ function _normSearchText(s) {
     return out;
 }
 
-// GLOBAL-PLACE-SEARCH-LANG-1 (2026-05-12): the 10 UI languages this
-// site supports. Every search result MUST be localizable to each one
-// via either curated data or runtime resolution. `Intl.DisplayNames`
-// generates accurate country names for all 10 (verified) so we don't
-// have to hand-curate a 200-country × 10-lang static dict.
-const _SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
+// GLOBAL-PLACE-SEARCH-LANG-1 (2026-05-12) + L10N-TR-1 (2026-05-13):
+// the L10N pipeline now lives in `server/place-l10n/`. server.js wires
+// it in as local consts so the rest of the file (which references the
+// short underscore names) keeps working without further edits.
+//
+// `_getCountryName` (Intl.DisplayNames) intentionally STAYS here — it's
+// used by code paths outside the L10N pipeline (Phase C upsert flow's
+// `_mapDiscoveredRow` admin-country fallback). Moving it would force a
+// wider refactor than this phase's scope.
+const _placeL10n = require('./server/place-l10n');
+const _SUPPORTED_LANGS              = _placeL10n.SUPPORTED_LANGS;
+const _pickLocalizedDisplay         = _placeL10n.pickLocalizedDisplay;
+const _pickLocalizedDisplayQ        = _placeL10n.pickLocalizedDisplayQ;
+const _extractNamedetailsByLang     = _placeL10n.extractNamedetailsByLang;
+const _transliterateLatinToArabic   = _placeL10n.transliterateLatinToArabic;
 
 // Cached `Intl.DisplayNames` instances per lang — avoid recreating on
 // every request (Intl.DisplayNames construction is non-trivial).
@@ -120,202 +129,12 @@ function _getCountryName(cc, lang) {
     } catch (_) { return ''; }
 }
 
-// ═══ GLOBAL-PLACE-SEARCH-L10N-PIPELINE (2026-05-12) ═══
-// Approximate Latin → Arabic transliteration. Used as a fallback tier
-// in `_pickLocalizedDisplayQ` when Nominatim has NO `name:ar` namedetail
-// for a place and we'd otherwise leak Latin into the Arabic UI.
-// NOT perfect transliteration — known limitations:
-//   * vowels are dropped/duplicated approximately ("Pontet" → "بونتت")
-//   * letter "c" is contextual (c+e/i → س, else → ك)
-//   * proper Arabic morphology / ta-marbuta / hamza placement NOT applied
-// The output is marked `quality: 'transliterated'` so downstream
-// (Phase D admin review) can promote curated Arabic names later.
-const _AR_TRANSLIT_BIGRAMS = {
-    'ph': 'ف', 'sh': 'ش', 'ch': 'ش', 'th': 'ث', 'kh': 'خ',
-    'gh': 'غ', 'dh': 'ذ', 'oo': 'و', 'ee': 'ي', 'ou': 'و',
-    'eu': 'و', 'ai': 'اي', 'ei': 'اي', 'oi': 'وا', 'au': 'و',
-    'ck': 'ك'
-};
-const _AR_TRANSLIT_LETTERS = {
-    'a': 'ا', 'b': 'ب', 'd': 'د', 'e': '', 'f': 'ف', 'g': 'ج',
-    'h': 'ه', 'i': 'ي', 'j': 'ج', 'k': 'ك', 'l': 'ل', 'm': 'م',
-    'n': 'ن', 'o': 'و', 'p': 'ب', 'q': 'ق', 'r': 'ر', 's': 'س',
-    't': 'ت', 'u': 'و', 'v': 'ف', 'w': 'و', 'x': 'كس', 'y': 'ي',
-    'z': 'ز'
-};
-// Common French/Italian/Spanish word-particles to handle BEFORE
-// char-by-char. Conservative — avoids accidental rewrites.
-const _AR_TRANSLIT_PARTICLES = [
-    [/\bsaint\s/g, 'سان '],   [/\bsainte\s/g, 'سانت '],
-    [/\bsan\s/g, 'سان '],     [/\bsanta\s/g, 'سانتا '],
-    [/\bsanto\s/g, 'سانتو '], [/\bsão\s/g, 'ساو '],
-    [/\bles\s/g, 'لو '],       [/\ble\s/g, 'لو '],
-    [/\bla\s/g, 'لا '],         [/\bvon\s/g, 'فون '],
-    [/\bnew\s/g, 'نيو '],      [/\bvilla\s/g, 'فيلا '],
-    [/\bville\s/g, 'فيل '],     [/\bsur\s/g, 'سور '],
-    [/\bsous\s/g, 'سو '],       [/\bport\s/g, 'بور '],
-    [/\bel\s/g, 'إل '],         [/\bal-/g, 'ال'],
-    [/\bel-/g, 'ال'],            [/\bde\s/g, 'دو '],
-    [/\bdu\s/g, 'دو '],          [/\bdes\s/g, 'دي '],
-    [/\bda\s/g, 'دا '],           [/\bdi\s/g, 'دي '],
-    [/\bdo\s/g, 'دو ']
-];
-
-function _transliterateLatinToArabic(s) {
-    if (!s || typeof s !== 'string') return '';
-    // Normalize: lowercase, strip diacritics, collapse separators
-    let t = s.toLowerCase()
-        .normalize('NFD').replace(/[̀-ͯ]/g, '')
-        .replace(/[-'']/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    if (!t) return '';
-    // Apply word particles first
-    for (const [re, rep] of _AR_TRANSLIT_PARTICLES) t = t.replace(re, rep);
-    // Char-by-char with bigram lookahead
-    let out = '';
-    let i = 0;
-    let wordStart = 0;  // index of current word start in `t`
-    while (i < t.length) {
-        const ch = t[i];
-        const nx = t[i + 1];
-        // Already-Arabic char passes through
-        if (/[؀-ۿ]/.test(ch)) { out += ch; i++; continue; }
-        // Whitespace passes through; reset word boundary
-        if (/\s/.test(ch)) { out += ' '; i++; wordStart = i; continue; }
-        // L10N-PIPELINE (2026-05-13): French silent `-et` ending.
-        // When we hit `e` followed by `t` at the END of a word AND the
-        // word is long enough (>= 4 source chars total), skip BOTH —
-        // the trailing `t` is silent in French place names (Pontet,
-        // Calvet, Robinet …). Guard rail: min 2 chars BEFORE the `e`
-        // so we never mangle short words like "set" / "let" / "wet".
-        // Examples:
-        //   pontet → "بونت"   (NOT "بونتت")
-        //   calvet → "كالف"
-        //   set    → "ست"     (rule skipped; word too short)
-        if (ch === 'e' && nx === 't'
-            && (t[i + 2] === undefined || /\s/.test(t[i + 2]))
-            && (i - wordStart) >= 2) {
-            i += 2;
-            continue;
-        }
-        // Bigram lookup
-        const bg = ch + (nx || '');
-        if (_AR_TRANSLIT_BIGRAMS[bg]) { out += _AR_TRANSLIT_BIGRAMS[bg]; i += 2; continue; }
-        // Contextual c: before e/i/y → س, else → ك
-        if (ch === 'c') {
-            if (nx === 'e' || nx === 'i' || nx === 'y') { out += 'س'; i++; }
-            else { out += 'ك'; i++; }
-            continue;
-        }
-        // Single letter
-        if (_AR_TRANSLIT_LETTERS[ch] !== undefined) {
-            out += _AR_TRANSLIT_LETTERS[ch]; i++; continue;
-        }
-        // Drop unknown (punctuation, digits, etc.)
-        i++;
-    }
-    // Collapse multi-space + strip leading-space + remove leftover Latin
-    return out.replace(/[a-z]/gi, '').replace(/\s+/g, ' ').trim();
-}
-
-// Pick the best `displayName` for a place + UI lang, applying the full
-// per-spec L10N-PIPELINE. Returns `{ value, quality }` where quality
-// is one of:
-//   'curated'        — names[lang] from curated/discovered store
-//   'official'       — namedetails name:lang from Nominatim
-//   'alias'          — aliases[lang][0] from curated
-//   'alias_lang'     — AR-only: an Arabic-script name from another lang slot
-//   'transliterated' — AR-only: approximate Latin→Arabic transliteration
-//   'fallback_en'    — names.en
-//   'fallback_raw'   — raw OSM name (Latin)
-//   'empty'          — nothing produced
-//
-// AR is the only lang that gets the alias_lang + transliterated tiers,
-// because Latin inside Arabic UI looks bad. Other Latin-script langs
-// (en/fr/de/es/id/ms/tr/vi) just fall through to fallback_en/raw.
-function _pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName) {
-    const code = String(lang || 'ar').toLowerCase();
-    const names = (place && place.names) || {};
-    const aliases = (place && place.aliases) || {};
-    const nd = namedetailsByLang || {};
-
-    // 1. curated/discovered names[lang]
-    if (typeof names[code] === 'string' && names[code].trim()) {
-        return { value: names[code].trim(), quality: 'curated' };
-    }
-    // 2. external namedetails name:lang
-    if (typeof nd[code] === 'string' && nd[code].trim()) {
-        return { value: nd[code].trim(), quality: 'official' };
-    }
-    // 3. first alias in this lang
-    if (Array.isArray(aliases[code]) && aliases[code].length > 0
-        && typeof aliases[code][0] === 'string' && aliases[code][0].trim()) {
-        return { value: aliases[code][0].trim(), quality: 'alias' };
-    }
-    // 4. AR-only — refuse Latin if any Arabic-script alternative exists
-    //    Scans BOTH curated names AND Nominatim namedetails.
-    if (code === 'ar') {
-        for (const k of _SUPPORTED_LANGS) {
-            const v = names[k];
-            if (typeof v === 'string' && /[؀-ۿ]/.test(v)) {
-                return { value: v.trim(), quality: 'alias_lang' };
-            }
-            const vd = nd[k];
-            if (typeof vd === 'string' && /[؀-ۿ]/.test(vd)) {
-                return { value: vd.trim(), quality: 'alias_lang' };
-            }
-        }
-        if (fallbackRawName && /[؀-ۿ]/.test(String(fallbackRawName))) {
-            return { value: String(fallbackRawName).trim(), quality: 'alias_lang' };
-        }
-        // 5. AR-only transliteration from the best Latin source available
-        const latinSrc = (typeof names.en === 'string' && names.en.trim())
-            ? names.en.trim()
-            : (typeof nd.en === 'string' && nd.en.trim())
-                ? nd.en.trim()
-                : (fallbackRawName ? String(fallbackRawName).trim() : '');
-        if (latinSrc) {
-            const translit = _transliterateLatinToArabic(latinSrc);
-            // Only accept if it produced a non-trivial Arabic string
-            if (translit && /[؀-ۿ]/.test(translit) && translit.length >= 2) {
-                return { value: translit, quality: 'transliterated' };
-            }
-        }
-    }
-    // 6. English fallback
-    if (typeof names.en === 'string' && names.en.trim()) {
-        return { value: names.en.trim(), quality: 'fallback_en' };
-    }
-    if (typeof nd.en === 'string' && nd.en.trim()) {
-        return { value: nd.en.trim(), quality: 'fallback_en' };
-    }
-    // 7. Raw OSM name — last resort. May leak Latin even for AR.
-    if (fallbackRawName) {
-        return { value: String(fallbackRawName).trim(), quality: 'fallback_raw' };
-    }
-    return { value: '', quality: 'empty' };
-}
-
-// Back-compat shim — returns just the string. New code should call
-// `_pickLocalizedDisplayQ` to also get the `quality` tag.
-function _pickLocalizedDisplay(place, lang, namedetailsByLang, fallbackRawName) {
-    return _pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName).value;
-}
-
-// Build a `names` object from a Nominatim result for all 10 langs that
-// have a `namedetails[name:{lang}]` tag. Missing langs stay undefined
-// so callers know to fall back. (External enrichment for missing langs
-// is deferred to Phase D — Wikidata/GeoNames sync.)
-function _extractNamedetailsByLang(nd) {
-    const out = {};
-    if (!nd || typeof nd !== 'object') return out;
-    for (const lang of _SUPPORTED_LANGS) {
-        const k = 'name:' + lang;
-        if (typeof nd[k] === 'string' && nd[k].trim()) out[lang] = nd[k].trim();
-    }
-    return out;
-}
+// (L10N pipeline + generic transliteration + extractNamedetailsByLang +
+// pickLocalizedDisplay/Q moved to `server/place-l10n/index.js` as part of
+// GLOBAL-PLACE-SEARCH-L10N-TR-1 (2026-05-13). The `_` -prefixed locals
+// declared above re-export the module's surface so the rest of this file
+// keeps compiling. New per-country transliterations land as sibling files
+// in `server/place-l10n/` — `server.js` shouldn't grow further L10N code.)
 
 // Phase-A search. Pure local lookup against `_CURATED_PLACES`. Returns
 // at most 10 results in the unified contract shape, validated.
@@ -369,7 +188,7 @@ function _searchCuratedPlaces(query, lang) {
         // L10N-PIPELINE: surface nameQuality so the API exposes how
         // the name was resolved (curated > namedetails > transliteration).
         const code = String(lang || 'ar').toLowerCase();
-        const picked = _pickLocalizedDisplayQ(p, code, null, p.slug);
+        const picked = _pickLocalizedDisplayQ(p, code, null, p.slug, p.countryCode);
         const displayName = picked.value;
         const nameQuality = picked.quality;
         // Prefer admin.country.{lang} from curated data if explicitly
@@ -562,7 +381,7 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     // as the Latin source for AR transliteration.
     const synthPlace = { names: {}, aliases: {} };
     const picked = _pickLocalizedDisplayQ(
-        synthPlace, code, namedetailsByLang, _stripAdminSuffix(p.name || enName)
+        synthPlace, code, namedetailsByLang, _stripAdminSuffix(p.name || enName), cc
     );
     let displayName = picked.value;
     let nameQuality = picked.quality;
@@ -801,7 +620,7 @@ function _mapDiscoveredRow(row, lang) {
     // L10N-PIPELINE: discovered rows go through the same full pipeline.
     // Pre-stored name_quality (Phase D) will override this; for now we
     // recompute on read.
-    const picked = _pickLocalizedDisplayQ(synthPlace, code, null, row.slug);
+    const picked = _pickLocalizedDisplayQ(synthPlace, code, null, row.slug, row.country_code);
     const displayName = picked.value;
     const nameQuality = picked.quality;
     if (!displayName) return null;

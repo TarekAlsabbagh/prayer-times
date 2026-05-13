@@ -1746,5 +1746,353 @@
     "priority": 85,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "berlin",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 52.52,
+    "lng": 13.405,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "برلين",
+      "en": "Berlin",
+      "fr": "Berlin",
+      "de": "Berlin",
+      "tr": "Berlin",
+      "ur": "برلن",
+      "id": "Berlin",
+      "es": "Berlín",
+      "bn": "বার্লিন",
+      "ms": "Berlin"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "munich",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 48.1351,
+    "lng": 11.582,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "ميونخ",
+      "en": "Munich",
+      "fr": "Munich",
+      "de": "München",
+      "tr": "Münih",
+      "ur": "میونخ",
+      "id": "München",
+      "es": "Múnich",
+      "bn": "মিউনিখ",
+      "ms": "Munich"
+    },
+    "aliases": {
+      "en": [
+        "München"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "cologne",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 50.9375,
+    "lng": 6.9603,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "كولونيا",
+      "en": "Cologne",
+      "fr": "Cologne",
+      "de": "Köln",
+      "tr": "Köln",
+      "ur": "کولون",
+      "id": "Köln",
+      "es": "Colonia",
+      "bn": "কোলন",
+      "ms": "Cologne"
+    },
+    "aliases": {
+      "en": [
+        "Köln",
+        "Koln"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hamburg",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 53.5511,
+    "lng": 9.9937,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هامبورغ",
+      "en": "Hamburg",
+      "fr": "Hambourg",
+      "de": "Hamburg",
+      "tr": "Hamburg",
+      "ur": "ہیمبرگ",
+      "id": "Hamburg",
+      "es": "Hamburgo",
+      "bn": "হামবুর্গ",
+      "ms": "Hamburg"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "frankfurt",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 50.1109,
+    "lng": 8.6821,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "فرانكفورت",
+      "en": "Frankfurt",
+      "fr": "Francfort",
+      "de": "Frankfurt am Main",
+      "tr": "Frankfurt",
+      "ur": "فرینکفرٹ",
+      "id": "Frankfurt",
+      "es": "Fráncfort",
+      "bn": "ফ্রাংকফুর্ট",
+      "ms": "Frankfurt"
+    },
+    "aliases": {
+      "en": [
+        "Frankfurt am Main"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "stuttgart",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 48.7758,
+    "lng": 9.1829,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "شتوتغارت",
+      "en": "Stuttgart",
+      "fr": "Stuttgart",
+      "de": "Stuttgart",
+      "tr": "Stuttgart",
+      "ur": "شٹٹگارٹ",
+      "id": "Stuttgart",
+      "es": "Stuttgart",
+      "bn": "স্টুটগার্ট",
+      "ms": "Stuttgart"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "dusseldorf",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 51.2277,
+    "lng": 6.7735,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "دوسلدورف",
+      "en": "Düsseldorf",
+      "fr": "Düsseldorf",
+      "de": "Düsseldorf",
+      "tr": "Düsseldorf",
+      "ur": "ڈسلڈورف",
+      "id": "Düsseldorf",
+      "es": "Düsseldorf",
+      "bn": "ডুসেলডর্ফ",
+      "ms": "Düsseldorf"
+    },
+    "aliases": {
+      "en": [
+        "Dusseldorf",
+        "Duesseldorf"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nuremberg",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 49.4521,
+    "lng": 11.0767,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "نورنبرغ",
+      "en": "Nuremberg",
+      "fr": "Nuremberg",
+      "de": "Nürnberg",
+      "tr": "Nürnberg",
+      "ur": "نیورمبرگ",
+      "id": "Nürnberg",
+      "es": "Núremberg",
+      "bn": "নুরেমবার্গ",
+      "ms": "Nuremberg"
+    },
+    "aliases": {
+      "en": [
+        "Nürnberg",
+        "Nurnberg"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bonn",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 50.7374,
+    "lng": 7.0982,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "بون",
+      "en": "Bonn",
+      "fr": "Bonn",
+      "de": "Bonn",
+      "tr": "Bonn",
+      "ur": "بون",
+      "id": "Bonn",
+      "es": "Bonn",
+      "bn": "বন",
+      "ms": "Bonn"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 75,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "vienna",
+    "type": "city",
+    "countryCode": "at",
+    "lat": 48.2082,
+    "lng": 16.3738,
+    "timezone": "Europe/Vienna",
+    "names": {
+      "ar": "فيينا",
+      "en": "Vienna",
+      "fr": "Vienne",
+      "de": "Wien",
+      "tr": "Viyana",
+      "ur": "ویانا",
+      "id": "Wina",
+      "es": "Viena",
+      "bn": "ভিয়েনা",
+      "ms": "Vienna"
+    },
+    "aliases": {
+      "en": [
+        "Wien"
+      ]
+    },
+    "admin": {
+      "countryAr": "النمسا",
+      "countryEn": "Austria"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "zurich",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.3769,
+    "lng": 8.5417,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "زيورخ",
+      "en": "Zurich",
+      "fr": "Zurich",
+      "de": "Zürich",
+      "tr": "Zürih",
+      "ur": "زیورخ",
+      "id": "Zürich",
+      "es": "Zúrich",
+      "bn": "জুরিখ",
+      "ms": "Zurich"
+    },
+    "aliases": {
+      "en": [
+        "Zürich",
+        "Zuerich"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
   }
 ]

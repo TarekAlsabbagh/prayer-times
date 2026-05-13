@@ -31,6 +31,7 @@
 
 const turkish  = require('./transliterate-tr');
 const japanese = require('./transliterate-jp');
+const german   = require('./transliterate-de');
 const cjk      = require('./transliterate-cjk');
 const romance  = require('./romance-overrides');
 const script   = require('./detect-script');
@@ -180,10 +181,16 @@ function extractNamedetailsByLang(nd) {
 //      because for Romance countries Nominatim's name:ar is usually
 //      correct — the dict catches cases where it's missing or weak
 //      (small/historic cities).
+//   6b. *AR-only German-speaking override (DE/AT/CH dict)* → 'override'
+//      ↳ countryCode === 'de'|'at'|'ch'. Historical Arabic names
+//      (Köln → كولونيا, Wien → فيينا, Zürich → زيورخ).
 //   7a. *AR-only: Japanese romaji transliteration* → 'transliterated'
 //      ↳ countryCode === 'jp'. Uses غ for /g/ (e.g. Katsuragawa → كاتسوراغاوا).
 //   7b. *AR-only: Turkish country-specific transliteration* → 'transliterated'
 //      ↳ countryCode === 'tr' OR source has [ŞşÇçĞğİıÖöÜö]
+//   7c. *AR-only: German phonetic transliteration* → 'transliterated'
+//      ↳ countryCode === 'de'|'at'|'ch'. Handles ä/ö/ü/ß + word-initial
+//      sch/st/sp + g→غ.
 //   8. *AR-only: generic Latin→Arabic transliteration* → 'transliterated'
 //      ↳ source priority: names.en, nd.en, nd.ja_latn, nd.ko_latn,
 //      nd.zh_latn, nd.int_name, fallbackRawName (only if Latin).
@@ -251,6 +258,19 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             if (romHit) return { value: romHit, quality: 'override' };
         }
 
+        // 6b. AR-only — German override (DE/AT/CH canonical/historic names).
+        //     Sits at the same tier as Romance (post-Nominatim) because
+        //     name:ar from Nominatim is usually correct for big German
+        //     cities; this dict covers the historical Arabic forms
+        //     (Köln → كولونيا, Wien → فيينا, Zürich → زيورخ).
+        const ccLowerDe = ccLowerRom; // same lowercased cc value, reuse
+        if (['de','at','ch'].includes(ccLowerDe)) {
+            const deHit = german.lookupGermanArabic(
+                ccLowerDe, nd.en, names.en, nd.de, names.de, fallbackRawName
+            );
+            if (deHit) return { value: deHit, quality: 'override' };
+        }
+
         // 7a. AR-only — Japanese romaji transliteration (cc='jp' OR
         //     romanized source comes from name:ja-Latn). Uses ghain (غ)
         //     for Japanese 'g' instead of generic ج. Examples:
@@ -283,6 +303,27 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             const tr = turkish.transliterateTurkishToArabic(trSrcRaw);
             if (tr && /[؀-ۿ]/.test(tr) && tr.length >= 2) {
                 return { value: tr, quality: 'transliterated' };
+            }
+        }
+
+        // 7c. AR-only — German phonetic transliteration (DE/AT/CH).
+        //     Handles ä/ö/ü/ß + word-initial sch/st/sp + g→غ. Cities in
+        //     the override dict (tier 6b) already won; this catches
+        //     unlisted German-speaking cities. Source priority: nd.de
+        //     (preserves umlauts) > names.de > nd.en > names.en > raw.
+        const ccLowerDeT = ccLowerTr; // same lowercased cc value, reuse
+        if (['de','at','ch'].includes(ccLowerDeT)) {
+            const deSrc = (typeof nd.de === 'string' && nd.de.trim()) ? nd.de.trim()
+                        : (typeof names.de === 'string' && names.de.trim()) ? names.de.trim()
+                        : (typeof nd.en === 'string' && nd.en.trim()) ? nd.en.trim()
+                        : (typeof names.en === 'string' && names.en.trim()) ? names.en.trim()
+                        : (fallbackRawName && script.isLatin(fallbackRawName) ? String(fallbackRawName).trim() : '');
+            if (deSrc) {
+                const clean = script.stripPlaceSuffix(deSrc) || deSrc;
+                const de = german.transliterateGermanToArabic(clean);
+                if (de && /[؀-ۿ]/.test(de) && de.length >= 2) {
+                    return { value: de, quality: 'transliterated' };
+                }
             }
         }
 
@@ -360,6 +401,7 @@ module.exports = {
     // them via the single entry point if they need to.
     turkish,
     japanese,
+    german,
     cjk,
     romance,
     script

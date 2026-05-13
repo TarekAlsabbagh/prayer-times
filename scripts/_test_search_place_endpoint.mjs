@@ -610,6 +610,35 @@ for (const [q, expected] of romanceCases) {
         r && r.displayName === 'غرناطة');
 }
 
+// GLOBAL-PLACE-SEARCH-L10N-DE-1 (2026-05-13) — German/Austrian/Swiss
+// =====================================================================
+// 11 user-listed cities. All in curated → tier 1 wins; tests assert
+// strict equality on the canonical Arabic value.
+console.log('\n── L10N-DE-1: German / Austrian / Swiss canonical names ──');
+const germanCases = [
+    ['München',     'ميونخ'],
+    ['Munich',      'ميونخ'],
+    ['Köln',        'كولونيا'],
+    ['Cologne',     'كولونيا'],
+    ['Wien',        'فيينا'],
+    ['Vienna',      'فيينا'],
+    ['Zürich',      'زيورخ'],
+    ['Zurich',      'زيورخ'],
+    ['Düsseldorf',  'دوسلدورف'],
+    ['Nürnberg',    'نورنبرغ'],
+    ['Hamburg',     'هامبورغ'],
+    ['Frankfurt',   'فرانكفورت'],
+    ['Stuttgart',   'شتوتغارت'],
+    ['Berlin',      'برلين'],
+    ['Bonn',        'بون']
+];
+for (const [q, expected] of germanCases) {
+    const r = await topOfQ(q, 'ar');
+    const ok = r && r.displayName === expected
+        && (r.nameQuality === 'curated' || r.nameQuality === 'override' || r.nameQuality === 'official');
+    check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
+}
+
 // GLOBAL-PLACE-SEARCH-L10N-SCRIPT-FALLBACK-1 (2026-05-13)
 // =====================================================================
 // AR pipeline must NEVER surface raw CJK / Hangul / Cyrillic as the

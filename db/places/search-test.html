@@ -7,6 +7,10 @@
          NEVER crawled or indexed. Excluded from sitemap.xml as well. -->
     <meta name="robots" content="noindex,nofollow">
     <link rel="canonical" href="/search-test">
+    <!-- SEARCH-UI-FLAG-FIX (2026-05-13): flag emojis don't render on Windows
+         (Segoe UI Emoji has no flag glyphs — Microsoft policy). Use
+         flagcdn.com PNG images instead. Preconnect for faster first paint. -->
+    <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <title>Search Test (noindex) — /api/search-place Phase A</title>
     <style>
         /* Self-contained styles — no dependency on css/style.css so the
@@ -168,11 +172,23 @@
                 background: rgba(74, 222, 128, 0.12);
             }
         }
+        /* SEARCH-UI-FLAG-FIX: container for <img> from flagcdn.com. The
+           emoji approach didn't render on Windows. PNG images are
+           cross-platform and pixel-perfect at any DPR via srcset. */
         .search-test-result-flag {
             flex: 0 0 auto;
-            font-size: 22px;
-            line-height: 1;
+            width: 28px;
+            height: 21px;
             display: inline-block;
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+        }
+        .search-test-result-flag img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
         }
         .search-test-result-text {
             display: flex;
@@ -323,7 +339,21 @@
             // start-edge for AR (visually right), LTR start-edge for EN
             // (visually left) — handled by `flex-direction` via CSS.
             box.innerHTML = lastResults.map((r, i) => {
-                const flag = r.countryFlag || '';
+                // SEARCH-UI-FLAG-FIX (2026-05-13): use flagcdn.com PNG
+                // instead of the emoji from r.countryFlag. The countryFlag
+                // emoji renders correctly on macOS/iOS/Android but Windows
+                // doesn't ship flag glyphs in Segoe UI Emoji — it falls back
+                // to showing the regional-indicator letters ("SA", "US" ...).
+                // Using <img> guarantees correct rendering everywhere.
+                const cc = (r.countryCode || '').toLowerCase();
+                const flagHtml = /^[a-z]{2}$/.test(cc)
+                    ? '<span class="search-test-result-flag" aria-hidden="true">'
+                      + '<img src="https://flagcdn.com/w40/' + cc + '.png"'
+                      +      ' srcset="https://flagcdn.com/w80/' + cc + '.png 2x"'
+                      +      ' alt="" width="28" height="21" loading="lazy"'
+                      +      ' decoding="async">'
+                    + '</span>'
+                    : '';
                 const display = escapeHtml(r.displayName || r.slug);
                 const typeL = escapeHtml(r.typeLabel || r.type || '');
                 const cName = escapeHtml(r.countryName || '');
@@ -332,7 +362,7 @@
                     : (typeL || cName);
                 return (
                     '<button class="search-test-result" type="button" role="option" data-idx="' + i + '">' +
-                      (flag ? '<span class="search-test-result-flag" aria-hidden="true">' + flag + '</span>' : '') +
+                      flagHtml +
                       '<span class="search-test-result-text">' +
                         '<strong>' + display + '</strong>' +
                         '<span>' + subtitle + '</span>' +

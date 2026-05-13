@@ -29,9 +29,11 @@
 
 'use strict';
 
-const turkish = require('./transliterate-tr');
-const cjk     = require('./transliterate-cjk');
-const romance = require('./romance-overrides');
+const turkish  = require('./transliterate-tr');
+const japanese = require('./transliterate-jp');
+const cjk      = require('./transliterate-cjk');
+const romance  = require('./romance-overrides');
+const script   = require('./detect-script');
 
 // ── 10 UI languages this site supports ─────────────────────────────────────
 const SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
@@ -129,12 +131,36 @@ function transliterateLatinToArabic(s) {
 }
 
 // ── Build a `names`-shaped object from Nominatim namedetails ──────────────
+// L10N-SCRIPT-FALLBACK-1 (2026-05-13): also extracts ROMANIZED variants
+// (name:ja-Latn, name:ko-Latn, name:zh-Latn, int_name) under non-lang-code
+// keys. These let `pickLocalizedDisplayQ` find a Latin source for AR
+// transliteration when the place's primary name is CJK/Hangul/etc.
+const ROMANIZED_KEYS = [
+    ['name:ja-Latn',     'ja_latn'],
+    ['name:ja_rm',       'ja_latn'],         // alt OSM tag for Hepburn
+    ['name:ja-Hira',     'ja_hira'],          // Hiragana (still JP script,
+                                              // not used for translit but
+                                              // captured for diagnostics)
+    ['name:ko-Latn',     'ko_latn'],
+    ['name:zh-Latn',     'zh_latn'],
+    ['name:zh-Pinyin',   'zh_latn'],
+    ['name:zh_pinyin',   'zh_latn'],
+    ['int_name',         'int_name'],
+    ['official_name:en', 'en_official']
+];
+
 function extractNamedetailsByLang(nd) {
     const out = {};
     if (!nd || typeof nd !== 'object') return out;
     for (const lang of SUPPORTED_LANGS) {
         const k = 'name:' + lang;
         if (typeof nd[k] === 'string' && nd[k].trim()) out[lang] = nd[k].trim();
+    }
+    // Romanized variants — only set if not already populated (first wins).
+    for (const [tag, slot] of ROMANIZED_KEYS) {
+        if (typeof nd[tag] === 'string' && nd[tag].trim() && !out[slot]) {
+            out[slot] = nd[tag].trim();
+        }
     }
     return out;
 }
@@ -154,11 +180,17 @@ function extractNamedetailsByLang(nd) {
 //      because for Romance countries Nominatim's name:ar is usually
 //      correct — the dict catches cases where it's missing or weak
 //      (small/historic cities).
-//   7. *AR-only: Turkish country-specific transliteration* → 'transliterated'
+//   7a. *AR-only: Japanese romaji transliteration* → 'transliterated'
+//      ↳ countryCode === 'jp'. Uses غ for /g/ (e.g. Katsuragawa → كاتسوراغاوا).
+//   7b. *AR-only: Turkish country-specific transliteration* → 'transliterated'
 //      ↳ countryCode === 'tr' OR source has [ŞşÇçĞğİıÖöÜö]
 //   8. *AR-only: generic Latin→Arabic transliteration* → 'transliterated'
+//      ↳ source priority: names.en, nd.en, nd.ja_latn, nd.ko_latn,
+//      nd.zh_latn, nd.int_name, fallbackRawName (only if Latin).
 //   9. names.en or namedetails.en           → 'fallback_en'
+//      ↳ AR refuses non-Latin non-Arabic values (CJK/Hangul/Cyrillic/etc.).
 //  10. fallbackRawName                      → 'fallback_raw'
+//      ↳ AR refuses non-Latin non-Arabic values (returns 'empty' instead).
 //  11. (nothing produced)                   → 'empty'
 function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, countryCode) {
     const code = String(lang || 'ar').toLowerCase();
@@ -219,29 +251,68 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             if (romHit) return { value: romHit, quality: 'override' };
         }
 
+        // 7a. AR-only — Japanese romaji transliteration (cc='jp' OR
+        //     romanized source comes from name:ja-Latn). Uses ghain (غ)
+        //     for Japanese 'g' instead of generic ج. Examples:
+        //         "Katsuragawa" → كاتسوراغاوا
+        //         "Mitsubishi"  → ميتسوبيشي
+        const ccLowerJp = String(countryCode || '').toLowerCase();
+        const jpLatinSrc = (nd.ja_latn && String(nd.ja_latn).trim()) ? String(nd.ja_latn).trim()
+                         : (nd.en && script.isLatin(nd.en)) ? String(nd.en).trim()
+                         : (names.en && script.isLatin(names.en)) ? String(names.en).trim()
+                         : (fallbackRawName && script.isLatin(fallbackRawName) ? String(fallbackRawName).trim() : '');
+        if (ccLowerJp === 'jp' && jpLatinSrc) {
+            const clean = script.stripPlaceSuffix(jpLatinSrc) || jpLatinSrc;
+            const jp = japanese.transliterateJapaneseRomajiToArabic(clean);
+            if (jp && /[؀-ۿ]/.test(jp) && jp.length >= 2) {
+                return { value: jp, quality: 'transliterated' };
+            }
+        }
+
         // 7. AR-only — Turkish country-specific transliteration.
         //    Turkish: prefer nd.tr / names.tr (preserves cedilla, breve,
         //    dotless-i etc.). Fall back to English/raw if no Turkish source.
         const ccLowerTr = String(countryCode || '').toLowerCase();
-        const trSrc = (typeof nd.tr   === 'string' && nd.tr.trim())   ? nd.tr.trim()
-                    : (typeof names.tr === 'string' && names.tr.trim()) ? names.tr.trim()
-                    : (typeof nd.en   === 'string' && nd.en.trim())   ? nd.en.trim()
-                    : (typeof names.en === 'string' && names.en.trim()) ? names.en.trim()
-                    : (fallbackRawName ? String(fallbackRawName).trim() : '');
-        const looksTurkish = ccLowerTr === 'tr' || turkish.isTurkishScript(trSrc);
-        if (looksTurkish && trSrc) {
-            const tr = turkish.transliterateTurkishToArabic(trSrc);
+        const trSrcRaw = (typeof nd.tr   === 'string' && nd.tr.trim())   ? nd.tr.trim()
+                       : (typeof names.tr === 'string' && names.tr.trim()) ? names.tr.trim()
+                       : (typeof nd.en   === 'string' && nd.en.trim())   ? nd.en.trim()
+                       : (typeof names.en === 'string' && names.en.trim()) ? names.en.trim()
+                       : (fallbackRawName && script.isLatin(fallbackRawName) ? String(fallbackRawName).trim() : '');
+        const looksTurkish = ccLowerTr === 'tr' || turkish.isTurkishScript(trSrcRaw);
+        if (looksTurkish && trSrcRaw) {
+            const tr = turkish.transliterateTurkishToArabic(trSrcRaw);
             if (tr && /[؀-ۿ]/.test(tr) && tr.length >= 2) {
                 return { value: tr, quality: 'transliterated' };
             }
         }
 
-        // 6. AR-only generic transliteration from the best Latin source
-        const latinSrc = (typeof names.en === 'string' && names.en.trim())
-            ? names.en.trim()
-            : (typeof nd.en === 'string' && nd.en.trim())
-                ? nd.en.trim()
-                : (fallbackRawName ? String(fallbackRawName).trim() : '');
+        // 8. AR-only generic transliteration from the best Latin source.
+        // L10N-SCRIPT-FALLBACK-1: source priority now includes romanized
+        // variants of CJK / Hangul (ja_latn, ko_latn, zh_latn, int_name)
+        // so a result like {name:"桂川町", name:en:"Katsuragawa Town",
+        // name:ja-Latn:"Katsuragawa-machi"} produces an Arabic
+        // transliteration ("كاتسوراغاوا") instead of leaking raw CJK.
+        // Each source is normalized via `stripPlaceSuffix` first to drop
+        // Town / City / -shi / -ku / -machi etc.
+        const latinCandidates = [
+            names.en,        nd.en,
+            names.ja_latn,   nd.ja_latn,
+            names.ko_latn,   nd.ko_latn,
+            names.zh_latn,   nd.zh_latn,
+            names.int_name,  nd.int_name,
+            names.en_official, nd.en_official
+        ];
+        if (fallbackRawName && script.isLatin(fallbackRawName)) {
+            latinCandidates.push(String(fallbackRawName));
+        }
+        let latinSrc = '';
+        for (const cand of latinCandidates) {
+            if (typeof cand !== 'string') continue;
+            const trimmed = cand.trim();
+            if (!trimmed || !script.isLatin(trimmed)) continue;
+            latinSrc = script.stripPlaceSuffix(trimmed) || trimmed;
+            break;
+        }
         if (latinSrc) {
             const translit = transliterateLatinToArabic(latinSrc);
             if (translit && /[؀-ۿ]/.test(translit) && translit.length >= 2) {
@@ -249,16 +320,27 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             }
         }
     }
-    // 7. English fallback
-    if (typeof names.en === 'string' && names.en.trim()) {
-        return { value: names.en.trim(), quality: 'fallback_en' };
+
+    // 9. English fallback — for non-AR langs, OR for AR when no Latin
+    //    transliteration succeeded above. Refuse non-Latin non-Arabic
+    //    values (CJK, Hangul, Cyrillic, …) when serving AR.
+    const enCand = (typeof names.en === 'string' && names.en.trim())
+        ? names.en.trim()
+        : (typeof nd.en === 'string' && nd.en.trim()) ? nd.en.trim() : '';
+    if (enCand) {
+        if (code !== 'ar' || !script.isNonLatinNonArabic(enCand)) {
+            return { value: enCand, quality: 'fallback_en' };
+        }
     }
-    if (typeof nd.en === 'string' && nd.en.trim()) {
-        return { value: nd.en.trim(), quality: 'fallback_en' };
-    }
-    // 8. Raw OSM name — last resort. May leak Latin even for AR.
+    // 10. Raw OSM name — last resort. For AR, REFUSE to leak CJK /
+    //     Hangul / Cyrillic / etc. (returns 'empty' instead so the
+    //     caller can filter the result out entirely).
     if (fallbackRawName) {
-        return { value: String(fallbackRawName).trim(), quality: 'fallback_raw' };
+        const raw = String(fallbackRawName).trim();
+        if (code === 'ar' && script.isNonLatinNonArabic(raw)) {
+            return { value: '', quality: 'empty' };
+        }
+        return { value: raw, quality: 'fallback_raw' };
     }
     return { value: '', quality: 'empty' };
 }
@@ -277,6 +359,8 @@ module.exports = {
     // Re-export country-specific helpers so server.js / tests can reach
     // them via the single entry point if they need to.
     turkish,
+    japanese,
     cjk,
-    romance
+    romance,
+    script
 };

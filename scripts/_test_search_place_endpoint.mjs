@@ -610,6 +610,59 @@ for (const [q, expected] of romanceCases) {
         r && r.displayName === 'غرناطة');
 }
 
+// GLOBAL-PLACE-SEARCH-L10N-SCRIPT-FALLBACK-1 (2026-05-13)
+// =====================================================================
+// AR pipeline must NEVER surface raw CJK / Hangul / Cyrillic as the
+// primary displayName. Verify by typing the native-script city name
+// directly into the search box and checking that:
+//   1. displayName contains Arabic chars and NO non-Latin non-Arabic
+//      script (no CJK / Hangul / Cyrillic).
+//   2. originalName preserves the native-script value for UI subtitles.
+console.log('\n── L10N-SCRIPT-FALLBACK-1: raw CJK / Cyrillic input ──');
+
+// Helper: regex for "displayName must NOT contain CJK/Hangul/Cyrillic"
+const NON_LATIN_NON_AR_RE = /[぀-ヿ㐀-䶿一-鿿가-힯Ѐ-ӿऀ-ॿঀ-৿฀-๿]/;
+
+// CJK queries — display must be Arabic, originalName must be CJK.
+{
+    await sleep(1500);
+    const r = await topOfQ('東京', 'ar');     // Tokyo
+    check(`東京 AR → display Arabic + orig has CJK (display="${r && r.displayName}", orig="${r && r.originalName}")`,
+        r && /[؀-ۿ]/.test(r.displayName)
+        && !NON_LATIN_NON_AR_RE.test(r.displayName)
+        && /[一-鿿]/.test(r.originalName || ''));
+}
+{
+    await sleep(1500);
+    const r = await topOfQ('京都市', 'ar');   // Kyoto City
+    check(`京都市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", orig="${r && r.originalName}")`,
+        r && /[؀-ۿ]/.test(r.displayName)
+        && !NON_LATIN_NON_AR_RE.test(r.displayName)
+        && /[一-鿿]/.test(r.originalName || ''));
+}
+{
+    await sleep(1500);
+    const r = await topOfQ('大阪市', 'ar');   // Osaka City
+    check(`大阪市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", orig="${r && r.originalName}")`,
+        r && r.displayName === 'أوساكا'
+        && /[一-鿿]/.test(r.originalName || ''));
+}
+{
+    await sleep(1500);
+    const r = await topOfQ('北京市', 'ar');   // Beijing City
+    check(`北京市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", orig="${r && r.originalName}")`,
+        r && r.displayName === 'بكين'
+        && /[一-鿿]/.test(r.originalName || ''));
+}
+
+// originalName field present on curated regressions (empty for now until
+// Phase D imports start populating it).
+{
+    const r = await topOfQ('Riyadh', 'ar');
+    check(`Riyadh AR → originalName field exists (is string) (got "${typeof (r && r.originalName)}")`,
+        r && typeof r.originalName === 'string');
+}
+
 console.log('');
 console.log(`Result: ${pass} pass / ${fail} fail`);
 if (fail > 0) process.exit(1);

@@ -356,7 +356,13 @@
                         // promote 'transliterated' → 'reviewed'.
                         nameQuality: r.nameQuality
                             ? { [LANG]: r.nameQuality }
-                            : {}
+                            : {},
+                        // L10N-SCRIPT-FALLBACK-1: the raw OSM `name` tag
+                        // (could be CJK/Hangul/Cyrillic/etc.). Server
+                        // stashes it in admin.originalName so future
+                        // reads can render the bilingual subtitle.
+                        originalName: typeof r.originalName === 'string'
+                            ? r.originalName : ''
                     };
                     fetch('/api/place-selected', {
                         method: 'POST',

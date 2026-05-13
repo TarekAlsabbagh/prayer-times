@@ -209,6 +209,12 @@ function _searchCuratedPlaces(query, lang) {
             type: p.type || 'city',
             displayName,
             secondaryName: (p.names && p.names.en) || p.slug,
+            // L10N-SCRIPT-FALLBACK-1: `originalName` is the place's name
+            // in its native script. For curated entries we store it in
+            // `admin.originalName` when known (Phase D imports), else
+            // empty. UI can render it as a small "(原名)" subtitle.
+            originalName: (p.admin && typeof p.admin.originalName === 'string')
+                ? p.admin.originalName : '',
             countryName,
             countryCode: p.countryCode,
             lat: p.lat,
@@ -402,11 +408,33 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     const imp = Number(p.importance);
     const confidence = isFinite(imp) ? Math.max(0, Math.min(100, Math.round(imp * 100))) : 50;
 
+    // L10N-SCRIPT-FALLBACK-1 (2026-05-13): preserve the raw OSM `name`
+    // tag separately so UI can render it as a secondary line (e.g.
+    // "كاتسوراغاوا" + small "桂川町" beneath). NEVER used as the
+    // primary displayName in AR — that's enforced inside
+    // `_pickLocalizedDisplayQ`.
+    //
+    // Source priority for the "raw original":
+    //   1. nd['name']      — OSM's untagged `name=*` (usually local-script)
+    //   2. nd['name:{local}'] — explicit native-language tag
+    //   3. p.name          — Nominatim's resolved primary (may be English
+    //                        if we cached at accept-language=en)
+    const localLang = ({ cn: 'zh', jp: 'ja', kr: 'ko', tw: 'zh',
+                         hk: 'zh', mo: 'zh', ru: 'ru', ua: 'uk',
+                         th: 'th', in: 'hi', bd: 'bn', kr: 'ko' })[cc] || '';
+    const originalName = String(
+        nd['name']
+        || (localLang ? nd['name:' + localLang] : '')
+        || p.name
+        || ''
+    ).trim();
+
     return {
         slug,
         type: _resolveExternalType(p),
         displayName,
         secondaryName: enName,
+        originalName,
         countryName,
         countryCode: cc,
         lat, lng,
@@ -636,6 +664,10 @@ function _mapDiscoveredRow(row, lang) {
         type: row.type || 'city',
         displayName,
         secondaryName: (synthPlace.names.en || row.slug),
+        // L10N-SCRIPT-FALLBACK-1: original raw OSM name preserved in
+        // admin.originalName when the discovered row was saved with one.
+        originalName: (row.admin && typeof row.admin.originalName === 'string')
+            ? row.admin.originalName : '',
         countryName,
         countryCode: row.country_code,
         lat: row.lat,
@@ -709,6 +741,12 @@ function _isValidDiscoveredInput(p) {
             if (!(v in _NAME_QUALITY_RANK)) return false;
         }
     }
+    // L10N-SCRIPT-FALLBACK-1: originalName is optional. If present it
+    // must be a string ≤ 200 chars (any script — that's the point).
+    if (p.originalName !== undefined && p.originalName !== null) {
+        if (typeof p.originalName !== 'string') return false;
+        if (p.originalName.length > 200) return false;
+    }
     return true;
 }
 
@@ -748,6 +786,12 @@ async function _upsertDiscoveredPlace(place) {
         const mergedNames    = Object.assign({}, row.names   || {}, place.names   || {});
         const mergedAliases  = _mergeAliases(row.aliases || {}, place.aliases || {});
         const mergedAdmin    = Object.assign({}, row.admin || {}, place.admin   || {});
+        // L10N-SCRIPT-FALLBACK-1: pull top-level `originalName` into admin
+        // if not already set (and not already populated on the row).
+        if (typeof place.originalName === 'string' && place.originalName.trim()
+            && !mergedAdmin.originalName) {
+            mergedAdmin.originalName = place.originalName.trim();
+        }
         // L10N-PIPELINE: name_quality — prefer existing 'curated'/'official'/'reviewed'
         // over incoming 'transliterated'/'fallback_*'. Only overwrite if incoming
         // tier is BETTER. Phase D admin review writes 'reviewed' which is sticky.
@@ -780,6 +824,14 @@ async function _upsertDiscoveredPlace(place) {
         };
     }
     // 2. Insert new row
+    // L10N-SCRIPT-FALLBACK-1: stash `originalName` inside the `admin`
+    // jsonb column (no schema change required). `_mapDiscoveredRow`
+    // surfaces it back to clients via `result.originalName`.
+    const adminBlock = Object.assign({}, place.admin || {});
+    if (typeof place.originalName === 'string' && place.originalName.trim()
+        && !adminBlock.originalName) {
+        adminBlock.originalName = place.originalName.trim();
+    }
     const insertResp = await _supabaseFetch(
         '/rest/v1/discovered_places',
         {
@@ -794,7 +846,7 @@ async function _upsertDiscoveredPlace(place) {
                 timezone:       place.timezone,
                 names:          place.names       || {},
                 aliases:        place.aliases     || {},
-                admin:          place.admin       || {},
+                admin:          adminBlock,
                 name_quality:   place.nameQuality || {},
                 source:         place.source      || 'nominatim',
                 source_id:      place.sourceId    || null,

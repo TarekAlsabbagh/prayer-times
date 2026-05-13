@@ -523,28 +523,28 @@ const cjkCases = [
     ['Nagasaki',   'ناغاساكي']
 ];
 for (const [q, expected] of cjkCases) {
-    await sleep(1200);  // pace Nominatim-bound queries
+    // No pacing needed — all 20 cities are in curated-places.json,
+    // served from tier 1. No Nominatim round-trip.
     const r = await topOfQ(q, 'ar');
-    // Accept either our 'override' tier OR Nominatim 'official' if the
-    // value matches the expected canonical name. Most should be 'override'
-    // since the dict beats Nominatim for the listed cities.
+    // Strict equality on displayName. Quality should be 'curated' since
+    // the cities are in curated-places.json; 'override' or 'official'
+    // are accepted fallbacks in case the entry is ever removed.
     const ok = r && r.displayName === expected
-        && (r.nameQuality === 'override' || r.nameQuality === 'official');
+        && (r.nameQuality === 'curated' || r.nameQuality === 'override' || r.nameQuality === 'official');
     check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
 }
 
-// Alias / historical name tests
+// Alias / historical name tests — "Peking" is a curated alias for Beijing.
 {
-    await sleep(1200);
     const r = await topOfQ('Peking', 'ar');
     check(`Peking AR (historical alias) → "بكين" (got "${r && r.displayName}")`,
         r && r.displayName === 'بكين');
 }
 {
-    await sleep(1200);
     const r = await topOfQ('Canton', 'ar');
-    // "Canton" might match other places (e.g. Canton, USA) — accept
-    // either canonical Guangzhou OR any Arabic-only displayName.
+    // "Canton" is a Guangzhou alias in curated → returns "قوانغتشو".
+    // (If we ever resolve Canton, USA via Nominatim instead, the test
+    // still passes as long as displayName is Arabic-only.)
     const ok = r && /[؀-ۿ]/.test(r.displayName) && !/[a-zA-Z]/.test(r.displayName);
     check(`Canton AR → Arabic-only display (got "${r && r.displayName}")`, ok);
 }

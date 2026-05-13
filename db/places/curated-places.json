@@ -410,5 +410,606 @@
     "priority": 90,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "beijing",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 39.9042,
+    "lng": 116.4074,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "بكين",
+      "en": "Beijing",
+      "fr": "Pékin",
+      "de": "Peking",
+      "tr": "Pekin",
+      "ur": "بیجنگ",
+      "id": "Beijing",
+      "es": "Pekín",
+      "bn": "বেইজিং",
+      "ms": "Beijing"
+    },
+    "aliases": {
+      "ar": ["بكينة"],
+      "en": ["Peking"]
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "shanghai",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 31.2304,
+    "lng": 121.4737,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "شنغهاي",
+      "en": "Shanghai",
+      "fr": "Shanghai",
+      "de": "Schanghai",
+      "tr": "Şangay",
+      "ur": "شنگھائی",
+      "id": "Shanghai",
+      "es": "Shanghái",
+      "bn": "সাংহাই",
+      "ms": "Shanghai"
+    },
+    "aliases": {
+      "ar": []
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "guangzhou",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 23.1291,
+    "lng": 113.2644,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "قوانغتشو",
+      "en": "Guangzhou",
+      "fr": "Canton",
+      "de": "Guangzhou",
+      "tr": "Guangzhou",
+      "ur": "گوانگژو",
+      "id": "Guangzhou",
+      "es": "Cantón",
+      "bn": "কুয়াংচৌ",
+      "ms": "Guangzhou"
+    },
+    "aliases": {
+      "en": ["Canton", "Guangzhou City"]
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "shenzhen",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 22.5431,
+    "lng": 114.0579,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "شينزن",
+      "en": "Shenzhen",
+      "fr": "Shenzhen",
+      "de": "Shenzhen",
+      "tr": "Şenzen",
+      "ur": "شینزن",
+      "id": "Shenzhen",
+      "es": "Shenzhen",
+      "bn": "শেনচেন",
+      "ms": "Shenzhen"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "xian",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 34.3416,
+    "lng": 108.9398,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "شيان",
+      "en": "Xi'an",
+      "fr": "Xi'an",
+      "de": "Xi'an",
+      "tr": "Si'an",
+      "ur": "شیان",
+      "id": "Xi'an",
+      "es": "Xi'an",
+      "bn": "শিআন",
+      "ms": "Xi'an"
+    },
+    "aliases": {
+      "en": ["Xian", "Sian"]
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hangzhou",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 30.2741,
+    "lng": 120.1551,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "هانغتشو",
+      "en": "Hangzhou",
+      "fr": "Hangzhou",
+      "de": "Hangzhou",
+      "tr": "Hangçou",
+      "ur": "ہانگژو",
+      "id": "Hangzhou",
+      "es": "Hangzhou",
+      "bn": "হাংচৌ",
+      "ms": "Hangzhou"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nanjing",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 32.0603,
+    "lng": 118.7969,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "نانجينغ",
+      "en": "Nanjing",
+      "fr": "Nankin",
+      "de": "Nanjing",
+      "tr": "Nanjing",
+      "ur": "نانجنگ",
+      "id": "Nanjing",
+      "es": "Nankín",
+      "bn": "নানজিং",
+      "ms": "Nanjing"
+    },
+    "aliases": {
+      "en": ["Nanking"]
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "chengdu",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 30.5728,
+    "lng": 104.0668,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "تشنغدو",
+      "en": "Chengdu",
+      "fr": "Chengdu",
+      "de": "Chengdu",
+      "tr": "Chengdu",
+      "ur": "چنگدو",
+      "id": "Chengdu",
+      "es": "Chengdú",
+      "bn": "চেংদু",
+      "ms": "Chengdu"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "wuhan",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 30.5928,
+    "lng": 114.3055,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "ووهان",
+      "en": "Wuhan",
+      "fr": "Wuhan",
+      "de": "Wuhan",
+      "tr": "Wuhan",
+      "ur": "ووہان",
+      "id": "Wuhan",
+      "es": "Wuhan",
+      "bn": "উহান",
+      "ms": "Wuhan"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "chongqing",
+    "type": "city",
+    "countryCode": "cn",
+    "lat": 29.4316,
+    "lng": 106.9123,
+    "timezone": "Asia/Shanghai",
+    "names": {
+      "ar": "تشونغتشينغ",
+      "en": "Chongqing",
+      "fr": "Chongqing",
+      "de": "Chongqing",
+      "tr": "Çongçing",
+      "ur": "چونگ‌چنگ",
+      "id": "Chongqing",
+      "es": "Chongqing",
+      "bn": "চংছিং",
+      "ms": "Chongqing"
+    },
+    "aliases": {
+      "en": ["Chungking"]
+    },
+    "admin": {
+      "countryAr": "الصين",
+      "countryEn": "China"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tokyo",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.6762,
+    "lng": 139.6503,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "طوكيو",
+      "en": "Tokyo",
+      "fr": "Tokyo",
+      "de": "Tokio",
+      "tr": "Tokyo",
+      "ur": "ٹوکیو",
+      "id": "Tokyo",
+      "es": "Tokio",
+      "bn": "টোকিও",
+      "ms": "Tokyo"
+    },
+    "aliases": {
+      "en": ["Tōkyō"]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "osaka",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.6937,
+    "lng": 135.5023,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "أوساكا",
+      "en": "Osaka",
+      "fr": "Osaka",
+      "de": "Osaka",
+      "tr": "Osaka",
+      "ur": "اوساکا",
+      "id": "Osaka",
+      "es": "Osaka",
+      "bn": "ওসাকা",
+      "ms": "Osaka"
+    },
+    "aliases": {
+      "en": ["Ōsaka"]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kyoto",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.0116,
+    "lng": 135.7681,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كيوتو",
+      "en": "Kyoto",
+      "fr": "Kyoto",
+      "de": "Kyōto",
+      "tr": "Kyoto",
+      "ur": "کیوٹو",
+      "id": "Kyoto",
+      "es": "Kioto",
+      "bn": "কিয়োটো",
+      "ms": "Kyoto"
+    },
+    "aliases": {
+      "en": ["Kyōto"]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "yokohama",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.4437,
+    "lng": 139.6380,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "يوكوهاما",
+      "en": "Yokohama",
+      "fr": "Yokohama",
+      "de": "Yokohama",
+      "tr": "Yokohama",
+      "ur": "یوکوہاما",
+      "id": "Yokohama",
+      "es": "Yokohama",
+      "bn": "ইয়োকোহামা",
+      "ms": "Yokohama"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sapporo",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 43.0618,
+    "lng": 141.3545,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "سابورو",
+      "en": "Sapporo",
+      "fr": "Sapporo",
+      "de": "Sapporo",
+      "tr": "Sapporo",
+      "ur": "ساپورو",
+      "id": "Sapporo",
+      "es": "Sapporo",
+      "bn": "সাপ্পোরো",
+      "ms": "Sapporo"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nagoya",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.1815,
+    "lng": 136.9066,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ناغويا",
+      "en": "Nagoya",
+      "fr": "Nagoya",
+      "de": "Nagoya",
+      "tr": "Nagoya",
+      "ur": "ناگویا",
+      "id": "Nagoya",
+      "es": "Nagoya",
+      "bn": "নাগোয়া",
+      "ms": "Nagoya"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kobe",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.6901,
+    "lng": 135.1955,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كوبي",
+      "en": "Kobe",
+      "fr": "Kōbe",
+      "de": "Kōbe",
+      "tr": "Kobe",
+      "ur": "کوبے",
+      "id": "Kobe",
+      "es": "Kobe",
+      "bn": "কোবে",
+      "ms": "Kobe"
+    },
+    "aliases": {
+      "en": ["Kōbe"]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "fukuoka",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 33.5904,
+    "lng": 130.4017,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "فوكوكا",
+      "en": "Fukuoka",
+      "fr": "Fukuoka",
+      "de": "Fukuoka",
+      "tr": "Fukuoka",
+      "ur": "فوکوکا",
+      "id": "Fukuoka",
+      "es": "Fukuoka",
+      "bn": "ফুকুওকা",
+      "ms": "Fukuoka"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hiroshima",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.3853,
+    "lng": 132.4553,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "هيروشيما",
+      "en": "Hiroshima",
+      "fr": "Hiroshima",
+      "de": "Hiroshima",
+      "tr": "Hiroşima",
+      "ur": "ہیروشیما",
+      "id": "Hiroshima",
+      "es": "Hiroshima",
+      "bn": "হিরোশিমা",
+      "ms": "Hiroshima"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nagasaki",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 32.7503,
+    "lng": 129.8779,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ناغاساكي",
+      "en": "Nagasaki",
+      "fr": "Nagasaki",
+      "de": "Nagasaki",
+      "tr": "Nagasaki",
+      "ur": "ناگاساکی",
+      "id": "Nagasaki",
+      "es": "Nagasaki",
+      "bn": "নাগাসাকি",
+      "ms": "Nagasaki"
+    },
+    "aliases": {
+      "en": []
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
   }
 ]

@@ -345,9 +345,11 @@ lq = await topOf('Granada', 'ar');
 check(`Granada AR → "غرناطة" (got "${lq && lq.displayName}", q=${lq && lq.nameQuality})`,
     lq && lq.displayName === 'غرناطة'
     && (lq.nameQuality === 'curated' || lq.nameQuality === 'official'));
+// Vancouver moved to curated in CURATED-150-1. Still produces فانكوفر.
 lq = await topOf('Vancouver', 'ar');
-check(`Vancouver AR → quality=official (got "${lq && lq.nameQuality}", display="${lq && lq.displayName}")`,
-    lq && lq.nameQuality === 'official' && /[؀-ۿ]/.test(lq.displayName));
+check(`Vancouver AR → "فانكوفر" (got "${lq && lq.displayName}", q=${lq && lq.nameQuality})`,
+    lq && lq.displayName === 'فانكوفر'
+    && (lq.nameQuality === 'curated' || lq.nameQuality === 'official'));
 
 // Transliterated: Nominatim has no name:ar — pipeline transliterates
 lq = await topOf('Le Pontet', 'ar');
@@ -476,8 +478,8 @@ for (const q of softCases) {
 // Regression — these must keep their existing outputs from prior phases.
 const regressions = [
     ['Le Pontet',     'لو بونت',     'transliterated'],
-    ['Vancouver',     'فانكوفر',     'official'],
-    ['San Francisco', 'سان فرانسيسكو','official'],
+    ['Vancouver',     'فانكوفر',     'curated'],    // moved to curated in CURATED-150-1
+    ['San Francisco', 'سان فرانسيسكو','curated'],   // moved to curated in CURATED-150-1
     ['Vladivostok',   'فلاديفوستوك', 'curated'],   // moved to curated in L10N-RU-1
     ['Granada',       'غرناطة',      'curated'],   // moved to curated in IT-ES-PT-1
     ['Riyadh',        'الرياض',      'curated'],
@@ -850,6 +852,129 @@ const NON_LATIN_NON_AR_RE = /[぀-ヿ㐀-䶿一-鿿가-힯Ѐ-ӿऀ-ॿঀ-৿฀
     const r = await topOfQ('Riyadh', 'ar');
     check(`Riyadh AR → originalName field exists (is string) (got "${typeof (r && r.originalName)}")`,
         r && typeof r.originalName === 'string');
+}
+
+console.log('\n── CURATED-150 spot checks (Phase A) ──');
+
+// The cheap rate-limit tier is 300/min per IP. Earlier sections of this
+// test suite consume most of that budget, so we pause until the window
+// resets before firing this section. The X-RateLimit-Reset header tells
+// us how many seconds remain in the current window — wait that long.
+{
+    const probe = await get('/api/search-place?q=__rl_probe__&lang=en');
+    const remaining = Number(probe.headers['x-ratelimit-remaining'] || 0);
+    const resetSec  = Number(probe.headers['x-ratelimit-reset'] || 0);
+    if (remaining < 80) {
+        const waitMs = (resetSec + 2) * 1000;
+        console.log(`  (rate-limit ${remaining} remaining; waiting ${waitMs/1000}s for reset)`);
+        await sleep(waitMs);
+    }
+}
+
+// Each test asserts: the top result for the given query comes from the
+// curated tier (NOT discovered, NOT external Nominatim), has a sensible
+// displayName for the lang, and is prayer-times-ready (lat/lng/tz/cc).
+// Covers one representative city per category from the 148-city seed.
+const curated150 = [
+    // [query, lang, expectedCC, mustContainOrEq]
+    ['Los Angeles',       'en', 'us', 'Los Angeles'],
+    ['لوس أنجلوس',         'ar', 'us', 'لوس أنجلوس'],
+    ['Toronto',           'en', 'ca', 'Toronto'],
+    ['Manchester',        'en', 'gb', 'Manchester'],
+    ['Marseille',         'en', 'fr', 'Marseille'],
+    ['Stockholm',         'en', 'se', 'Stockholm'],
+    ['Amsterdam',         'en', 'nl', 'Amsterdam'],
+    ['Warsaw',            'en', 'pl', 'Warsaw'],
+    ['Prague',            'en', 'cz', 'Prague'],
+    ['Athens',            'en', 'gr', 'Athens'],
+    ['أثينا',              'ar', 'gr', 'أثينا'],
+    ['Ankara',            'en', 'tr', 'Ankara'],
+    ['Tehran',            'en', 'ir', 'Tehran'],
+    ['طهران',              'ar', 'ir', 'طهران'],
+    ['تهران',              'ar', 'ir', null], // fa-script alias → ir
+    ['Baku',              'en', 'az', 'Baku'],
+    ['Tashkent',          'en', 'uz', 'Tashkent'],
+    ['Pune',              'en', 'in', 'Pune'],
+    ['पुणे',                'ar', 'in', null], // devanagari alias → ir/in (curated wins)
+    ['Kuala Lumpur',      'en', 'my', 'Kuala Lumpur'],
+    ['KL',                'en', 'my', null], // alias hit
+    ['Singapore',         'en', 'sg', 'Singapore'],
+    ['Bangkok',           'en', 'th', 'Bangkok'],
+    ['กรุงเทพ',             'ar', 'th', null], // thai alias
+    ['Jakarta',           'en', 'id', 'Jakarta'],
+    ['جاكرتا',             'ar', 'id', 'جاكرتا'],
+    ['Hanoi',             'en', 'vn', 'Hanoi'],
+    ['Hà Nội',            'en', 'vn', null], // vietnamese alias
+    ['Seoul',             'en', 'kr', 'Seoul'],
+    ['서울',                'ar', 'kr', null], // hangul alias
+    ['Sydney',             'en', 'au', 'Sydney'],
+    ['سيدني',              'ar', 'au', 'سيدني'],
+    ['Lagos',              'en', 'ng', 'Lagos'],
+    ['لاغوس',              'ar', 'ng', 'لاغوس'],
+    ['Nairobi',            'en', 'ke', 'Nairobi'],
+    ['Addis Ababa',        'en', 'et', 'Addis Ababa'],
+    ['አዲስ አበባ',           'ar', 'et', null], // amharic alias
+    ['Johannesburg',       'en', 'za', 'Johannesburg'],
+    ['Mexico City',        'en', 'mx', 'Mexico City'],
+    ['Buenos Aires',       'en', 'ar', 'Buenos Aires'],
+    ['Bogota',             'en', 'co', 'Bogota'],
+    ['Tabuk',              'en', 'sa', 'Tabuk'],
+    ['تبوك',                'ar', 'sa', 'تبوك'],
+    ['Erbil',              'en', 'iq', 'Erbil'],
+    ['أربيل',               'ar', 'iq', 'أربيل'],
+    ['Giza',               'en', 'eg', 'Giza'],
+    ['Fes',                'en', 'ma', 'Fes'],
+    ['Hong Kong',          'en', 'hk', 'Hong Kong'],
+    ['香港',                 'ar', 'hk', null], // chinese alias
+    ['Taipei',             'en', 'tw', 'Taipei'],
+];
+for (const [q, lang, expectCC, mustEqOrContain] of curated150) {
+    const r = await topOfQ(q, lang);
+    const got  = r ? r.displayName : '(none)';
+    const cc   = r ? r.countryCode : '(none)';
+    const src  = r ? r.source      : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === expectCC;
+    const okReady   = r && isPrayerTimesReady(r);
+    const okName    = !mustEqOrContain || (r && (r.displayName === mustEqOrContain || r.displayName.includes(mustEqOrContain)));
+    check(`${q} (${lang}) → curated, cc=${expectCC}, ready, name OK  [got src=${src}, cc=${cc}, name="${got}"]`,
+        okCurated && okCC && okReady && okName);
+    await sleep(150); // pace under cheap-tier (300/min) rate limit
+}
+
+console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
+
+// Same rate-limit guard as before this section, just in case the spot
+// checks above consumed enough of the next window to put us back near 0.
+{
+    const probe = await get('/api/search-place?q=__rl_probe2__&lang=en');
+    const remaining = Number(probe.headers['x-ratelimit-remaining'] || 0);
+    const resetSec  = Number(probe.headers['x-ratelimit-reset'] || 0);
+    if (remaining < 30) {
+        const waitMs = (resetSec + 2) * 1000;
+        console.log(`  (rate-limit ${remaining} remaining; waiting ${waitMs/1000}s for reset)`);
+        await sleep(waitMs);
+    }
+}
+
+// These were green before Phase A. They must remain green — no regressions.
+const baselineRegression = [
+    ['Riyadh',          'ar', 'الرياض'],
+    ['Mecca',           'ar', 'مكة المكرمة'],
+    ['Granada',         'ar', 'غرناطة'],
+    ['Vancouver',       'ar', 'فانكوفر'],
+    ['San Francisco',   'ar', 'سان فرانسيسكو'],
+    ['Vladivostok',     'ar', 'فلاديفوستوك'],
+    ['Le Pontet',       'ar', null], // any Arabic, no Latin leak
+];
+for (const [q, lang, expectName] of baselineRegression) {
+    const r = await topOfQ(q, lang);
+    const got = r ? r.displayName : '(none)';
+    const okExact = !expectName || got === expectName;
+    const okArabic = r && /[؀-ۿ]/.test(got) && !/[a-zA-Z]/.test(got);
+    check(`${q} ${lang} → "${expectName || '(any Arabic)'}" (got "${got}", src=${r?.source})`,
+        okExact && okArabic);
+    await sleep(150);
 }
 
 console.log('');

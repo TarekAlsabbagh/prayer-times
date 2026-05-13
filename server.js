@@ -535,60 +535,216 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     };
 }
 
-// In-memory cache. 1-hour TTL. Keyed by `${lang}:${normalizedQuery}`.
-// Phase-C will replace this with an external store (Redis / Postgres).
-const _externalSearchCache = new Map();
-const _EXTERNAL_CACHE_TTL = 60 * 60 * 1000;
-const _EXTERNAL_CACHE_MAX = 1000;
+// ═══ GLOBAL-PLACE-SEARCH-NOMINATIM-CACHE-1 (2026-05-13) ═════════════════════
+// Hardened external (Nominatim) cache. Three layers:
+//   1. _externalMemCache  — in-process Map. Fast (ms), wiped on restart.
+//   2. external_cache     — Supabase table (migration 003). Survives restarts.
+//   3. _externalInflight  — Map<key, Promise>. Single-flight dedupe so
+//                           N concurrent requests for the same key collapse
+//                           into 1 outbound Nominatim call.
+//
+// TTLs (by outcome):
+//   ok           : 7 days   — full result set
+//   empty        : 24 hours — Nominatim returned [] (legitimately no match)
+//   rate_limited : 1 hour   — 429 from Nominatim
+//   error        : 1 hour   — timeout / network / non-2xx
+//
+// Cache key = `${provider}|${lang}|${normalizedQuery}` where
+//   normalizedQuery = q.trim().toLowerCase().normalize('NFC')
+// Currently we always pass `accept-language=en` to Nominatim so the lang
+// component in the key is fixed to 'raw' — different requesting langs
+// share the same cached raw response (cheaper). The lang slot is kept in
+// the schema for future-proofing (a different provider may key by lang).
+const _externalMemCache  = new Map();   // key → { response, status, expiresAt }
+const _externalInflight  = new Map();   // key → Promise<rawArray>
+const _EXTERNAL_MEM_MAX  = 1000;
+const _EXT_TTL_OK        = 7 * 24 * 60 * 60 * 1000;   // 7 d
+const _EXT_TTL_EMPTY     =     24 * 60 * 60 * 1000;   // 24 h
+const _EXT_TTL_ERROR     =          60 * 60 * 1000;   // 1 h
 
+function _buildExternalCacheKey(provider, lang, query) {
+    const q = String(query || '').trim().toLowerCase().normalize('NFC');
+    return `${provider}|${lang}|${q}`;
+}
+
+// Supabase external_cache load. Filters on `expires_at > now()` server-side.
+// Returns the row or null. Failure (table missing / network / auth) → null
+// so the caller falls back to the next layer.
+async function _loadExternalCache(cacheKey) {
+    if (!_SUPABASE_ENABLED) return null;
+    try {
+        const path = '/rest/v1/external_cache'
+            + '?cache_key=eq.' + encodeURIComponent(cacheKey)
+            + '&expires_at=gt.' + encodeURIComponent(new Date().toISOString())
+            + '&select=cache_key,response,status,expires_at'
+            + '&limit=1';
+        const resp = await _supabaseFetch(path, { method: 'GET' });
+        if (!resp.ok || !Array.isArray(resp.data) || resp.data.length === 0) return null;
+        return resp.data[0];
+    } catch (_e) {
+        return null;
+    }
+}
+
+// Supabase external_cache upsert. Best-effort — swallow all errors so a
+// Supabase outage never blocks the actual user-facing search response.
+async function _saveExternalCache(cacheKey, provider, lang, query, response, status, ttlMs) {
+    if (!_SUPABASE_ENABLED) return;
+    try {
+        const row = {
+            cache_key: cacheKey,
+            provider,
+            lang,
+            query: String(query || '').slice(0, 200),
+            response: response || [],
+            status,
+            expires_at: new Date(Date.now() + ttlMs).toISOString()
+        };
+        await _supabaseFetch('/rest/v1/external_cache', {
+            method: 'POST',
+            headers: { 'Prefer': 'resolution=merge-duplicates' },
+            body: JSON.stringify(row)
+        });
+    } catch (_e) { /* silent — cache miss next time is acceptable */ }
+}
+
+// Pure outbound Nominatim call with timeout. Throws on non-2xx with
+// `statusCode` attached so the caller can distinguish 429 from generic
+// failures. `lang` is currently always 'en' (canonical raw response) —
+// per-lang localization happens downstream in `_normalizeExternalPlace`.
+async function _fetchNominatimWithTimeout(query, lang, timeoutMs) {
+    const url = 'https://nominatim.openstreetmap.org/search'
+        + '?format=jsonv2'
+        + '&addressdetails=1'
+        + '&namedetails=1'
+        + '&limit=10'
+        + '&accept-language=' + encodeURIComponent(lang || 'en')
+        + '&q=' + encodeURIComponent(query);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs || 8000);
+    try {
+        const resp = await fetch(url, {
+            signal: ctrl.signal,
+            headers: {
+                'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
+                'Accept': 'application/json'
+            }
+        });
+        if (!resp.ok) {
+            const err = new Error('nominatim_http_' + resp.status);
+            err.statusCode = resp.status;
+            throw err;
+        }
+        const data = await resp.json();
+        return Array.isArray(data) ? data : [];
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// _searchExternalPlaces — final tier of /api/search-place. Cascades through
+// Supabase external_cache → in-memory cache → single-flight → Nominatim.
+// Returns the normalized array of place rows (same shape callers expected
+// before — pure under-the-hood refactor).
+// ─────────────────────────────────────────────────────────────────────────
 async function _searchExternalPlaces(query, lang) {
     const q = String(query || '').trim();
     if (q.length < 2 || q.length > 80) return [];
     const langCode = _SUPPORTED_LANGS.includes(lang) ? lang : 'ar';
-    // LANG-1 (2026-05-12): cache is lang-AGNOSTIC. We hit Nominatim with
-    // accept-language=en for a canonical raw response, and re-localize
-    // per request from namedetails. Cuts external calls by 10× when the
-    // same query comes in across multiple langs (e.g. test suite).
-    const cacheKey = q.toLowerCase();
-    const cached = _externalSearchCache.get(cacheKey);
-    let raw;
-    if (cached && Date.now() - cached.ts < _EXTERNAL_CACHE_TTL) {
-        raw = cached.raw;
-    } else {
-        raw = [];
-        try {
-            const url = 'https://nominatim.openstreetmap.org/search'
-                + '?format=jsonv2'
-                + '&addressdetails=1'
-                + '&namedetails=1'
-                + '&limit=10'
-                + '&accept-language=en'  // canonical; namedetails carries every lang
-                + '&q=' + encodeURIComponent(q);
-            const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), 8000);
-            const resp = await fetch(url, {
-                signal: ctrl.signal,
-                headers: {
-                    'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
-                    'Accept': 'application/json'
-                }
+
+    // Cache key is lang-AGNOSTIC because we always hit Nominatim with
+    // accept-language=en and re-localize per-request from namedetails.
+    // Cuts external calls by ~10× when the same query comes in across
+    // multiple UI langs (e.g. test suite, mixed-lang sessions).
+    const cacheKey = _buildExternalCacheKey('nominatim', 'raw', q);
+
+    // 3a. Supabase external_cache (persistent across restarts).
+    if (_SUPABASE_ENABLED) {
+        const row = await _loadExternalCache(cacheKey);
+        if (row && row.status !== 'error') {
+            // Hydrate the in-memory layer so subsequent hits are ms-level.
+            _externalMemCache.set(cacheKey, {
+                response: row.response,
+                status:   row.status,
+                expiresAt: new Date(row.expires_at).getTime()
             });
-            clearTimeout(timer);
-            if (resp.ok) {
-                const data = await resp.json();
-                if (Array.isArray(data)) raw = data;
-            }
-        } catch (_e) { /* network/timeout/abort → empty raw */ }
-        // Cache the RAW response (lang-agnostic) so the next localized
-        // call to the same query doesn't re-hit Nominatim.
-        _externalSearchCache.set(cacheKey, { ts: Date.now(), raw });
-        if (_externalSearchCache.size > _EXTERNAL_CACHE_MAX) {
-            const firstKey = _externalSearchCache.keys().next().value;
-            _externalSearchCache.delete(firstKey);
+            return _localizeRawNominatim(row.response, langCode);
         }
     }
-    // Localize the cached raw results per the requested lang. This is
-    // pure CPU work (no network).
+
+    // 3b. In-process memory cache (lifetime of this Node process).
+    const memHit = _externalMemCache.get(cacheKey);
+    if (memHit && memHit.expiresAt > Date.now()) {
+        return _localizeRawNominatim(memHit.response, langCode);
+    }
+
+    // 3c. Single-flight: if another request is already fetching this same
+    //     key, await its in-flight Promise instead of firing a duplicate.
+    let inflight = _externalInflight.get(cacheKey);
+    if (!inflight) {
+        // 3d. No cache hit, no in-flight call — fire the actual Nominatim
+        //     request. Wrap it in a Promise we register in _externalInflight
+        //     so concurrent callers join the same wait.
+        inflight = (async () => {
+            let raw    = [];
+            let status = 'ok';
+            let ttl    = _EXT_TTL_OK;
+            try {
+                raw = await _fetchNominatimWithTimeout(q, 'en', 8000);
+                if (!Array.isArray(raw) || raw.length === 0) {
+                    raw = [];
+                    status = 'empty';
+                    ttl    = _EXT_TTL_EMPTY;
+                }
+            } catch (e) {
+                raw = [];
+                if (e && e.statusCode === 429) { status = 'rate_limited'; ttl = _EXT_TTL_ERROR; }
+                else                            { status = 'error';        ttl = _EXT_TTL_ERROR; }
+                try { console.warn('[external] nominatim', status, 'q=', q, 'err=', e && e.message); } catch (_) {}
+            }
+            // Write both cache layers BEFORE clearing the in-flight slot
+            // so concurrent waiters return the cached value rather than
+            // racing back into a fresh Nominatim call.
+            _externalMemCache.set(cacheKey, {
+                response: raw,
+                status,
+                expiresAt: Date.now() + ttl
+            });
+            // LRU-ish trim: evict oldest entry once over cap.
+            if (_externalMemCache.size > _EXTERNAL_MEM_MAX) {
+                const firstKey = _externalMemCache.keys().next().value;
+                _externalMemCache.delete(firstKey);
+            }
+            // Fire-and-forget Supabase persist (don't block response on it).
+            if (_SUPABASE_ENABLED) {
+                _saveExternalCache(cacheKey, 'nominatim', 'raw', q, raw, status, ttl)
+                    .catch(() => {});
+            }
+            return raw;
+        })();
+        _externalInflight.set(cacheKey, inflight);
+    }
+
+    let raw;
+    try {
+        raw = await inflight;
+    } finally {
+        // Clear in-flight slot when the fetch resolves (or rejects).
+        // Note: only the request that CREATED the inflight clears it —
+        // concurrent joiners just await the same promise.
+        if (_externalInflight.get(cacheKey) === inflight) {
+            _externalInflight.delete(cacheKey);
+        }
+    }
+
+    return _localizeRawNominatim(raw, langCode);
+}
+
+// Pure CPU step — turn cached raw Nominatim rows into the
+// localized result shape callers expect. Re-runs every request because
+// the cache is lang-agnostic and the localization is cheap.
+function _localizeRawNominatim(raw, langCode) {
     const taken = new Set();
     for (const p of _CURATED_PLACES) {
         if (p && typeof p.slug === 'string') taken.add(p.slug);
@@ -598,7 +754,6 @@ async function _searchExternalPlaces(query, lang) {
         const norm = _normalizeExternalPlace(p, langCode, taken);
         if (norm) results.push(norm);
     }
-    // Sort by type-rank then confidence
     const typeRank = (t) => {
         const m = {
             city: 0, town: 1, municipality: 2, borough: 2,

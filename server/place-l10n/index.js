@@ -33,6 +33,7 @@ const turkish  = require('./transliterate-tr');
 const japanese = require('./transliterate-jp');
 const german   = require('./transliterate-de');
 const russian  = require('./transliterate-ru');
+const indian   = require('./transliterate-in');
 const cjk      = require('./transliterate-cjk');
 const romance  = require('./romance-overrides');
 const script   = require('./detect-script');
@@ -204,6 +205,11 @@ function extractNamedetailsByLang(nd) {
 //   6c. *AR-only Russian/Ukrainian override (RU/UA/BY/KZ dict)* → 'override'
 //      ↳ countryCode === 'ru'|'ua'|'by'|'kz' OR source has Cyrillic.
 //      Latin AND Cyrillic spellings both hit (Moscow / Москва, Kyiv / Київ).
+//   6d. *AR-only Indian-subcontinent override (IN/PK/BD/NP/LK dict)* → 'override'
+//      ↳ countryCode === 'in'|'pk'|'bd'|'np'|'lk' OR source uses a South
+//      Asian script. Handles Latin + Devanagari + Bengali + Tamil +
+//      Kannada + Gujarati + Urdu (with letter folding ہ→ه, ی→ي, چ→تش,
+//      پ→ب, گ→غ, ٹ→ت, ڈ→د, ڑ→ر, ں→ن).
 //   7a. *AR-only: Japanese romaji transliteration* → 'transliterated'
 //      ↳ countryCode === 'jp'. Uses غ for /g/ (e.g. Katsuragawa → كاتسوراغاوا).
 //   7b. *AR-only: Turkish country-specific transliteration* → 'transliterated'
@@ -253,9 +259,15 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
         && typeof aliases[code][0] === 'string' && aliases[code][0].trim()) {
         return { value: aliases[code][0].trim(), quality: 'alias' };
     }
-    // 4. AR-only — refuse Latin if any Arabic-script alternative exists
+    // 4. AR-only — refuse Latin if any Arabic-script alternative exists,
+    //    EXCEPT skip name:ur for IN/PK/BD where the dedicated tier 6d
+    //    override has a canonical Arabic form that beats raw Urdu-script
+    //    (e.g. کراچی → کراتشي, not کراچی).
     if (code === 'ar') {
+        const ccLowerAL = String(countryCode || '').toLowerCase();
+        const skipUrduForSouthAsia = ['in','pk','bd','np','lk'].includes(ccLowerAL);
         for (const k of SUPPORTED_LANGS) {
+            if (skipUrduForSouthAsia && k === 'ur') continue;
             const v = names[k];
             if (typeof v === 'string' && /[؀-ۿ]/.test(v)) {
                 return { value: v.trim(), quality: 'alias_lang' };
@@ -265,7 +277,8 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
                 return { value: vd.trim(), quality: 'alias_lang' };
             }
         }
-        if (fallbackRawName && /[؀-ۿ]/.test(String(fallbackRawName))) {
+        if (fallbackRawName && /[؀-ۿ]/.test(String(fallbackRawName))
+            && !indian.isSouthAsianScript(fallbackRawName)) {
             return { value: String(fallbackRawName).trim(), quality: 'alias_lang' };
         }
 
@@ -310,6 +323,25 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
                 nd.en, names.en, fallbackRawName
             );
             if (ruHit) return { value: ruHit, quality: 'override' };
+        }
+
+        // 6d. AR-only — Indian-subcontinent override (IN/PK/BD/NP/LK).
+        //     STRICT trigger: cc must be in/pk/bd/np/lk OR the RAW name
+        //     itself uses a South Asian script (Devanagari / Bengali /
+        //     Tamil / Kannada / Gujarati / Urdu-specific chars). Same
+        //     defensive logic as the Russian tier — never fire on a
+        //     mere name:hi annotation from a French/etc. result.
+        const inCountry = ['in','pk','bd','np','lk'].includes(ccLowerRom);
+        const rawIsSouthAsian = indian.isSouthAsianScript(fallbackRawName);
+        if (inCountry || rawIsSouthAsian) {
+            const inHit = indian.lookupIndianArabic(
+                ccLowerRom,
+                nd.en, names.en,
+                nd.ur, names.ur,
+                nd.bn, names.bn,
+                fallbackRawName
+            );
+            if (inHit) return { value: inHit, quality: 'override' };
         }
 
         // 7a. AR-only — Japanese romaji transliteration (cc='jp' OR
@@ -467,6 +499,7 @@ module.exports = {
     japanese,
     german,
     russian,
+    indian,
     cjk,
     romance,
     script

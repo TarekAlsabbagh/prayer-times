@@ -686,6 +686,78 @@ for (const [q, expected] of cyrillicCases) {
         r && /[؀-ۿ]/.test(dn) && !/[Ѐ-ӿ]/.test(dn));
 }
 
+// GLOBAL-PLACE-SEARCH-L10N-IN-1 (2026-05-13) — Indian subcontinent
+// =====================================================================
+// 19 cities × multiple script forms. Latin + Devanagari/Bengali/Tamil/
+// Kannada/Gujarati/Urdu all map to canonical Arabic via curated tier 1.
+console.log('\n── L10N-IN-1: Indian subcontinent (multi-script) ──');
+const subcontinentCases = [
+    // India — Latin + native scripts
+    ['Delhi',          'دلهي'],
+    ['New Delhi',      'دلهي'],
+    ['दिल्ली',          'دلهي'],
+    ['Mumbai',         'مومباي'],
+    ['Bombay',         'مومباي'],
+    ['मुंबई',           'مومباي'],
+    ['Kolkata',        'كلكتا'],
+    ['Calcutta',       'كلكتا'],
+    ['কলকাতা',         'كلكتا'],
+    ['Hyderabad',      'حيدر آباد'],
+    ['हैदराबाद',        'حيدر آباد'],
+    ['Chennai',        'تشيناي'],
+    ['Madras',         'تشيناي'],
+    ['சென்னை',         'تشيناي'],
+    ['Bengaluru',      'بنغالورو'],
+    ['Bangalore',      'بنغالورو'],
+    ['ಬೆಂಗಳೂರು',       'بنغالورو'],
+    ['Lucknow',        'لكناو'],
+    ['लखनऊ',           'لكناو'],
+    ['Ahmedabad',      'أحمد آباد'],
+    ['અમદાવાદ',        'أحمد آباد'],
+    // Pakistan — Latin + Urdu
+    ['Karachi',        'كراتشي'],
+    ['کراچی',          'كراتشي'],
+    ['Lahore',         'لاهور'],
+    ['لاہور',          'لاهور'],
+    ['Islamabad',      'إسلام آباد'],
+    ['اسلام آباد',     'إسلام آباد'],
+    ['Rawalpindi',     'روالبندي'],
+    ['Peshawar',       'بيشاور'],
+    ['پشاور',          'بيشاور'],
+    ['Multan',         'ملتان'],
+    ['ملتان',          'ملتان'],
+    // Bangladesh — Latin + Bengali
+    ['Dhaka',          'دكا'],
+    ['ঢাকা',           'دكا'],
+    ['Chittagong',     'شيتاغونغ'],
+    ['Chattogram',     'شيتاغونغ'],
+    ['চট্টগ্রাম',      'شيتاغونغ'],
+    ['Sylhet',         'سلهت'],
+    ['সিলেট',          'سلهت'],
+    ['Rajshahi',       'راجشاهي'],
+    ['Khulna',         'خولنا']
+];
+for (const [q, expected] of subcontinentCases) {
+    const r = await topOfQ(q, 'ar');
+    const ok = r && r.displayName === expected
+        && (r.nameQuality === 'curated' || r.nameQuality === 'override' || r.nameQuality === 'official');
+    check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
+}
+
+// No Devanagari / Bengali / Urdu raw should leak into AR displayName.
+{
+    const r = await topOfQ('दिल्ली', 'ar');
+    const dn = r && r.displayName || '';
+    check(`दिल्ली AR → no Devanagari in display`,
+        r && /[؀-ۿ]/.test(dn) && !/[ऀ-ॿ]/.test(dn));
+}
+{
+    const r = await topOfQ('کراچی', 'ar');
+    const dn = r && r.displayName || '';
+    check(`کراچی AR → display is "كراتشي" (no Urdu چ leak)`,
+        r && dn === 'كراتشي');
+}
+
 // GLOBAL-PLACE-SEARCH-CJK-SEARCH-FIX-1 (2026-05-13)
 // =====================================================================
 // After SCRIPT-FALLBACK-1 hardened the pipeline against raw-CJK leaking

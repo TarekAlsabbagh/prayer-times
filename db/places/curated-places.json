@@ -2548,5 +2548,706 @@
     "priority": 80,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "new-delhi",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "دلهي",
+      "en": "Delhi",
+      "fr": "Delhi",
+      "de": "Delhi",
+      "tr": "Delhi",
+      "ur": "دہلی",
+      "id": "Delhi",
+      "es": "Delhi",
+      "bn": "দিল্লি",
+      "ms": "Delhi"
+    },
+    "aliases": {
+      "en": [
+        "New Delhi"
+      ],
+      "hi": [
+        "दिल्ली",
+        "नई दिल्ली"
+      ],
+      "ur": [
+        "دہلی",
+        "نئی دہلی"
+      ],
+      "bn": [
+        "দিল্লি"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mumbai",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 19.076,
+    "lng": 72.8777,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "مومباي",
+      "en": "Mumbai",
+      "fr": "Bombay",
+      "de": "Mumbai",
+      "tr": "Mumbai",
+      "ur": "ممبئی",
+      "id": "Mumbai",
+      "es": "Bombay",
+      "bn": "মুম্বই",
+      "ms": "Mumbai"
+    },
+    "aliases": {
+      "en": [
+        "Bombay"
+      ],
+      "hi": [
+        "मुंबई"
+      ],
+      "ur": [
+        "ممبئی"
+      ],
+      "mr": [
+        "मुंबई"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kolkata",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.5726,
+    "lng": 88.3639,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كلكتا",
+      "en": "Kolkata",
+      "fr": "Calcutta",
+      "de": "Kalkutta",
+      "tr": "Kalküta",
+      "ur": "کولکاتا",
+      "id": "Kolkata",
+      "es": "Calcuta",
+      "bn": "কলকাতা",
+      "ms": "Kolkata"
+    },
+    "aliases": {
+      "en": [
+        "Calcutta"
+      ],
+      "hi": [
+        "कोलकाता"
+      ],
+      "bn": [
+        "কলকাতা"
+      ],
+      "ur": [
+        "کولکاتا",
+        "کلکتہ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hyderabad-in",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 17.385,
+    "lng": 78.4867,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "حيدر آباد",
+      "en": "Hyderabad",
+      "fr": "Hyderabad",
+      "de": "Hyderabad",
+      "tr": "Haydarabad",
+      "ur": "حیدرآباد",
+      "id": "Hyderabad",
+      "es": "Hyderabad",
+      "bn": "হায়দরাবাদ",
+      "ms": "Hyderabad"
+    },
+    "aliases": {
+      "en": [],
+      "hi": [
+        "हैदराबाद"
+      ],
+      "ur": [
+        "حیدرآباد"
+      ],
+      "te": [
+        "హైదరాబాదు"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "chennai",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 13.0827,
+    "lng": 80.2707,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تشيناي",
+      "en": "Chennai",
+      "fr": "Chennai",
+      "de": "Chennai",
+      "tr": "Chennai",
+      "ur": "چنئی",
+      "id": "Chennai",
+      "es": "Chennai",
+      "bn": "চেন্নাই",
+      "ms": "Chennai"
+    },
+    "aliases": {
+      "en": [
+        "Madras"
+      ],
+      "hi": [
+        "चेन्नई"
+      ],
+      "ta": [
+        "சென்னை"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bengaluru",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.9716,
+    "lng": 77.5946,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بنغالورو",
+      "en": "Bengaluru",
+      "fr": "Bangalore",
+      "de": "Bangalore",
+      "tr": "Bangalore",
+      "ur": "بنگلور",
+      "id": "Bengaluru",
+      "es": "Bangalore",
+      "bn": "বেঙ্গালুরু",
+      "ms": "Bengaluru"
+    },
+    "aliases": {
+      "en": [
+        "Bangalore"
+      ],
+      "hi": [
+        "बेंगलुरु",
+        "बैंगलोर"
+      ],
+      "kn": [
+        "ಬೆಂಗಳೂರು"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "lucknow",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.8467,
+    "lng": 80.9462,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "لكناو",
+      "en": "Lucknow",
+      "fr": "Lucknow",
+      "de": "Lakhnau",
+      "tr": "Lucknow",
+      "ur": "لکھنؤ",
+      "id": "Lucknow",
+      "es": "Lucknow",
+      "bn": "লখনউ",
+      "ms": "Lucknow"
+    },
+    "aliases": {
+      "en": [],
+      "hi": [
+        "लखनऊ"
+      ],
+      "ur": [
+        "لکھنؤ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ahmedabad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.0225,
+    "lng": 72.5714,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أحمد آباد",
+      "en": "Ahmedabad",
+      "fr": "Ahmedabad",
+      "de": "Ahmedabad",
+      "tr": "Ahmedabad",
+      "ur": "احمد آباد",
+      "id": "Ahmedabad",
+      "es": "Ahmedabad",
+      "bn": "আহমেদাবাদ",
+      "ms": "Ahmedabad"
+    },
+    "aliases": {
+      "en": [],
+      "hi": [
+        "अहमदाबाद"
+      ],
+      "gu": [
+        "અમદાવાદ"
+      ],
+      "ur": [
+        "احمد آباد"
+      ]
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "karachi",
+    "type": "city",
+    "countryCode": "pk",
+    "lat": 24.8607,
+    "lng": 67.0011,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "كراتشي",
+      "en": "Karachi",
+      "fr": "Karachi",
+      "de": "Karatschi",
+      "tr": "Karaçi",
+      "ur": "کراچی",
+      "id": "Karachi",
+      "es": "Karachi",
+      "bn": "করাচি",
+      "ms": "Karachi"
+    },
+    "aliases": {
+      "en": [],
+      "ur": [
+        "کراچی"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "lahore",
+    "type": "city",
+    "countryCode": "pk",
+    "lat": 31.5204,
+    "lng": 74.3587,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "لاهور",
+      "en": "Lahore",
+      "fr": "Lahore",
+      "de": "Lahore",
+      "tr": "Lahor",
+      "ur": "لاہور",
+      "id": "Lahore",
+      "es": "Lahore",
+      "bn": "লাহোর",
+      "ms": "Lahore"
+    },
+    "aliases": {
+      "en": [],
+      "ur": [
+        "لاہور"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "islamabad",
+    "type": "city",
+    "countryCode": "pk",
+    "lat": 33.6844,
+    "lng": 73.0479,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "إسلام آباد",
+      "en": "Islamabad",
+      "fr": "Islamabad",
+      "de": "Islamabad",
+      "tr": "İslamabad",
+      "ur": "اسلام آباد",
+      "id": "Islamabad",
+      "es": "Islamabad",
+      "bn": "ইসলামাবাদ",
+      "ms": "Islamabad"
+    },
+    "aliases": {
+      "en": [],
+      "ur": [
+        "اسلام آباد",
+        "اسلام اباد"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "rawalpindi",
+    "type": "city",
+    "countryCode": "pk",
+    "lat": 33.5651,
+    "lng": 73.0169,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "روالبندي",
+      "en": "Rawalpindi",
+      "fr": "Rawalpindi",
+      "de": "Rawalpindi",
+      "tr": "Ravalpindi",
+      "ur": "راولپنڈی",
+      "id": "Rawalpindi",
+      "es": "Rawalpindi",
+      "bn": "রাওয়ালপিন্ডি",
+      "ms": "Rawalpindi"
+    },
+    "aliases": {
+      "en": [],
+      "ur": [
+        "راولپنڈی"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "peshawar",
+    "type": "city",
+    "countryCode": "pk",
+    "lat": 34.0151,
+    "lng": 71.5249,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "بيشاور",
+      "en": "Peshawar",
+      "fr": "Peshawar",
+      "de": "Peschawar",
+      "tr": "Peşaver",
+      "ur": "پشاور",
+      "id": "Peshawar",
+      "es": "Peshawar",
+      "bn": "পেশাওয়ার",
+      "ms": "Peshawar"
+    },
+    "aliases": {
+      "en": [],
+      "ur": [
+        "پشاور"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "multan",
+    "type": "city",
+    "countryCode": "pk",
+    "lat": 30.1575,
+    "lng": 71.5249,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "ملتان",
+      "en": "Multan",
+      "fr": "Multan",
+      "de": "Multan",
+      "tr": "Multan",
+      "ur": "ملتان",
+      "id": "Multan",
+      "es": "Multán",
+      "bn": "মুলতান",
+      "ms": "Multan"
+    },
+    "aliases": {
+      "en": [],
+      "ur": [
+        "ملتان"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "dhaka",
+    "type": "city",
+    "countryCode": "bd",
+    "lat": 23.8103,
+    "lng": 90.4125,
+    "timezone": "Asia/Dhaka",
+    "names": {
+      "ar": "دكا",
+      "en": "Dhaka",
+      "fr": "Dacca",
+      "de": "Dhaka",
+      "tr": "Dakka",
+      "ur": "ڈھاکا",
+      "id": "Dhaka",
+      "es": "Daca",
+      "bn": "ঢাকা",
+      "ms": "Dhaka"
+    },
+    "aliases": {
+      "en": [
+        "Dacca"
+      ],
+      "bn": [
+        "ঢাকা"
+      ],
+      "ur": [
+        "ڈھاکا"
+      ]
+    },
+    "admin": {
+      "countryAr": "بنغلاديش",
+      "countryEn": "Bangladesh"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "chittagong",
+    "type": "city",
+    "countryCode": "bd",
+    "lat": 22.3569,
+    "lng": 91.7832,
+    "timezone": "Asia/Dhaka",
+    "names": {
+      "ar": "شيتاغونغ",
+      "en": "Chittagong",
+      "fr": "Chittagong",
+      "de": "Chittagong",
+      "tr": "Chittagong",
+      "ur": "چٹاگانگ",
+      "id": "Chittagong",
+      "es": "Chittagong",
+      "bn": "চট্টগ্রাম",
+      "ms": "Chittagong"
+    },
+    "aliases": {
+      "en": [
+        "Chattogram"
+      ],
+      "bn": [
+        "চট্টগ্রাম",
+        "চাটগাঁ"
+      ],
+      "ur": [
+        "چٹاگانگ"
+      ]
+    },
+    "admin": {
+      "countryAr": "بنغلاديش",
+      "countryEn": "Bangladesh"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sylhet",
+    "type": "city",
+    "countryCode": "bd",
+    "lat": 24.8949,
+    "lng": 91.8687,
+    "timezone": "Asia/Dhaka",
+    "names": {
+      "ar": "سلهت",
+      "en": "Sylhet",
+      "fr": "Sylhet",
+      "de": "Sylhet",
+      "tr": "Sylhet",
+      "ur": "سلہٹ",
+      "id": "Sylhet",
+      "es": "Sylhet",
+      "bn": "সিলেট",
+      "ms": "Sylhet"
+    },
+    "aliases": {
+      "en": [],
+      "bn": [
+        "সিলেট"
+      ],
+      "ur": [
+        "سلہٹ"
+      ]
+    },
+    "admin": {
+      "countryAr": "بنغلاديش",
+      "countryEn": "Bangladesh"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "rajshahi",
+    "type": "city",
+    "countryCode": "bd",
+    "lat": 24.3636,
+    "lng": 88.6241,
+    "timezone": "Asia/Dhaka",
+    "names": {
+      "ar": "راجشاهي",
+      "en": "Rajshahi",
+      "fr": "Rajshahi",
+      "de": "Rajshahi",
+      "tr": "Rajshahi",
+      "ur": "راجشاہی",
+      "id": "Rajshahi",
+      "es": "Rajshahi",
+      "bn": "রাজশাহী",
+      "ms": "Rajshahi"
+    },
+    "aliases": {
+      "en": [],
+      "bn": [
+        "রাজশাহী"
+      ],
+      "ur": [
+        "راجشاہی"
+      ]
+    },
+    "admin": {
+      "countryAr": "بنغلاديش",
+      "countryEn": "Bangladesh"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "khulna",
+    "type": "city",
+    "countryCode": "bd",
+    "lat": 22.8456,
+    "lng": 89.5403,
+    "timezone": "Asia/Dhaka",
+    "names": {
+      "ar": "خولنا",
+      "en": "Khulna",
+      "fr": "Khulna",
+      "de": "Khulna",
+      "tr": "Khulna",
+      "ur": "کھلنا",
+      "id": "Khulna",
+      "es": "Khulna",
+      "bn": "খুলনা",
+      "ms": "Khulna"
+    },
+    "aliases": {
+      "en": [],
+      "bn": [
+        "খুলনা"
+      ],
+      "ur": [
+        "کھلنا"
+      ]
+    },
+    "admin": {
+      "countryAr": "بنغلاديش",
+      "countryEn": "Bangladesh"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
   }
 ]

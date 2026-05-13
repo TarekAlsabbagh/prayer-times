@@ -639,6 +639,53 @@ for (const [q, expected] of germanCases) {
     check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
 }
 
+// GLOBAL-PLACE-SEARCH-L10N-RU-1 (2026-05-13) — Russia + Ukraine + Cyrillic
+// =====================================================================
+// 11 user-listed cities, each tested in BOTH Latin and Cyrillic forms.
+// All in curated → tier 1 wins; strict equality on canonical Arabic.
+console.log('\n── L10N-RU-1: Russian / Ukrainian (Latin + Cyrillic) ──');
+const cyrillicCases = [
+    // Russia
+    ['Moscow',              'موسكو'],
+    ['Москва',              'موسكو'],
+    ['Saint Petersburg',    'سانت بطرسبرغ'],
+    ['Санкт-Петербург',     'سانت بطرسبرغ'],
+    ['Vladivostok',         'فلاديفوستوك'],
+    ['Владивосток',         'فلاديفوستوك'],
+    ['Kazan',               'قازان'],
+    ['Казань',              'قازان'],
+    ['Sochi',               'سوتشي'],
+    ['Сочи',                'سوتشي'],
+    ['Novosibirsk',         'نوفوسيبيرسك'],
+    ['Новосибирск',         'نوفوسيبيرسك'],
+    // Ukraine
+    ['Kyiv',                'كييف'],
+    ['Київ',                'كييف'],
+    ['Киев',                'كييف'],   // Russian spelling
+    ['Odesa',               'أوديسا'],
+    ['Одеса',               'أوديسا'],
+    ['Lviv',                'لفيف'],
+    ['Львів',               'لفيف'],
+    ['Kharkiv',             'خاركيف'],
+    ['Харків',              'خاركيف'],
+    ['Dnipro',              'دنيبرو'],
+    ['Дніпро',              'دنيبرو']
+];
+for (const [q, expected] of cyrillicCases) {
+    const r = await topOfQ(q, 'ar');
+    const ok = r && r.displayName === expected
+        && (r.nameQuality === 'curated' || r.nameQuality === 'override' || r.nameQuality === 'official');
+    check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
+}
+
+// AR pipeline must NEVER leak Cyrillic chars as displayName.
+{
+    const r = await topOfQ('Москва', 'ar');
+    const dn = r && r.displayName || '';
+    check(`Москва AR → no Cyrillic in display (got "${dn}")`,
+        r && /[؀-ۿ]/.test(dn) && !/[Ѐ-ӿ]/.test(dn));
+}
+
 // GLOBAL-PLACE-SEARCH-L10N-SCRIPT-FALLBACK-1 (2026-05-13)
 // =====================================================================
 // AR pipeline must NEVER surface raw CJK / Hangul / Cyrillic as the

@@ -2094,5 +2094,373 @@
     "priority": 85,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "moscow",
+    "type": "city",
+    "countryCode": "ru",
+    "lat": 55.7558,
+    "lng": 37.6173,
+    "timezone": "Europe/Moscow",
+    "names": {
+      "ar": "موسكو",
+      "en": "Moscow",
+      "fr": "Moscou",
+      "de": "Moskau",
+      "tr": "Moskova",
+      "ur": "ماسکو",
+      "id": "Moskwa",
+      "es": "Moscú",
+      "bn": "মস্কো",
+      "ms": "Moscow"
+    },
+    "aliases": {
+      "en": [
+        "Moskva",
+        "Москва"
+      ]
+    },
+    "admin": {
+      "countryAr": "روسيا",
+      "countryEn": "Russia"
+    },
+    "priority": 100,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "saint-petersburg",
+    "type": "city",
+    "countryCode": "ru",
+    "lat": 59.9311,
+    "lng": 30.3609,
+    "timezone": "Europe/Moscow",
+    "names": {
+      "ar": "سانت بطرسبرغ",
+      "en": "Saint Petersburg",
+      "fr": "Saint-Pétersbourg",
+      "de": "Sankt Petersburg",
+      "tr": "Saint Petersburg",
+      "ur": "سینٹ پیٹرسبرگ",
+      "id": "Sankt-Peterburg",
+      "es": "San Petersburgo",
+      "bn": "সেন্ট পিটার্সবার্গ",
+      "ms": "Saint Petersburg"
+    },
+    "aliases": {
+      "en": [
+        "St Petersburg",
+        "St. Petersburg",
+        "Petersburg",
+        "Санкт-Петербург"
+      ]
+    },
+    "admin": {
+      "countryAr": "روسيا",
+      "countryEn": "Russia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "vladivostok",
+    "type": "city",
+    "countryCode": "ru",
+    "lat": 43.1198,
+    "lng": 131.8869,
+    "timezone": "Asia/Vladivostok",
+    "names": {
+      "ar": "فلاديفوستوك",
+      "en": "Vladivostok",
+      "fr": "Vladivostok",
+      "de": "Wladiwostok",
+      "tr": "Vladivostok",
+      "ur": "ولاڈیووستوک",
+      "id": "Vladivostok",
+      "es": "Vladivostok",
+      "bn": "ভ্লাদিভোস্তক",
+      "ms": "Vladivostok"
+    },
+    "aliases": {
+      "en": [
+        "Владивосток"
+      ]
+    },
+    "admin": {
+      "countryAr": "روسيا",
+      "countryEn": "Russia"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kazan",
+    "type": "city",
+    "countryCode": "ru",
+    "lat": 55.8304,
+    "lng": 49.0661,
+    "timezone": "Europe/Moscow",
+    "names": {
+      "ar": "قازان",
+      "en": "Kazan",
+      "fr": "Kazan",
+      "de": "Kasan",
+      "tr": "Kazan",
+      "ur": "کازان",
+      "id": "Kazan",
+      "es": "Kazán",
+      "bn": "কাজান",
+      "ms": "Kazan"
+    },
+    "aliases": {
+      "en": [
+        "Казань"
+      ]
+    },
+    "admin": {
+      "countryAr": "روسيا",
+      "countryEn": "Russia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sochi",
+    "type": "city",
+    "countryCode": "ru",
+    "lat": 43.6028,
+    "lng": 39.7342,
+    "timezone": "Europe/Moscow",
+    "names": {
+      "ar": "سوتشي",
+      "en": "Sochi",
+      "fr": "Sotchi",
+      "de": "Sotschi",
+      "tr": "Soçi",
+      "ur": "سوچی",
+      "id": "Sochi",
+      "es": "Sochi",
+      "bn": "সোচি",
+      "ms": "Sochi"
+    },
+    "aliases": {
+      "en": [
+        "Сочи"
+      ]
+    },
+    "admin": {
+      "countryAr": "روسيا",
+      "countryEn": "Russia"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "novosibirsk",
+    "type": "city",
+    "countryCode": "ru",
+    "lat": 55.0084,
+    "lng": 82.9357,
+    "timezone": "Asia/Novosibirsk",
+    "names": {
+      "ar": "نوفوسيبيرسك",
+      "en": "Novosibirsk",
+      "fr": "Novossibirsk",
+      "de": "Nowosibirsk",
+      "tr": "Novosibirsk",
+      "ur": "نووسیبیرسک",
+      "id": "Novosibirsk",
+      "es": "Novosibirsk",
+      "bn": "নভোসিবিরস্ক",
+      "ms": "Novosibirsk"
+    },
+    "aliases": {
+      "en": [
+        "Новосибирск"
+      ]
+    },
+    "admin": {
+      "countryAr": "روسيا",
+      "countryEn": "Russia"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kyiv",
+    "type": "city",
+    "countryCode": "ua",
+    "lat": 50.4501,
+    "lng": 30.5234,
+    "timezone": "Europe/Kyiv",
+    "names": {
+      "ar": "كييف",
+      "en": "Kyiv",
+      "fr": "Kiev",
+      "de": "Kiew",
+      "tr": "Kiev",
+      "ur": "کیف",
+      "id": "Kyiv",
+      "es": "Kiev",
+      "bn": "কিয়েভ",
+      "ms": "Kyiv"
+    },
+    "aliases": {
+      "en": [
+        "Kiev",
+        "Київ",
+        "Киев"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوكرانيا",
+      "countryEn": "Ukraine"
+    },
+    "priority": 95,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "odesa",
+    "type": "city",
+    "countryCode": "ua",
+    "lat": 46.4825,
+    "lng": 30.7233,
+    "timezone": "Europe/Kyiv",
+    "names": {
+      "ar": "أوديسا",
+      "en": "Odesa",
+      "fr": "Odessa",
+      "de": "Odessa",
+      "tr": "Odessa",
+      "ur": "اوڈیسا",
+      "id": "Odesa",
+      "es": "Odesa",
+      "bn": "ওদেসা",
+      "ms": "Odesa"
+    },
+    "aliases": {
+      "en": [
+        "Odessa",
+        "Одеса",
+        "Одесса"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوكرانيا",
+      "countryEn": "Ukraine"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "lviv",
+    "type": "city",
+    "countryCode": "ua",
+    "lat": 49.8397,
+    "lng": 24.0297,
+    "timezone": "Europe/Kyiv",
+    "names": {
+      "ar": "لفيف",
+      "en": "Lviv",
+      "fr": "Lviv",
+      "de": "Lemberg",
+      "tr": "Lviv",
+      "ur": "لویو",
+      "id": "Lviv",
+      "es": "Leópolis",
+      "bn": "লভিভ",
+      "ms": "Lviv"
+    },
+    "aliases": {
+      "en": [
+        "Lvov",
+        "Lemberg",
+        "Львів",
+        "Львов"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوكرانيا",
+      "countryEn": "Ukraine"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kharkiv",
+    "type": "city",
+    "countryCode": "ua",
+    "lat": 49.9935,
+    "lng": 36.2304,
+    "timezone": "Europe/Kyiv",
+    "names": {
+      "ar": "خاركيف",
+      "en": "Kharkiv",
+      "fr": "Kharkiv",
+      "de": "Charkiw",
+      "tr": "Kharkiv",
+      "ur": "خارکیو",
+      "id": "Kharkiv",
+      "es": "Járkov",
+      "bn": "খারকিভ",
+      "ms": "Kharkiv"
+    },
+    "aliases": {
+      "en": [
+        "Kharkov",
+        "Харків",
+        "Харьков"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوكرانيا",
+      "countryEn": "Ukraine"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "dnipro",
+    "type": "city",
+    "countryCode": "ua",
+    "lat": 48.4647,
+    "lng": 35.0462,
+    "timezone": "Europe/Kyiv",
+    "names": {
+      "ar": "دنيبرو",
+      "en": "Dnipro",
+      "fr": "Dnipro",
+      "de": "Dnipro",
+      "tr": "Dnipro",
+      "ur": "دنیپرو",
+      "id": "Dnipro",
+      "es": "Dnipró",
+      "bn": "নিপ্রো",
+      "ms": "Dnipro"
+    },
+    "aliases": {
+      "en": [
+        "Dnepropetrovsk",
+        "Dnipropetrovsk",
+        "Дніпро",
+        "Дніпропетровськ"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوكرانيا",
+      "countryEn": "Ukraine"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
   }
 ]

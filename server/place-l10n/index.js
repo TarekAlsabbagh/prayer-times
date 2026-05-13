@@ -32,6 +32,7 @@
 const turkish  = require('./transliterate-tr');
 const japanese = require('./transliterate-jp');
 const german   = require('./transliterate-de');
+const russian  = require('./transliterate-ru');
 const cjk      = require('./transliterate-cjk');
 const romance  = require('./romance-overrides');
 const script   = require('./detect-script');
@@ -150,6 +151,16 @@ const ROMANIZED_KEYS = [
     ['official_name:en', 'en_official']
 ];
 
+// L10N-RU-1 (2026-05-13): also extract Cyrillic-script primary tags
+// (Russian, Ukrainian, Belarusian, Kazakh) so the Russian override module
+// and Cyrillic transliterator can use them as native-script sources.
+const CYRILLIC_KEYS = [
+    ['name:ru', 'ru'],
+    ['name:uk', 'uk'],
+    ['name:be', 'be'],
+    ['name:kk', 'kk']
+];
+
 function extractNamedetailsByLang(nd) {
     const out = {};
     if (!nd || typeof nd !== 'object') return out;
@@ -159,6 +170,12 @@ function extractNamedetailsByLang(nd) {
     }
     // Romanized variants — only set if not already populated (first wins).
     for (const [tag, slot] of ROMANIZED_KEYS) {
+        if (typeof nd[tag] === 'string' && nd[tag].trim() && !out[slot]) {
+            out[slot] = nd[tag].trim();
+        }
+    }
+    // Cyrillic-script primary tags (RU/UK/BE/KK).
+    for (const [tag, slot] of CYRILLIC_KEYS) {
         if (typeof nd[tag] === 'string' && nd[tag].trim() && !out[slot]) {
             out[slot] = nd[tag].trim();
         }
@@ -184,6 +201,9 @@ function extractNamedetailsByLang(nd) {
 //   6b. *AR-only German-speaking override (DE/AT/CH dict)* → 'override'
 //      ↳ countryCode === 'de'|'at'|'ch'. Historical Arabic names
 //      (Köln → كولونيا, Wien → فيينا, Zürich → زيورخ).
+//   6c. *AR-only Russian/Ukrainian override (RU/UA/BY/KZ dict)* → 'override'
+//      ↳ countryCode === 'ru'|'ua'|'by'|'kz' OR source has Cyrillic.
+//      Latin AND Cyrillic spellings both hit (Moscow / Москва, Kyiv / Київ).
 //   7a. *AR-only: Japanese romaji transliteration* → 'transliterated'
 //      ↳ countryCode === 'jp'. Uses غ for /g/ (e.g. Katsuragawa → كاتسوراغاوا).
 //   7b. *AR-only: Turkish country-specific transliteration* → 'transliterated'
@@ -191,6 +211,9 @@ function extractNamedetailsByLang(nd) {
 //   7c. *AR-only: German phonetic transliteration* → 'transliterated'
 //      ↳ countryCode === 'de'|'at'|'ch'. Handles ä/ö/ü/ß + word-initial
 //      sch/st/sp + g→غ.
+//   7d. *AR-only: Cyrillic phonetic transliteration* → 'transliterated'
+//      ↳ Source contains Cyrillic chars. Covers Russian + Ukrainian
+//      alphabet (а→ا, б→ب, в→ف, г→غ, д→د, ж→ج, х→خ, ц→تس, ч→تش, ї→يي).
 //   8. *AR-only: generic Latin→Arabic transliteration* → 'transliterated'
 //      ↳ source priority: names.en, nd.en, nd.ja_latn, nd.ko_latn,
 //      nd.zh_latn, nd.int_name, fallbackRawName (only if Latin).
@@ -271,6 +294,24 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
             if (deHit) return { value: deHit, quality: 'override' };
         }
 
+        // 6c. AR-only — Russian / Ukrainian override (RU/UA canonical names).
+        //     Sits at the same tier as the other override modules.
+        //     STRICT trigger: only when countryCode is ru/ua/by/kz OR the
+        //     RAW name itself (fallbackRawName) is Cyrillic. Otherwise we'd
+        //     match the Cyrillic name:ru annotation that Nominatim adds to
+        //     EVERY place worldwide (e.g. Le Pontet has name:ru="Ле-Понте")
+        //     and clobber the correct French/etc. transliteration.
+        const ruCountry = ['ru','ua','by','kz'].includes(ccLowerRom);
+        const rawIsCyrillic = russian.isCyrillic(fallbackRawName);
+        if (ruCountry || rawIsCyrillic) {
+            const ruHit = russian.lookupRussianArabic(
+                ccLowerRom,
+                nd.ru, names.ru, nd.uk, names.uk,
+                nd.en, names.en, fallbackRawName
+            );
+            if (ruHit) return { value: ruHit, quality: 'override' };
+        }
+
         // 7a. AR-only — Japanese romaji transliteration (cc='jp' OR
         //     romanized source comes from name:ja-Latn). Uses ghain (غ)
         //     for Japanese 'g' instead of generic ج. Examples:
@@ -323,6 +364,29 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
                 const de = german.transliterateGermanToArabic(clean);
                 if (de && /[؀-ۿ]/.test(de) && de.length >= 2) {
                     return { value: de, quality: 'transliterated' };
+                }
+            }
+        }
+
+        // 7d. AR-only — Cyrillic phonetic transliteration (RU/UA/BE/KK).
+        //     STRICT trigger: cc must be ru/ua/by/kz OR the raw name itself
+        //     must be Cyrillic. This avoids transliterating the name:ru
+        //     annotation that Nominatim adds to EVERY place worldwide.
+        //     Source priority then prefers cc-native script (nd.ru / nd.uk
+        //     / nd.be); falls back to raw if Cyrillic. г → غ (consistent
+        //     with Japanese + German /g/ conventions).
+        const ccLowerRu = ccLowerTr;
+        const ruCountryT = ['ru','ua','by','kz'].includes(ccLowerRu);
+        const rawIsCyrT  = russian.isCyrillic(fallbackRawName);
+        if (ruCountryT || rawIsCyrT) {
+            const cyrSrc = (typeof nd.ru === 'string' && nd.ru.trim() && russian.isCyrillic(nd.ru)) ? nd.ru.trim()
+                         : (typeof nd.uk === 'string' && nd.uk.trim() && russian.isCyrillic(nd.uk)) ? nd.uk.trim()
+                         : (typeof nd.be === 'string' && nd.be.trim() && russian.isCyrillic(nd.be)) ? nd.be.trim()
+                         : (fallbackRawName && russian.isCyrillic(fallbackRawName) ? String(fallbackRawName).trim() : '');
+            if (cyrSrc) {
+                const ru = russian.transliterateCyrillicToArabic(cyrSrc);
+                if (ru && /[؀-ۿ]/.test(ru) && ru.length >= 2) {
+                    return { value: ru, quality: 'transliterated' };
                 }
             }
         }
@@ -402,6 +466,7 @@ module.exports = {
     turkish,
     japanese,
     german,
+    russian,
     cjk,
     romance,
     script

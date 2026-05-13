@@ -143,9 +143,11 @@
         }
         .search-test-suggestions[hidden] { display: none; }
         .search-test-result {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             width: 100%;
-            text-align: inherit;
+            text-align: start;
             background: transparent;
             border: none;
             padding: 12px 16px;
@@ -166,13 +168,25 @@
                 background: rgba(74, 222, 128, 0.12);
             }
         }
-        .search-test-result strong {
+        .search-test-result-flag {
+            flex: 0 0 auto;
+            font-size: 22px;
+            line-height: 1;
+            display: inline-block;
+        }
+        .search-test-result-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+        .search-test-result-text strong {
             display: block;
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 2px;
         }
-        .search-test-result span {
+        .search-test-result-text span {
             display: block;
             font-size: 0.83rem;
             color: var(--st-text-light);
@@ -304,12 +318,28 @@
                 showEmpty(IS_AR ? 'لا توجد نتائج' : 'No results');
                 return;
             }
-            box.innerHTML = lastResults.map((r, i) => (
-                '<button class="search-test-result" type="button" role="option" data-idx="' + i + '">' +
-                '<strong>' + escapeHtml(r.displayName || r.slug) + '</strong>' +
-                '<span>' + escapeHtml(r.countryName || '') + '</span>' +
-                '</button>'
-            )).join('');
+            // SEARCH-UI-1: render each result with a country flag + a
+            // typed subtitle ("بلدة · فرنسا"). Flag sits on the RTL
+            // start-edge for AR (visually right), LTR start-edge for EN
+            // (visually left) — handled by `flex-direction` via CSS.
+            box.innerHTML = lastResults.map((r, i) => {
+                const flag = r.countryFlag || '';
+                const display = escapeHtml(r.displayName || r.slug);
+                const typeL = escapeHtml(r.typeLabel || r.type || '');
+                const cName = escapeHtml(r.countryName || '');
+                const subtitle = typeL && cName
+                    ? typeL + ' · ' + cName
+                    : (typeL || cName);
+                return (
+                    '<button class="search-test-result" type="button" role="option" data-idx="' + i + '">' +
+                      (flag ? '<span class="search-test-result-flag" aria-hidden="true">' + flag + '</span>' : '') +
+                      '<span class="search-test-result-text">' +
+                        '<strong>' + display + '</strong>' +
+                        '<span>' + subtitle + '</span>' +
+                      '</span>' +
+                    '</button>'
+                );
+            }).join('');
             box.hidden = false;
             Array.from(box.querySelectorAll('.search-test-result')).forEach(btn => {
                 btn.addEventListener('click', () => {

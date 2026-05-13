@@ -136,6 +136,80 @@ function _getCountryName(cc, lang) {
 // keeps compiling. New per-country transliterations land as sibling files
 // in `server/place-l10n/` — `server.js` shouldn't grow further L10N code.)
 
+// ═══ SEARCH-UI-1 (2026-05-13) — typeLabel + countryFlag for /search-test ═══
+// Localized labels for the place-type field returned in each search result.
+// The /search-test UI renders these under the city name as a subtitle
+// (e.g. "مدينة · فرنسا"). Fallback chain: lang → 'en' → raw type string.
+const _PLACE_TYPE_LABELS = {
+    ar: { city:'مدينة', town:'بلدة', village:'قرية', hamlet:'قرية صغيرة',
+          locality:'موقع', municipality:'بلدية', suburb:'ضاحية',
+          subdistrict:'منطقة فرعية', district:'منطقة', county:'مقاطعة',
+          province:'محافظة', state:'ولاية', state_district:'إقليم إداري',
+          region:'إقليم', governorate:'محافظة', administrative:'منطقة إدارية' },
+    en: { city:'City', town:'Town', village:'Village', hamlet:'Hamlet',
+          locality:'Locality', municipality:'Municipality', suburb:'Suburb',
+          subdistrict:'Sub-district', district:'District', county:'County',
+          province:'Province', state:'State', state_district:'State district',
+          region:'Region', governorate:'Governorate', administrative:'Administrative area' },
+    fr: { city:'Ville', town:'Ville', village:'Village', hamlet:'Hameau',
+          locality:'Localité', municipality:'Municipalité', suburb:'Banlieue',
+          subdistrict:'Sous-district', district:'District', county:'Comté',
+          province:'Province', state:'État', state_district:'District d\'État',
+          region:'Région', governorate:'Gouvernorat', administrative:'Zone administrative' },
+    de: { city:'Stadt', town:'Stadt', village:'Dorf', hamlet:'Weiler',
+          locality:'Ortschaft', municipality:'Gemeinde', suburb:'Vorort',
+          subdistrict:'Unterbezirk', district:'Bezirk', county:'Landkreis',
+          province:'Provinz', state:'Bundesland', state_district:'Regierungsbezirk',
+          region:'Region', governorate:'Gouvernement', administrative:'Verwaltungsgebiet' },
+    tr: { city:'Şehir', town:'Kasaba', village:'Köy', hamlet:'Mezra',
+          locality:'Yerleşim', municipality:'Belediye', suburb:'Banliyö',
+          subdistrict:'Alt bölge', district:'İlçe', county:'İl',
+          province:'Eyalet', state:'Eyalet', state_district:'Eyalet bölgesi',
+          region:'Bölge', governorate:'Vilayet', administrative:'İdari bölge' },
+    ur: { city:'شہر', town:'قصبہ', village:'گاؤں', hamlet:'چھوٹا گاؤں',
+          locality:'بستی', municipality:'بلدیہ', suburb:'مضافات',
+          subdistrict:'ذیلی ضلع', district:'ضلع', county:'کاؤنٹی',
+          province:'صوبہ', state:'ریاست', state_district:'ریاستی ضلع',
+          region:'علاقہ', governorate:'محافظہ', administrative:'انتظامی علاقہ' },
+    id: { city:'Kota', town:'Kota kecil', village:'Desa', hamlet:'Dukuh',
+          locality:'Lokalitas', municipality:'Munisipalitas', suburb:'Pinggiran',
+          subdistrict:'Kecamatan', district:'Distrik', county:'Daerah',
+          province:'Provinsi', state:'Negara bagian', state_district:'Distrik negara',
+          region:'Region', governorate:'Kegubernuran', administrative:'Wilayah administratif' },
+    es: { city:'Ciudad', town:'Pueblo', village:'Aldea', hamlet:'Caserío',
+          locality:'Localidad', municipality:'Municipio', suburb:'Suburbio',
+          subdistrict:'Subdistrito', district:'Distrito', county:'Condado',
+          province:'Provincia', state:'Estado', state_district:'Distrito estatal',
+          region:'Región', governorate:'Gobernación', administrative:'Área administrativa' },
+    bn: { city:'শহর', town:'নগর', village:'গ্রাম', hamlet:'ছোট গ্রাম',
+          locality:'এলাকা', municipality:'পৌরসভা', suburb:'উপশহর',
+          subdistrict:'উপজেলা', district:'জেলা', county:'কাউন্টি',
+          province:'প্রদেশ', state:'রাজ্য', state_district:'রাজ্য জেলা',
+          region:'অঞ্চল', governorate:'গভর্নরেট', administrative:'প্রশাসনিক এলাকা' },
+    ms: { city:'Bandar', town:'Pekan', village:'Kampung', hamlet:'Dusun',
+          locality:'Tempat', municipality:'Majlis perbandaran', suburb:'Pinggir bandar',
+          subdistrict:'Daerah kecil', district:'Daerah', county:'Daerah',
+          province:'Wilayah', state:'Negeri', state_district:'Daerah negeri',
+          region:'Kawasan', governorate:'Wilayah', administrative:'Kawasan pentadbiran' }
+};
+
+function _getPlaceTypeLabel(type, lang) {
+    const t = String(type || '').toLowerCase();
+    if (!t) return '';
+    const langKey = String(lang || 'en').toLowerCase();
+    const table = _PLACE_TYPE_LABELS[langKey] || _PLACE_TYPE_LABELS.en;
+    return table[t] || _PLACE_TYPE_LABELS.en[t] || t;
+}
+
+// Render an ISO-3166 alpha-2 country code as a Regional Indicator flag emoji
+// pair. Returns '' for invalid input. Used by the /search-test UI to put a
+// flag next to each search result.
+function _countryCodeToFlag(cc) {
+    const code = String(cc || '').trim().toUpperCase();
+    if (!/^[A-Z]{2}$/.test(code)) return '';
+    return code.split('').map(ch => String.fromCodePoint(127397 + ch.charCodeAt(0))).join('');
+}
+
 // Phase-A search. Pure local lookup against `_CURATED_PLACES`. Returns
 // at most 10 results in the unified contract shape, validated.
 function _searchCuratedPlaces(query, lang) {
@@ -204,9 +278,13 @@ function _searchCuratedPlaces(query, lang) {
             countryName = p.admin.countryEn;
         }
         if (!countryName) countryName = _getCountryName(p.countryCode, code);
+        const placeType = p.type || 'city';
         scored.push({
             slug: p.slug,
-            type: p.type || 'city',
+            type: placeType,
+            // SEARCH-UI-1: per-lang type label + emoji flag for /search-test
+            typeLabel: _getPlaceTypeLabel(placeType, code),
+            countryFlag: _countryCodeToFlag(p.countryCode),
             displayName,
             secondaryName: (p.names && p.names.en) || p.slug,
             // L10N-SCRIPT-FALLBACK-1: `originalName` is the place's name
@@ -429,9 +507,13 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
         || ''
     ).trim();
 
+    const resolvedType = _resolveExternalType(p);
     return {
         slug,
-        type: _resolveExternalType(p),
+        type: resolvedType,
+        // SEARCH-UI-1: per-lang type label + emoji flag for /search-test
+        typeLabel: _getPlaceTypeLabel(resolvedType, code),
+        countryFlag: _countryCodeToFlag(cc),
         displayName,
         secondaryName: enName,
         originalName,
@@ -659,9 +741,13 @@ function _mapDiscoveredRow(row, lang) {
     }
     if (!countryName) countryName = _getCountryName(row.country_code, code);
     if (!countryName) return null;
+    const rowType = row.type || 'city';
     return {
         slug: row.slug,
-        type: row.type || 'city',
+        type: rowType,
+        // SEARCH-UI-1: per-lang type label + emoji flag for /search-test
+        typeLabel: _getPlaceTypeLabel(rowType, code),
+        countryFlag: _countryCodeToFlag(row.country_code),
         displayName,
         secondaryName: (synthPlace.names.en || row.slug),
         // L10N-SCRIPT-FALLBACK-1: original raw OSM name preserved in

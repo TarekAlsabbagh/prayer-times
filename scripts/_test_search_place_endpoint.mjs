@@ -478,7 +478,7 @@ const regressions = [
     ['Le Pontet',     'لو بونت',     'transliterated'],
     ['Vancouver',     'فانكوفر',     'official'],
     ['San Francisco', 'سان فرانسيسكو','official'],
-    ['Vladivostok',   'فلاديفوستوك', 'official'],
+    ['Vladivostok',   'فلاديفوستوك', 'curated'],   // moved to curated in L10N-RU-1
     ['Granada',       'غرناطة',      'curated'],   // moved to curated in IT-ES-PT-1
     ['Riyadh',        'الرياض',      'curated'],
     ['Mecca',         'مكة المكرمة', 'curated']
@@ -686,6 +686,50 @@ for (const [q, expected] of cyrillicCases) {
         r && /[؀-ۿ]/.test(dn) && !/[Ѐ-ӿ]/.test(dn));
 }
 
+// GLOBAL-PLACE-SEARCH-CJK-SEARCH-FIX-1 (2026-05-13)
+// =====================================================================
+// After SCRIPT-FALLBACK-1 hardened the pipeline against raw-CJK leaking
+// as displayName, raw-CJK QUERIES stopped returning results on production
+// because curated entries didn't carry CJK aliases. Fix: each JP/CN
+// curated entry now has `aliases.ja` / `aliases.zh` with the native
+// forms (both bare name and `-市` / `-都` / `-府` administrative suffixes).
+// Search hits curated tier 1; displayName remains Arabic.
+console.log('\n── L10N-CJK-SEARCH-FIX-1: raw CJK queries hit curated ──');
+const cjkRawCases = [
+    // Japan — bare + suffixed
+    ['東京',     'طوكيو'],
+    ['東京都',   'طوكيو'],
+    ['京都',     'كيوتو'],
+    ['京都市',   'كيوتو'],
+    ['大阪',     'أوساكا'],
+    ['大阪市',   'أوساكا'],
+    ['横浜',     'يوكوهاما'],
+    ['札幌',     'سابورو'],
+    ['名古屋',   'ناغويا'],
+    ['神戸',     'كوبي'],
+    // China — bare + suffixed
+    ['北京',     'بكين'],
+    ['北京市',   'بكين'],
+    ['上海',     'شنغهاي'],
+    ['上海市',   'شنغهاي'],
+    ['广州',     'قوانغتشو'],
+    ['深圳',     'شينزن'],
+    ['西安',     'شيان'],
+    ['杭州',     'هانغتشو'],
+    ['南京',     'نانجينغ'],
+    ['成都',     'تشنغدو'],
+    ['武汉',     'ووهان'],
+    ['重庆',     'تشونغتشينغ']
+];
+for (const [q, expected] of cjkRawCases) {
+    const r = await topOfQ(q, 'ar');
+    // Strict: display matches canonical Arabic AND no CJK leaks.
+    const ok = r && r.displayName === expected
+        && !/[぀-ヿ㐀-䶿一-鿿]/.test(r.displayName)
+        && (r.nameQuality === 'curated' || r.nameQuality === 'override' || r.nameQuality === 'official');
+    check(`${q} AR → "${expected}" (got "${r && r.displayName}", q=${r && r.nameQuality})`, ok);
+}
+
 // GLOBAL-PLACE-SEARCH-L10N-SCRIPT-FALLBACK-1 (2026-05-13)
 // =====================================================================
 // AR pipeline must NEVER surface raw CJK / Hangul / Cyrillic as the
@@ -699,36 +743,33 @@ console.log('\n── L10N-SCRIPT-FALLBACK-1: raw CJK / Cyrillic input ──');
 // Helper: regex for "displayName must NOT contain CJK/Hangul/Cyrillic"
 const NON_LATIN_NON_AR_RE = /[぀-ヿ㐀-䶿一-鿿가-힯Ѐ-ӿऀ-ॿঀ-৿฀-๿]/;
 
-// CJK queries — display must be Arabic, originalName must be CJK.
+// CJK queries — display MUST be Arabic and contain no CJK characters.
+// `originalName` is populated when the result comes from Nominatim
+// (raw OSM `name=*` tag). When the query matches a curated entry,
+// `originalName` is empty (curated entries don't carry an OSM raw
+// name unless explicitly seeded in admin.originalName). Both paths
+// are acceptable as long as the displayName never leaks CJK.
 {
-    await sleep(1500);
-    const r = await topOfQ('東京', 'ar');     // Tokyo
-    check(`東京 AR → display Arabic + orig has CJK (display="${r && r.displayName}", orig="${r && r.originalName}")`,
+    const r = await topOfQ('東京', 'ar');
+    check(`東京 AR → display Arabic, no CJK leak (display="${r && r.displayName}", src=${r && r.source})`,
         r && /[؀-ۿ]/.test(r.displayName)
-        && !NON_LATIN_NON_AR_RE.test(r.displayName)
-        && /[一-鿿]/.test(r.originalName || ''));
+        && !NON_LATIN_NON_AR_RE.test(r.displayName));
 }
 {
-    await sleep(1500);
-    const r = await topOfQ('京都市', 'ar');   // Kyoto City
-    check(`京都市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", orig="${r && r.originalName}")`,
+    const r = await topOfQ('京都市', 'ar');
+    check(`京都市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", src=${r && r.source})`,
         r && /[؀-ۿ]/.test(r.displayName)
-        && !NON_LATIN_NON_AR_RE.test(r.displayName)
-        && /[一-鿿]/.test(r.originalName || ''));
+        && !NON_LATIN_NON_AR_RE.test(r.displayName));
 }
 {
-    await sleep(1500);
-    const r = await topOfQ('大阪市', 'ar');   // Osaka City
-    check(`大阪市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", orig="${r && r.originalName}")`,
-        r && r.displayName === 'أوساكا'
-        && /[一-鿿]/.test(r.originalName || ''));
+    const r = await topOfQ('大阪市', 'ar');
+    check(`大阪市 AR → "أوساكا" (display="${r && r.displayName}", src=${r && r.source})`,
+        r && r.displayName === 'أوساكا');
 }
 {
-    await sleep(1500);
-    const r = await topOfQ('北京市', 'ar');   // Beijing City
-    check(`北京市 AR → display Arabic, no CJK leak (display="${r && r.displayName}", orig="${r && r.originalName}")`,
-        r && r.displayName === 'بكين'
-        && /[一-鿿]/.test(r.originalName || ''));
+    const r = await topOfQ('北京市', 'ar');
+    check(`北京市 AR → "بكين" (display="${r && r.displayName}", src=${r && r.source})`,
+        r && r.displayName === 'بكين');
 }
 
 // originalName field present on curated regressions (empty for now until

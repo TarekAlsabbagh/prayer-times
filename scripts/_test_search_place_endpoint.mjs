@@ -1143,6 +1143,63 @@ for (const [q, lang, expectCC, expectName] of worldWave1) {
     await sleep(150);
 }
 
+console.log('\n── CURATED-SAUDI-COMPLETE-1 spot-checks (Phase 2026-05-14) ──');
+
+// Every Saudi query must hit tier 1 (curated). Includes the user's
+// required test list plus a region-representative sample.
+const saudiComplete = [
+    ['شقرا',                  'ar', 'sa', 'شقرا'],
+    ['وادي الدواسر',           'ar', 'sa', 'وادي الدواسر'],
+    ['Wadi ad-Dawasir',         'en', 'sa', 'Wadi ad-Dawasir'],
+    ['الزلفي',                'ar', 'sa', 'الزلفي'],
+    ['المجمعة',               'ar', 'sa', 'المجمعة'],
+    ['بيشة',                  'ar', 'sa', 'بيشة'],
+    ['Bisha',                   'en', 'sa', null], // alias hit
+    ['الرس',                  'ar', 'sa', 'الرس'],
+    ['العلا',                 'ar', 'sa', 'العلا'],
+    ['AlUla',                   'en', 'sa', null], // alias hit
+    ['خيبر',                  'ar', 'sa', 'خيبر'],
+    ['رابغ',                  'ar', 'sa', 'رابغ'],
+    ['القنفذة',               'ar', 'sa', 'القنفذة'],
+    ['الليث',                 'ar', 'sa', 'الليث'],
+    ['صبيا',                  'ar', 'sa', 'صبيا'],
+    ['رفحاء',                 'ar', 'sa', 'رفحاء'],
+    ['شرورة',                 'ar', 'sa', 'شرورة'],
+    ['بلجرشي',                'ar', 'sa', 'بلجرشي'],
+    ['رأس تنورة',             'ar', 'sa', 'رأس تنورة'],
+    ['دومة الجندل',            'ar', 'sa', 'دومة الجندل'],
+    ['القريات',               'ar', 'sa', 'القريات'],
+    // Other regions sample
+    ['الأفلاج',               'ar', 'sa', 'الأفلاج'],
+    ['الدوادمي',              'ar', 'sa', 'الدوادمي'],
+    ['عفيف',                  'ar', 'sa', 'عفيف'],
+    ['القويعية',              'ar', 'sa', 'القويعية'],
+    ['تيماء',                 'ar', 'sa', 'تيماء'],
+    ['أملج',                  'ar', 'sa', 'أملج'],
+    ['طريف',                  'ar', 'sa', 'طريف'],
+    ['محايل عسير',             'ar', 'sa', 'محايل عسير'],
+    ['النماص',                'ar', 'sa', 'النماص'],
+    ['أبو عريش',               'ar', 'sa', 'أبو عريش'],
+    ['فرسان',                 'ar', 'sa', 'فرسان'],
+    // Existing yanbu with new alias
+    ['ينبع البحر',             'ar', 'sa', 'ينبع'],
+];
+for (const [q, lang, expectCC, expectName] of saudiComplete) {
+    const r = await topOfQ(q, lang);
+    const got = r ? r.displayName : '(none)';
+    const cc  = r ? r.countryCode : '(none)';
+    const tz  = r ? r.timezone    : '(none)';
+    const src = r ? r.source       : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === 'sa';
+    const okTZ      = r && r.timezone === 'Asia/Riyadh';
+    const okReady   = r && isPrayerTimesReady(r);
+    const okName    = !expectName || got === expectName || got.includes(expectName);
+    check(`${q} (${lang}) → curated cc=sa tz=Asia/Riyadh [got src=${src}, cc=${cc}, tz=${tz}, name="${got}"]`,
+        okCurated && okCC && okTZ && okReady && okName);
+    await sleep(150);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

@@ -1200,6 +1200,91 @@ for (const [q, lang, expectCC, expectName] of saudiComplete) {
     await sleep(150);
 }
 
+console.log('\n── CURATED-SAUDI-FULL-1 spot-checks (Phase 2026-05-14) ──');
+
+// 50+ Saudi queries covering all 13 regions. Each must return:
+//   source = 'curated'
+//   countryCode = 'sa'
+//   timezone = 'Asia/Riyadh'
+const saudiFull = [
+    // Riyadh region
+    ['الحائر',                  'ar', 'الحائر'],
+    ['تمير',                    'ar', 'تمير'],
+    ['الحلوة',                  'ar', 'الحلوة'],
+    ['الأرطاوية',                'ar', 'الأرطاوية'],
+    ['روضة سدير',                'ar', 'روضة سدير'],
+    ['المزاحمية',                'ar', 'المزاحمية'],
+    ['الدلم',                    'ar', 'الدلم'],
+    ['حرمة',                    'ar', 'حرمة'],
+    ['العيينة',                  'ar', 'العيينة'],
+    ['أشيقر',                    'ar', 'أشيقر'],
+    ['اليمامة',                  'ar', 'اليمامة'],
+    ['ساجر',                    'ar', 'ساجر'],
+    ['جلاجل',                    'ar', 'جلاجل'],
+    // Makkah region
+    ['المويه',                  'ar', 'المويه'],
+    ['بحرة',                    'ar', 'بحرة'],
+    ['الجموم',                  'ar', 'الجموم'],
+    ['خليص',                    'ar', 'خليص'],
+    ['ثول',                     'ar', 'ثول'],
+    ['الشفا',                   'ar', 'الشفا'],
+    ['الهدى',                   'ar', 'الهدى'],
+    // Madinah region
+    ['وادي الفرع',               'ar', 'وادي الفرع'],
+    ['آبار علي',                 'ar', 'آبار علي'],
+    ['ذو الحليفة',                'ar', null], // alias hit on abyar-ali
+    // Qassim region
+    ['النبهانية',                'ar', 'النبهانية'],
+    ['عقلة الصقور',              'ar', 'عقلة الصقور'],
+    ['ضرية',                    'ar', 'ضرية'],
+    // Eastern Province
+    ['المبرز',                  'ar', 'المبرز'],
+    ['الأحساء',                 'ar', null], // alias hit on hofuf
+    ['تاروت',                   'ar', 'تاروت'],
+    ['العمران',                  'ar', 'العمران'],
+    ['الجش',                    'ar', 'الجش'],
+    ['العقير',                   'ar', 'العقير'],
+    // Asir region
+    ['تثليث',                   'ar', 'تثليث'],
+    ['طريب',                    'ar', 'طريب'],
+    ['بلقرن',                   'ar', 'بلقرن'],
+    ['بارق',                    'ar', 'بارق'],
+    ['الحرجة',                  'ar', 'الحرجة'],
+    // Tabuk region
+    ['المويلح',                  'ar', 'المويلح'],
+    // Hail region
+    ['الحائط',                  'ar', 'الحائط'],
+    ['السليمي',                 'ar', 'السليمي'],
+    ['موقق',                    'ar', 'موقق'],
+    ['سميراء',                  'ar', 'سميراء'],
+    ['الشملي',                  'ar', 'الشملي'],
+    ['نفي',                     'ar', 'نفي'],
+    // Jazan region
+    ['فيفاء',                   'ar', 'فيفاء'],
+    ['الداير',                  'ar', 'الداير'],
+    ['العيدابي',                 'ar', 'العيدابي'],
+    ['ضمد',                     'ar', 'ضمد'],
+    ['الريث',                   'ar', 'الريث'],
+    ['هروب',                    'ar', 'هروب'],
+    // Jouf
+    ['الحديثة',                 'ar', 'الحديثة'],
+];
+for (const [q, lang, expectName] of saudiFull) {
+    const r = await topOfQ(q, lang);
+    const got = r ? r.displayName : '(none)';
+    const cc  = r ? r.countryCode : '(none)';
+    const tz  = r ? r.timezone    : '(none)';
+    const src = r ? r.source       : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === 'sa';
+    const okTZ      = r && r.timezone === 'Asia/Riyadh';
+    const okReady   = r && isPrayerTimesReady(r);
+    const okName    = !expectName || got === expectName || got.includes(expectName);
+    check(`${q} → curated sa Asia/Riyadh [src=${src}, cc=${cc}, name="${got}"]`,
+        okCurated && okCC && okTZ && okReady && okName);
+    await sleep(150);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

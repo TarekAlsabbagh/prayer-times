@@ -11209,7 +11209,9 @@
         "الهفوف",
         "هفوف",
         "الأحساء",
-        "الاحساء"
+        "الاحساء",
+        "أحساء",
+        "احساء"
       ],
       "en": [
         "Al-Ahsa",
@@ -17534,6 +17536,1755 @@
       "countryEn": "Saudi Arabia"
     },
     "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-hayer",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 24.4544,
+    "lng": 46.8186,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الحائر",
+      "en": "Al Hair",
+      "fr": "Al Hair",
+      "de": "al-Hair",
+      "tr": "Hair",
+      "ur": "الحائر",
+      "id": "Al Hair",
+      "es": "Al Hair",
+      "bn": "আল-হাইর",
+      "ms": "Al Hair"
+    },
+    "aliases": {
+      "ar": [
+        "الحائر"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "thumayr",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.5667,
+    "lng": 45.85,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "تمير",
+      "en": "Thumayr",
+      "fr": "Thumayr",
+      "de": "Thumayr",
+      "tr": "Tumeyr",
+      "ur": "تمیر",
+      "id": "Thumayr",
+      "es": "Thumayr",
+      "bn": "থুমাইর",
+      "ms": "Thumayr"
+    },
+    "aliases": {
+      "ar": [
+        "تمير"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-hilwah",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 22.4444,
+    "lng": 47.1167,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الحلوة",
+      "en": "Al Hilwah",
+      "fr": "Al Hilwa",
+      "de": "al-Hilwa",
+      "tr": "Hılve",
+      "ur": "الحلوہ",
+      "id": "Al Hilwah",
+      "es": "Al Hilwah",
+      "bn": "আল-হিলওয়াহ",
+      "ms": "Al Hilwah"
+    },
+    "aliases": {
+      "ar": [
+        "الحلوة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-artawiyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.5031,
+    "lng": 45.3411,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الأرطاوية",
+      "en": "Al Artawiyah",
+      "fr": "Al Artawiya",
+      "de": "al-Artawiya",
+      "tr": "Artaviye",
+      "ur": "الارطاویہ",
+      "id": "Al Artawiyah",
+      "es": "Al Artawiyah",
+      "bn": "আল-আরতাউইয়াহ",
+      "ms": "Al Artawiyah"
+    },
+    "aliases": {
+      "ar": [
+        "الأرطاوية",
+        "الارطاوية"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "rawdat-sudair",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.965,
+    "lng": 45.4933,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "روضة سدير",
+      "en": "Rawdat Sudair",
+      "fr": "Rawdat Sudair",
+      "de": "Rawdat Sudair",
+      "tr": "Ravda Südeyr",
+      "ur": "روضۃ سدیر",
+      "id": "Rawdat Sudair",
+      "es": "Rawdat Sudair",
+      "bn": "রাওদাত সুদাইর",
+      "ms": "Rawdat Sudair"
+    },
+    "aliases": {
+      "ar": [
+        "روضة سدير"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-muzahimiyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 24.4805,
+    "lng": 46.2622,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "المزاحمية",
+      "en": "Al Muzahimiyah",
+      "fr": "Al Mouzahimiya",
+      "de": "al-Muzahimiyya",
+      "tr": "Müzahimiye",
+      "ur": "المزاحمیہ",
+      "id": "Al Muzahimiyah",
+      "es": "Al Muzahimiyah",
+      "bn": "আল-মুজাহিমিয়াহ",
+      "ms": "Al Muzahimiyah"
+    },
+    "aliases": {
+      "ar": [
+        "المزاحمية"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 72,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ad-dilam",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 23.9989,
+    "lng": 47.1597,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الدلم",
+      "en": "Ad-Dilam",
+      "fr": "Ad-Dilam",
+      "de": "ad-Dilam",
+      "tr": "Dilem",
+      "ur": "الدلم",
+      "id": "Ad-Dilam",
+      "es": "Ad-Dilam",
+      "bn": "আদ-দিলাম",
+      "ms": "Ad-Dilam"
+    },
+    "aliases": {
+      "ar": [
+        "الدلم"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "harma",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.9167,
+    "lng": 45.3333,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "حرمة",
+      "en": "Harma",
+      "fr": "Harma",
+      "de": "Harma",
+      "tr": "Harma",
+      "ur": "حرمہ",
+      "id": "Harma",
+      "es": "Harma",
+      "bn": "হারমা",
+      "ms": "Harma"
+    },
+    "aliases": {
+      "ar": [
+        "حرمة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-uyaynah",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 24.9,
+    "lng": 46.3833,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العيينة",
+      "en": "Al Uyaynah",
+      "fr": "Al Ouayna",
+      "de": "al-ʿUyayna",
+      "tr": "Uyeyne",
+      "ur": "العیینہ",
+      "id": "Al Uyaynah",
+      "es": "Al Uyaynah",
+      "bn": "আল-উইয়াইনাহ",
+      "ms": "Al Uyaynah"
+    },
+    "aliases": {
+      "ar": [
+        "العيينة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ushaiqir",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 25.35,
+    "lng": 45.2,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "أشيقر",
+      "en": "Ushaiqir",
+      "fr": "Ushaiqir",
+      "de": "Uschaiqir",
+      "tr": "Üşeykir",
+      "ur": "اشیقر",
+      "id": "Ushaiqir",
+      "es": "Ushaiqir",
+      "bn": "উশাইকির",
+      "ms": "Ushaiqir"
+    },
+    "aliases": {
+      "ar": [
+        "أشيقر",
+        "اشيقر"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-yamamah",
+    "type": "locality",
+    "countryCode": "sa",
+    "lat": 24.5167,
+    "lng": 47.3167,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "اليمامة",
+      "en": "Al Yamamah",
+      "fr": "Al Yamama",
+      "de": "al-Yamama",
+      "tr": "Yemame",
+      "ur": "الیمامہ",
+      "id": "Al Yamamah",
+      "es": "Al Yamamah",
+      "bn": "আল-ইয়ামামাহ",
+      "ms": "Al Yamamah"
+    },
+    "aliases": {
+      "ar": [
+        "اليمامة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sajir",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 25.1842,
+    "lng": 44.6033,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "ساجر",
+      "en": "Sajir",
+      "fr": "Sajir",
+      "de": "Sajir",
+      "tr": "Sacir",
+      "ur": "ساجر",
+      "id": "Sajir",
+      "es": "Sajir",
+      "bn": "সাজির",
+      "ms": "Sajir"
+    },
+    "aliases": {
+      "ar": [
+        "ساجر"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "julajul",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.6961,
+    "lng": 45.4,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "جلاجل",
+      "en": "Julajul",
+      "fr": "Jelajel",
+      "de": "Dschuladschil",
+      "tr": "Cülecil",
+      "ur": "جلاجل",
+      "id": "Julajul",
+      "es": "Julajul",
+      "bn": "জুলাজুল",
+      "ms": "Julajul"
+    },
+    "aliases": {
+      "ar": [
+        "جلاجل"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-muwayh",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 22.45,
+    "lng": 41.4167,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "المويه",
+      "en": "Al Muwayh",
+      "fr": "Al Mouwayh",
+      "de": "al-Muwayh",
+      "tr": "Müveyh",
+      "ur": "الموَیہ",
+      "id": "Al Muwayh",
+      "es": "Al Muwayh",
+      "bn": "আল-মুওয়াইহ",
+      "ms": "Al Muwayh"
+    },
+    "aliases": {
+      "ar": [
+        "المويه"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bahrah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 21.4167,
+    "lng": 39.45,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "بحرة",
+      "en": "Bahrah",
+      "fr": "Bahra",
+      "de": "Bahra",
+      "tr": "Bahre",
+      "ur": "بحرہ",
+      "id": "Bahrah",
+      "es": "Bahrah",
+      "bn": "বাহরাহ",
+      "ms": "Bahrah"
+    },
+    "aliases": {
+      "ar": [
+        "بحرة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-jamoom",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 21.7833,
+    "lng": 39.7,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الجموم",
+      "en": "Al Jamoom",
+      "fr": "Al Jamoum",
+      "de": "al-Dschumum",
+      "tr": "Cemum",
+      "ur": "الجموم",
+      "id": "Al Jamoom",
+      "es": "Al Jamoom",
+      "bn": "আল-জামুম",
+      "ms": "Al Jamoom"
+    },
+    "aliases": {
+      "ar": [
+        "الجموم"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 72,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "khulays",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 22.15,
+    "lng": 39.3167,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "خليص",
+      "en": "Khulays",
+      "fr": "Khoulais",
+      "de": "Chulais",
+      "tr": "Hulays",
+      "ur": "خلیص",
+      "id": "Khulays",
+      "es": "Khulays",
+      "bn": "খুলাইস",
+      "ms": "Khulays"
+    },
+    "aliases": {
+      "ar": [
+        "خليص"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 72,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "thuwal",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 22.2786,
+    "lng": 39.1019,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "ثول",
+      "en": "Thuwal",
+      "fr": "Thouwal",
+      "de": "Thuwal",
+      "tr": "Süvel",
+      "ur": "ثول",
+      "id": "Thuwal",
+      "es": "Thuwal",
+      "bn": "থুওয়াল",
+      "ms": "Thuwal"
+    },
+    "aliases": {
+      "ar": [
+        "ثول"
+      ],
+      "en": [
+        "KAUST"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ash-shafa",
+    "type": "locality",
+    "countryCode": "sa",
+    "lat": 21.0833,
+    "lng": 40.3,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الشفا",
+      "en": "Ash Shafa",
+      "fr": "Ach Chafa",
+      "de": "asch-Schifa",
+      "tr": "Şefa",
+      "ur": "الشفا",
+      "id": "Ash Shafa",
+      "es": "Ash Shafa",
+      "bn": "আশ-শাফা",
+      "ms": "Ash Shafa"
+    },
+    "aliases": {
+      "ar": [
+        "الشفا",
+        "شفا الطائف"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-huda",
+    "type": "locality",
+    "countryCode": "sa",
+    "lat": 21.35,
+    "lng": 40.2833,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الهدى",
+      "en": "Al Huda",
+      "fr": "Al Houda",
+      "de": "al-Huda",
+      "tr": "Hüda",
+      "ur": "الہدیٰ",
+      "id": "Al Huda",
+      "es": "Al Huda",
+      "bn": "আল-হুদা",
+      "ms": "Al Huda"
+    },
+    "aliases": {
+      "ar": [
+        "الهدى",
+        "هدى الطائف"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة مكة المكرمة",
+      "regionEn": "Makkah Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "wadi-al-fara",
+    "type": "locality",
+    "countryCode": "sa",
+    "lat": 23.71,
+    "lng": 38.99,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "وادي الفرع",
+      "en": "Wadi Al Fara",
+      "fr": "Wadi al-Fara",
+      "de": "Wadi al-Farʿ",
+      "tr": "Vadi el-Farʿ",
+      "ur": "وادی الفرع",
+      "id": "Wadi Al Fara",
+      "es": "Wadi Al Fara",
+      "bn": "ওয়াদি আল-ফারা",
+      "ms": "Wadi Al Fara"
+    },
+    "aliases": {
+      "ar": [
+        "وادي الفرع",
+        "الفرع"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة المدينة المنورة",
+      "regionEn": "Madinah Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "abyar-ali",
+    "type": "miqat",
+    "countryCode": "sa",
+    "lat": 24.4292,
+    "lng": 39.5722,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "آبار علي",
+      "en": "Abyar Ali",
+      "fr": "Abyar Ali",
+      "de": "Abyar ʿAli",
+      "tr": "Ebyâr Ali",
+      "ur": "آبار علی",
+      "id": "Abyar Ali",
+      "es": "Abyar Ali",
+      "bn": "আবিয়ার আলি",
+      "ms": "Abyar Ali"
+    },
+    "aliases": {
+      "ar": [
+        "أبيار علي",
+        "ذو الحليفة",
+        "ذي الحليفة",
+        "بير علي"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة المدينة المنورة",
+      "regionEn": "Madinah Region"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "an-nabhaniyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.4628,
+    "lng": 44.6739,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "النبهانية",
+      "en": "An Nabhaniyah",
+      "fr": "An Nabhaniya",
+      "de": "an-Nabhaniyya",
+      "tr": "Nebhaniye",
+      "ur": "النبہانیہ",
+      "id": "An Nabhaniyah",
+      "es": "An Nabhaniyah",
+      "bn": "আন-নাবহানিয়াহ",
+      "ms": "An Nabhaniyah"
+    },
+    "aliases": {
+      "ar": [
+        "النبهانية"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "uqlat-as-suqur",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.8636,
+    "lng": 42.1942,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "عقلة الصقور",
+      "en": "Uqlat As Suqur",
+      "fr": "Uqlat as-Souqour",
+      "de": "ʿUqlat as-Suqur",
+      "tr": "Uklatü's-Sukur",
+      "ur": "عقلۃ الصقور",
+      "id": "Uqlat As Suqur",
+      "es": "Uqlat As Suqur",
+      "bn": "উকলাত আস-সুকুর",
+      "ms": "Uqlat As Suqur"
+    },
+    "aliases": {
+      "ar": [
+        "عقلة الصقور"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "dharyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.4694,
+    "lng": 44.4361,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "ضرية",
+      "en": "Dharyah",
+      "fr": "Dharya",
+      "de": "Dhariyya",
+      "tr": "Zariyye",
+      "ur": "ضریہ",
+      "id": "Dharyah",
+      "es": "Dharyah",
+      "bn": "ধারিয়াহ",
+      "ms": "Dharyah"
+    },
+    "aliases": {
+      "ar": [
+        "ضرية"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-mubarraz",
+    "type": "city",
+    "countryCode": "sa",
+    "lat": 25.4344,
+    "lng": 49.5878,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "المبرز",
+      "en": "Al Mubarraz",
+      "fr": "Al Moubarraz",
+      "de": "al-Mubarraz",
+      "tr": "Mübarrez",
+      "ur": "المبرز",
+      "id": "Al Mubarraz",
+      "es": "Al Mubarraz",
+      "bn": "আল-মুবাররাজ",
+      "ms": "Al Mubarraz"
+    },
+    "aliases": {
+      "ar": [
+        "المبرز"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tarout",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.5733,
+    "lng": 50.0506,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "تاروت",
+      "en": "Tarout",
+      "fr": "Tarout",
+      "de": "Tarut",
+      "tr": "Tarut",
+      "ur": "تاروت",
+      "id": "Tarout",
+      "es": "Tarut",
+      "bn": "তারুত",
+      "ms": "Tarout"
+    },
+    "aliases": {
+      "ar": [
+        "تاروت",
+        "جزيرة تاروت"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-omran",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.5783,
+    "lng": 49.5853,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العمران",
+      "en": "Al Omran",
+      "fr": "Al Omran",
+      "de": "al-ʿUmran",
+      "tr": "Umran",
+      "ur": "العمران",
+      "id": "Al Omran",
+      "es": "Al Omran",
+      "bn": "আল-উমরান",
+      "ms": "Al Omran"
+    },
+    "aliases": {
+      "ar": [
+        "العمران"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-uyun-sa",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.5961,
+    "lng": 49.5811,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العيون",
+      "en": "Al Uyun",
+      "fr": "Al Ouyoun",
+      "de": "al-ʿUyun",
+      "tr": "Uyun",
+      "ur": "العیون",
+      "id": "Al Uyun",
+      "es": "Al Uyun",
+      "bn": "আল-উয়ুন",
+      "ms": "Al Uyun"
+    },
+    "aliases": {
+      "ar": [
+        "العيون"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-jash",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.6489,
+    "lng": 49.9756,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الجش",
+      "en": "Al Jash",
+      "fr": "Al Jach",
+      "de": "al-Dschisch",
+      "tr": "Ciş",
+      "ur": "الجش",
+      "id": "Al Jash",
+      "es": "Al Jash",
+      "bn": "আল-জাশ",
+      "ms": "Al Jash"
+    },
+    "aliases": {
+      "ar": [
+        "الجش"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-uqair",
+    "type": "locality",
+    "countryCode": "sa",
+    "lat": 25.6306,
+    "lng": 50.2125,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العقير",
+      "en": "Al Uqair",
+      "fr": "Al Ouqayr",
+      "de": "al-ʿUqair",
+      "tr": "Ukayr",
+      "ur": "العقیر",
+      "id": "Al Uqair",
+      "es": "Al Uqair",
+      "bn": "আল-উকাইর",
+      "ms": "Al Uqair"
+    },
+    "aliases": {
+      "ar": [
+        "العقير"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tathlith",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 19.5497,
+    "lng": 43.2853,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "تثليث",
+      "en": "Tathlith",
+      "fr": "Tathlith",
+      "de": "Tathlith",
+      "tr": "Tesliyse",
+      "ur": "تثلیث",
+      "id": "Tathlith",
+      "es": "Tathlith",
+      "bn": "তাথলিথ",
+      "ms": "Tathlith"
+    },
+    "aliases": {
+      "ar": [
+        "تثليث"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة عسير",
+      "regionEn": "Asir Region"
+    },
+    "priority": 72,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tarib",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 18.9667,
+    "lng": 43.45,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "طريب",
+      "en": "Tarib",
+      "fr": "Tarib",
+      "de": "Tarib",
+      "tr": "Tarib",
+      "ur": "طریب",
+      "id": "Tarib",
+      "es": "Tarib",
+      "bn": "তারিব",
+      "ms": "Tarib"
+    },
+    "aliases": {
+      "ar": [
+        "طريب"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة عسير",
+      "regionEn": "Asir Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "balqarn",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 19.6,
+    "lng": 41.8,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "بلقرن",
+      "en": "Balqarn",
+      "fr": "Balqarn",
+      "de": "Balqarn",
+      "tr": "Belkarn",
+      "ur": "بلقرن",
+      "id": "Balqarn",
+      "es": "Balqarn",
+      "bn": "বালকার্ন",
+      "ms": "Balqarn"
+    },
+    "aliases": {
+      "ar": [
+        "بلقرن"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة عسير",
+      "regionEn": "Asir Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bariq",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 18.9333,
+    "lng": 41.5667,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "بارق",
+      "en": "Bariq",
+      "fr": "Bariq",
+      "de": "Bariq",
+      "tr": "Bârik",
+      "ur": "بارق",
+      "id": "Bariq",
+      "es": "Bariq",
+      "bn": "বারিক",
+      "ms": "Bariq"
+    },
+    "aliases": {
+      "ar": [
+        "بارق"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة عسير",
+      "regionEn": "Asir Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "wadi-bin-hashbil",
+    "type": "locality",
+    "countryCode": "sa",
+    "lat": 19.2167,
+    "lng": 42.4,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "وادي ابن هشبل",
+      "en": "Wadi Bin Hashbil",
+      "fr": "Wadi Bin Hashbil",
+      "de": "Wadi Bin Haschbil",
+      "tr": "Vadi Bin Haşbil",
+      "ur": "وادی ابن ہشبل",
+      "id": "Wadi Bin Hashbil",
+      "es": "Wadi Bin Hashbil",
+      "bn": "ওয়াদি বিন হাশবিল",
+      "ms": "Wadi Bin Hashbil"
+    },
+    "aliases": {
+      "ar": [
+        "وادي ابن هشبل"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة عسير",
+      "regionEn": "Asir Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-harjah",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 19.9417,
+    "lng": 41.8,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الحرجة",
+      "en": "Al Harjah",
+      "fr": "Al Harja",
+      "de": "al-Harja",
+      "tr": "Hârice",
+      "ur": "الحرجہ",
+      "id": "Al Harjah",
+      "es": "Al Harjah",
+      "bn": "আল-হারজাহ",
+      "ms": "Al Harjah"
+    },
+    "aliases": {
+      "ar": [
+        "الحرجة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة عسير",
+      "regionEn": "Asir Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-muwaylih",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.65,
+    "lng": 35.5333,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "المويلح",
+      "en": "Al Muwaylih",
+      "fr": "Al Muwaylih",
+      "de": "al-Muwaylih",
+      "tr": "Müveylih",
+      "ur": "الموَیلح",
+      "id": "Al Muwaylih",
+      "es": "Al Muwaylih",
+      "bn": "আল-মুওয়াইলিহ",
+      "ms": "Al Muwaylih"
+    },
+    "aliases": {
+      "ar": [
+        "المويلح"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة تبوك",
+      "regionEn": "Tabuk Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-hait",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.4933,
+    "lng": 41.6953,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الحائط",
+      "en": "Al Hait",
+      "fr": "Al Hayt",
+      "de": "al-Haʾit",
+      "tr": "Hâʾit",
+      "ur": "الحائط",
+      "id": "Al Hait",
+      "es": "Al Hait",
+      "bn": "আল-হাইত",
+      "ms": "Al Hait"
+    },
+    "aliases": {
+      "ar": [
+        "الحائط"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة حائل",
+      "regionEn": "Hail Region"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "as-sulaymi",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.0386,
+    "lng": 41.4167,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "السليمي",
+      "en": "As Sulaymi",
+      "fr": "As Soulaymi",
+      "de": "as-Sulaymi",
+      "tr": "Süleymî",
+      "ur": "السلیمی",
+      "id": "As Sulaymi",
+      "es": "As Sulaymi",
+      "bn": "আস-সুলায়মি",
+      "ms": "As Sulaymi"
+    },
+    "aliases": {
+      "ar": [
+        "السليمي"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة حائل",
+      "regionEn": "Hail Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mawqaq",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.3486,
+    "lng": 41.6647,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "موقق",
+      "en": "Mawqaq",
+      "fr": "Mawqaq",
+      "de": "Mawqaq",
+      "tr": "Mevkak",
+      "ur": "موقق",
+      "id": "Mawqaq",
+      "es": "Mawqaq",
+      "bn": "মাওকাক",
+      "ms": "Mawqaq"
+    },
+    "aliases": {
+      "ar": [
+        "موقق"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة حائل",
+      "regionEn": "Hail Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sumayra",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.9667,
+    "lng": 41.8333,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "سميراء",
+      "en": "Sumayra",
+      "fr": "Sumayra",
+      "de": "Sumayra",
+      "tr": "Sümeyra",
+      "ur": "سمیراء",
+      "id": "Sumayra",
+      "es": "Sumayra",
+      "bn": "সুমাইরা",
+      "ms": "Sumayra"
+    },
+    "aliases": {
+      "ar": [
+        "سميراء"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة حائل",
+      "regionEn": "Hail Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ash-shamli",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.4361,
+    "lng": 41.5,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الشملي",
+      "en": "Ash Shamli",
+      "fr": "Ach Chamli",
+      "de": "asch-Schamli",
+      "tr": "Şemlî",
+      "ur": "الشملی",
+      "id": "Ash Shamli",
+      "es": "Ash Shamli",
+      "bn": "আশ-শামলি",
+      "ms": "Ash Shamli"
+    },
+    "aliases": {
+      "ar": [
+        "الشملي"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة حائل",
+      "regionEn": "Hail Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nafi",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 27.05,
+    "lng": 41.21,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "نفي",
+      "en": "Nafi",
+      "fr": "Nafi",
+      "de": "Nafiʿ",
+      "tr": "Nafʿ",
+      "ur": "نفی",
+      "id": "Nafi",
+      "es": "Nafi",
+      "bn": "নাফি",
+      "ms": "Nafi"
+    },
+    "aliases": {
+      "ar": [
+        "نفي"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة حائل",
+      "regionEn": "Hail Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "fayfa",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 17.25,
+    "lng": 43.1167,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "فيفاء",
+      "en": "Fayfa",
+      "fr": "Faifa",
+      "de": "Faifa",
+      "tr": "Feyfa",
+      "ur": "فیفاء",
+      "id": "Fayfa",
+      "es": "Fayfa",
+      "bn": "ফাইফা",
+      "ms": "Fayfa"
+    },
+    "aliases": {
+      "ar": [
+        "فيفاء",
+        "فيفا"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ad-dayer",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 17.4333,
+    "lng": 43.2,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الداير",
+      "en": "Ad Dayer",
+      "fr": "Ad Dayer",
+      "de": "ad-Dayyir",
+      "tr": "Dâyir",
+      "ur": "الدائر",
+      "id": "Ad Dayer",
+      "es": "Ad Dayer",
+      "bn": "আদ-দাইর",
+      "ms": "Ad Dayer"
+    },
+    "aliases": {
+      "ar": [
+        "الداير",
+        "الدائر",
+        "الداير بني مالك"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 68,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-aydabi",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 17.0333,
+    "lng": 42.8333,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العيدابي",
+      "en": "Al Aydabi",
+      "fr": "Al Aydabi",
+      "de": "al-ʿAydabi",
+      "tr": "Aydabî",
+      "ur": "العیدابی",
+      "id": "Al Aydabi",
+      "es": "Al Aydabi",
+      "bn": "আল-আইদাবি",
+      "ms": "Al Aydabi"
+    },
+    "aliases": {
+      "ar": [
+        "العيدابي"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "damad",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 16.9667,
+    "lng": 42.7833,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "ضمد",
+      "en": "Damad",
+      "fr": "Damad",
+      "de": "Damad",
+      "tr": "Damad",
+      "ur": "ضمد",
+      "id": "Damad",
+      "es": "Damad",
+      "bn": "দামাদ",
+      "ms": "Damad"
+    },
+    "aliases": {
+      "ar": [
+        "ضمد"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ar-rayth",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 17.4333,
+    "lng": 43.05,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الريث",
+      "en": "Ar Rayth",
+      "fr": "Ar Raith",
+      "de": "ar-Rayth",
+      "tr": "Reys",
+      "ur": "الریث",
+      "id": "Ar Rayth",
+      "es": "Ar Rayth",
+      "bn": "আর-রাইথ",
+      "ms": "Ar Rayth"
+    },
+    "aliases": {
+      "ar": [
+        "الريث"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "harub",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 17.4167,
+    "lng": 43.0833,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "هروب",
+      "en": "Harub",
+      "fr": "Harub",
+      "de": "Harub",
+      "tr": "Harûb",
+      "ur": "ہروب",
+      "id": "Harub",
+      "es": "Harub",
+      "bn": "হারুব",
+      "ms": "Harub"
+    },
+    "aliases": {
+      "ar": [
+        "هروب"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 65,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-haditha-jo",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 30.8167,
+    "lng": 38.45,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الحديثة",
+      "en": "Al Haditha",
+      "fr": "Al Haditha",
+      "de": "al-Haditha",
+      "tr": "Hâdise",
+      "ur": "الحدیثہ",
+      "id": "Al Haditha",
+      "es": "Al Haditha",
+      "bn": "আল-হাদিসা",
+      "ms": "Al Haditha"
+    },
+    "aliases": {
+      "ar": [
+        "الحديثة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الجوف",
+      "regionEn": "Al Jouf Region"
+    },
+    "priority": 68,
     "source": "curated",
     "verified": true
   }

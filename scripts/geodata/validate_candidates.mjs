@@ -1,42 +1,38 @@
-// scripts/geodata/validate_sa_candidates.mjs
+// scripts/geodata/validate_candidates.mjs
 // ─────────────────────────────────────────────────────────────────────────
-// CURATED-SA-GEODATA-IMPORT-1B — Stage 3: VALIDATE + tier refinement
+// CURATED-GEODATA — Stage 3: VALIDATE + tier refinement (country-agnostic)
 //
-// Reads sa-geonames-normalized.json + db/places/curated-places.json,
+// Usage: node scripts/geodata/validate_candidates.mjs <cc>
+//   <cc> = lowercase 2-letter ISO code. Default 'sa'.
+//
+// Reads <cc>-geonames-normalized.json + db/places/curated-places.json,
 // produces:
-//   - sa-geonames-candidates.json (each candidate with status + tier)
-//   - reports/sa-geodata-import-report.md (refined: high/medium/low pending)
-//   - reports/sa-geodata-aliases-review.md (separate alias-enrichment list)
+//   - <cc>-geonames-candidates.json (each candidate with status + tier)
+//   - reports/<cc>-geodata-import-report.md
+//   - reports/<cc>-geodata-aliases-review.md
 //
-// Refinement vs the original Stage 3:
-//   * NO auto-approval — `approved_auto` is always empty until user decides.
-//   * Religious / landmark blocklist → status='rejected' (e.g. مسجد القبلتين).
-//   * Non-place blocklist (mountain, farm, station, …) → soft demotion.
-//   * Distance to nearest curated entry computed for every candidate.
-//   * Pending pool split into three tiers:
-//       'high'   — strict gates (real Arabic + admin or PPL feature + qScore>=80
-//                  + distance>3km + no blocklist + known region)
-//       'medium' — same gates but qScore in 70-79
-//       'low'    — everything else with real Arabic
-//   * Alias enrichment now lives in a separate report file, NOT mixed in
-//     with the main candidate review.
-//
-// Stage 4 stays unwritten. The user reviews these reports and decides which
-// `pending` (high/medium) entries to flip to `approved` before any merge.
+// Rules:
+//   * NO auto-approval — `approved` is always empty until user decides.
+//   * Religious / landmark blocklist → status='rejected'.
+//   * Non-place blocklist (mountain, farm, station, …) → needs_review.
+//   * Distance to nearest curated entry (same country) computed.
+//   * Pending pool split into 'high' / 'medium' / 'low' tiers.
+//   * Alias enrichment in a separate report file.
 //
 // Data attribution:
 //   © GeoNames — licensed CC-BY 4.0
 // ─────────────────────────────────────────────────────────────────────────
 import fs from 'node:fs';
 import {
-    PATHS,
+    pathsFor, loadCountryConfig,
     normalizeArabic, normalizeLatin, haversineKm,
-    RELIGIOUS_KEYWORDS, NON_PLACE_KEYWORDS, matchAnyKeyword
+    RELIGIOUS_KEYWORDS, NON_PLACE_KEYWORDS, matchAnyKeyword,
+    effectiveKeywords
 } from './_geonames_common.mjs';
 
-// ─── Build dedupe indices from existing curated entries ───
-function buildExistingIndex(curated) {
-    const sa = curated.filter(x => x.countryCode === 'sa');
+// ─── Build dedupe indices from existing curated entries (same country) ───
+function buildExistingIndex(curated, cc) {
+    const sa = curated.filter(x => x.countryCode === cc);
     const bySlug      = new Map();
     const byArName    = new Map();
     const byEnName    = new Map();
@@ -110,13 +106,15 @@ function distanceToNearestCurated(cand, saList) {
 
 // ─── Detect blocklist hits ───
 // Returns { hit: 'religious' | 'non_place' | null, keyword: '...' }
-function checkBlocklist(cand) {
+// `religiousKw` and `nonPlaceKw` allow per-country extensions on top of
+// the cross-Arabic defaults.
+function checkBlocklist(cand, religiousKw, nonPlaceKw) {
     const combined = (cand.names.ar || '') + ' ' + (cand.names.en || '') + ' '
                    + ((cand.aliases && cand.aliases.ar) || []).join(' ') + ' '
                    + ((cand.aliases && cand.aliases.en) || []).join(' ');
-    const rel = matchAnyKeyword(combined, RELIGIOUS_KEYWORDS);
+    const rel = matchAnyKeyword(combined, religiousKw);
     if (rel) return { hit: 'religious', keyword: rel };
-    const np = matchAnyKeyword(combined, NON_PLACE_KEYWORDS);
+    const np = matchAnyKeyword(combined, nonPlaceKw);
     if (np) return { hit: 'non_place', keyword: np };
     return { hit: null, keyword: null };
 }
@@ -221,21 +219,24 @@ function aliasEnrichmentFor(existing, candidate) {
 }
 
 // ─── Render main report ───
-function renderMainReport(stats, sample) {
+function renderMainReport(stats, sample, ctx) {
+    const cc = ctx.cc.toLowerCase();
+    const CC = ctx.cc.toUpperCase();
     const lines = [];
-    lines.push('# SA GeoNames Import Report (refined)');
+    lines.push('# ' + CC + ' GeoNames Import Report (refined)');
     lines.push('');
+    lines.push('**Country**: ' + ctx.countryEn + ' (' + ctx.countryAr + ')');
     lines.push('**Generated**: ' + new Date().toISOString());
-    lines.push('**Phase**: `CURATED-SA-GEODATA-IMPORT-1B`');
+    lines.push('**Phase**: `' + ctx.phaseLabel + '`');
     lines.push('');
     lines.push('## Pipeline');
     lines.push('');
     lines.push('| Stage | Output |');
     lines.push('| --- | --- |');
-    lines.push('| 1. IMPORT    | `db/places/candidates/sa-geonames-raw.json` |');
-    lines.push('| 2. NORMALIZE | `db/places/candidates/sa-geonames-normalized.json` |');
-    lines.push('| 3. VALIDATE  | `db/places/candidates/sa-geonames-candidates.json` + THIS report |');
-    lines.push('| 3b. ALIAS REVIEW | `reports/sa-geodata-aliases-review.md` (separate) |');
+    lines.push('| 1. IMPORT    | `db/places/candidates/' + cc + '-geonames-raw.json` |');
+    lines.push('| 2. NORMALIZE | `db/places/candidates/' + cc + '-geonames-normalized.json` |');
+    lines.push('| 3. VALIDATE  | `db/places/candidates/' + cc + '-geonames-candidates.json` + THIS report |');
+    lines.push('| 3b. ALIAS REVIEW | `reports/' + cc + '-geodata-aliases-review.md` (separate) |');
     lines.push('| 4. APPLY     | **NOT RUN — awaiting your decision** |');
     lines.push('');
     lines.push('## Summary');
@@ -404,17 +405,19 @@ function renderMainReport(stats, sample) {
 }
 
 // ─── Render alias enrichment report (separate file) ───
-function renderAliasReport(opportunities) {
+function renderAliasReport(opportunities, ctx) {
+    const CC = ctx.cc.toUpperCase();
     const lines = [];
-    lines.push('# SA GeoNames — Alias Enrichment Review');
+    lines.push('# ' + CC + ' GeoNames — Alias Enrichment Review');
     lines.push('');
+    lines.push('**Country**: ' + ctx.countryEn + ' (' + ctx.countryAr + ')');
     lines.push('**Generated**: ' + new Date().toISOString());
-    lines.push('**Phase**: `CURATED-SA-GEODATA-IMPORT-1B`');
+    lines.push('**Phase**: `' + ctx.phaseLabel + '`');
     lines.push('');
     lines.push('## Overview');
     lines.push('');
-    lines.push('These are EXISTING curated Saudi entries that could gain');
-    lines.push('additional aliases from GeoNames data. They are listed here');
+    lines.push('These are EXISTING curated ' + ctx.countryEn + ' entries that could');
+    lines.push('gain additional aliases from GeoNames data. They are listed here');
     lines.push('separately because:');
     lines.push('');
     lines.push('* Adding aliases is less risky than adding new places.');
@@ -439,40 +442,52 @@ function renderAliasReport(opportunities) {
         lines.push('| ' + o.existingSlug + ' | ' + ar + ' | ' + en + ' |');
     }
     lines.push('');
-    lines.push('## Notes');
-    lines.push('');
-    lines.push('* Some new aliases may be transliteration variants of names');
-    lines.push('  already in curated (e.g. "Tabuk" / "Tabuke" / "Tabuuk").');
-    lines.push('* Others are different romanizations (Yenbo vs Yanbu, …).');
-    lines.push('* A few are IATA codes (TUU, UHT, …) — skip these unless we');
-    lines.push('  want airport-code search support (not currently a feature).');
-    lines.push('');
     lines.push('## License + Attribution');
     lines.push('');
     lines.push('© GeoNames — licensed CC-BY 4.0.');
-    lines.push('Source: https://download.geonames.org/export/dump/SA.zip');
+    lines.push('Source: https://download.geonames.org/export/dump/' + CC + '.zip');
     lines.push('');
     return lines.join('\n');
 }
 
-function main() {
-    if (!fs.existsSync(PATHS.normalizedJson)) {
-        console.error('[stage3] missing input', PATHS.normalizedJson);
-        console.error('         run normalize_sa_places.mjs first');
+async function main() {
+    const cc = (process.argv[2] || 'sa').toLowerCase();
+    const config = await loadCountryConfig(cc);
+    const paths  = pathsFor(cc);
+
+    // Effective keyword sets: cross-Arabic defaults + per-country extras
+    const religiousKw = effectiveKeywords(RELIGIOUS_KEYWORDS, config.extraReligious || []);
+    const nonPlaceKw  = effectiveKeywords(NON_PLACE_KEYWORDS, config.extraNonPlace  || []);
+
+    const ctx = {
+        cc,
+        countryAr: config.countryAr,
+        countryEn: config.countryEn,
+        // Phase label — uniform "CURATED-GEODATA-{CC}-1" naming.
+        // For SA we keep the original "CURATED-SA-GEODATA-IMPORT-1B" label
+        // so re-runs reproduce the existing audit trail.
+        phaseLabel: cc === 'sa'
+            ? 'CURATED-SA-GEODATA-IMPORT-1B'
+            : ('CURATED-GEODATA-' + cc.toUpperCase() + '-1')
+    };
+
+    if (!fs.existsSync(paths.normalizedJson)) {
+        console.error('[stage3] missing input', paths.normalizedJson);
+        console.error('         run: node scripts/geodata/normalize_places.mjs', cc);
         process.exit(1);
     }
-    if (!fs.existsSync(PATHS.curatedPath)) {
-        console.error('[stage3] missing input', PATHS.curatedPath);
+    if (!fs.existsSync(paths.curatedPath)) {
+        console.error('[stage3] missing input', paths.curatedPath);
         process.exit(1);
     }
 
-    const normalized = JSON.parse(fs.readFileSync(PATHS.normalizedJson, 'utf8'));
-    const curated    = JSON.parse(fs.readFileSync(PATHS.curatedPath, 'utf8'));
-    console.log('[stage3] normalized candidates:', normalized.length);
+    const normalized = JSON.parse(fs.readFileSync(paths.normalizedJson, 'utf8'));
+    const curated    = JSON.parse(fs.readFileSync(paths.curatedPath, 'utf8'));
+    console.log('[stage3]', cc.toUpperCase(), '— normalized candidates:', normalized.length);
     console.log('[stage3] curated total:', curated.length,
-                '(Saudi:', curated.filter(x => x.countryCode === 'sa').length + ')');
+                '(' + cc + ':', curated.filter(x => x.countryCode === cc).length + ')');
 
-    const idx = buildExistingIndex(curated);
+    const idx = buildExistingIndex(curated, cc);
 
     const out = [];
     const aliasEnrich = [];
@@ -490,7 +505,7 @@ function main() {
     };
 
     try {
-        const raw = JSON.parse(fs.readFileSync(PATHS.rawJson, 'utf8'));
+        const raw = JSON.parse(fs.readFileSync(paths.rawJson, 'utf8'));
         stats.rawCount = raw.length;
     } catch (_) {}
 
@@ -518,7 +533,7 @@ function main() {
                 }
             }
         } else {
-            const blocklist = checkBlocklist(cand);
+            const blocklist = checkBlocklist(cand, religiousKw, nonPlaceKw);
             distInfo = distanceToNearestCurated(cand, idx.saList);
             const d = decideStatusAndTier(cand, blocklist, distInfo);
             status  = d.status;
@@ -566,16 +581,16 @@ function main() {
 
     stats.aliasEnrichCount = aliasEnrich.length;
 
-    fs.writeFileSync(PATHS.candidatesJson, JSON.stringify(out, null, 2) + '\n');
-    console.log('[stage3] wrote', PATHS.candidatesJson);
+    fs.writeFileSync(paths.candidatesJson, JSON.stringify(out, null, 2) + '\n');
+    console.log('[stage3] wrote', paths.candidatesJson);
 
-    const mainReport = renderMainReport(stats, sample);
-    fs.writeFileSync(PATHS.reportMd, mainReport);
-    console.log('[stage3] wrote', PATHS.reportMd);
+    const mainReport = renderMainReport(stats, sample, ctx);
+    fs.writeFileSync(paths.reportMd, mainReport);
+    console.log('[stage3] wrote', paths.reportMd);
 
-    const aliasReport = renderAliasReport(aliasEnrich);
-    fs.writeFileSync(PATHS.aliasReportMd, aliasReport);
-    console.log('[stage3] wrote', PATHS.aliasReportMd);
+    const aliasReport = renderAliasReport(aliasEnrich, ctx);
+    fs.writeFileSync(paths.aliasReportMd, aliasReport);
+    console.log('[stage3] wrote', paths.aliasReportMd);
 
     console.log('[stage3] summary:', JSON.stringify({
         existing: stats.existing,
@@ -592,7 +607,11 @@ function main() {
         aliasEnrichmentOpps: stats.aliasEnrichCount,
         shortlistSize: stats.tierCounts.high + stats.tierCounts.medium
     }, null, 2));
-    console.log('[stage3] DONE');
+    console.log('[stage3] DONE for', cc.toUpperCase());
 }
 
-main();
+main().catch(e => {
+    console.error('[stage3] FAILED:', e && e.message);
+    if (e && e.stack) console.error(e.stack);
+    process.exit(1);
+});

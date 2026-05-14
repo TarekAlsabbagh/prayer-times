@@ -1,6 +1,7 @@
 # SA GeoNames Import Report (refined)
 
-**Generated**: 2026-05-14T11:07:36.034Z
+**Country**: Saudi Arabia (المملكة العربية السعودية)
+**Generated**: 2026-05-14T16:14:34.029Z
 **Phase**: `CURATED-SA-GEODATA-IMPORT-1B`
 
 ## Pipeline
@@ -20,15 +21,15 @@
 | Raw GeoNames rows (P-class only)         | 5117 |
 | Normalized candidates                     | 4512 |
 | **approved_auto**                         | **0** (always 0 under 1B refinement) |
-| **high_confidence_pending**               | **22** |
+| **high_confidence_pending**               | **3** |
 | **medium_confidence_pending**             | **90** |
-| **low_confidence_pending**                | **2550** |
-| needs_review                              | 1679 |
-| existing (matched, no action)             | 167 |
+| **low_confidence_pending**                | **2546** |
+| needs_review                              | 1677 |
+| existing (matched, no action)             | 192 |
 | rejected (bad data / religious site)      | 4 |
-| Alias enrichment opps (in separate report) | 162 |
+| Alias enrichment opps (in separate report) | 166 |
 
-**Shortlist size (high + medium):** 112
+**Shortlist size (high + medium):** 93
 
 ## Rejection breakdown
 
@@ -40,9 +41,10 @@
 
 | Reason | Count |
 | --- | --- |
-| slug | 107 |
+| slug | 111 |
 | ar_name+coords | 35 |
-| coords<1km | 20 |
+| coords<1km | 22 |
+| sourceId | 19 |
 | en_name+coords | 5 |
 
 ## High-confidence shortlist (full listing)
@@ -54,28 +56,9 @@ feature + qScore ≥ 80 + distance >3km to nearest existing entry
 
 | slug | name.ar | name.en | region | fc | qScore | pop | distNearestKm | nearest |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| udhailiyah | العضيلية | Udhailiyah | المنطقة الشرقية | PPL | 85 | 1350 | 39.26 | hofuf |
-| qaisumah | القيصومة‎‎ | Qaisumah | المنطقة الشرقية | PPL | 85 | 20685 | 20.43 | hafar-al-batin |
-| adh-dhibiyah | الذيبية | Adh Dhibiyah | منطقة القصيم | PPL | 85 | 5068 | 37.57 | ar-rass |
 | qahbat-al-ithi | القهبه | Qahbat Āl ‘Īthī | منطقة عسير | PPL | 85 | 500 | 14.54 | al-majaridah |
-| qibah | قبة | Qibah | منطقة القصيم | PPL | 80 | 11506 | 93.39 | ash-shimasiyah |
-| misliyah | مسلية | Mislīyah | منطقة جازان | PPL | 80 | 6117 | 8.08 | bish |
-| dukhnah | دخنة | Dukhnah | منطقة القصيم | PPL | 80 | 6354 | 58.63 | ar-rass |
 | baqa | بَقعاء | Baq‘ā’ | منطقة حائل | PPL | 80 | 19659 | 69.96 | baqaa |
-| at-taraf | الطرف | Aţ Ţaraf | المنطقة الشرقية | PPL | 80 | 21386 | 14.68 | hofuf |
-| inak | عنك | ‘Inak | المنطقة الشرقية | PPL | 80 | 20038 | 5.08 | saihat |
-| al-mutayrifi | المطيرفي | Al Muţayrifī | المنطقة الشرقية | PPL | 80 | 5962 | 5.76 | al-mubarraz |
-| al-khabra | الخَبراء | Al Khabrā’ | منطقة القصيم | PPL | 80 | 16906 | 7.87 | al-bukayriyah |
-| al-jubaylah | الجبيلة | Al Jubaylah | منطقة الرياض | PPL | 80 | 8005 | 6.49 | al-uyaynah |
-| al-jafr | الجفر | Al Jafr | المنطقة الشرقية | PPL | 80 | 8715 | 13.90 | hofuf |
-| al-hayathim | الهياثم | Al Hayāthim | منطقة الرياض | PPL | 80 | 13893 | 7.62 | al-kharj |
-| al-awwamiyah | العوامية | Al ‘Awwāmīyah | المنطقة الشرقية | PPL | 80 | 26276 | 3.36 | qatif |
-| al-awjam | الاوجام | Al Awjām | المنطقة الشرقية | PPL | 80 | 11460 | 5.30 | qatif |
-| ad-diriyah | الدرعية | Ad Dir‘īyah | منطقة الرياض | PPL | 80 | 61609 | 14.43 | riyadh |
 | turubah | تربة | Turubah | منطقة حائل | PPL | 80 | 28279 | 135.01 | baqaa |
-| al-fuwayliq | القويلق | Al Fuwayliq | منطقة القصيم | PPL | 80 | 5205 | 38.66 | riyad-al-khabra |
-| mizhirah | مزهرة | Mizhirah | منطقة جازان | PPL | 80 | 5529 | 16.51 | damad |
-| al-mulayda | المُلَيدَاء | Al Mulaydā’ | منطقة القصيم | PPL | 80 | 6967 | 18.93 | buraidah |
 
 ## Medium-confidence pending (top 25 by qScore, full set in JSON)
 
@@ -99,8 +82,8 @@ Same gates as high, but qScore 70-79. Review AFTER high.
 | al-malbanah | ال ملباناه | Al Malbanah | منطقة المدينة المنورة | PPL | 70 | 64.83 |
 | al-karbus | الكربوس | Al Karbūş | منطقة جازان | PPL | 70 | 8.89 |
 | alhadithahalqadimah | الحديثة | Al Ḩadīthah al Qadīmah | منطقة الجوف | PPL | 70 | 23.62 |
-| ad-dilaymiyah | الدليمية | Ad Dilaymīyah | منطقة القصيم | PPL | 70 | 27.36 |
-| aba-ad-dud | أبا الدود | Abā ad Dūd | منطقة القصيم | PPL | 70 | 60.76 |
+| ad-dilaymiyah | الدليمية | Ad Dilaymīyah | منطقة القصيم | PPL | 70 | 12.37 |
+| aba-ad-dud | أبا الدود | Abā ad Dūd | منطقة القصيم | PPL | 70 | 49.19 |
 | hafar-al-atk | حفر العتك | Ḩafar al ‘Atk | منطقة الرياض | PPL | 70 | 78.00 |
 | tibrak | تبراك | Tibrāk | منطقة الرياض | PPL | 70 | 33.67 |
 | hijratalawsat | الأوسط | Hijrat al Awsaţ | منطقة الرياض | PPL | 70 | 21.56 |
@@ -115,7 +98,7 @@ Failed at least one strict gate (unknown region OR not PPL/PPLA*
 OR qScore <70 OR within 3km of existing entry).
 Recommended: DO NOT review this tier in the first pass.
 
-Count: **2550**
+Count: **2546**
 
 ## needs_review examples (no Arabic OR non-place keyword)
 

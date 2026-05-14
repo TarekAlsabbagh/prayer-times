@@ -1,37 +1,26 @@
-// scripts/geodata/apply_sa_curated_candidates.mjs
+// scripts/geodata/apply_curated_candidates.mjs
 // ─────────────────────────────────────────────────────────────────────────
-// CURATED-SA-GEODATA-IMPORT-1 — Stage 4: APPLY
+// CURATED-GEODATA — Stage 4: APPLY (country-agnostic)
 //
-// Reads sa-geonames-candidates.json and merges ONLY entries with
+// Usage: node scripts/geodata/apply_curated_candidates.mjs <cc>
+//   <cc> = lowercase 2-letter ISO code. Default 'sa'.
+//
+// Reads <cc>-geonames-candidates.json and merges ONLY entries with
 // status === 'approved' into db/places/curated-places.json.
 //
-// Hard safety rules:
-//   * Only `approved` entries are merged. Everything else (`pending`,
-//     `medium`, `needs_review`, `existing`, `rejected`) is ignored.
-//   * Duplicate slug detection: if slug already exists in curated, the
-//     candidate is skipped with a warning (defense in depth — Stage 3
-//     already deduped, but this catches user-induced slug collisions).
-//   * Every merged entry is validated for prayer-times-readiness:
-//     slug + countryCode + lat + lng + timezone + names.ar + names.en.
-//     Missing any → SKIP with warning, do not merge.
-//   * Metadata fields (geonameid, _normalizationFlags, status, tier,
-//     reason, qualityScore, distanceToNearestKm, nearestCuratedSlug,
-//     matchedExisting, matchedReason, reviewNote, featureCode,
-//     population, admin1Code, admin2Code) are STRIPPED before merge.
-//     The clean entry carries: slug, type, countryCode, lat, lng,
-//     timezone, names, aliases, admin (with regionAr/regionEn),
-//     priority, source='curated', sourceId, verified=true.
+// Safety rules (same as SA reference):
+//   * Only `approved` entries are merged.
+//   * Skip if slug already in curated (defense in depth).
+//   * Every merged entry validated by `isPrayerTimesReady` (must have
+//     slug + countryCode + lat + lng + timezone + names.ar + names.en).
+//   * Pipeline metadata stripped before merge.
 //   * Idempotent: re-running produces no further changes.
-//
-// Output:
-//   * curated-places.json — grows by N (where N = approved count)
-//   * stdout summary: N added, M skipped (duplicate / invalid)
 //
 // Data attribution:
 //   © GeoNames — licensed CC-BY 4.0
 // ─────────────────────────────────────────────────────────────────────────
 import fs from 'node:fs';
-import { PATHS, SUPPORTED_LANGS } from './_geonames_common.mjs';
+import { pathsFor, SUPPORTED_LANGS } from './_geonames_common.mjs';
 
 // Inline copy of `_isPrayerTimesReady` from server.js to avoid pulling
 // in the entire server module here.
@@ -86,24 +75,27 @@ function candidateToCuratedEntry(cand) {
 }
 
 function main() {
-    if (!fs.existsSync(PATHS.candidatesJson)) {
-        console.error('[stage4] missing input', PATHS.candidatesJson);
-        console.error('         run validate_sa_candidates.mjs first');
+    const cc = (process.argv[2] || 'sa').toLowerCase();
+    const paths = pathsFor(cc);
+
+    if (!fs.existsSync(paths.candidatesJson)) {
+        console.error('[stage4] missing input', paths.candidatesJson);
+        console.error('         run: node scripts/geodata/validate_candidates.mjs', cc);
         process.exit(1);
     }
-    if (!fs.existsSync(PATHS.curatedPath)) {
-        console.error('[stage4] missing input', PATHS.curatedPath);
+    if (!fs.existsSync(paths.curatedPath)) {
+        console.error('[stage4] missing input', paths.curatedPath);
         process.exit(1);
     }
 
-    const candidates = JSON.parse(fs.readFileSync(PATHS.candidatesJson, 'utf8'));
-    const curated    = JSON.parse(fs.readFileSync(PATHS.curatedPath, 'utf8'));
+    const candidates = JSON.parse(fs.readFileSync(paths.candidatesJson, 'utf8'));
+    const curated    = JSON.parse(fs.readFileSync(paths.curatedPath, 'utf8'));
     const existingSlugs = new Set(curated.map(x => x.slug));
     const beforeCount = curated.length;
-    const beforeSA    = curated.filter(x => x.countryCode === 'sa').length;
+    const beforeCC    = curated.filter(x => x.countryCode === cc).length;
 
     const approved = candidates.filter(c => c.status === 'approved');
-    console.log('[stage4] approved candidates:', approved.length);
+    console.log('[stage4]', cc.toUpperCase(), '— approved candidates:', approved.length);
 
     let added = 0, skippedDup = 0, skippedInvalid = 0;
     const addedSlugs = [];
@@ -137,22 +129,22 @@ function main() {
         return;
     }
 
-    fs.writeFileSync(PATHS.curatedPath, JSON.stringify(curated, null, 2) + '\n');
+    fs.writeFileSync(paths.curatedPath, JSON.stringify(curated, null, 2) + '\n');
 
-    const afterSA = curated.filter(x => x.countryCode === 'sa').length;
+    const afterCC = curated.filter(x => x.countryCode === cc).length;
     console.log('[stage4] ─────────────────────────────────');
-    console.log('[stage4] Summary:');
+    console.log('[stage4] Summary for', cc.toUpperCase() + ':');
     console.log('[stage4]   added:           ', added);
     console.log('[stage4]   skipped (dup):   ', skippedDup);
     console.log('[stage4]   skipped (invalid):', skippedInvalid);
     console.log('[stage4]   curated total:   ', beforeCount, '→', curated.length);
-    console.log('[stage4]   Saudi entries:   ', beforeSA, '→', afterSA);
+    console.log('[stage4]   ' + cc + ' entries:     ', beforeCC, '→', afterCC);
     console.log('[stage4] ─────────────────────────────────');
     if (addedSlugs.length) {
         console.log('[stage4] Slugs added:');
         for (const s of addedSlugs) console.log('         •', s);
     }
-    console.log('[stage4] DONE');
+    console.log('[stage4] DONE for', cc.toUpperCase());
 }
 
 main();

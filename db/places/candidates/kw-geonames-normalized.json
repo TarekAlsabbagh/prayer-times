@@ -1,0 +1,3754 @@
+[
+  {
+    "geonameid": 285375,
+    "slug": "ushaysh-al-jahra",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.31583,
+    "lng": 47.66389,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "عُشَيْش اَلْجَهْرَاء",
+      "en": "‘Ushaysh al Jahrā’",
+      "fr": "‘Ushaysh al Jahrā’",
+      "de": "‘Ushaysh al Jahrā’",
+      "tr": "‘Ushaysh al Jahrā’",
+      "ur": "‘Ushaysh al Jahrā’",
+      "id": "‘Ushaysh al Jahrā’",
+      "es": "‘Ushaysh al Jahrā’",
+      "bn": "‘Ushaysh al Jahrā’",
+      "ms": "‘Ushaysh al Jahrā’"
+    },
+    "aliases": {
+      "en": [
+        "`Ushaysh al Jahra'"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285375",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285384,
+    "slug": "urayfijan",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.9,
+    "lng": 48.18333,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "عُرَيْفِجَان",
+      "en": "‘Urayfijān",
+      "fr": "‘Urayfijān",
+      "de": "‘Urayfijān",
+      "tr": "‘Urayfijān",
+      "ur": "‘Urayfijān",
+      "id": "‘Urayfijān",
+      "es": "‘Urayfijān",
+      "bn": "‘Urayfijān",
+      "ms": "‘Urayfijān"
+    },
+    "aliases": {
+      "en": [
+        "Arefjan",
+        "`Araifjan",
+        "`Urayfijan",
+        "‘Araifjān"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285384",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285398,
+    "slug": "umm-qasbah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.99222,
+    "lng": 48.16556,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "أُمّ قَصْبَة",
+      "en": "Umm Qaşbah",
+      "fr": "Umm Qaşbah",
+      "de": "Umm Qaşbah",
+      "tr": "Umm Qaşbah",
+      "ur": "Umm Qaşbah",
+      "id": "Umm Qaşbah",
+      "es": "Umm Qaşbah",
+      "bn": "Umm Qaşbah",
+      "ms": "Umm Qaşbah"
+    },
+    "aliases": {
+      "en": [
+        "Umm Qasabah",
+        "Umm Qasbah",
+        "Umm Qaşabah",
+        "aum qasbat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285398",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285455,
+    "slug": "shumaymah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.61778,
+    "lng": 48.15056,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "شميمة",
+      "en": "Shumaymah",
+      "fr": "Shumaymah",
+      "de": "Shumaymah",
+      "tr": "Shumaymah",
+      "ur": "Shumaymah",
+      "id": "Shumaymah",
+      "es": "Shumaymah",
+      "bn": "Shumaymah",
+      "ms": "Shumaymah"
+    },
+    "aliases": {
+      "ar": [
+        "شُمَيْمَة"
+      ],
+      "en": [
+        "shmymt",
+        "shumaymat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285455",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285542,
+    "slug": "az-zawr",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.7375,
+    "lng": 48.37278,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلزَّوْر",
+      "en": "Az Zawr",
+      "fr": "Az Zawr",
+      "de": "Az Zawr",
+      "tr": "Az Zawr",
+      "ur": "Az Zawr",
+      "id": "Az Zawr",
+      "es": "Az Zawr",
+      "bn": "Az Zawr",
+      "ms": "Az Zawr"
+    },
+    "aliases": {
+      "en": [
+        "Mina' Sa`ud",
+        "Mina' az Zawr",
+        "Mina' az-Zor",
+        "Minā’ az-Zor",
+        "Mīnā’ Sa‘ūd",
+        "Mīnā’ az Zawr",
+        "aalzawr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285542",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285556,
+    "slug": "manifah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.16083,
+    "lng": 48.08111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "مَنِيفَة",
+      "en": "Manīfah",
+      "fr": "Manīfah",
+      "de": "Manīfah",
+      "tr": "Manīfah",
+      "ur": "Manīfah",
+      "id": "Manīfah",
+      "es": "Manīfah",
+      "bn": "Manīfah",
+      "ms": "Manīfah"
+    },
+    "aliases": {
+      "en": [
+        "Manifah",
+        "Munifah",
+        "Munīfah",
+        "manifat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285556",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285599,
+    "slug": "ju-aydan",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.96667,
+    "lng": 47.96722,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "جُعَيْدَان",
+      "en": "Ju‘aydān",
+      "fr": "Ju‘aydān",
+      "de": "Ju‘aydān",
+      "tr": "Ju‘aydān",
+      "ur": "Ju‘aydān",
+      "id": "Ju‘aydān",
+      "es": "Ju‘aydān",
+      "bn": "Ju‘aydān",
+      "ms": "Ju‘aydān"
+    },
+    "aliases": {
+      "en": [
+        "Ju`aydan",
+        "Juaidan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285599",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285603,
+    "slug": "janub-as-surrah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.26917,
+    "lng": 47.97806,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "جَنُوب اَلسُّرَّة",
+      "en": "Janūb as Surrah",
+      "fr": "Janūb as Surrah",
+      "de": "Janūb as Surrah",
+      "tr": "Janūb as Surrah",
+      "ur": "Janūb as Surrah",
+      "id": "Janūb as Surrah",
+      "es": "Janūb as Surrah",
+      "bn": "Janūb as Surrah",
+      "ms": "Janūb as Surrah"
+    },
+    "aliases": {
+      "en": [
+        "Janub as Surrah",
+        "South Surra",
+        "janub aalsurat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الفروانية",
+      "regionEn": "Al Farwaniyah Governorate",
+      "admin1Code": "07",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 18496,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285603",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285629,
+    "slug": "hawalli",
+    "type": "city",
+    "countryCode": "kw",
+    "lat": 29.33278,
+    "lng": 48.02861,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "حولي",
+      "en": "Ḩawallī",
+      "fr": "Ḩawallī",
+      "de": "Ḩawallī",
+      "tr": "Ḩawallī",
+      "ur": "Ḩawallī",
+      "id": "Ḩawallī",
+      "es": "Ḩawallī",
+      "bn": "Ḩawallī",
+      "ms": "Ḩawallī"
+    },
+    "aliases": {
+      "ar": [
+        "حولی",
+        "حَوَلِّي",
+        "ہawly",
+        "ہاولی"
+      ],
+      "en": [
+        "Havalli",
+        "Hawali-nogra",
+        "Hawalli",
+        "Hawally",
+        "Hawaly",
+        "Khavalli",
+        "ha'oyali",
+        "havali",
+        "havalli",
+        "hawali",
+        "hawaliy",
+        "hawari",
+        "hwly",
+        "Ҳavalli"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة حولي",
+      "regionEn": "Hawalli Governorate",
+      "admin1Code": "08",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLA",
+    "population": 164212,
+    "priority": 90,
+    "source": "geonames",
+    "sourceId": "geonames:285629",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285643,
+    "slug": "duwaydat",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.58278,
+    "lng": 48.39917,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "دُوَيْدَات",
+      "en": "Duwaydāt",
+      "fr": "Duwaydāt",
+      "de": "Duwaydāt",
+      "tr": "Duwaydāt",
+      "ur": "Duwaydāt",
+      "id": "Duwaydāt",
+      "es": "Duwaydāt",
+      "bn": "Duwaydāt",
+      "ms": "Duwaydāt"
+    },
+    "aliases": {
+      "en": [
+        "Duwaydat",
+        "duaydat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285643",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285646,
+    "slug": "dulay-su-ud",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.20111,
+    "lng": 48.11111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "ضُلَيْع سُعُود",
+      "en": "Ḑulay‘ Su‘ūd",
+      "fr": "Ḑulay‘ Su‘ūd",
+      "de": "Ḑulay‘ Su‘ūd",
+      "tr": "Ḑulay‘ Su‘ūd",
+      "ur": "Ḑulay‘ Su‘ūd",
+      "id": "Ḑulay‘ Su‘ūd",
+      "es": "Ḑulay‘ Su‘ūd",
+      "bn": "Ḑulay‘ Su‘ūd",
+      "ms": "Ḑulay‘ Su‘ūd"
+    },
+    "aliases": {
+      "en": [
+        "Dhulai` Sa`ud",
+        "Dhulai‘ Sa‘ūd",
+        "Dulay` Sa`ud",
+        "Dulay` Su`ud",
+        "Ḑulay‘ Sa‘ūd"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285646",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285654,
+    "slug": "dant",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.16667,
+    "lng": 48.11667,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "دَنْت",
+      "en": "Dant",
+      "fr": "Dant",
+      "de": "Dant",
+      "tr": "Dant",
+      "ur": "Dant",
+      "id": "Dant",
+      "es": "Dant",
+      "bn": "Dant",
+      "ms": "Dant"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285654",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285673,
+    "slug": "az-zawr",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.4425,
+    "lng": 48.27472,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلزَّوْر",
+      "en": "Az Zawr",
+      "fr": "Az Zawr",
+      "de": "Az Zawr",
+      "tr": "Az Zawr",
+      "ur": "Az Zawr",
+      "id": "Az Zawr",
+      "es": "Az Zawr",
+      "bn": "Az Zawr",
+      "ms": "Az Zawr"
+    },
+    "aliases": {
+      "en": [
+        "Az Zaur",
+        "Az Zor",
+        "Failakka Village",
+        "Zor",
+        "aalzawr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 5750,
+    "priority": 75,
+    "source": "geonames",
+    "sourceId": "geonames:285673",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285711,
+    "slug": "as-sabahiyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.10583,
+    "lng": 48.10806,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الصباحية",
+      "en": "Aş Şabāḩīyah",
+      "fr": "Aş Şabāḩīyah",
+      "de": "Aş Şabāḩīyah",
+      "tr": "Aş Şabāḩīyah",
+      "ur": "Aş Şabāḩīyah",
+      "id": "Aş Şabāḩīyah",
+      "es": "Aş Şabāḩīyah",
+      "bn": "Aş Şabāḩīyah",
+      "ms": "Aş Şabāḩīyah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلصَّبَاحِيَّة"
+      ],
+      "en": [
+        "Al-Sabahiyah",
+        "As Sabahiyah",
+        "Subahiya",
+        "aalsabahiat",
+        "alsbahyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285711",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285716,
+    "slug": "ash-shu-aybah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.04111,
+    "lng": 48.1375,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلشُّعَيْبَة",
+      "en": "Ash Shu‘aybah",
+      "fr": "Ash Shu‘aybah",
+      "de": "Ash Shu‘aybah",
+      "tr": "Ash Shu‘aybah",
+      "ur": "Ash Shu‘aybah",
+      "id": "Ash Shu‘aybah",
+      "es": "Ash Shu‘aybah",
+      "bn": "Ash Shu‘aybah",
+      "ms": "Ash Shu‘aybah"
+    },
+    "aliases": {
+      "en": [
+        "Al-Shuaiba",
+        "As Shu`aiba",
+        "As Shu‘aiba",
+        "Ash Shu`aiba",
+        "Ash Shu`aybah",
+        "Ash Shu‘aiba",
+        "Sha'iba",
+        "Shaab",
+        "Shaabah",
+        "Shauiba",
+        "Sha’iba",
+        "Shi'aibah",
+        "Shi’aibah",
+        "Shu`aybah",
+        "Shua'ibah",
+        "Shuaiba",
+        "Shua’ibah",
+        "Shu‘aybah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285716",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285722,
+    "slug": "ash-shadadiyah",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.26806,
+    "lng": 47.84556,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلشَّدَادِيَّة",
+      "en": "Ash Shadādīyah",
+      "fr": "Ash Shadādīyah",
+      "de": "Ash Shadādīyah",
+      "tr": "Ash Shadādīyah",
+      "ur": "Ash Shadādīyah",
+      "id": "Ash Shadādīyah",
+      "es": "Ash Shadādīyah",
+      "bn": "Ash Shadādīyah",
+      "ms": "Ash Shadādīyah"
+    },
+    "aliases": {
+      "en": [
+        "Ash Shadadiyah",
+        "aalshadadiat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285722",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285728,
+    "slug": "ar-riqqah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.14583,
+    "lng": 48.09472,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الرقة",
+      "en": "Ar Riqqah",
+      "fr": "Ar Riqqah",
+      "de": "Ar Riqqah",
+      "tr": "Ar Riqqah",
+      "ur": "Ar Riqqah",
+      "id": "Ar Riqqah",
+      "es": "Ar Riqqah",
+      "bn": "Ar Riqqah",
+      "ms": "Ar Riqqah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلرِّقَّة"
+      ],
+      "en": [
+        "Al-Riqqah",
+        "Reqqa",
+        "aalriqat",
+        "alrqt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 52068,
+    "priority": 85,
+    "source": "geonames",
+    "sourceId": "geonames:285728",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285746,
+    "slug": "an-nuqayyat",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.94306,
+    "lng": 48.19861,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلنُّقَيَّات",
+      "en": "An Nuqayyāt",
+      "fr": "An Nuqayyāt",
+      "de": "An Nuqayyāt",
+      "tr": "An Nuqayyāt",
+      "ur": "An Nuqayyāt",
+      "id": "An Nuqayyāt",
+      "es": "An Nuqayyāt",
+      "bn": "An Nuqayyāt",
+      "ms": "An Nuqayyāt"
+    },
+    "aliases": {
+      "en": [
+        "Al-Nigaiyat",
+        "An Niggaiyat",
+        "An Nugayyat",
+        "An Nugayyāt",
+        "An Nuqay`at",
+        "An Nuqayyat",
+        "An Nuqay‘āt",
+        "aalnuqayaat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285746",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285747,
+    "slug": "an-nijfah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.24639,
+    "lng": 48.07583,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلنِّجْفَة",
+      "en": "An Nijfah",
+      "fr": "An Nijfah",
+      "de": "An Nijfah",
+      "tr": "An Nijfah",
+      "ur": "An Nijfah",
+      "id": "An Nijfah",
+      "es": "An Nijfah",
+      "bn": "An Nijfah",
+      "ms": "An Nijfah"
+    },
+    "aliases": {
+      "en": [
+        "Al Mijifa",
+        "Al Nijifa",
+        "Al-Najafa",
+        "aalnijfat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285747",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285750,
+    "slug": "an-nami",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.63972,
+    "lng": 48.36444,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلنَّامِي",
+      "en": "An Nāmī",
+      "fr": "An Nāmī",
+      "de": "An Nāmī",
+      "tr": "An Nāmī",
+      "ur": "An Nāmī",
+      "id": "An Nāmī",
+      "es": "An Nāmī",
+      "bn": "An Nāmī",
+      "ms": "An Nāmī"
+    },
+    "aliases": {
+      "en": [
+        "An Nami",
+        "aalnaami"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285750",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285760,
+    "slug": "al-wafrah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 28.63917,
+    "lng": 47.93056,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْوَفْرَة",
+      "en": "Al Wafrah",
+      "fr": "Al Wafrah",
+      "de": "Al Wafrah",
+      "tr": "Al Wafrah",
+      "ur": "Al Wafrah",
+      "id": "Al Wafrah",
+      "es": "Al Wafrah",
+      "bn": "Al Wafrah",
+      "ms": "Al Wafrah"
+    },
+    "aliases": {
+      "en": [
+        "aalwafrat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 10017,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285760",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285764,
+    "slug": "al-uqaylah",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.17778,
+    "lng": 48.09472,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْعُقَيْلَة",
+      "en": "Al ‘Uqaylah",
+      "fr": "Al ‘Uqaylah",
+      "de": "Al ‘Uqaylah",
+      "tr": "Al ‘Uqaylah",
+      "ur": "Al ‘Uqaylah",
+      "id": "Al ‘Uqaylah",
+      "es": "Al ‘Uqaylah",
+      "bn": "Al ‘Uqaylah",
+      "ms": "Al ‘Uqaylah"
+    },
+    "aliases": {
+      "en": [
+        "Al `Uqaylah",
+        "Al `Uqlah",
+        "Al ‘Uqlah",
+        "Ugla",
+        "`Uqaila",
+        "`Uqallah",
+        "`Uqlah",
+        "‘Uqaila",
+        "‘Uqallah",
+        "‘Uqlah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285764",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285766,
+    "slug": "al-udayliyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.3,
+    "lng": 47.96667,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْعُدَيْلِيَّة",
+      "en": "Al ‘Udaylīyah",
+      "fr": "Al ‘Udaylīyah",
+      "de": "Al ‘Udaylīyah",
+      "tr": "Al ‘Udaylīyah",
+      "ur": "Al ‘Udaylīyah",
+      "id": "Al ‘Udaylīyah",
+      "es": "Al ‘Udaylīyah",
+      "bn": "Al ‘Udaylīyah",
+      "ms": "Al ‘Udaylīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al `Udayliyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285766",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285768,
+    "slug": "al-qulay-ah",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 28.86583,
+    "lng": 48.27472,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْقُلَيْعَة",
+      "en": "Al Qulay‘ah",
+      "fr": "Al Qulay‘ah",
+      "de": "Al Qulay‘ah",
+      "tr": "Al Qulay‘ah",
+      "ur": "Al Qulay‘ah",
+      "id": "Al Qulay‘ah",
+      "es": "Al Qulay‘ah",
+      "bn": "Al Qulay‘ah",
+      "ms": "Al Qulay‘ah"
+    },
+    "aliases": {
+      "en": [
+        "Al Qulay`ah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285768",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285776,
+    "slug": "al-maqwa",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.16667,
+    "lng": 47.98333,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْمَقْوَع",
+      "en": "Al Maqwa‘",
+      "fr": "Al Maqwa‘",
+      "de": "Al Maqwa‘",
+      "tr": "Al Maqwa‘",
+      "ur": "Al Maqwa‘",
+      "id": "Al Maqwa‘",
+      "es": "Al Maqwa‘",
+      "bn": "Al Maqwa‘",
+      "ms": "Al Maqwa‘"
+    },
+    "aliases": {
+      "en": [
+        "Al Magwa",
+        "Al Maqwa`",
+        "Magwa",
+        "Majiwah",
+        "Majīwah",
+        "Maqwa",
+        "Maqwah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285776",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285778,
+    "slug": "al-manqaf",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.09611,
+    "lng": 48.13278,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "المنقف",
+      "en": "Al Manqaf",
+      "fr": "Al Manqaf",
+      "de": "Al Manqaf",
+      "tr": "Al Manqaf",
+      "ur": "Al Manqaf",
+      "id": "Al Manqaf",
+      "es": "Al Manqaf",
+      "bn": "Al Manqaf",
+      "ms": "Al Manqaf"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْمَنْقَف"
+      ],
+      "en": [
+        "Al Manjaf",
+        "Al-Mangaf",
+        "Manqaf",
+        "aalmanqaf",
+        "almnqf"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 39025,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285778",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285782,
+    "slug": "al-mahbulah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.145,
+    "lng": 48.13028,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "المهبولة",
+      "en": "Al Mahbūlah",
+      "fr": "Al Mahbūlah",
+      "de": "Al Mahbūlah",
+      "tr": "Al Mahbūlah",
+      "ur": "Al Mahbūlah",
+      "id": "Al Mahbūlah",
+      "es": "Al Mahbūlah",
+      "bn": "Al Mahbūlah",
+      "ms": "Al Mahbūlah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْمَهْبُولَة"
+      ],
+      "en": [
+        "Al Mahbulah",
+        "Al-Mahabulah",
+        "Al-Mahabūlah",
+        "Mahboola",
+        "aalmahbulat",
+        "almhbwlt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 18178,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285782",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285783,
+    "slug": "al-maghasil",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.74194,
+    "lng": 48.09444,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "المغاسل",
+      "en": "Al Maghāsil",
+      "fr": "Al Maghāsil",
+      "de": "Al Maghāsil",
+      "tr": "Al Maghāsil",
+      "ur": "Al Maghāsil",
+      "id": "Al Maghāsil",
+      "es": "Al Maghāsil",
+      "bn": "Al Maghāsil",
+      "ms": "Al Maghāsil"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْمَغَاسِل"
+      ],
+      "en": [
+        "Al Maghasil",
+        "aalmaghasil",
+        "almghasl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285783",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285787,
+    "slug": "kuwait-city",
+    "type": "city",
+    "countryCode": "kw",
+    "lat": 29.367,
+    "lng": 47.97429,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْكُوَيْت",
+      "en": "Kuwait City",
+      "fr": "Kuwait City",
+      "de": "Kuwait City",
+      "tr": "Kuwait City",
+      "ur": "Kuwait City",
+      "id": "Kuwait City",
+      "es": "Kuwait City",
+      "bn": "Kuwait City",
+      "ms": "Kuwait City"
+    },
+    "aliases": {
+      "ar": [
+        "مدينة الكويت"
+      ],
+      "en": [
+        "Al Kuwait",
+        "Al Kuwayt",
+        "Al-Kuwait",
+        "Ciudad de Kuwait",
+        "Ehl'-Kuvejt",
+        "KWI",
+        "Koeweit",
+        "Kota Kuwait",
+        "Koveyit",
+        "Koweit",
+        "Koweït",
+        "Kuvaeyt",
+        "Kuvajt",
+        "Kuvajto",
+        "Kuvajturbo",
+        "Kuveitas",
+        "Kuväyt",
+        "Kuwait",
+        "Kuwait Stad",
+        "Kuwait by",
+        "Kuwait-Stadt",
+        "Kuwait-Urbo",
+        "Kuwayt",
+        "Kuweit",
+        "Kuwejt",
+        "Madinat al Kuwayt",
+        "Madinat al-Kuwait",
+        "Madīnat al Kuwayt",
+        "Pole tou Koubeit",
+        "aalkuayt",
+        "ke wei te shi",
+        "khuwet si ti",
+        "kuueto shi",
+        "kuweiteu",
+        "kuweiteusiti",
+        "kwwyt syty",
+        "mdyntalkwyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLC",
+    "population": 60064,
+    "priority": 85,
+    "source": "geonames",
+    "sourceId": "geonames:285787",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285790,
+    "slug": "al-khiran",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.663,
+    "lng": 48.379,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْخِيرَان",
+      "en": "Al Khīrān",
+      "fr": "Al Khīrān",
+      "de": "Al Khīrān",
+      "tr": "Al Khīrān",
+      "ur": "Al Khīrān",
+      "id": "Al Khīrān",
+      "es": "Al Khīrān",
+      "bn": "Al Khīrān",
+      "ms": "Al Khīrān"
+    },
+    "aliases": {
+      "en": [
+        "Al Khiran",
+        "aalkhiran"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285790",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285799,
+    "slug": "al-jahra",
+    "type": "city",
+    "countryCode": "kw",
+    "lat": 29.3375,
+    "lng": 47.65806,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "aljہra",
+      "en": "Al Jahrā’",
+      "fr": "Al Jahrā’",
+      "de": "Al Jahrā’",
+      "tr": "Al Jahrā’",
+      "ur": "Al Jahrā’",
+      "id": "Al Jahrā’",
+      "es": "Al Jahrā’",
+      "bn": "Al Jahrā’",
+      "ms": "Al Jahrā’"
+    },
+    "aliases": {
+      "ar": [
+        "الجهراء",
+        "الجہرا",
+        "اَلْجَهْرَاء",
+        "جهرا"
+      ],
+      "en": [
+        "Al Jahara",
+        "Al Jahra",
+        "Al Jahra'",
+        "Al Jahrah",
+        "Al-Jaharah",
+        "Ehl'-Dzhakhra",
+        "El Chra",
+        "Iahara",
+        "Jahra Village",
+        "Jahrah",
+        "ala jahara",
+        "aljhraʾ",
+        "arujafura",
+        "jhra",
+        "Əl-Cahra",
+        "Əl-Dzhakhra",
+        "Əl-Jakhra",
+        "ʿeል jahira"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLA",
+    "population": 24281,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285799",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285803,
+    "slug": "al-hujayjah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.65472,
+    "lng": 48.13111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الحجيجة",
+      "en": "Al Ḩujayjah",
+      "fr": "Al Ḩujayjah",
+      "de": "Al Ḩujayjah",
+      "tr": "Al Ḩujayjah",
+      "ur": "Al Ḩujayjah",
+      "id": "Al Ḩujayjah",
+      "es": "Al Ḩujayjah",
+      "bn": "Al Ḩujayjah",
+      "ms": "Al Ḩujayjah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْحُجَيْجَة"
+      ],
+      "en": [
+        "Al Hujayjah",
+        "Al-Hijajah",
+        "Hagaija",
+        "Haqaija",
+        "Haqaijah",
+        "Hugaija",
+        "aalhujayjat",
+        "alhjyjt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285803",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285810,
+    "slug": "al-funaytis",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.22528,
+    "lng": 48.10167,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الفنيطيس",
+      "en": "Al Funayţīs",
+      "fr": "Al Funayţīs",
+      "de": "Al Funayţīs",
+      "tr": "Al Funayţīs",
+      "ur": "Al Funayţīs",
+      "id": "Al Funayţīs",
+      "es": "Al Funayţīs",
+      "bn": "Al Funayţīs",
+      "ms": "Al Funayţīs"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْفُنَيْطِيس"
+      ],
+      "en": [
+        "Al Fanaitis",
+        "Al Funaitis",
+        "Al Funaytis",
+        "Al-Finaitees",
+        "Fanaitis",
+        "Fneitees",
+        "Fraitsass",
+        "Funaitis",
+        "Funaitís",
+        "Funaytis",
+        "Funayţīs",
+        "aalfunaytis",
+        "alfnytys"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 1878,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:285810",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285811,
+    "slug": "al-fahahil",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.0825,
+    "lng": 48.13028,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الفحاحيل",
+      "en": "Al Faḩāḩīl",
+      "fr": "Al Faḩāḩīl",
+      "de": "Al Faḩāḩīl",
+      "tr": "Al Faḩāḩīl",
+      "ur": "Al Faḩāḩīl",
+      "id": "Al Faḩāḩīl",
+      "es": "Al Faḩāḩīl",
+      "bn": "Al Faḩāḩīl",
+      "ms": "Al Faḩāḩīl"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْفُحَيْحِيل"
+      ],
+      "en": [
+        "Al Fahahil",
+        "Al Fuhaihil",
+        "Al Fuhayhil",
+        "Al Fuħaiħil",
+        "Al Fuḩayḩīl",
+        "Al Ifhaihil",
+        "Al-Fahaheel",
+        "Al-Fahahhel",
+        "Al-Fahahil",
+        "Fahaheel",
+        "Fahahil",
+        "Fahaihil",
+        "Fahaihīl",
+        "Fahayhil",
+        "Fahāhīl",
+        "Faḩayḩīl",
+        "Fuhayhil",
+        "Fuḩayḩīl",
+        "aalfuhayhil",
+        "alfhahyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 68290,
+    "priority": 85,
+    "source": "geonames",
+    "sourceId": "geonames:285811",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285812,
+    "slug": "al-fintas",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.17389,
+    "lng": 48.12111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الفنطاس",
+      "en": "Al Finţās",
+      "fr": "Al Finţās",
+      "de": "Al Finţās",
+      "tr": "Al Finţās",
+      "ur": "Al Finţās",
+      "id": "Al Finţās",
+      "es": "Al Finţās",
+      "bn": "Al Finţās",
+      "ms": "Al Finţās"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْفِنْطَاس"
+      ],
+      "en": [
+        "Al Fantas",
+        "Al Fintas",
+        "Al Fintass",
+        "Al Fintās",
+        "Fantas",
+        "Fantass",
+        "Fanţās",
+        "Finatus",
+        "Fintas",
+        "Fintass",
+        "Finţās",
+        "Funtas",
+        "Funtás",
+        "aalfintas",
+        "alfntas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 23071,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285812",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285815,
+    "slug": "al-farwaniyah",
+    "type": "city",
+    "countryCode": "kw",
+    "lat": 29.2775,
+    "lng": 47.95861,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "alfrwanyہ",
+      "en": "Al Farwānīyah",
+      "fr": "Al Farwānīyah",
+      "de": "Al Farwānīyah",
+      "tr": "Al Farwānīyah",
+      "ur": "Al Farwānīyah",
+      "id": "Al Farwānīyah",
+      "es": "Al Farwānīyah",
+      "bn": "Al Farwānīyah",
+      "ms": "Al Farwānīyah"
+    },
+    "aliases": {
+      "ar": [
+        "الفروانية",
+        "الفروانیہ",
+        "اَلْفَرْوَانِيَّة",
+        "فروانیه"
+      ],
+      "en": [
+        "Al Farvaniya",
+        "Al Farwania",
+        "Al Farwaniyah",
+        "Al-Farawaniyah",
+        "Al-Farwaniyyah",
+        "Ehl'-Farvanija",
+        "El Farvaniye",
+        "Farwaniah",
+        "Farwaniyyeh",
+        "aalfarwaniat",
+        "ala phara'oyaniyaha",
+        "ala pharavani'a",
+        "ala pharavaniya",
+        "alfrwanyt",
+        "arufaruwaniya",
+        "frwanyh",
+        "Əl-Farvaniya",
+        "Əl-Farvaniə",
+        "ʿeል ፋriwaniya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الفروانية",
+      "regionEn": "Al Farwaniyah Governorate",
+      "admin1Code": "07",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLA",
+    "population": 86525,
+    "priority": 85,
+    "source": "geonames",
+    "sourceId": "geonames:285815",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285822,
+    "slug": "al-bida",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.3025,
+    "lng": 48.08694,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْبِدَع",
+      "en": "Al Bida‘",
+      "fr": "Al Bida‘",
+      "de": "Al Bida‘",
+      "tr": "Al Bida‘",
+      "ur": "Al Bida‘",
+      "id": "Al Bida‘",
+      "es": "Al Bida‘",
+      "bn": "Al Bida‘",
+      "ms": "Al Bida‘"
+    },
+    "aliases": {
+      "en": [
+        "Al Bid`",
+        "Al Bida`",
+        "Al Biddah",
+        "Al Bid‘",
+        "Al-Bidde",
+        "Bad'ah",
+        "Bad’ah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285822",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285823,
+    "slug": "al-bhar",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.38333,
+    "lng": 47.83333,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْبْهَر",
+      "en": "Al Bhar",
+      "fr": "Al Bhar",
+      "de": "Al Bhar",
+      "tr": "Al Bhar",
+      "ur": "Al Bhar",
+      "id": "Al Bhar",
+      "es": "Al Bhar",
+      "bn": "Al Bhar",
+      "ms": "Al Bhar"
+    },
+    "aliases": {
+      "en": [
+        "aalbhar"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285823",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285828,
+    "slug": "bahra",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.66667,
+    "lng": 47.86667,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْبَحْرَة",
+      "en": "Bahra",
+      "fr": "Bahra",
+      "de": "Bahra",
+      "tr": "Bahra",
+      "ur": "Bahra",
+      "id": "Bahra",
+      "es": "Bahra",
+      "bn": "Bahra",
+      "ms": "Bahra"
+    },
+    "aliases": {
+      "en": [
+        "Al Bahrah",
+        "Al Baḩrah",
+        "Al-Bahra",
+        "Bahrah",
+        "Baḩrah",
+        "aalbahrat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285828",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285839,
+    "slug": "al-ahmadi",
+    "type": "city",
+    "countryCode": "kw",
+    "lat": 29.07694,
+    "lng": 48.08389,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "احمدی",
+      "en": "Al Aḩmadī",
+      "fr": "Al Aḩmadī",
+      "de": "Al Aḩmadī",
+      "tr": "Al Aḩmadī",
+      "ur": "Al Aḩmadī",
+      "id": "Al Aḩmadī",
+      "es": "Al Aḩmadī",
+      "bn": "Al Aḩmadī",
+      "ms": "Al Aḩmadī"
+    },
+    "aliases": {
+      "ar": [
+        "الأحمدي",
+        "الاحمدي",
+        "الاحمدی",
+        "اَلأَحْمَدِي"
+      ],
+      "en": [
+        "Ahmad",
+        "Ahmadi",
+        "Ahmedi",
+        "Al Ahmadi",
+        "Al Aħmadi",
+        "Ehl'-Akhmadi",
+        "El Ahmedi",
+        "aalaahmadi",
+        "ahmdy",
+        "ala ahamadi",
+        "alahmdy",
+        "aruahamadi",
+        "Əl-Ahmadi",
+        "Əl-Akhmadi",
+        "ʿeል ʿehimadi"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLA",
+    "population": 637411,
+    "priority": 95,
+    "source": "geonames",
+    "sourceId": "geonames:285839",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285845,
+    "slug": "al-ad-ami",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.81667,
+    "lng": 48.26667,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلأَدْعَمِي",
+      "en": "Al Ad‘amī",
+      "fr": "Al Ad‘amī",
+      "de": "Al Ad‘amī",
+      "tr": "Al Ad‘amī",
+      "ur": "Al Ad‘amī",
+      "id": "Al Ad‘amī",
+      "es": "Al Ad‘amī",
+      "bn": "Al Ad‘amī",
+      "ms": "Al Ad‘amī"
+    },
+    "aliases": {
+      "en": [
+        "Al Ad`ami"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285845",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285848,
+    "slug": "al-abdaliyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.0425,
+    "lng": 47.70611,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْعَبْدَلِيَّة",
+      "en": "Al ‘Abdalīyah",
+      "fr": "Al ‘Abdalīyah",
+      "de": "Al ‘Abdalīyah",
+      "tr": "Al ‘Abdalīyah",
+      "ur": "Al ‘Abdalīyah",
+      "id": "Al ‘Abdalīyah",
+      "es": "Al ‘Abdalīyah",
+      "bn": "Al ‘Abdalīyah",
+      "ms": "Al ‘Abdalīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al `Abdaliyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285848",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285853,
+    "slug": "ad-diba-iyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.93333,
+    "lng": 48.16667,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلضِّبَاعِيَّة",
+      "en": "Aḑ Ḑibā‘īyah",
+      "fr": "Aḑ Ḑibā‘īyah",
+      "de": "Aḑ Ḑibā‘īyah",
+      "tr": "Aḑ Ḑibā‘īyah",
+      "ur": "Aḑ Ḑibā‘īyah",
+      "id": "Aḑ Ḑibā‘īyah",
+      "es": "Aḑ Ḑibā‘īyah",
+      "bn": "Aḑ Ḑibā‘īyah",
+      "ms": "Aḑ Ḑibā‘īyah"
+    },
+    "aliases": {
+      "en": [
+        "Ad Diba`iyah",
+        "Al Adhaba-iyah",
+        "Al-Dhubaiyah",
+        "Dhuba`iyah",
+        "Dhuba‘iyah",
+        "Dubayeiha"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285853",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285855,
+    "slug": "ad-dawhah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.36778,
+    "lng": 47.81,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلدَّوْحَة",
+      "en": "Ad Dawḩah",
+      "fr": "Ad Dawḩah",
+      "de": "Ad Dawḩah",
+      "tr": "Ad Dawḩah",
+      "ur": "Ad Dawḩah",
+      "id": "Ad Dawḩah",
+      "es": "Ad Dawḩah",
+      "bn": "Ad Dawḩah",
+      "ms": "Ad Dawḩah"
+    },
+    "aliases": {
+      "en": [
+        "Ad Dawhah",
+        "Al Doha",
+        "Dauha",
+        "Doha",
+        "aaldawhat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285855",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 285856,
+    "slug": "ad-dasmah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.365,
+    "lng": 48.00139,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلدَّسْمَة",
+      "en": "Ad Dasmah",
+      "fr": "Ad Dasmah",
+      "de": "Ad Dasmah",
+      "tr": "Ad Dasmah",
+      "ur": "Ad Dasmah",
+      "id": "Ad Dasmah",
+      "es": "Ad Dasmah",
+      "bn": "Ad Dasmah",
+      "ms": "Ad Dasmah"
+    },
+    "aliases": {
+      "en": [
+        "Ad Dasma'",
+        "Ad Dasmā’",
+        "Dasma",
+        "Dasmah",
+        "aaldasmat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 17585,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:285856",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 285864,
+    "slug": "abu-hulayfah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.13222,
+    "lng": 48.12611,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "أَبُو حُلَيْفَة",
+      "en": "Abū Ḩulayfah",
+      "fr": "Abū Ḩulayfah",
+      "de": "Abū Ḩulayfah",
+      "tr": "Abū Ḩulayfah",
+      "ur": "Abū Ḩulayfah",
+      "id": "Abū Ḩulayfah",
+      "es": "Abū Ḩulayfah",
+      "bn": "Abū Ḩulayfah",
+      "ms": "Abū Ḩulayfah"
+    },
+    "aliases": {
+      "ar": [
+        "ابو حليفة"
+      ],
+      "en": [
+        "Abi Huleifa",
+        "Abu Halaifa",
+        "Abu Halaifah",
+        "Abu Halifah",
+        "Abu Hulaifa",
+        "Abu Hulaifah",
+        "Abu Hulayfah",
+        "Abu Ḩulaifah",
+        "Abu-Hleifa",
+        "Halaifa",
+        "aabu hulayfat",
+        "abw hlyft"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285864",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 285866,
+    "slug": "abraq-khaytan",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.2925,
+    "lng": 47.96889,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "أَبْرَق خَيْطَان",
+      "en": "Abraq Khayţān",
+      "fr": "Abraq Khayţān",
+      "de": "Abraq Khayţān",
+      "tr": "Abraq Khayţān",
+      "ur": "Abraq Khayţān",
+      "id": "Abraq Khayţān",
+      "es": "Abraq Khayţān",
+      "bn": "Abraq Khayţān",
+      "ms": "Abraq Khayţān"
+    },
+    "aliases": {
+      "en": [
+        "Abrag Khitan",
+        "Abrag Khīţān",
+        "Abrak Khetan",
+        "Abraq Haytan",
+        "Abraq Khaitan",
+        "Abraq Khaytan",
+        "Abraq Khetan",
+        "Abraq Khitan",
+        "Abraq Khīţān",
+        "Khaitan",
+        "Khitan",
+        "Koetan",
+        "aabraq khaytan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الفروانية",
+      "regionEn": "Al Farwaniyah Governorate",
+      "admin1Code": "07",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:285866",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 384601,
+    "slug": "at-tawil",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.97861,
+    "lng": 47.90722,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلطَّوِيل",
+      "en": "Aţ Ţawīl",
+      "fr": "Aţ Ţawīl",
+      "de": "Aţ Ţawīl",
+      "tr": "Aţ Ţawīl",
+      "ur": "Aţ Ţawīl",
+      "id": "Aţ Ţawīl",
+      "es": "Aţ Ţawīl",
+      "bn": "Aţ Ţawīl",
+      "ms": "Aţ Ţawīl"
+    },
+    "aliases": {
+      "en": [
+        "At Tawil",
+        "aaltawil"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:384601",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 384610,
+    "slug": "subayhiyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.87944,
+    "lng": 47.91389,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "صُبَيْحِيَّة",
+      "en": "Şubayḩīyah",
+      "fr": "Şubayḩīyah",
+      "de": "Şubayḩīyah",
+      "tr": "Şubayḩīyah",
+      "ur": "Şubayḩīyah",
+      "id": "Şubayḩīyah",
+      "es": "Şubayḩīyah",
+      "bn": "Şubayḩīyah",
+      "ms": "Şubayḩīyah"
+    },
+    "aliases": {
+      "en": [
+        "Subayhiyah",
+        "subayhiat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:384610",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 384614,
+    "slug": "warah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.99611,
+    "lng": 47.98222,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "وَارَة",
+      "en": "Wārah",
+      "fr": "Wārah",
+      "de": "Wārah",
+      "tr": "Wārah",
+      "ur": "Wārah",
+      "id": "Wārah",
+      "es": "Wārah",
+      "bn": "Wārah",
+      "ms": "Wārah"
+    },
+    "aliases": {
+      "en": [
+        "Warah",
+        "warat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:384614",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 387897,
+    "slug": "al-wafrah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.55417,
+    "lng": 48.05306,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْوَفْرَة",
+      "en": "Al Wafrah",
+      "fr": "Al Wafrah",
+      "de": "Al Wafrah",
+      "tr": "Al Wafrah",
+      "ur": "Al Wafrah",
+      "id": "Al Wafrah",
+      "es": "Al Wafrah",
+      "bn": "Al Wafrah",
+      "ms": "Al Wafrah"
+    },
+    "aliases": {
+      "en": [
+        "aalwafrat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387897",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 387913,
+    "slug": "al-khuwaysat",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.40333,
+    "lng": 47.71111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْخُوَيْسَات",
+      "en": "Al Khuwaysāt",
+      "fr": "Al Khuwaysāt",
+      "de": "Al Khuwaysāt",
+      "tr": "Al Khuwaysāt",
+      "ur": "Al Khuwaysāt",
+      "id": "Al Khuwaysāt",
+      "es": "Al Khuwaysāt",
+      "bn": "Al Khuwaysāt",
+      "ms": "Al Khuwaysāt"
+    },
+    "aliases": {
+      "en": [
+        "Al Khuwaysat",
+        "aalkhuaysat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387913",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 387937,
+    "slug": "al-khidr",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.46444,
+    "lng": 48.28833,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْخِضْر",
+      "en": "Al Khiḑr",
+      "fr": "Al Khiḑr",
+      "de": "Al Khiḑr",
+      "tr": "Al Khiḑr",
+      "ur": "Al Khiḑr",
+      "id": "Al Khiḑr",
+      "es": "Al Khiḑr",
+      "bn": "Al Khiḑr",
+      "ms": "Al Khiḑr"
+    },
+    "aliases": {
+      "en": [
+        "Al Khidr",
+        "aalkhidr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387937",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 387938,
+    "slug": "al-bult",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.4575,
+    "lng": 48.28139,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْبُلْط",
+      "en": "Al Bulţ",
+      "fr": "Al Bulţ",
+      "de": "Al Bulţ",
+      "tr": "Al Bulţ",
+      "ur": "Al Bulţ",
+      "id": "Al Bulţ",
+      "es": "Al Bulţ",
+      "bn": "Al Bulţ",
+      "ms": "Al Bulţ"
+    },
+    "aliases": {
+      "en": [
+        "Al Bult",
+        "aalbult"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387938",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 387939,
+    "slug": "ash-shubaykah",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.43167,
+    "lng": 48.29917,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلشُّبَيْكَة",
+      "en": "Ash Shubaykah",
+      "fr": "Ash Shubaykah",
+      "de": "Ash Shubaykah",
+      "tr": "Ash Shubaykah",
+      "ur": "Ash Shubaykah",
+      "id": "Ash Shubaykah",
+      "es": "Ash Shubaykah",
+      "bn": "Ash Shubaykah",
+      "ms": "Ash Shubaykah"
+    },
+    "aliases": {
+      "en": [
+        "aalshubaykat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387939",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 387941,
+    "slug": "ad-dasht",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.4625,
+    "lng": 48.31389,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلدَّشْت",
+      "en": "Ad Dasht",
+      "fr": "Ad Dasht",
+      "de": "Ad Dasht",
+      "tr": "Ad Dasht",
+      "ur": "Ad Dasht",
+      "id": "Ad Dasht",
+      "es": "Ad Dasht",
+      "bn": "Ad Dasht",
+      "ms": "Ad Dasht"
+    },
+    "aliases": {
+      "en": [
+        "aaldasht"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387941",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 387943,
+    "slug": "qullat-shujayr",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.45917,
+    "lng": 48.29972,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "قُلَّة شُجَيْر",
+      "en": "Qullat Shujayr",
+      "fr": "Qullat Shujayr",
+      "de": "Qullat Shujayr",
+      "tr": "Qullat Shujayr",
+      "ur": "Qullat Shujayr",
+      "id": "Qullat Shujayr",
+      "es": "Qullat Shujayr",
+      "bn": "Qullat Shujayr",
+      "ms": "Qullat Shujayr"
+    },
+    "aliases": {
+      "en": [
+        "qulat shujayr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387943",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 387948,
+    "slug": "al-awazim",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.42028,
+    "lng": 48.385,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْعَوَازِم",
+      "en": "Al ‘Awāzim",
+      "fr": "Al ‘Awāzim",
+      "de": "Al ‘Awāzim",
+      "tr": "Al ‘Awāzim",
+      "ur": "Al ‘Awāzim",
+      "id": "Al ‘Awāzim",
+      "es": "Al ‘Awāzim",
+      "bn": "Al ‘Awāzim",
+      "ms": "Al ‘Awāzim"
+    },
+    "aliases": {
+      "en": [
+        "Al `Awazim"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate",
+      "admin1Code": "02",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387948",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 387959,
+    "slug": "mishrif",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.28917,
+    "lng": 48.05,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "مشرف",
+      "en": "Mishrif",
+      "fr": "Mishrif",
+      "de": "Mishrif",
+      "tr": "Mishrif",
+      "ur": "Mishrif",
+      "id": "Mishrif",
+      "es": "Mishrif",
+      "bn": "Mishrif",
+      "ms": "Mishrif"
+    },
+    "aliases": {
+      "ar": [
+        "مُشْرِف"
+      ],
+      "en": [
+        "Mishref",
+        "Mushrif",
+        "mshrf",
+        "mushrif"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387959",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 387962,
+    "slug": "al-masilah",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.26194,
+    "lng": 48.07972,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "المسيلة",
+      "en": "Al Masīlah",
+      "fr": "Al Masīlah",
+      "de": "Al Masīlah",
+      "tr": "Al Masīlah",
+      "ur": "Al Masīlah",
+      "id": "Al Masīlah",
+      "es": "Al Masīlah",
+      "bn": "Al Masīlah",
+      "ms": "Al Masīlah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْمَسِيلَة"
+      ],
+      "en": [
+        "Al Masilah",
+        "Al Massilah",
+        "Al Massīlah",
+        "Messila",
+        "aalmasilat",
+        "almsylt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387962",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 387981,
+    "slug": "ashish-ad-dawhah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.38528,
+    "lng": 47.84222,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "عَشِيش اَلدَّوْحَة",
+      "en": "‘Ashīsh ad Dawḩah",
+      "fr": "‘Ashīsh ad Dawḩah",
+      "de": "‘Ashīsh ad Dawḩah",
+      "tr": "‘Ashīsh ad Dawḩah",
+      "ur": "‘Ashīsh ad Dawḩah",
+      "id": "‘Ashīsh ad Dawḩah",
+      "es": "‘Ashīsh ad Dawḩah",
+      "bn": "‘Ashīsh ad Dawḩah",
+      "ms": "‘Ashīsh ad Dawḩah"
+    },
+    "aliases": {
+      "en": [
+        "`Ashish ad Dawhah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:387981",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 388048,
+    "slug": "ashish-al-jahra",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.31722,
+    "lng": 47.67778,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "عَشِيش اَلْجَهْرَاء",
+      "en": "‘Ashīsh al Jahrā’",
+      "fr": "‘Ashīsh al Jahrā’",
+      "de": "‘Ashīsh al Jahrā’",
+      "tr": "‘Ashīsh al Jahrā’",
+      "ur": "‘Ashīsh al Jahrā’",
+      "id": "‘Ashīsh al Jahrā’",
+      "es": "‘Ashīsh al Jahrā’",
+      "bn": "‘Ashīsh al Jahrā’",
+      "ms": "‘Ashīsh al Jahrā’"
+    },
+    "aliases": {
+      "en": [
+        "Ashish al Jahrah",
+        "Ashīsh al Jahrah",
+        "`Ashish al Jahra'"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:388048",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 388052,
+    "slug": "ad-dawhah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.31444,
+    "lng": 47.81194,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلدَّوْحَة",
+      "en": "Ad Dawḩah",
+      "fr": "Ad Dawḩah",
+      "de": "Ad Dawḩah",
+      "tr": "Ad Dawḩah",
+      "ur": "Ad Dawḩah",
+      "id": "Ad Dawḩah",
+      "es": "Ad Dawḩah",
+      "bn": "Ad Dawḩah",
+      "ms": "Ad Dawḩah"
+    },
+    "aliases": {
+      "en": [
+        "Ad Dawhah",
+        "aaldawhat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:388052",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 388088,
+    "slug": "al-abbasiyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.25028,
+    "lng": 47.93111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْعَبَّاسِيَّة",
+      "en": "Al ‘Abbāsīyah",
+      "fr": "Al ‘Abbāsīyah",
+      "de": "Al ‘Abbāsīyah",
+      "tr": "Al ‘Abbāsīyah",
+      "ur": "Al ‘Abbāsīyah",
+      "id": "Al ‘Abbāsīyah",
+      "es": "Al ‘Abbāsīyah",
+      "bn": "Al ‘Abbāsīyah",
+      "ms": "Al ‘Abbāsīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al `Abbasiyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:388088",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 388102,
+    "slug": "ad-duba-iyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 28.92361,
+    "lng": 48.20722,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلضُّبَاعِيَّة",
+      "en": "Aḑ Ḑubā‘īyah",
+      "fr": "Aḑ Ḑubā‘īyah",
+      "de": "Aḑ Ḑubā‘īyah",
+      "tr": "Aḑ Ḑubā‘īyah",
+      "ur": "Aḑ Ḑubā‘īyah",
+      "id": "Aḑ Ḑubā‘īyah",
+      "es": "Aḑ Ḑubā‘īyah",
+      "bn": "Aḑ Ḑubā‘īyah",
+      "ms": "Aḑ Ḑubā‘īyah"
+    },
+    "aliases": {
+      "en": [
+        "Ad Duba`iyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "00",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:388102",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:00"
+    ]
+  },
+  {
+    "geonameid": 412800,
+    "slug": "sabah-as-salim",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.25722,
+    "lng": 48.05722,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "صَبَاح اَلسَّالِم",
+      "en": "Şabāḩ as Sālim",
+      "fr": "Şabāḩ as Sālim",
+      "de": "Şabāḩ as Sālim",
+      "tr": "Şabāḩ as Sālim",
+      "ur": "Şabāḩ as Sālim",
+      "id": "Şabāḩ as Sālim",
+      "es": "Şabāḩ as Sālim",
+      "bn": "Şabāḩ as Sālim",
+      "ms": "Şabāḩ as Sālim"
+    },
+    "aliases": {
+      "en": [
+        "Sabah Al Salem",
+        "Sabah as Salim",
+        "Sabah as Salim as Sabbah",
+        "sabah aalsaalim",
+        "Şabāḩ as Salim aş Sabbāḩ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 139163,
+    "priority": 90,
+    "source": "geonames",
+    "sourceId": "geonames:412800",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 414978,
+    "slug": "al-arfajiyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.70028,
+    "lng": 48.09556,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "العرفجية",
+      "en": "Al ‘Arfajīyah",
+      "fr": "Al ‘Arfajīyah",
+      "de": "Al ‘Arfajīyah",
+      "tr": "Al ‘Arfajīyah",
+      "ur": "Al ‘Arfajīyah",
+      "id": "Al ‘Arfajīyah",
+      "es": "Al ‘Arfajīyah",
+      "bn": "Al ‘Arfajīyah",
+      "ms": "Al ‘Arfajīyah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْعَرْفَجِيَّة"
+      ],
+      "en": [
+        "Al `Arfajiyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:414978",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 414979,
+    "slug": "al-ulaymiyah",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.68806,
+    "lng": 48.11417,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "العليميه",
+      "en": "Al ‘Ulaymīyah",
+      "fr": "Al ‘Ulaymīyah",
+      "de": "Al ‘Ulaymīyah",
+      "tr": "Al ‘Ulaymīyah",
+      "ur": "Al ‘Ulaymīyah",
+      "id": "Al ‘Ulaymīyah",
+      "es": "Al ‘Ulaymīyah",
+      "bn": "Al ‘Ulaymīyah",
+      "ms": "Al ‘Ulaymīyah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْعُلَيْمِيَّة"
+      ],
+      "en": [
+        "Al Alaymah",
+        "Al `Ulaymiyah",
+        "Al-`Alaimah",
+        "Al-‘Alaimah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:414979",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 6942029,
+    "slug": "highway-of-death",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.3842,
+    "lng": 47.6518,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "طريق الموت",
+      "en": "Highway of Death",
+      "fr": "Highway of Death",
+      "de": "Highway of Death",
+      "tr": "Highway of Death",
+      "ur": "Highway of Death",
+      "id": "Highway of Death",
+      "es": "Highway of Death",
+      "bn": "Highway of Death",
+      "ms": "Highway of Death"
+    },
+    "aliases": {
+      "en": [
+        "Auto-put smrti",
+        "Autocesta smrti",
+        "Autoestrada da Morte",
+        "Autopista de la muerte",
+        "Autostrada della morte",
+        "Doedens motorvaeg",
+        "Dödens motorväg",
+        "Kuoleman moottoritie",
+        "Mirties greitkelis",
+        "Shosse smerti",
+        "Snelweg des Doods",
+        "sinohaiuei",
+        "tryq almwt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "",
+      "regionEn": "",
+      "admin1Code": "",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:6942029",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population",
+      "unknown_region:"
+    ]
+  },
+  {
+    "geonameid": 7329409,
+    "slug": "al-qusur",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.21748,
+    "lng": 48.0726,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Al Quşūr",
+      "en": "Al Quşūr",
+      "fr": "Al Quşūr",
+      "de": "Al Quşūr",
+      "tr": "Al Quşūr",
+      "ur": "Al Quşūr",
+      "id": "Al Quşūr",
+      "es": "Al Quşūr",
+      "bn": "Al Quşūr",
+      "ms": "Al Quşūr"
+    },
+    "aliases": {
+      "en": [
+        "Al Qusur"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:7329409",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 7329410,
+    "slug": "al-qurayn",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.2043,
+    "lng": 48.0757,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Al Qurayn",
+      "en": "Al Qurayn",
+      "fr": "Al Qurayn",
+      "de": "Al Qurayn",
+      "tr": "Al Qurayn",
+      "ur": "Al Qurayn",
+      "id": "Al Qurayn",
+      "es": "Al Qurayn",
+      "bn": "Al Qurayn",
+      "ms": "Al Qurayn"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:7329410",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 7329411,
+    "slug": "mubarak-al-kabir",
+    "type": "city",
+    "countryCode": "kw",
+    "lat": 29.18979,
+    "lng": 48.08716,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "مبارك الكبير",
+      "en": "Mubārak al Kabīr",
+      "fr": "Mubārak al Kabīr",
+      "de": "Mubārak al Kabīr",
+      "tr": "Mubārak al Kabīr",
+      "ur": "Mubārak al Kabīr",
+      "id": "Mubārak al Kabīr",
+      "es": "Mubārak al Kabīr",
+      "bn": "Mubārak al Kabīr",
+      "ms": "Mubārak al Kabīr"
+    },
+    "aliases": {
+      "ar": [
+        "مبارک الکبیر",
+        "مبارک کبیر"
+      ],
+      "en": [
+        "Mubarak Al-Kabeer",
+        "Mubarak al Kabir",
+        "Mubarak al'-Kabir",
+        "Muebarak el Kebir",
+        "Mübarak el Kebir",
+        "mbark alkbyr",
+        "mbark kbyr",
+        "mubaraka ala kabira",
+        "mubaraku・aru・kabiru",
+        "mubareki ʿeል kabiri"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLA",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:7329411",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 8300014,
+    "slug": "al-adan",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.23274,
+    "lng": 48.0685,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Al ‘Adan",
+      "en": "Al ‘Adan",
+      "fr": "Al ‘Adan",
+      "de": "Al ‘Adan",
+      "tr": "Al ‘Adan",
+      "ur": "Al ‘Adan",
+      "id": "Al ‘Adan",
+      "es": "Al ‘Adan",
+      "bn": "Al ‘Adan",
+      "ms": "Al ‘Adan"
+    },
+    "aliases": {
+      "en": [
+        "Al `Adan",
+        "Al-Adan",
+        "Al 'Adan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:8300014",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 8986155,
+    "slug": "jaber-al-ali",
+    "type": "locality",
+    "countryCode": "kw",
+    "lat": 29.17082,
+    "lng": 48.0724,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Jaber Al Ali",
+      "en": "Jaber Al Ali",
+      "fr": "Jaber Al Ali",
+      "de": "Jaber Al Ali",
+      "tr": "Jaber Al Ali",
+      "ur": "Jaber Al Ali",
+      "id": "Jaber Al Ali",
+      "es": "Jaber Al Ali",
+      "bn": "Jaber Al Ali",
+      "ms": "Jaber Al Ali"
+    },
+    "aliases": {
+      "en": [
+        "XIJ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate",
+      "admin1Code": "04",
+      "admin2Code": ""
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:8986155",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11579278,
+    "slug": "mazari-al-abdali",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 30.04219,
+    "lng": 47.72205,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "مزارع العبدلي",
+      "en": "Mazāri‘ al ‘Abdalī",
+      "fr": "Mazāri‘ al ‘Abdalī",
+      "de": "Mazāri‘ al ‘Abdalī",
+      "tr": "Mazāri‘ al ‘Abdalī",
+      "ur": "Mazāri‘ al ‘Abdalī",
+      "id": "Mazāri‘ al ‘Abdalī",
+      "es": "Mazāri‘ al ‘Abdalī",
+      "bn": "Mazāri‘ al ‘Abdalī",
+      "ms": "Mazāri‘ al ‘Abdalī"
+    },
+    "aliases": {
+      "en": [
+        "Abdali",
+        "Al `Abdali Farms",
+        "Al ‘Abdalī Farms",
+        "Mazari` al `Abdali",
+        "Mazari' al 'Abdali"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الجهراء",
+      "regionEn": "Al Jahra Governorate",
+      "admin1Code": "05",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 6835,
+    "priority": 75,
+    "source": "geonames",
+    "sourceId": "geonames:11579278",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 11593497,
+    "slug": "al-masayel",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.2393,
+    "lng": 48.08862,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Al-Masayel",
+      "en": "Al-Masayel",
+      "fr": "Al-Masayel",
+      "de": "Al-Masayel",
+      "tr": "Al-Masayel",
+      "ur": "Al-Masayel",
+      "id": "Al-Masayel",
+      "es": "Al-Masayel",
+      "bn": "Al-Masayel",
+      "ms": "Al-Masayel"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 2458,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:11593497",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 11593499,
+    "slug": "abu-fatira",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.19746,
+    "lng": 48.10278,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Abu Fatira",
+      "en": "Abu Fatira",
+      "fr": "Abu Fatira",
+      "de": "Abu Fatira",
+      "tr": "Abu Fatira",
+      "ur": "Abu Fatira",
+      "id": "Abu Fatira",
+      "es": "Abu Fatira",
+      "bn": "Abu Fatira",
+      "ms": "Abu Fatira"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 1240,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:11593499",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 11593501,
+    "slug": "abu-al-hasaniya",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.19076,
+    "lng": 48.11355,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "Abu Al Hasaniya",
+      "en": "Abu Al Hasaniya",
+      "fr": "Abu Al Hasaniya",
+      "de": "Abu Al Hasaniya",
+      "tr": "Abu Al Hasaniya",
+      "ur": "Abu Al Hasaniya",
+      "id": "Abu Al Hasaniya",
+      "es": "Abu Al Hasaniya",
+      "bn": "Abu Al Hasaniya",
+      "ms": "Abu Al Hasaniya"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate",
+      "admin1Code": "09",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 1350,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:11593501",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  }
+]

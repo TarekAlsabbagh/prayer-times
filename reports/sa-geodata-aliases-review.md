@@ -1,19 +1,20 @@
 # SA GeoNames — Alias Enrichment Review
 
-**Generated**: 2026-05-14T11:07:36.035Z
+**Country**: Saudi Arabia (المملكة العربية السعودية)
+**Generated**: 2026-05-14T16:14:34.035Z
 **Phase**: `CURATED-SA-GEODATA-IMPORT-1B`
 
 ## Overview
 
-These are EXISTING curated Saudi entries that could gain
-additional aliases from GeoNames data. They are listed here
+These are EXISTING curated Saudi Arabia entries that could
+gain additional aliases from GeoNames data. They are listed here
 separately because:
 
 * Adding aliases is less risky than adding new places.
 * But each new alias should still be verified before applying.
 * Stage 4 will NOT auto-apply these.
 
-**Count: 162** existing entries with at least one new alias.
+**Count: 166** existing entries with at least one new alias.
 
 ## How to apply (manual, recommended)
 
@@ -96,6 +97,7 @@ When you're happy with a row below, edit the matching entry in
 | as-sulayyil | As Sulayyil | As Sullayyil, SLF, Sulaiyil |
 | as-sulaymi | As Sulaymī | As Sulaimi, Silaimi |
 | sajir |  | As Sajir, As Sājir, sajr |
+| al-jafr | As Sabat | As Sabat, Al Sabat |
 | ash-shimasiyah |  | Ash Shamasiya, Ash Shamasiyah, Ash Shamāsīya, Ash Shamāsīyah, Shamas, Shamasiyah, Shamasiyya, Shamāsīyah, Shimas, Shimās, alshimasiat |
 | riyadh | رىياد، ریاض، ڕیاز | Al-Riad, Al-Riyad, Ar Riyadh, Ar Riyādh, Ar-Riaad, Ar-Rijad, Ar-Riyad, Ar-Riyod, Ar-Riyāḑ, Ehr-Rijad, Ehr-Ryjad, Er-Rijad, Er-riyad, RUH, Riaad, Riad, Riade, Riadi, Riado, Riadum, Riant, Rihad, Rijad, Rijada, Rijadas, Rijád, Rijāda, Riyad, Riyaḍ, Ríad, alryad, er-riadi, li ya de, liyadeu, raiyadha, ri'ada, ri'adha, riyad, riyada, riyadha, riyado, riyat, ryad, ryyad, Ər-Riyad |
 | ar-rayth |  | alryth |
@@ -161,13 +163,16 @@ When you're happy with a row below, edit the matching entry in
 | abha | ابھا | AEbha, AHB, Abga, Abh, Abkha, Ebha, aba, abaha, abeuha, abuha, ai bo ha, ʿebiha |
 | ash-shanan |  | Ash Shinān, Ash Shinan, alshinan |
 | thumayr |  | Tumayr, tmyr |
+| al-fuwayliq | الفويلق | alfwylq |
 | rawdat-sudair |  | Rawḑat Sudayr, Rawdat Sudayr, rwdt sdyr |
+| ad-diriyah | الدِّيريَّة | Ad Dīrīyah, Ad Diriyah, aldiyryat |
 | al-badayi | البَدائع الوُسطى | Al Badā’i‘ al Wusţá, Al Bada'i`, Al Bada'i` al Wusta, Al Badaeya, Al Badā’i‘, Al Bada'i' al Wusta |
 | al-uyun-sa | الخويس | Al Khuways, alkhwys |
 | al-mubarraz | الخرس | Al Khars, alkhrs |
 | al-majaridah | Al Majāridah |  |
 | al-ays | Al ‘Ays |  |
 | dumat-al-jandal |  | Dawmat al Jandal, dwmt aljndl |
+| al-hayathim | Munayşif | Munayşif, Munavsif, Munavşif, Munaysif |
 | thuwal | Thuwal | Tuwal, Tūwal |
 | al-kamil | Al Kāmil |  |
 | al-muwayh | Al Muwayh | Al Jadid, Al Jadīd |
@@ -187,14 +192,6 @@ When you're happy with a row below, edit the matching entry in
 | habuna |  | hbwna |
 | raniyah |  | Ranyah, rnyt |
 | ash-shamli |  | alshmly |
-
-## Notes
-
-* Some new aliases may be transliteration variants of names
-  already in curated (e.g. "Tabuk" / "Tabuke" / "Tabuuk").
-* Others are different romanizations (Yenbo vs Yanbu, …).
-* A few are IATA codes (TUU, UHT, …) — skip these unless we
-  want airport-code search support (not currently a feature).
 
 ## License + Attribution
 

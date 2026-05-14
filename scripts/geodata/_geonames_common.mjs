@@ -1,13 +1,17 @@
 // scripts/geodata/_geonames_common.mjs
 // ─────────────────────────────────────────────────────────────────────────
-// CURATED-SA-GEODATA-IMPORT-1 — shared helpers for the GeoNames pipeline
+// CURATED-GEODATA pipeline — shared helpers (country-agnostic)
 //
 // Data attribution:
 //   GeoNames (https://www.geonames.org) — licensed CC-BY 4.0
-//   Source: https://download.geonames.org/export/dump/SA.zip
+//   Country dumps: https://download.geonames.org/export/dump/{XX}.zip
 //
 // This module is intentionally pure functions + small constants. No I/O
-// outside what callers explicitly do. Easy to unit-test if we ever need to.
+// outside what callers explicitly do. Easy to unit-test.
+//
+// Country-specific constants (BBOX, admin1 → region map, country names,
+// timezone, URL) live in `./countries/{cc}.js` — loaded via
+// `loadCountryConfig(cc)`.
 // ─────────────────────────────────────────────────────────────────────────
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,36 +22,63 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ─── Paths (relative to project root) ───
-export const PATHS = {
+// ─── Static project paths ───
+export const BASE_PATHS = {
     projectRoot:   path.resolve(__dirname, '..', '..'),
     sourceDir:     path.resolve(__dirname, '..', '..', 'db', 'places', 'sources'),
     candidateDir:  path.resolve(__dirname, '..', '..', 'db', 'places', 'candidates'),
     reportDir:     path.resolve(__dirname, '..', '..', 'reports'),
-    curatedPath:   path.resolve(__dirname, '..', '..', 'db', 'places', 'curated-places.json'),
-    saZip:         null,  // set below
-    saTxt:         null,
-    rawJson:       null,
-    normalizedJson:null,
-    candidatesJson:null,
-    reportMd:      null
+    curatedPath:   path.resolve(__dirname, '..', '..', 'db', 'places', 'curated-places.json')
 };
-PATHS.saZip          = path.join(PATHS.sourceDir,    'SA.zip');
-PATHS.saTxt          = path.join(PATHS.sourceDir,    'SA.txt');
-PATHS.rawJson        = path.join(PATHS.candidateDir, 'sa-geonames-raw.json');
-PATHS.normalizedJson = path.join(PATHS.candidateDir, 'sa-geonames-normalized.json');
-PATHS.candidatesJson = path.join(PATHS.candidateDir, 'sa-geonames-candidates.json');
-PATHS.reportMd       = path.join(PATHS.reportDir,    'sa-geodata-import-report.md');
-PATHS.aliasReportMd  = path.join(PATHS.reportDir,    'sa-geodata-aliases-review.md');
+
+// Per-country paths. `cc` is lowercase 2-letter ISO code (e.g. 'sa', 'qa').
+export function pathsFor(cc) {
+    const C = String(cc || '').toLowerCase();
+    const UC = C.toUpperCase();
+    return {
+        ...BASE_PATHS,
+        cc:             C,
+        zip:            path.join(BASE_PATHS.sourceDir,    UC + '.zip'),
+        txt:            path.join(BASE_PATHS.sourceDir,    UC + '.txt'),
+        rawJson:        path.join(BASE_PATHS.candidateDir, C + '-geonames-raw.json'),
+        normalizedJson: path.join(BASE_PATHS.candidateDir, C + '-geonames-normalized.json'),
+        candidatesJson: path.join(BASE_PATHS.candidateDir, C + '-geonames-candidates.json'),
+        reportMd:       path.join(BASE_PATHS.reportDir,    C + '-geodata-import-report.md'),
+        aliasReportMd:  path.join(BASE_PATHS.reportDir,    C + '-geodata-aliases-review.md')
+    };
+}
+
+// Backward-compat alias for the old name (PATHS = pathsFor('sa')).
+// Some external scripts may still import { PATHS }; left as `undefined`
+// to surface accidental usage. To get paths, use `pathsFor(cc)`.
+// export const PATHS = undefined;  // removed — callers must use pathsFor
+
+// Dynamically load per-country config from ./countries/{cc}.mjs
+// Returns the default export (config object). Throws if the country
+// has no config file.
+export async function loadCountryConfig(cc) {
+    const C = String(cc || '').toLowerCase();
+    const fp = path.join(__dirname, 'countries', C + '.mjs');
+    if (!fs.existsSync(fp)) {
+        throw new Error('No country config at ' + fp +
+            ' — create scripts/geodata/countries/' + C + '.mjs first');
+    }
+    // Use file:// URL for cross-platform ESM dynamic import
+    const fileUrl = new URL('file://' + fp.replace(/\\/g, '/')).href;
+    const mod = await import(fileUrl);
+    if (!mod || !mod.default) {
+        throw new Error('Country config ' + fp + ' has no default export');
+    }
+    return mod.default;
+}
 
 export function ensureDirs() {
-    for (const dir of [PATHS.sourceDir, PATHS.candidateDir, PATHS.reportDir]) {
+    for (const dir of [BASE_PATHS.sourceDir, BASE_PATHS.candidateDir, BASE_PATHS.reportDir]) {
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     }
 }
 
 // ─── GeoNames dump constants ───
-export const GEONAMES_SA_URL = 'https://download.geonames.org/export/dump/SA.zip';
 // 19-field schema for the country-specific dump
 export const GEONAMES_FIELDS = [
     'geonameid', 'name', 'asciiname', 'alternatenames',
@@ -82,42 +113,8 @@ export const REJECTED_FEATURE_CODES = new Set([
     'PPLG'   // seat of government (often duplicate)
 ]);
 
-// Saudi bounding box (rough, for sanity-checking coordinates)
-export const SA_BBOX = {
-    minLat: 16.0, maxLat: 33.0,
-    minLng: 34.0, maxLng: 56.0
-};
-
-// GeoNames admin1 codes → our region labels.
-// Verified against the actual SA.txt PPLA/PPLC capitals (Stage 1 output).
-//   admin1=02 → Al Bahah (PPLA: Al Bahah)
-//   admin1=05 → Madinah (PPLA: Madinah)
-//   admin1=06 → Eastern (PPLA: Dammam)
-//   admin1=08 → Qassim (PPLA: Buraydah)
-//   admin1=10 → Riyadh (PPLC: Riyadh)
-//   admin1=11 → Asir (PPLA: Abha)
-//   admin1=13 → Hail (PPLA: Ha'il)
-//   admin1=14 → Makkah (PPLA: Makkah)
-//   admin1=15 → Northern Borders (PPLA: Arar)
-//   admin1=16 → Najran (PPLA: Najran)
-//   admin1=17 → Jazan (PPLA: Jizan)
-//   admin1=19 → Tabuk (PPLA: Tabuk)
-//   admin1=20 → Jouf (PPLA: Sakakah)
-export const SA_ADMIN1_TO_REGION = {
-    '02': { ar: 'منطقة الباحة',            en: 'Al Bahah Region' },
-    '05': { ar: 'منطقة المدينة المنورة',  en: 'Madinah Region' },
-    '06': { ar: 'المنطقة الشرقية',         en: 'Eastern Province' },
-    '08': { ar: 'منطقة القصيم',            en: 'Qassim Region' },
-    '10': { ar: 'منطقة الرياض',            en: 'Riyadh Region' },
-    '11': { ar: 'منطقة عسير',              en: 'Asir Region' },
-    '13': { ar: 'منطقة حائل',              en: 'Hail Region' },
-    '14': { ar: 'منطقة مكة المكرمة',       en: 'Makkah Region' },
-    '15': { ar: 'منطقة الحدود الشمالية',  en: 'Northern Borders Region' },
-    '16': { ar: 'منطقة نجران',             en: 'Najran Region' },
-    '17': { ar: 'منطقة جازان',             en: 'Jazan Region' },
-    '19': { ar: 'منطقة تبوك',              en: 'Tabuk Region' },
-    '20': { ar: 'منطقة الجوف',             en: 'Al Jouf Region' }
-};
+// Country-specific bounding boxes + admin1 maps live in
+// `./countries/{cc}.js`. Use `loadCountryConfig(cc)` to access them.
 
 // ─── HTTP download (Node built-in, no deps) ───
 export function downloadFile(url, destPath, redirects = 5) {
@@ -374,12 +371,13 @@ export function typeForFeatureCode(featureCode, population) {
     }
 }
 
-// Coordinate bounds check.
-export function isInSaudiBox(lat, lng) {
+// Coordinate bounds check against a country bbox.
+export function isInBox(lat, lng, bbox) {
+    if (!bbox) return false;
     const a = Number(lat), b = Number(lng);
     if (!isFinite(a) || !isFinite(b)) return false;
-    return a >= SA_BBOX.minLat && a <= SA_BBOX.maxLat
-        && b >= SA_BBOX.minLng && b <= SA_BBOX.maxLng;
+    return a >= bbox.minLat && a <= bbox.maxLat
+        && b >= bbox.minLng && b <= bbox.maxLng;
 }
 
 // Haversine distance in kilometers.
@@ -403,13 +401,10 @@ export function fillLangMap(partial, fallback) {
     return out;
 }
 
-// Country constants — kept in one place so all stages use the same strings.
-export const SA_COUNTRY = {
-    countryCode: 'sa',
-    countryAr:   'المملكة العربية السعودية',
-    countryEn:   'Saudi Arabia',
-    timezone:    'Asia/Riyadh'
-};
+// Country constants now live per-country in ./countries/{cc}.js
+// Each config exports { cc, countryAr, countryEn, defaultTimezone, bbox,
+// geonamesUrl, innerTxtName, admin1ToRegion, extraReligious, extraNonPlace }.
+// Use `loadCountryConfig(cc)` to fetch.
 
 // ─── Blocklist keywords (CURATED-SA-GEODATA-IMPORT-1B refinement) ───
 //
@@ -466,4 +461,11 @@ export function matchAnyKeyword(text, keywords) {
         if (re.test(stripped)) return re.source;
     }
     return null;
+}
+
+// Combine cross-country defaults with per-country extensions from config.
+// Both arrays may be empty for countries that have no extra keywords.
+export function effectiveKeywords(baseList, extra) {
+    if (!Array.isArray(extra) || extra.length === 0) return baseList;
+    return baseList.concat(extra);
 }

@@ -1,0 +1,5810 @@
+[
+  {
+    "geonameid": 290073,
+    "slug": "wadiyan",
+    "status": "needs_review",
+    "tier": null,
+    "reason": "non_place_keyword",
+    "keyword": "وادي",
+    "qualityScore": 65,
+    "distanceToNearestKm": 8.106,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290073,
+      "slug": "wadiyan",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.15917,
+      "lng": 50.61111,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "وَادِيَان",
+        "en": "Wādiyān",
+        "fr": "Wādiyān",
+        "de": "Wādiyān",
+        "tr": "Wādiyān",
+        "ur": "Wādiyān",
+        "id": "Wādiyān",
+        "es": "Wādiyān",
+        "bn": "Wādiyān",
+        "ms": "Wādiyān"
+      },
+      "aliases": {
+        "en": [
+          "Wadiyah",
+          "Wadiyan",
+          "wadian"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290073",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290078,
+    "slug": "umm-jidr",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 24.901,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290078,
+      "slug": "umm-jidr",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.01111,
+      "lng": 50.52611,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "أُمّ جِدْر",
+        "en": "Umm Jidr",
+        "fr": "Umm Jidr",
+        "de": "Umm Jidr",
+        "tr": "Umm Jidr",
+        "ur": "Umm Jidr",
+        "id": "Umm Jidr",
+        "es": "Umm Jidr",
+        "bn": "Umm Jidr",
+        "ms": "Umm Jidr"
+      },
+      "aliases": {
+        "en": [
+          "aum jidr"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290078",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290084,
+    "slug": "umm-ash-shajar",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.496,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290084,
+      "slug": "umm-ash-shajar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.22833,
+      "lng": 50.65583,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "أُمّ اَلشَّجَر",
+        "en": "Umm ash Shajar",
+        "fr": "Umm ash Shajar",
+        "de": "Umm ash Shajar",
+        "tr": "Umm ash Shajar",
+        "ur": "Umm ash Shajar",
+        "id": "Umm ash Shajar",
+        "es": "Umm ash Shajar",
+        "bn": "Umm ash Shajar",
+        "ms": "Umm ash Shajar"
+      },
+      "aliases": {
+        "en": [
+          "Um el Shajar",
+          "Umm ash Shahin",
+          "Umm ash Shanin",
+          "aum aalshajar"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290084",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290091,
+    "slug": "tubli",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.887,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290091,
+      "slug": "tubli",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18694,
+      "lng": 50.54944,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "تُوبْلِي",
+        "en": "Tūblī",
+        "fr": "Tūblī",
+        "de": "Tūblī",
+        "tr": "Tūblī",
+        "ur": "Tūblī",
+        "id": "Tūblī",
+        "es": "Tūblī",
+        "bn": "Tūblī",
+        "ms": "Tūblī"
+      },
+      "aliases": {
+        "en": [
+          "Tubli",
+          "tubli"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290091",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290101,
+    "slug": "sufalah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 8.306,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290101,
+      "slug": "sufalah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16278,
+      "lng": 50.62556,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سُفَالَة",
+        "en": "Sufālah",
+        "fr": "Sufālah",
+        "de": "Sufālah",
+        "tr": "Sufālah",
+        "ur": "Sufālah",
+        "id": "Sufālah",
+        "es": "Sufālah",
+        "bn": "Sufālah",
+        "ms": "Sufālah"
+      },
+      "aliases": {
+        "en": [
+          "Soufala",
+          "Sufala",
+          "Sufalah",
+          "sufalat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290101",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290104,
+    "slug": "sitrah",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 85,
+    "distanceToNearestKm": 8.899,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290104,
+      "slug": "sitrah",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.15472,
+      "lng": 50.62056,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سترة",
+        "en": "Sitrah",
+        "fr": "Sitrah",
+        "de": "Sitrah",
+        "tr": "Sitrah",
+        "ur": "Sitrah",
+        "id": "Sitrah",
+        "es": "Sitrah",
+        "bn": "Sitrah",
+        "ms": "Sitrah"
+      },
+      "aliases": {
+        "ar": [
+          "ستره",
+          "سترہ",
+          "سِتْرَة"
+        ],
+        "en": [
+          "Sitra",
+          "sitrat",
+          "strh",
+          "strt",
+          "sytrh"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 72601,
+      "priority": 85,
+      "source": "geonames",
+      "sourceId": "geonames:290104",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290113,
+    "slug": "shahrakkan",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 19.015,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290113,
+      "slug": "shahrakkan",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.07528,
+      "lng": 50.50139,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "شَهْرَكَّان",
+        "en": "Shahrakkān",
+        "fr": "Shahrakkān",
+        "de": "Shahrakkān",
+        "tr": "Shahrakkān",
+        "ur": "Shahrakkān",
+        "id": "Shahrakkān",
+        "es": "Shahrakkān",
+        "bn": "Shahrakkān",
+        "ms": "Shahrakkān"
+      },
+      "aliases": {
+        "en": [
+          "Shaharakkan",
+          "Shahrakkan",
+          "shahrakaan"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290113",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290118,
+    "slug": "sar",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 11.061,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290118,
+      "slug": "sar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.19417,
+      "lng": 50.48194,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سَار",
+        "en": "Sār",
+        "fr": "Sār",
+        "de": "Sār",
+        "tr": "Sār",
+        "ur": "Sār",
+        "id": "Sār",
+        "es": "Sār",
+        "bn": "Sār",
+        "ms": "Sār"
+      },
+      "aliases": {
+        "en": [
+          "Saar",
+          "Sar",
+          "sar"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290118",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290120,
+    "slug": "sanad",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 8.707,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290120,
+      "slug": "sanad",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.15028,
+      "lng": 50.58194,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سند",
+        "en": "Sanad",
+        "fr": "Sanad",
+        "de": "Sanad",
+        "tr": "Sanad",
+        "ur": "Sanad",
+        "id": "Sanad",
+        "es": "Sanad",
+        "bn": "Sanad",
+        "ms": "Sanad"
+      },
+      "aliases": {
+        "ar": [
+          "سَنَد"
+        ],
+        "en": [
+          "Sanad i Bahrain",
+          "snd"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290120",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290121,
+    "slug": "sanabis",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 80,
+    "distanceToNearestKm": 3.511,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290121,
+      "slug": "sanabis",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.22722,
+      "lng": 50.55083,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سَنَابِس",
+        "en": "Sanābis",
+        "fr": "Sanābis",
+        "de": "Sanābis",
+        "tr": "Sanābis",
+        "ur": "Sanābis",
+        "id": "Sanābis",
+        "es": "Sanābis",
+        "bn": "Sanābis",
+        "ms": "Sanābis"
+      },
+      "aliases": {
+        "en": [
+          "As Sanabis",
+          "As Sanābīs",
+          "Sanabis",
+          "sanabis"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 6564,
+      "priority": 75,
+      "source": "geonames",
+      "sourceId": "geonames:290121",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290123,
+    "slug": "samahij",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.479,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290123,
+      "slug": "samahij",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.28,
+      "lng": 50.635,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سَمَاهِيج",
+        "en": "Samāhīj",
+        "fr": "Samāhīj",
+        "de": "Samāhīj",
+        "tr": "Samāhīj",
+        "ur": "Samāhīj",
+        "id": "Samāhīj",
+        "es": "Samāhīj",
+        "bn": "Samāhīj",
+        "ms": "Samāhīj"
+      },
+      "aliases": {
+        "en": [
+          "Samahidj",
+          "Samahij",
+          "Samāhīdj",
+          "Simahij",
+          "samahij"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290123",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290127,
+    "slug": "salmabad",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.931,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290127,
+      "slug": "salmabad",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18306,
+      "lng": 50.52472,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "سَلْمَابَاد",
+        "en": "Salmābād",
+        "fr": "Salmābād",
+        "de": "Salmābād",
+        "tr": "Salmābād",
+        "ur": "Salmābād",
+        "id": "Salmābād",
+        "es": "Salmābād",
+        "bn": "Salmābād",
+        "ms": "Salmābād"
+      },
+      "aliases": {
+        "en": [
+          "Salambad",
+          "Salmabad",
+          "salmabad"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290127",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290133,
+    "slug": "safirah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 14.524,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290133,
+      "slug": "safirah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.105,
+      "lng": 50.53861,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "صَافِرَة",
+        "en": "Şāfirah",
+        "fr": "Şāfirah",
+        "de": "Şāfirah",
+        "tr": "Şāfirah",
+        "ur": "Şāfirah",
+        "id": "Şāfirah",
+        "es": "Şāfirah",
+        "bn": "Şāfirah",
+        "ms": "Şāfirah"
+      },
+      "aliases": {
+        "en": [
+          "Safiah",
+          "Safirah",
+          "Safrah",
+          "safirat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290133",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290136,
+    "slug": "sadad",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 18.839,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290136,
+      "slug": "sadad",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.08278,
+      "lng": 50.48972,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "صَدَد",
+        "en": "Şadad",
+        "fr": "Şadad",
+        "de": "Şadad",
+        "tr": "Şadad",
+        "ur": "Şadad",
+        "id": "Şadad",
+        "es": "Şadad",
+        "bn": "Şadad",
+        "ms": "Şadad"
+      },
+      "aliases": {
+        "en": [
+          "Sadad",
+          "sadad"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290136",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290142,
+    "slug": "rayya",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.654,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290142,
+      "slug": "rayya",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.28333,
+      "lng": 50.63333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "رَيَّا",
+        "en": "Rayyā",
+        "fr": "Rayyā",
+        "de": "Rayyā",
+        "tr": "Rayyā",
+        "ur": "Rayyā",
+        "id": "Rayyā",
+        "es": "Rayyā",
+        "bn": "Rayyā",
+        "ms": "Rayyā"
+      },
+      "aliases": {
+        "en": [
+          "Raiya",
+          "Rayya",
+          "rayaa"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290142",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290154,
+    "slug": "qubayt",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.608,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290154,
+      "slug": "qubayt",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.2,
+      "lng": 50.51667,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "قُبَيْط",
+        "en": "Qubayţ",
+        "fr": "Qubayţ",
+        "de": "Qubayţ",
+        "tr": "Qubayţ",
+        "ur": "Qubayţ",
+        "id": "Qubayţ",
+        "es": "Qubayţ",
+        "bn": "Qubayţ",
+        "ms": "Qubayţ"
+      },
+      "aliases": {
+        "en": [
+          "Kubait",
+          "Qubayt",
+          "qubayt"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290154",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290160,
+    "slug": "qalali",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 4.299,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290160,
+      "slug": "qalali",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.27333,
+      "lng": 50.65028,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "قَلاَلِي",
+        "en": "Qalālī",
+        "fr": "Qalālī",
+        "de": "Qalālī",
+        "tr": "Qalālī",
+        "ur": "Qalālī",
+        "id": "Qalālī",
+        "es": "Qalālī",
+        "bn": "Qalālī",
+        "ms": "Qalālī"
+      },
+      "aliases": {
+        "en": [
+          "Galali",
+          "Kalali",
+          "Kalālī",
+          "Qalali",
+          "Qalani",
+          "Qalānī",
+          "qalaali"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290160",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290163,
+    "slug": "nur-juruft",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 8.595,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290163,
+      "slug": "nur-juruft",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23333,
+      "lng": 50.5,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "نُور جُرُفْت",
+        "en": "Nūr Juruft",
+        "fr": "Nūr Juruft",
+        "de": "Nūr Juruft",
+        "tr": "Nūr Juruft",
+        "ur": "Nūr Juruft",
+        "id": "Nūr Juruft",
+        "es": "Nūr Juruft",
+        "bn": "Nūr Juruft",
+        "ms": "Nūr Juruft"
+      },
+      "aliases": {
+        "en": [
+          "Nur Juruft",
+          "nur juruft"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة (قديمة)",
+        "regionEn": "Legacy code",
+        "admin1Code": "10",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290163",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290176,
+    "slug": "marquban",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.847,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290176,
+      "slug": "marquban",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16417,
+      "lng": 50.61833,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "مَرْقُوبَان",
+        "en": "Marqūbān",
+        "fr": "Marqūbān",
+        "de": "Marqūbān",
+        "tr": "Marqūbān",
+        "ur": "Marqūbān",
+        "id": "Marqūbān",
+        "es": "Marqūbān",
+        "bn": "Marqūbān",
+        "ms": "Marqūbān"
+      },
+      "aliases": {
+        "en": [
+          "Markuban",
+          "Markūbān",
+          "Marquban",
+          "marquban"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290176",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290178,
+    "slug": "maqaba",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 10.02,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290178,
+      "slug": "maqaba",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21083,
+      "lng": 50.4875,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "مَقَابَا",
+        "en": "Maqābā",
+        "fr": "Maqābā",
+        "de": "Maqābā",
+        "tr": "Maqābā",
+        "ur": "Maqābā",
+        "id": "Maqābā",
+        "es": "Maqābā",
+        "bn": "Maqābā",
+        "ms": "Maqābā"
+      },
+      "aliases": {
+        "en": [
+          "Magaba",
+          "Makaba",
+          "Maqaba",
+          "Maqabah",
+          "Mgaba",
+          "Muqaba",
+          "maqaba"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290178",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290179,
+    "slug": "mani",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.824,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290179,
+      "slug": "mani",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21667,
+      "lng": 50.55,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "مَنِي",
+        "en": "Manī",
+        "fr": "Manī",
+        "de": "Manī",
+        "tr": "Manī",
+        "ur": "Manī",
+        "id": "Manī",
+        "es": "Manī",
+        "bn": "Manī",
+        "ms": "Manī"
+      },
+      "aliases": {
+        "en": [
+          "Mani",
+          "mani"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290179",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290186,
+    "slug": "mahazzah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.69,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290186,
+      "slug": "mahazzah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16944,
+      "lng": 50.62611,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "مَهَزَّة",
+        "en": "Mahazzah",
+        "fr": "Mahazzah",
+        "de": "Mahazzah",
+        "tr": "Mahazzah",
+        "ur": "Mahazzah",
+        "id": "Mahazzah",
+        "es": "Mahazzah",
+        "bn": "Mahazzah",
+        "ms": "Mahazzah"
+      },
+      "aliases": {
+        "en": [
+          "Muhazza",
+          "mahazat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290186",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290187,
+    "slug": "madinat-isa",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 85,
+    "distanceToNearestKm": 7.197,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290187,
+      "slug": "madinat-isa",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.17361,
+      "lng": 50.54778,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "شهرک عیسی",
+        "en": "Madīnat ‘Īsá",
+        "fr": "Madīnat ‘Īsá",
+        "de": "Madīnat ‘Īsá",
+        "tr": "Madīnat ‘Īsá",
+        "ur": "Madīnat ‘Īsá",
+        "id": "Madīnat ‘Īsá",
+        "es": "Madīnat ‘Īsá",
+        "bn": "Madīnat ‘Īsá",
+        "ms": "Madīnat ‘Īsá"
+      },
+      "aliases": {
+        "ar": [
+          "مدينة عيسى",
+          "مدینہ عیسیٰ",
+          "مَدِينَة عِيسَى"
+        ],
+        "en": [
+          "'Isa",
+          "Isa",
+          "Isa Town",
+          "Isa by",
+          "Madinat 'Isa",
+          "Madinat Isa",
+          "Madinat `Isa",
+          "Madinat-Isa",
+          "Madinat-İsa",
+          "Mantinat Isa",
+          "Medinat Isa",
+          "Medine Isa",
+          "Medine İsa",
+          "isa sahara",
+          "isa taun",
+          "isataun",
+          "yi sa cheng"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 38090,
+      "priority": 80,
+      "source": "geonames",
+      "sourceId": "geonames:290187",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290193,
+    "slug": "khuways",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 10.995,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290193,
+      "slug": "khuways",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16667,
+      "lng": 50.5,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "خُوَيْص",
+        "en": "Khuwayş",
+        "fr": "Khuwayş",
+        "de": "Khuwayş",
+        "tr": "Khuwayş",
+        "ur": "Khuwayş",
+        "id": "Khuwayş",
+        "es": "Khuwayş",
+        "bn": "Khuwayş",
+        "ms": "Khuwayş"
+      },
+      "aliases": {
+        "en": [
+          "Huwais",
+          "Khuwais",
+          "Khuways",
+          "khuays"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290193",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290198,
+    "slug": "kawrah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.38,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290198,
+      "slug": "kawrah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18333,
+      "lng": 50.56667,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "كَوْرَة",
+        "en": "Kawrah",
+        "fr": "Kawrah",
+        "de": "Kawrah",
+        "tr": "Kawrah",
+        "ur": "Kawrah",
+        "id": "Kawrah",
+        "es": "Kawrah",
+        "bn": "Kawrah",
+        "ms": "Kawrah"
+      },
+      "aliases": {
+        "en": [
+          "Kawarah",
+          "kawrat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290198",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290201,
+    "slug": "karzakkan",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 16.296,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290201,
+      "slug": "karzakkan",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.11556,
+      "lng": 50.48194,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "كَرْزَكَّان",
+        "en": "Karzakkān",
+        "fr": "Karzakkān",
+        "de": "Karzakkān",
+        "tr": "Karzakkān",
+        "ur": "Karzakkān",
+        "id": "Karzakkān",
+        "es": "Karzakkān",
+        "bn": "Karzakkān",
+        "ms": "Karzakkān"
+      },
+      "aliases": {
+        "en": [
+          "Karrzakkan",
+          "Karrzakkān",
+          "Karzakkan",
+          "karzakaan"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290201",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290203,
+    "slug": "karranah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.637,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290203,
+      "slug": "karranah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.22917,
+      "lng": 50.50944,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "كَرَّانَة",
+        "en": "Karrānah",
+        "fr": "Karrānah",
+        "de": "Karrānah",
+        "tr": "Karrānah",
+        "ur": "Karrānah",
+        "id": "Karrānah",
+        "es": "Karrānah",
+        "bn": "Karrānah",
+        "ms": "Karrānah"
+      },
+      "aliases": {
+        "en": [
+          "Karanah",
+          "Karrama",
+          "Karramah",
+          "Karranah",
+          "Karrāmah",
+          "Karānah",
+          "karaanat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290203",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290204,
+    "slug": "karbabad",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.645,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290204,
+      "slug": "karbabad",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23028,
+      "lng": 50.52944,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "كَرْبَابَاد",
+        "en": "Karbābād",
+        "fr": "Karbābād",
+        "de": "Karbābād",
+        "tr": "Karbābād",
+        "ur": "Karbābād",
+        "id": "Karbābād",
+        "es": "Karbābād",
+        "bn": "Karbābād",
+        "ms": "Karbābād"
+      },
+      "aliases": {
+        "en": [
+          "Karbabad",
+          "karbabad"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290204",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290205,
+    "slug": "kaflan",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.03,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290205,
+      "slug": "kaflan",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18333,
+      "lng": 50.58333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "كَفْلاَن",
+        "en": "Kaflān",
+        "fr": "Kaflān",
+        "de": "Kaflān",
+        "tr": "Kaflān",
+        "ur": "Kaflān",
+        "id": "Kaflān",
+        "es": "Kaflān",
+        "bn": "Kaflān",
+        "ms": "Kaflān"
+      },
+      "aliases": {
+        "en": [
+          "Kaflan",
+          "Kaflar",
+          "kaflaan"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة (قديمة)",
+        "regionEn": "Legacy code",
+        "admin1Code": "02",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290205",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290210,
+    "slug": "jusayrah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 38.407,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290210,
+      "slug": "jusayrah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.88333,
+      "lng": 50.6,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جُسَيْرَة",
+        "en": "Jusayrah",
+        "fr": "Jusayrah",
+        "de": "Jusayrah",
+        "tr": "Jusayrah",
+        "ur": "Jusayrah",
+        "id": "Jusayrah",
+        "es": "Jusayrah",
+        "bn": "Jusayrah",
+        "ms": "Jusayrah"
+      },
+      "aliases": {
+        "en": [
+          "Jasaira",
+          "Jasairah",
+          "jusayrat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290210",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290212,
+    "slug": "jurdab",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.654,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290212,
+      "slug": "jurdab",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16944,
+      "lng": 50.57528,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جُرْدَاب",
+        "en": "Jurdāb",
+        "fr": "Jurdāb",
+        "de": "Jurdāb",
+        "tr": "Jurdāb",
+        "ur": "Jurdāb",
+        "id": "Jurdāb",
+        "es": "Jurdāb",
+        "bn": "Jurdāb",
+        "ms": "Jurdāb"
+      },
+      "aliases": {
+        "en": [
+          "Jurdab",
+          "Jurdah",
+          "jurdab"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290212",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290215,
+    "slug": "jidd-hafs",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 80,
+    "distanceToNearestKm": 3.968,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290215,
+      "slug": "jidd-hafs",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.21861,
+      "lng": 50.54778,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جِدّ حَفْص",
+        "en": "Jidd Ḩafş",
+        "fr": "Jidd Ḩafş",
+        "de": "Jidd Ḩafş",
+        "tr": "Jidd Ḩafş",
+        "ur": "Jidd Ḩafş",
+        "id": "Jidd Ḩafş",
+        "es": "Jidd Ḩafş",
+        "bn": "Jidd Ḩafş",
+        "ms": "Jidd Ḩafş"
+      },
+      "aliases": {
+        "en": [
+          "Djidd Hafs",
+          "Djidd Ḥafṣ",
+          "Jadd Hafs",
+          "Jid Hafs",
+          "Jidd Hafs",
+          "Judd Hafs",
+          "Judd Ḩafş",
+          "jid hafs"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 66588,
+      "priority": 85,
+      "source": "geonames",
+      "sourceId": "geonames:290215",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290217,
+    "slug": "jidd-ali",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.056,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290217,
+      "slug": "jidd-ali",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.17917,
+      "lng": 50.56028,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جِدّ عَلِي",
+        "en": "Jidd ‘Alī",
+        "fr": "Jidd ‘Alī",
+        "de": "Jidd ‘Alī",
+        "tr": "Jidd ‘Alī",
+        "ur": "Jidd ‘Alī",
+        "id": "Jidd ‘Alī",
+        "es": "Jidd ‘Alī",
+        "bn": "Jidd ‘Alī",
+        "ms": "Jidd ‘Alī"
+      },
+      "aliases": {
+        "en": [
+          "Jidd `Ali",
+          "Judd Ali"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290217",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290218,
+    "slug": "jidd-al-hajj",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 8.595,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290218,
+      "slug": "jidd-al-hajj",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23333,
+      "lng": 50.5,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جِدّ اَلْحَاجّ",
+        "en": "Jidd al Ḩājj",
+        "fr": "Jidd al Ḩājj",
+        "de": "Jidd al Ḩājj",
+        "tr": "Jidd al Ḩājj",
+        "ur": "Jidd al Ḩājj",
+        "id": "Jidd al Ḩājj",
+        "es": "Jidd al Ḩājj",
+        "bn": "Jidd al Ḩājj",
+        "ms": "Jidd al Ḩājj"
+      },
+      "aliases": {
+        "en": [
+          "Jidd al Hajj",
+          "jid aalhaj"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة (قديمة)",
+        "regionEn": "Legacy code",
+        "admin1Code": "10",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290218",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290221,
+    "slug": "jaww",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 25.745,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290221,
+      "slug": "jaww",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.99861,
+      "lng": 50.61667,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جو",
+        "en": "Jaww",
+        "fr": "Jaww",
+        "de": "Jaww",
+        "tr": "Jaww",
+        "ur": "Jaww",
+        "id": "Jaww",
+        "es": "Jaww",
+        "bn": "Jaww",
+        "ms": "Jaww"
+      },
+      "aliases": {
+        "ar": [
+          "جَوّ"
+        ],
+        "en": [
+          "Djaww",
+          "Jau",
+          "Jaw",
+          "jauu",
+          "jaw",
+          "jw"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290221",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290226,
+    "slug": "jannusan",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 9.108,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290226,
+      "slug": "jannusan",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23056,
+      "lng": 50.49472,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جَنُّوسَان",
+        "en": "Jannūsān",
+        "fr": "Jannūsān",
+        "de": "Jannūsān",
+        "tr": "Jannūsān",
+        "ur": "Jannūsān",
+        "id": "Jannūsān",
+        "es": "Jannūsān",
+        "bn": "Jannūsān",
+        "ms": "Jannūsān"
+      },
+      "aliases": {
+        "en": [
+          "Djannusan",
+          "Djannusān",
+          "Jannusan",
+          "januwsan"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290226",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290229,
+    "slug": "jamalah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 4.79,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290229,
+      "slug": "jamalah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.2,
+      "lng": 50.55,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جَمَالَة",
+        "en": "Jamālah",
+        "fr": "Jamālah",
+        "de": "Jamālah",
+        "tr": "Jamālah",
+        "ur": "Jamālah",
+        "id": "Jamālah",
+        "es": "Jamālah",
+        "bn": "Jamālah",
+        "ms": "Jamālah"
+      },
+      "aliases": {
+        "en": [
+          "Jamala",
+          "Jamalah",
+          "Jumaylat",
+          "Jumaylāt",
+          "jamalat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290229",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290234,
+    "slug": "jabalat-habashi",
+    "status": "needs_review",
+    "tier": null,
+    "reason": "non_place_keyword",
+    "keyword": "جبل",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.969,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290234,
+      "slug": "jabalat-habashi",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21722,
+      "lng": 50.5275,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "جَبَلَة حَبَشِي",
+        "en": "Jabalat Ḩabashī",
+        "fr": "Jabalat Ḩabashī",
+        "de": "Jabalat Ḩabashī",
+        "tr": "Jabalat Ḩabashī",
+        "ur": "Jabalat Ḩabashī",
+        "id": "Jabalat Ḩabashī",
+        "es": "Jabalat Ḩabashī",
+        "bn": "Jabalat Ḩabashī",
+        "ms": "Jabalat Ḩabashī"
+      },
+      "aliases": {
+        "en": [
+          "Jabalat Habashi",
+          "Jabalat Habshi",
+          "jabalat habashi"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290234",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290239,
+    "slug": "hillat-as-suq",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 4.79,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290239,
+      "slug": "hillat-as-suq",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.2,
+      "lng": 50.55,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "حِلَّة اَلسُّوق",
+        "en": "Ḩillat as Sūq",
+        "fr": "Ḩillat as Sūq",
+        "de": "Ḩillat as Sūq",
+        "tr": "Ḩillat as Sūq",
+        "ur": "Ḩillat as Sūq",
+        "id": "Ḩillat as Sūq",
+        "es": "Ḩillat as Sūq",
+        "bn": "Ḩillat as Sūq",
+        "ms": "Ḩillat as Sūq"
+      },
+      "aliases": {
+        "en": [
+          "Hillat Abdul Saleh",
+          "Hillat as Suq",
+          "hilat aalsuwq"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة (قديمة)",
+        "regionEn": "Legacy code",
+        "admin1Code": "05",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290239",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290240,
+    "slug": "almaqsha",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.961,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290240,
+      "slug": "almaqsha",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.22139,
+      "lng": 50.51667,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "المقشع",
+        "en": "Almaqsha",
+        "fr": "Almaqsha",
+        "de": "Almaqsha",
+        "tr": "Almaqsha",
+        "ur": "Almaqsha",
+        "id": "Almaqsha",
+        "es": "Almaqsha",
+        "bn": "Almaqsha",
+        "ms": "Almaqsha"
+      },
+      "aliases": {
+        "en": [
+          "Almaqsha'",
+          "almqshʿ"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الجنوبية",
+        "regionEn": "Southern Governorate",
+        "admin1Code": "18",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290240",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290245,
+    "slug": "harbadiyah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 8.595,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290245,
+      "slug": "harbadiyah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23333,
+      "lng": 50.5,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "هَرْبَدِيَّة",
+        "en": "Harbadīyah",
+        "fr": "Harbadīyah",
+        "de": "Harbadīyah",
+        "tr": "Harbadīyah",
+        "ur": "Harbadīyah",
+        "id": "Harbadīyah",
+        "es": "Harbadīyah",
+        "bn": "Harbadīyah",
+        "ms": "Harbadīyah"
+      },
+      "aliases": {
+        "en": [
+          "Harbadiyah",
+          "harbadiat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290245",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290247,
+    "slug": "madinat-hamad",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 85,
+    "distanceToNearestKm": 14.857,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290247,
+      "slug": "madinat-hamad",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.11528,
+      "lng": 50.50694,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "مدينة حمد",
+        "en": "Madīnat Ḩamad",
+        "fr": "Madīnat Ḩamad",
+        "de": "Madīnat Ḩamad",
+        "tr": "Madīnat Ḩamad",
+        "ur": "Madīnat Ḩamad",
+        "id": "Madīnat Ḩamad",
+        "es": "Madīnat Ḩamad",
+        "bn": "Madīnat Ḩamad",
+        "ms": "Madīnat Ḩamad"
+      },
+      "aliases": {
+        "ar": [
+          "مدینه حمد",
+          "مدینہ حمد",
+          "مَدِينَة حَمَد"
+        ],
+        "en": [
+          "Hamad Town",
+          "Hamad by",
+          "Həməd",
+          "Khamad",
+          "Madinat Hamad",
+          "Madinat Hamadas",
+          "Mantinat Chamant",
+          "ha ma de zhen",
+          "hamada sahara",
+          "hamadeutaun",
+          "hmd",
+          "madinat hamad",
+          "mdynh hmd",
+          "mdynt hmd"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 133550,
+      "priority": 90,
+      "source": "geonames",
+      "sourceId": "geonames:290247",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290249,
+    "slug": "halat-umm-al-bayd",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 13.302,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290249,
+      "slug": "halat-umm-al-bayd",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.11667,
+      "lng": 50.63333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "حَالَة أُمّ اَلْبَيْض",
+        "en": "Ḩālat Umm al Bayḑ",
+        "fr": "Ḩālat Umm al Bayḑ",
+        "de": "Ḩālat Umm al Bayḑ",
+        "tr": "Ḩālat Umm al Bayḑ",
+        "ur": "Ḩālat Umm al Bayḑ",
+        "id": "Ḩālat Umm al Bayḑ",
+        "es": "Ḩālat Umm al Bayḑ",
+        "bn": "Ḩālat Umm al Bayḑ",
+        "ms": "Ḩālat Umm al Bayḑ"
+      },
+      "aliases": {
+        "en": [
+          "Halat As-Saud",
+          "Halat Umm al Baidh",
+          "Halat Umm al Bayd",
+          "Um al-Baidh",
+          "halat aum aalbayd"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290249",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290250,
+    "slug": "halat-as-sultah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.178,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290250,
+      "slug": "halat-as-sultah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.24278,
+      "lng": 50.63861,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "حَالَة اَلسُّلْطَة",
+        "en": "Ḩālat as Sulţah",
+        "fr": "Ḩālat as Sulţah",
+        "de": "Ḩālat as Sulţah",
+        "tr": "Ḩālat as Sulţah",
+        "ur": "Ḩālat as Sulţah",
+        "id": "Ḩālat as Sulţah",
+        "es": "Ḩālat as Sulţah",
+        "bn": "Ḩālat as Sulţah",
+        "ms": "Ḩālat as Sulţah"
+      },
+      "aliases": {
+        "en": [
+          "Halat As Suluta",
+          "Halat al-Salata",
+          "Halat as Sultah",
+          "Hālat al-Salaṭa",
+          "halat aalsultat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290250",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290251,
+    "slug": "halat-an-na-im",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.156,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290251,
+      "slug": "halat-an-na-im",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23889,
+      "lng": 50.63528,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "حَالَة اَلنَّعِيم",
+        "en": "Ḩālat an Na‘īm",
+        "fr": "Ḩālat an Na‘īm",
+        "de": "Ḩālat an Na‘īm",
+        "tr": "Ḩālat an Na‘īm",
+        "ur": "Ḩālat an Na‘īm",
+        "id": "Ḩālat an Na‘īm",
+        "es": "Ḩālat an Na‘īm",
+        "bn": "Ḩālat an Na‘īm",
+        "ms": "Ḩālat an Na‘īm"
+      },
+      "aliases": {
+        "en": [
+          "Halat Nu`aym",
+          "Halat al Naim",
+          "Halat an Na`im",
+          "Naim",
+          "Ḥālat Nu‘aym"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290251",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290252,
+    "slug": "halat-al-khulayfat",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 2.357,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290252,
+      "slug": "halat-al-khulayfat",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.25,
+      "lng": 50.63333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "حَالَة اَلْخُلَيْفَات",
+        "en": "Ḩālat al Khulayfāt",
+        "fr": "Ḩālat al Khulayfāt",
+        "de": "Ḩālat al Khulayfāt",
+        "tr": "Ḩālat al Khulayfāt",
+        "ur": "Ḩālat al Khulayfāt",
+        "id": "Ḩālat al Khulayfāt",
+        "es": "Ḩālat al Khulayfāt",
+        "bn": "Ḩālat al Khulayfāt",
+        "ms": "Ḩālat al Khulayfāt"
+      },
+      "aliases": {
+        "en": [
+          "Halat",
+          "Halat al Khulayfat",
+          "Halat-al-Khalaifat",
+          "Halat-at-Khulaifat",
+          "Hālat-al-Khalaifāt",
+          "Khulaffat",
+          "halat aalkhulayfat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290252",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290255,
+    "slug": "halah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.078,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290255,
+      "slug": "halah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.17333,
+      "lng": 50.62139,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "حَالَة",
+        "en": "Ḩālah",
+        "fr": "Ḩālah",
+        "de": "Ḩālah",
+        "tr": "Ḩālah",
+        "ur": "Ḩālah",
+        "id": "Ḩālah",
+        "es": "Ḩālah",
+        "bn": "Ḩālah",
+        "ms": "Ḩālah"
+      },
+      "aliases": {
+        "en": [
+          "Halah",
+          "Halat",
+          "halat",
+          "Ḩālāt"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290255",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290260,
+    "slug": "dumistan",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 15.443,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290260,
+      "slug": "dumistan",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.12639,
+      "lng": 50.48111,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "دُمِسْتَان",
+        "en": "Dumistān",
+        "fr": "Dumistān",
+        "de": "Dumistān",
+        "tr": "Dumistān",
+        "ur": "Dumistān",
+        "id": "Dumistān",
+        "es": "Dumistān",
+        "bn": "Dumistān",
+        "ms": "Dumistān"
+      },
+      "aliases": {
+        "en": [
+          "Dumistan",
+          "dumistan"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290260",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290269,
+    "slug": "dar-kulayb",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 80,
+    "distanceToNearestKm": 19.577,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290269,
+      "slug": "dar-kulayb",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.06861,
+      "lng": 50.50389,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "دَار كُلَيْب",
+        "en": "Dār Kulayb",
+        "fr": "Dār Kulayb",
+        "de": "Dār Kulayb",
+        "tr": "Dār Kulayb",
+        "ur": "Dār Kulayb",
+        "id": "Dār Kulayb",
+        "es": "Dār Kulayb",
+        "bn": "Dār Kulayb",
+        "ms": "Dār Kulayb"
+      },
+      "aliases": {
+        "en": [
+          "Dar Chulaib",
+          "Dar Kulaib",
+          "Dar Kulayb",
+          "Dār Kulaib",
+          "dar kulayb"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 65466,
+      "priority": 85,
+      "source": "geonames",
+      "sourceId": "geonames:290269",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290274,
+    "slug": "buri",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 12.308,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290274,
+      "slug": "buri",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.15139,
+      "lng": 50.4975,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "بُورِي",
+        "en": "Būrī",
+        "fr": "Būrī",
+        "de": "Būrī",
+        "tr": "Būrī",
+        "ur": "Būrī",
+        "id": "Būrī",
+        "es": "Būrī",
+        "bn": "Būrī",
+        "ms": "Būrī"
+      },
+      "aliases": {
+        "en": [
+          "Buri",
+          "buri"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290274",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290275,
+    "slug": "bu-quwah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.095,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290275,
+      "slug": "bu-quwah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.20472,
+      "lng": 50.52,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "بُو قُووَة",
+        "en": "Bū Qūwah",
+        "fr": "Bū Qūwah",
+        "de": "Bū Qūwah",
+        "tr": "Bū Qūwah",
+        "ur": "Bū Qūwah",
+        "id": "Bū Qūwah",
+        "es": "Bū Qūwah",
+        "bn": "Bū Qūwah",
+        "ms": "Bū Qūwah"
+      },
+      "aliases": {
+        "en": [
+          "Abu Quwah",
+          "Bu Kuwarah",
+          "Bu Quwah",
+          "Bu Quwwah",
+          "Bukuwa",
+          "Buquwa",
+          "Bū Quwwah",
+          "bu quwat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290275",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290286,
+    "slug": "barbar",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 10.491,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290286,
+      "slug": "barbar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.22944,
+      "lng": 50.48083,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "بَارْبَار",
+        "en": "Bārbār",
+        "fr": "Bārbār",
+        "de": "Bārbār",
+        "tr": "Bārbār",
+        "ur": "Bārbār",
+        "id": "Bārbār",
+        "es": "Bārbār",
+        "bn": "Bārbār",
+        "ms": "Bārbār"
+      },
+      "aliases": {
+        "en": [
+          "Barbar",
+          "barbar"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290286",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290287,
+    "slug": "bani-jamrah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 12.769,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290287,
+      "slug": "bani-jamrah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.20972,
+      "lng": 50.45972,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "بَنِي جَمْرَة",
+        "en": "Banī Jamrah",
+        "fr": "Banī Jamrah",
+        "de": "Banī Jamrah",
+        "tr": "Banī Jamrah",
+        "ur": "Banī Jamrah",
+        "id": "Banī Jamrah",
+        "es": "Banī Jamrah",
+        "bn": "Banī Jamrah",
+        "ms": "Banī Jamrah"
+      },
+      "aliases": {
+        "en": [
+          "Bani Jamrah",
+          "Jamra",
+          "Jamrah",
+          "bani jamrat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290287",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290295,
+    "slug": "az-zimmah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.58,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290295,
+      "slug": "az-zimmah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.25528,
+      "lng": 50.64694,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلزِّمَّة",
+        "en": "Az Zimmah",
+        "fr": "Az Zimmah",
+        "de": "Az Zimmah",
+        "tr": "Az Zimmah",
+        "ur": "Az Zimmah",
+        "id": "Az Zimmah",
+        "es": "Az Zimmah",
+        "bn": "Az Zimmah",
+        "ms": "Az Zimmah"
+      },
+      "aliases": {
+        "en": [
+          "Zimma",
+          "Zimmah",
+          "aalzimat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290295",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290296,
+    "slug": "az-zallaq",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 22.449,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290296,
+      "slug": "az-zallaq",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.0475,
+      "lng": 50.48639,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "الزلاق",
+        "en": "Az Zallāq",
+        "fr": "Az Zallāq",
+        "de": "Az Zallāq",
+        "tr": "Az Zallāq",
+        "ur": "Az Zallāq",
+        "id": "Az Zallāq",
+        "es": "Az Zallāq",
+        "bn": "Az Zallāq",
+        "ms": "Az Zallāq"
+      },
+      "aliases": {
+        "ar": [
+          "اَلزَّلاَّق",
+          "زلاق"
+        ],
+        "en": [
+          "Al-Zallak",
+          "Al-Zallāk",
+          "Az Zallaq",
+          "Ehz-Zallak",
+          "Zalak",
+          "Zallak",
+          "Zallaq",
+          "Zellaq",
+          "Zelzaq",
+          "aalzalaaq",
+          "alzlaq",
+          "zai la ge",
+          "zaraku",
+          "zlaq"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290296",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290298,
+    "slug": "ayn-ad-dar",
+    "status": "needs_review",
+    "tier": null,
+    "reason": "non_place_keyword",
+    "keyword": "عين",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.416,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290298,
+      "slug": "ayn-ad-dar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21667,
+      "lng": 50.53333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "عَيْن اَلدَّار",
+        "en": "‘Ayn ad Dār",
+        "fr": "‘Ayn ad Dār",
+        "de": "‘Ayn ad Dār",
+        "tr": "‘Ayn ad Dār",
+        "ur": "‘Ayn ad Dār",
+        "id": "‘Ayn ad Dār",
+        "es": "‘Ayn ad Dār",
+        "bn": "‘Ayn ad Dār",
+        "ms": "‘Ayn ad Dār"
+      },
+      "aliases": {
+        "en": [
+          "'Ain-ad-Dar",
+          "Ain al-Dar",
+          "`An ad Dar",
+          "`Ayn ad Dar",
+          "‘An ad Dār",
+          "’Ain-ad-Dār"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة (قديمة)",
+        "regionEn": "Legacy code",
+        "admin1Code": "05",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290298",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290299,
+    "slug": "awali",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 16.405,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290299,
+      "slug": "awali",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.08444,
+      "lng": 50.55056,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "عَوَالِي",
+        "en": "‘Awālī",
+        "fr": "‘Awālī",
+        "de": "‘Awālī",
+        "tr": "‘Awālī",
+        "ur": "‘Awālī",
+        "id": "‘Awālī",
+        "es": "‘Awālī",
+        "bn": "‘Awālī",
+        "ms": "‘Awālī"
+      },
+      "aliases": {
+        "en": [
+          "'Awali",
+          "Al Chirabia",
+          "Al Ghiraibat",
+          "Al `Awali",
+          "Al ‘Awālī",
+          "Awali",
+          "Bapco",
+          "Kirabad",
+          "Oil City",
+          "`Awali"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290299",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290303,
+    "slug": "as-sakhir",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 19.368,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290303,
+      "slug": "as-sakhir",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.0625,
+      "lng": 50.52722,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلصَّخِير",
+        "en": "Aş Şakhīr",
+        "fr": "Aş Şakhīr",
+        "de": "Aş Şakhīr",
+        "tr": "Aş Şakhīr",
+        "ur": "Aş Şakhīr",
+        "id": "Aş Şakhīr",
+        "es": "Aş Şakhīr",
+        "bn": "Aş Şakhīr",
+        "ms": "Aş Şakhīr"
+      },
+      "aliases": {
+        "en": [
+          "As Sakhir",
+          "Sakhir",
+          "aalsakhir"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290303",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290304,
+    "slug": "askar",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 19.286,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290304,
+      "slug": "askar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.05722,
+      "lng": 50.61639,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "عَسْكَر",
+        "en": "‘Askar",
+        "fr": "‘Askar",
+        "de": "‘Askar",
+        "tr": "‘Askar",
+        "ur": "‘Askar",
+        "id": "‘Askar",
+        "es": "‘Askar",
+        "bn": "‘Askar",
+        "ms": "‘Askar"
+      },
+      "aliases": {
+        "en": [
+          "Al `Askar",
+          "Al ‘Askar",
+          "`Askar"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290304",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290306,
+    "slug": "ash-shakhurah",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 8.034,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290306,
+      "slug": "ash-shakhurah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21472,
+      "lng": 50.50694,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "الشاخوره",
+        "en": "Ash Shākhūrah",
+        "fr": "Ash Shākhūrah",
+        "de": "Ash Shākhūrah",
+        "tr": "Ash Shākhūrah",
+        "ur": "Ash Shākhūrah",
+        "id": "Ash Shākhūrah",
+        "es": "Ash Shākhūrah",
+        "bn": "Ash Shākhūrah",
+        "ms": "Ash Shākhūrah"
+      },
+      "aliases": {
+        "ar": [
+          "اَلشَّاخُورَة",
+          "شاخوره"
+        ],
+        "en": [
+          "Al-Shakhura",
+          "Al-Shākhūra",
+          "Ash Shakhurah",
+          "Shakhura",
+          "Shakhurah",
+          "Shakhurq",
+          "Shākhūrah",
+          "aalshaakhurat",
+          "alshakhwrh",
+          "shakhwrh"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290306",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290308,
+    "slug": "ar-ruq-ah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 8.595,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290308,
+      "slug": "ar-ruq-ah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23333,
+      "lng": 50.5,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلرُّقْعَة",
+        "en": "Ar Ruq‘ah",
+        "fr": "Ar Ruq‘ah",
+        "de": "Ar Ruq‘ah",
+        "tr": "Ar Ruq‘ah",
+        "ur": "Ar Ruq‘ah",
+        "id": "Ar Ruq‘ah",
+        "es": "Ar Ruq‘ah",
+        "bn": "Ar Ruq‘ah",
+        "ms": "Ar Ruq‘ah"
+      },
+      "aliases": {
+        "en": [
+          "Ar Ruq`ah",
+          "Ruka'a",
+          "Ruka’a",
+          "Ruq`ah",
+          "Ruqa'ah",
+          "Ruqa’ah",
+          "Ruq‘ah"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة (قديمة)",
+        "regionEn": "Legacy code",
+        "admin1Code": "10",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290308",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290309,
+    "slug": "ar-rumaythah",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 34.388,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290309,
+      "slug": "ar-rumaythah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.92043,
+      "lng": 50.55583,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "الرميثا",
+        "en": "Ar Rumaythah",
+        "fr": "Ar Rumaythah",
+        "de": "Ar Rumaythah",
+        "tr": "Ar Rumaythah",
+        "ur": "Ar Rumaythah",
+        "id": "Ar Rumaythah",
+        "es": "Ar Rumaythah",
+        "bn": "Ar Rumaythah",
+        "ms": "Ar Rumaythah"
+      },
+      "aliases": {
+        "ar": [
+          "اَلرُّمَيْثَة"
+        ],
+        "en": [
+          "Al-Rumaytha'",
+          "Al-Rumaythā’",
+          "Ar Rumaytha",
+          "Ar Rumaythā",
+          "Rumaidha",
+          "Rumaidhah",
+          "Rumaitha",
+          "Rumaithah",
+          "Rumayzah",
+          "Rumayz̧ah",
+          "aalrumaythat",
+          "alrmytha"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290309",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290316,
+    "slug": "arad",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 2.11,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290316,
+      "slug": "arad",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.25611,
+      "lng": 50.63222,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "عَرَاد",
+        "en": "‘Arād",
+        "fr": "‘Arād",
+        "de": "‘Arād",
+        "tr": "‘Arād",
+        "ur": "‘Arād",
+        "id": "‘Arād",
+        "es": "‘Arād",
+        "bn": "‘Arād",
+        "ms": "‘Arād"
+      },
+      "aliases": {
+        "en": [
+          "Arad",
+          "Sar",
+          "Sār",
+          "`Arad"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290316",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290319,
+    "slug": "an-nuwaydirat",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 10.491,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290319,
+      "slug": "an-nuwaydirat",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.13472,
+      "lng": 50.5975,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلنُّوَيْدِرَات",
+        "en": "An Nuwaydirāt",
+        "fr": "An Nuwaydirāt",
+        "de": "An Nuwaydirāt",
+        "tr": "An Nuwaydirāt",
+        "ur": "An Nuwaydirāt",
+        "id": "An Nuwaydirāt",
+        "es": "An Nuwaydirāt",
+        "bn": "An Nuwaydirāt",
+        "ms": "An Nuwaydirāt"
+      },
+      "aliases": {
+        "en": [
+          "An Nuwaydirat",
+          "Nououaintrat",
+          "Nuwaidirat",
+          "Nuwaidrat",
+          "Nuwaydirat",
+          "Nuwaydirāt",
+          "aalnuwaydirat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290319",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290322,
+    "slug": "al-wasmiyah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 25.585,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290322,
+      "slug": "al-wasmiyah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.02111,
+      "lng": 50.475,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْوَسْمِيَّة",
+        "en": "Al Wasmīyah",
+        "fr": "Al Wasmīyah",
+        "de": "Al Wasmīyah",
+        "tr": "Al Wasmīyah",
+        "ur": "Al Wasmīyah",
+        "id": "Al Wasmīyah",
+        "es": "Al Wasmīyah",
+        "bn": "Al Wasmīyah",
+        "ms": "Al Wasmīyah"
+      },
+      "aliases": {
+        "en": [
+          "Al Wasmiyah",
+          "Wasmiya",
+          "Wasmiyah",
+          "Wasmīyah",
+          "aalwasmiat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290322",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290323,
+    "slug": "al-qurayyah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 12.775,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290323,
+      "slug": "al-qurayyah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.19722,
+      "lng": 50.46278,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْقُرَيَّة",
+        "en": "Al Qurayyah",
+        "fr": "Al Qurayyah",
+        "de": "Al Qurayyah",
+        "tr": "Al Qurayyah",
+        "ur": "Al Qurayyah",
+        "id": "Al Qurayyah",
+        "es": "Al Qurayyah",
+        "bn": "Al Qurayyah",
+        "ms": "Al Qurayyah"
+      },
+      "aliases": {
+        "en": [
+          "Kuraiya",
+          "Kuriya",
+          "Quraiyah",
+          "Qurayyah",
+          "aalqurayat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290323",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290324,
+    "slug": "al-qaryah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 5.089,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290324,
+      "slug": "al-qaryah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18278,
+      "lng": 50.58361,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْقَرْيَة",
+        "en": "Al Qaryah",
+        "fr": "Al Qaryah",
+        "de": "Al Qaryah",
+        "tr": "Al Qaryah",
+        "ur": "Al Qaryah",
+        "id": "Al Qaryah",
+        "es": "Al Qaryah",
+        "bn": "Al Qaryah",
+        "ms": "Al Qaryah"
+      },
+      "aliases": {
+        "en": [
+          "Kariya",
+          "Qariya",
+          "Qarya",
+          "Qaryah",
+          "Qurayyah",
+          "Quryah",
+          "aalqaryat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290324",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290325,
+    "slug": "al-qaryah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.721,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290325,
+      "slug": "al-qaryah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.17222,
+      "lng": 50.61056,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْقَرْيَة",
+        "en": "Al Qaryah",
+        "fr": "Al Qaryah",
+        "de": "Al Qaryah",
+        "tr": "Al Qaryah",
+        "ur": "Al Qaryah",
+        "id": "Al Qaryah",
+        "es": "Al Qaryah",
+        "bn": "Al Qaryah",
+        "ms": "Al Qaryah"
+      },
+      "aliases": {
+        "en": [
+          "Kuriya",
+          "aalqaryat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290325",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290327,
+    "slug": "al-qadam",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.82,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290327,
+      "slug": "al-qadam",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21556,
+      "lng": 50.51917,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْقَدَم",
+        "en": "Al Qadam",
+        "fr": "Al Qadam",
+        "de": "Al Qadam",
+        "tr": "Al Qadam",
+        "ur": "Al Qadam",
+        "id": "Al Qadam",
+        "es": "Al Qadam",
+        "bn": "Al Qadam",
+        "ms": "Al Qadam"
+      },
+      "aliases": {
+        "en": [
+          "Qadam",
+          "aalqadam"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290327",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290328,
+    "slug": "al-muwaylighah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.634,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290328,
+      "slug": "al-muwaylighah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.20667,
+      "lng": 50.55889,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْمُوَيْلِغَة",
+        "en": "Al Muwaylighah",
+        "fr": "Al Muwaylighah",
+        "de": "Al Muwaylighah",
+        "tr": "Al Muwaylighah",
+        "ur": "Al Muwaylighah",
+        "id": "Al Muwaylighah",
+        "es": "Al Muwaylighah",
+        "bn": "Al Muwaylighah",
+        "ms": "Al Muwaylighah"
+      },
+      "aliases": {
+        "en": [
+          "Muwailaha",
+          "Muwailghah",
+          "aalmuaylighat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290328",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290332,
+    "slug": "al-muharraq",
+    "status": "existing",
+    "tier": null,
+    "reason": "ar_name+coords",
+    "keyword": null,
+    "qualityScore": 85,
+    "distanceToNearestKm": null,
+    "nearestCuratedSlug": "",
+    "matchedExisting": "muharraq",
+    "matchedReason": "ar_name+coords (d=0.08km)",
+    "candidate": {
+      "geonameid": 290332,
+      "slug": "al-muharraq",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.25722,
+      "lng": 50.61194,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْمُحَرَّق",
+        "en": "Al Muharraq",
+        "fr": "Al Muharraq",
+        "de": "Al Muharraq",
+        "tr": "Al Muharraq",
+        "ur": "Al Muharraq",
+        "id": "Al Muharraq",
+        "es": "Al Muharraq",
+        "bn": "Al Muharraq",
+        "ms": "Al Muharraq"
+      },
+      "aliases": {
+        "ar": [
+          "محرق"
+        ],
+        "en": [
+          "Al Muharrak",
+          "Al Muḩarraq",
+          "Al'-Mukharrak",
+          "Al-Muharrak",
+          "Al-Muharraq",
+          "Al-Muḥarrak",
+          "Moharek",
+          "Muharrak",
+          "Muharraq",
+          "Muharraq Town",
+          "Muhurraq",
+          "aalmuharaq",
+          "al-Muharraq",
+          "mhrq"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 176583,
+      "priority": 90,
+      "source": "geonames",
+      "sourceId": "geonames:290332",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290336,
+    "slug": "al-markh",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 11.42,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290336,
+      "slug": "al-markh",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21028,
+      "lng": 50.47333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْمَرْخ",
+        "en": "Al Markh",
+        "fr": "Al Markh",
+        "de": "Al Markh",
+        "tr": "Al Markh",
+        "ur": "Al Markh",
+        "id": "Al Markh",
+        "es": "Al Markh",
+        "bn": "Al Markh",
+        "ms": "Al Markh"
+      },
+      "aliases": {
+        "en": [
+          "Markh",
+          "aalmarkh"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290336",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290340,
+    "slug": "manama",
+    "status": "existing",
+    "tier": null,
+    "reason": "slug",
+    "keyword": null,
+    "qualityScore": 100,
+    "distanceToNearestKm": null,
+    "nearestCuratedSlug": "",
+    "matchedExisting": "manama",
+    "matchedReason": "slug",
+    "candidate": {
+      "geonameid": 290340,
+      "slug": "manama",
+      "type": "city",
+      "countryCode": "bh",
+      "lat": 26.22787,
+      "lng": 50.58565,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "mnamہ",
+        "en": "Manama",
+        "fr": "Manama",
+        "de": "Manama",
+        "tr": "Manama",
+        "ur": "Manama",
+        "id": "Manama",
+        "es": "Manama",
+        "bn": "Manama",
+        "ms": "Manama"
+      },
+      "aliases": {
+        "ar": [
+          "المنامة",
+          "المنامه",
+          "اَلْمَنَامَة",
+          "منامه",
+          "منامہ",
+          "مەنامە"
+        ],
+        "en": [
+          "Al Manama",
+          "Al Manamah",
+          "Al Manāma",
+          "Al Manāmah",
+          "Al-Manama",
+          "Al-Manamah",
+          "Al-Manāmah",
+          "Maenamae",
+          "Manaama",
+          "Manam",
+          "Manamae",
+          "Manamah",
+          "Manameh",
+          "Manamo",
+          "Manáma",
+          "Manāma",
+          "Menama",
+          "Mename",
+          "Mänamä",
+          "WGF",
+          "aalmanamat",
+          "almnamh",
+          "almnamt",
+          "mai na ma",
+          "mai na mai",
+          "mnamh"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPLC",
+      "population": 147074,
+      "priority": 90,
+      "source": "geonames",
+      "sourceId": "geonames:290340",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290341,
+    "slug": "al-mamtalah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 34.487,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290341,
+      "slug": "al-mamtalah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.92417,
+      "lng": 50.51944,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْمَمْطَلَة",
+        "en": "Al Mamţalah",
+        "fr": "Al Mamţalah",
+        "de": "Al Mamţalah",
+        "tr": "Al Mamţalah",
+        "ur": "Al Mamţalah",
+        "id": "Al Mamţalah",
+        "es": "Al Mamţalah",
+        "bn": "Al Mamţalah",
+        "ms": "Al Mamţalah"
+      },
+      "aliases": {
+        "en": [
+          "Al M'ttalah",
+          "Al Mamtalah",
+          "Al Matallah",
+          "Al Maţallah",
+          "Al Mumattalah",
+          "Al Mumaţţalah",
+          "Al Mutallah",
+          "Al M’ţţalah",
+          "Mattala",
+          "Mutallah",
+          "Muţallah",
+          "aalmamtalat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290341",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290342,
+    "slug": "al-malikiyah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 17.568,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290342,
+      "slug": "al-malikiyah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.09806,
+      "lng": 50.48667,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْمَالِكِيَّة",
+        "en": "Al Mālikīyah",
+        "fr": "Al Mālikīyah",
+        "de": "Al Mālikīyah",
+        "tr": "Al Mālikīyah",
+        "ur": "Al Mālikīyah",
+        "id": "Al Mālikīyah",
+        "es": "Al Mālikīyah",
+        "bn": "Al Mālikīyah",
+        "ms": "Al Mālikīyah"
+      },
+      "aliases": {
+        "en": [
+          "Al Malikiyah",
+          "Al-Malikiyya",
+          "Al-Mālikiyya",
+          "Malichiya",
+          "Malikiyah",
+          "Mālikīyah",
+          "aalmalikiat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290342",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290345,
+    "slug": "al-ma-amir",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 10.82,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290345,
+      "slug": "al-ma-amir",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.13333,
+      "lng": 50.60861,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْمَعَامِير",
+        "en": "Al Ma‘āmīr",
+        "fr": "Al Ma‘āmīr",
+        "de": "Al Ma‘āmīr",
+        "tr": "Al Ma‘āmīr",
+        "ur": "Al Ma‘āmīr",
+        "id": "Al Ma‘āmīr",
+        "es": "Al Ma‘āmīr",
+        "bn": "Al Ma‘āmīr",
+        "ms": "Al Ma‘āmīr"
+      },
+      "aliases": {
+        "en": [
+          "Al Ma`amir",
+          "Ma'amir",
+          "Ma’amir"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290345",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290346,
+    "slug": "al-kharijiyah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.453,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290346,
+      "slug": "al-kharijiyah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16361,
+      "lng": 50.60472,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْخَارِجِيَّة",
+        "en": "Al Khārijīyah",
+        "fr": "Al Khārijīyah",
+        "de": "Al Khārijīyah",
+        "tr": "Al Khārijīyah",
+        "ur": "Al Khārijīyah",
+        "id": "Al Khārijīyah",
+        "es": "Al Khārijīyah",
+        "bn": "Al Khārijīyah",
+        "ms": "Al Khārijīyah"
+      },
+      "aliases": {
+        "en": [
+          "Al Kharijiyah",
+          "Al-Kharidjiyya",
+          "Al-Khāridjiyya",
+          "Kharijiya",
+          "Kharijiyah",
+          "Khārijīyah",
+          "aalkharijiat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290346",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290348,
+    "slug": "al-jubaylat",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.118,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290348,
+      "slug": "al-jubaylat",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18194,
+      "lng": 50.55333,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْجُبَيْلاَت",
+        "en": "Al Jubaylāt",
+        "fr": "Al Jubaylāt",
+        "de": "Al Jubaylāt",
+        "tr": "Al Jubaylāt",
+        "ur": "Al Jubaylāt",
+        "id": "Al Jubaylāt",
+        "es": "Al Jubaylāt",
+        "bn": "Al Jubaylāt",
+        "ms": "Al Jubaylāt"
+      },
+      "aliases": {
+        "en": [
+          "Al Jubaylat",
+          "Jabailat",
+          "Jubailat",
+          "Jubailāt",
+          "aaljubaylaat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290348",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290351,
+    "slug": "al-jasrah",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 15.514,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290351,
+      "slug": "al-jasrah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16222,
+      "lng": 50.44917,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "الجسره",
+        "en": "Al Jasrah",
+        "fr": "Al Jasrah",
+        "de": "Al Jasrah",
+        "tr": "Al Jasrah",
+        "ur": "Al Jasrah",
+        "id": "Al Jasrah",
+        "es": "Al Jasrah",
+        "bn": "Al Jasrah",
+        "ms": "Al Jasrah"
+      },
+      "aliases": {
+        "ar": [
+          "اَلْجَسْرَة",
+          "جسرا",
+          "جسرہ"
+        ],
+        "en": [
+          "Al-Djasra",
+          "Dzhasra",
+          "Jasra",
+          "Jasrah",
+          "Jesera",
+          "Tzasra",
+          "aaljasrat",
+          "aljsrh",
+          "arujasura",
+          "jsra"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290351",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290352,
+    "slug": "al-janabiyah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 12.547,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290352,
+      "slug": "al-janabiyah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.19,
+      "lng": 50.46778,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْجَنَبِيَّة",
+        "en": "Al Janabīyah",
+        "fr": "Al Janabīyah",
+        "de": "Al Janabīyah",
+        "tr": "Al Janabīyah",
+        "ur": "Al Janabīyah",
+        "id": "Al Janabīyah",
+        "es": "Al Janabīyah",
+        "bn": "Al Janabīyah",
+        "ms": "Al Janabīyah"
+      },
+      "aliases": {
+        "en": [
+          "Al Janabiyah",
+          "Janabiya",
+          "Janabiyah",
+          "Janābīyah",
+          "aaljanabiat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290352",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290354,
+    "slug": "ali",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 10.15,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290354,
+      "slug": "ali",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.16194,
+      "lng": 50.51639,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "عَالِي",
+        "en": "‘Ālī",
+        "fr": "‘Ālī",
+        "de": "‘Ālī",
+        "tr": "‘Ālī",
+        "ur": "‘Ālī",
+        "id": "‘Ālī",
+        "es": "‘Ālī",
+        "bn": "‘Ālī",
+        "ms": "‘Ālī"
+      },
+      "aliases": {
+        "en": [
+          "`Ali"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290354",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290356,
+    "slug": "al-hujayr",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 6.175,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290356,
+      "slug": "al-hujayr",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.18333,
+      "lng": 50.55,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْهُجَيْر",
+        "en": "Al Hujayr",
+        "fr": "Al Hujayr",
+        "de": "Al Hujayr",
+        "tr": "Al Hujayr",
+        "ur": "Al Hujayr",
+        "id": "Al Hujayr",
+        "es": "Al Hujayr",
+        "bn": "Al Hujayr",
+        "ms": "Al Hujayr"
+      },
+      "aliases": {
+        "en": [
+          "Hujair",
+          "Husair",
+          "aalhujayr"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290356",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290359,
+    "slug": "al-hamalah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 15.785,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290359,
+      "slug": "al-hamalah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.14333,
+      "lng": 50.45944,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْهَمَلَة",
+        "en": "Al Hamalah",
+        "fr": "Al Hamalah",
+        "de": "Al Hamalah",
+        "tr": "Al Hamalah",
+        "ur": "Al Hamalah",
+        "id": "Al Hamalah",
+        "es": "Al Hamalah",
+        "bn": "Al Hamalah",
+        "ms": "Al Hamalah"
+      },
+      "aliases": {
+        "en": [
+          "Al-Hamla",
+          "Hamala",
+          "Hamalah",
+          "aalhamalat"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290359",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290360,
+    "slug": "al-hajar",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.449,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290360,
+      "slug": "al-hajar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21111,
+      "lng": 50.51389,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْحَجَر",
+        "en": "Al Ḩajar",
+        "fr": "Al Ḩajar",
+        "de": "Al Ḩajar",
+        "tr": "Al Ḩajar",
+        "ur": "Al Ḩajar",
+        "id": "Al Ḩajar",
+        "es": "Al Ḩajar",
+        "bn": "Al Ḩajar",
+        "ms": "Al Ḩajar"
+      },
+      "aliases": {
+        "en": [
+          "Al Hajar",
+          "Hajar",
+          "aalhajar"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290360",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290363,
+    "slug": "al-hadd",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 80,
+    "distanceToNearestKm": 4.486,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290363,
+      "slug": "al-hadd",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.24556,
+      "lng": 50.65417,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْحَدّ",
+        "en": "Al Ḩadd",
+        "fr": "Al Ḩadd",
+        "de": "Al Ḩadd",
+        "tr": "Al Ḩadd",
+        "ur": "Al Ḩadd",
+        "id": "Al Ḩadd",
+        "es": "Al Ḩadd",
+        "bn": "Al Ḩadd",
+        "ms": "Al Ḩadd"
+      },
+      "aliases": {
+        "en": [
+          "Al Hadd",
+          "Al Hidd",
+          "Al Ḩidd",
+          "Hadd",
+          "Hidd",
+          "aalhad"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 12797,
+      "priority": 80,
+      "source": "geonames",
+      "sourceId": "geonames:290363",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 290366,
+    "slug": "al-busaytin",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 1.401,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290366,
+      "slug": "al-busaytin",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.26944,
+      "lng": 50.60778,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْبُسَيْتِين",
+        "en": "Al Busaytīn",
+        "fr": "Al Busaytīn",
+        "de": "Al Busaytīn",
+        "tr": "Al Busaytīn",
+        "ur": "Al Busaytīn",
+        "id": "Al Busaytīn",
+        "es": "Al Busaytīn",
+        "bn": "Al Busaytīn",
+        "ms": "Al Busaytīn"
+      },
+      "aliases": {
+        "en": [
+          "Al Busaytin",
+          "Basatin",
+          "Basātīn",
+          "Busaitin",
+          "aalbusaytin"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290366",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290368,
+    "slug": "al-budayyi",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 13.675,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290368,
+      "slug": "al-budayyi",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21306,
+      "lng": 50.45,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "البديع",
+        "en": "Al Budayyi‘",
+        "fr": "Al Budayyi‘",
+        "de": "Al Budayyi‘",
+        "tr": "Al Budayyi‘",
+        "ur": "Al Budayyi‘",
+        "id": "Al Budayyi‘",
+        "es": "Al Budayyi‘",
+        "bn": "Al Budayyi‘",
+        "ms": "Al Budayyi‘"
+      },
+      "aliases": {
+        "ar": [
+          "البدیع",
+          "اَلْبُدَيِّع"
+        ],
+        "en": [
+          "Al Buday`",
+          "Al Budayyi`",
+          "Al Buday‘",
+          "Al-Budaiya",
+          "Al-Budajji",
+          "Al-Budayyi'",
+          "Al-Budayyiʿ",
+          "Badaiya`a",
+          "Badaiya‘a",
+          "Bountaigia",
+          "Budaia",
+          "Budaija",
+          "Budaiya",
+          "Buday`ah",
+          "Budayya`",
+          "Budayya‘",
+          "Buday‘ah",
+          "Ehl'-Budaji",
+          "bu dai ya",
+          "buda'iya sahara",
+          "budaiya"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290368",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290375,
+    "slug": "al-amar",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 27.35,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290375,
+      "slug": "al-amar",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.98813,
+      "lng": 50.52791,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْعَمَر",
+        "en": "Al ‘Amar",
+        "fr": "Al ‘Amar",
+        "de": "Al ‘Amar",
+        "tr": "Al ‘Amar",
+        "ur": "Al ‘Amar",
+        "id": "Al ‘Amar",
+        "es": "Al ‘Amar",
+        "bn": "Al ‘Amar",
+        "ms": "Al ‘Amar"
+      },
+      "aliases": {
+        "en": [
+          "Al `Amar",
+          "Al `Umar",
+          "Al ‘Umar",
+          "Amar",
+          "`Amur",
+          "‘Amur"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290375",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290376,
+    "slug": "al-akr",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 9.805,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290376,
+      "slug": "al-akr",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.14306,
+      "lng": 50.61028,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْعَكْر",
+        "en": "Al ‘Akr",
+        "fr": "Al ‘Akr",
+        "de": "Al ‘Akr",
+        "tr": "Al ‘Akr",
+        "ur": "Al ‘Akr",
+        "id": "Al ‘Akr",
+        "es": "Al ‘Akr",
+        "bn": "Al ‘Akr",
+        "ms": "Al ‘Akr"
+      },
+      "aliases": {
+        "en": [
+          "'Aqur",
+          "Al `Akr",
+          "Al `Akur",
+          "Al `Aqr",
+          "Al `Aqur",
+          "Al ‘Akur",
+          "Al ‘Aqr",
+          "Al ‘Aqur",
+          "Ikur",
+          "’Aqur"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290376",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290384,
+    "slug": "ad-dur",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 27.906,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290384,
+      "slug": "ad-dur",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.97889,
+      "lng": 50.61499,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلدُّور",
+        "en": "Ad Dūr",
+        "fr": "Ad Dūr",
+        "de": "Ad Dūr",
+        "tr": "Ad Dūr",
+        "ur": "Ad Dūr",
+        "id": "Ad Dūr",
+        "es": "Ad Dūr",
+        "bn": "Ad Dūr",
+        "ms": "Ad Dūr"
+      },
+      "aliases": {
+        "en": [
+          "Ad Dur",
+          "Dar al Manadil",
+          "Dur",
+          "Dār al Manādīl",
+          "aalduwr"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290384",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290385,
+    "slug": "ad-diraz",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 11.574,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290385,
+      "slug": "ad-diraz",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.21806,
+      "lng": 50.47056,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "الدراز",
+        "en": "Ad Dirāz",
+        "fr": "Ad Dirāz",
+        "de": "Ad Dirāz",
+        "tr": "Ad Dirāz",
+        "ur": "Ad Dirāz",
+        "id": "Ad Dirāz",
+        "es": "Ad Dirāz",
+        "bn": "Ad Dirāz",
+        "ms": "Ad Dirāz"
+      },
+      "aliases": {
+        "ar": [
+          "اَلدِّرَاز",
+          "دراز"
+        ],
+        "en": [
+          "Ad Diraz",
+          "Diraz",
+          "Ntiraz",
+          "aaldiraz",
+          "aldraz",
+          "draz"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290385",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290386,
+    "slug": "ad-dayr",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 3.248,
+    "nearestCuratedSlug": "muharraq",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290386,
+      "slug": "ad-dayr",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.28417,
+      "lng": 50.62361,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلدَّيْر",
+        "en": "Ad Dayr",
+        "fr": "Ad Dayr",
+        "de": "Ad Dayr",
+        "tr": "Ad Dayr",
+        "ur": "Ad Dayr",
+        "id": "Ad Dayr",
+        "es": "Ad Dayr",
+        "bn": "Ad Dayr",
+        "ms": "Ad Dayr"
+      },
+      "aliases": {
+        "en": [
+          "Dair",
+          "Dair-ar-Rahib",
+          "Dair-ar-Rāhib",
+          "Dayr ar Rahib",
+          "Dayr ar Rāhib",
+          "aaldayr"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة المحرق",
+        "regionEn": "Muharraq Governorate",
+        "admin1Code": "15",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290386",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290392,
+    "slug": "abu-saybi",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 7.981,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290392,
+      "slug": "abu-saybi",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.2175,
+      "lng": 50.50694,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "أَبُو صَيْبِع",
+        "en": "Abū Şaybi‘",
+        "fr": "Abū Şaybi‘",
+        "de": "Abū Şaybi‘",
+        "tr": "Abū Şaybi‘",
+        "ur": "Abū Şaybi‘",
+        "id": "Abū Şaybi‘",
+        "es": "Abū Şaybi‘",
+        "bn": "Abū Şaybi‘",
+        "ms": "Abū Şaybi‘"
+      },
+      "aliases": {
+        "en": [
+          "Abu Saibi'",
+          "Abu Saibi’",
+          "Abu Saybi`"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الوسطى",
+        "regionEn": "Central Governorate (deprecated)",
+        "admin1Code": "19",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290392",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 290395,
+    "slug": "abu-baham",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 4.782,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 290395,
+      "slug": "abu-baham",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.2075,
+      "lng": 50.54417,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "أَبُو بَهَام",
+        "en": "Abū Bahām",
+        "fr": "Abū Bahām",
+        "de": "Abū Bahām",
+        "tr": "Abū Bahām",
+        "ur": "Abū Bahām",
+        "id": "Abū Bahām",
+        "es": "Abū Bahām",
+        "bn": "Abū Bahām",
+        "ms": "Abū Bahām"
+      },
+      "aliases": {
+        "en": [
+          "Abu Baham",
+          "aabu baham"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:290395",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 385038,
+    "slug": "ar-rifa",
+    "status": "approved",
+    "tier": "high",
+    "reason": "strict_all_pass",
+    "qualityScore": 85,
+    "distanceToNearestKm": 11.381,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 385038,
+      "slug": "ar-rifa",
+      "type": "town",
+      "countryCode": "bh",
+      "lat": 26.13,
+      "lng": 50.555,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "الرفاع",
+        "en": "Ar Rifā‘",
+        "fr": "Ar Rifā‘",
+        "de": "Ar Rifā‘",
+        "tr": "Ar Rifā‘",
+        "ur": "Ar Rifā‘",
+        "id": "Ar Rifā‘",
+        "es": "Ar Rifā‘",
+        "bn": "Ar Rifā‘",
+        "ms": "Ar Rifā‘"
+      },
+      "aliases": {
+        "ar": [
+          "اَلرِّفَاع",
+          "رفاع"
+        ],
+        "en": [
+          "Al-Riffa",
+          "Ar Rifa",
+          "Ar Rifa'",
+          "Ar Rifa`",
+          "Ar-Rifa",
+          "Ar-Rifa'",
+          "Ar-Rifā‘",
+          "Er Rifaa",
+          "Rifa",
+          "Riffa",
+          "Ryfa",
+          "ar-Rifa'",
+          "ar-Rifā‘",
+          "li fa",
+          "lipa",
+          "ri fi na",
+          "rifa",
+          "rihpa",
+          "ripha",
+          "riphpha",
+          "Ər-Rifa"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 115495,
+      "priority": 90,
+      "source": "geonames",
+      "sourceId": "geonames:385038",
+      "verified": false,
+      "_normalizationFlags": []
+    }
+  },
+  {
+    "geonameid": 385042,
+    "slug": "al-qal-ah",
+    "status": "pending",
+    "tier": "low",
+    "reason": "default_pending",
+    "qualityScore": 65,
+    "distanceToNearestKm": 28.091,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 385042,
+      "slug": "al-qal-ah",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 25.98083,
+      "lng": 50.53056,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "اَلْقَلْعَة",
+        "en": "Al Qal‘ah",
+        "fr": "Al Qal‘ah",
+        "de": "Al Qal‘ah",
+        "tr": "Al Qal‘ah",
+        "ur": "Al Qal‘ah",
+        "id": "Al Qal‘ah",
+        "es": "Al Qal‘ah",
+        "bn": "Al Qal‘ah",
+        "ms": "Al Qal‘ah"
+      },
+      "aliases": {
+        "en": [
+          "Al Qal`ah"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "المحافظة الشمالية",
+        "regionEn": "Northern Governorate",
+        "admin1Code": "17",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:385042",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  },
+  {
+    "geonameid": 8643013,
+    "slug": "seef",
+    "status": "pending",
+    "tier": "medium",
+    "reason": "qScore_70_79",
+    "qualityScore": 70,
+    "distanceToNearestKm": 5.057,
+    "nearestCuratedSlug": "manama",
+    "matchedExisting": null,
+    "matchedReason": null,
+    "candidate": {
+      "geonameid": 8643013,
+      "slug": "seef",
+      "type": "village",
+      "countryCode": "bh",
+      "lat": 26.23967,
+      "lng": 50.53685,
+      "timezone": "Asia/Bahrain",
+      "names": {
+        "ar": "السیف",
+        "en": "Seef",
+        "fr": "Seef",
+        "de": "Seef",
+        "tr": "Seef",
+        "ur": "Seef",
+        "id": "Seef",
+        "es": "Seef",
+        "bn": "Seef",
+        "ms": "Seef"
+      },
+      "aliases": {
+        "ar": [
+          "سیف، بحرین",
+          "ضاحية السيف"
+        ],
+        "en": [
+          "alsyf",
+          "dahyt alsyf",
+          "shifu",
+          "syf  bhryn"
+        ]
+      },
+      "admin": {
+        "countryAr": "البحرين",
+        "countryEn": "Bahrain",
+        "regionAr": "محافظة العاصمة",
+        "regionEn": "Capital Governorate",
+        "admin1Code": "16",
+        "admin2Code": ""
+      },
+      "featureCode": "PPL",
+      "population": 0,
+      "priority": 60,
+      "source": "geonames",
+      "sourceId": "geonames:8643013",
+      "verified": false,
+      "_normalizationFlags": [
+        "missing_population"
+      ]
+    }
+  }
+]

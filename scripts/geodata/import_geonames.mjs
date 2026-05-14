@@ -1,56 +1,64 @@
-// scripts/geodata/import_sa_geonames.mjs
+// scripts/geodata/import_geonames.mjs
 // ─────────────────────────────────────────────────────────────────────────
-// CURATED-SA-GEODATA-IMPORT-1 — Stage 1: IMPORT
+// CURATED-GEODATA — Stage 1: IMPORT (country-agnostic)
 //
-// Reads GeoNames Saudi country dump and writes a filtered raw JSON:
-//   1. If SA.txt is missing, extract from SA.zip.
-//   2. If SA.zip is missing, download from GeoNames.
-//   3. Parse the 19-field TSV into JS objects.
-//   4. Keep ONLY rows where feature_class === 'P' (populated places).
-//   5. Write db/places/candidates/sa-geonames-raw.json
+// Usage: node scripts/geodata/import_geonames.mjs <cc>
+//   <cc> = lowercase 2-letter ISO code. Default 'sa'.
 //
-// Idempotent: re-running with the same SA.txt produces identical output.
+// 1. If <CC>.txt is missing, extract from <CC>.zip.
+// 2. If <CC>.zip is missing, download from GeoNames.
+// 3. Parse the 19-field TSV into JS objects.
+// 4. Keep ONLY rows where feature_class === 'P' (populated places).
+// 5. Write db/places/candidates/<cc>-geonames-raw.json
+//
+// Idempotent: re-running with the same <CC>.txt produces identical output.
 //
 // Data attribution:
 //   © GeoNames — licensed CC-BY 4.0
-//   https://download.geonames.org/export/dump/SA.zip
+//   Source: https://download.geonames.org/export/dump/<CC>.zip
 // ─────────────────────────────────────────────────────────────────────────
 import fs from 'node:fs';
 import {
-    PATHS, GEONAMES_SA_URL, GEONAMES_FIELDS,
+    pathsFor, loadCountryConfig, GEONAMES_FIELDS,
     ensureDirs, downloadFile, extractZipSingleFile
 } from './_geonames_common.mjs';
 
 async function main() {
+    const cc = (process.argv[2] || 'sa').toLowerCase();
+    console.log('[stage1]', cc.toUpperCase(), '— starting');
+
+    const config = await loadCountryConfig(cc);
+    const paths  = pathsFor(cc);
+
     ensureDirs();
 
-    // Step 1: ensure SA.zip exists
-    if (!fs.existsSync(PATHS.saZip)) {
-        if (!fs.existsSync(PATHS.saTxt)) {
-            console.log('[stage1] downloading', GEONAMES_SA_URL, '→', PATHS.saZip);
-            await downloadFile(GEONAMES_SA_URL, PATHS.saZip);
-            const sz = fs.statSync(PATHS.saZip).size;
+    // Step 1: ensure <CC>.zip exists
+    if (!fs.existsSync(paths.zip)) {
+        if (!fs.existsSync(paths.txt)) {
+            console.log('[stage1] downloading', config.geonamesUrl, '→', paths.zip);
+            await downloadFile(config.geonamesUrl, paths.zip);
+            const sz = fs.statSync(paths.zip).size;
             console.log('[stage1] downloaded', sz, 'bytes');
         }
     } else {
-        const sz = fs.statSync(PATHS.saZip).size;
-        console.log('[stage1] SA.zip already exists (' + sz + ' bytes)');
+        const sz = fs.statSync(paths.zip).size;
+        console.log('[stage1]', cc.toUpperCase() + '.zip already exists (' + sz + ' bytes)');
     }
 
-    // Step 2: ensure SA.txt exists
-    if (!fs.existsSync(PATHS.saTxt)) {
-        console.log('[stage1] extracting SA.txt from SA.zip');
-        extractZipSingleFile(PATHS.saZip, 'SA.txt', PATHS.saTxt);
-        const sz = fs.statSync(PATHS.saTxt).size;
-        console.log('[stage1] extracted SA.txt (' + sz + ' bytes)');
+    // Step 2: ensure <CC>.txt exists
+    if (!fs.existsSync(paths.txt)) {
+        console.log('[stage1] extracting', config.innerTxtName, 'from zip');
+        extractZipSingleFile(paths.zip, config.innerTxtName, paths.txt);
+        const sz = fs.statSync(paths.txt).size;
+        console.log('[stage1] extracted', config.innerTxtName, '(' + sz + ' bytes)');
     } else {
-        const sz = fs.statSync(PATHS.saTxt).size;
-        console.log('[stage1] SA.txt already exists (' + sz + ' bytes)');
+        const sz = fs.statSync(paths.txt).size;
+        console.log('[stage1]', config.innerTxtName, 'already exists (' + sz + ' bytes)');
     }
 
     // Step 3: parse TSV
-    console.log('[stage1] parsing SA.txt');
-    const text = fs.readFileSync(PATHS.saTxt, 'utf8');
+    console.log('[stage1] parsing', config.innerTxtName);
+    const text = fs.readFileSync(paths.txt, 'utf8');
     const lines = text.split(/\r?\n/).filter(l => l.length > 0);
     console.log('[stage1] total rows:', lines.length);
 
@@ -83,7 +91,7 @@ async function main() {
     const populated = all.filter(r => r.feature_class === 'P');
     console.log('[stage1] populated places (P-class):', populated.length);
 
-    // Feature-code breakdown for visibility
+    // Feature-code breakdown for visibility (helps verify expected mix)
     const codeCounts = {};
     for (const r of populated) {
         codeCounts[r.feature_code] = (codeCounts[r.feature_code] || 0) + 1;
@@ -91,12 +99,13 @@ async function main() {
     console.log('[stage1] feature_code breakdown:', JSON.stringify(codeCounts));
 
     // Step 5: write raw JSON
-    fs.writeFileSync(PATHS.rawJson, JSON.stringify(populated, null, 2) + '\n');
-    console.log('[stage1] wrote', PATHS.rawJson, '(' + populated.length + ' rows)');
-    console.log('[stage1] DONE');
+    fs.writeFileSync(paths.rawJson, JSON.stringify(populated, null, 2) + '\n');
+    console.log('[stage1] wrote', paths.rawJson, '(' + populated.length + ' rows)');
+    console.log('[stage1] DONE for', cc.toUpperCase());
 }
 
 main().catch(e => {
     console.error('[stage1] FAILED:', e && e.message);
+    if (e && e.stack) console.error(e.stack);
     process.exit(1);
 });

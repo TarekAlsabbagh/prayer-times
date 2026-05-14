@@ -1,13 +1,16 @@
-// scripts/geodata/normalize_sa_places.mjs
+// scripts/geodata/normalize_places.mjs
 // ─────────────────────────────────────────────────────────────────────────
-// CURATED-SA-GEODATA-IMPORT-1 — Stage 2: NORMALIZE
+// CURATED-GEODATA — Stage 2: NORMALIZE (country-agnostic)
 //
-// Reads sa-geonames-raw.json, filters + transforms each row into our
-// candidate schema, writes sa-geonames-normalized.json.
+// Usage: node scripts/geodata/normalize_places.mjs <cc>
+//   <cc> = lowercase 2-letter ISO code. Default 'sa'.
+//
+// Reads <cc>-geonames-raw.json, filters + transforms each row into our
+// candidate schema, writes <cc>-geonames-normalized.json.
 //
 // Filters applied here:
 //   1. feature_code is in ACCEPTED_FEATURE_CODES
-//   2. coordinates are inside Saudi bounding box
+//   2. coordinates are inside country bounding box
 //   3. lat/lng are finite numbers
 //   4. has at least an ASCII name (for slug)
 //
@@ -20,23 +23,26 @@
 // ─────────────────────────────────────────────────────────────────────────
 import fs from 'node:fs';
 import {
-    PATHS,
+    pathsFor, loadCountryConfig,
     ACCEPTED_FEATURE_CODES, REJECTED_FEATURE_CODES,
-    SA_ADMIN1_TO_REGION, SA_COUNTRY,
-    isInSaudiBox, makeSlug,
+    isInBox, makeSlug,
     parseAlternateNames, isArabicScript, isMostlyLatin,
     priorityForPopulation, typeForFeatureCode,
-    fillLangMap, SUPPORTED_LANGS
+    fillLangMap
 } from './_geonames_common.mjs';
 
-function main() {
-    if (!fs.existsSync(PATHS.rawJson)) {
-        console.error('[stage2] missing input', PATHS.rawJson);
-        console.error('         run import_sa_geonames.mjs first');
+async function main() {
+    const cc = (process.argv[2] || 'sa').toLowerCase();
+    const config = await loadCountryConfig(cc);
+    const paths  = pathsFor(cc);
+
+    if (!fs.existsSync(paths.rawJson)) {
+        console.error('[stage2] missing input', paths.rawJson);
+        console.error('         run: node scripts/geodata/import_geonames.mjs ' + cc);
         process.exit(1);
     }
-    const raw = JSON.parse(fs.readFileSync(PATHS.rawJson, 'utf8'));
-    console.log('[stage2] raw rows:', raw.length);
+    const raw = JSON.parse(fs.readFileSync(paths.rawJson, 'utf8'));
+    console.log('[stage2]', cc.toUpperCase(), '— raw rows:', raw.length);
 
     const stats = {
         rejected_feature_code: 0,
@@ -58,7 +64,7 @@ function main() {
             continue;
         }
         // Filter 2: coordinates
-        if (!isInSaudiBox(r.latitude, r.longitude)) {
+        if (!isInBox(r.latitude, r.longitude, config.bbox)) {
             stats.rejected_coords++;
             continue;
         }
@@ -70,7 +76,7 @@ function main() {
 
         // Slug
         let slug = makeSlug(r.asciiname);
-        if (!slug) slug = 'sa-geonameid-' + r.geonameid;
+        if (!slug) slug = cc + '-geonameid-' + r.geonameid;
 
         // Names — extract from alternatenames + name field
         const parsed = parseAlternateNames(r.alternatenames);
@@ -113,7 +119,7 @@ function main() {
         const type = typeForFeatureCode(r.feature_code, pop);
 
         // Region
-        const region = SA_ADMIN1_TO_REGION[r.admin1_code] || null;
+        const region = (config.admin1ToRegion && config.admin1ToRegion[r.admin1_code]) || null;
 
         // Flags
         const flags = [];
@@ -125,15 +131,15 @@ function main() {
             geonameid:    r.geonameid,
             slug,
             type,
-            countryCode:  SA_COUNTRY.countryCode,
+            countryCode:  cc,
             lat:          Number(r.latitude),
             lng:          Number(r.longitude),
-            timezone:     r.timezone || SA_COUNTRY.timezone,
+            timezone:     r.timezone || config.defaultTimezone,
             names,
             aliases,
             admin: {
-                countryAr: SA_COUNTRY.countryAr,
-                countryEn: SA_COUNTRY.countryEn,
+                countryAr: config.countryAr,
+                countryEn: config.countryEn,
                 regionAr:  region ? region.ar : '',
                 regionEn:  region ? region.en : '',
                 admin1Code: r.admin1_code,
@@ -150,10 +156,14 @@ function main() {
         stats.normalized++;
     }
 
-    fs.writeFileSync(PATHS.normalizedJson, JSON.stringify(out, null, 2) + '\n');
-    console.log('[stage2] wrote', PATHS.normalizedJson, '(' + out.length + ' candidates)');
+    fs.writeFileSync(paths.normalizedJson, JSON.stringify(out, null, 2) + '\n');
+    console.log('[stage2] wrote', paths.normalizedJson, '(' + out.length + ' candidates)');
     console.log('[stage2] stats:', JSON.stringify(stats, null, 2));
-    console.log('[stage2] DONE');
+    console.log('[stage2] DONE for', cc.toUpperCase());
 }
 
-main();
+main().catch(e => {
+    console.error('[stage2] FAILED:', e && e.message);
+    if (e && e.stack) console.error(e.stack);
+    process.exit(1);
+});

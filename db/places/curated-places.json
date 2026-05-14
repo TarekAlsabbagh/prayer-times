@@ -20065,5 +20065,2910 @@
     "source": "curated",
     "sourceId": "geonames:11829674",
     "verified": true
+  },
+  {
+    "slug": "umm-salal-muhammad",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 25.41524,
+    "lng": 51.40647,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "أم صلال محمد",
+      "en": "Umm Şalāl Muḩammad",
+      "fr": "Umm Şalāl Muḩammad",
+      "de": "Umm Şalāl Muḩammad",
+      "tr": "Umm Şalāl Muḩammad",
+      "ur": "Umm Şalāl Muḩammad",
+      "id": "Umm Şalāl Muḩammad",
+      "es": "Umm Şalāl Muḩammad",
+      "bn": "Umm Şalāl Muḩammad",
+      "ms": "Umm Şalāl Muḩammad"
+    },
+    "aliases": {
+      "ar": [
+        "أُمّ صَلاَل مُحَمَّد"
+      ],
+      "en": [
+        "Umm Salal Mohammad",
+        "Umm Salal Muhammad",
+        "Umm Ses Salal",
+        "Umm Silal Mohammed",
+        "Umm Slal Mohammed",
+        "Umm es Salal",
+        "Umm es Slal",
+        "am slal mhmd",
+        "aum salaal muhamad"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية أم صلال",
+      "regionEn": "Umm Salal Municipality"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289523",
+    "verified": true
+  },
+  {
+    "slug": "musay-id",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 24.99226,
+    "lng": 51.55067,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "أم سعيد",
+      "en": "Musay‘īd",
+      "fr": "Musay‘īd",
+      "de": "Musay‘īd",
+      "tr": "Musay‘īd",
+      "ur": "Musay‘īd",
+      "id": "Musay‘īd",
+      "es": "Musay‘īd",
+      "bn": "Musay‘īd",
+      "ms": "Musay‘īd"
+    },
+    "aliases": {
+      "ar": [
+        "مسيعيد"
+      ],
+      "en": [
+        "Mesaieed",
+        "Musay`id",
+        "Umm Sa'id",
+        "Umm Sa`ad",
+        "Umm Sa‘ad",
+        "Umm Sa‘īd"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الوكرة",
+      "regionEn": "Al Wakrah Municipality"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:289525",
+    "verified": true
+  },
+  {
+    "slug": "umm-ghuwaylinah",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 25.58716,
+    "lng": 51.14986,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "أُمّ غُوَيْلِينَة",
+      "en": "Umm Ghuwaylīnah",
+      "fr": "Umm Ghuwaylīnah",
+      "de": "Umm Ghuwaylīnah",
+      "tr": "Umm Ghuwaylīnah",
+      "ur": "Umm Ghuwaylīnah",
+      "id": "Umm Ghuwaylīnah",
+      "es": "Umm Ghuwaylīnah",
+      "bn": "Umm Ghuwaylīnah",
+      "ms": "Umm Ghuwaylīnah"
+    },
+    "aliases": {
+      "en": [
+        "Umm Ghuwaylina",
+        "Umm Ghuwaylinah",
+        "Umm Ghuwaylīnā",
+        "aum ghuaylinat"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الشيحانية",
+      "regionEn": "Al Shihaniya Municipality"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289545",
+    "verified": true
+  },
+  {
+    "slug": "umm-bab",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 25.21417,
+    "lng": 50.80722,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "أُمّ بَاب",
+      "en": "Umm Bāb",
+      "fr": "Umm Bāb",
+      "de": "Umm Bāb",
+      "tr": "Umm Bāb",
+      "ur": "Umm Bāb",
+      "id": "Umm Bāb",
+      "es": "Umm Bāb",
+      "bn": "Umm Bāb",
+      "ms": "Umm Bāb"
+    },
+    "aliases": {
+      "en": [
+        "Umm Bab",
+        "aum bab"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الريان",
+      "regionEn": "Al Rayyan Municipality"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:289548",
+    "verified": true
+  },
+  {
+    "slug": "nuayjah",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 25.24617,
+    "lng": 51.53227,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "نُعَيْجَة",
+      "en": "Nu‘ayjah",
+      "fr": "Nu‘ayjah",
+      "de": "Nu‘ayjah",
+      "tr": "Nu‘ayjah",
+      "ur": "Nu‘ayjah",
+      "id": "Nu‘ayjah",
+      "es": "Nu‘ayjah",
+      "bn": "Nu‘ayjah",
+      "ms": "Nu‘ayjah"
+    },
+    "aliases": {
+      "en": [
+        "An Nu`ayiah",
+        "An Nu‘ayiah",
+        "Na'aijah",
+        "Naeeja",
+        "Naeejeh",
+        "Na’aijah",
+        "Nu`aija",
+        "Nu`auah",
+        "Nu`ayjah",
+        "Nu‘aija",
+        "Nu‘auah",
+        "Nu'ayjah"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الدوحة",
+      "regionEn": "Ad Dawhah Municipality"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289698",
+    "verified": true
+  },
+  {
+    "slug": "muaydhir-rawdat-rashid",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 25.2617,
+    "lng": 51.39684,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "معيذر روضة راشد",
+      "en": "Mu‘aydhir Rawḑat Rāshid",
+      "fr": "Mu‘aydhir Rawḑat Rāshid",
+      "de": "Mu‘aydhir Rawḑat Rāshid",
+      "tr": "Mu‘aydhir Rawḑat Rāshid",
+      "ur": "Mu‘aydhir Rawḑat Rāshid",
+      "id": "Mu‘aydhir Rawḑat Rāshid",
+      "es": "Mu‘aydhir Rawḑat Rāshid",
+      "bn": "Mu‘aydhir Rawḑat Rāshid",
+      "ms": "Mu‘aydhir Rawḑat Rāshid"
+    },
+    "aliases": {
+      "ar": [
+        "مُعَيْذِر أَبُو اَلدَّوْم"
+      ],
+      "en": [
+        "Mu`aydhir",
+        "Mu`aydhir Abu ad Dawm",
+        "Mu`aydhir Rawdat Rashid",
+        "Mu‘aydhir",
+        "Mu‘aydhir Abū ad Dawm",
+        "Mu'aydhir Rawdat Rashid"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الريان",
+      "regionEn": "Al Rayyan Municipality"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289716",
+    "verified": true
+  },
+  {
+    "slug": "dukhan",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 25.42485,
+    "lng": 50.78227,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "دُخَان",
+      "en": "Dukhān",
+      "fr": "Dukhān",
+      "de": "Dukhān",
+      "tr": "Dukhān",
+      "ur": "Dukhān",
+      "id": "Dukhān",
+      "es": "Dukhān",
+      "bn": "Dukhān",
+      "ms": "Dukhān"
+    },
+    "aliases": {
+      "en": [
+        "Al Khathiyah",
+        "Dukhan",
+        "Dukhkhan",
+        "Dukhkhān",
+        "Ghariyat Adkhan",
+        "Ghariyat Dukhan",
+        "Ghāriyat Adkhān",
+        "Ghāriyat Dukhān",
+        "dukhan"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الشيحانية",
+      "regionEn": "Al Shihaniya Municipality"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:289813",
+    "verified": true
+  },
+  {
+    "slug": "ash-shaqra",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 24.82671,
+    "lng": 51.3934,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "اَلشَّقْرَاء",
+      "en": "Ash Shaqrā’",
+      "fr": "Ash Shaqrā’",
+      "de": "Ash Shaqrā’",
+      "tr": "Ash Shaqrā’",
+      "ur": "Ash Shaqrā’",
+      "id": "Ash Shaqrā’",
+      "es": "Ash Shaqrā’",
+      "bn": "Ash Shaqrā’",
+      "ms": "Ash Shaqrā’"
+    },
+    "aliases": {
+      "en": [
+        "Ash Shaqra'",
+        "Shaqra`",
+        "Shaqrā‘"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الوكرة",
+      "regionEn": "Al Wakrah Municipality"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:289876",
+    "verified": true
+  },
+  {
+    "slug": "ar-ruways-qa",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 26.13978,
+    "lng": 51.21493,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "الرويس",
+      "en": "Ar Ruways",
+      "fr": "Ar Ruways",
+      "de": "Ar Ruways",
+      "tr": "Ar Ruways",
+      "ur": "Ar Ruways",
+      "id": "Ar Ruways",
+      "es": "Ar Ruways",
+      "bn": "Ar Ruways",
+      "ms": "Ar Ruways"
+    },
+    "aliases": {
+      "ar": [
+        "اَلرُّؤَيْس"
+      ],
+      "en": [
+        "Ar Ru'ays",
+        "Ar Ruwais",
+        "Ar Ru’ays",
+        "Ruwais",
+        "aalruways",
+        "alrwys"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الشمال",
+      "regionEn": "Al Shamal Municipality"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:289884",
+    "verified": true
+  },
+  {
+    "slug": "al-wukayr",
+    "type": "town",
+    "countryCode": "qa",
+    "lat": 25.15107,
+    "lng": 51.53718,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "الوكير",
+      "en": "Al Wukayr",
+      "fr": "Al Wukayr",
+      "de": "Al Wukayr",
+      "tr": "Al Wukayr",
+      "ur": "Al Wukayr",
+      "id": "Al Wukayr",
+      "es": "Al Wukayr",
+      "bn": "Al Wukayr",
+      "ms": "Al Wukayr"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْوُكَيْر"
+      ],
+      "en": [
+        "Al Wukair",
+        "aalwukayr",
+        "alwkyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الوكرة",
+      "regionEn": "Al Wakrah Municipality"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:289913",
+    "verified": true
+  },
+  {
+    "slug": "al-kharrarah",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 24.90325,
+    "lng": 51.17582,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "الخرارة",
+      "en": "Al Kharrārah",
+      "fr": "Al Kharrārah",
+      "de": "Al Kharrārah",
+      "tr": "Al Kharrārah",
+      "ur": "Al Kharrārah",
+      "id": "Al Kharrārah",
+      "es": "Al Kharrārah",
+      "bn": "Al Kharrārah",
+      "ms": "Al Kharrārah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْخَرَّارَة"
+      ],
+      "en": [
+        "Al Kharrarah",
+        "aalkharaarat",
+        "alkhrart"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الوكرة",
+      "regionEn": "Al Wakrah Municipality"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:289968",
+    "verified": true
+  },
+  {
+    "slug": "al-jumayliyah",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 25.61068,
+    "lng": 51.09108,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "الجميلية",
+      "en": "Al Jumaylīyah",
+      "fr": "Al Jumaylīyah",
+      "de": "Al Jumaylīyah",
+      "tr": "Al Jumaylīyah",
+      "ur": "Al Jumaylīyah",
+      "id": "Al Jumaylīyah",
+      "es": "Al Jumaylīyah",
+      "bn": "Al Jumaylīyah",
+      "ms": "Al Jumaylīyah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْجُمَيْلِيَّة"
+      ],
+      "en": [
+        "Al Jamaliya",
+        "Al Jamliyah",
+        "Al Jamlīyah",
+        "Al Jumaliyah",
+        "Al Jumayliyah",
+        "Jimaliyah",
+        "Jimalīyah",
+        "aaljumayliat",
+        "aljmylyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الشيحانية",
+      "regionEn": "Al Shihaniya Municipality"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:289975",
+    "verified": true
+  },
+  {
+    "slug": "al-ghuwayriyah",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 25.82882,
+    "lng": 51.24567,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "الغويرية",
+      "en": "Al Ghuwayrīyah",
+      "fr": "Al Ghuwayrīyah",
+      "de": "Al Ghuwayrīyah",
+      "tr": "Al Ghuwayrīyah",
+      "ur": "Al Ghuwayrīyah",
+      "id": "Al Ghuwayrīyah",
+      "es": "Al Ghuwayrīyah",
+      "bn": "Al Ghuwayrīyah",
+      "ms": "Al Ghuwayrīyah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْغُوَيْرِيَّة"
+      ],
+      "en": [
+        "Al Ghuwairiya",
+        "Al Ghuwairiyah",
+        "Al Ghuwayriyah",
+        "Ghuwairiyah",
+        "Ghuwairīyah",
+        "aalghuayriat",
+        "alghwyryt"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الخور والذخيرة",
+      "regionEn": "Al Khor Municipality"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:289993",
+    "verified": true
+  },
+  {
+    "slug": "abu-samrah",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 24.7437,
+    "lng": 50.83174,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "أبو سمرة",
+      "en": "Abū Samrah",
+      "fr": "Abū Samrah",
+      "de": "Abū Samrah",
+      "tr": "Abū Samrah",
+      "ur": "Abū Samrah",
+      "id": "Abū Samrah",
+      "es": "Abū Samrah",
+      "bn": "Abū Samrah",
+      "ms": "Abū Samrah"
+    },
+    "aliases": {
+      "en": [
+        "Abu Samrah",
+        "abw smrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الريان",
+      "regionEn": "Al Rayyan Municipality"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:398806",
+    "verified": true
+  },
+  {
+    "slug": "fuwayrit",
+    "type": "village",
+    "countryCode": "qa",
+    "lat": 26.02565,
+    "lng": 51.36971,
+    "timezone": "Asia/Qatar",
+    "names": {
+      "ar": "فويرط",
+      "en": "Fuwayriţ",
+      "fr": "Fuwayriţ",
+      "de": "Fuwayriţ",
+      "tr": "Fuwayriţ",
+      "ur": "Fuwayriţ",
+      "id": "Fuwayriţ",
+      "es": "Fuwayriţ",
+      "bn": "Fuwayriţ",
+      "ms": "Fuwayriţ"
+    },
+    "aliases": {
+      "ar": [
+        "فُوَيْرِط"
+      ],
+      "en": [
+        "Fuwayrit",
+        "fuayrit",
+        "fwyrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "قطر",
+      "countryEn": "Qatar",
+      "regionAr": "بلدية الشمال",
+      "regionEn": "Al Shamal Municipality"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:406787",
+    "verified": true
+  },
+  {
+    "slug": "warisan",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.16744,
+    "lng": 55.40708,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "ورسان",
+      "en": "Warīsān",
+      "fr": "Warīsān",
+      "de": "Warīsān",
+      "tr": "Warīsān",
+      "ur": "Warīsān",
+      "id": "Warīsān",
+      "es": "Warīsān",
+      "bn": "Warīsān",
+      "ms": "Warīsān"
+    },
+    "aliases": {
+      "en": [
+        "Warisan",
+        "Warsan",
+        "wrsan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة دبي",
+      "regionEn": "Dubai Emirate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:290503",
+    "verified": true
+  },
+  {
+    "slug": "zayed-city",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 23.65416,
+    "lng": 53.70522,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "مدينة زايد",
+      "en": "Zayed City",
+      "fr": "Zayed City",
+      "de": "Zayed City",
+      "tr": "Zayed City",
+      "ur": "Zayed City",
+      "id": "Zayed City",
+      "es": "Zayed City",
+      "bn": "Zayed City",
+      "ms": "Zayed City"
+    },
+    "aliases": {
+      "en": [
+        "Bid' Zayed",
+        "Bid’ Zayed",
+        "Madinat Za'id",
+        "Madinat Zayid",
+        "Madīnat Zāyid",
+        "Madīnat Zā’id",
+        "mdynt zayd"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:291580",
+    "verified": true
+  },
+  {
+    "slug": "khawr-fakkan",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.33132,
+    "lng": 56.34199,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "مدينة خور فكان",
+      "en": "Khawr Fakkān",
+      "fr": "Khawr Fakkān",
+      "de": "Khawr Fakkān",
+      "tr": "Khawr Fakkān",
+      "ur": "Khawr Fakkān",
+      "id": "Khawr Fakkān",
+      "es": "Khawr Fakkān",
+      "bn": "Khawr Fakkān",
+      "ms": "Khawr Fakkān"
+    },
+    "aliases": {
+      "en": [
+        "Fakkan",
+        "Fakkān",
+        "Khawr Fakkan",
+        "Khawr al Fakkan",
+        "Khawr al Fakkān",
+        "Khor Fakhan",
+        "Khor Fakkan",
+        "Khor Fakkan City",
+        "Khor Fakkān",
+        "Khor al Fakhan",
+        "Khor al Fakkan",
+        "Khor al Fākhān",
+        "Khor'fakkan",
+        "Khor-Fakkan",
+        "Khorfakan",
+        "Khorfakhan",
+        "Port Khor Fakkan",
+        "mdynt khwr fkan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة الشارقة",
+      "regionEn": "Sharjah Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:291696",
+    "verified": true
+  },
+  {
+    "slug": "dibba-al-fujairah",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.59246,
+    "lng": 56.26176,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "دبا الفجيرة",
+      "en": "Dibba Al-Fujairah",
+      "fr": "Dibba Al-Fujairah",
+      "de": "Dibba Al-Fujairah",
+      "tr": "Dibba Al-Fujairah",
+      "ur": "Dibba Al-Fujairah",
+      "id": "Dibba Al-Fujairah",
+      "es": "Dibba Al-Fujairah",
+      "bn": "Dibba Al-Fujairah",
+      "ms": "Dibba Al-Fujairah"
+    },
+    "aliases": {
+      "en": [
+        "Al-Fujairah",
+        "BYB",
+        "dba alfjyrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة الفجيرة",
+      "regionEn": "Fujairah Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:292231",
+    "verified": true
+  },
+  {
+    "slug": "ar-ruways-ae",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.11028,
+    "lng": 52.73056,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "الرويس",
+      "en": "Ar Ruways",
+      "fr": "Ar Ruways",
+      "de": "Ar Ruways",
+      "tr": "Ar Ruways",
+      "ur": "Ar Ruways",
+      "id": "Ar Ruways",
+      "es": "Ar Ruways",
+      "bn": "Ar Ruways",
+      "ms": "Ar Ruways"
+    },
+    "aliases": {
+      "ar": [
+        "الرویس"
+      ],
+      "en": [
+        "Ar Ru'ays",
+        "Ar Ru’ays",
+        "Ar-Ruvais",
+        "Ruwais",
+        "alrwys",
+        "ar-Ruways",
+        "lu wa si",
+        "ruvais"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:292688",
+    "verified": true
+  },
+  {
+    "slug": "al-hamriyah",
+    "type": "village",
+    "countryCode": "ae",
+    "lat": 25.47819,
+    "lng": 55.53377,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "الحمرية",
+      "en": "Al Ḩamrīyah",
+      "fr": "Al Ḩamrīyah",
+      "de": "Al Ḩamrīyah",
+      "tr": "Al Ḩamrīyah",
+      "ur": "Al Ḩamrīyah",
+      "id": "Al Ḩamrīyah",
+      "es": "Al Ḩamrīyah",
+      "bn": "Al Ḩamrīyah",
+      "ms": "Al Ḩamrīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al Hamriya",
+        "Al Hamriyah",
+        "Hamriya",
+        "Hamriyah",
+        "Hamriyyah",
+        "alhmryt",
+        "Ḥamriyyah",
+        "Ḩamrīyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة الشارقة",
+      "regionEn": "Sharjah Emirate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:292856",
+    "verified": true
+  },
+  {
+    "slug": "hatta",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.80073,
+    "lng": 56.12726,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "حتا",
+      "en": "Ḩattā",
+      "fr": "Ḩattā",
+      "de": "Ḩattā",
+      "tr": "Ḩattā",
+      "ur": "Ḩattā",
+      "id": "Ḩattā",
+      "es": "Ḩattā",
+      "bn": "Ḩattā",
+      "ms": "Ḩattā"
+    },
+    "aliases": {
+      "en": [
+        "Al Hagarein",
+        "Al Hajarayn",
+        "Al Ḥagarein",
+        "Al Ḩajarayn",
+        "Hajarain",
+        "Hajarayn",
+        "Hajrain",
+        "Hatta",
+        "hta",
+        "Ḩajarayn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة دبي",
+      "regionEn": "Dubai Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:292862",
+    "verified": true
+  },
+  {
+    "slug": "adh-dhayd",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.28812,
+    "lng": 55.88157,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "الذيد",
+      "en": "Adh Dhayd",
+      "fr": "Adh Dhayd",
+      "de": "Adh Dhayd",
+      "tr": "Adh Dhayd",
+      "ur": "Adh Dhayd",
+      "id": "Adh Dhayd",
+      "es": "Adh Dhayd",
+      "bn": "Adh Dhayd",
+      "ms": "Adh Dhayd"
+    },
+    "aliases": {
+      "ar": [
+        "ذید"
+      ],
+      "en": [
+        "Adh Dhaid",
+        "Adh Dhed",
+        "Adh Dhēd",
+        "Al Daid",
+        "Al-Dhayd",
+        "Az-Zajd",
+        "Dayd",
+        "Dhaid",
+        "Dhayd",
+        "Duhayd",
+        "Ehd-Dajd",
+        "Ihaid",
+        "Zeyd",
+        "adh-Dhayd",
+        "aldhyd",
+        "da yi de",
+        "daid",
+        "dhyd",
+        "Ḑayd"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة الشارقة",
+      "regionEn": "Sharjah Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:292953",
+    "verified": true
+  },
+  {
+    "slug": "suwayhan",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.46235,
+    "lng": 55.33715,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "سُوَيْحَان",
+      "en": "Suwayḩān",
+      "fr": "Suwayḩān",
+      "de": "Suwayḩān",
+      "tr": "Suwayḩān",
+      "ur": "Suwayḩān",
+      "id": "Suwayḩān",
+      "es": "Suwayḩān",
+      "bn": "Suwayḩān",
+      "ms": "Suwayḩān"
+    },
+    "aliases": {
+      "en": [
+        "Suwayhan",
+        "Sweihan",
+        "suayhan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:413256",
+    "verified": true
+  },
+  {
+    "slug": "the-palm-jumeirah",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.11607,
+    "lng": 55.13506,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "نخلة الجميرة",
+      "en": "The Palm Jumeirah",
+      "fr": "The Palm Jumeirah",
+      "de": "The Palm Jumeirah",
+      "tr": "The Palm Jumeirah",
+      "ur": "The Palm Jumeirah",
+      "id": "The Palm Jumeirah",
+      "es": "The Palm Jumeirah",
+      "bn": "The Palm Jumeirah",
+      "ms": "The Palm Jumeirah"
+    },
+    "aliases": {
+      "en": [
+        "Palm Jumeirah",
+        "nkhlt aljmyrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة دبي",
+      "regionEn": "Dubai Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:6691113",
+    "verified": true
+  },
+  {
+    "slug": "bur-dubai",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.26038,
+    "lng": 55.29891,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "بر دبي",
+      "en": "Bur Dubai",
+      "fr": "Bur Dubai",
+      "de": "Bur Dubai",
+      "tr": "Bur Dubai",
+      "ur": "Bur Dubai",
+      "id": "Bur Dubai",
+      "es": "Bur Dubai",
+      "bn": "Bur Dubai",
+      "ms": "Bur Dubai"
+    },
+    "aliases": {
+      "en": [
+        "br dby"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة دبي",
+      "regionEn": "Dubai Emirate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:7289825",
+    "verified": true
+  },
+  {
+    "slug": "bani-yas-city",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.30978,
+    "lng": 54.62944,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "مدينة بني ياس",
+      "en": "Bani Yas City",
+      "fr": "Bani Yas City",
+      "de": "Bani Yas City",
+      "tr": "Bani Yas City",
+      "ur": "Bani Yas City",
+      "id": "Bani Yas City",
+      "es": "Bani Yas City",
+      "bn": "Bani Yas City",
+      "ms": "Bani Yas City"
+    },
+    "aliases": {
+      "en": [
+        "Bani Yas",
+        "mdynt bny yas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:12042052",
+    "verified": true
+  },
+  {
+    "slug": "musaffah",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.35893,
+    "lng": 54.48267,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "مصفح",
+      "en": "Musaffah",
+      "fr": "Musaffah",
+      "de": "Musaffah",
+      "tr": "Musaffah",
+      "ur": "Musaffah",
+      "id": "Musaffah",
+      "es": "Musaffah",
+      "bn": "Musaffah",
+      "ms": "Musaffah"
+    },
+    "aliases": {
+      "en": [
+        "Musaffa",
+        "Musaffah City",
+        "msfh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:12042053",
+    "verified": true
+  },
+  {
+    "slug": "al-shamkhah-city",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.39268,
+    "lng": 54.70779,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "مدينة الشامخة",
+      "en": "Al Shamkhah City",
+      "fr": "Al Shamkhah City",
+      "de": "Al Shamkhah City",
+      "tr": "Al Shamkhah City",
+      "ur": "Al Shamkhah City",
+      "id": "Al Shamkhah City",
+      "es": "Al Shamkhah City",
+      "bn": "Al Shamkhah City",
+      "ms": "Al Shamkhah City"
+    },
+    "aliases": {
+      "en": [
+        "mdynt alshamkht"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:12047416",
+    "verified": true
+  },
+  {
+    "slug": "reef-al-fujairah-city",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.14479,
+    "lng": 56.24764,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "ريف الفجيرة",
+      "en": "Reef Al Fujairah City",
+      "fr": "Reef Al Fujairah City",
+      "de": "Reef Al Fujairah City",
+      "tr": "Reef Al Fujairah City",
+      "ur": "Reef Al Fujairah City",
+      "id": "Reef Al Fujairah City",
+      "es": "Reef Al Fujairah City",
+      "bn": "Reef Al Fujairah City",
+      "ms": "Reef Al Fujairah City"
+    },
+    "aliases": {
+      "en": [
+        "ryf alfjyrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة الفجيرة",
+      "regionEn": "Fujairah Emirate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:12047417",
+    "verified": true
+  },
+  {
+    "slug": "alarad",
+    "type": "village",
+    "countryCode": "ae",
+    "lat": 23.8472,
+    "lng": 55.52719,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "العراد",
+      "en": "Al'Arad",
+      "fr": "Al'Arad",
+      "de": "Al'Arad",
+      "tr": "Al'Arad",
+      "ur": "Al'Arad",
+      "id": "Al'Arad",
+      "es": "Al'Arad",
+      "bn": "Al'Arad",
+      "ms": "Al'Arad"
+    },
+    "aliases": {
+      "en": [
+        "alʿrad"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:12470175",
+    "verified": true
+  },
+  {
+    "slug": "al-araad",
+    "type": "village",
+    "countryCode": "ae",
+    "lat": 23.86471,
+    "lng": 55.52341,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "العراد",
+      "en": "Al Araad",
+      "fr": "Al Araad",
+      "de": "Al Araad",
+      "tr": "Al Araad",
+      "ur": "Al Araad",
+      "id": "Al Araad",
+      "es": "Al Araad",
+      "bn": "Al Araad",
+      "ms": "Al Araad"
+    },
+    "aliases": {
+      "en": [
+        "alʿrad"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة أبوظبي",
+      "regionEn": "Abu Dhabi Emirate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:12470177",
+    "verified": true
+  },
+  {
+    "slug": "lahbab",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 25.03763,
+    "lng": 55.59135,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "لهباب",
+      "en": "Lahbab",
+      "fr": "Lahbab",
+      "de": "Lahbab",
+      "tr": "Lahbab",
+      "ur": "Lahbab",
+      "id": "Lahbab",
+      "es": "Lahbab",
+      "bn": "Lahbab",
+      "ms": "Lahbab"
+    },
+    "aliases": {
+      "en": [
+        "Lehbab",
+        "lhbab"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة دبي",
+      "regionEn": "Dubai Emirate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:13118439",
+    "verified": true
+  },
+  {
+    "slug": "al-madam",
+    "type": "town",
+    "countryCode": "ae",
+    "lat": 24.97355,
+    "lng": 55.77781,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "ٱlmadam",
+      "en": "Al Madam",
+      "fr": "Al Madam",
+      "de": "Al Madam",
+      "tr": "Al Madam",
+      "ur": "Al Madam",
+      "id": "Al Madam",
+      "es": "Al Madam",
+      "bn": "Al Madam",
+      "ms": "Al Madam"
+    },
+    "aliases": {
+      "ar": [
+        "ٱلْمَدَام"
+      ]
+    },
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates",
+      "regionAr": "إمارة الشارقة",
+      "regionEn": "Sharjah Emirate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:13118445",
+    "verified": true
+  },
+  {
+    "slug": "janub-as-surrah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.26917,
+    "lng": 47.97806,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "جَنُوب اَلسُّرَّة",
+      "en": "Janūb as Surrah",
+      "fr": "Janūb as Surrah",
+      "de": "Janūb as Surrah",
+      "tr": "Janūb as Surrah",
+      "ur": "Janūb as Surrah",
+      "id": "Janūb as Surrah",
+      "es": "Janūb as Surrah",
+      "bn": "Janūb as Surrah",
+      "ms": "Janūb as Surrah"
+    },
+    "aliases": {
+      "en": [
+        "Janub as Surrah",
+        "South Surra",
+        "janub aalsurat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الفروانية",
+      "regionEn": "Al Farwaniyah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:285603",
+    "verified": true
+  },
+  {
+    "slug": "az-zawr",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.4425,
+    "lng": 48.27472,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلزَّوْر",
+      "en": "Az Zawr",
+      "fr": "Az Zawr",
+      "de": "Az Zawr",
+      "tr": "Az Zawr",
+      "ur": "Az Zawr",
+      "id": "Az Zawr",
+      "es": "Az Zawr",
+      "bn": "Az Zawr",
+      "ms": "Az Zawr"
+    },
+    "aliases": {
+      "en": [
+        "Az Zaur",
+        "Az Zor",
+        "Failakka Village",
+        "Zor",
+        "aalzawr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Al Asimah Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:285673",
+    "verified": true
+  },
+  {
+    "slug": "ar-riqqah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.14583,
+    "lng": 48.09472,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الرقة",
+      "en": "Ar Riqqah",
+      "fr": "Ar Riqqah",
+      "de": "Ar Riqqah",
+      "tr": "Ar Riqqah",
+      "ur": "Ar Riqqah",
+      "id": "Ar Riqqah",
+      "es": "Ar Riqqah",
+      "bn": "Ar Riqqah",
+      "ms": "Ar Riqqah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلرِّقَّة"
+      ],
+      "en": [
+        "Al-Riqqah",
+        "Reqqa",
+        "aalriqat",
+        "alrqt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:285728",
+    "verified": true
+  },
+  {
+    "slug": "al-wafrah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 28.63917,
+    "lng": 47.93056,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "اَلْوَفْرَة",
+      "en": "Al Wafrah",
+      "fr": "Al Wafrah",
+      "de": "Al Wafrah",
+      "tr": "Al Wafrah",
+      "ur": "Al Wafrah",
+      "id": "Al Wafrah",
+      "es": "Al Wafrah",
+      "bn": "Al Wafrah",
+      "ms": "Al Wafrah"
+    },
+    "aliases": {
+      "en": [
+        "aalwafrat"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:285760",
+    "verified": true
+  },
+  {
+    "slug": "al-manqaf",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.09611,
+    "lng": 48.13278,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "المنقف",
+      "en": "Al Manqaf",
+      "fr": "Al Manqaf",
+      "de": "Al Manqaf",
+      "tr": "Al Manqaf",
+      "ur": "Al Manqaf",
+      "id": "Al Manqaf",
+      "es": "Al Manqaf",
+      "bn": "Al Manqaf",
+      "ms": "Al Manqaf"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْمَنْقَف"
+      ],
+      "en": [
+        "Al Manjaf",
+        "Al-Mangaf",
+        "Manqaf",
+        "aalmanqaf",
+        "almnqf"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:285778",
+    "verified": true
+  },
+  {
+    "slug": "al-mahbulah",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.145,
+    "lng": 48.13028,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "المهبولة",
+      "en": "Al Mahbūlah",
+      "fr": "Al Mahbūlah",
+      "de": "Al Mahbūlah",
+      "tr": "Al Mahbūlah",
+      "ur": "Al Mahbūlah",
+      "id": "Al Mahbūlah",
+      "es": "Al Mahbūlah",
+      "bn": "Al Mahbūlah",
+      "ms": "Al Mahbūlah"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْمَهْبُولَة"
+      ],
+      "en": [
+        "Al Mahbulah",
+        "Al-Mahabulah",
+        "Al-Mahabūlah",
+        "Mahboola",
+        "aalmahbulat",
+        "almhbwlt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:285782",
+    "verified": true
+  },
+  {
+    "slug": "al-funaytis",
+    "type": "village",
+    "countryCode": "kw",
+    "lat": 29.22528,
+    "lng": 48.10167,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الفنيطيس",
+      "en": "Al Funayţīs",
+      "fr": "Al Funayţīs",
+      "de": "Al Funayţīs",
+      "tr": "Al Funayţīs",
+      "ur": "Al Funayţīs",
+      "id": "Al Funayţīs",
+      "es": "Al Funayţīs",
+      "bn": "Al Funayţīs",
+      "ms": "Al Funayţīs"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْفُنَيْطِيس"
+      ],
+      "en": [
+        "Al Fanaitis",
+        "Al Funaitis",
+        "Al Funaytis",
+        "Al-Finaitees",
+        "Fanaitis",
+        "Fneitees",
+        "Fraitsass",
+        "Funaitis",
+        "Funaitís",
+        "Funaytis",
+        "Funayţīs",
+        "aalfunaytis",
+        "alfnytys"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:285810",
+    "verified": true
+  },
+  {
+    "slug": "al-fahahil",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.0825,
+    "lng": 48.13028,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الفحاحيل",
+      "en": "Al Faḩāḩīl",
+      "fr": "Al Faḩāḩīl",
+      "de": "Al Faḩāḩīl",
+      "tr": "Al Faḩāḩīl",
+      "ur": "Al Faḩāḩīl",
+      "id": "Al Faḩāḩīl",
+      "es": "Al Faḩāḩīl",
+      "bn": "Al Faḩāḩīl",
+      "ms": "Al Faḩāḩīl"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْفُحَيْحِيل"
+      ],
+      "en": [
+        "Al Fahahil",
+        "Al Fuhaihil",
+        "Al Fuhayhil",
+        "Al Fuħaiħil",
+        "Al Fuḩayḩīl",
+        "Al Ifhaihil",
+        "Al-Fahaheel",
+        "Al-Fahahhel",
+        "Al-Fahahil",
+        "Fahaheel",
+        "Fahahil",
+        "Fahaihil",
+        "Fahaihīl",
+        "Fahayhil",
+        "Fahāhīl",
+        "Faḩayḩīl",
+        "Fuhayhil",
+        "Fuḩayḩīl",
+        "aalfuhayhil",
+        "alfhahyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:285811",
+    "verified": true
+  },
+  {
+    "slug": "al-fintas",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.17389,
+    "lng": 48.12111,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "الفنطاس",
+      "en": "Al Finţās",
+      "fr": "Al Finţās",
+      "de": "Al Finţās",
+      "tr": "Al Finţās",
+      "ur": "Al Finţās",
+      "id": "Al Finţās",
+      "es": "Al Finţās",
+      "bn": "Al Finţās",
+      "ms": "Al Finţās"
+    },
+    "aliases": {
+      "ar": [
+        "اَلْفِنْطَاس"
+      ],
+      "en": [
+        "Al Fantas",
+        "Al Fintas",
+        "Al Fintass",
+        "Al Fintās",
+        "Fantas",
+        "Fantass",
+        "Fanţās",
+        "Finatus",
+        "Fintas",
+        "Fintass",
+        "Finţās",
+        "Funtas",
+        "Funtás",
+        "aalfintas",
+        "alfntas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة الأحمدي",
+      "regionEn": "Al Ahmadi Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:285812",
+    "verified": true
+  },
+  {
+    "slug": "sabah-as-salim",
+    "type": "town",
+    "countryCode": "kw",
+    "lat": 29.25722,
+    "lng": 48.05722,
+    "timezone": "Asia/Kuwait",
+    "names": {
+      "ar": "صَبَاح اَلسَّالِم",
+      "en": "Şabāḩ as Sālim",
+      "fr": "Şabāḩ as Sālim",
+      "de": "Şabāḩ as Sālim",
+      "tr": "Şabāḩ as Sālim",
+      "ur": "Şabāḩ as Sālim",
+      "id": "Şabāḩ as Sālim",
+      "es": "Şabāḩ as Sālim",
+      "bn": "Şabāḩ as Sālim",
+      "ms": "Şabāḩ as Sālim"
+    },
+    "aliases": {
+      "en": [
+        "Sabah Al Salem",
+        "Sabah as Salim",
+        "Sabah as Salim as Sabbah",
+        "sabah aalsaalim",
+        "Şabāḩ as Salim aş Sabbāḩ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الكويت",
+      "countryEn": "Kuwait",
+      "regionAr": "محافظة مبارك الكبير",
+      "regionEn": "Mubarak Al-Kabeer Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:412800",
+    "verified": true
+  },
+  {
+    "slug": "sitrah",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.15472,
+    "lng": 50.62056,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "سترة",
+      "en": "Sitrah",
+      "fr": "Sitrah",
+      "de": "Sitrah",
+      "tr": "Sitrah",
+      "ur": "Sitrah",
+      "id": "Sitrah",
+      "es": "Sitrah",
+      "bn": "Sitrah",
+      "ms": "Sitrah"
+    },
+    "aliases": {
+      "ar": [
+        "ستره",
+        "سترہ",
+        "سِتْرَة"
+      ],
+      "en": [
+        "Sitra",
+        "sitrat",
+        "strh",
+        "strt",
+        "sytrh"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Capital Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:290104",
+    "verified": true
+  },
+  {
+    "slug": "sanabis",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.22722,
+    "lng": 50.55083,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "سَنَابِس",
+      "en": "Sanābis",
+      "fr": "Sanābis",
+      "de": "Sanābis",
+      "tr": "Sanābis",
+      "ur": "Sanābis",
+      "id": "Sanābis",
+      "es": "Sanābis",
+      "bn": "Sanābis",
+      "ms": "Sanābis"
+    },
+    "aliases": {
+      "en": [
+        "As Sanabis",
+        "As Sanābīs",
+        "Sanabis",
+        "sanabis"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Capital Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:290121",
+    "verified": true
+  },
+  {
+    "slug": "madinat-isa",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.17361,
+    "lng": 50.54778,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "شهرک عیسی",
+      "en": "Madīnat ‘Īsá",
+      "fr": "Madīnat ‘Īsá",
+      "de": "Madīnat ‘Īsá",
+      "tr": "Madīnat ‘Īsá",
+      "ur": "Madīnat ‘Īsá",
+      "id": "Madīnat ‘Īsá",
+      "es": "Madīnat ‘Īsá",
+      "bn": "Madīnat ‘Īsá",
+      "ms": "Madīnat ‘Īsá"
+    },
+    "aliases": {
+      "ar": [
+        "مدينة عيسى",
+        "مدینہ عیسیٰ",
+        "مَدِينَة عِيسَى"
+      ],
+      "en": [
+        "'Isa",
+        "Isa",
+        "Isa Town",
+        "Isa by",
+        "Madinat 'Isa",
+        "Madinat Isa",
+        "Madinat `Isa",
+        "Madinat-Isa",
+        "Madinat-İsa",
+        "Mantinat Isa",
+        "Medinat Isa",
+        "Medine Isa",
+        "Medine İsa",
+        "isa sahara",
+        "isa taun",
+        "isataun",
+        "yi sa cheng"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "المحافظة الشمالية",
+      "regionEn": "Northern Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:290187",
+    "verified": true
+  },
+  {
+    "slug": "jidd-hafs",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.21861,
+    "lng": 50.54778,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "جِدّ حَفْص",
+      "en": "Jidd Ḩafş",
+      "fr": "Jidd Ḩafş",
+      "de": "Jidd Ḩafş",
+      "tr": "Jidd Ḩafş",
+      "ur": "Jidd Ḩafş",
+      "id": "Jidd Ḩafş",
+      "es": "Jidd Ḩafş",
+      "bn": "Jidd Ḩafş",
+      "ms": "Jidd Ḩafş"
+    },
+    "aliases": {
+      "en": [
+        "Djidd Hafs",
+        "Djidd Ḥafṣ",
+        "Jadd Hafs",
+        "Jid Hafs",
+        "Jidd Hafs",
+        "Judd Hafs",
+        "Judd Ḩafş",
+        "jid hafs"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Capital Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:290215",
+    "verified": true
+  },
+  {
+    "slug": "madinat-hamad",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.11528,
+    "lng": 50.50694,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "مدينة حمد",
+      "en": "Madīnat Ḩamad",
+      "fr": "Madīnat Ḩamad",
+      "de": "Madīnat Ḩamad",
+      "tr": "Madīnat Ḩamad",
+      "ur": "Madīnat Ḩamad",
+      "id": "Madīnat Ḩamad",
+      "es": "Madīnat Ḩamad",
+      "bn": "Madīnat Ḩamad",
+      "ms": "Madīnat Ḩamad"
+    },
+    "aliases": {
+      "ar": [
+        "مدینه حمد",
+        "مدینہ حمد",
+        "مَدِينَة حَمَد"
+      ],
+      "en": [
+        "Hamad Town",
+        "Hamad by",
+        "Həməd",
+        "Khamad",
+        "Madinat Hamad",
+        "Madinat Hamadas",
+        "Mantinat Chamant",
+        "ha ma de zhen",
+        "hamada sahara",
+        "hamadeutaun",
+        "hmd",
+        "madinat hamad",
+        "mdynh hmd",
+        "mdynt hmd"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "المحافظة الوسطى",
+      "regionEn": "Central Governorate (deprecated)"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:290247",
+    "verified": true
+  },
+  {
+    "slug": "dar-kulayb",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.06861,
+    "lng": 50.50389,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "دَار كُلَيْب",
+      "en": "Dār Kulayb",
+      "fr": "Dār Kulayb",
+      "de": "Dār Kulayb",
+      "tr": "Dār Kulayb",
+      "ur": "Dār Kulayb",
+      "id": "Dār Kulayb",
+      "es": "Dār Kulayb",
+      "bn": "Dār Kulayb",
+      "ms": "Dār Kulayb"
+    },
+    "aliases": {
+      "en": [
+        "Dar Chulaib",
+        "Dar Kulaib",
+        "Dar Kulayb",
+        "Dār Kulaib",
+        "dar kulayb"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "المحافظة الشمالية",
+      "regionEn": "Northern Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:290269",
+    "verified": true
+  },
+  {
+    "slug": "al-hadd",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.24556,
+    "lng": 50.65417,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "اَلْحَدّ",
+      "en": "Al Ḩadd",
+      "fr": "Al Ḩadd",
+      "de": "Al Ḩadd",
+      "tr": "Al Ḩadd",
+      "ur": "Al Ḩadd",
+      "id": "Al Ḩadd",
+      "es": "Al Ḩadd",
+      "bn": "Al Ḩadd",
+      "ms": "Al Ḩadd"
+    },
+    "aliases": {
+      "en": [
+        "Al Hadd",
+        "Al Hidd",
+        "Al Ḩidd",
+        "Hadd",
+        "Hidd",
+        "aalhad"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "محافظة المحرق",
+      "regionEn": "Muharraq Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:290363",
+    "verified": true
+  },
+  {
+    "slug": "ar-rifa",
+    "type": "town",
+    "countryCode": "bh",
+    "lat": 26.13,
+    "lng": 50.555,
+    "timezone": "Asia/Bahrain",
+    "names": {
+      "ar": "الرفاع",
+      "en": "Ar Rifā‘",
+      "fr": "Ar Rifā‘",
+      "de": "Ar Rifā‘",
+      "tr": "Ar Rifā‘",
+      "ur": "Ar Rifā‘",
+      "id": "Ar Rifā‘",
+      "es": "Ar Rifā‘",
+      "bn": "Ar Rifā‘",
+      "ms": "Ar Rifā‘"
+    },
+    "aliases": {
+      "ar": [
+        "اَلرِّفَاع",
+        "رفاع"
+      ],
+      "en": [
+        "Al-Riffa",
+        "Ar Rifa",
+        "Ar Rifa'",
+        "Ar Rifa`",
+        "Ar-Rifa",
+        "Ar-Rifa'",
+        "Ar-Rifā‘",
+        "Er Rifaa",
+        "Rifa",
+        "Riffa",
+        "Ryfa",
+        "ar-Rifa'",
+        "ar-Rifā‘",
+        "li fa",
+        "lipa",
+        "ri fi na",
+        "rifa",
+        "rihpa",
+        "ripha",
+        "riphpha",
+        "Ər-Rifa"
+      ]
+    },
+    "admin": {
+      "countryAr": "البحرين",
+      "countryEn": "Bahrain",
+      "regionAr": "المحافظة الشمالية",
+      "regionEn": "Northern Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:385038",
+    "verified": true
+  },
+  {
+    "slug": "shinas",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 24.7426,
+    "lng": 56.46698,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "شناص",
+      "en": "Shināş",
+      "fr": "Shināş",
+      "de": "Shināş",
+      "tr": "Shināş",
+      "ur": "Shināş",
+      "id": "Shināş",
+      "es": "Shināş",
+      "bn": "Shināş",
+      "ms": "Shināş"
+    },
+    "aliases": {
+      "en": [
+        "Al Shinas",
+        "Ash Shinas",
+        "Ash Shinās",
+        "Shinas",
+        "Shināṣ",
+        "shnas"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة شمال الباطنة",
+      "regionEn": "Al Batinah North Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:286402",
+    "verified": true
+  },
+  {
+    "slug": "samail",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.29838,
+    "lng": 57.9531,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "سمائل",
+      "en": "Samā’il",
+      "fr": "Samā’il",
+      "de": "Samā’il",
+      "tr": "Samā’il",
+      "ur": "Samā’il",
+      "id": "Samā’il",
+      "es": "Samā’il",
+      "bn": "Samā’il",
+      "ms": "Samā’il"
+    },
+    "aliases": {
+      "en": [
+        "Sama'il",
+        "Sumayil",
+        "smayl"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الداخلية",
+      "regionEn": "Ad Dakhiliyah Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:286590",
+    "verified": true
+  },
+  {
+    "slug": "qurayyat",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.26298,
+    "lng": 58.92014,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "قريات",
+      "en": "Qurayyāt",
+      "fr": "Qurayyāt",
+      "de": "Qurayyāt",
+      "tr": "Qurayyāt",
+      "ur": "Qurayyāt",
+      "id": "Qurayyāt",
+      "es": "Qurayyāt",
+      "bn": "Qurayyāt",
+      "ms": "Qurayyāt"
+    },
+    "aliases": {
+      "en": [
+        "Al Quraiyat",
+        "Al Quraiyāt",
+        "Al Qurayyat",
+        "Al Qurayyāt",
+        "Karyat al Kabira",
+        "Koriat",
+        "Kuryat",
+        "Kuryát",
+        "Qaryat al-Kabirah",
+        "Qaryat al-Kabīrah",
+        "Quraiyat",
+        "Qurayat",
+        "Qurayyat",
+        "Qurayāt",
+        "Quryat",
+        "Quryāt",
+        "qryat"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة مسقط",
+      "regionEn": "Muscat Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:286839",
+    "verified": true
+  },
+  {
+    "slug": "izki",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 22.93333,
+    "lng": 57.76667,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "إزكي",
+      "en": "Izkī",
+      "fr": "Izkī",
+      "de": "Izkī",
+      "tr": "Izkī",
+      "ur": "Izkī",
+      "id": "Izkī",
+      "es": "Izkī",
+      "bn": "Izkī",
+      "ms": "Izkī"
+    },
+    "aliases": {
+      "en": [
+        "Azki",
+        "Azkī",
+        "Izki",
+        "Ziki",
+        "azky"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الداخلية",
+      "regionEn": "Ad Dakhiliyah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:287814",
+    "verified": true
+  },
+  {
+    "slug": "ibri",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.22573,
+    "lng": 56.51572,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "والاية عبري",
+      "en": "‘Ibrī",
+      "fr": "‘Ibrī",
+      "de": "‘Ibrī",
+      "tr": "‘Ibrī",
+      "ur": "‘Ibrī",
+      "id": "‘Ibrī",
+      "es": "‘Ibrī",
+      "bn": "‘Ibrī",
+      "ms": "‘Ibrī"
+    },
+    "aliases": {
+      "en": [
+        "Ibri",
+        "`Ibri",
+        "walayt ʿbry",
+        "'Ibri"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الظاهرة (قديم)",
+      "regionEn": "Az Zahirah (legacy)"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:287830",
+    "verified": true
+  },
+  {
+    "slug": "bahla",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 22.97886,
+    "lng": 57.3047,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "بهلاء",
+      "en": "Bahlā’",
+      "fr": "Bahlā’",
+      "de": "Bahlā’",
+      "tr": "Bahlā’",
+      "ur": "Bahlā’",
+      "id": "Bahlā’",
+      "es": "Bahlā’",
+      "bn": "Bahlā’",
+      "ms": "Bahlā’"
+    },
+    "aliases": {
+      "en": [
+        "Bahla'",
+        "Bahlah"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الداخلية",
+      "regionEn": "Ad Dakhiliyah Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:288899",
+    "verified": true
+  },
+  {
+    "slug": "as-suwayq",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.84944,
+    "lng": 57.43861,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "السويق",
+      "en": "As Suwayq",
+      "fr": "As Suwayq",
+      "de": "As Suwayq",
+      "tr": "As Suwayq",
+      "ur": "As Suwayq",
+      "id": "As Suwayq",
+      "es": "As Suwayq",
+      "bn": "As Suwayq",
+      "ms": "As Suwayq"
+    },
+    "aliases": {
+      "en": [
+        "As Suwaiq",
+        "Suwaik",
+        "Suwayq",
+        "alswyq"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة شمال الباطنة",
+      "regionEn": "Al Batinah North Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:288955",
+    "verified": true
+  },
+  {
+    "slug": "seeb",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.67027,
+    "lng": 58.18911,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "السيب",
+      "en": "Seeb",
+      "fr": "Seeb",
+      "de": "Seeb",
+      "tr": "Seeb",
+      "ur": "Seeb",
+      "id": "Seeb",
+      "es": "Seeb",
+      "bn": "Seeb",
+      "ms": "Seeb"
+    },
+    "aliases": {
+      "ar": [
+        "السيب الجديدة",
+        "السیب"
+      ],
+      "en": [
+        "Al-Sib",
+        "Al-Sīb",
+        "As Seeb al Jadidah",
+        "As Sib",
+        "As Sib al Jadidah",
+        "As Sīb",
+        "As Sīb al Jadīdah",
+        "As-Sib",
+        "Ehs-Sib",
+        "Sib",
+        "Sybas",
+        "Szib",
+        "Szíb",
+        "Síb",
+        "alsyb",
+        "alsyb aljdydt",
+        "sibeu",
+        "xi bo"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة مسقط",
+      "regionEn": "Muscat Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:288967",
+    "verified": true
+  },
+  {
+    "slug": "rustaq",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.39083,
+    "lng": 57.42444,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "الرستاق",
+      "en": "Rustaq",
+      "fr": "Rustaq",
+      "de": "Rustaq",
+      "tr": "Rustaq",
+      "ur": "Rustaq",
+      "id": "Rustaq",
+      "es": "Rustaq",
+      "bn": "Rustaq",
+      "ms": "Rustaq"
+    },
+    "aliases": {
+      "en": [
+        "Ar Rustaq",
+        "Ar Rustāq",
+        "MNH",
+        "Qal`at Kasra",
+        "Qal‘at Kasrá",
+        "Rostak",
+        "Rustaka",
+        "Rustāq",
+        "alrstaq"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة شمال الباطنة (قديم)",
+      "regionEn": "Al Batinah (legacy)"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:289011",
+    "verified": true
+  },
+  {
+    "slug": "al-qabil",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 22.571,
+    "lng": 58.69472,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "القابل",
+      "en": "Al Qābil",
+      "fr": "Al Qābil",
+      "de": "Al Qābil",
+      "tr": "Al Qābil",
+      "ur": "Al Qābil",
+      "id": "Al Qābil",
+      "es": "Al Qābil",
+      "bn": "Al Qābil",
+      "ms": "Al Qābil"
+    },
+    "aliases": {
+      "en": [
+        "Al Qabil",
+        "Gabil",
+        "Qabil",
+        "Qabil al Hirth",
+        "Qābil al Hirth",
+        "alqabl"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة شمال الشرقية",
+      "regionEn": "Ash Sharqiyah North Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289142",
+    "verified": true
+  },
+  {
+    "slug": "al-mazim",
+    "type": "village",
+    "countryCode": "om",
+    "lat": 23.40194,
+    "lng": 56.28306,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "المازم",
+      "en": "Al Māzim",
+      "fr": "Al Māzim",
+      "de": "Al Māzim",
+      "tr": "Al Māzim",
+      "ur": "Al Māzim",
+      "id": "Al Māzim",
+      "es": "Al Māzim",
+      "bn": "Al Māzim",
+      "ms": "Al Māzim"
+    },
+    "aliases": {
+      "en": [
+        "Al Ma'zam",
+        "Al Ma'zim",
+        "Al Mazim",
+        "Al Ma’zam",
+        "Al Ma’zim",
+        "Ma'zam",
+        "Mazim",
+        "Mazum",
+        "Ma’zam",
+        "Māzim",
+        "almazm"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الظاهرة (قديم)",
+      "regionEn": "Az Zahirah (legacy)"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:289162",
+    "verified": true
+  },
+  {
+    "slug": "liwa",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 24.53077,
+    "lng": 56.563,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "لوى",
+      "en": "Liwá",
+      "fr": "Liwá",
+      "de": "Liwá",
+      "tr": "Liwá",
+      "ur": "Liwá",
+      "id": "Liwá",
+      "es": "Liwá",
+      "bn": "Liwá",
+      "ms": "Liwá"
+    },
+    "aliases": {
+      "en": [
+        "Al Liwa'",
+        "Al Liwā’",
+        "Hillat al Hisn",
+        "Liwa",
+        "Liwa'",
+        "Liwa’",
+        "Liwā’",
+        "lwy",
+        "Ḩillat al Ḩisn"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة شمال الباطنة",
+      "regionEn": "Al Batinah North Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289174",
+    "verified": true
+  },
+  {
+    "slug": "al-khaburah",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.97144,
+    "lng": 57.09313,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "الخابورة",
+      "en": "Al Khābūrah",
+      "fr": "Al Khābūrah",
+      "de": "Al Khābūrah",
+      "tr": "Al Khābūrah",
+      "ur": "Al Khābūrah",
+      "id": "Al Khābūrah",
+      "es": "Al Khābūrah",
+      "bn": "Al Khābūrah",
+      "ms": "Al Khābūrah"
+    },
+    "aliases": {
+      "en": [
+        "Al Khabura",
+        "Al Khaburah",
+        "Al Khābūra",
+        "Al-Khabourah",
+        "Khabura",
+        "Khaburah",
+        "Khābūrah",
+        "alkhabwrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة شمال الباطنة",
+      "regionEn": "Al Batinah North Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:289199",
+    "verified": true
+  },
+  {
+    "slug": "adam",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 22.37934,
+    "lng": 57.52718,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "أدم",
+      "en": "Adam",
+      "fr": "Adam",
+      "de": "Adam",
+      "tr": "Adam",
+      "ur": "Adam",
+      "id": "Adam",
+      "es": "Adam",
+      "bn": "Adam",
+      "ms": "Adam"
+    },
+    "aliases": {
+      "en": [
+        "AOM",
+        "adm",
+        "Ādam"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الداخلية",
+      "regionEn": "Ad Dakhiliyah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:289433",
+    "verified": true
+  },
+  {
+    "slug": "madha-al-jadidah",
+    "type": "village",
+    "countryCode": "om",
+    "lat": 25.28345,
+    "lng": 56.3328,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "مدحاء الجديدة",
+      "en": "Madḩā’ al Jadīdah",
+      "fr": "Madḩā’ al Jadīdah",
+      "de": "Madḩā’ al Jadīdah",
+      "tr": "Madḩā’ al Jadīdah",
+      "ur": "Madḩā’ al Jadīdah",
+      "id": "Madḩā’ al Jadīdah",
+      "es": "Madḩā’ al Jadīdah",
+      "bn": "Madḩā’ al Jadīdah",
+      "ms": "Madḩā’ al Jadīdah"
+    },
+    "aliases": {
+      "en": [
+        "Madha",
+        "Madha' al Jadidah",
+        "Madhah",
+        "Madkha",
+        "Madḥā’ al Jadīdah",
+        "Madḩah"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة مسندم",
+      "regionEn": "Musandam Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:291586",
+    "verified": true
+  },
+  {
+    "slug": "yanqul",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 23.58645,
+    "lng": 56.53969,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "ينقل",
+      "en": "Yanqul",
+      "fr": "Yanqul",
+      "de": "Yanqul",
+      "tr": "Yanqul",
+      "ur": "Yanqul",
+      "id": "Yanqul",
+      "es": "Yanqul",
+      "bn": "Yanqul",
+      "ms": "Yanqul"
+    },
+    "aliases": {
+      "en": [
+        "ynql"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة الظاهرة (قديم)",
+      "regionEn": "Az Zahirah (legacy)"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:411849",
+    "verified": true
+  },
+  {
+    "slug": "al-mazyunah",
+    "type": "town",
+    "countryCode": "om",
+    "lat": 17.83836,
+    "lng": 52.66042,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "المزيونة",
+      "en": "Al Mazyūnah",
+      "fr": "Al Mazyūnah",
+      "de": "Al Mazyūnah",
+      "tr": "Al Mazyūnah",
+      "ur": "Al Mazyūnah",
+      "id": "Al Mazyūnah",
+      "es": "Al Mazyūnah",
+      "bn": "Al Mazyūnah",
+      "ms": "Al Mazyūnah"
+    },
+    "aliases": {
+      "en": [
+        "Al Mazyunah",
+        "almzywnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة ظفار",
+      "regionEn": "Dhofar Governorate"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:8549596",
+    "verified": true
+  },
+  {
+    "slug": "madha",
+    "type": "village",
+    "countryCode": "om",
+    "lat": 25.28357,
+    "lng": 56.33196,
+    "timezone": "Asia/Muscat",
+    "names": {
+      "ar": "مدحاء",
+      "en": "Madḩā’",
+      "fr": "Madḩā’",
+      "de": "Madḩā’",
+      "tr": "Madḩā’",
+      "ur": "Madḩā’",
+      "id": "Madḩā’",
+      "es": "Madḩā’",
+      "bn": "Madḩā’",
+      "ms": "Madḩā’"
+    },
+    "aliases": {
+      "en": [
+        "Madha'",
+        "Madḥā’"
+      ]
+    },
+    "admin": {
+      "countryAr": "سلطنة عمان",
+      "countryEn": "Oman",
+      "regionAr": "محافظة مسندم",
+      "regionEn": "Musandam Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:13440142",
+    "verified": true
   }
 ]

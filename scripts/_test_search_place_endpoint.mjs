@@ -942,6 +942,118 @@ for (const [q, lang, expectCC, mustEqOrContain] of curated150) {
     await sleep(150); // pace under cheap-tier (300/min) rate limit
 }
 
+console.log('\n── CURATED-ARAB-COMPLETE-1 (Phase 2026-05-13) ──');
+
+// Each Syrian city we added MUST hit tier 1 (curated). If any falls
+// through to discovered or external, the seed data is wrong.
+const arabComplete = [
+    // Syria — all 16 listed by the user
+    ['حماة',                'ar', 'sy', 'حماة'],
+    ['Hama',                 'en', 'sy', 'Hama'],
+    ['حمص',                'ar', 'sy', 'حمص'],
+    ['Homs',                 'en', 'sy', 'Homs'],
+    ['اللاذقية',           'ar', 'sy', 'اللاذقية'],
+    ['Latakia',              'en', 'sy', 'Latakia'],
+    ['طرطوس',              'ar', 'sy', 'طرطوس'],
+    ['دير الزور',          'ar', 'sy', 'دير الزور'],
+    ['Raqqa',                'en', 'sy', 'Raqqa'],
+    ['إدلب',                'ar', 'sy', 'إدلب'],
+    ['درعا',                'ar', 'sy', 'درعا'],
+    ['القامشلي',           'ar', 'sy', 'القامشلي'],
+    ['الحسكة',             'ar', 'sy', 'الحسكة'],
+    ['Manbij',               'en', 'sy', 'Manbij'],
+    // Yemen
+    ['تعز',                  'ar', 'ye', 'تعز'],
+    ['الحديدة',             'ar', 'ye', 'الحديدة'],
+    // Libya
+    ['مصراتة',             'ar', 'ly', 'مصراتة'],
+    ['Misrata',              'en', 'ly', 'Misrata'],
+    // Palestine
+    ['نابلس',              'ar', 'ps', 'نابلس'],
+    ['الخليل',             'ar', 'ps', 'الخليل'],
+    ['Hebron',               'en', 'ps', 'Hebron'],
+    // Iraq
+    ['كربلاء',             'ar', 'iq', 'كربلاء'],
+    ['Karbala',              'en', 'iq', 'Karbala'],
+    ['كركوك',              'ar', 'iq', 'كركوك'],
+    ['السليمانية',          'ar', 'iq', 'السليمانية'],
+    // Sudan
+    ['أم درمان',            'ar', 'sd', 'أم درمان'],
+    // Lebanon
+    ['صيدا',                'ar', 'lb', 'صيدا'],
+    // Jordan
+    ['الزرقاء',             'ar', 'jo', 'الزرقاء'],
+    ['Aqaba',                'en', 'jo', 'Aqaba'],
+    // Morocco
+    ['طنجة',                'ar', 'ma', 'طنجة'],
+    ['Tangier',              'en', 'ma', 'Tangier'],
+    // Algeria
+    ['عنابة',              'ar', 'dz', 'عنابة'],
+    // Tunisia
+    ['سوسة',                'ar', 'tn', 'سوسة'],
+    ['Kairouan',             'en', 'tn', 'Kairouan'],
+    // Mauritania
+    ['نواذيبو',             'ar', 'mr', 'نواذيبو'],
+];
+for (const [q, lang, expectCC, expectName] of arabComplete) {
+    const r = await topOfQ(q, lang);
+    const got = r ? r.displayName : '(none)';
+    const cc  = r ? r.countryCode : '(none)';
+    const src = r ? r.source       : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === expectCC;
+    const okReady   = r && isPrayerTimesReady(r);
+    const okName    = !expectName || got === expectName || got.includes(expectName);
+    check(`${q} (${lang}) → curated cc=${expectCC} name="${expectName}" [got src=${src}, cc=${cc}, name="${got}"]`,
+        okCurated && okCC && okReady && okName);
+    await sleep(150);
+}
+
+console.log('\n── EXTERNAL-FAIL-UX-1: response shape ──');
+
+// New top-level fields in the JSON response: source + status.
+// Per EXTERNAL-FAIL-UX-1, these must be present on EVERY response, including
+// when results is empty. They drive the UI message logic.
+{
+    const data = await search('Riyadh', 'ar');
+    check('Riyadh response has top-level `source` (string)',
+        data && typeof data.source === 'string');
+    check('Riyadh response has top-level `status` (string)',
+        data && typeof data.status === 'string');
+    check('Riyadh `source` === "curated"',
+        data && data.source === 'curated');
+    check('Riyadh `status` === "ok"',
+        data && data.status === 'ok');
+}
+
+// A query that (a) doesn't match any curated city as substring AND
+// (b) is short enough that external isn't called (q.length < 2 guard).
+// Before EXTERNAL-FAIL-UX-1, this would have returned source='curated'
+// despite results=[] — the misleading default. Now it should be 'none'.
+{
+    const data = await search(';', 'en');
+    check('Single-char `;` → results empty',
+        data && Array.isArray(data.results) && data.results.length === 0);
+    check('Single-char `;` → source === "none" (default, not misleading "curated")',
+        data && data.source === 'none');
+    check('Single-char `;` → status === "empty"',
+        data && data.status === 'empty');
+}
+
+// Bogus query that won't match curated/discovered AND won't have a cache.
+// We don't assert a specific status — Nominatim could return 'empty' for
+// nonsense OR 'rate_limited' if Render IP is throttled. Just assert shape.
+{
+    const data = await search('zzzzqqqq-NO-SUCH-PLACE-xyz', 'en');
+    check('Bogus query → results empty',
+        data && Array.isArray(data.results) && data.results.length === 0);
+    check('Bogus query → status is one of empty/rate_limited/error/too_short',
+        data && ['empty','rate_limited','error','too_short'].includes(data.status));
+    check('Bogus query → source is one of external/none',
+        data && ['external','none'].includes(data.source));
+    await sleep(150);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

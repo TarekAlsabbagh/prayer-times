@@ -645,12 +645,21 @@ async function _fetchNominatimWithTimeout(query, lang, timeoutMs) {
 // ─────────────────────────────────────────────────────────────────────────
 // _searchExternalPlaces — final tier of /api/search-place. Cascades through
 // Supabase external_cache → in-memory cache → single-flight → Nominatim.
-// Returns the normalized array of place rows (same shape callers expected
-// before — pure under-the-hood refactor).
+//
+// EXTERNAL-FAIL-UX-1 (2026-05-13): now returns `{ results, status }` instead
+// of just an array. The callers (handler at /api/search-place) need the
+// status separately so they can tell the user *why* results are empty:
+//   'ok'           → at least one result returned successfully
+//   'empty'        → Nominatim returned 0 results for this query (real "not found")
+//   'rate_limited' → Nominatim 429'd (or cached 429 from prior call within 1h)
+//   'error'        → timeout / network failure / 5xx
+//   'too_short'    → query was < 2 or > 80 chars; we don't ask Nominatim
 // ─────────────────────────────────────────────────────────────────────────
 async function _searchExternalPlaces(query, lang) {
     const q = String(query || '').trim();
-    if (q.length < 2 || q.length > 80) return [];
+    if (q.length < 2 || q.length > 80) {
+        return { results: [], status: 'too_short' };
+    }
     const langCode = _SUPPORTED_LANGS.includes(lang) ? lang : 'ar';
 
     // Cache key is lang-AGNOSTIC because we always hit Nominatim with
@@ -669,14 +678,20 @@ async function _searchExternalPlaces(query, lang) {
                 status:   row.status,
                 expiresAt: new Date(row.expires_at).getTime()
             });
-            return _localizeRawNominatim(row.response, langCode);
+            return {
+                results: _localizeRawNominatim(row.response, langCode),
+                status: row.status
+            };
         }
     }
 
     // 3b. In-process memory cache (lifetime of this Node process).
     const memHit = _externalMemCache.get(cacheKey);
     if (memHit && memHit.expiresAt > Date.now()) {
-        return _localizeRawNominatim(memHit.response, langCode);
+        return {
+            results: _localizeRawNominatim(memHit.response, langCode),
+            status: memHit.status
+        };
     }
 
     // 3c. Single-flight: if another request is already fetching this same
@@ -721,14 +736,16 @@ async function _searchExternalPlaces(query, lang) {
                 _saveExternalCache(cacheKey, 'nominatim', 'raw', q, raw, status, ttl)
                     .catch(() => {});
             }
-            return raw;
+            return { raw, status };
         })();
         _externalInflight.set(cacheKey, inflight);
     }
 
-    let raw;
+    let raw, status;
     try {
-        raw = await inflight;
+        const r = await inflight;
+        raw    = r.raw;
+        status = r.status;
     } finally {
         // Clear in-flight slot when the fetch resolves (or rejects).
         // Note: only the request that CREATED the inflight clears it —
@@ -738,7 +755,10 @@ async function _searchExternalPlaces(query, lang) {
         }
     }
 
-    return _localizeRawNominatim(raw, langCode);
+    return {
+        results: _localizeRawNominatim(raw, langCode),
+        status
+    };
 }
 
 // Pure CPU step — turn cached raw Nominatim rows into the
@@ -20810,9 +20830,19 @@ const server = http.createServer(async (req, res) => {
                 const q   = String(_qs2.get('q') || '').trim();
                 const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
                 const lang = _SUPPORTED_LANGS.includes(langRaw) ? langRaw : 'ar';
+                // EXTERNAL-FAIL-UX-1 (2026-05-13): track BOTH `source` and
+                // `status` separately so the UI can show different messages:
+                //   - results > 0           → status='ok'
+                //   - all tiers tried, 0    → status reflects last tier's
+                //                              outcome ('empty', 'rate_limited',
+                //                              'error', 'too_short')
+                // Default source='none' avoids the bug where empty-after-fail
+                // got tagged as 'curated' (misleading).
+                let source = 'none';
+                let status = 'empty';
                 // PHASE A — curated first (always synchronous, instant).
                 let results = _searchCuratedPlaces(q, lang);
-                let source = 'curated';
+                if (results.length > 0) { source = 'curated'; status = 'ok'; }
                 // PHASE C — when curated returns 0, try the discovered_places
                 // store in Supabase. Already-clicked external cities live
                 // here and resolve faster than re-querying Nominatim. Gated
@@ -20823,32 +20853,45 @@ const server = http.createServer(async (req, res) => {
                         if (Array.isArray(discovered) && discovered.length > 0) {
                             results = discovered;
                             source = 'discovered';
+                            status = 'ok';
                         }
                     } catch (_) { /* fall through */ }
                 }
                 // PHASE B — when curated AND discovered are both empty,
                 // fall back to external (server-side Nominatim with strict
                 // validation). The browser NEVER sees Nominatim.
+                //
+                // EXTERNAL-FAIL-UX-1: even when external returns 0 (rate_limited
+                // / error / empty), we mark source='external' + propagate the
+                // status so the UI can render the right message instead of a
+                // misleading "no results" generic.
                 if (results.length === 0 && q.length >= 2) {
                     try {
-                        const external = await _searchExternalPlaces(q, lang);
-                        if (Array.isArray(external) && external.length > 0) {
-                            results = external;
-                            source = 'external';
+                        const ext = await _searchExternalPlaces(q, lang);
+                        source = 'external';
+                        if (ext && Array.isArray(ext.results) && ext.results.length > 0) {
+                            results = ext.results;
+                            status  = 'ok';
+                        } else {
+                            status = (ext && ext.status) || 'empty';
                         }
-                    } catch (_) { /* fall through with empty */ }
+                    } catch (_) {
+                        source = 'external';
+                        status = 'error';
+                    }
                 }
                 res.writeHead(200, {
                     'Content-Type': 'application/json; charset=utf-8',
                     'Cache-Control': 'no-store',
                     'Access-Control-Allow-Origin': '*',
-                    'X-Search-Source': source
+                    'X-Search-Source': source,
+                    'X-Search-Status': status
                 });
-                res.end(JSON.stringify({ results }));
+                res.end(JSON.stringify({ results, source, status }));
             } catch (_e) {
                 try {
                     res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-                    res.end(JSON.stringify({ results: [], error: 'internal' }));
+                    res.end(JSON.stringify({ results: [], source: 'none', status: 'error', error: 'internal' }));
                 } catch (_) {}
             }
         })();

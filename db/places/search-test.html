@@ -328,10 +328,28 @@
             return true;
         }
 
-        function renderResults(results) {
+        // EXTERNAL-FAIL-UX-1 (2026-05-13): two-message UX. When the API
+        // reports status=rate_limited / error / timeout, the user sees a
+        // clear "temporarily unavailable" message rather than a misleading
+        // "no results". The status comes from the JSON body (and is also
+        // mirrored in the X-Search-Status header).
+        function showEmptyWithStatus(status) {
+            const externalDown = (status === 'rate_limited' || status === 'error' || status === 'timeout');
+            const msg = externalDown
+                ? (IS_AR
+                    ? 'تعذّر البحث الخارجي مؤقتاً. جرّب مرة أخرى بعد قليل، أو ابحث باسم مدينة أكبر قريبة.'
+                    : 'External place search is temporarily unavailable. Please try again shortly.')
+                : (IS_AR ? 'لا توجد نتائج' : 'No results');
+            box.innerHTML = '<div class="search-test-empty"'
+                + (externalDown ? ' data-status="' + escapeHtml(status) + '"' : '')
+                + '>' + escapeHtml(msg) + '</div>';
+            box.hidden = false;
+        }
+
+        function renderResults(results, status) {
             lastResults = Array.isArray(results) ? results.filter(isPrayerTimesReady) : [];
             if (!lastResults.length) {
-                showEmpty(IS_AR ? 'لا توجد نتائج' : 'No results');
+                showEmptyWithStatus(status || 'empty');
                 return;
             }
             // SEARCH-UI-1: render each result with a country flag + a
@@ -452,7 +470,12 @@
                     return;
                 }
                 const data = await res.json();
-                renderResults(data && Array.isArray(data.results) ? data.results : []);
+                // EXTERNAL-FAIL-UX-1: pass status alongside results so the
+                // renderer can choose between "no results" and "external
+                // temporarily unavailable".
+                const results = (data && Array.isArray(data.results)) ? data.results : [];
+                const status  = (data && typeof data.status === 'string') ? data.status : 'ok';
+                renderResults(results, status);
             } catch (_e) {
                 showEmpty(IS_AR ? 'تعذّر الاتصال' : 'Network error');
             }

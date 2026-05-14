@@ -8956,5 +8956,1996 @@
     "priority": 82,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "hama",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.1318,
+    "lng": 36.7578,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "حماة",
+      "en": "Hama",
+      "fr": "Hama",
+      "de": "Hama",
+      "tr": "Hama",
+      "ur": "حماہ",
+      "id": "Hama",
+      "es": "Hama",
+      "bn": "হামা",
+      "ms": "Hama"
+    },
+    "aliases": {
+      "ar": [
+        "حماة",
+        "حماه"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "homs",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 34.7324,
+    "lng": 36.7137,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "حمص",
+      "en": "Homs",
+      "fr": "Homs",
+      "de": "Homs",
+      "tr": "Humus",
+      "ur": "حمص",
+      "id": "Homs",
+      "es": "Homs",
+      "bn": "হোমস",
+      "ms": "Homs"
+    },
+    "aliases": {
+      "ar": [
+        "حمص"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 85,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "latakia",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.5168,
+    "lng": 35.7811,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "اللاذقية",
+      "en": "Latakia",
+      "fr": "Lattaquié",
+      "de": "Latakia",
+      "tr": "Lazkiye",
+      "ur": "لاذقیہ",
+      "id": "Latakia",
+      "es": "Latakia",
+      "bn": "লাতাকিয়া",
+      "ms": "Latakia"
+    },
+    "aliases": {
+      "ar": [
+        "اللاذقية",
+        "لاذقية"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tartus",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 34.8959,
+    "lng": 35.8867,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "طرطوس",
+      "en": "Tartus",
+      "fr": "Tartous",
+      "de": "Tartus",
+      "tr": "Tartus",
+      "ur": "طرطوس",
+      "id": "Tartus",
+      "es": "Tartus",
+      "bn": "তারতুস",
+      "ms": "Tartus"
+    },
+    "aliases": {
+      "ar": [
+        "طرطوس"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "deir-ez-zor",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.3357,
+    "lng": 40.1408,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "دير الزور",
+      "en": "Deir ez-Zor",
+      "fr": "Deir ez-Zor",
+      "de": "Dair az-Zaur",
+      "tr": "Deyrizor",
+      "ur": "دیر الزور",
+      "id": "Deir ez-Zor",
+      "es": "Deir ez-Zor",
+      "bn": "দেইর এজ-জোর",
+      "ms": "Deir ez-Zor"
+    },
+    "aliases": {
+      "ar": [
+        "دير الزور",
+        "ديرالزور"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "raqqa",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.9528,
+    "lng": 39.0078,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الرقة",
+      "en": "Raqqa",
+      "fr": "Raqqa",
+      "de": "Raqqa",
+      "tr": "Rakka",
+      "ur": "رقہ",
+      "id": "Raqqa",
+      "es": "Raqa",
+      "bn": "রাক্কা",
+      "ms": "Raqqa"
+    },
+    "aliases": {
+      "ar": [
+        "الرقة",
+        "رقة"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "idlib",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.9333,
+    "lng": 36.6333,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "إدلب",
+      "en": "Idlib",
+      "fr": "Idleb",
+      "de": "Idlib",
+      "tr": "İdlib",
+      "ur": "ادلب",
+      "id": "Idlib",
+      "es": "Idlib",
+      "bn": "ইদলিব",
+      "ms": "Idlib"
+    },
+    "aliases": {
+      "ar": [
+        "إدلب",
+        "ادلب"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "daraa",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 32.6189,
+    "lng": 36.1058,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "درعا",
+      "en": "Daraa",
+      "fr": "Deraa",
+      "de": "Daraa",
+      "tr": "Deraa",
+      "ur": "درعا",
+      "id": "Daraa",
+      "es": "Deraa",
+      "bn": "দারা",
+      "ms": "Daraa"
+    },
+    "aliases": {
+      "ar": [
+        "درعا"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "as-suwayda",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 32.7095,
+    "lng": 36.5666,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "السويداء",
+      "en": "As-Suwayda",
+      "fr": "Soueïda",
+      "de": "as-Suwaida",
+      "tr": "Süveyda",
+      "ur": "السويداء",
+      "id": "As-Suwayda",
+      "es": "Sweida",
+      "bn": "সুওয়েদা",
+      "ms": "As-Suwayda"
+    },
+    "aliases": {
+      "ar": [
+        "السويداء",
+        "سويداء"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "qamishli",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 37.0526,
+    "lng": 41.231,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "القامشلي",
+      "en": "Qamishli",
+      "fr": "Qamichli",
+      "de": "al-Qamishli",
+      "tr": "Kamışlı",
+      "ur": "قامشلی",
+      "id": "Qamishli",
+      "es": "Qamishli",
+      "bn": "কামিশলি",
+      "ms": "Qamishli"
+    },
+    "aliases": {
+      "ar": [
+        "القامشلي",
+        "قامشلي"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-hasakah",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 36.5117,
+    "lng": 40.7464,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الحسكة",
+      "en": "Al-Hasakah",
+      "fr": "Hassaké",
+      "de": "al-Hasaka",
+      "tr": "Haseke",
+      "ur": "الحسکہ",
+      "id": "Al-Hasakah",
+      "es": "Hassaka",
+      "bn": "আল-হাসাকা",
+      "ms": "Al-Hasakah"
+    },
+    "aliases": {
+      "ar": [
+        "الحسكة",
+        "حسكة"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "manbij",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 36.5283,
+    "lng": 37.9554,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "منبج",
+      "en": "Manbij",
+      "fr": "Manbij",
+      "de": "Manbidsch",
+      "tr": "Münbiç",
+      "ur": "منبج",
+      "id": "Manbij",
+      "es": "Manbij",
+      "bn": "মানবিজ",
+      "ms": "Manbij"
+    },
+    "aliases": {
+      "ar": [
+        "منبج"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 72,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-bab",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 36.37,
+    "lng": 37.5167,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الباب",
+      "en": "Al-Bab",
+      "fr": "Al-Bab",
+      "de": "al-Bab",
+      "tr": "El-Bab",
+      "ur": "الباب",
+      "id": "Al-Bab",
+      "es": "Al-Bab",
+      "bn": "আল-বাব",
+      "ms": "Al-Bab"
+    },
+    "aliases": {
+      "ar": [
+        "الباب"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "azaz",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 36.587,
+    "lng": 37.047,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "أعزاز",
+      "en": "Azaz",
+      "fr": "Azaz",
+      "de": "A'zaz",
+      "tr": "Azez",
+      "ur": "اعزاز",
+      "id": "Azaz",
+      "es": "Azaz",
+      "bn": "আজাজ",
+      "ms": "Azaz"
+    },
+    "aliases": {
+      "ar": [
+        "أعزاز",
+        "اعزاز"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "saraqib",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.8629,
+    "lng": 36.8082,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "سراقب",
+      "en": "Saraqib",
+      "fr": "Saraqeb",
+      "de": "Saraqib",
+      "tr": "Sarakıb",
+      "ur": "سراقب",
+      "id": "Saraqib",
+      "es": "Saraqib",
+      "bn": "সারাকিব",
+      "ms": "Saraqib"
+    },
+    "aliases": {
+      "ar": [
+        "سراقب"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "maarat-al-numan",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 35.6431,
+    "lng": 36.6699,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "معرة النعمان",
+      "en": "Maarat al-Numan",
+      "fr": "Maarat an-Numan",
+      "de": "Ma'arrat an-Nu'man",
+      "tr": "Maarat al-Numan",
+      "ur": "معرة النعمان",
+      "id": "Maarat al-Numan",
+      "es": "Maarat al-Numan",
+      "bn": "মা'আরাত আল-নুমান",
+      "ms": "Maarat al-Numan"
+    },
+    "aliases": {
+      "ar": [
+        "معرة النعمان",
+        "معرة نعمان"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "taiz",
+    "type": "city",
+    "countryCode": "ye",
+    "lat": 13.5795,
+    "lng": 44.0209,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "تعز",
+      "en": "Taiz",
+      "fr": "Taëz",
+      "de": "Taizz",
+      "tr": "Taiz",
+      "ur": "تعز",
+      "id": "Taiz",
+      "es": "Taiz",
+      "bn": "তায়েজ",
+      "ms": "Taiz"
+    },
+    "aliases": {
+      "ar": [
+        "تعز",
+        "تعزّ"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hodeidah",
+    "type": "city",
+    "countryCode": "ye",
+    "lat": 14.7978,
+    "lng": 42.9545,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "الحديدة",
+      "en": "Hodeidah",
+      "fr": "Hodeïda",
+      "de": "al-Hudaida",
+      "tr": "Hudeyde",
+      "ur": "الحدیدہ",
+      "id": "Hodeidah",
+      "es": "Al Hudayda",
+      "bn": "হুদায়দাহ",
+      "ms": "Hodeidah"
+    },
+    "aliases": {
+      "ar": [
+        "الحديدة",
+        "حديدة"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ibb",
+    "type": "city",
+    "countryCode": "ye",
+    "lat": 13.9667,
+    "lng": 44.1833,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "إب",
+      "en": "Ibb",
+      "fr": "Ibb",
+      "de": "Ibb",
+      "tr": "İbb",
+      "ur": "اب",
+      "id": "Ibb",
+      "es": "Ibb",
+      "bn": "ইব",
+      "ms": "Ibb"
+    },
+    "aliases": {
+      "ar": [
+        "إب",
+        "اب"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mukalla",
+    "type": "city",
+    "countryCode": "ye",
+    "lat": 14.5424,
+    "lng": 49.1242,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "المكلا",
+      "en": "Mukalla",
+      "fr": "Moukalla",
+      "de": "Mukalla",
+      "tr": "Mukalla",
+      "ur": "مکلا",
+      "id": "Mukalla",
+      "es": "Al-Mukalla",
+      "bn": "মুকাল্লা",
+      "ms": "Mukalla"
+    },
+    "aliases": {
+      "ar": [
+        "المكلا",
+        "مكلا"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "saada",
+    "type": "city",
+    "countryCode": "ye",
+    "lat": 16.9402,
+    "lng": 43.7635,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "صعدة",
+      "en": "Saada",
+      "fr": "Saada",
+      "de": "Saada",
+      "tr": "Sada",
+      "ur": "صعدہ",
+      "id": "Saada",
+      "es": "Saada",
+      "bn": "সাদা",
+      "ms": "Saada"
+    },
+    "aliases": {
+      "ar": [
+        "صعدة"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen"
+    },
+    "priority": 72,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "misrata",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.3754,
+    "lng": 15.0925,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "مصراتة",
+      "en": "Misrata",
+      "fr": "Misrata",
+      "de": "Misrata",
+      "tr": "Misrata",
+      "ur": "مصراتہ",
+      "id": "Misrata",
+      "es": "Misrata",
+      "bn": "মিসরাতা",
+      "ms": "Misrata"
+    },
+    "aliases": {
+      "ar": [
+        "مصراتة",
+        "مصراته"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sirte",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 31.2089,
+    "lng": 16.5887,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "سرت",
+      "en": "Sirte",
+      "fr": "Syrte",
+      "de": "Sirte",
+      "tr": "Sirte",
+      "ur": "سرت",
+      "id": "Sirte",
+      "es": "Sirte",
+      "bn": "সিরতে",
+      "ms": "Sirte"
+    },
+    "aliases": {
+      "ar": [
+        "سرت"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "zawiya",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.7522,
+    "lng": 12.728,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الزاوية",
+      "en": "Zawiya",
+      "fr": "Zaouïa",
+      "de": "az-Zawiya",
+      "tr": "Zaviye",
+      "ur": "زاویہ",
+      "id": "Zawiya",
+      "es": "Zauía",
+      "bn": "জাউয়িয়া",
+      "ms": "Zawiya"
+    },
+    "aliases": {
+      "ar": [
+        "الزاوية",
+        "زاوية"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sabha",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 27.0377,
+    "lng": 14.4283,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "سبها",
+      "en": "Sabha",
+      "fr": "Sebha",
+      "de": "Sabha",
+      "tr": "Sebha",
+      "ur": "سبھا",
+      "id": "Sabha",
+      "es": "Sabha",
+      "bn": "সাবহা",
+      "ms": "Sabha"
+    },
+    "aliases": {
+      "ar": [
+        "سبها"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tobruk",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.0763,
+    "lng": 23.9763,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "طبرق",
+      "en": "Tobruk",
+      "fr": "Tobrouk",
+      "de": "Tobruk",
+      "tr": "Tobruk",
+      "ur": "طبرق",
+      "id": "Tobruk",
+      "es": "Tobruk",
+      "bn": "তোব্রুক",
+      "ms": "Tobruk"
+    },
+    "aliases": {
+      "ar": [
+        "طبرق"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nablus",
+    "type": "city",
+    "countryCode": "ps",
+    "lat": 32.2227,
+    "lng": 35.2621,
+    "timezone": "Asia/Hebron",
+    "names": {
+      "ar": "نابلس",
+      "en": "Nablus",
+      "fr": "Naplouse",
+      "de": "Nablus",
+      "tr": "Nablus",
+      "ur": "نابلس",
+      "id": "Nablus",
+      "es": "Nablus",
+      "bn": "নাবলুস",
+      "ms": "Nablus"
+    },
+    "aliases": {
+      "ar": [
+        "نابلس"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hebron",
+    "type": "city",
+    "countryCode": "ps",
+    "lat": 31.5325,
+    "lng": 35.0998,
+    "timezone": "Asia/Hebron",
+    "names": {
+      "ar": "الخليل",
+      "en": "Hebron",
+      "fr": "Hébron",
+      "de": "Hebron",
+      "tr": "El-Halil",
+      "ur": "الخلیل",
+      "id": "Hebron",
+      "es": "Hebrón",
+      "bn": "হেব্রন",
+      "ms": "Hebron"
+    },
+    "aliases": {
+      "ar": [
+        "الخليل",
+        "خليل"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine"
+    },
+    "priority": 84,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bethlehem",
+    "type": "city",
+    "countryCode": "ps",
+    "lat": 31.7054,
+    "lng": 35.2024,
+    "timezone": "Asia/Hebron",
+    "names": {
+      "ar": "بيت لحم",
+      "en": "Bethlehem",
+      "fr": "Bethléem",
+      "de": "Bethlehem",
+      "tr": "Beytüllahim",
+      "ur": "بیت لحم",
+      "id": "Betlehem",
+      "es": "Belén",
+      "bn": "বেথলেহেম",
+      "ms": "Bethlehem"
+    },
+    "aliases": {
+      "ar": [
+        "بيت لحم"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "jenin",
+    "type": "city",
+    "countryCode": "ps",
+    "lat": 32.4571,
+    "lng": 35.2944,
+    "timezone": "Asia/Hebron",
+    "names": {
+      "ar": "جنين",
+      "en": "Jenin",
+      "fr": "Jénine",
+      "de": "Dschenin",
+      "tr": "Cenin",
+      "ur": "جنین",
+      "id": "Jenin",
+      "es": "Yenín",
+      "bn": "জেনিন",
+      "ms": "Jenin"
+    },
+    "aliases": {
+      "ar": [
+        "جنين"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tulkarem",
+    "type": "city",
+    "countryCode": "ps",
+    "lat": 32.3104,
+    "lng": 35.0286,
+    "timezone": "Asia/Hebron",
+    "names": {
+      "ar": "طولكرم",
+      "en": "Tulkarem",
+      "fr": "Tulkarem",
+      "de": "Tulkarem",
+      "tr": "Tulkarem",
+      "ur": "طولکرم",
+      "id": "Tulkarem",
+      "es": "Tulkarm",
+      "bn": "তুলকারেম",
+      "ms": "Tulkarem"
+    },
+    "aliases": {
+      "ar": [
+        "طولكرم"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "omdurman",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 15.644,
+    "lng": 32.4779,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "أم درمان",
+      "en": "Omdurman",
+      "fr": "Omdourman",
+      "de": "Omdurman",
+      "tr": "Omdurman",
+      "ur": "ام درمان",
+      "id": "Omdurman",
+      "es": "Omdurmán",
+      "bn": "ওমদুরমান",
+      "ms": "Omdurman"
+    },
+    "aliases": {
+      "ar": [
+        "أم درمان",
+        "ام درمان"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan"
+    },
+    "priority": 88,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "port-sudan",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 19.6158,
+    "lng": 37.2164,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "بورتسودان",
+      "en": "Port Sudan",
+      "fr": "Port-Soudan",
+      "de": "Port Sudan",
+      "tr": "Port Sudan",
+      "ur": "پورٹ سوڈان",
+      "id": "Port Sudan",
+      "es": "Puerto Sudán",
+      "bn": "পোর্ট সুদান",
+      "ms": "Port Sudan"
+    },
+    "aliases": {
+      "ar": [
+        "بورتسودان",
+        "بور سودان"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kassala",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 15.4503,
+    "lng": 36.4,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "كسلا",
+      "en": "Kassala",
+      "fr": "Kassala",
+      "de": "Kassala",
+      "tr": "Kassala",
+      "ur": "کسلا",
+      "id": "Kassala",
+      "es": "Kassala",
+      "bn": "কাসাল্লা",
+      "ms": "Kassala"
+    },
+    "aliases": {
+      "ar": [
+        "كسلا"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nyala",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 12.05,
+    "lng": 24.8833,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "نيالا",
+      "en": "Nyala",
+      "fr": "Nyala",
+      "de": "Nyala",
+      "tr": "Nyala",
+      "ur": "نیالا",
+      "id": "Nyala",
+      "es": "Nyala",
+      "bn": "নিয়ালা",
+      "ms": "Nyala"
+    },
+    "aliases": {
+      "ar": [
+        "نيالا"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "karbala",
+    "type": "city",
+    "countryCode": "iq",
+    "lat": 32.616,
+    "lng": 44.0249,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "كربلاء",
+      "en": "Karbala",
+      "fr": "Kerbala",
+      "de": "Kerbela",
+      "tr": "Kerbela",
+      "ur": "کربلا",
+      "id": "Karbala",
+      "es": "Kerbala",
+      "bn": "কারবালা",
+      "ms": "Karbala"
+    },
+    "aliases": {
+      "ar": [
+        "كربلاء",
+        "كربلا"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq"
+    },
+    "priority": 88,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tikrit",
+    "type": "city",
+    "countryCode": "iq",
+    "lat": 34.5959,
+    "lng": 43.6788,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "تكريت",
+      "en": "Tikrit",
+      "fr": "Tikrit",
+      "de": "Tikrit",
+      "tr": "Tikrit",
+      "ur": "تکریت",
+      "id": "Tikrit",
+      "es": "Tikrit",
+      "bn": "তিকরিত",
+      "ms": "Tikrit"
+    },
+    "aliases": {
+      "ar": [
+        "تكريت"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ramadi",
+    "type": "city",
+    "countryCode": "iq",
+    "lat": 33.4258,
+    "lng": 43.3088,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الرمادي",
+      "en": "Ramadi",
+      "fr": "Ramadi",
+      "de": "Ramadi",
+      "tr": "Remadi",
+      "ur": "الرمادی",
+      "id": "Ramadi",
+      "es": "Ramadi",
+      "bn": "রামাদি",
+      "ms": "Ramadi"
+    },
+    "aliases": {
+      "ar": [
+        "الرمادي",
+        "رمادي"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "fallujah",
+    "type": "city",
+    "countryCode": "iq",
+    "lat": 33.3489,
+    "lng": 43.7811,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الفلوجة",
+      "en": "Fallujah",
+      "fr": "Fallouja",
+      "de": "Falludscha",
+      "tr": "Felluce",
+      "ur": "فلوجہ",
+      "id": "Fallujah",
+      "es": "Faluya",
+      "bn": "ফাল্লুজা",
+      "ms": "Fallujah"
+    },
+    "aliases": {
+      "ar": [
+        "الفلوجة",
+        "فلوجة"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kirkuk",
+    "type": "city",
+    "countryCode": "iq",
+    "lat": 35.4681,
+    "lng": 44.3923,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "كركوك",
+      "en": "Kirkuk",
+      "fr": "Kirkouk",
+      "de": "Kirkuk",
+      "tr": "Kerkük",
+      "ur": "کرکوک",
+      "id": "Kirkuk",
+      "es": "Kirkuk",
+      "bn": "কিরকুক",
+      "ms": "Kirkuk"
+    },
+    "aliases": {
+      "ar": [
+        "كركوك"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sulaymaniyah",
+    "type": "city",
+    "countryCode": "iq",
+    "lat": 35.565,
+    "lng": 45.4329,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "السليمانية",
+      "en": "Sulaymaniyah",
+      "fr": "Souleimaniye",
+      "de": "Sulaimaniyya",
+      "tr": "Süleymaniye",
+      "ur": "سلیمانیہ",
+      "id": "Sulaymaniyah",
+      "es": "Solimania",
+      "bn": "সুলায়মানিয়াহ",
+      "ms": "Sulaymaniyah"
+    },
+    "aliases": {
+      "ar": [
+        "السليمانية",
+        "سليمانية"
+      ],
+      "ku": [
+        "سلێمانی"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "saida",
+    "type": "city",
+    "countryCode": "lb",
+    "lat": 33.5571,
+    "lng": 35.3729,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "صيدا",
+      "en": "Sidon",
+      "fr": "Saïda",
+      "de": "Sidon",
+      "tr": "Sayda",
+      "ur": "صیدا",
+      "id": "Sidon",
+      "es": "Sidón",
+      "bn": "সিডোন",
+      "ms": "Sidon"
+    },
+    "aliases": {
+      "ar": [
+        "صيدا"
+      ],
+      "en": [
+        "Saida"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tyre-lb",
+    "type": "city",
+    "countryCode": "lb",
+    "lat": 33.2733,
+    "lng": 35.1939,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "صور",
+      "en": "Tyre",
+      "fr": "Tyr",
+      "de": "Tyros",
+      "tr": "Sur",
+      "ur": "صور",
+      "id": "Tyre",
+      "es": "Tiro",
+      "bn": "টায়ার",
+      "ms": "Tyre"
+    },
+    "aliases": {
+      "ar": [
+        "صور"
+      ],
+      "en": [
+        "Sur"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "zahle",
+    "type": "city",
+    "countryCode": "lb",
+    "lat": 33.8467,
+    "lng": 35.9019,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "زحلة",
+      "en": "Zahle",
+      "fr": "Zahlé",
+      "de": "Zahla",
+      "tr": "Zahle",
+      "ur": "زحلہ",
+      "id": "Zahle",
+      "es": "Zahlé",
+      "bn": "জাহলে",
+      "ms": "Zahle"
+    },
+    "aliases": {
+      "ar": [
+        "زحلة",
+        "زحله"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "zarqa",
+    "type": "city",
+    "countryCode": "jo",
+    "lat": 32.0728,
+    "lng": 36.0876,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الزرقاء",
+      "en": "Zarqa",
+      "fr": "Zarka",
+      "de": "az-Zarqa",
+      "tr": "Zerka",
+      "ur": "زرقا",
+      "id": "Zarqa",
+      "es": "Zarqa",
+      "bn": "জারকা",
+      "ms": "Zarqa"
+    },
+    "aliases": {
+      "ar": [
+        "الزرقاء",
+        "زرقاء"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "irbid",
+    "type": "city",
+    "countryCode": "jo",
+    "lat": 32.5556,
+    "lng": 35.85,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "إربد",
+      "en": "Irbid",
+      "fr": "Irbid",
+      "de": "Irbid",
+      "tr": "Erbid",
+      "ur": "اربد",
+      "id": "Irbid",
+      "es": "Irbid",
+      "bn": "ইরবিদ",
+      "ms": "Irbid"
+    },
+    "aliases": {
+      "ar": [
+        "إربد",
+        "اربد"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "aqaba",
+    "type": "city",
+    "countryCode": "jo",
+    "lat": 29.5267,
+    "lng": 35.0067,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "العقبة",
+      "en": "Aqaba",
+      "fr": "Aqaba",
+      "de": "Akaba",
+      "tr": "Akabe",
+      "ur": "العقبہ",
+      "id": "Aqaba",
+      "es": "Áqaba",
+      "bn": "আকাবা",
+      "ms": "Aqaba"
+    },
+    "aliases": {
+      "ar": [
+        "العقبة",
+        "عقبة"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tangier",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 35.7595,
+    "lng": -5.834,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "طنجة",
+      "en": "Tangier",
+      "fr": "Tanger",
+      "de": "Tanger",
+      "tr": "Tanca",
+      "ur": "طنجہ",
+      "id": "Tangier",
+      "es": "Tánger",
+      "bn": "ট্যাঞ্জিয়ার",
+      "ms": "Tangier"
+    },
+    "aliases": {
+      "ar": [
+        "طنجة"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco"
+    },
+    "priority": 84,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "agadir",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 30.4278,
+    "lng": -9.5981,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "أكادير",
+      "en": "Agadir",
+      "fr": "Agadir",
+      "de": "Agadir",
+      "tr": "Agadir",
+      "ur": "اگادیر",
+      "id": "Agadir",
+      "es": "Agadir",
+      "bn": "আগাদির",
+      "ms": "Agadir"
+    },
+    "aliases": {
+      "ar": [
+        "أكادير",
+        "اكادير"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "meknes",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 33.8935,
+    "lng": -5.5473,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "مكناس",
+      "en": "Meknes",
+      "fr": "Meknès",
+      "de": "Meknès",
+      "tr": "Meknes",
+      "ur": "مکناس",
+      "id": "Meknes",
+      "es": "Mequinez",
+      "bn": "মেকনেস",
+      "ms": "Meknes"
+    },
+    "aliases": {
+      "ar": [
+        "مكناس"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco"
+    },
+    "priority": 78,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tetouan",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 35.5785,
+    "lng": -5.3683,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "تطوان",
+      "en": "Tetouan",
+      "fr": "Tétouan",
+      "de": "Tétouan",
+      "tr": "Tetuan",
+      "ur": "تطوان",
+      "id": "Tetouan",
+      "es": "Tetuán",
+      "bn": "তেতুয়ান",
+      "ms": "Tetouan"
+    },
+    "aliases": {
+      "ar": [
+        "تطوان"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "annaba",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.9,
+    "lng": 7.7667,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "عنابة",
+      "en": "Annaba",
+      "fr": "Annaba",
+      "de": "Annaba",
+      "tr": "Annaba",
+      "ur": "عنابہ",
+      "id": "Annaba",
+      "es": "Annaba",
+      "bn": "আন্নাবা",
+      "ms": "Annaba"
+    },
+    "aliases": {
+      "ar": [
+        "عنابة"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tlemcen",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 34.8826,
+    "lng": -1.3158,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تلمسان",
+      "en": "Tlemcen",
+      "fr": "Tlemcen",
+      "de": "Tlemcen",
+      "tr": "Tilimsan",
+      "ur": "تلمسان",
+      "id": "Tlemcen",
+      "es": "Tremecén",
+      "bn": "তেলেমসেন",
+      "ms": "Tlemcen"
+    },
+    "aliases": {
+      "ar": [
+        "تلمسان"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "setif",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.19,
+    "lng": 5.4136,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "سطيف",
+      "en": "Setif",
+      "fr": "Sétif",
+      "de": "Sétif",
+      "tr": "Setif",
+      "ur": "سطیف",
+      "id": "Setif",
+      "es": "Sétif",
+      "bn": "সেতিফ",
+      "ms": "Setif"
+    },
+    "aliases": {
+      "ar": [
+        "سطيف"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "batna",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.5559,
+    "lng": 6.1741,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "باتنة",
+      "en": "Batna",
+      "fr": "Batna",
+      "de": "Batna",
+      "tr": "Batna",
+      "ur": "باتنہ",
+      "id": "Batna",
+      "es": "Batna",
+      "bn": "বাতনা",
+      "ms": "Batna"
+    },
+    "aliases": {
+      "ar": [
+        "باتنة"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria"
+    },
+    "priority": 74,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sousse",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 35.8254,
+    "lng": 10.636,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "سوسة",
+      "en": "Sousse",
+      "fr": "Sousse",
+      "de": "Sousse",
+      "tr": "Susa",
+      "ur": "سوسہ",
+      "id": "Sousse",
+      "es": "Susa",
+      "bn": "সুস",
+      "ms": "Sousse"
+    },
+    "aliases": {
+      "ar": [
+        "سوسة"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia"
+    },
+    "priority": 82,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kairouan",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 35.6713,
+    "lng": 10.1009,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "القيروان",
+      "en": "Kairouan",
+      "fr": "Kairouan",
+      "de": "Kairouan",
+      "tr": "Kayrevan",
+      "ur": "القیروان",
+      "id": "Kairouan",
+      "es": "Qayrawán",
+      "bn": "কায়রুয়ান",
+      "ms": "Kairouan"
+    },
+    "aliases": {
+      "ar": [
+        "القيروان",
+        "قيروان"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia"
+    },
+    "priority": 80,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bizerte",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 37.2746,
+    "lng": 9.8739,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "بنزرت",
+      "en": "Bizerte",
+      "fr": "Bizerte",
+      "de": "Biserta",
+      "tr": "Bizerte",
+      "ur": "بنزرت",
+      "id": "Bizerte",
+      "es": "Bizerta",
+      "bn": "বিজার্তে",
+      "ms": "Bizerte"
+    },
+    "aliases": {
+      "ar": [
+        "بنزرت"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "gabes",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 33.8814,
+    "lng": 10.0982,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "قابس",
+      "en": "Gabes",
+      "fr": "Gabès",
+      "de": "Gabès",
+      "tr": "Kabis",
+      "ur": "قابس",
+      "id": "Gabes",
+      "es": "Gabes",
+      "bn": "গাবেস",
+      "ms": "Gabes"
+    },
+    "aliases": {
+      "ar": [
+        "قابس"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nouadhibou",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 20.9303,
+    "lng": -17.0347,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "نواذيبو",
+      "en": "Nouadhibou",
+      "fr": "Nouadhibou",
+      "de": "Nouadhibou",
+      "tr": "Nuvadibu",
+      "ur": "نواذیبو",
+      "id": "Nouadhibou",
+      "es": "Nuadibú",
+      "bn": "নুয়াধিবু",
+      "ms": "Nouadhibou"
+    },
+    "aliases": {
+      "ar": [
+        "نواذيبو"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania"
+    },
+    "priority": 76,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "atar",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 20.5167,
+    "lng": -13.05,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "أطار",
+      "en": "Atar",
+      "fr": "Atar",
+      "de": "Atar",
+      "tr": "Atar",
+      "ur": "اطار",
+      "id": "Atar",
+      "es": "Atar",
+      "bn": "আতার",
+      "ms": "Atar"
+    },
+    "aliases": {
+      "ar": [
+        "أطار",
+        "اطار"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
   }
 ]

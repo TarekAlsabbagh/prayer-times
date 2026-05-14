@@ -1054,6 +1054,95 @@ console.log('\n── EXTERNAL-FAIL-UX-1: response shape ──');
     await sleep(150);
 }
 
+console.log('\n── CURATED-WORLD-EXP-WAVE-1 (Phase 2026-05-13) ──');
+
+// Each city added in Wave 1 must hit tier 1 (curated). If any falls
+// through, the seed data is wrong.
+const worldWave1 = [
+    // Saudi
+    ['الدمام',          'ar', 'sa', 'الدمام'],
+    ['Dammam',           'en', 'sa', 'Dammam'],
+    ['الخبر',           'ar', 'sa', 'الخبر'],
+    ['الظهران',         'ar', 'sa', 'الظهران'],
+    ['نجران',           'ar', 'sa', 'نجران'],
+    ['الباحة',          'ar', 'sa', 'الباحة'],
+    // Gulf
+    ['الريان',          'ar', 'qa', 'الريان'],
+    ['عجمان',           'ar', 'ae', 'عجمان'],
+    ['نزوى',             'ar', 'om', 'نزوى'],
+    // Egypt
+    ['المنصورة',        'ar', 'eg', 'المنصورة'],
+    ['Mansoura',          'en', 'eg', 'Mansoura'],
+    ['طنطا',             'ar', 'eg', 'طنطا'],
+    ['الأقصر',           'ar', 'eg', 'الأقصر'],
+    ['أسوان',            'ar', 'eg', 'أسوان'],
+    // Sudan/Libya/Yemen
+    ['ود مدني',          'ar', 'sd', 'ود مدني'],
+    ['درنة',             'ar', 'ly', 'درنة'],
+    ['مأرب',             'ar', 'ye', 'مأرب'],
+    // Maghreb
+    ['وجدة',             'ar', 'ma', 'وجدة'],
+    ['البليدة',          'ar', 'dz', 'البليدة'],
+    ['جربة',             'ar', 'tn', 'جربة'],
+    // Turkey
+    ['غازي عنتاب',       'ar', 'tr', 'غازي عنتاب'],
+    ['Gaziantep',         'en', 'tr', 'Gaziantep'],
+    ['ديار بكر',         'ar', 'tr', 'ديار بكر'],
+    // Iran
+    ['الأهواز',          'ar', 'ir', 'الأهواز'],
+    ['يزد',              'ar', 'ir', 'يزد'],
+    // Central Asia
+    ['بخارى',            'ar', 'uz', 'بخارى'],
+    ['Bukhara',           'en', 'uz', 'Bukhara'],
+    ['دوشنبه',           'ar', 'tj', 'دوشنبه'],
+    // South Asia
+    ['بوبال',            'ar', 'in', 'بوبال'],
+    ['Bhopal',            'en', 'in', 'Bhopal'],
+    ['باتنا',            'ar', 'in', 'باتنا'],
+    ['ماليه',            'ar', 'mv', 'ماليه'],
+    // SE Asia: Indonesia
+    ['ميدان',            'ar', 'id', 'ميدان'],
+    ['Medan',             'en', 'id', 'Medan'],
+    ['يوغياكارتا',       'ar', 'id', 'يوغياكارتا'],
+    // SE Asia: Malaysia
+    ['جورج تاون',         'ar', 'my', 'جورج تاون'],
+    ['George Town',       'en', 'my', 'George Town'],
+    ['Penang',            'en', 'my', null], // alias hit
+    // SE Asia: Thailand
+    ['شيانغ ماي',         'ar', 'th', 'شيانغ ماي'],
+    ['Chiang Mai',        'en', 'th', 'Chiang Mai'],
+    // SE Asia: misc
+    ['دا نانغ',           'ar', 'vn', 'دا نانغ'],
+    ['مانداليه',          'ar', 'mm', 'ماندالاي'],
+    ['Vientiane',         'en', 'la', 'Vientiane'],
+    ['Quezon City',       'en', 'ph', 'Quezon City'],
+    // Africa
+    ['كانو',              'ar', 'ng', 'كانو'],
+    ['Kano',              'en', 'ng', 'Kano'],
+    ['مومباسا',           'ar', 'ke', 'مومباسا'],
+    ['ديري داوا',          'ar', 'et', 'ديري داوا'],
+    ['باماكو',             'ar', 'ml', 'باماكو'],
+    ['Bamako',             'en', 'ml', 'Bamako'],
+    ['أبيدجان',            'ar', 'ci', 'أبيدجان'],
+    ['ياوندي',             'ar', 'cm', 'ياوندي'],
+    ['زنجبار',             'ar', 'tz', 'زنجبار'],
+    ['Conakry',            'en', 'gn', 'Conakry'],
+    ['Niamey',             'en', 'ne', 'Niamey'],
+];
+for (const [q, lang, expectCC, expectName] of worldWave1) {
+    const r = await topOfQ(q, lang);
+    const got = r ? r.displayName : '(none)';
+    const cc  = r ? r.countryCode : '(none)';
+    const src = r ? r.source       : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === expectCC;
+    const okReady   = r && isPrayerTimesReady(r);
+    const okName    = !expectName || got === expectName || got.includes(expectName);
+    check(`${q} (${lang}) → curated cc=${expectCC} [got src=${src}, cc=${cc}, name="${got}"]`,
+        okCurated && okCC && okReady && okName);
+    await sleep(150);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

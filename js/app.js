@@ -7038,6 +7038,38 @@ function updateCityDisplay() {
         const _mmatch = _pathHere.match(_reCityCtx);
         if (_mmatch && _mmatch[1]) {
             const _mSlug = _mmatch[1];
+            // PLACE-CITY-HEADER-L10N-FIX-1 (2026-05-14): when the page is a
+            // bare-slug /prayer-times-in-{slug} AND the server already
+            // SSR-injected `window.__PRAYER_CITY__` for that exact slug, the
+            // SSR data is the authoritative source — we MUST NOT override
+            // #city-name / #country-name with the FAMOUS_MOON_CITIES /
+            // _moonCityDisplayName tier-chain.
+            //
+            // The old logic only checked `_simpleCurEn === _mSlug` which
+            // FAILS for cities whose slug ≠ slugified-English-name. The
+            // canonical case is Makkah:
+            //   slug = "makkah"           (Saudi government's preferred form)
+            //   englishName = "Mecca"     (Intl + GeoNames preferred form)
+            //   _simpleCurEn = "mecca" ≠ "makkah" → override fires →
+            //   _moonCityDisplayName("makkah") returns Title-cased slug
+            //   ("Makkah") and writes it into the ARABIC page header.
+            //
+            // The same hits any city in FAMOUS_MOON_CITIES whose slug doesn't
+            // round-trip with its english name (Sao Paulo, Lyon variants,
+            // Mecca, etc.). Solution: if SSR pre-filled __PRAYER_CITY__ for
+            // this exact slug, trust it — skip the override entirely.
+            const _ssrPrayerCity = window.__PRAYER_CITY__;
+            const _ssrMatchesSlug = _ssrPrayerCity
+                && typeof _ssrPrayerCity === 'object'
+                && _ssrPrayerCity.slug === _mSlug
+                && _ssrPrayerCity.name
+                && _ssrPrayerCity.country;
+            if (_ssrMatchesSlug) {
+                // SSR has the right data already. updateCityDisplay()'s
+                // earlier line wrote dispCity (= currentCity = __PRAYER_CITY__.name)
+                // into #city-name. Do NOT undo that.
+                return;
+            }
             // لا نتجاوز إلا إذا:
             //   (أ) المدينة معروفة في FAMOUS_MOON_CITIES أو جدول الدول، أو
             //   (ب) لم يتمّ استعادة الجلسة (currentEnglishName لا يطابق الـ slug)

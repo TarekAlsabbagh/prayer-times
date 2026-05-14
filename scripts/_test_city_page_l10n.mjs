@@ -77,6 +77,23 @@ const arCases = [
     ['baghdad',            'بغداد',          'العراق',                  'iq', 'Asia/Baghdad'],
     ['damascus',           'دمشق',           'سوريا',                   'sy', 'Asia/Damascus'],
     ['gaza',               'غزة',            'فلسطين',                  'ps', 'Asia/Gaza'],
+    // PLACE-CITY-HEADER-L10N-FIX-1 (2026-05-14): the classic Mecca case —
+    // slug='makkah' (Saudi government's preferred form) ≠ slugify(en='Mecca')
+    // = 'mecca'. The pre-fix updateCityDisplay had a "Round 28" override
+    // block that consulted FAMOUS_MOON_CITIES + _moonCityDisplayName when
+    // currentEnglishName didn't slugify to the URL slug. For Makkah that
+    // mismatch ALWAYS holds, so the block ran and overwrote #city-name
+    // with the Title-cased slug "Makkah" — even though the SSR pre-fill
+    // had already written "مكة المكرمة". Fixed by skipping the override
+    // when window.__PRAYER_CITY__ is present and matches the current slug.
+    //
+    // Madinah is the parallel case (slug='medina' vs en='Medina' DOES
+    // slugify-match, so it wasn't triggered — but include it as a regression
+    // anchor in case the override logic is touched again).
+    ['makkah',             'مكة المكرمة',     'المملكة العربية السعودية', 'sa', 'Asia/Riyadh'],
+    ['medina',             'المدينة المنورة', 'المملكة العربية السعودية', 'sa', 'Asia/Riyadh'],
+    ['riyadh',             'الرياض',          'المملكة العربية السعودية', 'sa', 'Asia/Riyadh'],
+    ['jeddah',             'جدة',             'المملكة العربية السعودية', 'sa', 'Asia/Riyadh'],
 ];
 for (const [slug, expectCity, expectCountry, expectCC, expectTZ] of arCases) {
     const r = await get('/prayer-times-in-' + slug);
@@ -113,6 +130,11 @@ const enCases = [
     ['jablah',     'Jablah',        'Syria',        'sy'],
     ['ad-diriyah', 'Ad Dir‘īyah',   'Saudi Arabia', 'sa'],
     ['seeb',       'Seeb',          'Oman',         'om'],
+    // PLACE-CITY-HEADER-L10N-FIX-1: Mecca on EN page renders as "Mecca"
+    // (the Intl-preferred English form, NOT the slug "Makkah"). Locks
+    // in the EN side of the override-skip fix.
+    ['makkah',     'Mecca',         'Saudi Arabia', 'sa'],
+    ['medina',     'Medina',        'Saudi Arabia', 'sa'],
 ];
 for (const [slug, expectCity, expectCountry, expectCC] of enCases) {
     const r = await get('/en/prayer-times-in-' + slug);
@@ -122,6 +144,38 @@ for (const [slug, expectCity, expectCountry, expectCC] of enCases) {
         cityText === expectCity, `(got "${cityText}")`);
     ok(`EN ${slug} #country-name = "${expectCountry}"`,
         countryText === expectCountry, `(got "${countryText}")`);
+}
+
+// ── B2. PLACE-CITY-HEADER-L10N-FIX-1 — anti-Latin-leak guard for AR Makkah
+// The original bug surfaced ONLY after JS ran (the SSR pre-fill was correct,
+// but updateCityDisplay's "Round 28" override block then wrote "Makkah"
+// over the Arabic name). The SSR HTML alone passes the test in section A;
+// we need a guard that pins the FULL post-JS chain. Since this test script
+// only inspects raw SSR HTML, the strongest guard we can lay here is:
+//   1. The SSR <div id="city-name"> MUST NOT contain "Makkah" or "Mecca"
+//      Latin tokens on the Arabic page (latin-leak guard).
+//   2. The window.__PRAYER_CITY__ payload's `name` field MUST be Arabic.
+// The post-JS verification is covered separately by the browser-based
+// Preview MCP run during dev (see commit message).
+console.log('\n── B2. AR Makkah — no Latin leak in SSR header ──');
+{
+    const r = await get('/prayer-times-in-makkah');
+    const cityText = extract(r.body, /<div class="city-name" id="city-name"[^>]*>([^<]+)<\/div>/);
+    const pcRaw    = extract(r.body, /<script id="ssr-prayer-city">window\.__PRAYER_CITY__=([^<]+?);<\/script>/);
+    let pc = null;
+    if (pcRaw) { try { pc = JSON.parse(pcRaw); } catch (_) {} }
+    ok('SSR /prayer-times-in-makkah #city-name has NO "Makkah" Latin leak',
+        !/Makkah/.test(cityText || ''),
+        `(got "${cityText}")`);
+    ok('SSR /prayer-times-in-makkah #city-name has NO "Mecca" Latin leak',
+        !/Mecca/.test(cityText || ''),
+        `(got "${cityText}")`);
+    ok('SSR /prayer-times-in-makkah #city-name is purely Arabic',
+        /[؀-ۿ]/.test(cityText || '') && !/[A-Za-z]/.test(cityText || ''),
+        `(got "${cityText}")`);
+    ok('SSR /prayer-times-in-makkah __PRAYER_CITY__.name is "مكة المكرمة"',
+        pc && pc.name === 'مكة المكرمة',
+        pc ? `(got "${pc.name}")` : '(missing pc)');
 }
 
 // ── C. Negative — country listing + unknown slugs MUST NOT receive pre-fill

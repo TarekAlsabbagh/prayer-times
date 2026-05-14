@@ -61,6 +61,14 @@ const cities = [
     ['جبلة',           'jablah',      'sy', 'Asia/Damascus'],
     ['بلودان',         'bludan',      'sy', 'Asia/Damascus'],
     ['الزبداني',       'az-zabadani', 'sy', 'Asia/Damascus'],
+    // PLACE-CITY-HEADER-L10N-FIX-1 — the classic Mecca case where slug
+    // ('makkah') doesn't slugify-match englishName ('Mecca'), which used
+    // to trigger an override block that wrote "Makkah" into the Arabic
+    // header. Plus 3 sister flagships to anchor the regression.
+    ['مكة المكرمة',    'makkah',      'sa', 'Asia/Riyadh'],
+    ['المدينة المنورة','medina',      'sa', 'Asia/Riyadh'],
+    ['الرياض',         'riyadh',      'sa', 'Asia/Riyadh'],
+    ['جدة',            'jeddah',      'sa', 'Asia/Riyadh'],
 ];
 
 let pass = 0, fail = 0;
@@ -184,6 +192,16 @@ for (const [q, expectSlugFrag, expectCC, expectTZ] of cities) {
     ok('  SSR window.__PRAYER_CITY__ timezone === "' + expectTZ + '"',
         prayerCityObj && prayerCityObj.timezone === expectTZ,
         prayerCityObj ? `(tz="${prayerCityObj.timezone}")` : '');
+    // PLACE-CITY-HEADER-L10N-FIX-1 anti-Latin-leak guard. The SSR
+    // pre-fill MUST never contain the Title-cased slug for cities
+    // whose canonical Arabic name doesn't share characters with the
+    // slug (the classic case is makkah → "مكة المكرمة" vs "Makkah").
+    // Generic guard: #city-name on the AR page must NOT contain ANY
+    // Latin chars (since every entry in this verifier is Arabic-named).
+    const _cityNameAr = cityNameM ? cityNameM[1] : '';
+    ok('  SSR #city-name contains NO Latin chars (anti Title-cased-slug leak)',
+        cityNameM && !/[A-Za-z]/.test(_cityNameAr),
+        cityNameM ? `(got "${_cityNameAr}")` : '(no match)');
     await sleep(200);
 }
 

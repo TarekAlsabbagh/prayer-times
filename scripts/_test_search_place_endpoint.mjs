@@ -1285,6 +1285,48 @@ for (const [q, lang, expectName] of saudiFull) {
     await sleep(150);
 }
 
+console.log('\n── CURATED-SA-GEODATA-IMPORT-1 spot-checks (Stage 4 closure) ──');
+
+// 19 cities imported via GeoNames pipeline (CURATED-SA-GEODATA-IMPORT-1).
+// Each must hit tier 1 (curated) with cc=sa and tz=Asia/Riyadh.
+const saGeodataApproved = [
+    ['الدرعية',          'ad-diriyah'],
+    ['العوامية',         'al-awwamiyah'],
+    ['الطرف',            'at-taraf'],
+    ['القيصومة',         'qaisumah'],
+    ['عنك',              'inak'],
+    ['الخبراء',          'al-khabra'],
+    ['الهياثم',          'al-hayathim'],
+    ['قبة',              'qibah'],
+    ['الأوجام',           'al-awjam'],
+    ['الجفر',            'al-jafr'],
+    ['الجبيلة',          'al-jubaylah'],
+    ['المليداء',         'al-mulayda'],
+    ['دخنة',             'dukhnah'],
+    ['مسلية',            'misliyah'],
+    ['المطيرفي',         'al-mutayrifi'],
+    ['مزهرة',            'mizhirah'],
+    ['القويلق',          'al-fuwayliq'],
+    ['الذيبية',          'adh-dhibiyah'],
+    ['العضيلية',         'udhailiyah'],
+];
+for (const [q, expectSlug] of saGeodataApproved) {
+    const r = await topOfQ(q, 'ar');
+    const got  = r ? r.displayName : '(none)';
+    const cc   = r ? r.countryCode  : '(none)';
+    const tz   = r ? r.timezone     : '(none)';
+    const src  = r ? r.source       : '(none)';
+    const slug = r ? r.slug         : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === 'sa';
+    const okTZ      = r && r.timezone === 'Asia/Riyadh';
+    const okReady   = r && isPrayerTimesReady(r);
+    const okSlug    = r && r.slug === expectSlug;
+    check(`${q} → curated sa Asia/Riyadh slug=${expectSlug} [src=${src}, cc=${cc}, tz=${tz}, slug=${slug}, name="${got}"]`,
+        okCurated && okCC && okTZ && okReady && okSlug);
+    await sleep(150);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

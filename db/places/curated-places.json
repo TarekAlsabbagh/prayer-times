@@ -19287,5 +19287,783 @@
     "priority": 68,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "qibah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.40285,
+    "lng": 44.3277,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "قبة",
+      "en": "Qibah",
+      "fr": "Qibah",
+      "de": "Qibah",
+      "tr": "Qibah",
+      "ur": "Qibah",
+      "id": "Qibah",
+      "es": "Qibah",
+      "bn": "Qibah",
+      "ms": "Qibah"
+    },
+    "aliases": {
+      "en": [
+        "Qiba'",
+        "Qibbah",
+        "Qibā’",
+        "qbt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:103220",
+    "verified": true
+  },
+  {
+    "slug": "misliyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 17.45988,
+    "lng": 42.5572,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "مسلية",
+      "en": "Mislīyah",
+      "fr": "Mislīyah",
+      "de": "Mislīyah",
+      "tr": "Mislīyah",
+      "ur": "Mislīyah",
+      "id": "Mislīyah",
+      "es": "Mislīyah",
+      "bn": "Mislīyah",
+      "ms": "Mislīyah"
+    },
+    "aliases": {
+      "en": [
+        "Masliya",
+        "Masliyah",
+        "Maslīyah",
+        "Misliyah",
+        "mslyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:104269",
+    "verified": true
+  },
+  {
+    "slug": "dukhnah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.35621,
+    "lng": 43.62268,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "دخنة",
+      "en": "Dukhnah",
+      "fr": "Dukhnah",
+      "de": "Dukhnah",
+      "tr": "Dukhnah",
+      "ur": "Dukhnah",
+      "id": "Dukhnah",
+      "es": "Dukhnah",
+      "bn": "Dukhnah",
+      "ms": "Dukhnah"
+    },
+    "aliases": {
+      "en": [
+        "Dokhna",
+        "dkhnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:106872",
+    "verified": true
+  },
+  {
+    "slug": "at-taraf",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.36232,
+    "lng": 49.72757,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الطرف",
+      "en": "Aţ Ţaraf",
+      "fr": "Aţ Ţaraf",
+      "de": "Aţ Ţaraf",
+      "tr": "Aţ Ţaraf",
+      "ur": "Aţ Ţaraf",
+      "id": "Aţ Ţaraf",
+      "es": "Aţ Ţaraf",
+      "bn": "Aţ Ţaraf",
+      "ms": "Aţ Ţaraf"
+    },
+    "aliases": {
+      "en": [
+        "Al-Taraf",
+        "At Taraf",
+        "altrf"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:107959",
+    "verified": true
+  },
+  {
+    "slug": "inak",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.51959,
+    "lng": 50.02715,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "عنك",
+      "en": "‘Inak",
+      "fr": "‘Inak",
+      "de": "‘Inak",
+      "tr": "‘Inak",
+      "ur": "‘Inak",
+      "id": "‘Inak",
+      "es": "‘Inak",
+      "bn": "‘Inak",
+      "ms": "‘Inak"
+    },
+    "aliases": {
+      "en": [
+        "Anak",
+        "Anek",
+        "Anik",
+        "`Ank",
+        "`Inak",
+        "‘Ank",
+        "'Inak"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:108655",
+    "verified": true
+  },
+  {
+    "slug": "udhailiyah",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 25.14081,
+    "lng": 49.2996,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العضيلية",
+      "en": "Udhailiyah",
+      "fr": "Udhailiyah",
+      "de": "Udhailiyah",
+      "tr": "Udhailiyah",
+      "ur": "Udhailiyah",
+      "id": "Udhailiyah",
+      "es": "Udhailiyah",
+      "bn": "Udhailiyah",
+      "ms": "Udhailiyah"
+    },
+    "aliases": {
+      "ar": [
+        "العضيليه",
+        "العضیلیه",
+        "عضیلیہ"
+      ],
+      "en": [
+        "Al Udhailiya",
+        "Al `Udayliyah",
+        "Al ‘Uḑaylīyah",
+        "Udhailiya",
+        "`Udayliyah",
+        "‘Udayliyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:108852",
+    "verified": true
+  },
+  {
+    "slug": "qaisumah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 28.31117,
+    "lng": 46.12729,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "القيصومة‎‎",
+      "en": "Qaisumah",
+      "fr": "Qaisumah",
+      "de": "Qaisumah",
+      "tr": "Qaisumah",
+      "ur": "Qaisumah",
+      "id": "Qaisumah",
+      "es": "Qaisumah",
+      "bn": "Qaisumah",
+      "ms": "Qaisumah"
+    },
+    "aliases": {
+      "ar": [
+        "القيصومه",
+        "القیصومة",
+        "قیوصومہ"
+      ],
+      "en": [
+        "AQI",
+        "Al Qaysumah",
+        "Al Qayşūmah",
+        "Al-Kajsuma",
+        "Ehl'-Kajsuma",
+        "Gaisum",
+        "Gaisun",
+        "Kaysume",
+        "al-Qaysuma",
+        "al-Qaysūma",
+        "alqyswmh",
+        "alqyswmt",
+        "alqyswmt‎‎",
+        "gai su mai",
+        "kaisuma",
+        "qyyswmh"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:108918",
+    "verified": true
+  },
+  {
+    "slug": "al-mutayrifi",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.47878,
+    "lng": 49.55824,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "المطيرفي",
+      "en": "Al Muţayrifī",
+      "fr": "Al Muţayrifī",
+      "de": "Al Muţayrifī",
+      "tr": "Al Muţayrifī",
+      "ur": "Al Muţayrifī",
+      "id": "Al Muţayrifī",
+      "es": "Al Muţayrifī",
+      "bn": "Al Muţayrifī",
+      "ms": "Al Muţayrifī"
+    },
+    "aliases": {
+      "en": [
+        "Al Mutairifi",
+        "Al Mutayrifi",
+        "Matairafi",
+        "Muteirfeh",
+        "Umm Terfi",
+        "almtyrfy"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:109008",
+    "verified": true
+  },
+  {
+    "slug": "al-khabra",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.07179,
+    "lng": 43.62497,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الخَبراء",
+      "en": "Al Khabrā’",
+      "fr": "Al Khabrā’",
+      "de": "Al Khabrā’",
+      "tr": "Al Khabrā’",
+      "ur": "Al Khabrā’",
+      "id": "Al Khabrā’",
+      "es": "Al Khabrā’",
+      "bn": "Al Khabrā’",
+      "ms": "Al Khabrā’"
+    },
+    "aliases": {
+      "en": [
+        "Al Khabra'",
+        "Khabrah",
+        "Khobara"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:109391",
+    "verified": true
+  },
+  {
+    "slug": "al-jubaylah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 24.91116,
+    "lng": 46.4465,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الجبيلة",
+      "en": "Al Jubaylah",
+      "fr": "Al Jubaylah",
+      "de": "Al Jubaylah",
+      "tr": "Al Jubaylah",
+      "ur": "Al Jubaylah",
+      "id": "Al Jubaylah",
+      "es": "Al Jubaylah",
+      "bn": "Al Jubaylah",
+      "ms": "Al Jubaylah"
+    },
+    "aliases": {
+      "en": [
+        "Al Jubaila",
+        "Jabailah",
+        "Jubaila",
+        "aljbylt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:109432",
+    "verified": true
+  },
+  {
+    "slug": "al-jafr",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.37736,
+    "lng": 49.72154,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الجفر",
+      "en": "Al Jafr",
+      "fr": "Al Jafr",
+      "de": "Al Jafr",
+      "tr": "Al Jafr",
+      "ur": "Al Jafr",
+      "id": "Al Jafr",
+      "es": "Al Jafr",
+      "bn": "Al Jafr",
+      "ms": "Al Jafr"
+    },
+    "aliases": {
+      "en": [
+        "Bab-al-Jafar",
+        "Bāb-al-Jafar",
+        "Djafar",
+        "Jafar",
+        "Jafr",
+        "aljfr"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:109502",
+    "verified": true
+  },
+  {
+    "slug": "al-hayathim",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 24.16555,
+    "lng": 47.23764,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الهياثم",
+      "en": "Al Hayāthim",
+      "fr": "Al Hayāthim",
+      "de": "Al Hayāthim",
+      "tr": "Al Hayāthim",
+      "ur": "Al Hayāthim",
+      "id": "Al Hayāthim",
+      "es": "Al Hayāthim",
+      "bn": "Al Hayāthim",
+      "ms": "Al Hayāthim"
+    },
+    "aliases": {
+      "en": [
+        "Al Hayathim",
+        "alhyathm"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:109615",
+    "verified": true
+  },
+  {
+    "slug": "al-awwamiyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.59144,
+    "lng": 49.97951,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "العوامية",
+      "en": "Al ‘Awwāmīyah",
+      "fr": "Al ‘Awwāmīyah",
+      "de": "Al ‘Awwāmīyah",
+      "tr": "Al ‘Awwāmīyah",
+      "ur": "Al ‘Awwāmīyah",
+      "id": "Al ‘Awwāmīyah",
+      "es": "Al ‘Awwāmīyah",
+      "bn": "Al ‘Awwāmīyah",
+      "ms": "Al ‘Awwāmīyah"
+    },
+    "aliases": {
+      "en": [
+        "'Awamiyah",
+        "Al `Awamiyah",
+        "Al `Awwamiyah",
+        "Al ‘Awāmīyah",
+        "Awamiya",
+        "’Awāmīyah",
+        "Al 'Awwamiyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:109998",
+    "verified": true
+  },
+  {
+    "slug": "al-awjam",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.56324,
+    "lng": 49.94331,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الاوجام",
+      "en": "Al Awjām",
+      "fr": "Al Awjām",
+      "de": "Al Awjām",
+      "tr": "Al Awjām",
+      "ur": "Al Awjām",
+      "id": "Al Awjām",
+      "es": "Al Awjām",
+      "bn": "Al Awjām",
+      "ms": "Al Awjām"
+    },
+    "aliases": {
+      "en": [
+        "Ajam",
+        "Ajam al Qatif",
+        "Ajam al Qatīf",
+        "Al Ajam",
+        "Al Awjam",
+        "Al Ājām",
+        "El Ajam",
+        "Lajam",
+        "Lājām",
+        "alawjam"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "المنطقة الشرقية",
+      "regionEn": "Eastern Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:110107",
+    "verified": true
+  },
+  {
+    "slug": "adh-dhibiyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.027,
+    "lng": 43.157,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الذيبية",
+      "en": "Adh Dhibiyah",
+      "fr": "Adh Dhibiyah",
+      "de": "Adh Dhibiyah",
+      "tr": "Adh Dhibiyah",
+      "ur": "Adh Dhibiyah",
+      "id": "Adh Dhibiyah",
+      "es": "Adh Dhibiyah",
+      "bn": "Adh Dhibiyah",
+      "ms": "Adh Dhibiyah"
+    },
+    "aliases": {
+      "ar": [
+        "الذيبية القصيم",
+        "الذيبية بالقصيم",
+        "الذيبية في القصيم",
+        "الذيبيه",
+        "الذيبيه القصيم",
+        "الذيبيه بالقصيم",
+        "الذيبيه في القصيم",
+        "ذيبية",
+        "ذيبية القصيم",
+        "ذيبيه",
+        "ذيبيه القصيم"
+      ],
+      "en": [
+        "aldhybyh",
+        "aldhybyh alqsym",
+        "aldhybyh balqsym",
+        "aldhybyh fy alqsym",
+        "aldhybyt",
+        "aldhybyt alqsym",
+        "aldhybyt balqsym",
+        "aldhybyt fy alqsym",
+        "dhybyh",
+        "dhybyh alqsym",
+        "dhybyt",
+        "dhybyt alqsym"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:110275",
+    "verified": true
+  },
+  {
+    "slug": "ad-diriyah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 24.75187,
+    "lng": 46.53874,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الدرعية",
+      "en": "Ad Dir‘īyah",
+      "fr": "Ad Dir‘īyah",
+      "de": "Ad Dir‘īyah",
+      "tr": "Ad Dir‘īyah",
+      "ur": "Ad Dir‘īyah",
+      "id": "Ad Dir‘īyah",
+      "es": "Ad Dir‘īyah",
+      "bn": "Ad Dir‘īyah",
+      "ms": "Ad Dir‘īyah"
+    },
+    "aliases": {
+      "en": [
+        "Ad Dir'iyah",
+        "Ad Dir`iyah",
+        "Ad Dir’iyah",
+        "Al-Dir`iyya",
+        "Al-Dir‘iyya",
+        "Dara'iyah",
+        "Dara’īyah",
+        "Dariya",
+        "Deraya",
+        "Dhahara",
+        "Dhariyah",
+        "Dharīyah",
+        "aldrʿyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة الرياض",
+      "regionEn": "Riyadh Region"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:110312",
+    "verified": true
+  },
+  {
+    "slug": "al-fuwayliq",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.4436,
+    "lng": 43.25164,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "القويلق",
+      "en": "Al Fuwayliq",
+      "fr": "Al Fuwayliq",
+      "de": "Al Fuwayliq",
+      "tr": "Al Fuwayliq",
+      "ur": "Al Fuwayliq",
+      "id": "Al Fuwayliq",
+      "es": "Al Fuwayliq",
+      "bn": "Al Fuwayliq",
+      "ms": "Al Fuwayliq"
+    },
+    "aliases": {
+      "en": [
+        "alqwylq"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:397513",
+    "verified": true
+  },
+  {
+    "slug": "mizhirah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 16.82611,
+    "lng": 42.73333,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "مزهرة",
+      "en": "Mizhirah",
+      "fr": "Mizhirah",
+      "de": "Mizhirah",
+      "tr": "Mizhirah",
+      "ur": "Mizhirah",
+      "id": "Mizhirah",
+      "es": "Mizhirah",
+      "bn": "Mizhirah",
+      "ms": "Mizhirah"
+    },
+    "aliases": {
+      "en": [
+        "mzhrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة جازان",
+      "regionEn": "Jazan Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:410874",
+    "verified": true
+  },
+  {
+    "slug": "al-mulayda",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.31781,
+    "lng": 43.78527,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "المُلَيدَاء",
+      "en": "Al Mulaydā’",
+      "fr": "Al Mulaydā’",
+      "de": "Al Mulaydā’",
+      "tr": "Al Mulaydā’",
+      "ur": "Al Mulaydā’",
+      "id": "Al Mulaydā’",
+      "es": "Al Mulaydā’",
+      "bn": "Al Mulaydā’",
+      "ms": "Al Mulaydā’"
+    },
+    "aliases": {
+      "en": [
+        "Al Mulayda'"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "regionAr": "منطقة القصيم",
+      "regionEn": "Qassim Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:11829674",
+    "verified": true
   }
 ]

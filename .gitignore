@@ -8,3 +8,8 @@ node_modules/
 lh-*.json
 lighthouse-*.json
 lighthouse-a11y.json
+
+# CURATED-SA-GEODATA-IMPORT-1 — large GeoNames source dumps
+# (re-download anytime via Stage 1: node scripts/geodata/import_sa_geonames.mjs)
+db/places/sources/*.zip
+db/places/sources/*.txt

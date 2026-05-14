@@ -1389,6 +1389,81 @@ for (const [q, expectSlug, expectCC, expectTZ] of gccGeodata) {
     await sleep(150);
 }
 
+console.log('\n── CURATED-GEODATA-LEVANT-IRAQ-1 spot-checks (closure) ──');
+
+// Rate-limit drain. The suite has accumulated > 500 /api/search-place
+// requests by this point, and at the cheap-tier 300/min cap the LB+PS
+// tests at the END of this section get throttled to empty (`(none)`).
+// A 65-second pause lets the prior section's requests age out of the
+// 60-second rolling window before this last batch runs.
+console.log('  (waiting 65s to drain rate-limit window before final 35 spot-checks…)');
+await sleep(65000);
+
+// 35 user-listed queries covering the 99 merged via Strategy A across
+// SY, IQ, JO, LB, PS. Each must hit tier 1 (curated) with correct cc + tz.
+const levantIraqGeodata = [
+    // SY (10 — Asia/Damascus)
+    ['دوما',               'duma',              'sy', 'Asia/Damascus'],
+    ['السلمية',            'as-salamiyah',      'sy', 'Asia/Damascus'],
+    ['الطبقة',             'al-tabqa',          'sy', 'Asia/Damascus'],
+    ['داريا',              'darayya',           'sy', 'Asia/Damascus'],
+    ['السفيرة',            'as-safirah',        'sy', 'Asia/Damascus'],
+    ['أبو كمال',           'albu-kamal',        'sy', 'Asia/Damascus'],
+    ['الميادين',           'al-mayadin',        'sy', 'Asia/Damascus'],
+    ['تدمر',               'tadmur',            'sy', 'Asia/Damascus'],
+    ['عفرين',              'afrin',             'sy', 'Asia/Damascus'],
+    ['بانياس',             'baniyas',           'sy', 'Asia/Damascus'],
+    // IQ (10 — Asia/Baghdad)
+    ['أبو غريب',           'abu-ghurayb',       'iq', 'Asia/Baghdad'],
+    ['المحمودية',          'al-mahmudiyah',     'iq', 'Asia/Baghdad'],
+    ['خانقين',             'khanaqin',          'iq', 'Asia/Baghdad'],
+    ['زاخو',               'zaxo',              'iq', 'Asia/Baghdad'],
+    ['سنجار',              'sinjar',            'iq', 'Asia/Baghdad'],
+    ['هيت',                'hit',               'iq', 'Asia/Baghdad'],
+    ['حديثة',              'hadithah',          'iq', 'Asia/Baghdad'],
+    ['الرطبة',             'ar-rutbah',         'iq', 'Asia/Baghdad'],
+    ['راوة',               'rawah',             'iq', 'Asia/Baghdad'],
+    ['عقرة',               'aqrah',             'iq', 'Asia/Baghdad'],
+    // JO (5 — Asia/Amman)
+    ['الرمثا',             'ar-ramtha',         'jo', 'Asia/Amman'],
+    ['الجبيهة',            'al-jubayhah',       'jo', 'Asia/Amman'],
+    ['سحاب',               'sahab',             'jo', 'Asia/Amman'],
+    ['الفحيص',             'al-fuhays',         'jo', 'Asia/Amman'],
+    ['الشوبك',             'ash-shawbak',       'jo', 'Asia/Amman'],
+    // LB (6 — Asia/Beirut)
+    ['عالية',              'aley',              'lb', 'Asia/Beirut'],
+    ['جونيه',              'jounieh',           'lb', 'Asia/Beirut'],
+    ['الهرمل',             'el-hermel',         'lb', 'Asia/Beirut'],
+    ['بيبلوس',             'byblos',            'lb', 'Asia/Beirut'],
+    ['بشري',               'bsharri',           'lb', 'Asia/Beirut'],
+    ['البترون',            'batroun',           'lb', 'Asia/Beirut'],
+    // PS (4) — Gaza Strip uses Asia/Gaza, West Bank uses Asia/Hebron
+    // (correct GeoNames data — they're distinct IANA zones even though
+    // they currently share the same offset).
+    ['خان يونس',           'khan-yunis',        'ps', 'Asia/Gaza'],
+    ['رفح',                'rafah',             'ps', 'Asia/Gaza'],
+    ['دير البلح',          'dayr-al-balah',     'ps', 'Asia/Gaza'],
+    ['طوباس',              'tubas',             'ps', 'Asia/Hebron'],
+];
+// Slightly longer sleep here to absorb earlier-section traffic and stay
+// under the cheap-tier 300/min rate limit on /api/search-place.
+for (const [q, expectSlug, expectCC, expectTZ] of levantIraqGeodata) {
+    const r = await topOfQ(q, 'ar');
+    const got   = r ? r.displayName : '(none)';
+    const cc    = r ? r.countryCode : '(none)';
+    const tz    = r ? r.timezone    : '(none)';
+    const src   = r ? r.source      : '(none)';
+    const slug  = r ? r.slug        : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === expectCC;
+    const okTZ      = r && r.timezone === expectTZ;
+    const okReady   = r && isPrayerTimesReady(r);
+    const okSlug    = r && r.slug === expectSlug;
+    check(`${q} → curated ${expectCC} ${expectTZ} slug=${expectSlug} [src=${src}, cc=${cc}, tz=${tz}, slug=${slug}, name="${got}"]`,
+        okCurated && okCC && okTZ && okReady && okSlug);
+    await sleep(250);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

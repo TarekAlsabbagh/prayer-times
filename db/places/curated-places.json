@@ -22970,5 +22970,4588 @@
     "source": "curated",
     "sourceId": "geonames:13440142",
     "verified": true
+  },
+  {
+    "slug": "yabrud",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.96921,
+    "lng": 36.65729,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "يبرود",
+      "en": "Yabrūd",
+      "fr": "Yabrūd",
+      "de": "Yabrūd",
+      "tr": "Yabrūd",
+      "ur": "Yabrūd",
+      "id": "Yabrūd",
+      "es": "Yabrūd",
+      "bn": "Yabrūd",
+      "ms": "Yabrūd"
+    },
+    "aliases": {
+      "en": [
+        "Gebru",
+        "Jabrud",
+        "Jebru",
+        "Jebrud",
+        "Yabroud",
+        "Yabroûd",
+        "Yabrud",
+        "ybrwd"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:162627",
+    "verified": true
+  },
+  {
+    "slug": "tallkalakh",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.66842,
+    "lng": 36.25995,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "تل كلخ",
+      "en": "Tallkalakh",
+      "fr": "Tallkalakh",
+      "de": "Tallkalakh",
+      "tr": "Tallkalakh",
+      "ur": "Tallkalakh",
+      "id": "Tallkalakh",
+      "es": "Tallkalakh",
+      "bn": "Tallkalakh",
+      "ms": "Tallkalakh"
+    },
+    "aliases": {
+      "ar": [
+        "تلكلخ"
+      ],
+      "en": [
+        "Talkalakh",
+        "Tall Kalakh",
+        "Telkalakh",
+        "Tell Kalakh",
+        "tl klkh",
+        "tlklkh"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حمص",
+      "regionEn": "Homs Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:163533",
+    "verified": true
+  },
+  {
+    "slug": "tadmur",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.5624,
+    "lng": 38.28402,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "تدمر",
+      "en": "Tadmur",
+      "fr": "Tadmur",
+      "de": "Tadmur",
+      "tr": "Tadmur",
+      "ur": "Tadmur",
+      "id": "Tadmur",
+      "es": "Tadmur",
+      "bn": "Tadmur",
+      "ms": "Tadmur"
+    },
+    "aliases": {
+      "en": [
+        "PMS",
+        "Pal'mira",
+        "Palmira",
+        "Palmuera",
+        "Palmyra",
+        "Palmyre",
+        "Palmüra",
+        "Palmýra",
+        "Tadmor",
+        "Tedmor",
+        "ba er mi la",
+        "parumira yi ji",
+        "tdmr",
+        "tdmwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حمص",
+      "regionEn": "Homs Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:163808",
+    "verified": true
+  },
+  {
+    "slug": "shahba",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 32.85237,
+    "lng": 36.62847,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "شهبا",
+      "en": "Shahbā",
+      "fr": "Shahbā",
+      "de": "Shahbā",
+      "tr": "Shahbā",
+      "ur": "Shahbā",
+      "id": "Shahbā",
+      "es": "Shahbā",
+      "bn": "Shahbā",
+      "ms": "Shahbā"
+    },
+    "aliases": {
+      "en": [
+        "Chahba",
+        "Filippopolis",
+        "Philippopolis",
+        "Phillipopolis",
+        "Philppopolis",
+        "Schahba",
+        "Shaba",
+        "Shahaba",
+        "Shahba",
+        "Shahba'",
+        "Shahbah",
+        "Shahbā’",
+        "Shakhba",
+        "shhba"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة السويداء",
+      "regionEn": "As-Suwayda Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:164626",
+    "verified": true
+  },
+  {
+    "slug": "salkhad",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 32.492,
+    "lng": 36.71114,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "صلخد",
+      "en": "Şalkhad",
+      "fr": "Şalkhad",
+      "de": "Şalkhad",
+      "tr": "Şalkhad",
+      "ur": "Şalkhad",
+      "id": "Şalkhad",
+      "es": "Şalkhad",
+      "bn": "Şalkhad",
+      "ms": "Şalkhad"
+    },
+    "aliases": {
+      "en": [
+        "Sal'khad",
+        "Salakhad",
+        "Salakhed",
+        "Salka",
+        "Salkas",
+        "Salkhad",
+        "Salkhade",
+        "Salâkhed",
+        "Selcha",
+        "slkhd",
+        "Şalākhad"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة السويداء",
+      "regionEn": "As-Suwayda Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:164917",
+    "verified": true
+  },
+  {
+    "slug": "as-salamiyah",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.01127,
+    "lng": 37.05324,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "السلمية",
+      "en": "As Salamīyah",
+      "fr": "As Salamīyah",
+      "de": "As Salamīyah",
+      "tr": "As Salamīyah",
+      "ur": "As Salamīyah",
+      "id": "As Salamīyah",
+      "es": "As Salamīyah",
+      "bn": "As Salamīyah",
+      "ms": "As Salamīyah"
+    },
+    "aliases": {
+      "ar": [
+        "سلمية"
+      ],
+      "en": [
+        "As Salamiyah",
+        "Salamias",
+        "Salamiyah",
+        "Salamiyeh",
+        "Salamīyah",
+        "Selemie",
+        "Selemiya",
+        "Selemiye",
+        "Selemié",
+        "Selemīya",
+        "Sélémîyé",
+        "alslmyt",
+        "slmyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حماة",
+      "regionEn": "Hama Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:164947",
+    "verified": true
+  },
+  {
+    "slug": "safita",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.82099,
+    "lng": 36.11773,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "برج صافيتا",
+      "en": "Şāfītā",
+      "fr": "Şāfītā",
+      "de": "Şāfītā",
+      "tr": "Şāfītā",
+      "ur": "Şāfītā",
+      "id": "Şāfītā",
+      "es": "Şāfītā",
+      "bn": "Şāfītā",
+      "ms": "Şāfītā"
+    },
+    "aliases": {
+      "ar": [
+        "صافيتا"
+      ],
+      "en": [
+        "Borj Safita",
+        "Borj Sâfîta",
+        "Burj Safita",
+        "Burj Şāfītā",
+        "Khokhu",
+        "Safita",
+        "Satita",
+        "brj safyta",
+        "safyta"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة طرطوس",
+      "regionEn": "Tartus Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:165060",
+    "verified": true
+  },
+  {
+    "slug": "qatana",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.43757,
+    "lng": 36.07888,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "قطنا",
+      "en": "Qaţanā",
+      "fr": "Qaţanā",
+      "de": "Qaţanā",
+      "tr": "Qaţanā",
+      "ur": "Qaţanā",
+      "id": "Qaţanā",
+      "es": "Qaţanā",
+      "bn": "Qaţanā",
+      "ms": "Qaţanā"
+    },
+    "aliases": {
+      "en": [
+        "Katana",
+        "Qatana",
+        "Qatanah",
+        "Qaţanah",
+        "qtna"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:165929",
+    "verified": true
+  },
+  {
+    "slug": "mukharram-al-fawqani",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.81521,
+    "lng": 37.08677,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "المخرم الفوقاني",
+      "en": "Mukharram al Fawqānī",
+      "fr": "Mukharram al Fawqānī",
+      "de": "Mukharram al Fawqānī",
+      "tr": "Mukharram al Fawqānī",
+      "ur": "Mukharram al Fawqānī",
+      "id": "Mukharram al Fawqānī",
+      "es": "Mukharram al Fawqānī",
+      "bn": "Mukharram al Fawqānī",
+      "ms": "Mukharram al Fawqānī"
+    },
+    "aliases": {
+      "ar": [
+        "مخرم الفوقاني"
+      ],
+      "en": [
+        "Al-Mukharram Fokani",
+        "Moukharram Faouqani",
+        "Moukharrem el Fouqani",
+        "Muharram",
+        "Muharrem",
+        "Mukharram Fawqani",
+        "Mukharram Fawqānī",
+        "Mukharram Fokani",
+        "Mukharram al Fawqani",
+        "Muḩarram",
+        "Upper Makhram",
+        "Upper Makhrim",
+        "almkhrm alfwqany",
+        "mkhrm alfwqany"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حمص",
+      "regionEn": "Homs Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:166719",
+    "verified": true
+  },
+  {
+    "slug": "maharda",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.2479,
+    "lng": 36.5725,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الكرمة",
+      "en": "Maharda",
+      "fr": "Maharda",
+      "de": "Maharda",
+      "tr": "Maharda",
+      "ur": "Maharda",
+      "id": "Maharda",
+      "es": "Maharda",
+      "bn": "Maharda",
+      "ms": "Maharda"
+    },
+    "aliases": {
+      "ar": [
+        "محردة"
+      ],
+      "en": [
+        "Al Karmah",
+        "Maharada",
+        "Mahardah",
+        "Maharde",
+        "Mahardih",
+        "Maḩardah",
+        "Maḩarde",
+        "Maḩardih",
+        "Mharada",
+        "Mharda",
+        "Mhardeh",
+        "Muhardeh",
+        "Muhradah",
+        "Muḩradah",
+        "alkrmt",
+        "mhrdt"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حماة",
+      "regionEn": "Hama Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:166742",
+    "verified": true
+  },
+  {
+    "slug": "masyaf",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.0653,
+    "lng": 36.3406,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "مصياف",
+      "en": "Maşyāf",
+      "fr": "Maşyāf",
+      "de": "Maşyāf",
+      "tr": "Maşyāf",
+      "ur": "Maşyāf",
+      "id": "Maşyāf",
+      "es": "Maşyāf",
+      "bn": "Maşyāf",
+      "ms": "Maşyāf"
+    },
+    "aliases": {
+      "en": [
+        "Imranie",
+        "Massiaf",
+        "Massiyaf",
+        "Massiâf",
+        "Massyaf",
+        "Masyab",
+        "Masyad",
+        "Masyaf",
+        "Masyāb",
+        "Maşşīyaf",
+        "Misiaf",
+        "Omranie",
+        "Omranié",
+        "`Omraniye",
+        "`Umraniya",
+        "msyaf",
+        "‘Omrānīye",
+        "‘Umraniya"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حماة",
+      "regionEn": "Hama Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:167046",
+    "verified": true
+  },
+  {
+    "slug": "jisr-ash-shughur",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.81418,
+    "lng": 36.31983,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "جسر الشغور",
+      "en": "Jisr ash Shughūr",
+      "fr": "Jisr ash Shughūr",
+      "de": "Jisr ash Shughūr",
+      "tr": "Jisr ash Shughūr",
+      "ur": "Jisr ash Shughūr",
+      "id": "Jisr ash Shughūr",
+      "es": "Jisr ash Shughūr",
+      "bn": "Jisr ash Shughūr",
+      "ms": "Jisr ash Shughūr"
+    },
+    "aliases": {
+      "en": [
+        "Djisr el Choghour",
+        "Jisr Al-Shughour",
+        "Jisr Shagour",
+        "Jisr ash Shaghur",
+        "Jisr ash Shughur",
+        "Jisr ash Shāghūr",
+        "Jisr ech Chorhour",
+        "Jisr esh Shaur",
+        "Jisr esh Shughur",
+        "Jisr esh Shughūr",
+        "Jisr-esh-Shughour",
+        "jsr alshghwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة إدلب",
+      "regionEn": "Idlib Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:169023",
+    "verified": true
+  },
+  {
+    "slug": "jarabulus",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 36.8175,
+    "lng": 38.01111,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "جرابلس",
+      "en": "Jarābulus",
+      "fr": "Jarābulus",
+      "de": "Jarābulus",
+      "tr": "Jarābulus",
+      "ur": "Jarābulus",
+      "id": "Jarābulus",
+      "es": "Jarābulus",
+      "bn": "Jarābulus",
+      "ms": "Jarābulus"
+    },
+    "aliases": {
+      "en": [
+        "Carablus",
+        "Djarablous",
+        "Djerablous",
+        "Djérâbloûs",
+        "Jarablos",
+        "Jarablus",
+        "Jarabulus",
+        "Jerablus",
+        "Jirablus",
+        "Jirāblus",
+        "jrabls"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حلب",
+      "regionEn": "Aleppo Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:169179",
+    "verified": true
+  },
+  {
+    "slug": "izra",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 32.86709,
+    "lng": 36.25072,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "ازرع",
+      "en": "Izra‘",
+      "fr": "Izra‘",
+      "de": "Izra‘",
+      "tr": "Izra‘",
+      "ur": "Izra‘",
+      "id": "Izra‘",
+      "es": "Izra‘",
+      "bn": "Izra‘",
+      "ms": "Izra‘"
+    },
+    "aliases": {
+      "en": [
+        "Ezra",
+        "Ezraa",
+        "Ezrra",
+        "Izra",
+        "Izra`",
+        "Izra`a",
+        "Izra‘a",
+        "Lorava",
+        "Zoraia",
+        "Zorava"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة درعا",
+      "regionEn": "Daraa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:169341",
+    "verified": true
+  },
+  {
+    "slug": "ad-duraykish",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.89514,
+    "lng": 36.14303,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الدريكيش",
+      "en": "Ad Duraykīsh",
+      "fr": "Ad Duraykīsh",
+      "de": "Ad Duraykīsh",
+      "tr": "Ad Duraykīsh",
+      "ur": "Ad Duraykīsh",
+      "id": "Ad Duraykīsh",
+      "es": "Ad Duraykīsh",
+      "bn": "Ad Duraykīsh",
+      "ms": "Ad Duraykīsh"
+    },
+    "aliases": {
+      "ar": [
+        "دريكيش"
+      ],
+      "en": [
+        "Ad Duraykish",
+        "Bermana",
+        "Dere Kish",
+        "Draikich",
+        "Draykikh",
+        "Draykīkh",
+        "Draïkich",
+        "Draïkîch",
+        "Dreikich",
+        "Duraykish",
+        "Duraykīsh",
+        "Dureikish",
+        "Dureikīsh",
+        "aldrykysh",
+        "drykysh"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة طرطوس",
+      "regionEn": "Tartus Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:170572",
+    "verified": true
+  },
+  {
+    "slug": "duma",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.57175,
+    "lng": 36.4027,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "دوما",
+      "en": "Dūmā",
+      "fr": "Dūmā",
+      "de": "Dūmā",
+      "tr": "Dūmā",
+      "ur": "Dūmā",
+      "id": "Dūmā",
+      "es": "Dūmā",
+      "bn": "Dūmā",
+      "ms": "Dūmā"
+    },
+    "aliases": {
+      "en": [
+        "Douma",
+        "Duma",
+        "Ntouma",
+        "dwma",
+        "dwmʼ"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:170592",
+    "verified": true
+  },
+  {
+    "slug": "darayya",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.45835,
+    "lng": 36.23256,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "داريا",
+      "en": "Dārayyā",
+      "fr": "Dārayyā",
+      "de": "Dārayyā",
+      "tr": "Dārayyā",
+      "ur": "Dārayyā",
+      "id": "Dārayyā",
+      "es": "Dārayyā",
+      "bn": "Dārayyā",
+      "ms": "Dārayyā"
+    },
+    "aliases": {
+      "ar": [
+        "داريّا"
+      ],
+      "en": [
+        "Daraiya",
+        "Daraje",
+        "Daraya",
+        "Daraye",
+        "Darayya",
+        "Darayyah",
+        "Dareiya",
+        "Deraya",
+        "Dâraiya",
+        "Dārayyah",
+        "Dārayā",
+        "Dāreiya",
+        "darya"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:170892",
+    "verified": true
+  },
+  {
+    "slug": "baniyas",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.18188,
+    "lng": 35.94871,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "بانياس",
+      "en": "Bāniyās",
+      "fr": "Bāniyās",
+      "de": "Bāniyās",
+      "tr": "Bāniyās",
+      "ur": "Bāniyās",
+      "id": "Bāniyās",
+      "es": "Bāniyās",
+      "bn": "Bāniyās",
+      "ms": "Bāniyās"
+    },
+    "aliases": {
+      "en": [
+        "Banias",
+        "Banigias",
+        "Banijas",
+        "Baniyas",
+        "Bulunyas",
+        "Bulunyās",
+        "Bâniâs",
+        "banyas",
+        "bnyʼs"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة طرطوس",
+      "regionEn": "Tartus Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:171830",
+    "verified": true
+  },
+  {
+    "slug": "az-zabadani",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.72488,
+    "lng": 36.1005,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الزبداني",
+      "en": "Az Zabadānī",
+      "fr": "Az Zabadānī",
+      "de": "Az Zabadānī",
+      "tr": "Az Zabadānī",
+      "ur": "Az Zabadānī",
+      "id": "Az Zabadānī",
+      "es": "Az Zabadānī",
+      "bn": "Az Zabadānī",
+      "ms": "Az Zabadānī"
+    },
+    "aliases": {
+      "en": [
+        "Az Zabadani",
+        "Zabadani",
+        "Zabadany",
+        "Zabdani",
+        "Zabdānī",
+        "Zebdani",
+        "Zebdāni",
+        "Zebedani",
+        "Zibdani",
+        "Zibdānī",
+        "alzbdany"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:172059",
+    "verified": true
+  },
+  {
+    "slug": "at-tall",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.61033,
+    "lng": 36.3107,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "التل",
+      "en": "At Tall",
+      "fr": "At Tall",
+      "de": "At Tall",
+      "tr": "At Tall",
+      "ur": "At Tall",
+      "id": "At Tall",
+      "es": "At Tall",
+      "bn": "At Tall",
+      "ms": "At Tall"
+    },
+    "aliases": {
+      "en": [
+        "Al-Tal",
+        "Ett Tell",
+        "Tal",
+        "Tall",
+        "Tell",
+        "al-Tell",
+        "altl"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:172349",
+    "verified": true
+  },
+  {
+    "slug": "al-tabqa",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.83758,
+    "lng": 38.54828,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الثورة",
+      "en": "Al-Tabqa",
+      "fr": "Al-Tabqa",
+      "de": "Al-Tabqa",
+      "tr": "Al-Tabqa",
+      "ur": "Al-Tabqa",
+      "id": "Al-Tabqa",
+      "es": "Al-Tabqa",
+      "bn": "Al-Tabqa",
+      "ms": "Al-Tabqa"
+    },
+    "aliases": {
+      "ar": [
+        "الطبقة",
+        "ثورة"
+      ],
+      "en": [
+        "Al Tabaqah",
+        "Al-Tabbaqah",
+        "Al-Thawra",
+        "At Tabaqah",
+        "At Tabqah",
+        "Ath Thawrah",
+        "Aţ Ţabaqah",
+        "Aţ Ţabqah",
+        "Madinat ath Thawrah",
+        "Madīnat ath Thawrah",
+        "Medinat Al Thawra",
+        "Revolution City",
+        "Tabaqah",
+        "Tabqa",
+        "Thawrah",
+        "altbqt",
+        "althwrt",
+        "thwrt",
+        "Ţabaqah"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة الرقة",
+      "regionEn": "Raqqa Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:172374",
+    "verified": true
+  },
+  {
+    "slug": "as-sanamayn",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.07186,
+    "lng": 36.18316,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الصنمين",
+      "en": "Aş Şanamayn",
+      "fr": "Aş Şanamayn",
+      "de": "Aş Şanamayn",
+      "tr": "Aş Şanamayn",
+      "ur": "Aş Şanamayn",
+      "id": "Aş Şanamayn",
+      "es": "Aş Şanamayn",
+      "bn": "Aş Şanamayn",
+      "ms": "Aş Şanamayn"
+    },
+    "aliases": {
+      "ar": [
+        "صنمين"
+      ],
+      "en": [
+        "Aere",
+        "Aeré",
+        "As Sanamayn",
+        "Ehs-Sanamejn",
+        "Es Sanamein",
+        "Es Sannamain",
+        "Sanamayn",
+        "Sanamein",
+        "Sanameine",
+        "Sanameïne",
+        "Sanmayn",
+        "alsnmyn",
+        "snmyn",
+        "Şanamayn"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة درعا",
+      "regionEn": "Daraa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:172469",
+    "verified": true
+  },
+  {
+    "slug": "as-safirah",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 36.07696,
+    "lng": 37.37251,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "السفيرة",
+      "en": "As Safīrah",
+      "fr": "As Safīrah",
+      "de": "As Safīrah",
+      "tr": "As Safīrah",
+      "ur": "As Safīrah",
+      "id": "As Safīrah",
+      "es": "As Safīrah",
+      "bn": "As Safīrah",
+      "ms": "As Safīrah"
+    },
+    "aliases": {
+      "ar": [
+        "سفيرة"
+      ],
+      "en": [
+        "Al-Safira",
+        "As Safirah",
+        "Safir",
+        "Safira",
+        "Safirah",
+        "Safīrah",
+        "Sfaireh",
+        "Sfira",
+        "Sfire",
+        "Sfiré",
+        "Sfīra",
+        "alsfyrt",
+        "sfyrt",
+        "Şafīr"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حلب",
+      "regionEn": "Aleppo Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:172503",
+    "verified": true
+  },
+  {
+    "slug": "ar-rastan",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.92667,
+    "lng": 36.73241,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الرستن",
+      "en": "Ar Rastan",
+      "fr": "Ar Rastan",
+      "de": "Ar Rastan",
+      "tr": "Ar Rastan",
+      "ur": "Ar Rastan",
+      "id": "Ar Rastan",
+      "es": "Ar Rastan",
+      "bn": "Ar Rastan",
+      "ms": "Ar Rastan"
+    },
+    "aliases": {
+      "en": [
+        "Al-Rastan",
+        "Arethousa",
+        "Arethus",
+        "El Rastane",
+        "Er Rastan",
+        "Rastan",
+        "Rastane",
+        "Rastâne",
+        "alrstn"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حمص",
+      "regionEn": "Homs Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:172946",
+    "verified": true
+  },
+  {
+    "slug": "an-nabk",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.02403,
+    "lng": 36.72848,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "النبك",
+      "en": "An Nabk",
+      "fr": "An Nabk",
+      "de": "An Nabk",
+      "tr": "An Nabk",
+      "ur": "An Nabk",
+      "id": "An Nabk",
+      "es": "An Nabk",
+      "bn": "An Nabk",
+      "ms": "An Nabk"
+    },
+    "aliases": {
+      "en": [
+        "Al-Nabek",
+        "En Nebk",
+        "Kalamom",
+        "Nabak",
+        "Nabaq",
+        "Nabek",
+        "Nebeck",
+        "Nebek",
+        "Nebk",
+        "Nébeck",
+        "alnbk"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:173193",
+    "verified": true
+  },
+  {
+    "slug": "al-qutayfah",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 33.73848,
+    "lng": 36.60071,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "القطيفة",
+      "en": "Al Quţayfah",
+      "fr": "Al Quţayfah",
+      "de": "Al Quţayfah",
+      "tr": "Al Quţayfah",
+      "ur": "Al Quţayfah",
+      "id": "Al Quţayfah",
+      "es": "Al Quţayfah",
+      "bn": "Al Quţayfah",
+      "ms": "Al Quţayfah"
+    },
+    "aliases": {
+      "ar": [
+        "قطيفة"
+      ],
+      "en": [
+        "Al Qutayfah",
+        "Al-Kutaifeh",
+        "El Qtaife",
+        "El Qtaïfé",
+        "Kouteife",
+        "Kouteifé",
+        "Kutayfa",
+        "Kuteife",
+        "Qtaife",
+        "Qtaïfé",
+        "Qutayfah",
+        "Quteifa",
+        "Quteife",
+        "Quteifeh",
+        "Quţayfah",
+        "alqtyft",
+        "qtyft"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:173312",
+    "verified": true
+  },
+  {
+    "slug": "al-qusayr",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.5078,
+    "lng": 36.58029,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "القصير",
+      "en": "Al Quşayr",
+      "fr": "Al Quşayr",
+      "de": "Al Quşayr",
+      "tr": "Al Quşayr",
+      "ur": "Al Quşayr",
+      "id": "Al Quşayr",
+      "es": "Al Quşayr",
+      "bn": "Al Quşayr",
+      "ms": "Al Quşayr"
+    },
+    "aliases": {
+      "en": [
+        "Al Qusayr",
+        "Al'-Kusajra",
+        "Al-Kuseir",
+        "El Qoussair",
+        "El Quseir",
+        "Kouseir",
+        "Koussaie",
+        "Kousseir",
+        "Kuseir",
+        "Qosair",
+        "Qoussair",
+        "Qoussaïr",
+        "Qusair",
+        "Qusayr",
+        "Qusir",
+        "Quşayr",
+        "alqsyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حمص",
+      "regionEn": "Homs Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:173322",
+    "verified": true
+  },
+  {
+    "slug": "al-mayadin",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.01982,
+    "lng": 40.45154,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "الميادين",
+      "en": "Al Mayādīn",
+      "fr": "Al Mayādīn",
+      "de": "Al Mayādīn",
+      "tr": "Al Mayādīn",
+      "ur": "Al Mayādīn",
+      "id": "Al Mayādīn",
+      "es": "Al Mayādīn",
+      "bn": "Al Mayādīn",
+      "ms": "Al Mayādīn"
+    },
+    "aliases": {
+      "ar": [
+        "ميادين"
+      ],
+      "en": [
+        "Al Mayadin",
+        "Al-Mayadeen",
+        "Audattha",
+        "Mayadin",
+        "Mayadine",
+        "Mayādīn",
+        "Meyadin",
+        "Meyadine",
+        "Meyedine",
+        "Meyādīn",
+        "almyadyn",
+        "myadyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة دير الزور",
+      "regionEn": "Deir ez-Zor Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:173480",
+    "verified": true
+  },
+  {
+    "slug": "al-malikiyah",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 37.17701,
+    "lng": 42.14006,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "dێryk",
+      "en": "Al Mālikīyah",
+      "fr": "Al Mālikīyah",
+      "de": "Al Mālikīyah",
+      "tr": "Al Mālikīyah",
+      "ur": "Al Mālikīyah",
+      "id": "Al Mālikīyah",
+      "es": "Al Mālikīyah",
+      "bn": "Al Mālikīyah",
+      "ms": "Al Mālikīyah"
+    },
+    "aliases": {
+      "ar": [
+        "المالكية",
+        "ديريك",
+        "دێريك",
+        "كير ذيريك"
+      ],
+      "en": [
+        "Al Malikiyah",
+        "Darik",
+        "Dayrik",
+        "Dayrīk",
+        "Deirik",
+        "Derik",
+        "Deïrîk",
+        "Dêrik",
+        "Dêrîk",
+        "Guir Zerik",
+        "Guir Zérik",
+        "Kir Dhayrik",
+        "Kir Zerik",
+        "Kīr Dhayrīk",
+        "Kīr Zérik",
+        "Malikiyeh",
+        "Malkieh",
+        "almalkyt",
+        "dyryk",
+        "kyr dhyryk"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة الحسكة",
+      "regionEn": "Al-Hasakah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:173530",
+    "verified": true
+  },
+  {
+    "slug": "afrin",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 36.51194,
+    "lng": 36.86954,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "عفرين",
+      "en": "‘Afrīn",
+      "fr": "‘Afrīn",
+      "de": "‘Afrīn",
+      "tr": "‘Afrīn",
+      "ur": "‘Afrīn",
+      "id": "‘Afrīn",
+      "es": "‘Afrīn",
+      "bn": "‘Afrīn",
+      "ms": "‘Afrīn"
+    },
+    "aliases": {
+      "en": [
+        "Aafrine",
+        "Aafrîne",
+        "Afrin",
+        "Afrine",
+        "`Afrin",
+        "`Ifrin",
+        "‘Ifrīn"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة حلب",
+      "regionEn": "Aleppo Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:174186",
+    "verified": true
+  },
+  {
+    "slug": "albu-kamal",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.45226,
+    "lng": 40.91854,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "أبو كمال",
+      "en": "Ālbū Kamāl",
+      "fr": "Ālbū Kamāl",
+      "de": "Ālbū Kamāl",
+      "tr": "Ālbū Kamāl",
+      "ur": "Ālbū Kamāl",
+      "id": "Ālbū Kamāl",
+      "es": "Ālbū Kamāl",
+      "bn": "Ālbū Kamāl",
+      "ms": "Ālbū Kamāl"
+    },
+    "aliases": {
+      "ar": [
+        "البو كمال"
+      ],
+      "en": [
+        "Abou Kemal",
+        "Abu Kamal",
+        "Abu Kemal",
+        "Abu Kemāl",
+        "Abu-Kamal'",
+        "Abū Kamāl",
+        "Al-Bukamal",
+        "Al-bu-Kamal",
+        "Albu Kamal",
+        "Bukmal",
+        "Hindane",
+        "Hindané",
+        "abw kmal",
+        "albw kmal"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة دير الزور",
+      "regionEn": "Deir ez-Zor Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:174448",
+    "verified": true
+  },
+  {
+    "slug": "zaxo",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 37.14871,
+    "lng": 42.68591,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "زاخو",
+      "en": "Zaxo",
+      "fr": "Zaxo",
+      "de": "Zaxo",
+      "tr": "Zaxo",
+      "ur": "Zaxo",
+      "id": "Zaxo",
+      "es": "Zaxo",
+      "bn": "Zaxo",
+      "ms": "Zaxo"
+    },
+    "aliases": {
+      "ar": [
+        "زاخۆ"
+      ],
+      "en": [
+        "Zakhaw",
+        "Zakho",
+        "Zakhu",
+        "Zaxu",
+        "Zākhaw",
+        "Zākhū",
+        "zakhw"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة دهوك",
+      "regionEn": "Dahuk Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:89570",
+    "verified": true
+  },
+  {
+    "slug": "tallkayf",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.49118,
+    "lng": 43.12114,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "تلكيف",
+      "en": "Tallkayf",
+      "fr": "Tallkayf",
+      "de": "Tallkayf",
+      "tr": "Tallkayf",
+      "ur": "Tallkayf",
+      "id": "Tallkayf",
+      "es": "Tallkayf",
+      "bn": "Tallkayf",
+      "ms": "Tallkayf"
+    },
+    "aliases": {
+      "ar": [
+        "قضاء تلكيف"
+      ],
+      "en": [
+        "Qada' Talkif",
+        "Qada' Tallkayf",
+        "Qaḑā’ Talkīf",
+        "Qaḑā’ Tallkayf",
+        "Tall Kaif",
+        "Tall Kayf",
+        "Tall'-Kajf",
+        "Tel Kaif",
+        "Tilkayf",
+        "tlkyf"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة نينوى",
+      "regionEn": "Ninawa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:90353",
+    "verified": true
+  },
+  {
+    "slug": "sumayl",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.85823,
+    "lng": 42.8482,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "sێmێl",
+      "en": "Sumayl",
+      "fr": "Sumayl",
+      "de": "Sumayl",
+      "tr": "Sumayl",
+      "ur": "Sumayl",
+      "id": "Sumayl",
+      "es": "Sumayl",
+      "bn": "Sumayl",
+      "ms": "Sumayl"
+    },
+    "aliases": {
+      "ar": [
+        "سميل",
+        "سومێل",
+        "سيميل",
+        "سێمێل"
+      ],
+      "en": [
+        "Samil",
+        "Samīl",
+        "Saymayl",
+        "Semel",
+        "Simayl",
+        "Simel",
+        "Sumel",
+        "Summail",
+        "Summayl",
+        "Summel",
+        "Summēl",
+        "Sumêl",
+        "Sêmêl",
+        "Sīmayl",
+        "smyl",
+        "symyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة دهوك",
+      "regionEn": "Dahuk Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:90532",
+    "verified": true
+  },
+  {
+    "slug": "ash-sharqat",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 35.51722,
+    "lng": 43.22806,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الشرقاط",
+      "en": "Ash Sharqāt",
+      "fr": "Ash Sharqāt",
+      "de": "Ash Sharqāt",
+      "tr": "Ash Sharqāt",
+      "ur": "Ash Sharqāt",
+      "id": "Ash Sharqāt",
+      "es": "Ash Sharqāt",
+      "bn": "Ash Sharqāt",
+      "ms": "Ash Sharqāt"
+    },
+    "aliases": {
+      "en": [
+        "Ash Sharqat",
+        "Sharqat",
+        "Sharqāt",
+        "alshrqat"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة صلاح الدين",
+      "regionEn": "Salah ad Din Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:91057",
+    "verified": true
+  },
+  {
+    "slug": "shaqlawah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.40422,
+    "lng": 44.32563,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "شقلاوة",
+      "en": "Shaqlāwah",
+      "fr": "Shaqlāwah",
+      "de": "Shaqlāwah",
+      "tr": "Shaqlāwah",
+      "ur": "Shaqlāwah",
+      "id": "Shaqlāwah",
+      "es": "Shaqlāwah",
+      "bn": "Shaqlāwah",
+      "ms": "Shaqlāwah"
+    },
+    "aliases": {
+      "ar": [
+        "شقلاوه",
+        "شەقڵاوە"
+      ],
+      "en": [
+        "Shaglawa",
+        "Shaglāwa",
+        "Shaklawa",
+        "Shaqlawa",
+        "Shaqlawah",
+        "Shaqlwah",
+        "Shaqlāwa",
+        "Sheqlawe",
+        "Sheqławe",
+        "shqlawh",
+        "shqlawt",
+        "shqlbd",
+        "shqlbʾ",
+        "shqlʾbʾ"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة أربيل",
+      "regionEn": "Erbil Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:91083",
+    "verified": true
+  },
+  {
+    "slug": "ruwandiz",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.6114,
+    "lng": 44.52194,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "راوندوز",
+      "en": "Ṟuwandiz",
+      "fr": "Ṟuwandiz",
+      "de": "Ṟuwandiz",
+      "tr": "Ṟuwandiz",
+      "ur": "Ṟuwandiz",
+      "id": "Ṟuwandiz",
+      "es": "Ṟuwandiz",
+      "bn": "Ṟuwandiz",
+      "ms": "Ṟuwandiz"
+    },
+    "aliases": {
+      "ar": [
+        "رواندز",
+        "ڕwandz",
+        "ڕواندز",
+        "ڕەwandwz",
+        "ڕەواندوز"
+      ],
+      "en": [
+        "Ravanduz",
+        "Rawandiz",
+        "Rawandoz",
+        "Rawanduz",
+        "Rawanduze",
+        "Rawndoz",
+        "Rawāndiz",
+        "Rawānduz",
+        "Revandis",
+        "Rewandus",
+        "Rewanduz",
+        "Roandiz",
+        "Roanduz",
+        "Rowanduz",
+        "Rowandūz",
+        "Ruwan Duz",
+        "Ruwandiz",
+        "Ruwanduz",
+        "Ruwāndiz",
+        "Ruwāndūz",
+        "Rāwandūz",
+        "rawndwz",
+        "rwandz",
+        "Ṟewanduz"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة أربيل",
+      "regionEn": "Erbil Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:92002",
+    "verified": true
+  },
+  {
+    "slug": "rawah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.48229,
+    "lng": 41.91898,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "راوة",
+      "en": "Rāwah",
+      "fr": "Rāwah",
+      "de": "Rāwah",
+      "tr": "Rāwah",
+      "ur": "Rāwah",
+      "id": "Rāwah",
+      "es": "Rāwah",
+      "bn": "Rāwah",
+      "ms": "Rāwah"
+    },
+    "aliases": {
+      "en": [
+        "Rawa",
+        "Rawah",
+        "rawt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة الأنبار",
+      "regionEn": "Al Anbar Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:92004",
+    "verified": true
+  },
+  {
+    "slug": "ranyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.25511,
+    "lng": 44.88239,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "رانية",
+      "en": "Rānyah",
+      "fr": "Rānyah",
+      "de": "Rānyah",
+      "tr": "Rānyah",
+      "ur": "Rānyah",
+      "id": "Rānyah",
+      "es": "Rānyah",
+      "bn": "Rānyah",
+      "ms": "Rānyah"
+    },
+    "aliases": {
+      "ar": [
+        "ڕانيە"
+      ],
+      "en": [
+        "Rania",
+        "Raniya",
+        "Raniyah",
+        "Raniye",
+        "Raniyeh",
+        "Ranya",
+        "Ranyah",
+        "Rānia",
+        "Rāniyah",
+        "Rānya",
+        "Rānīyah",
+        "ranyt",
+        "Ṟaniye"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة السليمانية",
+      "regionEn": "As Sulaymaniyah Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:92052",
+    "verified": true
+  },
+  {
+    "slug": "al-qaim",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.39251,
+    "lng": 40.98945,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "القائم",
+      "en": "Al Qā’im",
+      "fr": "Al Qā’im",
+      "de": "Al Qā’im",
+      "tr": "Al Qā’im",
+      "ur": "Al Qā’im",
+      "id": "Al Qā’im",
+      "es": "Al Qā’im",
+      "bn": "Al Qā’im",
+      "ms": "Al Qā’im"
+    },
+    "aliases": {
+      "ar": [
+        "حصيبة",
+        "مركز قضاء القائم"
+      ],
+      "en": [
+        "Al Kaim",
+        "Al Qa'im",
+        "Al-Kaim",
+        "Al-Káim",
+        "Al-Qa'im",
+        "Al-Qaim",
+        "Al-Qaïm",
+        "Dulaym al Husaybah",
+        "Dulaym al Ḩusaybah",
+        "Ehl'-Kaim",
+        "El Kaim",
+        "El Qa'im",
+        "El Qa’im",
+        "El'-Kajm",
+        "Hsaiba",
+        "Husaybah",
+        "Kasibah",
+        "Kaşībah",
+        "Kseba",
+        "Markaz Qada` al Qa`im",
+        "Markaz Qaḑā‘ al Qā‘im",
+        "Qsiba",
+        "Qsībā",
+        "Qusaybah",
+        "Quşaybah",
+        "alqaym",
+        "hsybt",
+        "Əl-Kəym",
+        "ʼl-qʼʼm",
+        "Ḩuşaybah"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة الأنبار",
+      "regionEn": "Al Anbar Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:92138",
+    "verified": true
+  },
+  {
+    "slug": "qalat-salih",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 31.52802,
+    "lng": 47.29362,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "قلعة صالح",
+      "en": "Qal‘at Şāliḩ",
+      "fr": "Qal‘at Şāliḩ",
+      "de": "Qal‘at Şāliḩ",
+      "tr": "Qal‘at Şāliḩ",
+      "ur": "Qal‘at Şāliḩ",
+      "id": "Qal‘at Şāliḩ",
+      "es": "Qal‘at Şāliḩ",
+      "bn": "Qal‘at Şāliḩ",
+      "ms": "Qal‘at Şāliḩ"
+    },
+    "aliases": {
+      "en": [
+        "Kala Salih",
+        "Kalaat Saleh",
+        "Kale Sale",
+        "Qal`at Salih",
+        "Qala Salih",
+        "Qalat Saleh",
+        "Shatra el Amara",
+        "Shatrat al `Amara",
+        "Shatrat al ‘Amāra",
+        "Shatret el `Amareh",
+        "Shatret el ‘Amareh",
+        "Qal'at Salih"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة ميسان",
+      "regionEn": "Maysan Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:92537",
+    "verified": true
+  },
+  {
+    "slug": "mawet",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 35.90123,
+    "lng": 45.41422,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "mawەt",
+      "en": "Mawet",
+      "fr": "Mawet",
+      "de": "Mawet",
+      "tr": "Mawet",
+      "ur": "Mawet",
+      "id": "Mawet",
+      "es": "Mawet",
+      "bn": "Mawet",
+      "ms": "Mawet"
+    },
+    "aliases": {
+      "ar": [
+        "ماوت",
+        "ماوەت"
+      ],
+      "en": [
+        "Mawat",
+        "Māwat",
+        "Māwet",
+        "mawt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة السليمانية",
+      "regionEn": "As Sulaymaniyah Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:93562",
+    "verified": true
+  },
+  {
+    "slug": "koysinceq",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.08289,
+    "lng": 44.62873,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "كوية",
+      "en": "Koysinceq",
+      "fr": "Koysinceq",
+      "de": "Koysinceq",
+      "tr": "Koysinceq",
+      "ur": "Koysinceq",
+      "id": "Koysinceq",
+      "es": "Koysinceq",
+      "bn": "Koysinceq",
+      "ms": "Koysinceq"
+    },
+    "aliases": {
+      "ar": [
+        "كويسنجق",
+        "كۆيسنجەق",
+        "كۆيە"
+      ],
+      "en": [
+        "Kawiyah",
+        "Kawīyah",
+        "Koi Sanjaq",
+        "Koisnjaq",
+        "Kou Senaq",
+        "Kou Senjaq",
+        "Koy Senjaq",
+        "Koye",
+        "Koysinjaq",
+        "Kuwaysinjaq",
+        "Kuyah",
+        "Kuysinjaq",
+        "Kūyah",
+        "Kūysinjaq",
+        "kwysnjq",
+        "kwyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة أربيل",
+      "regionEn": "Erbil Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:94220",
+    "verified": true
+  },
+  {
+    "slug": "kifri",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.68963,
+    "lng": 44.96057,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "كفرى",
+      "en": "Kifrī",
+      "fr": "Kifrī",
+      "de": "Kifrī",
+      "tr": "Kifrī",
+      "ur": "Kifrī",
+      "id": "Kifrī",
+      "es": "Kifrī",
+      "bn": "Kifrī",
+      "ms": "Kifrī"
+    },
+    "aliases": {
+      "ar": [
+        "كفري"
+      ],
+      "en": [
+        "Kiffri",
+        "Kiffrī",
+        "Kifri",
+        "Kifrî",
+        "Kufri",
+        "Kufrī",
+        "Salahie",
+        "Salahiya",
+        "Salahiyeh",
+        "Sallahiya",
+        "Sallahiyah",
+        "Salāhīya",
+        "Zeng Abad",
+        "Zeng Ābād",
+        "kfry"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة ديالى",
+      "regionEn": "Diyala Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:94298",
+    "verified": true
+  },
+  {
+    "slug": "khanaqin",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.3482,
+    "lng": 45.39065,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "khanەqyn",
+      "en": "Khānaqīn",
+      "fr": "Khānaqīn",
+      "de": "Khānaqīn",
+      "tr": "Khānaqīn",
+      "ur": "Khānaqīn",
+      "id": "Khānaqīn",
+      "es": "Khānaqīn",
+      "bn": "Khānaqīn",
+      "ms": "Khānaqīn"
+    },
+    "aliases": {
+      "ar": [
+        "خانقين",
+        "خانەقين"
+      ],
+      "en": [
+        "Kanaqin",
+        "Khanaqeen",
+        "Khanaqin",
+        "Khaneqeyn",
+        "Khaneqin",
+        "Khanikin",
+        "Khaniqin",
+        "Khāneqeyn",
+        "Khāneqīn",
+        "Xaneqin",
+        "Xaneqîn",
+        "khanqyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة ديالى",
+      "regionEn": "Diyala Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:94591",
+    "verified": true
+  },
+  {
+    "slug": "kelar",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.62805,
+    "lng": 45.31852,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "كلار",
+      "en": "Kelar",
+      "fr": "Kelar",
+      "de": "Kelar",
+      "tr": "Kelar",
+      "ur": "Kelar",
+      "id": "Kelar",
+      "es": "Kelar",
+      "bn": "Kelar",
+      "ms": "Kelar"
+    },
+    "aliases": {
+      "ar": [
+        "كەلار"
+      ],
+      "en": [
+        "Kalar",
+        "Kallar",
+        "Kallār",
+        "Kalār",
+        "Klar",
+        "klar"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة السليمانية",
+      "regionEn": "As Sulaymaniyah Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:95005",
+    "verified": true
+  },
+  {
+    "slug": "hit",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 33.63664,
+    "lng": 42.82768,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "هيت",
+      "en": "Hīt",
+      "fr": "Hīt",
+      "de": "Hīt",
+      "tr": "Hīt",
+      "ur": "Hīt",
+      "id": "Hīt",
+      "es": "Hīt",
+      "bn": "Hīt",
+      "ms": "Hīt"
+    },
+    "aliases": {
+      "en": [
+        "Hit",
+        "hyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة الأنبار",
+      "regionEn": "Al Anbar Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:95788",
+    "verified": true
+  },
+  {
+    "slug": "hadithah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.13661,
+    "lng": 42.37727,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "حديثة",
+      "en": "Ḩadīthah",
+      "fr": "Ḩadīthah",
+      "de": "Ḩadīthah",
+      "tr": "Ḩadīthah",
+      "ur": "Ḩadīthah",
+      "id": "Ḩadīthah",
+      "es": "Ḩadīthah",
+      "bn": "Ḩadīthah",
+      "ms": "Ḩadīthah"
+    },
+    "aliases": {
+      "en": [
+        "Al Hadithah",
+        "Al Ḩadīthah",
+        "Haditha",
+        "Hadithah",
+        "Khadita",
+        "hdytht"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة الأنبار",
+      "regionEn": "Al Anbar Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:96309",
+    "verified": true
+  },
+  {
+    "slug": "soran",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.65558,
+    "lng": 44.54217,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "dyanە",
+      "en": "Soran",
+      "fr": "Soran",
+      "de": "Soran",
+      "tr": "Soran",
+      "ur": "Soran",
+      "id": "Soran",
+      "es": "Soran",
+      "bn": "Soran",
+      "ms": "Soran"
+    },
+    "aliases": {
+      "ar": [
+        "sۆran",
+        "ديانا",
+        "ديانە",
+        "سوران",
+        "سۆران",
+        "قرية ديانا"
+      ],
+      "en": [
+        "Diana",
+        "Diyana",
+        "Diyane",
+        "Diyānā",
+        "Qaryat Diyana",
+        "Qaryat Diyānā",
+        "Sawran",
+        "Sawrān",
+        "dyana",
+        "qryt dyana",
+        "swran"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة أربيل",
+      "regionEn": "Erbil Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:96961",
+    "verified": true
+  },
+  {
+    "slug": "jamjamal",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 35.53356,
+    "lng": 44.8343,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "chەmchەmaڵ",
+      "en": "Jamjamāl",
+      "fr": "Jamjamāl",
+      "de": "Jamjamāl",
+      "tr": "Jamjamāl",
+      "ur": "Jamjamāl",
+      "id": "Jamjamāl",
+      "es": "Jamjamāl",
+      "bn": "Jamjamāl",
+      "ms": "Jamjamāl"
+    },
+    "aliases": {
+      "ar": [
+        "جمجمال",
+        "چمچمال",
+        "چەمچەماڵ"
+      ],
+      "en": [
+        "Cemcemal",
+        "Chamchamal",
+        "Chamchamāl",
+        "Chemchemal",
+        "Chemchemał",
+        "Chemchemāl",
+        "Jamjamal",
+        "Shamshamal",
+        "Shamshamāl",
+        "chmchmal",
+        "jmjmal",
+        "Çemçemal"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة السليمانية",
+      "regionEn": "As Sulaymaniyah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:97417",
+    "verified": true
+  },
+  {
+    "slug": "bayji",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.92915,
+    "lng": 43.48878,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "بيجي",
+      "en": "Bayjī",
+      "fr": "Bayjī",
+      "de": "Bayjī",
+      "tr": "Bayjī",
+      "ur": "Bayjī",
+      "id": "Bayjī",
+      "es": "Bayjī",
+      "bn": "Bayjī",
+      "ms": "Bayjī"
+    },
+    "aliases": {
+      "en": [
+        "Baiji",
+        "Bajdzhi",
+        "Bayji",
+        "byjy"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة صلاح الدين",
+      "regionEn": "Salah ad Din Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:97783",
+    "verified": true
+  },
+  {
+    "slug": "baynjiwayn",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 35.62054,
+    "lng": 45.94908,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "بنجوين",
+      "en": "Baynjiwayn",
+      "fr": "Baynjiwayn",
+      "de": "Baynjiwayn",
+      "tr": "Baynjiwayn",
+      "ur": "Baynjiwayn",
+      "id": "Baynjiwayn",
+      "es": "Baynjiwayn",
+      "bn": "Baynjiwayn",
+      "ms": "Baynjiwayn"
+    },
+    "aliases": {
+      "ar": [
+        "بينجوين",
+        "پنجوین",
+        "پێنجوێن"
+      ],
+      "en": [
+        "Banjiwayn",
+        "Banjwin",
+        "Banjwīn",
+        "Pandjvin",
+        "Panjvin",
+        "Panjwin",
+        "Panjwīn",
+        "Penciwen",
+        "Pendjevin",
+        "Pendjevine",
+        "Pendsevine",
+        "Penjevin",
+        "Penjvin",
+        "Penjvīn",
+        "Penjwen",
+        "Penjwin",
+        "Pênciwên",
+        "bnjwyn",
+        "bynjwyn",
+        "pnjwyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة السليمانية",
+      "regionEn": "As Sulaymaniyah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:98012",
+    "verified": true
+  },
+  {
+    "slug": "balad",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.01485,
+    "lng": 44.14574,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "بلد",
+      "en": "Balad",
+      "fr": "Balad",
+      "de": "Balad",
+      "tr": "Balad",
+      "ur": "Balad",
+      "id": "Balad",
+      "es": "Balad",
+      "bn": "Balad",
+      "ms": "Balad"
+    },
+    "aliases": {
+      "en": [
+        "Balada",
+        "Belad",
+        "Beled",
+        "XQC",
+        "bld"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة صلاح الدين",
+      "regionEn": "Salah ad Din Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:98112",
+    "verified": true
+  },
+  {
+    "slug": "az-zubayr",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 30.39213,
+    "lng": 47.70175,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الزبير",
+      "en": "Az Zubayr",
+      "fr": "Az Zubayr",
+      "de": "Az Zubayr",
+      "tr": "Az Zubayr",
+      "ur": "Az Zubayr",
+      "id": "Az Zubayr",
+      "es": "Az Zubayr",
+      "bn": "Az Zubayr",
+      "ms": "Az Zubayr"
+    },
+    "aliases": {
+      "en": [
+        "Az Zubair",
+        "Az Zuhair",
+        "El Zubair",
+        "Zobier",
+        "Zubair",
+        "alzbyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة البصرة",
+      "regionEn": "Basrah Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:98245",
+    "verified": true
+  },
+  {
+    "slug": "as-suwayrah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.92556,
+    "lng": 44.77583,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الصويرة",
+      "en": "Aş Şuwayrah",
+      "fr": "Aş Şuwayrah",
+      "de": "Aş Şuwayrah",
+      "tr": "Aş Şuwayrah",
+      "ur": "Aş Şuwayrah",
+      "id": "Aş Şuwayrah",
+      "es": "Aş Şuwayrah",
+      "bn": "Aş Şuwayrah",
+      "ms": "Aş Şuwayrah"
+    },
+    "aliases": {
+      "en": [
+        "As Suwayrah",
+        "Jazira",
+        "Jazīra",
+        "Jumeiseh",
+        "Juweimiseh",
+        "Sewairah",
+        "Suvajra",
+        "Suwaira",
+        "Suweireh",
+        "Suweiri",
+        "alswyrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة واسط",
+      "regionEn": "Wasit Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:98459",
+    "verified": true
+  },
+  {
+    "slug": "ash-shatrah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 31.40906,
+    "lng": 46.1727,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الشطرة",
+      "en": "Ash Shaţrah",
+      "fr": "Ash Shaţrah",
+      "de": "Ash Shaţrah",
+      "tr": "Ash Shaţrah",
+      "ur": "Ash Shaţrah",
+      "id": "Ash Shaţrah",
+      "es": "Ash Shaţrah",
+      "bn": "Ash Shaţrah",
+      "ms": "Ash Shaţrah"
+    },
+    "aliases": {
+      "en": [
+        "Ash Shatrah",
+        "Shatra",
+        "Shatrat al Muntafiq",
+        "Shatreh",
+        "Shatret el Muntefiq",
+        "Shattra",
+        "Shattrah el Muntifik",
+        "alshtrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة ذي قار",
+      "regionEn": "Dhi Qar Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:98622",
+    "verified": true
+  },
+  {
+    "slug": "ash-shamiyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 31.96257,
+    "lng": 44.60075,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الشامية",
+      "en": "Ash Shāmīyah",
+      "fr": "Ash Shāmīyah",
+      "de": "Ash Shāmīyah",
+      "tr": "Ash Shāmīyah",
+      "ur": "Ash Shāmīyah",
+      "id": "Ash Shāmīyah",
+      "es": "Ash Shāmīyah",
+      "bn": "Ash Shāmīyah",
+      "ms": "Ash Shāmīyah"
+    },
+    "aliases": {
+      "en": [
+        "Ash Shamiya",
+        "Ash Shamiyah",
+        "Ash Shāmīya",
+        "Shamiya",
+        "Ummal Barur",
+        "alshamyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة القادسية",
+      "regionEn": "Al Qadisiyyah Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:98629",
+    "verified": true
+  },
+  {
+    "slug": "ar-rutbah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 33.03718,
+    "lng": 40.28586,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الرطبة",
+      "en": "Ar Ruţbah",
+      "fr": "Ar Ruţbah",
+      "de": "Ar Ruţbah",
+      "tr": "Ar Ruţbah",
+      "ur": "Ar Ruţbah",
+      "id": "Ar Ruţbah",
+      "es": "Ar Ruţbah",
+      "bn": "Ar Ruţbah",
+      "ms": "Ar Ruţbah"
+    },
+    "aliases": {
+      "en": [
+        "Al Rutbah",
+        "Ar Rutbah",
+        "Rutba",
+        "Rutbah",
+        "alrtbt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة الأنبار",
+      "regionEn": "Al Anbar Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:98677",
+    "verified": true
+  },
+  {
+    "slug": "ar-rumaythah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 31.52845,
+    "lng": 45.20377,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الرميثة",
+      "en": "Ar Rumaythah",
+      "fr": "Ar Rumaythah",
+      "de": "Ar Rumaythah",
+      "tr": "Ar Rumaythah",
+      "ur": "Ar Rumaythah",
+      "id": "Ar Rumaythah",
+      "es": "Ar Rumaythah",
+      "bn": "Ar Rumaythah",
+      "ms": "Ar Rumaythah"
+    },
+    "aliases": {
+      "en": [
+        "Al-Rumitha",
+        "Rumaith",
+        "Rumaitha",
+        "Rumaithah",
+        "Rumeitheh",
+        "Rumetha",
+        "Ubaiyidh",
+        "alrmytht"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة المثنى",
+      "regionEn": "Al Muthanna Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:98685",
+    "verified": true
+  },
+  {
+    "slug": "aqrah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.76038,
+    "lng": 43.89428,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "ئاكرێ",
+      "en": "‘Aqrah",
+      "fr": "‘Aqrah",
+      "de": "‘Aqrah",
+      "tr": "‘Aqrah",
+      "ur": "‘Aqrah",
+      "id": "‘Aqrah",
+      "es": "‘Aqrah",
+      "bn": "‘Aqrah",
+      "ms": "‘Aqrah"
+    },
+    "aliases": {
+      "ar": [
+        "عقرة"
+      ],
+      "en": [
+        "Akra",
+        "Akre",
+        "Akrê",
+        "Aora",
+        "`Aqra",
+        "`Aqrah",
+        "Ākrē",
+        "‘Aqra",
+        "'Aqrah"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة نينوى",
+      "regionEn": "Ninawa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:98822",
+    "verified": true
+  },
+  {
+    "slug": "an-numaniyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.55621,
+    "lng": 45.41293,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "النعمانية",
+      "en": "An Nu‘mānīyah",
+      "fr": "An Nu‘mānīyah",
+      "de": "An Nu‘mānīyah",
+      "tr": "An Nu‘mānīyah",
+      "ur": "An Nu‘mānīyah",
+      "id": "An Nu‘mānīyah",
+      "es": "An Nu‘mānīyah",
+      "bn": "An Nu‘mānīyah",
+      "ms": "An Nu‘mānīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al Bughaylah",
+        "An Nu`maniyah",
+        "Baghailah",
+        "Baghela",
+        "Bghailah",
+        "Bogheileh",
+        "Bogheili",
+        "Bughaila",
+        "Bughaylah",
+        "N`amaniya",
+        "Na'amiya",
+        "Na’amiya",
+        "N‘amānīya",
+        "An Nu'maniyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة واسط",
+      "regionEn": "Wasit Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:98846",
+    "verified": true
+  },
+  {
+    "slug": "al-qurnah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 31.01547,
+    "lng": 47.43362,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "القرنة",
+      "en": "Al Qurnah",
+      "fr": "Al Qurnah",
+      "de": "Al Qurnah",
+      "tr": "Al Qurnah",
+      "ur": "Al Qurnah",
+      "id": "Al Qurnah",
+      "es": "Al Qurnah",
+      "bn": "Al Qurnah",
+      "ms": "Al Qurnah"
+    },
+    "aliases": {
+      "en": [
+        "Al Qurna",
+        "Qurnah",
+        "alqrnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة البصرة",
+      "regionEn": "Basrah Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:98993",
+    "verified": true
+  },
+  {
+    "slug": "al-musayab",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.77872,
+    "lng": 44.29005,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "المسيب",
+      "en": "Al-Musayab",
+      "fr": "Al-Musayab",
+      "de": "Al-Musayab",
+      "tr": "Al-Musayab",
+      "ur": "Al-Musayab",
+      "id": "Al-Musayab",
+      "es": "Al-Musayab",
+      "bn": "Al-Musayab",
+      "ms": "Al-Musayab"
+    },
+    "aliases": {
+      "en": [
+        "Al Musaiyib",
+        "Al Musayyib",
+        "Al'-Ehl'-Musajibe",
+        "Mosayab",
+        "Musaiyib",
+        "Musayyib",
+        "Musaīyib",
+        "Museyib",
+        "almsyb"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة بابل",
+      "regionEn": "Babil Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:99039",
+    "verified": true
+  },
+  {
+    "slug": "al-miqdadiyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 33.97861,
+    "lng": 44.93694,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "المقدادية",
+      "en": "Al Miqdādīyah",
+      "fr": "Al Miqdādīyah",
+      "de": "Al Miqdādīyah",
+      "tr": "Al Miqdādīyah",
+      "ur": "Al Miqdādīyah",
+      "id": "Al Miqdādīyah",
+      "es": "Al Miqdādīyah",
+      "bn": "Al Miqdādīyah",
+      "ms": "Al Miqdādīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al Miqdadiyah",
+        "Muqdadiyah",
+        "Shahraban",
+        "Shahroban",
+        "Shahrābān",
+        "almqdadyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة ديالى",
+      "regionEn": "Diyala Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:99062",
+    "verified": true
+  },
+  {
+    "slug": "al-mahmudiyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 33.06221,
+    "lng": 44.36564,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "المحمودية",
+      "en": "Al Maḩmūdīyah",
+      "fr": "Al Maḩmūdīyah",
+      "de": "Al Maḩmūdīyah",
+      "tr": "Al Maḩmūdīyah",
+      "ur": "Al Maḩmūdīyah",
+      "id": "Al Maḩmūdīyah",
+      "es": "Al Maḩmūdīyah",
+      "bn": "Al Maḩmūdīyah",
+      "ms": "Al Maḩmūdīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al Mahmudiya",
+        "Al Mahmudiyah",
+        "Al Mahmūdīya",
+        "Mahmudie",
+        "Mahmudiya",
+        "Mahmudiyeh",
+        "Mahmūdīya",
+        "almhmwdyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة بغداد",
+      "regionEn": "Baghdad Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:99100",
+    "verified": true
+  },
+  {
+    "slug": "al-mahawil",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.66138,
+    "lng": 44.40854,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "المحاويل",
+      "en": "Al Maḩāwīl",
+      "fr": "Al Maḩāwīl",
+      "de": "Al Maḩāwīl",
+      "tr": "Al Maḩāwīl",
+      "ur": "Al Maḩāwīl",
+      "id": "Al Maḩāwīl",
+      "es": "Al Maḩāwīl",
+      "bn": "Al Maḩāwīl",
+      "ms": "Al Maḩāwīl"
+    },
+    "aliases": {
+      "en": [
+        "Al Mahawil",
+        "Khan al Mahawil",
+        "Khān al Mahawīl",
+        "Mahawil",
+        "Qada' al Mahawil",
+        "Qaḑā’ al Maḩāwīl",
+        "almhawyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة بابل",
+      "regionEn": "Babil Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:99103",
+    "verified": true
+  },
+  {
+    "slug": "al-madinah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 30.96324,
+    "lng": 47.26998,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "المدينة",
+      "en": "Al Madīnah",
+      "fr": "Al Madīnah",
+      "de": "Al Madīnah",
+      "tr": "Al Madīnah",
+      "ur": "Al Madīnah",
+      "id": "Al Madīnah",
+      "es": "Al Madīnah",
+      "bn": "Al Madīnah",
+      "ms": "Al Madīnah"
+    },
+    "aliases": {
+      "en": [
+        "Al Madina",
+        "Al Madinah",
+        "Medina",
+        "Medineh",
+        "almdynt"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة البصرة",
+      "regionEn": "Basrah Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:99106",
+    "verified": true
+  },
+  {
+    "slug": "ali-al-gharbi",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.46186,
+    "lng": 46.68794,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "علي الغربي",
+      "en": "‘Alī al Gharbī",
+      "fr": "‘Alī al Gharbī",
+      "de": "‘Alī al Gharbī",
+      "tr": "‘Alī al Gharbī",
+      "ur": "‘Alī al Gharbī",
+      "id": "‘Alī al Gharbī",
+      "es": "‘Alī al Gharbī",
+      "bn": "‘Alī al Gharbī",
+      "ms": "‘Alī al Gharbī"
+    },
+    "aliases": {
+      "en": [
+        "Ali Gharbi",
+        "Ali el Gharbi",
+        "Ali-ehl'-Garbi",
+        "Imam Ali Gherbi",
+        "Imām Ali Gherbi",
+        "`Ali al Gharbi",
+        "'Ali al Gharbi"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة ميسان",
+      "regionEn": "Maysan Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:99306",
+    "verified": true
+  },
+  {
+    "slug": "al-hindiyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.54193,
+    "lng": 44.22469,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الهندية",
+      "en": "Al Hindīyah",
+      "fr": "Al Hindīyah",
+      "de": "Al Hindīyah",
+      "tr": "Al Hindīyah",
+      "ur": "Al Hindīyah",
+      "id": "Al Hindīyah",
+      "es": "Al Hindīyah",
+      "bn": "Al Hindīyah",
+      "ms": "Al Hindīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al Hindiyah",
+        "Hindiya",
+        "Hindīya",
+        "Qada' al Hindiyah",
+        "Qaḑā’ al Hindīyah",
+        "Tuwairij",
+        "Tuwairji",
+        "Tuwairīj",
+        "Tuwayrij",
+        "alhndyt",
+        "Ţuwayrīj"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة كربلاء",
+      "regionEn": "Karbala Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:99344",
+    "verified": true
+  },
+  {
+    "slug": "al-hayy",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.17419,
+    "lng": 46.04345,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الحي",
+      "en": "Al Ḩayy",
+      "fr": "Al Ḩayy",
+      "de": "Al Ḩayy",
+      "tr": "Al Ḩayy",
+      "ur": "Al Ḩayy",
+      "id": "Al Ḩayy",
+      "es": "Al Ḩayy",
+      "bn": "Al Ḩayy",
+      "ms": "Al Ḩayy"
+    },
+    "aliases": {
+      "en": [
+        "Al Hai",
+        "Al Hay",
+        "Al Hayy",
+        "Al'-Khaja",
+        "Kut al Hai",
+        "alhy"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة واسط",
+      "regionEn": "Wasit Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:99350",
+    "verified": true
+  },
+  {
+    "slug": "al-faw",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 29.97421,
+    "lng": 48.47309,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الفاو",
+      "en": "Al Fāw",
+      "fr": "Al Fāw",
+      "de": "Al Fāw",
+      "tr": "Al Fāw",
+      "ur": "Al Fāw",
+      "id": "Al Fāw",
+      "es": "Al Fāw",
+      "bn": "Al Fāw",
+      "ms": "Al Fāw"
+    },
+    "aliases": {
+      "en": [
+        "Al Faw",
+        "Al'-Fau",
+        "Fao",
+        "Fao Terminal",
+        "Fava",
+        "alfaw"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة البصرة",
+      "regionEn": "Basrah Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:99446",
+    "verified": true
+  },
+  {
+    "slug": "al-aziziyah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.90941,
+    "lng": 45.06359,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "العزيزية",
+      "en": "Al ‘Azīzīyah",
+      "fr": "Al ‘Azīzīyah",
+      "de": "Al ‘Azīzīyah",
+      "tr": "Al ‘Azīzīyah",
+      "ur": "Al ‘Azīzīyah",
+      "id": "Al ‘Azīzīyah",
+      "es": "Al ‘Azīzīyah",
+      "bn": "Al ‘Azīzīyah",
+      "ms": "Al ‘Azīzīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al `Aziziya",
+        "Al `Aziziyah",
+        "Al ‘Aziziya",
+        "Al-Azizya",
+        "Al-Azīzya",
+        "Azizie",
+        "Aziziya",
+        "Aziziyah",
+        "Azizīya",
+        "Azīzīyah",
+        "`Aziziyeh",
+        "‘Aziziyeh",
+        "Al 'Aziziyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة واسط",
+      "regionEn": "Wasit Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:99548",
+    "verified": true
+  },
+  {
+    "slug": "afak",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 32.0643,
+    "lng": 45.24743,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "عفك",
+      "en": "‘Afak",
+      "fr": "‘Afak",
+      "de": "‘Afak",
+      "tr": "‘Afak",
+      "ur": "‘Afak",
+      "id": "‘Afak",
+      "es": "‘Afak",
+      "bn": "‘Afak",
+      "ms": "‘Afak"
+    },
+    "aliases": {
+      "en": [
+        "Afag",
+        "Afak",
+        "Afaq",
+        "Sok el Afej",
+        "`Afak",
+        "'Afak"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة القادسية",
+      "regionEn": "Al Qadisiyyah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:99738",
+    "verified": true
+  },
+  {
+    "slug": "abu-ghurayb",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 33.30563,
+    "lng": 44.18477,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "أبو غريب",
+      "en": "Abū Ghurayb",
+      "fr": "Abū Ghurayb",
+      "de": "Abū Ghurayb",
+      "tr": "Abū Ghurayb",
+      "ur": "Abū Ghurayb",
+      "id": "Abū Ghurayb",
+      "es": "Abū Ghurayb",
+      "bn": "Abū Ghurayb",
+      "ms": "Abū Ghurayb"
+    },
+    "aliases": {
+      "ar": [
+        "ابو غریب"
+      ],
+      "en": [
+        "Abou Ghraib",
+        "Abu Ghraib",
+        "Abu Ghraib - abw ghryb",
+        "Abu Ghraib Farms",
+        "Abu Ghuraib",
+        "Abu Ghurayb",
+        "Abu-Grejb",
+        "Abū Ghraib Farms",
+        "Mazari` Abi Gharib",
+        "Mazari` Abi Ghurayb",
+        "Mazāri‘ Abī Ghurayb",
+        "Mazārı‘ Abī Gharīb",
+        "abw ghryb"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة بغداد",
+      "regionEn": "Baghdad Governorate"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:100077",
+    "verified": true
+  },
+  {
+    "slug": "sinjar",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 36.3209,
+    "lng": 41.87656,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "سنجار",
+      "en": "Sinjār",
+      "fr": "Sinjār",
+      "de": "Sinjār",
+      "tr": "Sinjār",
+      "ur": "Sinjār",
+      "id": "Sinjār",
+      "es": "Sinjār",
+      "bn": "Sinjār",
+      "ms": "Sinjār"
+    },
+    "aliases": {
+      "ar": [
+        "شنگال",
+        "شەنگال"
+      ],
+      "en": [
+        "Shengal",
+        "Shingal",
+        "Sincar",
+        "Sindjar",
+        "Sindschar",
+        "Sindzar",
+        "Sindzhar",
+        "Sindżar",
+        "Sindžar",
+        "Sindžár",
+        "Sinjar",
+        "Sintzar",
+        "Sncar",
+        "shngal",
+        "shygor",
+        "snjar",
+        "syng'ʼr"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة نينوى",
+      "regionEn": "Ninawa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:448149",
+    "verified": true
+  },
+  {
+    "slug": "anah",
+    "type": "town",
+    "countryCode": "iq",
+    "lat": 34.36857,
+    "lng": 41.98194,
+    "timezone": "Asia/Baghdad",
+    "names": {
+      "ar": "الريحانة",
+      "en": "‘Anah",
+      "fr": "‘Anah",
+      "de": "‘Anah",
+      "tr": "‘Anah",
+      "ur": "‘Anah",
+      "id": "‘Anah",
+      "es": "‘Anah",
+      "bn": "‘Anah",
+      "ms": "‘Anah"
+    },
+    "aliases": {
+      "ar": [
+        "ريحانة",
+        "عنة",
+        "عنه الجديدة",
+        "مدينة عنة الجديدة"
+      ],
+      "en": [
+        "Ana",
+        "Ar Rayhanah",
+        "Ar Rayḩānah",
+        "Ar Rihanah",
+        "Ar Rīḩānah",
+        "Madinat `Anah al Jadidah",
+        "Madinat `Annat al Jadidah",
+        "Madīnat ‘Anah al Jadīdah",
+        "Madīnat ‘Annat al Jadīdah",
+        "Rayhanah",
+        "Rayḩānah",
+        "`Anah",
+        "`Anah al Jadidah",
+        "`Annah",
+        "`Annah al Jadidah",
+        "alryhant",
+        "ryhant",
+        "ʿnh aljdydt",
+        "ʿnt",
+        "‘Anah al Jadīdah",
+        "‘Annah",
+        "‘Annah al Jadīdah",
+        "'Anah"
+      ]
+    },
+    "admin": {
+      "countryAr": "العراق",
+      "countryEn": "Iraq",
+      "regionAr": "محافظة الأنبار",
+      "regionEn": "Al Anbar Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:6765385",
+    "verified": true
+  },
+  {
+    "slug": "sahab",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 31.87032,
+    "lng": 36.00479,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "سحاب",
+      "en": "Saḩāb",
+      "fr": "Saḩāb",
+      "de": "Saḩāb",
+      "tr": "Saḩāb",
+      "ur": "Saḩāb",
+      "id": "Saḩāb",
+      "es": "Saḩāb",
+      "bn": "Saḩāb",
+      "ms": "Saḩāb"
+    },
+    "aliases": {
+      "en": [
+        "Sahab",
+        "Sakhab",
+        "Sehab",
+        "shab"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Amman / Capital Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:247105",
+    "verified": true
+  },
+  {
+    "slug": "kafr-asad",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 32.598,
+    "lng": 35.71266,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "كفر أسد",
+      "en": "Kafr Asad",
+      "fr": "Kafr Asad",
+      "de": "Kafr Asad",
+      "tr": "Kafr Asad",
+      "ur": "Kafr Asad",
+      "id": "Kafr Asad",
+      "es": "Kafr Asad",
+      "bn": "Kafr Asad",
+      "ms": "Kafr Asad"
+    },
+    "aliases": {
+      "ar": [
+        "كفرأسد"
+      ],
+      "en": [
+        "Kufr Asad",
+        "Kufr Esad",
+        "kfr asd",
+        "kfrasd"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة إربد",
+      "regionEn": "Irbid Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:248734",
+    "verified": true
+  },
+  {
+    "slug": "busayra",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 30.73256,
+    "lng": 35.60943,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "بصيرا",
+      "en": "Buşayrā",
+      "fr": "Buşayrā",
+      "de": "Buşayrā",
+      "tr": "Buşayrā",
+      "ur": "Buşayrā",
+      "id": "Buşayrā",
+      "es": "Buşayrā",
+      "bn": "Buşayrā",
+      "ms": "Buşayrā"
+    },
+    "aliases": {
+      "en": [
+        "Al Busayrah",
+        "Al Buşayrah",
+        "Busayra",
+        "Busayrah",
+        "Buseira",
+        "Buşayrah",
+        "El Buseira",
+        "El Busera",
+        "bsyra"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة الطفيلة",
+      "regionEn": "Tafilah Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:249842",
+    "verified": true
+  },
+  {
+    "slug": "ayy",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 31.13371,
+    "lng": 35.64375,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "عي",
+      "en": "‘Ayy",
+      "fr": "‘Ayy",
+      "de": "‘Ayy",
+      "tr": "‘Ayy",
+      "ur": "‘Ayy",
+      "id": "‘Ayy",
+      "es": "‘Ayy",
+      "bn": "‘Ayy",
+      "ms": "‘Ayy"
+    },
+    "aliases": {
+      "en": [
+        "Aiy",
+        "Khirbat `Ai",
+        "Khirbat `Aiy",
+        "Khirbat ‘Ai",
+        "Khirbat ‘Aiy",
+        "`Ai",
+        "`Aie",
+        "`Ay",
+        "`Ayy",
+        "‘Ai",
+        "‘Aie",
+        "‘Ay"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة الكرك",
+      "regionEn": "Karak Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:250106",
+    "verified": true
+  },
+  {
+    "slug": "at-tayyibah",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 32.54304,
+    "lng": 35.71756,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الطيبة",
+      "en": "Aţ Ţayyibah",
+      "fr": "Aţ Ţayyibah",
+      "de": "Aţ Ţayyibah",
+      "tr": "Aţ Ţayyibah",
+      "ur": "Aţ Ţayyibah",
+      "id": "Aţ Ţayyibah",
+      "es": "Aţ Ţayyibah",
+      "bn": "Aţ Ţayyibah",
+      "ms": "Aţ Ţayyibah"
+    },
+    "aliases": {
+      "en": [
+        "At Tayyibah",
+        "At Tibah",
+        "Aţ Ţībah",
+        "Et Taiyiba",
+        "Et Taiyibe",
+        "Eṭ Ṭaiyiba",
+        "Taibe",
+        "Taiyiba",
+        "Tayyibah",
+        "altybt",
+        "Ţayyibah"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة إربد",
+      "regionEn": "Irbid Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:250186",
+    "verified": true
+  },
+  {
+    "slug": "ash-shawbak",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 30.52134,
+    "lng": 35.57135,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الشوبك",
+      "en": "Ash Shawbak",
+      "fr": "Ash Shawbak",
+      "de": "Ash Shawbak",
+      "tr": "Ash Shawbak",
+      "ur": "Ash Shawbak",
+      "id": "Ash Shawbak",
+      "es": "Ash Shawbak",
+      "bn": "Ash Shawbak",
+      "ms": "Ash Shawbak"
+    },
+    "aliases": {
+      "en": [
+        "Esh Shobek",
+        "Shaubak",
+        "Shaubak Fort",
+        "Shawbak Fort",
+        "Shobak",
+        "Shobek",
+        "alshwbk"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة معان",
+      "regionEn": "Ma'an Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:250290",
+    "verified": true
+  },
+  {
+    "slug": "ar-ramtha",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 32.55873,
+    "lng": 36.00816,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الرمثا",
+      "en": "Ar Ramthā",
+      "fr": "Ar Ramthā",
+      "de": "Ar Ramthā",
+      "tr": "Ar Ramthā",
+      "ur": "Ar Ramthā",
+      "id": "Ar Ramthā",
+      "es": "Ar Ramthā",
+      "bn": "Ar Ramthā",
+      "ms": "Ar Ramthā"
+    },
+    "aliases": {
+      "en": [
+        "Al ramtha",
+        "Alramtha",
+        "Ar Ramtha",
+        "El Remteh",
+        "Er Remtha",
+        "Ramtha",
+        "alrmtha"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة إربد",
+      "regionEn": "Irbid Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:250336",
+    "verified": true
+  },
+  {
+    "slug": "al-qatranah",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 31.25083,
+    "lng": 36.04932,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "القطرانة",
+      "en": "Al Qaţrānah",
+      "fr": "Al Qaţrānah",
+      "de": "Al Qaţrānah",
+      "tr": "Al Qaţrānah",
+      "ur": "Al Qaţrānah",
+      "id": "Al Qaţrānah",
+      "es": "Al Qaţrānah",
+      "bn": "Al Qaţrānah",
+      "ms": "Al Qaţrānah"
+    },
+    "aliases": {
+      "en": [
+        "Al Qatrana",
+        "Al Qatranah",
+        "Al Qaţrāna",
+        "El Qatrana",
+        "El Qatrāna",
+        "Qatrani",
+        "alqtrant"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة الكرك",
+      "regionEn": "Karak Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:250480",
+    "verified": true
+  },
+  {
+    "slug": "al-qasr",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 31.31407,
+    "lng": 35.74393,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "القصر",
+      "en": "Al Qaşr",
+      "fr": "Al Qaşr",
+      "de": "Al Qaşr",
+      "tr": "Al Qaşr",
+      "ur": "Al Qaşr",
+      "id": "Al Qaşr",
+      "es": "Al Qaşr",
+      "bn": "Al Qaşr",
+      "ms": "Al Qaşr"
+    },
+    "aliases": {
+      "en": [
+        "Al Qasr",
+        "Al Qaṣr",
+        "El Qaser",
+        "El Qaşer",
+        "Qasr",
+        "Qaşr",
+        "alqsr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة الكرك",
+      "regionEn": "Karak Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:250487",
+    "verified": true
+  },
+  {
+    "slug": "al-mazar-al-janubi",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 31.06722,
+    "lng": 35.69486,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "المزار",
+      "en": "Al Mazār al Janūbī",
+      "fr": "Al Mazār al Janūbī",
+      "de": "Al Mazār al Janūbī",
+      "tr": "Al Mazār al Janūbī",
+      "ur": "Al Mazār al Janūbī",
+      "id": "Al Mazār al Janūbī",
+      "es": "Al Mazār al Janūbī",
+      "bn": "Al Mazār al Janūbī",
+      "ms": "Al Mazār al Janūbī"
+    },
+    "aliases": {
+      "ar": [
+        "المزار الجنوبي"
+      ],
+      "en": [
+        "Al Mazar",
+        "Al Mazar al Janubi",
+        "Al Mazār",
+        "El Mazar",
+        "El Mazār",
+        "Mazar",
+        "Mazâr",
+        "almzar",
+        "almzar aljnwby"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة الكرك",
+      "regionEn": "Karak Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:250540",
+    "verified": true
+  },
+  {
+    "slug": "al-jubayhah",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 32.01071,
+    "lng": 35.89802,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الجبيهة",
+      "en": "Al Jubayhah",
+      "fr": "Al Jubayhah",
+      "de": "Al Jubayhah",
+      "tr": "Al Jubayhah",
+      "ur": "Al Jubayhah",
+      "id": "Al Jubayhah",
+      "es": "Al Jubayhah",
+      "bn": "Al Jubayhah",
+      "ms": "Al Jubayhah"
+    },
+    "aliases": {
+      "en": [
+        "Al Jubeiha",
+        "Al-Jubaiha",
+        "El Jebeihe",
+        "El Jubeiha",
+        "Jubeiha",
+        "aljbyht"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Amman / Capital Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:250637",
+    "verified": true
+  },
+  {
+    "slug": "al-jizah",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 31.69893,
+    "lng": 35.9553,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الجيزة",
+      "en": "Al Jīzah",
+      "fr": "Al Jīzah",
+      "de": "Al Jīzah",
+      "tr": "Al Jīzah",
+      "ur": "Al Jīzah",
+      "id": "Al Jīzah",
+      "es": "Al Jīzah",
+      "bn": "Al Jīzah",
+      "ms": "Al Jīzah"
+    },
+    "aliases": {
+      "ar": [
+        "جيزة"
+      ],
+      "en": [
+        "Al Jizah",
+        "Jiza",
+        "Jizah",
+        "Jize",
+        "Jîza",
+        "Jīzah",
+        "Jīze",
+        "Ziza",
+        "aljyzt",
+        "jyzt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة العاصمة",
+      "regionEn": "Amman / Capital Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:250639",
+    "verified": true
+  },
+  {
+    "slug": "al-fuhays",
+    "type": "town",
+    "countryCode": "jo",
+    "lat": 32.00468,
+    "lng": 35.78088,
+    "timezone": "Asia/Amman",
+    "names": {
+      "ar": "الفحيص",
+      "en": "Al Fuḩayş",
+      "fr": "Al Fuḩayş",
+      "de": "Al Fuḩayş",
+      "tr": "Al Fuḩayş",
+      "ur": "Al Fuḩayş",
+      "id": "Al Fuḩayş",
+      "es": "Al Fuḩayş",
+      "bn": "Al Fuḩayş",
+      "ms": "Al Fuḩayş"
+    },
+    "aliases": {
+      "en": [
+        "Al Fuhays",
+        "El Fuheis",
+        "Feheis",
+        "Fuheis",
+        "Fuḥeiṣ",
+        "alfhys"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأردن",
+      "countryEn": "Jordan",
+      "regionAr": "محافظة البلقاء",
+      "regionEn": "Balqa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:250718",
+    "verified": true
+  },
+  {
+    "slug": "jounieh",
+    "type": "town",
+    "countryCode": "lb",
+    "lat": 33.98083,
+    "lng": 35.61778,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "جونيه",
+      "en": "Jounieh",
+      "fr": "Jounieh",
+      "de": "Jounieh",
+      "tr": "Jounieh",
+      "ur": "Jounieh",
+      "id": "Jounieh",
+      "es": "Jounieh",
+      "bn": "Jounieh",
+      "ms": "Jounieh"
+    },
+    "aliases": {
+      "en": [
+        "Ciwni",
+        "Cuenye",
+        "Cuniyə",
+        "Cünye",
+        "Djounie",
+        "Dzhunija",
+        "Dzunije",
+        "Džunije",
+        "Jounie",
+        "Joünié",
+        "Juniyah",
+        "Jūniyah",
+        "Tzounigia",
+        "g'wnyh",
+        "jwnyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon",
+      "regionAr": "محافظة جبل لبنان",
+      "regionEn": "Mount Lebanon Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:273140",
+    "verified": true
+  },
+  {
+    "slug": "byblos",
+    "type": "town",
+    "countryCode": "lb",
+    "lat": 34.12111,
+    "lng": 35.64806,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "بيبلوس",
+      "en": "Byblos",
+      "fr": "Byblos",
+      "de": "Byblos",
+      "tr": "Byblos",
+      "ur": "Byblos",
+      "id": "Byblos",
+      "es": "Byblos",
+      "bn": "Byblos",
+      "ms": "Byblos"
+    },
+    "aliases": {
+      "ar": [
+        "جبيل",
+        "جبيل بيبلوس",
+        "جبیل"
+      ],
+      "en": [
+        "Bibl",
+        "Biblo",
+        "Biblos",
+        "Biblos (Biblos)",
+        "Biblus",
+        "Bueblosz",
+        "Byblus",
+        "Büblosz",
+        "Bīblūs",
+        "Cuebeyl",
+        "Cübeyl",
+        "Djebail",
+        "Djébail",
+        "Dschubail",
+        "Gebal",
+        "Gubayl",
+        "Gubla",
+        "Jbail",
+        "Jbayl",
+        "Jbaïl",
+        "Jbeil",
+        "Jebail",
+        "Jebaïl",
+        "Jebeil",
+        "Jubayl",
+        "Jubayl Bīblus",
+        "JubaylBiblus",
+        "Kypt (Keben)",
+        "Kypt (Kepen)",
+        "Vyvlos",
+        "biburosu",
+        "byblws",
+        "gbl",
+        "jbyl",
+        "jbylbyblws",
+        "vyvlos",
+        "Ǧubayl"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon",
+      "regionAr": "محافظة جبل لبنان",
+      "regionEn": "Mount Lebanon Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:273203",
+    "verified": true
+  },
+  {
+    "slug": "bsharri",
+    "type": "town",
+    "countryCode": "lb",
+    "lat": 34.25083,
+    "lng": 36.01056,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "بشري",
+      "en": "Bsharri",
+      "fr": "Bsharri",
+      "de": "Bsharri",
+      "tr": "Bsharri",
+      "ur": "Bsharri",
+      "id": "Bsharri",
+      "es": "Bsharri",
+      "bn": "Bsharri",
+      "ms": "Bsharri"
+    },
+    "aliases": {
+      "ar": [
+        "بشری"
+      ],
+      "en": [
+        "Basharri",
+        "Basharrī",
+        "Bcharre",
+        "Bcharreh",
+        "Bcharri",
+        "Bcharré",
+        "Bcharrī",
+        "Becharri",
+        "Besherri",
+        "Bisari",
+        "Bischarri",
+        "Biserri",
+        "Bishari",
+        "Bisharri",
+        "Bişerri",
+        "Bsari",
+        "Bsarre",
+        "Bsharrī",
+        "Bsherri",
+        "Bšari",
+        "Bšarré",
+        "bshry",
+        "bsry"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon",
+      "regionAr": "محافظة الشمال",
+      "regionEn": "North Lebanon Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:276359",
+    "verified": true
+  },
+  {
+    "slug": "el-hermel",
+    "type": "town",
+    "countryCode": "lb",
+    "lat": 34.39417,
+    "lng": 36.38472,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "الهرمل",
+      "en": "El Hermel",
+      "fr": "El Hermel",
+      "de": "El Hermel",
+      "tr": "El Hermel",
+      "ur": "El Hermel",
+      "id": "El Hermel",
+      "es": "El Hermel",
+      "bn": "El Hermel",
+      "ms": "El Hermel"
+    },
+    "aliases": {
+      "en": [
+        "Al Harmal",
+        "Al Hirmil",
+        "Hermel",
+        "Hermil",
+        "Hirmil",
+        "Hurmal",
+        "alhrml"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon",
+      "regionAr": "محافظة بعلبك-الهرمل",
+      "regionEn": "Baalbek-Hermel Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:279997",
+    "verified": true
+  },
+  {
+    "slug": "batroun",
+    "type": "town",
+    "countryCode": "lb",
+    "lat": 34.25528,
+    "lng": 35.65806,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "البترون",
+      "en": "Batroûn",
+      "fr": "Batroûn",
+      "de": "Batroûn",
+      "tr": "Batroûn",
+      "ur": "Batroûn",
+      "id": "Batroûn",
+      "es": "Batroûn",
+      "bn": "Batroûn",
+      "ms": "Batroûn"
+    },
+    "aliases": {
+      "en": [
+        "Al Batrun",
+        "Al Batrūn",
+        "Batroun",
+        "Batrun",
+        "Batrūn",
+        "Botrys",
+        "albtrwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon",
+      "regionAr": "محافظة الشمال",
+      "regionEn": "North Lebanon Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:280328",
+    "verified": true
+  },
+  {
+    "slug": "aley",
+    "type": "town",
+    "countryCode": "lb",
+    "lat": 33.80528,
+    "lng": 35.6,
+    "timezone": "Asia/Beirut",
+    "names": {
+      "ar": "عالية",
+      "en": "Aley",
+      "fr": "Aley",
+      "de": "Aley",
+      "tr": "Aley",
+      "ur": "Aley",
+      "id": "Aley",
+      "es": "Aley",
+      "bn": "Aley",
+      "ms": "Aley"
+    },
+    "aliases": {
+      "ar": [
+        "عاليه"
+      ],
+      "en": [
+        "Aaley",
+        "Alajkh",
+        "Alayh",
+        "Alei",
+        "Alej",
+        "Alia",
+        "Aliye",
+        "Alley",
+        "`Alayh",
+        "`Aleih",
+        "`Aliyah",
+        "ʻʼlyy",
+        "ʿalyh",
+        "‘Ālayh",
+        "‘Āleih",
+        "‘Āliyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "لبنان",
+      "countryEn": "Lebanon",
+      "regionAr": "محافظة جبل لبنان",
+      "regionEn": "Mount Lebanon Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:280425",
+    "verified": true
+  },
+  {
+    "slug": "rafah",
+    "type": "town",
+    "countryCode": "ps",
+    "lat": 31.29722,
+    "lng": 34.24357,
+    "timezone": "Asia/Gaza",
+    "names": {
+      "ar": "رفح",
+      "en": "Rafaḩ",
+      "fr": "Rafaḩ",
+      "de": "Rafaḩ",
+      "tr": "Rafaḩ",
+      "ur": "Rafaḩ",
+      "id": "Rafaḩ",
+      "es": "Rafaḩ",
+      "bn": "Rafaḩ",
+      "ms": "Rafaḩ"
+    },
+    "aliases": {
+      "en": [
+        "Er Rafa",
+        "Rafa",
+        "Rafaa",
+        "Rafah",
+        "Rafakh",
+        "Rafia",
+        "Rafiah",
+        "Rafīah",
+        "Raphia",
+        "Rifah",
+        "Ràfia",
+        "la fa shi",
+        "rfh",
+        "rpyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine",
+      "regionAr": "قطاع غزة",
+      "regionEn": "Gaza Strip"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:281102",
+    "verified": true
+  },
+  {
+    "slug": "khan-yunis",
+    "type": "town",
+    "countryCode": "ps",
+    "lat": 31.34018,
+    "lng": 34.30627,
+    "timezone": "Asia/Gaza",
+    "names": {
+      "ar": "خان يونس",
+      "en": "Khān Yūnis",
+      "fr": "Khān Yūnis",
+      "de": "Khān Yūnis",
+      "tr": "Khān Yūnis",
+      "ur": "Khān Yūnis",
+      "id": "Khān Yūnis",
+      "es": "Khān Yūnis",
+      "bn": "Khān Yūnis",
+      "ms": "Khān Yūnis"
+    },
+    "aliases": {
+      "en": [
+        "Hanut Yona",
+        "Hanūt Yōnā",
+        "Jan Yunis",
+        "Jan Yunís",
+        "Khan Younes",
+        "Khan Younis",
+        "Khan Yumus",
+        "Khan Yunis",
+        "Khan Yunus",
+        "Khan-Junis",
+        "Khān Yūnus",
+        "Yunas",
+        "Yunus",
+        "khan ywns"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine",
+      "regionAr": "قطاع غزة",
+      "regionEn": "Gaza Strip"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:281124",
+    "verified": true
+  },
+  {
+    "slug": "dayr-al-balah",
+    "type": "town",
+    "countryCode": "ps",
+    "lat": 31.41834,
+    "lng": 34.34933,
+    "timezone": "Asia/Gaza",
+    "names": {
+      "ar": "دير البلح",
+      "en": "Dayr al Balaḩ",
+      "fr": "Dayr al Balaḩ",
+      "de": "Dayr al Balaḩ",
+      "tr": "Dayr al Balaḩ",
+      "ur": "Dayr al Balaḩ",
+      "id": "Dayr al Balaḩ",
+      "es": "Dayr al Balaḩ",
+      "bn": "Dayr al Balaḩ",
+      "ms": "Dayr al Balaḩ"
+    },
+    "aliases": {
+      "en": [
+        "Belar",
+        "Dayr al Balah",
+        "Deir el-Balah",
+        "Der el Bela",
+        "Dier El Balah",
+        "dyr alblh"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine",
+      "regionAr": "قطاع غزة",
+      "regionEn": "Gaza Strip"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:281141",
+    "verified": true
+  },
+  {
+    "slug": "tubas",
+    "type": "town",
+    "countryCode": "ps",
+    "lat": 32.32091,
+    "lng": 35.36989,
+    "timezone": "Asia/Hebron",
+    "names": {
+      "ar": "طوباس",
+      "en": "Ţūbās",
+      "fr": "Ţūbās",
+      "de": "Ţūbās",
+      "tr": "Ţūbās",
+      "ur": "Ţūbās",
+      "id": "Ţūbās",
+      "es": "Ţūbās",
+      "bn": "Ţūbās",
+      "ms": "Ţūbās"
+    },
+    "aliases": {
+      "en": [
+        "Tubas",
+        "twbas"
+      ]
+    },
+    "admin": {
+      "countryAr": "فلسطين",
+      "countryEn": "Palestine",
+      "regionAr": "الضفة الغربية",
+      "regionEn": "West Bank"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:281581",
+    "verified": true
   }
 ]

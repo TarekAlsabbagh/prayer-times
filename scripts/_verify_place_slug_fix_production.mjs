@@ -142,6 +142,48 @@ for (const [q, expectSlugFrag, expectCC, expectTZ] of cities) {
     ok('  SSR <h1> does NOT contain "Malaysia"', !_h1HasMalaysia,
         _h1HasMalaysia ? `(h1="${_h1M[1]}")` : '');
     ok('  SSR body does NOT contain "Jalan Salim Bachok"', !_bodyHasJalan);
+
+    // ─── PLACE-CITY-PAGE-L10N-FIX-1 (2026-05-14) ────────────────────────
+    // SSR pre-fill checks. The bare-slug prayer page MUST surface the
+    // city + country in #city-name + #country-name + breadcrumb BEFORE
+    // JS runs. Previously these elements were empty placeholders that
+    // only got populated by JS — caused FOUC where country was missing
+    // on cold-start. The pre-fill also injects `window.__PRAYER_CITY__`
+    // so the client never falls back to Nominatim for curated slugs.
+    const cityNameM       = ssrR.body.match(/<div class="city-name" id="city-name"[^>]*>([^<]+)<\/div>/);
+    const countryNameM    = ssrR.body.match(/<div class="country" id="country-name"[^>]*>([^<]+)<\/div>/);
+    const bcCityM2        = ssrR.body.match(/<span itemprop="name" id="bc-city"[^>]*>([^<]+)<\/span>/);
+    const bcCountryM2     = ssrR.body.match(/<span itemprop="name" id="bc-country-name"[^>]*>([^<]+)<\/span>/);
+    const prayerCityM     = ssrR.body.match(/<script id="ssr-prayer-city">window\.__PRAYER_CITY__=([^<]+?);<\/script>/);
+    let prayerCityObj = null;
+    if (prayerCityM) { try { prayerCityObj = JSON.parse(prayerCityM[1]); } catch (_) {} }
+    ok('  SSR #city-name pre-filled (NOT "جاري تحديد الموقع...")',
+        cityNameM && !/تحديد الموقع/.test(cityNameM[1]),
+        cityNameM ? `(got "${cityNameM[1]}")` : '(missing)');
+    ok('  SSR #country-name pre-filled (NOT empty)',
+        countryNameM && countryNameM[1].trim().length > 0,
+        countryNameM ? `(got "${countryNameM[1]}")` : '(missing)');
+    ok('  SSR #bc-city pre-filled (NOT "--")',
+        bcCityM2 && bcCityM2[1] !== '--',
+        bcCityM2 ? `(got "${bcCityM2[1]}")` : '(missing)');
+    ok('  SSR #bc-country-name pre-filled (NOT "--")',
+        bcCountryM2 && bcCountryM2[1] !== '--',
+        bcCountryM2 ? `(got "${bcCountryM2[1]}")` : '(missing)');
+    ok('  SSR window.__PRAYER_CITY__ script present',
+        Boolean(prayerCityObj),
+        prayerCityObj ? `(name="${prayerCityObj.name}")` : '(missing)');
+    ok('  SSR window.__PRAYER_CITY__ has Arabic name (no English leak on AR page)',
+        prayerCityObj && prayerCityObj.name && /[؀-ۿ]/.test(prayerCityObj.name) && !/[A-Za-z]/.test(prayerCityObj.name),
+        prayerCityObj ? `(name="${prayerCityObj.name}")` : '');
+    ok('  SSR window.__PRAYER_CITY__ has Arabic country (not English fallback)',
+        prayerCityObj && prayerCityObj.country && /[؀-ۿ]/.test(prayerCityObj.country),
+        prayerCityObj ? `(country="${prayerCityObj.country}")` : '');
+    ok('  SSR window.__PRAYER_CITY__ countryCode === "' + expectCC + '"',
+        prayerCityObj && prayerCityObj.countryCode === expectCC,
+        prayerCityObj ? `(cc="${prayerCityObj.countryCode}")` : '');
+    ok('  SSR window.__PRAYER_CITY__ timezone === "' + expectTZ + '"',
+        prayerCityObj && prayerCityObj.timezone === expectTZ,
+        prayerCityObj ? `(tz="${prayerCityObj.timezone}")` : '');
     await sleep(200);
 }
 

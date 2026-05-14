@@ -32,6 +32,37 @@ let currentLocalizedCountry = '';
         const _slug = _m[1];
         const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
         const _urlLng = _m[3] != null ? parseFloat(_m[3]) : NaN;
+        // 0) PLACE-CITY-PAGE-L10N-FIX-1 (2026-05-14) — SSR-injected
+        // `window.__PRAYER_CITY__` is the authoritative source on
+        // /prayer-times-in-{slug} bare routes. Seed globals from it
+        // BEFORE any sessionStorage / URL coord checks so first paint
+        // already has the correct city + country (no FOUC, no Mecca
+        // defaults flash, no English-on-Arabic fallback).
+        try {
+            if (window.__PRAYER_CITY__ && typeof window.__PRAYER_CITY__ === 'object') {
+                const pc = window.__PRAYER_CITY__;
+                if (isFinite(pc.lat) && isFinite(pc.lng) && pc.name && pc.country) {
+                    currentLat = pc.lat;
+                    currentLng = pc.lng;
+                    currentCity = pc.name;
+                    currentCountry = pc.country;
+                    currentCountryCode = (pc.countryCode || '').toLowerCase();
+                    currentEnglishName = pc.englishName || '';
+                    currentEnglishDisplayName = pc.englishName || '';
+                    // Synthesize the canonical English country name from
+                    // the cc so getDisplayCountry()'s EN-lang branch has
+                    // a value too. COUNTRY_EN_NAMES is initialized later
+                    // in the file but defined as a module-level const,
+                    // so it MAY not be evaluated yet — guard with typeof.
+                    try {
+                        if (currentCountryCode && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                            currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+                        }
+                    } catch (_) {}
+                    return;
+                }
+            }
+        } catch (_) {}
         // 1) sessionStorage seed (fastest, highest fidelity)
         try {
             const _stored = sessionStorage.getItem('city_' + _slug);
@@ -2657,6 +2688,41 @@ async function _revalidateCachedCity(lat, lng, slug, expectedEn) {
 async function initFromURL() {
     const slug = getSlugFromURL();
     if (!slug) return false;
+
+    // 0) PLACE-CITY-PAGE-L10N-FIX-1 (2026-05-14) — SSR-injected curated data.
+    // When the server resolved the slug to a curated entry, it pre-fills
+    // `window.__PRAYER_CITY__` with `{ slug, lat, lng, name, country,
+    // countryCode, englishName, timezone, type, originalName, source }`
+    // (same shape as `/api/place-by-slug` / `geocodeSlug` returns). Using
+    // it FIRST means:
+    //   • zero network calls during init (no Nominatim, no /api/place-by-
+    //     slug fetch — the server already did the lookup).
+    //   • the city/country render correctly from the very first paint —
+    //     #city-name + #country-name + breadcrumb are ALREADY pre-filled
+    //     by SSR with the curated Arabic name; this just propagates the
+    //     same data into `currentCity` / `currentCountry` / etc. so all
+    //     the JS-driven surfaces (SEO, JSON-LD, share buttons, related
+    //     cities) see consistent values.
+    //   • Arabic page NEVER falls back to English — the SSR data was
+    //     built via `_buildSlugLookupResult` which picks `names[lang]`
+    //     FIRST per the LANG-1 fallback chain.
+    try {
+        if (window.__PRAYER_CITY__ && typeof window.__PRAYER_CITY__ === 'object') {
+            const p = window.__PRAYER_CITY__;
+            // Validate the shape minimally — we MUST have lat/lng + a
+            // localized name + country before trusting it.
+            if (isFinite(p.lat) && isFinite(p.lng) && p.name && p.country) {
+                await loadCityData(
+                    p.lat, p.lng,
+                    p.name, p.country,
+                    (p.countryCode || '').toLowerCase(),
+                    p.englishName || '',
+                    null  // timezone arg expects a NUMBER offset; let fetchTimezone resolve it from coords
+                );
+                return true;
+            }
+        }
+    } catch (_) { /* fall through to legacy resolvers */ }
 
     // 1) من sessionStorage (تنقل عادي داخل الموقع)
     const cached = sessionStorage.getItem(`city_${slug}`);

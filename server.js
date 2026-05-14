@@ -18325,6 +18325,87 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     html = html.replace('</head>', _metaTag + '\n</head>');
                 }
             }
+
+            // ═══ PLACE-CITY-PAGE-L10N-FIX-1 (2026-05-14) ═══════════════════
+            // SSR pre-fill the header/breadcrumb city + country elements
+            // when the slug resolves to a curated entry. Previously these
+            // elements ('#city-name', '#country-name', '#bc-city',
+            // '#bc-country-name', '#loc-hero-city-label') were initialized
+            // empty / "جاري تحديد الموقع..." in the static HTML and only
+            // got populated AFTER `loadCityData` ran on the client. On a
+            // Render free-tier cold start (~2-5s before JS executes) this
+            // produced a visible FOUC where the user saw the SSR <title>
+            // saying "مواقيت الصلاة في شقرا" but the page body showed
+            // empty country / "Locating…" placeholder. Worse, if anything
+            // delayed the client-side resolver (slow Nominatim, JS error,
+            // ad-blocker), the user could end up on the page with NO
+            // country shown at all — which is what the user reported as
+            // problem 1 of PLACE-CITY-PAGE-L10N-FIX-1.
+            //
+            // Strategy: when `_findPlaceBySlug` returns a curated entry,
+            // serialize it via `_buildSlugLookupResult` (same shape the
+            // API uses, same shape `geocodeSlug` returns), then:
+            //   1. Replace the empty text inside #city-name + #country-name
+            //      (and drop their `data-i18n` so the i18n updater doesn't
+            //      overwrite it with the default "Locating..." key).
+            //   2. Replace the "--" placeholders inside the breadcrumb's
+            //      #bc-city + #bc-country-name spans.
+            //   3. Inject `<script>window.__PRAYER_CITY__ = {...}</script>`
+            //      so the client can use the authoritative curated data
+            //      directly — no fetch to /api/place-by-slug, no Nominatim
+            //      fallback. This kills problem 2 (الدرعية/دوما showing
+            //      English): the SSR pre-fill ALWAYS uses the LANG-1
+            //      Arabic name, never the English transliteration.
+            //
+            // Gated on `/prayer-times-in-{slug}` only (not the SEO city
+            // wrapper, not qibla/moon/TL routes — they have their own
+            // hydration pipelines). The bare-slug coord-URL variant
+            // (`/prayer-times-in-{slug}-{lat}-{lng}`) is also skipped:
+            // long-tail coord URLs are reverse-geocoded fresh.
+            try {
+                const _isBarePrayer = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9-]+$/.test(urlPath.replace(/\.html$/, ''));
+                if (_isBarePrayer && typeof _findPlaceBySlug === 'function') {
+                    const _curatedEntry = _findPlaceBySlug(_ssrCitySlug);
+                    if (_curatedEntry) {
+                        const _placeData = _buildSlugLookupResult(_curatedEntry, seo.lang, 'curated');
+                        if (_placeData && _placeData.name && _placeData.country) {
+                            const _cityEsc    = _escHtml(_placeData.name);
+                            const _countryEsc = _escHtml(_placeData.country);
+                            const _sep        = (seo.lang === 'ar' || seo.lang === 'ur') ? '، ' : ', ';
+                            // 1) #city-name — strip data-i18n so i18n.js
+                            // doesn't overwrite with "header.locating" key.
+                            html = html.replace(
+                                /<div class="city-name" id="city-name"[^>]*>[^<]*<\/div>/,
+                                `<div class="city-name" id="city-name">${_cityEsc}</div>`
+                            );
+                            // 2) #country-name
+                            html = html.replace(
+                                /<div class="country" id="country-name"[^>]*>[^<]*<\/div>/,
+                                `<div class="country" id="country-name">${_countryEsc}</div>`
+                            );
+                            // 3) Breadcrumb city + country placeholders.
+                            // bc-city: `<span itemprop="name" id="bc-city" aria-current="page">--</span>`
+                            html = html.replace(
+                                /<span itemprop="name" id="bc-city" aria-current="page">[^<]*<\/span>/,
+                                `<span itemprop="name" id="bc-city" aria-current="page">${_cityEsc}</span>`
+                            );
+                            // bc-country-name: `<span itemprop="name" id="bc-country-name">--</span>`
+                            html = html.replace(
+                                /<span itemprop="name" id="bc-country-name">[^<]*<\/span>/,
+                                `<span itemprop="name" id="bc-country-name">${_countryEsc}</span>`
+                            );
+                            // 4) `window.__PRAYER_CITY__` script — authoritative
+                            // place data so the client skips geocodeSlug
+                            // entirely. Same shape as `/api/place-by-slug`
+                            // result + `geocodeSlug` return value.
+                            const _scriptTag = `<script id="ssr-prayer-city">window.__PRAYER_CITY__=${JSON.stringify(_placeData).replace(/</g, '\\u003c')};</script>`;
+                            if (html.indexOf('id="ssr-prayer-city"') === -1) {
+                                html = html.replace('</head>', _scriptTag + '\n</head>');
+                            }
+                        }
+                    }
+                }
+            } catch (_e) { /* SSR pre-fill is best-effort; never fatal */ }
         }
     } catch (_e) { /* SSR meta injection is best-effort; never fatal */ }
 

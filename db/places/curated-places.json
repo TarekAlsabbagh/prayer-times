@@ -27648,5 +27648,5666 @@
     "source": "curated",
     "sourceId": "geonames:281581",
     "verified": true
+  },
+  {
+    "slug": "zefta",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.7142,
+    "lng": 31.24425,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "زفتى",
+      "en": "Zefta",
+      "fr": "Zefta",
+      "de": "Zefta",
+      "tr": "Zefta",
+      "ur": "Zefta",
+      "id": "Zefta",
+      "es": "Zefta",
+      "bn": "Zefta",
+      "ms": "Zefta"
+    },
+    "aliases": {
+      "en": [
+        "Zifta",
+        "Ziftá",
+        "zfty"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الغربية",
+      "regionEn": "Gharbia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:346030",
+    "verified": true
+  },
+  {
+    "slug": "tima",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 26.90843,
+    "lng": 31.43469,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "طما",
+      "en": "Ţimā",
+      "fr": "Ţimā",
+      "de": "Ţimā",
+      "tr": "Ţimā",
+      "ur": "Ţimā",
+      "id": "Ţimā",
+      "es": "Ţimā",
+      "bn": "Ţimā",
+      "ms": "Ţimā"
+    },
+    "aliases": {
+      "en": [
+        "Tima",
+        "tma",
+        "Ṭimā"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة سوهاج",
+      "regionEn": "Sohag Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:347296",
+    "verified": true
+  },
+  {
+    "slug": "tahta",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 26.76866,
+    "lng": 31.50198,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "طهطا",
+      "en": "Ţahţā",
+      "fr": "Ţahţā",
+      "de": "Ţahţā",
+      "tr": "Ţahţā",
+      "ur": "Ţahţā",
+      "id": "Ţahţā",
+      "es": "Ţahţā",
+      "bn": "Ţahţā",
+      "ms": "Ţahţā"
+    },
+    "aliases": {
+      "en": [
+        "Tahta",
+        "Takhta",
+        "thta",
+        "Ṭahṭā"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة سوهاج",
+      "regionEn": "Sohag Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:347634",
+    "verified": true
+  },
+  {
+    "slug": "shubra-al-khaymah",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.12511,
+    "lng": 31.25053,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "شبرا الخيمة",
+      "en": "Shubrā al Khaymah",
+      "fr": "Shubrā al Khaymah",
+      "de": "Shubrā al Khaymah",
+      "tr": "Shubrā al Khaymah",
+      "ur": "Shubrā al Khaymah",
+      "id": "Shubrā al Khaymah",
+      "es": "Shubrā al Khaymah",
+      "bn": "Shubrā al Khaymah",
+      "ms": "Shubrā al Khaymah"
+    },
+    "aliases": {
+      "en": [
+        "Shubra al Khaymah",
+        "Shubra al-Khayma",
+        "Shubra el-Kheima",
+        "shbra alkhymt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة القليوبية",
+      "regionEn": "Qalyubia Governorate"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:349076",
+    "verified": true
+  },
+  {
+    "slug": "shibin-al-kawm",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 30.55258,
+    "lng": 31.00904,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "شبين الكوم",
+      "en": "Shibīn al Kawm",
+      "fr": "Shibīn al Kawm",
+      "de": "Shibīn al Kawm",
+      "tr": "Shibīn al Kawm",
+      "ur": "Shibīn al Kawm",
+      "id": "Shibīn al Kawm",
+      "es": "Shibīn al Kawm",
+      "bn": "Shibīn al Kawm",
+      "ms": "Shibīn al Kawm"
+    },
+    "aliases": {
+      "en": [
+        "Shabin al-Kum",
+        "Shebin al-Kom",
+        "Shibin al Kawm",
+        "Shibin el-Kom",
+        "Shibîn el-Kôm",
+        "shbyn alkwm"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنوفية",
+      "regionEn": "Monufia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:349158",
+    "verified": true
+  },
+  {
+    "slug": "samalut",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 28.31214,
+    "lng": 30.71007,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "سمالوط",
+      "en": "Samālūţ",
+      "fr": "Samālūţ",
+      "de": "Samālūţ",
+      "tr": "Samālūţ",
+      "ur": "Samālūţ",
+      "id": "Samālūţ",
+      "es": "Samālūţ",
+      "bn": "Samālūţ",
+      "ms": "Samālūţ"
+    },
+    "aliases": {
+      "en": [
+        "Samalut",
+        "Samālut",
+        "smalwt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنيا",
+      "regionEn": "Minya Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:349717",
+    "verified": true
+  },
+  {
+    "slug": "rosetta",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.39951,
+    "lng": 30.41718,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "رشيد",
+      "en": "Rosetta",
+      "fr": "Rosetta",
+      "de": "Rosetta",
+      "tr": "Rosetta",
+      "ur": "Rosetta",
+      "id": "Rosetta",
+      "es": "Rosetta",
+      "bn": "Rosetta",
+      "ms": "Rosetta"
+    },
+    "aliases": {
+      "ar": [
+        "رشید"
+      ],
+      "en": [
+        "Ar-Rasid",
+        "Ar-Rašíd",
+        "Bolbitine",
+        "Er-Rashid",
+        "Rashid",
+        "Rashîd",
+        "Rashīd",
+        "Rasid",
+        "Rasido",
+        "Rasyid",
+        "Raŝido",
+        "Rašid",
+        "Resid",
+        "Reşid",
+        "Roseta",
+        "Rosette",
+        "Rozeta",
+        "lojeta",
+        "luo sai ta",
+        "rashidi",
+        "rozetta",
+        "rshyd",
+        "rsyd"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة البحيرة",
+      "regionEn": "Beheira Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:350203",
+    "verified": true
+  },
+  {
+    "slug": "rafah-eg",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.28204,
+    "lng": 34.23869,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "رفح",
+      "en": "Rafaḩ",
+      "fr": "Rafaḩ",
+      "de": "Rafaḩ",
+      "tr": "Rafaḩ",
+      "ur": "Rafaḩ",
+      "id": "Rafaḩ",
+      "es": "Rafaḩ",
+      "bn": "Rafaḩ",
+      "ms": "Rafaḩ"
+    },
+    "aliases": {
+      "en": [
+        "Er Rafa",
+        "Rafa",
+        "Rafaa",
+        "Rafah",
+        "Rafah al Misriyah",
+        "Rafaḩ al Mişrīyah",
+        "Rafiah",
+        "Rafīah",
+        "Raphia",
+        "Rifah",
+        "rfh",
+        "rafah"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة شمال سيناء",
+      "regionEn": "North Sinai Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:350350",
+    "verified": true
+  },
+  {
+    "slug": "qina",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 26.16418,
+    "lng": 32.72671,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "استان قنا",
+      "en": "Qina",
+      "fr": "Qina",
+      "de": "Qina",
+      "tr": "Qina",
+      "ur": "Qina",
+      "id": "Qina",
+      "es": "Qina",
+      "bn": "Qina",
+      "ms": "Qina"
+    },
+    "aliases": {
+      "ar": [
+        "قنا"
+      ],
+      "en": [
+        "Caene",
+        "Kena",
+        "Keneh",
+        "Qana",
+        "Qanā",
+        "Qena",
+        "Qinā",
+        "astan qna",
+        "qna"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة قنا",
+      "regionEn": "Qena Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:350550",
+    "verified": true
+  },
+  {
+    "slug": "qalyub",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.17922,
+    "lng": 31.2056,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "قليوب",
+      "en": "Qalyub",
+      "fr": "Qalyub",
+      "de": "Qalyub",
+      "tr": "Qalyub",
+      "ur": "Qalyub",
+      "id": "Qalyub",
+      "es": "Qalyub",
+      "bn": "Qalyub",
+      "ms": "Qalyub"
+    },
+    "aliases": {
+      "en": [
+        "Kal'jub",
+        "Kalyub",
+        "Kalyûb",
+        "Qaliub",
+        "Qalyūb",
+        "qlywb"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة القليوبية",
+      "regionEn": "Qalyubia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:350789",
+    "verified": true
+  },
+  {
+    "slug": "mit-ghamr",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.71524,
+    "lng": 31.2592,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "ميت غمر",
+      "en": "Mīt Ghamr",
+      "fr": "Mīt Ghamr",
+      "de": "Mīt Ghamr",
+      "tr": "Mīt Ghamr",
+      "ur": "Mīt Ghamr",
+      "id": "Mīt Ghamr",
+      "es": "Mīt Ghamr",
+      "bn": "Mīt Ghamr",
+      "ms": "Mīt Ghamr"
+    },
+    "aliases": {
+      "en": [
+        "Mit Ghamr",
+        "Mit Ghamr and Kafr el-Batal",
+        "Mit Ghamr wa Kafr al Batal",
+        "Mît Ghamr and Kafr el-Baṭal",
+        "Mīt Ghamr wa Kafr al Baţal",
+        "myt ghmr"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الدقهلية",
+      "regionEn": "Dakahlia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:352181",
+    "verified": true
+  },
+  {
+    "slug": "munuf",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.46597,
+    "lng": 30.93199,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "منوف",
+      "en": "Munūf",
+      "fr": "Munūf",
+      "de": "Munūf",
+      "tr": "Munūf",
+      "ur": "Munūf",
+      "id": "Munūf",
+      "es": "Munūf",
+      "bn": "Munūf",
+      "ms": "Munūf"
+    },
+    "aliases": {
+      "en": [
+        "MINUF",
+        "MINŪF",
+        "Manuf",
+        "Manūf",
+        "Menouf",
+        "Menoufis",
+        "Menuf",
+        "Minuf",
+        "Minūf",
+        "Munuf",
+        "Ménouf",
+        "mnwf"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنوفية",
+      "regionEn": "Monufia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:352354",
+    "verified": true
+  },
+  {
+    "slug": "marsa-matruh",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 31.3529,
+    "lng": 27.23725,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "مرسى مطروح",
+      "en": "Marsá Maţrūḩ",
+      "fr": "Marsá Maţrūḩ",
+      "de": "Marsá Maţrūḩ",
+      "tr": "Marsá Maţrūḩ",
+      "ur": "Marsá Maţrūḩ",
+      "id": "Marsá Maţrūḩ",
+      "es": "Marsá Maţrūḩ",
+      "bn": "Marsá Maţrūḩ",
+      "ms": "Marsá Maţrūḩ"
+    },
+    "aliases": {
+      "en": [
+        "MUH",
+        "Madara",
+        "Marsa Matruh",
+        "Marsa-Matrukh",
+        "Matruh",
+        "Maţrūḩ",
+        "Mersa Matrouh",
+        "Mersa Matruh",
+        "Mhadara",
+        "Paraetonium",
+        "mrsy mtrwh"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة مطروح",
+      "regionEn": "Matruh Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:352733",
+    "verified": true
+  },
+  {
+    "slug": "manfalut",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 27.3126,
+    "lng": 30.96987,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "منفلوط",
+      "en": "Manfalūţ",
+      "fr": "Manfalūţ",
+      "de": "Manfalūţ",
+      "tr": "Manfalūţ",
+      "ur": "Manfalūţ",
+      "id": "Manfalūţ",
+      "es": "Manfalūţ",
+      "bn": "Manfalūţ",
+      "ms": "Manfalūţ"
+    },
+    "aliases": {
+      "en": [
+        "MANFALUT",
+        "MANFALUṬ",
+        "Manfalut",
+        "Monfalut",
+        "mnflwt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة أسيوط",
+      "regionEn": "Asyut Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:352913",
+    "verified": true
+  },
+  {
+    "slug": "mallawi",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 27.73264,
+    "lng": 30.84129,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "ملوي",
+      "en": "Mallawī",
+      "fr": "Mallawī",
+      "de": "Mallawī",
+      "tr": "Mallawī",
+      "ur": "Mallawī",
+      "id": "Mallawī",
+      "es": "Mallawī",
+      "bn": "Mallawī",
+      "ms": "Mallawī"
+    },
+    "aliases": {
+      "en": [
+        "Mallauri",
+        "Mallavi",
+        "Mallawi",
+        "mlwy"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنيا",
+      "regionEn": "Minya Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:352951",
+    "verified": true
+  },
+  {
+    "slug": "maghaghah",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 28.64776,
+    "lng": 30.841,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "مغاغة",
+      "en": "Maghāghah",
+      "fr": "Maghāghah",
+      "de": "Maghāghah",
+      "tr": "Maghāghah",
+      "ur": "Maghāghah",
+      "id": "Maghāghah",
+      "es": "Maghāghah",
+      "bn": "Maghāghah",
+      "ms": "Maghāghah"
+    },
+    "aliases": {
+      "en": [
+        "Magagha",
+        "Maghagha",
+        "Maghaghah",
+        "Maghâgha",
+        "mghaght"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنيا",
+      "regionEn": "Minya Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:353183",
+    "verified": true
+  },
+  {
+    "slug": "al-ashir-min-ramadan",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.29636,
+    "lng": 31.74633,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "العاشر من رمضان",
+      "en": "Al ‘Āshir min Ramaḑān",
+      "fr": "Al ‘Āshir min Ramaḑān",
+      "de": "Al ‘Āshir min Ramaḑān",
+      "tr": "Al ‘Āshir min Ramaḑān",
+      "ur": "Al ‘Āshir min Ramaḑān",
+      "id": "Al ‘Āshir min Ramaḑān",
+      "es": "Al ‘Āshir min Ramaḑān",
+      "bn": "Al ‘Āshir min Ramaḑān",
+      "ms": "Al ‘Āshir min Ramaḑān"
+    },
+    "aliases": {
+      "ar": [
+        "العاشر من رمضان",
+        "عاشر من رمضان",
+        "مدينة العاشر من رمضان",
+        "ەل-اشىير-مىين-رامادان",
+        "10 رمضان شہر"
+      ],
+      "en": [
+        "10 Ramadan City",
+        "10 Ramazan Sehri",
+        "10 Ramazan Şehri",
+        "10 va ramadan nagaram",
+        "10-asis Ramadanas",
+        "10. Ramadana",
+        "10. Ramadāna",
+        "10e Ramadan stad",
+        "10ende Ramadan By",
+        "10ma ramadana sahara",
+        "10th of Ramadan",
+        "10th of Ramadan City",
+        "10vatu ramatan nakaram",
+        "Al 'Ashir min Ramadan",
+        "Al `Ashir min Ramadan",
+        "Cidade do Ramadao",
+        "Cidade do Ramadão",
+        "Citta del decimo Ramadan",
+        "Città del decimo Ramadan",
+        "Ciudad del Ramadon 10",
+        "Ehl'-Ashir-min-Ramadan",
+        "El Asher",
+        "El'-Ashir-min-Ramadan",
+        "Kota 10 Ramadan",
+        "Madinat Al Ashir min Ramadan",
+        "Madinat al `Ashir min Ramadan",
+        "Madinat al-Ashir min Ramadan",
+        "Madinat al-Ashir min Ramadân",
+        "Madīnat al ‘Āshir min Ramaḑān",
+        "Poli 10is Ramantan",
+        "Ramadan 10 City",
+        "Ramadan City",
+        "Ramadan the 10th City",
+        "Stadt des 10. Ramadan",
+        "Tenth of Ramadan City",
+        "Thanh pho 10th of Ramadan",
+        "Thành phố 10th of Ramadan",
+        "Urbo de la Deka de Ramadaanon",
+        "Ville de 10 Ramadan",
+        "lamadan 10ilsi",
+        "nep yid x",
+        "ramadan 10 ne dinada nagara",
+        "ramadan10rishiti",
+        "ramajana saharatila 10 va",
+        "tentha ofa ramadana siti",
+        "tentha opha ramadana sahera",
+        "zhai yue shi di shi",
+        "zhai yue shi ri cheng",
+        "Élʹ-Aşïr-mïn-Ramadan"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الشرقية",
+      "regionEn": "Sharqia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:353229",
+    "verified": true
+  },
+  {
+    "slug": "kirdasah",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.03103,
+    "lng": 31.11109,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "كرداسة",
+      "en": "Kirdāsah",
+      "fr": "Kirdāsah",
+      "de": "Kirdāsah",
+      "tr": "Kirdāsah",
+      "ur": "Kirdāsah",
+      "id": "Kirdāsah",
+      "es": "Kirdāsah",
+      "bn": "Kirdāsah",
+      "ms": "Kirdāsah"
+    },
+    "aliases": {
+      "en": [
+        "Kerdasa",
+        "Kerdasah",
+        "Kirdasa",
+        "Kirdasah",
+        "Kirdâsa",
+        "krdast"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الجيزة",
+      "regionEn": "Giza Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:353492",
+    "verified": true
+  },
+  {
+    "slug": "kafr-ash-shaykh",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 31.11174,
+    "lng": 30.93991,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "كفر الشيخ",
+      "en": "Kafr ash Shaykh",
+      "fr": "Kafr ash Shaykh",
+      "de": "Kafr ash Shaykh",
+      "tr": "Kafr ash Shaykh",
+      "ur": "Kafr ash Shaykh",
+      "id": "Kafr ash Shaykh",
+      "es": "Kafr ash Shaykh",
+      "bn": "Kafr ash Shaykh",
+      "ms": "Kafr ash Shaykh"
+    },
+    "aliases": {
+      "en": [
+        "Kafr al-Sheikh",
+        "Kafr el-Sheikh",
+        "Kafr-Sheikh",
+        "kfr alshykh"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة كفر الشيخ",
+      "regionEn": "Kafr El Sheikh Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:354502",
+    "verified": true
+  },
+  {
+    "slug": "kafr-ad-dawwar",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.13379,
+    "lng": 30.12969,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "كفر الدوار",
+      "en": "Kafr ad Dawwār",
+      "fr": "Kafr ad Dawwār",
+      "de": "Kafr ad Dawwār",
+      "tr": "Kafr ad Dawwār",
+      "ur": "Kafr ad Dawwār",
+      "id": "Kafr ad Dawwār",
+      "es": "Kafr ad Dawwār",
+      "bn": "Kafr ad Dawwār",
+      "ms": "Kafr ad Dawwār"
+    },
+    "aliases": {
+      "en": [
+        "Kafr ad Dawwar",
+        "Kafr al-Dawar",
+        "Kafr ed-Dauwar",
+        "Kafr ed-Dauwâr",
+        "Kafr el Dawdar",
+        "Kafr el-Dauwar",
+        "Kafr el-Dauwâr",
+        "kfr aldwar"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة البحيرة",
+      "regionEn": "Beheira Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:354775",
+    "verified": true
+  },
+  {
+    "slug": "girga",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 26.33721,
+    "lng": 31.89295,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "جرجا",
+      "en": "Girga",
+      "fr": "Girga",
+      "de": "Girga",
+      "tr": "Girga",
+      "ur": "Girga",
+      "id": "Girga",
+      "es": "Girga",
+      "bn": "Girga",
+      "ms": "Girga"
+    },
+    "aliases": {
+      "en": [
+        "Jirja",
+        "Jirjā",
+        "jrja"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة سوهاج",
+      "regionEn": "Sohag Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:355026",
+    "verified": true
+  },
+  {
+    "slug": "esna",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 25.29336,
+    "lng": 32.55402,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "إسنا",
+      "en": "Esna",
+      "fr": "Esna",
+      "de": "Esna",
+      "tr": "Esna",
+      "ur": "Esna",
+      "id": "Esna",
+      "es": "Esna",
+      "bn": "Esna",
+      "ms": "Esna"
+    },
+    "aliases": {
+      "en": [
+        "Asna",
+        "Asnā",
+        "Ehsna",
+        "Esneh",
+        "Isna",
+        "Isnā",
+        "Latonpolis",
+        "Latopolia",
+        "Latopolis",
+        "Latónpolis",
+        "asna"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة قنا",
+      "regionEn": "Qena Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:355449",
+    "verified": true
+  },
+  {
+    "slug": "idku",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.3073,
+    "lng": 30.2981,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "إدكو",
+      "en": "Idkū",
+      "fr": "Idkū",
+      "de": "Idkū",
+      "tr": "Idkū",
+      "ur": "Idkū",
+      "id": "Idkū",
+      "es": "Idkū",
+      "bn": "Idkū",
+      "ms": "Idkū"
+    },
+    "aliases": {
+      "en": [
+        "Edkou",
+        "Idku",
+        "adkw"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة البحيرة",
+      "regionEn": "Beheira Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:355628",
+    "verified": true
+  },
+  {
+    "slug": "halwan",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 29.84144,
+    "lng": 31.30084,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "حلوان",
+      "en": "Ḩalwān",
+      "fr": "Ḩalwān",
+      "de": "Ḩalwān",
+      "tr": "Ḩalwān",
+      "ur": "Ḩalwān",
+      "id": "Ḩalwān",
+      "es": "Ḩalwān",
+      "bn": "Ḩalwān",
+      "ms": "Ḩalwān"
+    },
+    "aliases": {
+      "en": [
+        "Halwan",
+        "Helouan",
+        "Helouan-les-Bains",
+        "Helwan",
+        "Helwan Les Bains",
+        "Hilwan",
+        "Hulwan",
+        "Hélouan-les-Bains",
+        "Kheluan",
+        "hlwan",
+        "Ḥelwân",
+        "Ḩulwān"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة القاهرة",
+      "regionEn": "Cairo Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:355795",
+    "verified": true
+  },
+  {
+    "slug": "faqus",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.72816,
+    "lng": 31.79697,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "فاقوس",
+      "en": "Fāqūs",
+      "fr": "Fāqūs",
+      "de": "Fāqūs",
+      "tr": "Fāqūs",
+      "ur": "Fāqūs",
+      "id": "Fāqūs",
+      "es": "Fāqūs",
+      "bn": "Fāqūs",
+      "ms": "Fāqūs"
+    },
+    "aliases": {
+      "en": [
+        "Fakous",
+        "Fakus",
+        "Faqus",
+        "faqws"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الشرقية",
+      "regionEn": "Sharqia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:356989",
+    "verified": true
+  },
+  {
+    "slug": "damietta",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 31.41648,
+    "lng": 31.81332,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "دمياط",
+      "en": "Damietta",
+      "fr": "Damietta",
+      "de": "Damietta",
+      "tr": "Damietta",
+      "ur": "Damietta",
+      "id": "Damietta",
+      "es": "Damietta",
+      "bn": "Damietta",
+      "ms": "Damietta"
+    },
+    "aliases": {
+      "ar": [
+        "دمیاط"
+      ],
+      "en": [
+        "Damiata",
+        "Damieta",
+        "Damieti",
+        "Damiette",
+        "Damijeta",
+        "Dimyat",
+        "Dimyath",
+        "Dimyāṭ",
+        "Doemjat",
+        "Dumiat",
+        "Dumjat",
+        "Dumjata",
+        "Dumjatas",
+        "Dumját",
+        "Dumjāta",
+        "Dumqat",
+        "Dumujat",
+        "Dumyat",
+        "Dumyâṭ",
+        "Dumyāţ",
+        "QDX",
+        "Tamiathis",
+        "da meiy t ta",
+        "dami'ata",
+        "damieta",
+        "dimuyato",
+        "dmyat",
+        "du mu ya te"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة دمياط",
+      "regionEn": "Damietta Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358048",
+    "verified": true
+  },
+  {
+    "slug": "disuq",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.13259,
+    "lng": 30.64784,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "دسوق",
+      "en": "Disūq",
+      "fr": "Disūq",
+      "de": "Disūq",
+      "tr": "Disūq",
+      "ur": "Disūq",
+      "id": "Disūq",
+      "es": "Disūq",
+      "bn": "Disūq",
+      "ms": "Disūq"
+    },
+    "aliases": {
+      "en": [
+        "Dasuq",
+        "Dasūq",
+        "Dessouk",
+        "Disuk",
+        "Disuq",
+        "dswq"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة كفر الشيخ",
+      "regionEn": "Kafr El Sheikh Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358108",
+    "verified": true
+  },
+  {
+    "slug": "dikirnis",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.08898,
+    "lng": 31.59478,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "دكرنس",
+      "en": "Dikirnis",
+      "fr": "Dikirnis",
+      "de": "Dikirnis",
+      "tr": "Dikirnis",
+      "ur": "Dikirnis",
+      "id": "Dikirnis",
+      "es": "Dikirnis",
+      "bn": "Dikirnis",
+      "ms": "Dikirnis"
+    },
+    "aliases": {
+      "ar": [
+        "دکرنس"
+      ],
+      "en": [
+        "Dekernes",
+        "Dikinis",
+        "Dikirni",
+        "Markaz Dikirnis",
+        "dkrns"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الدقهلية",
+      "regionEn": "Dakahlia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358172",
+    "verified": true
+  },
+  {
+    "slug": "dayrut",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 27.55642,
+    "lng": 30.81057,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "ديروط",
+      "en": "Dayrūţ",
+      "fr": "Dayrūţ",
+      "de": "Dayrūţ",
+      "tr": "Dayrūţ",
+      "ur": "Dayrūţ",
+      "id": "Dayrūţ",
+      "es": "Dayrūţ",
+      "bn": "Dayrūţ",
+      "ms": "Dayrūţ"
+    },
+    "aliases": {
+      "en": [
+        "Dairut",
+        "Dairut el Mahatta",
+        "Dairût",
+        "Dairût el Maḥaṭṭa",
+        "Dayrut",
+        "Dayrut al Mahattah",
+        "Dayrūţ al Maḩaţţah",
+        "Dayrūṭ",
+        "Deirout",
+        "Deirut",
+        "dyrwt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة أسيوط",
+      "regionEn": "Asyut Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358269",
+    "verified": true
+  },
+  {
+    "slug": "damanhur",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 31.03408,
+    "lng": 30.46823,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "دمنهور",
+      "en": "Damanhur",
+      "fr": "Damanhur",
+      "de": "Damanhur",
+      "tr": "Damanhur",
+      "ur": "Damanhur",
+      "id": "Damanhur",
+      "es": "Damanhur",
+      "bn": "Damanhur",
+      "ms": "Damanhur"
+    },
+    "aliases": {
+      "en": [
+        "Bandar Damanhur",
+        "Bandar Damanhūr",
+        "Damanhour",
+        "Damanhûr",
+        "Damanhūr",
+        "Damankhur",
+        "Hermopolis Parva",
+        "Hermupolis Parva",
+        "dmnhwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة البحيرة",
+      "regionEn": "Beheira Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358448",
+    "verified": true
+  },
+  {
+    "slug": "bush",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 29.14816,
+    "lng": 31.12733,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "ناصر-بوش سابقا",
+      "en": "Būsh",
+      "fr": "Būsh",
+      "de": "Būsh",
+      "tr": "Būsh",
+      "ur": "Būsh",
+      "id": "Būsh",
+      "es": "Būsh",
+      "bn": "Būsh",
+      "ms": "Būsh"
+    },
+    "aliases": {
+      "en": [
+        "Bush",
+        "Nasir Bush",
+        "Nāṣir Būsh",
+        "nasr-bwsh sabqa"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة بني سويف",
+      "regionEn": "Beni Suef Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358600",
+    "verified": true
+  },
+  {
+    "slug": "bilqas",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.21452,
+    "lng": 31.35798,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "بلقاس",
+      "en": "Bilqās",
+      "fr": "Bilqās",
+      "de": "Bilqās",
+      "tr": "Bilqās",
+      "ur": "Bilqās",
+      "id": "Bilqās",
+      "es": "Bilqās",
+      "bn": "Bilqās",
+      "ms": "Bilqās"
+    },
+    "aliases": {
+      "en": [
+        "Balqas",
+        "Balqās",
+        "Bilqas",
+        "Bilqas Qism Auwal",
+        "Bilqas Qism Awwal",
+        "Bilqâs",
+        "Bilqâs Qism Auwal",
+        "Bilqās Qism Awwal",
+        "blqas"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الدقهلية",
+      "regionEn": "Dakahlia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358821",
+    "verified": true
+  },
+  {
+    "slug": "bilbeis",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.42039,
+    "lng": 31.56223,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "بلبيس",
+      "en": "Bilbeis",
+      "fr": "Bilbeis",
+      "de": "Bilbeis",
+      "tr": "Bilbeis",
+      "ur": "Bilbeis",
+      "id": "Bilbeis",
+      "es": "Bilbeis",
+      "bn": "Bilbeis",
+      "ms": "Bilbeis"
+    },
+    "aliases": {
+      "ar": [
+        "بلبیس",
+        "بىيلبەيس"
+      ],
+      "en": [
+        "Belbeis",
+        "Bil'bejs",
+        "Bilbajs",
+        "Bilbays",
+        "Bilbeisa",
+        "Bilbeisz",
+        "Bilbejs",
+        "Bilbes",
+        "Bilbeys",
+        "Bilbéïs",
+        "Bilbês",
+        "Bimpais",
+        "Bïlʹbeýs",
+        "bi lei bai si",
+        "bilbeiseu",
+        "birubesu",
+        "blbys",
+        "bylbys"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الشرقية",
+      "regionEn": "Sharqia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:358840",
+    "verified": true
+  },
+  {
+    "slug": "bani-suwayf",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 29.07441,
+    "lng": 31.09785,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "بني سويف",
+      "en": "Banī Suwayf",
+      "fr": "Banī Suwayf",
+      "de": "Banī Suwayf",
+      "tr": "Banī Suwayf",
+      "ur": "Banī Suwayf",
+      "id": "Banī Suwayf",
+      "es": "Banī Suwayf",
+      "bn": "Banī Suwayf",
+      "ms": "Banī Suwayf"
+    },
+    "aliases": {
+      "en": [
+        "Bani Suwayf",
+        "Beni Souef",
+        "Beni Sue",
+        "Beni Suef",
+        "Beni Suweif",
+        "bny swyf"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة بني سويف",
+      "regionEn": "Beni Suef Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:359173",
+    "verified": true
+  },
+  {
+    "slug": "bani-mazar",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 28.49456,
+    "lng": 30.80526,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "بني مزار",
+      "en": "Banī Mazār",
+      "fr": "Banī Mazār",
+      "de": "Banī Mazār",
+      "tr": "Banī Mazār",
+      "ur": "Banī Mazār",
+      "id": "Banī Mazār",
+      "es": "Banī Mazār",
+      "bn": "Banī Mazār",
+      "ms": "Banī Mazār"
+    },
+    "aliases": {
+      "en": [
+        "Bani Mazar",
+        "Beni Mazar",
+        "Beni Mazâr",
+        "bny mzar"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنيا",
+      "regionEn": "Minya Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:359212",
+    "verified": true
+  },
+  {
+    "slug": "banha",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 30.45977,
+    "lng": 31.1842,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "بنها",
+      "en": "Banhā",
+      "fr": "Banhā",
+      "de": "Banhā",
+      "tr": "Banhā",
+      "ur": "Banhā",
+      "id": "Banhā",
+      "es": "Banhā",
+      "bn": "Banhā",
+      "ms": "Banhā"
+    },
+    "aliases": {
+      "en": [
+        "Athribis",
+        "Bandar Banha",
+        "Bandar Banhā",
+        "Banha",
+        "Benha",
+        "Benkha",
+        "Benna",
+        "bnha"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة القليوبية",
+      "regionEn": "Qalyubia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:359280",
+    "verified": true
+  },
+  {
+    "slug": "el-tor",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 28.24168,
+    "lng": 33.6222,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "الطور",
+      "en": "El-Tor",
+      "fr": "El-Tor",
+      "de": "El-Tor",
+      "tr": "El-Tor",
+      "ur": "El-Tor",
+      "id": "El-Tor",
+      "es": "El-Tor",
+      "bn": "El-Tor",
+      "ms": "El-Tor"
+    },
+    "aliases": {
+      "en": [
+        "Al-Tur",
+        "At Tur",
+        "At-Tur",
+        "Aţ Ţūr",
+        "Aṭ-Ṭūr",
+        "ELT",
+        "El-Tur",
+        "El-Tûr",
+        "Et Tor",
+        "Raithu",
+        "Thur",
+        "Tor",
+        "Tor Sinai City",
+        "Tur Sinai",
+        "altwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة جنوب سيناء",
+      "regionEn": "South Sinai Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:359678",
+    "verified": true
+  },
+  {
+    "slug": "as-sinbillawayn",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.88251,
+    "lng": 31.46275,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "السنبلاوين",
+      "en": "As Sinbillāwayn",
+      "fr": "As Sinbillāwayn",
+      "de": "As Sinbillāwayn",
+      "tr": "As Sinbillāwayn",
+      "ur": "As Sinbillāwayn",
+      "id": "As Sinbillāwayn",
+      "es": "As Sinbillāwayn",
+      "bn": "As Sinbillāwayn",
+      "ms": "As Sinbillāwayn"
+    },
+    "aliases": {
+      "en": [
+        "As Sinbillawayn",
+        "As Sunbullawayn",
+        "As Sunbullāwayn",
+        "As-Sinbillawayn",
+        "As-Sinbillāwayn",
+        "El-Simbillawein",
+        "El-Simbillâwein",
+        "Es Simbillawein",
+        "Es Simbillāwein",
+        "alsnblawyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الدقهلية",
+      "regionEn": "Dakahlia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:359815",
+    "verified": true
+  },
+  {
+    "slug": "ashmun",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.29735,
+    "lng": 30.97641,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "أشمون",
+      "en": "Ashmūn",
+      "fr": "Ashmūn",
+      "de": "Ashmūn",
+      "tr": "Ashmūn",
+      "ur": "Ashmūn",
+      "id": "Ashmūn",
+      "es": "Ashmūn",
+      "bn": "Ashmūn",
+      "ms": "Ashmūn"
+    },
+    "aliases": {
+      "en": [
+        "ASHMUN",
+        "Ashmun",
+        "ashmwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة المنوفية",
+      "regionEn": "Monufia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:360048",
+    "verified": true
+  },
+  {
+    "slug": "al-matariyah",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.18287,
+    "lng": 32.03108,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "المطرية",
+      "en": "Al Maţarīyah",
+      "fr": "Al Maţarīyah",
+      "de": "Al Maţarīyah",
+      "tr": "Al Maţarīyah",
+      "ur": "Al Maţarīyah",
+      "id": "Al Maţarīyah",
+      "es": "Al Maţarīyah",
+      "bn": "Al Maţarīyah",
+      "ms": "Al Maţarīyah"
+    },
+    "aliases": {
+      "en": [
+        "Al Matariyah",
+        "El Mataria",
+        "El-Matariya",
+        "El-Maṭarîya",
+        "Matarieh",
+        "almtryt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الدقهلية",
+      "regionEn": "Dakahlia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:360716",
+    "verified": true
+  },
+  {
+    "slug": "al-manzalah",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 31.15823,
+    "lng": 31.936,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "المنزلة",
+      "en": "Al Manzalah",
+      "fr": "Al Manzalah",
+      "de": "Al Manzalah",
+      "tr": "Al Manzalah",
+      "ur": "Al Manzalah",
+      "id": "Al Manzalah",
+      "es": "Al Manzalah",
+      "bn": "Al Manzalah",
+      "ms": "Al Manzalah"
+    },
+    "aliases": {
+      "en": [
+        "Al Manzilah",
+        "El-Manzala",
+        "almnzlt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الدقهلية",
+      "regionEn": "Dakahlia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:360754",
+    "verified": true
+  },
+  {
+    "slug": "al-mahallah-al-kubra",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.97063,
+    "lng": 31.1669,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "المحلة الكبرى",
+      "en": "Al Maḩallah al Kubrá",
+      "fr": "Al Maḩallah al Kubrá",
+      "de": "Al Maḩallah al Kubrá",
+      "tr": "Al Maḩallah al Kubrá",
+      "ur": "Al Maḩallah al Kubrá",
+      "id": "Al Maḩallah al Kubrá",
+      "es": "Al Maḩallah al Kubrá",
+      "bn": "Al Maḩallah al Kubrá",
+      "ms": "Al Maḩallah al Kubrá"
+    },
+    "aliases": {
+      "en": [
+        "Al Mahallah al Kubra",
+        "Al-Mahallah al-Kubra'",
+        "Al-Maḥallah al-Kubra’",
+        "El Mahalla",
+        "El Mahalla el Kubra",
+        "El Mehalla el Kubra",
+        "El-Mahalla el-Kubra",
+        "El-Maḥalla el-Kubra",
+        "Mahalla el Kubra",
+        "Mehalla el Kobra",
+        "almhlt alkbry"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الغربية",
+      "regionEn": "Gharbia Governorate"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:360829",
+    "verified": true
+  },
+  {
+    "slug": "al-kharjah",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 25.45101,
+    "lng": 30.54653,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "الخارجة",
+      "en": "Al Khārjah",
+      "fr": "Al Khārjah",
+      "de": "Al Khārjah",
+      "tr": "Al Khārjah",
+      "ur": "Al Khārjah",
+      "id": "Al Khārjah",
+      "es": "Al Khārjah",
+      "bn": "Al Khārjah",
+      "ms": "Al Khārjah"
+    },
+    "aliases": {
+      "en": [
+        "Al Kharijah",
+        "Al Kharjah",
+        "Al Khārijah",
+        "Al-Kharga",
+        "El Kharga",
+        "El Khârga",
+        "El-Charge",
+        "Kharga",
+        "Kharga Oasis",
+        "UVL",
+        "alkharjt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الوادي الجديد",
+      "regionEn": "New Valley Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:360923",
+    "verified": true
+  },
+  {
+    "slug": "hurghada",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 27.25738,
+    "lng": 33.81291,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "الغردقة",
+      "en": "Hurghada",
+      "fr": "Hurghada",
+      "de": "Hurghada",
+      "tr": "Hurghada",
+      "ur": "Hurghada",
+      "id": "Hurghada",
+      "es": "Hurghada",
+      "bn": "Hurghada",
+      "ms": "Hurghada"
+    },
+    "aliases": {
+      "ar": [
+        "الغردقه",
+        "غردقه",
+        "غردقہ"
+      ],
+      "en": [
+        "Al Ghardaqah",
+        "Al-Ghardaqa",
+        "Al-Ghurdaqah",
+        "Chournkanta",
+        "El-Ghardaqa",
+        "Gurdaka",
+        "HRG",
+        "Hurgada",
+        "Khurgada",
+        "Khurgade",
+        "Urgada",
+        "alghrdqh",
+        "alghrdqt",
+        "furugada",
+        "ghrdqh",
+        "hong jia da",
+        "huleugada"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة البحر الأحمر",
+      "regionEn": "Red Sea Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:361291",
+    "verified": true
+  },
+  {
+    "slug": "al-fashn",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 28.82306,
+    "lng": 30.89903,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "الفشن",
+      "en": "Al Fashn",
+      "fr": "Al Fashn",
+      "de": "Al Fashn",
+      "tr": "Al Fashn",
+      "ur": "Al Fashn",
+      "id": "Al Fashn",
+      "es": "Al Fashn",
+      "bn": "Al Fashn",
+      "ms": "Al Fashn"
+    },
+    "aliases": {
+      "en": [
+        "Al-Fashan",
+        "Al-Fashn",
+        "Al-Faszn",
+        "Ehl'-Fashn",
+        "El Fashn",
+        "Fashn",
+        "al-Faschn",
+        "alfshn"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة بني سويف",
+      "regionEn": "Beni Suef Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:361329",
+    "verified": true
+  },
+  {
+    "slug": "arish",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 31.13159,
+    "lng": 33.79844,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "العريش",
+      "en": "Arīsh",
+      "fr": "Arīsh",
+      "de": "Arīsh",
+      "tr": "Arīsh",
+      "ur": "Arīsh",
+      "id": "Arīsh",
+      "es": "Arīsh",
+      "bn": "Arīsh",
+      "ms": "Arīsh"
+    },
+    "aliases": {
+      "ar": [
+        "عریش"
+      ],
+      "en": [
+        "AAC",
+        "Al 'Arish",
+        "Al Arish",
+        "Al `Arish",
+        "Al ‘Arīsh",
+        "Al-'Arish",
+        "Al-Arisch",
+        "Al-Arish",
+        "Al-Arisz",
+        "Al-Arix",
+        "Al-‘Arīsh",
+        "Alarixe",
+        "Aris",
+        "Arisas",
+        "Arish",
+        "Arišas",
+        "Aríš",
+        "City of Cut Noses",
+        "Ehl'-Arish",
+        "El Aris",
+        "El Arish",
+        "El Ariŝ",
+        "El Ariş",
+        "El'-Arish",
+        "El-'Arish",
+        "El-Arich",
+        "El-‘Arîsh",
+        "Rhinocolorum",
+        "Rhinocolura",
+        "Rhinocorura",
+        "Rhinokorura",
+        "a li shen",
+        "alisi",
+        "arishu",
+        "el-arishi"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة شمال سيناء",
+      "regionEn": "North Sinai Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:361546",
+    "verified": true
+  },
+  {
+    "slug": "akhmim",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 26.5622,
+    "lng": 31.74566,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "أخميم",
+      "en": "Akhmīm",
+      "fr": "Akhmīm",
+      "de": "Akhmīm",
+      "tr": "Akhmīm",
+      "ur": "Akhmīm",
+      "id": "Akhmīm",
+      "es": "Akhmīm",
+      "bn": "Akhmīm",
+      "ms": "Akhmīm"
+    },
+    "aliases": {
+      "en": [
+        "Akhmim",
+        "Akhmun",
+        "Akhmûn",
+        "Ekhmin",
+        "Khemmis",
+        "Paloupolis",
+        "Panopolis",
+        "Panospolis",
+        "akhmym"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة سوهاج",
+      "regionEn": "Sohag Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:361661",
+    "verified": true
+  },
+  {
+    "slug": "abu-tij",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 27.04514,
+    "lng": 31.31845,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "أبو تيج",
+      "en": "Abū Tīj",
+      "fr": "Abū Tīj",
+      "de": "Abū Tīj",
+      "tr": "Abū Tīj",
+      "ur": "Abū Tīj",
+      "id": "Abū Tīj",
+      "es": "Abū Tīj",
+      "bn": "Abū Tīj",
+      "ms": "Abū Tīj"
+    },
+    "aliases": {
+      "en": [
+        "Abu Tig",
+        "Abu Tij",
+        "Abu Tik",
+        "Abu Tîg",
+        "Apotheke",
+        "Apothekē",
+        "abw tyj"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة أسيوط",
+      "regionEn": "Asyut Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:362004",
+    "verified": true
+  },
+  {
+    "slug": "abu-kabir",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.72508,
+    "lng": 31.67148,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "أبو كبير",
+      "en": "Abū Kabīr",
+      "fr": "Abū Kabīr",
+      "de": "Abū Kabīr",
+      "tr": "Abū Kabīr",
+      "ur": "Abū Kabīr",
+      "id": "Abū Kabīr",
+      "es": "Abū Kabīr",
+      "bn": "Abū Kabīr",
+      "ms": "Abū Kabīr"
+    },
+    "aliases": {
+      "en": [
+        "Abu Kabir",
+        "Abu Kebir",
+        "Abu Kebîr",
+        "Abu Kibir",
+        "Abū Kibīr",
+        "Kafr Abu Kabir",
+        "Kafr Abu Kebir",
+        "Kafr Abu Kebîr",
+        "Kafr Abū Kabīr",
+        "abw kbyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة الشرقية",
+      "regionEn": "Sharqia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:362485",
+    "verified": true
+  },
+  {
+    "slug": "abnub",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 27.26881,
+    "lng": 31.15232,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "أبنوب",
+      "en": "Abnūb",
+      "fr": "Abnūb",
+      "de": "Abnūb",
+      "tr": "Abnūb",
+      "ur": "Abnūb",
+      "id": "Abnūb",
+      "es": "Abnūb",
+      "bn": "Abnūb",
+      "ms": "Abnūb"
+    },
+    "aliases": {
+      "en": [
+        "Abnub",
+        "abnwb"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة أسيوط",
+      "regionEn": "Asyut Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:362973",
+    "verified": true
+  },
+  {
+    "slug": "new-cairo",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.03,
+    "lng": 31.47,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "القاهرة الجديدة",
+      "en": "New Cairo",
+      "fr": "New Cairo",
+      "de": "New Cairo",
+      "tr": "New Cairo",
+      "ur": "New Cairo",
+      "id": "New Cairo",
+      "es": "New Cairo",
+      "bn": "New Cairo",
+      "ms": "New Cairo"
+    },
+    "aliases": {
+      "en": [
+        "alqahrt aljdydt"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة القاهرة",
+      "regionEn": "Cairo Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:7799991",
+    "verified": true
+  },
+  {
+    "slug": "al-ubur",
+    "type": "town",
+    "countryCode": "eg",
+    "lat": 30.22886,
+    "lng": 31.48149,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "العبور",
+      "en": "Al-'Ubūr",
+      "fr": "Al-'Ubūr",
+      "de": "Al-'Ubūr",
+      "tr": "Al-'Ubūr",
+      "ur": "Al-'Ubūr",
+      "id": "Al-'Ubūr",
+      "es": "Al-'Ubūr",
+      "bn": "Al-'Ubūr",
+      "ms": "Al-'Ubūr"
+    },
+    "aliases": {
+      "en": [
+        "Al Ubour",
+        "El Ubour",
+        "alʿbwr",
+        "Al-'Ubur"
+      ]
+    },
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt",
+      "regionAr": "محافظة القليوبية",
+      "regionEn": "Qalyubia Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:12451089",
+    "verified": true
+  },
+  {
+    "slug": "dongola",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 19.18163,
+    "lng": 30.47689,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "دنقلا",
+      "en": "Dongola",
+      "fr": "Dongola",
+      "de": "Dongola",
+      "tr": "Dongola",
+      "ur": "Dongola",
+      "id": "Dongola",
+      "es": "Dongola",
+      "bn": "Dongola",
+      "ms": "Dongola"
+    },
+    "aliases": {
+      "ar": [
+        "دنقله",
+        "ڈwngwla",
+        "ڈونگولا",
+        "ډwnګwla",
+        "ډونګولا"
+      ],
+      "en": [
+        "Ciutat de Dongola",
+        "DOG",
+        "Dangola",
+        "Donkola",
+        "Donqola",
+        "Dunkula",
+        "Dunqula",
+        "Dunqulah",
+        "Dunqulā",
+        "Nton'nkola",
+        "dnqla",
+        "dnqlh",
+        "dong gu la",
+        "dong-golla",
+        "dongora",
+        "donigola"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "الولاية الشمالية",
+      "regionEn": "Northern State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:363417",
+    "verified": true
+  },
+  {
+    "slug": "zalinjay",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 12.90918,
+    "lng": 23.47058,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "زالنجي",
+      "en": "Zalinjay",
+      "fr": "Zalinjay",
+      "de": "Zalinjay",
+      "tr": "Zalinjay",
+      "ur": "Zalinjay",
+      "id": "Zalinjay",
+      "es": "Zalinjay",
+      "bn": "Zalinjay",
+      "ms": "Zalinjay"
+    },
+    "aliases": {
+      "ar": [
+        "زالنجای",
+        "زالنجي",
+        "زالنجي (مدينة)",
+        "زالنجے",
+        "zalnjے"
+      ],
+      "en": [
+        "ZLX",
+        "Zalindzhaj",
+        "Zalindzi",
+        "Zalindżi",
+        "Zalindži",
+        "Zalingee",
+        "Zalingei",
+        "Zalingi",
+        "Zalinguei",
+        "Zalinje",
+        "Zalinji",
+        "Zālinjī",
+        "jalinajaya",
+        "zalinaje",
+        "zalinijayi",
+        "zalinjaya",
+        "zalnjay",
+        "zalnjy",
+        "zalnjy (mdynt)",
+        "zarinjai"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية وسط دارفور",
+      "regionEn": "Central Darfur State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:363533",
+    "verified": true
+  },
+  {
+    "slug": "umm-ruwaba",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 12.9061,
+    "lng": 31.2158,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "أم روابة",
+      "en": "Umm Ruwaba",
+      "fr": "Umm Ruwaba",
+      "de": "Umm Ruwaba",
+      "tr": "Umm Ruwaba",
+      "ur": "Umm Ruwaba",
+      "id": "Umm Ruwaba",
+      "es": "Umm Ruwaba",
+      "bn": "Umm Ruwaba",
+      "ms": "Umm Ruwaba"
+    },
+    "aliases": {
+      "ar": [
+        "ام روابه"
+      ],
+      "en": [
+        "Um Ruaba",
+        "Um Ruwwaba",
+        "Um Ruwwāba",
+        "Umm Ruwabah",
+        "Umm Ruwābah",
+        "Umm-Ruvaba",
+        "am rwabh",
+        "am rwabt"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية شمال كردفان",
+      "regionEn": "North Kordofan State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:364706",
+    "verified": true
+  },
+  {
+    "slug": "tokar",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 18.4254,
+    "lng": 37.729,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "طوكر",
+      "en": "Tokār",
+      "fr": "Tokār",
+      "de": "Tokār",
+      "tr": "Tokār",
+      "ur": "Tokār",
+      "id": "Tokār",
+      "es": "Tokār",
+      "bn": "Tokār",
+      "ms": "Tokār"
+    },
+    "aliases": {
+      "en": [
+        "Taukar",
+        "Tawkar",
+        "Tokar",
+        "twkr",
+        "Ţawkar"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية البحر الأحمر",
+      "regionEn": "Red Sea State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:366323",
+    "verified": true
+  },
+  {
+    "slug": "singa",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 13.1483,
+    "lng": 33.93117,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "سنجة",
+      "en": "Singa",
+      "fr": "Singa",
+      "de": "Singa",
+      "tr": "Singa",
+      "ur": "Singa",
+      "id": "Singa",
+      "es": "Singa",
+      "bn": "Singa",
+      "ms": "Singa"
+    },
+    "aliases": {
+      "ar": [
+        "سنجة",
+        "سنگه",
+        "سنگہ",
+        "سینگا",
+        "sngہ"
+      ],
+      "en": [
+        "Senga",
+        "Sindscha",
+        "Sindza",
+        "Sindża",
+        "Sindža",
+        "Sinja",
+        "Sinjah",
+        "shinga",
+        "siga",
+        "siniga",
+        "sngh",
+        "snjt",
+        "synga"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية سنار",
+      "regionEn": "Sennar State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:366847",
+    "verified": true
+  },
+  {
+    "slug": "shendi",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 16.6915,
+    "lng": 33.4341,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "شندى",
+      "en": "Shendi",
+      "fr": "Shendi",
+      "de": "Shendi",
+      "tr": "Shendi",
+      "ur": "Shendi",
+      "id": "Shendi",
+      "es": "Shendi",
+      "bn": "Shendi",
+      "ms": "Shendi"
+    },
+    "aliases": {
+      "ar": [
+        "شندي",
+        "شندی"
+      ],
+      "en": [
+        "Chendi",
+        "Schandi",
+        "Sendi",
+        "Sendis",
+        "Senti",
+        "Shandi",
+        "Shehndzi",
+        "Shindi",
+        "Shindî",
+        "Szandi",
+        "Xendi",
+        "centi",
+        "chen di",
+        "sendi",
+        "shndy",
+        "sindi",
+        "syendi",
+        "Šendi",
+        "Šendis"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية نهر النيل",
+      "regionEn": "River Nile State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:367308",
+    "verified": true
+  },
+  {
+    "slug": "suakin",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 19.1059,
+    "lng": 37.3321,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "سواكن",
+      "en": "Suakin",
+      "fr": "Suakin",
+      "de": "Suakin",
+      "tr": "Suakin",
+      "ur": "Suakin",
+      "id": "Suakin",
+      "es": "Suakin",
+      "bn": "Suakin",
+      "ms": "Suakin"
+    },
+    "aliases": {
+      "ar": [
+        "سواکن",
+        "سواکین"
+      ],
+      "en": [
+        "Savakine",
+        "Sawakin",
+        "Sawākin",
+        "Sevakin",
+        "Souakin",
+        "Suakina",
+        "Suakinas",
+        "Suaquem",
+        "Suaquém",
+        "cuvakin",
+        "sa wa jin",
+        "sakina",
+        "saukin",
+        "sawkhin",
+        "su'akim",
+        "sukina",
+        "suvakin",
+        "swakn",
+        "swakyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية البحر الأحمر",
+      "regionEn": "Red Sea State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:367544",
+    "verified": true
+  },
+  {
+    "slug": "sennar",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 13.56907,
+    "lng": 33.56718,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "سنار",
+      "en": "Sennar",
+      "fr": "Sennar",
+      "de": "Sennar",
+      "tr": "Sennar",
+      "ur": "Sennar",
+      "id": "Sennar",
+      "es": "Sennar",
+      "bn": "Sennar",
+      "ms": "Sennar"
+    },
+    "aliases": {
+      "en": [
+        "Sannar",
+        "Senar",
+        "Sennār",
+        "Sinnar",
+        "snar"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية سنار",
+      "regionEn": "Sennar State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:367644",
+    "verified": true
+  },
+  {
+    "slug": "rabak",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 13.18087,
+    "lng": 32.73999,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "ربك",
+      "en": "Rabak",
+      "fr": "Rabak",
+      "de": "Rabak",
+      "tr": "Rabak",
+      "ur": "Rabak",
+      "id": "Rabak",
+      "es": "Rabak",
+      "bn": "Rabak",
+      "ms": "Rabak"
+    },
+    "aliases": {
+      "ar": [
+        "ربك",
+        "ربک",
+        "رباک"
+      ],
+      "en": [
+        "KST",
+        "Rabaq",
+        "rabaka",
+        "rabaki",
+        "rabaku",
+        "rbak",
+        "rbk"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية النيل الأبيض",
+      "regionEn": "White Nile State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:368277",
+    "verified": true
+  },
+  {
+    "slug": "kosti",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 13.1629,
+    "lng": 32.66347,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "كوستي",
+      "en": "Kosti",
+      "fr": "Kosti",
+      "de": "Kosti",
+      "tr": "Kosti",
+      "ur": "Kosti",
+      "id": "Kosti",
+      "es": "Kosti",
+      "bn": "Kosti",
+      "ms": "Kosti"
+    },
+    "aliases": {
+      "en": [
+        "Costi",
+        "KST",
+        "Kusti",
+        "Kūstī",
+        "rbk"
+      ],
+      "ar": [
+        "ربك"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية النيل الأبيض",
+      "regionEn": "White Nile State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:371760",
+    "verified": true
+  },
+  {
+    "slug": "khashm-al-qirbah",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 14.96667,
+    "lng": 35.91667,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "خشم القربة",
+      "en": "Khashm al Qirbah",
+      "fr": "Khashm al Qirbah",
+      "de": "Khashm al Qirbah",
+      "tr": "Khashm al Qirbah",
+      "ur": "Khashm al Qirbah",
+      "id": "Khashm al Qirbah",
+      "es": "Khashm al Qirbah",
+      "bn": "Khashm al Qirbah",
+      "ms": "Khashm al Qirbah"
+    },
+    "aliases": {
+      "ar": [
+        "خشم القربه"
+      ],
+      "en": [
+        "Abu Deleig",
+        "Chaszm al-Kirba",
+        "GBU",
+        "Hasm el Kirba",
+        "Hašm el Kirba",
+        "Kashm el Girba",
+        "Khash al Qirbah",
+        "Khasha al Qirbah",
+        "Khashim al Qirba",
+        "Khashm El Girba",
+        "Khashm el Girba",
+        "Khashm-ehl'-Kirba",
+        "Khasm el Gerba",
+        "Khasm el Qirba",
+        "hai shen mu ji er bai",
+        "khshm alqrbh",
+        "khshm alqrbt"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية القضارف",
+      "regionEn": "Al Qadarif State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:372527",
+    "verified": true
+  },
+  {
+    "slug": "kadugli",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 11.01111,
+    "lng": 29.71833,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "كادقلى",
+      "en": "Kadugli",
+      "fr": "Kadugli",
+      "de": "Kadugli",
+      "tr": "Kadugli",
+      "ur": "Kadugli",
+      "id": "Kadugli",
+      "es": "Kadugli",
+      "bn": "Kadugli",
+      "ms": "Kadugli"
+    },
+    "aliases": {
+      "ar": [
+        "كادقلي",
+        "کادوقلي",
+        "کادوگلی"
+      ],
+      "en": [
+        "KDX",
+        "Kadougli",
+        "Kaduqli",
+        "Kāduqlī",
+        "kadouguri",
+        "kadqly",
+        "kadugali",
+        "kaduግli",
+        "kadwgly",
+        "kadwqly"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية جنوب كردفان",
+      "regionEn": "South Kordofan State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:373141",
+    "verified": true
+  },
+  {
+    "slug": "jubayt",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 18.9533,
+    "lng": 36.8336,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "جبيت",
+      "en": "Jubayt",
+      "fr": "Jubayt",
+      "de": "Jubayt",
+      "tr": "Jubayt",
+      "ur": "Jubayt",
+      "id": "Jubayt",
+      "es": "Jubayt",
+      "bn": "Jubayt",
+      "ms": "Jubayt"
+    },
+    "aliases": {
+      "ar": [
+        "جبیت"
+      ],
+      "en": [
+        "Dzubajt",
+        "Dżubajt",
+        "Gabet",
+        "Gebeit",
+        "Gebejt",
+        "jbyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية البحر الأحمر",
+      "regionEn": "Red Sea State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:373296",
+    "verified": true
+  },
+  {
+    "slug": "new-halfa",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 15.33021,
+    "lng": 35.59854,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "حلفا الجديدة",
+      "en": "New Halfa",
+      "fr": "New Halfa",
+      "de": "New Halfa",
+      "tr": "New Halfa",
+      "ur": "New Halfa",
+      "id": "New Halfa",
+      "es": "New Halfa",
+      "bn": "New Halfa",
+      "ms": "New Halfa"
+    },
+    "aliases": {
+      "ar": [
+        "حلفا الجديده"
+      ],
+      "en": [
+        "Halfa Aj Jadida",
+        "Halfa Aj Jadīda",
+        "Halfa Aljadida",
+        "Halfa al Gadidah",
+        "Halfa al-Gedida",
+        "Halfa el Gadida",
+        "Halfa el Jadida",
+        "Halfa' al Jadidah",
+        "Halfā al Gadīdah",
+        "Khal'fa-ehl'-Dzhadida",
+        "NHF",
+        "hlfa aljdydh",
+        "hlfa aljdydt",
+        "Ḩalfā’ al Jadīdah"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية كسلا",
+      "regionEn": "Kassala State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:374272",
+    "verified": true
+  },
+  {
+    "slug": "atbara",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 17.70217,
+    "lng": 33.98638,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "عطبرة",
+      "en": "Atbara",
+      "fr": "Atbara",
+      "de": "Atbara",
+      "tr": "Atbara",
+      "ur": "Atbara",
+      "id": "Atbara",
+      "es": "Atbara",
+      "bn": "Atbara",
+      "ms": "Atbara"
+    },
+    "aliases": {
+      "ar": [
+        "عطبره"
+      ],
+      "en": [
+        "ATB",
+        "Atbarah",
+        "Atbare",
+        "Madent Atbara",
+        "`Atbarah",
+        "a te ba la",
+        "atobara",
+        "‘Aţbarah"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية نهر النيل",
+      "regionEn": "River Nile State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:378231",
+    "verified": true
+  },
+  {
+    "slug": "er-roseires",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 11.8659,
+    "lng": 34.3869,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الروصيرص",
+      "en": "Er Roseires",
+      "fr": "Er Roseires",
+      "de": "Er Roseires",
+      "tr": "Er Roseires",
+      "ur": "Er Roseires",
+      "id": "Er Roseires",
+      "es": "Er Roseires",
+      "bn": "Er Roseires",
+      "ms": "Er Roseires"
+    },
+    "aliases": {
+      "ar": [
+        "الروصیرص"
+      ],
+      "en": [
+        "Ar Roseris",
+        "Ar Rusayris",
+        "Ar Ruseris",
+        "Ar Ruşayriş",
+        "Ar-Rusajris",
+        "Ehr-Rosejres",
+        "Ruseres",
+        "Ruṣêreṣ",
+        "alrwsyrs",
+        "luo sai lei si"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية النيل الأزرق",
+      "regionEn": "Blue Nile State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:378459",
+    "verified": true
+  },
+  {
+    "slug": "ar-rahad",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 12.71667,
+    "lng": 30.65,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الرهد",
+      "en": "Ar Rahad",
+      "fr": "Ar Rahad",
+      "de": "Ar Rahad",
+      "tr": "Ar Rahad",
+      "ur": "Ar Rahad",
+      "id": "Ar Rahad",
+      "es": "Ar Rahad",
+      "bn": "Ar Rahad",
+      "ms": "Ar Rahad"
+    },
+    "aliases": {
+      "ar": [
+        "الرهد، سودان"
+      ],
+      "en": [
+        "Ar-Rahad",
+        "Ehr-Rakhad",
+        "Er Rahad",
+        "Rahad",
+        "alrhd",
+        "alrhd  swdan"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية شمال كردفان",
+      "regionEn": "North Kordofan State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:378493",
+    "verified": true
+  },
+  {
+    "slug": "an-nuhud",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 12.7,
+    "lng": 28.43333,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "النهود",
+      "en": "An Nuhūd",
+      "fr": "An Nuhūd",
+      "de": "An Nuhūd",
+      "tr": "An Nuhūd",
+      "ur": "An Nuhūd",
+      "id": "An Nuhūd",
+      "es": "An Nuhūd",
+      "bn": "An Nuhūd",
+      "ms": "An Nuhūd"
+    },
+    "aliases": {
+      "ar": [
+        "النہود"
+      ],
+      "en": [
+        "Al Nihood",
+        "An Nahud",
+        "An Nahūd",
+        "An Nuhud",
+        "An-Nahud",
+        "An-Nuhud",
+        "Ehn-Nukhud",
+        "Elnihood",
+        "En Nachount",
+        "En Nahud",
+        "En Nahudas",
+        "En Nahūd",
+        "En-Nakhud",
+        "Ennahuda",
+        "NUD",
+        "Nahad",
+        "alnhwd",
+        "en na hu de",
+        "en nahud",
+        "en nahudeu",
+        "en nahut",
+        "ena na'uda",
+        "ena nahuda",
+        "nafudo",
+        "xen nahad"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية غرب كردفان",
+      "regionEn": "West Kordofan State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:378699",
+    "verified": true
+  },
+  {
+    "slug": "al-qadarif",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 14.03493,
+    "lng": 35.38344,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "القضارف",
+      "en": "Al Qadarif",
+      "fr": "Al Qadarif",
+      "de": "Al Qadarif",
+      "tr": "Al Qadarif",
+      "ur": "Al Qadarif",
+      "id": "Al Qadarif",
+      "es": "Al Qadarif",
+      "bn": "Al Qadarif",
+      "ms": "Al Qadarif"
+    },
+    "aliases": {
+      "en": [
+        "Al Kadarif",
+        "Al Qaḑārif",
+        "Al-Kadarif",
+        "Al-Qadarif",
+        "Al-Qaḑārif",
+        "Ehl'-Kadarif",
+        "El Gedaref",
+        "El Kadarif",
+        "El-Gadarif",
+        "GSU",
+        "Gadaref",
+        "Gadarif",
+        "Gedaref",
+        "ala kadaripha",
+        "alqdarf",
+        "arukadarifu",
+        "jia da li fu",
+        "ʿeል qadariፍ"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية القضارف",
+      "regionEn": "Al Qadarif State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:379062",
+    "verified": true
+  },
+  {
+    "slug": "khartoum-north",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 15.64925,
+    "lng": 32.53458,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الخرطوم بحري",
+      "en": "Khartoum North",
+      "fr": "Khartoum North",
+      "de": "Khartoum North",
+      "tr": "Khartoum North",
+      "ur": "Khartoum North",
+      "id": "Khartoum North",
+      "es": "Khartoum North",
+      "bn": "Khartoum North",
+      "ms": "Khartoum North"
+    },
+    "aliases": {
+      "ar": [
+        "بحري"
+      ],
+      "en": [
+        "Bahri",
+        "Bahrí",
+        "Barkhi",
+        "Jartum Norte",
+        "Khartoum Nord",
+        "Khartum Nord",
+        "Pivnichnij Khartum",
+        "Severni Kartum",
+        "Severnyj Khartum",
+        "Sjeverni Kartum",
+        "alkhrtwm bhry",
+        "bhry"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية الخرطوم",
+      "regionEn": "Khartoum State"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:379251",
+    "verified": true
+  },
+  {
+    "slug": "al-junaynah",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 13.45262,
+    "lng": 22.44725,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الجنينة",
+      "en": "Al-Junaynah",
+      "fr": "Al-Junaynah",
+      "de": "Al-Junaynah",
+      "tr": "Al-Junaynah",
+      "ur": "Al-Junaynah",
+      "id": "Al-Junaynah",
+      "es": "Al-Junaynah",
+      "bn": "Al-Junaynah",
+      "ms": "Al-Junaynah"
+    },
+    "aliases": {
+      "ar": [
+        "الجنينة",
+        "الجنینه",
+        "الجنینہ",
+        "aljnynہ"
+      ],
+      "en": [
+        "Aj Jinena",
+        "Aj Jinēna",
+        "Al Geneina",
+        "Al Jeneina",
+        "Al Jinena",
+        "Al Jinēna",
+        "Al Junaynah",
+        "Al'-Dzhunajna",
+        "Al-Dschunaina",
+        "Al-Dzunajna",
+        "Al-Dżunajna",
+        "Al-Džunajna",
+        "EGN",
+        "El DZunajna",
+        "El Geneina",
+        "El-Geneina",
+        "Geneina",
+        "ala-juna'inaha",
+        "ala-junaina",
+        "aljnynh",
+        "aljnynt",
+        "arujunaina",
+        "ʿeል-ጁnayinahi"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية غرب دارفور",
+      "regionEn": "West Darfur State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:379303",
+    "verified": true
+  },
+  {
+    "slug": "el-fasher",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 13.62793,
+    "lng": 25.34936,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الفاشر",
+      "en": "El Fasher",
+      "fr": "El Fasher",
+      "de": "El Fasher",
+      "tr": "El Fasher",
+      "ur": "El Fasher",
+      "id": "El Fasher",
+      "es": "El Fasher",
+      "bn": "El Fasher",
+      "ms": "El Fasher"
+    },
+    "aliases": {
+      "en": [
+        "Al Fashir",
+        "Al Fāshir",
+        "Al-Faschir",
+        "Al-Fashir",
+        "Al-Fasir",
+        "Al-Fašir",
+        "ELF",
+        "Ehl'-Fasher",
+        "Ehl'-Fashir",
+        "El'-Fashir",
+        "Tendelti",
+        "ala phasara",
+        "alfashr",
+        "ela phasara",
+        "ela phasera",
+        "erufasha",
+        "Əl-Fasər",
+        "Əl-Faşər",
+        "ʿeል ፋsheri"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية شمال دارفور",
+      "regionEn": "North Darfur State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:379555",
+    "verified": true
+  },
+  {
+    "slug": "ad-douiem",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 14.0012,
+    "lng": 32.3116,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الدويم (مدينة)",
+      "en": "Ad Douiem",
+      "fr": "Ad Douiem",
+      "de": "Ad Douiem",
+      "tr": "Ad Douiem",
+      "ur": "Ad Douiem",
+      "id": "Ad Douiem",
+      "es": "Ad Douiem",
+      "bn": "Ad Douiem",
+      "ms": "Ad Douiem"
+    },
+    "aliases": {
+      "ar": [
+        "الدویم"
+      ],
+      "en": [
+        "Ad Diwem",
+        "Ad Duwaym",
+        "Ad Duwem",
+        "Ad Duwēm",
+        "Al Dewaym",
+        "Dewaim",
+        "Dueim",
+        "Ed Dueim",
+        "Ehd-Duehjm",
+        "El Dweim",
+        "aldwym",
+        "aldwym (mdynt)"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية النيل الأبيض",
+      "regionEn": "White Nile State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:380129",
+    "verified": true
+  },
+  {
+    "slug": "ad-damir",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 17.59898,
+    "lng": 33.97205,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الدامر",
+      "en": "Ad-Damir",
+      "fr": "Ad-Damir",
+      "de": "Ad-Damir",
+      "tr": "Ad-Damir",
+      "ur": "Ad-Damir",
+      "id": "Ad-Damir",
+      "es": "Ad-Damir",
+      "bn": "Ad-Damir",
+      "ms": "Ad-Damir"
+    },
+    "aliases": {
+      "en": [
+        "Ad Damir",
+        "Al-Damir",
+        "Ed Damer",
+        "Ed Damir",
+        "Ed-Damer",
+        "Ehd-Damer",
+        "ada-damira",
+        "addamiru",
+        "aldamr",
+        "ʿedi-damiri"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية نهر النيل",
+      "regionEn": "River Nile State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:380173",
+    "verified": true
+  },
+  {
+    "slug": "ad-damazin",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 11.7891,
+    "lng": 34.3592,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الدمازين",
+      "en": "Ad-Damazin",
+      "fr": "Ad-Damazin",
+      "de": "Ad-Damazin",
+      "tr": "Ad-Damazin",
+      "ur": "Ad-Damazin",
+      "id": "Ad-Damazin",
+      "es": "Ad-Damazin",
+      "bn": "Ad-Damazin",
+      "ms": "Ad-Damazin"
+    },
+    "aliases": {
+      "ar": [
+        "الدمازین"
+      ],
+      "en": [
+        "Ad Damazin",
+        "Ad Damāzīn",
+        "Damazin",
+        "Ed Damazin",
+        "Ed-Damazin",
+        "Ehd-Damazin",
+        "RSS",
+        "ada-damajina",
+        "addamajin",
+        "aldmazyn",
+        "ʿedi-damazini"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية النيل الأزرق",
+      "regionEn": "Blue Nile State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:380174",
+    "verified": true
+  },
+  {
+    "slug": "gereida",
+    "type": "town",
+    "countryCode": "sd",
+    "lat": 11.27543,
+    "lng": 25.14026,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "قريضة",
+      "en": "Gereida",
+      "fr": "Gereida",
+      "de": "Gereida",
+      "tr": "Gereida",
+      "ur": "Gereida",
+      "id": "Gereida",
+      "es": "Gereida",
+      "bn": "Gereida",
+      "ms": "Gereida"
+    },
+    "aliases": {
+      "ar": [
+        "قریضه"
+      ],
+      "en": [
+        "Gerejda",
+        "qrydh",
+        "qrydt"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية جنوب دارفور",
+      "regionEn": "South Darfur State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:8504621",
+    "verified": true
+  },
+  {
+    "slug": "al-fulah",
+    "type": "city",
+    "countryCode": "sd",
+    "lat": 11.71195,
+    "lng": 28.3462,
+    "timezone": "Africa/Khartoum",
+    "names": {
+      "ar": "الفولة",
+      "en": "Al-Fulah",
+      "fr": "Al-Fulah",
+      "de": "Al-Fulah",
+      "tr": "Al-Fulah",
+      "ur": "Al-Fulah",
+      "id": "Al-Fulah",
+      "es": "Al-Fulah",
+      "bn": "Al-Fulah",
+      "ms": "Al-Fulah"
+    },
+    "aliases": {
+      "ar": [
+        "الفولة",
+        "الفولہ",
+        "alfwlہ"
+      ],
+      "en": [
+        "Al Fulah",
+        "Al Fūlah",
+        "Al'-Fula",
+        "Al-Fula",
+        "Ehl'-Fula",
+        "El Fula",
+        "El'-Fula",
+        "ala-phulaha",
+        "alfwlt",
+        "arufura",
+        "ʿeል-ፉlahi"
+      ]
+    },
+    "admin": {
+      "countryAr": "السودان",
+      "countryEn": "Sudan",
+      "regionAr": "ولاية غرب كردفان",
+      "regionEn": "West Kordofan State"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:11003055",
+    "verified": true
+  },
+  {
+    "slug": "darnah",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.76704,
+    "lng": 22.63669,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "درنة",
+      "en": "Darnah",
+      "fr": "Darnah",
+      "de": "Darnah",
+      "tr": "Darnah",
+      "ur": "Darnah",
+      "id": "Darnah",
+      "es": "Darnah",
+      "bn": "Darnah",
+      "ms": "Darnah"
+    },
+    "aliases": {
+      "ar": [
+        "درنة",
+        "درنه",
+        "درنہ",
+        "drnہ"
+      ],
+      "en": [
+        "DNF",
+        "Daernae",
+        "Darna",
+        "Darnaa",
+        "Darnis",
+        "Derna",
+        "Derne",
+        "Därnä",
+        "Dérna",
+        "darana",
+        "daranaha",
+        "darinahi",
+        "darnaha",
+        "daruna",
+        "drnh",
+        "drnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "درنة",
+      "regionEn": "Derna District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:87205",
+    "verified": true
+  },
+  {
+    "slug": "al-jawf",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 24.1989,
+    "lng": 23.29093,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الجوف",
+      "en": "Al Jawf",
+      "fr": "Al Jawf",
+      "de": "Al Jawf",
+      "tr": "Al Jawf",
+      "ur": "Al Jawf",
+      "id": "Al Jawf",
+      "es": "Al Jawf",
+      "bn": "Al Jawf",
+      "ms": "Al Jawf"
+    },
+    "aliases": {
+      "en": [
+        "AKF",
+        "Al Gawf",
+        "Al Ğawf",
+        "Al-Jof",
+        "Ehl'-Dzhauf",
+        "El Giof",
+        "aljaupeu",
+        "aljwf",
+        "jaufu",
+        "jiao fu"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الكفرة",
+      "regionEn": "Al Kufrah District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:88962",
+    "verified": true
+  },
+  {
+    "slug": "al-bayda",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.76272,
+    "lng": 21.75506,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "البيضاء",
+      "en": "Al Bayḑā’",
+      "fr": "Al Bayḑā’",
+      "de": "Al Bayḑā’",
+      "tr": "Al Bayḑā’",
+      "ur": "Al Bayḑā’",
+      "id": "Al Bayḑā’",
+      "es": "Al Bayḑā’",
+      "bn": "Al Bayḑā’",
+      "ms": "Al Bayḑā’"
+    },
+    "aliases": {
+      "ar": [
+        "البیضاء"
+      ],
+      "en": [
+        "Al Bayda",
+        "Al Bayda'",
+        "Al-Baida",
+        "Az Zawiyah al Bayda'",
+        "Az Zāwiyah al Bayḑā’",
+        "Baida",
+        "Balagrae",
+        "Balis",
+        "Bayda",
+        "Beda",
+        "Beida",
+        "Ehl'-Bajda",
+        "El Beida",
+        "El Beyda",
+        "LAQ",
+        "White Monastery",
+        "Zauia el Beda",
+        "Zawiat al-Baida",
+        "Zawiyat al Bayda'",
+        "Zawiyat el-Beda'",
+        "Zāwiyat al Bayḑā’",
+        "Zāwiyat el-Bēḑā’",
+        "ala bayada",
+        "albydaʾ",
+        "aru・baida",
+        "Əl-Bajda",
+        "ʿaል bayida"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الجبل الأخضر",
+      "regionEn": "Al Jabal al Akhdar District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:89055",
+    "verified": true
+  },
+  {
+    "slug": "al-abyar",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.19,
+    "lng": 20.59653,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الأبيار‎",
+      "en": "Al Abyār",
+      "fr": "Al Abyār",
+      "de": "Al Abyār",
+      "tr": "Al Abyār",
+      "ur": "Al Abyār",
+      "id": "Al Abyār",
+      "es": "Al Abyār",
+      "bn": "Al Abyār",
+      "ms": "Al Abyār"
+    },
+    "aliases": {
+      "en": [
+        "Alabia",
+        "El Abiar",
+        "Madirat al Abyar",
+        "Madīrat al Abyār",
+        "alabyar‎",
+        "Al Abyar"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "المرج",
+      "regionEn": "Al Marj District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:89087",
+    "verified": true
+  },
+  {
+    "slug": "zuwarah",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.9312,
+    "lng": 12.08199,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "زوارة",
+      "en": "Zuwarah",
+      "fr": "Zuwarah",
+      "de": "Zuwarah",
+      "tr": "Zuwarah",
+      "ur": "Zuwarah",
+      "id": "Zuwarah",
+      "es": "Zuwarah",
+      "bn": "Zuwarah",
+      "ms": "Zuwarah"
+    },
+    "aliases": {
+      "ar": [
+        "زوارة",
+        "زواره",
+        "زوارہ",
+        "زُوارة",
+        "zwarہ"
+      ],
+      "en": [
+        "WAX",
+        "Zouara",
+        "Zuara",
+        "Zuava",
+        "Zuvara",
+        "Zuwaraa",
+        "Zuwārah",
+        "Zuára",
+        "Zuáva",
+        "ju'oyaraha",
+        "juwala",
+        "zu wa la",
+        "zuart",
+        "zuvara",
+        "zuwara",
+        "zuwarahi",
+        "zwarh",
+        "zwart"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "النقاط الخمس",
+      "regionEn": "An Nuqat al Khams District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2208425",
+    "verified": true
+  },
+  {
+    "slug": "zliten",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.46739,
+    "lng": 14.56874,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "زليتن",
+      "en": "Zliten",
+      "fr": "Zliten",
+      "de": "Zliten",
+      "tr": "Zliten",
+      "ur": "Zliten",
+      "id": "Zliten",
+      "es": "Zliten",
+      "bn": "Zliten",
+      "ms": "Zliten"
+    },
+    "aliases": {
+      "ar": [
+        "زلیتن"
+      ],
+      "en": [
+        "Isliten",
+        "Islīten",
+        "Izliten",
+        "Izlīten",
+        "QZL",
+        "Subgoli",
+        "Zalitan",
+        "Ziliten",
+        "Zlitan",
+        "Zlitenas",
+        "Zlitán",
+        "Zlītan",
+        "ci li tan",
+        "jeulliten",
+        "zlytn",
+        "zuriten"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "مصراتة",
+      "regionEn": "Misrata District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2208485",
+    "verified": true
+  },
+  {
+    "slug": "surman",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.75668,
+    "lng": 12.57159,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "صرمان",
+      "en": "Şurmān",
+      "fr": "Şurmān",
+      "de": "Şurmān",
+      "tr": "Şurmān",
+      "ur": "Şurmān",
+      "id": "Şurmān",
+      "es": "Şurmān",
+      "bn": "Şurmān",
+      "ms": "Şurmān"
+    },
+    "aliases": {
+      "en": [
+        "Baladiyat Surman",
+        "Baladīyat Şurmān",
+        "Sorman",
+        "Sormán",
+        "Surman",
+        "srman"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الزاوية",
+      "regionEn": "Az Zawiyah District"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2210560",
+    "verified": true
+  },
+  {
+    "slug": "sabratah",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.79335,
+    "lng": 12.48845,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "صبراتة",
+      "en": "Şabrātah",
+      "fr": "Şabrātah",
+      "de": "Şabrātah",
+      "tr": "Şabrātah",
+      "ur": "Şabrātah",
+      "id": "Şabrātah",
+      "es": "Şabrātah",
+      "bn": "Şabrātah",
+      "ms": "Şabrātah"
+    },
+    "aliases": {
+      "en": [
+        "Madinat Sabratah",
+        "Madīnat Şabrātah",
+        "Sabra",
+        "Sabrah",
+        "Sabratah",
+        "Sabratha",
+        "Sábra",
+        "sbratt",
+        "Şabrah"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الزاوية",
+      "regionEn": "Az Zawiyah District"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2212771",
+    "verified": true
+  },
+  {
+    "slug": "sidi-bin-zinah",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.88718,
+    "lng": 11.98729,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "سيدي بن زينة",
+      "en": "Sīdī Bin Zīnah",
+      "fr": "Sīdī Bin Zīnah",
+      "de": "Sīdī Bin Zīnah",
+      "tr": "Sīdī Bin Zīnah",
+      "ur": "Sīdī Bin Zīnah",
+      "id": "Sīdī Bin Zīnah",
+      "es": "Sīdī Bin Zīnah",
+      "bn": "Sīdī Bin Zīnah",
+      "ms": "Sīdī Bin Zīnah"
+    },
+    "aliases": {
+      "en": [
+        "Raqdalin",
+        "Raqdālīn",
+        "Regdalin",
+        "Riqdalin",
+        "Riqdālīn",
+        "Sidi Bin Zinah",
+        "Sidi Bu Zinah",
+        "Sīdī Bū Zīnah",
+        "sydy bn zynt"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "النقاط الخمس",
+      "regionEn": "An Nuqat al Khams District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2212882",
+    "verified": true
+  },
+  {
+    "slug": "qasr-al-qarabulli",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.74506,
+    "lng": 13.71467,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "قصر القربولي",
+      "en": "Qaşr al Qarabūllī",
+      "fr": "Qaşr al Qarabūllī",
+      "de": "Qaşr al Qarabūllī",
+      "tr": "Qaşr al Qarabūllī",
+      "ur": "Qaşr al Qarabūllī",
+      "id": "Qaşr al Qarabūllī",
+      "es": "Qaşr al Qarabūllī",
+      "bn": "Qaşr al Qarabūllī",
+      "ms": "Qaşr al Qarabūllī"
+    },
+    "aliases": {
+      "ar": [
+        "قصر القرهبلي"
+      ],
+      "en": [
+        "Castelverde",
+        "Gasr Garabulli",
+        "Gasr Garabúlli",
+        "Gasr el Gharabulli",
+        "Gasr el-Garabulli",
+        "Gasr el-Garabùlli",
+        "Qarabulli",
+        "Qarabūllī",
+        "Qarah Bulli",
+        "Qarah Būllī",
+        "Qasr al Qarabulli",
+        "Qasr al Qarahbulli",
+        "Qaşr al Qarahbullī",
+        "Qaşr al Qarābūllī",
+        "qsr alqrbwly",
+        "qsr alqrhbly"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "طرابلس",
+      "regionEn": "Tripoli District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2213695",
+    "verified": true
+  },
+  {
+    "slug": "nalut",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 31.86848,
+    "lng": 10.9812,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "نالوت",
+      "en": "Nālūt",
+      "fr": "Nālūt",
+      "de": "Nālūt",
+      "tr": "Nālūt",
+      "ur": "Nālūt",
+      "id": "Nālūt",
+      "es": "Nālūt",
+      "bn": "Nālūt",
+      "ms": "Nālūt"
+    },
+    "aliases": {
+      "en": [
+        "Lalut",
+        "Lalút",
+        "Naalut",
+        "Nalut",
+        "naluta",
+        "naluti",
+        "nalwt",
+        "naruto"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "نالوت",
+      "regionEn": "Nalut District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2214433",
+    "verified": true
+  },
+  {
+    "slug": "murzuk",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 25.91552,
+    "lng": 13.91839,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "مرزق",
+      "en": "Murzuk",
+      "fr": "Murzuk",
+      "de": "Murzuk",
+      "tr": "Murzuk",
+      "ur": "Murzuk",
+      "id": "Murzuk",
+      "es": "Murzuk",
+      "bn": "Murzuk",
+      "ms": "Murzuk"
+    },
+    "aliases": {
+      "en": [
+        "Marzuq",
+        "Marzūq",
+        "Mourzouk",
+        "Mursuk",
+        "Murzuch",
+        "Murzuq",
+        "Murzuuk",
+        "QMQ",
+        "mrzq",
+        "murajuka",
+        "murazuka",
+        "murizuki",
+        "muruzuku"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "مرزق",
+      "regionEn": "Murzuq District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2214603",
+    "verified": true
+  },
+  {
+    "slug": "al-burayqah",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 30.40624,
+    "lng": 19.57386,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "البريقة",
+      "en": "Al Burayqah",
+      "fr": "Al Burayqah",
+      "de": "Al Burayqah",
+      "tr": "Al Burayqah",
+      "ur": "Al Burayqah",
+      "id": "Al Burayqah",
+      "es": "Al Burayqah",
+      "bn": "Al Burayqah",
+      "ms": "Al Burayqah"
+    },
+    "aliases": {
+      "ar": [
+        "قصر البريقة",
+        "مرسى البريقة"
+      ],
+      "en": [
+        "El-Brega",
+        "LMQ",
+        "Marsa Brega",
+        "Marsa Bregha",
+        "Marsa al Burayqah",
+        "Marsa el Brega",
+        "Marsá al Burayqah",
+        "Port Brega",
+        "Qasr al Buraygah",
+        "Qasr al Burayqah",
+        "Qaşr al Burayqah",
+        "albryqt",
+        "mrsy albryqt",
+        "qsr albryqt"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الواحات",
+      "regionEn": "Al Wahat District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2215210",
+    "verified": true
+  },
+  {
+    "slug": "janzur",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.81868,
+    "lng": 13.01727,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "جنزور",
+      "en": "Janzūr",
+      "fr": "Janzūr",
+      "de": "Janzūr",
+      "tr": "Janzūr",
+      "ur": "Janzūr",
+      "id": "Janzūr",
+      "es": "Janzūr",
+      "bn": "Janzūr",
+      "ms": "Janzūr"
+    },
+    "aliases": {
+      "en": [
+        "Janzur",
+        "Zanzur",
+        "Zanzūr",
+        "jnzwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الجفارة",
+      "regionEn": "Jafara District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2216349",
+    "verified": true
+  },
+  {
+    "slug": "hun",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 29.12684,
+    "lng": 15.94772,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "مدينة هون",
+      "en": "Hūn",
+      "fr": "Hūn",
+      "de": "Hūn",
+      "tr": "Hūn",
+      "ur": "Hūn",
+      "id": "Hūn",
+      "es": "Hūn",
+      "bn": "Hūn",
+      "ms": "Hūn"
+    },
+    "aliases": {
+      "ar": [
+        "هون",
+        "ہwn",
+        "ہون"
+      ],
+      "en": [
+        "HUQ",
+        "Hon",
+        "Hun",
+        "Huun",
+        "Khun",
+        "Madinat Hun",
+        "Madīnat Hūn",
+        "fun",
+        "huna",
+        "hwn",
+        "mdynt hwn",
+        "ሁni"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الجفرة",
+      "regionEn": "Al Jufrah District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2216645",
+    "verified": true
+  },
+  {
+    "slug": "ghat",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 24.96334,
+    "lng": 10.18003,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "غات",
+      "en": "Ghat",
+      "fr": "Ghat",
+      "de": "Ghat",
+      "tr": "Ghat",
+      "ur": "Ghat",
+      "id": "Ghat",
+      "es": "Ghat",
+      "bn": "Ghat",
+      "ms": "Ghat"
+    },
+    "aliases": {
+      "en": [
+        "GHT",
+        "Gat",
+        "Ghaat",
+        "Ghāt",
+        "Rhat",
+        "gati",
+        "gatto",
+        "ghata"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "غات",
+      "regionEn": "Ghat District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2217351",
+    "verified": true
+  },
+  {
+    "slug": "gharyan",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.17222,
+    "lng": 13.02028,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "غريان",
+      "en": "Gharyan",
+      "fr": "Gharyan",
+      "de": "Gharyan",
+      "tr": "Gharyan",
+      "ur": "Gharyan",
+      "id": "Gharyan",
+      "es": "Gharyan",
+      "bn": "Gharyan",
+      "ms": "Gharyan"
+    },
+    "aliases": {
+      "ar": [
+        "غریان"
+      ],
+      "en": [
+        "Gaariyaan",
+        "Garian",
+        "Gariao",
+        "Garián",
+        "Garião",
+        "Garjan",
+        "Garyan",
+        "Gasr Garian",
+        "Gasr Gariàn",
+        "Gharyān",
+        "QGH",
+        "Qaryan",
+        "gariyan",
+        "gariyana",
+        "gariyani",
+        "ghari'ana",
+        "ghariyana",
+        "ghryan"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الجبل الغربي",
+      "regionEn": "Jabal al Gharbi District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2217362",
+    "verified": true
+  },
+  {
+    "slug": "bani-walid",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 31.74554,
+    "lng": 13.98354,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "بني وليد",
+      "en": "Bani Walid",
+      "fr": "Bani Walid",
+      "de": "Bani Walid",
+      "tr": "Bani Walid",
+      "ur": "Bani Walid",
+      "id": "Bani Walid",
+      "es": "Bani Walid",
+      "bn": "Bani Walid",
+      "ms": "Bani Walid"
+    },
+    "aliases": {
+      "ar": [
+        "بنی ولید",
+        "بنی‌ولید",
+        "قصر بني وليد"
+      ],
+      "en": [
+        "Baeni Vaelid",
+        "Bani Ualid",
+        "Bani Valid",
+        "Bani Validas",
+        "Bani Valíd",
+        "Baní Walíd",
+        "Banī Walīd",
+        "Beni Ulid",
+        "Beni Valid",
+        "Beni-Valid",
+        "Beniulid",
+        "Bäni Välid",
+        "Gasr Beni Ulid",
+        "Gasr Béni Ulíd",
+        "QBL",
+        "Qasr Bani Walid",
+        "Qaşr Banī Walīd",
+        "bai ni wo li de",
+        "bani-validi",
+        "baniwallideu",
+        "baniwarido",
+        "bny wlyd",
+        "bny‌wlyd",
+        "qsr bny wlyd"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "مصراتة",
+      "regionEn": "Misrata District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2218840",
+    "verified": true
+  },
+  {
+    "slug": "zintan",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 31.93155,
+    "lng": 12.25291,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الزنتان",
+      "en": "Zintan",
+      "fr": "Zintan",
+      "de": "Zintan",
+      "tr": "Zintan",
+      "ur": "Zintan",
+      "id": "Zintan",
+      "es": "Zintan",
+      "bn": "Zintan",
+      "ms": "Zintan"
+    },
+    "aliases": {
+      "ar": [
+        "الزنتان‎",
+        "الزنتان، لیبی"
+      ],
+      "en": [
+        "As-Sintan",
+        "Az Zintan",
+        "Az Zintān",
+        "Ehz-Zintan",
+        "Ez-Zintan",
+        "Ez-Zintán",
+        "ZIS",
+        "Zentan",
+        "alzntan  lyby",
+        "alzntan‎"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الجبل الغربي",
+      "regionEn": "Jabal al Gharbi District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2218963",
+    "verified": true
+  },
+  {
+    "slug": "ubari",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 26.59034,
+    "lng": 12.77511,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "أوباري",
+      "en": "Ubari",
+      "fr": "Ubari",
+      "de": "Ubari",
+      "tr": "Ubari",
+      "ur": "Ubari",
+      "id": "Ubari",
+      "es": "Ubari",
+      "bn": "Ubari",
+      "ms": "Ubari"
+    },
+    "aliases": {
+      "ar": [
+        "اوباري",
+        "اوباری"
+      ],
+      "en": [
+        "Awbari",
+        "Awbārī",
+        "Oubari",
+        "QUB",
+        "Ubarii",
+        "awbary",
+        "ʿubari"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "وادي الحياة",
+      "regionEn": "Wadi al Hayaa District"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2219235",
+    "verified": true
+  },
+  {
+    "slug": "al-ajaylat",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.75718,
+    "lng": 12.37633,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "العجيلات",
+      "en": "Al Ajaylat",
+      "fr": "Al Ajaylat",
+      "de": "Al Ajaylat",
+      "tr": "Al Ajaylat",
+      "ur": "Al Ajaylat",
+      "id": "Al Ajaylat",
+      "es": "Al Ajaylat",
+      "bn": "Al Ajaylat",
+      "ms": "Al Ajaylat"
+    },
+    "aliases": {
+      "en": [
+        "Agelat",
+        "Agelát",
+        "Al `Ajaylat",
+        "Al `Ujaylat",
+        "Al ‘Ajaylāt",
+        "Al ‘Ujaylāt",
+        "El Agelat",
+        "El Ajelat",
+        "alʿjylat"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "النقاط الخمس",
+      "regionEn": "An Nuqat al Khams District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2219701",
+    "verified": true
+  },
+  {
+    "slug": "al-khums",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.64861,
+    "lng": 14.26191,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الخمس",
+      "en": "Al Khums",
+      "fr": "Al Khums",
+      "de": "Al Khums",
+      "tr": "Al Khums",
+      "ur": "Al Khums",
+      "id": "Al Khums",
+      "es": "Al Khums",
+      "bn": "Al Khums",
+      "ms": "Al Khums"
+    },
+    "aliases": {
+      "ar": [
+        "الخمس، لیبی",
+        "الخُمس",
+        "خمس، لیبیا"
+      ],
+      "en": [
+        "Al Hums",
+        "Al Jums",
+        "Al Ĥums",
+        "Al'-Khums",
+        "Al-Chums",
+        "Al-Khums",
+        "Ehl'-Khums",
+        "Khoms",
+        "Khums",
+        "Kums",
+        "Labdah",
+        "Lebda",
+        "ala khumasa",
+        "ala khumsa",
+        "alkhms",
+        "alkhms  lyby",
+        "alkhums",
+        "el-khumsi",
+        "fumusu",
+        "hu mu si",
+        "humseu",
+        "khms  lybya",
+        "Əl-Khums",
+        "ʿaል kuምsi"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "المرقب",
+      "regionEn": "Murqub District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2219905",
+    "verified": true
+  },
+  {
+    "slug": "al-jumayl",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.85286,
+    "lng": 12.0612,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الجميل",
+      "en": "Al Jumayl",
+      "fr": "Al Jumayl",
+      "de": "Al Jumayl",
+      "tr": "Al Jumayl",
+      "ur": "Al Jumayl",
+      "id": "Al Jumayl",
+      "es": "Al Jumayl",
+      "bn": "Al Jumayl",
+      "ms": "Al Jumayl"
+    },
+    "aliases": {
+      "en": [
+        "Al Jamil",
+        "Al Jamīl",
+        "El-Gemil",
+        "El-Gemìl",
+        "aljmyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "النقاط الخمس",
+      "regionEn": "An Nuqat al Khams District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2219936",
+    "verified": true
+  },
+  {
+    "slug": "al-jadid",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 27.05,
+    "lng": 14.4,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الجديد",
+      "en": "Al Jadīd",
+      "fr": "Al Jadīd",
+      "de": "Al Jadīd",
+      "tr": "Al Jadīd",
+      "ur": "Al Jadīd",
+      "id": "Al Jadīd",
+      "es": "Al Jadīd",
+      "bn": "Al Jadīd",
+      "ms": "Al Jadīd"
+    },
+    "aliases": {
+      "en": [
+        "Al Jadid",
+        "Al'-Dzhadid",
+        "El-Gedid",
+        "El-Gedíd",
+        "aljdyd"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "سبها",
+      "regionEn": "Sabha District"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2219960",
+    "verified": true
+  },
+  {
+    "slug": "al-hurshah",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.76472,
+    "lng": 12.67389,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "الحرشة",
+      "en": "Al Ḩurshah",
+      "fr": "Al Ḩurshah",
+      "de": "Al Ḩurshah",
+      "tr": "Al Ḩurshah",
+      "ur": "Al Ḩurshah",
+      "id": "Al Ḩurshah",
+      "es": "Al Ḩurshah",
+      "bn": "Al Ḩurshah",
+      "ms": "Al Ḩurshah"
+    },
+    "aliases": {
+      "en": [
+        "Al Hurshah",
+        "alhrsht"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الزاوية",
+      "regionEn": "Az Zawiyah District"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2219994",
+    "verified": true
+  },
+  {
+    "slug": "al-aziziyah-ly",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 32.53194,
+    "lng": 13.0175,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "العزيزية",
+      "en": "Al ‘Azīzīyah",
+      "fr": "Al ‘Azīzīyah",
+      "de": "Al ‘Azīzīyah",
+      "tr": "Al ‘Azīzīyah",
+      "ur": "Al ‘Azīzīyah",
+      "id": "Al ‘Azīzīyah",
+      "es": "Al ‘Azīzīyah",
+      "bn": "Al ‘Azīzīyah",
+      "ms": "Al ‘Azīzīyah"
+    },
+    "aliases": {
+      "ar": [
+        "العزيزية",
+        "العزیزیه",
+        "العزیزیہ",
+        "العَزيزية",
+        "alʿzyzyہ"
+      ],
+      "en": [
+        "Al 'Aziziyah",
+        "Al Aziziya",
+        "Al Aziziyah",
+        "Al `Aziziyah",
+        "Azizia",
+        "Ehl'-Azizija",
+        "El Azizia",
+        "El Aziziye",
+        "ala ajijiyaha",
+        "ala azizi'a",
+        "ala aziziya",
+        "alʿzyzyh",
+        "alʿzyzyt",
+        "aru・ajijiya",
+        "Əl-Azizija",
+        "ʿaል ዐziዝyahi",
+        "al-aziziyah"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "الجفارة",
+      "regionEn": "Jafara District"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2220139",
+    "verified": true
+  },
+  {
+    "slug": "idri",
+    "type": "city",
+    "countryCode": "ly",
+    "lat": 27.44707,
+    "lng": 13.05173,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "أدري",
+      "en": "Idrī",
+      "fr": "Idrī",
+      "de": "Idrī",
+      "tr": "Idrī",
+      "ur": "Idrī",
+      "id": "Idrī",
+      "es": "Idrī",
+      "bn": "Idrī",
+      "ms": "Idrī"
+    },
+    "aliases": {
+      "ar": [
+        "إدري",
+        "ادری"
+      ],
+      "en": [
+        "Adiri",
+        "Adirī",
+        "Adri",
+        "Adrī",
+        "Adīrī",
+        "Ederi",
+        "Edri",
+        "Idri",
+        "Idrii",
+        "adry",
+        "idari",
+        "idori",
+        "idri",
+        "İdri",
+        "ʿidiri"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "وادي الشاطئ",
+      "regionEn": "Wadi al Shatii District"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:2220309",
+    "verified": true
+  },
+  {
+    "slug": "msalatah",
+    "type": "town",
+    "countryCode": "ly",
+    "lat": 32.58345,
+    "lng": 14.03627,
+    "timezone": "Africa/Tripoli",
+    "names": {
+      "ar": "مسلاتة",
+      "en": "Msalātah",
+      "fr": "Msalātah",
+      "de": "Msalātah",
+      "tr": "Msalātah",
+      "ur": "Msalātah",
+      "id": "Msalātah",
+      "es": "Msalātah",
+      "bn": "Msalātah",
+      "ms": "Msalātah"
+    },
+    "aliases": {
+      "en": [
+        "Al Qasabat",
+        "Cussabat",
+        "El-Gusbat",
+        "El-Gusbát",
+        "Masallatah",
+        "Masallātah",
+        "Msallata",
+        "mslatt",
+        "Msalatah"
+      ]
+    },
+    "admin": {
+      "countryAr": "ليبيا",
+      "countryEn": "Libya",
+      "regionAr": "المرقب",
+      "regionEn": "Murqub District"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:12687313",
+    "verified": true
+  },
+  {
+    "slug": "zabid",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 14.1951,
+    "lng": 43.31518,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "زبيد",
+      "en": "Zabīd",
+      "fr": "Zabīd",
+      "de": "Zabīd",
+      "tr": "Zabīd",
+      "ur": "Zabīd",
+      "id": "Zabīd",
+      "es": "Zabīd",
+      "bn": "Zabīd",
+      "ms": "Zabīd"
+    },
+    "aliases": {
+      "en": [
+        "Zabid",
+        "Zebid",
+        "zbyd"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة الحديدة",
+      "regionEn": "Hodeidah Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:69500",
+    "verified": true
+  },
+  {
+    "slug": "yarim",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 14.29804,
+    "lng": 44.37795,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "يريم",
+      "en": "Yarīm",
+      "fr": "Yarīm",
+      "de": "Yarīm",
+      "tr": "Yarīm",
+      "ur": "Yarīm",
+      "id": "Yarīm",
+      "es": "Yarīm",
+      "bn": "Yarīm",
+      "ms": "Yarīm"
+    },
+    "aliases": {
+      "en": [
+        "Jarim",
+        "Yarim",
+        "Yerim",
+        "yrym"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة إب",
+      "regionEn": "Ibb Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:69559",
+    "verified": true
+  },
+  {
+    "slug": "al-inan",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 16.72189,
+    "lng": 44.31252,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "العنان",
+      "en": "Al ‘Inān",
+      "fr": "Al ‘Inān",
+      "de": "Al ‘Inān",
+      "tr": "Al ‘Inān",
+      "ur": "Al ‘Inān",
+      "id": "Al ‘Inān",
+      "es": "Al ‘Inān",
+      "bn": "Al ‘Inān",
+      "ms": "Al ‘Inān"
+    },
+    "aliases": {
+      "ar": [
+        "برط العنان",
+        "سوق العنان"
+      ],
+      "en": [
+        "Al `Inan",
+        "Bart al `Inan",
+        "Barţ al ‘Inān",
+        "Suq al Ghinan",
+        "Suq al `Inan",
+        "Sūq al Ghinān",
+        "Sūq al ‘Inān"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة الجوف",
+      "regionEn": "Al Jawf Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:70346",
+    "verified": true
+  },
+  {
+    "slug": "sayyan",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 15.17177,
+    "lng": 44.32442,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "سيان",
+      "en": "Sayyān",
+      "fr": "Sayyān",
+      "de": "Sayyān",
+      "tr": "Sayyān",
+      "ur": "Sayyān",
+      "id": "Sayyān",
+      "es": "Sayyān",
+      "bn": "Sayyān",
+      "ms": "Sayyān"
+    },
+    "aliases": {
+      "en": [
+        "Saiyan",
+        "Saiyān",
+        "Sayyan",
+        "Seijan",
+        "Seijân",
+        "Sian",
+        "Siryan",
+        "Siryān",
+        "syan"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة صنعاء",
+      "regionEn": "Sana'a Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:70979",
+    "verified": true
+  },
+  {
+    "slug": "seiyun",
+    "type": "village",
+    "countryCode": "ye",
+    "lat": 15.94333,
+    "lng": 48.79333,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "سيئون",
+      "en": "Seiyun",
+      "fr": "Seiyun",
+      "de": "Seiyun",
+      "tr": "Seiyun",
+      "ur": "Seiyun",
+      "id": "Seiyun",
+      "es": "Seiyun",
+      "bn": "Seiyun",
+      "ms": "Seiyun"
+    },
+    "aliases": {
+      "ar": [
+        "سیئون"
+      ],
+      "en": [
+        "GXF",
+        "Sai'un",
+        "Saiwun",
+        "Saiwūn",
+        "Sai’un",
+        "Sajvun",
+        "Say'un",
+        "Saywun",
+        "Saywūn",
+        "Say’ūn",
+        "sayun",
+        "syywn",
+        "syʼwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة حضرموت",
+      "regionEn": "Hadhramaut Governorate"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:70981",
+    "verified": true
+  },
+  {
+    "slug": "qalansiyah",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 12.68958,
+    "lng": 53.48709,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "قلنسية",
+      "en": "Qalansīyah",
+      "fr": "Qalansīyah",
+      "de": "Qalansīyah",
+      "tr": "Qalansīyah",
+      "ur": "Qalansīyah",
+      "id": "Qalansīyah",
+      "es": "Qalansīyah",
+      "bn": "Qalansīyah",
+      "ms": "Qalansīyah"
+    },
+    "aliases": {
+      "en": [
+        "Kallansiya",
+        "Qalansiya",
+        "Qalansiyah",
+        "Qalansiyyah",
+        "Qalansyah",
+        "Qulansiyah",
+        "qlnsyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة سقطرى",
+      "regionEn": "Socotra Governorate"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:71799",
+    "verified": true
+  },
+  {
+    "slug": "al-musaymir",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 13.44389,
+    "lng": 44.61528,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "المسيمير",
+      "en": "Al Musaymīr",
+      "fr": "Al Musaymīr",
+      "de": "Al Musaymīr",
+      "tr": "Al Musaymīr",
+      "ur": "Al Musaymīr",
+      "id": "Al Musaymīr",
+      "es": "Al Musaymīr",
+      "bn": "Al Musaymīr",
+      "ms": "Al Musaymīr"
+    },
+    "aliases": {
+      "en": [
+        "Al Musaymir",
+        "Musaymar",
+        "Musaymir",
+        "Museimir",
+        "Museimīr",
+        "Musemir",
+        "almsymyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة لحج",
+      "regionEn": "Lahij Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:72430",
+    "verified": true
+  },
+  {
+    "slug": "hadibu",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 12.64881,
+    "lng": 54.01895,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "حديبو",
+      "en": "Hadibu",
+      "fr": "Hadibu",
+      "de": "Hadibu",
+      "tr": "Hadibu",
+      "ur": "Hadibu",
+      "id": "Hadibu",
+      "es": "Hadibu",
+      "bn": "Hadibu",
+      "ms": "Hadibu"
+    },
+    "aliases": {
+      "en": [
+        "Bilad-as-Sulyan",
+        "Hadibo",
+        "Hadiboh",
+        "Hadīboh",
+        "Hudaybu",
+        "Khadibo",
+        "Tamarida",
+        "Tamaridah",
+        "Tamarīdah",
+        "Tamrida",
+        "hdybw",
+        "Ḩadībū",
+        "Ḩudaybū"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة سقطرى",
+      "regionEn": "Socotra Governorate"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:75427",
+    "verified": true
+  },
+  {
+    "slug": "ghayl-ba-wazir",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 14.77611,
+    "lng": 49.36611,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "غيل با وزير",
+      "en": "Ghayl Bā Wazīr",
+      "fr": "Ghayl Bā Wazīr",
+      "de": "Ghayl Bā Wazīr",
+      "tr": "Ghayl Bā Wazīr",
+      "ur": "Ghayl Bā Wazīr",
+      "id": "Ghayl Bā Wazīr",
+      "es": "Ghayl Bā Wazīr",
+      "bn": "Ghayl Bā Wazīr",
+      "ms": "Ghayl Bā Wazīr"
+    },
+    "aliases": {
+      "en": [
+        "Ghail Ba Wazir",
+        "Ghail Bā Wazīr",
+        "Ghayl Ba Wazir",
+        "Gheil Ba Wazir",
+        "Gheil Bā Wazir",
+        "ghyl ba wzyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة حضرموت",
+      "regionEn": "Hadhramaut Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:75618",
+    "verified": true
+  },
+  {
+    "slug": "dhi-as-sufal",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 13.83446,
+    "lng": 44.11469,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "ذي السفال",
+      "en": "Dhī as Sufāl",
+      "fr": "Dhī as Sufāl",
+      "de": "Dhī as Sufāl",
+      "tr": "Dhī as Sufāl",
+      "ur": "Dhī as Sufāl",
+      "id": "Dhī as Sufāl",
+      "es": "Dhī as Sufāl",
+      "bn": "Dhī as Sufāl",
+      "ms": "Dhī as Sufāl"
+    },
+    "aliases": {
+      "ar": [
+        "ذي سفال"
+      ],
+      "en": [
+        "Dhi Sifal",
+        "Dhi Sufal",
+        "Dhi as Sufal",
+        "Dhi es-Sifal",
+        "Dhī Sifal",
+        "Dhī Sufāl",
+        "Dhī es-Sifāl",
+        "dhy alsfal",
+        "dhy sfal"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة إب",
+      "regionEn": "Ibb Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:76154",
+    "verified": true
+  },
+  {
+    "slug": "bayt-al-faqih",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 14.51635,
+    "lng": 43.32446,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "بيت الفقيه",
+      "en": "Bayt al Faqīh",
+      "fr": "Bayt al Faqīh",
+      "de": "Bayt al Faqīh",
+      "tr": "Bayt al Faqīh",
+      "ur": "Bayt al Faqīh",
+      "id": "Bayt al Faqīh",
+      "es": "Bayt al Faqīh",
+      "bn": "Bayt al Faqīh",
+      "ms": "Bayt al Faqīh"
+    },
+    "aliases": {
+      "en": [
+        "Bait al Faqih",
+        "Bait al Faqīh",
+        "Bayt al Fakih Ibn `Udjayl",
+        "Bayt al Fakih al-Saghir",
+        "Bayt al Fakīh Ibn ‘Udjayl",
+        "Bayt al Fakīh al-Saghīr",
+        "Bayt al Faqih",
+        "Bayt al-Fakih",
+        "Bayt al-Fakīh",
+        "Beit Faqih",
+        "Beit el-Faqih",
+        "Beit el-Faqīh",
+        "Beit-el-Fakih",
+        "byt alfqyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة الحديدة",
+      "regionEn": "Hodeidah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:76991",
+    "verified": true
+  },
+  {
+    "slug": "bajil",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 15.05898,
+    "lng": 43.28731,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "باجل",
+      "en": "Bājil",
+      "fr": "Bājil",
+      "de": "Bājil",
+      "tr": "Bājil",
+      "ur": "Bājil",
+      "id": "Bājil",
+      "es": "Bājil",
+      "bn": "Bājil",
+      "ms": "Bājil"
+    },
+    "aliases": {
+      "en": [
+        "Badjil",
+        "Bagil",
+        "Bajil",
+        "Bâdjil",
+        "Bāgil",
+        "bajl"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة الحديدة",
+      "regionEn": "Hodeidah Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:77408",
+    "verified": true
+  },
+  {
+    "slug": "saqayn",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 16.877,
+    "lng": 43.52499,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "ساقين",
+      "en": "Sāqayn",
+      "fr": "Sāqayn",
+      "de": "Sāqayn",
+      "tr": "Sāqayn",
+      "ur": "Sāqayn",
+      "id": "Sāqayn",
+      "es": "Sāqayn",
+      "bn": "Sāqayn",
+      "ms": "Sāqayn"
+    },
+    "aliases": {
+      "en": [
+        "Saqayn",
+        "saqyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة صعدة",
+      "regionEn": "Saada Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:406662",
+    "verified": true
+  },
+  {
+    "slug": "bani-al-awwam",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 15.58119,
+    "lng": 43.58727,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "بني العوام",
+      "en": "Banī al ‘Awwām",
+      "fr": "Banī al ‘Awwām",
+      "de": "Banī al ‘Awwām",
+      "tr": "Banī al ‘Awwām",
+      "ur": "Banī al ‘Awwām",
+      "id": "Banī al ‘Awwām",
+      "es": "Banī al ‘Awwām",
+      "bn": "Banī al ‘Awwām",
+      "ms": "Banī al ‘Awwām"
+    },
+    "aliases": {
+      "en": [
+        "Bani al `Awwam"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة حجة",
+      "regionEn": "Hajjah Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:7344394",
+    "verified": true
+  },
+  {
+    "slug": "ash-shawati",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 16.78314,
+    "lng": 43.81265,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "الشواتي",
+      "en": "Ash Shawātī",
+      "fr": "Ash Shawātī",
+      "de": "Ash Shawātī",
+      "tr": "Ash Shawātī",
+      "ur": "Ash Shawātī",
+      "id": "Ash Shawātī",
+      "es": "Ash Shawātī",
+      "bn": "Ash Shawātī",
+      "ms": "Ash Shawātī"
+    },
+    "aliases": {
+      "en": [
+        "Ash Shawati",
+        "alshwaty"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة صعدة",
+      "regionEn": "Saada Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:7683765",
+    "verified": true
+  },
+  {
+    "slug": "suhayl-shibam",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 15.91448,
+    "lng": 48.63864,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "سحيل شبام",
+      "en": "Suḩayl Shibām",
+      "fr": "Suḩayl Shibām",
+      "de": "Suḩayl Shibām",
+      "tr": "Suḩayl Shibām",
+      "ur": "Suḩayl Shibām",
+      "id": "Suḩayl Shibām",
+      "es": "Suḩayl Shibām",
+      "bn": "Suḩayl Shibām",
+      "ms": "Suḩayl Shibām"
+    },
+    "aliases": {
+      "en": [
+        "Suhayl Shibam",
+        "shyl shbam"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة حضرموت",
+      "regionEn": "Hadhramaut Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:7792750",
+    "verified": true
+  },
+  {
+    "slug": "al-khaniq",
+    "type": "town",
+    "countryCode": "ye",
+    "lat": 15.50253,
+    "lng": 44.18158,
+    "timezone": "Asia/Aden",
+    "names": {
+      "ar": "الخانق",
+      "en": "Al Khāniq",
+      "fr": "Al Khāniq",
+      "de": "Al Khāniq",
+      "tr": "Al Khāniq",
+      "ur": "Al Khāniq",
+      "id": "Al Khāniq",
+      "es": "Al Khāniq",
+      "bn": "Al Khāniq",
+      "ms": "Al Khāniq"
+    },
+    "aliases": {
+      "en": [
+        "Al Khaniq",
+        "alkhanq"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليمن",
+      "countryEn": "Yemen",
+      "regionAr": "محافظة صنعاء",
+      "regionEn": "Sana'a Governorate"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:7890531",
+    "verified": true
   }
 ]

@@ -1476,6 +1476,81 @@ for (const [q, expectSlug, expectCC, expectTZ] of levantIraqGeodata) {
     await sleep(250);
 }
 
+// ── CURATED-GEODATA-NILE-YEMEN-LIBYA-1 spot-checks (closure) ──
+// 22 user-listed cities × 4 countries covering all Strategy D merges
+// plus the explicit force-includes (rafah-eg, seiyun). All MUST return
+// source=curated with correct cc + tz.
+console.log('\n── CURATED-GEODATA-NILE-YEMEN-LIBYA-1 spot-checks (closure) ──');
+
+// Drain rate-limit (this is the second large batch in the run).
+console.log('  (waiting 65s to drain rate-limit window before final 22 spot-checks…)');
+await sleep(65000);
+
+const nileYemenLibyaGeodata = [
+    // EG (5 — Africa/Cairo). Note: bani-suwayf is the GeoNames slug
+    // (literal transliteration of بني سويف); the more common English
+    // "Beni Suef" is in aliases.en. minya was pre-existing; the rest
+    // came in via Strategy D's EG forcePPLA branch.
+    ['العاشر من رمضان',     'al-ashir-min-ramadan', 'eg', 'Africa/Cairo'],
+    ['شبرا الخيمة',         'shubra-al-khaymah',    'eg', 'Africa/Cairo'],
+    ['دمنهور',              'damanhur',             'eg', 'Africa/Cairo'],
+    ['المنيا',              'minya',                'eg', 'Africa/Cairo'],
+    ['بني سويف',            'bani-suwayf',          'eg', 'Africa/Cairo'],
+    // EG rafah was force-included as `rafah-eg` (the PS `rafah` already
+    // existed — covered by the LEVANT-IRAQ-1 spot-check section above
+    // under `رفح → rafah / ps`. Here we verify the NEW EG one.):
+    // Search "رفح" returns PS rafah first (verified above). To prove the
+    // EG one merged correctly, search "Rafah" in English which can match
+    // either; we lock in by slug+cc.
+    // SD (7 — Africa/Khartoum)
+    ['كوستي',               'kosti',                'sd', 'Africa/Khartoum'],
+    ['ربك',                 'rabak',                'sd', 'Africa/Khartoum'],
+    ['سنجة',                'singa',                'sd', 'Africa/Khartoum'],
+    ['الجنينة',             'al-junaynah',          'sd', 'Africa/Khartoum'],
+    ['زالنجي',              'zalinjay',             'sd', 'Africa/Khartoum'],
+    ['الفولة',              'al-fulah',             'sd', 'Africa/Khartoum'],
+    ['عطبرة',               'atbara',               'sd', 'Africa/Khartoum'],
+    // LY (6 — Africa/Tripoli)
+    ['درنة',                'darnah',               'ly', 'Africa/Tripoli'],
+    ['العزيزية',            'al-aziziyah-ly',       'ly', 'Africa/Tripoli'],
+    ['زوارة',               'zuwarah',              'ly', 'Africa/Tripoli'],
+    ['الزنتان',             'zintan',               'ly', 'Africa/Tripoli'],
+    ['زليتن',               'zliten',               'ly', 'Africa/Tripoli'],
+    ['صبراتة',              'sabratah',             'ly', 'Africa/Tripoli'],
+    // YE (2 — Asia/Aden)
+    ['سيئون',               'seiyun',               'ye', 'Asia/Aden'],
+    ['الخانق',              'al-khaniq',            'ye', 'Asia/Aden'],
+];
+for (const [q, expectSlug, expectCC, expectTZ] of nileYemenLibyaGeodata) {
+    const r = await topOfQ(q, 'ar');
+    const got   = r ? r.displayName : '(none)';
+    const cc    = r ? r.countryCode : '(none)';
+    const tz    = r ? r.timezone    : '(none)';
+    const src   = r ? r.source      : '(none)';
+    const slug  = r ? r.slug        : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === expectCC;
+    const okTZ      = r && r.timezone === expectTZ;
+    const okReady   = r && isPrayerTimesReady(r);
+    const okSlug    = r && r.slug === expectSlug;
+    check(`${q} → curated ${expectCC} ${expectTZ} slug=${expectSlug} [src=${src}, cc=${cc}, tz=${tz}, slug=${slug}, name="${got}"]`,
+        okCurated && okCC && okTZ && okReady && okSlug);
+    await sleep(250);
+}
+
+// Explicit force-include check for EG rafah-eg: search by the renamed
+// slug directly (since "رفح" returns PS rafah by priority).
+{
+    const r = await topOfQ('rafah-eg', 'en');
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === 'eg';
+    const okTZ      = r && r.timezone === 'Africa/Cairo';
+    const okSlug    = r && r.slug === 'rafah-eg';
+    check(`rafah-eg (EG force-include) → curated/eg/Africa/Cairo [src=${r?.source}, slug=${r?.slug}]`,
+        okCurated && okCC && okTZ && okSlug);
+    await sleep(250);
+}
+
 console.log('\n── CURATED-150 regression: baseline queries unchanged ──');
 
 // Same rate-limit guard as before this section, just in case the spot

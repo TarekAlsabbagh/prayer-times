@@ -51,12 +51,29 @@ const DB_DIR  = path.join(ROOT, 'db');   // قاعدة البيانات الدا
 // search engine that powers /search-test only — NOT the real homepage
 // search box). Phase A scope: this dict is the ONLY source.
 let _CURATED_PLACES = [];
+// PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14): O(1) slug → entry index so any
+// route / API / SSR resolver can fetch the full curated record without a
+// linear scan of _CURATED_PLACES. Built once at startup right after the
+// dataset loads; never mutated after that (load-once contract). Consumed
+// by `_findPlaceBySlug` (the canonical slug-resolver used by SSR, the
+// /api/place-by-slug endpoint, and any future resolvers).
+let _CURATED_SLUG_INDEX = Object.create(null);
 try {
     const _p = path.join(DB_DIR, 'places', 'curated-places.json');
     if (fs.existsSync(_p)) {
         const _raw = fs.readFileSync(_p, 'utf8');
         const _arr = JSON.parse(_raw);
-        if (Array.isArray(_arr)) _CURATED_PLACES = _arr.filter(_isPrayerTimesReady);
+        if (Array.isArray(_arr)) {
+            _CURATED_PLACES = _arr.filter(_isPrayerTimesReady);
+            for (const _p of _CURATED_PLACES) {
+                if (_p && typeof _p.slug === 'string') {
+                    // First occurrence wins (curated has no duplicate slugs
+                    // by contract — _isPrayerTimesReady + per-wave dedupe
+                    // guards enforce uniqueness — but be defensive).
+                    if (!_CURATED_SLUG_INDEX[_p.slug]) _CURATED_SLUG_INDEX[_p.slug] = _p;
+                }
+            }
+        }
     }
 } catch (_) { /* silent — empty dataset = empty results, not a crash */ }
 
@@ -2711,6 +2728,23 @@ function _arabicizeCitySlug(slug) {
 }
 
 function _resolveCityName(slug, lang) {
+    // PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14): consult `_CURATED_PLACES`
+    // FIRST. Previously this resolver only knew about cities-*.json (the
+    // legacy DB) and POPULAR_CITY_NAMES — so freshly merged curated cities
+    // (GCC wave, Levant+Iraq wave, …) fell straight through to
+    // `_slugToTitle(slug)`, and the client-side `geocodeSlug` would then
+    // call Nominatim with raw slug text → sometimes returning matches in
+    // completely unrelated countries (e.g. /prayer-times-in-{some-syrian-
+    // slug} rendering as a Malaysian street). Checking curated first means
+    // any slug that was ever surfaced via /api/search-place resolves to
+    // the right name + (downstream) the right coordinates.
+    try {
+        const _curated = _findPlaceBySlug(slug);
+        if (_curated) {
+            const _n = _pickCuratedName(_curated, lang);
+            if (_n) return _n;
+        }
+    } catch (_) { /* fall through to legacy resolvers */ }
     const _try = (s) => {
         const pop = POPULAR_CITY_NAMES[s];
         if (pop) return pop[lang] || pop.en || _slugToTitle(s);
@@ -2754,6 +2788,83 @@ function _resolveCityName(slug, lang) {
         if (_arabicized) return _arabicized;
     }
     return _slugToTitle(slug);
+}
+
+// ═══ PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14) ════════════════════════════════
+// Canonical slug → curated entry resolver. Single source of truth used by:
+//   1. _resolveCityName (SSR title/breadcrumb name)
+//   2. The /prayer-times-in-{slug} bare-slug route (SSR geo block)
+//   3. /api/place-by-slug (client-side hydration before Nominatim)
+//
+// The user rule for slug resolution is:
+//   1. curated_places by slug   ← this helper covers (1)
+//   2. discovered_places by slug ← (looked up async via Supabase elsewhere)
+//   3. external (Nominatim) ONLY if no internal slug ← client-side last-resort
+//
+// Returns the raw curated entry (the same shape as a row in
+// db/places/curated-places.json) so callers can decide which fields to use.
+// Callers must NOT mutate the returned object — it's a shared in-memory
+// reference. Use `_pickCuratedName` + `_buildSlugLookupResult` to render.
+function _findPlaceBySlug(slug) {
+    if (!slug || typeof slug !== 'string') return null;
+    const _e = _CURATED_SLUG_INDEX[slug];
+    return _e || null;
+}
+
+// Pick a curated entry's localized name for `lang`. Walks the same
+// fallback chain the search endpoint uses (LANG-1 contract) so SSR text
+// matches what search results show: lang → en → first non-empty → null.
+function _pickCuratedName(entry, lang) {
+    if (!entry || typeof entry !== 'object') return null;
+    const _n = entry.names || {};
+    const _code = String(lang || 'ar').toLowerCase();
+    if (typeof _n[_code] === 'string' && _n[_code].trim()) return _n[_code];
+    if (typeof _n.en === 'string' && _n.en.trim())         return _n.en;
+    for (const k of Object.keys(_n)) {
+        if (typeof _n[k] === 'string' && _n[k].trim()) return _n[k];
+    }
+    return null;
+}
+
+// Build the /api/place-by-slug response shape from a curated entry. This
+// is the *same* contract `geocodeSlug` (js/app.js) expects from its
+// Nominatim path — so the client can use the result interchangeably:
+//   { lat, lng, name, country, countryCode, englishName,
+//     timezone, type, originalName, slug, source }
+// Adding new fields here is safe (the client ignores unknown fields);
+// removing existing ones would break js/app.js consumers — don't.
+function _buildSlugLookupResult(entry, lang, source) {
+    if (!entry || typeof entry !== 'object') return null;
+    const _code = String(lang || 'ar').toLowerCase();
+    const _name = _pickCuratedName(entry, _code) || '';
+    const _englishName = _pickCuratedName(entry, 'en') || '';
+    // Country name — prefer admin.country[lang] (explicit override like
+    // "المملكة العربية السعودية"), then admin.countryAr/En, then Intl
+    // DisplayNames (covers all 10 langs for any cc).
+    let _country = '';
+    if (entry.admin && entry.admin.country && typeof entry.admin.country === 'object'
+        && typeof entry.admin.country[_code] === 'string') {
+        _country = entry.admin.country[_code];
+    } else if (entry.admin && _code === 'ar' && typeof entry.admin.countryAr === 'string') {
+        _country = entry.admin.countryAr;
+    } else if (entry.admin && _code === 'en' && typeof entry.admin.countryEn === 'string') {
+        _country = entry.admin.countryEn;
+    }
+    if (!_country) _country = _getCountryName(entry.countryCode, _code) || '';
+    return {
+        slug:         entry.slug,
+        lat:          entry.lat,
+        lng:          entry.lng,
+        name:         _name,
+        englishName:  _englishName,
+        country:      _country,
+        countryCode:  entry.countryCode,
+        timezone:     entry.timezone,
+        type:         entry.type || 'city',
+        originalName: (entry.admin && typeof entry.admin.originalName === 'string')
+                          ? entry.admin.originalName : '',
+        source:       source || 'curated'
+    };
 }
 
 // كاش في الذاكرة لطلبات Nominatim (يمنع تكرار الطلبات ويتجنب rate limit)
@@ -9144,8 +9255,20 @@ function buildSeoForPath(urlPath) {
             // نُولّد نفس title بتوقيت المدينة المحلّيّ إن وُجدَت في cities-*.json (10 لغات)
             // Round 8B+C: اسم المدينة بلغة الواجهة (flagship ×10، والباقي AR عبر cities-*.json)
             const cityDisplay = _resolveCityName(slug, lang);
-            // استنباط lng من الفهرس — إن لم توجد فسيفبك للافتراضي (مكّة)
-            const cityLng = _getCityLngBySlug(slug);
+            // PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14): consult curated FIRST
+            // for the lng (and geo block). Previously this used
+            // `_getCityLngBySlug` which only knows about cities-*.json — so
+            // newly-merged curated entries (GCC + Levant/Iraq + …) had no
+            // lng available and `_buildCityDatedTitle` fell back to Mecca's
+            // timezone for the Hijri date pad-out. With curated lookup
+            // first, the title's Hijri date renders in the *city's* local
+            // timezone from the very first paint, and the JSON-LD geo
+            // block carries the correct lat/lng instead of being empty.
+            const _curated = _findPlaceBySlug(slug);
+            const cityLng = _curated ? _curated.lng : _getCityLngBySlug(slug);
+            if (_curated) {
+                geo = { lat: _curated.lat, lng: _curated.lng };
+            }
             // PT-CITY-SEO-1 (2026-05-10): use the length-aware Title/Meta
             // helpers (defined above) — picks the candidate that lands in
             // [50, 60] cp for Title and [120, 160] cp for Meta. Replaces the
@@ -18493,7 +18616,12 @@ function getTierForPath(urlPath) {
     // never reach an external service. /api/place-selected is also cheap
     // (one Supabase upsert per click). They share the cheap tier.
     if (urlPath === '/api/search-place' || urlPath === '/api/place-selected'
-        || urlPath === '/api/supabase-status') return 'cheap';
+        || urlPath === '/api/supabase-status'
+        // PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14): /api/place-by-slug is
+        // mostly an O(1) in-memory map hit + occasional Supabase single-
+        // row GET. Even faster than /api/search-place because it never
+        // touches Nominatim. Same cheap tier.
+        || urlPath === '/api/place-by-slug') return 'cheap';
     return 'strict'; // أي نقطة مستقبلية غير مصنّفة → الأشد
 }
 // تنظيف دوري — يزيل IPs التي جميع buckets-ها منتهية (منع نمو غير محدود)
@@ -20892,6 +21020,127 @@ const server = http.createServer(async (req, res) => {
                 try {
                     res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
                     res.end(JSON.stringify({ results: [], source: 'none', status: 'error', error: 'internal' }));
+                } catch (_) {}
+            }
+        })();
+        return;
+    }
+
+    // ─── PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14) ───────────────────────────
+    // /api/place-by-slug?slug=X[&lang=Y]
+    // Resolves a slug to a full place record using the same priority order
+    // /api/search-place uses (the user's rule):
+    //   1. curated_places by slug (in-memory, O(1) via _CURATED_SLUG_INDEX)
+    //   2. discovered_places by slug (Supabase GET ?slug=eq.X&limit=1)
+    //   3. NO external fallback — that's the client's last-resort after
+    //      this endpoint returns null (the explicit "external only if no
+    //      internal slug" rule from the user).
+    //
+    // The /prayer-times-in-{slug} page calls this BEFORE its legacy
+    // Nominatim path so any curated/discovered slug always renders in the
+    // correct country (the "Malaysia / Jalan Salim Bachok" bug). The
+    // response shape matches what `geocodeSlug` returns from its Nominatim
+    // path so the client can substitute it without further mapping.
+    //
+    // Response:
+    //   200 {result, source:'curated'|'discovered'}  — found
+    //   200 {result:null, source:'none'}             — slug NOT in curated nor discovered
+    //   400 {error:'invalid_slug'}                   — bad input
+    //   500 {error:'internal'}                       — uncaught failure
+    if (urlPath === '/api/place-by-slug' && req.method === 'GET') {
+        (async () => {
+            try {
+                const _qs2 = new URLSearchParams(qs);
+                const slug = String(_qs2.get('slug') || '').trim().toLowerCase();
+                const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
+                const lang = _SUPPORTED_LANGS.includes(langRaw) ? langRaw : 'ar';
+                // Validate the slug shape — same regex used by
+                // _isPrayerTimesReady so we never return entries we'd
+                // never accept via /api/search-place.
+                if (!slug || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(slug)) {
+                    res.writeHead(400, {
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'Cache-Control': 'no-store',
+                        'Access-Control-Allow-Origin': '*'
+                    });
+                    res.end(JSON.stringify({ error: 'invalid_slug', result: null, source: 'none' }));
+                    return;
+                }
+                // 1) Curated — in-memory, instant.
+                const _curated = _findPlaceBySlug(slug);
+                if (_curated) {
+                    const out = _buildSlugLookupResult(_curated, lang, 'curated');
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json; charset=utf-8',
+                        // 5-minute browser cache + 1-hour CDN cache: curated
+                        // names rarely change (load-once at startup; ship a
+                        // new build to change), so a moderate TTL is safe.
+                        // Per-lang via Vary so the same slug serves
+                        // different languages.
+                        'Cache-Control': 'public, max-age=300, s-maxage=3600',
+                        'Vary': 'Accept-Language',
+                        'Access-Control-Allow-Origin': '*',
+                        'X-Place-Source': 'curated'
+                    });
+                    res.end(JSON.stringify({ result: out, source: 'curated' }));
+                    return;
+                }
+                // 2) Discovered — Supabase exact slug match (single row).
+                // Gated on _SUPABASE_ENABLED so local dev / unconfigured
+                // hosts don't error out; just skip to "none".
+                if (_SUPABASE_ENABLED) {
+                    try {
+                        const resp = await _supabaseFetch(
+                            '/rest/v1/discovered_places'
+                            + '?slug=eq.' + encodeURIComponent(slug)
+                            + '&limit=1',
+                            { method: 'GET' }
+                        );
+                        if (resp.ok && Array.isArray(resp.data) && resp.data.length === 1) {
+                            const row = resp.data[0];
+                            // Map the discovered row into the same curated
+                            // shape so `_buildSlugLookupResult` can use it.
+                            const _entry = {
+                                slug:        row.slug,
+                                lat:         Number(row.lat),
+                                lng:         Number(row.lng),
+                                timezone:    row.timezone,
+                                countryCode: row.country_code,
+                                type:        row.type || 'city',
+                                names:       row.names   || {},
+                                aliases:     row.aliases || {},
+                                admin:       row.admin   || {}
+                            };
+                            const out = _buildSlugLookupResult(_entry, lang, 'discovered');
+                            // shorter TTL for discovered (could be deleted /
+                            // re-merged into curated at any time).
+                            res.writeHead(200, {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Cache-Control': 'public, max-age=60, s-maxage=300',
+                                'Vary': 'Accept-Language',
+                                'Access-Control-Allow-Origin': '*',
+                                'X-Place-Source': 'discovered'
+                            });
+                            res.end(JSON.stringify({ result: out, source: 'discovered' }));
+                            return;
+                        }
+                    } catch (_) { /* fall through to "none" */ }
+                }
+                // 3) Not found — DO NOT call Nominatim. The client is the
+                // one who decides whether to fall back externally (with
+                // user-visible UX), per the user's "external only if no
+                // internal slug, and with extreme caution" rule.
+                res.writeHead(200, {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Cache-Control': 'no-store',
+                    'Access-Control-Allow-Origin': '*',
+                    'X-Place-Source': 'none'
+                });
+                res.end(JSON.stringify({ result: null, source: 'none' }));
+            } catch (_e) {
+                try {
+                    res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end(JSON.stringify({ error: 'internal', result: null, source: 'none' }));
                 } catch (_) {}
             }
         })();

@@ -2505,6 +2505,47 @@ async function geocodeSlug(slug) {
         }
         return { lat, lng, name: `${lat.toFixed(2)}°, ${lng.toFixed(2)}°`, country: '', countryCode: '', englishName: '' };
     }
+    // PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14): consult `/api/place-by-slug`
+    // FIRST. It checks our two internal layers (curated → discovered) in
+    // O(1) / 1 DB-row time. If either layer has this slug, we use the
+    // authoritative record and SKIP Nominatim entirely. This kills the
+    // "Malaysia / Jalan Salim Bachok" bug — text slugs no longer go
+    // through a Nominatim text search that can match any place worldwide.
+    // Nominatim still runs as a fallback ONLY when both internal layers
+    // miss the slug (rare — would mean the slug came from somewhere our
+    // /api/search-place never returned it from, e.g. an old bookmark or
+    // an external link).
+    try {
+        const _pbsUrl = '/api/place-by-slug?slug=' + encodeURIComponent(slug)
+                        + '&lang=' + encodeURIComponent(userLang);
+        const _pbs = await fetch(_pbsUrl, { credentials: 'omit' })
+                         .then(r => r.ok ? r.json() : null)
+                         .catch(() => null);
+        if (_pbs && _pbs.result && isFinite(_pbs.result.lat) && isFinite(_pbs.result.lng)) {
+            // SECURITY: the result already comes from OUR own server's
+            // curated / discovered layer — never from an unvalidated
+            // external source. The country field is rendered by SSR /
+            // resolved via Intl.DisplayNames inside _buildSlugLookupResult.
+            const r = _pbs.result;
+            return {
+                lat:         r.lat,
+                lng:         r.lng,
+                name:        r.name || query,
+                country:     r.country || '',
+                countryCode: (r.countryCode || '').toLowerCase(),
+                englishName: r.englishName || r.name || '',
+                // L10N-SCRIPT-FALLBACK-1: pass through curated/discovered
+                // metadata so consumers (city header, prayer-times tile)
+                // can display the place's native-script name + correct
+                // timezone immediately, without waiting for any reverse-
+                // geocode hop.
+                timezone:    r.timezone || '',
+                type:        r.type || 'city',
+                originalName: r.originalName || '',
+                source:      r.source || 'curated'
+            };
+        }
+    } catch (_) { /* fall through to Nominatim */ }
     // slug نصي: london → slug نفسه هو الاسم الإنجليزي
     const query = slug.replace(/-/g, ' ');
     // جلب بلغة المستخدم (إن لزم) بالإضافة للعربيّة

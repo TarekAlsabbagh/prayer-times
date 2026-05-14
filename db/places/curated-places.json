@@ -23853,6 +23853,101 @@
     "verified": true
   },
   {
+    "slug": "jablah",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 35.36211,
+    "lng": 35.92759,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "جبلة",
+      "en": "Jablah",
+      "fr": "Jablah",
+      "de": "Jablah",
+      "tr": "Jablah",
+      "ur": "Jablah",
+      "id": "Jablah",
+      "es": "Jablah",
+      "bn": "Jablah",
+      "ms": "Jablah"
+    },
+    "aliases": {
+      "en": [
+        "Ceble",
+        "Ceblê",
+        "Djeble",
+        "Djéblé",
+        "Dschabla",
+        "Dzabla",
+        "Dzhabla",
+        "Dzhebla",
+        "Džabla",
+        "Jable",
+        "Jableh",
+        "Jablé",
+        "Jebele",
+        "Jebeleh",
+        "Jebelli",
+        "Jeble",
+        "Tzample",
+        "g'blh",
+        "jblt"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة اللاذقية",
+      "regionEn": "Latakia Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:169304",
+    "verified": true
+  },
+  {
+    "slug": "bludan",
+    "type": "village",
+    "countryCode": "sy",
+    "lat": 33.72385,
+    "lng": 36.12597,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "بلودان",
+      "en": "Blūdān",
+      "fr": "Blūdān",
+      "de": "Blūdān",
+      "tr": "Blūdān",
+      "ur": "Blūdān",
+      "id": "Blūdān",
+      "es": "Blūdān",
+      "bn": "Blūdān",
+      "ms": "Blūdān"
+    },
+    "aliases": {
+      "en": [
+        "Bleudan",
+        "Bloudan",
+        "Bloudane",
+        "Bloudene",
+        "Bloudáne",
+        "Bloûdân",
+        "Bludan",
+        "blwdan"
+      ]
+    },
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria",
+      "regionAr": "محافظة ريف دمشق",
+      "regionEn": "Rif Dimashq Governorate"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:171331",
+    "verified": true
+  },
+  {
     "slug": "at-tall",
     "type": "town",
     "countryCode": "sy",

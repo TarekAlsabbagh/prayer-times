@@ -1413,6 +1413,18 @@ const levantIraqGeodata = [
     ['تدمر',               'tadmur',            'sy', 'Asia/Damascus'],
     ['عفرين',              'afrin',             'sy', 'Asia/Damascus'],
     ['بانياس',             'baniyas',           'sy', 'Asia/Damascus'],
+    // CURATED-SYRIA-MISSING-PLACES-FIX-1 (2026-05-14): 3 cities user
+    // reported as missing from search. jablah + bludan were added via
+    // manual override (jablah was needs_review due to a blocklist false-
+    // positive matching 'جبل' inside 'جبلة'; bludan was low-tier PPL).
+    // az-zabadani was already merged via Strategy A — included here so
+    // the regression suite locks in all three flagship requests.
+    ['جبلة',               'jablah',            'sy', 'Asia/Damascus'],
+    ['Jableh',             'jablah',            'sy', 'Asia/Damascus'],
+    ['بلودان',             'bludan',            'sy', 'Asia/Damascus'],
+    ['Bloudan',            'bludan',            'sy', 'Asia/Damascus'],
+    ['الزبداني',           'az-zabadani',       'sy', 'Asia/Damascus'],
+    ['Zabadani',           'az-zabadani',       'sy', 'Asia/Damascus'],
     // IQ (10 — Asia/Baghdad)
     ['أبو غريب',           'abu-ghurayb',       'iq', 'Asia/Baghdad'],
     ['المحمودية',          'al-mahmudiyah',     'iq', 'Asia/Baghdad'],

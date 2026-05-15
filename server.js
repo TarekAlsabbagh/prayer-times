@@ -692,19 +692,47 @@ async function _fetchLocationIQWithTimeout(query, lang, timeoutMs) {
         err.statusCode = -1;
         throw err;
     }
-    // LocationIQ's `/v1/search` mirrors Nominatim's contract: same query
-    // params (q / format / addressdetails / namedetails / limit / accept-
-    // language) and same response shape. We use the US1 host; EU1 is an
-    // alternative mirror if US1 is geographically slower for the user
-    // base. Server-to-server latency from Render is essentially identical.
+    // EXTERNAL-PROVIDER-2-FORMAT-FIX-1 (2026-05-15):
+    // LocationIQ's `/v1/search` uses Nominatim-style query params but
+    // does NOT support `format=jsonv2` — only `format=json` and `xml`.
+    // The original code used `jsonv2` (carried over from Nominatim
+    // verbatim) which made LocationIQ return HTTP 400 / "Bad Request"
+    // for every call regardless of API key validity. User confirmed
+    // their key works directly with `format=json`.
+    //
+    // We keep `addressdetails=1` + `namedetails=1` (both ARE supported
+    // by LocationIQ) because `_normalizeExternalPlace` reads:
+    //   • address.country_code → cc filter
+    //   • namedetails[name:lang] → multi-lang display name
+    // Dropping them would strip the localization pipeline and make
+    // LocationIQ results lower-quality than Nominatim's.
     const url = 'https://us1.locationiq.com/v1/search'
         + '?key=' + encodeURIComponent(key)
-        + '&format=jsonv2'
+        + '&format=json'
         + '&addressdetails=1'
         + '&namedetails=1'
         + '&limit=10'
         + '&accept-language=' + encodeURIComponent(lang || 'en')
         + '&q=' + encodeURIComponent(query);
+    // SAFE DIAGNOSTIC LOGGING (no key exposure).
+    // Logs: presence + length of the key (so we can spot empty / truncated
+    // values without revealing the secret), URL host, and (after the call)
+    // HTTP status + a short response-body excerpt. NEVER prints the key
+    // itself or the full URL (which contains the key as a query param).
+    const _diag = {
+        keyPresent: !!key,
+        keyLen:     key.length,
+        host:       'us1.locationiq.com',
+        path:       '/v1/search',
+        // Param list WITHOUT the key value — for log inspection only.
+        params:     'key=<REDACTED>&format=json&addressdetails=1&namedetails=1'
+                        + '&limit=10&accept-language='
+                        + (lang || 'en') + '&q=' + query.slice(0, 40)
+    };
+    try {
+        console.log('[external] locationiq → fetch start',
+                    JSON.stringify(_diag));
+    } catch (_) {}
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), timeoutMs || 8000);
     try {
@@ -718,12 +746,32 @@ async function _fetchLocationIQWithTimeout(query, lang, timeoutMs) {
                 'Accept': 'application/json'
             }
         });
+        // Read body BEFORE we decide pass/fail so we can log a short
+        // excerpt even on errors. Capped to 200 chars so we never log
+        // anything sensitive (LocationIQ never echoes the key back, but
+        // belt-and-suspenders).
+        let bodyText = '';
+        try { bodyText = await resp.text(); } catch (_) {}
+        const bodyExcerpt = bodyText.slice(0, 200);
+        try {
+            console.log('[external] locationiq → fetch result',
+                JSON.stringify({
+                    httpStatus: resp.status,
+                    ok:         resp.ok,
+                    bodyLen:    bodyText.length,
+                    bodyHead:   bodyExcerpt
+                }));
+        } catch (_) {}
         if (!resp.ok) {
             const err = new Error('locationiq_http_' + resp.status);
             err.statusCode = resp.status;
+            err.bodyHead = bodyExcerpt;
             throw err;
         }
-        const data = await resp.json();
+        // Parse the already-fetched text (we consumed the stream above).
+        let data;
+        try { data = JSON.parse(bodyText); }
+        catch (_) { data = null; }
         // LocationIQ returns the same shape as Nominatim's jsonv2 (array).
         // When no match: returns `{ error: "Unable to geocode" }` (object)
         // with HTTP 404 instead of [] — we normalize to [] here so the
@@ -1112,6 +1160,21 @@ const _SUPABASE_ENABLED = !!(_SUPABASE_URL && _SUPABASE_KEY);
 if (!_SUPABASE_ENABLED) {
     try {
         console.warn('[discovered_places] SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY missing — Phase-C discovered layer DISABLED. /api/search-place will use curated + external only.');
+    } catch (_) {}
+}
+
+// EXTERNAL-PROVIDER-2-FORMAT-FIX-1 (2026-05-15): startup diagnostic for
+// LocationIQ env-var detection. Logs presence + length only — NEVER the
+// key value. Helps the user confirm their Render env var is being read
+// after a deploy (vs. some platform-side caching / stale value issue).
+{
+    const _liqKey = String(process.env.LOCATIONIQ_API_KEY || '').trim();
+    try {
+        if (_liqKey) {
+            console.log('[external] locationiq adapter ENABLED — key length:', _liqKey.length, 'chars');
+        } else {
+            console.log('[external] locationiq adapter DISABLED — LOCATIONIQ_API_KEY env var is empty / unset. Fallback will skip LocationIQ silently.');
+        }
     } catch (_) {}
 }
 

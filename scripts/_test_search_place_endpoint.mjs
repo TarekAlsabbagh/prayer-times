@@ -768,6 +768,23 @@ for (const [q, expected] of subcontinentCases) {
 // curated entry now has `aliases.ja` / `aliases.zh` with the native
 // forms (both bare name and `-市` / `-都` / `-府` administrative suffixes).
 // Search hits curated tier 1; displayName remains Arabic.
+//
+// MAGHREB-1 rate-limit note: after the 240-entry curated growth across
+// GCC-1 / LEVANT-IRAQ-1 / NILE-YEMEN-LIBYA-1 / MAGHREB-1, each
+// /api/search-place call iterates over 1000+ entries. Combined with
+// the suite's high request volume, the cheap-tier 300/min bucket can
+// saturate right at this section. A short drain check absorbs any
+// accumulated drift without slowing the run when we're under budget.
+{
+    const probe = await get('/api/search-place?q=__cjk_drain__&lang=en');
+    const remaining = Number(probe.headers['x-ratelimit-remaining'] || 0);
+    const resetSec  = Number(probe.headers['x-ratelimit-reset'] || 0);
+    if (remaining < 40) {
+        const waitMs = (resetSec + 2) * 1000;
+        console.log(`  (CJK section: rate-limit ${remaining} remaining; waiting ${waitMs/1000}s for reset)`);
+        await sleep(waitMs);
+    }
+}
 console.log('\n── L10N-CJK-SEARCH-FIX-1: raw CJK queries hit curated ──');
 const cjkRawCases = [
     // Japan — bare + suffixed
@@ -1329,6 +1346,21 @@ for (const [q, expectSlug] of saGeodataApproved) {
 
 console.log('\n── CURATED-GEODATA-GCC-1 spot-checks (GCC closure) ──');
 
+// MAGHREB-1 rate-limit note: by this point the suite has issued > 600
+// /api/search-place requests. The cheap-tier 300/min bucket may be at
+// saturation. The OM cities at the END of the GCC-1 array were
+// returning (none) on rate-limit hits — drain absorbs the drift.
+{
+    const probe = await get('/api/search-place?q=__gcc_drain__&lang=en');
+    const remaining = Number(probe.headers['x-ratelimit-remaining'] || 0);
+    const resetSec  = Number(probe.headers['x-ratelimit-reset'] || 0);
+    if (remaining < 80) {
+        const waitMs = (resetSec + 2) * 1000;
+        console.log(`  (GCC section: rate-limit ${remaining} remaining; waiting ${waitMs/1000}s for reset)`);
+        await sleep(waitMs);
+    }
+}
+
 // 70 GCC cities merged via the GeoNames pipeline. Spot-check the user's
 // explicit list — each must hit tier 1 (curated) with correct cc + tz.
 const gccGeodata = [
@@ -1522,6 +1554,71 @@ const nileYemenLibyaGeodata = [
     ['الخانق',              'al-khaniq',            'ye', 'Asia/Aden'],
 ];
 for (const [q, expectSlug, expectCC, expectTZ] of nileYemenLibyaGeodata) {
+    const r = await topOfQ(q, 'ar');
+    const got   = r ? r.displayName : '(none)';
+    const cc    = r ? r.countryCode : '(none)';
+    const tz    = r ? r.timezone    : '(none)';
+    const src   = r ? r.source      : '(none)';
+    const slug  = r ? r.slug        : '(none)';
+    const okCurated = r && r.source === 'curated';
+    const okCC      = r && r.countryCode === expectCC;
+    const okTZ      = r && r.timezone === expectTZ;
+    const okReady   = r && isPrayerTimesReady(r);
+    const okSlug    = r && r.slug === expectSlug;
+    check(`${q} → curated ${expectCC} ${expectTZ} slug=${expectSlug} [src=${src}, cc=${cc}, tz=${tz}, slug=${slug}, name="${got}"]`,
+        okCurated && okCC && okTZ && okReady && okSlug);
+    await sleep(250);
+}
+
+// ── CURATED-GEODATA-MAGHREB-1 spot-checks (closure) ──
+// User-listed cities × 4 countries covering Strategy D merges plus
+// the explicit force-includes (ouarzazate, tan-tan) + the nema alias
+// fix (Persian-yeh → Arabic-yeh). All MUST return source=curated with
+// correct cc + tz.
+console.log('\n── CURATED-GEODATA-MAGHREB-1 spot-checks (closure) ──');
+
+// Drain rate-limit again (third large batch).
+console.log('  (waiting 65s to drain rate-limit window before final 35 spot-checks…)');
+await sleep(65000);
+
+const maghrebGeodata = [
+    // MA (7 — Africa/Casablanca). All except safi/taza are force-includes
+    // or PPLA seats picked up by forcePPLA in Strategy D.
+    ['آسفي',               'safi',              'ma', 'Africa/Casablanca'],
+    ['تازة',               'taza',              'ma', 'Africa/Casablanca'],
+    ['سطات',               'settat',            'ma', 'Africa/Casablanca'],
+    ['الخريبكة',           'khouribga',         'ma', 'Africa/Casablanca'],
+    ['الراشيدية',          'errachidia',        'ma', 'Africa/Casablanca'],
+    ['ورزازات',            'ouarzazate',        'ma', 'Africa/Casablanca'],
+    ['طانطان',             'tan-tan',           'ma', 'Africa/Casablanca'],
+    // DZ (13 — Africa/Algiers). Includes the 8 ar-fixes + the saida-dz rename.
+    ['قسنطينة',            'constantine',       'dz', 'Africa/Algiers'],
+    ['عنابة',              'annaba',            'dz', 'Africa/Algiers'],
+    ['البليدة',            'blida',             'dz', 'Africa/Algiers'],
+    ['سطيف',               'setif',             'dz', 'Africa/Algiers'],
+    ['الجلفة',             'djelfa',            'dz', 'Africa/Algiers'],
+    ['بسكرة',              'biskra',            'dz', 'Africa/Algiers'],
+    ['قالمة',              'guelma',            'dz', 'Africa/Algiers'],
+    ['معسكر',              'mascara',           'dz', 'Africa/Algiers'],
+    ['البيض',              'el-bayadh',         'dz', 'Africa/Algiers'],
+    ['البويرة',            'bouira',            'dz', 'Africa/Algiers'],
+    ['المنيعة',            'el-menia',          'dz', 'Africa/Algiers'],
+    ['تيبازة',             'tipasa',            'dz', 'Africa/Algiers'],
+    ['سعيدة',              'saida-dz',          'dz', 'Africa/Algiers'],
+    // TN (6 — Africa/Tunis). All 6 are ar-fixes from this wave.
+    ['قفصة',               'gafsa',             'tn', 'Africa/Tunis'],
+    ['أريانة',             'aryanah',           'tn', 'Africa/Tunis'],
+    ['باجة',               'beja',              'tn', 'Africa/Tunis'],
+    ['جندوبة',             'jendouba',          'tn', 'Africa/Tunis'],
+    ['منوبة',              'manouba',           'tn', 'Africa/Tunis'],
+    ['سليانة',             'siliana',           'tn', 'Africa/Tunis'],
+    // MR (3 — Africa/Nouakchott). kiffa + tevragh-zeina are ar-fixes;
+    // nema gets the Persian-yeh alias fix to support Arabic-yeh search.
+    ['كيفة',               'kiffa',             'mr', 'Africa/Nouakchott'],
+    ['تفرغ زينة',          'tevragh-zeina',     'mr', 'Africa/Nouakchott'],
+    ['نيما',               'nema',              'mr', 'Africa/Nouakchott'],
+];
+for (const [q, expectSlug, expectCC, expectTZ] of maghrebGeodata) {
     const r = await topOfQ(q, 'ar');
     const got   = r ? r.displayName : '(none)';
     const cc    = r ? r.countryCode : '(none)';

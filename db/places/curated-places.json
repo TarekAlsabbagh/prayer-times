@@ -33309,5 +33309,5666 @@
     "source": "curated",
     "sourceId": "geonames:7890531",
     "verified": true
+  },
+  {
+    "slug": "taza",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 34.21,
+    "lng": -4.01,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "تازة",
+      "en": "Taza",
+      "fr": "Taza",
+      "de": "Taza",
+      "tr": "Taza",
+      "ur": "Taza",
+      "id": "Taza",
+      "es": "Taza",
+      "bn": "Taza",
+      "ms": "Taza"
+    },
+    "aliases": {
+      "ar": [
+        "تازه",
+        "تازہ"
+      ],
+      "en": [
+        "ta zha",
+        "tazh",
+        "tazt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "فاس-مكناس",
+      "regionEn": "Fès-Meknès"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2529317",
+    "verified": true
+  },
+  {
+    "slug": "settat",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 33.00103,
+    "lng": -7.61662,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "سطات",
+      "en": "Settat",
+      "fr": "Settat",
+      "de": "Settat",
+      "tr": "Settat",
+      "ur": "Settat",
+      "id": "Settat",
+      "es": "Settat",
+      "bn": "Settat",
+      "ms": "Settat"
+    },
+    "aliases": {
+      "ar": [
+        "سلطات"
+      ],
+      "en": [
+        "Azettad",
+        "Aẓeṭṭaḍ",
+        "Sattat",
+        "Setatas",
+        "sai ta te",
+        "setateu",
+        "sltat",
+        "stat"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "الدار البيضاء-سطات",
+      "regionEn": "Casablanca-Settat"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2537406",
+    "verified": true
+  },
+  {
+    "slug": "sale",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 34.0531,
+    "lng": -6.79846,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "سلا",
+      "en": "Salé",
+      "fr": "Salé",
+      "de": "Salé",
+      "tr": "Salé",
+      "ur": "Salé",
+      "id": "Salé",
+      "es": "Salé",
+      "bn": "Salé",
+      "ms": "Salé"
+    },
+    "aliases": {
+      "en": [
+        "Sala",
+        "Sale",
+        "Sali",
+        "Sallee",
+        "Sla",
+        "Slà",
+        "sla"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "الرباط-سلا-القنيطرة",
+      "regionEn": "Rabat-Salé-Kénitra"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2537763",
+    "verified": true
+  },
+  {
+    "slug": "safi",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 32.29939,
+    "lng": -9.23718,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "آسفي",
+      "en": "Safi",
+      "fr": "Safi",
+      "de": "Safi",
+      "tr": "Safi",
+      "ur": "Safi",
+      "id": "Safi",
+      "es": "Safi",
+      "bn": "Safi",
+      "ms": "Safi"
+    },
+    "aliases": {
+      "ar": [
+        "اسفی",
+        "اسفی، مراکش"
+      ],
+      "en": [
+        "Asafi",
+        "Asfi",
+        "SFI",
+        "Safim",
+        "Safí",
+        "Sáfí",
+        "asfy",
+        "asfy  mraksh",
+        "sa fei",
+        "sapi"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "مراكش-آسفي",
+      "regionEn": "Marrakech-Safi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2537881",
+    "verified": true
+  },
+  {
+    "slug": "guelmim",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 28.98696,
+    "lng": -10.05738,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "كلميم",
+      "en": "Guelmim",
+      "fr": "Guelmim",
+      "de": "Guelmim",
+      "tr": "Guelmim",
+      "ur": "Guelmim",
+      "id": "Guelmim",
+      "es": "Guelmim",
+      "bn": "Guelmim",
+      "ms": "Guelmim"
+    },
+    "aliases": {
+      "ar": [
+        "کلمیم",
+        "ڭلميم",
+        "گولمیم"
+      ],
+      "en": [
+        "GLN",
+        "Gel'mim",
+        "Gelmima",
+        "Gelmimas",
+        "Gelmīma",
+        "Goulimine",
+        "Gulimin",
+        "Kulmim",
+        "Kulmīm",
+        "gai lei min",
+        "gelmim",
+        "gerumin",
+        "gu'elamima",
+        "gulimimi",
+        "guweልmiም",
+        "guyelamima",
+        "gwlmym",
+        "klmym",
+        "nglmym"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "كلميم-واد نون",
+      "regionEn": "Guelmim-Oued Noun"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2548526",
+    "verified": true
+  },
+  {
+    "slug": "el-jadida",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 33.25682,
+    "lng": -8.50882,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "الجديدة",
+      "en": "El Jadida",
+      "fr": "El Jadida",
+      "de": "El Jadida",
+      "tr": "El Jadida",
+      "ur": "El Jadida",
+      "id": "El Jadida",
+      "es": "El Jadida",
+      "bn": "El Jadida",
+      "ms": "El Jadida"
+    },
+    "aliases": {
+      "ar": [
+        "الجدیده",
+        "الجدیدہ"
+      ],
+      "en": [
+        "Al Jadida",
+        "Al Yadida",
+        "Al-Djadida",
+        "Al-Dzadida",
+        "Al-Dżadida",
+        "Al-Džadída",
+        "Castilho Real",
+        "Dzadida",
+        "Džadida",
+        "Ehl'-Dzhadida",
+        "Ehl'-Dzhadzida",
+        "El Jadid",
+        "El-Jadida",
+        "El-Yadida",
+        "Mazagan",
+        "Mazagao",
+        "Mazaghan",
+        "Mazagão",
+        "Mazargan",
+        "aljdydh",
+        "aljdydt",
+        "el-jadida",
+        "ela jadida",
+        "eljadida",
+        "jie di dai",
+        "xælcha di da"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "الدار البيضاء-سطات",
+      "regionEn": "Casablanca-Settat"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2550078",
+    "verified": true
+  },
+  {
+    "slug": "beni-mellal",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 32.33725,
+    "lng": -6.34983,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "بني ملال",
+      "en": "Beni Mellal",
+      "fr": "Beni Mellal",
+      "de": "Beni Mellal",
+      "tr": "Beni Mellal",
+      "ur": "Beni Mellal",
+      "id": "Beni Mellal",
+      "es": "Beni Mellal",
+      "bn": "Beni Mellal",
+      "ms": "Beni Mellal"
+    },
+    "aliases": {
+      "ar": [
+        "بنی ملال",
+        "بنی‌ملال"
+      ],
+      "en": [
+        "Ayt Mellal",
+        "BEM",
+        "Bani Mallal",
+        "Beni Melal",
+        "Beni Melalis",
+        "Beni-Mellal",
+        "Beni-Mellal'",
+        "Beni-Mellal-Centre",
+        "Beni-Millal'",
+        "Béni Mellal",
+        "Béni-Mellal",
+        "bei ni mai la lei",
+        "beni melala",
+        "beni melaል",
+        "benimellal",
+        "beni・merraru",
+        "bny mlal",
+        "bny mll"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "بني ملال-خنيفرة",
+      "regionEn": "Béni Mellal-Khénifra"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2555745",
+    "verified": true
+  },
+  {
+    "slug": "al-hoceima",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 35.25165,
+    "lng": -3.93723,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "الحسيمة",
+      "en": "Al Hoceïma",
+      "fr": "Al Hoceïma",
+      "de": "Al Hoceïma",
+      "tr": "Al Hoceïma",
+      "ur": "Al Hoceïma",
+      "id": "Al Hoceïma",
+      "es": "Al Hoceïma",
+      "bn": "Al Hoceïma",
+      "ms": "Al Hoceïma"
+    },
+    "aliases": {
+      "ar": [
+        "حسیمه"
+      ],
+      "en": [
+        "AHU",
+        "Al Hoceima",
+        "Al Huceima",
+        "Al Husaymat",
+        "Al Ḩusaymāt",
+        "Al-Hoceima",
+        "Al-Husajma",
+        "Alhacemas",
+        "Alhucemas",
+        "Villa Alhucemas",
+        "Villa Sanjurjo",
+        "alhsymt",
+        "hsymh"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "طنجة-تطوان-الحسيمة",
+      "regionEn": "Tanger-Tétouan-Al Hoceima"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2558545",
+    "verified": true
+  },
+  {
+    "slug": "boumerdas",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.76639,
+    "lng": 3.47717,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أبو مرداس",
+      "en": "Boumerdas",
+      "fr": "Boumerdas",
+      "de": "Boumerdas",
+      "tr": "Boumerdas",
+      "ur": "Boumerdas",
+      "id": "Boumerdas",
+      "es": "Boumerdas",
+      "bn": "Boumerdas",
+      "ms": "Boumerdas"
+    },
+    "aliases": {
+      "ar": [
+        "الصخرة السوداء",
+        "بو مرداس",
+        "بومرداس",
+        "مدينة أبو مرداس",
+        "مدينة بو مرداس",
+        "مدينة بومرداس"
+      ],
+      "en": [
+        "Bou-Merdes",
+        "Bumerdas",
+        "Bumerdes",
+        "Cite de Boumerdes",
+        "Cité de Boumerdes",
+        "Le Rocher Noir",
+        "Roche Noire",
+        "Rocher Noir",
+        "abw mrdas",
+        "alskhrt alswdaʾ",
+        "baumaradasa",
+        "baumardasa",
+        "boውmeridasi",
+        "bumeradasa",
+        "bumurudasu",
+        "bw mrdas",
+        "bwmrdas",
+        "mdynt abw mrdas",
+        "mdynt bw mrdas",
+        "mdynt bwmrdas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية بومرداس",
+      "regionEn": "Boumerdès Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2474141",
+    "verified": true
+  },
+  {
+    "slug": "touggourt",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 33.11083,
+    "lng": 6.07,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تقرت",
+      "en": "Touggourt",
+      "fr": "Touggourt",
+      "de": "Touggourt",
+      "tr": "Touggourt",
+      "ur": "Touggourt",
+      "id": "Touggourt",
+      "es": "Touggourt",
+      "bn": "Touggourt",
+      "ms": "Touggourt"
+    },
+    "aliases": {
+      "ar": [
+        "تقورت، الجزایر",
+        "توقرت"
+      ],
+      "en": [
+        "TGR",
+        "Tougourt",
+        "Tuggurt",
+        "Tugurtas",
+        "Tukkurt",
+        "tauggaurata",
+        "tauggaurta",
+        "tougura",
+        "toውግguriti",
+        "tqrt",
+        "tqwrt  aljzayr",
+        "tu gu er te",
+        "tuguleuteu",
+        "twqrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تقرت",
+      "regionEn": "Touggourt Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2475475",
+    "verified": true
+  },
+  {
+    "slug": "tizi-ouzou",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.71182,
+    "lng": 4.04591,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تيزي وزو",
+      "en": "Tizi Ouzou",
+      "fr": "Tizi Ouzou",
+      "de": "Tizi Ouzou",
+      "tr": "Tizi Ouzou",
+      "ur": "Tizi Ouzou",
+      "id": "Tizi Ouzou",
+      "es": "Tizi Ouzou",
+      "bn": "Tizi Ouzou",
+      "ms": "Tizi Ouzou"
+    },
+    "aliases": {
+      "ar": [
+        "تیزی وزو"
+      ],
+      "en": [
+        "QZI",
+        "Tizi Uzou",
+        "Tizi Uzu",
+        "Tizi Uzú",
+        "Tizi Wuzu",
+        "Tizi-Ouzou",
+        "Tizi-Uzu",
+        "Tīzī Wuzū",
+        "ti ji wu zu",
+        "tiji o'uju",
+        "tiji uju",
+        "tijiuju",
+        "tiji・uzu",
+        "tizi ozu",
+        "tizi ʿoውzu",
+        "tyzy wzw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تيزي وزو",
+      "regionEn": "Tizi Ouzou Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2475744",
+    "verified": true
+  },
+  {
+    "slug": "tissemsilt",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.60722,
+    "lng": 1.81081,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تسمسيلت",
+      "en": "Tissemsilt",
+      "fr": "Tissemsilt",
+      "de": "Tissemsilt",
+      "tr": "Tissemsilt",
+      "ur": "Tissemsilt",
+      "id": "Tissemsilt",
+      "es": "Tissemsilt",
+      "bn": "Tissemsilt",
+      "ms": "Tissemsilt"
+    },
+    "aliases": {
+      "ar": [
+        "تيسمسيلت",
+        "فيالار"
+      ],
+      "en": [
+        "Tissemsil",
+        "Vialar",
+        "fyalar",
+        "tis'semasilta",
+        "tisemasilata",
+        "tisemushiruto",
+        "tiseምsiልti",
+        "tsmsylt",
+        "tysmsylt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تيسمسيلت",
+      "regionEn": "Tissemsilt Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2475860",
+    "verified": true
+  },
+  {
+    "slug": "tipasa",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.58972,
+    "lng": 2.44889,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تيبازة",
+      "en": "Tipasa",
+      "fr": "Tipasa",
+      "de": "Tipasa",
+      "tr": "Tipasa",
+      "ur": "Tipasa",
+      "id": "Tipasa",
+      "es": "Tipasa",
+      "bn": "Tipasa",
+      "ms": "Tipasa"
+    },
+    "aliases": {
+      "ar": [
+        "تيبازة",
+        "تيباسة",
+        "تیبازہ",
+        "تی‌پازه",
+        "تبسہ"
+      ],
+      "en": [
+        "Tipaza",
+        "Tipazo",
+        "Tipáza",
+        "ti pa sa",
+        "tipaja",
+        "tiፓsa",
+        "tybast",
+        "tybazt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تيبازة",
+      "regionEn": "Tipaza Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2476028",
+    "verified": true
+  },
+  {
+    "slug": "tindouf",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 27.67111,
+    "lng": -8.14743,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تندوف",
+      "en": "Tindouf",
+      "fr": "Tindouf",
+      "de": "Tindouf",
+      "tr": "Tindouf",
+      "ur": "Tindouf",
+      "id": "Tindouf",
+      "es": "Tindouf",
+      "bn": "Tindouf",
+      "ms": "Tindouf"
+    },
+    "aliases": {
+      "ar": [
+        "تيندوف"
+      ],
+      "en": [
+        "Provinsi Tindouf",
+        "TIN",
+        "Tinduf",
+        "Tindufas",
+        "Tindúf",
+        "tinadaupha",
+        "tindaupha",
+        "tindoufu",
+        "tindupeu",
+        "ting du fu",
+        "tinidoፍ",
+        "tndwf",
+        "tyndwf"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تندوف",
+      "regionEn": "Tindouf Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2476301",
+    "verified": true
+  },
+  {
+    "slug": "timimoun",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 29.26417,
+    "lng": 0.23583,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تميمون",
+      "en": "Timimoun",
+      "fr": "Timimoun",
+      "de": "Timimoun",
+      "tr": "Timimoun",
+      "ur": "Timimoun",
+      "id": "Timimoun",
+      "es": "Timimoun",
+      "bn": "Timimoun",
+      "ms": "Timimoun"
+    },
+    "aliases": {
+      "ar": [
+        "تيميمون",
+        "تیمیمون"
+      ],
+      "en": [
+        "TMX",
+        "Timimun",
+        "Timimún",
+        "Timmoun",
+        "timimauna",
+        "timimun",
+        "timimuni",
+        "tmymwn",
+        "tymymwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تيميمون",
+      "regionEn": "Timimoun Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2476403",
+    "verified": true
+  },
+  {
+    "slug": "tiaret",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.37103,
+    "lng": 1.31699,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تيارت",
+      "en": "Tiaret",
+      "fr": "Tiaret",
+      "de": "Tiaret",
+      "tr": "Tiaret",
+      "ur": "Tiaret",
+      "id": "Tiaret",
+      "es": "Tiaret",
+      "bn": "Tiaret",
+      "ms": "Tiaret"
+    },
+    "aliases": {
+      "ar": [
+        "تیارت"
+      ],
+      "en": [
+        "TID",
+        "Tiaretas",
+        "Tijarat",
+        "ti ya lei te",
+        "ti'areta",
+        "tiareto",
+        "tiyareta",
+        "tiyareti",
+        "tyart"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تيارت",
+      "regionEn": "Tiaret Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2476897",
+    "verified": true
+  },
+  {
+    "slug": "tebessa",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.40417,
+    "lng": 8.12417,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تبسة",
+      "en": "Tébessa",
+      "fr": "Tébessa",
+      "de": "Tébessa",
+      "tr": "Tébessa",
+      "ur": "Tébessa",
+      "id": "Tébessa",
+      "es": "Tébessa",
+      "bn": "Tébessa",
+      "ms": "Tébessa"
+    },
+    "aliases": {
+      "ar": [
+        "تبسه، الجزایر",
+        "تیبازہ"
+      ],
+      "en": [
+        "TEE",
+        "Tebesa",
+        "Tebessa",
+        "Theveste",
+        "Tibissa",
+        "tai bei sa",
+        "tbsh  aljzayr",
+        "tbst",
+        "tebes'sa",
+        "tebesa",
+        "tebessa"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تبسة",
+      "regionEn": "Tébessa Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2477461",
+    "verified": true
+  },
+  {
+    "slug": "tamanghasset",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 22.785,
+    "lng": 5.52278,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "تامنراست",
+      "en": "Tamanghasset",
+      "fr": "Tamanghasset",
+      "de": "Tamanghasset",
+      "tr": "Tamanghasset",
+      "ur": "Tamanghasset",
+      "id": "Tamanghasset",
+      "es": "Tamanghasset",
+      "bn": "Tamanghasset",
+      "ms": "Tamanghasset"
+    },
+    "aliases": {
+      "ar": [
+        "تامنغست",
+        "تمنراست",
+        "تمنغست"
+      ],
+      "en": [
+        "Fort Laperine",
+        "Fort Laperrine",
+        "TMR",
+        "Tamahrasset",
+        "Tamanraessət",
+        "Tamanraset",
+        "Tamanrasetas",
+        "Tamanrasset",
+        "Tamanrassete",
+        "Tamanrässət",
+        "Tamenghasset",
+        "Tamenɣest",
+        "ta man la sai te",
+        "tamanghaseta",
+        "tamanigaseti",
+        "tamanlaseteu",
+        "tamanrasetto",
+        "tamnghst",
+        "tamnrast",
+        "tmnghst",
+        "tmnrast"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تمنراست",
+      "regionEn": "Tamanrasset Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2478216",
+    "verified": true
+  },
+  {
+    "slug": "souk-ahras",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.28639,
+    "lng": 7.95111,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "سوق أهراس",
+      "en": "Souk Ahras",
+      "fr": "Souk Ahras",
+      "de": "Souk Ahras",
+      "tr": "Souk Ahras",
+      "ur": "Souk Ahras",
+      "id": "Souk Ahras",
+      "es": "Souk Ahras",
+      "bn": "Souk Ahras",
+      "ms": "Souk Ahras"
+    },
+    "aliases": {
+      "ar": [
+        "سوق اهراس، الجزایر",
+        "سوق اہراس"
+      ],
+      "en": [
+        "QSK",
+        "Souk-Ahras",
+        "Soukaras",
+        "Souq Ahras",
+        "Suk Aharas",
+        "Suk Ahras",
+        "Suk Ahrasas",
+        "Suk Aras",
+        "Suk-Akhras",
+        "Suq Ahras",
+        "Szuk Ahrasz",
+        "Szúk Ahrász",
+        "Tagaste",
+        "sauka aharasa",
+        "soki ʿehirasi",
+        "su ge ai he la si",
+        "sukeualaseu",
+        "suku・aharasu",
+        "swq ahras",
+        "swq ahras  aljzayr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية سوق أهراس",
+      "regionEn": "Souk Ahras Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2479215",
+    "verified": true
+  },
+  {
+    "slug": "skikda",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.87617,
+    "lng": 6.90921,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "سكيكدة",
+      "en": "Skikda",
+      "fr": "Skikda",
+      "de": "Skikda",
+      "tr": "Skikda",
+      "ur": "Skikda",
+      "id": "Skikda",
+      "es": "Skikda",
+      "bn": "Skikda",
+      "ms": "Skikda"
+    },
+    "aliases": {
+      "ar": [
+        "سکیکده",
+        "سکیکدہ",
+        "فيليبفيل",
+        "ولاية سعيدة"
+      ],
+      "en": [
+        "Philippeville",
+        "Phillippville",
+        "SKI",
+        "Sukaikida",
+        "Sukajkida",
+        "Sukaykida",
+        "fylybfyl",
+        "sakikada",
+        "seukigda",
+        "si ji ke da",
+        "sikikida",
+        "skikada",
+        "skykdh",
+        "skykdt",
+        "sukikuda"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية سكيكدة",
+      "regionEn": "Skikda Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2479536",
+    "verified": true
+  },
+  {
+    "slug": "sidi-bel-abbes",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.18994,
+    "lng": -0.63085,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "سيدي بلعباس",
+      "en": "Sidi Bel Abbes",
+      "fr": "Sidi Bel Abbes",
+      "de": "Sidi Bel Abbes",
+      "tr": "Sidi Bel Abbes",
+      "ur": "Sidi Bel Abbes",
+      "id": "Sidi Bel Abbes",
+      "es": "Sidi Bel Abbes",
+      "bn": "Sidi Bel Abbes",
+      "ms": "Sidi Bel Abbes"
+    },
+    "aliases": {
+      "ar": [
+        "سیدی بلعباس",
+        "سیدی بلعباس، الجزایر",
+        "ولاية سيدي بلعباس"
+      ],
+      "en": [
+        "BFW",
+        "Sid Bel Abbes",
+        "Sid Bel Abbès",
+        "Sidi Bel Abbas",
+        "Sidi Bel Abbès",
+        "Sidi Bel Abes",
+        "Sidi Belabbas",
+        "Sidi Belɛebbas",
+        "Sidi Bilabbas",
+        "Sidi Bu-l-Abbas",
+        "Sidi bel Abbès",
+        "Sidi bel Abesas",
+        "Sidi-Bal-Abbes",
+        "Sidi-Bal-Abbès",
+        "Sidi-Bel'-Abbes",
+        "Sidi-Bel-Abbes",
+        "Sidi-Bel-Abbès",
+        "Sidi-bel-Abbes",
+        "Sidi-bel-Abbès",
+        "Sidy-Bel'-Abes",
+        "shidi・beru・abbasu",
+        "sidi bela abasa",
+        "sidi bela abbasa",
+        "sidi bela abbesa",
+        "sidi beል ʾabasi",
+        "sidibel-abeseu",
+        "sydy blʿbas",
+        "xi di bei lei a ba si"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية سيدي بلعباس",
+      "regionEn": "Sidi Bel Abbès Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2481007",
+    "verified": true
+  },
+  {
+    "slug": "saida-dz",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 34.83033,
+    "lng": 0.15171,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "سعيدة",
+      "en": "Saïda",
+      "fr": "Saïda",
+      "de": "Saïda",
+      "tr": "Saïda",
+      "ur": "Saïda",
+      "id": "Saïda",
+      "es": "Saïda",
+      "bn": "Saïda",
+      "ms": "Saïda"
+    },
+    "aliases": {
+      "ar": [
+        "سعیده، الجزایر",
+        "سعیدہ، الجزائر"
+      ],
+      "en": [
+        "Sa'ida",
+        "Saida",
+        "Sajda",
+        "Sa’ida",
+        "sa'ida",
+        "sai yi da",
+        "saida",
+        "sayida",
+        "sʿydt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية سعيدة",
+      "regionEn": "Saïda Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2482572",
+    "verified": true
+  },
+  {
+    "slug": "rouiba",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.73829,
+    "lng": 3.28079,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "الرويبة",
+      "en": "Rouiba",
+      "fr": "Rouiba",
+      "de": "Rouiba",
+      "tr": "Rouiba",
+      "ur": "Rouiba",
+      "id": "Rouiba",
+      "es": "Rouiba",
+      "bn": "Rouiba",
+      "ms": "Rouiba"
+    },
+    "aliases": {
+      "en": [
+        "alrwybt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الجزائر",
+      "regionEn": "Algiers Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2482908",
+    "verified": true
+  },
+  {
+    "slug": "relizane",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.73734,
+    "lng": 0.55599,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "غليزان",
+      "en": "Relizane",
+      "fr": "Relizane",
+      "de": "Relizane",
+      "tr": "Relizane",
+      "ur": "Relizane",
+      "id": "Relizane",
+      "es": "Relizane",
+      "bn": "Relizane",
+      "ms": "Relizane"
+    },
+    "aliases": {
+      "ar": [
+        "غلیزان",
+        "ولاية غليزان"
+      ],
+      "en": [
+        "Ighil Izane",
+        "Prowincja Relizane",
+        "QZN",
+        "Relizan",
+        "Relizán",
+        "ghlyzan",
+        "relijena",
+        "relizani",
+        "rerizan",
+        "wlayt ghlyzan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية غليزان",
+      "regionEn": "Relizane Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2483668",
+    "verified": true
+  },
+  {
+    "slug": "oum-el-bouaghi",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.87541,
+    "lng": 7.11353,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أم البواقي",
+      "en": "Oum el Bouaghi",
+      "fr": "Oum el Bouaghi",
+      "de": "Oum el Bouaghi",
+      "tr": "Oum el Bouaghi",
+      "ur": "Oum el Bouaghi",
+      "id": "Oum el Bouaghi",
+      "es": "Oum el Bouaghi",
+      "bn": "Oum el Bouaghi",
+      "ms": "Oum el Bouaghi"
+    },
+    "aliases": {
+      "ar": [
+        "ام البواقی"
+      ],
+      "en": [
+        "Canrobert",
+        "Oum-el-Bouachi",
+        "QMH",
+        "Umm al-Bawaqui",
+        "Umm el Bawaqui",
+        "Umm el Buvayi",
+        "Umm-ehl'-Buvaji",
+        "am albwaqy",
+        "oma ela bu'aghi",
+        "oma ela buyagi",
+        "uma ela bu'aghi",
+        "umu・eru・buagi",
+        "ʿoም ʿeል bowagi"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية أم البواقي",
+      "regionEn": "Oum El Bouaghi Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2484620",
+    "verified": true
+  },
+  {
+    "slug": "ouled-djellal",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 34.43,
+    "lng": 5.06139,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أولاد جلال",
+      "en": "Ouled Djellal",
+      "fr": "Ouled Djellal",
+      "de": "Ouled Djellal",
+      "tr": "Ouled Djellal",
+      "ur": "Ouled Djellal",
+      "id": "Ouled Djellal",
+      "es": "Ouled Djellal",
+      "bn": "Ouled Djellal",
+      "ms": "Ouled Djellal"
+    },
+    "aliases": {
+      "ar": [
+        "اولاد جلال"
+      ],
+      "en": [
+        "Oulad Djellal",
+        "Oulad Jellal",
+        "Uled-Dzhellal'",
+        "awlad jlal",
+        "awladjlal",
+        "o'uleda jelala",
+        "o'uleda jellala",
+        "oleda jelala",
+        "uredo・jeraru",
+        "ʾoledi jalaል"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية أولاد جلال",
+      "regionEn": "Ouled Djellal Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2484933",
+    "verified": true
+  },
+  {
+    "slug": "ouargla",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 31.94932,
+    "lng": 5.32502,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "ورقلة",
+      "en": "Ouargla",
+      "fr": "Ouargla",
+      "de": "Ouargla",
+      "tr": "Ouargla",
+      "ur": "Ouargla",
+      "id": "Ouargla",
+      "es": "Ouargla",
+      "bn": "Ouargla",
+      "ms": "Ouargla"
+    },
+    "aliases": {
+      "ar": [
+        "ورقله، الجزایر",
+        "ورقلہ"
+      ],
+      "en": [
+        "OGX",
+        "Quargla",
+        "Uargla",
+        "Varcla",
+        "Warkala",
+        "Warqla",
+        "oyargala",
+        "ualeugeulla",
+        "varagala",
+        "varagla",
+        "wa er ge la",
+        "war kla",
+        "wariግla",
+        "warugura",
+        "wrqlh  aljzayr",
+        "wrqlt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية ورقلة",
+      "regionEn": "Ouargla Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2485801",
+    "verified": true
+  },
+  {
+    "slug": "naama",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 33.26667,
+    "lng": -0.31667,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "النعامة",
+      "en": "Naama",
+      "fr": "Naama",
+      "de": "Naama",
+      "tr": "Naama",
+      "ur": "Naama",
+      "id": "Naama",
+      "es": "Naama",
+      "bn": "Naama",
+      "ms": "Naama"
+    },
+    "aliases": {
+      "ar": [
+        "النعامه"
+      ],
+      "en": [
+        "Naâma",
+        "alnʿamh",
+        "alnʿamt",
+        "nama",
+        "naʾama"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية النعامة",
+      "regionEn": "Naâma Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2486523",
+    "verified": true
+  },
+  {
+    "slug": "msila",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.70889,
+    "lng": 4.53722,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "المسيلة",
+      "en": "M'Sila",
+      "fr": "M'Sila",
+      "de": "M'Sila",
+      "tr": "M'Sila",
+      "ur": "M'Sila",
+      "id": "M'Sila",
+      "es": "M'Sila",
+      "bn": "M'Sila",
+      "ms": "M'Sila"
+    },
+    "aliases": {
+      "ar": [
+        "مسیله"
+      ],
+      "en": [
+        "MSila",
+        "Msila",
+        "M’Sila",
+        "ZZS",
+        "aima'sila",
+        "almsylt",
+        "ema'sila",
+        "mosila",
+        "msylh",
+        "mushira"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية المسيلة",
+      "regionEn": "M'Sila Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2486690",
+    "verified": true
+  },
+  {
+    "slug": "mostaganem",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.93115,
+    "lng": 0.08918,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "مستاغانم",
+      "en": "Mostaganem",
+      "fr": "Mostaganem",
+      "de": "Mostaganem",
+      "tr": "Mostaganem",
+      "ur": "Mostaganem",
+      "id": "Mostaganem",
+      "es": "Mostaganem",
+      "bn": "Mostaganem",
+      "ms": "Mostaganem"
+    },
+    "aliases": {
+      "ar": [
+        "مستغانم"
+      ],
+      "en": [
+        "MQV",
+        "Mastaganeam",
+        "Mostaganemas",
+        "Mustaghanam",
+        "Mustaghanim",
+        "Mustɣanem",
+        "mosataganema",
+        "mositaganiም",
+        "mostaganema",
+        "mostaghanemi",
+        "mosutaganemu",
+        "mstaghanm",
+        "mstghanm",
+        "mu si ta jia nai mu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية مستغانم",
+      "regionEn": "Mostaganem Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2487134",
+    "verified": true
+  },
+  {
+    "slug": "mila",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.45028,
+    "lng": 6.26444,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "ميلة",
+      "en": "Mila",
+      "fr": "Mila",
+      "de": "Mila",
+      "tr": "Mila",
+      "ur": "Mila",
+      "id": "Mila",
+      "es": "Mila",
+      "bn": "Mila",
+      "ms": "Mila"
+    },
+    "aliases": {
+      "ar": [
+        "میله",
+        "میلہ، الجزائر"
+      ],
+      "en": [
+        "milla",
+        "mira",
+        "mylh",
+        "mylt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية ميلة",
+      "regionEn": "Mila Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2487452",
+    "verified": true
+  },
+  {
+    "slug": "medea",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.26417,
+    "lng": 2.75393,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "المدية",
+      "en": "Médéa",
+      "fr": "Médéa",
+      "de": "Médéa",
+      "tr": "Médéa",
+      "ur": "Médéa",
+      "id": "Médéa",
+      "es": "Médéa",
+      "bn": "Médéa",
+      "ms": "Médéa"
+    },
+    "aliases": {
+      "ar": [
+        "المدیه، الجزایر",
+        "مدیہ"
+      ],
+      "en": [
+        "Al-Madijja",
+        "Lambdia",
+        "Lemdiyyet",
+        "Medea",
+        "Medeah",
+        "Medeja",
+        "Medėja",
+        "almdyh  aljzayr",
+        "almdyt",
+        "mai di ya",
+        "medea",
+        "medi'a",
+        "media",
+        "mediya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية المدية",
+      "regionEn": "Médéa Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2488835",
+    "verified": true
+  },
+  {
+    "slug": "mascara",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.39664,
+    "lng": 0.14027,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "معسكر",
+      "en": "Mascara",
+      "fr": "Mascara",
+      "de": "Mascara",
+      "tr": "Mascara",
+      "ur": "Mascara",
+      "id": "Mascara",
+      "es": "Mascara",
+      "bn": "Mascara",
+      "ms": "Mascara"
+    },
+    "aliases": {
+      "ar": [
+        "معسكر",
+        "معسكر‎",
+        "معسکر، الجزائر",
+        "مسکره"
+      ],
+      "en": [
+        "MUW",
+        "Maskara",
+        "Mu'askar",
+        "Muaskar",
+        "Mu’askar",
+        "masakara",
+        "maseukala",
+        "masikara",
+        "maskara",
+        "masukara",
+        "mskrh",
+        "mu a si kai er",
+        "mʿskr",
+        "mʿskr‎"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية معسكر",
+      "regionEn": "Mascara Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2490098",
+    "verified": true
+  },
+  {
+    "slug": "laghouat",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 33.8,
+    "lng": 2.86514,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "اغواط",
+      "en": "Laghouat",
+      "fr": "Laghouat",
+      "de": "Laghouat",
+      "tr": "Laghouat",
+      "ur": "Laghouat",
+      "id": "Laghouat",
+      "es": "Laghouat",
+      "bn": "Laghouat",
+      "ms": "Laghouat"
+    },
+    "aliases": {
+      "ar": [
+        "الأغواط",
+        "الاغواط، الجزایر"
+      ],
+      "en": [
+        "Al-Aghwat",
+        "LOO",
+        "Lagoat",
+        "Lagouat",
+        "Laguat",
+        "Laguatas",
+        "Lagvat",
+        "Larhouat",
+        "aghwat",
+        "ai ge wa te",
+        "alaghwat",
+        "alaghwat  aljzayr",
+        "lagaweti",
+        "lagho'ata",
+        "lagoyata",
+        "ragoatto"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الأغواط",
+      "regionEn": "Laghouat Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2491191",
+    "verified": true
+  },
+  {
+    "slug": "khenchela",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 35.43583,
+    "lng": 7.14333,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "خنشلة",
+      "en": "Khenchela",
+      "fr": "Khenchela",
+      "de": "Khenchela",
+      "tr": "Khenchela",
+      "ur": "Khenchela",
+      "id": "Khenchela",
+      "es": "Khenchela",
+      "bn": "Khenchela",
+      "ms": "Khenchela"
+    },
+    "aliases": {
+      "ar": [
+        "خنشله"
+      ],
+      "en": [
+        "Jenchela",
+        "Krenchela",
+        "QKJ",
+        "Xencela",
+        "Xençela",
+        "kenchera",
+        "khencela",
+        "khnshlh",
+        "khnshlt",
+        "qinithela"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية خنشلة",
+      "regionEn": "Khenchela Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2491889",
+    "verified": true
+  },
+  {
+    "slug": "khemis-miliana",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.26104,
+    "lng": 2.22015,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أفرفيل",
+      "en": "Khemis Miliana",
+      "fr": "Khemis Miliana",
+      "de": "Khemis Miliana",
+      "tr": "Khemis Miliana",
+      "ur": "Khemis Miliana",
+      "id": "Khemis Miliana",
+      "es": "Khemis Miliana",
+      "bn": "Khemis Miliana",
+      "ms": "Khemis Miliana"
+    },
+    "aliases": {
+      "ar": [
+        "الخميس",
+        "الخميس مليانة",
+        "خميس مليانة"
+      ],
+      "en": [
+        "Affreville",
+        "El Khemis",
+        "El Khemis Miliana",
+        "ZZK",
+        "afrfyl",
+        "alkhmys",
+        "alkhmys mlyant",
+        "khmys mlyant"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية عين الدفلى",
+      "regionEn": "Aïn Defla Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2491911",
+    "verified": true
+  },
+  {
+    "slug": "jijel",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.821,
+    "lng": 5.76352,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "جيجل",
+      "en": "Jijel",
+      "fr": "Jijel",
+      "de": "Jijel",
+      "tr": "Jijel",
+      "ur": "Jijel",
+      "id": "Jijel",
+      "es": "Jijel",
+      "bn": "Jijel",
+      "ms": "Jijel"
+    },
+    "aliases": {
+      "ar": [
+        "جیجل",
+        "جیجل، الجزایر"
+      ],
+      "en": [
+        "Cical",
+        "Djedjelli",
+        "Djidjelli",
+        "Dzhidzhel'",
+        "Dzidzelis",
+        "Dzidzili",
+        "Dżidżili",
+        "Džidželis",
+        "GJL",
+        "Giger",
+        "Gíger",
+        "Igilgili",
+        "Jijelli",
+        "Yiyel",
+        "ji jie lei",
+        "jijela",
+        "jijeru",
+        "jijeል",
+        "jyjl",
+        "jyjl  aljzayr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية جيجل",
+      "regionEn": "Jijel Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2492913",
+    "verified": true
+  },
+  {
+    "slug": "illizi",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 26.48333,
+    "lng": 8.46667,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "إليزي",
+      "en": "Illizi",
+      "fr": "Illizi",
+      "de": "Illizi",
+      "tr": "Illizi",
+      "ur": "Illizi",
+      "id": "Illizi",
+      "es": "Illizi",
+      "bn": "Illizi",
+      "ms": "Illizi"
+    },
+    "aliases": {
+      "ar": [
+        "الیزی"
+      ],
+      "en": [
+        "Fort Polignac",
+        "Fort de Polignac",
+        "Polignac",
+        "VVZ",
+        "alyzy",
+        "ilalizi",
+        "illiji",
+        "iriji",
+        "ʿiልlizi"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية إليزي",
+      "regionEn": "Illizi Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2493456",
+    "verified": true
+  },
+  {
+    "slug": "guelma",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.46214,
+    "lng": 7.42608,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "قالمة",
+      "en": "Guelma",
+      "fr": "Guelma",
+      "de": "Guelma",
+      "tr": "Guelma",
+      "ur": "Guelma",
+      "id": "Guelma",
+      "es": "Guelma",
+      "bn": "Guelma",
+      "ms": "Guelma"
+    },
+    "aliases": {
+      "ar": [
+        "قالمة",
+        "قالمه، الجزایر",
+        "قالمہ",
+        "ڤالمة",
+        "qalmہ"
+      ],
+      "en": [
+        "Calama",
+        "Galma",
+        "Gel'ma",
+        "Gelma",
+        "Kalima",
+        "QGE",
+        "gai lei ma",
+        "gu'elama",
+        "gu'elma",
+        "gueruma",
+        "guyelama",
+        "guʾaልma",
+        "qalmh  aljzayr",
+        "qalmt",
+        "valmt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية قالمة",
+      "regionEn": "Guelma Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2495662",
+    "verified": true
+  },
+  {
+    "slug": "el-tarf",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.7672,
+    "lng": 8.31377,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "الطارف",
+      "en": "El Tarf",
+      "fr": "El Tarf",
+      "de": "El Tarf",
+      "tr": "El Tarf",
+      "ur": "El Tarf",
+      "id": "El Tarf",
+      "es": "El Tarf",
+      "bn": "El Tarf",
+      "ms": "El Tarf"
+    },
+    "aliases": {
+      "en": [
+        "Ehl'-Taraf",
+        "Le Tarf",
+        "ala tarapha",
+        "altarf",
+        "ela tarapha",
+        "eru・tarufu",
+        "ʿeል tariፍ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الطارف",
+      "regionEn": "El Tarf Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2497323",
+    "verified": true
+  },
+  {
+    "slug": "el-meghaier",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 33.95139,
+    "lng": 5.92222,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "المغير",
+      "en": "El Meghaïer",
+      "fr": "El Meghaïer",
+      "de": "El Meghaïer",
+      "tr": "El Meghaïer",
+      "ur": "El Meghaïer",
+      "id": "El Meghaïer",
+      "es": "El Meghaïer",
+      "bn": "El Meghaïer",
+      "ms": "El Meghaïer"
+    },
+    "aliases": {
+      "ar": [
+        "المغیر"
+      ],
+      "en": [
+        "Ehl'-Megajer",
+        "El M'Ghair",
+        "El Meghaier",
+        "El Meghair",
+        "El Meghaïr",
+        "ElMeghaier",
+        "M'Raier",
+        "Meraieur",
+        "Meraïeur",
+        "Mrhaier",
+        "Mrhaïer",
+        "M’Raïer",
+        "ala megha'ira",
+        "ala meghayara",
+        "almghyr",
+        "ela meghayera",
+        "eru・megaieru",
+        "ʿeል meግhayeri"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية المغير",
+      "regionEn": "El Meghaïer Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2497655",
+    "verified": true
+  },
+  {
+    "slug": "el-menia",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 30.57556,
+    "lng": 2.88417,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "المنيعة",
+      "en": "El Menia",
+      "fr": "El Menia",
+      "de": "El Menia",
+      "tr": "El Menia",
+      "ur": "El Menia",
+      "id": "El Menia",
+      "es": "El Menia",
+      "bn": "El Menia",
+      "ms": "El Menia"
+    },
+    "aliases": {
+      "ar": [
+        "المنيعة",
+        "المنیه",
+        "المنیہ",
+        "almnyہ"
+      ],
+      "en": [
+        "Al-Mania",
+        "ELG",
+        "Ehl'-Golea",
+        "Ehl'-Menija",
+        "El Golea",
+        "El Goléa",
+        "El Meniaa",
+        "ElMeniaa",
+        "Goleja",
+        "Golėja",
+        "ala meni'a",
+        "ala meniya",
+        "almnyh",
+        "ela meniya",
+        "eru・menia",
+        "gu lai a",
+        "ʿeል meniya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية المنيعة",
+      "regionEn": "El Meniaa Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2498305",
+    "verified": true
+  },
+  {
+    "slug": "el-bayadh",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 33.68318,
+    "lng": 1.01927,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "البيض",
+      "en": "El Bayadh",
+      "fr": "El Bayadh",
+      "de": "El Bayadh",
+      "tr": "El Bayadh",
+      "ur": "El Bayadh",
+      "id": "El Bayadh",
+      "es": "El Bayadh",
+      "bn": "El Bayadh",
+      "ms": "El Bayadh"
+    },
+    "aliases": {
+      "ar": [
+        "البيض",
+        "البیاض",
+        "ولاية البيض",
+        "البلیده"
+      ],
+      "en": [
+        "EBH",
+        "Ehl'-Bajad",
+        "El-Bayadh",
+        "Geryville",
+        "Géryville",
+        "Prowincja El Bayadh",
+        "Wilaya de El Bayadh",
+        "ala bayada",
+        "ala bayadha",
+        "alblydh",
+        "albyad",
+        "albyd",
+        "ela bayadha",
+        "eru・bayado",
+        "wlayt albyd",
+        "ʿeል bayadi"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية البيض",
+      "regionEn": "El Bayadh Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2498543",
+    "verified": true
+  },
+  {
+    "slug": "chlef",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.16525,
+    "lng": 1.33452,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أورليانفيل",
+      "en": "Chlef",
+      "fr": "Chlef",
+      "de": "Chlef",
+      "tr": "Chlef",
+      "ur": "Chlef",
+      "id": "Chlef",
+      "es": "Chlef",
+      "bn": "Chlef",
+      "ms": "Chlef"
+    },
+    "aliases": {
+      "ar": [
+        "الأصنام",
+        "الشلف",
+        "شلف",
+        "كاستيليوم تانجيتانيوم",
+        "كستلم تنجيتانم"
+      ],
+      "en": [
+        "CFK",
+        "Castellum Tingitanum",
+        "Ech Cheliff",
+        "Ech Chlef",
+        "El Asnam",
+        "Hlef",
+        "Khlef",
+        "Orleansville",
+        "Orléansville",
+        "Selifas",
+        "Shlef",
+        "Szalif",
+        "al-Asnam",
+        "al-Asnām",
+        "al-Aṣnām",
+        "alasnam",
+        "alshlf",
+        "as-Salif",
+        "asch-Schalif",
+        "ash-Shalif",
+        "awrlyanfyl",
+        "aš-Šalif",
+        "calepha",
+        "chalepha",
+        "halepha",
+        "kastylywm tanjytanywm",
+        "kileፍ",
+        "kstlm tnjytanm",
+        "shlf",
+        "shurefu",
+        "xie li fu",
+        "Šelifas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الشلف",
+      "regionEn": "Chlef Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2498611",
+    "verified": true
+  },
+  {
+    "slug": "el-achir",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.06386,
+    "lng": 4.62744,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "اليشير",
+      "en": "El Achir",
+      "fr": "El Achir",
+      "de": "El Achir",
+      "tr": "El Achir",
+      "ur": "El Achir",
+      "id": "El Achir",
+      "es": "El Achir",
+      "bn": "El Achir",
+      "ms": "El Achir"
+    },
+    "aliases": {
+      "en": [
+        "alyshyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية برج بوعريريج",
+      "regionEn": "Bordj Bou Arréridj Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2498766",
+    "verified": true
+  },
+  {
+    "slug": "djelfa",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 34.67279,
+    "lng": 3.263,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "الجلفة",
+      "en": "Djelfa",
+      "fr": "Djelfa",
+      "de": "Djelfa",
+      "tr": "Djelfa",
+      "ur": "Djelfa",
+      "id": "Djelfa",
+      "es": "Djelfa",
+      "bn": "Djelfa",
+      "ms": "Djelfa"
+    },
+    "aliases": {
+      "ar": [
+        "الجلفة",
+        "جلفه",
+        "جلفہ",
+        "ولاية الجلفة",
+        "jlfہ"
+      ],
+      "en": [
+        "Dzhelfa",
+        "Dzilfa",
+        "Dżilfa",
+        "Jelfa",
+        "QDJ",
+        "aljlft",
+        "dajelapha",
+        "jelapha",
+        "jerufa",
+        "jiልፋ",
+        "jlfh",
+        "wlayt aljlft"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الجلفة",
+      "regionEn": "Djelfa Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2500017",
+    "verified": true
+  },
+  {
+    "slug": "djanet",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 24.55528,
+    "lng": 9.485,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "جانت",
+      "en": "Djanet",
+      "fr": "Djanet",
+      "de": "Djanet",
+      "tr": "Djanet",
+      "ur": "Djanet",
+      "id": "Djanet",
+      "es": "Djanet",
+      "bn": "Djanet",
+      "ms": "Djanet"
+    },
+    "aliases": {
+      "en": [
+        "DJG",
+        "Dzanat",
+        "Dzanetas",
+        "Dzhanet",
+        "Dżanat",
+        "Džanetas",
+        "Fort Charlet",
+        "Janet",
+        "dajaineta",
+        "gu nai te",
+        "janeta",
+        "janeteu",
+        "janetto",
+        "jant",
+        "jaነti"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية جانت",
+      "regionEn": "Djanet Province"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:2500275",
+    "verified": true
+  },
+  {
+    "slug": "bou-saada",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 35.20855,
+    "lng": 4.17402,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بلد السعادة",
+      "en": "Bou Saâda",
+      "fr": "Bou Saâda",
+      "de": "Bou Saâda",
+      "tr": "Bou Saâda",
+      "ur": "Bou Saâda",
+      "id": "Bou Saâda",
+      "es": "Bou Saâda",
+      "bn": "Bou Saâda",
+      "ms": "Bou Saâda"
+    },
+    "aliases": {
+      "ar": [
+        "بو سعادة",
+        "بوابة الصحراء",
+        "بوسعادة",
+        "مدينة العظماء"
+      ],
+      "en": [
+        "Bou Saada",
+        "Bou Sada",
+        "Bu Sada",
+        "bld alsʿadt",
+        "bw sʿadt",
+        "bwabt alshraʾ",
+        "bwsʿadt",
+        "mdynt alʿzmaʾ"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية المسيلة",
+      "regionEn": "M'Sila Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2502385",
+    "verified": true
+  },
+  {
+    "slug": "bouira",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.37489,
+    "lng": 3.902,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "البويرة",
+      "en": "Bouïra",
+      "fr": "Bouïra",
+      "de": "Bouïra",
+      "tr": "Bouïra",
+      "ur": "Bouïra",
+      "id": "Bouïra",
+      "es": "Bouïra",
+      "bn": "Bouïra",
+      "ms": "Bouïra"
+    },
+    "aliases": {
+      "ar": [
+        "البويرة",
+        "بویره",
+        "بویرہ",
+        "bwyrہ"
+      ],
+      "en": [
+        "Bouira",
+        "Buira",
+        "QBZ",
+        "albwyrt",
+        "bau'ira",
+        "bo'ira",
+        "bowira",
+        "bu'ira",
+        "buira",
+        "bwyrh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية البويرة",
+      "regionEn": "Bouïra Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2502958",
+    "verified": true
+  },
+  {
+    "slug": "boudouaou",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.72735,
+    "lng": 3.40995,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بودواو",
+      "en": "Boudouaou",
+      "fr": "Boudouaou",
+      "de": "Boudouaou",
+      "tr": "Boudouaou",
+      "ur": "Boudouaou",
+      "id": "Boudouaou",
+      "es": "Boudouaou",
+      "bn": "Boudouaou",
+      "ms": "Boudouaou"
+    },
+    "aliases": {
+      "en": [
+        "Alma",
+        "L'Alma",
+        "L’Alma",
+        "bwdwaw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية بومرداس",
+      "regionEn": "Boumerdès Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2503229",
+    "verified": true
+  },
+  {
+    "slug": "bordj-el-kiffan",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.74871,
+    "lng": 3.19249,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "برج الكيفان",
+      "en": "Bordj el Kiffan",
+      "fr": "Bordj el Kiffan",
+      "de": "Bordj el Kiffan",
+      "tr": "Bordj el Kiffan",
+      "ur": "Bordj el Kiffan",
+      "id": "Bordj el Kiffan",
+      "es": "Bordj el Kiffan",
+      "bn": "Bordj el Kiffan",
+      "ms": "Bordj el Kiffan"
+    },
+    "aliases": {
+      "en": [
+        "Bordj El Kifan",
+        "Fort de l'Eau",
+        "Fort de l’Eau",
+        "brj alkyfan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الجزائر",
+      "regionEn": "Algiers Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2503661",
+    "verified": true
+  },
+  {
+    "slug": "bordj-el-bahri",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.79068,
+    "lng": 3.24952,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "برج البحري",
+      "en": "Bordj el Bahri",
+      "fr": "Bordj el Bahri",
+      "de": "Bordj el Bahri",
+      "tr": "Bordj el Bahri",
+      "ur": "Bordj el Bahri",
+      "id": "Bordj el Bahri",
+      "es": "Bordj el Bahri",
+      "bn": "Bordj el Bahri",
+      "ms": "Bordj el Bahri"
+    },
+    "aliases": {
+      "ar": [
+        "رأس ماتيفو",
+        "كاب ماتيفو",
+        "ماتيفو"
+      ],
+      "en": [
+        "Cap Matifou",
+        "Matifou",
+        "brj albhry",
+        "kab matyfw",
+        "matyfw",
+        "ras matyfw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الجزائر",
+      "regionEn": "Algiers Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2503669",
+    "verified": true
+  },
+  {
+    "slug": "bordj-bou-arreridj",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.07389,
+    "lng": 4.76139,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "برج بوعريريج",
+      "en": "Bordj Bou Arreridj",
+      "fr": "Bordj Bou Arreridj",
+      "de": "Bordj Bou Arreridj",
+      "tr": "Bordj Bou Arreridj",
+      "ur": "Bordj Bou Arreridj",
+      "id": "Bordj Bou Arreridj",
+      "es": "Bordj Bou Arreridj",
+      "bn": "Bordj Bou Arreridj",
+      "ms": "Bordj Bou Arreridj"
+    },
+    "aliases": {
+      "ar": [
+        "برج بوعریریج"
+      ],
+      "en": [
+        "Bordj Bou Arerridj",
+        "Bordj Bou Arréridj",
+        "Bordj-Bou-Arreridj",
+        "BordjBouArreridj",
+        "Bordzh-Bu-Arreridzh",
+        "Borj Bu Arrerij",
+        "Burdz Bu Urajridz",
+        "Burdż Bu Urajridż",
+        "QBJ",
+        "boraja bu arerija",
+        "boriji bo ʿeririji",
+        "borja bu arerija",
+        "borja bu arrerija",
+        "boruji・bu・areridoji",
+        "brj bwʿryryj"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية برج بوعريريج",
+      "regionEn": "Bordj Bou Arréridj Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2503701",
+    "verified": true
+  },
+  {
+    "slug": "boghni",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.54222,
+    "lng": 3.95306,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بوغني",
+      "en": "Boghni",
+      "fr": "Boghni",
+      "de": "Boghni",
+      "tr": "Boghni",
+      "ur": "Boghni",
+      "id": "Boghni",
+      "es": "Boghni",
+      "bn": "Boghni",
+      "ms": "Boghni"
+    },
+    "aliases": {
+      "en": [
+        "Boghari",
+        "Borhni",
+        "Bughni",
+        "Bugni",
+        "Būghnī",
+        "Būġnī",
+        "bwghny"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية تيزي وزو",
+      "regionEn": "Tizi Ouzou Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2503755",
+    "verified": true
+  },
+  {
+    "slug": "biskra",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 34.85038,
+    "lng": 5.72805,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بسكرة",
+      "en": "Biskra",
+      "fr": "Biskra",
+      "de": "Biskra",
+      "tr": "Biskra",
+      "ur": "Biskra",
+      "id": "Biskra",
+      "es": "Biskra",
+      "bn": "Biskra",
+      "ms": "Biskra"
+    },
+    "aliases": {
+      "ar": [
+        "بسكرة",
+        "بسکره",
+        "بسکرہ",
+        "ولاية بسكرة",
+        "bskrہ"
+      ],
+      "en": [
+        "BSK",
+        "Biskira",
+        "Briskra",
+        "Tibeskert",
+        "bi si ke la",
+        "bisakara",
+        "bisakra",
+        "biseukeula",
+        "bisikira",
+        "bisukura",
+        "bskrh",
+        "bskrt",
+        "wlayt bskrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية بسكرة",
+      "regionEn": "Biskra Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2503826",
+    "verified": true
+  },
+  {
+    "slug": "beni-abbes",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 30.13306,
+    "lng": -2.16611,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بني عباس",
+      "en": "Béni Abbès",
+      "fr": "Béni Abbès",
+      "de": "Béni Abbès",
+      "tr": "Béni Abbès",
+      "ur": "Béni Abbès",
+      "id": "Béni Abbès",
+      "es": "Béni Abbès",
+      "bn": "Béni Abbès",
+      "ms": "Béni Abbès"
+    },
+    "aliases": {
+      "ar": [
+        "بنی عباس"
+      ],
+      "en": [
+        "Beni Abbas",
+        "Beni Abbes",
+        "Beni Abbès",
+        "Beni-Abbes",
+        "BeniAbbes",
+        "beni ababasa",
+        "beni abbesa",
+        "beni ayabesa",
+        "beni ʿebesi",
+        "beni・abesu",
+        "bny ʿbas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية بني عباس",
+      "regionEn": "Béni Abbès Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2504755",
+    "verified": true
+  },
+  {
+    "slug": "bechar",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 31.61667,
+    "lng": -2.21667,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بشار",
+      "en": "Béchar",
+      "fr": "Béchar",
+      "de": "Béchar",
+      "tr": "Béchar",
+      "ur": "Béchar",
+      "id": "Béchar",
+      "es": "Béchar",
+      "bn": "Béchar",
+      "ms": "Béchar"
+    },
+    "aliases": {
+      "ar": [
+        "بشار، الجزایر",
+        "بیشار"
+      ],
+      "en": [
+        "Basyar",
+        "Baszszar",
+        "Bechar",
+        "Besar",
+        "Besaras",
+        "Beshar",
+        "Beshare",
+        "Bexar",
+        "Beşar",
+        "Bešaras",
+        "CBH",
+        "Colomb-Bechar",
+        "Colomb-Béchar",
+        "Wilaya de Beshar",
+        "becara",
+        "becari",
+        "bei sha er",
+        "besharu",
+        "besyaleu",
+        "bshar",
+        "bshar  aljzayr",
+        "byshar"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية بشار",
+      "regionEn": "Béchar Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2505530",
+    "verified": true
+  },
+  {
+    "slug": "barika",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 35.38901,
+    "lng": 5.36584,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "بريكة",
+      "en": "Barika",
+      "fr": "Barika",
+      "de": "Barika",
+      "tr": "Barika",
+      "ur": "Barika",
+      "id": "Barika",
+      "es": "Barika",
+      "bn": "Barika",
+      "ms": "Barika"
+    },
+    "aliases": {
+      "en": [
+        "ZZB",
+        "brykt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية باتنة",
+      "regionEn": "Batna Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2505629",
+    "verified": true
+  },
+  {
+    "slug": "baraki",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.66655,
+    "lng": 3.09606,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "براقي",
+      "en": "Baraki",
+      "fr": "Baraki",
+      "de": "Baraki",
+      "tr": "Baraki",
+      "ur": "Baraki",
+      "id": "Baraki",
+      "es": "Baraki",
+      "bn": "Baraki",
+      "ms": "Baraki"
+    },
+    "aliases": {
+      "en": [
+        "braqy"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الجزائر",
+      "regionEn": "Algiers Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2505653",
+    "verified": true
+  },
+  {
+    "slug": "bab-ezzouar",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 36.72615,
+    "lng": 3.18291,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "باب الزوار",
+      "en": "Bab Ezzouar",
+      "fr": "Bab Ezzouar",
+      "de": "Bab Ezzouar",
+      "tr": "Bab Ezzouar",
+      "ur": "Bab Ezzouar",
+      "id": "Bab Ezzouar",
+      "es": "Bab Ezzouar",
+      "bn": "Bab Ezzouar",
+      "ms": "Bab Ezzouar"
+    },
+    "aliases": {
+      "ar": [
+        "باب‌الزوار"
+      ],
+      "en": [
+        "Le Retour de la Chasse",
+        "bab alzwar",
+        "bab‌alzwar"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية الجزائر",
+      "regionEn": "Algiers Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2505854",
+    "verified": true
+  },
+  {
+    "slug": "arzew",
+    "type": "town",
+    "countryCode": "dz",
+    "lat": 35.85048,
+    "lng": -0.318,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أرزيو",
+      "en": "Arzew",
+      "fr": "Arzew",
+      "de": "Arzew",
+      "tr": "Arzew",
+      "ur": "Arzew",
+      "id": "Arzew",
+      "es": "Arzew",
+      "bn": "Arzew",
+      "ms": "Arzew"
+    },
+    "aliases": {
+      "ar": [
+        "سان لو"
+      ],
+      "en": [
+        "Arzen",
+        "Arzeu",
+        "QAE",
+        "Saint-Leu",
+        "arzyw",
+        "san lw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية وهران",
+      "regionEn": "Oran Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2506385",
+    "verified": true
+  },
+  {
+    "slug": "adrar",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 27.87429,
+    "lng": -0.29388,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "أدرار",
+      "en": "Adrar",
+      "fr": "Adrar",
+      "de": "Adrar",
+      "tr": "Adrar",
+      "ur": "Adrar",
+      "id": "Adrar",
+      "es": "Adrar",
+      "bn": "Adrar",
+      "ms": "Adrar"
+    },
+    "aliases": {
+      "ar": [
+        "ادرار",
+        "ادرار، الجزائر"
+      ],
+      "en": [
+        "AZR",
+        "Adraras",
+        "a de la er",
+        "adarara",
+        "adeulaleu",
+        "adoraru",
+        "adrar  aljzayr",
+        "adrara",
+        "xa drar",
+        "ʿedirari"
+      ]
+    },
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria",
+      "regionAr": "ولاية أدرار",
+      "regionEn": "Adrar Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2508813",
+    "verified": true
+  },
+  {
+    "slug": "zaghouan",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.40291,
+    "lng": 10.14292,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "زغوان",
+      "en": "Zaghouan",
+      "fr": "Zaghouan",
+      "de": "Zaghouan",
+      "tr": "Zaghouan",
+      "ur": "Zaghouan",
+      "id": "Zaghouan",
+      "es": "Zaghouan",
+      "bn": "Zaghouan",
+      "ms": "Zaghouan"
+    },
+    "aliases": {
+      "en": [
+        "Zaghouane",
+        "Zaghwan",
+        "Zaghwān",
+        "Zaguan",
+        "Zagvan",
+        "Zankouan",
+        "Zarhouan",
+        "Zağvan",
+        "Zaɣwan",
+        "jaguwan",
+        "jaguyana",
+        "zagavana",
+        "zagu'ana",
+        "zaguan",
+        "zai ge wan",
+        "zaግwani",
+        "zghwan"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية زغوان",
+      "regionEn": "Zaghouan Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2464041",
+    "verified": true
+  },
+  {
+    "slug": "tozeur",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 33.91968,
+    "lng": 8.13352,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "توزر",
+      "en": "Tozeur",
+      "fr": "Tozeur",
+      "de": "Tozeur",
+      "tr": "Tozeur",
+      "ur": "Tozeur",
+      "id": "Tozeur",
+      "es": "Tozeur",
+      "bn": "Tozeur",
+      "ms": "Tozeur"
+    },
+    "aliases": {
+      "en": [
+        "TOE",
+        "Tauzar",
+        "Tauzaras",
+        "Tawzar",
+        "Thusuros",
+        "Tozer",
+        "Tuzer",
+        "toje'ura",
+        "tojoeleu",
+        "toze'ura",
+        "tozeri",
+        "tozuru",
+        "tuo ze er",
+        "twzr"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية توزر",
+      "regionEn": "Tozeur Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2464648",
+    "verified": true
+  },
+  {
+    "slug": "tataouine",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 32.92967,
+    "lng": 10.45177,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "تطاوين",
+      "en": "Tataouine",
+      "fr": "Tataouine",
+      "de": "Tataouine",
+      "tr": "Tataouine",
+      "ur": "Tataouine",
+      "id": "Tataouine",
+      "es": "Tataouine",
+      "bn": "Tataouine",
+      "ms": "Tataouine"
+    },
+    "aliases": {
+      "ar": [
+        "تطاوین"
+      ],
+      "en": [
+        "Foum Tatahouine",
+        "Foum Tataouine",
+        "Fum Tatawin",
+        "Fum Taţāwīn",
+        "Fumm Tattauin",
+        "Tatahouine",
+        "Tatahouïne",
+        "Tatauin",
+        "Tatavin",
+        "Tatavinas",
+        "Tatawin",
+        "Taţāwīn",
+        "tai ta wen",
+        "tata'u'ina",
+        "tatau-in",
+        "tatauinu",
+        "tatavina",
+        "tataውyini",
+        "ttawyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية تطاوين",
+      "regionEn": "Tataouine Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2464701",
+    "verified": true
+  },
+  {
+    "slug": "teboulba",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 35.64018,
+    "lng": 10.96731,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "ريج",
+      "en": "Teboulba",
+      "fr": "Teboulba",
+      "de": "Teboulba",
+      "tr": "Teboulba",
+      "ur": "Teboulba",
+      "id": "Teboulba",
+      "es": "Teboulba",
+      "bn": "Teboulba",
+      "ms": "Teboulba"
+    },
+    "aliases": {
+      "ar": [
+        "طبلبة"
+      ],
+      "en": [
+        "Tabulbah",
+        "Tebulba",
+        "ryj",
+        "tblbt",
+        "Ţabulbah"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية المنستير",
+      "regionEn": "Monastir Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2464861",
+    "verified": true
+  },
+  {
+    "slug": "sukrah",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 36.87744,
+    "lng": 10.2468,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "سكرة",
+      "en": "Sukrah",
+      "fr": "Sukrah",
+      "de": "Sukrah",
+      "tr": "Sukrah",
+      "ur": "Sukrah",
+      "id": "Sukrah",
+      "es": "Sukrah",
+      "bn": "Sukrah",
+      "ms": "Sukrah"
+    },
+    "aliases": {
+      "en": [
+        "La Soukra",
+        "Soukra",
+        "skrt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية أريانة",
+      "regionEn": "Ariana Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2464960",
+    "verified": true
+  },
+  {
+    "slug": "siliana",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.08497,
+    "lng": 9.37082,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "سليانة",
+      "en": "Siliana",
+      "fr": "Siliana",
+      "de": "Siliana",
+      "tr": "Siliana",
+      "ur": "Siliana",
+      "id": "Siliana",
+      "es": "Siliana",
+      "bn": "Siliana",
+      "ms": "Siliana"
+    },
+    "aliases": {
+      "ar": [
+        "سليانة",
+        "سلیانه",
+        "سلیانہ",
+        "slyanہ"
+      ],
+      "en": [
+        "Silyanah",
+        "Silyānah",
+        "Souk el Kremis",
+        "shiriana",
+        "sili'ana",
+        "siliyana",
+        "slyanh",
+        "slyant"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية سليانة",
+      "regionEn": "Siliana Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2465030",
+    "verified": true
+  },
+  {
+    "slug": "sidi-bouzid",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 35.03823,
+    "lng": 9.48494,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "سيدي بوزيد",
+      "en": "Sidi Bouzid",
+      "fr": "Sidi Bouzid",
+      "de": "Sidi Bouzid",
+      "tr": "Sidi Bouzid",
+      "ur": "Sidi Bouzid",
+      "id": "Sidi Bouzid",
+      "es": "Sidi Bouzid",
+      "bn": "Sidi Bouzid",
+      "ms": "Sidi Bouzid"
+    },
+    "aliases": {
+      "ar": [
+        "سیدی بوزید"
+      ],
+      "en": [
+        "Gammouda",
+        "Qamudah",
+        "Qamūdah",
+        "Sidi Bou Zid",
+        "Sidi Bu Zajd",
+        "Sidi Bu Zayd",
+        "Sidi Bu Zeyd",
+        "Sidi Bu Zid",
+        "Sidi-Bouzid",
+        "Sidi-Bu-Zid",
+        "Sidi-Buzid",
+        "Sinti Bouzint",
+        "Szidi Bu Zid",
+        "Szidi Bú Zid",
+        "Sídí Bú Zíd",
+        "Sīdī Bū Zayd",
+        "shidi・bujido",
+        "sidi baujida",
+        "sidi buzodi",
+        "sidibujideu",
+        "sydy bwzyd",
+        "xi di bu ji de"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية سيدي بوزيد",
+      "regionEn": "Sidi Bouzid Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2465840",
+    "verified": true
+  },
+  {
+    "slug": "rades",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 36.76946,
+    "lng": 10.27468,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "رادس",
+      "en": "Radès",
+      "fr": "Radès",
+      "de": "Radès",
+      "tr": "Radès",
+      "ur": "Radès",
+      "id": "Radès",
+      "es": "Radès",
+      "bn": "Radès",
+      "ms": "Radès"
+    },
+    "aliases": {
+      "en": [
+        "Maxula",
+        "Maxula-Rades",
+        "Maxula-Radès",
+        "Rades",
+        "Radesas",
+        "Radis",
+        "Rādis",
+        "la di si",
+        "ladeseu",
+        "radesu",
+        "rads"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية بن عروس",
+      "regionEn": "Ben Arous Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2467815",
+    "verified": true
+  },
+  {
+    "slug": "ksour-essaf",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 35.41808,
+    "lng": 10.99475,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "قصور الساف",
+      "en": "Ksour Essaf",
+      "fr": "Ksour Essaf",
+      "de": "Ksour Essaf",
+      "tr": "Ksour Essaf",
+      "ur": "Ksour Essaf",
+      "id": "Ksour Essaf",
+      "es": "Ksour Essaf",
+      "bn": "Ksour Essaf",
+      "ms": "Ksour Essaf"
+    },
+    "aliases": {
+      "en": [
+        "Ksour Essef",
+        "Ksursef",
+        "Qsour Essaf",
+        "Qusur as Saf",
+        "Quşūr as Sāf",
+        "qswr alsaf"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية المهدية",
+      "regionEn": "Mahdia Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2467856",
+    "verified": true
+  },
+  {
+    "slug": "kelibia",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 36.84757,
+    "lng": 11.09386,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "قليبية",
+      "en": "Kélibia",
+      "fr": "Kélibia",
+      "de": "Kélibia",
+      "tr": "Kélibia",
+      "ur": "Kélibia",
+      "id": "Kélibia",
+      "es": "Kélibia",
+      "bn": "Kélibia",
+      "ms": "Kélibia"
+    },
+    "aliases": {
+      "en": [
+        "Clupea",
+        "Gallipia",
+        "Kelibia",
+        "Kelibija",
+        "Klibia",
+        "Qulaybiyah",
+        "Qulaybīyah",
+        "qlybyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية نابل",
+      "regionEn": "Nabeul Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2467959",
+    "verified": true
+  },
+  {
+    "slug": "kebili",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 33.70439,
+    "lng": 8.96903,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "قبلي",
+      "en": "Kebili",
+      "fr": "Kebili",
+      "de": "Kebili",
+      "tr": "Kebili",
+      "ur": "Kebili",
+      "id": "Kebili",
+      "es": "Kebili",
+      "bn": "Kebili",
+      "ms": "Kebili"
+    },
+    "aliases": {
+      "ar": [
+        "قبلی"
+      ],
+      "en": [
+        "Kébili",
+        "Qibili",
+        "Qibilī",
+        "kebiri",
+        "qbly",
+        "qebili"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية قبلي",
+      "regionEn": "Kebili Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2468018",
+    "verified": true
+  },
+  {
+    "slug": "gafsa",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 34.425,
+    "lng": 8.78417,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "قفصة",
+      "en": "Gafsa",
+      "fr": "Gafsa",
+      "de": "Gafsa",
+      "tr": "Gafsa",
+      "ur": "Gafsa",
+      "id": "Gafsa",
+      "es": "Gafsa",
+      "bn": "Gafsa",
+      "ms": "Gafsa"
+    },
+    "aliases": {
+      "ar": [
+        "قفصة",
+        "قفصه",
+        "قفصہ",
+        "ڤفصة",
+        "qfsہ"
+      ],
+      "en": [
+        "Capsa",
+        "GAF",
+        "Gafsah",
+        "Gafso",
+        "Gafşah",
+        "Justiniania",
+        "Kafsa",
+        "Qafsa",
+        "Qafsah",
+        "Qafşah",
+        "gafasa",
+        "gafusa",
+        "gapeusa",
+        "gaphasa",
+        "gaፋsa",
+        "jia fu sa",
+        "kaf sa",
+        "qfsh",
+        "qfst",
+        "vfst"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية قفصة",
+      "regionEn": "Gafsa Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2468353",
+    "verified": true
+  },
+  {
+    "slug": "nabeul",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.45606,
+    "lng": 10.73763,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "نابل",
+      "en": "Nabeul",
+      "fr": "Nabeul",
+      "de": "Nabeul",
+      "tr": "Nabeul",
+      "ur": "Nabeul",
+      "id": "Nabeul",
+      "es": "Nabeul",
+      "bn": "Nabeul",
+      "ms": "Nabeul"
+    },
+    "aliases": {
+      "en": [
+        "Nabel",
+        "Naboel",
+        "Nabul",
+        "Nābul",
+        "nabela",
+        "nabeል",
+        "nabl",
+        "naburu"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية نابل",
+      "regionEn": "Nabeul Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2468579",
+    "verified": true
+  },
+  {
+    "slug": "msaken",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 35.72917,
+    "lng": 10.58082,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "مساكن",
+      "en": "Msaken",
+      "fr": "Msaken",
+      "de": "Msaken",
+      "tr": "Msaken",
+      "ur": "Msaken",
+      "id": "Msaken",
+      "es": "Msaken",
+      "bn": "Msaken",
+      "ms": "Msaken"
+    },
+    "aliases": {
+      "en": [
+        "M'saken",
+        "Masakin",
+        "Masākin",
+        "Msaker",
+        "msakn"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية سوسة",
+      "regionEn": "Sousse Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2469140",
+    "verified": true
+  },
+  {
+    "slug": "menzel-bourguiba",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 37.15368,
+    "lng": 9.78594,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "منزل بورقيبة",
+      "en": "Menzel Bourguiba",
+      "fr": "Menzel Bourguiba",
+      "de": "Menzel Bourguiba",
+      "tr": "Menzel Bourguiba",
+      "ur": "Menzel Bourguiba",
+      "id": "Menzel Bourguiba",
+      "es": "Menzel Bourguiba",
+      "bn": "Menzel Bourguiba",
+      "ms": "Menzel Bourguiba"
+    },
+    "aliases": {
+      "en": [
+        "Bourguiba",
+        "Ferryville",
+        "Manzil Bu Ruqaybah",
+        "Manzil Burgibah",
+        "Manzil Bū Ruqaybah",
+        "Manzil Būrgībah",
+        "Sidi Fath Allah",
+        "Sīdī Fatḩ Allāh",
+        "mnzl bwrqybt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية بنزرت",
+      "regionEn": "Bizerte Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2469264",
+    "verified": true
+  },
+  {
+    "slug": "manouba",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.81006,
+    "lng": 10.09557,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "منوبة",
+      "en": "Manouba",
+      "fr": "Manouba",
+      "de": "Manouba",
+      "tr": "Manouba",
+      "ur": "Manouba",
+      "id": "Manouba",
+      "es": "Manouba",
+      "bn": "Manouba",
+      "ms": "Manouba"
+    },
+    "aliases": {
+      "ar": [
+        "منوبة",
+        "منوبه",
+        "منوبہ",
+        "mnwbہ"
+      ],
+      "en": [
+        "La Manouba",
+        "La Manoumpa",
+        "Manuba",
+        "Manubah",
+        "Manūbah",
+        "ma nu ba",
+        "manauba",
+        "manoba",
+        "manuba",
+        "mnwbh",
+        "mnwbt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية منوبة",
+      "regionEn": "Manouba Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2469274",
+    "verified": true
+  },
+  {
+    "slug": "medenine",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 33.35495,
+    "lng": 10.50548,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "مدنين",
+      "en": "Medenine",
+      "fr": "Medenine",
+      "de": "Medenine",
+      "tr": "Medenine",
+      "ur": "Medenine",
+      "id": "Medenine",
+      "es": "Medenine",
+      "bn": "Medenine",
+      "ms": "Medenine"
+    },
+    "aliases": {
+      "ar": [
+        "مدنین"
+      ],
+      "en": [
+        "Madanin",
+        "Madanīn",
+        "Medenin",
+        "Medenina",
+        "Medeninas",
+        "Mednin",
+        "Mentenin",
+        "Médenine",
+        "mdnyn",
+        "medena'ina",
+        "medenin",
+        "medenina",
+        "medeniyini",
+        "medeunin",
+        "mei de ning"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية مدنين",
+      "regionEn": "Medenine Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2469473",
+    "verified": true
+  },
+  {
+    "slug": "jendouba",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.50114,
+    "lng": 8.78024,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "جندوبة",
+      "en": "Jendouba",
+      "fr": "Jendouba",
+      "de": "Jendouba",
+      "tr": "Jendouba",
+      "ur": "Jendouba",
+      "id": "Jendouba",
+      "es": "Jendouba",
+      "bn": "Jendouba",
+      "ms": "Jendouba"
+    },
+    "aliases": {
+      "ar": [
+        "جندوبة",
+        "جندوبه",
+        "جندوبہ",
+        "jndwbہ"
+      ],
+      "en": [
+        "Dzhenduba",
+        "Jenduba",
+        "Jundubah",
+        "Jundūbah",
+        "Souk el Arba",
+        "Souq el Arba",
+        "Suq al Arba`a'",
+        "Sūq al Arba‘ā’",
+        "jendauba",
+        "jendo'uba",
+        "jendoba",
+        "jeniduba",
+        "jndwbh",
+        "jndwbt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية جندوبة",
+      "regionEn": "Jendouba Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2470088",
+    "verified": true
+  },
+  {
+    "slug": "zarzis",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 33.50398,
+    "lng": 11.11215,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "جرجيس",
+      "en": "Zarzis",
+      "fr": "Zarzis",
+      "de": "Zarzis",
+      "tr": "Zarzis",
+      "ur": "Zarzis",
+      "id": "Zarzis",
+      "es": "Zarzis",
+      "bn": "Zarzis",
+      "ms": "Zarzis"
+    },
+    "aliases": {
+      "ar": [
+        "جرجیس"
+      ],
+      "en": [
+        "Dzardzis",
+        "Dzsardzsisz",
+        "Dzsardzsísz",
+        "Dżardżis",
+        "Jarjis",
+        "Jarjīs",
+        "Zarzia",
+        "Zerzis",
+        "jaleujiseu",
+        "jie er ji si",
+        "jrjys",
+        "zarujisu"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية مدنين",
+      "regionEn": "Medenine Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2470173",
+    "verified": true
+  },
+  {
+    "slug": "djemmal",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 35.62231,
+    "lng": 10.75696,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "جمال",
+      "en": "Djemmal",
+      "fr": "Djemmal",
+      "de": "Djemmal",
+      "tr": "Djemmal",
+      "ur": "Djemmal",
+      "id": "Djemmal",
+      "es": "Djemmal",
+      "bn": "Djemmal",
+      "ms": "Djemmal"
+    },
+    "aliases": {
+      "en": [
+        "Djemal",
+        "Djemmel",
+        "Dzhamal'",
+        "Jammal",
+        "Jammāl",
+        "Jemmal",
+        "jmal"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية المنستير",
+      "regionEn": "Monastir Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2470191",
+    "verified": true
+  },
+  {
+    "slug": "houmt-souk",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 33.87576,
+    "lng": 10.85745,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "حومة السوق",
+      "en": "Houmt Souk",
+      "fr": "Houmt Souk",
+      "de": "Houmt Souk",
+      "tr": "Houmt Souk",
+      "ur": "Houmt Souk",
+      "id": "Houmt Souk",
+      "es": "Houmt Souk",
+      "bn": "Houmt Souk",
+      "ms": "Houmt Souk"
+    },
+    "aliases": {
+      "ar": [
+        "حومه السوق",
+        "حومۃ السوق"
+      ],
+      "en": [
+        "DJE",
+        "Djerba",
+        "Hamut-es-Suk",
+        "Hawmat as Suq",
+        "Houmet Es Souk",
+        "Houmet Essouk",
+        "Houmt El Souk",
+        "Houmt Souq",
+        "Humk-Suk",
+        "Humt-Suk",
+        "Khumt-Suk",
+        "hao mai te su ge",
+        "hwmh alswq",
+        "hwmt alswq",
+        "Ḩawmat as Sūq"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية مدنين",
+      "regionEn": "Medenine Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2470384",
+    "verified": true
+  },
+  {
+    "slug": "hammam-lif",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 36.72866,
+    "lng": 10.34163,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "حمام الأنف",
+      "en": "Hammam-Lif",
+      "fr": "Hammam-Lif",
+      "de": "Hammam-Lif",
+      "tr": "Hammam-Lif",
+      "ur": "Hammam-Lif",
+      "id": "Hammam-Lif",
+      "es": "Hammam-Lif",
+      "bn": "Hammam-Lif",
+      "ms": "Hammam-Lif"
+    },
+    "aliases": {
+      "en": [
+        "Hammam al Anf",
+        "Hamman-Lif",
+        "Khammam-Lif",
+        "hmam alanf",
+        "Ḩammām al Anf"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية بن عروس",
+      "regionEn": "Ben Arous Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2470588",
+    "verified": true
+  },
+  {
+    "slug": "ben-gardane",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 33.13783,
+    "lng": 11.21965,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "بنڤردان",
+      "en": "Ben Gardane",
+      "fr": "Ben Gardane",
+      "de": "Ben Gardane",
+      "tr": "Ben Gardane",
+      "ur": "Ben Gardane",
+      "id": "Ben Gardane",
+      "es": "Ben Gardane",
+      "bn": "Ben Gardane",
+      "ms": "Ben Gardane"
+    },
+    "aliases": {
+      "en": [
+        "Ben Gardan",
+        "Ben-Gardan",
+        "Ben-Gardán",
+        "Bengardane",
+        "Benguerdene",
+        "Bin Guirdan",
+        "Bin Qirdan",
+        "Bin Qirdān",
+        "bnvrdan"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية مدنين",
+      "regionEn": "Medenine Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2472431",
+    "verified": true
+  },
+  {
+    "slug": "ben-arous",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.75452,
+    "lng": 10.22167,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "بن عروس",
+      "en": "Ben Arous",
+      "fr": "Ben Arous",
+      "de": "Ben Arous",
+      "tr": "Ben Arous",
+      "ur": "Ben Arous",
+      "id": "Ben Arous",
+      "es": "Ben Arous",
+      "bn": "Ben Arous",
+      "ms": "Ben Arous"
+    },
+    "aliases": {
+      "en": [
+        "Ben Arus",
+        "Ben Arusas",
+        "Ben-Arus",
+        "Bin Arous",
+        "Bin Arus",
+        "Bin `Arus",
+        "Bin ‘Arūs",
+        "Fochville",
+        "ben a lu si",
+        "ben'arusu",
+        "ben-aluseu",
+        "bena ara'usa",
+        "bena arasa",
+        "bena arusa",
+        "beni ʿerusi",
+        "bn ʿrws"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية بن عروس",
+      "regionEn": "Ben Arous Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2472479",
+    "verified": true
+  },
+  {
+    "slug": "le-bardo",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 36.81058,
+    "lng": 10.13481,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "باردو",
+      "en": "Le Bardo",
+      "fr": "Le Bardo",
+      "de": "Le Bardo",
+      "tr": "Le Bardo",
+      "ur": "Le Bardo",
+      "id": "Le Bardo",
+      "es": "Le Bardo",
+      "bn": "Le Bardo",
+      "ms": "Le Bardo"
+    },
+    "aliases": {
+      "en": [
+        "Bardau",
+        "Bardaw",
+        "Bardo",
+        "Bardu",
+        "Bārdaw",
+        "Bārdū",
+        "Il Bardo",
+        "ba er du",
+        "bardw"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية تونس",
+      "regionEn": "Tunis Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2472675",
+    "verified": true
+  },
+  {
+    "slug": "beja",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.72564,
+    "lng": 9.18169,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "باجة",
+      "en": "Béja",
+      "fr": "Béja",
+      "de": "Béja",
+      "tr": "Béja",
+      "ur": "Béja",
+      "id": "Béja",
+      "es": "Béja",
+      "bn": "Béja",
+      "ms": "Béja"
+    },
+    "aliases": {
+      "ar": [
+        "باجة",
+        "باجه",
+        "باجہ",
+        "bajہ"
+      ],
+      "en": [
+        "Bace",
+        "Badza",
+        "Badzha",
+        "Badża",
+        "Badža",
+        "Bajah",
+        "Batza",
+        "Bedja",
+        "Bedzha",
+        "Beja",
+        "Bājah",
+        "ba jie",
+        "bajh",
+        "bajt",
+        "beja"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية باجة",
+      "regionEn": "Béja Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2472774",
+    "verified": true
+  },
+  {
+    "slug": "aryanah",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.86012,
+    "lng": 10.19337,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "أريانة",
+      "en": "Aryanah",
+      "fr": "Aryanah",
+      "de": "Aryanah",
+      "tr": "Aryanah",
+      "ur": "Aryanah",
+      "id": "Aryanah",
+      "es": "Aryanah",
+      "bn": "Aryanah",
+      "ms": "Aryanah"
+    },
+    "aliases": {
+      "ar": [
+        "أريانة",
+        "أريانة‎",
+        "اريانة",
+        "اریانه",
+        "اریانہ",
+        "aryanہ"
+      ],
+      "en": [
+        "Ar'jana",
+        "Ariana",
+        "Arjana",
+        "Aryana",
+        "Aryānah",
+        "El Ariana",
+        "L'Ariana",
+        "L’Ariana",
+        "ai er ya nai",
+        "aliana",
+        "ari'ana",
+        "ariana",
+        "ariyana",
+        "ariyanaha",
+        "aryanh",
+        "aryant",
+        "aryant‎",
+        "ʿeriyana"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية أريانة",
+      "regionEn": "Ariana Governorate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2473247",
+    "verified": true
+  },
+  {
+    "slug": "kasserine",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 35.16758,
+    "lng": 8.83651,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "القصرين",
+      "en": "Kasserine",
+      "fr": "Kasserine",
+      "de": "Kasserine",
+      "tr": "Kasserine",
+      "ur": "Kasserine",
+      "id": "Kasserine",
+      "es": "Kasserine",
+      "bn": "Kasserine",
+      "ms": "Kasserine"
+    },
+    "aliases": {
+      "ar": [
+        "القصرین",
+        "قصرین"
+      ],
+      "en": [
+        "Al Kasrayn",
+        "Al Qasrayn",
+        "Al Qaşrayn",
+        "Al-Kasrajn",
+        "Kaserin",
+        "Kaserinas",
+        "Kassarin",
+        "Kasserin",
+        "Qasserine",
+        "alqsryn",
+        "ka sai lin",
+        "kasarina",
+        "kaselin",
+        "kaserina",
+        "kasiserini",
+        "kasurinu",
+        "qsryn"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية القصرين",
+      "regionEn": "Kasserine Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2473457",
+    "verified": true
+  },
+  {
+    "slug": "metlaoui",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 34.32081,
+    "lng": 8.40157,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "متلوي",
+      "en": "Metlaoui",
+      "fr": "Metlaoui",
+      "de": "Metlaoui",
+      "tr": "Metlaoui",
+      "ur": "Metlaoui",
+      "id": "Metlaoui",
+      "es": "Metlaoui",
+      "bn": "Metlaoui",
+      "ms": "Metlaoui"
+    },
+    "aliases": {
+      "en": [
+        "Al Metlaoui",
+        "Matlaoui",
+        "Metlaoni",
+        "Mitlawi",
+        "mtlwy"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية قفصة",
+      "regionEn": "Gafsa Governorate"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2473517",
+    "verified": true
+  },
+  {
+    "slug": "mahdia",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 35.50472,
+    "lng": 11.06222,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "المهدية",
+      "en": "Mahdia",
+      "fr": "Mahdia",
+      "de": "Mahdia",
+      "tr": "Mahdia",
+      "ur": "Mahdia",
+      "id": "Mahdia",
+      "es": "Mahdia",
+      "bn": "Mahdia",
+      "ms": "Mahdia"
+    },
+    "aliases": {
+      "ar": [
+        "المهدیه",
+        "مهدیه",
+        "مہدیہ"
+      ],
+      "en": [
+        "Africa",
+        "Al Mahdiyah",
+        "Al Mahdīyah",
+        "Al Mantigia",
+        "Al-Mahdijja",
+        "Madhia",
+        "Mahdija",
+        "Mahdiya",
+        "Mahedia",
+        "Makhdija",
+        "Mehdia",
+        "Mehdiye",
+        "Zella",
+        "almhdyh",
+        "almhdyt",
+        "ma he di ye",
+        "madia",
+        "mahadi'a",
+        "mahadiya",
+        "mahidiya",
+        "mhdyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية المهدية",
+      "regionEn": "Mahdia Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2473572",
+    "verified": true
+  },
+  {
+    "slug": "el-kef",
+    "type": "city",
+    "countryCode": "tn",
+    "lat": 36.17424,
+    "lng": 8.70486,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "الكاف",
+      "en": "El Kef",
+      "fr": "El Kef",
+      "de": "El Kef",
+      "tr": "El Kef",
+      "ur": "El Kef",
+      "id": "El Kef",
+      "es": "El Kef",
+      "bn": "El Kef",
+      "ms": "El Kef"
+    },
+    "aliases": {
+      "ar": [
+        "الکاف"
+      ],
+      "en": [
+        "Al Kaf",
+        "Al Kāf",
+        "Chakbanaria",
+        "Chikka Benar",
+        "Ehl'-Kef",
+        "Kef",
+        "Le Kef",
+        "Sicca Veneria",
+        "aila kepha",
+        "alkaf",
+        "ela kepha",
+        "erukefu",
+        "ʿeል keፍ"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية الكاف",
+      "regionEn": "Kef Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2473634",
+    "verified": true
+  },
+  {
+    "slug": "hammamet",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 36.4,
+    "lng": 10.61667,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "الحمامات",
+      "en": "Hammamet",
+      "fr": "Hammamet",
+      "de": "Hammamet",
+      "tr": "Hammamet",
+      "ur": "Hammamet",
+      "id": "Hammamet",
+      "es": "Hammamet",
+      "bn": "Hammamet",
+      "ms": "Hammamet"
+    },
+    "aliases": {
+      "ar": [
+        "حمامات، تیونس"
+      ],
+      "en": [
+        "Al Hammamat",
+        "Al Ḩammāmāt",
+        "Al-Hammamat",
+        "Hamametas",
+        "Khamamet",
+        "Khammamet",
+        "alhmamat",
+        "ha ma ma te",
+        "hammameteu",
+        "hanmametto",
+        "hmamat  tywns"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية نابل",
+      "regionEn": "Nabeul Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2473744",
+    "verified": true
+  },
+  {
+    "slug": "el-hamma",
+    "type": "town",
+    "countryCode": "tn",
+    "lat": 33.89152,
+    "lng": 9.79629,
+    "timezone": "Africa/Tunis",
+    "names": {
+      "ar": "الحامة",
+      "en": "El Hamma",
+      "fr": "El Hamma",
+      "de": "El Hamma",
+      "tr": "El Hamma",
+      "ur": "El Hamma",
+      "id": "El Hamma",
+      "es": "El Hamma",
+      "bn": "El Hamma",
+      "ms": "El Hamma"
+    },
+    "aliases": {
+      "en": [
+        "Al Hammah",
+        "Al Ḥāmmah",
+        "Al Ḩāmmah",
+        "Ehl'-Khamma",
+        "El Hamma de l'Arad",
+        "El Hamma de l’Arad",
+        "Hamma",
+        "alhamt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تونس",
+      "countryEn": "Tunisia",
+      "regionAr": "ولاية قابس",
+      "regionEn": "Gabès Governorate"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2473747",
+    "verified": true
+  },
+  {
+    "slug": "zouerat",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 22.73542,
+    "lng": -12.47134,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "ازويرات",
+      "en": "Zouérat",
+      "fr": "Zouérat",
+      "de": "Zouérat",
+      "tr": "Zouérat",
+      "ur": "Zouérat",
+      "id": "Zouérat",
+      "es": "Zouérat",
+      "bn": "Zouérat",
+      "ms": "Zouérat"
+    },
+    "aliases": {
+      "ar": [
+        "الزويرات",
+        "زویرات"
+      ],
+      "en": [
+        "Az Zuwayrat",
+        "Az Zuwayrāt",
+        "Azuwayrat",
+        "Azuwayrāt",
+        "OUZ",
+        "Zoueiratt",
+        "Zouerat",
+        "Zouerate",
+        "Zoueïratt",
+        "Zouirat",
+        "Zouérate",
+        "Zouîrât",
+        "Zuehrat",
+        "Zueratas",
+        "Zuerate",
+        "Zuwirat",
+        "Zuérate",
+        "alzwyrat",
+        "azwyrat",
+        "ju'erata",
+        "juyerata",
+        "zueratto",
+        "zuwerati",
+        "zwyrat"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية تيرس زمور",
+      "regionEn": "Tiris Zemmour Region"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2375558",
+    "verified": true
+  },
+  {
+    "slug": "tembedgha",
+    "type": "town",
+    "countryCode": "mr",
+    "lat": 16.24137,
+    "lng": -8.17321,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "تمبدغة",
+      "en": "Tembedgha",
+      "fr": "Tembedgha",
+      "de": "Tembedgha",
+      "tr": "Tembedgha",
+      "ur": "Tembedgha",
+      "id": "Tembedgha",
+      "es": "Tembedgha",
+      "bn": "Tembedgha",
+      "ms": "Tembedgha"
+    },
+    "aliases": {
+      "en": [
+        "TMD",
+        "Timbedgha",
+        "Timbedra",
+        "Timbédra",
+        "Timebedra",
+        "Timébédra",
+        "tmbdght"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية الحوض الشرقي",
+      "regionEn": "Hodh Ech Chargui Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2376115",
+    "verified": true
+  },
+  {
+    "slug": "tidjikja",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 18.55644,
+    "lng": -11.42715,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "تيجيكجة",
+      "en": "Tidjikja",
+      "fr": "Tidjikja",
+      "de": "Tidjikja",
+      "tr": "Tidjikja",
+      "ur": "Tidjikja",
+      "id": "Tidjikja",
+      "es": "Tidjikja",
+      "bn": "Tidjikja",
+      "ms": "Tidjikja"
+    },
+    "aliases": {
+      "ar": [
+        "تیجیکجا"
+      ],
+      "en": [
+        "Fort Cappolani",
+        "TIY",
+        "Tidjikdja",
+        "Tidzhdikdzha",
+        "Tijikja",
+        "tidijikija",
+        "tijikaja",
+        "tijikuja",
+        "tyjykja",
+        "tyjykjt"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية تكانت",
+      "regionEn": "Tagant Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2376193",
+    "verified": true
+  },
+  {
+    "slug": "selibaby",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 15.15846,
+    "lng": -12.1843,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "سيلبابي",
+      "en": "Sélibaby",
+      "fr": "Sélibaby",
+      "de": "Sélibaby",
+      "tr": "Sélibaby",
+      "ur": "Sélibaby",
+      "id": "Sélibaby",
+      "es": "Sélibaby",
+      "bn": "Sélibaby",
+      "ms": "Sélibaby"
+    },
+    "aliases": {
+      "ar": [
+        "سيليبابي",
+        "سیلیبابی"
+      ],
+      "en": [
+        "SEY",
+        "Saylibabi",
+        "Saylibābī",
+        "Seliba",
+        "Selibabi",
+        "Selibaby",
+        "Sélibabi",
+        "selibabi",
+        "seribabi",
+        "sylbaby",
+        "sylybaby"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية كيدي ماغا",
+      "regionEn": "Guidimaka Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2376719",
+    "verified": true
+  },
+  {
+    "slug": "rosso",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 16.51378,
+    "lng": -15.80503,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "روسو",
+      "en": "Rosso",
+      "fr": "Rosso",
+      "de": "Rosso",
+      "tr": "Rosso",
+      "ur": "Rosso",
+      "id": "Rosso",
+      "es": "Rosso",
+      "bn": "Rosso",
+      "ms": "Rosso"
+    },
+    "aliases": {
+      "ar": [
+        "روصو"
+      ],
+      "en": [
+        "Al-Quwarib",
+        "Roco",
+        "Rosa",
+        "Rosas",
+        "Roso",
+        "loso",
+        "luo suo",
+        "raso",
+        "roso",
+        "rwsw"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية الترارزة",
+      "regionEn": "Trarza Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2376898",
+    "verified": true
+  },
+  {
+    "slug": "nema",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 16.61702,
+    "lng": -7.25649,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "النعمة",
+      "en": "Néma",
+      "fr": "Néma",
+      "de": "Néma",
+      "tr": "Néma",
+      "ur": "Néma",
+      "id": "Néma",
+      "es": "Néma",
+      "bn": "Néma",
+      "ms": "Néma"
+    },
+    "aliases": {
+      "ar": [
+        "نیما",
+        "نيما"
+      ],
+      "en": [
+        "An Na`mah",
+        "An Na‘mah",
+        "EMN",
+        "En Na`ma",
+        "En Na‘ma",
+        "Nema",
+        "nema",
+        "nyma",
+        "ነma"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية الحوض الشرقي",
+      "regionEn": "Hodh Ech Chargui Region"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2377539",
+    "verified": true
+  },
+  {
+    "slug": "kiffa",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 16.62073,
+    "lng": -11.40208,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "كيفة",
+      "en": "Kiffa",
+      "fr": "Kiffa",
+      "de": "Kiffa",
+      "tr": "Kiffa",
+      "ur": "Kiffa",
+      "id": "Kiffa",
+      "es": "Kiffa",
+      "bn": "Kiffa",
+      "ms": "Kiffa"
+    },
+    "aliases": {
+      "ar": [
+        "كيفة",
+        "کفہ",
+        "کیفا",
+        "کیفہ",
+        "kfہ"
+      ],
+      "en": [
+        "KFA",
+        "Kifa",
+        "Kifah",
+        "Kiff",
+        "Kîfa",
+        "Kīfa",
+        "Kīfah",
+        "ji fa",
+        "kifa",
+        "kipa",
+        "kiphpha",
+        "kiፋ",
+        "kyfa",
+        "kyft"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية لعصابة",
+      "regionEn": "Assaba Region"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2378538",
+    "verified": true
+  },
+  {
+    "slug": "kaedi",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 16.15071,
+    "lng": -13.50582,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "كيهيدي",
+      "en": "Kaédi",
+      "fr": "Kaédi",
+      "de": "Kaédi",
+      "tr": "Kaédi",
+      "ur": "Kaédi",
+      "id": "Kaédi",
+      "es": "Kaédi",
+      "bn": "Kaédi",
+      "ms": "Kaédi"
+    },
+    "aliases": {
+      "ar": [
+        "کاعدی",
+        "کیھیدی"
+      ],
+      "en": [
+        "KED",
+        "Kaedi",
+        "Kaedis",
+        "Kaehdi",
+        "Kajhajdi",
+        "Kayhaydi",
+        "Kayhaydī",
+        "Kayhidi",
+        "Kayhīdī",
+        "ka ai di",
+        "ka'edi",
+        "ka-edi",
+        "kaedi",
+        "kayadi",
+        "kayedi",
+        "kaʾedi",
+        "kaʿdy",
+        "kyhydy"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية كوركول",
+      "regionEn": "Gorgol Region"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2378736",
+    "verified": true
+  },
+  {
+    "slug": "ganki-un",
+    "type": "town",
+    "countryCode": "mr",
+    "lat": 16.21413,
+    "lng": -13.24037,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "ﯖانكي 1",
+      "en": "Ganki Un",
+      "fr": "Ganki Un",
+      "de": "Ganki Un",
+      "tr": "Ganki Un",
+      "ur": "Ganki Un",
+      "id": "Ganki Un",
+      "es": "Ganki Un",
+      "bn": "Ganki Un",
+      "ms": "Ganki Un"
+    },
+    "aliases": {
+      "en": [
+        "Ganki",
+        "GankiUn",
+        "KankiWahid",
+        "Kānkī Wāḩid",
+        "nganky1"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية كوركول",
+      "regionEn": "Gorgol Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2379471",
+    "verified": true
+  },
+  {
+    "slug": "lexeibaun",
+    "type": "town",
+    "countryCode": "mr",
+    "lat": 16.22506,
+    "lng": -13.14089,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "لكصيبه 1",
+      "en": "Lexeiba Un",
+      "fr": "Lexeiba Un",
+      "de": "Lexeiba Un",
+      "tr": "Lexeiba Un",
+      "ur": "Lexeiba Un",
+      "id": "Lexeiba Un",
+      "es": "Lexeiba Un",
+      "bn": "Lexeiba Un",
+      "ms": "Lexeiba Un"
+    },
+    "aliases": {
+      "en": [
+        "El Kseiba",
+        "El Kseïba",
+        "LaksaybahWahid",
+        "Lakşaybah Wāḩid",
+        "Lekseiba",
+        "Lekseïba",
+        "Leqceiba",
+        "Leqçeïba",
+        "LexeibaUn",
+        "lksybh1"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية كوركول",
+      "regionEn": "Gorgol Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2379886",
+    "verified": true
+  },
+  {
+    "slug": "bogue",
+    "type": "town",
+    "countryCode": "mr",
+    "lat": 16.59153,
+    "lng": -14.26309,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "بوغي",
+      "en": "Bogué",
+      "fr": "Bogué",
+      "de": "Bogué",
+      "tr": "Bogué",
+      "ur": "Bogué",
+      "id": "Bogué",
+      "es": "Bogué",
+      "bn": "Bogué",
+      "ms": "Bogué"
+    },
+    "aliases": {
+      "ar": [
+        "بوغی",
+        "بوكى",
+        "بوكي"
+      ],
+      "en": [
+        "BGH",
+        "Boghe",
+        "Boghé",
+        "Bogue",
+        "Bogue Dow",
+        "Bogué Dow",
+        "bwghy",
+        "bwky"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية لبراكنة",
+      "regionEn": "Brakna Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2380954",
+    "verified": true
+  },
+  {
+    "slug": "ayoun-el-atrous",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 16.6614,
+    "lng": -9.6149,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "العيون",
+      "en": "Ayoun El Atrous",
+      "fr": "Ayoun El Atrous",
+      "de": "Ayoun El Atrous",
+      "tr": "Ayoun El Atrous",
+      "ur": "Ayoun El Atrous",
+      "id": "Ayoun El Atrous",
+      "es": "Ayoun El Atrous",
+      "bn": "Ayoun El Atrous",
+      "ms": "Ayoun El Atrous"
+    },
+    "aliases": {
+      "ar": [
+        "عيون العتروس",
+        "عیون الاترس",
+        "لعيون"
+      ],
+      "en": [
+        "'Ayoun el 'Atrous",
+        "AEO",
+        "Aioun",
+        "Aioun el Atrouss",
+        "Ajun-ehl'-Atrus",
+        "Al `Ayun",
+        "Al `Uyun",
+        "Al ‘Ayūn",
+        "Al ‘Uyūn",
+        "Ayoûn el Atroûs",
+        "Aïoun",
+        "Aïoun el Atrouss",
+        "La`yun",
+        "La‘yūn",
+        "Lu`yun",
+        "Lu‘yūn",
+        "`Ayun al `Atrus",
+        "`Uyun al `Atrus",
+        "ayauna ala atarosa",
+        "ayauna ela atrausa",
+        "ayuna ela atrusa",
+        "ayun・eru・atorusu",
+        "ʿeyoni ʿeል ሐgari",
+        "ʿywn alatrs",
+        "‘Ayūn al ‘Atrūs",
+        "‘Uyūn al ‘Atrūs",
+        "’Ayoûn el ’Atroûs"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية الحوض الغربي",
+      "regionEn": "Hodh El Gharbi Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2381291",
+    "verified": true
+  },
+  {
+    "slug": "aleg",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 17.05314,
+    "lng": -13.91312,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "ألاك",
+      "en": "Aleg",
+      "fr": "Aleg",
+      "de": "Aleg",
+      "tr": "Aleg",
+      "ur": "Aleg",
+      "id": "Aleg",
+      "es": "Aleg",
+      "bn": "Aleg",
+      "ms": "Aleg"
+    },
+    "aliases": {
+      "ar": [
+        "الیگ"
+      ],
+      "en": [
+        "Alak",
+        "Alāk",
+        "LEG",
+        "alak",
+        "alega",
+        "alyg",
+        "aregu",
+        "ayalega",
+        "ʿeleግ"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية لبراكنة",
+      "regionEn": "Brakna Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2381659",
+    "verified": true
+  },
+  {
+    "slug": "akjoujt",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 19.74163,
+    "lng": -14.38534,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "أكجوجت",
+      "en": "Akjoujt",
+      "fr": "Akjoujt",
+      "de": "Akjoujt",
+      "tr": "Akjoujt",
+      "ur": "Akjoujt",
+      "id": "Akjoujt",
+      "es": "Akjoujt",
+      "bn": "Akjoujt",
+      "ms": "Akjoujt"
+    },
+    "aliases": {
+      "ar": [
+        "اکجوجت"
+      ],
+      "en": [
+        "AJJ",
+        "Akdzawadzat",
+        "Akdzhudzht",
+        "Akdżawadżat",
+        "Akjout",
+        "Akjujat",
+        "Akjūjat",
+        "Fort Repoux",
+        "akajaujata",
+        "akjwjt",
+        "akujuguto",
+        "ʿokiጁjiti"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية إنشيري",
+      "regionEn": "Inchiri Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2381690",
+    "verified": true
+  },
+  {
+    "slug": "arafat",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 18.04639,
+    "lng": -15.97194,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "عرفات",
+      "en": "Arafat",
+      "fr": "Arafat",
+      "de": "Arafat",
+      "tr": "Arafat",
+      "ur": "Arafat",
+      "id": "Arafat",
+      "es": "Arafat",
+      "bn": "Arafat",
+      "ms": "Arafat"
+    },
+    "aliases": {
+      "en": [
+        "arafato",
+        "araphata",
+        "ʿeraፋti",
+        "ʿrfat"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية نواكشوط الجنوبية",
+      "regionEn": "Nouakchott Sud Region"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:9222766",
+    "verified": true
+  },
+  {
+    "slug": "tevragh-zeina",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 18.09894,
+    "lng": -15.98848,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "تفرغ زينة",
+      "en": "Tevragh Zeina",
+      "fr": "Tevragh Zeina",
+      "de": "Tevragh Zeina",
+      "tr": "Tevragh Zeina",
+      "ur": "Tevragh Zeina",
+      "id": "Tevragh Zeina",
+      "es": "Tevragh Zeina",
+      "bn": "Tevragh Zeina",
+      "ms": "Tevragh Zeina"
+    },
+    "aliases": {
+      "ar": [
+        "تفراغ زینه",
+        "تفراغ زینہ",
+        "تفرغ زينه",
+        "tfragh zynہ"
+      ],
+      "en": [
+        "Tafragh Zaynah",
+        "Tevrag-Zejna",
+        "Tevragh Zeïna",
+        "tebhraga je'ina",
+        "tevaraga jena",
+        "tevaragha jena",
+        "teviraግ zeyina",
+        "tevuragu・zeina",
+        "tfragh zynh",
+        "tfrgh zynh"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية نواكشوط الغربية",
+      "regionEn": "Nouakchott Ouest Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:11009418",
+    "verified": true
+  },
+  {
+    "slug": "dar-naim",
+    "type": "city",
+    "countryCode": "mr",
+    "lat": 18.10808,
+    "lng": -15.92666,
+    "timezone": "Africa/Nouakchott",
+    "names": {
+      "ar": "دار النعيم",
+      "en": "Dar Naim",
+      "fr": "Dar Naim",
+      "de": "Dar Naim",
+      "tr": "Dar Naim",
+      "ur": "Dar Naim",
+      "id": "Dar Naim",
+      "es": "Dar Naim",
+      "bn": "Dar Naim",
+      "ms": "Dar Naim"
+    },
+    "aliases": {
+      "ar": [
+        "دار النعیم"
+      ],
+      "en": [
+        "Dar-Naim",
+        "dar alnʿym",
+        "dara na'ima",
+        "dara naima",
+        "dara nayema",
+        "dari nayiም",
+        "daru・naimu"
+      ]
+    },
+    "admin": {
+      "countryAr": "موريتانيا",
+      "countryEn": "Mauritania",
+      "regionAr": "ولاية نواكشوط الشمالية",
+      "regionEn": "Nouakchott Nord Region"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:11496397",
+    "verified": true
+  },
+  {
+    "slug": "tan-tan",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 28.43799,
+    "lng": -11.10321,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "طانطان",
+      "en": "Tan-Tan",
+      "fr": "Tan-Tan",
+      "de": "Tan-Tan",
+      "tr": "Tan-Tan",
+      "ur": "Tan-Tan",
+      "id": "Tan-Tan",
+      "es": "Tan-Tan",
+      "bn": "Tan-Tan",
+      "ms": "Tan-Tan"
+    },
+    "aliases": {
+      "en": [
+        "TTA",
+        "Tantan",
+        "Tantanas",
+        "tantan"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "كلميم-واد نون",
+      "regionEn": "Guelmim-Oued Noun"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2530241",
+    "verified": true
+  },
+  {
+    "slug": "ouarzazate",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 30.91894,
+    "lng": -6.89341,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "ورزازات",
+      "en": "Ouarzazate",
+      "fr": "Ouarzazate",
+      "de": "Ouarzazate",
+      "tr": "Ouarzazate",
+      "ur": "Ouarzazate",
+      "id": "Ouarzazate",
+      "es": "Ouarzazate",
+      "bn": "Ouarzazate",
+      "ms": "Ouarzazate"
+    },
+    "aliases": {
+      "ar": [
+        "ورززات"
+      ],
+      "en": [
+        "OZZ",
+        "Ouarzazat",
+        "Ouarzazte",
+        "Ouorzazate",
+        "Uarzazat",
+        "Uarzazatas",
+        "Varzazat",
+        "Warzazat",
+        "Warzāzāt",
+        "wrzazat",
+        "wrzzat"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "درعة-تافيلالت",
+      "regionEn": "Drâa-Tafilalet"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2540850",
+    "verified": true
+  },
+  {
+    "slug": "khouribga",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 32.88108,
+    "lng": -6.9063,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "خريبكة",
+      "en": "Khouribga",
+      "fr": "Khouribga",
+      "de": "Khouribga",
+      "tr": "Khouribga",
+      "ur": "Khouribga",
+      "id": "Khouribga",
+      "es": "Khouribga",
+      "bn": "Khouribga",
+      "ms": "Khouribga"
+    },
+    "aliases": {
+      "ar": [
+        "الخريبكة"
+      ],
+      "en": [
+        "Khouribja",
+        "Kouriga",
+        "Kourigha",
+        "khrybkt"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "بني ملال-خنيفرة",
+      "regionEn": "Béni Mellal-Khénifra"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2544248",
+    "verified": true
+  },
+  {
+    "slug": "errachidia",
+    "type": "town",
+    "countryCode": "ma",
+    "lat": 31.9314,
+    "lng": -4.42663,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "الرشيدية",
+      "en": "Errachidia",
+      "fr": "Errachidia",
+      "de": "Errachidia",
+      "tr": "Errachidia",
+      "ur": "Errachidia",
+      "id": "Errachidia",
+      "es": "Errachidia",
+      "bn": "Errachidia",
+      "ms": "Errachidia"
+    },
+    "aliases": {
+      "ar": [
+        "الرشيدية‎",
+        "الرشیدیہ",
+        "الراشيدية"
+      ],
+      "en": [
+        "Al-Rashidiyya",
+        "Ar-Raszidijja",
+        "ERH",
+        "Ehr-Rashidija",
+        "Er Rachidia",
+        "Er-Rachidia",
+        "Er-Rachidía",
+        "Imtɣeren",
+        "Ksar es-Souk",
+        "Rachidia",
+        "Rasidija",
+        "Rašidija",
+        "Rāšīdīja",
+        "alrshydyt",
+        "alrshydyt‎",
+        "ar-Rachidiya",
+        "ar-Rachīdīya",
+        "la xi di ye"
+      ]
+    },
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "regionAr": "درعة-تافيلالت",
+      "regionEn": "Drâa-Tafilalet"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:7280528",
+    "verified": true
   }
 ]

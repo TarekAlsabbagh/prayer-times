@@ -43685,5 +43685,2391 @@
     "source": "curated",
     "sourceId": "geonames:2960515",
     "verified": true
+  },
+  {
+    "slug": "telde",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 27.99243,
+    "lng": -15.41915,
+    "timezone": "Atlantic/Canary",
+    "names": {
+      "ar": "تيلدي",
+      "en": "Telde",
+      "fr": "Telde",
+      "de": "Telde",
+      "tr": "Telde",
+      "ur": "Telde",
+      "id": "Telde",
+      "es": "Telde",
+      "bn": "Telde",
+      "ms": "Telde"
+    },
+    "aliases": {
+      "en": [
+        "Tel'de",
+        "te er de",
+        "tyldy"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "جزر الكناري",
+      "regionEn": "Canary Islands"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2510542",
+    "verified": true
+  },
+  {
+    "slug": "santa-cruz-de-tenerife",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 28.46824,
+    "lng": -16.25462,
+    "timezone": "Atlantic/Canary",
+    "names": {
+      "ar": "سانتا كروث دي تينيريفه",
+      "en": "Santa Cruz de Tenerife",
+      "fr": "Santa Cruz de Tenerife",
+      "de": "Santa Cruz de Tenerife",
+      "tr": "Santa Cruz de Tenerife",
+      "ur": "Santa Cruz de Tenerife",
+      "id": "Santa Cruz de Tenerife",
+      "es": "Santa Cruz de Tenerife",
+      "bn": "Santa Cruz de Tenerife",
+      "ms": "Santa Cruz de Tenerife"
+    },
+    "aliases": {
+      "ar": [
+        "سانتا كروس دى تينيريفا",
+        "سانتا کروز دی تینیرف",
+        "سانتا کروز ٹینرائف",
+        "سانتا کروس"
+      ],
+      "en": [
+        "Sancta Crux Nivariae",
+        "Santa Cruz",
+        "Santa Cruz Tenerifekoa",
+        "Santa Cruz de Ténérife",
+        "Santa Krouth nte Tenerife",
+        "Santa Krus de Tenerife",
+        "Santa Kruz de Tenerife",
+        "Santa-Krus-de-Tenerife",
+        "Santa-Krus-deh-Tehnehryfeh",
+        "Santakrusa de Tenerife",
+        "TCI",
+        "Tenerife",
+        "Tenerifes Santa Krusas",
+        "Teneriffa",
+        "Tenerifės Santa Krusas",
+        "san ta kru sde te ne rife",
+        "santa kruja de teneriphe",
+        "santa krujha de teneripha",
+        "santa krusa de tenarifa",
+        "santa krws",
+        "santa krws dy tynyryfa",
+        "santa krwth dy tynyryfh",
+        "santa krwz dy tynyrf",
+        "santakeuluseudetenelipe",
+        "sheng ke lu si-de te nei li fei",
+        "snth qrws dh tnryph"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "جزر الكناري",
+      "regionEn": "Canary Islands"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2511174",
+    "verified": true
+  },
+  {
+    "slug": "orihuela",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 38.08483,
+    "lng": -0.94401,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "أوريويلا",
+      "en": "Orihuela",
+      "fr": "Orihuela",
+      "de": "Orihuela",
+      "tr": "Orihuela",
+      "ur": "Orihuela",
+      "id": "Orihuela",
+      "es": "Orihuela",
+      "bn": "Orihuela",
+      "ms": "Orihuela"
+    },
+    "aliases": {
+      "ar": [
+        "اریهوئلا",
+        "اوریہیولا"
+      ],
+      "en": [
+        "Auraiola",
+        "Aurariola",
+        "Oriola",
+        "Oriouela",
+        "Oriuehla",
+        "Oriuela",
+        "Orivela",
+        "ao li wei la",
+        "aryhwyla",
+        "awrywyla",
+        "oriuera"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "بلنسية",
+      "regionEn": "Valencian Community"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2513076",
+    "verified": true
+  },
+  {
+    "slug": "murcia",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 37.98704,
+    "lng": -1.13004,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "مرسية",
+      "en": "Murcia",
+      "fr": "Murcia",
+      "de": "Murcia",
+      "tr": "Murcia",
+      "ur": "Murcia",
+      "id": "Murcia",
+      "es": "Murcia",
+      "bn": "Murcia",
+      "ms": "Murcia"
+    },
+    "aliases": {
+      "ar": [
+        "مورسیا"
+      ],
+      "en": [
+        "Ciutat de Murcia",
+        "Ciutat de Múrcia",
+        "MJV",
+        "Murcie",
+        "Murcio",
+        "Murcja",
+        "Mursia",
+        "Mursija",
+        "Múrcia",
+        "mrsyt",
+        "mu er xi ya",
+        "murushia",
+        "mwrsya",
+        "mwrsyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مرسية",
+      "regionEn": "Murcia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2513416",
+    "verified": true
+  },
+  {
+    "slug": "merida",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 38.91802,
+    "lng": -6.34292,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ماردة",
+      "en": "Mérida",
+      "fr": "Mérida",
+      "de": "Mérida",
+      "tr": "Mérida",
+      "ur": "Mérida",
+      "id": "Mérida",
+      "es": "Mérida",
+      "bn": "Mérida",
+      "ms": "Mérida"
+    },
+    "aliases": {
+      "ar": [
+        "مريدا",
+        "مریدا",
+        "میریدا"
+      ],
+      "en": [
+        "Emerita Augusta",
+        "Merida",
+        "Merido",
+        "QWX",
+        "mardt",
+        "merida",
+        "mryda",
+        "mrydh",
+        "myryda"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "إكستريمادورا",
+      "regionEn": "Extremadura"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2513917",
+    "verified": true
+  },
+  {
+    "slug": "melilla",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 35.29369,
+    "lng": -2.93833,
+    "timezone": "Africa/Ceuta",
+    "names": {
+      "ar": "مليلية",
+      "en": "Melilla",
+      "fr": "Melilla",
+      "de": "Melilla",
+      "tr": "Melilla",
+      "ur": "Melilla",
+      "id": "Melilla",
+      "es": "Melilla",
+      "bn": "Melilla",
+      "ms": "Melilla"
+    },
+    "aliases": {
+      "ar": [
+        "ملیلیه"
+      ],
+      "en": [
+        "Ciudad Autonoma de Melilla",
+        "Ciudad Autónoma de Melilla",
+        "Ciudad de Melilla",
+        "Korisnik:Slaven Kosanovic/Melila",
+        "Lungsod ng Melilla",
+        "M'lila",
+        "MLN",
+        "Melil'ja",
+        "Melila",
+        "Melilo",
+        "Melilya",
+        "Meliya",
+        "Millela",
+        "Rusaddir",
+        "Rusadir",
+        "Russadir",
+        "me li ya",
+        "mei li li ya",
+        "melilia",
+        "melliya",
+        "merirya",
+        "mlylyh",
+        "mlylyt",
+        "mlyyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مليلية",
+      "regionEn": "Melilla"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2513947",
+    "verified": true
+  },
+  {
+    "slug": "marbella",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 36.51543,
+    "lng": -4.88583,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ماربلا",
+      "en": "Marbella",
+      "fr": "Marbella",
+      "de": "Marbella",
+      "tr": "Marbella",
+      "ur": "Marbella",
+      "id": "Marbella",
+      "es": "Marbella",
+      "bn": "Marbella",
+      "ms": "Marbella"
+    },
+    "aliases": {
+      "ar": [
+        "ماربيا",
+        "ماربيلا",
+        "ماربیا"
+      ],
+      "en": [
+        "Marbel'ja",
+        "Marbela",
+        "Marbelja",
+        "Marbellja",
+        "Marbelya",
+        "Marvegia",
+        "QRL",
+        "ma bei la",
+        "maleubeya",
+        "marbla",
+        "marbya",
+        "marbyla",
+        "maruberya"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "الأندلس",
+      "regionEn": "Andalusia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2514169",
+    "verified": true
+  },
+  {
+    "slug": "jaen",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 37.76922,
+    "lng": -3.79028,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "جيان",
+      "en": "Jaén",
+      "fr": "Jaén",
+      "de": "Jaén",
+      "tr": "Jaén",
+      "ur": "Jaén",
+      "id": "Jaén",
+      "es": "Jaén",
+      "bn": "Jaén",
+      "ms": "Jaén"
+    },
+    "aliases": {
+      "en": [
+        "Aurgi",
+        "Haeno",
+        "JEA",
+        "Jaen",
+        "Khaehn",
+        "Xaen - Jaen",
+        "Xaén",
+        "haen",
+        "jyan",
+        "Ĥaeno"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "الأندلس",
+      "regionEn": "Andalusia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2516395",
+    "verified": true
+  },
+  {
+    "slug": "elche",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 38.26218,
+    "lng": -0.70107,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "إلش",
+      "en": "Elche",
+      "fr": "Elche",
+      "de": "Elche",
+      "tr": "Elche",
+      "ur": "Elche",
+      "id": "Elche",
+      "es": "Elche",
+      "bn": "Elche",
+      "ms": "Elche"
+    },
+    "aliases": {
+      "ar": [
+        "الش",
+        "الچه"
+      ],
+      "en": [
+        "Ehl'ch",
+        "Ehl'che",
+        "El'che",
+        "Elce",
+        "Elch",
+        "Elig",
+        "Elx",
+        "Elčė",
+        "Illici",
+        "ai er qie",
+        "alchh",
+        "alsh",
+        "eruche",
+        "xelche",
+        "ʼls"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "بلنسية",
+      "regionEn": "Valencian Community"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2518559",
+    "verified": true
+  },
+  {
+    "slug": "cartagena",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 37.60197,
+    "lng": -0.98397,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "كارتاخينا",
+      "en": "Cartagena",
+      "fr": "Cartagena",
+      "de": "Cartagena",
+      "tr": "Cartagena",
+      "ur": "Cartagena",
+      "id": "Cartagena",
+      "es": "Cartagena",
+      "bn": "Cartagena",
+      "ms": "Cartagena"
+    },
+    "aliases": {
+      "ar": [
+        "کارتاگنا",
+        "کارتیگانا"
+      ],
+      "en": [
+        "Cartachena",
+        "Cartagena i Spania",
+        "Cartaxena",
+        "Carthagene",
+        "Carthago Nova",
+        "Carthagène",
+        "Kartachena",
+        "Kartagena",
+        "Kartagina",
+        "Kartagjena",
+        "Kartahena",
+        "Kartaheno",
+        "Kartakhena",
+        "Kartaĥeno",
+        "Karthageni",
+        "XUF",
+        "ka ta he na",
+        "kaleutahena",
+        "kartagna",
+        "kartajena",
+        "kartajina",
+        "kartakhyna",
+        "kartygana",
+        "karutahena",
+        "qrthnh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مرسية",
+      "regionEn": "Murcia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2520058",
+    "verified": true
+  },
+  {
+    "slug": "cadiz",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 36.52672,
+    "lng": -6.2891,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "قادس",
+      "en": "Cadiz",
+      "fr": "Cadiz",
+      "de": "Cadiz",
+      "tr": "Cadiz",
+      "ur": "Cadiz",
+      "id": "Cadiz",
+      "es": "Cadiz",
+      "bn": "Cadiz",
+      "ms": "Cadiz"
+    },
+    "aliases": {
+      "ar": [
+        "كاديذ",
+        "کادس",
+        "کادیس"
+      ],
+      "en": [
+        "CDZ",
+        "Cadice",
+        "Cadis",
+        "Cadix",
+        "Cai",
+        "Càdice",
+        "Cádice",
+        "Cádis",
+        "Cádiz",
+        "Gadeira",
+        "Gades",
+        "Gadir",
+        "Gaðes",
+        "Iungadir",
+        "Kadis",
+        "Kadisas",
+        "Kadiz",
+        "Kadizo",
+        "Kadyks",
+        "Kantith",
+        "La tacita de plata",
+        "jia de si",
+        "kadi s",
+        "kadiseu",
+        "kadisu",
+        "kads",
+        "kadydh",
+        "kadys",
+        "qads",
+        "qdys"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "الأندلس",
+      "regionEn": "Andalusia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2520600",
+    "verified": true
+  },
+  {
+    "slug": "badajoz",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 38.87789,
+    "lng": -6.97061,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "باداخوز",
+      "en": "Badajoz",
+      "fr": "Badajoz",
+      "de": "Badajoz",
+      "tr": "Badajoz",
+      "ur": "Badajoz",
+      "id": "Badajoz",
+      "es": "Badajoz",
+      "bn": "Badajoz",
+      "ms": "Badajoz"
+    },
+    "aliases": {
+      "ar": [
+        "باداخوس",
+        "بطليوس"
+      ],
+      "en": [
+        "Ara Pacis Augustalis",
+        "BJZ",
+        "Badahozo",
+        "Badajos",
+        "Badakhos",
+        "Badaĥozo",
+        "badahosu",
+        "badakhws",
+        "badakhwz",
+        "btlyws"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "إكستريمادورا",
+      "regionEn": "Extremadura"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2521420",
+    "verified": true
+  },
+  {
+    "slug": "algeciras",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 36.13326,
+    "lng": -5.45051,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "الجزيرة الخضراء",
+      "en": "Algeciras",
+      "fr": "Algeciras",
+      "de": "Algeciras",
+      "tr": "Algeciras",
+      "ur": "Algeciras",
+      "id": "Algeciras",
+      "es": "Algeciras",
+      "bn": "Algeciras",
+      "ms": "Algeciras"
+    },
+    "aliases": {
+      "ar": [
+        "الخيثيراس",
+        "الغیکراس"
+      ],
+      "en": [
+        "AEI",
+        "Al Jezita",
+        "Al'khesiras",
+        "Alchesirasas",
+        "Alchethiras",
+        "Alchezira",
+        "Algecires",
+        "Algesiras",
+        "Algesires",
+        "Algésiras",
+        "Alkhesiras",
+        "Alxeciras",
+        "a er he xi la si",
+        "alghykras",
+        "alhesilaseu",
+        "alkhythyras",
+        "aruheshirasu"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "الأندلس",
+      "regionEn": "Andalusia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2522013",
+    "verified": true
+  },
+  {
+    "slug": "albacete",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 38.99424,
+    "lng": -1.85643,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "آلباسته",
+      "en": "Albacete",
+      "fr": "Albacete",
+      "de": "Albacete",
+      "tr": "Albacete",
+      "ur": "Albacete",
+      "id": "Albacete",
+      "es": "Albacete",
+      "bn": "Albacete",
+      "ms": "Albacete"
+    },
+    "aliases": {
+      "ar": [
+        "الباسيتي",
+        "الباچیتے",
+        "البسيط",
+        "بسيط"
+      ],
+      "en": [
+        "ABC",
+        "Al'basete",
+        "Al'baseteh",
+        "Albacet",
+        "Albasete",
+        "Albasetė",
+        "a er wa sai te",
+        "albasete",
+        "albasth",
+        "albasyty",
+        "albsyt",
+        "arubasete",
+        "bsyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "قشتالة لا مانتشا",
+      "regionEn": "Castile-La Mancha"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2522258",
+    "verified": true
+  },
+  {
+    "slug": "valladolid",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 41.65541,
+    "lng": -4.72353,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "بلد الوليد",
+      "en": "Valladolid",
+      "fr": "Valladolid",
+      "de": "Valladolid",
+      "tr": "Valladolid",
+      "ur": "Valladolid",
+      "id": "Valladolid",
+      "es": "Valladolid",
+      "bn": "Valladolid",
+      "ms": "Valladolid"
+    },
+    "aliases": {
+      "ar": [
+        "فايادوليذ",
+        "والاڈولڈ",
+        "وایادولید",
+        "ڤایادۆلید"
+      ],
+      "en": [
+        "Lungsod ng Valladolid",
+        "Pincia",
+        "Pucela",
+        "VLL",
+        "Vagiadolid",
+        "Val'jadalid",
+        "Val'jadolid",
+        "Valadoli",
+        "Valadolid",
+        "Valadolido",
+        "Valdoletum",
+        "Valhadolid",
+        "Valjadolid",
+        "Valjadolida",
+        "Valjadolidas",
+        "Valladolis",
+        "Valladolit",
+        "Valladolíd",
+        "Valladolís",
+        "Vallis Tolitum",
+        "Valyadolid",
+        "Vayadolid",
+        "Vaładołì",
+        "ba li ya duo li de",
+        "ba ya do lid",
+        "baryadoriddo",
+        "bayadollideu",
+        "bld alwlyd",
+        "fayadwlydh",
+        "valiadolidi",
+        "vayadolida",
+        "wayadwlyd",
+        "wʼyʼdwlyd"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "قشتالة وليون",
+      "regionEn": "Castile and León"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3106672",
+    "verified": true
+  },
+  {
+    "slug": "santiago-de-compostela",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 42.88052,
+    "lng": -8.54569,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "سانتياجو دى كومبوستيلا",
+      "en": "Santiago de Compostela",
+      "fr": "Santiago de Compostela",
+      "de": "Santiago de Compostela",
+      "tr": "Santiago de Compostela",
+      "ur": "Santiago de Compostela",
+      "id": "Santiago de Compostela",
+      "es": "Santiago de Compostela",
+      "bn": "Santiago de Compostela",
+      "ms": "Santiago de Compostela"
+    },
+    "aliases": {
+      "ar": [
+        "سانتياغو دي كومبوستيلا",
+        "سانتیاگو د کمپوستلا",
+        "سانتیاگو دے کومپوستیلا"
+      ],
+      "en": [
+        "Compostela",
+        "Compostelako Donejakue",
+        "Compostella",
+        "Compostèla",
+        "Lungsod ng Santiago de Compostela",
+        "SCQ",
+        "Saint-Jacques-de-Compostelle",
+        "Sant'jago-de-Kompostela",
+        "Sant'jago-de-Kompostelae",
+        "Santiago",
+        "Santiago de Compostella",
+        "Santiago de Compostel·la",
+        "Santiago de Kompostela",
+        "Santiago di Compostela",
+        "Santiago nte Kompostela",
+        "Santiagu de Compostela",
+        "Santiaqo de Kompostela",
+        "Santijago de Kompostela",
+        "Santjaga-deh-Kampastehla",
+        "Santjago de Kompostela",
+        "Sint-Djake-el-Galice",
+        "Sint-Djåke-el-Galice",
+        "cantiyako te kompocutela",
+        "kong bo si te la de sheng de ya ge",
+        "san teiy ko dek xm po s te la",
+        "santi'ago de komaposatela",
+        "santi'ago de kompostela",
+        "santiagodekomposeutella",
+        "santiyago de kompostela",
+        "santyaghw dy kwmbwstyla",
+        "santyagw d kmpwstla",
+        "santyajw dy kwmbwstyla",
+        "sheng de ya ge jin bo si te la",
+        "sheng de ya ge-de kong bo si te la"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "غاليسيا",
+      "regionEn": "Galicia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3109642",
+    "verified": true
+  },
+  {
+    "slug": "santander",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 43.46589,
+    "lng": -3.80493,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "سانتاندر",
+      "en": "Santander",
+      "fr": "Santander",
+      "de": "Santander",
+      "tr": "Santander",
+      "ur": "Santander",
+      "id": "Santander",
+      "es": "Santander",
+      "bn": "Santander",
+      "ms": "Santander"
+    },
+    "aliases": {
+      "ar": [
+        "سانتاندير",
+        "سانٹانڈر"
+      ],
+      "en": [
+        "Portus Victoriae Iuliobrigensium",
+        "SDR",
+        "Sanandere",
+        "Santandehr",
+        "Santandel",
+        "Santandera",
+        "Santanderas",
+        "Santandero",
+        "Santandèr",
+        "Santandér",
+        "cantanter",
+        "sang tan de",
+        "santandeleu",
+        "santandera",
+        "santanderu",
+        "santandr",
+        "santandyr",
+        "sntndr"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "كانتابريا",
+      "regionEn": "Cantabria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3109718",
+    "verified": true
+  },
+  {
+    "slug": "san-sebastian",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 43.31283,
+    "lng": -1.97499,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "سان سباستيان",
+      "en": "Donostia / San Sebastián",
+      "fr": "Donostia / San Sebastián",
+      "de": "Donostia / San Sebastián",
+      "tr": "Donostia / San Sebastián",
+      "ur": "Donostia / San Sebastián",
+      "id": "Donostia / San Sebastián",
+      "es": "Donostia / San Sebastián",
+      "bn": "Donostia / San Sebastián",
+      "ms": "Donostia / San Sebastián"
+    },
+    "aliases": {
+      "en": [
+        "Donosti",
+        "Donostia",
+        "Donostia / San Sebastian",
+        "Donostia San Sebasian",
+        "Donostia San Sebasián",
+        "Donostia-San Sebastian",
+        "Donostia-San Sebastián",
+        "Donostio",
+        "EAS",
+        "La Bella Easo",
+        "Saint-Sebastien",
+        "Saint-Sébastien",
+        "San Sebastian",
+        "San Sebastián",
+        "San-Sebast'jan",
+        "Sanse",
+        "Sant Sebastia",
+        "Sant Sebastià",
+        "Sao Sebastiao",
+        "São Sebastião",
+        "san sbastyan",
+        "sheng sai wa si ti an"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "إقليم الباسك",
+      "regionEn": "Basque Country"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3110044",
+    "verified": true
+  },
+  {
+    "slug": "salamanca",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.96882,
+    "lng": -5.66388,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "سلمنقة",
+      "en": "Salamanca",
+      "fr": "Salamanca",
+      "de": "Salamanca",
+      "tr": "Salamanca",
+      "ur": "Salamanca",
+      "id": "Salamanca",
+      "es": "Salamanca",
+      "bn": "Salamanca",
+      "ms": "Salamanca"
+    },
+    "aliases": {
+      "en": [
+        "Helmantica",
+        "SLM",
+        "Salamanka",
+        "Salamanko",
+        "Salamanque",
+        "Salmantica",
+        "saramanka",
+        "slmnqt"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "قشتالة وليون",
+      "regionEn": "Castile and León"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3111108",
+    "verified": true
+  },
+  {
+    "slug": "parla",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.23604,
+    "lng": -3.76752,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "بارلا",
+      "en": "Parla",
+      "fr": "Parla",
+      "de": "Parla",
+      "tr": "Parla",
+      "ur": "Parla",
+      "id": "Parla",
+      "es": "Parla",
+      "bn": "Parla",
+      "ms": "Parla"
+    },
+    "aliases": {
+      "en": [
+        "barla",
+        "pa er la"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3114256",
+    "verified": true
+  },
+  {
+    "slug": "pamplona",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 42.81687,
+    "lng": -1.64323,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "بنبلونة",
+      "en": "Pamplona",
+      "fr": "Pamplona",
+      "de": "Pamplona",
+      "tr": "Pamplona",
+      "ur": "Pamplona",
+      "id": "Pamplona",
+      "es": "Pamplona",
+      "bn": "Pamplona",
+      "ms": "Pamplona"
+    },
+    "aliases": {
+      "ar": [
+        "پامپلونا"
+      ],
+      "en": [
+        "Iruinea",
+        "Iruna",
+        "Irunea",
+        "Iruña",
+        "Iruñea",
+        "Lungsod ng Irunea",
+        "Lungsod ng Iruñea",
+        "PNA",
+        "Pampalona",
+        "Pampeluna",
+        "Pampelune",
+        "Pamplonae",
+        "Pamplono",
+        "Pompaelo",
+        "bnblwnt",
+        "iruniya",
+        "pam po lna",
+        "pampalona",
+        "pampeullona",
+        "pamplwna",
+        "pan pu luo na",
+        "panpurona",
+        "pmplwnh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "نافارا",
+      "regionEn": "Navarre"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3114472",
+    "verified": true
+  },
+  {
+    "slug": "oviedo",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 43.36029,
+    "lng": -5.84476,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "أوفييدو",
+      "en": "Oviedo",
+      "fr": "Oviedo",
+      "de": "Oviedo",
+      "tr": "Oviedo",
+      "ur": "Oviedo",
+      "id": "Oviedo",
+      "es": "Oviedo",
+      "bn": "Oviedo",
+      "ms": "Oviedo"
+    },
+    "aliases": {
+      "ar": [
+        "ابیدو",
+        "اوویدو"
+      ],
+      "en": [
+        "Aueda",
+        "OVI",
+        "Ov'edo",
+        "Ovedo",
+        "Ovetum",
+        "Oviedu",
+        "Ovieu",
+        "Ovjedas",
+        "Ovjedo",
+        "Uvieu",
+        "Uviéu",
+        "abydw",
+        "ao wei ye duo",
+        "awfyydw",
+        "awwydw",
+        "obiedo",
+        "ovhiyedo",
+        "oviyeto",
+        "xo beiy do"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "أستورياس",
+      "regionEn": "Asturias"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3114711",
+    "verified": true
+  },
+  {
+    "slug": "mostoles",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.32234,
+    "lng": -3.86496,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "موستولس",
+      "en": "Móstoles",
+      "fr": "Móstoles",
+      "de": "Móstoles",
+      "tr": "Móstoles",
+      "ur": "Móstoles",
+      "id": "Móstoles",
+      "es": "Móstoles",
+      "bn": "Móstoles",
+      "ms": "Móstoles"
+    },
+    "aliases": {
+      "ar": [
+        "موستوليس"
+      ],
+      "en": [
+        "Monsteles",
+        "Mostales",
+        "Mostoles",
+        "Mostolesas",
+        "Mostolo",
+        "mo si tuo lai si",
+        "moseutolleseu",
+        "mosutoresu",
+        "mwstwls",
+        "mwstwlys"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3116025",
+    "verified": true
+  },
+  {
+    "slug": "logrono",
+    "type": "city",
+    "countryCode": "es",
+    "lat": 42.46615,
+    "lng": -2.45115,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "لوغرونيو",
+      "en": "Logroño",
+      "fr": "Logroño",
+      "de": "Logroño",
+      "tr": "Logroño",
+      "ur": "Logroño",
+      "id": "Logroño",
+      "es": "Logroño",
+      "bn": "Logroño",
+      "ms": "Logroño"
+    },
+    "aliases": {
+      "ar": [
+        "لوگرونو",
+        "لگرنیو"
+      ],
+      "en": [
+        "Lagron'ja",
+        "Logron'jo",
+        "Logron'o",
+        "Logronh",
+        "Logronio",
+        "Logronjas",
+        "Logronjo",
+        "Logrono",
+        "Logronu",
+        "Logronyo",
+        "Logroñu",
+        "Lucronium",
+        "RJL",
+        "lgrnyw",
+        "lo koryo",
+        "logeulonyo",
+        "logron'yo",
+        "logronyo",
+        "luo ge luo ni ao",
+        "lwghrwnyw",
+        "lwgrwnw",
+        "lwgrwnyw",
+        "roguronyo"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "لا ريوخا",
+      "regionEn": "La Rioja"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3118150",
+    "verified": true
+  },
+  {
+    "slug": "leon",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 42.60003,
+    "lng": -5.57032,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ليون",
+      "en": "León",
+      "fr": "León",
+      "de": "León",
+      "tr": "León",
+      "ur": "León",
+      "id": "León",
+      "es": "León",
+      "bn": "León",
+      "ms": "León"
+    },
+    "aliases": {
+      "en": [
+        "Ciuda de Llion",
+        "Ciudá de Llión",
+        "LEN",
+        "Leon",
+        "Leono",
+        "Lleo",
+        "Lleon",
+        "Lleó",
+        "Lleón",
+        "lywn",
+        "reon"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "قشتالة وليون",
+      "regionEn": "Castile and León"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3118532",
+    "verified": true
+  },
+  {
+    "slug": "leganes",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.32718,
+    "lng": -3.7635,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ليجانيس",
+      "en": "Leganés",
+      "fr": "Leganés",
+      "de": "Leganés",
+      "tr": "Leganés",
+      "ur": "Leganés",
+      "id": "Leganés",
+      "es": "Leganés",
+      "bn": "Leganés",
+      "ms": "Leganés"
+    },
+    "aliases": {
+      "en": [
+        "Legamar",
+        "Leganes",
+        "Leganesas",
+        "lai jia nei si",
+        "leganeseu",
+        "lyjanys",
+        "reganesu"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3118594",
+    "verified": true
+  },
+  {
+    "slug": "gijon",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 43.53573,
+    "lng": -5.66152,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "خيخون",
+      "en": "Gijón",
+      "fr": "Gijón",
+      "de": "Gijón",
+      "tr": "Gijón",
+      "ur": "Gijón",
+      "id": "Gijón",
+      "es": "Gijón",
+      "bn": "Gijón",
+      "ms": "Gijón"
+    },
+    "aliases": {
+      "ar": [
+        "خیخن",
+        "خیخۆن",
+        "گیجون"
+      ],
+      "en": [
+        "Chichonas",
+        "Gigia",
+        "Gijon",
+        "Gijon/Xixon",
+        "Gijón/Xixón",
+        "Hihono",
+        "Khikhon",
+        "Kixoi",
+        "QIJ",
+        "Xixon",
+        "Xixón",
+        "gyjwn",
+        "hihon",
+        "hyhwn",
+        "khi khxn",
+        "khikhoni",
+        "khykhn",
+        "khykhwn",
+        "kikon",
+        "xi hong",
+        "Ĥiĥono"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "أستورياس",
+      "regionEn": "Asturias"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3121424",
+    "verified": true
+  },
+  {
+    "slug": "getafe",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.30571,
+    "lng": -3.73295,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "خيتافي",
+      "en": "Getafe",
+      "fr": "Getafe",
+      "de": "Getafe",
+      "tr": "Getafe",
+      "ur": "Getafe",
+      "id": "Getafe",
+      "es": "Getafe",
+      "bn": "Getafe",
+      "ms": "Getafe"
+    },
+    "aliases": {
+      "en": [
+        "Chetafe",
+        "Chetafė",
+        "Khetafe",
+        "Khetafeh",
+        "Tituacia",
+        "Xetafe",
+        "he ta fei",
+        "hetafe",
+        "hetape",
+        "khe tafe",
+        "khytafy"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3121437",
+    "verified": true
+  },
+  {
+    "slug": "fuenlabrada",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.28419,
+    "lng": -3.79415,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "فوينلابرادا",
+      "en": "Fuenlabrada",
+      "fr": "Fuenlabrada",
+      "de": "Fuenlabrada",
+      "tr": "Fuenlabrada",
+      "ur": "Fuenlabrada",
+      "id": "Fuenlabrada",
+      "es": "Fuenlabrada",
+      "bn": "Fuenlabrada",
+      "ms": "Fuenlabrada"
+    },
+    "aliases": {
+      "en": [
+        "Fons Laborata",
+        "Fuehnlabrada",
+        "feng la fu la da",
+        "fuenraburada",
+        "fwynlabrada"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3121960",
+    "verified": true
+  },
+  {
+    "slug": "ciudad-lineal",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.44505,
+    "lng": -3.65132,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "سويداد لينيال",
+      "en": "Ciudad Lineal",
+      "fr": "Ciudad Lineal",
+      "de": "Ciudad Lineal",
+      "tr": "Ciudad Lineal",
+      "ur": "Ciudad Lineal",
+      "id": "Ciudad Lineal",
+      "es": "Ciudad Lineal",
+      "bn": "Ciudad Lineal",
+      "ms": "Ciudad Lineal"
+    },
+    "aliases": {
+      "en": [
+        "Barrio Ciudad Lineal",
+        "Ciudad Lineal distritu",
+        "Linia Urbo",
+        "S'judad-Lineal'",
+        "Syudad Lineal",
+        "ciuda Lineal",
+        "ciudá Lineal",
+        "siudadeulineal",
+        "swydad lynyal",
+        "xiu da li nei ya er qu"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3124964",
+    "verified": true
+  },
+  {
+    "slug": "burgos",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 42.34106,
+    "lng": -3.70184,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "برغش",
+      "en": "Burgos",
+      "fr": "Burgos",
+      "de": "Burgos",
+      "tr": "Burgos",
+      "ur": "Burgos",
+      "id": "Burgos",
+      "es": "Burgos",
+      "bn": "Burgos",
+      "ms": "Burgos"
+    },
+    "aliases": {
+      "ar": [
+        "برگوس",
+        "بورگوس"
+      ],
+      "en": [
+        "Bourgos",
+        "Burgas",
+        "Burgi",
+        "Burgosa",
+        "Burgosas",
+        "Burgoso",
+        "Burgus",
+        "Burqos",
+        "RGS",
+        "brghsh",
+        "brgws",
+        "bu er ge si",
+        "buleugoseu",
+        "bur kos",
+        "burgosa",
+        "burugosu",
+        "bwrgws"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "قشتالة وليون",
+      "regionEn": "Castile and León"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3127461",
+    "verified": true
+  },
+  {
+    "slug": "badalona",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 41.45004,
+    "lng": 2.24741,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "بادالونا",
+      "en": "Badalona",
+      "fr": "Badalona",
+      "de": "Badalona",
+      "tr": "Badalona",
+      "ur": "Badalona",
+      "id": "Badalona",
+      "es": "Badalona",
+      "bn": "Badalona",
+      "ms": "Badalona"
+    },
+    "aliases": {
+      "en": [
+        "ba da lon a",
+        "ba da luo na",
+        "badallona",
+        "badalwna",
+        "badarona"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "كاتالونيا",
+      "regionEn": "Catalonia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3129028",
+    "verified": true
+  },
+  {
+    "slug": "alcorcon",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.34582,
+    "lng": -3.82487,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ألكوركون",
+      "en": "Alcorcón",
+      "fr": "Alcorcón",
+      "de": "Alcorcón",
+      "tr": "Alcorcón",
+      "ur": "Alcorcón",
+      "id": "Alcorcón",
+      "es": "Alcorcón",
+      "bn": "Alcorcón",
+      "ms": "Alcorcón"
+    },
+    "aliases": {
+      "en": [
+        "Al'karkon",
+        "Al'korkon",
+        "Alcorcon",
+        "Alcorconum",
+        "Alkorkon",
+        "Alkorkonas",
+        "Alkorkono",
+        "a er ke er kong",
+        "alkoleukon",
+        "alkwrkwn",
+        "arukorukon"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3130564",
+    "verified": true
+  },
+  {
+    "slug": "alcobendas",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.54746,
+    "lng": -3.64197,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ألكوبينداس",
+      "en": "Alcobendas",
+      "fr": "Alcobendas",
+      "de": "Alcobendas",
+      "tr": "Alcobendas",
+      "ur": "Alcobendas",
+      "id": "Alcobendas",
+      "es": "Alcobendas",
+      "bn": "Alcobendas",
+      "ms": "Alcobendas"
+    },
+    "aliases": {
+      "en": [
+        "Al'kobendas",
+        "Alcovendae",
+        "Alkobendas",
+        "Alkobendasas",
+        "a er ke wen da si",
+        "alkobendaseu",
+        "alkwbyndas",
+        "arukobendasu"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3130583",
+    "verified": true
+  },
+  {
+    "slug": "alcala-de-henares",
+    "type": "town",
+    "countryCode": "es",
+    "lat": 40.48205,
+    "lng": -3.35996,
+    "timezone": "Europe/Madrid",
+    "names": {
+      "ar": "ألكالا دي إيناريس",
+      "en": "Alcalá de Henares",
+      "fr": "Alcalá de Henares",
+      "de": "Alcalá de Henares",
+      "tr": "Alcalá de Henares",
+      "ur": "Alcalá de Henares",
+      "id": "Alcalá de Henares",
+      "es": "Alcalá de Henares",
+      "bn": "Alcalá de Henares",
+      "ms": "Alcalá de Henares"
+    },
+    "aliases": {
+      "ar": [
+        "الكالا دى ايناريس"
+      ],
+      "en": [
+        "Al'kala-de-Ehnares",
+        "Al'kala-de-Enares",
+        "Al'kala-deh-Ehnarehs",
+        "Alcala de Henares",
+        "Alcála de Henares",
+        "Alkala de Enares",
+        "Alkala de Henaresas",
+        "Alkala nte Enares",
+        "Compluto",
+        "Complutum",
+        "Cómpluto",
+        "ai na lei si bao",
+        "alkala dy aynarys",
+        "alkalladeenaleseu",
+        "arukara・de・enaresu",
+        "xal ka lade xe na res"
+      ]
+    },
+    "admin": {
+      "countryAr": "إسبانيا",
+      "countryEn": "Spain",
+      "regionAr": "مدريد",
+      "regionEn": "Madrid"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3130616",
+    "verified": true
+  },
+  {
+    "slug": "setubal",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 38.5244,
+    "lng": -8.8882,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "ستوبال",
+      "en": "Setúbal",
+      "fr": "Setúbal",
+      "de": "Setúbal",
+      "tr": "Setúbal",
+      "ur": "Setúbal",
+      "id": "Setúbal",
+      "es": "Setúbal",
+      "bn": "Setúbal",
+      "ms": "Setúbal"
+    },
+    "aliases": {
+      "ar": [
+        "سيتوبال",
+        "سیتوبال"
+      ],
+      "en": [
+        "Caetobriga",
+        "Setoumpal",
+        "Setubal",
+        "Setubala",
+        "Setubalis",
+        "sai tu ba er",
+        "setoubaru",
+        "setubal",
+        "setubala",
+        "stwbal",
+        "stwbl",
+        "sux tu bal",
+        "sytwbal"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "سيتوبال",
+      "regionEn": "Setúbal"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2262963",
+    "verified": true
+  },
+  {
+    "slug": "santarem",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 39.23379,
+    "lng": -8.68617,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "سانتارم",
+      "en": "Santarém",
+      "fr": "Santarém",
+      "de": "Santarém",
+      "tr": "Santarém",
+      "ur": "Santarém",
+      "id": "Santarém",
+      "es": "Santarém",
+      "bn": "Santarém",
+      "ms": "Santarém"
+    },
+    "aliases": {
+      "ar": [
+        "سانتارين"
+      ],
+      "en": [
+        "Santarem",
+        "Santaren",
+        "Scalabis",
+        "sanitareም",
+        "santarema",
+        "santaren",
+        "santarm",
+        "santaryn",
+        "satarema"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "سانتاريم",
+      "regionEn": "Santarém"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2263480",
+    "verified": true
+  },
+  {
+    "slug": "queluz",
+    "type": "town",
+    "countryCode": "pt",
+    "lat": 38.75657,
+    "lng": -9.25451,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "كويلوز",
+      "en": "Queluz",
+      "fr": "Queluz",
+      "de": "Queluz",
+      "tr": "Queluz",
+      "ur": "Queluz",
+      "id": "Queluz",
+      "es": "Queluz",
+      "bn": "Queluz",
+      "ms": "Queluz"
+    },
+    "aliases": {
+      "ar": [
+        "کیوئلز، پرتغال"
+      ],
+      "en": [
+        "Kelouz",
+        "Kelusas",
+        "Kelush",
+        "Keluzh",
+        "Queluz i Portugal",
+        "ke lu shen",
+        "kerushu",
+        "kwylwz",
+        "kywylz  prtghal"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "لشبونة",
+      "regionEn": "Lisbon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2264268",
+    "verified": true
+  },
+  {
+    "slug": "leiria",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 39.74362,
+    "lng": -8.80705,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "لييريا",
+      "en": "Leiria",
+      "fr": "Leiria",
+      "de": "Leiria",
+      "tr": "Leiria",
+      "ur": "Leiria",
+      "id": "Leiria",
+      "es": "Leiria",
+      "bn": "Leiria",
+      "ms": "Leiria"
+    },
+    "aliases": {
+      "ar": [
+        "لیریا"
+      ],
+      "en": [
+        "Lejrija",
+        "QLR",
+        "Vieira de Leiria",
+        "le'iriya",
+        "leri'a",
+        "leriya",
+        "lyrya",
+        "lyyrya",
+        "lyyryh",
+        "reiria",
+        "ልyeriya"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "لييريا",
+      "regionEn": "Leiria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2267095",
+    "verified": true
+  },
+  {
+    "slug": "faro",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 37.01869,
+    "lng": -7.92716,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "فارو",
+      "en": "Faro",
+      "fr": "Faro",
+      "de": "Faro",
+      "tr": "Faro",
+      "ur": "Faro",
+      "id": "Faro",
+      "es": "Faro",
+      "bn": "Faro",
+      "ms": "Faro"
+    },
+    "aliases": {
+      "en": [
+        "FAO",
+        "Faru",
+        "farw",
+        "pharo",
+        "ፋro"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "فارو",
+      "regionEn": "Faro"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2268339",
+    "verified": true
+  },
+  {
+    "slug": "evora",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 38.56587,
+    "lng": -7.90405,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "إيفورا",
+      "en": "Évora",
+      "fr": "Évora",
+      "de": "Évora",
+      "tr": "Évora",
+      "ur": "Évora",
+      "id": "Évora",
+      "es": "Évora",
+      "bn": "Évora",
+      "ms": "Évora"
+    },
+    "aliases": {
+      "ar": [
+        "اووا",
+        "ایووارا"
+      ],
+      "en": [
+        "Aebura",
+        "Ebora",
+        "Ehvora",
+        "Elbora",
+        "Erbora",
+        "Evora",
+        "Yabura/Yabora/Yabra",
+        "awwa",
+        "ayfwra",
+        "aywwara",
+        "ebhora",
+        "evora",
+        "evuora",
+        "ivora",
+        "Ébora",
+        "ʿivora"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "إيفورا",
+      "regionEn": "Évora"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2268406",
+    "verified": true
+  },
+  {
+    "slug": "beja-pt",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 38.01469,
+    "lng": -7.86284,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "بيجا",
+      "en": "Beja",
+      "fr": "Beja",
+      "de": "Beja",
+      "tr": "Beja",
+      "ur": "Beja",
+      "id": "Beja",
+      "es": "Beja",
+      "bn": "Beja",
+      "ms": "Beja"
+    },
+    "aliases": {
+      "ar": [
+        "بیجا"
+      ],
+      "en": [
+        "BYJ",
+        "Bekha",
+        "Béja",
+        "Conistorgis",
+        "byja"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "بيجا",
+      "regionEn": "Beja"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2270985",
+    "verified": true
+  },
+  {
+    "slug": "viseu",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 40.66165,
+    "lng": -7.90905,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "فيسيو",
+      "en": "Viseu",
+      "fr": "Viseu",
+      "de": "Viseu",
+      "tr": "Viseu",
+      "ur": "Viseu",
+      "id": "Viseu",
+      "es": "Viseu",
+      "bn": "Viseu",
+      "ms": "Viseu"
+    },
+    "aliases": {
+      "ar": [
+        "ویزئو",
+        "ویسیو"
+      ],
+      "en": [
+        "VSE",
+        "Vizeu",
+        "Vizeu Celorico",
+        "bhisi'u",
+        "fysyw",
+        "vise'u",
+        "viseው",
+        "visi'u",
+        "vuiseu",
+        "wysyw",
+        "wyzyw"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "فيزيو",
+      "regionEn": "Viseu"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2732265",
+    "verified": true
+  },
+  {
+    "slug": "vila-real-pt",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 41.3001,
+    "lng": -7.7432,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "فيلا ريال",
+      "en": "Vila Real",
+      "fr": "Vila Real",
+      "de": "Vila Real",
+      "tr": "Vila Real",
+      "ur": "Vila Real",
+      "id": "Vila Real",
+      "es": "Vila Real",
+      "bn": "Vila Real",
+      "ms": "Vila Real"
+    },
+    "aliases": {
+      "ar": [
+        "ویلا رئال",
+        "ویلا ریال"
+      ],
+      "en": [
+        "Bila Real",
+        "Bila Rial",
+        "VRL",
+        "Vila Realas",
+        "Vila-Real",
+        "bhila riyala",
+        "fyla ryal",
+        "lei a er cheng",
+        "vila ri'ala",
+        "vila ri'ola",
+        "vila riʿeል",
+        "vila-reali",
+        "wyla ryal"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "فيلا ريال",
+      "regionEn": "Vila Real"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2732438",
+    "verified": true
+  },
+  {
+    "slug": "coimbra",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 40.20686,
+    "lng": -8.41996,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "كويمبرا",
+      "en": "Coimbra",
+      "fr": "Coimbra",
+      "de": "Coimbra",
+      "tr": "Coimbra",
+      "ur": "Coimbra",
+      "id": "Coimbra",
+      "es": "Coimbra",
+      "bn": "Coimbra",
+      "ms": "Coimbra"
+    },
+    "aliases": {
+      "ar": [
+        "کوئمبرا",
+        "کویمبرا"
+      ],
+      "en": [
+        "CBP",
+        "Coímbra",
+        "Coïmbra",
+        "Koimbra",
+        "Koimbro",
+        "Koimpra",
+        "Koímbra",
+        "ke ying bu la",
+        "ko'imabara",
+        "ko'imbra",
+        "koinbura",
+        "kweyiምbira",
+        "kwymbra"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "قويمبرا",
+      "regionEn": "Coimbra"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2740637",
+    "verified": true
+  },
+  {
+    "slug": "braganca",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 41.80716,
+    "lng": -6.75898,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "براغانسا",
+      "en": "Bragança",
+      "fr": "Bragança",
+      "de": "Bragança",
+      "tr": "Bragança",
+      "ur": "Bragança",
+      "id": "Bragança",
+      "es": "Bragança",
+      "bn": "Bragança",
+      "ms": "Bragança"
+    },
+    "aliases": {
+      "ar": [
+        "براگانسا"
+      ],
+      "en": [
+        "BGC",
+        "Bragan'",
+        "Braganca",
+        "Bragance",
+        "Braganza",
+        "biraganisa",
+        "braganasa",
+        "braganka",
+        "bragansa",
+        "braghansa",
+        "buragansa"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "براغانصا",
+      "regionEn": "Bragança"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2742027",
+    "verified": true
+  },
+  {
+    "slug": "braga",
+    "type": "city",
+    "countryCode": "pt",
+    "lat": 41.5514,
+    "lng": -8.42311,
+    "timezone": "Europe/Lisbon",
+    "names": {
+      "ar": "براغا",
+      "en": "Braga",
+      "fr": "Braga",
+      "de": "Braga",
+      "tr": "Braga",
+      "ur": "Braga",
+      "id": "Braga",
+      "es": "Braga",
+      "bn": "Braga",
+      "ms": "Braga"
+    },
+    "aliases": {
+      "ar": [
+        "براگا"
+      ],
+      "en": [
+        "BGZ",
+        "Bracara Augusta",
+        "Mpranka",
+        "biraga",
+        "bragha",
+        "buraga"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرتغال",
+      "countryEn": "Portugal",
+      "regionAr": "براغا",
+      "regionEn": "Braga"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2742032",
+    "verified": true
   }
 ]

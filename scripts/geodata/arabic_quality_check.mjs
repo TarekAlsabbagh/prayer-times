@@ -1,17 +1,20 @@
 // scripts/geodata/arabic_quality_check.mjs
 // ─────────────────────────────────────────────────────────────────────────
 // CURATED-GEODATA — Stage 3.5: ARABIC-NAME QA GATE + cross-wave collisions
-// (Strategy E — Europe-1A specific)
+// (Strategy E — generalized across waves)
 //
-// Usage: node scripts/geodata/arabic_quality_check.mjs <cc1> <cc2> ...
+// Usage: node scripts/geodata/arabic_quality_check.mjs [--wave=<label>] <cc1> <cc2> ...
 //        node scripts/geodata/arabic_quality_check.mjs gb ie fr be nl lu
+//          → default wave label is "europe-1a"
+//        node scripts/geodata/arabic_quality_check.mjs --wave=europe-1b es pt
+//          → custom wave label
 //
 // Inputs (per country):
 //   - db/places/candidates/<cc>-geonames-candidates.json
 //   - db/places/curated-places.json
 //
 // Reads Stage 3 output for each cc and produces:
-//   - db/places/candidates/europe-1a-arabic-quality.json
+//   - db/places/candidates/<wave>-arabic-quality.json
 //     Per-candidate ar-quality classification + collision flag.
 //   - Adds `arQuality` + `collisionInWave` + `pendingAfterArGate` fields
 //     to each entry's Stage 3 candidate JSON (in-place rewrite).
@@ -121,9 +124,21 @@ function passesArGate(quality, collisionInWave) {
 
 // ─── Main ───
 async function main() {
-    const ccs = (process.argv.slice(2).length ? process.argv.slice(2) : ['gb','ie','fr','be','nl','lu'])
-        .map(c => c.toLowerCase());
-    console.log('[stage3.5] running ar-quality check for', ccs.join(', '));
+    // Parse args: optional `--wave=<label>` then a list of country codes.
+    // Default wave: 'europe-1a' (backward-compat with the first run).
+    // Default ccs: ['gb','ie','fr','be','nl','lu'].
+    const rawArgs = process.argv.slice(2);
+    let wave = 'europe-1a';
+    const ccArgs = [];
+    for (const a of rawArgs) {
+        if (a.startsWith('--wave=')) {
+            wave = a.slice('--wave='.length).trim().toLowerCase();
+        } else if (a) {
+            ccArgs.push(a.toLowerCase());
+        }
+    }
+    const ccs = ccArgs.length ? ccArgs : ['gb','ie','fr','be','nl','lu'];
+    console.log('[stage3.5] wave=' + wave + ' running ar-quality check for', ccs.join(', '));
 
     // 1. Load all candidate files + curated
     const basePaths = pathsFor('gb');  // any cc, we just need projectRoot/curatedPath
@@ -171,7 +186,7 @@ async function main() {
     // 3. Classify each candidate's Arabic name + collision status
     const arQualityReport = {
         generatedAt: new Date().toISOString(),
-        wave: 'CURATED-GEODATA-EUROPE-1A',
+        wave: 'CURATED-GEODATA-' + wave.toUpperCase(),
         strategy: 'E (popMin + alwaysInclude + ar-quality gate)',
         countries: ccs,
         summary: {
@@ -291,7 +306,7 @@ async function main() {
     }
 
     // 4. Write the consolidated ar-quality assessment JSON
-    const outJson = path.join(pathsFor('gb').candidateDir, 'europe-1a-arabic-quality.json');
+    const outJson = path.join(pathsFor(ccs[0]).candidateDir, wave + '-arabic-quality.json');
     fs.writeFileSync(outJson, JSON.stringify(arQualityReport, null, 2) + '\n');
     console.log('[stage3.5] wrote', outJson);
 

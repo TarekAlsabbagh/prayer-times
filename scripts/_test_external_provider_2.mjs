@@ -163,6 +163,71 @@ for (const q of knownCurated) {
     await sleep(100);
 }
 
+// ── F. EXTERNAL-PROVIDER-2-FORCE-TEST-1 — forceProvider parameter ─────
+// The /api/search-place handler now accepts `forceProvider=locationiq`
+// which skips Nominatim and goes straight to the LocationIQ adapter.
+// This lets us verify the LocationIQ pipeline works on demand instead
+// of waiting for Nominatim to organically 429.
+//
+// Without LOCATIONIQ_API_KEY in env (the default local + initial-deploy
+// state) the forced path returns status='disabled' so the test can
+// distinguish "not configured" from "LocationIQ broke". The user runs
+// these same tests AFTER setting the env var on Render to confirm
+// LocationIQ actually returns ok results.
+console.log('\n── F. forceProvider=locationiq parameter ──');
+
+// F1. Curated query with forceProvider is still curated (no external call)
+{
+    const r = await getJson('/api/search-place?q=Riyadh&lang=en&forceProvider=locationiq');
+    ok('curated query + forceProvider=locationiq → still curated (no external)',
+        r.json && r.json.source === 'curated' && r.json.provider === '',
+        `(source=${r.json && r.json.source}, provider="${r.json && r.json.provider}")`);
+}
+await sleep(150);
+
+// F2. forceProvider=locationiq + non-curated query → provider=locationiq
+// (status depends on LOCATIONIQ_API_KEY presence — both are valid outcomes)
+{
+    const r = await getJson('/api/search-place?q=Krasnodar&lang=en&forceProvider=locationiq');
+    ok('forceProvider=locationiq → provider="locationiq" (whether ok or disabled)',
+        r.json && r.json.source === 'external' && r.json.provider === 'locationiq',
+        `(source=${r.json && r.json.source}, status=${r.json && r.json.status}, provider="${r.json && r.json.provider}")`);
+    // Status enum: ok if key works, disabled if no key, error if key invalid.
+    const validStatus = ['ok', 'empty', 'disabled', 'error', 'rate_limited'].includes(r.json && r.json.status);
+    ok('forceProvider=locationiq → status is a known enum value',
+        validStatus,
+        `(got "${r.json && r.json.status}")`);
+    // X-Search-Provider header matches body
+    ok('forceProvider=locationiq → X-Search-Provider header = "locationiq"',
+        r.headers['x-search-provider'] === 'locationiq',
+        `(got "${r.headers['x-search-provider']}")`);
+}
+await sleep(150);
+
+// F3. Invalid forceProvider values are silently ignored (whitelist)
+{
+    const r = await getJson('/api/search-place?q=Volgograd&lang=en&forceProvider=garbage_evil');
+    ok('forceProvider=garbage → ignored, falls back to default cascade',
+        r.json && r.json.source === 'external' && r.json.provider === 'nominatim',
+        `(source=${r.json && r.json.source}, provider="${r.json && r.json.provider}")`);
+}
+await sleep(150);
+
+{
+    const r = await getJson('/api/search-place?q=Volgograd&lang=en&forceProvider=nominatim');
+    ok('forceProvider=nominatim → not whitelisted, ignored (only locationiq force is allowed)',
+        r.json && r.json.provider === 'nominatim',
+        `(provider="${r.json && r.json.provider}")`);
+}
+await sleep(150);
+
+// F4. forceProvider with empty/missing query — too_short response
+{
+    const r = await getJson('/api/search-place?q=&lang=en&forceProvider=locationiq');
+    ok('forceProvider=locationiq with empty query → does not crash',
+        r.status === 200);
+}
+
 console.log('');
 console.log(`Result: ${pass} pass / ${fail} fail`);
 if (fail > 0) process.exit(1);

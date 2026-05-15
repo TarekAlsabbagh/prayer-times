@@ -846,19 +846,61 @@ async function _searchLocationIQRaw(query, lang) {
 //                    OR Nominatim 429'd + LocationIQ disabled (no key)
 //   'error'        → BOTH providers failed (timeout / network / 5xx)
 //                    OR Nominatim failed + LocationIQ disabled
+//   'disabled'     → forceProvider=locationiq but LOCATIONIQ_API_KEY unset
 //   'too_short'    → query was < 2 or > 80 chars; we don't ask anyone
 //
 // The `provider` field indicates which provider's results we returned:
 //   'nominatim'   → Nominatim succeeded (status='ok' or 'empty')
-//   'locationiq'  → Nominatim failed, LocationIQ rescued (status='ok')
+//   'locationiq'  → LocationIQ succeeded (rescue OR forceProvider mode)
 //   ''            → both failed or query was too short
+//
+// EXTERNAL-PROVIDER-2-FORCE-TEST-1 (2026-05-15): the `opts.forceProvider`
+// option lets debug callers (test scripts + the `forceProvider` query
+// parameter on /api/search-place) skip Nominatim and call LocationIQ
+// directly. This proves the LocationIQ adapter actually works on
+// production WITHOUT waiting for Nominatim to organically 429 (which
+// is hard to reproduce on demand). The forced path:
+//   • Still consults curated and discovered before any external call
+//     (handled by the /api/search-place handler, not here).
+//   • Does NOT read Nominatim's external_cache row — that would short-
+//     circuit to a Nominatim-tagged result.
+//   • Reads LocationIQ's external_cache row directly via
+//     `_searchLocationIQRaw`.
+//   • If LocationIQ is disabled (no env var), returns status='disabled'
+//     so the test can verify the failure mode cleanly.
+//   • Production behavior for normal users (no forceProvider param)
+//     is UNCHANGED — the cascade order is identical.
 // ─────────────────────────────────────────────────────────────────────────
-async function _searchExternalPlaces(query, lang) {
+async function _searchExternalPlaces(query, lang, opts) {
+    opts = opts || {};
     const q = String(query || '').trim();
     if (q.length < 2 || q.length > 80) {
         return { results: [], status: 'too_short', provider: '' };
     }
     const langCode = _SUPPORTED_LANGS.includes(lang) ? lang : 'ar';
+
+    // ── EXTERNAL-PROVIDER-2-FORCE-TEST-1 ─────────────────────────────
+    // Direct-to-LocationIQ debug path. Bypasses Nominatim entirely.
+    // The /api/search-place handler accepts a `forceProvider=locationiq`
+    // query param and forwards it here. Normal users never set this.
+    if (opts.forceProvider === 'locationiq') {
+        if (!_isLocationIQEnabled()) {
+            return {
+                results: [],
+                status: 'disabled',
+                provider: 'locationiq'
+            };
+        }
+        const liq = await _searchLocationIQRaw(q, langCode);
+        // `_localizeRawNominatim` is mis-named — it actually handles
+        // ANY Nominatim-jsonv2-shaped result, which is exactly what
+        // LocationIQ returns. Reuse it.
+        return {
+            results: _localizeRawNominatim(liq.raw || [], langCode),
+            status: liq.status,
+            provider: 'locationiq'
+        };
+    }
 
     // Cache key is lang-AGNOSTIC because we always hit Nominatim with
     // accept-language=en and re-localize per-request from namedetails.
@@ -21268,6 +21310,25 @@ const server = http.createServer(async (req, res) => {
                 const q   = String(_qs2.get('q') || '').trim();
                 const langRaw = String(_qs2.get('lang') || 'ar').toLowerCase();
                 const lang = _SUPPORTED_LANGS.includes(langRaw) ? langRaw : 'ar';
+                // EXTERNAL-PROVIDER-2-FORCE-TEST-1 (2026-05-15): debug-only
+                // query param. When `forceProvider=locationiq` AND we
+                // reach the external tier, skip Nominatim entirely and
+                // call LocationIQ directly. Used by the test suite + the
+                // user's manual verification to prove the LocationIQ
+                // adapter works without waiting for Nominatim to 429
+                // organically. Curated + discovered tiers are NOT
+                // affected — they still resolve before any external
+                // call, which is the correct behavior for production
+                // users who pass this param accidentally.
+                //
+                // Whitelist of valid values — anything else is ignored
+                // (treated as `undefined`). Future providers can be added
+                // to this Set.
+                const _FORCE_PROVIDER_WHITELIST = new Set(['locationiq']);
+                const _forceProviderRaw = String(_qs2.get('forceProvider') || '').trim().toLowerCase();
+                const forceProvider = _FORCE_PROVIDER_WHITELIST.has(_forceProviderRaw)
+                    ? _forceProviderRaw
+                    : '';
                 // EXTERNAL-FAIL-UX-1 (2026-05-13): track BOTH `source` and
                 // `status` separately so the UI can show different messages:
                 //   - results > 0           → status='ok'
@@ -21311,7 +21372,11 @@ const server = http.createServer(async (req, res) => {
                 // instead of a misleading "no results" generic.
                 if (results.length === 0 && q.length >= 2) {
                     try {
-                        const ext = await _searchExternalPlaces(q, lang);
+                        // EXTERNAL-PROVIDER-2-FORCE-TEST-1: pass through
+                        // the `forceProvider` option when set. Empty
+                        // string disables it (normal cascade).
+                        const ext = await _searchExternalPlaces(q, lang,
+                            forceProvider ? { forceProvider } : undefined);
                         source = 'external';
                         provider = (ext && ext.provider) || '';
                         if (ext && Array.isArray(ext.results) && ext.results.length > 0) {

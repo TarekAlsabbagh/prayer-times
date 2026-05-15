@@ -446,6 +446,23 @@
                         </button>
                         <div class="cps-suggestions" id="city-suggestions" role="listbox"></div>
                     </div>
+                    <!-- HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15): LocationIQ
+                         attribution badge for the v2 search (TOS-required when
+                         LocationIQ data is shown in production). The badge is
+                         hidden by default (display:none) and made visible by
+                         js/app.js _renderHomepageAttributionLocationIQ() only
+                         when at least one result in the current dropdown has
+                         source='external' AND provider='locationiq'. Curated /
+                         discovered / Nominatim results keep this hidden. v1
+                         (the legacy fetcher) never shows this badge. -->
+                    <span id="search-attribution-locationiq"
+                          class="search-attribution"
+                          style="display:none;font-size:11px;color:#888;margin-top:4px;line-height:1.5;text-align:start;">
+                        <span data-i18n="search.locationiq_attribution">بيانات البحث الخارجية بواسطة</span>
+                        <a href="https://locationiq.com/?ref=prayertimes"
+                           target="_blank" rel="noopener"
+                           style="color:#4a5cdb;text-decoration:none;">LocationIQ</a>
+                    </span>
                 </section>
 
                 <!-- City Hero Answer (Phase 2) — removed (R34): #location-hero now serves as the unified city hero -->

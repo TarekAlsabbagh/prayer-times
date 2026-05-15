@@ -4900,9 +4900,22 @@ function onCitySearchInput(query) {
     }
     suggestionsEl.classList.add('open');
 
-    // استدعاء Nominatim بعد debounce قصير جداً لإثراء النتائج
+    // HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15): route to v1 or v2
+    // based on the feature flag. v1 = legacy direct-Nominatim path via
+    // /api/geocode proxy (unchanged). v2 = /api/search-place full
+    // cascade. Resolution rules in _pickHomepageSearchVersion (URL
+    // param > meta tag > default v1). On v2 fetch failure, the v2
+    // function itself falls back to v1 internally — so the worst
+    // case is "user sees v1 results", never "search box broken".
+    const _searchVersion = (typeof _pickHomepageSearchVersion === 'function')
+        ? _pickHomepageSearchVersion()
+        : 'v1';
     searchDebounceTimer = setTimeout(() => {
-        fetchCitySuggestions(query);
+        if (_searchVersion === 'v2' && typeof fetchCitySuggestionsV2 === 'function') {
+            fetchCitySuggestionsV2(query);
+        } else {
+            fetchCitySuggestions(query);
+        }
     }, 120);
 }
 
@@ -5578,6 +5591,174 @@ function searchSmartCities(query, sources) {
         .slice(0, 10);
 }
 
+// ═══ HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15) ════════════════════════════
+// v2 fetcher: routes through /api/search-place instead of /api/geocode.
+// Gated behind `<meta name="homepage-search">` env-var flag + ?searchV=
+// URL param override. v1 (`fetchCitySuggestions` below) stays as the
+// fallback during UAT.
+//
+// Resolution priority (highest first):
+//   1. ?searchV=1 or ?searchV=2 URL param (force per-tab)
+//   2. <meta name="homepage-search" content="..."> (server-injected env state)
+//   3. Default: v1 (safe)
+//   4. Any error in 1-3 → v1 (defensive)
+function _pickHomepageSearchVersion() {
+    try {
+        const url = new URLSearchParams(window.location.search);
+        const param = String(url.get('searchV') || '').trim();
+        if (param === '1') return 'v1';
+        if (param === '2') return 'v2';
+        const meta = document.querySelector('meta[name="homepage-search"]');
+        const metaV = meta && meta.getAttribute('content');
+        if (metaV === 'v2') return 'v2';
+        return 'v1';
+    } catch (_) { return 'v1'; }
+}
+
+// Toggle the LocationIQ attribution badge based on the current dropdown's
+// providers. Only shown when at least one shown result has
+// source='external' AND provider='locationiq'. Curated / discovered /
+// Nominatim results keep it hidden.
+function _renderHomepageAttributionLocationIQ(shouldShow) {
+    try {
+        const el = document.getElementById('search-attribution-locationiq');
+        if (el) el.style.display = shouldShow ? 'inline' : 'none';
+    } catch (_) {}
+}
+
+// v2 result renderer — mirrors the v1 markup (same .suggestion-item CSS,
+// same flagcdn.com image, same two-line layout) so no CSS change is
+// needed. Each row carries data-slug / data-tz / data-source / data-provider
+// so the click handler can navigate via API-supplied slug instead of
+// recomputing from coordinates.
+function _renderV2Row(r, suggestionsEl, lang) {
+    const div = document.createElement('div');
+    div.className = 'suggestion-item';
+    div.setAttribute('data-slug',     r.slug || '');
+    div.setAttribute('data-tz',       r.timezone || '');
+    div.setAttribute('data-source',   r.source || '');
+    div.setAttribute('data-provider', r.provider || '');
+    const cc = (r.countryCode || '').toLowerCase();
+    const flagImg = cc
+        ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
+        : `<span style="font-size:1.2rem">🌍</span>`;
+    const subText = r.typeLabel
+        ? `${r.countryName || ''} · ${r.typeLabel}`
+        : (r.countryName || '');
+    const safeName = String(r.displayName || '').replace(/[<>]/g, '');
+    const safeSub  = String(subText).replace(/[<>]/g, '');
+    div.innerHTML = `${flagImg}<div><div class="sugg-name">${safeName}</div><div class="sugg-country">${safeSub}</div></div>`;
+    div.addEventListener('click', async () => {
+        try {
+            const inputEl = document.getElementById('city-search-input');
+            if (inputEl) inputEl.value = r.displayName || '';
+            suggestionsEl.classList.remove('open');
+        } catch (_) {}
+
+        // Fire-and-forget /api/place-selected for external rows so future
+        // searches of the same name hit Tier 2 (discovered) instantly.
+        // Curated / discovered results skip this — already in DB.
+        if (r.source === 'external') {
+            try {
+                const payload = {
+                    slug:        r.slug,
+                    type:        r.type || 'city',
+                    countryCode: r.countryCode,
+                    lat:         r.lat,
+                    lng:         r.lng,
+                    timezone:    r.timezone,
+                    names:       { [lang]: r.displayName, en: r.secondaryName || r.displayName },
+                    aliases:     {},
+                    admin:       { country: { [lang]: r.countryName } },
+                    source:      'external',
+                    nameQuality: { [lang]: r.nameQuality || 'namedetails' },
+                    originalName: r.originalName || ''
+                };
+                fetch('/api/place-selected', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify(payload),
+                    keepalive: true   // survives the navigation below
+                }).catch(() => {});
+            } catch (_) {}
+        }
+
+        // Navigate. We pass slug + timezone explicitly so navigateToCity
+        // can use the API-supplied values instead of recomputing from
+        // coordinates (which loses the curated canonical slug).
+        try {
+            if (typeof currentEnglishDisplayName !== 'undefined') {
+                currentEnglishDisplayName = r.secondaryName || r.displayName || '';
+            }
+        } catch (_) {}
+        await selectCity(
+            r.lat, r.lng,
+            r.displayName,
+            r.countryName,
+            r.secondaryName || r.displayName,
+            r.countryCode,
+            { slug: r.slug, timezone: r.timezone }
+        );
+    });
+    suggestionsEl.appendChild(div);
+}
+
+// v2 main fetcher. Calls /api/search-place which already runs the full
+// cascade (curated → discovered → external_cache → Nominatim →
+// LocationIQ). On HTTP/network failure, AUTO-FALLS-BACK to v1 — the
+// legacy `fetchCitySuggestions` path — so users never see a broken
+// search box even if the new endpoint is down.
+async function fetchCitySuggestionsV2(query) {
+    const suggestionsEl = document.getElementById('city-suggestions');
+    if (!suggestionsEl) return;
+    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const isAr = (lang === 'ar');
+    const url = '/api/search-place?q=' + encodeURIComponent(query)
+              + '&lang=' + encodeURIComponent(lang);
+    let data;
+    try {
+        const r = await fetch(url, { credentials: 'omit' });
+        if (!r.ok) throw new Error('http_' + r.status);
+        data = await r.json();
+    } catch (_e) {
+        // Network or 5xx → silently fall back to v1 so the user still
+        // gets a working search box. v1 path also still exists.
+        try { console.warn('[home-search-v2] fetch failed, falling back to v1:', _e && _e.message); } catch (_) {}
+        try { return await fetchCitySuggestions(query); } catch (__) { return; }
+    }
+
+    const results = (data && Array.isArray(data.results)) ? data.results : [];
+    const status  = (data && data.status)  || 'empty';
+    // Wipe any prior LOCAL_CITIES results — v2 owns the dropdown when active
+    suggestionsEl.innerHTML = '';
+
+    if (results.length > 0) {
+        for (const r of results) _renderV2Row(r, suggestionsEl, lang);
+        suggestionsEl.classList.add('open');
+        // Attribution toggle: only if any shown row is from LocationIQ.
+        const anyLiq = results.some(r => r.source === 'external' && r.provider === 'locationiq');
+        _renderHomepageAttributionLocationIQ(anyLiq);
+    } else {
+        // No results — show status-appropriate message and HIDE attribution.
+        let msg;
+        if (status === 'rate_limited' || status === 'error' || status === 'timeout' || status === 'disabled') {
+            msg = isAr
+                ? 'تعذّر البحث الخارجي مؤقتاً — حاول بعد لحظة'
+                : 'External search is temporarily unavailable — try again shortly';
+        } else if (status === 'too_short') {
+            // < 2 chars — just hide dropdown silently
+            suggestionsEl.classList.remove('open');
+            _renderHomepageAttributionLocationIQ(false);
+            return;
+        } else {
+            msg = isAr ? 'لا توجد نتائج' : 'No results';
+        }
+        suggestionsEl.innerHTML = `<div class="search-empty" style="padding:12px;color:#888;text-align:start;">${msg}</div>`;
+        suggestionsEl.classList.add('open');
+        _renderHomepageAttributionLocationIQ(false);
+    }
+}
+
 function fetchCitySuggestions(query) {
     const suggestionsEl = document.getElementById('city-suggestions');
     const currentLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -6076,17 +6257,43 @@ function buildCityUrl(lat, lng, city, country, englishName) {
 }
 
 // التنقل الحقيقي لصفحة المدينة (حفظ البيانات في sessionStorage)
-function navigateToCity(lat, lng, city, country, englishName = '', countryCode = '') {
-    // Phase F: نمرّر العنصر إلى buildPrayerTimesSlug — يتعامل مع slug-override،
-    //   حذف لاحقات Governorate/Province، وdisambiguation عبر الدولة عند التضارب.
-    let slug = buildPrayerTimesSlug({
-        en: englishName || city, country, cc: countryCode, lat, lng
-    });
-    // city-state special cases (Djibouti / Singapore) — لا تُحلّ من LOCAL_CITIES إن لم تكن مضافة
-    if (slug === 'djibouti' && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
-    if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
-    // لا نخزّن timezone هنا لأن currentTimezone قد يكون للمدينة السابقة
-    sessionStorage.setItem(`city_${slug}`, JSON.stringify({ lat, lng, name: city, country, englishName, countryCode, _v: 2 }));
+//
+// HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15): added optional `opts` argument:
+//   • opts.slug:     when provided (from v2 /api/search-place result),
+//                    use it directly instead of recomputing via
+//                    buildPrayerTimesSlug. The API-supplied slug is the
+//                    canonical curated slug — preserves rename rules like
+//                    'rafah-eg' / 'al-aziziyah-ly' / 'saida-dz' that
+//                    `buildPrayerTimesSlug` doesn't know about.
+//   • opts.timezone: when provided (IANA string), include it in the
+//                    sessionStorage seed so the prayer-times page doesn't
+//                    need to round-trip through fetchTimezone.
+// Both optional — when omitted, behavior is unchanged from pre-migration.
+function navigateToCity(lat, lng, city, country, englishName = '', countryCode = '', opts) {
+    opts = opts || {};
+    let slug;
+    if (opts.slug && typeof opts.slug === 'string' && /^[a-z0-9][a-z0-9-]*$/.test(opts.slug)) {
+        // API-supplied canonical slug. Trust it (already passed
+        // _isPrayerTimesReady server-side validation).
+        slug = opts.slug;
+    } else {
+        // Legacy path: compute slug from coords + name. Phase F:
+        // نمرّر العنصر إلى buildPrayerTimesSlug — يتعامل مع slug-override،
+        // حذف لاحقات Governorate/Province، وdisambiguation عبر الدولة عند التضارب.
+        slug = buildPrayerTimesSlug({
+            en: englishName || city, country, cc: countryCode, lat, lng
+        });
+        // city-state special cases (Djibouti / Singapore) — لا تُحلّ من LOCAL_CITIES إن لم تكن مضافة
+        if (slug === 'djibouti'  && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
+        if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
+    }
+    // sessionStorage seed. Include timezone when v2 supplied it (saves
+    // a fetchTimezone round-trip on the prayer-times page).
+    const _seed = { lat, lng, name: city, country, englishName, countryCode, _v: 2 };
+    if (opts.timezone && typeof opts.timezone === 'string') {
+        _seed.timezone = opts.timezone;
+    }
+    sessionStorage.setItem(`city_${slug}`, JSON.stringify(_seed));
     if (window.location.protocol === 'file:') {
         window.location.hash = `prayer-times-in-${slug}`;
     } else {
@@ -6748,8 +6955,13 @@ function _renderCityAbout() { /* removed */ }
 function toggleCityAbout() { /* removed */ }
 
 // للتوافق مع الكود القديم - ينتقل للصفحة مباشرة
-async function selectCity(lat, lng, city, country, englishName = '', countryCode = '') {
-    navigateToCity(lat, lng, city, country, englishName, countryCode);
+// HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15): added optional `opts`
+// argument and forward it to navigateToCity. v1 callers (legacy
+// `fetchCitySuggestions` click handler + LOCAL_CITIES quick-match)
+// call without opts → behavior unchanged. v2 callers pass
+// { slug, timezone } from the /api/search-place result.
+async function selectCity(lat, lng, city, country, englishName = '', countryCode = '', opts) {
+    navigateToCity(lat, lng, city, country, englishName, countryCode, opts);
     searchFocusedIndex = -1;
 }
 

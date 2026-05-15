@@ -1178,6 +1178,18 @@ if (!_SUPABASE_ENABLED) {
     } catch (_) {}
 }
 
+// HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15): startup diagnostic for
+// the homepage-search version flag. Logs the resolved version so the
+// user can verify Render env-var pickup after deploy. Per-session
+// override via ?searchV=1 or ?searchV=2 is handled client-side and
+// doesn't show in this log.
+{
+    const _homeSearchV2 = String(process.env.HOME_SEARCH_V2 || '').trim().toLowerCase() === 'on';
+    try {
+        console.log('[homepage-search] version:', _homeSearchV2 ? 'v2 (HOME_SEARCH_V2=on)' : 'v1 (default, HOME_SEARCH_V2 unset/off)');
+    } catch (_) {}
+}
+
 // Internal call to Supabase PostgREST. Returns a structured result
 // `{ok, status, data, error}` so callers can distinguish "table empty"
 // from "auth failed" / "table missing" / "network error".
@@ -18632,6 +18644,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             );
         }
     }
+
+    // ═══ HOME-SEARCH-MIGRATION-PLAN-1 (2026-05-15) ════════════════════
+    // Inject `<meta name="homepage-search" content="v1|v2">` into every
+    // HTML response so `js/app.js` can pick the right fetcher path on
+    // the homepage search box without a separate config round-trip.
+    //
+    // Resolution (server side):
+    //   - Read `process.env.HOME_SEARCH_V2` (case-insensitive)
+    //   - 'on' → v2, anything else (empty / 'off' / typos) → v1 (safe default)
+    //
+    // Resolution (client side, in js/app.js _pickHomepageSearchVersion):
+    //   - ?searchV=1 URL param  → force v1 for this session (override env)
+    //   - ?searchV=2 URL param  → force v2 for this session (override env)
+    //   - else: read this meta tag (= server's view of the env var)
+    //   - any error → v1 fallback
+    //
+    // Rollback paths:
+    //   - Per-tab: append `?searchV=1` to URL (instant)
+    //   - Global: Render Env → set HOME_SEARCH_V2=off → redeploy (~3 min)
+    //   - Emergency: git revert + redeploy (~5 min)
+    //
+    // v1 (legacy `fetchCitySuggestions` + `/api/geocode` proxy) is NOT
+    // removed in this phase — it stays in place as the fallback while
+    // v2 (the `/api/search-place` path) goes through UAT. A follow-up
+    // phase will delete v1 once v2 is proven stable.
+    try {
+        const _homeSearchV2 = String(process.env.HOME_SEARCH_V2 || '').trim().toLowerCase() === 'on';
+        const _homeSearchVersion = _homeSearchV2 ? 'v2' : 'v1';
+        const _homeSearchMeta = `<meta name="homepage-search" content="${_homeSearchVersion}">`;
+        if (html.indexOf('name="homepage-search"') === -1) {
+            html = html.replace('</head>', _homeSearchMeta + '\n</head>');
+        }
+    } catch (_e) { /* best-effort — never block response */ }
 
     // CITY-NAME-SYNC-1 (2026-05-12): inject `<meta name="ssr-city-name">` on
     // every SEO city route so the client-side helper `_syncCityNameInDom()`

@@ -277,6 +277,22 @@
                 لا تُعرض.
             </p>
         </details>
+
+        <!-- EXTERNAL-PROVIDER-2 (2026-05-15): attribution badge for the
+             LocationIQ fallback. Required by LocationIQ's TOS whenever
+             their geocoding data appears in production. The badge is
+             always rendered (regardless of whether the user's current
+             query actually came from LocationIQ) — simpler than gating
+             on per-result provider, and zero implementation surface to
+             miss. The badge is visually small and unobtrusive. -->
+        <p style="margin: 24px 0 0; text-align: center; font-size: 12px; color: #888; line-height: 1.5;">
+            بيانات البحث الخارجية بواسطة
+            <a href="https://locationiq.com/?ref=prayertimes" target="_blank" rel="noopener" style="color: #4a5cdb;">LocationIQ</a>
+            و<a href="https://nominatim.openstreetmap.org/" target="_blank" rel="noopener" style="color: #4a5cdb;">Nominatim/OSM</a>.
+            البيانات الأساسية مأخوذة من
+            <a href="https://www.geonames.org/" target="_blank" rel="noopener" style="color: #4a5cdb;">GeoNames</a>
+            تحت رخصة CC-BY 4.0.
+        </p>
     </div>
 
     <script>

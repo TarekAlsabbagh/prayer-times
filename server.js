@@ -660,22 +660,203 @@ async function _fetchNominatimWithTimeout(query, lang, timeoutMs) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// _searchExternalPlaces — final tier of /api/search-place. Cascades through
-// Supabase external_cache → in-memory cache → single-flight → Nominatim.
+// EXTERNAL-PROVIDER-2 (2026-05-15) — LocationIQ as fallback when Nominatim
+// is rate-limited / erroring on Render's free-tier public IP.
 //
-// EXTERNAL-FAIL-UX-1 (2026-05-13): now returns `{ results, status }` instead
-// of just an array. The callers (handler at /api/search-place) need the
-// status separately so they can tell the user *why* results are empty:
+// Why LocationIQ:
+//   • Same OSM-style response shape as Nominatim → `_normalizeExternalPlace`
+//     works with zero changes (the `searchPath` for `osm_type` / `type` /
+//     `address` / `namedetails` / `display_name` is identical).
+//   • Independent infrastructure: a 429 on the public Nominatim endpoint
+//     does NOT mean LocationIQ will 429 (they're separate companies).
+//   • Free tier (5k/day + 2 req/s + 100% soft-overrun) is production-
+//     licensed and covers fallback role comfortably.
+//   • Same external_cache table — different `provider` value
+//     ('locationiq' vs 'nominatim') keeps the rows distinct and TTL
+//     semantics identical.
+//
+// Configuration: requires `LOCATIONIQ_API_KEY` env var on Render. When
+// absent the adapter silently returns 'disabled' and the caller stays
+// on Nominatim's status (today's behavior — no breakage).
+// ─────────────────────────────────────────────────────────────────────────
+function _isLocationIQEnabled() {
+    return !!String(process.env.LOCATIONIQ_API_KEY || '').trim();
+}
+
+async function _fetchLocationIQWithTimeout(query, lang, timeoutMs) {
+    const key = String(process.env.LOCATIONIQ_API_KEY || '').trim();
+    if (!key) {
+        // Throw with a sentinel statusCode so the caller can map to
+        // status='disabled' without confusing it with a 4xx HTTP error.
+        const err = new Error('locationiq_disabled_no_key');
+        err.statusCode = -1;
+        throw err;
+    }
+    // LocationIQ's `/v1/search` mirrors Nominatim's contract: same query
+    // params (q / format / addressdetails / namedetails / limit / accept-
+    // language) and same response shape. We use the US1 host; EU1 is an
+    // alternative mirror if US1 is geographically slower for the user
+    // base. Server-to-server latency from Render is essentially identical.
+    const url = 'https://us1.locationiq.com/v1/search'
+        + '?key=' + encodeURIComponent(key)
+        + '&format=jsonv2'
+        + '&addressdetails=1'
+        + '&namedetails=1'
+        + '&limit=10'
+        + '&accept-language=' + encodeURIComponent(lang || 'en')
+        + '&q=' + encodeURIComponent(query);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs || 8000);
+    try {
+        const resp = await fetch(url, {
+            signal: ctrl.signal,
+            headers: {
+                // LocationIQ does NOT require a User-Agent (unlike public
+                // Nominatim) but sending one is good etiquette + helps
+                // their support track abusive accounts if our key leaks.
+                'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
+                'Accept': 'application/json'
+            }
+        });
+        if (!resp.ok) {
+            const err = new Error('locationiq_http_' + resp.status);
+            err.statusCode = resp.status;
+            throw err;
+        }
+        const data = await resp.json();
+        // LocationIQ returns the same shape as Nominatim's jsonv2 (array).
+        // When no match: returns `{ error: "Unable to geocode" }` (object)
+        // with HTTP 404 instead of [] — we normalize to [] here so the
+        // caller's empty-detection logic stays uniform.
+        if (!Array.isArray(data)) return [];
+        return data;
+    } catch (e) {
+        // LocationIQ-specific "no match" is a 404. Re-tag as `not_found`
+        // so the cache TTL picks the same TTL as Nominatim's 'empty'.
+        if (e && e.statusCode === 404) {
+            return [];
+        }
+        throw e;
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// _searchLocationIQPlaces — same cache cascade as Nominatim but keyed by
+// `provider='locationiq'`. Returns the same `{ raw, status }` envelope as
+// the internal Nominatim flow so the outer `_searchExternalPlaces` can
+// glue them together without re-implementing single-flight / mem-cache /
+// Supabase persist.
+//
+// Status values:
+//   'ok'           — at least one result
+//   'empty'        — LocationIQ returned 0 (legitimate not-found)
+//   'rate_limited' — 429 (their soft-overrun usually means this means we're
+//                    really at +100% over the daily 5k floor)
+//   'error'        — network / timeout / 5xx
+//   'disabled'     — LOCATIONIQ_API_KEY not configured (returns immediately)
+// ─────────────────────────────────────────────────────────────────────────
+async function _searchLocationIQRaw(query, lang) {
+    if (!_isLocationIQEnabled()) {
+        return { raw: [], status: 'disabled' };
+    }
+    const cacheKey = _buildExternalCacheKey('locationiq', 'raw', query);
+
+    // 1. Supabase external_cache (persistent). Mirrors Nominatim flow.
+    if (_SUPABASE_ENABLED) {
+        const row = await _loadExternalCache(cacheKey);
+        if (row && row.status !== 'error') {
+            _externalMemCache.set(cacheKey, {
+                response: row.response,
+                status:   row.status,
+                expiresAt: new Date(row.expires_at).getTime()
+            });
+            return { raw: row.response || [], status: row.status };
+        }
+    }
+    // 2. In-process memory cache
+    const memHit = _externalMemCache.get(cacheKey);
+    if (memHit && memHit.expiresAt > Date.now()) {
+        return { raw: memHit.response, status: memHit.status };
+    }
+    // 3. Single-flight + actual fetch
+    let inflight = _externalInflight.get(cacheKey);
+    if (!inflight) {
+        inflight = (async () => {
+            let raw    = [];
+            let status = 'ok';
+            let ttl    = _EXT_TTL_OK;
+            try {
+                raw = await _fetchLocationIQWithTimeout(query, 'en', 8000);
+                if (!Array.isArray(raw) || raw.length === 0) {
+                    raw = [];
+                    status = 'empty';
+                    ttl    = _EXT_TTL_EMPTY;
+                }
+            } catch (e) {
+                raw = [];
+                if (e && e.statusCode === 429) { status = 'rate_limited'; ttl = _EXT_TTL_ERROR; }
+                else                            { status = 'error';        ttl = _EXT_TTL_ERROR; }
+                try { console.warn('[external] locationiq', status, 'q=', query, 'err=', e && e.message); } catch (_) {}
+            }
+            _externalMemCache.set(cacheKey, {
+                response: raw,
+                status,
+                expiresAt: Date.now() + ttl
+            });
+            if (_externalMemCache.size > _EXTERNAL_MEM_MAX) {
+                const firstKey = _externalMemCache.keys().next().value;
+                _externalMemCache.delete(firstKey);
+            }
+            if (_SUPABASE_ENABLED) {
+                _saveExternalCache(cacheKey, 'locationiq', 'raw', query, raw, status, ttl)
+                    .catch(() => {});
+            }
+            return { raw, status };
+        })();
+        _externalInflight.set(cacheKey, inflight);
+    }
+    let raw, status;
+    try {
+        const r = await inflight;
+        raw    = r.raw;
+        status = r.status;
+    } finally {
+        if (_externalInflight.get(cacheKey) === inflight) {
+            _externalInflight.delete(cacheKey);
+        }
+    }
+    return { raw, status };
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// _searchExternalPlaces — final tier of /api/search-place. Cascades through
+// Supabase external_cache → in-memory cache → single-flight → Nominatim,
+// and (EXTERNAL-PROVIDER-2, 2026-05-15) falls through to LocationIQ when
+// Nominatim returns rate_limited / error.
+//
+// EXTERNAL-FAIL-UX-1 (2026-05-13): returns `{ results, status, provider }`.
+// EXTERNAL-PROVIDER-2: added `provider` field. The callers (handler at
+// /api/search-place) need the status separately so they can tell the user
+// *why* results are empty:
 //   'ok'           → at least one result returned successfully
-//   'empty'        → Nominatim returned 0 results for this query (real "not found")
-//   'rate_limited' → Nominatim 429'd (or cached 429 from prior call within 1h)
-//   'error'        → timeout / network failure / 5xx
-//   'too_short'    → query was < 2 or > 80 chars; we don't ask Nominatim
+//   'empty'        → external returned 0 results (real "not found")
+//   'rate_limited' → BOTH providers 429'd (Nominatim + LocationIQ)
+//                    OR Nominatim 429'd + LocationIQ disabled (no key)
+//   'error'        → BOTH providers failed (timeout / network / 5xx)
+//                    OR Nominatim failed + LocationIQ disabled
+//   'too_short'    → query was < 2 or > 80 chars; we don't ask anyone
+//
+// The `provider` field indicates which provider's results we returned:
+//   'nominatim'   → Nominatim succeeded (status='ok' or 'empty')
+//   'locationiq'  → Nominatim failed, LocationIQ rescued (status='ok')
+//   ''            → both failed or query was too short
 // ─────────────────────────────────────────────────────────────────────────
 async function _searchExternalPlaces(query, lang) {
     const q = String(query || '').trim();
     if (q.length < 2 || q.length > 80) {
-        return { results: [], status: 'too_short' };
+        return { results: [], status: 'too_short', provider: '' };
     }
     const langCode = _SUPPORTED_LANGS.includes(lang) ? lang : 'ar';
 
@@ -686,6 +867,11 @@ async function _searchExternalPlaces(query, lang) {
     const cacheKey = _buildExternalCacheKey('nominatim', 'raw', q);
 
     // 3a. Supabase external_cache (persistent across restarts).
+    // EXTERNAL-PROVIDER-2: cached entries are tagged by provider in the
+    // key, so a cache hit for nominatim is authoritative for THIS run
+    // and we return early without consulting LocationIQ. Same for the
+    // mem-cache path below. (LocationIQ cache is consulted ONLY when
+    // we genuinely fall through to it on a Nominatim rate-limit/error.)
     if (_SUPABASE_ENABLED) {
         const row = await _loadExternalCache(cacheKey);
         if (row && row.status !== 'error') {
@@ -697,7 +883,8 @@ async function _searchExternalPlaces(query, lang) {
             });
             return {
                 results: _localizeRawNominatim(row.response, langCode),
-                status: row.status
+                status: row.status,
+                provider: 'nominatim'
             };
         }
     }
@@ -707,7 +894,8 @@ async function _searchExternalPlaces(query, lang) {
     if (memHit && memHit.expiresAt > Date.now()) {
         return {
             results: _localizeRawNominatim(memHit.response, langCode),
-            status: memHit.status
+            status: memHit.status,
+            provider: 'nominatim'
         };
     }
 
@@ -772,9 +960,50 @@ async function _searchExternalPlaces(query, lang) {
         }
     }
 
+    // ── EXTERNAL-PROVIDER-2 (2026-05-15) — LocationIQ fallback ──────────
+    // If Nominatim returned `rate_limited` or `error` AND LocationIQ is
+    // configured, try LocationIQ on the same query. Other Nominatim
+    // outcomes ('ok' / 'empty' / 'too_short') are authoritative and we
+    // do NOT consult LocationIQ — we trust Nominatim's answer.
+    //
+    // The reason 'empty' bypasses LocationIQ: both providers use OSM as
+    // their primary data source. If Nominatim says "no match" then
+    // LocationIQ will almost certainly say the same and we'd just burn
+    // a free-tier credit for no benefit.
+    if ((status === 'rate_limited' || status === 'error') && _isLocationIQEnabled()) {
+        try {
+            const liq = await _searchLocationIQRaw(q, langCode);
+            if (liq.status === 'ok' && Array.isArray(liq.raw) && liq.raw.length > 0) {
+                // LocationIQ rescued us — return its results, hiding the
+                // Nominatim failure from the client.
+                return {
+                    results: _localizeRawNominatim(liq.raw, langCode),
+                    status: 'ok',
+                    provider: 'locationiq'
+                };
+            }
+            // LocationIQ also failed or returned empty. Decide which
+            // status to surface: prefer 'empty' if LocationIQ found
+            // nothing (authoritative second opinion), otherwise stick
+            // with Nominatim's rate_limited / error.
+            if (liq.status === 'empty') {
+                return {
+                    results: [],
+                    status: 'empty',
+                    provider: 'locationiq'
+                };
+            }
+            // Both providers failed — keep Nominatim's status as primary.
+        } catch (_e) {
+            // LocationIQ adapter threw unexpectedly — keep Nominatim's
+            // status. Never let the fallback's failure mask the primary.
+        }
+    }
+
     return {
         results: _localizeRawNominatim(raw, langCode),
-        status
+        status,
+        provider: 'nominatim'
     };
 }
 
@@ -21049,6 +21278,11 @@ const server = http.createServer(async (req, res) => {
                 // got tagged as 'curated' (misleading).
                 let source = 'none';
                 let status = 'empty';
+                // EXTERNAL-PROVIDER-2 (2026-05-15): track which external
+                // provider returned the results so the client can show
+                // "Powered by LocationIQ" attribution when LocationIQ
+                // rescued the query. Empty when source != 'external'.
+                let provider = '';
                 // PHASE A — curated first (always synchronous, instant).
                 let results = _searchCuratedPlaces(q, lang);
                 if (results.length > 0) { source = 'curated'; status = 'ok'; }
@@ -21067,17 +21301,19 @@ const server = http.createServer(async (req, res) => {
                     } catch (_) { /* fall through */ }
                 }
                 // PHASE B — when curated AND discovered are both empty,
-                // fall back to external (server-side Nominatim with strict
-                // validation). The browser NEVER sees Nominatim.
+                // fall back to external (Nominatim → LocationIQ cascade
+                // per EXTERNAL-PROVIDER-2). The browser NEVER sees the
+                // raw upstream call.
                 //
-                // EXTERNAL-FAIL-UX-1: even when external returns 0 (rate_limited
-                // / error / empty), we mark source='external' + propagate the
-                // status so the UI can render the right message instead of a
-                // misleading "no results" generic.
+                // EXTERNAL-FAIL-UX-1: even when external returns 0
+                // (rate_limited / error / empty), we mark source='external'
+                // + propagate status so the UI can render the right message
+                // instead of a misleading "no results" generic.
                 if (results.length === 0 && q.length >= 2) {
                     try {
                         const ext = await _searchExternalPlaces(q, lang);
                         source = 'external';
+                        provider = (ext && ext.provider) || '';
                         if (ext && Array.isArray(ext.results) && ext.results.length > 0) {
                             results = ext.results;
                             status  = 'ok';
@@ -21094,9 +21330,10 @@ const server = http.createServer(async (req, res) => {
                     'Cache-Control': 'no-store',
                     'Access-Control-Allow-Origin': '*',
                     'X-Search-Source': source,
-                    'X-Search-Status': status
+                    'X-Search-Status': status,
+                    'X-Search-Provider': provider
                 });
-                res.end(JSON.stringify({ results, source, status }));
+                res.end(JSON.stringify({ results, source, status, provider }));
             } catch (_e) {
                 try {
                     res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });

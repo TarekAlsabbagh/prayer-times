@@ -13,3 +13,16 @@ lighthouse-a11y.json
 # (re-download anytime via Stage 1: node scripts/geodata/import_sa_geonames.mjs)
 db/places/sources/*.zip
 db/places/sources/*.txt
+
+# CURATED-GEODATA-EUROPE-1A — large intermediate candidate JSONs that
+# exceed GitHub's 100 MB hard limit (FR/GB only). These are regeneratable
+# from the GeoNames source dumps via Stages 1-3. The persistent audit
+# trail lives in `reports/{cc}-geodata-*.md` and the consolidated
+# `db/places/candidates/europe-1a-arabic-quality.json` (high-tier summary,
+# kept small).
+db/places/candidates/fr-geonames-raw.json
+db/places/candidates/fr-geonames-normalized.json
+db/places/candidates/fr-geonames-candidates.json
+db/places/candidates/gb-geonames-raw.json
+db/places/candidates/gb-geonames-normalized.json
+db/places/candidates/gb-geonames-candidates.json

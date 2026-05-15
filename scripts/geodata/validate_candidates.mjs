@@ -141,7 +141,13 @@ function qualityScore(cand) {
 // All eligible entries become `pending` with a `tier` field. The user
 // reviews high → medium → low and flips to `approved` manually before
 // Stage 4.
-function decideStatusAndTier(cand, blocklist, distInfo) {
+//
+// `config` is the per-country config (from loadCountryConfig). When
+// config.popMin is defined (Europe Strategy E), the high tier requires
+// either pop ≥ popMin OR feature_code in config.alwaysIncludeFeatureCodes.
+// When config.popMin is undefined (MENA legacy waves), the original
+// logic is preserved exactly — no behavior change for SA/QA/AE/.../MR.
+function decideStatusAndTier(cand, blocklist, distInfo, config) {
     // Hard rejections (data integrity)
     if (!isFinite(cand.lat) || !isFinite(cand.lng) ||
         cand.lat < -90 || cand.lat > 90 ||
@@ -179,6 +185,34 @@ function decideStatusAndTier(cand, blocklist, distInfo) {
     const fc = cand.featureCode;
     const qs = qualityScore(cand);
     const distOK = distInfo.km > 3;
+
+    // ─── Strategy E branch (Europe-1A): popMin + alwaysIncludeFeatureCodes ───
+    if (config && typeof config.popMin === 'number') {
+        const popMin = config.popMin;
+        const alwaysFC = new Set(config.alwaysIncludeFeatureCodes || []);
+        const meetsPopThreshold = (Number(cand.population) || 0) >= popMin;
+        const isAlwaysInclude = alwaysFC.has(fc);
+
+        // High tier: distance OK + (pop ≥ popMin OR PPLC/PPLA always-include)
+        // Region is preferred but not required for capitals (some
+        // micro-states / island territories have no admin1 codes).
+        if (distOK && (meetsPopThreshold || isAlwaysInclude)) {
+            if (isAlwaysInclude || (meetsPopThreshold && qs >= 75)) {
+                return { status: 'pending', tier: 'high',
+                         reason: isAlwaysInclude
+                             ? ('always_include:' + fc)
+                             : 'pop_gte_' + popMin };
+            }
+            // Below qScore threshold but above popMin → medium
+            return { status: 'pending', tier: 'medium', reason: 'pop_pass_qs_below_75' };
+        }
+
+        // Failed the popMin gate AND not always-include → low
+        return { status: 'pending', tier: 'low',
+                 reason: 'below_popMin_and_not_always_include' };
+    }
+
+    // ─── Legacy MENA branch (SA/QA/AE/.../MR — unchanged) ───
     const isAdminOrPPL = ['PPLA2', 'PPLA3', 'PPLA4', 'PPL'].includes(fc);
 
     // Hard requirements to enter the shortlist (high or medium)
@@ -535,7 +569,7 @@ async function main() {
         } else {
             const blocklist = checkBlocklist(cand, religiousKw, nonPlaceKw);
             distInfo = distanceToNearestCurated(cand, idx.saList);
-            const d = decideStatusAndTier(cand, blocklist, distInfo);
+            const d = decideStatusAndTier(cand, blocklist, distInfo, config);
             status  = d.status;
             reason  = d.reason;
             tier    = d.tier;

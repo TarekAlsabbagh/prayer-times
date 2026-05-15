@@ -38970,5 +38970,4720 @@
     "source": "curated",
     "sourceId": "geonames:7280528",
     "verified": true
+  },
+  {
+    "slug": "york",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.95763,
+    "lng": -1.08271,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "يورك",
+      "en": "York",
+      "fr": "York",
+      "de": "York",
+      "tr": "York",
+      "ur": "York",
+      "id": "York",
+      "es": "York",
+      "bn": "York",
+      "ms": "York"
+    },
+    "aliases": {
+      "ar": [
+        "یارک",
+        "یورک",
+        "یۆرک"
+      ],
+      "en": [
+        "Aebura",
+        "Eabhrac",
+        "Eabhraig",
+        "Eboracum",
+        "Efrog",
+        "Eoforwic",
+        "Everoui",
+        "Evrek",
+        "Giork",
+        "Jork",
+        "Jorka",
+        "Jorkas",
+        "Jorko",
+        "Jorvik",
+        "Jórvík",
+        "QQY",
+        "York (England)",
+        "yark",
+        "yokeu",
+        "yoku",
+        "yorka",
+        "yue ke",
+        "ywrk",
+        "ywrq",
+        "yxrk",
+        "Évèroui"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2633352",
+    "verified": true
+  },
+  {
+    "slug": "watford",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.65531,
+    "lng": -0.39602,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "واتفورد",
+      "en": "Watford",
+      "fr": "Watford",
+      "de": "Watford",
+      "tr": "Watford",
+      "ur": "Watford",
+      "id": "Watford",
+      "es": "Watford",
+      "bn": "Watford",
+      "ms": "Watford"
+    },
+    "aliases": {
+      "en": [
+        "Uotford",
+        "Votford",
+        "Votfordas",
+        "WXF",
+        "waspeodeu",
+        "watfwrd",
+        "watofodo",
+        "wo te fu de",
+        "wtpwrd",
+        "wwtpwrd"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2634677",
+    "verified": true
+  },
+  {
+    "slug": "walthamstow",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.59067,
+    "lng": -0.02077,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "والتامستو",
+      "en": "Walthamstow",
+      "fr": "Walthamstow",
+      "de": "Walthamstow",
+      "tr": "Walthamstow",
+      "ur": "Walthamstow",
+      "id": "Walthamstow",
+      "es": "Walthamstow",
+      "bn": "Walthamstow",
+      "ms": "Walthamstow"
+    },
+    "aliases": {
+      "en": [
+        "Uoltemstou",
+        "Uoltumstou",
+        "waltamstw",
+        "wo er se mu si tuo"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2634838",
+    "verified": true
+  },
+  {
+    "slug": "walsall",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.58528,
+    "lng": -1.98396,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "والسال",
+      "en": "Walsall",
+      "fr": "Walsall",
+      "de": "Walsall",
+      "tr": "Walsall",
+      "ur": "Walsall",
+      "id": "Walsall",
+      "es": "Walsall",
+      "bn": "Walsall",
+      "ms": "Walsall"
+    },
+    "aliases": {
+      "en": [
+        "Owolsol",
+        "Uolsol",
+        "Uolsoll",
+        "Volslas",
+        "Volsol",
+        "Walhshalh",
+        "Wallsall",
+        "uorusoru",
+        "walsal",
+        "wo er suo er",
+        "wolsol"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2634853",
+    "verified": true
+  },
+  {
+    "slug": "wakefield",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.68331,
+    "lng": -1.49768,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "ويكفيلد",
+      "en": "Wakefield",
+      "fr": "Wakefield",
+      "de": "Wakefield",
+      "tr": "Wakefield",
+      "ur": "Wakefield",
+      "id": "Wakefield",
+      "es": "Wakefield",
+      "bn": "Wakefield",
+      "ms": "Wakefield"
+    },
+    "aliases": {
+      "en": [
+        "Uehjkfild",
+        "Uejkfijld",
+        "Veikfildas",
+        "Vejkfild",
+        "XWD",
+        "ueikufirudo",
+        "wei ke fei er de",
+        "weikeupildeu",
+        "wykfyld"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2634910",
+    "verified": true
+  },
+  {
+    "slug": "tottenham",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.60373,
+    "lng": -0.06794,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "تاتنهام",
+      "en": "Tottenham",
+      "fr": "Tottenham",
+      "de": "Tottenham",
+      "tr": "Tottenham",
+      "ur": "Tottenham",
+      "id": "Tottenham",
+      "es": "Tottenham",
+      "bn": "Tottenham",
+      "ms": "Tottenham"
+    },
+    "aliases": {
+      "ar": [
+        "توتنهام",
+        "تۆتنھام"
+      ],
+      "en": [
+        "TTK",
+        "Totenamas",
+        "Tottenem",
+        "Tottenhem",
+        "tatnham",
+        "toteuneom",
+        "tottenamu",
+        "tuo te na mu",
+        "twtnham"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2635608",
+    "verified": true
+  },
+  {
+    "slug": "swansea",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.62079,
+    "lng": -3.94323,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "سوانزي",
+      "en": "Swansea",
+      "fr": "Swansea",
+      "de": "Swansea",
+      "tr": "Swansea",
+      "ur": "Swansea",
+      "id": "Swansea",
+      "es": "Swansea",
+      "bn": "Swansea",
+      "ms": "Swansea"
+    },
+    "aliases": {
+      "ar": [
+        "سوانزی",
+        "سوانسی"
+      ],
+      "en": [
+        "Abertawe",
+        "SWS",
+        "Souonsi",
+        "Suonsi",
+        "Suonzi",
+        "Svonsi",
+        "Svonsio",
+        "Svonsis",
+        "Svonzi",
+        "s wxn si",
+        "seuwanji",
+        "si wang xi",
+        "suuaeonji",
+        "suuonji",
+        "svanzi",
+        "svonjhi",
+        "swansy",
+        "swanzy",
+        "swwnsy"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "ويلز",
+      "regionEn": "Wales"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2636432",
+    "verified": true
+  },
+  {
+    "slug": "sunderland",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 54.90465,
+    "lng": -1.38222,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "ساندرلند",
+      "en": "Sunderland",
+      "fr": "Sunderland",
+      "de": "Sunderland",
+      "tr": "Sunderland",
+      "ur": "Sunderland",
+      "id": "Sunderland",
+      "es": "Sunderland",
+      "bn": "Sunderland",
+      "ms": "Sunderland"
+    },
+    "aliases": {
+      "ar": [
+        "ساندرلند، تاین و ور",
+        "سندرلاند"
+      ],
+      "en": [
+        "Sanderland",
+        "Sanderlandas",
+        "Sanderlend",
+        "Sanderlenda",
+        "Santerlant",
+        "Sundurland",
+        "sandaralamda",
+        "sandarando",
+        "sandrlnd",
+        "sandrlnd  tayn w wr",
+        "sang de lan",
+        "seondeollaendeu",
+        "sndrland",
+        "sndrlnd"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2636531",
+    "verified": true
+  },
+  {
+    "slug": "solihull",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.41426,
+    "lng": -1.78094,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "سوليهل",
+      "en": "Solihull",
+      "fr": "Solihull",
+      "de": "Solihull",
+      "tr": "Solihull",
+      "ur": "Solihull",
+      "id": "Solihull",
+      "es": "Solihull",
+      "bn": "Solihull",
+      "ms": "Solihull"
+    },
+    "aliases": {
+      "ar": [
+        "سولیهال"
+      ],
+      "en": [
+        "Solihalas",
+        "Solikhal",
+        "Solikhall",
+        "solliheol",
+        "sorifuru",
+        "suo li he er",
+        "swlyhal",
+        "swlyhl"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2637546",
+    "verified": true
+  },
+  {
+    "slug": "sheffield",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.38297,
+    "lng": -1.4659,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "شفيلد",
+      "en": "Sheffield",
+      "fr": "Sheffield",
+      "de": "Sheffield",
+      "tr": "Sheffield",
+      "ur": "Sheffield",
+      "id": "Sheffield",
+      "es": "Sheffield",
+      "bn": "Sheffield",
+      "ms": "Sheffield"
+    },
+    "aliases": {
+      "ar": [
+        "شفیلد",
+        "شيفيلد",
+        "شیفیلڈ",
+        "شێفیڵد"
+      ],
+      "en": [
+        "DSA",
+        "Seffild",
+        "Sefild",
+        "Sefilda",
+        "Sefildas",
+        "Sefildo",
+        "Sefilnt",
+        "Sheffild",
+        "Shefild",
+        "Shehfild",
+        "chef fi ld",
+        "sefilda",
+        "sephild",
+        "sephilda",
+        "shefirudo",
+        "shepildi",
+        "shfyld",
+        "shyfyld",
+        "spyld",
+        "syepildeu",
+        "xie fei er de",
+        "Ŝefildo",
+        "Şeffild",
+        "Šefildas",
+        "Šefīlda"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2638077",
+    "verified": true
+  },
+  {
+    "slug": "salford",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.48771,
+    "lng": -2.29042,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "سالفورد",
+      "en": "Salford",
+      "fr": "Salford",
+      "de": "Salford",
+      "tr": "Salford",
+      "ur": "Salford",
+      "id": "Salford",
+      "es": "Salford",
+      "bn": "Salford",
+      "ms": "Salford"
+    },
+    "aliases": {
+      "en": [
+        "Salfordas",
+        "Solfard",
+        "Solford",
+        "salfwrd",
+        "sarufodo",
+        "solpeodeu",
+        "suo er fu de"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2638671",
+    "verified": true
+  },
+  {
+    "slug": "rotherham",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.43012,
+    "lng": -1.35678,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "راترهام",
+      "en": "Rotherham",
+      "fr": "Rotherham",
+      "de": "Rotherham",
+      "tr": "Rotherham",
+      "ur": "Rotherham",
+      "id": "Rotherham",
+      "es": "Rotherham",
+      "bn": "Rotherham",
+      "ms": "Rotherham"
+    },
+    "aliases": {
+      "en": [
+        "Roderamas",
+        "Rodurum",
+        "Roteram",
+        "Roterem",
+        "Rotergem",
+        "Rotherdam",
+        "lodeoleom",
+        "luo se lei mu",
+        "ratrham",
+        "rozaramu"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2639093",
+    "verified": true
+  },
+  {
+    "slug": "preston",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.76282,
+    "lng": -2.70452,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "برستون",
+      "en": "Preston",
+      "fr": "Preston",
+      "de": "Preston",
+      "tr": "Preston",
+      "ur": "Preston",
+      "id": "Preston",
+      "es": "Preston",
+      "bn": "Preston",
+      "ms": "Preston"
+    },
+    "aliases": {
+      "ar": [
+        "پرستون",
+        "پریسٹن، لنکاشائر"
+      ],
+      "en": [
+        "Prehstan",
+        "Prestonas",
+        "Prestun",
+        "XPT",
+        "brstwn",
+        "peuleseuteon",
+        "prestana",
+        "prstwn",
+        "pu lei si dun",
+        "puresuton"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2639912",
+    "verified": true
+  },
+  {
+    "slug": "portsmouth",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 50.79899,
+    "lng": -1.09125,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "بورتسموث",
+      "en": "Portsmouth",
+      "fr": "Portsmouth",
+      "de": "Portsmouth",
+      "tr": "Portsmouth",
+      "ur": "Portsmouth",
+      "id": "Portsmouth",
+      "es": "Portsmouth",
+      "bn": "Portsmouth",
+      "ms": "Portsmouth"
+    },
+    "aliases": {
+      "ar": [
+        "پورتسموث",
+        "پۆرتسموت"
+      ],
+      "en": [
+        "Porchemue",
+        "Porchémue",
+        "Portsmut",
+        "Portsmuta",
+        "Portsmutas",
+        "Portsmuto",
+        "Portus Ostium",
+        "bwrtsmwth",
+        "phxrt smath",
+        "pocheumeoseu",
+        "portasmatha",
+        "potsumasu",
+        "pu ci mao si",
+        "pwrtsmwt'",
+        "pwrtsmwth"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2639996",
+    "verified": true
+  },
+  {
+    "slug": "plymouth",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 50.37153,
+    "lng": -4.14305,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "بليموث",
+      "en": "Plymouth",
+      "fr": "Plymouth",
+      "de": "Plymouth",
+      "tr": "Plymouth",
+      "ur": "Plymouth",
+      "id": "Plymouth",
+      "es": "Plymouth",
+      "bn": "Plymouth",
+      "ms": "Plymouth"
+    },
+    "aliases": {
+      "ar": [
+        "پلائیموتھ",
+        "پلیموت",
+        "پلیموث"
+      ],
+      "en": [
+        "Aberplymm",
+        "PLH",
+        "Pliemue",
+        "Plimmuta",
+        "Plimouth",
+        "Plimowt",
+        "Plimut",
+        "Plimuta",
+        "Plimutas",
+        "Plimuto",
+        "Pliémue",
+        "Suthtun on Defnum",
+        "Sūþtun on Defnum",
+        "blymwth",
+        "peullimeoseu",
+        "phli math",
+        "plimatha",
+        "plymwt",
+        "plymwt'",
+        "plymwth",
+        "pu li mao si",
+        "purimasu"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2640194",
+    "verified": true
+  },
+  {
+    "slug": "oldham",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.54051,
+    "lng": -2.1183,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "أولدهام",
+      "en": "Oldham",
+      "fr": "Oldham",
+      "de": "Oldham",
+      "tr": "Oldham",
+      "ur": "Oldham",
+      "id": "Oldham",
+      "es": "Oldham",
+      "bn": "Oldham",
+      "ms": "Oldham"
+    },
+    "aliases": {
+      "ar": [
+        "اولدهام"
+      ],
+      "en": [
+        "Oldam",
+        "Oldamas",
+        "Oldem",
+        "Oldema",
+        "Oldum",
+        "Olntam",
+        "ao er de mu",
+        "awldham",
+        "oldeom",
+        "orudamu",
+        "xo ldam"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2641022",
+    "verified": true
+  },
+  {
+    "slug": "nottingham",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.9536,
+    "lng": -1.15047,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "نوتنغهام",
+      "en": "Nottingham",
+      "fr": "Nottingham",
+      "de": "Nottingham",
+      "tr": "Nottingham",
+      "ur": "Nottingham",
+      "id": "Nottingham",
+      "es": "Nottingham",
+      "bn": "Nottingham",
+      "ms": "Nottingham"
+    },
+    "aliases": {
+      "en": [
+        "NQT",
+        "Notinghamo",
+        "Nottigham",
+        "Nottingem",
+        "nottingamu",
+        "nuo ding han",
+        "nuo ding xian",
+        "nwtnghham"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2641170",
+    "verified": true
+  },
+  {
+    "slug": "newcastle-upon-tyne",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 54.97328,
+    "lng": -1.61396,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "نيوكاسل أبون تاين",
+      "en": "Newcastle upon Tyne",
+      "fr": "Newcastle upon Tyne",
+      "de": "Newcastle upon Tyne",
+      "tr": "Newcastle upon Tyne",
+      "ur": "Newcastle upon Tyne",
+      "id": "Newcastle upon Tyne",
+      "es": "Newcastle upon Tyne",
+      "bn": "Newcastle upon Tyne",
+      "ms": "Newcastle upon Tyne"
+    },
+    "aliases": {
+      "ar": [
+        "نیوکاسل",
+        "نیوکاسڵ"
+      ],
+      "en": [
+        "An Caisteal Nuadh",
+        "N'jukasl",
+        "N'jukasl-apan-Tajn",
+        "N'jukasl-apon-Tajn",
+        "NCL",
+        "Neuchate",
+        "Neuchâté",
+        "Newcastle",
+        "Newcastle tren song Tyne",
+        "Newcastle trên sông Tyne",
+        "Newcastle-on-Tyne",
+        "Newcastle-upon-Tyne",
+        "Nioukasl",
+        "Niukaslas prie Taino",
+        "Njukasl na Tajnu",
+        "Njukasul upon Tajn",
+        "Novkastelo",
+        "Novum Castellum",
+        "Nukasla pie Tainas",
+        "Nyukasl apon Tayn",
+        "n'yukesala apona ta'ina",
+        "ni'ukyasala apana tya'ina",
+        "niw khas seilxa phxn thin",
+        "nyukaeseul-eopontain",
+        "nywkasl",
+        "nywkasl abwn tayn",
+        "tai en he pan niu ka si er",
+        "Ņūkāsla pie Tainas"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2641673",
+    "verified": true
+  },
+  {
+    "slug": "milton-keynes",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.04172,
+    "lng": -0.75583,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "ميلتون كينز",
+      "en": "Milton Keynes",
+      "fr": "Milton Keynes",
+      "de": "Milton Keynes",
+      "tr": "Milton Keynes",
+      "ur": "Milton Keynes",
+      "id": "Milton Keynes",
+      "es": "Milton Keynes",
+      "bn": "Milton Keynes",
+      "ms": "Milton Keynes"
+    },
+    "aliases": {
+      "ar": [
+        "میلتون کینز"
+      ],
+      "en": [
+        "KYN",
+        "MK",
+        "Middeltūn þǣra de Cahaignes",
+        "Milton Keinsas",
+        "Milton Kins",
+        "Milton-Kins",
+        "Milton-Kinz",
+        "mi er dun kai en si",
+        "mil tan khiy ns",
+        "milteonkeinseu",
+        "myltwn kynz"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2642465",
+    "verified": true
+  },
+  {
+    "slug": "middlesbrough",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 54.57623,
+    "lng": -1.23483,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "ميدلزبرة",
+      "en": "Middlesbrough",
+      "fr": "Middlesbrough",
+      "de": "Middlesbrough",
+      "tr": "Middlesbrough",
+      "ur": "Middlesbrough",
+      "id": "Middlesbrough",
+      "es": "Middlesbrough",
+      "bn": "Middlesbrough",
+      "ms": "Middlesbrough"
+    },
+    "aliases": {
+      "ar": [
+        "میدلزبورو"
+      ],
+      "en": [
+        "Middlebrough",
+        "Middlesborough",
+        "Midlsbra",
+        "Midlsbro",
+        "Midulzbro",
+        "Mintlesmpro",
+        "mi de er si bo lei",
+        "mid deilsbe rx",
+        "midalsabro",
+        "mideuljeubeuleo",
+        "midlzbro",
+        "midoruzubura",
+        "mydlsbrw",
+        "mydlzbrt",
+        "mydlzbwrw"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2642607",
+    "verified": true
+  },
+  {
+    "slug": "luton",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.87967,
+    "lng": -0.41748,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "لوتن",
+      "en": "Luton",
+      "fr": "Luton",
+      "de": "Luton",
+      "tr": "Luton",
+      "ur": "Luton",
+      "id": "Luton",
+      "es": "Luton",
+      "bn": "Luton",
+      "ms": "Luton"
+    },
+    "aliases": {
+      "ar": [
+        "لوتون"
+      ],
+      "en": [
+        "Lutonas",
+        "Lutono",
+        "Lutun",
+        "lu dun",
+        "luteon",
+        "lwtn",
+        "lwtwn",
+        "ruton"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2643339",
+    "verified": true
+  },
+  {
+    "slug": "liverpool",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.41058,
+    "lng": -2.97794,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "ليفربول",
+      "en": "Liverpool",
+      "fr": "Liverpool",
+      "de": "Liverpool",
+      "tr": "Liverpool",
+      "ur": "Liverpool",
+      "id": "Liverpool",
+      "es": "Liverpool",
+      "bn": "Liverpool",
+      "ms": "Liverpool"
+    },
+    "aliases": {
+      "ar": [
+        "لیور پول",
+        "لیورپول",
+        "لیڤەرپوول"
+      ],
+      "en": [
+        "LPL",
+        "Learpholl",
+        "Lerphoyll",
+        "Lerpwl",
+        "Liberpoul",
+        "Liverpolium",
+        "Liverpuil",
+        "Liverpul",
+        "Liverpul'",
+        "Liverpule",
+        "Liverpulis",
+        "Liverpulo",
+        "Liverpūle",
+        "Livurpul",
+        "Liwerpol",
+        "Liwérpol",
+        "Poll a' Ghruthain",
+        "Poll a' Ghrùthain",
+        "li wu pu",
+        "libeopul",
+        "livarapula",
+        "livarpul",
+        "livharapula",
+        "liwexrphul",
+        "lybrpwl",
+        "lyfrbwl",
+        "lywr pwl",
+        "lywrpwl",
+        "rivuapuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2644210",
+    "verified": true
+  },
+  {
+    "slug": "lincoln",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.22683,
+    "lng": -0.53792,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "لنكولن",
+      "en": "Lincoln",
+      "fr": "Lincoln",
+      "de": "Lincoln",
+      "tr": "Lincoln",
+      "ur": "Lincoln",
+      "id": "Lincoln",
+      "es": "Lincoln",
+      "bn": "Lincoln",
+      "ms": "Lincoln"
+    },
+    "aliases": {
+      "ar": [
+        "لنکن، انگلستان",
+        "لینکلن، انگلستان"
+      ],
+      "en": [
+        "Lincoln i England",
+        "Lindum",
+        "Linkal'n",
+        "Linkol'n",
+        "Linkoln",
+        "Linkolnas",
+        "Linkuln",
+        "lin ken",
+        "ling khxln",
+        "lingkeon",
+        "linkona",
+        "lnkn  anglstan",
+        "lnkwln",
+        "lynkln  anglstan",
+        "lynqwln",
+        "rinkan"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2644487",
+    "verified": true
+  },
+  {
+    "slug": "leicester",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.6386,
+    "lng": -1.13169,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "لايستر",
+      "en": "Leicester",
+      "fr": "Leicester",
+      "de": "Leicester",
+      "tr": "Leicester",
+      "ur": "Leicester",
+      "id": "Leicester",
+      "es": "Leicester",
+      "bn": "Leicester",
+      "ms": "Leicester"
+    },
+    "aliases": {
+      "ar": [
+        "لستر",
+        "لیسسٹر"
+      ],
+      "en": [
+        "Caerlyr",
+        "Caerlŷr",
+        "Lecestro",
+        "Leicestria",
+        "Leiscester",
+        "Lestehr",
+        "Lester",
+        "Lestera",
+        "Lesteris",
+        "Lestur",
+        "Leysester",
+        "Léyséstér",
+        "QEW",
+        "lai si te",
+        "laystr",
+        "les texr",
+        "leseuteo",
+        "lstr",
+        "resuta"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2644668",
+    "verified": true
+  },
+  {
+    "slug": "leeds",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.79648,
+    "lng": -1.54785,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "ليدز",
+      "en": "Leeds",
+      "fr": "Leeds",
+      "de": "Leeds",
+      "tr": "Leeds",
+      "ur": "Leeds",
+      "id": "Leeds",
+      "es": "Leeds",
+      "bn": "Leeds",
+      "ms": "Leeds"
+    },
+    "aliases": {
+      "ar": [
+        "لیدز",
+        "لیڈز"
+      ],
+      "en": [
+        "LBA",
+        "Ledesia",
+        "Lids",
+        "Lidsa",
+        "Lidsas",
+        "Lidso",
+        "Lijds",
+        "Lints",
+        "Loidis",
+        "Līdsa",
+        "Ritis",
+        "li ci",
+        "lidjha",
+        "lids",
+        "lidsa",
+        "lidzi",
+        "lie si",
+        "lijeu",
+        "lyds",
+        "lydz",
+        "rizu"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2644688",
+    "verified": true
+  },
+  {
+    "slug": "ipswich",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.05917,
+    "lng": 1.15545,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "إبسوتش",
+      "en": "Ipswich",
+      "fr": "Ipswich",
+      "de": "Ipswich",
+      "tr": "Ipswich",
+      "ur": "Ipswich",
+      "id": "Ipswich",
+      "es": "Ipswich",
+      "bn": "Ipswich",
+      "ms": "Ipswich"
+    },
+    "aliases": {
+      "ar": [
+        "ایپسوییچ"
+      ],
+      "en": [
+        "Gippevicum",
+        "IPW",
+        "Ipsuich",
+        "Ipsvicas",
+        "Ipsvich",
+        "Ipsvico",
+        "Ipsviĉo",
+        "Ipsvičas",
+        "abswtsh",
+        "aypswyych",
+        "ibseuwichi",
+        "ipsuichi",
+        "ipsvic",
+        "ipusuuitchi",
+        "xips wich",
+        "yi pu si wei qi",
+        "ʼypswwyz"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2646057",
+    "verified": true
+  },
+  {
+    "slug": "gloucester",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.86568,
+    "lng": -2.2431,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "جلوستر",
+      "en": "Gloucester",
+      "fr": "Gloucester",
+      "de": "Gloucester",
+      "tr": "Gloucester",
+      "ur": "Gloucester",
+      "id": "Gloucester",
+      "es": "Gloucester",
+      "bn": "Gloucester",
+      "ms": "Gloucester"
+    },
+    "aliases": {
+      "ar": [
+        "غلوستر",
+        "گلاستر",
+        "گلوسسٹر",
+        "گلوسٹر"
+      ],
+      "en": [
+        "Caerloyw",
+        "GLO",
+        "Glevum",
+        "Glostehr",
+        "Gloster",
+        "Glosteris",
+        "Glostur",
+        "Glutsester",
+        "Glutséstér",
+        "gao luo shi da",
+        "ge luo si te",
+        "geulloseuteo",
+        "ghlwstr",
+        "glastr",
+        "glwstr",
+        "gurosuta",
+        "jlwstr",
+        "klxs texr"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2648404",
+    "verified": true
+  },
+  {
+    "slug": "exeter",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 50.7236,
+    "lng": -3.52751,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "إكزتر",
+      "en": "Exeter",
+      "fr": "Exeter",
+      "de": "Exeter",
+      "tr": "Exeter",
+      "ur": "Exeter",
+      "id": "Exeter",
+      "es": "Exeter",
+      "bn": "Exeter",
+      "ms": "Exeter"
+    },
+    "aliases": {
+      "ar": [
+        "اکستر",
+        "ایکسٹر"
+      ],
+      "en": [
+        "Caerwysg",
+        "EXT",
+        "Ehkseter",
+        "Ekseter",
+        "Eksetera",
+        "Ekseteris",
+        "Eksetero",
+        "Eksetur",
+        "Exanceaster",
+        "Exonia",
+        "Karesk",
+        "ai ke sai te",
+        "akstr",
+        "akztr",
+        "egseoteo",
+        "ekuseta",
+        "xek se texr",
+        "xek si texr",
+        "ya xi te"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2649808",
+    "verified": true
+  },
+  {
+    "slug": "eastbourne",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 50.76871,
+    "lng": 0.28453,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "إيست بورن",
+      "en": "Eastbourne",
+      "fr": "Eastbourne",
+      "de": "Eastbourne",
+      "tr": "Eastbourne",
+      "ur": "Eastbourne",
+      "id": "Eastbourne",
+      "es": "Eastbourne",
+      "bn": "Eastbourne",
+      "ms": "Eastbourne"
+    },
+    "aliases": {
+      "ar": [
+        "ایست‌بورن"
+      ],
+      "en": [
+        "Istborn",
+        "Istbornas",
+        "ayst bwrn",
+        "isutobon",
+        "yi si te ben"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2650497",
+    "verified": true
+  },
+  {
+    "slug": "doncaster",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.52285,
+    "lng": -1.13116,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "دونكاستر",
+      "en": "Doncaster",
+      "fr": "Doncaster",
+      "de": "Doncaster",
+      "tr": "Doncaster",
+      "ur": "Doncaster",
+      "id": "Doncaster",
+      "es": "Doncaster",
+      "bn": "Doncaster",
+      "ms": "Doncaster"
+    },
+    "aliases": {
+      "ar": [
+        "دونکاستر"
+      ],
+      "en": [
+        "DSA",
+        "Dankastehr",
+        "Denocestria",
+        "Donkaster",
+        "Donkasteris",
+        "Donkastur",
+        "dongkeoseuteo",
+        "donkasuta",
+        "dwnkastr",
+        "dxng khas texr",
+        "tang ka shi da",
+        "tang ka si te"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2651123",
+    "verified": true
+  },
+  {
+    "slug": "dagenham",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.55,
+    "lng": 0.16667,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "داجنهام",
+      "en": "Dagenham",
+      "fr": "Dagenham",
+      "de": "Dagenham",
+      "tr": "Dagenham",
+      "ur": "Dagenham",
+      "id": "Dagenham",
+      "es": "Dagenham",
+      "bn": "Dagenham",
+      "ms": "Dagenham"
+    },
+    "aliases": {
+      "ar": [
+        "داگنهام"
+      ],
+      "en": [
+        "da gen lin",
+        "daegeoneom",
+        "dagenamu",
+        "dagnham",
+        "dajnham",
+        "deganahama"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2651621",
+    "verified": true
+  },
+  {
+    "slug": "coventry",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.40656,
+    "lng": -1.51217,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "كوفنتري",
+      "en": "Coventry",
+      "fr": "Coventry",
+      "de": "Coventry",
+      "tr": "Coventry",
+      "ur": "Coventry",
+      "id": "Coventry",
+      "es": "Coventry",
+      "bn": "Coventry",
+      "ms": "Coventry"
+    },
+    "aliases": {
+      "ar": [
+        "کاونتری",
+        "کونٹری"
+      ],
+      "en": [
+        "CVT",
+        "Coventria",
+        "Koventri",
+        "Koventrija",
+        "Koventrio",
+        "Koventris",
+        "Koventry",
+        "Kovuntri",
+        "kao wen chui",
+        "kawntry",
+        "khx wen thri",
+        "kobeonteuli",
+        "kovhentri",
+        "kovuentori",
+        "kwfntry",
+        "qwbntry"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2652221",
+    "verified": true
+  },
+  {
+    "slug": "colchester",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.88921,
+    "lng": 0.90421,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "كولتشيستر",
+      "en": "Colchester",
+      "fr": "Colchester",
+      "de": "Colchester",
+      "tr": "Colchester",
+      "ur": "Colchester",
+      "id": "Colchester",
+      "es": "Colchester",
+      "bn": "Colchester",
+      "ms": "Colchester"
+    },
+    "aliases": {
+      "ar": [
+        "كولشيستر",
+        "کولچستر",
+        "کولچسٹر"
+      ],
+      "en": [
+        "CLB",
+        "Camulodunum",
+        "Colneceaster",
+        "Kolcestera",
+        "Kolcesteris",
+        "Kolchehstehr",
+        "Kolchestr",
+        "Kolchester",
+        "Koltsester",
+        "Kolčestera",
+        "Kolčesteris",
+        "Kulchester",
+        "gao che shi da",
+        "kalcestar",
+        "ke chi si te",
+        "ke er qie si te",
+        "khol ches texr",
+        "kolacestara",
+        "kolcheseuteo",
+        "koruchesuta",
+        "kwlchstr",
+        "kwlshystr",
+        "kwltshystr",
+        "qwlz'str",
+        "villinton"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2652618",
+    "verified": true
+  },
+  {
+    "slug": "cheltenham",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.90006,
+    "lng": -2.07972,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "شلتنهام",
+      "en": "Cheltenham",
+      "fr": "Cheltenham",
+      "de": "Cheltenham",
+      "tr": "Cheltenham",
+      "ur": "Cheltenham",
+      "id": "Cheltenham",
+      "es": "Cheltenham",
+      "bn": "Cheltenham",
+      "ms": "Cheltenham"
+    },
+    "aliases": {
+      "ar": [
+        "چلتنهام",
+        "چیلٹین ہیم"
+      ],
+      "en": [
+        "CHW",
+        "Celtnamas",
+        "Celtnamo",
+        "Chehltnehm",
+        "Cheltenam",
+        "Cheltenhamia",
+        "Cheltnem",
+        "Cheltnum",
+        "Tseltenam",
+        "celatenahyama",
+        "celtenahama",
+        "celtenham",
+        "celtinham",
+        "che dun xian",
+        "chelteuneom",
+        "cheltnam",
+        "cherutonamu",
+        "chltnham",
+        "qie er teng na mu",
+        "shltnham",
+        "zhuo te xian",
+        "Ĉeltnamo",
+        "Čeltnamas"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2653261",
+    "verified": true
+  },
+  {
+    "slug": "chelmsford",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.73575,
+    "lng": 0.46958,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "تشيلمسفورد",
+      "en": "Chelmsford",
+      "fr": "Chelmsford",
+      "de": "Chelmsford",
+      "tr": "Chelmsford",
+      "ur": "Chelmsford",
+      "id": "Chelmsford",
+      "es": "Chelmsford",
+      "bn": "Chelmsford",
+      "ms": "Chelmsford"
+    },
+    "aliases": {
+      "ar": [
+        "چلمزفورد",
+        "چلمسفورڈ"
+      ],
+      "en": [
+        "Celmsfordas",
+        "Celmsfuords",
+        "chelleumseupeodeu",
+        "cherumusufodo",
+        "chlmzfwrd",
+        "qie er mu si fu de",
+        "tshylmsfwrd",
+        "zlmspwrd",
+        "Čelmsfordas",
+        "Čelmsfuords"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2653266",
+    "verified": true
+  },
+  {
+    "slug": "cardiff",
+    "type": "city",
+    "countryCode": "gb",
+    "lat": 51.48,
+    "lng": -3.18,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "كارديف",
+      "en": "Cardiff",
+      "fr": "Cardiff",
+      "de": "Cardiff",
+      "tr": "Cardiff",
+      "ur": "Cardiff",
+      "id": "Cardiff",
+      "es": "Cardiff",
+      "bn": "Cardiff",
+      "ms": "Cardiff"
+    },
+    "aliases": {
+      "ar": [
+        "کاردیف",
+        "کارڈف"
+      ],
+      "en": [
+        "CWL",
+        "Caerdydd",
+        "Cairdiff",
+        "Cardiffa",
+        "Cayr Deeth",
+        "Kadif",
+        "Kardif",
+        "Kardifa",
+        "Kardifas",
+        "Kardiff",
+        "Kardip",
+        "Kardydh",
+        "Kardyf",
+        "Karntif",
+        "Kerdiz",
+        "Kārdifa",
+        "jia de fu",
+        "kadifu",
+        "kadipeu",
+        "karadifa",
+        "kardifa",
+        "kardipha",
+        "kardyf",
+        "kartihp",
+        "khardif f"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "ويلز",
+      "regionEn": "Wales"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2653822",
+    "verified": true
+  },
+  {
+    "slug": "cambridge",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.2,
+    "lng": 0.11667,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "كامبريدج",
+      "en": "Cambridge",
+      "fr": "Cambridge",
+      "de": "Cambridge",
+      "tr": "Cambridge",
+      "ur": "Cambridge",
+      "id": "Cambridge",
+      "es": "Cambridge",
+      "bn": "Cambridge",
+      "ms": "Cambridge"
+    },
+    "aliases": {
+      "ar": [
+        "کمبریج",
+        "کیمبرج"
+      ],
+      "en": [
+        "CBG",
+        "Caergrawnt",
+        "Cantabrigia",
+        "Grantanbrycg",
+        "Kambrij",
+        "Kejmbridzh",
+        "Kembric",
+        "Kembridz",
+        "Kembridza",
+        "Kembridzas",
+        "Kembridzh",
+        "Kembridža",
+        "Kembridžas",
+        "Kembrigo",
+        "Kembriĝo",
+        "Kembrydzh",
+        "Kempritz",
+        "Kiam-khiau",
+        "Kiam-khiâu",
+        "jian qiao",
+        "kambrydj",
+        "keimbeuliji",
+        "kembridj",
+        "kembrij",
+        "kembrija",
+        "kenburijji",
+        "khem bridc",
+        "kmbryj",
+        "kyamabrija",
+        "kymbrj",
+        "qyymbrydg'"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2653941",
+    "verified": true
+  },
+  {
+    "slug": "bradford",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.79391,
+    "lng": -1.75206,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "برادفورد",
+      "en": "Bradford",
+      "fr": "Bradford",
+      "de": "Bradford",
+      "tr": "Bradford",
+      "ur": "Bradford",
+      "id": "Bradford",
+      "es": "Bradford",
+      "bn": "Bradford",
+      "ms": "Bradford"
+    },
+    "aliases": {
+      "ar": [
+        "بریڈفورڈ"
+      ],
+      "en": [
+        "BRF",
+        "Bradanford",
+        "Bradfordas",
+        "Brantfornt",
+        "Bredford",
+        "Bredforda",
+        "Brehdfard",
+        "Brehdford",
+        "Brədford",
+        "ba la fu te",
+        "beulaedeupeodeu",
+        "bradfwrd",
+        "brdpwrd",
+        "bredpordi",
+        "bu la de fu de",
+        "buraddofodo"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2654993",
+    "verified": true
+  },
+  {
+    "slug": "bournemouth",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 50.72048,
+    "lng": -1.8795,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "بورنموث",
+      "en": "Bournemouth",
+      "fr": "Bournemouth",
+      "de": "Bournemouth",
+      "tr": "Bournemouth",
+      "ur": "Bournemouth",
+      "id": "Bournemouth",
+      "es": "Bournemouth",
+      "bn": "Bournemouth",
+      "ms": "Bournemouth"
+    },
+    "aliases": {
+      "en": [
+        "BOH",
+        "Bornmut",
+        "Bornmutas",
+        "Bornmuto",
+        "bo en mao si",
+        "bonmasu",
+        "bonmeoseu",
+        "bor nmath",
+        "bornmuti",
+        "bwrnmwth"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2655095",
+    "verified": true
+  },
+  {
+    "slug": "bolton",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 53.58333,
+    "lng": -2.43333,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "بولتن",
+      "en": "Bolton",
+      "fr": "Bolton",
+      "de": "Bolton",
+      "tr": "Bolton",
+      "ur": "Bolton",
+      "id": "Bolton",
+      "es": "Bolton",
+      "bn": "Bolton",
+      "ms": "Bolton"
+    },
+    "aliases": {
+      "ar": [
+        "بولتون"
+      ],
+      "en": [
+        "Boltonas",
+        "Boltonium",
+        "Boltun",
+        "bao dun",
+        "bo er dun",
+        "bol tan",
+        "bolteon",
+        "boruton",
+        "bwltn",
+        "bwltwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2655237",
+    "verified": true
+  },
+  {
+    "slug": "belfast",
+    "type": "city",
+    "countryCode": "gb",
+    "lat": 54.59682,
+    "lng": -5.92541,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "بلفاست",
+      "en": "Belfast",
+      "fr": "Belfast",
+      "de": "Belfast",
+      "tr": "Belfast",
+      "ur": "Belfast",
+      "id": "Belfast",
+      "es": "Belfast",
+      "bn": "Belfast",
+      "ms": "Belfast"
+    },
+    "aliases": {
+      "ar": [
+        "بیلفاسٹ"
+      ],
+      "en": [
+        "BFS",
+        "Beal Feirste",
+        "Beeal Feirshtey",
+        "Belfast City",
+        "Belfasta",
+        "Belfastas",
+        "Belfasto",
+        "Belfastum",
+        "Belffast",
+        "Belfāsta",
+        "Belpas",
+        "Beul-Feirste",
+        "Bèlfast",
+        "Béal Feirste",
+        "Bélfast",
+        "Mpelphast",
+        "baelpaseuteu",
+        "bei er fa si te",
+        "belaphasta",
+        "belpaseuteu",
+        "berufasuto",
+        "blfast",
+        "pelpast"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "أيرلندا الشمالية",
+      "regionEn": "Northern Ireland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2655984",
+    "verified": true
+  },
+  {
+    "slug": "basingstoke",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 51.26249,
+    "lng": -1.08708,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "باسينجستوك",
+      "en": "Basingstoke",
+      "fr": "Basingstoke",
+      "de": "Basingstoke",
+      "tr": "Basingstoke",
+      "ur": "Basingstoke",
+      "id": "Basingstoke",
+      "es": "Basingstoke",
+      "bn": "Basingstoke",
+      "ms": "Basingstoke"
+    },
+    "aliases": {
+      "ar": [
+        "باسینگستوک",
+        "بیزنگسٹوک",
+        "بیزینقاستوک"
+      ],
+      "en": [
+        "Behjsingstok",
+        "Beizin'nkstoouk",
+        "Beizingstokas",
+        "Bejsingstok",
+        "Bejzingstouk",
+        "XQB",
+        "basingstok",
+        "basinstoka",
+        "basyngstwk",
+        "basynjstwk",
+        "bei xin si tuo ke",
+        "beijingusutoku",
+        "beisingseutokeu",
+        "besingastoka",
+        "besingstok",
+        "byysyngstwq",
+        "byzynqastwk",
+        "pacinstak"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2656192",
+    "verified": true
+  },
+  {
+    "slug": "aberdeen",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 57.14369,
+    "lng": -2.09814,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "أبردين",
+      "en": "Aberdeen",
+      "fr": "Aberdeen",
+      "de": "Aberdeen",
+      "tr": "Aberdeen",
+      "ur": "Aberdeen",
+      "id": "Aberdeen",
+      "es": "Aberdeen",
+      "bn": "Aberdeen",
+      "ms": "Aberdeen"
+    },
+    "aliases": {
+      "ar": [
+        "ابردین",
+        "ابرڈین"
+      ],
+      "en": [
+        "A-pak-ten",
+        "ABZ",
+        "Aberdin",
+        "Aberdina",
+        "Aberdino",
+        "Aberdins",
+        "Aberdon",
+        "Aberdonia",
+        "Aberdynas",
+        "Aberdzin",
+        "Aberdīna",
+        "Aberdīns",
+        "Aburdijn",
+        "Aiberdeen",
+        "Amperntin",
+        "Devanha",
+        "Obar Dheathain",
+        "a bo ding",
+        "abadin",
+        "aberdin",
+        "aberdini",
+        "abrdyn",
+        "aebeodin",
+        "ebaradina",
+        "ya ba dian",
+        "Â-pak-tên"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "اسكتلندا",
+      "regionEn": "Scotland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2657832",
+    "verified": true
+  },
+  {
+    "slug": "telford",
+    "type": "town",
+    "countryCode": "gb",
+    "lat": 52.67659,
+    "lng": -2.44926,
+    "timezone": "Europe/London",
+    "names": {
+      "ar": "تلفورد",
+      "en": "Telford",
+      "fr": "Telford",
+      "de": "Telford",
+      "tr": "Telford",
+      "ur": "Telford",
+      "id": "Telford",
+      "es": "Telford",
+      "bn": "Telford",
+      "ms": "Telford"
+    },
+    "aliases": {
+      "en": [
+        "Tehlfard",
+        "Telfordas",
+        "te er fu de",
+        "terufodo",
+        "tlfwrd"
+      ]
+    },
+    "admin": {
+      "countryAr": "المملكة المتحدة",
+      "countryEn": "United Kingdom",
+      "regionAr": "إنجلترا",
+      "regionEn": "England"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3345439",
+    "verified": true
+  },
+  {
+    "slug": "swords",
+    "type": "city",
+    "countryCode": "ie",
+    "lat": 53.45972,
+    "lng": -6.21806,
+    "timezone": "Europe/Dublin",
+    "names": {
+      "ar": "اسوردز",
+      "en": "Swords",
+      "fr": "Swords",
+      "de": "Swords",
+      "tr": "Swords",
+      "ur": "Swords",
+      "id": "Swords",
+      "es": "Swords",
+      "bn": "Swords",
+      "ms": "Swords"
+    },
+    "aliases": {
+      "ar": [
+        "سورڈز، ڈبلن"
+      ],
+      "en": [
+        "Sord",
+        "Sord Cholmcille",
+        "Sords",
+        "Sordsas",
+        "Sordz",
+        "Suords",
+        "aswrdz",
+        "seuwojeu",
+        "si wo si",
+        "swwrds"
+      ]
+    },
+    "admin": {
+      "countryAr": "أيرلندا",
+      "countryEn": "Ireland",
+      "regionAr": "لينستر",
+      "regionEn": "Leinster"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2961297",
+    "verified": true
+  },
+  {
+    "slug": "cork",
+    "type": "town",
+    "countryCode": "ie",
+    "lat": 51.89797,
+    "lng": -8.47061,
+    "timezone": "Europe/Dublin",
+    "names": {
+      "ar": "كورك",
+      "en": "Cork",
+      "fr": "Cork",
+      "de": "Cork",
+      "tr": "Cork",
+      "ur": "Cork",
+      "id": "Cork",
+      "es": "Cork",
+      "bn": "Cork",
+      "ms": "Cork"
+    },
+    "aliases": {
+      "ar": [
+        "کورک"
+      ],
+      "en": [
+        "Corc",
+        "Corcagia",
+        "Corcaigh",
+        "Cork - Corcaigh",
+        "Cork city",
+        "Corkee",
+        "Kork",
+        "Korka",
+        "Korkas",
+        "Korkig",
+        "ORK",
+        "ke ke",
+        "khxrk",
+        "kokeu",
+        "koku",
+        "korka",
+        "kwrk",
+        "qwrq"
+      ]
+    },
+    "admin": {
+      "countryAr": "أيرلندا",
+      "countryEn": "Ireland",
+      "regionAr": "مونستر",
+      "regionEn": "Munster"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2965140",
+    "verified": true
+  },
+  {
+    "slug": "villeurbanne",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 45.76601,
+    "lng": 4.8795,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "فيلوربان",
+      "en": "Villeurbanne",
+      "fr": "Villeurbanne",
+      "de": "Villeurbanne",
+      "tr": "Villeurbanne",
+      "ur": "Villeurbanne",
+      "id": "Villeurbanne",
+      "es": "Villeurbanne",
+      "bn": "Villeurbanne",
+      "ms": "Villeurbanne"
+    },
+    "aliases": {
+      "ar": [
+        "ولےاربین",
+        "ویوربن"
+      ],
+      "en": [
+        "Vijjorban",
+        "Vijorban",
+        "Vilerban",
+        "Vilerbana",
+        "Vilerbanas",
+        "Vilerbāna",
+        "Viljurban",
+        "Villerbann",
+        "billoeleuban",
+        "fylwrban",
+        "vilerbani",
+        "vuiruruban'nu",
+        "wei lei ban",
+        "wei lei he peng na",
+        "wywrbn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "أوفيرني-رون-ألب",
+      "regionEn": "Auvergne-Rhône-Alpes"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2968254",
+    "verified": true
+  },
+  {
+    "slug": "tours",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 47.39484,
+    "lng": 0.70398,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "تور",
+      "en": "Tours",
+      "fr": "Tours",
+      "de": "Tours",
+      "tr": "Tours",
+      "ur": "Tours",
+      "id": "Tours",
+      "es": "Tours",
+      "bn": "Tours",
+      "ms": "Tours"
+    },
+    "aliases": {
+      "ar": [
+        "ٹورز"
+      ],
+      "en": [
+        "Augusta-Turonum",
+        "La Reunion-du-Nord",
+        "La Réunion-du-Nord",
+        "TUF",
+        "Teurgn",
+        "Tors",
+        "Tour",
+        "Tur",
+        "Tura",
+        "Turas",
+        "Turones",
+        "Tūra",
+        "Tūras",
+        "touru",
+        "tu er",
+        "tuleu",
+        "tura",
+        "twr"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "سنتر-فال دو لوار",
+      "regionEn": "Centre-Val de Loire"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2972191",
+    "verified": true
+  },
+  {
+    "slug": "toulon",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 43.12442,
+    "lng": 5.92836,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "تولون",
+      "en": "Toulon",
+      "fr": "Toulon",
+      "de": "Toulon",
+      "tr": "Toulon",
+      "ur": "Toulon",
+      "id": "Toulon",
+      "es": "Toulon",
+      "bn": "Toulon",
+      "ms": "Toulon"
+    },
+    "aliases": {
+      "ar": [
+        "طولون"
+      ],
+      "en": [
+        "Port-la-Montagne",
+        "TLN",
+        "Telo Martius",
+        "Tolo",
+        "Tolon",
+        "Tolone",
+        "Toló",
+        "Tolón",
+        "Toulon-sur-Mer",
+        "Tulon",
+        "Tulona",
+        "Tulonas",
+        "Tulono",
+        "Tuluni",
+        "touron",
+        "tu lng",
+        "tu lun",
+        "tulam",
+        "tullong",
+        "tulom",
+        "tulon",
+        "twlwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بروفنس-ألب-كوت دازور",
+      "regionEn": "Provence-Alpes-Côte d'Azur"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2972328",
+    "verified": true
+  },
+  {
+    "slug": "saint-etienne",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 45.43389,
+    "lng": 4.39,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "سانت إتيان",
+      "en": "Saint-Étienne",
+      "fr": "Saint-Étienne",
+      "de": "Saint-Étienne",
+      "tr": "Saint-Étienne",
+      "ur": "Saint-Étienne",
+      "id": "Saint-Étienne",
+      "es": "Saint-Étienne",
+      "bn": "Saint-Étienne",
+      "ms": "Saint-Étienne"
+    },
+    "aliases": {
+      "ar": [
+        "ساں اتین",
+        "سن-اتین",
+        "سنت اتین",
+        "سینٹ-ایٹیینے"
+      ],
+      "en": [
+        "Armes-Ville",
+        "Canton-d'Armes",
+        "Commune-d'Armes",
+        "EBU",
+        "Libre-Ville",
+        "Lungsod ng Saint-Etienne",
+        "Lungsod ng Saint-Étienne",
+        "Saint-Etien",
+        "Saint-Etienne",
+        "Sainte",
+        "Sainté",
+        "Sanctus Stephanus de Furano",
+        "Sankta-Etjeno",
+        "Sankta-Stefano",
+        "Sant Esteve",
+        "Sant Estève",
+        "Sant-Etieve",
+        "Sant-Etiève",
+        "Sent Etien",
+        "Sent Etjen",
+        "Sent Etjenas",
+        "Sent-Ehc'en",
+        "Sent-Eht'en",
+        "Sent-Et'en",
+        "Sent-Etyen",
+        "Sentetjena",
+        "Sentetjēna",
+        "St Etienne",
+        "St Étienne",
+        "saengtetien",
+        "san=techien'nu",
+        "san=tetien'nu",
+        "sant atyan",
+        "senta-etyena",
+        "sheng ai di an",
+        "sn-atyn",
+        "snt atyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "أوفيرني-رون-ألب",
+      "regionEn": "Auvergne-Rhône-Alpes"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2980291",
+    "verified": true
+  },
+  {
+    "slug": "rouen",
+    "type": "city",
+    "countryCode": "fr",
+    "lat": 49.44313,
+    "lng": 1.09932,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "رؤن",
+      "en": "Rouen",
+      "fr": "Rouen",
+      "de": "Rouen",
+      "tr": "Rouen",
+      "ur": "Rouen",
+      "id": "Rouen",
+      "es": "Rouen",
+      "bn": "Rouen",
+      "ms": "Rouen"
+    },
+    "aliases": {
+      "ar": [
+        "روان"
+      ],
+      "en": [
+        "Erruan",
+        "Roan",
+        "Rodem",
+        "Roeaan",
+        "Rothomagus",
+        "Rouan",
+        "Rovan",
+        "Roðem",
+        "Ruan",
+        "Ruana",
+        "Ruanas",
+        "Ruano",
+        "Ruao",
+        "Ruduborg",
+        "Rueno",
+        "Ruán",
+        "Ruão",
+        "Ruāna",
+        "Rúðuborg",
+        "URO",
+        "lu ang",
+        "luang",
+        "ro'am",
+        "ru x xng",
+        "ru'am",
+        "ruan",
+        "ruani",
+        "rwan",
+        "rwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "نورماندي",
+      "regionEn": "Normandie"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2982652",
+    "verified": true
+  },
+  {
+    "slug": "rennes",
+    "type": "city",
+    "countryCode": "fr",
+    "lat": 48.11109,
+    "lng": -1.67431,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "رن",
+      "en": "Rennes",
+      "fr": "Rennes",
+      "de": "Rennes",
+      "tr": "Rennes",
+      "ur": "Rennes",
+      "id": "Rennes",
+      "es": "Rennes",
+      "bn": "Rennes",
+      "ms": "Rennes"
+    },
+    "aliases": {
+      "ar": [
+        "رين",
+        "رین",
+        "رینے"
+      ],
+      "en": [
+        "Condate Redonum",
+        "RNS",
+        "Rehn",
+        "Ren",
+        "Renas",
+        "Renes",
+        "Reneso",
+        "Renn",
+        "Renn Shehiri",
+        "Renna",
+        "Roazhon",
+        "Rènes",
+        "Rénn Shehiri",
+        "lei en",
+        "len",
+        "ren",
+        "ren'nu",
+        "reni",
+        "rhena",
+        "rn",
+        "ryn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بريتاني",
+      "regionEn": "Bretagne"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2983990",
+    "verified": true
+  },
+  {
+    "slug": "perpignan",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 42.69764,
+    "lng": 2.89541,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "بيربينيا",
+      "en": "Perpignan",
+      "fr": "Perpignan",
+      "de": "Perpignan",
+      "tr": "Perpignan",
+      "ur": "Perpignan",
+      "id": "Perpignan",
+      "es": "Perpignan",
+      "bn": "Perpignan",
+      "ms": "Perpignan"
+    },
+    "aliases": {
+      "ar": [
+        "پرپگناں",
+        "پرپینان",
+        "پرپینیا",
+        "پرپینیان"
+      ],
+      "en": [
+        "PGF",
+        "Perpignan la Catalane",
+        "Perpignano",
+        "Perpin'jan",
+        "Perpinan",
+        "Perpinana",
+        "Perpinha",
+        "Perpinhan",
+        "Perpinhã",
+        "Perpinia",
+        "Perpinian",
+        "Perpinianum",
+        "Perpinjan",
+        "Perpinjanas",
+        "Perpinjano",
+        "Perpinya",
+        "Perpinya la Catalana",
+        "Perpinyan",
+        "Perpinyà",
+        "Perpinyà la Catalana",
+        "Perpinyán",
+        "Perpiñán",
+        "Perpiņāna",
+        "Villa Perpiniarum",
+        "ban he bi rang",
+        "byrbynya",
+        "pei pi ni ang",
+        "peleupinyang",
+        "perpinam",
+        "perupinyan",
+        "prpynan",
+        "prpynya",
+        "prpynyan"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "أوكسيتاني",
+      "regionEn": "Occitanie"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2987914",
+    "verified": true
+  },
+  {
+    "slug": "orleans",
+    "type": "city",
+    "countryCode": "fr",
+    "lat": 47.90248,
+    "lng": 1.90407,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "أورليان",
+      "en": "Orléans",
+      "fr": "Orléans",
+      "de": "Orléans",
+      "tr": "Orléans",
+      "ur": "Orléans",
+      "id": "Orléans",
+      "es": "Orléans",
+      "bn": "Orléans",
+      "ms": "Orléans"
+    },
+    "aliases": {
+      "ar": [
+        "اورلئان",
+        "اورلینز"
+      ],
+      "en": [
+        "Arlean",
+        "Aurelianum",
+        "ORE",
+        "Orleaes",
+        "Orlean",
+        "Orleana",
+        "Orleanas",
+        "Orleani",
+        "Orleano",
+        "Orleans",
+        "Orleañs",
+        "Orleáns",
+        "Orleães",
+        "Orleāna",
+        "Orliens",
+        "Orlèans",
+        "ao er liang",
+        "awrlyan",
+        "awrlynz",
+        "oleulleang",
+        "orleani",
+        "orleyom",
+        "orurean",
+        "xxr lex xng"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "سنتر-فال دو لوار",
+      "regionEn": "Centre-Val de Loire"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2989317",
+    "verified": true
+  },
+  {
+    "slug": "nantes",
+    "type": "city",
+    "countryCode": "fr",
+    "lat": 47.21725,
+    "lng": -1.55336,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "نانت",
+      "en": "Nantes",
+      "fr": "Nantes",
+      "de": "Nantes",
+      "tr": "Nantes",
+      "ur": "Nantes",
+      "id": "Nantes",
+      "es": "Nantes",
+      "bn": "Nantes",
+      "ms": "Nantes"
+    },
+    "aliases": {
+      "en": [
+        "NTE",
+        "Nant",
+        "Nante",
+        "Nanti",
+        "Nanto",
+        "Naoned",
+        "Portus Namnetus",
+        "nan te",
+        "nant",
+        "nanta",
+        "nanto"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بايز دو لا لوار",
+      "regionEn": "Pays de la Loire"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2990969",
+    "verified": true
+  },
+  {
+    "slug": "nancy",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 48.68439,
+    "lng": 6.18496,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "نانسي",
+      "en": "Nancy",
+      "fr": "Nancy",
+      "de": "Nancy",
+      "tr": "Nancy",
+      "ur": "Nancy",
+      "id": "Nancy",
+      "es": "Nancy",
+      "bn": "Nancy",
+      "ms": "Nancy"
+    },
+    "aliases": {
+      "ar": [
+        "نانسی"
+      ],
+      "en": [
+        "ETZ",
+        "Nanceium",
+        "Nancio",
+        "Nansi",
+        "Nansy",
+        "Nanzeg",
+        "nan xi",
+        "nanshi",
+        "nansi",
+        "nansy"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "غران إست",
+      "regionEn": "Grand Est"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2990999",
+    "verified": true
+  },
+  {
+    "slug": "metz",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 49.11911,
+    "lng": 6.17269,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "متز",
+      "en": "Metz",
+      "fr": "Metz",
+      "de": "Metz",
+      "tr": "Metz",
+      "ur": "Metz",
+      "id": "Metz",
+      "es": "Metz",
+      "bn": "Metz",
+      "ms": "Metz"
+    },
+    "aliases": {
+      "ar": [
+        "میتز",
+        "میٹز"
+      ],
+      "en": [
+        "Divodurum",
+        "ETZ",
+        "Mec",
+        "Meca",
+        "Mecas",
+        "Meco",
+        "Mediomatricum",
+        "Meds",
+        "Mets",
+        "Mettis",
+        "Mety",
+        "Mètz",
+        "Méty",
+        "Métz",
+        "mei si",
+        "mesa",
+        "meseu",
+        "mesu",
+        "metcu",
+        "metsi",
+        "mtz",
+        "mytz",
+        "mz"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "غران إست",
+      "regionEn": "Grand Est"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2994160",
+    "verified": true
+  },
+  {
+    "slug": "le-mans",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 48.0021,
+    "lng": 0.20251,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "لو مان",
+      "en": "Le Mans",
+      "fr": "Le Mans",
+      "de": "Le Mans",
+      "tr": "Le Mans",
+      "ur": "Le Mans",
+      "id": "Le Mans",
+      "es": "Le Mans",
+      "bn": "Le Mans",
+      "ms": "Le Mans"
+    },
+    "aliases": {
+      "ar": [
+        "لومان",
+        "لی مانس"
+      ],
+      "en": [
+        "Ar Mans",
+        "Ar Mañs",
+        "Cenomanum",
+        "L'Unite-sur-Sarthe",
+        "L'Unité-sur-Sarthe",
+        "L'o Man",
+        "LME",
+        "Le Man",
+        "Le Manas",
+        "Le-Man",
+        "Lemana",
+        "Lemāna",
+        "Lo Mans",
+        "le mam",
+        "le-mani",
+        "lei mang",
+        "leumang",
+        "lw man",
+        "lwman",
+        "ly mans",
+        "lya mamsa"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بايز دو لا لوار",
+      "regionEn": "Pays de la Loire"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3003603",
+    "verified": true
+  },
+  {
+    "slug": "le-havre",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 49.49346,
+    "lng": 0.10785,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "لو آور",
+      "en": "Le Havre",
+      "fr": "Le Havre",
+      "de": "Le Havre",
+      "tr": "Le Havre",
+      "ur": "Le Havre",
+      "id": "Le Havre",
+      "es": "Le Havre",
+      "bn": "Le Havre",
+      "ms": "Le Havre"
+    },
+    "aliases": {
+      "ar": [
+        "لو اور",
+        "لو هافر",
+        "لی ہاور"
+      ],
+      "en": [
+        "An Havr Nevez",
+        "An Havr-Nevez",
+        "Avr",
+        "Chabre",
+        "El Havre",
+        "Franciscopolis",
+        "Gaur",
+        "Gavr",
+        "Grasville-Lheure",
+        "Havr",
+        "Havra",
+        "Havras",
+        "Havre",
+        "Havro",
+        "Hawr",
+        "Khavur",
+        "LEH",
+        "La Havro",
+        "Le port de Grace",
+        "Le port de Grâce",
+        "Lé Hâvre",
+        "O Havre",
+        "Saint-Jean-sur-Mer",
+        "havri",
+        "la avra",
+        "le avar",
+        "lei a fu er",
+        "leuabeuleu",
+        "lex xafwr",
+        "lh hbr",
+        "lw awr",
+        "lw hafr",
+        "xia hua"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "نورماندي",
+      "regionEn": "Normandie"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3003796",
+    "verified": true
+  },
+  {
+    "slug": "grenoble",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 45.17869,
+    "lng": 5.71479,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "غرونوبل",
+      "en": "Grenoble",
+      "fr": "Grenoble",
+      "de": "Grenoble",
+      "tr": "Grenoble",
+      "ur": "Grenoble",
+      "id": "Grenoble",
+      "es": "Grenoble",
+      "bn": "Grenoble",
+      "ms": "Grenoble"
+    },
+    "aliases": {
+      "ar": [
+        "گرونوبل",
+        "گرینوبل"
+      ],
+      "en": [
+        "GNO",
+        "Gratianopolis",
+        "Grehnobl'",
+        "Grelibre",
+        "Grenobel",
+        "Grenobl",
+        "Grenobl'",
+        "Grenoblis",
+        "Grenoblo",
+        "Grenobul",
+        "Grenòble",
+        "Nkrenompl",
+        "Qroenobl",
+        "Qrönobl",
+        "ge lei nuo bu er",
+        "geuleunobeul",
+        "ghrwnwbl",
+        "granobala",
+        "grenobala",
+        "grenobla",
+        "grenobli",
+        "grnwbl",
+        "grwnwbl",
+        "grynwbl",
+        "gurunoburu",
+        "kiranopil"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "أوفيرني-رون-ألب",
+      "regionEn": "Auvergne-Rhône-Alpes"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3014728",
+    "verified": true
+  },
+  {
+    "slug": "dijon",
+    "type": "city",
+    "countryCode": "fr",
+    "lat": 47.31344,
+    "lng": 5.01391,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "ديجون",
+      "en": "Dijon",
+      "fr": "Dijon",
+      "de": "Dijon",
+      "tr": "Dijon",
+      "ur": "Dijon",
+      "id": "Dijon",
+      "es": "Dijon",
+      "bn": "Dijon",
+      "ms": "Dijon"
+    },
+    "aliases": {
+      "ar": [
+        "دیجون",
+        "دیژون",
+        "ڈیجون"
+      ],
+      "en": [
+        "DIJ",
+        "Digion",
+        "Digione",
+        "Digono",
+        "Dij·on",
+        "Divio",
+        "Diviodunum",
+        "Dizhon",
+        "Dizon",
+        "Dizona",
+        "Dizonas",
+        "Diĝono",
+        "Dižon",
+        "Dižona",
+        "Dižonas",
+        "Dyzhon",
+        "Ntizon",
+        "di rong",
+        "dichng",
+        "dijam",
+        "dijom",
+        "dijong",
+        "dizhoni",
+        "dyjwn",
+        "dyzhwn",
+        "dyzwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بورغوني-فرانش-كونتيه",
+      "regionEn": "Bourgogne-Franche-Comté"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3021372",
+    "verified": true
+  },
+  {
+    "slug": "clermont-ferrand",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 45.77969,
+    "lng": 3.08682,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "كليرمون فيران",
+      "en": "Clermont-Ferrand",
+      "fr": "Clermont-Ferrand",
+      "de": "Clermont-Ferrand",
+      "tr": "Clermont-Ferrand",
+      "ur": "Clermont-Ferrand",
+      "id": "Clermont-Ferrand",
+      "es": "Clermont-Ferrand",
+      "bn": "Clermont-Ferrand",
+      "ms": "Clermont-Ferrand"
+    },
+    "aliases": {
+      "ar": [
+        "کلرمون فران",
+        "کلرمون-فران",
+        "کلیمون-فیراند"
+      ],
+      "en": [
+        "Augustonemetum",
+        "CFE",
+        "Clarmont",
+        "Clarmont dAlvernia",
+        "Clarmont dAlvèrnia",
+        "Clarmont-Ferrand",
+        "Clermont",
+        "Cllarmont-Ferrand",
+        "Cllârmont-Fèrrand",
+        "Klermon Feran",
+        "Klermon-Feran",
+        "Klermon-Ferran",
+        "Klermonas-Feranas",
+        "Klermonferana",
+        "Klermonferāna",
+        "ke lai meng fei lang",
+        "keulleleumongpelang",
+        "kleramam feram",
+        "kleramam-pheram",
+        "klrmwn fran",
+        "klrmwn-fran",
+        "klymwn-fyrand",
+        "klyrmwn fyran",
+        "kurerumon=feran"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "أوفيرني-رون-ألب",
+      "regionEn": "Auvergne-Rhône-Alpes"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3024635",
+    "verified": true
+  },
+  {
+    "slug": "caen",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 49.18585,
+    "lng": -0.35912,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "كاين",
+      "en": "Caen",
+      "fr": "Caen",
+      "de": "Caen",
+      "tr": "Caen",
+      "ur": "Caen",
+      "id": "Caen",
+      "es": "Caen",
+      "bn": "Caen",
+      "ms": "Caen"
+    },
+    "aliases": {
+      "ar": [
+        "کان",
+        "کین"
+      ],
+      "en": [
+        "CFR",
+        "Caam",
+        "Cadomum",
+        "Cadum",
+        "Cadumum",
+        "Caem",
+        "Cahem",
+        "Can",
+        "Canz",
+        "Caon",
+        "Cathim",
+        "Catomum",
+        "Caën",
+        "Caðum",
+        "Chaam",
+        "Chaem",
+        "Cham",
+        "Kadunum",
+        "Kaen",
+        "Kan",
+        "Kana",
+        "Kanas",
+        "Kāna",
+        "Quaam",
+        "k xng",
+        "ka ang",
+        "kam",
+        "kan",
+        "kang",
+        "kayn",
+        "kyn",
+        "qn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "نورماندي",
+      "regionEn": "Normandie"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3029241",
+    "verified": true
+  },
+  {
+    "slug": "besancon",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 47.24878,
+    "lng": 6.01815,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "بزانسون",
+      "en": "Besançon",
+      "fr": "Besançon",
+      "de": "Besançon",
+      "tr": "Besançon",
+      "ur": "Besançon",
+      "id": "Besançon",
+      "es": "Besançon",
+      "bn": "Besançon",
+      "ms": "Besançon"
+    },
+    "aliases": {
+      "ar": [
+        "بيزنسون",
+        "بیزانسون",
+        "بیسانکاں"
+      ],
+      "en": [
+        "Becoinson",
+        "Beisangsong",
+        "Besancao",
+        "Besancon",
+        "Besanson",
+        "Besanzon",
+        "Besanzone",
+        "Besanzón",
+        "Besanção",
+        "Besontio",
+        "Bezanson",
+        "Bezansona",
+        "Bezansonas",
+        "Bezansono",
+        "Bisanz",
+        "Bisontion",
+        "Bysantium",
+        "Bèisāngsōng",
+        "Chrysopolis",
+        "Vesancao",
+        "Vesanção",
+        "Vesontio",
+        "Vesuntio",
+        "bei sang song",
+        "bejhamsom",
+        "beujangsong",
+        "bexs xngsng",
+        "bezansoni",
+        "buzanson",
+        "byzanswn",
+        "byznswn",
+        "bzanswn"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بورغوني-فرانش-كونتيه",
+      "regionEn": "Bourgogne-Franche-Comté"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3033123",
+    "verified": true
+  },
+  {
+    "slug": "aix-en-provence",
+    "type": "town",
+    "countryCode": "fr",
+    "lat": 43.5283,
+    "lng": 5.44973,
+    "timezone": "Europe/Paris",
+    "names": {
+      "ar": "آكس أون بروفانس",
+      "en": "Aix-en-Provence",
+      "fr": "Aix-en-Provence",
+      "de": "Aix-en-Provence",
+      "tr": "Aix-en-Provence",
+      "ur": "Aix-en-Provence",
+      "id": "Aix-en-Provence",
+      "es": "Aix-en-Provence",
+      "bn": "Aix-en-Provence",
+      "ms": "Aix-en-Provence"
+    },
+    "aliases": {
+      "ar": [
+        "اکس-آن-پروانس",
+        "ایکس این پرونس"
+      ],
+      "en": [
+        "AEx-in-Profentse",
+        "Aikso Provenca",
+        "Ais de Provenca",
+        "Ais de Provença",
+        "Aix",
+        "Aix-an-Provans",
+        "Aquae Sextiae",
+        "Ehks-an-Provans",
+        "Eks an Provans",
+        "Eks-an-Provans",
+        "Eksanprovansa",
+        "Provanso Eksas",
+        "QXB",
+        "aks awn brwfans",
+        "aks-an-prwans",
+        "ayks ayn prwns",
+        "egsangpeulobangseu",
+        "ekusu=an=purovuansu",
+        "pu luo wang si de qu ai ke si",
+        "ya sang pu fang",
+        "Æx-in-Profentse",
+        "Ēksanprovansa"
+      ]
+    },
+    "admin": {
+      "countryAr": "فرنسا",
+      "countryEn": "France",
+      "regionAr": "بروفنس-ألب-كوت دازور",
+      "regionEn": "Provence-Alpes-Côte d'Azur"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3038354",
+    "verified": true
+  },
+  {
+    "slug": "namur",
+    "type": "city",
+    "countryCode": "be",
+    "lat": 50.4669,
+    "lng": 4.86746,
+    "timezone": "Europe/Brussels",
+    "names": {
+      "ar": "نامور",
+      "en": "Namur",
+      "fr": "Namur",
+      "de": "Namur",
+      "tr": "Namur",
+      "ur": "Namur",
+      "id": "Namur",
+      "es": "Namur",
+      "bn": "Namur",
+      "ms": "Namur"
+    },
+    "aliases": {
+      "ar": [
+        "نمور، بلژیک"
+      ],
+      "en": [
+        "Name",
+        "Namen",
+        "Nameur",
+        "Namir",
+        "Namira",
+        "Namiuras",
+        "Namiūras",
+        "Namjur",
+        "Namouer",
+        "Namuer",
+        "Namurcum",
+        "Namuro",
+        "Namyr",
+        "Namyur",
+        "Namür",
+        "Namīra",
+        "QNM",
+        "na mu er",
+        "namu r",
+        "namura",
+        "namwileu",
+        "namwr",
+        "namyuru",
+        "nmwr  blzhyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "بلجيكا",
+      "countryEn": "Belgium",
+      "regionAr": "الإقليم الوالوني",
+      "regionEn": "Walloon Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2790471",
+    "verified": true
+  },
+  {
+    "slug": "liege",
+    "type": "town",
+    "countryCode": "be",
+    "lat": 50.63373,
+    "lng": 5.56749,
+    "timezone": "Europe/Brussels",
+    "names": {
+      "ar": "لييج",
+      "en": "Liège",
+      "fr": "Liège",
+      "de": "Liège",
+      "tr": "Liège",
+      "ur": "Liège",
+      "id": "Liège",
+      "es": "Liège",
+      "bn": "Liège",
+      "ms": "Liège"
+    },
+    "aliases": {
+      "ar": [
+        "لیج",
+        "لیژ"
+      ],
+      "en": [
+        "L'ezh",
+        "LGG",
+        "Leck",
+        "Leodic",
+        "Leodicum",
+        "Leodium",
+        "Lidje",
+        "Liege",
+        "Liegi",
+        "Liego",
+        "Lieja",
+        "Liex",
+        "Liez",
+        "Liezh",
+        "Lieĝo",
+        "Lige",
+        "Lijezh",
+        "Lièja",
+        "Ljez",
+        "Ljeza",
+        "Ljezas",
+        "Ljež",
+        "Lježas",
+        "Ljēža",
+        "Luettich",
+        "Luik",
+        "Luttich",
+        "Lutych",
+        "Luuk",
+        "Léck",
+        "Lüttich",
+        "Lēodic",
+        "Suguru",
+        "Sùguru",
+        "lie ri",
+        "lieju",
+        "liezhi",
+        "lija",
+        "lyj",
+        "lyyj",
+        "lyyz",
+        "lyzh",
+        "rieju"
+      ]
+    },
+    "admin": {
+      "countryAr": "بلجيكا",
+      "countryEn": "Belgium",
+      "regionAr": "الإقليم الوالوني",
+      "regionEn": "Walloon Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2792413",
+    "verified": true
+  },
+  {
+    "slug": "gent",
+    "type": "town",
+    "countryCode": "be",
+    "lat": 51.05,
+    "lng": 3.71667,
+    "timezone": "Europe/Brussels",
+    "names": {
+      "ar": "جنت",
+      "en": "Gent",
+      "fr": "Gent",
+      "de": "Gent",
+      "tr": "Gent",
+      "ur": "Gent",
+      "id": "Gent",
+      "es": "Gent",
+      "bn": "Gent",
+      "ms": "Gent"
+    },
+    "aliases": {
+      "ar": [
+        "خنت",
+        "غنت",
+        "غینٹ"
+      ],
+      "en": [
+        "GNE",
+        "Gaent",
+        "Gand",
+        "Gandavum",
+        "Gandawa",
+        "Gande",
+        "Gant",
+        "Gante",
+        "Ganti",
+        "Gend",
+        "Gentas",
+        "Gente",
+        "Gento",
+        "Ghent",
+        "Gint",
+        "Gænt",
+        "gen te",
+        "genta",
+        "ghnt",
+        "gnt",
+        "henteu",
+        "hento",
+        "jenta",
+        "jnt",
+        "ken t",
+        "khenta",
+        "khnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "بلجيكا",
+      "countryEn": "Belgium",
+      "regionAr": "الإقليم الفلمنكي",
+      "regionEn": "Flemish Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2797656",
+    "verified": true
+  },
+  {
+    "slug": "charleroi",
+    "type": "town",
+    "countryCode": "be",
+    "lat": 50.41136,
+    "lng": 4.44448,
+    "timezone": "Europe/Brussels",
+    "names": {
+      "ar": "شارلروآ",
+      "en": "Charleroi",
+      "fr": "Charleroi",
+      "de": "Charleroi",
+      "tr": "Charleroi",
+      "ur": "Charleroi",
+      "id": "Charleroi",
+      "es": "Charleroi",
+      "bn": "Charleroi",
+      "ms": "Charleroi"
+    },
+    "aliases": {
+      "ar": [
+        "شارلوروا",
+        "چارلیروئی"
+      ],
+      "en": [
+        "Carleroe",
+        "Carleroé",
+        "Caroloregium",
+        "Sarlero",
+        "Sarleroua",
+        "Sarlerua",
+        "Sarlrua",
+        "Sharleroa",
+        "Sharlerua",
+        "Sharlroa",
+        "Tchalerwe",
+        "Tchålerwè",
+        "char lex raw",
+        "charlyrwyy",
+        "sha lei luo wa",
+        "sharlerua",
+        "sharlrwa",
+        "sharlwrwa",
+        "sharururowa",
+        "syaleullua",
+        "Ŝarlero",
+        "Šarlerua",
+        "Šarlruā"
+      ]
+    },
+    "admin": {
+      "countryAr": "بلجيكا",
+      "countryEn": "Belgium",
+      "regionAr": "الإقليم الوالوني",
+      "regionEn": "Walloon Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2800481",
+    "verified": true
+  },
+  {
+    "slug": "brugge",
+    "type": "town",
+    "countryCode": "be",
+    "lat": 51.20892,
+    "lng": 3.22424,
+    "timezone": "Europe/Brussels",
+    "names": {
+      "ar": "بروج",
+      "en": "Brugge",
+      "fr": "Brugge",
+      "de": "Brugge",
+      "tr": "Brugge",
+      "ur": "Brugge",
+      "id": "Brugge",
+      "es": "Brugge",
+      "bn": "Brugge",
+      "ms": "Brugge"
+    },
+    "aliases": {
+      "ar": [
+        "بروخه",
+        "برویز"
+      ],
+      "en": [
+        "Brige",
+        "Briuge",
+        "Briugė",
+        "Briz",
+        "Brizh",
+        "Briž",
+        "Brjuge",
+        "Brjugge",
+        "Broegge",
+        "Brudje",
+        "Bruegge",
+        "Brugae",
+        "Brugeh",
+        "Bruges",
+        "Bruggy",
+        "Brugia",
+        "Brugo",
+        "Bruhhe",
+        "Brujas",
+        "Bruxas",
+        "Bruza",
+        "Bruĝo",
+        "Brycg",
+        "Brygge",
+        "Bryugge",
+        "Bryz",
+        "Brögge",
+        "Brügge",
+        "beulwiheo",
+        "briuge",
+        "bruch",
+        "bruja",
+        "brwj",
+        "brwkhh",
+        "brwyz",
+        "brwz",
+        "bu lu he",
+        "bu lu ri li shi zhong xin",
+        "buruhhe"
+      ]
+    },
+    "admin": {
+      "countryAr": "بلجيكا",
+      "countryEn": "Belgium",
+      "regionAr": "الإقليم الفلمنكي",
+      "regionEn": "Flemish Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2800931",
+    "verified": true
+  },
+  {
+    "slug": "anderlecht",
+    "type": "town",
+    "countryCode": "be",
+    "lat": 50.83619,
+    "lng": 4.31454,
+    "timezone": "Europe/Brussels",
+    "names": {
+      "ar": "آندرلخت",
+      "en": "Anderlecht",
+      "fr": "Anderlecht",
+      "de": "Anderlecht",
+      "tr": "Anderlecht",
+      "ur": "Anderlecht",
+      "id": "Anderlecht",
+      "es": "Anderlecht",
+      "bn": "Anderlecht",
+      "ms": "Anderlecht"
+    },
+    "aliases": {
+      "ar": [
+        "آندرلشت",
+        "أندرلخت"
+      ],
+      "en": [
+        "Anderlacum",
+        "Anderlech",
+        "Anderleht",
+        "Anderlek",
+        "Anderlekht",
+        "Anderlihto",
+        "Anderliĥto",
+        "Brussel (Anderlecht)",
+        "Bruxelles (Anderlecht)",
+        "an de lai he te",
+        "andeoleheuteu",
+        "anderurehito",
+        "andrlkht",
+        "andrlsht",
+        "xandexr lekht"
+      ]
+    },
+    "admin": {
+      "countryAr": "بلجيكا",
+      "countryEn": "Belgium",
+      "regionAr": "بروكسل العاصمة",
+      "regionEn": "Brussels-Capital"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2803201",
+    "verified": true
+  },
+  {
+    "slug": "venlo",
+    "type": "town",
+    "countryCode": "nl",
+    "lat": 51.37,
+    "lng": 6.16806,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "فنلو",
+      "en": "Venlo",
+      "fr": "Venlo",
+      "de": "Venlo",
+      "tr": "Venlo",
+      "ur": "Venlo",
+      "id": "Venlo",
+      "es": "Venlo",
+      "bn": "Venlo",
+      "ms": "Venlo"
+    },
+    "aliases": {
+      "ar": [
+        "وینلو"
+      ],
+      "en": [
+        "Fenlo",
+        "VSN",
+        "Venlas",
+        "Venlonum",
+        "Venloo",
+        "fen luo",
+        "fenro",
+        "fnlw",
+        "wynlw"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "ليمبورخ",
+      "regionEn": "Limburg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2745641",
+    "verified": true
+  },
+  {
+    "slug": "utrecht",
+    "type": "city",
+    "countryCode": "nl",
+    "lat": 52.09083,
+    "lng": 5.12222,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "أوترخت",
+      "en": "Utrecht",
+      "fr": "Utrecht",
+      "de": "Utrecht",
+      "tr": "Utrecht",
+      "ur": "Utrecht",
+      "id": "Utrecht",
+      "es": "Utrecht",
+      "bn": "Utrecht",
+      "ms": "Utrecht"
+    },
+    "aliases": {
+      "ar": [
+        "اوترخت",
+        "یوترخت",
+        "یوتریخت"
+      ],
+      "en": [
+        "Gemeente Utrecht",
+        "Magaalada Utrecht",
+        "Outrechte",
+        "Owtrext",
+        "Traiectum ad Rhenum",
+        "UTC",
+        "Utert",
+        "Utrech",
+        "Utrechtas",
+        "Utrehkht",
+        "Utreht",
+        "Utrehta",
+        "Utrehto",
+        "Utrei",
+        "Utrekht",
+        "Utrekht khot",
+        "Utreque",
+        "Utrext",
+        "Utreĥto",
+        "awtrkht",
+        "utrekhata",
+        "utrekhta",
+        "witeuleheuteu",
+        "wu de lei zhi",
+        "yu the rkt",
+        "yutirekiti",
+        "yutorehito",
+        "yutrekhata",
+        "yutrekhta",
+        "ywtrkht",
+        "ywtrykht"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "أوتريخت",
+      "regionEn": "Utrecht"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2745912",
+    "verified": true
+  },
+  {
+    "slug": "s-hertogenbosch",
+    "type": "city",
+    "countryCode": "nl",
+    "lat": 51.69917,
+    "lng": 5.30417,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "هرتوجن بوش",
+      "en": "'s-Hertogenbosch",
+      "fr": "'s-Hertogenbosch",
+      "de": "'s-Hertogenbosch",
+      "tr": "'s-Hertogenbosch",
+      "ur": "'s-Hertogenbosch",
+      "id": "'s-Hertogenbosch",
+      "es": "'s-Hertogenbosch",
+      "bn": "'s-Hertogenbosch",
+      "ms": "'s-Hertogenbosch"
+    },
+    "aliases": {
+      "ar": [
+        "هرتوخنبوش",
+        "هرتوخن‌بوش",
+        "ہrٹwjn bwsh",
+        "ہرٹوجن بوش"
+      ],
+      "en": [
+        "'s Bosch",
+        "Bois-le-Duc",
+        "Bolduque",
+        "Boscoducale",
+        "De Bosk",
+        "Den Bosch",
+        "Hertogenbosch",
+        "Herzogenbusch",
+        "Khertogenbos",
+        "NL416",
+        "NL_GM0796",
+        "Oeteldonk",
+        "Sertogenbos",
+        "Silva Ducis",
+        "haratojanabosa",
+        "haritojeniboshi",
+        "hartojenabosa",
+        "herutohenbosu",
+        "hrtwjn bwsh",
+        "hrtwkhnbwsh",
+        "hrtwkhn‌bwsh",
+        "’s-Hertogenbosch"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "برابانت الشمالية",
+      "regionEn": "North Brabant"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2747351",
+    "verified": true
+  },
+  {
+    "slug": "nijmegen",
+    "type": "town",
+    "countryCode": "nl",
+    "lat": 51.8425,
+    "lng": 5.85278,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "نايميخن",
+      "en": "Nijmegen",
+      "fr": "Nijmegen",
+      "de": "Nijmegen",
+      "tr": "Nijmegen",
+      "ur": "Nijmegen",
+      "id": "Nijmegen",
+      "es": "Nijmegen",
+      "bn": "Nijmegen",
+      "ms": "Nijmegen"
+    },
+    "aliases": {
+      "ar": [
+        "نجمیگان",
+        "نیمیخن"
+      ],
+      "en": [
+        "Gemeen Nimwaege",
+        "Naimechen",
+        "Najmegen",
+        "Neimegena",
+        "Neimegenas",
+        "Nejmegen",
+        "Neymeyxen",
+        "Nijmeyen",
+        "Nimega",
+        "Nimegen",
+        "Nimegue",
+        "Nimwege",
+        "Nimwegen",
+        "Nimègue",
+        "Nymegen",
+        "Nymwegen",
+        "Nîmegue",
+        "Nĳmegen",
+        "QNQ",
+        "Ulpia Noviomagus Batavorum",
+        "nai mei heng",
+        "naimehen",
+        "naymykhn",
+        "ne me ken",
+        "neimegeni",
+        "neimeheon",
+        "njmygan",
+        "nymykhn",
+        "nyymkn"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "خيلدرلاند",
+      "regionEn": "Gelderland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2750053",
+    "verified": true
+  },
+  {
+    "slug": "leeuwarden",
+    "type": "city",
+    "countryCode": "nl",
+    "lat": 53.20271,
+    "lng": 5.80973,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "ليوواردن",
+      "en": "Leeuwarden",
+      "fr": "Leeuwarden",
+      "de": "Leeuwarden",
+      "tr": "Leeuwarden",
+      "ur": "Leeuwarden",
+      "id": "Leeuwarden",
+      "es": "Leeuwarden",
+      "bn": "Leeuwarden",
+      "ms": "Leeuwarden"
+    },
+    "aliases": {
+      "ar": [
+        "لیوواردن"
+      ],
+      "en": [
+        "L'ovet",
+        "LWR",
+        "Leewarden",
+        "Leuvardehn",
+        "Leuvarden",
+        "Leuvardena",
+        "Leuvardenas",
+        "Leuwarden",
+        "Leyvarden",
+        "Lieuwarden",
+        "Liewarde",
+        "Liwwadden",
+        "Ljouwert",
+        "leiualeudeon",
+        "lew ar dein",
+        "li'u'oyardena",
+        "livaradena",
+        "livardana",
+        "liyuvardena",
+        "liውwerideni",
+        "lu fa deng",
+        "lywwardn",
+        "rewaruden"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "فريسلاند",
+      "regionEn": "Friesland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2751792",
+    "verified": true
+  },
+  {
+    "slug": "haarlem",
+    "type": "city",
+    "countryCode": "nl",
+    "lat": 52.38084,
+    "lng": 4.63683,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "هارلم",
+      "en": "Haarlem",
+      "fr": "Haarlem",
+      "de": "Haarlem",
+      "tr": "Haarlem",
+      "ur": "Haarlem",
+      "id": "Haarlem",
+      "es": "Haarlem",
+      "bn": "Haarlem",
+      "ms": "Haarlem"
+    },
+    "aliases": {
+      "ar": [
+        "ہarlm",
+        "ہارلم"
+      ],
+      "en": [
+        "Chaarlem",
+        "Garlem",
+        "Haarlemo",
+        "Haarlim",
+        "Harlem",
+        "Harlema",
+        "Harlemas",
+        "Harlemum",
+        "Hārlema",
+        "Khaarlem",
+        "Kharlem",
+        "ha lei mu",
+        "haarlemi",
+        "haleulleom",
+        "haralema",
+        "harileም",
+        "harlama",
+        "harlema",
+        "harlm",
+        "haruremu"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "هولندا الشمالية",
+      "regionEn": "North Holland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2755003",
+    "verified": true
+  },
+  {
+    "slug": "enschede",
+    "type": "town",
+    "countryCode": "nl",
+    "lat": 52.21833,
+    "lng": 6.89583,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "إنسخيده",
+      "en": "Enschede",
+      "fr": "Enschede",
+      "de": "Enschede",
+      "tr": "Enschede",
+      "ur": "Enschede",
+      "id": "Enschede",
+      "es": "Enschede",
+      "bn": "Enschede",
+      "ms": "Enschede"
+    },
+    "aliases": {
+      "ar": [
+        "انسخده",
+        "انشیدے"
+      ],
+      "en": [
+        "ENS",
+        "Eanske",
+        "Ehnskhede",
+        "Ehnskhedeh",
+        "Enschedė",
+        "Ensjedee",
+        "Enskede",
+        "Enskhede",
+        "Ensxeyde",
+        "Ynskedee",
+        "anskhdh",
+        "anskhydh",
+        "en si he de",
+        "enseuhedeo",
+        "enskhede",
+        "ensuhede",
+        "xen s kede"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "أوفرآيسل",
+      "regionEn": "Overijssel"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2756071",
+    "verified": true
+  },
+  {
+    "slug": "breda",
+    "type": "town",
+    "countryCode": "nl",
+    "lat": 51.58656,
+    "lng": 4.77596,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "بردا",
+      "en": "Breda",
+      "fr": "Breda",
+      "de": "Breda",
+      "tr": "Breda",
+      "ur": "Breda",
+      "id": "Breda",
+      "es": "Breda",
+      "bn": "Breda",
+      "ms": "Breda"
+    },
+    "aliases": {
+      "ar": [
+        "بريدا",
+        "بریدا",
+        "بریڈا"
+      ],
+      "en": [
+        "Breda khot",
+        "Bredo",
+        "Brehda",
+        "Brenta",
+        "Bréda",
+        "GLZ",
+        "be rda",
+        "beuleda",
+        "brda",
+        "brdh",
+        "bred",
+        "brida",
+        "bryda",
+        "bu lei da",
+        "bureda",
+        "pireta"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "برابانت الشمالية",
+      "regionEn": "North Brabant"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2758401",
+    "verified": true
+  },
+  {
+    "slug": "assen",
+    "type": "city",
+    "countryCode": "nl",
+    "lat": 52.99667,
+    "lng": 6.5625,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "آسن",
+      "en": "Assen",
+      "fr": "Assen",
+      "de": "Assen",
+      "tr": "Assen",
+      "ur": "Assen",
+      "id": "Assen",
+      "es": "Assen",
+      "bn": "Assen",
+      "ms": "Assen"
+    },
+    "aliases": {
+      "ar": [
+        "أسن",
+        "ایسن"
+      ],
+      "en": [
+        "Asen",
+        "Asenas",
+        "Asningseli",
+        "Asningsėli",
+        "Asse",
+        "a sen",
+        "aisena",
+        "asena",
+        "aseon",
+        "asn",
+        "aysn",
+        "xas sein",
+        "ʿeseni"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "درنته",
+      "regionEn": "Drenthe"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2759633",
+    "verified": true
+  },
+  {
+    "slug": "apeldoorn",
+    "type": "town",
+    "countryCode": "nl",
+    "lat": 52.21,
+    "lng": 5.96944,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "آبلدورن",
+      "en": "Apeldoorn",
+      "fr": "Apeldoorn",
+      "de": "Apeldoorn",
+      "tr": "Apeldoorn",
+      "ur": "Apeldoorn",
+      "id": "Apeldoorn",
+      "es": "Apeldoorn",
+      "bn": "Apeldoorn",
+      "ms": "Apeldoorn"
+    },
+    "aliases": {
+      "ar": [
+        "آپلدورن",
+        "ایپلڈوم"
+      ],
+      "en": [
+        "Apeldoarn",
+        "Apeldoorne",
+        "Apeldorn",
+        "Apeldornas",
+        "QYP",
+        "a po er duo lun",
+        "abldwrn",
+        "apeldoleun",
+        "aperudorun",
+        "apldwrn",
+        "epeladorna",
+        "xa phel dorn"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "خيلدرلاند",
+      "regionEn": "Gelderland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2759706",
+    "verified": true
+  },
+  {
+    "slug": "almere-stad",
+    "type": "town",
+    "countryCode": "nl",
+    "lat": 52.37025,
+    "lng": 5.21413,
+    "timezone": "Europe/Amsterdam",
+    "names": {
+      "ar": "آلمره استاد",
+      "en": "Almere Stad",
+      "fr": "Almere Stad",
+      "de": "Almere Stad",
+      "tr": "Almere Stad",
+      "ur": "Almere Stad",
+      "id": "Almere Stad",
+      "es": "Almere Stad",
+      "bn": "Almere Stad",
+      "ms": "Almere Stad"
+    },
+    "aliases": {
+      "en": [
+        "Almere",
+        "almrh astad"
+      ]
+    },
+    "admin": {
+      "countryAr": "هولندا",
+      "countryEn": "Netherlands",
+      "regionAr": "فليفولاند",
+      "regionEn": "Flevoland"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2759879",
+    "verified": true
+  },
+  {
+    "slug": "mersch",
+    "type": "city",
+    "countryCode": "lu",
+    "lat": 49.75055,
+    "lng": 6.10627,
+    "timezone": "Europe/Luxembourg",
+    "names": {
+      "ar": "مرش",
+      "en": "Mersch",
+      "fr": "Mersch",
+      "de": "Mersch",
+      "tr": "Mersch",
+      "ur": "Mersch",
+      "id": "Mersch",
+      "es": "Mersch",
+      "bn": "Mersch",
+      "ms": "Mersch"
+    },
+    "aliases": {
+      "ar": [
+        "ميرش"
+      ],
+      "en": [
+        "Gemeng Miersch",
+        "Mers",
+        "Mersas",
+        "Mersh",
+        "Merş",
+        "Meršas",
+        "Miersch",
+        "Morsche",
+        "marasa",
+        "marsa",
+        "mei er shi",
+        "merishi",
+        "merushu",
+        "mrsh",
+        "myrsh"
+      ]
+    },
+    "admin": {
+      "countryAr": "لوكسمبورغ",
+      "countryEn": "Luxembourg",
+      "regionAr": "ميرش",
+      "regionEn": "Mersch"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:2960276",
+    "verified": true
+  },
+  {
+    "slug": "grevenmacher",
+    "type": "city",
+    "countryCode": "lu",
+    "lat": 49.67751,
+    "lng": 6.44022,
+    "timezone": "Europe/Luxembourg",
+    "names": {
+      "ar": "غريفنماخر",
+      "en": "Grevenmacher",
+      "fr": "Grevenmacher",
+      "de": "Grevenmacher",
+      "tr": "Grevenmacher",
+      "ur": "Grevenmacher",
+      "id": "Grevenmacher",
+      "es": "Grevenmacher",
+      "bn": "Grevenmacher",
+      "ms": "Grevenmacher"
+    },
+    "aliases": {
+      "ar": [
+        "گرونماخر",
+        "گریونماخر"
+      ],
+      "en": [
+        "Grehvenmakher",
+        "Greivemaacher",
+        "Greiwemaacher",
+        "Grevenmacheris",
+        "Grevenmakher",
+        "Grevenmaxer",
+        "Gréivemaacher",
+        "Gréiwemaacher",
+        "Grėvenmacheris",
+        "ge lei wen ma he",
+        "geulebenmaheo",
+        "ghryfnmakhr",
+        "grbnmkr",
+        "grebhenamakara",
+        "grevenamakara",
+        "grwnmakhr",
+        "grywnmakhr",
+        "gurevuenmaha",
+        "ግrevenimakeri"
+      ]
+    },
+    "admin": {
+      "countryAr": "لوكسمبورغ",
+      "countryEn": "Luxembourg",
+      "regionAr": "غريفنماخر",
+      "regionEn": "Grevenmacher"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:2960515",
+    "verified": true
   }
 ]

@@ -73505,7 +73505,7 @@
   {
     "geonameid": 456172,
     "slug": "riga",
-    "status": "pending",
+    "status": "approved",
     "tier": "high",
     "reason": "always_include:PPLC",
     "qualityScore": 80,
@@ -73522,7 +73522,7 @@
       "lng": 24.10589,
       "timezone": "Europe/Riga",
       "names": {
-        "ar": "رىگا",
+        "ar": "ريغا",
         "en": "Riga",
         "fr": "Riga",
         "de": "Riga",
@@ -73584,14 +73584,14 @@
       ]
     },
     "arQuality": {
-      "quality": "mixed_script",
-      "detail": "contains Persian/Urdu letters",
+      "quality": "manual",
+      "detail": "user-supplied canonical Arabic in EUROPE-3-BLOCKED-MAJOR-CITIES-FIX-1",
       "fromArTag": false
     },
     "collisionInWave": false,
     "collisionAgainstCurated": null,
     "suggestedSlugIfCollision": null,
-    "pendingAfterArGate": false
+    "pendingAfterArGate": true
   },
   {
     "geonameid": 456175,

@@ -62539,5 +62539,471 @@
     "source": "curated",
     "sourceId": "geonames:146617",
     "verified": true
+  },
+  {
+    "slug": "riga",
+    "type": "city",
+    "countryCode": "lv",
+    "lat": 56.946,
+    "lng": 24.10589,
+    "timezone": "Europe/Riga",
+    "names": {
+      "ar": "ريغا",
+      "en": "Riga",
+      "fr": "Riga",
+      "de": "Riga",
+      "tr": "Riga",
+      "ur": "Riga",
+      "id": "Riga",
+      "es": "Riga",
+      "bn": "Riga",
+      "ms": "Riga"
+    },
+    "aliases": {
+      "ar": [
+        "ريجا",
+        "ريغا",
+        "ریگا"
+      ],
+      "en": [
+        "RIX",
+        "Reiga",
+        "Rigae",
+        "Rige",
+        "Rigg-a",
+        "Rigo",
+        "Riia",
+        "Riigaa",
+        "Riika",
+        "Rija",
+        "Riqa",
+        "Ryga",
+        "Ríga",
+        "Ríge",
+        "Rīga",
+        "li jia",
+        "liga",
+        "ri ka",
+        "rika",
+        "ryga",
+        "rygh",
+        "rygha",
+        "ryja"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاتفيا",
+      "countryEn": "Latvia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:456172",
+    "verified": true
+  },
+  {
+    "slug": "split",
+    "type": "city",
+    "countryCode": "hr",
+    "lat": 43.50891,
+    "lng": 16.43915,
+    "timezone": "Europe/Zagreb",
+    "names": {
+      "ar": "سبليت",
+      "en": "Split",
+      "fr": "Split",
+      "de": "Split",
+      "tr": "Split",
+      "ur": "Split",
+      "id": "Split",
+      "es": "Split",
+      "bn": "Split",
+      "ms": "Split"
+    },
+    "aliases": {
+      "ar": [
+        "سبليت",
+        "سپلٹ، کروشیا"
+      ],
+      "en": [
+        "SPU",
+        "Spalato",
+        "Spalatro",
+        "Spalatum",
+        "Splita",
+        "Splitas",
+        "Spljet",
+        "Spàlato",
+        "aspalathos",
+        "asplyt",
+        "sblyt",
+        "seupeulliteu",
+        "si pu li te",
+        "splita",
+        "splyt",
+        "supurito"
+      ]
+    },
+    "admin": {
+      "countryAr": "كرواتيا",
+      "countryEn": "Croatia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3190261",
+    "verified": true
+  },
+  {
+    "slug": "rijeka",
+    "type": "city",
+    "countryCode": "hr",
+    "lat": 45.32673,
+    "lng": 14.44241,
+    "timezone": "Europe/Zagreb",
+    "names": {
+      "ar": "رييكا",
+      "en": "Rijeka",
+      "fr": "Rijeka",
+      "de": "Rijeka",
+      "tr": "Rijeka",
+      "ur": "Rijeka",
+      "id": "Rijeka",
+      "es": "Rijeka",
+      "bn": "Rijeka",
+      "ms": "Rijeka"
+    },
+    "aliases": {
+      "en": [
+        "Fiume",
+        "Flumen",
+        "RJK",
+        "Reka",
+        "Rieka",
+        "Rijeko",
+        "Sankt Veit am Flaum",
+        "Sankt Veit am Pflaum",
+        "Vitipolis",
+        "rieka"
+      ]
+    },
+    "admin": {
+      "countryAr": "كرواتيا",
+      "countryEn": "Croatia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3191648",
+    "verified": true
+  },
+  {
+    "slug": "osijek",
+    "type": "city",
+    "countryCode": "hr",
+    "lat": 45.55066,
+    "lng": 18.6942,
+    "timezone": "Europe/Zagreb",
+    "names": {
+      "ar": "أوسييك",
+      "en": "Osijek",
+      "fr": "Osijek",
+      "de": "Osijek",
+      "tr": "Osijek",
+      "ur": "Osijek",
+      "id": "Osijek",
+      "es": "Osijek",
+      "bn": "Osijek",
+      "ms": "Osijek"
+    },
+    "aliases": {
+      "en": [
+        "Colonia Aelia Mursa",
+        "Esseg",
+        "Essegg",
+        "Essek",
+        "Eszek",
+        "Eszék",
+        "Mursa",
+        "Mursia",
+        "OSI",
+        "Osek",
+        "Osiek",
+        "Osigiek",
+        "Osijeka",
+        "Osijekas",
+        "Osik",
+        "oshieku",
+        "xo siyekh"
+      ]
+    },
+    "admin": {
+      "countryAr": "كرواتيا",
+      "countryEn": "Croatia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3193935",
+    "verified": true
+  },
+  {
+    "slug": "dubrovnik",
+    "type": "city",
+    "countryCode": "hr",
+    "lat": 42.64125,
+    "lng": 18.10909,
+    "timezone": "Europe/Zagreb",
+    "names": {
+      "ar": "دوبروفنيك",
+      "en": "Dubrovnik",
+      "fr": "Dubrovnik",
+      "de": "Dubrovnik",
+      "tr": "Dubrovnik",
+      "ur": "Dubrovnik",
+      "id": "Dubrovnik",
+      "es": "Dubrovnik",
+      "bn": "Dubrovnik",
+      "ms": "Dubrovnik"
+    },
+    "aliases": {
+      "en": [
+        "Communitas Ragusina",
+        "DBV",
+        "Dubrounik",
+        "Dubrovnikas",
+        "Dubrovniko",
+        "Dubrovnique",
+        "Dubrovník",
+        "Dubrownik",
+        "Dùbrōvnik",
+        "Laus",
+        "Pearl of the Adriatic",
+        "Ragusa",
+        "Respublica Ragusina",
+        "douburovuniku",
+        "du bu luo fu ni ke",
+        "dwbrwbnyq",
+        "la perla del Adriatico",
+        "la perla del Adriático"
+      ]
+    },
+    "admin": {
+      "countryAr": "كرواتيا",
+      "countryEn": "Croatia"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3201047",
+    "verified": true
+  },
+  {
+    "slug": "sarajevo",
+    "type": "city",
+    "countryCode": "ba",
+    "lat": 43.84864,
+    "lng": 18.35644,
+    "timezone": "Europe/Sarajevo",
+    "names": {
+      "ar": "سراييفو",
+      "en": "Sarajevo",
+      "fr": "Sarajevo",
+      "de": "Sarajevo",
+      "tr": "Sarajevo",
+      "ur": "Sarajevo",
+      "id": "Sarajevo",
+      "es": "Sarajevo",
+      "bn": "Sarajevo",
+      "ms": "Sarajevo"
+    },
+    "aliases": {
+      "ar": [
+        "ساراييفو",
+        "سارايېۋو",
+        "سارایه وو",
+        "سارایوو",
+        "سارایێڤۆ",
+        "سرائیوو",
+        "سراييفو"
+      ],
+      "en": [
+        "Bosna-Sarai",
+        "SJJ",
+        "Saarayego",
+        "Saireavo",
+        "Sairéavó",
+        "Saraeva",
+        "Saraevo",
+        "Saraevo osh",
+        "Saragebo",
+        "Saragiebo",
+        "Saragievo",
+        "Sarajeva",
+        "Sarajevas",
+        "Sarajevs",
+        "Sarajevu",
+        "Sarajevó",
+        "Sarajewo",
+        "Sarajèvo",
+        "Saraxevo",
+        "Saraybosna",
+        "Sarayevo",
+        "Sarayevu",
+        "Seraium",
+        "Serayevo",
+        "Szarajevo",
+        "Szarajevó",
+        "Vrh Bosna",
+        "carayevo",
+        "sa la re wo",
+        "sai la ye fu",
+        "salayebo",
+        "saraevo",
+        "saraevuo",
+        "sarajyww",
+        "sarayavea",
+        "sarayebho",
+        "sarayevho",
+        "sarayevo",
+        "sarayewo",
+        "sarayh ww",
+        "sarayww",
+        "sarayyfw",
+        "srayyfw",
+        "srayyww",
+        "sryybw"
+      ]
+    },
+    "admin": {
+      "countryAr": "البوسنة والهرسك",
+      "countryEn": "Bosnia and Herzegovina"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3191281",
+    "verified": true
+  },
+  {
+    "slug": "banja-luka",
+    "type": "city",
+    "countryCode": "ba",
+    "lat": 44.77879,
+    "lng": 17.20629,
+    "timezone": "Europe/Sarajevo",
+    "names": {
+      "ar": "بانيا لوكا",
+      "en": "Banja Luka",
+      "fr": "Banja Luka",
+      "de": "Banja Luka",
+      "tr": "Banja Luka",
+      "ur": "Banja Luka",
+      "id": "Banja Luka",
+      "es": "Banja Luka",
+      "bn": "Banja Luka",
+      "ms": "Banja Luka"
+    },
+    "aliases": {
+      "ar": [
+        "بانيا لوكا",
+        "بانیا لوکا"
+      ],
+      "en": [
+        "BNX",
+        "Bagnaluka",
+        "Bana Luka",
+        "Bania Louka",
+        "Bania Luka",
+        "Banialuca",
+        "Banja Luka - Bana Luka",
+        "Banja-Luka",
+        "Banja-Lukae",
+        "BanjaLucka",
+        "Banjaluka",
+        "Banjaluko",
+        "Banya Luka",
+        "Baņa Luka",
+        "ba ni ya lu ka",
+        "ban ya luk a",
+        "ban'ya luka",
+        "banaja luka",
+        "baniya luka",
+        "banja lwka",
+        "banya lwka",
+        "banyaluka"
+      ]
+    },
+    "admin": {
+      "countryAr": "البوسنة والهرسك",
+      "countryEn": "Bosnia and Herzegovina"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3204541",
+    "verified": true
+  },
+  {
+    "slug": "pristina",
+    "type": "city",
+    "countryCode": "xk",
+    "lat": 42.67272,
+    "lng": 21.16688,
+    "timezone": "Europe/Belgrade",
+    "names": {
+      "ar": "بريشتينا",
+      "en": "Pristina",
+      "fr": "Pristina",
+      "de": "Pristina",
+      "tr": "Pristina",
+      "ur": "Pristina",
+      "id": "Pristina",
+      "es": "Pristina",
+      "bn": "Pristina",
+      "ms": "Pristina"
+    },
+    "aliases": {
+      "ar": [
+        "بريشتينا",
+        "پریسٹینا",
+        "پریشتینا"
+      ],
+      "en": [
+        "PRN",
+        "Prestena",
+        "Prishhina",
+        "Prishtina",
+        "Prishtinae",
+        "Prishtine",
+        "Prishtinë",
+        "Prisjtina",
+        "Pristin",
+        "Pristine",
+        "Pristino",
+        "Pristína",
+        "Prisztina",
+        "Prixtina",
+        "Priŝtino",
+        "Priştina",
+        "Priştine",
+        "Prištin",
+        "Priština",
+        "Priștina",
+        "Pryshcina",
+        "Prìstina",
+        "Prėštėna",
+        "bryshtyna",
+        "peulisyutina",
+        "phrich ti na",
+        "piristina",
+        "prisatina",
+        "pryshtyna",
+        "prystynh",
+        "pu li shen di na",
+        "purishutina"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوسوفو",
+      "countryEn": "Kosovo"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:786714",
+    "verified": true
   }
 ]

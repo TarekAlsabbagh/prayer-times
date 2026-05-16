@@ -24102,7 +24102,7 @@
   {
     "geonameid": 786714,
     "slug": "pristina",
-    "status": "pending",
+    "status": "approved",
     "tier": "high",
     "reason": "always_include:PPLC",
     "qualityScore": 80,
@@ -24119,7 +24119,7 @@
       "lng": 21.16688,
       "timezone": "Europe/Belgrade",
       "names": {
-        "ar": "prysٹyna",
+        "ar": "بريشتينا",
         "en": "Pristina",
         "fr": "Pristina",
         "de": "Pristina",
@@ -24190,14 +24190,14 @@
       ]
     },
     "arQuality": {
-      "quality": "mixed_script",
-      "detail": "contains Persian/Urdu letters",
+      "quality": "manual",
+      "detail": "user-supplied canonical Arabic in EUROPE-3-BLOCKED-MAJOR-CITIES-FIX-1",
       "fromArTag": false
     },
     "collisionInWave": false,
     "collisionAgainstCurated": null,
     "suggestedSlugIfCollision": null,
-    "pendingAfterArGate": false
+    "pendingAfterArGate": true
   },
   {
     "geonameid": 786726,

@@ -55386,7 +55386,7 @@
   {
     "geonameid": 3190261,
     "slug": "split",
-    "status": "pending",
+    "status": "approved",
     "tier": "high",
     "reason": "always_include:PPLA",
     "qualityScore": 80,
@@ -55403,7 +55403,7 @@
       "lng": 16.43915,
       "timezone": "Europe/Zagreb",
       "names": {
-        "ar": "اسپلیت",
+        "ar": "سبليت",
         "en": "Split",
         "fr": "Split",
         "de": "Split",
@@ -55457,14 +55457,14 @@
       ]
     },
     "arQuality": {
-      "quality": "mixed_script",
-      "detail": "contains Persian/Urdu letters",
+      "quality": "manual",
+      "detail": "user-supplied canonical Arabic in EUROPE-3-BLOCKED-MAJOR-CITIES-FIX-1",
       "fromArTag": false
     },
     "collisionInWave": false,
     "collisionAgainstCurated": null,
     "suggestedSlugIfCollision": null,
-    "pendingAfterArGate": false
+    "pendingAfterArGate": true
   },
   {
     "geonameid": 3190264,
@@ -75432,7 +75432,7 @@
   {
     "geonameid": 3191648,
     "slug": "rijeka",
-    "status": "needs_review",
+    "status": "approved",
     "tier": null,
     "reason": "missing_real_ar_name",
     "qualityScore": 45,
@@ -75449,7 +75449,7 @@
       "lng": 14.44241,
       "timezone": "Europe/Zagreb",
       "names": {
-        "ar": "Rijeka",
+        "ar": "رييكا",
         "en": "Rijeka",
         "fr": "Rijeka",
         "de": "Rijeka",
@@ -75489,18 +75489,19 @@
       "sourceId": "geonames:3191648",
       "verified": false,
       "_normalizationFlags": [
-        "missing_ar_name",
         "unknown_region:12"
       ]
     },
     "arQuality": {
-      "quality": "mixed_latin",
-      "detail": "contains Latin letters",
+      "quality": "manual",
+      "detail": "user-supplied canonical Arabic in EUROPE-3-BLOCKED-MAJOR-CITIES-FIX-1",
       "fromArTag": false
     },
-    "collisionInWave": true,
+    "collisionInWave": false,
     "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": "rijeka-hr"
+    "suggestedSlugIfCollision": "rijeka-hr",
+    "pendingAfterArGate": true,
+    "_collisionOverrideReason": "wave-flag was spurious — other slugs in same wave are zero-pop villages"
   },
   {
     "geonameid": 3191661,
@@ -108330,7 +108331,7 @@
   {
     "geonameid": 3193935,
     "slug": "osijek",
-    "status": "needs_review",
+    "status": "approved",
     "tier": null,
     "reason": "missing_real_ar_name",
     "qualityScore": 45,
@@ -108347,7 +108348,7 @@
       "lng": 18.6942,
       "timezone": "Europe/Zagreb",
       "names": {
-        "ar": "Osijek",
+        "ar": "أوسييك",
         "en": "Osijek",
         "fr": "Osijek",
         "de": "Osijek",
@@ -108394,18 +108395,19 @@
       "sourceId": "geonames:3193935",
       "verified": false,
       "_normalizationFlags": [
-        "missing_ar_name",
         "unknown_region:10"
       ]
     },
     "arQuality": {
-      "quality": "mixed_latin",
-      "detail": "contains Latin letters",
+      "quality": "manual",
+      "detail": "user-supplied canonical Arabic in EUROPE-3-BLOCKED-MAJOR-CITIES-FIX-1",
       "fromArTag": false
     },
-    "collisionInWave": true,
+    "collisionInWave": false,
     "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": "osijek-hr"
+    "suggestedSlugIfCollision": "osijek-hr",
+    "pendingAfterArGate": true,
+    "_collisionOverrideReason": "wave-flag was spurious — other slugs in same wave are zero-pop villages"
   },
   {
     "geonameid": 3193941,
@@ -219225,7 +219227,7 @@
   {
     "geonameid": 3201047,
     "slug": "dubrovnik",
-    "status": "needs_review",
+    "status": "approved",
     "tier": null,
     "reason": "missing_real_ar_name",
     "qualityScore": 45,
@@ -219242,7 +219244,7 @@
       "lng": 18.10909,
       "timezone": "Europe/Zagreb",
       "names": {
-        "ar": "Dubrovnik",
+        "ar": "دوبروفنيك",
         "en": "Dubrovnik",
         "fr": "Dubrovnik",
         "de": "Dubrovnik",
@@ -219290,18 +219292,18 @@
       "sourceId": "geonames:3201047",
       "verified": false,
       "_normalizationFlags": [
-        "missing_ar_name",
         "unknown_region:03"
       ]
     },
     "arQuality": {
-      "quality": "mixed_latin",
-      "detail": "contains Latin letters",
+      "quality": "manual",
+      "detail": "user-supplied canonical Arabic in EUROPE-3-BLOCKED-MAJOR-CITIES-FIX-1",
       "fromArTag": false
     },
     "collisionInWave": false,
     "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "suggestedSlugIfCollision": null,
+    "pendingAfterArGate": true
   },
   {
     "geonameid": 3201048,

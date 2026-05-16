@@ -71978,5 +71978,3372 @@
     "source": "curated",
     "sourceId": "geonames:5750162",
     "verified": true
+  },
+  {
+    "slug": "recife",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -8.05389,
+    "lng": -34.88111,
+    "timezone": "America/Recife",
+    "names": {
+      "ar": "ريسيفي",
+      "en": "Recife",
+      "fr": "Recife",
+      "de": "Recife",
+      "tr": "Recife",
+      "ur": "Recife",
+      "id": "Recife",
+      "es": "Recife",
+      "bn": "Recife",
+      "ms": "Recife"
+    },
+    "aliases": {
+      "ar": [
+        "ريسيف"
+      ],
+      "en": [
+        "Arrecife",
+        "Fernambucum",
+        "Mauricea",
+        "Mauricéa",
+        "Pernambuco",
+        "REC",
+        "Recifo",
+        "Rehsifi",
+        "Resife",
+        "Resifi",
+        "Resifė",
+        "hesiphi",
+        "hesipi",
+        "lei xi fei",
+        "li si fei",
+        "re sifi",
+        "recihpi",
+        "reshife",
+        "resiphe",
+        "resipi",
+        "resiፌ",
+        "risifi",
+        "rsyph",
+        "rysyf",
+        "rysyfy"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "بيرنامبوكو",
+      "regionEn": "Pernambuco"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3390760",
+    "verified": true
+  },
+  {
+    "slug": "natal",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -5.795,
+    "lng": -35.20944,
+    "timezone": "America/Fortaleza",
+    "names": {
+      "ar": "ناتال",
+      "en": "Natal",
+      "fr": "Natal",
+      "de": "Natal",
+      "tr": "Natal",
+      "ur": "Natal",
+      "id": "Natal",
+      "es": "Natal",
+      "bn": "Natal",
+      "ms": "Natal"
+    },
+    "aliases": {
+      "en": [
+        "NAT",
+        "Natalo",
+        "natala",
+        "nataru",
+        "nataል",
+        "netala"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ريو غراندي دو نورتي",
+      "regionEn": "Rio Grande do Norte"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3394023",
+    "verified": true
+  },
+  {
+    "slug": "maraba",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -5.38146,
+    "lng": -49.13232,
+    "timezone": "America/Belem",
+    "names": {
+      "ar": "مارابا",
+      "en": "Marabá",
+      "fr": "Marabá",
+      "de": "Marabá",
+      "tr": "Marabá",
+      "ur": "Marabá",
+      "id": "Marabá",
+      "es": "Marabá",
+      "bn": "Marabá",
+      "ms": "Marabá"
+    },
+    "aliases": {
+      "en": [
+        "MAB",
+        "Maraba",
+        "ma la ba",
+        "malaba",
+        "maraba"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "بارا",
+      "regionEn": "Pará"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3395503",
+    "verified": true
+  },
+  {
+    "slug": "macapa",
+    "type": "city",
+    "countryCode": "br",
+    "lat": 0.03889,
+    "lng": -51.06639,
+    "timezone": "America/Belem",
+    "names": {
+      "ar": "ماكابا",
+      "en": "Macapá",
+      "fr": "Macapá",
+      "de": "Macapá",
+      "tr": "Macapá",
+      "ur": "Macapá",
+      "id": "Macapá",
+      "es": "Macapá",
+      "bn": "Macapá",
+      "ms": "Macapá"
+    },
+    "aliases": {
+      "en": [
+        "MCP",
+        "Macapa",
+        "Makapa",
+        "ma ka pa",
+        "makaba",
+        "makapa",
+        "makaፓ",
+        "myakapa"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "أمابا",
+      "regionEn": "Amapá"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3396016",
+    "verified": true
+  },
+  {
+    "slug": "teofilo-otoni",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -17.8575,
+    "lng": -41.50528,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "تيوفيلو أوتوني",
+      "en": "Teófilo Otoni",
+      "fr": "Teófilo Otoni",
+      "de": "Teófilo Otoni",
+      "tr": "Teófilo Otoni",
+      "ur": "Teófilo Otoni",
+      "id": "Teófilo Otoni",
+      "es": "Teófilo Otoni",
+      "bn": "Teófilo Otoni",
+      "ms": "Teófilo Otoni"
+    },
+    "aliases": {
+      "en": [
+        "TFL",
+        "Teofilo Otoni",
+        "Teofilu-Otoni",
+        "Teófilo Otôni",
+        "Theophilo Ottoni",
+        "te ao fei lu ao tuo ni",
+        "te xxfi lu xo to ni",
+        "te'ophilo otoni",
+        "tywfylw awtwny"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ميناس جيرايس",
+      "regionEn": "Minas Gerais"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3446621",
+    "verified": true
+  },
+  {
+    "slug": "sao-carlos",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -22.0175,
+    "lng": -47.89083,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "ساو كارلوس",
+      "en": "São Carlos",
+      "fr": "São Carlos",
+      "de": "São Carlos",
+      "tr": "São Carlos",
+      "ur": "São Carlos",
+      "id": "São Carlos",
+      "es": "São Carlos",
+      "bn": "São Carlos",
+      "ms": "São Carlos"
+    },
+    "aliases": {
+      "en": [
+        "QSC",
+        "San Karlosas",
+        "San-Karlos",
+        "San-Karlus",
+        "Sao Carlos",
+        "Sao Carlos do Pinhal",
+        "Sao Karlos",
+        "São Carlos do Pinhal",
+        "Urbs Carlopolitana",
+        "sa'o karlosa",
+        "sangkaleulluseu",
+        "saw karlws",
+        "sheng ka luo si"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ساو باولو",
+      "regionEn": "São Paulo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3449319",
+    "verified": true
+  },
+  {
+    "slug": "salvador",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -12.97563,
+    "lng": -38.49096,
+    "timezone": "America/Bahia",
+    "names": {
+      "ar": "سالفادور",
+      "en": "Salvador",
+      "fr": "Salvador",
+      "de": "Salvador",
+      "tr": "Salvador",
+      "ur": "Salvador",
+      "id": "Salvador",
+      "es": "Salvador",
+      "bn": "Salvador",
+      "ms": "Salvador"
+    },
+    "aliases": {
+      "ar": [
+        "سالفادور، باهيا",
+        "سالوادور",
+        "سلوادور"
+      ],
+      "en": [
+        "Bahia",
+        "Baia",
+        "Baía",
+        "Cidade do Sao Salvador da Bahia de Todos os Santos",
+        "Cidade do São Salvador da Bahia de Todos os Santos",
+        "SSA",
+        "Sal'vador",
+        "Salvador da Bahia",
+        "Salvador de Bahia",
+        "Salvador de Bahio",
+        "Salvador de Bahía",
+        "Salvadora",
+        "Salvadoras",
+        "Salvadoro",
+        "Sao Salvador",
+        "Soteropolis",
+        "sa er wa duo",
+        "sal wad xr",
+        "salabhadora",
+        "salavadora",
+        "salfadwr",
+        "salfadwr  bahya",
+        "salvadori",
+        "salvedora",
+        "salvhadora da ba'iya",
+        "salwadwr",
+        "sarubadoru",
+        "saruvuadoru",
+        "saubadoleu",
+        "saልvadori",
+        "slbdwr",
+        "slwadwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "باهيا",
+      "regionEn": "Bahia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3450554",
+    "verified": true
+  },
+  {
+    "slug": "porto-seguro",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -16.44972,
+    "lng": -39.06472,
+    "timezone": "America/Bahia",
+    "names": {
+      "ar": "بورتو سيجورو",
+      "en": "Porto Seguro",
+      "fr": "Porto Seguro",
+      "de": "Porto Seguro",
+      "tr": "Porto Seguro",
+      "ur": "Porto Seguro",
+      "id": "Porto Seguro",
+      "es": "Porto Seguro",
+      "bn": "Porto Seguro",
+      "ms": "Porto Seguro"
+    },
+    "aliases": {
+      "en": [
+        "BPS",
+        "Portu-Seguru",
+        "bwrtw syjwrw",
+        "parto seguro",
+        "sai gu lu gang"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "باهيا",
+      "regionEn": "Bahia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3452640",
+    "verified": true
+  },
+  {
+    "slug": "porto-alegre",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -30.03283,
+    "lng": -51.23019,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "بورتو أليغري",
+      "en": "Porto Alegre",
+      "fr": "Porto Alegre",
+      "de": "Porto Alegre",
+      "tr": "Porto Alegre",
+      "ur": "Porto Alegre",
+      "id": "Porto Alegre",
+      "es": "Porto Alegre",
+      "bn": "Porto Alegre",
+      "ms": "Porto Alegre"
+    },
+    "aliases": {
+      "ar": [
+        "بورتو الغره",
+        "بورتو اليغري"
+      ],
+      "en": [
+        "POA",
+        "Porto Alegri",
+        "Porto Alegrė",
+        "Porto Alenkre",
+        "Porto de Sao Francisco dos Casaes",
+        "Porto-Alegro",
+        "Portu-Alegre",
+        "Portu-Alegri",
+        "Portu-Alegry",
+        "Portualegri",
+        "Portus Alacer",
+        "Puerto Alegre",
+        "Pôrto de São Francisco dos Casaes",
+        "a lei ge li gang",
+        "bwrtw alyghry",
+        "parto alegre",
+        "poleutuallegeuli",
+        "porato alegare",
+        "portu alegri",
+        "pwrtw algrh",
+        "pwrtw alygry",
+        "ፖrito ʿeleግre"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ريو غراندي دو سول",
+      "regionEn": "Rio Grande do Sul"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3452925",
+    "verified": true
+  },
+  {
+    "slug": "paulinia",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -22.76111,
+    "lng": -47.15417,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "بباوليستا",
+      "en": "Paulínia",
+      "fr": "Paulínia",
+      "de": "Paulínia",
+      "tr": "Paulínia",
+      "ur": "Paulínia",
+      "id": "Paulínia",
+      "es": "Paulínia",
+      "bn": "Paulínia",
+      "ms": "Paulínia"
+    },
+    "aliases": {
+      "ar": [
+        "بائولينيا"
+      ],
+      "en": [
+        "Paulinia",
+        "Paulinija",
+        "Pauliniya",
+        "Paulinjo",
+        "Urbs Paulinia",
+        "bao li ni ya",
+        "bbawlysta",
+        "pa'ula'iniya",
+        "paurinia",
+        "paywlynya"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ساو باولو",
+      "regionEn": "São Paulo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3454690",
+    "verified": true
+  },
+  {
+    "slug": "londrina",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -23.31028,
+    "lng": -51.16278,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "لوندرينا",
+      "en": "Londrina",
+      "fr": "Londrina",
+      "de": "Londrina",
+      "tr": "Londrina",
+      "ur": "Londrina",
+      "id": "Londrina",
+      "es": "Londrina",
+      "bn": "Londrina",
+      "ms": "Londrina"
+    },
+    "aliases": {
+      "en": [
+        "LDB",
+        "londeulina",
+        "long de li na",
+        "lwndryna",
+        "rondorina"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "بارانا",
+      "regionEn": "Paraná"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3458449",
+    "verified": true
+  },
+  {
+    "slug": "lavras",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -21.24528,
+    "lng": -44.99972,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "لفراس",
+      "en": "Lavras",
+      "fr": "Lavras",
+      "de": "Lavras",
+      "tr": "Lavras",
+      "ur": "Lavras",
+      "id": "Lavras",
+      "es": "Lavras",
+      "bn": "Lavras",
+      "ms": "Lavras"
+    },
+    "aliases": {
+      "en": [
+        "VRZ",
+        "la fu la si",
+        "labhrasa",
+        "lfras"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ميناس جيرايس",
+      "regionEn": "Minas Gerais"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3458696",
+    "verified": true
+  },
+  {
+    "slug": "jundiai",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -23.18639,
+    "lng": -46.88417,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "جوندياي",
+      "en": "Jundiaí",
+      "fr": "Jundiaí",
+      "de": "Jundiaí",
+      "tr": "Jundiaí",
+      "ur": "Jundiaí",
+      "id": "Jundiaí",
+      "es": "Jundiaí",
+      "bn": "Jundiaí",
+      "ms": "Jundiaí"
+    },
+    "aliases": {
+      "en": [
+        "Jundiahy",
+        "Jundiai",
+        "Jurundiay",
+        "QDV",
+        "Zhundiai",
+        "Zhundijai",
+        "Zundiajus",
+        "can di xi",
+        "jundiya'i",
+        "jwndyay",
+        "rong di ya yi",
+        "Žundiajus"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ساو باولو",
+      "regionEn": "São Paulo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3459462",
+    "verified": true
+  },
+  {
+    "slug": "goiania",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -16.67861,
+    "lng": -49.25389,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "جويانيا",
+      "en": "Goiânia",
+      "fr": "Goiânia",
+      "de": "Goiânia",
+      "tr": "Goiânia",
+      "ur": "Goiânia",
+      "id": "Goiânia",
+      "es": "Goiânia",
+      "bn": "Goiânia",
+      "ms": "Goiânia"
+    },
+    "aliases": {
+      "ar": [
+        "غويانيا",
+        "غوئيانيا"
+      ],
+      "en": [
+        "Ciutat de Goiania",
+        "Ciutat de Goiânia",
+        "GYN",
+        "Goiana",
+        "Goiania",
+        "Goianá",
+        "Gojani",
+        "Gojanija",
+        "Gojas",
+        "Goyania",
+        "Goyaniya",
+        "gayaniya",
+        "ge ya ni ya",
+        "ghwyanya",
+        "go'anni'a",
+        "go'iyaniya",
+        "goiania",
+        "goyaniya",
+        "gwyanya",
+        "gwyyanya",
+        "jwyanya",
+        "ko ya neiy"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "غوياس",
+      "regionEn": "Goiás"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3462377",
+    "verified": true
+  },
+  {
+    "slug": "franca",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -20.53861,
+    "lng": -47.40083,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "فرانكا",
+      "en": "Franca",
+      "fr": "Franca",
+      "de": "Franca",
+      "tr": "Franca",
+      "ur": "Franca",
+      "id": "Franca",
+      "es": "Franca",
+      "bn": "Franca",
+      "ms": "Franca"
+    },
+    "aliases": {
+      "en": [
+        "FRC",
+        "Franka",
+        "Franko",
+        "franka",
+        "fu lang ka",
+        "furanka",
+        "phranka"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ساو باولو",
+      "regionEn": "São Paulo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3463011",
+    "verified": true
+  },
+  {
+    "slug": "foz-do-iguacu",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -25.54778,
+    "lng": -54.58806,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "فوز دو إيغواسو",
+      "en": "Foz do Iguaçu",
+      "fr": "Foz do Iguaçu",
+      "de": "Foz do Iguaçu",
+      "tr": "Foz do Iguaçu",
+      "ur": "Foz do Iguaçu",
+      "id": "Foz do Iguaçu",
+      "es": "Foz do Iguaçu",
+      "bn": "Foz do Iguaçu",
+      "ms": "Foz do Iguaçu"
+    },
+    "aliases": {
+      "ar": [
+        "فوز دو لوآجو"
+      ],
+      "en": [
+        "Fos do Iguasu",
+        "Fos-du-Iguasu",
+        "Foz de Iguassu",
+        "Foz de Iguazu",
+        "Foz do Iguacu",
+        "Foz do Iguassu",
+        "Foz do Iguassú",
+        "Foz do Iguasu",
+        "IGU",
+        "Iguassu",
+        "Iguassú",
+        "fwz dw ayghwasw",
+        "fwz dw lwachw",
+        "phoja do iguraaku",
+        "poseudu-iguasu",
+        "yi gua su"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "بارانا",
+      "regionEn": "Paraná"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3463030",
+    "verified": true
+  },
+  {
+    "slug": "florianopolis",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -27.59667,
+    "lng": -48.54917,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "فلوريانوبوليس",
+      "en": "Florianópolis",
+      "fr": "Florianópolis",
+      "de": "Florianópolis",
+      "tr": "Florianópolis",
+      "ur": "Florianópolis",
+      "id": "Florianópolis",
+      "es": "Florianópolis",
+      "bn": "Florianópolis",
+      "ms": "Florianópolis"
+    },
+    "aliases": {
+      "ar": [
+        "فلوريانوبليس",
+        "فلوريانوبولس",
+        "فلورينوبولس"
+      ],
+      "en": [
+        "Destero",
+        "Desterro",
+        "FLN",
+        "Florianopolis",
+        "Florijanopolis",
+        "Floripa",
+        "Florjanopolisa",
+        "Nossa Senhora do Desterro",
+        "Nossa Senhora do Destêrro",
+        "Santa Catherina",
+        "flwryanwbwlys",
+        "flwryanwplys",
+        "flwryanwpwls",
+        "flwryanwpwlys",
+        "flwrynwpwls",
+        "fol reiyn x polis",
+        "fu luo li ya nuo bo li si",
+        "furorianoporisu",
+        "peullolianopolliseu",
+        "phalori'anopolisa",
+        "phlori'anopolisa",
+        "phloriyanopolisa",
+        "ፍloriyanoፖlisi"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "سانتا كاتارينا",
+      "regionEn": "Santa Catarina"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3463237",
+    "verified": true
+  },
+  {
+    "slug": "duque-de-caxias",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -22.78556,
+    "lng": -43.31167,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "دوق دي كاكسياس",
+      "en": "Duque de Caxias",
+      "fr": "Duque de Caxias",
+      "de": "Duque de Caxias",
+      "tr": "Duque de Caxias",
+      "ur": "Duque de Caxias",
+      "id": "Duque de Caxias",
+      "es": "Duque de Caxias",
+      "bn": "Duque de Caxias",
+      "ms": "Duque de Caxias"
+    },
+    "aliases": {
+      "en": [
+        "Caxias",
+        "Duke de Kashijas",
+        "Duke de Kasijasas",
+        "Duke de Kašijasas",
+        "Duki di Kashias",
+        "Duki di Kasias",
+        "Duki-di-Kashias",
+        "QDQ",
+        "duki ci ka cheiy s",
+        "dukijikasiaseu",
+        "dukuye de kaksa'iyasa",
+        "dwky dy kashys  ryw dw zhanyrw",
+        "dwq dy kaksyas",
+        "ka xi ya si gong jue cheng"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ريو دي جانيرو",
+      "regionEn": "Rio de Janeiro"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3464374",
+    "verified": true
+  },
+  {
+    "slug": "dourados",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -22.22111,
+    "lng": -54.80556,
+    "timezone": "America/Campo_Grande",
+    "names": {
+      "ar": "دورادوس",
+      "en": "Dourados",
+      "fr": "Dourados",
+      "de": "Dourados",
+      "tr": "Dourados",
+      "ur": "Dourados",
+      "id": "Dourados",
+      "es": "Dourados",
+      "bn": "Dourados",
+      "ms": "Dourados"
+    },
+    "aliases": {
+      "en": [
+        "DOU",
+        "Doradus",
+        "Dovrados",
+        "do'uradosa",
+        "duo la du si",
+        "dwradws"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ماتو غروسو دو سول",
+      "regionEn": "Mato Grosso do Sul"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3464460",
+    "verified": true
+  },
+  {
+    "slug": "curitiba",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -25.42778,
+    "lng": -49.27306,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "كوريتيبا",
+      "en": "Curitiba",
+      "fr": "Curitiba",
+      "de": "Curitiba",
+      "tr": "Curitiba",
+      "ur": "Curitiba",
+      "id": "Curitiba",
+      "es": "Curitiba",
+      "bn": "Curitiba",
+      "ms": "Curitiba"
+    },
+    "aliases": {
+      "en": [
+        "CWB",
+        "Corityba",
+        "Curityba",
+        "Curytiba",
+        "Kouritiba",
+        "Kouritimpa",
+        "Kuritib",
+        "Kuritiba",
+        "Kuritibae",
+        "Kuritibo",
+        "Kuritiwa",
+        "Kuritiyba",
+        "Kuriytyva",
+        "Kuriytýva",
+        "Kuriṭiba",
+        "Kuryciba",
+        "Kurytyba",
+        "Kùrìtíbà",
+        "gu li ti ba",
+        "ku li qi ba",
+        "ku ri ti ba",
+        "kulichiba",
+        "kurichiba",
+        "kuritcibas",
+        "kuritiba",
+        "kuritipe",
+        "kwrytyba",
+        "qwrytybh"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "بارانا",
+      "regionEn": "Paraná"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3464975",
+    "verified": true
+  },
+  {
+    "slug": "cuiaba",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -15.59611,
+    "lng": -56.09667,
+    "timezone": "America/Cuiaba",
+    "names": {
+      "ar": "كويابا",
+      "en": "Cuiabá",
+      "fr": "Cuiabá",
+      "de": "Cuiabá",
+      "tr": "Cuiabá",
+      "ur": "Cuiabá",
+      "id": "Cuiabá",
+      "es": "Cuiabá",
+      "bn": "Cuiabá",
+      "ms": "Cuiabá"
+    },
+    "aliases": {
+      "ar": [
+        "كوئيابا"
+      ],
+      "en": [
+        "CGB",
+        "Cuiaba",
+        "Culaba",
+        "Cuyaba",
+        "Cuyabá",
+        "Kouiampa",
+        "Kujaba",
+        "Kuyaba",
+        "Vila Real do Senhor Bom Jesus de Cuiaba",
+        "Vila Real do Senhor Bom Jesus de Cuiabá",
+        "ku ya ba",
+        "ku'i'aba",
+        "ku'iyaba",
+        "ku-iaba",
+        "kuiaba",
+        "kuyaba",
+        "kwyaba",
+        "kwyyaba"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ماتو غروسو",
+      "regionEn": "Mato Grosso"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3465038",
+    "verified": true
+  },
+  {
+    "slug": "cascavel",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -24.95583,
+    "lng": -53.45528,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "الأفعى ذات الجرس",
+      "en": "Cascavel",
+      "fr": "Cascavel",
+      "de": "Cascavel",
+      "tr": "Cascavel",
+      "ur": "Cascavel",
+      "id": "Cascavel",
+      "es": "Cascavel",
+      "bn": "Cascavel",
+      "ms": "Cascavel"
+    },
+    "aliases": {
+      "ar": [
+        "مار زنغي"
+      ],
+      "en": [
+        "CAC",
+        "Kaskavel",
+        "Kaskavelas",
+        "Krotalias",
+        "Naer-ourouler",
+        "Serpentes tintinnabulati",
+        "Tłʼiish áníní",
+        "Ular derik",
+        "bang-ulbaem",
+        "ka si ka wei er",
+        "kasakabhela",
+        "mar zngy",
+        "ngu hang krading"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "بارانا",
+      "regionEn": "Paraná"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3466779",
+    "verified": true
+  },
+  {
+    "slug": "campinas",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -22.90556,
+    "lng": -47.06083,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "كامبيناس",
+      "en": "Campinas",
+      "fr": "Campinas",
+      "de": "Campinas",
+      "tr": "Campinas",
+      "ur": "Campinas",
+      "id": "Campinas",
+      "es": "Campinas",
+      "bn": "Campinas",
+      "ms": "Campinas"
+    },
+    "aliases": {
+      "ar": [
+        "كمبيناس"
+      ],
+      "en": [
+        "CPQ",
+        "Campinas e Regiao",
+        "Campinas e Região",
+        "Conceicao de Campinas",
+        "Conceição de Campinas",
+        "Kampinas",
+        "Kampinasas",
+        "Kampino",
+        "Regiao de Campinas",
+        "Região de Campinas",
+        "kamapinasa",
+        "kambynas",
+        "kampinaseu",
+        "kan pi na si",
+        "kanpinasu",
+        "kmpynas"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ساو باولو",
+      "regionEn": "São Paulo"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3467865",
+    "verified": true
+  },
+  {
+    "slug": "cachoeiro-de-itapemirim",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -20.84889,
+    "lng": -41.11278,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "ايتابيميريم دي كاتشويرو",
+      "en": "Cachoeiro de Itapemirim",
+      "fr": "Cachoeiro de Itapemirim",
+      "de": "Cachoeiro de Itapemirim",
+      "tr": "Cachoeiro de Itapemirim",
+      "ur": "Cachoeiro de Itapemirim",
+      "id": "Cachoeiro de Itapemirim",
+      "es": "Cachoeiro de Itapemirim",
+      "bn": "Cachoeiro de Itapemirim",
+      "ms": "Cachoeiro de Itapemirim"
+    },
+    "aliases": {
+      "en": [
+        "CDI",
+        "Cacheiro",
+        "Cachoeiro do Itapemirim",
+        "Kashuehjru-di-Itapemirin",
+        "Kasoeiro de Itapemirinas",
+        "Kašoeiro de Itapemirinas",
+        "QXD",
+        "aytabymyrym dy katshwyrw",
+        "kakahoye'iro de itapemirima",
+        "qswʼyyrw dh ʼytpmyryn"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "إسبيريتو سانتو",
+      "regionEn": "Espírito Santo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3468376",
+    "verified": true
+  },
+  {
+    "slug": "blumenau",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -26.91944,
+    "lng": -49.06611,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "بلوميناو",
+      "en": "Blumenau",
+      "fr": "Blumenau",
+      "de": "Blumenau",
+      "tr": "Blumenau",
+      "ur": "Blumenau",
+      "id": "Blumenau",
+      "es": "Blumenau",
+      "bn": "Blumenau",
+      "ms": "Blumenau"
+    },
+    "aliases": {
+      "en": [
+        "BNU",
+        "balumena'u",
+        "beullumenau",
+        "blwmynaw",
+        "bu lu mei nao",
+        "burumenau"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "سانتا كاتارينا",
+      "regionEn": "Santa Catarina"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3469968",
+    "verified": true
+  },
+  {
+    "slug": "barretos",
+    "type": "town",
+    "countryCode": "br",
+    "lat": -20.55722,
+    "lng": -48.56778,
+    "timezone": "America/Sao_Paulo",
+    "names": {
+      "ar": "بارريتوس",
+      "en": "Barretos",
+      "fr": "Barretos",
+      "de": "Barretos",
+      "tr": "Barretos",
+      "ur": "Barretos",
+      "id": "Barretos",
+      "es": "Barretos",
+      "bn": "Barretos",
+      "ms": "Barretos"
+    },
+    "aliases": {
+      "en": [
+        "BAT",
+        "Baretosas",
+        "Barretus",
+        "ba lei tu si",
+        "barretosa",
+        "barrytws"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "ساو باولو",
+      "regionEn": "São Paulo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3470451",
+    "verified": true
+  },
+  {
+    "slug": "manaus",
+    "type": "city",
+    "countryCode": "br",
+    "lat": -3.10194,
+    "lng": -60.025,
+    "timezone": "America/Manaus",
+    "names": {
+      "ar": "ماناوس",
+      "en": "Manaus",
+      "fr": "Manaus",
+      "de": "Manaus",
+      "tr": "Manaus",
+      "ur": "Manaus",
+      "id": "Manaus",
+      "es": "Manaus",
+      "bn": "Manaus",
+      "ms": "Manaus"
+    },
+    "aliases": {
+      "ar": [
+        "مناؤس",
+        "مناوس"
+      ],
+      "en": [
+        "Barra do Rio Negro",
+        "MAO",
+        "Manaos",
+        "Manauso",
+        "Manaŭso",
+        "Manos",
+        "Manáos",
+        "ma nao si",
+        "mana'usa",
+        "manausu",
+        "manaws",
+        "manaውsi",
+        "mnaws"
+      ]
+    },
+    "admin": {
+      "countryAr": "البرازيل",
+      "countryEn": "Brazil",
+      "regionAr": "أمازوناس",
+      "regionEn": "Amazonas"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3663517",
+    "verified": true
+  },
+  {
+    "slug": "tandil",
+    "type": "town",
+    "countryCode": "ar",
+    "lat": -37.3287,
+    "lng": -59.1369,
+    "timezone": "America/Argentina/Buenos_Aires",
+    "names": {
+      "ar": "تانديل",
+      "en": "Tandil",
+      "fr": "Tandil",
+      "de": "Tandil",
+      "tr": "Tandil",
+      "ur": "Tandil",
+      "id": "Tandil",
+      "es": "Tandil",
+      "bn": "Tandil",
+      "ms": "Tandil"
+    },
+    "aliases": {
+      "ar": [
+        "تنديل"
+      ],
+      "en": [
+        "TDL",
+        "Tandil'",
+        "Tandilis",
+        "tan di er",
+        "tandila",
+        "tandiru",
+        "tandyl",
+        "tanidiል",
+        "tndyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "مقاطعة بوينس آيرس",
+      "regionEn": "Buenos Aires Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3427833",
+    "verified": true
+  },
+  {
+    "slug": "quilmes",
+    "type": "town",
+    "countryCode": "ar",
+    "lat": -34.72065,
+    "lng": -58.25454,
+    "timezone": "America/Argentina/Buenos_Aires",
+    "names": {
+      "ar": "كويلمس",
+      "en": "Quilmes",
+      "fr": "Quilmes",
+      "de": "Quilmes",
+      "tr": "Quilmes",
+      "ur": "Quilmes",
+      "id": "Quilmes",
+      "es": "Quilmes",
+      "bn": "Quilmes",
+      "ms": "Quilmes"
+    },
+    "aliases": {
+      "ar": [
+        "كويلميس",
+        "كيلمس"
+      ],
+      "en": [
+        "Kil'mes",
+        "Kilmes",
+        "Kilmesas",
+        "ji er mei si",
+        "kilamesa",
+        "kilmeseu",
+        "kirumesu",
+        "kiልmesi",
+        "ku'ilamesa",
+        "kwylms",
+        "kwylmys",
+        "kylms",
+        "qilamesa",
+        "qylms"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "مقاطعة بوينس آيرس",
+      "regionEn": "Buenos Aires Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3429652",
+    "verified": true
+  },
+  {
+    "slug": "merlo",
+    "type": "town",
+    "countryCode": "ar",
+    "lat": -34.66536,
+    "lng": -58.72744,
+    "timezone": "America/Argentina/Buenos_Aires",
+    "names": {
+      "ar": "مرلو",
+      "en": "Merlo",
+      "fr": "Merlo",
+      "de": "Merlo",
+      "tr": "Merlo",
+      "ur": "Merlo",
+      "id": "Merlo",
+      "es": "Merlo",
+      "bn": "Merlo",
+      "ms": "Merlo"
+    },
+    "aliases": {
+      "ar": [
+        "ميرلو، بوينس آيرس",
+        "ميرلو"
+      ],
+      "en": [
+        "marlo",
+        "mei luo",
+        "meleullo",
+        "meralo",
+        "merilo",
+        "meruro",
+        "mrlw",
+        "myrlw",
+        "myrlw  bwyns ayrs"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "مقاطعة بوينس آيرس",
+      "regionEn": "Buenos Aires Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3430697",
+    "verified": true
+  },
+  {
+    "slug": "ezeiza",
+    "type": "town",
+    "countryCode": "ar",
+    "lat": -34.8544,
+    "lng": -58.52474,
+    "timezone": "America/Argentina/Buenos_Aires",
+    "names": {
+      "ar": "إيزيزا",
+      "en": "Ezeiza",
+      "fr": "Ezeiza",
+      "de": "Ezeiza",
+      "tr": "Ezeiza",
+      "ur": "Ezeiza",
+      "id": "Ezeiza",
+      "es": "Ezeiza",
+      "bn": "Ezeiza",
+      "ms": "Ezeiza"
+    },
+    "aliases": {
+      "ar": [
+        "اسيسا",
+        "ايزيزا"
+      ],
+      "en": [
+        "Ehseisa",
+        "Jose Maria Ezeiza",
+        "José María Ezeiza",
+        "Ministro Pistarini",
+        "ai sai sa",
+        "asysa",
+        "ayzyza",
+        "eje'ija",
+        "eseisa",
+        "eze'iza",
+        "izi'a",
+        "ʿezeyiza"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "مقاطعة بوينس آيرس",
+      "regionEn": "Buenos Aires Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3433975",
+    "verified": true
+  },
+  {
+    "slug": "castelar",
+    "type": "town",
+    "countryCode": "ar",
+    "lat": -34.65142,
+    "lng": -58.64074,
+    "timezone": "America/Argentina/Buenos_Aires",
+    "names": {
+      "ar": "كاستيلار",
+      "en": "Castelar",
+      "fr": "Castelar",
+      "de": "Castelar",
+      "tr": "Castelar",
+      "ur": "Castelar",
+      "id": "Castelar",
+      "es": "Castelar",
+      "bn": "Castelar",
+      "ms": "Castelar"
+    },
+    "aliases": {
+      "ar": [
+        "كاستلار"
+      ],
+      "en": [
+        "Kastehlar",
+        "Kastelar",
+        "Kastelara",
+        "Kastelaras",
+        "ka si te la er",
+        "kaseutela",
+        "kastelar",
+        "kastelara",
+        "kastellar",
+        "kastlar",
+        "kastylar",
+        "kasuteraru",
+        "kyastalar",
+        "kyastela"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "مقاطعة بوينس آيرس",
+      "regionEn": "Buenos Aires Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3435607",
+    "verified": true
+  },
+  {
+    "slug": "ushuaia",
+    "type": "city",
+    "countryCode": "ar",
+    "lat": -54.81084,
+    "lng": -68.31591,
+    "timezone": "America/Argentina/Ushuaia",
+    "names": {
+      "ar": "أوشوايا",
+      "en": "Ushuaia",
+      "fr": "Ushuaia",
+      "de": "Ushuaia",
+      "tr": "Ushuaia",
+      "ur": "Ushuaia",
+      "id": "Ushuaia",
+      "es": "Ushuaia",
+      "bn": "Ushuaia",
+      "ms": "Ushuaia"
+    },
+    "aliases": {
+      "ar": [
+        "اشويا",
+        "اوسوايا",
+        "اوشوآئيا"
+      ],
+      "en": [
+        "Ousouaia",
+        "Owsuaya",
+        "USH",
+        "Ushuaja",
+        "Ushuaïa",
+        "Usuaja",
+        "Usuaya",
+        "Usvaja",
+        "Uşuaya",
+        "Ušuaja",
+        "Ušvaja",
+        "ashwya",
+        "awshwaya",
+        "awshwayya",
+        "awswaya",
+        "usu'a'i'a",
+        "usu'aya",
+        "usuaia",
+        "usuviya",
+        "usuya'iya",
+        "wu si huai ya",
+        "xusaw ya",
+        "ʿuሁwaya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "تييرا ديل فويغو",
+      "regionEn": "Tierra del Fuego"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3833367",
+    "verified": true
+  },
+  {
+    "slug": "salta",
+    "type": "city",
+    "countryCode": "ar",
+    "lat": -24.80645,
+    "lng": -65.41999,
+    "timezone": "America/Argentina/Salta",
+    "names": {
+      "ar": "سالتا",
+      "en": "Salta",
+      "fr": "Salta",
+      "de": "Salta",
+      "tr": "Salta",
+      "ur": "Salta",
+      "id": "Salta",
+      "es": "Salta",
+      "bn": "Salta",
+      "ms": "Salta"
+    },
+    "aliases": {
+      "en": [
+        "Ciudad de Salta",
+        "SLA",
+        "Sal'ta",
+        "Salta llaqta",
+        "Saltaurbo",
+        "sa er ta",
+        "salata",
+        "saruta",
+        "saልta",
+        "slth"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "سالتا",
+      "regionEn": "Salta"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3838233",
+    "verified": true
+  },
+  {
+    "slug": "rawson",
+    "type": "city",
+    "countryCode": "ar",
+    "lat": -43.30031,
+    "lng": -65.10564,
+    "timezone": "America/Argentina/Catamarca",
+    "names": {
+      "ar": "راوسن",
+      "en": "Rawson",
+      "fr": "Rawson",
+      "de": "Rawson",
+      "tr": "Rawson",
+      "ur": "Rawson",
+      "id": "Rawson",
+      "es": "Rawson",
+      "bn": "Rawson",
+      "ms": "Rawson"
+    },
+    "aliases": {
+      "ar": [
+        "راوسون",
+        "راوسون، جوبوت",
+        "روسون، تشوبوت"
+      ],
+      "en": [
+        "Rausonopolis",
+        "Roson",
+        "Rosona",
+        "Rosonas",
+        "Rouson",
+        "Ruosuons",
+        "lauson",
+        "luo sen",
+        "ra'usana",
+        "rasana",
+        "rauson",
+        "ravsoni",
+        "rawsn",
+        "rawswn",
+        "rawswn  chwbwt",
+        "raውsoni",
+        "rosana",
+        "rwswn  tshwbwt"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "تشوبوت",
+      "regionEn": "Chubut"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3839307",
+    "verified": true
+  },
+  {
+    "slug": "la-rioja",
+    "type": "city",
+    "countryCode": "ar",
+    "lat": -29.41328,
+    "lng": -66.85637,
+    "timezone": "America/Argentina/La_Rioja",
+    "names": {
+      "ar": "لا ريوخا",
+      "en": "La Rioja",
+      "fr": "La Rioja",
+      "de": "La Rioja",
+      "tr": "La Rioja",
+      "ur": "La Rioja",
+      "id": "La Rioja",
+      "es": "La Rioja",
+      "bn": "La Rioja",
+      "ms": "La Rioja"
+    },
+    "aliases": {
+      "ar": [
+        "لا ريؤجا",
+        "لا ريوجا، ارجنتين"
+      ],
+      "en": [
+        "A Rioxa",
+        "Ciudad de La Rioja",
+        "IRJ",
+        "La Riocha",
+        "La Rioja llaqta",
+        "La Riokha",
+        "La Rioxa",
+        "La-Riokha",
+        "La-Ryjokha",
+        "Larjoha",
+        "Rioja",
+        "Riokha",
+        "la li ao ha",
+        "la ri'oja",
+        "la riyoha",
+        "la riyoja",
+        "la rywja",
+        "la rywkha",
+        "la rywkha  arzhantyn",
+        "la-riokha",
+        "lalioha",
+        "lh rywhh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الأرجنتين",
+      "countryEn": "Argentina",
+      "regionAr": "لا ريوخا",
+      "regionEn": "La Rioja"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3848950",
+    "verified": true
+  },
+  {
+    "slug": "yopal",
+    "type": "city",
+    "countryCode": "co",
+    "lat": 5.33573,
+    "lng": -72.3939,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "يوبال",
+      "en": "Yopal",
+      "fr": "Yopal",
+      "de": "Yopal",
+      "tr": "Yopal",
+      "ur": "Yopal",
+      "id": "Yopal",
+      "es": "Yopal",
+      "bn": "Yopal",
+      "ms": "Yopal"
+    },
+    "aliases": {
+      "en": [
+        "EYP",
+        "El Yopal",
+        "Jopal'",
+        "Jopalis",
+        "Juopales",
+        "Juopalės",
+        "Marroquin",
+        "Marroquín",
+        "i'upala",
+        "yopala",
+        "yoparu",
+        "yoፓል",
+        "yue pa er",
+        "ywbal",
+        "ywpal"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "كاسانارى",
+      "regionEn": "Casanare"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3665688",
+    "verified": true
+  },
+  {
+    "slug": "tulua",
+    "type": "town",
+    "countryCode": "co",
+    "lat": 4.08466,
+    "lng": -76.19536,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "تولوآ",
+      "en": "Tuluá",
+      "fr": "Tuluá",
+      "de": "Tuluá",
+      "tr": "Tuluá",
+      "ur": "Tuluá",
+      "id": "Tuluá",
+      "es": "Tuluá",
+      "bn": "Tuluá",
+      "ms": "Tuluá"
+    },
+    "aliases": {
+      "en": [
+        "Tulua",
+        "Tulúa",
+        "ULQ",
+        "tu lu a",
+        "twlwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "فالي ديل كاوكا",
+      "regionEn": "Valle del Cauca"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3666645",
+    "verified": true
+  },
+  {
+    "slug": "inirida",
+    "type": "city",
+    "countryCode": "co",
+    "lat": 3.86528,
+    "lng": -67.92389,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "إنيريدا",
+      "en": "Inírida",
+      "fr": "Inírida",
+      "de": "Inírida",
+      "tr": "Inírida",
+      "ur": "Inírida",
+      "id": "Inírida",
+      "es": "Inírida",
+      "bn": "Inírida",
+      "ms": "Inírida"
+    },
+    "aliases": {
+      "ar": [
+        "انيريدا",
+        "اينيردا",
+        "اينيريدا",
+        "اينيريدا، غواينيا"
+      ],
+      "en": [
+        "Inirida",
+        "Obando",
+        "PDA",
+        "Puerto Inirida",
+        "Puerto Inírida",
+        "anyryda",
+        "aynyrda",
+        "aynyryda",
+        "aynyryda  gwaynya",
+        "inirida",
+        "inlida",
+        "yi ni li da",
+        "ʿinirida"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "غوايينيا",
+      "regionEn": "Guainía"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:3671450",
+    "verified": true
+  },
+  {
+    "slug": "popayan",
+    "type": "city",
+    "countryCode": "co",
+    "lat": 2.43823,
+    "lng": -76.61316,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "بوبايان",
+      "en": "Popayán",
+      "fr": "Popayán",
+      "de": "Popayán",
+      "tr": "Popayán",
+      "ur": "Popayán",
+      "id": "Popayán",
+      "es": "Popayán",
+      "bn": "Popayán",
+      "ms": "Popayán"
+    },
+    "aliases": {
+      "en": [
+        "PPN",
+        "Popajan",
+        "Popajanas",
+        "Popayan",
+        "bo pa yang",
+        "bwbayan",
+        "papayana",
+        "popayan",
+        "popayana",
+        "pwpayan",
+        "ፖፓyani"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "كاوكا",
+      "regionEn": "Cauca"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3671916",
+    "verified": true
+  },
+  {
+    "slug": "neiva",
+    "type": "city",
+    "countryCode": "co",
+    "lat": 2.93001,
+    "lng": -75.27973,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "نيفا",
+      "en": "Neiva",
+      "fr": "Neiva",
+      "de": "Neiva",
+      "tr": "Neiva",
+      "ur": "Neiva",
+      "id": "Neiva",
+      "es": "Neiva",
+      "bn": "Neiva",
+      "ms": "Neiva"
+    },
+    "aliases": {
+      "ar": [
+        "نيوا"
+      ],
+      "en": [
+        "NVA",
+        "Nejva",
+        "ne'ibha",
+        "ne'iva",
+        "neiba",
+        "neyiva",
+        "nyfa",
+        "nywa"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "هويلا",
+      "regionEn": "Huila"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3673899",
+    "verified": true
+  },
+  {
+    "slug": "mocoa",
+    "type": "city",
+    "countryCode": "co",
+    "lat": 1.15284,
+    "lng": -76.65208,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "موكوا",
+      "en": "Mocoa",
+      "fr": "Mocoa",
+      "de": "Mocoa",
+      "tr": "Mocoa",
+      "ur": "Mocoa",
+      "id": "Mocoa",
+      "es": "Mocoa",
+      "bn": "Mocoa",
+      "ms": "Mocoa"
+    },
+    "aliases": {
+      "ar": [
+        "موكوآ"
+      ],
+      "en": [
+        "Mokoa",
+        "mo ke a",
+        "moko'a",
+        "mokoa",
+        "mokoya",
+        "mokweya",
+        "mwkwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "بوتومايو",
+      "regionEn": "Putumayo"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3674654",
+    "verified": true
+  },
+  {
+    "slug": "mitu",
+    "type": "city",
+    "countryCode": "co",
+    "lat": 1.25744,
+    "lng": -70.23551,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "ميتو",
+      "en": "Mitú",
+      "fr": "Mitú",
+      "de": "Mitú",
+      "tr": "Mitú",
+      "ur": "Mitú",
+      "id": "Mitú",
+      "es": "Mitú",
+      "bn": "Mitú",
+      "ms": "Mitú"
+    },
+    "aliases": {
+      "en": [
+        "MVP",
+        "Mitu",
+        "mitou",
+        "mitu",
+        "mytw"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "فوبيس",
+      "regionEn": "Vaupés"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3674676",
+    "verified": true
+  },
+  {
+    "slug": "buenaventura",
+    "type": "town",
+    "countryCode": "co",
+    "lat": 3.8801,
+    "lng": -77.03116,
+    "timezone": "America/Bogota",
+    "names": {
+      "ar": "بوئناونتورا",
+      "en": "Buenaventura",
+      "fr": "Buenaventura",
+      "de": "Buenaventura",
+      "tr": "Buenaventura",
+      "ur": "Buenaventura",
+      "id": "Buenaventura",
+      "es": "Buenaventura",
+      "bn": "Buenaventura",
+      "ms": "Buenaventura"
+    },
+    "aliases": {
+      "ar": [
+        "بوئناونتورا، ويي ديل كاؤكا"
+      ],
+      "en": [
+        "BUN",
+        "Buehnaventura",
+        "bu ai na wen tu la",
+        "bwynawntwra"
+      ]
+    },
+    "admin": {
+      "countryAr": "كولومبيا",
+      "countryEn": "Colombia",
+      "regionAr": "فالي ديل كاوكا",
+      "regionEn": "Valle del Cauca"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3688451",
+    "verified": true
+  },
+  {
+    "slug": "talcahuano",
+    "type": "town",
+    "countryCode": "cl",
+    "lat": -36.72494,
+    "lng": -73.11684,
+    "timezone": "America/Santiago",
+    "names": {
+      "ar": "تالكاهوانو",
+      "en": "Talcahuano",
+      "fr": "Talcahuano",
+      "de": "Talcahuano",
+      "tr": "Talcahuano",
+      "ur": "Talcahuano",
+      "id": "Talcahuano",
+      "es": "Talcahuano",
+      "bn": "Talcahuano",
+      "ms": "Talcahuano"
+    },
+    "aliases": {
+      "en": [
+        "Tal'kauana",
+        "Tal'kauano",
+        "Talkahuanas",
+        "Talkauano",
+        "Talkavano",
+        "Talkawanu",
+        "ta er ka wa nuo",
+        "tal kaxaw no",
+        "talkahwanw",
+        "talkauano",
+        "tarukawano"
+      ]
+    },
+    "admin": {
+      "countryAr": "تشيلي",
+      "countryEn": "Chile",
+      "regionAr": "بيوبيو",
+      "regionEn": "Biobío"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3870282",
+    "verified": true
+  },
+  {
+    "slug": "talca",
+    "type": "city",
+    "countryCode": "cl",
+    "lat": -35.4232,
+    "lng": -71.64974,
+    "timezone": "America/Santiago",
+    "names": {
+      "ar": "تالكا",
+      "en": "Talca",
+      "fr": "Talca",
+      "de": "Talca",
+      "tr": "Talca",
+      "ur": "Talca",
+      "id": "Talca",
+      "es": "Talca",
+      "bn": "Talca",
+      "ms": "Talca"
+    },
+    "aliases": {
+      "en": [
+        "TLX",
+        "Tal'ka",
+        "Talka",
+        "Talkao",
+        "ta er ka",
+        "talaka",
+        "talka",
+        "taruka",
+        "taልka"
+      ]
+    },
+    "admin": {
+      "countryAr": "تشيلي",
+      "countryEn": "Chile",
+      "regionAr": "ماولي",
+      "regionEn": "Maule"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3870294",
+    "verified": true
+  },
+  {
+    "slug": "curico",
+    "type": "town",
+    "countryCode": "cl",
+    "lat": -34.98279,
+    "lng": -71.23943,
+    "timezone": "America/Santiago",
+    "names": {
+      "ar": "كوريكو",
+      "en": "Curicó",
+      "fr": "Curicó",
+      "de": "Curicó",
+      "tr": "Curicó",
+      "ur": "Curicó",
+      "id": "Curicó",
+      "es": "Curicó",
+      "bn": "Curicó",
+      "ms": "Curicó"
+    },
+    "aliases": {
+      "ar": [
+        "كوريكو، شيلي"
+      ],
+      "en": [
+        "Curico",
+        "Kuriko",
+        "ku li ke",
+        "ku ri ko",
+        "kuliko",
+        "kuriko",
+        "kwrykw",
+        "kwrykw  shyly"
+      ]
+    },
+    "admin": {
+      "countryAr": "تشيلي",
+      "countryEn": "Chile",
+      "regionAr": "ماولي",
+      "regionEn": "Maule"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3892870",
+    "verified": true
+  },
+  {
+    "slug": "copiapo",
+    "type": "city",
+    "countryCode": "cl",
+    "lat": -27.36737,
+    "lng": -70.33219,
+    "timezone": "America/Santiago",
+    "names": {
+      "ar": "كوبيابو",
+      "en": "Copiapó",
+      "fr": "Copiapó",
+      "de": "Copiapó",
+      "tr": "Copiapó",
+      "ur": "Copiapó",
+      "id": "Copiapó",
+      "es": "Copiapó",
+      "bn": "Copiapó",
+      "ms": "Copiapó"
+    },
+    "aliases": {
+      "ar": [
+        "كوبيابو، شيلي"
+      ],
+      "en": [
+        "CPO",
+        "Copiapo",
+        "Kop'japo",
+        "Kopiapo",
+        "Kopiapó",
+        "Kopijapo",
+        "Kopjapo",
+        "Kuopejapa",
+        "Kuopėjapa",
+        "Qhupiyapu",
+        "ke pi ya bo",
+        "kopi'apo",
+        "kopiapo",
+        "kopiyapo",
+        "kwbyabw",
+        "kweፒyaፖ",
+        "kwpyapw",
+        "kwpyapw  shyly"
+      ]
+    },
+    "admin": {
+      "countryAr": "تشيلي",
+      "countryEn": "Chile",
+      "regionAr": "أتاكاما",
+      "regionEn": "Atacama"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3893656",
+    "verified": true
+  },
+  {
+    "slug": "alto-hospicio",
+    "type": "town",
+    "countryCode": "cl",
+    "lat": -20.26871,
+    "lng": -70.1049,
+    "timezone": "America/Santiago",
+    "names": {
+      "ar": "ألتو هوسبيكيو",
+      "en": "Alto Hospicio",
+      "fr": "Alto Hospicio",
+      "de": "Alto Hospicio",
+      "tr": "Alto Hospicio",
+      "ur": "Alto Hospicio",
+      "id": "Alto Hospicio",
+      "es": "Alto Hospicio",
+      "bn": "Alto Hospicio",
+      "ms": "Alto Hospicio"
+    },
+    "aliases": {
+      "ar": [
+        "التو هاسبيكيو"
+      ],
+      "en": [
+        "Al'to-Ospisio",
+        "Alto Ospisio",
+        "altooseupisio",
+        "altw haspykyw",
+        "altw hwsbykyw",
+        "shang huo si pi xi ao"
+      ]
+    },
+    "admin": {
+      "countryAr": "تشيلي",
+      "countryEn": "Chile",
+      "regionAr": "تاراباكا",
+      "regionEn": "Tarapacá"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3899887",
+    "verified": true
+  },
+  {
+    "slug": "tumbes",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -3.55592,
+    "lng": -80.44258,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "تومبس",
+      "en": "Tumbes",
+      "fr": "Tumbes",
+      "de": "Tumbes",
+      "tr": "Tumbes",
+      "ur": "Tumbes",
+      "id": "Tumbes",
+      "es": "Tumbes",
+      "bn": "Tumbes",
+      "ms": "Tumbes"
+    },
+    "aliases": {
+      "ar": [
+        "تومبيس، بيرو",
+        "ټومبس"
+      ],
+      "en": [
+        "TBP",
+        "Tumbesas",
+        "Tumbez",
+        "Tumpis",
+        "Tumpiurbo",
+        "Tүmbes",
+        "tong bei si",
+        "tounbesu",
+        "tumabesa",
+        "tumbesa",
+        "tumbeseu",
+        "tuምbesi",
+        "twmbs",
+        "twmbys  pyrw"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "تومبيس",
+      "regionEn": "Tumbes"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3691148",
+    "verified": true
+  },
+  {
+    "slug": "piura",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -5.18192,
+    "lng": -80.65715,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "بيورا",
+      "en": "Piura",
+      "fr": "Piura",
+      "de": "Piura",
+      "tr": "Piura",
+      "ur": "Piura",
+      "id": "Piura",
+      "es": "Piura",
+      "bn": "Piura",
+      "ms": "Piura"
+    },
+    "aliases": {
+      "en": [
+        "P'jura",
+        "PIU",
+        "Piwra",
+        "Pjura",
+        "Pjuro",
+        "bywra",
+        "pi wu la",
+        "pi'ura",
+        "piula",
+        "piw ra",
+        "pywra",
+        "pywrh",
+        "ፒውra"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "بيورا",
+      "regionEn": "Piura"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3693528",
+    "verified": true
+  },
+  {
+    "slug": "moyobamba",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -6.03441,
+    "lng": -76.97423,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "موجوبامبا",
+      "en": "Moyobamba",
+      "fr": "Moyobamba",
+      "de": "Moyobamba",
+      "tr": "Moyobamba",
+      "ur": "Moyobamba",
+      "id": "Moyobamba",
+      "es": "Moyobamba",
+      "bn": "Moyobamba",
+      "ms": "Moyobamba"
+    },
+    "aliases": {
+      "ar": [
+        "مويوبامبا",
+        "مويوبمبا"
+      ],
+      "en": [
+        "MBP",
+        "Majabamba",
+        "Moiobamba",
+        "Mojobamba",
+        "Muyupampa",
+        "mo yue ban ba",
+        "moiobamba",
+        "moyobaba",
+        "moyobanba",
+        "moyobaምba",
+        "mwjwbamba",
+        "mwywbamba",
+        "mwywbmba"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "سان مارتين",
+      "regionEn": "San Martín"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3694564",
+    "verified": true
+  },
+  {
+    "slug": "iquitos",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -3.74814,
+    "lng": -73.2529,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "إكيتوس",
+      "en": "Iquitos",
+      "fr": "Iquitos",
+      "de": "Iquitos",
+      "tr": "Iquitos",
+      "ur": "Iquitos",
+      "id": "Iquitos",
+      "es": "Iquitos",
+      "bn": "Iquitos",
+      "ms": "Iquitos"
+    },
+    "aliases": {
+      "ar": [
+        "اكيتوس",
+        "ايكيتوس"
+      ],
+      "en": [
+        "IQT",
+        "Ikitas",
+        "Ikitos",
+        "Ikitosas",
+        "Ikitus",
+        "Iquitum",
+        "akytws",
+        "aykytws",
+        "ikitosa",
+        "ikitoseu",
+        "ikitosu",
+        "xiki tos",
+        "yi ji tuo si",
+        "İkitos",
+        "ʿikitosi"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "لوريتو",
+      "regionEn": "Loreto"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3696183",
+    "verified": true
+  },
+  {
+    "slug": "huaraz",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -9.52614,
+    "lng": -77.52869,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "اواراز",
+      "en": "Huaraz",
+      "fr": "Huaraz",
+      "de": "Huaraz",
+      "tr": "Huaraz",
+      "ur": "Huaraz",
+      "id": "Huaraz",
+      "es": "Huaraz",
+      "bn": "Huaraz",
+      "ms": "Huaraz"
+    },
+    "aliases": {
+      "ar": [
+        "هوراز",
+        "واراس"
+      ],
+      "en": [
+        "Guaras",
+        "Huaras",
+        "Huarasas",
+        "Uaras",
+        "Uaraz",
+        "Varas",
+        "Waras",
+        "awaraz",
+        "hu'araza",
+        "huraza",
+        "huyaraja",
+        "hwraz",
+        "ualaseu",
+        "uarasi",
+        "wa la si",
+        "waras",
+        "warasu",
+        "ሁwaraዝ"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "أنكاش",
+      "regionEn": "Áncash"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3696378",
+    "verified": true
+  },
+  {
+    "slug": "chiclayo",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -6.77008,
+    "lng": -79.85495,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "تشيكلايو",
+      "en": "Chiclayo",
+      "fr": "Chiclayo",
+      "de": "Chiclayo",
+      "tr": "Chiclayo",
+      "ur": "Chiclayo",
+      "id": "Chiclayo",
+      "es": "Chiclayo",
+      "bn": "Chiclayo",
+      "ms": "Chiclayo"
+    },
+    "aliases": {
+      "ar": [
+        "جكلايو",
+        "جيكلايو"
+      ],
+      "en": [
+        "CIX",
+        "Chiclaium",
+        "Chiklajo",
+        "Chiklayu",
+        "Chyklaja",
+        "Ciklajus",
+        "chikeullayo",
+        "chikurayo",
+        "chklayw",
+        "chyklayw",
+        "cikalayo",
+        "cikilayo",
+        "ciklayo",
+        "qi ke la yue",
+        "tshyklayw",
+        "Čiklajus"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "لامبايكي",
+      "regionEn": "Lambayeque"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3698350",
+    "verified": true
+  },
+  {
+    "slug": "chachapoyas",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -6.23169,
+    "lng": -77.86903,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "تشاتشابويا",
+      "en": "Chachapoyas",
+      "fr": "Chachapoyas",
+      "de": "Chachapoyas",
+      "tr": "Chachapoyas",
+      "ur": "Chachapoyas",
+      "id": "Chachapoyas",
+      "es": "Chachapoyas",
+      "bn": "Chachapoyas",
+      "ms": "Chachapoyas"
+    },
+    "aliases": {
+      "ar": [
+        "جاجابوياس",
+        "جاجابوياس، بيرو"
+      ],
+      "en": [
+        "CHH",
+        "Cacapojasas",
+        "Chachapoias",
+        "Chachapojas",
+        "Chachapuyas",
+        "cacapoyasa",
+        "cacaፖyasi",
+        "cha cha bo ya si",
+        "chachapoyaseu",
+        "chachapoyasu",
+        "chachapwyas",
+        "chachapwyas  pyrw",
+        "tshatshabwya",
+        "Čačapojasas"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "أمازوناس",
+      "regionEn": "Amazonas"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3698540",
+    "verified": true
+  },
+  {
+    "slug": "puno",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -15.84003,
+    "lng": -70.02198,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "بونو",
+      "en": "Puno",
+      "fr": "Puno",
+      "de": "Puno",
+      "tr": "Puno",
+      "ur": "Puno",
+      "id": "Puno",
+      "es": "Puno",
+      "bn": "Puno",
+      "ms": "Puno"
+    },
+    "aliases": {
+      "en": [
+        "Pouno",
+        "Puna",
+        "Punas",
+        "Punjo",
+        "Punu",
+        "Punum",
+        "San Carlos de Puno",
+        "bwnw",
+        "pu no",
+        "pu nuo",
+        "pwnw",
+        "ፑno"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "بونو",
+      "regionEn": "Puno"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3931276",
+    "verified": true
+  },
+  {
+    "slug": "moquegua",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -17.19747,
+    "lng": -70.93587,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "موكيجوا",
+      "en": "Moquegua",
+      "fr": "Moquegua",
+      "de": "Moquegua",
+      "tr": "Moquegua",
+      "ur": "Moquegua",
+      "id": "Moquegua",
+      "es": "Moquegua",
+      "bn": "Moquegua",
+      "ms": "Moquegua"
+    },
+    "aliases": {
+      "ar": [
+        "موكيغوا",
+        "موكغوا"
+      ],
+      "en": [
+        "Makegua",
+        "Moceva",
+        "Mokegua",
+        "Mokegva",
+        "Mukiwa",
+        "Muqiwa",
+        "mo ke gua",
+        "mokegu'a",
+        "mokegua",
+        "mokeguya",
+        "mokegwa",
+        "moqegwa",
+        "mwkgwa",
+        "mwkygwa",
+        "mwkyjwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "موكيغوا",
+      "regionEn": "Moquegua"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3934608",
+    "verified": true
+  },
+  {
+    "slug": "ica",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -14.07538,
+    "lng": -75.73422,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "إيكا",
+      "en": "Ica",
+      "fr": "Ica",
+      "de": "Ica",
+      "tr": "Ica",
+      "ur": "Ica",
+      "id": "Ica",
+      "es": "Ica",
+      "bn": "Ica",
+      "ms": "Ica"
+    },
+    "aliases": {
+      "ar": [
+        "ايكا",
+        "اكا، بيرو",
+        "ايكا، برو"
+      ],
+      "en": [
+        "Ika",
+        "aka  pyrw",
+        "ayka",
+        "ayka  prw",
+        "ika",
+        "yi ka",
+        "İca",
+        "İka",
+        "ʿika"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "إيكا",
+      "regionEn": "Ica"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3938527",
+    "verified": true
+  },
+  {
+    "slug": "cusco",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -13.53188,
+    "lng": -71.96701,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "قوسقو",
+      "en": "Cusco",
+      "fr": "Cusco",
+      "de": "Cusco",
+      "tr": "Cusco",
+      "ur": "Cusco",
+      "id": "Cusco",
+      "es": "Cusco",
+      "bn": "Cusco",
+      "ms": "Cusco"
+    },
+    "aliases": {
+      "ar": [
+        "كسكو",
+        "كوزكو"
+      ],
+      "en": [
+        "CUZ",
+        "Ciudad del Cuzco",
+        "Cosco",
+        "Cuschum",
+        "Cuscu",
+        "Cuzco",
+        "Kousko",
+        "Kuska",
+        "Kuskas",
+        "Kusko",
+        "Qusqu",
+        "kosko",
+        "kskw",
+        "ku s ko",
+        "ku si ke",
+        "kucukko",
+        "kusako",
+        "kuseuko",
+        "kusikwe",
+        "kusko",
+        "kusuko",
+        "kuzko",
+        "kwzkw",
+        "qwsqw"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "كوسكو",
+      "regionEn": "Cusco"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3941584",
+    "verified": true
+  },
+  {
+    "slug": "arequipa",
+    "type": "city",
+    "countryCode": "pe",
+    "lat": -16.39899,
+    "lng": -71.53747,
+    "timezone": "America/Lima",
+    "names": {
+      "ar": "أريكيبا",
+      "en": "Arequipa",
+      "fr": "Arequipa",
+      "de": "Arequipa",
+      "tr": "Arequipa",
+      "ur": "Arequipa",
+      "id": "Arequipa",
+      "es": "Arequipa",
+      "bn": "Arequipa",
+      "ms": "Arequipa"
+    },
+    "aliases": {
+      "ar": [
+        "اريكيبا",
+        "اركيبا"
+      ],
+      "en": [
+        "AQP",
+        "Arecipa",
+        "Arehkipa",
+        "Arekip",
+        "Arekipa",
+        "Arekipo",
+        "Arikipa",
+        "Ariqipa",
+        "a lei ji pa",
+        "alekipa",
+        "arekipa",
+        "arekkippa",
+        "arekvipa",
+        "arkypa",
+        "arykyba",
+        "arykypa",
+        "xareki pa",
+        "ʿerekuyiፓ"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيرو",
+      "countryEn": "Peru",
+      "regionAr": "أريكيبا",
+      "regionEn": "Arequipa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3947322",
+    "verified": true
+  },
+  {
+    "slug": "turmero",
+    "type": "town",
+    "countryCode": "ve",
+    "lat": 10.22856,
+    "lng": -67.47421,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "ترمرو",
+      "en": "Turmero",
+      "fr": "Turmero",
+      "de": "Turmero",
+      "tr": "Turmero",
+      "ur": "Turmero",
+      "id": "Turmero",
+      "es": "Turmero",
+      "bn": "Turmero",
+      "ms": "Turmero"
+    },
+    "aliases": {
+      "en": [
+        "Turmeras",
+        "trmrw",
+        "tu er mei luo"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "أراغوا",
+      "regionEn": "Aragua"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3625829",
+    "verified": true
+  },
+  {
+    "slug": "puerto-la-cruz",
+    "type": "town",
+    "countryCode": "ve",
+    "lat": 10.21382,
+    "lng": -64.6328,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "بويرتو لا كروز",
+      "en": "Puerto La Cruz",
+      "fr": "Puerto La Cruz",
+      "de": "Puerto La Cruz",
+      "tr": "Puerto La Cruz",
+      "ur": "Puerto La Cruz",
+      "id": "Puerto La Cruz",
+      "es": "Puerto La Cruz",
+      "bn": "Puerto La Cruz",
+      "ms": "Puerto La Cruz"
+    },
+    "aliases": {
+      "en": [
+        "Puehrto La Kruz",
+        "Puehrto-la-Krus",
+        "Puerto Cruz",
+        "Puerto La Krus",
+        "Puerto de La Cruz",
+        "Puerto la Krusas",
+        "bwyrtw la krwz",
+        "la ke lu si gang"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "أنزواتيغي",
+      "regionEn": "Anzoátegui"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3629672",
+    "verified": true
+  },
+  {
+    "slug": "puerto-ayacucho",
+    "type": "city",
+    "countryCode": "ve",
+    "lat": 5.66049,
+    "lng": -67.58343,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "بويرتو أياكوتشو",
+      "en": "Puerto Ayacucho",
+      "fr": "Puerto Ayacucho",
+      "de": "Puerto Ayacucho",
+      "tr": "Puerto Ayacucho",
+      "ur": "Puerto Ayacucho",
+      "id": "Puerto Ayacucho",
+      "es": "Puerto Ayacucho",
+      "bn": "Puerto Ayacucho",
+      "ms": "Puerto Ayacucho"
+    },
+    "aliases": {
+      "ar": [
+        "بويرتو آياكوجو",
+        "بويرتو اجاكوجو"
+      ],
+      "en": [
+        "PYH",
+        "Pouerto Agiakoutso",
+        "Puehrto-Ajakucho",
+        "Puerto Ajakucas",
+        "Puerto Ajakučas",
+        "Puerto-Ayakucho",
+        "a ya ku qiao gang",
+        "bwyrtw ayakwtshw",
+        "pu'erato ayakuco",
+        "pu'erto ayakuco",
+        "pueleutoayakucho",
+        "pueruto・ayakucho",
+        "puyerto ayakuco",
+        "pwyr to xi xa kucho",
+        "pwyrtw ajakwchw",
+        "pwyrtw ayakwchw",
+        "ፑwerito ʿeyakuco"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "أمازوناس",
+      "regionEn": "Amazonas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3629710",
+    "verified": true
+  },
+  {
+    "slug": "los-teques",
+    "type": "city",
+    "countryCode": "ve",
+    "lat": 10.34954,
+    "lng": -67.04266,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "لوس تيكيس",
+      "en": "Los Teques",
+      "fr": "Los Teques",
+      "de": "Los Teques",
+      "tr": "Los Teques",
+      "ur": "Los Teques",
+      "id": "Los Teques",
+      "es": "Los Teques",
+      "bn": "Los Teques",
+      "ms": "Los Teques"
+    },
+    "aliases": {
+      "ar": [
+        "لوس تكس"
+      ],
+      "en": [
+        "Los Tekes",
+        "Los Tekesas",
+        "Los-Tekes",
+        "lasa tekesa",
+        "losa tekasa",
+        "losa tekesa",
+        "loseutekeseu",
+        "losi tekesi",
+        "luo si te ke si",
+        "lws tks",
+        "lws tykys"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "ميراندا",
+      "regionEn": "Miranda"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3633622",
+    "verified": true
+  },
+  {
+    "slug": "cabimas",
+    "type": "town",
+    "countryCode": "ve",
+    "lat": 10.39907,
+    "lng": -71.45206,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "كابيماس",
+      "en": "Cabimas",
+      "fr": "Cabimas",
+      "de": "Cabimas",
+      "tr": "Cabimas",
+      "ur": "Cabimas",
+      "id": "Cabimas",
+      "es": "Cabimas",
+      "bn": "Cabimas",
+      "ms": "Cabimas"
+    },
+    "aliases": {
+      "en": [
+        "CBS",
+        "Caramas",
+        "Kabimas",
+        "Kabimasas",
+        "ka wei ma si",
+        "kabymas"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "زوليا",
+      "regionEn": "Zulia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3647651",
+    "verified": true
+  },
+  {
+    "slug": "barquisimeto",
+    "type": "city",
+    "countryCode": "ve",
+    "lat": 10.0647,
+    "lng": -69.35703,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "باركيسيميتو",
+      "en": "Barquisimeto",
+      "fr": "Barquisimeto",
+      "de": "Barquisimeto",
+      "tr": "Barquisimeto",
+      "ur": "Barquisimeto",
+      "id": "Barquisimeto",
+      "es": "Barquisimeto",
+      "bn": "Barquisimeto",
+      "ms": "Barquisimeto"
+    },
+    "aliases": {
+      "ar": [
+        "باركيسيمتو"
+      ],
+      "en": [
+        "BRM",
+        "Barkisimeta",
+        "Barkisimetas",
+        "Barkisimeto",
+        "Barkizimeto",
+        "Barquisimetum",
+        "Barquisimito",
+        "ba ji xi mei tuo",
+        "baleukisimeto",
+        "barakisimeto",
+        "barikisimeto",
+        "barkisimeto",
+        "barkysymtw",
+        "barkysymytw",
+        "barukishimeto",
+        "brqysymtw"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "لارا",
+      "regionEn": "Lara"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3648522",
+    "verified": true
+  },
+  {
+    "slug": "barinas",
+    "type": "city",
+    "countryCode": "ve",
+    "lat": 8.62064,
+    "lng": -70.23105,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "بارينا",
+      "en": "Barinas",
+      "fr": "Barinas",
+      "de": "Barinas",
+      "tr": "Barinas",
+      "ur": "Barinas",
+      "id": "Barinas",
+      "es": "Barinas",
+      "bn": "Barinas",
+      "ms": "Barinas"
+    },
+    "aliases": {
+      "ar": [
+        "باريناس",
+        "باريناس، باريناس"
+      ],
+      "en": [
+        "BNS",
+        "Barina",
+        "Barinas llaqta",
+        "Barinasas",
+        "Ijoloti Barinas",
+        "ba li na si",
+        "balinaseu",
+        "barina",
+        "barinasi",
+        "baryna",
+        "barynas",
+        "barynas  barynas"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "باريناس",
+      "regionEn": "Barinas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3648546",
+    "verified": true
+  },
+  {
+    "slug": "maturin",
+    "type": "city",
+    "countryCode": "ve",
+    "lat": 9.74569,
+    "lng": -63.18323,
+    "timezone": "America/Caracas",
+    "names": {
+      "ar": "ماتورين",
+      "en": "Maturín",
+      "fr": "Maturín",
+      "de": "Maturín",
+      "tr": "Maturín",
+      "ur": "Maturín",
+      "id": "Maturín",
+      "es": "Maturín",
+      "bn": "Maturín",
+      "ms": "Maturín"
+    },
+    "aliases": {
+      "en": [
+        "MUN",
+        "Maturin",
+        "Maturinas",
+        "ma tu lin",
+        "maiturina",
+        "matourin",
+        "matulin",
+        "maturini",
+        "matwryn",
+        "mecurina",
+        "myaturina"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنزويلا",
+      "countryEn": "Venezuela",
+      "regionAr": "موناغاس",
+      "regionEn": "Monagas"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3778045",
+    "verified": true
   }
 ]

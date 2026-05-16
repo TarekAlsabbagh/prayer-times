@@ -75345,5 +75345,1453 @@
     "source": "curated",
     "sourceId": "geonames:3778045",
     "verified": true
+  },
+  {
+    "slug": "tegal",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -6.8694,
+    "lng": 109.1402,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "تيغال",
+      "en": "Tegal",
+      "fr": "Tegal",
+      "de": "Tegal",
+      "tr": "Tegal",
+      "ur": "Tegal",
+      "id": "Tegal",
+      "es": "Tegal",
+      "bn": "Tegal",
+      "ms": "Tegal"
+    },
+    "aliases": {
+      "ar": [
+        "تغال",
+        "تيغال، وسطي جاوا"
+      ],
+      "en": [
+        "Kota Tegal",
+        "Kutha Tegal",
+        "tgal",
+        "tygal  wsty jawa",
+        "tyghal",
+        "zhi ge"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1624494",
+    "verified": true
+  },
+  {
+    "slug": "tarakan",
+    "type": "town",
+    "countryCode": "id",
+    "lat": 3.31332,
+    "lng": 117.59152,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "تاراكان",
+      "en": "Tarakan",
+      "fr": "Tarakan",
+      "de": "Tarakan",
+      "tr": "Tarakan",
+      "ur": "Tarakan",
+      "id": "Tarakan",
+      "es": "Tarakan",
+      "bn": "Tarakan",
+      "ms": "Tarakan"
+    },
+    "aliases": {
+      "ar": [
+        "تاراكان، شمالي كاليمانتان"
+      ],
+      "en": [
+        "Kota Tarakan",
+        "Kutha Tarakan",
+        "TRK",
+        "ta la ka en",
+        "tarakan  shmaly kalymantan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "كاليمانتان الشمالية",
+      "regionEn": "North Kalimantan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1624725",
+    "verified": true
+  },
+  {
+    "slug": "tanjung-pinang",
+    "type": "town",
+    "countryCode": "id",
+    "lat": 0.91667,
+    "lng": 104.45833,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "تانجونغ",
+      "en": "Tanjung Pinang",
+      "fr": "Tanjung Pinang",
+      "de": "Tanjung Pinang",
+      "tr": "Tanjung Pinang",
+      "ur": "Tanjung Pinang",
+      "id": "Tanjung Pinang",
+      "es": "Tanjung Pinang",
+      "bn": "Tanjung Pinang",
+      "ms": "Tanjung Pinang"
+    },
+    "aliases": {
+      "ar": [
+        "تانجونغ بينانغ"
+      ],
+      "en": [
+        "Kota Tanjung Pinang",
+        "Kota Tanjungpinang",
+        "Kutha Tanjungpinang",
+        "TNJ",
+        "Tandjoengpinang",
+        "Tandjungpinang",
+        "Tandzhungpinang",
+        "Tanjungpinang",
+        "dan rong bin lang",
+        "liao dou",
+        "tanjungpinang",
+        "tanjun・pinan",
+        "tanjwng pynang",
+        "tanjwngh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1624863",
+    "verified": true
+  },
+  {
+    "slug": "surakarta",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -7.55611,
+    "lng": 110.83167,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سوراكارتا",
+      "en": "Surakarta",
+      "fr": "Surakarta",
+      "de": "Surakarta",
+      "tr": "Surakarta",
+      "ur": "Surakarta",
+      "id": "Surakarta",
+      "es": "Surakarta",
+      "bn": "Surakarta",
+      "ms": "Surakarta"
+    },
+    "aliases": {
+      "en": [
+        "Kota Surakarta",
+        "Kutha Surakarta",
+        "SOC",
+        "Soerakarta",
+        "Solo",
+        "Sourakarta",
+        "Surakarte",
+        "sulakaleuta",
+        "suo luo",
+        "suo luo shi",
+        "surakaruta",
+        "swrakarta"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1625812",
+    "verified": true
+  },
+  {
+    "slug": "samarinda",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.49167,
+    "lng": 117.14583,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "ساماريندا",
+      "en": "Samarinda",
+      "fr": "Samarinda",
+      "de": "Samarinda",
+      "tr": "Samarinda",
+      "ur": "Samarinda",
+      "id": "Samarinda",
+      "es": "Samarinda",
+      "bn": "Samarinda",
+      "ms": "Samarinda"
+    },
+    "aliases": {
+      "en": [
+        "Batoeng Panggol",
+        "Kota Samarinda",
+        "Kuta Samarinda",
+        "Kutha Samarinda",
+        "SRI",
+        "Samarynda",
+        "camarinta",
+        "sa ma rin da",
+        "samalinda",
+        "samarynda",
+        "sha ma lin da"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "كاليمانتان الشرقية",
+      "regionEn": "East Kalimantan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1629001",
+    "verified": true
+  },
+  {
+    "slug": "padang",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.94924,
+    "lng": 100.35427,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بادانغ",
+      "en": "Padang",
+      "fr": "Padang",
+      "de": "Padang",
+      "tr": "Padang",
+      "ur": "Padang",
+      "id": "Padang",
+      "es": "Padang",
+      "bn": "Padang",
+      "ms": "Padang"
+    },
+    "aliases": {
+      "ar": [
+        "بادنغ، اندونزي"
+      ],
+      "en": [
+        "Kota Padang",
+        "Kuta Padang",
+        "Kutha Padang",
+        "PDG",
+        "Padangas",
+        "Padango",
+        "ba dong",
+        "badangh",
+        "pa dang",
+        "padan",
+        "padanga",
+        "padng  andwnzy"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الغربية",
+      "regionEn": "West Sumatra"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1633419",
+    "verified": true
+  },
+  {
+    "slug": "mataram",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.58333,
+    "lng": 116.11667,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "ماتارام",
+      "en": "Mataram",
+      "fr": "Mataram",
+      "de": "Mataram",
+      "tr": "Mataram",
+      "ur": "Mataram",
+      "id": "Mataram",
+      "es": "Mataram",
+      "bn": "Mataram",
+      "ms": "Mataram"
+    },
+    "aliases": {
+      "en": [
+        "AMI",
+        "Kota Mataram",
+        "Kutha Mataram",
+        "Mataram-Lombok",
+        "Mataramas",
+        "ma ta lan",
+        "matalam",
+        "mataramu"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "نوسا تنغارا الغربية",
+      "regionEn": "West Nusa Tenggara"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1635882",
+    "verified": true
+  },
+  {
+    "slug": "manokwari",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.86291,
+    "lng": 134.06402,
+    "timezone": "Asia/Jayapura",
+    "names": {
+      "ar": "مانوكواري",
+      "en": "Manokwari",
+      "fr": "Manokwari",
+      "de": "Manokwari",
+      "tr": "Manokwari",
+      "ur": "Manokwari",
+      "id": "Manokwari",
+      "es": "Manokwari",
+      "bn": "Manokwari",
+      "ms": "Manokwari"
+    },
+    "aliases": {
+      "en": [
+        "Kabupaten Manokwari",
+        "Kutha Manokwari",
+        "MKW",
+        "Manokvari",
+        "Manokvaris",
+        "Menoekwari",
+        "man nuo wa li",
+        "manokuwari",
+        "manokwali",
+        "manwkwary"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بابوا الغربية",
+      "regionEn": "West Papua"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1636308",
+    "verified": true
+  },
+  {
+    "slug": "manado",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 1.48218,
+    "lng": 124.84892,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "مانادو",
+      "en": "Manado",
+      "fr": "Manado",
+      "de": "Manado",
+      "tr": "Manado",
+      "ur": "Manado",
+      "id": "Manado",
+      "es": "Manado",
+      "bn": "Manado",
+      "ms": "Manado"
+    },
+    "aliases": {
+      "ar": [
+        "منادو"
+      ],
+      "en": [
+        "Kota Manado",
+        "Kutha Manado",
+        "MDC",
+        "Manadas",
+        "Menado",
+        "ma na do",
+        "manadw",
+        "wan ya lao"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سولاوسي الشمالية",
+      "regionEn": "North Sulawesi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1636544",
+    "verified": true
+  },
+  {
+    "slug": "mamuju",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -2.68056,
+    "lng": 118.88611,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "ماموجو",
+      "en": "Mamuju",
+      "fr": "Mamuju",
+      "de": "Mamuju",
+      "tr": "Mamuju",
+      "ur": "Mamuju",
+      "id": "Mamuju",
+      "es": "Mamuju",
+      "bn": "Mamuju",
+      "ms": "Mamuju"
+    },
+    "aliases": {
+      "en": [
+        "MJU",
+        "Mamoedjoe",
+        "Mamudju",
+        "Mamudzhu",
+        "Mamudzu",
+        "Mamudžu",
+        "ma mu zhu",
+        "mamwjw"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سولاوسي الغربية",
+      "regionEn": "West Sulawesi"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1636556",
+    "verified": true
+  },
+  {
+    "slug": "malang",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -7.9797,
+    "lng": 112.6304,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "مالانغ",
+      "en": "Malang",
+      "fr": "Malang",
+      "de": "Malang",
+      "tr": "Malang",
+      "ur": "Malang",
+      "id": "Malang",
+      "es": "Malang",
+      "bn": "Malang",
+      "ms": "Malang"
+    },
+    "aliases": {
+      "ar": [
+        "مالنغ"
+      ],
+      "en": [
+        "Kabupaten Malang",
+        "Kota Malang",
+        "Kutha Malang",
+        "MLG",
+        "Maland",
+        "ma lang",
+        "malangh",
+        "malangi",
+        "mallang",
+        "malng",
+        "maran"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1636722",
+    "verified": true
+  },
+  {
+    "slug": "kediri",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -7.81667,
+    "lng": 112.01667,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "كديري",
+      "en": "Kediri",
+      "fr": "Kediri",
+      "de": "Kediri",
+      "tr": "Kediri",
+      "ur": "Kediri",
+      "id": "Kediri",
+      "es": "Kediri",
+      "bn": "Kediri",
+      "ms": "Kediri"
+    },
+    "aliases": {
+      "ar": [
+        "كيديري، مشرقي جاوا"
+      ],
+      "en": [
+        "DHX",
+        "Kota Kediri",
+        "Kutha Kedhiri",
+        "jian yi li",
+        "kdyry",
+        "kydyry  mshrqy jawa"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1640660",
+    "verified": true
+  },
+  {
+    "slug": "jepara",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -6.5924,
+    "lng": 110.671,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "جيبارا",
+      "en": "Jepara",
+      "fr": "Jepara",
+      "de": "Jepara",
+      "tr": "Jepara",
+      "ur": "Jepara",
+      "id": "Jepara",
+      "es": "Jepara",
+      "bn": "Jepara",
+      "ms": "Jepara"
+    },
+    "aliases": {
+      "en": [
+        "Djapara",
+        "Djepara",
+        "Japara",
+        "Yapara",
+        "jybara"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1642548",
+    "verified": true
+  },
+  {
+    "slug": "jambi-city",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -1.6,
+    "lng": 103.61667,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "جامبي",
+      "en": "Jambi City",
+      "fr": "Jambi City",
+      "de": "Jambi City",
+      "tr": "Jambi City",
+      "ur": "Jambi City",
+      "id": "Jambi City",
+      "es": "Jambi City",
+      "bn": "Jambi City",
+      "ms": "Jambi City"
+    },
+    "aliases": {
+      "en": [
+        "DJB",
+        "Djambi",
+        "Dzhambi",
+        "Jambi",
+        "Sriindrapura",
+        "Telanaipura",
+        "jamby"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جامبي",
+      "regionEn": "Jambi"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1642858",
+    "verified": true
+  },
+  {
+    "slug": "cirebon",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -6.7063,
+    "lng": 108.557,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سيريبون",
+      "en": "Cirebon",
+      "fr": "Cirebon",
+      "de": "Cirebon",
+      "tr": "Cirebon",
+      "ur": "Cirebon",
+      "id": "Cirebon",
+      "es": "Cirebon",
+      "bn": "Cirebon",
+      "ms": "Cirebon"
+    },
+    "aliases": {
+      "en": [
+        "CBN",
+        "Cheribon",
+        "Chirebon",
+        "Cirebon kutha",
+        "Kota Cirebon",
+        "Kutha Cirebon",
+        "Tjerebon",
+        "Tjeribon",
+        "Tjirebon",
+        "chileubon",
+        "chireboni",
+        "chirubon",
+        "jing li wen",
+        "syrybwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الغربية",
+      "regionEn": "West Java"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1646170",
+    "verified": true
+  },
+  {
+    "slug": "bogor",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -6.59444,
+    "lng": 106.78917,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بوكور",
+      "en": "Bogor",
+      "fr": "Bogor",
+      "de": "Bogor",
+      "tr": "Bogor",
+      "ur": "Bogor",
+      "id": "Bogor",
+      "es": "Bogor",
+      "bn": "Bogor",
+      "ms": "Bogor"
+    },
+    "aliases": {
+      "ar": [
+        "بوغور"
+      ],
+      "en": [
+        "Bogoro",
+        "Buitenzorg",
+        "Kota Bogor",
+        "Kutha Bogor",
+        "bogoleu",
+        "bogori",
+        "bogoru",
+        "bwgwr",
+        "bwkwr",
+        "mao wu"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الغربية",
+      "regionEn": "West Java"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1648473",
+    "verified": true
+  },
+  {
+    "slug": "bitung",
+    "type": "town",
+    "countryCode": "id",
+    "lat": 1.44059,
+    "lng": 125.12824,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "بيتونغ",
+      "en": "Bitung",
+      "fr": "Bitung",
+      "de": "Bitung",
+      "tr": "Bitung",
+      "ur": "Bitung",
+      "id": "Bitung",
+      "es": "Bitung",
+      "bn": "Bitung",
+      "ms": "Bitung"
+    },
+    "aliases": {
+      "en": [
+        "Bitoeng",
+        "Bitsun",
+        "Kota Bitung",
+        "bi tong",
+        "bitsun",
+        "bytwng",
+        "bytwngh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سولاوسي الشمالية",
+      "regionEn": "North Sulawesi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1648637",
+    "verified": true
+  },
+  {
+    "slug": "bengkulu",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -3.80044,
+    "lng": 102.26554,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بنجكولو",
+      "en": "Bengkulu",
+      "fr": "Bengkulu",
+      "de": "Bengkulu",
+      "tr": "Bengkulu",
+      "ur": "Bengkulu",
+      "id": "Bengkulu",
+      "es": "Bengkulu",
+      "bn": "Bengkulu",
+      "ms": "Bengkulu"
+    },
+    "aliases": {
+      "ar": [
+        "بنغكولو",
+        "بنغكولو، اندونزي"
+      ],
+      "en": [
+        "BKS",
+        "Bangkahulu",
+        "Bengkoeloe",
+        "Benkoelen",
+        "Benkulen",
+        "Benkulu",
+        "Kota Bengkulu",
+        "Kutha Bengkulu",
+        "beungkullu",
+        "bngkwlw",
+        "bngkwlw  andwnzy",
+        "bnjkwlw",
+        "ming gu lu shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بنغكولو",
+      "regionEn": "Bengkulu"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1649150",
+    "verified": true
+  },
+  {
+    "slug": "bekasi",
+    "type": "town",
+    "countryCode": "id",
+    "lat": -6.2349,
+    "lng": 106.9896,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بيكاسي",
+      "en": "Bekasi",
+      "fr": "Bekasi",
+      "de": "Bekasi",
+      "tr": "Bekasi",
+      "ur": "Bekasi",
+      "id": "Bekasi",
+      "es": "Bekasi",
+      "bn": "Bekasi",
+      "ms": "Bekasi"
+    },
+    "aliases": {
+      "ar": [
+        "بكاسي"
+      ],
+      "en": [
+        "Bekasis",
+        "Bekaso",
+        "Kota Bekasi",
+        "Kutha Bekasi",
+        "beukasi",
+        "bkasy",
+        "bukashi",
+        "bykasy",
+        "wu jia si"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الغربية",
+      "regionEn": "West Java"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1649378",
+    "verified": true
+  },
+  {
+    "slug": "ambon",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -3.69583,
+    "lng": 128.18333,
+    "timezone": "Asia/Jayapura",
+    "names": {
+      "ar": "آمبن",
+      "en": "Ambon",
+      "fr": "Ambon",
+      "de": "Ambon",
+      "tr": "Ambon",
+      "ur": "Ambon",
+      "id": "Ambon",
+      "es": "Ambon",
+      "bn": "Ambon",
+      "ms": "Ambon"
+    },
+    "aliases": {
+      "ar": [
+        "آمبون",
+        "أمبون",
+        "امبون، مالوكو"
+      ],
+      "en": [
+        "AMQ",
+        "Amboina",
+        "Ambon City",
+        "Ambonas",
+        "Amboyna",
+        "Ambun",
+        "Kota Ambon",
+        "Kutha Ambon",
+        "ambn",
+        "ambwn",
+        "ambwn  malwkw",
+        "an wen",
+        "anbon"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "مالوكو",
+      "regionEn": "Maluku"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1651531",
+    "verified": true
+  },
+  {
+    "slug": "merauke",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.49958,
+    "lng": 140.40613,
+    "timezone": "Asia/Jayapura",
+    "names": {
+      "ar": "ميروكي",
+      "en": "Merauke",
+      "fr": "Merauke",
+      "de": "Merauke",
+      "tr": "Merauke",
+      "ur": "Merauke",
+      "id": "Merauke",
+      "es": "Merauke",
+      "bn": "Merauke",
+      "ms": "Merauke"
+    },
+    "aliases": {
+      "ar": [
+        "ميراوكي"
+      ],
+      "en": [
+        "MKQ",
+        "ma lao qi",
+        "myrwky"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بابوا الجنوبية",
+      "regionEn": "South Papua"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2082539",
+    "verified": true
+  },
+  {
+    "slug": "batam",
+    "type": "town",
+    "countryCode": "id",
+    "lat": 1.14937,
+    "lng": 104.02491,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "باتام",
+      "en": "Batam",
+      "fr": "Batam",
+      "de": "Batam",
+      "tr": "Batam",
+      "ur": "Batam",
+      "id": "Batam",
+      "es": "Batam",
+      "bn": "Batam",
+      "ms": "Batam"
+    },
+    "aliases": {
+      "ar": [
+        "باتم"
+      ],
+      "en": [
+        "BTH",
+        "Kota Batam",
+        "Kutha Batam",
+        "ba dan dao",
+        "bata m",
+        "batam seom",
+        "batama",
+        "batamu dao",
+        "batm"
+      ]
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "رياو",
+      "regionEn": "Riau"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:6295587",
+    "verified": true
+  },
+  {
+    "slug": "sandakan",
+    "type": "town",
+    "countryCode": "my",
+    "lat": 5.8402,
+    "lng": 118.1179,
+    "timezone": "Asia/Kuching",
+    "names": {
+      "ar": "سانداكان",
+      "en": "Sandakan",
+      "fr": "Sandakan",
+      "de": "Sandakan",
+      "tr": "Sandakan",
+      "ur": "Sandakan",
+      "id": "Sandakan",
+      "es": "Sandakan",
+      "bn": "Sandakan",
+      "ms": "Sandakan"
+    },
+    "aliases": {
+      "ar": [
+        "سنداكان"
+      ],
+      "en": [
+        "Elopura",
+        "SDK",
+        "Samdakan",
+        "San-ta-kin",
+        "Sandakan Town",
+        "Sân-tá-kîn",
+        "cantakkan",
+        "san da kan",
+        "shan da gen",
+        "sndakan"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "صباح",
+      "regionEn": "Sabah"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1734052",
+    "verified": true
+  },
+  {
+    "slug": "tawau",
+    "type": "town",
+    "countryCode": "my",
+    "lat": 4.24482,
+    "lng": 117.89115,
+    "timezone": "Asia/Kuching",
+    "names": {
+      "ar": "تاواو",
+      "en": "Tawau",
+      "fr": "Tawau",
+      "de": "Tawau",
+      "tr": "Tawau",
+      "ur": "Tawau",
+      "id": "Tawau",
+      "es": "Tawau",
+      "bn": "Tawau",
+      "ms": "Tawau"
+    },
+    "aliases": {
+      "en": [
+        "TWU",
+        "Tavau",
+        "Tawao",
+        "dou hu",
+        "tavav",
+        "tawaw"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "صباح",
+      "regionEn": "Sabah"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1734199",
+    "verified": true
+  },
+  {
+    "slug": "kuala-terengganu",
+    "type": "city",
+    "countryCode": "my",
+    "lat": 5.3302,
+    "lng": 103.1408,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "كوالا ترنغانو",
+      "en": "Kuala Terengganu",
+      "fr": "Kuala Terengganu",
+      "de": "Kuala Terengganu",
+      "tr": "Kuala Terengganu",
+      "ur": "Kuala Terengganu",
+      "id": "Kuala Terengganu",
+      "es": "Kuala Terengganu",
+      "bn": "Kuala Terengganu",
+      "ms": "Kuala Terengganu"
+    },
+    "aliases": {
+      "ar": [
+        "كوالا ترينجانو",
+        "كوالا تيرنغانو"
+      ],
+      "en": [
+        "Bandar Kuala Terengganu",
+        "Kuala Terenganu",
+        "Kuala Trengganu",
+        "Kuala-Trenganu",
+        "Kuala-Trengganu",
+        "Kvala Terenganu",
+        "TGG",
+        "Trengganu",
+        "Tringano",
+        "Tringganu",
+        "gua la deng jia lou",
+        "kaw la trang kanu",
+        "ku'ala terengaganu",
+        "ku'ala terenganu",
+        "kuallateuleng-ganu",
+        "kuaratorenganu",
+        "kuwala tereniganu",
+        "kuyala terenganu",
+        "kwala trnganw",
+        "kwala trnghanw",
+        "kwala trynjanw",
+        "kwala tyrnganw"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "ترينغانو",
+      "regionEn": "Terengganu"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1734705",
+    "verified": true
+  },
+  {
+    "slug": "seremban",
+    "type": "city",
+    "countryCode": "my",
+    "lat": 2.7297,
+    "lng": 101.9381,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "سرمبان",
+      "en": "Seremban",
+      "fr": "Seremban",
+      "de": "Seremban",
+      "tr": "Seremban",
+      "ur": "Seremban",
+      "id": "Seremban",
+      "es": "Seremban",
+      "bn": "Seremban",
+      "ms": "Seremban"
+    },
+    "aliases": {
+      "en": [
+        "Cirampan",
+        "Cirampāṉ",
+        "Fu-yung-su",
+        "Fû-yûng-sṳ",
+        "Serehmban",
+        "Shuang Xi Wu Rong",
+        "Soghomban",
+        "Sungai Ujong",
+        "cirampan",
+        "fu rong shi",
+        "hua cheng",
+        "sarembana",
+        "seremabana",
+        "serembana",
+        "sereምbani",
+        "seuleumban",
+        "shuang xi wu rong",
+        "srem ban",
+        "srmban",
+        "surenban"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "نيغري سيمبيلان",
+      "regionEn": "Negeri Sembilan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1734810",
+    "verified": true
+  },
+  {
+    "slug": "bukit-mertajam",
+    "type": "town",
+    "countryCode": "my",
+    "lat": 5.36301,
+    "lng": 100.4667,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "بوكيت ميرتاجام",
+      "en": "Bukit Mertajam",
+      "fr": "Bukit Mertajam",
+      "de": "Bukit Mertajam",
+      "tr": "Bukit Mertajam",
+      "ur": "Bukit Mertajam",
+      "id": "Bukit Mertajam",
+      "es": "Bukit Mertajam",
+      "bn": "Bukit Mertajam",
+      "ms": "Bukit Mertajam"
+    },
+    "aliases": {
+      "ar": [
+        "بوكيت ميرتاجم"
+      ],
+      "en": [
+        "Boukit Mertatzam",
+        "Bukit Mertadzamas",
+        "Bukit Mertadžamas",
+        "Bukit Mertarajam",
+        "Bukit-Mertadzham",
+        "Bukita Mertadzama",
+        "Bukita Mertadžama",
+        "bukis meleutajam",
+        "bukit me xr ta cam",
+        "bukita maratajama",
+        "bukita martajama",
+        "bukita meratajama",
+        "bukita mrtajama",
+        "bwkyt myrtajam",
+        "bwkyt myrtajm",
+        "da shan jiao",
+        "pukkit mertajam"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "بينانغ",
+      "regionEn": "Penang"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1735079",
+    "verified": true
+  },
+  {
+    "slug": "petaling-jaya",
+    "type": "town",
+    "countryCode": "my",
+    "lat": 3.10726,
+    "lng": 101.60671,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "بيتالينغ جايا",
+      "en": "Petaling Jaya",
+      "fr": "Petaling Jaya",
+      "de": "Petaling Jaya",
+      "tr": "Petaling Jaya",
+      "ur": "Petaling Jaya",
+      "id": "Petaling Jaya",
+      "es": "Petaling Jaya",
+      "bn": "Petaling Jaya",
+      "ms": "Petaling Jaya"
+    },
+    "aliases": {
+      "ar": [
+        "بتالينغ جايا",
+        "بيتالنيغ جايا"
+      ],
+      "en": [
+        "PJ",
+        "Petaling Dzhaja",
+        "Petaling-Dzhaja",
+        "ba da ling zai ye",
+        "bytalyngh jaya",
+        "petalin jeya",
+        "peutallingjaya",
+        "ptalyng jaya",
+        "pytalnyg jaya"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1735158",
+    "verified": true
+  },
+  {
+    "slug": "kuantan",
+    "type": "city",
+    "countryCode": "my",
+    "lat": 3.8077,
+    "lng": 103.326,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "كوانتان",
+      "en": "Kuantan",
+      "fr": "Kuantan",
+      "de": "Kuantan",
+      "tr": "Kuantan",
+      "ur": "Kuantan",
+      "id": "Kuantan",
+      "es": "Kuantan",
+      "bn": "Kuantan",
+      "ms": "Kuantan"
+    },
+    "aliases": {
+      "en": [
+        "KUA",
+        "Koan-tan-su",
+        "Kuala Kuantan",
+        "Kuala Kuatan",
+        "Kôan-tan-sṳ",
+        "guan dan",
+        "ku'antana",
+        "kuvantan",
+        "kuwanitani",
+        "kuyantana",
+        "kvantana",
+        "kwantan",
+        "kwn tan"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "بهانغ",
+      "regionEn": "Pahang"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1735227",
+    "verified": true
+  },
+  {
+    "slug": "kangar",
+    "type": "city",
+    "countryCode": "my",
+    "lat": 6.4414,
+    "lng": 100.19862,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "كانجار",
+      "en": "Kangar",
+      "fr": "Kangar",
+      "de": "Kangar",
+      "tr": "Kangar",
+      "ur": "Kangar",
+      "id": "Kangar",
+      "es": "Kangar",
+      "bn": "Kangar",
+      "ms": "Kangar"
+    },
+    "aliases": {
+      "ar": [
+        "كانغر",
+        "كنغر"
+      ],
+      "en": [
+        "Perlis",
+        "Poelit",
+        "Polit",
+        "jia yang",
+        "kang-aleu",
+        "kangara",
+        "kangaru",
+        "kangr",
+        "kanigari",
+        "kanjar",
+        "kankar",
+        "kngr"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "بيرليس",
+      "regionEn": "Perlis"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1736278",
+    "verified": true
+  },
+  {
+    "slug": "alor-setar",
+    "type": "city",
+    "countryCode": "my",
+    "lat": 6.12104,
+    "lng": 100.36014,
+    "timezone": "Asia/Kuala_Lumpur",
+    "names": {
+      "ar": "ألور ستار",
+      "en": "Alor Setar",
+      "fr": "Alor Setar",
+      "de": "Alor Setar",
+      "tr": "Alor Setar",
+      "ur": "Alor Setar",
+      "id": "Alor Setar",
+      "es": "Alor Setar",
+      "bn": "Alor Setar",
+      "ms": "Alor Setar"
+    },
+    "aliases": {
+      "ar": [
+        "الور ستار",
+        "الور سيتار"
+      ],
+      "en": [
+        "AOR",
+        "AS",
+        "Alor Setaras",
+        "Alor Star",
+        "Alor-Setar",
+        "Alor-Star",
+        "Alostar",
+        "Alur Setar",
+        "Kota Setar",
+        "Loqstaq",
+        "Saiburu",
+        "Thai",
+        "Yaluo Shida",
+        "Yàluó Shìdǎ",
+        "alloleuseutaleu",
+        "alor star",
+        "alora setara",
+        "alwr star",
+        "alwr sytar",
+        "arosuta",
+        "xlxrstar",
+        "ya luo shi da",
+        "ʿelori setari"
+      ]
+    },
+    "admin": {
+      "countryAr": "ماليزيا",
+      "countryEn": "Malaysia",
+      "regionAr": "قدح",
+      "regionEn": "Kedah"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1736309",
+    "verified": true
   }
 ]

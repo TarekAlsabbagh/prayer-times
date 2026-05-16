@@ -52,3 +52,10 @@ db/places/candidates/us-geonames-candidates.json
 db/places/candidates/mx-geonames-raw.json
 db/places/candidates/mx-geonames-normalized.json
 db/places/candidates/mx-geonames-candidates.json
+
+# CURATED-GEODATA-ASIA-1A — ID candidates 398 MB + normalized 240 MB
+# + raw 129 MB. All over GitHub 100 MB hard limit. Regeneratable.
+# MY (35 MB candidates) and SG (250 KB) are small enough to commit.
+db/places/candidates/id-geonames-raw.json
+db/places/candidates/id-geonames-normalized.json
+db/places/candidates/id-geonames-candidates.json

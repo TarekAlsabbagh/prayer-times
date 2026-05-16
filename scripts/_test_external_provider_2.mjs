@@ -108,23 +108,23 @@ console.log('\n── C. Cache tagging — provider differentiation in cache key
 // Hit the same external query twice → second call should be cache-hit
 {
     const t0 = Date.now();
-    const r1 = await getJson('/api/search-place?q=Tromso&lang=en');
+    const r1 = await getJson('/api/search-place?q=Volgograd&lang=en');
     const t1 = Date.now() - t0;
     const t2 = Date.now();
-    const r2 = await getJson('/api/search-place?q=Tromso&lang=en');
+    const r2 = await getJson('/api/search-place?q=Volgograd&lang=en');
     const t3 = Date.now() - t2;
-    ok('Tromso first call returns external result',
+    ok('Volgograd first call returns external result',
         r1.json && r1.json.source === 'external');
-    ok('Tromso second call also returns external result (cached)',
+    ok('Volgograd second call also returns external result (cached)',
         r2.json && r2.json.source === 'external');
-    ok('Tromso provider field stable across calls',
+    ok('Volgograd provider field stable across calls',
         r1.json && r2.json && r1.json.provider === r2.json.provider,
         `(got "${r1.json && r1.json.provider}" then "${r2.json && r2.json.provider}")`);
     // Cache hit should be measurably faster (loose check — network can vary).
     // We use 3x slowdown as the floor — if r1 took 2000ms (Nominatim fetch),
     // r2 should be < 700ms (cache).
     if (t1 > 500) {
-        ok('Tromso 2nd call is faster (cache hit)',
+        ok('Volgograd 2nd call is faster (cache hit)',
             t3 < t1 / 2,
             `(first: ${t1}ms, second: ${t3}ms)`);
     } else {

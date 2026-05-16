@@ -46071,5 +46071,6669 @@
     "source": "curated",
     "sourceId": "geonames:2742032",
     "verified": true
+  },
+  {
+    "slug": "wuerzburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.79391,
+    "lng": 9.95121,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "فورتسبورغ",
+      "en": "Würzburg",
+      "fr": "Würzburg",
+      "de": "Würzburg",
+      "tr": "Würzburg",
+      "ur": "Würzburg",
+      "id": "Würzburg",
+      "es": "Würzburg",
+      "bn": "Würzburg",
+      "ms": "Würzburg"
+    },
+    "aliases": {
+      "ar": [
+        "ورزبرگ",
+        "وورتسبورگ"
+      ],
+      "en": [
+        "Birtsmpournk",
+        "Herbipolis",
+        "Herbopolis",
+        "QWU",
+        "Vircburg",
+        "Vircburga",
+        "Virteburh [a. 704]",
+        "Virtibriga",
+        "Viurcburgas",
+        "Vjurcburg",
+        "Vuirziburga [a. 779]",
+        "Vyurcʻburg",
+        "Wiazburg",
+        "Wirciburc",
+        "Wirzaburg [a. 742]",
+        "Wirziburg [a. 779]",
+        "Wuerzboerj",
+        "Wuerzburg",
+        "Wurtzbourg",
+        "Wurtzburgo",
+        "Wurzburg",
+        "Wurzburgo",
+        "Wûrzburg",
+        "Würzbörj",
+        "bwileucheubuleukeu",
+        "fwrtsbwrgh",
+        "viurtsburgi",
+        "vuyurutsuburuku",
+        "wei er ci bao",
+        "weu xr sburk",
+        "wrzbrg",
+        "wwrtsbwrg",
+        "wyrzbwrg"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بافاريا",
+      "regionEn": "Bavaria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2805615",
+    "verified": true
+  },
+  {
+    "slug": "wuppertal",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.25627,
+    "lng": 7.14816,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "فوبرتال",
+      "en": "Wuppertal",
+      "fr": "Wuppertal",
+      "de": "Wuppertal",
+      "tr": "Wuppertal",
+      "ur": "Wuppertal",
+      "id": "Wuppertal",
+      "es": "Wuppertal",
+      "bn": "Wuppertal",
+      "ms": "Wuppertal"
+    },
+    "aliases": {
+      "ar": [
+        "ووپاٹال",
+        "ووپرتال",
+        "وپرٹال"
+      ],
+      "en": [
+        "Boupertal",
+        "UWP",
+        "Vupertal",
+        "Vupertal'",
+        "Vupertale",
+        "Vupertalis",
+        "Vupertāle",
+        "Vuppertal",
+        "Vuppertal'",
+        "Wupperdaal",
+        "bupeotal",
+        "fwbrtal",
+        "vupartala",
+        "vuppataru",
+        "wu po ta er",
+        "wuph phe xrthal",
+        "wwprtal",
+        "wwprtl"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2805753",
+    "verified": true
+  },
+  {
+    "slug": "wolfsburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 52.42452,
+    "lng": 10.7815,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "فولفسبورغ",
+      "en": "Wolfsburg",
+      "fr": "Wolfsburg",
+      "de": "Wolfsburg",
+      "tr": "Wolfsburg",
+      "ur": "Wolfsburg",
+      "id": "Wolfsburg",
+      "es": "Wolfsburg",
+      "bn": "Wolfsburg",
+      "ms": "Wolfsburg"
+    },
+    "aliases": {
+      "ar": [
+        "ولفزبرگ",
+        "وولفزبورگ",
+        "وولفسبورگ"
+      ],
+      "en": [
+        "BWE",
+        "Vol'fsburg",
+        "Volfsburg",
+        "Volfsburgas",
+        "Volfsmpournk",
+        "Wolfsboerj",
+        "Wolfsbourg",
+        "Wolfsburgo",
+        "Wolfsbuurich",
+        "Wolfsbörj",
+        "Wulfsborg",
+        "bolpeuseubuleukeu",
+        "fwlfsbwrgh",
+        "volpsburgi",
+        "vuorufusuburuku",
+        "wlfzbrg",
+        "wo er fu si bao",
+        "wwlfsbwrg",
+        "wwlfzbwrg",
+        "wwlpsbwrg"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2806654",
+    "verified": true
+  },
+  {
+    "slug": "ulm",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 48.39841,
+    "lng": 9.99155,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "أولم",
+      "en": "Ulm",
+      "fr": "Ulm",
+      "de": "Ulm",
+      "tr": "Ulm",
+      "ur": "Ulm",
+      "id": "Ulm",
+      "es": "Ulm",
+      "bn": "Ulm",
+      "ms": "Ulm"
+    },
+    "aliases": {
+      "ar": [
+        "الم",
+        "اولم"
+      ],
+      "en": [
+        "Oulm",
+        "Owlm",
+        "QUL",
+        "Ul'm",
+        "Ulma",
+        "Ulmas",
+        "alm",
+        "awlm",
+        "ulleum",
+        "ulma",
+        "ulmi",
+        "urumu",
+        "wu er mu",
+        "xulm"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2820256",
+    "verified": true
+  },
+  {
+    "slug": "trier",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.75565,
+    "lng": 6.63935,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "ترير",
+      "en": "Trier",
+      "fr": "Trier",
+      "de": "Trier",
+      "tr": "Trier",
+      "ur": "Trier",
+      "id": "Trier",
+      "es": "Trier",
+      "bn": "Trier",
+      "ms": "Trier"
+    },
+    "aliases": {
+      "ar": [
+        "تری‌یر",
+        "ٹریر"
+      ],
+      "en": [
+        "Augusta Treverorum",
+        "Treier",
+        "Trev",
+        "Trevere",
+        "Treveri",
+        "Treveris",
+        "Treves",
+        "Trevir",
+        "Treviri",
+        "Treviro",
+        "Trevèri",
+        "Trevír",
+        "Trewir",
+        "Trir",
+        "Trire",
+        "Triri",
+        "Tryr",
+        "Tryras",
+        "Trèveris",
+        "Trèves",
+        "Tréier",
+        "Tréveris",
+        "Trīre",
+        "ZQF",
+        "te li er",
+        "teulieo",
+        "the riyr",
+        "toria",
+        "tryr"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "راينلاند-بفالتس",
+      "regionEn": "Rhineland-Palatinate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2821164",
+    "verified": true
+  },
+  {
+    "slug": "solingen",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.17343,
+    "lng": 7.0845,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "زولينغن",
+      "en": "Solingen",
+      "fr": "Solingen",
+      "de": "Solingen",
+      "tr": "Solingen",
+      "ur": "Solingen",
+      "id": "Solingen",
+      "es": "Solingen",
+      "bn": "Solingen",
+      "ms": "Solingen"
+    },
+    "aliases": {
+      "ar": [
+        "زولینگن",
+        "سولنگن"
+      ],
+      "en": [
+        "Solich",
+        "ZIO",
+        "Zolin'nken",
+        "Zolingen",
+        "Zolingenas",
+        "Zolingene",
+        "jolling-gen",
+        "so ling ngein",
+        "suo lin gen",
+        "swlngn",
+        "zolingeni",
+        "zoringen",
+        "zwlynghn",
+        "zwlyngn"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2831580",
+    "verified": true
+  },
+  {
+    "slug": "schwerin",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 53.62937,
+    "lng": 11.41316,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "شفيرين",
+      "en": "Schwerin",
+      "fr": "Schwerin",
+      "de": "Schwerin",
+      "tr": "Schwerin",
+      "ur": "Schwerin",
+      "id": "Schwerin",
+      "es": "Schwerin",
+      "bn": "Schwerin",
+      "ms": "Schwerin"
+    },
+    "aliases": {
+      "ar": [
+        "شورین",
+        "شویرین"
+      ],
+      "en": [
+        "SZW",
+        "Shverin",
+        "Shverini",
+        "Shveryn",
+        "Suerinum",
+        "Sverin",
+        "Sverinas",
+        "Sverine",
+        "Swerin",
+        "Zwerin",
+        "Zwěrin",
+        "ch weri n",
+        "saverina",
+        "sberina",
+        "shen wei lin",
+        "shfyryn",
+        "shiwerini",
+        "shuvuerin",
+        "shwryn",
+        "shwyryn",
+        "sverina",
+        "swwryn",
+        "syubelin",
+        "Şverin",
+        "Šverinas",
+        "Šverīne"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "ميكلنبورغ-فوربومرن",
+      "regionEn": "Mecklenburg-Vorpommern"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2834282",
+    "verified": true
+  },
+  {
+    "slug": "salzgitter",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 52.15705,
+    "lng": 10.4154,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "زالتسغيتر",
+      "en": "Salzgitter",
+      "fr": "Salzgitter",
+      "de": "Salzgitter",
+      "tr": "Salzgitter",
+      "ur": "Salzgitter",
+      "id": "Salzgitter",
+      "es": "Salzgitter",
+      "bn": "Salzgitter",
+      "ms": "Salzgitter"
+    },
+    "aliases": {
+      "ar": [
+        "زالتسگیتر",
+        "سالزگٹر"
+      ],
+      "en": [
+        "ZPU",
+        "Zal'cgitehr",
+        "Zal'cgitter",
+        "Zalcgiter",
+        "Zalcgiteris",
+        "jalcheugiteo",
+        "sa er ci ji te",
+        "zaltsghytr",
+        "zaltsgytr",
+        "zarutsugitta"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2842150",
+    "verified": true
+  },
+  {
+    "slug": "reutlingen",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 48.49144,
+    "lng": 9.20427,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "رويتلينغن",
+      "en": "Reutlingen",
+      "fr": "Reutlingen",
+      "de": "Reutlingen",
+      "tr": "Reutlingen",
+      "ur": "Reutlingen",
+      "id": "Reutlingen",
+      "es": "Reutlingen",
+      "bn": "Reutlingen",
+      "ms": "Reutlingen"
+    },
+    "aliases": {
+      "ar": [
+        "روٹلنگن"
+      ],
+      "en": [
+        "Rejtlingen",
+        "Roitlingenas",
+        "Roitlinken",
+        "Rojtlingen",
+        "ZPP",
+        "loiteulling-gen",
+        "luo yi te lin gen",
+        "roitoringen",
+        "rwytlynghn",
+        "rwytlyngn"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2847736",
+    "verified": true
+  },
+  {
+    "slug": "remscheid",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.17983,
+    "lng": 7.1925,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "رمشايد",
+      "en": "Remscheid",
+      "fr": "Remscheid",
+      "de": "Remscheid",
+      "tr": "Remscheid",
+      "ur": "Remscheid",
+      "id": "Remscheid",
+      "es": "Remscheid",
+      "bn": "Remscheid",
+      "ms": "Remscheid"
+    },
+    "aliases": {
+      "ar": [
+        "رمشاید",
+        "ریمشیڈ"
+      ],
+      "en": [
+        "Remsaint",
+        "Remsayd",
+        "Remseidas",
+        "Remshajd",
+        "Remşayd",
+        "Remšeidas",
+        "ZPN",
+        "lei mu sha yi de",
+        "lemsyaiteu",
+        "remshaidi",
+        "remushaito",
+        "rmshayd",
+        "rmsyyd"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2848273",
+    "verified": true
+  },
+  {
+    "slug": "regensburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.01513,
+    "lng": 12.10161,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "ريغنسبورغ",
+      "en": "Regensburg",
+      "fr": "Regensburg",
+      "de": "Regensburg",
+      "tr": "Regensburg",
+      "ur": "Regensburg",
+      "id": "Regensburg",
+      "es": "Regensburg",
+      "bn": "Regensburg",
+      "ms": "Regensburg"
+    },
+    "aliases": {
+      "ar": [
+        "رگنسبورگ",
+        "ریگنزبرگ"
+      ],
+      "en": [
+        "Ratisbon",
+        "Ratisbona",
+        "Ratisbonne",
+        "Ratyzbona",
+        "Regensboerj",
+        "Regensburga",
+        "Regensburgas",
+        "Regensburgo",
+        "Regensbörj",
+        "Regenzburg",
+        "Rehgensburg",
+        "Rengschburg",
+        "Renkensmpournk",
+        "Rezno",
+        "Rēgensburga",
+        "Rėgensburgas",
+        "Rězno",
+        "ZPM",
+        "legenseubuleukeu",
+        "lei gen si bao",
+        "regensburgi",
+        "regensuburuku",
+        "rgnsbwrg",
+        "ryghnsbwrgh",
+        "rygnzbrg",
+        "Řezno"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بافاريا",
+      "regionEn": "Bavaria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2849483",
+    "verified": true
+  },
+  {
+    "slug": "pforzheim",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 48.88436,
+    "lng": 8.69892,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "بفورتسهايم",
+      "en": "Pforzheim",
+      "fr": "Pforzheim",
+      "de": "Pforzheim",
+      "tr": "Pforzheim",
+      "ur": "Pforzheim",
+      "id": "Pforzheim",
+      "es": "Pforzheim",
+      "bn": "Pforzheim",
+      "ms": "Pforzheim"
+    },
+    "aliases": {
+      "ar": [
+        "فورتسهایم",
+        "فورزہائم"
+      ],
+      "en": [
+        "Pforcheimas",
+        "Pforckhajm",
+        "Pfortschaim",
+        "Phorca",
+        "Porta Hercyneae",
+        "bfwrtshaym",
+        "fwrtshaym",
+        "poleucheuhaim",
+        "pu fu er ci hai mu",
+        "puforutsuhaimu"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2853969",
+    "verified": true
+  },
+  {
+    "slug": "paderborn",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.71905,
+    "lng": 8.75439,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "بادربورن",
+      "en": "Paderborn",
+      "fr": "Paderborn",
+      "de": "Paderborn",
+      "tr": "Paderborn",
+      "ur": "Paderborn",
+      "id": "Paderborn",
+      "es": "Paderborn",
+      "bn": "Paderborn",
+      "ms": "Paderborn"
+    },
+    "aliases": {
+      "ar": [
+        "پادربورن",
+        "پیڈربورن"
+      ],
+      "en": [
+        "PAD",
+        "Padehrborn",
+        "Paderborna",
+        "Paderbornas",
+        "Paderbronna",
+        "Patterbuorn",
+        "Pāderborna",
+        "badrbwrn",
+        "pa de bo en",
+        "pa de xr bxrn",
+        "padaborun",
+        "padeoboleun",
+        "padrbwrn"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2855745",
+    "verified": true
+  },
+  {
+    "slug": "osnabrueck",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 52.27264,
+    "lng": 8.0498,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "أسنابروك",
+      "en": "Osnabrück",
+      "fr": "Osnabrück",
+      "de": "Osnabrück",
+      "tr": "Osnabrück",
+      "ur": "Osnabrück",
+      "id": "Osnabrück",
+      "es": "Osnabrück",
+      "bn": "Osnabrück",
+      "ms": "Osnabrück"
+    },
+    "aliases": {
+      "ar": [
+        "اسنابروک",
+        "اوسنابروک"
+      ],
+      "en": [
+        "Asnabruk",
+        "Osnabrik",
+        "Osnabrika",
+        "Osnabriukas",
+        "Osnabrjuk",
+        "Osnabruck",
+        "Osnabrueck",
+        "Osnabruga",
+        "Osnabrugensis",
+        "Osnabruko",
+        "Ossenbruegge",
+        "Ossenbrügge",
+        "ao si na bu lu ke",
+        "asnabrwk",
+        "awsnabrwk",
+        "oseunabeulwikeu",
+        "osunaburyukku"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2856883",
+    "verified": true
+  },
+  {
+    "slug": "oldenburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 53.14039,
+    "lng": 8.21479,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "أولدنبورغ",
+      "en": "Oldenburg",
+      "fr": "Oldenburg",
+      "de": "Oldenburg",
+      "tr": "Oldenburg",
+      "ur": "Oldenburg",
+      "id": "Oldenburg",
+      "es": "Oldenburg",
+      "bn": "Oldenburg",
+      "ms": "Oldenburg"
+    },
+    "aliases": {
+      "ar": [
+        "اولدنبورگ",
+        "اولڈنبرگ"
+      ],
+      "en": [
+        "Aldenboarch",
+        "Aldinborg",
+        "Byen Oldenburg",
+        "Ol'dehnburg",
+        "Ol'denburg",
+        "Oldemburgh",
+        "Oldemburgo",
+        "Oldenboerj",
+        "Oldenbourg",
+        "Oldenburg (Oldenburg)",
+        "Oldenburgas",
+        "Oldenburgo",
+        "Oldenburgum",
+        "Oldenbörj",
+        "Ollnborg",
+        "Ooldenbuurich",
+        "ao er deng bao",
+        "awldnbwrg",
+        "awldnbwrgh",
+        "oldenbuleukeu",
+        "oldenburgi",
+        "orudenburuku"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2857458",
+    "verified": true
+  },
+  {
+    "slug": "neuss",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.19807,
+    "lng": 6.68504,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "نويس",
+      "en": "Neuss",
+      "fr": "Neuss",
+      "de": "Neuss",
+      "tr": "Neuss",
+      "ur": "Neuss",
+      "id": "Neuss",
+      "es": "Neuss",
+      "bn": "Neuss",
+      "ms": "Neuss"
+    },
+    "aliases": {
+      "ar": [
+        "نویس",
+        "نیوس"
+      ],
+      "en": [
+        "Neuß",
+        "Noisas",
+        "Nojs",
+        "Novaesium",
+        "Nuess",
+        "Nueuess",
+        "Nuus",
+        "Nüss",
+        "Nüüß",
+        "noiseu",
+        "noisi",
+        "noisu",
+        "nuo yi si",
+        "nwys",
+        "nyws"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2864118",
+    "verified": true
+  },
+  {
+    "slug": "moenchengladbach",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.18539,
+    "lng": 6.44172,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "مونشنغلادباخ",
+      "en": "Mönchengladbach",
+      "fr": "Mönchengladbach",
+      "de": "Mönchengladbach",
+      "tr": "Mönchengladbach",
+      "ur": "Mönchengladbach",
+      "id": "Mönchengladbach",
+      "es": "Mönchengladbach",
+      "bn": "Mönchengladbach",
+      "ms": "Mönchengladbach"
+    },
+    "aliases": {
+      "ar": [
+        "مونشن‌گلادباخ"
+      ],
+      "en": [
+        "Jlabbach",
+        "M'onkhengladbakh",
+        "MGL",
+        "Men'chen'nklantmpach",
+        "Menchengladbachas",
+        "Menhengladbaha",
+        "Menkhengladbakh",
+        "Mjonkhengladbakh",
+        "Moenchengladbach",
+        "Monchengladbach",
+        "Muenchen-Gladbach",
+        "mein chen klad bakh",
+        "men xing ge la de ba he",
+        "menhyenguratobahha",
+        "menkhengladbakhi",
+        "mnsngldbk",
+        "moenhengeullateubaheu",
+        "mwnshnghladbakh",
+        "myonsanagladabakha"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2869894",
+    "verified": true
+  },
+  {
+    "slug": "moers",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.45342,
+    "lng": 6.6326,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "مئرس",
+      "en": "Moers",
+      "fr": "Moers",
+      "de": "Moers",
+      "tr": "Moers",
+      "ur": "Moers",
+      "id": "Moers",
+      "es": "Moers",
+      "bn": "Moers",
+      "ms": "Moers"
+    },
+    "aliases": {
+      "ar": [
+        "مورز",
+        "مويرس"
+      ],
+      "en": [
+        "M'ors",
+        "Mers",
+        "Mersas",
+        "Meurs",
+        "Mjors",
+        "Mors",
+        "Mörs",
+        "Mėrsas",
+        "ZON",
+        "meirs",
+        "mo er si",
+        "moeleuseu",
+        "mwrz",
+        "mwyrs",
+        "myrs"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2870221",
+    "verified": true
+  },
+  {
+    "slug": "mannheim",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.4891,
+    "lng": 8.46694,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "مانهايم",
+      "en": "Mannheim",
+      "fr": "Mannheim",
+      "de": "Mannheim",
+      "tr": "Mannheim",
+      "ur": "Mannheim",
+      "id": "Mannheim",
+      "es": "Mannheim",
+      "bn": "Mannheim",
+      "ms": "Mannheim"
+    },
+    "aliases": {
+      "ar": [
+        "مانهایم"
+      ],
+      "en": [
+        "MHG",
+        "Man'chaim",
+        "Man'geym",
+        "Man'géym",
+        "Mangejm",
+        "Manhajmi",
+        "Manheima",
+        "Manheimas",
+        "Manhejmo",
+        "Manhemium",
+        "Mankhajm",
+        "Monnem",
+        "man hai mu",
+        "man him",
+        "manaha'ima",
+        "manhaim",
+        "manhaimi",
+        "manhaimu",
+        "manhaym",
+        "mnhyym"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2873891",
+    "verified": true
+  },
+  {
+    "slug": "mainz",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 49.98185,
+    "lng": 8.28008,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "مائنز",
+      "en": "Mainz",
+      "fr": "Mainz",
+      "de": "Mainz",
+      "tr": "Mainz",
+      "ur": "Mainz",
+      "id": "Mainz",
+      "es": "Mainz",
+      "bn": "Mainz",
+      "ms": "Mainz"
+    },
+    "aliases": {
+      "ar": [
+        "ماينتس",
+        "ماینتس",
+        "مینز"
+      ],
+      "en": [
+        "Maeaenz",
+        "Maganza",
+        "Magontia",
+        "Magonza",
+        "Maguncia",
+        "Maguntzia",
+        "Magunza",
+        "Magúncia",
+        "Maianca",
+        "Maiança",
+        "Maienta",
+        "Maiența",
+        "Mainc",
+        "Mainca",
+        "Maincas",
+        "Maints",
+        "Majenco",
+        "Majnc",
+        "Majnci",
+        "Mayence",
+        "Mayns",
+        "Meenz",
+        "Meginsborg",
+        "Ments",
+        "Mogontiacum",
+        "Moguncia",
+        "Moguncja",
+        "Moguntiacum",
+        "Mogúncia",
+        "Mohuc",
+        "Mohuč",
+        "Määnz",
+        "ma'intaja",
+        "ma'intsa",
+        "mainaza",
+        "maincheu",
+        "maintsi",
+        "maintsu",
+        "mainza",
+        "maynts",
+        "maynz",
+        "mei yin ci",
+        "mins",
+        "mynz",
+        "myynz"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "راينلاند-بفالتس",
+      "regionEn": "Rhineland-Palatinate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2874225",
+    "verified": true
+  },
+  {
+    "slug": "ludwigshafen-am-rhein",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.48121,
+    "lng": 8.44641,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "لودفيغسهافن",
+      "en": "Ludwigshafen am Rhein",
+      "fr": "Ludwigshafen am Rhein",
+      "de": "Ludwigshafen am Rhein",
+      "tr": "Ludwigshafen am Rhein",
+      "ur": "Ludwigshafen am Rhein",
+      "id": "Ludwigshafen am Rhein",
+      "es": "Ludwigshafen am Rhein",
+      "bn": "Ludwigshafen am Rhein",
+      "ms": "Ludwigshafen am Rhein"
+    },
+    "aliases": {
+      "ar": [
+        "لودویگسهافن",
+        "لڈوگشافن"
+      ],
+      "en": [
+        "Liudvigshafenas prie Reino",
+        "Ljudvigsgafen-na-Rejni",
+        "Ljudvigskhafen-na-Rejne",
+        "Lountvichschafen",
+        "Ludovici Portus Rhenanus",
+        "Ludvigskhafen",
+        "Ludvigskhafen na Rajni",
+        "Ludwichshafe",
+        "Ludwigshafen",
+        "Ludwigshafen sul Reno",
+        "Luedviqshafen",
+        "Lüdviqshafen",
+        "lu de wei xi gang",
+        "ludaviksahaphena",
+        "luteubihiseuhapen",
+        "lwdfyghshafn",
+        "lwdwygshafn",
+        "rainis ludvigshapeni",
+        "rutovuihhisuhafen",
+        "rutovuihisuhafen"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "راينلاند-بفالتس",
+      "regionEn": "Rhineland-Palatinate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2875376",
+    "verified": true
+  },
+  {
+    "slug": "luebeck",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 53.86893,
+    "lng": 10.68729,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "لوبك",
+      "en": "Lübeck",
+      "fr": "Lübeck",
+      "de": "Lübeck",
+      "tr": "Lübeck",
+      "ur": "Lübeck",
+      "id": "Lübeck",
+      "es": "Lübeck",
+      "bn": "Lübeck",
+      "ms": "Lübeck"
+    },
+    "aliases": {
+      "ar": [
+        "لوبيك",
+        "لوبک"
+      ],
+      "en": [
+        "LBC",
+        "Libek",
+        "Libeka",
+        "Limpek",
+        "Liubekas",
+        "Ljubek",
+        "Lubeca",
+        "Lubecca",
+        "Lubeck",
+        "Lubeck Hansestadt",
+        "Lubeka",
+        "Lubeko",
+        "Lubëcca",
+        "Luebeca",
+        "Luebeck",
+        "Lybeku",
+        "Lyypekki",
+        "Lübeca",
+        "Lübeck Hansestadt",
+        "Lībeka",
+        "lu bei ke",
+        "lux bekh",
+        "lwbk",
+        "lwbyk",
+        "lwibekeu",
+        "lybq",
+        "lyubeka",
+        "ryubekku"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شليسفيغ-هولشتاين",
+      "regionEn": "Schleswig-Holstein"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2875601",
+    "verified": true
+  },
+  {
+    "slug": "krefeld",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.33645,
+    "lng": 6.55381,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "كريفلد",
+      "en": "Krefeld",
+      "fr": "Krefeld",
+      "de": "Krefeld",
+      "tr": "Krefeld",
+      "ur": "Krefeld",
+      "id": "Krefeld",
+      "es": "Krefeld",
+      "bn": "Krefeld",
+      "ms": "Krefeld"
+    },
+    "aliases": {
+      "ar": [
+        "کرفلد",
+        "کریفیلڈ"
+      ],
+      "en": [
+        "Crefeld",
+        "Krefel'd",
+        "Krefeld-Uerdingen",
+        "Krefeldas",
+        "Krefelde",
+        "Krefelnt",
+        "Krehfel'd",
+        "Krieevel",
+        "Krievel",
+        "Krēfelde",
+        "Krėfeldas",
+        "QKF",
+        "ke lei fei er de",
+        "keulepelteu",
+        "kher fel d",
+        "krfld",
+        "kryfld",
+        "kureferuto",
+        "qrpld"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2884509",
+    "verified": true
+  },
+  {
+    "slug": "kiel",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 54.32133,
+    "lng": 10.13489,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "كيل",
+      "en": "Kiel",
+      "fr": "Kiel",
+      "de": "Kiel",
+      "tr": "Kiel",
+      "ur": "Kiel",
+      "id": "Kiel",
+      "es": "Kiel",
+      "bn": "Kiel",
+      "ms": "Kiel"
+    },
+    "aliases": {
+      "ar": [
+        "کیل"
+      ],
+      "en": [
+        "KEL",
+        "Kielia",
+        "Kielo",
+        "Kil",
+        "Kil'",
+        "Kile",
+        "Kilo",
+        "Kilonia",
+        "Kyle",
+        "Kylis",
+        "Kíl",
+        "ji er",
+        "khil",
+        "ki'ela",
+        "kil",
+        "kila",
+        "kiru",
+        "kiል",
+        "kyl",
+        "qyl",
+        "Ķīle"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شليسفيغ-هولشتاين",
+      "regionEn": "Schleswig-Holstein"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2891122",
+    "verified": true
+  },
+  {
+    "slug": "kassel",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.31667,
+    "lng": 9.5,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "كاسل",
+      "en": "Kassel",
+      "fr": "Kassel",
+      "de": "Kassel",
+      "tr": "Kassel",
+      "ur": "Kassel",
+      "id": "Kassel",
+      "es": "Kassel",
+      "bn": "Kassel",
+      "ms": "Kassel"
+    },
+    "aliases": {
+      "ar": [
+        "کاسل",
+        "کیسل"
+      ],
+      "en": [
+        "Cassala",
+        "Cassel",
+        "Castellum",
+        "Chasalla [a. 913]",
+        "KSF",
+        "Kasel",
+        "Kasel'",
+        "Kasele",
+        "Kaseli",
+        "Kaselis",
+        "Kaselo",
+        "Kassel'",
+        "ka sai er",
+        "ka sai er shi",
+        "kasel",
+        "kasl",
+        "kasseru",
+        "khas seil",
+        "kysl"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "هسن",
+      "regionEn": "Hesse"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2892518",
+    "verified": true
+  },
+  {
+    "slug": "karlsruhe",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.00937,
+    "lng": 8.40444,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "كارلسروه",
+      "en": "Karlsruhe",
+      "fr": "Karlsruhe",
+      "de": "Karlsruhe",
+      "tr": "Karlsruhe",
+      "ur": "Karlsruhe",
+      "id": "Karlsruhe",
+      "es": "Karlsruhe",
+      "bn": "Karlsruhe",
+      "ms": "Karlsruhe"
+    },
+    "aliases": {
+      "ar": [
+        "کارلزروہے محل",
+        "کارلسروهه"
+      ],
+      "en": [
+        "Carlsruhe",
+        "Carolsruha",
+        "FKB",
+        "Kallsruh",
+        "Karlsroue",
+        "Karlsrue",
+        "Karlsrueh",
+        "Karlsruje",
+        "Karlsrūe",
+        "Karlsrūjė",
+        "ka er si lu e",
+        "kaleulseulue",
+        "karlsaruha",
+        "karlsrwh",
+        "karlsrwhh",
+        "karusurue",
+        "qrlsrwhh"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2892794",
+    "verified": true
+  },
+  {
+    "slug": "hildesheim",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 52.15077,
+    "lng": 9.95112,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هيلدسهايم",
+      "en": "Hildesheim",
+      "fr": "Hildesheim",
+      "de": "Hildesheim",
+      "tr": "Hildesheim",
+      "ur": "Hildesheim",
+      "id": "Hildesheim",
+      "es": "Hildesheim",
+      "bn": "Hildesheim",
+      "ms": "Hildesheim"
+    },
+    "aliases": {
+      "ar": [
+        "هیلدس‌هایم",
+        "ہیلڈشیم"
+      ],
+      "en": [
+        "Chilnteschaim",
+        "Gil'dehsgajm",
+        "Gil'desgajm",
+        "Hildesheima",
+        "Hildesheimas",
+        "Hildesia",
+        "Hilmessen",
+        "Khil'deskhajm",
+        "Khildeskhajm",
+        "ZNO",
+        "hildeseuhaim",
+        "hirudesuhaimu",
+        "hyldshaym",
+        "hyldshyym",
+        "hylds‌haym",
+        "xi er de si hai mu"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2904789",
+    "verified": true
+  },
+  {
+    "slug": "herne",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.5388,
+    "lng": 7.22572,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هرنه",
+      "en": "Herne",
+      "fr": "Herne",
+      "de": "Herne",
+      "tr": "Herne",
+      "ur": "Herne",
+      "id": "Herne",
+      "es": "Herne",
+      "bn": "Herne",
+      "ms": "Herne"
+    },
+    "aliases": {
+      "ar": [
+        "هيرنه",
+        "ہرنے"
+      ],
+      "en": [
+        "Gerne",
+        "Hernė",
+        "Kherne",
+        "Kherneh",
+        "hei er ne",
+        "heleune",
+        "herune",
+        "hrnh",
+        "hyrnh"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2905891",
+    "verified": true
+  },
+  {
+    "slug": "heilbronn",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.13995,
+    "lng": 9.22054,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هايلبرون",
+      "en": "Heilbronn",
+      "fr": "Heilbronn",
+      "de": "Heilbronn",
+      "tr": "Heilbronn",
+      "ur": "Heilbronn",
+      "id": "Heilbronn",
+      "es": "Heilbronn",
+      "bn": "Heilbronn",
+      "ms": "Heilbronn"
+    },
+    "aliases": {
+      "ar": [
+        "هایلبرون",
+        "ہیلبرون"
+      ],
+      "en": [
+        "Chailmpron",
+        "Gajl'bronn",
+        "Hailprunna",
+        "Hajlbrono",
+        "Heilbronas",
+        "Heilbronn Neckar",
+        "Khajl'bronn",
+        "Khajlbron",
+        "hai er bu long",
+        "hailbeulon",
+        "hailbroni",
+        "hairuburon",
+        "haylbrwn",
+        "hyylbrwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2907669",
+    "verified": true
+  },
+  {
+    "slug": "heidelberg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.40768,
+    "lng": 8.69079,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هايدلبرغ",
+      "en": "Heidelberg",
+      "fr": "Heidelberg",
+      "de": "Heidelberg",
+      "tr": "Heidelberg",
+      "ur": "Heidelberg",
+      "id": "Heidelberg",
+      "es": "Heidelberg",
+      "bn": "Heidelberg",
+      "ms": "Heidelberg"
+    },
+    "aliases": {
+      "ar": [
+        "هایدلبرگ",
+        "ہائیڈلبرگ"
+      ],
+      "en": [
+        "Chaidelvergi",
+        "Edelberga",
+        "Gajdel'berg",
+        "Gejdehl'berg",
+        "Gejdel'berg",
+        "HDB",
+        "Haidlbaersch",
+        "Haidlbärsch",
+        "Hajdelberg",
+        "Hajdelbergo",
+        "Heidelbaerg",
+        "Heidelbarg",
+        "Heidelberch",
+        "Heidelberga",
+        "Heidelbergas",
+        "Heidelburg",
+        "Heidelbärg",
+        "Heidlbeag",
+        "Heidlberg",
+        "Hejdelbergo",
+        "Heydelberg",
+        "Heydelberq",
+        "Héydélbérg",
+        "Khajdel'berg",
+        "Khajdelberg",
+        "hai de bao",
+        "haidelbeleukeu",
+        "haidelbergi",
+        "haideruberuku",
+        "hayadelabarga",
+        "haydlbrg",
+        "haydlbrgh",
+        "hyydlbrg"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2907911",
+    "verified": true
+  },
+  {
+    "slug": "hannover",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 52.37052,
+    "lng": 9.73322,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هانوفر",
+      "en": "Hannover",
+      "fr": "Hannover",
+      "de": "Hannover",
+      "tr": "Hannover",
+      "ur": "Hannover",
+      "id": "Hannover",
+      "es": "Hannover",
+      "bn": "Hannover",
+      "ms": "Hannover"
+    },
+    "aliases": {
+      "ar": [
+        "ھانۆفەر",
+        "ہnwwr",
+        "ہنوور",
+        "ہینوور"
+      ],
+      "en": [
+        "Annobero",
+        "Gannovehr",
+        "Gannover",
+        "Ganover",
+        "HAJ",
+        "Hannauver",
+        "Hannober",
+        "Hannova",
+        "Hannovera",
+        "Hannovere",
+        "Hannower",
+        "Hannóver",
+        "Hanobhar",
+        "Hanofer",
+        "Hanofér",
+        "Hanover",
+        "Hanoveri",
+        "Hanoveris",
+        "Hanovra",
+        "Hanovre",
+        "Hanovro",
+        "Hanower",
+        "Hanowery",
+        "Hanóver",
+        "Hanôver",
+        "Honovere",
+        "Hànobhar",
+        "IHanoveri",
+        "Khannover",
+        "Khanover",
+        "hainovara",
+        "han no wexr",
+        "han nuo wei",
+        "hanobeo",
+        "hanofa",
+        "hanophara",
+        "hanovara",
+        "hanoveri",
+        "hanwfr",
+        "hnwbr"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2910831",
+    "verified": true
+  },
+  {
+    "slug": "hamm",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.68033,
+    "lng": 7.82089,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هام",
+      "en": "Hamm",
+      "fr": "Hamm",
+      "de": "Hamm",
+      "tr": "Hamm",
+      "ur": "Hamm",
+      "id": "Hamm",
+      "es": "Hamm",
+      "bn": "Hamm",
+      "ms": "Hamm"
+    },
+    "aliases": {
+      "ar": [
+        "ہام"
+      ],
+      "en": [
+        "Gamm",
+        "Hamas",
+        "Hammona",
+        "Hamo",
+        "Kham",
+        "Khamm",
+        "ha mu",
+        "ham",
+        "hami",
+        "hamu"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2911240",
+    "verified": true
+  },
+  {
+    "slug": "halle-saale",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.48158,
+    "lng": 11.97947,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "هاله",
+      "en": "Halle (Saale)",
+      "fr": "Halle (Saale)",
+      "de": "Halle (Saale)",
+      "tr": "Halle (Saale)",
+      "ur": "Halle (Saale)",
+      "id": "Halle (Saale)",
+      "es": "Halle (Saale)",
+      "bn": "Halle (Saale)",
+      "ms": "Halle (Saale)"
+    },
+    "aliases": {
+      "en": [
+        "Galle",
+        "Halle",
+        "Halle / Sachsen-Anhalt",
+        "Halle an der Saale",
+        "Halle sul Saale",
+        "Halle-on-the-Saale",
+        "Khale",
+        "hale",
+        "halh",
+        "hare"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا-أنهالت",
+      "regionEn": "Saxony-Anhalt"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2911522",
+    "verified": true
+  },
+  {
+    "slug": "goettingen",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.53443,
+    "lng": 9.93228,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "غوتينغن",
+      "en": "Göttingen",
+      "fr": "Göttingen",
+      "de": "Göttingen",
+      "tr": "Göttingen",
+      "ur": "Göttingen",
+      "id": "Göttingen",
+      "es": "Göttingen",
+      "bn": "Göttingen",
+      "ms": "Göttingen"
+    },
+    "aliases": {
+      "ar": [
+        "گوتینگن",
+        "گوٹنگن"
+      ],
+      "en": [
+        "Choettingen",
+        "Chöttingen",
+        "G'otingen",
+        "Getingen",
+        "Getingenas",
+        "Getingene",
+        "Getynga",
+        "Gjottingen",
+        "Gjotyngen",
+        "Goettingen",
+        "Gotinga",
+        "Gottinga",
+        "Gottingen",
+        "Nketin'nken",
+        "ZEU",
+        "gatingen",
+        "ge ting gen",
+        "gettingen",
+        "ghwtynghn",
+        "goeting-gen",
+        "gtyngn",
+        "gwtyngn",
+        "gyotingana",
+        "keiththing ngein"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا السفلى",
+      "regionEn": "Lower Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2918632",
+    "verified": true
+  },
+  {
+    "slug": "gelsenkirchen",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.50508,
+    "lng": 7.09654,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "غيلسنكيرشن",
+      "en": "Gelsenkirchen",
+      "fr": "Gelsenkirchen",
+      "de": "Gelsenkirchen",
+      "tr": "Gelsenkirchen",
+      "ur": "Gelsenkirchen",
+      "id": "Gelsenkirchen",
+      "es": "Gelsenkirchen",
+      "bn": "Gelsenkirchen",
+      "ms": "Gelsenkirchen"
+    },
+    "aliases": {
+      "ar": [
+        "گلزنکیرشن",
+        "گلسنکرچن"
+      ],
+      "en": [
+        "Gel'zenkirkhen",
+        "Gelsenkiaerken",
+        "Gelsenkiärken",
+        "Gelzenkirchenas",
+        "Gelzenkirhene",
+        "Gelzenkirheni",
+        "Gelzenkirkhen",
+        "Helzenkirxen",
+        "Nkelzen'kirchen",
+        "ZEJ",
+        "gai er sen ji xing",
+        "geljenkileuhen",
+        "gelsanakarsana",
+        "geruzenkiruhyen",
+        "ghylsnkyrshn",
+        "glsnkrchn",
+        "glznkyrshn",
+        "glznqyrkn",
+        "kel sen kheiyr khein"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2921466",
+    "verified": true
+  },
+  {
+    "slug": "freiburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 47.9959,
+    "lng": 7.85222,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "فرايبورغ",
+      "en": "Freiburg",
+      "fr": "Freiburg",
+      "de": "Freiburg",
+      "tr": "Freiburg",
+      "ur": "Freiburg",
+      "id": "Freiburg",
+      "es": "Freiburg",
+      "bn": "Freiburg",
+      "ms": "Freiburg"
+    },
+    "aliases": {
+      "ar": [
+        "فرایبورگ"
+      ],
+      "en": [
+        "Frajburg",
+        "Frajburg-im-Brajsgau",
+        "Freiburg im Breisgau",
+        "Fribourg-en-Brisgau",
+        "Friburg de Brisgovia",
+        "Friburg de Brisgòvia",
+        "Friburgo de Brisgovia",
+        "Friburgo in Brisgovia",
+        "Fryburg Bryzgowijski",
+        "Phraimpournk",
+        "QFB",
+        "fraybwrg",
+        "fraybwrgh",
+        "fu lai bao",
+        "furaiburuku"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بادن-فورتمبرغ",
+      "regionEn": "Baden-Württemberg"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2925177",
+    "verified": true
+  },
+  {
+    "slug": "essen",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.45657,
+    "lng": 7.01228,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "أسن",
+      "en": "Essen",
+      "fr": "Essen",
+      "de": "Essen",
+      "tr": "Essen",
+      "ur": "Essen",
+      "id": "Essen",
+      "es": "Essen",
+      "bn": "Essen",
+      "ms": "Essen"
+    },
+    "aliases": {
+      "ar": [
+        "إسن",
+        "إيسن",
+        "اسن",
+        "ايسن",
+        "ایسن",
+        "ایسین"
+      ],
+      "en": [
+        "Asnithi",
+        "Assindia",
+        "ESS",
+        "Ehsehn",
+        "Ehssen",
+        "Esen",
+        "Esenas",
+        "Esene",
+        "Eseno",
+        "Esse",
+        "ai sen",
+        "aisana",
+        "asn",
+        "aysn",
+        "aysyn",
+        "ecan",
+        "esen",
+        "esena",
+        "eseni",
+        "xes sein",
+        "Ésén"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2928810",
+    "verified": true
+  },
+  {
+    "slug": "duisburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.43247,
+    "lng": 6.76516,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "دويسبورغ",
+      "en": "Duisburg",
+      "fr": "Duisburg",
+      "de": "Duisburg",
+      "tr": "Duisburg",
+      "ur": "Duisburg",
+      "id": "Duisburg",
+      "es": "Duisburg",
+      "bn": "Duisburg",
+      "ms": "Duisburg"
+    },
+    "aliases": {
+      "ar": [
+        "دویسبورگ",
+        "ڈوئسبرگ",
+        "ڈیسبورگ"
+      ],
+      "en": [
+        "DUI",
+        "Disburga",
+        "Duisboerj",
+        "Duisborg",
+        "Duisbourg",
+        "Duisburch",
+        "Duisburg and Hamborn",
+        "Duisburg-Hamborn",
+        "Duisburgas",
+        "Duisburgo",
+        "Duisbörj",
+        "Duizburg",
+        "Dujsburg",
+        "Duusboerg",
+        "Duusbörg",
+        "Duysburg",
+        "Dīsburga",
+        "Ntouismpournk",
+        "Thuiscoburgum",
+        "deyusuburuku",
+        "du sburk",
+        "du yi si bao",
+        "du'isaburga",
+        "duisburgi",
+        "dwiseubuleukeu",
+        "dwysbwrg",
+        "dwysbwrgh",
+        "dysbwrg"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2934691",
+    "verified": true
+  },
+  {
+    "slug": "dortmund",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.51494,
+    "lng": 7.466,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "دورتموند",
+      "en": "Dortmund",
+      "fr": "Dortmund",
+      "de": "Dortmund",
+      "tr": "Dortmund",
+      "ur": "Dortmund",
+      "id": "Dortmund",
+      "es": "Dortmund",
+      "bn": "Dortmund",
+      "ms": "Dortmund"
+    },
+    "aliases": {
+      "ar": [
+        "دۆرتمۆند",
+        "ڈارٹمنڈ"
+      ],
+      "en": [
+        "DTM",
+        "Dortmundas",
+        "Dortmunde",
+        "Dortmundi",
+        "Dortmundo",
+        "Dueoerpm",
+        "Düörpm",
+        "Ntortmount",
+        "Throtmenni",
+        "Tremonia",
+        "d xr thmund",
+        "doleuteumunteu",
+        "dortamunda",
+        "dorutomunto",
+        "duo te meng de",
+        "dwrtmwnd"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2935517",
+    "verified": true
+  },
+  {
+    "slug": "darmstadt",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 49.87167,
+    "lng": 8.65027,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "دارمشتات",
+      "en": "Darmstadt",
+      "fr": "Darmstadt",
+      "de": "Darmstadt",
+      "tr": "Darmstadt",
+      "ur": "Darmstadt",
+      "id": "Darmstadt",
+      "es": "Darmstadt",
+      "bn": "Darmstadt",
+      "ms": "Darmstadt"
+    },
+    "aliases": {
+      "ar": [
+        "ڈریمسٹڈ"
+      ],
+      "en": [
+        "Darmshhat",
+        "Darmshtadi",
+        "Darmshtadt",
+        "Darmshtat",
+        "Darmstadium",
+        "Darmstat",
+        "Darmstatas",
+        "Darmstate",
+        "Darmundestadt",
+        "Darmştat",
+        "Darmštatas",
+        "Darmštate",
+        "Ntarmstat",
+        "ZCS",
+        "da mu shi ta te",
+        "daleumsyutateu",
+        "darmastata",
+        "darmshtat",
+        "darumushutatto",
+        "drmstdt"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "هسن",
+      "regionEn": "Hesse"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2938913",
+    "verified": true
+  },
+  {
+    "slug": "chemnitz",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 50.8357,
+    "lng": 12.92922,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "كيمنتس",
+      "en": "Chemnitz",
+      "fr": "Chemnitz",
+      "de": "Chemnitz",
+      "tr": "Chemnitz",
+      "ur": "Chemnitz",
+      "id": "Chemnitz",
+      "es": "Chemnitz",
+      "bn": "Chemnitz",
+      "ms": "Chemnitz"
+    },
+    "aliases": {
+      "ar": [
+        "چیمنتز",
+        "کمنیتز"
+      ],
+      "en": [
+        "Chemnicas",
+        "Chemnicium",
+        "Hemnica",
+        "Kamenica",
+        "Kamjenica",
+        "Karl-Marx-Stadt",
+        "Kemnic",
+        "Kemnits",
+        "Khemnic",
+        "Saska Kamenice",
+        "Saská Kamenice",
+        "ZTZ",
+        "chymntz",
+        "kai mu ni ci",
+        "kemnicheu",
+        "kemunittsu",
+        "khe mniths",
+        "kmnytz",
+        "kymnts",
+        "qmnyz"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "سكسونيا",
+      "regionEn": "Saxony"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2940132",
+    "verified": true
+  },
+  {
+    "slug": "bremerhaven",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 53.55357,
+    "lng": 8.57553,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "برمرهافن",
+      "en": "Bremerhaven",
+      "fr": "Bremerhaven",
+      "de": "Bremerhaven",
+      "tr": "Bremerhaven",
+      "ur": "Bremerhaven",
+      "id": "Bremerhaven",
+      "es": "Bremerhaven",
+      "bn": "Bremerhaven",
+      "ms": "Bremerhaven"
+    },
+    "aliases": {
+      "ar": [
+        "بریمرہیون"
+      ],
+      "en": [
+        "BRV",
+        "Bremergafen",
+        "Bremerhafenas",
+        "Bremerhafene",
+        "Bremerhoawen",
+        "Bremerhoben",
+        "Bremerhuuwen",
+        "Bremerkhafen",
+        "Brēmerhāfene",
+        "Brėmerhafenas",
+        "Kreisfreie Stadt Bremerhaven",
+        "Stadtgemeinde Bremerhaven",
+        "Wesermuende",
+        "Wesermunde",
+        "Wesermünde",
+        "beulemeohapen",
+        "bremerhaveni",
+        "brmrhafn",
+        "bu lai mei ha fen",
+        "buremahafen"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بريمن",
+      "regionEn": "Bremen"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2944368",
+    "verified": true
+  },
+  {
+    "slug": "bremen",
+    "type": "city",
+    "countryCode": "de",
+    "lat": 53.07582,
+    "lng": 8.80717,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "برمن",
+      "en": "Bremen",
+      "fr": "Bremen",
+      "de": "Bremen",
+      "tr": "Bremen",
+      "ur": "Bremen",
+      "id": "Bremen",
+      "es": "Bremen",
+      "bn": "Bremen",
+      "ms": "Bremen"
+    },
+    "aliases": {
+      "ar": [
+        "بريمن",
+        "بریمن",
+        "مدينة بريمن"
+      ],
+      "en": [
+        "BRE",
+        "Brehmehn",
+        "Brehmen",
+        "Brema",
+        "Breme",
+        "Bremen hiria",
+        "Bremenas",
+        "Bremene",
+        "Bremeni",
+        "Bremeno",
+        "Bremy",
+        "Brèma",
+        "Bréma",
+        "Brémy",
+        "Brémén",
+        "Brême",
+        "Brēmene",
+        "Brėmenas",
+        "Byen Bremen",
+        "ber mein",
+        "beulemen",
+        "biremeni",
+        "bremana",
+        "bremena",
+        "bremeni",
+        "brmn",
+        "brymn",
+        "bu lai mei",
+        "buremen",
+        "mdynt brymn"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بريمن",
+      "regionEn": "Bremen"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2944388",
+    "verified": true
+  },
+  {
+    "slug": "bochum",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 51.48165,
+    "lng": 7.21648,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "بوخم",
+      "en": "Bochum",
+      "fr": "Bochum",
+      "de": "Bochum",
+      "tr": "Bochum",
+      "ur": "Bochum",
+      "id": "Bochum",
+      "es": "Bochum",
+      "bn": "Bochum",
+      "ms": "Bochum"
+    },
+    "aliases": {
+      "ar": [
+        "بوخوم"
+      ],
+      "en": [
+        "Baukem",
+        "Bochoum",
+        "Bochumas",
+        "Bohuma",
+        "Bokhem",
+        "Bokhum",
+        "Bōkhêm",
+        "QBO",
+        "bo hong",
+        "bo khum",
+        "bofumu",
+        "bohum",
+        "bokhuma",
+        "bokhumi",
+        "bwkhm",
+        "bwkhwm",
+        "bwkwm"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2947416",
+    "verified": true
+  },
+  {
+    "slug": "bielefeld",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 52.03333,
+    "lng": 8.53333,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "بيليفيلد",
+      "en": "Bielefeld",
+      "fr": "Bielefeld",
+      "de": "Bielefeld",
+      "tr": "Bielefeld",
+      "ur": "Bielefeld",
+      "id": "Bielefeld",
+      "es": "Bielefeld",
+      "bn": "Bielefeld",
+      "ms": "Bielefeld"
+    },
+    "aliases": {
+      "ar": [
+        "بیلفیلڈ",
+        "بیله‌فلد"
+      ],
+      "en": [
+        "BFE",
+        "Bilefel'd",
+        "Bilefeld",
+        "Bilefelde",
+        "Bilifeld",
+        "Bilivelda",
+        "Builefeld",
+        "Bylefeldas",
+        "Bīlefelde",
+        "Bīlifeld",
+        "Mpilephelnt",
+        "bi lei fei er de",
+        "bilephelda",
+        "bilepildi",
+        "billepelteu",
+        "bireferuto",
+        "bylyfyld"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2949186",
+    "verified": true
+  },
+  {
+    "slug": "augsburg",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 48.37154,
+    "lng": 10.89851,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "آوغسبورغ",
+      "en": "Augsburg",
+      "fr": "Augsburg",
+      "de": "Augsburg",
+      "tr": "Augsburg",
+      "ur": "Augsburg",
+      "id": "Augsburg",
+      "es": "Augsburg",
+      "bn": "Augsburg",
+      "ms": "Augsburg"
+    },
+    "aliases": {
+      "ar": [
+        "آوگسبورگ",
+        "اگزبرگ"
+      ],
+      "en": [
+        "AGY",
+        "Agsborg",
+        "Aounksmpournk",
+        "Augsberg",
+        "Augsboerj",
+        "Augsborg",
+        "Augsbourg",
+        "Augsburg-Innenstadt",
+        "Augsburga",
+        "Augsburgas",
+        "Augsburgo",
+        "Augsbörj",
+        "Augschburg",
+        "Augusta",
+        "Augusta Vindelicorum",
+        "Augzburg",
+        "Auqsburq",
+        "a'ugsaburga",
+        "agzbrg",
+        "ao ge si bao",
+        "aucupurku",
+        "augsburga",
+        "augsburgi",
+        "augusuburuku",
+        "aukeuseubuleukeu",
+        "aukusuburuku",
+        "awghsbwrgh",
+        "awgsbwrg",
+        "xea k sburk",
+        "Ágsborg"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "بافاريا",
+      "regionEn": "Bavaria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2954172",
+    "verified": true
+  },
+  {
+    "slug": "aachen",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 50.77664,
+    "lng": 6.08342,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "آخن",
+      "en": "Aachen",
+      "fr": "Aachen",
+      "de": "Aachen",
+      "tr": "Aachen",
+      "ur": "Aachen",
+      "id": "Aachen",
+      "es": "Aachen",
+      "bn": "Aachen",
+      "ms": "Aachen"
+    },
+    "aliases": {
+      "ar": [
+        "آچن"
+      ],
+      "en": [
+        "AAH",
+        "Aakhen",
+        "Aaxen",
+        "Achen",
+        "Achenas",
+        "Ahene",
+        "Aix-la-Chapelle",
+        "Aken",
+        "Akhen",
+        "Akisgran",
+        "Akwizgran",
+        "Aoke",
+        "Aquae Grani",
+        "Aquisgra",
+        "Aquisgran",
+        "Aquisgrana",
+        "Aquisgrano",
+        "Aquisgranum",
+        "Aquisgrao",
+        "Aquisgrà",
+        "Aquisgrán",
+        "Aquisgrão",
+        "Axhe",
+        "Axin",
+        "Axın",
+        "Cachy",
+        "Cáchy",
+        "Kreisfreie Stadt Aachen",
+        "Lungsod ng Aachen",
+        "Oche",
+        "Oochen",
+        "a chen",
+        "aakheni",
+        "achn",
+        "ahen",
+        "ahkan",
+        "akhana",
+        "akhn",
+        "xa khein",
+        "ya chen",
+        "Åxhe",
+        "Āhene"
+      ]
+    },
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany",
+      "regionAr": "شمال الراين-وستفاليا",
+      "regionEn": "North Rhine-Westphalia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3247449",
+    "verified": true
+  },
+  {
+    "slug": "innsbruck",
+    "type": "city",
+    "countryCode": "at",
+    "lat": 47.26266,
+    "lng": 11.39454,
+    "timezone": "Europe/Vienna",
+    "names": {
+      "ar": "إنسبروك",
+      "en": "Innsbruck",
+      "fr": "Innsbruck",
+      "de": "Innsbruck",
+      "tr": "Innsbruck",
+      "ur": "Innsbruck",
+      "id": "Innsbruck",
+      "es": "Innsbruck",
+      "bn": "Innsbruck",
+      "ms": "Innsbruck"
+    },
+    "aliases": {
+      "ar": [
+        "انزبرک",
+        "انسبروک",
+        "اینسبروک"
+      ],
+      "en": [
+        "INN",
+        "Innschbruck",
+        "Insbruc",
+        "Insbruk",
+        "Insbruka",
+        "Insbrukas",
+        "Insmprouk",
+        "Inzbruk",
+        "Pons Aeni",
+        "ansbrwk",
+        "anzbrk",
+        "aynsbrwk",
+        "inasabruka",
+        "insabruka",
+        "inseubeulukeu",
+        "insuburukku",
+        "xin s brukh",
+        "yin si bei lu ke",
+        "yin si bu lu ke",
+        "İnnsbruck",
+        "İnsbruk",
+        "ʿinisibiruki"
+      ]
+    },
+    "admin": {
+      "countryAr": "النمسا",
+      "countryEn": "Austria",
+      "regionAr": "تيرول",
+      "regionEn": "Tyrol"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2775220",
+    "verified": true
+  },
+  {
+    "slug": "graz",
+    "type": "city",
+    "countryCode": "at",
+    "lat": 47.06733,
+    "lng": 15.44197,
+    "timezone": "Europe/Vienna",
+    "names": {
+      "ar": "غراتس",
+      "en": "Graz",
+      "fr": "Graz",
+      "de": "Graz",
+      "tr": "Graz",
+      "ur": "Graz",
+      "id": "Graz",
+      "es": "Graz",
+      "bn": "Graz",
+      "ms": "Graz"
+    },
+    "aliases": {
+      "ar": [
+        "گراتس",
+        "گراز"
+      ],
+      "en": [
+        "GRZ",
+        "Grac",
+        "Graca",
+        "Gracas",
+        "Graco",
+        "Gradac",
+        "Gradec",
+        "Graecia",
+        "Gratz",
+        "Grác",
+        "Gráz",
+        "Grāca",
+        "Nkrats",
+        "Qras",
+        "Styrsky Hradec",
+        "ge la ci",
+        "geulacheu",
+        "ghrats",
+        "graja",
+        "grats",
+        "gratsa",
+        "gratsi",
+        "graza",
+        "guratsu",
+        "kras",
+        "Štýrský Hradec",
+        "ግraዝ"
+      ]
+    },
+    "admin": {
+      "countryAr": "النمسا",
+      "countryEn": "Austria",
+      "regionAr": "ستيريا",
+      "regionEn": "Styria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2778067",
+    "verified": true
+  },
+  {
+    "slug": "eisenstadt",
+    "type": "city",
+    "countryCode": "at",
+    "lat": 47.84565,
+    "lng": 16.52327,
+    "timezone": "Europe/Vienna",
+    "names": {
+      "ar": "آئزن شتات",
+      "en": "Eisenstadt",
+      "fr": "Eisenstadt",
+      "de": "Eisenstadt",
+      "tr": "Eisenstadt",
+      "ur": "Eisenstadt",
+      "id": "Eisenstadt",
+      "es": "Eisenstadt",
+      "bn": "Eisenstadt",
+      "ms": "Eisenstadt"
+    },
+    "aliases": {
+      "ar": [
+        "آيزنشتات",
+        "آیزنشٹڈ",
+        "آیزن‌اشتات"
+      ],
+      "en": [
+        "Aizenstat",
+        "Ajzenshhat",
+        "Ajzenshtadt",
+        "Ajzenshtat",
+        "Ayzenstad",
+        "Ayzenstadt",
+        "Ayzenştadt",
+        "Eisnstod",
+        "Eizenstatas",
+        "Eizenstate",
+        "Eizenštatas",
+        "Eizenštate",
+        "Ferreum Castrum",
+        "Kismarton",
+        "Stadt Eisenstadt",
+        "Zelezno",
+        "Zeljezno",
+        "a'ijenastata",
+        "a'izanasatata",
+        "ai sen si ta te",
+        "aijensyutateu",
+        "aizenshutatto",
+        "ayajhenastada",
+        "ayzn shtat",
+        "ayznshtat",
+        "Železno",
+        "Željezno",
+        "ʿeyizenisitati"
+      ]
+    },
+    "admin": {
+      "countryAr": "النمسا",
+      "countryEn": "Austria",
+      "regionAr": "بورغنلاند",
+      "regionEn": "Burgenland"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:2780190",
+    "verified": true
+  },
+  {
+    "slug": "bregenz",
+    "type": "city",
+    "countryCode": "at",
+    "lat": 47.50311,
+    "lng": 9.7471,
+    "timezone": "Europe/Vienna",
+    "names": {
+      "ar": "بريغنتس",
+      "en": "Bregenz",
+      "fr": "Bregenz",
+      "de": "Bregenz",
+      "tr": "Bregenz",
+      "ur": "Bregenz",
+      "id": "Bregenz",
+      "es": "Bregenz",
+      "bn": "Bregenz",
+      "ms": "Bregenz"
+    },
+    "aliases": {
+      "ar": [
+        "بريغنز",
+        "برگنتس",
+        "برگنز",
+        "بریگنز"
+      ],
+      "en": [
+        "Bregenc",
+        "Bregenca",
+        "Bregencas",
+        "Bregence",
+        "Bregencja",
+        "Brehgenc",
+        "Brenkentz",
+        "Brigantium",
+        "Brégence",
+        "Brēgenca",
+        "Brėgencas",
+        "XGZ",
+        "ber ken s",
+        "beulegencheu",
+        "bregenja",
+        "bregenjha",
+        "bregentsi",
+        "bregenza",
+        "brgnts",
+        "brgnz",
+        "bryghnts",
+        "bryghnz",
+        "brygnz",
+        "bu lei gen ci",
+        "buregentsu"
+      ]
+    },
+    "admin": {
+      "countryAr": "النمسا",
+      "countryEn": "Austria",
+      "regionAr": "فورارلبرغ",
+      "regionEn": "Vorarlberg"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2781503",
+    "verified": true
+  },
+  {
+    "slug": "winterthur",
+    "type": "town",
+    "countryCode": "ch",
+    "lat": 47.50564,
+    "lng": 8.72413,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "فينترتور",
+      "en": "Winterthur",
+      "fr": "Winterthur",
+      "de": "Winterthur",
+      "tr": "Winterthur",
+      "ur": "Winterthur",
+      "id": "Winterthur",
+      "es": "Winterthur",
+      "bn": "Winterthur",
+      "ms": "Winterthur"
+    },
+    "aliases": {
+      "ar": [
+        "ونترتور",
+        "ونٹرتھر"
+      ],
+      "en": [
+        "Eulachstadt",
+        "Vintehrtur",
+        "Vintertour",
+        "Vintertur",
+        "Vintertura",
+        "Vinterturas",
+        "Vinterturi",
+        "Vinterturo",
+        "Vintertūra",
+        "Vintertūras",
+        "Vitudurum",
+        "Winterthour",
+        "ZLI",
+        "binteotueo",
+        "fyntrtwr",
+        "vuintatouru",
+        "wen te tu er",
+        "wntrtwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "زيورخ",
+      "regionEn": "Zürich"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2657970",
+    "verified": true
+  },
+  {
+    "slug": "schwyz",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.02076,
+    "lng": 8.65414,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "اشووتس",
+      "en": "Schwyz",
+      "fr": "Schwyz",
+      "de": "Schwyz",
+      "tr": "Schwyz",
+      "ur": "Schwyz",
+      "id": "Schwyz",
+      "es": "Schwyz",
+      "bn": "Schwyz",
+      "ms": "Schwyz"
+    },
+    "aliases": {
+      "ar": [
+        "شوائز شہر",
+        "شويز",
+        "شویتس",
+        "شویز"
+      ],
+      "en": [
+        "Schwytz",
+        "Shvic",
+        "Shvits",
+        "Suitius",
+        "Svico",
+        "Svit",
+        "Svits",
+        "Svitto",
+        "Svittu",
+        "Sviz",
+        "ZKK",
+        "ashwwts",
+        "saviza",
+        "sba'ija",
+        "shi wei ci",
+        "shiwiyiዝ",
+        "shuvuitsu",
+        "shwyts",
+        "shwyz",
+        "sva'iza",
+        "syubicheu",
+        "Ŝvico",
+        "Şvits"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "شفيتس",
+      "regionEn": "Schwyz"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2658665",
+    "verified": true
+  },
+  {
+    "slug": "sarnen",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 46.89611,
+    "lng": 8.24531,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "زارنن",
+      "en": "Sarnen",
+      "fr": "Sarnen",
+      "de": "Sarnen",
+      "tr": "Sarnen",
+      "ur": "Sarnen",
+      "id": "Sarnen",
+      "es": "Sarnen",
+      "bn": "Sarnen",
+      "ms": "Sarnen"
+    },
+    "aliases": {
+      "ar": [
+        "سارنن",
+        "سارنين",
+        "سرنان",
+        "سرنین"
+      ],
+      "en": [
+        "Sarno",
+        "ZKC",
+        "Zarnen",
+        "Zarnenas",
+        "jaleunen",
+        "sa er nen",
+        "saranena",
+        "sariነni",
+        "sarnena",
+        "sarnn",
+        "sarnyn",
+        "srnan",
+        "srnn",
+        "srnyn",
+        "zarnn",
+        "zarunen"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "أوبفالدن",
+      "regionEn": "Obwalden"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2658786",
+    "verified": true
+  },
+  {
+    "slug": "neuchatel",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 46.99179,
+    "lng": 6.931,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "نوشاتل",
+      "en": "Neuchâtel",
+      "fr": "Neuchâtel",
+      "de": "Neuchâtel",
+      "tr": "Neuchâtel",
+      "ur": "Neuchâtel",
+      "id": "Neuchâtel",
+      "es": "Neuchâtel",
+      "bn": "Neuchâtel",
+      "ms": "Neuchâtel"
+    },
+    "aliases": {
+      "ar": [
+        "نوشاتيل",
+        "نیوشاتل",
+        "نیوشاتیل"
+      ],
+      "en": [
+        "N'oshatel",
+        "Nesatel",
+        "Nesatelis",
+        "Neshatel",
+        "Neuchatel",
+        "Neuenburg",
+        "Neusatelo",
+        "Nevshatel'",
+        "Neyshatel",
+        "Neşatel",
+        "Nešatelis",
+        "Neŭŝatelo",
+        "Njoushatehl'",
+        "Nochathel",
+        "Novicastrum",
+        "Nôchâthél",
+        "QNC",
+        "n'yusaitala",
+        "n'yusatela",
+        "na sha tai er",
+        "ni'usatela",
+        "ni'usetela",
+        "niውshateል",
+        "noesyatel",
+        "nushateru",
+        "nwshatl",
+        "nwshatyl",
+        "nywshatl",
+        "nywshatyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "نوشاتيل",
+      "regionEn": "Neuchâtel"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2659496",
+    "verified": true
+  },
+  {
+    "slug": "luzern",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.05048,
+    "lng": 8.30635,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "لوسرن",
+      "en": "Luzern",
+      "fr": "Luzern",
+      "de": "Luzern",
+      "tr": "Luzern",
+      "ur": "Luzern",
+      "id": "Luzern",
+      "es": "Luzern",
+      "bn": "Luzern",
+      "ms": "Luzern"
+    },
+    "aliases": {
+      "en": [
+        "Canton Lucerne",
+        "Liucerna",
+        "Ljucehrn",
+        "Ljucern",
+        "Loukerne",
+        "Lucern",
+        "Lucerna",
+        "Lucerne",
+        "Lucerni",
+        "Lucerno",
+        "Luezerna",
+        "Luxerna",
+        "Luzerna",
+        "Lyutsen",
+        "Lyutsern",
+        "Lüzerna",
+        "lu sai en",
+        "lucheleun",
+        "lusarana",
+        "lusarna",
+        "luserini",
+        "lutsarna",
+        "lutserni",
+        "lwsrn",
+        "lwzrn",
+        "lyusarna",
+        "rutsuerun",
+        "Łuxerna"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "لوتسرن",
+      "regionEn": "Lucerne"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2659811",
+    "verified": true
+  },
+  {
+    "slug": "lausanne",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 46.516,
+    "lng": 6.63282,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "لوزان",
+      "en": "Lausanne",
+      "fr": "Lausanne",
+      "de": "Lausanne",
+      "tr": "Lausanne",
+      "ur": "Lausanne",
+      "id": "Lausanne",
+      "es": "Lausanne",
+      "bn": "Lausanne",
+      "ms": "Lausanne"
+    },
+    "aliases": {
+      "en": [
+        "Lausana",
+        "Lausonium",
+        "Lauzano",
+        "Laŭzano",
+        "Losanna",
+        "Losena",
+        "Lozan",
+        "Lozana",
+        "Lozane",
+        "Lozanna",
+        "QLS",
+        "la'usaina",
+        "lajana",
+        "lo san",
+        "losena",
+        "lozani",
+        "luo sang",
+        "lwzan",
+        "rozan'nu"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "فو",
+      "regionEn": "Vaud"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2659994",
+    "verified": true
+  },
+  {
+    "slug": "glarus",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.04057,
+    "lng": 9.06804,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "غلروس",
+      "en": "Glarus",
+      "fr": "Glarus",
+      "de": "Glarus",
+      "tr": "Glarus",
+      "ur": "Glarus",
+      "id": "Glarus",
+      "es": "Glarus",
+      "bn": "Glarus",
+      "ms": "Glarus"
+    },
+    "aliases": {
+      "ar": [
+        "گلاروس",
+        "گلرو"
+      ],
+      "en": [
+        "Canton Glarus",
+        "Glaris",
+        "Glarona",
+        "Glaruna",
+        "Glaruso",
+        "ZHG",
+        "galarasa",
+        "ge la lu si",
+        "geullaluseu",
+        "ghlrws",
+        "glarasa",
+        "glarusa",
+        "glarusi",
+        "glarws",
+        "glrw",
+        "gurarusu",
+        "ግlarusi"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "غلاروس",
+      "regionEn": "Glarus"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2660594",
+    "verified": true
+  },
+  {
+    "slug": "geneve",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 46.20222,
+    "lng": 6.14569,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "جنيف",
+      "en": "Genève",
+      "fr": "Genève",
+      "de": "Genève",
+      "tr": "Genève",
+      "ur": "Genève",
+      "id": "Genève",
+      "es": "Genève",
+      "bn": "Genève",
+      "ms": "Genève"
+    },
+    "aliases": {
+      "ar": [
+        "جنیوا",
+        "ژنو"
+      ],
+      "en": [
+        "Cenevre",
+        "Cenevrə",
+        "GVA",
+        "Genava",
+        "Genebe",
+        "Genebra",
+        "Geneue",
+        "Geneva",
+        "Geneve",
+        "Genevi",
+        "Genevo",
+        "Genevra",
+        "Genewa",
+        "Genf",
+        "Ginebra",
+        "Ginevra",
+        "Janeva",
+        "Jenewa",
+        "Jenwe",
+        "Xenebra",
+        "Zeneva",
+        "Zhehneva",
+        "Zheneva",
+        "Znev",
+        "Zənew",
+        "janeva",
+        "jeneba",
+        "jenebha",
+        "jeneva",
+        "jineva",
+        "jnyf",
+        "jnywa",
+        "junevu",
+        "ri nei wa",
+        "zheneva",
+        "zhnw",
+        "znbh",
+        "Ĝenevo",
+        "Ženeva",
+        "Ženēva"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "جنيف",
+      "regionEn": "Geneva"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2660646",
+    "verified": true
+  },
+  {
+    "slug": "fribourg",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 46.80237,
+    "lng": 7.15128,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "فريبور",
+      "en": "Fribourg",
+      "fr": "Fribourg",
+      "de": "Fribourg",
+      "tr": "Fribourg",
+      "ur": "Fribourg",
+      "id": "Fribourg",
+      "es": "Fribourg",
+      "bn": "Fribourg",
+      "ms": "Fribourg"
+    },
+    "aliases": {
+      "ar": [
+        "فریبرگ",
+        "فریبور",
+        "فریبورگ"
+      ],
+      "en": [
+        "Freiburg",
+        "Freiburg im UEechtland",
+        "Freiburg im Üechtland",
+        "Friborg",
+        "Friborgo",
+        "Fribur",
+        "Friburas",
+        "Friburg",
+        "Friburgo",
+        "Friburgum",
+        "Fribôrg",
+        "Fribūras",
+        "Fryburg",
+        "ZHF",
+        "fribaraga",
+        "frybrg",
+        "frybwr",
+        "frybwrg",
+        "furiburu",
+        "phribarga",
+        "ፍriburiግ"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "فريبورغ",
+      "regionEn": "Fribourg"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2660718",
+    "verified": true
+  },
+  {
+    "slug": "delemont",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.36493,
+    "lng": 7.34453,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "دلمون",
+      "en": "Delémont",
+      "fr": "Delémont",
+      "de": "Delémont",
+      "tr": "Delémont",
+      "ur": "Delémont",
+      "id": "Delémont",
+      "es": "Delémont",
+      "bn": "Delémont",
+      "ms": "Delémont"
+    },
+    "aliases": {
+      "ar": [
+        "ديليمونت",
+        "دیلیمون",
+        "دیلیمونت",
+        "ډylyman",
+        "ډیلیمان"
+      ],
+      "en": [
+        "D'olemon",
+        "Dehlemon",
+        "Delemon",
+        "Delemonas",
+        "Delemons",
+        "Delemont",
+        "Delemonto",
+        "Delsberg",
+        "Delèmont",
+        "de lai meng",
+        "delemanta",
+        "delemauna",
+        "delemoni",
+        "delemonta",
+        "deullemong",
+        "dlmwn",
+        "doremon",
+        "dylymwn",
+        "dylymwnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "جورا",
+      "regionEn": "Jura"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2661035",
+    "verified": true
+  },
+  {
+    "slug": "bern",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 46.94809,
+    "lng": 7.44744,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "برن",
+      "en": "Bern",
+      "fr": "Bern",
+      "de": "Bern",
+      "tr": "Bern",
+      "ur": "Bern",
+      "id": "Bern",
+      "es": "Bern",
+      "bn": "Bern",
+      "ms": "Bern"
+    },
+    "aliases": {
+      "ar": [
+        "بيرن",
+        "بێرن",
+        "بېرن"
+      ],
+      "en": [
+        "BRN",
+        "Bann",
+        "Beirn",
+        "Ben",
+        "Bern osh",
+        "Berna",
+        "Bernas",
+        "Berne",
+        "Berno",
+        "Bundesstadt",
+        "Bèn",
+        "Bèrna",
+        "atharvaveda",
+        "ban he na",
+        "barana",
+        "barna",
+        "beirn",
+        "beleun",
+        "berna",
+        "berni",
+        "berun",
+        "bo en",
+        "bo er ni",
+        "brn",
+        "byrn",
+        "pern"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "برن",
+      "regionEn": "Bern"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2661552",
+    "verified": true
+  },
+  {
+    "slug": "appenzell",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.33103,
+    "lng": 9.40996,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "أبنتسل",
+      "en": "Appenzell",
+      "fr": "Appenzell",
+      "de": "Appenzell",
+      "tr": "Appenzell",
+      "ur": "Appenzell",
+      "id": "Appenzell",
+      "es": "Appenzell",
+      "bn": "Appenzell",
+      "ms": "Appenzell"
+    },
+    "aliases": {
+      "ar": [
+        "اپنتسل",
+        "اپنزیل",
+        "ایپنزیل"
+      ],
+      "en": [
+        "Apencelo",
+        "Appencell'",
+        "Appentsel",
+        "ZAP",
+        "abntsl",
+        "apenjela",
+        "apntsl",
+        "apnzyl",
+        "appenjela",
+        "appentsueru",
+        "aypnzyl",
+        "ayapenajela",
+        "ʿeፔnizeል"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "أبنزل إنرهودن",
+      "regionEn": "Appenzell Innerrhoden"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:2661740",
+    "verified": true
+  },
+  {
+    "slug": "aarau",
+    "type": "city",
+    "countryCode": "ch",
+    "lat": 47.39254,
+    "lng": 8.04422,
+    "timezone": "Europe/Zurich",
+    "names": {
+      "ar": "آراؤ",
+      "en": "Aarau",
+      "fr": "Aarau",
+      "de": "Aarau",
+      "tr": "Aarau",
+      "ur": "Aarau",
+      "id": "Aarau",
+      "es": "Aarau",
+      "bn": "Aarau",
+      "ms": "Aarau"
+    },
+    "aliases": {
+      "ar": [
+        "آراو",
+        "أراو",
+        "ارو، سوئیس"
+      ],
+      "en": [
+        "Aaraou",
+        "Arau",
+        "Arauo",
+        "Arava",
+        "Araŭo",
+        "ZDA",
+        "a lao",
+        "alau",
+        "ara'u",
+        "arau",
+        "aravia",
+        "araw",
+        "arw  swyys",
+        "xa rea",
+        "Ārava",
+        "ʿeraው"
+      ]
+    },
+    "admin": {
+      "countryAr": "سويسرا",
+      "countryEn": "Switzerland",
+      "regionAr": "أرغاو",
+      "regionEn": "Aargau"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2661881",
+    "verified": true
+  },
+  {
+    "slug": "reggio-calabria",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 38.11047,
+    "lng": 15.66129,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ريدجو كالابريا",
+      "en": "Reggio Calabria",
+      "fr": "Reggio Calabria",
+      "de": "Reggio Calabria",
+      "tr": "Reggio Calabria",
+      "ur": "Reggio Calabria",
+      "id": "Reggio Calabria",
+      "es": "Reggio Calabria",
+      "bn": "Reggio Calabria",
+      "ms": "Reggio Calabria"
+    },
+    "aliases": {
+      "en": [
+        "REG",
+        "Redzho-di-Kalabrija",
+        "Reggio de Calabre",
+        "Reggio de Calabria",
+        "Reggio de Calàbria",
+        "Reggio di Calabria",
+        "Regio",
+        "Regio de Calabria",
+        "Rhegium",
+        "Riggiu Calabbria",
+        "lei jiao ka la bu li ya",
+        "rg'w dy qlbryh",
+        "rydjw kalabrya"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "كالابريا",
+      "regionEn": "Calabria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2523630",
+    "verified": true
+  },
+  {
+    "slug": "palermo",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 38.1166,
+    "lng": 13.3636,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بالرمو",
+      "en": "Palermo",
+      "fr": "Palermo",
+      "de": "Palermo",
+      "tr": "Palermo",
+      "ur": "Palermo",
+      "id": "Palermo",
+      "es": "Palermo",
+      "bn": "Palermo",
+      "ms": "Palermo"
+    },
+    "aliases": {
+      "ar": [
+        "باليرمو",
+        "بلرم",
+        "بلرمة",
+        "بَلَرْم",
+        "پالرمو",
+        "پاليرمو",
+        "پالیرمو",
+        "پلرمو"
+      ],
+      "en": [
+        "PMO",
+        "Palerm",
+        "Palerma",
+        "Palermas",
+        "Palerme",
+        "Palermu",
+        "Panormus",
+        "Pałermo",
+        "ba lei mo shi",
+        "balarm",
+        "balrmw",
+        "balyrmw",
+        "blrm",
+        "blrmt",
+        "palleleumo",
+        "palrmw",
+        "palyrmw",
+        "parerumo",
+        "plrmw"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "صقلية",
+      "regionEn": "Sicily"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2523920",
+    "verified": true
+  },
+  {
+    "slug": "messina",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 38.19394,
+    "lng": 15.55256,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ميسينا",
+      "en": "Messina",
+      "fr": "Messina",
+      "de": "Messina",
+      "tr": "Messina",
+      "ur": "Messina",
+      "id": "Messina",
+      "es": "Messina",
+      "bn": "Messina",
+      "ms": "Messina"
+    },
+    "aliases": {
+      "en": [
+        "Mesina",
+        "Messana",
+        "Messine",
+        "Mesyna",
+        "Missina",
+        "QME",
+        "mesina",
+        "messhina",
+        "mo xi na",
+        "msynh",
+        "mysyna"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "صقلية",
+      "regionEn": "Sicily"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2524170",
+    "verified": true
+  },
+  {
+    "slug": "catania",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 37.49223,
+    "lng": 15.07041,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "كاتانيا",
+      "en": "Catania",
+      "fr": "Catania",
+      "de": "Catania",
+      "tr": "Catania",
+      "ur": "Catania",
+      "id": "Catania",
+      "es": "Catania",
+      "bn": "Catania",
+      "ms": "Catania"
+    },
+    "aliases": {
+      "en": [
+        "CTA",
+        "Catane",
+        "Catina",
+        "Catània",
+        "Catânia",
+        "Katane",
+        "Katania",
+        "Katanija",
+        "Katanio",
+        "Katānija",
+        "katania",
+        "katanya",
+        "qtnyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "صقلية",
+      "regionEn": "Sicily"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2525068",
+    "verified": true
+  },
+  {
+    "slug": "cagliari",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 39.23054,
+    "lng": 9.11917,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "كالياري",
+      "en": "Cagliari",
+      "fr": "Cagliari",
+      "de": "Cagliari",
+      "tr": "Cagliari",
+      "ur": "Cagliari",
+      "id": "Cagliari",
+      "es": "Cagliari",
+      "bn": "Cagliari",
+      "ms": "Cagliari"
+    },
+    "aliases": {
+      "ar": [
+        "کالیاری",
+        "کاگلیاری"
+      ],
+      "en": [
+        "CAG",
+        "Cajari",
+        "Caliari",
+        "Caller",
+        "Caralis",
+        "Casteddu",
+        "Castel",
+        "Castèl",
+        "Càgliari",
+        "Càliari",
+        "Càller",
+        "Cáller",
+        "Kagliari",
+        "Kal'jari",
+        "Kal'jary",
+        "Kalari",
+        "Kaliari",
+        "Kaljari",
+        "Kaljaris",
+        "Kaljaro",
+        "Kaljāri",
+        "Kalyari",
+        "Lungsod ng Cagliari",
+        "ka li ya li",
+        "kagali'ari",
+        "kagliyari",
+        "kaglyary",
+        "kal ya ri",
+        "kaliyari",
+        "kalliali",
+        "kalyary",
+        "karyari"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "سردينيا",
+      "regionEn": "Sardinia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2525473",
+    "verified": true
+  },
+  {
+    "slug": "verona",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 45.43854,
+    "lng": 10.9938,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "فيرونا",
+      "en": "Verona",
+      "fr": "Verona",
+      "de": "Verona",
+      "tr": "Verona",
+      "ur": "Verona",
+      "id": "Verona",
+      "es": "Verona",
+      "bn": "Verona",
+      "ms": "Verona"
+    },
+    "aliases": {
+      "ar": [
+        "ورونا"
+      ],
+      "en": [
+        "VRN",
+        "Verone",
+        "Vérone",
+        "Werona",
+        "belona",
+        "fyrwna",
+        "vuerona",
+        "wei luo na",
+        "wrwna",
+        "wrwnh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "فينيتو",
+      "regionEn": "Veneto"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3164527",
+    "verified": true
+  },
+  {
+    "slug": "trento",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 46.06787,
+    "lng": 11.12108,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ترنتو",
+      "en": "Trento",
+      "fr": "Trento",
+      "de": "Trento",
+      "tr": "Trento",
+      "ur": "Trento",
+      "id": "Trento",
+      "es": "Trento",
+      "bn": "Trento",
+      "ms": "Trento"
+    },
+    "aliases": {
+      "ar": [
+        "ترينتو",
+        "ٹرنٹو"
+      ],
+      "en": [
+        "Treant",
+        "Trehnta",
+        "Trent",
+        "Trent/o",
+        "Trentas",
+        "Trente",
+        "Trentu",
+        "Trident",
+        "Tridentum",
+        "Trient",
+        "Trionta",
+        "Trydent",
+        "Trénto",
+        "ZIA",
+        "te lun tuo",
+        "teulento",
+        "torento",
+        "trntw",
+        "tryntw"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "ترنتينو ألتو أديجي",
+      "regionEn": "Trentino-Alto Adige"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3165243",
+    "verified": true
+  },
+  {
+    "slug": "taranto",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 40.46438,
+    "lng": 17.24707,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "تارانتو",
+      "en": "Taranto",
+      "fr": "Taranto",
+      "de": "Taranto",
+      "tr": "Taranto",
+      "ur": "Taranto",
+      "id": "Taranto",
+      "es": "Taranto",
+      "bn": "Taranto",
+      "ms": "Taranto"
+    },
+    "aliases": {
+      "en": [
+        "TAR",
+        "Tarde",
+        "Tarent",
+        "Tarente",
+        "Tarento",
+        "Tarento - Taranto",
+        "Tarentum",
+        "Tàrent",
+        "tarantw"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "بوليا",
+      "regionEn": "Apulia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3165926",
+    "verified": true
+  },
+  {
+    "slug": "salerno",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 40.67545,
+    "lng": 14.79328,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ساليرنو",
+      "en": "Salerno",
+      "fr": "Salerno",
+      "de": "Salerno",
+      "tr": "Salerno",
+      "ur": "Salerno",
+      "id": "Salerno",
+      "es": "Salerno",
+      "bn": "Salerno",
+      "ms": "Salerno"
+    },
+    "aliases": {
+      "en": [
+        "Irna",
+        "QSR",
+        "Salern",
+        "Salernas",
+        "Salerne",
+        "Salernon",
+        "Salernu",
+        "Salernum",
+        "Salernus",
+        "Salierno",
+        "Salèrn",
+        "Salèrne",
+        "Sałerno",
+        "salyrnw",
+        "sareruno"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "كامبانيا",
+      "regionEn": "Campania"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3168673",
+    "verified": true
+  },
+  {
+    "slug": "rimini",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 44.05755,
+    "lng": 12.56528,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ريميني",
+      "en": "Rimini",
+      "fr": "Rimini",
+      "de": "Rimini",
+      "tr": "Rimini",
+      "ur": "Rimini",
+      "id": "Rimini",
+      "es": "Rimini",
+      "bn": "Rimini",
+      "ms": "Rimini"
+    },
+    "aliases": {
+      "en": [
+        "Ariminum",
+        "RMI",
+        "Remin",
+        "Rèmin",
+        "Rímini",
+        "rymyny"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "إميليا رومانيا",
+      "regionEn": "Emilia-Romagna"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3169361",
+    "verified": true
+  },
+  {
+    "slug": "pescara",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 42.4584,
+    "lng": 14.20283,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بيسكارا",
+      "en": "Pescara",
+      "fr": "Pescara",
+      "de": "Pescara",
+      "tr": "Pescara",
+      "ur": "Pescara",
+      "id": "Pescara",
+      "es": "Pescara",
+      "bn": "Pescara",
+      "ms": "Pescara"
+    },
+    "aliases": {
+      "en": [
+        "PSR",
+        "Peskara",
+        "byskara",
+        "pesukara"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "أبروتسو",
+      "regionEn": "Abruzzo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3171168",
+    "verified": true
+  },
+  {
+    "slug": "perugia",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 43.1122,
+    "lng": 12.38878,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بيرودجا",
+      "en": "Perugia",
+      "fr": "Perugia",
+      "de": "Perugia",
+      "tr": "Perugia",
+      "ur": "Perugia",
+      "id": "Perugia",
+      "es": "Perugia",
+      "bn": "Perugia",
+      "ms": "Perugia"
+    },
+    "aliases": {
+      "en": [
+        "PEG",
+        "Perosa",
+        "Perouse",
+        "Perudzha",
+        "Perusa",
+        "Perusia",
+        "Pérouse",
+        "byrwdja",
+        "pei lu jia",
+        "peruja",
+        "prwg'h"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "أومبريا",
+      "regionEn": "Umbria"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3171180",
+    "verified": true
+  },
+  {
+    "slug": "parma",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 44.79935,
+    "lng": 10.32618,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بارما",
+      "en": "Parma",
+      "fr": "Parma",
+      "de": "Parma",
+      "tr": "Parma",
+      "ur": "Parma",
+      "id": "Parma",
+      "es": "Parma",
+      "bn": "Parma",
+      "ms": "Parma"
+    },
+    "aliases": {
+      "ar": [
+        "پارما"
+      ],
+      "en": [
+        "PMF",
+        "Parme",
+        "Perma",
+        "Pèrma",
+        "barma",
+        "paruma"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "إميليا رومانيا",
+      "regionEn": "Emilia-Romagna"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3171457",
+    "verified": true
+  },
+  {
+    "slug": "padua",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 45.40797,
+    "lng": 11.88586,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بادوفا",
+      "en": "Padua",
+      "fr": "Padua",
+      "de": "Padua",
+      "tr": "Padua",
+      "ur": "Padua",
+      "id": "Padua",
+      "es": "Padua",
+      "bn": "Padua",
+      "ms": "Padua"
+    },
+    "aliases": {
+      "en": [
+        "Padoa",
+        "Padoue",
+        "Padova",
+        "Padovo",
+        "Paduja",
+        "Padwa",
+        "Patavium",
+        "Pàdua",
+        "Pádua",
+        "QPA",
+        "badwfa",
+        "pa duo wa",
+        "padoba",
+        "padovua"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "فينيتو",
+      "regionEn": "Veneto"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3171728",
+    "verified": true
+  },
+  {
+    "slug": "monza",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 45.58005,
+    "lng": 9.27246,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "منزا",
+      "en": "Monza",
+      "fr": "Monza",
+      "de": "Monza",
+      "tr": "Monza",
+      "ur": "Monza",
+      "id": "Monza",
+      "es": "Monza",
+      "bn": "Monza",
+      "ms": "Monza"
+    },
+    "aliases": {
+      "en": [
+        "Modicia",
+        "Monca",
+        "Monsa",
+        "Munscia",
+        "meng zha",
+        "mnza",
+        "montsua",
+        "mwnzh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "لومبارديا",
+      "regionEn": "Lombardy"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3172629",
+    "verified": true
+  },
+  {
+    "slug": "modena",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 44.64783,
+    "lng": 10.92539,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "مودينا",
+      "en": "Modena",
+      "fr": "Modena",
+      "de": "Modena",
+      "tr": "Modena",
+      "ur": "Modena",
+      "id": "Modena",
+      "es": "Modena",
+      "bn": "Modena",
+      "ms": "Modena"
+    },
+    "aliases": {
+      "en": [
+        "Modene",
+        "Modna",
+        "Modène",
+        "Mutina",
+        "Mòdena",
+        "Mòdna",
+        "Módena",
+        "ZMO",
+        "mwdyna"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "إميليا رومانيا",
+      "regionEn": "Emilia-Romagna"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3173331",
+    "verified": true
+  },
+  {
+    "slug": "livorno",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 43.54427,
+    "lng": 10.32615,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "ليفورنو",
+      "en": "Livorno",
+      "fr": "Livorno",
+      "de": "Livorno",
+      "tr": "Livorno",
+      "ur": "Livorno",
+      "id": "Livorno",
+      "es": "Livorno",
+      "bn": "Livorno",
+      "ms": "Livorno"
+    },
+    "aliases": {
+      "en": [
+        "Labro",
+        "Leghorn",
+        "Levuorno",
+        "Liborno",
+        "Liorna",
+        "Livorn",
+        "Livornas",
+        "Livornu",
+        "Livourne",
+        "lybwrnw",
+        "lyfwrnw",
+        "rivuoruno"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "توسكانا",
+      "regionEn": "Tuscany"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3174659",
+    "verified": true
+  },
+  {
+    "slug": "brescia",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 45.53558,
+    "lng": 10.21472,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بريشيا",
+      "en": "Brescia",
+      "fr": "Brescia",
+      "de": "Brescia",
+      "tr": "Brescia",
+      "ur": "Brescia",
+      "id": "Brescia",
+      "es": "Brescia",
+      "bn": "Brescia",
+      "ms": "Brescia"
+    },
+    "aliases": {
+      "en": [
+        "BRZ",
+        "Bresha",
+        "Breshia",
+        "Bresia",
+        "Bressia",
+        "Brixia",
+        "Bréscia",
+        "QBS",
+        "bryshya",
+        "bu lei xi ya",
+        "bureshia"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "لومبارديا",
+      "regionEn": "Lombardy"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3181554",
+    "verified": true
+  },
+  {
+    "slug": "bergamo",
+    "type": "town",
+    "countryCode": "it",
+    "lat": 45.69601,
+    "lng": 9.66721,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "بيرغامو",
+      "en": "Bergamo",
+      "fr": "Bergamo",
+      "de": "Bergamo",
+      "tr": "Bergamo",
+      "ur": "Bergamo",
+      "id": "Bergamo",
+      "es": "Bergamo",
+      "bn": "Bergamo",
+      "ms": "Bergamo"
+    },
+    "aliases": {
+      "en": [
+        "Bergam",
+        "Bergame",
+        "Berghem",
+        "Bergomum",
+        "Bèrgam",
+        "Bèrghem",
+        "Bérgamo",
+        "Bérghem",
+        "bei er jia mo",
+        "berugamo",
+        "byrghamw"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "لومبارديا",
+      "regionEn": "Lombardy"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3182164",
+    "verified": true
+  },
+  {
+    "slug": "bari",
+    "type": "city",
+    "countryCode": "it",
+    "lat": 41.12066,
+    "lng": 16.86982,
+    "timezone": "Europe/Rome",
+    "names": {
+      "ar": "باري",
+      "en": "Bari",
+      "fr": "Bari",
+      "de": "Bari",
+      "tr": "Bari",
+      "ur": "Bari",
+      "id": "Bari",
+      "es": "Bari",
+      "bn": "Bari",
+      "ms": "Bari"
+    },
+    "aliases": {
+      "ar": [
+        "باری"
+      ],
+      "en": [
+        "BRI",
+        "Bario",
+        "Baris",
+        "Barium",
+        "Bary",
+        "Mpari",
+        "ba li",
+        "bali",
+        "bary"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيطاليا",
+      "countryEn": "Italy",
+      "regionAr": "بوليا",
+      "regionEn": "Apulia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3182351",
+    "verified": true
+  },
+  {
+    "slug": "soro",
+    "type": "city",
+    "countryCode": "dk",
+    "lat": 55.43184,
+    "lng": 11.55547,
+    "timezone": "Europe/Copenhagen",
+    "names": {
+      "ar": "سورو",
+      "en": "Sorø",
+      "fr": "Sorø",
+      "de": "Sorø",
+      "tr": "Sorø",
+      "ur": "Sorø",
+      "id": "Sorø",
+      "es": "Sorø",
+      "bn": "Sorø",
+      "ms": "Sorø"
+    },
+    "aliases": {
+      "ar": [
+        "سوروا"
+      ],
+      "en": [
+        "Sora",
+        "Sore",
+        "Sorey",
+        "Sorjo",
+        "Soro",
+        "Sorė",
+        "Sórey",
+        "soloe",
+        "sore",
+        "soro",
+        "suo lei",
+        "swrw",
+        "swrwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "الدنمارك",
+      "countryEn": "Denmark",
+      "regionAr": "زيلاند",
+      "regionEn": "Zealand"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:2612862",
+    "verified": true
+  },
+  {
+    "slug": "odense",
+    "type": "town",
+    "countryCode": "dk",
+    "lat": 55.39594,
+    "lng": 10.38831,
+    "timezone": "Europe/Copenhagen",
+    "names": {
+      "ar": "أودنسه",
+      "en": "Odense",
+      "fr": "Odense",
+      "de": "Odense",
+      "tr": "Odense",
+      "ur": "Odense",
+      "id": "Odense",
+      "es": "Odense",
+      "bn": "Odense",
+      "ms": "Odense"
+    },
+    "aliases": {
+      "ar": [
+        "ادنسه",
+        "اودنسے",
+        "اوڈینس"
+      ],
+      "en": [
+        "ODE",
+        "Odehnseh",
+        "Odensa",
+        "Odensė",
+        "Odinsve",
+        "Ontense",
+        "Othania",
+        "Ottensee",
+        "adnsh",
+        "awdnsh",
+        "odinse",
+        "ou deng sai",
+        "xo den se",
+        "Óðinsvé"
+      ]
+    },
+    "admin": {
+      "countryAr": "الدنمارك",
+      "countryEn": "Denmark",
+      "regionAr": "جنوب الدنمارك",
+      "regionEn": "South Denmark"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2615876",
+    "verified": true
+  },
+  {
+    "slug": "umea",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 63.82842,
+    "lng": 20.25972,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "أوميو",
+      "en": "Umeå",
+      "fr": "Umeå",
+      "de": "Umeå",
+      "tr": "Umeå",
+      "ur": "Umeå",
+      "id": "Umeå",
+      "es": "Umeå",
+      "bn": "Umeå",
+      "ms": "Umeå"
+    },
+    "aliases": {
+      "ar": [
+        "امیہ",
+        "اومئو",
+        "اومیو",
+        "یوميا"
+      ],
+      "en": [
+        "Oumeo",
+        "Owmeo",
+        "UME",
+        "Ubmi",
+        "Uma",
+        "Umea",
+        "Umeo",
+        "Uumaja",
+        "awmyw",
+        "ume'o",
+        "ume-o",
+        "umeo",
+        "umi'o",
+        "xu me xo",
+        "yu mo ao",
+        "ywmya",
+        "Ūmeo",
+        "ʿumeʾo"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "فاسربوتن",
+      "regionEn": "Västerbotten"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:602150",
+    "verified": true
+  },
+  {
+    "slug": "vaexjoe",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 56.87767,
+    "lng": 14.80906,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "فاكسيو",
+      "en": "Växjö",
+      "fr": "Växjö",
+      "de": "Växjö",
+      "tr": "Växjö",
+      "ur": "Växjö",
+      "id": "Växjö",
+      "es": "Växjö",
+      "bn": "Växjö",
+      "ms": "Växjö"
+    },
+    "aliases": {
+      "ar": [
+        "وکفو",
+        "ویکسجو",
+        "ویکوہ",
+        "ویکیو"
+      ],
+      "en": [
+        "VXO",
+        "Vaexjoe",
+        "Vaxjo",
+        "Veks'o",
+        "Vekse",
+        "Veksh'o",
+        "Vekshe",
+        "Veksheh",
+        "Vekshjo",
+        "Vekše",
+        "Vekšė",
+        "Vexioe",
+        "Vexionia",
+        "Vexiö",
+        "begsye",
+        "bekusho",
+        "bheksajo",
+        "faksyw",
+        "vaikasajo",
+        "vekisijo",
+        "veksajo",
+        "vekshe",
+        "wei ke she",
+        "wek chex",
+        "wkfw",
+        "wqsh",
+        "wyksjw",
+        "wykyw"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "كرونوبيرغ",
+      "regionEn": "Kronoberg"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2663536",
+    "verified": true
+  },
+  {
+    "slug": "uppsala",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 59.85882,
+    "lng": 17.63889,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "أوبسالا",
+      "en": "Uppsala",
+      "fr": "Uppsala",
+      "de": "Uppsala",
+      "tr": "Uppsala",
+      "ur": "Uppsala",
+      "id": "Uppsala",
+      "es": "Uppsala",
+      "bn": "Uppsala",
+      "ms": "Uppsala"
+    },
+    "aliases": {
+      "ar": [
+        "اوبسالا",
+        "اوپسالا",
+        "اپسالا"
+      ],
+      "en": [
+        "Oupsala",
+        "QYX",
+        "Ubsala",
+        "Upfala",
+        "Uppsal",
+        "Uppsalae",
+        "Uppsalir",
+        "Upsala",
+        "Upsalia",
+        "Upsalo",
+        "Upsāla",
+        "apsala",
+        "awbsala",
+        "awpsala",
+        "ubsalla",
+        "upasala",
+        "upcala",
+        "upsala",
+        "upusara",
+        "wu pu sa la",
+        "xup sx la",
+        "ʿeፕsala",
+        "ᐆᑉᓴᓚ/uupsala"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "أوبسالا",
+      "regionEn": "Uppsala"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2666199",
+    "verified": true
+  },
+  {
+    "slug": "oerebro",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 59.27412,
+    "lng": 15.2066,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "أوربرو",
+      "en": "Örebro",
+      "fr": "Örebro",
+      "de": "Örebro",
+      "tr": "Örebro",
+      "ur": "Örebro",
+      "id": "Örebro",
+      "es": "Örebro",
+      "bn": "Örebro",
+      "ms": "Örebro"
+    },
+    "aliases": {
+      "ar": [
+        "اریبرو",
+        "اوربرو",
+        "اوریبرو"
+      ],
+      "en": [
+        "Ehrebru",
+        "Ehrehbru",
+        "Erebro",
+        "Erebru",
+        "Erebrū",
+        "Erempro",
+        "Jorebru",
+        "OErebro",
+        "OErebro kommuna",
+        "OErebro  Isvec",
+        "ORB",
+        "Orebro",
+        "Orebrogia",
+        "arybrw",
+        "awrbrw",
+        "awrybrw",
+        "e lei bu lu",
+        "erebre",
+        "ereburu",
+        "oelebeulo",
+        "orebro",
+        "xex re bru",
+        "Örebro kommuna",
+        "Örebro  İsveç",
+        "Ørebro",
+        "ʿorebiro"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "أوريبرو",
+      "regionEn": "Örebro"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2686657",
+    "verified": true
+  },
+  {
+    "slug": "nykoeping",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 58.753,
+    "lng": 17.00788,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "نيكوبينج",
+      "en": "Nyköping",
+      "fr": "Nyköping",
+      "de": "Nyköping",
+      "tr": "Nyköping",
+      "ur": "Nyköping",
+      "id": "Nyköping",
+      "es": "Nyköping",
+      "bn": "Nyköping",
+      "ms": "Nyköping"
+    },
+    "aliases": {
+      "ar": [
+        "نیشوبنگ",
+        "نیشوپینگ",
+        "نیکوپنگ"
+      ],
+      "en": [
+        "NYO",
+        "Nicheping",
+        "Nisheping",
+        "Nisiopingas",
+        "Nišiopingas",
+        "Njuchehping",
+        "Njuchjoping",
+        "Njush'oping",
+        "Nykoeping",
+        "Nykoping",
+        "Nykøping",
+        "n'yakopinga",
+        "ni xue ping",
+        "nikopiga",
+        "nikopim",
+        "niyikweፒniግ",
+        "nwisyeping",
+        "nykwbynj",
+        "nykwpng",
+        "nyshwbng",
+        "nyshwpyng",
+        "nyukepingu"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "سودرمانلاند",
+      "regionEn": "Södermanland"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2687700",
+    "verified": true
+  },
+  {
+    "slug": "malmoe",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 55.60587,
+    "lng": 13.00073,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "مالمو",
+      "en": "Malmö",
+      "fr": "Malmö",
+      "de": "Malmö",
+      "tr": "Malmö",
+      "ur": "Malmö",
+      "id": "Malmö",
+      "es": "Malmö",
+      "bn": "Malmö",
+      "ms": "Malmö"
+    },
+    "aliases": {
+      "en": [
+        "MMA",
+        "Mal'mjo",
+        "Malm'o",
+        "Malme",
+        "Malmey",
+        "Malmo",
+        "Malmoe",
+        "Malmogia",
+        "Malmø",
+        "Málmey",
+        "ma er mo",
+        "malamo",
+        "malmo",
+        "malmw",
+        "marume",
+        "maልmo",
+        "myalamo"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "سكونه",
+      "regionEn": "Skåne"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2692969",
+    "verified": true
+  },
+  {
+    "slug": "karlskrona",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 56.16156,
+    "lng": 15.58661,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "كارلسكرونا",
+      "en": "Karlskrona",
+      "fr": "Karlskrona",
+      "de": "Karlskrona",
+      "tr": "Karlskrona",
+      "ur": "Karlskrona",
+      "id": "Karlskrona",
+      "es": "Karlskrona",
+      "bn": "Karlskrona",
+      "ms": "Karlskrona"
+    },
+    "aliases": {
+      "ar": [
+        "کارلسکرونا",
+        "کلسکرونا"
+      ],
+      "en": [
+        "Caroli Corona",
+        "Karl'skruna",
+        "Karlskruna",
+        "Karlskróna",
+        "Karlskrūna",
+        "ka er si ke lu na",
+        "kalseukeulona",
+        "karalasakrona",
+        "kariልsikirona",
+        "karlaskrona",
+        "karlsakrona",
+        "karlskrwna",
+        "karusukuruna",
+        "kharl sk ru na",
+        "klskrwna",
+        "qrlsqrwnh"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "بليكينغه",
+      "regionEn": "Blekinge"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2701713",
+    "verified": true
+  },
+  {
+    "slug": "kalmar",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 56.66157,
+    "lng": 16.36163,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "كالمار",
+      "en": "Kalmar",
+      "fr": "Kalmar",
+      "de": "Kalmar",
+      "tr": "Kalmar",
+      "ur": "Kalmar",
+      "id": "Kalmar",
+      "es": "Kalmar",
+      "bn": "Kalmar",
+      "ms": "Kalmar"
+    },
+    "aliases": {
+      "ar": [
+        "کالمار",
+        "کلمار",
+        "کلمر"
+      ],
+      "en": [
+        "Calmaria",
+        "KLR",
+        "Kal'mar",
+        "Kalmar kommuna",
+        "Kalmar stad",
+        "Kalmara",
+        "Kalmaras",
+        "Kalmari",
+        "Municipalita di Kalmar",
+        "Municipalità di Kalmar",
+        "ka er ma",
+        "kalamara",
+        "kalmaleu",
+        "kalmara",
+        "karumaru shi",
+        "kaልmari",
+        "kha lmar",
+        "klmar",
+        "klmr"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "كالمار",
+      "regionEn": "Kalmar"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2702261",
+    "verified": true
+  },
+  {
+    "slug": "helsingborg",
+    "type": "town",
+    "countryCode": "se",
+    "lat": 56.04673,
+    "lng": 12.69437,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "هلسينغبورغ",
+      "en": "Helsingborg",
+      "fr": "Helsingborg",
+      "de": "Helsingborg",
+      "tr": "Helsingborg",
+      "ur": "Helsingborg",
+      "id": "Helsingborg",
+      "es": "Helsingborg",
+      "bn": "Helsingborg",
+      "ms": "Helsingborg"
+    },
+    "aliases": {
+      "ar": [
+        "هلسینگبورگ",
+        "ہلسنگبورگ"
+      ],
+      "en": [
+        "AGH",
+        "Chelsin'nkmpornk",
+        "Gel'sinborg",
+        "Haelsingborg",
+        "Helsingborgas",
+        "Helsingborja",
+        "Helsingjaborg",
+        "Helsingoburgum",
+        "Hälsingborg",
+        "Khel'sinborg",
+        "Khel'singbarg",
+        "Khel'singborg",
+        "Khelsingborg",
+        "Khelsingbori",
+        "he er xin bao",
+        "hel si ngb xry",
+        "helsingboli",
+        "helsingborgi",
+        "herushinbori",
+        "hlsyngbwrg",
+        "hlsynghbwrgh",
+        "xi xing bao"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "سكونه",
+      "regionEn": "Skåne"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2706767",
+    "verified": true
+  },
+  {
+    "slug": "falun",
+    "type": "city",
+    "countryCode": "se",
+    "lat": 60.60357,
+    "lng": 15.62597,
+    "timezone": "Europe/Stockholm",
+    "names": {
+      "ar": "فالن",
+      "en": "Falun",
+      "fr": "Falun",
+      "de": "Falun",
+      "tr": "Falun",
+      "ur": "Falun",
+      "id": "Falun",
+      "es": "Falun",
+      "bn": "Falun",
+      "ms": "Falun"
+    },
+    "aliases": {
+      "ar": [
+        "فالون"
+      ],
+      "en": [
+        "BLE",
+        "Fahlun",
+        "Faliunas",
+        "Faluna",
+        "Falunga",
+        "Fāluna",
+        "fa lun",
+        "faln",
+        "falwn",
+        "farun",
+        "pallun",
+        "paluni",
+        "phaluna",
+        "ፋluni"
+      ]
+    },
+    "admin": {
+      "countryAr": "السويد",
+      "countryEn": "Sweden",
+      "regionAr": "دالارنا",
+      "regionEn": "Dalarna"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2715459",
+    "verified": true
+  },
+  {
+    "slug": "vadso",
+    "type": "city",
+    "countryCode": "no",
+    "lat": 70.07348,
+    "lng": 29.74943,
+    "timezone": "Europe/Oslo",
+    "names": {
+      "ar": "فادسو",
+      "en": "Vadsø",
+      "fr": "Vadsø",
+      "de": "Vadsø",
+      "tr": "Vadsø",
+      "ur": "Vadsø",
+      "id": "Vadsø",
+      "es": "Vadsø",
+      "bn": "Vadsø",
+      "ms": "Vadsø"
+    },
+    "aliases": {
+      "ar": [
+        "وادسو"
+      ],
+      "en": [
+        "Cahcesuolu",
+        "VDS",
+        "Vadse",
+        "Vadsjo",
+        "Vadso",
+        "Vadso kommun",
+        "Vadsø kommun",
+        "Vesisaari",
+        "bhadaso",
+        "fadsw",
+        "vadaso",
+        "vadiso",
+        "vuattsuo",
+        "wadsw",
+        "Čáhcesuolu"
+      ]
+    },
+    "admin": {
+      "countryAr": "النرويج",
+      "countryEn": "Norway",
+      "regionAr": "فينمارك",
+      "regionEn": "Finnmark"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:777073",
+    "verified": true
+  },
+  {
+    "slug": "trondheim",
+    "type": "town",
+    "countryCode": "no",
+    "lat": 63.43049,
+    "lng": 10.39506,
+    "timezone": "Europe/Oslo",
+    "names": {
+      "ar": "تروندهايم",
+      "en": "Trondheim",
+      "fr": "Trondheim",
+      "de": "Trondheim",
+      "tr": "Trondheim",
+      "ur": "Trondheim",
+      "id": "Trondheim",
+      "es": "Trondheim",
+      "bn": "Trondheim",
+      "ms": "Trondheim"
+    },
+    "aliases": {
+      "ar": [
+        "تروندهایم",
+        "ٹرونڈہائم"
+      ],
+      "en": [
+        "Drontheim",
+        "Kaupangen",
+        "Kommun Trondheim",
+        "Nidaros",
+        "Nidrosia",
+        "THrandheimur",
+        "TRD",
+        "Troandin",
+        "Trondheimas",
+        "Trondhjem",
+        "Trondkhajm",
+        "Trondkhejm",
+        "Trongejm",
+        "Tronheima",
+        "Tronkhejm",
+        "Trontchaim",
+        "Truondheims",
+        "Truondhėims",
+        "te long he mu",
+        "teulonheim",
+        "thrx nd hem",
+        "toronhaimu",
+        "toronheimu",
+        "tronad'ehima",
+        "troneim",
+        "trwndhaym",
+        "trwndhyym",
+        "Þrándheimur"
+      ]
+    },
+    "admin": {
+      "countryAr": "النرويج",
+      "countryEn": "Norway",
+      "regionAr": "تروندلاغ",
+      "regionEn": "Trøndelag"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3133880",
+    "verified": true
+  },
+  {
+    "slug": "tromso",
+    "type": "city",
+    "countryCode": "no",
+    "lat": 69.6489,
+    "lng": 18.95508,
+    "timezone": "Europe/Oslo",
+    "names": {
+      "ar": "ترومسا",
+      "en": "Tromsø",
+      "fr": "Tromsø",
+      "de": "Tromsø",
+      "tr": "Tromsø",
+      "ur": "Tromsø",
+      "id": "Tromsø",
+      "es": "Tromsø",
+      "bn": "Tromsø",
+      "ms": "Tromsø"
+    },
+    "aliases": {
+      "ar": [
+        "ترومسو",
+        "ٹrwmwsw",
+        "ٹرومسو",
+        "ٹروموسو",
+        "ټrwmwsw",
+        "ټروموسو"
+      ],
+      "en": [
+        "Kommun Tromso",
+        "Kommun Tromsø",
+        "Romsa",
+        "TOS",
+        "Troms'o",
+        "Tromse",
+        "Tromsieg",
+        "Tromsjo",
+        "Tromso",
+        "Tromsoe",
+        "Tromsoe kommun",
+        "Tromsonda",
+        "Tromssa",
+        "Tromsö",
+        "Tromsö kommun",
+        "Tromsīeg",
+        "Trumse",
+        "Trumsė",
+        "te luo mu se",
+        "teulomsoe",
+        "thrm sex",
+        "tiroምso",
+        "toromuso",
+        "tramaso",
+        "traumaso",
+        "tromasa",
+        "tromaso",
+        "tromso",
+        "trwmsa",
+        "trwmsh",
+        "trwmsw"
+      ]
+    },
+    "admin": {
+      "countryAr": "النرويج",
+      "countryEn": "Norway",
+      "regionAr": "ترومس",
+      "regionEn": "Troms"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3133895",
+    "verified": true
+  },
+  {
+    "slug": "hamar",
+    "type": "city",
+    "countryCode": "no",
+    "lat": 60.7945,
+    "lng": 11.06798,
+    "timezone": "Europe/Oslo",
+    "names": {
+      "ar": "هامار",
+      "en": "Hamar",
+      "fr": "Hamar",
+      "de": "Hamar",
+      "tr": "Hamar",
+      "ur": "Hamar",
+      "id": "Hamar",
+      "es": "Hamar",
+      "bn": "Hamar",
+      "ms": "Hamar"
+    },
+    "aliases": {
+      "ar": [
+        "ہamar",
+        "ہامار",
+        "ہمار"
+      ],
+      "en": [
+        "Gamar",
+        "HMR",
+        "Hamaras",
+        "Hamars",
+        "Hammaria",
+        "Hámar",
+        "Khamar",
+        "Kommun Hamar",
+        "ha ma er",
+        "hamaleu",
+        "hamara",
+        "hamari",
+        "hamaru"
+      ]
+    },
+    "admin": {
+      "countryAr": "النرويج",
+      "countryEn": "Norway",
+      "regionAr": "إنلاندت",
+      "regionEn": "Innlandet"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3154084",
+    "verified": true
+  },
+  {
+    "slug": "drammen",
+    "type": "city",
+    "countryCode": "no",
+    "lat": 59.74389,
+    "lng": 10.20449,
+    "timezone": "Europe/Oslo",
+    "names": {
+      "ar": "درامن",
+      "en": "Drammen",
+      "fr": "Drammen",
+      "de": "Drammen",
+      "tr": "Drammen",
+      "ur": "Drammen",
+      "id": "Drammen",
+      "es": "Drammen",
+      "bn": "Drammen",
+      "ms": "Drammen"
+    },
+    "aliases": {
+      "ar": [
+        "ڈramn",
+        "ڈرامن"
+      ],
+      "en": [
+        "Dramen",
+        "Dramenas",
+        "Dramens",
+        "Kommun Drammen",
+        "Ntramen",
+        "XND",
+        "de la men",
+        "deulammen",
+        "dirameni",
+        "doranmen",
+        "dram men",
+        "dramana",
+        "dramena",
+        "dramn"
+      ]
+    },
+    "admin": {
+      "countryAr": "النرويج",
+      "countryEn": "Norway",
+      "regionAr": "بوسكرود",
+      "regionEn": "Buskerud"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3159016",
+    "verified": true
+  },
+  {
+    "slug": "bodo",
+    "type": "city",
+    "countryCode": "no",
+    "lat": 67.28267,
+    "lng": 14.37513,
+    "timezone": "Europe/Oslo",
+    "names": {
+      "ar": "بودو",
+      "en": "Bodø",
+      "fr": "Bodø",
+      "de": "Bodø",
+      "tr": "Bodø",
+      "ur": "Bodø",
+      "id": "Bodø",
+      "es": "Bodø",
+      "bn": "Bodø",
+      "ms": "Bodø"
+    },
+    "aliases": {
+      "ar": [
+        "بودو، نروژ",
+        "بوڈو"
+      ],
+      "en": [
+        "BOO",
+        "Badaddjo",
+        "Bode",
+        "Bodjo",
+        "Bodo",
+        "Bodo vald",
+        "Bodoe",
+        "Bodö",
+        "Bodø vald",
+        "Bodė",
+        "Bud'o",
+        "Bude",
+        "Budejju",
+        "Budjo",
+        "Budzjo",
+        "Budė",
+        "Bådåddjo",
+        "Būdē",
+        "Kommun Bodo",
+        "Kommun Bodø",
+        "bo de",
+        "boda",
+        "bodo",
+        "bodoe",
+        "bwdw",
+        "bwdw  nrwzh"
+      ]
+    },
+    "admin": {
+      "countryAr": "النرويج",
+      "countryEn": "Norway",
+      "regionAr": "نوردلاند",
+      "regionEn": "Nordland"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3160881",
+    "verified": true
+  },
+  {
+    "slug": "vantaa",
+    "type": "town",
+    "countryCode": "fi",
+    "lat": 60.29414,
+    "lng": 25.04099,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "فانتا",
+      "en": "Vantaa",
+      "fr": "Vantaa",
+      "de": "Vantaa",
+      "tr": "Vantaa",
+      "ur": "Vantaa",
+      "id": "Vantaa",
+      "es": "Vantaa",
+      "bn": "Vantaa",
+      "ms": "Vantaa"
+    },
+    "aliases": {
+      "ar": [
+        "وانتا"
+      ],
+      "en": [
+        "Vanda",
+        "Vanta",
+        "Vantania",
+        "Vantā",
+        "banta",
+        "fanta",
+        "vhanta",
+        "vuanta",
+        "wan ta",
+        "wanta",
+        "wnth"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "أوسيما",
+      "regionEn": "Uusimaa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:632453",
+    "verified": true
+  },
+  {
+    "slug": "vaasa",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 63.096,
+    "lng": 21.61577,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "فآسا",
+      "en": "Vaasa",
+      "fr": "Vaasa",
+      "de": "Vaasa",
+      "tr": "Vaasa",
+      "ur": "Vaasa",
+      "id": "Vaasa",
+      "es": "Vaasa",
+      "bn": "Vaasa",
+      "ms": "Vaasa"
+    },
+    "aliases": {
+      "ar": [
+        "وآسا"
+      ],
+      "en": [
+        "Nikolainkaupunki",
+        "Nikolaistad",
+        "VAA",
+        "Vas",
+        "Vasa",
+        "Wasa",
+        "basa",
+        "fasa",
+        "vuasa",
+        "wa sa",
+        "wasa"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "أوستروبوثنيا",
+      "regionEn": "Ostrobothnia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:632978",
+    "verified": true
+  },
+  {
+    "slug": "tampere",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 61.49911,
+    "lng": 23.78712,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "تامبيري",
+      "en": "Tampere",
+      "fr": "Tampere",
+      "de": "Tampere",
+      "tr": "Tampere",
+      "ur": "Tampere",
+      "id": "Tampere",
+      "es": "Tampere",
+      "bn": "Tampere",
+      "ms": "Tampere"
+    },
+    "aliases": {
+      "ar": [
+        "تامپره",
+        "تامپیرے",
+        "ٹیمپیر"
+      ],
+      "en": [
+        "TMP",
+        "Tammerfors",
+        "Tammerforsia",
+        "Tampereh",
+        "Tamperė",
+        "amabere",
+        "tambyry",
+        "tampele",
+        "tamprh",
+        "tan pei lei",
+        "tanpere",
+        "tmprh"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "بيركانماا",
+      "regionEn": "Pirkanmaa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:634963",
+    "verified": true
+  },
+  {
+    "slug": "seinaejoki",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 62.79446,
+    "lng": 22.82822,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "سينايوكي",
+      "en": "Seinäjoki",
+      "fr": "Seinäjoki",
+      "de": "Seinäjoki",
+      "tr": "Seinäjoki",
+      "ur": "Seinäjoki",
+      "id": "Seinäjoki",
+      "es": "Seinäjoki",
+      "bn": "Seinäjoki",
+      "ms": "Seinäjoki"
+    },
+    "aliases": {
+      "ar": [
+        "سیئنایوکی",
+        "سیناجوکی"
+      ],
+      "en": [
+        "OEstermyra",
+        "SJY",
+        "Seinaejoki",
+        "Seinaejoki linn",
+        "Seinejokis",
+        "Seinjogi",
+        "Seinäjoki linn",
+        "Sejnejoki",
+        "Sejnjajoki",
+        "sai yi nai yue ji",
+        "seinayoki",
+        "seineyoki",
+        "synajwky",
+        "synaywky",
+        "syynaywky",
+        "syynywqy",
+        "Östermyra"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "جنوب أوستروبوثنيا",
+      "regionEn": "South Ostrobothnia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:637219",
+    "verified": true
+  },
+  {
+    "slug": "rovaniemi",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 66.49897,
+    "lng": 25.68867,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "روفانييمي",
+      "en": "Rovaniemi",
+      "fr": "Rovaniemi",
+      "de": "Rovaniemi",
+      "tr": "Rovaniemi",
+      "ur": "Rovaniemi",
+      "id": "Rovaniemi",
+      "es": "Rovaniemi",
+      "bn": "Rovaniemi",
+      "ms": "Rovaniemi"
+    },
+    "aliases": {
+      "ar": [
+        "رووا نی اے می",
+        "رووانیمی"
+      ],
+      "en": [
+        "RVN",
+        "Roavvenjarga",
+        "Roavvenjárga",
+        "Robaniemi",
+        "Ronianemi",
+        "Rovanem",
+        "Rovaniehmi",
+        "Rovaniemi linn",
+        "Rovaniemis",
+        "Rovanieni",
+        "Rovanijemi",
+        "lobaniemi",
+        "luo wa nie mi",
+        "rovuaniemi",
+        "rwbnyymy",
+        "rwfanyymy",
+        "rwwanymy"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "لابلاند",
+      "regionEn": "Lapland"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:638936",
+    "verified": true
+  },
+  {
+    "slug": "pori",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 61.48072,
+    "lng": 21.78518,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "بوري",
+      "en": "Pori",
+      "fr": "Pori",
+      "de": "Pori",
+      "tr": "Pori",
+      "ur": "Pori",
+      "id": "Pori",
+      "es": "Pori",
+      "bn": "Pori",
+      "ms": "Pori"
+    },
+    "aliases": {
+      "ar": [
+        "پوری"
+      ],
+      "en": [
+        "Arctopolis",
+        "Berneborg",
+        "Bjoerneborg",
+        "Björneborg",
+        "Bërneborg",
+        "POR",
+        "Poris",
+        "Pory",
+        "bo li",
+        "bwry",
+        "poli",
+        "pwry"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "ساتاكونتا",
+      "regionEn": "Satakunta"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:640999",
+    "verified": true
+  },
+  {
+    "slug": "oulu",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 65.01236,
+    "lng": 25.46816,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "أولو",
+      "en": "Oulu",
+      "fr": "Oulu",
+      "de": "Oulu",
+      "tr": "Oulu",
+      "ur": "Oulu",
+      "id": "Oulu",
+      "es": "Oulu",
+      "bn": "Oulu",
+      "ms": "Oulu"
+    },
+    "aliases": {
+      "ar": [
+        "اوؤلو",
+        "اولو، فنلاند",
+        "اولُو"
+      ],
+      "en": [
+        "OUL",
+        "Ooulou",
+        "Oulo",
+        "Oulu linn",
+        "Ovlu",
+        "Oŭlo",
+        "Uleaborg",
+        "Uleoborg",
+        "Uleåborg",
+        "Uloa",
+        "ao lu",
+        "awlu",
+        "awlw",
+        "awlw  fnland",
+        "awwlw",
+        "oullu",
+        "ouru",
+        "xow lu"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "أوستروبوثنيا الشمالية",
+      "regionEn": "North Ostrobothnia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:643492",
+    "verified": true
+  },
+  {
+    "slug": "lappeenranta",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 61.05871,
+    "lng": 28.18871,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "لابينرنتا",
+      "en": "Lappeenranta",
+      "fr": "Lappeenranta",
+      "de": "Lappeenranta",
+      "tr": "Lappeenranta",
+      "ur": "Lappeenranta",
+      "id": "Lappeenranta",
+      "es": "Lappeenranta",
+      "bn": "Lappeenranta",
+      "ms": "Lappeenranta"
+    },
+    "aliases": {
+      "ar": [
+        "لاپرنتا",
+        "لاپینرانتا",
+        "لپین رنتا"
+      ],
+      "en": [
+        "LPP",
+        "Lapeehnranta",
+        "Lapeenranta",
+        "Lapenrand",
+        "Lapenranta",
+        "Lappeehnranta",
+        "Lappeenranta linn",
+        "Lappenranta",
+        "Lapēnranta",
+        "VIllmanstrand",
+        "Villmanstrand",
+        "la peng lan ta",
+        "la pu lan da",
+        "labynrnta",
+        "lapenlanta",
+        "laprnta",
+        "lapynranta",
+        "lpyn rnta",
+        "rappenranta"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "جنوب كاريليا",
+      "regionEn": "South Karelia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:648900",
+    "verified": true
+  },
+  {
+    "slug": "kuopio",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 62.89238,
+    "lng": 27.67703,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "كووبيو",
+      "en": "Kuopio",
+      "fr": "Kuopio",
+      "de": "Kuopio",
+      "tr": "Kuopio",
+      "ur": "Kuopio",
+      "id": "Kuopio",
+      "es": "Kuopio",
+      "bn": "Kuopio",
+      "ms": "Kuopio"
+    },
+    "aliases": {
+      "ar": [
+        "کؤوپیو",
+        "کووپیو"
+      ],
+      "en": [
+        "KUO",
+        "Kouopio",
+        "Kuopijas",
+        "Kuopio linn",
+        "ko peiyw",
+        "ku ao pi ao",
+        "kwwbyw",
+        "kwwpyw",
+        "qwpyw"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "شمال سافو",
+      "regionEn": "North Savo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:650224",
+    "verified": true
+  },
+  {
+    "slug": "kouvola",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 60.86667,
+    "lng": 26.7,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "كوفولا",
+      "en": "Kouvola",
+      "fr": "Kouvola",
+      "de": "Kouvola",
+      "tr": "Kouvola",
+      "ur": "Kouvola",
+      "id": "Kouvola",
+      "es": "Kouvola",
+      "bn": "Kouvola",
+      "ms": "Kouvola"
+    },
+    "aliases": {
+      "ar": [
+        "کوؤوولا",
+        "کوولا"
+      ],
+      "en": [
+        "Kouvol",
+        "Kouvola linn",
+        "Kovvola",
+        "ke wo la",
+        "koubolla",
+        "kouvuora",
+        "kwfwla",
+        "kwwla",
+        "kwwwwla"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "كيمي",
+      "regionEn": "Kymenlaakso"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:650859",
+    "verified": true
+  },
+  {
+    "slug": "kokkola",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 63.83847,
+    "lng": 23.13066,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "كوكولا",
+      "en": "Kokkola",
+      "fr": "Kokkola",
+      "de": "Kokkola",
+      "tr": "Kokkola",
+      "ur": "Kokkola",
+      "id": "Kokkola",
+      "es": "Kokkola",
+      "bn": "Kokkola",
+      "ms": "Kokkola"
+    },
+    "aliases": {
+      "ar": [
+        "کوکولا"
+      ],
+      "en": [
+        "Carolina Vetus",
+        "Gamla-Kargabyu",
+        "Gamla-Karlabyu",
+        "Gamla-Kergabyu",
+        "Gamlakarleby",
+        "KOK",
+        "Karleby",
+        "Kokkol",
+        "Kokkola linn",
+        "Kokola",
+        "ke ke la",
+        "kokkora",
+        "kokolla",
+        "kwkwla",
+        "qwqwlh"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "أوستروبوثنيا الوسطى",
+      "regionEn": "Central Ostrobothnia"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:651943",
+    "verified": true
+  },
+  {
+    "slug": "kajaani",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 64.22728,
+    "lng": 27.72846,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "كايآني",
+      "en": "Kajaani",
+      "fr": "Kajaani",
+      "de": "Kajaani",
+      "tr": "Kajaani",
+      "ur": "Kajaani",
+      "id": "Kajaani",
+      "es": "Kajaani",
+      "bn": "Kajaani",
+      "ms": "Kajaani"
+    },
+    "aliases": {
+      "ar": [
+        "کاجآنی",
+        "کایانی"
+      ],
+      "en": [
+        "Caianeburgum",
+        "KAJ",
+        "Kajaani linn",
+        "Kajana",
+        "Kajani",
+        "Kajanis",
+        "Kajauni",
+        "Kayani",
+        "Kjana",
+        "Knyaaani",
+        "Knyaani",
+        "ka ya ni",
+        "kajany",
+        "kayani",
+        "kayany"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "كاينو",
+      "regionEn": "Kainuu"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:654899",
+    "verified": true
+  },
+  {
+    "slug": "joensuu",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 62.60118,
+    "lng": 29.76316,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "جوئنسو",
+      "en": "Joensuu",
+      "fr": "Joensuu",
+      "de": "Joensuu",
+      "tr": "Joensuu",
+      "ur": "Joensuu",
+      "id": "Joensuu",
+      "es": "Joensuu",
+      "bn": "Joensuu",
+      "ms": "Joensuu"
+    },
+    "aliases": {
+      "ar": [
+        "يوينسو",
+        "یوئنسو"
+      ],
+      "en": [
+        "JOE",
+        "Joehnsu",
+        "Joehnsu osh",
+        "Joehnsuu",
+        "Joensu",
+        "Joensuu linn",
+        "Joensū",
+        "Jogensu",
+        "Jovensuu",
+        "Ostia Carelorum",
+        "Yoensu",
+        "jwynsw",
+        "yoensu",
+        "yue en su",
+        "ywynsw"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "شمال كاريليا",
+      "regionEn": "North Karelia"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:655808",
+    "verified": true
+  },
+  {
+    "slug": "haemeenlinna",
+    "type": "city",
+    "countryCode": "fi",
+    "lat": 60.99596,
+    "lng": 24.46434,
+    "timezone": "Europe/Helsinki",
+    "names": {
+      "ar": "هامينلينا",
+      "en": "Hämeenlinna",
+      "fr": "Hämeenlinna",
+      "de": "Hämeenlinna",
+      "tr": "Hämeenlinna",
+      "ur": "Hämeenlinna",
+      "id": "Hämeenlinna",
+      "es": "Hämeenlinna",
+      "bn": "Hämeenlinna",
+      "ms": "Hämeenlinna"
+    },
+    "aliases": {
+      "ar": [
+        "ہمین لننا",
+        "ہیمینلنا"
+      ],
+      "en": [
+        "Gjameenlinna",
+        "Haemeenlinna",
+        "Haemenlidn",
+        "Hemenlina",
+        "Hämenlidn",
+        "Khameehnlinna",
+        "Khamenlinna",
+        "Khemenlina",
+        "Khjameehnlinna",
+        "Khjamenlinna",
+        "Tavastehus",
+        "Tavastum",
+        "hai men lin na",
+        "hamenrin'na",
+        "hamynlyna",
+        "hemenlinna",
+        "hmnlynh"
+      ]
+    },
+    "admin": {
+      "countryAr": "فنلندا",
+      "countryEn": "Finland",
+      "regionAr": "كانتا-هامي",
+      "regionEn": "Kanta-Häme"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:659180",
+    "verified": true
+  },
+  {
+    "slug": "akureyri",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 65.68353,
+    "lng": -18.0878,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "أكوريري",
+      "en": "Akureyri",
+      "fr": "Akureyri",
+      "de": "Akureyri",
+      "tr": "Akureyri",
+      "ur": "Akureyri",
+      "id": "Akureyri",
+      "es": "Akureyri",
+      "bn": "Akureyri",
+      "ms": "Akureyri"
+    },
+    "aliases": {
+      "en": [
+        "AEY",
+        "Agireiri",
+        "Akirejri",
+        "Akjurehjry",
+        "Akjurejri",
+        "Akourefri",
+        "Akuereyri",
+        "Akureiris",
+        "Akurejri",
+        "Akureyrar",
+        "Akureyrarbaer",
+        "Akureyrarbær",
+        "Aküreyri",
+        "a ke lei li",
+        "akuleili",
+        "akureiri",
+        "akwryry"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2633274",
+    "verified": true
+  },
+  {
+    "slug": "selfoss",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 63.93311,
+    "lng": -20.99712,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "سلفوس",
+      "en": "Selfoss",
+      "fr": "Selfoss",
+      "de": "Selfoss",
+      "tr": "Selfoss",
+      "ur": "Selfoss",
+      "id": "Selfoss",
+      "es": "Selfoss",
+      "bn": "Selfoss",
+      "ms": "Selfoss"
+    },
+    "aliases": {
+      "ar": [
+        "سیلفوس"
+      ],
+      "en": [
+        "Arborg",
+        "Sel'fas",
+        "Sel'foss",
+        "Selfos",
+        "Selfosas",
+        "Selfossi",
+        "sai er fu si",
+        "selaphasa",
+        "selposeu",
+        "serufosu",
+        "slfws",
+        "slpws",
+        "sylfws",
+        "Árborg"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:3413604",
+    "verified": true
+  },
+  {
+    "slug": "keflavik",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 64.00492,
+    "lng": -22.56242,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "كيفلافيك",
+      "en": "Keflavík",
+      "fr": "Keflavík",
+      "de": "Keflavík",
+      "tr": "Keflavík",
+      "ur": "Keflavík",
+      "id": "Keflavík",
+      "es": "Keflavík",
+      "bn": "Keflavík",
+      "ms": "Keflavík"
+    },
+    "aliases": {
+      "en": [
+        "Keblavik",
+        "Keblavikas",
+        "Keflavik",
+        "Keflavika",
+        "Keflavikur",
+        "Keflavíkur",
+        "Keflavīka",
+        "Kephlabik",
+        "Keplavik",
+        "kai fu la wei ke",
+        "kepeullabikeu",
+        "kepuravuiku",
+        "kyflafyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:3415496",
+    "verified": true
   }
 ]

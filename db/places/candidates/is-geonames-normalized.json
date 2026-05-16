@@ -1,0 +1,5636 @@
+[
+  {
+    "geonameid": 2625189,
+    "slug": "vopnafjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.75658,
+    "lng": -14.82777,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Vopnafjörður",
+      "en": "Vopnafjörður",
+      "fr": "Vopnafjörður",
+      "de": "Vopnafjörður",
+      "tr": "Vopnafjörður",
+      "ur": "Vopnafjörður",
+      "id": "Vopnafjörður",
+      "es": "Vopnafjörður",
+      "bn": "Vopnafjörður",
+      "ms": "Vopnafjörður"
+    },
+    "aliases": {
+      "en": [
+        "VPN",
+        "Vopnaf'ordjur",
+        "Vopnafirdi",
+        "Vopnafirði",
+        "Vopnafjardar",
+        "Vopnafjarðar",
+        "Vopnafjoerd",
+        "Vopnafjoerdur",
+        "Vopnafjordur",
+        "Vopnafjörð",
+        "vuopunafiyoruzuru",
+        "wo pu na fei e ze"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7502"
+    },
+    "featureCode": "PPL",
+    "population": 543,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2625189",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2625252,
+    "slug": "vik-i-myrdal",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.41944,
+    "lng": -19.00972,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Vík í Mýrdal",
+      "en": "Vík í Mýrdal",
+      "fr": "Vík í Mýrdal",
+      "de": "Vík í Mýrdal",
+      "tr": "Vík í Mýrdal",
+      "ur": "Vík í Mýrdal",
+      "id": "Vík í Mýrdal",
+      "es": "Vík í Mýrdal",
+      "bn": "Vík í Mýrdal",
+      "ms": "Vík í Mýrdal"
+    },
+    "aliases": {
+      "en": [
+        "Vik",
+        "Vik i Mirdal",
+        "Vik i Myrdal",
+        "Vik in Myrdal",
+        "Vikas",
+        "Vikur",
+        "Vjoska Vik",
+        "Vík",
+        "Víkur",
+        "bikeu-imwileudal",
+        "vuiku"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8508"
+    },
+    "featureCode": "PPL",
+    "population": 750,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2625252",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2625499,
+    "slug": "varmahlid",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.55303,
+    "lng": -19.44609,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Varmahlíð",
+      "en": "Varmahlíð",
+      "fr": "Varmahlíð",
+      "de": "Varmahlíð",
+      "tr": "Varmahlíð",
+      "ur": "Varmahlíð",
+      "id": "Varmahlíð",
+      "es": "Varmahlíð",
+      "bn": "Varmahlíð",
+      "ms": "Varmahlíð"
+    },
+    "aliases": {
+      "en": [
+        "Varmahlid",
+        "Varmahlidar",
+        "Varmahlíðar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5200"
+    },
+    "featureCode": "PPL",
+    "population": 128,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2625499",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2626002,
+    "slug": "thorshoefn",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.19814,
+    "lng": -15.33679,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "ثورسهوفن",
+      "en": "Þórshöfn",
+      "fr": "Þórshöfn",
+      "de": "Þórshöfn",
+      "tr": "Þórshöfn",
+      "ur": "Þórshöfn",
+      "id": "Þórshöfn",
+      "es": "Þórshöfn",
+      "bn": "Þórshöfn",
+      "ms": "Þórshöfn"
+    },
+    "aliases": {
+      "en": [
+        "THO",
+        "THorshafnar",
+        "THorshoefn",
+        "Thorshofn",
+        "Tourskhjobn",
+        "sourusuhopun",
+        "suo er si gang",
+        "thwrshwfn",
+        "Þórshafnar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6709"
+    },
+    "featureCode": "PPL",
+    "population": 379,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2626002",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 2626319,
+    "slug": "svalbardseyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.74107,
+    "lng": -18.07744,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Svalbarðseyri",
+      "en": "Svalbarðseyri",
+      "fr": "Svalbarðseyri",
+      "de": "Svalbarðseyri",
+      "tr": "Svalbarðseyri",
+      "ur": "Svalbarðseyri",
+      "id": "Svalbarðseyri",
+      "es": "Svalbarðseyri",
+      "bn": "Svalbarðseyri",
+      "ms": "Svalbarðseyri"
+    },
+    "aliases": {
+      "en": [
+        "Svalbard",
+        "Svalbardseyrar",
+        "Svalbardseyri",
+        "Svalbardsstroend",
+        "Svalbarð",
+        "Svalbarðseyrar",
+        "Svalbarðsströnd"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6601"
+    },
+    "featureCode": "PPL",
+    "population": 271,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2626319",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2627130,
+    "slug": "siglufjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.15198,
+    "lng": -18.90815,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Siglufjörður",
+      "en": "Siglufjörður",
+      "fr": "Siglufjörður",
+      "de": "Siglufjörður",
+      "tr": "Siglufjörður",
+      "ur": "Siglufjörður",
+      "id": "Siglufjörður",
+      "es": "Siglufjörður",
+      "bn": "Siglufjörður",
+      "ms": "Siglufjörður"
+    },
+    "aliases": {
+      "en": [
+        "Hvanneyri",
+        "SIJ",
+        "Siglifjerdir",
+        "Sigljuf'jordjur",
+        "Sigljuf'ordjur",
+        "Siglufijordur",
+        "Siglufirdi",
+        "Siglufirði",
+        "Siglufjardar",
+        "Siglufjarðar",
+        "Siglufjoerd",
+        "Siglufjoerdur",
+        "Siglufjordur",
+        "Siglufjörð",
+        "shigurufiyoruzuru",
+        "sigaluphiyordura",
+        "sigeullwipioeleudwileu",
+        "siglupiorduri",
+        "xi ge lu fei e ze"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6250"
+    },
+    "featureCode": "PPL",
+    "population": 1190,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2627130",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2627140,
+    "slug": "seydisfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.26008,
+    "lng": -14.00577,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Seyðisfjörður",
+      "en": "Seyðisfjörður",
+      "fr": "Seyðisfjörður",
+      "de": "Seyðisfjörður",
+      "tr": "Seyðisfjörður",
+      "ur": "Seyðisfjörður",
+      "id": "Seyðisfjörður",
+      "es": "Seyðisfjörður",
+      "bn": "Seyðisfjörður",
+      "ms": "Seyðisfjörður"
+    },
+    "aliases": {
+      "en": [
+        "Seydisfirdi",
+        "Seydisfjoerdur",
+        "Seydisfjordhur",
+        "Seydisfjordur",
+        "Seydisfjorður",
+        "Seyðisfirði",
+        "Seyðisfjordhur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7400"
+    },
+    "featureCode": "PPL",
+    "population": 676,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2627140",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2627309,
+    "slug": "saudarkrokur",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 65.74611,
+    "lng": -19.63944,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Sauðárkrókur",
+      "en": "Sauðárkrókur",
+      "fr": "Sauðárkrókur",
+      "de": "Sauðárkrókur",
+      "tr": "Sauðárkrókur",
+      "ur": "Sauðárkrókur",
+      "id": "Sauðárkrókur",
+      "es": "Sauðárkrókur",
+      "bn": "Sauðárkrókur",
+      "ms": "Sauðárkrókur"
+    },
+    "aliases": {
+      "en": [
+        "SAK",
+        "Saudarkrok",
+        "Saudarkroki",
+        "Saudarkrokr",
+        "Saudarkroks",
+        "Saudarkrokur",
+        "Saudharkrokur",
+        "Sauðarkrokur",
+        "Sauðárkrók",
+        "Sauðárkróki",
+        "Sauðárkróks",
+        "soizaurukuroukuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5200"
+    },
+    "featureCode": "PPLA",
+    "population": 2614,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2627309",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2627574,
+    "slug": "reykjahlid",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.64205,
+    "lng": -16.91244,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Reykjahlíð",
+      "en": "Reykjahlíð",
+      "fr": "Reykjahlíð",
+      "de": "Reykjahlíð",
+      "tr": "Reykjahlíð",
+      "ur": "Reykjahlíð",
+      "id": "Reykjahlíð",
+      "es": "Reykjahlíð",
+      "bn": "Reykjahlíð",
+      "ms": "Reykjahlíð"
+    },
+    "aliases": {
+      "en": [
+        "MVA",
+        "Myvatn",
+        "Mývatn",
+        "Rejk'jakhlid",
+        "Reykjahlid",
+        "Reykjahlidar",
+        "Reykjahlíðar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6612"
+    },
+    "featureCode": "PPL",
+    "population": 227,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2627574",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2627642,
+    "slug": "raufarhoefn",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.45429,
+    "lng": -15.9511,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Raufarhöfn",
+      "en": "Raufarhöfn",
+      "fr": "Raufarhöfn",
+      "de": "Raufarhöfn",
+      "tr": "Raufarhöfn",
+      "ur": "Raufarhöfn",
+      "id": "Raufarhöfn",
+      "es": "Raufarhöfn",
+      "bn": "Raufarhöfn",
+      "ms": "Raufarhöfn"
+    },
+    "aliases": {
+      "en": [
+        "R'ojvarkh'opun",
+        "RFN",
+        "Raufarhafnar",
+        "Raufarhafnarhreppur",
+        "Raufarhoefn",
+        "Raufarhofn",
+        "Rejvarkhebn",
+        "Rjojvarkhjobn",
+        "loeibaleuhoepeun"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6100"
+    },
+    "featureCode": "PPL",
+    "population": 188,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2627642",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2627843,
+    "slug": "olafsfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.06722,
+    "lng": -18.64399,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Ólafsfjörður",
+      "en": "Ólafsfjörður",
+      "fr": "Ólafsfjörður",
+      "de": "Ólafsfjörður",
+      "tr": "Ólafsfjörður",
+      "ur": "Ólafsfjörður",
+      "id": "Ólafsfjörður",
+      "es": "Ólafsfjörður",
+      "bn": "Ólafsfjörður",
+      "ms": "Ólafsfjörður"
+    },
+    "aliases": {
+      "en": [
+        "OFJ",
+        "Olafsfidi",
+        "Olafsfjardar",
+        "Olafsfjoerd",
+        "Olafsfjoerdur",
+        "Olafsfjordur",
+        "Oulafsf'ordjur",
+        "Oulafsfjorduras",
+        "ollapeuseupioeleudwileu",
+        "ou la fu si fei e ze",
+        "oulapspiorduri",
+        "ourafusufiyoruzuuru",
+        "Ólafsfiði",
+        "Ólafsfjarðar",
+        "Ólafsfjörð"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6250"
+    },
+    "featureCode": "PPL",
+    "population": 785,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2627843",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2628020,
+    "slug": "neskaupstadur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.14819,
+    "lng": -13.68368,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Neskaupstaður",
+      "en": "Neskaupstaður",
+      "fr": "Neskaupstaður",
+      "de": "Neskaupstaður",
+      "tr": "Neskaupstaður",
+      "ur": "Neskaupstaður",
+      "id": "Neskaupstaður",
+      "es": "Neskaupstaður",
+      "bn": "Neskaupstaður",
+      "ms": "Neskaupstaður"
+    },
+    "aliases": {
+      "en": [
+        "NOR",
+        "Nehskjojpstadur",
+        "Nes",
+        "Neskaupstad",
+        "Neskaupstadar",
+        "Neskaupstadhur",
+        "Neskaupstadur",
+        "Neskaupstað",
+        "Neskaupstaðar",
+        "Neskejpstadir",
+        "Neskjojpstadjur",
+        "Neskjojpstadzjur",
+        "Neskoipstaduras",
+        "Neskojpstadur",
+        "nei si ke yi si ta ze",
+        "neseukoeipeuseutadwileu",
+        "nesukoipusutazuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7300"
+    },
+    "featureCode": "PPL",
+    "population": 1481,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2628020",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2628589,
+    "slug": "litli-arskogssandur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.94422,
+    "lng": -18.35654,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Litli-Árskógssandur",
+      "en": "Litli-Árskógssandur",
+      "fr": "Litli-Árskógssandur",
+      "de": "Litli-Árskógssandur",
+      "tr": "Litli-Árskógssandur",
+      "ur": "Litli-Árskógssandur",
+      "id": "Litli-Árskógssandur",
+      "es": "Litli-Árskógssandur",
+      "bn": "Litli-Árskógssandur",
+      "ms": "Litli-Árskógssandur"
+    },
+    "aliases": {
+      "en": [
+        "Arskogssandar",
+        "Arskogssandi",
+        "Arskogssandur",
+        "Arsskogssandur",
+        "Litli-Arskogssandur",
+        "Árskógssandar",
+        "Árskógssandi",
+        "Ársskógssandur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6400"
+    },
+    "featureCode": "PPL",
+    "population": 112,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2628589",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2629105,
+    "slug": "kopasker",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.30178,
+    "lng": -16.44452,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "کوپاسکر",
+      "en": "Kópasker",
+      "fr": "Kópasker",
+      "de": "Kópasker",
+      "tr": "Kópasker",
+      "ur": "Kópasker",
+      "id": "Kópasker",
+      "es": "Kópasker",
+      "bn": "Kópasker",
+      "ms": "Kópasker"
+    },
+    "aliases": {
+      "en": [
+        "Kopasker",
+        "Kopaskeri",
+        "Kopaskers",
+        "Koupasker",
+        "Kópaskeri",
+        "Kópaskers",
+        "OPA",
+        "kwpaskr"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6100"
+    },
+    "featureCode": "PPL",
+    "population": 122,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2629105",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 2629301,
+    "slug": "stoedvarfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.83296,
+    "lng": -13.87492,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Stöðvarfjörður",
+      "en": "Stöðvarfjörður",
+      "fr": "Stöðvarfjörður",
+      "de": "Stöðvarfjörður",
+      "tr": "Stöðvarfjörður",
+      "ur": "Stöðvarfjörður",
+      "id": "Stöðvarfjörður",
+      "es": "Stöðvarfjörður",
+      "bn": "Stöðvarfjörður",
+      "ms": "Stöðvarfjörður"
+    },
+    "aliases": {
+      "en": [
+        "Kirkjubol",
+        "Kirkjubolstorp",
+        "Kirkjuból",
+        "Kirkjubólsþorp",
+        "Stjodvarf'ordjur",
+        "Stodvarfjordur",
+        "Stoedvarfirdi",
+        "Stoedvarfjardar",
+        "Stoedvarfjoerd",
+        "Stoedvarfjoerdur",
+        "Stöðvarfirði",
+        "Stöðvarfjarðar",
+        "Stöðvarfjörð",
+        "si te ci wa fei e ze",
+        "si te zi wa fei e ze",
+        "sutozuvuarufiyoruzuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7300"
+    },
+    "featureCode": "PPL",
+    "population": 189,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2629301",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2629306,
+    "slug": "kirkjubaejarklaustur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.78935,
+    "lng": -18.05273,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Kirkjubæjarklaustur",
+      "en": "Kirkjubæjarklaustur",
+      "fr": "Kirkjubæjarklaustur",
+      "de": "Kirkjubæjarklaustur",
+      "tr": "Kirkjubæjarklaustur",
+      "ur": "Kirkjubæjarklaustur",
+      "id": "Kirkjubæjarklaustur",
+      "es": "Kirkjubæjarklaustur",
+      "bn": "Kirkjubæjarklaustur",
+      "ms": "Kirkjubæjarklaustur"
+    },
+    "aliases": {
+      "en": [
+        "Kirk'jubajjarkljojstjur",
+        "Kirkjubaejarklaustri",
+        "Kirkjubaejarklaustur",
+        "Kirkjubaejarklausturs",
+        "Kirkjubajarkloeistuer",
+        "Kirkjubajarklöistür",
+        "Kirkjubar",
+        "Kirkjubæjarklaustri",
+        "Kirkjubæjarklausturs",
+        "Kirkjubær",
+        "kirukyubaiyarukuroisutouru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8509"
+    },
+    "featureCode": "PPL",
+    "population": 119,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2629306",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2629833,
+    "slug": "nordurthing",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.04148,
+    "lng": -17.33834,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Norðurþing",
+      "en": "Norðurþing",
+      "fr": "Norðurþing",
+      "de": "Norðurþing",
+      "tr": "Norðurþing",
+      "ur": "Norðurþing",
+      "id": "Norðurþing",
+      "es": "Norðurþing",
+      "bn": "Norðurþing",
+      "ms": "Norðurþing"
+    },
+    "aliases": {
+      "en": [
+        "HZK",
+        "Husavik",
+        "Husavikur",
+        "Husayik",
+        "Húsavík",
+        "Húsavíkur",
+        "Khusavik",
+        "Nordurthing"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6100"
+    },
+    "featureCode": "PPL",
+    "population": 2228,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2629833",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2630237,
+    "slug": "holar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.73079,
+    "lng": -19.11164,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hólar",
+      "en": "Hólar",
+      "fr": "Hólar",
+      "de": "Hólar",
+      "tr": "Hólar",
+      "ur": "Hólar",
+      "id": "Hólar",
+      "es": "Hólar",
+      "bn": "Hólar",
+      "ms": "Hólar"
+    },
+    "aliases": {
+      "en": [
+        "Golar",
+        "Golar-in-G'jal'tadaljur",
+        "Hola",
+        "Holar",
+        "Holar en Hjaltadalur",
+        "Holar i Hjaltadal",
+        "Holum",
+        "Hóla",
+        "Hólar en Hjaltadalur",
+        "Hólar í Hjaltadal",
+        "Hólum",
+        "Khoular",
+        "horaru",
+        "hou la er"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5200"
+    },
+    "featureCode": "PPL",
+    "population": 78,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2630237",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2630277,
+    "slug": "hofsos",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.89896,
+    "lng": -19.41298,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "هوفسوس",
+      "en": "Hofsós",
+      "fr": "Hofsós",
+      "de": "Hofsós",
+      "tr": "Hofsós",
+      "ur": "Hofsós",
+      "id": "Hofsós",
+      "es": "Hofsós",
+      "bn": "Hofsós",
+      "ms": "Hofsós"
+    },
+    "aliases": {
+      "en": [
+        "Hafsos",
+        "Hafsós",
+        "Hofsos",
+        "Hofsosi",
+        "Hofsósi",
+        "Khofsous",
+        "hofusousu",
+        "hwfsws"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5200"
+    },
+    "featureCode": "PPL",
+    "population": 181,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2630277",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 2630299,
+    "slug": "hoefn",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.25388,
+    "lng": -15.21212,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Höfn",
+      "en": "Höfn",
+      "fr": "Höfn",
+      "de": "Höfn",
+      "tr": "Höfn",
+      "ur": "Höfn",
+      "id": "Höfn",
+      "es": "Höfn",
+      "bn": "Höfn",
+      "ms": "Höfn"
+    },
+    "aliases": {
+      "en": [
+        "Gepn",
+        "HFN",
+        "Hafnar",
+        "Hafnar i Hornafirdi",
+        "Hafnar í Hornafirði",
+        "Hoefn",
+        "Hoefn i Hornafirdi",
+        "Hofn",
+        "Höfn í Hornafirði",
+        "Khebn",
+        "Khjobn",
+        "Sveitarfelagid Hornafjoerdur",
+        "Sveitarfélagið Hornafjörður",
+        "he ben",
+        "hepun",
+        "hoepeun"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7708"
+    },
+    "featureCode": "PPL",
+    "population": 1690,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2630299",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2630431,
+    "slug": "hjalteyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.84817,
+    "lng": -18.20127,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hjalteyri",
+      "en": "Hjalteyri",
+      "fr": "Hjalteyri",
+      "de": "Hjalteyri",
+      "tr": "Hjalteyri",
+      "ur": "Hjalteyri",
+      "id": "Hjalteyri",
+      "es": "Hjalteyri",
+      "bn": "Hjalteyri",
+      "ms": "Hjalteyri"
+    },
+    "aliases": {
+      "en": [
+        "Hjaleyri",
+        "Hjalteyrar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6515"
+    },
+    "featureCode": "PPL",
+    "population": 41,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2630431",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2631153,
+    "slug": "grenivik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.95102,
+    "lng": -18.17493,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Grenivík",
+      "en": "Grenivík",
+      "fr": "Grenivík",
+      "de": "Grenivík",
+      "tr": "Grenivík",
+      "ur": "Grenivík",
+      "id": "Grenivík",
+      "es": "Grenivík",
+      "bn": "Grenivík",
+      "ms": "Grenivík"
+    },
+    "aliases": {
+      "en": [
+        "Grenivik",
+        "Grenivikur",
+        "Grenivíkur",
+        "Grenvik"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6602"
+    },
+    "featureCode": "PPL",
+    "population": 278,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2631153",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2631901,
+    "slug": "fagurholsmyri",
+    "type": "locality",
+    "countryCode": "is",
+    "lat": 63.87733,
+    "lng": -16.64879,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Fagurhólsmýri",
+      "en": "Fagurhólsmýri",
+      "fr": "Fagurhólsmýri",
+      "de": "Fagurhólsmýri",
+      "tr": "Fagurhólsmýri",
+      "ur": "Fagurhólsmýri",
+      "id": "Fagurhólsmýri",
+      "es": "Fagurhólsmýri",
+      "bn": "Fagurhólsmýri",
+      "ms": "Fagurhólsmýri"
+    },
+    "aliases": {
+      "en": [
+        "FAG",
+        "Fagurhlsmyri",
+        "Fagurholmsmyri",
+        "Fagurholsmyri",
+        "Fagurhólmsmyri"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7708"
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:2631901",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 2632028,
+    "slug": "eskifjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.07306,
+    "lng": -14.01525,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Eskifjörður",
+      "en": "Eskifjörður",
+      "fr": "Eskifjörður",
+      "de": "Eskifjörður",
+      "tr": "Eskifjörður",
+      "ur": "Eskifjörður",
+      "id": "Eskifjörður",
+      "es": "Eskifjörður",
+      "bn": "Eskifjörður",
+      "ms": "Eskifjörður"
+    },
+    "aliases": {
+      "en": [
+        "Ehskif'ordjur",
+        "Ehskif'ordur",
+        "Eskifirdi",
+        "Eskifirði",
+        "Eskifjardar",
+        "Eskifjarðar",
+        "Eskifjerdir",
+        "Eskifjoerd",
+        "Eskifjoerdur",
+        "Eskifjordur",
+        "Eskifjorduras",
+        "Eskifjördur",
+        "Eskifjörð",
+        "ai si ji fei e ze",
+        "eseukipioeleudwileu",
+        "esukifiyoruzuuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7300"
+    },
+    "featureCode": "PPL",
+    "population": 1014,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2632028",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2632132,
+    "slug": "egilsstadir",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 65.26687,
+    "lng": -14.39485,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Egilsstaðir",
+      "en": "Egilsstaðir",
+      "fr": "Egilsstaðir",
+      "de": "Egilsstaðir",
+      "tr": "Egilsstaðir",
+      "ur": "Egilsstaðir",
+      "id": "Egilsstaðir",
+      "es": "Egilsstaðir",
+      "bn": "Egilsstaðir",
+      "ms": "Egilsstaðir"
+    },
+    "aliases": {
+      "en": [
+        "EGS",
+        "Egilsstada",
+        "Egilsstadi",
+        "Egilsstadir",
+        "Egilsstaða",
+        "Egilsstaði",
+        "Egilsstoedum",
+        "Egilsstöðum",
+        "Ehgil'sstadir"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7400"
+    },
+    "featureCode": "PPLA",
+    "population": 2572,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2632132",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2632226,
+    "slug": "djupivogur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.65713,
+    "lng": -14.28517,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Djúpivogur",
+      "en": "Djúpivogur",
+      "fr": "Djúpivogur",
+      "de": "Djúpivogur",
+      "tr": "Djúpivogur",
+      "ur": "Djúpivogur",
+      "id": "Djúpivogur",
+      "es": "Djúpivogur",
+      "bn": "Djúpivogur",
+      "ms": "Djúpivogur"
+    },
+    "aliases": {
+      "en": [
+        "DJU",
+        "Djupavog",
+        "Djupavogi",
+        "Djupavogs",
+        "Djupivogur",
+        "Djúpavog",
+        "Djúpavogi",
+        "Djúpavogs"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7400"
+    },
+    "featureCode": "PPL",
+    "population": 348,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2632226",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2632287,
+    "slug": "dalvik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.97018,
+    "lng": -18.52861,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "دالويک",
+      "en": "Dalvík",
+      "fr": "Dalvík",
+      "de": "Dalvík",
+      "tr": "Dalvík",
+      "ur": "Dalvík",
+      "id": "Dalvík",
+      "es": "Dalvík",
+      "bn": "Dalvík",
+      "ms": "Dalvík"
+    },
+    "aliases": {
+      "ar": [
+        "دالویک"
+      ],
+      "en": [
+        "Dal'vik",
+        "Dalvik",
+        "Dalvikas",
+        "Dalvikur",
+        "Dalvikurbyggd",
+        "Dalvíkur",
+        "Dalvíkurbyggð",
+        "Talvik",
+        "da er wei ke",
+        "dalbikeu",
+        "dalwyk",
+        "daruvuiku"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6400"
+    },
+    "featureCode": "PPL",
+    "population": 1359,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2632287",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 2632418,
+    "slug": "faskrudsfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.93128,
+    "lng": -14.0189,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Fáskrúðsfjörður",
+      "en": "Fáskrúðsfjörður",
+      "fr": "Fáskrúðsfjörður",
+      "de": "Fáskrúðsfjörður",
+      "tr": "Fáskrúðsfjörður",
+      "ur": "Fáskrúðsfjörður",
+      "id": "Fáskrúðsfjörður",
+      "es": "Fáskrúðsfjörður",
+      "bn": "Fáskrúðsfjörður",
+      "ms": "Fáskrúðsfjörður"
+    },
+    "aliases": {
+      "en": [
+        "Budir",
+        "Búðir",
+        "FAS",
+        "Faskrudhsfjordhur",
+        "Faskrudsfirdi",
+        "Fáskrúðsfirði",
+        "Faskrudsfjoerdur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7300"
+    },
+    "featureCode": "PPL",
+    "population": 654,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2632418",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2632428,
+    "slug": "reydarfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.03164,
+    "lng": -14.21832,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Reyðarfjörður",
+      "en": "Reyðarfjörður",
+      "fr": "Reyðarfjörður",
+      "de": "Reyðarfjörður",
+      "tr": "Reyðarfjörður",
+      "ur": "Reyðarfjörður",
+      "id": "Reyðarfjörður",
+      "es": "Reyðarfjörður",
+      "bn": "Reyðarfjörður",
+      "ms": "Reyðarfjörður"
+    },
+    "aliases": {
+      "en": [
+        "Budareyri",
+        "Búðareyri",
+        "Fjardabyggd",
+        "Fjarðabyggð",
+        "Rejdarf'ordjur",
+        "Rejdarfjerdir",
+        "Reydarfirdi",
+        "Reydarfjardar",
+        "Reydarfjoerd",
+        "Reydarfjoerdur",
+        "Reydarfjordur",
+        "Reyðarfirði",
+        "Reyðarfjarðar",
+        "Reyðarfjörð",
+        "lei zha er fei e ze",
+        "reizarufiyoruzuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7300"
+    },
+    "featureCode": "PPL",
+    "population": 1152,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:2632428",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2632552,
+    "slug": "breiddalsvik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.79212,
+    "lng": -14.0065,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Breiðdalsvík",
+      "en": "Breiðdalsvík",
+      "fr": "Breiðdalsvík",
+      "de": "Breiðdalsvík",
+      "tr": "Breiðdalsvík",
+      "ur": "Breiðdalsvík",
+      "id": "Breiðdalsvík",
+      "es": "Breiðdalsvík",
+      "bn": "Breiðdalsvík",
+      "ms": "Breiðdalsvík"
+    },
+    "aliases": {
+      "en": [
+        "BXV",
+        "Breiddalsvik",
+        "Breiddalsvikur",
+        "Breiðdalsvíkur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7300"
+    },
+    "featureCode": "PPL",
+    "population": 130,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2632552",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2632969,
+    "slug": "bakkafjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.03772,
+    "lng": -14.79315,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Bakkafjörður",
+      "en": "Bakkafjörður",
+      "fr": "Bakkafjörður",
+      "de": "Bakkafjörður",
+      "tr": "Bakkafjörður",
+      "ur": "Bakkafjörður",
+      "id": "Bakkafjörður",
+      "es": "Bakkafjörður",
+      "bn": "Bakkafjörður",
+      "ms": "Bakkafjörður"
+    },
+    "aliases": {
+      "en": [
+        "BJD",
+        "Bakkafirdi",
+        "Bakkafirði",
+        "Bakkafjardar",
+        "Bakkafjarðar",
+        "Bakkafjoerd",
+        "Bakkafjoerdur",
+        "Bakkafjordur",
+        "Bakkafjörð",
+        "ba ka fei e ze"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6709"
+    },
+    "featureCode": "PPL",
+    "population": 78,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:2632969",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 2633274,
+    "slug": "akureyri",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 65.68353,
+    "lng": -18.0878,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "أكوريري",
+      "en": "Akureyri",
+      "fr": "Akureyri",
+      "de": "Akureyri",
+      "tr": "Akureyri",
+      "ur": "Akureyri",
+      "id": "Akureyri",
+      "es": "Akureyri",
+      "bn": "Akureyri",
+      "ms": "Akureyri"
+    },
+    "aliases": {
+      "en": [
+        "AEY",
+        "Agireiri",
+        "Akirejri",
+        "Akjurehjry",
+        "Akjurejri",
+        "Akourefri",
+        "Akuereyri",
+        "Akureiris",
+        "Akurejri",
+        "Akureyrar",
+        "Akureyrarbaer",
+        "Akureyrarbær",
+        "Aküreyri",
+        "a ke lei li",
+        "akuleili",
+        "akureiri",
+        "akwryry"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6000"
+    },
+    "featureCode": "PPLA",
+    "population": 19219,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:2633274",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3228381,
+    "slug": "bakkagerdi",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.52548,
+    "lng": -13.80376,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Bakkagerði",
+      "en": "Bakkagerði",
+      "fr": "Bakkagerði",
+      "de": "Bakkagerði",
+      "tr": "Bakkagerði",
+      "ur": "Bakkagerði",
+      "id": "Bakkagerði",
+      "es": "Bakkagerði",
+      "bn": "Bakkagerði",
+      "ms": "Bakkagerði"
+    },
+    "aliases": {
+      "en": [
+        "BGJ",
+        "Bakkagerdi",
+        "Bakkagerdis",
+        "Bakkagerðis",
+        "Borgarfjardar eystri",
+        "Borgarfjarðar eystri",
+        "Borgarfjoerd eystri",
+        "Borgarfjoerdur",
+        "Borgarfjoerdur Eystri",
+        "Borgarfjoerdur eystri",
+        "Borgarfjörð eystri",
+        "Borgarfjörður",
+        "Borgarfjörður Eystri",
+        "Borgarfjörður eystri",
+        "ba ka gai er ji",
+        "bakkageruji"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7400"
+    },
+    "featureCode": "PPL",
+    "population": 86,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3228381",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412011,
+    "slug": "vogar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.9816,
+    "lng": -22.38473,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Vogar",
+      "en": "Vogar",
+      "fr": "Vogar",
+      "de": "Vogar",
+      "tr": "Vogar",
+      "ur": "Vogar",
+      "id": "Vogar",
+      "es": "Vogar",
+      "bn": "Vogar",
+      "ms": "Vogar"
+    },
+    "aliases": {
+      "en": [
+        "Voga",
+        "Vogar a Vatnsleysustroend",
+        "Vogar á Vatnsleysuströnd",
+        "Vogum"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2506"
+    },
+    "featureCode": "PPL",
+    "population": 1029,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3412011",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412093,
+    "slug": "vestmannaeyjar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.44273,
+    "lng": -20.27339,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Vestmannaeyjar",
+      "en": "Vestmannaeyjar",
+      "fr": "Vestmannaeyjar",
+      "de": "Vestmannaeyjar",
+      "tr": "Vestmannaeyjar",
+      "ur": "Vestmannaeyjar",
+      "id": "Vestmannaeyjar",
+      "es": "Vestmannaeyjar",
+      "bn": "Vestmannaeyjar",
+      "ms": "Vestmannaeyjar"
+    },
+    "aliases": {
+      "en": [
+        "VEY",
+        "Vestmannaehjjar",
+        "Vestmannaeyja",
+        "Vestmannaeyjum"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8000"
+    },
+    "featureCode": "PPL",
+    "population": 4219,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3412093",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412173,
+    "slug": "patreksfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.59783,
+    "lng": -23.99596,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Patreksfjörður",
+      "en": "Patreksfjörður",
+      "fr": "Patreksfjörður",
+      "de": "Patreksfjörður",
+      "tr": "Patreksfjörður",
+      "ur": "Patreksfjörður",
+      "id": "Patreksfjörður",
+      "es": "Patreksfjörður",
+      "bn": "Patreksfjörður",
+      "ms": "Patreksfjörður"
+    },
+    "aliases": {
+      "en": [
+        "PFJ",
+        "Patreksf'ordjur",
+        "Patreksfjardar",
+        "Patreksfjarðar",
+        "Patreksfjoerd",
+        "Patreksfjoerdur",
+        "Patreksfjordur",
+        "Patreksfjörð",
+        "Patresfirdi",
+        "Patresfirði",
+        "Vatneyri",
+        "Vesturbyggd",
+        "Vesturbyggð",
+        "pa te lei ke si fei e ze",
+        "patorekusufiyoruzuru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4607"
+    },
+    "featureCode": "PPL",
+    "population": 721,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3412173",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412460,
+    "slug": "thykkvibaer",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.74256,
+    "lng": -20.60912,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Þykkvibær",
+      "en": "Þykkvibær",
+      "fr": "Þykkvibær",
+      "de": "Þykkvibær",
+      "tr": "Þykkvibær",
+      "ur": "Þykkvibær",
+      "id": "Þykkvibær",
+      "es": "Þykkvibær",
+      "bn": "Þykkvibær",
+      "ms": "Þykkvibær"
+    },
+    "aliases": {
+      "en": [
+        "THykkvabae",
+        "THykkvabaejar",
+        "THykkvabaer",
+        "THykkvibaer",
+        "Þykkvabæ",
+        "Þykkvabæjar",
+        "Þykkvabær",
+        "Þykkvibaer"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8614"
+    },
+    "featureCode": "PPL",
+    "population": 53,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3412460",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412589,
+    "slug": "thorlakshoefn",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.85591,
+    "lng": -21.38337,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Þorlákshöfn",
+      "en": "Þorlákshöfn",
+      "fr": "Þorlákshöfn",
+      "de": "Þorlákshöfn",
+      "tr": "Þorlákshöfn",
+      "ur": "Þorlákshöfn",
+      "id": "Þorlákshöfn",
+      "es": "Þorlákshöfn",
+      "bn": "Þorlákshöfn",
+      "ms": "Þorlákshöfn"
+    },
+    "aliases": {
+      "en": [
+        "THorlakshafnar",
+        "THorlakshoefn",
+        "Thorlakshofn",
+        "Þorlákshafnar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8717"
+    },
+    "featureCode": "PPL",
+    "population": 2037,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3412589",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412655,
+    "slug": "thingeyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.87899,
+    "lng": -23.49289,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "ثنجيرى",
+      "en": "Þingeyri",
+      "fr": "Þingeyri",
+      "de": "Þingeyri",
+      "tr": "Þingeyri",
+      "ur": "Þingeyri",
+      "id": "Þingeyri",
+      "es": "Þingeyri",
+      "bn": "Þingeyri",
+      "ms": "Þingeyri"
+    },
+    "aliases": {
+      "ar": [
+        "ثنغيري",
+        "ثینگیری"
+      ],
+      "en": [
+        "Dyrafjordur",
+        "Dýrafjörður",
+        "Pingeyri",
+        "TEY",
+        "THingeyrar",
+        "THingeyri",
+        "Thingeyri",
+        "Tingejri",
+        "shinkueiri",
+        "thnghyry",
+        "thnjyry",
+        "thyngyry",
+        "xin gai li",
+        "Þingeyrar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPL",
+    "population": 326,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3412655",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3412878,
+    "slug": "sudureyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.13041,
+    "lng": -23.52804,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Suðureyri",
+      "en": "Suðureyri",
+      "fr": "Suðureyri",
+      "de": "Suðureyri",
+      "tr": "Suðureyri",
+      "ur": "Suðureyri",
+      "id": "Suðureyri",
+      "es": "Suðureyri",
+      "bn": "Suðureyri",
+      "ms": "Suðureyri"
+    },
+    "aliases": {
+      "en": [
+        "Sudureyrar",
+        "Sudureyri",
+        "Suðureyrar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPL",
+    "population": 294,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3412878",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412887,
+    "slug": "sudavik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.03829,
+    "lng": -22.98593,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Súðavík",
+      "en": "Súðavík",
+      "fr": "Súðavík",
+      "de": "Súðavík",
+      "tr": "Súðavík",
+      "ur": "Súðavík",
+      "id": "Súðavík",
+      "es": "Súðavík",
+      "bn": "Súðavík",
+      "ms": "Súðavík"
+    },
+    "aliases": {
+      "en": [
+        "Sudavik",
+        "Sudavikur",
+        "Súðavíkur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4803"
+    },
+    "featureCode": "PPL",
+    "population": 175,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3412887",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3412888,
+    "slug": "stykkisholmur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.07537,
+    "lng": -22.72977,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Stykkishólmur",
+      "en": "Stykkishólmur",
+      "fr": "Stykkishólmur",
+      "de": "Stykkishólmur",
+      "tr": "Stykkishólmur",
+      "ur": "Stykkishólmur",
+      "id": "Stykkishólmur",
+      "es": "Stykkishólmur",
+      "bn": "Stykkishólmur",
+      "ms": "Stykkishólmur"
+    },
+    "aliases": {
+      "en": [
+        "SYK",
+        "Stykkisholmi",
+        "Stykkisholmur",
+        "Stykkishólmi"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3716"
+    },
+    "featureCode": "PPL",
+    "population": 1108,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3412888",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3413008,
+    "slug": "stokkseyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.83788,
+    "lng": -21.0587,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Stokkseyri",
+      "en": "Stokkseyri",
+      "fr": "Stokkseyri",
+      "de": "Stokkseyri",
+      "tr": "Stokkseyri",
+      "ur": "Stokkseyri",
+      "id": "Stokkseyri",
+      "es": "Stokkseyri",
+      "bn": "Stokkseyri",
+      "ms": "Stokkseyri"
+    },
+    "aliases": {
+      "en": [
+        "Stokkseyrar",
+        "Stokkseyre"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8200"
+    },
+    "featureCode": "PPL",
+    "population": 465,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3413008",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3413604,
+    "slug": "selfoss",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 63.93311,
+    "lng": -20.99712,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "سلفوس",
+      "en": "Selfoss",
+      "fr": "Selfoss",
+      "de": "Selfoss",
+      "tr": "Selfoss",
+      "ur": "Selfoss",
+      "id": "Selfoss",
+      "es": "Selfoss",
+      "bn": "Selfoss",
+      "ms": "Selfoss"
+    },
+    "aliases": {
+      "ar": [
+        "سیلفوس"
+      ],
+      "en": [
+        "Arborg",
+        "Sel'fas",
+        "Sel'foss",
+        "Selfos",
+        "Selfosas",
+        "Selfossi",
+        "sai er fu si",
+        "selaphasa",
+        "selposeu",
+        "serufosu",
+        "slfws",
+        "slpws",
+        "sylfws",
+        "Árborg"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8200"
+    },
+    "featureCode": "PPLA",
+    "population": 9000,
+    "priority": 75,
+    "source": "geonames",
+    "sourceId": "geonames:3413604",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3413727,
+    "slug": "sandgerdi",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.03762,
+    "lng": -22.70799,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Sandgerði",
+      "en": "Sandgerði",
+      "fr": "Sandgerði",
+      "de": "Sandgerði",
+      "tr": "Sandgerði",
+      "ur": "Sandgerði",
+      "id": "Sandgerði",
+      "es": "Sandgerði",
+      "bn": "Sandgerði",
+      "ms": "Sandgerði"
+    },
+    "aliases": {
+      "en": [
+        "Sandgerdi",
+        "Sandgerdis",
+        "Sandgerðis",
+        "Sangerdhi"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2507"
+    },
+    "featureCode": "PPL",
+    "population": 1546,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3413727",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3413821,
+    "slug": "rif",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.92245,
+    "lng": -23.81802,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Rif",
+      "en": "Rif",
+      "fr": "Rif",
+      "de": "Rif",
+      "tr": "Rif",
+      "ur": "Rif",
+      "id": "Rif",
+      "es": "Rif",
+      "bn": "Rif",
+      "ms": "Rif"
+    },
+    "aliases": {
+      "en": [
+        "Rifi",
+        "Rifshofud",
+        "Rifshöfuð"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3714"
+    },
+    "featureCode": "PPL",
+    "population": 163,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3413821",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3413829,
+    "slug": "reykjavik",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 64.13548,
+    "lng": -21.89541,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "ريكيافيك",
+      "en": "Reykjavík",
+      "fr": "Reykjavík",
+      "de": "Reykjavík",
+      "tr": "Reykjavík",
+      "ur": "Reykjavík",
+      "id": "Reykjavík",
+      "es": "Reykjavík",
+      "bn": "Reykjavík",
+      "ms": "Reykjavík"
+    },
+    "aliases": {
+      "ar": [
+        "ریکجاوک",
+        "ریکیاوک",
+        "ریکیاویک",
+        "رېيكياۋىك",
+        "ڕێکیاڤیک"
+      ],
+      "en": [
+        "REK",
+        "Recwic",
+        "Refkiavik",
+        "Rehjkjavik",
+        "Reiciavicia",
+        "Reicivic",
+        "Reikiavik",
+        "Reikiavike",
+        "Reikjaveks",
+        "Reikjavik",
+        "Reikjavika",
+        "Reikjavikas",
+        "Reikjavīka",
+        "Reiquiavik",
+        "Reiquiavique",
+        "Rejk'javik",
+        "Rejkijavik",
+        "Rejkjavik",
+        "Rejkjaviko",
+        "Rekyavik",
+        "Reykiavica",
+        "Reykjavik",
+        "Reykjavikur",
+        "Reykjavíkur",
+        "Reykjawik",
+        "Reykyabik",
+        "Reykyavik",
+        "Rèkyavik",
+        "Réicivíc",
+        "Rēcwīc",
+        "Rėikjavėks",
+        "kartuli",
+        "lei ke ya wei ke",
+        "leikyabikeu",
+        "re'ikiyabhika",
+        "reikyavuiku",
+        "rekavik",
+        "rekh ya wik",
+        "reki'avika",
+        "rekjabhika",
+        "rekjavika",
+        "rekyavika",
+        "reyikyavik",
+        "reykyavik",
+        "rykjawk",
+        "rykyafyk",
+        "rykyawk",
+        "rykyawyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "0000"
+    },
+    "featureCode": "PPLC",
+    "population": 118918,
+    "priority": 90,
+    "source": "geonames",
+    "sourceId": "geonames:3413829",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3413876,
+    "slug": "reykholt",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.66437,
+    "lng": -21.2915,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Reykholt",
+      "en": "Reykholt",
+      "fr": "Reykholt",
+      "de": "Reykholt",
+      "tr": "Reykholt",
+      "ur": "Reykholt",
+      "id": "Reykholt",
+      "es": "Reykholt",
+      "bn": "Reykholt",
+      "ms": "Reykholt"
+    },
+    "aliases": {
+      "en": [
+        "Reykholtsdalur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3609"
+    },
+    "featureCode": "PPL",
+    "population": 31,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3413876",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3413877,
+    "slug": "reykholar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.44612,
+    "lng": -22.1899,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "ریکولار",
+      "en": "Reykhólar",
+      "fr": "Reykhólar",
+      "de": "Reykhólar",
+      "tr": "Reykhólar",
+      "ur": "Reykhólar",
+      "id": "Reykhólar",
+      "es": "Reykhólar",
+      "bn": "Reykhólar",
+      "ms": "Reykhólar"
+    },
+    "aliases": {
+      "en": [
+        "RHA",
+        "Rejkkhoular",
+        "Reykhoar",
+        "Reykhola",
+        "Reykholar",
+        "Reykholum",
+        "Reykhóar",
+        "Reykhóla",
+        "Reykhólum",
+        "Reykjaholar",
+        "Reykjahólar",
+        "lei ke hou la er",
+        "rykwlar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4502"
+    },
+    "featureCode": "PPL",
+    "population": 135,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3413877",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3414079,
+    "slug": "olafsvik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.89429,
+    "lng": -23.70918,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Ólafsvík",
+      "en": "Ólafsvík",
+      "fr": "Ólafsvík",
+      "de": "Ólafsvík",
+      "tr": "Ólafsvík",
+      "ur": "Ólafsvík",
+      "id": "Ólafsvík",
+      "es": "Ólafsvík",
+      "bn": "Ólafsvík",
+      "ms": "Ólafsvík"
+    },
+    "aliases": {
+      "en": [
+        "OLI",
+        "Olafsvik",
+        "Oulafsvik",
+        "Oulafsvikas",
+        "ollapeuseubikeu",
+        "ou la fu si wei ke"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3714"
+    },
+    "featureCode": "PPL",
+    "population": 1010,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3414079",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3414222,
+    "slug": "njardvik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.9809,
+    "lng": -22.5145,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Njarðvík",
+      "en": "Njarðvík",
+      "fr": "Njarðvík",
+      "de": "Njarðvík",
+      "tr": "Njarðvík",
+      "ur": "Njarðvík",
+      "id": "Njarðvík",
+      "es": "Njarðvík",
+      "bn": "Njarðvík",
+      "ms": "Njarðvík"
+    },
+    "aliases": {
+      "en": [
+        "Innri Njardvik",
+        "Innri Njarðvík",
+        "Njardvik",
+        "Njardvikur",
+        "Njarðvíkur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2000"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:3414222",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 3414856,
+    "slug": "laugarvatn",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.21762,
+    "lng": -20.73386,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Laugarvatn",
+      "en": "Laugarvatn",
+      "fr": "Laugarvatn",
+      "de": "Laugarvatn",
+      "tr": "Laugarvatn",
+      "ur": "Laugarvatn",
+      "id": "Laugarvatn",
+      "es": "Laugarvatn",
+      "bn": "Laugarvatn",
+      "ms": "Laugarvatn"
+    },
+    "aliases": {
+      "en": [
+        "Laugarvatni",
+        "Laugarvatns"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8721"
+    },
+    "featureCode": "PPL",
+    "population": 147,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3414856",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3414868,
+    "slug": "laugaras",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.11555,
+    "lng": -20.49381,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Laugarás",
+      "en": "Laugarás",
+      "fr": "Laugarás",
+      "de": "Laugarás",
+      "tr": "Laugarás",
+      "ur": "Laugarás",
+      "id": "Laugarás",
+      "es": "Laugarás",
+      "bn": "Laugarás",
+      "ms": "Laugarás"
+    },
+    "aliases": {
+      "en": [
+        "Laugaras",
+        "Laugarasi",
+        "Laugards",
+        "Laugarási"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8721"
+    },
+    "featureCode": "PPL",
+    "population": 106,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3414868",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3414979,
+    "slug": "seltjarnarnes",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.15309,
+    "lng": -21.99499,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Seltjarnarnes",
+      "en": "Seltjarnarnes",
+      "fr": "Seltjarnarnes",
+      "de": "Seltjarnarnes",
+      "tr": "Seltjarnarnes",
+      "ur": "Seltjarnarnes",
+      "id": "Seltjarnarnes",
+      "es": "Seltjarnarnes",
+      "bn": "Seltjarnarnes",
+      "ms": "Seltjarnarnes"
+    },
+    "aliases": {
+      "en": [
+        "Seltjarnarnesi"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "1100"
+    },
+    "featureCode": "PPL",
+    "population": 4726,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3414979",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3415021,
+    "slug": "mosfellsbaer",
+    "type": "town",
+    "countryCode": "is",
+    "lat": 64.16667,
+    "lng": -21.7,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Mosfellsbær",
+      "en": "Mosfellsbær",
+      "fr": "Mosfellsbær",
+      "de": "Mosfellsbær",
+      "tr": "Mosfellsbær",
+      "ur": "Mosfellsbær",
+      "id": "Mosfellsbær",
+      "es": "Mosfellsbær",
+      "bn": "Mosfellsbær",
+      "ms": "Mosfellsbær"
+    },
+    "aliases": {
+      "en": [
+        "Mosfedl'sbajr",
+        "Mosfedlsbajr",
+        "Mosfel'sbair",
+        "Mosfellsbae",
+        "Mosfellsbaejar",
+        "Mosfellsbaer",
+        "Mosfellsbæ",
+        "Mosfellsbæjar",
+        "mo si fei de si bai er"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "1604"
+    },
+    "featureCode": "PPL",
+    "population": 12073,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:3415021",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3415212,
+    "slug": "kopavogur",
+    "type": "town",
+    "countryCode": "is",
+    "lat": 64.11234,
+    "lng": -21.91298,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "كوبافوغور",
+      "en": "Kópavogur",
+      "fr": "Kópavogur",
+      "de": "Kópavogur",
+      "tr": "Kópavogur",
+      "ur": "Kópavogur",
+      "id": "Kópavogur",
+      "es": "Kópavogur",
+      "bn": "Kópavogur",
+      "ms": "Kópavogur"
+    },
+    "aliases": {
+      "ar": [
+        "کوپاووگور"
+      ],
+      "en": [
+        "Kopavog",
+        "Kopavogi",
+        "Kopavogs",
+        "Kopavogsbaer",
+        "Kopavogskaupstadur",
+        "Kopavogur",
+        "Kopavonkour",
+        "Koupavagur",
+        "Koupavogir",
+        "Koupavogjur",
+        "Koupavogur",
+        "Koupavoguras",
+        "Koupavogyur",
+        "Kópavog",
+        "Kópavogi",
+        "Kópavogs",
+        "Kópavogsbær",
+        "Kópavogskaupstaður",
+        "ke pa wo yu er",
+        "kopabogwileu",
+        "kopavuoguru",
+        "kwbafwghwr",
+        "kwpawwgwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "1000"
+    },
+    "featureCode": "PPL",
+    "population": 37959,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:3415212",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3415496,
+    "slug": "keflavik",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 64.00492,
+    "lng": -22.56242,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "كيفلافيك",
+      "en": "Keflavík",
+      "fr": "Keflavík",
+      "de": "Keflavík",
+      "tr": "Keflavík",
+      "ur": "Keflavík",
+      "id": "Keflavík",
+      "es": "Keflavík",
+      "bn": "Keflavík",
+      "ms": "Keflavík"
+    },
+    "aliases": {
+      "en": [
+        "Keblavik",
+        "Keblavikas",
+        "Keflavik",
+        "Keflavika",
+        "Keflavikur",
+        "Keflavíkur",
+        "Keflavīka",
+        "Kephlabik",
+        "Keplavik",
+        "kai fu la wei ke",
+        "kepeullabikeu",
+        "kepuravuiku",
+        "kyflafyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2000"
+    },
+    "featureCode": "PPLA",
+    "population": 15930,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:3415496",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3415667,
+    "slug": "isafjoerdur",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 66.07475,
+    "lng": -23.13498,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "ایسافجرویر",
+      "en": "Ísafjörður",
+      "fr": "Ísafjörður",
+      "de": "Ísafjörður",
+      "tr": "Ísafjörður",
+      "ur": "Ísafjörður",
+      "id": "Ísafjörður",
+      "es": "Ísafjörður",
+      "bn": "Ísafjörður",
+      "ms": "Ísafjörður"
+    },
+    "aliases": {
+      "ar": [
+        "ایسافیوردر"
+      ],
+      "en": [
+        "IFJ",
+        "Isaf'ordjur",
+        "Isafijordur",
+        "Isafiordour",
+        "Isafiordr",
+        "Isafirdi",
+        "Isafjardar",
+        "Isafjardardjup",
+        "Isafjerdir",
+        "Isafjoerd",
+        "Isafjoerdur",
+        "Isafjorduer",
+        "Isafjordur",
+        "Isafjorduras",
+        "Isafjordür",
+        "Isafyorduer",
+        "Issafjordur",
+        "Issafjörður",
+        "aysafjrwyr",
+        "aysafywrdr",
+        "isafiyoruzuuru",
+        "isapioeleudwileu",
+        "isapiorduri",
+        "yi sa fei e ze",
+        "Ísafirði",
+        "Ísafjardardjup",
+        "Ísafjarðar",
+        "Ísafjörð",
+        "İsafyordür"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPLA",
+    "population": 2736,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3415667",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3415720,
+    "slug": "hvolsvoellur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.75069,
+    "lng": -20.22454,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hvolsvöllur",
+      "en": "Hvolsvöllur",
+      "fr": "Hvolsvöllur",
+      "de": "Hvolsvöllur",
+      "tr": "Hvolsvöllur",
+      "ur": "Hvolsvöllur",
+      "id": "Hvolsvöllur",
+      "es": "Hvolsvöllur",
+      "bn": "Hvolsvöllur",
+      "ms": "Hvolsvöllur"
+    },
+    "aliases": {
+      "en": [
+        "Hvolsvallar",
+        "Hvolsvelli",
+        "Hvolsvoell",
+        "Hvolsvoellur",
+        "Hvolsvollur",
+        "Hvolsvöll",
+        "Khvol'svjodlur",
+        "Rangarthing eystra",
+        "Rangárþing eystra",
+        "huo er si wo de lu er",
+        "keubolseuboedeullwileu",
+        "kuvuorusuvuoruru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8613"
+    },
+    "featureCode": "PPL",
+    "population": 1036,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3415720",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3415761,
+    "slug": "hveragerdi",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.00039,
+    "lng": -21.18602,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hveragerði",
+      "en": "Hveragerði",
+      "fr": "Hveragerði",
+      "de": "Hveragerði",
+      "tr": "Hveragerði",
+      "ur": "Hveragerði",
+      "id": "Hveragerði",
+      "es": "Hveragerði",
+      "bn": "Hveragerði",
+      "ms": "Hveragerði"
+    },
+    "aliases": {
+      "en": [
+        "Hveragerdi",
+        "Hveragerdis",
+        "Hveragerdisbaer",
+        "Hveragerðis",
+        "Hveragerðisbær",
+        "kuberageruji",
+        "kuvuerageruji"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8716"
+    },
+    "featureCode": "PPL",
+    "population": 2288,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3415761",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3415779,
+    "slug": "hvanneyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.56404,
+    "lng": -21.7589,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hvanneyri",
+      "en": "Hvanneyri",
+      "fr": "Hvanneyri",
+      "de": "Hvanneyri",
+      "tr": "Hvanneyri",
+      "ur": "Hvanneyri",
+      "id": "Hvanneyri",
+      "es": "Hvanneyri",
+      "bn": "Hvanneyri",
+      "ms": "Hvanneyri"
+    },
+    "aliases": {
+      "en": [
+        "Hvanneyrar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3609"
+    },
+    "featureCode": "PPL",
+    "population": 251,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3415779",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3415811,
+    "slug": "hvammstangi",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.39711,
+    "lng": -20.94346,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hvammstangi",
+      "en": "Hvammstangi",
+      "fr": "Hvammstangi",
+      "de": "Hvammstangi",
+      "tr": "Hvammstangi",
+      "ur": "Hvammstangi",
+      "id": "Hvammstangi",
+      "es": "Hvammstangi",
+      "bn": "Hvammstangi",
+      "ms": "Hvammstangi"
+    },
+    "aliases": {
+      "en": [
+        "Hunathing Vestra",
+        "Hvammstanga",
+        "Húnaþing Vestra",
+        "Khvammstangi",
+        "Khvamstangi",
+        "hua mu si tang ji"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5508"
+    },
+    "featureCode": "PPL",
+    "population": 546,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3415811",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416144,
+    "slug": "holmavik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.70767,
+    "lng": -21.67065,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hólmavík",
+      "en": "Hólmavík",
+      "fr": "Hólmavík",
+      "de": "Hólmavík",
+      "tr": "Hólmavík",
+      "ur": "Hólmavík",
+      "id": "Hólmavík",
+      "es": "Hólmavík",
+      "bn": "Hólmavík",
+      "ms": "Hólmavík"
+    },
+    "aliases": {
+      "en": [
+        "HVK",
+        "Holmavik",
+        "Holmavikur",
+        "Hólmavíkur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4911"
+    },
+    "featureCode": "PPL",
+    "population": 391,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416144",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416248,
+    "slug": "skagastroend",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.82319,
+    "lng": -20.30248,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Skagaströnd",
+      "en": "Skagaströnd",
+      "fr": "Skagaströnd",
+      "de": "Skagaströnd",
+      "tr": "Skagaströnd",
+      "ur": "Skagaströnd",
+      "id": "Skagaströnd",
+      "es": "Skagaströnd",
+      "bn": "Skagaströnd",
+      "ms": "Skagaströnd"
+    },
+    "aliases": {
+      "en": [
+        "Hofdhakaupstadhur",
+        "Höfðakaupstaður",
+        "Skagastrandar",
+        "Skagastroend",
+        "Skagastrond"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5609"
+    },
+    "featureCode": "PPL",
+    "population": 470,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416248",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416267,
+    "slug": "hnifsdalur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.11131,
+    "lng": -23.12036,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hnífsdalur",
+      "en": "Hnífsdalur",
+      "fr": "Hnífsdalur",
+      "de": "Hnífsdalur",
+      "tr": "Hnífsdalur",
+      "ur": "Hnífsdalur",
+      "id": "Hnífsdalur",
+      "es": "Hnífsdalur",
+      "bn": "Hnífsdalur",
+      "ms": "Hnífsdalur"
+    },
+    "aliases": {
+      "en": [
+        "Hmifsdalur",
+        "Hnifsdal",
+        "Hnifsdals",
+        "Hnifsdalur",
+        "Hnífsdal",
+        "Hnífsdals"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPL",
+    "population": 216,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416267",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416434,
+    "slug": "hellnar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.75055,
+    "lng": -23.64747,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hellnar",
+      "en": "Hellnar",
+      "fr": "Hellnar",
+      "de": "Hellnar",
+      "tr": "Hellnar",
+      "ur": "Hellnar",
+      "id": "Hellnar",
+      "es": "Hellnar",
+      "bn": "Hellnar",
+      "ms": "Hellnar"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3714"
+    },
+    "featureCode": "PPL",
+    "population": 10,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416434",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416439,
+    "slug": "hellissandur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.91757,
+    "lng": -23.88557,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hellissandur",
+      "en": "Hellissandur",
+      "fr": "Hellissandur",
+      "de": "Hellissandur",
+      "tr": "Hellissandur",
+      "ur": "Hellissandur",
+      "id": "Hellissandur",
+      "es": "Hellissandur",
+      "bn": "Hellissandur",
+      "ms": "Hellissandur"
+    },
+    "aliases": {
+      "en": [
+        "Hellissandi",
+        "Khelisandur",
+        "Sandhur",
+        "Sandur",
+        "hai de li sang de",
+        "herisandouru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3714"
+    },
+    "featureCode": "PPL",
+    "population": 544,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416439",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416453,
+    "slug": "hella",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.8348,
+    "lng": -20.40084,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hella",
+      "en": "Hella",
+      "fr": "Hella",
+      "de": "Hella",
+      "tr": "Hella",
+      "ur": "Hella",
+      "id": "Hella",
+      "es": "Hella",
+      "bn": "Hella",
+      "ms": "Hella"
+    },
+    "aliases": {
+      "en": [
+        "Hellu",
+        "Khella",
+        "Rangarthing ytra",
+        "Rangárþing ytra"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8614"
+    },
+    "featureCode": "PPL",
+    "population": 865,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416453",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416694,
+    "slug": "hafnir",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.93319,
+    "lng": -22.68212,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "هافنیر",
+      "en": "Hafnir",
+      "fr": "Hafnir",
+      "de": "Hafnir",
+      "tr": "Hafnir",
+      "ur": "Hafnir",
+      "id": "Hafnir",
+      "es": "Hafnir",
+      "bn": "Hafnir",
+      "ms": "Hafnir"
+    },
+    "aliases": {
+      "en": [
+        "Gapnir",
+        "Hafna",
+        "Hoefnum",
+        "Höfnum",
+        "Khabnir",
+        "Khafnir",
+        "Kirkjuvogur",
+        "ha bu ni er",
+        "hafnyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2000"
+    },
+    "featureCode": "PPL",
+    "population": 76,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416694",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3416706,
+    "slug": "hafnarfjoerdur",
+    "type": "town",
+    "countryCode": "is",
+    "lat": 64.0671,
+    "lng": -21.93774,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "هافنارفيوردور",
+      "en": "Hafnarfjörður",
+      "fr": "Hafnarfjörður",
+      "de": "Hafnarfjörður",
+      "tr": "Hafnarfjörður",
+      "ur": "Hafnarfjörður",
+      "id": "Hafnarfjörður",
+      "es": "Hafnarfjörður",
+      "bn": "Hafnarfjörður",
+      "ms": "Hafnarfjörður"
+    },
+    "aliases": {
+      "en": [
+        "Chafnarfiordour",
+        "Gapnarfjordur",
+        "Habnarfjorduras",
+        "Habnarfyordyur",
+        "Hafnarfirdi",
+        "Hafnarfirði",
+        "Hafnarfjardar",
+        "Hafnarfjardarkaupstadur",
+        "Hafnarfjarðar",
+        "Hafnarfjarðarkaupstaður",
+        "Hafnarfjoerdur",
+        "Hafnarfjordur",
+        "Halfnarfjordur",
+        "Halfnarfjorður",
+        "Khabnarf'ordjur",
+        "Khabnarfijordur",
+        "Khabnarfjerdir",
+        "Khapnarf'ordjur",
+        "ha fu na fu yue du er",
+        "habnarpiorduri",
+        "hafnarfywrdwr",
+        "hafunarufiyoruzuuru",
+        "hapeunaleupioeleudwileu",
+        "hpnrpyyrdyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "1400"
+    },
+    "featureCode": "PPL",
+    "population": 29971,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:3416706",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3416839,
+    "slug": "grundarfjoerdur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.92427,
+    "lng": -23.26313,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Grundarfjörður",
+      "en": "Grundarfjörður",
+      "fr": "Grundarfjörður",
+      "de": "Grundarfjörður",
+      "tr": "Grundarfjörður",
+      "ur": "Grundarfjörður",
+      "id": "Grundarfjörður",
+      "es": "Grundarfjörður",
+      "bn": "Grundarfjörður",
+      "ms": "Grundarfjörður"
+    },
+    "aliases": {
+      "en": [
+        "GUU",
+        "Grafarnes",
+        "Grundarf'ordjur",
+        "Grundarfirdi",
+        "Grundarfirði",
+        "Grundarfjardar",
+        "Grundarfjarðar",
+        "Grundarfjoerdur",
+        "Grundarfjordur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3709"
+    },
+    "featureCode": "PPL",
+    "population": 852,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3416839",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3416888,
+    "slug": "grindavik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.83849,
+    "lng": -22.43931,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Grindavík",
+      "en": "Grindavík",
+      "fr": "Grindavík",
+      "de": "Grindavík",
+      "tr": "Grindavík",
+      "ur": "Grindavík",
+      "id": "Grindavík",
+      "es": "Grindavík",
+      "bn": "Grindavík",
+      "ms": "Grindavík"
+    },
+    "aliases": {
+      "en": [
+        "Grindavik",
+        "Grindavikas",
+        "Grindavikur",
+        "Grindavikurbaer",
+        "Grindavíkur",
+        "Grindavíkurbær",
+        "Gryndavik",
+        "ge lin da wei ke",
+        "geulindabikeu",
+        "gurindavuiku"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2300"
+    },
+    "featureCode": "PPL",
+    "population": 2856,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3416888",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417079,
+    "slug": "gardur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.07055,
+    "lng": -22.6513,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Garður",
+      "en": "Garður",
+      "fr": "Garður",
+      "de": "Garður",
+      "tr": "Garður",
+      "ur": "Garður",
+      "id": "Garður",
+      "es": "Garður",
+      "bn": "Garður",
+      "ms": "Garður"
+    },
+    "aliases": {
+      "en": [
+        "Gard",
+        "Gardar",
+        "Gardi",
+        "Gardur",
+        "Garð",
+        "Garðar",
+        "Garði",
+        "Gerdar",
+        "Gerðar",
+        "Goerdum",
+        "Görðum"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2507"
+    },
+    "featureCode": "PPL",
+    "population": 1429,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3417079",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417195,
+    "slug": "gardabaer",
+    "type": "town",
+    "countryCode": "is",
+    "lat": 64.08865,
+    "lng": -21.92298,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "گارذابایر",
+      "en": "Garðabær",
+      "fr": "Garðabær",
+      "de": "Garðabær",
+      "tr": "Garðabær",
+      "ur": "Garðabær",
+      "id": "Garðabær",
+      "es": "Garðabær",
+      "bn": "Garðabær",
+      "ms": "Garðabær"
+    },
+    "aliases": {
+      "en": [
+        "Gardabae",
+        "Gardabaejar",
+        "Gardabaer",
+        "Gardabair",
+        "Gardabairas",
+        "Gardabajr",
+        "Gardabayr",
+        "Garðabaer",
+        "Garðabæ",
+        "Garðabæjar",
+        "galeudabaileu",
+        "gardhabayr",
+        "garuzabairu",
+        "hardabairi",
+        "jia er zha bai er"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "1300"
+    },
+    "featureCode": "PPL",
+    "population": 11421,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:3417195",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3417363,
+    "slug": "flateyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.05119,
+    "lng": -23.51547,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Flateyri",
+      "en": "Flateyri",
+      "fr": "Flateyri",
+      "de": "Flateyri",
+      "tr": "Flateyri",
+      "ur": "Flateyri",
+      "id": "Flateyri",
+      "es": "Flateyri",
+      "bn": "Flateyri",
+      "ms": "Flateyri"
+    },
+    "aliases": {
+      "en": [
+        "FLI",
+        "Fateyrar",
+        "Flatejri",
+        "fu la tai li",
+        "furatoeiri"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPL",
+    "population": 267,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3417363",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417367,
+    "slug": "flatey",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.37587,
+    "lng": -22.91785,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Flatey",
+      "en": "Flatey",
+      "fr": "Flatey",
+      "de": "Flatey",
+      "tr": "Flatey",
+      "ur": "Flatey",
+      "id": "Flatey",
+      "es": "Flatey",
+      "bn": "Flatey",
+      "ms": "Flatey"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4502"
+    },
+    "featureCode": "PPL",
+    "population": 10,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3417367",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417528,
+    "slug": "eyrarbakki",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 63.86323,
+    "lng": -21.14915,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Eyrarbakki",
+      "en": "Eyrarbakki",
+      "fr": "Eyrarbakki",
+      "de": "Eyrarbakki",
+      "tr": "Eyrarbakki",
+      "ur": "Eyrarbakki",
+      "id": "Eyrarbakki",
+      "es": "Eyrarbakki",
+      "bn": "Eyrarbakki",
+      "ms": "Eyrarbakki"
+    },
+    "aliases": {
+      "en": [
+        "Eyrarbakka"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8200"
+    },
+    "featureCode": "PPL",
+    "population": 531,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3417528",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417724,
+    "slug": "drangsnes",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.68918,
+    "lng": -21.44353,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Drangsnes",
+      "en": "Drangsnes",
+      "fr": "Drangsnes",
+      "de": "Drangsnes",
+      "tr": "Drangsnes",
+      "ur": "Drangsnes",
+      "id": "Drangsnes",
+      "es": "Drangsnes",
+      "bn": "Drangsnes",
+      "ms": "Drangsnes"
+    },
+    "aliases": {
+      "en": [
+        "Drangsnesi",
+        "de lang si nei si"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4902"
+    },
+    "featureCode": "PPL",
+    "population": 69,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3417724",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417869,
+    "slug": "budir",
+    "type": "locality",
+    "countryCode": "is",
+    "lat": 64.82285,
+    "lng": -23.38431,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Búðir",
+      "en": "Búðir",
+      "fr": "Búðir",
+      "de": "Búðir",
+      "tr": "Búðir",
+      "ur": "Búðir",
+      "id": "Búðir",
+      "es": "Búðir",
+      "bn": "Búðir",
+      "ms": "Búðir"
+    },
+    "aliases": {
+      "en": [
+        "Budir"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3714"
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:3417869",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 3417878,
+    "slug": "budardalur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.10944,
+    "lng": -21.76392,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Búðardalur",
+      "en": "Búðardalur",
+      "fr": "Búðardalur",
+      "de": "Búðardalur",
+      "tr": "Búðardalur",
+      "ur": "Búðardalur",
+      "id": "Búðardalur",
+      "es": "Búðardalur",
+      "bn": "Búðardalur",
+      "ms": "Búðardalur"
+    },
+    "aliases": {
+      "en": [
+        "Budardal",
+        "Budardaljur",
+        "Budardalur",
+        "Búðardal",
+        "Dalabyggd",
+        "Dalabyggð",
+        "bu zha da lu er",
+        "buzarudaruru"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3811"
+    },
+    "featureCode": "PPL",
+    "population": 266,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3417878",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417929,
+    "slug": "brjanslaekur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.53,
+    "lng": -23.19437,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Brjánslækur",
+      "en": "Brjánslækur",
+      "fr": "Brjánslækur",
+      "de": "Brjánslækur",
+      "tr": "Brjánslækur",
+      "ur": "Brjánslækur",
+      "id": "Brjánslækur",
+      "es": "Brjánslækur",
+      "bn": "Brjánslækur",
+      "ms": "Brjánslækur"
+    },
+    "aliases": {
+      "en": [
+        "Brjanslaek",
+        "Brjanslaekur",
+        "Brjánslæk"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4607"
+    },
+    "featureCode": "PPL",
+    "population": 10,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3417929",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3417972,
+    "slug": "alftanes",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.1,
+    "lng": -22.01667,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "آلفتانس",
+      "en": "Álftanes",
+      "fr": "Álftanes",
+      "de": "Álftanes",
+      "tr": "Álftanes",
+      "ur": "Álftanes",
+      "id": "Álftanes",
+      "es": "Álftanes",
+      "bn": "Álftanes",
+      "ms": "Álftanes"
+    },
+    "aliases": {
+      "en": [
+        "Al'ftanes",
+        "Alftanes",
+        "Alftanesi",
+        "Aul'ftanes",
+        "Aulftanes",
+        "alftans",
+        "ao er ta nei si",
+        "aulpeutaneseu",
+        "aurutanesu",
+        "Álftanesi"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "1300"
+    },
+    "featureCode": "PPL",
+    "population": 2392,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3417972",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3418076,
+    "slug": "borgarnes",
+    "type": "city",
+    "countryCode": "is",
+    "lat": 64.53834,
+    "lng": -21.92064,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Borgarnes",
+      "en": "Borgarnes",
+      "fr": "Borgarnes",
+      "de": "Borgarnes",
+      "tr": "Borgarnes",
+      "ur": "Borgarnes",
+      "id": "Borgarnes",
+      "es": "Borgarnes",
+      "bn": "Borgarnes",
+      "ms": "Borgarnes"
+    },
+    "aliases": {
+      "en": [
+        "Borganes",
+        "Borgarbyggd",
+        "Borgarbyggð",
+        "Borgarnesas",
+        "Borgarnesi",
+        "Borqarnes",
+        "bo er jia nei si",
+        "boleugaleuneseu",
+        "borgarnesi",
+        "borugarunesu"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3609"
+    },
+    "featureCode": "PPLA",
+    "population": 1875,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:3418076",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3418105,
+    "slug": "bordeyri",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.20751,
+    "lng": -21.0995,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Borðeyri",
+      "en": "Borðeyri",
+      "fr": "Borðeyri",
+      "de": "Borðeyri",
+      "tr": "Borðeyri",
+      "ur": "Borðeyri",
+      "id": "Borðeyri",
+      "es": "Borðeyri",
+      "bn": "Borðeyri",
+      "ms": "Borðeyri"
+    },
+    "aliases": {
+      "en": [
+        "Bordeyrar",
+        "Bordeyri",
+        "Borðeyrar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": ""
+    },
+    "featureCode": "PPL",
+    "population": 27,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3418105",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3418112,
+    "slug": "bolungarvik",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.15917,
+    "lng": -23.24941,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Bolungarvík",
+      "en": "Bolungarvík",
+      "fr": "Bolungarvík",
+      "de": "Bolungarvík",
+      "tr": "Bolungarvík",
+      "ur": "Bolungarvík",
+      "id": "Bolungarvík",
+      "es": "Bolungarvík",
+      "bn": "Bolungarvík",
+      "ms": "Bolungarvík"
+    },
+    "aliases": {
+      "en": [
+        "Bolunarvikur",
+        "Bolunarvíkur",
+        "Bolungarvik",
+        "Bolungavik",
+        "Bolungavík",
+        "borungaruvuiku"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4100"
+    },
+    "featureCode": "PPL",
+    "population": 955,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3418112",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3418130,
+    "slug": "bloenduos",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.65932,
+    "lng": -20.28083,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Blönduós",
+      "en": "Blönduós",
+      "fr": "Blönduós",
+      "de": "Blönduós",
+      "tr": "Blönduós",
+      "ur": "Blönduós",
+      "id": "Blönduós",
+      "es": "Blönduós",
+      "bn": "Blönduós",
+      "ms": "Blönduós"
+    },
+    "aliases": {
+      "en": [
+        "BLO",
+        "Bloendos",
+        "Bloenduos",
+        "Bloenduosi",
+        "Blonduos",
+        "Blönduósi",
+        "Blöndós"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5613"
+    },
+    "featureCode": "PPL",
+    "population": 813,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3418130",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3418226,
+    "slug": "bildudalur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.6853,
+    "lng": -23.59992,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Bíldudalur",
+      "en": "Bíldudalur",
+      "fr": "Bíldudalur",
+      "de": "Bíldudalur",
+      "tr": "Bíldudalur",
+      "ur": "Bíldudalur",
+      "id": "Bíldudalur",
+      "es": "Bíldudalur",
+      "bn": "Bíldudalur",
+      "ms": "Bíldudalur"
+    },
+    "aliases": {
+      "en": [
+        "BIU",
+        "Bildudal",
+        "Bildudals",
+        "Bildudalur",
+        "Bíldudal",
+        "Bíldudals"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4607"
+    },
+    "featureCode": "PPL",
+    "population": 238,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3418226",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 3418526,
+    "slug": "arnarstapi",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.76936,
+    "lng": -23.62258,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "أرنرستابي",
+      "en": "Arnarstapi",
+      "fr": "Arnarstapi",
+      "de": "Arnarstapi",
+      "tr": "Arnarstapi",
+      "ur": "Arnarstapi",
+      "id": "Arnarstapi",
+      "es": "Arnarstapi",
+      "bn": "Arnarstapi",
+      "ms": "Arnarstapi"
+    },
+    "aliases": {
+      "en": [
+        "Stapi",
+        "a er na si ta pi",
+        "arnrstaby"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3714"
+    },
+    "featureCode": "PPL",
+    "population": 15,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:3418526",
+    "verified": false,
+    "_normalizationFlags": []
+  },
+  {
+    "geonameid": 3418653,
+    "slug": "akranes",
+    "type": "town",
+    "countryCode": "is",
+    "lat": 64.32179,
+    "lng": -22.0749,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Akranes",
+      "en": "Akranes",
+      "fr": "Akranes",
+      "de": "Akranes",
+      "tr": "Akranes",
+      "ur": "Akranes",
+      "id": "Akranes",
+      "es": "Akranes",
+      "bn": "Akranes",
+      "ms": "Akranes"
+    },
+    "aliases": {
+      "en": [
+        "Akranesas",
+        "Akranesi",
+        "Akraneskaupstadur",
+        "Akraneskaupstaður",
+        "Skipaskagi",
+        "a ke la nei si",
+        "akeulaneseu",
+        "akuranesu"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3000"
+    },
+    "featureCode": "PPLA2",
+    "population": 7411,
+    "priority": 75,
+    "source": "geonames",
+    "sourceId": "geonames:3418653",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 6951090,
+    "slug": "fludir",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.13428,
+    "lng": -20.32265,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Flúðir",
+      "en": "Flúðir",
+      "fr": "Flúðir",
+      "de": "Flúðir",
+      "tr": "Flúðir",
+      "ur": "Flúðir",
+      "id": "Flúðir",
+      "es": "Flúðir",
+      "bn": "Flúðir",
+      "ms": "Flúðir"
+    },
+    "aliases": {
+      "en": [
+        "Fluda",
+        "Fludir",
+        "Fludum",
+        "Flúða",
+        "Flúðum"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8710"
+    },
+    "featureCode": "PPL",
+    "population": 818,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:6951090",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8450332,
+    "slug": "laugarbakki",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.32624,
+    "lng": -20.89295,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Laugarbakki",
+      "en": "Laugarbakki",
+      "fr": "Laugarbakki",
+      "de": "Laugarbakki",
+      "tr": "Laugarbakki",
+      "ur": "Laugarbakki",
+      "id": "Laugarbakki",
+      "es": "Laugarbakki",
+      "bn": "Laugarbakki",
+      "ms": "Laugarbakki"
+    },
+    "aliases": {
+      "en": [
+        "Laugabakki",
+        "Laugarbakka"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5508"
+    },
+    "featureCode": "PPL",
+    "population": 48,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8450332",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643869,
+    "slug": "fellabaer",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.28418,
+    "lng": -14.42621,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Fellabaer",
+      "en": "Fellabaer",
+      "fr": "Fellabaer",
+      "de": "Fellabaer",
+      "tr": "Fellabaer",
+      "ur": "Fellabaer",
+      "id": "Fellabaer",
+      "es": "Fellabaer",
+      "bn": "Fellabaer",
+      "ms": "Fellabaer"
+    },
+    "aliases": {
+      "en": [
+        "Fellabae",
+        "Fellabaejar",
+        "Fellabæ",
+        "Fellabæjar",
+        "Fellabær"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7400"
+    },
+    "featureCode": "PPL",
+    "population": 400,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8643869",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643894,
+    "slug": "grundarhverfi",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.24058,
+    "lng": -21.8367,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Grundarhverfi",
+      "en": "Grundarhverfi",
+      "fr": "Grundarhverfi",
+      "de": "Grundarhverfi",
+      "tr": "Grundarhverfi",
+      "ur": "Grundarhverfi",
+      "id": "Grundarhverfi",
+      "es": "Grundarhverfi",
+      "bn": "Grundarhverfi",
+      "ms": "Grundarhverfi"
+    },
+    "aliases": {
+      "en": [
+        "Grundarhverfis",
+        "Kjalarnes"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "منطقة العاصمة",
+      "regionEn": "Capital Region",
+      "admin1Code": "39",
+      "admin2Code": "0000"
+    },
+    "featureCode": "PPL",
+    "population": 528,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8643894",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643897,
+    "slug": "reykholt",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.17829,
+    "lng": -20.44161,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Reykholt",
+      "en": "Reykholt",
+      "fr": "Reykholt",
+      "de": "Reykholt",
+      "tr": "Reykholt",
+      "ur": "Reykholt",
+      "id": "Reykholt",
+      "es": "Reykholt",
+      "bn": "Reykholt",
+      "ms": "Reykholt"
+    },
+    "aliases": {
+      "en": [
+        "Reykholt i Biskupstungum",
+        "Reykholt í Biskupstungum",
+        "Reykholti",
+        "Reykholts"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8721"
+    },
+    "featureCode": "PPL",
+    "population": 206,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8643897",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643899,
+    "slug": "talknafjordur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.62648,
+    "lng": -23.8246,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Talknafjordur",
+      "en": "Talknafjordur",
+      "fr": "Talknafjordur",
+      "de": "Talknafjordur",
+      "tr": "Talknafjordur",
+      "ur": "Talknafjordur",
+      "id": "Talknafjordur",
+      "es": "Talknafjordur",
+      "bn": "Talknafjordur",
+      "ms": "Talknafjordur"
+    },
+    "aliases": {
+      "en": [
+        "Talknafirdi",
+        "Talknafjardar",
+        "Talknafjoerd",
+        "Talknafjoerdur",
+        "Tálknafirði",
+        "Tálknafjarðar",
+        "Tálknafjörð",
+        "Tálknafjörður"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4604"
+    },
+    "featureCode": "PPL",
+    "population": 275,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8643899",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643913,
+    "slug": "grimsey",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.53938,
+    "lng": -18.01348,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Grímsey",
+      "en": "Grímsey",
+      "fr": "Grímsey",
+      "de": "Grímsey",
+      "tr": "Grímsey",
+      "ur": "Grímsey",
+      "id": "Grímsey",
+      "es": "Grímsey",
+      "bn": "Grímsey",
+      "ms": "Grímsey"
+    },
+    "aliases": {
+      "en": [
+        "Grimsey",
+        "Grimseyjar",
+        "Grímseyjar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6000"
+    },
+    "featureCode": "PPL",
+    "population": 76,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8643913",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643914,
+    "slug": "hrisey",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.97835,
+    "lng": -18.37777,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hrísey",
+      "en": "Hrísey",
+      "fr": "Hrísey",
+      "de": "Hrísey",
+      "tr": "Hrísey",
+      "ur": "Hrísey",
+      "id": "Hrísey",
+      "es": "Hrísey",
+      "bn": "Hrísey",
+      "ms": "Hrísey"
+    },
+    "aliases": {
+      "en": [
+        "Hrisey",
+        "Hriseyjar",
+        "Hríseyjar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6000"
+    },
+    "featureCode": "PPL",
+    "population": 171,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8643914",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8643948,
+    "slug": "laugar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.72159,
+    "lng": -17.37352,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Laugar",
+      "en": "Laugar",
+      "fr": "Laugar",
+      "de": "Laugar",
+      "tr": "Laugar",
+      "ur": "Laugar",
+      "id": "Laugar",
+      "es": "Laugar",
+      "bn": "Laugar",
+      "ms": "Laugar"
+    },
+    "aliases": {
+      "en": [
+        "Reykjadalur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6612"
+    },
+    "featureCode": "PPL",
+    "population": 1001,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:8643948",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8644037,
+    "slug": "reykjanesbaer",
+    "type": "town",
+    "countryCode": "is",
+    "lat": 63.99813,
+    "lng": -22.56111,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Reykjanesbær",
+      "en": "Reykjanesbær",
+      "fr": "Reykjanesbær",
+      "de": "Reykjanesbær",
+      "tr": "Reykjanesbær",
+      "ur": "Reykjanesbær",
+      "id": "Reykjanesbær",
+      "es": "Reykjanesbær",
+      "bn": "Reykjanesbær",
+      "ms": "Reykjanesbær"
+    },
+    "aliases": {
+      "en": [
+        "Reykjanesbae",
+        "Reykjanesbaejar",
+        "Reykjanesbaer",
+        "Reykjanesbar",
+        "Reykjanesbæ",
+        "Reykjanesbæjar"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "سودرنيس",
+      "regionEn": "Southern Peninsula",
+      "admin1Code": "43",
+      "admin2Code": "2000"
+    },
+    "featureCode": "PPL",
+    "population": 19724,
+    "priority": 80,
+    "source": "geonames",
+    "sourceId": "geonames:8644037",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 8644039,
+    "slug": "borg",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.07522,
+    "lng": -20.76472,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Borg",
+      "en": "Borg",
+      "fr": "Borg",
+      "de": "Borg",
+      "tr": "Borg",
+      "ur": "Borg",
+      "id": "Borg",
+      "es": "Borg",
+      "bn": "Borg",
+      "ms": "Borg"
+    },
+    "aliases": {
+      "en": [
+        "Borg i Grimsnesi",
+        "Borg in Grimsnes",
+        "Borg í Grímsnesi",
+        "Borgar i Grimsnesi",
+        "Borgar í Grímsnesi"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الجنوب",
+      "regionEn": "South Region",
+      "admin1Code": "42",
+      "admin2Code": "8719"
+    },
+    "featureCode": "PPL",
+    "population": 75,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:8644039",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 9180128,
+    "slug": "eidar",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.37199,
+    "lng": -14.34866,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Eidar",
+      "en": "Eidar",
+      "fr": "Eidar",
+      "de": "Eidar",
+      "tr": "Eidar",
+      "ur": "Eidar",
+      "id": "Eidar",
+      "es": "Eidar",
+      "bn": "Eidar",
+      "ms": "Eidar"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7400"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:9180128",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 10630415,
+    "slug": "urdir",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.80496,
+    "lng": -18.60535,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Urðir",
+      "en": "Urðir",
+      "fr": "Urðir",
+      "de": "Urðir",
+      "tr": "Urðir",
+      "ur": "Urðir",
+      "id": "Urðir",
+      "es": "Urðir",
+      "bn": "Urðir",
+      "ms": "Urðir"
+    },
+    "aliases": {
+      "en": [
+        "Urdir"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الشرقي",
+      "regionEn": "Northeast Region",
+      "admin1Code": "40",
+      "admin2Code": "6400"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:10630415",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11049327,
+    "slug": "saelingsdal",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.24618,
+    "lng": -21.80376,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Saelingsdal",
+      "en": "Saelingsdal",
+      "fr": "Saelingsdal",
+      "de": "Saelingsdal",
+      "tr": "Saelingsdal",
+      "ur": "Saelingsdal",
+      "id": "Saelingsdal",
+      "es": "Saelingsdal",
+      "bn": "Saelingsdal",
+      "ms": "Saelingsdal"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3811"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11049327",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11072358,
+    "slug": "saebol",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.04406,
+    "lng": -23.70549,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Sæból",
+      "en": "Sæból",
+      "fr": "Sæból",
+      "de": "Sæból",
+      "tr": "Sæból",
+      "ur": "Sæból",
+      "id": "Sæból",
+      "es": "Sæból",
+      "bn": "Sæból",
+      "ms": "Sæból"
+    },
+    "aliases": {
+      "en": [
+        "Saebol"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11072358",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11103193,
+    "slug": "reykir",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.55391,
+    "lng": -20.22308,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Reykir",
+      "en": "Reykir",
+      "fr": "Reykir",
+      "de": "Reykir",
+      "tr": "Reykir",
+      "ur": "Reykir",
+      "id": "Reykir",
+      "es": "Reykir",
+      "bn": "Reykir",
+      "ms": "Reykir"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5613"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11103193",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11103247,
+    "slug": "rip",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.69038,
+    "lng": -19.50863,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Rip",
+      "en": "Rip",
+      "fr": "Rip",
+      "de": "Rip",
+      "tr": "Rip",
+      "ur": "Rip",
+      "id": "Rip",
+      "es": "Rip",
+      "bn": "Rip",
+      "ms": "Rip"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5200"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11103247",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11103248,
+    "slug": "arneshreppur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 66.00371,
+    "lng": -21.49981,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Árneshreppur",
+      "en": "Árneshreppur",
+      "fr": "Árneshreppur",
+      "de": "Árneshreppur",
+      "tr": "Árneshreppur",
+      "ur": "Árneshreppur",
+      "id": "Árneshreppur",
+      "es": "Árneshreppur",
+      "bn": "Árneshreppur",
+      "ms": "Árneshreppur"
+    },
+    "aliases": {
+      "en": [
+        "Arneshreppur",
+        "GJR"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4901"
+    },
+    "featureCode": "PPL",
+    "population": 53,
+    "priority": 65,
+    "source": "geonames",
+    "sourceId": "geonames:11103248",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 11128168,
+    "slug": "eyja-og-miklaholtshreppur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.83463,
+    "lng": -22.57107,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Eyja- og Miklaholtshreppur",
+      "en": "Eyja- og Miklaholtshreppur",
+      "fr": "Eyja- og Miklaholtshreppur",
+      "de": "Eyja- og Miklaholtshreppur",
+      "tr": "Eyja- og Miklaholtshreppur",
+      "ur": "Eyja- og Miklaholtshreppur",
+      "id": "Eyja- og Miklaholtshreppur",
+      "es": "Eyja- og Miklaholtshreppur",
+      "bn": "Eyja- og Miklaholtshreppur",
+      "ms": "Eyja- og Miklaholtshreppur"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3713"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11128168",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11153343,
+    "slug": "flokalundur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.57625,
+    "lng": -23.16699,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Flókalundur",
+      "en": "Flókalundur",
+      "fr": "Flókalundur",
+      "de": "Flókalundur",
+      "tr": "Flókalundur",
+      "ur": "Flókalundur",
+      "id": "Flókalundur",
+      "es": "Flókalundur",
+      "bn": "Flókalundur",
+      "ms": "Flókalundur"
+    },
+    "aliases": {
+      "en": [
+        "Flokalundur"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4607"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11153343",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11184862,
+    "slug": "sodulsholt",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.83514,
+    "lng": -22.4346,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Sodulsholt",
+      "en": "Sodulsholt",
+      "fr": "Sodulsholt",
+      "de": "Sodulsholt",
+      "tr": "Sodulsholt",
+      "ur": "Sodulsholt",
+      "id": "Sodulsholt",
+      "es": "Sodulsholt",
+      "bn": "Sodulsholt",
+      "ms": "Sodulsholt"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3713"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11184862",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11205273,
+    "slug": "hoffell",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.39308,
+    "lng": -15.39391,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Hoffell",
+      "en": "Hoffell",
+      "fr": "Hoffell",
+      "de": "Hoffell",
+      "tr": "Hoffell",
+      "ur": "Hoffell",
+      "id": "Hoffell",
+      "es": "Hoffell",
+      "bn": "Hoffell",
+      "ms": "Hoffell"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشرق",
+      "regionEn": "East Region",
+      "admin1Code": "38",
+      "admin2Code": "7708"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11205273",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11205275,
+    "slug": "laekjamot",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.41859,
+    "lng": -20.601,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Lækjamót",
+      "en": "Lækjamót",
+      "fr": "Lækjamót",
+      "de": "Lækjamót",
+      "tr": "Lækjamót",
+      "ur": "Lækjamót",
+      "id": "Lækjamót",
+      "es": "Lækjamót",
+      "bn": "Lækjamót",
+      "ms": "Lækjamót"
+    },
+    "aliases": {
+      "en": [
+        "Laekjamot"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "الشمال الغربي",
+      "regionEn": "Northwest Region",
+      "admin1Code": "41",
+      "admin2Code": "5508"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11205275",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11258566,
+    "slug": "borgarnes",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 64.56219,
+    "lng": -21.90082,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Borgarnes",
+      "en": "Borgarnes",
+      "fr": "Borgarnes",
+      "de": "Borgarnes",
+      "tr": "Borgarnes",
+      "ur": "Borgarnes",
+      "id": "Borgarnes",
+      "es": "Borgarnes",
+      "bn": "Borgarnes",
+      "ms": "Borgarnes"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "النصف الغربي",
+      "regionEn": "West Region",
+      "admin1Code": "45",
+      "admin2Code": "3609"
+    },
+    "featureCode": "PPL",
+    "population": 1875,
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:11258566",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name"
+    ]
+  },
+  {
+    "geonameid": 11610239,
+    "slug": "ingjaldssandur",
+    "type": "locality",
+    "countryCode": "is",
+    "lat": 66.02761,
+    "lng": -23.68464,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Ingjaldssandur",
+      "en": "Ingjaldssandur",
+      "fr": "Ingjaldssandur",
+      "de": "Ingjaldssandur",
+      "tr": "Ingjaldssandur",
+      "ur": "Ingjaldssandur",
+      "id": "Ingjaldssandur",
+      "es": "Ingjaldssandur",
+      "bn": "Ingjaldssandur",
+      "ms": "Ingjaldssandur"
+    },
+    "aliases": {
+      "en": [
+        "HLO"
+      ]
+    },
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4200"
+    },
+    "featureCode": "PPLL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11610239",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  },
+  {
+    "geonameid": 11776642,
+    "slug": "vatnsfjordhur",
+    "type": "village",
+    "countryCode": "is",
+    "lat": 65.93211,
+    "lng": -22.51081,
+    "timezone": "Atlantic/Reykjavik",
+    "names": {
+      "ar": "Vatnsfjordhur",
+      "en": "Vatnsfjordhur",
+      "fr": "Vatnsfjordhur",
+      "de": "Vatnsfjordhur",
+      "tr": "Vatnsfjordhur",
+      "ur": "Vatnsfjordhur",
+      "id": "Vatnsfjordhur",
+      "es": "Vatnsfjordhur",
+      "bn": "Vatnsfjordhur",
+      "ms": "Vatnsfjordhur"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "آيسلندا",
+      "countryEn": "Iceland",
+      "regionAr": "فيستفيوردير",
+      "regionEn": "Westfjords",
+      "admin1Code": "44",
+      "admin2Code": "4803"
+    },
+    "featureCode": "PPL",
+    "population": 0,
+    "priority": 60,
+    "source": "geonames",
+    "sourceId": "geonames:11776642",
+    "verified": false,
+    "_normalizationFlags": [
+      "missing_ar_name",
+      "missing_population"
+    ]
+  }
+]
